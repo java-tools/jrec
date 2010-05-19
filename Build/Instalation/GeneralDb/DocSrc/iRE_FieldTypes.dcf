@@ -1,0 +1,54 @@
+
+:p.Field Types supported by the record editor
+
+
+:tdef id=xlight shade='xlight'.
+:tdef id=none  shade='no'.
+
+:table cols='1* 4* 6*'.
+:thd refid=xlight.:c.Id:c.Type Name:c.Description:ethd.
+:row refid=none.:c.0:c.Char:C.Text Field
+:row.:c.1:c.Char (right justified):C.Right Justified Text Field
+:row.:c.2:c.Char Null terminated:C.Character String that is terminated by nul (0h). C-style string.
+:row.:c.3:c.Char Null padded:C.Character String that is null padded on the right
+:row.:c.4:c.Hex:c.Hex Field (max length 8 bytes).
+:row.:c.5:c.Num (Left Justified):C.Left justified numeric field
+:row.:c.6:c.Num (Right Justified space padded):c.Right Justified space padded Numeric field
+:row.:c.7:c.Num (Right Justified zero padded):c.Right Justified zero padded Numeric field
+:row.:c.8:c.Num Assumed Decimal (Zero padded):c.Right Justified zero padded Numeric field 
+with an assumed Decimal space
+:row.:c.9:c.Num Sign Separate Leading:c.Numeric Sign separate from the field and at the front.
+:row.:c.10:c.Num Sign Separate Trailing:c.Numeric Sign separate from the field and at the end of the field.
+:row.:c.11:c.Decimal:c.Unsigned Decimal (i.e. 121 is represented as hex x'0121'
+:row.:c.15:c.Binary Integer:c.PC format (i.e. Low to High) Binary integer. A value 
+of 255 is represented as hex x'FF00'.
+:row.:c.16:c.Positive Binary Integer:c.PC format positive Integer
+:row.:c.17:c.Float:c.Standard Floating point number
+:row.:c.18:c.Double:c.Standard Double
+:row.:c.21:c.Bit:c.Show the individual bits.
+:row.:c.31:c.Mainframe Packed Decimal (comp-3):c.Mainframe packed decimal (Pic s9(#) comp-3
+in mainframe Cobol). In this format, 255 would be stored as hex x'255F'
+:row.:c.32:c.Mainframe Zoned Numeric:c.
+Corresponds to :hp2.Cobol PIC S999.:ehp2. on the mainframe.
+:p.The format dates to the Punch Card days when a fields sign was entered by
+over punching the last byte of a numeric field. This saved 1 byte per numeric field
+- big advantages in the 1960's.                                                                               
+:row.:c.35:c.Binary Integer Big Endian (Mainframe, AIX etc):c.Standard Java / Mainframe / Power PC /etc
+Binary Integer. The number of is stored as high to low format i.e. 255 is stored as hex x'00FF'.
+:row.:c.41:c.Fujitsu Zoned Numeric:c.Fujitsu Cobol Zoned Numeric
+:row.:c.71:c.Date - Date Format is held in Parameter field (on the record Definition table). 
+:row.:c.72:c.Date - Format YYMMDD
+:row.:c.73:c.Date - Format YYYYMMDD
+:row.:c.74:c.Date - Format DDMMYY
+:row.:c.75:c.Date - Format DDMMYYYY       
+:row.:c.110:c.Check Box True / Space
+:row.:c.111:c.Checkbox Y/N for a Y/N field (ie Yes / No)  
+:row.:c.112:c.Checkbox T/F for a T/F field (ie True / False)        
+:row.:c.115:c.CSV array
+:row.:c.116:c.XML Name Tag
+:row.:c.117:c.Edit Multi Line field:c.Display a text file that contains more than one line. It primarly for XML files.
+:etable.
+
+:note.At this stage, the maximum editable size of all binary fields is 8 bytes.
+
+

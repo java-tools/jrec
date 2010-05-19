@@ -1,0 +1,4 @@
+Record	0	9	<Tab>	0		Y	Ams PO Record\n\nline 3
+SR	ams@PO@Download@@Header	Record Type	H1	-1	N
+SR	ams@PO@Download@@Detail	Record Type	D1	0	N
+SR	ams@PO@Download@@Allocation	Record Type	S1	1	N

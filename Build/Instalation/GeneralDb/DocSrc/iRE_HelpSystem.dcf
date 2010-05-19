@@ -1,0 +1,16 @@
+:p.The :hp2.RecordEditor:ehp2. includes a basic Form (or Form section) based help system. The 
+help system is available via
+:dl.
+:dt.Help Buttons:dd.Most screens now include a :hp2.Help Button:ehp2. on the Top right of a Form.
+:dt.F1:dd.Help is also available via :hp2.Function Key-1:ehp2. most of the time (exceptions include
+editing tables). For complicated screens (e.g. Record Layout Edit screen), F1 help is based on the 
+whre the cursor is positioned.
+:edl.
+:p.The help system has 2 methods of locating its help files:
+:dl.
+:dt.Properties Variable:dd.The system looks for the Variable :BBlue.HelpDir=:EBBlue. in the properties file.
+See :hdref refid=properties. fore more details.
+:dt.Relative Directory:dd.Relative Directory. I the :hp2.RecordEditor:ehp2. and
+:hp2.LayoutEdit.jar:ehp2. is in "C:\Programs\RecordEditor\HSQL\:hp2.lib:ehp2." then the system will 
+"C:\Programs\RecordEditor\HSQL\:hp2.Docs:ehp2." for the help files.
+:edl.

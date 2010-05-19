@@ -1,0 +1,13 @@
+:i1.XmplLineIO2_X1
+:i2 refid=example.XmplLineIO2_X1
+.*b2h html <PRE><SPAN CLASS="gutter">   1:</SPAN>    <SPAN CLASS="syntax8">private</SPAN> CopyBookDbReader copybook  <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">CopyBookDbReader</SPAN>();
+.*b2h html <SPAN CLASS="gutter">   2:</SPAN>    <SPAN CLASS="syntax8">private</SPAN> LayoutDetail salesCopyBook <SPAN CLASS="syntax18">=</SPAN> copybook.<SPAN CLASS="syntax6">getLayout</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">DTAR020</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>);
+.*b2h html <SPAN CLASS="gutter">   3:</SPAN>    <SPAN CLASS="syntax8">private</SPAN> <SPAN CLASS="syntax10">int</SPAN>         fileStructure  <SPAN CLASS="syntax18">=</SPAN> salesCopyBook.<SPAN CLASS="syntax6">getFileStructure</SPAN>();
+.*b2h html <SPAN CLASS="gutter">   4:</SPAN>
+.*b2h html <SPAN CLASS="gutterH">   5:</SPAN>    <SPAN CLASS="syntax8">private</SPAN> LineIOProvider ioProvider  <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">LineIOProvider</SPAN>();
+.*b2h html <SPAN CLASS="gutter">   6:</SPAN>
+.*b2h html <SPAN CLASS="gutter">   7:</SPAN>    <SPAN CLASS="syntax8">private</SPAN> AbstractLineReader reader       <SPAN CLASS="syntax18">=</SPAN> ioProvider.<SPAN CLASS="syntax6">getLineReader</SPAN>(fileStructure,
+.*b2h html <SPAN CLASS="gutter">   8:</SPAN>                                                                  <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">DTAR0020provider</SPAN>());
+.*b2h html <SPAN CLASS="gutter">   9:</SPAN>    <SPAN CLASS="syntax8">private</SPAN> AbstractLineWriter writer       <SPAN CLASS="syntax18">=</SPAN> ioProvider.<SPAN CLASS="syntax6">getLineWriter</SPAN>(fileStructure);
+.*b2h html <SPAN CLASS="gutterH">  10:</SPAN>
+.*b2h html </PRE>

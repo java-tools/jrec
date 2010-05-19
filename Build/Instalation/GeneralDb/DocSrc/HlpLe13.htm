@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>Layout Editor</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- /home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/HlpLe.dc -->
+<!-- f converted by B2H R4.7 (390) (LINUX) on 12 Mar 2010 at 01:56:58 -->
+<META HTTP-EQUIV="updated" CONTENT="Fri, 11 Sep 2009 12:13:14">
+<META HTTP-EQUIV="review" CONTENT="Sat, 11 Sep 2010 12:13:14">
+<META HTTP-EQUIV="expires" CONTENT="Sun, 11 Sep 2011 12:13:14">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<P>
+<P>Field Types supported by the record editor
+<P>
+<P>
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="9%">Id
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="36%">Type Name
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="55%">Description
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">0
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Char
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Text Field
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">1
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Char (right justified)
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Right Justified Text Field
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">2
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Char Null terminated
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Character String that is terminated by nul (0h). C-style string.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">3
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Char Null padded
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Character String that is null padded on the right
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">4
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Hex
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Hex Field (max length 8 bytes).
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">5
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Num (Left Justified)
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Left justified numeric field
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">6
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Num (Right Justified space padded)
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Right Justified space padded Numeric field
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">7
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Num (Right Justified zero padded)
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Right Justified zero padded Numeric field
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">8
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Num Assumed Decimal (Zero padded)
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Right Justified zero padded Numeric field
+with an assumed Decimal space
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">9
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Num Sign Separate Leading
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Numeric Sign separate from the field and at the front.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">10
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Num Sign Separate Trailing
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Numeric Sign separate from the field and at the end of the field.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">11
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Decimal
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Unsigned Decimal (i.e. 121 is represented as hex x'0121'
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">15
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Binary Integer
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">PC format (i.e. Low to High) Binary integer. A value
+of 255 is represented as hex x'FF00'.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">16
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Positive Binary Integer
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">PC format positive Integer
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">17
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Float
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Standard Floating point number
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">18
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Double
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Standard Double
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">21
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Bit
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Show the individual bits.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">31
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Mainframe Packed Decimal (comp-3)
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Mainframe packed decimal (Pic s9(#) comp-3
+in mainframe Cobol). In this format, 255 would be stored as hex x'255F'
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">32
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Mainframe Zoned Numeric
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">
+Corresponds to <B>Cobol PIC S999.</B> on the mainframe.
+<P>The format dates to the Punch Card days when a fields sign was entered by
+over punching the last byte of a numeric field. This saved 1 byte per numeric field
+- big advantages in the 1960's.
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">35
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Binary Integer Big Endian (Mainframe, AIX etc)
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Standard Java / Mainframe / Power PC /etc
+Binary Integer. The number of is stored as high to low format i.e. 255 is stored as hex x'00FF'.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">41
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Fujitsu Zoned Numeric
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Fujitsu Cobol Zoned Numeric
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">71
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Date - Date Format is held in Parameter field (on the record Definition table).
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%"><BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">72
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Date - Format YYMMDD
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%"><BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">73
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Date - Format YYYYMMDD
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%"><BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">74
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Date - Format DDMMYY
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%"><BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">75
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Date - Format DDMMYYYY
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%"><BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">110
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Check Box True / Space
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%"><BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">111
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Checkbox Y/N for a Y/N field (ie Yes / No)
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%"><BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">112
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Checkbox T/F for a T/F field (ie True / False)
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%"><BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">115
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">CSV array
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%"><BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">116
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">XML Name Tag
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%"><BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">117
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Edit Multi Line field
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Display a text file that contains more than one line. It primarly for XML files.
+</TD></TR></TABLE>
+<P>
+<P><B>Note: </B>At this stage, the maximum editable size of all binary fields is 8 bytes.
+<P>
+<P>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

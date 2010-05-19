@@ -1,0 +1,19 @@
+<processing>
+	<logfiledir>$INSTALL_PATH</logfiledir>
+	<job name="do_Unpack">
+		<executeclass name="prg.Unpack">
+			<arg>$INSTALL_PATH/lib</arg>
+		</executeclass>
+	</job>
+	<job name="do Unix Generice setup">
+		<os family="unix" />
+		<executefile name="$INSTALL_PATH/lib/runGenericInstall.sh">
+		</executefile>
+	</job>
+	<job name="do Windows Generice setup">
+		<os family="windows" />
+		<executefile name="$INSTALL_PATH/lib/runGenericInstall.bat">
+		</executefile>
+	</job>
+
+</processing>

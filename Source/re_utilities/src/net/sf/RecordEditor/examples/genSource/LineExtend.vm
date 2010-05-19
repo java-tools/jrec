@@ -1,0 +1,215 @@
+## Velocity Line template
+##
+
+##  example of full access  ${rec.getJavaConst().substring(3)}
+
+/*
+ * @Author Generate by XmplLineBuilder
+ *
+ * Purpose: line to access $recName records
+ */
+package $package;
+
+import record.LayoutDetails;
+import record.Line;
+import utils.RecordEditException;
+
+/**
+ * Record to Access
+ *
+ */
+public class $recName extends Line {
+
+    private static LayoutDetails copyBook;
+
+    private static boolean toInit = true;
+#foreach( $rec in $records )
+    private static int index$rec.JavaName;
+#end
+
+#foreach( $rec in $records )
+    public static final int ${rec.JavaConst} = ${rec.Index};
+#end
+
+    private static int[] toSystemIndex;
+    private static int[] toUserIndex;
+
+
+#foreach( $rec in $records )
+  // record fields for "$rec.Details.RecordName"
+
+#foreach( $field in $rec.List )
+  public static final int $field.JavaConst = $field.Index;
+#end
+
+#end
+
+    /**
+     * Create Line from a byte record
+     *
+     * @param group Record Description
+     * @param rec record
+     */
+    public $recName(final LayoutDetails group, final byte[] rec) {
+        super(toInit ? group
+                     : copyBook,
+              rec);
+
+        commonInit(group);
+    }
+
+
+    /**
+     * Create Line from a String record record
+     *
+     * @param group Record Description
+     * @param rec   record
+     */
+    public $recName(final LayoutDetails group, final String rec) {
+        super(toInit ? group
+                     : copyBook,
+              rec);
+
+        commonInit(group);
+    }
+
+
+    /**
+     * Common initialisation code
+     *
+     * @param group record layout
+     */
+    private void commonInit(final LayoutDetails group) {
+
+        if (toInit) {
+            int length    = group.getLayouts().length;
+
+            toSystemIndex = new int[length];
+            toUserIndex   = new int[length];
+
+#foreach( $rec in $records )
+            index$rec.JavaName = group.getRecordIndex("$rec.Details.RecordName");
+#end
+
+#foreach( $rec in $records )
+            toUserIndex[index${rec.JavaName}] = ${rec.JavaConst};
+#end
+
+#foreach( $rec in $records )
+            toSystemIndex[${rec.JavaConst}] = index${rec.JavaName};
+#end
+
+            toInit   = false;
+            copyBook = group;
+        }
+    }
+
+
+    /**
+     * get prefered record layout
+     *
+     * @return prefered record layout
+     */
+    public int getPreferredLayout() {
+        int layout = super.getPreferredLayout();
+
+        if (layout >= 0) {
+            return toUserIndex[layout];
+        }
+        return layout;
+    }
+
+#foreach( $rec in $records )
+#foreach( $field in ${rec.arrayRecords} )
+
+    /**
+     * Get index of "$rec.Details.RecordName"
+     *
+     * @param index array index
+     *
+     * @return index
+     */
+    public int getIndex${field.javaName}(int index) {
+        return ${field.arrayIncrement} * index + ${field.arrayStart};
+    }
+
+#end
+#end
+
+#if ( $getAndSet )
+#foreach( $rec in $records )
+
+   // record fields $rec.Details.RecordName
+
+  #foreach( $field in $rec.List )
+
+
+    /**
+     * Get $field.Details.Description
+     *
+     * @return $field.Details.Description
+     */
+    public String get${field.JavaName}() {
+        return super.getField(${rec.JavaConst}, $field.JavaConst).toString();
+    }
+
+
+    /**
+     * Set $field.Details.Description
+     *
+     * @param val $field.Details.Description
+     *
+     * @throws RecordEditException - conversion error
+     */
+    public void set${field.JavaName}(Object val) throws RecordEditException {
+        super.setField(${rec.JavaConst}, ${field.javaConst}, val.toString());
+    }
+  #end
+
+  #foreach( $field in ${rec.arrayRecords} )
+
+    /**
+     * Get $field.Details.Description
+     *
+     * @param index array index
+     *
+     * @return $field.Details.Description
+     */
+    public String get${field.JavaName}(int index) {
+        return super.getField(${rec.JavaConst},
+                              getIndex${field.javaName}(index)).toString();
+    }
+
+
+    /**
+     * Set $field.Details.Description
+     *
+     * @param index array index
+     * @param val $field.Details.Description
+     *
+     * @throws RecordEditException - conversion error
+     */
+    public void set${field.JavaName}(int index, Object val)
+    throws RecordEditException {
+        super.setField(${rec.JavaConst},
+                       getIndex${field.javaName}(index),
+                       val.toString());
+    }
+
+  #end
+#end
+#end
+
+
+    /**
+     * Remap layout index
+     *
+     * @param recordIndex record index
+     *
+     * @return adjusted record index
+     */
+    protected int remapLayout(int recordIndex) {
+        return toSystemIndex[recordIndex];
+    }
+}
+

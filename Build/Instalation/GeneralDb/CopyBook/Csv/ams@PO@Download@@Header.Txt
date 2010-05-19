@@ -1,0 +1,18 @@
+Record	0	1	<Tab>	0		N	ams PO Download: Header\n\nline 3
+1	2	Record Type		0	0	0	
+3	5	Sequence Number		8	3	0	
+8	10	Vendor		7	0	0	
+18	12	PO		8	0	0	
+30	6	Entry Date	Format YYMMDD	0	0	0	
+36	8	Filler		0	0	0	
+44	2	beg01 code		0	0	0	
+46	2	beg02 code		0	0	0	
+48	4	Department		0	0	0	
+52	6	Expected Reciept Date	Format YYMMDD	0	0	0	
+58	6	Cancel by date	Format YYMMDD	0	0	0	
+68	1	EDI Type		0	0	0	
+69	6	Add Date	Format YYMMDD	0	0	0	
+75	1	Filler		0	0	0	
+76	10	Department Name		0	0	0	
+86	1	Prcoess Type	C/N Conveyable/Non-Conveyable	0	0	0	
+87	2	Order Type		0	0	0	

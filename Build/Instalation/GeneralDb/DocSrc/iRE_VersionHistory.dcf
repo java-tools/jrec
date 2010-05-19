@@ -1,0 +1,183 @@
+:h4.Release 0.67
+:p.Minor release&gml.
+:ul compact.
+  :li.Improved Cobol Support (in particalular Open Cobol), it is also easier to extend for other Cobols.
+  :li.New File Copy utility (Fixed <--> Delimited, Xml --> Fixed / Delimited).
+  :li.Minor enhancements (e.g. Recent files option).
+  :li.Several Bug Fixes (e.g. Scaling large numbers; better message for Velocity).
+:eul.
+:h4.Release 0.65
+:p.Changes in this release are primarily a "Clean-up / Minor Enhansements".
+:ul compact.
+  :li.File Compare Utility - This is a field based compare; fields can be ignored or
+data in files of different formats can be compared.
+  :li.Option to Save / Import Record-Layouts (Descriptions of a file) as a XML file.
+These XML-Layouts can be used in the Sister Product :hp2.JRecord:ehp2. to Read / Write
+files from a Java Program.
+  :li.Options to save files as XML.
+  :li.Minor enhancements to File and View Menu's.
+  :li.Can Save Filters, Sort Tree's and Record Tree's definitions and execute later.
+  :li.Can Summmarise fields in a Sort Tree.
+:eul.
+:h4.Release 0.62
+:p.This release contains new "Tree" views, Combo boxs etc, See
+.*b2h html <a href="Changes_062.htm">Changes version 0.62</a> for more details.
+:UL COMPACT.
+  :li.3 new Tree views added to editor.
+  :li.New Column view (where rows are displayed as columns going across the page).
+  :li.Support of Combobox's in the Editor.
+  :li.Parameter Editors in the LayoutEditor
+  :li.Limited support for editting XML files.
+  :li.New Parameter field editors int the Layout Editor
+  :li.Can Import / Export Record-Layouts (copybooks) in a Csv Format
+  :li.New Option to copy copybooks between DB's.
+  :li.Support for Combo's Box / Check box fields
+  :li.Improved CSV Support:
+    :ul compact.
+      :li.Supported in the File Layout Wizard
+      :li.New Generic CSV File type where the user chooses the format of the CSV file at runtime.
+      :li.Support for different line parsers
+    :eul.
+:eul.
+:h4.Release 0.61.2
+:p.Cleanup / bug fix, + Enhanced Wizard and XML import functions. See
+.*b2h html <a href="Changes061b.htm">Changes version 0.61b</a> for more details.
+:h4.Release 0.61
+:p.Mainly Look and feel related. See
+.*b2h html <a href="Changes061.htm">Changes version 0.61</a> for more details.
+:ul compact.
+ :li.Improved Options Editor.
+ :li.Can now choose the Look and Feel / Icons.
+ :li.Improved date support.
+ :li.Several minor improvements like, Full Line view, Full line display at the bottom of theRecord Screen
+Selected View (Data drop down).
+ :li.Bug fixes (Date and CSV files).
+:eul.
+
+:h4.Release 0.60
+:p.Mainly extra functions
+:ul compact.
+ :li.Improved Search/Replace - new Search/Replace on all fields function.
+ :li.File Sorting. The file/view can be sorted by either
+ :ol compact.
+  :li.Double clicking on the column heading.
+  :li.Selecting the sort option on the Right Mouse Click button.
+  :li.Sort Option in the Data drop down menu.
+ :eol.
+ :li.Editor remembers which layout was last used for a file.
+ :li.New Cobol Editor that uses Cobol Copybooks rather than a Database to store
+Copybook Information.
+ :li.New program to edit Startup parameters and Jar files.
+ :li.Option to export via Velocity Templates. :note. Velocity must be downloaded seperately.
+ :li.User requests (Repeat function in the editor, support for Fixed record length files in the Layout wizard)   
+ :li.Fixed issues with Linux install.
+ :li.Extra extension options (in java).
+:eul.
+
+:h4.Release 0.56
+:p.This version is mainly changes to the user Interface to improve ease use.
+Major changes are:
+:ul compact.
+ :li.Addition of Standard File, Edit ... Top level menus similar to what is in a normal text editor.
+ :li.Addition of a Menu bar with standard Windows Icons.
+ :li.New Create Layout option added to the Layout Editor
+ :li.New Create Layout Wizard that allows you elect the fields in a file.
+ :li.Improved Find / Replace (Further work to done in the next version).
+ :li.In the editor, Columns can be fixed (ie do not scroll off the screen) via 
+the right click menu.
+ :li.Support for Fujitsu Cobol files and types added (Jean-Francois Gagnon).
+ :li.Null padded / terminated Strings types added.
+:eul.
+
+:h4.RecordEditor to Jasper
+:p.The :re2jasper. has been released as a separate download. It requires 
+:RecordEditor. and :iReports. be installed. This package&gml.
+:ol compact.
+  :li.Illustrates calling :hp2.RecordEditor:ehp2. routines
+  :li.Can design and generate reports from Fixed Field Width data files
+which includes Binary, Cobol and Mainframe/Cobol datafiles.
+:eol.
+:h4.Release 0.55
+:p.This version is primary a refactoring of the code with aims of&gml.
+:ul compact.
+ :li.Making it easier to extend the editor
+ :li.The GUI code has been split from the File / Field access java code.
+ :li.Opening the code up for other uses.
+ :li.Creation of java examples for extending / using RecordEditor classes.           
+:eul.
+
+:p.Enhancements&gml.
+:ul compact.
+  :li.Support of CSV files ( files with fields Delimited by comma's, tab, etc).
+  :li.Export of files in Comma / delimitiered format
+  :li.Support for mainframe VB format.
+:eul.
+
+:p.Other changes
+:ul compact.
+  :li.Creation of "standard" Record (Line) routines.
+  :li.Creation of examples for
+.example                              
+.*  :ol compact.
+.*    :li.Adding new Types
+.*.*b2h html (see <a href="file:Example.htm#HDRTYPE" target="new">Type Example</a>)           
+.*    :li.Reading Record Orientated files using the Standard RecordEditor Layouts and Cobol Copybooks.
+.*.*b2h html (see <a href="file:Example.htm#HDRXLIO1" target="new">File IO Example</a>) 
+.*    :li.Interfacing to 
+.*.*b2h HTML <a href="http://jakarta.apache.org/velocity/">Velocity</a>.  See also <a href="file:Example.htm#HDRVELOCITY" target="new">Velocity Example</a>
+.*    :li.Running directly from Cobol Copybooks
+.*.*b2h html (see <a href="file:Example.htm#HDRCOPYBOOK" target="new">Cobol Copybook Example</a>)           
+.*  :eol.
+:eul.
+  
+:h4.Release 0.53
+:p.Changes in this release
+:ul compact.
+ :li.Filtered views of the Data. See :hdref refid=filter. for more details.  
+ :li.Save As / Export function introduced. This allow you to save 
+ :ul compact.
+  :li.The whole File
+  :li.or the current View
+  :li.or Selected records
+ :eul.
+as either a Data file, a single HTML table or a HTML table per record.
+ :li.Help System added - Form level help added.
+ :li.Documentation changes including new tips section.
+ :li.Code Refactoring and the odd bugs.
+:eul.
+
+:h4.Release 0.52.1 (Linux)
+:p.This release basically is to support Linux. Mostly it consists of changes to 
+documentation
+:ul compact.
+ :li.Support for editing Windows / Unix / Linux / Mac Text files on all systems.
+ :li.Changes for running on Linux (ensuring consistent use of Character case).
+ :li.Ensure consistent use of character case in Filenames/URL's.
+ :li.Installer for Linux.
+ :li.Minor Bug fixes (i.e. better table cell exit handling).
+:eul.
+
+:h4.Release 0.52 (Mainframe)
+:p.This change was to support Mainframe Binary files.
+:ul compact.
+ :li.Support for editting native IBM Mainframe files (on a PC etc) using a Cobol Copybook
+ :li.Improvements in Cobol Import function
+ :li.Bug fixs
+  :ul compact.
+    :li.Binary Files in the Access version
+    :li.Type Conversion fix's (particulary the binary)
+  :eul.
+ :li.More Test cases
+:eul.
+
+
+:h4.Release 0.51
+:p.This version was to support Floating point numbers and bug fixes.
+
+
+:h5.Release 0.50 Initial Release
+:p.The initial release of the :hp2.RecordEditor:ehp2.
+
+
+
+

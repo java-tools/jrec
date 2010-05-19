@@ -1,0 +1,77 @@
+<binding>
+	<mapping name="diff" class="net.sf.RecordEditor.jibx.compare.DiffDefinition">
+		<value     name="type"         field="type"    style="attribute"/>
+		<value     name="complete"     field="complete" style="attribute" usage="optional"/>
+		<value     name="StripTrailingSpaces"        field="stripTrailingSpaces" usage="optional"/>
+		<structure   name="HtmlOptions" value-style="attribute" usage="optional">
+			<value   name="HtmlFile"        field="htmlFile"/>
+			<value   name="AllRows"         field="allRows"/>
+			<value   name="AllFields"       field="allFields"/>
+			<value   name="SingleTable"     field="singleTable"/>
+		</structure>
+		<structure field="layoutDetails" usage="optional"/>
+		<structure name="oldfile" field="oldFile" usage="optional"/>
+		<structure name="newfile" field="newFile" usage="optional"/>
+	</mapping>
+	<mapping name="copy" class="net.sf.RecordEditor.jibx.compare.CopyDefinition">
+		<value     name="type"                field="type"             style="attribute"/>
+		<value     name="complete"            field="complete"         style="attribute" usage="optional"/>
+		<value     name="delimiter"           field="delimiter"        style="attribute" usage="optional"/>
+		<value     name="namesOnFirstLine"    field="namesOnFirstLine" style="attribute" usage="optional"/>
+		<value     name="StripTrailingSpaces" field="stripTrailingSpaces"                usage="optional"/>
+		<value     name="quote"               field="quote"                              usage="optional"/>
+		<value     name="font"                field="font"                               usage="optional"/>
+		<value     name="velocityTemplate"    field="velocityTemplate"                   usage="optional"/>
+		<structure field="layoutDetails" usage="optional"/>
+		<structure name="oldfile" field="oldFile" usage="optional"/>
+		<structure name="newfile" field="newFile" usage="optional"/>
+		<structure field="treeDefinition" usage="optional"/>
+	</mapping>
+	<mapping name="file" class="net.sf.RecordEditor.jibx.compare.File" abstract="true">
+		<value style="attribute" name="name" field="name"/>
+		<structure field="layoutDetails"  usage="optional"/>
+	</mapping>
+	<mapping name="layout" class="net.sf.RecordEditor.jibx.compare.Layout">
+		<value style="attribute" name="name" field="name"/>
+		<collection field="records"  usage="optional"/>
+	</mapping>
+	<mapping name="record" class="net.sf.RecordEditor.jibx.compare.Record">
+		<value style="attribute" name="name" field="name"/>
+		<collection field="fields"  usage="optional">
+		   <value  name="field"/>
+		</collection>
+		<collection field="fieldTest"  usage="optional"/>
+	</mapping>
+	<mapping name="FieldTest" class="net.sf.RecordEditor.jibx.compare.FieldTest">
+		<value style="attribute" name="fieldName" field="fieldName"/>
+		<value style="attribute" name="operator"  field="operator"/>
+		<value style="attribute" name="value"     field="value"/>
+	</mapping>
+	<mapping name="EditorTask" class="net.sf.RecordEditor.jibx.compare.EditorTask">
+		<value     name="type"           field="type"        style="attribute"/>
+		<value     name="layoutName"     field="layoutName"  style="attribute" usage="optional"/>
+		<structure field="filter"        usage="optional"/>
+		<structure field="sortTree"      usage="optional"/>
+		<structure field="recordTree"    usage="optional"/>
+	</mapping>
+	<mapping name="SortTree" class="net.sf.RecordEditor.jibx.compare.SortTree">
+		<value     name="recordName"     field="recordName"  style="attribute"/>
+		<collection field="sortFields"   usage="optional"/>
+		<collection field="sortSummary"  usage="optional"/>
+	</mapping>
+	<mapping name="SortFields" class="net.sf.RecordEditor.jibx.compare.SortFields">
+		<value     name="fieldName"     field="fieldName"    style="attribute"/>
+		<value     name="ascending"     field="ascending"    style="attribute"/>
+	</mapping>
+	<mapping name="SortSummary" class="net.sf.RecordEditor.jibx.compare.SortSummary">
+		<value     name="fieldName"     field="fieldName"    style="attribute"/>
+		<value     name="operator"      field="operator"     style="attribute"/>
+	</mapping>	
+	<mapping name="RecordTree" class="net.sf.RecordEditor.jibx.compare.RecordTree">
+		<collection field="parentRelationship"   usage="optional"/>
+	</mapping>	
+	<mapping name="RecordParent" class="net.sf.RecordEditor.jibx.compare.RecordParent">
+		<value     name="recordName"    field="recordName"   style="attribute"/>
+		<value     name="parentName"    field="parentName"   style="attribute"/>
+	</mapping>	
+</binding>

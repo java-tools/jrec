@@ -1,0 +1,37 @@
+:h1.Record Edit
+
+.im iRE_TagDefs.dcf
+.im iRE_Welcome
+
+:p.Please review the help documentation
+.*b2h HTML <b><a HREF=hRecordEdit.htm>Record Edit</a></b>
+
+
+:note.On Windows, to start using the RecordEditor you should do one of the following
+:ul.
+:li.:hp2.Restart Windows:ehp2.
+:li.:hp2.Start the HSQL server from Start menu:ehp2.
+:eul.
+
+.fo off
+
+
+
+.fo on
+.pa
+:h1.HSQLDB Version
+
+.im iRE_HSQLdetails.dcf
+
+
+:h1.System Features
+.im iRE_Features.dcf
+
+:h1.Starting
+.im iRE_starting.dcf
+.im iRE_BinFile.dcf
+.im iRE_SuppliedFiles.dcf
+
+
+
+

@@ -1,0 +1,125 @@
+
+:p.Welcome to the RecordEditor, I hope it is useful. If you:
+:dl.
+ :dt.Like the Editor:dd.Please help promote the :RecordEditor. (i.e. rate it on Software download sites, write a review etc).
+After all the more people who use the editor, the more people will end up supporting / enhancing the editor
+ :dt.Do not like the Editor:dd.Let me know at
+.*b2h HTML <a href="https://sourceforge.net/forum/forum.php?forum_id=467594">RecordEditor Source Forge forum</a>.
+ Both positive and Negative feed back is useful.
+:edl.
+If you have any comments, problems,
+suggestions and Feature Requests,  please use the Forums at Sourceforge&gml.
+
+.*b2h HTML <br><a href="https://sourceforge.net/forum/forum.php?forum_id=467594">RecordEditor Source Forge forum</a>
+.*b2h HTML <br><a href="https://sourceforge.net/tracker/?group_id=139274&atid=742839">Bug Reporting</a>
+.*b2h HTML <br><a href="https://sourceforge.net/tracker/?group_id=139274&atid=742842">Feature Request</a>
+
+:p.I generally start a forum (on SourceForge) for changes to the next version, feel free to contribute.
+The next version is may contain:
+:ul compact.
+ :li.Enhanced Copy function.
+ :li.I will look at including Java binary formats (like Protocol Buffers).
+ :li.Other Cobol dialects - If any one has another dialect of Cobol and are willing to run
+some Cobol programs, I will look at adding support in.
+  :li.I will look at ISAM files.
+:eul.
+
+
+:h2.Getting Started 
+:p.The main File Editor is called :hp2.Full Editor:ehp2. in the Menu created by the installer.
+The :hp2.RecordEditor:ehp2. comes with several sample files, It is probably worth
+editing several of them to get a feel for the Editor. When you start the :hp3.Full Editor:ehp3.,
+the File field should hold the sample file directory.
+
+.pict RecordEdit_Main.png
+  
+:h3.Editing a Csv Files
+:p.For Csv (Delimited) Files, Start the :hp2.Full Editor:ehp2. and select :hp2.Generic Csv - Enter Details:ehp2.
+for the Layout; then enter the required details when prompted.
+
+.pict RecordEdit_MainCsv.png
+
+:p.If the file does not have names on the first line, you could also use :hp2.Create Layout Wizard:ehp2..
+This wizard will guid you through creating the Layout for the file. It will allow you to select 
+columns by pointing and clicking on them.
+ 
+:h3.Editing Fixed Width Files
+:p.The easiest way to start editing your own Fixed width Files is to use the 
+:hp2.Layout Wizard:ehp2. to create the Record-Layout for the file.
+
+.pict RecordEdit_MainCreateLayout.png
+
+:p.The wizard will let you define the fields by pointing to them
+
+:h3.Editing a Xml Files
+:p.For Xml Files, Start the :hp2.Full Editor:ehp2. and select :hp2.Xml - Build Layout:hp2.
+for the Layout.
+
+.pict RecordEdit_MainXml.png
+
+:h3.Editing Cobol Files
+:p.To Edit Cobol Files you have to options:
+
+:ol.
+ :li.Import the Cobol Layouts into the RecordEditor and use the RecordEditor (FullEditor)
+ :li.Use the :hp2.Cobol Editor:ehp2.. The Cobol Editor is not tested as well as the RecordEditor and is not as good with multiple record Files.
+:eol.
+
+:p.To import a Cobol copybook select menu item :hp2.Record Layout >>>> Load Cobol Copybook:ehp2.
+
+.pict Mainframe_ImportCobol1.png
+
+:p.Then update the following screen
+
+.pict Mainframe_ImportCobol1.png
+
+:p.A couple of things to be aware of:
+
+:dl.
+ :dt.Binary FormaT
+ :dd.This is effectively the Cobol Dialect being used (Mainframe, Open  Cobol etc).
+ :dt.File Structure
+ :dd.This is similar to RECFM=... on the mainframe. This is where you tell the Editor How the file
+is organized. Options available are :hp2.Text IO (byte based):ehp2. - Files with Carriage Returns, :hp2.Fixed Length Binary:ehp2. - Fixed Length Files.
+ :dt.After Loaded
+ :dd.Back on the File open screen after the Cobol copybook has been loaded, You will need
+to hit the :hp2.Reload from DB:ehp2. to use your new layout.  
+:edl.
+
+
+ 
+:h2.Supplied Programs
+:p.Following are a list of programs supplied with the :hp2.RecordEditor:ehp2.
+package.
+:dl.
+  :dt.Full Editor:dd.Main File Editor 
+  :dt.Layout Editor:dd.Program to edit Record Layouts (which are used
+by the RecordEdit to help display the Data Files). The Record Layouts can be
+:ol compact.
+:li.Entered into the front-end screens.
+:li.Loaded from Cobol Copybooks :note.The system uses the package :hp2.cb2xml:ehp2. to 
+convert Cobol to XML. This package still has a few issues.
+:li.Load from XML Copybooks (as produced by :hp2.cb2xml:ehp2.).
+:eol.
+  :dt.Record Editor:dd.Cut down file Editor, should start quicker over networks / on old Computers.
+  :dt.Cobol Editor:dd.Experimental File Editor where record layouts are stored as
+Cobol copybooks. At this stage you are better off using the :blue.Full Editor:eblue. program.
+  :dt.Edit Properties:dd.Program to edit the :blue.RecordEditor:eblue. Startup properties
+  :dt.RecordEditor - Velocity:dd.Program to test formating files use :blue.RecordEditor:eblue.
+layouts and :Velocity..
+:note.:Velocity. must be instaled seperately and installed into the :blue.RecordEditor:eblue.
+using the :blue.Edit Properties:eblue. program.
+:edl.
+
+
+:p.Following are a list of documents supplied with the package 
+
+:dl.
+  :dt.Record Editor Manual:dd.Main RecordEditor Manual.
+  :dt.HowTo:dd.Basic how to examples.
+  :dt.CobolEditor Documentation:dd.Very Basic documentation on the CobolEditor.
+  :dt.Examples:dd.Java Examples of interfacing with / extending the RecordEditor.
+  :dt.Diff1:dd.File Compare Utility
+  :dt.Copy:dd.File Copy utility
+:edl.
+

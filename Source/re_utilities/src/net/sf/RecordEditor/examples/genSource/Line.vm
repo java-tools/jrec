@@ -1,0 +1,267 @@
+## Velocity Line template
+##
+
+##  example of full access  ${rec.getJavaConst().substring(3)}
+
+/*
+ * @Author Generate by XmplLineBuilder
+ *
+ * Purpose: line to access $recName records
+ */
+package $package;
+
+import net.sf.RecordEditor.record.CopyBookInterface;
+import net.sf.RecordEditor.record.LayoutDetail;
+import net.sf.RecordEditor.record.Line;
+#if ( $defineFields )
+import net.sf.RecordEditor.record.types.FieldDetail;
+#end
+#if ( $getAndSet )
+import net.sf.RecordEditor.utils.RecordEditException;
+#end
+
+/**
+ * Record to Access
+ *
+ */
+public class $recName extends Line {
+
+    public static final String COPYBOOK_NAME = "${typeName}";
+
+#foreach( $rec in $records )
+    public static final String RECORD_${rec.JavaConst} = "${rec.Name}";
+#end
+
+    private static LayoutDetail copyBook;
+
+    private static boolean toInit = true;
+#foreach( $rec in $records )
+    private static int index$rec.JavaName;
+#end
+
+
+#foreach( $rec in $records )
+  // record fields for "$rec.Details.RecordName"
+
+#foreach( $field in $rec.List )
+    public static final int $field.JavaConst = $field.Index;
+#end
+
+#end
+
+#if ( $defineFields )
+#foreach( $rec in $records )
+
+  // record fields for "$rec.Details.RecordName"
+
+#foreach( $field in $rec.List )
+    public static final FieldDetail FIELD_$field.JavaConst
+          = new FieldDetail("${field.getDetails().getName()}", "", ${field.Details.Type}, ${field.Details.Decimal}, "${field.Details.FontName}", ${field.Details.Format}, "${field.Details.Paramater}");
+#end
+#end
+
+    static {
+#foreach( $rec in $records )
+
+        // record fields for "$rec.Details.RecordName"
+
+#foreach( $field in $rec.List )
+#if (${field.Details.isFixedFormat()})
+        FIELD_${field.JavaConst}.setPosLen($field.Details.Pos, $field.Details.Len);
+#else
+        FIELD_${field.JavaConst}.setPosOnly($field.Details.Pos);
+#end
+#end
+#end
+    };
+#end
+
+
+    /**
+     * Create Null Line
+     *
+     * @param group Record Description
+     */
+    public $recName(final LayoutDetail group) {
+        super(toInit ? group
+                     : copyBook);
+
+        commonInit(group);
+    }
+
+
+    /**
+     * Create Line from a byte record
+     *
+     * @param group Record Description
+     * @param rec record
+     */
+    public $recName(final LayoutDetail group, final byte[] rec) {
+        super(toInit ? group
+                     : copyBook,
+              rec);
+
+        commonInit(group);
+    }
+
+
+    /**
+     * Create Line from a String record record
+     *
+     * @param group Record Description
+     * @param rec   record
+     */
+    public $recName(final LayoutDetail group, final String rec) {
+        super(toInit ? group
+                     : copyBook,
+              rec);
+
+        commonInit(group);
+    }
+
+
+    /**
+     * Common initialisation code
+     *
+     * @param group record layout
+     */
+    private static void commonInit(final LayoutDetail group) {
+
+        if (toInit) {
+            int length    = group.getRecordCount();
+
+#foreach( $rec in $records )
+            index$rec.JavaName = group.getRecordIndex(RECORD_${rec.JavaConst});
+#end
+
+            toInit   = false;
+            copyBook = group;
+        }
+    }
+
+#foreach( $rec in $records )
+
+    /**
+     * get index of ${rec.Name}
+     * @return index of ${rec.Name}
+     */
+    public static final int get${rec.JavaName}Index() {
+        return index$rec.JavaName;
+    }
+
+#end
+
+    /**
+     * Get the copybook
+     * @return copybook
+     */
+    public static final LayoutDetail getCopyBook() {
+        return copyBook;
+    }
+
+
+    /**
+     * Set the copybook
+     * @param pCopyBook copybook to be assigned
+     */
+    public static final void setCopyBook(LayoutDetail pCopyBook) {
+	toInit   = true;
+
+	commonInit(pCopyBook);
+    }
+
+
+    /**
+     * Set the copybook
+     *
+     * @param copybook copybook interface
+     */
+    public static final void setCopyBook(CopyBookInterface copybook) {
+        setCopyBook(copybook.getLayout(COPYBOOK_NAME));
+    }
+
+
+#foreach( $rec in $records )
+#foreach( $field in ${rec.arrayRecords} )
+
+    /**
+     * Get index of "$rec.Details.RecordName"
+     *
+     * @param index array index
+     *
+     * @return index
+     */
+    public int getIndex${field.javaName}(int index) {
+        return ${field.arrayIncrement} * index + ${field.arrayStart};
+    }
+
+#end
+#end
+
+#if ( $getAndSet )
+#foreach( $rec in $records )
+
+   // record fields $rec.Details.RecordName
+
+  #foreach( $field in $rec.List )
+
+
+    /**
+     * Get $field.Details.Description
+     *
+     * @return $field.Details.Description
+     */
+    public String get${field.JavaName}() {
+        return super.getField(index$rec.JavaName, $field.JavaConst).toString();
+    }
+
+
+    /**
+     * Set $field.Details.Description
+     *
+     * @param val $field.Details.Description
+     *
+     * @throws RecordEditException - conversion error
+     */
+    public void set${field.JavaName}(Object val) throws RecordEditException {
+        super.setField(index$rec.JavaName, ${field.javaConst}, val.toString());
+    }
+  #end
+
+  #foreach( $field in ${rec.arrayRecords} )
+
+    /**
+     * Get $field.Details.Description
+     *
+     * @param index array index
+     *
+     * @return $field.Details.Name
+     * $field.Details.Description
+     */
+    public String get${field.JavaName}(int index) {
+        return super.getField(index$rec.JavaName,
+                              getIndex${field.javaName}(index)).toString();
+    }
+
+
+    /**
+     * Set $field.Details.Description
+     *
+     * @param index array index
+     * @param val $field.Details.Name value
+     *        $field.Details.Description
+     *
+     * @throws RecordEditException - conversion error
+     */
+    public void set${field.JavaName}(int index, Object val)
+    throws RecordEditException {
+        super.setField(index$rec.JavaName,
+                       getIndex${field.javaName}(index),
+                       val.toString());
+    }
+
+  #end
+#end
+#end
+}
+

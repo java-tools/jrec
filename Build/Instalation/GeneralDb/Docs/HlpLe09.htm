@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>Layout Editor</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- /home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/HlpLe.dc -->
+<!-- f converted by B2H R4.7 (390) (LINUX) on 12 Mar 2010 at 01:56:58 -->
+<META HTTP-EQUIV="updated" CONTENT="Fri, 11 Sep 2009 12:13:14">
+<META HTTP-EQUIV="review" CONTENT="Sat, 11 Sep 2010 12:13:14">
+<META HTTP-EQUIV="expires" CONTENT="Sun, 11 Sep 2011 12:13:14">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<HR><H2><A NAME="HDRIMPORTG" HREF="HlpLe.htm#ToC_33" >Load Copybook Choose Format</A></H2>
+<P>In the <B>Load Copybook Choose Format</B> You can select from a variety of
+Copybook Formats.
+<P>
+<A name="#CopyBookType">Copybook formats available include</a>:
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>cb2xml XML Copybook </B></TD><TD><P>This is basically Cobol converted to XML. It is produced by the cb2xml package.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Cobol</B></TD><TD><P>Cobol Copybook source code.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>XML</B></TD><TD><P>This option reads a XML file and creates a copybook for viewing / editing
+similar XML files
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>DB Csv Extract</B></TD><TD><P>Primary an extract from a DB2. It allows you to view / edit
+Delimitered extracts from DB2. See <A HREF="HlpLe11.htm#HDRDBCSV">"DB CSV Copybook format"</A> for more details.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Comma CSV
+ </B></TD><TD><P>A description of a Comma Delimitered CSV file with Field names on a single line
+seperated by Commas.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Tab CSV
+ </B></TD><TD><P>A description of a Tab Delimitered CSV file with Field names on a single line
+seperated by Tabs.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>RecordEditor CSV Copybook</B></TD><TD><P>Both Comma and Tab Delimitered formats supported.
+This is a CSV file produced by the <A HREF="HlpLe10.htm#HDRCPYLAYOUT">"Copy Copybooks"</A> option of the LayoutEditor.
+<BR>
+It is basically Field&#58; Position, Length, Name, Description, Field Type, Decimal,
+the same as in the
+<A href="#RecordDtls">Record Definition</a> screen.
+see <A HREF="HlpLe12.htm#HDRRECSV">"RecordEditor CSV Copybook Format"</A> for more details.
+</TD></TR></TABLE>
+<P>
+<P>
+<table><tr><td><img SRC="Diagram/RecordLayout_ImportChoice.png"></td></tr></table>
+<P>
+<P>
+<P>The fields on the Import screen are
+<P>
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Field</B>
+ </TD><TD><P><B>Description</B>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Copybook Type
+ </B></TD><TD><P>The
+<A href="#CopyBookType">Type of Copybook</a>.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Copybook
+ </B></TD><TD><P>The copybook File to be imported.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Choose File Button
+ </B></TD><TD><P>Display the file search screen so you can find the input file.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Split Copybook
+ </B></TD><TD><P>Controls wether the copybook will be split into a Parent Record and separate Child-Records
+or stored as a single record. Options are:
+ <TABLE CELLPADDING="3">
+   <TR VALIGN="TOP"><TD><B>No Split    </B></TD><TD>Record is stored as a single record.
+   </TD></TR><TR VALIGN="TOP"><TD><B>On Redefine </B></TD><TD>Record is split into separate records on the first redefine.
+   </TD></TR><TR VALIGN="TOP"><TD><B>On 01 level </B></TD><TD>Record is split into separate records on 01 level records.
+ </TD></TR></TABLE>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Font Name
+ </B></TD><TD><P>Font Name to use when editing this file. You would only need to enter a
+<B>Font Name</B> if
+you are editing a IBM Mainframe File on a PC (or editing a PC file on the mainframe).
+For UA / Canada / Australia the mainframe <B>Font Name</B>
+is <font color="blue"><b>CP037</b></font>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Binary Format
+ </B></TD><TD><P>Binary Format to use (i.e. wether Cobol comp fields are converted to a PC little Endian
+or Mainframe / Java / AIX big Endian format).
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>File Structure
+ </B></TD><TD><P>File Format or structure. It actual chooses the File reader used.
+Unless you are using Native Mainframe, Fujitsu Cobol
+or Binary files, leave it as Defult Reader.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>System
+ </B></TD><TD><P>System to assign the Copybook to.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Go Button
+ </B></TD><TD><P>Import the file
+</TD></TR></TABLE>
+<P>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

@@ -1,0 +1,827 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>Record Editor</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- /home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/RecordEd -->
+<!-- itIntro.dcf converted by B2H R4.7 (390) (LINUX) on 11 May 2010   -->
+<!-- at 19:58:35                                                      -->
+<META HTTP-EQUIV="updated" CONTENT="Fri, 11 Sep 2009 12:13:14">
+<META HTTP-EQUIV="review" CONTENT="Sat, 11 Sep 2010 12:13:14">
+<META HTTP-EQUIV="expires" CONTENT="Sun, 11 Sep 2011 12:13:14">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<a name="Toc"/>
+<A NAME="ToC_1" HREF="#Header_1" >Record Editor</A><BR>
+<MENU>
+<LI><A NAME="ToC_2" HREF="#Header_2" >Program Summary</A>
+</MENU>
+<A NAME="ToC_3" HREF="#Header_3" >Features</A><BR>
+<A NAME="ToC_4" HREF="#Header_4" >Binary and Mainframe files</A><BR>
+<A NAME="ToC_8" HREF="#Header_8" >Viewing Text File</A><BR>
+<A NAME="ToC_11" HREF="#Header_11" >Download Versions</A><BR>
+<MENU>
+<LI><A NAME="ToC_12" HREF="#Header_12" >New Users</A>
+<LI><A NAME="ToC_13" HREF="#Header_13" >Upgrading</A>
+</MENU>
+<A NAME="ToC_14" HREF="#Header_14" >Linux</A><BR>
+<A NAME="ToC_15" HREF="#Header_15" >Filter</A><BR>
+<MENU>
+<LI><A NAME="ToC_16" HREF="#HDRFILTER" >Filter Screen</A>
+</MENU>
+<A NAME="ToC_18" HREF="#Header_18" >Changes</A><BR>
+<A NAME="ToC_33" HREF="#Header_33" >Documentation</A><BR>
+<A NAME="ToC_34" HREF="#Header_34" >Useful Applications</A><BR>
+<P>
+<HR><H2><A NAME="Header_1" HREF="#ToC_1" >Record Editor</A></H2>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>This is a <B>Programmers Data-file editor</B>, similar to the
+Mainframe Editor - <B>File-Aid</B> or
+<a href="http://www.adtools.com/products/windows/dedit.htm">Net-Cobols Cobol-Editor</a>.
+The Editor is written in java (1.4) so should run on most Computer Systems.
+The RecordEditor has the following uses
+<OL COMPACT TYPE=1>
+   <LI>Viewing/editing Fixed field length data files (i.e. fields occupy the same columns
+in every record. A typical file might be- Columns 1 to 8 Product, Columns 9 to 16 Quantity etc).
+   <LI>Viewing/editing CSV (i.e. Comma / Tab separated fields) files
+   <LI>Reading / Writing Record orientated files in JAVA.
+</OL>
+<P>This program uses a <font color="blue"><b>Record-Layout</b></font> definition to display the data file
+in a Human Readable Form. It can handle both <B>PC (Text and Binary)</B> and
+<B>native IBM Mainframe (Text and Binary)</B> file formats.
+<P>These <font color="blue"><b>Record-Layouts</b></font> are stored in a Database. There is an option
+to import <font color="blue"><b>Cobol Record Layouts</b></font> into the Database plus screens to edit
+the <B>Record Layouts</B>.
+<P>
+<P>Fixed Field Length data files are very common  :
+<UL COMPACT>
+   <LI>On IBM Mainframes
+   <LI>In Cobol Programs
+</UL>
+But at work we also use them for
+<UL COMPACT>
+   <LI>Sending data to IBM 4680/4690 Register Controllers
+   <LI>Automated Warehouse Control Systems
+   <LI>Transferring data between different Computers
+</UL>
+<P>
+<P>I believe the people working in the following areas will find this program very useful:
+<UL COMPACT>
+  <LI>Interfacing with IBM Mainframe Systems.
+  <LI>Mainframe Programmers (who do not have access to File-Aid or similar products).
+  <LI>IBM 4680/4690 Register controllers.
+</UL>
+<P>
+<P>
+<P>
+<P>
+<P><H3><A NAME="Header_2" HREF="#ToC_2" >Program Summary</A></H3>
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Language</B></TD><TD><P>Java 1.5
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Author  </B></TD><TD><P>Bruce Martin
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Requirements</B></TD><TD><P>Java 1.5 run time
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Testing</B></TD><TD><P>Windows XP;Linux (Fedora 8)
+</TD></TR></TABLE>
+<P>
+<P>&nbsp;<p>
+<TABLE width="100%"><tr>
+<td width="34%" id=dark><a id=dark href="http://sourceforge.net/projects/record-editor/">RecordEditor at SourceForge</a></td>
+<td width="33%" id=dark><a id=dark href="http://sourceforge.net/project/showfiles.php?group_id=139274">Download Page</a></td>
+<td id=dark><a id=dark href="http://sourceforge.net/forum/?group_id=139274">Forums</a></td>
+</tr></TABLE>
+<P>
+<P>
+<HR><H2><A NAME="Header_3" HREF="#ToC_3" >Features</A></H2>
+<P>
+<P>Record-Editor features:
+<UL COMPACT>
+<LI>Displays fixed format (i.e. Mainframe/Cobol data files) in a human readable format.
+<LI>Support for editing both <font color="blue">binary</font> and <font color="blue">text</font> files.
+<LI>Support for editing both <font color="blue">Ascii~PC</font> and <font color="blue">Native Mainframe Ebcdic</font>
+files on a PC.
+<LI>Being written in Java it should run on most Computer systems.
+<LI>Column can be resized by dragging with the cursor.
+<LI>Columns can be rearranged by dragging and dropping the column.
+</UL>
+<P>
+<P>&nbsp;<p>
+<TABLE width="100%"><tr>
+<td width="34%" id=dark><a id=dark href="http://sourceforge.net/projects/record-editor/">RecordEditor at SourceForge</a></td>
+<td width="33%" id=dark><a id=dark href="http://sourceforge.net/project/showfiles.php?group_id=139274">Download Page</a></td>
+<td id=dark><a id=dark href="http://sourceforge.net/forum/?group_id=139274">Forums</a></td>
+</tr></TABLE>
+<P>
+<HR><H2><A NAME="Header_4" HREF="#ToC_4" >Binary and Mainframe files</A></H2>
+<P>In jEdit a binary file like a 4680/4690-Register price change file looks like
+<P>
+<img SRC="Diagram/RecordEdit_jEdit.png">
+<P>
+<P><P>
+<P>
+<P><H4><A NAME="HDRBINTBL">Table View - Binary file</A></H4>
+<P>While in the RecordEditor Table-View, binary fields are converted to there text equivalent. It looks like
+<P>
+<P>
+<img SRC="Diagram/RecordEdit_Table.png">
+<P>
+<PRE>
+ 
+</PRE><P><P><P><H4><A NAME="HDRBINRECORD">Record View - Binary file</A></H4>
+<P>
+<P>To display a singe record in record view (as below), press the button to the
+left of the row on the <A HREF="#HDRBINTBL">"Table View - Binary file"</A> screen.
+<P>
+<P>
+<img SRC="Diagram/RecordEdit_Record.png">
+<PRE>
+ 
+</PRE><P><P><P><H4><A NAME="Header_7">Mainframe</A></H4>
+<P>The <font color="blue">Record-Editor</font> now supports editing native
+<B>Mainframe</B> Files on a PC. Only <B>Fixed Block (RECFM=FB)</B> files
+can be reliably transferred to and from the PC.
+<P>
+<P>The system supports the following Mainframe-Binary formats
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="20%">Format
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="20%">Cobol Picture
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="60%">Description
+ 
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Zoned
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">s999
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="60%">Standard Cobol Pic s9(#) fields (where # is any number)
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Packed Decimal
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">s999 Comp-3
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="60%">Packed Decimal
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Binary
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">s999 Comp
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="60%">Standard Mainframe Binary
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Character
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">XXX
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="60%">Standard Character fields
+</TD></TR></TABLE>
+<P>The system does not support Mainframe Floating point numbers (Cobol Comp-1
+and Comp-2). Floating Point numbers are fairly rare in Cobol Programs.
+<P>
+<P>Following is a Mainframe Binary File displayed on the Mainframe and in the
+<font color="blue"><b>RecordEdit</b></font> Program on a PC.
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="100%">File displayed in ISPF Edit
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="100%"><P> <P>
+<Table border="3" cellpadding="7" cellspacing="3"><tr><TD BGCOLOR="#000000"><FONT COLOR="#00ff00"><pre>
+<FONT COLOR=White>   Menu  Utilities  Compilers  Help</FONT>
+<P>
+ <FONT COLOR=#00ff00>BROWSE</FONT>    <FONT COLOR=Cyan>T70BYM.WC020.FILE</FONT>
+ <FONT COLOR=#00ff00>Command ===&gt; </FONT>
+<FONT COLOR="#33CCCC">********************************* Top of Data *
+69684558... .ð...........°.
+69684558... .ð...........°.
+69684558... .ð...........1
+69694158... .ð...........°.
+69694158... .ð...........°.
+69694158... .ð...........1
+63604808... .ð...........ç@
+62684671... .ðÇ*.........ræ                    </FONT>
+</pre></font></td></tr></pre></table>
+<BR></TD></TR></TABLE>
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="100%">File displayed in Mainframe File-Aid
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="100%"><P> <P>
+<Table border="3" cellpadding="7" cellspacing="3"><tr><TD BGCOLOR="#000000"><FONT COLOR="#00ff00"><pre>
+ <FONT COLOR=White>COMMAND ===&gt;                                                  SCROLL ===&gt; <font color="red">DATA</font>
+        DTAR020-KEYCODE-NO DTAR020-STORE-NO DTAR020-DATE DTAR020-DEPT-NO
+        8/AN               2/PS             4/PS         2/PS
+        (1-8)              (9-10)           (11-14)      (15-16)
+        2----------------- 3--------------- 4----------- 5--------------       </FONT>
+ <font color="red">******</font><FONT COLOR="#33CCCC"> ***************************** TOP OF DATA ******************-CAPS OFF-*</FONT>
+ <FONT COLOR=#00ff00>000001 69684558                         20        40118             280
+ 000002 69684558                         20        40118             280
+ 000003 69684558                         20        40118             280
+ 000004 69694158                         20        40118             280
+ 000005 69694158                         20        40118             280
+ 000006 69694158                         20        40118             280       </FONT>
+</pre></font></td></tr></pre></table>
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="100%">The Data displayed in RecordEdit
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="100%"><P> <P>
+<img SRC="Diagram/dtar020a.GIF">
+<BR></TD></TR></TABLE>
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="100%">Single record displayed on the Mainframe
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="100%"><P> <P>
+<Table border="3" cellpadding="7" cellspacing="3"><tr><TD BGCOLOR="#000000"><FONT COLOR="#00ff00"><pre>
+ <FONT COLOR=White>File-AID - Edit - T70BYM.WC020.FILE ------------------
+ COMMAND ===&gt;
+ <FONT COLOR="#33CCCC">RECORD:      1</FONT>                DTAR020-KCODE-STORE-KEY </FONT>
+ <FONT COLOR="#33CCCC">---- FIELD NUMBER/NAME ------ -FORMAT- ----+----1----+
+                                10/GRP
+   2 DTAR020-KEYCODE-NO          8/AN   <FONT COLOR=#00ff00>69684558       </FONT>
+   3 DTAR020-STORE-NO            2/PS   <FONT COLOR=#00ff00>20             </FONT>
+ 4 DTAR020-DATE                  4/PS   <FONT COLOR=#00ff00>40118          </FONT>
+ 5 DTAR020-DEPT-NO               2/PS   <FONT COLOR=#00ff00>280            </FONT>
+ 6 DTAR020-QTY-SOLD              5/PS   <FONT COLOR=#00ff00>1              </FONT>
+ 7 DTAR020-SALE-PRICE            6/PS   <FONT COLOR=#00ff00>19.00          </FONT>
+</pre></font></td></tr></pre></table>
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="100%">Single record displayed in RecordEdit
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="100%"><P> <P>
+<img SRC="Diagram/dtar020rec.gif">
+<BR></TD></TR></TABLE>
+<P>
+<P>
+<P>&nbsp;<p>
+<TABLE width="100%"><tr>
+<td width="34%" id=dark><a id=dark href="http://sourceforge.net/projects/record-editor/">RecordEditor at SourceForge</a></td>
+<td width="33%" id=dark><a id=dark href="http://sourceforge.net/project/showfiles.php?group_id=139274">Download Page</a></td>
+<td id=dark><a id=dark href="http://sourceforge.net/forum/?group_id=139274">Forums</a></td>
+</tr></TABLE>
+<P>
+<P><P>
+<P>
+<P>
+<HR><H2><A NAME="Header_8" HREF="#ToC_8" >Viewing Text File</A></H2>
+<P>
+<P>While a text file can be read using any editor, it can be hard to interpret as in the following
+example:
+<P>
+<PRE>
+ 
+FHSTDREC01TAR05/03/200519:00:09
+RHTAR297853      96010019809740001138504.03.200520.28.10000005965IN                              000000000000000000000000000                    00013776000000002800000002800                    NNY0000028 L96010082005-03-04-20.34.46.709398000000001000000000
+RDTAR297853      9601001980974000000022013240000000000001EN00000002800000100000000049200EQBD180 2005-03-04-20.30.05.644995000000014
+RSTAR297853      96010019809740000000220132400000000000015036000000001000000001EQBD180 2005-03-04-20.30.05.580496000000001
+RSTAR297853      96010019809740000000220132400000000000015043000000003000000003EQBD180 2005-03-04-20.30.05.619864000000003
+RSTAR297853      96010019809740000000220132400000000000015045000000003000000003EQBD180 2005-03-04-20.30.05.619972000000003
+RSTAR297853      96010019809740000000220132400000000000015057000000001000000001EQBD180 2005-03-04-20.30.05.620098000000001
+RSTAR297853      96010019809740000000220132400000000000015065000000002000000002EQBD180 2005-03-04-20.30.05.620227000000002
+RSTAR297853      96010019809740000000220132400000000000015069000000002000000002EQBD180 2005-03-04-20.30.05.620324000000002
+RSTAR297853      96010019809740000000220132400000000000015072000000003000000003EQBD180 2005-03-04-20.30.05.620420000000003
+RSTAR297853      96010019809740000000220132400000000000015076000000002000000002EQBD180 2005-03-04-20.30.05.620515000000002
+RSTAR297853      96010019809740000000220132400000000000015079000000001000000001EQBD180 2005-03-04-20.30.05.620628000000001
+RSTAR297853      96010019809740000000220132400000000000015094000000003000000003EQBD180 2005-03-04-20.30.05.644403000000003
+RSTAR297853      96010019809740000000220132400000000000015128000000003000000003EQBD180 2005-03-04-20.30.05.644520000000003
+RSTAR297853      96010019809740000000220132400000000000015151000000001000000001EQBD180 2005-03-04-20.30.05.644617000000001
+RSTAR297853      96010019809740000000220132400000000000015173000000001000000001EQBD180 2005-03-04-20.30.05.644712000000001
+RSTAR297853      96010019809740000000220132400000000000015180000000002000000002EQBD180 2005-03-04-20.30.05.644819000000002
+ 
+ 
+</PRE><P><P><H4><A NAME="HDRTXTRECORD">Table View - Text file</A></H4>
+<P>While the same file viewed in the record Editor can look like (Table View):
+<P>
+<img SRC="Diagram/RecordEdit_TableTxt.png">
+<P>
+<P><P>
+<P>
+<P>
+<P>
+<P><H4><A NAME="HDRTXTREC">Record View - Text file</A></H4>
+<P>To display a singe record in record view (as below), press the button to the
+left of the row.
+<P>
+<P>
+<P>
+<img SRC="Diagram/RecordEdit_RecordTxt.png">
+<P>
+<P>
+<P>&nbsp;<p>
+<TABLE width="100%"><tr>
+<td width="34%" id=dark><a id=dark href="http://sourceforge.net/projects/record-editor/">RecordEditor at SourceForge</a></td>
+<td width="33%" id=dark><a id=dark href="http://sourceforge.net/project/showfiles.php?group_id=139274">Download Page</a></td>
+<td id=dark><a id=dark href="http://sourceforge.net/forum/?group_id=139274">Forums</a></td>
+</tr></TABLE>
+<P>
+<P>
+<HR><H2><A NAME="Header_11" HREF="#ToC_11" >Download Versions</A></H2>
+<P><H3><A NAME="Header_12" HREF="#ToC_12" >New Users</A></H3>
+<P>This system comes in both <B>pre-packaged</B> with a Database (<B>MS-Access</B> and <B>HSQLDB</B>)
+and Generic versions (with out a Database). I <font color="blue"><b>strongly</b></font>
+recommend you use a <font color="blue"><b>pre-packaged</b></font>
+version if you can. For Windows User's I would recommend using the Windows Exe Install
+programs (either MS-Access or HSQL version) as they have better support for Windows than the
+Cross-Platform Jar installer. Linux users should use <B>RecordEdit_Installer_for_HSQL_062.jar</B>
+<P>If you want the Source, I would recommend downloading both a <B>pre-packaged</B> version and
+the source.
+<P>The generic versions require you to enter the Database Connection details and the JDBC Jar file.
+You will some understanging of JDBC to use this version.
+<P>
+<P>
+<P>
+<P>If you have a prior version of the Record-Editor installed, you can upgrade
+to the latest version by downloading the appropriate Download Zip.
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="24%">Version
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="12%">Pre-Packaged
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="6%">Source
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="59%">Comments
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="24%">RecordEdit_Installer_for_MSAccess_062.exe
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="12%">Yes
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="6%">No
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="59%">Windows Installer of RecordEditor using MS-Access
+as a database. It requires the
+<B>Microsoft ODBC driver</B> for Access. You will have this driver installed
+if you have Ms-Access on the system. I think the driver will also be installed if Excel is installed.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="24%">RecordEdit_Installer_for_HSQL_062.exe
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="12%">Yes
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="6%">No
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="59%">Windows Installer of RecordEditor with the HSQLDB database manager
+<P><B>Note: </B>You must start the Database-Server (first time only) before you can use the system.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="24%">RecordEdit_Installer_for_HSQL_062.jar
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="12%">Yes
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="6%">No
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="59%">Cross platform installer (izpack)
+using HSQLDB for the database.
+<P><B>Note: </B>You must start the Database-Server before you can use the system.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="24%">RecordEdit_Installer_for_GenericDB_062.jar
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="12%">No
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="6%">No
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="59%">You must have your own Database and JDBC driver.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="24%">RecordEdit_Zip_Source_062.zip
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="12%">No
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="6%">Yes
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="59%">Contains Source and Jars.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="24%">RecordEdit_Zip_Examples_062.zip
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="12%">No
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="6%">Yes
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="59%">Contains Java examples of using RecordEditor classes. It is a
+subset of the Source Zip.
+</TD></TR></TABLE>
+<P>
+<P><H3><A NAME="Header_13" HREF="#ToC_13" >Upgrading</A></H3>
+<UL>
+<P><LI>.If upgrading from the test version (ie RecordEdit_Installer_for_MSAccess_062_test2.exe)&#58;
+<OL TYPE=1>
+ <P><LI>Install RecordEdit_Installer_for_MSAccess_062.exe
+ <P><LI>Copy <font color="blue">RecordEditor.mdb</font> from <B>C:\Program Files\RecordEdit\MSaccess_Test</B> to
+<B>C:\Program Files\RecordEdit\MSaccess</B>
+</OL>
+<P><LI>If upgrading the generic version, use <B>RecordEdit_Installer_for_GenericDB_062.jar</B>
+<P><LI>For uses of the previous production versions of the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> download and install
+one of the following installers, then use the <B>upgrade</B> option of the <B>Layout Editor</B>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="24%">Version
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="12%">Pre-Packaged
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="6%">Source
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="59%">Comments
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="24%">RecordEdit_Upgrade_for_MSAccess_062.exe
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="12%">
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="6%">
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="59%">Upgrade earlier MS Access versions to latest version
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="24%">RecordEdit_Upgrade_for_HSQL_062.exe
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="12%">
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="6%">
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="59%">Upgrade earlier HSQL windows exe versions.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="24%">RecordEdit_Upgrade_for_HSQL_062.jar
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="12%">
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="6%">
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="59%">Upgrade earlier HSQL Jar crossplatform versions.
+</TD></TR></TABLE>
+</UL>
+<P>
+<P>&nbsp;<p>
+<TABLE width="100%"><tr>
+<td width="34%" id=dark><a id=dark href="http://sourceforge.net/projects/record-editor/">RecordEditor at SourceForge</a></td>
+<td width="33%" id=dark><a id=dark href="http://sourceforge.net/project/showfiles.php?group_id=139274">Download Page</a></td>
+<td id=dark><a id=dark href="http://sourceforge.net/forum/?group_id=139274">Forums</a></td>
+</tr></TABLE>
+<P>
+<HR><H2><A NAME="Header_14" HREF="#ToC_14" >Linux</A></H2>
+<P>The <B>RecordEditor</B> program has always run on Linux / Unix, but originally many
+of the associated files (eg documentation) did not store files in the correct case
+(Linux is case sensitive). As of version <B>0.52.1</B> this has been corrected.
+<P>There is now an installation program
+<P>    <font color="blue"><b>  Download RecordEdit_Installer_for_HSQL_<font color="red">&lt;Version&gt;</font>.jar</b></font>
+<P>for Linux / Unix. To run install the <B>RecordEdit</B> on Linux you should:
+<OL TYPE=1>
+ <P><LI>Run the installation program (i.e. <font color="blue">java -jar RecordEdit_HSQL_055.jar</font>)
+under your normal user id.
+ <P><LI>The installation should install Icons on your desktop to:
+ <UL COMPACT>
+   <LI><font color="blue">Start Server</font> - It starts the Database server used by the <B>RecordEditor</B>.
+You will have to <B>run this option</B> before running the <B>RecordEditor</B>.
+   <LI><font color="blue">Stop Server</font> - Stop the Database.
+   <LI><font color="blue">Full Editor</font> - The actual "Record" Editor.
+   <LI><font color="blue">Record Editor</font> - A cut down version of the "Record" Editor.
+   <LI><font color="blue">Layout Editor</font> - The "Record Layout" Editor. It also will load
+Cobol Copybooks into the System.
+   <LI><font color="blue">Edit Properties</font> - Edit the Properties / Jar files used by the editor.
+   <LI><font color="blue">Welcome</font> Display basic Documentation.
+   <LI><font color="blue">Manual</font> - Manual for the system.
+ </UL>
+ <P><LI>The Installer will create shell scripts in 2 directories
+   <UL COMPACT>
+     <LI>$HOME/bin
+     <LI>$HOME/RecordEdit/HSQLDB
+   </UL>
+I suggest including one of these directories in your path. That way you can edit a file
+by entering:
+<P><font color="blue">runRecordEdit.sh filename</font>
+ <P><LI>One difference from the Windows is you must <font color="blue">start the DB Server</font>
+prior to using the RecordEditor.
+  <P><LI>Start the <font color="blue">Edit Properties</font>, take the <B>Screen Position</B> tab
+and set the <B>Space ot be left at the bottom of the screen</B> to 40. For Gnome users
+also set the <B>Space ot be left at the top of the screen</B> to around 20.
+</OL>
+<P>&nbsp;<p>
+<TABLE width="100%"><tr>
+<td width="34%" id=dark><a id=dark href="http://sourceforge.net/projects/record-editor/">RecordEditor at SourceForge</a></td>
+<td width="33%" id=dark><a id=dark href="http://sourceforge.net/project/showfiles.php?group_id=139274">Download Page</a></td>
+<td id=dark><a id=dark href="http://sourceforge.net/forum/?group_id=139274">Forums</a></td>
+</tr></TABLE>
+<P>
+<HR><H2><A NAME="Header_15" HREF="#ToC_15" >Filter</A></H2>
+<P>
+<P><H3><A NAME="HDRFILTER" HREF="#ToC_16" >Filter Screen</A></H3>
+<P>The Filter screen is used to created a view of the data with only the
+record / fields the user wants.
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="100%">
+<img SRC="Diagram/RecordEdit_Filter.png">
+<BR></TD></TR></TABLE>
+<P>The important parts of the screen are:
+<P>
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Record Filter
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">
+<img SRC="Diagram/RecordEdit_Filter_Records.GIF">
+<P>This section of the screen has 2 functions
+<OL COMPACT TYPE=1>
+<LI>Select which records to display based on the Record Type
+(using the <B>Include</B> Check box).
+<LI>When you click on a record you can
+<UL COMPACT>
+<LI>Select which fields (for this record type) will
+be displayed.
+<LI>Allows you to enter filters based on a records content for this record type.
+</UL>
+</OL>
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Field Filter
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">
+<img SRC="Diagram/RecordEdit_Filter_Fields.GIF">
+<P>This section of the screen allows you to select which fields will be displayed
+(using the <B>Include</B> Check box).
+<P>Clicking on the record <B>PriceR 1</B> (in the record filter above) will display
+the fields of record <B>PriceR 1</B>.
+<P>
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Field Value Filter
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">
+<img SRC="Diagram/RecordEdit_Filter_FieldValues.GIF">
+<P>This section of the screen allows you to select which record will be displayed
+based on record content.
+<P>In the above example, only records where the field <B>description</B> contains
+<B>DVD</B> will be displayed.
+<P>Clicking on the record <B>PriceR 1</B> (in the record filter above) will alloy
+you to enter Data-based filters for <B>PriceR 1</B>
+<P>You can enter up to 4 data filters per record type. A record must satisfy
+all filters (i.e. a logical <B>And</B>) to be displayed.
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Sace Button
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">The save button saves the Filter definition as a XML file.
+You can execute the filter at a later date from the View Menu. See  for more details.
+</TD></TR></TABLE>
+<P><H4><A NAME="HDRFILTXMP">Creating Simple Reports</A></H4>
+<P>You can create very basic reports by combining Filtering (see <A HREF="#HDRFILTER">"Filter Screen"</A>)
+with the Save-As / Export Function (see ).
+<P>With the AMS-PO file which consists of
+<UL COMPACT>
+<LI>PO Header
+<UL COMPACT>
+<LI>Keycode Detail Record
+<UL COMPACT>
+<LI>Store Allocation Record
+</UL>
+</UL>
+</UL>
+<P>It looks like this:
+<P>
+<img SRC="Diagram/RecordEdit_Filter_tbl_xmpl1.png">
+<P>
+you can select specific fields of the PO header by entering:
+<P>
+<img SRC="Diagram/RecordEdit_Filter_xmpl1.GIF">
+<P>This will produce a filtered view like
+<P>
+<img SRC="Diagram/RecordEdit_Filter_tbl_xmpl1a.GIF">
+<P>
+<P>To save as a HTML file, select the <B>SaveAs</B> button, then enter the
+following on the <B>SaveAs</B> Screen:
+<P>
+<img SRC="Diagram/RecordEdit_Filter_SaveAs_xmpl1.GIF">
+<P>
+<P>This will produce the following HTML
+<P>
+<table BORDER="1" CELLSPACING="1"><tr><th>Line</th><th>8 : 10<br/>Vendor</th><th>18 : 12<br/>PO</th><th>30 : 6<br/>Entry Date</th><th>48 : 4<br/>Department</th><th>52 : 6<br/>Expected Receipt Date</th><th>87 : 2<br/>Order Type</th></tr>
+<tr><td>1</td><td>6060</td><td>286225</td><td>040909</td><td>200 </td><td>050102</td><td>FT</td></tr>
+<tr><td>2</td><td>6228</td><td>222227</td><td>040909</td><td>200 </td><td>050102</td><td>FT</td></tr>
+<tr><td>3</td><td>6228</td><td>222243</td><td>040909</td><td>200 </td><td>050102</td><td>FT</td></tr>
+<tr><td>4</td><td>5341</td><td>294915</td><td>041013</td><td>475 </td><td>041231</td><td>FT</td></tr>
+<tr><td>5</td><td>5341</td><td>294987</td><td>041013</td><td>475 </td><td>041231</td><td>FT</td></tr>
+<tr><td>6</td><td>5341</td><td>295139</td><td>041013</td><td>475 </td><td>041231</td><td>FT</td></tr>
+<tr><td>7</td><td>5341</td><td>303662</td><td>041110</td><td>310 </td><td>041231</td><td>FT</td></tr>
+<tr><td>8</td><td>5341</td><td>304100</td><td>041111</td><td>310 </td><td>041231</td><td>FT</td></tr>
+</table>
+<P>
+<P>
+<P>&nbsp;<p>
+<TABLE width="100%"><tr>
+<td width="34%" id=dark><a id=dark href="http://sourceforge.net/projects/record-editor/">RecordEditor at SourceForge</a></td>
+<td width="33%" id=dark><a id=dark href="http://sourceforge.net/project/showfiles.php?group_id=139274">Download Page</a></td>
+<td id=dark><a id=dark href="http://sourceforge.net/forum/?group_id=139274">Forums</a></td>
+</tr></TABLE>
+<P>
+<HR><H2><A NAME="Header_18" HREF="#ToC_18" >Changes</A></H2>
+<P>
+<P><H4><A NAME="Header_19">Release 0.67</A></H4>
+<P>Minor release&#58;
+<UL COMPACT>
+  <LI>Improved Cobol Support (in particalular Open Cobol), it is also easier to extend for other Cobols.
+  <LI>New File Copy utility (Fixed &lt;--&gt; Delimited, Xml --&gt; Fixed / Delimited).
+  <LI>Minor enhancements (e.g. Recent files option).
+  <LI>Several Bug Fixes (e.g. Scaling large numbers; better message for Velocity).
+</UL>
+<P><H4><A NAME="Header_20">Release 0.65</A></H4>
+<P>Changes in this release are primarily a "Clean-up / Minor Enhansements".
+<UL COMPACT>
+  <LI>File Compare Utility - This is a field based compare; fields can be ignored or
+data in files of different formats can be compared.
+  <LI>Option to Save / Import Record-Layouts (Descriptions of a file) as a XML file.
+These XML-Layouts can be used in the Sister Product <B>JRecord</B> to Read / Write
+files from a Java Program.
+  <LI>Options to save files as XML.
+  <LI>Minor enhancements to File and View Menu's.
+  <LI>Can Save Filters, Sort Tree's and Record Tree's definitions and execute later.
+  <LI>Can Summmarise fields in a Sort Tree.
+</UL>
+<P><H4><A NAME="Header_21">Release 0.62</A></H4>
+<P>This release contains new "Tree" views, Combo boxs etc, See
+<a href="Changes_062.htm">Changes version 0.62</a> for more details.
+<UL COMPACT>
+  <LI>3 new Tree views added to editor.
+  <LI>New Column view (where rows are displayed as columns going across the page).
+  <LI>Support of Combobox's in the Editor.
+  <LI>Parameter Editors in the LayoutEditor
+  <LI>Limited support for editting XML files.
+  <LI>New Parameter field editors int the Layout Editor
+  <LI>Can Import / Export Record-Layouts (copybooks) in a Csv Format
+  <LI>New Option to copy copybooks between DB's.
+  <LI>Support for Combo's Box / Check box fields
+  <LI>Improved CSV Support:
+    <UL COMPACT>
+      <LI>Supported in the File Layout Wizard
+      <LI>New Generic CSV File type where the user chooses the format of the CSV file at runtime.
+      <LI>Support for different line parsers
+    </UL>
+</UL>
+<P><H4><A NAME="Header_22">Release 0.61.2</A></H4>
+<P>Cleanup / bug fix, + Enhanced Wizard and XML import functions. See
+<a href="Changes061b.htm">Changes version 0.61b</a> for more details.
+<P><H4><A NAME="Header_23">Release 0.61</A></H4>
+<P>Mainly Look and feel related. See
+<a href="Changes061.htm">Changes version 0.61</a> for more details.
+<UL COMPACT>
+ <LI>Improved Options Editor.
+ <LI>Can now choose the Look and Feel / Icons.
+ <LI>Improved date support.
+ <LI>Several minor improvements like, Full Line view, Full line display at the bottom of theRecord Screen
+Selected View (Data drop down).
+ <LI>Bug fixes (Date and CSV files).
+</UL>
+<P>
+<P><H4><A NAME="Header_24">Release 0.60</A></H4>
+<P>Mainly extra functions
+<UL COMPACT>
+ <LI>Improved Search/Replace - new Search/Replace on all fields function.
+ <LI>File Sorting. The file/view can be sorted by either
+ <OL COMPACT TYPE=1>
+  <LI>Double clicking on the column heading.
+  <LI>Selecting the sort option on the Right Mouse Click button.
+  <LI>Sort Option in the Data drop down menu.
+ </OL>
+ <LI>Editor remembers which layout was last used for a file.
+ <LI>New Cobol Editor that uses Cobol Copybooks rather than a Database to store
+Copybook Information.
+ <LI>New program to edit Startup parameters and Jar files.
+ <LI>Option to export via Velocity Templates. <P><B>Note: </B> Velocity must be downloaded seperately.
+ <LI>User requests (Repeat function in the editor, support for Fixed record length files in the Layout wizard)
+ <LI>Fixed issues with Linux install.
+ <LI>Extra extension options (in java).
+</UL>
+<P>
+<P><H4><A NAME="Header_25">Release 0.56</A></H4>
+<P>This version is mainly changes to the user Interface to improve ease use.
+Major changes are:
+<UL COMPACT>
+ <LI>Addition of Standard File, Edit ... Top level menus similar to what is in a normal text editor.
+ <LI>Addition of a Menu bar with standard Windows Icons.
+ <LI>New Create Layout option added to the Layout Editor
+ <LI>New Create Layout Wizard that allows you elect the fields in a file.
+ <LI>Improved Find / Replace (Further work to done in the next version).
+ <LI>In the editor, Columns can be fixed (ie do not scroll off the screen) via
+the right click menu.
+ <LI>Support for Fujitsu Cobol files and types added (Jean-Francois Gagnon).
+ <LI>Null padded / terminated Strings types added.
+</UL>
+<P>
+<P><H4><A NAME="Header_26">RecordEditor to Jasper</A></H4>
+<P>The <a href=re2Jasper.htm TARGET="jasper">RecordEditor ~ Jasper Interface</a> has been released as a separate download. It requires
+<a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> and <a href="http://ireport.sourceforge.net/" TARGET="iReports">iReports</a> be installed. This package&#58;
+<OL COMPACT TYPE=1>
+  <LI>Illustrates calling <B>RecordEditor</B> routines
+  <LI>Can design and generate reports from Fixed Field Width data files
+which includes Binary, Cobol and Mainframe/Cobol datafiles.
+</OL>
+<P><H4><A NAME="Header_27">Release 0.55</A></H4>
+<P>This version is primary a refactoring of the code with aims of&#58;
+<UL COMPACT>
+ <LI>Making it easier to extend the editor
+ <LI>The GUI code has been split from the File / Field access java code.
+ <LI>Opening the code up for other uses.
+ <LI>Creation of java examples for extending / using RecordEditor classes.
+</UL>
+<P>
+<P>Enhancements&#58;
+<UL COMPACT>
+  <LI>Support of CSV files ( files with fields Delimited by comma's, tab, etc).
+  <LI>Export of files in Comma / delimitiered format
+  <LI>Support for mainframe VB format.
+</UL>
+<P>
+<P>Other changes
+<UL COMPACT>
+  <LI>Creation of "standard" Record (Line) routines.
+  <LI>Creation of examples for
+  <OL COMPACT TYPE=1>
+    <LI>Adding new Types
+(see <a href="xmple05.htm#HDRTYPE" target="new">Type Example</a>)
+    <LI>Reading Record Orientated files using the Standard RecordEditor Layouts and Cobol Copybooks.
+(see <a href="xmple03.htm#HDRXLIO1" target="new">File IO Example</a>)
+    <LI>Interfacing to
+<a href="http://jakarta.apache.org/velocity/">Velocity</a>.  See also <a href="xmple04.htm#HDRVELOCITY" target="new">Velocity Example</a>
+    <LI>Running directly from Cobol Copybooks
+(see <a href="xmple06.htm#HDRCOPYBOOK" target="new">Cobol Copybook Example</a>)
+  </OL>
+</UL>
+<P>
+<P><H4><A NAME="Header_28">Release 0.53</A></H4>
+<P>Changes in this release
+<UL COMPACT>
+ <LI>Filtered views of the Data. See <A HREF="#HDRFILTER">"Filter Screen"</A> for more details.
+ <LI>Save As / Export function introduced. This allow you to save
+ <UL COMPACT>
+  <LI>The whole File
+  <LI>or the current View
+  <LI>or Selected records
+ </UL>
+as either a Data file, a single HTML table or a HTML table per record.
+ <LI>Help System added - Form level help added.
+ <LI>Documentation changes including new tips section.
+ <LI>Code Refactoring and the odd bugs.
+</UL>
+<P>
+<P><H4><A NAME="Header_29">Release 0.52.1 (Linux)</A></H4>
+<P>This release basically is to support Linux. Mostly it consists of changes to
+documentation
+<UL COMPACT>
+ <LI>Support for editing Windows / Unix / Linux / Mac Text files on all systems.
+ <LI>Changes for running on Linux (ensuring consistent use of Character case).
+ <LI>Ensure consistent use of character case in Filenames/URL's.
+ <LI>Installer for Linux.
+ <LI>Minor Bug fixes (i.e. better table cell exit handling).
+</UL>
+<P>
+<P><H4><A NAME="Header_30">Release 0.52 (Mainframe)</A></H4>
+<P>This change was to support Mainframe Binary files.
+<UL COMPACT>
+ <LI>Support for editting native IBM Mainframe files (on a PC etc) using a Cobol Copybook
+ <LI>Improvements in Cobol Import function
+ <LI>Bug fixs
+  <UL COMPACT>
+    <LI>Binary Files in the Access version
+    <LI>Type Conversion fix's (particulary the binary)
+  </UL>
+ <LI>More Test cases
+</UL>
+<P>
+<P>
+<P><H4><A NAME="Header_31">Release 0.51</A></H4>
+<P>This version was to support Floating point numbers and bug fixes.
+<P>
+<P>
+<P><I><B><A NAME="Header_32">Release 0.50 Initial Release</A>:&nbsp;</B></I>&nbsp;
+The initial release of the <B>RecordEditor</B>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>&nbsp;<p>
+<TABLE width="100%"><tr>
+<td width="34%" id=dark><a id=dark href="http://sourceforge.net/projects/record-editor/">RecordEditor at SourceForge</a></td>
+<td width="33%" id=dark><a id=dark href="http://sourceforge.net/project/showfiles.php?group_id=139274">Download Page</a></td>
+<td id=dark><a id=dark href="http://sourceforge.net/forum/?group_id=139274">Forums</a></td>
+</tr></TABLE>
+<P>
+<HR><H2><A NAME="Header_33" HREF="#ToC_33" >Documentation</A></H2>
+<P>The following online documentation is also provided for your use&#58;
+<P>
+<UL>
+  <P><LI><a href="JavaDoc/index.html">RecordEditor JavaDoc ~ Interface javadocs'.
+  <P><LI><a href=xmple.htm>RecordEditor Examples</a> ~ Examples of using the RecordEditor from java programs.
+  <P><LI><a href=re2Jasper.htm TARGET="jasper">RecordEditor ~ Jasper Interface</a> ~ Description of the Jasper Datasource for Fixed field width files
+(including Mainframe Cobol).
+</UL>
+<P>
+<P>&nbsp;<p>
+<TABLE width="100%"><tr>
+<td width="34%" id=dark><a id=dark href="http://sourceforge.net/projects/record-editor/">RecordEditor at SourceForge</a></td>
+<td width="33%" id=dark><a id=dark href="http://sourceforge.net/project/showfiles.php?group_id=139274">Download Page</a></td>
+<td id=dark><a id=dark href="http://sourceforge.net/forum/?group_id=139274">Forums</a></td>
+</tr></TABLE>
+<P>
+<P><P>
+<HR><H2><A NAME="Header_34" HREF="#ToC_34" >Useful Applications</A></H2>
+<P>
+<P>The follow packages where used in the <B>RecordEditor</B>
+<UL COMPACT>
+<li><a href="http://cb2xml.sourceforge.net">cb2xml</a> Converts Cobol / Cobol Files to XML. Used to load <b>Cobol Copybooks</b> into the <b>RecordEditor</b>
+<li><a href="http://sablecc.org">SableCC</a> used by cb2xml (and this package) in the conversion of Cobol Copybooks.
+<li><a href="http://hsqldb.sourceforge.net/">HSQLDB</a> A SQL Database used as a backend DB for some versions.
+<li><a href="http://jakarta.apache.org/velocity/">Velocity</a> is used in several examples.
+<li><a href="https://tablelayout.dev.java.net/">Tablelayout</a>Layout manager used by the RecordEditor
+</UL>
+<P>
+<P>
+<P>All these systems are available on WWW.SourceForge.net.
+<UL COMPACT>
+<li><a href="http://sourceforge.net/projects/jrecord/">JRecord</a>  Project for reading and writing cobol files from Java. It was split of from the RecordEditor and contains the RecordEditor IO routines.
+<li><a href="http://sourceforge.net/projects/ffreport/">Flat File Reporting</a>  Project for reporting on RecordEditor / Cobol files.
+<li><a href="http://cb2xml.sourceforge.net">cb2xml</a>  Converts Cobol / Cobol Files to XML. It is written in JAVA. I have used it to import Cobol Record Layouts.
+<li><a href="http://sourceforge.net/projects/cb2java/">cb2java</a>  Project for reading and writing cobol files from Java.
+<li><a href="http://txt2xml-rexx.sourceforge.net">Txt2XML</a> Converts Cobol Files to XML. It is written in Rexx.
+</UL>
+<P>
+<P>
+<P>
+<P>
+<P>&nbsp;<p>
+<TABLE width="100%"><tr>
+<td width="34%" id=dark><a id=dark href="http://sourceforge.net/projects/record-editor/">RecordEditor at SourceForge</a></td>
+<td width="33%" id=dark><a id=dark href="http://sourceforge.net/project/showfiles.php?group_id=139274">Download Page</a></td>
+<td id=dark><a id=dark href="http://sourceforge.net/forum/?group_id=139274">Forums</a></td>
+</tr></TABLE>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

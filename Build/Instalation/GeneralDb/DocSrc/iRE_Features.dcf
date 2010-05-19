@@ -1,0 +1,11 @@
+
+:p.Record-Editor features:
+:ul compact.
+:li.Displays fixed format (i.e. Mainframe/Cobol data files) in a human readable format.
+:li.Support for editing both :blue.binary:eblue. and :blue.text:eblue. files.
+:li.Support for editing both :blue.Ascii~PC:eblue. and :blue.Native Mainframe Ebcdic:eblue. 
+files on a PC.
+:li.Being written in Java it should run on most Computer systems.
+:li.Column can be resized by dragging with the cursor.
+:li.Columns can be rearranged by dragging and dropping the column.
+:eul.

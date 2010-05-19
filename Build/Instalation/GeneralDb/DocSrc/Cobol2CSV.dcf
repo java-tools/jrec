@@ -1,0 +1,84 @@
+:h1.Cobol to CSV conversion program
+.im iRE_TagDefs.dcf
+:p.This program will convert Cobol Fixed field Position file into CSV file
+using a Cobol Copybook. It can handle both Windows/Unix text/binary files as well
+as native IBM Mainframe files.
+:p.The program comes in two versions
+:dl.
+ :dt.Cobol2Csv :dd.Batch conversion program
+ :dt.Cobol2CsvGui :dd.Options are displayed on a GUI front screen.
+:edl.
+
+:p.Both programs accept the following arguments:
+
+.fo off
+
+    -I  - Input file
+    -O  - Output file
+    -C  - Cobol Copybook file
+    -S  - Field Separator (space, tab or value)
+    -B  - Binary Format:
+        0 - System to determine 
+        1 - Use Text IO 
+        2 - Fixed record Length binary 
+        3 - Binary File, length based on record 
+        4 - Mainframe VB File 
+        5 - Mainframe VB File including BDW (block descriptor word)
+    -FS - File Structure
+        0 - Intel little endian 
+        1 - Mainframe big endian 
+        2 - Other big endian 
+
+.fo on
+
+:h2.Instalation
+:p.While this is part of the :RecordEditor. project, it is completely self-contained.
+So you can :hp3.unzip:ehp3. it :hp3.anywhere:ehp3..
+
+:h2.Cobol2Csv
+:p.Batch program to convert a Cobol file into CSV (comma, tab separated fields) file.
+
+:h2.Compiling (Eclipse etc)
+:p.The source code references classes in the :hp2.RecordEdit.Jar:ehp2. which is 
+part of the :RecordEditor. package install + other examples (available in the both the Source and examples downloads). 
+This jar + Sorce must be included in the build path.
+
+.fo off
+Usage:
+
+   java -cp Cobol2csv.jar net.sf.RecordEditor.examples.fix2csv.Cobol2Csv  -b 1 -f CP037
+                -c C:\Program Files\RecordEdit\HSQL\Cobol\DTAR107.cbl
+		-i C:\Program Files\RecordEdit\HSQL\SampleFiles\DTAR107.bin
+		-o C:\Program Files\RecordEdit\HSQL\SampleFiles\DTAR107_tst.csv
+.fo on
+
+:p.Also the following bat files are provided:
+
+:dl.
+  :dt.Cobol2CsvMainframe.bat:dd.For converting Mainframe RECFM=FB Cobol files that have been transmitted to the 
+PC in binary (ie native IBM Mainframe format).
+  :dt.Cobol2CsvMainframe_VBdump.bat:dd.For converting Mainframe RECFM=VB Cobol files (that include both the
+Block descriptor word and Record descriptor word).
+:edl.
+
+:h2.Cobol2CsvGui
+:p.This is a GUI version of Cobol2Csv. You select the file and copybook on the following screen
+
+.pict Cobol2Csv.GIF
+
+.fo off
+Usage:
+
+   java -cp Cobol2csv.jar net.sf.RecordEditor.examples.fix2csv.Cobol2CsvGui  -b 1 -f CP037
+
+.fo on
+
+
+:h2.Transporting files from the Mainframe
+:p.This program can handle native mainframe RECFM=FB and RECFM=VB files. Fixed block
+files can be transported as a binary files. Transporting VB files is slightly more difficult.
+
+
+
+:h4.Transporting VB files to the PC
+.im iRE_VBtransport.dcf

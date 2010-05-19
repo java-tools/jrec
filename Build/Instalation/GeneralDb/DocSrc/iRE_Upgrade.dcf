@@ -1,0 +1,29 @@
+
+:h3.Upgrading
+
+:h4.MS Access / HSQLDB
+:ol.
+:li.Make sure RecordEditor / LayoutEditor are not running
+:li.Extract the details from the Upgrade ZIP to the :hp2.RecordEditor:ehp2. install directory
+:li.Start the :hp2.LayoutEditor:ehp2.
+:li.Take the new Upgrade option; on this panel there are two options:
+  :ul compact.
+    :li.Upgrade the Database to the 0.52 structure. This only needs to be run once and
+only if you where using a pre-0.52 version    
+    :li.Update the Record Seporator for 0.52.1. In 0.5.1, The record-separator is used
+for Text files to allow editting Unix files on a PC etc.
+  :eul.
+:p.If you where running 0.52, you should run the second option, otherwise run both options.
+:eol.
+
+
+:h4.Generic version
+:p.Use the :hp2.HSQLDB:Ehp2. upgrade Zip.
+:ol.
+:li.Make sure RecordEditor / LayoutEditor are not running
+:li.Extract the details from the Upgrade ZIP to the :hp2.RecordEditor:ehp2. install directory
+:li.Update the JDBC properties file (i.e. run :hp2.AddProperties2Jar.bat:ehp2.
+in the lib directory).
+:li.Start the :hp2.LayoutEditor:ehp2.
+:li.Take the new Upgrade option and run it.
+:eol.

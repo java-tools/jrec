@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EditorTask type="SortTree">
+  <SortTree recordName="DTAR020">
+    <SortFields fieldName="STORE-NO" ascending="true"/>
+    <SortFields fieldName="DEPT-NO" ascending="true"/>
+    <SortSummary fieldName="DATE" operator="Minimum"/>
+    <SortSummary fieldName="DEPT-NO" operator="Maximum"/>
+    <SortSummary fieldName="QTY-SOLD" operator="Sum"/>
+    <SortSummary fieldName="SALE-PRICE" operator="Sum"/>
+  </SortTree>
+</EditorTask>

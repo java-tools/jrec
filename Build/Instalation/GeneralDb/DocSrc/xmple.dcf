@@ -1,0 +1,10 @@
+
+.*b2h option SPLITLINK.13=CLEAR
+.*b2h option SPLITLINK.13='<table width="100%"><tr><td align="left" width="20%"><a accesskey="p" href="&b2hprev"><img src="Diagram/prev.gif" alt="Prev"></a>&nbsp;</td><td align="center" width="60%"><a accesskey="u" href="xmple.htm" TARGET="_top"><img src="Diagram/up.gif" alt="Up"></a></td><td align="right" width="20%">&nbsp;<a accesskey="n" href="&b2hnext"><img src="Diagram/next.gif" alt="Next"></a></td></tr></table>'
+.*b2h option SPLITLINK.14=CLEAR
+.*b2h option SPLITLINK.14='<table width="100%"><tr><td align="left" width="20%"><a accesskey="p" href="&b2hprev"><img src="Diagram/prev.gif" alt="Prev"></a>&nbsp;</td><td align="center" width="60%"><a accesskey="u" href="xmple.htm" TARGET="_top"><img src="Diagram/up.gif" alt="Up"></a></td><td align="right" width="20%">&nbsp;<a accesskey="n" href="&b2hnext"><img src="Diagram/next.gif" alt="Next"></a></td></tr></table>'
+.*b2h option SPLITLINK.15=CLEAR
+.*b2h option SPLITLINK.15='<table width="100%"><tr><td align="left" width="20%"><a accesskey="p" href="&b2hprev"><img src="Diagram/prev.gif" alt="Prev"></a>&nbsp;</td><td align="center" width="60%"><a accesskey="u" href="xmple.htm" TARGET="_top"><img src="Diagram/up.gif" alt="Up"></a></td><td align="right" width="20%">&nbsp;</td></tr></table>'
+.*b2h option SPLITLINK.16=CLEAR
+.*b2h option SPLITLINK.16='<table width="100%"><tr><td align="left" width="20%"><a accesskey="p" href="&b2hprev"><img src="Diagram/prev.gif" alt="Prev"></a>&nbsp;</td><td align="center" width="60%"><a accesskey="u" href="xmple.htm" TARGET="_top"><img src="Diagram/up.gif" alt="Up"></a></td><td align="right" width="20%">&nbsp;</td></tr></table>'
+.im Example.dcf

@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>RecordEditor Main Screen</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- /home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/HlpRe.dc -->
+<!-- f converted by B2H R4.7 (390) (LINUX) on 12 Mar 2010 at 01:56:57 -->
+<META HTTP-EQUIV="updated" CONTENT="Fri, 11 Sep 2009 12:13:14">
+<META HTTP-EQUIV="review" CONTENT="Sat, 11 Sep 2010 12:13:14">
+<META HTTP-EQUIV="expires" CONTENT="Sun, 11 Sep 2011 12:13:14">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<a name="Toc"/>
+<MENU>
+<LI><A NAME="ToC_3" HREF="HlpRe03.htm#Header_3" >Popup Menu</A>
+<LI><A NAME="ToC_5" HREF="HlpRe04.htm#Header_5" >Popup Menu</A>
+<LI><A NAME="ToC_6" HREF="HlpRe05.htm#HDRFIND" >Search Screen</A>
+<LI><A NAME="ToC_7" HREF="HlpRe06.htm#HDRFILTER" >Filter Screen</A>
+<LI><A NAME="ToC_8" HREF="HlpRe07.htm#HDRSAVEAS" >Save AS / Export</A>
+</MENU>
+<A NAME="ToC_9" HREF="HlpRe08.htm#HDRWIZARD" >Layout Wizard</A><BR>
+<MENU>
+<LI><A NAME="ToC_10" HREF="HlpRe08.htm#Header_10" >Initial Wizard Screen</A>
+<LI><A NAME="ToC_11" HREF="HlpRe08.htm#HDRWIZFILESTRUCTURE" >File Structure Screen</A>
+<LI><A NAME="ToC_12" HREF="HlpRe08.htm#HDRFIXEDWIZ" >Fixed Width Dialogue</A>
+<LI><A NAME="ToC_16" HREF="HlpRe08.htm#HDRCSVWIZ" >CSV Dialogue</A>
+<LI><A NAME="ToC_20" HREF="HlpRe08.htm#HDRMULTIWIZ" >Multiple Record Screen</A>
+<LI><A NAME="ToC_26" HREF="HlpRe08.htm#HDRWIZSTARTUP" >Startup Options</A>
+</MENU>
+<A NAME="ToC_27" HREF="HlpRe09.htm#HDRLAYOUTDEF" >Record Layout Definition</A><BR>
+<MENU>
+<LI><A NAME="ToC_28" HREF="HlpRe10.htm#HDRSORT" >Sort Panel</A>
+<LI><A NAME="ToC_29" HREF="HlpRe11.htm#Header_29" >Field Tree</A>
+<LI><A NAME="ToC_30" HREF="HlpRe12.htm#HDRSTREE" >Sort Tree</A>
+<LI><A NAME="ToC_32" HREF="HlpRe13.htm#HDRRTREE" >Record Tree</A>
+<LI><A NAME="ToC_33" HREF="HlpRe14.htm#HDRTREE" >Tree View</A>
+<LI><A NAME="ToC_34" HREF="HlpRe15.htm#Header_34" >Column View</A>
+<LI><A NAME="ToC_35" HREF="HlpRe16.htm#Header_35" >CSV Files</A>
+</MENU><P>
+<P><H4><A NAME="Header_1">RecordEditor Main Screen</A></H4>
+<P><B>Note: </B>For the HSQL version, if you get a message of
+<B>DataBase Connection error: socket creation error</B> you need to start the
+Database Server.
+<P>When the Record Editor starts, it displays the
+Edit Start Screen
+<P>
+<img SRC="../Docs/Diagram/RecordEdit_Main.png">
+<PRE>
+</PRE><P>Fields on this screen are
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><P><B>Field</B>
+</TD><TD><P><B>Description</B>
+</TD></TR><TR VALIGN="TOP"><TD><P><B>File
+</B></TD><TD><P>Name of the file to edit, you can select a file by using the <B><I>Find File</I></B> button to the
+right.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Database
+</B></TD><TD><P>The system stores it's record definitions in a database. The system can also
+connect to multiple Databases. This Combo allows you which DB to use. You could have different
+Test / Production Layout DB's.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>System
+</B></TD><TD><P>The Record Layouts can be grouped into different systems. This Combo Box is
+used to select a specific System.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Record Layout
+</B></TD><TD><P>The Record Layout used to format the file. Only layouts belonging to the
+selected System (above) are displayed.
+<P><B>Note: </B>A <B>Record Layout</B> describes the format of a file, each layout consists of either
+<UL COMPACT>
+ <LI>A series of fields.
+ <LI>A serious of record (which intern consist of a series of fields).
+</UL>
+</TD></TR></TABLE>
+<P>
+<P><B>Buttons on the Screen</B>
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><P><B>Button</B>
+</TD><TD><P><B>Description</B>
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Choose File
+</B></TD><TD><P>Start the File Chooser dialogue which will navigate the File system and the user to choose a file.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Reload
+</B></TD><TD><P>Reloads System and Record Layout details from the database.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Create Layout Wizard
+</B></TD><TD><P>Start the Record Creation wizard. This wizard displays the file and lets you
+select the fields (by clicking on the first character in the field). See <A HREF="HlpRe08.htm#HDRWIZARD">"Layout Wizard"</A> for more detail.
+<P><B>Note: </B>This option is only available in the Full Editor.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Create Layout
+</B></TD><TD><P>Bring up the <B>Record Layout Creation</B> screen. See <A HREF="HlpRe09.htm#HDRLAYOUTDEF">"Record Layout Definition"</A> for more detail.
+<P><B>Note: </B>This option is only available in the Full Editor.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Edit
+</B></TD><TD><P>Edit the file.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Browse
+</B></TD><TD><P>View the file, but no changes are possible.
+</TD></TR></TABLE>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

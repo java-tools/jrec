@@ -1,0 +1,3 @@
+Record	0	9	<Tab>	0		Y	Record Header and Sub Records
+SR	RecordEditor CSV Tab - Header	Type	Record	-1	N
+SR	RecordEditor CSV Tab - Fields		*	0	Y

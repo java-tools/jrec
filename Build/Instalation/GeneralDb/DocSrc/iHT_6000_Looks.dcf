@@ -1,0 +1,40 @@
+:h1.Changing the Look and Feel or Icons
+:p.You can change the look and feel or Icons used in the :RecordEditor.
+
+:h2.Looks and Feel Tab
+:p.You can now choose from the Java builtin Look and Feels + several other
+Look and Feels (these require a seperate download). A word of warning, not all Look and Feels
+will work with the :RecordEditor. and even if they work they may slow down the editor (or at the
+very least slow down the startup), Also IU have not done thorough testing with any of Look and Feels. 
+If you want an alternative Look and Feel, I would suggest looking at
+
+:ul compact.
+.*b2h html <li><a href="http://www.jgoodies.com/freeware/looksdemo/index.html">JGoodies</a> or
+.*b2h html <li><a href="http://sourceforge.net/projects/officelnfs/">OfficeLnFs</a> for windows style look and feel.
+.*b2h html <li><a href="https://substance.dev.java.net/">Substance Look and Feel</a>
+.*b2h html <li><a href="https://liquidlnf.dev.java.net/">Liquid Look and Feel</a> (Linux KDE style Look and Feel).
+:eul.
+:note.OfficeLnFs and Substance only works on Windows and requires Java 1.5. 
+
+.pict Option_Looks.png
+
+:h2.Icon Tab
+:p.You can now choose from a variety of different icon sets or create your own.
+
+.pict Option_Icons.GIF
+
+:p.Here are some of the icons:
+
+:h5.Tango
+
+.pict iconTango.GIF
+
+:h5.Eclipse
+
+.pict iconEclipse.GIF
+
+:h5.Gnome
+
+.pict iconsGnome.GIF
+
+

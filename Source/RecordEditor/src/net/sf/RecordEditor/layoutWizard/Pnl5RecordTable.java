@@ -1,0 +1,152 @@
+/*
+ * @Author Bruce Martin
+ * Created on 8/01/2007
+ *
+ * Purpose:
+ * 2nd wizard screen where the user selects the starting
+ * position of every field in the file
+ *
+ * Changes
+ * # Version 0.61 Bruce Martin 2007/04/14
+ *   - Name changes, remove done method call
+ *   - JRecord creation changes
+ *
+ * # Version 0.61b Bruce Martin 2007/05/05
+ *  - Changes o support user selecting the default type
+ *  - Changing Column heading from "" to " " so it will be
+ *    displayed under Windows look and Feel
+ *
+ */
+package net.sf.RecordEditor.layoutWizard;
+
+
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.JEditorPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.text.JTextComponent;
+
+import net.sf.JRecord.Common.RecordException;
+import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.swing.BasePanel;
+
+/**
+ * 2nd wizard screen where the user selects the starting
+ * position of every field in the file
+ *
+ * @author Bruce Martin
+ *
+ */
+public class Pnl5RecordTable extends WizardPanel {
+
+
+    private static final int FILE_HEIGHT = 200;
+
+	public int stdLineHeight;
+
+
+    private JEditorPane tips;
+   // private JComboBox recordCombo = new JComboBox();
+    private JTextField message = new JTextField();
+    private RecordComboMgr recordMgr = new RecordComboMgr(
+    		new AbstractAction() {
+						/* (non-Javadoc)
+						 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+						 */
+						@Override
+						public void actionPerformed(ActionEvent arg0) {
+							setRecord();
+						}
+    });
+    
+    private ColumnSelector columnSelector;
+
+    /**
+     * Panel1 File Details
+     *
+     */
+    public Pnl5RecordTable(JTextComponent msg) {
+        super();
+        columnSelector = new ColumnSelector(msg);
+        
+		String formDescription
+		    = "This screen will display the first 60 lines for each Record Type. "
+		   	+ "<br>Use the Record Combo to switch between the various record layouts.<br/>"
+		    + "<br>Indicate the <i>start</i> of a <b>field</b> by clicking on the starting column"
+		    + "<br>Each succesive <b>field</b> will have alternating background color"
+	    	+ "<p>To remove a <b>field</b> click on the starting column again.";
+		tips = new JEditorPane("text/html", formDescription);
+
+		this.setHelpURL(Common.formatHelpURL(Common.HELP_WIZARD_RECORD_FIELD_DEF));
+		this.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP0,
+		        BasePanel.FULL, BasePanel.FULL,
+				new JScrollPane(tips));
+		//this.setGap(BasePanel.GAP1);
+		this.addComponent("Record", recordMgr.recordCombo);
+		
+		columnSelector.addFields(this, FILE_HEIGHT);
+//		this.addComponent("Show Hex", columnSelector.hexChk);
+//		this.setGap(BasePanel.GAP1);
+//		this.addComponent(1, 5, FILE_HEIGHT, BasePanel.GAP1,
+//		        BasePanel.FULL, BasePanel.FULL,
+//				new JScrollPane(columnSelector.fileTbl));
+
+		this.addMessage(message);
+		
+		columnSelector.addMouseListner();
+    }
+
+
+    /**
+     * @see net.sf.RecordEditor.layoutWizard.WizardPanel#getValues(net.sf.RecordEditor.LayoutWizard.Details)
+     */
+    public Details getValues() throws Exception {
+		RecordDefinition recdef;
+		Details detail = columnSelector.getCurrentDetails();
+
+		for (int i = 0; i < detail.recordDtls.size(); i++) {
+			recdef = detail.recordDtls.get(i);
+			if (! recdef.displayedFieldSelection) {
+				recordMgr.recordCombo.setSelectedIndex(i);
+				throw new RecordException("You must define the Fields all Records. Please update - " 
+						+ recdef.name);
+			}
+		}
+
+    	return detail;
+    }
+
+    /**
+     * @see net.sf.RecordEditor.layoutWizard.WizardPanel#setValues(net.sf.RecordEditor.LayoutWizard.Details)
+     */
+    public final void setValues(Details detail) throws Exception {
+
+    	if (detail.recordDtls.size() == 0) {
+    		message.setText("No Records to display");
+    	} else {
+    		RecordDefinition recDef = detail.recordDtls.get(0);
+	        columnSelector.setValues(detail, recDef, true);
+	        recDef.displayedFieldSelection = true;
+	
+	        recordMgr.load(detail.recordDtls);
+    	}
+    }
+    
+    /**
+     * Set 
+     */
+    private void setRecord() {
+    	Details detail = columnSelector.getCurrentDetails();
+    	try {
+    		RecordDefinition recDef = detail.recordDtls.get(recordMgr.recordCombo.getSelectedIndex());
+    		message.setText("");
+    		columnSelector.setValues(detail, recDef, true);
+    		recDef.displayedFieldSelection = true;
+    	} catch (Exception e) {
+    		message.setText("Error Changing Record: " + e.getMessage());
+    		e.printStackTrace();
+		}
+    }
+}

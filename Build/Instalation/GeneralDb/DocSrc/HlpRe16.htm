@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>RecordEditor Main Screen</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- /home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/HlpRe.dc -->
+<!-- f converted by B2H R4.7 (390) (LINUX) on 12 Mar 2010 at 01:56:57 -->
+<META HTTP-EQUIV="updated" CONTENT="Fri, 11 Sep 2009 12:13:14">
+<META HTTP-EQUIV="review" CONTENT="Sat, 11 Sep 2010 12:13:14">
+<META HTTP-EQUIV="expires" CONTENT="Sun, 11 Sep 2011 12:13:14">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<P><H3><A NAME="Header_35" HREF="HlpRe02.htm#ToC_35" >CSV Files</A></H3>
+<P>CSV files are supported in several ways
+<P>
+<UL>
+  <P><LI>You can define a specific layout definition for the File. This is
+needed if&#58;
+  <OL COMPACT TYPE=1>
+      <LI>The are special types of fields (i.e. Arrays where the elements are seperated by delimiters.
+      <LI>There are no field names on the first Line.
+  </OL>
+  <P><LI>There are specific Layouts (with variation of no Quotes, Single and Double quote Charactersfor
+  <OL COMPACT TYPE=1>
+    <LI>Names on the first line in the file and using <B>Comma's</B> for a field seperator.
+    <LI>Names on the first line in the file and using <B>Tab's</B> for a field seperator.
+    <LI>Names on the first line in the file and using <B>| character</B> for a field seperator.
+  </OL>
+  <P><LI>GenericCSV where the user decides the Type of CSV file at Run Time. See <A HREF="#HDRGENERICCSV">"Generic CSV Layout"</A> for details
+</UL>
+<P>
+<P><H4><A NAME="HDRGENERICCSV">Generic CSV Layout</A></H4>
+<P>
+<P>On this screen you enter the details of the CSV files
+<P>
+<img SRC="Diagram/RecordEdit_GenericCSV.png">
+<P>
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Field Seperator   </B></TD><TD><P>Character used to seperate the fields on each line
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Quote             </B></TD><TD><P>Character used to surround text fields
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Parser            </B></TD><TD><P>Line Parser used to break fields. In most cases <B>Basic Parser</B> will do.
+<B>Parser - Matching quotes</B> will break lines up by matching up all the quotes.
+<B>Parser - Quotes Based on Field Type</B> will put quotes arround all Character fields.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Fields on First Line</B></TD><TD><P>Indicates wether the first line of the file holds the field names.
+</TD></TR></TABLE>
+<P>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

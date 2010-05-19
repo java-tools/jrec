@@ -1,0 +1,410 @@
+:h1 id=LayoutEd.Layout Editor
+:p.The LayoutEdit program is used to Edit Record layouts and load Cobol Record
+layouts into the system.
+
+:p.When the Layout-Edit starts, there are two screens visible
+
+:dl.
+  :dt.Menu:dd.Program menu, it used select the various options
+  :dt.Log :dd.This is where any errors will be written
+:edl.
+
+.*b2h HTML <img SRC="Diagram/LayoutEdit_Menu.GIF">
+:p.
+:p.The options on the menu screen are
+
+.*b2h HTML <A NAME="RecordList">
+:tdef id=none.
+:tdef id=xlight shade='xlight'.
+:table cols='* 3*'.
+:thd refid=xlight.:c.Option:c.Description:ethd.
+:row refid=none.:c.Edit Record Layouts
+:c.The main part of the program. This is where you Create / Update Record Layouts. 
+See :HDref refid=REScreen. for details. 
+:row.:c.Create Record Layout
+:c.This screen lets you create new record layouts. See :hdref refid=LayoutDef. for more details.
+:row.:c.Create Record Layout Wizard
+:row.:c.Edit Table
+:c.This is where you update the Utility Table's. :note.The only Table you should update is the 
+:hp3.System:ehp3. Table.
+See :hdref refid=TEscr.
+:row.:c.Edit Combos:c.Edit/Create Combobox Lists. See :hdref refid=ComboEd. for more details.
+:row.:c.Create Combos:c.Create a new Combobox list. See :hdref refid=ComboCre. for more details.
+:row.:c.Load Cobol Copybook
+:c.This option will load a Cobol Copybook into the Database. See :HDref refid=Import. for details.
+:note.This option is only visible if the cb2xml libraries are available
+:row.:c.Load XML Copybook
+:c.This option loads XML copybooks (produced by the cb2xml package) into the Database.
+See :HDref refid=Import. for details.
+:row.:c.Upgrade
+:c.
+.*b2h HTML <A NAME="Upgrade"> 
+This option will upgrade the backend database to the latest version.
+This only needs to be run once if you upgrade (rather than reinstalling the package).
+The 2 options available are
+:ol compact.
+:li.Upgrade Database Structure (from pre 0.52 versions database structure) 
+to the latest structure (introduced in version 0.52)
+:li.Update line separator to :hp2.default:ehp2.. Version 0.52.1 alowed you to 
+specify the line separator to be used in all files (not just binary files).
+The possible separators are:
+:dl compact.
+:dt.default
+:dd.Use the computers normal (or default) line separator.
+:dt.<crlf>
+:dd.Windows style separator.
+:dt.<cr>
+:dd.Unix/Linux file separator.
+:dt.<lf>
+:dd.Macintosh line separator.
+:edl.
+
+:eol.
+:etable.
+
+.im iRE_le1100_LayoutDefinition.dcf
+
+:h2 id=REScreen.Record Edit Screen
+:p.The Record Editor looks like
+:p.
+.*b2h HTML <img SRC="Diagram/LayoutEdit_record.png">
+:p.
+:p.
+:p.This screen consists of three parts
+:p.
+
+:tdef id=xlight shade='xlight'.
+:table cols='* 8*'.
+ :thd refid=xlight.:c.Section:c.Description:ethd.
+ :row refid=none.:c.Top Left
+ :c.
+.*b2h HTML <A NAME="RecordList"> 
+This is the :hp2.Record Selection:ehp2 panel.
+This is where you enter selection options to limit what is displayed in the 
+ :hp2.Record List:ehp2.. To display all records starting with :hp2.t:ehp2.; enter :hp2.t%:ehp2. in the 
+ :hp2.Record Name:ehp2. field.
+.*b2h HTML <table><tr><td><img SRC="Diagram/LayoutEdit_RecSelection.GIF"></td></tr></table>
+ :p.
+ :row.:c.Bottom Left
+ :c.This is the :hp2.Record List:ehp2. panel
+You can select a record to be displayed by clicking on it
+.*b2h HTML <table><tr><td><img SRC="Diagram/LayoutEdit_RecordList.GIF"></td></tr></table>
+ :p.
+ :row.:c.Right
+.*b2h HTML <A NAME="RecordDtls"/>
+ :c.On the right part of the screen is Record Definition. 
+ :p.
+.*b2h HTML <img SRC="Diagram/LayoutEdit_RecordDtls.GIF">
+ 
+.im iRe_le1200_layoutPnl
+:note.See :hdref refid=LayoutDef. for more details.
+:etable.
+
+.im iRe_le1300_LayoutWizard
+
+.im iRe_le1500_ComboEdit.dcf
+.fo off
+
+
+.fo on
+
+
+:p.
+
+:h2 id=TEscr.Table Edit
+:p.The :hp3.RecordEditor / LayoutEdit:ehp3. uses a :hp2.Table-Database:ehp2. to store common
+details (like :hp2.Record-Types, Field Types:ehp2. and :hp2.Systems:ehp2.). You can use 
+the Table Editor to update the information in the :hp2.Table-Database:ehp2..
+:p.
+.*b2h HTML <table><tr><td><img SRC="Diagram/LayoutEdit_Table.png"></td></tr></table>
+:p.
+:tdef id=none.
+:table cols='* 2* 8*'.
+ :thd refid=xlight.
+   :c.Number
+   :c.Table
+   :c.Description
+ :ethd.
+ :row refid=none.
+   :c.1
+   :c.FldType
+   :c.Field Types supported. See the example manual and java example XmplType1.java on adding new Types to the editor.
+ :row.:c.2
+   :c.RecordType
+   :c.Record Types ~ do not change this table
+ :row.:c.3
+   :c.Systems
+   :c.Define your Systems. Systems allow you to divide your copybooks up into related groups
+ :row.:c.4
+   :c.FileStructure
+   :c.File Structures table. See the example manual or XmplFileStructure.Java for details on adding new file structures. 
+ :row.:c.5
+   :c.Formats
+   :c.Table Cell formats. These are used to format table cells in the Record Editor See the example manual for details
+:etable.
+
+:p.You can select a table to be updated by clicking on the Table in the list 
+on the left
+:p.The :hp2.Lines to Insert Field:ehp2. holds the lines to be inserted in the JTable at 
+the bottom of the when the :hp2.Insert:ehp2. button is pressed.
+:p.The Insert, Delete, Copy and Paste buttons all act on the Table at the bottom 
+of the screen.
+
+:tdef id=xlight shade='xlight'.
+:table cols='* 2* 8*'.
+ :thd refid=xlight.:c.Number:c.Name:c.Description:ethd.
+ :row refid=none.:c.1:c.Field Type
+ :c.Field types used in the Editor. When defining Types you must update this table.
+User defined types should be in the range 1000 --> 1050.
+ :row.:c.2:c.Record Type:c.Record types used in the editor, do not change this table
+ :row.:c.3:c.System:c.Systems or Applications, change this table in anyway you like 
+ :row.:c.4:c.File Structures:c.:blue.File Structures:eblue. used in the system. 
+I suggest if you create your own :blue.file structures:eblue. use 
+:hp2.Row Key:ehp2. > 1000.
+:p.The file structure controls which IO routines are used to read / write the file.
+See class :hp2.net.sf.RecordEditor.record.io.LineIOProvider:ehp2. 
+ :row.:c.5:c.Table Cell Formatting:c.:hp2.Table Cell formats:ehp2. are used to
+format / edit table cells. It allows checkbox / comboboxs / etc in the 
+:hp2.RecordEditor.:ehp2.
+:p.User defined formats should use :hp2.Row Key:ehp2. > 1000.
+:etable.
+
+:table cols='* 8*'.
+ :thd refid=xlight.:c.Section:c.Description:ethd.
+ :row refid=none.:c.Left
+ :c.
+.*b2h HTML <img SRC="Diagram/LayoutEdit_TableList.GIF">
+   :p.In this section you select which table to edit by clicking on it.
+ :row.:c.Top Right
+ :c.
+.*b2h HTML <img SRC="Diagram/LayoutEdit_TableDtls.GIF"> 
+   :p.In this section you update a Table Header Details
+ :row.:c.Bottom Right
+ :c.
+.*b2h HTML <img SRC="Diagram/LayoutEdit_TableRows.GIF"> 
+   :p.In this section you update a Table Row Details. The Columns are:
+:dl.
+     :dt.Row Key:dd.Table Row Key. For the Field Type / Table Type tables this value is also
+:hp2.Hard Coded:ehp2. in the program so :hp2.do not Change:ehp2..
+     :dt.Details:dd.Description, this value is displayed in various Combo Box's, you
+can change this to anything you like.
+   :edl.
+:etable.
+:p.
+:p.
+
+:h2 id=Import.Load Cobol Copybook
+:p.
+.*b2h HTML <table><tr><td><img SRC="Diagram/RecordLayout_Import.png"></td></tr></table>
+
+:p.The :hp3.Cobol:ehp3. imports Cobol Copybooks into the RecordEditor. Currently Mainframe
+and Fujitsu Cobol dialects are supported.
+
+:p.The fields on the Import screen are
+:p.
+:dl id=Import.
+ :dthd.Field
+ :ddhd.Description
+ :dt.Copybook
+ :dd.The copybook File to be imported.
+ :dt.Choose File Button
+ :dd.Display the file search screen so you can find the input file.
+ :dt.Split Copybook
+ :dd.Controls wether the copybook will be split into a Parent Record and separate Child-Records
+or stored as a single record. Options are&gml.
+ :dl compact.
+   :dt.No Split    :dd.Record is stored as a single record.
+   :dt.On Redefine :dd.Record is split into separate records on the first redefine.
+   :dt.On 01 level :dd.Record is split into separate records on 01 level records.
+ :edl.
+ :dt.Font Name
+ :dd.Font Name to use when editing this file. You would only need to enter a 
+:hp2.Font Name:ehp2. if
+you are editing a IBM Mainframe File on a PC (or editing a PC file on the mainframe).
+For UA / Canada / Australia the mainframe :hp2.Font Name:ehp2. 
+is :BBlue.CP037:EBBlue.
+ :dt.Binary Format
+ :dd.Binary Format to use (i.e. wether Cobol comp fields are converted to a PC little Endian
+or Mainframe / Java / AIX big Endian format).
+ :dt.File Structure
+ :dd.File Format or structure. It actual chooses the File reader used.
+Unless you are using Native Mainframe, Fujitsu Cobol
+or Binary files, leave it as Defult Reader.
+ :dt.System
+ :dd.System to assign the Copybook to.
+ :dt.Go Button
+ :dd.Import the file
+:edl.
+
+:p.
+:p.When the :hp2.Split Copybook on Redefine:ehp2. is set, then a copybook like
+
+.fo off
+
+        02  The-Record.
+	    03 Record-Type                    Pic X.
+	    03 Detail-Record.
+	       05 ...
+	    03 Header-Record  :hp3.redefines:ehp3.  Detail-Record.
+	       05 ...
+	    03 Footer-Record  :hp3.redefines:ehp3.  Detail-Record.
+	       05 ...
+	       
+.fo on
+:p.will be imported as
+:ul Compact.
+ :li.:hp3.The-Record:ehp3. will be a :hp2.Group Record:ehp2..
+ :li.:hp3.Detail-Record, Header-Record and Footer-Record:ehp3. are inserted as :hp2.Record-Layout:ehp2. records.
+ :li.:hp3.Detail-Record, Header-Record and Footer-Record:ehp3. are inserted as child records of The-Record
+:eul.
+ 
+:h2 id=ImportG.Load Copybook Choose Format
+:p.In the :hp2.Load Copybook Choose Format:ehp2. You can select from a variety of
+Copybook Formats. 
+
+.*b2h HTML <A name="#CopyBookType">Copybook formats available include</a>:
+:dl.
+ :dt.cb2xml XML Copybook :dd.This is basically Cobol converted to XML. It is produced by the cb2xml package.
+ :dt.Cobol:dd.Cobol Copybook source code.
+ :dt.XML:dd.This option reads a XML file and creates a copybook for viewing / editing
+similar XML files
+ :dt.DB Csv Extract:dd.Primary an extract from a DB2. It allows you to view / edit
+Delimitered extracts from DB2. See :hdref refid=DBCSV. for more details.
+ :dt.Comma CSV
+ :dd.A description of a Comma Delimitered CSV file with Field names on a single line
+seperated by Commas.
+ :dt.Tab CSV
+ :dd.A description of a Tab Delimitered CSV file with Field names on a single line
+seperated by Tabs.
+ :dt.RecordEditor CSV Copybook:dd.Both Comma and Tab Delimitered formats supported.
+This is a CSV file produced by the :hdref refid=CpyLayout. option of the LayoutEditor.
+.br
+It is basically Field&gml. Position, Length, Name, Description, Field Type, Decimal,
+the same as in the 
+.*b2h HTML <A href="#RecordDtls">Record Definition</a> screen.
+see :hdref refid=ReCsv. for more details.
+:edl.
+
+:p.
+.*b2h HTML <table><tr><td><img SRC="Diagram/RecordLayout_ImportChoice.png"></td></tr></table>
+
+
+:p.The fields on the Import screen are
+:p.
+:dl id=Import.
+ :dthd.Field
+ :ddhd.Description
+ :dt.Copybook Type
+ :dd.The
+.*b2h HTML <A href="#CopyBookType">Type of Copybook</a>.
+ :dt.Copybook
+ :dd.The copybook File to be imported.
+ :dt.Choose File Button
+ :dd.Display the file search screen so you can find the input file.
+ :dt.Split Copybook
+ :dd.Controls wether the copybook will be split into a Parent Record and separate Child-Records
+or stored as a single record. Options are:
+ :dl compact.
+   :dt.No Split    :dd.Record is stored as a single record.
+   :dt.On Redefine :dd.Record is split into separate records on the first redefine.
+   :dt.On 01 level :dd.Record is split into separate records on 01 level records.
+ :edl.
+ :dt.Font Name
+ :dd.Font Name to use when editing this file. You would only need to enter a 
+:hp2.Font Name:ehp2. if
+you are editing a IBM Mainframe File on a PC (or editing a PC file on the mainframe).
+For UA / Canada / Australia the mainframe :hp2.Font Name:ehp2. 
+is :BBlue.CP037:EBBlue.
+ :dt.Binary Format
+ :dd.Binary Format to use (i.e. wether Cobol comp fields are converted to a PC little Endian
+or Mainframe / Java / AIX big Endian format).
+ :dt.File Structure
+ :dd.File Format or structure. It actual chooses the File reader used.
+Unless you are using Native Mainframe, Fujitsu Cobol
+or Binary files, leave it as Defult Reader.
+ :dt.System
+ :dd.System to assign the Copybook to.
+ :dt.Go Button
+ :dd.Import the file
+:edl.
+
+:h2 id=CpyLayout.Copy Copybooks
+:p.This option is used to copy Copybooks (RecordLayouts):
+:ol.
+ :li.From one Database to an other (if you have more than on Database defined).
+ :li.To a file in the RecordEditor CSV format. This file can be loaded back into
+the record Editor via the LayoutEditor :hdref refid=ImportG. option.
+ :li.To a file using a Velocity Template (
+.*b2h HTML  See <a href=HowTo.htm#HDRVELOCITY>Installing Velocity</a>).
+There is one supplied template to print a RecordLayout as HTML
+:eol.
+
+:p.In the example below, All layout starting with :hp2.ams shp Upload:ehp2. will copied
+to files in the directory :hp2.C:\Program Files\RecordEdit\MSaccess\CopyBook\csv\:ehp2.
+
+.pict LayoutEdit_Copy.JPG
+
+:p.The Screen consists of 2 Panels:
+:dl.
+ :dt.Source
+ :dd.On the left is the Source Panel where you specify Copybooks to be 
+copied. You select the Source DB and specify the copybook(s); you can use % 
+as a wild card.
+ :dt.Destination
+ :dd.In the right hand panel you specify the destination. The fields are
+  :dl.
+   :dt.Database
+   :dd.Destination Database or File or Velocity. :Note.Velocity needs to be downloaded seperately.
+.*B2H HTML See <a href=HowTo.htm#HDRVELOCITY>Installing Velocity</a> for details.   
+   :dt.Output Format
+   :dd.For Output File format. It is only available when :hp2.Database:ehp2.=File.
+   :dt.Output Directory
+   :dd.The output directory when  :hp2.Database:ehp2.= File or Velocity .
+   :dt.Extension
+   :dd.The File Extension for writing Velocity based output.
+   :dt.Velocity Template
+   :dd.The Velocity Template to format the Copybook with.
+  :edl.
+:edl.
+
+:h2 id=DBCSV.DB CSV Copybook format
+:p.The DB Format is for viewing / editing DB2-UDB delimited table exports files. A file 
+can be created with the following SQL&gml.
+.*b2h HTML <PRE><SPAN CLASS="gutter">   1:</SPAN>EXPORT <SPAN CLASS="syntax8">TO</SPAN> <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">C:\Bruce\RecordEditor\Db2Fields.txt</SPAN><SPAN CLASS="syntax13">&quot;</SPAN> <SPAN CLASS="syntax8">OF</SPAN> DEL MESSAGES <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">C:\export.txt</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>
+.*b2h HTML <SPAN CLASS="gutter">   2:</SPAN><SPAN CLASS="syntax8">SELECT</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">DB_DVMT_</SPAN><SPAN CLASS="syntax13">'</SPAN> <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> c.TABSCHEMA, c.TABNAME, c.COLNAME, c.COLNO, c.TYPENAME, c.LENGTH, c.SCALE
+.*b2h HTML <SPAN CLASS="gutter">   3:</SPAN>  <SPAN CLASS="syntax8">FROM</SPAN> SYSCAT.COLUMNS <SPAN CLASS="syntax8">AS</SPAN> c
+.*b2h HTML <SPAN CLASS="gutter">   4:</SPAN> <SPAN CLASS="syntax8">where</SPAN> c.TABSCHEMA <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">ETB</SPAN><SPAN CLASS="syntax13">'</SPAN>
+.*b2h HTML <SPAN CLASS="gutterH">   5:</SPAN> <SPAN CLASS="syntax8">ORDER</SPAN> <SPAN CLASS="syntax8">BY</SPAN> c.TABSCHEMA <SPAN CLASS="syntax8">ASC</SPAN>, c.TABNAME <SPAN CLASS="syntax8">ASC</SPAN>, c.COLNO <SPAN CLASS="syntax8">ASC</SPAN>
+.*b2h HTML <SPAN CLASS="gutter">   6:</SPAN>
+.*b2h HTML </PRE>
+
+:p.Or alternatively the following SQL will generate SQL to create a 
+copybook files for each table.
+
+.*b2h HTML <PRE><SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax8">SELECT</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">EXPORT</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">TO</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">&quot;C:\Data\RecordEditor\CsvCopybooks\</SPAN><SPAN CLASS="syntax13">'</SPAN>  <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> TabName <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">.Csv&quot;</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">OF</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">DEL</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">MESSAGES</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">&quot;C:\export.txt&quot;</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">'</SPAN>
+.*b2h HTML <SPAN CLASS="gutter">   2:</SPAN>    <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">SELECT</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">DB_DVMT_</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">||</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.TABSCHEMA,</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.TABNAME,</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.COLNAME,</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.COLNO,</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.TYPENAME,</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.LENGTH,</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.SCALE</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">'</SPAN>
+.*b2h HTML <SPAN CLASS="gutter">   3:</SPAN>    <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN>  <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">FROM</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">SYSCAT.COLUMNS</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">AS</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">'</SPAN>
+.*b2h HTML <SPAN CLASS="gutter">   4:</SPAN>    <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">where</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.TABSCHEMA</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">=</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN> <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> TABSCHEMA <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">and</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.TABNAME</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">=</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN> <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> TabName <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">'</SPAN>
+.*b2h HTML <SPAN CLASS="gutterH">   5:</SPAN>    <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">ORDER</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">BY</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.TABNAME</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">ASC,</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.COLNO</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">ASC;</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">'</SPAN>
+.*b2h HTML <SPAN CLASS="gutter">   6:</SPAN><SPAN CLASS="syntax8">FROM</SPAN> SYSCAT.TABLES <SPAN CLASS="syntax8">where</SPAN> TABSCHEMA <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">ETB</SPAN><SPAN CLASS="syntax13">'</SPAN>;;
+.*b2h HTML <SPAN CLASS="gutter">   7:</SPAN>
+.*b2h HTML <SPAN CLASS="gutter">   8:</SPAN>
+.*b2h HTML </PRE>
+
+:h2 id=ReCsv.RecordEditor CSV Copybook Format
+:p.The :hp2.Record Editor:ehp2. is a Copybook Transfer format. You can create files
+in this format via the :hdref refid=CpyLayout.. You can also :hp2.cut:ehp2. from the 
+:hp2.RecordLayout:ehp2. editor and paste into a normal Text Editor.
+:p.The format of the file is basically
+:ol compact.
+ :li.Position
+ :li.Field Length
+ :li.Field Name
+ :li.Description
+ :li.Field Type
+ :li.Decimal - number of decimal places
+ :li.Cell Format
+ :li.Parameter
+:eol.
+
+

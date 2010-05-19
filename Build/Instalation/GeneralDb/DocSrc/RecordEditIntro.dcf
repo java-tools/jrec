@@ -1,0 +1,142 @@
+:h2.Record Editor
+.**B2H SYMBOL :TAG.  Pnl IT=N VAT=N ATT=Y SE=N V='.fo off'
+.**B2H SYMBOL :TAG.  ePnl IT=N VAT=N ATT=Y SE=N V='.fo on'
+
+.*B2H SYMBOL :TAG.  Pnl IT=N VAT=N ATT=Y SE=N V='<Table border="3" cellpadding="7" cellspacing="3"><tr><TD BGCOLOR="#000000"><FONT COLOR="#00ff00"><pre>'
+.*B2H SYMBOL :TAG.  ePnl IT=N VAT=N ATT=Y SE=N V='</pre></font></td></tr></pre></table>'
+
+.*B2H SYMBOL :TAG.  Yellow IT=N VAT=N ATT=Y SE=N V='<FONT COLOR=Yellow>'
+.*B2H SYMBOL :TAG.  EYellow IT=N VAT=N ATT=Y SE=N V='</FONT>'
+.*B2H SYMBOL :TAG.  Cyan IT=N VAT=N ATT=Y SE=N V='<FONT COLOR=Cyan>'
+.*B2H SYMBOL :TAG.  ECyan IT=N VAT=N ATT=Y SE=N V='</FONT>'
+.*B2H SYMBOL :TAG.  DCyan IT=N VAT=N ATT=Y SE=N V='<FONT COLOR="#33CCCC">'
+.*B2H SYMBOL :TAG.  EDCyan IT=N VAT=N ATT=Y SE=N V='</FONT>'
+.*B2H SYMBOL :TAG.  Red IT=N VAT=N ATT=Y SE=N V='<FONT COLOR=Red>'
+.*B2H SYMBOL :TAG.  ERed IT=N VAT=N ATT=Y SE=N V='</FONT>'
+
+.*B2H SYMBOL :TAG.  White IT=N VAT=N ATT=Y SE=N V='<FONT COLOR=White>'
+.*B2H SYMBOL :TAG.  EWhite IT=N VAT=N ATT=Y SE=N V='</FONT>'
+
+
+.*B2H SYMBOL :TAG.  Green IT=N VAT=N ATT=Y SE=N V='<FONT COLOR=#00ff00>'
+.*B2H SYMBOL :TAG.  EGreen IT=N VAT=N ATT=Y SE=N V='</FONT>'
+.im iRE_TagDefs.dcf
+.im iRE_Intro
+
+:h3.Program Summary
+:dl.
+ :dt.Language:dd.Java 1.5
+ :dt.Author  :dd.Bruce Martin
+ :dt.Requirements:dd.Java 1.5 run time
+ :dt.Testing:dd.Windows XP;Linux (Fedora 8)
+:edl.
+
+:rlink.
+.dm example on
+  :ol compact.
+    :li.Adding new Types
+.*b2h html (see <a href="xmple05.htm#HDRTYPE" target="new">Type Example</a>)           
+    :li.Reading Record Orientated files using the Standard RecordEditor Layouts and Cobol Copybooks.
+.*b2h html (see <a href="xmple03.htm#HDRXLIO1" target="new">File IO Example</a>) 
+    :li.Interfacing to 
+.*b2h HTML <a href="http://jakarta.apache.org/velocity/">Velocity</a>.  See also <a href="xmple04.htm#HDRVELOCITY" target="new">Velocity Example</a>
+    :li.Running directly from Cobol Copybooks
+.*b2h html (see <a href="xmple06.htm#HDRCOPYBOOK" target="new">Cobol Copybook Example</a>)           
+  :eol.
+.dm off
+
+
+:h2.Features
+.im iRE_Features.dcf
+
+:rlink.
+
+:h2.Binary and Mainframe files
+:p.In jEdit a binary file like a 4680/4690-Register price change file looks like
+
+.*b2h HTML <img SRC="Diagram/RecordEdit_jEdit.png">
+
+.pa
+
+:h4 id=bintbl.Table View - Binary file
+:p.While in the RecordEditor Table-View, binary fields are converted to there text equivalent. It looks like
+
+
+.*b2h HTML <img SRC="Diagram/RecordEdit_Table.png">
+
+.fo off
+
+
+.fo on
+
+
+.im iRE_BinFileRecord.dcf
+
+
+:h4.Mainframe
+.im iRE_Web_MainframeScreens.dcf
+
+:rlink.
+
+.pa
+
+
+:h2.Viewing Text File
+.im iRE_TextFile.dcf
+:rlink.
+
+
+:h2.Download Versions
+.im iRE_Versions.dcf
+
+:rlink.
+
+:h2.Linux
+.im iRE_Linux.dcf
+:rlink.
+
+:h2.Filter
+
+.im iRe_re025_Filter.dcf
+.im iRE_Hints1.dcf
+
+:rlink.
+
+:h2.Changes
+.*:h4.Future Releases
+.*:p.In the next Release I hope to add
+.*:ul compact.
+.*:li.Full support for Comma (CSV) / Tab separated fields in files.
+.*:li.Improved Find / Replace functionality
+.*:eul.
+.*
+
+.im iRE_VersionHistory.dcf
+
+:rlink.
+
+:h2.Documentation
+:p.The following online documentation is also provided for your use&gml.
+
+:ul.
+  :li.:javadoc. ~ Interface javadocs'.
+  :li.:example. ~ Examples of using the RecordEditor from java programs.
+  :li.:re2jasper. ~ Description of the Jasper Datasource for Fixed field width files
+(including Mainframe Cobol).
+:eul.
+
+:rlink.
+
+.pa
+:h2.Useful Applications
+.im iRE_Related.dcf
+.** :p.All these systems are available on WWW.SourceForge.net.
+.** :ul compact.
+.** *b2h HTML <li><a href="http://cb2xml.sourceforge.net">cb2xml</a> Converts Cobol / Cobol Files to XML. 
+.**It is written in JAVA. I have used it to import Cobol Record Layouts. 
+.** *b2h HTML <li><a href="http://txt2xml-rexx.sourceforge.net">Txt2XML</a> Converts Cobol Files to XML. It is written in Rexx. 
+.** *b2h HTML <li><a href="http://squirrelsql.org">SQuireL</a> A good basic SQL Client
+.** *b2h HTML <li><a href="http://hsqldb.sourceforge.net/">HSQLDB</a> A SQL Database
+.**:eul.
+
+:rlink.

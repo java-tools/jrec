@@ -1,0 +1,9 @@
+Record	0	1	<Tab>	0	
+1	1	Rec Type		0	0	0	
+2	6	Event Id		0	0	0	
+8	30	Description		0	0	0	
+38	5	Date Time Due		11	0	0	
+43	1	Options		0	0	0	
+44	1	Price Type		0	0	0	
+45	3	Mark Down		11	0	0	
+48	2	eor		0	0	0	

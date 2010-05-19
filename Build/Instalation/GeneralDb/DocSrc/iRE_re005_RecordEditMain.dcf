@@ -1,0 +1,51 @@
+:p.When the Record Editor starts, it displays the 
+Edit Start Screen
+
+.*b2h HTML <img SRC="../Docs/Diagram/RecordEdit_Main.png">
+.fo off
+
+.fo on
+:p.Fields on this screen are
+:dl.
+:dthd.Field
+:ddhd.Description
+:dt.File
+:dd.Name of the file to edit, you can select a file by using the :hp3.Find File:ehp3. button to the
+right.
+:dt.Database
+:dd.The system stores it's record definitions in a database. The system can also 
+connect to multiple Databases. This Combo allows you which DB to use. You could have different 
+Test / Production Layout DB's. 
+:dt.System
+:dd.The Record Layouts can be grouped into different systems. This Combo Box is 
+used to select a specific System. 
+:dt.Record Layout
+:dd.The Record Layout used to format the file. Only layouts belonging to the
+selected System (above) are displayed.
+:note.A :hp2.Record Layout:ehp2. describes the format of a file, each layout consists of either
+:ul compact.
+ :li.A series of fields.
+ :li.A serious of record (which intern consist of a series of fields).
+:eul.
+:edl.
+:p.
+:p.:hp2.Buttons on the Screen:ehp2.
+:dl.
+:dthd.Button
+:ddhd.Description
+:dt.Choose File
+:dd.Start the File Chooser dialogue which will navigate the File system and the user to choose a file. 
+:dt.Reload
+:dd.Reloads System and Record Layout details from the database.
+:dt.Create Layout Wizard
+:dd.Start the Record Creation wizard. This wizard displays the file and lets you 
+select the fields (by clicking on the first character in the field). See :hdref refid=Wizard. for more detail.
+:note.This option is only available in the Full Editor.
+:dt.Create Layout
+:dd.Bring up the :hp2.Record Layout Creation:ehp2. screen. See :hdref refid=LayoutDef. for more detail.
+:note.This option is only available in the Full Editor.
+:dt.Edit
+:dd.Edit the file.
+:dt.Browse
+:dd.View the file, but no changes are possible.
+:edl.

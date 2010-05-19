@@ -1,0 +1,15 @@
+:h3.Field Tree
+:p.A field Tree is like the Sort Tree (except there is no sort). It will group
+records with the same field values together as a Tree.
+
+.pict RecordEdit_FieldTreeDef1.GIF
+
+:p.The Screen consists of
+:ul compact.
+ :li.:hp2.Record Selection:ehp2. at the top, Typically you would only use a field Tree when
+there is only one record Type present.
+ :li.:hp2.Field:ehp2. fields to group by.
+ :li.:hp2.Use:ehp2. Wether to build the Tree on the whole file or just the Selected records.
+ :li.:hp2.Build Tree:ehp2. button - used to start the Build Tree process. 
+:eul.
+

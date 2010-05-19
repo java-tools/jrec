@@ -1,0 +1,13 @@
+
+:p.After moving from the Mainframe to Unix team, I really missed Mainframe 
+editors/tools (like File-Aid).
+So I decided write my own version of FileAid.
+:p.Also the record layouts where stored in a mixture of
+:ol compact.
+:li.Word Documents
+:li.Excel Spreadsheets
+:li.Cobol Layouts
+:eol.
+So I consolidated them into a Access Databse
+
+

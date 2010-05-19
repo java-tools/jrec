@@ -1,0 +1,23 @@
+:h1.Lib Directory
+:p.This directory holds all Jar files, sample bat/rexx programs to execute 
+jars and Sample JDBC properties files (Util Directory).
+:p.
+:p.Files in the directory
+:p.
+:table cols='* 4*'
+:row.:c.AddProperties2Jar.bat:c.Adds the JDBC properties file (in the util sub directory)   
+:row.:c.AddProperties2Jar.rexx:c.Adds the JDBC properties file (in the util sub directory)                
+:row.:c.cb2xml.jar:c.Cobol to XML conversion program (from the cb2xml project) 
+:row.:c.LayoutEdit.ico:c.Icon for the Layout editor
+:row.:c.LayoutEdit.jar:c.Layout editor
+:row.:c.RecordEdit.Ico:c.Icon for the Record editor             
+:row.:c.RecordEdit.jar:c.Record editor                               
+:row.:c.runLayoutEdit.rexx:c.Sample Rexx program to run Record-Layout editor 
+:row.:c.runRecordEdit.bat:c.Sample bat program to run Record-Editor           
+:row.:c.runRecordEdit.rexx:c.Sample Rexx program to run Record-Editor
+:row.:c.runRecordLayout.bat:c.Sample bat program to run Record-Layout editor
+:row.:c.utils:c.Directory holding sample JDBC properties file.           
+:table.
+
+
+

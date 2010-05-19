@@ -1,0 +1,23 @@
+.*B2H SYMBOL :tag.  Blue  IT=N VAT=N ATT=N SE=Y V='<font color="blue">'
+.*B2H SYMBOL :tag. EBlue  IT=N VAT=N ATT=N SE=Y V='</font>'
+:p.:hp2.Warning:ehp2. The :hp2.RecordEditor:ehp2. Instillation program
+will install a HSQLDB server into your Windows :hp2.start-up:ehp2.
+directory (so the DB server will start automatically when you Start Windows). 
+It is perfectly safe to remove HSQLDB Database server from the Windows Start up directory. 
+But to use the RecordEditor, you will need to start the server manually.
+
+:p.This version uses the Open Source Database - HSQLDB as its backend Database. To use the system, the 
+Database Server must be started (should happen automatically on Windows version
+when you start Windows). If the Database is not started you will get an error message like
+.fo off
+
+:hp2.DataBase Connection error&colon. socket creation error:ehp2.
+
+.fo on
+
+:p.You may find it useful to have a SQL client. If so the connection details are
+:dl compact.
+:dt.Driver:dd.:blue.&amp.Install_Directory:eblue.\lib\hsqldbmain.jar
+:dt.URL (Connection String):dd.jdbc&colon.hsqldb&colon.hsql&colon.//localhost/recordedit
+:edl.
+

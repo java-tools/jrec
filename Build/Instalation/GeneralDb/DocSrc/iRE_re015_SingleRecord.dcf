@@ -1,0 +1,24 @@
+.im iRE_BinFileRecord.dcf
+
+:p.The top of the Record screen is basically the same as those on the 
+:hdref refid=bintbl. screen. At the bottom of the screen is the
+
+:table cols='* 2* 2*'.
+:row.:c.Movement Buttons:c.
+.*b2h HTML <img SRC="Diagram/RecordEdit_Movement.GIF">
+:c.At the bottom of the screen, is the various record movement buttons:
+:ul compact.
+:li.First record
+:li.Previous Record
+:li.Next Record
+:li.Last Record
+:eul.
+:etable.
+
+:note.Only changes in the data column are accepted by the system.
+.fo off
+
+
+.fo on
+:p.
+

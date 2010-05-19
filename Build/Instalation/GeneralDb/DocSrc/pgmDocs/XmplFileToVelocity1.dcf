@@ -1,0 +1,29 @@
+:i1.XmplFileToVelocity1
+:i2 refid=example.XmplFileToVelocity1
+:i2 refid=velocity.XmplFileToVelocity1
+
+.*b2h html <PRE><SPAN CLASS="gutter">   1:</SPAN>
+.*b2h html <SPAN CLASS="gutter">   2:</SPAN>        FileToVelocity fileToVelocity <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">FileToVelocity</SPAN>(
+.*b2h html <SPAN CLASS="gutter">   3:</SPAN>                          Constants.SOURCE_RESOURCE,
+.*b2h html <SPAN CLASS="gutter">   4:</SPAN>                          Constants.VELOCITY_OUTPUT_DIR);
+.*b2h html <SPAN CLASS="gutterH">   5:</SPAN>
+.*b2h html <SPAN CLASS="gutter">   6:</SPAN>        EdiPo.<SPAN CLASS="syntax6">setCopyBook</SPAN>(copybookInterace);
+.*b2h html <SPAN CLASS="gutter">   7:</SPAN>    
+.*b2h html <SPAN CLASS="gutter">   8:</SPAN>        <SPAN CLASS="syntax10">int</SPAN>[] useEdiPO   <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax18">{</SPAN>EdiPo.<SPAN CLASS="syntax6">getIvr0075hIndex</SPAN>()<SPAN CLASS="syntax18">}</SPAN>;
+.*b2h html <SPAN CLASS="gutter">   9:</SPAN>
+.*b2h html <SPAN CLASS="gutterH">  10:</SPAN>        FilenameFilter filter <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">FilenameFilter</SPAN>() <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter">  11:</SPAN>            <SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax10">boolean</SPAN> <SPAN CLASS="syntax6">accept</SPAN>(File f, String filename) <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter">  12:</SPAN>                <SPAN CLASS="syntax8">return</SPAN> filename.<SPAN CLASS="syntax6">startsWith</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">tgtorders</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>);
+.*b2h html <SPAN CLASS="gutter">  13:</SPAN>            <SPAN CLASS="syntax18">}</SPAN>
+.*b2h html <SPAN CLASS="gutter">  14:</SPAN>        <SPAN CLASS="syntax18">}</SPAN>;
+.*b2h html <SPAN CLASS="gutterH">  15:</SPAN>
+.*b2h html <SPAN CLASS="gutter">  16:</SPAN>        fileToVelocity.<SPAN CLASS="syntax6">processDirectory</SPAN>(
+.*b2h html <SPAN CLASS="gutter">  17:</SPAN>                copybookInterace.<SPAN CLASS="syntax6">getLayout</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">EDI</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">PO</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>),
+.*b2h html <SPAN CLASS="gutter">  18:</SPAN>                <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">EdiPoProvider</SPAN>(),
+.*b2h html <SPAN CLASS="gutter">  19:</SPAN>                useEdiPO,
+.*b2h html <SPAN CLASS="gutterH">  20:</SPAN>                backupDir <SPAN CLASS="syntax18">+</SPAN> <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">edi\\</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>,
+.*b2h html <SPAN CLASS="gutter">  21:</SPAN>                filter,
+.*b2h html <SPAN CLASS="gutter">  22:</SPAN>                <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">EdiPoHtml</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>,
+.*b2h html <SPAN CLASS="gutter">  23:</SPAN>                <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">c:/t/EdiPO.html</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>);
+.*b2h html <SPAN CLASS="gutter">  24:</SPAN>
+.*b2h html </PRE>

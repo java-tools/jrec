@@ -1,0 +1,27 @@
+<copybook filename="SAR4180A.txt">
+<!--*****************************************************************-->
+<!--* SAR4180A FORMATTED SALES & STOCK INFO INTO EDI RECORD LAYOUT  *-->
+<!--* MEMBER IN COPYBOOK LIBRARY PT99.BASE0.COP   NOTE: ID = HDR    *-->
+<!--* CREATED 20/12/94  S GHARIOS.                                  *-->
+<!--*                                                               *-->
+<!--* TOTAL RECORD LENGTH 34                                        *-->
+<!--*****************************************************************-->
+<!--*=========+========+==================================+=========*-->
+<!--* VERSION | DATE   | DESCRIPTION                      |   AUTHOR*-->
+<!--*=========+========+==================================+=========*-->
+<!--* V02     |22/06/2K|SMS-PROJECT: INSCREASED THE LENGTH| VIJAY   *-->
+<!--*         |        |OF THE FIELD "SUPPLIER" FROM 9(8) |SHANBHAG *-->
+<!--*         |        | TO 9(10).                        |         *-->
+<!--*=========+========+==================================+=========*-->
+	<item level="03" name="R4180A-HEADER-RECORD" position="1" display-length="34">
+		<item level="05" name="R4180A-HEADER-ID" picture="X(03)" display-length="3" position="1"/>
+		<!--** V02 START.-->
+		<!--****     05  R4180A-SUPPLIER           PIC 9(08).-->
+		<item level="05" name="R4180A-SUPPLIER" picture="9(10)" display-length="10" numeric="true" position="4"/>
+		<!--** V02 START.-->
+		<item level="05" name="R4180A-DEPARTMENT-NO" picture="9(04)" display-length="4" numeric="true" position="14"/>
+		<item level="05" name="R4180A-DATE-FROM" picture="X(08)" display-length="8" position="18"/>
+		<item level="05" name="R4180A-DATE-TO" picture="X(08)" display-length="8" position="26"/>aaaa
+		<item level="05" name="R4180A-LEVEL-IND" picture="X" display-length="1" position="34"/>bbbb
+	</item>
+</copybook>

@@ -1,0 +1,26 @@
+:h3.Popup Menu
+:p.Both the :hp2.Table File View:ehp2. and :hp2.Record File View:ehp2. have a popup menu's (right 
+click button on Windows) for running record (ie line oriented) commands.
+
+:table COLS='*'.:row.:c.
+.pict RecordEdit_Popup.GIF
+:etable.
+:p.
+:p.Options include:
+:dl.
+ :dt.Copy Record(s):dd.Copy one or more records to the :hp2.RecordEditor:ehp2.'s internal clipboard.
+ :dt.Cut Record(s):dd.Cut one or more records to the :hp2.RecordEditor:ehp2.'s internal clipboard.
+ :dt.Paste Record(s):dd.Paste records held in the :hp2.RecordEditor:ehp2.'s internal clipboard after the current record.
+ :dt.Paste Record(s) Prior:dd.Paste records held in the :hp2.RecordEditor:ehp2.'s internal clipboard before the current record.
+ :dt.Insert Record:dd.Insert a record after the current record.
+ :dt.Delete Record(s):dd.Delete highlighted records (or the record being updated in record view).
+ :dt.Find:dd.Start search dialogue. See :hdref refid=Find. for more details.
+ :dt.Filter:dd.Create a filtered view of the file. See :hdref refid=filter. for more details.
+ :dt.Save As:dd.Saves the selected records to the file in a variety of formats. See :hdref refid=SaveAs. for more details.
+ :dt.Edit Record:dd.Edit the record under the cursor in the Single Record Screen. See :hdref refid=BINRECORD. for more details.
+ :dt.Fix Column:dd.Move the column to the left of screen and stop it scrolling off the screen when you scroll right or left.
+ :dt.Autofit Columns:dd.Adjust column sizes based on the data being displayed.
+:edl.
+  
+:p.The right click button will :hp1.Fix:ehp1. a column so it will not scroll of the screen
+when you scroll left or right.

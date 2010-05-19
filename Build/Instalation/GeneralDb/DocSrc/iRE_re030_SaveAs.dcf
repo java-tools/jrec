@@ -1,0 +1,82 @@
+:h3 id=SaveAs.Save AS / Export
+:p.The :hp2.Save As:ehp2. screen allows you to save
+:ul compact.
+  :li.The whole File
+  :li.Or the current View
+  :li.Or Selected records
+:eul.
+As a
+:ul compact.
+  :li.Standard Data File
+  :li.Or a HTML file containing the selected records as a single large Table
+  :li.Or a HTML file with one HTML table per record with the fields going down the page. 
+  :li.Or using a :Velocity. template (provided :Velocity. is installed, see
+.*b2h HTML <a href="HowTo.htm#HDRVELOCITY" Target=New>Installing Velocity for details</a>).
+:eul.
+:p.Save as Screen:
+:p.
+.*b2h HTML <img SRC="Diagram/RecordEdit_SaveAs.GIF">
+:p.
+:tdef id=xlight shade='xlight'.
+
+:table  cols='* 8*'.
+:thd refid=xlight.:c.Field:c.Description:ethd.
+:row refid=none.:c.:hp2.File Name:ehp2.:c.Holds the output file name.
+:row.:c.:hp2.What to Save:ehp2.:c.Determines what is saved. Options are
+:dl.
+ :dt.File:dd.save the full file
+ :dt.Current View:dd.Saves the current view of the file.
+ :dt.Selected Records:dd.Saves the selected records (or the current record if
+called from the :hp2.Record Screen:ehp2., see :hdref refid=binrecord.).
+:edl.
+:note.Only options that are available are displayed, so if there are no selected records,
+the option is not displayed.
+:row.:c.:hp2.Output Format:ehp2.:c.Holds the output Format to be used. Options are:
+:p.
+:dl.
+:dt.Data:dd.Saves the file as a :hp2.Data file:ehp2. (i.e. the same format as the input file).
+:dt.HTML: 1 table:dd.Saves the file as single HTML table as below
+
+.*b2h HTML <table BORDER="1" CELLSPACING="1"><tr><th>Line</th><th>1 : 2<br/>Record Type</th><th>3 : 9<br/>Pack Qty</th><th>12 : 13<br/>Pack Cost</th><th>25 : 13<br/>APN</th><th>39 : 8<br/>Product</th><th>101 : 50<br/>Product Name</th></tr>
+.*b2h HTML <tr><td>1</td><td>H1</td><td>45349.0000</td><td>6060286225</td><td>40909</td><td>0</td><td>&nbsp;</td></tr>
+.*b2h HTML <tr><td>2</td><td>D1</td><td>7.0000</td><td>0.0002</td><td>2222500000000</td><td>43314531</td><td> DONKEY 24-006607 SHWL WRAP CARD                  </td></tr>
+.*b2h HTML <tr><td>3</td><td>D1</td><td>4.0000</td><td>148.3200</td><td>0</td><td>5614944</td><td> MILK 24-006607 SHWL WRAP CARD                    </td></tr>
+.*b2h HTML </table>
+
+:dt.HTML: 1 Row Per Table:dd.Saves the file as single HTML table as below
+
+.*b2h HTML <b>Record 1</b></p><table BORDER="1" CELLSPACING="1"><tr><th>Field</th><th>Start</th><th>Len</th><th>Data</th><th>Text</th></tr>
+.*b2h HTML <tr><td>Record Type</td><td>1</td><td>2</td><td>H1</td><td>H1</td></tr>
+.*b2h HTML <tr><td>Vendor</td><td>3</td><td>5</td><td>6060</td><td>0000006060</td></tr>
+
+.*b2h HTML <tr><td>PO</td><td>8</td><td>10</td><td>286225</td><td>286225      </td></tr>
+.*b2h HTML <tr><td>Entry Date</td><td>18</td><td>12</td><td>040909</td><td>040909</td></tr>
+.*b2h HTML <tr><td>Expected Receipt Date</td><td>30</td><td>6</td><td>050102</td><td>050102</td></tr>
+
+.*b2h HTML <tr><td>Cancel by date</td><td>36</td><td>8</td><td>050107</td><td>050107</td></tr>
+.*b2h HTML <tr><td>Department Name</td><td>44</td><td>2</td><td>LADIES KNI</td><td>LADIES KNI</td></tr>
+.*b2h HTML </table><P>&nbsp;</P><p><b>Record 2</b></p><table BORDER="1" CELLSPACING="1"><tr><th>Field</th><th>Start</th><th>Len</th><th>Data</th><th>Text</th></tr>
+
+.*b2h HTML <tr><td>Record Type</td><td>1</td><td>2</td><td>D1</td><td>D1</td></tr>
+.*b2h HTML <tr><td>Pack Qty</td><td>3</td><td>9</td><td>7.0000</td><td>000070000</td></tr>
+.*b2h HTML <tr><td>Pack Cost</td><td>12</td><td>13</td><td>0.0002</td><td>0000000000002</td></tr>
+
+.*b2h HTML <tr><td>APN</td><td>25</td><td>13</td><td>2222500000000</td><td>2222500000000</td></tr>
+.*b2h HTML <tr><td>Product</td><td>38</td><td>1</td><td>43314531</td><td>43314531</td></tr>
+.*b2h HTML <tr><td>Product Name</td><td>39</td><td>8</td><td> DONKEY 24-006607 SHWL WRAP CARD                  </td><td> DONKEY 24-006607 SHWL WRAP CARD                  </td></tr>
+
+.*b2h HTML </table><P>&nbsp;</P><p><b>Record 3</b></p><table BORDER="1" CELLSPACING="1"><tr><th>Field</th><th>Start</th><th>Len</th><th>Data</th><th>Text</th></tr>
+.*b2h HTML <tr><td>Record Type</td><td>1</td><td>2</td><td>D1</td><td>D1</td></tr>
+.*b2h HTML <tr><td>Pack Qty</td><td>3</td><td>9</td><td>4.0000</td><td>000040000</td></tr>
+
+.*b2h HTML <tr><td>Pack Cost</td><td>12</td><td>13</td><td>148.3200</td><td>0000001483200</td></tr>
+.*b2h HTML <tr><td>APN</td><td>25</td><td>13</td><td>0</td><td>0000000000000</td></tr>
+.*b2h HTML <tr><td>Product</td><td>38</td><td>1</td><td>5614944</td><td>05614944</td></tr>
+
+.*b2h HTML <tr><td>Product Name</td><td>39</td><td>8</td><td> MILK 24-006607 SHWL WRAP CARD                    </td><td> MILK 24-006607 SHWL WRAP CARD                    </td></tr>
+.*b2h HTML </table>
+:edl.
+:etable.
+
+
+

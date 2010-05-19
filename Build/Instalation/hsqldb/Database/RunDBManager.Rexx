@@ -1,0 +1,2 @@
+
+	Call RunUtil.rexx 'DatabaseManagerSwing'

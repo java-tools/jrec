@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>Layout Editor</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- /home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/HlpLe.dc -->
+<!-- f converted by B2H R4.7 (390) (LINUX) on 12 Mar 2010 at 01:56:58 -->
+<META HTTP-EQUIV="updated" CONTENT="Fri, 11 Sep 2009 12:13:14">
+<META HTTP-EQUIV="review" CONTENT="Sat, 11 Sep 2010 12:13:14">
+<META HTTP-EQUIV="expires" CONTENT="Sun, 11 Sep 2011 12:13:14">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<HR><H2><A NAME="HDRTESCR" HREF="HlpLe.htm#ToC_31" >Table Edit</A></H2>
+<P>The <B><I>RecordEditor / LayoutEdit</I></B> uses a <B>Table-Database</B> to store common
+details (like <B>Record-Types, Field Types</B> and <B>Systems</B>). You can use
+the Table Editor to update the information in the <B>Table-Database</B>.
+<P>
+<table><tr><td><img SRC="Diagram/LayoutEdit_Table.png"></td></tr></table>
+<P>
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+ 
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="9%">Number
+ 
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="18%">Table
+ 
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="73%">Description
+ 
+ 
+</TH></TR><TR>
+ 
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">1
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">FldType
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="73%">Field Types supported. See the example manual and java example XmplType1.java on adding new Types to the editor.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">2
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">RecordType
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="73%">Record Types ~ do not change this table
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">3
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">Systems
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="73%">Define your Systems. Systems allow you to divide your copybooks up into related groups
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">4
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">FileStructure
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="73%">File Structures table. See the example manual or XmplFileStructure.Java for details on adding new file structures.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">5
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">Formats
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="73%">Table Cell formats. These are used to format table cells in the Record Editor See the example manual for details
+</TD></TR></TABLE>
+<P>
+<P>You can select a table to be updated by clicking on the Table in the list
+on the left
+<P>The <B>Lines to Insert Field</B> holds the lines to be inserted in the JTable at
+the bottom of the when the <B>Insert</B> button is pressed.
+<P>The Insert, Delete, Copy and Paste buttons all act on the Table at the bottom
+of the screen.
+<P>
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="9%">Number
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="18%">Name
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="73%">Description
+ 
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">1
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">Field Type
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="73%">Field types used in the Editor. When defining Types you must update this table.
+User defined types should be in the range 1000 --&gt; 1050.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">2
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">Record Type
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="73%">Record types used in the editor, do not change this table
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">3
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">System
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="73%">Systems or Applications, change this table in anyway you like
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">4
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">File Structures
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="73%"><font color="blue">File Structures</font> used in the system.
+I suggest if you create your own <font color="blue">file structures</font> use
+<B>Row Key</B> &gt; 1000.
+<P>The file structure controls which IO routines are used to read / write the file.
+See class <B>net.sf.RecordEditor.record.io.LineIOProvider</B>
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">5
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">Table Cell Formatting
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="73%"><B>Table Cell formats</B> are used to
+format / edit table cells. It allows checkbox / comboboxs / etc in the
+<B>RecordEditor.</B>
+<P>User defined formats should use <B>Row Key</B> &gt; 1000.
+</TD></TR></TABLE>
+<P>
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="11%">Section
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="89%">Description
+ 
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Left
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">
+<img SRC="Diagram/LayoutEdit_TableList.GIF">
+   <P>In this section you select which table to edit by clicking on it.
+ 
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Top Right
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">
+<img SRC="Diagram/LayoutEdit_TableDtls.GIF">
+   <P>In this section you update a Table Header Details
+ 
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Bottom Right
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">
+<img SRC="Diagram/LayoutEdit_TableRows.GIF">
+   <P>In this section you update a Table Row Details. The Columns are:
+<TABLE CELLPADDING="3">
+     <TR VALIGN="TOP"><TD><P><B>Row Key</B></TD><TD><P>Table Row Key. For the Field Type / Table Type tables this value is also
+<B>Hard Coded</B> in the program so <B>do not Change</B>.
+     </TD></TR><TR VALIGN="TOP"><TD><P><B>Details</B></TD><TD><P>Description, this value is displayed in various Combo Box's, you
+can change this to anything you like.
+   </TD></TR></TABLE>
+</TD></TR></TABLE>
+<P>
+<P>
+<P>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

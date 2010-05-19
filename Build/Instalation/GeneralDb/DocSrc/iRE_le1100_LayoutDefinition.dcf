@@ -1,0 +1,125 @@
+:h2 id=LayoutDef.Record Layout Definition
+:p.The :hp2.record layout:ehp2. Definition screen is used to 
+create new Record Layouts or edit specific layouts. 
+
+.pict Layout_Edit.png
+
+:p.
+.****b2h HTML <img SRC="Diagram/LayoutEdit_RecordDtls.GIF">
+ 
+.im iRe_le1200_layoutPnl
+
+.fo on
+:h3 id=Field.Field Records
+.*b2h HTML <img SRC="Diagram/LayoutEdit_Fields.GIF">
+:p.This panel is used to define the records fields. Fields in the Table are:
+
+:table cols='* 8*'.
+ :thd refid=xlight.:c.Field:c.Description:ethd.
+ :row refid=none.:c.Position:c.Position in the Record. The start of the record is 
+:hp2.Postion:ehp2.=:BBlue.1:EBBlue. and not 0 as in C / Java.
+:row.:C.Length:C.Length of the field in bytes. Leave blank for Comma / Tab (etc) delimited files
+:row.:C.Field Name:C.Name of the field. This is the column/row name used for this field in
+the :BBLue.RecorEditor:EBBlue.
+:row.:C.Description:C.Field Description. This is used as a Column Header Mouse over in the 
+:BBlue.Record editor:EBBlue.. For example if the description was entered as
+:p.
+.*b2h HTML <img SRC="Diagram/RecordLayout_FieldDescription.GIF">
+:p.Then if you hold the cursor over the column heading in the :hp2.RecordEditor:ehp2. you get
+:p.
+.*b2h HTML <img SRC="Diagram/RecordEdit_MouseOver.GIF">
+:row.:C.Field Type:C.Type of Field. See :hdref refid=FldType. for details.
+:row.:C.Decimal Pos:C.Number of places after the decimal point
+:row.:C.Cell Format:c.Formatting to be applied to this field.
+:row.:C.Parameter:c.User parameter's. This is a value that can be used by user written types
+(e.g. for generic Combo or Date Routines).
+:row.:C.Default Value:C.Information only, Not currently used (relates to work).
+:row.:C.Cobol Name:C.Information only, Cobol Field Name
+:row.:C.Field Id:c.Do not Change. It is the field key and is displayed for my testing.
+:etable.
+.fo off
+
+
+.fo on
+
+:h3 id=Child.Child Records
+
+.*b2h HTML <table><tr><td><img SRC="Diagram/RecordLayout_RecGroup.png"></td></tr></table>
+:p.This panel is displayed when :hp2.Record Type:ehp2.=:BBlue.Group of Records:EBBlue.
+or :BBlue.Group of Binary records Records:EBBlue.. Fields in the Table are:
+:p.
+:table cols='* 8*'.
+ :thd refid=xlight.:c.Field:c.Description:ethd.
+:row refid=none.:c.Child Record
+:c.The child record of the Current parent record
+:row.:c.Field Start
+:c.Not Currently used
+:row.:c.Field
+:c.Field that determines which record to use. In the above example:
+:ol compact.
+:li.The records :hp2.DCR0470 S11 .. S14, O21:ehp2. each contain a field :hp2.Record Type:ehp2.
+:li.When editing a file where :hp2.Record Type:ehp2.="S11" then the RecordLayout 
+of :hp2.DCR0470 S11:ehp2. would be used.
+.br
+While if :hp2.Record Type:ehp2.="S13"
+then the RecordLayout of :hp2.DCR0470 s13:ehp2. would be used.
+:eol.
+:row.:C.FieldValue
+:c.Field value that the Field above is tested against.
+:row.:c.Tree Parent:c.Logical Parent Record for the record. This can be used to build a Tree
+using the :Hp2.Record Layout Tree:ehp2. option of the :hp2.View:ehp2. menu in the :RecordEditor. 
+:etable.
+
+:note.if :hp2.Field:ehp2. is blank and :hp2.FieldValue:ehp2.=* then this is the 
+default record.
+.fo off
+
+
+.fo on
+
+:h3 id=extra.Extra Panel
+:p.On the extra panel contains an adhoc mixture of options
+.*b2h HTML <table><tr><td><img SRC="Diagram/RecordLayout_RecExtra.GIF"></td></tr></table>
+
+:p.
+:p.
+:table cols='* 8*'.
+ :thd refid=xlight.:c.Field
+  :c.Description:ethd.
+ :row refid=none.:c.Cobol Copybook
+  :c.Cobol Copybook name (if imported from a Cobol/XML Copybook). When a Cobol 
+copybook is imported the LayoutEdit will replace an existing file with the same name.
+ :row.:c.Font Name
+  :c.Font Name to be used. If it is blank, the System default font will be used.
+A typical use might be to display Native mainframe data on a PC. 
+ :row.:c.Delimiter
+  :c.Delimiter to use in Delimited files (i.e. comma, tab etc).
+ :row.:c.Quote
+  :c.Quote character to use in delimited files.
+ :row.:c.Record Separator
+  :c.Record Separator to use. 
+   :dl compact.
+    :dt.default
+      :dd.Use the computers normal (or default) line separator.
+    :dt.<crlf>
+      :dd.Windows style separator.
+    :dt.<cr>
+      :dd.Unix/Linux file separator.
+    :dt.<lf>
+      :dd.Macintosh line separator.
+   :edl.
+  :row.:c.File Structure
+   :c.Structure of the files. Controls which IO routines are used to read / write the file.
+File Structures are defined in Table 5.
+:etable.
+
+:h3 id=UsingCombo.Defining Combo Field
+
+:p.To use a Combo List (Say AmsPoDownloadType) you must
+:ol.
+  :li.Set the :hp2.Cell Format:ehp2. to Combobox
+  :li.Enter Combo list in the Parameter Field
+:eol.
+
+.pict LayoutEdit_Combo.png
+

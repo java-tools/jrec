@@ -1,0 +1,6 @@
+:p.:hp2.Rexx:ehp2. is a scripting language, which I use in preference Windows Bat files (or Unix Shell scripts).
+:p.I have converted the simpler Rexx programs to bat files but I have left the original Rexx programs
+in the system. I currently use the :hp2.Regina 3.3:ehp2. interpreter.
+:note.Try
+.*b2h HTML <a href="http://www.rexxla.org/index.html">RexxLA</a> 
+or Search IBM's sites for details on :hp2.Rexx:ehp2..

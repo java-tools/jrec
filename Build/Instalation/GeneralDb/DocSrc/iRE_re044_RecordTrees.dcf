@@ -1,0 +1,30 @@
+:h3 id=rtree.Record Tree
+
+:p.A :hp2.Record Tree:ehp2. view is a way to represent the Logical Structure of File.
+It is useful when 
+:ul compact.
+ :li.There is more than one Record Type in the file.
+ :li.There is a logical relation ship between the Records in the file
+:eul.
+
+:p.For example the :hp2.Ams PO:ehp2. file consists of 3 records
+:dl.
+ :dt.PO Header:dd.Purchase Order Summary record, it holds Purchase order details
+like PO number, Supplier etc. Each PO record has one or more Product Records
+ :dt.Product:dd.Product/DC summary. It holds Product / DC Details. Each 
+Products Record can have multiple Store Allocations records.
+ :dt.Store Allocations:dd.Holds Store Allocations (i.e. Quantity allocated to each store)
+organised in array.
+:edl.
+
+:p.Logically records in the :hp2.Ams PO:ehp2. file are arranged like:
+
+.pict AmsPOfile.GIF
+
+:p.The first step is to select the :hp2.Record Based Tree:ehp2. option on the view Menu: 
+
+.pict RecordEdit_RecordField1.png
+
+:p.On this screen you need to enter the Parent Record for each Record.
+
+

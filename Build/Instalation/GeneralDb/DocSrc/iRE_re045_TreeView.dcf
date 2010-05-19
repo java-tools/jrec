@@ -1,0 +1,12 @@
+:h3 id=tree.Tree View
+
+.pict RecordTree.png
+
+:p.The Tree view screen consists of 3 parts:
+:dl.
+ :dt.Button:dd.The Button on the far left of the screen will display the line on the Single Record screen
+(See :hdref refid=txtrecord. for more details).
+ :dt.Tree:dd.On the Left of the screen there is the Tree, you can click on a +/- button to expand/contract the node.
+You can also use the :hp1.Fully Expand Tree:ehp1. option on the Right Click menu to fully Expand a tree node.
+ :dt.Fields:dd.On the right of the Screen, is the fields in the line.
+:edl.

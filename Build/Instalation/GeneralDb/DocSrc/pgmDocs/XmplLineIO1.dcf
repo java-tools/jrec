@@ -1,0 +1,93 @@
+:i1.XmplLineIO1
+:i2 refid=example.XmplLineIO1
+.*b2h html 
+.*b2h html <PRE><SPAN CLASS="gutter"> 14:</SPAN><SPAN CLASS="syntax9">package</SPAN> net.sf.RecordEditor.examples;
+.*b2h html <SPAN CLASS="gutterH"> 15:</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 16:</SPAN><SPAN CLASS="syntax9">import</SPAN> net.sf.JRecord.Details.LayoutDetail;
+.*b2h html <SPAN CLASS="gutter"> 17:</SPAN><SPAN CLASS="syntax9">import</SPAN> net.sf.JRecord.Details.Line;
+.*b2h html <SPAN CLASS="gutter"> 18:</SPAN><SPAN CLASS="syntax9">import</SPAN> net.sf.JRecord.Details.RecordDetail;
+.*b2h html <SPAN CLASS="gutter"> 19:</SPAN><SPAN CLASS="syntax9">import</SPAN> net.sf.JRecord.IO.TextLineReader;
+.*b2h html <SPAN CLASS="gutterH"> 20:</SPAN><SPAN CLASS="syntax9">import</SPAN> net.sf.RecordEditor.utils.CopyBookDbReader;
+.*b2h html <SPAN CLASS="gutter"> 21:</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 22:</SPAN><SPAN CLASS="syntax3">/**</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 23:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">This</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">Example</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">program</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">demonstrates</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">Reading</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">a</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">file</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">using</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">Line</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">Based</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 24:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">Routines</SPAN>
+.*b2h html <SPAN CLASS="gutterH"> 25:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 26:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax12">@author</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">Bruce</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">Martin</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 27:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 28:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*/</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 29:</SPAN><SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax8">final</SPAN> <SPAN CLASS="syntax10">class</SPAN> XmplLineIO1 <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutterH"> 30:</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 31:</SPAN>    <SPAN CLASS="syntax8">private</SPAN> String poFile           <SPAN CLASS="syntax18">=</SPAN> TstConstants.RECORDEDIT_INSTALL_DIRECTORY
+.*b2h html <SPAN CLASS="gutter"> 32:</SPAN>                                                                <SPAN CLASS="syntax18">+</SPAN> <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">SampleFiles\\Ams_PODownload_20050101.txt</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>;
+.*b2h html <SPAN CLASS="gutter"> 33:</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 34:</SPAN>    <SPAN CLASS="syntax8">private</SPAN> CopyBookDbReader copybook
+.*b2h html <SPAN CLASS="gutterH"> 35:</SPAN>                                    <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">CopyBookDbReader</SPAN>();
+.*b2h html <SPAN CLASS="gutter"> 36:</SPAN>    <SPAN CLASS="syntax8">private</SPAN> LayoutDetail copyBookPO  <SPAN CLASS="syntax18">=</SPAN> copybook.<SPAN CLASS="syntax6">getLayout</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">ams</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">PO</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">Download</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>);
+.*b2h html <SPAN CLASS="gutter"> 37:</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 38:</SPAN>    <SPAN CLASS="syntax8">private</SPAN> <SPAN CLASS="syntax10">int</SPAN> poRecordId          <SPAN CLASS="syntax18">=</SPAN> copyBookPO.<SPAN CLASS="syntax6">getRecordIndex</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">ams</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">PO</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">Download:</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">Header</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>);
+.*b2h html <SPAN CLASS="gutter"> 39:</SPAN>    <SPAN CLASS="syntax8">private</SPAN> RecordDetail poRecord   <SPAN CLASS="syntax18">=</SPAN> copyBookPO.<SPAN CLASS="syntax6">getRecord</SPAN>(poRecordId);
+.*b2h html <SPAN CLASS="gutterH"> 40:</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 41:</SPAN>    <SPAN CLASS="syntax8">private</SPAN> <SPAN CLASS="syntax10">int</SPAN> fieldPO             <SPAN CLASS="syntax18">=</SPAN> poRecord.<SPAN CLASS="syntax6">getFieldIndex</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">PO</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>);
+.*b2h html <SPAN CLASS="gutter"> 42:</SPAN>    <SPAN CLASS="syntax8">private</SPAN> <SPAN CLASS="syntax10">int</SPAN> fieldVendor         <SPAN CLASS="syntax18">=</SPAN> poRecord.<SPAN CLASS="syntax6">getFieldIndex</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">Vendor</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>);
+.*b2h html <SPAN CLASS="gutter"> 43:</SPAN>    <SPAN CLASS="syntax8">private</SPAN> <SPAN CLASS="syntax10">int</SPAN> fieldDepartment     <SPAN CLASS="syntax18">=</SPAN> poRecord.<SPAN CLASS="syntax6">getFieldIndex</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">Department</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>);
+.*b2h html <SPAN CLASS="gutter"> 44:</SPAN>    <SPAN CLASS="syntax8">private</SPAN> <SPAN CLASS="syntax10">int</SPAN> fieldDepartmentName <SPAN CLASS="syntax18">=</SPAN> poRecord.<SPAN CLASS="syntax6">getFieldIndex</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">Department</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">Name</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>);
+.*b2h html <SPAN CLASS="gutterH"> 45:</SPAN>    <SPAN CLASS="syntax8">private</SPAN> <SPAN CLASS="syntax10">int</SPAN> fieldRecieptDate    <SPAN CLASS="syntax18">=</SPAN> poRecord.<SPAN CLASS="syntax6">getFieldIndex</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">Expected</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">Reciept</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">Date</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>);
+.*b2h html <SPAN CLASS="gutter"> 46:</SPAN>    <SPAN CLASS="syntax8">private</SPAN> <SPAN CLASS="syntax10">int</SPAN> fieldOrderType      <SPAN CLASS="syntax18">=</SPAN> poRecord.<SPAN CLASS="syntax6">getFieldIndex</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">Order</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">Type</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>);
+.*b2h html <SPAN CLASS="gutter"> 47:</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 48:</SPAN>    <SPAN CLASS="syntax8">private</SPAN> TextLineReader reader   <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">TextLineReader</SPAN>();
+.*b2h html <SPAN CLASS="gutter"> 49:</SPAN>
+.*b2h html <SPAN CLASS="gutterH"> 50:</SPAN>    <SPAN CLASS="syntax8">private</SPAN> Line line;
+.*b2h html <SPAN CLASS="gutter"> 51:</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 52:</SPAN>    <SPAN CLASS="syntax3">/**</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 53:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 54:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*/</SPAN>
+.*b2h html <SPAN CLASS="gutterH"> 55:</SPAN>    <SPAN CLASS="syntax8">private</SPAN> <SPAN CLASS="syntax6">XmplLineIO1</SPAN>() <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 56:</SPAN>        <SPAN CLASS="syntax14">super</SPAN>();
+.*b2h html <SPAN CLASS="gutter"> 57:</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 58:</SPAN>        <SPAN CLASS="syntax10">int</SPAN> lineNumber <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax5">0</SPAN>;
+.*b2h html <SPAN CLASS="gutter"> 59:</SPAN>
+.*b2h html <SPAN CLASS="gutterH"> 60:</SPAN>        <SPAN CLASS="syntax8">try</SPAN> <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 61:</SPAN>            System.out.<SPAN CLASS="syntax6">println</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">Department</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">PO</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">Type</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">Date</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">Vendor</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>);
+.*b2h html <SPAN CLASS="gutter"> 62:</SPAN>            System.out.<SPAN CLASS="syntax6">println</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">===========================================</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>);
+.*b2h html <SPAN CLASS="gutter"> 63:</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 64:</SPAN>            reader.<SPAN CLASS="syntax6">open</SPAN>(poFile, copyBookPO);
+.*b2h html <SPAN CLASS="gutterH"> 65:</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 66:</SPAN>            <SPAN CLASS="syntax8">while</SPAN> ((line <SPAN CLASS="syntax18">=</SPAN> reader.<SPAN CLASS="syntax6">read</SPAN>()) <SPAN CLASS="syntax18">!</SPAN><SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax14">null</SPAN>) <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 67:</SPAN>                lineNumber <SPAN CLASS="syntax18">+</SPAN><SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax5">1</SPAN>;
+.*b2h html <SPAN CLASS="gutter"> 68:</SPAN>                <SPAN CLASS="syntax8">if</SPAN> (line.<SPAN CLASS="syntax6">getPreferredLayoutIdx</SPAN>() <SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax18">=</SPAN> poRecordId) <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 69:</SPAN>                    System.out.<SPAN CLASS="syntax6">println</SPAN>(
+.*b2h html <SPAN CLASS="gutterH"> 70:</SPAN>                            <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">&quot;</SPAN> <SPAN CLASS="syntax18">+</SPAN> line.<SPAN CLASS="syntax6">getField</SPAN>(poRecordId, fieldDepartment)
+.*b2h html <SPAN CLASS="gutter"> 71:</SPAN>                          <SPAN CLASS="syntax18">+</SPAN> <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">&quot;</SPAN> <SPAN CLASS="syntax18">+</SPAN> line.<SPAN CLASS="syntax6">getField</SPAN>(poRecordId, fieldDepartmentName)
+.*b2h html <SPAN CLASS="gutter"> 72:</SPAN>                          <SPAN CLASS="syntax18">+</SPAN> <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">&quot;</SPAN> <SPAN CLASS="syntax18">+</SPAN> line.<SPAN CLASS="syntax6">getField</SPAN>(poRecordId, fieldPO)
+.*b2h html <SPAN CLASS="gutter"> 73:</SPAN>                          <SPAN CLASS="syntax18">+</SPAN> <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">&quot;</SPAN> <SPAN CLASS="syntax18">+</SPAN> line.<SPAN CLASS="syntax6">getField</SPAN>(poRecordId, fieldOrderType)
+.*b2h html <SPAN CLASS="gutter"> 74:</SPAN>                          <SPAN CLASS="syntax18">+</SPAN> <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">&quot;</SPAN> <SPAN CLASS="syntax18">+</SPAN> line.<SPAN CLASS="syntax6">getField</SPAN>(poRecordId, fieldRecieptDate)
+.*b2h html <SPAN CLASS="gutterH"> 75:</SPAN>                          <SPAN CLASS="syntax18">+</SPAN> <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">&quot;</SPAN> <SPAN CLASS="syntax18">+</SPAN> line.<SPAN CLASS="syntax6">getField</SPAN>(poRecordId, fieldVendor)
+.*b2h html <SPAN CLASS="gutter"> 76:</SPAN>                    );
+.*b2h html <SPAN CLASS="gutter"> 77:</SPAN>                <SPAN CLASS="syntax18">}</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 78:</SPAN>            <SPAN CLASS="syntax18">}</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 79:</SPAN>
+.*b2h html <SPAN CLASS="gutterH"> 80:</SPAN>            reader.<SPAN CLASS="syntax6">close</SPAN>();
+.*b2h html <SPAN CLASS="gutter"> 81:</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 82:</SPAN>        <SPAN CLASS="syntax18">}</SPAN> <SPAN CLASS="syntax8">catch</SPAN> (Exception e) <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 83:</SPAN>            System.out.<SPAN CLASS="syntax6">println</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">Error</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">Line</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">&quot;</SPAN> <SPAN CLASS="syntax18">+</SPAN> lineNumber <SPAN CLASS="syntax18">+</SPAN> <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">&quot;</SPAN> <SPAN CLASS="syntax18">+</SPAN> e.<SPAN CLASS="syntax6">getMessage</SPAN>());
+.*b2h html <SPAN CLASS="gutter"> 84:</SPAN>            System.out.<SPAN CLASS="syntax6">println</SPAN>();
+.*b2h html <SPAN CLASS="gutterH"> 85:</SPAN>            System.out.<SPAN CLASS="syntax6">println</SPAN>();
+.*b2h html <SPAN CLASS="gutter"> 86:</SPAN>            e.<SPAN CLASS="syntax6">printStackTrace</SPAN>();
+.*b2h html <SPAN CLASS="gutter"> 87:</SPAN>        <SPAN CLASS="syntax18">}</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 88:</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 89:</SPAN>        System.out.<SPAN CLASS="syntax6">println</SPAN>();
+.*b2h html <SPAN CLASS="gutterH"> 90:</SPAN>        System.out.<SPAN CLASS="syntax6">println</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">Lines</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">Read</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">&quot;</SPAN> <SPAN CLASS="syntax18">+</SPAN> lineNumber <SPAN CLASS="syntax18">+</SPAN> <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">PO</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">Field</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">&quot;</SPAN> <SPAN CLASS="syntax18">+</SPAN> fieldPO);
+.*b2h html <SPAN CLASS="gutter"> 91:</SPAN>    <SPAN CLASS="syntax18">}</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 92:</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 93:</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 94:</SPAN>    <SPAN CLASS="syntax3">/**</SPAN>
+.*b2h html <SPAN CLASS="gutterH"> 95:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">LineIO</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">example</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 96:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 97:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax12">@param</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">args</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">program</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">arguments</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 98:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*/</SPAN>
+.*b2h html <SPAN CLASS="gutter"> 99:</SPAN>    <SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax8">static</SPAN> <SPAN CLASS="syntax10">void</SPAN> <SPAN CLASS="syntax6">main</SPAN>(String[] args) <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutterH">100:</SPAN>        <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">XmplLineIO1</SPAN>();
+.*b2h html <SPAN CLASS="gutter">101:</SPAN>    <SPAN CLASS="syntax18">}</SPAN>
+.*b2h html <SPAN CLASS="gutter">102:</SPAN><SPAN CLASS="syntax18">}</SPAN>
+.*b2h html </PRE>

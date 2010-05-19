@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>Changes in 0.62</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- E:\Work\RecordEdit\Changes\Version062\Changes_062.dcf converted  -->
+<!-- by B2H R4.7 (390) (WINNT) on 21 Oct 2008 at 20:31:13             -->
+<META HTTP-EQUIV="updated" CONTENT="Tue, 21 Oct 2008 20:23:05">
+<META HTTP-EQUIV="review" CONTENT="Wed, 21 Oct 2009 20:23:05">
+<META HTTP-EQUIV="expires" CONTENT="Thu, 21 Oct 2010 20:23:05">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<a name="Toc"/>
+<P><B><A NAME="ToC_1" HREF="#Header_1" >Changes in 0.62</A></B><BR>
+<MENU>
+<LI><A NAME="ToC_2" HREF="#Header_2" >View Menu</A>
+<LI><A NAME="ToC_3" HREF="#HDRRTREE" >Record Tree</A>
+<MENU>
+<LI><A NAME="ToC_4" HREF="#HDRRLTREE" >Record Layout Tree</A>
+<LI><A NAME="ToC_5" HREF="#HDRRFTREE" >Record Tree Definition</A>
+<LI><A NAME="ToC_6" HREF="#Header_6" >Record Tree View</A>
+</MENU>
+<LI><A NAME="ToC_7" HREF="#HDRSTREE" >Sorted Field Tree</A>
+<LI><A NAME="ToC_8" HREF="#Header_8" >Column View</A>
+<LI><A NAME="ToC_9" HREF="#Header_9" >Parameter Editors</A>
+<LI><A NAME="ToC_10" HREF="#Header_10" >Combobox Fields</A>
+<LI><A NAME="ToC_11" HREF="#Header_11" >CSV Parsers</A>
+<LI><A NAME="ToC_12" HREF="#Header_12" >Key Handling</A>
+<LI><A NAME="ToC_13" HREF="#Header_13" >CSV Copybook imports</A>
+</MENU><P>
+<HR><H1><A NAME="Header_1" HREF="#ToC_1" >Changes in 0.62</A></H1>
+<P>
+<HR><H2><A NAME="Header_2" HREF="#ToC_2" >View Menu</A></H2>
+<P>There is a new view menu where you can select different views of the File
+<P>
+<img SRC="Diagram/RecordEdit_ViewMenu.gif">
+<P>
+<P>Options are:
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Field Based Tree</B></TD><TD><P>Build a Tree by group record together on common fields
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Sorted Field Tree</B></TD><TD><P>Build a Tree by sorting the file and grouping all records with a Common Field
+values into a Tree Structure. See <A HREF="#HDRSTREE">"Sorted Field Tree"</A> for more details.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Record Tree</B></TD><TD><P>Build a tree based on logical relationship between records.
+See <A HREF="#HDRRTREE">"Record Tree"</A> for more details.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Record Layout Tree</B></TD><TD><P>Display a tree based on logical relationship between records
+defined in the record Definition. See <A HREF="#HDRRLTREE">"Record Layout Tree"</A> for more details.
+</TD></TR></TABLE>
+<P>
+<HR><H2><A NAME="HDRRTREE" HREF="#ToC_3" >Record Tree</A></H2>
+<P>When there is a logical hierarchy in the Different Records in a file, you can
+define this relationship and display the file in a Tree Structure.
+This hierarchy can be defined either in the Record Layout Definition
+(See <A HREF="#HDRRLTREE">"Record Layout Tree"</A>) and on the Fly (See <A HREF="#HDRRFTREE">"Record Tree Definition"</A>).
+<P>
+<P><H3><A NAME="HDRRLTREE" HREF="#ToC_4" >Record Layout Tree</A></H3>
+<P>It is now possible to display a logical hierarchy of records in the
+Record Layout Definition. In the example below, a parent record is defined in the
+<B>Tree Parent</B> column. Once a hierarchy is defined, you can use the
+<B>View</B> &gt;&gt; <B>Record Layout Tree</B> option to display files in a Tree
+format.
+<P>
+<img SRC="Diagram/LayoutRecordTree.GIF">
+<P>
+<P><H3><A NAME="HDRRFTREE" HREF="#ToC_5" >Record Tree Definition</A></H3>
+<P>You can also define a Tree Hierarchy on the fly
+(Via <B>View</B> &gt;&gt; <B>Record Based Tree</B>) using the screen below.
+<P>
+<img SRC="Diagram/RecordTreeDef.GIF">
+<P>
+<P><H3><A NAME="Header_6" HREF="#ToC_6" >Record Tree View</A></H3>
+<P>Once a Record Hierarch is defined, the file is displayed as a Tree. In the example
+below, each Purchase Order is a Tree root.
+<P>
+<img SRC="Diagram/Tree2.png">
+<P>
+<HR><H2><A NAME="HDRSTREE" HREF="#ToC_7" >Sorted Field Tree</A></H2>
+<P>You can sort the file and group records with common sort fields together in a
+tree using the <B>Sorted Tree View</B>. The first step is to specify the sort fields
+<P>
+<img SRC="Diagram/SortedTreeDef.GIF">
+<P>
+<P>The the Records are then grouped by sort fields in a Tree format below<P>
+<P>
+<img SRC="Diagram/Tree3.png">
+<P>
+<HR><H2><A NAME="Header_8" HREF="#ToC_8" >Column View</A></H2>
+<P>
+<P>The file can be displayed with Records going across the page and field numbers going
+down the page.
+<P>
+<img SRC="Diagram/RecordEdit_View3.GIF">
+<P>
+<HR><H2><A NAME="Header_9" HREF="#ToC_9" >Parameter Editors</A></H2>
+<P>The Parameter Field in the Layout Definition screen now has popup editors.
+This will make it easier to use Csv Arrays, Checkboxs
+Dates and Combos. Following are the Date and CSV popup editors
+<P>
+<P>
+<img SRC="Diagram/DatePopup.GIF">
+<P>
+<P>CSV popup<P>
+<P>
+<img SRC="Diagram/CsvPopup1.GIF">
+<P>
+<HR><H2><A NAME="Header_10" HREF="#ToC_10" >Combobox Fields</A></H2>
+<P>You can now define ComboBox Fields in the editor. The combo can be either a
+list of possible values or Key/Display Value list.
+<P>
+<P>Defining a Combo List (Layout Editor)
+<P>
+<img SRC="Diagram/ComboDef.GIF">
+<P>
+<P>In the above example, the <B>Combo Code</B> column contains the value in the file while
+<B>Combo Value</B> holds the value displayed in the combo Box
+<P>If the <B>Combo Type</B> is changed to <B>Standard combo</B>, only
+the
+<P>
+<P>Defining a combo file field (Layout Editor). Combo Boxs are implemented
+as formats and can be applied to any field Type.
+<P>
+<img SRC="Diagram/ComboFieldDef.GIF">
+<P>
+<P>In the file <B>Record Type</B> is now a combobox that describes the record
+(i.e. PO Header) instead of a simple text field (H1).
+<P>
+<img SRC="Diagram/ComboFile.GIF">
+<P>
+<HR><H2><A NAME="Header_11" HREF="#ToC_11" >CSV Parsers</A></H2>
+<P>The RecordEditor now supports different line parsers for CSV files.
+It comes with 2 parsers, but other could be written
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Basic Parser</B></TD><TD><P>Parser found in the RecordEditor befor version 0.62
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Parser - Matching Quotes</B></TD><TD><P>This parser will treat all data between
+matching quotes as belonging to the one field.
+</TD></TR></TABLE>
+<P>
+<img SRC="Diagram/CsvParserDev.GIF">
+<P>
+<HR><H2><A NAME="Header_12" HREF="#ToC_12" >Key Handling</A></H2>
+<P>The editor no responds to some keystrokes, namely
+<P>
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Enter</B></TD><TD><P>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Ctrl F</B></TD><TD><P>Find
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>F1&#58;Help
+</B></TD></TABLE>
+<P>
+<HR><H2><A NAME="Header_13" HREF="#ToC_13" >CSV Copybook imports</A></H2>
+<P>
+<P>You can now import and Export CSV Copybook (or Record Layout) files (Comma and Tab Seperated fields) into the Layout Editor.
+The CSV file must be in the same format as the Layout Editor:
+<DL COMPACT>
+ <DD>Position
+ <DD>Length
+ <DD>Field Name
+ <DD>Description
+ <DD>Type
+ <DD>Number of Decimal positions
+</DL>
+<P>Following Sample CSV file
+<PRE>1,2,Record Type,,Char,0,0,,,
+3,9,Pack Qty,,Num Assumed Decimal (Zero padded),4,0,,,
+12,13,Pack Cost,,Num Assumed Decimal (Zero padded),4,0,,,
+25,13,APN,,Num (Right Justified zero padded),0,0,,,
+38,1,Filler,,Char,0,0,,,
+39,8,Product,,Num (Right Justified zero padded),0,0,,,
+72,15,pmg dtl tech key,,0,0,0,,,
+87,15,Case Pack id,,Char,0,0,,,
+101,50,Product Name,,Char,0,0,,,
+</PRE><P><P>The CSV file can be imported using the <B>Load Copybook (Choose Format)</B> Option
+<P>
+<P>
+<P>To export / copy use the Copy Copybooks option (From the Layout Editor):
+<P>
+<img SRC="Diagram/LayoutEdit_Copy.JPG">
+<P>
+<P>This Screen can also do direct Database to Database copies as well.
+<P>
+<P>
+<P>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

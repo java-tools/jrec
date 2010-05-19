@@ -1,0 +1,38 @@
+:h1.Record Edit
+
+.im iRE_TagDefs.dcf
+.im iRE_Welcome
+
+:p.Please review the help documentation
+.*b2h HTML <b><a HREF=aRecordEdit.htm>Record Edit</a></b>
+
+.fo off
+
+
+
+.fo on
+.pa
+:h1.MS Access Version
+:p.The Microsoft Access version uses the jdbc/ODBC bridge to connect to the
+Access backend Database. To make this connection, an ODBC definition (called RecordLayout)
+is created (by the install program). But please be aware
+:ol.
+:li.If you move this Access DB (RecordEditor.mdb), you will break the ODBC 
+Connection and RecordEditor will not work. 
+:li.If the RecordEditor does not work check / update this ODBC definition
+:eol.
+
+:h1.System Features
+.im iRE_Features.dcf
+
+
+:h1.Starting
+.im iRE_starting.dcf
+.im iRE_BinFile.dcf
+
+.im iRE_SuppliedFiles.dcf
+
+
+:h1.Creating ODBC definition
+.im iRE_ODBC
+

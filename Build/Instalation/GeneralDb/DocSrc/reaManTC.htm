@@ -1,0 +1,179 @@
+<HTML><HEAD><link rel="stylesheet" href="JSTREE/jsBlueBg.css" type="text/css"></head>
+<Body style="margin:0" bgcolor=#001F66>
+<SCRIPT language=JavaScript src="JSTREE/sdtree.js"  type="text/javascript"></SCRIPT>
+<SCRIPT type="text/javascript">
+function expandAll(){
+  tree.expandAll();
+  tree.draw(1);
+}
+function collapseAll(){
+  tree.collapseAll();
+  tree.draw(1);
+}
+var TREE_NODES={ format:{
+	left:1,
+	top:63,
+	width:240,
+	height:472,
+	animation:0,
+	padding:2,
+	dont_resize_back:1,
+	e_image:"JSTREE/Win_fo.gif",
+	c_image:"JSTREE/Win_fc.gif",
+	i_image:"JSTREE/Win_i.gif",
+	level_ident:16,
+	b_image:"JSTREE/b.gif"}
+,
+sub:[
+	{html:'Record Editor',url:'reaMan.htm#Header_1',target:'DTL',
+	sub:[
+		{html:'Starting the Record Editor',url:'reaMan.htm#Header_2',target:'DTL'}, 
+		{html:'Viewing a Binary File',url:'reaMan.htm#Header_3',target:'DTL',
+		sub:[
+			{html:'Table View - Binary file',url:'reaMan.htm#HDRBINTBL',target:'DTL'} 
+		]},
+		{html:'Viewing Text File',url:'reaMan.htm#Header_5',target:'DTL',
+		sub:[
+			{html:'Table View - Text file',url:'reaMan.htm#HDRTXTRECORD',target:'DTL'}, 
+			{html:'Record View - Text file',url:'reaMan.htm#HDRTXTREC',target:'DTL'}, 
+			{html:'Record View - Binary file',url:'reaMan.htm#HDRBINRECORD',target:'DTL'} 
+		]},
+		{html:'CSV Files',url:'reaMan.htm#Header_9',target:'DTL',
+		sub:[
+			{html:'Generic CSV Layout',url:'reaMan.htm#HDRGENERICCSV',target:'DTL'} 
+		]},
+		{html:'Popup Menu',url:'reaMan.htm#Header_11',target:'DTL'}, 
+		{html:'Search Screen',url:'reaMan.htm#HDRFIND',target:'DTL'}, 
+		{html:'Filter Screen',url:'reaMan.htm#HDRFILTER',target:'DTL'}, 
+		{html:'Save AS / Export',url:'reaMan.htm#HDRSAVEAS',target:'DTL'}, 
+		{html:'Sort Panel',url:'reaMan.htm#HDRSORT',target:'DTL'}, 
+		{html:'View Menu',url:'reaMan.htm#HDRVIEWMENU',target:'DTL'}, 
+		{html:'Field Tree',url:'reaMan.htm#Header_17',target:'DTL'}, 
+		{html:'Sort Tree',url:'reaMan.htm#HDRSTREE',target:'DTL',
+		sub:[
+			{html:'Starting a Sort Tree view',url:'reaMan.htm#Header_19',target:'DTL'} 
+		]},
+		{html:'Record Tree',url:'reaMan.htm#HDRRTREE',target:'DTL'}, 
+		{html:'Tree View',url:'reaMan.htm#HDRTREE',target:'DTL'}, 
+		{html:'Column View',url:'reaMan.htm#Header_22',target:'DTL'} 
+	]},
+	{html:'Supplied Sample Files',url:'reaMan.htm#Header_23',target:'DTL'}, 
+	{html:'Layout Editor',url:'reaMan.htm#HDRLAYOUTED',target:'DTL',
+	sub:[
+		{html:'Record Layout Definition',url:'reaMan.htm#HDRLAYOUTDEF',target:'DTL',
+		sub:[
+			{html:'Field Records',url:'reaMan.htm#HDRFIELD',target:'DTL'}, 
+			{html:'Child Records',url:'reaMan.htm#HDRCHILD',target:'DTL'}, 
+			{html:'Extra Panel',url:'reaMan.htm#HDREXTRA',target:'DTL'}, 
+			{html:'Defining Combo Field',url:'reaMan.htm#HDRUSINGCOMBO',target:'DTL'} 
+		]},
+		{html:'Record Edit Screen',url:'reaMan.htm#HDRRESCREEN',target:'DTL'}, 
+		{html:'Layout Wizard',url:'reaMan.htm#HDRWIZARD',target:'DTL',
+		sub:[
+			{html:'Initial Wizard Screen',url:'reaMan.htm#Header_32',target:'DTL'}, 
+			{html:'File Structure Screen',url:'reaMan.htm#HDRWIZFILESTRUCTURE',target:'DTL'}, 
+			{html:'Fixed Width Dialogue',url:'reaMan.htm#HDRFIXEDWIZ',target:'DTL',
+			sub:[
+				{html:'Field Position screen',url:'reaMan.htm#HDRWIZ2',target:'DTL'}, 
+				{html:'Field Definition screen',url:'reaMan.htm#HDRWIZ3',target:'DTL'}, 
+				{html:'Save Layout screen',url:'reaMan.htm#HDRWIZSAVE1',target:'DTL'} 
+			]},
+			{html:'CSV Dialogue',url:'reaMan.htm#HDRCSVWIZ',target:'DTL',
+			sub:[
+				{html:'CSV Details',url:'reaMan.htm#HDRWIZ4',target:'DTL'}, 
+				{html:'CSV Field Definition',url:'reaMan.htm#HDRWIZ5',target:'DTL'}, 
+				{html:'Layout screen',url:'reaMan.htm#HDRWIZSAVE2',target:'DTL'} 
+			]},
+			{html:'Multiple Record Screen',url:'reaMan.htm#HDRMULTIWIZ',target:'DTL',
+			sub:[
+				{html:'Record Type Field',url:'reaMan.htm#HDRWIZRECORDTYPE',target:'DTL'}, 
+				{html:'Record Name screen',url:'reaMan.htm#HDRWIZRECORDNAMES',target:'DTL'}, 
+				{html:'Field Position screen',url:'reaMan.htm#HDRWIZ2M',target:'DTL'}, 
+				{html:'Field Definition screen',url:'reaMan.htm#HDRWIZ3M',target:'DTL'}, 
+				{html:'Save Layout screen',url:'reaMan.htm#HDRWIZSAVE1',target:'DTL'} 
+			]},
+			{html:'Startup Options',url:'reaMan.htm#HDRWIZSTARTUP',target:'DTL'} 
+		]},
+		{html:'Combo List Edit',url:'reaMan.htm#HDRCOMBOED',target:'DTL',
+		sub:[
+			{html:'Combo Selection Panel',url:'reaMan.htm#HDRCOMBOSEL',target:'DTL'}, 
+			{html:'Combo Edit Panel',url:'reaMan.htm#HDRCOMBOPNL',target:'DTL'}, 
+			{html:'Defining a Combo Field',url:'reaMan.htm#Header_52',target:'DTL'} 
+		]},
+		{html:'Combo Create',url:'reaMan.htm#HDRCOMBOCRE',target:'DTL'}, 
+		{html:'Table Edit',url:'reaMan.htm#HDRTESCR',target:'DTL'}, 
+		{html:'Importing Cobol Copybooks',url:'reaMan.htm#HDRIMPORT',target:'DTL'}, 
+		{html:'Load Copybook Choose Format',url:'reaMan.htm#HDRIMPORTG',target:'DTL'}, 
+		{html:'Copy Copybooks',url:'reaMan.htm#HDRCPYLAYOUT',target:'DTL'}, 
+		{html:'DB CSV Copybook format',url:'reaMan.htm#HDRDBCSV',target:'DTL'}, 
+		{html:'RecordEditor CSV Copybook Format',url:'reaMan.htm#HDRRECSV',target:'DTL'} 
+	]},
+	{html:'Defining Binary Files',url:'reaMan.htm#Header_60',target:'DTL',
+	sub:[
+		{html:'Standard Binary Files',url:'reaMan.htm#Header_61',target:'DTL'}, 
+		{html:'Calculating Record Length',url:'reaMan.htm#Header_62',target:'DTL'}, 
+		{html:'Mainframe Files',url:'reaMan.htm#Header_63',target:'DTL',
+		sub:[
+			{html:'Importing Cobol Copybooks',url:'reaMan.htm#Header_64',target:'DTL'}, 
+			{html:'Downloading FB files.',url:'reaMan.htm#Header_65',target:'DTL'}, 
+			{html:'Downloading VB files',url:'reaMan.htm#Header_66',target:'DTL'} 
+		]},
+		{html:'PC Cobol',url:'reaMan.htm#Header_67',target:'DTL',
+		sub:[
+			{html:'Main Record Editor',url:'reaMan.htm#Header_68',target:'DTL',
+			sub:[
+				{html:'Importing Cobol Copybooks',url:'reaMan.htm#HDRIMPORT',target:'DTL'} 
+			]},
+			{html:'Cobol Editor',url:'reaMan.htm#Header_70',target:'DTL'}, 
+			{html:'Options',url:'reaMan.htm#Header_71',target:'DTL'} 
+	]}]},
+	{html:'Tab/Comma Delimited Fields in Files',url:'reaMan.htm#Header_72',target:'DTL',
+	sub:[
+		{html:'Defining a Delimited File',url:'reaMan.htm#Header_73',target:'DTL'}, 
+		{html:'Defining a Standard Delimited File',url:'reaMan.htm#Header_74',target:'DTL'}, 
+		{html:'Names on the first Line',url:'reaMan.htm#Header_75',target:'DTL'}, 
+		{html:'Csv Array Description',url:'reaMan.htm#Header_76',target:'DTL'}, 
+		{html:'Parameter Field',url:'reaMan.htm#Header_77',target:'DTL'} 
+	]},
+	{html:'Appendix A. Reporting',url:'reaMan.htm#Header_78',target:'DTL'}, 
+	{html:'Appendix B. Help System',url:'reaMan.htm#Header_79',target:'DTL'}, 
+	{html:'Appendix C. ODBC Definition',url:'reaMan.htm#Header_80',target:'DTL'}, 
+	{html:'Appendix D. Field Types',url:'reaMan.htm#HDRFLDTYPE',target:'DTL'}, 
+	{html:'Appendix E. Record Layout Details',url:'reaMan.htm#Header_82',target:'DTL'}, 
+	{html:'Appendix F. FAQ',url:'reaMan.htm#Header_83',target:'DTL'}, 
+	{html:'Appendix G. Tips',url:'reaMan.htm#Header_84',target:'DTL',
+	sub:[
+		{html:'Moving Columns',url:'reaMan.htm#Header_85',target:'DTL'}, 
+		{html:'Creating Simple Reports',url:'reaMan.htm#HDRFILTXMP',target:'DTL'} 
+	]},
+	{html:'Appendix H. JDBC Properties file',url:'reaMan.htm#HDRPROPERTIES',target:'DTL'}, 
+	{html:'Appendix I. Changes',url:'reaMan.htm#Header_88',target:'DTL',
+	sub:[
+		{html:'Release 0.67',url:'reaMan.htm#Header_89',target:'DTL'}, 
+		{html:'Release 0.65',url:'reaMan.htm#Header_90',target:'DTL'}, 
+		{html:'Release 0.62',url:'reaMan.htm#Header_91',target:'DTL'}, 
+		{html:'Release 0.61.2',url:'reaMan.htm#Header_92',target:'DTL'}, 
+		{html:'Release 0.61',url:'reaMan.htm#Header_93',target:'DTL'}, 
+		{html:'Release 0.60',url:'reaMan.htm#Header_94',target:'DTL'}, 
+		{html:'Release 0.56',url:'reaMan.htm#Header_95',target:'DTL'}, 
+		{html:'RecordEditor to Jasper',url:'reaMan.htm#Header_96',target:'DTL'}, 
+		{html:'Release 0.55',url:'reaMan.htm#Header_97',target:'DTL'}, 
+		{html:'Release 0.53',url:'reaMan.htm#Header_98',target:'DTL'}, 
+		{html:'Release 0.52.1 (Linux)',url:'reaMan.htm#Header_99',target:'DTL'}, 
+		{html:'Release 0.52 (Mainframe)',url:'reaMan.htm#Header_100',target:'DTL'}, 
+		{html:'Release 0.51',url:'reaMan.htm#Header_101',target:'DTL',
+		sub:[
+			{html:'Release 0.50 Initial Release',url:'reaMan.htm#Header_102',target:'DTL'} 
+	]}]},
+	{html:'Appendix J. Rexx',url:'reaMan.htm#Header_103',target:'DTL'}, 
+	{html:'Appendix K. Related Systems / Useful Systems',url:'reaMan.htm#Header_104',target:'DTL'} 
+] }
+var tree=new SoftDrawerTree('Demo',TREE_NODES);
+expandAll()
+</SCRIPT>
+<Font style="font-size=100%" color=#FF0080><B>Record Editor</B></font><br>
+<Table><tr>
+	<td colspan=2 align="center"><input type="button" onclick="expandAll()" value="Expand All" style="width:90px; FONT-SIZE:10px"></td>
+	<td colspan=2 align="center"><input type="button" onclick="collapseAll()" value="Collapse All" style="width:90px; FONT-SIZE:10px"></td>
+</tr> </table>
+</HTML>

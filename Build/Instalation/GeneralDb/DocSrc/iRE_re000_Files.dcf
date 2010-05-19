@@ -1,0 +1,41 @@
+.im iRE_BinFile.dcf
+.im iRe_re010_RecordTableOption.dcf
+.pa
+
+
+:h3.Viewing Text File
+.im iRE_TextFile.dcf
+
+
+.im iRE_re015_SingleRecord.dcf
+
+.im iRE_re016_CSV.dcf
+
+.im iRE_re017_Popup.dcf
+
+.im iRe_re020_Search.dcf
+
+.im iRe_re025_Filter.dcf
+
+:p.See :hdref refid=FiltXmp. for example of using the filter option.
+
+.im iRE_re030_SaveAs.dcf
+
+.im iRE_re032_Sort.dcf
+
+.im iRE_re041_ViewMenu.dcf
+
+.im iRE_re042_Field.dcf
+
+.*  im iRE_re040_Trees.dcf
+.im iRE_re043_SortTrees.dcf
+
+.im iRE_re044_RecordTrees.dcf
+
+.im iRE_re045_TreeView.dcf
+
+.im iRE_re046_ColumnView.dcf
+
+
+
+

@@ -1,0 +1,43 @@
+/*
+ * @Author Generate by XmplLineBuilder
+ *
+ * Purpose: line to access $recName records
+ */
+package $package;
+
+import net.sf.RecordEditor.record.LayoutDetail;
+import net.sf.RecordEditor.record.Line;
+import net.sf.RecordEditor.record.LineProvider;
+
+/**
+ * Create line provider for $recName
+ *
+ *
+ * @author Generate by XmplLineBuilder
+ *
+ */
+public class ${recName}Provider implements LineProvider {
+
+    /**
+     * @see record.LineProvider#getLine(net.sf.RecordEditor.record.LayoutDetail)
+     */
+    public Line getLine(LayoutDetail recordDescription) {
+        return new $recName(recordDescription);
+    }
+
+
+    /**
+     * @see record.LineProvider#getLine(net.sf.RecordEditor.record.LayoutDetail, byte[])
+     */
+    public Line getLine(LayoutDetail recordDescription, byte[] lineBytes) {
+        return new $recName(recordDescription, lineBytes);
+    }
+
+
+    /**
+     * @see record.LineProvider#getLine(net.sf.RecordEditor.record.LayoutDetail, java.lang.String)
+     */
+    public Line getLine(LayoutDetail recordDescription, String linesText) {
+        return new $recName(recordDescription, linesText);
+    }
+}

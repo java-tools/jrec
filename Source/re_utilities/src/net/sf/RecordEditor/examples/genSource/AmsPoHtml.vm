@@ -1,0 +1,25 @@
+##
+##  Generate HTML for a Ams PO file
+##
+
+&nbsp;&nbsp;
+<table CELLPADDING="3">
+<TR><TH BGCOLOR=blue><font color=white><b>&nbsp;&nbsp;$fileName&nbsp;&nbsp;</b></font></TH></TR>
+</table>
+&nbsp;
+<table border="1">
+<TR>
+	<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">Department
+	</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">Department Name
+	</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">Purchase Order
+	</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">Expected Reciept Date
+</TH></TR>
+#foreach( $rec in $records )
+<tr>
+	<td>${rec.Department}</td>
+	<td>${rec.DepartmentName}</td>
+	<td>${rec.Po}</td>
+	<td>${rec.ExpectedRecieptDate}</td>
+</tr>
+#end
+</table>

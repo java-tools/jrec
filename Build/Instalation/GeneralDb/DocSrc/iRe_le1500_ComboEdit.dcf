@@ -1,0 +1,71 @@
+:h2 id=ComboEd.Combo List Edit
+:p.Combolists are used to define a list Combobox Items. They can be used to define
+all the options available for a field in the Record Editor. See :hdref refid=UsingCombo. for details
+of how to use a Combo.
+
+.pict ComboListEdit.png
+
+:p.The Screen is divided into two parts:
+:dl.
+ :dt.Combo Search:dd.Used to find and select the Combo List to be editted. 
+See :hdref refid=ComboSel. for more details.
+ :dt.Edit:dd.Used to update the Combo Lists.
+See :hdref refid=ComboPnl. for more details.
+:edl.
+
+:h3 id=ComboSel.Combo Selection Panel
+:p.This panel is used select the combo Lists to display and edit. 
+
+.pict ComboSel.GIF
+
+:p.Fields
+:dl.
+ :dt.Combo Name:dd.This field is used to limit what is displayed in the List. You can\
+use % character as a wildcard.
+ :dt.System:dd.Used to restrict the List to Combos in a specific system.
+ :dt.List:dd.Used to Select which list to edit.
+:edl.
+
+:h3 id=ComboPnl.Combo Edit Panel
+:p.Used to update a combo list
+
+.pict CobolEditPnl.GIF
+
+:p.Fields on the Screen
+
+:dl.
+ :dt.System:dd.System this Combo List belongs to. It is only used for searching.
+ :dt.Combo Name:dd.Name of the Combo List. It used to refence this list in the field definition screen
+ :dt.Combo Type:dd.Type of Combobox to display
+   :dl.
+     :dt.Standard Combo:dd.Display a list of possible Values. The Selected Value is what gets put in the file.
+     :dt.Key/Value Combo:dd.With these Combos the values displayed to the user are different from
+what the file holds. In the above example, :hp1.Combo Code:ehp1. holds the file value while
+:hp1.Combo Value:ehp1. holds the value displayed to the User. So the File would hold :blue.H1:eblue.
+while the user sees :blue.PO Header (H1):eblue..
+   :edl.
+ :dt.Insert Lines:dd.The number of lines to insert
+ :dt.Table Buttons:dd.The second row of buttons refer to the Field Table / Sub-Record Table immediately below the buttons
+ 
+.pict RecordLayout_RecTableBtns.GIF
+ 
+ :dt.Table:dd.Combo Items to be displayed in the Combobox
+:edl.
+
+:h3.Defining a Combo Field
+:p.To use your Combo List (Say AmsPoDownloadType) in a Record Layout (Copybook) definition, you must
+:ul.
+  :li.Set the :hp2.Cell Format:ehp2. to Combobox
+  :li.Enter Combo list in the Parameter Field
+:eul.
+
+.pict LayoutEdit_Combo.png
+
+:p.Please look at
+.*b2h HTML <a href="HowTo.htm#HDRUSECOMBO" target=new>How To use Combos</a> for more details.
+
+:h2 id=ComboCre.Combo Create
+
+:p.This screen is used to create new Combo Lists, please see :hdref refid=ComboPnl. for more details.
+
+

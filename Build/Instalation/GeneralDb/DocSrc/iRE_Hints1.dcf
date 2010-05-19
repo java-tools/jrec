@@ -1,0 +1,42 @@
+:h4 id=FiltXmp.Creating Simple Reports
+:p.You can create very basic reports by combining Filtering (see :hdref refid=Filter.)
+with the Save-As / Export Function (see :hdref refid=SaveAs.).
+:p.With the AMS-PO file which consists of
+:ul compact.
+:li.PO Header
+:ul compact.
+:li.Keycode Detail Record
+:ul compact.
+:li.Store Allocation Record
+:eul.
+:eul.
+:eul.
+:p.It looks like this:
+:p.
+.*b2h HTML <img SRC="Diagram/RecordEdit_Filter_tbl_xmpl1.png">
+:p.
+you can select specific fields of the PO header by entering:
+:p.
+.*b2h HTML <img SRC="Diagram/RecordEdit_Filter_xmpl1.GIF">
+:p.This will produce a filtered view like
+:p.
+.*b2h HTML <img SRC="Diagram/RecordEdit_Filter_tbl_xmpl1a.GIF">
+:p.
+:p.To save as a HTML file, select the :hp2.SaveAs:ehp2. button, then enter the 
+following on the :hp2.SaveAs:ehp2. Screen:
+:p.
+.*b2h HTML <img SRC="Diagram/RecordEdit_Filter_SaveAs_xmpl1.GIF">
+:p.
+:p.This will produce the following HTML
+
+.*b2h HTML <table BORDER="1" CELLSPACING="1"><tr><th>Line</th><th>8 : 10<br/>Vendor</th><th>18 : 12<br/>PO</th><th>30 : 6<br/>Entry Date</th><th>48 : 4<br/>Department</th><th>52 : 6<br/>Expected Receipt Date</th><th>87 : 2<br/>Order Type</th></tr>
+.*b2h HTML <tr><td>1</td><td>6060</td><td>286225</td><td>040909</td><td>200 </td><td>050102</td><td>FT</td></tr>
+.*b2h HTML <tr><td>2</td><td>6228</td><td>222227</td><td>040909</td><td>200 </td><td>050102</td><td>FT</td></tr>
+.*b2h HTML <tr><td>3</td><td>6228</td><td>222243</td><td>040909</td><td>200 </td><td>050102</td><td>FT</td></tr>
+.*b2h HTML <tr><td>4</td><td>5341</td><td>294915</td><td>041013</td><td>475 </td><td>041231</td><td>FT</td></tr>
+.*b2h HTML <tr><td>5</td><td>5341</td><td>294987</td><td>041013</td><td>475 </td><td>041231</td><td>FT</td></tr>
+.*b2h HTML <tr><td>6</td><td>5341</td><td>295139</td><td>041013</td><td>475 </td><td>041231</td><td>FT</td></tr>
+.*b2h HTML <tr><td>7</td><td>5341</td><td>303662</td><td>041110</td><td>310 </td><td>041231</td><td>FT</td></tr>
+.*b2h HTML <tr><td>8</td><td>5341</td><td>304100</td><td>041111</td><td>310 </td><td>041231</td><td>FT</td></tr>
+.*b2h HTML </table>
+

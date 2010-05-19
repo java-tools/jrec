@@ -1,0 +1,85 @@
+:h1.Improving the running of RecordEditor HSQL
+:p.There have been several changes for version 0.68 some of which you may want to 
+change:
+:ul.
+ :li.Definitions for running with both HSQL-Server and HSQL-embedded have been included.
+The system will first look for the HSQL-Server then try HSQL-Embedded. If you will
+mainly use the embedded version, you can set the system to try opening the embedded DB first.
+ :li.When running in embedded mode, it will now only open connections when it
+needs to access the DB. This allows you to run multiple occurrences of the RecordEditor
+but it also slows things down.
+:eul.
+
+
+:h2.Setting the Default DB
+:p.If you are going to mainly use the embedded version of the DB, I suggest 
+changing this to be the default.
+:ul.
+ :li.Start the :hp2.Edit Properties program:ehp2. (From the editor
+:hp2.Edit >>>> Edit Startup options:ehp2.)
+ :li.Select :hp2.Properties:ehp2. from the Menu on the Left hand side of the screen
+ :li.Select :hp2.Defaults:ehp2. from the Tabs at the top of the screen
+ :li.Click on :hp2.DefaultDB:ehp2. in the table on the screen
+ :li.The select :hp2.Record Edit - file:ehp2. in the Combo box at the bottom of the screen
+
+.pict Properties_DefaultDB.png
+:eul.
+
+
+:h2.Embedded HSQL DB Definition
+:p.There is one JDBC options (Auto Close DB) you may wish to change. When set to Y the
+RecordEditor will Open the DB connection, Access the DB and Close the DB connection.
+This has 2 main effects:
+:ol compact.
+ :li.Allows you to run multiple copies of the RecordEditor.
+ :li.Slows down some operations.
+:eol.
+
+To change the :hp2.Auto Close DB:ehp2. property you need to 
+
+:ul.
+ :li.Start the :hp2.Edit Properties program:ehp2. (From the editor
+:hp2.Edit >>>> Edit Startup options:ehp2.)
+ :li.Select :hp2.JDBC Parameters:ehp2. from the Menu on the Left hand side of the screen
+ :li.Select :hp2.JDBC Properties:ehp2. from the Tabs at the top of the screen
+ :li.The :hp2.Auto Close DB:ehp2. option is on the second line at the far right of the screen.
+.pict Setup_EmbeddedDB.png
+:eul.
+
+
+:h1.Embedded DB options
+:p.There are several options that may be useful when using an embedded DB with the record Editor:
+
+:dl.
+  :dt.Read Only Source
+  :dd.If the Database supports a Readonly Mode, you can enter the Readonly access string here.
+The RecordEditor will open the DB in Readonly mode and only open it for update when that is required.
+  :dt.Exapand Variables (Y/N)
+  :dd.When Y, the following variables (case sensitive)&gml
+  :ul compact.
+   :li.:hp2.<install>:ehp2. RecordEditor Install directory
+   :li.:hp2.<home>:ehp2. Users home Directory
+   :li.:hp2.<hsqlDB>:ehp2. on linux it is <install>/<Database> on windows it is in the user parameters directory.
+  :eul.
+  :dt.Auto Close Connection.
+  :dd.Determines wether Database connection are left open after each DB access or left open (for
+server DB's it should be spaces / Y). When the value is
+:ul compact.
+  :li.N, The RecordEditor will connect to the DB, Access the DB and close the connection. 
+This will slow the program down a bit but allow you to run several copies of the RecordEditor at once (in embedded 
+mode).
+  :li.Space / Y the connection is kept open all the time block access to the DB.
+:eul.
+
+:edl.
+.pict Setup_EmbeddedDB.png
+
+:p.
+:p.To get to the JDBC Properties screen you should
+:ul.
+ :li.Start the :hp2.Edit Properties program:ehp2. (From the editor
+:hp2.Edit >>>> Edit Startup options:ehp2.)
+ :li.Select :hp2.JDBC Parameters:ehp2. from the Menu on the Left hand side of the screen
+ :li.Select :hp2.JDBC Properties:ehp2. from the Tabs at the top of the screen
+:eul.
+

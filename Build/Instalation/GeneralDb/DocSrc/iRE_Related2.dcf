@@ -1,0 +1,16 @@
+:ul compact.
+.*b2h HTML <li><a href="ExampleFR.htm">Example Documentation</a>
+.*b2h HTML <li><a href="../JavaDoc/index.html">JavaDoc's</a>
+.*b2h HTML <p/>
+.*b2h HTML <li><a href="http://record-editor.sourceforge.net">Record-Editor Home page</a>
+.*b2h HTML <li><a href="http://sourceforge.net/projects/record-editor/">On Source Forge</a>
+.*b2h HTML <li><a href="http://sourceforge.net/project/showfiles.php?group_id=139274">Record-Editor download page</a>
+:eul.
+
+:p.If you have any comments, issues, problems please please report them&gml.
+
+:ul compact.
+.*b2h HTML <li><a href="https://sourceforge.net/forum/forum.php?forum_id=467594">RecordEditor Source Forge forum</a>
+.*b2h HTML <li><a href="https://sourceforge.net/tracker/?group_id=139274&atid=742839">Bug Reporting</a>
+.*b2h HTML <li><a href="https://sourceforge.net/tracker/?group_id=139274&atid=742842">Feature Request</a>
+:eul.

@@ -1,0 +1,95 @@
+<body>
+<h1>JRecord</h1>
+<p>The JRecord is for reading <ol compact>
+  <li>Binary Files
+  <li>Fixed field width files
+  <li>CSV (Delimited) files
+  <li>XML (via a StAX parser).
+  <li>Supports non-standard file Structures (i.e. Mainframe VB  and Fixed Length).
+</ol>
+<p>JRecord also provides great flexibility in
+<ul>
+  <li>JRecord supports several non standard file structure (Fixed-Length Lines / Length-Based lines).
+      It can also be extended to support other File Structures.
+  <li>JRecord currently supports Cobol and its own Xml Record Layouts. It could be extended to support
+      be extended to support other Record-Layouts.
+</ul>
+
+<p>Important packages in JRecord:
+<ul>
+  <li><b>Details</b> - Holds File & line definition classes. Important Interfaces / classes
+    <ul compact>
+     <li><b>AbstractLine</b> - Interface that specifies what a line (read from a file) does. 
+     Use the <b>getFieldValue</b> method to get a reference to a field.
+     There are 2 implementations of AbstractLine - <b>Line</b> and <b>XmlLine</b>.
+     <li><b>LayoutDetail</b> - Class that describes a file (and its lines) Structure - i.e. the various records
+            and where the fields start / end.
+<pre>
+     LayoutDetail  - Describes a file
+       |
+       +----- RecordDetail (1 or More) - Describes one record in the file
+                |
+                +------  FieldDetail (1 or More)  - Describes one field in the file 
+</pre>     
+      <li><b>AbstractFieldValue</b> - Interface to get/set a fields value - it is a reference to one field in a line.
+    </ul>
+  <li><b>IO</b> - Record Oriented IO routines. Important classes
+    <ul compact>
+      <li><b>AbstractLineReader</b> Abstract Class for reading AbstractLine's from a file. 
+          All Reader's extend this class.
+      <li><b>AbstractLineReader</b> Abstract Class for writing AbstractLine's to a file. 
+          All Writer's extend this class.
+      <li><b>CobolIOProvider</b> - Will create / provide a class's to read / write a Cobol file.
+      <li><b>LineIOProvider</b> provide classes to read write files of a specified structure.
+    </ul>
+  <li><b>External</b> - Classes to read, write and convert File Definitions (Copybooks or Record Layouts).
+    <ul compact>
+      <li><b>ExternalRecord</b> Record Layout interchange format. It can be read/written from external
+      files and converted to the internal format LayoutDetail.
+      <li><b>ToRecordLayout</b> Convert a ExternalRecord class to an LayoutDetail class.
+      <li><b>ToExternalRecord</b> Convert a LayoutDetail class to an ExternalRecord class.
+      <li><b>RecordEditorXmlLoader</b> Loads a RecordEditor-Xml Layout as ExternalRecord
+      <li><b>RecordEditorXmlWrite</b> Writes ExternalRecord to a file in the RecordEditor-Xml format
+      <li><b>CopybookLoaderFactory</b> The  method getLayoutRecordEditXml which will load a RecordEditor-Xml file as
+             a RecordLayout.    
+    </ul>
+  <li><b>Type</b> - Classes to convert a field from the External Representation
+      to the Internal format.
+  <li><b>ByteIO</b>  - Low level IO routines, most user should not need to look at this package
+</ul>
+
+<p> </p>
+<p>Following is an example of reading & writing a file using a RecordEditor-XML record-layout
+<pre>
+           LayoutDetail layout = CopybookLoaderFactory.getInstance().getLayoutRecordEditXml(copybookName, <font color="brown"><b>null</b></font>);
+	            
+           <font color="brown"><b>int</b></font> fileStructure = layout.getFileStructure();
+	            
+           AbstractLineReader reader  = LineIOProvider.getInstance().getLineReader(fileStructure);
+           AbstractLineWriter writer  = LineIOProvider.getInstance().getLineWriter(fileStructure);
+	            
+           reader.open(salesFile, layout);
+           writer.open(salesFileOut);
+
+           <font color="brown"><b>while</b></font> ((saleRecord = reader.read()) != <font color="brown"><b>null</b></font>) {
+               AbstractFieldValue salePrice = saleRecord.getFieldValue("<font color="blue"><b>SALE-PRICE</b></font>");
+               
+               salePrice.set(salePrice.asDouble() / GST_CONVERSION);
+               writer.write(saleRecord);
+           }
+
+           reader.close();
+           writer.close();
+</pre>
+
+<p><b>RecordEditor Interface</b>
+<p>The following classes are used by the <b>RecordEditor</b> as interfaces to JRecord. You can extend the
+RecordEditor by changing the appropriate interface class.
+<ul>
+  <li><b>CopybookWriterManager</b> - tells the RecordEditor what File base RecordLayouts can be loaded.
+  <li><b>CopybookLoaderFactory</b> - tells the RecordEditor what File base RecordLayouts can be written.
+  <li><b>LineIOProvider</b> - tells the RecordEditor what file structures are supported. 
+  <li><b>TypeManager</b> - tells the RecordEditor what Types are supported. Note: the RecordEditor extends this class
+  <li><b>ConversionManager</b> - tells the RecordEditor what Cobol numeric versions are available - ie how
+  to translate Cobol numbers to RecordEditot / JRecord types.
+</body>

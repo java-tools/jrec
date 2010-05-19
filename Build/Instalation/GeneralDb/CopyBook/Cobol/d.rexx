@@ -1,0 +1,1 @@
+	'dir copy* > d.txt'

@@ -1,0 +1,114 @@
+:h1.Record Editor
+
+.im iRE_TagDefs.dcf
+.im iRE_Intro.dcf
+
+
+:h1.Setting Up the Editor
+:p.To start using the Record Editor you must 
+:ol compact.
+:li.Create the backend Tables. SQL creation and Data Insert Scripts can be found
+in the :hp2.SQL:ehp2. directory.
+:li.Update the JDBC properties file in the 2 jar files (LayoutEdit.jar and recordEdit.jar).
+:li.Set-up bat / scripts to run the :hp2.RecordEdit:ehp2. (File Editor)
+and :hp2.LayoutEdit:ehp2. (record layout editor).
+:eol.
+
+:h2.SQL Scripts
+:p.You need to run either the :hp2.Create_RecordEdit.SQL:ehp2. or
+:hp2.Create_RecordEdit_Oracle.SQL:ehp2. and all the :hp2.Data*.SQL:ehp2. scripts
+:p.
+:table cols='* 2*'.
+:row.:c.Create_RecordEdit.SQL:c.SQL script to create the necessary DB.
+:row.:c.Create_RecordEdit_Oracle.SQL:c.Oracle SQL script to create the necessary DB.
+:row.:c.Data_Record.Sql:c.Add sample records to the Record DB.
+:row.:c.Data_RecordFields.Sql:c.Add field definitions to the Record Field DB.
+:row.:c.Data_SubRecords.sql:c.Add Child Record definitions to the definition.
+:row.:c.Data_Tables.Sql:c.Add Table definitions.
+:etable.
+
+:h2 id=properties.Updating JDBC Properties file
+.im iRE_Properties.dcf
+
+
+:h2.Running the Record Editors
+:p.There are sample bat and Rexx files to run the :hp2.Record-Edit:ehp2. and
+:hp2.Layout-Edit:ehp2. in the :hp2.lib:ehp2. directory.
+
+:tdef id=xlight shade='xlight'.
+:table cols='* * *'.
+:thd refid=xlight.
+  :c.Jar:c.Rexx Program:c.Bat File
+:ethd.
+:row refid=none.:c.RecordEdit.Jar:c.runRecordEdit.rexx:c.runRecordEdit.bat
+:row.:c.LayoutEdit.jar:c.runLayoutEdit.rexx:c.runLayoutEdit.bat
+:etable.
+
+:p.The commands used to run these 2 jars are
+:p.
+:table cols='* 3*'.
+:thd refid=xlight.
+  :c.Jar:c.Command
+:ethd.
+:row refid=none.:c.RecordEdit.Jar:c.java -cp RecordEdit.jar;:hp2.<DBJAR>:ehp2. edit.EditRec
+:row.:c.LayoutEdit.jar:c.java -cp LayoutEdit.jar;cb2xml.jar;:hp2.<DBJAR>:ehp2. layoutEdit.LayoutEdit
+:etable.
+
+:p.where :hp2.<DBJAR>:ehp2. is the Jar holding the JDBC driver
+
+
+:h1.Starting the Editor
+.im iRE_starting.dcf
+.im iRE_SuppliedFiles.dcf
+
+
+:h1.Editing Files
+.im iRE_re000_Files.dcf
+
+.im iRE_le1000_RecordLayout.dcf
+
+.im iRE_le2000_BinFileDefinition
+.im iRE_le3000_DelimitedFiles
+
+:appendix.
+:h1.Help System
+.im iRE_HelpSystem.dcf
+
+:h1 id=FldType.Field Types
+.im iRE_FieldTypes
+
+:h1.Record Layout Details
+.im iRE_RecordDetails.dcf
+
+
+:h1.ODBC Definition
+.im iRE_ODBC.dcf
+
+
+
+:h1.FAQ
+.im iRE_FAQ
+
+.im iRE_Reporting.dcf
+
+.im iRE_Hints.dcf
+
+:h1.HSQLDB Version
+.im iRE_HSQLdetails.dcf
+
+:h1.Linux
+.im iRE_Linux.dcf
+
+:h1.Window Right Click
+.im iRE_Ap_WindowsRightClick.dcf
+
+:h1.Changes
+.im iRE_VersionHistory.dcf
+
+
+:h1.Rexx
+.im iRE_Rexx.dcf
+
+:h1.Related Systems / Useful Systems
+.im iRE_Related.dcf
+.im iRE_Related2.dcf

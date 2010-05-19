@@ -1,0 +1,66 @@
+:h1.RecordEditor to CSV conversion program
+.im iRE_TagDefs.dcf
+:p.This program will convert Fixed field Position file into CSV file
+using a RecordEditor Definition. It can handle both Windows/Unix text/binary files as well
+as native IBM Mainframe files.
+:p.The program comes in two versions
+:dl.
+ :dt.Re2Csv :dd.Batch conversion program
+ :dt.Re2CsvGui :dd.Options are displayed on a GUI front screen.
+:edl.
+
+:p.Both programs accept the following arguments:
+
+.fo off
+
+    -I  - Input file
+    -O  - Output file
+    -L  - Layout Name
+    -S  - Field Separator (space, tab or value)
+
+
+.fo on
+
+:h2.Instalation
+:p.This program requires that the :RecordEditor. be installed. You should unzip
+it to where ever the :RecordEditor. package is installed.
+
+
+:h2.Compiling (Eclipse etc)
+:p.The source code references classes in the :hp2.RecordEdit.Jar:ehp2. which is 
+part of the :RecordEditor. package install. This jar must be included in the build path.
+
+
+:h2.Re2Csv
+:p.Batch program to convert a Fixed Field Position (Text, Binary, Mainframe) file
+into a CSV (comma, tab separated fields) file.
+
+.fo off
+Usage:
+
+       java -cp re2csv.jar;RecordEdit.jar;hsqldbmain.jar;Your_JDBC.Jar
+                   net.sf.RecordEditor.examples.fix2csv.Re2CsvGui 
+		   -i C:\Program Files\RecordEdit\HSQL\SampleFiles\*.*
+.fo on
+
+:p.Also the following bat files are provided:
+
+:dl.
+  :dt.re2Csv.bat:dd.For converting files to CSV format.
+  :dt.re2CsvGui.bat:dd.Gui program to convert files to CSV format.
+:edl.
+
+:h2.Re2CsvGui
+:p.This is a GUI version of Re2Csv. You select the file and copybook on the following screen
+
+.pict Re2CsvGui.GIF
+
+
+:h2.Transporting files from the Mainframe
+:p.This program can handle native mainframe RECFM=FB and RECFM=VB files. Fixed block
+files can be transported as a binary files. Transporting VB files is slightly more difficult.
+
+
+
+:h4.Transporting VB files to the PC
+.im iRE_VBtransport.dcf

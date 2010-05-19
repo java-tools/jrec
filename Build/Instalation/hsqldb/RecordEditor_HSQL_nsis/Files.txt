@@ -1,0 +1,35 @@
+ams_podownload_20041231.txt		ams PO Download
+zdatetest.txt		ZDateTest
+zdatetest.txt		ZDateTest
+ams_podownload_20041231.txt		ams PO Download
+ams_locdownload_20041228.txt		ams Store
+ams_receipt.txt		ams Receipt
+dtar020.bin		DTAR020
+ams_shipping_04dec01190125.txt		ams Shipping Upload
+ams_vendordownload_20041229.txt		ams Vendor Download
+dtar1000_store_file_large_recfm_u.bin		DTAR1000 VB Dump
+dtar1000_store_file_std.bin		DTAR1000 VB
+dtar107.bin		DTAR107
+dtar119_keyode.bin		DTAR119
+dtar192.bin		DTAR192
+pos_price_1.bin		Price
+pos_price_2.bin		Price
+pos_spl_1.bin		SPL
+ams_locdownload_20041228.txt		ams Store
+ams_podownload_20041231.txt		ams PO Download
+ams_locdownload_20041228.txt		ams Store
+ams_podownload_20041231.txt		ams PO Download
+ams_receipt.txt		ams Receipt
+dtar1000_store_file_std.bin		DTAR1000 VB
+pos_price_1.bin		Price
+pos_spl_1.bin		SPL
+pos_price_2.bin		Price
+pos_price_1.bin		Price
+pos_spl_2.bin		SPL
+ams_locdownload_20041228.txt		ams Store
+ams_receipt.txt		ams Receipt
+ams_locdownload_20041228.txt		ams Store
+ams_receipt.txt		ams Receipt
+Master_File.txt		Master_Record
+Transaction_File.txt		Transaction_Record
+Rental_File.Txt		Rental_Record

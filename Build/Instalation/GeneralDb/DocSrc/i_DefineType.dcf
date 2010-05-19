@@ -1,0 +1,65 @@
+
+:h4.Jave code for US Date Type
+:p.Following is the java code to implement a US Style MM/DD/YY date.   
+              
+.*b2h html <PRE><SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax9">package</SPAN> net.sf.RecordEditor.examples;
+.*b2h html <SPAN CLASS="gutter">   2:</SPAN>
+.*b2h html <SPAN CLASS="gutter">   3:</SPAN><SPAN CLASS="syntax9">import</SPAN> net.sf.JRecord.Types.TypeChar;;
+.*b2h html <SPAN CLASS="gutter">   4:</SPAN><SPAN CLASS="syntax9">import</SPAN> net.sf.RecordEditor.record.types.TypeDateWrapper;
+.*b2h html <SPAN CLASS="gutterH">   5:</SPAN>
+.*b2h html <SPAN CLASS="gutter">   6:</SPAN><SPAN CLASS="syntax3">/**</SPAN>
+.*b2h html <SPAN CLASS="gutter">   7:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">provide</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">a</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">US</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">style</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">date</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">(</SPAN><SPAN CLASS="syntax3">mm</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">dd</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">yy</SPAN><SPAN CLASS="syntax3">)</SPAN>
+.*b2h html <SPAN CLASS="gutter">   8:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN>
+.*b2h html <SPAN CLASS="gutter">   9:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax12">@author</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">Bruce</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">Martin</SPAN>
+.*b2h html <SPAN CLASS="gutterH">  10:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN>
+.*b2h html <SPAN CLASS="gutter">  11:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*/</SPAN>
+.*b2h html <SPAN CLASS="gutter">  12:</SPAN><SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax10">class</SPAN> USdate8 <SPAN CLASS="syntax8">extends</SPAN> TypeDateWrapper <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter">  13:</SPAN>
+.*b2h html <SPAN CLASS="gutter">  14:</SPAN>    <SPAN CLASS="syntax3">/**</SPAN>
+.*b2h html <SPAN CLASS="gutterH">  15:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">provide</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">a</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">US</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">style</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">date</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">(</SPAN><SPAN CLASS="syntax3">mm</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">dd</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">yy</SPAN><SPAN CLASS="syntax3">)</SPAN>
+.*b2h html <SPAN CLASS="gutter">  16:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*/</SPAN>
+.*b2h html <SPAN CLASS="gutter">  17:</SPAN>    <SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax6">USdate8</SPAN>() <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter">  18:</SPAN>        <SPAN CLASS="syntax14">super</SPAN>(<SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">TypeChar</SPAN>(<SPAN CLASS="syntax14">true</SPAN>), <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">MM/dd/yy</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>);
+.*b2h html <SPAN CLASS="gutter">  19:</SPAN>    <SPAN CLASS="syntax18">}</SPAN>
+.*b2h html <SPAN CLASS="gutterH">  20:</SPAN><SPAN CLASS="syntax18">}</SPAN>
+.*b2h html </PRE>   
+                                                                          
+:p.Following is the code to provide a special Date Editor
+
+.*b2h html <PRE><SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax9">package</SPAN> net.sf.RecordEditor.examples;
+.*b2h html <SPAN CLASS="gutter">   2:</SPAN>
+.*b2h html <SPAN CLASS="gutter">   3:</SPAN><SPAN CLASS="syntax9">import</SPAN> net.sf.RecordEditor.record.format.DateFormat;
+.*b2h html <SPAN CLASS="gutter">   4:</SPAN>
+.*b2h html <SPAN CLASS="gutterH">   5:</SPAN><SPAN CLASS="syntax3">/**</SPAN>
+.*b2h html <SPAN CLASS="gutter">   6:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">US</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">date</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">cell</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">format</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">(</SPAN><SPAN CLASS="syntax3">MM</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">DD</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">YY</SPAN><SPAN CLASS="syntax3">)</SPAN>
+.*b2h html <SPAN CLASS="gutter">   7:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN>
+.*b2h html <SPAN CLASS="gutter">   8:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax12">@author</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">Bruce</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">Martin</SPAN>
+.*b2h html <SPAN CLASS="gutter">   9:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN>
+.*b2h html <SPAN CLASS="gutterH">  10:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*/</SPAN>
+.*b2h html <SPAN CLASS="gutter">  11:</SPAN><SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax10">class</SPAN> USdateFormat8 <SPAN CLASS="syntax8">extends</SPAN> DateFormat <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter">  12:</SPAN>
+.*b2h html <SPAN CLASS="gutter">  13:</SPAN>    <SPAN CLASS="syntax3">/**</SPAN>
+.*b2h html <SPAN CLASS="gutter">  14:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">US</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">date</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">cell</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">format</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">(</SPAN><SPAN CLASS="syntax3">MM</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">DD</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">YY</SPAN><SPAN CLASS="syntax3">)</SPAN>
+.*b2h html <SPAN CLASS="gutterH">  15:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*/</SPAN>
+.*b2h html <SPAN CLASS="gutter">  16:</SPAN>    <SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax6">USdateFormat8</SPAN>() <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter">  17:</SPAN>        <SPAN CLASS="syntax14">super</SPAN>(<SPAN CLASS="syntax14">true</SPAN>, <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">MM/dd/yy</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>);
+.*b2h html <SPAN CLASS="gutter">  18:</SPAN>    <SPAN CLASS="syntax18">}</SPAN>
+.*b2h html <SPAN CLASS="gutter">  19:</SPAN><SPAN CLASS="syntax18">}</SPAN>
+.*b2h html <SPAN CLASS="gutterH">  20:</SPAN>
+.*b2h html </PRE>
+
+:p.You now need to bundle this Type as a Java Jar file. 
+                       
+:h4.Defining a Type to the RecordEditor  
+:p.Start the :blue.Edit RecordEditor Startup Properties:eblue. and go to the
+:hp2.User Types:ehp2. tag and entor the new Type as in the diagram below:
+
+.pict Setup_Type.GIF  
+
+:p.The next step is to define where your type is found, so go to the :hp2.User Jars:ehp2.
+tag an enter your new jar as below
+
+.pict Setup_UserJars.GIF                                                                     
+
+:p.You can now use the new Type in both the :hp2.RecordEditor:ehp2. and the :hp2.LayoutEditor:ehp2..     
+                                           

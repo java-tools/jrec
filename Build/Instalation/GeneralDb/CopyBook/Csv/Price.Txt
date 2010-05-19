@@ -1,0 +1,12 @@
+Record	0	10	<Tab>	0	
+SR	PriceR 8	Record Type	8	-1
+SR	PriceR 9	Record Type	9	-1
+SR	PriceR 3	Rec Type	3	-1
+SR	PriceR 1	Rec Type	1	-1
+SR	PriceR F	Record Type	F	-1
+SR	PriceR D	Record Type	D	-1
+SR	PriceR 2	Rec Type	2	-1
+SR	PriceR 4	Rec Type	4	-1
+SR	PriceR 5	Record Type	5	-1
+SR	PriceR 6	Record Type	6	-1
+SR	PriceR L	Record Type	L	-1

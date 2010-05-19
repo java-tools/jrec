@@ -1,0 +1,8 @@
+<processing>
+	<logfiledir>$INSTALL_PATH</logfiledir>
+	<job name="do_Unpack">
+		<executeclass name="prg.Unpack">
+			<arg>$INSTALL_PATH/lib</arg>
+		</executeclass>
+	</job>
+</processing>

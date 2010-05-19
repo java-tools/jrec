@@ -1,0 +1,3110 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>Record Editor</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- /home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/regMan.d -->
+<!-- cf converted by B2H R4.7 (390) (LINUX) on 11 May 2010 at         -->
+<!-- 19:58:37                                                         -->
+<META HTTP-EQUIV="updated" CONTENT="Fri, 11 Sep 2009 12:13:14">
+<META HTTP-EQUIV="review" CONTENT="Sat, 11 Sep 2010 12:13:14">
+<META HTTP-EQUIV="expires" CONTENT="Sun, 11 Sep 2011 12:13:14">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<a name="Toc"/>
+<HR><H1><A NAME="Header_1">Record Editor</A></H1>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>This is a <B>Programmers Data-file editor</B>, similar to the
+Mainframe Editor - <B>File-Aid</B> or
+<a href="http://www.adtools.com/products/windows/dedit.htm">Net-Cobols Cobol-Editor</a>.
+The Editor is written in java (1.4) so should run on most Computer Systems.
+The RecordEditor has the following uses
+<OL COMPACT TYPE=1>
+   <LI>Viewing/editing Fixed field length data files (i.e. fields occupy the same columns
+in every record. A typical file might be- Columns 1 to 8 Product, Columns 9 to 16 Quantity etc).
+   <LI>Viewing/editing CSV (i.e. Comma / Tab separated fields) files
+   <LI>Reading / Writing Record orientated files in JAVA.
+</OL>
+<P>This program uses a <font color="blue"><b>Record-Layout</b></font> definition to display the data file
+in a Human Readable Form. It can handle both <B>PC (Text and Binary)</B> and
+<B>native IBM Mainframe (Text and Binary)</B> file formats.
+<P>These <font color="blue"><b>Record-Layouts</b></font> are stored in a Database. There is an option
+to import <font color="blue"><b>Cobol Record Layouts</b></font> into the Database plus screens to edit
+the <B>Record Layouts</B>.
+<P>
+<P>Fixed Field Length data files are very common  :
+<UL COMPACT>
+   <LI>On IBM Mainframes
+   <LI>In Cobol Programs
+</UL>
+But at work we also use them for
+<UL COMPACT>
+   <LI>Sending data to IBM 4680/4690 Register Controllers
+   <LI>Automated Warehouse Control Systems
+   <LI>Transferring data between different Computers
+</UL>
+<P>
+<P>I believe the people working in the following areas will find this program very useful:
+<UL COMPACT>
+  <LI>Interfacing with IBM Mainframe Systems.
+  <LI>Mainframe Programmers (who do not have access to File-Aid or similar products).
+  <LI>IBM 4680/4690 Register controllers.
+</UL>
+<P>
+<P>
+<P>
+<P>
+<P>
+<HR><H1><A NAME="Header_2">Setting Up the Editor</A></H1>
+<P>To start using the Record Editor you must
+<OL COMPACT TYPE=1>
+<LI>Create the backend Tables. SQL creation and Data Insert Scripts can be found
+in the <B>SQL</B> directory.
+<LI>Update the JDBC properties file in the 2 jar files (LayoutEdit.jar and recordEdit.jar).
+<LI>Set-up bat / scripts to run the <B>RecordEdit</B> (File Editor)
+and <B>LayoutEdit</B> (record layout editor).
+</OL>
+<P>
+<HR><H2><A NAME="Header_3">SQL Scripts</A></H2>
+<P>You need to run either the <B>Create_RecordEdit.SQL</B> or
+<B>Create_RecordEdit_Oracle.SQL</B> and all the <B>Data*.SQL</B> scripts
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">Create_RecordEdit.SQL
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="67%">SQL script to create the necessary DB.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">Create_RecordEdit_Oracle.SQL
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="67%">Oracle SQL script to create the necessary DB.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">Data_Record.Sql
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="67%">Add sample records to the Record DB.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">Data_RecordFields.Sql
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="67%">Add field definitions to the Record Field DB.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">Data_SubRecords.sql
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="67%">Add Child Record definitions to the definition.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">Data_Tables.Sql
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="67%">Add Table definitions.
+</TD></TR></TABLE>
+<P>
+<HR><H2><A NAME="HDRPROPERTIES">Updating JDBC Properties file</A></H2>
+<P>
+<P>All the JDBC connection details are held in a property file <B><I>utils/RecordEdit.Properties"</I></B>
+in the 2 JAR's (RecordEdit.jar, LayoutEdit.jar).
+<P>The system supports up to 16 Source Databases with numeric index in the property name.
+i.e. <B>Source.0</B> holds the JDBC connection string for <B>Database 0</B> while <B>Source.3</B>
+holds the JDBC connection string for <B>Database 3</B>
+<P>There is a bat file <font color="blue"><b>UpdateProperties.bat</b></font> that will update the jar with a
+new properties file. Or to do it manually (requires Java SDK)
+<PRE>
+jar -uf RecordEdit.jar utils/RecEdit.properties
+jar -uf LayoutEdit.jar utils/RecEdit.properties
+ 
+</PRE><P><P>Variables that can be set for a Database connection are
+<P>
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><B>Variable</B>
+</TD><TD><B>Description</B>
+</TD></TR><TR VALIGN="TOP"><TD><B>SourceName
+</B></TD><TD>Name given to the Database in the Combobox
+</TD></TR><TR VALIGN="TOP"><TD><B>Driver
+</B></TD><TD>JDBC Driver. This Driver must be in the Class Path.
+</TD></TR><TR VALIGN="TOP"><TD><B>Source
+</B></TD><TD>JDBC connection string
+</TD></TR><TR VALIGN="TOP"><TD><B>User
+</B></TD><TD>User Id to be used when connecting to the Database.
+</TD></TR><TR VALIGN="TOP"><TD><B>Password
+</B></TD><TD>Password to be used when connecting to the Database.
+</TD></TR><TR VALIGN="TOP"><TD><B>Commit
+</B></TD><TD>Wether to do a Commit when closing a Database. This only for HSQLDB.
+</TD></TR><TR VALIGN="TOP"><TD><B>Checkpoint
+</B></TD><TD>Whether to Checkpoint when closing a Database. This only for HSQLDB.
+</TD></TR></TABLE>
+<P>Other non Database properties are
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><B>HelpDir</B></TD><TD>Directory holding the help files
+</TD></TR><TR VALIGN="TOP"><TD><B>DefaultFileDirectory</B></TD><TD>Directory where the Editor Starts in (if no file specified)
+</TD></TR><TR VALIGN="TOP"><TD><B>DefaultCobolDirectory</B></TD><TD>The Directory where Cobol Copybooks are stored.
+</TD></TR><TR VALIGN="TOP"><TD><B>VelocityTemplateDirectory</B></TD><TD>Directory where Velocity Templates are held.
+</TD></TR><TR VALIGN="TOP"><TD><B>usePgnIcons</B></TD><TD>If set to N, the system will use Eclipse style icons instead
+of Windows style icons.
+</TD></TR><TR VALIGN="TOP"><TD><B>UserInitilizeClass</B></TD><TD>A user written initialise class. This class will be invoked
+when the RecordEditor starts.It should have a constructor that does not have any parameters.
+</TD></TR><TR VALIGN="TOP"><TD><B>spaceAtBottomOfScreen</B></TD><TD>Space to be left at the bottom of the screen.
+</TD></TR><TR VALIGN="TOP"><TD><B>spaceAtTopOfScreen</B></TD><TD>Space to be left at the top of the screen.
+</TD></TR><TR VALIGN="TOP"><TD><B>spaceAtLeftOfScreen</B></TD><TD>Space to be left at the left of the screen.
+</TD></TR><TR VALIGN="TOP"><TD><B>spaceAtRightOfScreen</B></TD><TD>Space to be left at the Right of the screen.
+</TD></TR><TR VALIGN="TOP"><TD><B>DateFormat</B></TD><TD>Format to display Dates. This field is case sensitive. Typical
+formats might be dd/MM/yyyy for 31/11/2007 or dd.MMM.yyyy for 31.Nov.2007.
+</TD></TR><TR VALIGN="TOP"><TD><B>SignificantCharInFiles.#</B></TD><TD>Where # is 1 to 3. These 3 variables control the looking up
+record Layout Names from the file name. The RecordEditor first tries to match on
+the <I>full_filename</I> followed by <I>full_filename truncated to</I>
+<B>SignificantCharInFiles.3</B> characters. It will then try <I>full_filename truncated to</I>
+<B>SignificantCharInFiles.2</B>characters.
+</TD></TR><TR VALIGN="TOP"><TD><B>LauchEditorIfMatch</B></TD><TD>Controls wether the Editor is launched automatically.
+A value of
+ <UL COMPACT>
+  <LI><B>5 or greater</B>Editor is not launched automatically
+  <LI><B>4</B> Editor is launched if there is an exact match on the full file name.
+  <LI><B>3</B> Editor is launched if there is an match on the first <font color="blue">SignificantCharInFiles.3</font> characters.
+  <LI><B>2</B> Editor is launched if there is an match on the first <font color="blue">SignificantCharInFiles.2</font> characters.
+  <LI><B>1</B> Editor is launched if there is an match on the first <font color="blue">SignificantCharInFiles.1</font> characters
+ </UL>
+</TD></TR></TABLE>
+<P>
+<P>
+<PRE>
+<font color="red"><b>## Sample MS Access / ODBC connection</b></font>
+<font color="blue"><b>SourceName.0=</b></font>Record Edit
+<font color="blue"><b>Source.0=</b></font>JDBC&#58;ODBC&#58;RecordLayout
+<font color="blue"><b>Driver.0=</b></font>sun.jdbc.odbc.JdbcOdbcDriver
+ 
+<font color="red"><b>## Sample HSQLDB</b></font>
+<font color="blue"><b>Commit.1=</b></font>Y
+<font color="blue"><b>Checkpoint.1=</b></font>Y
+<font color="blue"><b>SourceName.1=</b></font>hsqldb
+<font color="blue"><b>Source.1=</b></font>jdbc&#58;hsqldb&#58;hsql&#58;//localhost/recordedit
+<font color="blue"><b>Driver.1=</b></font>org.hsqldb.jdbcDriver
+<font color="blue"><b>User.1=</b></font>sa
+ 
+<font color="red"><b>## My SQL</b></font>
+<font color="blue"><b>SourceName.2=</b></font>My SQL
+<font color="blue"><b>Source.2=</b></font>jdbc&#58;mysql&#58;//localhost/recordedit
+<font color="blue"><b>Driver.2=</b></font>org.gjt.mm.mysql.Driver
+ 
+<font color="red"><b>## Oracle connection via Oracle Fat Client Driver</b></font>
+<font color="blue"><b>SourceName.3=</b></font>Record Edit - Oracle
+<font color="blue"><b>Source.3=</b></font>jdbc&#58;oracle&#58;oci8&#58;@ordas
+<font color="blue"><b>Driver.3=</b></font>oracle.jdbc.driver.OracleDriver
+<font color="blue"><b>User.3=</b></font>targxxxx
+<font color="blue"><b>Password.3=</b></font>apassword
+ 
+## Help Directory
+<font color="blue"><b>HelpDir=</b></font>File&#58;G&#58;/RecordEdit_Prj/Docs/
+ 
+</PRE><P><P><HR><H2><A NAME="Header_5">Running the Record Editors</A></H2>
+<P>There are sample bat and Rexx files to run the <B>Record-Edit</B> and
+<B>Layout-Edit</B> in the <B>lib</B> directory.
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+ 
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="33%">Jar
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="33%">Rexx Program
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="33%">Bat File
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">RecordEdit.Jar
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">runRecordEdit.rexx
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">runRecordEdit.bat
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">LayoutEdit.jar
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">runLayoutEdit.rexx
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">runLayoutEdit.bat
+</TD></TR></TABLE>
+<P>
+<P>The commands used to run these 2 jars are
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+ 
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="25%">Jar
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="75%">Command
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">RecordEdit.Jar
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">java -cp RecordEdit.jar;<B>&lt;DBJAR&gt;</B> edit.EditRec
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">LayoutEdit.jar
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">java -cp LayoutEdit.jar;cb2xml.jar;<B>&lt;DBJAR&gt;</B> layoutEdit.LayoutEdit
+</TD></TR></TABLE>
+<P>
+<P>where <B>&lt;DBJAR&gt;</B> is the Jar holding the JDBC driver
+<P>
+<P>
+<HR><H1><A NAME="Header_6">Starting the Editor</A></H1>
+<HR><H2><A NAME="Header_7">Starting the Record Editor</A></H2>
+<P>The Record Editor can either be started from
+<UL COMPACT>
+<LI>The start Menu -
+<P>
+<img SRC="Diagram/StartMenu.png">
+<P>
+<LI>From Windows Explorer, you can use the right click button -
+<P>
+<table><tr><td><img SRC="../Docs/Diagram/RightClick.GIF"></td></tr></table>
+<P>
+<LI>From the command line. It accepts the following parameters
+<OL COMPACT TYPE=1>
+<LI>File Name
+<LI>Line Number (preceded by -l).
+</OL>
+<P>To edit a file Filename and move to the 100 record you would enter
+<P>java.jar -jar .../runFullEditor.jar "Filename" -l 100
+</UL>
+<P>
+<P>When the Record Editor starts, it displays the
+Edit Start Screen
+<P>
+<img SRC="../Docs/Diagram/RecordEdit_Main.png">
+<PRE>
+</PRE><P>Fields on this screen are
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><P><B>Field</B>
+</TD><TD><P><B>Description</B>
+</TD></TR><TR VALIGN="TOP"><TD><P><B>File
+</B></TD><TD><P>Name of the file to edit, you can select a file by using the <B><I>Find File</I></B> button to the
+right.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Database
+</B></TD><TD><P>The system stores it's record definitions in a database. The system can also
+connect to multiple Databases. This Combo allows you which DB to use. You could have different
+Test / Production Layout DB's.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>System
+</B></TD><TD><P>The Record Layouts can be grouped into different systems. This Combo Box is
+used to select a specific System.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Record Layout
+</B></TD><TD><P>The Record Layout used to format the file. Only layouts belonging to the
+selected System (above) are displayed.
+<P><B>Note: </B>A <B>Record Layout</B> describes the format of a file, each layout consists of either
+<UL COMPACT>
+ <LI>A series of fields.
+ <LI>A serious of record (which intern consist of a series of fields).
+</UL>
+</TD></TR></TABLE>
+<P>
+<P><B>Buttons on the Screen</B>
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><P><B>Button</B>
+</TD><TD><P><B>Description</B>
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Choose File
+</B></TD><TD><P>Start the File Chooser dialogue which will navigate the File system and the user to choose a file.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Reload
+</B></TD><TD><P>Reloads System and Record Layout details from the database.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Create Layout Wizard
+</B></TD><TD><P>Start the Record Creation wizard. This wizard displays the file and lets you
+select the fields (by clicking on the first character in the field). See <A HREF="#HDRWIZARD">"Layout Wizard"</A> for more detail.
+<P><B>Note: </B>This option is only available in the Full Editor.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Create Layout
+</B></TD><TD><P>Bring up the <B>Record Layout Creation</B> screen. See <A HREF="#HDRLAYOUTDEF">"Record Layout Definition"</A> for more detail.
+<P><B>Note: </B>This option is only available in the Full Editor.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Edit
+</B></TD><TD><P>Edit the file.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Browse
+</B></TD><TD><P>View the file, but no changes are possible.
+</TD></TR></TABLE>
+<HR><H2><A NAME="Header_8">Supplied Sample Files</A></H2>
+<P>In the $IntallDirectory/SampleFiles there are a number of example files for
+you try out the Editor.
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">File
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">System
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">Record Layout
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Ams_Receipt.txt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >AMS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >ams Receipt
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Ams_PODownload_20050101.txt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >AMS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >ams PO Download
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Ams_PODownload_20041231.txt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >AMS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >ams PO Download
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Ams_LocDownload_20041228.txt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >AMS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >ams Store
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Ams_Shipping_04DEC03190126.txt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >AMS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >ams Shipping Upload
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Ams_Shipping_04DEC02190132.txt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >AMS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >ams Shipping Upload
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Ams_Shipping_04DEC01190125.txt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >AMS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >ams Shipping Upload
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Ams_VendorDownload_20041229.txt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >AMS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >ams Vendor Download
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Pos_Spl_1.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >POS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >SPL
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Pos_Spl_2.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >POS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >SPL
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Pos_Price_2.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >POS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Price
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Pos_Price_1.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >POS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Price
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">DTAR119_keyode.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Mainframe
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >DTAR119
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">DTAR020.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Mainframe
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >DTAR020
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">DTAR107.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Mainframe
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >DTAR107
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">DTAR192.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Mainframe
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >DTAR192
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">sampleEbcdicNew.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Mainframe
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Mainframe FB80
+</TD></TR></TABLE>
+<P>
+<P>
+<P>
+<HR><H1><A NAME="Header_9">Editing Files</A></H1>
+<P>
+<HR><H2><A NAME="Header_10">Viewing a Binary File</A></H2>
+<P>In jEdit a binary file like a 4680/4690-Register price change file looks like
+<P>
+<img SRC="Diagram/RecordEdit_jEdit.png">
+<P>
+<P><P>
+<P>
+<P><H4><A NAME="HDRBINTBL">Table View - Binary file</A></H4>
+<P>While in the RecordEditor Table-View, binary fields are converted to there text equivalent. It looks like
+<P>
+<P>
+<img SRC="Diagram/RecordEdit_Table.png">
+<P>
+<PRE>
+ 
+</PRE><P><P>The important parts of the screen are
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">Layout combo
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="36%">
+<img SRC="Diagram/RecordEdit_LayoutCombo.GIF">
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="45%">Used to select the Record Layout used to format the file
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">Edit Buttons (edit mode)
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="36%">
+<img SRC="Diagram/RecordEdit_Buttons.GIF">
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="45%">Various Edit options- <B>Find, Filter, Save, Save-As / Export, Copy, Paste,
+New-Record, Correct-length, Delete</B> and <B>Help</B>.
+<BR>
+See <A HREF="#HDRFIND">"Search Screen"</A>, <A HREF="#HDRFILTER">"Filter Screen"</A> and <A HREF="#HDRSAVEAS">"Save AS / Export"</A> for more details.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">Edit Buttons (Browse mode)
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="36%">
+<img SRC="Diagram/RecordEdit_BrowseButtons.GIF">
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="45%">Various Edit options- <B>Find, Filter, Save-As / Export, Copy</B> and <B>Help</B>.
+See <A HREF="#HDRFIND">"Search Screen"</A>, <A HREF="#HDRFILTER">"Filter Screen"</A> and <A HREF="#HDRSAVEAS">"Save AS / Export"</A> for more details.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">Selection Buttons
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="36%">
+<img SRC="Diagram/RecordEdit_Selection.GIF">
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="45%">On the Far Left (just left of the line number) is the <B>record selection</B> Button.
+When one of these buttons is pressed, the record screen (see <A HREF="#HDRBINRECORD">"Record View - Binary file"</A> and
+<A HREF="#HDRTXTREC">"Record View - Text file"</A>) is
+displayed.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">Headings
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="36%">
+<img SRC="Diagram/RecordEdit_Heading.GIF">
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="45%">At the top in the column headings you can:
+<UL>
+<P><LI>Move the Column by dragging and dropping the column header:
+<UL COMPACT>
+<LI>Click on the column header
+<LI>While holding the mouse button down, drag the column to the required position
+</UL>
+<P><LI>Change the column size by dragging the column header edge.
+<P><LI>Sort on the column by double clicking on the column heading.
+</UL>
+</TD></TR></TABLE>
+<P>
+<P><P>
+<P>
+<P>
+<P><H3><A NAME="Header_12">Viewing Text File</A></H3>
+<P>
+<P>While a text file can be read using any editor, it can be hard to interpret as in the following
+example:
+<P>
+<PRE>
+ 
+FHSTDREC01TAR05/03/200519:00:09
+RHTAR297853      96010019809740001138504.03.200520.28.10000005965IN                              000000000000000000000000000                    00013776000000002800000002800                    NNY0000028 L96010082005-03-04-20.34.46.709398000000001000000000
+RDTAR297853      9601001980974000000022013240000000000001EN00000002800000100000000049200EQBD180 2005-03-04-20.30.05.644995000000014
+RSTAR297853      96010019809740000000220132400000000000015036000000001000000001EQBD180 2005-03-04-20.30.05.580496000000001
+RSTAR297853      96010019809740000000220132400000000000015043000000003000000003EQBD180 2005-03-04-20.30.05.619864000000003
+RSTAR297853      96010019809740000000220132400000000000015045000000003000000003EQBD180 2005-03-04-20.30.05.619972000000003
+RSTAR297853      96010019809740000000220132400000000000015057000000001000000001EQBD180 2005-03-04-20.30.05.620098000000001
+RSTAR297853      96010019809740000000220132400000000000015065000000002000000002EQBD180 2005-03-04-20.30.05.620227000000002
+RSTAR297853      96010019809740000000220132400000000000015069000000002000000002EQBD180 2005-03-04-20.30.05.620324000000002
+RSTAR297853      96010019809740000000220132400000000000015072000000003000000003EQBD180 2005-03-04-20.30.05.620420000000003
+RSTAR297853      96010019809740000000220132400000000000015076000000002000000002EQBD180 2005-03-04-20.30.05.620515000000002
+RSTAR297853      96010019809740000000220132400000000000015079000000001000000001EQBD180 2005-03-04-20.30.05.620628000000001
+RSTAR297853      96010019809740000000220132400000000000015094000000003000000003EQBD180 2005-03-04-20.30.05.644403000000003
+RSTAR297853      96010019809740000000220132400000000000015128000000003000000003EQBD180 2005-03-04-20.30.05.644520000000003
+RSTAR297853      96010019809740000000220132400000000000015151000000001000000001EQBD180 2005-03-04-20.30.05.644617000000001
+RSTAR297853      96010019809740000000220132400000000000015173000000001000000001EQBD180 2005-03-04-20.30.05.644712000000001
+RSTAR297853      96010019809740000000220132400000000000015180000000002000000002EQBD180 2005-03-04-20.30.05.644819000000002
+ 
+ 
+</PRE><P><P><H4><A NAME="HDRTXTRECORD">Table View - Text file</A></H4>
+<P>While the same file viewed in the record Editor can look like (Table View):
+<P>
+<img SRC="Diagram/RecordEdit_TableTxt.png">
+<P>
+<P><P>
+<P>
+<P>
+<P>
+<P><H4><A NAME="HDRTXTREC">Record View - Text file</A></H4>
+<P>To display a singe record in record view (as below), press the button to the
+left of the row.
+<P>
+<P>
+<P>
+<img SRC="Diagram/RecordEdit_RecordTxt.png">
+<P>
+<P>
+<P>
+<P>
+<P><H4><A NAME="HDRBINRECORD">Record View - Binary file</A></H4>
+<P>
+<P>To display a singe record in record view (as below), press the button to the
+left of the row on the <A HREF="#HDRBINTBL">"Table View - Binary file"</A> screen.
+<P>
+<P>
+<img SRC="Diagram/RecordEdit_Record.png">
+<PRE>
+ 
+</PRE><P><P>The top of the Record screen is basically the same as those on the
+<A HREF="#HDRBINTBL">"Table View - Binary file"</A> screen. At the bottom of the screen is the
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Movement Buttons
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="40%">
+<img SRC="Diagram/RecordEdit_Movement.GIF">
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="40%">At the bottom of the screen, is the various record movement buttons:
+<UL COMPACT>
+<LI>First record
+<LI>Previous Record
+<LI>Next Record
+<LI>Last Record
+</UL>
+</TD></TR></TABLE>
+<P>
+<P><B>Note: </B>Only changes in the data column are accepted by the system.
+<PRE>
+ 
+</PRE><P><P><P><P><H3><A NAME="Header_16">CSV Files</A></H3>
+<P>CSV files are supported in several ways
+<P>
+<UL>
+  <P><LI>You can define a specific layout definition for the File. This is
+needed if&#58;
+  <OL COMPACT TYPE=1>
+      <LI>The are special types of fields (i.e. Arrays where the elements are seperated by delimiters.
+      <LI>There are no field names on the first Line.
+  </OL>
+  <P><LI>There are specific Layouts (with variation of no Quotes, Single and Double quote Charactersfor
+  <OL COMPACT TYPE=1>
+    <LI>Names on the first line in the file and using <B>Comma's</B> for a field seperator.
+    <LI>Names on the first line in the file and using <B>Tab's</B> for a field seperator.
+    <LI>Names on the first line in the file and using <B>| character</B> for a field seperator.
+  </OL>
+  <P><LI>GenericCSV where the user decides the Type of CSV file at Run Time. See <A HREF="#HDRGENERICCSV">"Generic CSV Layout"</A> for details
+</UL>
+<P>
+<P><H4><A NAME="HDRGENERICCSV">Generic CSV Layout</A></H4>
+<P>
+<P>On this screen you enter the details of the CSV files
+<P>
+<img SRC="Diagram/RecordEdit_GenericCSV.png">
+<P>
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Field Seperator   </B></TD><TD><P>Character used to seperate the fields on each line
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Quote             </B></TD><TD><P>Character used to surround text fields
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Parser            </B></TD><TD><P>Line Parser used to break fields. In most cases <B>Basic Parser</B> will do.
+<B>Parser - Matching quotes</B> will break lines up by matching up all the quotes.
+<B>Parser - Quotes Based on Field Type</B> will put quotes arround all Character fields.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Fields on First Line</B></TD><TD><P>Indicates wether the first line of the file holds the field names.
+</TD></TR></TABLE>
+<P>
+<P><H3><A NAME="Header_18">Popup Menu</A></H3>
+<P>Both the <B>Table File View</B> and <B>Record File View</B> have a popup menu's (right
+click button on Windows) for running record (ie line oriented) commands.
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="100%">
+<img SRC="Diagram/RecordEdit_Popup.GIF">
+<BR></TD></TR></TABLE>
+<P>
+<P>Options include:
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Copy Record(s)</B></TD><TD><P>Copy one or more records to the <B>RecordEditor</B>'s internal clipboard.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Cut Record(s)</B></TD><TD><P>Cut one or more records to the <B>RecordEditor</B>'s internal clipboard.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Paste Record(s)</B></TD><TD><P>Paste records held in the <B>RecordEditor</B>'s internal clipboard after the current record.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Paste Record(s) Prior</B></TD><TD><P>Paste records held in the <B>RecordEditor</B>'s internal clipboard before the current record.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Insert Record</B></TD><TD><P>Insert a record after the current record.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Delete Record(s)</B></TD><TD><P>Delete highlighted records (or the record being updated in record view).
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Find</B></TD><TD><P>Start search dialogue. See <A HREF="#HDRFIND">"Search Screen"</A> for more details.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Filter</B></TD><TD><P>Create a filtered view of the file. See <A HREF="#HDRFILTER">"Filter Screen"</A> for more details.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Save As</B></TD><TD><P>Saves the selected records to the file in a variety of formats. See <A HREF="#HDRSAVEAS">"Save AS / Export"</A> for more details.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Edit Record</B></TD><TD><P>Edit the record under the cursor in the Single Record Screen. See <A HREF="#HDRBINRECORD">"Record View - Binary file"</A> for more details.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Fix Column</B></TD><TD><P>Move the column to the left of screen and stop it scrolling off the screen when you scroll right or left.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Autofit Columns</B></TD><TD><P>Adjust column sizes based on the data being displayed.
+</TD></TR></TABLE>
+<P>
+<P>The right click button will <I>Fix</I> a column so it will not scroll of the screen
+when you scroll left or right.
+<P>
+<P><H3><A NAME="HDRFIND">Search Screen</A></H3>
+<P>The <B>Search screen</B> is used to search for a value in the file.
+This screen is displayed when the search button (<A HREF="#HDRBINTBL">"Table View - Binary file"</A>) is pressed  -
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="100%">
+<img SRC="Diagram/RecordEdit_Find.GIF">
+<BR></TD></TR></TABLE>
+<P>
+<P>The system can do to types of searches
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><B>Full Line Search
+</B></TD><TD>If no field is specified, the system does a Text based full line search.
+</TD></TR><TR VALIGN="TOP"><TD><B>Field Search
+</B></TD><TD>If a field is specified then
+<UL COMPACT>
+<LI>Only the specified field is searched
+<LI>The field is converted to text before being searched. This means that Binary
+fields can be searched.
+</UL>
+</TD></TR></TABLE>
+<P>
+<P>Fields on this screen are
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Field</B>
+ </TD><TD><P><B>Description</B>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Search For    </B></TD><TD><P>Text to be searched for
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Replace With  </B></TD><TD><P>Replacement text.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Record Layout </B></TD><TD><P>Record Layout to be used in the search
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Field         </B></TD><TD><P>Field to be searched, leave blank to do a text search on the whole record.
+Select <B>All Fields</B> to search all fields (preferred record layout).
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Where         </B></TD><TD><P>What to compare options are:
+   <TABLE CELLPADDING="3">
+     <TR VALIGN="TOP"><TD><P><B>Any part of field</B></TD><TD><P>search for the text anywhere in the field
+     </TD></TR><TR VALIGN="TOP"><TD><P><B>Whole Field      </B></TD><TD><P>Compare the whole field with the search text.
+   </TD></TR></TABLE>
+   <P>For example, if the search text was <B>33</B> and the field contains <B>1331</B>
+Then <B>Whole Field</B> would skip this record while <B>Any part of field</B> would find it.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Direction     </B></TD><TD><P>Direction of the Search, options are <B>Forward</B> and <B>Backward</B>.
+</TD></TR></TABLE>
+<P><B>Note: </B>You can only use the replace function when you specify a specific field
+<P>
+<P>
+<P>
+<P><H3><A NAME="HDRFILTER">Filter Screen</A></H3>
+<P>The Filter screen is used to created a view of the data with only the
+record / fields the user wants.
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="100%">
+<img SRC="Diagram/RecordEdit_Filter.png">
+<BR></TD></TR></TABLE>
+<P>The important parts of the screen are:
+<P>
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Record Filter
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">
+<img SRC="Diagram/RecordEdit_Filter_Records.GIF">
+<P>This section of the screen has 2 functions
+<OL COMPACT TYPE=1>
+<LI>Select which records to display based on the Record Type
+(using the <B>Include</B> Check box).
+<LI>When you click on a record you can
+<UL COMPACT>
+<LI>Select which fields (for this record type) will
+be displayed.
+<LI>Allows you to enter filters based on a records content for this record type.
+</UL>
+</OL>
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Field Filter
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">
+<img SRC="Diagram/RecordEdit_Filter_Fields.GIF">
+<P>This section of the screen allows you to select which fields will be displayed
+(using the <B>Include</B> Check box).
+<P>Clicking on the record <B>PriceR 1</B> (in the record filter above) will display
+the fields of record <B>PriceR 1</B>.
+<P>
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Field Value Filter
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">
+<img SRC="Diagram/RecordEdit_Filter_FieldValues.GIF">
+<P>This section of the screen allows you to select which record will be displayed
+based on record content.
+<P>In the above example, only records where the field <B>description</B> contains
+<B>DVD</B> will be displayed.
+<P>Clicking on the record <B>PriceR 1</B> (in the record filter above) will alloy
+you to enter Data-based filters for <B>PriceR 1</B>
+<P>You can enter up to 4 data filters per record type. A record must satisfy
+all filters (i.e. a logical <B>And</B>) to be displayed.
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Sace Button
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">The save button saves the Filter definition as a XML file.
+You can execute the filter at a later date from the View Menu. See <A HREF="#HDRVIEWMENU">"View Menu"</A> for more details.
+</TD></TR></TABLE>
+<P>
+<P>See <A HREF="#HDRFILTXMP">"Creating Simple Reports"</A> for example of using the filter option.
+<P>
+<P><H3><A NAME="HDRSAVEAS">Save AS / Export</A></H3>
+<P>The <B>Save As</B> screen allows you to save
+<UL COMPACT>
+  <LI>The whole File
+  <LI>Or the current View
+  <LI>Or Selected records
+</UL>
+As a
+<UL COMPACT>
+  <LI>Standard Data File
+  <LI>Or a HTML file containing the selected records as a single large Table
+  <LI>Or a HTML file with one HTML table per record with the fields going down the page.
+  <LI>Or using a <a href="http://velocity.apache.org/" TARGET="Velocity">Velocity</a> template (provided <a href="http://velocity.apache.org/" TARGET="Velocity">Velocity</a> is installed, see
+<a href="HowTo.htm#HDRVELOCITY" Target=New>Installing Velocity for details</a>).
+</UL>
+<P>Save as Screen:
+<P>
+<img SRC="Diagram/RecordEdit_SaveAs.GIF">
+<P>
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="11%">Field
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="89%">Description
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%"><B>File Name</B>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Holds the output file name.
+</TD><TD ALIGN="LEFT" VALIGN="TOP" ><BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%"><B>What to Save</B>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Determines what is saved. Options are
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>File</B></TD><TD><P>save the full file
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Current View</B></TD><TD><P>Saves the current view of the file.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Selected Records</B></TD><TD><P>Saves the selected records (or the current record if
+called from the <B>Record Screen</B>, see <A HREF="#HDRBINRECORD">"Record View - Binary file"</A>).
+</TD></TR></TABLE>
+<P><B>Note: </B>Only options that are available are displayed, so if there are no selected records,
+the option is not displayed.
+</TD><TD ALIGN="LEFT" VALIGN="TOP" ><BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%"><B>Output Format</B>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Holds the output Format to be used. Options are:
+<P>
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><P><B>Data</B></TD><TD><P>Saves the file as a <B>Data file</B> (i.e. the same format as the input file).
+</TD></TR><TR VALIGN="TOP"><TD><P><B>HTML: 1 table</B></TD><TD><P>Saves the file as single HTML table as below
+<P>
+<table BORDER="1" CELLSPACING="1"><tr><th>Line</th><th>1 : 2<br/>Record Type</th><th>3 : 9<br/>Pack Qty</th><th>12 : 13<br/>Pack Cost</th><th>25 : 13<br/>APN</th><th>39 : 8<br/>Product</th><th>101 : 50<br/>Product Name</th></tr>
+<tr><td>1</td><td>H1</td><td>45349.0000</td><td>6060286225</td><td>40909</td><td>0</td><td>&nbsp;</td></tr>
+<tr><td>2</td><td>D1</td><td>7.0000</td><td>0.0002</td><td>2222500000000</td><td>43314531</td><td> DONKEY 24-006607 SHWL WRAP CARD                  </td></tr>
+<tr><td>3</td><td>D1</td><td>4.0000</td><td>148.3200</td><td>0</td><td>5614944</td><td> MILK 24-006607 SHWL WRAP CARD                    </td></tr>
+</table>
+<P>
+</TD></TR><TR VALIGN="TOP"><TD><P><B>HTML: 1 Row Per Table</B></TD><TD><P>Saves the file as single HTML table as below
+<P>
+<b>Record 1</b></p><table BORDER="1" CELLSPACING="1"><tr><th>Field</th><th>Start</th><th>Len</th><th>Data</th><th>Text</th></tr>
+<tr><td>Record Type</td><td>1</td><td>2</td><td>H1</td><td>H1</td></tr>
+<tr><td>Vendor</td><td>3</td><td>5</td><td>6060</td><td>0000006060</td></tr>
+<P>
+<tr><td>PO</td><td>8</td><td>10</td><td>286225</td><td>286225      </td></tr>
+<tr><td>Entry Date</td><td>18</td><td>12</td><td>040909</td><td>040909</td></tr>
+<tr><td>Expected Receipt Date</td><td>30</td><td>6</td><td>050102</td><td>050102</td></tr>
+<P>
+<tr><td>Cancel by date</td><td>36</td><td>8</td><td>050107</td><td>050107</td></tr>
+<tr><td>Department Name</td><td>44</td><td>2</td><td>LADIES KNI</td><td>LADIES KNI</td></tr>
+</table><P>&nbsp;</P><p><b>Record 2</b></p><table BORDER="1" CELLSPACING="1"><tr><th>Field</th><th>Start</th><th>Len</th><th>Data</th><th>Text</th></tr>
+<P>
+<tr><td>Record Type</td><td>1</td><td>2</td><td>D1</td><td>D1</td></tr>
+<tr><td>Pack Qty</td><td>3</td><td>9</td><td>7.0000</td><td>000070000</td></tr>
+<tr><td>Pack Cost</td><td>12</td><td>13</td><td>0.0002</td><td>0000000000002</td></tr>
+<P>
+<tr><td>APN</td><td>25</td><td>13</td><td>2222500000000</td><td>2222500000000</td></tr>
+<tr><td>Product</td><td>38</td><td>1</td><td>43314531</td><td>43314531</td></tr>
+<tr><td>Product Name</td><td>39</td><td>8</td><td> DONKEY 24-006607 SHWL WRAP CARD                  </td><td> DONKEY 24-006607 SHWL WRAP CARD                  </td></tr>
+<P>
+</table><P>&nbsp;</P><p><b>Record 3</b></p><table BORDER="1" CELLSPACING="1"><tr><th>Field</th><th>Start</th><th>Len</th><th>Data</th><th>Text</th></tr>
+<tr><td>Record Type</td><td>1</td><td>2</td><td>D1</td><td>D1</td></tr>
+<tr><td>Pack Qty</td><td>3</td><td>9</td><td>4.0000</td><td>000040000</td></tr>
+<P>
+<tr><td>Pack Cost</td><td>12</td><td>13</td><td>148.3200</td><td>0000001483200</td></tr>
+<tr><td>APN</td><td>25</td><td>13</td><td>0</td><td>0000000000000</td></tr>
+<tr><td>Product</td><td>38</td><td>1</td><td>5614944</td><td>05614944</td></tr>
+<P>
+<tr><td>Product Name</td><td>39</td><td>8</td><td> MILK 24-006607 SHWL WRAP CARD                    </td><td> MILK 24-006607 SHWL WRAP CARD                    </td></tr>
+</table>
+</TD></TR></TABLE>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" ><BR></TD></TR></TABLE>
+<P>
+<P>
+<P>
+<P>
+<P><H3><A NAME="HDRSORT">Sort Panel</A></H3>
+<P>
+<P>You can start the Sort option from either the <B>Right Click</B> Menu and from the
+<B>Data</B> Drop down  Menu. On this screen you specify which fields to sort on.
+<P>
+<img SRC="Diagram/RecordEdit_Sort.GIF">
+<P>
+<P>The Screen consists of
+<UL COMPACT>
+ <LI><B>Record Selection</B> at the top, Typically you would only Sort when
+there is only one record Type present.
+ <LI><B>Sort Fields</B> fields to sort on and wether to sort in a Ascending / Descending Direction.
+ <LI><B>Use</B> Wether to Sort the whole file or just the Selected records.
+ <LI><B>Sort</B> button - used to start the Sort process.
+</UL>
+<P>
+<P>
+<P><H3><A NAME="HDRVIEWMENU">View Menu</A></H3>
+<img SRC="Diagram/RecordEdit_ViewMenu.png">
+<P>The view menu is used to select alternative display formats
+for the rows that are currently selected in the editor. See the folowing sections
+for details on the various views available.
+<P>It also allows you to execute saved <B>Filters</B>, <B>Sort Tree's</B> and <B>Record Tree's</B>
+<P>
+<P><H3><A NAME="Header_24">Field Tree</A></H3>
+<P>A field Tree is like the Sort Tree (except there is no sort). It will group
+records with the same field values together as a Tree.
+<P>
+<img SRC="Diagram/RecordEdit_FieldTreeDef1.GIF">
+<P>
+<P>The Screen consists of
+<UL COMPACT>
+ <LI><B>Record Selection</B> at the top, Typically you would only use a field Tree when
+there is only one record Type present.
+ <LI><B>Field</B> fields to group by.
+ <LI><B>Use</B> Wether to build the Tree on the whole file or just the Selected records.
+ <LI><B>Build Tree</B> button - used to start the Build Tree process.
+</UL>
+<P>
+<P>
+<P><H3><A NAME="HDRSTREE">Sort Tree</A></H3>
+<P>
+<P><font color="blue">Sort Tree</font> view is a way to summarise the Data in a File. The program will
+sort the file and group records with the same sort Keys together to form a Tree.
+Longer Term I hope to display a Summary Record for each Tree Node.
+<P>
+<P><H4><A NAME="Header_26">Starting a Sort Tree view</A></H4>
+<P>First select the <B>Sorted Tree View</B> option of the View Menu.
+<P>
+<img SRC="Diagram/RecordEdit_SortedField1.png">
+<P>
+<P>The Screen consists of
+<UL COMPACT>
+ <LI><B>Record Selection</B> at the top, Typically you would only use a Sort Tree when
+there is only one record Type present.
+ <LI><B>Sort Fields</B> fields to sort then build the Tree on.
+ <LI><B>Summary Table</B> supply the summary function for the fields.
+ <LI><B>Use</B> Wether to build the Tree from the whole file or just the Selected records.
+ <LI><B>Build</B> button - used to start the build process.
+ <LI><B>Save Button</B> Saves the sort tree definition to an external file. You can run it later via the view menu,
+see <A HREF="#HDRVIEWMENU">"View Menu"</A> for more details.
+</UL>
+<P>
+<P><H3><A NAME="HDRRTREE">Record Tree</A></H3>
+<P>
+<P>A <B>Record Tree</B> view is a way to represent the Logical Structure of File.
+It is useful when
+<UL COMPACT>
+ <LI>There is more than one Record Type in the file.
+ <LI>There is a logical relation ship between the Records in the file
+</UL>
+<P>
+<P>For example the <B>Ams PO</B> file consists of 3 records
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>PO Header</B></TD><TD><P>Purchase Order Summary record, it holds Purchase order details
+like PO number, Supplier etc. Each PO record has one or more Product Records
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Product</B></TD><TD><P>Product/DC summary. It holds Product / DC Details. Each
+Products Record can have multiple Store Allocations records.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Store Allocations</B></TD><TD><P>Holds Store Allocations (i.e. Quantity allocated to each store)
+organised in array.
+</TD></TR></TABLE>
+<P>
+<P>Logically records in the <B>Ams PO</B> file are arranged like:
+<P>
+<img SRC="Diagram/AmsPOfile.GIF">
+<P>
+<P>The first step is to select the <B>Record Based Tree</B> option on the view Menu:
+<P>
+<img SRC="Diagram/RecordEdit_RecordField1.png">
+<P>
+<P>On this screen you need to enter the Parent Record for each Record.
+<P>
+<P>
+<P>
+<P><H3><A NAME="HDRTREE">Tree View</A></H3>
+<P>
+<img SRC="Diagram/RecordTree.png">
+<P>
+<P>The Tree view screen consists of 3 parts:
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Button</B></TD><TD><P>The Button on the far left of the screen will display the line on the Single Record screen
+(See <A HREF="#HDRTXTRECORD">"Table View - Text file"</A> for more details).
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Tree</B></TD><TD><P>On the Left of the screen there is the Tree, you can click on a +/- button to expand/contract the node.
+You can also use the <I>Fully Expand Tree</I> option on the Right Click menu to fully Expand a tree node.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Fields</B></TD><TD><P>On the right of the Screen, is the fields in the line.
+</TD></TR></TABLE>
+<P>
+<P><H3><A NAME="Header_29">Column View</A></H3>
+<P>The Column view will display the selected records across the page
+rather then normal display going down the page. There is a limit of 5000
+rows for the Column view.
+<P>
+<img SRC="Diagram/RecordEdit_View3.png">
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<HR><H1><A NAME="HDRLAYOUTED">Layout Editor</A></H1>
+<P>The LayoutEdit program is used to Edit Record layouts and load Cobol Record
+layouts into the system.
+<P>
+<P>When the Layout-Edit starts, there are two screens visible
+<P>
+<TABLE CELLPADDING="3">
+  <TR VALIGN="TOP"><TD><P><B>Menu</B></TD><TD><P>Program menu, it used select the various options
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Log </B></TD><TD><P>This is where any errors will be written
+</TD></TR></TABLE>
+<P>
+<img SRC="Diagram/LayoutEdit_Menu.GIF">
+<P>
+<P>The options on the menu screen are
+<P>
+<A NAME="RecordList">
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="25%">Option
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="75%">Description
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">Edit Record Layouts
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">The main part of the program. This is where you Create / Update Record Layouts.
+See <A HREF="#HDRRESCREEN">"Record Edit Screen"</A> for details.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">Create Record Layout
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">This screen lets you create new record layouts. See <A HREF="#HDRLAYOUTDEF">"Record Layout Definition"</A> for more details.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">Create Record Layout Wizard
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%"><BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">Edit Table
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">This is where you update the Utility Table's. <P><B>Note: </B>The only Table you should update is the
+<B><I>System</I></B> Table.
+See <A HREF="#HDRTESCR">"Table Edit"</A>
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">Edit Combos
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">Edit/Create Combobox Lists. See <A HREF="#HDRCOMBOED">"Combo List Edit"</A> for more details.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">Create Combos
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">Create a new Combobox list. See <A HREF="#HDRCOMBOCRE">"Combo Create"</A> for more details.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">Load Cobol Copybook
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">This option will load a Cobol Copybook into the Database. See <A HREF="#HDRIMPORT">"Importing Cobol Copybooks"</A> for details.
+<P><B>Note: </B>This option is only visible if the cb2xml libraries are available
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">Load XML Copybook
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">This option loads XML copybooks (produced by the cb2xml package) into the Database.
+See <A HREF="#HDRIMPORT">"Importing Cobol Copybooks"</A> for details.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">Upgrade
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">
+<A NAME="Upgrade">
+This option will upgrade the backend database to the latest version.
+This only needs to be run once if you upgrade (rather than reinstalling the package).
+The 2 options available are
+<OL COMPACT TYPE=1>
+<LI>Upgrade Database Structure (from pre 0.52 versions database structure)
+to the latest structure (introduced in version 0.52)
+<LI>Update line separator to <B>default</B>. Version 0.52.1 alowed you to
+specify the line separator to be used in all files (not just binary files).
+The possible separators are:
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><B>default
+</B></TD><TD>Use the computers normal (or default) line separator.
+</TD></TR><TR VALIGN="TOP"><TD><B>&lt;crlf&gt;
+</B></TD><TD>Windows style separator.
+</TD></TR><TR VALIGN="TOP"><TD><B>&lt;cr&gt;
+</B></TD><TD>Unix/Linux file separator.
+</TD></TR><TR VALIGN="TOP"><TD><B>&lt;lf&gt;
+</B></TD><TD>Macintosh line separator.
+</TD></TR></TABLE>
+<P>
+</OL>
+</TD></TR></TABLE>
+<P>
+<HR><H2><A NAME="HDRLAYOUTDEF">Record Layout Definition</A></H2>
+<P>The <B>record layout</B> Definition screen is used to
+create new Record Layouts or edit specific layouts.
+<P>
+<img SRC="Diagram/Layout_Edit.png">
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>The fields on this section of the screen are:
+ <TABLE CELLPADDING="3">
+  <TR VALIGN="TOP"><TD><P><B>Field</B>
+  </TD><TD><P><B>Description</B>
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Buttons
+  </B></TD><TD><P>The buttons at the top of Record Screen Save, Create, Repeat, Delete and reload
+Record Details to/from the Database.
+<table><tr><td><img SRC="Diagram/LayoutEdit_RecBtns1.GIF"></td></tr></table>
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Record Name &amp; Description
+  </B></TD><TD><P>Self Evident
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Record Type
+  </B></TD><TD><P>There are 3 basic Record Types (+ binary versions of these):
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><P><B>Record Layout
+</B></TD><TD><P>A normal record consisting of a one or more fixed length fields.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Delimited
+</B></TD><TD><P>Standard Delimiter (i.e. Comma or Tab Delimited) Record. Delimiter files are only
+partially supported (no updates allowed).
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Group of Records
+</B></TD><TD><P>The record consists of a Group of other records. Typically there is a field
+that determines what record to use. It is common for a file to contain
+<UL COMPACT>
+<LI>A File Header Record
+<LI>Many Detail Records
+<LI>A file trailer record
+</UL>
+<P>This would be a good candidate for using a <font color="blue"><b>Group of Records</b></font>.
+In this case you would define 4 records:
+<UL COMPACT>
+<LI>File Header Record
+<LI>Detail Record
+<LI>Trailer Record
+<LI>Master Record (<font color="blue"><b>Group of Records</b></font>) that references the three
+previous (child) records.
+</UL>
+<P>See <A HREF="#HDRCHILD">"Child Records"</A> for the Child Record Definition screen section.
+</TD></TR></TABLE>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>System
+ </B></TD><TD><P>System this Record Layout belongs to. You can Change Create new systems by
+ updating the System Table via the <A HREF="#HDRTESCR">"Table Edit"</A>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Lines to Insert
+ </B></TD><TD><P>This is the lines to insert in the Field Table / Sub-Record Table when the
+insert button (just below) is pressed.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Table Buttons
+ </B></TD><TD><P>The second row of buttons refer to the Field Table / Sub-Record Table immediately below the buttons
+<table><tr><td><img SRC="Diagram/RecordLayout_RecTableBtns.GIF"></td></tr></table>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Record Details
+ </B></TD><TD><P>Lastly we have a Tab Box holding the <A HREF="#HDRFIELD">"Field Records"</A>/<A HREF="#HDRCHILD">"Child Records"</A> tables +
+the <A HREF="#HDREXTRA">"Extra Panel"</A>. These panels define record details.
+<P>
+<img SRC="Diagram/LayoutEdit_Tab.GIF">
+<P><B>Note: </B>The <A HREF="#HDRCHILD">"Child Records"</A> panel is displayed when <B>Record Type</B>=<font color="blue"><b>Group of Records</b></font>
+or <font color="blue"><b>Group of Binary records Records</b></font> otherwise <A HREF="#HDRFIELD">"Field Records"</A> is displayed.
+</TD></TR></TABLE>
+<P>
+<P>
+<P><H3><A NAME="HDRFIELD">Field Records</A></H3>
+<img SRC="Diagram/LayoutEdit_Fields.GIF">
+<P>This panel is used to define the records fields. Fields in the Table are:
+<P>
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="11%">Field
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="89%">Description
+ 
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Position
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Position in the Record. The start of the record is
+<B>Postion</B>=<font color="blue"><b>1</b></font> and not 0 as in C / Java.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Length
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Length of the field in bytes. Leave blank for Comma / Tab (etc) delimited files
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Field Name
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Name of the field. This is the column/row name used for this field in
+the <font color="blue"><b>RecorEditor</b></font>
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Description
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Field Description. This is used as a Column Header Mouse over in the
+<font color="blue"><b>Record editor</b></font>. For example if the description was entered as
+<P>
+<img SRC="Diagram/RecordLayout_FieldDescription.GIF">
+<P>Then if you hold the cursor over the column heading in the <B>RecordEditor</B> you get
+<P>
+<img SRC="Diagram/RecordEdit_MouseOver.GIF">
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Field Type
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Type of Field. See <A HREF="#HDRFLDTYPE">Appendix B, "Field Types"</A> for details.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Decimal Pos
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Number of places after the decimal point
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Cell Format
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Formatting to be applied to this field.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Parameter
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">User parameter's. This is a value that can be used by user written types
+(e.g. for generic Combo or Date Routines).
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Default Value
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Information only, Not currently used (relates to work).
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Cobol Name
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Information only, Cobol Field Name
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Field Id
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Do not Change. It is the field key and is displayed for my testing.
+</TD></TR></TABLE>
+<PRE>
+ 
+</PRE><P><P><H3><A NAME="HDRCHILD">Child Records</A></H3>
+<P>
+<table><tr><td><img SRC="Diagram/RecordLayout_RecGroup.png"></td></tr></table>
+<P>This panel is displayed when <B>Record Type</B>=<font color="blue"><b>Group of Records</b></font>
+or <font color="blue"><b>Group of Binary records Records</b></font>. Fields in the Table are:
+<P>
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="11%">Field
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="89%">Description
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Child Record
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">The child record of the Current parent record
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Field Start
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Not Currently used
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Field
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Field that determines which record to use. In the above example:
+<OL COMPACT TYPE=1>
+<LI>The records <B>DCR0470 S11 .. S14, O21</B> each contain a field <B>Record Type</B>
+<LI>When editing a file where <B>Record Type</B>="S11" then the RecordLayout
+of <B>DCR0470 S11</B> would be used.
+<BR>
+While if <B>Record Type</B>="S13"
+then the RecordLayout of <B>DCR0470 s13</B> would be used.
+</OL>
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">FieldValue
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Field value that the Field above is tested against.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Tree Parent
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Logical Parent Record for the record. This can be used to build a Tree
+using the <B>Record Layout Tree</B> option of the <B>View</B> menu in the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a>
+</TD></TR></TABLE>
+<P>
+<P><B>Note: </B>if <B>Field</B> is blank and <B>FieldValue</B>=* then this is the
+default record.
+<PRE>
+ 
+</PRE><P><P><H3><A NAME="HDREXTRA">Extra Panel</A></H3>
+<P>On the extra panel contains an adhoc mixture of options
+<table><tr><td><img SRC="Diagram/RecordLayout_RecExtra.GIF"></td></tr></table>
+<P>
+<P>
+<P>
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="11%">Field
+ 
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="89%">Description
+ 
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Cobol Copybook
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Cobol Copybook name (if imported from a Cobol/XML Copybook). When a Cobol
+copybook is imported the LayoutEdit will replace an existing file with the same name.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Font Name
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Font Name to be used. If it is blank, the System default font will be used.
+A typical use might be to display Native mainframe data on a PC.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Delimiter
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Delimiter to use in Delimited files (i.e. comma, tab etc).
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Quote
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Quote character to use in delimited files.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Record Separator
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Record Separator to use.
+   <TABLE CELLPADDING="3">
+    <TR VALIGN="TOP"><TD><B>default
+      </B></TD><TD>Use the computers normal (or default) line separator.
+    </TD></TR><TR VALIGN="TOP"><TD><B>&lt;crlf&gt;
+      </B></TD><TD>Windows style separator.
+    </TD></TR><TR VALIGN="TOP"><TD><B>&lt;cr&gt;
+      </B></TD><TD>Unix/Linux file separator.
+    </TD></TR><TR VALIGN="TOP"><TD><B>&lt;lf&gt;
+      </B></TD><TD>Macintosh line separator.
+   </TD></TR></TABLE>
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">File Structure
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Structure of the files. Controls which IO routines are used to read / write the file.
+File Structures are defined in Table 5.
+</TD></TR></TABLE>
+<P>
+<P><H3><A NAME="HDRUSINGCOMBO">Defining Combo Field</A></H3>
+<P>
+<P>To use a Combo List (Say AmsPoDownloadType) you must
+<OL TYPE=1>
+  <P><LI>Set the <B>Cell Format</B> to Combobox
+  <P><LI>Enter Combo list in the Parameter Field
+</OL>
+<P>
+<img SRC="Diagram/LayoutEdit_Combo.png">
+<P>
+<P>
+<HR><H2><A NAME="HDRRESCREEN">Record Edit Screen</A></H2>
+<P>The Record Editor looks like
+<P>
+<img SRC="Diagram/LayoutEdit_record.png">
+<P>
+<P>
+<P>This screen consists of three parts
+<P>
+<P>
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="11%">Section
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="89%">Description
+ 
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Top Left
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">
+<A NAME="RecordList">
+This is the <B>Record Selection</B>
+This is where you enter selection options to limit what is displayed in the
+ <B>Record List</B>. To display all records starting with <B>t</B>; enter <B>t%</B> in the
+ <B>Record Name</B> field.
+<table><tr><td><img SRC="Diagram/LayoutEdit_RecSelection.GIF"></td></tr></table>
+ <P>
+ 
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Bottom Left
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">This is the <B>Record List</B> panel
+You can select a record to be displayed by clicking on it
+<table><tr><td><img SRC="Diagram/LayoutEdit_RecordList.GIF"></td></tr></table>
+ <P>
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Right
+<A NAME="RecordDtls"/>
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">On the right part of the screen is Record Definition.
+ <P>
+<img SRC="Diagram/LayoutEdit_RecordDtls.GIF">
+<P>
+<P>
+<P>
+<P>The fields on this section of the screen are:
+ <TABLE CELLPADDING="3">
+  <TR VALIGN="TOP"><TD><P><B>Field</B>
+  </TD><TD><P><B>Description</B>
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Buttons
+  </B></TD><TD><P>The buttons at the top of Record Screen Save, Create, Repeat, Delete and reload
+Record Details to/from the Database.
+<table><tr><td><img SRC="Diagram/LayoutEdit_RecBtns1.GIF"></td></tr></table>
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Record Name &amp; Description
+  </B></TD><TD><P>Self Evident
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Record Type
+  </B></TD><TD><P>There are 3 basic Record Types (+ binary versions of these):
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><P><B>Record Layout
+</B></TD><TD><P>A normal record consisting of a one or more fixed length fields.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Delimited
+</B></TD><TD><P>Standard Delimiter (i.e. Comma or Tab Delimited) Record. Delimiter files are only
+partially supported (no updates allowed).
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Group of Records
+</B></TD><TD><P>The record consists of a Group of other records. Typically there is a field
+that determines what record to use. It is common for a file to contain
+<UL COMPACT>
+<LI>A File Header Record
+<LI>Many Detail Records
+<LI>A file trailer record
+</UL>
+<P>This would be a good candidate for using a <font color="blue"><b>Group of Records</b></font>.
+In this case you would define 4 records:
+<UL COMPACT>
+<LI>File Header Record
+<LI>Detail Record
+<LI>Trailer Record
+<LI>Master Record (<font color="blue"><b>Group of Records</b></font>) that references the three
+previous (child) records.
+</UL>
+<P>See <A HREF="#HDRCHILD">"Child Records"</A> for the Child Record Definition screen section.
+</TD></TR></TABLE>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>System
+ </B></TD><TD><P>System this Record Layout belongs to. You can Change Create new systems by
+ updating the System Table via the <A HREF="#HDRTESCR">"Table Edit"</A>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Lines to Insert
+ </B></TD><TD><P>This is the lines to insert in the Field Table / Sub-Record Table when the
+insert button (just below) is pressed.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Table Buttons
+ </B></TD><TD><P>The second row of buttons refer to the Field Table / Sub-Record Table immediately below the buttons
+<table><tr><td><img SRC="Diagram/RecordLayout_RecTableBtns.GIF"></td></tr></table>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Record Details
+ </B></TD><TD><P>Lastly we have a Tab Box holding the <A HREF="#HDRFIELD">"Field Records"</A>/<A HREF="#HDRCHILD">"Child Records"</A> tables +
+the <A HREF="#HDREXTRA">"Extra Panel"</A>. These panels define record details.
+<P>
+<img SRC="Diagram/LayoutEdit_Tab.GIF">
+<P><B>Note: </B>The <A HREF="#HDRCHILD">"Child Records"</A> panel is displayed when <B>Record Type</B>=<font color="blue"><b>Group of Records</b></font>
+or <font color="blue"><b>Group of Binary records Records</b></font> otherwise <A HREF="#HDRFIELD">"Field Records"</A> is displayed.
+</TD></TR></TABLE>
+<P>
+<P><B>Note: </B>See <A HREF="#HDRLAYOUTDEF">"Record Layout Definition"</A> for more details.
+</TD></TR></TABLE>
+<P>
+<HR><H2><A NAME="HDRWIZARD">Layout Wizard</A></H2>
+<P>The <I>Record Layout Wizard</I> guides you through creating a
+<B>record layout</B> using a file as the basis. On all the wizard screens,
+you can use Left and Right Arrow buttons (at the bottom of the screen) to move between the
+screens. There are 2 basic groups of Screens:
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Fixed Width
+ </B></TD><TD><P>Screens for defining Fixed field width Files. See <A HREF="#HDRWIZ2">"Field Position screen"</A> and <A HREF="#HDRWIZ3">"Field Definition screen"</A>.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>CSV
+ </B></TD><TD><P>Screens for defining a CSV file. See <A HREF="#HDRWIZ4">"CSV Details"</A> and <A HREF="#HDRWIZ5">"CSV Field Definition"</A>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Multi Record</B></TD><TD><P>Screen for defining files with multiple Records in them.
+ See <A HREF="#HDRWIZRECORDTYPE">"Record Type Field"</A>, <A HREF="#HDRWIZRECORDNAMES">"Record Name screen"</A>, <A HREF="#HDRWIZ2M">"Field Position screen"</A> and <A HREF="#HDRWIZ3M">"Field Definition screen"</A>.
+</TD></TR></TABLE>
+<P>
+<P><H3><A NAME="Header_38">Initial Wizard Screen</A></H3>
+<P>On the file screen you enter file details and the name of
+the <B>record layout</B> being created. The field <B>Record Types</B>
+determines whether you travel down the
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Fixed Width</B></TD><TD><P>route (<A HREF="#HDRWIZ2">"Field Position screen"</A> and <A HREF="#HDRWIZ3">"Field Definition screen"</A>)
+screens
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>CSV</B></TD><TD><P>route (<A HREF="#HDRWIZ4">"CSV Details"</A> and <A HREF="#HDRWIZ5">"CSV Field Definition"</A>).
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Multi Record</B></TD><TD><P>route (<A HREF="#HDRWIZRECORDTYPE">"Record Type Field"</A>, <A HREF="#HDRWIZRECORDTYPE">"Record Type Field"</A>, <A HREF="#HDRWIZRECORDNAMES">"Record Name screen"</A>, <A HREF="#HDRWIZ2M">"Field Position screen"</A> and <A HREF="#HDRWIZ3M">"Field Definition screen"</A>).
+</TD></TR></TABLE>
+<P>
+<img SRC="Diagram/layout_wizard1.png">
+<P>
+<P>Fields on the window are&#58;
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>File Name
+ </B></TD><TD><P>Name of the file you are building a layout for
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>File Structure
+ </B></TD><TD><P>How the file is organized. If you are using Standard Windows / Linux Text files
+<B>leave it as Default Reader</B>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Record Type
+ </B></TD><TD><P>This is where you select what type of records are in the file. The options are
+ <UL COMPACT>
+  <LI><B>Fixed Length Records</B> For a file with one record with fixed width fields. See <A HREF="#HDRFIXEDWIZ">"Fixed Width Dialogue"</A> for more details.
+  <LI><B>Delimited Fields</B> For a file with delimited Fields. See <A HREF="#HDRCSVWIZ">"CSV Dialogue"</A> for more details.
+  <LI><B>Multiple Record (Fixed Width)</B> For files with multiple Fixed With Records in them. See <A HREF="#HDRMULTIWIZ">"Multiple Record Screen"</A> for more details.
+ </UL>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Font Name
+ </B></TD><TD><P>Font Name of the file (e.g. CP037 for US Ebcdic Characters).
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Default Type
+ </B></TD><TD><P>What Types Fields to initially assign to a field.
+</TD></TR></TABLE>
+<P>
+<P><H3><A NAME="HDRWIZFILESTRUCTURE">File Structure Screen</A></H3>
+<P>If you are using Windows/Unix files, you will not see this screen.
+Its displayed when
+<UL>
+ <P><LI>When a file Structure of <B>Fixed Width</B> or <B>Unknown Format</B> is selected on the initial screen
+ <P><LI>The file looks to be a Mainframe VB or Cobol VB file.
+</UL>
+<P>
+<img SRC="Diagram/layout_wizard_format.png">
+<P>
+<P>Fields on the window are&#58;
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>File Structure
+ </B></TD><TD><P>The Structure or Format of the file
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Length
+ </B></TD><TD><P>Record Length for fixed width files. You can also set this field by clicking on a position in the file Table
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Font Name
+ </B></TD><TD><P>Files Font, typically <B>cp037</B> for Mainframe files (US EBCDIC).
+</TD></TR></TABLE>
+<P>
+<P><H3><A NAME="HDRFIXEDWIZ">Fixed Width Dialogue</A></H3>
+<P>Following are the wizard screens displayed when using a fixed width file.
+<P>
+<P><H4><A NAME="HDRWIZ2">Field Position screen</A></H4>
+<P>The second screen displays the file with the fields in alternating background colors.
+<P>To create a new field, click on the first column of the field.
+<P>To remove a field, click on the first column again
+<P>
+<img SRC="Diagram/layout_wizard2.png">
+<P>
+<P>Other Fields Buttons on the screen include&#58;
+<UL>
+ <P><LI><B>Show Hex</B> Display the file in 2 line Hex mode (Both Text and Hex). Useful when working with Binary / Comp-3 fields.
+ <P><LI><B>Search for</B> Used control what fields are searched for&#58;
+  <TABLE CELLPADDING="3">
+    <TR VALIGN="TOP"><TD><P><B>Mainframe Zoned Decimal
+    </B></TD><TD><P>Look for Mainframe Zoned decimal. In Zoned Decimals, The sign is represented as an
+over-strike of the last character.
+    </TD></TR><TR VALIGN="TOP"><TD><P><B>PC/Unix Zoned Decimal
+    </B></TD><TD><P>Look for Zoned decimal in the Ascii Character set.
+    </TD></TR><TR VALIGN="TOP"><TD><P><B>Comp 3
+    </B></TD><TD><P>Look for <I>Comp 3 (Binary Coded Decimals)</I> in the file. This does not
+do any harm in EBCDIC files but in Ascii files, Alphabetic Characters can be mistaken
+for Comp 3 characters.
+    </TD></TR><TR VALIGN="TOP"><TD><P><B>Binary Integer (Big Endian)
+    </B></TD><TD><P>Look for Binary integers (Big Endian) - Cobol Comp Fields
+   </TD></TR></TABLE>
+  <P><LI><B>Clear Fields</B> Removes all fields
+  <P><LI><B>Add Fields</B> Clear existing fields and search for Fields using the <B>Search For</B>
+options above.
+</UL>
+<P>
+<P><B>Note: </B>The initial values of the <B>Search For</B> + whether a search is done automatically
+is set in the <B> Edit &gt;&gt;&gt;&gt; Edit Startup Options</B> dialog. See <A HREF="#HDRWIZSTARTUP">"Startup Options"</A> for more details
+<P>
+<P><H4><A NAME="HDRWIZ3">Field Definition screen</A></H4>
+<P>This screen is for defining the field names and field types.
+<P>Once all the fields have been defined, click on the right arrow button
+to define the new layout.
+<P>
+<img SRC="Diagram/layout_wizard3.png">
+<P>
+<P>
+<P><H4><A NAME="HDRWIZSAVE1">Save screen</A></H4>
+<P>On the final screen you define the layout name and layout description
+<P>
+<img SRC="Diagram/Layout_wizard_save.png">
+<P>
+<P><H3><A NAME="HDRCSVWIZ">CSV Dialogue</A></H3>
+<P><H4><A NAME="HDRWIZ4">CSV Details</A></H4>
+<P>On this screen you specify the basic CSV file structure (i.e. field separator; quotes).
+<P>
+<img SRC="Diagram/layout_wizard4.png">
+<P>
+<P>Fields on the Screen
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Field Separator
+ </B></TD><TD><P>Field used to mark the end of one field and the start of the next
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Quote Character
+ </B></TD><TD><P>Quote character used to surround Text Fields
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Parser
+ </B></TD><TD><P>Parser used to split lines up into fields. For most files, the <B>Basic Parser</B> is the best to use.
+But the three parsers provided are&#58;
+    <TABLE CELLPADDING="3">
+      <TR VALIGN="TOP"><TD><P><B>Basic Parser
+      </B></TD><TD><P>If Field starts with a Quote, it looks for a &lt;Quote&gt;&lt;Separator&gt;. It will fail if a field contains &lt;quote&gt;&lt;separator&gt;
+      </TD></TR><TR VALIGN="TOP"><TD><P><B>Matching Quotes
+      </B></TD><TD><P>For every opening Quote, It looks for a matching closing Quote.
+      </TD></TR><TR VALIGN="TOP"><TD><P><B>Quotes based on fields
+      </B></TD><TD><P>This is an extension of <B>Matching Quotes</B>. For this type of Parser
+all text fields will always get quotes around them. This is programs that are very picky
+about having Quotes around Text fields, Dates (in particular some Databases).
+    </TD></TR></TABLE>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Fields on First Line
+ </B></TD><TD><P>Indicates whether the first line of the file holds the field names.
+</TD></TR></TABLE>
+<P>
+<P><H4><A NAME="HDRWIZ5">CSV Field Definition</A></H4>
+<P>
+<P>This screen is used to define the fields (columns) in the file.
+<P>
+<img SRC="Diagram/layout_wizard5.png">
+<P>
+<P><H4><A NAME="HDRWIZSAVE2">Layout screen</A></H4>
+<P>On the final screen you define the layout name and layout description
+<P>
+<img SRC="Diagram/Layout_wizard_save.png">
+<P>
+<P><H3><A NAME="HDRMULTIWIZ">Multiple Record Screen</A></H3>
+<P>Following are the Wizard screens displayed when working a Multi-Record Fixed Field width Data file.
+<P>
+<P><H4><A NAME="HDRWIZRECORDTYPE">Record Type Field</A></H4>
+<P>This screen is used to define where the Record-Type Field (the field that determines
+what type of record it is).  You can do one of
+<UL>
+ <P><LI>Enter the start/end in the Text fields
+ <P><LI>If the Record-Type Field starts in column one, click on the start of the next field in the table
+ <P><LI>Click on the first character of the Record Type field in the Table, then click on the start of the next field.
+</UL>
+<P>
+<img SRC="Diagram/layout_wizard_SetKey.png">
+<P>
+<P><H4><A NAME="HDRWIZRECORDNAMES">Record Name screen</A></H4>
+<P>This screen lets you define the names of the various records.
+<P>
+<img SRC="Diagram/layout_wizard_RecordName.png">
+<P>
+<P><H4><A NAME="HDRWIZ2M">Field Position screen</A></H4>
+<P>This screen displays the file with the fields in alternating background colors.
+<P>To create a new field, click on the first column of the field.
+<P>To remove a field, click on the first column again
+<P>
+<img SRC="Diagram/layout_wizard_RecordFields.png">
+<P>
+<P>Other Fields Buttons on the screen include&#58;
+<UL>
+ <P><LI><B>Record</B> Controls which records are displayed on the screen.
+ <P><LI><B>Show Hex</B> Display the file in 2 line Hex mode (Both Text and Hex). Useful when working with Binary / Comp-3 fields.
+ <P><LI><B>Search for</B> Used control what fields are searched for&#58;
+  <TABLE CELLPADDING="3">
+    <TR VALIGN="TOP"><TD><P><B>Mainframe Zoned Decimal
+    </B></TD><TD><P>Look for Mainframe Zoned decimal. In Zoned Decimals, The sign is represented as an
+over-strike of the last character.
+    </TD></TR><TR VALIGN="TOP"><TD><P><B>PC/Unix Zoned Decimal
+    </B></TD><TD><P>Look for Zoned decimal in the Ascii Character set.
+    </TD></TR><TR VALIGN="TOP"><TD><P><B>Comp 3
+    </B></TD><TD><P>Look for <I>Comp 3 (Binary Coded Decimals)</I> in the file. This does not
+do any harm in EBCDIC files but in Ascii files, Alphabetic Characters can be mistaken
+for Comp 3 characters.
+    </TD></TR><TR VALIGN="TOP"><TD><P><B>Binary Integer (Big Endian)
+    </B></TD><TD><P>Look for Binary integers (Big Endian) - Cobol Comp Fields
+   </TD></TR></TABLE>
+  <P><LI><B>Clear Fields</B> Removes all fields
+  <P><LI><B>Add Fields</B> Clear existing fields and search for Fields using the <B>Search For</B>
+options above.
+</UL>
+<P>
+<P><B>Note: </B>The initial values of the <B>Search For</B> + whether a search is done automatically
+is set in the <B> Edit &gt;&gt;&gt;&gt; Edit Startup Options</B> dialog. See <A HREF="#HDRWIZSTARTUP">"Startup Options"</A> for more details
+<P>
+<P><H4><A NAME="HDRWIZ3M">Field Definition screen</A></H4>
+<P>This screen is for defining the field names and field types.
+<P>Once all the fields have been defined, click on the right arrow button
+to define the new layout. Use the <B>Record</B> combo to switch between the various records.
+<P>
+<img SRC="Diagram/layout_wizard_RecordFieldNames.png">
+<P>
+<P>
+<P><H4><A NAME="HDRWIZSAVE1">Save Layout screen</A></H4>
+<P>On the final screen you define the layout name and layout description
+<P>
+<img SRC="Diagram/Layout_wizard_save.png">
+<P>
+<P>
+<P><H3><A NAME="HDRWIZSTARTUP">Startup Options</A></H3>
+<P>There are several Wizard Field Search options that can be set via the
+<B>Edit Startup options</B> function (<B>Edit &gt;&gt;&gt;&gt; Edit Startup Options</B> Menu).
+<P>
+<img SRC="Diagram/StarupOptions_LayoutWizard.png">
+<P>
+<P>The Parameters that can be set are:
+<UL>
+ <P><LI><B>FsAutoRun</B> Controls whether the field search is run automatically or must be
+ Triggered via the user.
+ <P><LI>Which field types to search for.
+</UL>
+<P>
+<P>
+<HR><H2><A NAME="HDRCOMBOED">Combo List Edit</A></H2>
+<P>Combolists are used to define a list Combobox Items. They can be used to define
+all the options available for a field in the Record Editor. See <A HREF="#HDRUSINGCOMBO">"Defining Combo Field"</A> for details
+of how to use a Combo.
+<P>
+<img SRC="Diagram/ComboListEdit.png">
+<P>
+<P>The Screen is divided into two parts:
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Combo Search</B></TD><TD><P>Used to find and select the Combo List to be editted.
+See <A HREF="#HDRCOMBOSEL">"Combo Selection Panel"</A> for more details.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Edit</B></TD><TD><P>Used to update the Combo Lists.
+See <A HREF="#HDRCOMBOPNL">"Combo Edit Panel"</A> for more details.
+</TD></TR></TABLE>
+<P>
+<P><H3><A NAME="HDRCOMBOSEL">Combo Selection Panel</A></H3>
+<P>This panel is used select the combo Lists to display and edit.
+<P>
+<img SRC="Diagram/ComboSel.GIF">
+<P>
+<P>Fields
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Combo Name</B></TD><TD><P>This field is used to limit what is displayed in the List. You can\
+use % character as a wildcard.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>System</B></TD><TD><P>Used to restrict the List to Combos in a specific system.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>List</B></TD><TD><P>Used to Select which list to edit.
+</TD></TR></TABLE>
+<P>
+<P><H3><A NAME="HDRCOMBOPNL">Combo Edit Panel</A></H3>
+<P>Used to update a combo list
+<P>
+<img SRC="Diagram/CobolEditPnl.GIF">
+<P>
+<P>Fields on the Screen
+<P>
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>System</B></TD><TD><P>System this Combo List belongs to. It is only used for searching.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Combo Name</B></TD><TD><P>Name of the Combo List. It used to refence this list in the field definition screen
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Combo Type</B></TD><TD><P>Type of Combobox to display
+   <TABLE CELLPADDING="3">
+     <TR VALIGN="TOP"><TD><P><B>Standard Combo</B></TD><TD><P>Display a list of possible Values. The Selected Value is what gets put in the file.
+     </TD></TR><TR VALIGN="TOP"><TD><P><B>Key/Value Combo</B></TD><TD><P>With these Combos the values displayed to the user are different from
+what the file holds. In the above example, <I>Combo Code</I> holds the file value while
+<I>Combo Value</I> holds the value displayed to the User. So the File would hold <font color="blue">H1</font>
+while the user sees <font color="blue">PO Header (H1)</font>.
+   </TD></TR></TABLE>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Insert Lines</B></TD><TD><P>The number of lines to insert
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Table Buttons</B></TD><TD><P>The second row of buttons refer to the Field Table / Sub-Record Table immediately below the buttons
+<P>
+<img SRC="Diagram/RecordLayout_RecTableBtns.GIF">
+<P>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Table</B></TD><TD><P>Combo Items to be displayed in the Combobox
+</TD></TR></TABLE>
+<P>
+<P><H3><A NAME="Header_58">Defining a Combo Field</A></H3>
+<P>To use your Combo List (Say AmsPoDownloadType) in a Record Layout (Copybook) definition, you must
+<UL>
+  <P><LI>Set the <B>Cell Format</B> to Combobox
+  <P><LI>Enter Combo list in the Parameter Field
+</UL>
+<P>
+<img SRC="Diagram/LayoutEdit_Combo.png">
+<P>
+<P>Please look at
+<a href="HowTo.htm#HDRUSECOMBO" target=new>How To use Combos</a> for more details.
+<P>
+<HR><H2><A NAME="HDRCOMBOCRE">Combo Create</A></H2>
+<P>
+<P>This screen is used to create new Combo Lists, please see <A HREF="#HDRCOMBOPNL">"Combo Edit Panel"</A> for more details.
+<P>
+<P>
+<PRE>
+ 
+</PRE><P><P><P><P><HR><H2><A NAME="HDRTESCR">Table Edit</A></H2>
+<P>The <B><I>RecordEditor / LayoutEdit</I></B> uses a <B>Table-Database</B> to store common
+details (like <B>Record-Types, Field Types</B> and <B>Systems</B>). You can use
+the Table Editor to update the information in the <B>Table-Database</B>.
+<P>
+<table><tr><td><img SRC="Diagram/LayoutEdit_Table.png"></td></tr></table>
+<P>
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+ 
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="9%">Number
+ 
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="18%">Table
+ 
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="73%">Description
+ 
+ 
+</TH></TR><TR>
+ 
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">1
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">FldType
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="73%">Field Types supported. See the example manual and java example XmplType1.java on adding new Types to the editor.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">2
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">RecordType
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="73%">Record Types ~ do not change this table
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">3
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">Systems
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="73%">Define your Systems. Systems allow you to divide your copybooks up into related groups
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">4
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">FileStructure
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="73%">File Structures table. See the example manual or XmplFileStructure.Java for details on adding new file structures.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">5
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">Formats
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="73%">Table Cell formats. These are used to format table cells in the Record Editor See the example manual for details
+</TD></TR></TABLE>
+<P>
+<P>You can select a table to be updated by clicking on the Table in the list
+on the left
+<P>The <B>Lines to Insert Field</B> holds the lines to be inserted in the JTable at
+the bottom of the when the <B>Insert</B> button is pressed.
+<P>The Insert, Delete, Copy and Paste buttons all act on the Table at the bottom
+of the screen.
+<P>
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="9%">Number
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="18%">Name
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="73%">Description
+ 
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">1
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">Field Type
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="73%">Field types used in the Editor. When defining Types you must update this table.
+User defined types should be in the range 1000 --&gt; 1050.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">2
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">Record Type
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="73%">Record types used in the editor, do not change this table
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">3
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">System
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="73%">Systems or Applications, change this table in anyway you like
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">4
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">File Structures
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="73%"><font color="blue">File Structures</font> used in the system.
+I suggest if you create your own <font color="blue">file structures</font> use
+<B>Row Key</B> &gt; 1000.
+<P>The file structure controls which IO routines are used to read / write the file.
+See class <B>net.sf.RecordEditor.record.io.LineIOProvider</B>
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">5
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">Table Cell Formatting
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="73%"><B>Table Cell formats</B> are used to
+format / edit table cells. It allows checkbox / comboboxs / etc in the
+<B>RecordEditor.</B>
+<P>User defined formats should use <B>Row Key</B> &gt; 1000.
+</TD></TR></TABLE>
+<P>
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="11%">Section
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="89%">Description
+ 
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Left
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">
+<img SRC="Diagram/LayoutEdit_TableList.GIF">
+   <P>In this section you select which table to edit by clicking on it.
+ 
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Top Right
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">
+<img SRC="Diagram/LayoutEdit_TableDtls.GIF">
+   <P>In this section you update a Table Header Details
+ 
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Bottom Right
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">
+<img SRC="Diagram/LayoutEdit_TableRows.GIF">
+   <P>In this section you update a Table Row Details. The Columns are:
+<TABLE CELLPADDING="3">
+     <TR VALIGN="TOP"><TD><P><B>Row Key</B></TD><TD><P>Table Row Key. For the Field Type / Table Type tables this value is also
+<B>Hard Coded</B> in the program so <B>do not Change</B>.
+     </TD></TR><TR VALIGN="TOP"><TD><P><B>Details</B></TD><TD><P>Description, this value is displayed in various Combo Box's, you
+can change this to anything you like.
+   </TD></TR></TABLE>
+</TD></TR></TABLE>
+<P>
+<P>
+<P>
+<HR><H2><A NAME="HDRIMPORT">Load Cobol Copybook</A></H2>
+<P>
+<table><tr><td><img SRC="Diagram/RecordLayout_Import.png"></td></tr></table>
+<P>
+<P>The <B><I>Cobol</I></B> imports Cobol Copybooks into the RecordEditor. Currently Mainframe
+and Fujitsu Cobol dialects are supported.
+<P>
+<P>The fields on the Import screen are
+<P>
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Field</B>
+ </TD><TD><P><B>Description</B>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Copybook
+ </B></TD><TD><P>The copybook File to be imported.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Choose File Button
+ </B></TD><TD><P>Display the file search screen so you can find the input file.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Split Copybook
+ </B></TD><TD><P>Controls wether the copybook will be split into a Parent Record and separate Child-Records
+or stored as a single record. Options are&#58;
+ <TABLE CELLPADDING="3">
+   <TR VALIGN="TOP"><TD><B>No Split    </B></TD><TD>Record is stored as a single record.
+   </TD></TR><TR VALIGN="TOP"><TD><B>On Redefine </B></TD><TD>Record is split into separate records on the first redefine.
+   </TD></TR><TR VALIGN="TOP"><TD><B>On 01 level </B></TD><TD>Record is split into separate records on 01 level records.
+ </TD></TR></TABLE>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Font Name
+ </B></TD><TD><P>Font Name to use when editing this file. You would only need to enter a
+<B>Font Name</B> if
+you are editing a IBM Mainframe File on a PC (or editing a PC file on the mainframe).
+For UA / Canada / Australia the mainframe <B>Font Name</B>
+is <font color="blue"><b>CP037</b></font>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Binary Format
+ </B></TD><TD><P>Binary Format to use (i.e. wether Cobol comp fields are converted to a PC little Endian
+or Mainframe / Java / AIX big Endian format).
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>File Structure
+ </B></TD><TD><P>File Format or structure. It actual chooses the File reader used.
+Unless you are using Native Mainframe, Fujitsu Cobol
+or Binary files, leave it as Defult Reader.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>System
+ </B></TD><TD><P>System to assign the Copybook to.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Go Button
+ </B></TD><TD><P>Import the file
+</TD></TR></TABLE>
+<P>
+<P>
+<P>When the <B>Split Copybook on Redefine</B> is set, then a copybook like
+<P>
+<PRE>
+        02  The-Record.
+	    03 Record-Type                    Pic X.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+	    03 Detail-Record.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+	       05 ...                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+	    03 Header-Record  <B><I>redefines</I></B>  Detail-Record.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+	       05 ...                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+	    03 Footer-Record  <B><I>redefines</I></B>  Detail-Record.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+	       05 ...                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+
+</PRE><P>will be imported as
+<UL COMPACT>
+ <LI><B><I>The-Record</I></B> will be a <B>Group Record</B>.
+ <LI><B><I>Detail-Record, Header-Record and Footer-Record</I></B> are inserted as <B>Record-Layout</B> records.
+ <LI><B><I>Detail-Record, Header-Record and Footer-Record</I></B> are inserted as child records of The-Record
+</UL>
+<P>
+<HR><H2><A NAME="HDRIMPORTG">Load Copybook Choose Format</A></H2>
+<P>In the <B>Load Copybook Choose Format</B> You can select from a variety of
+Copybook Formats.
+<P>
+<A name="#CopyBookType">Copybook formats available include</a>:
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>cb2xml XML Copybook </B></TD><TD><P>This is basically Cobol converted to XML. It is produced by the cb2xml package.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Cobol</B></TD><TD><P>Cobol Copybook source code.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>XML</B></TD><TD><P>This option reads a XML file and creates a copybook for viewing / editing
+similar XML files
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>DB Csv Extract</B></TD><TD><P>Primary an extract from a DB2. It allows you to view / edit
+Delimitered extracts from DB2. See <A HREF="#HDRDBCSV">"DB CSV Copybook format"</A> for more details.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Comma CSV
+ </B></TD><TD><P>A description of a Comma Delimitered CSV file with Field names on a single line
+seperated by Commas.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Tab CSV
+ </B></TD><TD><P>A description of a Tab Delimitered CSV file with Field names on a single line
+seperated by Tabs.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>RecordEditor CSV Copybook</B></TD><TD><P>Both Comma and Tab Delimitered formats supported.
+This is a CSV file produced by the <A HREF="#HDRCPYLAYOUT">"Copy Copybooks"</A> option of the LayoutEditor.
+<BR>
+It is basically Field&#58; Position, Length, Name, Description, Field Type, Decimal,
+the same as in the
+<A href="#RecordDtls">Record Definition</a> screen.
+see <A HREF="#HDRRECSV">"RecordEditor CSV Copybook Format"</A> for more details.
+</TD></TR></TABLE>
+<P>
+<P>
+<table><tr><td><img SRC="Diagram/RecordLayout_ImportChoice.png"></td></tr></table>
+<P>
+<P>
+<P>The fields on the Import screen are
+<P>
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Field</B>
+ </TD><TD><P><B>Description</B>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Copybook Type
+ </B></TD><TD><P>The
+<A href="#CopyBookType">Type of Copybook</a>.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Copybook
+ </B></TD><TD><P>The copybook File to be imported.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Choose File Button
+ </B></TD><TD><P>Display the file search screen so you can find the input file.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Split Copybook
+ </B></TD><TD><P>Controls wether the copybook will be split into a Parent Record and separate Child-Records
+or stored as a single record. Options are:
+ <TABLE CELLPADDING="3">
+   <TR VALIGN="TOP"><TD><B>No Split    </B></TD><TD>Record is stored as a single record.
+   </TD></TR><TR VALIGN="TOP"><TD><B>On Redefine </B></TD><TD>Record is split into separate records on the first redefine.
+   </TD></TR><TR VALIGN="TOP"><TD><B>On 01 level </B></TD><TD>Record is split into separate records on 01 level records.
+ </TD></TR></TABLE>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Font Name
+ </B></TD><TD><P>Font Name to use when editing this file. You would only need to enter a
+<B>Font Name</B> if
+you are editing a IBM Mainframe File on a PC (or editing a PC file on the mainframe).
+For UA / Canada / Australia the mainframe <B>Font Name</B>
+is <font color="blue"><b>CP037</b></font>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Binary Format
+ </B></TD><TD><P>Binary Format to use (i.e. wether Cobol comp fields are converted to a PC little Endian
+or Mainframe / Java / AIX big Endian format).
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>File Structure
+ </B></TD><TD><P>File Format or structure. It actual chooses the File reader used.
+Unless you are using Native Mainframe, Fujitsu Cobol
+or Binary files, leave it as Defult Reader.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>System
+ </B></TD><TD><P>System to assign the Copybook to.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Go Button
+ </B></TD><TD><P>Import the file
+</TD></TR></TABLE>
+<P>
+<HR><H2><A NAME="HDRCPYLAYOUT">Copy Copybooks</A></H2>
+<P>This option is used to copy Copybooks (RecordLayouts):
+<OL TYPE=1>
+ <P><LI>From one Database to an other (if you have more than on Database defined).
+ <P><LI>To a file in the RecordEditor CSV format. This file can be loaded back into
+the record Editor via the LayoutEditor <A HREF="#HDRIMPORTG">"Load Copybook Choose Format"</A> option.
+ <P><LI>To a file using a Velocity Template (
+See <a href=HowTo.htm#HDRVELOCITY>Installing Velocity</a>).
+There is one supplied template to print a RecordLayout as HTML
+</OL>
+<P>
+<P>In the example below, All layout starting with <B>ams shp Upload</B> will copied
+to files in the directory <B>C:\Program Files\RecordEdit\MSaccess\CopyBook\csv\</B>
+<P>
+<img SRC="Diagram/LayoutEdit_Copy.JPG">
+<P>
+<P>The Screen consists of 2 Panels:
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Source
+ </B></TD><TD><P>On the left is the Source Panel where you specify Copybooks to be
+copied. You select the Source DB and specify the copybook(s); you can use %
+as a wild card.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Destination
+ </B></TD><TD><P>In the right hand panel you specify the destination. The fields are
+  <TABLE CELLPADDING="3">
+   <TR VALIGN="TOP"><TD><P><B>Database
+   </B></TD><TD><P>Destination Database or File or Velocity. <P><B>Note: </B>Velocity needs to be downloaded seperately.
+See <a href=HowTo.htm#HDRVELOCITY>Installing Velocity</a> for details.
+   </TD></TR><TR VALIGN="TOP"><TD><P><B>Output Format
+   </B></TD><TD><P>For Output File format. It is only available when <B>Database</B>=File.
+   </TD></TR><TR VALIGN="TOP"><TD><P><B>Output Directory
+   </B></TD><TD><P>The output directory when  <B>Database</B>= File or Velocity .
+   </TD></TR><TR VALIGN="TOP"><TD><P><B>Extension
+   </B></TD><TD><P>The File Extension for writing Velocity based output.
+   </TD></TR><TR VALIGN="TOP"><TD><P><B>Velocity Template
+   </B></TD><TD><P>The Velocity Template to format the Copybook with.
+  </TD></TR></TABLE>
+</TD></TR></TABLE>
+<P>
+<HR><H2><A NAME="HDRDBCSV">DB CSV Copybook format</A></H2>
+<P>The DB Format is for viewing / editing DB2-UDB delimited table exports files. A file
+can be created with the following SQL&#58;
+<PRE><SPAN CLASS="gutter">   1:</SPAN>EXPORT <SPAN CLASS="syntax8">TO</SPAN> <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">C:\Bruce\RecordEditor\Db2Fields.txt</SPAN><SPAN CLASS="syntax13">&quot;</SPAN> <SPAN CLASS="syntax8">OF</SPAN> DEL MESSAGES <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">C:\export.txt</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>
+<SPAN CLASS="gutter">   2:</SPAN><SPAN CLASS="syntax8">SELECT</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">DB_DVMT_</SPAN><SPAN CLASS="syntax13">'</SPAN> <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> c.TABSCHEMA, c.TABNAME, c.COLNAME, c.COLNO, c.TYPENAME, c.LENGTH, c.SCALE
+<SPAN CLASS="gutter">   3:</SPAN>  <SPAN CLASS="syntax8">FROM</SPAN> SYSCAT.COLUMNS <SPAN CLASS="syntax8">AS</SPAN> c
+<SPAN CLASS="gutter">   4:</SPAN> <SPAN CLASS="syntax8">where</SPAN> c.TABSCHEMA <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">ETB</SPAN><SPAN CLASS="syntax13">'</SPAN>
+<SPAN CLASS="gutterH">   5:</SPAN> <SPAN CLASS="syntax8">ORDER</SPAN> <SPAN CLASS="syntax8">BY</SPAN> c.TABSCHEMA <SPAN CLASS="syntax8">ASC</SPAN>, c.TABNAME <SPAN CLASS="syntax8">ASC</SPAN>, c.COLNO <SPAN CLASS="syntax8">ASC</SPAN>
+<SPAN CLASS="gutter">   6:</SPAN>
+</PRE><P><P>Or alternatively the following SQL will generate SQL to create a
+copybook files for each table.
+<P>
+<PRE><SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax8">SELECT</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">EXPORT</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">TO</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">&quot;C:\Data\RecordEditor\CsvCopybooks\</SPAN><SPAN CLASS="syntax13">'</SPAN>  <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> TabName <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">.Csv&quot;</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">OF</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">DEL</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">MESSAGES</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">&quot;C:\export.txt&quot;</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">'</SPAN>
+<SPAN CLASS="gutter">   2:</SPAN>    <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">SELECT</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">DB_DVMT_</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">||</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.TABSCHEMA,</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.TABNAME,</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.COLNAME,</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.COLNO,</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.TYPENAME,</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.LENGTH,</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.SCALE</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">'</SPAN>
+<SPAN CLASS="gutter">   3:</SPAN>    <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN>  <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">FROM</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">SYSCAT.COLUMNS</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">AS</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">'</SPAN>
+<SPAN CLASS="gutter">   4:</SPAN>    <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">where</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.TABSCHEMA</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">=</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN> <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> TABSCHEMA <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">and</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.TABNAME</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">=</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN> <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> TabName <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">'</SPAN>
+<SPAN CLASS="gutterH">   5:</SPAN>    <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">ORDER</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">BY</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.TABNAME</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">ASC,</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.COLNO</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">ASC;</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">'</SPAN>
+<SPAN CLASS="gutter">   6:</SPAN><SPAN CLASS="syntax8">FROM</SPAN> SYSCAT.TABLES <SPAN CLASS="syntax8">where</SPAN> TABSCHEMA <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">ETB</SPAN><SPAN CLASS="syntax13">'</SPAN>;;
+<SPAN CLASS="gutter">   7:</SPAN>
+<SPAN CLASS="gutter">   8:</SPAN>
+</PRE><P><HR><H2><A NAME="HDRRECSV">RecordEditor CSV Copybook Format</A></H2>
+<P>The <B>Record Editor</B> is a Copybook Transfer format. You can create files
+in this format via the <A HREF="#HDRCPYLAYOUT">"Copy Copybooks"</A>. You can also <B>cut</B> from the
+<B>RecordLayout</B> editor and paste into a normal Text Editor.
+<P>The format of the file is basically
+<OL COMPACT TYPE=1>
+ <LI>Position
+ <LI>Field Length
+ <LI>Field Name
+ <LI>Description
+ <LI>Field Type
+ <LI>Decimal - number of decimal places
+ <LI>Cell Format
+ <LI>Parameter
+</OL>
+<P>
+<P>
+<P>
+<HR><H1><A NAME="Header_66">Defining Binary Files</A></H1>
+<P>
+<P><H3><A NAME="Header_67">Standard Binary Files</A></H3>
+<P>The <B>RecordEditor</B> reads Text files using standard Java Text-Read routines.
+These routines will convert all text fields to Java's Unicode representation. This means
+any binary fields read using standard Java Text-Read routines will be corrupted.
+<P>The <B>RecordEditor</B> has separate routines to read binary files.
+It uses these binary read routines when:
+<UL COMPACT>
+<LI>The record is <B>Group of Binary Records</B> or <B>Record - Binary</B>
+<LI>The record contains binary fields (i.e. Binary Integer or Packed decimal fields etc).
+</UL>
+<P>
+<P>If you are having trouble with a binary files. I would suggest
+<OL COMPACT TYPE=1>
+<LI>Make sure the record is either <B>Record - Binary</B> or
+<B>Group of Binary Records</B>.
+</OL>
+<P>
+<P><H3><A NAME="Header_68">Calculating Record Length</A></H3>
+<P>The <B>RecordEditor</B> calculates the record length by
+<OL TYPE=1>
+<P><LI>If all records are the same length (or this is one record), A constant fixed
+record length is used.
+<P><LI>Deciding what record it is using the <B>field</B> and <B>FieldValue</B>
+as defined on the <A HREF="#HDRCHILD">"Child Records"</A> screen.
+<P><LI>Looking for the Record Separator string (see <A HREF="#HDREXTRA">"Extra Panel"</A> for details)
+at all the possible record lengths.
+<P><LI>Searching for the record Separator.
+</OL>
+<P>
+<P><H3><A NAME="Header_69">Mainframe Files</A></H3>
+<P>The RecordEditor was not specifically written for the mainframe but it can edit
+mainframe cobol files, this means there will be a learning curve for you.
+It does require a full install of Java 5 or greater, some partial installs do not include
+charset.jar file which holds the EBCDIC translation tables. Some companies
+I have worked for have not installed this file on there Work PC's.
+<P>
+<P>While the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> is not a replacement for FileAid,
+I find it a useful to use the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> instead of FileAid for some tasks
+for these reasons
+<OL TYPE=1>
+  <P><LI>The <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> works better with  PC Software than FileAid. You can cut and paste from
+the RecordEditor into Word / Excel. Also you can export
+as HTML or via velocity templates.
+  <P><LI>You can view a lot more of the file at any one time in the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a>.
+On my home PC (22 inch) I can see 55 rows by 18-&gt; 20 field columns. In FileAid
+its 29 rows by 3 -&gt; 6 columns.
+  <P><LI>Can produce Adhoc Reports (via sister project <a href="http://ffreports.sourceforge.net/" TARGET="ffReports">Flat File Reporting</a> which is a Report Designer) from Mainframe Cobol Files.
+  <P><LI>Can create different views on the file (Filter Option).
+  <P><LI>For a Project I typically create a PC folder. The recordEditor lets me save (and view) any
+Mainframe Files for the project (e.g. Test files / Test results).
+</OL>
+<P>The RecordEditor is available in 2 format
+<UL COMPACT>
+ <LI><B>Full Editor</B> which stores its layouts in a Database. There is an option
+(From the main menu <B>Record Layouts &gt;&gt;&gt; Load Cobol Copybook</B>) to
+import Cobol Copybooks.
+ <LI><B>Cobol Editor</B> There is a separate editor that can run off a Cobol Copybook
+instead of a Database. It offers most of the features of the full editor,
+</UL>
+<P>
+<P><H4><A NAME="Header_70">Importing Cobol Copybooks</A></H4>
+<P>
+<P>The first step in editing a file is to import the Cobol Copybook. To do this
+select <B>Record Layouts &gt;&gt;&gt; Load Cobol Copybook</B> from the main menu
+<P>
+<img SRC="Diagram/Mainframe_ImportCobol1.png">
+<P>
+<P>The next screen to be displayed includes:
+<P>
+<img SRC="Diagram/Mainframe_ImportCobol2.png">
+<P>
+<TABLE CELLPADDING="3">
+  <TR VALIGN="TOP"><TD><P><B>Field</B>
+  </TD><TD><P><B>Description</B>
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Cobol Copybook
+  </B></TD><TD><P>
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Spilt Copybook
+  </B></TD><TD><P>How the copybook should be divided up (<B>No Split</B> - one record in the file;
+<B>on redefine</B> - Split into seperate record on a Redefine Statement; <B>on 01</B> - split into seperate
+records for each 01 level).
+   </TD></TR><TR VALIGN="TOP"><TD><P><B>Font Name
+   </B></TD><TD><P>Blank for native files; cp037 (coded page 37) for US / Canada / Australian EBCDIC.
+   </TD></TR><TR VALIGN="TOP"><TD><P><B>File Structure
+   </B></TD><TD><P>Equivalent to RECFM in JCL. Can be left as <B>Default Reader</B> for FB and
+PC files. Needs to be changed for VB files.
+   </TD></TR><TR VALIGN="TOP"><TD><P><B>System.
+   </B></TD><TD><P>Basically a way of grouping Copybooks together in to logical systems.
+</TD></TR></TABLE>
+<P>
+<P>
+<P><H4><A NAME="Header_71">Downloading FB files.</A></H4>
+<P>Fixed Block files can be downloaded as a binary file from the mainframe and edited
+in the record editor. You can set the <B>File Structure</B> to either <B>Default Reader</B>
+or <B>Fixed Length Binary</B>
+<P>
+<P><H4><A NAME="Header_72">Downloading VB files</A></H4>
+<P>The  <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> can edit VB files provided the RDW (record descriptor word i.e. record length)
+is in the file. Many file transfer protocols will drop RDW. The options for VB files are
+<P>
+<OL TYPE=1>
+  <P><LI>Copy to a FB file and transfer / edit this file.
+  <P><LI>Transfer as a VB file (including RWD. You will need to set the <B>File Structure</B>
+to <B><I>Mainframe VB (RDW based) Binary</I></B>
+<img SRC="Diagram/Mainframe_VB1.png">
+  <P><LI>The third option is to copy VB file to a RECFM=U file and transfer this file&#58;
+<P>
+<Table border="3" cellpadding="7" cellspacing="3"><tr><TD BGCOLOR="#000000"><FONT COLOR="#00ff00"><pre>
+// <font color="red">SET</font> IN<font color="yellow"><b>=</b></font>VB.FILE.TO.TRANSMIT
+// <font color="red">SET</font> OUT<font color="yellow"><b>=</b></font>USER.&amp;IN..RECFMU
+//*
+//STEP010 <font color="red">EXEC</font> PGM<font color="yellow"><b>=</b></font>IEFBR14,COND<font color="yellow"><b>=</b></font>(0,NE)
+//SORTOUT  <font color="red">DD</font>  DSN<font color="yellow"><b>=</b></font>&amp;OUT,
+//             DISP<font color="yellow"><b>=</b></font>(MOD,DELETE),
+//             SPACE<font color="yellow"><b>=</b></font>(TRK,(30,30),RLSE),
+//             DCB<font color="yellow"><b>=</b></font>BLKSIZE<font color="yellow"><b>=</b></font>0
+//*
+//STEP020 <font color="red">EXEC</font> PGM<font color="yellow"><b>=</b></font>IEBGENER,COND<font color="yellow"><b>=</b></font>(0,NE)
+//SYSUT1   <font color="red">DD</font>  DSN<font color="yellow"><b>=</b></font>&amp;IN,DISP<font color="yellow"><b>=</b></font>SHR,DCB<font color="yellow"><b>=</b></font>RECFM<font color="yellow"><b>=</b></font>U
+//SYSUT2   <font color="red">DD</font>  DSN<font color="yellow"><b>=</b></font>&amp;OUT,
+//             DISP<font color="yellow"><b>=</b></font>(NEW,CATLG),
+//             SPACE<font color="yellow"><b>=</b></font>(TRK,(115,45),RLSE)
+//SYSPRINT <font color="red">DD</font>  SYSOUT<font color="yellow"><b>=</b></font>*
+//SYSOUT   <font color="red">DD</font>  SYSOUT<font color="yellow"><b>=</b></font>*
+//SORTMSG  <font color="red">DD</font>  SYSOUT<font color="yellow"><b>=</b></font>*
+//SYSIN    <font color="red">DD</font>  DUMMY
+</pre></font></td></tr></pre></table>
+<P>
+You will need to set the <B>File Structure</B>
+to <B><I>Mainframe VB Dump&#58; Includes block length</I></B>
+<img SRC="Diagram/Mainframe_VB2.png">
+</OL>
+<P>
+<P>
+<P>
+<P>
+<P><H3><A NAME="Header_73">PC Cobol</A></H3>
+<P>The <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> can edit Cobol Data files in 2 ways
+<OL TYPE=1>
+ <P><LI>Via the main Editor. Cobol copybooks need to be imported into its Databases
+ <P><LI>Using the Cobol Editor. This editor works directly off a Cobol Copybook but is
+slightly less capable than the main editor (particular for files with multiple
+record layouts.
+</OL>
+<P>
+<P><H4><A NAME="Header_74">Main Record Editor</A></H4>
+<P>
+<P><I><B><A NAME="HDRIMPORT">Importing Cobol Copybooks</A>:&nbsp;</B></I>&nbsp;
+<P>
+<P>
+<P>The first step in editing a file is to import the Cobol Copybook. To do this
+select <B>Record Layouts &gt;&gt;&gt; Load Cobol Copybook</B> from the main menu
+<P>
+<img SRC="Diagram/Mainframe_ImportCobol1.png">
+<P>
+<P>The next screen to be displayed includes:
+<P>
+<img SRC="Diagram/CobolImport.png">
+<P>
+<TABLE CELLPADDING="3">
+  <TR VALIGN="TOP"><TD><P><B>Field</B>
+  </TD><TD><P><B>Description</B>
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Cobol Copybook
+  </B></TD><TD><P>
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Split Copybook
+  </B></TD><TD><P>How the copybook should be divided up (<B>No Split</B> - one record in the file;
+<B>on redefine</B> - Split into separate record on a Redefine Statement; <B>on 01</B> - split into separate
+records for each 01 level).
+   </TD></TR><TR VALIGN="TOP"><TD><P><B>Font Name
+   </B></TD><TD><P>Blank for native files. Normally left blank for PC files; For mainframe EBCDIC use cp037.
+   </TD></TR><TR VALIGN="TOP"><TD><P><B>Binary Format
+   </B></TD><TD><P>Indicates the format of Numeric fields (in particular Comp* Cobol Fields). The Values to use
+   	
+	
+<BR>
+<TABLE   BORDER="1">
+		
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="20%">Cobol Implementation
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="80%">Value
+		
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">IBM Mainframe Cobol
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Mainframe
+		
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Fujitsu PC Cobol
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Fujitsu
+		
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Open Cobol (Default, 85 2002)
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Open Cobol
+		
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Open Cobol (bs2000)
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Open Cobol bs2000
+		
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Open Cobol MVS (with Ascii Characterset)
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Open Cobol MVS
+		
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Open Cobol Micro Focus
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Open Cobol Micro Focus
+		
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Micro Focus Cobol
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Open Cobol Micro Focus
+	
+</TD></TR></TABLE>
+   </TD></TR><TR VALIGN="TOP"><TD><P><B>File Structure
+   </B></TD><TD><P>For files with a single record length use <B>Fixed Length Binary</B>
+For files with multiple records&#58;
+   	
+	
+<BR>
+<TABLE   BORDER="1">
+		
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="20%">Cobol Implementation
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="80%">VB Structure
+		
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Fujitsu PC Cobol
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Fujitsu Variable Binary
+		
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Open Cobol (all versions)
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Open Cobol VB
+	
+</TD></TR></TABLE>
+   </TD></TR><TR VALIGN="TOP"><TD><P><B>System.
+   </B></TD><TD><P>Basically a way of grouping Copybooks together in to logical systems.
+</TD></TR></TABLE>
+<P>
+<P><H4><A NAME="Header_76">Cobol Editor</A></H4>
+<P>The <B>Cobol Editor</B> (shell script runEditorFileCopybook.sh) started life as
+specifically using Cobol Copybooks. These days its supports Cobol Copbooks, 2 XML layout formats,
+2 csv layout formats. The primary screen looks like&#58;
+<P>
+<img SRC="Diagram/CobolEditorMain.png">
+<P>
+<TABLE CELLPADDING="3">
+  <TR VALIGN="TOP"><TD><P><B>Field</B>
+  </TD><TD><P><B>Description</B>
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>File
+  </B></TD><TD><P>File to be edited
+   </TD></TR><TR VALIGN="TOP"><TD><P><B>File Structure
+   </B></TD><TD><P>For files with a single record length use <B>Fixed Length Binary</B>
+For files with multiple records&#58;
+   	
+	
+<BR>
+<TABLE   BORDER="1">
+		
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="20%">Cobol Implementation
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="80%">VB Structure
+		
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Fujitsu PC Cobol
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Fujitsu Variable Binary
+		
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Open Cobol (all versions)
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Open Cobol VB
+	
+</TD></TR></TABLE>
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Copybook Type
+  </B></TD><TD><P>Format of the Record Layout. Use <B>Cobol Copybook</B> for Cobol Copybooks
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Split Copybook
+  </B></TD><TD><P>How the copybook should be divided up (<B>No Split</B> - one record in the file;
+<B>on redefine</B> - Split into separate record on a Redefine Statement; <B>on 01</B> - split into separate
+records for each 01 level).
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Copybook
+  </B></TD><TD><P>Cobol copybook (or Record Layout description file)
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Numeric Format
+  </B></TD><TD><P>Indicates the format of Numeric fields (in particular Comp* Cobol Fields). The Values to use
+   	
+	
+<BR>
+<TABLE   BORDER="1">
+		
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="20%">Cobol Implementation
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="80%">Value
+		
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">IBM Mainframe Cobol
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Mainframe
+		
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Fujitsu PC Cobol
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Fujitsu
+		
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Open Cobol (Default, 85 2002)
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Open Cobol
+		
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Open Cobol (bs2000)
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Open Cobol bs2000
+		
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Open Cobol MVS (with Ascii Character set)
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Open Cobol MVS
+		
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Open Cobol Micro Focus
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Open Cobol Micro Focus
+		
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Micro Focus Cobol
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Open Cobol Micro Focus
+	
+</TD></TR></TABLE>
+    <P><B>Note: </B>Same as field as <B>Binary format</B> in the <A HREF="#HDRIMPORT">"Importing Cobol Copybooks"</A> screen.
+</TD></TR></TABLE>
+<P>
+<P><H4><A NAME="Header_77">Options</A></H4>
+<P>There are some options that can be set to make the <B>RecordEditor</B> easier to
+use with Cobol Copybooks / files. To make these changes
+<UL>
+ <P><LI>Start the <B>Edit Properties</B>.
+program (either from the install menu or via <B>Edit &gt;&gt; Edit Startup Options</B> from either
+the <B>RecordEditor</B> or <B>LayoutEditor</B>.
+ <P><LI>Click on the <B>Properties</B> tab followed by the <B>Defaults</B> tab.
+<BR>
+<img SRC="Diagram/ComboOptions.png">
+ <P><LI>Click on the various elements in the Table
+ 	
+<BR>
+<TABLE   BORDER="1">
+	
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="20%">Table Row
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="80%">Description
+		
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">CopybookReader
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Type of Copybooks top be read. Change to <B>Cobol Copybook</B>
+		
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">DefaultIO
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">File Structure - determines what reader is used to read the file.
+Should be changed to <B>Fixed Length Binary</B>
+		
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">DefaultBin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Binary Format Change as follows:
+	
+<BR>
+<TABLE   BORDER="1">
+		
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="20%">Cobol Implementation
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="80%">Value
+		
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">IBM Mainframe Cobol
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Mainframe
+		
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Fujitsu PC Cobol
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Fujitsu
+		
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Open Cobol (Default, 85 2002)
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Open Cobol
+		
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Open Cobol (bs2000)
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Open Cobol bs2000
+		
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Open Cobol MVS (with Ascii Characterset)
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Open Cobol MVS
+		
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Open Cobol Micro Focus
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Open Cobol Micro Focus
+		
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Micro Focus Cobol
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Open Cobol Micro Focus
+	
+</TD></TR></TABLE>
+	
+</TABLE>
+<P>
+</UL>
+<HR><H1><A NAME="Header_78">Tab/Comma Delimited Fields in Files</A></H1>
+<P>The <B>RecordEditor</B> now supports Files with Comma / Tab / etc
+delimited fields. There are 2 places where field names can be stored&#58;
+<TABLE CELLPADDING="3">
+  <TR VALIGN="TOP"><TD><P><B>Standard Record Layout
+    </B></TD><TD><P>Fields can be stored in the Database in the normal way. The position becomes the field number.
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>First line of file
+    </B></TD><TD><P>Field names can be read from the first line of a file.
+</TD></TR></TABLE>
+<P>
+<HR><H2><A NAME="Header_79">Defining a Delimited File</A></H2>
+<P>There are 4 important parts to defining files where fields are separated
+by a certain character&#58;
+<UL COMPACT>
+  <LI>The <B>record type</B> must be <B>Delimited Fields</B>
+  <LI>The <B>delimiter</B> field must be set to the correct value (ie &lt;tab&gt; or "," etc).
+  <LI>The <B>file structure</B> must be set to:
+    <TABLE CELLPADDING="3">
+     <TR VALIGN="TOP"><TD><P><B>Default
+       </B></TD><TD><P>For standard Comma delimited files with names stored in the Record Layout Tables
+     </TD></TR><TR VALIGN="TOP"><TD><P><B>Delimited, names on first row
+       </B></TD><TD><P>For files where the first line holds the field names
+    </TD></TR></TABLE>
+  <LI>The field position should be the field position number and the length should be 0.
+</UL>
+<P>
+<P>See <A HREF="#HDREXTRA">"Extra Panel"</A> for details on the "Extra Panel".
+<P>
+<img SRC="Diagram/LayoutEdit_Delim.GIF">
+<P>
+<HR><H2><A NAME="Header_80">Defining a Standard Delimited File</A></H2>
+<P>Standard Delimited record layouts are defined as below. The position
+holds the field number (rather than starting position).
+<P>
+<img SRC="Diagram/LayoutEdit_DelimDef.GIF">
+<P>
+<HR><H2><A NAME="Header_81">Names on the first Line</A></H2>
+<P>To define files where the first line holds the field names you must
+define a File Structure <font color="blue"><b>Delimted, names on first row</b></font>
+(which causes different file readers to be used).
+<P>
+<img SRC="Diagram/LayoutEdit_Delim_1st_line.GIF">
+<P>
+<P>The Editor comes with 2 Delimited files where names are on the first
+line.
+<UL COMPACT>
+  <LI>Tab Delimited, names on the first line
+  <LI>Comma Delimited, names on the first line
+</UL>
+<P>
+<P>
+<HR><H2><A NAME="Header_82">Csv Array Description</A></H2>
+<P>Version 0.61a has a small extension to support Csv Arrays (or Csv fields with in CSV fields).
+i.e.
+<P>
+<PRE><B>Data:</B> field one|field two|"embedded field1, embedded field2|embedded field11,embedded field22"|field four
+ 
+<B>Field 1:</B> field one
+<B>Field 2:</B> field two
+<B>Field 3:</B> array
+   <I>Array 1:</I>
+      Embedded Field 1: embedded field1
+      Embedded Field 2: embedded field2
+   <I>Array 1:</I>
+      Embedded Field 1: embedded field11
+      Embedded Field 2: embedded field 22
+<B>Field 4:</B> field four
+</PRE><P>This can now be defined in the record Editor as:
+<P>
+<img SRC="Diagram/LayoutEdit_CsvArray1.GIF">
+<P>
+<P>with the extra panel as follows:
+<P>
+<img SRC="Diagram/LayoutEdit_CsvArray2.GIF">
+<P>
+<P>When editing a file, the field can be displayed in a "Combo Box" like dropdown
+window
+<P>
+<img SRC="Diagram/Edit_CsvArray1.GIF">
+<P>
+<HR><H2><A NAME="Header_83">Parameter Field</A></H2>
+<P>The Parameter field of a CSV array is defined as
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>One Dimension</B></TD><TD><P>&lt;Separator&gt;Quote&lt;Separator&gt;Field Separator&lt;Separator&gt;
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>One Dimension</B></TD><TD><P>&lt;Separator&gt;Quote&lt;Separator&gt;Field Separator 1&lt;Separator&gt;Field Separator 2&lt;Separator&gt;
+</TD></TR></TABLE>
+<P>Where <B>&lt;Separator&gt;</B> is any valid character.
+<P>
+<P>Here is a another example
+<P>
+<img SRC="Diagram/LayoutEdit_CsvArray3.png">
+<P>
+<P>
+<P>
+<P>
+<HR><H1><A NAME="Header_84">Appendix A. Help System</A></H1>
+<P>The <B>RecordEditor</B> includes a basic Form (or Form section) based help system. The
+help system is available via
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><P><B>Help Buttons</B></TD><TD><P>Most screens now include a <B>Help Button</B> on the Top right of a Form.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>F1</B></TD><TD><P>Help is also available via <B>Function Key-1</B> most of the time (exceptions include
+editing tables). For complicated screens (e.g. Record Layout Edit screen), F1 help is based on the
+whre the cursor is positioned.
+</TD></TR></TABLE>
+<P>The help system has 2 methods of locating its help files:
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><P><B>Properties Variable</B></TD><TD><P>The system looks for the Variable <font color="blue"><b>HelpDir=</b></font> in the properties file.
+See <A HREF="#HDRPROPERTIES">"Updating JDBC Properties file"</A> fore more details.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Relative Directory</B></TD><TD><P>Relative Directory. I the <B>RecordEditor</B> and
+<B>LayoutEdit.jar</B> is in "C:\Programs\RecordEditor\HSQL\<B>lib</B>" then the system will
+"C:\Programs\RecordEditor\HSQL\<B>Docs</B>" for the help files.
+</TD></TR></TABLE>
+<P>
+<HR><H1><A NAME="HDRFLDTYPE">Appendix B. Field Types</A></H1>
+<P>
+<P>Field Types supported by the record editor
+<P>
+<P>
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="9%">Id
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="36%">Type Name
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="55%">Description
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">0
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Char
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Text Field
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">1
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Char (right justified)
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Right Justified Text Field
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">2
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Char Null terminated
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Character String that is terminated by nul (0h). C-style string.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">3
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Char Null padded
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Character String that is null padded on the right
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">4
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Hex
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Hex Field (max length 8 bytes).
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">5
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Num (Left Justified)
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Left justified numeric field
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">6
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Num (Right Justified space padded)
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Right Justified space padded Numeric field
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">7
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Num (Right Justified zero padded)
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Right Justified zero padded Numeric field
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">8
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Num Assumed Decimal (Zero padded)
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Right Justified zero padded Numeric field
+with an assumed Decimal space
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">9
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Num Sign Separate Leading
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Numeric Sign separate from the field and at the front.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">10
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Num Sign Separate Trailing
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Numeric Sign separate from the field and at the end of the field.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">11
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Decimal
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Unsigned Decimal (i.e. 121 is represented as hex x'0121'
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">15
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Binary Integer
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">PC format (i.e. Low to High) Binary integer. A value
+of 255 is represented as hex x'FF00'.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">16
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Positive Binary Integer
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">PC format positive Integer
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">17
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Float
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Standard Floating point number
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">18
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Double
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Standard Double
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">21
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Bit
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Show the individual bits.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">31
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Mainframe Packed Decimal (comp-3)
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Mainframe packed decimal (Pic s9(#) comp-3
+in mainframe Cobol). In this format, 255 would be stored as hex x'255F'
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">32
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Mainframe Zoned Numeric
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">
+Corresponds to <B>Cobol PIC S999.</B> on the mainframe.
+<P>The format dates to the Punch Card days when a fields sign was entered by
+over punching the last byte of a numeric field. This saved 1 byte per numeric field
+- big advantages in the 1960's.
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">35
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Binary Integer Big Endian (Mainframe, AIX etc)
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Standard Java / Mainframe / Power PC /etc
+Binary Integer. The number of is stored as high to low format i.e. 255 is stored as hex x'00FF'.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">41
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Fujitsu Zoned Numeric
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Fujitsu Cobol Zoned Numeric
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">71
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Date - Date Format is held in Parameter field (on the record Definition table).
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%"><BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">72
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Date - Format YYMMDD
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%"><BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">73
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Date - Format YYYYMMDD
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%"><BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">74
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Date - Format DDMMYY
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%"><BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">75
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Date - Format DDMMYYYY
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%"><BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">110
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Check Box True / Space
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%"><BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">111
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Checkbox Y/N for a Y/N field (ie Yes / No)
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%"><BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">112
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Checkbox T/F for a T/F field (ie True / False)
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%"><BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">115
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">CSV array
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%"><BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">116
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">XML Name Tag
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%"><BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="9%">117
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="36%">Edit Multi Line field
+</TD><TD ALIGN="LEFT" VALIGN="TOP"  WIDTH="55%">Display a text file that contains more than one line. It primarly for XML files.
+</TD></TR></TABLE>
+<P>
+<P><B>Note: </B>At this stage, the maximum editable size of all binary fields is 8 bytes.
+<P>
+<P>
+<P>
+<HR><H1><A NAME="Header_86">Appendix C. Record Layout Details</A></H1>
+<P>The system use Record-Layout descriptions stored in a Database to format the file. Logically there
+are 2 types of records (each type has both <B>Binary</B> and <B>Text</B> Version)
+<P>
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%"><B>Standard Record</B>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%"><B>Group of records</B>
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">Standard records consist of one or more fields. Each field consists of a
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><B>Position
+</B></TD><TD>Where the field starts in the record. The lowest possible position is 1.
+</TD></TR><TR VALIGN="TOP"><TD><B>Length
+</B></TD><TD>The fields length
+</TD></TR><TR VALIGN="TOP"><TD><B>Name
+</B></TD><TD>Field name. This is displayed as a Column / Row Heading in the record editor
+</TD></TR><TR VALIGN="TOP"><TD><B>Field Type
+</B></TD><TD>File type i.e. Char, Numeric.
+</TD></TR></TABLE>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">Group-Records consist of one or more Records.
+This Record-Type is used when a file consists of
+more than one record structure. A typical case when to use would be if a file consists of
+<UL COMPACT>
+<LI>A File header Record
+<LI>A Large number of detail records
+<LI>A file trailer record.
+</UL>
+<P>
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">
+<P>
+<img SRC="Diagram/Record_Standard.GIF">
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">
+<P>
+<img SRC="Diagram/Record_Group.GIF">
+<BR></TD></TR></TABLE>
+<P>
+<P>
+<HR><H1><A NAME="Header_87">Appendix D. ODBC Definition</A></H1>
+<P>
+<P>The Microsoft Access version should install an ODBC connection called
+RecordLayout. But in case it does not, you will get an error message like
+<PRE>
+DataBase Connection error&#58; [Microsoft][ODBC Driver Manager] Data source name not found and no default driver specified
+ 
+</PRE><P>to create an ODBC connection you should
+<OL TYPE=1>
+<P><LI>Select the Windows <B>Start Button</B> (bottom left corner of the screen).
+<P><LI>Select the <B>Control Panel</B> option (i.e. not programs)
+<P><LI>Most versions of windows you take <B>Administrative Tools</B>. On some (Windows 95 ?)
+the <B>ODBC function</B> is on this screen.
+<P><LI>Take the <B>Data Sources (ODBC)</B>
+<P><LI>Once in the ODBC screen, to add a ODBC source select the Add button
+<table><tr><td><img SRC="Diagram/ODBC.png"></td></tr></table>
+<P><LI>Then select the Driver (MS Access for the Record Edit)
+<table><tr><td><img SRC="Diagram/ODBC_Driver.png"></td></tr></table>
+<P><LI>Then fill out Source name and Description. Also use the <B>Select Button</B>
+to select the Microsoft Access DB <B>RecordEditor.mdb</B>. This is
+found in $install_Directory/MSaccess
+<table><tr><td><img SRC="Diagram/ODBC_RecordLayout.GIF"></td></tr></table>
+</OL>
+<P>
+<P>
+<P>
+<HR><H1><A NAME="Header_88">Appendix E. FAQ</A></H1>
+<P>
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><P><B>Question</B></TD><TD><P><I>Why are there no options in System Combo Box</I>
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Answer  </B></TD><TD><P>This probably means the system cannot connect to the Database.
+This could be due to
+<UL COMPACT>
+<LI>Database has not been started (MySQL, HSQL etc)
+<LI>The db Connection is not set up correctly; see the RecEdit.properties in the
+RecordEdit.Jar and LayoutEdit.Jar
+<LI>The MS-Access Database is moved (MS-Access version). This will break the ODBC
+definition. The solution is to update the ODBC Definition
+</UL>
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Question</B></TD><TD><P><I>Why isn't the Cobol load option visible</I>
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Answer  </B></TD><TD><P>The Cobol Conversion is only available when the cb2xml package is available
+so if LayoutEdit is started as
+<PRE>
+  java -jar LayoutEdit.jar
+ 
+</PRE>You will not be able to load Cobol Copybooks. While if start ed as follows, you will be able
+to load Cobol Copybooks
+<PRE>
+  java -cp LayoutEdit.jar;cb2xml.jar layoutEdit.CobolXML.InsertCobolCopybook 0 E:\Work\MyAccessDBs\RecordEditor\CopyBooks\ttt004.cbl N
+ 
+</PRE></TD></TR><TR VALIGN="TOP"><TD><P><B>Question</B></TD><TD><P><I>Can I load Cobol Copybooks into the DB in batch</I>
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Answer  </B></TD><TD><P>Yes,
+<PRE>
+  java -cp LayoutEdit.jar;cb2xml.jar layoutEdit.LayoutEdit.InsertCobolCopybook CobolCopybook
+ 
+</PRE></TD></TR></TABLE><P><HR><H1><A NAME="Header_89">Appendix F. Reporting</A></H1>
+<P>The old <B>re2jasper</B> addon has been enhanced and rereleased as <a href="http://ffreports.sourceforge.net/" TARGET="ffReports">Flat File Reporting</a>.
+This basically an plugin to <a href="http://ireport.sourceforge.net/" TARGET="iReports">iReports</a> report designer to allow the use of <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a>
+and Cobol files to be used in <a href="http://ireport.sourceforge.net/" TARGET="iReports">iReports</a> and <B>Jasper Reports</B>. The interface is
+not very intuitive (I have to work with what <a href="http://ireport.sourceforge.net/" TARGET="iReports">iReports</a> gives me) so I suggest following
+the examples given, but if you wish to produced Reports / Graphs from your Files, have a
+look at it
+<P>
+<img SRC="Diagram/iReport.png">
+<P>
+<HR><H1><A NAME="Header_90">Appendix G. Tips</A></H1>
+<P><H4><A NAME="Header_91">Moving Columns</A></H4>
+<P>You can move columns about by clicking on a <B>Column header</B> and dragging the
+column to another Position. e.g. The following table
+<P>
+<img SRC="Diagram/RecordEdit_Filter_tbl_xmpl1a.GIF">
+<P>Can be changed to the following table by dragging the columns to the desired position
+<P>
+<img SRC="Diagram/RecordEdit_Filter_tbl_xmpl1b.GIF">
+<P>
+<P><H4><A NAME="HDRFILTXMP">Creating Simple Reports</A></H4>
+<P>You can create very basic reports by combining Filtering (see <A HREF="#HDRFILTER">"Filter Screen"</A>)
+with the Save-As / Export Function (see <A HREF="#HDRSAVEAS">"Save AS / Export"</A>).
+<P>With the AMS-PO file which consists of
+<UL COMPACT>
+<LI>PO Header
+<UL COMPACT>
+<LI>Keycode Detail Record
+<UL COMPACT>
+<LI>Store Allocation Record
+</UL>
+</UL>
+</UL>
+<P>It looks like this:
+<P>
+<img SRC="Diagram/RecordEdit_Filter_tbl_xmpl1.png">
+<P>
+you can select specific fields of the PO header by entering:
+<P>
+<img SRC="Diagram/RecordEdit_Filter_xmpl1.GIF">
+<P>This will produce a filtered view like
+<P>
+<img SRC="Diagram/RecordEdit_Filter_tbl_xmpl1a.GIF">
+<P>
+<P>To save as a HTML file, select the <B>SaveAs</B> button, then enter the
+following on the <B>SaveAs</B> Screen:
+<P>
+<img SRC="Diagram/RecordEdit_Filter_SaveAs_xmpl1.GIF">
+<P>
+<P>This will produce the following HTML
+<P>
+<table BORDER="1" CELLSPACING="1"><tr><th>Line</th><th>8 : 10<br/>Vendor</th><th>18 : 12<br/>PO</th><th>30 : 6<br/>Entry Date</th><th>48 : 4<br/>Department</th><th>52 : 6<br/>Expected Receipt Date</th><th>87 : 2<br/>Order Type</th></tr>
+<tr><td>1</td><td>6060</td><td>286225</td><td>040909</td><td>200 </td><td>050102</td><td>FT</td></tr>
+<tr><td>2</td><td>6228</td><td>222227</td><td>040909</td><td>200 </td><td>050102</td><td>FT</td></tr>
+<tr><td>3</td><td>6228</td><td>222243</td><td>040909</td><td>200 </td><td>050102</td><td>FT</td></tr>
+<tr><td>4</td><td>5341</td><td>294915</td><td>041013</td><td>475 </td><td>041231</td><td>FT</td></tr>
+<tr><td>5</td><td>5341</td><td>294987</td><td>041013</td><td>475 </td><td>041231</td><td>FT</td></tr>
+<tr><td>6</td><td>5341</td><td>295139</td><td>041013</td><td>475 </td><td>041231</td><td>FT</td></tr>
+<tr><td>7</td><td>5341</td><td>303662</td><td>041110</td><td>310 </td><td>041231</td><td>FT</td></tr>
+<tr><td>8</td><td>5341</td><td>304100</td><td>041111</td><td>310 </td><td>041231</td><td>FT</td></tr>
+</table>
+<P>
+<P>
+<HR><H1><A NAME="Header_93">Appendix H. HSQLDB Version</A></H1>
+<P><B>Warning</B> The <B>RecordEditor</B> Instillation program
+will install a HSQLDB server into your Windows <B>start-up</B>
+directory (so the DB server will start automatically when you Start Windows).
+It is perfectly safe to remove HSQLDB Database server from the Windows Start up directory.
+But to use the RecordEditor, you will need to start the server manually.
+<P>
+<P>This version uses the Open Source Database - HSQLDB as its backend Database. To use the system, the
+Database Server must be started (should happen automatically on Windows version
+when you start Windows). If the Database is not started you will get an error message like
+<PRE>
+<B>DataBase Connection error&#58; socket creation error</B>
+ 
+</PRE><P><P>You may find it useful to have a SQL client. If so the connection details are
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><B>Driver</B></TD><TD><font color="blue">&amp;Install_Directory</font>\lib\hsqldbmain.jar
+</TD></TR><TR VALIGN="TOP"><TD><B>URL (Connection String)</B></TD><TD>jdbc&#58;hsqldb&#58;hsql&#58;//localhost/recordedit
+</TD></TR></TABLE>
+<P>
+<P>
+<HR><H1><A NAME="Header_94">Appendix I. Linux</A></H1>
+<P>The <B>RecordEditor</B> program has always run on Linux / Unix, but originally many
+of the associated files (eg documentation) did not store files in the correct case
+(Linux is case sensitive). As of version <B>0.52.1</B> this has been corrected.
+<P>There is now an installation program
+<P>    <font color="blue"><b>  Download RecordEdit_Installer_for_HSQL_<font color="red">&lt;Version&gt;</font>.jar</b></font>
+<P>for Linux / Unix. To run install the <B>RecordEdit</B> on Linux you should:
+<OL TYPE=1>
+ <P><LI>Run the installation program (i.e. <font color="blue">java -jar RecordEdit_HSQL_055.jar</font>)
+under your normal user id.
+ <P><LI>The installation should install Icons on your desktop to:
+ <UL COMPACT>
+   <LI><font color="blue">Start Server</font> - It starts the Database server used by the <B>RecordEditor</B>.
+You will have to <B>run this option</B> before running the <B>RecordEditor</B>.
+   <LI><font color="blue">Stop Server</font> - Stop the Database.
+   <LI><font color="blue">Full Editor</font> - The actual "Record" Editor.
+   <LI><font color="blue">Record Editor</font> - A cut down version of the "Record" Editor.
+   <LI><font color="blue">Layout Editor</font> - The "Record Layout" Editor. It also will load
+Cobol Copybooks into the System.
+   <LI><font color="blue">Edit Properties</font> - Edit the Properties / Jar files used by the editor.
+   <LI><font color="blue">Welcome</font> Display basic Documentation.
+   <LI><font color="blue">Manual</font> - Manual for the system.
+ </UL>
+ <P><LI>The Installer will create shell scripts in 2 directories
+   <UL COMPACT>
+     <LI>$HOME/bin
+     <LI>$HOME/RecordEdit/HSQLDB
+   </UL>
+I suggest including one of these directories in your path. That way you can edit a file
+by entering:
+<P><font color="blue">runRecordEdit.sh filename</font>
+ <P><LI>One difference from the Windows is you must <font color="blue">start the DB Server</font>
+prior to using the RecordEditor.
+  <P><LI>Start the <font color="blue">Edit Properties</font>, take the <B>Screen Position</B> tab
+and set the <B>Space ot be left at the bottom of the screen</B> to 40. For Gnome users
+also set the <B>Space ot be left at the top of the screen</B> to around 20.
+</OL>
+<P>
+<HR><H1><A NAME="Header_95">Appendix J. Window Right Click</A></H1>
+<P>In Windows Explorer, the functions available on Right Click menu are defined
+in the registry (under *\Shell). The Windows Specific installers should setup
+the <B>RecordEditor</B> on the right click menu. For the Java installer
+and generic versions, there should be a file
+<P>
+<P><font color="blue"><b>&lt;install directory&gt;\lib\HSQL.reg</b></font>
+<P>
+<P>Please modify the supplied registry file as need to be and then run it.
+<P>
+<P>
+<P>Here is what the registry files looks like
+<PRE>Windows Registry Editor Version 5.00
+ 
+[HKEY_CLASSES_ROOT\*\Shell\Record Edit HSQLDB]
+@=""
+ 
+[HKEY_CLASSES_ROOT\*\Shell\Record Edit HSQLDB\command]
+@="\"C:\\Program Files\\Java\\j2re1.4.1_05\\bin\\\\javaw.exe\" -cp \"C:\\Program Files\\RecordEdit\\HSQLDB\\lib\\RecordEdit.jar;C:\\Program Files\\RecordEdit\\HSQLDB\\lib\\hsqldbmain.jar\" edit.EditRec  \"%1\""
+</PRE><P><P><B>Note: </B>The command is
+<P>
+  &lt;Java&gt; -cp &lt;Record Editor&gt;  edit.EditRec  \"%1\"
+<P>
+<P>
+<P><B>Note: </B>Use the standard Windows Notepad Editor to edit the Registry file.
+<P>
+<P>
+<HR><H1><A NAME="Header_96">Appendix K. Changes</A></H1>
+<P><H4><A NAME="Header_97">Release 0.67</A></H4>
+<P>Minor release&#58;
+<UL COMPACT>
+  <LI>Improved Cobol Support (in particalular Open Cobol), it is also easier to extend for other Cobols.
+  <LI>New File Copy utility (Fixed &lt;--&gt; Delimited, Xml --&gt; Fixed / Delimited).
+  <LI>Minor enhancements (e.g. Recent files option).
+  <LI>Several Bug Fixes (e.g. Scaling large numbers; better message for Velocity).
+</UL>
+<P><H4><A NAME="Header_98">Release 0.65</A></H4>
+<P>Changes in this release are primarily a "Clean-up / Minor Enhansements".
+<UL COMPACT>
+  <LI>File Compare Utility - This is a field based compare; fields can be ignored or
+data in files of different formats can be compared.
+  <LI>Option to Save / Import Record-Layouts (Descriptions of a file) as a XML file.
+These XML-Layouts can be used in the Sister Product <B>JRecord</B> to Read / Write
+files from a Java Program.
+  <LI>Options to save files as XML.
+  <LI>Minor enhancements to File and View Menu's.
+  <LI>Can Save Filters, Sort Tree's and Record Tree's definitions and execute later.
+  <LI>Can Summmarise fields in a Sort Tree.
+</UL>
+<P><H4><A NAME="Header_99">Release 0.62</A></H4>
+<P>This release contains new "Tree" views, Combo boxs etc, See
+<a href="Changes_062.htm">Changes version 0.62</a> for more details.
+<UL COMPACT>
+  <LI>3 new Tree views added to editor.
+  <LI>New Column view (where rows are displayed as columns going across the page).
+  <LI>Support of Combobox's in the Editor.
+  <LI>Parameter Editors in the LayoutEditor
+  <LI>Limited support for editting XML files.
+  <LI>New Parameter field editors int the Layout Editor
+  <LI>Can Import / Export Record-Layouts (copybooks) in a Csv Format
+  <LI>New Option to copy copybooks between DB's.
+  <LI>Support for Combo's Box / Check box fields
+  <LI>Improved CSV Support:
+    <UL COMPACT>
+      <LI>Supported in the File Layout Wizard
+      <LI>New Generic CSV File type where the user chooses the format of the CSV file at runtime.
+      <LI>Support for different line parsers
+    </UL>
+</UL>
+<P><H4><A NAME="Header_100">Release 0.61.2</A></H4>
+<P>Cleanup / bug fix, + Enhanced Wizard and XML import functions. See
+<a href="Changes061b.htm">Changes version 0.61b</a> for more details.
+<P><H4><A NAME="Header_101">Release 0.61</A></H4>
+<P>Mainly Look and feel related. See
+<a href="Changes061.htm">Changes version 0.61</a> for more details.
+<UL COMPACT>
+ <LI>Improved Options Editor.
+ <LI>Can now choose the Look and Feel / Icons.
+ <LI>Improved date support.
+ <LI>Several minor improvements like, Full Line view, Full line display at the bottom of theRecord Screen
+Selected View (Data drop down).
+ <LI>Bug fixes (Date and CSV files).
+</UL>
+<P>
+<P><H4><A NAME="Header_102">Release 0.60</A></H4>
+<P>Mainly extra functions
+<UL COMPACT>
+ <LI>Improved Search/Replace - new Search/Replace on all fields function.
+ <LI>File Sorting. The file/view can be sorted by either
+ <OL COMPACT TYPE=1>
+  <LI>Double clicking on the column heading.
+  <LI>Selecting the sort option on the Right Mouse Click button.
+  <LI>Sort Option in the Data drop down menu.
+ </OL>
+ <LI>Editor remembers which layout was last used for a file.
+ <LI>New Cobol Editor that uses Cobol Copybooks rather than a Database to store
+Copybook Information.
+ <LI>New program to edit Startup parameters and Jar files.
+ <LI>Option to export via Velocity Templates. <P><B>Note: </B> Velocity must be downloaded seperately.
+ <LI>User requests (Repeat function in the editor, support for Fixed record length files in the Layout wizard)
+ <LI>Fixed issues with Linux install.
+ <LI>Extra extension options (in java).
+</UL>
+<P>
+<P><H4><A NAME="Header_103">Release 0.56</A></H4>
+<P>This version is mainly changes to the user Interface to improve ease use.
+Major changes are:
+<UL COMPACT>
+ <LI>Addition of Standard File, Edit ... Top level menus similar to what is in a normal text editor.
+ <LI>Addition of a Menu bar with standard Windows Icons.
+ <LI>New Create Layout option added to the Layout Editor
+ <LI>New Create Layout Wizard that allows you elect the fields in a file.
+ <LI>Improved Find / Replace (Further work to done in the next version).
+ <LI>In the editor, Columns can be fixed (ie do not scroll off the screen) via
+the right click menu.
+ <LI>Support for Fujitsu Cobol files and types added (Jean-Francois Gagnon).
+ <LI>Null padded / terminated Strings types added.
+</UL>
+<P>
+<P><H4><A NAME="Header_104">RecordEditor to Jasper</A></H4>
+<P>The <a href=re2Jasper.htm TARGET="jasper">RecordEditor ~ Jasper Interface</a> has been released as a separate download. It requires
+<a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> and <a href="http://ireport.sourceforge.net/" TARGET="iReports">iReports</a> be installed. This package&#58;
+<OL COMPACT TYPE=1>
+  <LI>Illustrates calling <B>RecordEditor</B> routines
+  <LI>Can design and generate reports from Fixed Field Width data files
+which includes Binary, Cobol and Mainframe/Cobol datafiles.
+</OL>
+<P><H4><A NAME="Header_105">Release 0.55</A></H4>
+<P>This version is primary a refactoring of the code with aims of&#58;
+<UL COMPACT>
+ <LI>Making it easier to extend the editor
+ <LI>The GUI code has been split from the File / Field access java code.
+ <LI>Opening the code up for other uses.
+ <LI>Creation of java examples for extending / using RecordEditor classes.
+</UL>
+<P>
+<P>Enhancements&#58;
+<UL COMPACT>
+  <LI>Support of CSV files ( files with fields Delimited by comma's, tab, etc).
+  <LI>Export of files in Comma / delimitiered format
+  <LI>Support for mainframe VB format.
+</UL>
+<P>
+<P>Other changes
+<UL COMPACT>
+  <LI>Creation of "standard" Record (Line) routines.
+  <LI>Creation of examples for
+  <OL COMPACT TYPE=1>
+    <LI>Adding new Types
+(see <a href="file:Example.htm#HDRTYPE" target="new">Type Example</a>)
+    <LI>Reading Record Orientated files using the Standard RecordEditor Layouts and Cobol Copybooks.
+(see <a href="file:Example.htm#HDRXLIO1" target="new">File IO Example</a>)
+    <LI>Interfacing to
+<a href="http://jakarta.apache.org/velocity/">Velocity</a>.  See also <a href="file:Example.htm#HDRVELOCITY" target="new">Velocity Example</a>
+    <LI>Running directly from Cobol Copybooks
+(see <a href="file:Example.htm#HDRCOPYBOOK" target="new">Cobol Copybook Example</a>)
+  </OL>
+</UL>
+<P>
+<P><H4><A NAME="Header_106">Release 0.53</A></H4>
+<P>Changes in this release
+<UL COMPACT>
+ <LI>Filtered views of the Data. See <A HREF="#HDRFILTER">"Filter Screen"</A> for more details.
+ <LI>Save As / Export function introduced. This allow you to save
+ <UL COMPACT>
+  <LI>The whole File
+  <LI>or the current View
+  <LI>or Selected records
+ </UL>
+as either a Data file, a single HTML table or a HTML table per record.
+ <LI>Help System added - Form level help added.
+ <LI>Documentation changes including new tips section.
+ <LI>Code Refactoring and the odd bugs.
+</UL>
+<P>
+<P><H4><A NAME="Header_107">Release 0.52.1 (Linux)</A></H4>
+<P>This release basically is to support Linux. Mostly it consists of changes to
+documentation
+<UL COMPACT>
+ <LI>Support for editing Windows / Unix / Linux / Mac Text files on all systems.
+ <LI>Changes for running on Linux (ensuring consistent use of Character case).
+ <LI>Ensure consistent use of character case in Filenames/URL's.
+ <LI>Installer for Linux.
+ <LI>Minor Bug fixes (i.e. better table cell exit handling).
+</UL>
+<P>
+<P><H4><A NAME="Header_108">Release 0.52 (Mainframe)</A></H4>
+<P>This change was to support Mainframe Binary files.
+<UL COMPACT>
+ <LI>Support for editting native IBM Mainframe files (on a PC etc) using a Cobol Copybook
+ <LI>Improvements in Cobol Import function
+ <LI>Bug fixs
+  <UL COMPACT>
+    <LI>Binary Files in the Access version
+    <LI>Type Conversion fix's (particulary the binary)
+  </UL>
+ <LI>More Test cases
+</UL>
+<P>
+<P>
+<P><H4><A NAME="Header_109">Release 0.51</A></H4>
+<P>This version was to support Floating point numbers and bug fixes.
+<P>
+<P>
+<P><I><B><A NAME="Header_110">Release 0.50 Initial Release</A>:&nbsp;</B></I>&nbsp;
+The initial release of the <B>RecordEditor</B>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<HR><H1><A NAME="Header_111">Appendix L. Rexx</A></H1>
+<P><B>Rexx</B> is a scripting language, which I use in preference Windows Bat files (or Unix Shell scripts).
+<P>I have converted the simpler Rexx programs to bat files but I have left the original Rexx programs
+in the system. I currently use the <B>Regina 3.3</B> interpreter.
+<P><B>Note: </B>Try
+<a href="http://www.rexxla.org/index.html">RexxLA</a>
+or Search IBM's sites for details on <B>Rexx</B>.
+<P>
+<HR><H1><A NAME="Header_112">Appendix M. Related Systems / Useful Systems</A></H1>
+<P>
+<P>The follow packages where used in the <B>RecordEditor</B>
+<UL COMPACT>
+<li><a href="http://cb2xml.sourceforge.net">cb2xml</a> Converts Cobol / Cobol Files to XML. Used to load <b>Cobol Copybooks</b> into the <b>RecordEditor</b>
+<li><a href="http://sablecc.org">SableCC</a> used by cb2xml (and this package) in the conversion of Cobol Copybooks.
+<li><a href="http://hsqldb.sourceforge.net/">HSQLDB</a> A SQL Database used as a backend DB for some versions.
+<li><a href="http://jakarta.apache.org/velocity/">Velocity</a> is used in several examples.
+<li><a href="https://tablelayout.dev.java.net/">Tablelayout</a>Layout manager used by the RecordEditor
+</UL>
+<P>
+<P>
+<P>All these systems are available on WWW.SourceForge.net.
+<UL COMPACT>
+<li><a href="http://sourceforge.net/projects/jrecord/">JRecord</a>  Project for reading and writing cobol files from Java. It was split of from the RecordEditor and contains the RecordEditor IO routines.
+<li><a href="http://sourceforge.net/projects/ffreport/">Flat File Reporting</a>  Project for reporting on RecordEditor / Cobol files.
+<li><a href="http://cb2xml.sourceforge.net">cb2xml</a>  Converts Cobol / Cobol Files to XML. It is written in JAVA. I have used it to import Cobol Record Layouts.
+<li><a href="http://sourceforge.net/projects/cb2java/">cb2java</a>  Project for reading and writing cobol files from Java.
+<li><a href="http://txt2xml-rexx.sourceforge.net">Txt2XML</a> Converts Cobol Files to XML. It is written in Rexx.
+</UL>
+<P>
+<P>
+<P>
+<UL COMPACT>
+<li><a href="ExampleFR.htm">Example Documentation</a>
+<li><a href="../JavaDoc/index.html">JavaDoc's</a>
+<p/>
+<li><a href="http://record-editor.sourceforge.net">Record-Editor Home page</a>
+<li><a href="http://sourceforge.net/projects/record-editor/">On Source Forge</a>
+<li><a href="http://sourceforge.net/project/showfiles.php?group_id=139274">Record-Editor download page</a>
+</UL>
+<P>
+<P>If you have any comments, issues, problems please please report them&#58;
+<P>
+<UL COMPACT>
+<li><a href="https://sourceforge.net/forum/forum.php?forum_id=467594">RecordEditor Source Forge forum</a>
+<li><a href="https://sourceforge.net/tracker/?group_id=139274&atid=742839">Bug Reporting</a>
+<li><a href="https://sourceforge.net/tracker/?group_id=139274&atid=742842">Feature Request</a>
+</UL>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

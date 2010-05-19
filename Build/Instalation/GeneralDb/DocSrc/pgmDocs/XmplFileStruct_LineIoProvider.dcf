@@ -1,0 +1,31 @@
+:i1.XmplFileStructure
+:i2 refid=example.XmplFileStructure
+:i1.File Structure
+.*b2h html <PRE><SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax10">class</SPAN> XmplFileStructure2 <SPAN CLASS="syntax8">extends</SPAN> LineIOProvider <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter">   2:</SPAN>
+.*b2h html <SPAN CLASS="gutter">   3:</SPAN>    <SPAN CLASS="syntax8">private</SPAN> <SPAN CLASS="syntax8">static</SPAN> <SPAN CLASS="syntax8">final</SPAN> <SPAN CLASS="syntax10">int</SPAN> MY_FILE_STRUCTURE <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax5">1002</SPAN>;
+.*b2h html <SPAN CLASS="gutter">   4:</SPAN>
+.*b2h html <SPAN CLASS="gutterH">   5:</SPAN>    <SPAN CLASS="syntax3">/**</SPAN>
+.*b2h html <SPAN CLASS="gutter">   6:</SPAN><SPAN CLASS="syntax3">    </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">get</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">LineReader</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">for</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">the</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">supplied</SPAN>
+.*b2h html <SPAN CLASS="gutter">   7:</SPAN><SPAN CLASS="syntax3">    </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*/</SPAN>
+.*b2h html <SPAN CLASS="gutter">   8:</SPAN>    <SPAN CLASS="syntax8">public</SPAN> AbstractLineReader <SPAN CLASS="syntax6">getLineReader</SPAN>(<SPAN CLASS="syntax10">int</SPAN> fileStructure) <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter">   9:</SPAN>
+.*b2h html <SPAN CLASS="gutterH">  10:</SPAN>        <SPAN CLASS="syntax8">if</SPAN> (fileStructure <SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax18">=</SPAN> MY_FILE_STRUCTURE) <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter">  11:</SPAN>            <SPAN CLASS="syntax8">return</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">DelimLineReader</SPAN>(<SPAN CLASS="syntax14">super</SPAN>.<SPAN CLASS="syntax6">getLineProvider</SPAN>());
+.*b2h html <SPAN CLASS="gutter">  12:</SPAN>        <SPAN CLASS="syntax18">}</SPAN>
+.*b2h html <SPAN CLASS="gutter">  13:</SPAN>        <SPAN CLASS="syntax8">return</SPAN> <SPAN CLASS="syntax14">super</SPAN>.<SPAN CLASS="syntax6">getLineReader</SPAN>(fileStructure);
+.*b2h html <SPAN CLASS="gutter">  14:</SPAN>    <SPAN CLASS="syntax18">}</SPAN>
+.*b2h html <SPAN CLASS="gutterH">  15:</SPAN>
+.*b2h html <SPAN CLASS="gutter">  16:</SPAN>
+.*b2h html <SPAN CLASS="gutter">  17:</SPAN>    <SPAN CLASS="syntax3">/**</SPAN>
+.*b2h html <SPAN CLASS="gutter">  18:</SPAN><SPAN CLASS="syntax3">    </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">get</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">LineWriter</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">for</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">the</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">supplied</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">structure</SPAN>
+.*b2h html <SPAN CLASS="gutter">  19:</SPAN><SPAN CLASS="syntax3">    </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*/</SPAN>
+.*b2h html <SPAN CLASS="gutterH">  20:</SPAN>    <SPAN CLASS="syntax8">public</SPAN> AbstractLineWriter <SPAN CLASS="syntax6">getLineWriter</SPAN>(<SPAN CLASS="syntax10">int</SPAN> fileStructure) <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter">  21:</SPAN>
+.*b2h html <SPAN CLASS="gutter">  22:</SPAN>        <SPAN CLASS="syntax8">if</SPAN> (fileStructure <SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax18">=</SPAN> MY_FILE_STRUCTURE) <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter">  23:</SPAN>            <SPAN CLASS="syntax8">return</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">DelimLineWriter</SPAN>();
+.*b2h html <SPAN CLASS="gutter">  24:</SPAN>        <SPAN CLASS="syntax18">}</SPAN>
+.*b2h html <SPAN CLASS="gutterH">  25:</SPAN>        <SPAN CLASS="syntax8">return</SPAN> <SPAN CLASS="syntax14">super</SPAN>.<SPAN CLASS="syntax6">getLineWriter</SPAN>(fileStructure);
+.*b2h html <SPAN CLASS="gutter">  26:</SPAN>    <SPAN CLASS="syntax18">}</SPAN>
+.*b2h html <SPAN CLASS="gutter">  27:</SPAN>
+.*b2h html </PRE>

@@ -1,0 +1,77 @@
+##
+##  Generate HTML for a Record Layout
+##
+
+#set ($border = "border=1")
+#set ( $fldCount = ${recordLayout.getNumberOfRecordFields()} - 1)
+#set ( $recCount = ${recordLayout.getNumberOfRecords()} - 1)
+
+<h1>${recordLayout.getRecordName()}</h1>
+<p>${recordLayout.getDescription()}</p>
+
+#if ($recCount > 0)
+  <table $border>
+    <tr>
+      <TD><b>Record Name</b></td>
+      <TD><b>Field to Test</b></td>
+      <TD><b>Value to test against</b></td>
+    </tr>
+  #foreach( $j in [0 .. ${recCount}])
+     #set ($rec =  ${recordLayout.getRecord($j)})
+     <tr>
+        <TD>${rec.getRecordName()}</td>
+        <TD>${rec.getTstField()}</td>
+         <TD>${rec.getTstFieldValue()}</td>
+     </tr>
+  #end
+  </table>
+
+
+  #foreach( $j in [0 .. ${recCount}])
+     #set ($rec =  ${recordLayout.getRecord($j)})
+
+     <h2>${rec.getRecordName()}</h2>
+     <p>${rec.getDescription()}</p>
+
+     #set ( $fldCount = ${rec.getNumberOfRecordFields()} - 1)
+
+     <table $border>
+     <tr>
+     <TD><b>Name</b></td>
+     <TD><b>Start</b></td>
+     <TD><b>Length</b></td>
+     <TD><b>Type</b></td>
+     </tr>
+     #foreach( $i in [0 .. ${fldCount}])
+     #set ($fld =  ${rec.getRecordField($i)})
+     <tr>
+     <TD>${fld.getName()}</td>
+     <TD>${fld.getPos()}</td>
+     <TD>${fld.getLen()}</td>
+     <TD>${typeNames.get($fld.getType())}</td>
+     </tr>
+     #end
+     </table>
+
+   #end
+#else
+
+<table $border>
+<tr>
+ <TD><b>Name</b></td>
+ <TD><b>Start</b></td>
+ <TD><b>Length</b></td>
+ <TD><b>Type</b></td>
+</tr>
+  #foreach( $i in [0 .. ${fldCount}])
+   #set ($fld =  ${recordLayout.getRecordField($i)})
+   <tr>
+     <TD>${fld.getName()}</td>
+     <TD>${fld.getPos()}</td>
+     <TD>${fld.getLen()}</td>
+     <TD>${typeNames.get($fld.getType())}</td>
+   </tr>
+  #end
+</table>
+#end
+

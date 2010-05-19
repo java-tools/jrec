@@ -1,0 +1,556 @@
+.*b2h option headrec.text='<link rel="stylesheet" type="text/css" href="syntax.css">'
+.im iRE_TagDefs.dcf
+:ih1 id=interface.Interfaces
+:ih1 id=example.Examples
+:ih1 id=velocity.Velocity                                                                            
+:ih1 id=type.Type 
+:ih1 id=typeman.TypeManager class
+:ih1 id=gen.Generating
+:ih1 id=Cobol.Cobol 
+:ih1 id=Edit.Editting 
+.*
+.*  Start of Examples Document
+.*
+:h1.Introduction
+:p.Following is a very brief introduction to the :RecordEditor. and the Examples provided.
+
+:h2.Layouts
+:p.This package uses :blue.Layouts:eblue. to describe a record or Line. The system
+uses a 3 level definition of each record as follows.
+:sl compact.
+:li.Layout :Red.:::ered. 1 or more Records
+:li.Record :Red.:::ered. 1 or more Fields
+:esl.
+
+:tdef id=xlight shade='xlight'.
+:table cols='* 3*'.
+:thd refid=xlight.:c.Field:c.Java Class:ethd.
+:row refid=none.:c.Layout:c.net.sf.RecordEditor.record.LayoutDetail
+:row.:c.Record:c.net.sf.RecordEditor.record.RecordDetail
+:row.:c.Field:c.net.sf.RecordEditor.record.types.FieldDetails
+:etable.
+
+.pict Record_Group.GIF
+
+:h2.Line class
+:p.Java class :blue.net.sf.RecordEditor.record.Line:eblue. represents one line
+(or data record) in the file. The main methods are
+:ul compact.
+:li.getField(int recordIndex, int fieldIndex) or getField(FieldDetails field)
+or getField(String fieldName) - gets the value of a field
+:li.setField(int recordIndex, int fieldIndex, Object value) or setField(FieldDetails field, Object value)
+or setField(String fieldName, Object value) - sets the value of a field
+:li.byte[] getData() - gets the value of the line.
+:eul.
+
+:h2.Type interface
+:i2 refid=type.Introduction 
+:p.Java classes that implement the interface
+:blue.net.sf.RecordEditor.record.types.Type:eblue. are used to convert a field's 
+value between the external representation and a Java String representation for
+display on the screen.
+
+:h2.TypeManager
+:i2 refid=typeman.Introduction 
+:p.The :hp2.TypeManager:ehp2. is used store the :hp2.Type's:ehp2. and
+:hp2.CellFormat's:ehp2.. You can use the 
+static method :hp2.getSystemTypeManager:ehp2. to get the system :hp2.TypeManager:ehp2..
+The method :hp2.register:ehp2. is used to define new :hp2.Types:ehp2. to the system.
+
+.*b2h html <PRE><SPAN CLASS="gutter">   1:</SPAN>        TypeManager typeManager <SPAN CLASS="syntax18">=</SPAN> TypeManager.<SPAN CLASS="syntax6">getSystemTypeManager</SPAN>();
+.*b2h html </PRE>
+
+
+:h2.Examples
+:p.The examples are in the directory :hp2.<install_directory>/src:ehp2. package 
+:hp2.net.sf.RecordEditor.examples:ehp2..
+:p.Before you do anything else, you :hp2.must:ehp2. update the constants in
+:bblue.net.sf.RecordEditor.examples.Constants:ebblue. 
+:p.All the examples require :blue.JRecord.jar:eblue. and :blue.RecordEdit.jar:eblue. to be added to the java 
+:hp2.class path:ehp2.. These jars
+will be in :hp2.<install_directory>/lib:ehp2. directory.
+:p.Example class's CobolCopybookReader.java and CopybookToLayout.java + example programs 
+XmplEditViaCobol.java and XmplEditSpecificFile3.java requires :blue.JRecord.jar:eblue., :blue.RecordEdit.jar:eblue. 
+and :blue.LayoutEdit.jar:eblue. to be added to the java :hp2.class path:ehp2..
+
+:table cols='* 4*'.
+:thd refid=xlight.
+  :c.Java Class:c.Purpose
+:ethd.
+:row refid=none.:c.CobolCopybookReader.java:c.A Cobol Copybook Interface.
+:row.:c.Constants.java:c.Constants used by the examples. You may need to 
+:Bred.Update:ebred. this file.
+:row.:c.FileToVelocity.java:c.This class will format
+  :ul compact.
+    :li.a Record oriented File (i.e. a file of Lines) using a velocity Template.
+    :li.Selected files in a directory using velocity
+  :eul.
+:p.For example if a Record-Layout of ":BBlue.ams Receipt:EBBlue." then the 
+following classes will be generated 
+  :table cols='* 4*'.
+    :thd refid=xlight.:c.Java Class:c.Purpose:ethd.
+    :row refid=none.:c.AmsReceipt:c.A class (extends Line) to access lines using 
+the supplied :hp2.RecordLayout:ehp2.
+    :row.:c.AmsReceiptProvider:c.Class to create `:hp2.AmsReceipt:ehp2.` Lines
+    :row.:c.AmsReceiptProcess:c.Class to process files of Record-Layout ":BBlue.ams Receipt:EBBlue.".
+  :ETable.
+  :p.
+:row.:c.FormatComboExample:c.Example of a Format
+:row.:c.LineDTAR0020.java:c.Sample hand coded line example
+:row.:c.TypeCheckBoxYN.java:c.Sample Type and Cell_Format interfaces
+:row.:c.TypeComboExample.java:c.Sample Type and Cell_Format interfaces
+:row.:c.CopybookToLayout.java:c.Converts a XML/Cobol Copybook to a Layout
+:row.:c.XmplDecider.java:c.Example of using Record Deciders (java classes that decide which layout to use)
+:row.:c.XmplEditFormat1:c.Example of adding a Format to the :RecordEditor.
+:row.:c.XmplEditSpecificFile1.java:c.Edit a specified file with the :RecordEditor.
+:row.:c.XmplEditSpecificFile2.java:c.This is an example of editing a specific file using the Record Frame (i.e. one record per frame)
+:row.:c.XmplEditSpecificFile3.java:c.This is an example of editing a specific file using your own JTable
+:row.:c.XmplEditSuppliedData.java:c.This is an example of editing program supplied data with the :RecordEditor.
+:row.:c.XmplEditType1.java:c.Example of defining your own Types
+:row.:c.XmplFileStructure1.java:c.This is a example of introducing a new file structure (Mainframe VB with a maximum block size of 9040)
+:row.:c.XmplFileStructure2.java:c.This is a example of introducing a new file structure. In this case
+this file structure is for Comma / Tab delimited files with the Column names on the second line of the file
+:row.:c.XmplFileToVelocity1.java:c.This is an example of formatting selected files from a directory using Velocity (via FileToVelocity.java).
+:row.:c.XmplLineBuilder.java:c.
+This class takes a :hp2.Record-Layout:ehp2. and generates 3 java class's (using Velocity)&gml.
+:ul compact.
+  :li.A specific :hp2.Line:ehp2. class to access records using this :hp2.Record-Layout:ehp2.
+  :li.A :hp2.LineProvider:ehp2. class for the line class generated
+  :li.A class to process files of the supplied record layout
+:eul.
+:row.:c.XmplLineIO1.java:c.Demonstrates Reading a file using :hp2.RecordEditor's:ehp2. Line Based Routines.
+See :hdref refid=xlio1. for more details. 
+:row.:c.XmplLineIO2.java:c.Demonstrates Reading and writing files using :hp2.RecordEditor's:ehp2. Line Based Routines. It also
+illustrates :hp2.LineIOProvider:ehp2. and :hp2.LineProvider:ehp2..
+:row.:c.XmplLineIO2.java:c.Demonstrates Reading files using the :hp2.CobolCopybookReader:ehp2. interface.
+:row.:c.XmplLineIoVLR1.java:c.Example of reading a Standard Variable length record file (VB file on the mainframe).
+:etable.
+
+:h1.Reading and Writing Files
+:p.The package provides standard classes for reading, writing Fixed formatting
+data files
+
+
+:h2 id=xlio1.Reading a File
+:p.The example program :hp2.XmplLineIO1:ehp2. provides a simple example 
+of processing a file using the :hp2.RecordEditor's:ehp2.
+IO routines.
+.im pgmDocs\XmplLineIO1.dcf
+
+:h2.Reading using User-Defined-Lines
+:p.The example program :hp2.XmplLineIO2:ehp2. illustrates the following points&gml.
+:ul compact.
+  :li.On line 3, the :hp2.file structure:ehp2. is retrieved from the Copybook.
+  :li.On line 7, we create a line reader that will use :hp2.line-provider:ehp2.
+:bblue.DTAR0020provider:EBBlue. to create :bblue.LineDTAR0020:EBBlue. instead of
+the standard :bblue.Line:EBBlue. class.
+  :li.On line 9, we create a Line writer appropriate to the file structure retrieved at line 3.
+:eul.
+:p.
+
+.im pgmDocs\XmplLineIO2_X1.dcf
+
+:h2.Generating Interfaces to files
+:i2 refid=gen.Line's and LineProviders 
+:p.The :hp2.XmplLineBuilder:ehp2. can be used to generate interfaces classes to
+Cobol like files.
+:p.The main method is :hp2.genType:ehp2.. It has the following parameters&gml.
+:dl compact.
+  :dt.typeName:dd.type name to be generated
+  :dt.extendProcess:dd.what class the generated process class should extend
+  :dt.arrays:dd.list of arrays to watch for
+  :dt.getAndSet:dd.wether to generate getters and setters
+  :dt.defineFields:dd.wether to define all the fields
+:edl.  
+:p.This method builds 3 classes&gml.
+:p. :p.
+:dl compact.
+  :dt.Line:dd.The program builds a Line class specifically for the supplied
+:hp2.Record Layout:ehp2. with optional Getter's and Setter's.
+  :dt.LineProvider:dd.A line provider for the Generated :hp2.Line:ehp2. class
+  :dt.Process:dd.A class to process files of the supplied :hp2.Record Layout:ehp2..
+:edl.
+.im pgmDocs\LineBuilder.dcf
+
+:p.There are examples of generated java programs in package
+:blue.net.sf.RecordEditor.examples.genCode:eblue.
+
+:table cols='* * * *'
+:thd refid=xlight.:c.Record Layout:c.Generate Line:c.Generated Line Provider:c.Generated Process Class:ethd.
+  :row refid=none.:c.ams PO Download:c.AmsPoDownload:c.AmsPoDownloadProvider:c.AmsPoDownloadProcess
+  :row.:c.ams Receipt:c.AmsReceipt:c.AmsReceiptProvider:c.AmsReceiptProcess
+  :row.:c.EDI PO:c.EdiPo:c.EdiPoProvider:c.EdiPoProcess
+:etable.
+
+:h1 id=velocity.Formatting files with Velocity
+:p.The class :blue.FileToVelocity:eblue. can format a file/files in a directory using 
+.*b2h HTML <a href="http://jakarta.apache.org/velocity/">Velocity</a>.
+There are examples of its use in :blue.XmplFileToVelocity1:eblue..
+
+:p.Methods in :blue.FileToVelocity:eblue.
+
+.im pgmDocs\FileToVelocity.dcf
+
+:h3.Calling FileToVelocity
+:p.The following is an example of using :blue.FileToVelocity:eblue. (taken from :blue.XmplFileToVelocity1:eblue.).
+
+.im pgmDocs\XmplFileToVelocity1.dcf
+
+:h3.Sample Velocity Templates
+:p.If you use a :hp2.LineIOprovider:ehp2. and your own :hp2.Line:ehp2. class,
+you can use Getter's &amp. Setter's to access
+the various fields.
+
+.im pgmDocs\EdiPoHtml_vm.dcf
+
+:p.Alternatively if you use the generic :hp2.Line:ehp2. class, you must
+use the generic :blue.getField:eblue. to get a fields value&gml.
+
+.im pgmDocs\AmsReceiptHtml_vm.dcf
+
+:p.Finally you can also use :blue.getField(String fieldname):eblue. of :hp2.Line:ehp2. class
+to retrieve field values:
+
+.im pgmDocs\AmsReceiptHtml2.dcf
+
+:h1.Extending the Record Editor
+:p.The :hp2.RecordEditor:ehp2. can be extended in a number of ways&gml.
+:ul compact.
+  :li.New types can be added.
+  :li.New Cell formats can be added.
+  :li.New file Structure can be added
+:eul.
+:p.All these examples require you update a :hp2.Table:ehp2. in the :bblue.Layout Editor:ebblue.
+
+:h2 id=table.Editting a Table in the LayoutEditor
+:p.After starting the :hp2.LayoutEdit:ehp2., the menu screen is displayed&gml.
+
+.pict LayoutEdit_Menu.GIF
+
+:p.Click on the second option :hp2.Edit Tables:ehp2. and the Table edit screen is displayed&gml.
+
+.pict LayoutEdit_Table.png
+
+:p.You can select a table to be updated by clicking on the Table in the list on the left.
+
+:h2.Type Interface
+:i2 refid=type.Definition 
+:p.A `:hp2.Type:ehp2.` acts as an interface between the fields storage in the data
+record and how it is displayed on the screen. It contains methods to extract a field
+from the data record (:hp2.getField:ehp2.) and store it back in the data record
+
+.im pgmDocs\type.dcf
+
+:h2 id=format.CellFormat Interface
+:p.A `:hp2.CellFormat:ehp2.` provides TableCellRenderer's and TableCellEditor's 
+to the :RecordEditor.. A CellFormat added to the system as part of a Type or
+as a separately  as Formats.
+
+.im pgmDocs\CellFormat.dcf
+
+:h2.TypeManager
+:i2 refid=typeman.Definition
+:p.The :hp2.TypeManager:ehp2. is used store the :hp2.Type's:ehp2. and
+:hp2.CellFormat's:ehp2.. You can use the 
+static method :hp2.getSystemTypeManager:ehp2. to get the system :hp2.TypeManager:ehp2..
+
+.*b2h html <PRE><SPAN CLASS="gutter">   1:</SPAN>        TypeManager typeManager <SPAN CLASS="syntax18">=</SPAN> TypeManager.<SPAN CLASS="syntax6">getSystemTypeManager</SPAN>();
+.*b2h html <SPAN CLASS="gutter">   2:</SPAN></PRE>
+
+:p.Initially the :hp2.TypeManager:ehp2. allows 
+:hp2.user types:ehp2. and :hp2.user Cell Formats:ehp2. to have Id's of 1000 -> 1050.
+You can increase the number of User Types/Cell Formats via the :hp2.setSystemTypeManager:ehp2. method.
+
+.*b2h html <PRE><SPAN CLASS="gutter">   1:</SPAN>        TypeManager.<SPAN CLASS="syntax6">setSystemTypeManager</SPAN>(<SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">TypeManager</SPAN>(<SPAN CLASS="syntax14">true</SPAN>, <SPAN CLASS="syntax5">200</SPAN>, <SPAN CLASS="syntax5">100</SPAN>));
+.*b2h html </PRE>
+
+:p.You can define a type to a TypeManager by
+
+.*b2h html <PRE><SPAN CLASS="gutter">   1:</SPAN>            typeManager.<SPAN CLASS="syntax6">registerType</SPAN>(1000, checkBox);
+.*b2h html <SPAN CLASS="gutter">   2:</SPAN></PRE>
+
+:p.Alternatively you can also assign a CellFormat to a Type as well by
+
+.*b2h html <PRE><SPAN CLASS="gutter">   1:</SPAN>            typeManager.<SPAN CLASS="syntax6">registerType</SPAN>(1000, checkBox, checkBox);
+.*b2h html <SPAN CLASS="gutter">   2:</SPAN></PRE>
+
+:h2 id=type.Adding a Type to the RecordEditor    
+
+:h3.Create the Type (new method) 
+:i2 refid=type.Creating (new method)
+.im i_DefineType.dcf
+                     
+:h3.Create the Type (old method)  
+:i2 refid=type.Creating (old method) 
+:p.The first step is the type (examples are :BBlue.TypeCheckBoxYN.Java:EBBlue.
+and :BBlue.TypeComboExample.Java:EBBlue.)
+
+.*b2h html <PRE><SPAN CLASS="gutter">   3:</SPAN>    <SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax10">class</SPAN> TypeCheckBoxYN <SPAN CLASS="syntax8">implements</SPAN> Type, CellFormat <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter">   4:</SPAN>     
+        :BBlue.....    Type Code goes here    .....:EBBlue.
+.*b2h html <SPAN CLASS="gutterH">   5:</SPAN>    
+.*b2h html <SPAN CLASS="gutter">   6:</SPAN>    <SPAN CLASS="syntax18">}</SPAN></PRE>
+
+:h4.Defining a Type to the RecordEditor
+:p.There are 2 ways to define a Type to the :RecordEditor.
+:ol.
+ :li.Via the :PropertiesEditor.
+ :li.Via the old method
+:eol
+
+:h5 id=typedef.Define the Type in the LayoutEditor
+:p.Next step is to define the Type to the :RecordEditor.. This is done in table 1, the
+:hp2.Type:ehp2. table (go into :hp2.LayoutEdit:ehp2.,
+take option 2 :hp2.Edit Tables:ehp2.. See :hdref refid=table. for details). 
+In the picture below, a new user type :BBlue.1001  ~  Checkbox Y/N:EBBlue.
+has been defined
+
+.pict Example_TypeDef.GIF
+
+:h5.Using the new Type
+:p.You should now be able to use the Type :BBlue.Checkbox Y/N:EBBlue. in
+the field definition panel (Record Definition screen) as below.
+
+.pict Example_TypeUse.GIF
+
+
+:h5 id=startEd.Starting the RecordEditor with the new Type
+:p.The final step is to start the :RecordEditor. with the new Type. Please note
+that at line 9, the new type :BBlue.checkBox:EBBlue. is defined as 
+type number :bblue.1001:ebblue., which is exactly the same as what it was 
+defined in the LayoutEdit (see :hdref refid=typedef.).
+
+.im pgmDocs\XmplType1
+
+:p.This java code came from :hp2.XmplType1.Java:ehp2.
+
+:h4.Editing a File
+:p.Finally after starting the editor using the java code from :hdref refid=startEd.,
+it should like (with Combobox's and Checkbox's).
+
+.pict Example_TypeRecEdit.GIF
+
+or the record view
+
+.pict Example_TypeRecord.GIF
+
+:h2 id=format.Adding a Format to the RecordEditor
+:p.This section goes through adding and then using a :hdref refid=format. in the RecordEdit.
+
+:h4.Writing a format
+:p.The following code was extracted from :hp2.FormatComboExample.java:ehp2.
+
+.im pgmDocs\FormatComboExample
+
+:h4 id=fmtdef.Define the Format in the LayoutEditor
+:p.Next step is to define the Format in the Format Table (go into :hp2.LayoutEdit:ehp2.,
+take option 2 :hp2.Edit Tables:ehp2., finally click on :hp2.Table 5 ~ Formats:ehp2..
+See :hdref refid=table. for details)
+and enter the new format (in this case :BBlue.1001 ~ ComboBox:eBBlue.).
+
+.pict Example_FmtDef.GIF
+
+
+:h4 id=fmtuse.Using the new Format
+:p.You should now be able to use the format :BBlue.Combobox:EBBlue. in Record 
+field definitions.
+
+.pict Example_FmtUse.GIF
+
+:h4 id=fmtst.Starting the RecordEditor with the new Type
+
+:p.The final step is to start the :RecordEditor. with the new Format. Please note
+:ol compact.
+ :li.On line 12, the Combo Items are registered against :bblue.AMS PO Type:Ebblue.
+which is the field Parameter in :hdref refid=fmtuse.
+ :li.On line 15, the :hp2.comboFormat:ehp2. is defined to the system with a key
+of :bblue.1001:ebblue., which was also used in :hdref refid=fmtdef..
+:eol.
+
+.im pgmDocs\XmplEditFormat1
+
+:h4.Editing a File
+
+:p.Finally after starting the editor using the java code from :hdref refid=fmtst.
+
+.pict Example_FmtRecEdit.GIF
+
+:h2 id=decider.Record Deciders
+:p.When there are more than one Record in a Layout, there has to be a way to decide
+which record should be used. One way of doing this is via a RecordDecider&gml.
+
+.*b2h html <PRE><SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax10">interface</SPAN> RecordDecider <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter">   2:</SPAN>
+.*b2h html <SPAN CLASS="gutter">   3:</SPAN>    <SPAN CLASS="syntax3">/**</SPAN>
+.*b2h html <SPAN CLASS="gutter">   4:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">Get</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">the</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">prefered</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">Layout</SPAN>
+.*b2h html <SPAN CLASS="gutterH">   5:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN>
+.*b2h html <SPAN CLASS="gutter">   6:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax12">@param</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">line</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">to</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">decide</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">what</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">the</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">prefered</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">layout</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">is</SPAN>
+.*b2h html <SPAN CLASS="gutter">   7:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN>
+.*b2h html <SPAN CLASS="gutter">   8:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax12">@return</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">the</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">prefered</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">layout</SPAN>
+.*b2h html <SPAN CLASS="gutter">   9:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*/</SPAN>
+.*b2h html <SPAN CLASS="gutterH">  10:</SPAN>    <SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax8">abstract</SPAN> <SPAN CLASS="syntax10">int</SPAN> <SPAN CLASS="syntax6">getPreferedIndex</SPAN>(Line line);
+.*b2h html <SPAN CLASS="gutter">  11:</SPAN><SPAN CLASS="syntax18">}</SPAN>
+.*b2h html </PRE>
+
+:p.Once you have created a :bblue.RecordDecider:ebblue., you must register it
+and start the Editor as follows (example taken from :bblue.XmplDecider.java:ebblue.)&gml.
+
+.*b2h html <PRE><SPAN CLASS="gutter">   1:</SPAN>        CopyBookDbReader copybook <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">CopyBookDbReader</SPAN>();
+.*b2h html <SPAN CLASS="gutter">   2:</SPAN>
+.*b2h html <SPAN CLASS="gutter">   3:</SPAN>        copybook.<SPAN CLASS="syntax6">registerDecider</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">ProductExmpl</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>, <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">XmplDecider</SPAN>());
+.*b2h html <SPAN CLASS="gutter">   4:</SPAN>
+.*b2h html <SPAN CLASS="gutterH">   5:</SPAN>        <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">EditRec</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>, <SPAN CLASS="syntax5">1</SPAN>, copybook);
+.*b2h html </PRE>
+                      
+:h2 id=FileStr.Adding a File Structure
+:p.To add a new file structure, you must&gml.
+:ol compact.
+  :li.Create a :hp2.Line-Reader:ehp2. (must extend class :bblue.AbstractLineReader:ebblue.) 
+and :hp2.Line-Writer:ehp2. (must extend class :bblue.AbstractLineWriter:ebblue.).
+  :li.Define the new :hp2.File Structure:ehp2. in the :bblue.File Structure:ebblue. Table. See :hdref refid=table. for details.
+  :li.Create a new :bblue.LineIOProvider:ebblue. that uses the new :hp2.Line-Reader:ehp2. and :hp2.Line-Writer:ehp2..
+  :li.Call the :RecordEditor. with the new :bblue.LineIOProvider:ebblue.
+:eol.
+
+
+:h4.Line Reader
+:p.To create a new file structure, you must create a new :hp2.LineReader:ehp2.
+that extends the class :bblue.AbstractLineReader:ebblue. and implements the 
+abstract methods :hp2.open, read:ehp2. and :hp2.close:ehp2..
+
+.im pgmDocs\XmplFileStruct_Reader.dcf
+
+:h4.Line Writer
+:p.You must also create a new :hp2.LineWriter:ehp2.
+that extends the class :bblue.AbstractLineWriter:ebblue. and implements the abstract
+methods :hp2.open, write:ehp2. and :hp2.close:ehp2..
+
+.im pgmDocs\XmplFileStruct_Writer.dcf
+
+
+:h4.Defining the File Structure in the LayoutEditor
+:p.The next step is to add the new :hp2.file structure:ehp2. to the 
+:hp2.File Structure:ehp2. table. See :hdref refid=table. for details.
+.pict Example_FSDef.GIF
+
+
+:h4.Using the new File Structure
+:p.You should now be able to use the new file structure in the :hp2.Record-Definition:ehp2.
+Extra panel&gml.
+
+.pict Example_FSUse.GIF
+
+:h4 id=IDprov.Creating a LineIOProvider
+:p.Following is a sample :hp2.LineIOProvider:ehp2. that will create the new
+LineReader's / LineReader's if the appropriate :hp2.file structure:ehp2. is supplied.
+
+.im pgmDocs\XmplFileStruct_LineIoProvider
+
+
+:h4.Starting the RecordEditor
+:p.The following code starts the :RecordEditor. with the :hp2.LineIOProvider:ehp2.
+from :hdref refid=IDprov.. This will introduce the new File Structures.
+
+.*b2h html <PRE><SPAN CLASS="gutter">   1:</SPAN>        CopyBookDbReader copybook <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">CopyBookDbReader</SPAN>();
+.*b2h html <SPAN CLASS="gutter">   2:</SPAN>
+.*b2h html <SPAN CLASS="gutter">   3:</SPAN>        <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">EditRec</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>, <SPAN CLASS="syntax5">1</SPAN>, <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">XmplFileStructure2</SPAN>(), copybook);
+.*b2h html <SPAN CLASS="gutter">   4:</SPAN>
+.*b2h html </PRE>
+
+:h4.Examples
+:p.See :hp2.XmplFileStructure1.java:ehp2. and :hp2.XmplFileStructure2.java:ehp2.
+for examples.
+:h2.Copybook Loader
+:p.If you already have record layouts (Copybooks in Cobol), you should look at 
+the writing your own CopybookLoader. This will allow you to import the :blue.record layouts:eblue.
+into the :RecordEditor. as well as use the layouts in the :blue.Cobol Editor:eblue. program
+
+:h3.CopybookLoader Interface 
+:p.The :hp2.CopybookLoader Interface:ehp2. describes a class to load a external Record Layout into 
+the :RecordEditor.'s internal DB.           
+.im pgmDocs\CopybookLoader.dcf
+    
+
+:h3.Sample Copybook Loader
+:p.Following is a simple class to load a :hp2.Record Layout:ehp2. (copybook) from 
+a Tab delimited file.
+
+.im pgmDocs\CsvLayoutReader.dcf
+
+:h3.Adding a Copybook Loader to the RecordEditor
+:p.There are 2 steps to defining your Copybook loader to the :RecordEditor.
+:ol compact.
+ :li.First you must add the code you have written to the :RecordEditor. (as a jar)
+via the :PropertiesEditor..
+
+.pict Setup_UserJars.GIF
+
+ :li.Next you must define your new Class on the :hp2.Copybook Loaders:ehp2. tag
+ 
+.pict Setup_CopybookLoader.GIF
+ 
+:eol.
+
+:p.You should now ne able to import your layouts in to the RecordEditor + Edit 
+your files using your Layouts in the :blue.Cobol Editor:eblue.
+
+:h1 Id=Copybook.Copybook Interface
+:p.The :hp2.CopyBookInterface:ehp2. describes a class that acts as an interface
+between the external storage of layouts (copybooks in Cobol terminology) and
+the java representation :hp2.LayoutDetail:ehp2.. By default the :RecordEditor.
+uses class :bblue.CopyBookDbReader:ebblue. (which reads copybooks from a Database),
+but you could create your own. An alternate implementation of :hp2.CopyBookInterface:ehp2.
+is :bblue.CobolCopybookReader:ebblue. which read's :hp2.Cobol Copybooks:ehp2. instead of a Database.
+
+.im pgmDocs\CopyBookInterface
+
+:h3.Using CobolCopybookReader in the RecordEditor
+:i2 refid=Cobol.Editting using a Cobol Copybook 
+:p.To start the :RecordEditor. with the :hp2.CobolCopybookReader:ehp2. class (from XmplEditViaCobol.java)&gml.
+
+.*b2h html <PRE><SPAN CLASS="gutter">   1:</SPAN>        <SPAN CLASS="syntax8">try</SPAN> <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter">   2:</SPAN>            CobolCopybookReader copybook <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">CobolCopybookReader</SPAN>();
+.*b2h html <SPAN CLASS="gutter">   3:</SPAN>
+.*b2h html <SPAN CLASS="gutter">   4:</SPAN>            <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">EditRec</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>, <SPAN CLASS="syntax5">1</SPAN>, copybook); <SPAN CLASS="syntax2">//</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">starting</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">the</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">record</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">editor</SPAN>
+.*b2h html <SPAN CLASS="gutterH">   5:</SPAN>
+.*b2h html <SPAN CLASS="gutter">   6:</SPAN>        <SPAN CLASS="syntax18">}</SPAN> <SPAN CLASS="syntax8">catch</SPAN> (Exception e) <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html </PRE>
+
+:h3.Using CobolCopybookReader to read Cobol Files
+:i2 refid=Cobol.Reading a file using a Cobol Copybook 
+:p.You can also use the :hp2.CobolCopybookReader:ehp2. to read files (see line 8 below)&gml.
+
+.im pgmDocs\XmplLineIO3
+
+
+:h1.Options for starting the RecordEditor
+:p.The :RecordEditor. can also be started in a number of ways from Java programs.
+This section shows various ways of doing this.
+
+:h2.Editing a Specific file
+:i2 refid=edit.Editing a Specific file 
+:p.If you want to start the :RecordEditor. with a specific file, then
+the following code from :hp2.XmplEditSpecificFile1.Java:ehp2. will do it.
+
+.im pgmDocs\XmplEditSpecificFile1
+
+
+:h2.Edit a File one Record at time
+:i2 refid=edit.Editing a file one record at a time 
+:p.It is also possible to edit a file with the Single Record view  (i.e. one
+line or record is displayed on the screen at a time with fields going down the 
+screen). The following code from :hp2.XmplEditSpecificFile2.Java:ehp2. does this.
+
+.im pgmDocs\XmplEditSpecificFile2
+
+
+:h2.Other Examples
+:i2 refid=edit.Editing a program Supplied Data 
+:dl.
+  :dt.XmplEditSpecificFile3.Java
+    :dd.Shows how to edit a file using your own JTable
+  :dt.XmplEditSuppliedData.Java
+    :dd.This example demonstrates calling the :hp2.RecordEditor:ehp2. using program-generated data. 
+:edl.    
+
+:index.

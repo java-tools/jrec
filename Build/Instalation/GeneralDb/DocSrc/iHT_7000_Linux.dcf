@@ -1,0 +1,34 @@
+:h1.Setting up for Linux
+:p.The :RecordEditor. comes setup for Windows, but there are a number of changes
+that can be made to tailor it for Linux. The key is the :bblue.Edit Properties:ebblue.
+program. This program will update startup properties.
+
+:h2.Screen Position
+:p.The first step is to start the :bblue.Edit Properties:ebblue. program and
+select the :hp2.properties:ehp2. tag. On this screen you can set the space to be
+left at the top and bottom of the screen. For KDE probably 40 for :hp2.Space at the bottom of the 
+screen:ehp2. will do. For Gnome you may want set :hp2.Space at Top of the Screen:ehp2. to around 20.
+
+.pict Option_ScreenPos.png
+
+:h2.Looks and Icons
+:p.On this screen you can define the look and feel to use. For KDE users you could try
+.*b2h html <a href="https://liquidlnf.dev.java.net/">Liquid Look and Feel</a>
+
+.pict Option_Looks.png
+
+
+:p.On this screen you can specify icon set. You could choose Aqua, Gnome or Tango.
+
+.pict Option_Icons.GIF
+
+
+:p.Here are some of the icons:
+
+:h5.Tango
+
+.pict iconTango.GIF
+
+:h5.Gnome
+
+.pict iconsGnome.GIF

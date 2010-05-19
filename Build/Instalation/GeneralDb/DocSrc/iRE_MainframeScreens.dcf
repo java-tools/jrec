@@ -1,0 +1,83 @@
+:p.The :blue.Record-Editor:eblue. now supports editing native
+:hp2.Mainframe:ehp2. Files on a PC. Only :hp2.Fixed Block (RECFM=FB):ehp2. files
+can be reliably transferred to and from the PC.
+
+:p.The system supports the following Mainframe-Binary formats
+:tdef id=xlight shade='xlight'.
+:table cols='* * 3*'
+ :thd refid=xlight.:c.Format:c.Cobol Picture:c.Description
+ :row refid=none.:c.Zoned:c.s999:c.Standard Cobol Pic s9(#) fields (where # is any number)
+ :row.:c.Packed Decimal:c.s999 Comp-3:c.Packed Decimal
+ :row.:c.Binary:c.s999 Comp:c.Standard Mainframe Binary
+ :row.:c.Character:c.XXX:c.Standard Character fields
+:etable.
+:p.The system does not support Mainframe Floating point numbers (Cobol Comp-1
+and Comp-2). Floating Point numbers are fairly rare in Cobol Programs.
+
+:p.Following is a Mainframe Binary File displayed on the Mainframe and in the
+:BBlue.RecordEdit:EBBlue. Program on a PC.
+:p.
+:tdef id=xlight shade='xlight'.
+:table cols=*.
+:row refid=xlight.:c.File displayed in ISPF Edit
+:row refid=none.:c.:p. :p.
+:pnl.
+:white.   Menu  Utilities  Compilers  Help:ewhite.
+                                               
+ :green.BROWSE:egreen.    :cyan.T70BYM.WC020.FILE:ecyan.                   
+ :green.Command ===> :egreen.                                 
+:dcyan.********************************* Top of Data *
+69684558... .ð...........°.                    
+69684558... .ð...........°.                    
+69684558... .ð...........&.                    
+69694158... .ð...........°.                    
+69694158... .ð...........°.                    
+69694158... .ð...........&.                    
+63604808... .ð...........ç@                    
+62684671... .ðÇ*.........ræ                    :edcyan.
+:epnl.
+:etable.
+
+:table cols=*.
+:row refid=xlight.:c.File displayed in Mainframe File-Aid
+:row refid=none.:c.:p. :p.
+:pnl.
+ :white.COMMAND ===>                                                  SCROLL ===> :red.DATA:ered.
+        DTAR020-KEYCODE-NO DTAR020-STORE-NO DTAR020-DATE DTAR020-DEPT-NO       
+        8/AN               2/PS             4/PS         2/PS                  
+        (1-8)              (9-10)           (11-14)      (15-16)               
+        2----------------- 3--------------- 4----------- 5--------------       :ewhite.
+ :red.******:ered.:dcyan. ***************************** TOP OF DATA ******************-CAPS OFF-*:edcyan.
+ :green.000001 69684558                         20        40118             280       
+ 000002 69684558                         20        40118             280       
+ 000003 69684558                         20        40118             280       
+ 000004 69694158                         20        40118             280       
+ 000005 69694158                         20        40118             280       
+ 000006 69694158                         20        40118             280       :egreen.
+:epnl.
+:row refid=xlight.:c.The Data displayed in RecordEdit
+:row refid=none.:c.:p. :p.
+.*b2h HTML <img SRC="dtar020a.GIF">
+:etable.
+
+:table cols=*.
+:row refid=xlight.:c.Single record displayed on the Mainframe
+:row refid=none.:c.:p. :p.
+:pnl.
+ :white.File-AID - Edit - T70BYM.WC020.FILE ------------------
+ COMMAND ===>                                          
+ :dcyan.RECORD:      1:edcyan.                DTAR020-KCODE-STORE-KEY :ewhite.
+ :dcyan.---- FIELD NUMBER/NAME ------ -FORMAT- ----+----1----+
+                                10/GRP                 
+   2 DTAR020-KEYCODE-NO          8/AN   :green.69684558       :egreen.
+   3 DTAR020-STORE-NO            2/PS   :green.20             :egreen.
+ 4 DTAR020-DATE                  4/PS   :green.40118          :egreen.
+ 5 DTAR020-DEPT-NO               2/PS   :green.280            :egreen.
+ 6 DTAR020-QTY-SOLD              5/PS   :green.1              :egreen.
+ 7 DTAR020-SALE-PRICE            6/PS   :green.19.00          :egreen.
+:epnl.
+:row refid=xlight.:c.Single record displayed in RecordEdit
+:row refid=none.:c.:p. :p.
+.*b2h HTML <img SRC="dtar020rec.gif">
+:etable.
+

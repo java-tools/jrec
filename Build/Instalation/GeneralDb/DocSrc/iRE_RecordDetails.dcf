@@ -1,0 +1,33 @@
+:p.The system use Record-Layout descriptions stored in a Database to format the file. Logically there
+are 2 types of records (each type has both :hp2.Binary:ehp2. and :hp2.Text:ehp2. Version)
+
+
+:table cols='* *'.
+:row.:c.:hp2.Standard Record:ehp2.:c.:hp2.Group of records:ehp2.
+:row.:c.Standard records consist of one or more fields. Each field consists of a
+:dl compact.
+:dt.Position
+:dd.Where the field starts in the record. The lowest possible position is 1.
+:dt.Length
+:dd.The fields length
+:dt.Name
+:dd.Field name. This is displayed as a Column / Row Heading in the record editor
+:dt.Field Type
+:dd.File type i.e. Char, Numeric.
+:edl.
+:c.Group-Records consist of one or more Records. 
+This Record-Type is used when a file consists of
+more than one record structure. A typical case when to use would be if a file consists of
+:ul compact.
+:li.A File header Record
+:li.A Large number of detail records
+:li.A file trailer record.
+:eul.
+
+:row.:c.
+
+.*b2h HTML <img SRC="Diagram/Record_Standard.GIF">
+:c.
+
+.*b2h HTML <img SRC="Diagram/Record_Group.GIF">
+:etable.

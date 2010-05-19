@@ -1,0 +1,13 @@
+:i1.XmplEditSpecificFile2
+:i2 refid=example.XmplEditSpecificFile2
+                               
+.*b2h html <PRE><SPAN CLASS="gutter">46:</SPAN>            <SPAN CLASS="syntax8">try</SPAN> <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter">47:</SPAN>                FileView file <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">FileView</SPAN>(filename,
+.*b2h html <SPAN CLASS="gutter">48:</SPAN>                                       fileDescription,
+.*b2h html <SPAN CLASS="gutter">49:</SPAN>                                       <SPAN CLASS="syntax14">false</SPAN>);
+.*b2h html <SPAN CLASS="gutterH">50:</SPAN>
+.*b2h html <SPAN CLASS="gutter">51:</SPAN>                <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">ReMainFrame</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">Specific</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">file</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>, <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>);
+.*b2h html <SPAN CLASS="gutter">52:</SPAN>                LineFrame lineFrame <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">LineFrame</SPAN>(fileDescription, file, file, <SPAN CLASS="syntax14">null</SPAN>, <SPAN CLASS="syntax5">0</SPAN>);
+.*b2h html <SPAN CLASS="gutter">53:</SPAN>            <SPAN CLASS="syntax18">}</SPAN> <SPAN CLASS="syntax8">catch</SPAN> (Exception e) <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter">54:</SPAN>                e.<SPAN CLASS="syntax6">printStackTrace</SPAN>();
+.*b2h html </PRE>

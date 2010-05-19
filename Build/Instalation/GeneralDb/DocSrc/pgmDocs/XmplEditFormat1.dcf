@@ -1,0 +1,26 @@
+:i1.XmplEditFormat1
+:i2 refid=example.XmplEditFormat1
+:i1.Cell Format
+.*b2h html <PRE><SPAN CLASS="gutter">   1:</SPAN>        String[][] AMS_PO_ITEMS <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter">   2:</SPAN>                <SPAN CLASS="syntax18">{</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">H1</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>, <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">Header</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">Record</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax18">}</SPAN>,
+.*b2h html <SPAN CLASS="gutter">   3:</SPAN>                <SPAN CLASS="syntax18">{</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">D1</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>, <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">Product</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">Record</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax18">}</SPAN>,
+.*b2h html <SPAN CLASS="gutter">   4:</SPAN>                <SPAN CLASS="syntax18">{</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">S1</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>, <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">Allocation</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">Record</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax18">}</SPAN>,
+.*b2h html <SPAN CLASS="gutterH">   5:</SPAN>        <SPAN CLASS="syntax18">}</SPAN>;
+.*b2h html <SPAN CLASS="gutter">   6:</SPAN>
+.*b2h html <SPAN CLASS="gutter">   7:</SPAN>        TypeManager        typeManager <SPAN CLASS="syntax18">=</SPAN> TypeManager.<SPAN CLASS="syntax6">getSystemTypeManager</SPAN>();
+.*b2h html <SPAN CLASS="gutter">   8:</SPAN>        CopyBookDbReader      copybook <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">CopyBookDbReader</SPAN>();
+.*b2h html <SPAN CLASS="gutter">   9:</SPAN>        FormatComboExample comboFormat <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">FormatComboExample</SPAN>();
+.*b2h html <SPAN CLASS="gutterH">  10:</SPAN>
+.*b2h html <SPAN CLASS="gutter">  11:</SPAN>                <SPAN CLASS="syntax2">//</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">Register</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">Combo</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">Details</SPAN>
+.*b2h html <SPAN CLASS="gutter">  12:</SPAN>        comboFormat.<SPAN CLASS="syntax6">register</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">AMS</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">PO</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">Type</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>, AMS_PO_ITEMS);
+.*b2h html <SPAN CLASS="gutter">  13:</SPAN>
+.*b2h html <SPAN CLASS="gutter">  14:</SPAN>        <SPAN CLASS="syntax8">try</SPAN> <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutterH">  15:</SPAN>                <SPAN CLASS="syntax2">//</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">register</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">the</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">new</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">types</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">with</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">the</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">type</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">manager</SPAN>
+.*b2h html <SPAN CLASS="gutter">  16:</SPAN>            typeManager.<SPAN CLASS="syntax6">registerFormat</SPAN>(<SPAN CLASS="syntax5">1001</SPAN>, comboFormat);
+.*b2h html <SPAN CLASS="gutter">  17:</SPAN>
+.*b2h html <SPAN CLASS="gutter">  18:</SPAN>            <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">EditRec</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>, <SPAN CLASS="syntax5">1</SPAN>, copybook); <SPAN CLASS="syntax2">//</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">starting</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">the</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">record</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">editor</SPAN>
+.*b2h html <SPAN CLASS="gutter">  19:</SPAN>
+.*b2h html <SPAN CLASS="gutterH">  20:</SPAN>        <SPAN CLASS="syntax18">}</SPAN> <SPAN CLASS="syntax8">catch</SPAN> (Exception e) <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter">  21:</SPAN>
+.*b2h html </PRE>
+.*b2h html 

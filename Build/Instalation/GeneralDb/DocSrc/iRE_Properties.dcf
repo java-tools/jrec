@@ -1,0 +1,99 @@
+
+:p.All the JDBC connection details are held in a property file :hp3.utils/RecordEdit.Properties":ehp3.
+in the 2 JAR's (RecordEdit.jar, LayoutEdit.jar).
+:p.The system supports up to 16 Source Databases with numeric index in the property name. 
+i.e. :hp2.Source.0:ehp2. holds the JDBC connection string for :hp2.Database 0:ehp2. while :hp2.Source.3:ehp2.
+holds the JDBC connection string for :hp2.Database 3:ehp2.
+:p.There is a bat file :BBlue.UpdateProperties.bat:EBBlue. that will update the jar with a 
+new properties file. Or to do it manually (requires Java SDK)
+.fo off
+
+jar -uf RecordEdit.jar utils/RecEdit.properties
+jar -uf LayoutEdit.jar utils/RecEdit.properties
+
+.fo on
+:p.
+:p.Variables that can be set for a Database connection are
+:p.
+:dl compact.
+:dthd.Variable
+:ddhd.Description
+:dt.SourceName
+:dd.Name given to the Database in the Combobox
+:dt.Driver
+:dd.JDBC Driver. This Driver must be in the Class Path.
+:dt.Source
+:dd.JDBC connection string
+:dt.User
+:dd.User Id to be used when connecting to the Database.
+:dt.Password
+:dd.Password to be used when connecting to the Database.
+:dt.Commit
+:dd.Wether to do a Commit when closing a Database. This only for HSQLDB.
+:dt.Checkpoint
+:dd.Whether to Checkpoint when closing a Database. This only for HSQLDB.
+:edl.
+:p.Other non Database properties are
+:dl compact.
+:dt.HelpDir:dd.Directory holding the help files
+:dt.DefaultFileDirectory:dd.Directory where the Editor Starts in (if no file specified)
+:dt.DefaultCobolDirectory:dd.The Directory where Cobol Copybooks are stored.
+:dt.VelocityTemplateDirectory:dd.Directory where Velocity Templates are held.
+:dt.usePgnIcons:dd.If set to N, the system will use Eclipse style icons instead 
+of Windows style icons.
+:dt.UserInitilizeClass:dd.A user written initialise class. This class will be invoked
+when the RecordEditor starts.It should have a constructor that does not have any parameters.
+:dt.spaceAtBottomOfScreen:dd.Space to be left at the bottom of the screen.     
+:dt.spaceAtTopOfScreen:dd.Space to be left at the top of the screen.                   
+:dt.spaceAtLeftOfScreen:dd.Space to be left at the left of the screen.   
+:dt.spaceAtRightOfScreen:dd.Space to be left at the Right of the screen.   
+:dt.DateFormat:dd.Format to display Dates. This field is case sensitive. Typical 
+formats might be dd/MM/yyyy for 31/11/2007 or dd.MMM.yyyy for 31.Nov.2007.
+:dt.SignificantCharInFiles.#:dd.Where # is 1 to 3. These 3 variables control the looking up
+record Layout Names from the file name. The RecordEditor first tries to match on
+the :hp1.full_filename:ehp1. followed by :hp1.full_filename truncated to:ehp1.
+:hp2.SignificantCharInFiles.3:ehp2. characters. It will then try :hp1.full_filename truncated to:ehp1.
+:hp2.SignificantCharInFiles.2:ehp2.characters.
+:dt.LauchEditorIfMatch:dd.Controls wether the Editor is launched automatically.
+A value of
+ :ul compact.
+  :li.:hp2.5 or greater:ehp2.Editor is not launched automatically
+  :li.:hp2.4:ehp2. Editor is launched if there is an exact match on the full file name.
+  :li.:hp2.3:ehp2. Editor is launched if there is an match on the first :Blue.SignificantCharInFiles.3:eblue. characters.
+  :li.:hp2.2:ehp2. Editor is launched if there is an match on the first :Blue.SignificantCharInFiles.2:eblue. characters.
+  :li.:hp2.1:ehp2. Editor is launched if there is an match on the first :Blue.SignificantCharInFiles.1:eblue. characters
+ :eul.
+:edl.
+
+
+.fo off
+
+:BRed.## Sample MS Access / ODBC connection:EBRed.
+:BBlue.SourceName.0=:EBBlue.Record Edit
+:BBlue.Source.0=:EBBlue.JDBC&gml.ODBC&gml.RecordLayout
+:BBlue.Driver.0=:EBBlue.sun.jdbc.odbc.JdbcOdbcDriver
+
+:BRed.## Sample HSQLDB:EBRed.
+:BBlue.Commit.1=:EBBlue.Y
+:BBlue.Checkpoint.1=:EBBlue.Y
+:BBlue.SourceName.1=:EBBlue.hsqldb
+:BBlue.Source.1=:EBBlue.jdbc&gml.hsqldb&gml.hsql&gml.//localhost/recordedit
+:BBlue.Driver.1=:EBBlue.org.hsqldb.jdbcDriver
+:BBlue.User.1=:EBBlue.sa
+
+:BRed.## My SQL:EBRed.
+:BBlue.SourceName.2=:EBBlue.My SQL
+:BBlue.Source.2=:EBBlue.jdbc&gml.mysql&gml.//localhost/recordedit
+:BBlue.Driver.2=:EBBlue.org.gjt.mm.mysql.Driver
+
+:BRed.## Oracle connection via Oracle Fat Client Driver:EBRed.
+:BBlue.SourceName.3=:EBBlue.Record Edit - Oracle
+:BBlue.Source.3=:EBBlue.jdbc&gml.oracle&gml.oci8&gml.@ordas
+:BBlue.Driver.3=:EBBlue.oracle.jdbc.driver.OracleDriver
+:BBlue.User.3=:EBBlue.targxxxx
+:BBlue.Password.3=:EBBlue.apassword
+
+## Help Directory
+:BBlue.HelpDir=:EBBlue.File&gml.G&gml./RecordEdit_Prj/Docs/
+
+.fo on

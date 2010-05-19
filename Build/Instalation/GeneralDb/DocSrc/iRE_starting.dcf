@@ -1,0 +1,21 @@
+:h2.Starting the Record Editor
+:p.The Record Editor can either be started from 
+:ul compact.
+:li.The start Menu -
+
+.pict StartMenu.png
+
+:li.From Windows Explorer, you can use the right click button -
+
+.*b2h HTML <table><tr><td><img SRC="../Docs/Diagram/RightClick.GIF"></td></tr></table>
+
+:li.From the command line. It accepts the following parameters
+:ol compact.
+:li.File Name
+:li.Line Number (preceded by -l).
+:eol.
+:p.To edit a file Filename and move to the 100 record you would enter
+:p.java.jar -jar .../runFullEditor.jar "Filename" -l 100
+:eul.
+
+.im iRE_re005_RecordEditMain.dcf

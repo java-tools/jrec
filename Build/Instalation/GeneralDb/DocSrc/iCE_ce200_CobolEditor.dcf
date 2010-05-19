@@ -1,0 +1,45 @@
+:p.When the Record Editor starts, it displays the 
+Edit Start Screen
+
+.*b2h HTML <img SRC="../Docs/Diagram/CobolEdit.png">
+.fo off
+
+.fo on
+:p.Fields on this screen are
+:dl.
+:dthd.Field
+:ddhd.Description
+:dt.File
+:dd.Name of the file to edit, you can select a file by using the :hp3.Find File:ehp3. button to the
+right.
+:dt.Copybook Type
+:dd.Type of copybook (record layout). Currently the choices are 
+:hp2.Cobol:ehp2. and :hp2.cb2xml XML:ehp2., but it possible to write your own 
+copybook reader.
+:dt.Split Copybook
+:dd.Wether to split the copybook into seperate records (on either 01 level or redefines).
+:dt.Copybook
+:dd.Copybook File name. You can use the :hp1.Choose File:ehp1. to search the 
+directory for the copybook file.
+:dt.File Structure
+:dd.File Structure (or file reader to use). For :hp1.Windows/Unix/Linux:ehp1. text files
+use either :hp2.Default Reader:ehp2. or :hp2.Text IO:ehp2..
+:dt.Numeric Format
+:dd.Format of numeric data.
+:dt.Field Seperator:dd.Field Seperator to use in a CSV file
+:dt.Quote:dd.Quote to use in CSV files
+:edl.
+:p.
+:p.:hp2.Buttons on the Screen:ehp2.
+:dl.
+:dthd.Button
+:ddhd.Description
+:dt.Choose File
+:dd.Start the File Chooser dialogue which will navigate the File system and the user to choose a file. 
+:dt.Choose Layout
+:dd.Choose Record Layout file (ie Cobol Copybook).
+:dt.Edit
+:dd.Edit the file.
+:dt.Browse
+:dd.View the file, but no changes are possible.
+:edl.

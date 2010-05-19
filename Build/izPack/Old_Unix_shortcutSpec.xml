@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+
+<shortcuts>
+  <skipIfNotSupported />
+
+  <programGroup defaultName="RecordEdit_HSQLDB" location="applications"/>
+  <shortcut
+     name="RecordEditor Documentation"
+     programGroup="yes"
+     desktop="yes"
+     applications="no"
+     startMenu="yes"
+     startup="no"
+     target="konqueror"
+     url="$INSTALL_PATH/Docs/Documents.htm"
+     workingDirectory=""
+     commandLine=""
+     initialState="noShow"
+     iconFile="help"
+     iconIndex="0" 
+     type="Link"
+     encoding="UTF-8"   
+     description="Record Editor Documetation">
+      <createForPack name="Base" />
+   </shortcut>
+
+
+  <shortcut
+     name="RecordEditor HowTo"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     url="$INSTALL_PATH/Docs/HowTo.htm"
+     target="konqueror"
+     workingDirectory=""
+     initialState="noShow"
+     iconFile="help"
+     iconIndex="0" 
+     type="Link"
+     encoding="UTF-8"   
+     description="How To">
+      <createForPack name="Base" />
+   </shortcut>
+
+   <shortcut
+     name="Full Editor"
+     programGroup="yes"
+     desktop="yes"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     target="$INSTALL_PATH/lib/runFullEditor.sh"
+     commandLine=""
+     initialState="noShow"
+     iconFile="$INSTALL_PATH/lib/RecordEdit.GIF"
+     workingDirectory=""
+     iconIndex="0" 
+     type="Application"
+     encoding="UTF-8"
+     description="Record Editor">
+     <createForPack name="Base" />
+   </shortcut>
+
+   <shortcut
+     name="Edit Properties"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     initialState="noShow"
+     iconFile="$INSTALL_PATH/lib/Utility.GIF"
+     target="$JAVA_HOME/bin/java"
+     commandLine="-jar &quot;$INSTALL_PATH/lib/run.jar&quot; net.sf.RecordEditor.editProperties.EditOptions"
+     type="Application"
+     encoding="UTF-8"
+     description="Edit Startup Poperties">
+     <createForPack name="Base" />
+   </shortcut>   
+
+
+   <shortcut
+     name="diff"
+     programGroup="no"
+     desktop="no"
+     applications="yes"
+     startMenu="yes"
+     startup="no"
+     initialState="noShow"
+     iconFile="$INSTALL_PATH/lib/Utility.GIF"
+     target="$JAVA_HOME/bin/java"
+     commandLine="-jar &quot;$INSTALL_PATH/lib/run.jar&quot; net.sf.RecordEditor.diff.CompareDBLayout"
+     type="Application"
+     encoding="UTF-8"
+     description="diff - File Compare">
+     <createForPack name="Base" />
+   </shortcut>   
+
+
+   <shortcut
+     name="Cobol Editor"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     initialState="noShow"
+     iconFile="$INSTALL_PATH/lib/Cobol.GIF"
+     target="$JAVA_HOME/bin/java"
+     commandLine="-jar &quot;$INSTALL_PATH/lib/run.jar&quot; net.sf.RecordEditor.editFileLayout.Edit"
+     type="Application"
+     encoding="UTF-8"
+     description="Cobol Editor">
+     <createForPack name="Base" />
+   </shortcut>   
+
+   
+   <shortcut
+     name="RecordEditor - Velocity"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     initialState="noShow"
+     iconFile="$INSTALL_PATH/lib/Utility.GIF"
+     target="$JAVA_HOME/bin/java"
+     commandLine="-jar &quot;$INSTALL_PATH/lib/run.jar&quot; net.sf.RecordEditor.edit.util.RunVelocityGui"
+     type="Application"
+     encoding="UTF-8"
+     description="Run Velocity on a File">
+     <createForPack name="Base" />
+   </shortcut>   
+
+   
+   <shortcut
+     name="RecordEditor - Start Database Server"
+     programGroup="yes"
+     desktop="yes"
+     applications="no"
+     startMenu="no"
+     startup="yes"
+     target="$INSTALL_PATH/lib/StartServer.sh"
+     commandLine=""
+     initialState="normal"
+     iconIndex="0" 
+     workingDirectory="$INSTALL_PATH/Database/"
+     type="Application"
+     encoding="UTF-8"
+     terminal="true"
+     KdeSubstUID="root"
+     description="Start HSQLDB Server">
+     <createForPack name="Base" />
+   </shortcut>
+      
+   <shortcut
+     name="RecordEditor - Stop Database Server"
+     programGroup="yes"
+     desktop="yes"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     target="$INSTALL_PATH/lib/StopServer.sh"
+     commandLine=""
+     initialState="noShow"
+     iconIndex="0" 
+     workingDirectory=""
+     type="Application"
+     encoding="UTF-8"
+     description="Stop HSQLDB server">
+     <createForPack name="Base" />
+   </shortcut>
+   
+   
+   <shortcut
+     name="RecordEditor - Layout Editor"
+     programGroup="yes"
+     desktop="yes"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     target="$INSTALL_PATH/lib/runLayoutEdit.sh"
+     commandLine=""
+     initialState="noShow"
+     iconFile="$INSTALL_PATH/lib/RecordLayout.GIF"
+     iconIndex="0" 
+     workingDirectory=""
+     type="Application"
+     encoding="UTF-8"
+     description="Record Editor Layout editor">
+     <createForPack name="Base" />
+   </shortcut>
+ 
+      
+   <shortcut
+     name="RecordEditor - Uninstaller"
+     programGroup="yes"
+     desktop="yes"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     target="$JAVA_HOME/bin/java"
+     commandLine="-jar &quot;$INSTALL_PATH/Uninstaller/uninstaller.jar&quot;"    
+     initialState="noShow"
+     iconFile="trashcan_full"
+     iconIndex="0" 
+     workingDirectory=""
+     type="Application"
+     encoding="UTF-8"
+     description="IzPack uninstaller">
+     <createForPack name="Base" />
+   </shortcut>
+   
+   
+</shortcuts>

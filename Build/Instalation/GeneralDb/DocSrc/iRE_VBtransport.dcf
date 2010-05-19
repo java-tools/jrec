@@ -1,0 +1,36 @@
+:p.To edit a VB file in the record editor, the file must include the :hp2.RDW:ehp2. (record descriptor word
+- A 4 byte word consisting of a 2 byte length + 2 bytes hex zeros). It can optionally include the 
+block descriptor word (4 bytes at the start of each block).
+:p.Options for transport a VB file with the RDW include
+:dl.
+:dt.DTP:DD.Some FTP programs accept a RDW opt. This will include all the RDW words.
+:dt.ZIP and transport:dd.Some (but not all) mainframe Zip programs have a RDW option which will 
+include the RDW in the Zipped file. This file can then be transported to a PC using any transfer 
+method.
+:dt.Copy to RECFM=U.:dd.You can copy the file to a RECFM=U (DUMP) layout (includes both the 
+block~descriptor~words and the Record~descriptor~words. You can use the following JCL to create
+a RECFM=U file which can then be transported to the PC -
+
+:pnl.
+// :red.SET:ered. IN:yellow.=:eyellow.VB.FILE.TO.TRANSMIT                         
+// :red.SET:ered. OUT:yellow.=:eyellow.USER.&amp.IN..RECFMU                        
+//*                                                
+//STEP010 :red.EXEC:ered. PGM:yellow.=:eyellow.IEFBR14,COND:yellow.=:eyellow.(0,NE)             
+//SORTOUT  :red.DD:ered.  DSN:yellow.=:eyellow.&amp.OUT,                           
+//             DISP:yellow.=:eyellow.(MOD,DELETE),                  
+//             SPACE:yellow.=:eyellow.(TRK,(30,30),RLSE),           
+//             DCB:yellow.=:eyellow.BLKSIZE:yellow.=:eyellow.0                       
+//*                                                
+//STEP020 :red.EXEC:ered. PGM:yellow.=:eyellow.IEBGENER,COND:yellow.=:eyellow.(0,NE)            
+//SYSUT1   :red.DD:ered.  DSN:yellow.=:eyellow.&amp.IN,DISP:yellow.=:eyellow.SHR,DCB:yellow.=:eyellow.RECFM:yellow.=:eyellow.U        
+//SYSUT2   :red.DD:ered.  DSN:yellow.=:eyellow.&amp.OUT,                           
+//             DISP:yellow.=:eyellow.(NEW,CATLG),                   
+//             SPACE:yellow.=:eyellow.(TRK,(115,45),RLSE)           
+//SYSPRINT :red.DD:ered.  SYSOUT:yellow.=:eyellow.*                            
+//SYSOUT   :red.DD:ered.  SYSOUT:yellow.=:eyellow.*                            
+//SORTMSG  :red.DD:ered.  SYSOUT:yellow.=:eyellow.*                            
+//SYSIN    :red.DD:ered.  DUMMY                               
+:epnl.
+:edl.
+
+

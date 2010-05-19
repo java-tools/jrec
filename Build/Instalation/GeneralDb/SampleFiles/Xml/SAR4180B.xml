@@ -1,0 +1,23 @@
+
+<copybook filename="SAR4180B.txt">
+	<!--*****************************************************************-->
+	<!--* SAR4180B FORMATTED SALES & STOCK INFO INTO EDI RECORD LAYOUT  *-->
+	<!--* MEMBER IN COPYBOOK LIBRARY PT99.BASE0.COP   NOTE: ID = DTK    *-->
+	<!--* CREATED 20/12/94  S GHARIOS.                                  *-->
+	<!--*                                                               *-->
+	<!--* TOTAL RECORD LENGTH 25                                        *-->
+	<!--*****************************************************************-->
+	<!--*=========+========+==================================+=========*-->
+	<!--* VERSION | DATE   | DESCRIPTION                      |   AUTHOR*-->
+	<!--*=========+========+==================================+=========*-->
+	<!--* V02     |22/06/2K|SMS-PROJECT: COMMENTED  THE FILLER| VIJAY   *-->
+	<!--*         |        |AND SO THE LENGTH IS DESCREASED   |SHANBHAG *-->
+	<!--*         |        | FROM 32 TO 25                    |         *-->
+	<!--*=========+========+==================================+=========*-->
+	<item level="03" name="R4180B-KEYCODE-DETAIL-RECORD" position="1" display-length="25">
+		<item level="05" name="R4180B-KEYCODE-DETAIL-ID" picture="X(03)" display-length="3" position="1"/>
+		<item level="05" name="R4180B-KEYCODE" picture="9(08)" display-length="8" numeric="true" position="4"/>
+		<item level="05" name="R4180B-APN" picture="9(13)" display-length="13" numeric="true" position="12"/>
+		<item level="05" name="R4180B-UNIT-TYPE" picture="X" display-length="1" position="25"/>
+	</item>
+</copybook>

@@ -1,0 +1,36 @@
+:p.The :hp2.RecordEditor:ehp2. program has always run on Linux / Unix, but originally many
+of the associated files (eg documentation) did not store files in the correct case 
+(Linux is case sensitive). As of version :hp2.0.52.1:ehp2. this has been corrected.
+:p.There is now an installation program
+:p.    :BBlue.  Download RecordEdit_Installer_for_HSQL_:Red.<Version>:ered..jar:EBBlue.
+:p.for Linux / Unix. To run install the :hp2.RecordEdit:ehp2. on Linux you should:
+:ol.
+ :li.Run the installation program (i.e. :Blue.java -jar RecordEdit_HSQL_055.jar:eblue.)
+under your normal user id. 
+ :li.The installation should install Icons on your desktop to:
+ :ul compact.
+   :li.:Blue.Start Server:eblue. - It starts the Database server used by the :hp2.RecordEditor:ehp2..
+You will have to :hp2.run this option:ehp2. before running the :hp2.RecordEditor:ehp2..
+   :li.:Blue.Stop Server:eblue. - Stop the Database.
+   :li.:Blue.Full Editor:eblue. - The actual "Record" Editor.
+   :li.:Blue.Record Editor:eblue. - A cut down version of the "Record" Editor.
+   :li.:Blue.Layout Editor:eblue. - The "Record Layout" Editor. It also will load
+Cobol Copybooks into the System.
+   :li.:Blue.Edit Properties:eblue. - Edit the Properties / Jar files used by the editor.
+   :li.:Blue.Welcome:eblue. Display basic Documentation.
+   :li.:Blue.Manual:eblue. - Manual for the system.
+ :eul.
+ :li.The Installer will create shell scripts in 2 directories
+   :ul compact.
+     :li.$HOME/bin
+     :li.$HOME/RecordEdit/HSQLDB
+   :eul.
+I suggest including one of these directories in your path. That way you can edit a file
+by entering:
+:p.:blue.runRecordEdit.sh filename:eblue.
+ :li.One difference from the Windows is you must :blue.start the DB Server:eblue.
+prior to using the RecordEditor.
+  :li.Start the :Blue.Edit Properties:eblue., take the :hp2.Screen Position:ehp2. tab
+and set the :hp2.Space ot be left at the bottom of the screen:ehp2. to 40. For Gnome users
+also set the :hp2.Space ot be left at the top of the screen:ehp2. to around 20.
+:eol.

@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>Changes in version 0.61b</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- E:\Work\RecordEdit\Changes\Version061b\Changes061b.dcf converted -->
+<!-- by B2H R4.7 (390) (WINNT) on 6 May 2007 at 17:45:55              -->
+<META HTTP-EQUIV="updated" CONTENT="Sun, 06 May 2007 17:45:50">
+<META HTTP-EQUIV="review" CONTENT="Tue, 06 May 2008 17:45:50">
+<META HTTP-EQUIV="expires" CONTENT="Wed, 06 May 2009 17:45:50">
+<link rel="stylesheet" type="text/css" href="syntax.css">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<a name="Toc"/>
+<P><B><A NAME="ToC_1" HREF="#Header_1" >Changes in version 0.61b</A></B><BR>
+<MENU>
+<LI><A NAME="ToC_2" HREF="#Header_2" >Installation</A>
+<LI><A NAME="ToC_3" HREF="#Header_3" >Bug fixs</A>
+<LI><A NAME="ToC_4" HREF="#Header_4" >Csv Array Description</A>
+<LI><A NAME="ToC_5" HREF="#Header_5" >Parameter Field</A>
+<LI><A NAME="ToC_6" HREF="#Header_6" >Wizard Enhancement</A>
+<LI><A NAME="ToC_7" HREF="#Header_7" >XML Import</A>
+</MENU><P>
+<HR><H1><A NAME="Header_1" HREF="#ToC_1" >Changes in version 0.61b</A></H1>
+<HR><H2><A NAME="Header_2" HREF="#ToC_2" >Installation</A></H2>
+<P>Unzip the appropriate upgrade Zip file over your existing copy of RecordEditor 0.61.
+<P><B>Note: </B>This upgrade requires version 0.61 to be already installed.
+<P><B>Note: </B>Upgrade available at
+<a href=https://sourceforge.net/project/showfiles.php?group_id=139274&package_id=227062>Test Download</a>
+<HR><H2><A NAME="Header_3" HREF="#ToC_3" >Bug fixs</A></H2>
+<P>Bug fixs in this release include
+<UL COMPACT>
+  <LI>Fixed Record display when only some fields where selected in a filter.
+  <LI>Heading (2nd Wizard screen) displays correctly under Window Look and Feel.
+  <LI>Fix for Cobol / XML import (when using / as folder seperator).
+</UL>
+<P>
+<HR><H2><A NAME="Header_4" HREF="#ToC_4" >Csv Array Description</A></H2>
+<P>Version 0.61a has a small extension to support Csv Arrays (or Csv fields with in CSV fields).
+i.e.
+<P>
+<PRE><B>Data:</B> field one|field two|"embedded field1, embedded field2|embedded field11,embedded field22"|field four
+ 
+<B>Field 1:</B> field one
+<B>Field 2:</B> field two
+<B>Field 3:</B> array
+   <I>Array 1:</I>
+      Embedded Field 1: embedded field1
+      Embedded Field 2: embedded field2
+   <I>Array 1:</I>
+      Embedded Field 1: embedded field11
+      Embedded Field 2: embedded field 22
+<B>Field 4:</B> field four
+</PRE><P>This can now be defined in the record Editor as:
+<P>
+<img SRC="Diagram/LayoutEdit_CsvArray1.GIF">
+<P>
+<P>with the extra panel as follows:
+<P>
+<img SRC="Diagram/LayoutEdit_CsvArray2.GIF">
+<P>
+<P>When editing a file, the field can be displayed in a "Combo Box" like dropdown
+window
+<P>
+<img SRC="Diagram/Edit_CsvArray1.GIF">
+<P>
+<HR><H2><A NAME="Header_5" HREF="#ToC_5" >Parameter Field</A></H2>
+<P>The Parameter field of a CSV array is defined as
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>One Dimension</B></TD><TD><P>&lt;Seperator&gt;Quote&lt;Seperator&gt;Field Seperator&lt;Seperator&gt;
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>One Dimension</B></TD><TD><P>&lt;Seperator&gt;Quote&lt;Seperator&gt;Field Seperator 1&lt;Seperator&gt;Field Seperator 2&lt;Seperator&gt;
+</TD></TR></TABLE>
+<P>Where <B>&lt;Seperator&gt;</B> is any valid character.
+<P>
+<P>Here is a another example
+<P>
+<img SRC="Diagram/LayoutEdit_CsvArray3.GIF">
+<P>
+<P>
+<HR><H2><A NAME="Header_6" HREF="#ToC_6" >Wizard Enhancement</A></H2>
+<P>The layout Wizard now lets you specify the default typ to be used for all fields
+<P>
+<img SRC="Diagram/Wizard_Change1.GIF">
+<P>
+<P>Heading (2nd Wizard screen) displays correctly under Window Look and Feel:
+<P>
+<img SRC="Diagram/Wizard_Change2.GIF">
+<P>
+<HR><H2><A NAME="Header_7" HREF="#ToC_7" >XML Import</A></H2>
+<P>Two new Usage attribute options added to XML import format:
+<TABLE CELLPADDING="3">
+  <TR VALIGN="TOP"><TD><P><B>null-terminated</B></TD><TD><P>For Character - Null terminated field (i.e. <B>C&#58;ehp. - Style String).
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>null-padded</B></TD><TD><P>For Character - Null padded field.
+</TD></TR></TABLE>
+<P>
+<PRE><SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">copybook</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">filename</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">SAR4180C.txt</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutter">   2:</SPAN>        <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">item</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">level</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">03</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">name</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">R4180C-LOCATION-DETAIL-RECORD</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">position</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">1</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">display-length</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">15</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutter">   3:</SPAN>                <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">item</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">level</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">05</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">name</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">R4180C-LOCATION-DETAIL-ID</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">picture</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">X(3)</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">display-length</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">3</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">position</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">1</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">usage</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">null-terminated</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutter">   4:</SPAN>                <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">item</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">level</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">05</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">name</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">R4180C-LOCATION-NUMBER</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">picture</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">X(4)</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">display-length</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">4</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">position</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">4</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">usage</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">null-padded</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutterH">   5:</SPAN>                <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">item</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">level</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">05</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">name</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">R4180C-QUANTITY</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">picture</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">-9(7)</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">display-length</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">8</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">numeric</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">true</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">position</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">8</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutter">   6:</SPAN>        <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">item</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutter">   7:</SPAN><SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">copybook</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+</PRE><P><P><A href="http://record-editor.sourceforge.net/"> <IMG src="http://sourceforge.net/sflogo.php?group_id=139274&amp;type=5" width="210" height="62" border="0" alt="SourceForge.net Logo" /></A><P><P>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

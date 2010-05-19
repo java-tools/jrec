@@ -1,0 +1,926 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>Editing a File</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- /home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/HowTo.dc -->
+<!-- f converted by B2H R4.7 (390) (LINUX) on 16 Oct 2009 at 14:44:57 -->
+<META HTTP-EQUIV="updated" CONTENT="Thu, 15 Oct 2009 14:08:22">
+<META HTTP-EQUIV="review" CONTENT="Fri, 15 Oct 2010 14:08:22">
+<META HTTP-EQUIV="expires" CONTENT="Sat, 15 Oct 2011 14:08:22">
+<link rel="stylesheet" type="text/css" href="syntax.css">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<a name="Toc"/>
+<P><B><A NAME="ToC_1" HREF="#Header_1" >Editing a File</A></B><BR>
+<MENU>
+<LI><A NAME="ToC_2" HREF="#Header_2" >Starting the Record Editor</A>
+</MENU>
+<P><B><A NAME="ToC_3" HREF="#Header_3" >Create a new Record Layout</A></B><BR>
+<MENU>
+<LI><A NAME="ToC_4" HREF="#Header_4" >Create a Record Layout for a File via the Wizard</A>
+<LI><A NAME="ToC_5" HREF="#Header_5" >Create a Record Layout via Definition Screens</A>
+<LI><A NAME="ToC_6" HREF="#HDRLAYOUTDEF" >Record Layout Definition</A>
+<MENU>
+<LI><A NAME="ToC_7" HREF="#HDRFIELD" >Field Records</A>
+<LI><A NAME="ToC_8" HREF="#HDRCHILD" >Child Records</A>
+<LI><A NAME="ToC_9" HREF="#HDREXTRA" >Extra Panel</A>
+<LI><A NAME="ToC_10" HREF="#HDRUSINGCOMBO" >Defining Combo Field</A>
+</MENU></MENU>
+<P><B><A NAME="ToC_11" HREF="#Header_11" >Edit a Record Layout</A></B><BR>
+<P><B><A NAME="ToC_12" HREF="#Header_12" >Dates</A></B><BR>
+<MENU>
+<LI><A NAME="ToC_13" HREF="#Header_13" >Set the Date Display Format</A>
+<LI><A NAME="ToC_14" HREF="#Header_14" >Defining Date Type</A>
+</MENU>
+<P><B><A NAME="ToC_15" HREF="#HDRUSECOMBO" >Using Comboboxs</A></B><BR>
+<MENU>
+<LI><A NAME="ToC_16" HREF="#Header_16" >Creating a Combobox List</A>
+<LI><A NAME="ToC_17" HREF="#Header_17" >Define a Combo Field</A>
+<LI><A NAME="ToC_18" HREF="#Header_18" >Combobox in the Editor</A>
+</MENU>
+<P><B><A NAME="ToC_19" HREF="#Header_19" >Sort Trees</A></B><BR>
+<MENU>
+<LI><A NAME="ToC_20" HREF="#Header_20" >Starting a Sort Tree view</A>
+</MENU>
+<P><B><A NAME="ToC_21" HREF="#Header_21" >Record Trees</A></B><BR>
+<MENU>
+<LI><A NAME="ToC_22" HREF="#Header_22" >Creating a Record Tree View</A>
+</MENU>
+<P><B><A NAME="ToC_23" HREF="#HDRVELOCITY" >Velocity</A></B><BR>
+<MENU>
+<LI><A NAME="ToC_24" HREF="#Header_24" >Installing Velocity from RecordEditor Download</A>
+<LI><A NAME="ToC_25" HREF="#Header_25" >Installing Existing Copy of Velocity</A>
+<LI><A NAME="ToC_26" HREF="#Header_26" >Writing a Velocity template for use in the RecordEditor</A>
+<LI><A NAME="ToC_27" HREF="#Header_27" >Exporting using a Velocity Template</A>
+</MENU>
+<P><B><A NAME="ToC_28" HREF="#Header_28" >Changing the Look and Feel or Icons</A></B><BR>
+<MENU>
+<LI><A NAME="ToC_29" HREF="#Header_29" >Looks and Feel Tab</A>
+<LI><A NAME="ToC_30" HREF="#Header_30" >Icon Tab</A>
+</MENU>
+<P><B><A NAME="ToC_34" HREF="#Header_34" >Setting up for Linux</A></B><BR>
+<MENU>
+<LI><A NAME="ToC_35" HREF="#Header_35" >Screen Position</A>
+<LI><A NAME="ToC_36" HREF="#Header_36" >Looks and Icons</A>
+</MENU>
+<P><B><A NAME="ToC_39" HREF="#Header_39" >Improving the running of RecordEditor HSQL</A></B><BR>
+<MENU>
+<LI><A NAME="ToC_40" HREF="#Header_40" >Setting the Default DB</A>
+<LI><A NAME="ToC_41" HREF="#Header_41" >Embedded HSQL DB Definition</A>
+</MENU>
+<P><B><A NAME="ToC_42" HREF="#Header_42" >Embedded DB options</A></B><BR>
+<P><B><A NAME="ToC_43" HREF="#Header_43" >Define a New Field Type</A></B><BR>
+<P>
+<HR><H1><A NAME="Header_1" HREF="#ToC_1" >Editing a File</A></H1>
+<P>
+<HR><H2><A NAME="Header_2" HREF="#ToC_2" >Starting the Record Editor</A></H2>
+<P>The Record Editor can either be started from
+<UL COMPACT>
+<LI>The start Menu -
+<P>
+<img SRC="Diagram/StartMenu.png">
+<P>
+<LI>From Windows Explorer, you can use the right click button -
+<P>
+<table><tr><td><img SRC="../Docs/Diagram/RightClick.GIF"></td></tr></table>
+<P>
+<LI>From the command line. It accepts the following parameters
+<OL COMPACT TYPE=1>
+<LI>File Name
+<LI>Line Number (preceded by -l).
+</OL>
+<P>To edit a file Filename and move to the 100 record you would enter
+<P>java.jar -jar .../runFullEditor.jar "Filename" -l 100
+</UL>
+<P>
+<P>When the Record Editor starts, it displays the
+Edit Start Screen
+<P>
+<img SRC="../Docs/Diagram/RecordEdit_Main.png">
+<PRE>
+</PRE><P>Fields on this screen are
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><P><B>Field</B>
+</TD><TD><P><B>Description</B>
+</TD></TR><TR VALIGN="TOP"><TD><P><B>File
+</B></TD><TD><P>Name of the file to edit, you can select a file by using the <B><I>Find File</I></B> button to the
+right.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Database
+</B></TD><TD><P>The system stores it's record definitions in a database. The system can also
+connect to multiple Databases. This Combo allows you which DB to use. You could have different
+Test / Production Layout DB's.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>System
+</B></TD><TD><P>The Record Layouts can be grouped into different systems. This Combo Box is
+used to select a specific System.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Record Layout
+</B></TD><TD><P>The Record Layout used to format the file. Only layouts belonging to the
+selected System (above) are displayed.
+<P><B>Note: </B>A <B>Record Layout</B> describes the format of a file, each layout consists of either
+<UL COMPACT>
+ <LI>A series of fields.
+ <LI>A serious of record (which intern consist of a series of fields).
+</UL>
+</TD></TR></TABLE>
+<P>
+<P><B>Buttons on the Screen</B>
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><P><B>Button</B>
+</TD><TD><P><B>Description</B>
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Choose File
+</B></TD><TD><P>Start the File Chooser dialogue which will navigate the File system and the user to choose a file.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Reload
+</B></TD><TD><P>Reloads System and Record Layout details from the database.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Create Layout Wizard
+</B></TD><TD><P>Start the Record Creation wizard. This wizard displays the file and lets you
+select the fields (by clicking on the first character in the field). See  for more detail.
+<P><B>Note: </B>This option is only available in the Full Editor.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Create Layout
+</B></TD><TD><P>Bring up the <B>Record Layout Creation</B> screen. See <A HREF="#HDRLAYOUTDEF">"Record Layout Definition"</A> for more detail.
+<P><B>Note: </B>This option is only available in the Full Editor.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Edit
+</B></TD><TD><P>Edit the file.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Browse
+</B></TD><TD><P>View the file, but no changes are possible.
+</TD></TR></TABLE>
+<HR><H1><A NAME="Header_3" HREF="#ToC_3" >Create a new Record Layout</A></H1>
+<HR><H2><A NAME="Header_4" HREF="#ToC_4" >Create a Record Layout for a File via the Wizard</A></H2>
+<P>The easiest way to create a Layout for a file is to use Layout Wizard.
+To do this:
+<OL TYPE=1>
+<P><LI>Start the <font color="blue">Full Editor</font>.
+<P><LI>Enter the filename which you want create the layout for (you can use
+the find file button to search for it if need be).
+<P><LI>Press the <font color="blue">Create Layout Wizard</font> button circled in red in the picture below
+<img SRC="Diagram/RecordEdit_MainCreateLayout.png">
+<P><LI>On the first wizard screen you enter:
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>File Structure</B></TD><TD><P>Format of the file, for Windows/Unix text files <B>Default Reader</B> is fine
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Layout Name   </B></TD><TD><P>Name of this new Record Layout
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>System        </B></TD><TD><P>System this layout belongs to. This field is used group record layouts
+together. You can update the systems by selecting the <B>Edit Layout --&gt; Edit System Table</B> drop down menu.
+</TD></TR></TABLE>
+<img SRC="Diagram/layout_wizard1.png">
+<P><LI>The second Layout Screen displays the first 30 records on the file.
+You indicate the start of a field by clicking on the starting column. To remove a field click on the starting column again.
+Each successive field will have alternating background color.
+<img SRC="Diagram/layout_wizard2.png">
+<P><LI>On the final screen you enter field names and field types.
+<img SRC="Diagram/layout_wizard3.png">
+</OL>
+<P>
+<HR><H2><A NAME="Header_5" HREF="#ToC_5" >Create a Record Layout via Definition Screens</A></H2>
+<P>From both the <font color="blue"><b>Full Editor</b></font> and the <font color="blue"><b>Record Layout Edit</b></font> programs
+you can select <font color="blue">Create Layout</font> from the <B>Record Layouts</B> drop down menu.
+<P>
+<img SRC="Diagram/MenuRL_Create.GIF">
+<P>
+<P>You can then create the layout on the <A HREF="#HDRLAYOUTDEF">"Record Layout Definition"</A> screen.
+<P>
+<P><B>Note: </B>In the <font color="blue"><b>Record Layout Edit</b></font> program you can also select the
+<B>Create Record Layout</B> menu option.
+<P>
+<img SRC="Diagram/LayoutEdit_Menu.GIF">
+<P>
+<HR><H2><A NAME="HDRLAYOUTDEF" HREF="#ToC_6" >Record Layout Definition</A></H2>
+<P>The <B>record layout</B> Definition screen is used to
+create new Record Layouts or edit specific layouts.
+<P>
+<img SRC="Diagram/Layout_Edit.png">
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>The fields on this section of the screen are:
+ <TABLE CELLPADDING="3">
+  <TR VALIGN="TOP"><TD><P><B>Field</B>
+  </TD><TD><P><B>Description</B>
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Buttons
+  </B></TD><TD><P>The buttons at the top of Record Screen Save, Create, Repeat, Delete and reload
+Record Details to/from the Database.
+<table><tr><td><img SRC="Diagram/LayoutEdit_RecBtns1.GIF"></td></tr></table>
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Record Name &amp; Description
+  </B></TD><TD><P>Self Evident
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Record Type
+  </B></TD><TD><P>There are 3 basic Record Types (+ binary versions of these):
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><P><B>Record Layout
+</B></TD><TD><P>A normal record consisting of a one or more fixed length fields.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Delimited
+</B></TD><TD><P>Standard Delimiter (i.e. Comma or Tab Delimited) Record. Delimiter files are only
+partially supported (no updates allowed).
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Group of Records
+</B></TD><TD><P>The record consists of a Group of other records. Typically there is a field
+that determines what record to use. It is common for a file to contain
+<UL COMPACT>
+<LI>A File Header Record
+<LI>Many Detail Records
+<LI>A file trailer record
+</UL>
+<P>This would be a good candidate for using a <font color="blue"><b>Group of Records</b></font>.
+In this case you would define 4 records:
+<UL COMPACT>
+<LI>File Header Record
+<LI>Detail Record
+<LI>Trailer Record
+<LI>Master Record (<font color="blue"><b>Group of Records</b></font>) that references the three
+previous (child) records.
+</UL>
+<P>See <A HREF="#HDRCHILD">"Child Records"</A> for the Child Record Definition screen section.
+</TD></TR></TABLE>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>System
+ </B></TD><TD><P>System this Record Layout belongs to. You can Change Create new systems by
+ updating the System Table via the 
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Lines to Insert
+ </B></TD><TD><P>This is the lines to insert in the Field Table / Sub-Record Table when the
+insert button (just below) is pressed.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Table Buttons
+ </B></TD><TD><P>The second row of buttons refer to the Field Table / Sub-Record Table immediately below the buttons
+<table><tr><td><img SRC="Diagram/RecordLayout_RecTableBtns.GIF"></td></tr></table>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Record Details
+ </B></TD><TD><P>Lastly we have a Tab Box holding the <A HREF="#HDRFIELD">"Field Records"</A>/<A HREF="#HDRCHILD">"Child Records"</A> tables +
+the <A HREF="#HDREXTRA">"Extra Panel"</A>. These panels define record details.
+<P>
+<img SRC="Diagram/LayoutEdit_Tab.GIF">
+<P><B>Note: </B>The <A HREF="#HDRCHILD">"Child Records"</A> panel is displayed when <B>Record Type</B>=<font color="blue"><b>Group of Records</b></font>
+or <font color="blue"><b>Group of Binary records Records</b></font> otherwise <A HREF="#HDRFIELD">"Field Records"</A> is displayed.
+</TD></TR></TABLE>
+<P>
+<P>
+<P><H3><A NAME="HDRFIELD" HREF="#ToC_7" >Field Records</A></H3>
+<img SRC="Diagram/LayoutEdit_Fields.GIF">
+<P>This panel is used to define the records fields. Fields in the Table are:
+<P>
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Field
+</TH><TH ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Description
+ 
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Position
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Position in the Record. The start of the record is
+<B>Postion</B>=<font color="blue"><b>1</b></font> and not 0 as in C / Java.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Length
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Length of the field in bytes. Leave blank for Comma / Tab (etc) delimited files
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Field Name
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Name of the field. This is the column/row name used for this field in
+the <font color="blue"><b>RecorEditor</b></font>
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Description
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Field Description. This is used as a Column Header Mouse over in the
+<font color="blue"><b>Record editor</b></font>. For example if the description was entered as
+<P>
+<img SRC="Diagram/RecordLayout_FieldDescription.GIF">
+<P>Then if you hold the cursor over the column heading in the <B>RecordEditor</B> you get
+<P>
+<img SRC="Diagram/RecordEdit_MouseOver.GIF">
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Field Type
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Type of Field. See  for details.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Decimal Pos
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Number of places after the decimal point
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Cell Format
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Formatting to be applied to this field.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Parameter
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">User parameter's. This is a value that can be used by user written types
+(e.g. for generic Combo or Date Routines).
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Default Value
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Information only, Not currently used (relates to work).
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Cobol Name
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Information only, Cobol Field Name
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Field Id
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Do not Change. It is the field key and is displayed for my testing.
+</TD></TR></TABLE>
+<PRE>
+ 
+</PRE><P><P><H3><A NAME="HDRCHILD" HREF="#ToC_8" >Child Records</A></H3>
+<P>
+<table><tr><td><img SRC="Diagram/RecordLayout_RecGroup.png"></td></tr></table>
+<P>This panel is displayed when <B>Record Type</B>=<font color="blue"><b>Group of Records</b></font>
+or <font color="blue"><b>Group of Binary records Records</b></font>. Fields in the Table are:
+<P>
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Field
+</TH><TH ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Description
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Child Record
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">The child record of the Current parent record
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Field Start
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Not Currently used
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Field
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Field that determines which record to use. In the above example:
+<OL COMPACT TYPE=1>
+<LI>The records <B>DCR0470 S11 .. S14, O21</B> each contain a field <B>Record Type</B>
+<LI>When editing a file where <B>Record Type</B>="S11" then the RecordLayout
+of <B>DCR0470 S11</B> would be used.
+<BR>
+While if <B>Record Type</B>="S13"
+then the RecordLayout of <B>DCR0470 s13</B> would be used.
+</OL>
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">FieldValue
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Field value that the Field above is tested against.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Tree Parent
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Logical Parent Record for the record. This can be used to build a Tree
+using the <B>Record Layout Tree</B> option of the <B>View</B> menu in the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a>
+</TD></TR></TABLE>
+<P>
+<P><B>Note: </B>if <B>Field</B> is blank and <B>FieldValue</B>=* then this is the
+default record.
+<PRE>
+ 
+</PRE><P><P><H3><A NAME="HDREXTRA" HREF="#ToC_9" >Extra Panel</A></H3>
+<P>On the extra panel contains an adhoc mixture of options
+<table><tr><td><img SRC="Diagram/RecordLayout_RecExtra.GIF"></td></tr></table>
+<P>
+<P>
+<P>
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Field
+ 
+</TH><TH ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Description
+ 
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Cobol Copybook
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Cobol Copybook name (if imported from a Cobol/XML Copybook). When a Cobol
+copybook is imported the LayoutEdit will replace an existing file with the same name.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Font Name
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Font Name to be used. If it is blank, the System default font will be used.
+A typical use might be to display Native mainframe data on a PC.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Delimiter
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Delimiter to use in Delimited files (i.e. comma, tab etc).
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Quote
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Quote character to use in delimited files.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Record Separator
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Record Separator to use.
+   <TABLE CELLPADDING="3">
+    <TR VALIGN="TOP"><TD><B>default
+      </B></TD><TD>Use the computers normal (or default) line separator.
+    </TD></TR><TR VALIGN="TOP"><TD><B>&lt;crlf&gt;
+      </B></TD><TD>Windows style separator.
+    </TD></TR><TR VALIGN="TOP"><TD><B>&lt;cr&gt;
+      </B></TD><TD>Unix/Linux file separator.
+    </TD></TR><TR VALIGN="TOP"><TD><B>&lt;lf&gt;
+      </B></TD><TD>Macintosh line separator.
+   </TD></TR></TABLE>
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">File Structure
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Structure of the files. Controls which IO routines are used to read / write the file.
+File Structures are defined in Table 5.
+</TD></TR></TABLE>
+<P>
+<P><H3><A NAME="HDRUSINGCOMBO" HREF="#ToC_10" >Defining Combo Field</A></H3>
+<P>
+<P>To use a Combo List (Say AmsPoDownloadType) you must
+<OL TYPE=1>
+  <P><LI>Set the <B>Cell Format</B> to Combobox
+  <P><LI>Enter Combo list in the Parameter Field
+</OL>
+<P>
+<img SRC="Diagram/LayoutEdit_Combo.png">
+<P>
+<HR><H1><A NAME="Header_11" HREF="#ToC_11" >Edit a Record Layout</A></H1>
+<P>To edit a <B>Record Layout</B> (say Price) you will need to
+<UL>
+ <P><LI>Start the <B>Record Layout</B> editor, this can be done via the <B>Edit Layout</B>
+of the <B>Record Layout</B> drop down Menu in the <font color="blue">Full Editor</font>
+or the <font color="blue">Record Layout Edit</font> program.
+<P>
+<img SRC="Diagram/MenuRL_Edit.GIF">
+<P>
+<P>or in the <font color="blue">Record Layout Editor</font>, select the <B>Edit Record Layout</B>
+<P>
+<img SRC="Diagram/LayoutEdit_Menu_EditlLayout.GIF">
+<P>
+ <P><LI>This will bring up the edit screen:
+<P>
+<img SRC="Diagram/LayoutEdit_record.png">
+<P>
+ <P><LI>Enter <B>Price%</B> followed by &lt;tab&gt; in <B>Record Name</B> as below.
+This will bring up a list of matching records.
+<P><B>Note: </B> <font color="blue"><b>%</b></font> is a wildcard.
+<P>
+<img SRC="Diagram/LayoutEdit_Record_Selection.GIF">
+<P>
+ <P><LI>Click on the Record to be edited (Price in this case), this will bring up
+the Record details on the right side of the screen.
+<P>
+ <P><LI>See <A HREF="#HDRLAYOUTDEF">"Record Layout Definition"</A> for details on editing a record.
+</UL>
+<HR><H1><A NAME="Header_12" HREF="#ToC_12" >Dates</A></H1>
+<P>All dates get converted to Java's Date Objects. If a field
+is not a valid date, it will not be converted to a date and will not be displayed.
+<P>You should only use Dates
+<UL COMPACT>
+  <LI>Files with only one record Type.
+  <LI>On fields that will always be a valid date.
+</UL>
+<P>In other cases use a Date Format.
+<P>
+<HR><H2><A NAME="Header_13" HREF="#ToC_13" >Set the Date Display Format</A></H2>
+<P>Date Display format can be set using the <font color="blue">Edit RecordEditor Startup Properties</font> program.
+Go to the <B>Other Options</B> tag and update the DateFormat variable.
+<P>
+<img SRC="Diagram/Propereties_Date.png">
+<P>
+<P>Alternatively you can edit the properties file directly (with an editor like jEdit).
+This file file will be in <B>&lt;properties Directory&gt;/Recordedit_&lt;version&gt;/Params.Properties</B>
+where
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>&lt;properties Directory&gt;</B></TD><TD><P>Where program properties are held. On
+Windows XP it will be <B>Documents and Settings/&lt;user name&gt;</B>.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>&lt;version&gt;</B></TD><TD><P>Is MSAccess or HSQL or Generic depending on which version you installed
+</TD></TR></TABLE>
+<P>
+<PRE><font color="blue"><b>SignificantCharInFiles.1</b></font>=6
+<font color="blue"><b>DateFormat</b></font>=<font color="red"><b>dd.MMM.yyyy</b></font>
+<font color="blue"><b>DefaultFileDirectory</b></font>=&lt;install&gt;/SampleFiles/*
+</PRE><P><HR><H2><A NAME="Header_14" HREF="#ToC_14" >Defining Date Type</A></H2>
+<P>There is now an option to define Date Types to the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a>.
+<P>
+<img SRC="Diagram/Option_DateType.png">
+<P>
+<P>The fields are
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Type Name</B></TD><TD><P>Name of the Types as you will see it in the Layout Editor.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Base Type</B></TD><TD><P>What is the storage Format, for normal Text files choose Char, but in
+binary files you can use Binary Integer, Mainframe Packed Decimal etc.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Date Format</B></TD><TD><P>Format of the date (dd - Day, MM - Month, yy - Year etc). This
+field is <B>Case Sensitive</B>. Day and Year are lower case, Month is uppercase (mm is minutes).
+</TD></TR></TABLE>
+<P>
+<P>Sample Formats
+<P>
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%"><B>Format</B>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%"><B>Result</B>
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">MMddyy
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">For US style dates eg 310199
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">dd.MMM.yyyy
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">For dates like 31.Jan.1999
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">dd/MM/yyyy
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">For dates like 31/01/1999
+</TD></TR></TABLE>
+<P>
+<P>
+<HR><H1><A NAME="HDRUSECOMBO" HREF="#ToC_15" >Using Comboboxs</A></H1>
+<P>
+<HR><H2><A NAME="Header_16" HREF="#ToC_16" >Creating a Combobox List</A></H2>
+<P>Take the <B>Create Combo</B> option from the <B>Layout Editor</B>
+<P>
+<img SRC="Diagram/LayoutEdit_Menu.GIF">
+<P>
+<P>Next Enter the Combo Details:
+<P>
+<img SRC="Diagram/ComboCreate.GIF">
+<P>
+<P><B>Note: </B>The <B>Combo Type</B> controls wether the user is preseneted with
+a list of values or a description of the values. Possible values are:
+<P>
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Standard Combo</B></TD><TD><P>The user will be presented with a list of possible values.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Key / Value Combo</B></TD><TD><P>The user will see the <B>Combo Value</B> but file
+will be updated with <B>Combo Code</B>.
+</TD></TR></TABLE>
+<P>
+<HR><H2><A NAME="Header_17" HREF="#ToC_17" >Define a Combo Field</A></H2>
+<P>Next you need to you define the ComboBox in a Layout Definition. Please note
+you need to select a <B>Cell_Format</B> of <font color="blue">ComboBox Format, ...</font>
+and enter the <I>Combo List Name</I> in the <B>Parameter</B> field. In this
+example it is <B>AmsPoDownloadType</B>.
+<P>
+<img SRC="Diagram/LayoutEdit_Combo.png">
+<P>
+<P>You can use the Parameter Popup to select the layout:
+<P>
+<img SRC="Diagram/ComboPopupSelection.GIF">
+<P>
+<HR><H2><A NAME="Header_18" HREF="#ToC_18" >Combobox in the Editor</A></H2>
+<P>Now when you edit the file, the <B>Record Type</B> field is displayed as a combobox
+<P>
+<img SRC="Diagram/RecordEdit_TblCombo1.GIF">
+<P>
+<P>It can be updated by selectiong from the various options
+<P>
+<img SRC="Diagram/RecordEdit_TblCombo2.GIF">
+<P>
+<P>Finally as seen on the Record Screen, the Data Values is quite different
+from the Text value.
+<P>
+<img SRC="Diagram/RecordEdit_RecCombo.png">
+<HR><H1><A NAME="Header_19" HREF="#ToC_19" >Sort Trees</A></H1>
+<P><font color="blue">Sort Tree</font> view is a way to summarise the Data in a File. The program will
+sort the file and group records with the same sort Keys together to form a Tree.
+Longer Term I hope to display a Summary Record for each Tree Node.
+<P>
+<HR><H2><A NAME="Header_20" HREF="#ToC_20" >Starting a Sort Tree view</A></H2>
+<P>First select the <B>Sorted Tree View</B> option of the View Menu.
+<P>
+<img SRC="Diagram/RecordEdit_View1.GIF">
+<P>
+<BR>
+<P>
+<P>Next Enter the Sort fields
+<P>
+<img SRC="Diagram/RecordEdit_SortedField1.png">
+<P>
+<BR>
+<P>Finally the values of the Sort Fields (in this case the <B><I>Australian States</I></B>
+and <B><I>Location Type</I></B>) form the Tree Nodes:
+<P>
+<img SRC="Diagram/Tree3.png">
+<P>
+<HR><H1><A NAME="Header_21" HREF="#ToC_21" >Record Trees</A></H1>
+<P><font color="blue">Record Tree</font> view builds a Tree View based on the logical relationship
+between records in a file.
+<P>For example the <B>Ams PO</B> file consists of 3 records
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>PO Header</B></TD><TD><P>Purchase Order Summary record, it holds Purchase order details
+like PO number, Supplier etc. Each PO record has one or more Product Records
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Product</B></TD><TD><P>Product/DC summary. It holds Product / DC Details. Each
+Products Record can have multiple Store Allocations records.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Store Allocations</B></TD><TD><P>Holds Store Allocations (i.e. Quantity allocated to each store)
+organised in array.
+</TD></TR></TABLE>
+<P>
+<P>Logically records in the <B>Ams PO</B> file are arranged like:
+<P>
+<img SRC="Diagram/AmsPOfile.GIF">
+<P>
+<HR><H2><A NAME="Header_22" HREF="#ToC_22" >Creating a Record Tree View</A></H2>
+<P>The first step is to select the <B>Record Based Tree</B> option on the view Menu:
+<P>
+<img SRC="Diagram/RecordEdit_View2.GIF">
+<P>
+<BR>
+<P>
+<P>You then fill in the Parent record for each Record Type and press the Build button
+<P>
+<img SRC="Diagram/RecordEdit_RecordField1.png">
+<P>
+<BR>
+<P>
+<P>The <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> then creates a Tree View with each PO represented as a Tree Root:
+<P>
+<img SRC="Diagram/RecordTree.png">
+<HR><H1><A NAME="HDRVELOCITY" HREF="#ToC_23" >Velocity</A></H1>
+<P><a href="http://velocity.apache.org/" TARGET="Velocity">Velocity</a> is basically a fancy mail merge program. It allow you imbed
+variables + basic logic in a File. Velocity will replace a variable with its
+value creating a generated document. Velocity is good for creating web pages or
+XML documents.
+<P>
+<P>If you install velocity into the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> you can export selected
+lines using <a href="http://velocity.apache.org/" TARGET="Velocity">Velocity</a>
+<P>
+<HR><H2><A NAME="Header_24" HREF="#ToC_24" >Installing Velocity from RecordEditor Download</A></H2>
+<P>To install <a href="http://velocity.apache.org/" TARGET="Velocity">Velocity</a> you must
+<OL TYPE=1>
+  <P><LI>download the <B>Velocity ZIP</B> file from the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> site.
+  <P><LI>Unzip the file into the RecordEditor lib directory, On Windows this will be
+    <TABLE CELLPADDING="3">
+      <TR VALIGN="TOP"><TD><P><B>MsAccess Version</B></TD><TD><P>C&#58;\Program Files\RecordEdit\MSaccess\lib
+      </TD></TR><TR VALIGN="TOP"><TD><P><B>HSQL Version</B></TD><TD><P>C&#58;\Program Files\RecordEdit\HSQL\lib
+      </TD></TR><TR VALIGN="TOP"><TD><P><B>HSQLDB Version</B></TD><TD><P>C&#58;\Program Files\RecordEdit\HSQLDB\lib
+      </TD></TR><TR VALIGN="TOP"><TD><P><B>Generic Version</B></TD><TD><P>C&#58;\Program Files\RecordEdit\Generic\lib
+    </TD></TR></TABLE>
+</OL>
+<P>
+<P>
+<HR><H2><A NAME="Header_25" HREF="#ToC_25" >Installing Existing Copy of Velocity</A></H2>
+<P>To install <a href="http://velocity.apache.org/" TARGET="Velocity">Velocity</a> you need to
+<OL TYPE=1>
+ <P><LI>Have a version of Velocity on Your PC
+ <P><LI>Add the 2 Jar files <B>velocity-1.4.jar</B> and <B>velocity-dep-1.4.jar</B>
+(where the velocity version is 1.4)
+to the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> using the <font color="blue">Edit RecordEditor Startup Properties</font> program.
+<P>
+<img SRC="Diagram/Propereties_Velocity1.png">
+<P>
+ <P><LI>Set the Velocity Directory in the <font color="blue">Edit RecordEditor Startup Properties</font> program.
+<P>
+<img SRC="Diagram/Propereties_Velocity2.GIF">
+</OL>
+<P>
+<HR><H2><A NAME="Header_26" HREF="#ToC_26" >Writing a Velocity template for use in the RecordEditor</A></H2>
+<P>The <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> present all the records selected by the user in a list called
+<font color="blue"><b>$records</b></font>. You can loop through this list with  <a href="http://velocity.apache.org/" TARGET="Velocity">Velocity</a> <B>foreach</B> command as follows.
+<P>
+<PRE><SPAN CLASS="gutter">19:</SPAN>   <SPAN CLASS="syntax14">#</SPAN><SPAN CLASS="syntax14">foreach</SPAN>( <SPAN CLASS="syntax10">$</SPAN><SPAN CLASS="syntax10">rec</SPAN> in <SPAN CLASS="syntax10">$</SPAN><SPAN CLASS="syntax10">records</SPAN> )
+<SPAN CLASS="gutter">   </SPAN>     <SPAN CLASS="syntax17">     .... </SPAN>
+<SPAN CLASS="gutter">29:</SPAN>   <SPAN CLASS="syntax14">#</SPAN><SPAN CLASS="syntax14">end</SPAN></PRE>
+<P>
+<P>You can access a fields value using the getField("Field-Name") parameter as follows -
+<PRE>     <SPAN CLASS="syntax10">${</SPAN><SPAN CLASS="syntax10">rec.getField(&quot;Brand</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">Dc</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">No</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">Rh&quot;)</SPAN><SPAN CLASS="syntax10">}</SPAN></PRE>
+<P>
+<P>Sample Velocity Template for use in the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a>
+<P>
+<BODY BGCOLOR="#FFFFFF">
+<PRE><SPAN CLASS="gutterH">10:</SPAN><SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">table</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">border</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">1</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutter">11:</SPAN>  <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">TR</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutter">12:</SPAN>    <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">TH</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">ALIGN</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">LEFT</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">VALIGN</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">TOP</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">BGCOLOR</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">#DADADA</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>DC<SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">TH</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutter">13:</SPAN>    <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">TH</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">ALIGN</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">LEFT</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">VALIGN</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">TOP</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">BGCOLOR</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">#DADADA</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>Purchase Order<SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">TH</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutter">14:</SPAN>    <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">TH</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">ALIGN</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">LEFT</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">VALIGN</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">TOP</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">BGCOLOR</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">#DADADA</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>Supplier<SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">TH</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutterH">15:</SPAN>    <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">TH</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">ALIGN</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">LEFT</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">VALIGN</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">TOP</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">BGCOLOR</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">#DADADA</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>Receipt Date<SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">TH</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutter">16:</SPAN>    <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">TH</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">ALIGN</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">LEFT</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">VALIGN</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">TOP</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">BGCOLOR</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">#DADADA</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>Receipt Time<SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">TH</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutter">17:</SPAN>  <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">TR</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutter">18:</SPAN>
+<SPAN CLASS="gutter">19:</SPAN><SPAN CLASS="syntax14">#</SPAN><SPAN CLASS="syntax14">foreach</SPAN>( <SPAN CLASS="syntax10">$</SPAN><SPAN CLASS="syntax10">rec</SPAN> in <SPAN CLASS="syntax10">$</SPAN><SPAN CLASS="syntax10">records</SPAN> )
+<SPAN CLASS="gutterH">20:</SPAN> <SPAN CLASS="syntax14">#</SPAN><SPAN CLASS="syntax14">if</SPAN> ( <SPAN CLASS="syntax10">${</SPAN><SPAN CLASS="syntax10">rec.getField(0,</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">0)</SPAN><SPAN CLASS="syntax10">}</SPAN> == &quot;RH&quot; )
+<SPAN CLASS="gutter">21:</SPAN>  <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">tr</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutter">22:</SPAN>    <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">td</SPAN><SPAN CLASS="syntax17">&gt;</SPAN><SPAN CLASS="syntax10">${</SPAN><SPAN CLASS="syntax10">rec.getField(&quot;Brand</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">Dc</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">No</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">Rh&quot;)</SPAN><SPAN CLASS="syntax10">}</SPAN><SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">td</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutter">23:</SPAN>    <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">td</SPAN><SPAN CLASS="syntax17">&gt;</SPAN><SPAN CLASS="syntax10">${</SPAN><SPAN CLASS="syntax10">rec.getField(&quot;Order</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">No</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">Rh&quot;)</SPAN><SPAN CLASS="syntax10">}</SPAN><SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">td</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutter">24:</SPAN>    <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">td</SPAN><SPAN CLASS="syntax17">&gt;</SPAN><SPAN CLASS="syntax10">${</SPAN><SPAN CLASS="syntax10">rec.getField(&quot;Sup</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">Id</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">Rh&quot;)</SPAN><SPAN CLASS="syntax10">}</SPAN><SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">td</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutterH">25:</SPAN>    <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">td</SPAN><SPAN CLASS="syntax17">&gt;</SPAN><SPAN CLASS="syntax10">${</SPAN><SPAN CLASS="syntax10">rec.getField(&quot;Receipt</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">Date</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">Rh&quot;)</SPAN><SPAN CLASS="syntax10">}</SPAN><SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">td</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutter">26:</SPAN>    <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">td</SPAN><SPAN CLASS="syntax17">&gt;</SPAN><SPAN CLASS="syntax10">${</SPAN><SPAN CLASS="syntax10">rec.getField(&quot;Receipt</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">Time</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">Rh&quot;)</SPAN><SPAN CLASS="syntax10">}</SPAN><SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">td</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutter">27:</SPAN>  <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">tr</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutter">28:</SPAN> <SPAN CLASS="syntax14">#</SPAN><SPAN CLASS="syntax14">end</SPAN>
+<SPAN CLASS="gutter">29:</SPAN><SPAN CLASS="syntax14">#</SPAN><SPAN CLASS="syntax14">end</SPAN>
+<SPAN CLASS="gutterH">30:</SPAN><SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">table</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutter">31:</SPAN><SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">p</SPAN><SPAN CLASS="syntax17">&gt;</SPAN><SPAN CLASS="syntax14">&amp;</SPAN><SPAN CLASS="syntax14">nbsp</SPAN><SPAN CLASS="syntax14">;</SPAN><SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">p</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+</PRE><P><HR><H2><A NAME="Header_27" HREF="#ToC_27" >Exporting using a Velocity Template</A></H2>
+<P>You can export all or the Selected texted in a file from the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a>
+using the <B>SaveAs</B> function. After selecting the <B>SaveAs</B> dialog
+you need to
+<OL TYPE=1>
+ <P><LI>Change the output format to <font color="blue"><b>Velocity</b></font>
+ <P><LI>Enter the <font color="blue"><b>Velocity</b></font> Template to use. You can also use
+the <font color="blue">Get Velocity Template</font> button to select a template.
+</OL>
+<P>
+<img SRC="Diagram/RecordEdit_SaveAs_Velocity.GIF">
+<HR><H1><A NAME="Header_28" HREF="#ToC_28" >Changing the Look and Feel or Icons</A></H1>
+<P>You can change the look and feel or Icons used in the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a>
+<P>
+<HR><H2><A NAME="Header_29" HREF="#ToC_29" >Looks and Feel Tab</A></H2>
+<P>You can now choose from the Java builtin Look and Feels + several other
+Look and Feels (these require a seperate download). A word of warning, not all Look and Feels
+will work with the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> and even if they work they may slow down the editor (or at the
+very least slow down the startup), Also IU have not done thorough testing with any of Look and Feels.
+If you want an alternative Look and Feel, I would suggest looking at
+<P>
+<UL COMPACT>
+<li><a href="http://www.jgoodies.com/freeware/looksdemo/index.html">JGoodies</a> or
+<li><a href="http://sourceforge.net/projects/officelnfs/">OfficeLnFs</a> for windows style look and feel.
+<li><a href="https://substance.dev.java.net/">Substance Look and Feel</a>
+<li><a href="https://liquidlnf.dev.java.net/">Liquid Look and Feel</a> (Linux KDE style Look and Feel).
+</UL>
+<P><B>Note: </B>OfficeLnFs and Substance only works on Windows and requires Java 1.5.
+<P>
+<img SRC="Diagram/Option_Looks.png">
+<P>
+<HR><H2><A NAME="Header_30" HREF="#ToC_30" >Icon Tab</A></H2>
+<P>You can now choose from a variety of different icon sets or create your own.
+<P>
+<img SRC="Diagram/Option_Icons.GIF">
+<P>
+<P>Here are some of the icons:
+<P>
+<P><I><B><A NAME="Header_31">Tango</A>:&nbsp;</B></I>&nbsp;
+<P>
+<img SRC="Diagram/iconTango.GIF">
+<P>
+<P><I><B><A NAME="Header_32">Eclipse</A>:&nbsp;</B></I>&nbsp;
+<P>
+<img SRC="Diagram/iconEclipse.GIF">
+<P>
+<P><I><B><A NAME="Header_33">Gnome</A>:&nbsp;</B></I>&nbsp;
+<P>
+<img SRC="Diagram/iconsGnome.GIF">
+<P>
+<P>
+<HR><H1><A NAME="Header_34" HREF="#ToC_34" >Setting up for Linux</A></H1>
+<P>The <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> comes setup for Windows, but there are a number of changes
+that can be made to tailor it for Linux. The key is the <font color="blue"><b>Edit Properties</b></font>
+program. This program will update startup properties.
+<P>
+<HR><H2><A NAME="Header_35" HREF="#ToC_35" >Screen Position</A></H2>
+<P>The first step is to start the <font color="blue"><b>Edit Properties</b></font> program and
+select the <B>properties</B> tag. On this screen you can set the space to be
+left at the top and bottom of the screen. For KDE probably 40 for <B>Space at the bottom of the
+screen</B> will do. For Gnome you may want set <B>Space at Top of the Screen</B> to around 20.
+<P>
+<img SRC="Diagram/Option_ScreenPos.png">
+<P>
+<HR><H2><A NAME="Header_36" HREF="#ToC_36" >Looks and Icons</A></H2>
+<P>On this screen you can define the look and feel to use. For KDE users you could try
+<a href="https://liquidlnf.dev.java.net/">Liquid Look and Feel</a>
+<P>
+<img SRC="Diagram/Option_Looks.png">
+<P>
+<P>
+<P>On this screen you can specify icon set. You could choose Aqua, Gnome or Tango.
+<P>
+<img SRC="Diagram/Option_Icons.GIF">
+<P>
+<P>
+<P>Here are some of the icons:
+<P>
+<P><I><B><A NAME="Header_37">Tango</A>:&nbsp;</B></I>&nbsp;
+<P>
+<img SRC="Diagram/iconTango.GIF">
+<P>
+<P><I><B><A NAME="Header_38">Gnome</A>:&nbsp;</B></I>&nbsp;
+<P>
+<img SRC="Diagram/iconsGnome.GIF">
+<HR><H1><A NAME="Header_39" HREF="#ToC_39" >Improving the running of RecordEditor HSQL</A></H1>
+<P>There have been several changes for version 0.68 some of which you may want to
+change:
+<UL>
+ <P><LI>Definitions for running with both HSQL-Server and HSQL-embedded have been included.
+The system will first look for the HSQL-Server then try HSQL-Embedded. If you will
+mainly use the embedded version, you can set the system to try opening the embedded DB first.
+ <P><LI>When running in embedded mode, it will now only open connections when it
+needs to access the DB. This allows you to run multiple occurrences of the RecordEditor
+but it also slows things down.
+</UL>
+<P>
+<P>
+<HR><H2><A NAME="Header_40" HREF="#ToC_40" >Setting the Default DB</A></H2>
+<P>If you are going to mainly use the embedded version of the DB, I suggest
+changing this to be the default.
+<UL>
+ <P><LI>Start the <B>Edit Properties program</B> (From the editor
+<B>Edit &gt;&gt;&gt;&gt; Edit Startup options</B>)
+ <P><LI>Select <B>Properties</B> from the Menu on the Left hand side of the screen
+ <P><LI>Select <B>Defaults</B> from the Tabs at the top of the screen
+ <P><LI>Click on <B>DefaultDB</B> in the table on the screen
+ <P><LI>The select <B>Record Edit - file</B> in the Combo box at the bottom of the screen
+<P>
+<img SRC="Diagram/Properties_DefaultDB.png">
+</UL>
+<P>
+<P>
+<HR><H2><A NAME="Header_41" HREF="#ToC_41" >Embedded HSQL DB Definition</A></H2>
+<P>There is one JDBC options (Auto Close DB) you may wish to change. When set to Y the
+RecordEditor will Open the DB connection, Access the DB and Close the DB connection.
+This has 2 main effects:
+<OL COMPACT TYPE=1>
+ <LI>Allows you to run multiple copies of the RecordEditor.
+ <LI>Slows down some operations.
+</OL>
+<P>
+To change the <B>Auto Close DB</B> property you need to
+<P>
+<UL>
+ <P><LI>Start the <B>Edit Properties program</B> (From the editor
+<B>Edit &gt;&gt;&gt;&gt; Edit Startup options</B>)
+ <P><LI>Select <B>JDBC Parameters</B> from the Menu on the Left hand side of the screen
+ <P><LI>Select <B>JDBC Properties</B> from the Tabs at the top of the screen
+ <P><LI>The <B>Auto Close DB</B> option is on the second line at the far right of the screen.
+<img SRC="Diagram/Setup_EmbeddedDB.png">
+</UL>
+<P>
+<P>
+<HR><H1><A NAME="Header_42" HREF="#ToC_42" >Embedded DB options</A></H1>
+<P>There are several options that may be useful when using an embedded DB with the record Editor:
+<P>
+<TABLE CELLPADDING="3">
+  <TR VALIGN="TOP"><TD><P><B>Read Only Source
+  </B></TD><TD><P>If the Database supports a Readonly Mode, you can enter the Readonly access string here.
+The RecordEditor will open the DB in Readonly mode and only open it for update when that is required.
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Exapand Variables (Y/N)
+  </B></TD><TD><P>When Y, the following variables (case sensitive)&#58;
+  <UL COMPACT>
+   <LI><B>&lt;install&gt;</B> RecordEditor Install directory
+   <LI><B>&lt;home&gt;</B> Users home Directory
+   <LI><B>&lt;hsqlDB&gt;</B> on linux it is &lt;install&gt;/&lt;Database&gt; on windows it is in the user parameters directory.
+  </UL>
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Auto Close Connection.
+  </B></TD><TD><P>Determines wether Database connection are left open after each DB access or left open (for
+server DB's it should be spaces / Y). When the value is
+<UL COMPACT>
+  <LI>N, The RecordEditor will connect to the DB, Access the DB and close the connection.
+This will slow the program down a bit but allow you to run several copies of the RecordEditor at once (in embedded
+mode).
+  <LI>Space / Y the connection is kept open all the time block access to the DB.
+</UL>
+<P>
+</TD></TR></TABLE>
+<img SRC="Diagram/Setup_EmbeddedDB.png">
+<P>
+<P>
+<P>To get to the JDBC Properties screen you should
+<UL>
+ <P><LI>Start the <B>Edit Properties program</B> (From the editor
+<B>Edit &gt;&gt;&gt;&gt; Edit Startup options</B>)
+ <P><LI>Select <B>JDBC Parameters</B> from the Menu on the Left hand side of the screen
+ <P><LI>Select <B>JDBC Properties</B> from the Tabs at the top of the screen
+</UL>
+<P>
+<P>
+<P>
+<HR><H1><A NAME="Header_43" HREF="#ToC_43" >Define a New Field Type</A></H1>
+<P>
+<P><H4><A NAME="Header_44">Jave code for US Date Type</A></H4>
+<P>Following is the java code to implement a US Style MM/DD/YY date.
+<P>
+<PRE><SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax9">package</SPAN> net.sf.RecordEditor.examples;
+<SPAN CLASS="gutter">   2:</SPAN>
+<SPAN CLASS="gutter">   3:</SPAN><SPAN CLASS="syntax9">import</SPAN> net.sf.JRecord.Types.TypeChar;;
+<SPAN CLASS="gutter">   4:</SPAN><SPAN CLASS="syntax9">import</SPAN> net.sf.RecordEditor.record.types.TypeDateWrapper;
+<SPAN CLASS="gutterH">   5:</SPAN>
+<SPAN CLASS="gutter">   6:</SPAN><SPAN CLASS="syntax3">/**</SPAN>
+<SPAN CLASS="gutter">   7:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">provide</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">a</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">US</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">style</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">date</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">(</SPAN><SPAN CLASS="syntax3">mm</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">dd</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">yy</SPAN><SPAN CLASS="syntax3">)</SPAN>
+<SPAN CLASS="gutter">   8:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN>
+<SPAN CLASS="gutter">   9:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax12">@author</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">Bruce</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">Martin</SPAN>
+<SPAN CLASS="gutterH">  10:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN>
+<SPAN CLASS="gutter">  11:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*/</SPAN>
+<SPAN CLASS="gutter">  12:</SPAN><SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax10">class</SPAN> USdate8 <SPAN CLASS="syntax8">extends</SPAN> TypeDateWrapper <SPAN CLASS="syntax18">{</SPAN>
+<SPAN CLASS="gutter">  13:</SPAN>
+<SPAN CLASS="gutter">  14:</SPAN>    <SPAN CLASS="syntax3">/**</SPAN>
+<SPAN CLASS="gutterH">  15:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">provide</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">a</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">US</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">style</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">date</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">(</SPAN><SPAN CLASS="syntax3">mm</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">dd</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">yy</SPAN><SPAN CLASS="syntax3">)</SPAN>
+<SPAN CLASS="gutter">  16:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*/</SPAN>
+<SPAN CLASS="gutter">  17:</SPAN>    <SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax6">USdate8</SPAN>() <SPAN CLASS="syntax18">{</SPAN>
+<SPAN CLASS="gutter">  18:</SPAN>        <SPAN CLASS="syntax14">super</SPAN>(<SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">TypeChar</SPAN>(<SPAN CLASS="syntax14">true</SPAN>), <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">MM/dd/yy</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>);
+<SPAN CLASS="gutter">  19:</SPAN>    <SPAN CLASS="syntax18">}</SPAN>
+<SPAN CLASS="gutterH">  20:</SPAN><SPAN CLASS="syntax18">}</SPAN>
+</PRE><P><P>Following is the code to provide a special Date Editor
+<P>
+<PRE><SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax9">package</SPAN> net.sf.RecordEditor.examples;
+<SPAN CLASS="gutter">   2:</SPAN>
+<SPAN CLASS="gutter">   3:</SPAN><SPAN CLASS="syntax9">import</SPAN> net.sf.RecordEditor.record.format.DateFormat;
+<SPAN CLASS="gutter">   4:</SPAN>
+<SPAN CLASS="gutterH">   5:</SPAN><SPAN CLASS="syntax3">/**</SPAN>
+<SPAN CLASS="gutter">   6:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">US</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">date</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">cell</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">format</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">(</SPAN><SPAN CLASS="syntax3">MM</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">DD</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">YY</SPAN><SPAN CLASS="syntax3">)</SPAN>
+<SPAN CLASS="gutter">   7:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN>
+<SPAN CLASS="gutter">   8:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax12">@author</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">Bruce</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">Martin</SPAN>
+<SPAN CLASS="gutter">   9:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN>
+<SPAN CLASS="gutterH">  10:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*/</SPAN>
+<SPAN CLASS="gutter">  11:</SPAN><SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax10">class</SPAN> USdateFormat8 <SPAN CLASS="syntax8">extends</SPAN> DateFormat <SPAN CLASS="syntax18">{</SPAN>
+<SPAN CLASS="gutter">  12:</SPAN>
+<SPAN CLASS="gutter">  13:</SPAN>    <SPAN CLASS="syntax3">/**</SPAN>
+<SPAN CLASS="gutter">  14:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">US</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">date</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">cell</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">format</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">(</SPAN><SPAN CLASS="syntax3">MM</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">DD</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">YY</SPAN><SPAN CLASS="syntax3">)</SPAN>
+<SPAN CLASS="gutterH">  15:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*/</SPAN>
+<SPAN CLASS="gutter">  16:</SPAN>    <SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax6">USdateFormat8</SPAN>() <SPAN CLASS="syntax18">{</SPAN>
+<SPAN CLASS="gutter">  17:</SPAN>        <SPAN CLASS="syntax14">super</SPAN>(<SPAN CLASS="syntax14">true</SPAN>, <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">MM/dd/yy</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>);
+<SPAN CLASS="gutter">  18:</SPAN>    <SPAN CLASS="syntax18">}</SPAN>
+<SPAN CLASS="gutter">  19:</SPAN><SPAN CLASS="syntax18">}</SPAN>
+<SPAN CLASS="gutterH">  20:</SPAN>
+</PRE><P><P>You now need to bundle this Type as a Java Jar file.
+<P>
+<P><H4><A NAME="Header_45">Defining a Type to the RecordEditor</A></H4>
+<P>Start the <font color="blue">Edit RecordEditor Startup Properties</font> and go to the
+<B>User Types</B> tag and entor the new Type as in the diagram below:
+<P>
+<img SRC="Diagram/Setup_Type.GIF">
+<P>
+<P>The next step is to define where your type is found, so go to the <B>User Jars</B>
+tag an enter your new jar as below
+<P>
+<img SRC="Diagram/Setup_UserJars.GIF">
+<P>
+<P>You can now use the new Type in both the <B>RecordEditor</B> and the <B>LayoutEditor</B>.
+<P>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

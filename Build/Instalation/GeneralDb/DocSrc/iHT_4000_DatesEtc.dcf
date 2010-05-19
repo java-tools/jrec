@@ -1,0 +1,55 @@
+:h1.Dates
+:p.All dates get converted to Java's Date Objects. If a field 
+is not a valid date, it will not be converted to a date and will not be displayed.
+:p.You should only use Dates
+:ul compact.
+  :li.Files with only one record Type.
+  :li.On fields that will always be a valid date.
+:eul.
+:p.In other cases use a Date Format.
+
+:h2.Set the Date Display Format
+:p.Date Display format can be set using the :PropertiesEditor..
+Go to the :hp2.Other Options:ehp2. tag and update the DateFormat variable.
+
+.pict Propereties_Date.png
+
+:p.Alternatively you can edit the properties file directly (with an editor like jEdit).
+This file file will be in :hp2.<properties Directory>/Recordedit_<version>/Params.Properties:ehp2.
+where
+:dl.
+ :dt.<properties Directory>:dd.Where program properties are held. On 
+Windows XP it will be :hp2.Documents and Settings/<user name>:ehp2..
+ :dt.<version>:dd.Is MSAccess or HSQL or Generic depending on which version you installed
+:edl.
+
+.fo off
+:bblue.SignificantCharInFiles.1:ebblue.=6
+:bblue.DateFormat:ebblue.=:bred.dd.MMM.yyyy:ebred.
+:bblue.DefaultFileDirectory:ebblue.=<install>/SampleFiles/*
+.fo on
+
+:h2.Defining Date Type
+:p.There is now an option to define Date Types to the :RecordEditor..
+
+.pict Option_DateType.png
+
+:p.The fields are
+:dl.
+ :dt.Type Name:dd.Name of the Types as you will see it in the Layout Editor.
+ :dt.Base Type:dd.What is the storage Format, for normal Text files choose Char, but in 
+binary files you can use Binary Integer, Mainframe Packed Decimal etc.
+ :dt.Date Format:dd.Format of the date (dd - Day, MM - Month, yy - Year etc). This 
+field is :hp2.Case Sensitive:ehp2.. Day and Year are lower case, Month is uppercase (mm is minutes).
+:edl.
+
+:p.Sample Formats
+
+:table cols='* 3*'.
+ :row.:c.:hp2.Format:ehp2.:c.:hp2.Result:ehp2.
+ :row.:c.MMddyy:c.For US style dates eg 310199
+ :row.:c.dd.MMM.yyyy:c.For dates like 31.Jan.1999
+ :row.:c.dd/MM/yyyy:c.For dates like 31/01/1999
+:etable. 
+
+

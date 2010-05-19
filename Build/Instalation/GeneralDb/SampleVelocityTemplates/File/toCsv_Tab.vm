@@ -1,0 +1,19 @@
+##
+##  Generate HTML for a EDI PO file
+##
+#set ( $fldCount = ${layout.getRecord(${recordIdx}).getFieldCount()} - 1)
+#set ($border = "")
+#if ($showBorder == true)
+   #set ($border = "border=\"1\"")
+#end
+##
+#set ( $fldCount = ${layout.getRecord(${recordIdx}).getFieldCount()} - 1)
+##
+#foreach( $i in [0 .. ${fldCount}])${layout.getField(${recordIdx},${i}).getName()}	#end
+
+##
+##
+#foreach( $rec in $records )
+#foreach( $i in [0 .. ${fldCount}])${rec.getField(${recordIdx},${i})}	#end
+
+#end

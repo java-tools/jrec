@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+
+<shortcuts>
+  <skipIfNotSupported />
+
+  <programGroup defaultName="RecordEdit_ProtoBuf_Editor" location="applications"/>
+
+   <shortcut
+     name="Protocol Buffer Editor"
+     programGroup="yes"
+     desktop="yes"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     target="$INSTALL_PATH/lib/runEditor.sh"
+     commandLine=""
+     initialState="noShow"
+     iconFile="$INSTALL_PATH/lib/RecordEdit.GIF"
+     workingDirectory=""
+     iconIndex="0" 
+     type="Application"
+     encoding="UTF-8"
+     description="Protocol Buffer Editor">
+     <createForPack name="Base" />
+   </shortcut>
+   <shortcut
+     name="Protocol Buffer Compare"
+     programGroup="yes"
+     desktop="yes"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     target="$INSTALL_PATH/lib/runCompareMenu.sh"
+     commandLine=""
+     initialState="noShow"
+     iconFile="$INSTALL_PATH/lib/RecordEdit.GIF"
+     workingDirectory=""
+     iconIndex="0" 
+     type="Application"
+     encoding="UTF-8"
+     description="Protocol Buffer Compare Menu">
+     <createForPack name="Base" />
+   </shortcut>
+
+  <shortcut
+     name="RecordEditor Documentation"
+     programGroup="yes"
+     desktop="yes"
+     applications="no"
+     startMenu="yes"
+     startup="no"
+     target="konqueror"
+     url="$INSTALL_PATH/Docs/Documents.htm"
+     workingDirectory=""
+     commandLine=""
+     initialState="noShow"
+     iconFile="help"
+     iconIndex="0" 
+     type="Link"
+     encoding="UTF-8"   
+     description="Record Editor Documetation">
+      <createForPack name="Base" />
+   </shortcut>
+
+     
+   <shortcut
+     name="RecordEditor - Uninstaller"
+     programGroup="yes"
+     desktop="yes"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     initialState="noShow"
+     iconFile="trashcan_full"
+     iconIndex="0" 
+     target="$INSTALL_PATH/lib/Uninstall.sh"
+     type="Application"
+     terminal="true"
+     encoding="UTF-8"
+     description="IzPack uninstaller">
+     <createForPack name="Base" />
+   </shortcut>
+   
+   
+</shortcuts>

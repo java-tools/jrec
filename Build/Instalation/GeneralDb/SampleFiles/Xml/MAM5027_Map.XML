@@ -1,0 +1,212 @@
+<MapSet id="MAM5027"  TYPE="MAP" LANG="COBOL" MODE="INOUT" STORAGE="AUTO" SUFFIX="">
+<Map id="MAM5027"  SIZE="(24,80)" CTRL="(HONEOM,FREEKB,FRSET)" COLUMN="1" LINE="1" DATA="FIELD" TIOAPFX="YES" JUSTIFY="(LEFT)" OBFMT="NO   ">
+<Field   Row="1" Col="1" LENGTH="7" INITIAL="MAC5034" ATTRB="(PROT,BRT)" />
+<Field   Row="1" Col="27" LENGTH="35" INITIAL="RECEIPT ENQUIRY - BY PURCHASE ORDER" ATTRB="(PROT,BRT)" />
+<Field   Row="1" Col="73" LENGTH="7" INITIAL="MAM5027" ATTRB="(PROT,BRT)" />
+<Field   Row="3" Col="1" LENGTH="14" INITIAL="P.O. NUMBER  :" ATTRB="(ASKIP,NORM)" />
+<Field id="MPOZZZZ" Type="Fld"  Row="3" Col="16" LENGTH="12" ATTRB="(ASKIP,NORM)" />
+<Field   Row="3" Col="29" LENGTH="15" INITIAL=" DEPARTMENT   :" ATTRB="(PROT,NORM)" />
+<Field id="MDPTZZZ" Type="Fld"  Row="3" Col="45" LENGTH="4" ATTRB="(PROT,NORM)" />
+<Field   Row="3" Col="50" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="3" Col="64" LENGTH="7" INITIAL="STORE :" ATTRB="(ASKIP,DRK)" />
+<Field id="MSTRZZZ" Type="Fld"  Row="3" Col="72" LENGTH="3" ATTRB="(ASKIP,DRK)" />
+<Field  Row="3" Col="76" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="4" Col="1" LENGTH="14" INITIAL="SUPPLIER NO  :" ATTRB="(ASKIP,NORM)" />
+<Field id="MSUPZZZ" Type="Fld"  Row="4" Col="16" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field  Row="4" Col="25" LENGTH="19" INITIAL="     SUPPLIER NAME:" ATTRB="(ASKIP,NORM)" />
+<Field id="NSUPZZZ" Type="Fld"  Row="4" Col="45" LENGTH="35" ATTRB="(ASKIP,NORM)" />
+<Field   Row="5" Col="1" LENGTH="14" INITIAL="P.O. TYPE    :" ATTRB="(ASKIP,NORM)" />
+<Field id="CPOTYPE" Type="Fld"  Row="5" Col="16" LENGTH="12" ATTRB="(ASKIP,NORM)" />
+<Field   Row="5" Col="29" LENGTH="15" INITIAL=" P.O. STATUS  :" ATTRB="(ASKIP,NORM)" />
+<Field id="CPOSTAT" Type="Fld"  Row="5" Col="45" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field   Row="5" Col="56" LENGTH="15" INITIAL="FREIGHT TERMS :" ATTRB="(ASKIP,NORM)" />
+<Field id="CFRTZZZ" Type="Fld"  Row="5" Col="72" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field   Row="5" Col="79" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="6" Col="1" LENGTH="14" INITIAL="BUYER COST   :" ATTRB="(ASKIP,NORM)" />
+<Field id="ABUYCST" Type="Fld"  Row="6" Col="16" LENGTH="13" ATTRB="(ASKIP,NORM)" PICOUT="$$$$$$,$$9.99'                                  " />
+<Field   Row="6" Col="30" LENGTH="14" INITIAL="ADVERTISED   :" ATTRB="(ASKIP,NORM)" />
+<Field id="DADVZZZ" Type="Fld"  Row="6" Col="45" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field   Row="6" Col="54" LENGTH="17" INITIAL="     NOT BEFORE :" ATTRB="(ASKIP,NORM)" />
+<Field id="DNOTBFR" Type="Fld"  Row="6" Col="72" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field   Row="7" Col="1" LENGTH="14" INITIAL="SUPPLIER COST:" ATTRB="(ASKIP,NORM)" />
+<Field id="APOCOST" Type="Fld"  Row="7" Col="16" LENGTH="13" ATTRB="(ASKIP,NORM)" PICOUT="$$$$$$,$$9.99'                                  " />
+<Field   Row="7" Col="30" LENGTH="14" INITIAL="REQD ON FLOOR:" ATTRB="(ASKIP,NORM)" />
+<Field id="DONFLRZ" Type="Fld"  Row="7" Col="45" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field   Row="7" Col="54" LENGTH="17" INITIAL="     NOT AFTER  :" ATTRB="(PROT,NORM)" />
+<Field id="DNOTAFT" Type="Fld"  Row="7" Col="72" LENGTH="8" ATTRB="(PROT,NORM)" />
+<Field   Row="8" Col="1" LENGTH="14" INITIAL="DATE ORDERED :" ATTRB="(ASKIP,NORM)" />
+<Field id="DPOENTZ" Type="Fld"  Row="8" Col="16" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field   Row="8" Col="25" LENGTH="16" INITIAL="   DESCRIPTION :" ATTRB="(ASKIP,NORM)" />
+<Field id="DTTERMS" Type="Fld"  Row="8" Col="42" LENGTH="30" ATTRB="(ASKIP,NORM)" />
+<Field  Row="8" Col="73" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field  Row="9" Col="1" LENGTH="14" INITIAL="BUYER RETAIL :" ATTRB="(ASKIP,NORM)" />
+<Field id="APORETL" Type="Fld"  Row="9" Col="16" LENGTH="13" ATTRB="(ASKIP,NORM)" PICOUT="$$$$$$,$$9.99'                                  " />
+<Field   Row="9" Col="30" LENGTH="6" INITIAL="RETAIL" ATTRB="(ASKIP,NORM)" />
+<Field   Row="9" Col="43" LENGTH="1" INITIAL=":" ATTRB="(ASKIP,NORM)" />
+<Field id="ARETAIL" Type="Fld"  Row="9" Col="45" LENGTH="13" ATTRB="(ASKIP,NORM)" PICOUT="$$$$$$,$$9.99'                                  " />
+<Field   Row="9" Col="59" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="10" Col="1" LENGTH="3" INITIAL="SEL" ATTRB="(ASKIP,BRT)" />
+<Field   Row="10" Col="5" LENGTH="16" INITIAL="RECEIPT   STATUS" ATTRB="(ASKIP,NORM)" />
+<Field   Row="10" Col="27" LENGTH="4" INITIAL="DATE" ATTRB="(ASKIP,NORM)" />
+<Field   Row="10" Col="37" LENGTH="3" INITIAL="SEL" ATTRB="(ASKIP,BRT)" />
+<Field   Row="10" Col="41" LENGTH="16" INITIAL="RECEIPT   STATUS" ATTRB="(ASKIP,NORM)" />
+<Field   Row="10" Col="63" LENGTH="4" INITIAL="DATE" ATTRB="(ASKIP,NORM)" />
+<Field id="CSEL01Z" Type="Fld"  Row="11" Col="2" LENGTH="1" ATTRB="(UNPROT,NORM,IC)" />
+<Field   Row="11" Col="4" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MRCT01Z" Type="Fld"  Row="11" Col="5" LENGTH="7" ATTRB="(ASKIP,NORM)" />
+<Field   Row="11" Col="13" LENGTH="0" ATTRB="(PROT,NORM)" />
+<Field id="CSTS01Z" Type="Fld"  Row="11" Col="14" LENGTH="10" ATTRB="(PROT,NORM)" />
+<Field id="DRCV01Z" Type="Fld"  Row="11" Col="25" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field   Row="11" Col="34" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="CSEL02Z" Type="Fld"  Row="11" Col="38" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field   Row="11" Col="40" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MRCT02Z" Type="Fld"  Row="11" Col="41" LENGTH="7" ATTRB="(ASKIP,NORM)" />
+<Field   Row="11" Col="49" LENGTH="0" ATTRB="(PROT,NORM)" />
+<Field id="CSTS02Z" Type="Fld"  Row="11" Col="50" LENGTH="10" ATTRB="(PROT,NORM)" />
+<Field id="DRCV02Z" Type="Fld"  Row="11" Col="61" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field   Row="11" Col="70" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="CSEL03Z" Type="Fld"  Row="12" Col="2" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field   Row="12" Col="4" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MRCT03Z" Type="Fld"  Row="12" Col="5" LENGTH="7" ATTRB="(ASKIP,NORM)" />
+<Field   Row="12" Col="13" LENGTH="0" ATTRB="(PROT,NORM)" />
+<Field id="CSTS03Z" Type="Fld"  Row="12" Col="14" LENGTH="10" ATTRB="(PROT,NORM)" />
+<Field id="DRCV03Z" Type="Fld"  Row="12" Col="25" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field  Row="12" Col="34" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="CSEL04Z" Type="Fld"  Row="12" Col="38" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field   Row="12" Col="40" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MRCT04Z" Type="Fld"  Row="12" Col="41" LENGTH="7" ATTRB="(ASKIP,NORM)" />
+<Field   Row="12" Col="49" LENGTH="0" ATTRB="(PROT,NORM)" />
+<Field id="CSTS04Z" Type="Fld"  Row="12" Col="50" LENGTH="10" ATTRB="(PROT,NORM)" />
+<Field id="DRCV04Z" Type="Fld"  Row="12" Col="61" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field   Row="12" Col="70" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="CSEL05Z" Type="Fld"  Row="13" Col="2" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field  Row="13" Col="4" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MRCT05Z" Type="Fld"  Row="13" Col="5" LENGTH="7" ATTRB="(ASKIP,NORM)" />
+<Field   Row="13" Col="13" LENGTH="0" ATTRB="(PROT,NORM)" />
+<Field id="CSTS05Z" Type="Fld"  Row="13" Col="14" LENGTH="10" ATTRB="(PROT,NORM)" />
+<Field id="DRCV05Z" Type="Fld"  Row="13" Col="25" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field  Row="13" Col="34" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="CSEL06Z" Type="Fld"  Row="13" Col="38" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field  Row="13" Col="40" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MRCT06Z" Type="Fld"  Row="13" Col="41" LENGTH="7" ATTRB="(ASKIP,NORM)" />
+<Field   Row="13" Col="49" LENGTH="0" ATTRB="(PROT,NORM)" />
+<Field id="CSTS06Z" Type="Fld"  Row="13" Col="50" LENGTH="10" ATTRB="(PROT,NORM)" />
+<Field id="DRCV06Z" Type="Fld"  Row="13" Col="61" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field   Row="13" Col="70" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="CSEL07Z" Type="Fld"  Row="14" Col="2" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field   Row="14" Col="4" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MRCT07Z" Type="Fld"  Row="14" Col="5" LENGTH="7" ATTRB="(ASKIP,NORM)" />
+<Field  Row="14" Col="13" LENGTH="0" ATTRB="(PROT,NORM)" />
+<Field id="CSTS07Z" Type="Fld"  Row="14" Col="14" LENGTH="10" ATTRB="(PROT,NORM)" />
+<Field id="DRCV07Z" Type="Fld"  Row="14" Col="25" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field  Row="14" Col="34" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="CSEL08Z" Type="Fld"  Row="14" Col="38" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field  Row="14" Col="40" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MRCT08Z" Type="Fld"  Row="14" Col="41" LENGTH="7" ATTRB="(ASKIP,NORM)" />
+<Field   Row="14" Col="49" LENGTH="0" ATTRB="(PROT,NORM)" />
+<Field id="CSTS08Z" Type="Fld"  Row="14" Col="50" LENGTH="10" ATTRB="(PROT,NORM)" />
+<Field id="DRCV08Z" Type="Fld"  Row="14" Col="61" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field  Row="14" Col="70" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="CSEL09Z" Type="Fld"  Row="15" Col="2" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field  Row="15" Col="4" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MRCT09Z" Type="Fld"  Row="15" Col="5" LENGTH="7" ATTRB="(ASKIP,NORM)" />
+<Field   Row="15" Col="13" LENGTH="0" ATTRB="(PROT,NORM)" />
+<Field id="CSTS09Z" Type="Fld"  Row="15" Col="14" LENGTH="10" ATTRB="(PROT,NORM)" />
+<Field id="DRCV09Z" Type="Fld"  Row="15" Col="25" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field   Row="15" Col="34" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="CSEL10Z" Type="Fld"  Row="15" Col="38" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field   Row="15" Col="40" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MRCT10Z" Type="Fld"  Row="15" Col="41" LENGTH="7" ATTRB="(ASKIP,NORM)" />
+<Field  Row="15" Col="49" LENGTH="0" ATTRB="(PROT,NORM)" />
+<Field id="CSTS10Z" Type="Fld"  Row="15" Col="50" LENGTH="10" ATTRB="(PROT,NORM)" />
+<Field id="DRCV10Z" Type="Fld"  Row="15" Col="61" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field  Row="15" Col="70" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="CSEL11Z" Type="Fld"  Row="16" Col="2" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field   Row="16" Col="4" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MRCT11Z" Type="Fld"  Row="16" Col="5" LENGTH="7" ATTRB="(ASKIP,NORM)" />
+<Field   Row="16" Col="13" LENGTH="0" ATTRB="(PROT,NORM)" />
+<Field id="CSTS11Z" Type="Fld"  Row="16" Col="14" LENGTH="10" ATTRB="(PROT,NORM)" />
+<Field id="DRCV11Z" Type="Fld"  Row="16" Col="25" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field   Row="16" Col="34" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="CSEL12Z" Type="Fld"  Row="16" Col="38" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field   Row="16" Col="40" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MRCT12Z" Type="Fld"  Row="16" Col="41" LENGTH="7" ATTRB="(ASKIP,NORM)" />
+<Field   Row="16" Col="49" LENGTH="0" ATTRB="(PROT,NORM)" />
+<Field id="CSTS12Z" Type="Fld"  Row="16" Col="50" LENGTH="10" ATTRB="(PROT,NORM)" />
+<Field id="DRCV12Z" Type="Fld"  Row="16" Col="61" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field   Row="16" Col="70" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="CSEL13Z" Type="Fld"  Row="17" Col="2" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field  Row="17" Col="4" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MRCT13Z" Type="Fld"  Row="17" Col="5" LENGTH="7" ATTRB="(ASKIP,NORM)" />
+<Field   Row="17" Col="13" LENGTH="0" ATTRB="(PROT,NORM)" />
+<Field id="CSTS13Z" Type="Fld"  Row="17" Col="14" LENGTH="10" ATTRB="(PROT,NORM)" />
+<Field id="DRCV13Z" Type="Fld"  Row="17" Col="25" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field   Row="17" Col="34" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="CSEL14Z" Type="Fld"  Row="17" Col="38" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field   Row="17" Col="40" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MRCT14Z" Type="Fld"  Row="17" Col="41" LENGTH="7" ATTRB="(ASKIP,NORM)" />
+<Field   Row="17" Col="49" LENGTH="0" ATTRB="(PROT,NORM)" />
+<Field id="CSTS14Z" Type="Fld"  Row="17" Col="50" LENGTH="10" ATTRB="(PROT,NORM)" />
+<Field id="DRCV14Z" Type="Fld"  Row="17" Col="61" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field  Row="17" Col="70" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="CSEL15Z" Type="Fld"  Row="18" Col="2" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field   Row="18" Col="4" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MRCT15Z" Type="Fld"  Row="18" Col="5" LENGTH="7" ATTRB="(ASKIP,NORM)" />
+<Field  Row="18" Col="13" LENGTH="0" ATTRB="(PROT,NORM)" />
+<Field id="CSTS15Z" Type="Fld"  Row="18" Col="14" LENGTH="10" ATTRB="(PROT,NORM)" />
+<Field id="DRCV15Z" Type="Fld"  Row="18" Col="25" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field   Row="18" Col="34" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="CSEL16Z" Type="Fld"  Row="18" Col="38" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field   Row="18" Col="40" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MRCT16Z" Type="Fld"  Row="18" Col="41" LENGTH="7" ATTRB="(ASKIP,NORM)" />
+<Field   Row="18" Col="49" LENGTH="0" ATTRB="(PROT,NORM)" />
+<Field id="CSTS16Z" Type="Fld"  Row="18" Col="50" LENGTH="10" ATTRB="(PROT,NORM)" />
+<Field id="DRCV16Z" Type="Fld"  Row="18" Col="61" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field   Row="18" Col="70" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="CSEL17Z" Type="Fld"  Row="19" Col="2" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field  Row="19" Col="4" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MRCT17Z" Type="Fld"  Row="19" Col="5" LENGTH="7" ATTRB="(ASKIP,NORM)" />
+<Field  Row="19" Col="13" LENGTH="0" ATTRB="(PROT,NORM)" />
+<Field id="CSTS17Z" Type="Fld"  Row="19" Col="14" LENGTH="10" ATTRB="(PROT,NORM)" />
+<Field id="DRCV17Z" Type="Fld"  Row="19" Col="25" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field   Row="19" Col="34" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="CSEL18Z" Type="Fld"  Row="19" Col="38" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field   Row="19" Col="40" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MRCT18Z" Type="Fld"  Row="19" Col="41" LENGTH="7" ATTRB="(ASKIP,NORM)" />
+<Field   Row="19" Col="49" LENGTH="0" ATTRB="(PROT,NORM)" />
+<Field id="CSTS18Z" Type="Fld"  Row="19" Col="50" LENGTH="10" ATTRB="(PROT,NORM)" />
+<Field id="DRCV18Z" Type="Fld"  Row="19" Col="61" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field   Row="19" Col="70" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="CSEL19Z" Type="Fld"  Row="20" Col="2" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field  Row="20" Col="4" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MRCT19Z" Type="Fld"  Row="20" Col="5" LENGTH="7" ATTRB="(ASKIP,NORM)" />
+<Field  Row="20" Col="13" LENGTH="0" ATTRB="(PROT,NORM)" />
+<Field id="CSTS19Z" Type="Fld"  Row="20" Col="14" LENGTH="10" ATTRB="(PROT,NORM)" />
+<Field id="DRCV19Z" Type="Fld"  Row="20" Col="25" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field  Row="20" Col="34" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="CSEL20Z" Type="Fld"  Row="20" Col="38" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field   Row="20" Col="40" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MRCT20Z" Type="Fld"  Row="20" Col="41" LENGTH="7" ATTRB="(ASKIP,NORM)" />
+<Field   Row="20" Col="49" LENGTH="0" ATTRB="(PROT,NORM)" />
+<Field id="CSTS20Z" Type="Fld"  Row="20" Col="50" LENGTH="10" ATTRB="(PROT,NORM)" />
+<Field id="DRCV20Z" Type="Fld"  Row="20" Col="61" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field   Row="20" Col="70" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="CSEL21Z" Type="Fld"  Row="21" Col="2" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field   Row="21" Col="4" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MRCT21Z" Type="Fld"  Row="21" Col="5" LENGTH="7" ATTRB="(ASKIP,NORM)" />
+<Field   Row="21" Col="13" LENGTH="0" ATTRB="(PROT,NORM)" />
+<Field id="CSTS21Z" Type="Fld"  Row="21" Col="14" LENGTH="10" ATTRB="(PROT,NORM)" />
+<Field id="DRCV21Z" Type="Fld"  Row="21" Col="25" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field   Row="21" Col="34" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="CSEL22Z" Type="Fld"  Row="21" Col="38" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field   Row="21" Col="40" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MRCT22Z" Type="Fld"  Row="21" Col="41" LENGTH="7" ATTRB="(ASKIP,NORM)" />
+<Field   Row="21" Col="49" LENGTH="0" ATTRB="(PROT,NORM)" />
+<Field id="CSTS22Z" Type="Fld"  Row="21" Col="50" LENGTH="10" ATTRB="(PROT,NORM)" />
+<Field id="DRCV22Z" Type="Fld"  Row="21" Col="61" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field   Row="21" Col="70" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="22" Col="1" LENGTH="62" INITIAL="VALID KEYS - PF1(HELP), PA1, CLEAR, PA2, ENTER,PF7, PF8, PF12" ATTRB="(PROT,BRT)" />
+<Field id="TPRGMSS" Type="Fld"  Row="23" Col="1" LENGTH="79" ATTRB="(PROT,BRT)" />
+<Field id="TSYSMSS" Type="Fld"  Row="24" Col="1" LENGTH="79" ATTRB="(ASKIP,BRT)" />
+</Map>
+</MapSet>

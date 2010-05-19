@@ -1,0 +1,96 @@
+:h1.Tab/Comma Delimited Fields in Files
+:p.The :hp2.RecordEditor:ehp2. now supports Files with Comma / Tab / etc 
+delimited fields. There are 2 places where field names can be stored&gml.
+:dl.
+  :dt.Standard Record Layout
+    :dd.Fields can be stored in the Database in the normal way. The position becomes the field number.
+  :dt.First line of file
+    :dd.Field names can be read from the first line of a file. 
+:edl.
+
+:h2.Defining a Delimited File
+:p.There are 4 important parts to defining files where fields are separated
+by a certain character&gml.
+:ul compact.
+  :li.The :hp2.record type:ehp2. must be :hp2.Delimited Fields:ehp2.
+  :li.The :hp2.delimiter:ehp2. field must be set to the correct value (ie <tab> or "," etc).
+  :li.The :hp2.file structure:ehp2. must be set to:
+    :dl.
+     :dt.Default
+       :dd.For standard Comma delimited files with names stored in the Record Layout Tables
+     :dt.Delimited, names on first row
+       :dd.For files where the first line holds the field names
+    :edl.
+  :li.The field position should be the field position number and the length should be 0.
+:eul.
+
+:p.See :hdref refid=extra. for details on the "Extra Panel".
+
+.pict LayoutEdit_Delim.GIF
+
+:h2.Defining a Standard Delimited File
+:p.Standard Delimited record layouts are defined as below. The position
+holds the field number (rather than starting position).
+
+.pict LayoutEdit_DelimDef.GIF
+
+:h2.Names on the first Line
+:p.To define files where the first line holds the field names you must 
+define a File Structure :BBlue.Delimted, names on first row:EBBlue. 
+(which causes different file readers to be used).
+
+.pict LayoutEdit_Delim_1st_line.GIF  
+
+:p.The Editor comes with 2 Delimited files where names are on the first
+line.
+:ul compact.
+  :li.Tab Delimited, names on the first line
+  :li.Comma Delimited, names on the first line
+:eul.
+
+
+:h2.Csv Array Description
+:p.Version 0.61a has a small extension to support Csv Arrays (or Csv fields with in CSV fields).
+i.e. 
+
+.fo off
+:hp2.Data::ehp2. field one|field two|"embedded field1, embedded field2|embedded field11,embedded field22"|field four
+
+:hp2.Field 1::ehp2. field one                                                                                       
+:hp2.Field 2::ehp2. field two
+:hp2.Field 3::ehp2. array
+   :hp1.Array 1::ehp1.
+      Embedded Field 1: embedded field1
+      Embedded Field 2: embedded field2
+   :hp1.Array 1::ehp1.        
+      Embedded Field 1: embedded field11
+      Embedded Field 2: embedded field 22
+:hp2.Field 4::ehp2. field four
+.fo on
+:p.This can now be defined in the record Editor as:  
+:p. 
+.pict LayoutEdit_CsvArray1.GIF
+                                                  
+:p.with the extra panel as follows:
+                          
+.pict LayoutEdit_CsvArray2.GIF
+                                
+:p.When editing a file, the field can be displayed in a "Combo Box" like dropdown 
+window                       
+
+.pict Edit_CsvArray1.GIF
+
+:h2.Parameter Field
+:p.The Parameter field of a CSV array is defined as
+:dl.
+ :dt.One Dimension:dd.<Separator>Quote<Separator>Field Separator<Separator>
+ :dt.One Dimension:dd.<Separator>Quote<Separator>Field Separator 1<Separator>Field Separator 2<Separator>    
+:edl.  
+:p.Where :hp2.<Separator>:ehp2. is any valid character.  
+
+:p.Here is a another example
+
+.pict LayoutEdit_CsvArray3.png
+
+
+

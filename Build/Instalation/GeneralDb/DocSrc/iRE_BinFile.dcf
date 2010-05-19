@@ -1,0 +1,19 @@
+
+:h2.Viewing a Binary File
+:p.In jEdit a binary file like a 4680/4690-Register price change file looks like
+
+.*b2h HTML <img SRC="Diagram/RecordEdit_jEdit.png">
+
+.pa
+
+:h4 id=bintbl.Table View - Binary file
+:p.While in the RecordEditor Table-View, binary fields are converted to there text equivalent. It looks like
+
+
+.*b2h HTML <img SRC="Diagram/RecordEdit_Table.png">
+
+.fo off
+
+
+.fo on
+

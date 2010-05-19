@@ -1,0 +1,24 @@
+
+:p.The Microsoft Access version should install an ODBC connection called 
+RecordLayout. But in case it does not, you will get an error message like
+.fo off
+
+DataBase Connection error&colon. [Microsoft][ODBC Driver Manager] Data source name not found and no default driver specified
+
+.fo on
+:p.to create an ODBC connection you should
+:ol.
+:li.Select the Windows :hp2.Start Button:ehp2. (bottom left corner of the screen).
+:li.Select the :hp2.Control Panel:ehp2. option (i.e. not programs)
+:li.Most versions of windows you take :hp2.Administrative Tools:ehp2.. On some (Windows 95 ?)
+the :hp2.ODBC function:ehp2. is on this screen.
+:li.Take the :hp2.Data Sources (ODBC):ehp2.
+:li.Once in the ODBC screen, to add a ODBC source select the Add button
+.*b2h HTML <table><tr><td><img SRC="Diagram/ODBC.png"></td></tr></table>
+:li.Then select the Driver (MS Access for the Record Edit)
+.*b2h HTML <table><tr><td><img SRC="Diagram/ODBC_Driver.png"></td></tr></table>
+:li.Then fill out Source name and Description. Also use the :hp2.Select Button:ehp2.
+to select the Microsoft Access DB :hp2.RecordEditor.mdb:ehp2.. This is
+found in $install_Directory/MSaccess
+.*b2h HTML <table><tr><td><img SRC="Diagram/ODBC_RecordLayout.GIF"></td></tr></table>
+:eol.

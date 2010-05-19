@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EditorTask type="Filter">
+  <layout name="ams PO Download">
+    <record name="ams PO Download: Detail">
+      <field>Record Type</field>
+      <field>Pack Qty</field>
+      <field>Pack Cost</field>
+      <field>APN</field>
+      <field>Product</field>
+      <field>pmg dtl tech key</field>
+      <field>Case Pack id</field>
+      <field>Product Name</field>
+      <FieldTest fieldName="Pack Qty" operator=">" value="0"/>
+    </record>
+    <record name="ams PO Download: Header">
+      <field>Record Type</field>
+      <field>Sequence Number</field>
+      <field>Vendor</field>
+      <field>PO</field>
+      <field>Entry Date</field>
+      <field>beg01 code</field>
+      <field>beg02 code</field>
+      <field>Department</field>
+      <field>Expected Reciept Date</field>
+      <field>Cancel by date</field>
+      <field>EDI Type</field>
+      <field>Add Date</field>
+      <field>Department Name</field>
+      <field>Prcoess Type</field>
+      <field>Order Type</field>
+      <FieldTest fieldName="Vendor" operator=">" value="0"/>
+    </record>
+  </layout>
+</EditorTask>

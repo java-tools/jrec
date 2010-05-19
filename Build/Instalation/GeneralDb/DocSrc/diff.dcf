@@ -1,0 +1,84 @@
+.dm pict on
+.*b2h HTML <img SRC="Diagram/&*">
+.*b2h HTML <p>&nbsp;</p>
+.dm off
+.*B2H SYMBOL :tag.  BBlue  IT=N VAT=N ATT=N SE=Y V='<font color="blue"><b>'
+.*B2H SYMBOL :tag. EBBlue  IT=N VAT=N ATT=N SE=Y V='</b></font>'
+:h1.Diff Program
+:p.When you start the diff program, a menu is displayed with 3 options&gml.
+:ol compact.
+ :li.Run stored Compare. Allows you to rerun a previously setup compare.
+ :li.Compare Single Layout. This is used to compare to files in the same format (i.e. uses the same Record Layout).
+ :li.Compare Different Layouts. This is used to compare the data in two  
+:eol.
+
+.pict SL_diff0.png
+
+:h2.Compare (Single Layout)
+
+:p.The first screen lets you enter the 2 files to be compared + the record
+layout to be used.
+
+.pict SL_diff1.png
+
+:p.The next screen lets you select which Records / Fields are to be compared
+
+.pict SL_diff2.png
+
+:p.
+:p.The next screen lets you:
+:ul compact.
+ :li.Save the compare options to an external file (as XML). This file can be
+rerun in compare option 1.
+ :li.Run the compare and show the results on the screen.
+ :li.Enter HTML options (i.e. enter HTML file name etc).
+ :li.Run the compare and write the results to a HTML file.
+:eul.
+
+.pict SL_diff3.png
+
+:p.If you run the option online; the first screen list all differences in a 
+single table. You can switch between displaying all / changed lines using the button
+on the top right of the screen.
+:p.You can select a single line display by clicking on the button on the left hand
+side of the screen.
+:p.See 
+.*B2H html <a href="Cmp_amsPo_1.html">Cmp_amsPo_1.html</a> for a sample HTML compare
+
+.pict SL_diff4.png
+
+:note. :hp1.Green:ehp1. means changed line, :hp1.Blue:ehp1. is for deleted line and :hp1.Yellow:ehp1.
+is for inserted line.
+.br
+:p.If you select a single line display, you will get (click the left most column 
+of the screen above):
+
+.pict SL_diff5.gif
+
+:h2.Compare (Two Layout)
+
+:p.When comparing files in different formats (i.e. 2 different layouts), select
+option 3 from the compare main menu. The files can be quite different formats. One could
+be native mainframe Binary file and the other a PC CSV file. It the data in the fields
+that is compared.
+:p.The first 2 screens look like the following and you enter the 2 files and there record layouts.
+
+.pict TL_Diff1.png
+
+:p.Following is the field selection where you match the fields up:
+
+.pict TL_Diff3.png
+
+
+:p.
+:p.The next screen lets you:
+:ul.
+ :li.Save the compare options to an external file (as XML). This file can be
+rerun in compare option 1.
+ :li.Run the compare and show the results on the screen.
+ :li.Enter HTML options (i.e. enter HTML file name etc).
+ :li.Run the compare and write the results to a HTML file.
+:eul.
+
+
+.pict SL_diff3.png

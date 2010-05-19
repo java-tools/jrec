@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+<shortcuts>
+
+  <skipIfNotSupported />
+
+  <programGroup defaultName="RecordEdit_Avro_Editor" location="applications"/>
+
+   <shortcut
+     name="Avro Editor"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     initialState="noShow"
+     iconFile="$INSTALL_PATH\lib\RecordEdit.ico"
+     target="$JAVA_HOME/bin/javaw"
+     commandLine="-jar &quot;$INSTALL_PATH\lib\RunAvroEditor.jar&quot;"
+     description="Protocol Buffers Editor">
+     <createForPack name="Base" />
+   </shortcut>   
+
+  
+   <shortcut
+     name="Utility - File Compare (diff)"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     initialState="noShow"
+     iconFile="$INSTALL_PATH/lib/Utility.Ico"
+     target="$JAVA_HOME/bin/javaw"
+     commandLine="-jar &quot;$INSTALL_PATH/lib/run.jar&quot; net.sf.RecordEditor.Avro.CompareAvroLayout"
+     description="Diff - File Compare">
+     <createForPack name="Base" />
+   </shortcut>   
+
+
+   
+   <shortcut
+     name="Uninstaller"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     target="$JAVA_HOME/bin/javaw"
+     commandLine="-jar &quot;$INSTALL_PATH\Uninstaller\uninstaller.jar&quot;"
+     description="IzPack uninstaller">
+     
+     <createForPack name="Base" />
+   </shortcut>
+   
+   
+   <shortcut
+     name="Avro Editor - Documentation"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     target="$INSTALL_PATH\Docs\Documents.htm"
+     commandLine=""
+     description="Avro Editor Documentation">
+     
+     <createForPack name="Base" />
+   </shortcut>
+
+   
+</shortcuts>

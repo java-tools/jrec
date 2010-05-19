@@ -1,0 +1,45 @@
+:h1 id=usecombo.Using Comboboxs
+
+:h2.Creating a Combobox List
+:p.Take the :hp2.Create Combo:ehp2. option from the :hp2.Layout Editor:ehp2.
+
+.pict LayoutEdit_Menu.GIF
+
+:p.Next Enter the Combo Details:
+
+.pict ComboCreate.GIF
+
+:note.The :hp2.Combo Type:ehp2. controls wether the user is preseneted with
+a list of values or a description of the values. Possible values are:
+
+:dl.
+ :dt.Standard Combo:dd.The user will be presented with a list of possible values.
+ :dt.Key / Value Combo:dd.The user will see the :hp2.Combo Value:ehp2. but file
+will be updated with :hp2.Combo Code:ehp2..
+:edl.
+
+:h2.Define a Combo Field
+:p.Next you need to you define the ComboBox in a Layout Definition. Please note
+you need to select a :hp2.Cell_Format:ehp2. of :blue.ComboBox Format, ...:eblue.
+and enter the :hp1.Combo List Name:ehp1. in the :hp2.Parameter:ehp2. field. In this
+example it is :hp2.AmsPoDownloadType:ehp2..
+
+.pict LayoutEdit_Combo.png
+
+:p.You can use the Parameter Popup to select the layout:
+
+.pict ComboPopupSelection.GIF
+
+:h2.Combobox in the Editor
+:p.Now when you edit the file, the :hp2.Record Type:ehp2. field is displayed as a combobox  
+
+.pict RecordEdit_TblCombo1.GIF
+
+:p.It can be updated by selectiong from the various options 
+
+.pict RecordEdit_TblCombo2.GIF
+
+:p.Finally as seen on the Record Screen, the Data Values is quite different
+from the Text value.
+
+.pict RecordEdit_RecCombo.png

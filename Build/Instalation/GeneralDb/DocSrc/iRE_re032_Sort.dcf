@@ -1,0 +1,16 @@
+:h3 id=Sort.Sort Panel
+
+:p.You can start the Sort option from either the :hp2.Right Click:ehp2. Menu and from the
+:hp2.Data:ehp2. Drop down  Menu. On this screen you specify which fields to sort on.
+
+.pict RecordEdit_Sort.GIF
+
+:p.The Screen consists of
+:ul compact.
+ :li.:hp2.Record Selection:ehp2. at the top, Typically you would only Sort when
+there is only one record Type present.
+ :li.:hp2.Sort Fields:ehp2. fields to sort on and wether to sort in a Ascending / Descending Direction.
+ :li.:hp2.Use:ehp2. Wether to Sort the whole file or just the Selected records.
+ :li.:hp2.Sort:ehp2. button - used to start the Sort process. 
+:eul.
+

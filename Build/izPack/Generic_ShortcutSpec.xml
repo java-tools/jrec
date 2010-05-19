@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+<shortcuts>
+
+  <skipIfNotSupported />
+
+  <programGroup defaultName="RecordEdit_Generic" location="applications"/>
+   <shortcut
+     name="Full Editor"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     initialState="noShow"
+     iconFile="$INSTALL_PATH\lib\RecordEdit.ico"
+     target="$JAVA_HOME/bin/javaw"
+     commandLine="-jar &quot;$INSTALL_PATH\lib\runFullEditor.jar&quot;"
+     description="Record Editor">
+     <createForPack name="Base" />
+   </shortcut>   
+
+   <shortcut
+     name="Layout Editor"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     initialState="noShow"
+     iconFile="$INSTALL_PATH\lib\LayoutEdit.ico"
+     target="$JAVA_HOME/bin/javaw"
+     commandLine="-jar &quot;$INSTALL_PATH\lib\runLayouteditor.jar&quot;"
+     description="Layout Editor">
+     <createForPack name="Base" />
+   </shortcut>   
+
+   
+   <shortcut
+     name="Cobol Editor"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     initialState="noShow"
+     iconFile="$INSTALL_PATH\lib\Cobol.ico"
+     target="$JAVA_HOME/bin/javaw"
+     commandLine="-jar &quot;$INSTALL_PATH\lib\run.jar&quot; net.sf.RecordEditor.editFileLayout.Edit"
+     description="Cobol Editor">
+     <createForPack name="Base" />
+   </shortcut>   
+
+   <shortcut
+     name="Record Editor - Documentation"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     target="$INSTALL_PATH\Docs\Documents.htm"
+     commandLine=""
+     description="Record Edit Documentation">
+     
+     <createForPack name="Base" />
+   </shortcut>
+
+    <shortcut
+     name="HowTo"
+     programGroup="yes"
+     desktop="yes"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     target="$INSTALL_PATH\Docs\HowTo.htm"
+     commandLine=""
+     description="Record Edit Howto">
+     
+     <createForPack name="Base" />
+   </shortcut>
+
+   <shortcut
+     name="Record Editor - Big File"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     initialState="noShow"
+     iconFile="$INSTALL_PATH/lib/RecordEdit.ico"
+     target="$INSTALL_PATH/lib/RecordEditorBigFile.bat"
+     description="Record Editor - Big file">
+     <createForPack name="Base" />
+   </shortcut>   
+ 
+
+   
+   <shortcut
+     name="RecordEditor - Velocity"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     initialState="noShow"
+     iconFile="$INSTALL_PATH\lib\Utility.ico"
+     target="$JAVA_HOME/bin/javaw"
+     commandLine="-jar &quot;$INSTALL_PATH\lib\run.jar&quot; net.sf.RecordEditor.edit.util.RunVelocityGui"
+     description="Run Velocity on a File">
+     <createForPack name="Base" />
+   </shortcut>   
+
+
+   <shortcut
+     name="Utility - Layout Wizard"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     initialState="noShow"
+     iconFile="$INSTALL_PATH\lib\Utility.Ico"
+     target="$JAVA_HOME/bin/javaw"
+     commandLine="-jar &quot;$INSTALL_PATH/lib/run.jar&quot; net.sf.RecordEditor.layoutWizard.WizardFileMenu"
+     description="Layout Wizard">
+     <createForPack name="Base" />
+   </shortcut>   
+
+      
+   <shortcut
+     name="Utility - Edit Properties"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     initialState="noShow"
+     iconFile="$INSTALL_PATH\lib\Utility.ico"
+     target="$JAVA_HOME/bin/javaw"
+     commandLine="-jar &quot;$INSTALL_PATH\lib\run.jar&quot; net.sf.RecordEditor.editProperties.EditOptions"
+     description="Edit Startup Poperties">
+     <createForPack name="Base" />
+   </shortcut>   
+ 
+   <shortcut
+     name="Utility - File Copy"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     initialState="noShow"
+     iconFile="$INSTALL_PATH\lib\Utility.Ico"
+     target="$JAVA_HOME/bin/javaw"
+     commandLine="-jar &quot;$INSTALL_PATH/lib/run.jar&quot; net.sf.RecordEditor.copy.CopyDBLayout"
+     description="Copy Menu">
+     <createForPack name="Base" />
+   </shortcut>   
+
+  
+   <shortcut
+     name="Utility - File Compare (diff)"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     initialState="noShow"
+     iconFile="$INSTALL_PATH/lib/Utility.Ico"
+     target="$JAVA_HOME/bin/javaw"
+     commandLine="-jar &quot;$INSTALL_PATH/lib/run.jar&quot; net.sf.RecordEditor.diff.CompareDBLayout"
+     description="Diff - File Compare">
+     <createForPack name="Base" />
+   </shortcut>   
+
+
+   
+   <shortcut
+     name="Uninstaller"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     target="$JAVA_HOME/bin/javaw"
+     commandLine="-jar &quot;$INSTALL_PATH\Uninstaller\uninstaller.jar&quot;"
+     description="IzPack uninstaller">
+     
+     <createForPack name="Base" />
+   </shortcut>
+   
+</shortcuts>

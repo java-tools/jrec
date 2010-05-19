@@ -1,0 +1,234 @@
+:h2 id=Wizard.Layout Wizard
+:p.The :hp1.Record Layout Wizard:ehp1. guides you through creating a 
+:hp2.record layout:ehp2. using a file as the basis. On all the wizard screens, 
+you can use Left and Right Arrow buttons (at the bottom of the screen) to move between the
+screens. There are 2 basic groups of Screens:
+:dl.
+ :dt.Fixed Width
+ :dd.Screens for defining Fixed field width Files. See :hdref refid=wiz2. and :hdref refid=wiz3..
+ :dt.CSV
+ :dd.Screens for defining a CSV file. See :hdref refid=wiz4. and :hdref refid=wiz5.
+ :dt.Multi Record:dd.Screen for defining files with multiple Records in them. 
+ See :hdref refid=wizRecordType., :hdref refid=wizRecordNames., :hdref refid=wiz2m. and :hdref refid=wiz3m..
+:edl.
+
+:h3.Initial Wizard Screen
+:p.On the file screen you enter file details and the name of
+the :hp2.record layout:ehp2. being created. The field :hp2.Record Types:ehp2.
+determines whether you travel down the 
+:dl.
+ :dt.Fixed Width:dd.route (:hdref refid=wiz2. and :hdref refid=wiz3.)
+screens 
+ :dt.CSV:dd.route (:hdref refid=wiz4. and :hdref refid=wiz5.).
+ :dt.Multi Record:dd.route (:hdref refid=wizRecordType., :hdref refid=wizRecordType., :hdref refid=wizRecordNames., :hdref refid=wiz2m. and :hdref refid=wiz3m.).
+:edl.
+
+.pict layout_wizard1.png
+
+:p.Fields on the window are&gml.
+:dl.
+ :dt.File Name
+ :dd.Name of the file you are building a layout for
+ :dt.File Structure
+ :dd.How the file is organized. If you are using Standard Windows / Linux Text files
+:hp2.leave it as Default Reader:ehp2.
+ :dt.Record Type
+ :dd.This is where you select what type of records are in the file. The options are
+ :ul compact.
+  :li.:hp2.Fixed Length Records:ehp2. For a file with one record with fixed width fields. See :HDREF refid=FixedWiz. for more details.
+  :li.:hp2.Delimited Fields:ehp2. For a file with delimited Fields. See :HDREF refid=CsvWiz. for more details.
+  :li.:hp2.Multiple Record (Fixed Width):ehp2. For files with multiple Fixed With Records in them. See :HDREF refid=MultiWiz. for more details.
+ :eul.
+ :dt.Font Name
+ :dd.Font Name of the file (e.g. CP037 for US Ebcdic Characters).
+ :dt.Default Type
+ :dd.What Types Fields to initially assign to a field.
+:edl.
+
+:h3 id=WizFileStructure.File Structure Screen
+:p.If you are using Windows/Unix files, you will not see this screen.
+Its displayed when
+:ul.
+ :li.When a file Structure of :hp2.Fixed Width:ehp2. or :hp2.Unknown Format:ehp2. is selected on the initial screen
+ :li.The file looks to be a Mainframe VB or Cobol VB file.
+:eul.
+
+.pict layout_wizard_format.png
+
+:p.Fields on the window are&gml.
+:dl.
+ :dt.File Structure
+ :dd.The Structure or Format of the file
+ :dt.Length
+ :dd.Record Length for fixed width files. You can also set this field by clicking on a position in the file Table
+ :dt.Font Name
+ :dd.Files Font, typically :hp2.cp037:ehp2. for Mainframe files (US EBCDIC).
+:edl.
+
+:h3 id=FixedWiz.Fixed Width Dialogue
+:p.Following are the wizard screens displayed when using a fixed width file.
+
+:h4 id=wiz2.Field Position screen
+:p.The second screen displays the file with the fields in alternating background colors.
+:p.To create a new field, click on the first column of the field.
+:p.To remove a field, click on the first column again
+
+.pict layout_wizard2.png
+
+:p.Other Fields Buttons on the screen include&gml.
+:ul.
+ :li.:hp2.Show Hex:ehp2. Display the file in 2 line Hex mode (Both Text and Hex). Useful when working with Binary / Comp-3 fields.
+ :li.:hp2.Search for:ehp2. Used control what fields are searched for&gml.
+  :dl.
+    :dt.Mainframe Zoned Decimal
+    :dd.Look for Mainframe Zoned decimal. In Zoned Decimals, The sign is represented as an
+over-strike of the last character.
+    :dt.PC/Unix Zoned Decimal
+    :dd.Look for Zoned decimal in the Ascii Character set.
+    :dt.Comp 3
+    :dd.Look for :hp1.Comp 3 (Binary Coded Decimals):ehp1. in the file. This does not
+do any harm in EBCDIC files but in Ascii files, Alphabetic Characters can be mistaken
+for Comp 3 characters.
+    :dt.Binary Integer (Big Endian)
+    :dd.Look for Binary integers (Big Endian) - Cobol Comp Fields
+   :edl.
+  :li.:hp2.Clear Fields:ehp2. Removes all fields
+  :li.:hp2.Add Fields:ehp2. Clear existing fields and search for Fields using the :hp2.Search For:ehp2.
+options above.
+:eul.
+
+:note.The initial values of the :hp2.Search For:ehp2. + whether a search is done automatically
+is set in the :hp2. Edit >>>> Edit Startup Options:ehp2. dialog. See :hdref refid=wizStartup. for more details
+
+:h4 id=wiz3.Field Definition screen
+:p.This screen is for defining the field names and field types.
+:p.Once all the fields have been defined, click on the right arrow button
+to define the new layout.
+
+.pict layout_wizard3.png
+
+
+:h4 id=wizsave1.Save screen
+:p.On the final screen you define the layout name and layout description
+
+.pict Layout_wizard_save.png
+
+:h3 id=CsvWiz.CSV Dialogue
+:h4 id=wiz4.CSV Details
+:p.On this screen you specify the basic CSV file structure (i.e. field separator; quotes). 
+
+.pict layout_wizard4.png
+
+:p.Fields on the Screen
+:dl.
+ :dt.Field Separator
+ :dd.Field used to mark the end of one field and the start of the next
+ :dt.Quote Character
+ :dd.Quote character used to surround Text Fields
+ :dt.Parser
+ :dd.Parser used to split lines up into fields. For most files, the :hp2.Basic Parser:ehp2. is the best to use.
+But the three parsers provided are&gml.
+    :dl.
+      :dt.Basic Parser
+      :dd.If Field starts with a Quote, it looks for a <Quote><Separator>. It will fail if a field contains <quote><separator>
+      :dt.Matching Quotes
+      :dd.For every opening Quote, It looks for a matching closing Quote.
+      :dt.Quotes based on fields
+      :dd.This is an extension of :hp2.Matching Quotes:ehp2.. For this type of Parser
+all text fields will always get quotes around them. This is programs that are very picky
+about having Quotes around Text fields, Dates (in particular some Databases).
+    :edl.
+ :dt.Fields on First Line
+ :dd.Indicates whether the first line of the file holds the field names.
+:edl.
+
+:h4 id=wiz5.CSV Field Definition
+
+:p.This screen is used to define the fields (columns) in the file.
+
+.pict layout_wizard5.png
+
+:h4 id=wizsave2.Layout screen
+:p.On the final screen you define the layout name and layout description
+
+.pict Layout_wizard_save.png
+
+:h3 id=MultiWiz.Multiple Record Screen
+:p.Following are the Wizard screens displayed when working a Multi-Record Fixed Field width Data file.
+
+:h4 id=wizRecordType.Record Type Field
+:p.This screen is used to define where the Record-Type Field (the field that determines
+what type of record it is).  You can do one of
+:ul.
+ :li.Enter the start/end in the Text fields
+ :li.If the Record-Type Field starts in column one, click on the start of the next field in the table
+ :li.Click on the first character of the Record Type field in the Table, then click on the start of the next field.
+:eul.
+
+.pict layout_wizard_SetKey.png
+
+:h4 id=wizRecordNames.Record Name screen
+:p.This screen lets you define the names of the various records.
+
+.pict layout_wizard_RecordName.png
+
+:h4 id=wiz2m.Field Position screen
+:p.This screen displays the file with the fields in alternating background colors.
+:p.To create a new field, click on the first column of the field.
+:p.To remove a field, click on the first column again
+
+.pict layout_wizard_RecordFields.png
+
+:p.Other Fields Buttons on the screen include&gml.
+:ul.
+ :li.:hp2.Record:ehp2. Controls which records are displayed on the screen.
+ :li.:hp2.Show Hex:ehp2. Display the file in 2 line Hex mode (Both Text and Hex). Useful when working with Binary / Comp-3 fields.
+ :li.:hp2.Search for:ehp2. Used control what fields are searched for&gml.
+  :dl.
+    :dt.Mainframe Zoned Decimal
+    :dd.Look for Mainframe Zoned decimal. In Zoned Decimals, The sign is represented as an
+over-strike of the last character.
+    :dt.PC/Unix Zoned Decimal
+    :dd.Look for Zoned decimal in the Ascii Character set.
+    :dt.Comp 3
+    :dd.Look for :hp1.Comp 3 (Binary Coded Decimals):ehp1. in the file. This does not
+do any harm in EBCDIC files but in Ascii files, Alphabetic Characters can be mistaken
+for Comp 3 characters.
+    :dt.Binary Integer (Big Endian)
+    :dd.Look for Binary integers (Big Endian) - Cobol Comp Fields
+   :edl.
+  :li.:hp2.Clear Fields:ehp2. Removes all fields
+  :li.:hp2.Add Fields:ehp2. Clear existing fields and search for Fields using the :hp2.Search For:ehp2.
+options above.
+:eul.
+
+:note.The initial values of the :hp2.Search For:ehp2. + whether a search is done automatically
+is set in the :hp2. Edit >>>> Edit Startup Options:ehp2. dialog. See :hdref refid=wizStartup. for more details
+
+:h4 id=wiz3m.Field Definition screen
+:p.This screen is for defining the field names and field types.
+:p.Once all the fields have been defined, click on the right arrow button
+to define the new layout. Use the :hp2.Record:ehp2. combo to switch between the various records.
+
+.pict layout_wizard_RecordFieldNames.png
+
+
+:h4 id=wizsave1.Save Layout screen
+:p.On the final screen you define the layout name and layout description
+
+.pict Layout_wizard_save.png
+
+
+:h3 id=wizStartup.Startup Options
+:p.There are several Wizard Field Search options that can be set via the
+:hp2.Edit Startup options:ehp2. function (:hp2.Edit >>>> Edit Startup Options:ehp2. Menu).
+
+.pict StarupOptions_LayoutWizard.png
+
+:p.The Parameters that can be set are:
+:ul.
+ :li.:hp2.FsAutoRun:ehp2. Controls whether the field search is run automatically or must be
+ Triggered via the user.
+ :li.Which field types to search for.
+:eul.
+

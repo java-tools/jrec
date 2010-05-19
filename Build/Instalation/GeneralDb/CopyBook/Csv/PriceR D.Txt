@@ -1,0 +1,4 @@
+Record	0	1	<Tab>	0	
+1	1	Record Type		0	0	0	
+2	7	APN		11	0	0	
+9	2	EOR		0	0	0	

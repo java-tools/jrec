@@ -1,0 +1,20 @@
+Record	0	1	<Tab>	0		N	ams PO Download: Allocation \n\n  some more text
+1	2	Record Type		0	0	0	
+3	4	DC Number 1		7	0	0	
+7	8	Pack Quantity 1		7	0	0	
+15	4	DC Number 2		7	0	0	
+19	8	Pack Quantity 2		7	0	0	
+39	4	DC Number 4		0	0	0	
+43	8	Pack Quantity 4		7	0	0	
+51	4	DC Number 5		7	0	0	
+55	8	Pack Quantity 5		7	0	0	
+63	4	DC Number 6		7	0	0	
+67	8	Pack Quantity 6		7	0	0	
+75	4	DC Number 7		7	0	0	
+79	8	Pack Quantity 7		7	0	0	
+87	4	DC Number 8		7	0	0	
+91	8	Pack Quantity 8		7	0	0	
+99	4	DC Number 9		7	0	0	
+103	8	Pack Quantity 9		7	0	0	
+111	4	DC Number 10		7	0	0	
+115	8	Pack Quantity 10		7	0	0	

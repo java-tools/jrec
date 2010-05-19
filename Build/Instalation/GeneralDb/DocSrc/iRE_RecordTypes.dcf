@@ -1,0 +1,25 @@
+:dl.
+:dt.Record Layout
+:dd.A normal record consisting of a one or more fixed length fields.
+:dt.Delimited 
+:dd.Standard Delimiter (i.e. Comma or Tab Delimited) Record. Delimiter files are only 
+partially supported (no updates allowed).
+:dt.Group of Records
+:dd.The record consists of a Group of other records. Typically there is a field 
+that determines what record to use. It is common for a file to contain
+:ul compact.
+:li.A File Header Record
+:li.Many Detail Records
+:li.A file trailer record
+:eul.
+:p.This would be a good candidate for using a :BBlue.Group of Records:EBBlue..
+In this case you would define 4 records:
+:ul compact.
+:li.File Header Record
+:li.Detail Record
+:li.Trailer Record
+:li.Master Record (:BBlue.Group of Records:EBBlue.) that references the three
+previous (child) records.
+:eul.
+:p.See :hdref refid=child. for the Child Record Definition screen section. 
+:edl.

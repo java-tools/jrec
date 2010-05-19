@@ -1,0 +1,39 @@
+##
+##  Generate HTML for a EDI PO file
+##
+
+
+
+&nbsp;&nbsp;
+<table CELLPADDING="3">
+  <TR><TH BGCOLOR=blue><font color=white><b>&nbsp;&nbsp;$fileName&nbsp;&nbsp;</b></font></TH></TR>
+</table>
+&nbsp;
+
+#set ( $fldCount = ${layout.getRecord(${recordIdx}).getFieldCount()} - 1)
+#set ($border = "")
+#if ($showBorder == true)
+   #set ($border = "border=\"1\"")
+#end
+
+#set ( $fldCount = ${layout.getRecord(${recordIdx}).getFieldCount()} - 1)
+
+Details ${recordIdx}    $fldCount
+
+
+<table $border>
+  <TR>
+#foreach( $i in [0 .. ${fldCount}])
+    <TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">${layout.getField(${recordIdx},${i}).getName()}</TH>
+#end
+  </TR>
+
+#foreach( $rec in $records )
+  <tr>
+ #foreach( $i in [0 .. ${fldCount}])
+   <td>${rec.getField(${recordIdx},${i})}</td>
+ #end
+  </tr>
+#end
+</table>
+<p>&nbsp;<p>

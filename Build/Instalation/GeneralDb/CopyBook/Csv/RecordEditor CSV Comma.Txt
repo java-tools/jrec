@@ -1,0 +1,3 @@
+Record	0	9	,	0		Y	Record Header and Sub Records
+SR	RecordEditor CSV Comma - Header	Type	Record	-1	N
+SR	RecordEditor CSV Comma - Fields		*	0	Y

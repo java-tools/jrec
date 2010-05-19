@@ -1,0 +1,291 @@
+/*
+ * @Author Bruce Martin
+ * Created on 29/08/2005
+ *
+ * Purpose:
+ *
+ * Modification log:
+ * On 2006/06/28 by Jean-Francois Gagnon:
+ *    - Added a Fujitsu Variable Length Line IO Provider
+ *
+ * # Version 0.60 Bruce Martin 2007/02/16
+ *   - Started work on seperating Record section out, so removing
+ *     all reference to the Common module and used a new Constants
+ *     module
+ */
+package net.sf.JRecord.IO;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import net.sf.JRecord.Common.AbstractManager;
+import net.sf.JRecord.Common.Constants;
+import net.sf.JRecord.Details.DefaultLineProvider;
+import net.sf.JRecord.Details.LineProvider;
+
+
+/**
+ * LineIOprovider - This class returns a LineIO class appropriate for
+ * the supplied file structure. All the Files Structures are available as
+ * Constants.IO_*
+ * 
+ * <pre>
+ * <b>Usage:</b>
+ * 
+ *         CopybookLoader loader = <font color="brown"><b>new</b></font> RecordEditorXmlLoader();
+ *         ExternalRecord extlayout = loader.loadCopyBook(copybookName, 0, 0, "", 0, 0, <font color="brown"><b>null</b></font>);
+ *        
+ *         LayoutDetail layout = extlayout.asLayoutDetail();
+ *         AbstractLineWriter writer = <b>LineIOProvider.getInstance()</b>.getLineWriter(layout.getFileStructure());
+ * </pre>
+ * 
+ * @author Bruce Martin
+ * @version 0.55
+ *
+ */
+public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
+
+	private StandardLineIOProvider standardProvider = new StandardLineIOProvider();
+	private HashMap<Integer, AbstractLineIOProvider> providers = new HashMap<Integer, AbstractLineIOProvider>();
+	public int START_USER_FILE_STRUCTURES = 1000;
+    private static LineIOProvider ioProvider = null;
+    private LineProvider provider;
+ 
+    
+    //private  int numberOfEntries = 0;
+    private  ArrayList<String> names = new ArrayList<String>(20) ;
+    private  ArrayList<String> externalNames = new ArrayList<String>(20) ;
+    private  ArrayList<Integer>keys = new ArrayList<Integer>(20) ;
+     
+//    public static final int[] FILE_STRUCTURE_ID = {
+//    	Constants.IO_DEFAULT, 
+//    	Constants.IO_FIXED_LENGTH,
+//    	Constants.IO_BINARY,
+//    	Constants.IO_VB,
+//    	Constants.IO_VB_DUMP,
+//    	Constants.IO_VB_FUJITSU,
+//    	Constants.IO_VB_OPEN_COBOL};
+//    public static final String[] FILE_STRUCTURE_NAME;
+//    
+//   static {
+//	   String rdDefault = "Default";
+//	   String rdFixed = "Fixed Length Binary";
+//	   String rdLineBin = "Line based Binary";
+//	   String rdVb = "Mainframe VB (rdw based) Binary";
+//	   String rdVbDump = "Mainframe VB Dump: includes Block length";
+//	   String rdOcVb = "Open Cobol VB";
+//	   
+//	   FILE_STRUCTURE_NAME = new String[] {
+//			   rdDefault,
+//			   rdFixed,
+//			   rdLineBin,
+//			   rdVb,
+//			   rdVbDump,
+//		        "Fujitsu Cobol VB",
+//		        rdOcVb
+//		    };
+//    }
+// 
+//    public static final String[] FILE_STRUCTURE = {
+//        "Default Reader",
+//        "Fixed Length Binary",
+//        "Line based Binary",
+//        "Mainframe VB (rdw based) Binary",
+//        "Mainframe VB Dump: includes Block length",
+//        "Fujitsu Cobol VB"
+//    };
+
+
+    /**
+     * create LineIOprovider class - This class returns IO-Routines
+     * appropriate for the Supplied File Structure.
+     */
+    protected LineIOProvider() {
+        this(null);
+    }
+
+    /**
+     * create LineIOprovider class - This class returns IO-Routines
+     * appropriate for the Supplied File Structure with a LineProvider
+     *
+     * @param lineProvider lineProvider to use. Line providers
+     * create Lines.
+     */
+    public LineIOProvider(final LineProvider lineProvider) {
+        super();
+
+        provider = lineProvider;
+        if (lineProvider == null) {
+            provider = new DefaultLineProvider();
+        }
+        registerNames(standardProvider);
+    }
+
+
+
+    /**
+     * Gets a Record Reader Class that is appropriate for reading the
+     * supplied file-structure
+     *
+     * @param fileStructure File Structure of the required reader
+     *
+     * @return line reader
+     */
+    public AbstractLineReader getLineReader(int fileStructure) {
+        return getLineReader(fileStructure, getLineProvider(fileStructure));
+    }
+
+
+    /* (non-Javadoc)
+	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineReader(int, net.sf.JRecord.Details.LineProvider)
+	 */
+    public AbstractLineReader getLineReader(int fileStructure,
+            						   LineProvider lineProvider) {
+    	return getProvider(fileStructure).getLineReader(fileStructure, lineProvider);
+     }
+
+
+    /* (non-Javadoc)
+	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineWriter(int)
+	 */
+    public AbstractLineWriter getLineWriter(int fileStructure) {
+    	return getProvider(fileStructure).getLineWriter(fileStructure);
+    }
+
+    
+    /* (non-Javadoc)
+	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#isCopyBookFileRequired(int)
+	 */
+    public boolean isCopyBookFileRequired(int fileStructure) {
+    	return getProvider(fileStructure).isCopyBookFileRequired(fileStructure);
+    }
+    
+    
+    /* (non-Javadoc)
+	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getStructureName(int)
+	 */
+    public String getStructureName(int fileStructure) {
+    	Integer fs = Integer.valueOf(fileStructure);
+    	for (int i = 0; i < keys.size(); i++) {
+    		if (keys.get(i).equals(fs)) {
+    			return externalNames.get(i);
+    		}
+    	}
+    	return "";
+    }
+    
+    /**
+     * Convert a structure-name to a file-Structure identifier
+     * @param name Name of the File Structure
+     * @return The file Structure
+     */
+    public int getStructure(String name) {
+    	for (int i = 0; i < keys.size(); i++) { 
+    		if (externalNames.get(i).equalsIgnoreCase(name)) {
+    			//System.out.println(" ~~~ getStructure ~ " +  externalNames[i] + " " + keys[i]);
+    			return keys.get(i).intValue();
+    		}
+    	}
+    	return Constants.NULL_INTEGER;
+    }
+
+    
+    /**
+     * Get line provider
+     * @return Returns the provider.
+     * @deprecated use getLineProvider(fileStructure)
+     */
+    public LineProvider getLineProvider() {
+        return provider;
+    }
+
+
+    /* (non-Javadoc)
+	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineProvider(int)
+	 */
+    public LineProvider getLineProvider(int fileStructure) {
+    	return getProvider(fileStructure).getLineProvider(fileStructure);
+    }
+
+
+    /* (non-Javadoc)
+	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getKey(int)
+	 */
+	@Override
+	public int getKey(int idx) {
+		return keys.get(idx).intValue();
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getName(int)
+	 */
+	@Override
+	public String getName(int idx) {
+		return names.get(idx);
+	}
+
+
+	/**
+	 * @see net.sf.JRecord.Common.AbstractManager#getNumberOfEntries()
+	 */
+	@Override
+	public int getNumberOfEntries() {
+		return names.size();
+	}
+
+	/**
+     * Get an instance of LineIOProvider
+     * @return a LineIOProvider
+     */
+    public static LineIOProvider getInstance() {
+        if (ioProvider == null) {
+            ioProvider = new LineIOProvider();
+        }
+
+        return ioProvider;
+    }
+
+    /**
+     * Set the system lineIOprovider
+     * @param newProvider new IO provider
+     */
+    public static void setInstance(LineIOProvider newProvider) {
+        ioProvider = newProvider;
+    }
+    
+    private AbstractLineIOProvider getProvider(int fileStructure) {
+    	AbstractLineIOProvider ret = standardProvider;
+    	Integer key = Integer.valueOf(fileStructure);
+    	if (providers.containsKey(key)) {
+    		ret = providers.get(key);
+    	}
+    	return ret;
+    }
+    
+    public void register(AbstractLineIOProvider newProvider) {
+    	for (int i =0; i < newProvider.getNumberOfEntries(); i++) {
+    		register(newProvider.getKey(i), newProvider);
+    	}
+    	registerNames(newProvider);
+    }
+    
+    
+    private void register(int fileStructure, AbstractLineIOProvider newProvider) {
+    	
+    	Integer key = Integer.valueOf(fileStructure);
+    	if (providers.containsKey(key)) {
+    		throw new RuntimeException("File Structure " + fileStructure + " is already defined");
+    	}
+    	
+    	providers.put(key, newProvider);
+    }
+    
+    public final void registerNames(AbstractLineIOProvider newProvider) {
+    	for (int i = 0; i < newProvider.getNumberOfEntries(); i++) {
+    		names.add(newProvider.getName(i));
+    		keys.add(Integer.valueOf(newProvider.getKey(i)));
+    		externalNames.add(newProvider.getStructureName(i));
+    	}
+    }
+}

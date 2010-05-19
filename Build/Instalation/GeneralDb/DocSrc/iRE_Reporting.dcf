@@ -1,0 +1,9 @@
+:h1.Reporting
+:p.The old :hp2.re2jasper:ehp2. addon has been enhanced and rereleased as :ffreports..
+This basically an plugin to :iReports. report designer to allow the use of :RecordEditor.
+and Cobol files to be used in :iReports. and :hp2.Jasper Reports:ehp2.. The interface is
+not very intuitive (I have to work with what :iReports. gives me) so I suggest following
+the examples given, but if you wish to produced Reports / Graphs from your Files, have a 
+look at it
+
+.pict iReport.png

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
+
+<!-- 
+    A sample installation file.
+    Use it as a base for your own installers :-)
+    
+    To compile it :
+    - go in the bin directory where you installed IzPack
+    - call "compile ../sample/install.xml -b ../sample"
+-->
+
+<installation version="1.0">
+
+    <!-- 
+        The info section.
+        The meaning of the tags should be natural ...
+    -->
+    <info>
+        <appname>RecordEdit/ProtoBuf</appname>
+        <appversion>0.69e</appversion>
+        <authors>
+            <author name="Bruce Martin" email="bruce_a_martin@sourceforge.net" />
+            <!--author name="Hidden Man" email="hidden@hisdomain.com"/-->
+        </authors>
+    </info>
+    
+    <variables>
+    	<variable name="desktopshortcutcheckboxenabled" value="true"/>
+    </variables>
+
+    <!-- 
+        The gui preferences indication.
+        Sets the installer window to 640x480. It will not be able to change the size.
+    -->
+    <guiprefs width="640" height="480" resizable="no"/>
+    
+    <!-- 
+        The locale section.
+        Asks here to include the English and French langpacks.
+    -->
+    <locale>
+        <langpack iso3="eng"/>
+    </locale>
+    
+    <jar src="../Instalation/hsqldb_izpack/lib/IzPackUnpack.jar" stage="install"/>
+ 
+    <!-- 
+        The resources section.
+        The ids must be these ones if you want to use the LicencePanel and/or the InfoPanel.
+    -->
+    <resources>
+        <res id="LicencePanel.licence"  src="../License/ProtoBufEditor/LICENSE.txt"/>
+        <res id="InfoPanel.info"        src="ProtoBuf_Readme.txt"/>
+        <res id="HTMLInfoPanel.info"    src="ProtoBuf_readme.html"/>
+	<res id="shortcutSpec.xml"      src="ProtoBuf_ShortcutSpec.xml"/>
+	<res id="Unix_shortcutSpec.xml" src="ProtoBuf_Unix_shortcutSpec.xml"/>
+	<res id="ProcessPanel.Spec.xml" src="ProcessPanel.Spec.xml"/>
+    </resources>
+    
+    <!-- 
+        The panels section.
+        We indicate here which panels we want to use. The order will be respected.
+    -->
+    <panels>
+        <panel classname="HelloPanel"/>
+        <panel classname="InfoPanel"/>
+        <panel classname="LicencePanel"/>
+        <panel classname="TargetPanel"/> 
+	<!--panel classname="PacksPanel"/-->
+        <panel classname="InstallPanel"/>
+	<panel classname="ShortcutPanel"/>
+	<panel classname="ProcessPanel"/>
+        <panel classname="HTMLInfoPanel"/>
+        <panel classname="FinishPanel"/>
+    </panels>
+    
+    <!-- 
+        The packs section.
+        We specify here our packs.
+    -->
+    <packs>
+        <pack name="Base" required="yes">
+            <description>The base files</description>
+            <file src="ProtoBuf_Readme.txt" targetdir="$INSTALL_PATH"/>
+            <file src="ProtoBuf_readme.html" targetdir="$INSTALL_PATH"/>
+            <fileset dir="../License/ProtoBufEditor/" includes="LICENSE*.txt" targetdir="$INSTALL_PATH/License"/>
+        </pack>
+        <pack name="Documentation" required="yes" override="true">
+            <description>Record Editor Docs</description>
+            <file src="../Instalation/ProtoBuf/Docs" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
+        </pack>
+        <pack name="SampleFiles" required="yes">
+            <description>Sample Files</description>
+            <file src="../Instalation/ProtoBuf/SampleFiles" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
+        </pack>
+        <pack name="Params" required="yes">
+            <description>Record Editor Parameters</description>
+            <fileset dir="../Instalation/ProtoBuf/Parms/" targetdir="$USER_HOME/.RecordEditor/ProtoBuf"/> 
+	    <parsable targetfile="$USER_HOME/.RecordEditor/ProtoBuf/ProtoFiles.txt"/>
+        </pack>
+        <pack name="User" required="yes">
+            <description>Record Editor Parameters</description>
+            <file src="../Instalation/GeneralDB/User" targetdir="$USER_HOME/.RecordEditor/ProtoBuf"/> 
+        </pack>
+        <pack name="lib" required="yes" override="true">
+            <description>Record Editor Jars</description>
+            <file src="../Instalation/ProtoBuf/lib" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
+            <fileset dir="../Instalation/hsqldb_izpack/lib/" targetdir="$INSTALL_PATH/lib">
+            	<include name="j*.pack"/>
+            	<include name="JRecord.pack"/>
+            	<include name="RecordEdit.pack"/>
+            	<include name="ZCalendar.jar"/>
+            	<include name="RecordEdit.GIF"/>
+            	<include name="Utility.GIF"/>
+             	<include name="RecordEdit.ico"/>
+            	<include name="Utility.ico"/>
+          	<include name="icon*.zip"/>
+            </fileset>
+	    <parsable targetfile="$INSTALL_PATH/lib/runEditor.sh"   type="shell"/>
+	    <executable targetfile="$INSTALL_PATH/lib/runEditor.sh" stage="never"/>
+ 	    <parsable targetfile="$INSTALL_PATH/lib/runCompareMenu.sh"   type="shell"/>
+	    <executable targetfile="$INSTALL_PATH/lib/runCompareMenu.sh" stage="never"/>
+	    <parsable targetfile="$INSTALL_PATH/lib/Uninstall.sh"   type="shell"/>
+	    <executable targetfile="$INSTALL_PATH/lib/Uninstall.sh" stage="never"/>
+       </pack>
+	<pack name="CopyBook" required="yes">
+		<description>CopyBooks</description>
+		<fileset dir="../Instalation/ProtoBuf/CopyBook" includes="**" targetdir="$INSTALL_PATH/CopyBook"/>
+	</pack>
+	<pack name="Source" required="no">
+		<description>Source</description>
+		<fileset dir="../Instalation/ProtoBuf/Source" includes="**" targetdir="$INSTALL_PATH/Source"/>
+	</pack>
+	<pack name="MarathonTests" required="no">
+		<description>MarathonTests</description>
+		<fileset dir="../Instalation/ProtoBuf/MarathonTests" includes="**" targetdir="$INSTALL_PATH/MarathonTests"/>
+	</pack>
+	<pack name="Velocity" required="yes">
+            <description>Sample Velocity Templates</description>
+            <fileset dir="../Instalation/GeneralDB/SampleVelocityTemplates" includes="*/*.vm" targetdir="$INSTALL_PATH/SampleVelocityTemplates"/> 
+        </pack>
+        <pack name="bin" os="unix" required="no" override="true">
+            <description>Linux/Unix bin direcory</description>
+            <fileset dir="../Instalation/ProtoBuf/lib" includes="*.sh" targetdir="$INSTALL_PATH/bin"/> <!-- Reccursive adding -->
+ 	    <parsable targetfile="$INSTALL_PATH/bin/runEditor.sh"   type="shell"/>
+	    <executable targetfile="$INSTALL_PATH/bin/runEditor.sh"    stage="never"/>
+        </pack>
+        <pack name="bin1" os="unix" required="no" override="true">
+            <description>Linux/Unix bin direcory</description>
+            <fileset dir="../Instalation/ProtoBuf/lib" includes="*.sh" targetdir="$USER_HOME/bin"/> <!-- Reccursive adding -->
+ 	    <parsable targetfile="$USER_HOME/bin/runEditor.sh"   type="shell"/>
+	    <executable targetfile="$USER_HOME/bin/runEditor.sh"    stage="never"/>
+        </pack>
+    </packs>
+    
+
+    <native type="izpack" name="ShellLink.dll"/> 
+
+   
+</installation>

@@ -1,0 +1,63 @@
+
+/*
+ * @Author Generate by XmplLineBuilder
+ *
+ * Purpose: line to access $recName records
+ */
+package $package;
+
+import net.sf.RecordEditor.record.LayoutDetails;
+import net.sf.RecordEditor.record.Line;
+import net.sf.RecordEditor.record.types.FieldDetail;
+import net.sf.RecordEditor.record.types.TypeManager;
+
+import net.sf.RecordEditor.utils.RecordEditException;
+
+/**
+ * Record to Access
+ *
+ */
+public class ${recName}Layout {
+
+#foreach( $rec in $records )
+    public static final int RECORD_INDEX_${rec.JavaConst} = ${rec.Index};
+#end
+
+#foreach( $rec in $records )
+      // record fields for "$rec.Details.RecordName"
+
+#foreach( $field in $rec.List )
+    public static final int INDEX_$field.JavaConst = $field.Index;
+#end
+
+#end
+
+
+#foreach( $rec in $records )
+  // record fields for "$rec.Details.RecordName"
+
+#foreach( $field in $rec.List )
+  public static final FieldDetail FIELD_$field.JavaConst
+          = new FieldDetail("${field.getDetails().getName()}", "", ${field.Details.Type}, ${field.Details.Decimal}, "${field.Details.FontName}", ${field.Details.Format}, "${field.Details.Paramater}");
+#end
+
+#end
+
+    static {
+#foreach( $rec in $records )
+#foreach( $field in $rec.List )
+    FIELD_${field.JavaConst}.setPosLen($field.Details.Pos, $field.Details.Len);
+#end
+
+#end
+    };
+##
+## #foreach( $rec in $records )
+##     private static FieldDetail[] FIELDS_${rec.JavaConst} = {
+## #foreach( $field in $rec.List )
+##            FIELD_${field.JavaConst},
+## #end
+##     };
+##
+## #end
+}

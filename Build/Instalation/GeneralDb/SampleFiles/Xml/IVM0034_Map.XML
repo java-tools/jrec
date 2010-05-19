@@ -1,0 +1,146 @@
+<MapSet id="IVM0034"  TYPE="MAP" LANG="COBOL" MODE="INOUT" STORAGE="AUTO" SUFFIX="">
+<Map id="IVM0034"  SIZE="(24,80)" COLUMN="1" LINE="1" DATA="FIELD" TIOAPFX="YES" OBFMT="NO                                                ">
+<Field   Row="1" Col="1" LENGTH="8" INITIAL=" IVC0034" ATTRB="(ASKIP,BRT)"/>
+<Field   Row="1" Col="26" LENGTH="23" INITIAL=" REPLENISHMENT ORDERING" ATTRB="(ASKIP,BRT)"/>
+<Field   Row="1" Col="72" LENGTH="8" INITIAL=" IVM0034" ATTRB="(ASKIP,BRT)"/>
+<Field   Row="2" Col="15" LENGTH="47" INITIAL="Basic Stock Contract - Header Enquiry Selection" ATTRB="(ASKIP,BRT)"/>
+<Field   Row="2" Col="65" LENGTH="5" INITIAL="DATE:" ATTRB="(ASKIP,NORM)"/>
+<Field id="DATE" Type="Fld"   Row="2" Col="71" LENGTH="8" ATTRB="(ASKIP,NORM)"/>
+<Field   Row="2" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="4" Col="2" LENGTH="4" INITIAL=" SEL" ATTRB="(ASKIP,BRT)"/>
+<Field    Row="4" Col="8" LENGTH="7" INITIAL=" B S C" ATTRB="(ASKIP,BRT)"/>
+<Field    Row="4" Col="17" LENGTH="5" INITIAL=" DEPT" ATTRB="(ASKIP,BRT)"/>
+<Field    Row="4" Col="25" LENGTH="9" INITIAL=" SUPPLIER" ATTRB="(ASKIP,BRT)"/>
+<Field    Row="4" Col="57" LENGTH="5" INITIAL=" NAME" ATTRB="(ASKIP,BRT)"/>
+<Field    Row="5" Col="2" LENGTH="4" INITIAL=" ---" ATTRB="(ASKIP,BRT)"/>
+<Field    Row="5" Col="8" LENGTH="7" INITIAL=" ------" ATTRB="(ASKIP,BRT)"/>
+<Field    Row="5" Col="17" LENGTH="5" INITIAL=" ----" ATTRB="(ASKIP,BRT)"/>
+<Field    Row="5" Col="25" LENGTH="9" INITIAL=" --------" ATTRB="(ASKIP,BRT)"/>
+<Field    Row="5" Col="40" LENGTH="40" INITIAL=" ---------------------------------------" ATTRB="(ASKIP,BRT)"/>
+<Field id="SELECT1" Type="Fld"   Row="6" Col="4" LENGTH="1" ATTRB="(UNPROT,NORM,IC)"/>
+<Field    Row="6" Col="6" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="CONTNO1" Type="Fld"   Row="6" Col="8" LENGTH="8" ATTRB="(ASKIP,NORM)"/>
+<Field id="DEPTNO1" Type="Fld"   Row="6" Col="17" LENGTH="4" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="6" Col="22" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="SUPPLNO1" Type="Fld"   Row="6" Col="25" LENGTH="8" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="6" Col="34" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="NAME1" Type="Fld"   Row="6" Col="40" LENGTH="39" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="6" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)"/>
+<Field id="SELECT2" Type="Fld"   Row="7" Col="4" LENGTH="1" ATTRB="(UNPROT,NORM)"/>
+<Field    Row="7" Col="6" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="CONTNO2" Type="Fld"   Row="7" Col="8" LENGTH="8" ATTRB="(ASKIP,NORM)"/>
+<Field id="DEPTNO2" Type="Fld"   Row="7" Col="17" LENGTH="4" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="7" Col="22" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="SUPPLNO2" Type="Fld"   Row="7" Col="25" LENGTH="8" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="7" Col="34" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="NAME2" Type="Fld"   Row="7" Col="40" LENGTH="39" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="7" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)"/>
+<Field id="SELECT3" Type="Fld"   Row="8" Col="4" LENGTH="1" ATTRB="(UNPROT,NORM)"/>
+<Field    Row="8" Col="6" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="CONTNO3" Type="Fld"   Row="8" Col="8" LENGTH="8" ATTRB="(ASKIP,NORM)"/>
+<Field id="DEPTNO3" Type="Fld"   Row="8" Col="17" LENGTH="4" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="8" Col="22" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="SUPPLNO3" Type="Fld"   Row="8" Col="25" LENGTH="8" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="8" Col="34" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="NAME3" Type="Fld"   Row="8" Col="40" LENGTH="39" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="8" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)"/>
+<Field id="SELECT4" Type="Fld"   Row="9" Col="4" LENGTH="1" ATTRB="(UNPROT,NORM)"/>
+<Field    Row="9" Col="6" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="CONTNO4" Type="Fld"   Row="9" Col="8" LENGTH="8" ATTRB="(ASKIP,NORM)"/>
+<Field id="DEPTNO4" Type="Fld"   Row="9" Col="17" LENGTH="4" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="9" Col="22" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="SUPPLNO4" Type="Fld"   Row="9" Col="25" LENGTH="8" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="9" Col="34" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="NAME4" Type="Fld"   Row="9" Col="40" LENGTH="39" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="9" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)"/>
+<Field id="SELECT5" Type="Fld"   Row="10" Col="4" LENGTH="1" ATTRB="(UNPROT,NORM)"/>
+<Field    Row="10" Col="6" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="CONTNO5" Type="Fld"   Row="10" Col="8" LENGTH="8" ATTRB="(ASKIP,NORM)"/>
+<Field id="DEPTNO5" Type="Fld"   Row="10" Col="17" LENGTH="4" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="10" Col="22" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="SUPPLNO5" Type="Fld"   Row="10" Col="25" LENGTH="8" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="10" Col="34" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="NAME5" Type="Fld"   Row="10" Col="40" LENGTH="39" ATTRB="(ASKIP,NORM)"/>
+<Field   Row="10" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)"/>
+<Field id="SELECT6" Type="Fld"   Row="11" Col="4" LENGTH="1" ATTRB="(UNPROT,NORM)"/>
+<Field    Row="11" Col="6" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="CONTNO6" Type="Fld"   Row="11" Col="8" LENGTH="8" ATTRB="(ASKIP,NORM)"/>
+<Field id="DEPTNO6" Type="Fld"   Row="11" Col="17" LENGTH="4" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="11" Col="22" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="SUPPLNO6" Type="Fld"   Row="11" Col="25" LENGTH="8" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="11" Col="34" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="NAME6" Type="Fld"   Row="11" Col="40" LENGTH="39" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="11" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)"/>
+<Field id="SELECT7" Type="Fld"   Row="12" Col="4" LENGTH="1" ATTRB="(UNPROT,NORM)"/>
+<Field   Row="12" Col="6" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="CONTNO7" Type="Fld"   Row="12" Col="8" LENGTH="8" ATTRB="(ASKIP,NORM)"/>
+<Field id="DEPTNO7" Type="Fld"   Row="12" Col="17" LENGTH="4" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="12" Col="22" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="SUPPLNO7" Type="Fld"   Row="12" Col="25" LENGTH="8" ATTRB="(ASKIP,NORM)"/>
+<Field   Row="12" Col="34" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="NAME7" Type="Fld"   Row="12" Col="40" LENGTH="39" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="12" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)"/>
+<Field id="SELECT8" Type="Fld"   Row="13" Col="4" LENGTH="1" ATTRB="(UNPROT,NORM)"/>
+<Field    Row="13" Col="6" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="CONTNO8" Type="Fld"   Row="13" Col="8" LENGTH="8" ATTRB="(ASKIP,NORM)"/>
+<Field id="DEPTNO8" Type="Fld"   Row="13" Col="17" LENGTH="4" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="13" Col="22" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="SUPPLNO8" Type="Fld"   Row="13" Col="25" LENGTH="8" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="13" Col="34" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="NAME8" Type="Fld"   Row="13" Col="40" LENGTH="39" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="13" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)"/>
+<Field id="SELECT9" Type="Fld"   Row="14" Col="4" LENGTH="1" ATTRB="(UNPROT,NORM)"/>
+<Field    Row="14" Col="6" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="CONTNO9" Type="Fld"   Row="14" Col="8" LENGTH="8" ATTRB="(ASKIP,NORM)"/>
+<Field id="DEPTNO9" Type="Fld"   Row="14" Col="17" LENGTH="4" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="14" Col="22" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="SUPPLNO9" Type="Fld"   Row="14" Col="25" LENGTH="8" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="14" Col="34" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="NAME9" Type="Fld"   Row="14" Col="40" LENGTH="39" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="14" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)"/>
+<Field id="SELECT10" Type="Fld"   Row="15" Col="4" LENGTH="1" ATTRB="(UNPROT,NORM)"/>
+<Field    Row="15" Col="6" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="CONTNO10" Type="Fld"   Row="15" Col="8" LENGTH="8" ATTRB="(ASKIP,NORM)"/>
+<Field id="DEPTNO10" Type="Fld"   Row="15" Col="17" LENGTH="4" ATTRB="(ASKIP,NORM)"/>
+<Field   Row="15" Col="22" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="SUPPLNO10" Type="Fld"   Row="15" Col="25" LENGTH="8" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="15" Col="34" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="NAME10" Type="Fld"   Row="15" Col="40" LENGTH="39" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="15" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)"/>
+<Field id="SELECT11" Type="Fld"   Row="16" Col="4" LENGTH="1" ATTRB="(UNPROT,NORM)"/>
+<Field    Row="16" Col="6" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="CONTNO11" Type="Fld"   Row="16" Col="8" LENGTH="8" ATTRB="(ASKIP,NORM)"/>
+<Field id="DEPTNO11" Type="Fld"   Row="16" Col="17" LENGTH="4" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="16" Col="22" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="SUPPLNO11" Type="Fld"   Row="16" Col="25" LENGTH="8" ATTRB="(ASKIP,NORM)"/>
+<Field   Row="16" Col="34" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="NAME11" Type="Fld"   Row="16" Col="40" LENGTH="39" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="16" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)"/>
+<Field id="SELECT12" Type="Fld"   Row="17" Col="4" LENGTH="1" ATTRB="(UNPROT,NORM)"/>
+<Field    Row="17" Col="6" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="CONTNO12" Type="Fld"   Row="17" Col="8" LENGTH="8" ATTRB="(ASKIP,NORM)"/>
+<Field id="DEPTNO12" Type="Fld"   Row="17" Col="17" LENGTH="4" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="17" Col="22" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="SUPPLNO12" Type="Fld"   Row="17" Col="25" LENGTH="8" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="17" Col="34" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field id="NAME12" Type="Fld"   Row="17" Col="40" LENGTH="39" ATTRB="(ASKIP,NORM)"/>
+<Field   Row="17" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)"/>
+<Field   Row="19" Col="4" LENGTH="8" INITIAL=" B S C :" ATTRB="(ASKIP,BRT)"/>
+<Field id="BSCNO" Type="Fld"   Row="19" Col="17" LENGTH="8" ATTRB="(UNPROT,NORM)"/>
+<Field    Row="19" Col="26" LENGTH="1" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="21" Col="1" LENGTH="6" INITIAL=" PF1 :" ATTRB="(ASKIP,BRT)"/>
+<Field    Row="21" Col="9" LENGTH="4" INITIAL="HELP" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="21" Col="16" LENGTH="8" INITIAL=" ENTER :" ATTRB="(ASKIP,BRT)"/>
+<Field    Row="21" Col="25" LENGTH="7" INITIAL="PROCESS" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="21" Col="36" LENGTH="6" INITIAL=" PA1 :" ATTRB="(ASKIP,BRT)"/>
+<Field    Row="21" Col="43" LENGTH="5" INITIAL="PRINT" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="21" Col="51" LENGTH="15" INITIAL=" PF3/PF12/PA2 :" ATTRB="(ASKIP,BRT)"/>
+<Field    Row="21" Col="67" LENGTH="6" INITIAL="RETURN" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="22" Col="18" LENGTH="6" INITIAL=" PF7 :" ATTRB="(ASKIP,BRT)"/>
+<Field    Row="22" Col="25" LENGTH="9" INITIAL="PAGE BACK" ATTRB="(ASKIP,NORM)"/>
+<Field    Row="22" Col="36" LENGTH="6" INITIAL=" PF8 :" ATTRB="(ASKIP,BRT)"/>
+<Field    Row="22" Col="43" LENGTH="12" INITIAL="PAGE FORWARD" ATTRB="(ASKIP,NORM)"/>
+<Field id="SYSMESS" Type="Fld"   Row="23" Col="1" LENGTH="79" ATTRB="(ASKIP,NORM)"/>
+<Field id="PROMESS" Type="Fld"   Row="24" Col="1" LENGTH="79" ATTRB="(ASKIP,NORM)"/>
+</Map>
+</MapSet>

@@ -1,0 +1,11 @@
+:h4 id=binrecord.Record View - Binary file
+
+:p.To display a singe record in record view (as below), press the button to the
+left of the row on the :hdref refid=bintbl. screen.
+
+
+.*b2h HTML <img SRC="Diagram/RecordEdit_Record.png">
+.fo off
+
+
+.fo on

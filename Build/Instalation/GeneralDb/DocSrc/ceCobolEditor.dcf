@@ -1,0 +1,7 @@
+:h1.Cobol Editor
+.im iCE_ce200_CobolEditor.dcf
+
+:h2.Further Details
+:p.For Further details see the
+.*b2h HTML <A  HREF="RecordEdit.htm" TARGET="new">Record Editor</A> documentation 
+for more details on using the :hp2.Cobol Editor:ehp2.

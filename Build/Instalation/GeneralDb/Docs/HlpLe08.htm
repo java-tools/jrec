@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>Layout Editor</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- /home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/HlpLe.dc -->
+<!-- f converted by B2H R4.7 (390) (LINUX) on 12 Mar 2010 at 01:56:58 -->
+<META HTTP-EQUIV="updated" CONTENT="Fri, 11 Sep 2009 12:13:14">
+<META HTTP-EQUIV="review" CONTENT="Sat, 11 Sep 2010 12:13:14">
+<META HTTP-EQUIV="expires" CONTENT="Sun, 11 Sep 2011 12:13:14">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<HR><H2><A NAME="HDRIMPORT" HREF="HlpLe.htm#ToC_32" >Load Cobol Copybook</A></H2>
+<P>
+<table><tr><td><img SRC="Diagram/RecordLayout_Import.png"></td></tr></table>
+<P>
+<P>The <B><I>Cobol</I></B> imports Cobol Copybooks into the RecordEditor. Currently Mainframe
+and Fujitsu Cobol dialects are supported.
+<P>
+<P>The fields on the Import screen are
+<P>
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Field</B>
+ </TD><TD><P><B>Description</B>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Copybook
+ </B></TD><TD><P>The copybook File to be imported.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Choose File Button
+ </B></TD><TD><P>Display the file search screen so you can find the input file.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Split Copybook
+ </B></TD><TD><P>Controls wether the copybook will be split into a Parent Record and separate Child-Records
+or stored as a single record. Options are&#58;
+ <TABLE CELLPADDING="3">
+   <TR VALIGN="TOP"><TD><B>No Split    </B></TD><TD>Record is stored as a single record.
+   </TD></TR><TR VALIGN="TOP"><TD><B>On Redefine </B></TD><TD>Record is split into separate records on the first redefine.
+   </TD></TR><TR VALIGN="TOP"><TD><B>On 01 level </B></TD><TD>Record is split into separate records on 01 level records.
+ </TD></TR></TABLE>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Font Name
+ </B></TD><TD><P>Font Name to use when editing this file. You would only need to enter a
+<B>Font Name</B> if
+you are editing a IBM Mainframe File on a PC (or editing a PC file on the mainframe).
+For UA / Canada / Australia the mainframe <B>Font Name</B>
+is <font color="blue"><b>CP037</b></font>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Binary Format
+ </B></TD><TD><P>Binary Format to use (i.e. wether Cobol comp fields are converted to a PC little Endian
+or Mainframe / Java / AIX big Endian format).
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>File Structure
+ </B></TD><TD><P>File Format or structure. It actual chooses the File reader used.
+Unless you are using Native Mainframe, Fujitsu Cobol
+or Binary files, leave it as Defult Reader.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>System
+ </B></TD><TD><P>System to assign the Copybook to.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Go Button
+ </B></TD><TD><P>Import the file
+</TD></TR></TABLE>
+<P>
+<P>
+<P>When the <B>Split Copybook on Redefine</B> is set, then a copybook like
+<P>
+<PRE>
+        02  The-Record.
+	    03 Record-Type                    Pic X.                                                                  
+	    03 Detail-Record.                                                                                         
+	       05 ...                                                                                                 
+	    03 Header-Record  <B><I>redefines</I></B>  Detail-Record.                                                               
+	       05 ...                                                                                                 
+	    03 Footer-Record  <B><I>redefines</I></B>  Detail-Record.                                                               
+	       05 ...                                                                                                 
+
+</PRE><P>will be imported as
+<UL COMPACT>
+ <LI><B><I>The-Record</I></B> will be a <B>Group Record</B>.
+ <LI><B><I>Detail-Record, Header-Record and Footer-Record</I></B> are inserted as <B>Record-Layout</B> records.
+ <LI><B><I>Detail-Record, Header-Record and Footer-Record</I></B> are inserted as child records of The-Record
+</UL>
+<P>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

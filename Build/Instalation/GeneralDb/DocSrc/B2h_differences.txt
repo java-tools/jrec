@@ -1,0 +1,980 @@
+Comparison of C:\Downloads\Rexx\B2H.Rexx and C:\BMstuff\Rexx\B2H\B2h4_8\B2H.REXX
+10/05/2005 2:33:39 PM
+Mode:  Just Differences
+
+-----------------------------------------------------
+R7	/*------------------------------------------------------------------*/
+	/* Changes                                                          */
+	/*                                                                  */
+	/* B Martin    Jun 2002 4.81 Custimize for Target                   */
+	/* B Martin    Jun 2002 4.82 Fixing MVS problems                    */
+	/* B Martin    Jun 2002 4.83 Fix Tab / Index processing in Regina 3 */
+	/*                           Using DCF instead of scr               */
+	/* B Martin 11 Dec 2003 4.84 Added || before b2hdelim for regina 3.1*/
+	/*                regina 3.1. Regina 3.1 was treating strings like  */
+	/*                ':BHSPLIT PF='b2hdelim as a binary string so I    */
+	/*                changed to ':BHSPLIT PF='|| b2hdelim              */
+	/*                * Display HTML                                    */
+	/*                * Allow tag options in .*b2h tags                 */
+-----------------------------------------------------
+R229	/* Start Change 4.84 -----------------------------------------*/
+	!jsTree = 'JSTREE'; !ddMenu = 'DDMENU'; !Top = 'TOP' ; !Left = 'LEFT';
+	!Drill = 'DRILL'
+	!Tittle='tittle'; !lctop ='top'; !ControlButtons = 'controlbuttons'
+	!Expand='expand';
+	!MenuHeight  ='MENUHEIGHT';   !MenuWidth  ='MENUWIDTH';
+	!SubMenuWidth='SUBMENUWIDTH'; !FrameHeight='FRAMEHEIGHT'
+	!FrameWidth  ='FRAMEWIDTH'
+	
+	PrimaryOutputFile = ''
+	FramePos = ''
+	DetailFrameName = ""
+	DtlTarget=''
+	TOCTarget=''
+	FrameTocOpt = '1stHTML'
+	IncMainToc  = !Yes
+	JavaDir = '*'
+	FrameTocSize="20%"
+	FrameTocBody   = ""
+	FrameTocCss     = "*"
+	FrameTocHdColor = "Black"
+	
+	
+	call AssignTocPrm 'PRM', ''
+	call AssignTocPrm !jsTree||!Top,  'left=1 top=5 width=900 height=220' ,
+	                                  'animation=0 padding=2 level_ident=16',
+	                                  'bgcolor="#d4d0c8" back_bgcolor="#d4d0c8"' ,
+	                                  'dont_resize_back=1 style=StdW expand=NO'
+	call AssignTocPrm !jsTree||!Drill,'left=1 top=5 width=900 height=220' ,
+	                                  'animation=0 padding=2 level_ident=16',
+	                                  'bgcolor="#d4d0c8" back_bgcolor="#d4d0c8"' ,
+	                                  'dont_resize_back=1 style=StdW expand=YES' ,
+	                                  'controlbuttons=YES tittle=YES'
+	
+	call AssignTocPrm !jsTree||!Left, 'left=1 top=5 width=195 height=472' ,
+	                                  'img_size=[16,16] animation=0 padding=2' ,
+	                                  'dont_resize_back=1 style=StdS tittle=YES' ,
+	                                  'controlbuttons=YES expand=NO'
+	
+	call AssignTocPrm !ddMenu||!Top,  Translate('MenuHeight=30 MenuWidth=120' ,
+	                                  'SubMenuWidth=180' ,
+	                                  'FrameHeight=92% FrameWidth=100% ')
+	
+	call AssignTocPrm !ddMenu||!Left,  Translate('MenuHeight=34 MenuWidth=170' ,
+	                                  'SubMenuWidth=180' )
+	
+	
+	/* End   Change 4.84 -----------------------------------------*/
+	
+	
+-----------------------------------------------------
+L217	MVSsys.!pro.!dd="B2HPRO" ; MVSsys.!pro.!dsn="'B2H.PROFILE'"
+
+R280	/* Change 4.81 Start ----------------  */
+	/* old code MVSsys.!pro.!dd="B2HPRO" ; MVSsys.!pro.!dsn="'B2H.PROFILE'"
+-----------------------------------------------------
+L219	MVSsys.!hlp.!dd="B2HHELP"; MVSsys.!hlp.!dsn="'B2H.HELP'"
+
+R283	MVSsys.!hlp.!dd="B2HHELP"; MVSsys.!hlp.!dsn="'B2H.HELP'" */
+	MVSsys.!pro.!dd="B2HPRO" ; MVSsys.!pro.!dsn="PT99.PRODUCTS.B2H.PROFILE"
+	MVSsys.!sym.!dd="B2HSYM" ; MVSsys.!sym.!dsn="PT99.PRODUCTS.B2H.SYMBOLS"
+	MVSsys.!hlp.!dd="B2HHELP"; MVSsys.!hlp.!dsn="PT99.PRODUCTS.B2H.HELP"
+	/* Change 4.81 End   ---------------- */
+-----------------------------------------------------
+R535	/* Change 4.81 Start    Old code -
+-----------------------------------------------------
+R538	*/
+	MVSalloc.          ='DSORG(PS) LRECL(1024) RECFM(V) TRACKS    SPACE(15,30) RELEASE'
+	MVSalloc.!trace    ='DSORG(PS) LRECL(1024) RECFM(V) CYLINDERS SPACE(15,30) RELEASE'
+	/* Change 4.81 End   ---------------- */
+-----------------------------------------------------
+L506	parse value '15'x '09'x '00'x '01'x 'FE'x 'FF'x '15FF15'x,
+	      with  nl    tab   x00   x01   xFE   xFF   omitrecord
+
+R579	/* Start Change 4.83 -----------------------------------------**
+	** Old Line Follows:
+	** parse value '15'x '00'x '01'x 'FE'x 'FF'x '15FF15'x,
+	**    with  nl   x00   x01   xFE   xFF   omitrecord           */
+	
+	   tab = '09'x
+	   parse value '15'x '00'x '01'x 'FE'x 'FF'x '15FF15'x,
+	      with  nl x00   x01   xFE   xFF   omitrecord
+	/* End   Change 4.83 -----------------------------------------*/
+	
+-----------------------------------------------------
+R883	/* Start Change 4.84 -----------------------------------------*/
+	    PrimaryOutputFile =outputp_file
+	/* End   Change 4.84 -----------------------------------------*/
+-----------------------------------------------------
+L810	  otherwise outputp_file = FileCase(outputp_file,!physical)
+
+R894	  otherwise do
+	      outputp_file = FileCase(outputp_file,!physical)
+	  end
+-----------------------------------------------------
+R1189	
+	/* Start Change 4.84 -----------------------------------------*/
+	/*parse value '<MENU>,</MENU>,<LI>,,<HR>,',
+	      with  list.!toc.1 ',' list.!toc.2 ',' list.!toc.3 ',' list.!toc.4 ',',
+	            list.!toc.5 ',' list.!toc.6 ',' */
+	pathhold = fp.!path
+	if  FramePos <> '' then do
+	    IncMainToc = !Yes
+	    BaseFile =  fp.!path || outputp_file
+	    DetailFrameName = PrimaryOutputFile
+	    call FileParts BaseFile, currsys
+	
+	    TOCFrameOpt= ''
+	    StyleInd = ''
+	    TOCOpt = ''
+	    if JavaDir = '*' then do
+	       JavaDir=FrameTocOpt'/'
+	    end
+	    if FrameTocCss = "*" then do
+	       FrameTocCss = FrameTocOpt
+	    end
+	    Select
+	      When  (FrameTocOpt = !jsTree) then do
+	         TOCOpt='style="margin:0"'
+	         Call CreateTOCdsn ,
+	              '<link rel="stylesheet" href="'JavaDir || FrameTocCss'.css" type="text/css">'
+	
+	         call GenerateJSTreeTOC Outputp_file  !jsTree || FramePos
+	
+	         Call CloseTOCdsn
+	         Call BuildFrame
+	      end
+	      When  (FrameTocOpt = !ddMenu) then do
+	         TOCOpt='scroll=NO marginwidth="0" marginheight="0"' ,
+	           'style="margin: 0"' ,
+	           'onLoad="writeMenus()" onResize="if (isNS4) nsResizeHandler()"'
+	         Call CreateTOCdsn ,
+	              '<link rel="stylesheet" href="'JavaDir || FrameTocCss'.css" type="text/css">'
+	
+	         call GenerateDDmenuTOC Outputp_file  !ddMenu || FramePos
+	
+	         Call CloseTOCdsn
+	      end
+	      When (FrameTocOpt = 'TOCPGM') then do
+	        TOCFrameOpt= 'MARGINHEIGHT=3 MARGINWIDTH=0 SCROLLING="NO"'
+	        Call CreateTOCDSN ''
+	        Call FileParts BaseFile, currsys
+	        Toc_file  = OutFileName(,,fp.!fn2,temp,"TOC",,currsys,!physical)
+	
+	        Call FileParts BaseFile, currsys
+	        TocL_file = OutFileName(,,fp.!fn2,temp,"TOC",,currsys,!logical)
+	
+	        Call WrtLine  Outputp_file,,
+	          '<applet code="Toc.class" archive="toc.jar" height="95%"' ,
+	                  'width="100%">' ,
+	             '<param name="Title"'         'value="Table of Contents">' ,
+	             '<param name="tocfile"'       'value="'TocL_file'">' ,
+	             '<param name="ContentFrameId" value="DTL">' ,
+	             '<param name="Background"'   'value="255,231,220">' ,
+	          '</applet> '
+	
+	        Call CloseTOCdsn
+	
+	        Call GenerateSpecialTOC
+	        Call BuildFrame
+	      end
+	      When  (FrameTocOpt = 'STDSMALL') then do
+	         StyleInd = ' .in { position=relative; left:10} '
+	         list.!toc.1 = "<div  class=in>"
+	         list.!toc.2 = "</div>"
+	         list.!toc.3 = "<BR>"
+	
+	         Call CreateStdTOC_HTML
+	      end
+	      When (FrameTocOpt = 'STD') then do
+	        Call CreateStdTOC_HTML
+	      end
+	      Otherwise
+	        Call BuildFrame
+	    end
+	end
+	
+	if (pos('SHOWHTML',pgmparms) > 0) & (PrimaryOutputFile <> '') then do
+	    '"C:\PROGRA~1\INTERN~1\iexplore.exe" -nohome "'pathhold || PrimaryOutputFile'"'
+	end
+	/* End   Change 4.84 -----------------------------------------*/
+	
+-----------------------------------------------------
+L1105	
+
+R1278	CreateStdTOC_HTML:
+	  Call CreateTOCDSN '<STYLE TYPE="text/css">' StyleInd ,
+	                    'H1  { font-size:75% } </STYLE>'
+	
+	  call WrtLine  Outputp_file, '<Font style="font-size=65%">'
+	
+	  call GenerateTOC 0,1,saverec.!toc.0,minhdlv,tocmax,,
+	            list.!toc.5 || HtmlX('H3')   ||,
+	            HtmlX(!a,'NAME="'TOCname'"') ||,
+	            deftext.!toc'</A></H1>',TOCname
+	
+	  call CloseTOCdsn '</Font>'
+	  Call BuildFrame
+	Return
+	
+	
+	CreateTOCdsn:
+	parse arg zStyle
+	  DetailFrameName = PrimaryOutputFile
+	
+	  Outputp_file = OutFileNameWithSuf(2,'TC',!physical)
+	  call FileParts BaseFile, currsys
+	  PrimaryOutputFile = OutFileNameWithSuf(2,'TC',!logical)
+	
+	  outputl_file = PrimaryOutputFile
+	
+	  call EraseFile Outputp_file
+	  call OpenFile  Outputp_file,!write,MVSalloc.MVSOutputDsorg
+	
+	  Call WrtLine  Outputp_file, '<HTML><HEAD>'zStyle'</head>'
+	  Call WrtLine  Outputp_file, '<Body 'TOCOpt FrameTocBody'>'
+	Return
+	
+	CloseTOCdsn:
+	parse arg zparm
+	    Call WrtLine  Outputp_file, zparm'</HTML>'
+	    Call CloseFile Outputp_file
+	Return
+	
+	BuildFrame:
+	
+	    if FramePos = !Drill then Return
+	    call FileParts BaseFile, currsys
+	    FrameO = OutFileNameWithSuf(2,'FR',!physical)
+	    call EraseFile FrameO
+	    call OpenFile  FrameO,!write,MVSalloc.MVSOutputDsorg
+	
+	    call WrtLine   FrameO, '<HTML><HEAD></head>'
+	    if FramePos = 'TOP' then do
+	        call WrtLine FrameO, '<FRAMESET Rows="'FrameTocSize',*">'
+	    end; else do
+	        call WrtLine FrameO, '<FRAMESET Cols="'FrameTocSize',*">'
+	    end;
+	
+	    if  DetailFrameName = '' then do
+	        DetailFrameName = PrimaryOutputFile
+	    end
+	
+	    call WrtLine FrameO, '<Frame Name="TOC" Src="'PrimaryOutputFile'"' || TOCFrameOpt || '/>'
+	    call WrtLine FrameO, '<Frame Name="DTL" Src="'DetailFrameName'"/>'
+	    call WrtLine FrameO, '</Frameset>'
+	    call WrtLine FrameO, '</HTML>'
+	
+	    call CloseFile FrameO
+	    call FileParts BaseFile, currsys
+	    PrimaryOutputFile = OutFileNameWithSuf(2,'FR',!logical)
+	Return
+-----------------------------------------------------
+R1405	/* Start Change 4.84 -----------------------------------------**
+-----------------------------------------------------
+L1168	                       'LF='b2hdelim||strip(b2hlfile)||b2hdelim'.',!lifo
+
+R1408	                       'LF='b2hdelim||strip(b2hlfile)||b2hdelim'.',!lifo */
+	          call Put_Buffer ,
+	              ':BHSPLIT PF='|| b2hdelim||strip(b2hpfile)||b2hdelim,
+	                       'LF='|| b2hdelim||strip(b2hlfile)||b2hdelim'.',!lifo
+	/* End   Change 4.84 -----------------------------------------*/
+-----------------------------------------------------
+L2092	      if pixid\='' then piopts = ' PG='b2hdelim||pixid||b2hdelim
+
+R2336	/* Start Change 4.84 --------------------------------------------**
+	      if pixid\='' then piopts = ' PG='b2hdelim||pixid||b2hdelim */
+	      if pixid\='' then piopts = ' PG='|| b2hdelim||pixid||b2hdelim
+	/* End   Change 4.84 --------------------------------------------*/
+-----------------------------------------------------
+R2677	
+-----------------------------------------------------
+R2711	
+	/* Change 4.84 Start ----------------  */
+	/*    otherwise do forever */
+	
+-----------------------------------------------------
+L2463	    /*----- do &TEXT and &TEXTALL substitution -----*/
+
+R2715	      /*----- do &TEXT and &TEXTALL substitution -----*/
+-----------------------------------------------------
+L2464	    otherwise do forever
+
+R2716	      otherwise do
+	
+	      k = pos('&PARM_',Translate(temp))
+	      if  k > 0 then do
+	          call EvalTag TAGoptions
+	      end
+	
+	      do forever
+	/* Change 4.84 End   ---------------- */
+-----------------------------------------------------
+R2728	
+-----------------------------------------------------
+R2734	/* Change 4.84 Start ----------------  */
+	        when k > 0 then do
+	            zVarStr = Word(substr(uctemp,k),1)
+	            zVar = Substr(zVarStr,7)
+	
+	            zParmVal = ''
+	            if  optrayid.zVar = 1 then do
+	                zParmVal = optray.zVar
+	            end
+	
+	            temprslt = left(temp,k-1) || zParmVal ||,
+	                       substr(temp,k+length(ZVarStr)) || TAGresidual
+	            k = pos('&PARM_',Translate(temprslt))
+	        end
+	/* Change 4.84 End   ---------------- */
+-----------------------------------------------------
+R2757	/* Change 4.84 Start ----------------  */
+	      end
+	/* Change 4.84 End   ---------------- */
+-----------------------------------------------------
+R2904	/* Start Change 4.84 --------------------------------------------**
+-----------------------------------------------------
+L2626	              'LABEL='b2hdelim||strip(artaltlabel)||b2hdelim'.'TAGtext
+
+R2906	              'LABEL='b2hdelim||strip(artaltlabel)||b2hdelim'.'TAGtext */
+	    datastr = ':ARTWORK' artaltopts,
+	              'LABEL='|| b2hdelim||strip(artaltlabel)||b2hdelim'.'TAGtext
+	/* End   Change 4.84 --------------------------------------------*/
+-----------------------------------------------------
+R3544	/* Start Change 4.84 --------------------------------------------**
+-----------------------------------------------------
+L3262	                 'VALUE='b2hdelim||headtext||b2hdelim'.',!force
+
+R3546	                 'VALUE='b2hdelim||headtext||b2hdelim'.',!force  */
+	    call ProcTag ':BHSYM NAME="b2hhead'hdlv'"',
+	                 'VALUE='|| b2hdelim||headtext||b2hdelim'.',!force
+	/* End   Change 4.84 --------------------------------------------*/
+-----------------------------------------------------
+R3622	
+-----------------------------------------------------
+R5501	/* End   Change 4.84 -----------------------------------------*/
+	    if DetailFrameName = "" then do
+	        DetailFrameName = outputp_file
+	    end
+	/* End   Change 4.84 -----------------------------------------*/
+-----------------------------------------------------
+L6172	    when wordpos(eeif,'NE ª= \= <>') > 0 then eeif = 2
+
+R6465	    when wordpos(eeif,'NE ~= \= <>') > 0 then eeif = 2
+-----------------------------------------------------
+L6322	      when tocret>=2 & ptoclfile\='' & ,/*can I point to PTOC entry?*/
+
+R6615	/* Start Change 4.84 -----------------------------------------*/
+	      /*when tocret>=2 & ptoclfile\='' & ,
+-----------------------------------------------------
+L6325	      when mxhdlv <= tocmax            /* can I point to TOC entry? */
+	        then returnjump = ' HREF="&b2htoc_'mxcnt'"'
+
+R6619	      when mxhdlv <= tocmax
+	        then returnjump = ' HREF="&b2htoc_'mxcnt'"'  */
+	      when tocret>=2 & ptoclfile\='' & ,/*can I point to PTOC entry?*/
+	           ptocmost<=mxhdlv & ptocleast>=mxhdlv then do
+	         returnjump = ' HREF="'HREFlink(ptoclfile,PTOCname)'_'mxcnt'"' ,
+	                      TOCTarget
+	      end
+	      when mxhdlv <= tocmax then do     /* can I point to TOC entry? */
+	         returnjump = ' HREF="&b2htoc_'mxcnt'"' TOCTarget
+	      end
+	/* End   Change 4.84 -----------------------------------------*/
+-----------------------------------------------------
+R6775	
+	  if FrameTocOpt = "" then do
+-----------------------------------------------------
+L6472	  call WrtLine outputp_file,SetUpTag()||gttitle
+
+R6777	        call WrtLine outputp_file,SetUpTag()||gttitle
+-----------------------------------------------------
+L6473	  if gttype=1 & tocret=5
+
+R6778	  end; else do
+	        call WrtLine outputp_file,'<a name="Toc"/>'
+	  end
+	
+	
+	/* Start Change 4.84 -----------------------------------------*/
+	/*  if gttype=1 & tocret=5
+-----------------------------------------------------
+R6787	                 deftext.!ptoclt'</A>'Br()*/
+	  if (gttype = 0) then do
+	      if IncMainToc = !No then Return
+	  end
+	  if gttype=1 & tocret=5 then do
+	     call WrtLine outputp_file,'<BR>'HtmlX(!a,'HREF="' || ,
+	                  HREFlink(toclfile,TOCname)'"' DtlTarget) || ,
+-----------------------------------------------------
+L6476	                 deftext.!ptoclt'</A>'Br()
+
+R6794	                  deftext.!ptoclt'</A>'Br()
+-----------------------------------------------------
+R6795	  end
+	/* End   Change 4.84 --------------------------------------------*/
+	
+-----------------------------------------------------
+R6837	/* Start Change 4.84 --------------------------------------------*/
+	/*    tocstr = HtmlX(!a,'NAME="'gtlabel'_'xref.refidx.!counter'"',
+	             'HREF="'rrfid'#'xref.refidx.!name'"')||xref.refidx.!IDtxt'</A>'*/
+-----------------------------------------------------
+L6517	             'HREF="'rrfid'#'xref.refidx.!name'"')||xref.refidx.!IDtxt'</A>'
+
+R6841	             'HREF="'rrfid'#'xref.refidx.!name'"' DTLTarget)|| ,
+	             xref.refidx.!IDtxt'</A>'
+	/* End   Change 4.84 --------------------------------------------*/
+-----------------------------------------------------
+R6869	/* ------------------------------------------------------------------ **
+	   This procedure writes a TOC file for us in the TOC program
+	** ------------------------------------------------------------------ */
+	GenerateSpecialTOC:
+	
+	  Call EraseFile Toc_file
+	  Call OpenFile  Toc_file,!write,MVSalloc.MVSOutputDsorg
+	
+	  Call BuildTOCArray
+	  do k1 = 1 to zNoTocEnt
+	      Call WrtLine Toc_file, TocLvl.k1 '"'TocText.k1'" "'TocRef.k1'"'
+	  end
+	  Call CloseFile Toc_file
+	Return
+	
+	/* ------------------------------------------------------------------ **
+	   This procedure writes a Java TOC Array definition
+	** ------------------------------------------------------------------ */
+	GenerateJSTreeTOC:
+	arg zFileName zPref
+	
+	    Queue '<SCRIPT language=JavaScript src="'JavaDir'sdtree.js"',
+	          ' type="text/javascript"></SCRIPT>'
+	
+	    Queue '<SCRIPT type="text/javascript">'
+	    Queue 'function expandAll(){'
+	    Queue '     tree.expandAll();'
+	    Queue '     tree.draw(1);'
+	    Queue '}'
+	    Queue 'function collapseAll(){'
+	    Queue '     tree.collapseAll();'
+	    Queue '     tree.draw(1);'
+	    Queue '}'
+	    Queue 'var TREE_NODES={ format:{'
+	
+	    zTittleReq = !No
+	    zButtons= !No
+	    if Translate(TOCprm.zPref.!Tittle) = !Yes then do
+	       zTittleReq = !Yes
+	       TOCprm.zPref.!lctop = TOCprm.zPref.!lctop +40
+	    end
+	    if Translate(TOCprm.zPref.!ControlButtons) = !Yes then do
+	       zButtons = !Yes
+	       TOCprm.zPref.!lctop = TOCprm.zPref.!lctop +18
+	    end
+	
+	    Call CopyTocPrm 'PRM', '', zPref
+	    zPrms = strip(TOCprmLst.zPref)
+	    Do while zPrms <> ""
+	        parse var zPrms atom ' ' zPrms
+	        zPrms = Strip(zPrms)
+	
+	        val = TOCprm.zPref.atom
+	        ucAtom = translate(atom)
+	        Select
+	          when (ucAtom = 'TITTLE') | (ucAtom = 'CONTROLBUTTONS') | ,
+	               (ucAtom = 'EXPAND') then nop
+	          when ucAtom = 'STYLE'  then do
+	             Queue '    e_image:"'JavaDir || Val'_Fo.gif",'
+	             Queue '    c_image:"'JavaDir || Val'_Fc.gif",'
+	             Queue '    i_image:"'JavaDir || Val'_I.gif",'
+	          end
+	          When strip(val) <> '' then do
+	             Queue '    'atom':'val','
+	          end
+	          Otherwise NOP
+	        end
+	    End
+	    Queue '     b_image:"'JavaDir'b.gif"}'
+	
+	    zTarg =''
+	    if  DtlTarget <> '' then do
+	        parse var DtlTarget '=' targ
+	        zTarg = ",target:'"targ"'"
+	    end
+	    Call BuildTOCArray
+	
+	    zLL = ""
+	    LLvl = 0
+	    do k1 = 1 to zNoTocEnt
+	       select
+	         when LLvl < TocLvl.k1 then do
+	           Queue zll','
+	           Queue Copies(tab,TocLvl.k1-1)'sub:['
+	         end
+	         when LLvl > TocLvl.k1 then do
+	           Queue zll"} "
+	           Queue Copies(tab,TocLvl.k1)Copies("]}",LLvl-TocLvl.k1)","
+	         end
+	         otherwise do
+	           Queue zll"}, "
+	         end
+	       end
+	
+	       LLvl = TocLvl.k1
+	       zll = Copies(tab,llvl)"{html:'"Change2JavaQuote(TocText.k1)"',url:'"TocRef.k1"'"ztarg
+	    end
+	    Queue zll"} "
+	    Queue Copies("] }", LLvl)
+	
+	
+	    Queue "var tree=new SoftDrawerTree('Demo',TREE_NODES);"
+	
+	    if Translate(TOCprm.zPref.!Expand) = !Yes then do
+	       Queue 'expandAll()'
+	    end
+	    Queue "</SCRIPT>"
+	
+	
+	    if zTittleReq = !Yes then do
+	       zColor = ''
+	       if FrameTocHdColor <> "" then do
+	          zColor = 'color='FrameTocHdColor
+	       end
+	       Queue '<Font style="font-size=100%"' zcolor'><B>'TocText.1'</B></font><br>'
+	    end
+	
+	    if  zButtons = !Yes then do
+	        Queue '<Table><tr>'
+	        Queue ' <td colspan=2 align="center"><input type="button" onclick="expandAll()"' ,
+	                'value="Expand All" style="width:90px; FONT-SIZE:10px"></td>'
+	        Queue ' <td colspan=2 align="center"><input type="button" onclick="collapseAll()"' ,
+	                'value="Collapse All" style="width:90px; FONT-SIZE:10px"></td>'
+	        Queue '</tr> </table>'
+	    end
+	
+	    Do Queued()
+	        parse pull l
+	        Call WrtLine zFileName, l
+	    end
+	Return
+	
+	/* ------------------------------------------------------------------ **
+	   This procedure writes a Java TOC Array definition for ddMenu
+	** ------------------------------------------------------------------ */
+	GenerateDDmenuTOC:
+	arg zFileName zPref
+	
+	
+	    Call GDDmenuTOC_Init
+	    If FramePos = !Left then do
+	        zMW = TOCprm.zPref.!MenuWidth + 4
+	        MenuDtls.0 = "true, '', 0, 0, "TOCprm.zPref.!MenuWidth", '#669999', '#006666', '', 'Text0_1');"
+	
+	        LvlDtls.1 = "'>', "zMW", 0,",
+	           zW", '#336699', '#003366', 'Border1', 'Text0_1');"
+	
+	        Call GDDmenuTOC_BuildLvs
+	
+	        Call GDDmenuTOC_WriteMenu 0
+	
+	        Call GDDmenuTOC_EndScript
+	
+	        Queue '<table bgcolor="#006666" width="100%" height="100%"' ,
+	              'border="0" cellpadding="0" cellspacing="0">'
+	        Queue '<tr><td Width="'TOCprm.zPref.!MenuWidth'"><font size="1"></font></td><td>'
+	        Queue '<iframe name=''DTL'' src="'DetailFrameName'"' || ,
+	              'height="100%" width="100%"> </iframe>'
+	        Queue '</td></tr></table>'
+	    End; else do
+	        Queue "menu[0][0] = new Menu(false, '', 5, 0, 17, '#669999'," ,
+	          "'#006666', '', 'Text0_1');"
+	
+	        LvlDtls.1 = "'>', 0, "TOCprm.zPref.!MenuHeight + 2", ",
+	           zW", '#336699', '#003366', 'Border1', 'Text0_1');"
+	
+	        Call GDDmenuTOC_BuildLvs
+	
+	        do  j = 1 to MenuItm.0.0
+	            Queue "menu["0"]["j"] = new Item('"MenuItm.0.j"', '" || ,
+	              MenuUrl.0.j"','"zTarg"', "TOCprm.zPref.!MenuWidth", 8, " || ,
+	              NextMenu.0.j");"
+	        end
+	        Call GDDmenuTOC_WriteMenu 1
+	
+	        Call GDDmenuTOC_EndScript
+	        Queue '<table bgcolor="#006666" width="100%" border="0" cellpadding="0" cellspacing="0">'
+	        Queue '<tr><td height="'TOCprm.zPref.!MenuHeight'">' || ,
+	             '<font size="1"></font></td></tr></table>'
+	        Queue '<iframe name=''DTL'' src="'DetailFrameName'"' || ,
+	          'height="'TOCprm.zPref.!FrameHeight'"' ,
+	          'width="'TOCprm.zPref.!FrameWidth'"> </iframe>'
+	    End;
+	
+	    Do Queued()
+	        parse pull l
+	        Call WrtLine zFileName, l
+	    end
+	Return
+	
+	GDDmenuTOC_Init:
+	
+	    Call CopyTocPrm 'PRM', 'U', zPref
+	    Queue '<SCRIPT language=JavaScript src="'JavaDir'ddMenu.js"',
+	          ' type="text/javascript"></SCRIPT>'
+	
+	    Queue '<SCRIPT type="text/javascript">'
+	    Queue 'var menu = new Array();'
+	
+	    Queue "menu[0] = new Array();"
+	
+	    LLvl = 1
+	    CurrMenu = 0
+	    MaxMenu = 0
+	    MenuItm.0.0=0
+	    drop Menus. TocMenu. TocLvl.
+	    TocSubMenu. = ''
+	    MenuLvl = 0
+	    Menus.0 = 0
+	
+	    zW = TOCprm.zPref.!SubMenuWidth
+	    zPos = TOCprm.zPref.!SubMenuWidth + 4
+	
+	    LvlDtls.2 = "'>', "zPos", 0, "zW", '#666699','#333366', 'Border2_3'," ,
+	                "'Text2_3');"
+	    LvlDtls.3 = "'>', "zPos", 0, "zW", '#333366','#666699', 'Border2_3'," ,
+	                "'Text2_3');"
+	    ItemNo=0
+	Return
+	
+	
+	GDDmenuTOC_BuildLvs:
+	   Call BuildTOCArray
+	
+	    do k1 = 1 to zNoTocEnt
+	       select
+	         when LLvl < TocLvl.k1 then do
+	           MenuLvl = MenuLvl + 1
+	
+	           if  MenuLvl < 4 then do
+	               MaxMenu = MaxMenu + 1
+	               NextMenu.CurrMenu.j = MaxMenu
+	               CurrMenu= MaxMenu
+	               Menus.MenuLvl = MaxMenu
+	               MenuItm.CurrMenu.0=0
+	               MenuDtls.currMenu = "true," LvlDtls.MenuLvl
+	           end
+	           ItemNo=0
+	         end
+	         when LLvl > TocLvl.k1 then do
+	           say MenuLvl '-' LLvl '+' TocLvl.k1
+	           MenuLvl = MenuLvl - LLvl + TocLvl.k1
+	           CurrMenu= Menus.MenuLvl
+	         end
+	         otherwise NOP
+	       end
+	       LLvl = TocLvl.k1
+	       TocMenu.k1 = Menus.MenuLvl
+	
+	       if  MenuLvl < 4 then do
+	           j = MenuItm.CurrMenu.0 + 1
+	           MenuItm.CurrMenu.0 = j
+	           MenuItm.CurrMenu.j = Change2JavaQuote(TocText.k1)
+	           MenuUrl.CurrMenu.j = TocRef.k1
+	           NextMenu.CurrMenu.j= 0
+	       end
+	    end
+	
+	    zTarg =''
+	    if  DtlTarget <> '' then do
+	        parse var DtlTarget '=' zTarg
+	    end
+	Return
+	
+	GDDmenuTOC_WriteMenu:
+	parse arg zStart
+	
+	    CharsInItem =   TOCprm.zPref.!MenuWidth/6.5
+	    if zStart > 1 then do
+	       CharsInItem =   TOCprm.zPref.!SubMenuWidth/6.5
+	    end
+	
+	    do  i = zStart to MaxMenu
+	        Queue "menu["i"] = new Array();"
+	        Queue "menu["i"][0] = new Menu(" MenuDtls.i
+	
+	        zTotDepth = 0
+	        cnt = 0
+	        do  while (zTotDepth < 450) & (cnt < MenuItm.i.0)
+	            cnt = cnt + 1
+	            zDepth.cnt = 22
+	            cnt4Menu = 0
+	            if NextMenu.i.cnt > 0 then do
+	               cnt4Menu = 3
+	            end
+	            if  length(MenuItm.i.cnt)+ cnt4Menu > CharsInItem then do
+	                zDepth.cnt = 32
+	            end
+	            zTotDepth = zTotDepth + zDepth.cnt
+	        end
+	        CharsInItem =   TOCprm.zPref.!SubMenuWidth/6.5
+	
+	        do  j = 1 to cnt
+	            Queue "menu["i"]["j"] = new Item('"MenuItm.i.j"', '" || ,
+	                  MenuUrl.i.j"', '"zTarg"', "zDepth.j", 0, " || ,
+	                  NextMenu.i.j");"
+	        end
+	    end
+	Return
+	
+	
+	GDDmenuTOC_EndScript:
+	    Queue 'var popOldWidth = window.innerWidth;'
+	    Queue "nsResizeHandler = new Function('if (popOldWidth !=" ,
+	          "window.innerWidth) location.reload()');"
+	
+	    Queue 'if (isNS4) document.captureEvents(Event.CLICK);'
+	    Queue 'document.onclick = clickHandle;'
+	    Queue "</SCRIPT>"
+	
+	   /* Queue '<BODY scroll=NO marginwidth="0" marginheight="0"',
+	           'style="margin: 0" onLoad="writeMenus()"'
+	    Queue 'onResize="if (isNS4) nsResizeHandler()">'*/
+	Return
+	
+	
+	Change2JavaQuote:
+	Parse arg zLine
+	
+	    zRet =''
+	    Do While Pos("'",ZLine) > 0
+	       parse var zLine zPt1 "'" zLine
+	       zRet = zRet || zPt1"\'"
+	    end
+	Return zRet || zLine
+	
+	
+	AssignTocPrm:
+	parse arg pref, zPrms
+	
+	    TOCprmLst.Pref = ''
+	    Do while zPrms <> ""
+	        parse var zPrms atom1 zPrms
+	        parse var atom1 atom '=' val
+	
+	        TOCprm.Pref.atom = val
+	        TOCprmLst.Pref = TOCprmLst.Pref atom
+	    End
+	
+	Return
+	
+	
+	CopyTocPrm:
+	parse arg FPref, zTranOpt, TPref
+	
+	    zPrms = TOCprmLst.FPref
+	    Do while zPrms <> ""
+	        parse var zPrms atom zPrms
+	
+	        UCatom = atom
+	        if zTranOpt = 'U' then do
+	           UCatom = translate(atom)
+	        end
+	
+	        TOCprm.TPref.UCatom = TOCprm.FPref.atom
+	        if pos(UCatom, TOCprmLst.TPref) = 0 then do
+	            TOCprmLst.TPref = TOCprmLst.TPref UCatom
+	        end
+	    End
+	Return
+	
+	
+	BuildTOCArray:
+	
+	  lvl = 1
+	  parse var saverec.!toc.1 refidx lastlvl .
+	
+	
+	  prevheadlev=minhdlv; k=0; gtindent=0
+	  zNoTocEnt = saverec.!toc.0
+	  do k1 = 1 to saverec.!toc.0
+	    parse var saverec.!toc.k1 refidx headlev .
+	
+	    if LastLvl < headlev then do
+	       zLevels.Lvl = LastLvl
+	       lvl = lvl + 1
+	    end; else if (LastLvl > headlev) & (lvl > 1) then do
+	       do until (lvl <= 1) | (zLevels.Lvl <= headlev)
+	          lvl = lvl - 1
+	       end
+	    end
+	    LastLvl = headlev
+	
+	    rrfid = FileCase(xref.refidx.!file)
+	    TocLvl.k1   = lvl
+	    TocActLvl.k1= headlev
+	    TocText.k1  = xref.refidx.!IDtxt
+	    TocRef.k1   = rrfid'#'xref.refidx.!name
+	  end
+	Return
+	
+	
+-----------------------------------------------------
+L6674	  sianchor = HtmlX(!a,'NAME="IDX'indexcnt'"') || anchortext'</A>'
+
+R7392	/* Start Change 4.83 --------------------------------------------**
+	  ** Old Line:                                                                **
+	  **                                                                          **
+	  ** sianchor = HtmlX(!a,'NAME="IDX'indexcnt'"') || anchortext'</A>'          */
+	
+	  sianchor = HtmlX(!a,'NAME="#IDX'indexcnt'"') || anchortext'</A>'
+	
+	/* End   Change 4.83 --------------------------------------------*/
+	
+-----------------------------------------------------
+L6794	      if index.gj \== xFF
+	        then if index.gj < gilowstr
+	          then do
+
+R7520	       if index.gj \== xFF then do
+	          if index.gj < gilowstr   then do
+-----------------------------------------------------
+L6797	            gilow    = gj;
+	            gilowstr = index.gj
+
+R7522	             gilow    = gj;
+	             gilowstr = index.gj
+-----------------------------------------------------
+R7524	          end
+-----------------------------------------------------
+L6799	            end
+	      end gj
+
+R7525	       end
+	    end gj
+-----------------------------------------------------
+R7572	/* Start Change 4.83 --------------------------------------------**
+-----------------------------------------------------
+L6847	                   HtmlX(!a,'HREF="'FileCase(sifile)'#IDX'sinum'"') ||,
+
+R7574	                   HtmlX(!a,'HREF="'FileCase(sifile)'#IDX'sinum'"') ||, */
+	            sistr2 = sistr2 || sistr2a ||,
+	                   HtmlX(!a,'HREF="'FormatFileName(FileCase(sifile))'IDX'sinum'"') ||,
+-----------------------------------------------------
+R7579	/* End   Change 4.83 --------------------------------------------*/
+-----------------------------------------------------
+R7619	/* Start Change 4.83 --------------------------------------------*/
+	
+	FormatFileName:
+	Parse arg FileName
+	   If  Strip(FileName)= '' then do
+	       Return '#'
+	   End
+	Return FileName'#'
+	
+	/* End   Change 4.83 --------------------------------------------*/
+	
+-----------------------------------------------------
+R9318	
+	/* Start Change 4.84 --------------------------------------------*/
+	    when parm='SHOWHTML' then Nop
+	    when parm='FRAMEPOS' then do
+	        DtlTarget='Target=DTL'
+	        TOCTarget='Target=TOC'
+	        FramePos = DataUC
+	
+	        Select
+	          when Datauc = 'TOP'  then nop
+	          When Datauc = !Drill then DtlTarget=''
+	          Otherwise                 FramePos = 'LEFT'
+	        end
+	    end
+	    when (parm='FRAMETOCBODY') | (parm='FRAMETOCCSS') | (parm='FRAMETOCSIZE') | ,
+	         (parm='FRAMETOCHDCOLOR') then do
+	       zZ = Value(parm,data)
+	    end
+	    when parm= "FRAMETOCOPT" then do
+	        if Data <> '' then do
+	            parse var data atom data
+	            FrameTocOpt = Translate(atom)
+	            call AssignTocPrm 'PRM', data' '
+	        end
+	        if  FramePos = '' then do
+	            FramePos = 'LEFT'
+	            DtlTarget= 'Target=DTL'
+	            TOCTarget= 'Target=TOC'
+	        end
+	    end
+	    when parm= "NOMAINTOC" then do
+	        IncMainToc = !No
+	    end
+	    when parm= "JAVADIR" then do
+	        JavaDir = data
+	    end
+	/* End   Change 4.84 --------------------------------------------*/
+	
+-----------------------------------------------------
+R9845	/* Start Change 4.84 -----------------------------------------*/
+	/*------------------------------------------------------------------*/
+	/* OutFileNameWithSuf: Create a outpuy file name with a suffix      */
+	/* Usage: file=OutFileNameWithSuffix(SufLength,Suffix)              */
+	/*    SufLength - Length to all for the suffix                      */
+	/*    zsuffix   - Suffix                                            */
+	/*------------------------------------------------------------------*/
+	
+	OutFileNameWithSuf:
+	Parse Arg zpdnum, zsuffix, zlogphy
+	  if bhorg='' then if fp.!mem\='' then bhorg='PO'; else bhorg='PS'
+	  select
+	    when bhorg = 'PO' then do
+	      if fp.!mem = '' then fp.!mem = fp.!fn2
+	      zbhrslt = OutFileName(bhdir,,fp.!fn1,fp.!fn2,fp.!ft,,
+	                           strip(left(fp.!mem,8-zpdnum))||Zsuffix,,
+	                           tempsys,zlogphy)
+	      end
+	    otherwise do
+	      if ?bhoutput83 | tempsys=CMS
+	        then bhfn = strip(left(fp.!fn2,8-zpdnum))
+	        else bhfn = fp.!fn2
+	      zbhrslt = OutFileName(bhdir,,fp.!fn1,bhfn||Zsuffix,bhext,,
+	                           '',tempsys,zlogphy)
+	      end
+	    end
+	Return zbhrslt
+	/* End   Change 4.84 -----------------------------------------*/
+-----------------------------------------------------
+L9249	WrtLine: rtn='WRTLINE'; trace value tracelist.rtn
+
+R10056	WrtLine: rtn='WRTLINE'; /*trace value tracelist.rtn*/
+-----------------------------------------------------
+R10207	/* Start Change 4.82 --------------------------------------------*/
+	  if pos('<A NAME="Header_' ,xlirec) > 0 then do
+	     return xlirec
+	  end
+	/* End   Change 4.82 --------------------------------------------*/
+-----------------------------------------------------
+R10564	/* Start Change 4.84 -----------------------------------------*/
+	   bhrslt = OutFileNameWithSuf(pdnum,partsuffix,bhlogphy)
+	/*
+-----------------------------------------------------
+L9761	      if ?bhoutput83 | tempsys=CMS                       /* !OPSYS! */
+
+R10576	      if ?bhoutput83 | tempsys=CMS
+-----------------------------------------------------
+L9767	    end
+
+R10582	    end        */
+	
+	/* End   Change 4.84 -----------------------------------------*/
+-----------------------------------------------------
+L10157	      defimbft      = 'scr'
+
+R10974	/* Start Change 4.83 --------------------------------------------**
+	      defimbft      = 'scr'                                      */
+	      defimbft      = 'dcf'
+	/* End   Change 4.83 --------------------------------------------*/
+-----------------------------------------------------
+L10185	    when Do_SysDsn(MVSsys.fsf1.!dsn) = 'OK' then do
+
+R11005	/* Start Change 4.82 --------------------------------------------**
+	    when Do_SysDsn(MVSsys.fsf1.!dsn) = 'OK' then do              */
+	    when Do_SysDsn("'"MVSsys.fsf1.!dsn"'") = 'OK' then do
+	/* End   Change 4.82 --------------------------------------------*/

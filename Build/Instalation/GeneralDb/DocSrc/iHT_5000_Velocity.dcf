@@ -1,0 +1,87 @@
+:h1 id=Velocity.Velocity
+:p.:Velocity. is basically a fancy mail merge program. It allow you imbed
+variables + basic logic in a File. Velocity will replace a variable with its
+value creating a generated document. Velocity is good for creating web pages or
+XML documents.
+
+:p.If you install velocity into the :RecordEditor. you can export selected
+lines using :Velocity.
+
+:h2.Installing Velocity from RecordEditor Download
+:p.To install :Velocity. you must
+:ol.
+  :li.download the :hp2.Velocity ZIP:ehp2. file from the :RecordEditor. site.
+  :li.Unzip the file into the RecordEditor lib directory, On Windows this will be
+    :dl.
+      :dt.MsAccess Version:dd.C&gml.\Program Files\RecordEdit\MSaccess\lib
+      :dt.HSQL Version:dd.C&gml.\Program Files\RecordEdit\HSQL\lib
+      :dt.HSQLDB Version:dd.C&gml.\Program Files\RecordEdit\HSQLDB\lib
+      :dt.Generic Version:dd.C&gml.\Program Files\RecordEdit\Generic\lib
+    :edl.
+:eol.
+:p.
+
+:h2.Installing Existing Copy of Velocity
+:p.To install :Velocity. you need to
+:ol.
+ :li.Have a version of Velocity on Your PC
+ :li.Add the 2 Jar files :hp2.velocity-1.4.jar:ehp2. and :hp2.velocity-dep-1.4.jar:ehp2.
+(where the velocity version is 1.4)
+to the :RecordEditor. using the :PropertiesEditor..
+
+.pict Propereties_Velocity1.png
+
+ :li.Set the Velocity Directory in the :PropertiesEditor..
+
+.pict Propereties_Velocity2.GIF
+:eol.
+
+:h2.Writing a Velocity template for use in the RecordEditor
+:p.The :RecordEditor. present all the records selected by the user in a list called
+:bblue.$records:ebblue.. You can loop through this list with  :Velocity. :hp2.foreach:ehp2. command as follows.
+
+.*b2h html <PRE><SPAN CLASS="gutter">19:</SPAN>   <SPAN CLASS="syntax14">#</SPAN><SPAN CLASS="syntax14">foreach</SPAN>( <SPAN CLASS="syntax10">$</SPAN><SPAN CLASS="syntax10">rec</SPAN> in <SPAN CLASS="syntax10">$</SPAN><SPAN CLASS="syntax10">records</SPAN> )
+.*b2h html <SPAN CLASS="gutter">   </SPAN>     <SPAN CLASS="syntax17">     .... </SPAN>
+.*b2h html <SPAN CLASS="gutter">29:</SPAN>   <SPAN CLASS="syntax14">#</SPAN><SPAN CLASS="syntax14">end</SPAN></PRE>
+
+:p.You can access a fields value using the getField("Field-Name") parameter as follows -
+.*b2h html <PRE>     <SPAN CLASS="syntax10">${</SPAN><SPAN CLASS="syntax10">rec.getField(&quot;Brand</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">Dc</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">No</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">Rh&quot;)</SPAN><SPAN CLASS="syntax10">}</SPAN></PRE>
+
+:p.Sample Velocity Template for use in the :RecordEditor.
+
+.*b2h html <BODY BGCOLOR="#FFFFFF">
+.*b2h html <PRE><SPAN CLASS="gutterH">10:</SPAN><SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">table</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">border</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">1</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+.*b2h html <SPAN CLASS="gutter">11:</SPAN>  <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">TR</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+.*b2h html <SPAN CLASS="gutter">12:</SPAN>    <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">TH</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">ALIGN</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">LEFT</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">VALIGN</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">TOP</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">BGCOLOR</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">#DADADA</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>DC<SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">TH</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+.*b2h html <SPAN CLASS="gutter">13:</SPAN>    <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">TH</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">ALIGN</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">LEFT</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">VALIGN</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">TOP</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">BGCOLOR</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">#DADADA</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>Purchase Order<SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">TH</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+.*b2h html <SPAN CLASS="gutter">14:</SPAN>    <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">TH</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">ALIGN</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">LEFT</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">VALIGN</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">TOP</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">BGCOLOR</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">#DADADA</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>Supplier<SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">TH</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+.*b2h html <SPAN CLASS="gutterH">15:</SPAN>    <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">TH</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">ALIGN</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">LEFT</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">VALIGN</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">TOP</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">BGCOLOR</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">#DADADA</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>Receipt Date<SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">TH</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+.*b2h html <SPAN CLASS="gutter">16:</SPAN>    <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">TH</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">ALIGN</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">LEFT</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">VALIGN</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">TOP</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">BGCOLOR</SPAN><SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">#DADADA</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>Receipt Time<SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">TH</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+.*b2h html <SPAN CLASS="gutter">17:</SPAN>  <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">TR</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+.*b2h html <SPAN CLASS="gutter">18:</SPAN>
+.*b2h html <SPAN CLASS="gutter">19:</SPAN><SPAN CLASS="syntax14">#</SPAN><SPAN CLASS="syntax14">foreach</SPAN>( <SPAN CLASS="syntax10">$</SPAN><SPAN CLASS="syntax10">rec</SPAN> in <SPAN CLASS="syntax10">$</SPAN><SPAN CLASS="syntax10">records</SPAN> )
+.*b2h html <SPAN CLASS="gutterH">20:</SPAN> <SPAN CLASS="syntax14">#</SPAN><SPAN CLASS="syntax14">if</SPAN> ( <SPAN CLASS="syntax10">${</SPAN><SPAN CLASS="syntax10">rec.getField(0,</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">0)</SPAN><SPAN CLASS="syntax10">}</SPAN> == &quot;RH&quot; )
+.*b2h html <SPAN CLASS="gutter">21:</SPAN>  <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">tr</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+.*b2h html <SPAN CLASS="gutter">22:</SPAN>    <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">td</SPAN><SPAN CLASS="syntax17">&gt;</SPAN><SPAN CLASS="syntax10">${</SPAN><SPAN CLASS="syntax10">rec.getField(&quot;Brand</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">Dc</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">No</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">Rh&quot;)</SPAN><SPAN CLASS="syntax10">}</SPAN><SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">td</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+.*b2h html <SPAN CLASS="gutter">23:</SPAN>    <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">td</SPAN><SPAN CLASS="syntax17">&gt;</SPAN><SPAN CLASS="syntax10">${</SPAN><SPAN CLASS="syntax10">rec.getField(&quot;Order</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">No</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">Rh&quot;)</SPAN><SPAN CLASS="syntax10">}</SPAN><SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">td</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+.*b2h html <SPAN CLASS="gutter">24:</SPAN>    <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">td</SPAN><SPAN CLASS="syntax17">&gt;</SPAN><SPAN CLASS="syntax10">${</SPAN><SPAN CLASS="syntax10">rec.getField(&quot;Sup</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">Id</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">Rh&quot;)</SPAN><SPAN CLASS="syntax10">}</SPAN><SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">td</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+.*b2h html <SPAN CLASS="gutterH">25:</SPAN>    <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">td</SPAN><SPAN CLASS="syntax17">&gt;</SPAN><SPAN CLASS="syntax10">${</SPAN><SPAN CLASS="syntax10">rec.getField(&quot;Receipt</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">Date</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">Rh&quot;)</SPAN><SPAN CLASS="syntax10">}</SPAN><SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">td</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+.*b2h html <SPAN CLASS="gutter">26:</SPAN>    <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">td</SPAN><SPAN CLASS="syntax17">&gt;</SPAN><SPAN CLASS="syntax10">${</SPAN><SPAN CLASS="syntax10">rec.getField(&quot;Receipt</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">Time</SPAN><SPAN CLASS="syntax10"> </SPAN><SPAN CLASS="syntax10">Rh&quot;)</SPAN><SPAN CLASS="syntax10">}</SPAN><SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">td</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+.*b2h html <SPAN CLASS="gutter">27:</SPAN>  <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">tr</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+.*b2h html <SPAN CLASS="gutter">28:</SPAN> <SPAN CLASS="syntax14">#</SPAN><SPAN CLASS="syntax14">end</SPAN>
+.*b2h html <SPAN CLASS="gutter">29:</SPAN><SPAN CLASS="syntax14">#</SPAN><SPAN CLASS="syntax14">end</SPAN>
+.*b2h html <SPAN CLASS="gutterH">30:</SPAN><SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">table</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+.*b2h html <SPAN CLASS="gutter">31:</SPAN><SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">p</SPAN><SPAN CLASS="syntax17">&gt;</SPAN><SPAN CLASS="syntax14">&amp;</SPAN><SPAN CLASS="syntax14">nbsp</SPAN><SPAN CLASS="syntax14">;</SPAN><SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">p</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+.*b2h html </PRE>
+
+:h2.Exporting using a Velocity Template
+:p.You can export all or the Selected texted in a file from the :RecordEditor. 
+using the :hp2.SaveAs:ehp2. function. After selecting the :hp2.SaveAs:ehp2. dialog
+you need to
+:ol.
+ :li.Change the output format to :bblue.Velocity:ebblue.
+ :li.Enter the :bblue.Velocity:ebblue. Template to use. You can also use
+the :blue.Get Velocity Template:eblue. button to select a template.
+:eol.
+
+.pict RecordEdit_SaveAs_Velocity.GIF

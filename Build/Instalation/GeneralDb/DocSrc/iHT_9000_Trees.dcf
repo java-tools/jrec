@@ -1,0 +1,55 @@
+:h1.Sort Trees
+:p.:blue.Sort Tree:eblue. view is a way to summarise the Data in a File. The program will
+sort the file and group records with the same sort Keys together to form a Tree.
+Longer Term I hope to display a Summary Record for each Tree Node.
+
+:h2.Starting a Sort Tree view
+:p.First select the :hp2.Sorted Tree View:ehp2. option of the View Menu.
+
+.pict RecordEdit_View1.GIF
+
+.br
+
+:p.Next Enter the Sort fields
+
+.pict RecordEdit_SortedField1.png
+
+.br
+:p.Finally the values of the Sort Fields (in this case the :hp3.Australian States:ehp3.
+and :hp3.Location Type:ehp3.) form the Tree Nodes:
+
+.pict Tree3.png
+
+:h1.Record Trees
+:p.:blue.Record Tree:eblue. view builds a Tree View based on the logical relationship
+between records in a file.
+:p.For example the :hp2.Ams PO:ehp2. file consists of 3 records
+:dl.
+ :dt.PO Header:dd.Purchase Order Summary record, it holds Purchase order details
+like PO number, Supplier etc. Each PO record has one or more Product Records
+ :dt.Product:dd.Product/DC summary. It holds Product / DC Details. Each 
+Products Record can have multiple Store Allocations records.
+ :dt.Store Allocations:dd.Holds Store Allocations (i.e. Quantity allocated to each store)
+organised in array.
+:edl.
+
+:p.Logically records in the :hp2.Ams PO:ehp2. file are arranged like:
+
+.pict AmsPOfile.GIF
+
+:h2.Creating a Record Tree View
+:p.The first step is to select the :hp2.Record Based Tree:ehp2. option on the view Menu: 
+
+.pict RecordEdit_View2.GIF
+
+.br
+
+:p.You then fill in the Parent record for each Record Type and press the Build button
+
+.pict RecordEdit_RecordField1.png
+
+.br
+
+:p.The :RecordEditor. then creates a Tree View with each PO represented as a Tree Root:
+
+.pict RecordTree.png

@@ -1,0 +1,24 @@
+##
+##  Generate HTML for a EDI PO file
+##
+
+&nbsp;&nbsp;
+<table CELLPADDING="3">
+  <TR><TH BGCOLOR=blue><font color=white><b>&nbsp;&nbsp;$fileName&nbsp;&nbsp;</b></font></TH></TR>
+</table>
+&nbsp;
+<table border="1">
+  <TR>
+    <TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">DC</TH>
+    <TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">Department</TH>
+    <TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">Purchase Order</TH>
+    <TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">Before Date</TH>
+    <TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">After Date</TH>
+  </TR>
+#foreach( $rec in $records )
+  <tr>
+      <td>${rec.DcNo}</td><td>${rec.DeptNo}</td><td>${rec.PoNum}</td>
+      <td>${rec.BeforeDate}</td><td>${rec.AfterDate}</td>
+  </tr>
+#end
+</table>

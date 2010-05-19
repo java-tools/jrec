@@ -1,0 +1,28 @@
+:p.In Windows Explorer, the functions available on Right Click menu are defined
+in the registry (under *\Shell). The Windows Specific installers should setup
+the :hp2.RecordEditor:ehp2. on the right click menu. For the Java installer
+and generic versions, there should be a file
+:p.
+:p.:BBlue.<install directory>\lib\HSQL.reg:EBBlue.
+:p.
+:p.Please modify the supplied registry file as need to be and then run it.
+
+
+:p.Here is what the registry files looks like
+.fo off
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\*\Shell\Record Edit HSQLDB]
+@=""
+
+[HKEY_CLASSES_ROOT\*\Shell\Record Edit HSQLDB\command]
+@="\"C:\\Program Files\\Java\\j2re1.4.1_05\\bin\\\\javaw.exe\" -cp \"C:\\Program Files\\RecordEdit\\HSQLDB\\lib\\RecordEdit.jar;C:\\Program Files\\RecordEdit\\HSQLDB\\lib\\hsqldbmain.jar\" edit.EditRec  \"%1\""
+.fo on
+
+:note.The command is
+
+  <Java> -cp <Record Editor>  edit.EditRec  \"%1\"
+
+:p.
+:note.Use the standard Windows Notepad Editor to edit the Registry file.
+  

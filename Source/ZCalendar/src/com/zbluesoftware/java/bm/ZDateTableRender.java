@@ -1,0 +1,25 @@
+/*
+ * @Author Bruce Martin
+ * Created on 9/02/2007
+ *
+ * Purpose:
+ */
+package com.zbluesoftware.java.bm;
+
+/**
+ *
+ *
+ * @author Bruce Martin
+ *
+ */
+public class ZDateTableRender extends GenericComboTableRender {
+
+    /**
+     * Create a Checkbox table render based on Strings
+     * @param useDateClass wether to return dates or Text to the Table
+     * @param dateFormat format of the date
+     */
+    public ZDateTableRender(final boolean useDateClass, final String dateFormat) {
+    	super(useDateClass, new ZDateField(dateFormat));
+    }
+}

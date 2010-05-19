@@ -1,0 +1,217 @@
+.im iRE_TagDefs.dcf
+:h1.Copy Utility
+:p.The copy utility can be run either three ways&gml.
+:ul.
+ :li.Using the standalone utility
+ :li.From the :hp2.File >>> File Copy menu:ehp2. in the :recordeditor.
+ :li.In batch using a saved copy definition file.
+:eul.
+
+:h2.Copy Menu
+:p.When you a start the copy utility, the following screen is displayed&gml.
+
+.pict CopyMain.png
+
+
+:p.The options are:
+:ol.
+ :li.:hp2.Run stored Copy:ehp2. Lets you run a stored Copy-Definition. All other
+options let you the copy details to a XML file, this option lets you run these saved definitions.
+ :li.:hp2.Standard Copy:ehp2. Copies data from one file to another using 2 supplied 
+record layouts. See :hdref refid=standard. for more details. This option can copy Fixed to Fixed, Fixed to and from Delimited
+and XML to either fixed or delimited files.
+ :li.:hp2.Cobol Copy:ehp2. Copies a file from one Cobol Dialect to another. See :hdref refid=cobol. for more details.
+ :li.:hp2.Copy to delimited:ehp2. Copies a file (using supplied Record Layout) to
+a Delimited (CSV) file. It can be used to copy a Fixed format file to delimited or delimited to delimited.
+See :hdref refid=delimitied. for more details.
+ :li.:hp2.Copy using Velocity Template.:ehp2. This option sends the contents of a file to a Velocity Template.
+It is ideal for reformatting Cobol files as text files (i.e. HTML or XML).
+:eol.
+
+
+:h3 id=standard.Standard Copy
+
+:p.This option will copy a file from one format (defined in a record-layout) to another format (defined by a different record-layout).
+It can
+:ul compact.
+ :li.Copy a Fixed Width file to either another Fixed width file or a Delimited file.
+ :li.Copy a Delimited file to either a Fixed width file or a Delimited file.
+ :li.Copy a XML file to either a Fixed Width or Delimited file.
+:eul.
+
+:h5.File Definition Screen
+:p.This screen lets you define a file and its Record Layout. It is displayed for both 
+input File and the output file.
+
+.pict StandardCopy.png
+
+:h5.Field Definition
+:p.After entering the Input / Output Files, the Field definition screen is display.
+On this screen you define which Record &amp. Field are to be copied an where they should be 
+copied to.
+
+.pict CopyFields.png
+
+:h5.Final Screen
+
+:p.The final screen lets you
+
+:ul compact.
+ :li.Save the Copy definition to an XML file. This definition can be executed 
+at a later date from option 1 or via the :hdref refid=batch. utility.
+ :li.Run the copy.
+:eul.
+
+.pict CopyFinal.png
+
+:h3 id=cobol.Cobol Copy
+
+:p.This option copies a file from one Cobol Dialect to another Cobol dialect.
+
+.pict CobolCopy.png
+
+:p.Fields are
+:dl.
+ :dt.Old File :dd.Existing file to be converted
+ :dt.New File :dd.Output File name
+ :dt.Copybook :dd.Cobol Copybook for the file
+ :dt.Input File Structure:dd.The format of the file, uuse normal for line sequential,
+Fixed length Binary for file with all records the same length or the appropriate VB
+format for other files.
+  :dt.Input Numeric Format:dd.Choose the numeric format appropriate to your version of Cobol.
+  
+  :dt.Input File Structure:dd.The format of the file, uuse normal for line sequential,
+Fixed length Binary for file with all records the same length or the appropriate VB
+format for other files.
+  :dt.Input Numeric Format:dd.Choose the numeric format appropriate to your version of Cobol.
+:edl.
+:p.
+:p.The next screen displayed is the "final screen" where you can
+
+:ul compact.
+ :li.Save the Copy definition to an XML file. This definition can be executed 
+at a later date from option 1 or via the :hdref refid=batch. utility.
+ :li.Run the copy.
+:eul.
+
+.pict CopyFinal.png
+
+
+:h3 id=delimitied.Copy to delimited (CSV)
+
+:h5.File definitions
+:p.On the first screen you enter the input & output files, Record Layout of the input file +
+delimited file details.
+
+.pict CopyDelimited.png
+:h5.Field Selection
+:p.The second screen is the field Selection screen&gml.
+
+.pict SL_diff2.png
+
+:h5.Final Screen
+
+:p.On the final screen you can&gml.
+:ul compact.
+ :li.Save the Copy definition to an XML file. This definition can be executed 
+at a later date from option 1 or via the :hdref refid=batch. utility.
+ :li.Run the copy.
+:eul.
+
+.pict CopyFinal.png
+
+:h2 id=batch.Batch Copy
+
+:p.Also provided is the batch copy utilities
+
+:p.For the RecordEditor proper (using saved copy definition)&gml.
+.fo off
+    :hp2.java -jar "<Record Editor install directory>/lib/run.jar" net.sf.RecordEditor.copy.BatchCopyDBLayout myCopy.xml:ehp2.
+
+ or to overide the input output files&gml.
+
+    :hp2.java -jar "<Record Editor install directory>/lib/run.jar" net.sf.RecordEditor.copy.BatchCopyDBLayout myCopy.xml -i input_file -o output_file:ehp2.
+
+    .fo on
+:p.For the Cobol Editor&gml.
+.fo off
+    :hp2.java -jar "<Record Editor install directory>/lib/run.jar" net.sf.RecordEditor.copy.CopyFileLayout myCopy.xml:ehp2.
+
+ or to overide the input output files&gml.
+
+    :hp2.java -jar "<Record Editor install directory>/lib/run.jar" net.sf.RecordEditor.copy.CopyFileLayout myCopy.xml -i input_file -o output_file:ehp2.
+.fo on
+
+:h3.Supplied scripts
+:p.In some versions of the RecordEditor (*.jar installers) there are runBatchCopy.bat or runBatchCopy.sh) utility (*.jar installers). 
+:p.Usage
+.fo off
+
+      :hp2.runBatchCopy.sh savedCopyDefinition.xml:ehp2.
+ or
+      :hp2.runBatchCopy.sh savedCopyDefinition.xml -i Input_File -o Output_File:ehp2.
+ 
+.fo on
+
+:h3.Setting up scripts
+:p.Alternatively you can set up your own version of runBatchCopy. For windows the bat file is (where :hp2.<RecordEditor_Version>:ehp2.
+is the RecordEditor version = MSAccess, HSQL, HSQLDB, Generic etc).
+
+.fo off
+     :hp2.javaw -jar "C:\Program Files\RecordEdit\<RecordEditor_Version>\lib\run.jar" net.sf.RecordEditor.copy.BatchCopyDBLayout  %*:ehp2.
+.fo on
+
+:p.Or for linux/unix/mac
+
+.fo off
+:hp2. #! /bin/sh
+
+    libdir="/home/bm/Programs/RecordEdit/<RecordEditor_Version>/lib"
+    
+    java -jar "${libdir}/run.jar" net.sf.RecordEditor.copy.BatchCopyDbLayout ${@}
+:ehp2.
+.fo on
+
+:p.For the Cobol Editor's copy utlity replace BatchCopyDBLayout with CopyFileLayout in the above
+
+:h2.Copy to Delimited File
+:p.There are actually 2 ways to copy a Fixed / Delimited file to a Delimted file&gml.
+:ol.
+ :li.Via option 4 :hdref refid=delimitied. screen.
+ :li.You can also create a Delimited Record Layout (See :hp2.Tab/Comma Delimited Fields in Files:ehp2.
+in the main manual) and then use option 2 :hdref refid=standard. screen.
+:eol.
+:p.There are 4 important parts to defining files where fields are separated
+by a certain character&gml.
+:ul compact.
+  :li.The :hp2.record type:ehp2. must be :hp2.Delimited Fields:ehp2.
+  :li.The :hp2.delimiter:ehp2. field must be set to the correct value (ie <tab> or "," etc).
+  :li.The :hp2.file structure:ehp2. must be set to:
+    :dl.
+     :dt.Default
+       :dd.For standard Comma delimited files with names stored in the Record Layout Tables
+     :dt.Delimited, names on first row
+       :dd.For files where the first line holds the field names
+    :edl.
+  :li.The field position should be the field position number and the length should be 0.
+:eul.
+
+.pict LayoutEdit_Delim.GIF
+
+.pict LayoutEdit_DelimDef.GIF
+
+:h2.Copy From XML
+:p.While the package can copy from XML to fixed / delimited; The fixed / delimited layout must
+be setup to match the input Xml exactly.
+:p.At present, you can not copy from Fixed / Delimited to Xml but in the Editor you can&gml.
+:ul.
+ :li.Save as Xml.
+ :li.Create a record Tree (by defining record relationships) and save the tree as XML (:hp2.File >>> Save Tree as XML:ehp2.)
+ :li.Create a Sort Tree and save the Sort Tree as XML (:hp2.File >>> Save Tree as XML:ehp2.)
+:eul.
+
+:p.To Copy an XML file, you should Select option 1 :hdref refid=standard. and the layout for the Xml file should
+be :hp2.Xml - Build Layout:ehp2. (or a specific XML layout can also be used). After this it is, it is like a normal
+copy.
+
+.pict Copy_Xml.png

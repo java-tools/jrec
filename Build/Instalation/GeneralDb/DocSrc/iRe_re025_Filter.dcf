@@ -1,0 +1,45 @@
+:h3 id=filter.Filter Screen
+:p.The Filter screen is used to created a view of the data with only the 
+record / fields the user wants. 
+:p.
+:table cols='*'.
+:row.:c.
+.*b2h HTML <img SRC="Diagram/RecordEdit_Filter.png">
+:etable.
+:p.The important parts of the screen are:
+
+
+:table cols='* 4*'.
+:row.:c.Record Filter:c.
+.*b2h HTML <img SRC="Diagram/RecordEdit_Filter_Records.GIF">
+:p.This section of the screen has 2 functions
+:ol compact.
+:li.Select which records to display based on the Record Type 
+(using the :hp2.Include:ehp2. Check box).
+:li.When you click on a record you can
+:ul compact.
+:li.Select which fields (for this record type) will 
+be displayed. 
+:li.Allows you to enter filters based on a records content for this record type.
+:eul.
+:eol.
+:row.:c.Field Filter:c.
+.*b2h HTML <img SRC="Diagram/RecordEdit_Filter_Fields.GIF">
+:p.This section of the screen allows you to select which fields will be displayed
+(using the :hp2.Include:ehp2. Check box).
+:p.Clicking on the record :hp2.PriceR 1:ehp2. (in the record filter above) will display
+the fields of record :hp2.PriceR 1:ehp2..
+:p.
+:row.:c.Field Value Filter:c.
+.*b2h HTML <img SRC="Diagram/RecordEdit_Filter_FieldValues.GIF">
+:p.This section of the screen allows you to select which record will be displayed 
+based on record content.
+:p.In the above example, only records where the field :hp2.description:ehp2. contains 
+:hp2.DVD:ehp2. will be displayed.
+:p.Clicking on the record :hp2.PriceR 1:ehp2. (in the record filter above) will alloy
+you to enter Data-based filters for :hp2.PriceR 1:ehp2.
+:p.You can enter up to 4 data filters per record type. A record must satisfy
+all filters (i.e. a logical :hp2.And:ehp2.) to be displayed.
+:row.:c.Sace Button:c.The save button saves the Filter definition as a XML file.
+You can execute the filter at a later date from the View Menu. See :hdref refid=ViewMenu. for more details.
+:etable.

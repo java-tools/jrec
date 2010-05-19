@@ -1,0 +1,33 @@
+:h3.CSV Files
+:p.CSV files are supported in several ways
+
+:ul.
+  :li.You can define a specific layout definition for the File. This is 
+needed if&gml.
+  :ol compact.
+      :li.The are special types of fields (i.e. Arrays where the elements are seperated by delimiters.
+      :li.There are no field names on the first Line.
+  :eol.
+  :li.There are specific Layouts (with variation of no Quotes, Single and Double quote Charactersfor
+  :ol compact.
+    :li.Names on the first line in the file and using :hp2.Comma's:ehp2. for a field seperator.
+    :li.Names on the first line in the file and using :hp2.Tab's:ehp2. for a field seperator.
+    :li.Names on the first line in the file and using :hp2.| character:ehp2. for a field seperator.
+  :eol.
+  :li.GenericCSV where the user decides the Type of CSV file at Run Time. See :hdref refid=GenericCsv. for details
+:eul.
+
+:h4 id=GenericCsv.Generic CSV Layout
+
+:p.On this screen you enter the details of the CSV files
+
+.pict RecordEdit_GenericCSV.png
+
+:dl.
+ :dt.Field Seperator   :dd.Character used to seperate the fields on each line
+ :dt.Quote             :dd.Character used to surround text fields
+ :dt.Parser            :dd.Line Parser used to break fields. In most cases :hp2.Basic Parser:ehp2. will do.
+:hp2.Parser - Matching quotes:ehp2. will break lines up by matching up all the quotes.
+:hp2.Parser - Quotes Based on Field Type:ehp2. will put quotes arround all Character fields.
+ :dt.Fields on First Line:dd.Indicates wether the first line of the file holds the field names.
+:edl.

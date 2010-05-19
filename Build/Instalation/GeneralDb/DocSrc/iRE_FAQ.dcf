@@ -1,0 +1,35 @@
+
+:dl.
+:dt.Question:dd.:hp1.Why are there no options in System Combo Box:ehp1.
+:dt.Answer  :dd.This probably means the system cannot connect to the Database.
+This could be due to
+:ul compact.
+:li.Database has not been started (MySQL, HSQL etc)
+:li.The db Connection is not set up correctly; see the RecEdit.properties in the
+RecordEdit.Jar and LayoutEdit.Jar
+:li.The MS-Access Database is moved (MS-Access version). This will break the ODBC
+definition. The solution is to update the ODBC Definition
+:eul.
+:dt.Question:dd.:hp1.Why isn't the Cobol load option visible:ehp1.
+:dt.Answer  :dd.The Cobol Conversion is only available when the cb2xml package is available
+so if LayoutEdit is started as 
+.fo off
+ 
+  java -jar LayoutEdit.jar
+  
+.fo on
+You will not be able to load Cobol Copybooks. While if start ed as follows, you will be able
+to load Cobol Copybooks
+.fo off
+ 
+  java -cp LayoutEdit.jar;cb2xml.jar layoutEdit.CobolXML.InsertCobolCopybook 0 E:\Work\MyAccessDBs\RecordEditor\CopyBooks\ttt004.cbl N
+  
+.fo on
+:dt.Question:dd.:hp1.Can I load Cobol Copybooks into the DB in batch:ehp1.
+:dt.Answer  :dd.Yes,
+.fo off
+ 
+  java -cp LayoutEdit.jar;cb2xml.jar layoutEdit.LayoutEdit.InsertCobolCopybook CobolCopybook
+ 
+.fo on
+:edl.

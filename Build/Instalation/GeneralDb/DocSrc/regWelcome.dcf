@@ -1,0 +1,37 @@
+:h1.Record Edit
+
+.im iRE_TagDefs.dcf
+.im iRE_Welcome
+
+:p.:hp2.To start using the Record Editor you must:ehp2.
+:ol compact.
+:li.Create the background Databases. SQL creation and Data Scripts can be found
+in the :hp2.SQL:ehp2. directory.
+:li.Update the JDBC properties file in the 2 jar files (LayoutEdit.jar and recordEdit.jar).
+:li.Setup bat / scripts to run the :hp2.RecordEdit:ehp2. (File Editor)
+and :hp2.LayoutEdit:ehp2. (record layout edit).
+:eol.
+
+
+:p.Please review the help documentation for details on setting up the programs:
+.*b2h HTML <b><a HREF=gRecordEdit.htm>Record Edit</a></b>
+
+
+.fo off
+
+
+
+.fo on
+.pa
+
+:h1.System Features
+.im iRE_Features.dcf
+
+:h1.Starting
+.im iRE_starting.dcf
+.im iRE_BinFile.dcf
+.im iRE_SuppliedFiles.dcf
+
+
+
+

@@ -1,0 +1,7 @@
+:h3.Column View
+:p.The Column view will display the selected records across the page
+rather then normal display going down the page. There is a limit of 5000
+rows for the Column view.
+
+.pict  RecordEdit_View3.png
+

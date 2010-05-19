@@ -1,0 +1,272 @@
+:h1.Defining Binary Files
+
+:h3.Standard Binary Files
+:p.The :hp2.RecordEditor:ehp2. reads Text files using standard Java Text-Read routines.
+These routines will convert all text fields to Java's Unicode representation. This means
+any binary fields read using standard Java Text-Read routines will be corrupted.
+:p.The :hp2.RecordEditor:ehp2. has separate routines to read binary files. 
+It uses these binary read routines when:
+:ul compact.
+:li.The record is :hp2.Group of Binary Records:ehp2. or :hp2.Record - Binary:ehp2.
+:li.The record contains binary fields (i.e. Binary Integer or Packed decimal fields etc).
+:eul.
+
+:p.If you are having trouble with a binary files. I would suggest
+:ol compact.
+:li.Make sure the record is either :hp2.Record - Binary:ehp2. or
+:hp2.Group of Binary Records:ehp2..
+:eol.
+
+:h3.Calculating Record Length
+:p.The :hp2.RecordEditor:ehp2. calculates the record length by
+:ol.
+:li.If all records are the same length (or this is one record), A constant fixed 
+record length is used.
+:li.Deciding what record it is using the :hp2.field:ehp2. and :hp2.FieldValue:ehp2.
+as defined on the :hdref refid=Child. screen.
+:li.Looking for the Record Separator string (see :hdref refid=extra. for details)
+at all the possible record lengths.
+:li.Searching for the record Separator.
+:eol.
+
+:h3.Mainframe Files
+:p.The RecordEditor was not specifically written for the mainframe but it can edit 
+mainframe cobol files, this means there will be a learning curve for you. 
+It does require a full install of Java 5 or greater, some partial installs do not include
+charset.jar file which holds the EBCDIC translation tables. Some companies
+I have worked for have not installed this file on there Work PC's.
+
+:p.While the :RecordEditor. is not a replacement for FileAid, 
+I find it a useful to use the :RecordEditor. instead of FileAid for some tasks 
+for these reasons
+:ol.
+  :li.The :RecordEditor. works better with  PC Software than FileAid. You can cut and paste from 
+the RecordEditor into Word / Excel. Also you can export
+as HTML or via velocity templates.
+  :li.You can view a lot more of the file at any one time in the :RecordEditor.. 
+On my home PC (22 inch) I can see 55 rows by 18-> 20 field columns. In FileAid
+its 29 rows by 3 -> 6 columns.
+  :li.Can produce Adhoc Reports (via sister project :FFReports. which is a Report Designer) from Mainframe Cobol Files.
+  :li.Can create different views on the file (Filter Option).
+  :li.For a Project I typically create a PC folder. The recordEditor lets me save (and view) any
+Mainframe Files for the project (e.g. Test files / Test results).
+:eol.
+:p.The RecordEditor is available in 2 format
+:ul compact.
+ :li.:hp2.Full Editor:ehp2. which stores its layouts in a Database. There is an option
+(From the main menu :hp2.Record Layouts >>> Load Cobol Copybook:ehp2.) to
+import Cobol Copybooks.
+ :li.:hp2.Cobol Editor:ehp2. There is a separate editor that can run off a Cobol Copybook
+instead of a Database. It offers most of the features of the full editor,
+:eul.
+
+:h4.Importing Cobol Copybooks
+
+:p.The first step in editing a file is to import the Cobol Copybook. To do this
+select :hp2.Record Layouts >>> Load Cobol Copybook:ehp2. from the main menu
+
+.pict Mainframe_ImportCobol1.png
+
+:p.The next screen to be displayed includes:
+
+.pict Mainframe_ImportCobol2.png
+
+:dl.
+  :dthd.Field
+  :ddhd.Description
+  :dt.Cobol Copybook
+  :dd.
+  :dt.Spilt Copybook
+  :dd.How the copybook should be divided up (:hp2.No Split:ehp2. - one record in the file;
+:hp2.on redefine:ehp2. - Split into seperate record on a Redefine Statement; :hp2.on 01:ehp2. - split into seperate
+records for each 01 level).
+   :dt.Font Name
+   :dd.Blank for native files; cp037 (coded page 37) for US / Canada / Australian EBCDIC.
+   :dt.File Structure
+   :dd.Equivalent to RECFM in JCL. Can be left as :hp2.Default Reader:ehp2. for FB and
+PC files. Needs to be changed for VB files.
+   :dt.System.
+   :dd.Basically a way of grouping Copybooks together in to logical systems.
+:edl.
+
+
+:h4.Downloading FB files.
+:p.Fixed Block files can be downloaded as a binary file from the mainframe and edited
+in the record editor. You can set the :hp2.File Structure:ehp2. to either :hp2.Default Reader:ehp2.
+or :hp2.Fixed Length Binary:ehp2.
+
+:h4.Downloading VB files
+:p.The  :RecordEditor. can edit VB files provided the RDW (record descriptor word i.e. record length)
+is in the file. Many file transfer protocols will drop RDW. The options for VB files are
+
+:ol.
+  :li.Copy to a FB file and transfer / edit this file.
+  :li.Transfer as a VB file (including RWD. You will need to set the :hp2.File Structure:ehp2.
+to :hp3.Mainframe VB (RDW based) Binary:ehp3.
+.pict Mainframe_VB1.png
+  :li.The third option is to copy VB file to a RECFM=U file and transfer this file&gml.
+
+:pnl.
+// :red.SET:ered. IN:yellow.=:eyellow.VB.FILE.TO.TRANSMIT                         
+// :red.SET:ered. OUT:yellow.=:eyellow.USER.&amp.IN..RECFMU                        
+//*                                                
+//STEP010 :red.EXEC:ered. PGM:yellow.=:eyellow.IEFBR14,COND:yellow.=:eyellow.(0,NE)             
+//SORTOUT  :red.DD:ered.  DSN:yellow.=:eyellow.&amp.OUT,                           
+//             DISP:yellow.=:eyellow.(MOD,DELETE),                  
+//             SPACE:yellow.=:eyellow.(TRK,(30,30),RLSE),           
+//             DCB:yellow.=:eyellow.BLKSIZE:yellow.=:eyellow.0                       
+//*                                                
+//STEP020 :red.EXEC:ered. PGM:yellow.=:eyellow.IEBGENER,COND:yellow.=:eyellow.(0,NE)            
+//SYSUT1   :red.DD:ered.  DSN:yellow.=:eyellow.&amp.IN,DISP:yellow.=:eyellow.SHR,DCB:yellow.=:eyellow.RECFM:yellow.=:eyellow.U        
+//SYSUT2   :red.DD:ered.  DSN:yellow.=:eyellow.&amp.OUT,                           
+//             DISP:yellow.=:eyellow.(NEW,CATLG),                   
+//             SPACE:yellow.=:eyellow.(TRK,(115,45),RLSE)           
+//SYSPRINT :red.DD:ered.  SYSOUT:yellow.=:eyellow.*                            
+//SYSOUT   :red.DD:ered.  SYSOUT:yellow.=:eyellow.*                            
+//SORTMSG  :red.DD:ered.  SYSOUT:yellow.=:eyellow.*                            
+//SYSIN    :red.DD:ered.  DUMMY                               
+:epnl.
+
+You will need to set the :hp2.File Structure:ehp2.
+to :hp3.Mainframe VB Dump&gml. Includes block length:ehp3.
+.pict Mainframe_VB2.png
+:eol.
+
+
+
+
+:h3.PC Cobol
+:p.The :RecordEditor. can edit Cobol Data files in 2 ways
+:ol.
+ :li.Via the main Editor. Cobol copybooks need to be imported into its Databases
+ :li.Using the Cobol Editor. This editor works directly off a Cobol Copybook but is 
+slightly less capable than the main editor (particular for files with multiple 
+record layouts.
+:eol.
+
+:h4.Main Record Editor
+
+:h5 id=import.Importing Cobol Copybooks
+
+
+:p.The first step in editing a file is to import the Cobol Copybook. To do this
+select :hp2.Record Layouts >>> Load Cobol Copybook:ehp2. from the main menu
+
+.pict Mainframe_ImportCobol1.png
+
+:p.The next screen to be displayed includes:
+
+.pict CobolImport.png
+
+:dl.
+  :dthd.Field
+  :ddhd.Description
+  :dt.Cobol Copybook
+  :dd.
+  :dt.Split Copybook
+  :dd.How the copybook should be divided up (:hp2.No Split:ehp2. - one record in the file;
+:hp2.on redefine:ehp2. - Split into separate record on a Redefine Statement; :hp2.on 01:ehp2. - split into separate
+records for each 01 level).
+   :dt.Font Name
+   :dd.Blank for native files. Normally left blank for PC files; For mainframe EBCDIC use cp037.
+   :dt.Binary Format
+   :dd.Indicates the format of Numeric fields (in particular Comp* Cobol Fields). The Values to use
+   	:tdef id=xlight shade='xlight'.
+	:table cols='* 4*'.
+		:thd refid=xlight.:c.Cobol Implementation:c.Value:ethd.
+		:row refid=none.:c.IBM Mainframe Cobol:c.Mainframe
+		:row.:c.Fujitsu PC Cobol:c.Fujitsu
+		:row.:c.Open Cobol (Default, 85 2002):c.Open Cobol
+		:row.:c.Open Cobol (bs2000):c.Open Cobol bs2000
+		:row.:c.Open Cobol MVS (with Ascii Characterset):c.Open Cobol MVS
+		:row.:c.Open Cobol Micro Focus:c.Open Cobol Micro Focus
+		:row.:c.Micro Focus Cobol:c.Open Cobol Micro Focus
+	:etable.
+   :dt.File Structure
+   :dd.For files with a single record length use :hp2.Fixed Length Binary:ehp2.
+For files with multiple records&gml.
+   	:tdef id=xlight shade='xlight'.
+	:table cols='* 4*'.
+		:thd refid=xlight.:c.Cobol Implementation:c.VB Structure:ethd.
+		:row refid=none.:c.Fujitsu PC Cobol:c.Fujitsu Variable Binary
+		:row.:c.Open Cobol (all versions):c.Open Cobol VB
+	:etable.
+   :dt.System.
+   :dd.Basically a way of grouping Copybooks together in to logical systems.
+:edl.
+
+:h4.Cobol Editor
+:p.The :hp2.Cobol Editor:ehp2. (shell script runEditorFileCopybook.sh) started life as
+specifically using Cobol Copybooks. These days its supports Cobol Copbooks, 2 XML layout formats,
+2 csv layout formats. The primary screen looks like&gml
+
+.pict CobolEditorMain.png
+
+:dl.
+  :dthd.Field
+  :ddhd.Description
+  :dt.File
+  :dd.File to be edited
+   :dt.File Structure
+   :dd.For files with a single record length use :hp2.Fixed Length Binary:ehp2.
+For files with multiple records&gml.
+   	:tdef id=xlight shade='xlight'.
+	:table cols='* 4*'.
+		:thd refid=xlight.:c.Cobol Implementation:c.VB Structure:ethd.
+		:row refid=none.:c.Fujitsu PC Cobol:c.Fujitsu Variable Binary
+		:row.:c.Open Cobol (all versions):c.Open Cobol VB
+	:etable.
+  :dt.Copybook Type
+  :dd.Format of the Record Layout. Use :hp2.Cobol Copybook:ehp2. for Cobol Copybooks
+  :dt.Split Copybook
+  :dd.How the copybook should be divided up (:hp2.No Split:ehp2. - one record in the file;
+:hp2.on redefine:ehp2. - Split into separate record on a Redefine Statement; :hp2.on 01:ehp2. - split into separate
+records for each 01 level).
+  :dt.Copybook
+  :dd.Cobol copybook (or Record Layout description file)
+  :dt.Numeric Format
+  :dd.Indicates the format of Numeric fields (in particular Comp* Cobol Fields). The Values to use
+   	:tdef id=xlight shade='xlight'.
+	:table cols='* 4*'.
+		:thd refid=xlight.:c.Cobol Implementation:c.Value:ethd.
+		:row refid=none.:c.IBM Mainframe Cobol:c.Mainframe
+		:row.:c.Fujitsu PC Cobol:c.Fujitsu
+		:row.:c.Open Cobol (Default, 85 2002):c.Open Cobol
+		:row.:c.Open Cobol (bs2000):c.Open Cobol bs2000
+		:row.:c.Open Cobol MVS (with Ascii Character set):c.Open Cobol MVS
+		:row.:c.Open Cobol Micro Focus:c.Open Cobol Micro Focus
+		:row.:c.Micro Focus Cobol:c.Open Cobol Micro Focus
+	:etable.
+    :note.Same as field as :hp2.Binary format:ehp2. in the :hdref refid=import. screen.
+:edl.
+
+:h4.Options
+:p.There are some options that can be set to make the :hp2.RecordEditor:ehp2. easier to
+use with Cobol Copybooks / files. To make these changes
+:ul.
+ :li.Start the :hp2.Edit Properties:ehp2..
+program (either from the install menu or via :hp2.Edit >> Edit Startup Options:ehp2. from either
+the :hp2.RecordEditor:ehp2. or :hp2.LayoutEditor:ehp2.. 
+ :li.Click on the :hp2.Properties:ehp2. tab followed by the :hp2.Defaults:ehp2. tab.
+.br
+.pict ComboOptions.png
+ :li.Click on the various elements in the Table
+ 	:table cols='* 4*'.
+	:thd refid=xlight.:c.Table Row:c.Description:ethd.
+		:row refid=none.:c.CopybookReader:c.Type of Copybooks top be read. Change to :hp2.Cobol Copybook:ehp2.
+		:row.:c.DefaultIO:c.File Structure - determines what reader is used to read the file.
+Should be changed to :hp2.Fixed Length Binary:ehp2.
+		:row.:c.DefaultBin:c.Binary Format Change as follows:
+	:table cols='* 4*'.
+		:thd refid=xlight.:c.Cobol Implementation:c.Value:ethd.
+		:row refid=none.:c.IBM Mainframe Cobol:c.Mainframe
+		:row.:c.Fujitsu PC Cobol:c.Fujitsu
+		:row.:c.Open Cobol (Default, 85 2002):c.Open Cobol
+		:row.:c.Open Cobol (bs2000):c.Open Cobol bs2000
+		:row.:c.Open Cobol MVS (with Ascii Characterset):c.Open Cobol MVS
+		:row.:c.Open Cobol Micro Focus:c.Open Cobol Micro Focus
+		:row.:c.Micro Focus Cobol:c.Open Cobol Micro Focus
+	:etable.
+	:etable.
+
+:eul.

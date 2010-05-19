@@ -1,0 +1,369 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>Record Edit</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- /home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/regWelco -->
+<!-- me.dcf converted by B2H R4.7 (390) (LINUX) on 11 May 2010 at     -->
+<!-- 19:58:36                                                         -->
+<META HTTP-EQUIV="updated" CONTENT="Fri, 11 Sep 2009 12:13:14">
+<META HTTP-EQUIV="review" CONTENT="Sat, 11 Sep 2010 12:13:14">
+<META HTTP-EQUIV="expires" CONTENT="Sun, 11 Sep 2011 12:13:14">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<a name="Toc"/>
+<P><B><A NAME="ToC_1" HREF="#Header_1" >Record Edit</A></B><BR>
+<MENU>
+<LI><A NAME="ToC_2" HREF="#Header_2" >Getting Started</A>
+<MENU>
+<LI><A NAME="ToC_3" HREF="#Header_3" >Editing a Csv Files</A>
+<LI><A NAME="ToC_4" HREF="#Header_4" >Editing Fixed Width Files</A>
+<LI><A NAME="ToC_5" HREF="#Header_5" >Editing a Xml Files</A>
+<LI><A NAME="ToC_6" HREF="#Header_6" >Editing Cobol Files</A>
+</MENU>
+<LI><A NAME="ToC_7" HREF="#Header_7" >Supplied Programs</A>
+</MENU>
+<P><B><A NAME="ToC_8" HREF="#Header_8" >System Features</A></B><BR>
+<P><B><A NAME="ToC_9" HREF="#Header_9" >Starting</A></B><BR>
+<MENU>
+<LI><A NAME="ToC_10" HREF="#Header_10" >Starting the Record Editor</A>
+<LI><A NAME="ToC_11" HREF="#Header_11" >Viewing a Binary File</A>
+<LI><A NAME="ToC_13" HREF="#Header_13" >Supplied Sample Files</A>
+</MENU><P>
+<HR><H1><A NAME="Header_1" HREF="#ToC_1" >Record Edit</A></H1>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>Welcome to the RecordEditor, I hope it is useful. If you:
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Like the Editor</B></TD><TD><P>Please help promote the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> (i.e. rate it on Software download sites, write a review etc).
+After all the more people who use the editor, the more people will end up supporting / enhancing the editor
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Do not like the Editor</B></TD><TD><P>Let me know at
+<a href="https://sourceforge.net/forum/forum.php?forum_id=467594">RecordEditor Source Forge forum</a>.
+ Both positive and Negative feed back is useful.
+</TD></TR></TABLE>
+If you have any comments, problems,
+suggestions and Feature Requests,  please use the Forums at Sourceforge&#58;
+<P>
+<br><a href="https://sourceforge.net/forum/forum.php?forum_id=467594">RecordEditor Source Forge forum</a>
+<br><a href="https://sourceforge.net/tracker/?group_id=139274&atid=742839">Bug Reporting</a>
+<br><a href="https://sourceforge.net/tracker/?group_id=139274&atid=742842">Feature Request</a>
+<P>
+<P>I generally start a forum (on SourceForge) for changes to the next version, feel free to contribute.
+The next version is may contain:
+<UL COMPACT>
+ <LI>Enhanced Copy function.
+ <LI>I will look at including Java binary formats (like Protocol Buffers).
+ <LI>Other Cobol dialects - If any one has another dialect of Cobol and are willing to run
+some Cobol programs, I will look at adding support in.
+  <LI>I will look at ISAM files.
+</UL>
+<P>
+<P>
+<HR><H2><A NAME="Header_2" HREF="#ToC_2" >Getting Started</A></H2>
+<P>The main File Editor is called <B>Full Editor</B> in the Menu created by the installer.
+The <B>RecordEditor</B> comes with several sample files, It is probably worth
+editing several of them to get a feel for the Editor. When you start the <B><I>Full Editor</I></B>,
+the File field should hold the sample file directory.
+<P>
+<img SRC="Diagram/RecordEdit_Main.png">
+<P>
+<P><H3><A NAME="Header_3" HREF="#ToC_3" >Editing a Csv Files</A></H3>
+<P>For Csv (Delimited) Files, Start the <B>Full Editor</B> and select <B>Generic Csv - Enter Details</B>
+for the Layout; then enter the required details when prompted.
+<P>
+<img SRC="Diagram/RecordEdit_MainCsv.png">
+<P>
+<P>If the file does not have names on the first line, you could also use <B>Create Layout Wizard</B>.
+This wizard will guid you through creating the Layout for the file. It will allow you to select
+columns by pointing and clicking on them.
+<P>
+<P><H3><A NAME="Header_4" HREF="#ToC_4" >Editing Fixed Width Files</A></H3>
+<P>The easiest way to start editing your own Fixed width Files is to use the
+<B>Layout Wizard</B> to create the Record-Layout for the file.
+<P>
+<img SRC="Diagram/RecordEdit_MainCreateLayout.png">
+<P>
+<P>The wizard will let you define the fields by pointing to them
+<P>
+<P><H3><A NAME="Header_5" HREF="#ToC_5" >Editing a Xml Files</A></H3>
+<P>For Xml Files, Start the <B>Full Editor</B> and select <B>Xml - Build Layout<B>
+for the Layout.
+<P>
+<img SRC="Diagram/RecordEdit_MainXml.png">
+<P>
+<P><H3><A NAME="Header_6" HREF="#ToC_6" >Editing Cobol Files</A></H3>
+<P>To Edit Cobol Files you have to options:
+<P>
+<OL TYPE=1>
+ <P><LI>Import the Cobol Layouts into the RecordEditor and use the RecordEditor (FullEditor)
+ <P><LI>Use the <B>Cobol Editor</B>. The Cobol Editor is not tested as well as the RecordEditor and is not as good with multiple record Files.
+</OL>
+<P>
+<P>To import a Cobol copybook select menu item <B>Record Layout &gt;&gt;&gt;&gt; Load Cobol Copybook</B>
+<P>
+<img SRC="Diagram/Mainframe_ImportCobol1.png">
+<P>
+<P>Then update the following screen
+<P>
+<img SRC="Diagram/Mainframe_ImportCobol1.png">
+<P>
+<P>A couple of things to be aware of:
+<P>
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Binary FormaT
+ </B></TD><TD><P>This is effectively the Cobol Dialect being used (Mainframe, Open  Cobol etc).
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>File Structure
+ </B></TD><TD><P>This is similar to RECFM=... on the mainframe. This is where you tell the Editor How the file
+is organized. Options available are <B>Text IO (byte based)</B> - Files with Carriage Returns, <B>Fixed Length Binary</B> - Fixed Length Files.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>After Loaded
+ </B></TD><TD><P>Back on the File open screen after the Cobol copybook has been loaded, You will need
+to hit the <B>Reload from DB</B> to use your new layout.
+</TD></TR></TABLE>
+<P>
+<P>
+<P>
+<HR><H2><A NAME="Header_7" HREF="#ToC_7" >Supplied Programs</A></H2>
+<P>Following are a list of programs supplied with the <B>RecordEditor</B>
+package.
+<TABLE CELLPADDING="3">
+  <TR VALIGN="TOP"><TD><P><B>Full Editor</B></TD><TD><P>Main File Editor
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Layout Editor</B></TD><TD><P>Program to edit Record Layouts (which are used
+by the RecordEdit to help display the Data Files). The Record Layouts can be
+<OL COMPACT TYPE=1>
+<LI>Entered into the front-end screens.
+<LI>Loaded from Cobol Copybooks <P><B>Note: </B>The system uses the package <B>cb2xml</B> to
+convert Cobol to XML. This package still has a few issues.
+<LI>Load from XML Copybooks (as produced by <B>cb2xml</B>).
+</OL>
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Record Editor</B></TD><TD><P>Cut down file Editor, should start quicker over networks / on old Computers.
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Cobol Editor</B></TD><TD><P>Experimental File Editor where record layouts are stored as
+Cobol copybooks. At this stage you are better off using the <font color="blue">Full Editor</font> program.
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Edit Properties</B></TD><TD><P>Program to edit the <font color="blue">RecordEditor</font> Startup properties
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>RecordEditor - Velocity</B></TD><TD><P>Program to test formating files use <font color="blue">RecordEditor</font>
+layouts and <a href="http://velocity.apache.org/" TARGET="Velocity">Velocity</a>.
+<P><B>Note: </B><a href="http://velocity.apache.org/" TARGET="Velocity">Velocity</a> must be instaled seperately and installed into the <font color="blue">RecordEditor</font>
+using the <font color="blue">Edit Properties</font> program.
+</TD></TR></TABLE>
+<P>
+<P>
+<P>Following are a list of documents supplied with the package
+<P>
+<TABLE CELLPADDING="3">
+  <TR VALIGN="TOP"><TD><P><B>Record Editor Manual</B></TD><TD><P>Main RecordEditor Manual.
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>HowTo</B></TD><TD><P>Basic how to examples.
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>CobolEditor Documentation</B></TD><TD><P>Very Basic documentation on the CobolEditor.
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Examples</B></TD><TD><P>Java Examples of interfacing with / extending the RecordEditor.
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Diff1</B></TD><TD><P>File Compare Utility
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Copy</B></TD><TD><P>File Copy utility
+</TD></TR></TABLE>
+<P>
+<P>
+<P><B>To start using the Record Editor you must</B>
+<OL COMPACT TYPE=1>
+<LI>Create the background Databases. SQL creation and Data Scripts can be found
+in the <B>SQL</B> directory.
+<LI>Update the JDBC properties file in the 2 jar files (LayoutEdit.jar and recordEdit.jar).
+<LI>Setup bat / scripts to run the <B>RecordEdit</B> (File Editor)
+and <B>LayoutEdit</B> (record layout edit).
+</OL>
+<P>
+<P>
+<P>Please review the help documentation for details on setting up the programs:
+<b><a HREF=gRecordEdit.htm>Record Edit</a></b>
+<P>
+<P>
+<PRE>
+ 
+ 
+</PRE><P><P><P><HR><H1><A NAME="Header_8" HREF="#ToC_8" >System Features</A></H1>
+<P>
+<P>Record-Editor features:
+<UL COMPACT>
+<LI>Displays fixed format (i.e. Mainframe/Cobol data files) in a human readable format.
+<LI>Support for editing both <font color="blue">binary</font> and <font color="blue">text</font> files.
+<LI>Support for editing both <font color="blue">Ascii~PC</font> and <font color="blue">Native Mainframe Ebcdic</font>
+files on a PC.
+<LI>Being written in Java it should run on most Computer systems.
+<LI>Column can be resized by dragging with the cursor.
+<LI>Columns can be rearranged by dragging and dropping the column.
+</UL>
+<P>
+<HR><H1><A NAME="Header_9" HREF="#ToC_9" >Starting</A></H1>
+<HR><H2><A NAME="Header_10" HREF="#ToC_10" >Starting the Record Editor</A></H2>
+<P>The Record Editor can either be started from
+<UL COMPACT>
+<LI>The start Menu -
+<P>
+<img SRC="Diagram/StartMenu.png">
+<P>
+<LI>From Windows Explorer, you can use the right click button -
+<P>
+<table><tr><td><img SRC="../Docs/Diagram/RightClick.GIF"></td></tr></table>
+<P>
+<LI>From the command line. It accepts the following parameters
+<OL COMPACT TYPE=1>
+<LI>File Name
+<LI>Line Number (preceded by -l).
+</OL>
+<P>To edit a file Filename and move to the 100 record you would enter
+<P>java.jar -jar .../runFullEditor.jar "Filename" -l 100
+</UL>
+<P>
+<P>When the Record Editor starts, it displays the
+Edit Start Screen
+<P>
+<img SRC="../Docs/Diagram/RecordEdit_Main.png">
+<PRE>
+</PRE><P>Fields on this screen are
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><P><B>Field</B>
+</TD><TD><P><B>Description</B>
+</TD></TR><TR VALIGN="TOP"><TD><P><B>File
+</B></TD><TD><P>Name of the file to edit, you can select a file by using the <B><I>Find File</I></B> button to the
+right.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Database
+</B></TD><TD><P>The system stores it's record definitions in a database. The system can also
+connect to multiple Databases. This Combo allows you which DB to use. You could have different
+Test / Production Layout DB's.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>System
+</B></TD><TD><P>The Record Layouts can be grouped into different systems. This Combo Box is
+used to select a specific System.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Record Layout
+</B></TD><TD><P>The Record Layout used to format the file. Only layouts belonging to the
+selected System (above) are displayed.
+<P><B>Note: </B>A <B>Record Layout</B> describes the format of a file, each layout consists of either
+<UL COMPACT>
+ <LI>A series of fields.
+ <LI>A serious of record (which intern consist of a series of fields).
+</UL>
+</TD></TR></TABLE>
+<P>
+<P><B>Buttons on the Screen</B>
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><P><B>Button</B>
+</TD><TD><P><B>Description</B>
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Choose File
+</B></TD><TD><P>Start the File Chooser dialogue which will navigate the File system and the user to choose a file.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Reload
+</B></TD><TD><P>Reloads System and Record Layout details from the database.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Create Layout Wizard
+</B></TD><TD><P>Start the Record Creation wizard. This wizard displays the file and lets you
+select the fields (by clicking on the first character in the field). See  for more detail.
+<P><B>Note: </B>This option is only available in the Full Editor.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Create Layout
+</B></TD><TD><P>Bring up the <B>Record Layout Creation</B> screen. See  for more detail.
+<P><B>Note: </B>This option is only available in the Full Editor.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Edit
+</B></TD><TD><P>Edit the file.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Browse
+</B></TD><TD><P>View the file, but no changes are possible.
+</TD></TR></TABLE>
+<P>
+<HR><H2><A NAME="Header_11" HREF="#ToC_11" >Viewing a Binary File</A></H2>
+<P>In jEdit a binary file like a 4680/4690-Register price change file looks like
+<P>
+<img SRC="Diagram/RecordEdit_jEdit.png">
+<P>
+<P><P>
+<P>
+<P><H4><A NAME="HDRBINTBL">Table View - Binary file</A></H4>
+<P>While in the RecordEditor Table-View, binary fields are converted to there text equivalent. It looks like
+<P>
+<P>
+<img SRC="Diagram/RecordEdit_Table.png">
+<P>
+<PRE>
+ 
+</PRE><P><HR><H2><A NAME="Header_13" HREF="#ToC_13" >Supplied Sample Files</A></H2>
+<P>In the $IntallDirectory/SampleFiles there are a number of example files for
+you try out the Editor.
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">File
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">System
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">Record Layout
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Ams_Receipt.txt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >AMS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >ams Receipt
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Ams_PODownload_20050101.txt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >AMS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >ams PO Download
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Ams_PODownload_20041231.txt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >AMS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >ams PO Download
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Ams_LocDownload_20041228.txt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >AMS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >ams Store
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Ams_Shipping_04DEC03190126.txt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >AMS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >ams Shipping Upload
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Ams_Shipping_04DEC02190132.txt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >AMS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >ams Shipping Upload
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Ams_Shipping_04DEC01190125.txt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >AMS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >ams Shipping Upload
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Ams_VendorDownload_20041229.txt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >AMS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >ams Vendor Download
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Pos_Spl_1.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >POS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >SPL
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Pos_Spl_2.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >POS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >SPL
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Pos_Price_2.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >POS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Price
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Pos_Price_1.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >POS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Price
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">DTAR119_keyode.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Mainframe
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >DTAR119
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">DTAR020.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Mainframe
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >DTAR020
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">DTAR107.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Mainframe
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >DTAR107
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">DTAR192.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Mainframe
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >DTAR192
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">sampleEbcdicNew.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Mainframe
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Mainframe FB80
+</TD></TR></TABLE>
+<P>
+<P>
+<P>
+<P>
+<P>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

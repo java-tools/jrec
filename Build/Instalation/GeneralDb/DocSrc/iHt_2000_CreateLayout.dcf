@@ -1,0 +1,40 @@
+:h1.Create a new Record Layout
+:h2.Create a Record Layout for a File via the Wizard
+:p.The easiest way to create a Layout for a file is to use Layout Wizard.
+To do this:
+:ol.
+:li.Start the :blue.Full Editor:eblue..
+:li.Enter the filename which you want create the layout for (you can use
+the find file button to search for it if need be).
+:li.Press the :blue.Create Layout Wizard:eblue. button circled in red in the picture below
+.pict RecordEdit_MainCreateLayout.png
+:li.On the first wizard screen you enter:
+:dl.
+ :dt.File Structure:dd.Format of the file, for Windows/Unix text files :hp2.Default Reader:ehp2. is fine
+ :dt.Layout Name   :dd.Name of this new Record Layout
+ :dt.System        :dd.System this layout belongs to. This field is used group record layouts
+together. You can update the systems by selecting the :hp2.Edit Layout --> Edit System Table:ehp2. drop down menu.
+:edl.
+.pict layout_wizard1.png
+:li.The second Layout Screen displays the first 30 records on the file.
+You indicate the start of a field by clicking on the starting column. To remove a field click on the starting column again.
+Each successive field will have alternating background color.
+.pict layout_wizard2.png
+:li.On the final screen you enter field names and field types.
+.pict layout_wizard3.png
+:eol.
+
+:h2.Create a Record Layout via Definition Screens
+:p.From both the :bblue.Full Editor:ebblue. and the :bblue.Record Layout Edit:ebblue. programs
+you can select :blue.Create Layout:eblue. from the :hp2.Record Layouts:ehp2. drop down menu.
+
+.pict MenuRL_Create.GIF
+
+:p.You can then create the layout on the :hdref refid=LayoutDef. screen.
+
+:note.In the :bblue.Record Layout Edit:ebblue. program you can also select the
+:hp2.Create Record Layout:ehp2. menu option.
+
+.pict LayoutEdit_Menu.GIF
+
+.im iRE_le1100_LayoutDefinition.dcf

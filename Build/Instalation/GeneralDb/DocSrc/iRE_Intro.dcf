@@ -1,0 +1,39 @@
+:p.This is a :hp2.Programmers Data-file editor:ehp2., similar to the
+Mainframe Editor - :hp2.File-Aid:ehp2. or 
+.*b2h html <a href="http://www.adtools.com/products/windows/dedit.htm">Net-Cobols Cobol-Editor</a>.
+The Editor is written in java (1.4) so should run on most Computer Systems.
+The RecordEditor has the following uses
+:ol compact.
+   :li.Viewing/editing Fixed field length data files (i.e. fields occupy the same columns 
+in every record. A typical file might be- Columns 1 to 8 Product, Columns 9 to 16 Quantity etc).
+   :li.Viewing/editing CSV (i.e. Comma / Tab separated fields) files
+   :li.Reading / Writing Record orientated files in JAVA.
+:eol.
+:p.This program uses a :BBlue.Record-Layout:eBBlue. definition to display the data file
+in a Human Readable Form. It can handle both :hp2.PC (Text and Binary):Ehp2. and 
+:hp2.native IBM Mainframe (Text and Binary):Ehp2. file formats. 
+:p.These :BBlue.Record-Layouts:eBBlue. are stored in a Database. There is an option
+to import :BBlue.Cobol Record Layouts:eBBlue. into the Database plus screens to edit
+the :hp2.Record Layouts:ehp2..
+
+:p.Fixed Field Length data files are very common  :
+:ul compact.
+   :li.On IBM Mainframes
+   :li.In Cobol Programs
+:eul.
+But at work we also use them for
+:ul compact.
+   :li.Sending data to IBM 4680/4690 Register Controllers
+   :li.Automated Warehouse Control Systems
+   :li.Transferring data between different Computers
+:eul.
+
+:p.I believe the people working in the following areas will find this program very useful:
+:ul compact.
+  :li.Interfacing with IBM Mainframe Systems.
+  :li.Mainframe Programmers (who do not have access to File-Aid or similar products).
+  :li.IBM 4680/4690 Register controllers.
+:eul.
+
+
+

@@ -1,0 +1,28 @@
+:h2.Supplied Sample Files
+:p.In the $IntallDirectory/SampleFiles there are a number of example files for 
+you try out the Editor.
+  
+:tdef id=shade  cols='2* * 2*'.                       
+:tdef id=xlight refid=shade shade='xlight'.
+:tdef id=none refid=shade shade='no'.
+:table cols=shade.     
+:thd refid=xlight.:c.File:c.System:c.Record Layout:ethd.
+:row refid=none.:c.Ams_Receipt.txt:c.AMS:c.ams Receipt
+:row.:c.Ams_PODownload_20050101.txt:c.AMS:c.ams PO Download
+:row.:c.Ams_PODownload_20041231.txt:c.AMS:c.ams PO Download
+:row.:c.Ams_LocDownload_20041228.txt:c.AMS:c.ams Store
+:row.:c.Ams_Shipping_04DEC03190126.txt:c.AMS:c.ams Shipping Upload
+:row.:c.Ams_Shipping_04DEC02190132.txt:c.AMS:c.ams Shipping Upload
+:row.:c.Ams_Shipping_04DEC01190125.txt:c.AMS:c.ams Shipping Upload
+:row.:c.Ams_VendorDownload_20041229.txt:c.AMS:c.ams Vendor Download
+:row.:c.Pos_Spl_1.bin:c.POS:c.SPL
+:row.:c.Pos_Spl_2.bin:c.POS:c.SPL
+:row.:c.Pos_Price_2.bin:c.POS:c.Price
+:row.:c.Pos_Price_1.bin:c.POS:c.Price
+:row.:c.DTAR119_keyode.bin:c.Mainframe:c.DTAR119
+:row.:c.DTAR020.bin:c.Mainframe:c.DTAR020
+:row.:c.DTAR107.bin:c.Mainframe:c.DTAR107
+:row.:c.DTAR192.bin:c.Mainframe:c.DTAR192
+:row.:c.sampleEbcdicNew.bin:c.Mainframe:c.Mainframe FB80
+:etable.
+

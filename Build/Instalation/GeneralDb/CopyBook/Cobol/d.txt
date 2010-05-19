@@ -1,0 +1,14 @@
+ Volume in drive E has no label.
+ Volume Serial Number is 709D-48C9
+
+ Directory of E:\Work\RecordEdit\Instalation\GeneralDB\Cobol
+
+06/06/2005  03:18 PM             1,232 CopyDTAR020.cbl
+22/02/2007  08:10 AM             1,279 CopyDTAR020.xml
+06/06/2005  02:59 PM             1,692 CopyDTAR119.cbl
+06/06/2005  03:04 PM             1,150 CopyDTAR192.cbl
+20/04/2007  09:21 PM             1,860 CopySAR4180A.xml
+03/05/2007  05:21 PM             1,581 CopySAR4180B.xml
+04/05/2007  07:38 PM             1,863 CopySAR4180C.xml
+               7 File(s)         10,657 bytes
+               0 Dir(s)   3,374,161,920 bytes free

@@ -1,0 +1,27 @@
+
+:p.The follow packages where used in the :hp2.RecordEditor:ehp2.
+:ul compact.
+.*b2h HTML <li><a href="http://cb2xml.sourceforge.net">cb2xml</a> Converts Cobol / Cobol Files to XML. Used to load <b>Cobol Copybooks</b> into the <b>RecordEditor</b> 
+.*b2h HTML <li><a href="http://sablecc.org">SableCC</a> used by cb2xml (and this package) in the conversion of Cobol Copybooks.
+.*b2h HTML <li><a href="http://hsqldb.sourceforge.net/">HSQLDB</a> A SQL Database used as a backend DB for some versions.
+.*b2h HTML <li><a href="http://jakarta.apache.org/velocity/">Velocity</a> is used in several examples.
+.*b2h HTML <li><a href="https://tablelayout.dev.java.net/">Tablelayout</a>Layout manager used by the RecordEditor
+:eul.
+
+
+:p.All these systems are available on WWW.SourceForge.net.
+:ul compact.
+.*b2h HTML <li><a href="http://sourceforge.net/projects/jrecord/">JRecord</a>  Project for reading and writing cobol files from Java. It was split of from the RecordEditor and contains the RecordEditor IO routines.
+.*b2h HTML <li><a href="http://sourceforge.net/projects/ffreport/">Flat File Reporting</a>  Project for reporting on RecordEditor / Cobol files.
+.*b2h HTML <li><a href="http://cb2xml.sourceforge.net">cb2xml</a>  Converts Cobol / Cobol Files to XML. It is written in JAVA. I have used it to import Cobol Record Layouts. 
+.*b2h HTML <li><a href="http://sourceforge.net/projects/cb2java/">cb2java</a>  Project for reading and writing cobol files from Java.
+.*b2h HTML <li><a href="http://txt2xml-rexx.sourceforge.net">Txt2XML</a> Converts Cobol Files to XML. It is written in Rexx. 
+.** *b2h HTML <li><a href="http://squirrelsql.org">SQuireL</a> A good basic SQL Client
+.** *b2h HTML <li><a href="http://regina-rexx.sourceforge.net">Regina Rexx</a> Rexx Interpreter. I used Rexx for build scripts etc (maybe I should learn ANT).
+.** *b2h HTML <li><a href="http://sourceforge.net/projects/oorexx">Object Rexx</a> Rexx Interpreter
+:eul.
+
+
+
+.**  http://www.rexxla.org/index.html
+.**  http://www.vm.ibm.com/download/packages/

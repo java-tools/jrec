@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>Layout Editor</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- /home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/HlpLe.dc -->
+<!-- f converted by B2H R4.7 (390) (LINUX) on 12 Mar 2010 at 01:56:58 -->
+<META HTTP-EQUIV="updated" CONTENT="Fri, 11 Sep 2009 12:13:14">
+<META HTTP-EQUIV="review" CONTENT="Sat, 11 Sep 2010 12:13:14">
+<META HTTP-EQUIV="expires" CONTENT="Sun, 11 Sep 2011 12:13:14">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<HR><H2><A NAME="HDRCPYLAYOUT" HREF="HlpLe.htm#ToC_34" >Copy Copybooks</A></H2>
+<P>This option is used to copy Copybooks (RecordLayouts):
+<OL TYPE=1>
+ <P><LI>From one Database to an other (if you have more than on Database defined).
+ <P><LI>To a file in the RecordEditor CSV format. This file can be loaded back into
+the record Editor via the LayoutEditor <A HREF="HlpLe09.htm#HDRIMPORTG">"Load Copybook Choose Format"</A> option.
+ <P><LI>To a file using a Velocity Template (
+See <a href=HowTo.htm#HDRVELOCITY>Installing Velocity</a>).
+There is one supplied template to print a RecordLayout as HTML
+</OL>
+<P>
+<P>In the example below, All layout starting with <B>ams shp Upload</B> will copied
+to files in the directory <B>C:\Program Files\RecordEdit\MSaccess\CopyBook\csv\</B>
+<P>
+<img SRC="Diagram/LayoutEdit_Copy.JPG">
+<P>
+<P>The Screen consists of 2 Panels:
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Source
+ </B></TD><TD><P>On the left is the Source Panel where you specify Copybooks to be
+copied. You select the Source DB and specify the copybook(s); you can use %
+as a wild card.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Destination
+ </B></TD><TD><P>In the right hand panel you specify the destination. The fields are
+  <TABLE CELLPADDING="3">
+   <TR VALIGN="TOP"><TD><P><B>Database
+   </B></TD><TD><P>Destination Database or File or Velocity. <P><B>Note: </B>Velocity needs to be downloaded seperately.
+See <a href=HowTo.htm#HDRVELOCITY>Installing Velocity</a> for details.
+   </TD></TR><TR VALIGN="TOP"><TD><P><B>Output Format
+   </B></TD><TD><P>For Output File format. It is only available when <B>Database</B>=File.
+   </TD></TR><TR VALIGN="TOP"><TD><P><B>Output Directory
+   </B></TD><TD><P>The output directory when  <B>Database</B>= File or Velocity .
+   </TD></TR><TR VALIGN="TOP"><TD><P><B>Extension
+   </B></TD><TD><P>The File Extension for writing Velocity based output.
+   </TD></TR><TR VALIGN="TOP"><TD><P><B>Velocity Template
+   </B></TD><TD><P>The Velocity Template to format the Copybook with.
+  </TD></TR></TABLE>
+</TD></TR></TABLE>
+<P>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

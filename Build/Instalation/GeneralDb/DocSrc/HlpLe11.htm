@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>Layout Editor</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- /home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/HlpLe.dc -->
+<!-- f converted by B2H R4.7 (390) (LINUX) on 12 Mar 2010 at 01:56:58 -->
+<META HTTP-EQUIV="updated" CONTENT="Fri, 11 Sep 2009 12:13:14">
+<META HTTP-EQUIV="review" CONTENT="Sat, 11 Sep 2010 12:13:14">
+<META HTTP-EQUIV="expires" CONTENT="Sun, 11 Sep 2011 12:13:14">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<HR><H2><A NAME="HDRDBCSV" HREF="HlpLe.htm#ToC_35" >DB CSV Copybook format</A></H2>
+<P>The DB Format is for viewing / editing DB2-UDB delimited table exports files. A file
+can be created with the following SQL&#58;
+<PRE><SPAN CLASS="gutter">   1:</SPAN>EXPORT <SPAN CLASS="syntax8">TO</SPAN> <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">C:\Bruce\RecordEditor\Db2Fields.txt</SPAN><SPAN CLASS="syntax13">&quot;</SPAN> <SPAN CLASS="syntax8">OF</SPAN> DEL MESSAGES <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">C:\export.txt</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>
+<SPAN CLASS="gutter">   2:</SPAN><SPAN CLASS="syntax8">SELECT</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">DB_DVMT_</SPAN><SPAN CLASS="syntax13">'</SPAN> <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> c.TABSCHEMA, c.TABNAME, c.COLNAME, c.COLNO, c.TYPENAME, c.LENGTH, c.SCALE
+<SPAN CLASS="gutter">   3:</SPAN>  <SPAN CLASS="syntax8">FROM</SPAN> SYSCAT.COLUMNS <SPAN CLASS="syntax8">AS</SPAN> c
+<SPAN CLASS="gutter">   4:</SPAN> <SPAN CLASS="syntax8">where</SPAN> c.TABSCHEMA <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">ETB</SPAN><SPAN CLASS="syntax13">'</SPAN>
+<SPAN CLASS="gutterH">   5:</SPAN> <SPAN CLASS="syntax8">ORDER</SPAN> <SPAN CLASS="syntax8">BY</SPAN> c.TABSCHEMA <SPAN CLASS="syntax8">ASC</SPAN>, c.TABNAME <SPAN CLASS="syntax8">ASC</SPAN>, c.COLNO <SPAN CLASS="syntax8">ASC</SPAN>
+<SPAN CLASS="gutter">   6:</SPAN>
+</PRE><P><P>Or alternatively the following SQL will generate SQL to create a
+copybook files for each table.
+<P>
+<PRE><SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax8">SELECT</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">EXPORT</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">TO</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">&quot;C:\Data\RecordEditor\CsvCopybooks\</SPAN><SPAN CLASS="syntax13">'</SPAN>  <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> TabName <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">.Csv&quot;</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">OF</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">DEL</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">MESSAGES</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">&quot;C:\export.txt&quot;</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">'</SPAN>
+<SPAN CLASS="gutter">   2:</SPAN>    <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">SELECT</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">DB_DVMT_</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">||</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.TABSCHEMA,</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.TABNAME,</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.COLNAME,</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.COLNO,</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.TYPENAME,</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.LENGTH,</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.SCALE</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">'</SPAN>
+<SPAN CLASS="gutter">   3:</SPAN>    <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN>  <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">FROM</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">SYSCAT.COLUMNS</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">AS</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">'</SPAN>
+<SPAN CLASS="gutter">   4:</SPAN>    <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">where</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.TABSCHEMA</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">=</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN> <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> TABSCHEMA <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">and</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.TABNAME</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">=</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN> <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> TabName <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">'</SPAN>
+<SPAN CLASS="gutterH">   5:</SPAN>    <SPAN CLASS="syntax18">|</SPAN><SPAN CLASS="syntax18">|</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">ORDER</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">BY</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.TABNAME</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">ASC,</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">c.COLNO</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">ASC;</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">'</SPAN>
+<SPAN CLASS="gutter">   6:</SPAN><SPAN CLASS="syntax8">FROM</SPAN> SYSCAT.TABLES <SPAN CLASS="syntax8">where</SPAN> TABSCHEMA <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax13">'</SPAN><SPAN CLASS="syntax13">ETB</SPAN><SPAN CLASS="syntax13">'</SPAN>;;
+<SPAN CLASS="gutter">   7:</SPAN>
+<SPAN CLASS="gutter">   8:</SPAN>
+</PRE><P>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

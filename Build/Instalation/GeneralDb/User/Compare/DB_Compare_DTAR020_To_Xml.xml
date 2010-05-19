@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diff type="TwoLayouts" complete="YES">
+  <StripTrailingSpaces>true</StripTrailingSpaces>
+  <HtmlOptions HtmlFile="" AllRows="false" AllFields="false" SingleTable="false"/>
+  <oldfile>
+    <file name="/home/bm/RecordEdit/HSQLDB/SampleFiles/DTAR020.bin">
+      <layout name="DTAR020">
+        <record name="DTAR020">
+          <field>KEYCODE-NO</field>
+          <field>STORE-NO</field>
+          <field>DATE</field>
+          <field>DEPT-NO</field>
+          <field>QTY-SOLD</field>
+          <field>SALE-PRICE</field>
+        </record>
+      </layout>
+    </file>
+  </oldfile>
+  <newfile>
+    <file name="/home/bm/RecordEdit/HSQLDB/SampleFiles/DTAR020a.xml">
+      <layout name="XML - Build Layout">
+        <record name="DTAR020">
+          <field>KEYCODE-NO</field>
+          <field>STORE-NO</field>
+          <field>DATE</field>
+          <field>DEPT-NO</field>
+          <field>QTY-SOLD</field>
+          <field>SALE-PRICE</field>
+        </record>
+      </layout>
+    </file>
+  </newfile>
+</diff>

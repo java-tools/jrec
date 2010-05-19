@@ -1,0 +1,39 @@
+##
+##  Generate HTML for a EDI PO file
+##
+
+#set ( $IdxReceiptRh = ${layout.getRecordIndex("ams Receipt RH Receipt Header")} )
+###set ( $IdxReceiptRh = 1 )
+#set ( $IdxPO        = ${layout.getRecord(${IdxReceiptRh}).getFieldIndex("Order No Rh")} )
+#set ( $IdxSupplier  = ${layout.getRecord(${IdxReceiptRh}).getFieldIndex("Sup Id Rh")} )
+#set ( $IdxRctDate   = ${layout.getRecord(${IdxReceiptRh}).getFieldIndex("Receipt Date Rh")} )
+#set ( $IdxRctTime   = ${layout.getRecord(${IdxReceiptRh}).getFieldIndex("Receipt Time Rh")} )
+#set ( $IdxDC        = ${layout.getRecord(${IdxReceiptRh}).getFieldIndex("Brand Dc No Rh")} )
+
+###Order Index ~ $IdxReceiptRh ~ $IdxPO $IdxSupplier $IdxRctDate $IdxRctTime $IdxDC 
+
+&nbsp;&nbsp;
+<table CELLPADDING="3">
+  <TR><TH BGCOLOR=blue><font color=white><b>&nbsp;&nbsp;$fileName&nbsp;&nbsp;</b></font></TH></TR>
+</table>
+&nbsp;
+<table border="1">
+  <TR>
+    <TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">DC</TH>
+    <TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">Purchase Order</TH>
+    <TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">Supplier</TH>
+    <TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">Receipt Date</TH>
+    <TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">Receipt Time</TH>
+  </TR>
+
+#foreach( $rec in $records )
+  <tr>
+    <td>${rec.getField(${IdxReceiptRh}, ${IdxDC})}</td>
+    <td>${rec.getField(${IdxReceiptRh}, ${IdxPO})}</td>
+    <td>${rec.getField(${IdxReceiptRh}, $IdxSupplier)}</td>
+    <td>${rec.getField(${IdxReceiptRh}, $IdxRctDate)}</td>
+    <td>${rec.getField(${IdxReceiptRh}, $IdxRctTime)}</td>
+  </tr>
+#end
+</table>
+<p>&nbsp;<p>

@@ -1,0 +1,16 @@
+Record	0	1	<Tab>	0		Y	
+1	1	x\z	x\z Check box	0	0	1	\x\z\\N\
+2	1	f Combo		0	0	15	zzzz a
+3	8	f ddMMYYYY		0	0	3	
+11	9	f dd.MMM.yy		0	0	2	dd.MMM.yy
+20	8	f YYYYMMDD		0	0	4	
+28	1	T/F		112	0	0	
+29	1	Y/N		111	0	0	
+30	25	CSV Array :		115	0	0	\\:\
+55	6	ddmmyy		74	0	0	
+61	8	ddmmyyyy		75	0	0	
+69	6	yymmdd		72	0	0	
+75	8	yyyymmdd		73	0	0	
+83	11	dd.MMM.yyyy		71	0	0	dd.MMM.yyyy
+94	1	F Combo 2		0	0	15	zzzz b
+95	15	Text		0	0	0	

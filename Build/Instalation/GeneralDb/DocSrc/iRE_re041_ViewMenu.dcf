@@ -1,0 +1,6 @@
+:h3 id=ViewMenu.View Menu
+.pict RecordEdit_ViewMenu.png
+:p.The view menu is used to select alternative display formats
+for the rows that are currently selected in the editor. See the folowing sections
+for details on the various views available.
+:p.It also allows you to execute saved :hp2.Filters:ehp2., :hp2.Sort Tree's:ehp2. and :hp2.Record Tree's:ehp2.

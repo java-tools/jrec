@@ -1,0 +1,20 @@
+:i1.XmplType1
+:i2 refid=example.XmplType1
+.*b2h html <PRE><SPAN CLASS="gutter">   1:</SPAN>
+.*b2h html <SPAN CLASS="gutter">   2:</SPAN>        TypeManager typeManager    <SPAN CLASS="syntax18">=</SPAN> TypeManager.<SPAN CLASS="syntax6">getSystemTypeManager</SPAN>();
+.*b2h html <SPAN CLASS="gutter">   3:</SPAN>        CopyBookDbReader copybook  <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">CopyBookDbReader</SPAN>();
+.*b2h html <SPAN CLASS="gutter">   4:</SPAN>        TypeCheckBoxYN checkBox    <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">TypeCheckBoxYN</SPAN>();
+.*b2h html <SPAN CLASS="gutterH">   5:</SPAN>        TypeComboExample typeCombo <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">TypeComboExample</SPAN>();
+.*b2h html <SPAN CLASS="gutter">   6:</SPAN>
+.*b2h html <SPAN CLASS="gutter">   7:</SPAN>        <SPAN CLASS="syntax8">try</SPAN> <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter">   8:</SPAN>            <SPAN CLASS="syntax2">//</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">register</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">the</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">new</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">types</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">with</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">the</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">type</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">manager</SPAN>
+.*b2h html <SPAN CLASS="gutter">   9:</SPAN>            typeManager.<SPAN CLASS="syntax6">registerType</SPAN>(<SPAN CLASS="syntax5">1001</SPAN>, checkBox, checkBox);
+.*b2h html <SPAN CLASS="gutterH">  10:</SPAN>            typeManager.<SPAN CLASS="syntax6">registerType</SPAN>(<SPAN CLASS="syntax5">1002</SPAN>, typeCombo, typeCombo);
+.*b2h html <SPAN CLASS="gutter">  11:</SPAN>
+.*b2h html <SPAN CLASS="gutter">  12:</SPAN>            <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">EditRec</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>, <SPAN CLASS="syntax5">1</SPAN>, copybook); <SPAN CLASS="syntax2">//</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">starting</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">the</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">record</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">editor</SPAN>
+.*b2h html <SPAN CLASS="gutter">  13:</SPAN>
+.*b2h html <SPAN CLASS="gutter">  14:</SPAN>        <SPAN CLASS="syntax18">}</SPAN> <SPAN CLASS="syntax8">catch</SPAN> (Exception e) <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutterH">  15:</SPAN>            e.<SPAN CLASS="syntax6">printStackTrace</SPAN>();
+.*b2h html <SPAN CLASS="gutter">  16:</SPAN>        <SPAN CLASS="syntax18">}</SPAN>
+.*b2h html <SPAN CLASS="gutter">  17:</SPAN></PRE>
+

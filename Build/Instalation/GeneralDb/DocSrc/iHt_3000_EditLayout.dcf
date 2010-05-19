@@ -1,0 +1,28 @@
+:h1.Edit a Record Layout
+:p.To edit a :hp2.Record Layout:ehp2. (say Price) you will need to
+:ul.
+ :li.Start the :hp2.Record Layout:ehp2. editor, this can be done via the :hp2.Edit Layout:ehp2.
+of the :hp2.Record Layout:ehp2. drop down Menu in the :Blue.Full Editor:eblue. 
+or the :Blue.Record Layout Edit:EBlue. program.
+ 
+.pict MenuRL_Edit.GIF
+
+:p.or in the :Blue.Record Layout Editor:EBlue., select the :hp2.Edit Record Layout:ehp2.
+
+.pict LayoutEdit_Menu_EditlLayout.GIF
+
+ :li.This will bring up the edit screen:
+ 
+.pict LayoutEdit_record.png
+ 
+ :li.Enter :hp2.Price%:ehp2. followed by <tab> in :hp2.Record Name:ehp2. as below.
+This will bring up a list of matching records. 
+:note. :BBlue.%:EBBlue. is a wildcard.
+ 
+.pict LayoutEdit_Record_Selection.GIF
+
+ :li.Click on the Record to be edited (Price in this case), this will bring up
+the Record details on the right side of the screen.
+
+ :li.See :hdref refid=LayoutDef. for details on editing a record.
+:eul.

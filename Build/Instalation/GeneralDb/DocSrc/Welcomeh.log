@@ -1,0 +1,104 @@
+Command: B2H rehWelcome.dcf (HTMPEXT=htm LOG=Welcomeh.log QUIET)
+|MsgNum Type---| |----- B2H R4.7 (390) ------------------------------|
+|B2H105 Info:    Conversion started: 2010-05-11 19:58:38
+|B2H160 Info:    Loading system symbol table "/home/bm/Work/Rexx/B2H/B2H.SYM" ...
+|B2H160 Info:    Loading system profile "/home/bm/Work/Rexx/B2H/B2H.PRO" ...
+|B2H100 Info:    CurrSys=LINUX, DestSys=LINUX, Input=/home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/rehWelcome.dcf
+|B2H101 Info:    PhysicalOut=rehWelcome.htm, LogicalOut=rehWelcome.html
+|B2H104 Info:    Beginning pass 1 of 2 (processing markup) ...
+|B2H302 Info:    Reading file "/home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/rehWelcome.dcf" ...
+|B2H303 Info:    ..Imbedding 'iRE_TagDefs.dcf' ...
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :tag. example IT=N VAT=N ATT=N SE=N V='<a href=xmple.htm>RecordEditor Examples</a>'
+|B2H109 Info:      (in line 1 of iRE_TagDefs.dcf)
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :tag. re2jasper IT=N VAT=N ATT=N SE=N V='<a href=re2Jasper.htm TARGET="jasper">RecordEditor ~ Jasper Interface</a>'
+|B2H109 Info:      (in line 2 of iRE_TagDefs.dcf)
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :tag. javadoc IT=N VAT=N ATT=N SE=N V='<a href="JavaDoc/index.html">RecordEditor JavaDoc's</a>'
+|B2H109 Info:      (in line 3 of iRE_TagDefs.dcf)
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :tag. RecordEditor IT=N VAT=N ATT=N SE=N V='<a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a>'
+|B2H109 Info:      (in line 4 of iRE_TagDefs.dcf)
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :tag. iReports IT=N VAT=N ATT=N SE=N V='<a href="http://ireport.sourceforge.net/" TARGET="iReports">iReports</a>'
+|B2H109 Info:      (in line 5 of iRE_TagDefs.dcf)
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :tag. ffReports IT=N VAT=N ATT=N SE=N V='<a href="http://ffreports.sourceforge.net/" TARGET="ffReports">Flat File Reporting</a>'
+|B2H109 Info:      (in line 6 of iRE_TagDefs.dcf)
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :tag. Velocity IT=N VAT=N ATT=N SE=N V='<a href="http://velocity.apache.org/" TARGET="Velocity">Velocity</a>'
+|B2H109 Info:      (in line 7 of iRE_TagDefs.dcf)
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :tag. PropertiesEditor IT=N VAT=N ATT=N SE=N V='<font color="blue">Edit RecordEditor Startup Properties</font> program'
+|B2H109 Info:      (in line 8 of iRE_TagDefs.dcf)
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :tag. Blue IT=N VAT=N ATT=N SE=Y V='<font color="blue">'
+|B2H109 Info:      (in line 10 of iRE_TagDefs.dcf)
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :tag. EBlue IT=N VAT=N ATT=N SE=Y V='</font>'
+|B2H109 Info:      (in line 11 of iRE_TagDefs.dcf)
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :tag. Red IT=N VAT=N ATT=N SE=Y V='<font color="red">'
+|B2H109 Info:      (in line 12 of iRE_TagDefs.dcf)
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :tag. ERed IT=N VAT=N ATT=N SE=Y V='</font>'
+|B2H109 Info:      (in line 13 of iRE_TagDefs.dcf)
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :tag. BBlue IT=N VAT=N ATT=N SE=Y V='<font color="blue"><b>'
+|B2H109 Info:      (in line 15 of iRE_TagDefs.dcf)
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :tag. EBBlue IT=N VAT=N ATT=N SE=Y V='</b></font>'
+|B2H109 Info:      (in line 16 of iRE_TagDefs.dcf)
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :tag. yellow IT=N VAT=N ATT=N SE=Y V='<font color="yellow"><b>'
+|B2H109 Info:      (in line 18 of iRE_TagDefs.dcf)
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :tag. eyellow IT=N VAT=N ATT=N SE=Y V='</b></font>'
+|B2H109 Info:      (in line 19 of iRE_TagDefs.dcf)
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :tag. BRed IT=N VAT=N ATT=N SE=Y V='<font color="red"><b>'
+|B2H109 Info:      (in line 21 of iRE_TagDefs.dcf)
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :tag. EBRed IT=N VAT=N ATT=N SE=Y V='</b></font>'
+|B2H109 Info:      (in line 22 of iRE_TagDefs.dcf)
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :TAG. Pnl IT=N VAT=N ATT=Y SE=N V='<Table border="3" cellpadding="7" cellspacing="3"><tr><TD BGCOLOR="#000000"><FONT COLOR="#00ff00"><pre>'
+|B2H109 Info:      (in line 24 of iRE_TagDefs.dcf)
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :TAG. ePnl IT=N VAT=N ATT=Y SE=N V='</pre></font></td></tr></pre></table>'
+|B2H109 Info:      (in line 25 of iRE_TagDefs.dcf)
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :tag. rlink IT=N VAT=N ATT=N SE=N V='.relink'
+|B2H109 Info:      (in line 35 of iRE_TagDefs.dcf)
+|B2H303 Info:    ..Imbedding 'iRE_Welcome.dcf' ...
+|B2H310 Info:    ..Reading line 100 from iRE_Welcome.dcf ...
+|B2H303 Info:    ..Imbedding 'iRE_HSQLdetails.dcf' ...
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :tag. Blue IT=N VAT=N ATT=N SE=Y V='<font color="blue">'
+|B2H109 Info:      (in line 1 of iRE_HSQLdetails.dcf)
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :tag. EBlue IT=N VAT=N ATT=N SE=Y V='</font>'
+|B2H109 Info:      (in line 2 of iRE_HSQLdetails.dcf)
+|B2H303 Info:    ..Imbedding 'iRE_Features.dcf' ...
+|B2H303 Info:    ..Imbedding 'iRE_starting.dcf' ...
+|B2H303 Info:    ....Imbedding 'iRE_re005_RecordEditMain.dcf' ...
+|B2H303 Info:    ..Imbedding 'iRE_BinFile.dcf' ...
+|B2H303 Info:    ..Imbedding 'iRE_SuppliedFiles.dcf' ...
+|B2H304 Info:    37 lines read from /home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/rehWelcome.dcf
+|B2H306 Info:    391 lines written to B0073541.temp1198 
+|B2H104 Info:    Beginning pass 2 of 2 (resolving cross-references) ...
+|B2H310 Info:    Reading line 100 from B0073541.temp1198 ...
+|B2H310 Info:    Reading line 200 from B0073541.temp1198 ...
+|B2H440 ERROR:   Reference not found, following ignored:
+|B2H440 ERROR:     :hdref refid=Wizard. for more detail.
+|B2H440 ERROR:   Reference not found, following ignored:
+|B2H440 ERROR:     :hdref refid=LayoutDef. for more detail.
+|B2H310 Info:    Reading line 300 from B0073541.temp1198 ...
+|B2H306 Info:    388 lines written to rehWelcome.htm (rehWelcome.html) 
+|B2H304 Info:    391 lines read from B0073541.temp1198
+|B2H411 WARNING: :HP2 (in line 55 of iRE_Welcome.dcf) never ended!
+|B2H411 WARNING: :HP2 (in line 55 of iRE_Welcome.dcf) never ended!
+|B2H106 Info:    Conversion completed in 0.20 seconds
+|B2H306 Info:    104 lines written to Welcomeh.log 
+|B2H107 Info:    Highest RC=8

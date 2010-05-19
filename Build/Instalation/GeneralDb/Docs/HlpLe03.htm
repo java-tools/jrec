@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>Layout Editor</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- /home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/HlpLe.dc -->
+<!-- f converted by B2H R4.7 (390) (LINUX) on 12 Mar 2010 at 01:56:58 -->
+<META HTTP-EQUIV="updated" CONTENT="Fri, 11 Sep 2009 12:13:14">
+<META HTTP-EQUIV="review" CONTENT="Sat, 11 Sep 2010 12:13:14">
+<META HTTP-EQUIV="expires" CONTENT="Sun, 11 Sep 2011 12:13:14">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<HR><H2><A NAME="HDRRESCREEN" HREF="HlpLe.htm#ToC_7" >Record Edit Screen</A></H2>
+<P>The Record Editor looks like
+<P>
+<img SRC="Diagram/LayoutEdit_record.png">
+<P>
+<P>
+<P>This screen consists of three parts
+<P>
+<P>
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="11%">Section
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="89%">Description
+ 
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Top Left
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">
+<A NAME="RecordList">
+This is the <B>Record Selection</B>
+This is where you enter selection options to limit what is displayed in the
+ <B>Record List</B>. To display all records starting with <B>t</B>; enter <B>t%</B> in the
+ <B>Record Name</B> field.
+<table><tr><td><img SRC="Diagram/LayoutEdit_RecSelection.GIF"></td></tr></table>
+ <P>
+ 
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Bottom Left
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">This is the <B>Record List</B> panel
+You can select a record to be displayed by clicking on it
+<table><tr><td><img SRC="Diagram/LayoutEdit_RecordList.GIF"></td></tr></table>
+ <P>
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Right
+<A NAME="RecordDtls"/>
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">On the right part of the screen is Record Definition.
+ <P>
+<img SRC="Diagram/LayoutEdit_RecordDtls.GIF">
+<P>
+<P>
+<P>
+<P>The fields on this section of the screen are:
+ <TABLE CELLPADDING="3">
+  <TR VALIGN="TOP"><TD><P><B>Field</B>
+  </TD><TD><P><B>Description</B>
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Buttons
+  </B></TD><TD><P>The buttons at the top of Record Screen Save, Create, Repeat, Delete and reload
+Record Details to/from the Database.
+<table><tr><td><img SRC="Diagram/LayoutEdit_RecBtns1.GIF"></td></tr></table>
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Record Name &amp; Description
+  </B></TD><TD><P>Self Evident
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Record Type
+  </B></TD><TD><P>There are 3 basic Record Types (+ binary versions of these):
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><P><B>Record Layout
+</B></TD><TD><P>A normal record consisting of a one or more fixed length fields.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Delimited
+</B></TD><TD><P>Standard Delimiter (i.e. Comma or Tab Delimited) Record. Delimiter files are only
+partially supported (no updates allowed).
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Group of Records
+</B></TD><TD><P>The record consists of a Group of other records. Typically there is a field
+that determines what record to use. It is common for a file to contain
+<UL COMPACT>
+<LI>A File Header Record
+<LI>Many Detail Records
+<LI>A file trailer record
+</UL>
+<P>This would be a good candidate for using a <font color="blue"><b>Group of Records</b></font>.
+In this case you would define 4 records:
+<UL COMPACT>
+<LI>File Header Record
+<LI>Detail Record
+<LI>Trailer Record
+<LI>Master Record (<font color="blue"><b>Group of Records</b></font>) that references the three
+previous (child) records.
+</UL>
+<P>See <A HREF="HlpLe02.htm#HDRCHILD">"Child Records"</A> for the Child Record Definition screen section.
+</TD></TR></TABLE>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>System
+ </B></TD><TD><P>System this Record Layout belongs to. You can Change Create new systems by
+ updating the System Table via the <A HREF="HlpLe07.htm#HDRTESCR">"Table Edit"</A>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Lines to Insert
+ </B></TD><TD><P>This is the lines to insert in the Field Table / Sub-Record Table when the
+insert button (just below) is pressed.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Table Buttons
+ </B></TD><TD><P>The second row of buttons refer to the Field Table / Sub-Record Table immediately below the buttons
+<table><tr><td><img SRC="Diagram/RecordLayout_RecTableBtns.GIF"></td></tr></table>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Record Details
+ </B></TD><TD><P>Lastly we have a Tab Box holding the <A HREF="HlpLe02.htm#HDRFIELD">"Field Records"</A>/<A HREF="HlpLe02.htm#HDRCHILD">"Child Records"</A> tables +
+the <A HREF="HlpLe02.htm#HDREXTRA">"Extra Panel"</A>. These panels define record details.
+<P>
+<img SRC="Diagram/LayoutEdit_Tab.GIF">
+<P><B>Note: </B>The <A HREF="HlpLe02.htm#HDRCHILD">"Child Records"</A> panel is displayed when <B>Record Type</B>=<font color="blue"><b>Group of Records</b></font>
+or <font color="blue"><b>Group of Binary records Records</b></font> otherwise <A HREF="HlpLe02.htm#HDRFIELD">"Field Records"</A> is displayed.
+</TD></TR></TABLE>
+<P>
+<P><B>Note: </B>See <A HREF="HlpLe02.htm#HDRLAYOUTDEF">"Record Layout Definition"</A> for more details.
+</TD></TR></TABLE>
+<P>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

@@ -1,0 +1,57 @@
+.*** 
+.*** Generates help files for RecordEditor
+.***
+.im iRE_TagDefs.dcf
+.*B2H SPLIT 
+:h4.RecordEditor Main Screen
+:note.For the HSQL version, if you get a message of 
+:hp2.DataBase Connection error: socket creation error:ehp2. you need to start the 
+Database Server.
+.im iRE_re005_RecordEditMain.dcf
+.*B2H SPLIT 
+:h4 id=bintbl.Table View
+:p.In the :hp2.RecordEditor:ehp2. Table-View, records are divided up into individual fields,
+binary fields are converted to there text equivalent. A binary Point-Of-Sale Record looks like
+.*b2h HTML <img SRC="Diagram/RecordEdit_Table.png">
+.fo off
+
+.fo on
+.im iRe_re010_RecordTableOption.dcf
+.im iRE_re017_Popup.dcf
+.*B2H SPLIT 
+.im iRE_re015_SingleRecord.dcf
+.im iRE_re017_Popup.dcf
+.*B2H SPLIT 
+.im iRe_re020_Search.dcf
+.*B2H SPLIT 
+.im iRe_re025_Filter.dcf
+.*B2H SPLIT 
+.im iRE_re030_SaveAs.dcf
+.*B2H SPLIT 
+.im iRe_le1300_LayoutWizard.dcf
+.*B2H SPLIT
+:h2 id=LayoutDef.Record Layout Definition
+:p.The :hp2.record layout:ehp2. Definition screen is used to 
+create new Record Layouts or edit specific layouts. 
+
+.pict Layout_Edit.png
+
+:p.
+.****b2h HTML <img SRC="Diagram/LayoutEdit_RecordDtls.GIF">
+ 
+.im iRe_le1100_layoutPnl
+.*B2H SPLIT
+.im iRE_re032_Sort.dcf
+.*B2H SPLIT
+.im iRE_re042_Field.dcf
+.*B2H SPLIT
+.im iRE_re043_SortTrees.dcf
+.*B2H SPLIT
+.im iRE_re044_RecordTrees.dcf
+.*B2H SPLIT
+.im iRE_re045_TreeView.dcf
+.*B2H SPLIT
+.im iRE_re046_ColumnView.dcf
+.*B2H SPLIT
+.im iRE_re016_CSV.dcf
+

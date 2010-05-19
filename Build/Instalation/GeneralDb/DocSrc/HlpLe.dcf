@@ -1,0 +1,11 @@
+.***
+.***  Help Screens for the Record-Layout-Editor
+.***
+
+.im iRE_TagDefs.dcf
+.im iRE_le1000_RecordLayout.dcf
+
+:appendix.
+:h1 id=FldType.Field Types
+.*B2H SPLIT 
+.im iRE_FieldTypes

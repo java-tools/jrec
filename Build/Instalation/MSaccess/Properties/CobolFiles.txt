@@ -1,0 +1,36 @@
+DTAR020.bin		$INSTALL_PATH/CopyBook/Cobol/DTAR020.cbl,,1,,1,,0,,1   
+Ams_Receipt_05AUG08190103.txt		$INSTALL_PATH/CopyBook/Cobol/AmsReceipt.cbl,,1,,0,,1,,0
+DTAR020.bin		$INSTALL_PATH/CopyBook/Cobol/DTAR020.cbl,,1,,2,,0,,1
+DTAR1000_Store_file_std.bin		$INSTALL_PATH/CopyBook/Cobol/DTAR1000.cbl,,1,,4,,0,,1
+DTAR1000_Store_file_large_Recfm_U.bin		$INSTALL_PATH/CopyBook/Cobol/DTAR1000.cbl,,1,,5,,0,,1
+DTAR1000_Store_file_std_recfm_U.bin		$INSTALL_PATH/CopyBook/Cobol/DTAR1000.cbl,,1,,5,,0,,1
+DTAR107.bin		$INSTALL_PATH/CopyBook/Cobol/DTAR107.cbl,,1,,2,,0,,1
+DTAR119_keyode.bin		$INSTALL_PATH/CopyBook/Cobol/DTAR119.cbl,,1,,2,,0,,1
+DTAR192.bin		$INSTALL_PATH/CopyBook/Cobol/DTAR192.cbl,,1,,2,,0,,1
+Transaction_File.txt		$INSTALL_PATH/CopyBook/Cobol/Transaction_Record.cbl,,1,,0,,0,,0
+Rental_File.Txt		$INSTALL_PATH/CopyBook/Cobol/Rental_Record.cbl,,1,,0,,0,,0
+Ams_VendorDownload_20041229.txt		$INSTALL_PATH/CopyBook/Cobol/AmsVendor.cbl,,1,,0,,0,,0
+Ams_LocDownload_20041228.txt		$INSTALL_PATH/CopyBook/Cobol/AmsLocation.cbl,,1,,0,,0,,0
+Ams_Receipt.txt		$INSTALL_PATH/CopyBook/Cobol/AmsReceipt.cbl,,1,,0,,1,,0
+Ams_Receipt_05AUG08190103.txt		$INSTALL_PATH/CopyBook/Cobol/AmsReceipt.cbl,,1,,0,,1,,0
+Ams_PODownload_20041231.txt		$INSTALL_PATH/CopyBook/Xml/ams PO Download.Xml,,2,,0,,0,,0,,0,,0
+Ams_VendorDownload_20041229.txt		$INSTALL_PATH/CopyBook/Cobol/AmsVendor.cbl,,1,,0,,0,,0,,0,,0
+Ams_Shipping_04DEC01190125.txt		$INSTALL_PATH/CopyBook/Xml/ams Shipping Upload.Xml,,2,,0,,0,,0,,0,,0
+DTAR1000_Store_file_std.bin		$INSTALL_PATH/CopyBook/Xml/DTAR1000 VB.Xml,,2,,0,,0,,1,,0,,0
+DTAR1000_Store_file_std_recfm_U.bin		$INSTALL_PATH/CopyBook/Cobol/DTAR1000.cbl,,1,,6,,0,,1,,0,,0
+Ams_Shipping_04DEC01190125.txt		$INSTALL_PATH/CopyBook/Xml/ams Shipping Upload.Xml,,2,,0,,0,,0,,0,,0
+DTAR119_keyode.bin		$INSTALL_PATH/CopyBook/Cobol/DTAR119.cbl,,1,,2,,0,,1,,0,,0
+DTAR1000_Store_file_std_recfm_U.bin		$INSTALL_PATH/CopyBook/Cobol/DTAR1000.cbl,,1,,6,,0,,1,,0,,0
+DTAR1000_Store_file_std.bin		$INSTALL_PATH/CopyBook/Xml/DTAR1000 VB.Xml,,2,,0,,0,,1,,0,,0
+DTAR192.bin		$INSTALL_PATH/CopyBook/Cobol/DTAR192.cbl,,1,,2,,0,,1,,0,,0
+Master_File.txt		$INSTALL_PATH/CopyBook/Cobol/Master_Record.cbl,,1,,0,,0,,0,,0,,0
+Pos_Price_1.bin		$INSTALL_PATH/CopyBook/Xml/Price.Xml,,2,,3,,0,,0,,0,,0
+Pos_Price_2.bin		$INSTALL_PATH/CopyBook/Xml/Price.Xml,,2,,3,,0,,0,,0,,0
+Pos_Spl_2.bin		$INSTALL_PATH/CopyBook/Xml/SPL.Xml,,2,,3,,0,,0,,0,,0
+Rental_File.Txt		$INSTALL_PATH/CopyBook/Cobol/Rental_Record.cbl,,1,,0,,0,,0,,0,,0
+SalesData.txt		$INSTALL_PATH/CopyBook/Cobol/SalesRecord.cbl,,1,,0,,0,,0,,0,,0
+Transaction_File.txt		$INSTALL_PATH/CopyBook/Cobol/Transaction_Record.cbl,,1,,0,,0,,0,,0,,0
+RBIFCopy.cbl		$INSTALL_PATH/CopyBook/Cobol/RBIFCopy.cbl,,1,,0,,0,,2,,0,,0
+Copy of FujitsuVariableWidthFile.seq		$INSTALL_PATH/CopyBook/Cobol/RBIVCopy.cbl,,1,,7,,2,,2,,0,,0
+FujitsuVariableWidthFile.seq		$INSTALL_PATH/CopyBook/Cobol/RBIVCopy.cbl,,1,,7,,2,,2,,0,,0
+FujitsuFixedWidthFile.seq		$INSTALL_PATH/CopyBook/Cobol/RBIFCopy.cbl,,1,,0,,2,,2,,0,,0

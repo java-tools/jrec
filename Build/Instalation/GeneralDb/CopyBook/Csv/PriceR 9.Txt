@@ -1,0 +1,15 @@
+Record	0	1	<Tab>	0	
+1	1	Record Type		0	0	0	
+2	30	Description		0	0	0	
+32	8	User		0	0	0	
+40	11	Product		11	0	0	
+51	1	Ind_0		21	0	0	
+52	1	Ind_1		21	0	0	
+53	1	Ind_2		11	0	0	
+54	3	Department		11	0	0	
+57	1	Quantity		11	0	0	
+58	5	Price		11	2	0	
+63	1	Group		11	0	0	
+64	18	Item Description		0	0	0	
+82	8	User1		0	0	0	
+90	2	EOR		0	0	0	

@@ -1,0 +1,22 @@
+:h3 id=stree.Sort Tree
+
+:p.:blue.Sort Tree:eblue. view is a way to summarise the Data in a File. The program will
+sort the file and group records with the same sort Keys together to form a Tree.
+Longer Term I hope to display a Summary Record for each Tree Node.
+
+:h4.Starting a Sort Tree view
+:p.First select the :hp2.Sorted Tree View:ehp2. option of the View Menu.
+
+.pict RecordEdit_SortedField1.png
+
+:p.The Screen consists of
+:ul compact.
+ :li.:hp2.Record Selection:ehp2. at the top, Typically you would only use a Sort Tree when
+there is only one record Type present.
+ :li.:hp2.Sort Fields:ehp2. fields to sort then build the Tree on.
+ :li.:hp2.Summary Table:ehp2. supply the summary function for the fields.
+ :li.:hp2.Use:ehp2. Wether to build the Tree from the whole file or just the Selected records.
+ :li.:hp2.Build:ehp2. button - used to start the build process.
+ :li.:hp2.Save Button:ehp2. Saves the sort tree definition to an external file. You can run it later via the view menu,
+see :hdref refid=ViewMenu. for more details.
+:eul.

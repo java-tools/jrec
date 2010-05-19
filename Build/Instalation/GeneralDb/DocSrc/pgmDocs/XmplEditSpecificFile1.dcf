@@ -1,0 +1,48 @@
+:i1.XmplEditSpecificFile1
+:i2 refid=example.XmplEditSpecificFile1
+
+.*b2h html <PRE><SPAN CLASS="gutter">33:</SPAN><SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax10">class</SPAN> XmplEditSpecificFile1 <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter">34:</SPAN>
+.*b2h html <SPAN CLASS="gutterH">35:</SPAN>    <SPAN CLASS="syntax8">private</SPAN> <SPAN CLASS="syntax8">static</SPAN> String filename   <SPAN CLASS="syntax18">=</SPAN> Constants.EXAMPLE_FILE_DIRECTORY
+.*b2h html <SPAN CLASS="gutter">36:</SPAN>                                     <SPAN CLASS="syntax18">+</SPAN> <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">Ams_LocDownload_20041228.txt</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>;
+.*b2h html <SPAN CLASS="gutter">37:</SPAN>    <SPAN CLASS="syntax8">private</SPAN> <SPAN CLASS="syntax8">static</SPAN> String layoutName <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">ams</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">Store</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>;
+.*b2h html <SPAN CLASS="gutter">38:</SPAN>    <SPAN CLASS="syntax8">private</SPAN> <SPAN CLASS="syntax8">static</SPAN> <SPAN CLASS="syntax10">int</SPAN> initialRow <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax5">0</SPAN>;
+.*b2h html <SPAN CLASS="gutter">39:</SPAN>
+.*b2h html <SPAN CLASS="gutterH">40:</SPAN>    <SPAN CLASS="syntax3">/**</SPAN>
+.*b2h html <SPAN CLASS="gutter">41:</SPAN><SPAN CLASS="syntax3">    </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">This</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">is</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">an</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">example</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">of</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">editing</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">a</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">specific</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">file</SPAN>
+.*b2h html <SPAN CLASS="gutter">42:</SPAN><SPAN CLASS="syntax3">    </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">(</SPAN><SPAN CLASS="syntax3">without</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">displaying</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">the</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">RecordEditor</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">File</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">selection</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">screen</SPAN><SPAN CLASS="syntax3">)</SPAN>
+.*b2h html <SPAN CLASS="gutter">43:</SPAN><SPAN CLASS="syntax3">    </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN>
+.*b2h html <SPAN CLASS="gutter">44:</SPAN><SPAN CLASS="syntax3">    </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax12">@param</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">args</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">program</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">args</SPAN>
+.*b2h html <SPAN CLASS="gutterH">45:</SPAN><SPAN CLASS="syntax3">    </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*/</SPAN>
+.*b2h html <SPAN CLASS="gutter">46:</SPAN>    <SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax8">static</SPAN> <SPAN CLASS="syntax10">void</SPAN> <SPAN CLASS="syntax6">main</SPAN>(String[] args) <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter">47:</SPAN>        CopyBookDbReader copyBookInterface <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">CopyBookDbReader</SPAN>();
+.*b2h html <SPAN CLASS="gutter">48:</SPAN>        LayoutDetail fileDescription <SPAN CLASS="syntax18">=</SPAN> copyBookInterface.<SPAN CLASS="syntax6">getLayout</SPAN>(layoutName);
+.*b2h html <SPAN CLASS="gutter">49:</SPAN>
+.*b2h html <SPAN CLASS="gutterH">50:</SPAN>        <SPAN CLASS="syntax8">if</SPAN> (fileDescription <SPAN CLASS="syntax18">=</SPAN><SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax14">null</SPAN>) <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter">51:</SPAN>            System.out.<SPAN CLASS="syntax6">println</SPAN>(
+.*b2h html <SPAN CLASS="gutter">52:</SPAN>                <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">Record</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">Layout</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">\&quot;</SPAN><SPAN CLASS="syntax13">&quot;</SPAN> <SPAN CLASS="syntax18">+</SPAN> layoutName <SPAN CLASS="syntax18">+</SPAN> <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">\&quot;</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">not</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">loaded:</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">&quot;</SPAN>
+.*b2h html <SPAN CLASS="gutter">53:</SPAN>                <SPAN CLASS="syntax18">+</SPAN> copyBookInterface.<SPAN CLASS="syntax6">getMessage</SPAN>());
+.*b2h html <SPAN CLASS="gutter">54:</SPAN>        <SPAN CLASS="syntax18">}</SPAN> <SPAN CLASS="syntax8">else</SPAN> <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutterH">55:</SPAN>            <SPAN CLASS="syntax8">try</SPAN> <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter">56:</SPAN>                FileView file <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">FileView</SPAN>(filename,
+.*b2h html <SPAN CLASS="gutter">57:</SPAN>                                       fileDescription,
+.*b2h html <SPAN CLASS="gutter">58:</SPAN>                                       <SPAN CLASS="syntax14">false</SPAN>);
+.*b2h html <SPAN CLASS="gutter">59:</SPAN>
+.*b2h html <SPAN CLASS="gutterH">60:</SPAN>                <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">ReMainFrame</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">Specific</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">file</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>, <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>);
+.*b2h html <SPAN CLASS="gutter">61:</SPAN>                LineList list <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">LineList</SPAN>(fileDescription, file, file);
+.*b2h html <SPAN CLASS="gutter">62:</SPAN>                list.<SPAN CLASS="syntax6">setCurrRow</SPAN>(initialRow, <SPAN CLASS="syntax18">-</SPAN><SPAN CLASS="syntax5">1</SPAN>, <SPAN CLASS="syntax18">-</SPAN><SPAN CLASS="syntax5">1</SPAN>);
+.*b2h html <SPAN CLASS="gutter">63:</SPAN>                list.<SPAN CLASS="syntax6">addInternalFrameListener</SPAN>(<SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">InternalFrameAdapter</SPAN>() <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter">64:</SPAN>                    <SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax10">void</SPAN> <SPAN CLASS="syntax6">internalFrameClosed</SPAN>(<SPAN CLASS="syntax8">final</SPAN> InternalFrameEvent e) <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutterH">65:</SPAN>                        Common.<SPAN CLASS="syntax6">closeConnection</SPAN>();
+.*b2h html <SPAN CLASS="gutter">66:</SPAN>
+.*b2h html <SPAN CLASS="gutter">67:</SPAN>                        System.<SPAN CLASS="syntax6">exit</SPAN>(<SPAN CLASS="syntax5">0</SPAN>);
+.*b2h html <SPAN CLASS="gutter">68:</SPAN>                    <SPAN CLASS="syntax18">}</SPAN>
+.*b2h html <SPAN CLASS="gutter">69:</SPAN>                <SPAN CLASS="syntax18">}</SPAN>);
+.*b2h html <SPAN CLASS="gutterH">70:</SPAN>
+.*b2h html <SPAN CLASS="gutter">71:</SPAN>            <SPAN CLASS="syntax18">}</SPAN> <SPAN CLASS="syntax8">catch</SPAN> (Exception e) <SPAN CLASS="syntax18">{</SPAN>
+.*b2h html <SPAN CLASS="gutter">72:</SPAN>                e.<SPAN CLASS="syntax6">printStackTrace</SPAN>();
+.*b2h html <SPAN CLASS="gutter">73:</SPAN>            <SPAN CLASS="syntax18">}</SPAN>
+.*b2h html <SPAN CLASS="gutter">74:</SPAN>        <SPAN CLASS="syntax18">}</SPAN>
+.*b2h html <SPAN CLASS="gutterH">75:</SPAN>    <SPAN CLASS="syntax18">}</SPAN>
+.*b2h html <SPAN CLASS="gutter">76:</SPAN><SPAN CLASS="syntax18">}</SPAN>
+.*b2h html </PRE>

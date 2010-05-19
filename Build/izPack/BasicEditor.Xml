@@ -1,0 +1,15 @@
+  <shortcut
+     name="Record Editor"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     initialState="noShow"
+     iconFile="$INSTALL_PATH/lib/RecordEdit.ico"
+     target="$JAVA_HOME/bin/javaw"
+     commandLine="-jar &quot;$INSTALL_PATH/lib/runEditor.jar&quot;"
+     description="Record Editor">
+     <createForPack name="Base" />
+   </shortcut>   
+ 

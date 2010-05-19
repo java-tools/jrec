@@ -1,0 +1,53 @@
+:h3.New Users 
+:p.This system comes in both :hp2.pre-packaged:ehp2. with a Database (:hp2.MS-Access:ehp2. and :hp2.HSQLDB:ehp2.)
+and Generic versions (with out a Database). I :BBlue.strongly:eBBlue. 
+recommend you use a :BBlue.pre-packaged:eBBlue. 
+version if you can. For Windows User's I would recommend using the Windows Exe Install
+programs (either MS-Access or HSQL version) as they have better support for Windows than the 
+Cross-Platform Jar installer. Linux users should use :hp2.RecordEdit_Installer_for_HSQL_062.jar:ehp2.   
+:p.If you want the Source, I would recommend downloading both a :hp2.pre-packaged:ehp2. version and
+the source.
+:p.The generic versions require you to enter the Database Connection details and the JDBC Jar file. 
+You will some understanging of JDBC to use this version.  
+
+
+
+:p.If you have a prior version of the Record-Editor installed, you can upgrade
+to the latest version by downloading the appropriate Download Zip.
+
+:tdef id=xlight shade='xlight'.
+:table cols='4* 2* * 10*'.
+:thd refid=xlight.:c.Version:c.Pre-Packaged:c.Source:c.Comments:ethd.
+:row refid=none.:c.RecordEdit_Installer_for_MSAccess_062.exe:c.Yes:c.No:c.Windows Installer of RecordEditor using MS-Access
+as a database. It requires the 
+:hp2.Microsoft ODBC driver:ehp2. for Access. You will have this driver installed 
+if you have Ms-Access on the system. I think the driver will also be installed if Excel is installed.
+:row.:c.RecordEdit_Installer_for_HSQL_062.exe:c.Yes:c.No:c.Windows Installer of RecordEditor with the HSQLDB database manager
+:note.You must start the Database-Server (first time only) before you can use the system.
+:row.:c.RecordEdit_Installer_for_HSQL_062.jar:c.Yes:c.No:c.Cross platform installer (izpack) 
+using HSQLDB for the database.
+:note.You must start the Database-Server before you can use the system.
+:row.:c.RecordEdit_Installer_for_GenericDB_062.jar:c.No:c.No:c.You must have your own Database and JDBC driver.
+:row.:c.RecordEdit_Zip_Source_062.zip:c.No:c.Yes:c.Contains Source and Jars.
+:row.:c.RecordEdit_Zip_Examples_062.zip:c.No:c.Yes:c.Contains Java examples of using RecordEditor classes. It is a 
+subset of the Source Zip.
+:etable.
+
+:h3.Upgrading
+:ul.
+:li..If upgrading from the test version (ie RecordEdit_Installer_for_MSAccess_062_test2.exe)&gml.
+:ol.
+ :li.Install RecordEdit_Installer_for_MSAccess_062.exe
+ :li.Copy :blue.RecordEditor.mdb:eblue. from :hp2.C:\Program Files\RecordEdit\MSaccess_Test:ehp2. to 
+:hp2.C:\Program Files\RecordEdit\MSaccess:ehp2.
+:eol.
+:li.If upgrading the generic version, use :hp2.RecordEdit_Installer_for_GenericDB_062.jar:ehp2.
+:li.For uses of the previous production versions of the :RecordEditor. download and install
+one of the following installers, then use the :hp2.upgrade:ehp2. option of the :hp2.Layout Editor:ehp2.
+:table cols='4* 2* * 10*'.
+:thd refid=xlight.:c.Version:c.Pre-Packaged:c.Source:c.Comments:ethd.
+:row  refid=none.:c.RecordEdit_Upgrade_for_MSAccess_062.exe:c.:c.:c.Upgrade earlier MS Access versions to latest version
+:row.:c.RecordEdit_Upgrade_for_HSQL_062.exe:c.:c.:c.Upgrade earlier HSQL windows exe versions.
+:row.:c.RecordEdit_Upgrade_for_HSQL_062.jar:c.:c.:c.Upgrade earlier HSQL Jar crossplatform versions.
+:etable.
+:eul.

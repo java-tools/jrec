@@ -1,0 +1,7 @@
+.*** 
+.*** Generates help files for RecordEditor
+.***
+.im iRE_TagDefs.dcf
+.*B2H SPLIT 
+:h4.CobolEditor Main Screen
+.im iCE_ce200_CobolEditor.dcf

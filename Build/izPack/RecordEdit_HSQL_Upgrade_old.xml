@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
+
+<!-- 
+    A sample installation file.
+    Use it as a base for your own installers :-)
+    
+    To compile it :
+    - go in the bin directory where you installed IzPack
+    - call "compile ../sample/install.xml -b ../sample"
+-->
+
+<installation version="1.0">
+
+    <!-- 
+        The info section.
+        The meaning of the tags should be natural ...
+    -->
+    <info>
+        <appname>RecordEdit/HSQLDB</appname>
+        <appversion>0.61</appversion>
+        <authors>
+            <author name="Bruce Martin" email="bruce_a_martin@hotmail.com" />
+            <!--author name="Hidden Man" email="hidden@hisdomain.com"/-->
+        </authors>
+    </info>
+    
+    <!-- 
+        The gui preferences indication.
+        Sets the installer window to 640x480. It will not be able to change the size.
+    -->
+    <guiprefs width="640" height="480" resizable="no"/>
+    
+    <!-- 
+        The locale section.
+        Asks here to include the English and French langpacks.
+    -->
+    <locale>
+        <langpack iso3="eng"/>
+    </locale>
+    
+    <!-- 
+        The resources section.
+        The ids must be these ones if you want to use the LicencePanel and/or the InfoPanel.
+    -->
+    <resources>
+        <res id="LicencePanel.licence"  src="../General/LICENSE.txt"/>
+        <res id="InfoPanel.info"        src="Readme.txt"/>
+        <res id="HTMLInfoPanel.info"    src="../Instalation/GeneralDB/Docs/Upgrade.htm"/>
+	<res id="shortcutSpec.xml"      src="shortcutSpec.xml"/>
+	<res id="Unix_shortcutSpec.xml" src="Unix_shortcutSpec.xml"/>
+    </resources>
+
+    
+    <!-- 
+        The panels section.
+        We indicate here which panels we want to use. The order will be respected.
+    -->
+    <panels>
+        <panel classname="HelloPanel"/>
+        <panel classname="InfoPanel"/>
+        <panel classname="LicencePanel"/>
+        <panel classname="TargetPanel"/> 
+	<!--panel classname="PacksPanel"/-->
+        <panel classname="InstallPanel"/>
+	<panel classname="ShortcutPanel"/>
+        <panel classname="HTMLInfoPanel"/>
+        <panel classname="FinishPanel"/>
+    </panels>
+    
+    <!-- 
+        The packs section.
+        We specify here our packs.
+    -->
+    <packs>
+        <pack name="Base" required="yes" override="true">
+            <description>The base files</description>
+            <file src="Readme.txt" targetdir="$INSTALL_PATH"/>
+            <file src="readme.html" targetdir="$INSTALL_PATH"/>
+            <file src="../General/LICENSE.txt" targetdir="$INSTALL_PATH"/>
+        </pack>
+        <pack name="Documentation" required="yes" override="true">
+            <description>Record Editor Docs</description>
+            <file src="../Instalation/hsqldb/Docs" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
+        </pack>
+        <pack name="SampleFiles" required="yes">
+            <description>Sample Files</description>
+            <file src="../SampleFiles" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
+        </pack>
+        <pack name="Params" required="yes"  override="false">
+            <description>Record Editor Parameters</description>
+            <file src="../Instalation/hsqldb/RecordEditor_HSQLDB" targetdir="$USER_HOME"/> 
+	    <parsable targetfile="$USER_HOME/RecordEditor_HSQLDB/CobolFiles.txt"/>
+        </pack>
+        <pack name="lib" required="yes">
+            <description>Record Editor Jars</description>
+            <file src="../Instalation/hsqldb_izpack/lib" targetdir="$INSTALL_PATH" override="true"/> <!-- Reccursive adding -->
+	    <updatecheck>
+	    	<include name="lib/**" />
+		<exclude name="lib/hsqldbmain.jar" />
+	    </updatecheck>
+            <parsable targetfile="$INSTALL_PATH/lib/StopServer.bat"/> <!-- The file will be parsed -->
+            <parsable targetfile="$INSTALL_PATH/lib/StartServer.bat"/> <!-- The file will be parsed -->
+            <parsable targetfile="$INSTALL_PATH/lib/StopServer.sh" type="shell"/> <!-- The file will be parsed -->
+            <parsable targetfile="$INSTALL_PATH/lib/StartServer.sh" type="shell"/> <!-- The file will be parsed -->
+            <parsable targetfile="$INSTALL_PATH/lib/runLayoutEdit.sh" type="shell"/> <!-- The file will be parsed -->
+	    <parsable targetfile="$INSTALL_PATH/lib/runFullEditor.sh" type="shell"/> 
+            <parsable targetfile="$INSTALL_PATH/lib/runRecordEdit.sh" type="shell"/> <!-- The file will be parsed -->
+	    <executable targetfile="$INSTALL_PATH/lib/StopServer.sh" stage="never"/>
+	    <executable targetfile="$INSTALL_PATH/lib/runLayoutEdit.sh" stage="never"/>
+	    <executable targetfile="$INSTALL_PATH/lib/runFullEditor.sh" stage="never"/>
+	    <executable targetfile="$INSTALL_PATH/lib/runRecordEdit.sh" stage="never"/>
+	    <executable targetfile="$INSTALL_PATH/lib/StartServer.sh" stage="never"/>
+        </pack>
+	<pack name="Cobol" required="yes">
+            <description>Cobol</description>
+            <fileset dir="../Instalation/GeneralDB/Cobol" includes="*.cbl" targetdir="$INSTALL_PATH/Cobol"/> 
+        </pack>
+	<pack name="Velocity" required="yes">
+            <description>Sample Velocity Templates</description>
+            <fileset dir="../Instalation/GeneralDB/SampleVelocityTemplates" includes="*.vm" targetdir="$INSTALL_PATH/SampleVelocityTemplates"/> 
+        </pack>
+        <pack name="bin" os="unix" required="no" override="true">
+            <description>Linux/Unix bin direcory</description>
+            <fileset dir="../Instalation/hsqldb/lib" includes="*.sh" targetdir="$USER_HOME/bin"/> <!-- Reccursive adding -->
+            <parsable targetfile="$USER_HOME/bin/StopServer.sh" type="shell"/> <!-- The file will be parsed -->
+            <parsable targetfile="$USER_HOME/bin/StartServer.sh" type="shell"/> <!-- The file will be parsed -->
+            <parsable targetfile="$USER_HOME/bin/runLayoutEdit.sh" type="shell"/> <!-- The file will be parsed -->
+            <parsable targetfile="$USER_HOME/bin/runRecordEdit.sh" type="shell"/> <!-- The file will be parsed -->
+	    <parsable targetfile="$USER_HOME/bin/runFullEditor.sh" type="shell"/>
+	    <executable targetfile="$USER_HOME/bin/StopServer.sh" stage="never"/>
+	    <executable targetfile="$USER_HOME/bin/runLayoutEdit.sh" stage="never"/>
+	    <executable targetfile="$USER_HOME/bin/runRecordEdit.sh" stage="never"/>
+	    <executable targetfile="$USER_HOME/bin/StartServer.sh" stage="never"/>
+	    <executable targetfile="$USER_HOME/bin/runFullEditor.sh" stage="never"/>
+        </pack>
+    </packs>
+    
+
+    <native type="izpack" name="ShellLink.dll"/> 
+
+   
+</installation>

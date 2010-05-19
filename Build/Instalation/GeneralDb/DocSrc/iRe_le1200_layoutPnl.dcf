@@ -1,0 +1,34 @@
+:p.
+.****b2h HTML <img SRC="Diagram/LayoutEdit_RecordDtls.GIF">
+ 
+:p.The fields on this section of the screen are:
+ :dl.
+  :dthd.Field
+  :ddhd.Description
+  :dt.Buttons
+  :dd.The buttons at the top of Record Screen Save, Create, Repeat, Delete and reload
+Record Details to/from the Database.
+.*b2h HTML <table><tr><td><img SRC="Diagram/LayoutEdit_RecBtns1.GIF"></td></tr></table>
+  :dt.Record Name &amp. Description
+  :dd.Self Evident
+  :dt.Record Type
+  :dd.There are 3 basic Record Types (+ binary versions of these): 
+.im iRE_RecordTypes
+ :dt.System
+ :dd.System this Record Layout belongs to. You can Change Create new systems by 
+ updating the System Table via the :hdref refid=TEscr.
+ :dt.Lines to Insert
+ :dd.This is the lines to insert in the Field Table / Sub-Record Table when the
+insert button (just below) is pressed.
+ :dt.Table Buttons
+ :dd.The second row of buttons refer to the Field Table / Sub-Record Table immediately below the buttons
+.*b2h HTML <table><tr><td><img SRC="Diagram/RecordLayout_RecTableBtns.GIF"></td></tr></table>
+ :dt.Record Details
+ :dd.Lastly we have a Tab Box holding the :hdref refid=Field./:hdref refid=Child. tables +
+the :hdref refid=Extra.. These panels define record details.
+:p.
+.*b2h HTML <img SRC="Diagram/LayoutEdit_Tab.GIF">
+:note.The :hdref refid=Child. panel is displayed when :hp2.Record Type:ehp2.=:BBlue.Group of Records:EBBlue.
+or :BBlue.Group of Binary records Records:EBBlue. otherwise :hdref refid=Field. is displayed.
+:edl. 
+

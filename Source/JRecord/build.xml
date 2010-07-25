@@ -22,7 +22,7 @@
 	
 	<target name="compile" description="compile code">
 		<mkdir dir="${build.dir}" />
-		<javac srcdir="${src.dir}" destdir="${build.dir}" optimize="false" target="1.5" debug="true" >
+		<javac srcdir="${src.dir}" destdir="${build.dir}" optimize="false" target="1.5" debug="false" >
 			<exclude name="net/sf/JRecord/zExamples/**"/>
 			<exclude name="net/sf/JRecord/zTest/**"/>
 			<classpath>
@@ -30,7 +30,7 @@
 					<!--file name="cb2xml.jar"/-->
 					<file name="TableLayout.jar"/>
 				</filelist>
-				<filelist dir="/home/bm/workspace/zCb2xml_1/lib/">
+				<filelist dir="/home/bm/workspace/zCb2xml/lib/">
 					<file name="cb2xml.jar"/>
 				</filelist>
 				<filelist dir="/home/bm/workspace/zZCalendar/lib/">
@@ -50,9 +50,10 @@
 
 		<delete file="${reJRecord}.jar" />
 		<delete file="${reJRecord}.pack" />
-		<delete file="${work.dir}/JRecord/lib/JRecord.jar" />
-		<delete dir="${work.dir}/JRecord/Source/src/" />
 		<copy todir="${work.dir}/RecordEditor/Instalation/hsqldb_izpack" file="${JRecord.jar}"/>
+		<!--delete file="${work.dir}/JRecord/lib/JRecord.jar" />
+		<delete dir="${work.dir}/JRecord/Source/src/" />
+		
 		<copy todir="${work.dir}/JRecord/lib" file="${JRecord.jar}"/>
 		<copy todir="${work.dir}/JRecord/lib1" file="${JRecord.jar}"/>
 		<mkdir dir="${work.dir}/JRecord/Source" />
@@ -60,7 +61,7 @@
     	<copy todir="${work.dir}/JRecord/Source/src">
     		<fileset dir="${src.dir}"/>
     	</copy>
-    	<copy todir="${work.dir}/JRecord/Source" file="build.xml"/>
+    	<copy todir="${work.dir}/JRecord/Source" file="build.xml"/-->
 	</target>	
 
 	<target name="javadoc" description="javadoc">
@@ -80,7 +81,7 @@
     <target name="dist" description="zip and pack appropriate files for distribution">
 		<delete file="${reJRecord}.jar" />
 		<delete file="${reJRecord}.pack" />
-		<delete file="${work.dir}/JRecord/lib1/JRecord.jar" />
+		<!--delete file="${work.dir}/JRecord/lib1/JRecord.jar" />
 		<delete dir="${work.dir}/JRecord/src/" />
  
 		<copy todir="${work.dir}/RecordEditor/Instalation/hsqldb_izpack" file="${JRecord.jar}"/>
@@ -88,7 +89,7 @@
 		<mkdir dir="${work.dir}/JRecord/src" />
     	<copy todir="${work.dir}/JRecord/src" >
     		<fileset dir="${src.dir}"/>
-    	</copy>
+    	</copy-->
 		<!--exec  executable="/usr/lib/jvm/java-1.7.0/bin/pack200">
 			<arg value="- -no-gzip"/>
 			<arg value="reJRecord}.pack"/>

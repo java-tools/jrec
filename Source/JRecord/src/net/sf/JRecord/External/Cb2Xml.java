@@ -98,7 +98,7 @@ public class Cb2Xml {
 		Document document = null;
 		Lexer lexer = null;
 		String preProcessed = null;
-		Convert conv = ConversionManager.getInstance().getConverter(binaryFormat) ;
+		Convert conv = ConversionManager.getInstance().getConverter4code(binaryFormat) ;
 		try {
 			CopyBookAnalyzer.setNumericDetails((NumericDefinition) conv.getNumericDefinition());
 			preProcessed = CobolPreprocessor.preProcess(file);

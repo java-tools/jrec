@@ -42,6 +42,7 @@ import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class Pnl3RecordType extends WizardPanel {
 
     private static final int FILE_HEIGHT = 250;

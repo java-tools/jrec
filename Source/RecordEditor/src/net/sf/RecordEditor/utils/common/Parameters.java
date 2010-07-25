@@ -19,7 +19,6 @@ import java.util.MissingResourceException;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-import net.sf.RecordEditor.editProperties.CommonCode;
 
 //import sun.security.action.GetPropertyAction;
 
@@ -548,6 +547,13 @@ public final class Parameters {
 	public static final Properties getProperties() {
 		return properties;
 	}
+	
+	public static final Properties getInitialisedProperties() {
+		if (properties == null) {
+			properties = new Properties();
+		}
+		return properties;		
+	}
 
 	public static final void setProperty(String key, String value) {
 		properties.setProperty(key, value);
@@ -557,7 +563,7 @@ public final class Parameters {
     public static final void writeProperties() {
     	
         try {
-            CommonCode.renameFile(getPropertyFileName());
+            renameFile(getPropertyFileName());
             properties.store(
                 new FileOutputStream(getPropertyFileName()),
                 "RecordEditor");
@@ -565,6 +571,26 @@ public final class Parameters {
             e.printStackTrace();
         }
     }
+
+
+    /**
+     * Rename a file
+     * @param fileName file to be renamed
+     */
+    public static final void renameFile(String fileName) {
+        File f = new File(fileName);
+        String newFileName = fileName + "~";
+        File fNew;
+
+        fNew = new File(newFileName);
+
+        if (fNew.exists()) {
+            fNew.delete();
+        }
+
+        f.renameTo(fNew);
+    }
+
 
     /**
      * Replace a string in a string buffer

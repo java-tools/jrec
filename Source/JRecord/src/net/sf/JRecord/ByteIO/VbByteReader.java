@@ -102,7 +102,6 @@ public class VbByteReader extends AbstractByteReader {
     }
 
 
-
     /**
      * @see AbstractByteReader#read()
      */
@@ -128,6 +127,9 @@ public class VbByteReader extends AbstractByteReader {
             rdwLength[1] = rdw[1];
 
         	int lineLength = (new BigInteger(rdwLength)).intValue() - rdwAdjust;
+        	if (lineLength < 0) {
+        		throw new IOException("Invalid Line Length: " + lineLength + " For line " + lineNumber); 
+        	}
             byte[] inBytes = new byte[lineLength];
 
             if (readBuffer(stream, inBytes) > 0) {

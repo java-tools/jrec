@@ -217,9 +217,12 @@ implements TableModelListener, TreeModelListener {
 	 * Action performed when frame is closed
 	 */
 	public void closeWindow() {
-	
-		getFileView().removeTableModelListener(this);
-		getFileView().removeTreeModelListener(this);
+		FileView fv;
+		
+		if ((fv = getFileView()) != null) {
+			fv.removeTableModelListener(this);
+			fv.removeTreeModelListener(this);
+		}
 	
 		super.closeWindow();
 	}

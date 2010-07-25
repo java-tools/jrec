@@ -205,4 +205,14 @@ public class Details {
         reader.open(filename, emptyLayout);
         return reader;
     }
+    
+    public void setFieldSearch() {
+    	standardRecord.searchForFields = true;
+    	
+    	if (recordDtls != null) {
+    		for (int i = 0; i<recordDtls.size(); i++) {
+    			recordDtls.get(i).searchForFields = true;
+    		}
+    	}
+    }
 }

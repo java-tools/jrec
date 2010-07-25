@@ -60,16 +60,25 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
     private BasicManager<LineProvider> lineProviderManager =
     	new BasicManager<LineProvider>(100, START_USER_FILE_STRUCTURES, new LineProvider[200]) ;
     
-    public static final int[] FILE_STRUCTURE_ID = {
-    	Constants.IO_DEFAULT, 
-    	Constants.IO_FIXED_LENGTH,
-    	Constants.IO_BINARY,
-    	Constants.IO_VB,
-    	Constants.IO_VB_DUMP,
-    	Constants.IO_VB_FUJITSU,
-    	Constants.IO_VB_OPEN_COBOL};
-    public static final String[] FILE_STRUCTURE_NAME;
-    
+//    public static final int[] FILE_STRUCTURE_ID = {
+//    	Constants.IO_DEFAULT, 
+//    	Constants.IO_FIXED_LENGTH,
+//    	Constants.IO_BINARY,
+//    	Constants.IO_VB,
+//    	Constants.IO_VB_DUMP,
+//    	Constants.IO_VB_FUJITSU,
+//    	Constants.IO_VB_OPEN_COBOL,
+//    	Constants.IO_NAME_1ST_LINE,
+//    	Constants.IO_GENERIC_CSV,
+//    	Constants.IO_XML_USE_LAYOUT,
+//    	Constants.IO_XML_BUILD_LAYOUT};
+//    public static final String[] FILE_STRUCTURE_NAME;
+//	keys[i] = Constants.IO_NAME_1ST_LINE;			externalNames[i] = "CSV_NAME_1ST_LINE";  names[i++] = "Delimited, names first line";     			
+//	keys[i] = Constants.IO_GENERIC_CSV;				externalNames[i] = "CSV_GENERIC";			names[i++] = "Generic CSV (Choose details at run time)";	
+//	keys[i] = Constants.IO_XML_USE_LAYOUT;		externalNames[i] = "XML_Use_Layout";       	names[i++] = "XML - Existing Layout";						
+//	keys[i] = Constants.IO_XML_BUILD_LAYOUT;		externalNames[i] = "XML_Build_Layout";      names[i++] = "XML - Build Layout";						
+//	keys[i] = Constants.NULL_INTEGER;					externalNames[i] = null;                    			names[i++] = null;										
+   
    static {
 	   String rdDefault = "Default";
 	   String rdFixed = "Fixed Length Binary";
@@ -77,46 +86,30 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
 	   String rdVb = "Mainframe VB (rdw based) Binary";
 	   String rdVbDump = "Mainframe VB Dump: includes Block length";
 	   String rdOcVb = "Open Cobol VB";
-	   
-	   FILE_STRUCTURE_NAME = new String[] {
-			   rdDefault,
-			   rdFixed,
-			   rdLineBin,
-			   rdVb,
-			   rdVbDump,
-		        "Fujitsu Cobol VB",
-		        rdOcVb
-		    };
-	   
-		int i = 0;
-		
-		keys[i] = Constants.IO_DEFAULT;						externalNames[i] = "Default";               		names[i++] = rdDefault;               					
-		keys[i] = Constants.IO_TEXT_LINE;					externalNames[i] = "Text";                  		names[i++] = "Text IO";                 					
-	   	keys[i] = Constants.IO_BIN_TEXT;					externalNames[i] = "Byte_Text";             		names[i++] = "Text IO (byte Based)";                 					
-	   	keys[i] = Constants.IO_UNICODE_TEXT;					externalNames[i] = "Text_Unicode";             		names[i++] = "Text IO (Unicode)";                 					
-	   	keys[i] = Constants.IO_FIXED_LENGTH;			externalNames[i] = "Fixed_Length";          	names[i++] = rdFixed;						
-		keys[i] = Constants.IO_BINARY; 						externalNames[i] = "Binary";                		names[i++] = rdLineBin;     					
-		keys[i] = Constants.IO_VB;								externalNames[i] = "Mainframe_VB";          	names[i++] = rdVb;      		
-		keys[i] = Constants.IO_VB_DUMP;					externalNames[i] = "Mainframe_VB_As_RECFMU";	names[i++] = rdVbDump;	
-		keys[i] = Constants.IO_VB_FUJITSU;					externalNames[i] = "FUJITSU_VB";            	names[i++] = "Fujitsu Variable Binary";           		
-		keys[i] = Constants.IO_VB_OPEN_COBOL;			externalNames[i] = "Open_Cobol_VB";        names[i++] = rdOcVb;								
-		keys[i] = Constants.IO_NAME_1ST_LINE;			externalNames[i] = "CSV_NAME_1ST_LINE";  names[i++] = "Delimited, names first line";     			
-//		keys[i] = Constants.IO_GENERIC_CSV;				externalNames[i] = "CSV_GENERIC";			names[i++] = "Generic CSV (Choose details at run time)";	
-		keys[i] = Constants.IO_XML_USE_LAYOUT;		externalNames[i] = "XML_Use_Layout";       	names[i++] = "XML - Existing Layout";						
-		keys[i] = Constants.IO_XML_BUILD_LAYOUT;		externalNames[i] = "XML_Build_Layout";      names[i++] = "XML - Build Layout";						
-		keys[i] = Constants.NULL_INTEGER;					externalNames[i] = null;                    			names[i++] = null;										
-		
-		numberOfEntries = i;
+
+
+	   int i = 0;
+
+	   keys[i] = Constants.IO_DEFAULT;				externalNames[i] = "Default";               names[i++] = rdDefault;               					
+	   keys[i] = Constants.IO_TEXT_LINE;			externalNames[i] = "Text";                  names[i++] = "Text IO";                 					
+	   keys[i] = Constants.IO_BIN_TEXT;				externalNames[i] = "Byte_Text";             names[i++] = "Text IO (byte Based)";                 					
+	   keys[i] = Constants.IO_UNICODE_TEXT;			externalNames[i] = "Text_Unicode";          names[i++] = "Text IO (Unicode)";                 					
+	   keys[i] = Constants.IO_FIXED_LENGTH;			externalNames[i] = "Fixed_Length";          names[i++] = rdFixed;						
+	   keys[i] = Constants.IO_BINARY; 				externalNames[i] = "Binary";                names[i++] = rdLineBin;     					
+	   keys[i] = Constants.IO_VB;					externalNames[i] = "Mainframe_VB";          names[i++] = rdVb;      		
+	   keys[i] = Constants.IO_VB_DUMP;				externalNames[i] = "Mainframe_VB_As_RECFMU";names[i++] = rdVbDump;	
+	   keys[i] = Constants.IO_VB_FUJITSU;			externalNames[i] = "FUJITSU_VB";            names[i++] = "Fujitsu Variable Binary";           		
+	   keys[i] = Constants.IO_VB_OPEN_COBOL;		externalNames[i] = "Open_Cobol_VB";      	names[i++] = rdOcVb;								
+	   keys[i] = Constants.IO_UNKOWN_FORMAT;		externalNames[i] = "UNKOWN_FORMAT";      	names[i++] = "Unknown File Format";								
+	   keys[i] = Constants.IO_NAME_1ST_LINE;		externalNames[i] = "CSV_NAME_1ST_LINE";  	names[i++] = "Csv Name on 1st line";     			
+	   //		keys[i] = Constants.IO_GENERIC_CSV;			externalNames[i] = "CSV_GENERIC";			names[i++] = "Generic CSV (Choose details at run time)";	
+	   keys[i] = Constants.IO_XML_USE_LAYOUT;		externalNames[i] = "XML_Use_Layout";       	names[i++] = "XML - Existing Layout";						
+	   keys[i] = Constants.IO_XML_BUILD_LAYOUT;		externalNames[i] = "XML_Build_Layout";      names[i++] = "XML - Build Layout";						
+	   keys[i] = Constants.NULL_INTEGER;			externalNames[i] = null;               		names[i] = null;										
+
+	   numberOfEntries = i;
     }
  
-    public static final String[] FILE_STRUCTURE = {
-        "Default Reader",
-        "Fixed Length Binary",
-        "Line based Binary",
-        "Mainframe VB (rdw based) Binary",
-        "Mainframe VB Dump: includes Block length",
-        "Fujitsu Cobol VB"
-    };
 
 
     /**
@@ -241,7 +234,14 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
     	return "";
     }
     
-    /**
+	 
+    @Override
+	public String getStructureNameForIndex(int index) {
+		return externalNames[index];
+	}
+
+
+	/**
      * Convert a structure-name to a file-Structure identifier
      * @param name Name of the File Structure
      * @return The file Structure

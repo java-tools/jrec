@@ -59,7 +59,7 @@ public class BmKeyedComboModel implements ComboBoxModel, ListCellRenderer {
 	 * @see javax.swing.ListModel#getElementAt(int)
 	 */
 	public Object getElementAt(int idx) {
-		System.out.println(" $$$ " + idx + " " + list.getElementAt(idx));
+		//System.out.println(" $$$ " + idx + " " + list.getElementAt(idx));
 		return list.getElementAt(idx);
 	}
 
@@ -159,7 +159,7 @@ public class BmKeyedComboModel implements ComboBoxModel, ListCellRenderer {
 			display.setText(" ");
 		} else {
 			Object rec = list.getFieldFromKey(obj);
-			System.out.println(" $$$ Get Render: " + obj + " " + rec);
+			//System.out.println(" $$$ Get Render: " + obj + " " + rec);
 
 			display.setText(rec.toString());
 		}

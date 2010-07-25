@@ -364,6 +364,13 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	}
 
 
+	public final void clear() {
+		copySrc = null;
+		lines = null;
+		nodes = null;
+	}
+	
+	
 	/**
 	 * Reads a file
 	 *
@@ -1997,6 +2004,10 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 
 	    if (view) {
 	        baseFile.writeFile();
+	    } else if (lines == null) {
+	    	Common.logMsg("Internal Error: lines cleared, save is not possible !!!", null);
+	    	Common.logMsg("Internal Error: lines cleared, save is not possible !!", null);
+	    	Common.logMsg("Internal Error: lines cleared, save is not possible !", null);
 	    } else {
 	        if (saveFile(lines, fileName, toSave)) {
 	            toSave = false;

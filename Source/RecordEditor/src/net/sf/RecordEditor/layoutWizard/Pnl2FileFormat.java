@@ -7,10 +7,12 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.PnlUnknownFileFormat;
 import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 
+@SuppressWarnings("serial")
 public class Pnl2FileFormat extends PnlUnknownFileFormat 
 implements AbstractWizardPanel<Details> {
 	private Details wizardDetails;
 
+	private int initRecLength, initFormat;
 	
 
 	/**
@@ -54,7 +56,13 @@ implements AbstractWizardPanel<Details> {
                 }
             } catch (Exception e) {
             }
-       }
+        }
+        
+        if (initFormat != wizardDetails.fileStructure 
+        || (		initFormat == Constants.IO_FIXED_LENGTH
+        		&&	initRecLength != wizardDetails.recordLength)) {
+        	wizardDetails.setFieldSearch();
+        }
 
 		return wizardDetails;
 	}
@@ -64,6 +72,9 @@ implements AbstractWizardPanel<Details> {
 		wizardDetails = detail;
 		
 		super.fontNameTxt.setText(detail.fontName);
+
+		initFormat = detail.fileStructure;
+		initRecLength = wizardDetails.recordLength;
 		
 		if (wizardDetails.recordLength > 0) {
 			super.lengthTxt.setText(Integer.toString(wizardDetails.recordLength));
@@ -77,6 +88,7 @@ implements AbstractWizardPanel<Details> {
 			case (Constants.IO_BIN_TEXT):
 			case (Constants.IO_TEXT_LINE):
 			case (Constants.IO_UNICODE_TEXT):
+				initFormat = Constants.IO_FIXED_LENGTH;
 				super.structureCombo.setSelectedItem(Integer.valueOf(Constants.IO_FIXED_LENGTH));
 			}
 		}

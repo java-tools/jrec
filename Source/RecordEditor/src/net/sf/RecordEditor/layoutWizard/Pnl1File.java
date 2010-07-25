@@ -38,6 +38,7 @@ import net.sf.RecordEditor.utils.swing.FileChooser;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class Pnl1File extends WizardPanel  {
 
     private JEditorPane tips;

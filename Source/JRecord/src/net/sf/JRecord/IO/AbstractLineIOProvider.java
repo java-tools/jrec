@@ -52,6 +52,13 @@ public interface AbstractLineIOProvider extends AbstractManager {
 	public abstract String getStructureName(int fileStructure);
 
 	/**
+	 * Get the file structure name for a particular index
+	 * @param index index to get the name for
+	 * @return requested name
+	 */
+	public abstract String getStructureNameForIndex(int index);
+
+	/**
 	 * Get line provider appropriate to the file Structure
 	 * @return Returns the provider.
 	 */

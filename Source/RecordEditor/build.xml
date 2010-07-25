@@ -16,6 +16,7 @@
 	<property name="docs.dir" location="docs" />
 	<property name="javadoc.dir" location="${docs.dir}/api" />
 	<property name="RecordEdit.jar" location="${lib.dir}/RecordEdit.jar" />
+	<property name="JRecordEdit.jar" location="${lib.dir}/JRecordEdit.jar" />
 	<property name="LayoutEdit.jar" location="${lib.dir}/LayoutEdit.jar" />
 	<property name="runFullEditor.jar" location="${lib.dir}/runFullEditor.jar" />
 	<property name="runLayouteditor.jar" location="${lib.dir}/runLayouteditor.jar" />
@@ -70,6 +71,7 @@
 			<fileset dir="${src.dir}/net/sf/RecordEditor/utils/">
 				<include name="*.gif"/>
 				<include name="*.png"/>
+				<include name="*.html"/>
 			</fileset>
 		</copy>
 		<!--delete>
@@ -132,6 +134,20 @@
 			<exclude name="info/**"/>
 			<exclude name="diffXmlBindings.xml"/>
 		</jar>
+		<jar destfile="${JRecordEdit.jar}" filesonly="true">
+			<fileset dir="${build.dir}">
+				<exclude  name="net/sf/RecordEditor/Run*.*"/>
+				<exclude  name="net/sf/RecordEditor/layoutEd/**"/>
+				<exclude  name="net/sf/RecordEditor/edit.Niche/**"/>
+				<exclude  name="net/sf/RecordEditor/editFileLayout/**"/>
+				<exclude  name="net/sf/RecordEditor/examples/**"/>
+				<exclude  name="net/sf/RecordEditor/utils/Run.class"/>
+				<exclude name="diffXmlBindings.xml"/>
+			</fileset>
+			<fileset dir="/home/bm/workspace/JRecord_070/build/">
+			</fileset>
+		</jar>
+
 		<!--jar basedir="${build.dir}" destfile="${re.jar}" filesonly="true">
 			<exclude  name="net/sf/RecordEditor/Run*.*"/>
 			<exclude  name="net/sf/RecordEditor/examples/**"/>
@@ -160,7 +176,10 @@
 			<include  name="net/sf/RecordEditor/RunAvroEditor.class"/>
 			<include  name="net/sf/RecordEditor/utils/Run.class"/>
 		</jar>
-		<jar basedir="${build.dir}" destfile="${Run.jar}" filesonly="true" manifest="manifestRun.txt">
+		<jar basedir="${build.dir}" destfile="${Run.jar}" filesonly="true">
+			<manifest>
+			        <attribute name="Main-Class" value="net.sf.RecordEditor.RunClass"/>
+			</manifest>
 			<include  name="net/sf/RecordEditor/RunClass.class"/>
 			<include  name="net/sf/RecordEditor/utils/Run.class"/>
 		</jar>
@@ -181,11 +200,11 @@
 
 		<delete file="${izPack}/RecordEdit.jar" />
 		<delete file="${izPack}/LayoutEdit.jar" />
-		<delete file="${work.dir}/JRecord/lib/RecordEdit.jar" />
-		<delete file="${work.dir}/JRecord/lib1/RecordEdit.jar" />
+		<!--delete file="${work.dir}/JRecord/lib/RecordEdit.jar" />
+		<delete file="${work.dir}/JRecord/lib1/RecordEdit.jar" /-->
 		<copy todir="${izPack}" file="${RecordEdit.jar}"/>
 		<copy todir="${izPack}" file="${LayoutEdit.jar}"/>
-		<copy todir="${work.dir}/JRecord/lib1/" file="${RecordEdit.jar}"/>
+		<!--copy todir="${work.dir}/JRecord/lib1/" file="${RecordEdit.jar}"/-->
 
 	</target>	
 

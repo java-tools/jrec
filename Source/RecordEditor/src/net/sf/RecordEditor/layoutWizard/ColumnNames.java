@@ -67,7 +67,8 @@ public class ColumnNames {
 
 
  
-    public ColumnNames(AbsRowList typeList) {
+    @SuppressWarnings("serial")
+	public ColumnNames(AbsRowList typeList) {
 		columnTbl.setRowHeight(Common.COMBO_TABLE_ROW_HEIGHT);
 		columnTbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         fileTbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -216,7 +217,8 @@ public class ColumnNames {
      * @author Bruce Martin
      *
      */
-    private class ColumnTblModel extends AbstractTableModel {
+    @SuppressWarnings("serial")
+	private class ColumnTblModel extends AbstractTableModel {
         //private String[] lines;
         private ArrayList<ColumnDetails> columns;
 
@@ -296,7 +298,8 @@ public class ColumnNames {
      * @author Bruce Martin
      *
      */
-    private class FileTblModel extends AbstractTableModel {
+    @SuppressWarnings("serial")
+	private class FileTblModel extends AbstractTableModel {
         private byte[][] lines;
         private String font;
         private ArrayList<ColumnDetails> columns;

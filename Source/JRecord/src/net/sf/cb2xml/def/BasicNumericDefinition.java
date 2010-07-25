@@ -41,8 +41,8 @@ public class BasicNumericDefinition implements NumericDefinition {
 	public final static int[]  MICROFOCUS_SIZES = {1, 2, 3, 4, 5, 6, 7, 8};
 	public final static int[]  MICROFOCUS_SIZES_SYNC = {1, 1, 1, 1};
 	
-	private static final int[] MAX_COMP_SIZE = {2, 4, 6, 9, 11, 14, 16, 18};
-	private static final int[] MAX_POSITIVE_COMP_SIZE = {2, 4, 7, 9, 12, 14, 16, 19};
+	public static final int[] MAX_COMP_SIZE = {2, 4, 6, 9, 11, 14, 16, 18};
+	public static final int[] MAX_POSITIVE_COMP_SIZE = {2, 4, 7, 9, 12, 14, 16, 19};
 
 	// initialise for mainframe
 	private int[] compSizesUsed = MAINFRAME_SIZES;

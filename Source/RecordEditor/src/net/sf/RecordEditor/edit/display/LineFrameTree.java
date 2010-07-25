@@ -135,7 +135,8 @@ public class LineFrameTree extends  BaseLineFrame {
 		if (line == null) {
 			Common.logMsg("Line Can not be Viewed !!!!", null);
 			this.closeWindow();
-		}
+			return;
+		} 
 		
 		JPanel btnPanel = new JPanel();
 		
@@ -148,6 +149,7 @@ public class LineFrameTree extends  BaseLineFrame {
 		init_300_setupScreen(btnPanel);
 		
 		show();
+		
 	}
 
 

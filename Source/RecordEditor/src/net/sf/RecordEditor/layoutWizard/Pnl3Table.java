@@ -34,6 +34,7 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class Pnl3Table extends WizardPanel {
 
 

@@ -162,6 +162,9 @@ public class ReFrame extends JInternalFrame
         }
    }
 
+    public void reClose() {
+    	doDefaultCloseAction();
+    }
 
 	/**
 	 * Window closing actions

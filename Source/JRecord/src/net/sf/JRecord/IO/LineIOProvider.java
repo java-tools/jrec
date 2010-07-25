@@ -49,7 +49,8 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
 	private HashMap<Integer, AbstractLineIOProvider> providers = new HashMap<Integer, AbstractLineIOProvider>();
 	public int START_USER_FILE_STRUCTURES = 1000;
     private static LineIOProvider ioProvider = null;
-    private LineProvider provider;
+    @SuppressWarnings("unchecked")
+	private LineProvider provider;
  
     
     //private  int numberOfEntries = 0;
@@ -111,7 +112,8 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
      * @param lineProvider lineProvider to use. Line providers
      * create Lines.
      */
-    public LineIOProvider(final LineProvider lineProvider) {
+    @SuppressWarnings("unchecked")
+	public LineIOProvider(final LineProvider lineProvider) {
         super();
 
         provider = lineProvider;
@@ -131,7 +133,8 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
      *
      * @return line reader
      */
-    public AbstractLineReader getLineReader(int fileStructure) {
+    @SuppressWarnings("unchecked")
+	public AbstractLineReader getLineReader(int fileStructure) {
         return getLineReader(fileStructure, getLineProvider(fileStructure));
     }
 
@@ -139,7 +142,8 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
     /* (non-Javadoc)
 	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineReader(int, net.sf.JRecord.Details.LineProvider)
 	 */
-    public AbstractLineReader getLineReader(int fileStructure,
+    @SuppressWarnings("unchecked")
+	public AbstractLineReader getLineReader(int fileStructure,
             						   LineProvider lineProvider) {
     	return getProvider(fileStructure).getLineReader(fileStructure, lineProvider);
      }
@@ -174,18 +178,28 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
     	return "";
     }
     
+	
+	@Override
+	public String getStructureNameForIndex(int index) {
+		return externalNames.get(index);
+	}
+
     /**
      * Convert a structure-name to a file-Structure identifier
      * @param name Name of the File Structure
      * @return The file Structure
      */
     public int getStructure(String name) {
-    	for (int i = 0; i < keys.size(); i++) { 
-    		if (externalNames.get(i).equalsIgnoreCase(name)) {
-    			//System.out.println(" ~~~ getStructure ~ " +  externalNames[i] + " " + keys[i]);
-    			return keys.get(i).intValue();
-    		}
+    	int min = Math.min(keys.size(), externalNames.size());
+    	if (name != null) {
+	    	for (int i = 0; i < min; i++) { 
+	    		if (name.equalsIgnoreCase(externalNames.get(i))) {
+	    			//System.out.println(" ~~~ getStructure ~ " +  externalNames.get(i) + " " + keys.get(i));
+	    			return keys.get(i).intValue();
+	    		}
+	    	}
     	}
+		//System.out.println(" ~~~ getStructure ~ not found " +  name);
     	return Constants.NULL_INTEGER;
     }
 
@@ -195,7 +209,8 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
      * @return Returns the provider.
      * @deprecated use getLineProvider(fileStructure)
      */
-    public LineProvider getLineProvider() {
+    @SuppressWarnings("unchecked")
+	public LineProvider getLineProvider() {
         return provider;
     }
 
@@ -203,7 +218,8 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
     /* (non-Javadoc)
 	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineProvider(int)
 	 */
-    public LineProvider getLineProvider(int fileStructure) {
+    @SuppressWarnings("unchecked")
+	public LineProvider getLineProvider(int fileStructure) {
     	return getProvider(fileStructure).getLineProvider(fileStructure);
     }
 
@@ -285,7 +301,8 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
     	for (int i = 0; i < newProvider.getNumberOfEntries(); i++) {
     		names.add(newProvider.getName(i));
     		keys.add(Integer.valueOf(newProvider.getKey(i)));
-    		externalNames.add(newProvider.getStructureName(i));
+    		externalNames.add(newProvider.getStructureNameForIndex(i));
+    		//System.out.println(" --> " + keys.get(i) + " >> " + names.get(i) + " >> " + externalNames.get(i));
     	}
     }
 }

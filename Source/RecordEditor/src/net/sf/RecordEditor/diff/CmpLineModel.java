@@ -133,7 +133,6 @@ public class CmpLineModel extends AbstractTableModel {
 	private int getAdjustedRow(int rowIndex) {
 		
 		int id = rowIndex;
-		int adj = 0;
 		
 		if (description.isMapPresent() && rowIndex > 0) {
 			if (rowIndex == 1) {
@@ -141,7 +140,6 @@ public class CmpLineModel extends AbstractTableModel {
 			}
 
 			id -= 1;
-			adj = 1;
 		}
 		
 		if ( displayChangedFields && id > 0 && getChangedFields().length >= id

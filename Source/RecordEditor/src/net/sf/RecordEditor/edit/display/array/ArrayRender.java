@@ -189,7 +189,7 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
 
 
     /**
-     * Display CSV style array in a Popup Table
+     * Display array Field in a Popup Table
      *
      *
      * @author Bruce Martin

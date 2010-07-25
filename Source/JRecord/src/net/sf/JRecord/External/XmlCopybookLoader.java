@@ -176,7 +176,7 @@ public class XmlCopybookLoader implements CopybookLoader {
                						     final int systemId) {
         int i;
         String lCopyBookPref;
-        numTranslator = ConversionManager.getInstance().getConverter(binFormat) ;
+        numTranslator = ConversionManager.getInstance().getConverter4code(binFormat) ;
 
         copybookName = pCopyBook;
         binaryFormat =  numTranslator.getBinaryIdentifier();
@@ -392,7 +392,6 @@ public class XmlCopybookLoader implements CopybookLoader {
             if (binaryFormat == Convert.FMT_MAINFRAME
             ||  binaryFormat == Convert.FMT_BIG_ENDIAN) {
                 rt = Constants.rtGroupOfBinaryRecords;
-                System.out.print("G Bin " + rt);
             }
 
             groupRecord = ExternalRecord.getNullRecord(copybookName,

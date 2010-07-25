@@ -295,25 +295,25 @@ public class FieldSearch {
     private boolean ff310_isPossibleDateOrTime(int[][] counts, int start, int len, int limit) {
     	boolean ret = false;
     	
-    	System.out.print("Date Check: " + start + " " + len); 
+    	//System.out.print("Date Check: " + start + " " + len); 
     		
     	if (start >= 0 && start + len <= counts.length) {
-    		System.out.print(" " + (len != 4) + " || " + (counts[start][TYPE_YEAR_CHAR_1] >= limit) + " >>> " );
+    		//System.out.print(" " + (len != 4) + " || " + (counts[start][TYPE_YEAR_CHAR_1] >= limit) + " >>> " );
     		ret  = (len != 4) 
     				|| (counts[start][TYPE_YEAR_CHAR_1] >= limit && counts[start+1][TYPE_YEAR_CHAR_2] >= limit);
     		for (int i = 0; ret && i < len; i++) {
-    			System.out.print(counts[start + i][TYPE_NUMBER] + " ");
+    			//System.out.print(counts[start + i][TYPE_NUMBER] + " ");
     			ret = counts[start + i][TYPE_NUMBER] >= limit;
     		}
     	}
-    	System.out.println(" " + ret);
+    	//System.out.println(" " + ret);
     	
     	return ret;
     }
 
     
     private boolean ff320_checkDayMthLast(int pos, int limit) {
-    	System.out.println("ff320_checkDayMthLast ");
+    	//System.out.println("ff320_checkDayMthLast ");
     	return	(		ff350_checkRange(pos + 4, 2, 31, limit)
     				&&	ff350_checkRange(pos +1, 2, 12, limit))
 				||  (		ff350_checkRange(pos + 4, 2, 12, limit)
@@ -321,7 +321,7 @@ public class FieldSearch {
     }
     
     private boolean ff330_checkDayMthFirst(int pos, int limit) {
-    	System.out.println("ff330_checkDayMthFirst ");
+    	//System.out.println("ff330_checkDayMthFirst ");
     	return 	(		ff350_checkRange(pos - 2, 2, 31, limit)
 						&&	ff350_checkRange(pos +1, 2, 12, limit))
 					||  (		ff350_checkRange(pos - 2, 2, 12, limit)
@@ -336,12 +336,12 @@ public class FieldSearch {
     private boolean ff350_checkRange(int start, int len, int maxValue, int limit) {
     	int count = 0;
     	int diff = recordDef.numRecords - limit;
-    	System.out.println("ff350: " + diff + " " + recordDef.numRecords + " " + limit);
+    	//System.out.println("ff350: " + diff + " " + recordDef.numRecords + " " + limit);
     	for (int i = 0; (i - count <= diff) && i < recordDef.numRecords; i++) {
     		try {
-    			System.out.println(" :: " + start + " " + len + " " +Conversion.getString(
-    					recordDef.records[i], start, start + len, fontname)
-    					+ " " + maxValue + " " + count + " ?> " + limit + " " + diff);
+//    			System.out.println(" :: " + start + " " + len + " " +Conversion.getString(
+//    					recordDef.records[i], start, start + len, fontname)
+//    					+ " " + maxValue + " " + count + " ?> " + limit + " " + diff);
     			if (maxValue > Integer.parseInt(Conversion.getString(
     					recordDef.records[i], start, start + len, fontname))) {
     				count += 1;

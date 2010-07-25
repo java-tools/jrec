@@ -53,6 +53,7 @@ import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class EditRec extends ReMainFrame  {
 
     private OpenFile open; 

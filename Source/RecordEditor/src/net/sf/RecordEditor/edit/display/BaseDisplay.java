@@ -35,6 +35,7 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
+import javax.swing.text.MaskFormatter;
 
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.AbstractChildDetails;
@@ -313,7 +314,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 			for (int i = allFrames.length - 1; i >= 0; i--) {
 				if (allFrames[i].getDocument() == fileMaster
 						&& (allFrames[i] != this)) {
-					allFrames[i].doDefaultCloseAction();
+					allFrames[i].reClose();
 				}
 			}
 
@@ -325,6 +326,10 @@ implements AbstractFileDisplay, ILayoutChanged {
 				if (result == JOptionPane.YES_OPTION) {
 					doClose = saveFile();
 				}
+			}
+			
+			if (doClose) {
+				fileMaster.clear();
 			}
 		}
 		
@@ -349,8 +354,24 @@ implements AbstractFileDisplay, ILayoutChanged {
 			}
 			fileView.removeTableModelListener(layoutChangeListner);
 			stopCellEditing();
+			fileMaster = null;
 		} catch (Exception ex) {
 		}
+	}
+	
+	@Override
+	public void reClose() {
+		
+		if (fileView != null) {
+			closeWindow();
+			
+			if (fileView == fileMaster && super.isPrimaryView()) {
+				fileView.clear();
+			}
+			fileView = null;
+			
+		}
+		super.reClose();
 	}
 
 	
@@ -611,6 +632,10 @@ implements AbstractFileDisplay, ILayoutChanged {
 			AbstractLine parent, AbstractLine child, AbstractChildDetails childDef) {
 		
 		int location = parent.getTreeDetails().getLines(childDef.getChildIndex()).indexOf(child);
+		
+		if (location >= 0) {
+			location += 1;
+		}
 		
 		return insertLine_230_CreateChild(parent, childDef, location);
 	}

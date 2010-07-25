@@ -10,6 +10,7 @@
 package net.sf.JRecord.Numeric;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import net.sf.JRecord.Common.AbstractManager;
 import net.sf.JRecord.Types.Type;
@@ -36,6 +37,7 @@ public class ConversionManager implements AbstractManager {
 
     private static ConversionManager instance = null;
     private ArrayList<Convert> conversions = new ArrayList<Convert>();
+    private HashMap<Integer, Convert> conversionsMap = new HashMap<Integer, Convert>(30);
 
     public ConversionManager() {
         super();
@@ -56,6 +58,16 @@ public class ConversionManager implements AbstractManager {
         registerConverter(new OpenCobolBE(Convert.FMT_OPEN_COBOL_MVS_BE, "Open Cobol MVS Big Endian",  MAINFRAME_BIN_SIZES, FS2000_SYNC));
         registerConverter(new OpenCobolBE(Convert.FMT_OC_MICRO_FOCUS_BE, "Open Cobol Micro Focus Big E",  BIN_SIZES_1_TO_8, NO_SYNC, 1 , 1));
        
+        LoadConversion loader = new LoadConversion();
+        Convert conv;
+        
+        for (int i = 0; i < 32; i++) {
+        	if ((conv = loader.getConversion(i)) != null) {
+        		System.out.println("Registering " + conv.getIdentifier() + " " + conv.getName());
+        		registerConverter(conv);
+        	}
+        	
+        }
 
 //        idx = Convert.FMT_MICRO_FOCUS + 1;
 //        
@@ -78,6 +90,15 @@ public class ConversionManager implements AbstractManager {
      * @param index index to be retrieved
      * @return requested Conversion
      */
+    public Convert getConverter4code(int index) {
+        return conversionsMap.get(index);
+    }
+
+    /**
+     * Get a specific conversion
+     * @param index index to be retrieved
+     * @return requested Conversion
+     */
     public Convert getConverter(int index) {
         return conversions.get(index);
     }
@@ -88,6 +109,7 @@ public class ConversionManager implements AbstractManager {
      */
     public void registerConverter(Convert converter) {
         conversions.add(converter);
+        conversionsMap.put(converter.getIdentifier(), converter);
     }
 
     

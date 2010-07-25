@@ -44,6 +44,7 @@ import net.sf.RecordEditor.utils.openFile.LayoutSelectionDBCreator;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class FullEditor extends EditRec {
 
     private LayoutMenu layoutMenu;

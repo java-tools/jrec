@@ -30,6 +30,7 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class Pnl4Names extends WizardPanel {
 
     private static final int COLUMN_HEIGHT  = 150;

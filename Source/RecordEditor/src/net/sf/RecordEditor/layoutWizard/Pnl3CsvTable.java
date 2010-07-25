@@ -8,6 +8,7 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.CsvSelectionPanel;
 
+@SuppressWarnings("serial")
 public class Pnl3CsvTable extends WizardPanel {
 
 	private final static byte[][] oneBlankLine = {{}};

@@ -43,6 +43,7 @@ import net.sf.RecordEditor.utils.screenManager.ReFrame;
  * @author  bymartin
  * @version 0.56
  */
+@SuppressWarnings("serial")
 public class OpenFile extends ReFrame {
 
 	private OpenFileEditPnl<?> openFilePanel;

@@ -22,6 +22,7 @@ import javax.swing.JMenuBar;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.RecordEditor.copy.CopyFileLayout;
 import net.sf.RecordEditor.diff.CompareFileLayout;
+import net.sf.RecordEditor.edit.display.Action.VisibilityAction;
 import net.sf.RecordEditor.layoutWizard.WizardFileLayout;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
@@ -35,6 +36,7 @@ import net.sf.RecordEditor.utils.openFile.LayoutSelectionFile;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class EditFileLayout extends EditRec {
 
     /**
@@ -102,6 +104,11 @@ public class EditFileLayout extends EditRec {
 				new WizardFileLayout(getOpenFileWindow().getOpenFilePanel().getCurrentFileName());			
 			}
         });
+        
+   
+        super.getEditMenu().addSeparator();     
+        super.getEditMenu().add(addAction(new VisibilityAction()));
+  
     }
 
 

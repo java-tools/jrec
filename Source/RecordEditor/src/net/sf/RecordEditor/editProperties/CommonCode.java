@@ -7,7 +7,6 @@
  */
 package net.sf.RecordEditor.editProperties;
 
-import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.sql.Connection;
@@ -39,17 +38,19 @@ public final class CommonCode {
      * @param fileName file to be renamed
      */
     public static final void renameFile(String fileName) {
-        File f = new File(fileName);
-        String newFileName = fileName + "~";
-        File fNew;
-
-        fNew = new File(newFileName);
-
-        if (fNew.exists()) {
-            fNew.delete();
-        }
-
-        f.renameTo(fNew);
+//        File f = new File(fileName);
+//        String newFileName = fileName + "~";
+//        File fNew;
+//
+//        fNew = new File(newFileName);
+//
+//        if (fNew.exists()) {
+//            fNew.delete();
+//        }
+//
+//        f.renameTo(fNew);
+    	
+    	Parameters.renameFile(fileName);
     }
 
 

@@ -32,6 +32,8 @@ public interface CellFormat {
     public  static final int FMT_DATE_DMYY           = 3;
     public  static final int FMT_DATE_YYMD           = 4;
     public  static final int FMT_COMBO               = 15;
+    public  static final int FMT_BOLD                = 21;
+    public  static final int FMT_COLOR               = 22;
 
     /**
      * Get Table Cell Render

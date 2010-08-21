@@ -58,7 +58,8 @@ import net.sf.JRecord.Types.Type;
         if ("computational".equals(usage)
         || "computational-4".equals(usage)
         || "computational-5".equals(usage)
-        || "computational-6".equals(usage)) {
+        || "computational-6".equals(usage)
+        || "binary".equals(usage)) {
         	if (binId == Convert.FMT_MAINFRAME
            	||  binId == Convert.FMT_FUJITSU
            	||  binId == Convert.FMT_BIG_ENDIAN) {

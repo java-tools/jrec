@@ -58,43 +58,6 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
     private  ArrayList<String> externalNames = new ArrayList<String>(20) ;
     private  ArrayList<Integer>keys = new ArrayList<Integer>(20) ;
      
-//    public static final int[] FILE_STRUCTURE_ID = {
-//    	Constants.IO_DEFAULT, 
-//    	Constants.IO_FIXED_LENGTH,
-//    	Constants.IO_BINARY,
-//    	Constants.IO_VB,
-//    	Constants.IO_VB_DUMP,
-//    	Constants.IO_VB_FUJITSU,
-//    	Constants.IO_VB_OPEN_COBOL};
-//    public static final String[] FILE_STRUCTURE_NAME;
-//    
-//   static {
-//	   String rdDefault = "Default";
-//	   String rdFixed = "Fixed Length Binary";
-//	   String rdLineBin = "Line based Binary";
-//	   String rdVb = "Mainframe VB (rdw based) Binary";
-//	   String rdVbDump = "Mainframe VB Dump: includes Block length";
-//	   String rdOcVb = "Open Cobol VB";
-//	   
-//	   FILE_STRUCTURE_NAME = new String[] {
-//			   rdDefault,
-//			   rdFixed,
-//			   rdLineBin,
-//			   rdVb,
-//			   rdVbDump,
-//		        "Fujitsu Cobol VB",
-//		        rdOcVb
-//		    };
-//    }
-// 
-//    public static final String[] FILE_STRUCTURE = {
-//        "Default Reader",
-//        "Fixed Length Binary",
-//        "Line based Binary",
-//        "Mainframe VB (rdw based) Binary",
-//        "Mainframe VB Dump: includes Block length",
-//        "Fujitsu Cobol VB"
-//    };
 
 
     /**

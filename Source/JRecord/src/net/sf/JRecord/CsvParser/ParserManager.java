@@ -15,8 +15,11 @@ public class ParserManager extends BasicNamedManager<AbstractParser> {
 	public static final int BASIC_CSV_PARSER = 0;
 	public static final int STANDARD_CSV_PARSER = 1;
 	public static final int DB_CSV_PARSER = 2;
+	public static final int BASIC_QUOTED_COL_NAME_CSV_PARSER = 3;
+	public static final int STANDARD_QUOTED_COL_NAME_CSV_PARSER = 4;
+	public static final int DB_QUOTED_COL_NAME_CSV_PARSER = 5;
 	
-	private static final int NUMBER_OF_PARSERS = 10;
+	private static final int NUMBER_OF_PARSERS = 50;
 	private static ParserManager instance = null;
 	
 //	private Parser[] list = new Parser[NUMBER_OF_PARSERS];
@@ -32,8 +35,12 @@ public class ParserManager extends BasicNamedManager<AbstractParser> {
 		register(BASIC_CSV_PARSER, "Basic Parser", BasicParser.getInstance());
 		register(STANDARD_CSV_PARSER, "Parser - Matching Quotes", new StandardParser());
 		register(DB_CSV_PARSER, "Parser - Quotes based on field Type", new StandardParser(true));
+		register(BASIC_QUOTED_COL_NAME_CSV_PARSER, "Basic Parser Column names in quotes", new BasicParser(true));
+		register(STANDARD_QUOTED_COL_NAME_CSV_PARSER, "Parser - Matching Quotes Column names in quotes", 
+				new StandardParser(false, true));
+		register(DB_QUOTED_COL_NAME_CSV_PARSER, "Parser - Quotes based on field Type, Column names in quotes", 
+				new StandardParser(true, true));
 	}
-
 
 	/**
 	 * get a ParserManager

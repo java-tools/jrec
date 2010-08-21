@@ -1390,6 +1390,7 @@ public final class Common implements Constants {
         int totalWidth = 0;
         //System.out.println("Column Widths ==> " + visbleRect.width + " " + maxColWidth);
 
+        //System.out.println();
         TableColumn column;
         for (int i = columns.getColumnCount() - 1; i >= 0; --i) {
             column = columns.getColumn(i);
@@ -1409,13 +1410,11 @@ public final class Common implements Constants {
                         .getHeaderValue(), false, false, -1, i);
 
                 width = c.getPreferredSize().width;
+                //System.out.print(width + " ");
             }
 
             for (int row = rowCount - 1; row >= firstRow; --row) {
                 TableCellRenderer r = table.getCellRenderer(row, i);
-
-
- 
 
                 try {
 	               Component c = r.getTableCellRendererComponent(
@@ -1429,7 +1428,7 @@ public final class Common implements Constants {
             }
 
             if (width >= 0) {
-                //System.out.println("### " + columns.getColumnCount());
+                //System.out.println("### " + columns.getColumnCount() + " " + i + " Width=" + width);
                 if (columns.getColumnCount() == minColumns) {
                     column.setPreferredWidth(width + margin); // <1.3: without margin
                 } else {

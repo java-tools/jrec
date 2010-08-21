@@ -6,6 +6,7 @@
  */
 package net.sf.JRecord.IO;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -229,5 +230,9 @@ public abstract class AbstractLineReader<Layout extends AbstractLayoutDetails<? 
 	 */
     public final void setLayout(Layout pLayout) {
         this.layout = pLayout;
+    }
+    
+    public boolean canWrite() {
+    	return true;
     }
 }

@@ -57,7 +57,8 @@ public class ConversionManager implements AbstractManager {
         registerConverter(new OpenCobolBE(Convert.FMT_FS2000_BE, "Open Cobol bs2000 Big Endian",  MAINFRAME_BIN_SIZES, FS2000_SYNC));
         registerConverter(new OpenCobolBE(Convert.FMT_OPEN_COBOL_MVS_BE, "Open Cobol MVS Big Endian",  MAINFRAME_BIN_SIZES, FS2000_SYNC));
         registerConverter(new OpenCobolBE(Convert.FMT_OC_MICRO_FOCUS_BE, "Open Cobol Micro Focus Big E",  BIN_SIZES_1_TO_8, NO_SYNC, 1 , 1));
-       
+        //registerConverter(new MicroFocusCobol());
+     
         LoadConversion loader = new LoadConversion();
         Convert conv;
         
@@ -162,7 +163,6 @@ public class ConversionManager implements AbstractManager {
     		return iType;
     	}
     }
-    
     
     private static class OpenCobolBE extends BasicConvert {
     	public OpenCobolBE(int id, String name,  int[] binarySizes, int[] syncAt) {

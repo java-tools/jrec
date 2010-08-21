@@ -15,11 +15,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.List;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
+import net.sf.JRecord.CsvParser.AbstractParser;
+import net.sf.JRecord.CsvParser.ParserManager;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Details.LayoutDetail;
@@ -126,6 +128,7 @@ public class TextLineReader extends StandardLineReader {
 	    int fieldType = Type.ftChar;
         int decimal   = 0;
         int format    = 0;
+        int parser    = 0;
         String param  = "";
         String delim  = defaultDelim; 
         String quote  = defaultQuote;
@@ -135,11 +138,12 @@ public class TextLineReader extends StandardLineReader {
 	    try {
 	    	delim     = getLayout().getDelimiter();
 	        rec = getLayout().getRecord(0);
+	        quote     = rec.getQuote();
+	        parser    = rec.getRecordStyle();
 	        fieldType = rec.getField(0).getType();
 	        decimal   = rec.getField(0).getDecimal();
 	        format    = rec.getField(0).getFormat();
 	        param     = rec.getField(0).getParamater();
-	        quote     = rec.getQuote();
 	        recordSep = getLayout().getRecordSep();
 	        font      = getLayout().getFontName();
 	    } catch (Exception e) {
@@ -149,7 +153,7 @@ public class TextLineReader extends StandardLineReader {
 
 	    layout = createLayout(pReader.readLine(), rec, 
 	    		recordSep, font,  delim,
-                quote, 0, fieldType, decimal, format, param);
+                quote, parser, fieldType, decimal, format, param);
 	    //System.out.println(" Quote  ->");
 
 	    if (layout != null) {
@@ -162,9 +166,9 @@ public class TextLineReader extends StandardLineReader {
      * @param line line being built
      * @param recordSep record seperator
      * @param fontName font name
-     * @param delimiter field delitier
+     * @param delimiter field delimiter
      * @param quote Quote Character to use
-     * @param parser Identifier of the CSV parser to use
+     * @param style Identifier of the CSV parser to use
      * @param fieldType field type
      * @param decimal number of decimal places
      * @param format format to use
@@ -173,20 +177,20 @@ public class TextLineReader extends StandardLineReader {
      */
     public static LayoutDetail createLayout(String line, AbstractRecordDetail rec,
     		byte[] recordSep,
-            String fontName, String delimiter, String quote, int parser,
+            String fontName, String delimiter, String quote, int style,
             int fieldType, int decimal, int format, String param) throws IOException {
 
     	int fldType, idx;
-        int i = 0;
+        //int i = 0;
         LayoutDetail ret = null;
         String s;
 
         if (line != null) {
-            //RecordDetail rec = getLayout().getRecord(0);
-            StringTokenizer tok = new StringTokenizer(
-                    line, delimiter, false);
-            //String fontName = fontname;
-            int len = tok.countTokens();
+        	AbstractParser parser = ParserManager.getInstance().get(style);
+        	List<String> colNames = parser.getColumnNames(line, delimiter, quote);
+        	        	
+        	
+            int len = colNames.size();
             FieldDetail[] flds = new FieldDetail[len];
             RecordDetail[] recs = new RecordDetail[1];
 
@@ -194,8 +198,8 @@ public class TextLineReader extends StandardLineReader {
                 fieldType = Type.ftChar;
             }
 
-            while (tok.hasMoreElements()) {
-                s = tok.nextToken();
+            for (int i = 0; i < colNames.size(); i++) {
+                s = colNames.get(i);
                 fldType = fieldType;
                 if (rec != null 
                 && (idx = rec.getFieldIndex(s)) >= 0) {
@@ -204,11 +208,10 @@ public class TextLineReader extends StandardLineReader {
                 flds[i] = new FieldDetail(s, s, fldType, decimal,
                         fontName, format, param);
                 flds[i].setPosOnly(i + 1);
-                i += 1;
             }
 
             recs[0] = new RecordDetail("", "", "", Constants.rtDelimited,
-                    delimiter, quote, fontName, flds, 0);
+                    delimiter, quote, fontName, flds, style);
 
             try {
                 ret =

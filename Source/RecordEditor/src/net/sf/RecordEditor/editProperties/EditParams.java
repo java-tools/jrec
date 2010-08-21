@@ -229,6 +229,7 @@ public final class EditParams {
             properties.store(
                 new FileOutputStream(Parameters.getPropertyFileName()),
                 "RecordEditor");
+            Parameters.setProperties(properties);
         } catch (Exception e) {
             e.printStackTrace();
         }

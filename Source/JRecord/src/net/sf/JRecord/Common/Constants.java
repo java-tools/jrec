@@ -54,6 +54,8 @@ public interface Constants {
     public static final int IO_BIN_TEXT  = 9;
     
     public static final int IO_UNKOWN_FORMAT = 21 /* RecordEditor Format */;
+    
+    public static final int IO_MICROFOCUS = 31;
 
     public static final int IO_NAME_1ST_LINE    = 51;
     public static final int IO_GENERIC_CSV      = 52 /* RecordEditor Format */;
@@ -64,6 +66,8 @@ public interface Constants {
     
     public static final int IO_PROTO_DELIMITED = 71;
     public static final int IO_PROTO_SINGLE_MESSAGE = 72;
+    public static final int IO_PROTO_SD_DELIMITED = 73;
+    public static final int IO_PROTO_SD_SINGLE_MESSAGE = 74;
     public static final int IO_THRIFT_FILE = 81;
     public static final int IO_AVRO_FILE = 91;
       

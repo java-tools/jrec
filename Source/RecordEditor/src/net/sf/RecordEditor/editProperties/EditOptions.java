@@ -21,6 +21,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.AbstractAction;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -377,10 +378,23 @@ public class EditOptions {
      *
      */
     public EditOptions(final boolean terminateOnExit, boolean includeJDBC, boolean includeWizardOptions) {
+    	this(terminateOnExit, includeJDBC, includeWizardOptions, true);
+    }
+
+    /**
+     * @param terminateOnExit terminate java on exit
+     *
+     * Edit the record Editor Parameter and Jar files
+     *
+     */
+    public EditOptions(final boolean terminateOnExit, boolean includeJDBC, boolean includeWizardOptions, boolean display) {
         super();
 
         init_100_ScreenFields(terminateOnExit);
         init_200_Screen(includeJDBC, includeWizardOptions);
+        if (display) {
+        	displayScreen();
+        }
     }
 
 
@@ -477,11 +491,27 @@ public class EditOptions {
         pnl.add("Center", mainTabbed);
         pnl.add("South", params.msgFld);
         frame.getContentPane().add(pnl);
+    }
+    
+    public EditParams getParams() {
+		return params;
+	}
 
+	public final void displayScreen() {
+    	
         frame.pack();
         frame.setVisible(true);
     }
 
+	/**
+	 * Add a component to the startup properties editor
+	 * @param name Tab name
+	 * @param component component to add
+	 */
+    public void add(String name, JComponent component) {
+    	mainTabbed.addTab(name, component);
+    }
+    
     /**
      * Build Program description panel
      * @return Program description panel

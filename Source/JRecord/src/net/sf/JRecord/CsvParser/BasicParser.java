@@ -17,11 +17,21 @@ import java.util.StringTokenizer;
  * @author Bruce Martin
  *
  */
-public class BasicParser implements AbstractParser {
+public class BasicParser extends BaseCsvParser implements AbstractParser {
 
-    private static BasicParser instance = new BasicParser();
+    private static BasicParser instance = new BasicParser(false);
 
-    /**
+    @Deprecated
+    public BasicParser() {
+    	super(false);
+    }
+    
+    public BasicParser(boolean quoteInColumnNames) {
+    	super(quoteInColumnNames);
+
+    }
+
+	/**
      * Get the field Count 
      * 
      * @param line line to inspect
@@ -56,7 +66,6 @@ public class BasicParser implements AbstractParser {
         && fields[fieldNumber].endsWith(quote)) {
             fields[fieldNumber] = fields[fieldNumber].substring(1, fields[fieldNumber].length() - 1);
         }
-
 
         return fields[fieldNumber];
     }

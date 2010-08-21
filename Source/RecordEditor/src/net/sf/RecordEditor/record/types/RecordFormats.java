@@ -101,10 +101,17 @@ public class RecordFormats {
                 }
                 
 //                if (cellRenders[j]  != null) {
-//                	System.out.println("## Got Render " 
+//                	System.out.println("## Got Render " + j 
 //                			+ " " + recordDescription.getField(idx).getName()
 //                			+ " " + recordDescription.getField(idx).getType()
 //                			+ " " + cellRenders[j].getClass().getName());
+//                } else {
+//
+//                	System.out.println("## No  Render " + j 
+//                			+ " " + recordDescription.getField(idx).getName()
+//                			+ " " + recordDescription.getField(idx).getType()
+//                	);
+//                    
 //                }
                 foundRendor |= (cellRenders[j] != null);
             }

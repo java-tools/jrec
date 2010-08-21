@@ -36,7 +36,7 @@ public class Pnl3CsvTable extends WizardPanel {
 	    wizardDetail.actualSeperator = pnl.getSeperator();
 		wizardDetail.quote = pnl.quote.getSelectedItem().toString();
 		wizardDetail.actualQuote = pnl.getQuote();
-		wizardDetail.parserType = pnl.parseType.getSelectedIndex();
+		wizardDetail.parserType = ((Integer) pnl.parseType.getSelectedItem()).intValue();
 		wizardDetail.fieldNamesOnLine = pnl.fieldNamesOnLine.isSelected();
 		if (wizardDetail.fieldNamesOnLine) {
 			wizardDetail.fileStructure = Constants.IO_NAME_1ST_LINE;
@@ -47,13 +47,13 @@ public class Pnl3CsvTable extends WizardPanel {
 	    
 	    
 	    for (i = 0; i < numCols; i++) {
-	            colDtls = new ColumnDetails(i, wizardDetail.defaultType.intValue());
-	            colDtls.start = i + 1;
-	            colDtls.length = 0;
-	            colDtls.decimal = 0;
-	            colDtls.include = Boolean.TRUE;
-	            colDtls.name = pnl.getTableModel().getColumnName(i);
-	            wizardDetail.standardRecord.columnDtls.add(i, colDtls);
+            colDtls = new ColumnDetails(i, wizardDetail.defaultType.intValue());
+            colDtls.start = i + 1;
+            colDtls.length = 0;
+            colDtls.decimal = 0;
+            colDtls.include = Boolean.TRUE;
+            colDtls.name = pnl.getTableModel().getColumnName(i);
+            wizardDetail.standardRecord.columnDtls.add(i, colDtls);
 	    }
 	    return wizardDetail;
 	}

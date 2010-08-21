@@ -78,12 +78,12 @@ public class TypeBinLittleEndian extends TypeNum {
 		int pos = position - 1;
 		int len = field.getLen();
         String val = value.toString();
-
+   
         formatValueForRecord(field, val);
-
-        Conversion.setLongLow2High(record,
+        
+        Conversion.setBigIntLE(record,
                 				   pos, len,
-                				   getBigDecimal(field, val).longValue(),
+                				   getBigDecimal(field, val).toBigInteger(),
                 				   isPositive());
 
         return record;

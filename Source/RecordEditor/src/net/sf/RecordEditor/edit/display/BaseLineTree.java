@@ -75,10 +75,10 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 				fieldMapping.showColumn(getLayoutIndex(), colDef.getModelIndex() - getColAdjust());
 			}
 			mdl.addColumn(colDef);
-			System.out.println(" -- display " + colDef.getHeaderValue() 
-					+ " " + colDef.getModelIndex()
-					+ " ! "+ originalColumn
-					+" $ " + mdl.getColumnCount());
+//			System.out.println(" -- display " + colDef.getHeaderValue() 
+//					+ " " + colDef.getModelIndex()
+//					+ " ! "+ originalColumn
+//					+" $ " + mdl.getColumnCount());
 		
 			mdl.moveColumn(mdl.getColumnCount() - 1, originalColumn);
 			return true;
@@ -444,31 +444,12 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	 */
 	@Override
 	public void setFieldVisibility(int recordIndex, boolean[] fieldVisibile) {
-		int i, j, idx;
+
 		fieldMapping.setFieldVisibilty(recordIndex, fieldVisibile);
 		
 		if (recordIndex == getLayoutIndex()) {
 			int adj = getColAdjust();
 			showFields.setFieldVisibility(tblDetails.getColumnModel(), adj, adj, fieldVisibile);
-//			for (i = hiddenColumns.size() - 1; i>= 0; i--) {
-//				idx = hiddenColumns.get(i).colDef.getModelIndex() - getColAdjust();
-//
-//				if (fieldVisibile[idx] ) {
-//					hiddenColumns.get(i).show();
-//				}
-//			}
-//			
-//			TableColumnModel mdl = tblDetails.getColumnModel();
-//			for (i = 0; i < fieldVisibile.length; i++) {
-//				if (! fieldVisibile[i] ) {
-//					for (j =0; j < mdl.getColumnCount(); j++) {
-//						if (mdl.getColumn(j).getModelIndex() == i + getColAdjust()) {
-//							hideColumn(j);
-//							break;
-//						}
-//					}
-//				}
-//			}
 		}
 		
 		setActiveFrame(this);
@@ -487,63 +468,4 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
     	
     	showFields.hideColumn(colDef, col);
     }
-    
-    
-    
-//    private class ShowFieldAction extends JMenuItem implements ActionListener {
-//    	public TableColumn colDef ;
-//    	public int originalColumn;
-//    	private int position;
-//    	public ShowFieldAction(String s, TableColumn colDefinition, int col) {
-//    		super(s);
-//    		colDef = colDefinition;
-//    		originalColumn = col;
-//    		
-//    		super.addActionListener(this);
-//    		
-//    		position = hiddenColumns.size();
-//			addjustHiddenColumns(originalColumn, -1, position);
-//			
-//			
-//			showColumnsMenu.add(this);
-//			hiddenColumns.add(this);
-//    	}
-//    	
-//    	@Override
-//		public void actionPerformed(ActionEvent e) {
-//    		show();
-//    	}
-//    	
-//    	public void show() {
-//		
-//			if (originalColumn >= 0) {
-//				TableColumnModel mdl = tblDetails.getColumnModel();
-//				if (getLayoutIndex() < layout.getRecordCount()) {
-//					fieldMapping.showColumn(getLayoutIndex(), colDef.getModelIndex() - getColAdjust());
-//				}
-//				mdl.addColumn(colDef);
-//				//System.out.println(" -- " + column.getModelIndex());
-//
-//				mdl.moveColumn(mdl.getColumnCount() - 1, originalColumn);
-//
-//				showColumnsMenu.remove(this);
-//				hiddenColumns.remove(this);
-//				
-//				addjustHiddenColumns(originalColumn, 1, position);
-//			}
-//		}
-//    	
-//		private void addjustHiddenColumns(int tblPos, int amount, int hidePos) {
-//			for (ShowFieldAction action : hiddenColumns) {
-//				System.out.print(" ==> " + action.originalColumn + " " + tblPos
-//						+ " : " + hidePos + " " + action.position + " ~ " + amount);
-//				if (action.originalColumn > tblPos
-//				|| (action.originalColumn == tblPos && hidePos < action.position)) {
-//					action.originalColumn += amount;
-//				}
-//				System.out.println(" ==> " + action.originalColumn);
-//			}
-//		}
-//    }
-
 }

@@ -29,7 +29,8 @@ public interface Convert {
     public static final int FMT_FS2000_BE = 9;
     public static final int FMT_OPEN_COBOL_MVS_BE = 10;
     public static final int FMT_OC_MICRO_FOCUS_BE = 11;
-  
+    public static final int FMT_MICRO_FOCUS = 21;
+
     /**
      * Get the Binary Definition details
      * 

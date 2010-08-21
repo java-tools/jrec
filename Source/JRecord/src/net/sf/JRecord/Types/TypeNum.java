@@ -22,6 +22,7 @@
 package net.sf.JRecord.Types;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.NumberFormat;
 
 import net.sf.JRecord.Common.Conversion;
@@ -234,7 +235,7 @@ public class TypeNum extends TypeChar {
 	            if (val.startsWith("+")) {
 	                val = val.substring(1);
 	            }
-	            Long.parseLong(val);
+	            new BigInteger(val);
 	        } catch (final Exception ex) {
 	            throw new RecordException("Invalid Integer: " + ex.getMessage());
 	        }
@@ -317,4 +318,37 @@ public class TypeNum extends TypeChar {
         return Type.NT_NUMBER;
     }
 
+    
+    protected long getRmComp(byte[] record, int position, int len) {
+		long retL = 0;
+
+		position = position - 1;
+		if (record != null && record.length >= position) {
+			int en = position + Math.min(len, record.length - position);
+			
+			for (int i = position; i < en; i++) {
+				retL = record[i] + retL * 10;
+			}
+			
+			if (len > record.length - position) {
+				for (int i = len - record.length + position; i > 0; i--) {
+					retL = retL * 10;
+				}
+			}
+		}
+
+		return retL;
+    }
+    
+    protected byte[] setRmComp(byte[] record, int position, int len, long value) {
+
+    	int ii;
+ 		for (int i = len - 1; i >= 0; i--) {
+			ii = (int) value % 10;
+			record[position + i - 1] = (byte) ii;
+			value = value / 10;
+		}
+		
+		return record;
+    }
 }

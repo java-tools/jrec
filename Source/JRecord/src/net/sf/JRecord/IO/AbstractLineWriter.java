@@ -79,7 +79,7 @@ public abstract class AbstractLineWriter {
      * Set the Record Layout
      * @param layout record layout to set
      */
-    public void setLayout(AbstractLayoutDetails layout) {
+    public void setLayout(AbstractLayoutDetails layout) throws IOException {
 
     }
 }

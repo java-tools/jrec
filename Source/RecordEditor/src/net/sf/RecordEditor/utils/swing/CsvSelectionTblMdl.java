@@ -1,5 +1,6 @@
 package net.sf.RecordEditor.utils.swing;
 
+import java.util.List;
 import java.util.StringTokenizer;
 
 import javax.swing.table.AbstractTableModel;
@@ -140,10 +141,9 @@ public class CsvSelectionTblMdl extends AbstractTableModel {
 //			return lines;
 //		}
 
-		private String getLine(int idx) {
+		public final String getLine(int idx) {
 			return Conversion.toString(lines[idx], fontname);
 		}
-		
 		
 		/**
 		 * @param lines the lines to set
@@ -154,6 +154,14 @@ public class CsvSelectionTblMdl extends AbstractTableModel {
 			this.lines = lines;
 		}
 
+		
+		public int getParserType() {
+			return parserType;
+		}
+		
+		public void setParserType(int parserType) {
+			this.parserType = parserType;
+		}
 
 		/**
 		 * @param quote the quote to set
@@ -195,11 +203,10 @@ public class CsvSelectionTblMdl extends AbstractTableModel {
 						columnNames[i] = bParser.getValue(lines[0], i+1, fontname);
 					}
 				} else {
-					StringTokenizer t = new StringTokenizer(getLine(0), seperator);
-					columnNames = new String[t.countTokens()] ;
-					for (i = 0; i < columnNames.length; i++) {
-						columnNames[i] = t.nextToken();
-					}
+					AbstractParser p = parserManager.get(parserType);
+					List<String> colnames = p.getColumnNames(getLine(0), seperator, quote);
+					columnNames = new String[colnames.size()] ;
+					columnNames = colnames.toArray(columnNames);
 				}
 			}
 		}

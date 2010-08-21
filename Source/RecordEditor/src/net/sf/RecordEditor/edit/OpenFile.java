@@ -175,24 +175,6 @@ public class OpenFile extends ReFrame {
 	}
  
 
-//    /**
-//     * Get the current layout details
-//     * @return current layout details
-//     */
-//    protected String getCurrentLayout() {
-//        return (String) getLayoutSelection().getLayoutName();
-//    }
-//
-//
-//    /**
-//     * Update the layout selection
-//     * @param recentLayout layout details
-//     */
-//    protected void setLayout(String recentLayout) {
-//        getLayoutSelection().setLayoutName(recentLayout);
-//    }
-
-
 	/**
 	 * @return the openFilePanel
 	 */

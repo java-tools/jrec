@@ -30,15 +30,6 @@ public class ByteIOProvider {
     private static ByteIOProvider ioProvider = null;
     private static final int DEFAULT_RECORD_LENGTH = 80;
 
-//    private static final int[] SUPPORTED_STRUCTURES = {
-//	    	Constants.IO_FIXED_LENGTH,
-//			Constants.IO_VB,
-//			Constants.IO_VB_DUMP,
-//			Constants.IO_VB_FUJITSU,
-//			Constants.IO_VB_OPEN_COBOL,
-//			Constants.IO_BIN_TEXT
-//    };
-
 
     /**
      * Gets a Record Reader Class that is appropriate for reading the
@@ -62,29 +53,16 @@ public class ByteIOProvider {
      *
      * @return line reader
      */
-    public AbstractByteReader getByteReader(int fileStructure, int length) {
-
-
-//        if (fileStructure == Constants.IO_FIXED_LENGTH) {
-//            return new FixedLengthByteReader(length);
-//        } else if (fileStructure == Constants.IO_VB) {
-//            return new VbByteReader(false, true);
-//        } else if (fileStructure == Constants.IO_VB_DUMP) {
-//            return new VbDumpByteReader();
-//        } else if (fileStructure == Constants.IO_VB_FUJITSU) {
-//            return new FujitsuVbByteReader();
-//        } else if (fileStructure == Constants.IO_VB_OPEN_COBOL) {
-//            return new VbByteReader(false, false);
-//       }
-   
+    public AbstractByteReader getByteReader(int fileStructure, int length) { 
     	
        	switch(fileStructure) {
-       		case (Constants.IO_FIXED_LENGTH):		return new FixedLengthByteReader(length);
-			case (Constants.IO_VB): 						return new VbByteReader(false, true);		
-			case (Constants.IO_VB_DUMP):				return new VbDumpByteReader();	
-			case (Constants.IO_VB_FUJITSU):			return new FujitsuVbByteReader();		
+       		case (Constants.IO_FIXED_LENGTH):	return new FixedLengthByteReader(length);
+			case (Constants.IO_VB): 			return new VbByteReader(false, true);		
+			case (Constants.IO_VB_DUMP):		return new VbDumpByteReader();	
+			case (Constants.IO_VB_FUJITSU):		return new FujitsuVbByteReader();		
 			case (Constants.IO_VB_OPEN_COBOL):	return new VbByteReader(false, false);
-			case (Constants.IO_BIN_TEXT):				return new ByteTextReader();		
+			case (Constants.IO_BIN_TEXT):		return new ByteTextReader();		
+			case (Constants.IO_MICROFOCUS):		return new MicroFocusByteReader();		
 	    }
         return null;
     }
@@ -101,12 +79,12 @@ public class ByteIOProvider {
 
     	switch(fileStructure) {
     		case (Constants.IO_FIXED_LENGTH):		return new FixedLengthByteWriter();	
-    		case (Constants.IO_VB): 						return new VbByteWriter(); 					
-    		case (Constants.IO_VB_DUMP):				return new VbDumpByteWriter();			
-    		case (Constants.IO_VB_FUJITSU):				return new FujitsuVbByteWriter();			
-    		case (Constants.IO_VB_OPEN_COBOL):	return new VbByteWriter(false);
-			case (Constants.IO_BIN_TEXT):				return new ByteTextWriter();		
-//    		case (Constants.IO_BIN_TEXT):				return new FixedLengthByteWriter(false, false, Constants.);
+    		case (Constants.IO_VB): 				return new VbByteWriter(); 					
+    		case (Constants.IO_VB_DUMP):			return new VbDumpByteWriter();			
+    		case (Constants.IO_VB_FUJITSU):			return new FujitsuVbByteWriter();			
+    		case (Constants.IO_VB_OPEN_COBOL):		return new VbByteWriter(false);
+			case (Constants.IO_BIN_TEXT):			return new ByteTextWriter();		
+//    		case (Constants.IO_BIN_TEXT):			return new FixedLengthByteWriter(false, false, Constants.);
         }
 
         return null;

@@ -260,7 +260,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		            rf.close();
 		        } else {
 		            reader.open(fileName, pFd);
-
+		            browse |= (! reader.canWrite());
 		            readFile(reader);
 		        }
 		    }
@@ -411,6 +411,9 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	 * @see javax.swing.table.TableModel#getRowCount()
 	 */
 	public int getRowCount() {
+		if (lines == null) {
+			return 0;
+		}
 		return lines.size();
 	}
 

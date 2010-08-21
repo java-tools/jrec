@@ -274,6 +274,8 @@ public class RecordEdit extends    ReFrame
 	            int tRow;
 	            if (action == ReActionHandler.NEW) {
 	                rec = RecordRec.getNullRecord("", "");
+	                rec.getValue().setListChar("Y");
+	                
 	                tRow = pnlRecordList.addRecord(rec);
 
 	                if (tRow > 0) {

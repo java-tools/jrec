@@ -227,10 +227,9 @@ public class EditRec extends ReMainFrame  {
 	    getEditMenu().add(
 	    		new AbstractAction("Edit Startup Options",
 	    				Common.getRecordIcon(Common.ID_PREF_ICON)) {
-	    			 ;
-	        public void actionPerformed(ActionEvent e) {
-	            new EditOptions(false, incJdbc, includeWizardOptions);
-	        }
+			        public void actionPerformed(ActionEvent e) {
+			        	editProperties(incJdbc, includeWizardOptions);
+			        }
 	    });
 
         super.addExit();
@@ -371,31 +370,6 @@ public class EditRec extends ReMainFrame  {
 
 
 
-//    /**
-//     * Checks if the Program can close
-//     * @return wether the program can close
-//     */
-//    protected void quit() {
-//        //boolean cont = true;
-//        ReFrame[] allFrames = ReFrame.getAllFrames();
-//        
-//        System.out.println("Edit Rec quit");
-//
-//        for (int i = allFrames.length - 1; i >= 0; i--) {
-//            if (allFrames[i].isPrimaryView()
-//            &&  allFrames[i].getDocument() != null) {
-//                //if (allFrames[i].canCloseWindow()) {
-//                    allFrames[i].doDefaultCloseAction();
-//                    //cont = cont && allFrames[i].isClosed();
-//                //}
-//            }
-//        }
-//        Common.closeConnection();
-//
-//        System.exit(0);
-//    }
-
-
     /**
      * @see net.sf.RecordEditor.utils.common.ReActionHandler#executeAction(int)
      */
@@ -478,6 +452,10 @@ public class EditRec extends ReMainFrame  {
     	    }
     	}
 
+    }
+    
+    protected void editProperties(boolean includeJdbc, boolean includeWizardOptions) {
+    	new EditOptions(false, includeJdbc, includeWizardOptions);
     }
 
     /**

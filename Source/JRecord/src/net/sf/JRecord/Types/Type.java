@@ -65,7 +65,9 @@ public interface Type {
 	public static final int ftZonedNumeric       = 32;
 	public static final int ftBinaryBigEndian    = 35;
 	public static final int ftPositiveBinaryBigEndian = 36;
-
+	public static final int ftRmComp             = 37;
+	public static final int ftRmCompPositive     = 38;
+	
 	public static final int ftFjZonedNumeric     = 41;
 
 	public static final int ftDate               = 71;

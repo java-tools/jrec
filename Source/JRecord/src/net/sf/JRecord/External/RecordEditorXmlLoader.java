@@ -1,13 +1,17 @@
 package net.sf.JRecord.External;
 
+import java.io.InputStream;
+
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.XmlConstants;
 import net.sf.JRecord.Details.AbstractFieldValue;
 import net.sf.JRecord.Details.AbstractLine;
+import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.IO.StandardLineReader;
 import net.sf.JRecord.IO.XmlLineReader;
 import net.sf.JRecord.Log.AbsSSLogger;
+import net.sf.JRecord.Log.TextLog;
 import net.sf.JRecord.Numeric.Convert;
 
 /**
@@ -52,6 +56,25 @@ public class RecordEditorXmlLoader implements CopybookLoader {
         
         return rec;
 	}
+	
+	public ExternalRecord loadCopyBook(InputStream is, String layoutName) throws Exception {
+		
+        int rt = Constants.rtRecordLayout;
+        
+        ExternalRecord rec = ExternalRecord.getNullRecord(
+        		layoutName,
+                rt,
+                "");
+        rec.setNew(true);
+        
+        StandardLineReader r = new XmlLineReader(true);
+		r.open(is, (LayoutDetail) null);
+		insertRecord(new TextLog(), null, rec, r, 0);
+        r.close();
+        
+        return rec;
+}
+
 	
 	/**
 	 * Add  an External-Record (Sub-Record) to an External-Record

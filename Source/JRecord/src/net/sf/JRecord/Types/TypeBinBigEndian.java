@@ -77,8 +77,8 @@ public class TypeBinBigEndian extends TypeNum {
 
         formatValueForRecord(field, val);
 
-        Conversion.setLong(record, pos, len,
-                		   getBigDecimal(field, val).longValue(), isPositive());
+        Conversion.setBigInt(record, pos, len,
+                		   getBigDecimal(field, val).toBigInteger(), isPositive());
         return record;
     }
 }

@@ -17,8 +17,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 import net.sf.JRecord.Common.Constants;
+import net.sf.JRecord.CsvParser.AbstractParser;
+import net.sf.JRecord.CsvParser.BasicParser;
+import net.sf.JRecord.CsvParser.ParserManager;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
@@ -100,7 +104,7 @@ public class TextLineWriter extends AbstractLineWriter {
      */
     public void setLayout(AbstractLayoutDetails layout) {
         try {
-            if (writeNames) {
+            if (writeNames && writer != null) {
                 writeLayout(writer, layout);
             }
         } catch (Exception e) {
@@ -122,20 +126,25 @@ public class TextLineWriter extends AbstractLineWriter {
         int i;
        // FieldDetail[] fields = layout.getRecord(0).getFields();
         AbstractRecordDetail rec = layout.getRecord(0);
+        AbstractParser parser = ParserManager.getInstance().get(layout.getRecord(0).getRecordStyle());
         String delim = layout.getRecord(0).getDelimiter();
-        String currDelim = "";
-        StringBuffer buf = new StringBuffer("");
 
-//        for (i = 0; i < fields.length; i++) {
-//            buf.append(currDelim).append(fields[i].getName());
-//            currDelim = delim;
-//        }
+        String quote = "";
+
+        ArrayList<String> colNames = new ArrayList<String>();
+        
+        if (parser == null) {
+        	parser = BasicParser.getInstance();
+        } else if (parser.isQuoteInColumnNames()) {
+        	quote = layout.getRecord(0).getQuote();
+        }  
+
         for (i = 0; i < rec.getFieldCount(); i++) {
-            buf.append(currDelim).append(rec.getField(i).getName());
-            currDelim = delim;
+        	colNames.add(rec.getField(i).getName());
         }
-        buf.append(layout.getEolString());
-        pWriter.write(buf.toString());
+
+        pWriter.write(parser.getColumnNameLine(colNames, delim, quote)
+        		+ layout.getEolString());
 
         writeNames = false;
     }

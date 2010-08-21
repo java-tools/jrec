@@ -35,7 +35,6 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
-import javax.swing.text.MaskFormatter;
 
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.AbstractChildDetails;
@@ -53,7 +52,6 @@ import net.sf.RecordEditor.edit.display.util.OptionPnl;
 import net.sf.RecordEditor.edit.display.util.SaveAs;
 import net.sf.RecordEditor.edit.display.util.Search;
 import net.sf.RecordEditor.edit.display.util.SortFrame;
-import net.sf.RecordEditor.edit.display.util.StandardRendor;
 import net.sf.RecordEditor.edit.file.AbstractLineNode;
 import net.sf.RecordEditor.edit.file.FilePosition;
 import net.sf.RecordEditor.edit.file.FileView;
@@ -73,6 +71,7 @@ import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.LayoutCombo;
+import net.sf.RecordEditor.utils.swing.StandardRendor;
 
 
 
@@ -192,20 +191,9 @@ implements AbstractFileDisplay, ILayoutChanged {
 		 */
 		public final void actionPerformed(final ActionEvent e) {
 			int idx;
-        	//Common.logMsg("Layout List: Action 0 ", null);
 
-		    if (e.getSource() == layoutCombo && (idx = layoutCombo.getSelectedIndex()) >= 0) {
-//		    	int idx = layoutList.getSelectedIndex();
-
-//	        	if (idx != layoutIndex) {
-//					System.out.println("::layout changed " + e.getActionCommand() + " " + e.getModifiers());
-					setTableFormatDetails(idx);
-//					System.out.println("::layout changed  1");
-					setRowHeight();
-					changeLayout();
-
-//					layoutIndex = idx;
-//	        	}
+			if (e.getSource() == layoutCombo) {
+		    	setupForChangeOfLayout();
 			}
 		}
 	};
@@ -329,7 +317,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 			}
 			
 			if (doClose) {
-				fileMaster.clear();
+				fileView.clear();
 			}
 		}
 		
@@ -1109,7 +1097,7 @@ implements AbstractFileDisplay, ILayoutChanged {
             }
 
             setLayoutIndex(record2Use);
-            setTableFormatDetails(record2Use);
+            setupForChangeOfLayout();
         }
     }
     
@@ -1172,8 +1160,12 @@ implements AbstractFileDisplay, ILayoutChanged {
 	        RecordFormats recordDesc = getDisplayDetails(recordIndex);
 	        cellRenders = recordDesc.getCellRenders();
 	        cellEditors = recordDesc.getCellEditors();
-	        maxHeight   = recordDesc.getMaxHeight();
 	        widths      = recordDesc.getWidths();
+	        
+	        maxHeight   = recordDesc.getMaxHeight();
+	        if (tblDetails != null && (tblDetails.getRowHeight() > maxHeight)) {
+	        	maxHeight = Math.max(maxHeight, (int) tblDetails.getRowHeight());
+	        }
 	    }
 	}
 
@@ -1280,8 +1272,11 @@ implements AbstractFileDisplay, ILayoutChanged {
 	            	count =  Math.min(this.fileView.getLayoutColumnCount(idx), cellRenders.length);
 	                for (i = columnsToSkip; i < count ; i++) {
 	                    if (cellRenders[i] != null) {
-	                    	//System.out.println("Rendor ~~> 1 " + i);
-	                        tcm.getColumn(i + blankColumns - columnsToSkip).setCellRenderer(cellRenders[fileView.getRealColumn(idx, i)]);
+//	                    	System.out.println("Rendor ~~> 1 " + i 
+//	                    			+ ", " + (i + blankColumns - columnsToSkip)
+//	                    			+ "  idx  " + idx
+//	                    			+ ", " + fileView.getRealColumn(idx, i));
+	                        tcm.getColumn(i + blankColumns - columnsToSkip).setCellRenderer(cellRenders[i]);
 	                    }
 	                }
 	            }
@@ -1290,7 +1285,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	            	count =  Math.min(this.fileView.getLayoutColumnCount(idx), cellEditors.length);
 	                for (i = columnsToSkip; i < count; i++) {
 	                    if (cellEditors[i] != null) {
-	                        tcm.getColumn(i + blankColumns - columnsToSkip).setCellEditor(cellEditors[fileView.getRealColumn(idx, i)]);
+	                        tcm.getColumn(i + blankColumns - columnsToSkip).setCellEditor(cellEditors[i]);
 	                 
 	                    }
 	                }
@@ -1319,7 +1314,14 @@ implements AbstractFileDisplay, ILayoutChanged {
 	public void setLayoutIndex(int recordIndex) {
 //		System.out.println("Set Layout Index " + recordIndex);
 		//Common.logMsg("Setting LayoutIndex", null);
+		
+		layoutCombo.removeActionListener(layoutListner);
 		layoutCombo.setLayoutIndex(recordIndex);
+		if (recordIndex >= 0) {
+			setTableFormatDetails(recordIndex);
+			setRowHeight();
+		}
+		layoutCombo.addActionListener(layoutListner);
 	}
 
 
@@ -1452,6 +1454,18 @@ implements AbstractFileDisplay, ILayoutChanged {
 	 */
 	public final void setCopyHiddenFields(boolean copyHiddenFields) {
 		this.copyHiddenFields = copyHiddenFields;
+	}
+
+	
+	protected final void setupForChangeOfLayout() {
+		
+		int idx = layoutCombo.getSelectedIndex();
+		
+		if (idx >= 0) {
+			setTableFormatDetails(idx);
+			setRowHeight();
+			changeLayout();
+		}
 	}
 
 //	/**

@@ -259,7 +259,7 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 	/**
 	 * 
 	 * @see net.sf.RecordEditor.utils.screenManager.ReFrame#windowClosing()
-	 */
+	 */ @Override
 	public void windowClosing() {
 		
 		if (super.isPrimaryView()) {
@@ -374,7 +374,7 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 	 public abstract int getCurrRow();
 
 	 /**
-	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplay#setCurrRow(int, int, int)
+	 * set the current row
 	 */
 	 public abstract void setCurrRow(int newRow, int layoutId, int fieldNum);
 
@@ -419,15 +419,6 @@ public abstract class AbstractCompareDisplay extends ReFrame {
         }
     }
     
-    
-//    /**
-//     * get the prefered layout for a row. note: this is overriden in LineTree
-//     * @param row table row to get the layout for
-//     * @return rows prefered layout
-//     */
-//    protected int setLayoutIdx_100_getLayout4Row(int row) {
-//    	return displayBefore.get(row).line.getPreferredLayoutIdx();
-//    }
 
     /**
      * get the selected Row count
@@ -485,31 +476,6 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 	    }
 	}
 
-	
-//   /**
-//     * This method defines the Column Headings
-//     */
-//    protected final void defineColumns(int numCols, int blankColumns, int columnsToSkip) {
-//
-//        tblDetails.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
-
- //       Common.calcColumnWidths(tblDetails, blankColumns + 1);
- //       setRowHeight();
-/*        if (tblScrollPane != null) {
-            tblScrollPane.setFixedColumns(2);
-            TableColumn tc = tblScrollPane.getFixedTable().getColumnModel().getColumn(0);
-            tc.setCellRenderer(tableBtn);
-            tc.setPreferredWidth(5);
-            tc = tblScrollPane.getFixedTable().getColumnModel().getColumn(1);
-            tc.setPreferredWidth(ROW_WIDTH);
-            tc.setResizable(false);
-
-            //tblScrollPane.setColumnsToDisplay();
-            tblScrollPane.correctFixedSize();
-        }*/
- //   }
-
 
 	/**
 	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplay#getLayoutIndex()
@@ -520,9 +486,9 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 
 
 	/**
-	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplay#setLayoutIndex(int)
-	 */
-	public final void setLayoutIndex(int recordIndex) {
+	 * Set the layout index
+	 */ 
+	 public final void setLayoutIndex(int recordIndex) {
 //		System.out.println("Set Layout Index " + recordIndex);
 		//Common.logMsg("Setting LayoutIndex", null);
 		layoutList.setLayoutIndex(recordIndex);

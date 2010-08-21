@@ -11,6 +11,8 @@
  */
 package net.sf.JRecord.Types;
 
+import java.math.BigInteger;
+
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
@@ -63,7 +65,7 @@ public class TypeBit extends TypeChar {
 
         formatValueForRecord(field, val);
 
-        Conversion.setLong(record, pos, len, Long.parseLong(val, 2), true);
+        Conversion.setBigInt(record, pos, len, new BigInteger(val, 2), true);
         return record;
 	}
 

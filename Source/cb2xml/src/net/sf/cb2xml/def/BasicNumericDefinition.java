@@ -89,8 +89,8 @@ public class BasicNumericDefinition implements NumericDefinition {
     	return name;
     }
 
-
-	public int getBinarySize(String usage, int numDigits, boolean positive) {
+    
+	public int getBinarySize(String usage, int numDigits, boolean positive, boolean sync) {
 		int storageLength = numDigits;
         if ("computational-1".equals(usage)) {
         	storageLength = 4;
@@ -146,8 +146,8 @@ public class BasicNumericDefinition implements NumericDefinition {
 	}
 	
 	private boolean isBinary(String usage) {
-		return "computational".equals(usage) || "computational-4".equals(usage) 
-	        		    || "computational-5".equals(usage);
+		return "binary".equals(usage) ||"computational".equals(usage) 
+			|| "computational-4".equals(usage) || "computational-5".equals(usage);
 	}
 
 }

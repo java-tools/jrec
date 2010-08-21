@@ -342,6 +342,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	 * (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#newLayout(net.sf.JRecord.Details.AbstractLayoutDetails)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
     protected void newLayout(AbstractLayoutDetails newLayout) {
     	
@@ -430,7 +431,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
  //       		+ " >= " + fullLineIndex);
      
         int layoutIdx = getLayoutIndex();
-        int lineHeight = tblScrollPane.STD_LINE_HEIGHT;
+        int lineHeight = Math.max(tblScrollPane.STD_LINE_HEIGHT, tblDetails.getRowHeight());
         String font = layout.getFontName();
         //System.out.println(" ~~> LayoutIdx ~~> " + layoutIdx + " " + fullLineIndex + " " + (fullLineIndex + 2));
         

@@ -696,9 +696,6 @@ public class CopyBookAnalyzer extends DepthFirstAdapter {
 		    actualLength *= Integer.parseInt(element.getAttribute("occurs"));
 		}
 
-		//if (element.hasAttribute("redefines")) {
-		//    actualLength = 0;
-		//}
 		return startPos + actualLength;
 	}
 
@@ -714,7 +711,7 @@ public class CopyBookAnalyzer extends DepthFirstAdapter {
 	    	if (numDef != null) { 
 		    	String usage = element.getAttribute("usage");
 		    	displayLength = numDef.chkStorageLength(storageLength, usage);
-		        storageLength = numDef.getBinarySize(usage, displayLength, positive);
+		        storageLength = numDef.getBinarySize(usage, displayLength, positive, element.hasAttribute("sync"));
 	    	}
 	    } else if (element.hasAttribute("sign-separate") 
 	    		&& "true".equalsIgnoreCase(element.getAttribute("sign-separate"))) {

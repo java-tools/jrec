@@ -22,9 +22,6 @@
 package net.sf.RecordEditor.edit.display;
 
 
-
-
-
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -155,7 +152,7 @@ implements ActionListener, LayoutConnection {
 		} else {
 			display = new LineList(layoutDtls, file, file);
 			display.setCurrRow(initialRow, -1, -1);
-			
+		
 			if (file.getRowCount() == 0 && ! pBrowse) {
 				display.insertLine();
 			}
@@ -238,11 +235,13 @@ implements ActionListener, LayoutConnection {
         AbstractLayoutSelection selection = getLayoutSelection();
         
         selection.reload();
-        selection.setLayoutName(layoutName);
-        
+         
 		if (newFileName != null && ! "".equals(newFileName)) {
 		    fileName.setText(newFileName);
+			selection.setLayoutName(layoutName);
 			loadFile(false);
+		} else {
+			selection.setLayoutName(layoutName);
 		}
 		super.setDoListener(true);
     }

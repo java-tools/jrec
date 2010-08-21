@@ -18,6 +18,8 @@
  */
 package net.sf.JRecord.Types;
 
+import java.math.BigInteger;
+
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
@@ -95,7 +97,7 @@ public class TypeDecimalHex extends TypeNum {
         if (isNumeric) { // ie not a hex field
             val = formatValueForRecord(field, val);
         }
-        Conversion.setLong(record, pos, len, Long.parseLong(val, BASE_16), true);
+        Conversion.setBigInt(record, pos, len, new BigInteger(val, BASE_16), true);
 
         return record;
     }

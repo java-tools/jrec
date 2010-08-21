@@ -9,14 +9,16 @@ import net.sf.JRecord.Types.Type;
  * @author Bruce Martin
  *
  */
-public class StandardParser implements AbstractParser {
+public class StandardParser extends BaseCsvParser implements AbstractParser {
 
 	private boolean textFieldsInQuotes = false;
-	
+
+ 
 	/**
 	 * Standard CSV line parser
 	 */
 	public StandardParser() {
+		super(false);
 	}
 	
 	/**
@@ -24,9 +26,20 @@ public class StandardParser implements AbstractParser {
 	 * @param putTextFieldsInQuotes put Quotes around Text Fields
 	 */
 	public StandardParser(boolean putTextFieldsInQuotes) {
+		super(false);
 		textFieldsInQuotes = putTextFieldsInQuotes;
 	}
 	
+	
+	/**
+	 * Standard CSV line parser
+	 * @param putTextFieldsInQuotes put Quotes around Text Fields
+	 */
+	public StandardParser(boolean putTextFieldsInQuotes, boolean quoteInColumnNames) {
+		super(quoteInColumnNames);
+		textFieldsInQuotes = putTextFieldsInQuotes;
+	}
+   
 
 	
 	/**
@@ -59,9 +72,9 @@ public class StandardParser implements AbstractParser {
 			s = "";
 		}
 		
-		if (textFieldsInQuotes) {
-			System.out.print("--> " + fieldType + " " + Type.NT_NUMBER + " " + s + " --> ");
-		}
+//		if (textFieldsInQuotes) {
+//			System.out.print("--> " + fieldType + " " + Type.NT_NUMBER + " " + s + " --> ");
+//		}
 		if (s.indexOf(delimiter) >= 0
 		|| (quote != null && s.indexOf(quote) >= 0) 
 		|| (textFieldsInQuotes & (fieldType != Type.NT_NUMBER))) {
@@ -75,9 +88,9 @@ public class StandardParser implements AbstractParser {
 			}
 			s = quote + b.toString() + quote;
 		}
-		if (textFieldsInQuotes) {
-			System.out.println(s);
-		}
+//		if (textFieldsInQuotes) {
+//			System.out.println(s);
+//		}
 		return lineVals[0] + s + lineVals[2];
 	}
 	
@@ -97,8 +110,8 @@ public class StandardParser implements AbstractParser {
 	 */
 	private String[] split(int fieldNumber, String line, String delimiter, String quote) {
 		String[] ret = new String[]{null, null, ""};
-		StringBuffer pre   = new StringBuffer("");
-		StringBuffer field = null;
+		StringBuilder pre   = new StringBuilder("");
+		StringBuilder field = null;
 		String s;
 		boolean inQuotes = false;
 		boolean lastCharDelim = true;
@@ -129,7 +142,7 @@ public class StandardParser implements AbstractParser {
 		}
 
 		if (i < line.length()) { 
-			field = new StringBuffer("");
+			field = new StringBuilder("");
 			lastCharDelim = true;
 			while (i < line.length()) {
 				s = line.substring(i, i + 1);
@@ -158,10 +171,18 @@ public class StandardParser implements AbstractParser {
 				lastCharDelim = false;
 				i += 1;
 			}
+			ret[0] = pre.toString();
 			ret[1] = field.toString();
+			ret[2] = line.substring(i);
+		} else {
+			for (i = currFieldNumber; i < fieldNumber; i++) {
+				pre.append(delimiter);
+			}
+			ret[0] = pre.toString();
+
+			ret[2] = "";
 		}
-		ret[0] = pre.toString();
-		ret[2] = line.substring(i);
+
 
 		
 		return ret;

@@ -11,10 +11,12 @@ import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.Types.TypeChar;
 import net.sf.JRecord.Types.TypeManager;
 import net.sf.JRecord.Types.TypeNum;
+import net.sf.RecordEditor.record.format.BoldFormat;
 import net.sf.RecordEditor.record.format.CellFormat;
 import net.sf.RecordEditor.record.format.CheckBoxBooleanFormat;
 import net.sf.RecordEditor.record.format.CheckBoxFldFormat;
 import net.sf.RecordEditor.record.format.CheckBoxFormat;
+import net.sf.RecordEditor.record.format.ColorFormat;
 import net.sf.RecordEditor.record.format.ComboFormat;
 import net.sf.RecordEditor.record.format.CsvArrayFormat;
 import net.sf.RecordEditor.record.format.DateFormat;
@@ -28,7 +30,7 @@ import net.sf.RecordEditor.record.format.MultiLineFormat;
  */
 public class ReTypeManger extends TypeManager {
 
-    public static final int FORMAT_SYSTEM_ENTRIES = 20;
+    public static final int FORMAT_SYSTEM_ENTRIES = 40;
 
     private static final int INVALID_FORMAT_INDEX = FORMAT_SYSTEM_ENTRIES - 1;
 
@@ -119,8 +121,8 @@ public class ReTypeManger extends TypeManager {
             formats[CellFormat.FMT_DATE_DMYY] = new DateFormat(false, "ddMMyyyy");
             formats[CellFormat.FMT_DATE_YYMD] = new DateFormat(false, "yyyyMMdd");
             formats[CellFormat.FMT_COMBO]     = new ComboFormat();
-            
-
+            formats[CellFormat.FMT_BOLD]      = new BoldFormat();
+            formats[CellFormat.FMT_COLOR]     = new ColorFormat();
         }
 
     }

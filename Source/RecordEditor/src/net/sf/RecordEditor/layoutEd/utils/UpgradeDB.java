@@ -242,11 +242,17 @@ public final class UpgradeDB {
    };
     
     private String[] sql69 = {
-       	deleteTbl + "TBLID = 1 and TBLKEY in (" + Type.ftCharRestOfFixedRecord + ","
-        + Type.ftCharRestOfRecord + ")",
-       	insertSQL + "(1," + Type.ftCharRestOfFixedRecord + ",'Char Rest of Fixed Length');",
+       	deleteTbl + "TBLID = 1 and TBLKEY in (" + Type.ftCharRestOfFixedRecord 
+       	+ "," + Type.ftCharRestOfRecord 
+       	+ "," + Type.ftRmComp + "," + Type.ftRmCompPositive 
+        + ")",
+      	deleteTbl + "TBLID = 5 and TBLKEY in (" + CellFormat.FMT_BOLD + ")",
+ //      	insertSQL + "(1," + Type.ftCharRestOfFixedRecord + ",'Char Rest of Fixed Length');",
        	insertSQL + "(1," + Type.ftCharRestOfRecord + ",'Char Rest of Record');",
-   };
+       	insertSQL + "(1," + Type.ftRmComp + ",'RM Cobol Comp');",
+       	insertSQL + "(1," + Type.ftRmCompPositive + ",'RM Cobol Positive Comp');",
+        insertSQL + "(5," + CellFormat.FMT_BOLD + ",'Bold Format')",
+  };
 
  
 

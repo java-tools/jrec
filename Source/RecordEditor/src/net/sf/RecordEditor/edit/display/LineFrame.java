@@ -48,34 +48,28 @@ import net.sf.RecordEditor.utils.common.ReActionHandler;
  */
 public class LineFrame extends    BaseLineFrame {
 
-    //static final int NUM_MOVEMENT_ICONS = 4;
     private int currRow;
     private ImageIcon[] icons = Common.getArrowIcons();
 
 	private ActionListener listner = new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-					
-//				System.out.println("Lister start " + (event.getSource() == btn[2]));
-					stopCellEditing();
-	
-					if (event.getSource() == btn[0]) {
-						currRow = 0;
-						rowChanged();
-	
-					} else if (event.getSource() == btn[1]) {
-							changeRow(-1);
-					} else if (event.getSource() == btn[2]) {
-							changeRow(1);
-					} else if (event.getSource() == btn[3]) {
-						currRow = getFileView().getRowCount() - 1;
-						rowChanged();
-					} else if (event.getSource() == oneLineHex) {
-					    ap_100_setHexFormat();
-					}
-					
-//					System.out.println("Lister End " + (event.getSource() == btn[2]));
 
-			//	}
+				stopCellEditing();
+
+				if (event.getSource() == btn[0]) {
+					currRow = 0;
+					rowChanged();
+
+				} else if (event.getSource() == btn[1]) {
+						changeRow(-1);
+				} else if (event.getSource() == btn[2]) {
+						changeRow(1);
+				} else if (event.getSource() == btn[3]) {
+					currRow = getFileView().getRowCount() - 1;
+					rowChanged();
+				} else if (event.getSource() == oneLineHex) {
+				    ap_100_setHexFormat();
+				}
 			}
 	};
 
@@ -168,6 +162,7 @@ public class LineFrame extends    BaseLineFrame {
 			currRow = newRow;
 			rowChanged();
 		}
+
 		if (fieldNum > 0 && getLayoutIndex() == layout) {
 		    tblDetails.getSelectionModel().clearSelection();
 		    tblDetails.getSelectionModel().setSelectionInterval(fieldNum, fieldNum);
@@ -193,9 +188,6 @@ public class LineFrame extends    BaseLineFrame {
 		return new int[] {getCurrRow()};
 	}
 
-	/**
-	 * @see java.awt.event.ActionListner#actionPerformed
-	 */
 
 
 	/**
@@ -279,34 +271,12 @@ public class LineFrame extends    BaseLineFrame {
 	    	   setColWidths();
 	    	   setDirectionButtonStatus();
 	    	   setFullLine();
-
-/*			System.out.println("::Creating Swing Worker ... ");
-			(new SwingWorker<String, Object>() {
-			       @Override
-			       public String doInBackground() {
-						System.out.println("::Starting Swing Worker ... ");
-
-			    	   int newIdx = record.getCurrentLayout();
-			    	   setLayoutIndex(newIdx);
-
-			    	   changeLayout();
-						System.out.println("::Swing Worker ... 1 ");
-			    	   setColWidths();
-						System.out.println("::Swing Worker ... 2 ");
-			    	   setDirectionButtonStatus();
-						System.out.println("::Swing Worker ... 3 ");
-			    	   setFullLine();
-						System.out.println("::Swing Worker ... 4 ");
-		    	   return null;
-			       }
-			}).execute();*/
 		} else {
 //			System.out.println("::Setting up display ");
 			setColWidths();
 			setDirectionButtonStatus();
 			setFullLine();
 		}
-//		System.out.println("::Exit Row changed ");
 
 		setColumnWidths(colWidths);
 	}

@@ -6,6 +6,7 @@
  */
 package net.sf.JRecord.ByteIO;
 
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
@@ -77,7 +78,7 @@ public class FixedLengthByteWriter extends AbstractByteWriter {
      */
     public void open(OutputStream outputStream) throws IOException {
 
-        outStream = outputStream;
+        outStream = new BufferedOutputStream(outputStream, 8192);
     }
 
 

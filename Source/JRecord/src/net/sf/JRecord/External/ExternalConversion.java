@@ -433,6 +433,7 @@ public final class ExternalConversion {
 			setName(Type.ftBit  , "Bit");
 			setName(Type.ftPackedDecimal  , "Mainframe Packed Decimal (comp-3)");
 			setName(Type.ftZonedNumeric  , "Mainframe Zoned Numeric");
+			typeNumbers.put("Binary Integer Big Edian (Mainframe, AIX etc)".toLowerCase(), Integer.valueOf(Type.ftBinaryBigEndian ));
 			setName(Type.ftBinaryBigEndian  , "Binary Integer Big Endian (Mainframe, AIX etc)");
 			setName(Type.ftPositiveBinaryBigEndian  , "Positive Integer Big Endian");
 			setName(Type.ftFjZonedNumeric  , "Fujitsu Zoned Numeric");

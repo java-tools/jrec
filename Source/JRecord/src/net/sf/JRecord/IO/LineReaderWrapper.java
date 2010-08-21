@@ -94,4 +94,9 @@ extends AbstractLineReader {
 		this.reader = reader;
 	}
 
+	@Override
+	public boolean canWrite() {
+		return reader.canWrite();
+	}
+
 }

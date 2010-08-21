@@ -84,7 +84,7 @@ public class Details {
     				Common.rtRecordLayout, system, "Y", "",
     				"<Tab>", "", 0, Common.DEFAULT_STRING,
     				Common.LFCR_BYTES, fontName,
-    				0, fileStructure
+    				parserType, fileStructure
     		);
     		addFields(rec, standardRecord);
     	break;
@@ -96,7 +96,7 @@ public class Details {
     				Common.rtGroupOfRecords, system, "Y", "",
     				"<Tab>", "", 0, Common.DEFAULT_STRING,
     				Common.LFCR_BYTES, fontName,
-    				0, fileStructure
+    				parserType, fileStructure
     		);
     		for (RecordDefinition child : recordDtls) {
     			childRecord = new ExternalRecord(-1, child.name,
@@ -104,7 +104,7 @@ public class Details {
         				Common.rtRecordLayout, system, "N", "",
         				"<Tab>", "", 0, Common.DEFAULT_STRING,
         				Common.LFCR_BYTES, fontName,
-        				0, fileStructure
+        				parserType, fileStructure
         		);
     			addFields(childRecord, child);
     			childRecord.setTstField(keyName);
@@ -129,7 +129,7 @@ public class Details {
 	    			delim, actualQuote, 0, 
 	    			Common.DEFAULT_STRING,
 	    			Common.LFCR_BYTES, fontName,
-	    			0, fileStructure
+	    			parserType, fileStructure
 	    	);
 	    	addFields(rec, standardRecord);
     	}
@@ -191,7 +191,7 @@ public class Details {
             field[0].setPosLen(1, recordLength);
             recs = new RecordDetail[1];
             recs[0] = new RecordDetail(
-                    	"", "", "", Common.rtBinaryRecord, "", "", "", field, 0
+                    	"", "", "", Common.rtBinaryRecord, "", "", "", field, parserType
                     );
         } else {
             recs = new RecordDetail[0];

@@ -211,15 +211,19 @@ public class LineFrameTree extends  BaseLineFrame {
 	 */
 	public void deleteLines() {
 		AbstractLine line = record.getCurrentLine();
-		if (line.getTreeDetails().getParentLine() == null) {
-			getFileView().deleteLine(getCurrRow());
-		} else {
-			// TODO delete item from parent
-		}
+		getFileView().deleteLine(line);
+//		if (line.getTreeDetails().getParentLine() == null) {
+//			getFileView().deleteLine(getCurrRow());
+//		} else {
+//			AbstractLine parent = line.getTreeDetails().getParentLine();
+//			parent.getTreeDetails().removeChild(line);
+//			
+//			record.setCurrentLine(parent, getLayoutIndex());
+//		}
 
 		setLayoutIndex(record.getCurrentLayout());
+		setupForChangeOfLayout();
 		setDirectionButtonStatus();
-
 	}
 
 
@@ -274,10 +278,6 @@ public class LineFrameTree extends  BaseLineFrame {
         		record.setCurrentLine(l, getLayoutIndex());
         		setDirectionButtonStatus();
         	}
-        break;
-    	case (ReActionHandler.DELETE_RECORD) :
-        	getFileView().deleteLine(record.getCurrentLine());
-        	this.closeWindow();
         break;
 		case(ReActionHandler.PASTE_RECORD):
 		case ReActionHandler.PASTE_RECORD_PRIOR:
@@ -406,8 +406,8 @@ public class LineFrameTree extends  BaseLineFrame {
 	
 	private void setLine(AbstractLine l) {
 		
-//		System.out.println("## Change Layout ?? ... " + (l != record.getCurrentLine()) 
-//				+ " LayoutIndex: " + getLayoutIndex());
+		System.out.println("## Set Line ... " + (l != record.getCurrentLine()) 
+				+ " LayoutIndex: " + getLayoutIndex());
 		if (l != record.getCurrentLine()) {
 			int[] colWidths = getColumnWidths();
 			record.setCurrentLine(l, getLayoutIndex());
@@ -419,6 +419,8 @@ public class LineFrameTree extends  BaseLineFrame {
 			setColWidths(); //System.out.println("## Set Columns " + " LayoutIndex: " + getLayoutIndex());
 			setColumnWidths(colWidths); //System.out.println("## Set Column Widths " + " LayoutIndex: " + getLayoutIndex());
 			setFullLine(); //System.out.println("## Set Fulline " + " LayoutIndex: " + getLayoutIndex());
+
+			System.out.println(" ---))) " + record.getValueAt(1, 3));
 		}
 
 	}
@@ -466,7 +468,6 @@ public class LineFrameTree extends  BaseLineFrame {
 		}
 		return next;
 	}
-
 
 
 	/**

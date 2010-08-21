@@ -47,19 +47,25 @@ public class CsvSelectionPanel extends BaseHelpPanel {
     
     private CsvSelectionTblMdl tblMdl;
     
+    private boolean doAction = true;
+    
     private ActionListener changed = new ActionListener() {
     	   public void actionPerformed(ActionEvent e) {
     		   
-    		   valueChanged();
+    		   if (doAction) {
+    			   valueChanged();
+    		   }
     	   }
        };
     private ActionListener fieldNamesChanged = new ActionListener() {
    	   public void actionPerformed(ActionEvent e) {
 
-   		   tblMdl.setSeperator(getSeperator());
-   		   tblMdl.setHideFirstLine(fieldNamesOnLine.isSelected());
-
-   		   valueChanged();
+	   		if (doAction) {
+	   		   tblMdl.setSeperator(getSeperator());
+	   		   tblMdl.setHideFirstLine(fieldNamesOnLine.isSelected());
+	
+	   		   valueChanged();
+	   		}
    	   }
     };
       
@@ -135,11 +141,31 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 
 	
 	private void valueChanged() {
-		
-		tblMdl.setQuote(getQuote());
-		tblMdl.setSeperator(getSeperator());
-		tblMdl.setupColumnCount();
-		tblMdl.fireTableStructureChanged();
+		String quote = getQuote();
+
+		try {
+			doAction = false;
+			tblMdl.setParserType(((Integer) parseType.getSelectedItem()).intValue());
+			tblMdl.setQuote(quote);
+			tblMdl.setSeperator(getSeperator());
+			
+			try {
+				String l = tblMdl.getLine(0).trim();
+				
+				if (fieldNamesOnLine.isSelected() && ! "".equals(quote) 
+				&& l.startsWith(quote) && l.endsWith(quote) 
+				&& parseType.getSelectedIndex() == 0) {
+					parseType.setSelectedIndex(3);
+					tblMdl.setParserType(((Integer) parseType.getSelectedItem()).intValue());
+			   		tblMdl.setHideFirstLine(fieldNamesOnLine.isSelected());
+				}
+			} catch (Exception e) {
+			}
+			tblMdl.setupColumnCount();
+			tblMdl.fireTableStructureChanged();
+		} finally {
+			doAction = true;
+		}
 	}
 	/**
 	 * Get The field seperator 

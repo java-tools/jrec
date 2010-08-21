@@ -127,7 +127,6 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 
 	@Override
 	public void setCurrRow(int newRow, int layoutId, int fieldNum) {
-		// TODO Auto-generated method stub
 
 	}
 	
@@ -192,17 +191,6 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 	}
 
 
-//	/* (non-Javadoc)
-//	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#executeAction(int)
-//	 */
-//	@Override
-//	public void executeAction(int action) {
-//		switch (action) {
-//		case ReActionHandler.DELETE_RECORD:		deleteSelectedLines();			break;
-//		default:
-//			super.executeAction(action);
-//		}
-//	}
 	
 	public void deleteLines() {
 		int[] selRows = treeTable.getSelectedRows();
@@ -337,6 +325,23 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 		}
 	}
 
+	public void expandTree(String option) {
+		getLayoutCombo().setSelectedItem(option);
+		
+		doFullExpansion(root);
+				
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				Common.calcColumnWidths(tblDetails, 1);
+			}
+		});
+				
+				
+
+		//setLayoutIdx();
+	}
 	/**
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#isActionAvailable(int)
 	 */

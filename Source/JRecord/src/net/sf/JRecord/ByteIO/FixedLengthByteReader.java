@@ -47,7 +47,7 @@ public class FixedLengthByteReader extends AbstractByteReader {
 
 
     /**
-     * @see net.sf.JRecord.ByteIO.AbstractByteReader#open(java.io.InputStream)
+     * @see AbstractByteReader#open(java.io.InputStream)
      */
     public void open(InputStream inputStream) {
 

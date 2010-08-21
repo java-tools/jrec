@@ -112,6 +112,8 @@ public class ColumnSelector {
 	
 	public void addMouseListner(MouseListener mouseListner) {
 		fileTbl.addMouseListener(mouseListner);
+		fileTbl.getTableHeader().addMouseListener(mouseListner);
+		
         hexChk.addActionListener(new ActionListener() {
 
 			/* (non-Javadoc)
@@ -361,10 +363,12 @@ public class ColumnSelector {
        	TableColumn tc;
     	String s;
     	TableColumnModel tcm  = fileTbl.getColumnModel();
+    	
         for (int i = 0; i < fileModel.getColumnCount(); i++) {
             tc = tcm.getColumn(i);
             tc.setPreferredWidth(STANDARD_TABLE_CELL_WIDTH);
             tc.setCellRenderer(tblRender);
+
             //if (! Common.TEST_MODE) {
             switch ((i + 1) % COLUMNS_TO_NUMER) {
             	case (0): s = "" + ((i + 1) / COLUMNS_TO_NUMER); break;

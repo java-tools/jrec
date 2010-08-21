@@ -109,4 +109,8 @@ public abstract class AbstractByteReader {
     public void setLineLength(int lineLength) {
     }
 
+    
+    public boolean canWrite() {
+    	return true;
+    }
 }

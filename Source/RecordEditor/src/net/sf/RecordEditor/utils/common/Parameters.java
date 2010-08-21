@@ -560,6 +560,10 @@ public final class Parameters {
 		writeProperties();
 	}
 	
+	public static final void setProperties(Properties prop) {
+		properties = prop;
+	}
+	
     public static final void writeProperties() {
     	
         try {

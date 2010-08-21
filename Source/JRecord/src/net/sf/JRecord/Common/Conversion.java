@@ -506,7 +506,68 @@ public final class Conversion {
 
 			val = val >> 8;
 		}
+	}
 
+	public static void setBigInt(final byte[] record, int pos, int len, BigInteger val, boolean isPositive) 
+	throws RecordException {
+		byte[] bytes = val.toByteArray();
+		int i;
+		byte sb = BYTE_NO_BIT_SET;
+		
+		if (bytes.length <= len) {
+		} else if (isPositive && bytes.length == len + 1 && (bytes[0] == 0)){
+			byte[] tmp = new byte[len];
+			System.arraycopy(bytes, 1, tmp, 0, len);
+			bytes = tmp;
+		} else {
+//			System.out.println(" To Big " +  isPositive 
+//					+ " > " + pos + " " + bytes.length  + " ~ " + len
+//					+ " " + bytes[0]);
+			throw new RecordException("Value is to big for field "  +  isPositive 
+					+ " > " + pos + " " + bytes.length  + " ~ " + len
+					+ " " + bytes[0]);
+		}
+		
+		if (val.signum() < 0) {
+			sb = BYTE_ALL_BITS_SET;
+		}
+
+		for (i = pos ; i < pos + len - bytes.length + 1; i++) {
+			record[i] = sb;
+		}
+		
+		System.arraycopy(bytes, 0, record, pos + len - bytes.length, bytes.length);
+	}
+	
+
+	public static void setBigIntLE(final byte[] record, int pos, int len, BigInteger val, boolean isPositive) 
+	throws RecordException {
+		byte[] bytes = val.toByteArray();
+		int i;
+		
+		if (bytes.length <= len) {
+			int base = pos + bytes.length - 1;
+			byte fill = BYTE_NO_BIT_SET;
+			if (val.signum() < 0) {
+				fill = BYTE_ALL_BITS_SET;
+			}
+			Arrays.fill(record, base, pos + len, fill);
+
+			for (i = 0; i < bytes.length; i++) {
+				record[base - i] = bytes[i];
+			}
+		} else if (isPositive && bytes.length == len + 1 && (bytes[0] == 0)){
+			int base = pos + len - 1;
+			for (i = 0; i < len; i++) {
+				record[base - i] = bytes[i+1];
+			}
+		} else {
+			throw new RecordException("Value is to big for field "  +  isPositive 
+					+ " > " + pos + " " + bytes.length  + " ~ " + len
+					+ " " + bytes[0]);
+		}
+			
+		
 	}
 
 

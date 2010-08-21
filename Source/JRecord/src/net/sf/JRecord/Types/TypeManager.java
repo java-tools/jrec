@@ -80,36 +80,39 @@ public class TypeManager {
         }
 
         if (addSystemTypes) {
-            types[Type.ftCharRightJust]				= new TypeChar(false);
-            types[Type.ftCharNullPadded]			= new TypeCharPadded();
+            types[Type.ftCharRightJust]			= new TypeChar(false);
+            types[Type.ftCharNullPadded]		= new TypeCharPadded();
             types[Type.ftCharNullTerminated]	= new TypeCharNullTerminated();
 
-            types[Type.ftNumLeftJustified]			= new TypeNum(Type.ftNumLeftJustified);
+            types[Type.ftNumLeftJustified]		= new TypeNum(Type.ftNumLeftJustified);
             types[Type.ftNumRightJustified]		= new TypeNum(Type.ftNumRightJustified);
-            types[Type.ftNumZeroPadded]		= new TypeNum(Type.ftNumZeroPadded);
+            types[Type.ftNumZeroPadded]			= new TypeNum(Type.ftNumZeroPadded);
             types[Type.ftAssumedDecimal]		= new TypeNum(Type.ftAssumedDecimal);
             types[Type.ftSignSeparateLead]		= new TypeSignSeparate(Type.ftSignSeparateLead);
             types[Type.ftSignSeparateTrail]		= new TypeSignSeparate(Type.ftSignSeparateTrail);
             types[Type.ftZonedNumeric]			= new TypeZoned();
 
-            types[Type.ftFloat]              = new TypeFloat();
-            types[Type.ftDouble]             = new TypeFloat();
+            types[Type.ftFloat]					= new TypeFloat();
+            types[Type.ftDouble]				= new TypeFloat();
 
-            types[Type.ftPackedDecimal]       = new TypePackedDecimal();
-            types[Type.ftDecimal]             = new TypeDecimalHex(Type.ftDecimal);
-            types[Type.ftHex]                 = new TypeDecimalHex(Type.ftHex);
+            types[Type.ftPackedDecimal]			= new TypePackedDecimal();
+            types[Type.ftDecimal]				= new TypeDecimalHex(Type.ftDecimal);
+            types[Type.ftHex] 					= new TypeDecimalHex(Type.ftHex);
 
-            types[Type.ftPostiveBinaryInt]    = new TypeBinLittleEndian(true);
-            types[Type.ftBinaryInt]           = new TypeBinLittleEndian(false);
-            types[Type.ftBinaryBigEndian]     = new TypeBinBigEndian(false);
+            types[Type.ftPostiveBinaryInt]		= new TypeBinLittleEndian(true);
+            types[Type.ftBinaryInt]				= new TypeBinLittleEndian(false);
+            types[Type.ftBinaryBigEndian]		= new TypeBinBigEndian(false);
             types[Type.ftPositiveBinaryBigEndian] = new TypeBinBigEndian(true);
+            
+            types[Type.ftRmComp]				= new TypeRmComp();
+            types[Type.ftRmCompPositive]		= new TypeRmCompPositive();
 
-            types[Type.ftBit]  				  = new TypeBit();
+            types[Type.ftBit]					= new TypeBit();
 
-            types[Type.ftFjZonedNumeric]      = new TypeFjZoned();
+            types[Type.ftFjZonedNumeric]		= new TypeFjZoned();
             
             types[Type.ftCharRestOfFixedRecord] = new TypeCharRestOfFixedRecord();
-            types[Type.ftCharRestOfRecord] = new TypeCharRestOfRecord();
+            types[Type.ftCharRestOfRecord]		= new TypeCharRestOfRecord();
 
         }
     }

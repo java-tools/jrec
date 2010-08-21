@@ -13,9 +13,9 @@ import javax.swing.table.TableColumn;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.edit.display.models.BaseLineModel;
-import net.sf.RecordEditor.edit.display.util.StandardRendor;
 import net.sf.RecordEditor.edit.file.FileView;
 import net.sf.RecordEditor.utils.MenuPopupListener;
+import net.sf.RecordEditor.utils.swing.StandardRendor;
 
 public abstract class BaseLineAsColumn 
 extends BaseLineDisplay 
@@ -235,15 +235,23 @@ implements AbstractFileDisplayWithFieldHide {
     		int column) {
 
     		TableCellRenderer render;
+    		int calcRow = model.getFieldMapping().getRealColumn(
+    									getLayoutIndex(), 
+    									row);
 
-    	    if (cellRenders.length <= row || cellRenders[row] == null) {
-    	        render =stdRender;
+    		System.out.print("Choose Render: " + row + ", " + column 
+    			+ " " + model.getFieldMapping().getRealColumn(getLayoutIndex(), row)
+    			+ " " + calcRow
+    			+ " " + layout.getUnAdjFieldNumber(getLayoutIndex(),row));
+    		if (cellRenders.length <= row || calcRow >= cellRenders.length || cellRenders[calcRow] == null) {
+    	        render = stdRender;
+    	        System.out.println(" Std");
     	    } else {
-    	    	render = cellRenders[model.getFieldMapping().getRealColumn(getLayoutIndex(), row)/*row*/];
+     	    	render = cellRenders[calcRow];
+     	    	System.out.println(" render " + render.getClass().getName());
     	    }
 
-    	    return render
-    	                       .getTableCellRendererComponent(
+    	    return render.getTableCellRendererComponent(
 				    	        		tbl,
 				    	        		value,
 				    	        		isFldSelected,

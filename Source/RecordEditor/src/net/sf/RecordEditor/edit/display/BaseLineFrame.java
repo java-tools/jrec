@@ -198,6 +198,7 @@ implements TableModelListener, TreeModelListener {
 		        BasePanel.FULL, BasePanel.FULL,
 		        tblDetails);
 	
+		
 	
 		if (! this.layout.isXml()) {
 		    pnl.addComponent(1, 5, fullLineHeight, BasePanel.GAP,
@@ -216,6 +217,7 @@ implements TableModelListener, TreeModelListener {
 	/**
 	 * Action performed when frame is closed
 	 */
+	@SuppressWarnings("unchecked")
 	public void closeWindow() {
 		FileView fv;
 		
@@ -266,14 +268,11 @@ implements TableModelListener, TreeModelListener {
 	    record.setOneLineHex(oneLineHex.isSelected());
 	    if (oneLineHex.isSelected()) {
 			tc.setCellRenderer(defaultHexRendor);
-			//tc.setCellEditor(defaultHexEditor);
 
 		    table.setRowHeight(stdCellHeight);
 	    } else {
 	        if (hexRendor == null) {
 	            hexRendor = new HexThreeLineRender(getFileView().getLayout().getFontName());
-	            //threeLineHeight = Common.STANDARD_FONT_HEIGHT * 3;
-	            //hexEditor = new ThreeLineHexRender(fileView.getLayout().getFontName());
 	        }
 	        table.setRowHeight(threeLineHeight);
 			tc.setCellRenderer(hexRendor);
@@ -315,16 +314,6 @@ implements TableModelListener, TreeModelListener {
 	}
 
 
-//	/* (non-Javadoc)
-//	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#newLayout()
-//	 */
-//	@Override
-//	protected void newLayout(AbstractLayoutDetails newLayout) {
-//		super.newLayout(newLayout);
-//		record.layoutChanged(newLayout);
-//	}
-
-
 	/**
 	 * @see javax.swing.event.TreeModelListener#treeNodesChanged(javax.swing.event.TreeModelEvent)
 	 */
@@ -361,6 +350,7 @@ implements TableModelListener, TreeModelListener {
 		record.fireTableDataChanged();
 	}
 
+	
 	private boolean isThisLineDeleted(Object o) {
 		if (o instanceof AbstractLineNode) {
 			AbstractLineNode n = (AbstractLineNode) o;
@@ -372,29 +362,6 @@ implements TableModelListener, TreeModelListener {
 		return false;
 	}
 	
-	
-//
-//    private void hideRow(int row) {
-//    	String s;
-//    	int realRow = record.getRealRow(row);
-//    	int idx;
-//    	int index = record.getFixedCurrentLayout();
-// 
-//    	s = layout.getRecord(index).getField(realRow).getName();
-//    	if ((idx = s.indexOf('|')) >= 0) {
-//    		s = s.substring(idx + 1);
-//    	}
-//    	
-//    	if (showFieldMenus[index] == null) {
-//    		showFieldMenus[index] = new JMenu("Show" + layout.getRecord(index).getRecordName() + "Fields");
-//    		currentShowFields = showFieldMenus[index] ;
-//			popupListner.getPopup().add(currentShowFields);
-//    	}
-//    	
-//    	showFieldMenus[index].add(new UnHideAction(s, index, realRow));
-//    	record.hideRow(realRow);
-//    }
-
  
 	/**
 	 * @see javax.swing.event.TreeModelListener#treeStructureChanged(javax.swing.event.TreeModelEvent)
@@ -412,25 +379,4 @@ implements TableModelListener, TreeModelListener {
 	public void tableChanged(TableModelEvent arg0) {
 		record.fireTableDataChanged();
 	}
-	
-//
-//    
-//    private class UnHideAction extends JMenuItem implements ActionListener {
-//    	final int theRow, idx;
-//    	public UnHideAction(String s, int index, int row) {
-//    		super(s);
-//    		theRow = row;
-//    		idx =index;
-//    		super.addActionListener(this);
-//    	}
-//    	
-//    	@Override
-//		public void actionPerformed(ActionEvent e) {
-//    		
-//			record.showRow(theRow);
-//			
-//			showFieldMenus[idx].remove(this);
-//		}
-//    }
-
 }

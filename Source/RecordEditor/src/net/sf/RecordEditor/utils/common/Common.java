@@ -263,15 +263,16 @@ public final class Common implements Constants {
 	private static String[] commitFlag     = new String[NUMBER_OF_COPYBOOK_SOURCES];
 	private static String[] checkpointFlag = new String[NUMBER_OF_COPYBOOK_SOURCES];
 	private static String[] dataSource     = new String[NUMBER_OF_COPYBOOK_SOURCES];
-	private static String[] readOnlySource     = new String[NUMBER_OF_COPYBOOK_SOURCES];
+	private static String[] readOnlySource = new String[NUMBER_OF_COPYBOOK_SOURCES];
 	private static String[] sourceId       = new String[NUMBER_OF_COPYBOOK_SOURCES];
 	//static private int driverIdx[]       = new int[idxLimit];
 	private static String[] userId         = new String[NUMBER_OF_COPYBOOK_SOURCES];
 	private static String[] password       = new String[NUMBER_OF_COPYBOOK_SOURCES];
 	private static String[] jdbcMsg        = new String[NUMBER_OF_COPYBOOK_SOURCES];
 	private static Connection[] dbConnection = new Connection[NUMBER_OF_COPYBOOK_SOURCES];
-	private static Connection[] dbUpdate = new Connection[NUMBER_OF_COPYBOOK_SOURCES];
-	private static boolean[] autoClose = new boolean[NUMBER_OF_COPYBOOK_SOURCES];
+	private static Connection[] dbUpdate   = new Connection[NUMBER_OF_COPYBOOK_SOURCES];
+	private static boolean[] autoClose     = new boolean[NUMBER_OF_COPYBOOK_SOURCES];
+	private static boolean[] dropSemi      = new boolean[NUMBER_OF_COPYBOOK_SOURCES];
 
 	public static final String DATE_FORMAT_STR;
 	public static final String DEFAULT_FILE_DIRECTORY
@@ -467,28 +468,32 @@ public final class Common implements Constants {
 		if (yet2Assign) {
 			int i;
 			int j = 0;
-			String s;
+			String s, dropSemiStr;
 
 			yet2Assign    = false;
 
 			for (i = 0; i < NUMBER_OF_COPYBOOK_SOURCES; i++) {
 			    s = Integer.toString(i);
 
-			    dataSource[j] = Parameters.getString("Source." + s);
+			    dataSource[j] = Parameters.getString(Parameters.DB_SOURCE + s);
 
 			    if (dataSource[j] != null && ! "".equals(dataSource[j].trim())) {
+			    	dropSemiStr = Parameters.getString(Parameters.DB_DROP_SEMI + s);
 				    readOnlySource[j] = Parameters.getString(Parameters.DB_READ_ONLY_SOURCE + s);
-			        sourceId[j]   = Parameters.getString("SourceName." + s);
+			        sourceId[j]   = Parameters.getString(Parameters.DB_SOURCE_NAME + s);
 			        if (DATABASE_NAME.equalsIgnoreCase(sourceId[j])) {
-			        	//System.out.println("Setting DB index : " + DATABASE_NAME + " " + j);
+			        	System.out.println("Setting DB index : " + DATABASE_NAME + " " + j);
 			        	connectionIndex = j;
 			        }
-				    driver[j]     = Parameters.getString("Driver." + s);
-			        userId[j]     = Parameters.getString("User." + s);
-			        password[j]   = Parameters.getString("Password." + s);
-			        commitFlag[j] = Parameters.getString("Commit." + s);
-			        checkpointFlag[j] = Parameters.getString("Checkpoint." + s);
-			        autoClose[j] = "Y".equalsIgnoreCase(Parameters.getString(Parameters.DB_CLOSE_AFTER_EXEC + s));
+				    driver[j]     = Parameters.getString(Parameters.DB_DRIVER + s);
+			        userId[j]     = Parameters.getString(Parameters.DB_USER + s);
+			        password[j]   = Parameters.getString(Parameters.DB_PASSWORD + s);
+			        commitFlag[j] = Parameters.getString(Parameters.DB_COMMIT + s);
+			        checkpointFlag[j] = Parameters.getString(Parameters.DB_CHECKPOINT + s);
+			        autoClose[j]  = "Y".equalsIgnoreCase(Parameters.getString(Parameters.DB_CLOSE_AFTER_EXEC + s));
+			        dropSemi[j]   = "Y".equalsIgnoreCase(dropSemiStr)
+			                      || (   (dropSemiStr == null ||"".equals(dropSemiStr))
+			                    	  && (driver[j] != null && driver[j].toLowerCase().contains("derby") ));
 			        
 
 			        boolean expandVars = "y".equalsIgnoreCase(Parameters.getString(Parameters.DB_EXPAND_VARS + s));
@@ -603,7 +608,7 @@ public final class Common implements Constants {
 			return;
 		}
 		
-		System.out.println("Source > " + source[connectionIdx] + " JDBC Names >> " + jdbcJarNames);
+		//System.out.println("Source > " + source[connectionIdx] + " JDBC Names >> " + jdbcJarNames);
 		for (int j = 0; j <= trys; j++) { 
 			try {
 				if (jdbcJarNames == null) {
@@ -722,8 +727,11 @@ public final class Common implements Constants {
 		    int i;
 
 		    for (i = 0; i < NUMBER_OF_COPYBOOK_SOURCES; i++) {
-		    	hsql = hsql || "org.hsqldb.jdbcDriver".equals(driver[i]);
-		        closeAConnection(i);
+		    	if (dbConnection[i] != null) {
+			    	hsql = hsql || "org.hsqldb.jdbcDriver".equals(driver[i]);
+			    	System.out.println(" >>> " + i + " ~ " + hsql + " " + driver[i]);
+			        closeAConnection(i);
+		    	}
 		    }
 		    
 		    if (hsql) {
@@ -929,6 +937,10 @@ public final class Common implements Constants {
 				closeHSQL();
 			}
 		}
+	}
+	
+	public static boolean isDropSemi(int idx) {
+		return dropSemi[idx];
 	}
 	
 	/**
@@ -1606,7 +1618,7 @@ public final class Common implements Constants {
 				&& dataSource[connectionIndex] != null
 				&& dataSource[connectionIndex].toLowerCase().startsWith("jdbc:hsqldb:file:")) {
 					String message = "\t********************   Warning ***************************\n"
-						+ "Tried to Connect to the HSQL Data Base Server and failed. Will run in Database immbedded mode.\n"
+						+ "Tried to Connect to the HSQL Data Base Server and failed. Will run in Database embedded mode.\n"
 						+ "This package works best in Data Base Server Mode (option on menu, exit this program before you start the Server).\n\n"
 						+ "If you wish to use the package in imbeded Mode, You may wish to reveiw the Database\n" 
 						+	"Options (Menu option Edit >>> Edit Startup options) \n"

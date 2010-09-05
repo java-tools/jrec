@@ -7,6 +7,7 @@ import java.util.StringTokenizer;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -28,7 +29,8 @@ import net.sf.RecordEditor.utils.swing.FileChooser;
 
 public class LayoutSelectionFile extends AbstractLayoutSelection  {
 	
-	private static final String SEPERATOR = ",,";
+	private static final String OLD_SEPERATOR = ",,";
+	private static final String SEPERATOR = "~";
 	
 	private static final int MODE_NORMAL = 0;
 	private static final int MODE_1ST_COBOL = 1;
@@ -50,6 +52,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
     private JComboBox quote;
 	private JTextArea message = null;
 	
+	private String lastFileName = "";
 	private String lastLayoutDetails = "";
 	private AbstractLayoutDetails lastLayout;
 	
@@ -206,13 +209,10 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
         int fileStruc;
         String layoutName = copybookFile.getText();
         
-        //setLayoutName(layoutName);
-        //TODO get layout ....
-        //fileStruc == Constants.IO_NAME_1ST_LINE
-        
         fileStruc = ((Integer) fileStructure.getSelectedItem()).intValue();
 
-        if (loadFromFile && lastLayoutDetails != null && lastLayoutDetails.equalsIgnoreCase(layoutName)) {
+        if (loadFromFile && lastLayoutDetails != null && lastLayoutDetails.equalsIgnoreCase(layoutName)
+        && ((lastFileName != null && lastFileName.equals(fileName)) || (lastFileName == fileName))) {
         	ret = lastLayout;
         } else if (! LineIOProvider.getInstance().isCopyBookFileRequired(fileStruc)) {
         	ret = buildLayoutFromSample(fileStruc, 
@@ -222,8 +222,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
          	lastLayout = ret;
        	
         } else if (layoutName == null ||  "".equals(layoutName)) {
-            copybookFile.requestFocus();
-            message.setText("You must enter a Record Layout name ");
+            setMessageText("You must enter a Record Layout name ", copybookFile);
         } else {
             try {
                 ret = getRecordLayout_readLayout(layoutName, fileName);
@@ -232,17 +231,14 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
             	&&    ret != null
                	&&  ! LineIOProvider.getInstance().isCopyBookFileRequired(ret.getFileStructure())) {
             		ret = getFileBasedLayout(fileName, ret);
-//                   	ret = buildLayoutFromSample(ret.getFileStructure(), 
-//                        			fileStructure.getSelectedIndex() == TAB_CSV_IDX,
-//                        			ret.getFontName(), ret.getDelimiter(), fileName);
                	}
 
                 lastLayoutDetails = layoutName;
-
+                lastFileName = fileName;
              	lastLayout = ret;
             } catch (Exception e) {
-                copybookFile.requestFocus();
-                message.setText("You must enter a copybook name ");
+	            setMessageText("You must enter a copybook name ", copybookFile);
+            	
                 e.printStackTrace();
             }
         }
@@ -271,6 +267,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
     private LayoutDetail getRecordLayout_readLayout(String copyBookFile, String filename) {
         LayoutDetail ret = null;
 
+        //System.out.println("Retrieve layout: " + copyBookFile);
         try {
         	int loaderIdx = loaderOptions.getSelectedIndex();
         	CopybookLoaderFactory   factory = CopybookLoaderFactoryExtended.getInstance();
@@ -289,7 +286,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
             	ExternalRecord rec = loader.loadCopyBook(
                     copy, split, 0, font,
                     numFormat, 0, Common.getLogger());
-
+ 
             	if (rec.getFileStructure() == Constants.IO_NAME_1ST_LINE
             	||  rec.getFileStructure() == Constants.IO_BIN_NAME_1ST_LINE
             	||  rec.getFileStructure() == Constants.IO_GENERIC_CSV) {
@@ -304,11 +301,13 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
             	ret = rec.asLayoutDetail();
             	
             } else {
-                copybookFile.requestFocus();
-                message.setText("Record Layout file does not exist: " + copy);
-             }
-       } catch (Exception e) {
-        	message.setText("Error: " + e.getMessage());
+            	System.out.println("Record Layout file does not exist: " + copy);
+                setMessageText("Record Layout file does not exist: " + copy, copybookFile);
+            }
+        } catch (Exception e) {
+        	System.out.println("Error: "+ e.getMessage());
+        	setMessageText("Error: " + e.getMessage(), null);
+        	e.printStackTrace();
         }
 
         return ret;
@@ -333,6 +332,10 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 	@Override
 	public boolean setLayoutName(String layoutName) {
         StringTokenizer t = new StringTokenizer(layoutName, SEPERATOR);
+        
+        if (t.countTokens() < 5) {
+        	t = new StringTokenizer(layoutName, OLD_SEPERATOR);
+        }
 
 
         try {
@@ -394,11 +397,14 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
      */
     private int getIntToken(StringTokenizer t) {
         int ret = 0;
-        String s = t.nextToken();
-
-        try { 
-            ret = Integer.parseInt(s);
-        } catch (Exception e) {
+        
+        if (t.hasMoreElements()) {
+	        String s = t.nextToken();
+	
+	        try { 
+	            ret = Integer.parseInt(s);
+	        } catch (Exception e) {
+	        }
         }
 
         return ret;
@@ -463,6 +469,20 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 			 + SEPERATOR + "0" + SEPERATOR + "0" + SEPERATOR + "0" + SEPERATOR + "0";
 	}
 
+	private void setMessageText(String text, JComponent component) {
+		
+		if (message == null) {
+			System.err.println();
+			System.err.println("Error: " + text);
+			System.err.println("================================================================");
+			System.err.println();
+		} else {
+			if (component != null) {
+				component.requestFocus();
+			}
+			message.setText(text);
+		}
+	}
 
 	/**
 	 * @return the copybookFile

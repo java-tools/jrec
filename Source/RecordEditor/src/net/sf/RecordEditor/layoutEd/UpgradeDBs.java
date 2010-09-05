@@ -57,7 +57,7 @@ public class UpgradeDBs extends ReFrame implements ActionListener {
 	//private JButton upgrade56         = new JButton("*");
 	//private JButton upgrade60         = new JButton("*");
 	private JButton upgrade61b		= new JButton("*");
-	private JButton upgrade67		= new JButton("*");
+//	private JButton upgrade67		= new JButton("*");
 	private JButton upgrade69		= new JButton("*");
 	private JButton helpBtn				= Common.getHelpButton();
 	private JCheckBox splitOnRedefine = new JCheckBox();
@@ -111,15 +111,15 @@ public class UpgradeDBs extends ReFrame implements ActionListener {
 		//pnl.addMenuItem("Upgrade the Tables from 0.55 to 0.56", upgrade56);
 		//pnl.addMenuItem("Upgrade the Tables from 0.56 to 0.60", upgrade60);
 		pnl.addMenuItem("Upgrade the Tables from 0.55 - 0.61b to version 0.62", upgrade61b);
-		pnl.addMenuItem("Upgrade the Tables from 0.62 to version 0.67", upgrade67);
-		pnl.addMenuItem("Upgrade the Tables from 0.67 to version 0.69", upgrade69);
+		//pnl.addMenuItem("Upgrade the Tables from 0.62 to version 0.67", upgrade67);
+		pnl.addMenuItem("Upgrade the Tables from 0.62/65/68*/69* to version 0.69.1", upgrade69);
 
 		helpBtn.addActionListener(this);
 		upgrade55.addActionListener(this);
 		//upgrade56.addActionListener(this);
 		//upgrade60.addActionListener(this);
 		upgrade61b.addActionListener(this);
-		upgrade67.addActionListener(this);
+		//upgrade67.addActionListener(this);
 		upgrade69.addActionListener(this);
 
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -153,8 +153,8 @@ public class UpgradeDBs extends ReFrame implements ActionListener {
 	    //    UpgradeDB.upgrade60(connectionId);
 	    } else if (event.getSource() == upgrade61b) {
 	    	upgrade.upgrade61b(connectionId);
-	    } else if (event.getSource() == upgrade67) {
-	    	upgrade.upgrade67(connectionId);
+	    //} else if (event.getSource() == upgrade67) {
+	    //	upgrade.upgrade67(connectionId);
 	    } else if (event.getSource() == upgrade69) {
 	    	upgrade.upgrade69(connectionId);
 	    } else {

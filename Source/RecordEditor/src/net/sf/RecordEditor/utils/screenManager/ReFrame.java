@@ -245,6 +245,11 @@ public class ReFrame extends JInternalFrame
         return documentName;
     }
 
+    public static void closeAllFrames() {
+    	for (int i = 0; i < allFrames.size(); i++) {
+            allFrames.get(i).reClose();
+        }
+    }
 
     /**
      * @return Returns the allFrames.

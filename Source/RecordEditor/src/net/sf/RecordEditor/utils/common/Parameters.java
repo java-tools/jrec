@@ -33,6 +33,8 @@ public final class Parameters {
     public static final int NUMBER_OF_LOADERS = 20;
     public static final int NUMBER_OF_USER_FUNCTIONS = 32;
     
+     
+    
     public static final String PROPERTY_TEST_MODE  = "TestMode";
     
     public static final String PROPERTY_COPYBOOK_NAME_PREFIX  = "CopybookLoaderName.";
@@ -91,12 +93,22 @@ public final class Parameters {
     public static final String DEFAULT_COPYBOOK_WRITER = "CopyBookWriter";
  
     public static final String DEFAULT_DATABASE        = "DefaultDB";
-    public static final String DEFAULT_IO        = "DefaultIO";
-    public static final String DEFAULT_BINARY        = "DefaultBin";
+    public static final String DEFAULT_IO       	   = "DefaultIO";
+    public static final String DEFAULT_BINARY		   = "DefaultBin";
 
-    public static final String DB_READ_ONLY_SOURCE = "ReadOnly.";
-    public static final String DB_EXPAND_VARS = "ExpandVars.";
-    public static final String DB_CLOSE_AFTER_EXEC= "AutoClose.";
+    public static final String DB_READ_ONLY_SOURCE	   = "ReadOnly.";
+    public static final String DB_EXPAND_VARS	       = "ExpandVars.";
+    public static final String DB_CLOSE_AFTER_EXEC	   = "AutoClose.";
+    
+    public static final String DB_DROP_SEMI			   = "DBDropSemi.";
+    public static final String DB_SOURCE_NAME		   = "SourceName.";
+    public static final String DB_SOURCE			   = "Source.";
+    public static final String DB_DRIVER	 		   = "Driver.";
+    public static final String DB_USER	 			   = "User.";
+    public static final String DB_PASSWORD			   = "Password.";
+    public static final String DB_JDBC_JAR			   = "JdbcJar.";
+    public static final String DB_COMMIT			   = "Commit.";
+    public static final String DB_CHECKPOINT		   = "Checkpoint.";
 
     public static final String FS_RUN_AUTOMATIC = "FsAutoRun";
     public static final String FS_MAINFRAME_ZONED = "FsMainframeZoned";

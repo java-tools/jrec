@@ -8,6 +8,7 @@ package net.sf.JRecord.Details;
 
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
+import net.sf.JRecord.Common.XmlConstants;
 
 /**
  * Line for use with XML files. 
@@ -102,5 +103,22 @@ implements AbstractLine<LayoutDetail> {
 	public final void setUseField4Index(boolean useField4Index) {
 		this.useField4Index = useField4Index;
 	}
+
+	public void setRawField(int recordIdx, int fieldIdx, Object val)
+	throws RecordException {
+	
+		super.setRawField(recordIdx, fieldIdx, val);
+  
+        if (val != null || fields.get(fieldIdx) != null) { 
+        	rebuildRequired = (fieldIdx == 0) || (fieldIdx == XmlConstants.END_INDEX) || newRecord;
+        	
+        	if (val != null && fieldIdx == XmlConstants.NAME_INDEX) {
+        		int idx = layout.getRecordIndex(val.toString());
+        		if (idx >= 0) {
+        			preferredLayout = idx;
+        		}
+        	}
+        }
+    }
 
 }

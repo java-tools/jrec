@@ -55,7 +55,7 @@ public class GenericInstaller implements ActionListener {
 
     public  static final int TIP_HEIGHT = 220;
     private static final int HSQL_IDX   = 2;
-    private static final int SQLITE_IDX = 10;
+    private static final int SQLITE_IDX = 11;
 
     private Properties properties = Parameters.readProperties();
 
@@ -64,7 +64,8 @@ public class GenericInstaller implements ActionListener {
     private JPanel secondPanel;
 
     private static final String[] DB_LIST = {
-            "Other", "Microsoft Access", "HSQL", "HSQL Imbedded", "My SQL", "Oracle", "H2", "H2 Imbeded",
+            "Other", "Microsoft Access", "HSQL", "HSQL Imbedded", "My SQL", "Oracle",
+            "H2 Mixed Mode", "H2", "H2 Imbeded",
             "Derby", "Derby Imbedded", "SQLite", "Postgres"
     };
 
@@ -134,6 +135,7 @@ public class GenericInstaller implements ActionListener {
             {"org.hsqldb.jdbcDriver", "jdbc:hsqldb:file:" + Parameters.getApplicationDirectory() + "HsqlDatabase/recordedit;readonly=no;", "sa", "", ""},
             {"org.gjt.mm.mysql.Driver", "jdbc:mysql://localhost/recordedit", "", "", ""},
             {"oracle.jdbc.driver.OracleDriver", "jdbc:oracle:oci<version>:@<database>", "...", "...", ""},
+            {"org.h2.Driver", "jdbc:h2:" + Parameters.getApplicationDirectory() + "H2RecordEditor;AUTO_SERVER=TRUE", "sa", "", ""},
             {"org.h2.Driver", "jdbc:h2:tcp://localhost/RecordEditor", "sa", "", ""},
             {"org.h2.Driver", "jdbc:h2:" + Parameters.getApplicationDirectory() + "H2RecordEditor", "sa", "", ""},
             {"org.apache.derby.jdbc.ClientDriver","jdbc:derby://localhost:1527/RecordEditor","???","???", ";create=true"},
@@ -143,7 +145,7 @@ public class GenericInstaller implements ActionListener {
     };
     
     private static boolean[] dropSemiArray = {
-    	false, false, false, false,	false, false, false, true, true, true, false
+    	false, false, false, false,	false, false, false, false, true, true, true, false
     };
 
     private Connection connection;
@@ -242,7 +244,7 @@ public class GenericInstaller implements ActionListener {
         pnl.setHeight(BasePanel.GAP3);
         //pnl.done();
 
-        frame.getContentPane().add(pnl);
+        frame.getContentPane().add(new JScrollPane(pnl));
         frame.pack();
         //frame.setVisible(true);
     }
@@ -444,20 +446,27 @@ public class GenericInstaller implements ActionListener {
      * Save property details to the properties file
      */
     public void ap_310_SaveProperties() {
-    	String id = "." + dbIndex.getText();
-        ap_311_SetProperty("SourceName" + id, "DB: " + database.getSelectedItem().toString());
-        ap_311_SetProperty("Driver" + id, driver.getText());
-        ap_311_SetProperty("Source" + id, source.getText());
-        ap_311_SetProperty("User" + id, user.getText());
-        ap_311_SetProperty("Password" + id, password.getText());
-        ap_311_SetProperty("JdbcJar" + id, jdbcJar.getText());
+    	String id = dbIndex.getText();
+    	String drop = "";
+    	if (dropSemiChk.isSelected()) {
+    		drop = "Y";
+    	}
+    	
+        ap_311_SetProperty(Parameters.DB_SOURCE_NAME + id, "DB: " + database.getSelectedItem().toString());
+        ap_311_SetProperty(Parameters.DB_DRIVER + id, driver.getText());
+        ap_311_SetProperty(Parameters.DB_SOURCE + id, source.getText());
+        ap_311_SetProperty(Parameters.DB_USER + id, user.getText());
+        ap_311_SetProperty(Parameters.DB_PASSWORD + id, password.getText());
+        ap_311_SetProperty(Parameters.DB_JDBC_JAR + id, jdbcJar.getText());
+        ap_311_SetProperty(Parameters.DB_DROP_SEMI + id, drop);
+        
         if (database.getSelectedIndex() == HSQL_IDX || database.getSelectedIndex() == HSQL_IDX + 1) {
-            ap_311_SetProperty("Commit" + id, "Y");
-            ap_311_SetProperty("Checkpoint" + id, "Y");
+            ap_311_SetProperty(Parameters.DB_COMMIT + id, "Y");
+            ap_311_SetProperty(Parameters.DB_CHECKPOINT + id, "Y");
         } else if (database.getSelectedIndex() == SQLITE_IDX) {
-            ap_311_SetProperty("Commit" + id, "Y");
+            ap_311_SetProperty(Parameters.DB_COMMIT + id, "Y");
         }
-
+        
         try {
             CommonCode.renameFile(Parameters.getPropertyFileName());
             properties.store(

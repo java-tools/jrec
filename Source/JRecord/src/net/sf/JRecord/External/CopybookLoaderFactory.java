@@ -100,16 +100,24 @@ public class CopybookLoaderFactory {
 	 */
 	protected void registerAll() {
 
+		registerStandardLoaders1();
+		registerStandardLoaders2();
+	}
+
+
+	protected final void registerStandardLoaders1() {
 		register("cb2xml XML Copybook", XmlCopybookLoader.class, "");
 		if (CobolCopybookLoader.isAvailable()) {
 			register("Cobol Copybook", CobolCopybookLoader.class, "");
-		}
+		} else {
+	    	register("Empty - Cobol placeholder", XmlCopybookLoader.class, "");
+	    }
 		recordEditorXml = numberLoaded;
 		register("RecordEditor XML Copybook",RecordEditorXmlLoader.class, "");
-		registerStandardLoaders();
+		
 	}
 
-	protected final void registerStandardLoaders() {
+	protected final void registerStandardLoaders2() {
 
 		csv1 = numberLoaded;
 		register("Comma CSV (names first line)", CsvNamesFirstLineFileLoader.class, "");

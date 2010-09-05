@@ -152,10 +152,16 @@ public class CopyBookDbReader implements CopyBookInterface {
 				String description = resultset.getString(2);
 				int    recordType  = resultset.getInt(3);
 				byte[] recordSep = {};
-				try {
-				recordSep = resultset.getBytes(6);
-				} catch (Exception e) {
-				}
+
+		       	try {
+		       		recordSep = resultset.getString(6).getBytes();
+	        	} catch (Exception e) {
+	        		try {
+	        		  recordSep = resultset.getBytes(6);
+	        		} catch (Exception ex) {
+	        	  }
+	        	}
+
 				String fontName    = fix(resultset.getString(7));
 				String recordSepString = fix(resultset.getString(8));
 				int fileStructure  = resultset.getInt(9);

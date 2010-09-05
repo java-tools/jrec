@@ -8,13 +8,10 @@ import java.io.IOException;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.DefaultLineProvider;
-import net.sf.JRecord.External.CobolCopybookLoader;
 import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.External.CopybookLoaderFactory;
 import net.sf.JRecord.External.ExternalRecord;
-import net.sf.JRecord.External.RecordEditorXmlLoader;
 import net.sf.JRecord.External.ToExternalRecord;
-import net.sf.JRecord.External.XmlCopybookLoader;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.utils.edit.GenericCsvReader;
 
@@ -41,14 +38,10 @@ public class CopybookLoaderFactoryExtended extends CopybookLoaderFactory {
 	 */
 	protected void registerAll() {
 
-		register("cb2xml XML Copybook", XmlCopybookLoader.class, "");
-		if (CobolCopybookLoader.isAvailable()) {
-			register("Cobol Copybook", CobolCopybookLoader.class, "");
-		}
-		register("RecordEditor XML Copybook", RecordEditorXmlLoader.class, "");
+		registerStandardLoaders1();
 		register("Generic Csv", CopybookLoaderFactoryExtended.GenericCsv.class, "");
 
-		registerStandardLoaders();
+		registerStandardLoaders2();
 		csv1 -= 1;
 	}
 	

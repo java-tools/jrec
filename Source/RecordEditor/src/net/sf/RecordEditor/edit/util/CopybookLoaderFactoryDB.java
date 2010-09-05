@@ -99,10 +99,12 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
        register("cb2xml XML Copybook (DB)", XmlCopybookLoaderDB.class, "");
        if (CobolCopybookLoader.isAvailable()) {
            register("Cobol Copybook (DB)", CobolCopybookLoaderDB.class, "");
+       } else {
+    	   register("Empty - Cobol placeholder", XmlCopybookLoaderDB.class, "");
        }
  	   register("RecordEditor XML Copybook",RecordEditorXmlLoader.class, "");
 
-       registerStandardLoaders();
+       registerStandardLoaders2();
   //     register("RecordEditor Csv Copybook (Comma Seperator)",CsvLayoutParser.Comma.class, "");
   //     register("RecordEditor Csv Copybook (Tab Seperator)",CsvLayoutParser.Tab.class, "");
  

@@ -45,7 +45,7 @@ public class EditJdbcParamsPanel extends BasePanel {
     private JTextField sourceName = new JTextField();
     private JTextField driver     = new JTextField();
     private JTextField source     = new JTextField();
-    private JTextField readOnly     = new JTextField();
+    private JTextField readOnly   = new JTextField();
     private JTextField user       = new JTextField();
     private JTextField password   = new JTextField();
     //private JTextField commit     = new JTextField();
@@ -62,11 +62,15 @@ public class EditJdbcParamsPanel extends BasePanel {
 
     private static final String[] COL_HEADERS = {
             "Source Name", "Driver", "Source", "Read Only Source", " User ", "Password",
-            "Commit", "Checkpoint", "Expand variables (Y/N)", "Auto Close Connections"
+            "Commit", "Checkpoint", "Expand variables (Y/N)", "Auto Close Connections",
+            "Drop ; from SQL statements"
     };
     private static final String[] COL_NAMES = {
-            "SourceName.", "Driver.", "Source.", Parameters.DB_READ_ONLY_SOURCE,  "User.", "Password.",
-            "Commit.", "Checkpoint.", Parameters.DB_EXPAND_VARS, Parameters.DB_CLOSE_AFTER_EXEC
+    		Parameters.DB_SOURCE_NAME, Parameters.DB_DRIVER, Parameters.DB_SOURCE, 
+    		Parameters.DB_READ_ONLY_SOURCE,  Parameters.DB_USER, Parameters.DB_PASSWORD,
+    		Parameters.DB_COMMIT, Parameters.DB_CHECKPOINT, Parameters.DB_EXPAND_VARS, 
+    		Parameters.DB_CLOSE_AFTER_EXEC,
+            Parameters.DB_DROP_SEMI
     };
     private String description
         = "<h1>JDBC Parameters</h1>"

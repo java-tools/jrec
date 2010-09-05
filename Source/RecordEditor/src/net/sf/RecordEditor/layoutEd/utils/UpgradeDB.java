@@ -40,6 +40,16 @@ import net.sf.RecordEditor.utils.common.ReConnection;
  */
 public final class UpgradeDB {
 
+	private static String VERSION_691 = "0069100";
+	private static String LATEST_VERSION = VERSION_691;
+	private static String VERSION_KEY = "-101";
+	
+	private static String  SQL_GET_VERION = 
+			"Select DETAILS from TBL_TI_INTTBLS "
+		+	" where   TBLID  = "  + VERSION_KEY
+		+	"   and  TBLKEY  = "  + VERSION_KEY
+		+	"   and DETAILS >= '" + LATEST_VERSION + "'";
+	
 	private int[] unknownStructure = {
 		Constants.IO_VB, Constants.IO_VB_DUMP, 
 		Constants.IO_VB_OPEN_COBOL, Constants.IO_VB_FUJITSU,
@@ -232,29 +242,39 @@ public final class UpgradeDB {
             "CREATE UNIQUE INDEX Tbl_CI_ComboItems_PK ON Tbl_CI_ComboItems(Combo_Id, Combo_Code);"
    };
     
-    private String[] sql67 = {
-    	deleteTbl + "TBLID = 1 and TBLKEY in (" + Type.ftPositiveBinaryBigEndian + ","
-    	                           + Type.ftBinaryBigEndian + ")",
-    	deleteTbl + "TBLID = 4 and TBLKEY in (" + Constants.IO_VB_OPEN_COBOL +")",
-    	insertSQL + "(1," + Type.ftBinaryBigEndian + ",'Binary Integer Big Endian (Mainframe, AIX etc)');",
-       	insertSQL + "(1," + Type.ftPositiveBinaryBigEndian + ",'Positive Integer (Big Endian)');",
-       	insertSQL + "(4," + Constants.IO_VB_OPEN_COBOL +",'Open Cobol VB');",
-   };
+//    private String[] sql67 = {
+//    	deleteTbl + "TBLID = 1 and TBLKEY in (" + Type.ftPositiveBinaryBigEndian + ","
+//    	                           + Type.ftBinaryBigEndian + ")",
+//    	deleteTbl + "TBLID = 4 and TBLKEY in (" + Constants.IO_VB_OPEN_COBOL +")",
+//    	insertSQL + "(1," + Type.ftBinaryBigEndian + ",'Binary Integer Big Endian (Mainframe, AIX etc)');",
+//       	insertSQL + "(1," + Type.ftPositiveBinaryBigEndian + ",'Positive Integer (Big Endian)');",
+//       	insertSQL + "(4," + Constants.IO_VB_OPEN_COBOL +",'Open Cobol VB');",
+//   };
     
     private String[] sql69 = {
+    	deleteTbl + "TBLID = 1 and TBLKEY in (" + Type.ftPositiveBinaryBigEndian + ","
+            + Type.ftBinaryBigEndian + ")",
+        deleteTbl + "TBLID = 4 and TBLKEY in (" + Constants.IO_VB_OPEN_COBOL +")",
        	deleteTbl + "TBLID = 1 and TBLKEY in (" + Type.ftCharRestOfFixedRecord 
        	+ "," + Type.ftCharRestOfRecord 
        	+ "," + Type.ftRmComp + "," + Type.ftRmCompPositive 
         + ")",
       	deleteTbl + "TBLID = 5 and TBLKEY in (" + CellFormat.FMT_BOLD + ")",
  //      	insertSQL + "(1," + Type.ftCharRestOfFixedRecord + ",'Char Rest of Fixed Length');",
+      	insertSQL + "(1," + Type.ftBinaryBigEndian + ",'Binary Integer Big Endian (Mainframe?)');",
+       	insertSQL + "(1," + Type.ftPositiveBinaryBigEndian + ",'Positive Integer (Big Endian)');",
+       	insertSQL + "(4," + Constants.IO_VB_OPEN_COBOL +",'Open Cobol VB');",
        	insertSQL + "(1," + Type.ftCharRestOfRecord + ",'Char Rest of Record');",
        	insertSQL + "(1," + Type.ftRmComp + ",'RM Cobol Comp');",
        	insertSQL + "(1," + Type.ftRmCompPositive + ",'RM Cobol Positive Comp');",
         insertSQL + "(5," + CellFormat.FMT_BOLD + ",'Bold Format')",
-  };
+   };
 
- 
+    private String[] updateVersion = {
+        	deleteTbl + "TBLID = " + VERSION_KEY + " and TBLKEY = " + VERSION_KEY + ";",
+        	insertSQL + "(" + VERSION_KEY + ", " + VERSION_KEY + ", ",
+        			};
+
 
     /**
      * Change Record Sep list to default
@@ -306,7 +326,7 @@ public final class UpgradeDB {
 
         try {
             Connection con = Common.getDBConnection(dbIdx);
-            runSQL(con.createStatement(), sql55);
+            runSQL(con.createStatement(), sql55, Common.isDropSemi(dbIdx));
 
             addColumnToDB(con, "TBL_R_RECORDS", "File_Structure", "Int", "0");
             addColumnToDB(con, "Tbl_RF_RecordFields", "Cell_Format", "Int", "0");
@@ -342,18 +362,18 @@ public final class UpgradeDB {
      * @param dbIdx database Index
      */
     public void upgrade61b(int dbIdx) {
-        genericUpgrade(dbIdx, sql61b);
+        genericUpgrade(dbIdx, sql61b, null);
     }
 
-    public void upgrade67(int dbIdx) {
-        genericUpgrade(dbIdx, sql67);
-    }
- 
+//    public void upgrade67(int dbIdx) {
+//        genericUpgrade(dbIdx, sql67);
+//    }
+// 
 
     public void upgrade69(int dbIdx) {
-        genericUpgrade(dbIdx, sql69);
+        genericUpgrade(dbIdx, sql69, VERSION_691);
         
-         for (int i =0; i < unknownStructure.length; i++) {
+        for (int i =0; i < unknownStructure.length; i++) {
         	addLayout(
         			dbIdx,
         			"Unknown " + unknownNames[i],
@@ -363,7 +383,7 @@ public final class UpgradeDB {
         	   		unknownFonts[i]);
         }
          
-        	addLayout(
+        addLayout(
         			dbIdx,
         			"Unknown Format",
         			unknownFormatLines,
@@ -408,19 +428,31 @@ public final class UpgradeDB {
      * @param dbIdx database Index
      * @param sql2run sql to be run
      */
-    private void genericUpgrade(int dbIdx, String[] sql2run) {
+    private boolean genericUpgrade(int dbIdx, String[] sql2run, String version) {
+    	boolean ret = false;
+    	boolean dropSemi = Common.isDropSemi(dbIdx);
+  
         try {
             Connection con = Common.getUpdateConnection(dbIdx);
-            runSQL(con.createStatement(), sql2run);
+            runSQL(con.createStatement(), sql2run, dropSemi);
             
             Common.getLogger().logMsg(AbsSSLogger.SHOW, "Upgrade SQL Run !!!");
 
+            if (version != null) {
+            	String[] sql = new String[2];
+            	sql[0] = updateVersion[0];
+            	sql[1] = updateVersion[1] + "'" + version + "');";
+                runSQL(con.createStatement(), sql, dropSemi);
+            }
+            ret = true;
         } catch (Exception e) {
             Common.getLogger().logException(AbsSSLogger.ERROR, e);
             e.printStackTrace();
 		} finally {
 			Common.freeConnection(dbIdx);
         }
+		
+		return ret;
     }
 
 
@@ -430,12 +462,19 @@ public final class UpgradeDB {
      * @param statement SQL stament
      * @param sqlToRun SQL to be run
      */
-    private void runSQL(Statement statement, String[] sqlToRun) {
+    private void runSQL(Statement statement, String[] sqlToRun, boolean dropSemi) {
         int i;
+        String sql;
 
         for (i = 0; i < sqlToRun.length; i++) {
             try {
-                statement.executeUpdate(sqlToRun[i]);
+            	sql = sqlToRun[i];
+                if (dropSemi && sql.trim().endsWith(";")) {
+                	sql = sql.trim();
+                	sql = sql.substring(0,sql.length() - 1);
+                }
+
+                statement.executeUpdate(sql);
             } catch (Exception e) {
                 Common.getLogger().logMsg(AbsSSLogger.ERROR, "");
                 Common.getLogger().logMsg(AbsSSLogger.ERROR, "    SQL: " + sqlToRun[i]);
@@ -493,5 +532,30 @@ public final class UpgradeDB {
                 System.out.println(msg);
             }
         }
+    }
+    
+    public static boolean checkForUpdate(int dbIndex) {
+    	boolean ret = false;
+    	//System.out.print("Checking for update ");
+    	boolean free = Common.isSetDoFree(false);
+    	try {
+    		ResultSet resultset =
+    			Common.getDBConnection(dbIndex)
+    					.createStatement()
+    					.executeQuery(SQL_GET_VERION);
+    		if (resultset.next()) {
+    			//System.out.print("Already " + LATEST_VERSION);
+    		} else {
+    			//System.out.println("upgrading DB");
+    			new UpgradeDB().upgrade69(dbIndex);
+    			Common.logMsg("Upgraded DB to version 0.69 ", null);
+    			ret = true;
+    		}
+    	} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			Common.setDoFree(free, dbIndex);
+		}
+    	return ret;
     }
 }

@@ -61,7 +61,8 @@ public class XmlLineWriter extends AbstractLineWriter {
      * @see net.sf.JRecord.IO.AbstractLineWriter#write(net.sf.JRecord.Details.AbstractLine)
      */
     public void write(AbstractLine line) throws IOException {
-        String name = toString(line.getField(line.getPreferredLayoutIdx(), 0));
+        //String name = toString(line.getField(line.getPreferredLayoutIdx(), 0));
+        String name = toString(line.getLayout().getRecord(line.getPreferredLayoutIdx()).getRecordName());
 
         try {
             if (XmlConstants.XML_START_DOCUMENT.equals(name)) {
@@ -115,7 +116,8 @@ public class XmlLineWriter extends AbstractLineWriter {
         AbstractLayoutDetails layout = line.getLayout();
         AbstractRecordDetail rec = layout.getRecord(idx);
         int fieldCount   = rec.getFieldCount();
-        String name = toString(line.getField(idx, 0));
+        //String name = toString(line.getField(idx, 0));
+        String name = toString(line.getLayout().getRecord(line.getPreferredLayoutIdx()).getRecordName());
         String prefix = line.getFieldValue(XmlConstants.PREFIX).asString();
         String namespace = line.getFieldValue(XmlConstants.NAMESPACE).asString();
         boolean end = "true".equals(line.getFieldValue(XmlConstants.END_ELEMENT).asString().toLowerCase());

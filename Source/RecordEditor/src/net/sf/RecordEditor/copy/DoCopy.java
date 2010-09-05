@@ -1,12 +1,16 @@
 package net.sf.RecordEditor.copy;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintStream;
 
+import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
+import net.sf.JRecord.Common.XmlConstants;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
@@ -45,7 +49,11 @@ public final class DoCopy {
 	private byte[] fieldSepByte;
 	
 	private AbstractLineWriter writer;
-	private boolean ok;
+	private boolean ok, first;
+	
+	private PrintStream fieldErrorStream = null;
+	
+	private int errorCount = 0;
 	
 	/**
 	 * Do Copy
@@ -63,17 +71,17 @@ public final class DoCopy {
 
 		if (CopyDefinition.STANDARD_COPY.equals(copy.type)) {
 			ret = new DoCopy(copy,
-						getLayout(layoutReader1, copy.oldFile.layoutDetails.name, copy.oldFile.name),
-						getLayout(layoutReader2, copy.newFile.layoutDetails.name, copy.newFile.name)
+						getLayout(layoutReader1, copy.oldFile.layoutDetails.name, copy.oldFile.name, true),
+						getLayout(layoutReader2, copy.newFile.layoutDetails.name, copy.newFile.name, false)
 			).copy2Layouts();
 		} else if (CopyDefinition.COBOL_COPY.equals(copy.type)) {
 			ret = new DoCopy(copy,
-								getLayout(new LayoutSelectionFile(true), copy.oldFile.layoutDetails.name, copy.oldFile.name),
-								getLayout(new LayoutSelectionFile(true), copy.newFile.layoutDetails.name, copy.newFile.name)
+						getLayout(new LayoutSelectionFile(true), copy.oldFile.layoutDetails.name, copy.oldFile.name, true),
+						getLayout(new LayoutSelectionFile(true), copy.newFile.layoutDetails.name, copy.newFile.name, false)
 			).cobolCopy();
 		} else if (CopyDefinition.DELIM_COPY.equals(copy.type)) {
 			new DoCopy(copy,
-					getLayout(layoutReader1, copy.oldFile.layoutDetails.name, copy.oldFile.name),
+					getLayout(layoutReader1, copy.oldFile.layoutDetails.name, copy.oldFile.name, true),
 					null
 			).copy2BinDelim();
 		} else if (CopyDefinition.VELOCITY_COPY.equals(copy.type)) {
@@ -100,13 +108,32 @@ public final class DoCopy {
 	 * @return requested layout
 	 * @throws Exception any error
 	 */
-	private static AbstractLayoutDetails getLayout(AbstractLayoutSelection layoutReader,
-			String name, String fileName) throws Exception {
+	private static AbstractLayoutDetails getLayout(
+			AbstractLayoutSelection layoutReader,
+			String name, String fileName,
+			boolean input) throws Exception {
 		
 		try {
-			return layoutReader.getRecordLayout(name, fileName);
+			AbstractLayoutDetails ret = layoutReader.getRecordLayout(name, fileName);
+			if (ret == null) {
+				System.err.println("Retrieve of layout: " + name + " failed");
+			} else if (input && ret.isBuildLayout()) {
+				AbstractLineIOProvider ioProvider = LineIOProvider.getInstance();
+				AbstractLineReader reader;
+				AbstractLine in;
+							
+				reader = ioProvider.getLineReader(ret.getFileStructure());
+				reader.open(fileName, ret);
+				reader.read();
+				if (ret.getFileStructure() == Constants.IO_XML_BUILD_LAYOUT) {
+					for (int i = 0; i < 1000 && reader.read() != null; i++) {
+					}
+				}
+				ret = reader.getLayout();
+			}
+			return ret;
 		} catch (Exception e) {
-			String s = "Error Loading Layout";
+			String s = "Error Loading Layout: " + name;
 			e.printStackTrace();
 			Common.logMsg(s, e);
 			throw e;
@@ -115,9 +142,21 @@ public final class DoCopy {
 
 	
 	public DoCopy(CopyDefinition copy, AbstractLayoutDetails detail1, AbstractLayoutDetails detail2) {
+		File file = null;
 		cpy = copy;
 		dtl1 = (LayoutDetail) detail1;
 		dtl2 = (LayoutDetail) detail2;
+		
+		if (copy.fieldErrorFile != null) {
+			try {
+				fieldErrorStream = new PrintStream(copy.fieldErrorFile);
+			} catch (Exception e) {
+				System.out.println();
+				System.out.println("Error Allocating Field Error File: " + e.getMessage());
+				System.out.println();
+				fieldErrorStream = null;
+			}
+		}
 	}
 
 	
@@ -132,7 +171,7 @@ public final class DoCopy {
 		
 		AbstractLineIOProvider ioProvider = LineIOProvider.getInstance();
 		AbstractLineReader reader;
-		AbstractLine in;
+		AbstractLine in, next;
 		
 		ok = true;
 
@@ -146,22 +185,30 @@ public final class DoCopy {
 		
 		//System.out.println();
 		//System.out.println();
+		first = true;
+		in = reader.read();
 		lineNo = 0;
 		if (dtl1.getRecordCount() < 2) {
-			while ((in = reader.read()) != null) {
-				writeRecord(in, 0, lineNo++);
+			while (in != null) {
+				writeRecord(in, (next = reader.read()) , 0, lineNo++);
+				in = next;
 			}
 		} else {
-			while ((in = reader.read()) != null) {
+			while (in  != null) {
 				idx = in.getPreferredLayoutIdx();
 				if (idx >= 0) {
-					writeRecord(in, idx, lineNo++);
+					while ((next = reader.read()) != null && next.getPreferredLayoutIdx() < 0) {
+					}
+
+					writeRecord(in, next, idx, lineNo++);
+					in = next;
 				}
-			}			
+			}		
 		}
 
 		reader.close();
 		writer.close();
+		closeFieldError();
 		return ok;
 	}
 	
@@ -173,72 +220,118 @@ public final class DoCopy {
 	 * @param lineNo line number
 	 * @throws IOException any IO Error that occurs
 	 */
-	private void writeRecord(AbstractLine in, int idx, int lineNo) throws IOException {
-		int i1 = fromIdx[idx];
-		int i2 = toIdx[idx];	
-		
-		if (i1 >= 0 && i2 >= 0) {
-			AbstractLine out;
-			Object o = null;
+	private void writeRecord(AbstractLine in, AbstractLine next, int idx, int lineNo) throws IOException {
+		if (idx < fromIdx.length && idx < toIdx.length) {
+			int i1 = fromIdx[idx];
+			int i2 = toIdx[idx];	
 			
-			int[] fromFields = fromTbl[i1];
-			int[] toFields = toTbl[i1];
-
-			if (dtl2.isXml()) {
-				out = new XmlLine(dtl2, i2);
-			} else {
-				out = new Line(dtl2);
+			if (i1 >= 0 && i2 >= 0) {
+				int parentIdx;
+				AbstractLine out;
+				Object o = null;
 				
-				try {
-					FieldDetail selField = dtl2.getRecord(i2).getSelectionField();
-					if (selField != null) { 
-						out.setField(selField, dtl2.getRecord(i2).getSelectionValue());
-					}
-				} catch (Exception e) {
-				}
-			}
-			
-			if (defaultValues[i1] != null) {
-				for (int i = 0; i <  defaultValues[i1].length; i++) {
-					if (defaultValues[i1][i] != null) {
+				int[] fromFields = fromTbl[i1];
+				int[] toFields = toTbl[i1];
+	
+				if (dtl2.isXml()) {
+					XmlLine o1 = new XmlLine(dtl2, i2);
+					out = o1;
+					
+					setDefaultValues(i1, i2, out);
+					if (fromTbl.length == 1 || next == null || (idx == next.getPreferredLayoutIdx())) {
 						try {
-							out.setField(i2, i, defaultValues[i1][i]);
+							o1.setRawField(i2, XmlConstants.END_INDEX, true);
 						} catch (Exception e) {
-							System.out.println("Error > "  + i2 + " " + i + " " 
-									+  dtl2.getRecord(i2).getField(i).getName() + " "+ defaultValues[i2][i] + "<");
-							e.printStackTrace();
-							ok = false;
+						}
+					}
+					
+					//System.out.println(" >> " + dtl2.getRecord(i2).getParentRecordIndex());
+					if (first 
+					&& (parentIdx = dtl2.getRecord(i2).getParentRecordIndex()) >= 0) {
+						printParent(parentIdx);
+						first = false;
+					}
+				} else {
+					out = new Line(dtl2);
+					
+					try {
+						FieldDetail selField = dtl2.getRecord(i2).getSelectionField();
+						if (selField != null) { 
+							out.setField(selField, dtl2.getRecord(i2).getSelectionValue());
+						}
+					} catch (Exception e) {
+					}
+					
+					setDefaultValues(i1, i2, out);
+				}
+				
+				
+				for (int i = 0; i < fromFields.length; i++) {
+					if (fromFields[i] >= 0 && toFields[i] >= 0) {
+						try {
+							o = in.getField(idx, fromFields[i]);
+							if (o == null) {
+								o = "";
+								if (dtl2.getRecord(i2).getFieldsNumericType(toFields[i]) == Type.NT_NUMBER) {
+									o = "0";
+								}
+							}
+	
+							out.setField(i2, toFields[i], o);
+						} catch (Exception e) { 
+							String em = "Error Line " + lineNo + " Field Number " + i + " - "+ e.getMessage() + " : " + o;
+							if (fieldErrorStream == null) { 
+								Common.logMsg(em, null);
+							} else {
+								fieldErrorStream.println(em);
+							}
+							
+							errorCount+= 1;
+							if (cpy.maxErrors >= 0 && errorCount > cpy.maxErrors) {
+								writer.write(out);
+								writer.close();
+								throw new IOException("Max Conversion Errors Reached: " + cpy.maxErrors, e);
+							}
+	
+							//e.printStackTrace();
 						}
 					}
 				}
+				writer.write(out);
+				first = false;
 			}
-			
-			for (int i = 0; i < fromFields.length; i++) {
-				try {
-					o = in.getField(idx, fromFields[i]);
-					if (o == null) {
-						o = "";
-						if (dtl2.getRecord(i2).getFieldsNumericType(toFields[i]) == Type.NT_NUMBER) {
-							o = "0";
-						}
-					}
-//					try {
-//					System.out.println(i2 +", " +  toFields[i] + " " + dtl2.getRecord(i2).getField( toFields[i]).getName()
-//							+" = " + o + " (" + idx + ", " + fromFields[i] + " " + in.getLayout().getRecord(idx).getField(fromFields[i]).getName());
-//					} catch (Exception e) {
-//						// TODO: handle exception
-//					}
-					out.setField(i2, toFields[i], o);
-				} catch (Exception e) { 
-					Common.logMsg("Error Line " + lineNo + " Field Number " + i + " - "+ e.getMessage() + " : " + o, null);
-					//e.printStackTrace();
-					}
-			}
-			writer.write(out);
 		}
+	}
+	
+	private void setDefaultValues(int i1, int i2, AbstractLine out) {
 		
+		if (defaultValues[i1] != null) {
+			for (int i = 0; i <  defaultValues[i1].length; i++) {
+				if (defaultValues[i1][i] != null) {
+					try {
+						out.setField(i2, i, defaultValues[i1][i]);
+					} catch (Exception e) {
+						System.out.println("Error > "  + i2 + " " + i + " " 
+								+  dtl2.getRecord(i2).getField(i).getName() + " "+ defaultValues[i2][i] + "<");
+						e.printStackTrace();
+						ok = false;
+					}
+				}
+			}
+		}
 	}
 
+	
+	private void printParent(int idx) throws IOException {
+		
+		int parentIdx;
+		if ((parentIdx = dtl2.getRecord(idx).getParentRecordIndex()) >= 0) {
+			printParent(parentIdx);
+		}
+		writer.write(new XmlLine(dtl2, idx));
+	}
+	
+	
 	/**
 	 * build translation table
 	 */
@@ -266,6 +359,15 @@ public final class DoCopy {
 			idx1= dtl1.getRecordIndex(recList1.name);
 			idx2= dtl2.getRecordIndex(recList2.name);
 			
+			if (idx1 < 0) {
+				if (dtl1.getRecordCount() > 0) {
+					System.out.println("Record 0: >" + dtl1.getRecord(0).getRecordName() + "<");
+				}
+				throw new RuntimeException("Can not locate record: >" + recList1.name + "< in input layout");
+			}
+			if (idx2 < 0) {
+				throw new RuntimeException("Can not locate record: " + recList2.name + " in output layout");
+			}
 			fromIdx[idx1] = i;
 			toIdx[idx1] = idx2;
 			rec1 = dtl1.getRecord(idx1);
@@ -293,6 +395,23 @@ public final class DoCopy {
 				ix = rec2.getFieldIndex(recList2.fields[j]);
 				toTbl[i][j] = ix;
 				defaultValues[i][ix] = null;
+				
+				if (fromTbl[i][j] < 0 && toTbl[i][j] < 0) {
+					System.out.println("Can not find input & output fields: " + j + " " + recList1.fields[j]
+					                 + ", " + recList2.fields[j]);
+				} else if (fromTbl[i][j] < 0) {
+					StringBuilder bb = new StringBuilder();
+					for (int k = 0; k < rec1.getFieldCount(); k++) {
+						bb.append("<\t>").append(rec1.getField(k).getName());
+					}
+					System.out.println("Can not find input field: " + j + " >" + recList1.fields[j] 
+					                 + "< } " + bb.toString() + " " + fromTbl[i][j]);
+				} else if (toTbl[i][j] < 0) {
+					System.out.println("Can not find output field: " + j + " " + recList2.fields[j]);
+				}
+					//System.out.print("  ===> " + recList1.fields[j] + " -> " +  " " + fromTbl[i][j]);
+					
+					//ix = rec2.getFieldIndex(recList2.fields[j]););
 				//System.out.println(" ~~ " + ix + " ~ " + recList2.fields[j]);
 			}
 			//System.out.println();
@@ -388,6 +507,7 @@ public final class DoCopy {
 
 		reader.close();
 		writer.close();
+		closeFieldError();
 		return ok;
 	}
 
@@ -597,6 +717,7 @@ public final class DoCopy {
 
 		reader.close();
 		fileWriter.close();
+		closeFieldError();
 	}
 	
 
@@ -647,5 +768,12 @@ public final class DoCopy {
 			}
 			fileWriter.write(eolBytes);
 		}
+	}
+	
+	private void closeFieldError() {
+		if (fieldErrorStream != null) {
+			fieldErrorStream.close();
+		}
+		
 	}
 }

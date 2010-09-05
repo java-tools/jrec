@@ -32,27 +32,6 @@ import java.util.jar.Pack200;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
-//import sun.security.action.GetPropertyAction;
-
-/*
-
- private static void invokeMain()
-   throws ClassNotFoundException,
-          SecurityException,
-          NoSuchMethodException,
-          IllegalArgumentException,
-          IllegalAccessException,
-          InvocationTargetException
- {
-   Class distanceClass = Class.forName("Distance");
-   String points[] = new String[] {"0", "0", "3", "4"};
-   Object arguments[] = new Object[] { points };
-   Method mainMethod = distanceClass.getMethod("main", new Class[] { points.getClass()});
-   Object result = mainMethod.invoke(null, arguments);
- }
-
- */
-
 /**
  * This class will
  *   - Read jars from a supplied file
@@ -207,8 +186,6 @@ public final class Run {
                     ).toString();
             baseDirectory = "";
 
-//           System.out.println(">> " + dir);
-
             if (dir.toLowerCase().startsWith("jar:")) {
                 int pos = dir.indexOf('!');
 //                String dfltEncName = AccessController.doPrivileged(
@@ -223,7 +200,7 @@ public final class Run {
 //				}
                 //System.out.println(">> " + baseDirectory + " >> " + baseDirectory.substring(0, pos));
                 baseDirectory = URLDecoder.decode(baseDirectory.substring(0, pos));
-             }
+            }
             System.out.println("base dir: " + dir);
         }
 

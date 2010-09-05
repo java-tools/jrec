@@ -18,6 +18,8 @@
 		<value     name="complete"            field="complete"         style="attribute" usage="optional"/>
 		<value     name="delimiter"           field="delimiter"        style="attribute" usage="optional"/>
 		<value     name="namesOnFirstLine"    field="namesOnFirstLine" style="attribute" usage="optional"/>
+		<value     name="fieldErrorFile"      field="fieldErrorFile"   style="attribute" usage="optional"/>
+		<value     name="maxErrors"           field="maxErrors"        style="attribute" usage="optional"/>
 		<value     name="StripTrailingSpaces" field="stripTrailingSpaces"                usage="optional"/>
 		<value     name="quote"               field="quote"                              usage="optional"/>
 		<value     name="font"                field="font"                               usage="optional"/>

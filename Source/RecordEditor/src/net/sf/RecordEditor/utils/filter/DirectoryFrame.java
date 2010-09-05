@@ -24,7 +24,7 @@ public class DirectoryFrame extends ReFrame {
 		super("", name, null);
         ReMainFrame f = ReMainFrame.getMasterFrame();
         int actionIdx = 0;
-        String[] dirAction = {"Save Directory", "Load Action"};
+        String[] dirAction = {"Save Directory", "Load From Directory"};
         String[] fileAction = {"Save File", "Load File"};
 
 		int width  = f.getDesktop().getWidth() - 1;

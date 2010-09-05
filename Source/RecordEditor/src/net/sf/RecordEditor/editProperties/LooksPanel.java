@@ -71,8 +71,12 @@ public class LooksPanel extends BasePanel implements ActionListener {
             "OfficeLnFs - Office XP",
             "OfficeLnFs - Visual Studio 2005",
             "Tonic",
+            "JTattoo",
+            "Liquid",
+            "PGS",
+            "Infonode",
+            "Nimbus",
             "Other",
-            "Nimbus"
     };
 
     private static final int NUMBER_OF_JAVA_LOOKS = 5;
@@ -91,9 +95,13 @@ public class LooksPanel extends BasePanel implements ActionListener {
             COMPIERE,
             OFFICE_LN_FS, OFFICE_LN_FS, OFFICE_LN_FS,
             TONIC,
+            "JTattoo not my taste but seems fast<br>see <b>http://www.jtattoo.net/</b>",
+            "Liquid Look and Feel<br>See <b>https://liquidlnf.dev.java.net/</b>",
+            "pgs<br>See <b>https://pgslookandfeel.dev.java.net/</b>",
+            "Infonode many commercial java packages use it<br/>see <b>http://www.infonode.net</b>",
+            "Nimbus",
             "Other Look and Feel, remember to fill in the <b>class name</b>",
-            "Nimbus"
-    };
+     };
 
     private String[] looksClasses = {
             "",
@@ -111,8 +119,12 @@ public class LooksPanel extends BasePanel implements ActionListener {
             "org.fife.plaf.OfficeXP.OfficeXPLookAndFeel",
             "org.fife.plaf.VisualStudio2005.VisualStudio2005LookAndFeel",
             "com.digitprop.tonic.TonicLookAndFeel",
+            "com.jtattoo.plaf.smart.SmartLookAndFeel",
+            "com.birosoft.liquid.LiquidLookAndFeel",
+            "com.pagosoft.plaf.PgsLookAndFeel",
+            "net.infonode.gui.laf.InfoNodeLookAndFeel",
+            "Nimbus", //com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel
             "",
-            "Nimbus" //com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel
     };
 
     private JEditorPane tips = new JEditorPane("text/html", PANEL_DESCRIPTION);;

@@ -233,8 +233,8 @@ public class FieldSearch {
   				type = NOT_IN_FIELD;
   			}
    			
-      		System.out.println(" ==> " + i + " " + type + " : " + counts[i][TYPE_TEXT]  + " ~ #" 
-       				+ " > " + fieldId + " ==> " + counts[i][TYPE_COMP3]  + " :: " + counts[i][TYPE_COMP3_FINAL_BYTE] );
+//      		System.out.println(" ==> " + i + " " + type + " : " + counts[i][TYPE_TEXT]  + " ~ #" 
+//      				+ " > " + fieldId + " ==> " + counts[i][TYPE_COMP3]  + " :: " + counts[i][TYPE_COMP3_FINAL_BYTE] );
     	}
     }
     
@@ -282,11 +282,11 @@ public class FieldSearch {
 
   			}
      		
-      		System.out.println(" ::> " + i + " " + limit +  " : " + counts[i][TYPE_SLASH1]  + " ~ # " 
-      				+ ff310_isPossibleDateOrTime(counts, i - 2, 2, limit)
-	    			+ " && " + ff310_isPossibleDateOrTime(counts, i + 1, 2, limit)
-	    			+ " && " + ff310_isPossibleDateOrTime(counts, i + 3, 2, limit)
-       				 );
+//      		System.out.println(" ::> " + i + " " + limit +  " : " + counts[i][TYPE_SLASH1]  + " ~ # " 
+//      				+ ff310_isPossibleDateOrTime(counts, i - 2, 2, limit)
+//	    			+ " && " + ff310_isPossibleDateOrTime(counts, i + 1, 2, limit)
+//	    			+ " && " + ff310_isPossibleDateOrTime(counts, i + 3, 2, limit)
+//       				 );
     	}
     }
    

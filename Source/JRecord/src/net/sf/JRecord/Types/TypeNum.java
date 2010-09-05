@@ -237,7 +237,8 @@ public class TypeNum extends TypeChar {
 	            }
 	            new BigInteger(val);
 	        } catch (final Exception ex) {
-	            throw new RecordException("Invalid Integer: " + ex.getMessage());
+	        	//ex.printStackTrace();
+	            throw new RecordException("Invalid Integer :" + val + ": ~ " + ex.getMessage());
 	        }
 	    } else {
 	        try {

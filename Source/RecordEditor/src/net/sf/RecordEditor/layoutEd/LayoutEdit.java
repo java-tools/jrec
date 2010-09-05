@@ -27,6 +27,7 @@ import net.sf.JRecord.External.CopybookLoaderFactory;
 import net.sf.RecordEditor.edit.util.CopybookLoaderFactoryDB;
 import net.sf.RecordEditor.editProperties.EditOptions;
 import net.sf.RecordEditor.layoutEd.Record.RecordEdit1Record;
+import net.sf.RecordEditor.layoutEd.utils.UpgradeDB;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
@@ -76,7 +77,9 @@ public class LayoutEdit extends ReMainFrame {
 	        }
 	    });
 
-	    Common.freeConnection(Common.getConnectionIndex());
+	    int idx = Common.getConnectionIndex();
+	    UpgradeDB.checkForUpdate(idx);
+	    Common.freeConnection(idx);
 	}
 
 
@@ -142,6 +145,19 @@ public class LayoutEdit extends ReMainFrame {
             || super.isActionAvailable(action);
     }
     
+
+	/**
+	 * Close the application and Database (used in automated testing)
+	 */
+	public static void close() {
+		try {
+			ReFrame.closeAllFrames();
+			Common.closeConnection();
+		} catch (Exception e) {
+
+		}
+	}
+	
 
     /**
 	 * Run record layout editor

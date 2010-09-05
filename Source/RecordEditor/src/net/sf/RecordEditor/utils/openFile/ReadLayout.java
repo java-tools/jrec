@@ -53,6 +53,12 @@ public class ReadLayout {
 
 		AbstractLineIOProvider ioProvider =  ReIOProvider.getInstance();
 		
+		System.out.println(" == " + loadFromFile
+				+ " " + ((loadFromFile && fileName != null))	
+				+ " " + (! "".equals(fileName))
+				+ " " + (! ioProvider.isCopyBookFileRequired(layout.getFileStructure()))
+				+ " " + layout.getFileStructure()
+				);
 		if (loadFromFile && fileName != null && ! "".equals(fileName)
 		&&  ! ioProvider.isCopyBookFileRequired(layout.getFileStructure())) {
 			AbstractLineReader reader =  ioProvider.getLineReader(layout.getFileStructure());

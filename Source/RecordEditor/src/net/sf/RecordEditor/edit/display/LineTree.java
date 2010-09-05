@@ -54,12 +54,12 @@ public class LineTree extends BaseLineTree<LineNode> {
                     	System.out.println();
                     	for (int i =0; i < selected.length; i++) {
                     		node = getNodeForRow(selected[i]);
-                    		if (node != null) {
-                    			System.out.println(">> Line Details "
-                    					+ node.getLevel() + "             ".substring(12 - node.getLevel())
-                    					+ node.getFirstLeafLine() + " " + node.getLastLeafLine()
-                    					+ " :: " + node.getLineNumber());
-                    		}
+//                    		if (node != null) {
+//                    			System.out.println(">> Line Details "
+//                    					+ node.getLevel() + "             ".substring(12 - node.getLevel())
+//                    					+ node.getFirstLeafLine() + " " + node.getLastLeafLine()
+//                    					+ " :: " + node.getLineNumber());
+//                    		}
                     	}
                     }
                 }
@@ -361,23 +361,23 @@ public class LineTree extends BaseLineTree<LineNode> {
 			node = (LineNode) node.getNextNode();
 		}
 		
-		if (node != null) {
-		System.out.println("Insert Find Parent:: start " + start + " " + node.getLineNumber()
-				+ " " + node.getUserObject());
-		}
+//		if (node != null) {
+//		System.out.println("Insert Find Parent:: start " + start + " " + node.getLineNumber()
+//				+ " " + node.getUserObject());
+//		}
 		parent = getParent(node, end + 1);
-		System.out.println();
-		System.out.println("Found Parent:: start " + parent.getLineNumber()
-				+ " " + parent.getFirstLeafLine()
-				+ " " + parent.getLastLeafLine()
-				+ " " + parent.getUserObject());
+//		System.out.println();
+//		System.out.println("Found Parent:: start " + parent.getLineNumber()
+//				+ " " + parent.getFirstLeafLine()
+//				+ " " + parent.getLastLeafLine()
+//				+ " " + parent.getUserObject());
 		
 		updateLineNumber(start, diff);
 		
-		System.out.println("Parent:: start " + parent.getLineNumber()
-				+ " " + parent.getFirstLeafLine()
-				+ " " + parent.getLastLeafLine()
-				+ " " + parent.getUserObject());
+//		System.out.println("Parent:: start " + parent.getLineNumber()
+//				+ " " + parent.getFirstLeafLine()
+//				+ " " + parent.getLastLeafLine()
+//				+ " " + parent.getUserObject());
 		
 		parseLater(parent);
 	}

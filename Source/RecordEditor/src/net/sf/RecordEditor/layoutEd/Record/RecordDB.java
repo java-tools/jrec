@@ -145,8 +145,12 @@ public class RecordDB  extends AbsDB<RecordRec> {
           if (rsCursor.next()) {
         	  byte[] b = {};
         	  try {
-        		  b = rsCursor.getBytes(12);
+        		  b = rsCursor.getString(12).getBytes();
         	  } catch (Exception e) {
+        		  try {
+        			  b = rsCursor.getBytes(12);
+        		  } catch (Exception ex) {
+				}
         	  }
              ret = new RecordRec(
                         rsCursor.getInt(1)

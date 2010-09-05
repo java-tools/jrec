@@ -29,7 +29,9 @@ import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
  */
 public class CopyWizardFinalPnl extends BaseHelpPanel implements AbstractWizardPanel<CopyDefinition> {
 
-	private FileChooser saveFileName = new FileChooser();
+	private FileChooser saveFileName   = new FileChooser();
+	private FileChooser fieldErrorFile = new FileChooser();
+	private JTextField  maxErrors      = new JTextField();
 	
 	private AbstractLayoutSelection<?> selection;
 	private AbstractLayoutSelection<?> selection2;
@@ -89,8 +91,10 @@ public class CopyWizardFinalPnl extends BaseHelpPanel implements AbstractWizardP
 		
 		super.addComponent("Save File", saveFileName, saveFileName.getChooseFileButton());
 		super.setGap(BasePanel.GAP1);
+		super.addComponent("Field Error File", fieldErrorFile, fieldErrorFile.getChooseFileButton());
+		super.addComponent("Max Error Limit", maxErrors);
+		super.setGap(BasePanel.GAP1);
 		super.addComponent("", stripTrailingSpaces);
-		
 		super.addComponent("", pnl);
 		super.setHeight(BasePanel.GAP5);
 		
@@ -120,6 +124,24 @@ public class CopyWizardFinalPnl extends BaseHelpPanel implements AbstractWizardP
 			copyDetail.saveFile = saveFileName.getText();
 		}
 		
+		copyDetail.fieldErrorFile = fieldErrorFile.getText();
+		if ("".equals(copyDetail.fieldErrorFile.trim())) {
+			copyDetail.fieldErrorFile = null;
+		}
+		
+		if ("".equals(maxErrors.getText().trim())) {
+			copyDetail.maxErrors = -1;
+		} else {
+			try {
+				copyDetail.maxErrors = Integer.parseInt(maxErrors.getText());
+			} catch (Exception e) {
+				String em = "Invalid max errors value: " + e.getMessage();
+				message.setText(em);
+				copyDetail.maxErrors = -1;
+				throw new RuntimeException(em, e);
+			}
+		}
+		
 		copyDetail.stripTrailingSpaces = stripTrailingSpaces.isSelected();
 		//System.out.println("Final Get -Layout Name: " + diffDetail.getLayoutDetails().name);
 
@@ -146,6 +168,17 @@ public class CopyWizardFinalPnl extends BaseHelpPanel implements AbstractWizardP
 		copyDetail = detail;
 		copyDetail.fileSaved = false;
 		copyDetail.complete = "YES";
+		
+		if (copyDetail.fieldErrorFile == null) {
+			fieldErrorFile.setText("");
+		} else {
+			fieldErrorFile.setText(copyDetail.fieldErrorFile);
+		}
+
+		maxErrors.setText("");
+		if (copyDetail.maxErrors >= 0) {
+			maxErrors.setText(Integer.toString(copyDetail.maxErrors));
+		}
 		
 		stripTrailingSpaces.setSelected(copyDetail.stripTrailingSpaces);
 	}

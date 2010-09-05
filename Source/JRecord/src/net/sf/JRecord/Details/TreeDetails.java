@@ -112,13 +112,6 @@ implements AbstractTreeDetails<FieldDtls, RecordDtls, Layout, LineType> {
 	public <childDtls extends AbstractChildDetails<RecordDtls>> LineType addChild(childDtls childDef, int location) {
 		return null;
 	}
-//
-//	@Override
-//	public boolean isError() {
-//		return false;
-//	}
-	
-	
 
 	
 	/**

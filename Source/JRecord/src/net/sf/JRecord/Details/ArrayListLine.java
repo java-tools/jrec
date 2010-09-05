@@ -20,7 +20,7 @@ implements AbstractLine<Layout> {
 	protected Layout layout;
 	protected int preferredLayout = Constants.NULL_INTEGER;
 	protected boolean newRecord;
-	private boolean rebuildRequired = false;
+	protected boolean rebuildRequired = false;
 	protected AbstractTreeDetails<FieldDef, RecordDef, Layout, ArrayListLine<FieldDef, RecordDef, Layout>> 
 						children; // = NULL_TREE_DETAILS;
 //NullTreeDtls.STANDCopyOfSimpleLineARD_NULL_DETAILS;
@@ -265,32 +265,15 @@ implements AbstractLine<Layout> {
 
 	public void setRawField(int recordIdx, int fieldIdx, Object val)
 			throws RecordException {
-			
-			    	int endFieldNum = XmlConstants.END_INDEX; //layout.getRecordIndex(XmlConstants.END_ELEMENT);
-			        for (int i = fields.size(); i <= fieldIdx; i++) {
-			            fields.add(null);
-			        }
-			
-			        if (val != null || fields.get(fieldIdx) != null) { 
-			        	rebuildRequired = (fieldIdx == 0) || (fieldIdx == endFieldNum) || newRecord;
-			//        	if (newRecord) {
-			//    			preferredLayout = fieldIdx;
-			//    			fields.set(XmlConstants.NAME_INDEX, layout.getRecord(recordIdx).getRecordName());
-			//    			fields.set(endFieldNum, "True");
-			//    			newRecord = false;
-			//    			rebuildRequired = true;
-			//    		}
-			
-			        	fields.set(fieldIdx, val);
-			        	
-			        	if (val != null && fieldIdx == XmlConstants.NAME_INDEX) {
-			        		int idx = layout.getRecordIndex(val.toString());
-			        		if (idx >= 0) {
-			        			preferredLayout = idx;
-			        		}
-			        	}
-			        }
-			    }
+
+        for (int i = fields.size(); i <= fieldIdx; i++) {
+            fields.add(null);
+        }
+
+        if (val != null || fields.get(fieldIdx) != null) { 
+        	fields.set(fieldIdx, val);
+        }
+    }
 
 	/**
 	 * @see net.sf.JRecord.Details.AbstractLine#setField(java.lang.String, java.lang.Object)

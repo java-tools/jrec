@@ -165,7 +165,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 
 		this.lines = new ArrayList<AbstractLine<Layout>>(INITIAL_FILE_SIZE);
 		this.fileName   = null;
-		this.layout    = pFd;
+		this.layout     = pFd;
 		this.ioProvider = pIoProvider;
 		this.browse     = pBrowse;
 		this.baseFile   = this;
@@ -1845,7 +1845,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		String testValue,
 		boolean normalSearch) {
 
-	    System.out.println("~~ " + pos.currentFieldNumber + " ");
+	    //System.out.println("~~ " + pos.currentFieldNumber + " ");
 	    int col = getRealColumn(pos.recordId, pos.currentFieldNumber);
 		String s = getFieldValue(pos, col);
 				
@@ -1875,11 +1875,11 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		}
 		pos.found = (pos.col >= 0) == normalSearch;
 		
-		if (pos.found) {
-			System.out.println("Contains " + pos.found + " row: " + pos.row
-		        + " " + pos.recordId + " " + pos.currentFieldNumber
-		        + " >" + s + "< " + testValue);
-		}
+//		if (pos.found) {
+//			System.out.println("Contains " + pos.found + " row: " + pos.row
+//		        + " " + pos.recordId + " " + pos.currentFieldNumber
+//		        + " >" + s + "< " + testValue);
+//		}
 		return pos.found;
 	}
 
@@ -2199,9 +2199,9 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
        while (it.hasNext()) {
     	   	line = it.next();
     	   	recordType = line.getPreferredLayoutIdxAlt();
-    	   	if (recordType == 4) {
-    	   		System.out.println("~~~  " + line.getField(4, 0));
-    	   	}
+//    	   	if (recordType == 4) {
+//    	   		System.out.println("~~~  " + line.getField(4, 0));
+//    	   	}
 
     	   	if (filterNonPrefered && recordType == Constants.NULL_INTEGER) {
                	ok = false;

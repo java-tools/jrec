@@ -104,10 +104,12 @@ public class ToLayoutDetail {
 	        }
 	    }
 
-	    return new RecordDetail(def.getRecordName(), 
+	    RecordDetail ret = new RecordDetail(def.getRecordName(), 
 	    		def.getTstField(), def.getTstFieldValue(),
 	            def.getRecordType(), def.getDelimiter(), def.getQuote(),
 	            def.getFontName(), fields, def.getRecordStyle());
+	    ret.setParentRecordIndex(def.getParentRecord());
+	    return ret;
 	}
 
 

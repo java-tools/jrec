@@ -262,9 +262,11 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	 * @see javax.swing.event.TableModelListener#tableChanged(javax.swing.event.TableModelEvent)
 	 */
 	@Override
-	public void tableChanged(TableModelEvent arg0) {
+	public void tableChanged(TableModelEvent event) {
 		// TODO Auto-generated method stub
+		//System.out.println(" ^^^^ 1 " + event.getType() + " " + event.getFirstRow());
 		
+
 	}
 
 	private void newLineFrame(LNode n) {
@@ -337,7 +339,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	public final void defColumns(int idx) {
 		int columns = model.getColumnCount();
 			//layout.getRecord(idx).getFieldCount() + 2 - firstDisplayColumn;
-		defineColumns(columns, 2, cols2skip);
+		defineColumns(columns, model.getSkipColumns(), cols2skip);
 		
 		TableColumn tc = treeTable.getColumnModel().getColumn(0);
 		tc.setCellRenderer(buttonRendor);
@@ -345,7 +347,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 		tc.setMaxWidth(5);
 		tc.setResizable(false);
 		
-		if (treeTable.getColumnModel().getColumnCount() >1) {
+		if (treeTable.getColumnModel().getColumnCount() > 1) {
 			tc = treeTable.getColumnModel().getColumn(1);
 	//		System.out.println(">> " + tc.getPreferredWidth() 
 	//				+ " " + MINIMUM_TREE_COLUMN_WIDTH

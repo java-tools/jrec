@@ -195,7 +195,7 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
      * @author Bruce Martin
      *
      */
-    private static class JPopupArray extends ReFrame 
+    public static class JPopupArray extends ReFrame 
     implements ActionListener,  TableModelListener {
         //private Calendar date = null;
         private ArrayTableModel model;
@@ -264,9 +264,7 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
     			     * @see MouseAdapter#mousePressed(java.awt.event.MouseEvent)
     			     */
     			    public void mousePressed(MouseEvent e) {
-    			    	super.mousePressed(e);
-    			    	
-    			      	
+    			    	super.mousePressed(e);			      	
  			    	    			    	
     		      		int col = table.columnAtPoint(e.getPoint());
     		            int row = table.rowAtPoint(e.getPoint());  		
@@ -302,9 +300,7 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
     	    if (parentMdl instanceof AbstractTableModel) {
     	    	fv = (AbstractTableModel) parentMdl;
     	    	fv.addTableModelListener(this);
-    	    }
-    	    
-    	    if (parentDoc instanceof AbstractTableModel) {
+    	    } else if (parentDoc instanceof AbstractTableModel) {
     	    	fv = (AbstractTableModel) parentDoc;
     	    	fv.addTableModelListener(this);
     	    }

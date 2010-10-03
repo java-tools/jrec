@@ -1,5 +1,6 @@
 package net.sf.RecordEditor.edit.display.util;
 
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -32,6 +33,7 @@ import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.filter.AbstractSaveDetails;
 import net.sf.RecordEditor.utils.filter.SaveButton;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
+import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
@@ -88,7 +90,7 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 			final boolean addFieldSummary, final boolean showRecordList) {
 		super(fileTbl.getFileNameNoDirectory(), id,
 				fileTbl.getBaseFile());
-
+		Rectangle screenSize = ReMainFrame.getMasterFrame().getDesktop().getBounds();
 		source   = src;
 		fileView = src.getFileView();
 		//helpPresent = true;
@@ -122,6 +124,10 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 		pnl.setGap(BasePanel.GAP1);
 
 		this.addMainComponent(new JScrollPane(pnl));
+		
+		setBounds(getX(), getY(), Math.min(getWidth() + 25, screenSize.width -10),
+		        Math.min(getHeight(), screenSize.height - 5));
+
 		this.setVisible(true);
 	}
 

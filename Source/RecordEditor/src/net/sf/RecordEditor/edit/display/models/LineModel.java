@@ -22,13 +22,11 @@
  */
 package net.sf.RecordEditor.edit.display.models;
 
-
+import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.RecordEditor.edit.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
-
-
 
 
 
@@ -94,6 +92,7 @@ public class LineModel extends BaseLineModel {
 		} else if (currentLine == null) {
 		    return null;
 		}
+		
 	    int idx = getFixedCurrentLayout();
 	    if (idx >= layout.getRecordCount()) {
 	        if (col == FIRST_DATA_COLUMN) { // Formated Data Column
@@ -256,8 +255,16 @@ public class LineModel extends BaseLineModel {
 	protected boolean showKey() {
 		boolean ret = false;
 		
-		if (currentLine.getTreeDetails().getChildDefinitionInParent() != null) {
-			ret = currentLine.getTreeDetails().getChildDefinitionInParent().isMap();
+		if (currentLine != null) {
+			if (currentLine.getTreeDetails() != null 
+			&& currentLine.getTreeDetails().getChildDefinitionInParent() != null) {
+				ret = currentLine.getTreeDetails().getChildDefinitionInParent().isMap();
+			} else {
+				try {
+					ret = currentLine.getField(0, Constants.KEY_INDEX) != null;
+				} catch (Exception e) {
+				}
+			}
 		}
 		return ret;
 	}

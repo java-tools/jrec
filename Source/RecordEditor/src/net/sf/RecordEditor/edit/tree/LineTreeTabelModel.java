@@ -331,6 +331,10 @@ implements TreeTableNotify {
 		this.defaultPreferedIndex = defaultPreferedIndex;
 	}
 
+	public int getSkipColumns() {
+		return skipColumns;
+	}
+
 	/**
 	 * Fire nodes inserted for one nore
 	 * @param node node tha6t was inserted

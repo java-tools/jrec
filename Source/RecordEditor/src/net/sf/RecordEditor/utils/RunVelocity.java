@@ -15,18 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 
-import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
-import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Details.DefaultLineProvider;
-import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.LineProvider;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
-import net.sf.JRecord.IO.StandardLineReader;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.RecordEditor.utils.common.Common;
 
@@ -184,11 +180,8 @@ public class RunVelocity {
         context.put("outputFile",   outputFile);
         context.put("typeNames",    typeNames);
         context.put("recordLayout", layout);
-        //layout.getDescription()(0).getName()
-        //layout.getRecord(0).getTstFieldValue()()()
 
         genSkel(template, writer,   context);
-
     }
 
 

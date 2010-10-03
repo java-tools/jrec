@@ -306,7 +306,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 				}
 			}
 
-			if (fileMaster.isChanged()) {
+			if (fileMaster != null && fileMaster.isChanged() && fileMaster.isSaveAvailable()) {
 				int result = JOptionPane.showConfirmDialog(null, "Save changes",
 						"Save Changes to file: " + fileMaster.getFileName(),
 						JOptionPane.YES_NO_OPTION);
@@ -316,13 +316,17 @@ implements AbstractFileDisplay, ILayoutChanged {
 				}
 			}
 			
-			if (doClose) {
+			if (fileView != null && doClose) {
 				fileView.clear();
 			}
 		}
 		
 		if (doClose) {
+			if (fileView != null) {
+				fileView.removeTableModelListener(layoutChangeListner);
+			}
 			closeWindow();
+			layoutCombo.removeActionListener(layoutListner);
 			super.dispose();
 		}
 		//super.windowClosing();
@@ -417,19 +421,19 @@ implements AbstractFileDisplay, ILayoutChanged {
 		
 		try {
 			switch (action) {
-			case ReActionHandler.FIND:										searchScreen.startSearch(fileView);  break;       	
-			case ReActionHandler.FILTER:					                new FilterFrame(fileView);		   break;
-			case ReActionHandler.COMPARE_WITH_DISK:				compareWithDisk();     	           break;
-			case ReActionHandler.EXECUTE_SAVED_FILTER:			executeSavedFilter();               break;
-			case ReActionHandler.EXECUTE_SAVED_SORT_TREE:	executeSavedSortTree();          break;
-			case ReActionHandler.EXECUTE_SAVED_RECORD_TREE: executeSavedRecordTree();	   break;
-			case ReActionHandler.SHOW_INVALID_ACTIONS: 		createErrorView();	  				   break;
-			case ReActionHandler.TABLE_VIEW_SELECTED: 			createView();					 		   break;
-			case ReActionHandler.RECORD_VIEW_SELECTED:		createRecordView();				   break;
-			case ReActionHandler.COLUMN_VIEW_SELECTED:		createColumnView();				   break;
-			case ReActionHandler.BUILD_SORTED_TREE:				new CreateSortedTree(this, fileView);	break;
-			case ReActionHandler.BUILD_FIELD_TREE:					new CreateFieldTree(this, fileView);		break;
-			case ReActionHandler.BUILD_RECORD_TREE:		  		new CreateRecordTree(this, fileView);	break;
+			case ReActionHandler.FIND:						searchScreen.startSearch(fileView);		break;       	
+			case ReActionHandler.FILTER:					new FilterFrame(fileView);				break;
+			case ReActionHandler.COMPARE_WITH_DISK:			compareWithDisk();						break;
+			case ReActionHandler.EXECUTE_SAVED_FILTER:		executeSavedFilter();					break;
+			case ReActionHandler.EXECUTE_SAVED_SORT_TREE:	executeSavedSortTree();					break;
+			case ReActionHandler.EXECUTE_SAVED_RECORD_TREE: executeSavedRecordTree();				break;
+			case ReActionHandler.SHOW_INVALID_ACTIONS: 		createErrorView();	  					break;
+			case ReActionHandler.TABLE_VIEW_SELECTED: 		createView();							break;
+			case ReActionHandler.RECORD_VIEW_SELECTED:		createRecordView();						break;
+			case ReActionHandler.COLUMN_VIEW_SELECTED:		createColumnView();				   		break;
+			case ReActionHandler.BUILD_SORTED_TREE:			new CreateSortedTree(this, fileView);	break;
+			case ReActionHandler.BUILD_FIELD_TREE:			new CreateFieldTree(this, fileView);	break;
+			case ReActionHandler.BUILD_RECORD_TREE:		  	new CreateRecordTree(this, fileView);	break;
 			case ReActionHandler.BUILD_LAYOUT_TREE: {
 	        	TreeParserRecord parser = new TreeParserRecord(executeAction_100_getParent());
 	          
@@ -594,7 +598,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 					AbstractChildDetails resp = (AbstractChildDetails) JOptionPane.showInputDialog(
 						this, "Select the Record to Insert", "Record Selection", JOptionPane.QUESTION_MESSAGE, null,
 						children.toArray(), children.get(0));
-				
+					
 					if (resp != null) {
 						if (resp == rootDef) {
 							newLine = insertLine_210_CreateMainRecord(l);
@@ -634,6 +638,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 		
 		AbstractLineNode pn = fileView.getTreeNode(parent);
 		if (ret != null && pn != null /*&& o instanceof AbstractLineNode */) {
+			System.out.println(" >>> >>> Insert Node: " + ret.getFullLine());
 			pn.insert(ret, -1, location);
 		}
 		
@@ -959,7 +964,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 			FileView errorView = fileView.getViewOfErrorRecords();
 
 			if (errorView != null) {
-				saveFileError("File saved, but there where records in error that did not make it on to the file", null);
+				saveFileError("File saved, but there where records in error that may not make it on to the file", null);
 				new LineFrame("Error Records", errorView, 0);
 				ret = false;
 			}
@@ -1197,7 +1202,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 		
 		if (event.getType() == TableModelEvent.UPDATE 
 				&& event.getFirstRow() < 0 && event.getLastRow() < 0) {
-			for (int i = 0; i < displayDetails.length; i++) {
+			for (int i = 0; i < displayDetails.length && ! changed; i++) {
 				if (displayDetails[i] != null) {
 					changed = changed || displayDetails[i].hasTheFormatChanged();
 				}
@@ -1261,13 +1266,13 @@ implements AbstractFileDisplay, ILayoutChanged {
             }
         }
 
-//        System.out.println("Define Columns " );
+        //System.out.println("Define Columns " );
         idx = getLayoutIndex();
         if (idx < fullLineIndex) {
             toolTips.setTips(layout.getFieldDescriptions(idx, 0));
 
             try {
-	            //System.out.print("cell Rendor " + (cellRenders == null));
+//	            System.out.print(" > cell Rendor " + (cellRenders == null));
 	            if (cellRenders != null) {
 	            	count =  Math.min(this.fileView.getLayoutColumnCount(idx), cellRenders.length);
 	                for (i = columnsToSkip; i < count ; i++) {

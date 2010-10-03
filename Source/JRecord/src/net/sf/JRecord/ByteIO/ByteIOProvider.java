@@ -16,6 +16,7 @@
 package net.sf.JRecord.ByteIO;
 
 import net.sf.JRecord.Common.Constants;
+import net.sf.JRecord.Common.UserInit;
 
 /**
  * LineIOprovider - This class returns a LineIO class appropriate for
@@ -30,7 +31,8 @@ public class ByteIOProvider {
     private static ByteIOProvider ioProvider = null;
     private static final int DEFAULT_RECORD_LENGTH = 80;
 
-
+    
+    
     /**
      * Gets a Record Reader Class that is appropriate for reading the
      * supplied file-structure

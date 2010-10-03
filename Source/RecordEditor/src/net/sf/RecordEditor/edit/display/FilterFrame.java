@@ -29,10 +29,13 @@
  **/
 package net.sf.RecordEditor.edit.display;
 
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
+import javax.swing.JScrollPane;
 
 import net.sf.RecordEditor.edit.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
@@ -40,6 +43,7 @@ import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.filter.FilterDetails;
 import net.sf.RecordEditor.utils.filter.FilterPnl;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
+import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 
 
 /**
@@ -84,6 +88,8 @@ public class FilterFrame extends ReFrame {
 
         fileTable = fileTbl;
 
+        Rectangle screenSize = ReMainFrame.getMasterFrame().getDesktop().getBounds();
+        
 		//pnl.done();
 		pnl = new FilterPnl(fileTable.getLayout(), true);
 		pnl.getExecute().addActionListener(new ActionListener() {
@@ -103,9 +109,9 @@ public class FilterFrame extends ReFrame {
 
     	
 		
-		this.getContentPane().add(pnl);
+		this.getContentPane().add(new JScrollPane(pnl));
 		this.pack();
-		this.setSize(FORM_WIDTH, this.getHeight());
+		this.setSize(FORM_WIDTH, Math.min(this.getHeight(), screenSize.height - 5));
 		this.setVisible(true);
     }
     

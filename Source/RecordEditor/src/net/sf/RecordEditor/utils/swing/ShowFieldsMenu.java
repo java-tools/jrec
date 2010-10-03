@@ -92,7 +92,7 @@ public abstract class ShowFieldsMenu {
 	public void setFieldVisibility(
 			TableColumnModel mdl, int colsToSkip, int colAdjust, boolean[] fieldVisibility) {
 		int i, j, idx;
-		System.out.println(" setFieldVisibility: " + colsToSkip);
+//		System.out.println(" setFieldVisibility: " + colsToSkip);
 //		System.out.println();
 //		System.out.println("Columns ");
 		for (i = hiddenColumns.size()- 1; i>= 0; i--) {

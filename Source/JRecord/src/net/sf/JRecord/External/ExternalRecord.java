@@ -826,9 +826,9 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 				parent = subRecords.get(i).parentName; // getParentName();
 				if (parent != null && ! "".equalsIgnoreCase(parent)) {
 					for (j = 0; j < subRecords.size(); j++) {
-						//System.out.println("~~>> " + i + ", " + j 
-						//		+ " >" + parent + "< >" 
-						//		+ subRecords.get(j).getRecordName() + "<");
+//						System.out.println("~~>> " + i + ", " + j 
+//								+ " >" + parent + "< >" 
+//								+ subRecords.get(j).getRecordName() + "<");
 						if (parent.equalsIgnoreCase(subRecords.get(j).getRecordName())) {
 							subRecords.get(i).setParentRecord(j);
 							subRecords.get(i).setParentName(null);

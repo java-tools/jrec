@@ -157,7 +157,7 @@ implements AbstractLine<LayoutDetail> {
 			return getField(layout.getField(recordIdx, fieldIdx));
 	
 		} catch (final Exception ex) {
-
+			ex.printStackTrace();
 			return "";
 		}
 	}

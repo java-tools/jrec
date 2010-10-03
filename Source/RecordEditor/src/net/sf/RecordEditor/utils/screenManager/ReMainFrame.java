@@ -465,16 +465,19 @@ public class ReMainFrame extends JFrame
 	 * 
 	 *
 	 */
-	private void showAbout() {
+	protected void showAbout() {
 		ReFrame aboutFrame = new ReFrame("About", null, null);
 		JEditorPane aboutText = new JEditorPane("text/html",
 				"The <b>RecordEditor</b> is an editor for Cobol / Fixed Field Width / CSV "
 			  + "data files<br><br><pre>"
 			  +	" <br><b>Authors:</b><br><br> "
-			  + "    <b>Bruce Martin</b>: Main author<br>"
-			  + "    <b>Jean-Francois Gagnon</b>: Provided Fujitsu IO / Types<br><br>"
-			  + "<b>Associated:</b><br><br> "
-			  + "    <b>Peter Thomas</b>: Wrote the <b>cb2xml</b> which provides the cobol interface"
+			  + "\t<b>Bruce Martin</b>: Main author<br>"
+			  + "\t<b>Jean-Francois Gagnon</b>: Provided Fujitsu IO / Types<br><br>"
+			  + " <b>Associated:</b><br><br> "
+			  + "\t<b>Peter Thomas</b>: Wrote the <b>cb2xml</b> which provides the cobol interface<br/><br/>"
+			  + " <b>Websites:</b><br><br> " 
+			  + "\t<b>RecordEditor:</b> http://record-editor.sourceforge.net<br>"
+			  
 			  + "</pre><br>"
 		);
 		
@@ -746,7 +749,10 @@ public class ReMainFrame extends JFrame
         int idx = Common.LOOKS_INDEX;
 
         try {
-            if (idx == 0) {
+//        	System.out.println(">>> LAF >>> " + UIManager.getSystemLookAndFeelClassName() + " "
+//        			+ UIManager.getLookAndFeel() 
+//        			+ " " + UIManager.getCrossPlatformLookAndFeelClassName());
+             if (idx == 0) {
                 JFrame.setDefaultLookAndFeelDecorated(true);
             } else if (idx == 1) {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

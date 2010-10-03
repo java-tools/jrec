@@ -53,7 +53,7 @@ import net.sf.RecordEditor.utils.swing.FileChooser;
  */
 public class GenericInstaller implements ActionListener {
 
-    public  static final int TIP_HEIGHT = 220;
+    public  static final int TIP_HEIGHT = 200;
     private static final int HSQL_IDX   = 2;
     private static final int SQLITE_IDX = 11;
 
@@ -232,7 +232,7 @@ public class GenericInstaller implements ActionListener {
 
         BasePanel pnl = new BasePanel();
 
-        tabbedPane.addTab("DB Definition", init_210_buildDbDefPanel());
+        tabbedPane.addTab("DB Definition", new JScrollPane(init_210_buildDbDefPanel()));
         secondPanel = init_220_RunSqlPanel();
 
         pnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP2,
@@ -244,7 +244,8 @@ public class GenericInstaller implements ActionListener {
         pnl.setHeight(BasePanel.GAP3);
         //pnl.done();
 
-        frame.getContentPane().add(new JScrollPane(pnl));
+        frame.getContentPane().add(pnl);
+//        frame.getContentPane().add(new JScrollPane(pnl));
         frame.pack();
         //frame.setVisible(true);
     }
@@ -255,7 +256,7 @@ public class GenericInstaller implements ActionListener {
      * @return Db definition panel
      */
     private JPanel init_210_buildDbDefPanel() {
-        BasePanel pnl = new BasePanel();
+         BasePanel pnl = new BasePanel();
         
         dropSemiChk.setSelected(false);
 

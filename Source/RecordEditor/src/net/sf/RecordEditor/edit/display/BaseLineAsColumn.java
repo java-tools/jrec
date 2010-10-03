@@ -239,16 +239,16 @@ implements AbstractFileDisplayWithFieldHide {
     									getLayoutIndex(), 
     									row);
 
-    		System.out.print("Choose Render: " + row + ", " + column 
-    			+ " " + model.getFieldMapping().getRealColumn(getLayoutIndex(), row)
-    			+ " " + calcRow
-    			+ " " + layout.getUnAdjFieldNumber(getLayoutIndex(),row));
+//    		System.out.print("Choose Render: " + row + ", " + column 
+//    			+ " " + model.getFieldMapping().getRealColumn(getLayoutIndex(), row)
+//    			+ " " + calcRow
+//    			+ " " + layout.getUnAdjFieldNumber(getLayoutIndex(),row));
     		if (cellRenders.length <= row || calcRow >= cellRenders.length || cellRenders[calcRow] == null) {
     	        render = stdRender;
-    	        System.out.println(" Std");
+    	        //System.out.println(" Std");
     	    } else {
      	    	render = cellRenders[calcRow];
-     	    	System.out.println(" render " + render.getClass().getName());
+     	    	//System.out.println(" render " + render.getClass().getName());
     	    }
 
     	    return render.getTableCellRendererComponent(

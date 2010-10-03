@@ -258,20 +258,27 @@ implements AbstractLineNode {
 		
 		if (childDef.isRepeated()) {
 			if (children[idx] == null) {
+				//System.out.println(" >>> ### 1 add " + newLine.getFullLine());
 				children[idx] = new LineNodeChildList(childLineDtls.getChildName(idx) + "'s", view, childLineDtls, idx);
 				super.insert(children[idx], count);
 				view.getTreeTableNotify().fireTreeNodesInserted(children[idx]);
 			} else {
 				//LineNodeChild 
-				n = new LineNodeChild(
-								getLayout().getRecord(newLine.getPreferredLayoutIdx()).getRecordName(),
-								view,
-								newLine
-				);
-				if (pos < 0 || pos >= children[idx].getChildCount()) {
-					children[idx].add(n);
-				} else {
-					children[idx].insert(n	, pos);
+				
+				if (children[idx] instanceof LineNodeChildList
+				&& ((LineNodeChildList) children[idx]).isBuilt()) {
+					n = new LineNodeChild(
+									getLayout().getRecord(newLine.getPreferredLayoutIdx()).getRecordName(),
+									view,
+									newLine
+					);
+					if (pos < 0 || pos >= children[idx].getChildCount()) {
+						//System.out.println(" >>> ### 2 add " + newLine.getFullLine());
+						children[idx].add(n);
+					} else {
+						//System.out.println(" >>> ### 3 add " + newLine.getFullLine());
+						children[idx].insert(n	, pos);
+					}
 				}
 			}
 		} else {

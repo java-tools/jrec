@@ -250,7 +250,7 @@ implements TableModelListener, TreeModelListener {
 	        tc = table.getColumnModel().getColumn(4);
 	        tc.setPreferredWidth(180);
 	
-	        if (fileView.isBinaryFile()) {
+	        if (fileView != null && fileView.isBinaryFile()) {
 	            tc = table.getColumnModel().getColumn(5);
 	            tc.setPreferredWidth(180);
 	        }

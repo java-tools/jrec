@@ -216,13 +216,19 @@ public class BasePanel extends JPanel {
 	 * @param component Component to be added to the Panel
 	 */
 	public final void addComponent(String prompt, JComponent component) {
+		JLabel promptLbl = null;
 
+		if (prompt != null) {
+			 promptLbl = new JLabel(prompt);
+			 promptLbl.setHorizontalAlignment(JLabel.RIGHT);
+		}
+		addComponent(promptLbl, component);
+	}
+	
+	public final void addComponent(JComponent promptLbl, JComponent component) {
 		incRow();
 
-		if (!prompt.equals("")) {
-			JLabel promptLbl = new JLabel(prompt);
-			promptLbl.setHorizontalAlignment(JLabel.RIGHT);
-
+		if (promptLbl != null) {
 			this.add(promptLbl,
 				new TableLayoutConstraints(1, currRow, 1, currRow,
 						fieldLayout[PROMPT][0], fieldLayout[PROMPT][1]));
@@ -258,6 +264,48 @@ public class BasePanel extends JPanel {
 			registerComponent(component2);
 
 			lSize[currRow] = Math.max(lSize[currRow], component2.getPreferredSize().getHeight());
+		}
+	}
+
+	/**
+	 * Adds 2 components to Panel on the Same Line
+	 *
+	 * @param prompt Field Prompt
+	 * @param component Primary Component
+	 * @param component2 Seconday component
+	 * @param component3 third component
+	 */
+	public final void addComponent(String prompt, JComponent component, JComponent component2, JComponent component3) {
+		JLabel promptLbl = null;
+
+		if (promptLbl != null) {
+			 promptLbl = new JLabel(prompt);
+			 promptLbl.setHorizontalAlignment(JLabel.RIGHT);
+		}
+		addComponent(promptLbl, component, component2, component3);
+	}
+	
+	public final void addComponent(JComponent prompt, JComponent component, JComponent component2, JComponent component3) {
+
+		addComponent(prompt, component);
+		
+		if (component2 != null) {
+			this.add(component2,
+				 new TableLayoutConstraints(5, currRow, 5, currRow,
+						 fieldLayout[FIELD][0], fieldLayout[FIELD][1]));
+			registerComponent(component2);
+			lSize[currRow] = Math.max(lSize[currRow], component2.getPreferredSize().getHeight());
+			setNumCols(5);
+		}
+
+		if (component3 != null) {
+			this.add(component3,
+				 new TableLayoutConstraints(7, currRow, 7, currRow,
+						fieldLayout[LAST][0], fieldLayout[LAST][1]));
+			registerComponent(component3);
+
+			lSize[currRow] = Math.max(lSize[currRow], component3.getPreferredSize().getHeight());
+			setNumCols(7);
 		}
 	}
 
@@ -536,8 +584,8 @@ public class BasePanel extends JPanel {
 		if (headingComponent != null) {
 			//System.out.println(" adding");
 			add(headingComponent,
-			 new TableLayoutConstraints(1, 0, numCols, 0,
-					TableLayout.CENTER, TableLayout.FULL));
+					new TableLayoutConstraints(1, 0, numCols, 0,
+							TableLayout.CENTER, TableLayout.FULL));
 		} else if (heading != null) {
 			JLabel jHeading = new JLabel(heading);
 			add(jHeading,
@@ -551,6 +599,12 @@ public class BasePanel extends JPanel {
 			tLayout.setColumn(vG);
 		} else if (numCols == 3) {
 			double[] vG = {vGaps[0], vGaps[1], vGaps[2], vGaps[3], vGaps[vGaps.length - 1]};
+
+			tLayout.setColumn(vG);
+		} else if (numCols == 7) {
+			double[] vG = {vGaps[0], vGaps[1], vGaps[2], vGaps[3],
+					5, TableLayout.PREFERRED, 
+					vGaps[4], vGaps[5], vGaps[vGaps.length - 1]};
 
 			tLayout.setColumn(vG);
 		} else {

@@ -34,6 +34,7 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -824,17 +825,29 @@ public final class Common implements Constants {
 		return dbUpdate[dbIdx];
 	}
 
-	
+	@SuppressWarnings("unchecked")
 	public static void closeHSQL() {
+		
 		System.out.println("Closing HSQL");
 		try {
-			org.hsqldb.DatabaseManager.closeDatabases(0);
+			//  Using reflection to perform:
+			//
+			//      org.hsqldb.DatabaseManager.closeDatabases(0);
+			//
+			
+			Class    runClass  = Class.forName("org.hsqldb.DatabaseManager");
+	        Method   closeDB   = runClass.getMethod("closeDatabases", new Class[] {int.class});
+			Object[] arguments = new Object[]{0};
+	        
+	        closeDB.invoke(null, arguments);
+
 		} catch (NoClassDefFoundError e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+
 
 	/**
 	 * This methog gets the Database Connection
@@ -1824,7 +1837,7 @@ public final class Common implements Constants {
 	 */
 	public static boolean isEmpty(Object value) {
 		return 	value == null 
-					||	value == Common.MISSING_VALUE 
-					|| 	value == Common.MISSING_REQUIRED_VALUE;
+			||	value == Common.MISSING_VALUE 
+			|| 	value == Common.MISSING_REQUIRED_VALUE;
 	}
 }

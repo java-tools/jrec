@@ -40,7 +40,7 @@ public class FujitsuVbByteReader extends AbstractByteReader {
 	 * 2 bytes (hex zero)
 	 */
 	private byte[] rdw = new byte[4];
-	private byte[] rdwLength = new byte[2];
+	private byte[] rdwLength = new byte[4];
 
 	/**
 	 * This class provides record oriented reading of Variable
@@ -49,6 +49,9 @@ public class FujitsuVbByteReader extends AbstractByteReader {
 	 */
 	public FujitsuVbByteReader() {
 	    super();
+	    
+	    rdwLength[0] = 0;
+	    rdwLength[1] = 0;
 	}
 
 
@@ -84,8 +87,8 @@ public class FujitsuVbByteReader extends AbstractByteReader {
                       );
             }
 
-            rdwLength[0] = rdw[1];
-            rdwLength[1] = rdw[0];
+            rdwLength[2] = rdw[1];
+            rdwLength[3] = rdw[0];
 
         	int lineLength = (new BigInteger(rdwLength)).intValue();
             byte[] inBytes = new byte[lineLength];
@@ -93,7 +96,9 @@ public class FujitsuVbByteReader extends AbstractByteReader {
             if (readBuffer(stream, inBytes) > 0) {
                 ret = inBytes;
                 // Read RDW at end of record
-                readBuffer(stream, rdw);
+                if (readBuffer(stream, rdw) < rdw.length) {
+                	throw new IOException("Line missing End of line length");
+                }
 			}
         }
 

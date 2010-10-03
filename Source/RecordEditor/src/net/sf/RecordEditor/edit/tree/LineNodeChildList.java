@@ -3,19 +3,14 @@
  */
 package net.sf.RecordEditor.edit.tree;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
+
 import java.util.List;
 import java.util.Vector;
 
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
-import javax.swing.tree.TreeNode;
 
-import net.sf.JRecord.Details.AbstractChildDetails;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
-import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Details.AbstractTreeDetails;
 import net.sf.RecordEditor.edit.file.AbstractLineNode;
 import net.sf.RecordEditor.edit.file.FileView;
@@ -122,13 +117,14 @@ implements AbstractLineNode {
 			int idx;
 			String name;
 			
-			for (AbstractLine line : lines) {
+			for (AbstractLine theLine : lines) {
 				name = nodeName;
-				idx = line.getPreferredLayoutIdx();
+				idx = theLine.getPreferredLayoutIdx();
 				if (idx >= 0) {
 					name = getLayout().getRecord(idx).getRecordName();
 				}
-				add(new LineNodeChild(name, view, line));
+				//System.out.println(" >>> ### 4 add " + theLine.getFullLine());
+				add(new LineNodeChild(name, view, theLine));
 			}
 			childLineDtls = null;
 		}
@@ -200,5 +196,7 @@ implements AbstractLineNode {
 	public void removeAllChildren() {
 	}
 	
-	
+	public boolean isBuilt() {
+		return ! toBuild;
+	}
 }

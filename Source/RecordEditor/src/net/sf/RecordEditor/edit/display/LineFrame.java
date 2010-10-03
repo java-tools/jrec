@@ -218,7 +218,8 @@ public class LineFrame extends    BaseLineFrame {
 				//System.out.println("LineFrame Table changed: " + event.getType() + " " + TableModelEvent.UPDATE);
 				if (super.hasTheFormatChanged(event)
 				|| (event.getFirstRow() <= currRow
-				&&  event.getLastRow() >= currRow)) {
+				&&  event.getLastRow() >= currRow
+				&&  currRow >= 0 )) {
 					record.fireTableDataChanged();
 				}
 		}
@@ -261,6 +262,9 @@ public class LineFrame extends    BaseLineFrame {
 		record.setCurrentLayout(getLayoutIndex());
 
 		record.setCurrentLine(currRow, getLayoutIndex());
+		if (record.getCurrentLine() == null) {
+			reClose();
+		}
 		int newIdx = record.getCurrentLayout();
 
 		if ((newIdx != Common.NULL_INTEGER)
@@ -303,7 +307,7 @@ public class LineFrame extends    BaseLineFrame {
 	protected void setDirectionButtonStatus() {
 
 		boolean allowBack = currRow > 0;
-		boolean allowForward = currRow < fileView.getRowCount() - 1;
+		boolean allowForward = fileView != null && currRow < fileView.getRowCount() - 1;
 		
 	    btn[0].setEnabled(allowBack);
 	    btn[1].setEnabled(allowBack);

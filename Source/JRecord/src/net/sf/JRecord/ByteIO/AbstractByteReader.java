@@ -10,6 +10,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import net.sf.JRecord.Common.UserInit;
+
 
 /**
  * This abstract class is the base class for all <b>Byte~Reader</b>
@@ -19,6 +21,7 @@ import java.io.InputStream;
  *
  */
 public abstract class AbstractByteReader {
+
 
     public static final String NOT_OPEN_MESSAGE = "File has not been opened";
 

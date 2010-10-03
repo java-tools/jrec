@@ -100,7 +100,7 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
 	   keys[i] = Constants.IO_VB_DUMP;				externalNames[i] = "Mainframe_VB_As_RECFMU";names[i++] = rdVbDump;	
 	   keys[i] = Constants.IO_VB_FUJITSU;			externalNames[i] = "FUJITSU_VB";            names[i++] = "Fujitsu Variable Binary";           		
 	   keys[i] = Constants.IO_VB_OPEN_COBOL;		externalNames[i] = "Open_Cobol_VB";      	names[i++] = rdOcVb;								
-	   keys[i] = Constants.IO_MICROFOCUS;			externalNames[i] = "Microfocus_Format";    	names[i++] = "Microfocus Header File";  						
+	   keys[i] = Constants.IO_MICROFOCUS;			externalNames[i] = "Microfocus_Format";    	names[i++] = "Experemental Microfocus Header File";  						
 	   keys[i] = Constants.IO_UNKOWN_FORMAT;		externalNames[i] = "UNKOWN_FORMAT";      	names[i++] = "Unknown File Format";								
 	   keys[i] = Constants.IO_NAME_1ST_LINE;		externalNames[i] = "CSV_NAME_1ST_LINE";  	names[i++] = "Csv Name on 1st line";     			
 	   //		keys[i] = Constants.IO_GENERIC_CSV;			externalNames[i] = "CSV_GENERIC";			names[i++] = "Generic CSV (Choose details at run time)";	

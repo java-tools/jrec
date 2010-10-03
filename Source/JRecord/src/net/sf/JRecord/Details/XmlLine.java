@@ -39,6 +39,12 @@ implements AbstractLine<LayoutDetail> {
 
     public XmlLine(LayoutDetail layoutDetails, int recordIdx) {
 	    super(layoutDetails, recordIdx);
+//	    
+//	    try {
+//	    	setRawField(recordIdx, 0, layoutDetails.getRecord(recordIdx).getRecordName());
+//	    } catch (Exception e) {
+//
+//		}
 	}
 
 
@@ -49,12 +55,9 @@ implements AbstractLine<LayoutDetail> {
 	    	int idx = getFieldNumber(recordIdx, fieldIdx);
 	     	
 	         if (fields.size() > idx && idx >= 0) {
-	        	//if (newRecord) System.out.println("Get (New) : " + fieldIdx + " " + fields.get(fieldIdx));
-	//        	System.out.println(fields.get(idx));
 	            return fields.get(idx);
 	        }
-	//        System.out.println();
-	        //if (newRecord) System.out.println("Get (New) : " + fieldIdx + " null");
+
 	        return null;
 	    }
 
@@ -91,6 +94,7 @@ implements AbstractLine<LayoutDetail> {
 	    //   	System.out.print("getField " + recordIdx + " " + fieldIdx);
 	       	if (useField4Index && recordIdx < layout.getRecordCount()
 	       	&& fieldIdx < layout.getRecord(recordIdx).getFieldCount()
+	       	&& fieldIdx >= 0
 	       	&& layout.getRecord(recordIdx).getField(fieldIdx).getPos() >= 0) {
 	       		idx = layout.getRecord(recordIdx).getField(fieldIdx).getPos();
 	       	}

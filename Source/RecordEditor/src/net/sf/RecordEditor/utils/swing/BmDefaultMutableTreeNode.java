@@ -25,6 +25,7 @@ import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 
 
+
 /**
  * Default implementation of {@link MutableTreeNode}.
  * 
@@ -196,5 +197,4 @@ public class BmDefaultMutableTreeNode implements MutableTreeNode {
 		path[path.length - depth - 1] = node;
 		return path;
 	}
-
 }

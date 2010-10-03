@@ -117,12 +117,13 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
     //TODO this class badly needs to be split up
     //TODO ---------------------------------------------
     
-    
+    public boolean saveAvailable = true;
     
 	private static AbstractLine[] copySrc = null;
 
 	
 	private String fileName;
+	private String altName = null;
 	
 	private AbstractLineIOProvider ioProvider;
 
@@ -285,7 +286,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	public FileView(final List<AbstractLine<Layout>> pLines,
 	        		final FileView pBaseFile,
 	        		final FieldMapping colMapping) {
-		this(pLines, pBaseFile, colMapping, pBaseFile == null);
+		this(pLines, pBaseFile, pLines.get(0).getLayout(), colMapping, pBaseFile == null);
 	}
 
 	/**
@@ -299,6 +300,23 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	        		final FileView<Layout> pBaseFile,
 	        		final FieldMapping colMapping,
 	        		boolean pBrowse) {
+		this(pLines, pBaseFile, pLines.get(0).getLayout(), colMapping, pBrowse);
+	}
+	
+	
+	public FileView(String name, final List<AbstractLine<Layout>> pLines,
+    		final AbstractLayoutDetails layoutDtls) {
+		this(pLines, null, layoutDtls, null, false);
+		
+		altName = name;
+		saveAvailable = false;
+	}
+
+	private FileView(final List<AbstractLine<Layout>> pLines,
+    		final FileView<Layout> pBaseFile,
+    		final AbstractLayoutDetails layoutDtls,
+    		final FieldMapping colMapping,
+    		boolean pBrowse) {
 		super();
 
 		this.lines      = pLines;
@@ -312,7 +330,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		if (pBaseFile == null) {
 			baseFile = this;
 			fileName = "";
-			layout = lines.get(0).getLayout();
+			layout = (Layout) layoutDtls;
 			browse = pBrowse;
 			ioProvider = LineIOProvider.getInstance();
 		} else {
@@ -941,8 +959,10 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		if (view) {
 	        int baseRecordNumber = baseFile.indexOf(currLine);
 	        baseFile.fireTableRowsUpdated(baseRecordNumber, baseRecordNumber);
-		} else  {
+		} else if (row >= 0) {
 		    super.fireTableRowsUpdated(row, row);
+		} else {
+			super.fireTableDataChanged();
 		}
 	}
 
@@ -1963,6 +1983,10 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
         this.changed = fileChanged;
     }
 
+	public boolean isSaveAvailable() {
+		return saveAvailable;
+	}
+
 	/**
 	 * @param aFrame The frame to set.
 	 */
@@ -2425,6 +2449,9 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
      * @return filename
      */
     public String getFileNameNoDirectory() {
+    	if (altName != null) {
+    		return altName;
+    	}
         return Common.stripDirectory(fileName);
     }
 

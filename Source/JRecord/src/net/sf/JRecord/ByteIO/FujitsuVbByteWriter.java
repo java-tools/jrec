@@ -24,6 +24,9 @@ import java.math.BigInteger;
  * <p>Files written by this class contains record~descriptor~words.
  *
  * @author Jean-Francois Gagnon
+ * 
+ * v69.1 Jean-Francois Gagnon supplied fix for RDW calculation
+ *  
  *
  */
 public class FujitsuVbByteWriter extends AbstractByteWriter {
@@ -74,7 +77,7 @@ public class FujitsuVbByteWriter extends AbstractByteWriter {
         // The value is stored in Little Endian format
         // toByteArray returns only non zero bytes in Big Endian order
 
-        for (int i = 3; i < bytes.length; i--) {
+       	for (int i = 3; i >= bytes.length; i--) {
             word[i] = 0;
         }
 

@@ -406,8 +406,8 @@ public class LineFrameTree extends  BaseLineFrame {
 	
 	private void setLine(AbstractLine l) {
 		
-		System.out.println("## Set Line ... " + (l != record.getCurrentLine()) 
-				+ " LayoutIndex: " + getLayoutIndex());
+//		System.out.println("## Set Line ... " + (l != record.getCurrentLine()) 
+//				+ " LayoutIndex: " + getLayoutIndex());
 		if (l != record.getCurrentLine()) {
 			int[] colWidths = getColumnWidths();
 			record.setCurrentLine(l, getLayoutIndex());

@@ -186,8 +186,8 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 	}
 
 	@Override
-	public void tableChanged(TableModelEvent arg0) {
-		// TODO Auto-generated method stub
+	public void tableChanged(TableModelEvent event) {
+		
 	}
 
 

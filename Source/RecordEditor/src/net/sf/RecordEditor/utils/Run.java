@@ -165,10 +165,6 @@ public final class Run {
             Method mainMethod = runClass.getMethod("main", new Class[] {args.getClass()});
             mainMethod.invoke(null, arguments);
 
-            //Class c = urlLoader.loadClass("net.sf.RecordEditor.layoutEd.LayoutEdit");
-            //Class c = urlLoader.loadClass(classToRun);
-            //prog = (MainProgram) urlLoader.loadClass(classToRun).newInstance();
-
           } catch (Exception e) {
             e.printStackTrace();
          }

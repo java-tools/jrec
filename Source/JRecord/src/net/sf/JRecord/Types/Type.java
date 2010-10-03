@@ -83,6 +83,7 @@ public interface Type {
 	public static final int ftAvroField =91;
 	public static final int ftArrayField =92;
 	public static final int ftComboItemField =93;
+	public static final int ftAvroUnionField =94;
 
 	public static final int ftCheckBoxTrue       = 110;
 	public static final int ftCheckBoxYN         = 111;

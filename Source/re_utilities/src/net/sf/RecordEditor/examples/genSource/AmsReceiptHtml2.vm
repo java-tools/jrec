@@ -1,0 +1,29 @@
+##
+##  Generate HTML for a EDI PO file
+##
+
+&nbsp;&nbsp;
+<table CELLPADDING="3">
+  <TR><TH BGCOLOR=blue><font color=white><b>&nbsp;&nbsp;$fileName&nbsp;&nbsp;</b></font></TH></TR>
+</table>
+&nbsp;
+<table border="1">
+  <TR>
+    <TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">DC</TH>
+    <TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">Purchase Order</TH>
+    <TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">Supplier</TH>
+    <TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">Receipt Date</TH>
+    <TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">Receipt Time</TH>
+  </TR>
+
+#foreach( $rec in $records )
+  <tr>
+    <td>${rec.getField("Brand Dc No Rh")}</td>
+    <td>${rec.getField("Order No Rh")}</td>
+    <td>${rec.getField("Sup Id Rh")}</td>
+    <td>${rec.getField("Receipt Date Rh")}</td>
+    <td>${rec.getField("Receipt Time Rh")}</td>
+  </tr>
+#end
+</table>
+<p>&nbsp;<p>

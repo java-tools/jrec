@@ -36,7 +36,7 @@
 		</copy>
 	</target>	
 	
-	<target name="compile" depends="Data_Copy" description="compile cb2xml code" >
+	<target name="compile" description="compile cb2xml code" >
 		<mkdir dir="${build.dir}" />
 		<javac srcdir="${src.dir}" destdir="${build.dir}" optimize="true" target="1.4" source="1.4" debug="false"/>
 	</target>

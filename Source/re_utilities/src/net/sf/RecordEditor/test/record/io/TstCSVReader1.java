@@ -14,6 +14,7 @@ import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.IO.AbstractLineReader;
+import net.sf.JRecord.IO.StandardLineReader;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.RecordEditor.test.TstConstants;
 import net.sf.RecordEditor.utils.CopyBookDbReader;

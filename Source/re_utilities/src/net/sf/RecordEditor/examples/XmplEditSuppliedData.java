@@ -121,7 +121,7 @@ public final class XmplEditSuppliedData {
 		int i;
 
 		for (i = 0; i < KEYCODES.length; i++) {
-			line = new LineDTAR0020(file.getLayout());
+			line = new LineDTAR0020((LayoutDetail) file.getLayout());
 
 			try {
 				line.setStore(STORES[i]);

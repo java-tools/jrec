@@ -5,6 +5,10 @@
  * terms and conditions for copying, distribution and
  * modification of RecordEditor. 
  *
+ *
+ * Warning to run this ant script, you must have jibx installed (http://jibx.sourceforge.net/)
+ * and you must update
+ * the jibx-lib variable to the jibx lib !!!!
  *************************************************************
  */
 -->
@@ -12,7 +16,7 @@
 <project name="RecordEditor" default="build">
 
         <!-- Update the following to point to the jibx install lib -->
-	<!--property name="jibx-lib" location="/home/bm/Programs/jibx/lib/" /-->
+	<property name="jibx-lib" location="/home/bm/Programs/jibx/lib/" />
         <!-- ========================================================== -->
 	
 	
@@ -41,15 +45,16 @@
 	</target>
 	
 	<target name="compile" description="compile code" depends="jrecord">
+		<delete dir="${build.dir}/net/sf/RecordEditor/jibx" />
 		<mkdir dir="${build.dir}" />
 		<javac srcdir="${src.dir}" destdir="${build.dir}" optimize="true" target="1.5" debug="true">
 			<!--javac srcdir="${src.dir}" destdir="${build.dir}" optimize="true" -->
 			<exclude name="net/sf/RecordEditor/examples/**"/>
-			<exclude name="net/sf/RecordEditor/jibx/**"/>
 			<!--exclude name="net/sf/RecordEditor/jibx/**"/-->
 			<classpath>
 				<filelist dir="${inputLib.dir}">
 					<file name="TableLayout.jar"/>
+					<file name="cb2xml.jar"/>
 					<file name="ZCalendar.jar"/>
 					<!--file name="hsqldbmain.jar"/-->
 					<file name="velocity-1.4.jar"/>
@@ -60,7 +65,6 @@
 				<filelist dir="../JRecord/lib/">
 					<file name="JRecord.jar"/>
 				</filelist>
-				<filelist  files="RecordEditor_JibxClasses.jar"/>
 				<filelist dir="../cb2xml/lib/">
 					<file name="cb2xml.jar"/>
 				</filelist>
@@ -77,34 +81,33 @@
 			<fileset file="${src.dir}/diffXmlBindings.xml"/>
 		</copy>
 		<!-- JiBX binding compiler task definition -->
-		<!--taskdef name="bind" classname="org.jibx.binding.ant.CompileTask">
+		<taskdef name="bind" classname="org.jibx.binding.ant.CompileTask">
 		    <classpath>
 		      <fileset dir="${jibx-lib}" includes="*.jar"/>
 		    </classpath>
-		</taskdef-->
+		</taskdef>
 		<!-- Run JiBX binding compiler -->
-		<!--bind verbose="true" load="true" binding="${build.dir}/diffXmlBindings.xml">
+		<bind verbose="true" load="true" binding="${build.dir}/diffXmlBindings.xml">
 		    <classpath>
 		      <pathelement path="build"/>
+		      <!--pathelement location="${jibx-lib}jibx-run.jar"/-->
 		    </classpath>
-		</bind--> 
+		</bind> 
 	</target>
 
 	<target name="build" depends="compile" description="build jar">
 		<mkdir dir="${lib.dir}" />
 
 		<jar destfile="${RecordEdit.jar}" filesonly="true">
-			<zipfileset src="${inputLib.dir}/TableLayout.jar"/>			
-			<zipfileset src="RecordEditor_JibxClasses.jar" />
+			<zipfileset src="${inputLib.dir}/TableLayout.jar" />
 			<fileset dir="${build.dir}">		
 				<exclude  name="net/sf/RecordEditor/Run*.*"/>
 				<exclude  name="net/sf/RecordEditor/layoutEd/**"/>
 				<exclude  name="net/sf/RecordEditor/edit.Niche/**"/>
 				<exclude  name="net/sf/RecordEditor/editFileLayout/**"/>
 				<exclude  name="net/sf/RecordEditor/examples/**"/>
-				<exclude  name="net/sf/RecordEditor/jibx/**"/>
 				<exclude  name="net/sf/RecordEditor/utils/Run.class"/>
-				<exclude  name="diffXmlBindings.xml"/>
+				<exclude name="diffXmlBindings.xml"/>
 			</fileset>
 		</jar>
 
@@ -170,6 +173,7 @@
 			<manifest>
 			        <attribute name="Main-Class" value="net.sf.RecordEditor.RunClass"/>
 			</manifest>
+
 			<include  name="net/sf/RecordEditor/RunClass.class"/>
 			<include  name="net/sf/RecordEditor/utils/Run.class"/>
 		</jar>

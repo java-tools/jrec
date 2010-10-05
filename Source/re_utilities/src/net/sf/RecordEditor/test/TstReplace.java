@@ -14,7 +14,7 @@ import net.sf.RecordEditor.edit.file.FilePosition;
 import net.sf.RecordEditor.edit.file.FileView;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.filter.Find;
+import net.sf.RecordEditor.utils.filter.Compare;
 import junit.framework.TestCase;
 
 /**
@@ -33,6 +33,7 @@ public class TstReplace extends TestCase {
     private final String replace = "11234";
 
 
+	@SuppressWarnings("unchecked")
 	private FileView poFileRep;
 
     private final String[] textLines = {
@@ -114,7 +115,8 @@ public class TstReplace extends TestCase {
     /**
      * @see TestCase#setUp()
      */
-    protected void setUp() throws Exception {
+    @SuppressWarnings("unchecked")
+	protected void setUp() throws Exception {
         super.setUp();
 
         int i;
@@ -141,13 +143,13 @@ public class TstReplace extends TestCase {
 
         FilePosition pos = new FilePosition(0, 0, recId, 2, true);
 
-        poFileRep.replace(find, replace, pos, true, Find.OP_CONTAINS);
+        poFileRep.replace(find, replace, pos, true, Compare.OP_CONTAINS);
 
-        poFileRep.find(find, pos, true, Find.OP_CONTAINS);
-        pos.adjustPosition(find.length(), Find.OP_CONTAINS);
-        poFileRep.find(find, pos, true, Find.OP_CONTAINS);
+        poFileRep.find(find, pos, true, Compare.OP_CONTAINS);
+        pos.adjustPosition(find.length(), Compare.OP_CONTAINS);
+        poFileRep.find(find, pos, true, Compare.OP_CONTAINS);
 
-        poFileRep.replace(find, replace, pos, true, Find.OP_CONTAINS);
+        poFileRep.replace(find, replace, pos, true, Compare.OP_CONTAINS);
 
         for (int i = 0; i < result1.length; i++) {
             s = new String(poFileRep.getLine(i).getData());
@@ -172,12 +174,12 @@ public class TstReplace extends TestCase {
 
         FilePosition pos = new FilePosition(0, 0, recId, 2, true);
 
-        poFileRep.replace(find, replace, pos, true, Find.OP_CONTAINS);
+        poFileRep.replace(find, replace, pos, true, Compare.OP_CONTAINS);
 
-        poFileRep.find(find, pos, true, Find.OP_CONTAINS);
-        pos.adjustPosition(find.length(), Find.OP_CONTAINS);
+        poFileRep.find(find, pos, true, Compare.OP_CONTAINS);
+        pos.adjustPosition(find.length(), Compare.OP_CONTAINS);
 
-        poFileRep.replace(find, replace, pos, true, Find.OP_CONTAINS);
+        poFileRep.replace(find, replace, pos, true, Compare.OP_CONTAINS);
 
         for (int i = 0; i < result1.length; i++) {
             s = new String(poFileRep.getLine(i).getData());
@@ -202,7 +204,7 @@ public class TstReplace extends TestCase {
 
         FilePosition pos = new FilePosition(0, 0, recId, 2, true);
 
-        poFileRep.replaceAll(find, replace, pos, true, Find.OP_CONTAINS);
+        poFileRep.replaceAll(find, replace, pos, true, Compare.OP_CONTAINS);
 
          for (int i = 0; i < result2.length; i++) {
             s = new String(poFileRep.getLine(i).getData());

@@ -17,6 +17,7 @@ import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.LineProvider;
 import net.sf.JRecord.IO.AbstractLineReader;
+import net.sf.JRecord.IO.StandardLineReader;
 import net.sf.JRecord.IO.LineIOProvider;
 
 /**
@@ -63,7 +64,7 @@ public final class XmplLineIO3 {
     private LayoutDetail salesCopyBook = copybook.getLayout("DTAR020");
     private int         fileStructure  = salesCopyBook.getFileStructure();
 
-    private LineIOProvider ioProvider  = new LineIOProvider();
+    private LineIOProvider ioProvider  = LineIOProvider.getInstance();
 
     private AbstractLineReader reader       = ioProvider.getLineReader(fileStructure,
             													  new DTAR0020provider());
@@ -112,7 +113,7 @@ public final class XmplLineIO3 {
      * @author Bruce Martin
      *
      */
-    private class DTAR0020provider implements LineProvider {
+    private class DTAR0020provider implements LineProvider<LayoutDetail> {
 
         /**
          * @see net.sf.JRecord.Details.LineProvider#getLine

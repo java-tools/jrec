@@ -16,6 +16,7 @@ import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.Line;
 import net.sf.JRecord.IO.AbstractLineReader;
+import net.sf.JRecord.IO.StandardLineReader;
 import net.sf.JRecord.IO.AbstractLineWriter;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.RecordEditor.test.TstConstants;
@@ -130,7 +131,7 @@ public class TstCsvWrite extends TestCase {
         try {
             r.open(fileName, layout);
 
-            ret = r.getLayout();
+            ret = (LayoutDetail) r.getLayout();
             System.out.println(">> " + ret.getRecord(0).getFieldCount());
 
         } finally {

@@ -12,10 +12,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import net.sf.JRecord.Common.RecordException;
+import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
+import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.IO.AbstractLineReader;
+import net.sf.JRecord.IO.StandardLineReader;
 import net.sf.JRecord.IO.LineIOProvider;
 
 /**
@@ -43,7 +46,7 @@ public class Fix2Csv {
             	   final String outfile,      final String sep)
     throws IOException, RecordException {
         super();
-        LineIOProvider ioProvider = new LineIOProvider();
+        LineIOProvider ioProvider = LineIOProvider.getInstance();
         AbstractLineReader reader = ioProvider.getLineReader(layout.getFileStructure());
 
         reader.open(infile, layout);
@@ -59,7 +62,7 @@ public class Fix2Csv {
      * @param outfile output file
      * @param sep field seperator
      */
-    public Fix2Csv(final AbstractLineReader reader,
+    public Fix2Csv(final StandardLineReader reader,
             	   final String outfile,
             	   final String sep) {
         super();
@@ -84,9 +87,9 @@ public class Fix2Csv {
     throws IOException {
         AbstractLine line;
         int idx, i;
-        LayoutDetail layout = reader.getLayout();
+        AbstractLayoutDetails layout = reader.getLayout();
 
-        RecordDetail rec = layout.getRecord(0);
+        AbstractRecordDetail rec = layout.getRecord(0);
         FileWriter fileWriter = new FileWriter(outfile);
         BufferedWriter writer = new BufferedWriter(fileWriter);
 

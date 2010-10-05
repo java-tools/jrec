@@ -23,6 +23,7 @@ import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.LineProvider;
 import net.sf.JRecord.IO.AbstractLineReader;
+import net.sf.JRecord.IO.StandardLineReader;
 import net.sf.JRecord.IO.LineIOProvider;
 
 import org.apache.velocity.Template;
@@ -207,7 +208,7 @@ public class FileToVelocity {
         boolean saveRecord;
 
         VelocityContext context   = new VelocityContext();
-        LineIOProvider ioProvider = new LineIOProvider();
+        LineIOProvider ioProvider = LineIOProvider.getInstance();
         AbstractLineReader      reader = ioProvider.getLineReader(layout.getFileStructure(),
                 											 lineProvider);
 

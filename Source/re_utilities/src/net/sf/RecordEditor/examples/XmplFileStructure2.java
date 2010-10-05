@@ -85,10 +85,10 @@ public class XmplFileStructure2 extends LineIOProvider {
 	     * @throws IOException sny IO error that occurs
 	     */
 		@Override
-		protected void createLayout(BufferedReader pReader, InputStream inputStream) 
+		protected void createLayout(BufferedReader pReader, InputStream inputStream, String font) 
 		throws IOException, RecordException {
 	        pReader.read();
-	        super.createLayout(pReader, inputStream);
+	        super.createLayout(pReader, inputStream, font);
 	    }
 	}
 

@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>RecordEditor Main Screen</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- /home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/HlpRe.dc -->
+<!-- f converted by B2H R4.7 (390) (LINUX) on 14 Feb 2009 at 17:03:48 -->
+<META HTTP-EQUIV="updated" CONTENT="Sat, 14 Feb 2009 16:09:43">
+<META HTTP-EQUIV="review" CONTENT="Sun, 14 Feb 2010 16:09:43">
+<META HTTP-EQUIV="expires" CONTENT="Mon, 14 Feb 2011 16:09:43">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<P><H3><A NAME="HDRSAVEAS" HREF="HlpRe02.htm#ToC_8" >Save AS / Export</A></H3>
+<P>The <B>Save As</B> screen allows you to save
+<UL COMPACT>
+  <LI>The whole File
+  <LI>Or the current View
+  <LI>Or Selected records
+</UL>
+As a
+<UL COMPACT>
+  <LI>Standard Data File
+  <LI>Or a HTML file containing the selected records as a single large Table
+  <LI>Or a HTML file with one HTML table per record with the fields going down the page.
+  <LI>Or using a <a href="http://velocity.apache.org/" TARGET="Velocity">Velocity</a> template (provided <a href="http://velocity.apache.org/" TARGET="Velocity">Velocity</a> is installed, see
+<a href="HowTo.htm#HDRVELOCITY" Target=New>Installing Velocity for details</a>).
+</UL>
+<P>Save as Screen:
+<P>
+<img SRC="Diagram/RecordEdit_SaveAs.GIF">
+<P>
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="11%">Field
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="89%">Description
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%"><B>File Name</B>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Holds the output file name.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%"><B>What to Save</B>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Determines what is saved. Options are
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>File</B></TD><TD><P>save the full file
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Current View</B></TD><TD><P>Saves the current view of the file.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Selected Records</B></TD><TD><P>Saves the selected records (or the current record if
+called from the <B>Record Screen</B>, see <A HREF="HlpRe04.htm#HDRBINRECORD">"Record View - Binary file"</A>).
+</TD></TR></TABLE>
+<P><B>Note: </B>Only options that are available are displayed, so if there are no selected records,
+the option is not displayed.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%"><B>Output Format</B>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Holds the output Format to be used. Options are:
+<P>
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><P><B>Data</B></TD><TD><P>Saves the file as a <B>Data file</B> (i.e. the same format as the input file).
+</TD></TR><TR VALIGN="TOP"><TD><P><B>HTML: 1 table</B></TD><TD><P>Saves the file as single HTML table as below
+<P>
+<table BORDER="1" CELLSPACING="1"><tr><th>Line</th><th>1 : 2<br/>Record Type</th><th>3 : 9<br/>Pack Qty</th><th>12 : 13<br/>Pack Cost</th><th>25 : 13<br/>APN</th><th>39 : 8<br/>Product</th><th>101 : 50<br/>Product Name</th></tr>
+<tr><td>1</td><td>H1</td><td>45349.0000</td><td>6060286225</td><td>40909</td><td>0</td><td>&nbsp;</td></tr>
+<tr><td>2</td><td>D1</td><td>7.0000</td><td>0.0002</td><td>2222500000000</td><td>43314531</td><td> DONKEY 24-006607 SHWL WRAP CARD                  </td></tr>
+<tr><td>3</td><td>D1</td><td>4.0000</td><td>148.3200</td><td>0</td><td>5614944</td><td> MILK 24-006607 SHWL WRAP CARD                    </td></tr>
+</table>
+<P>
+</TD></TR><TR VALIGN="TOP"><TD><P><B>HTML: 1 Row Per Table</B></TD><TD><P>Saves the file as single HTML table as below
+<P>
+<b>Record 1</b></p><table BORDER="1" CELLSPACING="1"><tr><th>Field</th><th>Start</th><th>Len</th><th>Data</th><th>Text</th></tr>
+<tr><td>Record Type</td><td>1</td><td>2</td><td>H1</td><td>H1</td></tr>
+<tr><td>Vendor</td><td>3</td><td>5</td><td>6060</td><td>0000006060</td></tr>
+<P>
+<tr><td>PO</td><td>8</td><td>10</td><td>286225</td><td>286225      </td></tr>
+<tr><td>Entry Date</td><td>18</td><td>12</td><td>040909</td><td>040909</td></tr>
+<tr><td>Expected Receipt Date</td><td>30</td><td>6</td><td>050102</td><td>050102</td></tr>
+<P>
+<tr><td>Cancel by date</td><td>36</td><td>8</td><td>050107</td><td>050107</td></tr>
+<tr><td>Department Name</td><td>44</td><td>2</td><td>LADIES KNI</td><td>LADIES KNI</td></tr>
+</table><P>&nbsp;</P><p><b>Record 2</b></p><table BORDER="1" CELLSPACING="1"><tr><th>Field</th><th>Start</th><th>Len</th><th>Data</th><th>Text</th></tr>
+<P>
+<tr><td>Record Type</td><td>1</td><td>2</td><td>D1</td><td>D1</td></tr>
+<tr><td>Pack Qty</td><td>3</td><td>9</td><td>7.0000</td><td>000070000</td></tr>
+<tr><td>Pack Cost</td><td>12</td><td>13</td><td>0.0002</td><td>0000000000002</td></tr>
+<P>
+<tr><td>APN</td><td>25</td><td>13</td><td>2222500000000</td><td>2222500000000</td></tr>
+<tr><td>Product</td><td>38</td><td>1</td><td>43314531</td><td>43314531</td></tr>
+<tr><td>Product Name</td><td>39</td><td>8</td><td> DONKEY 24-006607 SHWL WRAP CARD                  </td><td> DONKEY 24-006607 SHWL WRAP CARD                  </td></tr>
+<P>
+</table><P>&nbsp;</P><p><b>Record 3</b></p><table BORDER="1" CELLSPACING="1"><tr><th>Field</th><th>Start</th><th>Len</th><th>Data</th><th>Text</th></tr>
+<tr><td>Record Type</td><td>1</td><td>2</td><td>D1</td><td>D1</td></tr>
+<tr><td>Pack Qty</td><td>3</td><td>9</td><td>4.0000</td><td>000040000</td></tr>
+<P>
+<tr><td>Pack Cost</td><td>12</td><td>13</td><td>148.3200</td><td>0000001483200</td></tr>
+<tr><td>APN</td><td>25</td><td>13</td><td>0</td><td>0000000000000</td></tr>
+<tr><td>Product</td><td>38</td><td>1</td><td>5614944</td><td>05614944</td></tr>
+<P>
+<tr><td>Product Name</td><td>39</td><td>8</td><td> MILK 24-006607 SHWL WRAP CARD                    </td><td> MILK 24-006607 SHWL WRAP CARD                    </td></tr>
+</table>
+</TD></TR></TABLE>
+</TD></TR></TABLE>
+<P>
+<P>
+<P>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

@@ -39,10 +39,6 @@
 
 .pict StartMenu.png
 
-:li.From Windows Explorer, you can use the right click button -
-
-.*b2h HTML <table><tr><td><img SRC="../Docs/Diagram/RightClick.GIF"></td></tr></table>
-
 :li.From the command line. It accepts the following parameters
 :ol compact.
 :li.File Name
@@ -55,7 +51,7 @@
 :p.When the Record Editor starts, it displays the 
 Edit Start Screen
 
-.*b2h HTML <img SRC="../Docs/Diagram/RecordEdit_FileCopy.GIF">
+.pict jrEdit_Open.png
 .fo off
 
 .fo on
@@ -96,6 +92,10 @@ and :hp2.RecordEditor-Xml:ehp2.
 :dd.View the file, but no changes are possible.
 :edl.
 
+:p.There is also the 
+.*B2H html <a href="Layout_Wizard.html">Layout Wizard</a>
+on :hp2.Record Layout >>>> Layout Wizard:ehp2. dropdown menu. You can use this
+to create a Xml Layout for a File.
 
 .im iRE_SuppliedFiles.dcf
 

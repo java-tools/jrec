@@ -1,0 +1,12 @@
+//
+package net.sf.RecordEditor.ProtoBuf.re.Test.SalesX;
+import "StoreSales5SD_Enum.proto";
+option optimize_for = SPEED;
+
+message Product {
+  required int32 keycode = 1;
+  repeated int32 saleDate = 2;
+  repeated int32 quantity = 3;
+  repeated int64 price = 4;  // price in 1/10 cents i.e. $123.45 is stored as 123450
+  repeated SaleType saleType = 5;
+}

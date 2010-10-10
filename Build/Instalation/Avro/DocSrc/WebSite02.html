@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>Avro Editor</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- /home/bm/Work/RecordEditor/Instalation/Avro/DocSrc/WebSite.dcf   -->
+<!-- converted by B2H R4.7 (390) (LINUX) on 20 May 2010 at 01:15:38   -->
+<META HTTP-EQUIV="updated" CONTENT="Thu, 20 May 2010 01:15:34">
+<META HTTP-EQUIV="review" CONTENT="Fri, 20 May 2011 01:15:34">
+<META HTTP-EQUIV="expires" CONTENT="Sun, 20 May 2012 01:15:34">
+<LINK href="tab.css" type=text/css rel=stylesheet>
+<LINK href="tab.css" type=text/css rel=stylesheet>
+</HEAD><BODY>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+ <TR vAlign=top height=110><TD>
+  <h1><A href="http://sourceforge.net/projects/notSpecified"> <IMG src="http://sourceforge.net/sflogo.php?group_id=139274&amp;type=5" width="210" height="62" border="0" alt="SourceForge.net Logo" /></A>&nbsp;&nbsp;&nbsp;Avro Editor</h1>
+  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+    <TR vAlign=top>
+      <TD align=middle><DIV id=activeTab>Avro Editor</DIV></TD>
+      <TD align=middle><DIV id=tabLink><A class=tab href="WebSite03.html">RecordEditor Family</A></DIV></TD>
+      <TD align=middle><DIV id=tabLink><A class=tab href="WebSite04.html">Changes</A></DIV></TD>
+<TD align=right width="80%"></TD></tr>
+<tr id=dark><td/><td/><td/><td/><TD>&nbsp;</td></tr>
+</TBODY></table></TD> </TR></table>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<HR><H2><A NAME="Header_1">Avro Editor</A></H2>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">Purpose
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">The <font color="blue"><b>Avro-Editor</b></font> is a viewer / editor / compare Utility for <a href="http://avro.apache.org/index.html">Avro</a> Binary message files.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">Author
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">Bruce Martin
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">Requirements
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">Java 6
+</TD></TR></TABLE>
+<P>
+<P>In the Editor, a Avro File is displayed as a Tree with each record displayed as a Node.
+You can update the fields or press the buttons on the Left for a detailed record View&#58;
+<P>
+<img SRC="Diagram/Avro_Editor.png">
+<P>Individual records can also be displayed&#58;
+<P>
+<img SRC="Diagram/Avro_Record.png">
+<BR>
+<BR>
+<BR>
+<BR>
+<P>
+<P>
+<P>
+<P><H3><A NAME="Header_2">Compare Utility</A></H3>
+<P>The package can also compare 2 Avro binary files and display the results on the screen
+or write the result as a HTML file&#58;
+<P>
+<img SRC="Diagram/AvroCompare.png">
+<P>
+<BR>
+<BR>
+<BR>
+<P>
+<P><H3><A NAME="Header_3">Limititations</A></H3>
+<P>There are several limitations to be aware of
+<P>
+<OL TYPE=1>
+ <P><LI>Unions - Very limited support. Only 2 element union where one item is null are supported i.e.
+<PRE>  Union {null, Record01} field1;
+  Union {null, float} field2;
+ 
+  are supported but the following are not supported
+ 
+  Union {float, double} field1;
+  Union {null, float, double} field2;
+  Union {float, record3} field3;
+</PRE>  <P><LI>Elementary maps can only be editted via there popups. To edit a
+<PRE>
+  map&lt;float&gt; FloatMap;
+</PRE>  you must use the popup arrow.
+<P>
+  <P><LI>Anything I have not thought of doing.
+</OL>
+<P>
+<P>&nbsp;<p>
+<TABLE width="100%"><tr>
+<td width="34%" id=dark><a id=dark href="http://sourceforge.net/projects/avroeditor/">AvroEditor at SourceForge</a></td>
+<td width="33%" id=dark><a id=dark href="http://sourceforge.net/projects/avroeditor/files/">Download Page</a></td>
+<td id=dark><a id=dark href="http://sourceforge.net/projects/avroeditor/forums">Forums</a></td>
+</tr></TABLE>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

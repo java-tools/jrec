@@ -1,0 +1,12 @@
+// 
+package tutorial;
+
+
+option java_package = "com.example.tutorial";
+// option java_outer_classname = "AddressBookProtosSD";
+
+
+// Our address book file is just one of these.
+message SdMsg{
+  required bytes proto_files = 100000;
+}

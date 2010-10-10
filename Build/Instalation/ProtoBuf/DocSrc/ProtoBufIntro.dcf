@@ -1,0 +1,180 @@
+.*b2h option headrec.text='<link rel="stylesheet" type="text/css" href="syntaxP.css">'
+.im iRE_TagDefs.dcf
+:h1.Proto Buffers Message Editor Introduction
+:p.The :hp2.Proto Buffer Editor:ehp2. is built using :RecordEditor. to do the actual 
+editting. Using the :RecordEditor. brings a lot of functionality to the editor, the downside
+is the :RecordEditor. was written for Flat Files. The flat view of the world shows through
+in some function (filter and compare functions). Also some functions might not work (well !)
+with Protocol Buffers because it is using the default :RecordEditor. implementation, please report
+any problems you come across.
+
+:p.This package uses Pack200 on jars to reduce the installer size. The installer
+should unpack the files as part of the install process. If this fails, you can use
+java's unpack200 utility to manually unpack the jars in the lib directory.
+
+:h2.Project Details
+:p.The 
+.*B2H html <a href="http://code.google.com/p/protobufeditor/">Protocol Buffer Editor</a> 
+project is currently hosted on Google Code. You can log problems / issues /requests 
+.*B2H html <a href="http://code.google.com/p/protobufeditor/issues/list">here</a>.
+Finally there is a 
+.*B2H html <a href="http://groups.google.com/group/protobufeditor-users">Disscussion Group</a>.
+
+:p.If you have files that are not currently handled well, feel free to contact me.
+
+:p.This project is basically revamp of the :RecordEditor., all the help screens where written for the 
+RecordEditor and not the ProtoBufEditor. Most of the time this will not matter but there will be a some screens where 
+there is an issue.
+
+
+:h2.Getting Started
+
+:p.On starting the edittor, the following screen is displayed&gml.
+
+.pict ProtoBuf_open.png
+
+:p.Fields are
+
+:dl.
+ :dt.File
+ :dd.Protocol Buffers Message file to be editted
+ :dt.File Structure
+ :dd.How the message('s) are stored. Current options are
+ :ul compact.
+  :li.:hp2.ProtoBuffer Message:ehp2. A single mesaage in the file (written using the writeTo method
+  :li.:hp2.ProtoBuffer Delimited Messages:ehp2. Multiple Protocol Messages (written using the writeDelimitedTo method).
+ :eul.
+ :dt.Type of Definition
+ :dd.Wether the definition is a Standard .proto definition file or the 
+proto has been "compiled" to the
+protocol buffers message (using command :hp3.protoc msg.proto  --descriptor_set_out=msg.protocomp:ehp3.).
+If you have trouble processing a .proto file, I would suggest "manually compiling". The actual options are
+:ul compact.
+ :li.:hp2.Proto Definition:ehp2. Standard proto file. The Editor will "compile" the
+proto file to a temporary directory using the protoc command. 
+ :li.:hp2.Compiled Proto:ehp2. A pre compiled proto file (using command :hp3.protoc msg.proto  --descriptor_set_out=msg.protocomp:ehp3.).
+:eul.
+proto file and using 
+ :dt.Proto Definition
+ :dd.Protocol buffers definition file.
+ :dt.Proto File
+ :dd.The actual proto file (from the definition).
+ :dt.Primary Message
+ :dd.Primary (or main) top level message.
+:edl.  
+
+:h2.Main Edit Screen (Tree View)
+:p.If the main message in the file has child messages, the file will be displayed
+in a tree view&gml.
+
+.pict ProtoBuf_Editor.png
+:p.If you click on the buttons on the far left (circled in red), The line 
+will be displayed on the single record screen. You can use the arrows at the bottom
+of the screen to navigate between records.
+
+.pict ProtoBuf_Record.png
+
+:h2.Main Edit Screen (Table View)
+:p.If the main message has no child messages, it is displayed in a table.
+You can click on the buttons to left of a row to view the record in a single.
+
+.pict ProtoBuf_Table.png
+
+:h2.Compare Function
+:p.Included in the package is a Compare Function. It is available
+as a
+:ol compact.
+:li.standalone Program,
+:li.On the the File menu in the editor
+:li.When editing you can compare the data in the editor with whats on the Disk.
+:eol.
+:p.The\Compare does a field to field compare, This means both messages in the same format and 
+those in different formats can be compared. The compare function also allows fields to be excluded from the compare.
+
+.pict PBcompare.png
+
+:note.If you are making a change to a program that will affect only a couple of fields
+You can
+:ul compact.
+ :li.Run the old and new programs with a large amount of data
+ :li.Run the compare and exclude the changed fields. This will suggest only the required fields
+have been affected,
+:eul.
+ 
+:h2.Protoc definition screen
+:p.If you select :hp2.Edit >>>> Edit Startup options >>>> Protobuf:ehp2.,
+it is possible to change the protoc command (i.e. specify a specific directory) 
+and add options to it. You could use :hp2.--proto_path=My.Import.Directory:ehp2.
+to add import directories to the protoc command.
+
+.pict ProtoBuf_protoc.png
+
+
+:h2.Other Functions
+:p.Other functions available in the editor include
+
+:dl.
+ :dt.Filter  :dd.The filter Function creates a separate view of the file containing only 
+selected Fields / Records. It is available on the :hp2.View:ehp2. Menu and the option button.
+
+ :dt.Sort   :dd.You can sort the top level messages (on the :hp2.Data:ehp2. top level menu plus
+the right click menu).
+
+ :dt.Start up Option:dd.Some options can be updated on the :hp2.Edit >>>>> Edit Startup options:ehp2.
+:edl.
+
+:p.Much of the :RecordEditMan. is relevant to the :hp2.Protocol Buffer Editor:ehp2.
+
+:h2.Self Describing Files.
+:p.The package now supports 2 self describing file formats :hdref refid=sdDelim. and :hdref refid=sdMsg.
+
+
+:h3 id=sdDelim.Self Describing Delimited file
+:p.Self describing Delimited files are delimited files where the first message is a :hp2.FileDescriptorSet:ehp2. 
+that describes that following messages.
+
+.*b2h html <pre><span class="syntax0"><span class="gutter">   1 </span>            MyProto.mystuff.Builder myStuff1 <span class="syntax-OPERATOR">=</span> MyProto.mystuff.<span class="syntax-FUNCTION">newBuilder</span><span class="syntax-OPERATOR">(</span><span class="syntax-OPERATOR">)</span>;
+.*b2h html <span class="gutter">   2 </span>            MyProto.mystuff.Builder myStuff2 <span class="syntax-OPERATOR">=</span> MyProto.mystuff.<span class="syntax-FUNCTION">newBuilder</span><span class="syntax-OPERATOR">(</span><span class="syntax-OPERATOR">)</span>;
+.*b2h html <span class="gutter">   3 </span>            MyProto.mystuff.Builder myStuff3 <span class="syntax-OPERATOR">=</span> MyProto.mystuff.<span class="syntax-FUNCTION">newBuilder</span><span class="syntax-OPERATOR">(</span><span class="syntax-OPERATOR">)</span>;
+.*b2h html <span class="gutter">   4 </span>            
+.*b2h html <span class="gutterH">   5 </span>            <span class="syntax-COMMENT2">//</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">....................</span>
+.*b2h html <span class="gutter">   6 </span>            
+.*b2h html <span class="gutter">   7 </span>            FileOutputStream out <span class="syntax-OPERATOR">=</span> <span class="syntax-KEYWORD1">new</span> <span class="syntax-FUNCTION">FileOutputStream</span><span class="syntax-OPERATOR">(</span>myFile<span class="syntax-OPERATOR">)</span>;
+.*b2h html <span class="gutter">   8 </span>
+.*b2h html <span class="gutter">   9 </span>            ProtoHelper .<span class="syntax-FUNCTION">getFileDescriptorSet</span><span class="syntax-OPERATOR">(</span>MyProto.<span class="syntax-FUNCTION">getDescriptor</span><span class="syntax-OPERATOR">(</span><span class="syntax-OPERATOR">)</span><span class="syntax-OPERATOR">)</span>
+.*b2h html <span class="gutterH">  10 </span>                                .<span class="syntax-FUNCTION">writeDelimitedTo</span><span class="syntax-OPERATOR">(</span>out<span class="syntax-OPERATOR">)</span>;
+.*b2h html <span class="gutter">  11 </span>                                
+.*b2h html <span class="gutter">  12 </span>            myStuff1.<span class="syntax-FUNCTION">build</span><span class="syntax-OPERATOR">(</span><span class="syntax-OPERATOR">)</span>.<span class="syntax-FUNCTION">writeDelimitedTo</span><span class="syntax-OPERATOR">(</span>out<span class="syntax-OPERATOR">)</span>;
+.*b2h html <span class="gutter">  13 </span>            myStuff2.<span class="syntax-FUNCTION">build</span><span class="syntax-OPERATOR">(</span><span class="syntax-OPERATOR">)</span>.<span class="syntax-FUNCTION">writeDelimitedTo</span><span class="syntax-OPERATOR">(</span>out<span class="syntax-OPERATOR">)</span>;
+.*b2h html <span class="gutter">  14 </span>            myStuff3.<span class="syntax-FUNCTION">build</span><span class="syntax-OPERATOR">(</span><span class="syntax-OPERATOR">)</span>.<span class="syntax-FUNCTION">writeDelimitedTo</span><span class="syntax-OPERATOR">(</span>out<span class="syntax-OPERATOR">)</span>;
+.*b2h html <span class="gutterH">  15 </span>
+.*b2h html </span></pre>
+
+:h3 id=sdMsg.Self describing message.
+:p.The system supports Self Describing messages where the first field in the message is a :hp2.FileDescriptorSet:ehp2. field that describes the
+message.
+
+.*b2h html <pre><span class="syntax0"><span class="gutter">   1 </span><span class="syntax-COMMENT2">//</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">Self</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">describing</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">message</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">with</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">imports</span>
+.*b2h html <span class="gutter">   2 </span><span class="syntax-COMMENT2">//</span>
+.*b2h html <span class="gutter">   3 </span><span class="syntax-KEYWORD2">package</span> tutorial;
+.*b2h html <span class="gutter">   4 </span>
+.*b2h html <span class="gutterH">   5 </span><span class="syntax-KEYWORD2">import</span> <span class="syntax-LITERAL1">&quot;</span><span class="syntax-LITERAL1">google/protobuf/descriptor.proto</span><span class="syntax-LITERAL1">&quot;</span>;
+.*b2h html <span class="gutter">   6 </span><span class="syntax-KEYWORD2">import</span> <span class="syntax-LITERAL1">&quot;</span><span class="syntax-LITERAL1">addressbookSD1_Person.proto</span><span class="syntax-LITERAL1">&quot;</span>;
+.*b2h html <span class="gutter">   7 </span>
+.*b2h html <span class="gutter">   8 </span><span class="syntax-KEYWORD1">option</span> java_package <span class="syntax-OPERATOR">=</span> <span class="syntax-LITERAL1">&quot;</span><span class="syntax-LITERAL1">com.example.tutorial</span><span class="syntax-LITERAL1">&quot;</span>;
+.*b2h html <span class="gutter">   9 </span><span class="syntax-KEYWORD1">option</span> java_outer_classname <span class="syntax-OPERATOR">=</span> <span class="syntax-LITERAL1">&quot;</span><span class="syntax-LITERAL1">AddressBookProtosSD1</span><span class="syntax-LITERAL1">&quot;</span>;
+.*b2h html <span class="gutterH">  10 </span>
+.*b2h html <span class="gutter">  11 </span><span class="syntax-COMMENT2">//</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">Our</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">address</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">book</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">file</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">is</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">just</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">one</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">of</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">these.</span>
+.*b2h html <span class="gutter">  12 </span><span class="syntax-KEYWORD1">message</span> AddressBook <span class="syntax-OPERATOR">{</span>
+.*b2h html <span class="gutter">  13 </span>  <span class="syntax-KEYWORD1">required</span> google.protobuf.FileDescriptorSet proto_files <span class="syntax-OPERATOR">=</span> <span class="syntax-DIGIT">7</span>;
+.*b2h html <span class="gutter">  14 </span>  <span class="syntax-KEYWORD1">repeated</span> Person person <span class="syntax-OPERATOR">=</span> <span class="syntax-DIGIT">12</span>;
+.*b2h html <span class="gutterH">  15 </span><span class="syntax-OPERATOR">}</span>
+.*b2h html </span></pre>
+
+:h1.Upgrading the Editor
+:p.In the ProtoBuffer lib directory, there is a file :hp2.FullEditorFiles.txt:ehp2.. This contains
+jars allocated to the editor at startup (RecordEditor.jar and JRecord.jar are also allocated).
+You can change the files in this text file to point to replacement jars if need be.
+:p.:hp2.FullEditorFiles.txt:ehp2. is a tab delimited Text file with jars as the second field.
+The value <lib> is expanded to ProtoBufferEditor lib directory.
+

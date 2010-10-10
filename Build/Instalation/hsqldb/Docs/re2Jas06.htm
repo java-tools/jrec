@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>Getting Started</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- G:\RecordEdit_Prj\Docs\re2Jasper.dcf converted by B2H R4.7 (390) -->
+<!-- (WINNT) on 29 Dec 2005 at 21:03:32                               -->
+<META HTTP-EQUIV="updated" CONTENT="Thu, 29 Dec 2005 21:03:02">
+<META HTTP-EQUIV="review" CONTENT="Fri, 29 Dec 2006 21:03:02">
+<META HTTP-EQUIV="expires" CONTENT="Sat, 29 Dec 2007 21:03:02">
+<link rel="stylesheet" type="text/css" href="syntax.css">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<HR><H1><A NAME="Header_16">Example Report</A></H1>
+<P>
+<UL>
+<li><a href="amsPO_Chart1.pdf">Sample Report</a> generated
+from a file containing 3 record types, 2
+(<A HREF="#HDRHEADREC">"PO Header Record"</A> and <A HREF="#HDRDTLREC">"PO Detail Record"</A>) of which are used in the report.
+<li><a href="amsPO_Chart1.jrxml">Jasper Report definition</a>
+</UL>
+<P>
+<HR><H2><A NAME="HDRHEADREC">PO Header Record</A></H2>
+<P>
+<table border=1><tr BGCOLOR="#CCCCFF"><th>Field_Position</th><th>Field_Length</th><th>Field_Name</th><th>Type</th></tr>
+<tr><td>1</td><td>2</td><td>Record Type</td><td>Char</td></tr>
+<tr><td>3</td><td>5</td><td>Sequence Number</td><td>Num Assumed Decimal (Zero padded)</td></tr>
+<tr><td>8</td><td>10</td><td>Vendor</td><td>Num (Right Justified zero padded)</td></tr>
+<tr><td>18</td><td>12</td><td>PO</td><td>Num Assumed Decimal (Zero padded)</td></tr>
+<tr><td>30</td><td>6</td><td>Entry Date</td><td>Char</td></tr>
+<tr><td>36</td><td>8</td><td>Filler</td><td>Char</td></tr>
+<tr><td>44</td><td>2</td><td>beg01 code</td><td>Char</td></tr>
+<tr><td>46</td><td>2</td><td>beg02 code</td><td>Char</td></tr>
+<tr><td>48</td><td>4</td><td>Department</td><td>Char</td></tr>
+<tr><td>52</td><td>6</td><td>Expected Reciept Date</td><td>Char</td></tr>
+<tr><td>58</td><td>6</td><td>Cancel by date</td><td>Char</td></tr>
+<tr><td>68</td><td>1</td><td>EDI Type</td><td>Char</td></tr>
+<tr><td>69</td><td>6</td><td>Add Date</td><td>Char</td></tr>
+<tr><td>75</td><td>1</td><td>Filler</td><td>Char</td></tr>
+<tr><td>76</td><td>10</td><td>Department Name</td><td>Char</td></tr>
+<tr><td>86</td><td>1</td><td>Prcoess Type</td><td>Char</td></tr>
+<tr><td>87</td><td>2</td><td>Order Type</td><td>Char</td></tr>
+</table>
+<P>
+<P>
+<HR><H2><A NAME="HDRDTLREC">PO Detail Record</A></H2>
+<P>
+<table border=1><tr BGCOLOR="#CCCCFF"><th>Field_Position</th><th>Field_Length</th><th>Field_Name</th><th>Type</th></tr>
+<tr><td>1</td><td>2</td><td>Record Type</td><td>Char</td></tr>
+<tr><td>3</td><td>9</td><td>Pack Qty</td><td>Num Assumed Decimal (Zero padded)</td></tr>
+<tr><td>12</td><td>13</td><td>Pack Cost</td><td>Num Assumed Decimal (Zero padded)</td></tr>
+<tr><td>25</td><td>13</td><td>APN</td><td>Num (Right Justified zero padded)</td></tr>
+<tr><td>38</td><td>1</td><td>Filler</td><td>Char</td></tr>
+<tr><td>39</td><td>8</td><td>Product</td><td>Num (Right Justified zero padded)</td></tr>
+<tr><td>72</td><td>15</td><td>pmg dtl tech key</td><td>Char</td></tr>
+<tr><td>87</td><td>15</td><td>Case Pack id</td><td>Char</td></tr>
+<tr><td>101</td><td>50</td><td>Product Name</td><td>Char</td></tr>
+</table>
+<P>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

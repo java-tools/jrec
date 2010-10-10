@@ -1,0 +1,86 @@
+{
+  "protocol" : "tf3",
+  "namespace" : "net.sf.RecordEditor.avro.Test.TestField3",
+  "types" : [ {
+    "type" : "enum",
+    "name" : "SaleType",
+    "symbols" : [ "RETURN", "OTHER", "SALE" ]
+  }, {
+    "type" : "record",
+    "name" : "cr1",
+    "fields" : [ {
+      "name" : "cr1f1",
+      "type" : "int"
+    }, {
+      "name" : "cr1f2",
+      "type" : "long"
+    }, {
+      "name" : "cr1f3",
+      "type" : "double"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "cr2",
+    "fields" : [ {
+      "name" : "cr2f1",
+      "type" : "int"
+    }, {
+      "name" : "cr2f2",
+      "type" : "long"
+    }, {
+      "name" : "cr2f3",
+      "type" : "double"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "cr3",
+    "fields" : [ {
+      "name" : "cr3f1",
+      "type" : "int"
+    }, {
+      "name" : "cr3f2",
+      "type" : "long"
+    }, {
+      "name" : "cr3f3",
+      "type" : "double"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "cr4",
+    "fields" : [ {
+      "name" : "cr4f1",
+      "type" : "int"
+    }, {
+      "name" : "cr4f2",
+      "type" : "long"
+    }, {
+      "name" : "cr4f3",
+      "type" : "double"
+    } ]
+  }, {
+    "type" : "fixed",
+    "name" : "FF",
+    "size" : 16
+  }, {
+    "type" : "record",
+    "name" : "fields",
+    "fields" : [ {
+      "name" : "f01",
+      "type" : "FF"
+    }, {
+      "name" : "f02",
+      "type" : [ "null", "int", "float", "double", "SaleType" ]
+    }, {
+      "name" : "f03",
+      "type" : [ "null", "int", "float", "cr1" ]
+    }, {
+      "name" : "f04",
+      "type" : [ "null", "cr1", "cr2" ]
+    }, {
+      "name" : "f05",
+      "type" : [ "null", "cr1", "cr2", "cr3", "cr4" ]
+    } ]
+  } ],
+  "messages" : {
+  }
+}

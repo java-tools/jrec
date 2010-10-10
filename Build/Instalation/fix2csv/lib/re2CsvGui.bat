@@ -1,0 +1,1 @@
+    java -cp re2csv.jar;RecordEdit.jar;hsqldbmain.jar;JRecord.jar;properties.zip;Your_JDBC.Jar net.sf.RecordEditor.examples.fix2csv.Re2CsvGui -i C:\Program Files\RecordEdit\HSQL\SampleFiles\*.*

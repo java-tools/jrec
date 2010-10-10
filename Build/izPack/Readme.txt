@@ -5,14 +5,25 @@ It can edit both Text and binary files in PC / Unix / IBM Mainframe formats.
 
 The Record-Layouts are stored in a DB, but they can be imported from a Cobol Copybook
 
-Changes Release 0.69
-    * New Field - Hide / Show function (more work still needed).
-    * New Unknown ??? layouts for use with unknown files
+Changes Release 0.69.1
+    * New Field - Hide / Show function.
+    * New Unknown layouts for use with unknown files
     * New Prefered Layout option in the Main Display
     * New Hex displays  (1 / 2 / 3 line) in the Main display.
-      Currently it is display only (no updates) when in hex mode. 
     * Fix for Cobol Sign Seperate fields
+    * Enhanced Layout Wizard:
+      - Support for multi-record files
+      - Field Search added
+      - Improved Binary Files support 
+      - File Format detection added
     * New Layout Import From Xml Files in a Directory / Export Layouts To Xml Files in a directory
+    * New CSV Styles to support "Column Names" in Quotes (Record Styles 3->5) + some CSV fixes.
+    * New Option to change layout after the files has been loaded
+    * Internal changes to support "Object Data Stores" like Protocol Buffers and Avro
+      See Protocol Buffer Editor and Avro Editor's
+    * Support for H2 Database's Mixed Mode
+    * Added optional Error-File and error-limits to the online / batch copy utilities
+    * Added new -il/-ol (input/output layout) and -ef (error file) options to the batch utility
 
 Changes Release 0.67/0.68
     * improved PC Cobol support (particularly Open Cobol)

@@ -1,0 +1,2 @@
+class-path: properties.zip;hsqldbmain.jar;jibx-run.jar;jlibdiff.jar
+Main-Class: net.sf.RecordEditor.diff.CompareDBLayout

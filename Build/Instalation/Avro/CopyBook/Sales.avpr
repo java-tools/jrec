@@ -1,0 +1,29 @@
+{
+  "protocol" : "sales",
+  "namespace" : "net.sf.RecordEditor.avro.Test.Sales",
+  "types" : [ {
+    "type" : "record",
+    "name" : "sale",
+    "fields" : [ {
+      "name" : "keycode",
+      "type" : "int"
+    }, {
+      "name" : "store",
+      "type" : "int"
+    }, {
+      "name" : "department",
+      "type" : "int"
+    }, {
+      "name" : "saleDate",
+      "type" : "int"
+    }, {
+      "name" : "quantity",
+      "type" : "int"
+    }, {
+      "name" : "price",
+      "type" : "long"
+    } ]
+  } ],
+  "messages" : {
+  }
+}

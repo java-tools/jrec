@@ -19,6 +19,6 @@
 	
 	rexx b2h '"Copy.dcf (HTMPEXT='html 'HTMLEXT='html 'LOG=Copy.log QUIET)"'
 
-/*	rexx b2h '"HowTo.dcf (HTMPEXT='html 'HTMLEXT='html 'LOG=HowTo.log QUIET)"'*/
-	copy 'HowTo.htm "'Dir'"'	
+/*	rexx b2h '"HowTo.dcf (HTMPEXT='html 'HTMLEXT='html 'LOG=HowTo.log QUIET)"'
+	copy 'HowTo.htm "'Dir'"'	*/
 

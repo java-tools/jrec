@@ -1,0 +1,131 @@
+.im iRE_TagDefs.dcf
+:h1.Avro Message Editor Introduction
+:p.The :hp2.Avro Editor:ehp2. is built using :RecordEditor. to do the actual 
+editting. Using the :RecordEditor. brings a lot of functionality to the editor, the downside
+is the :RecordEditor. was written for Flat Files. The flat view of the world shows through
+in some function (filter and compare functions). Also some functions might not work (well !)
+with AvroEditor because it is using the default :RecordEditor. implementation, please report
+any problems you come across.
+
+:p.This package uses Pack200 on jars to reduce the installer size. The installer
+should unpack the files as part of the install process. If this fails, you can use
+java's unpack200 utility to manually unpack the jars in the lib directory.
+
+:p.The sites Website is at
+.*HTML <a href="http://avroeditor.sourceforge.net">http://avroeditor.sourceforge.net</a>.
+You can ask questions, log problems etc.
+
+:p.As of 0.69h, I have started removing parts of the :hp2.Avro Tools Jar:ehp2. to reduce the
+download size. Please let me know if this causes a :hp2.Class not found error:ehp2.
+
+:p.The Avro Tools library now includes the Velocity-Template libraries, this means you can 
+save a file (Save-As option) using either one of the supplied Velocity-Templates or your 
+own velocity templates. This option has had only limited testing.
+  
+:h2.Getting Started
+
+:p.On starting the edittor, the following screen is displayed&gml.
+
+.pict Avro_open.png
+
+:p.Fields are
+
+:dl.
+ :dt.File
+ :dd.Avro Message file to be editted
+ :dt.File Structure
+ :dd.How the message('s) are stored. Current options are
+ :ul compact.
+  :li.:hp2.Avro Protocol File:ehp2. Avro File.
+ :eul.
+ :dt.Type of Definition
+ :dd.This field is only needed for New Files. It indicates Wether the definition file is a Standard .genavro or a .arvo definition file 
+:ul compact.
+ :li.:hp2.Avro IDL Definition:ehp2. A Avro-Idl definition (Formerly GenAvro).
+ :li.:hp2.Avro JSON Definition:ehp2. Standard Avro JSON definition
+:eul.
+proto file and using 
+ :dt.Avro Definition
+ :dd.Avro definition file (i.e. Avro-IDL or JSON definition).
+ :dt.Main Record
+ :dd.Primary (or main) top level Record.
+:edl.  
+
+:h2.Main Edit Screen (Tree View)
+:p.If the main message in the file has child messages, the file will be displayed
+in a tree view&gml.
+
+.pict Avro_Editor.png
+:p.If you click on the buttons on the far left (circled in red), The line 
+will be displayed on the single record screen. You can use the arrows at the bottom
+of the screen to navigate between records.
+
+.pict Avro_Record.png
+
+:h2.Main Edit Screen (Table View)
+:p.If the main message has no child messages, it is displayed in a table.
+You can click on the buttons to left of a row to view the record in a single.
+
+.pict Avro_Table.png
+
+:h2.Compare Function
+:p.Included in the package is a Compare Function. It is available
+as a
+:ol compact.
+:li.standalone Program,
+:li.On the the File menu in the editor
+:li.When editing you can compare the data in the editor with whats on the Disk.
+:eol.
+:p.The\Compare does a field to field compare, This means both messages in the same format and 
+those in different formats can be compared. The compare function also allows fields to be excluded from the compare.
+
+.pict AvroCompare.png
+
+:note.If you are making a change to a program that will affect only a couple of fields
+You can
+:ul compact.
+ :li.Run the old and new programs with a large amount of data
+ :li.Run the compare and exclude the changed fields. This will suggest only the required fields
+have been affected,
+:eul.
+ 
+
+:h2.Union Popup
+:p.As part of 0.69h changes, there is now a poput screen for Union fields. 
+:p.To update a
+:dl compact.
+ :dt.Simple Field:dd.Select the radio button for the required type, enter the value in the text field at the top
+and hit the save Key.
+ :dt.Enums:dd.Just Select the value in the appropriate Combo Box
+ :dt.Records, Arrays, Msaps:dd.Press the Button.
+:edl.
+:p.The Union screen should handle simple Union fields, but it has a number of limitations including&gml.
+:ul compact.
+ :li.Can not see Records with in records.
+ :li.Map keys are not displayed on all screens.
+:eul.
+
+.pict Union.png
+
+:h2.Other Functions
+:p.Other functions available in the editor include
+
+:dl.
+ :dt.Filter  :dd.The filter Function creates a separate view of the file containing only 
+selected Fields / Records. It is available on the :hp2.View:ehp2. Menu and the option button.
+
+ :dt.Sort   :dd.You can sort the top level messages (on the :hp2.Data:ehp2. top level menu plus
+the right click menu).
+
+ :dt.Start up Option:dd.Some options can be updated on the :hp2.Edit >>>>> Edit Startup options:ehp2.
+:edl.
+
+:p.Much of the :RecordEditMan. is relevant to the :hp2.Avro Editor:ehp2.
+
+:h1.Upgrading the Editor
+:p.In the Avro lib directory, there is a file :hp2.FullEditorFiles.txt:ehp2.. This contains
+jars allocated to the editor at startup (RecordEditor.jar and JRecord.jar are also allocated).
+You can change the files in this text file to point to replacement jars if need be.
+:p.:hp2.FullEditorFiles.txt:ehp2. is a tab delimited Text file with jars as the second field.
+The value <lib> is expanded to AvroEditor lib directory.
+

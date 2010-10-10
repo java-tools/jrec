@@ -1,0 +1,45 @@
+/**
+ *  Sales File
+ */
+@namespace("net.sf.RecordEditor.avro.Test.Sales7")
+
+protocol sales7 {
+  enum SaleType {
+    RETURN, OTHER, SALE
+  }
+  record Product {
+    int keycode;
+    array<int> saleDate;
+    array<int> quantity;
+    array<long> price;
+    array<SaleType> saleType;
+    array<float> priceFloat;
+    array<double> priceDouble;
+    array<string> strArray;
+  } 
+
+  record Order {
+    int keycode;
+    int quantity;
+  }
+
+  record Summary {
+    int quantity;
+    long price;
+    int count;
+  }
+
+  record Deptartment {
+    int department;
+    string name;
+    array<Product> product;
+    union { null, Summary } summary;
+  }
+
+  record Store {
+    int store ;
+    string name ;
+    array<Deptartment> department;
+    array<Order> order;
+  }
+}

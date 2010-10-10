@@ -17,7 +17,7 @@
     -->
     <info>
         <appname>RecordEdit/Avro</appname>
-        <appversion>0.69e</appversion>
+        <appversion>0.69h</appversion>
         <authors>
             <author name="Bruce Martin" email="bruce_a_martin@sourceforge.net" />
             <!--author name="Hidden Man" email="hidden@hisdomain.com"/-->
@@ -88,6 +88,13 @@
         <pack name="Documentation" required="yes" override="true">
             <description>Record Editor Docs</description>
             <file src="../Instalation/Avro/Docs" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
+        </pack>
+        <pack name="Diagrams" required="yes" override="true">
+            <description>Record Editor Diagrams</description>
+            <fileset dir="../Instalation/GeneralDB/Docs/Diagram/" targetdir="$INSTALL_PATH/Docs/Diagram">
+            	<exclude name="layout_wizard_*"/>
+            	<exclude name="*LayoutWizard.png"/>
+            </fileset>
         </pack>
         <pack name="SampleFiles" required="yes">
             <description>Sample Files</description>

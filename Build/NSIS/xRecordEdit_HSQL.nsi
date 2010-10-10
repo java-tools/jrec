@@ -5,7 +5,7 @@ SetCompressor /SOLID lzma
 SetCompressionLevel 9
 
 !define PRODUCT_NAME "RecordEdit_HSQL"                                                             
-!define PRODUCT_VERSION "0.69"                                                                                 
+!define PRODUCT_VERSION "0.69.1"                                                                                 
 !define PRODUCT_PUBLISHER "Bruce Martin"                                                           
 !define PRODUCT_WEB_SITE "http://record-editor.sf.net"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
@@ -55,7 +55,7 @@ var ICONS_GROUP
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-<OutFile default="RecordEdit_Installer_for_HSQL_069.exe"/>
+<OutFile default="RecordEdit_Installer_for_HSQL_069.1.exe"/>
 InstallDir "$PROGRAMFILES\RecordEdit\HSQL"
 ShowInstDetails show
 ShowUnInstDetails show
@@ -75,8 +75,8 @@ Section "MainSection" SEC01
   <expand inpath="..\Instalation\GeneralDB\Docs" name="Hlp*.htm" name1="CobolEditor.htm" name2="Ex*.htm" name3="syntax.css" name4="HowTo.htm"/>
   <expand inpath="..\Instalation\GeneralDB\Docs\" name="Change*.htm" name2="diff1.html" name3="Copy.htm"/>
   <expand outpath="$INSTDIR\Docs\jsTree" inpath="..\Instalation\GeneralDB\Docs\JSTREE\" name="*.gif" name1="*.css" name2="*.js"/>
-  <expand overwrite="try" outpath="$INSTDIR\Docs\Diagram" inpath="..\Instalation\GeneralDB\Docs\Diagram\" name="*.GIF" name1="*.png"  name3="*.JPG" DateCheck=yes/>
-
+  <expand overwrite="try" outpath="$INSTDIR\Docs\Diagram" inpath="..\Instalation\GeneralDB\Docs\Diagram\" name="*.GIF" name1="*.png"  name3="*.JPG"  name4="*.gif" DateCheck=yes/>
+ 
   Delete "$INSTDIR\lib\JRecord.jar"
   Delete "$INSTDIR\lib\LayoutEdit.jar"
   Delete "$INSTDIR\lib\RecordEdit.jar"
@@ -86,11 +86,11 @@ Section "MainSection" SEC01
   ;<expand overwrite=try outpath="$INSTDIR\lib" inpath="..\lib" name="run*.jar" name1="ZCalendar.jar"
   ;			name2="JRecord.jar" name3="RecordEdit.jar" name4="LayoutEdit.jar" name5="cb2xml.jar" name6="StAX.jar"/>
   <expand overwrite=try inpath="..\Instalation\GeneralDB\lib" name="icons*.zip" name1="*.ico"/>
-  <expand  inpath="..\Instalation\hsqldb\lib_nsis\" name="properties.zip"/>
+  <expand  inpath="..\Instalation\hsqldb\lib\" name="properties.zip"/>
   ;<expand  inpath="..\Instalation\hsqldb\lib\" name="*Files.txt" name1="hsqldbmain.jar"/>
-  <expand  inpath="..\Instalation\hsqldb\lib\" name="*Files.txt"/>
+  <expand  inpath="..\Instalation\hsqldb_izpack\lib\" name="*Files.txt"/>
   <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="*Edit.pack" name1="StAX.pack" name2="cb2xml.pack" name3="JRecord.pack"/>
-  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="j*.pack" />
+  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="j*.pack"  name1="JRecord.propertie*"/>
   <psc proc="normal">
     <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="hsqldbmain.pack"/>
   </psc>
@@ -98,7 +98,7 @@ Section "MainSection" SEC01
 
 
   <expand overwrite=try outpath="$INSTDIR\lib\net\sf\RecordEditor\utils" 
-                        inpath="..\Instalation\hsqldb\lib_nsis\net\sf\RecordEditor\utils\" name="*.properties"/>  
+                        inpath="..\Instalation\hsqldb\lib\net\sf\RecordEditor\utils\" name="*.properties"/>  
   
   <expand outpath="$INSTDIR\CopyBook\Cobol" inpath="..\Instalation\GeneralDB\CopyBook\Cobol" name="*.cbl" DateCheck=yes/>
   <expand outpath="$INSTDIR\CopyBook\cb2xml" inpath="..\Instalation\GeneralDB\CopyBook\cb2xml" name="*.xml" DateCheck=yes/>
@@ -113,7 +113,7 @@ Section "MainSection" SEC01
   <expand overwrite=try inpath="..\SampleFiles" name="*.csv"  DateCheck=yes/>
   <expand overwrite=try outpath="$INSTDIR\SampleFiles\Xml" inpath="..\SampleFiles\Xml" name="*.xml"/>  
 
-  <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL" inpath="..\Instalation\hsqldb\HSQLDB\" 
+  <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL" inpath="..\Instalation\hsqldb_izpack\HSQLDB\" 
   		name="Params.Properties" name1="Files.txt" name2="Properties.zip"/>  
   <expand overwrite=off inpath="..\Instalation\hsqldb\RecordEditor_HSQL_nsis\" name="CobolFiles.txt">  
 	

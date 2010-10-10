@@ -5,7 +5,7 @@ SetCompressor /SOLID lzma
 SetCompressionLevel 9
 
 !define PRODUCT_NAME "RecordEdit_HSQL"                                                             
-!define PRODUCT_VERSION "0.69"                                                                                 
+!define PRODUCT_VERSION "0.69.1"                                                                                 
 !define PRODUCT_PUBLISHER "Bruce Martin"                                                           
 !define PRODUCT_WEB_SITE "http://record-editor.sf.net"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
@@ -55,7 +55,7 @@ var ICONS_GROUP
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "RecordEdit_Installer_for_HSQL_069.exe"
+OutFile "RecordEdit_Installer_for_HSQL_069.1.exe"
 InstallDir "$PROGRAMFILES\RecordEdit\HSQL"
 ShowInstDetails show
 ShowUnInstDetails show
@@ -135,6 +135,7 @@ Section "MainSection" SEC01
   SetOverwrite try
   SetOutPath "$INSTDIR\Docs\Diagram"
   File "..\Instalation\GeneralDB\Docs\Diagram\AmsPOfile.GIF"
+  File "..\Instalation\GeneralDB\Docs\Diagram\CobolEditPnl.GIF"
   File "..\Instalation\GeneralDB\Docs\Diagram\ComboCreate.GIF"
   File "..\Instalation\GeneralDB\Docs\Diagram\ComboDef.GIF"
   File "..\Instalation\GeneralDB\Docs\Diagram\ComboFieldDef.GIF"
@@ -178,7 +179,6 @@ Section "MainSection" SEC01
   File "..\Instalation\GeneralDB\Docs\Diagram\LayoutEdit_RecSelection.GIF"
   File "..\Instalation\GeneralDB\Docs\Diagram\LayoutEdit_Tab.GIF"
   File "..\Instalation\GeneralDB\Docs\Diagram\LayoutEdit_TableDtls.GIF"
-  File "..\Instalation\GeneralDB\Docs\Diagram\LayoutEdit_Table.GIF"
   File "..\Instalation\GeneralDB\Docs\Diagram\LayoutEdit_TableList.GIF"
   File "..\Instalation\GeneralDB\Docs\Diagram\LayoutEdit_TableRows.GIF"
   File "..\Instalation\GeneralDB\Docs\Diagram\LayoutEdit_VB_File.GIF"
@@ -307,7 +307,8 @@ Section "MainSection" SEC01
   File "..\Instalation\GeneralDB\Docs\Diagram\Tree4.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\Tree8.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\LayoutEdit_Copy.JPG"
-
+  File "..\Instalation\GeneralDB\Docs\Diagram\SL_diff5.gif"
+ 
   Delete "$INSTDIR\lib\JRecord.jar"
   Delete "$INSTDIR\lib\LayoutEdit.jar"
   Delete "$INSTDIR\lib\RecordEdit.jar"
@@ -341,11 +342,11 @@ Section "MainSection" SEC01
   File "..\Instalation\GeneralDB\lib\RecordEdit.ico"
   File "..\Instalation\GeneralDB\lib\Utility.ico"
 
-  File "..\Instalation\hsqldb\lib_nsis\properties.zip"
+  File "..\Instalation\hsqldb\lib\properties.zip"
   ;<expand  inpath="..\Instalation\hsqldb\lib\" name="*Files.txt" name1="hsqldbmain.jar"/>
 
-  File "..\Instalation\hsqldb\lib\FullEditorFiles.txt"
-  File "..\Instalation\hsqldb\lib\SmallEditorFiles.txt"
+  File "..\Instalation\hsqldb_izpack\lib\FullEditorFiles.txt"
+  File "..\Instalation\hsqldb_izpack\lib\SmallEditorFiles.txt"
 
   File "..\Instalation\hsqldb_izpack\lib\LayoutEdit.pack"
   File "..\Instalation\hsqldb_izpack\lib\RecordEdit.pack"
@@ -355,6 +356,8 @@ Section "MainSection" SEC01
 
   File "..\Instalation\hsqldb_izpack\lib\jibx-run.pack"
   File "..\Instalation\hsqldb_izpack\lib\jlibdiff.pack"
+  File "..\Instalation\hsqldb_izpack\lib\JRecord.properties"
+  File "..\Instalation\hsqldb_izpack\lib\JRecord.properties.html"
 
   File "..\Instalation\hsqldb_izpack\lib\hsqldbmain.pack"
   File "NsisUnpack.jar"
@@ -363,7 +366,7 @@ Section "MainSection" SEC01
 
   SetOverwrite try
   SetOutPath "$INSTDIR\lib\net\sf\RecordEditor\utils"
-  File "..\Instalation\hsqldb\lib_nsis\net\sf\RecordEditor\utils\RecEdit.properties"
+  File "..\Instalation\hsqldb\lib\net\sf\RecordEditor\utils\RecEdit.properties"
   
 
   SetOutPath "$INSTDIR\CopyBook\Cobol"
@@ -470,10 +473,13 @@ Section "MainSection" SEC01
   File "..\Instalation\GeneralDB\CopyBook\Xml\DTAR119.Xml"
   File "..\Instalation\GeneralDB\CopyBook\Xml\DTAR192.Xml"
   File "..\Instalation\GeneralDB\CopyBook\Xml\Generic CSV - enter details.Xml"
+  File "..\Instalation\GeneralDB\CopyBook\Xml\MicrofocusHeader.Xml"
   File "..\Instalation\GeneralDB\CopyBook\Xml\Tab Delimited names on the first line, quote=d.Xml"
   File "..\Instalation\GeneralDB\CopyBook\Xml\Tab Delimited names on the first line, quote=s.Xml"
   File "..\Instalation\GeneralDB\CopyBook\Xml\Tab Delimited names on the first line.Xml"
   File "..\Instalation\GeneralDB\CopyBook\Xml\yyAms PO Download.Xml"
+  File "..\Instalation\GeneralDB\CopyBook\Xml\zFixedWidth_ams_Store.Xml"
+  File "..\Instalation\GeneralDB\CopyBook\Xml\zzAms PO Download.Xml"
 ;;  <expand outpath="$INSTDIR\Copybook" inpath="..\Instalation\GeneralDB\Copybook" name="*.txt" DateCheck=yes/>
 
   SetOverwrite try
@@ -508,11 +514,13 @@ Section "MainSection" SEC01
   File "..\SampleFiles\Ams_VendorDownload_20041229.txt"
   File "..\SampleFiles\text_test.txt"
   File "..\SampleFiles\Text_utf16_Test.txt"
+  File "..\SampleFiles\Text_utf8_Test.txt"
   File "..\SampleFiles\tstFile1.txt"
   File "..\SampleFiles\XmplDecider.txt"
   File "..\SampleFiles\zzAms_PODownload_20041231.txt"
   File "..\SampleFiles\DTAR010_Chart.bin"
   File "..\SampleFiles\DTAR020.bin"
+  File "..\SampleFiles\DTAR020_Extract.bin"
   File "..\SampleFiles\DTAR020_Sorted.bin"
   File "..\SampleFiles\DTAR020_tst1.bin"
   File "..\SampleFiles\DTAR1000_Store_file_large_Recfm_U.bin"
@@ -562,9 +570,9 @@ Section "MainSection" SEC01
 
   SetOverwrite off
   SetOutPath "$PROFILE\RecordEditor_HSQL"
-  File "..\Instalation\hsqldb\HSQLDB\Params.Properties"
-  File "..\Instalation\hsqldb\HSQLDB\Files.txt"
-  File "..\Instalation\hsqldb\HSQLDB\Properties.zip"
+  File "..\Instalation\hsqldb_izpack\HSQLDB\Params.Properties"
+  File "..\Instalation\hsqldb_izpack\HSQLDB\Files.txt"
+  File "..\Instalation\hsqldb_izpack\HSQLDB\Properties.zip"
 
   File "..\Instalation\hsqldb\RecordEditor_HSQL_nsis\CobolFiles.txt"
 	
@@ -808,6 +816,7 @@ Section Uninstall
   Delete "$INSTDIR\Docs\jsTree\sdtree.js"
 
   Delete "$INSTDIR\Docs\Diagram\AmsPOfile.GIF"
+  Delete "$INSTDIR\Docs\Diagram\CobolEditPnl.GIF"
   Delete "$INSTDIR\Docs\Diagram\ComboCreate.GIF"
   Delete "$INSTDIR\Docs\Diagram\ComboDef.GIF"
   Delete "$INSTDIR\Docs\Diagram\ComboFieldDef.GIF"
@@ -851,7 +860,6 @@ Section Uninstall
   Delete "$INSTDIR\Docs\Diagram\LayoutEdit_RecSelection.GIF"
   Delete "$INSTDIR\Docs\Diagram\LayoutEdit_Tab.GIF"
   Delete "$INSTDIR\Docs\Diagram\LayoutEdit_TableDtls.GIF"
-  Delete "$INSTDIR\Docs\Diagram\LayoutEdit_Table.GIF"
   Delete "$INSTDIR\Docs\Diagram\LayoutEdit_TableList.GIF"
   Delete "$INSTDIR\Docs\Diagram\LayoutEdit_TableRows.GIF"
   Delete "$INSTDIR\Docs\Diagram\LayoutEdit_VB_File.GIF"
@@ -980,6 +988,7 @@ Section Uninstall
   Delete "$INSTDIR\Docs\Diagram\Tree4.png"
   Delete "$INSTDIR\Docs\Diagram\Tree8.png"
   Delete "$INSTDIR\Docs\Diagram\LayoutEdit_Copy.JPG"
+  Delete "$INSTDIR\Docs\Diagram\SL_diff5.gif"
 
   Delete "$INSTDIR\License\LICENSE_of_includedPackages.txt"
   Delete "$INSTDIR\License\LICENSE.txt"
@@ -1016,6 +1025,8 @@ Section Uninstall
 
   Delete "$INSTDIR\lib\jibx-run.pack"
   Delete "$INSTDIR\lib\jlibdiff.pack"
+  Delete "$INSTDIR\lib\JRecord.properties"
+  Delete "$INSTDIR\lib\JRecord.properties.html"
 
   Delete "$INSTDIR\lib\hsqldbmain.pack"
 
@@ -1121,10 +1132,13 @@ Section Uninstall
   Delete "$INSTDIR\CopyBook\Xml\DTAR119.Xml"
   Delete "$INSTDIR\CopyBook\Xml\DTAR192.Xml"
   Delete "$INSTDIR\CopyBook\Xml\Generic"
+  Delete "$INSTDIR\CopyBook\Xml\MicrofocusHeader.Xml"
   Delete "$INSTDIR\CopyBook\Xml\Tab"
   Delete "$INSTDIR\CopyBook\Xml\Tab"
   Delete "$INSTDIR\CopyBook\Xml\Tab"
   Delete "$INSTDIR\CopyBook\Xml\yyAms"
+  Delete "$INSTDIR\CopyBook\Xml\zFixedWidth_ams_Store.Xml"
+  Delete "$INSTDIR\CopyBook\Xml\zzAms"
 
   Delete "$INSTDIR\SampleVelocityTemplates\Copybook\Layout2Html.vm"
 
@@ -1152,11 +1166,13 @@ Section Uninstall
   Delete "$INSTDIR\SampleFiles\Ams_VendorDownload_20041229.txt"
   Delete "$INSTDIR\SampleFiles\text_test.txt"
   Delete "$INSTDIR\SampleFiles\Text_utf16_Test.txt"
+  Delete "$INSTDIR\SampleFiles\Text_utf8_Test.txt"
   Delete "$INSTDIR\SampleFiles\tstFile1.txt"
   Delete "$INSTDIR\SampleFiles\XmplDecider.txt"
   Delete "$INSTDIR\SampleFiles\zzAms_PODownload_20041231.txt"
   Delete "$INSTDIR\SampleFiles\DTAR010_Chart.bin"
   Delete "$INSTDIR\SampleFiles\DTAR020.bin"
+  Delete "$INSTDIR\SampleFiles\DTAR020_Extract.bin"
   Delete "$INSTDIR\SampleFiles\DTAR020_Sorted.bin"
   Delete "$INSTDIR\SampleFiles\DTAR020_tst1.bin"
   Delete "$INSTDIR\SampleFiles\DTAR1000_Store_file_large_Recfm_U.bin"

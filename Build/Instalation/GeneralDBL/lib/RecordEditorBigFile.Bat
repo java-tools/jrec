@@ -1,0 +1,1 @@
+javaw  -Xmx1400m -jar "$INSTALL_PATH\lib\runFullEditor.jar" "%1"

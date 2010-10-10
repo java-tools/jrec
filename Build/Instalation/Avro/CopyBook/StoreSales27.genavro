@@ -1,0 +1,46 @@
+/**
+ *  Sales File
+ */
+@namespace("net.sf.RecordEditor.avro.Test.Sales27")
+
+protocol sales27 {
+  enum SaleType {
+    RETURN, OTHER, SALE
+  }
+  record Product {
+    int keycode;
+    map<int> saleDate;
+    map<int> quantity;
+    map<long> price;
+    map<SaleType> saleType;
+    map<float> priceFloat;
+    map<double> priceDouble;
+    map<string> strArray;
+  } 
+
+  record Order {
+    int keycode;
+    int quantity;
+  }
+
+  record Summary {
+    int quantity;
+    long price;
+    int count;
+  }
+
+  record Deptartment {
+    int department;
+    string name;
+    array<Product> product;
+    union { null, Summary } summary;
+  }
+
+  record Store {
+    int store ;
+    string name ;
+    array<Deptartment> department;
+    array<Order> order;
+    union { null, Summary } summary;
+  }
+}

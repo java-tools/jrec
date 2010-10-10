@@ -1,0 +1,14 @@
+ Volume in drive E has no label.
+ Volume Serial Number is 709D-48C9
+
+ Directory of E:\Work\RecordEdit\Instalation\GeneralDB\lib
+
+25/03/2007  12:42 PM            22,231 iconsAqua.zip
+20/03/2007  06:42 PM             8,741 iconsEclipse.zip
+25/03/2007  01:30 PM            16,763 iconsGnome.zip
+25/03/2007  10:15 PM            16,002 iconsOffice2003.zip
+25/03/2007  10:14 PM            14,546 iconsOfficeXP.zip
+25/03/2007  01:30 PM            19,376 iconsTango.zip
+05/02/2007  10:34 AM             2,926 lib.zip
+               7 File(s)        100,585 bytes
+               0 Dir(s)   4,550,291,456 bytes free

@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>RecordEditor Main Screen</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- /home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/HlpRe.dc -->
+<!-- f converted by B2H R4.7 (390) (LINUX) on 12 Mar 2010 at 01:56:57 -->
+<META HTTP-EQUIV="updated" CONTENT="Fri, 11 Sep 2009 12:13:14">
+<META HTTP-EQUIV="review" CONTENT="Sat, 11 Sep 2010 12:13:14">
+<META HTTP-EQUIV="expires" CONTENT="Sun, 11 Sep 2011 12:13:14">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<P><H4><A NAME="HDRBINTBL">Table View</A></H4>
+<P>In the <B>RecordEditor</B> Table-View, records are divided up into individual fields,
+binary fields are converted to there text equivalent. A binary Point-Of-Sale Record looks like
+<img SRC="Diagram/RecordEdit_Table.png">
+<PRE>
+</PRE><P>The important parts of the screen are
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">Layout combo
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="36%">
+<img SRC="Diagram/RecordEdit_LayoutCombo.GIF">
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="45%">Used to select the Record Layout used to format the file
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">Edit Buttons (edit mode)
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="36%">
+<img SRC="Diagram/RecordEdit_Buttons.GIF">
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="45%">Various Edit options- <B>Find, Filter, Save, Save-As / Export, Copy, Paste,
+New-Record, Correct-length, Delete</B> and <B>Help</B>.
+<BR>
+See <A HREF="HlpRe05.htm#HDRFIND">"Search Screen"</A>, <A HREF="HlpRe06.htm#HDRFILTER">"Filter Screen"</A> and <A HREF="HlpRe07.htm#HDRSAVEAS">"Save AS / Export"</A> for more details.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">Edit Buttons (Browse mode)
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="36%">
+<img SRC="Diagram/RecordEdit_BrowseButtons.GIF">
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="45%">Various Edit options- <B>Find, Filter, Save-As / Export, Copy</B> and <B>Help</B>.
+See <A HREF="HlpRe05.htm#HDRFIND">"Search Screen"</A>, <A HREF="HlpRe06.htm#HDRFILTER">"Filter Screen"</A> and <A HREF="HlpRe07.htm#HDRSAVEAS">"Save AS / Export"</A> for more details.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">Selection Buttons
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="36%">
+<img SRC="Diagram/RecordEdit_Selection.GIF">
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="45%">On the Far Left (just left of the line number) is the <B>record selection</B> Button.
+When one of these buttons is pressed, the record screen (see <A HREF="HlpRe04.htm#HDRBINRECORD">"Record View - Binary file"</A> and
+) is
+displayed.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="18%">Headings
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="36%">
+<img SRC="Diagram/RecordEdit_Heading.GIF">
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="45%">At the top in the column headings you can:
+<UL>
+<P><LI>Move the Column by dragging and dropping the column header:
+<UL COMPACT>
+<LI>Click on the column header
+<LI>While holding the mouse button down, drag the column to the required position
+</UL>
+<P><LI>Change the column size by dragging the column header edge.
+<P><LI>Sort on the column by double clicking on the column heading.
+</UL>
+</TD></TR></TABLE>
+<P>
+<P><H3><A NAME="Header_3" HREF="HlpRe02.htm#ToC_3" >Popup Menu</A></H3>
+<P>Both the <B>Table File View</B> and <B>Record File View</B> have a popup menu's (right
+click button on Windows) for running record (ie line oriented) commands.
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="100%">
+<img SRC="Diagram/RecordEdit_Popup.GIF">
+<BR></TD></TR></TABLE>
+<P>
+<P>Options include:
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Copy Record(s)</B></TD><TD><P>Copy one or more records to the <B>RecordEditor</B>'s internal clipboard.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Cut Record(s)</B></TD><TD><P>Cut one or more records to the <B>RecordEditor</B>'s internal clipboard.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Paste Record(s)</B></TD><TD><P>Paste records held in the <B>RecordEditor</B>'s internal clipboard after the current record.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Paste Record(s) Prior</B></TD><TD><P>Paste records held in the <B>RecordEditor</B>'s internal clipboard before the current record.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Insert Record</B></TD><TD><P>Insert a record after the current record.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Delete Record(s)</B></TD><TD><P>Delete highlighted records (or the record being updated in record view).
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Find</B></TD><TD><P>Start search dialogue. See <A HREF="HlpRe05.htm#HDRFIND">"Search Screen"</A> for more details.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Filter</B></TD><TD><P>Create a filtered view of the file. See <A HREF="HlpRe06.htm#HDRFILTER">"Filter Screen"</A> for more details.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Save As</B></TD><TD><P>Saves the selected records to the file in a variety of formats. See <A HREF="HlpRe07.htm#HDRSAVEAS">"Save AS / Export"</A> for more details.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Edit Record</B></TD><TD><P>Edit the record under the cursor in the Single Record Screen. See <A HREF="HlpRe04.htm#HDRBINRECORD">"Record View - Binary file"</A> for more details.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Fix Column</B></TD><TD><P>Move the column to the left of screen and stop it scrolling off the screen when you scroll right or left.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Autofit Columns</B></TD><TD><P>Adjust column sizes based on the data being displayed.
+</TD></TR></TABLE>
+<P>
+<P>The right click button will <I>Fix</I> a column so it will not scroll of the screen
+when you scroll left or right.
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

@@ -1,0 +1,742 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>Introduction</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- /home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/Example. -->
+<!-- dcf converted by B2H R4.7 (390) (LINUX) on 14 Feb 2009 at        -->
+<!-- 17:11:12                                                         -->
+<META HTTP-EQUIV="updated" CONTENT="Sat, 14 Feb 2009 16:02:39">
+<META HTTP-EQUIV="review" CONTENT="Sun, 14 Feb 2010 16:02:39">
+<META HTTP-EQUIV="expires" CONTENT="Mon, 14 Feb 2011 16:02:39">
+<link rel="stylesheet" type="text/css" href="syntax.css">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<a name="Toc"/>
+<HR><H1><A NAME="Header_1">Introduction</A></H1>
+<P>Following is a very brief introduction to the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> and the Examples provided.
+<P>
+<HR><H2><A NAME="Header_2">Layouts</A></H2>
+<P>This package uses <font color="blue">Layouts</font> to describe a record or Line. The system
+uses a 3 level definition of each record as follows.
+<DL COMPACT>
+<DD>Layout <font color="red">::</font> 1 or more Records
+<DD>Record <font color="red">::</font> 1 or more Fields
+</DL>
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="25%">Field
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="75%">Java Class
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">Layout
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">net.sf.RecordEditor.record.LayoutDetail
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">Record
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">net.sf.RecordEditor.record.RecordDetail
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">Field
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">net.sf.RecordEditor.record.types.FieldDetails
+</TD></TR></TABLE>
+<P>
+<img SRC="Diagram/Record_Group.GIF">
+<P>
+<HR><H2><A NAME="Header_3">Line class</A></H2>
+<P>Java class <font color="blue">net.sf.RecordEditor.record.Line</font> represents one line
+(or data record) in the file. The main methods are
+<UL COMPACT>
+<LI>getField(int recordIndex, int fieldIndex) or getField(FieldDetails field)
+or getField(String fieldName) - gets the value of a field
+<LI>setField(int recordIndex, int fieldIndex, Object value) or setField(FieldDetails field, Object value)
+or setField(String fieldName, Object value) - sets the value of a field
+<LI>byte[] getData() - gets the value of the line.
+</UL>
+<P>
+<HR><H2><A NAME="Header_4">Type interface</A></H2>
+<A NAME="IDX9"></A>
+<P>Java classes that implement the interface
+<font color="blue">net.sf.RecordEditor.record.types.Type</font> are used to convert a field's
+value between the external representation and a Java String representation for
+display on the screen.
+<P>
+<HR><H2><A NAME="Header_5">TypeManager</A></H2>
+<A NAME="IDX10"></A>
+<P>The <B>TypeManager</B> is used store the <B>Type's</B> and
+<B>CellFormat's</B>. You can use the
+static method <B>getSystemTypeManager</B> to get the system <B>TypeManager</B>.
+The method <B>register</B> is used to define new <B>Types</B> to the system.
+<P>
+<PRE><SPAN CLASS="gutter">   1:</SPAN>        TypeManager typeManager <SPAN CLASS="syntax18">=</SPAN> TypeManager.<SPAN CLASS="syntax6">getSystemTypeManager</SPAN>();
+</PRE><P><P><HR><H2><A NAME="Header_6">Examples</A></H2>
+<P>The examples are in the directory <B>&lt;install_directory&gt;/src</B> package
+<B>net.sf.RecordEditor.examples</B>.
+<P>Before you do anything else, you <B>must</B> update the constants in
+<font color="blue"><b>net.sf.RecordEditor.examples.Constants</b></font>
+<P>All the examples require <font color="blue">JRecord.jar</font> and <font color="blue">RecordEdit.jar</font> to be added to the java
+<B>class path</B>. These jars
+will be in <B>&lt;install_directory&gt;/lib</B> directory.
+<P>Example class's CobolCopybookReader.java and CopybookToLayout.java + example programs
+XmplEditViaCobol.java and XmplEditSpecificFile3.java requires <font color="blue">JRecord.jar</font>, <font color="blue">RecordEdit.jar</font>
+and <font color="blue">LayoutEdit.jar</font> to be added to the java <B>class path</B>.
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+ 
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="20%">Java Class
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="80%">Purpose
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">CobolCopybookReader.java
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">A Cobol Copybook Interface.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Constants.java
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Constants used by the examples. You may need to
+<font color="red"><b>Update</b></font> this file.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">FileToVelocity.java
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">This class will format
+  <UL COMPACT>
+    <LI>a Record oriented File (i.e. a file of Lines) using a velocity Template.
+    <LI>Selected files in a directory using velocity
+  </UL>
+<P>For example if a Record-Layout of "<font color="blue"><b>ams Receipt</b></font>" then the
+following classes will be generated
+ 
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="20%">Java Class
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="80%">Purpose
+ 
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">AmsReceipt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">A class (extends Line) to access lines using
+the supplied <B>RecordLayout</B>
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">AmsReceiptProvider
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Class to create `<B>AmsReceipt</B>` Lines
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">AmsReceiptProcess
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Class to process files of Record-Layout "<font color="blue"><b>ams Receipt</b></font>".
+ 
+</TD></TR></TABLE>
+  <P>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">FormatComboExample
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Example of a Format
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">LineDTAR0020.java
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Sample hand coded line example
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">TypeCheckBoxYN.java
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Sample Type and Cell_Format interfaces
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">TypeComboExample.java
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Sample Type and Cell_Format interfaces
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">CopybookToLayout.java
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Converts a XML/Cobol Copybook to a Layout
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">XmplDecider.java
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Example of using Record Deciders (java classes that decide which layout to use)
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">XmplEditFormat1
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Example of adding a Format to the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a>
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">XmplEditSpecificFile1.java
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Edit a specified file with the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a>
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">XmplEditSpecificFile2.java
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">This is an example of editing a specific file using the Record Frame (i.e. one record per frame)
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">XmplEditSpecificFile3.java
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">This is an example of editing a specific file using your own JTable
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">XmplEditSuppliedData.java
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">This is an example of editing program supplied data with the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a>
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">XmplEditType1.java
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Example of defining your own Types
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">XmplFileStructure1.java
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">This is a example of introducing a new file structure (Mainframe VB with a maximum block size of 9040)
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">XmplFileStructure2.java
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">This is a example of introducing a new file structure. In this case
+this file structure is for Comma / Tab delimited files with the Column names on the second line of the file
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">XmplFileToVelocity1.java
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">This is an example of formatting selected files from a directory using Velocity (via FileToVelocity.java).
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">XmplLineBuilder.java
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">
+This class takes a <B>Record-Layout</B> and generates 3 java class's (using Velocity)&#58;
+<UL COMPACT>
+  <LI>A specific <B>Line</B> class to access records using this <B>Record-Layout</B>
+  <LI>A <B>LineProvider</B> class for the line class generated
+  <LI>A class to process files of the supplied record layout
+</UL>
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">XmplLineIO1.java
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Demonstrates Reading a file using <B>RecordEditor's</B> Line Based Routines.
+See <A HREF="#HDRXLIO1">"Reading a File"</A> for more details.
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">XmplLineIO2.java
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Demonstrates Reading and writing files using <B>RecordEditor's</B> Line Based Routines. It also
+illustrates <B>LineIOProvider</B> and <B>LineProvider</B>.
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">XmplLineIO2.java
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Demonstrates Reading files using the <B>CobolCopybookReader</B> interface.
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">XmplLineIoVLR1.java
+<BR></TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Example of reading a Standard Variable length record file (VB file on the mainframe).
+<BR></TD></TR></TABLE>
+<P>
+<HR><H1><A NAME="Header_7">Reading and Writing Files</A></H1>
+<P>The package provides standard classes for reading, writing Fixed formatting
+data files
+<P>
+<P>
+<HR><H2><A NAME="HDRXLIO1">Reading a File</A></H2>
+<P>The example program <B>XmplLineIO1</B> provides a simple example
+of processing a file using the <B>RecordEditor's</B>
+IO routines.
+<P>
+<HR><H2><A NAME="Header_9">Reading using User-Defined-Lines</A></H2>
+<P>The example program <B>XmplLineIO2</B> illustrates the following points&#58;
+<UL COMPACT>
+  <LI>On line 3, the <B>file structure</B> is retrieved from the Copybook.
+  <LI>On line 7, we create a line reader that will use <B>line-provider</B>
+<font color="blue"><b>DTAR0020provider</b></font> to create <font color="blue"><b>LineDTAR0020</b></font> instead of
+the standard <font color="blue"><b>Line</b></font> class.
+  <LI>On line 9, we create a Line writer appropriate to the file structure retrieved at line 3.
+</UL>
+<P>
+<P>
+<P>
+<HR><H2><A NAME="Header_10">Generating Interfaces to files</A></H2>
+<A NAME="IDX11"></A>
+<P>The <B>XmplLineBuilder</B> can be used to generate interfaces classes to
+Cobol like files.
+<P>The main method is <B>genType</B>. It has the following parameters&#58;
+<TABLE CELLPADDING="3">
+  <TR VALIGN="TOP"><TD><B>typeName</B></TD><TD>type name to be generated
+  </TD></TR><TR VALIGN="TOP"><TD><B>extendProcess</B></TD><TD>what class the generated process class should extend
+  </TD></TR><TR VALIGN="TOP"><TD><B>arrays</B></TD><TD>list of arrays to watch for
+  </TD></TR><TR VALIGN="TOP"><TD><B>getAndSet</B></TD><TD>wether to generate getters and setters
+  </TD></TR><TR VALIGN="TOP"><TD><B>defineFields</B></TD><TD>wether to define all the fields
+</TD></TR></TABLE>
+<P>This method builds 3 classes&#58;
+<P> <P>
+<TABLE CELLPADDING="3">
+  <TR VALIGN="TOP"><TD><B>Line</B></TD><TD>The program builds a Line class specifically for the supplied
+<B>Record Layout</B> with optional Getter's and Setter's.
+  </TD></TR><TR VALIGN="TOP"><TD><B>LineProvider</B></TD><TD>A line provider for the Generated <B>Line</B> class
+  </TD></TR><TR VALIGN="TOP"><TD><B>Process</B></TD><TD>A class to process files of the supplied <B>Record Layout</B>.
+</TD></TR></TABLE>
+<P>
+<P>There are examples of generated java programs in package
+<font color="blue">net.sf.RecordEditor.examples.genCode</font>
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="25%">Record Layout
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="25%">Generate Line
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="25%">Generated Line Provider
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="25%">Generated Process Class
+ 
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">ams PO Download
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">AmsPoDownload
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">AmsPoDownloadProvider
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">AmsPoDownloadProcess
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">ams Receipt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">AmsReceipt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">AmsReceiptProvider
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">AmsReceiptProcess
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">EDI PO
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">EdiPo
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">EdiPoProvider
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">EdiPoProcess
+</TD></TR></TABLE>
+<P>
+<HR><H1><A NAME="HDRVELOCITY">Formatting files with Velocity</A></H1>
+<P>The class <font color="blue">FileToVelocity</font> can format a file/files in a directory using
+<a href="http://jakarta.apache.org/velocity/">Velocity</a>.
+There are examples of its use in <font color="blue">XmplFileToVelocity1</font>.
+<P>
+<P>Methods in <font color="blue">FileToVelocity</font>
+<P>
+<P>
+<P><H3><A NAME="Header_12">Calling FileToVelocity</A></H3>
+<P>The following is an example of using <font color="blue">FileToVelocity</font> (taken from <font color="blue">XmplFileToVelocity1</font>).
+<P>
+<P>
+<P><H3><A NAME="Header_13">Sample Velocity Templates</A></H3>
+<P>If you use a <B>LineIOprovider</B> and your own <B>Line</B> class,
+you can use Getter's &amp; Setter's to access
+the various fields.
+<P>
+<P>
+<P>Alternatively if you use the generic <B>Line</B> class, you must
+use the generic <font color="blue">getField</font> to get a fields value&#58;
+<P>
+<P>
+<P>Finally you can also use <font color="blue">getField(String fieldname)</font> of <B>Line</B> class
+to retrieve field values:
+<P>
+<P>
+<HR><H1><A NAME="Header_14">Extending the Record Editor</A></H1>
+<P>The <B>RecordEditor</B> can be extended in a number of ways&#58;
+<UL COMPACT>
+  <LI>New types can be added.
+  <LI>New Cell formats can be added.
+  <LI>New file Structure can be added
+</UL>
+<P>All these examples require you update a <B>Table</B> in the <font color="blue"><b>Layout Editor</b></font>
+<P>
+<HR><H2><A NAME="HDRTABLE">Editting a Table in the LayoutEditor</A></H2>
+<P>After starting the <B>LayoutEdit</B>, the menu screen is displayed&#58;
+<P>
+<img SRC="Diagram/LayoutEdit_Menu.GIF">
+<P>
+<P>Click on the second option <B>Edit Tables</B> and the Table edit screen is displayed&#58;
+<P>
+<img SRC="Diagram/LayoutEdit_Table.png">
+<P>
+<P>You can select a table to be updated by clicking on the Table in the list on the left.
+<P>
+<HR><H2><A NAME="Header_16">Type Interface</A></H2>
+<A NAME="IDX12"></A>
+<P>A `<B>Type</B>` acts as an interface between the fields storage in the data
+record and how it is displayed on the screen. It contains methods to extract a field
+from the data record (<B>getField</B>) and store it back in the data record
+<P>
+<P>
+<HR><H2><A NAME="HDRFORMAT">CellFormat Interface</A></H2>
+<P>A `<B>CellFormat</B>` provides TableCellRenderer's and TableCellEditor's
+to the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a>. A CellFormat added to the system as part of a Type or
+as a separately  as Formats.
+<P>
+<P>
+<HR><H2><A NAME="Header_18">TypeManager</A></H2>
+<A NAME="IDX13"></A>
+<P>The <B>TypeManager</B> is used store the <B>Type's</B> and
+<B>CellFormat's</B>. You can use the
+static method <B>getSystemTypeManager</B> to get the system <B>TypeManager</B>.
+<P>
+<PRE><SPAN CLASS="gutter">   1:</SPAN>        TypeManager typeManager <SPAN CLASS="syntax18">=</SPAN> TypeManager.<SPAN CLASS="syntax6">getSystemTypeManager</SPAN>();
+<SPAN CLASS="gutter">   2:</SPAN></PRE>
+<P>
+<P>Initially the <B>TypeManager</B> allows
+<B>user types</B> and <B>user Cell Formats</B> to have Id's of 1000 -&gt; 1050.
+You can increase the number of User Types/Cell Formats via the <B>setSystemTypeManager</B> method.
+<P>
+<PRE><SPAN CLASS="gutter">   1:</SPAN>        TypeManager.<SPAN CLASS="syntax6">setSystemTypeManager</SPAN>(<SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">TypeManager</SPAN>(<SPAN CLASS="syntax14">true</SPAN>, <SPAN CLASS="syntax5">200</SPAN>, <SPAN CLASS="syntax5">100</SPAN>));
+</PRE><P><P>You can define a type to a TypeManager by
+<P>
+<PRE><SPAN CLASS="gutter">   1:</SPAN>            typeManager.<SPAN CLASS="syntax6">registerType</SPAN>(1000, checkBox);
+<SPAN CLASS="gutter">   2:</SPAN></PRE>
+<P>
+<P>Alternatively you can also assign a CellFormat to a Type as well by
+<P>
+<PRE><SPAN CLASS="gutter">   1:</SPAN>            typeManager.<SPAN CLASS="syntax6">registerType</SPAN>(1000, checkBox, checkBox);
+<SPAN CLASS="gutter">   2:</SPAN></PRE>
+<P>
+<HR><H2><A NAME="HDRTYPE">Adding a Type to the RecordEditor</A></H2>
+<P>
+<P><H3><A NAME="Header_20">Create the Type (new method)</A></H3>
+<A NAME="IDX14"></A>
+<P>
+<P><H4><A NAME="Header_21">Jave code for US Date Type</A></H4>
+<P>Following is the java code to implement a US Style MM/DD/YY date.
+<P>
+<PRE><SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax9">package</SPAN> net.sf.RecordEditor.examples;
+<SPAN CLASS="gutter">   2:</SPAN>
+<SPAN CLASS="gutter">   3:</SPAN><SPAN CLASS="syntax9">import</SPAN> net.sf.JRecord.Types.TypeChar;;
+<SPAN CLASS="gutter">   4:</SPAN><SPAN CLASS="syntax9">import</SPAN> net.sf.RecordEditor.record.types.TypeDateWrapper;
+<SPAN CLASS="gutterH">   5:</SPAN>
+<SPAN CLASS="gutter">   6:</SPAN><SPAN CLASS="syntax3">/**</SPAN>
+<SPAN CLASS="gutter">   7:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">provide</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">a</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">US</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">style</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">date</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">(</SPAN><SPAN CLASS="syntax3">mm</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">dd</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">yy</SPAN><SPAN CLASS="syntax3">)</SPAN>
+<SPAN CLASS="gutter">   8:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN>
+<SPAN CLASS="gutter">   9:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax12">@author</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">Bruce</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">Martin</SPAN>
+<SPAN CLASS="gutterH">  10:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN>
+<SPAN CLASS="gutter">  11:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*/</SPAN>
+<SPAN CLASS="gutter">  12:</SPAN><SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax10">class</SPAN> USdate8 <SPAN CLASS="syntax8">extends</SPAN> TypeDateWrapper <SPAN CLASS="syntax18">{</SPAN>
+<SPAN CLASS="gutter">  13:</SPAN>
+<SPAN CLASS="gutter">  14:</SPAN>    <SPAN CLASS="syntax3">/**</SPAN>
+<SPAN CLASS="gutterH">  15:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">provide</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">a</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">US</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">style</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">date</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">(</SPAN><SPAN CLASS="syntax3">mm</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">dd</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">yy</SPAN><SPAN CLASS="syntax3">)</SPAN>
+<SPAN CLASS="gutter">  16:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*/</SPAN>
+<SPAN CLASS="gutter">  17:</SPAN>    <SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax6">USdate8</SPAN>() <SPAN CLASS="syntax18">{</SPAN>
+<SPAN CLASS="gutter">  18:</SPAN>        <SPAN CLASS="syntax14">super</SPAN>(<SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">TypeChar</SPAN>(<SPAN CLASS="syntax14">true</SPAN>), <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">MM/dd/yy</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>);
+<SPAN CLASS="gutter">  19:</SPAN>    <SPAN CLASS="syntax18">}</SPAN>
+<SPAN CLASS="gutterH">  20:</SPAN><SPAN CLASS="syntax18">}</SPAN>
+</PRE><P><P>Following is the code to provide a special Date Editor
+<P>
+<PRE><SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax9">package</SPAN> net.sf.RecordEditor.examples;
+<SPAN CLASS="gutter">   2:</SPAN>
+<SPAN CLASS="gutter">   3:</SPAN><SPAN CLASS="syntax9">import</SPAN> net.sf.RecordEditor.record.format.DateFormat;
+<SPAN CLASS="gutter">   4:</SPAN>
+<SPAN CLASS="gutterH">   5:</SPAN><SPAN CLASS="syntax3">/**</SPAN>
+<SPAN CLASS="gutter">   6:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">US</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">date</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">cell</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">format</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">(</SPAN><SPAN CLASS="syntax3">MM</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">DD</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">YY</SPAN><SPAN CLASS="syntax3">)</SPAN>
+<SPAN CLASS="gutter">   7:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN>
+<SPAN CLASS="gutter">   8:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax12">@author</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">Bruce</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">Martin</SPAN>
+<SPAN CLASS="gutter">   9:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN>
+<SPAN CLASS="gutterH">  10:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*/</SPAN>
+<SPAN CLASS="gutter">  11:</SPAN><SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax10">class</SPAN> USdateFormat8 <SPAN CLASS="syntax8">extends</SPAN> DateFormat <SPAN CLASS="syntax18">{</SPAN>
+<SPAN CLASS="gutter">  12:</SPAN>
+<SPAN CLASS="gutter">  13:</SPAN>    <SPAN CLASS="syntax3">/**</SPAN>
+<SPAN CLASS="gutter">  14:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">US</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">date</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">cell</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">format</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">(</SPAN><SPAN CLASS="syntax3">MM</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">DD</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">YY</SPAN><SPAN CLASS="syntax3">)</SPAN>
+<SPAN CLASS="gutterH">  15:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*/</SPAN>
+<SPAN CLASS="gutter">  16:</SPAN>    <SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax6">USdateFormat8</SPAN>() <SPAN CLASS="syntax18">{</SPAN>
+<SPAN CLASS="gutter">  17:</SPAN>        <SPAN CLASS="syntax14">super</SPAN>(<SPAN CLASS="syntax14">true</SPAN>, <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">MM/dd/yy</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>);
+<SPAN CLASS="gutter">  18:</SPAN>    <SPAN CLASS="syntax18">}</SPAN>
+<SPAN CLASS="gutter">  19:</SPAN><SPAN CLASS="syntax18">}</SPAN>
+<SPAN CLASS="gutterH">  20:</SPAN>
+</PRE><P><P>You now need to bundle this Type as a Java Jar file.
+<P>
+<P><H4><A NAME="Header_22">Defining a Type to the RecordEditor</A></H4>
+<P>Start the <font color="blue">Edit RecordEditor Startup Properties</font> and go to the
+<B>User Types</B> tag and entor the new Type as in the diagram below:
+<P>
+<img SRC="Diagram/Setup_Type.GIF">
+<P>
+<P>The next step is to define where your type is found, so go to the <B>User Jars</B>
+tag an enter your new jar as below
+<P>
+<img SRC="Diagram/Setup_UserJars.GIF">
+<P>
+<P>You can now use the new Type in both the <B>RecordEditor</B> and the <B>LayoutEditor</B>.
+<P>
+<P>
+<P><H3><A NAME="Header_23">Create the Type (old method)</A></H3>
+<A NAME="IDX15"></A>
+<P>The first step is the type (examples are <font color="blue"><b>TypeCheckBoxYN.Java</b></font>
+and <font color="blue"><b>TypeComboExample.Java</b></font>)
+<P>
+<PRE><SPAN CLASS="gutter">   3:</SPAN>    <SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax10">class</SPAN> TypeCheckBoxYN <SPAN CLASS="syntax8">implements</SPAN> Type, CellFormat <SPAN CLASS="syntax18">{</SPAN>
+<SPAN CLASS="gutter">   4:</SPAN>
+        <font color="blue"><b>....    Type Code goes here    .....</b></font>
+<SPAN CLASS="gutterH">   5:</SPAN>
+<SPAN CLASS="gutter">   6:</SPAN>    <SPAN CLASS="syntax18">}</SPAN></PRE>
+<P>
+<P><H4><A NAME="Header_24">Defining a Type to the RecordEditor</A></H4>
+<P>There are 2 ways to define a Type to the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a>
+<OL TYPE=1>
+ <P><LI>Via the <font color="blue">Edit RecordEditor Startup Properties</font> program
+ <P><LI>Via the old method
+</OL>
+<P><I><B><A NAME="HDRTYPEDEF">Define the Type in the LayoutEditor</A>:&nbsp;</B></I>&nbsp;
+Next step is to define the Type to the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a>. This is done in table 1, the
+<B>Type</B> table (go into <B>LayoutEdit</B>,
+take option 2 <B>Edit Tables</B>. See <A HREF="#HDRTABLE">"Editting a Table in the LayoutEditor"</A> for details).
+In the picture below, a new user type <font color="blue"><b>1001  ~  Checkbox Y/N</b></font>
+has been defined
+<P>
+<img SRC="Diagram/Example_TypeDef.GIF">
+<P>
+<P><I><B><A NAME="Header_26">Using the new Type</A>:&nbsp;</B></I>&nbsp;
+You should now be able to use the Type <font color="blue"><b>Checkbox Y/N</b></font> in
+the field definition panel (Record Definition screen) as below.
+<P>
+<img SRC="Diagram/Example_TypeUse.GIF">
+<P>
+<P>
+<P><I><B><A NAME="HDRSTARTED">Starting the RecordEditor with the new Type</A>:&nbsp;</B></I>&nbsp;
+The final step is to start the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> with the new Type. Please note
+that at line 9, the new type <font color="blue"><b>checkBox</b></font> is defined as
+type number <font color="blue"><b>1001</b></font>, which is exactly the same as what it was
+defined in the LayoutEdit (see <A HREF="#HDRTYPEDEF">"Define the Type in the LayoutEditor"</A>).
+<P>
+<P>
+<P>This java code came from <B>XmplType1.Java</B>
+<P>
+<P><H4><A NAME="Header_28">Editing a File</A></H4>
+<P>Finally after starting the editor using the java code from <A HREF="#HDRSTARTED">"Starting the RecordEditor with the new Type"</A>,
+it should like (with Combobox's and Checkbox's).
+<P>
+<img SRC="Diagram/Example_TypeRecEdit.GIF">
+<P>
+or the record view
+<P>
+<img SRC="Diagram/Example_TypeRecord.GIF">
+<P>
+<HR><H2><A NAME="HDRFORMAT">Adding a Format to the RecordEditor</A></H2>
+<P>This section goes through adding and then using a <A HREF="#HDRFORMAT">"Adding a Format to the RecordEditor"</A> in the RecordEdit.
+<P>
+<P><H4><A NAME="Header_30">Writing a format</A></H4>
+<P>The following code was extracted from <B>FormatComboExample.java</B>
+<P>
+<P>
+<P><H4><A NAME="HDRFMTDEF">Define the Format in the LayoutEditor</A></H4>
+<P>Next step is to define the Format in the Format Table (go into <B>LayoutEdit</B>,
+take option 2 <B>Edit Tables</B>, finally click on <B>Table 5 ~ Formats</B>.
+See <A HREF="#HDRTABLE">"Editting a Table in the LayoutEditor"</A> for details)
+and enter the new format (in this case <font color="blue"><b>1001 ~ ComboBox</b></font>).
+<P>
+<img SRC="Diagram/Example_FmtDef.GIF">
+<P>
+<P>
+<P><H4><A NAME="HDRFMTUSE">Using the new Format</A></H4>
+<P>You should now be able to use the format <font color="blue"><b>Combobox</b></font> in Record
+field definitions.
+<P>
+<img SRC="Diagram/Example_FmtUse.GIF">
+<P>
+<P><H4><A NAME="HDRFMTST">Starting the RecordEditor with the new Type</A></H4>
+<P>
+<P>The final step is to start the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> with the new Format. Please note
+<OL COMPACT TYPE=1>
+ <LI>On line 12, the Combo Items are registered against <font color="blue"><b>AMS PO Type</b></font>
+which is the field Parameter in <A HREF="#HDRFMTUSE">"Using the new Format"</A>
+ <LI>On line 15, the <B>comboFormat</B> is defined to the system with a key
+of <font color="blue"><b>1001</b></font>, which was also used in <A HREF="#HDRFMTDEF">"Define the Format in the LayoutEditor"</A>.
+</OL>
+<P>
+<P>
+<P><H4><A NAME="Header_34">Editing a File</A></H4>
+<P>
+<P>Finally after starting the editor using the java code from <A HREF="#HDRFMTST">"Starting the RecordEditor with the new Type"</A>
+<P>
+<img SRC="Diagram/Example_FmtRecEdit.GIF">
+<P>
+<HR><H2><A NAME="HDRDECIDER">Record Deciders</A></H2>
+<P>When there are more than one Record in a Layout, there has to be a way to decide
+which record should be used. One way of doing this is via a RecordDecider&#58;
+<P>
+<PRE><SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax10">interface</SPAN> RecordDecider <SPAN CLASS="syntax18">{</SPAN>
+<SPAN CLASS="gutter">   2:</SPAN>
+<SPAN CLASS="gutter">   3:</SPAN>    <SPAN CLASS="syntax3">/**</SPAN>
+<SPAN CLASS="gutter">   4:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">Get</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">the</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">prefered</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">Layout</SPAN>
+<SPAN CLASS="gutterH">   5:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN>
+<SPAN CLASS="gutter">   6:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax12">@param</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">line</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">to</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">decide</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">what</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">the</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">prefered</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">layout</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">is</SPAN>
+<SPAN CLASS="gutter">   7:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN>
+<SPAN CLASS="gutter">   8:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax12">@return</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">the</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">prefered</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">layout</SPAN>
+<SPAN CLASS="gutter">   9:</SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3"> </SPAN><SPAN CLASS="syntax3">*/</SPAN>
+<SPAN CLASS="gutterH">  10:</SPAN>    <SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax8">abstract</SPAN> <SPAN CLASS="syntax10">int</SPAN> <SPAN CLASS="syntax6">getPreferedIndex</SPAN>(Line line);
+<SPAN CLASS="gutter">  11:</SPAN><SPAN CLASS="syntax18">}</SPAN>
+</PRE><P><P>Once you have created a <font color="blue"><b>RecordDecider</b></font>, you must register it
+and start the Editor as follows (example taken from <font color="blue"><b>XmplDecider.java</b></font>)&#58;
+<P>
+<PRE><SPAN CLASS="gutter">   1:</SPAN>        CopyBookDbReader copybook <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">CopyBookDbReader</SPAN>();
+<SPAN CLASS="gutter">   2:</SPAN>
+<SPAN CLASS="gutter">   3:</SPAN>        copybook.<SPAN CLASS="syntax6">registerDecider</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">ProductExmpl</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>, <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">XmplDecider</SPAN>());
+<SPAN CLASS="gutter">   4:</SPAN>
+<SPAN CLASS="gutterH">   5:</SPAN>        <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">EditRec</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>, <SPAN CLASS="syntax5">1</SPAN>, copybook);
+</PRE><P><HR><H2><A NAME="HDRFILESTR">Adding a File Structure</A></H2>
+<P>To add a new file structure, you must&#58;
+<OL COMPACT TYPE=1>
+  <LI>Create a <B>Line-Reader</B> (must extend class <font color="blue"><b>AbstractLineReader</b></font>)
+and <B>Line-Writer</B> (must extend class <font color="blue"><b>AbstractLineWriter</b></font>).
+  <LI>Define the new <B>File Structure</B> in the <font color="blue"><b>File Structure</b></font> Table. See <A HREF="#HDRTABLE">"Editting a Table in the LayoutEditor"</A> for details.
+  <LI>Create a new <font color="blue"><b>LineIOProvider</b></font> that uses the new <B>Line-Reader</B> and <B>Line-Writer</B>.
+  <LI>Call the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> with the new <font color="blue"><b>LineIOProvider</b></font>
+</OL>
+<P>
+<P>
+<P><H4><A NAME="Header_37">Line Reader</A></H4>
+<P>To create a new file structure, you must create a new <B>LineReader</B>
+that extends the class <font color="blue"><b>AbstractLineReader</b></font> and implements the
+abstract methods <B>open, read</B> and <B>close</B>.
+<P>
+<P>
+<P><H4><A NAME="Header_38">Line Writer</A></H4>
+<P>You must also create a new <B>LineWriter</B>
+that extends the class <font color="blue"><b>AbstractLineWriter</b></font> and implements the abstract
+methods <B>open, write</B> and <B>close</B>.
+<P>
+<P>
+<P>
+<P><H4><A NAME="Header_39">Defining the File Structure in the LayoutEditor</A></H4>
+<P>The next step is to add the new <B>file structure</B> to the
+<B>File Structure</B> table. See <A HREF="#HDRTABLE">"Editting a Table in the LayoutEditor"</A> for details.
+<img SRC="Diagram/Example_FSDef.GIF">
+<P>
+<P>
+<P><H4><A NAME="Header_40">Using the new File Structure</A></H4>
+<P>You should now be able to use the new file structure in the <B>Record-Definition</B>
+Extra panel&#58;
+<P>
+<img SRC="Diagram/Example_FSUse.GIF">
+<P>
+<P><H4><A NAME="HDRIDPROV">Creating a LineIOProvider</A></H4>
+<P>Following is a sample <B>LineIOProvider</B> that will create the new
+LineReader's / LineReader's if the appropriate <B>file structure</B> is supplied.
+<P>
+<P>
+<P>
+<P><H4><A NAME="Header_42">Starting the RecordEditor</A></H4>
+<P>The following code starts the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> with the <B>LineIOProvider</B>
+from <A HREF="#HDRIDPROV">"Creating a LineIOProvider"</A>. This will introduce the new File Structures.
+<P>
+<PRE><SPAN CLASS="gutter">   1:</SPAN>        CopyBookDbReader copybook <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">CopyBookDbReader</SPAN>();
+<SPAN CLASS="gutter">   2:</SPAN>
+<SPAN CLASS="gutter">   3:</SPAN>        <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">EditRec</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>, <SPAN CLASS="syntax5">1</SPAN>, <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">XmplFileStructure2</SPAN>(), copybook);
+<SPAN CLASS="gutter">   4:</SPAN>
+</PRE><P><P><H4><A NAME="Header_43">Examples</A></H4>
+<P>See <B>XmplFileStructure1.java</B> and <B>XmplFileStructure2.java</B>
+for examples.
+<HR><H2><A NAME="Header_44">Copybook Loader</A></H2>
+<P>If you already have record layouts (Copybooks in Cobol), you should look at
+the writing your own CopybookLoader. This will allow you to import the <font color="blue">record layouts</font>
+into the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> as well as use the layouts in the <font color="blue">Cobol Editor</font> program
+<P>
+<P><H3><A NAME="Header_45">CopybookLoader Interface</A></H3>
+<P>The <B>CopybookLoader Interface</B> describes a class to load a external Record Layout into
+the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a>'s internal DB.
+<P>
+<P>
+<P><H3><A NAME="Header_46">Sample Copybook Loader</A></H3>
+<P>Following is a simple class to load a <B>Record Layout</B> (copybook) from
+a Tab delimited file.
+<P>
+<P>
+<P><H3><A NAME="Header_47">Adding a Copybook Loader to the RecordEditor</A></H3>
+<P>There are 2 steps to defining your Copybook loader to the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a>
+<OL COMPACT TYPE=1>
+ <LI>First you must add the code you have written to the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> (as a jar)
+via the <font color="blue">Edit RecordEditor Startup Properties</font> program.
+<P>
+<img SRC="Diagram/Setup_UserJars.GIF">
+<P>
+ <LI>Next you must define your new Class on the <B>Copybook Loaders</B> tag
+<P>
+<img SRC="Diagram/Setup_CopybookLoader.GIF">
+<P>
+</OL>
+<P>
+<P>You should now ne able to import your layouts in to the RecordEditor + Edit
+your files using your Layouts in the <font color="blue">Cobol Editor</font>
+<P>
+<HR><H1><A NAME="HDRCOPYBOOK">Copybook Interface</A></H1>
+<P>The <B>CopyBookInterface</B> describes a class that acts as an interface
+between the external storage of layouts (copybooks in Cobol terminology) and
+the java representation <B>LayoutDetail</B>. By default the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a>
+uses class <font color="blue"><b>CopyBookDbReader</b></font> (which reads copybooks from a Database),
+but you could create your own. An alternate implementation of <B>CopyBookInterface</B>
+is <font color="blue"><b>CobolCopybookReader</b></font> which read's <B>Cobol Copybooks</B> instead of a Database.
+<P>
+<P>
+<P><H3><A NAME="Header_49">Using CobolCopybookReader in the RecordEditor</A></H3>
+<A NAME="IDX16"></A>
+<P>To start the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> with the <B>CobolCopybookReader</B> class (from XmplEditViaCobol.java)&#58;
+<P>
+<PRE><SPAN CLASS="gutter">   1:</SPAN>        <SPAN CLASS="syntax8">try</SPAN> <SPAN CLASS="syntax18">{</SPAN>
+<SPAN CLASS="gutter">   2:</SPAN>            CobolCopybookReader copybook <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">CobolCopybookReader</SPAN>();
+<SPAN CLASS="gutter">   3:</SPAN>
+<SPAN CLASS="gutter">   4:</SPAN>            <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">EditRec</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>, <SPAN CLASS="syntax5">1</SPAN>, copybook); <SPAN CLASS="syntax2">//</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">starting</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">the</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">record</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">editor</SPAN>
+<SPAN CLASS="gutterH">   5:</SPAN>
+<SPAN CLASS="gutter">   6:</SPAN>        <SPAN CLASS="syntax18">}</SPAN> <SPAN CLASS="syntax8">catch</SPAN> (Exception e) <SPAN CLASS="syntax18">{</SPAN>
+</PRE><P><P><H3><A NAME="Header_50">Using CobolCopybookReader to read Cobol Files</A></H3>
+<A NAME="IDX17"></A>
+<P>You can also use the <B>CobolCopybookReader</B> to read files (see line 8 below)&#58;
+<P>
+<P>
+<P>
+<HR><H1><A NAME="Header_51">Options for starting the RecordEditor</A></H1>
+<P>The <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> can also be started in a number of ways from Java programs.
+This section shows various ways of doing this.
+<P>
+<HR><H2><A NAME="Header_52">Editing a Specific file</A></H2>
+<A NAME="IDX18"></A>
+<P>If you want to start the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> with a specific file, then
+the following code from <B>XmplEditSpecificFile1.Java</B> will do it.
+<P>
+<P>
+<P>
+<HR><H2><A NAME="Header_53">Edit a File one Record at time</A></H2>
+<A NAME="IDX19"></A>
+<P>It is also possible to edit a file with the Single Record view  (i.e. one
+line or record is displayed on the screen at a time with fields going down the
+screen). The following code from <B>XmplEditSpecificFile2.Java</B> does this.
+<P>
+<P>
+<P>
+<HR><H2><A NAME="Header_54">Other Examples</A></H2>
+<A NAME="IDX20"></A>
+<TABLE CELLPADDING="3">
+  <TR VALIGN="TOP"><TD><P><B>XmplEditSpecificFile3.Java
+    </B></TD><TD><P>Shows how to edit a file using your own JTable
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>XmplEditSuppliedData.Java
+    </B></TD><TD><P>This example demonstrates calling the <B>RecordEditor</B> using program-generated data.
+</TD></TR></TABLE>
+<P>
+<HR><H1><A NAME="HDRINDEX_START">Index</A></H1>
+<STRONG>C</STRONG>
+<MENU>
+<LI>Cobol 
+<MENU>
+<LI>Editting using a Cobol Copybook 
+<A HREF="#IDX16">(16)</A>
+<LI>Reading a file using a Cobol Copybook 
+<A HREF="#IDX17">(17)</A>
+</MENU>
+</MENU>
+<STRONG>E</STRONG>
+<MENU>
+<LI>Editting 
+<MENU>
+<LI>Editing a file one record at a time 
+<A HREF="#IDX19">(19)</A>
+<LI>Editing a program Supplied Data 
+<A HREF="#IDX20">(20)</A>
+<LI>Editing a Specific file 
+<A HREF="#IDX18">(18)</A>
+</MENU>
+<LI>Examples 
+</MENU>
+<STRONG>G</STRONG>
+<MENU>
+<LI>Generating 
+<MENU>
+<LI>Line's and LineProviders 
+<A HREF="#IDX11">(11)</A>
+</MENU>
+</MENU>
+<STRONG>I</STRONG>
+<MENU>
+<LI>Interfaces 
+</MENU>
+<STRONG>T</STRONG>
+<MENU>
+<LI>Type 
+<MENU>
+<LI>Creating (new method) 
+<A HREF="#IDX14">(14)</A>
+<LI>Creating (old method) 
+<A HREF="#IDX15">(15)</A>
+<LI>Definition 
+<A HREF="#IDX12">(12)</A>
+<LI>Introduction 
+<A HREF="#IDX9">(9)</A>
+</MENU>
+<LI>TypeManager class 
+<MENU>
+<LI>Definition 
+<A HREF="#IDX13">(13)</A>
+<LI>Introduction 
+<A HREF="#IDX10">(10)</A>
+</MENU>
+</MENU>
+<STRONG>V</STRONG>
+<MENU>
+<LI>Velocity 
+</MENU>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

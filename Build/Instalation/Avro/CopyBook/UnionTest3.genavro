@@ -1,0 +1,45 @@
+/**
+ *   Testing union ...
+ */
+
+protocol tf4 {
+//namespace("net.sf.RecordEditor.avro.Test.UnionTest1")
+
+
+  enum SaleType {
+      RETURN,
+      OTHER,
+      SALE
+  }
+  
+   
+  enum PoType {
+    PURCHASE_ORDER,
+    DIRECT_DELIVERY,
+    RETURN,
+    CONSIGNMENT
+  }
+  
+    
+  record rec3 {
+     SaleType saleType;
+     PoType poType;
+     int i31;
+     long l31;
+     float f31;
+     string s31;
+     boolean b21;
+   }
+
+  record fields {
+    union {null, int, float, double, SaleType, string} f02;
+
+    union {null, long} f08;
+    
+    union {null, double, long, SaleType, string, array<rec3>, map<double>} f22;
+   
+    union {null, double, long, SaleType, string, array<rec3>, map<rec3>} f23;
+
+  }
+  
+}

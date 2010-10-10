@@ -1,0 +1,43 @@
+/**
+ *  Sales File 3 (sorted)
+ */
+@namespace("net.sf.RecordEditor.avro.Test.Sales3sorted")
+
+protocol sales3sorted {
+
+  record Product {
+    @order("descending")
+    int keycode;
+    int saleDate;
+    int quantity;
+    long price;
+  } 
+
+  record Order {
+    int keycode;
+    int quantity;
+  }
+
+  record Summary {
+    int quantity;
+    long price;
+    int count;
+  }
+
+  record Deptartment {
+    @order("descending")
+    int department;
+    string name;
+    array<Product> product;
+    union { null, Summary } summary;
+  }
+
+  record Store {
+    int store ;
+    string name ;
+    array<Deptartment> department;
+    array<Order> order;
+    union { null, Summary } summary;
+    union { null, int } optInt;
+  }
+}

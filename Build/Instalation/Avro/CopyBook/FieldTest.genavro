@@ -1,0 +1,37 @@
+@namespace("net.sf.RecordEditor.avro.Test.TestField")
+
+protocol tf1 {
+
+  enum SaleType {
+      RETURN,
+      OTHER,
+      SALE
+    }
+
+    record fields {
+  
+    int f01;
+    int f02;
+    int f03;
+    int f04;
+    int f05;
+    
+    long f06;
+    long f07;
+    long f08;
+    long f09;
+    long f10;
+
+    float f11;
+    double f12;
+
+    boolean f13;
+    union { null,  boolean} f14;
+    string f15;
+    union {null, string} f16;
+    SaleType f17;
+    union {null, SaleType} f18;
+    bytes f19;
+    union { null,  bytes} f20;
+  }
+}

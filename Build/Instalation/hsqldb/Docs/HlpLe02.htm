@@ -1,0 +1,247 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>Layout Editor</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- /home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/HlpLe.dc -->
+<!-- f converted by B2H R4.7 (390) (LINUX) on 12 Mar 2010 at 01:56:58 -->
+<META HTTP-EQUIV="updated" CONTENT="Fri, 11 Sep 2009 12:13:14">
+<META HTTP-EQUIV="review" CONTENT="Sat, 11 Sep 2010 12:13:14">
+<META HTTP-EQUIV="expires" CONTENT="Sun, 11 Sep 2011 12:13:14">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<HR><H2><A NAME="HDRLAYOUTDEF" HREF="HlpLe.htm#ToC_2" >Record Layout Definition</A></H2>
+<P>The <B>record layout</B> Definition screen is used to
+create new Record Layouts or edit specific layouts.
+<P>
+<img SRC="Diagram/Layout_Edit.png">
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>The fields on this section of the screen are:
+ <TABLE CELLPADDING="3">
+  <TR VALIGN="TOP"><TD><P><B>Field</B>
+  </TD><TD><P><B>Description</B>
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Buttons
+  </B></TD><TD><P>The buttons at the top of Record Screen Save, Create, Repeat, Delete and reload
+Record Details to/from the Database.
+<table><tr><td><img SRC="Diagram/LayoutEdit_RecBtns1.GIF"></td></tr></table>
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Record Name &amp; Description
+  </B></TD><TD><P>Self Evident
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Record Type
+  </B></TD><TD><P>There are 3 basic Record Types (+ binary versions of these):
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><P><B>Record Layout
+</B></TD><TD><P>A normal record consisting of a one or more fixed length fields.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Delimited
+</B></TD><TD><P>Standard Delimiter (i.e. Comma or Tab Delimited) Record. Delimiter files are only
+partially supported (no updates allowed).
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Group of Records
+</B></TD><TD><P>The record consists of a Group of other records. Typically there is a field
+that determines what record to use. It is common for a file to contain
+<UL COMPACT>
+<LI>A File Header Record
+<LI>Many Detail Records
+<LI>A file trailer record
+</UL>
+<P>This would be a good candidate for using a <font color="blue"><b>Group of Records</b></font>.
+In this case you would define 4 records:
+<UL COMPACT>
+<LI>File Header Record
+<LI>Detail Record
+<LI>Trailer Record
+<LI>Master Record (<font color="blue"><b>Group of Records</b></font>) that references the three
+previous (child) records.
+</UL>
+<P>See <A HREF="#HDRCHILD">"Child Records"</A> for the Child Record Definition screen section.
+</TD></TR></TABLE>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>System
+ </B></TD><TD><P>System this Record Layout belongs to. You can Change Create new systems by
+ updating the System Table via the <A HREF="HlpLe07.htm#HDRTESCR">"Table Edit"</A>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Lines to Insert
+ </B></TD><TD><P>This is the lines to insert in the Field Table / Sub-Record Table when the
+insert button (just below) is pressed.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Table Buttons
+ </B></TD><TD><P>The second row of buttons refer to the Field Table / Sub-Record Table immediately below the buttons
+<table><tr><td><img SRC="Diagram/RecordLayout_RecTableBtns.GIF"></td></tr></table>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Record Details
+ </B></TD><TD><P>Lastly we have a Tab Box holding the <A HREF="#HDRFIELD">"Field Records"</A>/<A HREF="#HDRCHILD">"Child Records"</A> tables +
+the <A HREF="#HDREXTRA">"Extra Panel"</A>. These panels define record details.
+<P>
+<img SRC="Diagram/LayoutEdit_Tab.GIF">
+<P><B>Note: </B>The <A HREF="#HDRCHILD">"Child Records"</A> panel is displayed when <B>Record Type</B>=<font color="blue"><b>Group of Records</b></font>
+or <font color="blue"><b>Group of Binary records Records</b></font> otherwise <A HREF="#HDRFIELD">"Field Records"</A> is displayed.
+</TD></TR></TABLE>
+<P>
+<P>
+<P><H3><A NAME="HDRFIELD" HREF="HlpLe.htm#ToC_3" >Field Records</A></H3>
+<img SRC="Diagram/LayoutEdit_Fields.GIF">
+<P>This panel is used to define the records fields. Fields in the Table are:
+<P>
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="11%">Field
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="89%">Description
+ 
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Position
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Position in the Record. The start of the record is
+<B>Postion</B>=<font color="blue"><b>1</b></font> and not 0 as in C / Java.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Length
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Length of the field in bytes. Leave blank for Comma / Tab (etc) delimited files
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Field Name
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Name of the field. This is the column/row name used for this field in
+the <font color="blue"><b>RecorEditor</b></font>
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Description
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Field Description. This is used as a Column Header Mouse over in the
+<font color="blue"><b>Record editor</b></font>. For example if the description was entered as
+<P>
+<img SRC="Diagram/RecordLayout_FieldDescription.GIF">
+<P>Then if you hold the cursor over the column heading in the <B>RecordEditor</B> you get
+<P>
+<img SRC="Diagram/RecordEdit_MouseOver.GIF">
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Field Type
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Type of Field. See <A HREF="HlpLe12.htm#HDRFLDTYPE">Appendix A, "Field Types"</A> for details.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Decimal Pos
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Number of places after the decimal point
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Cell Format
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Formatting to be applied to this field.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Parameter
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">User parameter's. This is a value that can be used by user written types
+(e.g. for generic Combo or Date Routines).
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Default Value
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Information only, Not currently used (relates to work).
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Cobol Name
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Information only, Cobol Field Name
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Field Id
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Do not Change. It is the field key and is displayed for my testing.
+</TD></TR></TABLE>
+<PRE>
+ 
+</PRE><P><P><H3><A NAME="HDRCHILD" HREF="HlpLe.htm#ToC_4" >Child Records</A></H3>
+<P>
+<table><tr><td><img SRC="Diagram/RecordLayout_RecGroup.png"></td></tr></table>
+<P>This panel is displayed when <B>Record Type</B>=<font color="blue"><b>Group of Records</b></font>
+or <font color="blue"><b>Group of Binary records Records</b></font>. Fields in the Table are:
+<P>
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="11%">Field
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="89%">Description
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Child Record
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">The child record of the Current parent record
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Field Start
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Not Currently used
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Field
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Field that determines which record to use. In the above example:
+<OL COMPACT TYPE=1>
+<LI>The records <B>DCR0470 S11 .. S14, O21</B> each contain a field <B>Record Type</B>
+<LI>When editing a file where <B>Record Type</B>="S11" then the RecordLayout
+of <B>DCR0470 S11</B> would be used.
+<BR>
+While if <B>Record Type</B>="S13"
+then the RecordLayout of <B>DCR0470 s13</B> would be used.
+</OL>
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">FieldValue
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Field value that the Field above is tested against.
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Tree Parent
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Logical Parent Record for the record. This can be used to build a Tree
+using the <B>Record Layout Tree</B> option of the <B>View</B> menu in the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a>
+</TD></TR></TABLE>
+<P>
+<P><B>Note: </B>if <B>Field</B> is blank and <B>FieldValue</B>=* then this is the
+default record.
+<PRE>
+ 
+</PRE><P><P><H3><A NAME="HDREXTRA" HREF="HlpLe.htm#ToC_5" >Extra Panel</A></H3>
+<P>On the extra panel contains an adhoc mixture of options
+<table><tr><td><img SRC="Diagram/RecordLayout_RecExtra.GIF"></td></tr></table>
+<P>
+<P>
+<P>
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="11%">Field
+ 
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="89%">Description
+ 
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Cobol Copybook
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Cobol Copybook name (if imported from a Cobol/XML Copybook). When a Cobol
+copybook is imported the LayoutEdit will replace an existing file with the same name.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Font Name
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Font Name to be used. If it is blank, the System default font will be used.
+A typical use might be to display Native mainframe data on a PC.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Delimiter
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Delimiter to use in Delimited files (i.e. comma, tab etc).
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Quote
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Quote character to use in delimited files.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">Record Separator
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Record Separator to use.
+   <TABLE CELLPADDING="3">
+    <TR VALIGN="TOP"><TD><B>default
+      </B></TD><TD>Use the computers normal (or default) line separator.
+    </TD></TR><TR VALIGN="TOP"><TD><B>&lt;crlf&gt;
+      </B></TD><TD>Windows style separator.
+    </TD></TR><TR VALIGN="TOP"><TD><B>&lt;cr&gt;
+      </B></TD><TD>Unix/Linux file separator.
+    </TD></TR><TR VALIGN="TOP"><TD><B>&lt;lf&gt;
+      </B></TD><TD>Macintosh line separator.
+   </TD></TR></TABLE>
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="11%">File Structure
+ 
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="89%">Structure of the files. Controls which IO routines are used to read / write the file.
+File Structures are defined in Table 5.
+</TD></TR></TABLE>
+<P>
+<P><H3><A NAME="HDRUSINGCOMBO" HREF="HlpLe.htm#ToC_6" >Defining Combo Field</A></H3>
+<P>
+<P>To use a Combo List (Say AmsPoDownloadType) you must
+<OL TYPE=1>
+  <P><LI>Set the <B>Cell Format</B> to Combobox
+  <P><LI>Enter Combo list in the Parameter Field
+</OL>
+<P>
+<img SRC="Diagram/LayoutEdit_Combo.png">
+<P>
+<P>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

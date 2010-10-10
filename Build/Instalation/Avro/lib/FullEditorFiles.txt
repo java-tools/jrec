@@ -1,0 +1,7 @@
+avt	<lib>/avro-tools-1.4.0.jar
+ave	<lib>/AvroEditor.jar
+ZDate	<lib>/ZCalendar.jar
+velocity1	<lib>/velocity-1.4.jar
+Velocity2	<lib>/velocity-dep-1.4.jar
+jibx	<lib>/jibx-run.jar
+jlibbdiff	<lib>/jlibdiff.jar

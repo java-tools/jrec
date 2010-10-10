@@ -1,0 +1,41 @@
+{
+  "protocol" : "locationProtocol",
+  "namespace" : "net.sf.RecordEditor.avro.Test.ams",
+  "types" : [ {
+    "type" : "record",
+    "name" : "Locations",
+    "fields" : [ {
+      "name" : "Brand_Id",
+      "type" : "string"
+    }, {
+      "name" : "Loc_Nbr",
+      "type" : "string"
+    }, {
+      "name" : "Loc_Type",
+      "type" : "string"
+    }, {
+      "name" : "Loc_Name",
+      "type" : "string"
+    }, {
+      "name" : "Loc_Addr_Ln1",
+      "type" : "string"
+    }, {
+      "name" : "Loc_Addr_Ln2",
+      "type" : "string"
+    }, {
+      "name" : "Loc_Addr_Ln3",
+      "type" : "string"
+    }, {
+      "name" : "Loc_Postcode",
+      "type" : "string"
+    }, {
+      "name" : "Loc_State",
+      "type" : "string"
+    }, {
+      "name" : "Loc_Actv_Ind",
+      "type" : "string"
+    } ]
+  } ],
+  "messages" : {
+  }
+}

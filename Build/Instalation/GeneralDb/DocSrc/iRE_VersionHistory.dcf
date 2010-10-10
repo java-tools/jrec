@@ -1,3 +1,26 @@
+:h4.Release 0.69.1
+:p.Minor release&gml.
+:ul compact.
+    :li.New Field - Hide / Show function (right click &amp. edit menu).
+    :li.New Unknown layouts for use with unknown files.
+    :li.New Prefered Layout option in the Main Display.
+    :li.New Hex displays  (1 / 2 / 3 line) in the Main display.
+    :li.Fix for Cobol Sign Seperate fields
+    :li.Enhanced Layout Wizard&gml.:ul compact.
+      :li.Support for multi-record files
+      :li.Field Search added.
+      :li.Improved Binary Files support.
+      :li.File Format detection added.
+    :eul.
+    :li.New Layout Import From Xml Files in a Directory / Export Layouts To Xml Files in a directory.
+    :li.New CSV Styles to support "Column Names" in Quotes (Record Styles 3->5) + some CSV fixes.
+    :li.New Option to change layout after the files has been loaded.
+    :li.Internal changes to support "Object Data Stores" like Protocol Buffers and Avro.
+      See Protocol Buffer Editor and Avro Editor's.
+    :li.Support for H2 Database's Mixed Mode.
+    :li.Added optional Error-File and error-limits to the online / batch copy utilities.
+    :li.Added new -il/-ol (input/output layout) and -ef (error file) options to the batch utility.
+:eul.
 :h4.Release 0.67
 :p.Minor release&gml.
 :ul compact.

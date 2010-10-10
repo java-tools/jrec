@@ -1,0 +1,4 @@
+To setup the USB directory for distribution
+
+1) Extract an existing USB instalation HERE
+2) Replace lib, Document directories as required

@@ -10,8 +10,12 @@ parse arg arg
 		call pack_ProtoBuf 'ProtoBufEditor'
 	end; else if arg = 'a' then do
 		call pack_Avro 'AvroEditor'
-		/*call pack_Avro 'avro-1.3.2'
-		call pack_Avro 'avro-tools-1.3.2'*/
+	end; else if arg = 'aa' then do
+		call pack_Avro 'AvroEditor'
+		/*call pack_Avro 'avro-1.4.0'*/
+		call pack_Avro 'avro-tools-1.4.0'
+	end; else if arg = 'h2' then do
+		call pack_H2 'h2-1.2.141'
 	end; else do
 		call pack 'cb2xml'
 		call pack 'JRecord'
@@ -44,7 +48,6 @@ parse arg name x
 	
 	'cp 'name'.pack lib/'
 	'cp 'name'.pack ../GeneralDBL/lib'
-	'cp 'name'.pack ../hsqldb/lib'
 
 return
 
@@ -61,6 +64,13 @@ parse arg name x
 	call pack_only
 	
 	'cp 'name'.pack ../Avro/lib'
+return
+
+pack_H2:
+parse arg name x
+	call pack_only
+	
+	'cp 'name'.pack ../H2/lib/H2.pack'
 return
 
 pack_only:

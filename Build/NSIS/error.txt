@@ -1,0 +1,28 @@
+Params   -i xRecordEdit_HSQL.nsi ...
+I: 
+:I:  xRecordEdit_HSQL.nsi
+pscvalue normal
+Using Default File name EXxRecordEdit_HSQL.nsi
+...  normal  Attributes.!proc normal   
+No file found for ../Instalation/hsqldb/HSQLDB/Params.Properties
+No file found for ../Instalation/hsqldb/HSQLDB/Files.txt
+No file found for ../Instalation/hsqldb/HSQLDB/Properties.zip
+...  normal  Attributes.!proc normal   
+Params   -i xRecordEdit_MSAccess.nsi  ...
+I: 
+:I:  xRecordEdit_MSAccess.nsi
+pscvalue normal
+Using Default File name EXxRecordEdit_MSAccess.nsi
+...  normal  Attributes.!proc normal   
+Params   -i xRecordEdit_H2.nsi ...
+I: 
+:I:  xRecordEdit_H2.nsi
+pscvalue normal
+Using Default File name EXxRecordEdit_H2.nsi
+...  normal  Attributes.!proc normal   
+No file found for ../Instalation/hsqldb/lib_nsis/net/sf/RecordEditor/utils/*.properties
+No file found for ../Instalation/hsqldb/HSQLDB/Params.Properties
+No file found for ../Instalation/hsqldb/HSQLDB/Files.txt
+No file found for ../Instalation/hsqldb/HSQLDB/Properties.zip
+...  normal  Attributes.!proc normal   
+Normal

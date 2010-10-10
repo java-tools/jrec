@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>Getting Started</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- G:\RecordEdit_Prj\Docs\re2Jasper.dcf converted by B2H R4.7 (390) -->
+<!-- (WINNT) on 29 Dec 2005 at 21:03:32                               -->
+<META HTTP-EQUIV="updated" CONTENT="Thu, 29 Dec 2005 21:03:02">
+<META HTTP-EQUIV="review" CONTENT="Fri, 29 Dec 2006 21:03:02">
+<META HTTP-EQUIV="expires" CONTENT="Sat, 29 Dec 2007 21:03:02">
+<link rel="stylesheet" type="text/css" href="syntax.css">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<HR><H1><A NAME="Header_13">Running Reports from Java</A></H1>
+<P>
+<HR><H2><A NAME="Header_14">Using RecordEdit Layouts</A></H2>
+<P>The following code from <B>ZRunRpt</B> illustrates  running a report using
+the <B>RecordDataSource</B> and the standard (Database Based)
+<B>RecordEditor</B> Layout definitions.
+<P><B>Note: </B>Lines <font color="blue">4 and 5</b></font> read in the specified <a href="http://record-editor.sourceforge.net">RecordEditor</a> layout.
+<P>
+<PRE><SPAN CLASS="gutter">   1:</SPAN>            JasperReport jasp;
+<SPAN CLASS="gutter">   2:</SPAN>            String fileName;
+<SPAN CLASS="gutter">   3:</SPAN>            String inputFileName <SPAN CLASS="syntax18">=</SPAN> SAMPLE_DIRECTORY <SPAN CLASS="syntax18">+</SPAN> dataFile;
+<SPAN CLASS="gutter">   4:</SPAN>            CopyBookDbReader copybookReader  <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">CopyBookDbReader</SPAN>();
+<SPAN CLASS="gutterH">   5:</SPAN>            LayoutDetail copyBook <SPAN CLASS="syntax18">=</SPAN> copybookReader.<SPAN CLASS="syntax6">getLayout</SPAN>(layout);
+<SPAN CLASS="gutter">   6:</SPAN>
+<SPAN CLASS="gutter">   7:</SPAN>            System.out.<SPAN CLASS="syntax6">println</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">&gt;&gt;&gt;</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">&quot;</SPAN> <SPAN CLASS="syntax18">+</SPAN> rpt <SPAN CLASS="syntax18">+</SPAN> <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">~</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">&quot;</SPAN> <SPAN CLASS="syntax18">+</SPAN> layout <SPAN CLASS="syntax18">+</SPAN> <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">-</SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13"> </SPAN><SPAN CLASS="syntax13">&quot;</SPAN> <SPAN CLASS="syntax18">+</SPAN> dataFile);
+<SPAN CLASS="gutter">   8:</SPAN>
+<SPAN CLASS="gutter">   9:</SPAN>            <SPAN CLASS="syntax8">try</SPAN> <SPAN CLASS="syntax18">{</SPAN>
+<SPAN CLASS="gutterH">  10:</SPAN>                jasp <SPAN CLASS="syntax18">=</SPAN> JasperCompileManager.<SPAN CLASS="syntax6">compileReport</SPAN>(REPORT_DIRECTORY <SPAN CLASS="syntax18">+</SPAN> rpt <SPAN CLASS="syntax18">+</SPAN> <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">.jrxml</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>);
+<SPAN CLASS="gutter">  11:</SPAN>                fileName <SPAN CLASS="syntax18">=</SPAN> REPORT_DIRECTORY <SPAN CLASS="syntax18">+</SPAN> rpt <SPAN CLASS="syntax18">+</SPAN> <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">.pdf</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>;
+<SPAN CLASS="gutter">  12:</SPAN>                Map parameters <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">HashMap</SPAN>();
+<SPAN CLASS="gutter">  13:</SPAN>                RecordDataSource source <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">RecordDataSource</SPAN>(copyBook, inputFileName);
+<SPAN CLASS="gutter">  14:</SPAN>
+<SPAN CLASS="gutterH">  15:</SPAN>                <SPAN CLASS="syntax8">if</SPAN> (<SPAN CLASS="syntax18">!</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>.<SPAN CLASS="syntax6">equals</SPAN>(record)) <SPAN CLASS="syntax18">{</SPAN>
+<SPAN CLASS="gutter">  16:</SPAN>                    source.<SPAN CLASS="syntax6">setRequiredRecord</SPAN>(copyBook.<SPAN CLASS="syntax6">getRecordIndex</SPAN>(record));
+<SPAN CLASS="gutter">  17:</SPAN>                <SPAN CLASS="syntax18">}</SPAN>
+<SPAN CLASS="gutter">  18:</SPAN>
+<SPAN CLASS="gutter">  19:</SPAN>                parameters.<SPAN CLASS="syntax6">put</SPAN>(<SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">ReportTitle</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>, rptTitle);
+<SPAN CLASS="gutterH">  20:</SPAN>
+<SPAN CLASS="gutter">  21:</SPAN>                <SPAN CLASS="syntax10">byte</SPAN>[] b <SPAN CLASS="syntax18">=</SPAN> JasperRunManager.<SPAN CLASS="syntax6">runReportToPdf</SPAN>(jasp, parameters, source);
+<SPAN CLASS="gutter">  22:</SPAN>                FileOutputStream s <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">FileOutputStream</SPAN>(fileName);
+<SPAN CLASS="gutter">  23:</SPAN>                s.<SPAN CLASS="syntax6">write</SPAN>(b);
+<SPAN CLASS="gutter">  24:</SPAN>                s.<SPAN CLASS="syntax6">close</SPAN>();
+<SPAN CLASS="gutterH">  25:</SPAN>            <SPAN CLASS="syntax18">}</SPAN> <SPAN CLASS="syntax8">catch</SPAN> (JRException e) <SPAN CLASS="syntax18">{</SPAN>
+</PRE><P><HR><H2><A NAME="Header_15">Using Cobol Layouts</A></H2>
+<P>Following is an example (from <B>ZRunCobolRpt</B>)  of running a report
+from a <B>Cobol</B> Copybook. When running from <B>Cobol</B> you are limited
+to files with <B>only one record type</B>.
+<P><B>Note: </B>Lines <font color="blue">6 to 13</b></font> read in the specified <a href="http://record-editor.sourceforge.net">RecordEditor</a> layout.
+<P>
+<PRE><SPAN CLASS="gutter">   1:</SPAN>        JasperReport jasp <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax14">null</SPAN>;
+<SPAN CLASS="gutter">   2:</SPAN>        String fileName <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax14">null</SPAN>;
+<SPAN CLASS="gutter">   3:</SPAN>        String inputFileName <SPAN CLASS="syntax18">=</SPAN> SAMPLE_DIRECTORY <SPAN CLASS="syntax18">+</SPAN> dataFile;
+<SPAN CLASS="gutter">   4:</SPAN>
+<SPAN CLASS="gutterH">   5:</SPAN>        <SPAN CLASS="syntax8">try</SPAN> <SPAN CLASS="syntax18">{</SPAN>
+<SPAN CLASS="gutter">   6:</SPAN>            CopybookToLayout cobolConv <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">CopybookToLayout</SPAN>();
+<SPAN CLASS="gutter">   7:</SPAN>            cobolConv.<SPAN CLASS="syntax6">setBinaryFormat</SPAN>(machine);
+<SPAN CLASS="gutter">   8:</SPAN>            LayoutDetail copyBook <SPAN CLASS="syntax18">=</SPAN> cobolConv.<SPAN CLASS="syntax6">readCobolCopyBook</SPAN>(
+<SPAN CLASS="gutter">   9:</SPAN>                    JasperConst.COBOL_DIRECTORY <SPAN CLASS="syntax18">+</SPAN> layout <SPAN CLASS="syntax18">+</SPAN> COBOL_SUFIX,
+<SPAN CLASS="gutterH">  10:</SPAN>                    CopybookToLayout.SPLIT_NONE,
+<SPAN CLASS="gutter">  11:</SPAN>                    Common.LINE_SEPERATOR,
+<SPAN CLASS="gutter">  12:</SPAN>                    <SPAN CLASS="syntax14">null</SPAN>,
+<SPAN CLASS="gutter">  13:</SPAN>                    Common.FIXED_LENGTH_IO,
+<SPAN CLASS="gutter">  14:</SPAN>                    <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">TextLog</SPAN>()
+<SPAN CLASS="gutterH">  15:</SPAN>            );
+<SPAN CLASS="gutter">  16:</SPAN>            jasp <SPAN CLASS="syntax18">=</SPAN> JasperCompileManager.<SPAN CLASS="syntax6">compileReport</SPAN>(REPORT_DIRECTORY <SPAN CLASS="syntax18">+</SPAN> rpt <SPAN CLASS="syntax18">+</SPAN> <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">.jrxml</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>);
+<SPAN CLASS="gutter">  17:</SPAN>            fileName <SPAN CLASS="syntax18">=</SPAN> REPORT_DIRECTORY <SPAN CLASS="syntax18">+</SPAN> rpt <SPAN CLASS="syntax18">+</SPAN> <SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">.pdf</SPAN><SPAN CLASS="syntax13">&quot;</SPAN>;
+<SPAN CLASS="gutter">  18:</SPAN>            Map parameters <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">HashMap</SPAN>();
+<SPAN CLASS="gutter">  19:</SPAN>            RecordDataSource source <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">RecordDataSource</SPAN>(copyBook, inputFileName);
+<SPAN CLASS="gutterH">  20:</SPAN>
+<SPAN CLASS="gutter">  21:</SPAN>            <SPAN CLASS="syntax10">byte</SPAN>[] b <SPAN CLASS="syntax18">=</SPAN> JasperRunManager.<SPAN CLASS="syntax6">runReportToPdf</SPAN>(jasp, parameters, source);
+<SPAN CLASS="gutter">  22:</SPAN>            FileOutputStream s <SPAN CLASS="syntax18">=</SPAN> <SPAN CLASS="syntax8">new</SPAN> <SPAN CLASS="syntax6">FileOutputStream</SPAN>(fileName);
+<SPAN CLASS="gutter">  23:</SPAN>            s.<SPAN CLASS="syntax6">write</SPAN>(b);
+<SPAN CLASS="gutter">  24:</SPAN>            s.<SPAN CLASS="syntax6">close</SPAN>();
+<SPAN CLASS="gutterH">  25:</SPAN>        <SPAN CLASS="syntax18">}</SPAN> <SPAN CLASS="syntax8">catch</SPAN> (JRException e) <SPAN CLASS="syntax18">{</SPAN>
+</PRE><P><P>To run with windows / unix text files (on a windows / unix box) the <font color="blue">machine</font>
+on <font color="red">line 6</font> above becomes <font color="blue"><b>CopybookToLayout.FMT_INTEL</b></font>
+For IBM Mainframe files use <font color="blue"><b>CopybookToLayout.FMT_MAINFRAME</b></font>.
+<P>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

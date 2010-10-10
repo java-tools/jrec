@@ -1,0 +1,19 @@
+//
+package net.sf.RecordEditor.ProtoBuf.re.Test.SalesX;
+
+import "StoreSales3im_Product.proto";
+import "StoreSales3im_Summary.proto";
+
+option optimize_for = SPEED;
+
+message Order {
+  required int32 keycode = 1;
+  required int32 quantity = 2;
+}
+
+message Deptartment {
+  required int32 department = 1;
+  required string name = 2;
+  repeated Product product = 3;
+  optional Summary summary = 4;
+}

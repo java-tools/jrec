@@ -5,7 +5,7 @@ SetCompressor /SOLID lzma
 SetCompressionLevel 9
 
 !define PRODUCT_NAME "RecordEdit"
-!define PRODUCT_VERSION "0.69"                                                                                
+!define PRODUCT_VERSION "0.69.1"                                                                                
 !define PRODUCT_PUBLISHER "Bruce Martin"                                                                          
 !define PRODUCT_WEB_SITE "http://record-editor.sf.net"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
@@ -51,7 +51,7 @@ var ICONS_GROUP
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-<OutFile default="RecordEdit_Installer_for_MSAccess_069.exe">
+<OutFile default="RecordEdit_Installer_for_MSAccess_069.1.exe">
 InstallDir "$PROGRAMFILES\RecordEdit\MSaccess"
 ShowInstDetails show
 ShowUnInstDetails show
@@ -92,7 +92,7 @@ Section "MainSection" SEC01
   <expand inpath="..\Instalation\GeneralDB\Docs\" name="Hlp*.htm" name1="CobolEditor.htm" name2="Ex*.htm" name3="syntax.css" name4="HowTo.htm"/>
   <expand inpath="..\Instalation\GeneralDB\Docs\" name="Change*.htm" name2="diff1.html" name3="Copy.htm"/>
   <expand outpath="$INSTDIR\Docs\jsTree" inpath="..\Instalation\GeneralDB\Docs\JSTREE\" name="*.gif" name1="*.css" name2="*.js" />
-  <expand overwrite="try" outpath="$INSTDIR\Docs\Diagram" inpath="..\Instalation\GeneralDB\Docs\Diagram\" name="*.GIF" name1="*.png"  name3="*.JPG" DateCheck=yes/>                                                               
+  <expand overwrite="try" outpath="$INSTDIR\Docs\Diagram" inpath="..\Instalation\GeneralDB\Docs\Diagram\"   name="*.GIF" name1="*.png"  name3="*.JPG" name4="*.gif" DateCheck=yes/>                                                               
 
   Delete "$INSTDIR\lib\JRecord.jar"
   Delete "$INSTDIR\lib\LayoutEdit.jar"
@@ -104,9 +104,10 @@ Section "MainSection" SEC01
   ;<expand overwrite=try outpath="$INSTDIR\lib" inpath="..\lib" name="run*.jar" name1="JRecord.jar" 
   ;			name2="ZCalendar.jar" name3="RecordEdit.jar" name4="LayoutEdit.jar" name5="cb2xml.jar" name6="StAX.jar"/>
   <expand  inpath="..\Instalation\GeneralDB\lib" name="icons*.zip" name1="*.ico"/>
-  <expand  inpath="..\Instalation\MSaccess\lib\" name="*Files.txt" name1="properties.zip"/>
+  <expand  inpath="..\Instalation\MSaccess\lib\" name="properties.zip"/>
+  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="*Files.txt"/>
   <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="*Edit.pack" name1="cb2xm*.pack" name2="JRecor*.pack" name3="StAX.pack"/>
-  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="j*.pack" />
+  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="j*.pack" name1="JRecord.propertie*"/>
   File "NsisUnpack.jar"
   
   <expand overwrite=try outpath="$INSTDIR\lib\net\sf\RecordEditor\utils" 

@@ -1,0 +1,110 @@
+<HTML><HEAD><link rel="stylesheet" href="JSTREE/jsBlueBg.css" type="text/css"></head>
+<Body style="margin:0" bgcolor=#001F66>
+<SCRIPT language=JavaScript src="JSTREE/sdtree.js"  type="text/javascript"></SCRIPT>
+<SCRIPT type="text/javascript">
+function expandAll(){
+	tree.expandAll();
+	tree.draw(1);
+}
+function collapseAll(){
+	tree.collapseAll();
+	tree.draw(1);
+}
+var TREE_NODES={ format:{
+	left:1,
+	top:63,
+	width:240,
+	height:472,
+	animation:0,
+	padding:2,
+	dont_resize_back:1,
+	e_image:"JSTREE/Win_fo.gif",
+	c_image:"JSTREE/Win_fc.gif",
+	i_image:"JSTREE/Win_i.gif",
+	level_ident:16,
+	b_image:"JSTREE/b.gif"}
+,
+sub:[
+	{html:'Introduction',url:'Example.htm#Header_1',target:'DTL',
+	sub:[
+		{html:'Layouts',url:'Example.htm#Header_2',target:'DTL'}, 
+		{html:'Line class',url:'Example.htm#Header_3',target:'DTL'}, 
+		{html:'Type interface',url:'Example.htm#Header_4',target:'DTL'}, 
+		{html:'TypeManager',url:'Example.htm#Header_5',target:'DTL'}, 
+		{html:'Examples',url:'Example.htm#Header_6',target:'DTL'} 
+	]},
+	{html:'Reading and Writing Files',url:'Example.htm#Header_7',target:'DTL',
+	sub:[
+		{html:'Reading a File',url:'Example.htm#HDRXLIO1',target:'DTL'}, 
+		{html:'Reading using User-Defined-Lines',url:'Example.htm#Header_9',target:'DTL'}, 
+		{html:'Generating Interfaces to files',url:'Example.htm#Header_10',target:'DTL'} 
+	]},
+	{html:'Formatting files with Velocity',url:'Example.htm#HDRVELOCITY',target:'DTL',
+	sub:[
+		{html:'Calling FileToVelocity',url:'Example.htm#Header_12',target:'DTL'}, 
+		{html:'Sample Velocity Templates',url:'Example.htm#Header_13',target:'DTL'} 
+	]},
+	{html:'Extending the Record Editor',url:'Example.htm#Header_14',target:'DTL',
+	sub:[
+		{html:'Editting a Table in the LayoutEditor',url:'Example.htm#HDRTABLE',target:'DTL'}, 
+		{html:'Type Interface',url:'Example.htm#Header_16',target:'DTL'}, 
+		{html:'Adding a Format to the RecordEditor',url:'Example.htm#HDRFORMAT',target:'DTL'}, 
+		{html:'TypeManager',url:'Example.htm#Header_18',target:'DTL'}, 
+		{html:'Adding a Type to the RecordEditor',url:'Example.htm#HDRTYPE',target:'DTL',
+		sub:[
+			{html:'Create the Type (new method)',url:'Example.htm#Header_20',target:'DTL',
+			sub:[
+				{html:'Jave code for US Date Type',url:'Example.htm#Header_21',target:'DTL'}, 
+				{html:'Defining a Type to the RecordEditor',url:'Example.htm#Header_22',target:'DTL'} 
+			]},
+			{html:'Create the Type (old method)',url:'Example.htm#Header_23',target:'DTL',
+			sub:[
+				{html:'Defining a Type to the RecordEditor',url:'Example.htm#Header_24',target:'DTL',
+				sub:[
+					{html:'Define the Type in the LayoutEditor',url:'Example.htm#HDRTYPEDEF',target:'DTL'}, 
+					{html:'Using the new Type',url:'Example.htm#Header_26',target:'DTL'}, 
+					{html:'Starting the RecordEditor with the new Type',url:'Example.htm#HDRSTARTED',target:'DTL'} 
+				]},
+				{html:'Editing a File',url:'Example.htm#Header_28',target:'DTL'} 
+		]}]},
+		{html:'Adding a Format to the RecordEditor',url:'Example.htm#HDRFORMAT',target:'DTL',
+		sub:[
+			{html:'Writing a format',url:'Example.htm#Header_30',target:'DTL'}, 
+			{html:'Define the Format in the LayoutEditor',url:'Example.htm#HDRFMTDEF',target:'DTL'}, 
+			{html:'Using the new Format',url:'Example.htm#HDRFMTUSE',target:'DTL'}, 
+			{html:'Starting the RecordEditor with the new Type',url:'Example.htm#HDRFMTST',target:'DTL'}, 
+			{html:'Editing a File',url:'Example.htm#Header_34',target:'DTL'} 
+		]},
+		{html:'Record Deciders',url:'Example.htm#HDRDECIDER',target:'DTL'}, 
+		{html:'Adding a File Structure',url:'Example.htm#HDRFILESTR',target:'DTL',
+		sub:[
+			{html:'Line Reader',url:'Example.htm#Header_37',target:'DTL'}, 
+			{html:'Line Writer',url:'Example.htm#Header_38',target:'DTL'}, 
+			{html:'Defining the File Structure in the LayoutEditor',url:'Example.htm#Header_39',target:'DTL'}, 
+			{html:'Using the new File Structure',url:'Example.htm#Header_40',target:'DTL'}, 
+			{html:'Creating a LineIOProvider',url:'Example.htm#HDRIDPROV',target:'DTL'}, 
+			{html:'Starting the RecordEditor',url:'Example.htm#Header_42',target:'DTL'}, 
+			{html:'Examples',url:'Example.htm#Header_43',target:'DTL'} 
+	]}]},
+	{html:'Copybook Interface',url:'Example.htm#HDRCOPYBOOK',target:'DTL',
+	sub:[
+		{html:'Using CobolCopybookReader in the RecordEditor',url:'Example.htm#Header_45',target:'DTL'}, 
+		{html:'Using CobolCopybookReader to read Cobol Files',url:'Example.htm#Header_46',target:'DTL'} 
+	]},
+	{html:'Options for starting the RecordEditor',url:'Example.htm#Header_47',target:'DTL',
+	sub:[
+		{html:'Editing a Specific file',url:'Example.htm#Header_48',target:'DTL'}, 
+		{html:'Edit a File one Record at time',url:'Example.htm#Header_49',target:'DTL'}, 
+		{html:'Other Examples',url:'Example.htm#Header_50',target:'DTL'} 
+	]},
+	{html:'Index',url:'Example.htm#HDRINDEX_START',target:'DTL'} 
+] }
+var tree=new SoftDrawerTree('Demo',TREE_NODES);
+expandAll()
+</SCRIPT>
+<Font style="font-size=100%" color=#FF0080><B>Introduction</B></font><br>
+<Table><tr>
+	<td colspan=2 align="center"><input type="button" onclick="expandAll()" value="Expand All" style="width:90px; FONT-SIZE:10px"></td>
+	<td colspan=2 align="center"><input type="button" onclick="collapseAll()" value="Collapse All" style="width:90px; FONT-SIZE:10px"></td>
+</tr> </table>
+</HTML>

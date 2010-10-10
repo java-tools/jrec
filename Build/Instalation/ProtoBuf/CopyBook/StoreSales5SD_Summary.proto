@@ -1,0 +1,10 @@
+//
+package net.sf.RecordEditor.ProtoBuf.re.Test.SalesX;
+
+option optimize_for = SPEED;
+
+message Summary {
+  required int32 quantity = 1;
+  required int64 price = 2;  // price in 1/10 cents i.e. $123.45 is stored as 123450
+  required int32 count = 3;
+}

@@ -1,0 +1,243 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>Getting Started</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- G:\RecordEdit_Prj\Docs\re2Jasper.dcf converted by B2H R4.7 (390) -->
+<!-- (WINNT) on 29 Dec 2005 at 21:03:32                               -->
+<META HTTP-EQUIV="updated" CONTENT="Thu, 29 Dec 2005 21:03:02">
+<META HTTP-EQUIV="review" CONTENT="Fri, 29 Dec 2006 21:03:02">
+<META HTTP-EQUIV="expires" CONTENT="Sat, 29 Dec 2007 21:03:02">
+<link rel="stylesheet" type="text/css" href="syntax.css">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<HR><H1><A NAME="Header_1">Getting Started</A></H1>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<HR><H2><A NAME="Header_2">Introduction</A></H2>
+<P>This package makes it easy to design and run reports from <B>Fixed Width Data
+files</B> including both Cobol and Mainframe Cobol files.
+<P>This package provides
+<OL TYPE=1>
+<P><LI>A <a href="http://jasperreports.sourceforge.net/">Jasper</a> <B>JRDataSource</B> for reading
+<B>Fixed Field Width Data files</B> (both Text and binary) for
+<UL COMPACT>
+ <LI>Unix
+ <LI>Windows
+ <LI>Z-OS (IBM Mainframe).
+</UL>
+<P>
+<P><LI>A <a href="http://jasperreports.sourceforge.net/">Jasper</a> <B>JRDataSourceProvider</B> to make it easy to define reports in
+<a href="http://jasperreports.sourceforge.net/">Jasper</a> report designers like <a href="http://ireport.sourceforge.net/">iReports</a>.
+</OL>
+<P>
+<P>This document describes using the package with <a href="http://ireport.sourceforge.net/">iReports</a>.
+Following is an example of a Report (for a <B>mainframe Cobol</B> file) in <a href="http://ireport.sourceforge.net/">iReports</a>&#58;
+<P>
+<img SRC="Diagram/re2jRptDef.GIF">
+<P>
+<HR><H2><A NAME="Header_3">Requirements</A></H2>
+<P>
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Jasper
+ </B></TD><TD><P><a href="http://jasperreports.sourceforge.net/">JasperReports</a> or <a href="http://ireport.sourceforge.net/">iReports</a> (which includes <B>JasperReports</B>) must be installed.
+This document assumes <a href="http://ireport.sourceforge.net/">iReports</a> is installed.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>RecordEditor
+ </B></TD><TD><P><a href="http://record-editor.sourceforge.net">RecordEditor</a> must be installed.
+</TD></TR></TABLE>
+<P>
+<HR><H2><A NAME="Header_4">Installation</A></H2>
+<P>Following are the steps to install the package with <a href="http://ireport.sourceforge.net/">iReports</a>.
+Installing with <a href="http://jasperreports.sourceforge.net/">JasperReports</a> is the same (just different install directory)&#58;
+<OL TYPE=1>
+ <P><LI>Install <a href="http://ireport.sourceforge.net/">iReports</a> (if not already installed).
+ <P><LI>Install <a href="ttp://sourceforge.net/project/showfiles.php?group_id=139274">RecordEditor</a> If not already installed I would suggest using the following
+   <P>
+ 
+ 
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="50%">Environment
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="50%">Download Version to Use
+ 
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">Windows &amp; Ms-Access
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">RecordEdit_Installer_for_MSAccess_055.exe
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">Windows
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">RecordEdit_Installer_for_HSQL_v055.exe
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">Linux
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">RecordEdit_Installer_for_HSQL_055.jar
+ 
+</TD></TR></TABLE>
+ <P><LI>Unzip the re2Jasper zip file into the <a href="http://record-editor.sourceforge.net">RecordEditor</a> install directory.
+ <P><LI>Copy the following jars from the &lt;<a href="http://record-editor.sourceforge.net">RecordEditor</a> install directory&gt;/<B>lib or Jar</B>
+Directories to &lt;<a href="http://ireport.sourceforge.net/">iReports</a> install directory&gt;/<B>lib</B> directory.
+    <UL COMPACT>
+      <LI>recordEdit2Jasper.jar
+      <LI>RecordEdit.jar
+      <LI>Relevent JDBC jar -
+        <UL COMPACT>
+          <LI>nothing (Ms-Access version)
+	  <LI>hsqldbmain.jar (for HSQL version)
+	</UL></UL>
+    <P><B>Note: </B>The all the jars in the MS-Access version are in a <B>Jar</B> directory, in all other versions, the jars are in the <B>lib</B> directory.
+    <P><B>Note: </B><font color="red"><b>Do not copy</b></font> the <B>LayoutEdit.jar</B> from <B>&lt;RecordEdit install directory&gt;/lib</B>
+    <P><LI>If you are running the HSQL version of the <a href="http://record-editor.sourceforge.net">RecordEditor</a>,
+<font color="red">Remove</font> <font color="blue"><b>hsqldb-1.61.jar</b></font> from the &lt;<a href="http://ireport.sourceforge.net/">iReports</a>&gt;/lib directory.
+The <B>HSQL</B> version of the <a href="http://record-editor.sourceforge.net">RecordEditor</a> uses version 1.7.3 of HSQL which is not compatible
+with version 1.61 of HSQL that comes with both <a href="http://ireport.sourceforge.net/">iReports</a> and <a href="http://jasperreports.sourceforge.net/">JasperReports</a>.
+ </OL>
+<P>
+<HR><H2><A NAME="Header_5">Jasper Interfaces</A></H2>
+<P>
+<P>
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>JRDataSource
+ </B></TD><TD><P>Abstract representation of a <a href="http://jasperreports.sourceforge.net/">JasperReports</a> data source (i.e. source of the
+data to be written to the report). This package contains a class <B>RecordDataSource</B>
+which implements <B>JRDataSource</B>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>JRDataSourceProvider
+ </B></TD><TD><P>Abstracts the means of creating and disposing a data source.
+This interface is meant to be the standard way to plug custom data sources into GUI designers.
+Typically the report developer will implement this interface to create
+and return a configured data source of the desired type and then
+configure the designer to use this implementation.
+<P>This package contains a class <B>RecordDataSourceProvider </B>
+which implements <B>JRDataSourceProvider</B>
+<P>
+</TD></TR></TABLE>
+<P>
+<P>
+<HR><H2><A NAME="Header_6">Supplied Java Source</A></H2>
+<P>
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="50%">Class
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="50%">Purpose
+ 
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">BaseDataSourceProvider
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">Abstract JRDataSourceProvider
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">CopybookToLayout
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">Class to read a <B>Cobol</B> Copybook
+into the internal <B>Record-Layout</B> definition.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">JasperConst
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">Various directories used. You should <font color="red"><b>Check</b></font>
+this class before running any of java examples.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">LayoutOptions
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">Options class.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">RecordDataSource
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">Most important class in the package.
+It reads a File and supplies the data in it to <a href="http://jasperreports.sourceforge.net/">JasperReports</a>. It is a <a href="http://jasperreports.sourceforge.net/">JasperReports</a> <B>JRDataSource</B>.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">RecordDataSourceProvider
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">Interface to <B>Jasper Reports</B>
+designers like  <a href="http://ireport.sourceforge.net/">iReports</a>. It is a <a href="http://jasperreports.sourceforge.net/">JasperReports</a> <B>JRDataSourceProvider</B>.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">Zcompile
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">Sample program to compile a jasper report.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">ZRunCobolRpt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">Example of running <B>jasper reports</B> with
+<B>Report Layouts</B> read from <B>Cobol Copybooks</B>.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">ZRunRpt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">Example of running <B>jasper reports</B> with
+<B>Report Layouts</B> read from
+</TD></TR></TABLE>
+<P>
+<HR><H2><A NAME="Header_7">Supplied Example Reports</A></H2>
+<P>Sample data files for these reports are in the <B>&lt;<a href="http://record-editor.sourceforge.net">RecordEditor</a> install directory&gt;/SampleFiles</B>
+<P>
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="25%">Report
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="25%">Layout
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="50%">Description
+ 
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">amsPO_Chart1.jrxml
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">ams PO Download
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">Chart Report built from a unix Text file
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">amsPO_Chart2.jrxml
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">ams PO Download
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">Chart Report built from a unix Text file
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">amsPo_rpt1.jrxml
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">ams PO Download
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">Report built from a unix Text file
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">amsPo_rpt2.jrxml
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">ams PO Download
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">Report built from a unix Text file
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">DTAR020_chart1.jrxml
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">DTAR020
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">Chart Report built from a Mainframe (Z-OS) Binary file
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">DTAR020_rpt_1.jrxml
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">DTAR020
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">Report built from a Mainframe (Z-OS) Binary file
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">DTAR020_rpt_2.jrxml
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">DTAR020
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="50%">Report built from a Mainframe (Z-OS) Binary file
+</TD></TR></TABLE>
+<P>
+<P>Sample files&#58;
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="25%">Layout
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="75%">Sample Files
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">ams PO Download
+</TD><TD ALIGN="LEFT" VALIGN="TOP">Ams_PODownload_20041231.txt
+<BR>
+Ams_PODownload_20050101.txt
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">DTAR020
+</TD><TD ALIGN="LEFT" VALIGN="TOP">DTAR010_Chart.bin
+<BR>
+DTAR020.bin
+</TD></TR></TABLE>
+<P>
+<P>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

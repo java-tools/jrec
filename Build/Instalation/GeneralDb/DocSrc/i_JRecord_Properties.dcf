@@ -1,0 +1,72 @@
+:h3 id=JRecordProperties.JRecord Properties File.
+
+:p.The JRecord.properties file can be used to define a Cobol dialect (provided
+the types already exist in the JRecord/RecordEditor package. Each dialect definition
+consists of a series of assignment statments
+
+.fo off
+   :red.###   Definition for Open Cobol:ered.
+   :red.###  *-------------------------*:ered.
+  
+   :blue.CnvCode.1:eblue.=:red.151:ered.
+   :blue.CnvName.1:eblue.=Test Open Cobol
+   :blue.CnvSizes.1:eblue.=:red.1,2,4,8:ered.
+   :blue.CnvSyncSizes.1:eblue.=:red.1,2,4,8:ered.
+   
+   
+   :red.###   Definition for BS2000 compiler:ered.
+   :red.###  *------------------------------*:ered.
+
+   :blue.CnvCode.1:eblue.=:red.152:ered.
+   :blue.CnvName.1:eblue.=BS2000
+   :blue.CnvSizes.1:eblue.=:red.2,4,8:ered.
+   :blue.CnvSyncSizes.1:eblue.=:red.2,4,8:ered.
+.fo on
+
+
+:tdef id=xlight shade='xlight'.
+:table cols='* 6*'.
+	:thd refid=xlight.:c.Variable:c.Description:ethd.
+	:row refid=none.:c.:blue.CnvCode:eblue.:c.Integer code that uniquely identifies the Cobol Dialect. Please use values > 100 to avoid conflicts with builtin dialects
+	:row.:c.:blue.CnvName:eblue.:c.Name of the Cobol dialect. This is what appears in the combo box.
+	:row.:c.:blue.CnvSizes:eblue.:c.The sizes in bytes that are used by Comp (binary integer fields). This :hp2.2,4,8:ehp2. on the mainframe 
+while many PC Cobol compilers allow 1 byte binary fields so :hp2.1,2,4,8:ehp2.
+	:row.:c.:blue.SyncSizes:eblue.:c.Byte allignment positions (for the Sync keyword). The 4 numbers are
+:ul compact.
+ :li.Where 1 byte binary numbers align to.
+ :li.Where 2 byte binary numbers align to.
+ :li.Where 4 byte binary numbers align to.
+ :li.Where 8 byte binary numbers align to.
+:eul.
+	:row.:c.:blue.CnvFloatSync:eblue.:c.The byte where Floating point (Comp-1) variables align to 
+	:row.:c.:blue.CnvDoubleSync:eblue.:c.The byte where Double (Comp-2) variables align to 
+	:row.:c.:blue.CnvType:eblue.:c.The :hp2.JRecord/RecordEditor:ehp2. Type to assign to 
+	
+Pic 9, Comp, Comp-1, Comp-2, Comp-3, Comp-4, Comp-5, Comp-6
+	
+variables. Values available are
+:ul compact.
+ :li.zd - Ascii Zoned Decimal
+ :li.mvszd - Mainframe (EBCDIC) Zoned Decimal
+ :li.be - Mainframe style Big Endian Binary integer
+ :li.pbe - Mainframe Style Positive Big endian Integer
+ :li.le - Intel style Little Endian Binary integer
+ :li.ple - Intel Style Positive Little endian Integer
+ :li.f - floating point number
+ :li.d - Double
+ :li.pd - Packed Decimal (Comp-3)
+ :li.ppd - Packed Decimal with no Sign Nyble
+ :li.rm - RM Cobol Comp (untested, I do not have a RM Cobol File).
+ :li.rmp - Positive RM Cobool comp.
+:eul.
+
+This field is optional. If left out, it defaults to
+
+zd,be,f,d,pd,be,le
+
+	:row.:c.:blue.CnvPositiveType:eblue.:c.Types to use for positive [i.e. unsigned Pic 9(?)] variables. If left out it defaults to the :blue.CnvType:eblue.
+variable. It has exactly the same formats and types as :blue.CnvType:eblue..
+
+:etable
+
+

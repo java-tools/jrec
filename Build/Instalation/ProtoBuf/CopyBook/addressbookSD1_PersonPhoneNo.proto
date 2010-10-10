@@ -1,0 +1,9 @@
+//
+
+import "addressbookSD1_PersonEnum.proto";
+option java_package = "com.example.tutorial";
+
+  message PhoneNumber {
+    required string number = 1;
+    optional PhoneType type = 2 [default = HOME];
+  }

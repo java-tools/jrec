@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>Building the RecordEditor</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- /home/bm/Work/Temp/RecordEditor/BLD/Build/BuildDoc/Build.dcf     -->
+<!-- converted by B2H R4.7 (390) (LINUX) on 10 Oct 2010 at 02:40:11   -->
+<META HTTP-EQUIV="updated" CONTENT="Sun, 10 Oct 2010 02:40:05">
+<META HTTP-EQUIV="review" CONTENT="Mon, 10 Oct 2011 02:40:05">
+<META HTTP-EQUIV="expires" CONTENT="Wed, 10 Oct 2012 02:40:05">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<a name="Toc"/>
+<P><B><A NAME="ToC_1" HREF="#Header_1" >Building the RecordEditor</A></B><BR>
+<MENU>
+<LI><A NAME="ToC_2" HREF="#Header_2" >Required Software</A>
+<LI><A NAME="ToC_3" HREF="#Header_3" >Building RecordEditor Source</A>
+<MENU>
+<LI><A NAME="ToC_4" HREF="#Header_4" >Setup Steps</A>
+</MENU>
+<LI><A NAME="ToC_5" HREF="#Header_5" >Building Installers</A>
+<MENU>
+<LI><A NAME="ToC_6" HREF="#Header_6" >Building installers</A>
+<LI><A NAME="ToC_7" HREF="#Header_7" >IzPack Installers</A>
+<LI><A NAME="ToC_8" HREF="#Header_8" >NSIS Installers</A>
+</MENU></MENU><P>
+<HR><H1><A NAME="Header_1" HREF="#ToC_1" >Building the RecordEditor</A></H1>
+<P>Warning I have just re-organised the build directories and prepared this document so there will be issues.
+<P>
+<P>
+ 
+<HR><H2><A NAME="Header_2" HREF="#ToC_2" >Required Software</A></H2>
+ <UL COMPACT>
+  <LI>Java (Suggest 6 at present)
+  <LI>Ant (to build jars from java source)
+  <LI>NSIS (building Windows Installers)
+  <LI>IZPACK (building cross platform installers)
+  <LI>Regina Rexx (Control language / building NSIS scripts)
+ </UL>
+<P>
+<P>While I have used Rexx, most of the scripts are very simple.
+<P>
+<HR><H2><A NAME="Header_3" HREF="#ToC_3" >Building RecordEditor Source</A></H2>
+<P>
+<P><H3><A NAME="Header_4" HREF="#ToC_4" >Setup Steps</A></H3>
+<P>To build the jars just run the <B>ant</B> on the <B>build.xml</B> file associated with
+each source directory. If you also plan build the installers, it is advisable to update the build scripts to
+<UL COMPACT>
+ <LI>Copy the jars to the <B>Build/Instalation/GeneralDB/lib</B> and <B>Build/Instalation/hsqldb_izpack</B>
+directories.
+ <LI>Copy the source to <B>Build/Instalation/GeneralDB/src</B> directory.
+</UL>
+<P>
+You must also update the following rexx scripts for the NSIS and IZPACK install directories
+<P>
+<UL COMPACT>
+ <LI><B>Build/izPack/CALLIZPACK.rexx</B>
+ <LI><B>Build/NSIS/bld.rexx</B>
+</UL>
+<P>
+<HR><H2><A NAME="Header_5" HREF="#ToC_5" >Building Installers</A></H2>
+<P>Before you start creating the installers, you must copy the files&#58;
+<UL COMPACT>
+ <LI>StAX.jar
+ <LI>cb2xml.jar
+ <LI>hsqldbmain.jar
+ <LI>jibx-run.jar
+ <LI>jlibdiff.jar
+</UL>
+from a HSQL / USB instalation to the <B>Build/Instalation/GeneralDB/lib</B> and <B>Build/Instalation/hsqldb_izpack</B>
+directories.
+<P>
+<P>
+<P><H3><A NAME="Header_6" HREF="#ToC_6" >Building installers</A></H3>
+<P>To build any of the installers you should
+<P>
+<OL COMPACT TYPE=1>
+  <LI>Copy the jars <B>JRecord.jar</B>, <B>LayoutEdit.jar</B> and <B>RecordEdit.jar</B>
+to the <B>Build/Instalation/hsqldb_izpack</B>
+  <LI>Run the rexx script <B>SelBuild.rexx</B>
+  <LI>enter 1&lt;return&gt; to run Pack200 on the jars. This runs <B>Build/Instalation/hsqldb_izpack/runpack.rexx'</B>.
+  <LI>Select options 2/3/4 as required.
+</OL>
+<P>
+<P>
+<P><H3><A NAME="Header_7" HREF="#ToC_7" >IzPack Installers</A></H3>
+<P>
+<P>The IzPack contraol scripts are:
+<P>
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="33%">Version
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="33%">IzPack Script
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="33%">Rexx Build Script
+ 
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">HSQL
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">RecordEdit_HSQL.xml
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">BuildInstall.rexx
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">Generic DB
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">Generic_RecordEdit.xml
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">BuildGenericInstall.rexx
+ 
+</TD></TR><TR>
+ 
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">Avro Editor
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">Avro_Editor.xml
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">BuildAvroInstall.rexx
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">Prorocol Buffer Editor
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">ProtoBuf_Editor.xml
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">BuildProtoBufferInstall.rexx
+</TD></TR></TABLE>
+<P>
+<P>
+<P><B>Note: </B>The <B>Avro Editor</B> and  <B>Protocol Buffers Editor</B> are seperate packages based on the RecordEditor.
+<P>
+<P><H3><A NAME="Header_8" HREF="#ToC_8" >NSIS Installers</A></H3>
+<P>
+<P>With the NSIS scripts, I quickly go tired of maintaining the NSIS scripts so I wrote
+<B>nsiExpand.rexx / nsiExpand_Windows.rexx</B> This scripts has the following purposes:
+<UL COMPACT>
+<LI>Expands wild cards definitions. e.g. following includes all files matching ..\Instalation\GeneralDB\lib\run*.jar and ..\Instalation\GeneralDB\lib\ZCalendar.jar"
+<P>
+  &lt;expand overwrite=try outpath="$INSTDIR\lib" inpath="..\Instalation\GeneralDB\lib" name="run*.jar" name1="ZCalendar.jar"&gt;
+<P>
+<LI>Generates deletes for all files generated via <B>&lt;expand</B> tags (at <B>&lt;WriteDelete/&gt;</B> tag).
+<LI>Can also generate a upgrade installer that includes all files changed since a certain date.
+</UL>
+<P>
+<P>
+<P>
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="33%">Version
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="33%">nsiExpand Input
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="33%">NSIS Script
+ 
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">HSQL
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">xRecordEdit_HSQL.nsi
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">EXxRecordEdit_HSQL.nsi
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">MsAccess
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">xRecordEdit_MSAccess.nsi
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">EXxRecordEdit_MSAccess.nsi
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">H2
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">xRecordEdit_H2.nsi
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="33%">EXxRecordEdit_H2.nsi
+</TD></TR></TABLE>
+<P>
+<P>
+<P><B>Note: </B>The <B>H2</B> version has never been released.
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>RecordEditor Main Screen</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- /home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/HlpRe.dc -->
+<!-- f converted by B2H R4.7 (390) (LINUX) on 14 Feb 2009 at 17:03:48 -->
+<META HTTP-EQUIV="updated" CONTENT="Sat, 14 Feb 2009 16:09:43">
+<META HTTP-EQUIV="review" CONTENT="Sun, 14 Feb 2010 16:09:43">
+<META HTTP-EQUIV="expires" CONTENT="Mon, 14 Feb 2011 16:09:43">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<P><H3><A NAME="HDRFILTER" HREF="HlpRe02.htm#ToC_7" >Filter Screen</A></H3>
+<P>The Filter screen is used to created a view of the data with only the
+record / fields the user wants.
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="100%">
+<img SRC="Diagram/RecordEdit_Filter.png">
+<BR></TD></TR></TABLE>
+<P>The important parts of the screen are:
+<P>
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Record Filter
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">
+<img SRC="Diagram/RecordEdit_Filter_Records.GIF">
+<P>This section of the screen has 2 functions
+<OL COMPACT TYPE=1>
+<LI>Select which records to display based on the Record Type
+(using the <B>Include</B> Check box).
+<LI>When you click on a record you can
+<UL COMPACT>
+<LI>Select which fields (for this record type) will
+be displayed.
+<LI>Allows you to enter filters based on a records content for this record type.
+</UL>
+</OL>
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Field Filter
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">
+<img SRC="Diagram/RecordEdit_Filter_Fields.GIF">
+<P>This section of the screen allows you to select which fields will be displayed
+(using the <B>Include</B> Check box).
+<P>Clicking on the record <B>PriceR 1</B> (in the record filter above) will display
+the fields of record <B>PriceR 1</B>.
+<P>
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Field Value Filter
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">
+<img SRC="Diagram/RecordEdit_Filter_FieldValues.GIF">
+<P>This section of the screen allows you to select which record will be displayed
+based on record content.
+<P>In the above example, only records where the field <B>description</B> contains
+<B>DVD</B> will be displayed.
+<P>Clicking on the record <B>PriceR 1</B> (in the record filter above) will alloy
+you to enter Data-based filters for <B>PriceR 1</B>
+<P>You can enter up to 4 data filters per record type. A record must satisfy
+all filters (i.e. a logical <B>And</B>) to be displayed.
+<BR></TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">Sace Button
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">The save button saves the Filter definition as a XML file.
+You can execute the filter at a later date from the View Menu. See  for more details.
+</TD></TR></TABLE>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

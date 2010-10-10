@@ -1,0 +1,12 @@
+package net.sf.RecordEditor.ProtoBuf.re.Test.Sales;
+option optimize_for = SPEED;
+message sale {
+ 
+  required int32 keycode = 1;
+  required int32 store = 2;
+  required int32 department = 3;
+  required int32 saleDate = 4;
+  required int32 quantity = 5;
+  required int64 price = 6;  // price int 1/10 cents
+}
+

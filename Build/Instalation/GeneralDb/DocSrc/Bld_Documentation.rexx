@@ -34,10 +34,10 @@
 	say ' '
 	
 	/*regina b2h '"reLibDir.dcf" (LOG=reLibDir.log QUIET)'*/
-	
 	regina b2h '"reSampleFiles.dcf (HTMPEXT='html'  LOG=reSampleFiles.log )"'
 	regina b2h '"RecordEditIntro.dcf (HTMPEXT='html' LOG=RecordEditIntro.log QUIET)"'
 	regina b2h '"ceCobolEditor.dcf (HTMPEXT='html' LOG=CE.log QUIET)"'
+	regina b2h '"JRecord.properties.dcf (HTMPEXT=''html''  LOG=JRecordProperties.log QUIET)"'
 	del 'CobolEditor.'html
 	rename 'ceCobolEditor.'html' CobolEditor.'html
 

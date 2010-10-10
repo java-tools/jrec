@@ -1,0 +1,34 @@
+package net.sf.RecordEditor.ProtoBuf.re.Test.SalesX;
+option optimize_for = SPEED;
+
+
+enum SaleType {
+    RETURN = -1;
+    OTHER = 0;
+    SALE = 1;
+  }
+
+enum PaymentType {
+  CASH = 1;
+  CREDIT_CARD = 2;
+  DEBIT_CARD = 3;
+  CHEQUE = 4;
+}
+
+message sale11 {
+ 
+  required int32 keycode = 1;
+  required int32 store = 2;
+  optional int32 department = 3;
+  optional int32 saleDate = 4;
+  optional int32 quantity = 5;
+  optional int64 price = 6;  // price int 1/10 cents
+  optional float priceFloat = 7;
+  optional double priceDouble = 8;
+
+  required SaleType saleType = 10;
+  optional PaymentType paymentType = 11;
+
+  repeated string strArray = 21;
+}
+

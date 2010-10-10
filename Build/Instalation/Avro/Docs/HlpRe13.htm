@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>RecordEditor Main Screen</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- /home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/HlpRe.dc -->
+<!-- f converted by B2H R4.7 (390) (LINUX) on 14 Feb 2009 at 17:03:48 -->
+<META HTTP-EQUIV="updated" CONTENT="Sat, 14 Feb 2009 16:09:43">
+<META HTTP-EQUIV="review" CONTENT="Sun, 14 Feb 2010 16:09:43">
+<META HTTP-EQUIV="expires" CONTENT="Mon, 14 Feb 2011 16:09:43">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<P><H3><A NAME="HDRRTREE" HREF="HlpRe02.htm#ToC_20" >Record Tree</A></H3>
+<P>
+<P>A <B>Record Tree</B> view is a way to represent the Logical Structure of File.
+It is useful when
+<UL COMPACT>
+ <LI>There is more than one Record Type in the file.
+ <LI>There is a logical relation ship between the Records in the file
+</UL>
+<P>
+<P>For example the <B>Ams PO</B> file consists of 3 records
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>PO Header</B></TD><TD><P>Purchase Order Summary record, it holds Purchase order details
+like PO number, Supplier etc. Each PO record has one or more Product Records
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Product</B></TD><TD><P>Product/DC summary. It holds Product / DC Details. Each
+Products Record can have multiple Store Allocations records.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Store Allocations</B></TD><TD><P>Holds Store Allocations (i.e. Quantity allocated to each store)
+organised in array.
+</TD></TR></TABLE>
+<P>
+<P>Logically records in the <B>Ams PO</B> file are arranged like:
+<P>
+<img SRC="Diagram/AmsPOfile.GIF">
+<P>
+<P>The first step is to select the <B>Record Based Tree</B> option on the view Menu:
+<P>
+<img SRC="Diagram/RecordEdit_RecordField1.png">
+<P>
+<P>On this screen you need to enter the Parent Record for each Record.
+<P>
+<P>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

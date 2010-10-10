@@ -1,0 +1,22 @@
+ProtoTest_Address1.bin		$INSTALL_PATH/CopyBook/addressbook.protocomp,,1,,0,,0,,1,,AddressBook		$INSTALL_PATH/SampleFiles
+ProtoTest_Address3.bin		$INSTALL_PATH//CopyBook/addressbook.protocomp,,1,,1,,0,,0,,Person		$INSTALL_PATH//SampleFiles
+protoSales.bin		$INSTALL_PATH/CopyBook/sales.protocomp,,1,,1,,0,,0,,sale		$INSTALL_PATH/SampleFiles
+protoSales11.bin		$INSTALL_PATH/CopyBook/Sales11.protocomp,,1,,1,,0,,0,,sale		$INSTALL_PATH/SampleFiles
+protoStoreSales3.bin		$INSTALL_PATH/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
+protoStoreSales3a.bin		$INSTALL_PATH/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
+protoStoreSales3b.bin		$INSTALL_PATH/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
+protoStoreSales3c.bin		$INSTALL_PATH/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
+protoStoreSales3a.bin$		$INSTALL_PATH/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
+protoStoreSales5.bin		$INSTALL_PATH/CopyBook/StoreSales5.protocomp,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
+protoStoreSales6.bin		$INSTALL_PATH/CopyBook/StoreSales6.protocomp,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
+protoStoreSales7.bin		$INSTALL_PATH/CopyBook/StoreSales7.protocomp,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
+protoFieldTest.bin		$INSTALL_PATH/CopyBook/FieldTest.protocomp,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
+protoFieldTest2.bin		$INSTALL_PATH/CopyBook/FieldTest2.protocomp,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
+Ams_LocDownload_20041228.bin		$INSTALL_PATH/CopyBook/Ams_Location.protocomp,,1,,1,,0,,0,,Locations		$INSTALL_PATH/SampleFiles
+protoStoreSales3SD.bin		$INSTALL_PATH/CopyBook/StoreSales3.protocomp,,1,,3,,0,,4,,Store		$INSTALL_PATH/SampleFiles
+protoStoreSales5im.bin		$INSTALL_PATH/CopyBook/StoreSales5SD.protocomp,,1,,1,,4,,0,,Store		$INSTALL_PATH/SampleFiles
+protoStoreSales5SD.bin		$INSTALL_PATH/CopyBook/StoreSales5SD.protocomp,,1,,3,,0,,0,,Store		$INSTALL_PATH/SampleFiles
+protoStoreSales3SDim.bin		$INSTALL_PATH/CopyBook/StoreSales3im.proto,,0,,3,,0,,4,,Store		$INSTALL_PATH/SampleFiles
+protoStoreSales3im.bin		$INSTALL_PATH/CopyBook/StoreSales3im.proto,,0,,1,,3,,0,,Store		$INSTALL_PATH/SampleFiles
+
+

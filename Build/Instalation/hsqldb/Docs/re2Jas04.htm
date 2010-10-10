@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>Getting Started</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- G:\RecordEdit_Prj\Docs\re2Jasper.dcf converted by B2H R4.7 (390) -->
+<!-- (WINNT) on 29 Dec 2005 at 21:03:32                               -->
+<META HTTP-EQUIV="updated" CONTENT="Thu, 29 Dec 2005 21:03:02">
+<META HTTP-EQUIV="review" CONTENT="Fri, 29 Dec 2006 21:03:02">
+<META HTTP-EQUIV="expires" CONTENT="Sat, 29 Dec 2007 21:03:02">
+<link rel="stylesheet" type="text/css" href="syntax.css">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<HR><H1><A NAME="Header_12">Jasper interface</A></H1>
+<P>When defining a <B>field</B> in <B>Jasper</B>, normally you would
+supply the <a href="http://record-editor.sourceforge.net">RecordEditor</a> <B>field</B> name in the <font color="blue">fieldDescription</font> tag as below.
+<P>In the following code, the <B>Jasper</B> field <font color="blue">PackQty</font>
+is associated with the <a href="http://record-editor.sourceforge.net">RecordEditor</a> <B>field</B> <font color="blue">Pack Qty</font>.
+<P>
+<PRE><SPAN CLASS="gutterH">25:</SPAN>        <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">field</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">name</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">PackQty</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">class</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">java.math.BigDecimal</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutter">26:</SPAN>                <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">fieldDescription</SPAN><SPAN CLASS="syntax17">&gt;</SPAN><SPAN CLASS="syntax9">&lt;![CDATA[</SPAN><SPAN CLASS="syntax2">Pack</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">Qty</SPAN><SPAN CLASS="syntax9">]]&gt;</SPAN><SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">fieldDescription</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutter">27:</SPAN>        <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">field</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+</PRE><P><P>When the <B>Jasper</B> field name is the same as the <a href="http://record-editor.sourceforge.net">RecordEditor</a> <B>field</B>
+you do not need to use the <font color="blue">fieldDescription</font> tag as below.
+<P>
+<PRE><SPAN CLASS="gutter">34:</SPAN>        <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">field</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">name</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">Apn</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">class</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">java.lang.String</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutterH">35:</SPAN>        <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">field</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+</PRE><P><P>For files with more than one <B>type of Record</B> the <B>RecordDataSource</B>
+stores the last Line of each <B>Record Type</B> for your use. You can access a
+field in a specific record by using a field name of <font color="blue">Record Name<font color="red"><b>.</b></font>Field Name</font>.
+i.e. The following example accesses the field <font color="blue">beg01 code</font> in the
+last <font color="blue">ams PO Download&#58; Header</font> Line&#58;
+<P>
+<PRE><SPAN CLASS="gutter">62:</SPAN>        <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">field</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">name</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">Beg01Code</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17"> </SPAN><SPAN CLASS="syntax17">class</SPAN><SPAN CLASS="syntax17">=</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax13">java.lang.String</SPAN><SPAN CLASS="syntax13">&quot;</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutter">63:</SPAN>                <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">fieldDescription</SPAN><SPAN CLASS="syntax17">&gt;</SPAN><SPAN CLASS="syntax9">&lt;![CDATA[</SPAN><SPAN CLASS="syntax2">ams</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">PO</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">Download:</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">Header.beg01</SPAN><SPAN CLASS="syntax2"> </SPAN><SPAN CLASS="syntax2">code</SPAN><SPAN CLASS="syntax9">]]&gt;</SPAN><SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">fieldDescription</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+<SPAN CLASS="gutter">64:</SPAN>        <SPAN CLASS="syntax17">&lt;</SPAN><SPAN CLASS="syntax17">/</SPAN><SPAN CLASS="syntax17">field</SPAN><SPAN CLASS="syntax17">&gt;</SPAN>
+</PRE><P>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

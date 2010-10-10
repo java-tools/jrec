@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="public" author="true" classpath="/home/bm/Work/RecordEditor/lib/cb2xml.jar:/usr/share/eclipse/plugins/org.junit_3.8.2.v200706111738/junit.jar:/home/bm/Work/RecordEditor/lib/TableLayout.jar" destdir="/home/bm/Work/JRecord/JavaDoc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" overview="/home/bm/workspace/JRecord/Summary.html" packagenames="net.sf.JRecord.ByteIO,net.sf.JRecord.Log,net.sf.JRecord.CsvParser,net.sf.JRecord.Numeric,net.sf.JRecord.Types,net.sf.JRecord.IO,net.sf.JRecord.External,net.sf.JRecord.Common,net.sf.JRecord.Details,,net.sf.JRecord.zExamples" source="1.6" sourcepath="src" splitindex="true" use="true" version="true"/>
+    </target>
+</project>

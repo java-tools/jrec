@@ -1,0 +1,14 @@
+//
+package net.sf.RecordEditor.ProtoBuf.re.Test.Sales3;
+enum SaleType {
+  RETURN = -1;
+  OTHER = 0;
+  SALE = 1;
+}
+
+enum PaymentType {
+  CASH = 1;
+  CREDIT_CARD = 2;
+  DEBIT_CARD = 3;
+  CHEQUE = 4;
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>RecordEditor Main Screen</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- /home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/HlpRe.dc -->
+<!-- f converted by B2H R4.7 (390) (LINUX) on 14 Feb 2009 at 17:03:48 -->
+<META HTTP-EQUIV="updated" CONTENT="Sat, 14 Feb 2009 16:09:43">
+<META HTTP-EQUIV="review" CONTENT="Sun, 14 Feb 2010 16:09:43">
+<META HTTP-EQUIV="expires" CONTENT="Mon, 14 Feb 2011 16:09:43">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<P><H3><A NAME="HDRFIND" HREF="HlpRe02.htm#ToC_6" >Search Screen</A></H3>
+<P>The <B>Search screen</B> is used to search for a value in the file.
+This screen is displayed when the search button (<A HREF="HlpRe03.htm#HDRBINTBL">"Table View"</A>) is pressed  -
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="100%">
+<img SRC="Diagram/RecordEdit_Find.GIF">
+<BR></TD></TR></TABLE>
+<P>
+<P>The system can do to types of searches
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><B>Full Line Search
+</B></TD><TD>If no field is specified, the system does a Text based full line search.
+</TD></TR><TR VALIGN="TOP"><TD><B>Field Search
+</B></TD><TD>If a field is specified then
+<UL COMPACT>
+<LI>Only the specified field is searched
+<LI>The field is converted to text before being searched. This means that Binary
+fields can be searched.
+</UL>
+</TD></TR></TABLE>
+<P>
+<P>Fields on this screen are
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Field</B>
+ </TD><TD><P><B>Description</B>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Search For    </B></TD><TD><P>Text to be searched for
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Replace With  </B></TD><TD><P>Replacement text.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Record Layout </B></TD><TD><P>Record Layout to be used in the search
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Field         </B></TD><TD><P>Field to be searched, leave blank to do a text search on the whole record.
+Select <B>All Fields</B> to search all fields (preferred record layout).
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Where         </B></TD><TD><P>What to compare options are:
+   <TABLE CELLPADDING="3">
+     <TR VALIGN="TOP"><TD><P><B>Any part of field</B></TD><TD><P>search for the text anywhere in the field
+     </TD></TR><TR VALIGN="TOP"><TD><P><B>Whole Field      </B></TD><TD><P>Compare the whole field with the search text.
+   </TD></TR></TABLE>
+   <P>For example, if the search text was <B>33</B> and the field contains <B>1331</B>
+Then <B>Whole Field</B> would skip this record while <B>Any part of field</B> would find it.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Direction     </B></TD><TD><P>Direction of the Search, options are <B>Forward</B> and <B>Backward</B>.
+</TD></TR></TABLE>
+<P><B>Note: </B>You can only use the replace function when you specify a specific field
+<P>
+<P>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

@@ -1,0 +1,142 @@
+:h2.Avro Editor
+.**B2H SYMBOL :TAG.  Pnl IT=N VAT=N ATT=Y SE=N V='.fo off'
+.**B2H SYMBOL :TAG.  ePnl IT=N VAT=N ATT=Y SE=N V='.fo on'
+
+.*B2H SYMBOL :TAG.  Pnl IT=N VAT=N ATT=Y SE=N V='<Table border="3" cellpadding="7" cellspacing="3"><tr><TD BGCOLOR="#000000"><FONT COLOR="#00ff00"><pre>'
+.*B2H SYMBOL :TAG.  ePnl IT=N VAT=N ATT=Y SE=N V='</pre></font></td></tr></pre></table>'
+
+.*B2H SYMBOL :TAG.  Yellow IT=N VAT=N ATT=Y SE=N V='<FONT COLOR=Yellow>'
+.*B2H SYMBOL :TAG.  EYellow IT=N VAT=N ATT=Y SE=N V='</FONT>'
+.*B2H SYMBOL :TAG.  Cyan IT=N VAT=N ATT=Y SE=N V='<FONT COLOR=Cyan>'
+.*B2H SYMBOL :TAG.  ECyan IT=N VAT=N ATT=Y SE=N V='</FONT>'
+.*B2H SYMBOL :TAG.  DCyan IT=N VAT=N ATT=Y SE=N V='<FONT COLOR="#33CCCC">'
+.*B2H SYMBOL :TAG.  EDCyan IT=N VAT=N ATT=Y SE=N V='</FONT>'
+.*B2H SYMBOL :TAG.  Red IT=N VAT=N ATT=Y SE=N V='<FONT COLOR=Red>'
+.*B2H SYMBOL :TAG.  ERed IT=N VAT=N ATT=Y SE=N V='</FONT>'
+
+.*B2H SYMBOL :TAG.  White IT=N VAT=N ATT=Y SE=N V='<FONT COLOR=White>'
+.*B2H SYMBOL :TAG.  EWhite IT=N VAT=N ATT=Y SE=N V='</FONT>'
+
+
+.*B2H SYMBOL :TAG.  Green IT=N VAT=N ATT=Y SE=N V='<FONT COLOR=#00ff00>'
+.*B2H SYMBOL :TAG.  EGreen IT=N VAT=N ATT=Y SE=N V='</FONT>'
+.im iRE_TagDefs.dcf
+
+:table cols='* 3*'.
+:row.:c.Purpose:c.The :AvroEditor. is a viewer / editor / compare Utility for :Avro. Binary message files.
+:row.:c.Author:c.Bruce Martin
+:row.:c.Requirements:c.Java 6
+:etable.
+
+:p.In the Editor, a Avro File is displayed as a Tree with each record displayed as a Node.
+You can update the fields or press the buttons on the Left for a detailed record View&gml.
+
+.pict Avro_Editor.png
+:p.Individual records can also be displayed&gml.
+
+.pict Avro_Record.png
+.br
+.br
+.br
+.br
+
+
+
+:h3.Compare Utility
+:p.The package can also compare 2 Avro binary files and display the results on the screen
+or write the result as a HTML file&gml.
+
+.pict AvroCompare.png
+
+.br
+.br
+.br
+
+:h3.Limititations
+:p.There are several limitations to be aware of
+
+:ol.
+ :li.Unions - Very limited support. Only 2 element union where one item is null are supported i.e.
+.fo off 
+  Union {null, Record01} field1;
+  Union {null, float} field2;
+  
+  are supported but the following are not supported
+  
+  Union {float, double} field1;
+  Union {null, float, double} field2;
+  Union {float, record3} field3;
+.fo on  
+  :li.Elementary maps can only be editted via there popups. To edit a
+.fo off 
+
+  map<float> FloatMap;
+.fo on  
+  you must use the popup arrow.
+
+  :li.Anything I have not thought of doing.
+:eol.
+
+:rlink.
+:h2.RecordEditor Family
+:p.The :AvroEditor. is part of a family of editors all based on the :RecordEditor.. 
+Building the :AvroEditor. on top of the :RecordEditor. has both advantages and disadvantages&gml.
+:dl.
+ :dt.Advantages
+ :dd.
+  :ul compact.
+   :li.Once you learn to use one of the Editors you will be able to use any of the other Editor's.
+   :li.Saved a huge amount of development time.
+   :li.Greater functionality is available in the Editor
+  :eul.
+ :dt.Disadvantages
+ :dd.
+  :ul compact.
+   :li.The :AvroEditor. is not as well adapted to :Avro. files as a specially written editor would be
+ :eul.
+:Edl.
+
+:tdef id=xlight shade='xlight'.
+:table cols='* 5*'.
+:thd refid=xlight.:c.Editor:c.Description:ethd.
+:row refid=none.:c.:RecordEditor.:c.Edits Fixed Width, Csv and Xml files (to a lesser extent) using
+Record Descriptions stored in a Database. There is an option to import Cobol Copybooks in to the Database
+:row.:c.CobolEditor:c.Edits Cobol Data files using a Cobol Copybooks. Can also Edit Fixed Width / CSV files
+using a XML description. The CobolEditor comes as part of the :RecordEditor. package.
+:row.:c.:protoBufEditor.:c.Edit Google Protocol Buffers Binary message file using a Prot Description.
+:etable.
+
+:table cols='* 4*'.
+:thd refid=xlight.:c.File Format:c.Editor:ethd.
+:row refid=none.:c.Fixed Width:c.:RecordEditor. 
+:row.:c.CSV File:c.:RecordEditor. 
+:row.:c.Xml File:c.:RecordEditor., Xml needs more work though.
+:row.:c.Cobol File:c.:RecordEditor., CobolEditor
+:row.:c.Mainframe File:c.:RecordEditor. 
+:row.:c.Cobol File:c.:RecordEditor. 
+:row.:c.Protocol Buffers Binary File:c.:protoBufEditor. 
+:row.:c.Avro Binary File:c.:AvroEditor.
+:etable.
+
+
+
+
+:rlink.
+
+:h2.Changes
+:h3.Future
+:p.The Future of the project will depend on the level of interest. I will be adding
+support for Unions. Other possible changes could include&gml.
+
+:ul.
+ :li.More Field Format options e.g. - Date Fields could be reformatted and displayed as a date popup
+ :li.File Copy Function. The :RecordEditor. has a File Copy function,  
+:eul.
+
+
+:h3.Versions
+:ul.
+ :li.Version 0.69e - Initial Release.
+:eul.
+
+:rlink.

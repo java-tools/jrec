@@ -1,0 +1,18 @@
+
+þ
+StoreSales.proto+net.sf.RecordEditor.ProtoBuf.re.Test.Sales2"M
+Product
+keycode (
+saleDate (
+quantity (
+price ("v
+Deptartment
+
+department (
+name (	E
+product (24.net.sf.RecordEditor.ProtoBuf.re.Test.Sales2.Product"r
+Store
+store (
+name (	L
+
+department (28.net.sf.RecordEditor.ProtoBuf.re.Test.Sales2.DeptartmentBH

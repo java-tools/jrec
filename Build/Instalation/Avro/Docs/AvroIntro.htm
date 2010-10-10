@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>Avro Message Editor Introduction</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- /home/bm/Work/RecordEditor/Instalation/Avro/DocSrc/AvroIntro.dcf -->
+<!-- converted by B2H R4.7 (390) (LINUX) on 6 Oct 2010 at 03:15:43    -->
+<META HTTP-EQUIV="updated" CONTENT="Wed, 06 Oct 2010 03:15:29">
+<META HTTP-EQUIV="review" CONTENT="Thu, 06 Oct 2011 03:15:29">
+<META HTTP-EQUIV="expires" CONTENT="Sat, 06 Oct 2012 03:15:29">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<a name="Toc"/>
+<P><B><A NAME="ToC_1" HREF="#Header_1" >Avro Message Editor Introduction</A></B><BR>
+<MENU>
+<LI><A NAME="ToC_2" HREF="#Header_2" >Getting Started</A>
+<LI><A NAME="ToC_3" HREF="#Header_3" >Main Edit Screen (Tree View)</A>
+<LI><A NAME="ToC_4" HREF="#Header_4" >Main Edit Screen (Table View)</A>
+<LI><A NAME="ToC_5" HREF="#Header_5" >Compare Function</A>
+<LI><A NAME="ToC_6" HREF="#Header_6" >Union Popup</A>
+<LI><A NAME="ToC_7" HREF="#Header_7" >Other Functions</A>
+</MENU>
+<P><B><A NAME="ToC_8" HREF="#Header_8" >Upgrading the Editor</A></B><BR>
+<P>
+<HR><H1><A NAME="Header_1" HREF="#ToC_1" >Avro Message Editor Introduction</A></H1>
+<P>The <B>Avro Editor</B> is built using <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> to do the actual
+editting. Using the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> brings a lot of functionality to the editor, the downside
+is the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> was written for Flat Files. The flat view of the world shows through
+in some function (filter and compare functions). Also some functions might not work (well !)
+with AvroEditor because it is using the default <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> implementation, please report
+any problems you come across.
+<P>
+<P>This package uses Pack200 on jars to reduce the installer size. The installer
+should unpack the files as part of the install process. If this fails, you can use
+java's unpack200 utility to manually unpack the jars in the lib directory.
+<P>
+<P>The sites Website is at
+You can ask questions, log problems etc.
+<P>
+<P>As of 0.69h, I have started removing parts of the <B>Avro Tools Jar</B> to reduce the
+download size. Please let me know if this causes a <B>Class not found error</B>
+<P>
+<P>The Avro Tools library now includes the Velocity-Template libraries, this means you can
+save a file (Save-As option) using either one of the supplied Velocity-Templates or your
+own velocity templates. This option has had only limited testing.
+<P>
+<HR><H2><A NAME="Header_2" HREF="#ToC_2" >Getting Started</A></H2>
+<P>
+<P>On starting the edittor, the following screen is displayed&#58;
+<P>
+<img SRC="Diagram/Avro_open.png">
+<P>
+<P>Fields are
+<P>
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>File
+ </B></TD><TD><P>Avro Message file to be editted
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>File Structure
+ </B></TD><TD><P>How the message('s) are stored. Current options are
+ <UL COMPACT>
+  <LI><B>Avro Protocol File</B> Avro File.
+ </UL>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Type of Definition
+ </B></TD><TD><P>This field is only needed for New Files. It indicates Wether the definition file is a Standard .genavro or a .arvo definition file
+<UL COMPACT>
+ <LI><B>Avro IDL Definition</B> A Avro-Idl definition (Formerly GenAvro).
+ <LI><B>Avro JSON Definition</B> Standard Avro JSON definition
+</UL>
+proto file and using
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Avro Definition
+ </B></TD><TD><P>Avro definition file (i.e. Avro-IDL or JSON definition).
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Main Record
+ </B></TD><TD><P>Primary (or main) top level Record.
+</TD></TR></TABLE>
+<P>
+<HR><H2><A NAME="Header_3" HREF="#ToC_3" >Main Edit Screen (Tree View)</A></H2>
+<P>If the main message in the file has child messages, the file will be displayed
+in a tree view&#58;
+<P>
+<img SRC="Diagram/Avro_Editor.png">
+<P>If you click on the buttons on the far left (circled in red), The line
+will be displayed on the single record screen. You can use the arrows at the bottom
+of the screen to navigate between records.
+<P>
+<img SRC="Diagram/Avro_Record.png">
+<P>
+<HR><H2><A NAME="Header_4" HREF="#ToC_4" >Main Edit Screen (Table View)</A></H2>
+<P>If the main message has no child messages, it is displayed in a table.
+You can click on the buttons to left of a row to view the record in a single.
+<P>
+<img SRC="Diagram/Avro_Table.png">
+<P>
+<HR><H2><A NAME="Header_5" HREF="#ToC_5" >Compare Function</A></H2>
+<P>Included in the package is a Compare Function. It is available
+as a
+<OL COMPACT TYPE=1>
+<LI>standalone Program,
+<LI>On the the File menu in the editor
+<LI>When editing you can compare the data in the editor with whats on the Disk.
+</OL>
+<P>The\Compare does a field to field compare, This means both messages in the same format and
+those in different formats can be compared. The compare function also allows fields to be excluded from the compare.
+<P>
+<img SRC="Diagram/AvroCompare.png">
+<P>
+<P><B>Note: </B>If you are making a change to a program that will affect only a couple of fields
+You can
+<UL COMPACT>
+ <LI>Run the old and new programs with a large amount of data
+ <LI>Run the compare and exclude the changed fields. This will suggest only the required fields
+have been affected,
+</UL>
+<P>
+<P>
+<HR><H2><A NAME="Header_6" HREF="#ToC_6" >Union Popup</A></H2>
+<P>As part of 0.69h changes, there is now a poput screen for Union fields.
+<P>To update a
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><B>Simple Field</B></TD><TD>Select the radio button for the required type, enter the value in the text field at the top
+and hit the save Key.
+ </TD></TR><TR VALIGN="TOP"><TD><B>Enums</B></TD><TD>Just Select the value in the appropriate Combo Box
+ </TD></TR><TR VALIGN="TOP"><TD><B>Records, Arrays, Msaps</B></TD><TD>Press the Button.
+</TD></TR></TABLE>
+<P>The Union screen should handle simple Union fields, but it has a number of limitations including&#58;
+<UL COMPACT>
+ <LI>Can not see Records with in records.
+ <LI>Map keys are not displayed on all screens.
+</UL>
+<P>
+<img SRC="Diagram/Union.png">
+<P>
+<HR><H2><A NAME="Header_7" HREF="#ToC_7" >Other Functions</A></H2>
+<P>Other functions available in the editor include
+<P>
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Filter  </B></TD><TD><P>The filter Function creates a separate view of the file containing only
+selected Fields / Records. It is available on the <B>View</B> Menu and the option button.
+<P>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Sort   </B></TD><TD><P>You can sort the top level messages (on the <B>Data</B> top level menu plus
+the right click menu).
+<P>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Start up Option</B></TD><TD><P>Some options can be updated on the <B>Edit &gt;&gt;&gt;&gt;&gt; Edit Startup options</B>
+</TD></TR></TABLE>
+<P>
+<P>Much of the <a href="gRecordEdit.htm">RecordEditor Manual<a> is relevant to the <B>Avro Editor</B>
+<P>
+<HR><H1><A NAME="Header_8" HREF="#ToC_8" >Upgrading the Editor</A></H1>
+<P>In the Avro lib directory, there is a file <B>FullEditorFiles.txt</B>. This contains
+jars allocated to the editor at startup (RecordEditor.jar and JRecord.jar are also allocated).
+You can change the files in this text file to point to replacement jars if need be.
+<P><B>FullEditorFiles.txt</B> is a tab delimited Text file with jars as the second field.
+The value &lt;lib&gt; is expanded to AvroEditor lib directory.
+<P>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

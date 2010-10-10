@@ -1,0 +1,45 @@
+//
+package net.sf.RecordEditor.ProtoBuf.re.Test.SalesX;
+option optimize_for = SPEED;
+message Product {
+
+enum SaleType {
+    RETURN = -1;
+    OTHER = 0;
+    SALE = 1;
+  }
+
+  required int32 keycode = 1;
+  repeated int32 saleDate = 2;
+  repeated int32 quantity = 3;
+  repeated int64 price = 4;  // price in 1/10 cents i.e. $123.45 is stored as 123450
+  repeated SaleType saleType = 5;
+  repeated float priceFloat = 6;
+  repeated double priceDouble = 7;
+  repeated string strArray = 21;
+}
+
+message Order {
+  required int32 keycode = 1;
+  required int32 quantity = 2;
+}
+message Summary {
+  required int32 quantity = 1;
+  required int64 price = 2;  // price in 1/10 cents i.e. $123.45 is stored as 123450
+  required int32 count = 3;
+}
+message Deptartment {
+  required int32 department = 1;
+  required string name = 2;
+  repeated Product product = 3;
+  optional Summary summary = 4;
+}
+
+message Store {
+  required int32 store = 1;
+  required string name = 2;
+  repeated Deptartment department = 3;
+  repeated Order order = 4;
+  optional Summary summary = 5;
+}
+

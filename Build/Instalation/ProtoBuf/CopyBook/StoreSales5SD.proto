@@ -1,0 +1,17 @@
+//
+package net.sf.RecordEditor.ProtoBuf.re.Test.SalesX;
+
+import "StoreSales5SD_Product.proto";
+import "StoreSales5SD_OrderDept.proto";
+import "StoreSales5SD_Summary.proto";
+
+option optimize_for = SPEED;
+
+message Store {
+  required int32 store = 1;
+  required string name = 2;
+  repeated Deptartment department = 3;
+  repeated Order order = 4;
+  optional Summary summary = 5;
+}
+

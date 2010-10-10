@@ -17,7 +17,7 @@
     -->
     <info>
         <appname>RecordEdit/Generic</appname>
-        <appversion>0.68</appversion>
+        <appversion>0.69.1</appversion>
         <authors>
             <author name="Bruce Martin" email="bruce_a_martin@sourceforge.net" />
             <!--author name="Hidden Man" email="hidden@hisdomain.com"/-->
@@ -89,6 +89,10 @@
             <description>Record Editor Docs</description>
             <file src="../Instalation/GeneralDB/Docs" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
         </pack>
+        <pack name="Diagrams" required="yes" override="true">
+            <description>Record Editor Diagrams</description>
+            <fileset dir="../Instalation/GeneralDB/Docs/Diagram/" targetdir="$INSTALL_PATH/Docs/Diagram"/>
+        </pack>
         <!--pack name="Database" required="yes" override="false">
             <description>Record Editor Database</description>
             <fileset src="../Instalation/hsqldb/Database" targetdir="$USER_HOME/.RecordEditor/GenericDB/HsqlDatabase"/>
@@ -125,6 +129,8 @@
 	    <parsable targetfile="$INSTALL_PATH/lib/runEditorFileCopybook.sh" type="shell"/>
 	    <parsable targetfile="$INSTALL_PATH/lib/runVelocityGUI.sh"        type="shell"/>
 	    <parsable targetfile="$INSTALL_PATH/lib/runPropertiesEditor.sh"   type="shell"/>
+	    <parsable targetfile="$INSTALL_PATH/lib/Uninstall.sh"   type="shell"/>
+	    <executable targetfile="$INSTALL_PATH/lib/Uninstall.sh" stage="never"/>
 	    <executable targetfile="$INSTALL_PATH/lib/StopServer.sh"        stage="never"/>
 	    <executable targetfile="$INSTALL_PATH/lib/runGenericInstall.sh" stage="never"/>
 	    <executable targetfile="$INSTALL_PATH/lib/runLayoutEdit.sh"     stage="never"/>

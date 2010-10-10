@@ -57,7 +57,9 @@ copied to.
 :p.The final screen lets you
 
 :ul compact.
- :li.Save the Copy definition to an XML file. This definition can be executed 
+ :li.Specify the :hp2.Field Error File:ehp2. where any field conversion issues will be written.
+ :li.Specify a Maximum number of conversion errors 
+ :li.Save the Copy definition to an XML file (:hp2.Save file:ehp2. Field). This definition can be executed 
 at a later date from option 1 or via the :hdref refid=batch. utility.
  :li.Run the copy.
 :eul.
@@ -122,7 +124,19 @@ at a later date from option 1 or via the :hdref refid=batch. utility.
 
 :h2 id=batch.Batch Copy
 
-:p.Also provided is the batch copy utilities
+:p.Also provided is the batch copy utility, this uses a control file (produced by the online copy) to copy a file in batch.
+Option ally the utility takes the following parameters&gml.
+
+:tdef id=xlight shade='xlight'.
+:table cols='* 4*'.
+ :thd refid=xlight.:c.Parameter:c.Descriptions:ethd.
+ :row refid=none.:c.-i:c.Input File
+ :row.:c.-il:c.Input Layout (when using a file layout you must add the ~ delimited load options to the end of the file name.
+ :row.:c.-o:c.Output File
+ :row.:c.-ol:c.Output Layout (when using a file layout you must add the ~ delimited load options to the end of the file name.
+ :row.:c.-ef:c.Field Error File
+:etable.
+
 
 :p.For the RecordEditor proper (using saved copy definition)&gml.
 .fo off

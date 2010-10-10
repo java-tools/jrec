@@ -1,10 +1,15 @@
 /* rexx */
+parse arg id x
+   nsis = "/home/bm/Programs/nsis-2.46/makensis"
+   
+   
+   if id = 'h2' then do
+       nsis "EXxRecordEdit_H2.nsi"
+   end; else do
+       nsis "EXxRecordEdit_MSAccess.nsi"
+       nsis "EXxRecordEdit_HSQL.nsi"
+       nsis "EXxRecordEdit_H2.nsi"
+   end
 
- 
-  "/home/bm/Programs/nsis-2.43/makensis EXxRecordEdit_MSAccess.nsi"
-  "/home/bm/Programs/nsis-2.43/makensis EXxRecordEdit_HSQL.nsi"
-
-/*  "/home/bm/Programs/nsis-2.43/makensis RecordEdit_Upgrade_MSAccess.nsi"
-  "/home/bm/Programs/nsis-2.43/makensis RecordEdit_Upgrade_HSQL.nsi"*/
 
   

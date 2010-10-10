@@ -3,10 +3,10 @@
 <TITLE>Copy Utility</TITLE>
 <!-- Begin Header Records  ========================================== -->
 <!-- /home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/Copy.dcf -->
-<!-- converted by B2H R4.7 (390) (LINUX) on 25 Aug 2009 at 22:00:16   -->
-<META HTTP-EQUIV="updated" CONTENT="Tue, 25 Aug 2009 21:59:32">
-<META HTTP-EQUIV="review" CONTENT="Wed, 25 Aug 2010 21:59:32">
-<META HTTP-EQUIV="expires" CONTENT="Thu, 25 Aug 2011 21:59:32">
+<!-- converted by B2H R4.7 (390) (LINUX) on 3 Sep 2010 at 21:42:52    -->
+<META HTTP-EQUIV="updated" CONTENT="Fri, 03 Sep 2010 21:40:04">
+<META HTTP-EQUIV="review" CONTENT="Sat, 03 Sep 2011 21:40:04">
+<META HTTP-EQUIV="expires" CONTENT="Mon, 03 Sep 2012 21:40:04">
 </HEAD><BODY>
 <!-- End Header Records  ============================================ -->
 <A NAME="Top_Of_Page"></A>
@@ -27,8 +27,12 @@
 <LI><A NAME="ToC_8" HREF="#HDRDELIMITIED" >Copy to delimited (CSV)</A>
 </MENU>
 <LI><A NAME="ToC_12" HREF="#HDRBATCH" >Batch Copy</A>
-<LI><A NAME="ToC_13" HREF="#Header_13" >Copy to Delimited File</A>
-<LI><A NAME="ToC_14" HREF="#Header_14" >Copy From XML</A>
+<MENU>
+<LI><A NAME="ToC_13" HREF="#Header_13" >Supplied scripts</A>
+<LI><A NAME="ToC_14" HREF="#Header_14" >Setting up scripts</A>
+</MENU>
+<LI><A NAME="ToC_15" HREF="#Header_15" >Copy to Delimited File</A>
+<LI><A NAME="ToC_16" HREF="#Header_16" >Copy From XML</A>
 </MENU><P>
 <HR><H1><A NAME="Header_1" HREF="#ToC_1" >Copy Utility</A></H1>
 <P>The copy utility can be run either three ways&#58;
@@ -88,7 +92,9 @@ copied to.
 <P>The final screen lets you
 <P>
 <UL COMPACT>
- <LI>Save the Copy definition to an XML file. This definition can be executed
+ <LI>Specify the <B>Field Error File</B> where any field conversion issues will be written.
+ <LI>Specify a Maximum number of conversion errors
+ <LI>Save the Copy definition to an XML file (<B>Save file</B> Field). This definition can be executed
 at a later date from option 1 or via the <A HREF="#HDRBATCH">"Batch Copy"</A> utility.
  <LI>Run the copy.
 </UL>
@@ -153,15 +159,75 @@ at a later date from option 1 or via the <A HREF="#HDRBATCH">"Batch Copy"</A> ut
 <P>
 <HR><H2><A NAME="HDRBATCH" HREF="#ToC_12" >Batch Copy</A></H2>
 <P>
-<P>Also provided is the batch copy (either runBatchCopy.bat or runBatchCopy.sh) utility.
+<P>Also provided is the batch copy utility, this uses a control file (produced by the online copy) to copy a file in batch.
+Option ally the utility takes the following parameters&#58;
+<P>
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="20%">Parameter
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="80%">Descriptions
+ 
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">-i
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Input File
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">-il
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Input Layout (when using a file layout you must add the ~ delimited load options to the end of the file name.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">-o
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Output File
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">-ol
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Output Layout (when using a file layout you must add the ~ delimited load options to the end of the file name.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="20%">-ef
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="80%">Field Error File
+</TD></TR></TABLE>
+<P>
+<P>
+<P>For the RecordEditor proper (using saved copy definition)&#58;
+<PRE>    <B>java -jar "&lt;Record Editor install directory&gt;/lib/run.jar" net.sf.RecordEditor.copy.BatchCopyDBLayout myCopy.xml</B>
+ 
+ or to overide the input output files&#58;
+ 
+    <B>java -jar "&lt;Record Editor install directory&gt;/lib/run.jar" net.sf.RecordEditor.copy.BatchCopyDBLayout myCopy.xml -i input_file -o output_file</B>
+ 
+    .fo on
+<P>For the Cobol Editor&#58;
+</PRE><PRE>    <B>java -jar "&lt;Record Editor install directory&gt;/lib/run.jar" net.sf.RecordEditor.copy.CopyFileLayout myCopy.xml</B>
+ 
+ or to overide the input output files&#58;
+ 
+    <B>java -jar "&lt;Record Editor install directory&gt;/lib/run.jar" net.sf.RecordEditor.copy.CopyFileLayout myCopy.xml -i input_file -o output_file</B>
+</PRE><P><P><H3><A NAME="Header_13" HREF="#ToC_13" >Supplied scripts</A></H3>
+<P>In some versions of the RecordEditor (*.jar installers) there are runBatchCopy.bat or runBatchCopy.sh) utility (*.jar installers).
 <P>Usage
 <PRE>
       <B>runBatchCopy.sh savedCopyDefinition.xml</B>
  or
-     <B>runBatchCopy.sh savedCopyDefinition.xml -i Input_File -o Output_File</B>
+      <B>runBatchCopy.sh savedCopyDefinition.xml -i Input_File -o Output_File</B>
  
+</PRE><P><P><H3><A NAME="Header_14" HREF="#ToC_14" >Setting up scripts</A></H3>
+<P>Alternatively you can set up your own version of runBatchCopy. For windows the bat file is (where <B>&lt;RecordEditor_Version&gt;</B>
+is the RecordEditor version = MSAccess, HSQL, HSQLDB, Generic etc).
+<P>
+<PRE>     <B>javaw -jar "C:\Program Files\RecordEdit\&lt;RecordEditor_Version&gt;\lib\run.jar" net.sf.RecordEditor.copy.BatchCopyDBLayout  %*</B>
+</PRE><P><P>Or for linux/unix/mac
+<P>
+<PRE><B> #! /bin/sh
  
-</PRE><P><HR><H2><A NAME="Header_13" HREF="#ToC_13" >Copy to Delimited File</A></H2>
+    libdir="/home/bm/Programs/RecordEdit/&lt;RecordEditor_Version&gt;/lib"
+ 
+    java -jar "${libdir}/run.jar" net.sf.RecordEditor.copy.BatchCopyDbLayout ${@}
+</PRE></B><P><P>For the Cobol Editor's copy utlity replace BatchCopyDBLayout with CopyFileLayout in the above
+<P>
+<HR><H2><A NAME="Header_15" HREF="#ToC_15" >Copy to Delimited File</A></H2>
 <P>There are actually 2 ways to copy a Fixed / Delimited file to a Delimted file&#58;
 <OL TYPE=1>
  <P><LI>Via option 4 <A HREF="#HDRDELIMITIED">"Copy to delimited (CSV)"</A> screen.
@@ -187,7 +253,7 @@ by a certain character&#58;
 <P>
 <img SRC="Diagram/LayoutEdit_DelimDef.GIF">
 <P>
-<HR><H2><A NAME="Header_14" HREF="#ToC_14" >Copy From XML</A></H2>
+<HR><H2><A NAME="Header_16" HREF="#ToC_16" >Copy From XML</A></H2>
 <P>While the package can copy from XML to fixed / delimited; The fixed / delimited layout must
 be setup to match the input Xml exactly.
 <P>At present, you can not copy from Fixed / Delimited to Xml but in the Editor you can&#58;

@@ -23,6 +23,7 @@ parse arg zType
 	end; else do
 		Call main "-i xRecordEdit_HSQL.nsi"
 		Call main "-i xRecordEdit_MSAccess.nsi "
+		Call main "-i xRecordEdit_H2.nsi"
 		say 'Normal'
 	end
 /*

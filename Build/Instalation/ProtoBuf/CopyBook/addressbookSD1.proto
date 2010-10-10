@@ -1,0 +1,14 @@
+// See README.txt for information and build instructions.
+package tutorial;
+
+import "google/protobuf/descriptor.proto";
+import "addressbookSD1_Person.proto";
+
+option java_package = "com.example.tutorial";
+option java_outer_classname = "AddressBookProtosSD1";
+
+// Our address book file is just one of these.
+message AddressBook {
+  required google.protobuf.FileDescriptorSet proto_files = 7;
+  repeated Person person = 12;
+}

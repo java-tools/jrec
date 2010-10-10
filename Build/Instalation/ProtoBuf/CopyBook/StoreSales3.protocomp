@@ -1,0 +1,28 @@
+
+¹
+StoreSales3.proto+net.sf.RecordEditor.ProtoBuf.re.Test.Sales3"M
+Product
+keycode (
+saleDate (
+quantity (
+price ("*
+Order
+keycode (
+quantity ("9
+Summary
+quantity (
+price (
+count ("½
+Deptartment
+
+department (
+name (	E
+product (24.net.sf.RecordEditor.ProtoBuf.re.Test.Sales3.ProductE
+summary (24.net.sf.RecordEditor.ProtoBuf.re.Test.Sales3.Summary"ü
+Store
+store (
+name (	L
+
+department (28.net.sf.RecordEditor.ProtoBuf.re.Test.Sales3.DeptartmentA
+order (22.net.sf.RecordEditor.ProtoBuf.re.Test.Sales3.OrderE
+summary (24.net.sf.RecordEditor.ProtoBuf.re.Test.Sales3.SummaryBH

@@ -1,11 +1,12 @@
-/*
+
 	Call main "-i xRecordEdit_HSQL.nsi"
-	Call main "-i xRecordEdit_MSAccess.nsi "  
-*/
-	
+	Call main "-i xRecordEdit_MSAccess.nsi"  
+	Call main "-i xRecordEdit_H2.nsi"
+
+/*	
 	Call main "-i xRecordEdit_MSAccess.nsi -o RecordEdit_Upgrade_MSAccess.nsi -p RecordEdit_Upgrade_for_MSAccess_062.exe -d 01/03/07 -psc upgrade"
 	Call main "-i xRecordEdit_HSQL.nsi -o RecordEdit_Upgrade_HSQL.nsi -p RecordEdit_Upgrade_for_HSQL_062.exe -d 01/03/07 -psc upgrade"
-
+*/
 
 return
 

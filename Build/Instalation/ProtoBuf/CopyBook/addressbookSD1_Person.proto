@@ -1,0 +1,14 @@
+//
+package tutorial;
+import "addressbookSD1_PersonPhoneNo.proto";
+
+option java_package = "com.example.tutorial";
+
+
+message Person {
+
+  required string name = 1;
+  required int32 id = 2;        // Unique ID number for this person.
+  optional string email = 3;
+  repeated PhoneNumber phone = 4;
+}

@@ -1,0 +1,1 @@
+'dir *.zip > aa.txt'

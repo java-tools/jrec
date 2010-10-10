@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>RecordEditor to CSV conversion program</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- E:\Work\RecordEdit\Instalation\GeneralDB\DocSrc\re2CSV.dcf       -->
+<!-- converted by B2H R4.7 (390) (WINNT) on 27 Feb 2007 at 17:02:15   -->
+<META HTTP-EQUIV="updated" CONTENT="Tue, 27 Feb 2007 17:02:09">
+<META HTTP-EQUIV="review" CONTENT="Wed, 27 Feb 2008 17:02:09">
+<META HTTP-EQUIV="expires" CONTENT="Fri, 27 Feb 2009 17:02:09">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<a name="Toc"/>
+<P><B><A NAME="ToC_1" HREF="#Header_1" >RecordEditor to CSV conversion program</A></B><BR>
+<MENU>
+<LI><A NAME="ToC_2" HREF="#Header_2" >Instalation</A>
+<LI><A NAME="ToC_3" HREF="#Header_3" >Compiling (Eclipse etc)</A>
+<LI><A NAME="ToC_4" HREF="#Header_4" >Re2Csv</A>
+<LI><A NAME="ToC_5" HREF="#Header_5" >Re2CsvGui</A>
+<LI><A NAME="ToC_6" HREF="#Header_6" >Transporting files from the Mainframe</A>
+</MENU><P>
+<HR><H1><A NAME="Header_1">RecordEditor to CSV conversion program</A></H1>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>This program will convert Fixed field Position file into CSV file
+using a RecordEditor Definition. It can handle both Windows/Unix text/binary files as well
+as native IBM Mainframe files.
+<P>The program comes in two versions
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Re2Csv </B></TD><TD><P>Batch conversion program
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Re2CsvGui </B></TD><TD><P>Options are displayed on a GUI front screen.
+</TD></TR></TABLE>
+<P>
+<P>Both programs accept the following arguments:
+<P>
+<PRE>
+    -I  - Input file
+    -O  - Output file
+    -L  - Layout Name
+    -S  - Field Separator (space, tab or value)
+ 
+ 
+</PRE><P><HR><H2><A NAME="Header_2">Instalation</A></H2>
+<P>This program requires that the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> be installed. You should unzip
+it to where ever the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> package is installed.
+<P>
+<P>
+<HR><H2><A NAME="Header_3">Compiling (Eclipse etc)</A></H2>
+<P>The source code references classes in the <B>RecordEdit.Jar</B> which is
+part of the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> package install. This jar must be included in the build path.
+<P>
+<P>
+<HR><H2><A NAME="Header_4">Re2Csv</A></H2>
+<P>Batch program to convert a Fixed Field Position (Text, Binary, Mainframe) file
+into a CSV (comma, tab separated fields) file.
+<P>
+<PRE>Usage:
+ 
+       java -cp re2csv.jar;RecordEdit.jar;hsqldbmain.jar;Your_JDBC.Jar
+                   net.sf.RecordEditor.examples.fix2csv.Re2CsvGui
+	   -i C:\Program Files\RecordEdit\HSQL\SampleFiles\*.*  
+</PRE><P><P>Also the following bat files are provided:
+<P>
+<TABLE CELLPADDING="3">
+  <TR VALIGN="TOP"><TD><P><B>re2Csv.bat</B></TD><TD><P>For converting files to CSV format.
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>re2CsvGui.bat</B></TD><TD><P>Gui program to convert files to CSV format.
+</TD></TR></TABLE>
+<P>
+<HR><H2><A NAME="Header_5">Re2CsvGui</A></H2>
+<P>This is a GUI version of Re2Csv. You select the file and copybook on the following screen
+<P>
+<img SRC="Diagram/Re2CsvGui.GIF">
+<P>
+<P>
+<HR><H2><A NAME="Header_6">Transporting files from the Mainframe</A></H2>
+<P>This program can handle native mainframe RECFM=FB and RECFM=VB files. Fixed block
+files can be transported as a binary files. Transporting VB files is slightly more difficult.
+<P>
+<P>
+<P>
+<P><H4><A NAME="Header_7">Transporting VB files to the PC</A></H4>
+<P>To edit a VB file in the record editor, the file must include the <B>RDW</B> (record descriptor word
+- A 4 byte word consisting of a 2 byte length + 2 bytes hex zeros). It can optionally include the
+block descriptor word (4 bytes at the start of each block).
+<P>Options for transport a VB file with the RDW include
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><P><B>DTP</B></TD><TD><P>Some FTP programs accept a RDW opt. This will include all the RDW words.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>ZIP and transport</B></TD><TD><P>Some (but not all) mainframe Zip programs have a RDW option which will
+include the RDW in the Zipped file. This file can then be transported to a PC using any transfer
+method.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Copy to RECFM=U.</B></TD><TD><P>You can copy the file to a RECFM=U (DUMP) layout (includes both the
+block~descriptor~words and the Record~descriptor~words. You can use the following JCL to create
+a RECFM=U file which can then be transported to the PC -
+<P>
+<Table border="3" cellpadding="7" cellspacing="3"><tr><TD BGCOLOR="#000000"><FONT COLOR="#00ff00"><pre>
+// <font color="red">SET</font> IN<font color="yellow"><b>=</b></font>VB.FILE.TO.TRANSMIT
+// <font color="red">SET</font> OUT<font color="yellow"><b>=</b></font>USER.&amp;IN..RECFMU
+//*
+//STEP010 <font color="red">EXEC</font> PGM<font color="yellow"><b>=</b></font>IEFBR14,COND<font color="yellow"><b>=</b></font>(0,NE)
+//SORTOUT  <font color="red">DD</font>  DSN<font color="yellow"><b>=</b></font>&amp;OUT,
+//             DISP<font color="yellow"><b>=</b></font>(MOD,DELETE),
+//             SPACE<font color="yellow"><b>=</b></font>(TRK,(30,30),RLSE),
+//             DCB<font color="yellow"><b>=</b></font>BLKSIZE<font color="yellow"><b>=</b></font>0
+//*
+//STEP020 <font color="red">EXEC</font> PGM<font color="yellow"><b>=</b></font>IEBGENER,COND<font color="yellow"><b>=</b></font>(0,NE)
+//SYSUT1   <font color="red">DD</font>  DSN<font color="yellow"><b>=</b></font>&amp;IN,DISP<font color="yellow"><b>=</b></font>SHR,DCB<font color="yellow"><b>=</b></font>RECFM<font color="yellow"><b>=</b></font>U
+//SYSUT2   <font color="red">DD</font>  DSN<font color="yellow"><b>=</b></font>&amp;OUT,
+//             DISP<font color="yellow"><b>=</b></font>(NEW,CATLG),
+//             SPACE<font color="yellow"><b>=</b></font>(TRK,(115,45),RLSE)
+//SYSPRINT <font color="red">DD</font>  SYSOUT<font color="yellow"><b>=</b></font>*
+//SYSOUT   <font color="red">DD</font>  SYSOUT<font color="yellow"><b>=</b></font>*
+//SORTMSG  <font color="red">DD</font>  SYSOUT<font color="yellow"><b>=</b></font>*
+//SYSIN    <font color="red">DD</font>  DUMMY
+</pre></font></td></tr></pre></table>
+</TD></TR></TABLE>
+<P>
+<P>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

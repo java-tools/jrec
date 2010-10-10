@@ -3,8 +3,7 @@
 <TITLE>Record Editor</TITLE>
 <!-- Begin Header Records  ========================================== -->
 <!-- /home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/regMan.d -->
-<!-- cf converted by B2H R4.7 (390) (LINUX) on 11 May 2010 at         -->
-<!-- 19:58:37                                                         -->
+<!-- cf converted by B2H R4.7 (390) (LINUX) on 7 Oct 2010 at 19:34:59 -->
 <META HTTP-EQUIV="updated" CONTENT="Fri, 11 Sep 2009 12:13:14">
 <META HTTP-EQUIV="review" CONTENT="Sat, 11 Sep 2010 12:13:14">
 <META HTTP-EQUIV="expires" CONTENT="Sun, 11 Sep 2011 12:13:14">
@@ -2373,7 +2372,99 @@ Should be changed to <B>Fixed Length Binary</B>
 </TABLE>
 <P>
 </UL>
-<HR><H1><A NAME="Header_78">Tab/Comma Delimited Fields in Files</A></H1>
+<P>
+<P><H3><A NAME="HDRJRECORDPROPERTIES">JRecord Properties File.</A></H3>
+<P>
+<P>The JRecord.properties file can be used to define a Cobol dialect (provided
+the types already exist in the JRecord/RecordEditor package. Each dialect definition
+consists of a series of assignment statments
+<P>
+<PRE>   <font color="red">###   Definition for Open Cobol</font>
+   <font color="red">###  *-------------------------*</font>
+ 
+   <font color="blue">CnvCode.1</font>=<font color="red">151</font>
+   <font color="blue">CnvName.1</font>=Test Open Cobol
+   <font color="blue">CnvSizes.1</font>=<font color="red">1,2,4,8</font>
+   <font color="blue">CnvSyncSizes.1</font>=<font color="red">1,2,4,8</font>
+ 
+ 
+   <font color="red">###   Definition for BS2000 compiler</font>
+   <font color="red">###  *------------------------------*</font>
+ 
+   <font color="blue">CnvCode.1</font>=<font color="red">152</font>
+   <font color="blue">CnvName.1</font>=BS2000
+   <font color="blue">CnvSizes.1</font>=<font color="red">2,4,8</font>
+   <font color="blue">CnvSyncSizes.1</font>=<font color="red">2,4,8</font>
+</PRE><P><P><BR><TABLE   BORDER="1">	
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="14%">Variable
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="86%">Description
+	
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="14%"><font color="blue">CnvCode</font>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="86%">Integer code that uniquely identifies the Cobol Dialect. Please use values &gt; 100 to avoid conflicts with builtin dialects
+	
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="14%"><font color="blue">CnvName</font>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="86%">Name of the Cobol dialect. This is what appears in the combo box.
+	
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="14%"><font color="blue">CnvSizes</font>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="86%">The sizes in bytes that are used by Comp (binary integer fields). This <B>2,4,8</B> on the mainframe
+while many PC Cobol compilers allow 1 byte binary fields so <B>1,2,4,8</B>
+	
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="14%"><font color="blue">SyncSizes</font>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="86%">Byte allignment positions (for the Sync keyword). The 4 numbers are
+<UL COMPACT>
+ <LI>Where 1 byte binary numbers align to.
+ <LI>Where 2 byte binary numbers align to.
+ <LI>Where 4 byte binary numbers align to.
+ <LI>Where 8 byte binary numbers align to.
+</UL>
+	
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="14%"><font color="blue">CnvFloatSync</font>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="86%">The byte where Floating point (Comp-1) variables align to
+	
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="14%"><font color="blue">CnvDoubleSync</font>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="86%">The byte where Double (Comp-2) variables align to
+	
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="14%"><font color="blue">CnvType</font>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="86%">The <B>JRecord/RecordEditor</B> Type to assign to
+<P>
+Pic 9, Comp, Comp-1, Comp-2, Comp-3, Comp-4, Comp-5, Comp-6
+<P>
+variables. Values available are
+<UL COMPACT>
+ <LI>zd - Ascii Zoned Decimal
+ <LI>mvszd - Mainframe (EBCDIC) Zoned Decimal
+ <LI>be - Mainframe style Big Endian Binary integer
+ <LI>pbe - Mainframe Style Positive Big endian Integer
+ <LI>le - Intel style Little Endian Binary integer
+ <LI>ple - Intel Style Positive Little endian Integer
+ <LI>f - floating point number
+ <LI>d - Double
+ <LI>pd - Packed Decimal (Comp-3)
+ <LI>ppd - Packed Decimal with no Sign Nyble
+ <LI>rm - RM Cobol Comp (untested, I do not have a RM Cobol File).
+ <LI>rmp - Positive RM Cobool comp.
+</UL>
+<P>
+This field is optional. If left out, it defaults to
+<P>
+zd,be,f,d,pd,be,le
+<P>
+	
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="14%"><font color="blue">CnvPositiveType</font>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="86%">Types to use for positive [i.e. unsigned Pic 9(?)] variables. If left out it defaults to the <font color="blue">CnvType</font>
+variable. It has exactly the same formats and types as <font color="blue">CnvType</font>.
+<P>
+</TD></TR></TABLE>
+<HR><H1><A NAME="Header_79">Tab/Comma Delimited Fields in Files</A></H1>
 <P>The <B>RecordEditor</B> now supports Files with Comma / Tab / etc
 delimited fields. There are 2 places where field names can be stored&#58;
 <TABLE CELLPADDING="3">
@@ -2383,7 +2474,7 @@ delimited fields. There are 2 places where field names can be stored&#58;
     </B></TD><TD><P>Field names can be read from the first line of a file.
 </TD></TR></TABLE>
 <P>
-<HR><H2><A NAME="Header_79">Defining a Delimited File</A></H2>
+<HR><H2><A NAME="Header_80">Defining a Delimited File</A></H2>
 <P>There are 4 important parts to defining files where fields are separated
 by a certain character&#58;
 <UL COMPACT>
@@ -2403,13 +2494,13 @@ by a certain character&#58;
 <P>
 <img SRC="Diagram/LayoutEdit_Delim.GIF">
 <P>
-<HR><H2><A NAME="Header_80">Defining a Standard Delimited File</A></H2>
+<HR><H2><A NAME="Header_81">Defining a Standard Delimited File</A></H2>
 <P>Standard Delimited record layouts are defined as below. The position
 holds the field number (rather than starting position).
 <P>
 <img SRC="Diagram/LayoutEdit_DelimDef.GIF">
 <P>
-<HR><H2><A NAME="Header_81">Names on the first Line</A></H2>
+<HR><H2><A NAME="Header_82">Names on the first Line</A></H2>
 <P>To define files where the first line holds the field names you must
 define a File Structure <font color="blue"><b>Delimted, names on first row</b></font>
 (which causes different file readers to be used).
@@ -2424,7 +2515,7 @@ line.
 </UL>
 <P>
 <P>
-<HR><H2><A NAME="Header_82">Csv Array Description</A></H2>
+<HR><H2><A NAME="Header_83">Csv Array Description</A></H2>
 <P>Version 0.61a has a small extension to support Csv Arrays (or Csv fields with in CSV fields).
 i.e.
 <P>
@@ -2453,7 +2544,7 @@ window
 <P>
 <img SRC="Diagram/Edit_CsvArray1.GIF">
 <P>
-<HR><H2><A NAME="Header_83">Parameter Field</A></H2>
+<HR><H2><A NAME="Header_84">Parameter Field</A></H2>
 <P>The Parameter field of a CSV array is defined as
 <TABLE CELLPADDING="3">
  <TR VALIGN="TOP"><TD><P><B>One Dimension</B></TD><TD><P>&lt;Separator&gt;Quote&lt;Separator&gt;Field Separator&lt;Separator&gt;
@@ -2468,7 +2559,7 @@ window
 <P>
 <P>
 <P>
-<HR><H1><A NAME="Header_84">Appendix A. Help System</A></H1>
+<HR><H1><A NAME="Header_85">Appendix A. Help System</A></H1>
 <P>The <B>RecordEditor</B> includes a basic Form (or Form section) based help system. The
 help system is available via
 <TABLE CELLPADDING="3">
@@ -2630,7 +2721,7 @@ Binary Integer. The number of is stored as high to low format i.e. 255 is stored
 <P>
 <P>
 <P>
-<HR><H1><A NAME="Header_86">Appendix C. Record Layout Details</A></H1>
+<HR><H1><A NAME="Header_87">Appendix C. Record Layout Details</A></H1>
 <P>The system use Record-Layout descriptions stored in a Database to format the file. Logically there
 are 2 types of records (each type has both <B>Binary</B> and <B>Text</B> Version)
 <P>
@@ -2671,7 +2762,7 @@ more than one record structure. A typical case when to use would be if a file co
 <BR></TD></TR></TABLE>
 <P>
 <P>
-<HR><H1><A NAME="Header_87">Appendix D. ODBC Definition</A></H1>
+<HR><H1><A NAME="Header_88">Appendix D. ODBC Definition</A></H1>
 <P>
 <P>The Microsoft Access version should install an ODBC connection called
 RecordLayout. But in case it does not, you will get an error message like
@@ -2697,7 +2788,7 @@ found in $install_Directory/MSaccess
 <P>
 <P>
 <P>
-<HR><H1><A NAME="Header_88">Appendix E. FAQ</A></H1>
+<HR><H1><A NAME="Header_89">Appendix E. FAQ</A></H1>
 <P>
 <TABLE CELLPADDING="3">
 <TR VALIGN="TOP"><TD><P><B>Question</B></TD><TD><P><I>Why are there no options in System Combo Box</I>
@@ -2726,7 +2817,7 @@ to load Cobol Copybooks
 <PRE>
   java -cp LayoutEdit.jar;cb2xml.jar layoutEdit.LayoutEdit.InsertCobolCopybook CobolCopybook
  
-</PRE></TD></TR></TABLE><P><HR><H1><A NAME="Header_89">Appendix F. Reporting</A></H1>
+</PRE></TD></TR></TABLE><P><HR><H1><A NAME="Header_90">Appendix F. Reporting</A></H1>
 <P>The old <B>re2jasper</B> addon has been enhanced and rereleased as <a href="http://ffreports.sourceforge.net/" TARGET="ffReports">Flat File Reporting</a>.
 This basically an plugin to <a href="http://ireport.sourceforge.net/" TARGET="iReports">iReports</a> report designer to allow the use of <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a>
 and Cobol files to be used in <a href="http://ireport.sourceforge.net/" TARGET="iReports">iReports</a> and <B>Jasper Reports</B>. The interface is
@@ -2736,8 +2827,8 @@ look at it
 <P>
 <img SRC="Diagram/iReport.png">
 <P>
-<HR><H1><A NAME="Header_90">Appendix G. Tips</A></H1>
-<P><H4><A NAME="Header_91">Moving Columns</A></H4>
+<HR><H1><A NAME="Header_91">Appendix G. Tips</A></H1>
+<P><H4><A NAME="Header_92">Moving Columns</A></H4>
 <P>You can move columns about by clicking on a <B>Column header</B> and dragging the
 column to another Position. e.g. The following table
 <P>
@@ -2789,7 +2880,7 @@ following on the <B>SaveAs</B> Screen:
 </table>
 <P>
 <P>
-<HR><H1><A NAME="Header_93">Appendix H. HSQLDB Version</A></H1>
+<HR><H1><A NAME="Header_94">Appendix H. HSQLDB Version</A></H1>
 <P><B>Warning</B> The <B>RecordEditor</B> Instillation program
 will install a HSQLDB server into your Windows <B>start-up</B>
 directory (so the DB server will start automatically when you Start Windows).
@@ -2809,7 +2900,7 @@ when you start Windows). If the Database is not started you will get an error me
 </TD></TR></TABLE>
 <P>
 <P>
-<HR><H1><A NAME="Header_94">Appendix I. Linux</A></H1>
+<HR><H1><A NAME="Header_95">Appendix I. Linux</A></H1>
 <P>The <B>RecordEditor</B> program has always run on Linux / Unix, but originally many
 of the associated files (eg documentation) did not store files in the correct case
 (Linux is case sensitive). As of version <B>0.52.1</B> this has been corrected.
@@ -2847,7 +2938,7 @@ and set the <B>Space ot be left at the bottom of the screen</B> to 40. For Gnome
 also set the <B>Space ot be left at the top of the screen</B> to around 20.
 </OL>
 <P>
-<HR><H1><A NAME="Header_95">Appendix J. Window Right Click</A></H1>
+<HR><H1><A NAME="Header_96">Appendix J. Window Right Click</A></H1>
 <P>In Windows Explorer, the functions available on Right Click menu are defined
 in the registry (under *\Shell). The Windows Specific installers should setup
 the <B>RecordEditor</B> on the right click menu. For the Java installer
@@ -2874,8 +2965,31 @@ and generic versions, there should be a file
 <P><B>Note: </B>Use the standard Windows Notepad Editor to edit the Registry file.
 <P>
 <P>
-<HR><H1><A NAME="Header_96">Appendix K. Changes</A></H1>
-<P><H4><A NAME="Header_97">Release 0.67</A></H4>
+<HR><H1><A NAME="Header_97">Appendix K. Changes</A></H1>
+<P><H4><A NAME="Header_98">Release 0.69.1</A></H4>
+<P>Minor release&#58;
+<UL COMPACT>
+    <LI>New Field - Hide / Show function (right click &amp; edit menu).
+    <LI>New Unknown layouts for use with unknown files.
+    <LI>New Prefered Layout option in the Main Display.
+    <LI>New Hex displays  (1 / 2 / 3 line) in the Main display.
+    <LI>Fix for Cobol Sign Seperate fields
+    <LI>Enhanced Layout Wizard&#58;<UL COMPACT>
+      <LI>Support for multi-record files
+      <LI>Field Search added.
+      <LI>Improved Binary Files support.
+      <LI>File Format detection added.
+    </UL>
+    <LI>New Layout Import From Xml Files in a Directory / Export Layouts To Xml Files in a directory.
+    <LI>New CSV Styles to support "Column Names" in Quotes (Record Styles 3-&gt;5) + some CSV fixes.
+    <LI>New Option to change layout after the files has been loaded.
+    <LI>Internal changes to support "Object Data Stores" like Protocol Buffers and Avro.
+      See Protocol Buffer Editor and Avro Editor's.
+    <LI>Support for H2 Database's Mixed Mode.
+    <LI>Added optional Error-File and error-limits to the online / batch copy utilities.
+    <LI>Added new -il/-ol (input/output layout) and -ef (error file) options to the batch utility.
+</UL>
+<P><H4><A NAME="Header_99">Release 0.67</A></H4>
 <P>Minor release&#58;
 <UL COMPACT>
   <LI>Improved Cobol Support (in particalular Open Cobol), it is also easier to extend for other Cobols.
@@ -2883,7 +2997,7 @@ and generic versions, there should be a file
   <LI>Minor enhancements (e.g. Recent files option).
   <LI>Several Bug Fixes (e.g. Scaling large numbers; better message for Velocity).
 </UL>
-<P><H4><A NAME="Header_98">Release 0.65</A></H4>
+<P><H4><A NAME="Header_100">Release 0.65</A></H4>
 <P>Changes in this release are primarily a "Clean-up / Minor Enhansements".
 <UL COMPACT>
   <LI>File Compare Utility - This is a field based compare; fields can be ignored or
@@ -2896,7 +3010,7 @@ files from a Java Program.
   <LI>Can Save Filters, Sort Tree's and Record Tree's definitions and execute later.
   <LI>Can Summmarise fields in a Sort Tree.
 </UL>
-<P><H4><A NAME="Header_99">Release 0.62</A></H4>
+<P><H4><A NAME="Header_101">Release 0.62</A></H4>
 <P>This release contains new "Tree" views, Combo boxs etc, See
 <a href="Changes_062.htm">Changes version 0.62</a> for more details.
 <UL COMPACT>
@@ -2916,10 +3030,10 @@ files from a Java Program.
       <LI>Support for different line parsers
     </UL>
 </UL>
-<P><H4><A NAME="Header_100">Release 0.61.2</A></H4>
+<P><H4><A NAME="Header_102">Release 0.61.2</A></H4>
 <P>Cleanup / bug fix, + Enhanced Wizard and XML import functions. See
 <a href="Changes061b.htm">Changes version 0.61b</a> for more details.
-<P><H4><A NAME="Header_101">Release 0.61</A></H4>
+<P><H4><A NAME="Header_103">Release 0.61</A></H4>
 <P>Mainly Look and feel related. See
 <a href="Changes061.htm">Changes version 0.61</a> for more details.
 <UL COMPACT>
@@ -2931,7 +3045,7 @@ Selected View (Data drop down).
  <LI>Bug fixes (Date and CSV files).
 </UL>
 <P>
-<P><H4><A NAME="Header_102">Release 0.60</A></H4>
+<P><H4><A NAME="Header_104">Release 0.60</A></H4>
 <P>Mainly extra functions
 <UL COMPACT>
  <LI>Improved Search/Replace - new Search/Replace on all fields function.
@@ -2951,7 +3065,7 @@ Copybook Information.
  <LI>Extra extension options (in java).
 </UL>
 <P>
-<P><H4><A NAME="Header_103">Release 0.56</A></H4>
+<P><H4><A NAME="Header_105">Release 0.56</A></H4>
 <P>This version is mainly changes to the user Interface to improve ease use.
 Major changes are:
 <UL COMPACT>
@@ -2966,7 +3080,7 @@ the right click menu.
  <LI>Null padded / terminated Strings types added.
 </UL>
 <P>
-<P><H4><A NAME="Header_104">RecordEditor to Jasper</A></H4>
+<P><H4><A NAME="Header_106">RecordEditor to Jasper</A></H4>
 <P>The <a href=re2Jasper.htm TARGET="jasper">RecordEditor ~ Jasper Interface</a> has been released as a separate download. It requires
 <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> and <a href="http://ireport.sourceforge.net/" TARGET="iReports">iReports</a> be installed. This package&#58;
 <OL COMPACT TYPE=1>
@@ -2974,7 +3088,7 @@ the right click menu.
   <LI>Can design and generate reports from Fixed Field Width data files
 which includes Binary, Cobol and Mainframe/Cobol datafiles.
 </OL>
-<P><H4><A NAME="Header_105">Release 0.55</A></H4>
+<P><H4><A NAME="Header_107">Release 0.55</A></H4>
 <P>This version is primary a refactoring of the code with aims of&#58;
 <UL COMPACT>
  <LI>Making it easier to extend the editor
@@ -3006,7 +3120,7 @@ which includes Binary, Cobol and Mainframe/Cobol datafiles.
   </OL>
 </UL>
 <P>
-<P><H4><A NAME="Header_106">Release 0.53</A></H4>
+<P><H4><A NAME="Header_108">Release 0.53</A></H4>
 <P>Changes in this release
 <UL COMPACT>
  <LI>Filtered views of the Data. See <A HREF="#HDRFILTER">"Filter Screen"</A> for more details.
@@ -3022,7 +3136,7 @@ as either a Data file, a single HTML table or a HTML table per record.
  <LI>Code Refactoring and the odd bugs.
 </UL>
 <P>
-<P><H4><A NAME="Header_107">Release 0.52.1 (Linux)</A></H4>
+<P><H4><A NAME="Header_109">Release 0.52.1 (Linux)</A></H4>
 <P>This release basically is to support Linux. Mostly it consists of changes to
 documentation
 <UL COMPACT>
@@ -3033,7 +3147,7 @@ documentation
  <LI>Minor Bug fixes (i.e. better table cell exit handling).
 </UL>
 <P>
-<P><H4><A NAME="Header_108">Release 0.52 (Mainframe)</A></H4>
+<P><H4><A NAME="Header_110">Release 0.52 (Mainframe)</A></H4>
 <P>This change was to support Mainframe Binary files.
 <UL COMPACT>
  <LI>Support for editting native IBM Mainframe files (on a PC etc) using a Cobol Copybook
@@ -3047,11 +3161,11 @@ documentation
 </UL>
 <P>
 <P>
-<P><H4><A NAME="Header_109">Release 0.51</A></H4>
+<P><H4><A NAME="Header_111">Release 0.51</A></H4>
 <P>This version was to support Floating point numbers and bug fixes.
 <P>
 <P>
-<P><I><B><A NAME="Header_110">Release 0.50 Initial Release</A>:&nbsp;</B></I>&nbsp;
+<P><I><B><A NAME="Header_112">Release 0.50 Initial Release</A>:&nbsp;</B></I>&nbsp;
 The initial release of the <B>RecordEditor</B>
 <P>
 <P>
@@ -3059,7 +3173,7 @@ The initial release of the <B>RecordEditor</B>
 <P>
 <P>
 <P>
-<HR><H1><A NAME="Header_111">Appendix L. Rexx</A></H1>
+<HR><H1><A NAME="Header_113">Appendix L. Rexx</A></H1>
 <P><B>Rexx</B> is a scripting language, which I use in preference Windows Bat files (or Unix Shell scripts).
 <P>I have converted the simpler Rexx programs to bat files but I have left the original Rexx programs
 in the system. I currently use the <B>Regina 3.3</B> interpreter.
@@ -3067,7 +3181,7 @@ in the system. I currently use the <B>Regina 3.3</B> interpreter.
 <a href="http://www.rexxla.org/index.html">RexxLA</a>
 or Search IBM's sites for details on <B>Rexx</B>.
 <P>
-<HR><H1><A NAME="Header_112">Appendix M. Related Systems / Useful Systems</A></H1>
+<HR><H1><A NAME="Header_114">Appendix M. Related Systems / Useful Systems</A></H1>
 <P>
 <P>The follow packages where used in the <B>RecordEditor</B>
 <UL COMPACT>

@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>Cobol to CSV conversion program</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- E:\Work\RecordEdit\Instalation\GeneralDB\DocSrc\Cobol2CSV.dcf    -->
+<!-- converted by B2H R4.7 (390) (WINNT) on 27 Feb 2007 at 17:02:15   -->
+<META HTTP-EQUIV="updated" CONTENT="Tue, 27 Feb 2007 16:53:08">
+<META HTTP-EQUIV="review" CONTENT="Wed, 27 Feb 2008 16:53:08">
+<META HTTP-EQUIV="expires" CONTENT="Fri, 27 Feb 2009 16:53:08">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<a name="Toc"/>
+<P><B><A NAME="ToC_1" HREF="#Header_1" >Cobol to CSV conversion program</A></B><BR>
+<MENU>
+<LI><A NAME="ToC_2" HREF="#Header_2" >Instalation</A>
+<LI><A NAME="ToC_3" HREF="#Header_3" >Cobol2Csv</A>
+<LI><A NAME="ToC_4" HREF="#Header_4" >Compiling (Eclipse etc)</A>
+<LI><A NAME="ToC_5" HREF="#Header_5" >Cobol2CsvGui</A>
+<LI><A NAME="ToC_6" HREF="#Header_6" >Transporting files from the Mainframe</A>
+</MENU><P>
+<HR><H1><A NAME="Header_1">Cobol to CSV conversion program</A></H1>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>This program will convert Cobol Fixed field Position file into CSV file
+using a Cobol Copybook. It can handle both Windows/Unix text/binary files as well
+as native IBM Mainframe files.
+<P>The program comes in two versions
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Cobol2Csv </B></TD><TD><P>Batch conversion program
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Cobol2CsvGui </B></TD><TD><P>Options are displayed on a GUI front screen.
+</TD></TR></TABLE>
+<P>
+<P>Both programs accept the following arguments:
+<P>
+<PRE>
+    -I  - Input file
+    -O  - Output file
+    -C  - Cobol Copybook file
+    -S  - Field Separator (space, tab or value)
+    -B  - Binary Format:
+        0 - System to determine
+        1 - Use Text IO
+        2 - Fixed record Length binary
+        3 - Binary File, length based on record
+        4 - Mainframe VB File
+        5 - Mainframe VB File including BDW (block descriptor word)
+    -FS - File Structure
+        0 - Intel little endian
+        1 - Mainframe big endian
+        2 - Other big endian
+ 
+</PRE><P><HR><H2><A NAME="Header_2">Instalation</A></H2>
+<P>While this is part of the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> project, it is completely self-contained.
+So you can <B><I>unzip</I></B> it <B><I>anywhere</I></B>.
+<P>
+<HR><H2><A NAME="Header_3">Cobol2Csv</A></H2>
+<P>Batch program to convert a Cobol file into CSV (comma, tab separated fields) file.
+<P>
+<HR><H2><A NAME="Header_4">Compiling (Eclipse etc)</A></H2>
+<P>The source code references classes in the <B>RecordEdit.Jar</B> which is
+part of the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> package install + other examples (available in the both the Source and examples downloads).
+This jar + Sorce must be included in the build path.
+<P>
+<PRE>Usage:
+ 
+   java -cp Cobol2csv.jar net.sf.RecordEditor.examples.fix2csv.Cobol2Csv  -b 1 -f CP037
+                -c C:\Program Files\RecordEdit\HSQL\Cobol\DTAR107.cbl
+	-i C:\Program Files\RecordEdit\HSQL\SampleFiles\DTAR107.bin  
+	-o C:\Program Files\RecordEdit\HSQL\SampleFiles\DTAR107_tst.csv  
+</PRE><P><P>Also the following bat files are provided:
+<P>
+<TABLE CELLPADDING="3">
+  <TR VALIGN="TOP"><TD><P><B>Cobol2CsvMainframe.bat</B></TD><TD><P>For converting Mainframe RECFM=FB Cobol files that have been transmitted to the
+PC in binary (ie native IBM Mainframe format).
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Cobol2CsvMainframe_VBdump.bat</B></TD><TD><P>For converting Mainframe RECFM=VB Cobol files (that include both the
+Block descriptor word and Record descriptor word).
+</TD></TR></TABLE>
+<P>
+<HR><H2><A NAME="Header_5">Cobol2CsvGui</A></H2>
+<P>This is a GUI version of Cobol2Csv. You select the file and copybook on the following screen
+<P>
+<img SRC="Diagram/Cobol2Csv.GIF">
+<P>
+<PRE>Usage:
+ 
+   java -cp Cobol2csv.jar net.sf.RecordEditor.examples.fix2csv.Cobol2CsvGui  -b 1 -f CP037
+ 
+</PRE><P><P><HR><H2><A NAME="Header_6">Transporting files from the Mainframe</A></H2>
+<P>This program can handle native mainframe RECFM=FB and RECFM=VB files. Fixed block
+files can be transported as a binary files. Transporting VB files is slightly more difficult.
+<P>
+<P>
+<P>
+<P><H4><A NAME="Header_7">Transporting VB files to the PC</A></H4>
+<P>To edit a VB file in the record editor, the file must include the <B>RDW</B> (record descriptor word
+- A 4 byte word consisting of a 2 byte length + 2 bytes hex zeros). It can optionally include the
+block descriptor word (4 bytes at the start of each block).
+<P>Options for transport a VB file with the RDW include
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><P><B>DTP</B></TD><TD><P>Some FTP programs accept a RDW opt. This will include all the RDW words.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>ZIP and transport</B></TD><TD><P>Some (but not all) mainframe Zip programs have a RDW option which will
+include the RDW in the Zipped file. This file can then be transported to a PC using any transfer
+method.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Copy to RECFM=U.</B></TD><TD><P>You can copy the file to a RECFM=U (DUMP) layout (includes both the
+block~descriptor~words and the Record~descriptor~words. You can use the following JCL to create
+a RECFM=U file which can then be transported to the PC -
+<P>
+<Table border="3" cellpadding="7" cellspacing="3"><tr><TD BGCOLOR="#000000"><FONT COLOR="#00ff00"><pre>
+// <font color="red">SET</font> IN<font color="yellow"><b>=</b></font>VB.FILE.TO.TRANSMIT
+// <font color="red">SET</font> OUT<font color="yellow"><b>=</b></font>USER.&amp;IN..RECFMU
+//*
+//STEP010 <font color="red">EXEC</font> PGM<font color="yellow"><b>=</b></font>IEFBR14,COND<font color="yellow"><b>=</b></font>(0,NE)
+//SORTOUT  <font color="red">DD</font>  DSN<font color="yellow"><b>=</b></font>&amp;OUT,
+//             DISP<font color="yellow"><b>=</b></font>(MOD,DELETE),
+//             SPACE<font color="yellow"><b>=</b></font>(TRK,(30,30),RLSE),
+//             DCB<font color="yellow"><b>=</b></font>BLKSIZE<font color="yellow"><b>=</b></font>0
+//*
+//STEP020 <font color="red">EXEC</font> PGM<font color="yellow"><b>=</b></font>IEBGENER,COND<font color="yellow"><b>=</b></font>(0,NE)
+//SYSUT1   <font color="red">DD</font>  DSN<font color="yellow"><b>=</b></font>&amp;IN,DISP<font color="yellow"><b>=</b></font>SHR,DCB<font color="yellow"><b>=</b></font>RECFM<font color="yellow"><b>=</b></font>U
+//SYSUT2   <font color="red">DD</font>  DSN<font color="yellow"><b>=</b></font>&amp;OUT,
+//             DISP<font color="yellow"><b>=</b></font>(NEW,CATLG),
+//             SPACE<font color="yellow"><b>=</b></font>(TRK,(115,45),RLSE)
+//SYSPRINT <font color="red">DD</font>  SYSOUT<font color="yellow"><b>=</b></font>*
+//SYSOUT   <font color="red">DD</font>  SYSOUT<font color="yellow"><b>=</b></font>*
+//SORTMSG  <font color="red">DD</font>  SYSOUT<font color="yellow"><b>=</b></font>*
+//SYSIN    <font color="red">DD</font>  DUMMY
+</pre></font></td></tr></pre></table>
+</TD></TR></TABLE>
+<P>
+<P>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

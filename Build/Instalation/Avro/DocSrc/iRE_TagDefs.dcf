@@ -1,0 +1,62 @@
+.*B2H SYMBOL :tag. example   IT=N VAT=N ATT=N SE=N V='<a href=xmple.htm>RecordEditor Examples</a>'
+.*B2H SYMBOL :tag. re2jasper   IT=N VAT=N ATT=N SE=N V='<a href=re2Jasper.htm TARGET="jasper">RecordEditor ~ Jasper Interface</a>'
+.*B2H SYMBOL :tag. javadoc   IT=N VAT=N ATT=N SE=N V='<a href="JavaDoc/index.html">RecordEditor JavaDoc's</a>'
+.*B2H SYMBOL :tag. RecordEditor   IT=N VAT=N ATT=N SE=N V='<a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a>'
+.*B2H SYMBOL :tag. iReports   IT=N VAT=N ATT=N SE=N V='<a href="http://ireport.sourceforge.net/" TARGET="iReports">iReports</a>'
+.*B2H SYMBOL :tag. ffReports  IT=N VAT=N ATT=N SE=N V='<a href="http://ffreports.sourceforge.net/" TARGET="ffReports">Flat File Reporting</a>'
+.*B2H SYMBOL :tag. Velocity   IT=N VAT=N ATT=N SE=N V='<a href="http://velocity.apache.org/" TARGET="Velocity">Velocity</a>'
+.*B2H SYMBOL :tag. RecordEditMan   IT=N VAT=N ATT=N SE=N V='<a href="gRecordEdit.htm">RecordEditor Manual<a>'
+
+.*B2H SYMBOL :tag. protoBufEditor   IT=N VAT=N ATT=N SE=N V='<a href="http://code.google.com/p/protobufeditor/">Protocol Buffers Editor</a>'
+.*B2H SYMBOL :tag. avro IT=N VAT=N ATT=N SE=N V='<a href="http://avro.apache.org/index.html">Avro</a>'
+
+
+.*B2H SYMBOL :tag. AvroEditor   IT=N VAT=N ATT=N SE=N V='<font color="blue"><b>Avro-Editor</b></font>'
+
+
+.*B2H SYMBOL :tag. PropertiesEditor   IT=N VAT=N ATT=N SE=N V='<font color="blue">Edit RecordEditor Startup Properties</font> program'
+
+
+
+.*B2H SYMBOL :tag.  Blue  IT=N VAT=N ATT=N SE=Y V='<font color="blue">'
+.*B2H SYMBOL :tag. EBlue  IT=N VAT=N ATT=N SE=Y V='</font>'
+.*B2H SYMBOL :tag.  Red  IT=N VAT=N ATT=N SE=Y V='<font color="red">'
+.*B2H SYMBOL :tag. ERed  IT=N VAT=N ATT=N SE=Y V='</font>'
+
+.*B2H SYMBOL :tag.  BBlue  IT=N VAT=N ATT=N SE=Y V='<font color="blue"><b>'
+.*B2H SYMBOL :tag. EBBlue  IT=N VAT=N ATT=N SE=Y V='</b></font>'
+
+.*B2H SYMBOL :tag.  yellow  IT=N VAT=N ATT=N SE=Y V='<font color="yellow"><b>'
+.*B2H SYMBOL :tag. eyellow  IT=N VAT=N ATT=N SE=Y V='</b></font>'
+
+.*B2H SYMBOL :tag.  BRed   IT=N VAT=N ATT=N SE=Y V='<font color="red"><b>'
+.*B2H SYMBOL :tag. EBRed   IT=N VAT=N ATT=N SE=Y V='</b></font>'
+
+.*B2H SYMBOL :TAG.  Pnl IT=N VAT=N ATT=Y SE=N V='<Table border="3" cellpadding="7" cellspacing="3"><tr><TD BGCOLOR="#000000"><FONT COLOR="#00ff00"><pre>'
+.*B2H SYMBOL :TAG.  ePnl IT=N VAT=N ATT=Y SE=N V='</pre></font></td></tr></pre></table>'
+
+.dm relink on
+.*B2H html <P>&nbsp;<p>
+.*B2H html <TABLE width="100%"><tr>
+.*B2H html <td width="34%" id=dark><a id=dark href="http://sourceforge.net/projects/avroeditor/">AvroEditor at SourceForge</a></td>
+.*B2H html <td width="33%" id=dark><a id=dark href="http://sourceforge.net/projects/avroeditor/files/">Download Page</a></td>
+.*B2H html <td id=dark><a id=dark href="http://sourceforge.net/projects/avroeditor/forums">Forums</a></td>
+.*B2H html </tr></TABLE>
+.dm off
+.*B2H SYMBOL :tag. rlink   IT=N VAT=N ATT=N SE=N V='.relink'
+.dm pict on
+.*b2h HTML <img SRC="Diagram/&*">
+.dm off
+
+.dm example on
+  :ol compact.
+    :li.Adding new Types
+.*b2h html (see <a href="file:Example.htm#HDRTYPE" target="new">Type Example</a>)           
+    :li.Reading Record Orientated files using the Standard RecordEditor Layouts and Cobol Copybooks.
+.*b2h html (see <a href="file:Example.htm#HDRXLIO1" target="new">File IO Example</a>) 
+    :li.Interfacing to 
+.*b2h HTML <a href="http://jakarta.apache.org/velocity/">Velocity</a>.  See also <a href="file:Example.htm#HDRVELOCITY" target="new">Velocity Example</a>
+    :li.Running directly from Cobol Copybooks
+.*b2h html (see <a href="file:Example.htm#HDRCOPYBOOK" target="new">Cobol Copybook Example</a>)           
+  :eol.
+.dm off

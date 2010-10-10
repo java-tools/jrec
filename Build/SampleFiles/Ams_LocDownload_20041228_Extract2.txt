@@ -1,0 +1,17 @@
+TAR5839DCDC - Taras Ave                                                             30-68 Taras Ave                         Altona North                       3025      VICA
+TAR5850DCVIC West Ad Support                                                        Lot 2 Little Boundary Rd                Laverton                           3028      VICA
+TAR5015STBankstown                          Bankstown                               Unit 2, 39-41 Allingham Street          Condell Park                       2200      NSWA
+TAR5019STPenrith                            Penrith                                 58 Leland Street                        Penrith                            2750      NSWA
+TAR5033STBlacktown                          Marayong                                Dock 2, 11 Melissa Place                Marayong                           2148      NSWA
+TAR5096STCanberra Civic                     Target Canberra                         Canberra City Centre, Akuna Ave         Canberra                           2601      ACTA
+TAR5012STRingwood                           Ringwood                                Seymour Street                          Ringwood                           3134      VICA
+TAR5030STEpping                             Epping Plaza Shopping Centre            Cnr. High & Cooper Streets              Epping                             3076      VICA
+TAR5054STHighpoint City                     Laverton                                Lot 2, Cnr Lt Boundry & Old Geelong RoadLaverton                           3028      VICA
+TAR5062STCastletown                         Townsville                              Cnr. Woolcock St. & Kings Road          Townsville                         4810      QLDA
+TAR5138STCairns Central                     Cairns                                  Cnr. McLeod & Aplin Streets             Cairns                             4870      QLDA
+TAR5141STThe Willows                        Thuringowa Central                      Cnr Thuringowa Drive &  Range Rd        Thuringowa Central                 4817      QLDA
+TAR5146STPalmerston                         Palmerston Shopping Centre              Temple Terrace                          Palmerston                         0830      NT A
+TAR5002STCoffs Harbour                      Coffs Harbour                           Cnr. Park Beach Road & Pacific Hwy      Coffs Harbour                      2450      NSWA
+TAR5966DCHuntingwood DC                     Huntingwood DC                          35 Huntingwood Drive                    Huntingwood                        2148      NSWA
+TAR5967DCHendra DC                          Hendra DC                               Cnr Headly Ave & Nudgee Road            Hendra                             4011      QLDA
+TAR5968DCBeverly DC                         Beverly DC                              117 Main Street                         Beverly                            5009      SA A

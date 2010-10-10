@@ -1,0 +1,42 @@
+package net.sf.RecordEditor.ProtoBuf.re.Test.SalesX;
+
+//
+//       Pupose create a file with all the field types (Except Enum
+//       which are tested else where
+
+
+
+enum SaleType {
+    RETURN = -1;
+    OTHER = 0;
+    SALE = 1;
+  }
+
+option optimize_for = SPEED;
+message TestFields {
+ 
+  required int32 f01 = 1;
+  required sint32 f02 = 2;
+  required sfixed32 f03 = 3;
+  required uint32 f04 = 4;
+  required fixed32 f05 = 5;
+  
+  required int64 f06 	= 6;
+  required sint64 f07 	= 7;
+  required sfixed64 f08 = 8;
+  required uint64 f09	= 9;
+  required fixed64 f10 	= 10;
+
+  required float f11	= 11;
+  required double f12	= 12;
+
+  required bool f13	= 13;
+  optional bool f14	= 14;
+  required string f15   = 15;
+  optional string f16   = 16;
+  required SaleType f17 = 17;
+  optional SaleType f18 = 18;
+  required bytes f19 = 19;
+  optional bytes f20 = 20;
+}
+

@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>Getting Started</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- G:\RecordEdit_Prj\Docs\re2Jasper.dcf converted by B2H R4.7 (390) -->
+<!-- (WINNT) on 29 Dec 2005 at 21:03:32                               -->
+<META HTTP-EQUIV="updated" CONTENT="Thu, 29 Dec 2005 21:03:02">
+<META HTTP-EQUIV="review" CONTENT="Fri, 29 Dec 2006 21:03:02">
+<META HTTP-EQUIV="expires" CONTENT="Sat, 29 Dec 2007 21:03:02">
+<link rel="stylesheet" type="text/css" href="syntax.css">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<HR><H1><A NAME="Header_8">Using with iReport designer</A></H1>
+<P>This package can be used with <a href="http://ireport.sourceforge.net/">iReports</a> report designer, following is a description of how to do so.
+<P>
+<HR><H2><A NAME="Header_9">Defining RecordDataSourceProvider</A></H2>
+<P>The class <B>RecordDataSourceProvider</B> implements JRDataSourceProvider ands acts as
+the interface between <a href="http://ireport.sourceforge.net/">iReports</a> and the <B>RecordDataSource</B>
+(<B>file</B> based data source for a report).
+<P>
+<P>Steps&#58;
+<UL COMPACT>
+  <LI>Start <a href="http://ireport.sourceforge.net/">iReports</a>
+  <LI>Take <B>'Datasource' ~ 'Connections / Datasource'</B> from the <a href="http://ireport.sourceforge.net/">iReports</a>
+top level menu. The following screen should be displayed&#58;
+</UL>
+<P>
+<img SRC="Diagram/re2jConection1.GIF">
+<P>
+<UL COMPACT>
+  <LI>Next press the <font color="blue"><b>New</b></font> button and fill in the connection properties screen as follows.
+  <P><B>Note: </B>The class name is <font color="blue"><b>net.sf.RecordEditor.Jasper.RecordDataSourceProvider</b></font>
+</UL>
+<P>
+<img SRC="Diagram/re2jConection2.GIF">
+<P>
+<UL COMPACT>
+  <LI>Finally you need to define the active data source. You can either
+  <UL COMPACT>
+    <LI>Take <B>'Build' ~ 'set active connection'</B> from the <a href="http://ireport.sourceforge.net/">iReports</a>
+top level menu.
+    <LI>Select the active source in the combo box on the far right of the screen as follows
+  </UL>
+</UL>
+<P>
+<img SRC="Diagram/re2jActiveCon.GIF">
+<P>
+<HR><H2><A NAME="Header_10">Using RecordDataSource in a Report</A></H2>
+<P>First you need to create a report, then
+<P>
+<OL TYPE=1>
+ <P><LI>Take menu option <B>Datasource ~ Report query</B> then select the
+<B>Use DataSource Provider</B> Tab pane
+<P>
+<img SRC="Diagram/re2jRptQry.GIF">
+ <P><LI>Press the <B>Get fields from datasource</B> to get the <a href="http://record-editor.sourceforge.net">RecordEditor</a> layout selection screen
+<P>
+<img SRC="Diagram/re2jLayoutDef.GIF">
+  <P>Follow is the description of the fields on the screen&#58;
+  <TABLE CELLPADDING="3">
+    <TR VALIGN="TOP"><TD><P><B>Field</B>
+    </TD><TD><P><B>Description</B>
+    </TD></TR><TR VALIGN="TOP"><TD><P><B>System
+    </B></TD><TD><P>The Record Layouts can be grouped into different systems. This Combo Box is
+used to select a specific System.
+    </TD></TR><TR VALIGN="TOP"><TD><P><B>Record Layout
+    </B></TD><TD><P>The Record Layout used to format the file. Only layouts belonging to the
+selected <B>System</B> (above) are displayed.
+     <P><B>Note: </B>A <B>Record Layout</B> describes the format of a file, each layout consists of either
+     <UL COMPACT>
+      <LI>A series of fields.
+      <LI>A serious of record (which intern consist of a series of fields).
+     </UL>
+    </TD></TR><TR VALIGN="TOP"><TD><P><B>Define fields as numeric
+    </B></TD><TD><P>If this <B>check box</B> is ticked, fields defined as numeric in the
+<a href="http://record-editor.sourceforge.net">RecordEditor</a> DB will be defined as numeric in the Report (otherwise they are defined
+as String which is faster). If performance is an issue, unselect this option and define
+only those fields that need to be numeric as numeric.
+    </TD></TR><TR VALIGN="TOP"><TD><P><B>Report Record
+    </B></TD><TD><P>When a file consists of more than <B>one record</B>, you would use this
+<B>combo box</B> to select which <B>record</B> should be used in the report.
+<P>i.e. If file consists of
+<P>
+<UL COMPACT>
+ <LI>PO record
+  <UL COMPACT>
+    <LI>Product record 1
+      <UL COMPACT>
+        <LI>Store Record 1
+	<LI>Store Record 2
+	<LI>   ...
+	<LI>Store Record n
+    </UL>
+    <LI>Product record 2
+      <UL COMPACT>
+        <LI>Store Record 1
+	<LI>   ...
+	<LI>Store Record n
+    </UL>
+    <LI>etc
+  </UL>
+  <LI>PO record 2
+  <UL COMPACT>
+    <LI>Product record's
+  </UL></UL><P>You could choose <B>Store</B> if this is a store level report.
+<P>
+<P><B>Note: </B>The last record of every record type is available via [record name].[Field Name]
+<P>
+    </TD></TR><TR VALIGN="TOP"><TD><P><B>Record
+    </B></TD><TD><P>In this List box you select the records that contain fields you want to use in the report.
+Only fields from the selected <B>Records</B> will be returned to <a href="http://ireport.sourceforge.net/">iReports</a>.
+  </TD></TR></TABLE>
+ <P><LI>Press the <B>go</B> button to get the field selection screen
+<P>
+<img SRC="Diagram/re2jRptQryFld.GIF">
+ <P><LI>Select the fields you want and press ok.
+ <P><LI>Next if you click on the <font color="blue"><b>Objects library</b></font> and then double click on
+<font color="blue"><b>Fields</b></font> you should see the fields you selected.
+<P>
+<img SRC="Diagram/re2jObj.GIF">
+ <P><LI>Finally you can click on a field and drag it to the report
+<P>
+</OL>
+<P>
+<P>Designing a file based in <a href="http://ireport.sourceforge.net/">iReports</a>&#58;
+<P>
+<img SRC="Diagram/re2jRptDef.GIF">
+<P>
+<HR><H2><A NAME="Header_11">Running a Report in iReports</A></H2>
+<P>To run the report&#58;
+<P>
+<OL TYPE=1>
+  <P><LI>To run a report click on the run report icon on the far right of the screen&#58;
+<img SRC="Diagram/re2jRunRpt1.GIF">
+  <P><LI>Enter File name and the select the appropriate Layout and record and press go
+<img SRC="Diagram/re2jRunRpt2.GIF">
+</OL>
+<P>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

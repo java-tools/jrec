@@ -1,0 +1,62 @@
+<HTML><HEAD><link rel="stylesheet" href="JSTREE/jsBlueBg.css" type="text/css"></head>
+<Body style="margin:0" bgcolor=#001F66>
+<SCRIPT language=JavaScript src="JSTREE/sdtree.js"  type="text/javascript"></SCRIPT>
+<SCRIPT type="text/javascript">
+function expandAll(){
+tree.expandAll();
+tree.draw(1);
+}
+function collapseAll(){
+tree.collapseAll();
+tree.draw(1);
+}
+var TREE_NODES={ format:{
+left:1,
+top:63,
+width:240,
+height:472,
+animation:0,
+padding:2,
+dont_resize_back:1,
+e_image:"JSTREE/Win_fo.gif",
+c_image:"JSTREE/Win_fc.gif",
+i_image:"JSTREE/Win_i.gif",
+level_ident:16,
+b_image:"JSTREE/b.gif"}
+,
+sub:[
+{html:'Getting Started',url:'re2Jas02.htm#Header_1',target:'DTL',
+sub:[
+{html:'Introduction',url:'re2Jas02.htm#Header_2',target:'DTL'}, 
+{html:'Requirements',url:'re2Jas02.htm#Header_3',target:'DTL'}, 
+{html:'Installation',url:'re2Jas02.htm#Header_4',target:'DTL'}, 
+{html:'Jasper Interfaces',url:'re2Jas02.htm#Header_5',target:'DTL'}, 
+{html:'Supplied Java Source',url:'re2Jas02.htm#Header_6',target:'DTL'}, 
+{html:'Supplied Example Reports',url:'re2Jas02.htm#Header_7',target:'DTL'} 
+]},
+{html:'Using with iReport designer',url:'re2Jas03.htm#Header_8',target:'DTL',
+sub:[
+{html:'Defining RecordDataSourceProvider',url:'re2Jas03.htm#Header_9',target:'DTL'}, 
+{html:'Using RecordDataSource in a Report',url:'re2Jas03.htm#Header_10',target:'DTL'}, 
+{html:'Running a Report in iReports',url:'re2Jas03.htm#Header_11',target:'DTL'} 
+]},
+{html:'Jasper interface',url:'re2Jas04.htm#Header_12',target:'DTL'}, 
+{html:'Running Reports from Java',url:'re2Jas05.htm#Header_13',target:'DTL',
+sub:[
+{html:'Using RecordEdit Layouts',url:'re2Jas05.htm#Header_14',target:'DTL'}, 
+{html:'Using Cobol Layouts',url:'re2Jas05.htm#Header_15',target:'DTL'} 
+]},
+{html:'Example Report',url:'re2Jas06.htm#Header_16',target:'DTL',
+sub:[
+{html:'PO Header Record',url:'re2Jas06.htm#HDRHEADREC',target:'DTL'}, 
+{html:'PO Detail Record',url:'re2Jas06.htm#HDRDTLREC',target:'DTL'} 
+] }] }
+var tree=new SoftDrawerTree('Demo',TREE_NODES);
+expandAll()
+</SCRIPT>
+<Font style="font-size=100%" color=#FF0080><B>Getting Started</B></font><br>
+<Table><tr>
+<td colspan=2 align="center"><input type="button" onclick="expandAll()" value="Expand All" style="width:90px; FONT-SIZE:10px"></td>
+<td colspan=2 align="center"><input type="button" onclick="collapseAll()" value="Collapse All" style="width:90px; FONT-SIZE:10px"></td>
+</tr> </table>
+</HTML>

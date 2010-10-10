@@ -17,7 +17,7 @@
     -->
     <info>
         <appname>RecordEdit/HSQLDB</appname>
-        <appversion>0.68</appversion>
+        <appversion>0.69.1</appversion>
         <authors>
             <author name="Bruce Martin" email="bruce_a_martin@sourceforge.net" />
             <!--author name="Hidden Man" email="hidden@hisdomain.com"/-->
@@ -89,6 +89,10 @@
             <description>Record Editor Docs</description>
             <file src="../Instalation/hsqldb/Docs" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
         </pack>
+        <pack name="Diagrams" required="yes" override="true">
+            <description>Record Editor Diagrams</description>
+            <fileset dir="../Instalation/GeneralDB/Docs/Diagram/" targetdir="$INSTALL_PATH/Docs/Diagram"/>
+        </pack>
         <pack name="DatabaseWindows" os="Windows" required="yes" override="false">
             <description>Record Editor Database</description>
             <file src="../Instalation/hsqldb/Database" targetdir="$USER_HOME/.RecordEditor/HSQLDB"/> <!-- Reccursive adding -->
@@ -103,7 +107,7 @@
         </pack>
         <pack name="Params" required="yes">
             <description>Record Editor Parameters</description>
-            <file src="../Instalation/hsqldb/HSQLDB" targetdir="$USER_HOME/.RecordEditor"/> 
+            <file src="../Instalation/hsqldb_izpack/HSQLDB" targetdir="$USER_HOME/.RecordEditor"/> 
 	    <parsable targetfile="$USER_HOME/.RecordEditor/HSQLDB/CobolFiles.txt"/>
         </pack>
         <pack name="User" required="yes">

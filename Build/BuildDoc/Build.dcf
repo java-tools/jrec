@@ -1,0 +1,100 @@
+:h1.Building the RecordEditor
+:p.Warning I have just re-organised the build directories and prepared this document so there will be issues.
+
+
+ :h2.Required Software
+ :ul compact.
+  :li.Java (Suggest 6 at present)
+  :li.Ant (to build jars from java source)
+  :li.NSIS (building Windows Installers)
+  :li.IZPACK (building cross platform installers)
+  :li.Regina Rexx (Control language / building NSIS scripts)
+ :eul.
+ 
+:p.While I have used Rexx, most of the scripts are very simple.
+
+:h2.Building RecordEditor Source
+
+:h3.Setup Steps
+:p.To build the jars just run the :hp2.ant:ehp2. on the :hp2.build.xml:ehp2. file associated with
+each source directory. If you also plan build the installers, it is advisable to update the build scripts to
+:ul compact.
+ :li.Copy the jars to the :hp2.Build/Instalation/GeneralDB/lib:ehp2. and :hp2.Build/Instalation/hsqldb_izpack:ehp2.
+directories.
+ :li.Copy the source to :hp2.Build/Instalation/GeneralDB/src:ehp2. directory.
+:eul.
+
+You must also update the following rexx scripts for the NSIS and IZPACK install directories
+
+:ul compact.
+ :li.:hp2.Build/izPack/CALLIZPACK.rexx:ehp2.
+ :li.:hp2.Build/NSIS/bld.rexx:ehp2.
+:eul.
+
+:h2.Building Installers
+:p.Before you start creating the installers, you must copy the files&gml.
+:ul compact.
+ :li.StAX.jar
+ :li.cb2xml.jar
+ :li.hsqldbmain.jar
+ :li.jibx-run.jar
+ :li.jlibdiff.jar
+:eul.
+from a HSQL / USB instalation to the :hp2.Build/Instalation/GeneralDB/lib:ehp2. and :hp2.Build/Instalation/hsqldb_izpack:ehp2.
+directories.
+
+
+:h3.Building installers
+:p.To build any of the installers you should
+
+:ol compact.
+  :li.Copy the jars :hp2.JRecord.jar:ehp2., :hp2.LayoutEdit.jar:ehp2. and :hp2.RecordEdit.jar:ehp2.
+to the :hp2.Build/Instalation/hsqldb_izpack:ehp2.
+  :li.Run the rexx script :hp2.SelBuild.rexx:ehp2.
+  :li.enter 1<return> to run Pack200 on the jars. This runs :hp2.Build/Instalation/hsqldb_izpack/runpack.rexx':ehp2..
+  :li.Select options 2/3/4 as required.
+:eol.
+
+
+:h3.IzPack Installers
+
+:p.The IzPack contraol scripts are:
+
+:tdef id=xlight shade='xlight'.
+:table cols='* * *'.
+ :thd refid=xlight.:c.Version:c.IzPack Script:c.Rexx Build Script:ethd.
+ :row refid=none.:c.HSQL:c.RecordEdit_HSQL.xml:c.BuildInstall.rexx
+ :row.:c.Generic DB:c.Generic_RecordEdit.xml:c.BuildGenericInstall.rexx
+ :row.
+ :row.:c.Avro Editor:c.Avro_Editor.xml:c.BuildAvroInstall.rexx
+ :row.:c.Prorocol Buffer Editor:c.ProtoBuf_Editor.xml:c.BuildProtoBufferInstall.rexx
+:etable.
+
+
+:note.The :hp2.Avro Editor:ehp2. and  :hp2.Protocol Buffers Editor:ehp2. are seperate packages based on the RecordEditor. 
+
+:h3.NSIS Installers
+
+:p.With the NSIS scripts, I quickly go tired of maintaining the NSIS scripts so I wrote
+:hp2.nsiExpand.rexx / nsiExpand_Windows.rexx:ehp2. This scripts has the following purposes:
+:ul compact.
+:li.Expands wild cards definitions. e.g. following includes all files matching ..\Instalation\GeneralDB\lib\run*.jar and ..\Instalation\GeneralDB\lib\ZCalendar.jar"
+ 
+  <expand overwrite=try outpath="$INSTDIR\lib" inpath="..\Instalation\GeneralDB\lib" name="run*.jar" name1="ZCalendar.jar">
+
+:li.Generates deletes for all files generated via :hp2.<expand:ehp2. tags (at :hp2.<WriteDelete/>:ehp2. tag).
+:li.Can also generate a upgrade installer that includes all files changed since a certain date.
+:eul.
+
+
+
+:tdef id=xlight shade='xlight'.
+:table cols='* * *'.
+ :thd refid=xlight.:c.Version:c.nsiExpand Input:c.NSIS Script:ethd.
+ :row refid=none.:c.HSQL:c.xRecordEdit_HSQL.nsi:c.EXxRecordEdit_HSQL.nsi
+ :row.:c.MsAccess:c.xRecordEdit_MSAccess.nsi:c.EXxRecordEdit_MSAccess.nsi
+ :row.:c.H2:c.xRecordEdit_H2.nsi:c.EXxRecordEdit_H2.nsi
+:etable.
+
+
+:note.The :hp2.H2:ehp2. version has never been released.

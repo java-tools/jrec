@@ -1,0 +1,43 @@
+@namespace("net.sf.RecordEditor.avro.Test.TestField3")
+
+protocol tf3 {
+
+  enum SaleType {
+      RETURN,
+      OTHER,
+      SALE
+    }
+
+  record cr1 {
+    int cr1f1;
+    long cr1f2;
+    double cr1f3;
+  }
+
+  record cr2 {
+    int cr2f1;
+    long cr2f2;
+    double cr2f3;
+  }
+
+  record cr3 {
+    int cr3f1;
+    long cr3f2;
+    double cr3f3;
+  }
+
+  record cr4 {
+    int cr4f1;
+    long cr4f2;
+    double cr4f3;
+  }
+
+  fixed FF(16);
+  record fields {
+    FF f01;
+    union {null, int, float, double, SaleType} f02;
+    union {null, int, float, cr1} f03;
+    union {null, cr1, cr2} f04;
+    union {null, cr1, cr2, cr3, cr4} f05;
+  }
+}

@@ -1,0 +1,34 @@
+
+â
+StoreSales3im_Summary.proto+net.sf.RecordEditor.ProtoBuf.re.Test.SalesX"9
+Summary
+quantity (
+price (
+count (BH
+ù
+StoreSales3im_Product.proto+net.sf.RecordEditor.ProtoBuf.re.Test.SalesX"M
+Product
+keycode (
+saleDate (
+quantity (
+price (BH
+ˆ
+StoreSales3im_DeptOrder.proto+net.sf.RecordEditor.ProtoBuf.re.Test.SalesXStoreSales3im_Product.protoStoreSales3im_Summary.proto"*
+Order
+keycode (
+quantity ("Ω
+Deptartment
+
+department (
+name (	E
+product (24.net.sf.RecordEditor.ProtoBuf.re.Test.SalesX.ProductE
+summary (24.net.sf.RecordEditor.ProtoBuf.re.Test.SalesX.SummaryBH
+Å
+StoreSales3im.proto+net.sf.RecordEditor.ProtoBuf.re.Test.SalesXStoreSales3im_Summary.protoStoreSales3im_DeptOrder.proto"¸
+Store
+store (
+name (	L
+
+department (28.net.sf.RecordEditor.ProtoBuf.re.Test.SalesX.DeptartmentA
+order (22.net.sf.RecordEditor.ProtoBuf.re.Test.SalesX.OrderE
+summary (24.net.sf.RecordEditor.ProtoBuf.re.Test.SalesX.SummaryBH

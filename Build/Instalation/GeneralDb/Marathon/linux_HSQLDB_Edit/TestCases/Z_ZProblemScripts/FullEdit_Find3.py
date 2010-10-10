@@ -1,0 +1,48 @@
+useFixture(default)
+
+def test():
+	from Modules import commonBits
+	java_recorded_version = '1.5.0_11'
+
+	if window('Record Editor'):
+		select('FileChooser', commonBits.sampleDir() + 'Ams_LocDownload_20041228.txt')
+		commonBits.setRecordLayout(select, 'ams Store')
+		click('Edit1')
+		select('Table', 'cell:4 - 4|Loc Nbr,0(5839)')
+		rightclick('Table', '10 - 35|Loc Name,0')
+		select_menu('Edit Record')
+		click('Find1')
+		#click('MetalInternalFrameTitlePane', 202, 9)
+		select('TextField', 'West')
+		select('TextField1', 'West_')
+		click('Find1')
+		click('Replace')
+		assert_p('TextField2', 'Text', 'You must specify a specific field when using replace')
+		select('ComboBox', 'All Fields')
+		click('Replace')
+		#select('Table', '')
+		select('Table', 'cell:Data,3(VIC West_ Ad Support)')
+		assert_p('Table', 'Text', 'VIC West_ Ad Support', 'Data,3')
+		select('Table', 'cell:Data,3(VIC West_ Ad Support)')
+		assert_p('Table', 'Content', '[[Brand Id, 1, 3, TAR, TAR], [Loc Nbr, 4, 4, 5850, 5850], [Loc Type, 8, 2, DC, DC], [Loc Name, 10, 35, VIC West_ Ad Support, VIC West_ Ad Support], [Loc Addr Ln1, 45, 40, , ], [Loc Addr Ln2, 85, 40, Lot 2 Little Boundary Rd, Lot 2 Little Boundary Rd], [Loc Addr Ln3, 125, 35, Laverton, Laverton], [Loc Postcode, 160, 10, 3028, 3028], [Loc State, 170, 3, VIC, VIC], [Loc Actv Ind, 173, 1, A, A]]')
+		select('Table', 'cell:Data,3(VIC West_ Ad Support)')
+		click('Find1')
+#		click('Find1')
+#		click('Find1')
+		select('Table', 'cell:Data,4(Westfield Shoppingtown)')
+		assert_p('Table', 'Content', '[[Brand Id, 1, 3, TAR, TAR], [Loc Nbr, 4, 4, 5037, 5037], [Loc Type, 8, 2, ST, ST], [Loc Name, 10, 35, Miranda, Miranda], [Loc Addr Ln1, 45, 40, Westfield Shoppingtown, Westfield Shoppingtown], [Loc Addr Ln2, 85, 40, Cnr. Urunga Pde & The Kingsway, Cnr. Urunga Pde & The Kingsway], [Loc Addr Ln3, 125, 35, Miranda, Miranda], [Loc Postcode, 160, 10, 2228, 2228], [Loc State, 170, 3, NSW, NSW], [Loc Actv Ind, 173, 1, A, A]]')
+		select('Table', 'cell:Data,4(Westfield Shoppingtown)')
+		click('Replace Find')
+		select('Table', 'cell:Data,5(Northumberland Street)')
+		assert_p('Table', 'Text', 'Northumberland Street', 'Data,5')
+		select('Table', 'cell:Data,4(Westfield Phoenix Plaza)')
+		click('Find1')
+		select('Table', 'cell:Data,5(Cnr. Urunga Pde & The Kingsway)')
+		click('BasicInternalFrameTitlePane$NoFocusButton5')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
+
+		if window('Save Changes to file: ' + commonBits.sampleDir() + 'Ams_LocDownload_20041228.txt'):
+			click('No')
+		close()
+	close()

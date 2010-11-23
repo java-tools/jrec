@@ -359,4 +359,10 @@ implements AbstractLine<Layout> {
 		return false;
 	}
 
+
+	@Override
+	public <L extends AbstractLine> L getNewDataLine() {
+		// TODO Auto-generated method stub
+		return (L) clone();
+	}
 }

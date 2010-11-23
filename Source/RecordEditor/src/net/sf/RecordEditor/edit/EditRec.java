@@ -28,7 +28,9 @@ import javax.swing.JMenuBar;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.edit.display.BaseDisplay;
+import net.sf.RecordEditor.edit.display.Action.LoadSavedFieldSeqAction;
 import net.sf.RecordEditor.edit.display.Action.LoadSavedVisibilityAction;
+import net.sf.RecordEditor.edit.display.Action.SaveFieldSequenceAction;
 import net.sf.RecordEditor.edit.util.DisplayCobolCopybook;
 import net.sf.RecordEditor.editProperties.EditOptions;
 import net.sf.RecordEditor.record.format.CellFormat;
@@ -127,6 +129,7 @@ public class EditRec extends ReMainFrame  {
     @SuppressWarnings("unchecked")
 	private void init(final boolean includeJdbc) {
     	LoadSavedVisibilityAction savedVisibiltyAction = new LoadSavedVisibilityAction();
+    	LoadSavedFieldSeqAction fieldSeqAction = new LoadSavedFieldSeqAction();
     	incJdbc = includeJdbc;
     	
         ReMainFrame.setMasterFrame(this);
@@ -161,7 +164,9 @@ public class EditRec extends ReMainFrame  {
         viewMenu.add(newAction(ReActionHandler.EXECUTE_SAVED_SORT_TREE));
         viewMenu.add(newAction(ReActionHandler.EXECUTE_SAVED_RECORD_TREE));
         addAction(savedVisibiltyAction);
+        addAction(fieldSeqAction);
         viewMenu.add(savedVisibiltyAction);
+        viewMenu.add(fieldSeqAction);
 
 
 

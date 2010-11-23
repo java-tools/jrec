@@ -24,7 +24,10 @@ public class CopyTwoLayouts extends TwoLayoutsWizard<CopyDefinition> {
 	@SuppressWarnings("unchecked")
 	public CopyTwoLayouts(AbstractLayoutSelection selection1, AbstractLayoutSelection selection2,
 			String recentFiles) {
-		this(selection1, selection2, new CopyDefinition(), recentFiles);
+		this(selection1, 
+			 selection2,
+			 new net.sf.RecordEditor.jibx.compare.CopyDefinition(), 
+			 recentFiles);
 	}
 	
 	

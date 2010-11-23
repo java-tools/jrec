@@ -25,12 +25,15 @@ package net.sf.RecordEditor.edit.display;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JPanel;
+import javax.swing.SwingWorker;
 
 import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
@@ -136,42 +139,47 @@ implements ActionListener, LayoutConnection {
 			AbstractLineIOProvider ioProvider,
 			boolean pBrowse) throws Exception {
 	
-		FileView file = new FileView(sFileName,
-				layoutDetails,
+		FileView file = new FileView(layoutDetails,
     			ioProvider,
     			pBrowse);
-		AbstractLayoutDetails layoutDtls = file.getLayout();
-
-		if (layoutDtls.hasChildren()) {
-			display = new LineTreeChild(file, new LineNodeChild("File", file), true, 0);
-			if (file.getRowCount() == 0 && ! pBrowse) {
-				display.insertLine();
-			}
-		} else if (layoutDtls.isXml()) {
-			display = new LineTree(file, TreeParserXml.getInstance(), true, 1);
-		} else {
-			display = new LineList(layoutDtls, file, file);
-			display.setCurrRow(initialRow, -1, -1);
+		StartEditor startEditor = new StartEditor(file, sFileName, pBrowse);
 		
-			if (file.getRowCount() == 0 && ! pBrowse) {
-				display.insertLine();
-			}
-		}
-
-
-		message.setText(file.getMsg());
-
-		try {
-			if ("".equals(file.getMsg())) {
-				String layoutName = getCurrentLayout();
-				//list.moveToFront();
-
-				recent.putFileLayout(sFileName, layoutName);
-				recentList.update();
-			}
-		} catch (Exception e) {
-		    Common.logMsg("Error Updating recent files" + e.getMessage(), null);
-		}
+		
+		startEditor.execute();
+		
+		
+//		AbstractLayoutDetails layoutDtls = file.getLayout();
+//
+//		if (layoutDtls.hasChildren()) {
+//			display = new LineTreeChild(file, new LineNodeChild("File", file), true, 0);
+//			if (file.getRowCount() == 0 && ! pBrowse) {
+//				display.insertLine();
+//			}
+//		} else if (layoutDtls.isXml()) {
+//			display = new LineTree(file, TreeParserXml.getInstance(), true, 1);
+//		} else {
+//			display = new LineList(layoutDtls, file, file);
+//			display.setCurrRow(initialRow, -1, -1);
+//		
+//			if (file.getRowCount() == 0 && ! pBrowse) {
+//				display.insertLine();
+//			}
+//		}
+//
+//
+//		message.setText(file.getMsg());
+//
+//		try {
+//			if ("".equals(file.getMsg())) {
+//				String layoutName = getCurrentLayout();
+//				//list.moveToFront();
+//
+//				recent.putFileLayout(sFileName, layoutName);
+//				recentList.update();
+//			}
+//		} catch (Exception e) {
+//		    Common.logMsg("Error Updating recent files" + e.getMessage(), null);
+//		}
 
 	}
 
@@ -180,10 +188,9 @@ implements ActionListener, LayoutConnection {
 	 */
 	public void actionPerformed(ActionEvent e) {
 
-		if (e.getSource() == edit) {
-			loadFile(false);
-		} else if (e.getSource() == browse) {
-			loadFile(true);
+		if (   e.getSource() == edit
+			|| e.getSource() == browse) {
+			loadFile(e.getSource() == browse);
 		}
 	}
 
@@ -252,5 +259,79 @@ implements ActionListener, LayoutConnection {
 	 */
 	public final JMenu getRecentFileMenu() {
 		return recentList.getMenu();
+	}
+	
+	private class StartEditor extends SwingWorker<Void, Void> {
+		private FileView file;
+		private String fName;
+		private boolean pBrowse;
+		
+		private boolean ok = false;
+
+
+		public StartEditor(FileView file, String name, boolean browse) {
+			super();
+			this.file = file;
+			fName = name;
+			pBrowse = browse;
+
+		}
+
+
+		@Override
+		public Void doInBackground() {
+			try {
+				file.readFile(fName);
+				ok = true;
+			} catch (IOException e) {
+				message.setText("Error Reading the File: " + e.getMessage());
+				Common.logMsg(e.getMessage(), e);
+			} catch (RecordException e) {
+				message.setText("Error Reading the File: " + e.getMessage());
+				Common.logMsg(e.getMessage(), e);
+			}
+			return null;
+		}
+
+
+		@Override
+		public void done() {
+			
+			if (ok) {
+				AbstractLayoutDetails layoutDtls = file.getLayout();
+	
+				if (layoutDtls.hasChildren()) {
+					display = new LineTreeChild(file, new LineNodeChild("File", file), true, 0);
+					if (file.getRowCount() == 0 && ! pBrowse) {
+						display.insertLine();
+					}
+				} else if (layoutDtls.isXml()) {
+					display = new LineTree(file, TreeParserXml.getInstance(), true, 1);
+				} else {
+					display = new LineList(layoutDtls, file, file);
+					display.setCurrRow(initialRow, -1, -1);
+	
+					if (file.getRowCount() == 0 && ! pBrowse) {
+						display.insertLine();
+					}
+				}
+	
+	
+				message.setText(file.getMsg());
+	
+				try {
+					if ("".equals(file.getMsg())) {
+						String layoutName = getCurrentLayout();
+						//list.moveToFront();
+	
+						recent.putFileLayout(fName, layoutName);
+						recentList.update();
+					}
+				} catch (Exception e) {
+					Common.logMsg("Error Updating recent files" + e.getMessage(), null);
+				}
+			}
+		}
+		
 	}
 }

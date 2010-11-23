@@ -35,6 +35,7 @@ import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -187,6 +188,8 @@ public final class Common implements Constants {
 	private static       int spaceAtTopOfScreen    = 1;
 	//public static final int SPACE_AT_TOP_OF_SCREEN    = 25;
 
+	
+	public static final long MAX_MEMORY = Runtime.getRuntime().maxMemory();
  		/* Icon Indexs */
     public static final int ID_SEARCH_ICON  = 0;
     public static final int ID_FILTER_ICON    = 1;
@@ -1829,7 +1832,7 @@ public final class Common implements Constants {
 		
 		Parameters.setProperty(Parameters.PROPERTY_HIGHLIGHT_EMPTY, value);
 	}
-	
+	 
 	/**
 	 * Check to see if the field value is Empty
 	 * @param value value to check
@@ -1840,4 +1843,48 @@ public final class Common implements Constants {
 			||	value == Common.MISSING_VALUE 
 			|| 	value == Common.MISSING_REQUIRED_VALUE;
 	}
+	
+	public static long getMemoryCompare() {
+		BigDecimal pct = BigDecimal.valueOf(14);
+		BigDecimal calc;
+		try {
+			String s = Parameters.getString(Parameters.PROPERTY_BIG_FILE_PERCENT);
+			if (s != null && ! "".equals(s)) {
+				double d = Double.parseDouble(s);
+				
+				if (d >= 0 && d <= 100) {
+					pct = new BigDecimal(d);
+				}
+			}
+		} catch (Exception e) {
+		}
+		
+		calc = new BigDecimal(MAX_MEMORY).multiply(pct).divide(new BigDecimal(100));
+		
+		return calc.longValue();
+	}
+	
+	
+	public static int getChunkSize() {
+		return getSize(Parameters.PROPERTY_BIG_FILE_CHUNK_SIZE, 1048576);
+	}
+	
+	
+	public static int getBigFileFilterLimit() {
+		return getSize(Parameters.PROPERTY_BIG_FILE_FILTER_LIMIT, 75000);
+	}
+	
+	private static int getSize(String name, int defaultValue) {
+		int size = defaultValue;
+
+		try {
+			String s = Parameters.getString(name);
+			if (s != null && ! "".equals(s)) {
+				size = 1024 * Integer.parseInt(s);
+			}
+		} catch (Exception e) {
+		}
+		return size;
+	}
+
 }

@@ -10,7 +10,8 @@ import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
 @SuppressWarnings("serial")
-public class LoadSavedVisibilityAction extends AbstractAction implements AbstractActiveScreenAction {
+public class LoadSavedVisibilityAction 
+extends AbstractAction implements AbstractActiveScreenAction {
 
 	/**
 	 * @param creator

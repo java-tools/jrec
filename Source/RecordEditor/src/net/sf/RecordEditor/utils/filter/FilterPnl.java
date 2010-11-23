@@ -372,7 +372,9 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 	@Override
 	public EditorTask getSaveDetails() {
 		stopTblEdit();
-		return (new EditorTask()).setFilter(filter.getExternalLayout());
+		return (
+			    new net.sf.RecordEditor.jibx.compare.EditorTask())
+			    .setFilter(filter.getExternalLayout());
 	}
 	
 	

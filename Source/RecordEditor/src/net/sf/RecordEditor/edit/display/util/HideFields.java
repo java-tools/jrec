@@ -16,6 +16,7 @@ import javax.swing.table.TableColumnModel;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
+import net.sf.RecordEditor.edit.display.LineList;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.edit.file.FileView;
 
@@ -35,6 +36,7 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
     private JButton checkAllFields    = new JButton("Check Fields");
     private JButton uncheckAllFields  = new JButton("Uncheck Fields");
     
+    private JCheckBox saveColSeq = new JCheckBox("Save Column Sequence");
     private JButton goBtn  = new JButton("Go");
 
     private AbstractFileDisplayWithFieldHide sourcePnl;
@@ -76,7 +78,7 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
     	BaseHelpPanel pnl = new BaseHelpPanel();
     	JPanel fieldOptionPanel  = new JPanel();
     	
-    	
+    	saveColSeq.setSelected(false);
     	fieldMdl = new FieldList(layout, recordIndex, sourcePnl.getFieldVisibility(recordIndex));
     	fieldTbl.setModel(fieldMdl);
         fieldOptionPanel.add(uncheckAllFields);
@@ -88,12 +90,19 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
 		pnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP1,
 		         BasePanel.FULL, BasePanel.FULL,
 				 fieldTbl);
+		
+		if (sourcePanel instanceof LineList) {
+			pnl.setGap(BasePanel.GAP0);
+			saveColSeq.setSelected(true);
+			pnl.addComponent("", saveColSeq);
+		}
+		
 		pnl.setGap(BasePanel.GAP1);	
 		
 //		pnl.addComponent("", null, goBtn);
 		JPanel p = new JPanel();
 		try {
-			p.add(net.sf.RecordEditor.edit.display.util.SaveRestoreHiddenFields.getSaveButton(sourcePanel));
+			p.add(net.sf.RecordEditor.edit.display.util.SaveRestoreHiddenFields.getSaveButton(sourcePanel, this));
 		} catch(NoClassDefFoundError nce) {
 		} catch (Exception e) { 
 			// TODO: handle exception
@@ -121,8 +130,19 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
 		frame.setVisible(true);
     }
 	
+    public boolean isSaveSeqSelected() {
+    	return saveColSeq.isSelected();
+    }
+    
+    public boolean[] getVisibleFields() {
+    	return fieldMdl.include.clone();
+    }
 
-    /**
+    public int getRecordIndex() {
+		return recordIndex;
+	}
+
+	/**
      * Build filtered view of the data
      *
      * @see java.awt.event.ActionListner#actionPerformed
@@ -144,6 +164,7 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
 
 
 
+@SuppressWarnings("serial")
 private static class FieldList extends AbstractTableModel {
 		private AbstractLayoutDetails<?, ?> layout;
 		private AbstractRecordDetail<?> rec;

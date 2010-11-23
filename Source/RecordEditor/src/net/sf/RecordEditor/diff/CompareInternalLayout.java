@@ -34,7 +34,10 @@ public class CompareInternalLayout extends AbstractWizard<DiffDefinition> {
 	public CompareInternalLayout(
 			AbstractLayoutSelection<?> selection1, AbstractLayoutSelection<?> selection2,
 			String recentFiles) {
-		this(selection1, selection2, new DiffDefinition(), recentFiles);
+		this(selection1, 
+			 selection2, 
+			 new net.sf.RecordEditor.jibx.compare.DiffDefinition(), 
+			 recentFiles);
 	}
 	
 	
@@ -131,7 +134,8 @@ public class CompareInternalLayout extends AbstractWizard<DiffDefinition> {
 
 
 
-		private DiffDefinition values = new DiffDefinition();
+		private DiffDefinition values 
+			= new net.sf.RecordEditor.jibx.compare.DiffDefinition();
 //		private JPanel goPanel = new JPanel();
 		private FileChooser newFileName = new FileChooser();
 		private AbstractLayoutSelection<?> layoutSelection1;

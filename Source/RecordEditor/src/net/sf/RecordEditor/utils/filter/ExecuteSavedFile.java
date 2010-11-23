@@ -13,6 +13,7 @@ import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.FileChooser;
 
+@SuppressWarnings("serial")
 public class ExecuteSavedFile<details> extends ReFrame implements ActionListener {
 
 	private static final int WIDTH_INCREASE = 150;

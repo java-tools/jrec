@@ -1,6 +1,6 @@
 package net.sf.RecordEditor.jibx.compare;
 
-public class BaseCopyDif {
+public abstract class BaseCopyDif {
 	
 	public String type;
 
@@ -26,4 +26,5 @@ public class BaseCopyDif {
 		}
 		return layoutDetails;
 	}
+
 }

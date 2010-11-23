@@ -280,6 +280,7 @@ public interface AbstractLine<Layout extends AbstractLayoutDetails> {
      */
     public <X extends AbstractTreeDetails> X getTreeDetails();
  
+    public <L extends AbstractLine> L getNewDataLine();
 	
     /**
      * Test if Tree rebuild is required

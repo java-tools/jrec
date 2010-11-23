@@ -131,7 +131,6 @@ public class EditOptions {
             {Parameters.SORT_TREE_SAVE_DIRECTORY, "Sort Tree Save Directory", null},
             {Parameters.RECORD_TREE_SAVE_DIRECTORY, "Record Tree Save Directory", null},
             {Parameters.COPY_SAVE_DIRECTORY, "Copy Save Directory",null},
-
     };
 
     private String otherDescription
@@ -143,6 +142,9 @@ public class EditOptions {
             {"DateFormat", "Date Format String eg dd/MM/yy or dd.MMM.yy. the field is case sensitive", null},
             {Parameters.PROPERTY_TEST_MODE, "Weather we are running automated Tests (Marathon ?) or not ", null},
             {Parameters.BRING_LOG_TO_FRONT, "Bring Log to the Front if Data is written to it", null},
+            {Parameters.PROPERTY_BIG_FILE_PERCENT, "File Size to Memory Percent to Start using the Big-File-Model", null},
+            {Parameters.PROPERTY_BIG_FILE_CHUNK_SIZE, "Big-File-Model Memory Chunks (KB)", null},
+            {Parameters.PROPERTY_BIG_FILE_FILTER_LIMIT, "Big-File Filter/Tree limit (KB)", null},
             {Parameters.INVALID_FILE_CHARS, "Characters that are invalid in a file Name", null},
             {Parameters.FILE_REPLACEMENT_CHAR, "Char to Replace invalid Filename Chars", null},
             {Parameters.ASTERIX_IN_FILE_NAME, "Allow the asterix ('*') character in file Names", null},
@@ -152,7 +154,7 @@ public class EditOptions {
             {"SignificantCharInFiles.2", "Number of characters to use when looking up record layouts (medium)", null},
             {"SignificantCharInFiles.3", "Number of characters to use when looking up record layouts (large)", null},
     };
-
+ 
     private String layoutWizardParamsDescription
 	= "<H1>Layout Wizard Properties</h1>"
 	+ "This panels holds various Field Search options used by the Layout Wizard";
@@ -295,14 +297,14 @@ public class EditOptions {
     private EditPropertiesTblPanel formatPnl
 		= new EditPropertiesTblPanel(params, formatDescription,
 		        FORMAT_COLUMN_NAMES, FORMAT_COLUMN_HEADINGS,
-	      Parameters.NUMBER_OF_FORMATS);
+		        Parameters.NUMBER_OF_FORMATS);
 
     private static String[][] defaultDetails = {
     		{Parameters.DEFAULT_COPYBOOK_READER,	"The default copybook reader"},
     		{Parameters.DEFAULT_COPYBOOK_WRITER,	"The default copybook writer"},
-    		{Parameters.DEFAULT_DATABASE,					"The default Database to use"},
-    		{Parameters.DEFAULT_IO,								"The default IO Routine to use"},
-       		{Parameters.DEFAULT_BINARY,						"The default Binary Encoding"},
+    		{Parameters.DEFAULT_DATABASE,			"The default Database to use"},
+    		{Parameters.DEFAULT_IO,					"The default IO Routine to use"},
+       		{Parameters.DEFAULT_BINARY,				"The default Binary Encoding"},
    };
     
 

@@ -51,7 +51,9 @@ public class TypeBinBigEndian extends TypeNum {
 	    int min = java.lang.Math.min(field.getEnd(), record.length);
 
         String s;
-        if (isPositive()) {
+        if (pos >= min) {
+        	s = "0";
+        } else if (isPositive()) {
         	s = Conversion.getPositiveBigInt(record, pos, min - pos).toString();
         } else {
         	s = Conversion.getBigInt(record, pos, min - pos).toString();
@@ -82,3 +84,4 @@ public class TypeBinBigEndian extends TypeNum {
         return record;
     }
 }
+ 

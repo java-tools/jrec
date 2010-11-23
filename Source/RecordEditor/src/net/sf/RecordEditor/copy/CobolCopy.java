@@ -33,7 +33,7 @@ public class CobolCopy extends AbstractWizard<CopyDefinition> {
 	 * @param selection record layout selection class
 	 */
 	public CobolCopy() {
-		this(new CopyDefinition());
+		this(new net.sf.RecordEditor.jibx.compare.CopyDefinition());
 	}
 	
 	
@@ -123,7 +123,7 @@ public class CobolCopy extends AbstractWizard<CopyDefinition> {
 
 
 
-		private CopyDefinition values = new CopyDefinition();
+		private CopyDefinition values = new net.sf.RecordEditor.jibx.compare.CopyDefinition();
 //		private JPanel goPanel = new JPanel();
 		private FileChooser newFileName = new FileChooser();
 		private LayoutSelectionFile layoutSelection1;

@@ -22,6 +22,7 @@ import javax.swing.JMenuBar;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.RecordEditor.copy.CopyFileLayout;
 import net.sf.RecordEditor.diff.CompareFileLayout;
+import net.sf.RecordEditor.edit.display.Action.SaveFieldSequenceAction;
 import net.sf.RecordEditor.edit.display.Action.VisibilityAction;
 import net.sf.RecordEditor.layoutWizard.WizardFileLayout;
 import net.sf.RecordEditor.utils.common.Common;
@@ -108,7 +109,7 @@ public class EditFileLayout extends EditRec {
    
         super.getEditMenu().addSeparator();     
         super.getEditMenu().add(addAction(new VisibilityAction()));
-  
+        super.getEditMenu().add(addAction(new SaveFieldSequenceAction()));
     }
 
 

@@ -46,6 +46,7 @@ import net.sf.RecordEditor.utils.common.ReActionHandler;
  * @author Bruce Martin
  * @version 0.51
  */
+@SuppressWarnings("serial")
 public class LineFrame extends    BaseLineFrame {
 
     private int currRow;

@@ -24,7 +24,11 @@ public class CompareTwoLayouts extends TwoLayoutsWizard<DiffDefinition> {
 	 */
 	public CompareTwoLayouts(AbstractLayoutSelection<?> selection1, AbstractLayoutSelection<?> selection2,
 			String recentFiles) {
-		this(selection1, selection2, new DiffDefinition(), recentFiles);
+		this(
+			 selection1, 
+			 selection2, 
+			 new net.sf.RecordEditor.jibx.compare.DiffDefinition(), 
+			 recentFiles);
 	}
 	
 	

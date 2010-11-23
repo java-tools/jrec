@@ -19,8 +19,8 @@ public class ReIOProvider extends StandardLineIOProvider {
     static {
 			int i = 0;
 		 
-			keys[i] = Constants.IO_UNKOWN_FORMAT;				externalNames[i] = "UNKNOWN_FORMAT";			names[i++] = "Unknow Format (Choose details at run time)";	
-			keys[i] = Constants.IO_GENERIC_CSV;				externalNames[i] = "CSV_GENERIC";			names[i++] = "Generic CSV (Choose details at run time)";	
+			keys[i] = Constants.IO_UNKOWN_FORMAT;	externalNames[i] = "UNKNOWN_FORMAT";	names[i++] = "Unknow Format (Choose details at run time)";	
+			keys[i] = Constants.IO_GENERIC_CSV;		externalNames[i] = "CSV_GENERIC";		names[i++] = "Generic CSV (Choose details at run time)";	
 	 }
 
 	@Override
@@ -94,6 +94,22 @@ public class ReIOProvider extends StandardLineIOProvider {
 		return names[idx];
 	}
 
+
+	@Override
+	public int getStructure(String name) {
+    	for (int i = 0; i < keys.length && keys[i] != Constants.NULL_INTEGER; i++) {
+    		if (externalNames[i].equalsIgnoreCase(name)) {
+    			//System.out.println(" ~~~ getStructure ~ " +  externalNames[i] + " " + keys[i]);
+    			return keys[i];
+    		}
+    	}
+    	return Constants.NULL_INTEGER;
+	}
+
+	@Override
+	public String getStructureNameForIndex(int index) {
+		return externalNames[index];
+	}
 
 	/**
 	 * @see net.sf.JRecord.Common.AbstractManager#getNumberOfEntries()

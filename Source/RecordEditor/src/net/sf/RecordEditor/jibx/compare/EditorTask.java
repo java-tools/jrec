@@ -1,17 +1,21 @@
 package net.sf.RecordEditor.jibx.compare;
 
-public class EditorTask {
+
+public class EditorTask  {
+
 
 	public static final String TASK_FILTER      = "Filter";
 	public static final String TASK_SORT_TREE   = "SortTree";
 	public static final String TASK_RECORD_TREE = "RecordTree";
-	public static final String TASK_VISIBLE_FIELDS      = "VisibleFields";
+	public static final String TASK_VISIBLE_FIELDS = "VisibleFields";
+	public static final String TASK_FIELD_SEQUENCE = "FieldSequence";
 	
 	public String type;
 	public String layoutName="";
 	public Layout filter = null;
 	public SortTree sortTree = null;
 	public RecordTree recordTree;
+	public FieldSequence fieldSequence = null;
 	
 	
 	public EditorTask setFilter(Layout filterDetails) {
@@ -22,7 +26,8 @@ public class EditorTask {
 
 		return this;
 	}
-	
+
+
 	public EditorTask setSortTree(String recordLayoutName, SortTree sortDetails) {
 		type = TASK_SORT_TREE;
 		
@@ -45,4 +50,6 @@ public class EditorTask {
 
 		return this;
 	}
+
+
 }

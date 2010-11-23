@@ -138,7 +138,7 @@ public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
 	 */
 	@Override
 	public final EditorTask getSaveDetails() {
-		RecordTree tree = new RecordTree();
+		RecordTree tree = new net.sf.RecordEditor.jibx.compare.RecordTree();
 		int i, j, size;
 		
 		Common.stopCellEditing(recordTbl);
@@ -153,14 +153,15 @@ public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
 		tree.parentRelationship = new RecordParent[size];
 		for (i = 0; i < parent.length; i++) {
 			if (parent[i] != CreateRecordTreePnl.BLANK_PARENT) {
-				tree.parentRelationship[j] = new RecordParent();
+				tree.parentRelationship[j] = new net.sf.RecordEditor.jibx.compare.RecordParent();
 				tree.parentRelationship[j].recordName   = layout.getRecord(i).getRecordName();
 				
 				tree.parentRelationship[j++].parentName 
 					= layout.getRecord(parent[i].intValue()).getRecordName();
 			}
 		}
-		return (new EditorTask()).setRecordTree(layout.getLayoutName(), tree);
+		return (new EditorTask())
+					.setRecordTree(layout.getLayoutName(), tree);
 	}
 	
 	/**

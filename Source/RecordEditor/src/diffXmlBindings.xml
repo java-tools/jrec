@@ -44,6 +44,15 @@
 		</collection>
 		<collection field="fieldTest"  usage="optional"/>
 	</mapping>
+	<mapping name="FieldSequence" class="net.sf.RecordEditor.jibx.compare.FieldSequence">
+		<value style="attribute" name="name" field="name"/>
+		<collection field="fields"  usage="optional">
+		   <value  name="field"/>
+		</collection>
+		<collection field="fixedFields"  usage="optional">
+		   <value  name="fixedField"/>
+		</collection>
+	</mapping>
 	<mapping name="FieldTest" class="net.sf.RecordEditor.jibx.compare.FieldTest">
 		<value style="attribute" name="fieldName" field="fieldName"/>
 		<value style="attribute" name="operator"  field="operator"/>
@@ -55,6 +64,7 @@
 		<structure field="filter"        usage="optional"/>
 		<structure field="sortTree"      usage="optional"/>
 		<structure field="recordTree"    usage="optional"/>
+		<structure field="fieldSequence" usage="optional"/>
 	</mapping>
 	<mapping name="SortTree" class="net.sf.RecordEditor.jibx.compare.SortTree">
 		<value     name="recordName"     field="recordName"  style="attribute"/>

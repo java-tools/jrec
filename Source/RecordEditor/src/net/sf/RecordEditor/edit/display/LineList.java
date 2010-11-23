@@ -37,7 +37,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-
+import java.util.HashMap;
 import java.util.StringTokenizer;
 
 import javax.swing.AbstractAction;
@@ -61,6 +61,7 @@ import net.sf.RecordEditor.edit.display.common.AbstractRowChanged;
 import net.sf.RecordEditor.edit.display.util.RowChangeListner;
 import net.sf.RecordEditor.edit.file.FieldMapping;
 import net.sf.RecordEditor.edit.file.FileView;
+import net.sf.RecordEditor.jibx.compare.FieldSequence;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
@@ -91,6 +92,7 @@ import net.sf.RecordEditor.utils.swing.HexTwoLineRender;
  * @version 0.51
  *
  */
+@SuppressWarnings("serial")
 public class LineList extends BaseLineDisplay 
 implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChanged {
 
@@ -159,11 +161,17 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
             	newLineFrame(fileView, popupRow);
            }
         };
+        AbstractAction gotoLine = new AbstractAction("Goto Line") {
+            public void actionPerformed(ActionEvent e) {
+            	startGotoLineNumber();
+           }
+        };
         MenuPopupListener mainPopup;
         AbstractAction[] mainActions = {
                 sort,
                 null,
                 editRecord,
+                gotoLine,
                 null,
                 new AbstractAction("Autofit Columns") {
                     public void actionPerformed(ActionEvent e) {
@@ -189,6 +197,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
                 sort,
                 null,
                 editRecord,
+                gotoLine,
                 null,
                 new AbstractAction("Unfix Column") {
                     public void actionPerformed(ActionEvent e) {
@@ -623,10 +632,116 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	}
 
 
+    public FieldSequence getFieldSequence() {
+    	FieldSequence rec = null;
+    	int layoutIdx = getLayoutIndex();
+    	
+    	if (layoutIdx < layout.getRecordCount()) {
+	       	int[][] fieldIdx = tblScrollPane.getColumnSequence();
+	       	int st = FileView.LINE_NUMER_COLUMN+1;
+	    	
+	       	rec = new FieldSequence();
+	    	rec.name = layout.getRecord(layoutIdx).getRecordName();
+	    	rec.fields = getNames(
+	    			layoutIdx, 
+	    			st, 
+	    			fieldIdx[FixedColumnScrollPane.MAIN_INDEX]);
 
+	    	rec.fixedFields = getNames(
+	    			layoutIdx, 
+	    			st, 
+	    			fieldIdx[FixedColumnScrollPane.FIXED_INDEX]);
+    	}
 
+    	return rec;
+    }
+    
+    private String[] getNames(int layoutIdx, int st, int[] fields) {
+    	int idx;
+    	int j = 0;
+    	String ret[] = new String[getSize(fields)];
+    	System.out.println(" ~~~ size: " + ret.length);
+    	for (int i = 0; i < fields.length; i++) {
+    		idx = fields[i];
+    		System.out.print(" " + j + " " + i + " " + idx);
+    		if (idx >= st) {
+	    		ret[j++] = fileView.getRealColumnName(
+	    				layoutIdx,
+	    				fileView.getRealColumn(
+	    						layoutIdx, 
+	    						idx - st));
+	    		System.out.print(" - " + ret[j-1]);
+    		}
+    		System.out.println(" ");
+    	}
+    	return ret;
+    }
 
+    
+    private int getSize(int[] array) {
+    	int size = array.length;
+    	
+    	for (int a: array) {
+    		if (a <= FileView.LINE_NUMER_COLUMN) {
+    			size -= 1;
+    		}
+    	}
+    	return size;
+    }
 
+    public void setFieldSequence(FieldSequence seq) {
+    	int[][] fields = new int[2][];
+    	HashMap<String, Integer> map = new HashMap<String, Integer>();
+    	int st = FileView.LINE_NUMER_COLUMN+1;
+    	int layoutIdx = layout.getRecordIndex(seq.name);
+    	
+    	if (layoutIdx >= 0) { 
+    		setLayoutIndex(layoutIdx);
+	    	for (int i = st; i < fileView.getColumnCount(); i++) {
+	    		System.out.println(" ~~> " + i + " " + (i-st)
+	    				+ " " + fileView.getRealColumn(layoutIdx, i - st)
+	    				+ " : " + fileView.getRealColumnName(
+			    						layoutIdx,
+			    						fileView.getRealColumn(layoutIdx, i - st))
+	    				);
+	    		map.put(fileView.getRealColumnName(
+		    				layoutIdx,
+		    				fileView.getRealColumn(layoutIdx, i - st)).toLowerCase(),
+		    			i);
+	    	}
+   	
+	    	fields[FixedColumnScrollPane.MAIN_INDEX] 
+	    	       = getFieldIndex(seq.fields, map);
+	    	fields[FixedColumnScrollPane.FIXED_INDEX] 
+	    	       = getFieldIndex(seq.fixedFields, map);
+	    	
+	    	tblScrollPane.setColumnSequence(fields, st);
+      	}
+    	 
+    }
+
+    private int[] getFieldIndex(String[] names, HashMap<String, Integer> map) {
+    	int[] ret = new int[names.length];
+    	int i = 0;
+    	
+    	for (String name : names) {
+    		name = name.toLowerCase();
+    		ret[i] = -1;
+    		if (map.containsKey(name)) {
+    			ret[i] = map.get(name).intValue();
+    		}
+    		
+    		System.out.println(" ==> " + i
+    				+ " " + name + " " + map.containsKey(name)
+    				+ " : " + ret[i]
+    				);
+    		i +=1;
+    	}
+    	
+    	return ret;
+    }
+    
+    
 	/**
 	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide#getFieldVisibility(int)
 	 */

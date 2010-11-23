@@ -48,6 +48,7 @@ import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.edit.display.common.ILayoutChanged;
 import net.sf.RecordEditor.edit.display.util.AddAttributes;
+import net.sf.RecordEditor.edit.display.util.GotoLine;
 import net.sf.RecordEditor.edit.display.util.OptionPnl;
 import net.sf.RecordEditor.edit.display.util.SaveAs;
 import net.sf.RecordEditor.edit.display.util.Search;
@@ -166,6 +167,8 @@ implements AbstractFileDisplay, ILayoutChanged {
                     copyRecords();
                 } else if (event.getKeyCode() == KeyEvent.VK_V) {
                     fileView.pasteLines(getInsertAfterPosition());
+                } else if (event.getKeyCode() == KeyEvent.VK_L) {
+                	startGotoLineNumber();                
                 }
                 lastWhen = event.getWhen();
                 //System.out.print("   !!!");
@@ -767,6 +770,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	 * @return wether action is available
 	 */
 	public boolean isActionAvailable(final int action) {
+
 	    boolean ret = 
 	       (action == ReActionHandler.FIND)
     	|| (action == ReActionHandler.FILTER)
@@ -783,12 +787,14 @@ implements AbstractFileDisplay, ILayoutChanged {
         || (action == ReActionHandler.HELP)
         || (action == ReActionHandler.PRINT)
         || ( (! layout.hasChildren())
-	        && ( (	action == ReActionHandler.BUILD_SORTED_TREE)
+	        && (  	    action == ReActionHandler.BUILD_SORTED_TREE
 	        		||  action == ReActionHandler.BUILD_FIELD_TREE
 	        		||  action == ReActionHandler.BUILD_RECORD_TREE
 	        		|| (action == ReActionHandler.EXECUTE_SAVED_SORT_TREE)		
 			        || (action == ReActionHandler.EXECUTE_SAVED_RECORD_TREE)	
-	        ))
+			    )
+			&& fileView.isTreeViewAvailable()
+	        )
         || (action == ReActionHandler.BUILD_LAYOUT_TREE && layout.hasTreeStructure())
         || (action == ReActionHandler.BUILD_LAYOUT_TREE_SELECTED && layout.hasTreeStructure())
         || (action == ReActionHandler.SAVE_AS_XML && (layout.hasTreeStructure() || layout.hasChildren()))
@@ -952,6 +958,10 @@ implements AbstractFileDisplay, ILayoutChanged {
 			new LineTree(fileView.getView(selRows), TreeParserXml.getInstance(), false, 1);
 		}
 	}
+	
+	protected void startGotoLineNumber() {
+		new GotoLine(this, fileView);
+	}
 
 	/**
 	 * Save the file back to disk
@@ -1113,7 +1123,7 @@ implements AbstractFileDisplay, ILayoutChanged {
      * @return rows prefered layout
      */
     protected int getLayoutIdx_100_getLayout4Row(int row) {
-    	return fileView.getLine(row).getPreferredLayoutIdx();
+    	return fileView.getTempLine(row).getPreferredLayoutIdx();
     }
 
     /**

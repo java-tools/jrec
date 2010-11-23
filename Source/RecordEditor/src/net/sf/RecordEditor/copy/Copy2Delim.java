@@ -42,7 +42,7 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 	 */
 	@SuppressWarnings("unchecked")
 	public Copy2Delim(AbstractLayoutSelection recordSelection1) {
-		this(recordSelection1, new CopyDefinition());
+		this(recordSelection1, new net.sf.RecordEditor.jibx.compare.CopyDefinition());
 	}
 	
 	
@@ -126,7 +126,7 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 
 	public static class GetFiles extends  AbstractFilePnl<CopyDefinition> {
 
-		private CopyDefinition values = new CopyDefinition();
+		private CopyDefinition values = new net.sf.RecordEditor.jibx.compare.CopyDefinition();
 //		private JPanel goPanel = new JPanel();
 		private FileChooser newFileName = new FileChooser();
 		@SuppressWarnings("unchecked")

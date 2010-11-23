@@ -49,6 +49,7 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
  * @author Bruce Martin
  * @version 0.51
  */
+@SuppressWarnings("serial")
 public class Menu extends ReFrame
                implements ActionListener, LayoutConnection {
 

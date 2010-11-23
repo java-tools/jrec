@@ -6,12 +6,13 @@ import javax.swing.JButton;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
+import net.sf.RecordEditor.edit.display.LineList;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.edit.file.FileView;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
 import net.sf.RecordEditor.jibx.compare.FieldTest;
-import net.sf.RecordEditor.jibx.compare.Layout;
 import net.sf.RecordEditor.jibx.compare.Record;
+import net.sf.RecordEditor.jibx.compare.Layout;
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.filter.AbstractExecute;
 import net.sf.RecordEditor.utils.filter.AbstractSaveDetails;
@@ -23,13 +24,16 @@ public class SaveRestoreHiddenFields
 implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
 
 	private AbstractFileDisplayWithFieldHide display; 
+	private HideFields hideFields;
 	
   
    /**
 	 * @param display
 	 */
-	public SaveRestoreHiddenFields(AbstractFileDisplayWithFieldHide display) {
+	public SaveRestoreHiddenFields(AbstractFileDisplayWithFieldHide display,
+			HideFields hFields) {
 		this.display = display;
+		this.hideFields = hFields;
 	}
 
 
@@ -42,6 +46,10 @@ implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
 		
 		ret.type = EditorTask.TASK_VISIBLE_FIELDS;
 		ret.filter =  getExternalLayout();
+		if (display instanceof LineList 
+		&& hideFields.isSaveSeqSelected()) {
+			ret.fieldSequence = ((LineList) display).getFieldSequence();
+		}
 		return ret;
 	}
 	
@@ -59,11 +67,15 @@ implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
 		tmpLayoutSelection.name = layout.getLayoutName();
 		for (int i =0; i < layout.getRecordCount(); i++) {
 //			if (isInclude(i)) {
-			rec = new Record();
-			recordFields = display.getFieldVisibility(i);
+			rec = new net.sf.RecordEditor.jibx.compare.Record();
+			if (i == hideFields.getRecordIndex()) {
+				recordFields = hideFields.getVisibleFields();
+			} else {
+				recordFields = display.getFieldVisibility(i);
+			}
 			recordDetail = layout.getRecord(i);
 			rec.name = recordDetail.getRecordName();
-			
+
 			if (recordFields != null) {
 				count = 0;
 				for (j = 0; j < recordDetail.getFieldCount() ; j++) {
@@ -139,6 +151,11 @@ implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
 				}
 			}
 		}
+		
+		if (details.fieldSequence != null 
+		&& display instanceof LineList) {
+			((LineList) display).setFieldSequence(details.fieldSequence);
+		}
 	}
 	
 	public boolean[] createBooleanArray(int size, boolean initValue) {
@@ -155,16 +172,17 @@ implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
 	}
 
     
-	public static JButton getSaveButton(AbstractFileDisplayWithFieldHide pnl) {
+	public static JButton getSaveButton(
+			AbstractFileDisplayWithFieldHide pnl, HideFields hideFields) {
 		String dir = Parameters.getFileName(Parameters.HIDDEN_FIELDS_SAVE_DIRECTORY);
 		return new SaveButton<EditorTask>(
-				new net.sf.RecordEditor.edit.display.util.SaveRestoreHiddenFields(	pnl),
+				new net.sf.RecordEditor.edit.display.util.SaveRestoreHiddenFields(pnl, hideFields),
 				dir);
 	}
 	
 	   
 	public static void restoreHiddenFields(AbstractFileDisplayWithFieldHide pnl) {
-		SaveRestoreHiddenFields action = new SaveRestoreHiddenFields(pnl);
+		SaveRestoreHiddenFields action = new SaveRestoreHiddenFields(pnl, null);
 		FileView fileView = pnl.getFileView();
 		
 		new ExecuteSavedFile<EditorTask>(

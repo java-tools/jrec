@@ -151,7 +151,7 @@ public final class SortFieldMdl extends AbstractTableModel {
     	ret = new SortFields[size];
     	for (i = 0; i < ret.length; i++) {
     		if (fieldName[i] != null && ! "".equals(fieldName[i])) {
-    			ret[j] = new SortFields();
+    			ret[j] = new net.sf.RecordEditor.jibx.compare.SortFields();
     			ret[j].fieldName = fieldName[i];
     			ret[j].ascending = ascending[i];
     			j += 1 ;

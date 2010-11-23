@@ -23,7 +23,7 @@ public class Copy2Xml extends AbstractWizard<CopyDefinition> {
 
 	@SuppressWarnings("unchecked")
 	public Copy2Xml(AbstractLayoutSelection recordSelection1) {
-		this(recordSelection1, new CopyDefinition(), "");
+		this(recordSelection1, new net.sf.RecordEditor.jibx.compare.CopyDefinition(), "");
 	}
 	/**
 	 * 
@@ -162,7 +162,7 @@ public class Copy2Xml extends AbstractWizard<CopyDefinition> {
 	
 	public static class GetFiles extends  AbstractFilePnl<CopyDefinition> {
 
-		private CopyDefinition values = new CopyDefinition();
+		private CopyDefinition values = new net.sf.RecordEditor.jibx.compare.CopyDefinition();
 
 		private FileChooser xmlFileName = new FileChooser();
 		private AbstractLayoutSelection<?> layoutSelection;

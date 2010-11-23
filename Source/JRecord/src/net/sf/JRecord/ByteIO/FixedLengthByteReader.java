@@ -53,7 +53,11 @@ public class FixedLengthByteReader extends AbstractByteReader {
 
         inStream = inputStream;
 
-        stream = new BufferedInputStream(inputStream, BUFFER_SIZE);
+        if (inputStream instanceof BufferedInputStream) {
+        	stream = (BufferedInputStream) inputStream;
+        } else {
+        	stream = new BufferedInputStream(inputStream, BUFFER_SIZE);
+        }
     }
 
 

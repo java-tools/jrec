@@ -183,7 +183,9 @@ extends BasicLayout<FieldDetail, RecordDetail> {
 
 	    for (j = 0; j < recordCount; j++) {
 	    	if (pRecords[j] != null) {
-	    		if (lastSize >= 0 && lastSize != pRecords[j].getLength()) {
+	    		if ((lastSize >= 0 && lastSize != pRecords[j].getLength())
+	    		||  (pRecords[j].getField(pRecords[j].getFieldCount() - 1).getType() 
+	    				== Type.ftCharRestOfRecord )){
 	    			fixedLength = false;
 	    		}
 	    		lastSize = pRecords[j].getLength();
@@ -455,6 +457,12 @@ extends BasicLayout<FieldDetail, RecordDetail> {
     public byte[] setField(byte[] record, int type, FieldDetail field, Object value)
     throws RecordException {
         if (field.isFixedFormat()) {
+        	if (value != null && value instanceof String) {
+        		String v = value.toString();
+        		if (v.startsWith("\r")) {
+        			value  = v.substring(1);
+        		}
+        	}
             record = TypeManager.getSystemTypeManager().getType(type)
 				.setField(record, field.getPos(), field, value);
         } else  {

@@ -13,6 +13,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 
+
 /**
  *  Create a fixed column scroll pane
  *
@@ -20,10 +21,13 @@ import javax.swing.table.TableColumnModel;
  * @author Unknown (copied from the web)
  *
  */
+@SuppressWarnings("serial")
 public class FixedColumnScrollPane extends JScrollPane  {
 	public final int STD_LINE_HEIGHT;
 	public final int TWO_LINE_HEIGHT;
 	public final int THREE_LINE_HEIGHT;
+	public final static int FIXED_INDEX = 0;
+	public final static int MAIN_INDEX = 1;
 
     private JTable fixedTable = null;
     private JTable main;
@@ -210,8 +214,10 @@ public class FixedColumnScrollPane extends JScrollPane  {
      * @param col column to move to fixed table
      */
     public void doFixColumn(int col) {
+    	doFixColumn(main.getColumnModel().getColumn(col), col);
+    }
 
-        TableColumn mainColumn = main.getColumnModel().getColumn(col);
+    public void doFixColumn(TableColumn mainColumn, int col) {
         int actualCol = mainColumn.getModelIndex();
         TableColumnModel colMdl = fixedTable.getColumnModel();
  
@@ -311,6 +317,74 @@ public class FixedColumnScrollPane extends JScrollPane  {
 		showFields.setFieldVisibility(main.getColumnModel(), colsToSkip, 0, fieldVisibility);
 		
 		correctFixedSize();
+	}
+    
+	public int[][] getColumnSequence() {
+       	int[][] fields = new int[2][];
+    	
+    	fields[MAIN_INDEX] = getTableCols(main.getColumnModel());   	
+    	fields[FIXED_INDEX] =  getTableCols(fixedTable.getColumnModel());
+
+    	return fields;
+	}
+	
+	private int[] getTableCols(TableColumnModel mdl) {
+		int[] fields = new int[mdl.getColumnCount()];
+    	for (int i = 0; i < fields.length; i++) {
+    		fields[i] = mdl.getColumn(i).getModelIndex();
+    	}
+		
+		return fields;
+	}
+	
+	public void setColumnSequence(int[][] seq, int start) {
+		
+		int idx;
+		TableColumnModel mdl = fixedTable.getColumnModel();
+		for (int i = mdl.getColumnCount() - 1; i >= 0; i--) {
+			if (mdl.getColumn(i).getModelIndex() >= start) {
+				doUnFixColumn(i);
+			}
+		}
+		mdl = main.getColumnModel();
+		int[] ix = new int[mainColumnModels.length];
+		for (int i = mdl.getColumnCount() - 1; i>= 0; i--) {
+			ix[mdl.getColumn(i).getModelIndex()] = i;
+		}
+
+		for (int i=0 ; i < seq[FIXED_INDEX].length; i++) {
+			idx = seq[FIXED_INDEX][i];
+			this.doFixColumn(mainColumnModels[idx], ix[idx]);
+		}
+		setTableCols(
+				main.getColumnModel(), 
+				start, 
+				seq[MAIN_INDEX], 
+				mainColumnModels);
+//		setTableCols(
+//				fixedTable.getColumnModel(), 
+//				start, 
+//				seq[FIXED_INDEX], 
+//				fixedColumnModels);
+	}
+	
+	private void setTableCols(TableColumnModel mdl, int start, int[] fields,  TableColumn[] columns) {
+		int i;
+
+		for (i = mdl.getColumnCount() - 1; i>= 0; i--) {
+			if (mdl.getColumn(i).getModelIndex() >= start) {
+				mdl.removeColumn(mdl.getColumn(i));
+			} else {
+				System.out.println(
+						mdl.getColumn(i).getModelIndex()
+						+ " " + mdl.getColumn(i).getHeaderValue()
+				);
+			}
+		}
+		
+		for (i = 0; i < fields.length; i++) {
+			mdl.addColumn(columns[fields[i]]);
+		}
 	}
     
     /**

@@ -74,6 +74,11 @@ implements TableModelListener, TreeModelListener {
                     	hideRow(popupRow);
                       }
                 },
+	            new AbstractAction("Goto Line Number") {
+                    public void actionPerformed(ActionEvent e) {
+                    	startGotoLineNumber();
+                      }
+                },
 		};
 				
 		popupListner = new MenuPopupListener(actions, true, getJTable()) {

@@ -32,12 +32,6 @@ public class UnknownFormatReader extends AbstractLineReader {
 	
      private AbstractLineReader reader = null;
 
-	/**
-	 * 
-	 */
-	public UnknownFormatReader() {
-		// TODO Auto-generated constructor stub
-	}
 
 
 	

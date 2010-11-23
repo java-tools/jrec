@@ -29,7 +29,10 @@ public class CompareSingleLayout extends AbstractWizard<DiffDefinition> {
 	 * @param selection record layout selection class
 	 */
 	public CompareSingleLayout(AbstractLayoutSelection<?> selection, String recentFiles) {
-		this(selection, new DiffDefinition(), recentFiles);
+		this(
+			 selection, 
+			 new net.sf.RecordEditor.jibx.compare.DiffDefinition(), 
+			 recentFiles);
 	}
 	
 	
@@ -122,7 +125,7 @@ public class CompareSingleLayout extends AbstractWizard<DiffDefinition> {
 
 
 
-		private DiffDefinition values = new DiffDefinition();
+		private DiffDefinition values = new net.sf.RecordEditor.jibx.compare.DiffDefinition();
 //		private JPanel goPanel = new JPanel();
 		private FileChooser newFileName = new FileChooser();
 		private AbstractLayoutSelection<?> layoutSelection;

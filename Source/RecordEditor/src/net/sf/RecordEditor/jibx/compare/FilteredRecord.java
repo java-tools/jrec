@@ -2,7 +2,8 @@ package net.sf.RecordEditor.jibx.compare;
 
 import net.sf.JRecord.Details.RecordFilter;
 
-public class FilteredRecord extends Record implements  RecordFilter {
+public class FilteredRecord 
+extends Record implements  RecordFilter {
 
 	/**
 	 * @see net.sf.JRecord.Details.RecordFilter#getFields()

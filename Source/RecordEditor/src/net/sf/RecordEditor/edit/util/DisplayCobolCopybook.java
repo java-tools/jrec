@@ -24,6 +24,7 @@ import net.sf.JRecord.Numeric.Convert;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.edit.display.LineTree;
 import net.sf.RecordEditor.edit.file.FileView;
+import net.sf.RecordEditor.edit.file.storage.DataStoreStd;
 import net.sf.RecordEditor.edit.tree.TreeParserXml;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.openFile.ComputerOptionCombo;
@@ -95,7 +96,7 @@ public class DisplayCobolCopybook implements ActionListener {
 			String xml;
 			AbstractLineReader reader = LineIOProvider.getInstance().getLineReader(Constants.IO_XML_USE_LAYOUT);
 			File file = new File(fileName);
-			ArrayList<AbstractLine> lines = new ArrayList<AbstractLine>();
+			DataStoreStd<AbstractLine> lines = new DataStoreStd<AbstractLine>(null);
 			AbstractLine aLine;
 
 			
@@ -113,11 +114,14 @@ public class DisplayCobolCopybook implements ActionListener {
 					lines.add(aLine);
 				}
 			}
+			lines.setLayout(reader.getLayout());
+			
 			if (lines.size() > 1) {
 				new LineTree(new FileView(lines, null, null), TreeParserXml.getInstance(), true, 1).cb2xmlStuff();
 			} else {
 				msgTxt.setText("Nothing to Display");
 			}
+			reader.close();
 			//new FileView(lines, null, null);
 		} catch (Exception e) {
 			Common.logMsg(e.getMessage(), null);

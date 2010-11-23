@@ -34,7 +34,7 @@ public class Copy2Velocity extends AbstractWizard<CopyDefinition> {
 	 */
 	@SuppressWarnings("unchecked")
 	public Copy2Velocity(AbstractLayoutSelection recordSelection1) {
-		this(new CopyDefinition(), recordSelection1);
+		this(new net.sf.RecordEditor.jibx.compare.CopyDefinition(), recordSelection1);
 	}
 	
 	
@@ -123,7 +123,7 @@ public class Copy2Velocity extends AbstractWizard<CopyDefinition> {
 
 
 
-		private CopyDefinition values = new CopyDefinition();
+		private CopyDefinition values = new net.sf.RecordEditor.jibx.compare.CopyDefinition();
 //		private JPanel goPanel = new JPanel();
 		private FileChooser newFileName = new FileChooser();
 		private FileChooser velocityTemplateFile = new FileChooser();

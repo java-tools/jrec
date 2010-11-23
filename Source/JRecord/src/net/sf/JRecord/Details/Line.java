@@ -158,7 +158,7 @@ public class Line extends BasicLine<Line> {
 			}
 
 		    FieldDetail field = layout.getField(recordIdx, fieldIdx);
-			return layout.getField(data,
+			return layout.getField(getLineData(),
 			        				Type.ftChar,
 			        				field).toString();
 
@@ -174,14 +174,15 @@ public class Line extends BasicLine<Line> {
 	 */
 	public String getFullLine() {
 	    String s;
+	    byte[] d = getLineData();
 
 	    if ("".equals(layout.getFontName())) {
-	        s = new String(data);
+	        s = new String(d);
 	    } else {
 	        try {
-	            s = new String(data, layout.getFontName());
+	            s = new String(d, layout.getFontName());
 	        } catch (Exception e) {
-	            s = new String(data);
+	            s = new String(d);
             }
 	    }
 
@@ -196,7 +197,7 @@ public class Line extends BasicLine<Line> {
 	    FieldDetail field = layout.getField(recordIdx, fieldIdx);
 	    int len = field.getLen();
 	    if (field.getType() == Type.ftCharRestOfRecord) {
-	    	len = data.length - field.getPos();
+	    	len = getLineData().length - field.getPos();
 	    }
 
 	    return getData(field.getPos(), len);
@@ -220,7 +221,7 @@ public class Line extends BasicLine<Line> {
 			
 			if (ret < 0) {				
 				for (int i=0; i< layout.getRecordCount(); i++) {
-					if (this.data.length == layout.getRecord(i).getLength()) {
+					if (getLineData().length == layout.getRecord(i).getLength()) {
 						ret = i;
 						preferredLayout = i;
 						break;
@@ -242,7 +243,7 @@ public class Line extends BasicLine<Line> {
 	 */
 	private void adjustLengthIfNecessary(final FieldDetail field, final int recordIdx) {
 
-		if (field.getEnd() > data.length) {
+		if (field.getEnd() > getLineData().length) {
 			adjustLength(recordIdx);
 		}
 	}
@@ -271,7 +272,7 @@ public class Line extends BasicLine<Line> {
 		RecordDetail pref = layout.getRecord(recordIdx);
 		int newSize = pref.getLength(); //field.getEnd();
 
-		if (newSize != data.length) {
+		if (newSize != getLineData().length) {
 			if (newRecord) {
 				this.writeLayout = recordIdx;
 				this.preferredLayoutAlt = recordIdx;
@@ -291,6 +292,7 @@ public class Line extends BasicLine<Line> {
 	private void newRecord(int newSize) {
 		byte[] sep = layout.getRecordSep();
 		byte[] rec = new byte[newSize];
+		//byte[] d = getLineData();
 
 		System.arraycopy(data, 0, rec, 0, data.length);
 
@@ -326,9 +328,17 @@ public class Line extends BasicLine<Line> {
 		if (newRecord && (writeLayout != Constants.NULL_INTEGER)) {
 			adjustLength(writeLayout);
 		}
+		return getLineData();
+	}
+	
+	protected byte[] getLineData() {
 		return data;
 	}
 
+	protected void clearData() {
+		data = NULL_RECORD;
+	}
+	
 	public final void setData(String newVal) {
 	    data = Conversion.getBytes(newVal, layout.getFontName());
 	}
@@ -338,14 +348,18 @@ public class Line extends BasicLine<Line> {
 	 */
 	@Override
 	public void setData(byte[] newVal) {
-		if (layout.isFixedLength()) {
-			if (data == null) {
+		if (layout.isFixedLength() && newVal.length != layout.getMaximumRecordLength()) {
+			if (data == null || data == NULL_RECORD || data.length != layout.getMaximumRecordLength()) {
 				data = new byte[layout.getMaximumRecordLength()];
 			}
 			System.arraycopy(newVal, 0, data, 0, Math.min(data.length, newVal.length));
 		} else {
 			data = newVal;
 		}
+	}
+	
+	protected void setDataRaw(byte[] newVal) {
+		data = newVal;
 	}
 
 
@@ -355,17 +369,9 @@ public class Line extends BasicLine<Line> {
 	 */
 	public final Object clone() {
 
-		return lineProvider.getLine(layout, data.clone());
+		return lineProvider.getLine(layout, getLineData().clone());
 	}
 
-
-	/**
-	 * @param pLayout The layouts to set.
-	 */
-	
-
-
- 
 
 
     /**
@@ -376,7 +382,7 @@ public class Line extends BasicLine<Line> {
      * @return fields Value
      */
     public Object getField(FieldDetail field) {
-        return layout.getField(data, field.getType(), field);
+        return layout.getField(getLineData(), field.getType(), field);
     }
 
 
@@ -398,6 +404,7 @@ public class Line extends BasicLine<Line> {
         data = layout.setField(data, field, value);
     }
 
+ 
     /**
      * Update field without appling any formatting
      * 

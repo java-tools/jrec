@@ -121,7 +121,8 @@ public abstract class ShowFieldsMenu {
 		}
 	}
 
-    private class ShowFieldAction extends JMenuItem implements ActionListener {
+    @SuppressWarnings("serial")
+	private class ShowFieldAction extends JMenuItem implements ActionListener {
     	public TableColumn colDef ;
     	public int insertColumn;
 //    	private int position;

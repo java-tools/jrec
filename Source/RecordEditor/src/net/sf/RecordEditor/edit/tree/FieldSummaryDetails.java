@@ -109,7 +109,7 @@ public class FieldSummaryDetails {
 		j= 0;
 		for (i = 0; i < operator.length; i++) {
 			if (operator[i] != OP_NONE) {
-				ret[j] = new SortSummary();
+				ret[j] = new net.sf.RecordEditor.jibx.compare.SortSummary();
 				ret[j].fieldName = getFieldName(i);
 				ret[j++].operator  = OPERATOR_NAMES[getOperator(i)];
 			}

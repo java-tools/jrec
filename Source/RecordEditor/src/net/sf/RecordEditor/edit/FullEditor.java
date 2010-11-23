@@ -25,6 +25,7 @@ import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.RecordEditor.copy.CopyDBLayout;
 import net.sf.RecordEditor.diff.CompareDBLayout;
 import net.sf.RecordEditor.edit.display.Action.ChangeLayoutAction;
+import net.sf.RecordEditor.edit.display.Action.SaveFieldSequenceAction;
 import net.sf.RecordEditor.edit.display.Action.VisibilityAction;
 import net.sf.RecordEditor.edit.util.CopybookLoaderFactoryDB;
 import net.sf.RecordEditor.layoutEd.LayoutMenu;
@@ -143,6 +144,7 @@ public class FullEditor extends EditRec {
         
         super.getEditMenu().addSeparator();     
         super.getEditMenu().add(addAction(new VisibilityAction()));
+        super.getEditMenu().add(addAction(new SaveFieldSequenceAction()));
         super.getEditMenu().addSeparator();
         super.getEditMenu().add(addAction(changeLayout));
        
@@ -202,6 +204,8 @@ public class FullEditor extends EditRec {
 	 */
 	public static void main(final String[] pgmArgs) {
 
+		System.out.println("Max Memmory: " + Common.MAX_MEMORY);
+	 
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 

@@ -255,7 +255,7 @@ public class FilterDetails {
      */
     public final Layout getExternalLayout() {
     	int j;
-		Layout tmpLayoutSelection = new Layout();
+		Layout tmpLayoutSelection = new net.sf.RecordEditor.jibx.compare.Layout();
 		Record rec;
 		boolean allFields;
 		boolean allSelected = true;
@@ -268,7 +268,7 @@ public class FilterDetails {
 		tmpLayoutSelection.name = layout.getLayoutName();
 		for (int i =0; i < layout.getRecordCount(); i++) {
 			if (isInclude(i)) {
-				rec = new Record();
+				rec = new net.sf.RecordEditor.jibx.compare.Record();
 				
 				recordDetail = layout.getRecord(i);
 				rec.name = recordDetail.getRecordName();
@@ -306,7 +306,7 @@ public class FilterDetails {
 					for (j = 0; j < FilterFieldList.NUMBER_FIELD_FILTER_ROWS; j++) {
 						filterFld = filterFields.getFilterField(i, j);
 						if (filterFld.getFieldNumber() >= 0) {
-							test = new FieldTest();
+							test = new net.sf.RecordEditor.jibx.compare.FieldTest();
 							test.fieldName = recordDetail.getField(filterFld.getFieldNumber()).getName();
 							test.operator  = Compare.getOperatorAsString(filterFld.getOperator());
 							test.value     = filterFld.getValue();
@@ -337,7 +337,7 @@ public class FilterDetails {
      */
     public final Layout getExternalLayout2() {
     	int j, idx;
-		Layout tmpLayoutSelection = new Layout();
+		Layout tmpLayoutSelection = new net.sf.RecordEditor.jibx.compare.Layout();
 		Record rec;
 		AbstractRecordDetail recordDetail;
 		
@@ -348,7 +348,7 @@ public class FilterDetails {
 		tmpLayoutSelection.name = layout2.getLayoutName();
 		for (int i =0; i < layout.getRecordCount(); i++) {
 			if (isInclude(i) && fieldInc != null && fieldInc[i] != null) {
-				rec = new Record();
+				rec = new net.sf.RecordEditor.jibx.compare.Record();
 				
 				idx = recordNo[i];
 				

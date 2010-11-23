@@ -34,7 +34,10 @@ public final class Parameters {
     public static final int NUMBER_OF_USER_FUNCTIONS = 32;
     
      
-    
+    public static final String PROPERTY_BIG_FILE_PERCENT = "BigFilePercentage"; 
+    public static final String PROPERTY_BIG_FILE_CHUNK_SIZE = "BigFileChunkSize"; 
+    public static final String PROPERTY_BIG_FILE_FILTER_LIMIT = "BigFileFilterLimit"; 
+    //public static final String PROPERTY_BIG_FILE_GZIP_WRITE = "BigFileGZipAnalyseSize"; 
     public static final String PROPERTY_TEST_MODE  = "TestMode";
     
     public static final String PROPERTY_COPYBOOK_NAME_PREFIX  = "CopybookLoaderName.";
@@ -455,7 +458,7 @@ public final class Parameters {
     private static void getDirectories() {
 
 
-        baseDirectory = "/home/bm/Programs/RecordEdit/HSQLDB";
+        baseDirectory = "/home/knoppix/RecordEdit/HSQLDB";
         libDirectory  = "";
         URL o = Parameters.class.getClassLoader().getResource("net/sf/RecordEditor/utils/common/Parameters.class");
 

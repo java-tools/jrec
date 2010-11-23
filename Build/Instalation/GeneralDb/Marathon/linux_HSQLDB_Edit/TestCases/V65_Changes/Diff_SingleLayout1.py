@@ -32,12 +32,16 @@ def test():
 
 		if window('Open'):
 			select(commonBits.selectPane(), 'Compare')
-			doubleclick(commonBits.selectPane(), '0')
-			if commonBits.isWindowsLook():
-				select(commonBits.selectPane(), 'zzTest_asmLocation.Xml')
-			else:
-				select('File Name', 'zzTest_asmLocation.Xml')
+			##doubleclick(commonBits.selectPane(), '0')
+			select(commonBits.selectPane(), 'zzTest_asmLocation.Xml')
+
+			##if commonBits.isWindowsLook():
+			##	select(commonBits.selectPane(), 'zzTest_asmLocation.Xml')
+			##else:
+			##	select('File Name', 'zzTest_asmLocation.Xml')
+			
 			click('Open')
+
 		close()
 
 		click('Save1')

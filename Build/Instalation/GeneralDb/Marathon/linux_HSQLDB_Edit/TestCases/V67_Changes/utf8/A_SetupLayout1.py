@@ -22,7 +22,8 @@ def test():
 		select('TabbedPane', 'Child Records')
 		select('TabbedPane', 'Extras')
 		select('TextField5', 'utf-8')
-		select('BmKeyedComboBox5', '90')
+		select('BmKeyedComboBox5', 'Text IO (Unicode)')
+#		select('BmKeyedComboBox5', '90')
 		click('Save1')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		##time.sleep(2)
@@ -45,7 +46,8 @@ def test():
 		select('TabbedPane', 'Fields')
 		select('TabbedPane', 'Extras')
 		select('TextField5', 'utf-8')
-		select('BmKeyedComboBox5', '90')
+		select('BmKeyedComboBox5', 'Text IO (Unicode)')
+
 		click('Save1')
 
 	close()

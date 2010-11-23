@@ -13,6 +13,7 @@ def test():
 		select('TextField1', '%')
 ##		assert_p('Table', 'Content', '[[ams PO Download, ], [ams PO Download: Allocation, Allocation Line], [ams PO Download: Detail, PO Download: Detail], [ams PO Download: Header, PO Download: Header]]')
 		assert_p('Table', 'Content', '[[ams PO Download, ], [ams PO Download: Allocation, Allocation Line], [ams PO Download: Detail, PO Download: Detail], [ams PO Download: Header, PO Download: Header]]')
+		
 		assert_p('Table', 'Text', 'ams PO Download', 'Record Name,0')
 		select('TextField', 'ams PO Downl%')
 		assert_p('TextField2', 'Text', 'ams PO Download')

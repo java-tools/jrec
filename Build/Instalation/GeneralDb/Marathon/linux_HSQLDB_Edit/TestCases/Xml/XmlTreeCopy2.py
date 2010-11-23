@@ -6,7 +6,8 @@ def test():
 
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'Xml' + commonBits.fileSep() + 'AmsLocationTest1.xml')
-		click('Edit1')
+		commonBits.doEdit(click)
+
 		select('LayoutCombo', 'copybook')
 		#rightclick('JTreeTable', 'Prefix,0')
 		#select_menu('Expand Tree')

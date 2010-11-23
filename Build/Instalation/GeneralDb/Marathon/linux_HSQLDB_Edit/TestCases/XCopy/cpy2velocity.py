@@ -25,12 +25,16 @@ def test():
 		click('Open')
 		click('Open')
 		select('FileChooser', commonBits.sampleDir() + 'csvDTAR020comma.csv')
-		click('Edit1')
+		commonBits.doEdit(click)
+
 
 		if window(''):
 			select('CheckBox', 'true')
 			click('Go')
+			commonBits.doSleep()
 		close()
+
+		commonBits.doSleep()
 
 #		select('Table', 'rows:[1,2,3,4,5,6,7,8,9,10,11],columns:[1|KEYCODE-NO,2|STORE-NO]')
 		select('Table', 'rows:[1,2,3,4,5,6,7,8,9,10,11],columns:[1|KEYCODE-NO,2|STORE-NO]')

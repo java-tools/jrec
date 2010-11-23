@@ -6,7 +6,7 @@ def test():
 
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'Xml' + commonBits.fileSep() + 'AmsLocationTest1.xml')
-		click('Edit1')
+		commonBits.doEdit(click)
 ##		select('JTreeTable', '')
 		rightclick('JTreeTable', 'Tree,4')
 		select_menu('Expand Tree')

@@ -5,7 +5,7 @@ def test():
 	java_recorded_version = '1.6.0_17'
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'Xml' + commonBits.fileSep() + 'AmsLocationTest1.xml')
-		click('Edit1')
+		commonBits.doEdit(click)
 ##		select('JTreeTable', '')
 		rightclick('JTreeTable', 'Tree,4')
 		select_menu('Expand Tree')

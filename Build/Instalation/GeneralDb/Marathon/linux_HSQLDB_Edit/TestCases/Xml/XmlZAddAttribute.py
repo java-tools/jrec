@@ -6,7 +6,7 @@ def test():
 
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'Xml' + commonBits.fileSep() + 'AmsLocationTest2.xml')
-		click('Edit1')
+		commonBits.doEdit(click)
 		select('JTreeTable', 'cell:Tree,4(null)')
 		select('LayoutCombo', 'item')
 		select_menu('Data>>Add Attributes')
@@ -42,7 +42,7 @@ def test():
 			click('Yes')
 		close()
 
-		click('Edit1')
+		commonBits.doEdit(click)
 		#select('JTreeTable', '')
 		rightclick('JTreeTable', 'Tree,4')
 		select_menu('Expand Tree')
@@ -63,7 +63,7 @@ def test():
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('Save')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		click('Edit1')
+		commonBits.doEdit(click)
 		#select('JTreeTable', '')
 		rightclick('JTreeTable', 'Xml~Text,4')
 		select_menu('Edit Record')

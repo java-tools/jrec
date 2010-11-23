@@ -7,7 +7,7 @@ def test():
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'Xml' + commonBits.fileSep() + 'IVM0034_Map.XML')
 
-		click('Edit1')
+		commonBits.doEdit(click)
 ##		select('JTreeTable', '')
 		rightclick('JTreeTable', 'Tree,1')
 		select_menu('Expand Tree')

@@ -1,0 +1,20 @@
+#Marathon Project File
+#Thu Oct 28 08:46:18 EST 2010
+marathon.test.dir=%marathon.project.dir%/TestCases
+marathon.application.launchtime=60000
+marathon.application.pythonpath=
+marathon.runtime.assertions=Enabled\:\:;Background\:\:;Foreground\:\:;RowCount\:javax.swing.JTable\:;ColumnCount\:javax.swing.JTable\:;ItemCount\:javax.swing.JComboBox\:;Model.Size\:javax.swing.JList\:ItemCount;Font\:\:;Font.Family\:\:FontFamily;Border\:\:;Border.LineColor\:\:BorderLineColor
+marathon.component.ignore.components=javax.swing.JMenuBar(ignorechild\:false);javax.swing.JToolBar(ignorechild\:false);javax.swing.JPanel(ignorechild\:false);javax.swing.JViewport(ignorechild\:false);javax.swing.JScrollBar(ignorechild\:true)
+marathon.application.classpath=C\:/Program Files/RecordEdit/HSQLDB/lib/cb2xml.jar;C\:/Program Files/RecordEdit/HSQLDB/lib/hsqldbmain.jar;C\:/Program Files/RecordEdit/HSQLDB/lib/jibx-run.jar;C\:/Program Files/RecordEdit/HSQLDB/lib/jlibdiff.jar;C\:/Program Files/RecordEdit/HSQLDB/lib/JRecord.jar;C\:/Program Files/RecordEdit/HSQLDB/lib/LayoutEdit.jar;C\:/Program Files/RecordEdit/HSQLDB/lib/properties.zip;C\:/Program Files/RecordEdit/HSQLDB/lib/RecordEdit.jar;C\:/Program Files/RecordEdit/HSQLDB/lib/velocity-1.4.jar;C\:/Program Files/RecordEdit/HSQLDB/lib/velocity-dep-1.4.jar;C\:/Program Files/RecordEdit/HSQLDB/lib/ZCalendar.jar
+marathon.application.arguments=
+marathon.application.working.dir=
+marathon.capture.dir=%marathon.project.dir%/Modules
+marathon.application.mainclass=net.sf.RecordEditor.edit.FullEditor
+marathon.recorder.namingstrategy=net.sourceforge.marathon.component.MarathonNamingStrategy
+marathon.fixture.dir=%marathon.project.dir%/Fixtures
+marathon.component.resolvers=
+marathon.application.toolkit_menumask=false
+marathon.project.description=
+marathon.application.vm.command=
+marathon.project.name=HSQLDB Edit
+marathon.application.vm.arguments=

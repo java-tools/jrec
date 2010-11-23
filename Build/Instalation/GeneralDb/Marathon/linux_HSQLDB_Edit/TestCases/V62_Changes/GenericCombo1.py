@@ -7,7 +7,8 @@ def test():
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'zAms_LocDownload_20041228.csv')
 		commonBits.setRecordLayout(select, 'Generic CSV - enter details')
-		click('Edit1')
+		commonBits.doEdit(click)
+
 
 		if window(''):
 #			select('Table', '')
@@ -23,8 +24,14 @@ def test():
 			select('Table', 'cell:Loc_Name,1(VIC West Ad Support)')
 			assert_p('Table', 'Text', 'VIC West Ad Support', 'Loc_Name,1')
 			select('Table', 'cell:Loc_Name,1(VIC West Ad Support)')
+			commonBits.doSleep()
+
 			click('Go')
+			commonBits.doSleep()
+
 		close()
+
+		commonBits.doSleep()
 
 		select('Table', 'cell:4|Loc_Name,0(DC - Taras Ave)')
 		assert_p('Table', 'Text', 'DC - Taras Ave', '4|Loc_Name,0')

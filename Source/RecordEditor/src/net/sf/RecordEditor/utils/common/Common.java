@@ -100,6 +100,8 @@ public final class Common implements Constants {
 			Parameters.getString(Parameters.BRING_LOG_TO_FRONT)));
 	public static final boolean TEST_MODE = "Y".equalsIgnoreCase(
 			Parameters.getString(Parameters.PROPERTY_TEST_MODE));
+	public static final boolean LOAD_FILE_BACKGROUND_THREAD = ! "N".equalsIgnoreCase(
+			Parameters.getString(Parameters.PROPERTY_LOAD_FILE_BACKGROUND));
 	public static final boolean ASTERIX_IN_FILENAME = "Y".equalsIgnoreCase(
 			Parameters.getString(Parameters.ASTERIX_IN_FILE_NAME));
 

@@ -19,7 +19,7 @@
 	<property name="workspace.dir" location="/home/bm/workspace" />
 	<property name="work.dir" location="/home/bm/Work/" />
 	<property name="reProtoBufEditor" location="${work.dir}RecordEditor/Instalation/hsqldb_izpack/ProtoBufEditor" />
-	
+	<property name="inputLib.dir" location="/home/knoppix/RecordEdit/ProtoBuf/lib" />
 
 	<target name="clean" description="clean">
 		<delete file="${ProtoBufEditor.jar}" />
@@ -36,13 +36,13 @@
 			<exclude name="com/**"/>
 			<exclude name="jrecord/**"/>
 			<classpath>
-				<filelist dir="${workspace.dir}/RecordEditor_070/lib/">
+				<filelist dir="${inputLib.dir}">
 					<file name="RecordEdit.jar"/>
 				</filelist>
-				<filelist dir="${workspace.dir}/JRecord_070/lib/">
+				<filelist dir="${inputLib.dir}">
 					<file name="JRecord.jar"/>
 				</filelist>
-				<filelist dir="${workspace.dir}/zProtoBuffers_2.3.0/lib">
+				<filelist dir="${inputLib.dir}">
 					<file name="ProtoBuffers.jar"/>
 				</filelist>
 			</classpath>
@@ -58,17 +58,17 @@
 		<mkdir dir="${lib.dir}" />
 		<jar basedir="${build.dir}" destfile="${ProtoBufEditor.jar}" filesonly="true"/>
 
-		<delete file="${reProtoBufEditor}.jar" />
+		<!--delete file="${reProtoBufEditor}.jar" />
 		<delete file="${reProtoBufEditor}.pack" />
 		<delete dir="${work.dir}/RecordEditor/Instalation/ProtoBuf/Source/src/" />
 		<copy todir="${work.dir}/RecordEditor/Instalation/hsqldb_izpack" file="${ProtoBufEditor.jar}"/>
 		<mkdir dir="${work.dir}/RecordEditor/Instalation/ProtoBuf/Source" />
 		<mkdir dir="${work.dir}/RecordEditor/Instalation/ProtoBuf/Source/src" />
-    	<copy todir="${work.dir}/RecordEditor/Instalation/ProtoBuf/Source/ProtoBufEdit/src/net">
-    		<fileset dir="${src.dir}/net"/>
-    		<fileset dir="${src.dir}/com"/>
-    	</copy>
-    	<copy todir="${work.dir}/RecordEditor/Instalation/ProtoBuf/Source/ProtoBufEdit" file="build.xml"/>
+		<copy todir="${work.dir}/RecordEditor/Instalation/ProtoBuf/Source/ProtoBufEdit/src/net">
+			<fileset dir="${src.dir}/net"/>
+			<fileset dir="${src.dir}/com"/>
+		</copy>
+    	<copy todir="${work.dir}/RecordEditor/Instalation/ProtoBuf/Source/ProtoBufEdit" file="build.xml"/!-->
 	</target>	
 
 	<target name="javadoc" description="javadoc">

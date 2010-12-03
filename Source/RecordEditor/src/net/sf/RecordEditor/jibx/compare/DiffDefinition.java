@@ -10,5 +10,6 @@ public class DiffDefinition extends BaseCopyDif {
 	public boolean allRows     = false;
 	public boolean allFields   = false;
 	public boolean singleTable = false;
+	
 
 }

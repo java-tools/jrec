@@ -22,7 +22,7 @@
  *   - Changed heading to allow testing with Marathon
  */
 package net.sf.RecordEditor.edit.file;
-
+ 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -62,7 +62,6 @@ import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.JRecord.IO.AbstractLineWriter;
 import net.sf.JRecord.IO.LineIOProvider;
-import net.sf.JRecord.Log.AbsSSLogger;
 
 import net.sf.RecordEditor.edit.file.storage.DataStore;
 import net.sf.RecordEditor.edit.file.storage.FileDetails;
@@ -93,6 +92,7 @@ import net.sf.RecordEditor.utils.swing.treeTable.TreeTableNotify;
  * @version 0.53
  */
 
+@SuppressWarnings("serial")
 public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail, ? extends AbstractRecordDetail>>
 						extends 			AbstractTableModel
 						implements 	TableModelListener, ColumnMappingInterface, 
@@ -408,7 +408,6 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    long lastTime = time;
 	    double total = rf.available();
 	    double ratio;
-	    ReadProgress readProgress = new ReadProgress(file.getName());
 	        
 	    layout = reader.getLayout();
 	    allocateLines(file, isGZip);
@@ -416,30 +415,40 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    t1 = time;
 	    tt1 = 0;
 	    tt2 = 0;
-	    while ((line = reader.read()) != null) {
-	       tt1 += System.nanoTime() - t1;
-	       t2 = System.nanoTime();
-	       lines.add(line);
-	       tt2 += System.nanoTime() - t2;
-	       if (count++ > 2000) {
-	    	   count = 0;
-	    	   t = System.nanoTime();
-	    	   if (t - lastTime > interval) {
-	    		   ratio = ((double)rf.available()) / total;
-	    		   readProgress.updateDisplay(
-	    				   lines.getSizeDisplay(),
-	    				   (int) (100 * (1 - ratio)));
-	    		   lastTime = t;
-	    	   }
-	       }
-	       t1 = System.nanoTime();
+	    if (Common.LOAD_FILE_BACKGROUND_THREAD) {
+	    	ReadProgress readProgress = new ReadProgress(file.getName());
+	    	try {
+			    while ((line = reader.read()) != null) {
+			       tt1 += System.nanoTime() - t1;
+			       t2 = System.nanoTime();
+			       lines.add(line);
+			       tt2 += System.nanoTime() - t2;
+			       if (count++ > 2000) {
+			    	   count = 0;
+			    	   t = System.nanoTime();
+			    	   if (t - lastTime > interval) {
+			    		   ratio = ((double)rf.available()) / total;
+			    		   readProgress.updateDisplay(
+			    				   lines.getSizeDisplay(),
+			    				   (int) (100 * (1 - ratio)));
+			    		   lastTime = t;
+			    	   }
+			       }
+			       t1 = System.nanoTime();
+			    }
+	    	} finally {
+	    		readProgress.done();
+	    	}
+	    } else {
+		    while ((line = reader.read()) != null) {
+		       lines.add(line);
+		    }
 	    }
 	    layout = reader.getLayout();
 	    lines.setLayout(layout);
 
 	    reader.close();
 	    
-	    readProgress.done();   
 	    
 	    time = (( System.nanoTime() - time) / 10000000);
 	    double ttime = ((double) time) / 100;
@@ -533,7 +542,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			//System.out.println("    - Getting data");
 		    return lines.get(row).getData();
 		} else {
-			return  getValueAt(layoutIndex, row, col - 2);
+			return getValueAt(layoutIndex, row, col - 2);
 		}
 	}
 
@@ -2803,29 +2812,37 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			LayoutDetail l = (LayoutDetail) layout;
 			if (l.isXml()) {
 			} else 	if (l.getFileStructure() == Constants.IO_UNICODE_TEXT) {
+				System.out.println("Editing using Char-Line Big memory Model - this will reduce functionality !!!");
+				//Common.logMsg(AbsSSLogger.WARNING,
+				//		"\nEditing using Char-Line Big memory Model - this will reduce functionality !!!", null);
+				return new DataStoreLarge(
+						(LayoutDetail) layout, 
+						FileDetails.CHAR_LINE, 
+						100000);
 			} else 	if (l.getFileStructure() == Constants.IO_UNKOWN_FORMAT
 					||  l.getLayoutType()    == Constants.rtDelimited
 					||  l.getFileStructure() == Constants.IO_NAME_1ST_LINE
 					||  l.getFileStructure() == Constants.IO_GENERIC_CSV) {
-				Common.logMsg("", null);
-				Common.logMsg(AbsSSLogger.WARNING,
-						"Editing using Big Variable Length memory Model - this will reduce functionality !!!", null);
+				System.out.println("\nEditing using Big Variable Length memory Model - this will reduce functionality !!!");
+//				Common.logMsg(AbsSSLogger.WARNING,
+//						"\nEditing using Big Variable Length memory Model - this will reduce functionality !!!", null);
 				return new DataStoreLarge(
 						(LayoutDetail) layout, 
 						FileDetails.VARIABLE_LENGTH, 
 						100000);
 			} else 	if (l.isFixedLength()) {
-				Common.logMsg("", null);
-				Common.logMsg(AbsSSLogger.WARNING,
-						"Editing using Big Fixed Length memory Model - this will reduce functionality !!!", null);
+				System.out.println("Editing using Big Fixed Length memory Model - this will reduce functionality !!!");
+//				Common.logMsg(AbsSSLogger.WARNING,
+//						"\nEditing using Big Fixed Length memory Model - this will reduce functionality !!!", null);
 				return new DataStoreLarge(
 						(LayoutDetail) layout, 
 						FileDetails.FIXED_LENGTH, 
 						layout.getMaximumRecordLength());
 			} else {
-				Common.logMsg("", null);
-				Common.logMsg(AbsSSLogger.WARNING,
-						"Editing using Big Variable Length memory Model - this will reduce functionality !!!", null);
+				System.out.println("Editing using Big Variable Length memory Model - this will reduce functionality !!!");
+//				Common.logMsg("", null);
+//				Common.logMsg(AbsSSLogger.WARNING,
+//						"Editing using Big Variable Length memory Model - this will reduce functionality !!!", null);
 				return new DataStoreLarge(
 						(LayoutDetail) layout, 
 						FileDetails.VARIABLE_LENGTH, 

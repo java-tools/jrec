@@ -1,4 +1,4 @@
- ProtoCol Buffers Editor 0.69f
+ ProtoCol Buffers Editor 0.69h
 *=============================*
 
 This program is for editing Binary Files in 
@@ -10,6 +10,11 @@ The editor requires Protocol buffers 2.20 (or later ???, tested with 2.30)
 to be installed. The Protocol Buffer programs need to be 
 on the Program Path
 
+
+Changes 0.69h
+  * Problem fix's
+  * Can use Velocity Templates when Exporting data from the file being editted
+  
 Changes 0.69g
   * Support for import in the proto definition
   * Can specify protoc command + supply extra options to protoc command

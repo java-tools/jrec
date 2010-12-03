@@ -9,25 +9,27 @@ import java.util.HashMap;
 import java.util.List;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
+import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
-import net.sf.JRecord.Details.Line;
 import net.sf.RecordEditor.utils.common.Common;
 
 
-public class DataStoreLarge
-extends AbstractList<Line>
-implements DataStore<Line> {
+@SuppressWarnings("unchecked")
+public class DataStoreLarge<L extends AbstractChunkLine, R extends RecordStore>
+extends AbstractList<AbstractLine>
+implements DataStore<AbstractLine> {
 
 //	private static long time = 0;
 //	private static long totalTime = 0;
 	
-	private ArrayList<FileChunk> chunks = new ArrayList<FileChunk>(1000);
-	
+	private ArrayList<FileChunkBase<L, R>> chunks 
+			= new ArrayList<FileChunkBase<L, R>>(1000);
+	 
 	private FileDetails fileDetails;
 	
 	private int tempLineCount = 0;
-	private LineBase[] tempLineArray = new LineTemp[250]; 
-	private HashMap<Integer, LineBase> tempLines = new HashMap<Integer, LineBase>(300);
+	private AbstractChunkLine[] tempLineArray = new AbstractChunkLine[250]; 
+	private HashMap<Integer, L> tempLines = new HashMap<Integer, L>(300);
 	//private LayoutDetail layout;
 	
 //	private WeakHashMap<Integer, LineBase> lines = new WeakHashMap<Integer, LineBase>(700);
@@ -37,17 +39,17 @@ implements DataStore<Line> {
 		
 		fileDetails = new FileDetails(recordLayout, type, recLength);
 		
-		chunks.add(new FileChunk(fileDetails, 0));
+		chunks.add(getFileChunk(fileDetails, 0));
 	}
 	
 	@Override
-	public Line getTempLine(int idx) {
-		LineBase ret = null;
+	public AbstractChunkLine getTempLine(int idx) {
+		L ret = null;
 		Integer key = idx;
 	
 		ChunkLineDtls cd = findLine(idx);
 		if (cd != null) {
-			ret = cd.chunk.getLineIfDefined(idx);
+			ret =  cd.chunk.getLineIfDefined(idx);
 			
 			if (ret == null) {
 				ret = tempLines.get(idx);
@@ -61,7 +63,7 @@ implements DataStore<Line> {
 					);
 				}
 				
-				ret = new LineTemp(fileDetails.getLayout(), cd.chunk, cd.lineInChunk);
+				ret = cd.chunk.getTempLine(idx);
 				
 				tempLineArray[tempLineCount++] = ret;
 				tempLines.put(key, ret);
@@ -79,57 +81,57 @@ implements DataStore<Line> {
 	}
 
 	@Override
-	public void add(int lineNo, Line line) {
+	public void add(int lineNo, AbstractLine line) {
 		ChunkLineDtls cd = findLine(lineNo);
 		
 		if (cd == null) {
 			add(line);
 		} else {
-			cd.chunk.add(cd.lineInChunk, line.getData());
+			cd.chunk.add(cd.lineInChunk, line);
 	
 			updateLines(lineNo, 1);
 		}
 	}
 
 	@Override
-	public boolean add(Line line) {
+	public boolean add(AbstractLine line) {
 		addToChunks(chunks, line);
 		return true;
 	}
 	
 	@Override
-	public Line addCopy(int lineNo, Line line) {
+	public AbstractLine addCopy(int lineNo, AbstractLine line) {
 		add(lineNo, line);
 		return get(lineNo);
 	}
 	
-	private void addToChunks(ArrayList<FileChunk> chunks, Line line) {
+
+	private void addToChunks(ArrayList<FileChunkBase<L,R>> chunks, AbstractLine line) {
 		int s = chunks.size() - 1;
-		FileChunk ch = chunks.get(s);
-		byte[] data = line.getData();
+		FileChunkBase<L,R> ch = chunks.get(s);
 		
-		if (! ch.hasRoomForMore(data.length)) {
+		if (! ch.hasRoomForMore(line)) {
 			if (s > 2) {
 				chunks.get(s).compress();
 			}
-			ch = new FileChunk(fileDetails, ch.getFirstLine() + ch.getCount());
+			ch = getFileChunk(fileDetails, ch.getFirstLine() + ch.getCount());
 			chunks.add(ch);
 			s += 1;
 
 		}
-		ch.add(ch.getCount(), data);
+		ch.add(ch.getCount(), line);
 	}
 
 	@Override
 	public void clear() {
 		clearTempLines();
 		chunks.clear();
-		chunks.add(new FileChunk(fileDetails, 0));
+		chunks.add(getFileChunk(fileDetails, 0));
 	}
 
 	@Override
-	public Line get(int idx) {
-		Line ret = null;
+	public AbstractLine get(int idx) {
+		AbstractLine ret = null;
 		ChunkLineDtls cd = findLine(idx);
 		
 		if (cd != null) {
@@ -144,21 +146,23 @@ implements DataStore<Line> {
 
 	@Override
 	public int indexOf(Object arg0) {
-		if (arg0 instanceof LineBase) {
-			LineBase lc = (LineBase) arg0;
+		if (arg0 instanceof AbstractChunkLine) {
+			AbstractChunkLine lc = (AbstractChunkLine) arg0;
 			return (lc.getActualLine());
 		}
 		return -1;
 	}
 
 	@Override
-	public Line remove(int lineNo) {
-		Line lc = null;
+	public AbstractLine remove(int lineNo) {
+		AbstractLine lc = null;
 		
 		ChunkLineDtls cd = findLine(lineNo);
 		
 		if (cd != null) {
-			lc = new Line(fileDetails.getLayout(), cd.chunk.get(cd.lineInChunk));
+			lc = cd.chunk.removeLine(cd.lineInChunk);
+				
+//				new Line(fileDetails.getLayout(), cd.chunk.get(cd.lineInChunk));
 			
 //			String s = " Remove Line: " 
 //					+ lineNo + " " + cd.chunksFirstLine + " " + cd.lineInChunk
@@ -169,7 +173,7 @@ implements DataStore<Line> {
 //					+ "\t" +lc.getField(0, 5)
 //					+ "\t" +cd.chunk.getCount();
 			
-			cd.chunk.remove(cd.lineInChunk);
+//			cd.chunk.remove(cd.lineInChunk);
 			
 //			System.out.println(s + "\t" +cd.chunk.getCount());
 						
@@ -184,13 +188,13 @@ implements DataStore<Line> {
 	}
 
 	@Override
-	public Line set(int lineNo, Line line) {
+	public AbstractLine set(int lineNo, AbstractLine line) {
 		ChunkLineDtls cd = findLine(lineNo);
 
 		if (cd == null) {
 			add(line);
 		} else {
-			cd.chunk.put(cd.lineInChunk, line.getData());
+			cd.chunk.put(cd.lineInChunk, line);
 		}
 
 		return line;
@@ -209,7 +213,7 @@ implements DataStore<Line> {
 	@Override
 	public int size() {
 
-		FileChunk chunk = chunks.get(chunks.size() - 1);
+		FileChunkBase<L,R> chunk = chunks.get(chunks.size() - 1);
 		
 		return chunk.getFirstLine() + chunk.getCount();
 	}
@@ -225,11 +229,11 @@ implements DataStore<Line> {
 		} else {
 			idx = Collections.binarySearch(
 				chunks,
-				new FileChunk(null, lineNo),
-				new Comparator<FileChunk>() {
+				getFileChunk(null, lineNo),
+				new Comparator<FileChunkBase<L,R>>() {
 
 					@Override
-					public int compare(FileChunk arg0, FileChunk arg1) {
+					public int compare(FileChunkBase<L,R> arg0, FileChunkBase<L,R> arg1) {
 						int ret = 0;
 						if (arg0.getFirstLine() + arg0.getCount() <= arg1.getFirstLine()) {
 							ret = -1;
@@ -248,7 +252,7 @@ implements DataStore<Line> {
 		}
 		
 		if (idx >= 0) {
-			FileChunk chunk = chunks.get(idx);
+			FileChunkBase<L,R> chunk = chunks.get(idx);
 			ret = new ChunkLineDtls(lineNo - chunk.getFirstLine(), chunk);
 		}
 		return ret;
@@ -277,7 +281,7 @@ implements DataStore<Line> {
 		clearTempLines();
 		
 		synchronized (chunks) {	
-			for (FileChunk fcc : chunks) {
+			for (FileChunkBase<L,R> fcc : chunks) {
 				if (fcc.getFirstLine() > lineNo) {
 					fcc.setFirstLine(fcc.getFirstLine() + inc);
 				}
@@ -286,13 +290,13 @@ implements DataStore<Line> {
 	}
 
 	@Override
-	public void sort(final Comparator<Line> comp) {
+	public void sort(final Comparator<AbstractLine> comp) {
 		Runtime runtime = Runtime.getRuntime();  
 		long free = runtime.maxMemory() - runtime.totalMemory();
 		long size = this.size();
 		long using = 0;
 		
-		for (FileChunk ch : chunks) {
+		for (FileChunkBase<L,R> ch : chunks) {
 			using += ch.getSpaceUsed();
 		}
 
@@ -321,26 +325,27 @@ implements DataStore<Line> {
 				});
 				
 				int i;
-				LineBase tmp, l;
+				AbstractChunkLine tmp;
+				L l;
 				//ArrayList<LineBase> activeLines = new ArrayList<LineBase>(500);
-				HashMap<Integer, LineBase> lines = new HashMap<Integer, LineBase>(5000);
-				ArrayList<FileChunk> newChunks = new ArrayList<FileChunk>(chunks.size());
-				List<LineBase> chunkManagedLines;
-				FileChunk fc;
+				HashMap<Integer, L> lines = new HashMap<Integer, L>(5000);
+				ArrayList<FileChunkBase<L,R>> newChunks = new ArrayList<FileChunkBase<L,R>>(chunks.size());
+				List<L> chunkManagedLines;
+				FileChunkBase<L,R> fc;
 				Integer lineNo;
 				
-				for (FileChunk f : chunks) {
+				for (FileChunkBase<L,R> f : chunks) {
 					if ((chunkManagedLines = f.getActiveLines()) != null) {
-						for (LineBase lb : chunkManagedLines) {
+						for (L lb : chunkManagedLines) {
 							lines.put(lb.getActualLine(), lb);
 						}
 					}
 				}
 				
-				newChunks.add(new FileChunk(fileDetails, 0));
+				newChunks.add(getFileChunk(fileDetails, 0));
 				
 				for (i = 0; i < array.length; i++) {
-					tmp = (LineBase) getTempLine(array[i].intValue());
+					tmp = getTempLine(array[i].intValue());
 					addToChunks(newChunks, tmp);
 					
 //					System.out.print(" :: --> " + i 
@@ -360,7 +365,7 @@ implements DataStore<Line> {
 						fc = newChunks.get(newChunks.size() - 1);
 						l.setChunk(fc);
 						l.setChunkLine(fc.getCount() - 1);
-						fc.addLineToManagedLines(l);
+						fc.addLineToManagedLines(l); 
 						
 						System.out.print(" active");
 					}
@@ -375,22 +380,21 @@ implements DataStore<Line> {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void setLayout(AbstractLayoutDetails layout) {
 		if (layout instanceof LayoutDetail) {
 			LayoutDetail l = (LayoutDetail) layout;
 			clearTempLines();
 			fileDetails.setLayout(l);
-			for (FileChunk ch : chunks) {
+			for (FileChunkBase ch : chunks) {
 				ch.setLayout(l);
 			}
 		}
 	}
 
 	@Override
-	public DataStore<Line> newDataStore() {
-		return new DataStoreStd<Line>(fileDetails.getLayout(), this);
+	public DataStore<AbstractLine> newDataStore() {
+		return new DataStoreStd<AbstractLine>(fileDetails.getLayout(), this);
 	}
 	
 
@@ -399,7 +403,7 @@ implements DataStore<Line> {
 		long kb = 0;
 		long using = 0;
 		
-		for (FileChunk ch : chunks) {
+		for (FileChunkBase<L,R> ch : chunks) {
 			kb += ch.getSize();
 			using += ch.getSpaceUsed();
 		}
@@ -407,12 +411,19 @@ implements DataStore<Line> {
 			+  "\n           Size (kb) : " + (kb / 1024)
 			+  "\nCompressed Size (kb) : " + (using / 1024);
 	}
+	
+	private FileChunkBase<L, R> getFileChunk(FileDetails details, int theFirstLine) {
+		if (this.fileDetails.type == FileDetails.CHAR_LINE) {
+			return (FileChunkBase<L, R>) new FileChunkCharLine(details, theFirstLine);
+		}
+		return (FileChunkBase<L, R>) new FileChunk(details, theFirstLine);
+	}
 
 	private class ChunkLineDtls {
 		public final int chunksFirstLine, lineInChunk;
-		public final FileChunk chunk;
+		public final FileChunkBase<L, R> chunk;
 		
-		public ChunkLineDtls( int lineInChunk, FileChunk chunk) {
+		public ChunkLineDtls( int lineInChunk, FileChunkBase<L, R> chunk) {
 			super();
 			this.chunksFirstLine = chunk.getFirstLine();
 			this.lineInChunk = lineInChunk;

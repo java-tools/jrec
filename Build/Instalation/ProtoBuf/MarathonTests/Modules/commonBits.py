@@ -9,7 +9,7 @@ def Linux():
 
 
 def isWindowsLook():
-	return 1
+	return 0
 
 
 def isJRecord():
@@ -27,19 +27,19 @@ def fileSep():
 
 def sampleDir():
 	if windows():
-		return 'C:\\Program Files\\RecordEdit\\ProtoBuf\\SampleFiles\\'
+		return 'E:\\Programs\\RecordEdit\\ProtoBuf\\SampleFiles\\'
 	else:
 		return '/home/' + Linux() + '/RecordEdit/ProtoBuf/SampleFiles/'
 
 def velocityDir():
 	if windows():
-		return 'C:\\Program Files\\RecordEdit\\ProtoBuf\\VelocityTemplates\\File\\'
+		return 'E:\\Programs\\RecordEdit\\ProtoBuf\\VelocityTemplates\\File\\'
 	else: 
 		return '/home/' + Linux() + '/ProtoBuf/VelocityTemplates/File/'
 
 def implementationSampleDir():
 	if windows():
-		return 'C:\\Program Files\\ProtoBuf\\SampleFiles\\'
+		return 'E:\\Programs\\ProtoBuf\\SampleFiles\\'
 	else:
 		return '/home/' + Linux() + '/RecordEdit/ProtoBuf/SampleFiles/'
 ##	return '/C:/Program Files/RecordEdit/HSQLDB/SampleFiles/'
@@ -61,7 +61,7 @@ def usingEditStart():
 	
 def stdCopybookDir():
 	if windows():
-		return 'C:\\Program Files\\RecordEdit\\ProtoBuf\\CopyBook\\'
+		return 'E:\\Programs\\RecordEdit\\ProtoBuf\\CopyBook\\'
 	else:
 		return '/home/' + Linux() + '/RecordEdit/ProtoBuf/CopyBook/'
 
@@ -69,14 +69,14 @@ def stdCopybookDir():
 	
 def xmlCopybookDir():
 	if windows():
-		return 'C:\\Program Files\\RecordEdit\\ProtoBuf\\CopyBook\\'
+		return 'E:\\Programs\\RecordEdit\\ProtoBuf\\CopyBook\\'
 	else:
 		return '/home/' + Linux() + '/RecordEdit/ProtoBuf/CopyBook/'
 
 	
 def CobolCopybookDir():
 	if windows():
-		return 'C:\\Program Files\\RecordEdit\\ProtoBuf\\CopyBook\\'
+		return 'E:\\Programs\\RecordEdit\\ProtoBuf\\CopyBook\\'
 	else:
 		return '/home/' + Linux() + '/RecordEdit/ProtoBuf/CopyBook/'
 
@@ -143,7 +143,7 @@ def setCobolLayout2(select, recordLayout, format):
 
 def userDir():
 	if windows():
-		return 'C:\\Users\\bm\\.RecordEditor\\ProtoBuf\\User\\'
+		return 'C:\\Documents and Settings\\b\\.RecordEditor\\ProtoBuf\\User\\'
 	else:
 		return '/home/' + Linux() + '/.RecordEditor/ProtoBuf/User/'
 

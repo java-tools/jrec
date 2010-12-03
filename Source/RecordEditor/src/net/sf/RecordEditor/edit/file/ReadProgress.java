@@ -27,7 +27,7 @@ public class ReadProgress {
 	}
 	
 	public void done() {
-		if (! toInit) {
+		if (frame.isVisible() || ! toInit) {
 			frame.setVisible(false);
 		}
 	}
@@ -53,8 +53,8 @@ public class ReadProgress {
 			frame.getContentPane().add(pnl);
 			frame.pack();
 			//frame.setSize(250, frame.getHeight()+25);
-			frame.setVisible(true);
 			toInit = false;
+			frame.setVisible(true);
 		}
 	}
 }

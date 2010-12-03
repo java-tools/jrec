@@ -1,21 +1,24 @@
 package net.sf.RecordEditor.edit.file.storage;
 
+import net.sf.JRecord.Details.CharLine;
 import net.sf.JRecord.Details.LayoutDetail;
-import net.sf.JRecord.Details.Line;
 
-public abstract class LineBase extends Line 
-implements AbstractChunkLine<FileChunk> {
+public abstract class CharLineBase extends CharLine 
+implements AbstractChunkLine<FileChunkCharLine> {
 
-
-	protected FileChunk chunk;
+	protected FileChunkCharLine chunk;
 	protected int chunkLine;
 
-	public LineBase(LayoutDetail group, FileChunk fileChunk, int line) {
-		super(group);
+	public CharLineBase(LayoutDetail group, FileChunkCharLine fileChunk,
+			int line) {
+		super(group, null);
 		
 		chunk = fileChunk;
 		chunkLine = line;
 	}
+
+
+
 
 
 	/* (non-Javadoc)
@@ -43,21 +46,21 @@ implements AbstractChunkLine<FileChunk> {
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.file.storage.AbstractChunkLine#getChunk()
 	 */
-	public FileChunk getChunk() {
+	public FileChunkCharLine getChunk() {
 		return chunk;
 	}
 
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.file.storage.AbstractChunkLine#setChunk(net.sf.RecordEditor.edit.file.storage.FileChunk)
 	 */
-	public void setChunk(FileChunk chunk) {
+	public void setChunk(FileChunkCharLine chunk) {
 		this.chunk = chunk;
 	}
 
 
 	protected final void updateChunk() {
-		byte[] b = super.getLineData();
-		chunk.put(chunkLine, b);
+		String b = super.getLineData();
+		chunk.put(chunkLine, b.toCharArray());
 		//System.out.print("Update Chunk with");
 		super.clearData();
 	}
@@ -66,9 +69,9 @@ implements AbstractChunkLine<FileChunk> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Line getNewDataLine() {
+	public CharLine getNewDataLine() {
 
-		return new Line(layout, chunk.get(chunkLine));
+		return new CharLine(layout, chunk.getString(chunkLine));
 	}
 	
 	@Override
@@ -80,9 +83,9 @@ implements AbstractChunkLine<FileChunk> {
 
 	
 	@Override
-	protected byte[] getLineData() {
+	protected String getLineData() {
 		synchronized (this) {
-			return chunk.get(chunkLine);
+			return chunk.getString(chunkLine);
 		}
 	}
 

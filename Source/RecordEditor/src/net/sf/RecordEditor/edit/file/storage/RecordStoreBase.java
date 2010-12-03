@@ -33,7 +33,7 @@ public abstract class RecordStoreBase implements RecordStore {
 			idx = recordCount + 1;
 		} 
 
-		PosLen p = getPosLen(idx, rec.length);
+		LineDtls p = getPosLen(idx, rec.length);
 		
 //		System.out.println("Add Check move: " 
 //				+ idx + " < " + recordCount
@@ -48,11 +48,11 @@ public abstract class RecordStoreBase implements RecordStore {
 		recordCount += 1;
 	}
 	
-	protected abstract void put(PosLen pos, byte[] rec);
+	protected abstract void put(LineDtls pos, byte[] rec);
 
 	@Override
 	public final byte[] get(int idx) {
-		PosLen p =  getPosLen(idx, 0);
+		LineDtls p =  getPosLen(idx, 0);
 
 		byte[] ret = new byte[p.len];
 		try {
@@ -104,11 +104,12 @@ public abstract class RecordStoreBase implements RecordStore {
 
 	@Override
 	public int remove(int idx) {
-		PosLen p =  getPosLen(idx, 0);
+		LineDtls p =  getPosLen(idx, 0);
 		//int pos = idx * len;
 		if (store.length >= p.pos + p.len) {
 //			System.out.println(
-//					" remove:" + store.length + " " + (p.pos -lengthSize) + " " + p.len
+//					" remove: " + store.length
+//					+ " " + (p.pos -lengthSize) + " " + p.len
 //					+ " >> " + (p.pos + p.len ) + " ! " + getSize()
 //					+ " ! " + idx);
 			System.arraycopy(
@@ -193,19 +194,5 @@ public abstract class RecordStoreBase implements RecordStore {
 		}
 	}
 	
-	protected abstract PosLen getPosLen(int idx, int newLength);
-	
-	
-	
-	protected final static class PosLen {
-		public final int pos, len, newLength, index;
-
-		public PosLen(int pos, int len, int newLen, int idx) {
-			super();
-			this.index = idx;
-			this.pos = pos;
-			this.len = len;
-			this.newLength = newLen;
-		}
-	}
+	protected abstract LineDtls getPosLen(int idx, int newLength);
 }

@@ -1,0 +1,17 @@
+<body>
+<h1>RecordEditor Veloicty Templates</h1>
+<p>When you <b>Save As / Export</b> from the RecordEditor, you can format the output file
+using a velocity Template. The template has the use of the following variables
+</p>
+<TABLE   BORDER="1"> 
+  <tr><td BGCOLOR="#DADADA"><b>Variable</b></td><td BGCOLOR="#DADADA"><b>Description</b></td></tr>
+  <tr><td><b>records</b></td><td>List of Abstract_Lines. The exact class is determined by the data being editted.
+  For Protocol-Buffer editor it is <b>ProtoLine</b></td></tr>
+  <tr><td><b>layout</b></td><td>File Description (Abstract_Layout interface). For Protocol-Buffer editor it is <b>ProtoLayoutDef</b></td></tr>
+  <tr><td><b>fileName</b></td><td>Name of file being editted.</td></tr>
+  <tr><td><b>recordIdx</b></td><td>Index of the Record Selected in the Record_Combo</td></tr>
+</TABLE>
+
+<p>Other variables available include <b>showBorder</b> and <b>onlyData</b>. 
+These are based on the flags selected on the export screen.
+</body>

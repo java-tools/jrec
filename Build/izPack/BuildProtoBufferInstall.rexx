@@ -2,7 +2,7 @@
 	Build Protocol Buffer installer 
 */
 	parse arg vers x
-	if vers = "" then vers = '069a'
+	if vers = "" then vers = '069h'
 	
 	if vers <> "" then do
 		vers = '_'vers

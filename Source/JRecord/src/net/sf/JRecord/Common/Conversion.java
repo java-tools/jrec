@@ -52,15 +52,13 @@ public final class Conversion {
 
 	    if (str == null) {
 	        return null;
-	    } else if ("".equals(fontname)) {
-	        return str.getBytes();
-	    } else {
+	    } else if (! "".equals(fontname)) {
 	        try {
 	            return str.getBytes(fontname);
 	        } catch (Exception e) {
-	            return str.getBytes();
 	        }
 	    }
+	    return str.getBytes();
 	}
 
 	/**

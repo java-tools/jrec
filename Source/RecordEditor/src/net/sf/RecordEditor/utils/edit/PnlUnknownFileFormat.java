@@ -41,6 +41,7 @@ import net.sf.RecordEditor.utils.tblModels.LineArrayModel;
  * @author bm
  *
  */
+@SuppressWarnings("serial")
 public class PnlUnknownFileFormat extends BaseHelpPanel {
 //    private static final int STANDARD_TABLE_CELL_WIDTH = 20;
 //    private static final int COLUMNS_TO_NUMER = 10;

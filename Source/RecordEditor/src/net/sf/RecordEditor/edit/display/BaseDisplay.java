@@ -125,7 +125,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	private LayoutCombo layoutCombo;
 
 //	private int layoutIndex =-3;
-	protected final int fullLineIndex;
+//	protected final int fullLineIndex;
 
 	//protected ListnerPanel pnl = new ListnerPanel();
 	protected BaseHelpPanel pnl = new BaseHelpPanel();
@@ -224,7 +224,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 		//displayOpt = option;
 
 		init(addFullLine, fullList, prefered, hex);
-		fullLineIndex = layoutCombo.getFullLineIndex();
+		//fullLineIndex = layoutCombo.getFullLineIndex();
 		
 		if (option == NO_OPTION_PANEL) {
 			pnl.addComponent("Layouts", getLayoutCombo());
@@ -1278,11 +1278,11 @@ implements AbstractFileDisplay, ILayoutChanged {
 
         //System.out.println("Define Columns " );
         idx = getLayoutIndex();
-        if (idx < fullLineIndex) {
+        if (idx < layoutCombo.getFullLineIndex()) {
             toolTips.setTips(layout.getFieldDescriptions(idx, 0));
 
             try {
-//	            System.out.print(" > cell Rendor " + (cellRenders == null));
+	            //System.out.print(" > cell Rendor " + (cellRenders == null));
 	            if (cellRenders != null) {
 	            	count =  Math.min(this.fileView.getLayoutColumnCount(idx), cellRenders.length);
 	                for (i = columnsToSkip; i < count ; i++) {

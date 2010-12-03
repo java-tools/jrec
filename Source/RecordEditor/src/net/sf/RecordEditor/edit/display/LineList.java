@@ -445,6 +445,8 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
         //System.out.println(" ~~> LayoutIdx ~~> " + layoutIdx + " " + fullLineIndex + " " + (fullLineIndex + 2));
         
         //System.out.println("check prefered:  " + layoutIdx + " " + getLayoutCombo().getPreferedIndex());
+        
+        int fullLineIndex = getLayoutCombo().getFullLineIndex();
         isPrefered = layoutIdx == getLayoutCombo().getPreferedIndex();
         if (isPrefered) {
         	tblDetails.addKeyListener(keyListner);
@@ -815,7 +817,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
                     label = new JLabel(second);
                     
   //                  System.out.println("Header Render");
-                    if (getLayoutIndex() >= fullLineIndex) {
+                    if (getLayoutIndex() >= getLayoutCombo().getFullLineIndex()) {
                     	label.setFont(Common.getMonoSpacedFont());
                     }
                  

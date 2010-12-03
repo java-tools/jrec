@@ -70,7 +70,7 @@ public class RecordStoreVariableLength extends RecordStoreBase {
 
 	@Override
 	public void put(int idx, byte[] rec) {
-		PosLen p = getPosLen(idx, rec.length);
+		LineDtls p = getPosLen(idx, rec.length);
 		
 		if (idx >= recordCount) {
 			size += rec.length + super.lengthSize;
@@ -101,7 +101,7 @@ public class RecordStoreVariableLength extends RecordStoreBase {
 	
 	
 	@Override
-	protected void put(PosLen p, byte[] rec) {
+	protected void put(LineDtls p, byte[] rec) {
 		byte[] b = BigInteger.valueOf(rec.length).toByteArray();
 
 		System.arraycopy(rec, 0, store, p.pos, rec.length);
@@ -130,7 +130,7 @@ public class RecordStoreVariableLength extends RecordStoreBase {
 	}
 
 	@Override
-	protected PosLen getPosLen(int idx, int newLen) {
+	protected LineDtls getPosLen(int idx, int newLen) {
 		
 		int lastP;
 		int l = super.lengthSize;
@@ -158,7 +158,7 @@ public class RecordStoreVariableLength extends RecordStoreBase {
 			}
 		}
 		
-		return new PosLen(lastP + super.lengthSize, l, newLen, idx);
+		return new LineDtls(lastP + super.lengthSize, l, newLen, idx);
 	}
 	
 	

@@ -32,7 +32,7 @@ public class CharLine extends BasicLine<CharLine>  {
 	
 	@Override
 	public byte[] getData(int start, int len) {
-		String tmpData = data;
+		String tmpData = getLineData();
 	    int tempLen = Math.min(len, tmpData.length() - start + 1);
 
 	    if ((tmpData.length() < start) || (tempLen < 1) || (start < 1)) {
@@ -52,7 +52,7 @@ public class CharLine extends BasicLine<CharLine>  {
 	
 	@Override
 	public byte[] getData() {
-		return Conversion.getBytes(data, layout.getFontName());
+		return Conversion.getBytes(getLineData(), layout.getFontName());
 	}
 
 
@@ -75,7 +75,7 @@ public class CharLine extends BasicLine<CharLine>  {
 			
 			return type.getField(bytes, 1, field);
 		} else {
-			return layout.formatCsvField(field, field.getType(), data.toString());
+			return layout.formatCsvField(field, field.getType(), getLineData());
 		}
 	}
 
@@ -95,7 +95,7 @@ public class CharLine extends BasicLine<CharLine>  {
 	
 	private String getFieldText(FieldDetail fldDef) {
 		int start = fldDef.getPos() - 1;
-		String tData = data;
+		String tData = getLineData();
 
 		int tempLen = fldDef.getLen();
 		if (fldDef.getType() == Type.ftCharRestOfRecord || tempLen > tData.length() - start) {
@@ -120,7 +120,7 @@ public class CharLine extends BasicLine<CharLine>  {
 
 	@Override
 	public String getFullLine() {
-		return data;
+		return getLineData();
 	}
 
 
@@ -132,13 +132,14 @@ public class CharLine extends BasicLine<CharLine>  {
 	@Override
 	public int getPreferredLayoutIdx() {
 		int ret = preferredLayout;
+		String d = getLineData();
 		
 		if (ret == Constants.NULL_INTEGER) {
 			ret = getPreferredLayoutIdxAlt();
 			
 			if (ret < 0) {				
 				for (int i=0; i< layout.getRecordCount(); i++) {
-					if (this.data.length() == layout.getRecord(i).getLength()) {
+					if (d.length() == layout.getRecord(i).getLength()) {
 						ret = i;
 						preferredLayout = i;
 						break;
@@ -156,11 +157,24 @@ public class CharLine extends BasicLine<CharLine>  {
 
 	}
 
+	protected void clearData() {
+		data = "";
+	}
+	
+	protected String getLineData() {
+		return data;
+	}
+	
+	
 	@Override
 	public void setData(String newVal) {
 		data = newVal;
 	}
 
+	
+	public void setDataRaw(String newVal) {
+		data = newVal;
+	}
 
 
 	/* (non-Javadoc)
@@ -219,11 +233,19 @@ public class CharLine extends BasicLine<CharLine>  {
 		int i;
 		int start = pos -1;
 		int len = Math.min(value.length(), length);
-		StringBuilder dataBld = new StringBuilder(data);
+		StringBuilder dataBld = new StringBuilder(getLineData());
+		int en = start + Math.max(len, length) - dataBld.length();
 		
-		for (i = 0; i < start + len - dataBld.length(); i++) {
+		System.out.print(" --> " + dataBld.length());
+		for (i = 0; i <= en; i++) {
 			dataBld.append(' ');
 		}
+		
+//		System.out.println(" --> " + dataBld.length() 
+//				+ " pos=" + start + " len=" + len
+//				+ " " + en
+//				+ " " + value.length()
+//				+ " " + value);
 		for (i = 0; i < len; i++) {
 			dataBld.setCharAt(start + i, value.charAt(i));
 		}
@@ -239,7 +261,7 @@ public class CharLine extends BasicLine<CharLine>  {
      * @see java.lang.Object#clone()
      */
     public Object clone() {
-    	return lineProvider.getLine(layout, data.toString());
+    	return lineProvider.getLine(layout, getLineData());
     }
 
 }

@@ -25,7 +25,6 @@ package net.sf.RecordEditor.edit.display;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JMenu;
@@ -33,7 +32,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
 import net.sf.JRecord.Common.FieldDetail;
-import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
@@ -144,8 +142,12 @@ implements ActionListener, LayoutConnection {
     			pBrowse);
 		StartEditor startEditor = new StartEditor(file, sFileName, pBrowse);
 		
-		
-		startEditor.execute();
+		if (Common.LOAD_FILE_BACKGROUND_THREAD) {
+			startEditor.execute();
+		} else {
+			startEditor.doInBackground();
+			startEditor.done();
+		}
 		
 		
 //		AbstractLayoutDetails layoutDtls = file.getLayout();
@@ -283,12 +285,16 @@ implements ActionListener, LayoutConnection {
 			try {
 				file.readFile(fName);
 				ok = true;
-			} catch (IOException e) {
+//			} catch (IOException e) {
+//				message.setText("Error Reading the File: " + e.getMessage());
+//				Common.logMsg(e.getMessage(), e);
+//			} catch (RecordException e) {
+//				message.setText("Error Reading the File: " + e.getMessage());
+//				Common.logMsg(e.getMessage(), e);
+			} catch (Exception e) {
 				message.setText("Error Reading the File: " + e.getMessage());
 				Common.logMsg(e.getMessage(), e);
-			} catch (RecordException e) {
-				message.setText("Error Reading the File: " + e.getMessage());
-				Common.logMsg(e.getMessage(), e);
+				e.printStackTrace();
 			}
 			return null;
 		}

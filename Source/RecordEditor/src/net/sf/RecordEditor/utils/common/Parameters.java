@@ -39,7 +39,8 @@ public final class Parameters {
     public static final String PROPERTY_BIG_FILE_FILTER_LIMIT = "BigFileFilterLimit"; 
     //public static final String PROPERTY_BIG_FILE_GZIP_WRITE = "BigFileGZipAnalyseSize"; 
     public static final String PROPERTY_TEST_MODE  = "TestMode";
-    
+    public static final String PROPERTY_LOAD_FILE_BACKGROUND  = "LoadFileInBackground";
+   
     public static final String PROPERTY_COPYBOOK_NAME_PREFIX  = "CopybookLoaderName.";
     public static final String PROPERTY_COPYBOOK_CLASS_PREFIX = "CopybookloaderClass.";
     public static final String PROPERTY_LOOKS_CLASS_INDEX = "LooksClassIndex";

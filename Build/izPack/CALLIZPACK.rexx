@@ -3,12 +3,33 @@
 */
 	parse arg IzPackSource OutPutFile x
 
-	
-	of='/home/bm/Work/RecordEditor/'OutPutFile
+	if isUnix() then do
+		of='/home/bm/Work/RecordEditor/'OutPutFile
+			
+		call cd '/home/bm/Work/RecordEditor/izPack'
 		
-	call cd '/home/bm/Work/RecordEditor/izPack'
+		say of
 	
-	say o
+		'/home/bm/Work/IzPack/bin/compile' IzPackSource ' -b . -o' of " -k standard"
+	end; else do
+		of='E:\tmp\RecordEditor\Build\'OutPutFile
+			
+		call cd 'E:\tmp\RecordEditor\Build\izPack'
+		
+		say IzPackSource
+		say of
+	
+		'"C:\Program Files\IzPack\bin\compile.bat"' IzPackSource ' -b . -o' of " -k standard"
+	end
 
-	'/home/bm/Work/IzPack/bin/compile' IzPackSource ' -b . -o' of " -k standard" 
+	return
+	
+isUnix:
 
+    env = uname('S')
+  
+     if env = 'UNIX' | env = 'Linux' then do
+  	  return 1
+     end
+     return 0
+return

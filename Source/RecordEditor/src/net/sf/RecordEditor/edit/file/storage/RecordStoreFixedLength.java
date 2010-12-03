@@ -19,7 +19,7 @@ public class RecordStoreFixedLength extends RecordStoreBase {
 
 	
 	@Override
-	protected void put(PosLen pos, byte[] rec) {
+	protected void put(LineDtls pos, byte[] rec) {
 		put(pos.index, rec);
 	}
 
@@ -35,8 +35,8 @@ public class RecordStoreFixedLength extends RecordStoreBase {
 	}
 
 	@Override
-	protected PosLen getPosLen(int idx, int newLen) {
-		return new PosLen(idx * len, len, len, idx);
+	protected LineDtls getPosLen(int idx, int newLen) {
+		return new LineDtls(idx * len, len, len, idx);
 	}
 	
 	public int getSize() {

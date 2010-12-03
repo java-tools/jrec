@@ -10,7 +10,7 @@ import net.sf.JRecord.Details.AbstractLine;
 @SuppressWarnings("unchecked")
 public interface DataStore<L extends AbstractLine> extends List<L> {
 
-	public L getTempLine(int idx);
+	public AbstractLine getTempLine(int idx);
 	
 	public String getSizeDisplay();
 	

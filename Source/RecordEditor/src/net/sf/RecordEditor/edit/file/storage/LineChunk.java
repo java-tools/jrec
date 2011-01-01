@@ -7,7 +7,7 @@ import net.sf.JRecord.Details.LayoutDetail;
 public class LineChunk extends LineBase {
 
 
-	public LineChunk(LayoutDetail group, FileChunk fileChunk, int line) {
+	public LineChunk(LayoutDetail group, FileChunkLine fileChunk, int line) {
 		super(group,  fileChunk, line);
 		//super.setDataRaw(fileChunk.get(line));
 	}

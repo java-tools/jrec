@@ -24,7 +24,7 @@ public class PropertyManager {
 	private static String getDirectory() {
 
 
-        String baseDirectory = "/home/bm/Programs/RecordEdit/HSQLDB/lib";
+        String baseDirectory = "/home/bm/RecordEdit/HSQLDB/lib";
 
         URL o = PropertyManager.class.getClassLoader().getResource("net/sf/JRecord/Common/PropertyManager.class");
 

@@ -24,8 +24,6 @@ import java.io.InputStream;
  */
 public class FixedLengthByteReader extends AbstractByteReader {
 
-	private static final int BUFFER_SIZE = 16384;
-
     private InputStream inStream;
 	private BufferedInputStream stream = null;
 

@@ -16,7 +16,6 @@
 package net.sf.JRecord.ByteIO;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.UserInit;
 
 /**
  * LineIOprovider - This class returns a LineIO class appropriate for

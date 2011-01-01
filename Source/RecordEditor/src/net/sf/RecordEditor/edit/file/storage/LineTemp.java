@@ -9,7 +9,7 @@ import net.sf.JRecord.Details.LayoutDetail;
 public class LineTemp extends LineBase {
 
 	
-	public LineTemp(LayoutDetail group, FileChunk fileChunk, int line) {
+	public LineTemp(LayoutDetail group, FileChunkLine fileChunk, int line) {
 		super(group, fileChunk, line);
 	}
 	

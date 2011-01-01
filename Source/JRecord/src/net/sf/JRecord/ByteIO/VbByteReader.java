@@ -29,7 +29,6 @@ import java.math.BigInteger;
  */
 public class VbByteReader extends AbstractByteReader {
 
-	private static final int BUFFER_SIZE = 16384;
 	private static final int LAST_7_BITS_SET = 127;
 
     private InputStream inStream;
@@ -96,7 +95,11 @@ public class VbByteReader extends AbstractByteReader {
 
         inStream = inputStream;
 
-        stream = new BufferedInputStream(inputStream, BUFFER_SIZE);
+        if (inputStream instanceof BufferedInputStream) {
+        	stream = (BufferedInputStream) inputStream;
+        } else {
+        	stream = new BufferedInputStream(inputStream, BUFFER_SIZE);
+        }
 
         checkForBlockLength();
     }

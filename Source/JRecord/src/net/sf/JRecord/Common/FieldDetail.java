@@ -210,7 +210,7 @@ public class FieldDetail {
 	public boolean isFixedFormat() {
 		return end != Constants.NULL_INTEGER;
 	}
-
+  
 
 	/**
 	 * Get the fields fontname

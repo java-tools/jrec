@@ -71,7 +71,7 @@ import net.sf.JRecord.Log.AbsSSLogger;
  * @version 0.521
  */
 public final class Common implements Constants {
-
+ 
 
     /*
      // get metrics from the graphics
@@ -192,8 +192,9 @@ public final class Common implements Constants {
 
 	
 	public static final long MAX_MEMORY = Runtime.getRuntime().maxMemory();
+	public static final BigDecimal MAX_MEMORY_BD = BigDecimal.valueOf(MAX_MEMORY);
  		/* Icon Indexs */
-    public static final int ID_SEARCH_ICON  = 0;
+    public static final int ID_SEARCH_ICON    = 0;
     public static final int ID_FILTER_ICON    = 1;
     public static final int ID_SAVE_ICON      = 2;
     public static final int ID_SAVE_AS_ICON   = 3;
@@ -245,6 +246,58 @@ public final class Common implements Constants {
     //public static final int FULL_LINE       = -101;
     public static final int ALL_FIELDS      = -102;
     //private static final int LOGGER_ERROR   = 10;
+    
+    
+    public static final boolean USE_SPECIAL_FIXED_MODEL = ! "N".equalsIgnoreCase(
+			Parameters.getString(Parameters.PROPERTY_BIG_FILE_USE_SPECIAL_FIXED_MODEL)
+	);
+    public static final char COMPRESS_SPACE = 'S';
+    public static final char COMPRESS_READ = 'R';
+    public static final char COMPRESS_READ_FAST_CPU = 'F';
+    public static final char COMPRESS_NO = 'N';
+    public static final char COMPRESS_YES = 'Y';
+    public static final char COMPRESS_OPTION;
+    public static final char LARGE_VB_OPTION;
+    public static final char LARGE_VB_YES  = 'Y';
+    public static final char LARGE_VB_NO   = 'N';
+    public static final char LARGE_VB_TEST = 'T';
+       static {
+    	String s = Parameters.getString(Parameters.PROPERTY_BIG_FILE_COMPRESS_OPT);
+    	char c = COMPRESS_READ;
+
+    	if (s == null || "".equals(s)) {
+    		
+    	} else {
+    		s = s.toUpperCase();
+    		if (s.startsWith("N")) {
+    			c = COMPRESS_NO;
+    		} else if (s.startsWith("Y")) {
+    			c = COMPRESS_YES;
+//    		} else if (s.startsWith("R")) {
+//    			c = COMPRESS_READ;
+    		} else if (s.startsWith("F")) {
+    			c = COMPRESS_READ_FAST_CPU;
+    		} else if (s.startsWith("S")) {
+    			c = COMPRESS_SPACE;
+    		}
+    	}
+    	COMPRESS_OPTION = c;
+    	
+    	 s = Parameters.getString(Parameters.PROPERTY_BIG_FILE_LARGE_VB);
+    	 c = LARGE_VB_NO;
+    	 
+    	 if (s == null || "".equals(s)) {
+    		 
+    	 } else {
+    		 s = s.toUpperCase();
+    		 if (s.startsWith("Y")) {
+    			 c = LARGE_VB_YES;
+    		 } else if (s.startsWith("T")) {
+    			 c = LARGE_VB_TEST;
+    		 }
+    	 }
+    	 LARGE_VB_OPTION = c;
+    }
 
     private static final boolean USE_PNG;
     private static final String[] ICON_NAMES = {"LeftM", "Left", "Up", "Down",
@@ -1861,7 +1914,8 @@ public final class Common implements Constants {
 		} catch (Exception e) {
 		}
 		
-		calc = new BigDecimal(MAX_MEMORY).multiply(pct).divide(new BigDecimal(100));
+		calc = MAX_MEMORY_BD.multiply(pct);
+		calc = calc.divide(BigDecimal.valueOf(100));
 		
 		return calc.longValue();
 	}
@@ -1888,5 +1942,4 @@ public final class Common implements Constants {
 		}
 		return size;
 	}
-
 }

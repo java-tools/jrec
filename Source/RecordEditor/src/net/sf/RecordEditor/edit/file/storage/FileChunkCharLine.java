@@ -1,6 +1,7 @@
 package net.sf.RecordEditor.edit.file.storage;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Details.AbstractLine;
@@ -82,7 +83,7 @@ public class FileChunkCharLine extends FileChunkBase<CharLineBase, RecordStoreCh
 
 
 	@Override
-	protected CharLineBase getLine(int lineNo) {
+	public CharLineBase getLine(int lineNo) {
 		Integer cLine = (lineNo - getFirstLine());
 		CharLineBase ret = null;
 		
@@ -103,7 +104,7 @@ public class FileChunkCharLine extends FileChunkBase<CharLineBase, RecordStoreCh
 
 
 	@Override
-	protected CharLineBase getTempLine(int lineNo) {
+	public CharLineBase getTempLine(int lineNo) {
 		return new CharLineTemp(details.getLayout(), this, (lineNo - getFirstLine()));
 	}
 	
@@ -126,4 +127,15 @@ public class FileChunkCharLine extends FileChunkBase<CharLineBase, RecordStoreCh
 		return recordStore;
 	}
 
+
+	@Override
+	public List<FileChunkBase<CharLineBase, RecordStoreCharLine>> split() {
+		return null;
+	}
+
+	@Override
+	protected int getStorageSize() {
+		return 2;
+	}
+	
 }

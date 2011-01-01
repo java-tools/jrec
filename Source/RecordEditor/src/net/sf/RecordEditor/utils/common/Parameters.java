@@ -36,8 +36,12 @@ public final class Parameters {
      
     public static final String PROPERTY_BIG_FILE_PERCENT = "BigFilePercentage"; 
     public static final String PROPERTY_BIG_FILE_CHUNK_SIZE = "BigFileChunkSize"; 
+    public static final String PROPERTY_BIG_FILE_COMPRESS_OPT = "BigFileCompressOption"; 
+    public static final String PROPERTY_BIG_FILE_LARGE_VB = "BigFileLargeVB"; 
     public static final String PROPERTY_BIG_FILE_FILTER_LIMIT = "BigFileFilterLimit"; 
-    //public static final String PROPERTY_BIG_FILE_GZIP_WRITE = "BigFileGZipAnalyseSize"; 
+    public static final String PROPERTY_BIG_FILE_DISK_FLAG = "BigFileDiskFlag"; 
+    public static final String PROPERTY_BIG_FILE_USE_SPECIAL_FIXED_MODEL = "BigFileUseFixedModel"; 
+   //public static final String PROPERTY_BIG_FILE_GZIP_WRITE = "BigFileGZipAnalyseSize"; 
     public static final String PROPERTY_TEST_MODE  = "TestMode";
     public static final String PROPERTY_LOAD_FILE_BACKGROUND  = "LoadFileInBackground";
    
@@ -193,7 +197,7 @@ public final class Parameters {
      */
     private static void initDirectories() {
     	if (applicationDirectory == null) {
-    		String s =getPropertiesDirectory();
+    		String s = getPropertiesDirectory();
 
     		//System.out.println("!! Properties Directory ~~ " + s);
     		applicationDirectory = s + File.separator;
@@ -565,6 +569,7 @@ public final class Parameters {
 	}
 	
 	public static final Properties getInitialisedProperties() {
+		checkInit();
 		if (properties == null) {
 			properties = new Properties();
 		}
@@ -592,14 +597,16 @@ public final class Parameters {
         }
     }
 
+    public static final void renameFile(String fileName) {
+    	renameFile(fileName, fileName + "~");
+    }
 
     /**
      * Rename a file
      * @param fileName file to be renamed
      */
-    public static final void renameFile(String fileName) {
+    public static final void renameFile(String fileName, String newFileName) {
         File f = new File(fileName);
-        String newFileName = fileName + "~";
         File fNew;
 
         fNew = new File(newFileName);

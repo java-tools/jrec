@@ -14,6 +14,8 @@ public interface DataStore<L extends AbstractLine> extends List<L> {
 	
 	public String getSizeDisplay();
 	
+	public long getSpace();
+	
 	public DataStore<L> newDataStore();
 
 	public void sort(Comparator<L> compare);

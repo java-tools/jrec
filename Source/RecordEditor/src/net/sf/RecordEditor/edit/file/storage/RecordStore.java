@@ -13,8 +13,12 @@ public interface RecordStore {
 	public int getRecordCount();
 
 	public byte[] getCompressed();
+	
+	public byte[] getBytes();
 
 	public void setCompressed(byte[] compressedData, int size, int number);
+
+	public void setBytes(byte[] bytes, int size, int number);
 	
 	public void put(int idx, byte[] rec);	
 	

@@ -23,10 +23,11 @@
  */
 package net.sf.RecordEditor.edit.file;
  
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -36,11 +37,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.WeakHashMap;
 import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
-
 
 import javax.swing.JFrame;
-
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.TableModelEvent;
@@ -49,6 +47,7 @@ import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.table.AbstractTableModel;
 
+import net.sf.JRecord.ByteIO.AbstractByteReader;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
@@ -62,6 +61,7 @@ import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.JRecord.IO.AbstractLineWriter;
 import net.sf.JRecord.IO.LineIOProvider;
+import net.sf.JRecord.IO.LineReaderWrapper;
 
 import net.sf.RecordEditor.edit.file.storage.DataStore;
 import net.sf.RecordEditor.edit.file.storage.FileDetails;
@@ -98,13 +98,13 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 						implements 	TableModelListener, ColumnMappingInterface, 
 												TreeModelListener, AbstractChangeNotify{
 
-	private static final int BUFFER_SIZE = 65536;
+	private static final  int BUFFER_SIZE = 65536;
 	
     private static final  int SET_USING_FIELD = 1;
     public  static final  int SET_USING_TEXT  = 2;
     public  static final  int SET_USING_HEX   = 3;
 	
-	public static final  int LINE_NUMER_COLUMN = 1;
+	public  static final  int LINE_NUMER_COLUMN = 1;
     private static final  int INITIAL_FILE_SIZE = 1000;
     private static final  int MINIMUM_FILE_SIZE = 512;
 
@@ -116,6 +116,12 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
     private static final  int FAILED_CHILD_ALREADY_EXISTS = 4;
     private static final  int FAILED_CHILD_NOT_IN_PARENT = 5;
   
+    private static final byte NO_CHANGE   = 1;
+    private static final byte BEING_SAVED = 2;
+    private static final byte CHANGED     = 3;
+    
+
+    
     private static final FieldMapping NULL_MAPPING =  new FieldMapping(new int[0]);
     
     private static final String[] LINE_COLUMN_HEADINGS = {
@@ -140,6 +146,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 
 	private int currLayoutIdx = 0;
 	private boolean fileRead = false;
+	private boolean clearWaiting = false;
 	private String  msg = "";
 
 	private boolean toSave  = true;
@@ -150,7 +157,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	private Layout layout;
 
 	private boolean browse;
-	private boolean changed = false;
+	private byte changeStatus = NO_CHANGE;
 
 	private JFrame frame = null;
 
@@ -163,6 +170,20 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	private TreeTableNotify treeTableNotify = null; 
 	private WeakHashMap<AbstractLine<Layout>, AbstractLineNode> nodes = null;
 
+	private ArrayList<FileWriter> writers = new ArrayList<FileWriter>();
+	
+	private PropertyChangeListener saveDoneListner = new PropertyChangeListener() {
+
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			dropCompletedWriters();
+			if (clearWaiting && writers.size() == 0) {
+				clearWaiting = false;
+				doClear();
+			}
+		}
+	};
+	
 	/**
 	 * Create empty View / storage
 	 * @param pFd record layout
@@ -176,7 +197,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
      	   final boolean pBrowse) {
 		super();
 
-		this.lines = getDataStore(INITIAL_FILE_SIZE, Constants.NULL_INTEGER);
+		this.lines = getDataStore(INITIAL_FILE_SIZE, Constants.NULL_INTEGER, null, "");
 		this.fileName   = null;
 		this.layout     = pFd;
 		this.ioProvider = pIoProvider;
@@ -337,9 +358,23 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 
 
 	public final void clear() {
+		dropCompletedWriters();
+		
+		if (writers.size() > 0) {
+			clearWaiting = true;
+		} else {
+			doClear();
+		}
+	}
+	
+	public final void doClear() {
+		if (lines != null) {
+			lines.clear();
+		}
 		copySrc = null;
 		lines = null;
 		nodes = null;
+		System.gc();
 	}
 	
 	public void readFile(String pFileName) 
@@ -357,22 +392,28 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		        throw new IOException(pFileName + " is not a file");
 		    } else {
 		    	boolean isGZip = checkIfGZip(pFileName);
+		    	int structure = layout.getFileStructure();
 		    	
 				if (ioProvider == null) {
 					ioProvider = LineIOProvider.getInstance();
 				}
-				reader = ioProvider.getLineReader(layout.getFileStructure());
+				reader = ioProvider.getLineReader(structure);
 
 		        FileInputStream rff = new FileInputStream(pFileName);
 		        if (isGZip) {
 		            reader.open(new GZIPInputStream(rff, BUFFER_SIZE), layout);
 
-		            readFile(reader, file, isGZip, rff);
+		            readFile(reader, file, isGZip, rff, pFileName);
+		        } else if (Common.USE_SPECIAL_FIXED_MODEL
+		        	   &&  structure == Constants.IO_FIXED_LENGTH 
+		        	   &&  useBigFileModel(file.length())) {
+		        	lines = DataStoreLarge.getFixedLengthRecordStore((LayoutDetail)layout, pFileName);
 		        } else {
 		        	BufferedInputStream rf = new BufferedInputStream(rff, BUFFER_SIZE);
+
 		            reader.open(rf, layout);
 		            browse |= (! reader.canWrite());
-		            readFile(reader, file, isGZip, rf);
+		            readFile(reader, file, isGZip, rf, pFileName);
 		        }
 	            rff.close();
 		    }
@@ -381,7 +422,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			reader.generateLayout(layout);
 			layout = reader.getLayout();
 		    toSave = false;
-		    this.lines      = getDataStore(INITIAL_FILE_SIZE, Constants.NULL_INTEGER);
+		    this.lines      = getDataStore(INITIAL_FILE_SIZE, Constants.NULL_INTEGER, null, "");
 		}
 		
 		initLineCols();
@@ -398,7 +439,8 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			AbstractLineReader<Layout> reader, 
 			File file, 
 			boolean isGZip,
-			InputStream rf) 
+			InputStream rf,
+			String fname) 
 	throws IOException {
 	    AbstractLine<Layout> line;
 	    int count = 0;
@@ -406,17 +448,27 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    long t, t1, t2, tt1, tt2;
 	    long time = System.nanoTime();
 	    long lastTime = time;
+	    //long s1;
+	    boolean isVeryBigFile = file.length() > ((long) Integer.MAX_VALUE);
+	    
 	    double total = rf.available();
 	    double ratio;
 	        
 	    layout = reader.getLayout();
-	    allocateLines(file, isGZip);
+	    allocateLines(file, isGZip, reader, fname);
+	    
+	    if (isVeryBigFile) {
+	    	total = file.length();
+	    	if (isGZip) {
+	    		total *= 6;
+	    	}
+	    }
 
 	    t1 = time;
 	    tt1 = 0;
 	    tt2 = 0;
 	    if (Common.LOAD_FILE_BACKGROUND_THREAD) {
-	    	ReadProgress readProgress = new ReadProgress(file.getName());
+	    	ProgressDisplay readProgress = new ProgressDisplay(file.getName());
 	    	try {
 			    while ((line = reader.read()) != null) {
 			       tt1 += System.nanoTime() - t1;
@@ -427,10 +479,14 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			    	   count = 0;
 			    	   t = System.nanoTime();
 			    	   if (t - lastTime > interval) {
-			    		   ratio = ((double)rf.available()) / total;
+			    		   if (isVeryBigFile) {
+			    			   ratio = ((double)lines.getSpace()) / total;
+			    		   } else {
+			    			   ratio = 1 - ((double)rf.available()) / total;
+			    		   }
 			    		   readProgress.updateDisplay(
 			    				   lines.getSizeDisplay(),
-			    				   (int) (100 * (1 - ratio)));
+			    				   (int) (100 * ratio));
 			    		   lastTime = t;
 			    	   }
 			       }
@@ -461,27 +517,31 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    
 	    System.out.println("Read Total: " + (tt1 / 100000000));
 	    System.out.println("Add  Total: " + (tt2 / 100000000));
+	    System.out.println("     Lines: " + lines.size());
 	}
 
 	
-	private void allocateLines(File file, boolean isGZip) {
+	private void allocateLines(File file, boolean isGZip, AbstractLineReader reader, String fname) {
     	int numLines = INITIAL_FILE_SIZE ;
     	int maxLength = layout.getMaximumRecordLength();
-    	
+    	AbstractLineReader r = reader;
     	try {
     		long len = file.length();
     		if (maxLength > 0) {
     			numLines = ((int) ((len / maxLength) * 11 / 10)) ;
     			if (isGZip) {
     				numLines *= 3;
-    				len *= 9;
     			}
     		
     			numLines = Math.max(MINIMUM_FILE_SIZE, numLines);
     		}
-    		this.lines      = getDataStore(numLines, len);
+			if (isGZip) {
+				len *= 9;
+				r = null;
+			}
+    		this.lines      = getDataStore(numLines, len, r, fname);
     	} catch (Exception e) {
-    		this.lines      = getDataStore(INITIAL_FILE_SIZE, Constants.NULL_INTEGER);
+    		this.lines      = getDataStore(INITIAL_FILE_SIZE, Constants.NULL_INTEGER, null, fname);
     	}
 
 	}
@@ -1142,10 +1202,10 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			    deleteLinesFromView(recNums);
 			    baseFile.deleteLinesFromView(baseRecNums);
 			} else {
-				AbstractLine l;
+				AbstractLine<Layout> l;
 			    deleteLinesFromView(recNums);
 			    for (int i = 0; i < recNums.length; i++) {
-			    	l = lines.get(recNums[i]);
+			    	l = (AbstractLine<Layout>) lines.get(recNums[i]);
 			        baseFile.deleteOneLine(l);
 			    }
 			}
@@ -1447,9 +1507,19 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	public final void copyLines(int[] recNums) {
 
 		int i;
-		copySrc = new AbstractLine[recNums.length];
+		int num = recNums.length;
+		int limit = getLineHoldLimit();
+		
+		if (num > limit) {
+			num = limit;
+			Common.logMsg("Copy limit of " + limit
+					+ " excedded; only the first " + limit
+					+ " lines copied", null);
+		}
+		
+		copySrc = new AbstractLine[num];
 
-		for (i = 0; i < recNums.length; i++) {
+		for (i = 0; i < num; i++) {
 			copySrc[i] = lines.getTempLine(recNums[i]).getNewDataLine();
 		}
 	}
@@ -2057,7 +2127,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    if (this.isView()) {
 	        return baseFile.isChanged();
 	    }
-		return changed;
+		return changeStatus != NO_CHANGE;
 	}
 
 
@@ -2072,7 +2142,12 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 //        if (fileChanged) {
 //        	System.out.println("FileChanged");
 //        }
-        this.changed = fileChanged;
+        if (fileChanged) { 
+        	changeStatus = CHANGED;
+        } else {
+        	changeStatus = NO_CHANGE;
+        }
+        
     }
 
 	public boolean isSaveAvailable() {
@@ -2134,10 +2209,19 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    	Common.logMsg("Internal Error: lines cleared, save is not possible !!", null);
 	    	Common.logMsg("Internal Error: lines cleared, save is not possible !", null);
 	    } else {
-	        if (saveFile(lines, fileName, toSave)) {
-	            toSave = false;
-	            changed = false;
-	        }
+	    	changeStatus = BEING_SAVED;
+	        saveFile(lines, fileName, toSave,
+	        		new PropertyChangeListener() {
+
+						@Override
+						public void propertyChange(PropertyChangeEvent arg0) {
+							if (changeStatus == BEING_SAVED) {
+								toSave = false;
+					            changeStatus = NO_CHANGE;
+							}
+						}
+	        		}
+	        );
 	    }
 	}
 
@@ -2184,16 +2268,29 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	public void writeLinesToFile(String outFile, List<AbstractLine> lines2write)
 	throws IOException, RecordException {
 	    boolean sameName = outFile.equals(fileName);
+	    PropertyChangeListener chg = null;
 
-	    if ("\\".equals(Common.FILE_SEPERATOR)) {
+	    if (! sameName && "\\".equals(Common.FILE_SEPERATOR)) {
 	        sameName = outFile.equalsIgnoreCase(fileName);
 	    }
 
 	    toSave &= sameName;
-
-	    if (saveFile(lines2write, outFile, toSave)) {
-		    toSave |= sameName;
+	    
+	    if (sameName) {
+	    	changeStatus = BEING_SAVED;
+	    	chg = new PropertyChangeListener() {
+	
+				@Override
+				public void propertyChange(PropertyChangeEvent arg0) {
+					if (changeStatus == BEING_SAVED) {
+						toSave = false;
+						changeStatus = NO_CHANGE;
+					}
+				}
+			};
 	    }
+
+	    saveFile(lines2write, outFile, toSave, chg); 	    
 	}
 
 
@@ -2209,62 +2306,39 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	 * @throws IOException any error that occurs
 	 * @throws RecordException any local error
 	 */
-	private boolean saveFile(List<AbstractLine> pLines,
+	private void saveFile(List<AbstractLine> pLines,
 	        String  pFileName,
-	        boolean backup)
+	        boolean backup,
+	        PropertyChangeListener chgListner)
 	throws IOException, RecordException {
 
 	    boolean isGZip = checkIfGZip(pFileName);
-	    boolean saved = false;
-	    AbstractLineWriter writer;
-
-	    if (backup) {
-	        File f = new File(pFileName);
-	        String newFileName = pFileName + "~";
-	        File fNew;
-
-//	        if (isGZip) {
-//	            int index = pFileName.lastIndexOf('.');
-//	            String vSuffix = "";
-//	            String vStart  = "";
-//	            if (index != -1) {
-//	                vStart  = pFileName.substring(0, index - 1);
-//	                vSuffix = pFileName.substring(index + 1);
-//	            }
-	            //newFileName = vStart + "~." + vSuffix;
-//	        }
-
-	        fNew = new File(newFileName);
-
-	        if (fNew.exists()) {
-	            fNew.delete();
-	        }
-
-	        f.renameTo(fNew);
+	    AbstractLineWriter writer = ioProvider.getLineWriter(layout.getFileStructure());
+	    FileWriter fileWriter = new FileWriter(pLines, pFileName, backup, isGZip, writer);
+	    
+	    if (chgListner != null) {
+	    	fileWriter.addPropertyChangeListener(chgListner);
 	    }
+	    
+	    dropCompletedWriters();
 
-        writer = ioProvider.getLineWriter(layout.getFileStructure());
-
-        if (writer == null) {
-            throw new RecordException("No file writer available");
-        }
-
-	    if (isGZip) {
-	        FileOutputStream fs = new FileOutputStream(pFileName);
-	        writer.open(new GZIPOutputStream(fs));
-
-	        writeToFile(writer, pLines);
-	        fs.close();
+	    if (pLines.size() < 30000) {
+	    	fileWriter.doWrite();
 	    } else {
-	        writer.open(pFileName);
-	        writeToFile(writer, pLines);
+	    	writers.add(fileWriter);
+	    	fileWriter.addPropertyChangeListener(saveDoneListner);
+	    	fileWriter.execute();
 	    }
-	    saved = true;
-
-	    return saved;
 	}
 
-
+	private void dropCompletedWriters() {
+	    for (int i = writers.size() - 1; i>=0; i--) {
+	    	if (writers.get(i).isDone()) {
+	    		writers.remove(i);
+	    	}
+	    }		
+	}
+	
 	/**
 	 * Writes the lines to using supplied writer
 	 * @param writer writer to write lines to
@@ -2291,6 +2365,18 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 
 	    writer.close();
 	}
+	
+	/**
+	 * Get the maximum number of lines that can be held
+	 * @return maximum number of lines that can be held
+	 */
+	private int getLineHoldLimit() {
+        int limit = Integer.MAX_VALUE;
+        if (! (lines instanceof DataStoreStd)) {
+        	limit = Common.getBigFileFilterLimit() / 2;
+        }
+        return limit;
+	}
 
 	/**
 	 * Create filtered view of a file
@@ -2304,10 +2390,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
         AbstractLine<Layout> line;
         boolean ok;
         int i, k, recordType;
-        int limit = Integer.MAX_VALUE;
-        if (! (lines instanceof DataStoreStd)) {
-        	limit = Common.getBigFileFilterLimit();
-        }
+        int limit = getLineHoldLimit();
 
         FilePosition pos = new FilePosition(0, 0, 0, 0, true);
         boolean filterNonPrefered = false;
@@ -2647,7 +2730,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
     
     private void sortNotify() {
     	
-    	changed = true;
+    	changeStatus = CHANGED;
     	if (this.treeTableNotify == null) {
     		this.fireTableDataChanged();
     	} else if (lines.size() > 0) {
@@ -2807,8 +2890,8 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		});
 	}
 	 
-	private DataStore getDataStore(int lines, long bytes) {
-		if (layout instanceof LayoutDetail && bytes > Common.getMemoryCompare()) {
+	private DataStore getDataStore(int lines, long bytes, AbstractLineReader reader, String fname) {
+		if (useBigFileModel(bytes)) {
 			LayoutDetail l = (LayoutDetail) layout;
 			if (l.isXml()) {
 			} else 	if (l.getFileStructure() == Constants.IO_UNICODE_TEXT) {
@@ -2843,12 +2926,34 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 //				Common.logMsg("", null);
 //				Common.logMsg(AbsSSLogger.WARNING,
 //						"Editing using Big Variable Length memory Model - this will reduce functionality !!!", null);
+				
+				int type = FileDetails.VARIABLE_LENGTH;
+				AbstractByteReader r = null;
+				
+				if (reader != null && reader instanceof LineReaderWrapper
+				&& (   ( Common.LARGE_VB_OPTION == Common.LARGE_VB_TEST)
+					|| ( Common.LARGE_VB_OPTION == Common.LARGE_VB_YES
+					  && bytes > Runtime.getRuntime().totalMemory())	
+				)) {
+					type = FileDetails.VARIABLE_LENGTH_BASEFILE;
+					r = ((LineReaderWrapper) reader).getByteReader();
+				}
+
 				return new DataStoreLarge(
 						(LayoutDetail) layout, 
-						FileDetails.VARIABLE_LENGTH, 
-						layout.getMaximumRecordLength());
+						type, 
+						layout.getMaximumRecordLength(),
+						r,
+						fname);
 			}
 		}
 		return new DataStoreStd<AbstractLine>(layout, lines);
+	}
+	
+	public boolean useBigFileModel(long bytes) {
+//		System.out.println(
+//				(layout instanceof LayoutDetail) 
+//			  + " && " + bytes + " > " + Common.getMemoryCompare());
+		return layout instanceof LayoutDetail && bytes > Common.getMemoryCompare();
 	}
 }

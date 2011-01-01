@@ -7,17 +7,21 @@ import javax.swing.JTextArea;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 
-public class ReadProgress {
+public class ProgressDisplay {
 	private JFrame frame;
 	private boolean toInit = true;
 	private JTextArea area = new JTextArea();
 	private JProgressBar progressBar;
 	
-	public ReadProgress(String name) {
-		frame = new JFrame("Reading " + name);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public ProgressDisplay(String name) {
+		this("Reading", name);
 	}
 	
+	
+	public ProgressDisplay(String action, String name) {
+		frame = new JFrame(action + " " + name);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
 	
 	public void updateDisplay(String msg, int progress) {
 		area.setText(msg + "          ");

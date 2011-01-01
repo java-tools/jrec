@@ -3,7 +3,8 @@ package net.sf.RecordEditor.edit.file.storage;
 import java.math.BigInteger;
 
 
-public class RecordStoreVariableLength extends RecordStoreBase {
+public class RecordStoreVariableLength 
+extends RecordStoreBase<RecordStoreVariableLength> {
 
 	private static final int INDEX_RECORD = 16;
 	private int maxLen;
@@ -96,28 +97,42 @@ public class RecordStoreVariableLength extends RecordStoreBase {
 		
 		put(p, rec);
 	}
-
-	
-	
+//
+//	@Override
+//	public void add(byte[] rec) {
+//		int p = size+lengthSize;
+//		System.arraycopy(rec, 0, store, p, rec.length);
+//
+//		addLength(p, rec.length);
+//		
+//		size += rec.length+lengthSize;
+//		recordCount += 1;
+//	}
 	
 	@Override
 	protected void put(LineDtls p, byte[] rec) {
-		byte[] b = BigInteger.valueOf(rec.length).toByteArray();
-
+//		System.out.println("^^ " + p.index + " -- " + p.pos + " " + p.len + " " + b.length
+//				+ " " + store.length + " " + rec.length);
 		System.arraycopy(rec, 0, store, p.pos, rec.length);
+		addLength(p.pos, rec.length);
+	}
+	
+	private void addLength(int pos, int length) {
+		byte[] b = BigInteger.valueOf(length).toByteArray();
+	
 		//System.out.println("^^ " + p.index + " -- " + p.pos + " " + p.len + " " + b.length);
-		store[p.pos-1] = b[b.length - 1];
+		store[pos-1] = b[b.length - 1];
 		
 		switch (super.lengthSize) {
 		case 3:
-			store[p.pos-3] = 0;
+			store[pos-3] = 0;
 			if (b.length > 2) {
-				store[p.pos-3] = b[b.length - 3];
+				store[pos-3] = b[b.length - 3];
 			}	
 		case 2:
-			store[p.pos-2] = 0;
+			store[pos-2] = 0;
 			if (b.length > 1) {
-				store[p.pos-2] = b[b.length - 2];
+				store[pos-2] = b[b.length - 2];
 			}
 		}	
 	}
@@ -221,5 +236,39 @@ public class RecordStoreVariableLength extends RecordStoreBase {
 			b[3] = store[p+2];
 		}
 		return (new BigInteger(b)).intValue();
+	}
+
+	@Override
+	public RecordStoreVariableLength[] split(int blockSize) {
+		buildIndex();
+		RecordStoreVariableLength[] ret = new RecordStoreVariableLength[(size -1)  / blockSize + 1];
+		int used = 0;
+		int last = -1;
+		int j = 0;
+		for (int i = 0; i < recordCount / INDEX_RECORD; i++) {
+			if (recIndex[i] - used > blockSize) {
+				ret[j] = new RecordStoreVariableLength(recIndex[i] - used, maxLen, (i - last) * INDEX_RECORD);
+//				System.out.println(" --> " + i + " pos: "+ recIndex[i]
+//				                  + " used: " + used
+//				                  + " Records: " + ((i - last) * INDEX_RECORD)
+//				                  + " From: " + (used - super.lengthSize)
+//				                  + " Length: " + (recIndex[i] - used)
+//				                  + " From Size: " + store.length
+//				                  + " To Size: " + ret[j].store.length);
+				System.arraycopy(store, used, ret[j].store, 0, recIndex[i] - used);
+				ret[j].size = recIndex[i] - used;
+				used = recIndex[i];
+				last = i;
+				j += 1;
+			}
+		}
+		
+		if (used != size) {
+			int l = size - used; 
+			ret[j] = new RecordStoreVariableLength(l, maxLen, recordCount - (last + 1) * INDEX_RECORD);
+			System.arraycopy(store, used, ret[j].store, 0, l);
+			ret[j].size = l;
+		}
+		return ret;
 	}
 }

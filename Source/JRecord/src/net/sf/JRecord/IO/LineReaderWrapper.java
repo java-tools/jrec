@@ -13,7 +13,6 @@ import net.sf.JRecord.ByteIO.AbstractByteReader;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
-import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.LineProvider;
 
 /**
@@ -31,7 +30,8 @@ public class LineReaderWrapper
 extends AbstractLineReader {
 
     private AbstractByteReader reader;
-    int i = 0;
+ 
+	int i = 0;
 
     /**
      *  Create a LineReader from a Byte reader
@@ -86,6 +86,10 @@ extends AbstractLineReader {
     public void close() throws IOException {
         reader.close();
     }
+
+    public AbstractByteReader getByteReader() {
+ 		return reader;
+ 	}
 
 	/**
 	 * @param reader the reader to set

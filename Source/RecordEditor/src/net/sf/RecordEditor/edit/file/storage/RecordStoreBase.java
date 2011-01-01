@@ -1,16 +1,6 @@
 package net.sf.RecordEditor.edit.file.storage;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
-
-import net.sf.RecordEditor.utils.common.Common;
-
-
-
-public abstract class RecordStoreBase implements RecordStore {
+public abstract class RecordStoreBase<R extends RecordStoreBase<?>> implements RecordStore {
 
 	protected byte[] store = null;
 	protected int recordCount;
@@ -35,6 +25,9 @@ public abstract class RecordStoreBase implements RecordStore {
 
 		LineDtls p = getPosLen(idx, rec.length);
 		
+//		if ((p == null) || (store == null) ) {
+//			System.out.println("$$$ " + (p == null) + " " + (store == null));
+//	}
 //		System.out.println("Add Check move: " 
 //				+ idx + " < " + recordCount
 //				+ " Pos: " + (p.pos - lengthSize)
@@ -48,6 +41,9 @@ public abstract class RecordStoreBase implements RecordStore {
 		recordCount += 1;
 	}
 	
+
+//	public abstract void add(byte[] rec);
+
 	protected abstract void put(LineDtls pos, byte[] rec);
 
 	@Override
@@ -74,10 +70,11 @@ public abstract class RecordStoreBase implements RecordStore {
 		
 		if (size + newPos - oldPos > store.length) {
 			//System.out.print("*");
-			//System.out.print(" Size:" + size + " newPos:"
-			//		+ newPos + " " + oldPos);
+//			System.out.print(" Size:" + size + " newPos:"
+//					+ newPos + " " + oldPos);
 			byte[] newStore = new byte[size + newPos - oldPos];
-			//System.out.print(" new len:" + newStore.length);
+//			System.out.print(" new len:" + newStore.length
+//					+ " " + store.length);
 			
 			System.arraycopy(store, 0, newStore, 0, oldPos);
 			//System.out.print(" test: " + (size > oldPos)
@@ -138,61 +135,34 @@ public abstract class RecordStoreBase implements RecordStore {
 	
 	@Override
 	public byte[] getCompressed() {
-		byte[] ret = null;
 		
-		try {
-			int size = getSize();
-
-			ByteArrayOutputStream  outBytes = new ByteArrayOutputStream(size / 3);
-			GZIPOutputStream out = new GZIPOutputStream(outBytes);
-			
-			out.write(store, 0, size);
-			out.close();
-			
-			ret = outBytes.toByteArray();
-			
-		} catch (Exception e) {
-			
-		}
-		
-		return ret;
+		return Code.compress(getSize(), store);
 	}
 	
 	@Override
+	public byte[] getBytes() {
+		return store;
+	}
+
+
+	@Override
 	public final void setCompressed(byte[] compressedData, int length, int count) {
-		
-		try {
-			ByteArrayInputStream  inBytes = new ByteArrayInputStream(compressedData);
-			GZIPInputStream in = new GZIPInputStream(inBytes);
-			long gzipSize = in.available();
-			store = new byte[length];
-			this.size = length;
-			
-
-		    int num = in.read(store);
-		    int total = num;
-		 
-
-		    while (num >= 0 && total < store.length) {
-		        num = in.read(store, total, store.length - total);
-		        total += num;
-		    }
-		    num = in.read(new byte[5], 0, 5);
-			if (total < store.length || num > 0) {
-				Common.logMsg("Error uncompressing chunk expected " + store.length
-						+ " bytes but retrieved " + total + " bytes "
-						+ " bytes unread "
-						+ " GZip Size = " + gzipSize + " Available=" + in.available(),
-						null);
-			}
-			//System.out.println("Uncompressed: " + in.read(store) +  " " + size + " " + count 
-			//		+ " " + (count * len));
-			in.close();
-			recordCount = count;
-		} catch (IOException e) {
-			throw new RuntimeException("Error uncompressing Data", e);
-		}
+		this.recordCount = count;
+		this.size = length;
+		store = Code.uncompressed(compressedData, length).bytes;
 	}
 	
+
+	@Override
+	public final void setBytes(byte[] bytes, int length, int count) {
+		this.recordCount = count;
+		this.size = length;
+		store = bytes;
+	}
+	
+	public abstract R[] split(int size);
+
 	protected abstract LineDtls getPosLen(int idx, int newLength);
+	
+	
 }

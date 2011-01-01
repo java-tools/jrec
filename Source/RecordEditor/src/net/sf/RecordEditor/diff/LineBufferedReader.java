@@ -186,7 +186,9 @@ public class LineBufferedReader extends BufferedReader {
 				}
 			}
 			
-			if (stripSpaces) {
+			if (filteredLayout.getRecord(pref) == null) {
+				Common.logMsg("Layout Record Does not exist !!!", null);
+			} else if (stripSpaces) {
 				for (int i = 0; i < filteredLayout.getRecord(pref).getFieldCount(); i++) {
 					buf.append(Common.trimRight(line.getField(pref,i))).append("\t");
 				}

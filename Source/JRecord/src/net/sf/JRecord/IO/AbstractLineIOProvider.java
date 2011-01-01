@@ -4,7 +4,7 @@ import net.sf.JRecord.Common.AbstractManager;
 import net.sf.JRecord.Details.LineProvider;
 
 public interface AbstractLineIOProvider extends AbstractManager {
-
+ 
 	/**
 	 * Gets a Record Reader Class that is appropriate for writing the
 	 * supplied file-structure

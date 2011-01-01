@@ -55,6 +55,7 @@ import net.sf.RecordEditor.utils.openFile.RecentFilesList;
  * @author  bymartin
  * @version 0.56
  */
+@SuppressWarnings("serial")
 public class OpenFileEditPnl<Layout extends AbstractLayoutDetails<? extends FieldDetail, ? extends AbstractRecordDetail<FieldDetail>>> 
 extends AbstractOpenFilePnl<Layout> 
 implements ActionListener, LayoutConnection {

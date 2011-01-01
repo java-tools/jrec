@@ -3,7 +3,7 @@ package net.sf.RecordEditor.edit.file.storage;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
 
-public interface AbstractChunkLine<fc extends FileChunkBase>
+public interface AbstractChunkLine<fc extends FileChunk>
 extends AbstractLine<LayoutDetail> {
 
 	public abstract int getChunkLine();

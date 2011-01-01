@@ -32,7 +32,7 @@ public class XmlLineWriter extends AbstractLineWriter {
     private static final int FOLLOWING_TEXT_INDEX = XmlConstants.FOLLOWING_TEXT_INDEX;
 
     private XMLStreamWriter writer;
-    //private OutputStream os;
+    private OutputStream os;
 
     /**
      * @see net.sf.JRecord.IO.AbstractLineWriter#open(java.io.OutputStream)
@@ -41,6 +41,7 @@ public class XmlLineWriter extends AbstractLineWriter {
 
     	XMLOutputFactory f ;
     	
+    	os = outputStream;
     	try {
     		 f = XMLOutputFactory.newInstance();	
     	} catch (Exception e) {
@@ -227,6 +228,7 @@ public class XmlLineWriter extends AbstractLineWriter {
         try {
             writer.writeEndDocument();
             writer.close();
+            os.close();
         } catch (XMLStreamException e) {
         	e.printStackTrace();
             throw new IOException("Error closing XML Writer: " + e.getMessage());

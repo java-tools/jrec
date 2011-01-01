@@ -27,8 +27,6 @@ import java.math.BigInteger;
  */
 public class FujitsuVbByteReader extends AbstractByteReader {
 
-	private static final int BUFFER_SIZE = 16384;
-
     private InputStream inStream;
 	private BufferedInputStream stream = null;
 
@@ -62,8 +60,11 @@ public class FujitsuVbByteReader extends AbstractByteReader {
 
         inStream = inputStream;
 
-        stream = new BufferedInputStream(inputStream, BUFFER_SIZE);
-
+        if (inputStream instanceof BufferedInputStream) {
+        	stream = (BufferedInputStream) inputStream;
+        } else {
+        	stream = new BufferedInputStream(inputStream, BUFFER_SIZE);
+        }
     }
 
 

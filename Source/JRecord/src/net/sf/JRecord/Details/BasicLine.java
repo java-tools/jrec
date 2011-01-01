@@ -17,7 +17,7 @@ implements AbstractLine<LayoutDetail> {
 	protected int preferredLayout = Constants.NULL_INTEGER;
 	protected int writeLayout = Constants.NULL_INTEGER;
 	
-
+ 
 	protected AbstractTreeDetails<FieldDetail, RecordDetail, LayoutDetail, ActualLine> 
 							children;
 	//ChildLines<FieldDetail, RecordDetail, LayoutDetail, AbstractChildDetails<RecordDetail>, ActualLine> children = null;
@@ -266,5 +266,15 @@ implements AbstractLine<LayoutDetail> {
 
 		return false;
 	}
+
+
+
+	@Override
+	public <L extends AbstractLine> L getNewDataLine() {
+		// TODO Auto-generated method stub
+		return (L) clone();
+	}
+	
+	
 
 }

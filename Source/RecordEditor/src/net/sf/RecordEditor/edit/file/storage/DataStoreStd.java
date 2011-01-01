@@ -7,6 +7,7 @@ import java.util.Comparator;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
+import net.sf.JRecord.Details.CharLine;
 
 @SuppressWarnings({ "serial", "unchecked" })
 public class DataStoreStd<L extends AbstractLine>
@@ -70,6 +71,25 @@ extends ArrayList<L> implements DataStore<L> {
 	@Override
 	public void sort(Comparator<L> compare) {
 		Collections.sort(this, compare);
+	}
+
+	
+	@Override
+	public long getSpace() {
+		long kb = 0;
+		
+		if (size() > 0) {
+			if (get(0) instanceof CharLine) {
+				for (AbstractLine l : this) {
+					kb += l.getFullLine().length();
+				}
+			} else {
+				for (AbstractLine l : this) {
+					kb += l.getData().length;
+				}
+			}
+		}
+		return kb;
 	}
 
 	@Override

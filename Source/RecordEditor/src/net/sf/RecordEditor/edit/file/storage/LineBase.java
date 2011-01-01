@@ -4,13 +4,13 @@ import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.Line;
 
 public abstract class LineBase extends Line 
-implements AbstractChunkLine<FileChunk> {
+implements AbstractChunkLine<FileChunkLine> {
 
 
-	protected FileChunk chunk;
+	protected FileChunkLine chunk;
 	protected int chunkLine;
 
-	public LineBase(LayoutDetail group, FileChunk fileChunk, int line) {
+	public LineBase(LayoutDetail group, FileChunkLine fileChunk, int line) {
 		super(group);
 		
 		chunk = fileChunk;
@@ -43,14 +43,14 @@ implements AbstractChunkLine<FileChunk> {
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.file.storage.AbstractChunkLine#getChunk()
 	 */
-	public FileChunk getChunk() {
+	public FileChunkLine getChunk() {
 		return chunk;
 	}
 
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.file.storage.AbstractChunkLine#setChunk(net.sf.RecordEditor.edit.file.storage.FileChunk)
 	 */
-	public void setChunk(FileChunk chunk) {
+	public void setChunk(FileChunkLine chunk) {
 		this.chunk = chunk;
 	}
 
@@ -64,7 +64,7 @@ implements AbstractChunkLine<FileChunk> {
 
 
 
-	@SuppressWarnings("unchecked")
+	//@SuppressWarnings("unchecked")
 	@Override
 	public Line getNewDataLine() {
 

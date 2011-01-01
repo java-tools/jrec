@@ -1,12 +1,8 @@
 package net.sf.RecordEditor.edit.file.storage;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 
 import net.sf.JRecord.Common.Conversion;
+import net.sf.RecordEditor.utils.common.Common;
 
 
 public class RecordStoreCharLine implements RecordStore  {
@@ -80,12 +76,12 @@ public class RecordStoreCharLine implements RecordStore  {
 //
 //			e.printStackTrace();
 //		}
-		} else {
-		System.out.println(" Get: " + + idx 
-				+ " " + this.recordCount
-				+ " " + p.pos
-				+ " " + p.len
-				+ " " + ret.length);
+//		} else {
+//		System.out.println(" Get: " + + idx 
+//				+ " " + this.recordCount
+//				+ " " + p.pos
+//				+ " " + p.len
+//				+ " " + ret.length);
 		}
 		
 		return ret;
@@ -107,9 +103,9 @@ public class RecordStoreCharLine implements RecordStore  {
 			//		+ " && " + (newStore.length > newPos));
 			if (size > oldPos) {
 				if (newStore.length > newPos) {
-					System.out.println("$$ " + store.length + " " + newStore.length
-							+ " From " + oldPos + " to " + newPos + " size " + size
-							+ " " + (size - oldPos));
+//					System.out.println("$$ " + store.length + " " + newStore.length
+//							+ " From " + oldPos + " to " + newPos + " size " + size
+//							+ " " + (size - oldPos));
 					System.arraycopy(store, oldPos, newStore, newPos, size - oldPos);
 				} else {
 					throw new RuntimeException("Internal Error in RecordStoreBase can not copy data, so dropping lines ? ");
@@ -117,9 +113,9 @@ public class RecordStoreCharLine implements RecordStore  {
 			}
 			store = newStore;
 		}  else if (size > oldPos && oldPos != newPos) {
-			System.out.println("Move OldPos: " + oldPos + " to: " + newPos
-					+ " Size: " + size + " amount: " + (size - oldPos)
-					+ " Compare: " + (size + newPos - oldPos) + " <= " + store.length);
+//			System.out.println("Move OldPos: " + oldPos + " to: " + newPos
+//					+ " Size: " + size + " amount: " + (size - oldPos)
+//					+ " Compare: " + (size + newPos - oldPos) + " <= " + store.length);
 			System.arraycopy(store, oldPos, store, newPos, size - oldPos);
 		}
 	}
@@ -162,67 +158,47 @@ public class RecordStoreCharLine implements RecordStore  {
 	
 
 	public byte[] getCompressed() {
-		byte[] ret = null;
-		
-		try {
-			ByteArrayOutputStream  outBytes = new ByteArrayOutputStream(size / 3);
-			GZIPOutputStream out = new GZIPOutputStream(outBytes);
-			String s =  new String(store, 0, size);
-//			char c = s.charAt(s.length() - 1);
-//			
-//			System.out.println();
-//			System.out.println("--> compress " + store.length + " " + s.length()
-//					+ " ~ " + size + " " + (c == '\n') + " " + c);
-			out.write(Conversion.getBytes(s, font));
-			out.close();
-			
-			ret = outBytes.toByteArray();		
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return ret;
+		return Code.compress(size, getBytes());
 	}
 	
+
+	public byte[] getBytes() {
+		String s =  new String(store, 0, size);
+		
+		return Conversion.getBytes(s, font);
+	}
 
 	public final void setCompressed(byte[] compressedData, int length, int count) {
+		this.size = length;
+		recordCount = count;
 		
-		try {
-			ByteArrayInputStream  inBytes = new ByteArrayInputStream(compressedData);
-			GZIPInputStream in = new GZIPInputStream(inBytes);
-
-			byte[] temp = new byte[length * 2];
-		    int num = in.read(temp);
-			int total = num;
-			this.size = length;
+		ByteArray tmp = Code.uncompressed(compressedData, length * 2 + 20, false);
+		
+		if (tmp.size == 0) {
+			store = new char[0];
+		} else {
+			String s = Conversion.getString(tmp.bytes, 0, tmp.size, font);
 			
-
-		    while (num >= 0 && total < temp.length) {
-		        num = in.read(temp, total, temp.length - total);
-		        total += num;
-		    }
-	
-		    String s = Conversion.getString(temp, 0, total+1, font);
+			if (s.length() != length) {
+				Common.logMsg("Error uncompressing chunk expected " 
+						+ length + " but was " + s.length(), null);
+			}
 			store = s.toCharArray();
-			
-//			char c = s.charAt(s.length() - 1);
-//
-//			System.out.println("Uncompressed: "  + size + " "
-//					+ s.length()
-//					+ " "
-//					+ total 
-//					+ " " + count 
-//					+ " >" + (c == '\n') + "< " + c );
-
-			in.close();
-			recordCount = count;
-			
-			checkSize();
-		} catch (IOException e) {
-			throw new RuntimeException("Error uncompressing Data", e);
 		}
 	}
 
+
+
+	@Override
+	public void setBytes(byte[] bytes, int length, int count) {
+		this.size = length;
+		recordCount = count;
+
+		//System.out.println(" ~~~~ " + size + " " + bytes.length);
+		String s = Conversion.getString(bytes, 0, size, font);
+
+		store = s.toCharArray();
+	}
 
 
 	public void put(int idx, char[] rec) {
@@ -335,10 +311,10 @@ public class RecordStoreCharLine implements RecordStore  {
 				}
 			}
 			//System.out.print("$");
-			System.out.println(" ==> Size Check: " + this.hashCode()
-					+ " > "+ p + " " + size 
-					+ " > " + store.length
-					+ " " + getRecordCount());
+//			System.out.println(" ==> Size Check: " + this.hashCode()
+//					+ " > "+ p + " " + size 
+//					+ " > " + store.length
+//					+ " " + getRecordCount());
 			size = p;
 			checkSize();
 			
@@ -386,9 +362,9 @@ public class RecordStoreCharLine implements RecordStore  {
 
 	
 	private void checkSize() {
-		if (size > store.length) {
-			System.out.println("*");
-		}
+//		if (size > store.length) {
+//			System.out.println("*");
+//		}
 	}
 
 }

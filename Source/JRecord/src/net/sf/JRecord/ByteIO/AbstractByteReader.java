@@ -10,8 +10,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import net.sf.JRecord.Common.UserInit;
-
 
 /**
  * This abstract class is the base class for all <b>Byte~Reader</b>
@@ -24,8 +22,9 @@ public abstract class AbstractByteReader {
 
 
     public static final String NOT_OPEN_MESSAGE = "File has not been opened";
+	public static final int BUFFER_SIZE = 16384;
 
-
+    private long bytesRead = 0;
 
 	/**
 	 * create Binary Line Reader
@@ -100,9 +99,11 @@ public abstract class AbstractByteReader {
 
 	    while (num >= 0 && total < buf.length) {
 	        num = in.read(buf, total, buf.length - total);
-	        total += num;
+	        total += Math.max(0, num);
 	    }
 
+	    bytesRead += total;
+	    
 	    return total;
 	}
 
@@ -116,4 +117,9 @@ public abstract class AbstractByteReader {
     public boolean canWrite() {
     	return true;
     }
+
+
+	public long getBytesRead() {
+		return bytesRead;
+	}
 }

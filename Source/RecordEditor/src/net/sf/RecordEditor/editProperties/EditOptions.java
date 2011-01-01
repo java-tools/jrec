@@ -46,6 +46,7 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
  * @author Bruce Martin
  *
  */
+
 public class EditOptions {
 
     private static final int PROGRAM_DESCRIPTION_HEIGHT = 400;
@@ -62,6 +63,7 @@ public class EditOptions {
 	private JTabbedPane looksTabbed = new JTabbedPane();
 	//private JTextArea msgFld = new JTextArea("");
 
+	@SuppressWarnings("serial")
 	private AbstractAction save = new AbstractAction("Save", Common.getRecordIcon(Common.ID_SAVE_ICON)) {
 	    public void actionPerformed(ActionEvent e) {
 	        params.writeProperties();
@@ -142,10 +144,6 @@ public class EditOptions {
             {"DateFormat", "Date Format String eg dd/MM/yy or dd.MMM.yy. the field is case sensitive", null},
             {Parameters.PROPERTY_TEST_MODE, "Weather we are running automated Tests (Marathon ?) or not ", null},
             {Parameters.BRING_LOG_TO_FRONT, "Bring Log to the Front if Data is written to it", null},
-            {Parameters.PROPERTY_BIG_FILE_PERCENT, "File Size to Memory Percent to Start using the Big-File-Model", null},
-            {Parameters.PROPERTY_BIG_FILE_CHUNK_SIZE, "Big-File-Model Memory Chunks (KB)", null},
-            {Parameters.PROPERTY_BIG_FILE_FILTER_LIMIT, "Big-File Filter/Tree limit (thousands)", null},
-            {Parameters.PROPERTY_LOAD_FILE_BACKGROUND, "Load File in Background thread (default Y)", null},
             {Parameters.INVALID_FILE_CHARS, "Characters that are invalid in a file Name", null},
             {Parameters.FILE_REPLACEMENT_CHAR, "Char to Replace invalid Filename Chars", null},
             {Parameters.ASTERIX_IN_FILE_NAME, "Allow the asterix ('*') character in file Names", null},
@@ -169,6 +167,22 @@ public class EditOptions {
             {Parameters.FS_COMP_Little_ENDIAN, "Look for Little Endian Binary", null},
    };
 
+
+    private String bigModelDescription
+    	= "<H1>Other Properties</h1>"
+    	+ "This panels lists the other non database Properties";
+
+    private String[][] bigModelParams = {
+            {Parameters.PROPERTY_BIG_FILE_PERCENT, "File Size to Memory Percent to Start using the Big-File-Model", null},
+            {Parameters.PROPERTY_BIG_FILE_CHUNK_SIZE, "Big-File-Model Memory Chunks (KB)", null},
+            {Parameters.PROPERTY_BIG_FILE_COMPRESS_OPT, "Big-File-Model compress option (N - No, R - Read, F - Read (fast cpu), S - Space, Y - Yes)", null},
+            {Parameters.PROPERTY_BIG_FILE_FILTER_LIMIT, "Big-File Filter/Tree limit (thousands)", null},
+            {Parameters.PROPERTY_BIG_FILE_DISK_FLAG, "Force Storing chunks on Disk (Used in Testing)", null},
+            {Parameters.PROPERTY_BIG_FILE_USE_SPECIAL_FIXED_MODEL, "Use Fixed Length Model (Used in Testing)", null},
+            {Parameters.PROPERTY_BIG_FILE_LARGE_VB, "Use Large VB Model (Y/N)", null},
+            {Parameters.PROPERTY_LOAD_FILE_BACKGROUND, "Load File in Background thread (default Y)", null},
+    };
+
     private EditPropertiesPanel screenPosPnl
     	= new EditPropertiesPanel(params, screenLocationDescription, screenLocationParams);
     private EditPropertiesPanel directoryPnl
@@ -177,6 +191,8 @@ public class EditOptions {
 		= new EditPropertiesPanel(params, otherDescription, otherParams);
     private EditPropertiesPanel layoutWizardPnl
 		= new EditPropertiesPanel(params, layoutWizardParamsDescription, layoutWizardParams);
+    private EditPropertiesPanel bigModelPnl
+	= new EditPropertiesPanel(params, bigModelDescription, bigModelParams);
 
     private EditJdbcParamsPanel jdbcParamsPnl = new EditJdbcParamsPanel(params, params.jdbcJars);
 
@@ -451,6 +467,7 @@ public class EditOptions {
         
         if (includeWizardOptions) {
         	propertiesTabbed.addTab("Layout Wizard Options", layoutWizardPnl);
+        	propertiesTabbed.addTab("Big Model Options", bigModelPnl);
         }
         
         propertiesTabbed.addTab("Defaults", 

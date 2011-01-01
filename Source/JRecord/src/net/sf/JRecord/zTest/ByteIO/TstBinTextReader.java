@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 
 public class TstBinTextReader  extends TestCase {
 
-	private final String[] poLines = {
+	private final static String[] poLines = {
 			   "H1453490000006060286225      040909        00  200 0501020501075965        LADIES KNICFT",
 			   "D100007000000000000000022222500000000 43314531000000054540000007       2075359        45614531       DONKEY 24-006607 SHWL WRAP CARD",
 			   "S1504300000001504500000001506500000001507600000001507900000001515100000001507200000001    00000000    00000000    00000000",
@@ -38,6 +38,17 @@ public class TstBinTextReader  extends TestCase {
 			   "D100004000000000014832000000000000000 05614944000000054540000004       2075360        5614944        MILK 24-006607 SHWL WRAP CARD",
 			   "S1504500000001507600000001507900000001333149440001    00000000    00000000    00000000    00000000    00000000    00000000"
 			};
+	private final static String[] poLines2 = new String[poLines.length * 200];
+	
+	static {
+		for (int i = 0; i < 200; i++) {
+			for (int j = 0; j < poLines.length; j++) {
+				poLines2[i * poLines.length + j] = poLines[j];
+			}
+		}
+	}
+	
+	
     private static final String TMP_DIRECTORY = TstConstants.TEMP_DIRECTORY;
 
     public void testMac() throws IOException {
@@ -56,26 +67,33 @@ public class TstBinTextReader  extends TestCase {
     }
 
 	private void tstAFile(String eol) throws IOException {
+		tstAFile(poLines, eol);
+		tstAFile(poLines2, eol);
+	}
+
+	private void tstAFile(String[] lines, String eol) throws IOException {
 		int i;
 		String fileName = TMP_DIRECTORY + "TextTestFile.tmp";
 		ByteTextReader r = new ByteTextReader();
 		String s;
 		
-		writeAFile(fileName, poLines, eol);
+		writeAFile(fileName, lines, eol);
 		
 		r.open(fileName);
-		for (i = 0; i < poLines.length; i++) {
+		for (i = 0; i < lines.length; i++) {
 			s = new String(r.read());
 			
-			if (! poLines[i].equals(s)) {
+			if (! lines[i].equals(s)) {
 				System.out.println();
 				System.out.println("--- Error on line " +i);
-				System.out.println("\t" + poLines[i] + "<<");
+				System.out.println("\t" + lines[i] + "<<");
 				System.out.println("\t" + s + "<<");
 				System.out.println();
-				assertEquals(poLines[i], s);
+				assertEquals(lines[i], s);
 			}
 		}
+		
+		assertTrue("Expecting end of File, but there was data", r.read() == null);
 	}
 	
 	

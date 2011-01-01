@@ -20,7 +20,7 @@ public class MicroFocusByteReader extends AbstractByteReader {
 		instream = new BufferedInputStream(inputStream, 8192);
 		
 		byte[] headerRec = new byte[128];
-		int ii = (instream.read(headerRec));
+		int ii = readBuffer(instream, headerRec);
 //		if ( ! (eof = (instream.read(headerRec) <= 0))) {
 		if ( ! (eof = (ii <= 0))) {
 			headerRecord = new MicroFocusFileHeader(headerRec);
@@ -46,7 +46,7 @@ public class MicroFocusByteReader extends AbstractByteReader {
 		boolean readnext = true;
 		
 		do {
-			if (eof || instream.read(len1) <= 0) {
+			if (eof || readBuffer(instream, len1) <= 0) {
 				eof = true;
 				return null;
 			}
@@ -61,22 +61,22 @@ public class MicroFocusByteReader extends AbstractByteReader {
 			
 			readnext = ! (attr == 4 || attr == 5 || attr == 7 || attr == 8);
 			rec = new byte[len];
-			instream.read(rec);
+			readBuffer(instream,rec);
 			switch (headerRecord.getFileFormat()) {
 			case  MicroFocusFileHeader.FORMAT_INDEXED:
 			case  MicroFocusFileHeader.FORMAT_SEQUENTIAL:
 				remainder = len % 4;
 				if (remainder != 0) {
-					instream.read(new byte[4 - remainder]);
+					readBuffer(instream, new byte[4 - remainder]);
 				}
 				break;
 //			case  MicroFocusFileHeader.FORMAT_INDEXED:
 //				break;
 			case  MicroFocusFileHeader.FORMAT_RELATIVE:
 				if (len < headerRecord.getMaxLength()) {
-					instream.read(new byte[headerRecord.getMaxLength() - len]);
+					readBuffer(instream, new byte[headerRecord.getMaxLength() - len]);
 				}
-				instream.read(relativeAttr);
+				readBuffer(instream, relativeAttr);
 				readnext |= (relativeAttr[0] == 13 && relativeAttr[1] == 10);
 				break;				
 			}

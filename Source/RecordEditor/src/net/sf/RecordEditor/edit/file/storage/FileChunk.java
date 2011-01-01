@@ -1,122 +1,60 @@
 package net.sf.RecordEditor.edit.file.storage;
 
-import java.lang.ref.WeakReference;
+import java.util.List;
+
 import net.sf.JRecord.Details.AbstractLine;
-import net.sf.JRecord.Details.Line;
+import net.sf.JRecord.Details.LayoutDetail;
 
+/**
+ * This interface describes a portion of the file as 
+ * stored in the LargeDataStore and the operations
+ * that it can executed on this chunk
+ * 
+ * @author Bruce Martin
+ *
+ * @param <L> Line Type stored in tghe chunk
+ * @param <S> RecordStore Used
+ */
+public interface FileChunk<L extends AbstractChunkLine, S extends RecordStore> {
 
-public class FileChunk extends FileChunkBase<LineBase, RecordStoreBase> {
+	public abstract int getCount();
 
+	public abstract void add(AbstractLine l);
 
-	public FileChunk(FileDetails details, int theFirstLine) {
-		super(details, theFirstLine);
-	}
+	public abstract void add(int idx, AbstractLine l);
 
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public  void add(int idx, AbstractLine l) {
-
-		add(idx, l.getData());
-	}
-
-	public  void add(int idx, byte[] rec) {
-
-		uncompress();
-		
-		//synchronized (recordStore) {
-			recordStore.add(idx, rec); 
-			count = recordStore.getRecordCount();
-			
-			updateLines(idx, 1);
-		//}
-	}
-	
-
-
-	public byte[] get(int idx) {
-		uncompress();
-		return recordStore.get(idx);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public void put(int idx, AbstractLine l) {
-		put(idx, l.getData());
-	}
-
-	public void put(int idx, byte[] rec) {
-		synchronized (this) {
-			uncompress();
-			recordStore.put(idx, rec);
-			compressed = null;
-		}
-	} 
-
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public AbstractLine removeLine(int lineNo) {
-		uncompress();
-		AbstractLine l = new Line(details.getLayout(), get(lineNo));
-		remove(lineNo);
-		return l;
-	}
-
-
-	@Override
-	protected LineBase getLine(int lineNo) {
-		Integer cLine = (lineNo - getFirstLine());
-		LineBase ret = null;
-		
-		getLines();
-		synchronized (lines) {
-			if (lines.containsKey(cLine)) {
-				ret = (LineBase) lines.get(cLine).get();
-			}
-			if (ret == null) {
-				ret = new LineChunk(details.getLayout(), this, cLine);
-				lines.put(cLine, new WeakReference<LineBase>(ret));
-			}
-		}
-		return ret;
-	}
-	
-
-	@Override
-	protected LineBase getTempLine(int lineNo) {
-		return new LineTemp(details.getLayout(), this, (lineNo - getFirstLine()));
-	}
-	
+	public abstract void addLineToManagedLines(L l);
 
 	
+	public abstract L getLine(int lineNo);
 	
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public boolean hasRoomForMore(AbstractLine l) {
-		int len = l.getData().length;
-		//System.out.println(" --> " + recordStore.getSize() + " " 
-		//		+ details.len + " " + FileDetails.DATA_SIZE);
-		
-		uncompress();
-		return (recordStore != null) 
-			&& (recordStore.getSize() + len) < recordStore.getStoreSize();
-	}
+	public abstract L getTempLine(int lineNo);
 
+	public abstract L getLineIfDefined(int lineNo);
 	
-	@Override
-	public int getSpaceUsed() {
-		int ret = 0;
-		
-		if (this.recordStore != null) {
-			ret = this.recordStore.getStoreSize();
-		}
-		if (this.compressed != null) {
-			ret += this.compressed.length;
-		}
-		
-		return ret;
-	}
+	public abstract List<L> getActiveLines();
+	
+	
+	public abstract void put(int idx, AbstractLine l);
+
+	public abstract AbstractLine removeLine(int lineNo);
+
+	public abstract void remove(int idx);
+
+	public abstract List<FileChunkBase<L, S>> split();
+
+	public abstract void compress();
+
+	public abstract boolean hasRoomForMore(AbstractLine l);
+
+	public abstract int getFirstLine();
+
+	public abstract void setFirstLine(int firstLine);
+
+	public abstract void setLayout(LayoutDetail layout);
+
+	public abstract int getSpaceUsed();
+
+	public abstract int getSize();
 
 }

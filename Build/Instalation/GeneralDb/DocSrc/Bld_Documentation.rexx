@@ -20,7 +20,7 @@
 	end; else do
 	    say 'Windaows ...'
 	    regina = 'C:\Regina\regina.exe '
-	    instalation = 'E:\Work\RecordEdit\Instalation\'
+	    instalation = 'E:\tmp\RecordEditor\Build\Instalation\' /*'E:\Work\RecordEdit\Instalation\'*/
 	    jeRecord='E:\Work\JRecord\Docs\'
 	    sep ='\'
 	    copy='Copy'
@@ -41,7 +41,7 @@
 	del 'CobolEditor.'html
 	rename 'ceCobolEditor.'html' CobolEditor.'html
 
-	Call BuildJRecordDoc
+	/*Call BuildJRecordDoc*/
 
 	Call BuildDoc 'g 'instalation'GeneralDB'sep'Docs'sep
 

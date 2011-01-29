@@ -4,4 +4,5 @@ velocity1	<lib>/velocity-1.4.jar
 Velocity2	<lib>/velocity-dep-1.4.jar
 jibx	<lib>/jibx-run.jar
 jlibbdiff	<lib>/jlibdiff.jar
+chardet	<lib>/chardet.jar
 jdbc.0	<lib>/hsqldbmain.jar

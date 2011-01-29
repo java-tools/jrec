@@ -4,4 +4,6 @@ Velocity2	<lib>/velocity-dep-1.4.jar
 ZDate	<lib>\ZCalendar.jar
 jibx	<lib>/jibx-run.jar
 jlibbdiff	<lib>/jlibdiff.jar
+chardet	<lib>/chardet.jar
+chardet	<lib>/chardet.jar
 

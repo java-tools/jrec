@@ -73,7 +73,7 @@ Section "MainSection" SEC01
  
   <expand overwrite="try" outpath="$INSTDIR\Docs" inpath="..\Instalation\hsqldb\Docs" name="h*.htm" name1="RecordEdit.htm" name2="rehMan*.htm"/>
   <expand inpath="..\Instalation\GeneralDB\Docs" name="Hlp*.htm" name1="CobolEditor.htm" name2="Ex*.htm" name3="syntax.css" name4="HowTo.htm"/>
-  <expand inpath="..\Instalation\GeneralDB\Docs\" name="Change*.htm" name2="diff1.html" name3="Copy.htm"/>
+  <expand inpath="..\Instalation\GeneralDB\Docs\" name="diff1.html" name3="Copy.htm"/>
   <expand outpath="$INSTDIR\Docs\jsTree" inpath="..\Instalation\GeneralDB\Docs\JSTREE\" name="*.gif" name1="*.css" name2="*.js"/>
   <expand overwrite="try" outpath="$INSTDIR\Docs\Diagram" inpath="..\Instalation\GeneralDB\Docs\Diagram\" name="*.GIF" name1="*.png"  name3="*.JPG"  name4="*.gif" DateCheck=yes/>
 

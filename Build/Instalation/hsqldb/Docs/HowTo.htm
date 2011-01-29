@@ -2,11 +2,11 @@
 <HTML><HEAD>
 <TITLE>Editing a File</TITLE>
 <!-- Begin Header Records  ========================================== -->
-<!-- /home/bm/Work/RecordEditor/Instalation/GeneralDB/DocSrc/HowTo.dc -->
-<!-- f converted by B2H R4.7 (390) (LINUX) on 16 Oct 2009 at 14:44:57 -->
-<META HTTP-EQUIV="updated" CONTENT="Thu, 15 Oct 2009 14:08:22">
-<META HTTP-EQUIV="review" CONTENT="Fri, 15 Oct 2010 14:08:22">
-<META HTTP-EQUIV="expires" CONTENT="Sat, 15 Oct 2011 14:08:22">
+<!-- E:\tmp\RecordEditor\Build\Instalation\GeneralDB\DocSrc\HowTo.dcf -->
+<!-- converted by B2H R4.7 (390) (WINNT) on 28 Jan 2011 at 15:07:34   -->
+<META HTTP-EQUIV="updated" CONTENT="Fri, 28 Jan 2011 14:55:55">
+<META HTTP-EQUIV="review" CONTENT="Sat, 28 Jan 2012 14:55:55">
+<META HTTP-EQUIV="expires" CONTENT="Mon, 28 Jan 2013 14:55:55">
 <link rel="stylesheet" type="text/css" href="syntax.css">
 </HEAD><BODY>
 <!-- End Header Records  ============================================ -->
@@ -77,7 +77,14 @@
 <LI><A NAME="ToC_41" HREF="#Header_41" >Embedded HSQL DB Definition</A>
 </MENU>
 <P><B><A NAME="ToC_42" HREF="#Header_42" >Embedded DB options</A></B><BR>
-<P><B><A NAME="ToC_43" HREF="#Header_43" >Define a New Field Type</A></B><BR>
+<MENU>
+<LI><A NAME="ToC_43" HREF="#HDRBIGFILES" >Big Files</A>
+<MENU>
+<LI><A NAME="ToC_44" HREF="#HDRJAVA" >Java Considerations</A>
+<LI><A NAME="ToC_45" HREF="#Header_45" >Large File Model</A>
+<LI><A NAME="ToC_48" HREF="#HDRPARAM" >Parameters</A>
+</MENU></MENU>
+<P><B><A NAME="ToC_49" HREF="#Header_49" >Define a New Field Type</A></B><BR>
 <P>
 <HR><H1><A NAME="Header_1" HREF="#ToC_1" >Editing a File</A></H1>
 <P>
@@ -138,7 +145,7 @@ selected System (above) are displayed.
 </B></TD><TD><P>Start the File Chooser dialogue which will navigate the File system and the user to choose a file.
 </TD></TR><TR VALIGN="TOP"><TD><P><B>Reload
 </B></TD><TD><P>Reloads System and Record Layout details from the database.
-</TD></TR><TR VALIGN="TOP"><TD><P><B>Create Layout Wizard
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Layout Wizard
 </B></TD><TD><P>Start the Record Creation wizard. This wizard displays the file and lets you
 select the fields (by clicking on the first character in the field). See  for more detail.
 <P><B>Note: </B>This option is only available in the Full Editor.
@@ -158,7 +165,7 @@ To do this:
 <P><LI>Start the <font color="blue">Full Editor</font>.
 <P><LI>Enter the filename which you want create the layout for (you can use
 the find file button to search for it if need be).
-<P><LI>Press the <font color="blue">Create Layout Wizard</font> button circled in red in the picture below
+<P><LI>Press the <font color="blue">Layout Wizard</font> button circled in red in the picture below
 <img SRC="Diagram/RecordEdit_MainCreateLayout.png">
 <P><LI>On the first wizard screen you enter:
 <TABLE CELLPADDING="3">
@@ -859,10 +866,168 @@ mode).
 </UL>
 <P>
 <P>
+<HR><H2><A NAME="HDRBIGFILES" HREF="#ToC_43" >Big Files</A></H2>
+<P><H3><A NAME="HDRJAVA" HREF="#ToC_44" >Java Considerations</A></H3>
+<P>By default, a Java program gets allocated a maximum of 256 megabytes.
+For big files you need to increase this. There should be sample shell script / bat files
+(runEditorBigFile.sh and RecordEditorBigFile.Bat) in the RecordEditor/&lt;Version&gt;/lib directory for this purpose.
+In case they are missing, there are samples in this Zip file.
 <P>
-<HR><H1><A NAME="Header_43" HREF="#ToC_43" >Define a New Field Type</A></H1>
+<P>You will need to <B>update</B> the <B>-Xmx</B> parameter in the supplied shell script/bat file and use this shell script/bat file
+for editing large files
 <P>
-<P><H4><A NAME="Header_44">Jave code for US Date Type</A></H4>
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="25%">Memory/OS
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="75%">Suggested Parameter
+ 
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">1 GB
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">-Xmx500m
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">2 GB
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">-Xmx1400m
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">4 GB/32 bit java
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">-Xmx1600m
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">4 GB/64 bit java
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">-Xmx3000m
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">8 GB/64 bit java
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">-Xmx6000m
+</TD></TR></TABLE>
+<P>
+<P><H3><A NAME="Header_45" HREF="#ToC_45" >Large File Model</A></H3>
+<P>I have introduced an new Large-File model to support editing big Files. This
+Large-File model supports editing much bigger files with reduced functionality. In most cases
+it will allow the editing of files that are larger than the available memory (it uses GZip compression
+to reduce memory usage).
+This Large-File model is used when file size is greater than 14% of available memory (% can be
+changed via start up parameters- <A HREF="#HDRPARAM">"Parameters"</A>).
+<P>
+Limitations of Large-File-Model
+<UL COMPACT>
+ <LI>File Loading will be very slow on old single core computers.
+ <LI>Not available for Xml files.
+ <LI>Record / Sort Trees are nota available (if record count &gt; 75000).
+ <LI>Only the first 75000 records (can be changed via startup parameters - <A HREF="#HDRPARAM">"Parameters"</A>)
+are extracted in Filter's.
+ <LI>Sorting will be very slow.
+ <LI>Copying large numbers of records will cause problems (i.e. crash the editor).
+ <LI>There is a limit of 2.4 billion lines (or records) in the Editor. This comes from using
+Java List's to represent the file.
+</UL>
+<P>
+<P><B>Note: </B>I plan to more work on the "Big File Models" so I if you have any comments,
+suggestions I would be interested in hearing them
+<P>
+<P><H4><A NAME="Header_46">How it Works</A></H4>
+<P>The Large-File-Model reduces memory usage in 4 ways
+<OL COMPACT TYPE=1>
+ <LI>Instead of storing lines as objects, the data is stored in one megabyte blocks. This
+saves the line overhead (about 40 bytes per line).
+ <LI>Blocks are compressed (GZipped) when not in use. This should work well on a recent quad core
+PC (Compression is done in a background thread) but will slow down old single core PC's
+ <LI>When memory is tight, data is written to a Overflow File.
+ <LI>For Fixed-Width files, data is only read from the input file when it is being
+used.
+</OL>
+<P>
+<P>The size of the file that can be edited is determined by the level of compression. I may look at using
+Disk space as well in the future.
+<P>
+<P><H4><A NAME="Header_47">GZip</A></H4>
+<P>If a file name ends in .gz, the RecordEditor treats it as being GZipped and will
+read and write it as a GZipped file. This create a problem of knowing how big the file is and when to
+use the Large-Memory-Model. I you edit GZipped files, you may need to decreased the
+Large File Model Percentage, see <A HREF="#HDRPARAM">"Parameters"</A>.
+<P>
+<P>GZip files can take a lot longer to load because
+<P>
+<P><H3><A NAME="HDRPARAM" HREF="#ToC_48" >Parameters</A></H3>
+<P>There are several parameters that affect the Large-Memory-Model (under
+the <B>Edit &gt;&gt;&gt;&gt; Edit Startup Parameters  ;;;   Properties  &gt;&gt;&gt;&gt; Big Model Options</B>).
+<P>
+<P>Here are some suggestions for the parameters:
+<P>
+<TABLE CELLPADDING="3">
+  <TR VALIGN="TOP"><TD><P><B>Large Multi-User Server.
+  </B></TD><TD><P>Large heavily used Unix/Mainframe serves typically have fast Disks and heavy loads.
+<PRE>    <B>Compress Option<font color="red">=</font><font color="blue">N/S</font>
+    Use Large VB model<font color="red">=</font><font color="blue">Y</font></B>
+</PRE>  </TD></TR><TR VALIGN="TOP"><TD><P><B>Small Server.
+  </B></TD><TD><P>Small Lightly used servers
+<PRE>    <B>Compress Option<font color="red">=</font><font color="blue">S/R</font>
+    Use Large VB model<font color="red">=</font><font color="blue">Y</font></B>
+</PRE>  </TD></TR><TR VALIGN="TOP"><TD><P><B>Very Fast Multi core PC.
+  </B></TD><TD><P>
+<PRE>    <B>Compress Option<font color="red">=</font><font color="blue">F/Y</font>
+    Use Large VB model<font color="red">=</font><font color="blue">N</font></B>
+</PRE>  </TD></TR><TR VALIGN="TOP"><TD><P><B>Slow PC.
+  </B></TD><TD><P>
+<PRE>    <B>Compress Option<font color="red">=</font><font color="blue">Read</font>
+    Use Large VB model<font color="red">=</font><font color="blue">Y</font></B>
+</PRE></TD></TR></TABLE><P><img SRC="Diagram/BigFileOptions.png"><P><P>Following are the parameters that effect the Big-File-Mode. I use them for testing.
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Parameter        </B></TD><TD><P><B>Description</B>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Big File Percentage  </B></TD><TD><P>Percentage at which Big-File-Model is used. Default is 14%, used in testing to force Big-File-Models
+to be used for small files. You may need to lower it if you are editing big GZIP files with a very high compression ratio.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Chunk Size   </B></TD><TD><P>Size of chunks used to store the file. Default is 1000, values between 500 to 4000 likely to produce best results.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Compress Option</B></TD><TD><P>This option controls when compression is used.
+ 
+<BR>
+<TABLE   BORDER="1">
+ 
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="25%">Option
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="75%">Description
+ 
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">Yes
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">Compress aggressively
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">Space
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">Compress when storage gets low. <B>Space</B> based compression.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">Read
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">Use <B>Space</B> (option S) based compression when reading the file then compress aggressively (option Y).
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">Read (Fast CPU)
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">Like option R but will use compression a bit more aggressively.
+ 
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="25%">No
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">Never compress a block.
+ 
+</TD></TR></TABLE>
+<P>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Big File Filter Limit </B></TD><TD><P>Maximum number of records extracted via Filter (also affects Tree views).
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Store Chunks on Disk</B></TD><TD><P>Force Storing chunks on Disk. This is only useful in testing.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Use Fixed Model</B></TD><TD><P>Use Fixed Length Model. There is a special model for fixed length files
+which rather than reading the file, it calculates the Disk position then reads blocks as they are requested.
+Leave as Selected, this option is for testing.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Use Large VB model</B></TD><TD><P>There is a special LargeVB-Model that while reading a file rather than compressing
+blocks it stores the disk address. This speeds up the reading in of the file on old slow PC (particularly for
+Cobol-VB files) but will slow down other operations (particularly saving the file).
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Load In Background</B></TD><TD><P>Controls wether files are loaded on a background thread with progress display or not. Leave as
+selected.
+</TD></TR></TABLE>
+<P>
+<P>
+<P>
+<HR><H1><A NAME="Header_49" HREF="#ToC_49" >Define a New Field Type</A></H1>
+<P>
+<P><H4><A NAME="Header_50">Jave code for US Date Type</A></H4>
 <P>Following is the java code to implement a US Style MM/DD/YY date.
 <P>
 <PRE><SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax9">package</SPAN> net.sf.RecordEditor.examples;
@@ -909,7 +1074,7 @@ mode).
 <SPAN CLASS="gutterH">  20:</SPAN>
 </PRE><P><P>You now need to bundle this Type as a Java Jar file.
 <P>
-<P><H4><A NAME="Header_45">Defining a Type to the RecordEditor</A></H4>
+<P><H4><A NAME="Header_51">Defining a Type to the RecordEditor</A></H4>
 <P>Start the <font color="blue">Edit RecordEditor Startup Properties</font> and go to the
 <B>User Types</B> tag and entor the new Type as in the diagram below:
 <P>

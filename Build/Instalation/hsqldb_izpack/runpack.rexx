@@ -1,10 +1,6 @@
 parse arg arg
 
-/*	call pack 'StAX'
-	call pack 'cb2xml'
-	call pack 'jibx-run'
-	call pack 'jlibdiff'
-	call pack 'hsqldbmain'*/
+
 	if arg = 'pb' then do
 		call pack_ProtoBuf 'ProtoBuffers'
 		call pack_ProtoBuf 'ProtoBufEditor'
@@ -23,21 +19,35 @@ parse arg arg
 		call pack_Utility 'jibx-run'
 	    call pack_Utility 'jlibdiff'
 	end; else do
+		/*call pack 'StAX'
+		call pack 'jibx-run'
+		call pack 'jlibdiff'
+		call pack 'hsqldbmain'
 		call pack 'cb2xml'
+		call pack 'chardet'*/
 		call pack 'JRecord'
+		call pack 'ZCalendar'
 		call pack 'LayoutEdit'
 		call pack 'RecordEdit'
 		
 		if isUnix() then do
 			'cp JRecord.pack ../ProtoBuf/lib'
 			'cp RecordEdit.pack ../ProtoBuf/lib'
+			'cp chardet.pack ../ProtoBuf/lib'
+			'cp ZCalendar.pack ../ProtoBuf/lib'
 			'cp JRecord.pack ../Avro/lib'
 			'cp RecordEdit.pack ../Avro/lib'
+			'cp chardet.pack ../Avro/lib'
+			'cp ZCalendar.pack ../Avro/lib'
 		end; else do
 			'copy JRecord.pack ..\ProtoBuf\lib'
 			'copy RecordEdit.pack ..\ProtoBuf\lib'
+			'copy chardet.pack ..\ProtoBuf\lib'
+			'copy ZCalendar.pack ..\ProtoBuf\lib'
 			'copy JRecord.pack ..\Avro\lib'
 			'copy RecordEdit.pack ..\Avro\lib'
+			'copy chardet.pack ..\Avro\lib'
+			'copy ZCalendar.pack ..\Avro\lib'
 		end
 	end
 	

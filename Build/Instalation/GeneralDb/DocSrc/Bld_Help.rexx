@@ -16,7 +16,8 @@
 	end; else do
 	    say 'Windaows ...'
 	    regina = 'C:\Regina\regina.exe '
-	    instalation = 'E:\Work\RecordEdit\Instalation\'
+	    instalation = 'E:\tmp\RecordEditor\Build\Instalation\'  /*'E:\Work\RecordEdit\Instalation\'*/
+	    b2h = '"E:\Work\Rexx\B2H\B2H.REXX"'
 	    sep ='\'
 	    copy='Copy'
 	    del='del'
@@ -32,7 +33,7 @@
 		regina b2h q'HlpRe.dcf (HTMPEXT='html 'HTMLEXT='html 'AUTOSPLIT=YES SPLITLINK=no)'q
 		regina b2h q'HlpLe.dcf (HTMPEXT='html 'HTMLEXT='html 'AUTOSPLIT=2 SPLITLINK=no)'q
 		regina b2h q'HlpCe.dcf (HTMPEXT='html 'HTMLEXT='html 'AUTOSPLIT=2 SPLITLINK=no)'q
-		/*regina b2h q'diff.dcf  (HTMPEXT='html 'HTMLEXT='html ')'q*/
+		regina b2h q'diff.dcf  (HTMPEXT='html 'HTMLEXT='html ')'q
 	
 		copy 'HlpRe*.htm 'instalation'GeneralDB'sep'Docs'sep
 		copy 'HlpRe*.htm 'instalation'hsqldb'sep'Docs'sep

@@ -32,8 +32,7 @@ def test():
 			click('Open')
 		close()
 
-		commonBits.doEdit(click)
-
+		click('Edit1')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('Choose File')
 

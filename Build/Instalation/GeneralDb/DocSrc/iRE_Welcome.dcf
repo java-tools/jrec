@@ -39,7 +39,7 @@ for the Layout; then enter the required details when prompted.
 
 .pict RecordEdit_MainCsv.png
 
-:p.If the file does not have names on the first line, you could also use :hp2.Create Layout Wizard:ehp2..
+:p.If the file does not have names on the first line, you could also use :hp2.Layout Wizard:ehp2..
 This wizard will guid you through creating the Layout for the file. It will allow you to select 
 columns by pointing and clicking on them.
  

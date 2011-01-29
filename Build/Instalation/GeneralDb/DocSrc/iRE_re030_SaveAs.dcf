@@ -5,9 +5,12 @@
   :li.Or the current View
   :li.Or Selected records
 :eul.
-As a
+As a (Format determined by the Tab)
 :ul compact.
   :li.Standard Data File
+  :li.CSV File
+  :li.Fixed Width Text file
+  :li.Xml file
   :li.Or a HTML file containing the selected records as a single large Table
   :li.Or a HTML file with one HTML table per record with the fields going down the page. 
   :li.Or using a :Velocity. template (provided :Velocity. is installed, see
@@ -15,7 +18,7 @@ As a
 :eul.
 :p.Save as Screen:
 :p.
-.*b2h HTML <img SRC="Diagram/RecordEdit_SaveAs.GIF">
+.*b2h HTML <img SRC="Diagram/RecordEdit_SaveAs.png">
 :p.
 :tdef id=xlight shade='xlight'.
 

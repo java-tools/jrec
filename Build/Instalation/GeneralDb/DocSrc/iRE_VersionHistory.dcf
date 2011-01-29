@@ -104,7 +104,7 @@ Major changes are:
  :li.Addition of Standard File, Edit ... Top level menus similar to what is in a normal text editor.
  :li.Addition of a Menu bar with standard Windows Icons.
  :li.New Create Layout option added to the Layout Editor
- :li.New Create Layout Wizard that allows you elect the fields in a file.
+ :li.New Layout Wizard that allows you elect the fields in a file.
  :li.Improved Find / Replace (Further work to done in the next version).
  :li.In the editor, Columns can be fixed (ie do not scroll off the screen) via 
 the right click menu.

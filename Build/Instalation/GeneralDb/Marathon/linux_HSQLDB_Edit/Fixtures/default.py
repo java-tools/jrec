@@ -8,7 +8,6 @@ class Fixture:
 		FullEditor.main(args)
 
 	def teardown(self):
-		FullEditor.close()
 		pass
 ##		time.sleep(2)
 

@@ -1,12 +1,10 @@
-import time
-
 def windows():
-	return 1
+	return 0
 ##	return "a" == "a"
 
 
 def Linux():
-	return 'guest'
+	return 'bm/Programs'
 #	return 'knoppix'
 
 
@@ -51,10 +49,10 @@ def implementationSampleDir():
 
 def cobolTestDir():
 	if windows():
-		return 'E:\\Work\\RecordEdit\\CobolTestData\\'
-#		return 'E:\\Work\\RecordEdit\\CobolTests\\TestData\\'
-	else: 
-		return '/home/' + Linux() + '/reTest/'
+		return 'E:\\Work\\RecordEdit\\CobolTests\\TestData\\'
+	else: 	
+		return '/home/bm/Programs/open-cobol-1.0/CobolSrc/z1Test/'
+##		return '/home/' + Linux() + '/reTest/'
 
 def getJasperReportName():
 	return r'E:\Work\RecordEdit\Jasper\untitled_report_1.jrxml'
@@ -103,23 +101,10 @@ def setCobolLayout2(select, recordLayout, format):
 
 def userDir():
 	if windows():
-		return 'C:\\Documents and Settings\\b\\.RecordEditor\\' + version() + '\\User\\'
-##		return 'C:\\Users\\bm\\.RecordEditor\\' + version() + '\\User\\'
+		return 'C:\\Users\\bm\\.RecordEditor\\' + version() + '\\User\\'
 	else: 
-		return '/home/' + Linux() + '/.RecordEditor/' + version() + '/User/'
+		return '/home/bm' + '/.RecordEditor/' + version() + '/User/'
 
 def selectPane():
-	return 'File Name'
-#	return 'FilePane$4'
-##	return 'FilePane$3'
-
-def doEdit(click):
-	click('Edit1')
-	time.sleep(0.25)
-	return
-
-def doSleep():
-
-	time.sleep(1.3)
-	return
-
+	return 'FilePane$4'
+#	return 'FilePane$3'

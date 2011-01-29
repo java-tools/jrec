@@ -10,6 +10,7 @@
 .im iHT_6000_Looks.dcf
 .im iHT_7000_Linux.dcf
 .im iHT_A000_HSQL_Setup.dcf
+.im iHT_B000_BigFiles.dcf
 
 
 :h1.Define a New Field Type

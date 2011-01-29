@@ -60,10 +60,16 @@ A100_InitVars:
 	Yes      = 1
 	No       = 0
 	
-	/*linux = no
-	deleteCommand = 'del'*/
-	linux = yes
-	deleteCommand = 'rm'
+	env = uname('S')
+	if env = 'UNIX' | env = 'Linux' then do
+		linux = yes
+		deleteCommand = 'rm'
+		dirsep ='/'
+    end; else do
+	   linux = no
+	   deleteCommand = 'del'
+	   dirsep ='\'
+	end;
 
 	MoreData = yes
    
@@ -233,7 +239,9 @@ B210_Expand:
 
       -rwxrwxrwx 1 bm bm 107 2005-03-25 15:42 ../Instalation/hsqldb/Database/RunUtil.rexx
 */
+   
 	if Strip(Name) <> "" then do
+		 /*say linux path name*/
 		/*say attrName ">>" name "~~" path || Name*/ 
 		if linux = yes then do
 			zPath = path
@@ -265,6 +273,7 @@ B210_Expand:
 					Queue '  File "'path || file'"'
 					found = yes
 				end
+			end; else if file= ' bytes' | file = ' bytes free' | file = '' then do 
 			end; else say '!!!~~~' file
 		end
 		
@@ -345,8 +354,8 @@ C000_Fin:
 
     deleteCommand Outfile
     Do Queued()
-	parse pull l
-	rc = lineout(Outfile, l)
+    	parse pull l
+    	rc = lineout(Outfile, l)
     end
 Return
 

@@ -37,7 +37,7 @@ selected System (above) are displayed.
 :dd.Start the File Chooser dialogue which will navigate the File system and the user to choose a file. 
 :dt.Reload
 :dd.Reloads System and Record Layout details from the database.
-:dt.Create Layout Wizard
+:dt.Layout Wizard
 :dd.Start the Record Creation wizard. This wizard displays the file and lets you 
 select the fields (by clicking on the first character in the field). See :hdref refid=Wizard. for more detail.
 :note.This option is only available in the Full Editor.

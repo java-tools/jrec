@@ -26,6 +26,7 @@ import net.sf.RecordEditor.utils.common.ReActionHandler;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class ReAction extends AbstractAction {
 
 

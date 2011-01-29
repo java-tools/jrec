@@ -8,11 +8,11 @@ package net.sf.RecordEditor.utils.swing;
 
 import java.awt.Font;
 
+import javax.swing.BorderFactory;
 import javax.swing.JTextArea;
 import javax.swing.text.JTextComponent;
 
 import net.sf.JRecord.Common.Conversion;
-import net.sf.RecordEditor.utils.common.Common;
 
 
 /**
@@ -21,6 +21,7 @@ import net.sf.RecordEditor.utils.common.Common;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class HexTwoLineField extends JTextArea implements AbstractHexDisplay {
 
     private String fontName;
@@ -32,7 +33,8 @@ public class HexTwoLineField extends JTextArea implements AbstractHexDisplay {
     public HexTwoLineField(final String font) {
         super();
         this.setRows(3);
-        this.setFont(new Font("Monospaced", Font.PLAIN,  Common.STANDARD_FONT_HEIGHT));
+        this.setFont(new Font("Monospaced", Font.PLAIN,  SwingUtils.STANDARD_FONT_HEIGHT));
+        this.setBorder(BorderFactory.createEmptyBorder());
         fontName = font;
     }
 

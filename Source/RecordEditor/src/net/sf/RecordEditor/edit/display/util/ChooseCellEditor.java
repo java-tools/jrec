@@ -3,6 +3,7 @@ package net.sf.RecordEditor.edit.display.util;
 import java.awt.Component;
 
 import javax.swing.AbstractCellEditor;
+import javax.swing.BorderFactory;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.event.CellEditorListener;
@@ -14,6 +15,7 @@ import javax.swing.table.TableCellEditor;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class ChooseCellEditor extends AbstractCellEditor implements
 TableCellEditor {
 
@@ -29,7 +31,7 @@ TableCellEditor {
      */
     public ChooseCellEditor(JTable tbl, TableCellEditor[] tableCellEditors) {
         super();
-        stdField.setBorder(null);
+        stdField.setBorder(BorderFactory.createEmptyBorder());
         
         cellEditors = tableCellEditors;
         tblDetails  = tbl;

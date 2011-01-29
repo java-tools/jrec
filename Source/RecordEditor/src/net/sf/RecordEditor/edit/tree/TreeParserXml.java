@@ -78,7 +78,7 @@ public class TreeParserXml extends BaseLineNodeTreeParser implements AbstractLin
 //						System.out.print("~~ Set Parent  " + level
 //								+ " " + name + " " + line.getFieldValue(XmlConstants.END_ELEMENT).asString());
 					}
-					System.out.println();
+					//System.out.println();
 				}
 			}
 		}

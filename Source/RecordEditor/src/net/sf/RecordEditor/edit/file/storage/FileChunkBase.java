@@ -13,6 +13,7 @@ import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.common.ProgramOptions;
 
 
 @SuppressWarnings("unchecked")
@@ -30,9 +31,9 @@ public abstract class FileChunkBase<L extends AbstractChunkLine, S extends Recor
 	private long diskAddress = Constants.NULL_INTEGER;
 	
 	  
-	private final static ArrayBlockingQueue<CompressThread> queue;
+	private static final  ArrayBlockingQueue<CompressThread> queue;
 	private static boolean useThread = true;
-	private static boolean COMPRESS_DISK = Common.COMPRESS_OPTION != Common.COMPRESS_NO;
+	private static boolean COMPRESS_DISK = Common.OPTIONS.compressOption.get() != ProgramOptions.COMPRESS_NO;
 	private static long totalTime = 0;
 	private static int writeCount = 0;
 	//private WeakHashMap<Integer, LineBase> lines = null;// new WeakHashMap<Integer, LineBase>(700);

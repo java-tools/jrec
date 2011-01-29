@@ -23,6 +23,7 @@ import net.sf.RecordEditor.utils.common.Common;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class ReActionActiveScreen 
 extends AbstractAction 
 implements AbstractActiveScreenAction {

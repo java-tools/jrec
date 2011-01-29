@@ -142,7 +142,7 @@ public class DatePopup extends AbstractPopup implements ActionListener {
 					new JScrollPane(tips));
 
 
-			pnl.addComponent("Date Format", dateFormat, test);
+			pnl.addLine("Date Format", dateFormat, test);
 			pnl.setGap(BasePanel.GAP2);
 			pnl.addMessage(message);
 		}

@@ -17,6 +17,7 @@ import net.sf.RecordEditor.edit.file.FileView;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.swing.StandardRendor;
 
+@SuppressWarnings("serial")
 public abstract class BaseLineAsColumn 
 extends BaseLineDisplay 
 implements AbstractFileDisplayWithFieldHide {
@@ -41,10 +42,10 @@ implements AbstractFileDisplayWithFieldHide {
 	
 
 	/**
-	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#changeLayout()
+	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#fireLayoutIndexChanged()
 	 */
 	@Override
-	public void changeLayout() {
+	public void fireLayoutIndexChanged() {
 		
 //		System.out.println("Change Layout ... " + model.getCurrentLayout()
 //				+ " != " +  getLayoutIndex());
@@ -56,11 +57,11 @@ implements AbstractFileDisplayWithFieldHide {
 	}
 
 	/**
-	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#newLayout(net.sf.JRecord.Details.AbstractLayoutDetails)
+	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#setNewLayout(net.sf.JRecord.Details.AbstractLayoutDetails)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void newLayout(AbstractLayoutDetails newLayout) {
+	public void setNewLayout(AbstractLayoutDetails newLayout) {
 		showFieldMenus = new JMenu[newLayout.getRecordCount()];
 		model.layoutChanged(newLayout);
 	}

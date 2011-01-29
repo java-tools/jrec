@@ -27,6 +27,7 @@ import net.sf.RecordEditor.utils.common.Common;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public final class SortFrame extends BaseFieldSelection {
 
     /**
@@ -52,7 +53,7 @@ public final class SortFrame extends BaseFieldSelection {
     protected SortFrame(final AbstractFileDisplay src, final FileView fileTbl, 
     		final String id, final int icondId, final String btnText) {
         super(src, fileTbl,  id, icondId, btnText, 2, false, ! fileTbl.getLayout().hasChildren());
-		pnl.setHelpURL(Common.formatHelpURL(Common.HELP_SORT));
+		super.setHelpURL(Common.formatHelpURL(Common.HELP_SORT));
 		
 		if (fileTbl.getRowCount() == 0) {
 			super.doDefaultCloseAction();

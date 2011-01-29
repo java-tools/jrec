@@ -16,6 +16,7 @@ import javax.swing.table.TableColumn;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
  * edit a group of related properties
@@ -23,10 +24,11 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class EditPropertiesPanel extends BasePanel {
 
     //private static final int TIP_HEIGHT = 150;
-    private static final int TABLE_HEIGHT = 200;
+    private static final int TABLE_HEIGHT = SwingUtils.TABLE_ROW_HEIGHT * 12;
     private static final int VALUE_COLUMN = 2;
     private static final int NAME_COLUMN = 0;
     private static final int WIDTH_PADDING = 20;
@@ -77,7 +79,7 @@ public class EditPropertiesPanel extends BasePanel {
         paramTbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         Common.calcColumnWidths(paramTbl, 1);
 
-        paramTbl.setRowHeight(Common.COMBO_TABLE_ROW_HEIGHT);
+        paramTbl.setRowHeight(SwingUtils.COMBO_TABLE_ROW_HEIGHT);
         tc = paramTbl.getColumnModel().getColumn(1);
 
         tc.setPreferredWidth(tc.getPreferredWidth() + WIDTH_PADDING);

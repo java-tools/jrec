@@ -27,6 +27,7 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
  *
@@ -34,12 +35,13 @@ import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class EditDateTypes extends BasePanel {
     private static final Calendar XMAS_CAL = new GregorianCalendar(1998, Calendar.DECEMBER, 25);
     private static Date xmas = XMAS_CAL.getTime();
 
-    private static final int TABLE_HEIGHT = 110;
-    private static final int NAME_WIDTH = 120;
+    private static final int TABLE_HEIGHT = SwingUtils.TABLE_ROW_HEIGHT * 10 + 4;
+    private static final int NAME_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 13;
 
     private static final int TYPE_NAME_COLUMN = 0;
     private static final int BASE_TYPE_COLUMN = 1;
@@ -139,7 +141,7 @@ public class EditDateTypes extends BasePanel {
         };
         typeTbl = new JTable(typeTblModel);
         typeTbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        typeTbl.setRowHeight(Common.COMBO_TABLE_ROW_HEIGHT);
+        typeTbl.setRowHeight(SwingUtils.COMBO_TABLE_ROW_HEIGHT);
 
         BmKeyedComboBox tblTypeCombo = new BmKeyedComboBox(typeModel, false);
         DefaultCellEditor typeEditor = new DefaultCellEditor(tblTypeCombo);
@@ -184,9 +186,9 @@ public class EditDateTypes extends BasePanel {
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(typeTbl));
 
-		this.addComponent("Source Name", name);
-		this.addComponent("Base Type", typeName);
-		this.addComponent("Date Format", dateFormat);
+		this.addLine("Source Name", name);
+		this.addLine("Base Type", typeName);
+		this.addLine("Date Format", dateFormat);
 
 		this.setGap(BasePanel.GAP2);
 		this.addMessage(message);

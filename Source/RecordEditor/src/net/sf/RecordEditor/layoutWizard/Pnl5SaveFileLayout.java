@@ -18,10 +18,11 @@ import net.sf.RecordEditor.utils.swing.FileChooser;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class Pnl5SaveFileLayout extends WizardPanel {
 
 	private Details wizardDetails;
-    private FileChooser     saveDirectoryFC   = new FileChooser();
+    private FileChooser     saveDirectoryFC   = new FileChooser(false);
     private BmKeyedComboBox outputFormatCombo = new BmKeyedComboBox(
     		new ManagerRowList(CopybookWriterManager.getInstance(), false), 
     		false);
@@ -39,13 +40,13 @@ public class Pnl5SaveFileLayout extends WizardPanel {
 
 		this.setGap(BasePanel.GAP2);
 
-		this.addComponent("Layout Name", layoutName);
-		this.addComponent("Layout Description", layoutDescription);
+		this.addLine("Layout Name", layoutName);
+		this.addLine("Layout Description", layoutDescription);
 		this.setHeight(BasePanel.GAP3);
 		this.setGap(BasePanel.GAP1);
-		this.addComponent("Record Layout Directory", saveDirectoryFC, saveDirectoryFC.getChooseFileButton());
+		this.addLine("Record Layout Directory", saveDirectoryFC, saveDirectoryFC.getChooseFileButton());
 		this.setGap(BasePanel.GAP1);
-		this.addComponent("Output Format", outputFormatCombo);
+		this.addLine("Output Format", outputFormatCombo);
 		this.setGap(BasePanel.GAP3);
 	}
 

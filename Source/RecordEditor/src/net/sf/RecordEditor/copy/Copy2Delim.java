@@ -143,7 +143,7 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 		public GetFiles(AbstractLayoutSelection selection1) {
 			super(selection1, "CobolFiles.txt");
 			
-			newFileName.setText(Common.DEFAULT_FILE_DIRECTORY);
+			newFileName.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());
 			layoutSelection1 = selection1;
 		
 			setHelpURL(Common.formatHelpURL(Common.HELP_DIFF_SL));
@@ -206,8 +206,8 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 		@Override
 		protected void addFileName(BaseHelpPanel pnl) {
 					
-			pnl.addComponent("Old File", fileName, fileName.getChooseFileButton());
-			pnl.addComponent("New File", newFileName, newFileName.getChooseFileButton());
+			pnl.addLine("Old File", fileName, fileName.getChooseFileButton());
+			pnl.addLine("New File", newFileName, newFileName.getChooseFileButton());
 		}
 		
 		@Override
@@ -223,13 +223,13 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 			delimPnl.add(BorderLayout.EAST, delimTxt);
 			
 			this.setGap(GAP3);
-			this.addComponent("Field Delimitier", delimPnl);
+			this.addLine("Field Delimitier", delimPnl);
 			this.setHeight(HEIGHT_1P1);
 			this.setGap(GAP1);
 			
-			this.addComponent("Names on 1st Line", names1stLineChk);
-			this.addComponent("Quote", quoteTxt);
-			this.addComponent("Font Name", fontTxt);
+			this.addLine("Names on 1st Line", names1stLineChk);
+			this.addLine("Quote", quoteTxt);
+			this.addLine("Font Name", fontTxt);
 			
 			this.setGap(GAP3);
 		}

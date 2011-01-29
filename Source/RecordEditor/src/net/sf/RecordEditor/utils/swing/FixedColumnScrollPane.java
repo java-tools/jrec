@@ -180,16 +180,16 @@ public class FixedColumnScrollPane extends JScrollPane  {
         && columnArray != null
         && table.getModel().getColumnCount()  == columnArray.length
         && columnModel.getColumnCount() != columnArray.length) {
-        	System.out.println("-- Different number of columns 1 ??? " + columnModel.getColumnCount() 
-        			+ " ~~ " + columnArray.length
-        			+ " ~~ " + table.getModel().getColumnCount());
+//        	System.out.println("-- Different number of columns 1 ??? " + columnModel.getColumnCount() 
+//        			+ " ~~ " + columnArray.length
+//        			+ " ~~ " + table.getModel().getColumnCount());
         	for (int i = 0; i < columnArray.length; i++) {
         		columnModel.removeColumn(columnArray[i]);
         		columnModel.addColumn(columnArray[i]);
         	}
-           	System.out.println("-- Different number of columns 2 ??? " + columnModel.getColumnCount() 
-           			+ " ~~ " + columnArray.length
-        			+ " ~~ " + table.getModel().getColumnCount());
+//           	System.out.println("-- Different number of columns 2 ??? " + columnModel.getColumnCount() 
+//           			+ " ~~ " + columnArray.length
+//        			+ " ~~ " + table.getModel().getColumnCount());
 
         }
 

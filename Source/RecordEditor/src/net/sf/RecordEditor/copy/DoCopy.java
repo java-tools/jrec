@@ -1,13 +1,10 @@
 package net.sf.RecordEditor.copy;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintStream;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Common.XmlConstants;
@@ -24,6 +21,7 @@ import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.jibx.compare.CopyDefinition;
 import net.sf.RecordEditor.jibx.compare.Record;
+import net.sf.RecordEditor.utils.CsvWriter;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.utils.openFile.LayoutSelectionFile;
@@ -31,7 +29,6 @@ import net.sf.RecordEditor.utils.openFile.LayoutSelectionFile;
 public final class DoCopy {
 	
 	private static final byte[] noBytes = {};
-	private  byte[] eolBytes;
 	                    
 	private LayoutDetail dtl1;
 	private LayoutDetail dtl2;
@@ -44,9 +41,6 @@ public final class DoCopy {
 
 	private int[] toIdx;
 	private int[] fromIdx;
-
-	private String fieldSep;
-	private byte[] fieldSepByte;
 	
 	private AbstractLineWriter writer;
 	private boolean ok, first;
@@ -252,7 +246,7 @@ public final class DoCopy {
 						first = false;
 					}
 				} else {
-					out = new Line(dtl2);
+					out = LineIOProvider.getInstance().getLineProvider(dtl2.getFileStructure()).getLine(dtl2);
 					
 					try {
 						FieldDetail selField = dtl2.getRecord(i2).getSelectionField();
@@ -542,101 +536,7 @@ public final class DoCopy {
 		}
 	}
 	
-//	/**
-//	 * copy file to a delimited file
-//	 * @throws IOException any IO error
-//	 * @throws RecordException any RecordEditor conversion issues
-//	 */
-//	private void copy2delim() throws IOException, RecordException {
-//		int idx;
-//		
-//		LineIOProvider ioProvider = LineIOProvider.getInstance();
-//		AbstractLineReader reader;
-//		AbstractLine in;
-//		BufferedWriter fileWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(cpy.newFile.name)));
-//		
-//		reader = ioProvider.getLineReader(dtl1.getFileStructure());
-//		
-//		reader.open(cpy.oldFile.name, dtl1);
-//		
-//		buildTranslations1layout();
-//		fieldSep = cpy.delimiter;
-//		if ("<tab>".equalsIgnoreCase(fieldSep)) {
-//			fieldSep = "\t";
-//		} else if ("<space>".equalsIgnoreCase(fieldSep)) {
-//			fieldSep = " ";
-//		}
-//		
-//		if (cpy.namesOnFirstLine) {
-//			String sep = "";
-//			for (int i = 0; i < fromTbl[fromIdx[0]].length; i++) {
-//				fileWriter.write(sep);
-//				fileWriter.write(dtl1.getRecord(fromIdx[0]).getField(fromTbl[0][i]).getName());
-//				
-//				sep = fieldSep;
-//			}
-//			fileWriter.newLine();
-//		}
-//		if (dtl1.getRecordCount() < 2) {
-//			while ((in = reader.read()) != null) {
-//				writeCsvLine(fileWriter, in, 0);
-//			}
-//		} else {
-//			while ((in = reader.read()) != null) {
-//				idx = in.getPreferredLayoutIdx();
-//				if (idx >= 0) {
-//					writeCsvLine(fileWriter, in, idx);
-//				}
-//			}			
-//		}
-//
-//		reader.close();
-//		fileWriter.close();
-//	}
-//	
-//
-//	private void writeCsvLine(BufferedWriter fileWriter, AbstractLine in, int idx) throws IOException {
-//		int i1 = fromIdx[idx];
-//		
-//		if (i1 >= 0) {
-//			String sep = "";
-//			Object o = null;
-//			int[] fromFields = fromTbl[i1];
-//					
-//			for (int i = 0; i <  fromTbl[i1].length; i++) {
-//				try {
-//					o = in.getField(i1, fromFields[i]);
-//					
-//					fileWriter.write(sep);
-//					sep = fieldSep;
-//					if (o == null) {
-//						
-//					} else {
-//						String s = o.toString();
-//						if (isNumeric(dtl1.getField(i1, fromFields[i])) || "".equals(cpy.quote)) {
-//	
-//						} else if (s.indexOf(cpy.quote) >= 0) {
-//							StringBuffer b = new StringBuffer(s);
-//							String quote = cpy.quote;
-//							int pos;
-//							int j = 0;
-//							
-//							while ((pos = b.indexOf(quote, j)) >= 0) {
-//								b.insert(pos, quote);
-//								j = pos + 2;
-//							}
-//							s = quote + b.toString() + quote;
-//						} 
-//						fileWriter.write(s);
-//					}
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//					System.out.println("Error " + e.getMessage() + " : " + o);
-//				}
-//			}
-//			fileWriter.newLine();
-//		}
-//	}
+
 	
 	
 	/**
@@ -650,123 +550,68 @@ public final class DoCopy {
 		AbstractLineIOProvider ioProvider = LineIOProvider.getInstance();
 		AbstractLineReader reader;
 		AbstractLine in;
-		OutputStream fileWriter = new FileOutputStream(cpy.newFile.name);
-		
+		//OutputStream fileWriter = new FileOutputStream(cpy.newFile.name);
+		CsvWriter writer = new CsvWriter(cpy.newFile.name, cpy.delimiter, cpy.font, cpy.quote, false, null);
 		reader = ioProvider.getLineReader(dtl1.getFileStructure());
 		
 		reader.open(cpy.oldFile.name, dtl1);
 		
 		buildTranslations1layout();
-		eolBytes = Conversion.getBytes(System.getProperty("line.separator"), cpy.font);
-		fieldSepByte = Conversion.getBytes(cpy.delimiter, cpy.font);
-		fieldSep = cpy.delimiter;
-
-		if ("<tab>".equalsIgnoreCase(cpy.delimiter)) {
-			fieldSepByte = Conversion.getBytes("\t", cpy.font);
-			fieldSep = "\t";
-		} else if ("<space>".equalsIgnoreCase(cpy.delimiter)) {
-			fieldSepByte = Conversion.getBytes(" ", cpy.font);
-			fieldSep = " ";
-		} else if (cpy.delimiter != null && cpy.delimiter.toLowerCase().startsWith("x'")) {
-			try {
-//				String t = cpy.delimiter.substring(2, 4);
-//				int b = Integer.parseInt(t, 16);
-				fieldSepByte = new byte[1];
-				fieldSepByte[0] = Conversion.getByteFromHexString(cpy.delimiter);
-				try {
-					fieldSep = new String(fieldSepByte);
-				} catch (Exception e) {
-					fieldSep = "";
-				}
-			} catch (Exception e) {
-				Common.logMsg("Invalid Hex Seperator", null);
-				e.printStackTrace();
-			}
-		}
 		 
 		if (cpy.namesOnFirstLine) {
+			
 			byte[] sep = noBytes;
 			for (int i = 0; i < fromTbl[fromIdx[0]].length; i++) {
-				fileWriter.write(sep);
-				
-				try {
-					fileWriter.write(
-							Conversion.getBytes(dtl1.getRecord(fromIdx[0]).getField(fromTbl[0][i]).getName(), cpy.font));
-				} catch (Exception e) {
-				}
-				
-				sep = fieldSepByte;
+				writer.writeFieldHeading(dtl1.getRecord(fromIdx[0]).getField(fromTbl[0][i]).getName());
 			}
-			fileWriter.write(eolBytes);
+			writer.newLine();
 		}
 		lineNo = 0;
 		if (dtl1.getRecordCount() < 2) {
 			while ((in = reader.read()) != null) {
 				lineNo += 1;
-				writeBinCsvLine(fileWriter, in, lineNo, 0);
+				writeBinCsvLine(writer, in, lineNo, 0);
 			}
 		} else {
 			while ((in = reader.read()) != null) {
 				idx = in.getPreferredLayoutIdx();
 				if (idx >= 0) {
 					lineNo += 1;
-					writeBinCsvLine(fileWriter, in, lineNo, idx);
+					writeBinCsvLine(writer, in, lineNo, idx);
 				}
 			}			
 		}
 
 		reader.close();
-		fileWriter.close();
+		writer.close();
 		closeFieldError();
 	}
 	
 
-	private void writeBinCsvLine(OutputStream fileWriter, AbstractLine in,  int lineNo, int idx) throws IOException {
+	private void writeBinCsvLine(CsvWriter writer, AbstractLine in,  int lineNo, int idx) throws IOException {
 		int i1 = fromIdx[idx];
 		
 		if (i1 >= 0) {
-			byte[] sep = noBytes;
 			Object o = null;
 			int[] fromFields = fromTbl[i1];
 					
 			for (int i = 0; i <  fromTbl[i1].length; i++) {
 				try {
 					o = in.getField(i1, fromFields[i]);
-					
-					fileWriter.write(sep);
-					sep = fieldSepByte;
+
 					if (o == null) {
-						
+						writer.writeField(null, true);
 					} else {
-						String s = o.toString();
-						if (dtl1.getRecord(i1).getFieldsNumericType(fromFields[i]) == Type.NT_NUMBER) {
-						} else if ("".equals(cpy.quote)) {		 
-							if (!"".equals(fieldSep) && s.indexOf(fieldSep) >= 0) {
-								StringBuffer b = new StringBuffer(s);
-								Conversion.replace(b, fieldSep, "");
-								Common.logMsg("Warning: on line " + lineNo + " Field " + i + ", Seperator " + fieldSep + " Dropped" , null);
-								s = b.toString();
-							}
-						} else if (!"".equals(fieldSep) && s.indexOf(fieldSep) >= 0) {
-							StringBuffer b = new StringBuffer(s);
-							String quote = cpy.quote;
-							int pos;
-							int j = 0;
-														
-							while ((pos = b.indexOf(quote, j)) >= 0) {
-								b.insert(pos, quote);
-								j = pos + 2;
-							}
-							s = quote + b.toString() + quote;
-						} 
-						fileWriter.write(Conversion.getBytes(s, cpy.font));
+						writer.writeField(
+								o.toString(), 
+								dtl1.getRecord(i1).getFieldsNumericType(fromFields[i]) == Type.NT_NUMBER);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 					System.out.println("Error " + e.getMessage() + " : " + o);
 				}
 			}
-			fileWriter.write(eolBytes);
+			writer.newLine();
 		}
 	}
 	

@@ -33,7 +33,7 @@ public class StandardRendor extends DefaultTableCellRenderer {
 			
 		Component ret =  super.getTableCellRendererComponent(tbl, value, isSelected, hasFocus, row, col);
 		
-		boolean higlight = Common.isHighlightEmpty();
+		boolean higlight = Common.OPTIONS.highlightEmpty.isSelected();
 		if (higlight && value == Common.MISSING_VALUE) {
 			ret.setBackground(Common.EMPTY_COLOR);
 		} else if (value == Common.MISSING_REQUIRED_VALUE) {

@@ -12,6 +12,7 @@ import javax.swing.table.TableCellRenderer;
 
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.RecordEditor.utils.swing.CheckboxTableRenderStringBased;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 /**
@@ -48,14 +49,14 @@ public class CheckBoxFormat implements CellFormat {
      * @see net.sf.RecordEditor.record.format.CellFormat#getFieldHeight()
      */
     public int getFieldHeight() {
-        return CheckboxTableRenderStringBased.CELL_HEIGHT;
+        return SwingUtils.CHECK_BOX_HEIGHT;
     }
 
     /**
      * @see net.sf.RecordEditor.record.format.CellFormat#getFieldWidth()
      */
     public int getFieldWidth() {
-        return CheckboxTableRenderStringBased.CELL_WIDTH;
+        return SwingUtils.CHECK_BOX_WIDTH;
     }
 
     /**

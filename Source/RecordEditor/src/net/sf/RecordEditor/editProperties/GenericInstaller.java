@@ -40,6 +40,7 @@ import javax.swing.JTextField;
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
  * This program will<ol compact>
@@ -53,7 +54,7 @@ import net.sf.RecordEditor.utils.swing.FileChooser;
  */
 public class GenericInstaller implements ActionListener {
 
-    public  static final int TIP_HEIGHT = 200;
+    public  static final int TIP_HEIGHT = SwingUtils.STANDARD_FONT_HEIGHT * 17;
     private static final int HSQL_IDX   = 2;
     private static final int SQLITE_IDX = 11;
 
@@ -265,21 +266,21 @@ public class GenericInstaller implements ActionListener {
                 new JScrollPane(tips));
 
         //pnl.addComponent("Source Name", sourceName);
-        pnl.addComponent("Database Index (0->15)", dbIndex);
-        pnl.addComponent("Database", database);
-        pnl.addComponent("Drop ; from SQL", dropSemiChk);
+        pnl.addLine("Database Index (0->15)", dbIndex);
+        pnl.addLine("Database", database);
+        pnl.addLine("Drop ; from SQL", dropSemiChk);
         pnl.setGap(BasePanel.GAP2);
-        pnl.addComponent("Driver", driver);
-        pnl.addComponent("Source", source);
-        pnl.addComponent("DB Create Extension", createExt);
+        pnl.addLine("Driver", driver);
+        pnl.addLine("Source", source);
+        pnl.addLine("DB Create Extension", createExt);
         pnl.setGap(BasePanel.GAP1);
-        pnl.addComponent("User", user);
-        pnl.addComponent("Password", password);
+        pnl.addLine("User", user);
+        pnl.addLine("Password", password);
         pnl.setGap(BasePanel.GAP1);
-        pnl.addComponent("JDBC Jar", jdbcJar, jdbcJar.getChooseFileButton());
-        pnl.addComponent("Save in Lib Dir", saveInLibDir, test);
+        pnl.addLine("JDBC Jar", jdbcJar, jdbcJar.getChooseFileButton());
+        pnl.addLine("Save in Lib Dir", saveInLibDir, test);
         pnl.setGap(BasePanel.GAP2);
-        pnl.addComponent("Also ", null, sqlScreen);
+        pnl.addLine("Also ", null, sqlScreen);
         //pnl.setGap(BasePanel.GAP2);
 
         //pnl.done();
@@ -300,7 +301,7 @@ public class GenericInstaller implements ActionListener {
 
         pnl.addMenuItem("Build Everything", bldAllTables);
         pnl.setGap(BasePanel.GAP0);
-        pnl.addComponent("    or", null);
+        pnl.addLine("    or", null);
         pnl.setGap(BasePanel.GAP0);
         pnl.addMenuItem("Create Tables in DB", bldCreateTables);
         pnl.addMenuItem("Load Common Tables",  bldtblTables);

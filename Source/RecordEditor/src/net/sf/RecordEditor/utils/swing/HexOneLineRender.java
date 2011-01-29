@@ -15,7 +15,6 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.text.JTextComponent;
 
 import net.sf.JRecord.Common.Conversion;
-import net.sf.RecordEditor.utils.common.Common;
 
 /**
  * Mono spaced text field table rendor
@@ -23,6 +22,7 @@ import net.sf.RecordEditor.utils.common.Common;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class HexOneLineRender extends JTextField implements TableCellRenderer, AbstractHexDisplay  {
 
     /**
@@ -30,7 +30,8 @@ public class HexOneLineRender extends JTextField implements TableCellRenderer, A
      */
     public HexOneLineRender() {
         super();
-        this.setFont(Common.getMonoSpacedFont());
+
+        this.setFont(SwingUtils.getMonoSpacedFont());
 		this.setBorder(BorderFactory.createEmptyBorder());
     }
 

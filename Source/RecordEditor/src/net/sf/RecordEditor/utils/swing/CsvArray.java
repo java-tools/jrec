@@ -38,8 +38,9 @@ import com.zbluesoftware.java.bm.ArrowButton;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class CsvArray extends JPanel implements ActionListener, TableCellRenderer {
-    private static final int FIELD_WIDTH = 20;
+    private static final int FIELD_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 20 / 9;
     private JTextField fld = new JTextField();
     private JButton btn = new ArrowButton(ArrowButton.SOUTH);
     private JPopupArray popup;

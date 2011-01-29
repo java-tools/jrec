@@ -11,6 +11,7 @@ package net.sf.RecordEditor.layoutWizard;
 import javax.swing.JComponent;
 
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 
 /**
@@ -20,9 +21,10 @@ import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public abstract class WizardPanel extends BaseHelpPanel implements AbstractWizardPanel<Details> {
 
-    public static final int TIP_HEIGHT  = 130;
+    public static final int TIP_HEIGHT  = SwingUtils.STANDARD_FONT_HEIGHT * 10 + 5;
    
     
     /**

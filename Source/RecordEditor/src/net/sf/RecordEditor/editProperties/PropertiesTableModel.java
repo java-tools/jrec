@@ -16,6 +16,7 @@ import net.sf.RecordEditor.utils.common.Parameters;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class PropertiesTableModel extends AbstractTableModel {
 
     private String[] colHeadings;

@@ -44,6 +44,7 @@ import net.sf.RecordEditor.utils.filter.FilterDetails;
 import net.sf.RecordEditor.utils.filter.FilterPnl;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 /**
@@ -54,10 +55,11 @@ import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
  *
  * @version 0.56
  */
+@SuppressWarnings("serial")
 public class FilterFrame extends ReFrame {
 
 
-    private static final int FORM_WIDTH              = 645;
+    private static final int FORM_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 72;
 
     private FileView<?> fileTable;
     
@@ -109,7 +111,7 @@ public class FilterFrame extends ReFrame {
 
     	
 		
-		this.getContentPane().add(new JScrollPane(pnl));
+		this.getContentPane().add(pnl);
 		this.pack();
 		this.setSize(FORM_WIDTH, Math.min(this.getHeight(), screenSize.height - 5));
 		this.setVisible(true);

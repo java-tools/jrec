@@ -24,11 +24,9 @@ import net.sf.RecordEditor.utils.common.Common;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class CheckBoxTableRender extends JCheckBox
 implements TableCellRenderer {
-    public static final int CELL_WIDTH  = 20;
-    public static final int CELL_HEIGHT = 20;
-
 
     private JCheckBox checkBox = this;
     
@@ -56,7 +54,7 @@ implements TableCellRenderer {
 	    	checkBox.setSelected(val);
 	    }  
 
-	    if (Common.isHighlightEmpty() && value == Common.MISSING_VALUE) {
+	    if (Common.OPTIONS.highlightEmpty.isSelected() && value == Common.MISSING_VALUE) {
 	    	checkBox.setBackground(Common.EMPTY_COLOR);
 	    } else if (value == Common.MISSING_REQUIRED_VALUE) {
 	    	checkBox.setBackground(Common.MISSING_COLOR);

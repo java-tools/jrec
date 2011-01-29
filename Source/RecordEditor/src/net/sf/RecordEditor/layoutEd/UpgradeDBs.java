@@ -27,6 +27,7 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 
@@ -46,6 +47,7 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
  *      new table entries that relate to the three new data types
  *      and one new Line IO Provider
  */
+@SuppressWarnings("serial")
 public class UpgradeDBs extends ReFrame implements ActionListener {
 
 	private String formDescription;
@@ -68,9 +70,9 @@ public class UpgradeDBs extends ReFrame implements ActionListener {
 		/* input params */
 	private int connectionId;
 
-	private static final int TIPS_HEIGHT      = 120;
-	private static final int FORM_WIDTH       = 600;
-	private static final int FORM_HEIGHT_INC  = 20;
+	private static final int TIPS_HEIGHT      = SwingUtils.STANDARD_FONT_HEIGHT * 10;
+	private static final int FORM_WIDTH       = SwingUtils.STANDARD_FONT_WIDTH * 67;
+	private static final int FORM_HEIGHT_INC  = SwingUtils.NORMAL_FIELD_HEIGHT;
 
 	/**
 	 * This class Loads selected copybooks into the record editor DB
@@ -99,7 +101,7 @@ public class UpgradeDBs extends ReFrame implements ActionListener {
 
 		pnl.setHelpURL(Common.formatHelpURL(Common.HELP_UPGRADE));
 
-		pnl.addComponent("", null, helpBtn);
+		pnl.addLine("", null, helpBtn);
 		pnl.setGap(BasePanel.GAP1);
 
 		pnl.addComponent(1, 5, TIPS_HEIGHT, BasePanel.GAP3,
@@ -110,9 +112,9 @@ public class UpgradeDBs extends ReFrame implements ActionListener {
 		pnl.addMenuItem("Upgrade from 0.52.1/0.53 to version 0.55", upgrade55);
 		//pnl.addMenuItem("Upgrade the Tables from 0.55 to 0.56", upgrade56);
 		//pnl.addMenuItem("Upgrade the Tables from 0.56 to 0.60", upgrade60);
-		pnl.addMenuItem("Upgrade the Tables from 0.55 - 0.61b to version 0.62", upgrade61b);
+		pnl.addMenuItem("Upgrade the DB from 0.55 - 0.61b to version 0.62", upgrade61b);
 		//pnl.addMenuItem("Upgrade the Tables from 0.62 to version 0.67", upgrade67);
-		pnl.addMenuItem("Upgrade the Tables from 0.62/65/68*/69* to version 0.69.1", upgrade69);
+		pnl.addMenuItem("Upgrade the DB from 0.62->69* to version 0.69.2c", upgrade69);
 
 		helpBtn.addActionListener(this);
 		upgrade55.addActionListener(this);
@@ -130,7 +132,7 @@ public class UpgradeDBs extends ReFrame implements ActionListener {
 
 		pack();
 
-		setBounds(getX(), getY(), FORM_WIDTH, getHeight() + FORM_HEIGHT_INC);
+		setBounds(getY(), getX(), FORM_WIDTH, getHeight() + FORM_HEIGHT_INC);
 
 		show();
 

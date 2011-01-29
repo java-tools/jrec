@@ -13,7 +13,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
-
+ 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.RecordEditor.edit.display.LineList;
@@ -84,7 +84,7 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
         fieldOptionPanel.add(uncheckAllFields);
         fieldOptionPanel.add(checkAllFields);
 
-		pnl.addComponent("", fieldOptionPanel);
+		pnl.addLine("", fieldOptionPanel);
 		pnl.setHeight(BasePanel.NORMAL_HEIGHT * 2);
 
 		pnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP1,
@@ -94,7 +94,7 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
 		if (sourcePanel instanceof LineList) {
 			pnl.setGap(BasePanel.GAP0);
 			saveColSeq.setSelected(true);
-			pnl.addComponent("", saveColSeq);
+			pnl.addLine("", saveColSeq);
 		}
 		
 		pnl.setGap(BasePanel.GAP1);	
@@ -105,9 +105,8 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
 			p.add(net.sf.RecordEditor.edit.display.util.SaveRestoreHiddenFields.getSaveButton(sourcePanel, this));
 		} catch(NoClassDefFoundError nce) {
 		} catch (Exception e) { 
-			// TODO: handle exception
 		}
-		pnl.addComponent("", p, goBtn);
+		pnl.addLine("", p, goBtn);
 		pnl.setHeight(BasePanel.GAP1 * 2);
 
 

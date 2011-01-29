@@ -7,6 +7,7 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.screenManager.ReActionActiveScreen;
 
+@SuppressWarnings("serial")
 public class VelocityPopup extends JMenu {
 
 	private static ReActionActiveScreen[] actionList = null;
@@ -37,7 +38,7 @@ public class VelocityPopup extends JMenu {
 
 	
 	private static void readFiles() {
-		String dirName = Common.DEFAULT_VELOCITY_DIRECTORY;
+		String dirName = Common.OPTIONS.DEFAULT_VELOCITY_DIRECTORY.get();
 		File dir ;
 		String[] fileList ;
 		

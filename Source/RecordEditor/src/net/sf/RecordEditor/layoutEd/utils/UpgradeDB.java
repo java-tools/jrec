@@ -40,9 +40,10 @@ import net.sf.RecordEditor.utils.common.ReConnection;
  */
 public final class UpgradeDB {
 
-	private static String VERSION_691 = "0069100";
-	private static String LATEST_VERSION = VERSION_691;
-	private static String VERSION_KEY = "-101";
+	//private static String VERSION_691  = "0069100";
+	private static String VERSION_692B = "0069200";
+	private static String LATEST_VERSION = VERSION_692B;
+	private static String VERSION_KEY  = "-101";
 	
 	private static String  SQL_GET_VERION = 
 			"Select DETAILS from TBL_TI_INTTBLS "
@@ -53,8 +54,7 @@ public final class UpgradeDB {
 	private int[] unknownStructure = {
 		Constants.IO_VB, Constants.IO_VB_DUMP, 
 		Constants.IO_VB_OPEN_COBOL, Constants.IO_VB_FUJITSU,
-		Constants.IO_BIN_TEXT, Constants.IO_UNICODE_TEXT,
-		Constants.IO_UNICODE_TEXT
+		Constants.IO_BIN_TEXT, Constants.IO_UNICODE_TEXT
 	};
 	private String[] unknownFonts = {
 		"cp037", "cp037", "", "", "", "utf-8", "utf-16",
@@ -71,7 +71,7 @@ public final class UpgradeDB {
 	private String unknownLine1Pt1 = "Record\t";
 	private String unknownLine1Pt2 ="\t1\t<Tab>\t0\t\tY\t";
 	private String unknownLine2 ="1\t1\tData\t\t81\t0\t0\t";
-	
+		
 	private String unknownFormatLines 
 		= "Record\t21\t1\t<Tab>\t0\t\tY\tUnknown Format\n"
 		+ "1\t1\tUnknown\t\t0\t0\t0\t";
@@ -253,20 +253,28 @@ public final class UpgradeDB {
     
     private String[] sql69 = {
     	deleteTbl + "TBLID = 1 and TBLKEY in (" + Type.ftPositiveBinaryBigEndian + ","
-            + Type.ftBinaryBigEndian + ")",
-        deleteTbl + "TBLID = 4 and TBLKEY in (" + Constants.IO_VB_OPEN_COBOL +")",
+            + Type.ftBinaryBigEndian 
+            + "," + Type.ftNumAnyDecimal + "," + Type.ftPositiveNumAnyDecimal + ")",
+        deleteTbl + "TBLID = 4 and TBLKEY in (" + Constants.IO_VB_OPEN_COBOL 
+        	+ "," + Constants.IO_UNICODE_NAME_1ST_LINE
+        	+ "," + Constants.IO_BIN_NAME_1ST_LINE
+        	+")",
        	deleteTbl + "TBLID = 1 and TBLKEY in (" + Type.ftCharRestOfFixedRecord 
-       	+ "," + Type.ftCharRestOfRecord 
-       	+ "," + Type.ftRmComp + "," + Type.ftRmCompPositive 
-        + ")",
+       		+ "," + Type.ftCharRestOfRecord 
+       		+ "," + Type.ftRmComp + "," + Type.ftRmCompPositive 
+       		+ ")",
       	deleteTbl + "TBLID = 5 and TBLKEY in (" + CellFormat.FMT_BOLD + ")",
  //      	insertSQL + "(1," + Type.ftCharRestOfFixedRecord + ",'Char Rest of Fixed Length');",
       	insertSQL + "(1," + Type.ftBinaryBigEndian + ",'Binary Integer Big Endian (Mainframe?)');",
        	insertSQL + "(1," + Type.ftPositiveBinaryBigEndian + ",'Positive Integer (Big Endian)');",
        	insertSQL + "(4," + Constants.IO_VB_OPEN_COBOL +",'Open Cobol VB');",
+       	insertSQL + "(4," + Constants.IO_UNICODE_NAME_1ST_LINE + ",'Unicode Csv Names o First Line');",
+       	insertSQL + "(4," + Constants.IO_BIN_NAME_1ST_LINE     + ",'Bin Csv Names o First Line ');",
        	insertSQL + "(1," + Type.ftCharRestOfRecord + ",'Char Rest of Record');",
        	insertSQL + "(1," + Type.ftRmComp + ",'RM Cobol Comp');",
        	insertSQL + "(1," + Type.ftRmCompPositive + ",'RM Cobol Positive Comp');",
+      	insertSQL + "(1," + Type.ftNumAnyDecimal + ",'Number any decimal');",
+      	insertSQL + "(1," + Type.ftPositiveNumAnyDecimal + ",'Number (+ve) any decimal');",
         insertSQL + "(5," + CellFormat.FMT_BOLD + ",'Bold Format')",
    };
 
@@ -371,7 +379,7 @@ public final class UpgradeDB {
 // 
 
     public void upgrade69(int dbIdx) {
-        genericUpgrade(dbIdx, sql69, VERSION_691);
+        genericUpgrade(dbIdx, sql69, VERSION_692B);
         
         for (int i =0; i < unknownStructure.length; i++) {
         	addLayout(
@@ -380,18 +388,18 @@ public final class UpgradeDB {
         			unknownLine1Pt1 + unknownStructure[i] 
         	   +	unknownLine1Pt2 + unknownNames[i] 
         	   +	"\n" + unknownLine2,
-        	   		unknownFonts[i]);
+        	   		unknownFonts[i],
+        	   		0);
         }
          
-        addLayout(
-        			dbIdx,
+        addLayout(	dbIdx,
         			"Unknown Format",
         			unknownFormatLines,
-        	   		"");
-
+        	   		"",
+        			0);
     }
 
-    private void addLayout(int dbIdx, String name, String txt, String font) {
+    private void addLayout(int dbIdx, String name, String txt, String font, int system) {
     	byte[] bytes = txt.getBytes();
     	ByteArrayInputStream in = new ByteArrayInputStream(bytes);
     	ExternalRecord ext;
@@ -412,6 +420,7 @@ public final class UpgradeDB {
         		name,
         		Constants.rtBinaryRecord,
                 font);
+        ext.setSystem(system);
 
      	(new RecordEditorCsvLoader("\t"))
      			.insertFields(Common.getLogger(), ext, new InputStreamReader(in), name, dbIdx);
@@ -548,7 +557,7 @@ public final class UpgradeDB {
     		} else {
     			//System.out.println("upgrading DB");
     			new UpgradeDB().upgrade69(dbIndex);
-    			Common.logMsg("Upgraded DB to version 0.69 ", null);
+    			Common.logMsg("Upgraded DB to version 0.69.2b ", null);
     			ret = true;
     		}
     	} catch (Exception e) {

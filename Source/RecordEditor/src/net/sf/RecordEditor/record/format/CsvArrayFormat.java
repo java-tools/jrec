@@ -16,9 +16,9 @@ import javax.swing.table.TableCellRenderer;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.CsvParser.BasicParser;
-import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.CsvArray;
 import net.sf.RecordEditor.utils.swing.CsvArrayTableEditor;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 /**
@@ -30,7 +30,9 @@ import net.sf.RecordEditor.utils.swing.CsvArrayTableEditor;
 public class CsvArrayFormat implements CellFormat {
 
 
+	private static int HEIGHT = Math.max(SwingUtils.TABLE_ROW_HEIGHT, SwingUtils.CHECK_BOX_HEIGHT) + 1;
     private CsvArray render = null;
+   
 
 
 
@@ -38,7 +40,7 @@ public class CsvArrayFormat implements CellFormat {
      * @see net.sf.RecordEditor.record.format.CellFormat#getFieldHeight()
      */
     public int getFieldHeight() {
-        return Common.COMBO_TABLE_ROW_HEIGHT;
+        return HEIGHT;
     }
 
     /**

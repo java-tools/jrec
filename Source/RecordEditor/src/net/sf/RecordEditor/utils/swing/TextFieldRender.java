@@ -8,6 +8,7 @@ import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.table.TableCellRenderer;
 
+@SuppressWarnings("serial")
 public class TextFieldRender extends JTextField implements TableCellRenderer {
 
 	private Border columnBorder;

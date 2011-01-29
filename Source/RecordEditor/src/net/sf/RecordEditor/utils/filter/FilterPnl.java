@@ -32,6 +32,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -39,7 +40,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
+
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
@@ -50,10 +51,12 @@ import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
+import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
 import net.sf.RecordEditor.utils.swing.ComboBoxRender;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 /**
@@ -64,24 +67,25 @@ import net.sf.RecordEditor.utils.swing.ComboBoxRender;
  *
  * @version 0.56
  */
+@SuppressWarnings("serial")
 public class FilterPnl extends BaseHelpPanel implements ActionListener, AbstractSaveDetails<EditorTask> {
 
-    private static final int FIRST_COLUMN_WIDTH      = 320;
-    private static final int SECOND_COLUMN_WIDTH     = 80;
+    private static final int FIRST_COLUMN_WIDTH      = SwingUtils.STANDARD_FONT_WIDTH * 35;
+    private static final int SECOND_COLUMN_WIDTH     = SwingUtils.STANDARD_FONT_WIDTH * 9;
 
-    protected static final int FIELD_VALUE_ROW_HEIGHT  = Common.COMBO_TABLE_ROW_HEIGHT;
-    protected static final int FIELD_NAME_WIDTH      = 200;
-    private static final int CASE_SENSTIVE_WIDTH     = 90;
-    private static final int OPERATOR_WIDTH          = 90;
-    private static final int VALUE_WIDTH             = 220;
+    protected static final int FIELD_VALUE_ROW_HEIGHT  = SwingUtils.COMBO_TABLE_ROW_HEIGHT;
+    protected static final int FIELD_NAME_WIDTH      = SwingUtils.STANDARD_FONT_WIDTH * 22;
+    private static final int CASE_SENSTIVE_WIDTH     = SwingUtils.STANDARD_FONT_WIDTH * 10;
+    private static final int OPERATOR_WIDTH          = CASE_SENSTIVE_WIDTH;
+    private static final int VALUE_WIDTH             = FIELD_NAME_WIDTH;
  
-    private static final double TABLE_HEIGHT         = 8 * BasePanel.NORMAL_HEIGHT;
-    private static final double FIELD_VALUE_TABLE_HEIGHT
-    	= (FilterFieldList.NUMBER_FIELD_FILTER_ROWS + 2)
-        * FIELD_VALUE_ROW_HEIGHT;
+//    private static final double TABLE_HEIGHT         = 8 * BasePanel.NORMAL_HEIGHT;
+//    private static final double FIELD_VALUE_TABLE_HEIGHT
+//    	= (FilterFieldList.NUMBER_FIELD_FILTER_ROWS + 2)
+//        * FIELD_VALUE_ROW_HEIGHT;
 
     private BaseHelpPanel pnl2 = new BaseHelpPanel();
-    private JTabbedPane tabOption    = new JTabbedPane();
+    //private JTabbedPane tabOption    = new JTabbedPane();
     private JPanel RecordOptionPanel = new JPanel();
     private JPanel fieldOptionPanel  = new JPanel();
     protected final JTable recordTbl = new JTable();
@@ -126,63 +130,98 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
     	
     	addExecute = pAddExecute;
 
-    	setRecordLayout(layout, null, false);
+    	setRecordLayout(layout, null, false, 0);
     }
     
     public final void setRecordLayout(final AbstractLayoutDetails layout, 
     		final AbstractLayoutDetails layout2, 
-    		boolean is2ndLayout) {
+    		boolean is2ndLayout, int heightOverhead) {
     	recordLayout = layout;
     	
 
         setupScreenFields(is2ndLayout, layout2);
 
         if (toInit) {
-        	if (is2ndLayout) {
-        		pnl2.addHelpBtn(Common.getHelpButton());
-        	} else {
-        		pnl2.addHelpBtn(RecordOptionPanel, Common.getHelpButton());
-        	}
-			pnl2.setHeight(BasePanel.GAP2);
-			
-			pnl2.addComponent(1, 5,
-			         Math.min(TABLE_HEIGHT, BasePanel.NORMAL_HEIGHT
-			                 			 * (recordTbl.getRowCount() + 1) + 10),
-			         BasePanel.GAP1,
-			         BasePanel.FULL, BasePanel.FULL,
-					 recordTbl);
-	
-			if (! is2ndLayout) {
-				pnl2.addComponent("", fieldOptionPanel);
-				pnl2.setHeight(BasePanel.NORMAL_HEIGHT * 2);
+        	int height;
+        	int desktopHeight = ReFrame.getDesktopHeight() - 50 - heightOverhead
+        	                    - 2 * ((int) BasePanel.GAP1);
+        	JScrollPane scrollPane = new JScrollPane(pnl2);
+        	if (! is2ndLayout) {
+        		desktopHeight -= SwingUtils.BUTTON_HEIGHT + 6;
 			}
-			pnl2.addComponent(1, 5, TABLE_HEIGHT, BasePanel.GAP1,
-			         BasePanel.FULL, BasePanel.FULL,
-					 fieldTbl);
+        	if (addExecute) {
+        		desktopHeight -= SwingUtils.BUTTON_HEIGHT * 3;
+        	}
+        	
+        	pnl2.setBorder(BorderFactory.createEmptyBorder());
+        	scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        	
+        	if (this.getClass() != FilterPnl.class 
+        	|| is2ndLayout
+        	|| layout.getRecordCount() > 1) {
+        		int maxHeight = desktopHeight / 3;
+        		if (addFieldFilter) {
+        			maxHeight = desktopHeight / 4;
+        		}
+	        	if (is2ndLayout) {
+	        		pnl2.addHelpBtn(Common.getHelpButton());
+					height = SwingUtils.calculateComboTableHeight(recordTbl.getRowCount(), maxHeight);
+	        	} else {
+	        		pnl2.addHelpBtn(RecordOptionPanel, Common.getHelpButton());
+					height = SwingUtils.calculateTableHeight(recordTbl.getRowCount(), maxHeight);
+	        	}
+				pnl2.setHeight(SwingUtils.BUTTON_HEIGHT + 6);
+				
+				desktopHeight -= height + SwingUtils.BUTTON_HEIGHT + 6;
+				pnl2.addComponent(1, 5,
+						 height,
+				         BasePanel.GAP1,
+				         BasePanel.FULL, BasePanel.FULL,
+						 recordTbl);
+	        }
+       	
+			if (! is2ndLayout) {
+				pnl2.addLine("", fieldOptionPanel);
+				pnl2.setHeight(SwingUtils.BUTTON_HEIGHT + 6);
+			}
+
 	
 			if (addFieldFilter) {
+				height = SwingUtils.calculateTableHeight(fieldTbl.getRowCount(), desktopHeight / 2);
+				desktopHeight -= height;
+
+				pnl2.addComponent(1, 5, height, BasePanel.GAP1,
+				         BasePanel.FULL, BasePanel.FULL,
+						 fieldTbl);
+				
+				height = SwingUtils.calculateComboTableHeight(FilterFieldList.NUMBER_FIELD_FILTER_ROWS, desktopHeight * 7 / 10);
 				pnl2.addComponent(1, 5,
-			         FIELD_VALUE_TABLE_HEIGHT, BasePanel.GAP1,
+						height, 3,
 			         BasePanel.FULL, BasePanel.FULL,
 					 filterFieldTbl);
+			} else {
+				//height = SwingUtils.calculateComboTableHeight(fieldTbl.getRowCount(), desktopHeight * 8 / 10);
+				height =  desktopHeight  * 4 / 5;
+
+				pnl2.addComponent(1, 5, height, 3,
+				         BasePanel.FULL, BasePanel.FULL,
+						 fieldTbl);
 			}
-	
-			tabOption.addTab("Normal", new JScrollPane(pnl2));
 			
-			
+			setGap(0);
 			setHelpURL(Common.formatHelpURL(Common.HELP_FILTER));
 			addComponent(0, 6, BasePanel.FILL, BasePanel.GAP, BasePanel.FULL,
-			        BasePanel.FULL, tabOption);
+			        BasePanel.FULL, new JScrollPane(pnl2));
 		
-			setGap(BasePanel.GAP1);	
 			
 			if (addExecute) {
+				setGap(BasePanel.GAP0);	
 				String dir = Parameters.getFileName(Parameters.FILTER_SAVE_DIRECTORY);
 				JPanel p = new JPanel();
 				p.add(new SaveButton<EditorTask>(this, dir));
-				addComponent("", p, execute);
+				addLine("", p, execute);
 				setHeight(BasePanel.GAP1 * 2);
-				setGap(BasePanel.GAP1);
+				setGap(BasePanel.GAP0);
 			}
 	
 			addMessage(messageFld);

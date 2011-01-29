@@ -14,6 +14,9 @@ package net.sf.RecordEditor.editProperties;
 
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -39,6 +42,7 @@ import net.sf.RecordEditor.edit.util.CopybookLoaderFactoryDB;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
  * Edit RecordEditor Startup options
@@ -49,7 +53,10 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
 
 public class EditOptions {
 
-    private static final int PROGRAM_DESCRIPTION_HEIGHT = 400;
+    private static final int PROGRAM_DESCRIPTION_HEIGHT 
+    		= Math.min(
+    				SwingUtils.NORMAL_FIELD_HEIGHT * 21,
+    				Toolkit.getDefaultToolkit().getScreenSize().height * 3 / 5);
     private EditParams params = new EditParams();
 
     private JFrame frame = new JFrame("Record Editor Options Editor");
@@ -72,7 +79,7 @@ public class EditOptions {
 	};
 
 	private String description
-		= "<h1>Edit RecordEditor Properties Editor</h1>"
+		= "<h2>Edit RecordEditor Properties Editor</h2>"
 		+ "This program lets you edit the <b>RecordEditor</b> properties files "
 		+ "and jar files."
 		+ "<br>There is little validation, so be very careful what changes you make."
@@ -81,15 +88,15 @@ public class EditOptions {
 		+ "<br><br>There are 4 basic tab types in the program: "
 		+ "<table border=\"1\" cellpadding=\"3\">"
 		+ "<tr><TD><b>Properties</b></td>"
-		   +  "<td>Lets you update system properties like"
-		   +  "<b>Screen Position, Directories, Other Options</b></td></tr>"
+		   +  "<td>Lets you update system properties like "
+		   +  "<b>Screen Position, Directories, Other Options, Wizard Option and Big File Options</b></td></tr>"
 		+ "<tr><td><b>JDBC Properties</b></td><td>Lets you set / update the Database (JDBC) "
 		        + "Connection properties "
 		        + "<br>to the <b>RecordEditor</b> backend DB </td></tr>"
 		+ "<tr><td><b>Jars</b></td><td>These options let you update "
 		    + "the various JAR (java libraries) used by the <b>RecordEditor</b>."
 		    + "<br>The only time you should need to do this "
-		    + "is if you are adding your own code to the <b>RecordEditor</b><br>or installing Velocity.</td></tr>"
+		    + "is if you are adding your own code to the <b>RecordEditor</b> or installing Velocity.</td></tr>"
 		+ "<tr><td><b>Extensions</b></td><td>These option let you define your own Types, formats to "
 		   + "the <b>RecordEditor</b>.</td></tr>"
 		+ "<tr><td><b>Looks</b></td><td>This option lets you define the look and feel of the RecordEditor</td</tr>"
@@ -109,11 +116,17 @@ public class EditOptions {
 		+ "of space to be left around the edge of the <b>RecordEditor</b>."
 		+ "<br>The editor can start using the full screen or any part "
 		+ "of the screen that you desire.";
-    private String[][] screenLocationParams = {
-            {"spaceAtBottomOfScreen", "Space to be left at the bottom of the screen.", null},
-            {"spaceAtTopOfScreen", "Space to be left at the top of the screen.", null},
-            {"spaceAtLeftOfScreen", "Space to be left at the left of the screen.", null},
-            {"spaceAtRightOfScreen", "Space to be left at the Right of the screen.", null},
+//    private String[][] screenLocationParams = {
+//            {"spaceAtBottomOfScreen", "Space to be left at the bottom of the screen.", null},
+//            {"spaceAtTopOfScreen", "Space to be left at the top of the screen.", null},
+//            {"spaceAtLeftOfScreen", "Space to be left at the left of the screen.", null},
+//            {"spaceAtRightOfScreen", "Space to be left at the Right of the screen.", null},
+//    };
+    private Object[][] screenLocationParams = {
+            {"spaceAtBottomOfScreen", "Space to be left at the bottom of the screen.", null, EditPropertiesPnl.FLD_INT, null},
+            {"spaceAtTopOfScreen", "Space to be left at the top of the screen.", null, EditPropertiesPnl.FLD_INT, null},
+            {"spaceAtLeftOfScreen", "Space to be left at the left of the screen.", null, EditPropertiesPnl.FLD_INT, null},
+            {"spaceAtRightOfScreen", "Space to be left at the Right of the screen.", null, EditPropertiesPnl.FLD_INT, null},
     };
 
 	private String directoryDescription
@@ -121,78 +134,98 @@ public class EditOptions {
 		+ "The properties on this panel are for the various directories "
 		+ "used by the <b>RecordEditor</b>";
 
-    private String[][] directoryParams = {
-            {"HelpDir",	"Directory holding the help files", null},
-            {"DefaultFileDirectory",	"Directory where the Editor Starts in (if no file specified)", null},
-            {"DefaultCobolDirectory", "The Directory where Cobol Copybooks are stored.", null},
-            {Parameters.VELOCITY_TEMPLATE_DIRECTORY, "Velocity Template directory (Editor)", null},
-            {Parameters.VELOCITY_COPYBOOK_DIRECTORY, "Velocity Template directory (Copybooks)", null},
-            {Parameters.COPYBOOK_DIRECTORY, "Directory to read / write file copybooks to", null},
-            {Parameters.COMPARE_SAVE_DIRECTORY, "Compare Save Directory",null},
-            {Parameters.FILTER_SAVE_DIRECTORY, "Filter Save Directory", null},
-            {Parameters.SORT_TREE_SAVE_DIRECTORY, "Sort Tree Save Directory", null},
-            {Parameters.RECORD_TREE_SAVE_DIRECTORY, "Record Tree Save Directory", null},
-            {Parameters.COPY_SAVE_DIRECTORY, "Copy Save Directory",null},
+    private Object[][] directoryParams1 = {
+            {"HelpDir",	"Directory holding the help files", null, EditPropertiesPnl.FLD_TEXT, null},
+            {"DefaultFileDirectory",	"Directory where the Editor Starts in (if no file specified)", null, EditPropertiesPnl.FLD_DIR, null},
+            {"DefaultCobolDirectory", "The Directory where Cobol Copybooks are stored.", null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.VELOCITY_TEMPLATE_DIRECTORY, "Velocity Template directory (Editor)", null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.VELOCITY_COPYBOOK_DIRECTORY, "Velocity Template directory (Copybooks)", null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.COPYBOOK_DIRECTORY, "Directory to read / write file copybooks to", null, EditPropertiesPnl.FLD_DIR, null},
+    };
+    
+
+    private Object[][] directoryParams2 = {
+            {Parameters.COMPARE_SAVE_DIRECTORY, "Compare Save Directory",null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.FILTER_SAVE_DIRECTORY, "Filter Save Directory", null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.SORT_TREE_SAVE_DIRECTORY, "Sort Tree Save Directory", null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.RECORD_TREE_SAVE_DIRECTORY, "Record Tree Save Directory", null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.COPY_SAVE_DIRECTORY, "Copy Save Directory",null, EditPropertiesPnl.FLD_DIR, null},
     };
 
     private String otherDescription
     	= "<H1>Other Properties</h1>"
     	+ "This panels lists the other non database Properties";
 
-    private String[][] otherParams = {
-            {"UserInitilizeClass", "This User written class will be invoked when the <b>RecordEditor</b starts.", null},
-            {"DateFormat", "Date Format String eg dd/MM/yy or dd.MMM.yy. the field is case sensitive", null},
-            {Parameters.PROPERTY_TEST_MODE, "Weather we are running automated Tests (Marathon ?) or not ", null},
-            {Parameters.BRING_LOG_TO_FRONT, "Bring Log to the Front if Data is written to it", null},
-            {Parameters.INVALID_FILE_CHARS, "Characters that are invalid in a file Name", null},
-            {Parameters.FILE_REPLACEMENT_CHAR, "Char to Replace invalid Filename Chars", null},
-            {Parameters.ASTERIX_IN_FILE_NAME, "Allow the asterix ('*') character in file Names", null},
-            {Parameters.PREFERED_AS_DEFAULT, "Default to prefered layout", null},
-            {Parameters.WARN_BINARY_FIELDS_DEFAULT, "Warn the user if Binary-Fields and Structure=Default", null},
-            {"SignificantCharInFiles.1", "Number of characters to use when looking up record layouts (small)", null},
-            {"SignificantCharInFiles.2", "Number of characters to use when looking up record layouts (medium)", null},
-            {"SignificantCharInFiles.3", "Number of characters to use when looking up record layouts (large)", null},
+    private Object[][] otherParams = {
+            {"UserInitilizeClass", "This User written class will be invoked when the <b>RecordEditor</b starts.", EditPropertiesPnl.FLD_TEXT, "User Init Class"},
+            {"DateFormat", "Date Format String eg dd/MM/yy or dd.MMM.yy. the field is case sensitive, it uses Java date Formatting", null, EditPropertiesPnl.FLD_TEXT, "Date Format"},
+            {Parameters.PROPERTY_TEST_MODE, "Weather we are running automated Tests (Marathon ?) or not ", null, EditPropertiesPnl.FLD_BOOLEAN, "Test Mode"},
+            {Parameters.BRING_LOG_TO_FRONT, "Bring Log to the Front if Data is written to it", null, EditPropertiesPnl.FLD_BOOLEAN, "Bring log to Front"}, // Checked
+            {Parameters.INVALID_FILE_CHARS, "Characters that are invalid in a file Name", null, EditPropertiesPnl.FLD_TEXT, null},
+            {Parameters.FILE_REPLACEMENT_CHAR, "Char to Replace invalid Filename Chars", null, EditPropertiesPnl.FLD_TEXT, null},
+            {Parameters.ASTERIX_IN_FILE_NAME, "Allow the asterix ('*') character in file Names", null, EditPropertiesPnl.FLD_BOOLEAN, null},
+            {Parameters.PREFERED_AS_DEFAULT, "Default to prefered layout", null, EditPropertiesPnl.FLD_BOOLEAN, null},
+            {Parameters.WARN_BINARY_FIELDS_DEFAULT, "Warn the user if Binary-Fields and Structure=Default", null, EditPropertiesPnl.FLD_BOOLEAN, "Warn on Structure change"}, // CHECK
+            {"SignificantCharInFiles.1", "Number of characters to use when looking up record layouts (small)", null, EditPropertiesPnl.FLD_INT, "Significant chars 1"},
+            {"SignificantCharInFiles.2", "Number of characters to use when looking up record layouts (medium)", null, EditPropertiesPnl.FLD_INT, "Significant chars 2"},
+            {"SignificantCharInFiles.3", "Number of characters to use when looking up record layouts (large)", null, EditPropertiesPnl.FLD_INT, "Significant chars 3"},
     };
  
     private String layoutWizardParamsDescription
 	= "<H1>Layout Wizard Properties</h1>"
 	+ "This panels holds various Field Search options used by the Layout Wizard";
 
-    private String[][] layoutWizardParams = {
-            {Parameters.FS_RUN_AUTOMATIC, "Weather to Run the field search Automatically or not ", null},
-            {Parameters.FS_MAINFRAME_ZONED, "Look for Mainframe Zoned numeric fields", null},
-            {Parameters.FS_PC_ZONED, "Look for PC Zoned numeric fields (Cobol PIC 9 fields)", null},
-            {Parameters.FS_COMP3, "Look for comp-3 fields", null},
-            {Parameters.FS_COMP_BIG_ENDIAN, "Look for Big Endian Binary", null},
-            {Parameters.FS_COMP_Little_ENDIAN, "Look for Little Endian Binary", null},
+    private Object[][] layoutWizardParams = {
+            {Parameters.FS_RUN_AUTOMATIC, "Weather to Run the field search Automatically or not ", null, EditPropertiesPnl.FLD_BOOLEAN, "Run the field search Automatically"}, // Check
+            {Parameters.FS_MAINFRAME_ZONED, "Look for Mainframe Zoned numeric fields", null, EditPropertiesPnl.FLD_BOOLEAN, null},
+            {Parameters.FS_PC_ZONED, "Look for PC Zoned numeric fields (Cobol PIC 9 fields)", null, EditPropertiesPnl.FLD_BOOLEAN, null},
+            {Parameters.FS_COMP3, "Look for comp-3 fields", null, EditPropertiesPnl.FLD_BOOLEAN, null},
+            {Parameters.FS_COMP_BIG_ENDIAN, "Look for Big Endian Binary", null, EditPropertiesPnl.FLD_BOOLEAN, null},
+            {Parameters.FS_COMP_Little_ENDIAN, "Look for Little Endian Binary", null, EditPropertiesPnl.FLD_BOOLEAN, null},
    };
 
 
     private String bigModelDescription
-    	= "<H1>Other Properties</h1>"
-    	+ "This panels lists the other non database Properties";
+    	= "<H1>Big Model Properties</h1>"
+    	+ "This panels lists parameters for the \"Big File\" Data Models.\n"
+    	+ "You can use these options to optermise the Read Time for very big files";
 
-    private String[][] bigModelParams = {
-            {Parameters.PROPERTY_BIG_FILE_PERCENT, "File Size to Memory Percent to Start using the Big-File-Model", null},
-            {Parameters.PROPERTY_BIG_FILE_CHUNK_SIZE, "Big-File-Model Memory Chunks (KB)", null},
-            {Parameters.PROPERTY_BIG_FILE_COMPRESS_OPT, "Big-File-Model compress option (N - No, R - Read, F - Read (fast cpu), S - Space, Y - Yes)", null},
-            {Parameters.PROPERTY_BIG_FILE_FILTER_LIMIT, "Big-File Filter/Tree limit (thousands)", null},
-            {Parameters.PROPERTY_BIG_FILE_DISK_FLAG, "Force Storing chunks on Disk (Used in Testing)", null},
-            {Parameters.PROPERTY_BIG_FILE_USE_SPECIAL_FIXED_MODEL, "Use Fixed Length Model (Used in Testing)", null},
-            {Parameters.PROPERTY_BIG_FILE_LARGE_VB, "Use Large VB Model (Y/N)", null},
-            {Parameters.PROPERTY_LOAD_FILE_BACKGROUND, "Load File in Background thread (default Y)", null},
+//    private String[][] bigModelParams = {
+//            {Parameters.PROPERTY_BIG_FILE_PERCENT, "File Size to Memory Percent to Start using the Big-File-Model", null},
+//            {Parameters.PROPERTY_BIG_FILE_CHUNK_SIZE, "Big-File-Model Memory Chunks (KB)", null},
+//            {Parameters.PROPERTY_BIG_FILE_COMPRESS_OPT, "Big-File-Model compress option (N - No, R - Read, F - Read (fast cpu), S - Space, Y - Yes)", null},
+//            {Parameters.PROPERTY_BIG_FILE_FILTER_LIMIT, "Big-File Filter/Tree limit (thousands)", null},
+//            {Parameters.PROPERTY_BIG_FILE_DISK_FLAG, "Force Storing chunks on Disk (Used in Testing)", null},
+//            {Parameters.PROPERTY_BIG_FILE_USE_SPECIAL_FIXED_MODEL, "Use Fixed Length Model (Used in Testing)", null},
+//            {Parameters.PROPERTY_BIG_FILE_LARGE_VB, "Use Large VB Model (Y/N)", null},
+//            {Parameters.PROPERTY_LOAD_FILE_BACKGROUND, "Load File in Background thread (default Y)", null},
+//    };
+
+    private String[][] COMPRESS_OPTION = {{"N", "No"}, {"R", "Read"}, {"F", "Read (fast cpu)"}, {"S", "Space"}, {"Y", "Yes"}};
+    private String[][] YNT_OPTION = {{"Y", "Yes"}, {"N", "No"}, {"T", "Test"}};
+    private Object[][] bigModelParams = {
+            {Parameters.PROPERTY_BIG_FILE_PERCENT, "File Size to Memory Percent to Start using the Big-File-Model", null, EditPropertiesPnl.FLD_INT, "Big File Percentage"},
+            {Parameters.PROPERTY_BIG_FILE_CHUNK_SIZE, "Big-File-Model Memory Chunks (KB) default=1000", null, EditPropertiesPnl.FLD_INT, "Chunk Size (KB)"},
+            {Parameters.PROPERTY_BIG_FILE_COMPRESS_OPT, "Big-File-Model compress option (Default Read)", null, EditPropertiesPnl.FLD_LIST, "Compress Option", COMPRESS_OPTION},
+            {Parameters.PROPERTY_BIG_FILE_FILTER_LIMIT, "Big-File Filter/Tree limit (thousands)", null, EditPropertiesPnl.FLD_INT, null},
+            {Parameters.PROPERTY_BIG_FILE_DISK_FLAG, "Force Storing chunks on Disk (Used in Testing)", null, EditPropertiesPnl.FLD_BOOLEAN, "Storing chunks on Disk"},
+            {Parameters.PROPERTY_BIG_FILE_USE_SPECIAL_FIXED_MODEL, "Use Fixed Length Model (Used in Testing)", null, EditPropertiesPnl.FLD_BOOLEAN, "Use Fixed Length Model"}, // Checked
+            {Parameters.PROPERTY_BIG_FILE_LARGE_VB, "Use Large VB Model (Default Yes)", null, EditPropertiesPnl.FLD_LIST, "Use Large VB Model", YNT_OPTION}, // Checked
+            {Parameters.PROPERTY_LOAD_FILE_BACKGROUND, "Load File in Background thread", null, EditPropertiesPnl.FLD_BOOLEAN, "Load In background"}, // Checked
     };
 
-    private EditPropertiesPanel screenPosPnl
-    	= new EditPropertiesPanel(params, screenLocationDescription, screenLocationParams);
-    private EditPropertiesPanel directoryPnl
-    	= new EditPropertiesPanel(params, directoryDescription, directoryParams);
-    private EditPropertiesPanel otherPnl
-		= new EditPropertiesPanel(params, otherDescription, otherParams);
-    private EditPropertiesPanel layoutWizardPnl
-		= new EditPropertiesPanel(params, layoutWizardParamsDescription, layoutWizardParams);
-    private EditPropertiesPanel bigModelPnl
-	= new EditPropertiesPanel(params, bigModelDescription, bigModelParams);
+    private EditPropertiesPnl screenPosPnl
+    	= new EditPropertiesPnl(params, screenLocationDescription, screenLocationParams);
+    private EditPropertiesPnl directoryPnl1
+    	= new EditPropertiesPnl(params, directoryDescription, directoryParams1);
+    private EditPropertiesPnl directoryPnl2
+	= new EditPropertiesPnl(params, directoryDescription, directoryParams2);
+    private EditPropertiesPnl otherPnl
+		= new EditPropertiesPnl(params, otherDescription, otherParams);
+    private EditPropertiesPnl layoutWizardPnl
+		= new EditPropertiesPnl(params, layoutWizardParamsDescription, layoutWizardParams);
+    private EditPropertiesPnl bigModelPnl
+		= new EditPropertiesPnl(params, bigModelDescription, bigModelParams);
 
     private EditJdbcParamsPanel jdbcParamsPnl = new EditJdbcParamsPanel(params, params.jdbcJars);
 
@@ -462,7 +495,8 @@ public class EditOptions {
         toolBar.add(save);
 
         propertiesTabbed.addTab("Screen Position", screenPosPnl);
-        propertiesTabbed.addTab("Directories", directoryPnl);
+        propertiesTabbed.addTab("Directories", directoryPnl1);
+        propertiesTabbed.addTab("Save Directories", directoryPnl2);
         propertiesTabbed.addTab("Other Options", otherPnl);
         
         if (includeWizardOptions) {
@@ -511,6 +545,28 @@ public class EditOptions {
         pnl.add("Center", mainTabbed);
         pnl.add("South", params.msgFld);
         frame.getContentPane().add(pnl);
+        
+        printTabDetails("mainTabbed", mainTabbed);
+        printTabDetails("propertiesTabbed", propertiesTabbed);
+        printTabDetails("jarsTabbed", jarsTabbed);
+        printTabDetails("userTabbed", userTabbed);
+        printTabDetails("looksTabbed", looksTabbed);
+    }
+    
+    private void printTabDetails(String name, JTabbedPane tab) {
+    	
+    	System.out.println(name + " " + tab.getTabCount());
+    	for (int i = 0; i < tab.getTabCount(); i++) {
+    		Component c = tab.getComponentAt(i);
+    		if (c != null) {
+	    		System.out.println(name + " " + i
+	    				+ "\t" + c.getPreferredSize().height
+	    				+ "\t" + c.getClass().getName());
+    		} else {
+    			System.out.print('.');
+    		}
+    	}
+    	
     }
     
     public EditParams getParams() {
@@ -518,8 +574,17 @@ public class EditOptions {
 	}
 
 	public final void displayScreen() {
-    	
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.pack();
+        frame.setBounds(
+        		frame.getY(), frame.getX(), 
+        		Math.min(frame.getWidth(), 
+        				 screenSize.width  - Common.getSpaceAtRightOfScreen() 
+        				 				   - frame.getY()), 
+        		Math.min(frame.getHeight(),
+        				 screenSize.height - Common.getSpaceAtBottomOfScreen()
+        				   - SwingUtils.NORMAL_FIELD_HEIGHT * 2
+		 				   - frame.getX()));
         frame.setVisible(true);
     }
 

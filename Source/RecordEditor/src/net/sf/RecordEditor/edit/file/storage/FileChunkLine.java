@@ -140,13 +140,13 @@ extends FileChunkBase<LineBase, RecordStoreBase> {
 		FileChunkLine fc;
 		int linesSoFar = rs[0].recordCount;
 		
-		System.out.println(" !!   " + this.getFirstLine()
-				+ " "  + this.recordStore.recordCount
-				+ " "  + this.recordStore.getSize());
-		System.out.println(" ## " + 0
-				+ " " + this.getFirstLine()
-				+ " " + rs[0].recordCount
-				+ " " + rs[0].getSize());
+//		System.out.println(" !!   " + this.getFirstLine()
+//				+ " "  + this.recordStore.recordCount
+//				+ " "  + this.recordStore.getSize());
+//		System.out.println(" ## " + 0
+//				+ " " + this.getFirstLine()
+//				+ " " + rs[0].recordCount
+//				+ " " + rs[0].getSize());
 		for (int i = 1; i < rs.length; i++) {
 			if (rs[i] != null) {
 				fc = new FileChunkLine(details, this.getFirstLine() + linesSoFar);
@@ -157,14 +157,14 @@ extends FileChunkBase<LineBase, RecordStoreBase> {
 				
 				linesSoFar += rs[i].getRecordCount();
 				
-				System.out.println(" ** " + i
-						+ " " + fc.getFirstLine()
-						+ " " + fc.recordStore.recordCount
-						+ " " + fc.recordStore.getSize());
+//				System.out.println(" ** " + i
+//						+ " " + fc.getFirstLine()
+//						+ " " + fc.recordStore.recordCount
+//						+ " " + fc.recordStore.getSize());
 			}
 		}
 		
-		System.out.println();
+		//System.out.println();
 		if (lines != null) {
 			synchronized (lines) {
 				Set<Integer> keySet = lines.keySet();
@@ -193,10 +193,10 @@ extends FileChunkBase<LineBase, RecordStoreBase> {
 									f.getLines().put(line.getChunkLine(), ref);
 									
 									if (ikey > 41 && ikey < 46) {
-									System.out.println(" Renumber: " 
-											+ j + ": " + ikey + " "
-											+ linesSoFar + " " + line.getChunkLine()
-											+ " " + f.getFirstLine());
+//									System.out.println(" Renumber: " 
+//											+ j + ": " + ikey + " "
+//											+ linesSoFar + " " + line.getChunkLine()
+//											+ " " + f.getFirstLine());
 									}
 								}
 								

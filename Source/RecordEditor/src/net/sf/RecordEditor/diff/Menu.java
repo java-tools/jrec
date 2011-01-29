@@ -27,6 +27,7 @@ import net.sf.RecordEditor.utils.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 
@@ -41,7 +42,7 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
 public class Menu extends ReFrame
                implements ActionListener {
 
-    private static final int MENU_WIDTH = 520;
+    private static final int MENU_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 57;
     private static final int HELP_GAP   = 15;
 
 	private JComboBox  dbCombo   = new JComboBox();
@@ -90,7 +91,7 @@ public class Menu extends ReFrame
 				dbCombo.addItem(dbs[i]);
 			}
 			dbCombo.setSelectedIndex(Common.getConnectionIndex());
-			pnl.addComponent("Data Base", dbCombo, btnHelp);
+			pnl.addLine("Data Base", dbCombo, btnHelp);
 		}
 		
 		pnl.setGap(BasePanel.GAP3);
@@ -119,7 +120,7 @@ public class Menu extends ReFrame
 
 		pack();
 
-		setBounds(getX(), getY(), MENU_WIDTH, getHeight());
+		setBounds(getY(), getX(), MENU_WIDTH, getHeight());
 
 		show();
 

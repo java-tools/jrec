@@ -31,8 +31,8 @@ import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 @SuppressWarnings("serial")
 public class CmpWizardFinal extends BaseHelpPanel implements AbstractWizardPanel<DiffDefinition> {
 
-	private FileChooser saveFileName = new FileChooser();
-	private FileChooser htmlFileName = new FileChooser();
+	private FileChooser saveFileName = new FileChooser(false);
+	private FileChooser htmlFileName = new FileChooser(false);
 	
 	private AbstractLayoutSelection<?> selection;
 	private AbstractLayoutSelection<?> selection2;
@@ -98,28 +98,29 @@ public class CmpWizardFinal extends BaseHelpPanel implements AbstractWizardPanel
 	
 		super.setHelpURL(Common.formatHelpURL(Common.HELP_DIFF_SL));
 		
-		super.addComponent("Save File", saveFileName, saveFileName.getChooseFileButton());
+		super.addLine("Save File", saveFileName, saveFileName.getChooseFileButton());
 		super.setGap(BasePanel.GAP1);
-		super.addComponent("Html File", htmlFileName, htmlFileName.getChooseFileButton());
+		super.addLine("Html File", htmlFileName, htmlFileName.getChooseFileButton());
 		super.setGap(BasePanel.GAP1);
-		super.addComponent("", stripTrailingSpaces);
+		super.addLine("", stripTrailingSpaces);
 		super.setGap(BasePanel.GAP1);
-		super.addComponent("HTML options:", null);
+		super.addLine("HTML options:", null);
 		
 		addRadioGrp(pnl, singleTblBtn, multipleTblsBtn);
 		addRadioGrp(pnl, allRows, chgRows);
 		addRadioGrp(pnl, allFieldsBtn, chgFieldsBtn);
 		
-		super.addComponent("", pnl);
+		super.addLine("", pnl);
 		super.setHeight(BasePanel.GAP5);
 		
-		super.addComponent("", null, saveBtn);
+		super.addLine("", null, saveBtn);
 		super.setGap(BasePanel.GAP0);
-		super.addComponent("", null, runBtn);
+		super.addLine("", null, runBtn);
 		super.setGap(BasePanel.GAP0);
-		super.addComponent("", null, htmlBtn);
+		super.addLine("", null, htmlBtn);
 		super.setGap(BasePanel.GAP2);
 		super.addMessage(message);
+		super.setHeight(BasePanel.HEIGHT_1P6);
 	}
 	
 	private void addRadioGrp(JPanel pnl, JRadioButton btn1, JRadioButton btn2) {

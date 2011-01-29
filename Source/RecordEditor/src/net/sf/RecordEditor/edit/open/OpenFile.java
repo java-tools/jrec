@@ -19,7 +19,7 @@
  *   - adding support for enter key
  */
 
-package net.sf.RecordEditor.edit;
+package net.sf.RecordEditor.edit.open;
 
 
 import java.awt.Rectangle;
@@ -30,11 +30,13 @@ import javax.swing.JInternalFrame;
 
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.RecordEditor.edit.display.BaseDisplay;
-import net.sf.RecordEditor.edit.display.OpenFileEditPnl;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.openFile.AbstractLayoutSelection;
+import net.sf.RecordEditor.utils.openFile.OpenFileInterface;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
+import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 /**
@@ -46,8 +48,8 @@ import net.sf.RecordEditor.utils.screenManager.ReFrame;
 @SuppressWarnings("serial")
 public class OpenFile extends ReFrame {
 
-	private OpenFileEditPnl<?> openFilePanel;
-    private static final int FRAME_WIDTH  = 660;
+	private OpenFileInterface openFilePanel;
+    private static final int FRAME_WIDTH  = SwingUtils.STANDARD_FONT_WIDTH * 72;
 
 	private BaseDisplay display = null;
 
@@ -116,17 +118,28 @@ public class OpenFile extends ReFrame {
 		);
 	}
 	
-	public OpenFile(final OpenFileEditPnl<?> openFile) {
+	public OpenFile(final OpenFileInterface openFile) {
+		this(openFile, FRAME_WIDTH);
+	}
+	
+	public OpenFile(final OpenFileInterface openFile, int width) {
 		super("Open File", "", null);
 
 //		copyBookInterface = pInterfaceToCopyBooks;
 
 		openFilePanel = openFile;
 
-		this.getContentPane().add(openFilePanel);
+		this.getContentPane().add(openFilePanel.getPanel());
 		this.pack();
 
-		setBounds(getX(), getY(), FRAME_WIDTH, getHeight());
+		if (width > 0) {
+			setBounds(getY(), getX(), width, getHeight());
+		} else {
+			Rectangle screenSize = ReMainFrame.getMasterFrame().getDesktop().getBounds();
+			if (getWidth() > screenSize.width) {
+				setBounds(getY(), getX(), screenSize.width - 1, getHeight());
+			}
+		}
 		frameSize = this.getBounds();
 
 		this.setDefaultCloseOperation(JInternalFrame.HIDE_ON_CLOSE);
@@ -178,7 +191,7 @@ public class OpenFile extends ReFrame {
 	/**
 	 * @return the openFilePanel
 	 */
-	public final OpenFileEditPnl<?> getOpenFilePanel() {
+	public final OpenFileInterface getOpenFilePanel() {
 		return openFilePanel;
 	}
 }

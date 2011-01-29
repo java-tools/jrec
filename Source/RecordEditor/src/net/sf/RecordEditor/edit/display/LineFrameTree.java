@@ -288,67 +288,6 @@ public class LineFrameTree extends  BaseLineFrame {
     }
 
 
-//	/**
-//	 * This method updates the Screen Display after a change of record.
-//	 * It updates the layout if required
-//	 */
-//	private void rowChanged() {
-//
-//	    stopCellEditing();
-//
-////		if (currRow >= getFileView().getRowCount()) {
-////			if (currRow == 0) {
-////				this.closeWindow();
-////			} else {
-////				currRow -= 1;
-////			}
-////		}
-//
-//		//lineNum.setText(Integer.toString(currRow + 1));
-//
-//		record.setCurrentLayout(getLayoutIndex());
-//
-//		//TODO record.setCurrentLine(currRow, getLayoutIndex());
-//		int newIdx = record.getCurrentLayout();
-//
-//		if ((newIdx != Common.NULL_INTEGER)
-//		&&  (newIdx != getLayoutIndex())) {
-//	    	   setLayoutIndex(newIdx);
-//
-//	    	   changeLayout();
-//	    	   setColWidths();
-//	    	   setDirectionButtonStatus();
-//	    	   setFullLine();
-//
-///*			System.out.println("::Creating Swing Worker ... ");
-//			(new SwingWorker<String, Object>() {
-//			       @Override
-//			       public String doInBackground() {
-//						System.out.println("::Starting Swing Worker ... ");
-//
-//			    	   int newIdx = record.getCurrentLayout();
-//			    	   setLayoutIndex(newIdx);
-//
-//			    	   changeLayout();
-//						System.out.println("::Swing Worker ... 1 ");
-//			    	   setColWidths();
-//						System.out.println("::Swing Worker ... 2 ");
-//			    	   setDirectionButtonStatus();
-//						System.out.println("::Swing Worker ... 3 ");
-//			    	   setFullLine();
-//						System.out.println("::Swing Worker ... 4 ");
-//		    	   return null;
-//			       }
-//			}).execute();*/
-//		} else {
-////			System.out.println("::Setting up display ");
-//			setColWidths();
-//			setDirectionButtonStatus();
-//			setFullLine();
-//		}
-////		System.out.println("::Exit Row changed ");
-//
-//	}
 
 	/**
 	 * Set enabled / disabled status of the direction buttons

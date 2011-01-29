@@ -53,7 +53,7 @@ public class GotoLine extends ReFrame implements ActionListener {
 		BaseHelpPanel pnl = new BaseHelpPanel();	
 		pnl.addReKeyListener(listner);
 		
-		pnl.addComponent("Line Number", lineTxt, gotoBtn);
+		pnl.addLine("Line Number", lineTxt, gotoBtn);
 		pnl.setGap(BasePanel.GAP1);
 		pnl.addMessage(msg);
 

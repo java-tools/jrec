@@ -13,6 +13,7 @@ import net.sf.JRecord.ByteIO.AbstractByteReader;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
+import net.sf.RecordEditor.utils.common.ProgramOptions;
 
 public class FileDetails {
 	
@@ -34,7 +35,7 @@ public class FileDetails {
 		int r1 = 3;
 		int r2 = 6;
 		
-		if (PROCESSORS > 2 || (Common.COMPRESS_OPTION == Common.COMPRESS_READ_FAST_CPU)) {
+		if (PROCESSORS > 2 || (Common.OPTIONS.compressOption.get() == ProgramOptions.COMPRESS_READ_FAST_CPU)) {
 			r1 = 2;
 			r2 = 4;
 		}
@@ -73,7 +74,7 @@ public class FileDetails {
 		this.len = len;
 		this.layout = recordLayout;
 		
-		dataSize = Common.getChunkSize();
+		dataSize = Common.OPTIONS.chunkSize.get();
 		
 		init();
 	}
@@ -369,16 +370,16 @@ public class FileDetails {
 
 			inCompressCheck = true;
 			
-			switch (Common.COMPRESS_OPTION) {
-			case Common.COMPRESS_YES:					break;
-			case Common.COMPRESS_NO:	ret = false;	break;
-			case Common.COMPRESS_READ_FAST_CPU:
+			switch (Common.OPTIONS.compressOption.get()) {
+			case ProgramOptions.COMPRESS_YES:					break;
+			case ProgramOptions.COMPRESS_NO:	ret = false;	break;
+			case ProgramOptions.COMPRESS_READ_FAST_CPU:
 				ret = readingCheck(ratio, 0.35, 0.65);
 			break;
-			case Common.COMPRESS_READ:
+			case ProgramOptions.COMPRESS_READ:
 				ret = readingCheck(ratio, 0.70, 0.74);
 			break;
-			case Common.COMPRESS_SPACE:
+			case ProgramOptions.COMPRESS_SPACE:
 				ret = spaceCheck(ratio > 0.70, ratio, 0.74);
 			break;
 			}

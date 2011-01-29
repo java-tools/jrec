@@ -17,6 +17,7 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.filter.FilterPnl;
 import net.sf.RecordEditor.utils.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.utils.swing.ComboBoxRender;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
  * @author Bruce Martin
@@ -129,7 +130,8 @@ implements AbstractWizardPanel<save> {
 		
 		if (! lastLayoutName1.equalsIgnoreCase(values.oldFile.getLayoutDetails().name)) {
 			super.setRecordLayout(selection1.getRecordLayout(values.oldFile.name),
-					layout2, true);
+					layout2, true,
+					SwingUtils.NORMAL_FIELD_HEIGHT * 4);
 			lastLayoutName1 = values.oldFile.layoutDetails.name;
 			toInit = true;
 		}

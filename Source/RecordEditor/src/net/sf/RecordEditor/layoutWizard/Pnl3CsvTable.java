@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import net.sf.JRecord.ByteIO.ByteTextReader;
 import net.sf.JRecord.Common.Constants;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.csv.CsvSelectionPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.CsvSelectionPanel;
 
 @SuppressWarnings("serial")
 public class Pnl3CsvTable extends WizardPanel {
 
 	private final static byte[][] oneBlankLine = {{}};
-	private CsvSelectionPanel pnl = new CsvSelectionPanel(oneBlankLine, "", false);
+	private CsvSelectionPanel pnl = new CsvSelectionPanel(oneBlankLine, "", false, null);
 	private Details wizardDetail;
 
 	//private Details currentDetails;

@@ -94,7 +94,7 @@ public class ColumnSelector {
         fileTbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         hexChk.setSelected(false);
         
-        lookPcZoned.setSelected(Common.isSearchForPcZoned());
+        lookPcZoned.setSelected(Common.OPTIONS.searchForPcZoned.isSelected());
         clearFieldsBtn.addActionListener(listner);
         addFieldsBtn.addActionListener(listner);
 	}
@@ -142,9 +142,9 @@ public class ColumnSelector {
 		optionPnl.add(clearFieldsBtn);
 		optionPnl.add(addFieldsBtn);
 		
-		pnl.addComponent("Show Hex", hexChk);
+		pnl.addLine("Show Hex", hexChk);
 		pnl.setGap(BasePanel.GAP0);
-		pnl.addComponent("Search For", optionPnl);
+		pnl.addLine("Search For", optionPnl);
 		pnl.setHeight(BasePanel.PREFERRED);
 		pnl.addComponent(1, 5, tblHeight, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
@@ -246,11 +246,11 @@ public class ColumnSelector {
         currentDetails = detail;
         recordDef = recordDefinition;
         
-        lookComp3.setSelected(cp037 || Common.isSearchForComp3());
-        lookCompBigEndian.setSelected(cp037 || Common.isSearchForCompBigEndian());
-        lookMainframeZoned.setSelected(cp037 || Common.isSearchForMainframeZoned());
+        lookComp3.setSelected(cp037 || Common.OPTIONS.searchForComp3.isSelected()); 
+        lookCompBigEndian.setSelected(cp037 || Common.OPTIONS.searchForCompBigEndian.isSelected());
+        lookMainframeZoned.setSelected(cp037 || Common.OPTIONS.searchForMainframeZoned.isSelected());
         lookCompLittleEndian.setSelected((! lookCompBigEndian.isSelected())
-        			&& Common.isSearchForCompLittleEndian());
+        			&& Common.OPTIONS.searchForCompLittleEndian.isSelected());
 
         setValues_100_SetupTable(findFields);
     }
@@ -284,7 +284,9 @@ public class ColumnSelector {
         	flipHex();
         }
 
-        if (findFields && Common.isFieldSearchAutomatic() && recordDef.searchForFields) {
+        if (findFields 
+        && Common.OPTIONS.runFieldSearchAutomatically.isSelected() 
+        && recordDef.searchForFields) {
         	findFields();
         }
 

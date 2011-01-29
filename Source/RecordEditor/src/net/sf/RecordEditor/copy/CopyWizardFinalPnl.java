@@ -27,10 +27,11 @@ import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class CopyWizardFinalPnl extends BaseHelpPanel implements AbstractWizardPanel<CopyDefinition> {
 
-	private FileChooser saveFileName   = new FileChooser();
-	private FileChooser fieldErrorFile = new FileChooser();
+	private FileChooser saveFileName   = new FileChooser(false);
+	private FileChooser fieldErrorFile = new FileChooser(false);
 	private JTextField  maxErrors      = new JTextField();
 	
 	private AbstractLayoutSelection<?> selection;
@@ -89,20 +90,21 @@ public class CopyWizardFinalPnl extends BaseHelpPanel implements AbstractWizardP
 	
 		super.setHelpURL(Common.formatHelpURL(Common.HELP_DIFF_SL));
 		
-		super.addComponent("Save File", saveFileName, saveFileName.getChooseFileButton());
+		super.addLine("Save File", saveFileName, saveFileName.getChooseFileButton());
 		super.setGap(BasePanel.GAP1);
-		super.addComponent("Field Error File", fieldErrorFile, fieldErrorFile.getChooseFileButton());
-		super.addComponent("Max Error Limit", maxErrors);
+		super.addLine("Field Error File", fieldErrorFile, fieldErrorFile.getChooseFileButton());
+		super.addLine("Max Error Limit", maxErrors);
 		super.setGap(BasePanel.GAP1);
-		super.addComponent("", stripTrailingSpaces);
-		super.addComponent("", pnl);
+		super.addLine("", stripTrailingSpaces);
+		super.addLine("", pnl);
 		super.setHeight(BasePanel.GAP5);
 		
-		super.addComponent("", null, saveBtn);
+		super.addLine("", null, saveBtn);
 		super.setGap(BasePanel.GAP0);
-		super.addComponent("", null, runBtn);
+		super.addLine("", null, runBtn);
 		super.setGap(BasePanel.GAP2);
 		super.addMessage(message);
+		super.setHeight(BasePanel.HEIGHT_1P6);
 	}
 	
 

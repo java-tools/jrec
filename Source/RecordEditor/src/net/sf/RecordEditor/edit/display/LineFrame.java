@@ -272,7 +272,7 @@ public class LineFrame extends    BaseLineFrame {
 		&&  (newIdx != getLayoutIndex())) {
 	    	   setLayoutIndex(newIdx);
 
-	    	   changeLayout();
+	    	   fireLayoutIndexChanged();
 	    	   setColWidths();
 	    	   setDirectionButtonStatus();
 	    	   setFullLine();

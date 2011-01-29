@@ -145,7 +145,7 @@ public class CompareInternalLayout extends AbstractWizard<DiffDefinition> {
 		public getFiles(AbstractLayoutSelection<?> selection1, AbstractLayoutSelection<?> selection2, String recentFiles) {
 			super(selection1, recentFiles);
 			
-			newFileName.setText(Common.DEFAULT_FILE_DIRECTORY);
+			newFileName.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());
 			layoutSelection1 = selection1;
 			layoutSelection2 = selection2;
 			
@@ -197,8 +197,8 @@ public class CompareInternalLayout extends AbstractWizard<DiffDefinition> {
 		@Override
 		protected void addFileName(BaseHelpPanel pnl) {
 					
-			pnl.addComponent("Old File", fileName, fileName.getChooseFileButton());
-			pnl.addComponent("New File", newFileName, newFileName.getChooseFileButton());
+			pnl.addLine("Old File", fileName, fileName.getChooseFileButton());
+			pnl.addLine("New File", newFileName, newFileName.getChooseFileButton());
 		}
 	}
 

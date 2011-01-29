@@ -27,11 +27,12 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.csv.CsvSelectionTblMdl;
 import net.sf.RecordEditor.utils.swing.AbsRowList;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
-import net.sf.RecordEditor.utils.swing.CsvSelectionTblMdl;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
  * 3rd and final wizard panel where the user enters field
@@ -43,12 +44,12 @@ import net.sf.RecordEditor.utils.swing.CsvSelectionTblMdl;
 @SuppressWarnings("serial")
 public class Pnl4CsvNames extends WizardPanel {
 
-    private static final int COLUMN_HEIGHT  = 150;
-    private static final int FILE_HEIGHT = 100;
+    private static final int COLUMN_HEIGHT  = SwingUtils.STANDARD_FONT_HEIGHT * 25 / 2;
+    private static final int FILE_HEIGHT = SwingUtils.STANDARD_FONT_HEIGHT * 8 + 4;
     private static final int NAME_WIDTH = 170;
  //   private static final int INT_TABLE_WIDTH = 60;
-    private static final int INCLUDE_WIDTH = 30;
-    private static final int TYPE_WIDTH = 160;
+    private static final int INCLUDE_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 3 + 3;
+    private static final int TYPE_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 18;
     private static final int COL_ADJUST_AMOUNT = 2;
 
 
@@ -82,7 +83,7 @@ public class Pnl4CsvNames extends WizardPanel {
 		alwayShow = alwayShowScreen;
 		tips = new JEditorPane("text/html", formDescription);
 
-		columnTbl.setRowHeight(Common.COMBO_TABLE_ROW_HEIGHT);
+		columnTbl.setRowHeight(SwingUtils.COMBO_TABLE_ROW_HEIGHT);
 		columnTbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         fileTbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
@@ -288,7 +289,7 @@ public class Pnl4CsvNames extends WizardPanel {
     private class CsvSelTblMdl extends CsvSelectionTblMdl {
 
 		/**
-		 * @see net.sf.RecordEditor.utils.swing.CsvSelectionTblMdl#getColumnName(int)
+		 * @see net.sf.RecordEditor.utils.csv.CsvSelectionTblMdl#getColumnName(int)
 		 */
 		@Override
 		public final String getColumnName(int col) {

@@ -119,7 +119,9 @@ public final class EditParams {
             systemJars.add(type, jar, "Holds XML interface code");
         } else if (typeLC.startsWith("jlibdiff")) {
             systemJars.add(type, jar, "Holds Compare library code");
-        } else if (typeLC.startsWith("optional")) {
+        } else if (typeLC.startsWith("chardet")) {
+            systemJars.add(type, jar, "Holds Charset Determining library");
+       } else if (typeLC.startsWith("optional")) {
             optionalJars.add(type, jar, "");
         } else if (typeLC.startsWith("user")) {
             userJars.add(type, jar, "");

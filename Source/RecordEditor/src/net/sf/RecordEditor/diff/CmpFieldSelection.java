@@ -10,6 +10,7 @@ import net.sf.RecordEditor.jibx.compare.DiffDefinition;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.filter.FilterPnl;
 import net.sf.RecordEditor.utils.openFile.AbstractLayoutSelection;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 
 /**
@@ -66,7 +67,10 @@ public class CmpFieldSelection extends FilterPnl implements AbstractWizardPanel<
 		values = detail;
 
 		if (! lastLayoutName.equalsIgnoreCase(values.layoutDetails.name)) {
-			super.setRecordLayout(selection.getRecordLayout(values.layoutDetails.name), null, false);
+			super.setRecordLayout(
+					selection.getRecordLayout(values.layoutDetails.name), 
+					null, false,
+					SwingUtils.NORMAL_FIELD_HEIGHT * 4);
 			lastLayoutName = values.layoutDetails.name;
 			toInit = true;
 		}

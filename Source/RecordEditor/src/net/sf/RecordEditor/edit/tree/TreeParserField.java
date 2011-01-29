@@ -86,7 +86,7 @@ public class TreeParserField extends BaseLineNodeTreeParser implements AbstractL
 		
 		parseAppend_100_setLastLine(rec, startLevel, 0, end, numberLevels);
 
-		System.out.println();
+		//System.out.println();
 		
 		currentFields = null;
 		parentFields  = null;

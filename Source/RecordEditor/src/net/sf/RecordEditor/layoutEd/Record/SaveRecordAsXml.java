@@ -14,7 +14,9 @@ import net.sf.RecordEditor.utils.jdbc.AbsDB;
 public class SaveRecordAsXml  implements ActionListener {
 
 	private DirectoryFrame saveFrame = new DirectoryFrame(
-			"Save Layout", Common.DEFAULT_COPYBOOK_DIRECTORY, true, true, true);
+			"Save Layout", 
+			Common.OPTIONS.DEFAULT_COPYBOOK_DIRECTORY.get(), 
+			true, true, true);
 	private int dbIdx;
 	private String idStr;
 	
@@ -23,7 +25,7 @@ public class SaveRecordAsXml  implements ActionListener {
 		idStr = recordId + "";
 		dbIdx = databaseIdx;
 		
-		saveFrame.saveBtn.addActionListener(this);
+		saveFrame.setActionListner(this);
 		saveFrame.setVisible(true);
 	}
 	
@@ -32,40 +34,40 @@ public class SaveRecordAsXml  implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		if (event.getSource() == saveFrame.saveBtn) {
-			String dir = saveFrame.file.getText();
+
+		String dir = saveFrame.getFileName();
+		
+		if (dir == null || "".equals(dir)) {
+			saveFrame.msg.setText("You must enter a directory to save the layout");
+		} else {
+			RecordRec r;
+		
+			ExtendedRecordDB dbFrom = new ExtendedRecordDB();
 			
-			if (dir == null || "".equals(dir)) {
-				saveFrame.msg.setText("You must enter a directory to save the layout");
-			} else {
-				RecordRec r;
+			CopybookLoaderFactoryDB.setCurrentDB(dbIdx);
+			dbFrom.setConnection(new ReConnection(dbIdx));
+			dbFrom.resetSearch();
+			dbFrom.setSearchArg("RecordId", AbsDB.opEquals, idStr);
+
+			dbFrom.open();
 			
-				ExtendedRecordDB dbFrom = new ExtendedRecordDB();
-				
-				CopybookLoaderFactoryDB.setCurrentDB(dbIdx);
-				dbFrom.setConnection(new ReConnection(dbIdx));
-				dbFrom.resetSearch();
-				dbFrom.setSearchArg("RecordId", AbsDB.opEquals, idStr);
-	
-				dbFrom.open();
-				
-				r = dbFrom.fetch();
-				
-				if (r != null) {
-					CopybookWriter writer = CopybookWriterManager.getInstance()
-								.get(CopybookWriterManager.RECORD_EDITOR_XML_WRITER);
-					try {
-						writer.writeCopyBook(dir, r.getValue(), Common.getLogger());
-						saveFrame.setVisible(false);
-						saveFrame = null;
-					} catch (Exception e) {
-						saveFrame.msg.setText("Error saving layout: " + e.getMessage());
-						e.printStackTrace();
-					}
+			r = dbFrom.fetch();
+			
+			if (r != null) {
+				CopybookWriter writer = CopybookWriterManager.getInstance()
+							.get(CopybookWriterManager.RECORD_EDITOR_XML_WRITER);
+				try {
+					writer.writeCopyBook(dir, r.getValue(), Common.getLogger());
+					saveFrame.setVisible(false);
+					saveFrame = null;
+				} catch (Exception e) {
+					saveFrame.msg.setText("Error saving layout: " + e.getMessage());
+					e.printStackTrace();
 				}
-				
-				dbFrom.close();
 			}
+			
+			dbFrom.close();
 		}
+	
 	}
 }

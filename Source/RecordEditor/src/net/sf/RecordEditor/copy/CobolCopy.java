@@ -119,6 +119,7 @@ public class CobolCopy extends AbstractWizard<CopyDefinition> {
 	/* ---------------------------------------------------------------------------------------*/
 
 
+	@SuppressWarnings("serial")
 	public static class getFiles extends  AbstractFilePnl<CopyDefinition> {
 
 
@@ -129,16 +130,16 @@ public class CobolCopy extends AbstractWizard<CopyDefinition> {
 		private LayoutSelectionFile layoutSelection1;
 		private LayoutSelectionFile layoutSelection2;
 		
-		
 		public getFiles(LayoutSelectionFile selection1, LayoutSelectionFile selection2) {
 			super(selection1, "CobolFiles.txt");
 			
-			newFileName.setDefaultDirectory(Common.DEFAULT_FILE_DIRECTORY);
-			newFileName.setText(Common.DEFAULT_FILE_DIRECTORY);
+			String s = Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get();
+			newFileName.setDefaultDirectory(s);
+			newFileName.setText(s);
 			layoutSelection1 = selection1;
 			layoutSelection2 = selection2;
 		
-			layoutSelection1.setLayoutName(Common.DEFAULT_COBOL_DIRECTORY);
+			layoutSelection1.setLayoutName(Common.OPTIONS.DEFAULT_COBOL_DIRECTORY.get());
 			//setHelpURL(Common.formatHelpURL(Common.HELP_DIFF_SL));
 		}
 		
@@ -194,8 +195,8 @@ public class CobolCopy extends AbstractWizard<CopyDefinition> {
 		@Override
 		protected void addFileName(BaseHelpPanel pnl) {
 					
-			pnl.addComponent("Old File", fileName, fileName.getChooseFileButton());
-			pnl.addComponent("New File", newFileName, newFileName.getChooseFileButton());
+			pnl.addLine("Old File", fileName, fileName.getChooseFileButton());
+			pnl.addLine("New File", newFileName, newFileName.getChooseFileButton());
 		}
 		
 		@Override

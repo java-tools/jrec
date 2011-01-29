@@ -304,7 +304,8 @@ public class RecordEdit1Record extends ReFrame implements ReActionHandler {
      * @return requested action
      */
     public static LayoutConnectionAction getAction(LayoutConnection callbackClass) {
-        return new LayoutConnectionAction("Create Layout", callbackClass) {
+        return new LayoutConnectionAction(
+        		"Create Layout", callbackClass, Common.ID_LAYOUT_CREATE_ICON) {
             public void actionPerformed(ActionEvent e) {
                 new RecordEdit1Record(getCallback().getCurrentDbName(),
                         			  getCallback().getCurrentDbIdentifier(),

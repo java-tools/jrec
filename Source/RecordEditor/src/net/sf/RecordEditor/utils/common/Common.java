@@ -29,10 +29,10 @@ package net.sf.RecordEditor.utils.common;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -84,33 +84,35 @@ public final class Common implements Constants {
     Dimension size = new Dimension(adv+2, hgt+2);
      */
 
+	public static final ProgramOptions OPTIONS = new ProgramOptions();
 	public static final Object MISSING_VALUE = new StringBuilder("");
 	public static final Object MISSING_REQUIRED_VALUE = new StringBuilder("");
 	
 	public static final Color EMPTY_COLOR = new Color(230, 230, 255);
 	public static final Color MISSING_COLOR = new Color(255, 230, 230);
 
-	
-    public static final int STANDARD_FONT_HEIGHT   = 12;
-    public static final int COMBO_TABLE_ROW_HEIGHT = 20;
-
 	public static final String COLUMN_LINE_SEP =  "|";
 	
-	public static final boolean LOG_TO_FRONT = ! ("N".equalsIgnoreCase(
-			Parameters.getString(Parameters.BRING_LOG_TO_FRONT)));
+//	public static final boolean LOG_TO_FRONT = ! ("N".equalsIgnoreCase(
+//			Parameters.getString(Parameters.BRING_LOG_TO_FRONT)));
 	public static final boolean TEST_MODE = "Y".equalsIgnoreCase(
 			Parameters.getString(Parameters.PROPERTY_TEST_MODE));
-	public static final boolean LOAD_FILE_BACKGROUND_THREAD = ! "N".equalsIgnoreCase(
-			Parameters.getString(Parameters.PROPERTY_LOAD_FILE_BACKGROUND));
-	public static final boolean ASTERIX_IN_FILENAME = "Y".equalsIgnoreCase(
-			Parameters.getString(Parameters.ASTERIX_IN_FILE_NAME));
+	public static final boolean NIMBUS_LAF 
+			= "Nimbus".equalsIgnoreCase(
+					Parameters.getString(
+							Parameters.PROPERTY_LOOKS_CLASS_NAME));
+
+//	public static final boolean LOAD_FILE_BACKGROUND_THREAD = ! "N".equalsIgnoreCase(
+//			Parameters.getString(Parameters.PROPERTY_LOAD_FILE_BACKGROUND));
+//	public static final boolean ASTERIX_IN_FILENAME = "Y".equalsIgnoreCase(
+//			Parameters.getString(Parameters.ASTERIX_IN_FILE_NAME));
 
 	private static String jdbcJarNames[] = null;
 	
 	private static boolean searchActiveDB = true;
-	private static boolean highlightEmpty = "Y".equals(Parameters.getString(Parameters.PROPERTY_HIGHLIGHT_EMPTY));
+	//private static boolean highlightEmpty = "Y".equals(Parameters.getString(Parameters.PROPERTY_HIGHLIGHT_EMPTY));
 	
-	private static boolean highlightEmptyActive = false;
+	//private static boolean highlightEmptyActive = false;
 
 	/**
 	 * record editor Help Screen
@@ -164,10 +166,10 @@ public final class Common implements Constants {
 	public static final String HELP_WIZARD_PNL3    = "HlpLe04.htm#HDRWIZ3";
 	public static final String HELP_WIZARD_PNL4    = "HlpLe04.htm#HDRWIZ4";
 	public static final String HELP_WIZARD_PNL5    = "HlpLe04.htm#HDRWIZ5";
-	public static final String HELP_WIZARD_RECORD_TYPE    = "HlpLe04.htm#HDRWIZRECORDTYPE";
-	public static final String HELP_WIZARD_RECORD_NAMES    = "HlpLe04.htm#HDRWIZRECORDNAMES";
-	public static final String HELP_WIZARD_RECORD_FIELD_DEF    = "HlpLe04.htm#HDRWIZ2M";
-	public static final String HELP_WIZARD_RECORD_FIELD_NAMES    = "HlpLe04.htm#HDRWIZ3M";
+	public static final String HELP_WIZARD_RECORD_TYPE       = "HlpLe04.htm#HDRWIZRECORDTYPE";
+	public static final String HELP_WIZARD_RECORD_NAMES      = "HlpLe04.htm#HDRWIZRECORDNAMES";
+	public static final String HELP_WIZARD_RECORD_FIELD_DEF  = "HlpLe04.htm#HDRWIZ2M";
+	public static final String HELP_WIZARD_RECORD_FIELD_NAMES= "HlpLe04.htm#HDRWIZ3M";
 	public static final String HELP_WIZARD_FILE_STRUCTURE    = "HlpLe04.htm#HDRWIZFILESTRUCTURE";
 	public static final String HELP_WIZARD_SAVE    = "HlpLe04.htm#HDRWIZSAVE1";
 	
@@ -179,9 +181,9 @@ public final class Common implements Constants {
 	public static final String HELP_COPYBOOK_CHOOSE= "HlpLe09.htm";
 	public static final String HELP_COPY_LAYOUT    = "HlpLe10.htm";
 
-	public static final String DATABASE_NAME       = fix(Parameters.getString(Parameters.DEFAULT_DATABASE));
-	public static final String DEFAULT_IO_NAME       = fix(Parameters.getString(Parameters.DEFAULT_IO));
-	public static final String DEFAULT_BIN_NAME  = fix(Parameters.getString(Parameters.DEFAULT_BINARY));
+	private static final String DATABASE_NAME       = fix(Parameters.getString(Parameters.DEFAULT_DATABASE));
+//	public static final String DEFAULT_IO_NAME       = fix(Parameters.getString(Parameters.DEFAULT_IO));
+//	public static final String DEFAULT_BIN_NAME  = fix(Parameters.getString(Parameters.DEFAULT_BINARY));
 
 	private static final int DEFAULT_ROOM_AROUND_SCREEN = 32;
 	private static       int spaceAtBottomOfScreen = DEFAULT_ROOM_AROUND_SCREEN;
@@ -213,7 +215,37 @@ public final class Common implements Constants {
     public static final int ID_PRINT_ICON     = 16;
     public static final int ID_PREF_ICON      = 17;
     public static final int ID_TREE_ICON      = 18;
-    public static final int ID_MAX_ICON       = 18;
+    public static final int ID_AUTOFIT_ICON   = 19;
+    public static final int ID_COLUMN_DTLS_ICON   = 20;
+    public static final int ID_COLUMN_VIEW_ICON   = 21;
+    public static final int ID_COLUMN_COPY_ICON   = 22;
+    public static final int ID_COLUMN_DELETE_ICON = 23;
+    public static final int ID_COLUMN_MOVE_ICON   = 24;
+    public static final int ID_COLUMN_INSERT_ICON = 25;
+    public static final int ID_EDIT_RECORD_ICON   = 26;
+    public static final int ID_NEW_UP_ICON        = 27;
+    public static final int ID_PASTE_UP_ICON      = 28;
+    public static final int ID_SAVEAS_CSV_ICON    = 29;
+    public static final int ID_SAVEAS_FIXED_ICON  = 30;
+    public static final int ID_SAVEAS_HTML_ICON   = 31;
+    public static final int ID_SAVEAS_XML_ICON    = 32;
+    public static final int ID_SAVEAS_VELOCITY_ICON = 33;
+    public static final int ID_SUMMARY_ICON       = 34;
+    public static final int ID_SORT_SUM_ICON      = 35;
+    public static final int ID_VIEW_RECORD_ICON   = 36;
+    public static final int ID_VIEW_TABLE_ICON    = 37;
+    public static final int ID_VIEW_COLUMN_ICON   = 38;
+    public static final int ID_EXIT_ICON          = 39;
+    public static final int ID_GOTO_ICON          = 40;
+    public static final int ID_RELOAD_ICON        = 41;
+    public static final int ID_WIZARD_ICON        = 42;
+    public static final int ID_LAYOUT_CREATE_ICON = 43;
+    public static final int ID_LAYOUT_EDIT_ICON   = 44;
+    public static final int ID_COMBO_EDIT_ICON    = 45; 
+    public static final int ID_FILE_SEARCH_ICON   = 46;
+    public static final int ID_DIRECTORY_SEARCH_ICON = 47;   
+  
+    public static final int ID_MAX_ICON       = 48;
 
     public static final int TI_FIELD_TYPE     = 1;
 	public static final int TI_RECORD_TYPE    = 2;
@@ -221,7 +253,7 @@ public final class Common implements Constants {
 	public static final int TI_FILE_STRUCTURE = 4;
 	public static final int TI_FORMAT         = 5;
 
-	public static final String COPYBOOK_READER =  Parameters.getString(Parameters.DEFAULT_COPYBOOK_READER);
+	//public static final String COPYBOOK_READER =  Parameters.getString(Parameters.DEFAULT_COPYBOOK_READER);
 	private static int copybookWriterIndex = -121;
 	
 	private static boolean doFree = true;
@@ -231,15 +263,15 @@ public final class Common implements Constants {
 	public static final int LOOKS_INDEX
 		= getIntProperty(0, Parameters.PROPERTY_LOOKS_CLASS_INDEX);
 
-	public static final int SIGNIFICANT_CHARS_IN_FILES1
-	  = getIntProperty(6, "SignificantCharInFiles.1");
-	public static final int SIGNIFICANT_CHARS_IN_FILES2
-	  = getIntProperty(12, "SignificantCharInFiles.2");
-	public static final int SIGNIFICANT_CHARS_IN_FILES3
-	  = getIntProperty(18, "SignificantCharInFiles.3");
-
-	public static final int LAUCH_EDITOR_IF_MATCH
-	  = getIntProperty(8, "LauchEditorIfMatch");
+//	public static final int SIGNIFICANT_CHARS_IN_FILES1
+//	  = getIntProperty(6, "SignificantCharInFiles.1");
+//	public static final int SIGNIFICANT_CHARS_IN_FILES2
+//	  = getIntProperty(12, "SignificantCharInFiles.2");
+//	public static final int SIGNIFICANT_CHARS_IN_FILES3
+//	  = getIntProperty(18, "SignificantCharInFiles.3");
+//
+//	public static final int LAUCH_EDITOR_IF_MATCH
+//	  = getIntProperty(8, "LauchEditorIfMatch");
 
     public static final int UNKNOWN_SYSTEM  = 0; /* System is unkown */
     //public static final int NULL_INTEGER    = Constants.NULL_INTEGER;
@@ -248,63 +280,63 @@ public final class Common implements Constants {
     //private static final int LOGGER_ERROR   = 10;
     
     
-    public static final boolean USE_SPECIAL_FIXED_MODEL = ! "N".equalsIgnoreCase(
-			Parameters.getString(Parameters.PROPERTY_BIG_FILE_USE_SPECIAL_FIXED_MODEL)
-	);
-    public static final char COMPRESS_SPACE = 'S';
-    public static final char COMPRESS_READ = 'R';
-    public static final char COMPRESS_READ_FAST_CPU = 'F';
-    public static final char COMPRESS_NO = 'N';
-    public static final char COMPRESS_YES = 'Y';
-    public static final char COMPRESS_OPTION;
-    public static final char LARGE_VB_OPTION;
-    public static final char LARGE_VB_YES  = 'Y';
-    public static final char LARGE_VB_NO   = 'N';
-    public static final char LARGE_VB_TEST = 'T';
-       static {
-    	String s = Parameters.getString(Parameters.PROPERTY_BIG_FILE_COMPRESS_OPT);
-    	char c = COMPRESS_READ;
-
-    	if (s == null || "".equals(s)) {
-    		
-    	} else {
-    		s = s.toUpperCase();
-    		if (s.startsWith("N")) {
-    			c = COMPRESS_NO;
-    		} else if (s.startsWith("Y")) {
-    			c = COMPRESS_YES;
-//    		} else if (s.startsWith("R")) {
-//    			c = COMPRESS_READ;
-    		} else if (s.startsWith("F")) {
-    			c = COMPRESS_READ_FAST_CPU;
-    		} else if (s.startsWith("S")) {
-    			c = COMPRESS_SPACE;
-    		}
-    	}
-    	COMPRESS_OPTION = c;
-    	
-    	 s = Parameters.getString(Parameters.PROPERTY_BIG_FILE_LARGE_VB);
-    	 c = LARGE_VB_NO;
-    	 
-    	 if (s == null || "".equals(s)) {
-    		 
-    	 } else {
-    		 s = s.toUpperCase();
-    		 if (s.startsWith("Y")) {
-    			 c = LARGE_VB_YES;
-    		 } else if (s.startsWith("T")) {
-    			 c = LARGE_VB_TEST;
-    		 }
-    	 }
-    	 LARGE_VB_OPTION = c;
-    }
+//    public static final boolean USE_SPECIAL_FIXED_MODEL = ! "N".equalsIgnoreCase(
+//			Parameters.getString(Parameters.PROPERTY_BIG_FILE_USE_SPECIAL_FIXED_MODEL)
+//	);
+//    public static final char COMPRESS_SPACE = 'S';
+//    public static final char COMPRESS_READ = 'R';
+//    public static final char COMPRESS_READ_FAST_CPU = 'F';
+//    public static final char COMPRESS_NO = 'N';
+//    public static final char COMPRESS_YES = 'Y';
+//    public static final char COMPRESS_OPTION;
+//    public static final char LARGE_VB_OPTION;
+//    public static final char LARGE_VB_YES  = 'Y';
+//    public static final char LARGE_VB_NO   = 'N';
+//    public static final char LARGE_VB_TEST = 'T';
+//       static {
+//    	String s = Parameters.getString(Parameters.PROPERTY_BIG_FILE_COMPRESS_OPT);
+//    	char c = COMPRESS_READ;
+//
+//    	if (s == null || "".equals(s)) {
+//    		
+//    	} else {
+//    		s = s.toUpperCase();
+//    		if (s.startsWith("N")) {
+//    			c = COMPRESS_NO;
+//    		} else if (s.startsWith("Y")) {
+//    			c = COMPRESS_YES;
+////    		} else if (s.startsWith("R")) {
+////    			c = COMPRESS_READ;
+//    		} else if (s.startsWith("F")) {
+//    			c = COMPRESS_READ_FAST_CPU;
+//    		} else if (s.startsWith("S")) {
+//    			c = COMPRESS_SPACE;
+//    		}
+//    	}
+//    	COMPRESS_OPTION = c;
+//    	
+//    	 s = Parameters.getString(Parameters.PROPERTY_BIG_FILE_LARGE_VB);
+//    	 c = LARGE_VB_NO;
+//    	 
+//    	 if (s == null || "".equals(s)) {
+//    		 
+//    	 } else {
+//    		 s = s.toUpperCase();
+//    		 if (s.startsWith("Y")) {
+//    			 c = LARGE_VB_YES;
+//    		 } else if (s.startsWith("T")) {
+//    			 c = LARGE_VB_TEST;
+//    		 }
+//    	 }
+//    	 LARGE_VB_OPTION = c;
+//    }
 
     private static final boolean USE_PNG;
     private static final String[] ICON_NAMES = {"LeftM", "Left", "Up", "Down",
             									"Right", "RightM" };
 
     private static ImageIcon[] icon     = new ImageIcon[ICON_NAMES.length - 2];
-    private static ImageIcon[] treeIcons     = new ImageIcon[ICON_NAMES.length];
+    private static ImageIcon[] treeIcons= new ImageIcon[ICON_NAMES.length];
     private static ImageIcon[] recIcon  = new ImageIcon[ID_MAX_ICON + 1];
     private static int[] reActionRef    = new int[ReActionHandler.MAX_ACTION + 1];
 
@@ -334,29 +366,45 @@ public final class Common implements Constants {
 	private static boolean[] dropSemi      = new boolean[NUMBER_OF_COPYBOOK_SOURCES];
 
 	public static final String DATE_FORMAT_STR;
-	public static final String DEFAULT_FILE_DIRECTORY
-			= Parameters.getFileName("DefaultFileDirectory");
-	public static final String DEFAULT_COBOL_DIRECTORY
-			= Parameters.getFileName("DefaultCobolDirectory");
-	public static final String DEFAULT_COPYBOOK_DIRECTORY
-			= Parameters.getFileName(Parameters.COPYBOOK_DIRECTORY);
-	public static final String DEFAULT_VELOCITY_DIRECTORY
-			= Parameters.getFileName(Parameters.VELOCITY_TEMPLATE_DIRECTORY);
+//	public static final String DEFAULT_FILE_DIRECTORY
+//			= Parameters.getFileName("DefaultFileDirectory");
+//	public static final String DEFAULT_COBOL_DIRECTORY
+//			= Parameters.getFileName("DefaultCobolDirectory");
+//	public static final String DEFAULT_COPYBOOK_DIRECTORY
+//			= Parameters.getFileName(Parameters.COPYBOOK_DIRECTORY);
+//	public static final String DEFAULT_VELOCITY_DIRECTORY
+//			= Parameters.getFileName(Parameters.VELOCITY_TEMPLATE_DIRECTORY);
+	
 	public static final String USER_INIT_CLASS
 			= Parameters.getString("UserInitilizeClass");
 	public static final String FILE_SEPERATOR  =  System.getProperty("file.separator");
 	
-   	public final static String FIELD_SEPARATOR_LIST[] = {
-		"<Default>", "<Tab>", "<Space>", ",", ";", ":", "|", "/", "\\", "~", "!", "*", "#", "@", "x'00'", "x'01'", "x'02'", "x'FE'", "x'FE'", "x'FF"
+   	public final static String[] FIELD_SEPARATOR_LIST = {
+		"<Default>", "<Tab>", "<Space>", ",", ";", ":", "|", "/", "\\", "~", "!", "*", "#", "@", "x'00'", "x'01'", "x'02'", "x'FD'", "x'FE'", "x'FF"
 	};
-   	public final static String FIELD_SEPARATOR_LIST1[] = {
+   	public final static String[] FIELD_SEPARATOR_LIST1 = {
 		"<Tab>", "<Space>", ",", ";", ":", "|", "/", "\\", "~", "!", "*", "#", "@", "x'00'", "x'01'", "x'02'", "x'FE'", "x'FE'", "x'FF'"
 	};
-
-   	public final static String QUOTE_LIST[] = {
+   	public final static String[] FIELD_SEPARATOR_TEXT_LIST = new String[FIELD_SEPARATOR_LIST1.length - 6];
+   	public final static String[] FIELD_SEPARATOR_LIST1_VALUES;
+   	static {
+   		String[] l = FIELD_SEPARATOR_LIST1.clone();
+   		
+   		l[0] = "\t";
+   		l[1] = " ";
+   		FIELD_SEPARATOR_LIST1_VALUES = l;
+   		
+   		System.arraycopy(
+   				FIELD_SEPARATOR_LIST1, 0, 
+   				FIELD_SEPARATOR_TEXT_LIST, 0, FIELD_SEPARATOR_TEXT_LIST.length);
+   	}
+  	public final static String QUOTE_LIST[] = {
 		"<None>", "<Default>", "\"", "'", "`"
 	};
 
+ 	public final static String QUOTE_VALUES[] = {
+		"", "\"", "\"", "'", "`"
+	};
 	
 	private static int connectionIndex = 0;
 	//private static int defaultConnection = -1;
@@ -423,7 +471,8 @@ public final class Common implements Constants {
         reActionNames[ReActionHandler.COLUMN_VIEW_SELECTED] = "Column View (Selected Records)";
         reActionNames[ReActionHandler.FIND]         = "Find";
         reActionNames[ReActionHandler.HELP]         = "Help";
-        reActionNames[ReActionHandler.INSERT_RECORDS] = "Insert Record(s)";
+        reActionNames[ReActionHandler.INSERT_RECORDS]       = "Insert Record(s)";
+        reActionNames[ReActionHandler.INSERT_RECORD_PRIOR]  = "Insert Record Prior";
         reActionNames[ReActionHandler.NEW]          = "New";
         reActionNames[ReActionHandler.OPEN]         = "Open";
         reActionNames[ReActionHandler.PRINT]        = "Print";
@@ -433,6 +482,8 @@ public final class Common implements Constants {
         reActionNames[ReActionHandler.PASTE_TABLE_OVERWRITE] = "Paste Table Overwrite";
         reActionNames[ReActionHandler.SAVE]         = "Save";
         reActionNames[ReActionHandler.SAVE_AS]      = "Save As";
+        reActionNames[ReActionHandler.SAVE_AS_CSV]  = "Save as CSV file";
+        reActionNames[ReActionHandler.SAVE_AS_FIXED]= "Save as Fixed Length file";
         reActionNames[ReActionHandler.SAVE_AS_HTML] = "Save HTML 1 tbl";
         reActionNames[ReActionHandler.SAVE_AS_HTML_TBL_PER_ROW] = "Save HTML 1 tbl per Row";
         reActionNames[ReActionHandler.SAVE_AS_HTML_TREE] = "Save HTML (tree)";
@@ -440,9 +491,9 @@ public final class Common implements Constants {
         reActionNames[ReActionHandler.SAVE_AS_XML]  = "Save Tree as XML";
         reActionNames[ReActionHandler.SAVE_LAYOUT_XML]  = "Save Layout as XML";
 
-        reActionNames[ReActionHandler.SORT]         = "Sort";
+        reActionNames[ReActionHandler.SORT]          = "Sort";
         reActionNames[ReActionHandler.REPEAT_RECORD] = "Repeat Record";
-        reActionNames[ReActionHandler.REBUILD_TREE] = "Rebuild Tree";
+        reActionNames[ReActionHandler.REBUILD_TREE]  = "Rebuild Tree";
         
         reActionNames[ReActionHandler.BUILD_SORTED_TREE]   = "Sorted Field Tree";
         reActionNames[ReActionHandler.BUILD_FIELD_TREE]    = "Field Based Tree";
@@ -457,6 +508,7 @@ public final class Common implements Constants {
         reActionNames[ReActionHandler.EXECUTE_SAVED_RECORD_TREE] = "Execute Record Tree";
         reActionNames[ReActionHandler.COMPARE_WITH_DISK] = "Compare with Disk";
         reActionNames[ReActionHandler.SHOW_INVALID_ACTIONS] = "Show invalid Records";
+        reActionNames[ReActionHandler.AUTOFIT_COLUMNS] = "Recalculate Column widths";
 
         
         reActionDesc[ReActionHandler.SAVE_AS_XML]   = "Converts a Tree View to XML";
@@ -492,7 +544,8 @@ public final class Common implements Constants {
         reActionDesc[ReActionHandler.EXECUTE_SAVED_RECORD_TREE]= "Load and Execute a saved Record Tree";
         reActionDesc[ReActionHandler.COMPARE_WITH_DISK]        = "Compare what is being edited with what is stored on disk";
         reActionDesc[ReActionHandler.SHOW_INVALID_ACTIONS]   = "Show Invlid (incomplete) Records (Messages)";
-    }
+        reActionDesc[ReActionHandler.AUTOFIT_COLUMNS]   = "Calculate the column widths based on data in the columns";
+   }
 
 	/**
 	 * Static Common procedures
@@ -1057,7 +1110,7 @@ public final class Common implements Constants {
 
             recIcon[ID_PASTE_ICON]   = getIcon("Paste");
             recIcon[ID_PASTE_PRIOR_ICON]
-                    				 = recIcon[ID_PASTE_ICON]; //getIcon("Paste");
+                    				 = getIcon("PasteUp"); //getIcon("Paste");
             recIcon[ID_NEW_ICON]     = getIcon("New");
             recIcon[ID_SETLENGTH_ICON]
                     				 = getIcon("SetLength");
@@ -1068,6 +1121,37 @@ public final class Common implements Constants {
             recIcon[ID_PRINT_ICON]   = getIcon("Print");
             recIcon[ID_PREF_ICON]    = getIcon("Preferences");
             recIcon[ID_TREE_ICON]    = getIcon("Tree");
+            recIcon[ID_AUTOFIT_ICON] = getIcon("AutofitColumns");
+            recIcon[ID_COLUMN_DTLS_ICON   ] = getIcon("ColumnDetails");
+            recIcon[ID_COLUMN_VIEW_ICON   ] = getIcon("ColumnView");
+            recIcon[ID_COLUMN_COPY_ICON   ] = getIcon("CopyColumn");
+            recIcon[ID_COLUMN_DELETE_ICON ] = getIcon("DeleteColumn");
+            recIcon[ID_COLUMN_MOVE_ICON   ] = getIcon("MoveColumn");
+            recIcon[ID_COLUMN_INSERT_ICON ] = getIcon("InsertColumn");
+            recIcon[ID_EDIT_RECORD_ICON   ] = getIcon("EditRecord");
+            recIcon[ID_NEW_UP_ICON        ] = getIcon("NewUp");
+            recIcon[ID_PASTE_UP_ICON      ] = getIcon("PasteUp");
+            recIcon[ID_SAVEAS_CSV_ICON    ] = getIcon("SaveAs_Csv");
+            recIcon[ID_SAVEAS_FIXED_ICON  ] = getIcon("SaveAs_Fixed");
+            recIcon[ID_SAVEAS_HTML_ICON   ] = getIcon("SaveAs_Html");
+            recIcon[ID_SAVEAS_XML_ICON    ] = getIcon("SaveAs_xml");
+            recIcon[ID_SAVEAS_VELOCITY_ICON] = getIcon("SaveAs_Velocity");
+            recIcon[ID_SUMMARY_ICON       ] = getIcon("Summary");
+            recIcon[ID_SORT_SUM_ICON      ] = getIcon("SortSum");
+
+            recIcon[ID_VIEW_RECORD_ICON   ] = getIcon("RecordView");
+            recIcon[ID_VIEW_TABLE_ICON    ] = getIcon("TableView");
+            recIcon[ID_VIEW_COLUMN_ICON   ] = getIcon("ColumnView");
+            recIcon[ID_EXIT_ICON          ] = getIcon("Exit");
+            recIcon[ID_GOTO_ICON          ] = getIcon("Goto");
+            recIcon[ID_RELOAD_ICON        ] = getIcon("Reload");
+            recIcon[ID_WIZARD_ICON        ] = getIcon("Wizard");
+            recIcon[ID_LAYOUT_CREATE_ICON ] = getIcon("LayoutCreate");
+            recIcon[ID_LAYOUT_EDIT_ICON   ] = getIcon("LayoutEdit");
+            recIcon[ID_COMBO_EDIT_ICON    ] = recIcon[ID_GOTO_ICON];
+            recIcon[ID_FILE_SEARCH_ICON   ] = getIcon("FileSearch");
+            recIcon[ID_DIRECTORY_SEARCH_ICON] = getIcon("FolderSearch");
+
             for (i = 0; i < ICON_NAMES.length; i++) {
                 treeIcons[i] = getIcon(ICON_NAMES[i]);
             }
@@ -1084,25 +1168,30 @@ public final class Common implements Constants {
             }
             reActionRef[ReActionHandler.FIND]    = ID_SEARCH_ICON;
             reActionRef[ReActionHandler.FILTER]  = ID_FILTER_ICON;
-            reActionRef[ReActionHandler.TABLE_VIEW_SELECTED]  = ID_FILTER_ICON;
-            reActionRef[ReActionHandler.RECORD_VIEW_SELECTED] = ID_FILTER_ICON;
-            reActionRef[ReActionHandler.COLUMN_VIEW_SELECTED] = ID_FILTER_ICON;
-            reActionRef[ReActionHandler.BUILD_FIELD_TREE]     = ID_TREE_ICON;
+            reActionRef[ReActionHandler.EXECUTE_SAVED_FILTER]  = ID_FILTER_ICON;
+            reActionRef[ReActionHandler.TABLE_VIEW_SELECTED]  = ID_VIEW_TABLE_ICON;
+            reActionRef[ReActionHandler.RECORD_VIEW_SELECTED] = ID_VIEW_RECORD_ICON;
+            reActionRef[ReActionHandler.COLUMN_VIEW_SELECTED] = ID_VIEW_COLUMN_ICON;
+            reActionRef[ReActionHandler.BUILD_FIELD_TREE]     = ID_SUMMARY_ICON;
             reActionRef[ReActionHandler.BUILD_LAYOUT_TREE]    = ID_TREE_ICON;
             reActionRef[ReActionHandler.BUILD_RECORD_TREE]    = ID_TREE_ICON;
-            reActionRef[ReActionHandler.BUILD_SORTED_TREE]    = ID_TREE_ICON;
+            reActionRef[ReActionHandler.BUILD_SORTED_TREE]    = ID_SORT_SUM_ICON;
+            reActionRef[ReActionHandler.EXECUTE_SAVED_RECORD_TREE]  = ID_TREE_ICON;
+            reActionRef[ReActionHandler.EXECUTE_SAVED_SORT_TREE]    = ID_SORT_SUM_ICON;
             reActionRef[ReActionHandler.BUILD_XML_TREE_SELECTED]    = ID_TREE_ICON;
             reActionRef[ReActionHandler.BUILD_LAYOUT_TREE_SELECTED] = ID_TREE_ICON;
             reActionRef[ReActionHandler.FULL_TREE_REBUILD]    = ID_TREE_ICON;
             
             reActionRef[ReActionHandler.SAVE]    = ID_SAVE_ICON;
             reActionRef[ReActionHandler.SAVE_AS] = ID_SAVE_AS_ICON;
-            reActionRef[ReActionHandler.SAVE_AS_HTML] = ID_SAVE_AS_ICON;
-            reActionRef[ReActionHandler.SAVE_AS_HTML_TBL_PER_ROW] = ID_SAVE_AS_ICON;
-            reActionRef[ReActionHandler.SAVE_AS_HTML_TREE] = ID_SAVE_AS_ICON;
-            reActionRef[ReActionHandler.SAVE_AS_VELOCITY] = ID_SAVE_AS_ICON;
-            reActionRef[ReActionHandler.SAVE_AS_XML] = ID_SAVE_AS_ICON;
-            reActionRef[ReActionHandler.SAVE_LAYOUT_XML] = ID_SAVE_AS_ICON;
+            reActionRef[ReActionHandler.SAVE_AS_HTML]      = ID_SAVEAS_HTML_ICON;
+            reActionRef[ReActionHandler.SAVE_AS_CSV]       = ID_SAVEAS_CSV_ICON;
+            reActionRef[ReActionHandler.SAVE_AS_FIXED]     = ID_SAVEAS_FIXED_ICON;
+            reActionRef[ReActionHandler.SAVE_AS_HTML_TBL_PER_ROW] = ID_SAVEAS_HTML_ICON;
+            reActionRef[ReActionHandler.SAVE_AS_HTML_TREE] = ID_SAVEAS_HTML_ICON;
+            reActionRef[ReActionHandler.SAVE_AS_VELOCITY]  = ID_SAVEAS_VELOCITY_ICON;
+            reActionRef[ReActionHandler.SAVE_AS_XML]       = ID_SAVEAS_XML_ICON;
+            reActionRef[ReActionHandler.SAVE_LAYOUT_XML]   = ID_SAVEAS_XML_ICON;
 
             reActionRef[ReActionHandler.REPEAT_RECORD] = ID_COPY_ICON;
             reActionRef[ReActionHandler.COPY_RECORD]   = ID_COPY_ICON;
@@ -1112,8 +1201,8 @@ public final class Common implements Constants {
             reActionRef[ReActionHandler.PASTE_RECORD_PRIOR]
                          						  = ID_PASTE_PRIOR_ICON;
             reActionRef[ReActionHandler.PASTE_TABLE_INSERT] = ID_PASTE_ICON;
-            reActionRef[ReActionHandler.PASTE_TABLE_INSERT] = ID_PASTE_ICON;
             reActionRef[ReActionHandler.INSERT_RECORDS] = ID_NEW_ICON;
+            reActionRef[ReActionHandler.INSERT_RECORD_PRIOR] = ID_NEW_UP_ICON;
 
             reActionRef[ReActionHandler.NEW]     = ID_NEW_ICON;
             //reActionRef[ReActionHandler.] = ID_SETLENGTH_ICON;
@@ -1131,6 +1220,9 @@ public final class Common implements Constants {
             reActionRef[ReActionHandler.CREATE_CHILD]    = ID_NEW_ICON;
             reActionRef[ReActionHandler.EDIT_CHILD]      = ID_OPEN_ICON;
             reActionRef[ReActionHandler.PRINT]           = ID_PRINT_ICON;
+            reActionRef[ReActionHandler.AUTOFIT_COLUMNS] = ID_AUTOFIT_ICON;
+            reActionRef[ReActionHandler.CLOSE]     = ID_EXIT_ICON;
+            reActionRef[ReActionHandler.CLOSE_ALL] = ID_EXIT_ICON;
 
 
             //currClass = null;
@@ -1370,7 +1462,7 @@ public final class Common implements Constants {
      * @return Returns the spaceAtBottomOfScreen.
      */
     public static int getSpaceAtBottomOfScreen() {
-        initVars();
+        //initVars();
         return spaceAtBottomOfScreen;
     }
 
@@ -1378,7 +1470,7 @@ public final class Common implements Constants {
      * @return Returns the spaceAtLeftOfScreen.
      */
     public static int getSpaceAtLeftOfScreen() {
-        initVars();
+        //initVars();
         return spaceAtLeftOfScreen;
     }
 
@@ -1386,7 +1478,7 @@ public final class Common implements Constants {
      * @return Returns the spaceAtRightOfScreen.
      */
     public static int getSpaceAtRightOfScreen() {
-        initVars();
+        //initVars();
         return spaceAtRightOfScreen;
     }
 
@@ -1394,7 +1486,7 @@ public final class Common implements Constants {
      * @return Returns the spaceAtTopOfScreen.
      */
     public static int getSpaceAtTopOfScreen() {
-       initVars();
+       //initVars();
        return spaceAtTopOfScreen;
     }
 
@@ -1645,18 +1737,20 @@ public final class Common implements Constants {
         if (fileName == null) {
             return null;
         }
-        int pos = fileName.lastIndexOf(FILE_SEPERATOR);
-
-        if (pos < 0) {
-            pos = fileName.lastIndexOf("/");
-        }
-
-        if (pos > 0) {
-            return fileName.substring(pos + 1);
-        }
-
-
-        return fileName;
+        
+        return (new File(fileName)).getName();
+//        int pos = fileName.lastIndexOf(FILE_SEPERATOR);
+//
+//        if (pos < 0) {
+//            pos = fileName.lastIndexOf("/");
+//        }
+//
+//        if (pos > 0) {
+//            return fileName.substring(pos + 1);
+//        }
+//
+//
+//        return fileName;
     }
 
 
@@ -1710,14 +1804,15 @@ public final class Common implements Constants {
 	}
 	
 	
-	/**
-	 * Get standard sized font
-	 * @return standard sized font
-	 */
-	public static Font getMonoSpacedFont() {
-		return new Font("Monospaced", Font.PLAIN,  Common.STANDARD_FONT_HEIGHT);
-	}
-
+	
+//	/**
+//	 * Get standard sized font
+//	 * @return standard sized font
+//	 */
+//	public static Font getMonoSpacedFont() {
+//		return new Font("Monospaced", Font.PLAIN,  Common.STANDARD_FONT_HEIGHT);
+//	}
+//
 
 	/**
 	 * @return the copybookWriterIndex
@@ -1816,77 +1911,77 @@ public final class Common implements Constants {
 	}
 	
 	public static final boolean usePrefered() {
-		return "Y".equalsIgnoreCase(Parameters.getString(Parameters.PREFERED_AS_DEFAULT));
+		return OPTIONS.usePrefered.isSelected();
 	}
-	
-	public static final boolean isWarnBinaryFieldsAndStructureDefault() {
-		return ! "N".equalsIgnoreCase(Parameters.getString(Parameters.WARN_BINARY_FIELDS_DEFAULT));
-	}
-
-	
-	public static final boolean isFieldSearchAutomatic() {
-		return ! "N".equalsIgnoreCase(Parameters.getString(Parameters.FS_RUN_AUTOMATIC));
-	}
-	
-	public static final boolean isSearchForMainframeZoned() {
-		return  "Y".equalsIgnoreCase(Parameters.getString(Parameters.FS_MAINFRAME_ZONED));
-	}
-	
-	public static final boolean isSearchForPcZoned() {
-		return  "Y".equalsIgnoreCase(Parameters.getString(Parameters.FS_PC_ZONED));
-	}
-	
-	public static final boolean isSearchForComp3() {
-		return  "Y".equalsIgnoreCase(Parameters.getString(Parameters.FS_COMP3));
-	}
-	
-	public static final boolean isSearchForCompBigEndian() {
-		return  "Y".equalsIgnoreCase(Parameters.getString(Parameters.FS_COMP_BIG_ENDIAN));
-	}
-	
-	public static final boolean isSearchForCompLittleEndian() {
-		return  ! isSearchForCompBigEndian()
-				&& "Y".equalsIgnoreCase(Parameters.getString(Parameters.FS_COMP_Little_ENDIAN));
-	}
-
-
-	/**
-	 * @return the highlightEmptyActive
-	 */
-	public static final boolean isHighlightEmptyActive() {
-		return highlightEmptyActive;
-	}
-
-
-	/**
-	 * @param highlightEmptyActive the highlightEmptyActive to set
-	 */
-	public static final void setHighlightEmptyActive(boolean highlightEmptyActive) {
-		Common.highlightEmptyActive = highlightEmptyActive;
-	}
-
-
-	/**
-	 * @return the highlightEmpty
-	 */
-	public static final boolean isHighlightEmpty() {
-		return highlightEmpty;
-	}
-
-
-	/**
-	 * @param highlightEmpty the highlightEmpty to set
-	 */
-	public static final void setHighlightEmpty(boolean highlightEmpty) {
-		Common.highlightEmpty = highlightEmpty;
-		String value = "N";
-		
-		if (highlightEmpty) {
-			value = "Y";
-		}
-		
-		Parameters.setProperty(Parameters.PROPERTY_HIGHLIGHT_EMPTY, value);
-	}
+//	
+//	public static final boolean isWarnBinaryFieldsAndStructureDefault() {
+//		return ! "N".equalsIgnoreCase(Parameters.getString(Parameters.WARN_BINARY_FIELDS_DEFAULT));
+//	}
+//
+//	
+//	public static final boolean isFieldSearchAutomatic() {
+//		return ! "N".equalsIgnoreCase(Parameters.getString(Parameters.FS_RUN_AUTOMATIC));
+//	}
+//	
+//	public static final boolean isSearchForMainframeZoned() {
+//		return  "Y".equalsIgnoreCase(Parameters.getString(Parameters.FS_MAINFRAME_ZONED));
+//	}
+//	
+//	public static final boolean isSearchForPcZoned() {
+//		return  "Y".equalsIgnoreCase(Parameters.getString(Parameters.FS_PC_ZONED));
+//	}
+//	
+//	public static final boolean isSearchForComp3() {
+//		return  "Y".equalsIgnoreCase(Parameters.getString(Parameters.FS_COMP3));
+//	}
+//	
+//	public static final boolean isSearchForCompBigEndian() {
+//		return  "Y".equalsIgnoreCase(Parameters.getString(Parameters.FS_COMP_BIG_ENDIAN));
+//	}
+//	
+//	public static final boolean isSearchForCompLittleEndian() {
+//		return  ! OPTIONS.searchForCompBigEndian.isSelected() 
+//				&& "Y".equalsIgnoreCase(Parameters.getString(Parameters.FS_COMP_Little_ENDIAN));
+//	}
+//
+//
+//	/**
+//	 * @return the highlightEmptyActive
+//	 */
+//	public static final boolean isHighlightEmptyActive() {
+//		return highlightEmptyActive;
+//	}
+//
+//
+//	/**
+//	 * @param highlightEmptyActive the highlightEmptyActive to set
+//	 */
+//	public static final void setHighlightEmptyActive(boolean highlightEmptyActive) {
+//		Common.highlightEmptyActive = highlightEmptyActive;
+//	}
+//
+//
+//	/**
+//	 * @return the highlightEmpty
+//	 */
+//	public static final boolean isHighlightEmpty() {
+//		return highlightEmpty;
+//	}
+//
+//
+//	/**
+//	 * @param highlightEmpty the highlightEmpty to set
+//	 */
+//	public static final void setHighlightEmpty(boolean highlightEmpty) {
+//		Common.highlightEmpty = highlightEmpty;
+//		String value = "N";
+//		
+//		if (highlightEmpty) {
+//			value = "Y";
+//		}
+//		
+//		Parameters.setProperty(Parameters.PROPERTY_HIGHLIGHT_EMPTY, value);
+//	}
 	 
 	/**
 	 * Check to see if the field value is Empty
@@ -1900,46 +1995,33 @@ public final class Common implements Constants {
 	}
 	
 	public static long getMemoryCompare() {
-		BigDecimal pct = BigDecimal.valueOf(14);
-		BigDecimal calc;
-		try {
-			String s = Parameters.getString(Parameters.PROPERTY_BIG_FILE_PERCENT);
-			if (s != null && ! "".equals(s)) {
-				double d = Double.parseDouble(s);
-				
-				if (d >= 0 && d <= 100) {
-					pct = new BigDecimal(d);
-				}
-			}
-		} catch (Exception e) {
-		}
-		
-		calc = MAX_MEMORY_BD.multiply(pct);
+		BigDecimal pct = BigDecimal.valueOf(OPTIONS.bigFilePercent.get());
+		BigDecimal calc = MAX_MEMORY_BD.multiply(pct);
 		calc = calc.divide(BigDecimal.valueOf(100));
 		
 		return calc.longValue();
 	}
 	
 	
-	public static int getChunkSize() {
-		return getSize(Parameters.PROPERTY_BIG_FILE_CHUNK_SIZE, 1048576);
-	}
-	
-	
-	public static int getBigFileFilterLimit() {
-		return getSize(Parameters.PROPERTY_BIG_FILE_FILTER_LIMIT, 75000);
-	}
-	
-	private static int getSize(String name, int defaultValue) {
-		int size = defaultValue;
-
-		try {
-			String s = Parameters.getString(name);
-			if (s != null && ! "".equals(s)) {
-				size = 1024 * Integer.parseInt(s);
-			}
-		} catch (Exception e) {
-		}
-		return size;
-	}
+//	public static int getChunkSize() {
+//		return getSize(Parameters.PROPERTY_BIG_FILE_CHUNK_SIZE, 1048576);
+//	}
+//	
+//	
+//	public static int getBigFileFilterLimit() {
+//		return getSize(Parameters.PROPERTY_BIG_FILE_FILTER_LIMIT, 75000);
+//	}
+//	
+//	private static int getSize(String name, int defaultValue) {
+//		int size = defaultValue;
+//
+//		try {
+//			String s = Parameters.getString(name);
+//			if (s != null && ! "".equals(s)) {
+//				size = 1024 * Integer.parseInt(s);
+//			}
+//		} catch (Exception e) {
+//		}
+//		return size;
+//	}
 }

@@ -18,16 +18,17 @@ import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.edit.RecordList;
 import net.sf.RecordEditor.utils.filter.AbstractSaveDetails;
 import net.sf.RecordEditor.utils.filter.SaveButton;
+import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBoxRender;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
 	
 	private static final int PARENT_INDEX     = 1;
-	private static final double TABLE_HEIGHT  = 8 * BasePanel.NORMAL_HEIGHT;
 	public static final Integer BLANK_PARENT = new Integer(-1);
 	
 	private static final String[] LAYOUT_COLUMN_HEADINGS = {
@@ -49,7 +50,7 @@ public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
 
 
 	public CreateRecordTreePnl() {
-		init_200_FormatScreen(false, BasePanel.NORMAL_HEIGHT * 10);
+		init_200_FormatScreen(false, 10);
 	}
 	
 	public CreateRecordTreePnl(AbstractLayoutDetails<?, ?> layoutDetails, boolean addSave) {
@@ -57,7 +58,7 @@ public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
 		
 		setLayout(layoutDetails);
 		
-		init_200_FormatScreen(addSave, BasePanel.NORMAL_HEIGHT * (recordTbl.getRowCount() + 1));
+		init_200_FormatScreen(addSave, recordTbl.getRowCount());
 	}
 	
 	/**
@@ -97,7 +98,7 @@ public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
 		tc.setCellRenderer(new BmKeyedComboBoxRender(new BmKeyedComboModel(records), false));
 		tc.setCellEditor(new DefaultCellEditor(editor));
 		
-		recordTbl.setRowHeight(Common.COMBO_TABLE_ROW_HEIGHT);
+		recordTbl.setRowHeight(SwingUtils.COMBO_TABLE_ROW_HEIGHT);
 	}
 	
 	
@@ -105,12 +106,16 @@ public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
 	 * 
 	 * Format the screen
 	 */
-	private void init_200_FormatScreen(boolean addSave, double height) {
+	private void init_200_FormatScreen(boolean addSave, int recs) {
+		
+		int height = SwingUtils.calculateComboTableHeight(
+				recs, 
+				ReFrame.getDesktopHeight() / 2);
 		
 		pnl.setHelpURL(Common.formatHelpURL(Common.HELP_RECORD_TREE));
 		
 		pnl.addComponent(1, 5,
-		         Math.min(TABLE_HEIGHT, height),
+		         height,
 		         BasePanel.GAP1,
 		         BasePanel.FULL, BasePanel.FULL,
 				 recordTbl);
@@ -118,7 +123,7 @@ public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
 		if (addSave) {
 			SaveButton<EditorTask> saveBtn = new SaveButton<EditorTask>(this, 
 					Parameters.getFileName(Parameters.RECORD_TREE_SAVE_DIRECTORY)); 
-			pnl.addComponent("", saveBtn, execute);
+			pnl.addLine("", saveBtn, execute);
 		}
 		pnl.setGap(BasePanel.GAP2);
 		
@@ -195,7 +200,8 @@ public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
      * @author Bruce Martin
      *
      */
-    private class LayoutTblMdl extends AbstractTableModel {
+    @SuppressWarnings("serial")
+	private class LayoutTblMdl extends AbstractTableModel {
 
 
         /**

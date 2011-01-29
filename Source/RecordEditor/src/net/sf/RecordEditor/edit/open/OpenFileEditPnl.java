@@ -19,7 +19,7 @@
  *   - adding support for enter key
  */
 
-package net.sf.RecordEditor.edit.display;
+package net.sf.RecordEditor.edit.open;
 
 
 import java.awt.BorderLayout;
@@ -29,7 +29,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JPanel;
-import javax.swing.SwingWorker;
 
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
@@ -37,15 +36,14 @@ import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 
 import net.sf.RecordEditor.edit.file.FileView;
-import net.sf.RecordEditor.edit.tree.LineNodeChild;
-import net.sf.RecordEditor.edit.tree.TreeParserXml;
 
-import net.sf.RecordEditor.utils.LayoutConnection;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.utils.openFile.AbstractOpenFilePnl;
+import net.sf.RecordEditor.utils.openFile.OpenFileInterface;
 import net.sf.RecordEditor.utils.openFile.RecentFilesList;
+import net.sf.RecordEditor.utils.swing.BasePanel;
 
 
 
@@ -58,7 +56,7 @@ import net.sf.RecordEditor.utils.openFile.RecentFilesList;
 @SuppressWarnings("serial")
 public class OpenFileEditPnl<Layout extends AbstractLayoutDetails<? extends FieldDetail, ? extends AbstractRecordDetail<FieldDetail>>> 
 extends AbstractOpenFilePnl<Layout> 
-implements ActionListener, LayoutConnection {
+implements ActionListener, OpenFileInterface {
 	
 	private int initialRow;
 	private JPanel goPanel = null; 
@@ -141,14 +139,9 @@ implements ActionListener, LayoutConnection {
 		FileView file = new FileView(layoutDetails,
     			ioProvider,
     			pBrowse);
-		StartEditor startEditor = new StartEditor(file, sFileName, pBrowse);
+		StartEditorExtended startEditor = new StartEditorExtended(file, sFileName, pBrowse);
 		
-		if (Common.LOAD_FILE_BACKGROUND_THREAD) {
-			startEditor.execute();
-		} else {
-			startEditor.doInBackground();
-			startEditor.done();
-		}
+		startEditor.doEdit();
 		
 		
 //		AbstractLayoutDetails layoutDtls = file.getLayout();
@@ -236,7 +229,12 @@ implements ActionListener, LayoutConnection {
     }
 
     
-    /**
+    @Override
+	public BasePanel getPanel() {
+		return this;
+	}
+
+	/**
      * @see net.sf.RecordEditor.utils.LayoutConnection#setRecordLayout(int)
      */
     public void setRecordLayout(int recordId, String layoutName, String newFileName) {
@@ -260,71 +258,22 @@ implements ActionListener, LayoutConnection {
 	 * @return
 	 * @see net.sf.RecordEditor.utils.openFile.RecentFilesList#getMenu()
 	 */
+    @Override
 	public final JMenu getRecentFileMenu() {
 		return recentList.getMenu();
 	}
 	
-	private class StartEditor extends SwingWorker<Void, Void> {
-		private FileView file;
-		private String fName;
-		private boolean pBrowse;
-		
-		private boolean ok = false;
+	private class StartEditorExtended extends StartEditor {
 
-
-		public StartEditor(FileView file, String name, boolean browse) {
-			super();
-			this.file = file;
-			fName = name;
-			pBrowse = browse;
-
+		public StartEditorExtended(FileView file, String name, boolean browse) {
+			super(file, name, browse, message, initialRow);
 		}
-
-
-		@Override
-		public Void doInBackground() {
-			try {
-				file.readFile(fName);
-				ok = true;
-//			} catch (IOException e) {
-//				message.setText("Error Reading the File: " + e.getMessage());
-//				Common.logMsg(e.getMessage(), e);
-//			} catch (RecordException e) {
-//				message.setText("Error Reading the File: " + e.getMessage());
-//				Common.logMsg(e.getMessage(), e);
-			} catch (Exception e) {
-				message.setText("Error Reading the File: " + e.getMessage());
-				Common.logMsg(e.getMessage(), e);
-				e.printStackTrace();
-			}
-			return null;
-		}
-
 
 		@Override
 		public void done() {
 			
 			if (ok) {
-				AbstractLayoutDetails layoutDtls = file.getLayout();
-	
-				if (layoutDtls.hasChildren()) {
-					display = new LineTreeChild(file, new LineNodeChild("File", file), true, 0);
-					if (file.getRowCount() == 0 && ! pBrowse) {
-						display.insertLine();
-					}
-				} else if (layoutDtls.isXml()) {
-					display = new LineTree(file, TreeParserXml.getInstance(), true, 1);
-				} else {
-					display = new LineList(layoutDtls, file, file);
-					display.setCurrRow(initialRow, -1, -1);
-	
-					if (file.getRowCount() == 0 && ! pBrowse) {
-						display.insertLine();
-					}
-				}
-	
-	
-				message.setText(file.getMsg());
+				super.done();
 	
 				try {
 					if ("".equals(file.getMsg())) {

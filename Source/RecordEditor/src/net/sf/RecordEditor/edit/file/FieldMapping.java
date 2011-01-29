@@ -9,6 +9,8 @@ public class FieldMapping {
 	private int[][] columnMapping = null;
 
 	private int[] colLengths;
+	private int[] totalColumnLengths;
+	
 	
 	/**
 	 * Setup column Mapping
@@ -16,6 +18,7 @@ public class FieldMapping {
 	 */
 	public FieldMapping(final int[] columnLengths) {
 		colLengths = columnLengths;
+		totalColumnLengths = columnLengths.clone();
 	}
 	
 
@@ -23,8 +26,9 @@ public class FieldMapping {
 	 * Set up column mapping 
 	 * @param remapColumns column mapping
 	 */
-	public FieldMapping(int[][] remapColumns) {
+	public FieldMapping(int[][] remapColumns, int[] numCols) {
 		columnMapping = remapColumns;
+		totalColumnLengths = numCols;
 		
 		if (columnMapping == null) {
 			colLengths = new int[0];
@@ -36,7 +40,7 @@ public class FieldMapping {
 					colLengths[i] = columnMapping[i].length;
 				}
 			}
-		}	
+		}
 	}
 	
 	public void resetMapping(final int[] columnLengths) {
@@ -47,15 +51,15 @@ public class FieldMapping {
 	/**
 	 * Get the row count
 	 * @param recordIdx record index
-	 * @param defaultRowCount  default row count
+	 * @param defaultColumnCount  default row count
 	 * @return row count
 	 */
-	public int getRowCount(int recordIdx, int defaultRowCount) {
+	public int getColumnCount(int recordIdx, int defaultColumnCount) {
 
 		if (colLengths != null && recordIdx < colLengths.length) {
-	    	 defaultRowCount = colLengths[recordIdx];
+	    	 defaultColumnCount = colLengths[recordIdx];
    	    }
-	    return defaultRowCount;
+	    return defaultColumnCount;
 	}
 
 	/**
@@ -143,22 +147,25 @@ public class FieldMapping {
 	}
 
 	public boolean[] getFieldVisibility(int recordIdx) {
-		int size = colLengths[recordIdx];
-		boolean[] ret;
+		boolean[] ret = null;
 		
-		if (columnMapping == null || columnMapping[recordIdx] ==null) {
-			ret = initArray(size, true);
-		} else {
-			if ( columnMapping[recordIdx].length > size) {
-				size = columnMapping[recordIdx].length ;
-			}
-			ret = initArray(size, false);
-			for (int i =0; i < colLengths[recordIdx]; i++) {
-				ret[columnMapping[recordIdx][i]] = true;
+		if (colLengths != null && recordIdx < colLengths.length) {
+			int size = totalColumnLengths[recordIdx];
+			
+			if (columnMapping == null || columnMapping[recordIdx] ==null) {
+				ret = initArray(size, true);
+			} else {
+				if ( columnMapping[recordIdx].length > size) {
+					size = columnMapping[recordIdx].length ;
+				}
+				ret = initArray(size, false);
+				for (int i = 0; i < colLengths[recordIdx]; i++) {
+					ret[columnMapping[recordIdx][i]] = true;
+				}
 			}
 		}
 		
-		 return ret;
+		return ret;
 	}
 	
 	private boolean[] initArray(int size, boolean value) {

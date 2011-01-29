@@ -17,11 +17,12 @@ import com.zbluesoftware.java.bm.AbstractPopup;
  */
 
 /**
- * create a Date field field with a popup date selector
+ * create a Combo that displays a multi-line text field
  *
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class MultiLineCombo extends AbstractGenericCombo {
     
 	private JTextPopup popup = new JTextPopup();
@@ -61,7 +62,7 @@ public class MultiLineCombo extends AbstractGenericCombo {
 	
  
     /**
-     * Display date selector in a Popup menu
+     * Display Text Area selector in a Popup 
      *
      *
      * @author Bruce Martin

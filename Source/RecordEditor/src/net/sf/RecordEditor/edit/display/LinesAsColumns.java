@@ -13,12 +13,14 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableColumn;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
+import net.sf.RecordEditor.edit.display.Action.AutofitAction;
 import net.sf.RecordEditor.edit.display.models.BaseLineModel;
 import net.sf.RecordEditor.edit.display.models.Line2ColModel;
 import net.sf.RecordEditor.edit.display.util.ChooseCellEditor;
 import net.sf.RecordEditor.edit.file.FileView;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.FixedColumnScrollPane;
@@ -29,6 +31,7 @@ import net.sf.RecordEditor.utils.swing.FixedColumnScrollPane;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class LinesAsColumns extends BaseLineAsColumn implements TableModelListener {
 
 
@@ -97,11 +100,7 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
                         tblScrollPane.doFixColumn(mainPopupCol);
                     };
                 },*/
-                new AbstractAction("Autofit Columns") {
-                    public void actionPerformed(ActionEvent e) {
-                        Common.calcColumnWidths(tblDetails, 1);
-                    }
-                },
+                new AutofitAction(this),
                 null,
 	            new AbstractAction("Hide Column") {
                     public void actionPerformed(ActionEvent e) {
@@ -198,8 +197,8 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void newLayout(AbstractLayoutDetails newLayout) {
-		super.newLayout(newLayout);
+	public void setNewLayout(AbstractLayoutDetails newLayout) {
+		super.setNewLayout(newLayout);
 		setLayoutIdx();
 		//getModel().layoutChanged(newLayout);
 		getModel().fireTableStructureChanged();
@@ -318,5 +317,12 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 		if (super.hasTheFormatChanged(event)) {
 			getModel().fireTableDataChanged();
 		}
+	}
+	
+	@Override
+	public boolean isActionAvailable(int action) {
+
+		return action == ReActionHandler.AUTOFIT_COLUMNS
+			|| super.isActionAvailable(action);
 	}
 }

@@ -16,8 +16,8 @@ import javax.swing.JTextField;
 import javax.swing.table.TableCellEditor;
 import javax.swing.text.JTextComponent;
 
-import net.sf.RecordEditor.utils.common.Common;
 
+@SuppressWarnings("serial")
 public class HexTableCellEditor
 extends AbstractCellEditor implements TableCellEditor {
 
@@ -101,8 +101,8 @@ extends AbstractCellEditor implements TableCellEditor {
 				if (hexDisplay instanceof JTextComponent) {
 					tp.add(BorderLayout.SOUTH, rulerField);
 					
-					hexDisplay.setFont(Common.getMonoSpacedFont());
-					rulerField.setFont(Common.getMonoSpacedFont());
+					hexDisplay.setFont(SwingUtils.getMonoSpacedFont());
+					rulerField.setFont(SwingUtils.getMonoSpacedFont());
 					
 					s = ((JTextComponent) hexDisplay).getText();
 					num = s.indexOf("\n");
@@ -127,11 +127,11 @@ extends AbstractCellEditor implements TableCellEditor {
 				}
 				
 
-				pnl.addComponent("Hex Value in error", new JScrollPane(tp));
+				pnl.addLine("Hex Value in error", new JScrollPane(tp));
 				pnl.setHeight(BasePanel.HEIGHT_1P1 * 4);
 				pnl.setGap(BasePanel.GAP1);
-				pnl.addComponent("", null, goBtn);
-				pnl.addComponent("", null, exitBtn);
+				pnl.addLine("", null, goBtn);
+				pnl.addLine("", null, exitBtn);
 				pnl.setGap(BasePanel.GAP2);
 				pnl.addMessage(msg);
 

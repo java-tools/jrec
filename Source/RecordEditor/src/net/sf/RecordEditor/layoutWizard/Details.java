@@ -54,6 +54,7 @@ public class Details {
     protected  String actualQuote      = "";
     protected     int parserType       = 0;
     protected boolean fieldNamesOnLine = false;
+    protected boolean unicode		   = false;
     
     protected  String layoutDirectory       = "";
     protected     int layoutWriterIdx  = -1; 

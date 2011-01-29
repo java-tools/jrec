@@ -171,7 +171,7 @@ public class Copy2Xml extends AbstractWizard<CopyDefinition> {
 		public GetFiles(AbstractLayoutSelection<?> selection, String recentFiles) {
 			super(selection, recentFiles);
 			
-			xmlFileName.setText(Common.DEFAULT_FILE_DIRECTORY);
+			xmlFileName.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());
 			layoutSelection = selection;
 			
 			//setHelpURL(Common.formatHelpURL(Common.HELP_DIFF_SL));
@@ -220,8 +220,8 @@ public class Copy2Xml extends AbstractWizard<CopyDefinition> {
 		@Override
 		protected void addFileName(BaseHelpPanel pnl) {
 					
-			pnl.addComponent("Input File", fileName, fileName.getChooseFileButton());
-			pnl.addComponent("Xml output File", xmlFileName, xmlFileName.getChooseFileButton());
+			pnl.addLine("Input File", fileName, fileName.getChooseFileButton());
+			pnl.addLine("Xml output File", xmlFileName, xmlFileName.getChooseFileButton());
 		}
 	}
 

@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
  * This class will display a combo box in a Table Cell
@@ -30,7 +31,7 @@ import net.sf.RecordEditor.utils.common.Common;
 public class ComboItemRender 
 						 implements TableCellRenderer {
 
-	private static final int COMBO_HEIGHT = 20;
+	private static final int COMBO_HEIGHT = SwingUtils.COMBO_TABLE_ROW_HEIGHT;
 
     private JComboBox combo = new JComboBox();
     private DefaultTableCellRenderer render = new DefaultTableCellRenderer();
@@ -83,7 +84,7 @@ public class ComboItemRender
 	            background = table.getBackground();
 	        }
 
-			if (Common.isHighlightEmpty() && value == Common.MISSING_VALUE) {
+			if (Common.OPTIONS.highlightEmpty.isSelected() && value == Common.MISSING_VALUE) {
 				background = Common.EMPTY_COLOR;
 			} else if (value == Common.MISSING_REQUIRED_VALUE) {
 				background = Common.MISSING_COLOR;

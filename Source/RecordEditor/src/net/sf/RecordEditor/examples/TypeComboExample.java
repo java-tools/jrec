@@ -8,6 +8,7 @@ package net.sf.RecordEditor.examples;
 
 import java.awt.Component;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
@@ -165,7 +166,7 @@ public class TypeComboExample extends TypeChar implements CellFormat {
          */
         public ComboRendor(final JComboBox comboBox) {
             combo = comboBox;
-            combo.setBorder(null);
+            combo.setBorder(BorderFactory.createEmptyBorder());
         }
 
 

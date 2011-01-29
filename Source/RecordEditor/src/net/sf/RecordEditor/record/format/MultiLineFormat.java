@@ -14,8 +14,8 @@ import com.zbluesoftware.java.bm.GenericComboTableRender;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
-import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.MultiLineCombo;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 /**
@@ -27,7 +27,8 @@ import net.sf.RecordEditor.utils.swing.MultiLineCombo;
 public class MultiLineFormat implements CellFormat {
 
 
-    private TableCellRenderer render = null;
+   private static int HEIGHT = Math.max(SwingUtils.TABLE_ROW_HEIGHT, SwingUtils.CHECK_BOX_HEIGHT) + 1;
+   private TableCellRenderer render = null;
 
 
 
@@ -35,7 +36,7 @@ public class MultiLineFormat implements CellFormat {
      * @see net.sf.RecordEditor.record.format.CellFormat#getFieldHeight()
      */
     public int getFieldHeight() {
-        return Common.COMBO_TABLE_ROW_HEIGHT;
+        return HEIGHT;
     }
 
     /**

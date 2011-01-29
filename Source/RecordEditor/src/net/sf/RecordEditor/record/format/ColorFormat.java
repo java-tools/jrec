@@ -9,7 +9,7 @@ import javax.swing.table.TableCellRenderer;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
-import net.sf.RecordEditor.utils.swing.ColorRender;
+import net.sf.RecordEditor.utils.swing.Combo.ColorRender;
 
 public class ColorFormat implements CellFormat {
 

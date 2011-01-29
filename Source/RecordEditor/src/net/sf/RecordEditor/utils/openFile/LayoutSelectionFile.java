@@ -102,7 +102,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 			JButton layoutCreate1, JButton layoutCreate2, FileChooser layoutFile) {
   	    setupFields();
 
- 	    copybookFile.setText(Common.DEFAULT_COPYBOOK_DIRECTORY);
+ 	    copybookFile.setText(Common.OPTIONS.DEFAULT_COPYBOOK_DIRECTORY.get());
 
 	    fileStructure.addActionListener(new ActionListener() {
 			@Override
@@ -116,33 +116,33 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 	    	loaderOptions.setSelectedIndex(CopybookLoaderFactoryExtended.COBOL_LOADER);
 	    	copybookFile = layoutFile;
 	    	
-		    pnl.addComponent("Output File Structure", fileStructure);
-		    pnl.addComponent("Output Numeric Format", numericFormat);
+		    pnl.addLine("Output File Structure", fileStructure);
+		    pnl.addLine("Output Numeric Format", numericFormat);
 		    mode = MODE_2ND_COBOL;
 	    } else if (mode == MODE_1ST_COBOL) {
 	    	loaderOptions.setSelectedIndex(CopybookLoaderFactoryExtended.COBOL_LOADER);
 
-			pnl.addComponent("Copybook", copybookFile, copybookFile.getChooseFileButton());
+			pnl.addLine("Copybook", copybookFile, copybookFile.getChooseFileButton());
 			
-		    pnl.addComponent("Input File Structure", fileStructure);
-		    pnl.addComponent("Input Numeric Format", numericFormat);
+		    pnl.addLine("Input File Structure", fileStructure);
+		    pnl.addLine("Input Numeric Format", numericFormat);
 	    } else {
-		    pnl.addComponent("File Structure", fileStructure);
+		    pnl.addLine("File Structure", fileStructure);
 		    
-		    loaderOptions.setSelectedItem(Common.COPYBOOK_READER);
-	    	pnl.addComponent("Copybook Type", loaderOptions);
-	    	pnl.addComponent("Split Copybook", splitOption);
+		    loaderOptions.setSelectedItem(Common.OPTIONS.COPYBOOK_READER.get());
+	    	pnl.addLine("Copybook Type", loaderOptions);
+	    	pnl.addLine("Split Copybook", splitOption);
 	    	
 	    	pnl.setGap(BasePanel.GAP0);
-			pnl.addComponent("Copybook", copybookFile, copybookFile.getChooseFileButton());
+			pnl.addLine("Copybook", copybookFile, copybookFile.getChooseFileButton());
 		    pnl.setGap(BasePanel.GAP0);
 		    
-		    pnl.addComponent("Numeric Format", numericFormat);
+		    pnl.addLine("Numeric Format", numericFormat);
 	    
-		    pnl.addComponent("Field Seperator", fieldSeparator);
-		    pnl.addComponent("Quote", quote);
+		    pnl.addLine("Field Seperator", fieldSeparator);
+		    pnl.addLine("Quote", quote);
 		    pnl.setGap(BasePanel.GAP1);
-			pnl.addComponent("", null, goPanel);
+			pnl.addLine("", null, goPanel);
 			if (goPanel != null) {
 				pnl.setHeight(Math.max(BasePanel.NORMAL_HEIGHT * 3, goPanel.getPreferredSize().getHeight()));
 			}
@@ -289,6 +289,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
  
             	if (rec.getFileStructure() == Constants.IO_NAME_1ST_LINE
             	||  rec.getFileStructure() == Constants.IO_BIN_NAME_1ST_LINE
+            	||  rec.getFileStructure() == Constants.IO_UNICODE_NAME_1ST_LINE
             	||  rec.getFileStructure() == Constants.IO_GENERIC_CSV) {
             		//fileStructure.setSelectedIndex(4);
             	} else if (rec.getFileStructure() == Constants.IO_XML_BUILD_LAYOUT
@@ -367,10 +368,11 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 	private void setupFields() {
 		
 		if (loaderOptions == null) {
+			String s;
 	 	    CopybookLoaderFactory loaders = CopybookLoaderFactoryExtended.getInstance();
 
 	 	    loaderOptions  = new JComboBox();
-			copybookFile   = new FileChooser("Choose Layout");
+			copybookFile   = new FileChooser(true, "Choose Layout");
     		fileStructure  = new BmKeyedComboBox(structureModel, false);
     		splitOption    = new SplitCombo();
     		numericFormat  = new ComputerOptionCombo();
@@ -381,11 +383,13 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
     	        loaderOptions.addItem(loaders.getName(i));
     	    }
 
-    	    if (! "".equals(Common.DEFAULT_IO_NAME)) {
-    	    	fileStructure.setSelectedDisplay(Common.DEFAULT_IO_NAME);
+    	    s = Common.OPTIONS.DEFAULT_IO_NAME.get();
+    	    if (! "".equals(s)) {
+    	    	fileStructure.setSelectedDisplay(s);
     	    }
-    	    if (! "".equals(Common.DEFAULT_BIN_NAME)) {
-    	    	numericFormat.setSelectedItem(Common.DEFAULT_BIN_NAME);
+    	    s = Common.OPTIONS.DEFAULT_BIN_NAME.get();
+    	    if (! "".equals(s)) {
+    	    	numericFormat.setSelectedItem(s);
     	    }
 		}
 	}
@@ -464,7 +468,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 //			     + name.substring(name.indexOf(','));
 //		}
 		
-		return Common.DEFAULT_COPYBOOK_DIRECTORY + name + ".Xml"
+		return Common.OPTIONS.DEFAULT_COPYBOOK_DIRECTORY.get() + name + ".Xml"
 			 + SEPERATOR + "2" + SEPERATOR + "0" 
 			 + SEPERATOR + "0" + SEPERATOR + "0" + SEPERATOR + "0" + SEPERATOR + "0";
 	}

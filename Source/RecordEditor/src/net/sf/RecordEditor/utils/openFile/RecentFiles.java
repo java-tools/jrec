@@ -26,7 +26,7 @@ public class RecentFiles {
     private static final int FILE_HISTORY  = 400;
     private static final int HASH_MAP_SIZE = 600;
     public static final int RECENT_FILE_LIST  = 25;
-    private static final int LAUNCH_EDITOR_MATCH_NUMBER = 5 - Common.LAUCH_EDITOR_IF_MATCH;
+    private static final int LAUNCH_EDITOR_MATCH_NUMBER = 5 - Common.OPTIONS.launchIfMatch.get();
 
     private static final String SEPERATOR    = "\t\t";
 
@@ -42,9 +42,9 @@ public class RecentFiles {
 	private HashMap[] recentMap = {new HashMap(HASH_MAP_SIZE), new HashMap(HASH_MAP_SIZE),
 	        new HashMap(HASH_MAP_SIZE), new HashMap(HASH_MAP_SIZE)};
 	private int[] truncSizes = {Integer.MAX_VALUE,
-	        Common.SIGNIFICANT_CHARS_IN_FILES3,
-	        Common.SIGNIFICANT_CHARS_IN_FILES2,
-	        Common.SIGNIFICANT_CHARS_IN_FILES1};
+	        Common.OPTIONS.significantCharInFiles3.get(),
+	        Common.OPTIONS.significantCharInFiles2.get(),
+	        Common.OPTIONS.significantCharInFiles1.get()};
 
 	private boolean editorLaunch = false;
 
@@ -54,13 +54,13 @@ public class RecentFiles {
 	private int[] prevFiles = new int[RECENT_FILE_LIST];
 	//private HashMap  idxLookup = new HashMap(HASH_MAP_SIZE);
 	
-	private AbstractLayoutSelection selection;
+	private FormatFileName selection;
 
     /**
      * Store recently used files and there layouts
      * @param fileName filename of recent files file
      */
-    public RecentFiles(final String fileName, AbstractLayoutSelection layoutSelection) {
+    public RecentFiles(final String fileName, FormatFileName layoutSelection) {
         super();
 
         int i;

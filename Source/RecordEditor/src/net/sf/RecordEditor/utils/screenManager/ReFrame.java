@@ -28,11 +28,13 @@ import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class ReFrame extends JInternalFrame
 				  implements ReActionHandler  {
 
 //    private static ReMainFrame masterFrame = null;
     private static JDesktopPane desktop = null;
+    
     private static ReFrame activeFrame = null;
     private static ReWindowChanged focusChangedListner;
     private static ArrayList<ReFrame> allFrames = new ArrayList<ReFrame>();
@@ -61,9 +63,9 @@ public class ReFrame extends JInternalFrame
     }
 
     /**
-     * standard record editor internal fram
+     * standard record editor internal frame
      *
-     * @param docName Name of the document being editted
+     * @param docName Name of the document being edited
      */
     public ReFrame(final String docName, String screenName) {
         super(screenName);
@@ -76,9 +78,9 @@ public class ReFrame extends JInternalFrame
 
 
     /**
-     * standard record editor internal fram
+     * standard record editor internal frame
      *
-     * @param docName Name of the document being editted
+     * @param docName Name of the document being edited
      * @param name name of the frame
      * @param doc data document
      */
@@ -352,7 +354,7 @@ public class ReFrame extends JInternalFrame
         getContentPane().add(panel);
 
 		pack();
-		setResizable (true);
+		setResizable(true);
     }
     
     
@@ -392,4 +394,27 @@ public class ReFrame extends JInternalFrame
     public static void setDesktop(JDesktopPane newDesktop) {
         ReFrame.desktop = newDesktop;
     }
+
+	/**
+	 * @return the desktopHeight
+	 */
+	public static int getDesktopHeight() {
+		int desktopHeight = 20;
+		if (desktop != null) {
+			desktopHeight = desktop.getBounds().height;
+		}
+		return desktopHeight;
+	}
+	
+
+	/**
+	 * @return the desktopHeight
+	 */
+	public static int getDesktopWidth() {
+		int desktopWidth = 20;
+		if (desktop != null) {
+			desktopWidth = desktop.getBounds().width;
+		}
+		return desktopWidth;
+	}
 }

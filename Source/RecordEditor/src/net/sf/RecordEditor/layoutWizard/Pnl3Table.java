@@ -26,6 +26,7 @@ import javax.swing.text.JTextComponent;
 
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
  * 2nd wizard screen where the user selects the starting
@@ -38,7 +39,7 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
 public class Pnl3Table extends WizardPanel {
 
 
-    private static final int FILE_HEIGHT = 250;
+    private static final int FILE_HEIGHT = SwingUtils.TABLE_ROW_HEIGHT * 15 - 3;
 
 	public int stdLineHeight;
 

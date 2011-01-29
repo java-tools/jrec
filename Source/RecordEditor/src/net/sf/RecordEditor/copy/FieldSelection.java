@@ -10,6 +10,8 @@ import net.sf.RecordEditor.jibx.compare.CopyDefinition;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.filter.FilterPnl;
 import net.sf.RecordEditor.utils.openFile.AbstractLayoutSelection;
+import net.sf.RecordEditor.utils.openFile.FormatFileName;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 
 /**
@@ -30,7 +32,7 @@ public class FieldSelection extends FilterPnl implements AbstractWizardPanel<Cop
 	 * @param layoutSelection
 	 */
 	public FieldSelection(AbstractLayoutSelection<?> layoutSelection1,
-			AbstractLayoutSelection<?> layoutSelection2,
+			FormatFileName layoutSelection2,
 			String helpName) {
 		super(false);
 		
@@ -65,7 +67,7 @@ public class FieldSelection extends FilterPnl implements AbstractWizardPanel<Cop
 		
 		if (! lastLayoutName1.equalsIgnoreCase(values.oldFile.getLayoutDetails().name)) {
 			super.setRecordLayout(selection1.getRecordLayout(values.oldFile.getLayoutDetails().name),
-					layout2, false);
+					layout2, false, SwingUtils.COMBO_TABLE_ROW_HEIGHT * 4);
 			super.getFilter().updateFromExternalLayout(detail.oldFile.layoutDetails);
 
 			lastLayoutName1 = values.oldFile.layoutDetails.name;

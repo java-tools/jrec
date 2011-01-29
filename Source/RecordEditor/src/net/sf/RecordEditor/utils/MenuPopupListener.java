@@ -34,7 +34,7 @@ import net.sf.RecordEditor.utils.screenManager.ReActionActiveScreen;
 public class MenuPopupListener extends MouseAdapter {
     private JPopupMenu popup = new JPopupMenu();
     
-    private JTable tbl= null;
+    private JTable tbl = null;
     
     private int popupCol, popupRow;
 
@@ -44,10 +44,13 @@ public class MenuPopupListener extends MouseAdapter {
     private static final ReActionActiveScreen PASTE_RECORDS_PRIOR = new ReActionActiveScreen(ReActionHandler.PASTE_RECORD_PRIOR);
     private static final ReActionActiveScreen DELETE_RECORDS      = new ReActionActiveScreen(ReActionHandler.DELETE_RECORD);
     private static final ReActionActiveScreen INSERT_RECORDS      = new ReActionActiveScreen(ReActionHandler.INSERT_RECORDS);
+    private static final ReActionActiveScreen INSERT_RECORD_PRIOR = new ReActionActiveScreen(ReActionHandler.INSERT_RECORD_PRIOR);
 	private static final ReActionActiveScreen FIND_ACTION         = new ReActionActiveScreen(ReActionHandler.FIND);
 	private static final ReActionActiveScreen FILTER_ACTION       = new ReActionActiveScreen(ReActionHandler.FILTER);
 	private static final ReActionActiveScreen SAVE                = new ReActionActiveScreen(ReActionHandler.SAVE);
 	private static final ReActionActiveScreen SAVE_AS             = new ReActionActiveScreen(ReActionHandler.SAVE_AS);
+	private static final ReActionActiveScreen SAVE_AS_CSV         = new ReActionActiveScreen(ReActionHandler.SAVE_AS_CSV);
+	private static final ReActionActiveScreen SAVE_AS_FIXED       = new ReActionActiveScreen(ReActionHandler.SAVE_AS_FIXED);
 	private static final ReActionActiveScreen SAVE_AS_HTML        = new ReActionActiveScreen(ReActionHandler.SAVE_AS_HTML);
 	private static final ReActionActiveScreen SAVE_AS_HTML_TBLS   = new ReActionActiveScreen(ReActionHandler.SAVE_AS_HTML_TBL_PER_ROW);
 	private static final ReActionActiveScreen SAVE_AS_HTML_TREE   = new ReActionActiveScreen(ReActionHandler.SAVE_AS_HTML_TREE);
@@ -60,14 +63,16 @@ public class MenuPopupListener extends MouseAdapter {
      * @param userAction any user actions
      * @param isFileEdit wether to add file editing actions action
      */
-    public MenuPopupListener(final Action[] userAction, final boolean isFileEdit, final JTable table) {
+    @SuppressWarnings("serial")
+	public MenuPopupListener(final Action[] userAction, final boolean isFileEdit, final JTable table) {
         super();
         
         tbl = table;
 	    popup.add(COPY_RECORDS);
 	    popup.add(CUT_RECORDS);
-	    popup.add(PASTE_RECORDS);
 	    popup.add(PASTE_RECORDS_PRIOR);
+	    popup.add(PASTE_RECORDS);
+	    popup.add(INSERT_RECORD_PRIOR);
 	    popup.add(INSERT_RECORDS);
 	    popup.add(DELETE_RECORDS);
 
@@ -76,7 +81,7 @@ public class MenuPopupListener extends MouseAdapter {
 	    	
 	        popup.add(REPEAT_RECORD);
 	        
-	        if (Common.isHighlightEmpty()) {
+	        if (Common.OPTIONS.highlightEmpty.isSelected()) {
 		        popup.add(new AbstractAction("Clear Field") {
 	
 					/* (non-Javadoc)
@@ -102,9 +107,12 @@ public class MenuPopupListener extends MouseAdapter {
 	        if (Common.isVelocityAvailable()) {
 	        	saveMenu.addSeparator();
 	        }
+	        saveMenu.add(SAVE_AS_CSV);
+	        saveMenu.add(SAVE_AS_FIXED);
 	        saveMenu.add(SAVE_AS_HTML);
 	        saveMenu.add(SAVE_AS_HTML_TBLS);
 	        saveMenu.add(SAVE_AS_HTML_TREE);
+
 	        if (Common.isVelocityAvailable()) {
 	        	saveMenu.add(SAVE_AS_VELOCITY);
 	        	saveMenu.add(new VelocityPopup());
@@ -118,9 +126,12 @@ public class MenuPopupListener extends MouseAdapter {
 	    }
     }
  
+    public MenuPopupListener() {
+    	
+    }
+    
 	public MenuPopupListener(final Action userAction) {
-    	Action[] actions = {userAction};
-    	addUserActions(actions);
+		popup.add(userAction);
     }
 
     /**
@@ -174,7 +185,7 @@ public class MenuPopupListener extends MouseAdapter {
              	popupRow = tbl.rowAtPoint(e.getPoint());
         	 }
 
-            popup.show(e.getComponent(),
+             popup.show(e.getComponent(),
                        e.getX(), e.getY());
         }
     }
@@ -197,6 +208,13 @@ public class MenuPopupListener extends MouseAdapter {
     }
 
     /**
+	 * @return the popupRow
+	 */
+	public int getPopupRow() {
+		return popupRow;
+	}
+
+	/**
 	 * @param table the tbl to set
 	 */
 	public final void setTable(JTable table) {

@@ -25,6 +25,7 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.openFile.LayoutSelectionDB;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 /**
  * Gui program to run velocity on a Record Based File
  *
@@ -33,14 +34,14 @@ import net.sf.RecordEditor.utils.swing.FileChooser;
  */
 public class RunVelocityGui implements ActionListener {
 
-    private static final int NOT_INSTALLED_MSG_HEIGHT = 300;
+    private static final int NOT_INSTALLED_MSG_HEIGHT = SwingUtils.STANDARD_FONT_HEIGHT * 25;
     private JFrame  frame = new JFrame();
     private BasePanel pnl = new BasePanel();
 
     private JPanel runPanel = new JPanel();
     private FileChooser inputFile = new FileChooser();
-    private FileChooser templateFile = new FileChooser("Choose Velocity Template");
-    private FileChooser outputFile = new FileChooser("Choose Output File");
+    private FileChooser templateFile = new FileChooser(true, "Choose Velocity Template");
+    private FileChooser outputFile = new FileChooser(false, "Choose Output File");
     private JButton runBtn = new JButton("Run");
     private JTextArea message = new JTextArea();
 
@@ -75,8 +76,8 @@ public class RunVelocityGui implements ActionListener {
     private void init_100_SetupScreenFields() {
 
        	layoutSelection = new LayoutSelectionDB(copybookReader, message, false);
-        inputFile.setText(Common.DEFAULT_FILE_DIRECTORY);
-        templateFile.setText(Common.DEFAULT_VELOCITY_DIRECTORY);
+        inputFile.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());
+        templateFile.setText(Common.OPTIONS.DEFAULT_VELOCITY_DIRECTORY.get());
 
         runBtn.addActionListener(this);
 
@@ -93,17 +94,17 @@ public class RunVelocityGui implements ActionListener {
      */
     private void init_200_BuildScreen() {
 
-        pnl.addComponent("Input File", inputFile, inputFile.getChooseFileButton());
-        pnl.addComponent("Template File", templateFile, templateFile.getChooseFileButton());
+        pnl.addLine("Input File", inputFile, inputFile.getChooseFileButton());
+        pnl.addLine("Template File", templateFile, templateFile.getChooseFileButton());
         pnl.setGap(BasePanel.GAP1);
 
         layoutSelection.addLayoutSelection(pnl, inputFile, runPanel, null, null);
         pnl.setGap(BasePanel.GAP1);
 
-        pnl.addComponent("Output File", outputFile, outputFile.getChooseFileButton());
+        pnl.addLine("Output File", outputFile, outputFile.getChooseFileButton());
         pnl.setGap(BasePanel.GAP2);
 
-        pnl.addComponent("", null, runBtn);
+        pnl.addLine("", null, runBtn);
         pnl.setGap(BasePanel.GAP2);
 
         pnl.addMessage(message);

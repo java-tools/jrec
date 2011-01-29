@@ -55,20 +55,19 @@ public class SaveFieldSequenceAction extends AbstractAction implements AbstractA
 			super("Save Field Sequence to Xml",  dir, false, false, true);
 			
 			panel = pnl;
-			saveBtn.addActionListener(this);
+			setActionListner(this);
 			this.setVisible(true);
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
 			EditorTask task = new EditorTask();
 			task.type = EditorTask.TASK_FIELD_SEQUENCE;
 			task.fieldSequence = panel.getFieldSequence();	
 			try {
-			(new net.sf.RecordEditor.jibx.JibxCall<EditorTask>(task.getClass()))
-				.unmarshal(file.getText(), task);
-			this.setVisible(false);
+				(new net.sf.RecordEditor.jibx.JibxCall<EditorTask>(task.getClass()))
+					.unmarshal(getFileName(), task);
+				this.setVisible(false);
 			} catch (Exception ex) {
 				Common.logMsg("Can not save Field Sequences", ex);
 			}

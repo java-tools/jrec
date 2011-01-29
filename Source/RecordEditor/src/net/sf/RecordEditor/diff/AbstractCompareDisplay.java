@@ -198,7 +198,7 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 			pnl.addComponent3Lines("Layouts", getLayoutList(), btnPnl);			
 		} else {
 			pnl.addComponent3Lines("Layouts", getLayoutList(), null);
-			pnl.addComponent("", btnPnl);
+			pnl.addLine("", btnPnl);
 		}
 		
 		pnl.setHeight(BasePanel.NORMAL_HEIGHT * 2);

@@ -8,14 +8,12 @@
 package net.sf.RecordEditor.record.format;
 
 import javax.swing.DefaultCellEditor;
-import javax.swing.JCheckBox;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.tree.DefaultTreeCellEditor;
 
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
-import net.sf.RecordEditor.utils.swing.CheckboxTableRenderStringBased;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 /**
@@ -35,14 +33,14 @@ public class CheckBoxBooleanFormat implements CellFormat {
      * @see net.sf.RecordEditor.record.format.CellFormat#getFieldHeight()
      */
     public int getFieldHeight() {
-        return CheckBoxTableRender.CELL_HEIGHT;
+        return SwingUtils.CHECK_BOX_HEIGHT;
     }
 
     /**
      * @see net.sf.RecordEditor.record.format.CellFormat#getFieldWidth()
      */
     public int getFieldWidth() {
-        return CheckBoxTableRender.CELL_WIDTH;
+        return SwingUtils.CHECK_BOX_WIDTH;
     }
 
     /**

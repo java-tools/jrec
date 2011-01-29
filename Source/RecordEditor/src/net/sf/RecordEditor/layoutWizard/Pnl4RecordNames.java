@@ -13,6 +13,7 @@ import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 
+@SuppressWarnings("serial")
 public class Pnl4RecordNames extends WizardPanel {
 	
 	private static final String[] COLUMN_NAMES = {"Key Value", "Record Name"};

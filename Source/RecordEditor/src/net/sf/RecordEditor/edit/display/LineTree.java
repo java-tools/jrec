@@ -26,6 +26,7 @@ import net.sf.RecordEditor.edit.tree.TreeToXml;
 
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 
+@SuppressWarnings("serial")
 public class LineTree extends BaseLineTree<LineNode> {
 	
 	private AbstractLineNodeTreeParser parser;
@@ -49,11 +50,10 @@ public class LineTree extends BaseLineTree<LineNode> {
                 new AbstractAction("Print Line Details") {
                     public void actionPerformed(ActionEvent e) {
                     	int[] selected = treeTable.getSelectedRows();
-                    	LineNode node;
                     	
-                    	System.out.println();
+                    	//System.out.println();
                     	for (int i =0; i < selected.length; i++) {
-                    		node = getNodeForRow(selected[i]);
+                    		getNodeForRow(selected[i]);
 //                    		if (node != null) {
 //                    			System.out.println(">> Line Details "
 //                    					+ node.getLevel() + "             ".substring(12 - node.getLevel())

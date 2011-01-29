@@ -20,6 +20,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 
 import net.sf.JRecord.Common.Constants;
+import net.sf.RecordEditor.utils.common.Common;
 
 /**
  * implement file chooser Text box & button
@@ -27,30 +28,40 @@ import net.sf.JRecord.Common.Constants;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class FileChooser extends JTextField implements ActionListener  {
     private JButton chooseFileButton;
     private JFileChooser chooseFile = null;
     private FocusListener listner;
     private int mode = Constants.NULL_INTEGER;
     private String defaultDirectory = "";
+    private boolean open = true;
 
     /**
      * Create File chooser code
      *
      */
     public FileChooser() {
-        this("Choose File"); 
+        this(true, "Choose File"); 
+    }
+
+    public FileChooser(final boolean isOpen) {
+        this(isOpen, "Choose File"); 
     }
 
     /**
      * Create File chooser
      * @param buttonPrompt prompt to display on the button
      */
-    public FileChooser(final String buttonPrompt) {
+    public FileChooser(final boolean isOpen, final String buttonPrompt) {
         super();
 
-        chooseFileButton  = new JButton(buttonPrompt);
+        chooseFileButton  = new JButton(
+        		buttonPrompt,
+        		Common.getRecordIcon(Common.ID_FILE_SEARCH_ICON));
         chooseFileButton.addActionListener(this);
+        
+        open = isOpen;
     }
 
 
@@ -78,7 +89,14 @@ public class FileChooser extends JTextField implements ActionListener  {
 			this.setText(defaultDirectory);
 		}
 		chooseFile.setSelectedFile(new File(this.getText()));
-		int ret = chooseFile.showOpenDialog(null);
+		
+		int ret;
+		
+		if (open) {
+			ret = chooseFile.showOpenDialog(null);
+		} else {
+			ret = chooseFile.showSaveDialog(null);
+		}
 
 		if (ret == JFileChooser.APPROVE_OPTION) {
 		    this.setText(chooseFile.getSelectedFile().getPath());
@@ -117,6 +135,12 @@ public class FileChooser extends JTextField implements ActionListener  {
 		mode = newMode;
 		if (chooseFile != null) {
 			chooseFile.setFileSelectionMode(newMode);
+		}
+		
+		if (mode == JFileChooser.DIRECTORIES_ONLY) {
+			chooseFileButton.setIcon(Common.getRecordIcon(Common.ID_DIRECTORY_SEARCH_ICON));
+		} else {
+			chooseFileButton.setIcon(Common.getRecordIcon(Common.ID_FILE_SEARCH_ICON));
 		}
 	}
 

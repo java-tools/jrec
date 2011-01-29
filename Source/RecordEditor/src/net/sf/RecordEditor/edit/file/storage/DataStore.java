@@ -22,5 +22,6 @@ public interface DataStore<L extends AbstractLine> extends List<L> {
 
 	public L addCopy(int lineNo, L line);
 
+	public AbstractLayoutDetails getLayout();
 	public void setLayout(AbstractLayoutDetails layout);
 }

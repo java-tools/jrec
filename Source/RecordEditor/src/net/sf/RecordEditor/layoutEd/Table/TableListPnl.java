@@ -39,6 +39,7 @@ import net.sf.RecordEditor.utils.jdbc.AbsRecord;
 import net.sf.RecordEditor.utils.jdbc.DBtableModel;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 
@@ -48,12 +49,13 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public final class TableListPnl extends BaseHelpPanel {
 
 
-  private static final int DESCRIPTION_HEIGHT = 60;
-  private static final int TABLE_WIDTH  = 300;
-  private static final int TABLE_HEIGHT = 260;
+  private static final int DESCRIPTION_HEIGHT = SwingUtils.STANDARD_FONT_HEIGHT * 5;
+  private static final int TABLE_WIDTH  = SwingUtils.STANDARD_FONT_WIDTH * 33;
+  private static final int TABLE_HEIGHT = SwingUtils.TABLE_ROW_HEIGHT * 15 + 5;
 
   private JPanel  btnPanel     = new JPanel();
   private JButton helpBtn      = Common.getHelpButton();
@@ -103,10 +105,10 @@ public final class TableListPnl extends BaseHelpPanel {
       btnPanel.setLayout(new BorderLayout());
       btnPanel.add(BorderLayout.EAST, helpBtn);
 
-      addComponent("", btnPanel);
-      addComponent("Table Id", sfTBlId);
-      addComponent("Table Name", sfTblName);
-      addComponent("Description", sfDescription);
+      addLine("", btnPanel);
+      addLine("Table Id", sfTBlId);
+      addLine("Table Name", sfTblName);
+      addLine("Description", sfDescription);
       setHeight(DESCRIPTION_HEIGHT);
       setGap(BasePanel.GAP0);
 

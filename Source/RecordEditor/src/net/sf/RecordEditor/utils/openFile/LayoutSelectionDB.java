@@ -39,7 +39,9 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 	private JTextArea   description = new JTextArea();
 	private JTextArea   message = null;
 
-	private JButton reload = new JButton("Reload from DB");
+	private JButton reload = new JButton(
+			"Reload from DB", 
+			Common.getRecordIcon(Common.ID_RELOAD_ICON));
 
 	private ArrayList<SystemItem> systems = new ArrayList<SystemItem>();
 	private ArrayList<LayoutItem> layouts = new ArrayList<LayoutItem>();
@@ -100,14 +102,15 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 	public void addLayoutSelection(BasePanel pnl, JTextField file, JPanel goPanel, final JButton layoutCreate1,
      	   final JButton layoutCreate2) {
 
-		pnl.addComponent("Data Base", dbCombo, reload);
-		pnl.addComponent("System", systemCombo);
-		pnl.addComponent("Record Layout", layoutCombo, layoutCreate1);
+		JButton tmpBtn = new JButton("XX");
+		pnl.addLine("Data Base", dbCombo, reload);
+		pnl.addLine("System", systemCombo,tmpBtn);
+		pnl.addLine("Record Layout", layoutCombo, layoutCreate1);
 		if (layoutCreate2 != null) {
-		    pnl.addComponent("", null, layoutCreate2);
+		    pnl.addLine("", null, layoutCreate2);
 		}
 		pnl.setGap(BasePanel.GAP1);
-		pnl.addComponent("Description", description, goPanel);
+		pnl.addLine("Description", description, goPanel);
 		
 		double size = 0;
 		if (goPanel != null) {
@@ -116,7 +119,9 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 			} catch (Exception e) {
 			}
 		}
-		pnl.setHeight(Math.max(BasePanel.NORMAL_HEIGHT * 3, size));
+		pnl.setHeight(Math.max(BasePanel.NORMAL_HEIGHT * 3 + 3, size));
+		
+		tmpBtn.setVisible(false);
 	}
 
 

@@ -37,9 +37,9 @@ public class CreateFieldTree extends BaseFieldSelection {
      * @param fileTbl file to be sorted
      */
     public CreateFieldTree(final AbstractFileDisplay src, final FileView fileTbl) {
-    	super(src, fileTbl, "Create Field Tree View", Common.ID_TREE_ICON, "Build Tree",
+    	super(src, fileTbl, "Create Field Tree View", Common.ID_SUMMARY_ICON, "Build Tree",
     			1, true, true);
-		pnl.setHelpURL(Common.formatHelpURL(Common.HELP_FIELD_TREE));
+		super.setHelpURL(Common.formatHelpURL(Common.HELP_FIELD_TREE));
     }
 
     

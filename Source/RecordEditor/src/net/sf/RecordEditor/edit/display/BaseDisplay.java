@@ -50,7 +50,7 @@ import net.sf.RecordEditor.edit.display.common.ILayoutChanged;
 import net.sf.RecordEditor.edit.display.util.AddAttributes;
 import net.sf.RecordEditor.edit.display.util.GotoLine;
 import net.sf.RecordEditor.edit.display.util.OptionPnl;
-import net.sf.RecordEditor.edit.display.util.SaveAs;
+import net.sf.RecordEditor.edit.display.util.SaveAsNew;
 import net.sf.RecordEditor.edit.display.util.Search;
 import net.sf.RecordEditor.edit.display.util.SortFrame;
 import net.sf.RecordEditor.edit.file.AbstractLineNode;
@@ -92,6 +92,7 @@ import net.sf.RecordEditor.utils.swing.StandardRendor;
  * @author Bruce Martin
  * @version 0.56
  */
+@SuppressWarnings("serial")
 public abstract class BaseDisplay extends ReFrame 
 implements AbstractFileDisplay, ILayoutChanged {
 
@@ -168,7 +169,7 @@ implements AbstractFileDisplay, ILayoutChanged {
                 } else if (event.getKeyCode() == KeyEvent.VK_V) {
                     fileView.pasteLines(getInsertAfterPosition());
                 } else if (event.getKeyCode() == KeyEvent.VK_L) {
-                	startGotoLineNumber();                
+                	new GotoLine(BaseDisplay.this, fileView);;                
                 }
                 lastWhen = event.getWhen();
                 //System.out.print("   !!!");
@@ -227,7 +228,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 		//fullLineIndex = layoutCombo.getFullLineIndex();
 		
 		if (option == NO_OPTION_PANEL) {
-			pnl.addComponent("Layouts", getLayoutCombo());
+			pnl.addLine("Layouts", getLayoutCombo());
 		} else {
 			int opt = fileView.isBrowse() ? OptionPnl.BROWSE_PANEL
 					 : OptionPnl.EDIT_PANEL;
@@ -374,7 +375,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	 * @see net.sf.RecordEditor.edit.display.common.ILayoutChanged#layoutChanged(net.sf.JRecord.Details.AbstractLayoutDetails)
 	 */
 	@Override
-	public void layoutChanged(AbstractLayoutDetails newLayout) {
+	public final void layoutChanged(AbstractLayoutDetails newLayout) {
 	}
 		
 	private void layoutChangedInternal(AbstractLayoutDetails newLayout) {
@@ -392,7 +393,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 			}
 
 			setTableFormatDetails(getLayoutIndex());
-			newLayout(newLayout);
+			setNewLayout(newLayout);
 //			searchScreen.setRecordLayout(newLayout);
 		}
 	}
@@ -406,7 +407,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	public void executeAction(int action, Object o) {
 		
 		if (action == ReActionHandler.SAVE_AS_VELOCITY && o != null) {
-		    new SaveAs(this, this.fileView, SaveAs.FORMAT_VELOCITY, o.toString());
+			executeSaveAs(SaveAsNew.FORMAT_VELOCITY, o.toString());
 		} else {
 			executeAction(action);
 		}
@@ -450,18 +451,24 @@ implements AbstractFileDisplay, ILayoutChanged {
 			   }
 			break;
 			case ReActionHandler.BUILD_XML_TREE_SELECTED:	createXmlTreeView();              break;
-			case ReActionHandler.SAVE_AS:				    new SaveAs(this, this.fileView);  break;
+			case ReActionHandler.SAVE_AS:				    new SaveAsNew(this, this.fileView);  break;
+			case ReActionHandler.SAVE_AS_CSV:
+				executeSaveAs(SaveAsNew.FORMAT_DELIMITED, "");
+			break;
+			case ReActionHandler.SAVE_AS_FIXED:
+				executeSaveAs(SaveAsNew.FORMAT_FIXED, "");
+			break;
 			case ReActionHandler.SAVE_AS_HTML:
-				new SaveAs(this, this.fileView, SaveAs.FORMAT_1_TABLE, "");
+				executeSaveAs(SaveAsNew.FORMAT_1_TABLE, "");
 			break;
 			case ReActionHandler.SAVE_AS_HTML_TBL_PER_ROW:
-			    new SaveAs(this, this.fileView, SaveAs.FORMAT_MULTI_TABLE, "");
+			    executeSaveAs(SaveAsNew.FORMAT_MULTI_TABLE, "");
 			break;
 			case ReActionHandler.SAVE_AS_HTML_TREE:
-			    new SaveAs(this, this.fileView, SaveAs.FORMAT_TREE_HTML, "");
+			    executeSaveAs(SaveAsNew.FORMAT_TREE_HTML, "");
 			break;
 			case ReActionHandler.SAVE_AS_VELOCITY:
-			    new SaveAs(this, this.fileView, SaveAs.FORMAT_VELOCITY, "");
+			    executeSaveAs(SaveAsNew.FORMAT_VELOCITY, "");
 			break;
 			case ReActionHandler.SAVE_AS_XML:
 				if (layout.hasTreeStructure() || layout.hasChildren()) {
@@ -495,7 +502,8 @@ implements AbstractFileDisplay, ILayoutChanged {
 				fileView.pasteLines(getInsertAfterPosition());		break;
 			case ReActionHandler.PASTE_RECORD_PRIOR:	fileView.pasteLines(getInsertBeforePosition());	break;
 			case ReActionHandler.CORRECT_RECORD_LENGTH:	setRecordLayout();								break;
-			case ReActionHandler.INSERT_RECORDS:		insertLine();									break;
+			case ReActionHandler.INSERT_RECORDS:		insertLine(0);									break;
+			case ReActionHandler.INSERT_RECORD_PRIOR:	insertLine(-1);									break;
 			case ReActionHandler.CLOSE:					closeWindow();									break;
 			case ReActionHandler.SORT:			    	new SortFrame(this, fileView);					break;
 			case ReActionHandler.HELP:		    		pnl.showHelp();									break;
@@ -507,7 +515,8 @@ implements AbstractFileDisplay, ILayoutChanged {
 	                Common.logMsg("Printing failed (Printing requires Java 1.5)", e);
 	            }
 			break;
-	
+			case ReActionHandler.AUTOFIT_COLUMNS:
+				Common.calcColumnWidths(getJTable(), 1);
 			}
 		} catch (Exception e) {
 			Common.logMsg("Error Executing action:", null);
@@ -516,6 +525,9 @@ implements AbstractFileDisplay, ILayoutChanged {
 		}
 	}
 	
+	private final void executeSaveAs(int format, String s) {
+		new SaveAsNew(this, this.fileView, format, s);
+	}
 	protected final void executeTreeAction(int action) {
 		
 		switch (action) {
@@ -536,16 +548,16 @@ implements AbstractFileDisplay, ILayoutChanged {
 
 	}
 	
-	public void insertLine() {
+	public void insertLine(int adj) {
 		if (fileMaster.getTreeTableNotify() == null) {
-			insertLine_100_FlatFile();
+			insertLine_100_FlatFile(adj);
 		} else {
-			insertLine_200_TreeFile();
+			insertLine_200_TreeFile(adj);
 		}
 	}
 	
-	private void insertLine_100_FlatFile() {
-		int pos = fileView.newLine(getInsertAfterPosition());
+	private void insertLine_100_FlatFile(int adj) {
+		int pos = fileView.newLine(getInsertAfterPosition(), adj);
 
 		if (layout.isXml()) {
 			//System.out.println("Setting Layout index " + layoutList.getLayoutIndex());
@@ -556,8 +568,8 @@ implements AbstractFileDisplay, ILayoutChanged {
 	}
 	
 	
-	private void insertLine_200_TreeFile() {
-		AbstractLine l = getInsertAfterLine(false);
+	private void insertLine_200_TreeFile(int adj) {
+		AbstractLine l = getInsertAfterLine(adj == 0);
 		AbstractLine newLine = null;
 		
 		if (l == null) {
@@ -649,7 +661,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	}
 			
 	protected AbstractLine newMainLine(int pos) {
-		int location =  fileView.newLine(pos) ;
+		int location =  fileView.newLine(pos, 0) ;
 		AbstractLine ret = fileView.getLine(location);
 		AbstractLineNode pn = (AbstractLineNode) fileView.getTreeTableNotify().getRoot(); 
 		if (ret != null && pn != null /*&& o instanceof AbstractLineNode */) {
@@ -778,7 +790,9 @@ implements AbstractFileDisplay, ILayoutChanged {
     	|| (action == ReActionHandler.RECORD_VIEW_SELECTED)
     	|| (action == ReActionHandler.COLUMN_VIEW_SELECTED)
     	|| (action == ReActionHandler.SAVE_AS)
-    	|| (action == ReActionHandler.SAVE_AS_HTML)
+     	|| (action == ReActionHandler.SAVE_AS_CSV)
+     	|| (action == ReActionHandler.SAVE_AS_FIXED)
+     	|| (action == ReActionHandler.SAVE_AS_HTML)
     	|| (action == ReActionHandler.SAVE_AS_HTML_TBL_PER_ROW)
     	|| (action == ReActionHandler.SAVE_AS_HTML_TREE && layout.hasChildren())
     	|| (action == ReActionHandler.SAVE_AS_VELOCITY)
@@ -815,6 +829,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 				|| (action == ReActionHandler.PASTE_RECORD_PRIOR)
 				|| (action == ReActionHandler.CORRECT_RECORD_LENGTH)
 				|| (action == ReActionHandler.INSERT_RECORDS)
+				|| (action == ReActionHandler.INSERT_RECORD_PRIOR)
 				|| (action == ReActionHandler.SORT)
 				|| (action == ReActionHandler.SHOW_INVALID_ACTIONS);        
 	    }
@@ -865,6 +880,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	/**
 	 * @return the tblDetails
 	 */
+	@Override
 	public final JTable getJTable() {
 		return tblDetails;
 	}
@@ -878,7 +894,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 		
 		tblDetails.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 		
-		if (Common.isHighlightEmptyActive()) {
+		if (Common.OPTIONS.highlightEmptyActive.isSelected()) {
 			tblDetails.setDefaultRenderer(Object.class, new StandardRendor());
 		}
 
@@ -958,33 +974,34 @@ implements AbstractFileDisplay, ILayoutChanged {
 			new LineTree(fileView.getView(selRows), TreeParserXml.getInstance(), false, 1);
 		}
 	}
-	
-	protected void startGotoLineNumber() {
-		new GotoLine(this, fileView);
-	}
+
 
 	/**
 	 * Save the file back to disk
 	 */
 	protected final boolean saveFile() {
 		boolean ret = true;
-	    try {
-	        fileMaster.writeFile();
-	        
-			FileView errorView = fileView.getViewOfErrorRecords();
-
-			if (errorView != null) {
-				saveFileError("File saved, but there where records in error that may not make it on to the file", null);
-				new LineFrame("Error Records", errorView, 0);
-				ret = false;
+		
+		if ("".equals(fileMaster.getFileName())) {
+			new SaveAsNew(this, fileMaster);
+		} else {
+		    try {
+		        fileMaster.writeFile();
+		        
+				FileView errorView = fileView.getViewOfErrorRecords();
+	
+				if (errorView != null) {
+					saveFileError("File saved, but there where records in error that may not make it on to the file", null);
+					new LineFrame("Error Records", errorView, 0);
+					ret = false;
+				}
+	
+		    } catch (Exception ex) {
+		    	saveFileError("Save Failed: " + ex.getMessage(), ex);
+		        ex.printStackTrace();
+		        ret = false;
+	        }
 			}
-
-	    } catch (Exception ex) {
-	    	saveFileError("Save Failed: " + ex.getMessage(), ex);
-	        ex.printStackTrace();
-	        ret = false;
-        }
-	    
 	    return ret;
 	}
 	
@@ -1023,12 +1040,13 @@ implements AbstractFileDisplay, ILayoutChanged {
 	/**
 	 * Change the record Layout
 	 */
-	 public abstract void changeLayout();
+	 public abstract void fireLayoutIndexChanged();
 
 	 /**
 	  * New Layout allocated to the frame
 	  */
-	 protected abstract void newLayout(AbstractLayoutDetails newLayout);
+	 @Override
+	 public abstract void setNewLayout(AbstractLayoutDetails newLayout);
 
 	 /**
 	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplay#getCurrRow()
@@ -1211,7 +1229,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 		boolean changed = false ;
 		
 		if (event.getType() == TableModelEvent.UPDATE 
-				&& event.getFirstRow() < 0 && event.getLastRow() < 0) {
+		&& event.getFirstRow() < 0 && event.getLastRow() < 0) {
 			for (int i = 0; i < displayDetails.length && ! changed; i++) {
 				if (displayDetails[i] != null) {
 					changed = changed || displayDetails[i].hasTheFormatChanged();
@@ -1479,7 +1497,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 		if (idx >= 0) {
 			setTableFormatDetails(idx);
 			setRowHeight();
-			changeLayout();
+			fireLayoutIndexChanged();
 		}
 	}
 }

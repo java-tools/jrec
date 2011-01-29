@@ -34,6 +34,7 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.AbsRowList;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
  * 2nd wizard screen where the user selects the starting
@@ -45,7 +46,7 @@ import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 @SuppressWarnings("serial")
 public class Pnl3RecordType extends WizardPanel {
 
-    private static final int FILE_HEIGHT = 250;
+    private static final int FILE_HEIGHT =  SwingUtils.TABLE_ROW_HEIGHT * 15 - 3;
 
     private JEditorPane tips;
    
@@ -99,13 +100,13 @@ public class Pnl3RecordType extends WizardPanel {
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(tips));
 		//this.setGap(BasePanel.GAP1);
-		this.addComponent("Name", nameTxt);
-		this.addComponent("Field Start", startTxt);
-		this.addComponent("Field Length", lengthTxt);
-		this.addComponent("Type", typeCombo);
+		this.addLine("Name", nameTxt);
+		this.addLine("Field Start", startTxt);
+		this.addLine("Field Length", lengthTxt);
+		this.addLine("Type", typeCombo);
 		this.setGap(BasePanel.GAP0);
 		
-		this.addComponent("Show Hex", columnSelector.hexChk);
+		this.addLine("Show Hex", columnSelector.hexChk);
 		this.setGap(BasePanel.GAP0);
 		this.addComponent(1, 5, FILE_HEIGHT, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,

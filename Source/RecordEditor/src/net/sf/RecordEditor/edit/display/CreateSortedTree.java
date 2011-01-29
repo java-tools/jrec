@@ -14,6 +14,7 @@ import net.sf.RecordEditor.utils.common.Common;
  *  Create a sorted tree view based on user field selection
  *
  */
+@SuppressWarnings("serial")
 public class CreateSortedTree extends BaseFieldSelection {
 
 
@@ -23,9 +24,9 @@ public class CreateSortedTree extends BaseFieldSelection {
 	 * @param view file view
 	 */
 	public CreateSortedTree(AbstractFileDisplay src, FileView view) {
-		super(src, view, "Create Sorted Tree", Common.ID_TREE_ICON, "Build Tree", 2, true, true);
+		super(src, view, "Create Sorted Tree", Common.ID_SORT_SUM_ICON, "Build Tree", 2, true, true);
 		
-		pnl.setHelpURL(Common.formatHelpURL(Common.HELP_SORT_TREE));
+		super.setHelpURL(Common.formatHelpURL(Common.HELP_SORT_TREE));
 	}
 
 	/**

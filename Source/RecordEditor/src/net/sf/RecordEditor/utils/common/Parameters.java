@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLDecoder;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.Properties;
@@ -124,6 +125,8 @@ public final class Parameters {
     public static final String FS_COMP3 = "FsComp3";
     public static final String FS_COMP_BIG_ENDIAN = "FsCompBigEndian";
     public static final String FS_COMP_Little_ENDIAN = "FsCompLittleEndian";
+    
+    private static final HashSet<String> defaultTrue = new HashSet<String>(10);
 
 	private static  String bundleName = "net.sf.RecordEditor.utils.RecEdit"; //$NON-NLS-1$
 	private static final String USER_PARAM_FILE      = "Params.Properties";
@@ -154,6 +157,13 @@ public final class Parameters {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		defaultTrue.add(PROPERTY_BIG_FILE_USE_SPECIAL_FIXED_MODEL);
+		defaultTrue.add(PROPERTY_LOAD_FILE_BACKGROUND);
+		defaultTrue.add(FS_RUN_AUTOMATIC);
+		defaultTrue.add(BRING_LOG_TO_FRONT);
+		defaultTrue.add(WARN_BINARY_FIELDS_DEFAULT);
+		defaultTrue.add(PROPERTY_PGN_ICONS);
 	}
 
 
@@ -213,7 +223,9 @@ public final class Parameters {
 
     		if (jarListFileDirectory == null || "".equals(jarListFileDirectory)) {
     			//jarListFileDirectory = "C:\\Program Files\\RecordEdit\\MSaccess\\lib";
-    			jarListFileDirectory = "/media/sda1/Bruces/Work/RecordEditParams";
+    			//jarListFileDirectory = "/media/sda1/Bruces/Work/RecordEditParams";
+    			//jarListFileDirectory = "/home/knoppix/RecordEdit/HSQLDB/lib";
+    			jarListFileDirectory = "/media/sdc1/RecordEditor/USB/lib";
     		} else {
     			globalPropertyFileName = jarListFileDirectory + "/Params.Properties";
     		}
@@ -619,17 +631,8 @@ public final class Parameters {
     }
 
 
-    /**
-     * Replace a string in a string buffer
-     * @param b buffer
-     * @param find string to find
-     * @param replace replacement
-     */
-//    private static void replace(StringBuffer b, String find, String replace) {
-//        int pos;
-//        while ((pos = b.indexOf(find)) > 0) {
-//            b.replace(pos, pos + 3, replace);
-//        }
-//    }
+    public static boolean isDefaultTrue(String s) {
+    	return defaultTrue.contains(s);
+    }
 
 }

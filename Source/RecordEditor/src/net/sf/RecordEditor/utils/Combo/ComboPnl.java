@@ -59,9 +59,9 @@ public class ComboPnl extends BaseHelpPanel implements ActionListener {
 		setValues(value);
 
 		//addComponent("Combo_Id", sfCombo_Id);
-		addComponent("System", sfSystem);
-		addComponent("Combo_Name", sfComboName);
-		addComponent("Combo Type", sfColumnType);
+		addLine("System", sfSystem);
+		addLine("Combo_Name", sfComboName);
+		addLine("Combo Type", sfColumnType);
 		setGap(BasePanel.GAP0);
 		updateOptions = new TableUpdatePnl<ComboValuesRec>(this, null);
 

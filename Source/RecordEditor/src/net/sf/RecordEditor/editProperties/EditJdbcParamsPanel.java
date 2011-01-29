@@ -25,6 +25,7 @@ import javax.swing.JTextField;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
  * Edit the JDBC parameters screen. It allows the user to update
@@ -33,9 +34,10 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class EditJdbcParamsPanel extends BasePanel {
 
-    private static final int TABLE_HEIGHT = 110;
+    private static final int TABLE_HEIGHT = SwingUtils.NORMAL_FIELD_HEIGHT * 14 / 2;;
     private static final int JDBC_TABLE_SIZE = 16;
 
     private PropertiesTableModel model;
@@ -162,16 +164,16 @@ public class EditJdbcParamsPanel extends BasePanel {
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(paramTbl));
 
-		this.addComponent("Source Name", sourceName);
-		this.addComponent("Driver", driver);
-		this.addComponent("Source", source);
-		this.addComponent("Read Only Source Name", readOnly);
+		this.addLine("Source Name", sourceName);
+		this.addLine("Driver", driver);
+		this.addLine("Source", source);
+		//this.addLine("Read Only Source Name", readOnly);
+		//this.setGap(BasePanel.GAP0);
+		this.addLine("User", user);
+		this.addLine("Password", password);
+		//this.setGap(BasePanel.GAP0);
+		this.addLine("JDBC JAR", jdbcJarsCombo, new JButton(startAction));
 		this.setGap(BasePanel.GAP0);
-		this.addComponent("User", user);
-		this.addComponent("Password", password);
-		this.setGap(BasePanel.GAP0);
-		this.addComponent("JDBC JAR", jdbcJarsCombo, new JButton(startAction));
-		this.setGap(BasePanel.GAP2);
 		//this.addComponent("Commit", commit    );
 		//this.addComponent("Checkpoint", checkpoint);
 

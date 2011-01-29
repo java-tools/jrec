@@ -20,11 +20,9 @@ import javax.swing.table.TableCellRenderer;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class CheckboxTableRenderStringBased extends AbstractCellEditor
     implements TableCellRenderer, TableCellEditor {
-
-    public static final int CELL_WIDTH  = 20;
-    public static final int CELL_HEIGHT = 20;
 
     private JCheckBox checkBox = new JCheckBox();
     private String yesStr;

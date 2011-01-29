@@ -17,6 +17,7 @@ import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class Pnl7SaveDbLayout extends WizardPanel {
 
 	private Details wizardDetails;
@@ -38,13 +39,13 @@ public class Pnl7SaveDbLayout extends WizardPanel {
 
 		this.setGap(BasePanel.GAP2);
 
-		this.addComponent("Layout Name", layoutName);
-		this.addComponent("Layout Description", layoutDescription);
+		this.addLine("Layout Name", layoutName);
+		this.addLine("Layout Description", layoutDescription);
 		this.setHeight(BasePanel.GAP3);
 		this.setGap(BasePanel.GAP1);
 		
 		system         = new BmKeyedComboBox(systemList, false);
-		this.addComponent("System", system);
+		this.addLine("System", system);
 
 
 		this.setGap(BasePanel.GAP3);

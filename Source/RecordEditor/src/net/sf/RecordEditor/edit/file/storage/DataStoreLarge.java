@@ -14,6 +14,7 @@ import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.common.ProgramOptions;
 
 
 @SuppressWarnings("unchecked")
@@ -68,7 +69,13 @@ implements DataStore<AbstractLine> {
 					(FileChunk<L, R>) new FileChunkBfFixedLength(fileDetails, i,  l)	
 				);
 			}
+			
+			if (! Common.TEST_MODE) {
+				(new LoadFile()).start();
+			}
 		}
+		
+		
 	}
 	
 	@Override
@@ -176,11 +183,11 @@ implements DataStore<AbstractLine> {
 						chunks.add(idx + 1, split.get(i));
 					}
 					
-				
-					for (i = Math.max(0, idx - 2); i < Math.min(idx+5, chunks.size()-1); i++) {
-						System.out.println(i + " " + chunks.get(i).getFirstLine()
-								+ " " + chunks.get(i).getCount());
-					}
+//				
+//					for (i = Math.max(0, idx - 2); i < Math.min(idx+5, chunks.size()-1); i++) {
+//						System.out.println(i + " " + chunks.get(i).getFirstLine()
+//								+ " " + chunks.get(i).getCount());
+//					}
 				}
 			}
 		}
@@ -206,9 +213,9 @@ implements DataStore<AbstractLine> {
 		} else { 
 			int expected = 0;
 			for (FileChunk f : chunks) {
-				System.out.println(" ++ " + f.getFirstLine()
-						+ " " + f.getCount() 
-						+ " " + (expected == f.getFirstLine()));
+//				System.out.println(" ++ " + f.getFirstLine()
+//						+ " " + f.getCount() 
+//						+ " " + (expected == f.getFirstLine()));
 				expected = f.getFirstLine()	+ f.getCount(); 
 			}
 			throw new RuntimeException("line not found: " + idx);
@@ -300,6 +307,9 @@ implements DataStore<AbstractLine> {
 		ChunkLineDtls ret = null;
 //		System.out.println();
 //		System.out.println("Searching for: " + lineNo);
+		
+		fileDetails.setReading(false);
+
 		int idx;
 		if (lineNo < chunks.get(0).getCount()) {
 			idx = 0;
@@ -457,10 +467,18 @@ implements DataStore<AbstractLine> {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.edit.file.storage.DataStore#getLayout()
+	 */
 	@Override
-	public void setLayout(AbstractLayoutDetails layout) {
-		if (layout instanceof LayoutDetail) {
-			LayoutDetail l = (LayoutDetail) layout;
+	public AbstractLayoutDetails getLayout() {
+		return fileDetails.getLayout();
+	}
+
+	@Override
+	public void setLayout(AbstractLayoutDetails newLayout) {
+		if (newLayout instanceof LayoutDetail) {
+			LayoutDetail l = (LayoutDetail) newLayout;
 			clearTempLines();
 			fileDetails.setLayout(l);
 			for (FileChunk ch : chunks) {
@@ -512,9 +530,8 @@ implements DataStore<AbstractLine> {
 		case FileDetails.VARIABLE_LENGTH_BASEFILE:
 			if (fileDetails.isReading()
 			&&  fileDetails.getByteReader() != null
-			&&  (Common.LARGE_VB_OPTION == Common.LARGE_VB_TEST
+			&&  (Common.OPTIONS.largeVbOption.get() == ProgramOptions.LARGE_VB_TEST
 			 ||  FileDetails.getSpaceUsedRatio() > 0.60)) {
-				System.out.print('*');
 				return (FileChunk<L, R>) 
 					new FileChunkBfVariableLength(fileDetails, theFirstLine, filePosition);
 			}
@@ -545,5 +562,36 @@ implements DataStore<AbstractLine> {
 			this.chunk = chunk;
 			this.index = idx;
 		}		
-	}	
+	}
+	
+	private class LoadFile extends Thread {
+
+		@Override
+		public void run() {
+			int i;
+			FileChunk<L, R> fc;
+			chunks.get(0).getTempLine(0);
+			for (i = Math.min(25, chunks.size()); i > 0; i--) {
+				fc = chunks.get(i);
+				fc.getTempLine(fc.getFirstLine());
+				if (i % 4 == 3) {
+					fc.compress();
+				}
+			}
+			System.gc();
+			
+			i = 26;
+			while (i < 100 && i < chunks.size()
+				&& FileDetails.getSpaceUsedRatio() < 0.40) {
+				fc = chunks.get(i++);
+				fc.getTempLine(fc.getFirstLine());
+				
+				try {
+					super.wait(15);
+				} catch (Exception e) {
+				}
+			}
+		}
+		
+	}
 }

@@ -26,6 +26,7 @@ import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
@@ -122,17 +123,24 @@ public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements Act
     	int width = 0;
     	Dimension d;
         pnls = panels;
+        
+        for (int i = 0; i < pnls.length; i++) {
+        	pnls[i].getComponent().setBorder(BorderFactory.createEmptyBorder());
+        }
         if (toInit) {
         	JPanel pnl = new JPanel();
+        	JScrollPane scrollTabbed=  new JScrollPane(tabbed);
+        	scrollTabbed.setBorder(BorderFactory.createEmptyBorder());
+        	
         	toInit = false;
-	        
 
-	        pnl.setLayout(new BorderLayout());
-	        pnl.add(BorderLayout.CENTER, new JScrollPane(tabbed));
+  	        pnl.setLayout(new BorderLayout());
+	        pnl.add(BorderLayout.CENTER, scrollTabbed);
 	        pnl.add(BorderLayout.SOUTH, getBottomSection());
 	        addPanel(0);
 	        for (int i = 1; i < pnls.length; i++) {
-	            tabbed.addTab("", pnls[i].getComponent());
+	            tabbed.addTab(null, pnls[i].getComponent());
+	            tabbed.setTabComponentAt(i, new JPanel());
 	        }
 
 	        controlFrame.getContentPane().add(pnl);
@@ -145,10 +153,10 @@ public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements Act
 	        height = d.height +HEIGHT_INCREASE;
 	        ReMainFrame frame = ReMainFrame.getMasterFrame();
 	        if (frame != null) {
-	        	height = Math.min(height, frame.getDesktop().getHeight() - 1);
+	        	height = frame.getDesktop().getHeight() - 1;
 	        	width  = Math.min(width, frame.getDesktop().getWidth() - 1);
 	        }
-	        displayFrame.setBounds(displayFrame.getX(), displayFrame.getY(), width, height);
+	        displayFrame.setBounds(displayFrame.getY(), displayFrame.getX(), width, height);
 
 	        while (tabbed.getTabCount() > 1) {
 	            tabbed.remove(1);
@@ -236,13 +244,15 @@ public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements Act
     }
     
     private void addPanel(int num) {
-    	
+
     	JScrollPane tmp = new JScrollPane(pnls[panelNumber].getComponent());
-		tabbed.addTab("", tmp);
-		
+		tabbed.addTab(null, tmp);
+		 
 		if (oldPane != null) {
 			tabbed.remove(oldPane);
 		}
+
+		tabbed.setTabComponentAt(0, new JPanel());
 		oldPane = tmp;
 
     }

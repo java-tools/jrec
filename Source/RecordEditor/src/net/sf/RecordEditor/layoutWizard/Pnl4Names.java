@@ -21,6 +21,7 @@ import javax.swing.JScrollPane;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.AbsRowList;
 import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 /**
@@ -33,8 +34,8 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
 @SuppressWarnings("serial")
 public class Pnl4Names extends WizardPanel {
 
-    private static final int COLUMN_HEIGHT  = 150;
-    private static final int FILE_HEIGHT = 130;
+    private static final int COLUMN_HEIGHT  = SwingUtils.TABLE_ROW_HEIGHT * 9;;
+    private static final int FILE_HEIGHT = SwingUtils.TABLE_ROW_HEIGHT * 15 / 2;
 
     private ColumnNames columnNames;
     /**

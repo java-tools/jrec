@@ -139,11 +139,11 @@ public class CsvArrayPopup extends AbstractPopup  {
         	if (pnl == null) {
         		pnl = new BasePanel();
         		
-        		pnl.addComponent("Quote", quote);
+        		pnl.addLine("Quote", quote);
         		pnl.setGap(BasePanel.GAP1);
-        		pnl.addComponent("Seperator 1", separator1);
+        		pnl.addLine("Seperator 1", separator1);
         		pnl.setGap(BasePanel.GAP1);
-        		pnl.addComponent("Seperator 2", separator2);
+        		pnl.addLine("Seperator 2", separator2);
         	}
             add(pnl);
             super.pack();

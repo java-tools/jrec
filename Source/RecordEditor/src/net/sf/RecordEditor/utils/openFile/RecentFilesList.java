@@ -12,16 +12,16 @@ import net.sf.RecordEditor.utils.BasicLayoutCallback;
 public class RecentFilesList {
 
 	private JMenu menu = new JMenu("Recent Files");
-	private RecentFiles files;
+	private RecentFiles recentFiles;
 	private BasicLayoutCallback connection;
 	private FileAction[] actions = new FileAction[RecentFiles.RECENT_FILE_LIST];
 	
 	/**
-	 * @param recentFiles recent files details
+	 * @param recentfiles recent files details
 	 * @param callback callback function;
 	 */
-	public RecentFilesList(RecentFiles recentFiles, BasicLayoutCallback callback) {
-		this.files = recentFiles;
+	public RecentFilesList(RecentFiles recentfiles, BasicLayoutCallback callback) {
+		this.recentFiles = recentfiles;
 		this.connection = callback;
 
 		update();
@@ -30,7 +30,7 @@ public class RecentFilesList {
 	public void update() {
 		String s;
 		for (int i = 0; i < RecentFiles.RECENT_FILE_LIST; i++) {
-			s = files.getRecentFileName(i);
+			s = recentFiles.getRecentFileName(i);
 			if (! "".equals(s)) {
 				if (actions[i] == null) {
 					actions[i] = new FileAction(i, s);
@@ -49,7 +49,14 @@ public class RecentFilesList {
 		return menu;
 	}
 
-    private class FileAction extends AbstractAction {
+    /**
+	 * @return the recentFiles
+	 */
+	public RecentFiles getRecentFiles() {
+		return recentFiles;
+	}
+
+	private class FileAction extends AbstractAction {
         private int id;
 
         /**
@@ -69,7 +76,7 @@ public class RecentFilesList {
         public void actionPerformed(ActionEvent e) {
 
             try {
-            	connection.setRecordLayout(-1, files.getRecentLayoutName(id), files.getRecentFullFileName(id));
+            	connection.setRecordLayout(-1, recentFiles.getRecentLayoutName(id), recentFiles.getRecentFullFileName(id));
             } catch (Exception ex) { }
        
         }

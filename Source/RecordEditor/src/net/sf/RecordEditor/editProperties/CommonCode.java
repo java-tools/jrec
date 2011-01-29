@@ -16,6 +16,7 @@ import java.util.Properties;
 
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
  * Common bits of code for the Options Editor + constants
@@ -24,7 +25,7 @@ import net.sf.RecordEditor.utils.common.Parameters;
  *
  */
 public final class CommonCode {
-    public static final int TIP_HEIGHT = 130;
+    public static final int TIP_HEIGHT = SwingUtils.STANDARD_FONT_HEIGHT * 11;
     public static final String FULL_EDITOR_JAR_FILE = Parameters.getJarListFileDirectory()
     												+ Common.FILE_SEPERATOR
     												+ "FullEditorFiles.txt";

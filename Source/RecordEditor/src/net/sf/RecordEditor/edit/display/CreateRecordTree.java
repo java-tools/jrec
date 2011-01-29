@@ -14,6 +14,7 @@ import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
 
+@SuppressWarnings("serial")
 public class CreateRecordTree extends ReFrame implements ActionListener  {
 
 	public final CreateRecordTreePnl treeDisplay;

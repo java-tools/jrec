@@ -4,6 +4,7 @@ import javax.swing.table.AbstractTableModel;
 
 import net.sf.JRecord.Common.Conversion;
 
+@SuppressWarnings("serial")
 public class LineArrayModel extends AbstractTableModel {
     private byte[][] lines;
     private String font;

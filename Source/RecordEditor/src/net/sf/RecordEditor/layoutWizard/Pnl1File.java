@@ -45,7 +45,7 @@ public class Pnl1File extends WizardPanel  {
     private FileChooser     filenameFld = new FileChooser();
 
 
-	private JRadioButton fixedLengthBtn    = new JRadioButton("Fixed Length Fields");
+	private JRadioButton fixedLengthBtn 	= new JRadioButton("Fixed Length Fields");
 	private JRadioButton delimitedBtn 		= new JRadioButton("Delimited Fields");
 	private JRadioButton fixedMultiBtn 		= new JRadioButton("Multiple Records (fixed length)");
 
@@ -82,7 +82,9 @@ public class Pnl1File extends WizardPanel  {
 		JPanel recordTypePnl = new JPanel(new GridLayout(2,2));
 		addRadioGrp(recordTypePnl, grp, fixedLengthBtn);
 		addRadioGrp(recordTypePnl, grp, delimitedBtn);
+		//addRadioGrp(recordTypePnl, grp, delimitedUnicodeBtn);
 		addRadioGrp(recordTypePnl, grp, fixedMultiBtn);
+
 		fixedLengthBtn.setSelected(true);
 
 
@@ -92,15 +94,15 @@ public class Pnl1File extends WizardPanel  {
 				new JScrollPane(tips));
 		this.setGap(BasePanel.GAP1);
 
-		this.addComponent("File Name", filenameFld, filenameFld.getChooseFileButton());
-		this.addComponent("File Structure", fileStructure);
+		this.addLine("File Name", filenameFld, filenameFld.getChooseFileButton());
+		this.addLine("File Structure", fileStructure);
 		this.setGap(BasePanel.GAP0);
-		this.addComponent("Record Type", recordTypePnl);
+		this.addLine("Record Type", recordTypePnl);
 		this.setHeight(PREFERRED);
 		this.setGap(BasePanel.GAP0);
 
-		this.addComponent("Font Name", fontname);
-		this.addComponent("Default Type", defaultType);
+		this.addLine("Font Name", fontname);
+		this.addLine("Default Type", defaultType);
 		this.setGap(BasePanel.GAP1);
 		//this.done();
     }

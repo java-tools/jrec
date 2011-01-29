@@ -13,7 +13,7 @@ import javax.swing.table.TableCellRenderer;
 import com.zbluesoftware.java.bm.ZDateTableRender;
 
 import net.sf.JRecord.Common.FieldDetail;
-import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 /**
@@ -24,7 +24,7 @@ import net.sf.RecordEditor.utils.common.Common;
  */
 public class DateFormat implements CellFormat {
 
-    private static final int CELL_WIDTH  = 70;
+    private static final int CELL_WIDTH  = SwingUtils.STANDARD_FONT_WIDTH * 8;
 
     private ZDateTableRender render = null;
     private boolean useDateFormat;
@@ -50,7 +50,7 @@ public class DateFormat implements CellFormat {
      * @see net.sf.RecordEditor.record.format.CellFormat#getFieldHeight()
      */
     public int getFieldHeight() {
-        return Common.COMBO_TABLE_ROW_HEIGHT;
+        return SwingUtils.COMBO_TABLE_ROW_HEIGHT;
     }
 
     /**

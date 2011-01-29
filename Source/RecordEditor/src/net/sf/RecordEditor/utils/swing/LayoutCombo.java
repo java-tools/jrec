@@ -12,6 +12,7 @@ import net.sf.JRecord.Details.AbstractLayoutDetails;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class LayoutCombo extends JComboBox {
 
 	private int[] layoutListMap;

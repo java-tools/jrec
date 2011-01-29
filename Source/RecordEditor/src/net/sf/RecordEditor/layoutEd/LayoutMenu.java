@@ -27,6 +27,7 @@ import net.sf.RecordEditor.layoutEd.Record.SaveLayoutsDBAsXml;
 import net.sf.RecordEditor.layoutWizard.Wizard;
 import net.sf.RecordEditor.utils.LayoutConnection;
 import net.sf.RecordEditor.utils.LayoutConnectionAction;
+import net.sf.RecordEditor.utils.common.Common;
 
 
 /**
@@ -53,14 +54,17 @@ public class LayoutMenu extends JMenu {
 
         databaseDetails = dbDetails;
 
-        AbstractAction edit = new AbstractAction("Edit Layout") {
+        AbstractAction edit = new AbstractAction(
+        		"Edit Layout", 
+        		Common.getRecordIcon(Common.ID_LAYOUT_EDIT_ICON)) {
             public void actionPerformed(ActionEvent e) {
                 new RecordEdit(databaseDetails.getCurrentDbName(),
                                databaseDetails.getCurrentDbIdentifier());
             }
         };
         createWizard = Wizard.getAction(databaseDetails);
-        AbstractAction editSystemTable = new AbstractAction("Edit System Table") {
+        AbstractAction editSystemTable = new AbstractAction(
+        		"Edit System Table") {
             public void actionPerformed(ActionEvent e) {
                 new TblEdit(databaseDetails.getCurrentDbName(),
                         null,
@@ -68,7 +72,9 @@ public class LayoutMenu extends JMenu {
                         SYSTEM_TABLE);
             }
         };
-        AbstractAction comboEdit = new AbstractAction("Edit Combo Lists") {
+        AbstractAction comboEdit = new AbstractAction(
+        		"Edit Combo Lists", 
+        		Common.getRecordIcon(Common.ID_COMBO_EDIT_ICON)) {
             public void actionPerformed(ActionEvent e) {
             	new ComboEdit(
             			databaseDetails.getCurrentDbName(),

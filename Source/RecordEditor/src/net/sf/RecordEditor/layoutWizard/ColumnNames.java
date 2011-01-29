@@ -36,6 +36,7 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.AbsRowList;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
  * 3rd and final wizard panel where the user enters field
@@ -47,10 +48,10 @@ import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
 public class ColumnNames {
 
 
-    private static final int NAME_WIDTH = 170;
-    private static final int INT_TABLE_WIDTH = 60;
-    private static final int INCLUDE_WIDTH = 30;
-    private static final int TYPE_WIDTH = 160;
+    private static final int NAME_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 19;
+    private static final int INT_TABLE_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 13 / 2;
+    private static final int INCLUDE_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 3 + 3;
+    private static final int TYPE_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 18;
 
     private ColumnTblModel columnMdl;
     private FileTblModel fileMdl;
@@ -69,7 +70,7 @@ public class ColumnNames {
  
     @SuppressWarnings("serial")
 	public ColumnNames(AbsRowList typeList) {
-		columnTbl.setRowHeight(Common.COMBO_TABLE_ROW_HEIGHT);
+		columnTbl.setRowHeight(SwingUtils.COMBO_TABLE_ROW_HEIGHT);
 		columnTbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         fileTbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 

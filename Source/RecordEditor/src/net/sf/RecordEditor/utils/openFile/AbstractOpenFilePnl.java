@@ -42,12 +42,12 @@ import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 
-import net.sf.RecordEditor.edit.display.BaseDisplay;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.FileChooser;
 import net.sf.RecordEditor.utils.swing.HelpWindow;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 /**
@@ -57,26 +57,25 @@ import net.sf.RecordEditor.utils.swing.HelpWindow;
  * @version 0.56
  */
 public abstract class AbstractOpenFilePnl
-											<Layout extends AbstractLayoutDetails<? extends FieldDetail, 
-																											? extends AbstractRecordDetail>> 
-					     extends BaseHelpPanel
-				   implements FocusListener {
+						<Layout extends AbstractLayoutDetails<? extends FieldDetail, ? extends AbstractRecordDetail>> 
+extends BaseHelpPanel
+implements FocusListener {
 
-    private static final int FRAME_WIDTH  = 660;
+	protected FileChooser fileName = new FileChooser();
+	protected RecentFiles recent;
 
-	protected FileChooser fileName    = new FileChooser();
+    private static final int FRAME_WIDTH  = SwingUtils.STANDARD_FONT_WIDTH * 73;
+
 	protected JTextArea   message     = new JTextArea();
 
 	protected Layout fileDescription;
-	protected BaseDisplay display = null;
+//	protected BaseDisplay display = null;
 
 	private final AbstractLineIOProvider ioProvider;
 //	private CopyBookInterface copyBookInterface;
 
 	private Rectangle frameSize;
 	private boolean doListener = true;
-	protected RecentFiles recent;
-	
 	private AbstractLayoutSelection<Layout> layoutSelection;
 	
 	private JButton lCreate1;
@@ -138,19 +137,17 @@ public abstract class AbstractOpenFilePnl
 	 * Load recent files details from the properties file
 	 * @param pInFile file to edit
 	 */
-	private void init_100_RecentFiles(String pInFile) {
+	protected void init_100_RecentFiles(String pInFile) {
 	    Common.setCurrClass(this);
-
+	
 		if (pInFile == null || "".equals(pInFile)) {
 			//System.out.println("!! ~~ " + Common.DEFAULT_FILE_DIRECTORY);
-		    fileName.setText(Common.DEFAULT_FILE_DIRECTORY);
+		    fileName.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());
 		} else {
 		    fileName.setText(pInFile);
 		    updateLayoutForFile(pInFile);
 		}
 	}
-
-
 	/**
 	 * Initialise Screen Fields
 	 */
@@ -206,13 +203,13 @@ public abstract class AbstractOpenFilePnl
 
 		super.done();
 
-		setBounds(getX(), getY(), FRAME_WIDTH, getHeight());
+		setBounds(getY(), getX(), FRAME_WIDTH, getHeight());
 		frameSize = this.getBounds();
 	}
 	
 	protected void addFileName(BaseHelpPanel pnl) {
 		
-		pnl.addComponent("File", fileName, fileName.getChooseFileButton());
+		pnl.addLine("File", fileName, fileName.getChooseFileButton());
 	}
 
 	protected void addLayoutSelection() {
@@ -245,7 +242,7 @@ public abstract class AbstractOpenFilePnl
 		    String s = "invalid file ~ " + sFileName;
 			Common.logMsg(s, null);
 			message.setText(s);
-		} else if ((!Common.ASTERIX_IN_FILENAME) && (sFileName.indexOf('*') >= 0)) {
+		} else if ((!Common.OPTIONS.asterixInFileName.isSelected()) && (sFileName.indexOf('*') >= 0)) {
 		    String s = "invalid file (* present) ~ " + sFileName;
 			Common.logMsg(s, null);
 			message.setText(s);
@@ -283,14 +280,6 @@ public abstract class AbstractOpenFilePnl
 		message.setText(s);
 		e.printStackTrace();
 	}
-
-
-    /**
-     * get The current file name
-     */
-    public String getCurrentFileName() {
-        return fileName.getText();
-    }
 
 
     /**
@@ -348,7 +337,7 @@ public abstract class AbstractOpenFilePnl
      * Get the layoutname for the file
      * @param pFile file to find the layout for
      */
-    private void updateLayoutForFile(String pFile) {
+    protected void updateLayoutForFile(String pFile) {
 	    String recentLayout = recent.getLayoutName(pFile);
 
 	    if (recentLayout != null && ! "".equals(recentLayout)) {
@@ -359,6 +348,14 @@ public abstract class AbstractOpenFilePnl
 	    }
     }
 
+	/**
+	 * get The current file name
+	 */
+	public String getCurrentFileName() {
+	    return fileName.getText();
+	}
+	
+	
     /**
      * @return Returns the layoutSelection.
      */

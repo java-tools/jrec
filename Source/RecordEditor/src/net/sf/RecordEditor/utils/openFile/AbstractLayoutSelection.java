@@ -8,9 +8,7 @@ import javax.swing.JTextField;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
-import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
 
 /**
  * 
@@ -29,7 +27,7 @@ import net.sf.RecordEditor.utils.swing.FileChooser;
  * 
  */
 public abstract class AbstractLayoutSelection<Layout extends AbstractLayoutDetails<? extends FieldDetail, ? extends AbstractRecordDetail>> 
-extends ReadLayout {
+extends ReadLayout implements FormatFileName {
 
 	
 	/**
@@ -113,10 +111,8 @@ extends ReadLayout {
 	 */
 	public abstract	void setMessage(JTextArea message);
 	
-	/**
-	 * Format a Layout Name
-	 * @param layoutName layout name to format
-	 * @return
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.openFile.FormatFileName#formatLayoutName(java.lang.String)
 	 */
 	public String formatLayoutName(String layoutName) {
 		return layoutName;

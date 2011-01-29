@@ -12,7 +12,7 @@ public class RecordDefinition {
 	protected     int numRecords = 0;
 	protected byte[][] records = new byte[60][];
 	protected ArrayList<ColumnDetails> columnDtls = new ArrayList<ColumnDetails>();
-	
+
 	public final void addKeyField(Details detail, boolean addRest) {
 		ColumnDetails colDtls = new ColumnDetails(detail.keyStart, detail.keyType.intValue());
 		colDtls.name = detail.keyName; 

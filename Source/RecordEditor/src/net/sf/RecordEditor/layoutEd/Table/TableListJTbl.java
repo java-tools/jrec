@@ -21,6 +21,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
 import net.sf.RecordEditor.utils.swing.AbsJTable;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 
@@ -30,10 +31,11 @@ import net.sf.RecordEditor.utils.swing.AbsJTable;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public final class TableListJTbl extends AbsJTable {
 
-    private static final int KEY_WIDTH          = 60;
-    private static final int DESCRIPTION_WIDTH  = 300;
+    private static final int KEY_WIDTH          = SwingUtils.STANDARD_FONT_WIDTH * 7;
+    private static final int DESCRIPTION_WIDTH  = SwingUtils.STANDARD_FONT_WIDTH * 33;
 
 
 	/**

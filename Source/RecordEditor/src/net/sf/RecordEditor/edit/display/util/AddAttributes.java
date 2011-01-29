@@ -19,10 +19,13 @@ import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.LayoutCombo;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
+@SuppressWarnings("serial")
 public final class AddAttributes extends ReFrame implements ActionListener  {
 
-	private static final int FIELD_TABLE_HEIGHT = 130;
+
+	private static final int FIELD_TABLE_HEIGHT = SwingUtils.TABLE_ROW_HEIGHT * 15 / 2;
 	
 	private String[]   heading = {"Atrribute Name"};
 	private String[][] lines = {{""},{""},{""},{""},{""},{""},{""},{""},{""},{""}};
@@ -92,12 +95,12 @@ public final class AddAttributes extends ReFrame implements ActionListener  {
 	 */
 	public void init_200_LayoutScreen() {
 		
-		pnl.addComponent("Layout", layoutSelection);
+		pnl.addLine("Layout", layoutSelection);
 		pnl.addComponent(1, 5, FIELD_TABLE_HEIGHT, BasePanel.GAP2,
 				BasePanel.FULL, BasePanel.FULL,
 				attributeTbl);
 
-		pnl.addComponent("", null,  addBtn);
+		pnl.addLine("", null,  addBtn);
 		
 		this.addMainComponent(pnl);
 		this.setVisible(true);

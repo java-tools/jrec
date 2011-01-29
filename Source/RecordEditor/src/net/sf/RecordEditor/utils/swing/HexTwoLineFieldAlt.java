@@ -14,6 +14,7 @@ import javax.swing.table.TableColumnModel;
 
 import net.sf.JRecord.Common.Conversion;
 
+@SuppressWarnings("serial")
 public class HexTwoLineFieldAlt extends JTable implements AbstractHexDisplay {
 	
 	private byte[] byteArray;

@@ -46,6 +46,7 @@ import net.sf.RecordEditor.utils.swing.FileChooser;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class LayoutCopy extends ReFrame  implements ActionListener {
 
 	private pane from = new pane(true);
@@ -86,7 +87,7 @@ public class LayoutCopy extends ReFrame  implements ActionListener {
 		        BasePanel.FULL, BasePanel.FULL,
 		        pnl);
 		
-		main.addComponent("", null, go);
+		main.addLine("", null, go);
 		main.setGap(BasePanel.GAP3);
 		main.addComponent(1, 5, 90 , BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
@@ -97,7 +98,7 @@ public class LayoutCopy extends ReFrame  implements ActionListener {
 		this.pack();
 //		from.setHeight(to.getHeight());
 		if (this.getWidth() >= screenSize.getWidth()) {
-			this.setBounds(getX(), getY(), (int) screenSize.getWidth() - getX(), getHeight());
+			this.setBounds(getY(), getX(), (int) screenSize.getWidth() - getX(), getHeight());
 		}
 		setVisible(true);
 	}
@@ -260,7 +261,7 @@ public class LayoutCopy extends ReFrame  implements ActionListener {
 				header = "Source";
 			}
 			addHeading(header);
-			addComponent("Data Base", dbCombo);
+			addLine("Data Base", dbCombo);
 			
 			for (i = 0; (i < dbs.length) && (dbs[i] != null) && (!dbs[i].equals("")); i++) {
 				dbCombo.addItem(dbs[i]);
@@ -271,8 +272,8 @@ public class LayoutCopy extends ReFrame  implements ActionListener {
 				setGap(BasePanel.GAP1);
 				
 				layoutName = new JTextField(20);
-				addComponent("Layout", layoutName);
-				addComponent("Only Listed", listBox);
+				addLine("Layout", layoutName);
+				addLine("Only Listed", listBox);
 			} else {
 				//String s;
 				//outputFormat = new JComboBox();
@@ -292,21 +293,21 @@ public class LayoutCopy extends ReFrame  implements ActionListener {
 				outputDirectory = new FileChooser();
 				outputDirectory.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				outputDirectory.setText(Parameters.getFileName(Parameters.COPYBOOK_DIRECTORY));
-				addComponent("Output Format", outputFormat /*, go*/);
-				addComponent("Output Directory", outputDirectory, outputDirectory.getChooseFileButton());
+				addLine("Output Format", outputFormat /*, go*/);
+				addLine("Output Directory", outputDirectory, outputDirectory.getChooseFileButton());
 				
 				fileOption = dbCombo.getItemCount();
 				dbCombo.addItem("File");
 				
 		       if (Common.isVelocityAvailable()) {
-		    	   template  = new FileChooser("Select");
+		    	   template  = new FileChooser(true, "Select");
 		    	   extension = new JTextField();
 		    	   template.setText(Parameters.getFileName(Parameters.VELOCITY_COPYBOOK_DIRECTORY));
 		    	   extension.setText("htm");
 		    	   
-		    	   addComponent("Extension", extension);
+		    	   addLine("Extension", extension);
 		    	   setGap(BasePanel.GAP1);
-			       addComponent("Velocity Template", template, template.getChooseFileButton());
+			       addLine("Velocity Template", template, template.getChooseFileButton());
 			       setGap(BasePanel.GAP1);
 			       
 			       velocityOption = dbCombo.getItemCount();

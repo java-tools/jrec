@@ -44,9 +44,9 @@ public class VisibilityAction extends AbstractAction implements AbstractActiveSc
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		ReFrame actionHandler = ReFrame.getActiveFrame();
-		if (actionHandler instanceof AbstractFileDisplayWithFieldHide) {
-			new HideFields((AbstractFileDisplayWithFieldHide) actionHandler);
+		ReFrame activeScreen = ReFrame.getActiveFrame();
+		if (activeScreen instanceof AbstractFileDisplayWithFieldHide) {
+			new HideFields((AbstractFileDisplayWithFieldHide) activeScreen);
 		}
 	}
 }

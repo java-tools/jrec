@@ -23,9 +23,10 @@ import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 @SuppressWarnings("unchecked")
 public class Wizard extends AbstractWizard<Details> {
 
-	private AbstractWizardPanel<Details>[] panelsFixed = new AbstractWizardPanel[5]; 
-	private AbstractWizardPanel<Details>[] panelsCsv   = new AbstractWizardPanel[5]; 
-	private AbstractWizardPanel<Details>[] panelsMulti = new AbstractWizardPanel[7]; 
+	private AbstractWizardPanel<Details>[] panelsFixed 		= new AbstractWizardPanel[5]; 
+	private AbstractWizardPanel<Details>[] panelsCsv   		= new AbstractWizardPanel[5]; 
+	private AbstractWizardPanel<Details>[] panelsUnicodeCsv	= new AbstractWizardPanel[5]; 
+	private AbstractWizardPanel<Details>[] panelsMulti 		= new AbstractWizardPanel[7]; 
 
 
 	private int connectionIdx;
@@ -68,6 +69,8 @@ public class Wizard extends AbstractWizard<Details> {
 		panelsCsv[3] = new Pnl4CsvNames(typeList, false);
 		panelsCsv[4] = panelsFixed[4];
 		
+		System.arraycopy(panelsCsv, 0, panelsUnicodeCsv, 0, panelsCsv.length);
+		
 		panelsMulti[0] = panelsFixed[0];
 		panelsMulti[1] = panelsFixed[1];
 		panelsMulti[2] = new Pnl3RecordType(typeList, super.getMessage());
@@ -89,10 +92,13 @@ public class Wizard extends AbstractWizard<Details> {
 	protected void ap_100_changePanel(int inc) {
 		
 		if (getPanelNumber() == 0) {
-			if (super.getWizardDetails().recordType == Details.RT_FIXED_LENGTH_FIELDS) {
+			Details details = super.getWizardDetails();
+			if (details.recordType == Details.RT_FIXED_LENGTH_FIELDS) {
 				super.setPanels(panelsFixed);
-			} else if (super.getWizardDetails().recordType == Details.RT_MULTIPLE_RECORDS) {
+			} else if (details.recordType == Details.RT_MULTIPLE_RECORDS) {
 				super.setPanels(panelsMulti);
+			} else if (details.unicode) {
+				super.setPanels(panelsUnicodeCsv);
 			} else {
 				super.setPanels(panelsCsv);
 			}
@@ -135,8 +141,12 @@ public class Wizard extends AbstractWizard<Details> {
      *
      * @return requested action
      */
-    public static LayoutConnectionAction getAction(LayoutConnection callback) {
-        return new LayoutConnectionAction("Create Layout Wizard", callback) {
+    @SuppressWarnings("serial")
+	public static LayoutConnectionAction getAction(LayoutConnection callback) {
+        return new LayoutConnectionAction(
+        		"Layout Wizard", 
+        		callback,
+        		Common.ID_WIZARD_ICON) {
             public void actionPerformed(ActionEvent e) {
                 try {
                    new Wizard(getCallback().getCurrentDbIdentifier(),

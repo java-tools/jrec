@@ -18,11 +18,6 @@ import javax.swing.table.TableModel;
  */
 public final class Utils {
 
-public static final String TAB = "\t";
-public static final String COMMA = ",";
-
-
-
 	/**
 	 * This method writes a Table model to a file  in a comma / tab
 	 * seperator file

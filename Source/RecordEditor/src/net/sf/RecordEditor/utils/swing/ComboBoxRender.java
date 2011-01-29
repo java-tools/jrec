@@ -27,7 +27,7 @@ import javax.swing.table.TableCellRenderer;
 public class ComboBoxRender extends JComboBox
 						 implements TableCellRenderer {
 
-    private static final int COMBO_HEIGHT = 20;
+    private static final int COMBO_HEIGHT = SwingUtils.COMBO_TABLE_ROW_HEIGHT;
 
     
 	/**

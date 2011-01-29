@@ -38,6 +38,7 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.swing.HelpWindow;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 /**
@@ -50,6 +51,7 @@ import net.sf.RecordEditor.utils.swing.HelpWindow;
  * @author Bruce Martin
  * @version 0.55
  */
+@SuppressWarnings("serial")
 public class ReMainFrame extends JFrame
 					  implements ReActionHandler, ReWindowChanged {
 
@@ -63,10 +65,10 @@ public class ReMainFrame extends JFrame
     private static ReMainFrame masterFrame = null;
 
 
-    private static final int TOOL_BAR_SEPARATOR_WIDTH = 10;
-	private static final int LOG_SCREEN_HEIGHT = 240;
-	private static final int LOG_SCREEN_STARTS_FROM_BOTTOM = 120;
-	private static final int LOG_SCREEN_WIDTH_ADJUSTMENT = 20;
+    private static final int TOOL_BAR_SEPARATOR_WIDTH = SwingUtils.STANDARD_FONT_WIDTH;
+	private static final int LOG_SCREEN_HEIGHT = SwingUtils.STANDARD_FONT_HEIGHT * 20;
+	private static final int LOG_SCREEN_STARTS_FROM_BOTTOM = SwingUtils.STANDARD_FONT_HEIGHT * 10;
+	private static final int LOG_SCREEN_WIDTH_ADJUSTMENT = SwingUtils.STANDARD_FONT_WIDTH * 2;
 
 
     private JMenuBar menuBar = new JMenuBar();
@@ -100,19 +102,21 @@ public class ReMainFrame extends JFrame
 
 	private final ReAction open = new ReAction("Open", "Open",
 	        Common.getRecordIcon(Common.ID_OPEN_ICON), ReActionHandler.OPEN, this);
-	private final ReAction newAction = new ReAction("New", "New Layout",
-	        Common.getRecordIcon(Common.ID_NEW_ICON), ReActionHandler.NEW, this);
+//	private final ReAction newAction = new ReAction("New", "New Layout",
+//	        Common.getRecordIcon(Common.ID_NEW_ICON), ReActionHandler.NEW, this);
 	private final ReActionActiveScreen save
 								= newAction(ReActionHandler.SAVE);
 	private final ReActionActiveScreen saveAs
 								= newAction(ReActionHandler.SAVE_AS);
+	private final ReActionActiveScreen SAVE_AS_CSV         = newAction(ReActionHandler.SAVE_AS_CSV);
 	private final ReActionActiveScreen SAVE_AS_HTML        = newAction(ReActionHandler.SAVE_AS_HTML);
 	private final ReActionActiveScreen SAVE_AS_HTML_TBLS   = newAction(ReActionHandler.SAVE_AS_HTML_TBL_PER_ROW);
 	private final ReActionActiveScreen SAVE_AS_HTML_TREE   = newAction(ReActionHandler.SAVE_AS_HTML_TREE);
 	private final ReActionActiveScreen SAVE_AS_VELOCITY    = newAction(ReActionHandler.SAVE_AS_VELOCITY);
-	private final ReAction close
-								= new ReAction("Close", "Close", ReActionHandler.CLOSE, closeAction);
-			//					= newAction(ReActionHandler.CLOSE);
+	private final ReAction close = new ReAction("Close", "Close DB's and exit application",
+												//Common.getRecordIcon(Common.ID_EXIT_ICON),
+												ReActionHandler.CLOSE, closeAction);
+			
 	private final ReActionActiveScreen delete
 		= newAction(ReActionHandler.DELETE);
 	private final ReActionActiveScreen helpAction
@@ -185,7 +189,7 @@ public class ReMainFrame extends JFrame
 	 */
 	private void init_100_Frame(String helpName) {
 
-		if (Common.LOG_TO_FRONT) {
+		if (Common.OPTIONS.logToFront.isSelected()) {
 			log = new ScreenLog(logFrame) {
 				public void logMsg(int level, String msg) {
 					super.logMsg(level, msg);
@@ -271,7 +275,7 @@ public class ReMainFrame extends JFrame
 	    JPanel fullPanel = new JPanel();
 
 	    //buildMenubar(menuBar);
-	    buildToolbar(toolBar);
+	    //buildToolbar(toolBar);
 
 	    topPanel.setLayout(new BorderLayout());
 	    topPanel.add("North", menuBar);
@@ -355,10 +359,12 @@ public class ReMainFrame extends JFrame
 	 *
 	 * @return file menu
 	 */
-	protected void buildFileMenu( JMenu recentFiles, boolean addSaveAsXml, boolean addSaveLayout) {
+	protected void buildFileMenu( JMenu recentFiles, boolean addSaveAsXml, boolean addSaveLayout, AbstractAction newAction) {
 
 	    fileMenu.add(open);
-	    fileMenu.add(newAction);
+	    if (newAction != null) {
+	    	fileMenu.add(newAction);
+	    }
 	    fileMenu.add(save);
 	    fileMenu.add(saveAs);
 	    if (recentFiles != null) {
@@ -366,6 +372,7 @@ public class ReMainFrame extends JFrame
 	    }
 	    
 	    fileMenu.addSeparator();
+	    fileMenu.add(SAVE_AS_CSV);
 	    fileMenu.add(SAVE_AS_HTML);
 	    fileMenu.add(SAVE_AS_HTML_TBLS);
 	    fileMenu.add(SAVE_AS_HTML_TREE);
@@ -490,39 +497,54 @@ public class ReMainFrame extends JFrame
 	/**
 	 * Build the Tool Bar
 	 *
-	 * @param toolbar to be built
+	 * @param toolBar to be built
 	 */
-	protected void buildToolbar(JToolBar toolbar) {
+	protected final void buildToolbar(AbstractAction newAction, AbstractAction[] toolbarActions) {
 
-	    toolbar.add(open);
-	    toolbar.add(newAction);
-	    toolbar.add(save);
-	    toolbar.add(saveAs);
-	    toolbar.add(delete);
+	    toolBar.add(open);
+	    if (newAction != null) {
+	    	toolBar.add(newAction);
+	    }
+	    toolBar.add(save);
+	    toolBar.add(saveAs);
+	    toolBar.add(delete);
 	    Dimension seperatorSize = new Dimension(TOOL_BAR_SEPARATOR_WIDTH,
-	            							    toolbar.getHeight());
-	    toolbar.addSeparator(seperatorSize);
+	            							    toolBar.getHeight());
+	    toolBar.addSeparator(seperatorSize);
 	    for (int i = 0; i < systemActions.length; i++) {
-	        toolbar.add(systemActions[i]);
+	        toolBar.add(systemActions[i]);
 	    }
 	    //toolbar.add(new JToolBar.Separator());
-	    toolbar.addSeparator(seperatorSize);
-	    toolbar.add(copyRecords);
-	    toolbar.add(cutRecords);
-	    toolbar.add(pasteRecords);
-	    toolbar.add(pasteRecordsPrior);
-	    toolbar.add(deleteRecords);
-	    toolbar.add(findAction);
+	    toolBar.addSeparator(seperatorSize);
+	    toolBar.add(copyRecords);
+	    toolBar.add(cutRecords);
+	    toolBar.add(pasteRecords);
+	    toolBar.add(pasteRecordsPrior);
+	    toolBar.add(deleteRecords);
+	    toolBar.add(findAction);
 	    //toolbar.add(new JToolBar.Separator());
-	    toolbar.addSeparator(seperatorSize);
-	    toolbar.add(close);
+	    if (toolbarActions != null) {
+		    toolBar.addSeparator(seperatorSize);
+		    for (int i = 0; i < toolbarActions.length; i++) {
+		    	if (toolbarActions[i] == null) {
+		    		toolBar.addSeparator(seperatorSize);
+		    	} else {
+		    		toolBar.add(toolbarActions[i]);
+		    	}
+		    }
+	    }
+	    
+	    toolBar.addSeparator(seperatorSize);
+	    toolBar.addSeparator(seperatorSize);
+	    
+	    toolBar.add(close);
 
 	    try {
-	        toolbar.add(new JSeparator());
+	        toolBar.add(new JSeparator());
 	    } catch (Exception e) {
-	        toolbar.addSeparator(seperatorSize);
+	        toolBar.addSeparator(seperatorSize);
         }
-	    toolbar.add(helpAction);
+	    toolBar.add(helpAction);
 	}
 
 
@@ -759,7 +781,7 @@ public class ReMainFrame extends JFrame
             } else {
                 String lafName = Parameters.getString(Parameters.PROPERTY_LOOKS_CLASS_NAME);
 
-                if ("Nimbus".equalsIgnoreCase(lafName)) {
+                if (Common.NIMBUS_LAF) {
                 	boolean useSysLaf = true;
                     for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                         if ("Nimbus".equals(info.getName())) {
@@ -770,7 +792,11 @@ public class ReMainFrame extends JFrame
                     }
                     
                     if (useSysLaf) {
-                        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                    	if (UIManager.getSystemLookAndFeelClassName().endsWith("GTKLookAndFeel")) {
+                    		JFrame.setDefaultLookAndFeelDecorated(true);
+                    	} else {
+                    		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                    	}
                     }
 
                 } else {

@@ -12,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
  * This class will display a list of Jars to be used
@@ -20,9 +21,10 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class EditPropertiesTblPanel extends BasePanel {
 
-    private static final int TABLE_HEIGHT = 220;
+    private static final int TABLE_HEIGHT = SwingUtils.TABLE_ROW_HEIGHT * 13;
 //    private static final int LOADER_TABLE_SIZE = 20;
 
 

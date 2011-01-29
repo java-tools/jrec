@@ -17,14 +17,16 @@ import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
 import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class EditDefaults extends BasePanel {
 
-    private static final int TABLE_HEIGHT = 130;
+    private static final int TABLE_HEIGHT = SwingUtils.NORMAL_FIELD_HEIGHT * 15 / 2;
 
     private EditParams editParams;
 	private ListModel model;
@@ -102,10 +104,10 @@ public class EditDefaults extends BasePanel {
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(optionTbl));
 
-		this.addComponent("Description", descriptionFld);
+		this.addLine("Description", descriptionFld);
 		this.setHeight(BasePanel.GAP3);
 		this.setGap(BasePanel.GAP2);
-		this.addComponent("Default Value", optionCombo);
+		this.addLine("Default Value", optionCombo);
 		this.setGap(BasePanel.GAP1);
 
 		this.done();

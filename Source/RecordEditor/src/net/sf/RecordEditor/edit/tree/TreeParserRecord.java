@@ -101,7 +101,7 @@ public class TreeParserRecord extends BaseLineNodeTreeParser implements Abstract
 		}
 
 
-		System.out.println();
+		//System.out.println();
 		
 		levels   = null;
 		existing = null;

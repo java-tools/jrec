@@ -9,6 +9,7 @@ import net.sf.RecordEditor.edit.file.FieldMapping;
 import net.sf.RecordEditor.edit.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
 
+@SuppressWarnings("serial")
 public abstract class BaseLineModel extends AbstractTableModel {
 
 	public static final int FIRST_DATA_COLUMN = 3;
@@ -43,7 +44,7 @@ public abstract class BaseLineModel extends AbstractTableModel {
 	    int layoutIndex = getFixedCurrentLayout();
 	    int ret = fileView.getLayoutColumnCount(layoutIndex);
 
-	    ret = fieldMapping.getRowCount(layoutIndex, ret);
+	    ret = fieldMapping.getColumnCount(layoutIndex, ret);
 	    	    
 	    if (showKey()) {
 	    	ret += 1;
@@ -76,7 +77,7 @@ public abstract class BaseLineModel extends AbstractTableModel {
 			    int column = getRealRow(row);
 			    return layout.getRecord(getFixedCurrentLayout()).getField(column).getName();
 			} else if (col < FIRST_DATA_COLUMN) { //
-				FieldDetail df = fileView.getField(idx, getRealRow(row));
+				FieldDetail df = fileView.getLayout().getRecord(idx).getField(getRealRow(row));
 	
 				if (df == null) {
 					return null;
@@ -206,13 +207,13 @@ public abstract class BaseLineModel extends AbstractTableModel {
 	 * @return field counts for for each record
 	 */
 	private int[] getFieldCounts() {
-       int[] rows = new int[layout.getRecordCount()];
+		int[] rows = new int[layout.getRecordCount()];
         
-        for (int i = 0; i < layout.getRecordCount(); i++) {
-        	rows[i] = fileView.getLayoutColumnCount(i);
-        }
-
-        return rows;
+	    for (int i = 0; i < layout.getRecordCount(); i++) {
+	    	rows[i] = fileView.getLayoutColumnCount(i);
+	    }
+	
+	    return rows;
 	}
 
 	

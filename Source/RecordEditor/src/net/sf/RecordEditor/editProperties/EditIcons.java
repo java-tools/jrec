@@ -26,6 +26,7 @@ import net.sf.RecordEditor.utils.swing.FileChooser;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class EditIcons extends BasePanel implements ActionListener {
 
     private static final String DESCRIPTION
@@ -128,12 +129,12 @@ public class EditIcons extends BasePanel implements ActionListener {
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(tips));
 
-        this.addComponent("Icon Set", looks);
+        this.addLine("Icon Set", looks);
         this.setGap(BasePanel.GAP1);
-		this.addComponent("Look for png icons", usePng);
+		this.addLine("Look for png icons", usePng);
         this.setGap(BasePanel.GAP1);
 
-        this.addComponent("Zip/Jar File", jarName, jarName.getChooseFileButton());
+        this.addLine("Zip/Jar File", jarName, jarName.getChooseFileButton());
     }
 
     /**

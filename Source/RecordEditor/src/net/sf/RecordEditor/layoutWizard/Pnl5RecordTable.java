@@ -31,6 +31,7 @@ import javax.swing.text.JTextComponent;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
  * 2nd wizard screen where the user selects the starting
@@ -39,10 +40,11 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class Pnl5RecordTable extends WizardPanel {
 
 
-    private static final int FILE_HEIGHT = 200;
+    private static final int FILE_HEIGHT = SwingUtils.TABLE_ROW_HEIGHT * 12 - 3;;
 
 	public int stdLineHeight;
 
@@ -84,7 +86,7 @@ public class Pnl5RecordTable extends WizardPanel {
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(tips));
 		//this.setGap(BasePanel.GAP1);
-		this.addComponent("Record", recordMgr.recordCombo);
+		this.addLine("Record", recordMgr.recordCombo);
 		
 		columnSelector.addFields(this, FILE_HEIGHT);
 //		this.addComponent("Show Hex", columnSelector.hexChk);

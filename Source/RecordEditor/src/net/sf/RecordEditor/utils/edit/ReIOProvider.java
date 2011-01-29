@@ -5,12 +5,15 @@ import net.sf.JRecord.Details.LineProvider;
 import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.IO.StandardLineIOProvider;
+import net.sf.RecordEditor.utils.csv.OldGenericCsvReader;
+import net.sf.RecordEditor.utils.csv.GenericCsvReader;
+import net.sf.RecordEditor.utils.csv.OldGenericCsvReaderUnicode;
 
 public class ReIOProvider extends StandardLineIOProvider {
 
 	private static ReIOProvider instance = null;
 	
-    private static final int numberOfEntries = 2;
+    private static final int numberOfEntries = 3;
     private static String[] names = new String [numberOfEntries] ;
     private static String[] externalNames = new String [numberOfEntries] ;
     private static int[] keys = new int[numberOfEntries];
@@ -19,27 +22,29 @@ public class ReIOProvider extends StandardLineIOProvider {
     static {
 			int i = 0;
 		 
-			keys[i] = Constants.IO_UNKOWN_FORMAT;	externalNames[i] = "UNKNOWN_FORMAT";	names[i++] = "Unknow Format (Choose details at run time)";	
-			keys[i] = Constants.IO_GENERIC_CSV;		externalNames[i] = "CSV_GENERIC";		names[i++] = "Generic CSV (Choose details at run time)";	
-	 }
+			keys[i] = Constants.IO_UNKOWN_FORMAT;		externalNames[i] = "UNKNOWN_FORMAT";		names[i++] = "Unknow Format (Choose details at run time)";	
+			keys[i] = Constants.IO_GENERIC_CSV;			externalNames[i] = "CSV_GENERIC";			names[i++] = "Generic CSV (Choose details at run time)";	
+    }
 
 	@Override
 	public AbstractLineReader getLineReader(int fileStructure,
 			LineProvider lineProvider) {
 	
 		//System.out.println(" ~~ ReIOProvider ~ " + fileStructure + " --> " + Constants.IO_GENERIC_CSV);
-        if (fileStructure == Constants.IO_GENERIC_CSV
-        ||  fileStructure == Constants.IO_UNKOWN_FORMAT) {
+		switch (fileStructure) {
+		case Constants.IO_GENERIC_CSV:
         	LineProvider lLineProvider = lineProvider;
 
 	        if (lLineProvider == null) {
 	            lLineProvider = super.getLineProvider(fileStructure);
 	        }
-	        if (fileStructure == Constants.IO_GENERIC_CSV) {
-	        	return new GenericCsvReader(lLineProvider);
-	        }
-	        return new UnknownFormatReader();
-        } else {
+
+	        return new GenericCsvReader(lLineProvider);
+//		case Constants.IO_GENERIC_CSV_UNICODE:
+//			return new OldGenericCsvReaderUnicode();
+	    case Constants.IO_UNKOWN_FORMAT:    
+	    	return new UnknownFormatReader();
+        default:
 			return super.getLineReader(fileStructure, lineProvider);
         }
 	}

@@ -17,6 +17,8 @@ package net.sf.RecordEditor.utils;
 
 import javax.swing.AbstractAction;
 
+import net.sf.RecordEditor.utils.common.Common;
+
 
 /**
  * This class performs an action on a LayoutConnection
@@ -27,6 +29,7 @@ import javax.swing.AbstractAction;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public abstract class LayoutConnectionAction extends AbstractAction {
 
     private LayoutConnection callback;
@@ -45,6 +48,21 @@ public abstract class LayoutConnectionAction extends AbstractAction {
         callback = callbackClass;
      }
 
+
+    /**
+     * This class performs an action on a LayoutConnection
+     * (callback class to get/set layout information).
+     * The actual action
+     * performed is implemented by sub classing this class
+     * @param name of Action
+     * @param callbackClass dbDetails callback class
+     */
+    public LayoutConnectionAction(final String name,
+            					  final LayoutConnection callbackClass,
+            					  final int iconId) {
+        super(name, Common.getRecordIcon(iconId));
+        callback = callbackClass;
+     }
 
 
     /**

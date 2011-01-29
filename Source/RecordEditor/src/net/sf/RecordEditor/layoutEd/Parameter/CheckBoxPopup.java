@@ -126,12 +126,12 @@ public class CheckBoxPopup extends AbstractPopup  {
         	if (pnl == null) {
         		pnl = new BasePanel();
         		
-        		pnl.addComponent("True Value", trueValue);
-        		pnl.addComponent("False Value", falseValue);
+        		pnl.addLine("True Value", trueValue);
+        		pnl.addLine("False Value", falseValue);
         		
         		pnl.setGap(BasePanel.GAP1);
-        		pnl.addComponent("Default Value", defaltValue);
-        		pnl.addComponent("Case Sensitive", caseSensitive);
+        		pnl.addLine("Default Value", defaltValue);
+        		pnl.addLine("Case Sensitive", caseSensitive);
         	}
             add(pnl);
             super.pack();

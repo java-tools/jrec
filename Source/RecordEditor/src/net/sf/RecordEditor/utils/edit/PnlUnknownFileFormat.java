@@ -31,6 +31,7 @@ import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.tblModels.LineArrayModel;
 
 /**
@@ -46,9 +47,8 @@ public class PnlUnknownFileFormat extends BaseHelpPanel {
 //    private static final int STANDARD_TABLE_CELL_WIDTH = 20;
 //    private static final int COLUMNS_TO_NUMER = 10;
 	
-	private static final int TIP_HEIGHT  = 150;
-    private static final int FILE_HEIGHT = 250;
-    private static final int STANDARD_TABLE_CELL_WIDTH = 20;
+	private static final int TIP_HEIGHT  = SwingUtils.STANDARD_FONT_HEIGHT * 12;
+    private static final int FILE_HEIGHT = SwingUtils.TABLE_ROW_HEIGHT * 15;
     private static final int COLUMNS_TO_NUMER = 10;
     
     private static final int LAST_7_BITS_SET = 127;
@@ -131,9 +131,9 @@ public class PnlUnknownFileFormat extends BaseHelpPanel {
 				new JScrollPane(tips));
 		this.setGap(BasePanel.GAP1);
  
-    	this.addComponent("File Structure", structureCombo);
-    	this.addComponent("Length", lengthTxt);
-       	this.addComponent("Font Name", fontNameTxt);
+    	this.addLine("File Structure", structureCombo);
+    	this.addLine("Length", lengthTxt);
+       	this.addLine("Font Name", fontNameTxt);
 		this.setGap(GAP1);
 		this.addComponent(1, 5, FILE_HEIGHT, BasePanel.GAP3,
 		        BasePanel.FULL, BasePanel.FULL,
@@ -141,7 +141,7 @@ public class PnlUnknownFileFormat extends BaseHelpPanel {
 		
 		if (showGoBtn) {
 			this.setGap(GAP2);
-			this.addComponent("", null, goBtn);
+			this.addLine("", null, goBtn);
 		}
 		this.setGap(GAP2);
 		this.addMessage(message);
@@ -150,6 +150,7 @@ public class PnlUnknownFileFormat extends BaseHelpPanel {
 		lengthTxt.addFocusListener(focusHandler);
 		fontNameTxt.addFocusListener(focusHandler);
 		structureCombo.addActionListener(changed);
+		
 		fileTbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
 		fileTbl.addMouseListener(new MouseAdapter() {
@@ -257,7 +258,7 @@ public class PnlUnknownFileFormat extends BaseHelpPanel {
 		            //colorInd[i] = 0;
 		            tc = tcm.getColumn(i);
 		        	//System.out.println(" ~~~> " + i + " " + tc.getCellRenderer());
-		            tc.setPreferredWidth(STANDARD_TABLE_CELL_WIDTH);
+		            tc.setPreferredWidth(SwingUtils.ONE_CHAR_TABLE_CELL_WIDTH);
 		            
 		            switch ((i + 1) % COLUMNS_TO_NUMER) {
 	            	case (0): s = "" + ((i + 1) / COLUMNS_TO_NUMER); break;

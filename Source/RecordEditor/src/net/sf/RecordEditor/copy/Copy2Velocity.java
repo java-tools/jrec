@@ -119,6 +119,7 @@ public class Copy2Velocity extends AbstractWizard<CopyDefinition> {
 	/* ---------------------------------------------------------------------------------------*/
 
 
+	@SuppressWarnings("serial")
 	public static class getFiles extends  AbstractFilePnl<CopyDefinition> {
 
 
@@ -136,8 +137,8 @@ public class Copy2Velocity extends AbstractWizard<CopyDefinition> {
 			super(selection1, "CobolFiles.txt");
 			
 			layoutSelection1 = selection1;
-			newFileName.setDefaultDirectory(Common.DEFAULT_FILE_DIRECTORY);
-			velocityTemplateFile.setDefaultDirectory(Common.DEFAULT_VELOCITY_DIRECTORY);
+			newFileName.setDefaultDirectory(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());
+			velocityTemplateFile.setDefaultDirectory(Common.OPTIONS.DEFAULT_VELOCITY_DIRECTORY.get());
 
 		
 			setHelpURL(Common.formatHelpURL(Common.HELP_DIFF_SL));
@@ -190,8 +191,8 @@ public class Copy2Velocity extends AbstractWizard<CopyDefinition> {
 		@Override
 		protected void addFileName(BaseHelpPanel pnl) {
 					
-			pnl.addComponent("Old File", fileName, fileName.getChooseFileButton());
-			pnl.addComponent("New File", newFileName, newFileName.getChooseFileButton());
+			pnl.addLine("Old File", fileName, fileName.getChooseFileButton());
+			pnl.addLine("New File", newFileName, newFileName.getChooseFileButton());
 		}
 		
 		@Override
@@ -199,7 +200,7 @@ public class Copy2Velocity extends AbstractWizard<CopyDefinition> {
 			
 			layoutSelection1.addLayoutSelection(this, fileName, new JPanel(), null, null);
 			this.setGap(GAP3);
-			this.addComponent("Velocity Template", velocityTemplateFile, velocityTemplateFile.getChooseFileButton());
+			this.addLine("Velocity Template", velocityTemplateFile, velocityTemplateFile.getChooseFileButton());
 			this.setGap(GAP3);
 		}
 	}

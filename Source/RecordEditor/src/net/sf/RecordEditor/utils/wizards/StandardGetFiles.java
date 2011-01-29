@@ -88,6 +88,6 @@ public class StandardGetFiles<Save extends BaseCopyDif> extends  AbstractFilePnl
 	@Override
 	protected void addFileName(BaseHelpPanel pnl) {
 
-		pnl.addComponent(FILE_PROMPT[fileNo], fileName, fileName.getChooseFileButton());
+		pnl.addLine(FILE_PROMPT[fileNo], fileName, fileName.getChooseFileButton());
 	}
 }

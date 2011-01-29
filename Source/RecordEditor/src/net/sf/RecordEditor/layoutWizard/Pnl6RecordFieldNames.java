@@ -26,6 +26,7 @@ import net.sf.JRecord.Common.RecordException;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.AbsRowList;
 import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 /**
@@ -35,10 +36,11 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class Pnl6RecordFieldNames extends WizardPanel {
 
-    private static final int COLUMN_HEIGHT  = 150;
-    private static final int FILE_HEIGHT = 130;
+    private static final int COLUMN_HEIGHT  = SwingUtils.TABLE_ROW_HEIGHT * 9;
+    private static final int FILE_HEIGHT = SwingUtils.TABLE_ROW_HEIGHT * 15 / 2;
 
     private JTextField message = new JTextField();
     
@@ -76,7 +78,7 @@ public class Pnl6RecordFieldNames extends WizardPanel {
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(tips));
 //		this.setGap(BasePanel.GAP1);
-		this.addComponent("Record", recordMgr.recordCombo);
+		this.addLine("Record", recordMgr.recordCombo);
 		this.setGap(BasePanel.GAP0);
 
 		this.addComponent(1, 5, COLUMN_HEIGHT, BasePanel.GAP0,

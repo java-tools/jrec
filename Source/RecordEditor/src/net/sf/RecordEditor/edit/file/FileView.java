@@ -69,6 +69,7 @@ import net.sf.RecordEditor.edit.file.storage.DataStoreLarge;
 import net.sf.RecordEditor.edit.file.storage.DataStoreStd;
 import net.sf.RecordEditor.edit.tree.LineNodeChild;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.common.ProgramOptions;
 import net.sf.RecordEditor.utils.filter.ColumnMappingInterface;
 import net.sf.RecordEditor.utils.filter.FilterDetails;
 import net.sf.RecordEditor.utils.filter.FilterField;
@@ -98,6 +99,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 						implements 	TableModelListener, ColumnMappingInterface, 
 												TreeModelListener, AbstractChangeNotify{
 
+	public  static final  int SPECIAL_FIELDS_AT_START  = 2;
 	private static final  int BUFFER_SIZE = 65536;
 	
     private static final  int SET_USING_FIELD = 1;
@@ -107,9 +109,6 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	public  static final  int LINE_NUMER_COLUMN = 1;
     private static final  int INITIAL_FILE_SIZE = 1000;
     private static final  int MINIMUM_FILE_SIZE = 512;
-
-    private static final  int PREFERRED_INC = 0;
-    private static final  int FULL_LINE_INC = 1;
 
     private static final  int CAN_INSERT = 1;
     private static final  int FAILED_2ND_ROOT_NOT_ALLOWED = 3;
@@ -275,7 +274,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	        		final FileView<Layout> pBaseFile,
 	        		final FieldMapping colMapping,
 	        		boolean pBrowse) {
-		this(pLines, pBaseFile, pLines.get(0).getLayout(), colMapping, pBrowse);
+		this(pLines, pBaseFile, pLines.getLayout(), colMapping, pBrowse);
 	}
 	
 	
@@ -404,7 +403,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		            reader.open(new GZIPInputStream(rff, BUFFER_SIZE), layout);
 
 		            readFile(reader, file, isGZip, rff, pFileName);
-		        } else if (Common.USE_SPECIAL_FIXED_MODEL
+		        } else if (Common.OPTIONS.useBigFixedModel.isSelected()
 		        	   &&  structure == Constants.IO_FIXED_LENGTH 
 		        	   &&  useBigFileModel(file.length())) {
 		        	lines = DataStoreLarge.getFixedLengthRecordStore((LayoutDetail)layout, pFileName);
@@ -467,7 +466,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    t1 = time;
 	    tt1 = 0;
 	    tt2 = 0;
-	    if (Common.LOAD_FILE_BACKGROUND_THREAD) {
+	    if (Common.OPTIONS.loadInBackgroundThread.isSelected()) {
 	    	ProgressDisplay readProgress = new ProgressDisplay(file.getName());
 	    	try {
 			    while ((line = reader.read()) != null) {
@@ -560,7 +559,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	 */
 	public int getColumnCount() {
 
-		return getLayoutColumnCount(currLayoutIdx) + 2;
+		return getLayoutColumnCount(currLayoutIdx) + SPECIAL_FIELDS_AT_START;
 	}
 
 	/**
@@ -589,20 +588,22 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	 * @return requested value
 	 */
 	public Object getValueAt1(int layoutIndex, int row, int col) {
-
-		if ((row >= getRowCount()) || (col >= getLayoutColumnCount(layoutIndex) + 2) || (col == 0)) {
+		if ((row >= getRowCount()) || (col >= getLayoutColumnCount(layoutIndex) + SPECIAL_FIELDS_AT_START) || (col == 0)) {
 			return null;
 		} else if (col == LINE_NUMER_COLUMN) {
 			return Integer.toString(row + 1);
-		} else if (layoutIndex == layout.getRecordCount() + PREFERRED_INC) {
-		    return getValueAt(lines.get(row).getPreferredLayoutIdx(), row, col - 2);
-		} else if (layoutIndex == layout.getRecordCount() + FULL_LINE_INC) {
-		    return lines.get(row).getFullLine();
-		} else if (layoutIndex > layout.getRecordCount()) {
-			//System.out.println("    - Getting data");
-		    return lines.get(row).getData();
 		} else {
-			return getValueAt(layoutIndex, row, col - 2);
+			switch(DisplayType.displayType(layout, layoutIndex)) {
+			case DisplayType.PREFFERED:
+				return getValueAt(lines.get(row).getPreferredLayoutIdx(), row, col - SPECIAL_FIELDS_AT_START);
+			case DisplayType.FULL_LINE:
+				return lines.get(row).getFullLine();
+			case DisplayType.HEX_LINE:
+			//System.out.println("    - Getting data");
+				return lines.get(row).getData();
+			default:
+				return getValueAt(layoutIndex, row, col - SPECIAL_FIELDS_AT_START);
+			}
 		}
 	}
 
@@ -621,16 +622,17 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	 */
 	public void setValueAt(int layoutIdx, Object val, int row, int col) {
 
-		if ((row >= getRowCount()) || (col >= (getLayoutColumnCount(layoutIdx) + 2)) 
+		if ((row >= getRowCount()) || (col >= (getLayoutColumnCount(layoutIdx) + SPECIAL_FIELDS_AT_START)) 
 		|| (col <= LINE_NUMER_COLUMN)) {
 //			System.out.println("**Set Value 1 "
 //					+ row  + ">= " + getRowCount()
 //					+ " " + col + " >= " + (getLayoutColumnCount(layoutIdx) + 2)
 //					+ " " + col + " <= " + LINE_NUMER_COLUMN);
 		} else if (frame != null) {
-			setValueAt(frame, layoutIdx, row, col - 2, val);
+			setValueAt(frame, layoutIdx, row, col - SPECIAL_FIELDS_AT_START, val);
 		}
 	}
+
 
 	/**
 	 * Get the column name
@@ -642,19 +644,20 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		if (col == LINE_NUMER_COLUMN) {
 			return "Line";
 		} else if (col > LINE_NUMER_COLUMN) {
-		    if ((currLayoutIdx == layout.getRecordCount()+FULL_LINE_INC)  && Common.TEST_MODE) {
-		   		return LINE_COLUMN_HEADINGS[1];
-		    } else if (currLayoutIdx == layout.getRecordCount() + PREFERRED_INC) {
+			switch(DisplayType.displayType(layout, currLayoutIdx)) {
+			case DisplayType.FULL_LINE:
+			   		return LINE_COLUMN_HEADINGS[1];
+			case DisplayType.PREFFERED:
 		    	//System.out.print("   Column name " + col + " " + getFieldName(this.currentPreferredIndex, col));
 		    	return getFieldName(this.defaultPreferredIndex, col);
-		    } else if (currLayoutIdx > layout.getRecordCount()) {
+			case DisplayType.HEX_LINE:
 		    	int idx = Math.min(
 		    						currLayoutIdx - layout.getRecordCount(),
 		    	                    LINE_COLUMN_HEADINGS.length - 1);
 		    	
 		    	return lineColumns[idx] + Common.COLUMN_LINE_SEP 
 		    			+ LINE_COLUMN_HEADINGS[idx];
-		    } else  {
+		    default:
 		    	return getFieldName(currLayoutIdx, col);
 		    }
 		}
@@ -681,8 +684,8 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	 * @param fldNum field number
 	 * @return field name
 	 */
-	private String getFieldName(int layoutIndex, int fldNum) {
-        int tCol = getRealColumn(layoutIndex, fldNum - 2);
+	public String getFieldName(int layoutIndex, int fldNum) {
+        int tCol = getRealColumn(layoutIndex, fldNum - SPECIAL_FIELDS_AT_START);
         String s;
         FieldDetail fld = getLayoutField(layoutIndex, tCol);
         if (fld == null) {
@@ -714,9 +717,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
             l = 0;
         }
 
-//        System.out.println("* GetColumnCount " + layoutIdx + " " + l + " ; " + layout.getRecordCount()
-//        		+ " " + maxNumColumns);
-        if (l == layout.getRecordCount() + PREFERRED_INC) {
+        if (DisplayType.displayType(layout, l) == DisplayType.PREFFERED) {
         	if (maxNumColumns < 0) {
         		for (int i = 0; i <layout.getRecordCount(); i++) {
         			maxNumColumns = Math.max(maxNumColumns, layout.getRecord(i).getFieldCount());
@@ -730,7 +731,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
  //       System.out.println("> GetColumnCount " + layoutIdx + " " + l + " ; " + layout.getRecordCount()
  //       		+" -> " + columnMapping.getRowCount(l, layout.getRecord(l).getFieldCount()));
 
-		return columnMapping.getRowCount(l, layout.getRecord(l).getFieldCount());
+		return columnMapping.getColumnCount(l, layout.getRecord(l).getFieldCount());
 	}
 
 
@@ -893,7 +894,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	public void setValueAt(JFrame parentFrame, int layoutIndex, AbstractLine currLine, int row, int col, Object val) {
 		if (browse) { return; }
 		int layoutIdx = layoutIndex;
-		if (layoutIndex == layout.getRecordCount() + PREFERRED_INC) {
+		if (DisplayType.displayType(layout, layoutIdx) == DisplayType.PREFFERED) {
 			layoutIdx = currLine.getPreferredLayoutIdx();
 		}
 		
@@ -914,14 +915,15 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 				&& val.equals(currLine.getField(layoutIdx, col)))) { return; }
 
 		    if ((layoutIdx >= layout.getRecordCount())) {
-		        if (layoutIndex == layout.getRecordCount() + FULL_LINE_INC) {
+		    	switch(DisplayType.displayType(layout, layoutIdx)) {
+				case DisplayType.FULL_LINE:
 		            String s = "";
 		            if (val != null) {
 		                s = val.toString();
 		            }
 		            currLine.setData(s);
 		            fireRowUpdated(row, currLine);
-		        } else {
+		        default:
 		        	if (val instanceof byte[]) {
 		        		currLine.setData((byte[]) val);
 		        	} else {
@@ -1146,18 +1148,18 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 
 
 
-	/**
-	 * Get a specific field
-	 *
-	 * @param layoutIdx Layout to use
-	 * @param fieldNum Field number
-	 *
-	 * @return Requested field
-	 */
-
-	public FieldDetail getField(int layoutIdx, int fieldNum) {
-		return layout.getRecord(layoutIdx).getField(fieldNum);
-	}
+//	/**
+//	 * Get a specific field
+//	 *
+//	 * @param layoutIdx Layout to use
+//	 * @param fieldNum Field number
+//	 *
+//	 * @return Requested field
+//	 */
+//
+//	public FieldDetail getField(int layoutIdx, int fieldNum) {
+//		return layout.getRecord(layoutIdx).getField(fieldNum);
+//	}
 
 
 	/**
@@ -1692,7 +1694,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	 *
 	 * @return actual position used
 	 */
-	public final int newLine(int pos) {
+	public final int newLine(int pos, int adj) {
 
 	    if (view) {
 	        int baseRecordNumber = baseFile.getRowCount();
@@ -1700,14 +1702,14 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	        if (lines.size() > 0) {
 	             baseRecordNumber = baseFile.indexOf(lines.get(pos));
 	        }
-	        basePos = baseFile.newLine(baseRecordNumber);
+	        basePos = baseFile.newLine(baseRecordNumber, adj);
 
-	        pos = addLine(pos, baseFile.getLine(basePos));
+	        pos = addLine(pos + adj, baseFile.getLine(basePos));
 	    } else {
 			if (ioProvider == null) {
 				ioProvider = LineIOProvider.getInstance();
 			}
-	        pos = addLine(pos, ioProvider.getLineProvider(layout.getFileStructure()).getLine(layout));
+	        pos = addLine(pos + adj, ioProvider.getLineProvider(layout.getFileStructure()).getLine(layout));
 	        //changed = true;
 	    }
 
@@ -2108,6 +2110,10 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		return lines.get(lineNum);
 	}
 
+	public final void setLine(final int lineNum, AbstractLine<Layout> l) {
+		lines.set(lineNum,l);
+	}
+
 	public final AbstractLine<Layout> getTempLine(final int lineNum) {
 		return lines.getTempLine(lineNum);
 	}
@@ -2156,7 +2162,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 
 	public boolean isTreeViewAvailable() {
 		return lines instanceof DataStoreStd
-			|| lines.size() < Common.getBigFileFilterLimit();
+			|| lines.size() < Common.OPTIONS.filterLimit.get();
 	}
 	/**
 	 * @param aFrame The frame to set.
@@ -2238,6 +2244,10 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	throws IOException, RecordException {
 
 	    writeLinesToFile(outFile, lines);
+	    if ("".equals(this.fileName) && ! isView()) {
+	    	this.fileName = outFile;
+	    	this.setChanged(false);
+	    }
 	}
 
 
@@ -2373,7 +2383,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	private int getLineHoldLimit() {
         int limit = Integer.MAX_VALUE;
         if (! (lines instanceof DataStoreStd)) {
-        	limit = Common.getBigFileFilterLimit() / 2;
+        	limit = Common.OPTIONS.filterLimit.get() / 2;
         }
         return limit;
 	}
@@ -2441,7 +2451,13 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
         }
 
         if (selectedLines.size() > 0) {
-            return new FileView<Layout>(selectedLines, baseFile, new FieldMapping(filter.getFieldMap()));
+    		int[] rows = new int[layout.getRecordCount()];
+            
+    	    for (i = 0; i < layout.getRecordCount(); i++) {
+    	    	rows[i] = getLayoutColumnCount(i);
+    	    }
+    	
+            return new FileView<Layout>(selectedLines, baseFile, new FieldMapping(filter.getFieldMap(), rows));
         }
         return null;
 	}
@@ -2894,7 +2910,8 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		if (useBigFileModel(bytes)) {
 			LayoutDetail l = (LayoutDetail) layout;
 			if (l.isXml()) {
-			} else 	if (l.getFileStructure() == Constants.IO_UNICODE_TEXT) {
+			} else 	if (l.getFileStructure() == Constants.IO_UNICODE_TEXT
+					||  l.getFileStructure() == Constants.IO_UNICODE_NAME_1ST_LINE) {
 				System.out.println("Editing using Char-Line Big memory Model - this will reduce functionality !!!");
 				//Common.logMsg(AbsSSLogger.WARNING,
 				//		"\nEditing using Char-Line Big memory Model - this will reduce functionality !!!", null);
@@ -2930,9 +2947,11 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 				int type = FileDetails.VARIABLE_LENGTH;
 				AbstractByteReader r = null;
 				
+				char largeOpt = Common.OPTIONS.largeVbOption.get();
 				if (reader != null && reader instanceof LineReaderWrapper
-				&& (   ( Common.LARGE_VB_OPTION == Common.LARGE_VB_TEST)
-					|| ( Common.LARGE_VB_OPTION == Common.LARGE_VB_YES
+				&& l.getFileStructure() != Constants.IO_VB_DUMP
+				&& (   ( largeOpt == ProgramOptions.LARGE_VB_TEST)
+					|| ( largeOpt == ProgramOptions.LARGE_VB_YES
 					  && bytes > Runtime.getRuntime().totalMemory())	
 				)) {
 					type = FileDetails.VARIABLE_LENGTH_BASEFILE;
@@ -2955,5 +2974,21 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 //				(layout instanceof LayoutDetail) 
 //			  + " && " + bytes + " > " + Common.getMemoryCompare());
 		return layout instanceof LayoutDetail && bytes > Common.getMemoryCompare();
+	}
+
+	/**
+	 * @param recordIdx
+	 * @return
+	 * @see net.sf.RecordEditor.edit.file.FieldMapping#getFieldVisibility(int)
+	 */
+	public boolean[] getFieldVisibility(int recordIdx) {
+		return columnMapping.getFieldVisibility(recordIdx);
+	}
+	
+	public boolean isSimpleCsvFile() {
+		return layout.getRecordCount() == 1
+		&& (   layout.getFileStructure() == Constants.IO_NAME_1ST_LINE
+			|| layout.getRecord(0).getRecordType() == Constants.rtDelimited
+			|| layout.getRecord(0).getRecordType() == Constants.rtDelimitedAndQuote);
 	}
 }

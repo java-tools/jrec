@@ -55,7 +55,7 @@ extends ArrayList<L> implements DataStore<L> {
 		return new DataStoreStd<L>(getLayout(), this);
 	}
 	
-	private AbstractLayoutDetails getLayout() {
+	public final AbstractLayoutDetails getLayout() {
 		if (layout == null && super.size() > 0) {
 			layout = get(0).getLayout();
 		}
@@ -65,7 +65,12 @@ extends ArrayList<L> implements DataStore<L> {
 	
 	@Override
 	public void setLayout(AbstractLayoutDetails layout) {
-		this.layout = layout;
+		if (this.layout != layout) {
+			this.layout = layout;
+			for (int i = size() - 1; i >= 0; i--) {
+				get(i).setLayout(layout);
+			}
+		}
 	}
 
 	@Override

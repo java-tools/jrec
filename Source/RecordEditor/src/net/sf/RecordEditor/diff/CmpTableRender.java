@@ -14,9 +14,10 @@ import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 /**
@@ -33,13 +34,13 @@ implements TableCellRenderer {
     public static Color MODIFIED_COLOR = Color.green;
 
     private JButton button = new JButton();
-    private JTextField text    = new JTextField();
+    private DefaultTableCellRenderer text    = new DefaultTableCellRenderer();
     
     private ArrayList<LineCompare> records = null;
     
     public void setList(ArrayList<LineCompare> list) {
     	records = list;
-    	text.setBorder(null);
+    	text.setBorder(BorderFactory.createEmptyBorder());
     }
     
 	/**
@@ -73,14 +74,14 @@ implements TableCellRenderer {
 	    			text.setBackground(Color.WHITE);
 	    		}
 	    	}
-	    	
-	    	if (value == null) {
-	    		text.setText("");
-	    	} else {
-	    		text.setText(value.toString());
-	    	}
 	    }
-	    return text;
+	    return text.getTableCellRendererComponent(
+	    				tbl,
+	    				value,
+	    				isSelected,
+	    				hasFocus,
+	    				row,
+	    				column);
 	}
 
 

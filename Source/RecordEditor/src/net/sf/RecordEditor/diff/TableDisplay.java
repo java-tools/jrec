@@ -68,12 +68,12 @@ public class TableDisplay extends AbstractCompareDisplay {
         		doc.insertString( doc.getLength(), "Files are Identical !!!", bold );
         		//msgTxt.setAlignmentX(CENTER_ALIGNMENT);
         		
-		         pnl.addComponent("", msgTxt);
+		         pnl.addLine("", msgTxt);
 		         pnl.setGap(BasePanel.GAP0);
         	} catch (Exception e) {
 			}       	
         } else if (Common.TEST_MODE) {
-	         pnl.addComponent("", msgTxt);
+	         pnl.addLine("", msgTxt);
        }
 
         
@@ -101,6 +101,8 @@ public class TableDisplay extends AbstractCompareDisplay {
 		setDisplay(USE_CHANGE_LIST);
 		tblDetails = new JTable(model);
 		tblDetails.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		
+		//tblDetails.setC
 //		Common.calcColumnWidths(tblDetails, 1);
 		
 		tblDetails.addMouseListener(new MouseAdapter() {

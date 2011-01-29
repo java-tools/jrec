@@ -50,15 +50,15 @@ public class DisplayCobolCopybook implements ActionListener {
 		BasePanel p = new BasePanel();
 		ReFrame frame = new ReFrame("Copybook Analysis", "Copybook Analysis", null);
 		
-		copybook.setText(Common.DEFAULT_COBOL_DIRECTORY);
+		copybook.setText(Common.OPTIONS.DEFAULT_COBOL_DIRECTORY.get());
 		showComments.setSelected(false);
 		
 		p.setGap(BasePanel.GAP3);
-		p.addComponent("Copybook", copybook, copybook.getChooseFileButton());
+		p.addLine("Copybook", copybook, copybook.getChooseFileButton());
 		p.setGap(BasePanel.GAP1);
-		p.addComponent("Cobol Dialect", cobolDialect);
+		p.addLine("Cobol Dialect", cobolDialect);
 		p.setGap(BasePanel.GAP1);
-		p.addComponent("Include Comments", showComments, displayBtn);
+		p.addLine("Include Comments", showComments, displayBtn);
 		p.setGap(BasePanel.GAP3);
 		p.addMessage(msgTxt);
 		

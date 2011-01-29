@@ -112,7 +112,7 @@ public class BaseHelpPanel extends BasePanel  {
      */
     public final void addHelpBtn(JComponent component, JButton btn) {
 
-        addComponent("", component, btn);
+        addLine("", component, btn);
         btn.addActionListener(new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 help.showHelp();

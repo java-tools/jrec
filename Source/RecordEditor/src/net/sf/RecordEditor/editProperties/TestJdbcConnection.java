@@ -13,6 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import net.sf.RecordEditor.utils.swing.SwingUtils;
+
 /**
  * Test a JDBC connection
  *
@@ -21,8 +23,8 @@ import javax.swing.JTextArea;
  */
 public class TestJdbcConnection {
 
-    private static final int SCREEN_WIDTH  = 500;
-    private static final int SCREEN_HEIGHT = 200;
+    private static final int SCREEN_WIDTH  = SwingUtils.STANDARD_FONT_WIDTH * 55;
+    private static final int SCREEN_HEIGHT = SwingUtils.STANDARD_FONT_HEIGHT * 17;
 
     private String jdbcSourceName;
     private String jdbcDriver;

@@ -15,14 +15,16 @@ import net.sf.RecordEditor.utils.jdbc.AbsDB;
 public class SaveLayoutsDBAsXml  implements ActionListener {
 
 	private DirectoryFrame saveFrame = new DirectoryFrame(
-			"Save Directory", Common.DEFAULT_COPYBOOK_DIRECTORY, true, true, true);
+			"Save Directory", 
+			Common.OPTIONS.DEFAULT_COPYBOOK_DIRECTORY.get(),
+			true, true, true);
 	private int dbIdx;
 	
 	public SaveLayoutsDBAsXml(int databaseIdx) {
 		
 		dbIdx = databaseIdx;
 		
-		saveFrame.saveBtn.addActionListener(this);
+		saveFrame.setActionListner(this);
 		saveFrame.setVisible(true);
 	}
 	
@@ -31,48 +33,47 @@ public class SaveLayoutsDBAsXml  implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		if (event.getSource() == saveFrame.saveBtn) {
-			String dir = saveFrame.file.getText();
-			
-			if (dir == null || "".equals(dir)) {
-				saveFrame.msg.setText("You must enter a directory to save the layout");
-			} else {
-				RecordRec r;
-				CopybookWriter writer = CopybookWriterManager.getInstance()
-								.get(CopybookWriterManager.RECORD_EDITOR_XML_WRITER);
-			
-				ExtendedRecordDB dbFrom = new ExtendedRecordDB();
-				
-				CopybookLoaderFactoryDB.setCurrentDB(dbIdx);
 
-				boolean free = dbFrom.isSetDoFree(false);
-				
-				try {
-					dbFrom.setConnection(new ReConnection(dbIdx));
-					dbFrom.resetSearch();
-					dbFrom.setSearchListChar(AbsDB.opEquals, "Y");
+		String dir = saveFrame.getFileName();
 		
-					dbFrom.open();
-	
-					
-					while ((r = dbFrom.fetch()) != null) {
-						try {
-							writer.writeCopyBook(dir, r.getValue(), Common.getLogger());
+		if (dir == null || "".equals(dir)) {
+			saveFrame.msg.setText("You must enter a directory to save the layout");
+		} else {
+			RecordRec r;
+			CopybookWriter writer = CopybookWriterManager.getInstance()
+							.get(CopybookWriterManager.RECORD_EDITOR_XML_WRITER);
+		
+			ExtendedRecordDB dbFrom = new ExtendedRecordDB();
+			
+			CopybookLoaderFactoryDB.setCurrentDB(dbIdx);
 
-							Common.logMsg(AbsSSLogger.SHOW, "Saving " +  r.getValue().getRecordName(), null);
-						} catch (Exception e) {
-							saveFrame.msg.setText("Error saving layout: " + e.getMessage());
-							Common.logMsg(AbsSSLogger.SHOW, 
-									"Error saving layout: " + e.getMessage()
-									+ ": " +  r.getValue().getRecordName(), null);
-							e.printStackTrace();
-						}
+			boolean free = dbFrom.isSetDoFree(false);
+			
+			try {
+				dbFrom.setConnection(new ReConnection(dbIdx));
+				dbFrom.resetSearch();
+				dbFrom.setSearchListChar(AbsDB.opEquals, "Y");
+	
+				dbFrom.open();
+
+				
+				while ((r = dbFrom.fetch()) != null) {
+					try {
+						writer.writeCopyBook(dir, r.getValue(), Common.getLogger());
+
+						Common.logMsg(AbsSSLogger.SHOW, "Saving " +  r.getValue().getRecordName(), null);
+					} catch (Exception e) {
+						saveFrame.msg.setText("Error saving layout: " + e.getMessage());
+						Common.logMsg(AbsSSLogger.SHOW, 
+								"Error saving layout: " + e.getMessage()
+								+ ": " +  r.getValue().getRecordName(), null);
+						e.printStackTrace();
 					}
-					saveFrame.setVisible(false);
-					saveFrame = null;
-				}	finally {
-					dbFrom.setDoFree(free);
 				}
+				saveFrame.setVisible(false);
+				saveFrame = null;
+			}	finally {
+				dbFrom.setDoFree(free);
 			}
 		}
 	}

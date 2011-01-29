@@ -18,6 +18,7 @@ import net.sf.RecordEditor.edit.tree.FieldSummaryDetails;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public final class SortFieldSummaryMdl extends AbstractTableModel {
 	
 	
@@ -46,7 +47,8 @@ public final class SortFieldSummaryMdl extends AbstractTableModel {
      * Table model of fields to sort on
      * @param tableSize size of the table
      */
-    public SortFieldSummaryMdl(AbstractLayoutDetails recordLayout) {
+    @SuppressWarnings("unchecked")
+	public SortFieldSummaryMdl(AbstractLayoutDetails recordLayout) {
         super();
 
         fieldSummary = new FieldSummaryDetails(recordLayout);

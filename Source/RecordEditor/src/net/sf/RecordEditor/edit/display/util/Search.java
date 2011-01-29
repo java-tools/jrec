@@ -119,20 +119,20 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 		pnl.setHelpURL(Common.formatHelpURL(Common.HELP_SEARCH));
 		ignoreCase.setSelected(true);
 
-		pnl.addComponent("Search For", search);
-		pnl.addComponent("Replace With", replace);
-		pnl.addComponent("Record Layout", layoutList);
-		pnl.addComponent("Field", fieldList);
-		pnl.addComponent("Operator", fieldPart);
-		pnl.addComponent("Direction", direction);
-		pnl.addComponent("Ignore Case", ignoreCase);
+		pnl.addLine("Search For", search);
+		pnl.addLine("Replace With", replace);
+		pnl.addLine("Record Layout", layoutList);
+		pnl.addLine("Field", fieldList);
+		pnl.addLine("Operator", fieldPart);
+		pnl.addLine("Direction", direction);
+		pnl.addLine("Ignore Case", ignoreCase);
 		pnl.setGap(BasePanel.GAP1);
 
 		//searchBtn = pnl.addIconButton(true, 2, Common.getRecordIcon(Common.ID_SEARCH_ICON));
 		searchBtn = new JButton("Find", Common.getRecordIcon(Common.ID_SEARCH_ICON));
 
 		if (master.isBrowse()) {
-			pnl.addComponent("", searchBtn);
+			pnl.addLine("", searchBtn);
 		} else {
 		    JPanel p = new JPanel();
 			p.setLayout(new GridLayout(2, 2));
@@ -141,7 +141,7 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 			p.add(replaceFindBtn);
 			p.add(replaceAllBtn);
 
-			pnl.addComponent("", p);
+			pnl.addLine("", p);
 			pnl.setHeight(BasePanel.NORMAL_HEIGHT * 2);
 			replaceBtn.addActionListener(this);
 			replaceFindBtn.addActionListener(this);

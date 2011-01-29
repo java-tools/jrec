@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.utils.swing;
+package net.sf.RecordEditor.utils.swing.Combo;
 
 import java.awt.Component;
 import java.awt.Font;
@@ -6,6 +6,9 @@ import java.awt.Font;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import net.sf.RecordEditor.utils.swing.StandardRendor;
+
+@SuppressWarnings("serial")
 public class ColorRender  extends DefaultTableCellRenderer {
 
 	private boolean isBold;

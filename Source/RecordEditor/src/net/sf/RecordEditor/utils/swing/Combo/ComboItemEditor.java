@@ -21,8 +21,9 @@ import javax.swing.table.TableCellEditor;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class ComboItemEditor extends AbstractCellEditor
-							  implements TableCellEditor {
+						  implements TableCellEditor {
 	
 	
     private ComboItemRender comboItemRendor;

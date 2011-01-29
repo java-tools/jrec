@@ -28,6 +28,7 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.FileChooser;
 
+@SuppressWarnings("serial")
 public class ConvertLayout extends ReFrame {
 
 	private JComboBox   loaderOptions = new JComboBox();
@@ -87,7 +88,7 @@ public class ConvertLayout extends ReFrame {
 	        loaderOptions.addItem(loaders.getName(i));
 	    }
 
-		loaderOptions.setSelectedItem(Common.COPYBOOK_READER);
+		loaderOptions.setSelectedItem(Common.OPTIONS.COPYBOOK_READER.get());
 		if (loaderOptions.getSelectedIndex() < 0) {
 			loaderOptions.setSelectedIndex(0);
 		}
@@ -97,7 +98,7 @@ public class ConvertLayout extends ReFrame {
 		outputCopybookDir.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		writerOptions.setSelectedIndex(Common.getCopybookWriterIndex());
 		
-		sampleFile.setText(Common.DEFAULT_FILE_DIRECTORY);
+		sampleFile.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());
 		
 		sampleFile.setEnabled(false);
 		layoutName.setEnabled(false);
@@ -109,20 +110,20 @@ public class ConvertLayout extends ReFrame {
 		msgField = new ScreenLog(pnl);
 		
 		pnl.setGap(BasePanel.GAP2);
-		pnl.addComponent("Input Copybook", copybookFile, copybookFile.getChooseFileButton());
-		pnl.addComponent("Input Copybook Type", loaderOptions);
-		pnl.addComponent("Split Copybook", splitOptions);
-		pnl.addComponent("File Structure", fileStructure);
-		pnl.addComponent("Font Name", fontName);
-		pnl.addComponent("Binary Format", binaryOptions);
+		pnl.addLine("Input Copybook", copybookFile, copybookFile.getChooseFileButton());
+		pnl.addLine("Input Copybook Type", loaderOptions);
+		pnl.addLine("Split Copybook", splitOptions);
+		pnl.addLine("File Structure", fileStructure);
+		pnl.addLine("Font Name", fontName);
+		pnl.addLine("Binary Format", binaryOptions);
 		pnl.setGap(BasePanel.GAP1);
-		pnl.addComponent("Sample File", sampleFile, sampleFile.getChooseFileButton());
-		pnl.addComponent("Layout Name", layoutName);
+		pnl.addLine("Sample File", sampleFile, sampleFile.getChooseFileButton());
+		pnl.addLine("Layout Name", layoutName);
 		
 		pnl.setGap(BasePanel.GAP3);
 		
-		pnl.addComponent("Output Copybook Directory", outputCopybookDir, outputCopybookDir.getChooseFileButton());
-		pnl.addComponent("Output Copybook Type", writerOptions, goBtn);
+		pnl.addLine("Output Copybook Directory", outputCopybookDir, outputCopybookDir.getChooseFileButton());
+		pnl.addLine("Output Copybook Type", writerOptions, goBtn);
 		pnl.setGap(BasePanel.GAP3);
 		
 		pnl.addMessage(msgField);

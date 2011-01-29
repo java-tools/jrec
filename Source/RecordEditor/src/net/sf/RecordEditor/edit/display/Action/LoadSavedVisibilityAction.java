@@ -21,7 +21,6 @@ extends AbstractAction implements AbstractActiveScreenAction {
 
 		checkActionEnabled();
 	}
-
 	/**
 	 * @see net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction#checkActionEnabled()
 	 */
@@ -43,5 +42,4 @@ extends AbstractAction implements AbstractActiveScreenAction {
 				Common.logMsg("Unable to loaved saved definition: jibx not present ???", null);
 			}
 		}
-	}
-}
+	}}

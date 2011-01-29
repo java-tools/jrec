@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
  * This class will display a list of Jars to be used
@@ -30,9 +31,10 @@ import net.sf.RecordEditor.utils.swing.FileChooser;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class EditJarsPanel extends BasePanel {
 
-    private static final int TABLE_HEIGHT = 130;
+    private static final int TABLE_HEIGHT = SwingUtils.NORMAL_FIELD_HEIGHT * 15 / 2;;
 
     private JEditorPane tips;
     private JarTblModel jarMdl;
@@ -115,9 +117,9 @@ public class EditJarsPanel extends BasePanel {
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(jarsTbl));
 
-		this.addComponent("Jar Type", typeFld);
-		this.addComponent("Jar", jarFld, jarFld.getChooseFileButton());
-		this.addComponent("Description", descriptionFld);
+		this.addLine("Jar Type", typeFld);
+		this.addLine("Jar", jarFld, jarFld.getChooseFileButton());
+		this.addLine("Description", descriptionFld);
 		this.setHeight(BasePanel.GAP3);
 		this.setGap(BasePanel.GAP2);
 

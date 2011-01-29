@@ -13,14 +13,13 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.TableCellRenderer;
 
-import net.sf.RecordEditor.utils.common.Common;
-
 /**
  * Mono spaced text field table rendor
  *
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class MonoSpacedRender extends JTextField implements TableCellRenderer  {
 
     /**
@@ -28,7 +27,7 @@ public class MonoSpacedRender extends JTextField implements TableCellRenderer  {
      */
     public MonoSpacedRender() {
         super();
-        this.setFont(Common.getMonoSpacedFont());
+        this.setFont(SwingUtils.getMonoSpacedFont());
 		this.setBorder(BorderFactory.createEmptyBorder());
     }
 

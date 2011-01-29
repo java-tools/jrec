@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.swing.JTable;
 
+import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.RecordEditor.edit.file.FilePosition;
 import net.sf.RecordEditor.edit.file.FileView;
@@ -77,8 +78,15 @@ public interface AbstractFileDisplay {
 	
 	/**
 	 * 
-	 * @return
+	 * @return the table being displayed
 	 */
 	public abstract  JTable getJTable();
+
+	/**
+	 * Notify screens of updated layout
+	 * @param newLayout
+	 */
+	@SuppressWarnings("unchecked")
+	public void setNewLayout(AbstractLayoutDetails newLayout);
 
 }

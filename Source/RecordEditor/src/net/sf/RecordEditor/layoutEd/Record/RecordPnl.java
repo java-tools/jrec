@@ -58,6 +58,7 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
 import net.sf.RecordEditor.utils.swing.HelpWindow;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 
@@ -74,11 +75,11 @@ public class RecordPnl extends BaseHelpPanel
 
 //	static final int rtGroupOfRecords = 9;
 	private static final String REVIEW_EXTRA = "\nI suggest reviewing the File Structure on the Extra Screen";
-    private static final int CHILD_PANE_WIDTH  = 300;
-    private static final int CHILD_PANE_HEIGHT = 260;
+    private static final int CHILD_PANE_WIDTH  = 33 * SwingUtils.STANDARD_FONT_WIDTH;
+    private static final int CHILD_PANE_HEIGHT = 43 * SwingUtils.STANDARD_FONT_HEIGHT / 2;
 
 	private static final int NULL_RECORD = -999;
-	private static final int DESCRIPTION_HEIGHT = 60;
+	private static final int DESCRIPTION_HEIGHT =  SwingUtils.STANDARD_FONT_HEIGHT * 5;
 
 	private static final String[] FIELD_SEPERATOR  = Common.FIELD_SEPARATOR_LIST1; //{"<Tab>", "<Space>", ",", ";", ":", "|", "/", "\\", "~", "!", "*", "#", "@"}; 
 	private static final String[] RECORD_SEPERATOR = {Common.DEFAULT_STRING, Common.CRLF_STRING, Common.CR_STRING, Common.LF_STRING};
@@ -200,12 +201,12 @@ public class RecordPnl extends BaseHelpPanel
 		}
 
 
-		addComponent("Record Name", sfRecordName);
-		addComponent("Description", sfDescription);
+		addLine("Record Name", sfRecordName);
+		addLine("Description", sfDescription);
 		setHeight(DESCRIPTION_HEIGHT);
-		addComponent("Record Type", sfRecordType);
-		addComponent("System",      sfSystem);
-		addComponent("List",        sfList);
+		addLine("Record Type", sfRecordType);
+		addLine("System",      sfSystem);
+		addLine("List",        sfList);
 
 		setGap(BasePanel.GAP0);
 
@@ -640,7 +641,7 @@ public class RecordPnl extends BaseHelpPanel
 			if (binaryStatus == currVal.getBinaryFields()) {
 				
 			} else if (structure == Constants.IO_DEFAULT) {
-				if (Common.isWarnBinaryFieldsAndStructureDefault()) {
+				if (Common.OPTIONS.warnBinaryFieldsAndStructureDefault.isSelected()) {
 					if (currVal.getBinaryFields() == RecordRec.BF_BINARY_FIELDS) {
 						warnUser("You have binary fields with a default FileStructure." 
 								+ "\nThis will also change the File reader from a Text File Reader "
@@ -657,7 +658,8 @@ public class RecordPnl extends BaseHelpPanel
 				}
 			} else if (structure == Constants.IO_BIN_TEXT 
 					|| structure == Constants.IO_TEXT_LINE
-					|| structure == Constants.IO_UNICODE_TEXT) {
+					|| structure == Constants.IO_UNICODE_TEXT
+					|| structure == Constants.IO_UNICODE_NAME_1ST_LINE) {
 				if (currVal.getBinaryFields() == RecordRec.BF_BINARY_FIELDS) {
 					warnUser("You have binary fields in a Text file that is not a good Idea. " + REVIEW_EXTRA);
 				}
@@ -758,7 +760,7 @@ public class RecordPnl extends BaseHelpPanel
 		dbRecordModel.setCellEditable(true);
 
 		tblRecord = new RecordFieldsJTbl(connectionIdx, dbRecordModel);
-		tblRecord.setRowHeight(Common.COMBO_TABLE_ROW_HEIGHT);
+		tblRecord.setRowHeight(SwingUtils.COMBO_TABLE_ROW_HEIGHT);
 
 		tblPane = new JScrollPane(tblRecord);
 		tblRecord.addKeyListener(fieldHelp);
@@ -780,7 +782,7 @@ public class RecordPnl extends BaseHelpPanel
 		//dbChildModel.setEmptyColumns(1);
 
 		tblChild = new ChildRecordsJTbl(dbChildModel, connectionIdx);
-		tblChild.setRowHeight(Common.COMBO_TABLE_ROW_HEIGHT);
+		tblChild.setRowHeight(SwingUtils.COMBO_TABLE_ROW_HEIGHT);
 
 		childPane = new JScrollPane(tblChild);
 
@@ -797,36 +799,32 @@ public class RecordPnl extends BaseHelpPanel
 	 */
 	private void defTabExtra() {
 
-		JPanel delimPnl = new JPanel();
+		JPanel delimPnl = new JPanel(new BorderLayout());
 		JPanel p1 = new JPanel();
 		BaseHelpPanel pnl = new BaseHelpPanel();
 		
-		delimPnl.setLayout( new BorderLayout());
 		p1.add(sfDelimiter);
 		p1.add(new JLabel("  or  "));
 		p1.add(sfDelimTxt);
 		delimPnl.add(BorderLayout.WEST, p1);
+		delimPnl.setMinimumSize(new Dimension(delimPnl.getPreferredSize().width, SwingUtils.TABLE_ROW_HEIGHT));
 		
-		sfDelimTxt.setSize(sfDelimTxt.getWidth(), (int) BasePanel.HEIGHT_1P4);
-
 		pnl.setHelpURL(Common.formatHelpURL(Common.HELP_LAYOUT_EXTRA));
 
-		pnl.addComponent("Cobol Copybook", sfCopyBook);
+		pnl.addLine("Cobol Copybook", sfCopyBook);
 		pnl.setGap(BasePanel.GAP0);
 
-		pnl.addComponent("Font Name", sfCanonicalName);
+		pnl.addLine("Font Name", sfCanonicalName);
 		pnl.setGap(BasePanel.GAP0);
 
-		pnl.addComponent("Delimiter", delimPnl);
-		pnl.setHeight(BasePanel.HEIGHT_1P4);
-		//pnl.addComponent("Delimiter", sfDelimiter);
-		pnl.addComponent("Parser", sfRecordStyle);
-		pnl.addComponent("Quote", sfQuote);
+		pnl.addLine("Delimiter", delimPnl);
+		pnl.addLine("Parser", sfRecordStyle);
+		pnl.addLine("Quote", sfQuote);
 		// addComponent("PosRecInd", sfPosRecInd);
-		pnl.addComponent("Record Seperator", sfRecSepList);
+		pnl.addLine("Record Seperator", sfRecSepList);
 		//pnl.addComponent("RecordSep", sfRecordSep);
 
-		pnl.addComponent("File Structure", sfStructure);
+		pnl.addLine("File Structure", sfStructure);
 
 		//pnl.done();
 

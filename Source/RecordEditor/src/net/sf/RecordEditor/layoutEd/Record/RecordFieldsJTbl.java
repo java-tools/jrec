@@ -26,6 +26,7 @@ import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.swing.AbsJTable;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 
@@ -38,10 +39,10 @@ import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
 @SuppressWarnings("serial")
 public class RecordFieldsJTbl extends AbsJTable {
 
-    private static final int FW_INT_WIDTH  = 50;
-    private static final int FW_NAME_WIDTH = 100;
-    private static final int FW_TEXT_WIDTH = 200;
-    private static final int FW_WIDE_WIDTH = 230;
+    private static final int FW_INT_WIDTH  = SwingUtils.STANDARD_FONT_WIDTH * 11/ 2;
+    private static final int FW_NAME_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 11;
+    private static final int FW_TEXT_WIDTH = FW_NAME_WIDTH * 2;
+    private static final int FW_WIDE_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 25;
 
     private static final int FLD_FIELD_TYPE = 4;
     private static final int FLD_DECIMAL    = 5;

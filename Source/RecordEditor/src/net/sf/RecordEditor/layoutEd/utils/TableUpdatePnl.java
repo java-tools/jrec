@@ -35,6 +35,7 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class TableUpdatePnl<record extends AbsRecord> extends javax.swing.JPanel implements  ReActionHandler {
 
 	private BasePanel bPanel;
@@ -45,7 +46,7 @@ public class TableUpdatePnl<record extends AbsRecord> extends javax.swing.JPanel
 
 	private JTextField insLines  = new JTextField();
 
-	private JButton btnIns   = getActionButton("Insert", "Insert record(s) after selected recors", ReActionHandler.INSERT_RECORDS);
+	private JButton btnIns   = getActionButton("Insert", "Insert record(s) after selected records", ReActionHandler.INSERT_RECORDS);
 	private JButton btnDel   = getActionButton("Delete", "Delete selected records from the Table below", ReActionHandler.DELETE_RECORD);
 	private JButton btnCopy  = getActionButton("Copy", "Copy the selected record from the table", ReActionHandler.COPY_RECORD);
 	private JButton btnCut   = getActionButton("Cut", "Cut the selected record from the table", ReActionHandler.CUT_RECORD);
@@ -85,7 +86,7 @@ public class TableUpdatePnl<record extends AbsRecord> extends javax.swing.JPanel
 	  	}
 
 
-	  	bPanel.addComponent("Lines to Insert", insLines);
+	  	bPanel.addLine("Lines to Insert", insLines);
 	   // bPanel.setGap(BasePanel.GAP0);
 
 		bPanel.addComponent(1, 3, BasePanel.PREFERRED, 2,

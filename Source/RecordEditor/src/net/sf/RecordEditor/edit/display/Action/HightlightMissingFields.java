@@ -19,7 +19,7 @@ public class HightlightMissingFields extends JCheckBoxMenuItem {
 		
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Common.setHighlightEmpty(getState());
+				Common.OPTIONS.highlightEmpty.set(getState());
 				
 				JTable tbl;
 				ReFrame[] frames = ReFrame.getAllFrames();
@@ -39,8 +39,8 @@ public class HightlightMissingFields extends JCheckBoxMenuItem {
 	public HightlightMissingFields() {
 		super();
 		super.setAction(action);
-		setState(Common.isHighlightEmpty());
+		setState(Common.OPTIONS.highlightEmpty.isSelected());
 		
-		Common.setHighlightEmptyActive(true);
+		Common.OPTIONS.highlightEmptyActive.set(true);
 	}
 }

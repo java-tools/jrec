@@ -33,6 +33,7 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 
@@ -52,7 +53,7 @@ import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 public class RecordEdit extends    ReFrame
 						implements SearchArgAction {
 
-    private static final int MAIN_PANEL_HEIGHT_ADJUSTMET = 60;
+    private static final int MAIN_PANEL_HEIGHT_ADJUSTMET =  SwingUtils.STANDARD_FONT_HEIGHT * 5;
  	private RecordListPnl pnlRecordList;
 
 	private RecordPnl pnlRecord;

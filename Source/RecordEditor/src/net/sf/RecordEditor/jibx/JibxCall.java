@@ -2,15 +2,33 @@ package net.sf.RecordEditor.jibx;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.HashMap;
 
 public class JibxCall<xmlClass> {
 	
-	Class<xmlClass> requireClass;
+//	@SuppressWarnings("unchecked")
+//	private static HashMap<Class, Class> map 
+//			= new HashMap<Class, Class>();
+//	
+//	static {
+//		map.put(net.sf.RecordEditor.jibx.base.EditorTask.class, 
+//				net.sf.RecordEditor.jibx.compare.EditorTask.class);
+//		map.put(net.sf.RecordEditor.jibx.compare.CopyDefinition.class, 
+//				net.sf.RecordEditor.jibx.compare.CopyDefinition.class);
+//		map.put(net.sf.RecordEditor.jibx.compare.DiffDefinition.class, 
+//				net.sf.RecordEditor.jibx.compare.DiffDefinition.class);
+//	}
+	
+	private Class<xmlClass> requireClass;
+	
 	
 	
 	@SuppressWarnings("unchecked")
 	public JibxCall(Class requiredClass) {
 		requireClass = requiredClass;
+//		if (map.containsKey(requiredClass)) {
+//			requireClass = map.get(requiredClass);
+//		}
 	}
 
 	@SuppressWarnings("unchecked")

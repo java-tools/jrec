@@ -22,6 +22,7 @@ import net.sf.RecordEditor.utils.jdbc.DBtableModel;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
  * Search for selected Combos
@@ -29,6 +30,7 @@ import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class ComboSearch extends BaseHelpPanel implements ActionListener, FocusListener {
 
 	public static final String SELECTION_CHANGED = "SelectionChanged";
@@ -77,7 +79,7 @@ public class ComboSearch extends BaseHelpPanel implements ActionListener, FocusL
 		tblComboList  = new ComboJTbl(dbComboListModel, connectionIdx);
 
 		tblComboList.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		tblComboList.setRowHeight(Common.COMBO_TABLE_ROW_HEIGHT);
+		tblComboList.setRowHeight(SwingUtils.COMBO_TABLE_ROW_HEIGHT);
 		//tblComboList.getR
 		//tblComboList.setSelectionMode(JTable.)
 //		TableColumn tc = tblComboList.getColumnModel().getColumn(0);
@@ -92,12 +94,12 @@ public class ComboSearch extends BaseHelpPanel implements ActionListener, FocusL
 	
 	private void init_200_setupScreen(boolean showSystem) {
 		
-		addComponent("Combo Name", sfName);
+		addLine("Combo Name", sfName);
 		
 		if (showSystem) {
-			addComponent("System", sfSystem);
+			addLine("System", sfSystem);
 		} else {
-			addComponent("", search);
+			addLine("", search);
 		}
 		
 		setGap(BasePanel.GAP0);

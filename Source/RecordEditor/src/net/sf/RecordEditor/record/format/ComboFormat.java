@@ -18,12 +18,12 @@ import net.sf.JRecord.Common.FieldDetail;
 import net.sf.RecordEditor.utils.Combo.ComboDB;
 import net.sf.RecordEditor.utils.Combo.ComboRec;
 import net.sf.RecordEditor.utils.Combo.ComboValuesDB;
-import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.swing.AbsRowList;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBoxRender;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 /**
@@ -53,7 +53,7 @@ public class ComboFormat implements CellFormat {
      * @see net.sf.RecordEditor.record.format.CellFormat#getFieldHeight()
      */
     public int getFieldHeight() {
-        return Common.COMBO_TABLE_ROW_HEIGHT;
+        return SwingUtils.COMBO_TABLE_ROW_HEIGHT;
     }
 
     /**

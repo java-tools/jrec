@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.utils.swing;
+package net.sf.RecordEditor.utils.swing.Combo;
 
 import java.awt.Color;
 

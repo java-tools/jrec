@@ -28,6 +28,7 @@ import net.sf.RecordEditor.utils.swing.FileChooser;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class LooksPanel extends BasePanel implements ActionListener {
 
 
@@ -214,11 +215,11 @@ public class LooksPanel extends BasePanel implements ActionListener {
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(tips));
 
-        this.addComponent("Look and Feel", looks);
+        this.addLine("Look and Feel", looks);
         this.setGap(BasePanel.GAP1);
 
-        this.addComponent("Look and Feel Class Name", className);
-        this.addComponent("Jar File", jarName, jarName.getChooseFileButton());
+        this.addLine("Look and Feel Class Name", className);
+        this.addLine("Jar File", jarName, jarName.getChooseFileButton());
         this.setGap(BasePanel.GAP3);
 
 		this.addComponent(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP1,

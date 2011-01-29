@@ -1,18 +1,19 @@
-package net.sf.RecordEditor.utils.swing;
+package net.sf.RecordEditor.utils.csv;
 
 import java.util.List;
-import java.util.StringTokenizer;
 
 import javax.swing.table.AbstractTableModel;
 
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.CsvParser.AbstractParser;
+import net.sf.JRecord.CsvParser.BasicParser;
 import net.sf.JRecord.CsvParser.BinaryCsvParser;
 import net.sf.JRecord.CsvParser.ParserManager;
 
 
 
-public class CsvSelectionTblMdl extends AbstractTableModel {
+@SuppressWarnings("serial")
+public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCsvTblMdl {
 	
 	//	private ParserManager parserManager;
 		private int columnCount = 1;
@@ -54,13 +55,12 @@ public class CsvSelectionTblMdl extends AbstractTableModel {
 			return columnNames[col];
 		}
 		
-		/**
-		 * Set up the column details
+		/* (non-Javadoc)
+		 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#setupColumnCount()
 		 */
+		@Override
 		public final void setupColumnCount() {
 		
-			//AbstractParser parser = getParser();
-			StringTokenizer t ;
 			String sep = seperator;
 						
 			columnCount = 1;
@@ -70,10 +70,11 @@ public class CsvSelectionTblMdl extends AbstractTableModel {
 							(new BinaryCsvParser(sepByte)).countTokens(lines[i]));
 				}
 			} else {
+				BasicParser parser = new BasicParser(false);
 				for (int i = lines2hide; i < lines2display; i++) {
-					t = new StringTokenizer(getLine(i), sep);
-					
-					columnCount = Math.max(columnCount, t.countTokens());
+					columnCount = Math.max(
+									columnCount, 
+									parser.getFieldCount(getLine(i), sep, quote));
 				}
 			}
 		}
@@ -90,6 +91,7 @@ public class CsvSelectionTblMdl extends AbstractTableModel {
 		/**
          * @see javax.swing.table.TableModel#getColumnCount()
          */
+		@Override
         public int getColumnCount() {
             return columnCount;
         }
@@ -97,6 +99,7 @@ public class CsvSelectionTblMdl extends AbstractTableModel {
         /**
          * @see javax.swing.table.TableModel#getRowCount()
          */
+		@Override
         public int getRowCount() {
             return lines2display - lines2hide;
         }
@@ -104,6 +107,7 @@ public class CsvSelectionTblMdl extends AbstractTableModel {
         /**
          * @see javax.swing.table.TableModel#getValueAt(int, int)
          */
+		@Override
         public Object getValueAt(int rowIndex, int columnIndex) {
         	
             String s = "";
@@ -123,13 +127,15 @@ public class CsvSelectionTblMdl extends AbstractTableModel {
 		/**
 		 * @return the lines2display
 		 */
+        @Override
 		public int getLines2display() {
 			return lines2display;
 		}
 
-		/**
-		 * @param lines2display the lines2display to set
+		/* (non-Javadoc)
+		 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#setLines2display(int)
 		 */
+        @Override
 		public void setLines2display(int lines2display) {
 			this.lines2display = lines2display;
 		}
@@ -141,38 +147,84 @@ public class CsvSelectionTblMdl extends AbstractTableModel {
 //			return lines;
 //		}
 
+		/* (non-Javadoc)
+		 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#getLine(int)
+		 */
+        @Override
 		public final String getLine(int idx) {
 			return Conversion.toString(lines[idx], fontname);
 		}
 		
 		/**
+		 * @return the lines
+		 */
+        @Override
+		public byte[][] getLines() {
+			return lines;
+		}
+		
+		/* (non-Javadoc)
+		 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#getLinesString()
+		 */
+		@Override
+		public String[] getLinesString() {
+			throw new RuntimeException("Not Implemented");
+		}
+		
+		/* (non-Javadoc)
+		 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#setLines(java.lang.String[])
+		 */
+		@Override
+		public void setLines(String[] lines) {
+			throw new RuntimeException("Not Implemented");
+		}
+		/**
 		 * @param lines the lines to set
 		 * @param font font name to use
 		 */
+        @Override
 		public void setLines(byte[][] lines, String font) {
 			this.fontname = font;
 			this.lines = lines;
 		}
 
 		
+		/* (non-Javadoc)
+		 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#getParserType()
+		 */
+        @Override
 		public int getParserType() {
 			return parserType;
 		}
 		
+		/* (non-Javadoc)
+		 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#setParserType(int)
+		 */
+		@Override
 		public void setParserType(int parserType) {
 			this.parserType = parserType;
 		}
 
-		/**
-		 * @param quote the quote to set
+		/* (non-Javadoc)
+		 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#setQuote(java.lang.String)
 		 */
+		@Override
 		public void setQuote(String quote) {
 			this.quote = quote;
 		}
 
-		/**
-		 * @param newSeperator the seperator to set
+		/* (non-Javadoc)
+		 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#setFont(java.lang.String)
 		 */
+		@Override
+		public void setFont(String font) {
+			// TODO Auto-generated method stub
+			
+		}
+		/* (non-Javadoc)
+		 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#setSeperator(java.lang.String)
+		 */
+		@Override
 		public void setSeperator(String newSeperator) {
 			this.seperator = newSeperator;
 			
@@ -186,10 +238,10 @@ public class CsvSelectionTblMdl extends AbstractTableModel {
 		}
 		
 
-		/**
-		 * change wether the first line is hidden
-		 * @param hide wether to hide first line
+		/* (non-Javadoc)
+		 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#setHideFirstLine(boolean)
 		 */
+		@Override
 		public void setHideFirstLine(boolean hide) {
 			lines2hide = 0;
 			columnNames = null;
@@ -211,7 +263,23 @@ public class CsvSelectionTblMdl extends AbstractTableModel {
 			}
 		}
 		
+		/* (non-Javadoc)
+		 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#getAnalyser()
+		 */
+		@Override
+		public CsvAnalyser getAnalyser() {
+			
+			byte b = sepByte;
+			if (seperator != null 
+			&& seperator.length() > 0 
+			&& ! isBinSeperator()) {
+				b = seperator.getBytes()[0];
+			}
+			return new CsvAnalyser(getLines(), getLines2display(), "", b);
+		}
+		
 		private boolean isBinSeperator() {
 			return seperator != null && seperator.toLowerCase().startsWith("x'");
 		}
+
 }

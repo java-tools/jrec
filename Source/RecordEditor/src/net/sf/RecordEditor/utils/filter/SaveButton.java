@@ -37,11 +37,11 @@ public class SaveButton<what> extends JButton implements ActionListener {
 		
 		if (e.getSource() == this) {
 			ap_InitFrame();			
-		} else if (e.getSource() == saveFrame.saveBtn) {
+		} else {
 			what saveDetails = saveCallBack.getSaveDetails();
 			try {
 				(new net.sf.RecordEditor.jibx.JibxCall<what>(saveDetails.getClass()))
-						.unmarshal(saveFrame.file.getText(), saveDetails);
+						.unmarshal(saveFrame.getFileName(), saveDetails);
 				saveFrame.setVisible(false);
 				saveFrame = null;
 			} catch (Exception ex) {
@@ -55,7 +55,7 @@ public class SaveButton<what> extends JButton implements ActionListener {
 		if (saveFrame == null) {
 			saveFrame = new DirectoryFrame("Save to Xml",  dir, false, false, true);
 
-			saveFrame.saveBtn.addActionListener(this);
+			saveFrame.setActionListner(this);
 		}
 		
 		saveFrame.setVisible(true);

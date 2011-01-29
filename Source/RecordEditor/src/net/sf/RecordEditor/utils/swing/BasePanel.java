@@ -37,6 +37,7 @@ import info.clearthought.layout.TableLayoutConstraints;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class BasePanel extends JPanel {
 
     public static final int LEFT = TableLayout.LEFT;
@@ -94,13 +95,27 @@ public class BasePanel extends JPanel {
 	public static final int PROMPT = 0;
 	public static final int FIELD  = 1;
 	public static final int LAST   = 2;
-	public static final double GAP    = 5;
-	public static final double GAP0   = 12;
-	public static final double GAP1   = 20;
-	public static final double GAP2   = 30;
-	public static final double GAP3   = 40;
-	public static final double GAP4   = 60;
-	public static final double GAP5   = 80;
+
+	public static final double NORMAL_HEIGHT = SwingUtils.NORMAL_FIELD_HEIGHT;
+	private static final int FIELD_COMPARE2
+				= (int) Math.max(
+							SwingUtils.BUTTON_HEIGHT + 1,
+							Math.max(NORMAL_HEIGHT + 1, SwingUtils.COMBO_TABLE_ROW_HEIGHT)
+							) + 3;
+	public static final double HEIGHT_1P1 = NORMAL_HEIGHT * 1.1;
+	public static final double HEIGHT_1P2 = NORMAL_HEIGHT * 1.2;
+	public static final double HEIGHT_1P4 = NORMAL_HEIGHT * 1.4;
+	public static final double HEIGHT_1P6 = NORMAL_HEIGHT * 1.6;
+	public static final double HEIGHT_1P7 = NORMAL_HEIGHT * 1.7;
+	
+
+	public static final double GAP    = SwingUtils.STANDARD_FONT_HEIGHT * 5 / 12;
+	public static final double GAP0   = SwingUtils.STANDARD_FONT_HEIGHT;
+	public static final double GAP1   = SwingUtils.STANDARD_FONT_HEIGHT * 5 / 3;
+	public static final double GAP2   = SwingUtils.STANDARD_FONT_HEIGHT * 5 / 2;
+	public static final double GAP3   = GAP1 * 2;
+	public static final double GAP4   = GAP1 * 3;
+	public static final double GAP5   = GAP1 * 4;
 
 	public static final int FIELD_HEIGHT_INDEX = 1;
 	public static final int GAP_HEIGHT_INDEX = 2;
@@ -113,19 +128,15 @@ public class BasePanel extends JPanel {
 	public static final int VG_FIELD2 = 5;
 
 
-	public static final double NORMAL_HEIGHT = 20;
-	public static final double HEIGHT_1P1 = 22;
-	public static final double HEIGHT_1P2 = 24;
-	public static final double HEIGHT_1P4 = 28;
 
 	public static final int BORDER = 10;
-	public static final double HEADING_HEIGHT = 25;
-	public static final double HEADING_GAP = 15;
+	public static final double HEADING_HEIGHT = ((int) (NORMAL_HEIGHT * 5) / 4);
+	public static final double HEADING_GAP = ((int) (NORMAL_HEIGHT * 3) / 4);
 
 
 	private static final int MAX_PNL_LINES = 200;
 
-	private static final int FIELD_SEPERATION_WIDTH = 80;
+	private static final int FIELD_SEPERATION_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 9;
 
 	private int numCols = 1;
 
@@ -215,23 +226,38 @@ public class BasePanel extends JPanel {
 	 * @param prompt Fields Prompt
 	 * @param component Component to be added to the Panel
 	 */
-	public final void addComponent(String prompt, JComponent component) {
+	public final void addLine(String prompt, JComponent component) {
 		JLabel promptLbl = null;
 
 		if (prompt != null) {
 			 promptLbl = new JLabel(prompt);
 			 promptLbl.setHorizontalAlignment(JLabel.RIGHT);
 		}
-		addComponent(promptLbl, component);
+		addLine(promptLbl, component);
 	}
 	
-	public final void addComponent(JComponent promptLbl, JComponent component) {
+	public final void addLine(JComponent promptLbl, JComponent component) {
 		incRow();
 
 		if (promptLbl != null) {
 			this.add(promptLbl,
 				new TableLayoutConstraints(1, currRow, 1, currRow,
 						fieldLayout[PROMPT][0], fieldLayout[PROMPT][1]));
+			if (component != null
+			&& promptLbl.getPreferredSize().height <= component.getPreferredSize().height
+			&& component.getPreferredSize().height <= FIELD_COMPARE2) {
+				Dimension d = promptLbl.getPreferredSize();
+//				System.out.print(" --> " + d.height 
+//						+ " " + component.getPreferredSize().height
+//						+ " " + d.width);
+				d.setSize(d.getWidth(), component.getPreferredSize().height);
+				promptLbl.setPreferredSize(d);
+//				System.out.println(" --> " + promptLbl.getPreferredSize().height);
+				promptLbl.setAlignmentY(BOTTOM);
+//			} else if (component != null) {
+//				System.out.println(" ==> " + component.getPreferredSize().height
+//						+ " " + FIELD_COMPARE2); 
+			}
 		}
 
 		setNumCols(3);
@@ -239,6 +265,7 @@ public class BasePanel extends JPanel {
 		    this.add(component,
 		            new TableLayoutConstraints(3, currRow, 3, currRow,
 		                    fieldLayout[FIELD][0], fieldLayout[FIELD][1]));
+			lSize[currRow] = Math.max(lSize[currRow], component.getPreferredSize().getHeight());
 		    registerComponent(component);
 		}
 
@@ -252,11 +279,28 @@ public class BasePanel extends JPanel {
 	 * @param component Primary Component
 	 * @param component2 Seconday component
 	 */
-	public final void addComponent(String prompt, JComponent component, JComponent component2) {
+	public final void addLine(String prompt, JComponent component, JComponent component2) {
 
-		addComponent(prompt, component);
-
-		if (component2 != null) {
+		if (component2 == null) {
+			addLine(prompt, component);
+		} else {
+			int h = component2.getPreferredSize().height;
+			if (component != null
+			&& h > component.getPreferredSize().getHeight()
+			&& h <= FIELD_COMPARE2) {
+				Dimension d = component.getPreferredSize();
+//				System.out.print(" ### " + d.height 
+//						+ " " + h
+//						+ " " + d.width);
+				d.setSize(d.getWidth(), h);
+				component.setPreferredSize(d);
+//			} else if (component != null) {
+//				System.out.print(" #### " + component.getPreferredSize().getHeight()
+//						+ " " + h
+//						+ " " + FIELD_COMPARE2) ;
+			}
+			addLine(prompt, component);
+			
 			setNumCols(5);
 			this.add(component2,
 				 new TableLayoutConstraints(5, currRow, 5, currRow,
@@ -275,19 +319,19 @@ public class BasePanel extends JPanel {
 	 * @param component2 Seconday component
 	 * @param component3 third component
 	 */
-	public final void addComponent(String prompt, JComponent component, JComponent component2, JComponent component3) {
+	public final void addLine(String prompt, JComponent component, JComponent component2, JComponent component3) {
 		JLabel promptLbl = null;
 
 		if (promptLbl != null) {
 			 promptLbl = new JLabel(prompt);
 			 promptLbl.setHorizontalAlignment(JLabel.RIGHT);
 		}
-		addComponent(promptLbl, component, component2, component3);
+		addLine(promptLbl, component, component2, component3);
 	}
 	
-	public final void addComponent(JComponent prompt, JComponent component, JComponent component2, JComponent component3) {
+	public final void addLine(JComponent prompt, JComponent component, JComponent component2, JComponent component3) {
 
-		addComponent(prompt, component);
+		addLine(prompt, component);
 		
 		if (component2 != null) {
 			this.add(component2,
@@ -323,14 +367,14 @@ public class BasePanel extends JPanel {
 	    }
 
 	    if (height < hGaps[FIELD_HEIGHT_INDEX]) {
-	        addComponent(prompt,  component,  component2);
+	        addLine(prompt,  component,  component2);
 	    } else {
 	        double pad = (height - hGaps[FIELD_HEIGHT_INDEX]) / 2;
 
 	        currRow += 1;
             lSize[currRow + 1]     = pad;
 
-	        addComponent(prompt, component);
+	        addLine(prompt, component);
 
 	        setNumCols(5);
 	        this.add(component2,
@@ -513,6 +557,10 @@ public class BasePanel extends JPanel {
 		add(msg, new TableLayoutConstraints(1, currRow, numCols, currRow,
 		        BasePanel.FULL, BasePanel.FULL));
 		registerComponent(msg);
+		
+		if (msg.getMinimumSize().height < HEIGHT_1P6) {
+			setHeight(HEIGHT_1P6);
+		}
 	}
 
 
@@ -655,5 +703,6 @@ public class BasePanel extends JPanel {
 			vGaps[vGaps.length - 1] = gapWidth;
 		}
 	}
+	
 
 }

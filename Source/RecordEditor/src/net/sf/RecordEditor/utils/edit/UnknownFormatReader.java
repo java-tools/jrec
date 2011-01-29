@@ -22,7 +22,9 @@ import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
+import net.sf.RecordEditor.utils.swing.EditingCancelled;
 
 /**
  * @author Bruce Martin
@@ -121,7 +123,7 @@ public class UnknownFormatReader extends AbstractLineReader {
 //			    reader = LineIOProvider.getInstance().getLineReader(fileStructure);
 //			    reader.open(inStream, layout);
 		    } else {
-		    	throw new RecordException("Editing canceled ");
+		    	throw new EditingCancelled();
 		    }
 		    
 		    return fileStructure;
@@ -156,6 +158,7 @@ public class UnknownFormatReader extends AbstractLineReader {
 	 * @author Bruce Martin
 	 *
 	 */
+	@SuppressWarnings("serial")
 	private static class GetFileDetails extends JDialog implements ActionListener {
 		
 		public final PnlUnknownFileFormat pnl;
@@ -174,13 +177,19 @@ public class UnknownFormatReader extends AbstractLineReader {
 			getContentPane().add(pnl);
 			setResizable (true);
 			pack();
+			
+			if (Common.NIMBUS_LAF) {
+				setBounds(getY(), getX(),  
+						Math.max(getWidth(), ReFrame.getDesktopWidth() * 3 / 4),
+						getHeight());
+			}
 		}
 		
 		@Override
 		public void actionPerformed(ActionEvent e)   {
 
-			this.setVisible(false);
 			ok = e.getSource() == pnl.goBtn;
+			this.setVisible(false);
 		}
 	}
 

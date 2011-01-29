@@ -13,7 +13,7 @@ import net.sf.JRecord.External.CopybookLoaderFactory;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.ToExternalRecord;
 import net.sf.JRecord.Log.AbsSSLogger;
-import net.sf.RecordEditor.utils.edit.GenericCsvReader;
+import net.sf.RecordEditor.utils.csv.GenericCsvReader;
 
 /**
  * @author Bruce Martin

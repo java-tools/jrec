@@ -103,11 +103,11 @@ public class RecordListPnl extends BaseHelpPanel
 
 		initScreenFields(frame, connectionIdx);
 
-	    addComponent("Record Name", sfRecordName);
-	    addComponent("Description", sfDescription);
-	    addComponent("Record Type", sfRecordType);
-	    addComponent("System", sfSystem);
-	    addComponent("List", sfList);
+	    addLine("Record Name", sfRecordName);
+	    addLine("Description", sfDescription);
+	    addLine("Record Type", sfRecordType);
+	    addLine("System", sfSystem);
+	    addLine("List", sfList);
 
 	  	addComponent(1, 3, BasePanel.FILL, BasePanel.GAP,
 	  	         BasePanel.FULL, BasePanel.FULL,

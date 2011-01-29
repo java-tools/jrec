@@ -1,6 +1,6 @@
 /**
- * 
- */
+ *  
+ */ 
 package net.sf.RecordEditor.copy;
 
 import java.awt.event.ActionEvent;
@@ -88,12 +88,12 @@ public class RunSavedCopy extends ReFrame {
 		xmlFileName.setText(fname);
 		
 		pnl.setGap(BasePanel.GAP3);
-		pnl.addComponent("New File", xmlFileName, xmlFileName.getChooseFileButton());
+		pnl.addLine("New File", xmlFileName, xmlFileName.getChooseFileButton());
 		pnl.setGap(BasePanel.GAP5);
 		
-		pnl.addComponent("", null, runCompareDialogBtn);
+		pnl.addLine("", null, runCompareDialogBtn);
 		pnl.setGap(BasePanel.GAP1);
-		pnl.addComponent("", null, runCompareBtn);
+		pnl.addLine("", null, runCompareBtn);
 		pnl.setGap(BasePanel.GAP5);
 		
 		pnl.addMessage(message);
@@ -101,7 +101,7 @@ public class RunSavedCopy extends ReFrame {
 		super.getContentPane().add(pnl);
 		
 		super.pack();
-        this.setBounds(getX(), getY(), 
+        this.setBounds(getY(), getX(), 
         		Math.min(width, getWidth() + WIDTH_INCREASE),
         		Math.min(height, getHeight()+HEIGHT_INCREASE));
 

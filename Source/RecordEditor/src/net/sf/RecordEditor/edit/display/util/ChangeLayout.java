@@ -7,7 +7,6 @@ import javax.swing.JButton;
 import javax.swing.JTextArea;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
-import net.sf.RecordEditor.edit.display.common.ILayoutChanged;
 import net.sf.RecordEditor.edit.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.openFile.AbstractLayoutSelection;
@@ -16,6 +15,7 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
 
 public class ChangeLayout implements ActionListener {
 	private ReFrame frame;
+	@SuppressWarnings("unchecked")
 	private FileView masterView;
 	private AbstractLayoutSelection<?> layoutReader;
 	
@@ -35,7 +35,7 @@ public class ChangeLayout implements ActionListener {
 		layoutReader.addLayoutSelection(pnl, null, null, null, null);
 		
 		pnl.setGap(BasePanel.GAP1);
-		pnl.addComponent("", null, goButton);
+		pnl.addLine("", null, goButton);
 		pnl.setGap(BasePanel.GAP2);
 		
 		pnl.addMessage(msg);
@@ -54,27 +54,12 @@ public class ChangeLayout implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		try {
 			AbstractLayoutDetails<?, ?> layout = layoutReader.getRecordLayout(masterView.getFileName());
-			ReFrame[] frames; 
 			
 			if (layout != null) {
-				for (int i = 0; i < masterView.getRowCount(); i++) {
-					masterView.getLine(i).setLayout(layout);
-				}
-				masterView.setLayout(layout);
-				masterView.fireTableStructureChanged();
 				goButton.removeActionListener(this);
 				frame.setVisible(false);
 				
-				frames = ReFrame.getAllFrames();
-				for (int i = 0; i < frames.length; i++) {
-					if (frames[i].getDocument() == masterView) {
-						if (frames[i] instanceof ILayoutChanged) {
-							((ILayoutChanged) frames[i]).layoutChanged(layout);
-						} else {
-							frames[i].doDefaultCloseAction();
-						}
-					}
-				}
+				Code.notifyFramesOfNewLayout(masterView, layout);
 			}
 		} catch (Exception e) {
 			String s = "Error Changing Layout: " + e.getMessage();

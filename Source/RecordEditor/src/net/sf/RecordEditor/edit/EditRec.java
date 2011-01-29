@@ -30,7 +30,7 @@ import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.edit.display.BaseDisplay;
 import net.sf.RecordEditor.edit.display.Action.LoadSavedFieldSeqAction;
 import net.sf.RecordEditor.edit.display.Action.LoadSavedVisibilityAction;
-import net.sf.RecordEditor.edit.display.Action.SaveFieldSequenceAction;
+import net.sf.RecordEditor.edit.open.OpenFile;
 import net.sf.RecordEditor.edit.util.DisplayCobolCopybook;
 import net.sf.RecordEditor.editProperties.EditOptions;
 import net.sf.RecordEditor.record.format.CellFormat;
@@ -61,11 +61,18 @@ public class EditRec extends ReMainFrame  {
     private OpenFile open; 
     private JMenu dataMenu;
     private JMenu viewMenu;
+    private AbstractAction newFileAction = null;
 
     private boolean incJdbc;
+    private boolean includeWizardOptions = true;
+    private AbstractAction optionAction = new AbstractAction(
+    				"Edit Options",
+    				Common.getRecordIcon(Common.ID_PREF_ICON)) {
+        public void actionPerformed(ActionEvent e) {
+        	editProperties(incJdbc, includeWizardOptions);
+        }
+	};
 //    private CopyBookInterface copybookInterface;
-
-
 
 
     /**
@@ -104,8 +111,8 @@ public class EditRec extends ReMainFrame  {
                   null, null,
                   new LayoutSelectionDB(pInterfaceToCopyBooks, null, true));
 
-        init(true);
-        setupFileMenu(null, null, true);  
+        init(true, null);
+        setupFileMenu(null, null);  
      }
 
 
@@ -114,34 +121,49 @@ public class EditRec extends ReMainFrame  {
      *
      */
     public EditRec(final boolean includeJdbc) {
-        this(includeJdbc, "Record Editor");
+        this(includeJdbc, "Record Editor", null);
     }
-
     
-    public EditRec(final boolean includeJdbc, final String name) {
+    
+    public EditRec(final boolean includeJdbc, final String name, AbstractAction newAction) {
     	super(name, "");
-    	init(includeJdbc);
+    	init(includeJdbc, newAction);
     }
+  
+    
     /**
      * standard initialize
      *
      */
     @SuppressWarnings("unchecked")
-	private void init(final boolean includeJdbc) {
+	private void init(final boolean includeJdbc, AbstractAction newAction) {
     	LoadSavedVisibilityAction savedVisibiltyAction = new LoadSavedVisibilityAction();
     	LoadSavedFieldSeqAction fieldSeqAction = new LoadSavedFieldSeqAction();
+    	AbstractAction filterAction = newAction(ReActionHandler.FILTER);
+    	AbstractAction sortAction = newAction(ReActionHandler.SORT);
+    	AbstractAction[] toolbarActions = {
+    			filterAction, 
+    			sortAction,
+    			newAction(ReActionHandler.AUTOFIT_COLUMNS),
+    			null,
+    			optionAction
+    	};
+    	
+    	newFileAction = newAction;
     	incJdbc = includeJdbc;
+    	
+ 
     	
         ReMainFrame.setMasterFrame(this);
         ReTypeManger.setDateFormat(Common.DATE_FORMAT_STR);
         
         buildMenubar(VelocityPopup.getPopup());
-
+        buildToolbar(newAction, toolbarActions);
         
       
-        dataMenu.add(newAction(ReActionHandler.FILTER));
+        dataMenu.add(filterAction);
         dataMenu.add(newAction(ReActionHandler.TABLE_VIEW_SELECTED));
-        dataMenu.add(newAction(ReActionHandler.SORT));
+        dataMenu.add(sortAction);
         dataMenu.add(newAction(ReActionHandler.REBUILD_TREE));
         dataMenu.addSeparator();
         dataMenu.add(newAction(ReActionHandler.ADD_ATTRIBUTES));
@@ -200,10 +222,13 @@ public class EditRec extends ReMainFrame  {
      * Build File menu
      * @param compareAction compare action
      */
-    private void setupFileMenu(Action copyAction, Action compareAction, final boolean includeWizardOptions) {
+    private void setupFileMenu(Action copyAction, Action compareAction) {
     	JMenu fm;
     	
-        buildFileMenu(open.getOpenFilePanel().getRecentFileMenu() , true, false);
+        buildFileMenu(
+        		open.getOpenFilePanel().getRecentFileMenu(), 
+        		true, false, 
+        		newFileAction);
  
         fm = getFileMenu();
         
@@ -229,13 +254,7 @@ public class EditRec extends ReMainFrame  {
         }
         
 	    getEditMenu().addSeparator();
-	    getEditMenu().add(
-	    		new AbstractAction("Edit Startup Options",
-	    				Common.getRecordIcon(Common.ID_PREF_ICON)) {
-			        public void actionPerformed(ActionEvent e) {
-			        	editProperties(incJdbc, includeWizardOptions);
-			        }
-	    });
+	    getEditMenu().add(optionAction);
 
         super.addExit();
    }
@@ -417,7 +436,8 @@ public class EditRec extends ReMainFrame  {
     		boolean incWizard) {
         this.open = openWindow;
         
-        setupFileMenu(copyAction, compareAction, incWizard);
+        includeWizardOptions = incWizard;
+        setupFileMenu(copyAction, compareAction);
     }
 
     /**

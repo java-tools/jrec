@@ -19,6 +19,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
@@ -51,6 +52,7 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
 import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 
@@ -73,6 +75,7 @@ import net.sf.RecordEditor.utils.swing.FileChooser;
  *    - Changed to use CopybookloaderFactory
  *    - Changed to use ComputerOptionsCombo, SplitCombo's
  */
+@SuppressWarnings("serial")
 public class LoadCopyBook extends ReFrame implements ActionListener {
 
 //    private static final String[] SPLIT_OPTIONS = {"No Split", "On Redefine", "On 01 level"};
@@ -173,36 +176,37 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 		}
 		//pnl.addComponent("", null, helpBtn);
 		//pnl.setGap(BasePanel.GAP1);
-		pnl.addComponent(1, 5, 235 /*TableLayout.PREFERRED*/, BasePanel.GAP0,
+		pnl.addComponent(1, 5, SwingUtils.STANDARD_FONT_HEIGHT * 16,
+				BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(tips));
 		//innerPnl.setGap(BasePanel.GAP1);
 
 		if (chooseCopyBook) {
-			loaderOptions.setSelectedItem(Common.COPYBOOK_READER);
+			loaderOptions.setSelectedItem(Common.OPTIONS.COPYBOOK_READER.get());
 			if (loaderOptions.getSelectedIndex() < 0) {
 				loaderOptions.setSelectedIndex(0);
 			}
-			innerPnl.addComponent("Copybook Type", loaderOptions);
+			innerPnl.addLine("Copybook Type", loaderOptions);
 			innerPnl.setGap(BasePanel.GAP1);
 		}
 
-		innerPnl.addComponent(copybookPrompt, copybookFile, copybookFile.getChooseFileButton());
+		innerPnl.addLine(copybookPrompt, copybookFile, copybookFile.getChooseFileButton());
 		innerPnl.setGap(BasePanel.GAP1);
-		innerPnl.addComponent("Split Copybook", splitOptions);
-		innerPnl.addComponent("Font Name", fontName);
-		innerPnl.addComponent("Binary Format", binaryOptions, go);
+		innerPnl.addLine("Split Copybook", splitOptions);
+		innerPnl.addLine("Font Name", fontName);
+		innerPnl.addLine("Binary Format", binaryOptions, go);
 
-		innerPnl.addComponent("File Structure", fileStructure);
-		innerPnl.addComponent("System", system);
+		innerPnl.addLine("File Structure", fileStructure);
+		innerPnl.addLine("System", system);
 		
 		if (chooseCopyBook) {
-			innerPnl.addComponent("Field Seperator", fieldSeparator);
-			innerPnl.addComponent("Quote", quote);
+			innerPnl.addLine("Field Seperator", fieldSeparator);
+			innerPnl.addLine("Quote", quote);
 		}
 		
 		innerScroll = new JScrollPane(innerPnl);
-		innerScroll.setBorder(null);
+		innerScroll.setBorder(BorderFactory.createEmptyBorder());
 
 		pnl.addComponent(0, 6, BasePanel.FILL, 0,
 		        BasePanel.FULL, BasePanel.FULL,
@@ -228,7 +232,7 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 
 		pack();
 
-		setBounds(getX(), getY(), 780, Math.min(height, getHeight()));
+		setBounds(getY(), getX(), SwingUtils.STANDARD_FONT_WIDTH * 86, Math.min(height, getHeight()));
 
 		setVisible(true);
 		Common.setDoFree(free,pConnectionId);
@@ -237,6 +241,7 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 
 	private void init(boolean choseCopyBook) {
 	    int i;
+	    String s;
 
 	    CopybookLoaderFactory loaders = CopybookLoaderFactoryDB.getInstance();
 
@@ -250,7 +255,7 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 	        + ReadFile.getCb2XmlHtml();
 	    tips = new JEditorPane("text/html", formDescription);
 	    tips.setEditable(false);
-	    copybookFile.setText(Common.DEFAULT_COBOL_DIRECTORY);
+	    copybookFile.setText(Common.OPTIONS.DEFAULT_COBOL_DIRECTORY.get());
 
 	    for (i = 0; i < loaders.getNumberofLoaders(); i++) {
 	        loaderOptions.addItem(loaders.getName(i));
@@ -272,13 +277,15 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 		fileStructure  = new BmKeyedComboBox(structureModel, false);
 		system         = new BmKeyedComboBox(systemModel, false);
 
-	    if (! "".equals(Common.DEFAULT_IO_NAME)) {
-	    	fileStructure.setSelectedDisplay(Common.DEFAULT_IO_NAME);
+		s = Common.OPTIONS.DEFAULT_IO_NAME.get();
+	    if (! "".equals(s)) {
+	    	fileStructure.setSelectedDisplay(s);
 	    }
-	    System.out.println(">> File Structure: " + Common.DEFAULT_IO_NAME + " " + fileStructure.getSelectedItem());
+	    //System.out.println(">> File Structure: " + s + " " + fileStructure.getSelectedItem());
 	 
-	    if (! "".equals(Common.DEFAULT_BIN_NAME)) {
-	    	binaryOptions.setSelectedItem(Common.DEFAULT_BIN_NAME);
+	    s = Common.OPTIONS.DEFAULT_BIN_NAME.get();
+	    if (! "".equals(s)) {
+	    	binaryOptions.setSelectedItem(s);
 	    }
 
 	}

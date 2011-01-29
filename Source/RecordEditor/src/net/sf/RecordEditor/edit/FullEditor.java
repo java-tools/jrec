@@ -25,11 +25,13 @@ import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.RecordEditor.copy.CopyDBLayout;
 import net.sf.RecordEditor.diff.CompareDBLayout;
 import net.sf.RecordEditor.edit.display.Action.ChangeLayoutAction;
+import net.sf.RecordEditor.edit.display.Action.CsvUpdateLayoutAction;
+import net.sf.RecordEditor.edit.display.Action.NewFileAction;
 import net.sf.RecordEditor.edit.display.Action.SaveFieldSequenceAction;
 import net.sf.RecordEditor.edit.display.Action.VisibilityAction;
+import net.sf.RecordEditor.edit.open.OpenFile;
 import net.sf.RecordEditor.edit.util.CopybookLoaderFactoryDB;
 import net.sf.RecordEditor.layoutEd.LayoutMenu;
-import net.sf.RecordEditor.layoutEd.Record.RecordEdit1Record;
 import net.sf.RecordEditor.layoutEd.utils.UpgradeDB;
 import net.sf.RecordEditor.layoutWizard.Wizard;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
@@ -53,21 +55,13 @@ public class FullEditor extends EditRec {
 
     private LayoutMenu layoutMenu;
 
-    /**
-     * Start the main screen, the open file dialog needs to be
-     * started seperately via setOpenFileWindow
-     * methods
-     */
-    public FullEditor() {
-        super(true);
-    }
 
     /**
 	 * Creating the File & record selection screen
 	 *
 	 * @param pInFile File to be read (optional)
-	 * @param pInitialRow initinial Row (optional)
-	 * @param pInterfaceToCopyBooks interface to copybooks
+	 * @param pInitialRow initial Row (optional)
+	 * @param pInterfaceToCopyBooks interface to copybook's
 	 */
 	public FullEditor(final String pInFile,
 	        	      final int pInitialRow,
@@ -81,16 +75,21 @@ public class FullEditor extends EditRec {
 	 * Creating the File & record selection screenm
 	 *
 	 * @param pInFile File to be read (optional)
-	 * @param pInitialRow initinial Row (optional)
+	 * @param pInitialRow initial Row (optional)
 	 * @param pIoProvider ioProvider to use when creating
 	 *        lines
-	 * @param pInterfaceToCopyBooks interface to copybooks
+	 * @param pInterfaceToCopyBooks interface to copybook's
 	 */
     public FullEditor(final String pInFile,
      	   final int pInitialRow,
     	   final AbstractLineIOProvider pIoProvider,
     	   final CopyBookInterface pInterfaceToCopyBooks) {
-        super(true);
+        super(true, 
+        	  "Record Editor",
+        	  new NewFileAction(
+        			  new LayoutSelectionDBCreator(pInterfaceToCopyBooks)
+        	  )
+        );
         
 //        try {
 //        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -117,7 +116,7 @@ public class FullEditor extends EditRec {
     /**
      * Create the openFile window
 	 * @param pInFile File to be read (optional)
-	 * @param pInitialRow initinial Row (optional)
+	 * @param pInitialRow initial Row (optional)
 	 * @param pIoProvider ioProvider to use when creating
 	 *        lines
 	 * @param pInterfaceToCopyBooks interface to copybooks
@@ -126,18 +125,18 @@ public class FullEditor extends EditRec {
       	   final int pInitialRow,
      	   final AbstractLineIOProvider pIoProvider,
      	   final CopyBookInterface pInterfaceToCopyBooks) {
-        JButton createLayout = new JButton();
-        JButton createLayoutWizard = new JButton();
+        //JButton createLayout = new JButton();
+        JButton createLayoutWizard = new JButton("XX");
         
         CopybookLoaderFactory.setInstance(new CopybookLoaderFactoryDB());
         
         OpenFile open = new OpenFile(pInFile, pInitialRow, pIoProvider,
-                createLayoutWizard, createLayout,
+                createLayoutWizard, null /* createLayout */,
                 new LayoutSelectionDB(pInterfaceToCopyBooks, null, true));
         ChangeLayoutAction changeLayout = new ChangeLayoutAction(
      		   new LayoutSelectionDBCreator(pInterfaceToCopyBooks));
          
-        createLayout.setAction(RecordEdit1Record.getAction(open.getOpenFilePanel()));
+        //createLayout.setAction(RecordEdit1Record.getAction(open.getOpenFilePanel()));
         createLayoutWizard.setAction(Wizard.getAction(open.getOpenFilePanel()));
 
         layoutMenu.setDatabaseDetails(open.getOpenFilePanel());
@@ -147,6 +146,7 @@ public class FullEditor extends EditRec {
         super.getEditMenu().add(addAction(new SaveFieldSequenceAction()));
         super.getEditMenu().addSeparator();
         super.getEditMenu().add(addAction(changeLayout));
+        super.getEditMenu().add(addAction(new CsvUpdateLayoutAction()));
        
         this.setOpenFileWindow(open,  
         		new AbstractAction("File Copy Menu") {

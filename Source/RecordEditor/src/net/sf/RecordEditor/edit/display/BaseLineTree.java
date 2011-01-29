@@ -21,6 +21,7 @@ import javax.swing.tree.TreePath;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
+import net.sf.RecordEditor.edit.display.Action.AutofitAction;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.edit.display.common.AbstractRowChanged;
 import net.sf.RecordEditor.edit.display.util.RowChangeListner;
@@ -31,19 +32,22 @@ import net.sf.RecordEditor.edit.file.FileView;
 import net.sf.RecordEditor.edit.tree.LineTreeTabelModel;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.ButtonTableRendor;
 import net.sf.RecordEditor.utils.swing.LayoutCombo;
 import net.sf.RecordEditor.utils.swing.ShowFieldsMenu;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.swing.treeTable.JTreeTable;
 import net.sf.RecordEditor.utils.swing.treeTable.TreeTableModelAdapter;
 
+@SuppressWarnings("serial")
 public abstract class BaseLineTree<LNode extends AbstractLineNode>
 extends BaseDisplay  
 implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChanged  {
 
-	private static final int MINIMUM_TREE_COLUMN_WIDTH = 200;
+	private static final int MINIMUM_TREE_COLUMN_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 22;
 	private static final int STANDARD_COLUMNS = 2;
 	//private BasePanel pnl = new BasePanel();
 	protected JTreeTable treeTable;
@@ -128,11 +132,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	    	           }
 	    	        },
 	                null,
-	                new AbstractAction("Autofit Columns") {
-	                    public void actionPerformed(ActionEvent e) {
-	                        Common.calcColumnWidths(tblDetails, 1);
-	                    }
-	                },
+	                new AutofitAction(this),
 	    	        null,
 	                new AbstractAction("Expand Tree") {
 	                    public void actionPerformed(ActionEvent e) {
@@ -229,7 +229,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	    if (layout.getRecordCount() > 1 && combo.getPreferedIndex() > 0 && Common.usePrefered()) {
         	combo.setSelectedIndex(combo.getPreferedIndex());
         	setTableFormatDetails(combo.getPreferedIndex());
-        	changeLayout();
+        	fireLayoutIndexChanged();
         } else {
 	 		setLayoutIdx();
         }
@@ -244,13 +244,13 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void newLayout(AbstractLayoutDetails newLayout) {
+	public void setNewLayout(AbstractLayoutDetails newLayout) {
 		
 		LayoutCombo combo = getLayoutCombo();
 	    if (layout.getRecordCount() > 1 && combo.getPreferedIndex() > 0 && Common.usePrefered()) {
         	combo.setSelectedIndex(combo.getPreferedIndex());
         	setTableFormatDetails(combo.getPreferedIndex());
-        	changeLayout();
+        	fireLayoutIndexChanged();
         } else {
 	 		setLayoutIdx();
 	 		defColumns(combo.getSelectedIndex());
@@ -301,10 +301,10 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 
 	/**
      * Changes the record layout used to display the file
-	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#changeLayout()
+	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#fireLayoutIndexChanged()
 	 */
 	@Override
-	public void changeLayout() {
+	public void fireLayoutIndexChanged() {
 
 		int idx = getLayoutIndex();
 		fileView.setCurrLayoutIdx(idx);
@@ -470,4 +470,13 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
     	
     	showFields.hideColumn(colDef, col);
     }
+
+	@Override
+	public boolean isActionAvailable(int action) {
+
+		return action == ReActionHandler.AUTOFIT_COLUMNS
+			|| super.isActionAvailable(action);
+	}
+    
+    
 }

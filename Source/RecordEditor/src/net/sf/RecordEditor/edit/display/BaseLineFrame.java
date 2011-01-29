@@ -23,6 +23,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import net.sf.JRecord.Details.AbstractLine;
+import net.sf.RecordEditor.edit.display.Action.GotoLineAction;
 import net.sf.RecordEditor.edit.display.models.LineModel;
 import net.sf.RecordEditor.edit.display.util.ChooseCellEditor;
 import net.sf.RecordEditor.edit.file.AbstractLineNode;
@@ -33,6 +34,7 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.HexThreeLineField;
 import net.sf.RecordEditor.utils.swing.HexThreeLineRender;
 
+@SuppressWarnings("serial")
 public abstract class BaseLineFrame extends BaseLineAsColumn  
 implements TableModelListener, TreeModelListener {
 
@@ -74,11 +76,7 @@ implements TableModelListener, TreeModelListener {
                     	hideRow(popupRow);
                       }
                 },
-	            new AbstractAction("Goto Line Number") {
-                    public void actionPerformed(ActionEvent e) {
-                    	startGotoLineNumber();
-                      }
-                },
+                new GotoLineAction(this, fileView)
 		};
 				
 		popupListner = new MenuPopupListener(actions, true, getJTable()) {
@@ -190,11 +188,11 @@ implements TableModelListener, TreeModelListener {
 		        fileMaster.isBinaryFile() ? 780 : 615);
 	
 		if (! isTree()) {
-			pnl.addComponent("Record", lineNum);
+			pnl.addLine("Record", lineNum);
 		}
 		
 		if (fileMaster.isBinaryFile()) {
-		    pnl.addComponent("1 line Hex", oneLineHex);
+		    pnl.addLine("1 line Hex", oneLineHex);
 		}
 		//pnl.setGap(BasePanel.GAP1);
 	
@@ -215,7 +213,7 @@ implements TableModelListener, TreeModelListener {
 	
 		addMainComponent(pnl);
 	
-		setBounds(getX(), getY(), preferedWidth,
+		setBounds(getY(), getX(), preferedWidth,
 		        Math.min(getHeight(), this.screenSize.height - 5));
 	}
 

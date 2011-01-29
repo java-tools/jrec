@@ -22,6 +22,7 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.filter.ColumnMappingInterface;
 import net.sf.RecordEditor.utils.swing.ComboBoxRenderAdapter;
 import net.sf.RecordEditor.utils.swing.LayoutCombo;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.swing.Combo.ComboItemEditor;
 import net.sf.RecordEditor.utils.swing.Combo.ComboItemRender;
 import net.sf.RecordEditor.utils.swing.Combo.ComboModelSupplier;
@@ -153,7 +154,7 @@ public class RecordFormats {
                 } else if (fieldDef.getType() == Type.ftComboItemField
                 		&&  fieldDef instanceof ComboModelSupplier) {
                 	cellEditor[j] = new ComboItemEditor(((ComboModelSupplier) fieldDef).getComboModel());
-                	maxHeight = Math.max(maxHeight, Common.COMBO_TABLE_ROW_HEIGHT);
+                	maxHeight = Math.max(maxHeight, SwingUtils.COMBO_TABLE_ROW_HEIGHT);
                 } else if (idx < fieldFormats.length && fieldFormats[idx] != null) {
                 	try {
                 		cellEditor[j] = fieldFormats[idx]

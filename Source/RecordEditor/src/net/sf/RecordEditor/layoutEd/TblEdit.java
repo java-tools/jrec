@@ -48,6 +48,7 @@ import net.sf.RecordEditor.utils.screenManager.ReFrame;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class TblEdit extends ReFrame {
 
 	private TableListDB dbTblList = new TableListDB();

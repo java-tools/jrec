@@ -4,8 +4,8 @@ import javax.swing.JFrame;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 
-import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 public class ProgressDisplay {
 	private JFrame frame;
@@ -42,7 +42,7 @@ public class ProgressDisplay {
 			progressBar = new JProgressBar(0, 100);
 			progressBar.setValue(0);
 			//area = new JTextArea();
-			area.setFont(Common.getMonoSpacedFont());
+			area.setFont(SwingUtils.getMonoSpacedFont());
 			
 			pnl.addComponent(1, 5,
 			         BasePanel.PREFERRED,

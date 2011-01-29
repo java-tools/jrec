@@ -1,17 +1,20 @@
 package net.sf.RecordEditor.edit.display.util;
 
+import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
@@ -38,15 +41,18 @@ import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
 import net.sf.RecordEditor.utils.swing.ComboBoxRender;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
+@SuppressWarnings("serial")
 public abstract class BaseFieldSelection extends ReFrame 
 implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 
-	protected static final int RECORD_LIST_HEIGHT = 200;
-	protected static final int FIELD_TABLE_HEIGHT = 130;
+//	protected static final int RECORD_LIST_HEIGHT = SwingConstants.TABLE_ROW_HEIGHT * 18;
+//	protected static final int FIELD_TABLE_HEIGHT = SwingConstants.TABLE_ROW_HEIGHT * 8;
 	protected static final int FIELD_TABLE_SIZE = 5;
 	private static final String[] WHAT_TO_SORT = {"Whole File", "Selected Records"};
-	protected BaseHelpPanel pnl = new BaseHelpPanel();
+	private BaseHelpPanel pnlTop = new BaseHelpPanel();
+	private BaseHelpPanel pnlBottom = new BaseHelpPanel();
 	protected JList records;
 	protected SortFieldMdl model = new SortFieldMdl(FIELD_TABLE_SIZE);
 	protected JTable fldTable, fldSummaryTbl;
@@ -91,8 +97,18 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 		super(fileTbl.getFileNameNoDirectory(), id,
 				fileTbl.getBaseFile());
 		Rectangle screenSize = ReMainFrame.getMasterFrame().getDesktop().getBounds();
+		int recCount, height; 
+		
+		int desktopHeight = screenSize.height - SwingUtils.COMBO_TABLE_ROW_HEIGHT * 6;
+		JPanel pnl = new JPanel(new BorderLayout());
+		pnl.setBorder(BorderFactory.createEmptyBorder());
+		pnlTop.setBorder(BorderFactory.createEmptyBorder());
+		pnlBottom.setBorder(BorderFactory.createEmptyBorder());
+
+		
 		source   = src;
 		fileView = src.getFileView();
+		recCount = fileView.getLayout().getRecordCount();
 		//helpPresent = true;
 		
 		model.setColumnCount(columnCount);
@@ -101,31 +117,46 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 
 		init(icondId, btnText);
 
-		if (showRecordList) {
-			pnl.addComponent(1, 5, RECORD_LIST_HEIGHT, BasePanel.GAP2,
+		pnlTop.registerComponent(pnl);
+		if (showRecordList && recCount > 1) {
+			height = SwingUtils.calculateTableHeight(recCount, desktopHeight * 3 / 10);
+			desktopHeight -= height;
+			pnlTop.addComponent(1, 5, 
+					height, 
+					BasePanel.GAP0,
 					BasePanel.FULL, BasePanel.FULL,
 					new JScrollPane(records));
 		}
 
-		pnl.addComponent(1, 5, FIELD_TABLE_HEIGHT, BasePanel.GAP2,
-				BasePanel.FULL, BasePanel.FULL,
-				fldTable);
-
 		if (addFieldSummary) {
-			pnl.addComponent(1, 5, FIELD_TABLE_HEIGHT, BasePanel.GAP2,
+			height = SwingUtils.calculateComboTableHeight(fldTable.getRowCount(), desktopHeight * 7 / 20);
+			desktopHeight -= height;
+			pnlTop.addComponent(1, 5, height, BasePanel.GAP0,
+					BasePanel.FULL, BasePanel.FULL,
+					fldTable);
+
+			height = SwingUtils.calculateComboTableHeight(fldSummaryTbl.getRowCount(), desktopHeight * 8 / 10);
+			pnlTop.addComponent(1, 5, height, BasePanel.GAP,
 					BasePanel.FULL, BasePanel.FULL,
 					fldSummaryTbl);
+		} else {
+			height = SwingUtils.calculateComboTableHeight(fldTable.getRowCount(), desktopHeight * 4 / 5);
+			pnlTop.addComponent(1, 5, height, BasePanel.GAP,
+					BasePanel.FULL, BasePanel.FULL,
+					fldTable);
 		}
 
-		pnl.addComponent("Use", whatToSelect);
-		pnl.setGap(BasePanel.GAP1);
+		pnlBottom.addLine("Use", whatToSelect);
+		pnlBottom.setGap(BasePanel.GAP0);
 
-		pnl.addComponent("", saveBtn, executeBtn);
-		pnl.setGap(BasePanel.GAP1);
+		pnlBottom.addLine("", saveBtn, executeBtn);
+		pnlBottom.setGap(3);
 
-		this.addMainComponent(new JScrollPane(pnl));
+		pnl.add(BorderLayout.CENTER, new JScrollPane(pnlTop));
+		pnl.add(BorderLayout.SOUTH, pnlBottom);
+		this.addMainComponent(pnl);
 		
-		setBounds(getX(), getY(), Math.min(getWidth() + 25, screenSize.width -10),
+		setBounds(getY(), getX(), Math.min(getWidth() + 25, screenSize.width -10),
 		        Math.min(getHeight(), screenSize.height - 5));
 
 		this.setVisible(true);
@@ -155,10 +186,10 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 	    records = new JList(recordName);
 	    records.addListSelectionListener(this);
 	    
-	    pnl.addReKeyListener(listner);
+	    pnlTop.addReKeyListener(listner);
 	
 	    fieldList = new JComboBox(fldModel[1]);
-	    fldTable.setRowHeight(Common.COMBO_TABLE_ROW_HEIGHT);
+	    fldTable.setRowHeight(SwingUtils.COMBO_TABLE_ROW_HEIGHT);
 	    tcm = fldTable.getColumnModel();
 		tc = tcm.getColumn(0);
 		tc.setCellRenderer(new ComboBoxRender(fldModel[0]));
@@ -170,14 +201,14 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 			tc.setCellEditor(new DefaultCellEditor(new JCheckBox()));
 		}
 	
-		fldSummaryTbl.setRowHeight(Common.COMBO_TABLE_ROW_HEIGHT);
+		fldSummaryTbl.setRowHeight(SwingUtils.COMBO_TABLE_ROW_HEIGHT);
 	    tcm = fldSummaryTbl.getColumnModel();
 		tc = tcm.getColumn(1);
 		tc.setCellRenderer(new ComboBoxRender((new JComboBox(FieldSummaryDetails.OPERATOR_NAMES)).getModel()));
 		tc.setCellEditor(new DefaultCellEditor(OperatorList));
 
 		//if (helpPresent) {
-		pnl.registerComponent(fieldList);
+		pnlTop.registerComponent(fieldList);
 		//}
 	
 	    setFieldCombos(lastSelection);
@@ -316,7 +347,7 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 	 */
 	public void executeAction(int action) {
 		if (action == ReActionHandler.HELP) {
-		    pnl.showHelp();
+		    pnlTop.showHelp();
 		} else {
 			super.executeAction(action);
 		}
@@ -366,5 +397,14 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 		
 			summaryMdl.getFieldSummary().setSummary(idx, details.sortTree.sortSummary);
 		}
+	}
+
+	/**
+	 * @param helpUrl
+	 * @see net.sf.RecordEditor.utils.swing.BaseHelpPanel#setHelpURL(java.lang.String)
+	 */
+	public final void setHelpURL(String helpUrl) {
+		pnlTop.setHelpURL(helpUrl);
+		pnlBottom.setHelpURL(helpUrl);
 	}
 }

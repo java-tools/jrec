@@ -26,6 +26,7 @@ def test():
 		select('Table', 'cell:Row 2,6(Miranda)')
 		assert_p('Table', 'Content', '[[TAR, TAR, TAR, TAR], [5019, 5037, 5060, 5078], [ST, ST, ST, ST], [Penrith, Miranda, St Marys, Warringah Mall], [Penrith, Westfield Shoppingtown, St. Mary\'s, Frenchs Forest], [58 Leland Street, Cnr. Urunga Pde & The Kingsway, Charles Hackett Drive, Units 2-3, 14 Aquatic Drive], [Penrith, Miranda, St Mary\'s, Frenchs Forest], [2750, 2228, 2760, 2086], [NSW, NSW, NSW, NSW], [A, A, A, A]]')
 		select('Table', 'cell:Row 2,6(Miranda)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'rows:[5,8,11,14],columns:[10 - 35|Loc Name]')
 	close()

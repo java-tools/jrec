@@ -18,7 +18,7 @@ def test():
 		commonBits.setRecordLayout(select, 'zzAms PO Download')
 		click('Edit1')
 		click('Filter')
-		click('Filter')
+		click('Filter1')
 ## ---
 		select('LayoutCombo', 'ams PO Download: Header')
 		select('Table', 'cell:3 - 5|Sequence Number,1(45.350)')

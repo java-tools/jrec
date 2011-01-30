@@ -12,6 +12,7 @@ def test():
 
 		if window(''):
 #			select('Table', '')
+			select('CheckBox', 'false')
 			assert_p('Table', 'Text', '5839', 'B,1')
 			select('Table', 'cell:C,0(Loc_Type)')
 			assert_p('Table', 'Text', 'DC', 'C,1')
@@ -32,6 +33,9 @@ def test():
 		close()
 
 		commonBits.doSleep()
+
+		commonBits.doSleep()
+
 
 		select('Table', 'cell:4|Loc_Name,0(DC - Taras Ave)')
 		assert_p('Table', 'Text', 'DC - Taras Ave', '4|Loc_Name,0')

@@ -21,9 +21,14 @@ def test():
 			commonBits.doSleep()
 			click('Go')
 			commonBits.doSleep()
+			commonBits.doSleep()
 		close()
 		commonBits.doSleep()
-		select_menu('Window>>FJ_VB_Test.bin>>Table: ')
+
+		commonBits.doSleep()
+
+
+		select_menu('Window>>FJ_VB_Test.bin>>Table: ')
 
 		select('Table', 'cell:1 - 1|Data,1(TAR5019STPenrith                            Penrith                                 58 Leland Street                        Penrith                            2750      NSWA)')
 		assert_p('Table', 'Content', '[[TAR5015STBankstown                          Bankstown                               Unit 2, 39-41 Allingham Street          Condell Park                       2200      NSWA], [TAR5019STPenrith                            Penrith                                 58 Leland Street                        Penrith                            2750      NSWA], [TAR5033STBlacktown                          Marayong                                Dock 2, 11 Melissa Place                Marayong                           2148      NSWA], [TAR5035STRockdale                           Building B,  Portside DC                2-8 Mc Pherson Street                   Botany                             2019      NSWA], [TAR5037STMiranda                            Westfield Shoppingtown                  Cnr. Urunga Pde & The Kingsway          Miranda                            2228      NSWA], [TAR5052STEastwood                           Marayong Offsite Reserve                11 Melissa Place                        Marayong                           2148      NSWA]]')
@@ -111,6 +116,7 @@ def test():
 4125033342c13b4f7e00000000000000000000000000d1219fe7000000000000000000000000000000004f3b02c0110d5c933100c1350000000000000000d1219fe70000000000000000000000000002148000000e37''', 'Hex,0')
 		select('Table', 'cell:Hex,0([B@1aff6b1)')
 		select('Table', 'cell:Hex,0([B@1589559)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'cell:    +    1|Hex (SPF Edit Style),2([B@c31c7d)')
 	close()

@@ -6,7 +6,7 @@ def test():
 
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'zAms_LocDownload_20041228.csv')
-		click('Create Layout Wizard')
+		click('Layout Wizard')
 		select('Delimited Fields', 'true')
 
 #		select('ComboBox', 'Delimited Fields')
@@ -15,6 +15,7 @@ def test():
 		select('FileChooser', commonBits.sampleDir() + 'zAms_LocDownload_20041228.csv')
 		click('Right')
 		select('TabbedPane', '')
+		select('CheckBox', 'false')
 		click('Right')
 		select('TabbedPane', '')
 		select('Table', 'cell:Field Name,0(A)')
@@ -132,6 +133,7 @@ def test():
 #		select('TabbedPane', 'Extras')
 #		select('TabbedPane', 'Extras')
 #		select('TabbedPane', 'Fields')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 #		select('Table1', 'cell:Field,6(Address 3)')
 	close()

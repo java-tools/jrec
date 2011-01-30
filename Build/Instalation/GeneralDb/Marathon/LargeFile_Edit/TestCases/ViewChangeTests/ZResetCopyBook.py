@@ -9,5 +9,6 @@ def test():
 		commonBits.setRecordLayout(select, 'DTAR1000 VB')
 
 		click('Edit1')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 	close()

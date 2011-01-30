@@ -1,3 +1,4 @@
+from datetime import datetime
 import time
 
 def windows():
@@ -12,6 +13,15 @@ def Linux():
 
 def isWindowsLook():
 	return 0
+
+
+def isNimbusLook():
+	return 0
+
+
+def isMetalLook():
+	return  isWindowsLook() != 1 & isNimbusLook() != 1
+
 
 def version():
 	return 'HSQLDB'
@@ -108,6 +118,14 @@ def userDir():
 	else: 
 		return '/home/' + Linux() + '/.RecordEditor/' + version() + '/User/'
 
+def filterDir():
+	if windows():
+		return 'C:\\Documents and Settings\\b\\.RecordEditor\\' + version() + '\\User\\Filter\\'
+##		return 'C:\\Users\\bm\\.RecordEditor\\' + version() + '\\User\\'
+	else: 
+		return '/home/' + Linux() + '/.RecordEditor/' + version() + '/User/Filter/'
+
+
 def selectPane():
 	return 'File Name'
 #	return 'FilePane$4'
@@ -115,11 +133,33 @@ def selectPane():
 
 def doEdit(click):
 	click('Edit1')
-	time.sleep(0.5)
+	time.sleep(0.75)
 	return
+
+
+def closeWindow(click):
+	if isNimbusLook():
+		click('InternalFrameTitlePane.closeButton')
+	else:
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
+	return
+
 
 def doSleep():
-
-	time.sleep(1.5)
+	start = datetime.now()
+#	print start
+#	time.sleep(.9)
+	diff = datetime.now() - start
+	while diff.seconds < 1.8:
+#		print diff
+		time.sleep(1.8 - diff.seconds)
+		diff = datetime.now() - start
 	return
+
+def selectFileName(select, name):
+	select('File Name', name)
+##	select('ComboBox2', recordLayout)
+##	select('FileChooser', name
+
+
 

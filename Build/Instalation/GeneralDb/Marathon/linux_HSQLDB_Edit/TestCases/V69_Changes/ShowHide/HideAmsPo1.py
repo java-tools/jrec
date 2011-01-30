@@ -46,10 +46,15 @@ def test():
 		assert_p('Table', 'Content', '[[Record Type, 1, 2, D1, D1], [Pack Qty, 3, 9, 7.0000, 000070000], [Pack Cost, 12, 13, 0.0002, 0000000000002], [APN, 25, 13, 2222500000000, 2222500000000], [Product, 39, 8, 43314531, 43314531], [Product Name, 101, 50,  DONKEY 24-006607 SHWL WRAP CARD,  DONKEY 24-006607 SHWL WRAP CARD]]')
 		click('Left')
 		select_menu('Edit>>Show / Hide Fields')
-##		assert_p('Table', 'Content', '[[Record Type, true], [Sequence Number, true], [Vendor, true], [PO, true], [Entry Date, true], [Filler, false], [beg01 code, false], [beg02 code, false], [Department, true], [Expected Reciept Date, true], [Cancel by date, true], [EDI Type, false], [Add Date, true], [Filler, false], [Department Name, true], [Prcoess Type, true], [Order Type, true]]')
+#		assert_p('Table', 'Content', '[[Record Type, true], [Sequence Number, true], [Vendor, true], [PO, true], [Entry Date, true], [Filler, false], [beg01 code, false], [beg02 code, false], [Department, true], [Expected Reciept Date, true], [Cancel by date, true], [EDI Type, false], [Add Date, true], [Filler, false], [Department Name, true], [Prcoess Type, true], [Order Type, true]]')
+#		assert_p('Table', 'Content', '[[Record Type, true], [Sequence Number, true], [Vendor, true], [PO, true], [Entry Date, true], [Filler, false], [beg01 code, false], [beg02 code, false], [Department, true], [Expected Reciept Date, true], [Cancel by date, true], [EDI Type, false], [Add Date, true], [Filler, false], [Department Name, true], [Prcoess Type, true], [Order Type, true]]')
 		assert_p('Table', 'Content', '[[Record Type, true], [Sequence Number, true], [Vendor, true], [PO, true], [Entry Date, true], [Filler, false], [beg01 code, false], [beg02 code, false], [Department, true], [Expected Reciept Date, true], [Cancel by date, true], [EDI Type, false], [Add Date, true], [Filler, false], [Department Name, true], [Prcoess Type, true], [Order Type, false]]')
 
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		assert_p('Table', 'Content', '[[Record Type, true], [Sequence Number, true], [Vendor, true], [PO, true], [Entry Date, true], [Filler, false], [beg01 code, false], [beg02 code, false], [Department, true], [Expected Reciept Date, true], [Cancel by date, true], [EDI Type, false], [Add Date, true], [Filler, false], [Department Name, true], [Prcoess Type, true], [Order Type, false]]')
+
+
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Window>>Ams_PODownload_20041231.txt>>Record: ')
 		assert_p('Table', 'Content', '[[Record Type, 1, 2, H1, H1], [Sequence Number, 3, 5, 45.349, 45349], [Vendor, 8, 10, 6060, 0000006060], [PO, 18, 12, 286225, 286225], [Entry Date, 30, 6, 040909, 040909], [Department, 48, 4, 200, 200], [Expected Reciept Date, 52, 6, 050102, 050102], [Cancel by date, 58, 6, 050107, 050107], [Add Date, 69, 6, , ], [Department Name, 76, 10, LADIES KNI, LADIES KNI], [Prcoess Type, 86, 1, C, C]]')
 		click('Right')

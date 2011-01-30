@@ -15,7 +15,8 @@ def test():
 -->> ''' + commonBits.xmlCopybookDir() + '''yyAms PO Download.Xml processed
 
       Copybook: yyAms PO Download''')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('Reload from DB')
 		select('FileChooser', commonBits.sampleDir() + 'zzAms_PODownload_20041231.txt')
 		select('ComboBox1', 'Other')
@@ -24,7 +25,8 @@ def test():
 		select('TabbedPane', 'Extras')
 		select('TabbedPane', 'Extras')
 		select('TabbedPane', 'Child Records')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 ##		click('ScrollPane$ScrollBar', 12, 112)
 		click('Reload from DB')
 ##		select('ComboBox2', 'yyAms PO Download')

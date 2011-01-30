@@ -17,7 +17,6 @@ def test():
 		select_menu('Edit>>Paste Record#{s#} Prior')
 ##		select('Table', 'cell:8 - 2|Loc Type,10(ST)')
 		assert_p('Table', 'Content', '[[TAR, 5850, DC, VIC West Ad Support, , Lot 2 Little Boundary Rd, Laverton, 3028, VIC, A], [TAR, 5853, DC, NSW North Sydney Ad Support, , , , , , A], [TAR, 5866, DC, WA Ad Support, , , , , , A], [TAR, 5015, ST, Bankstown, Bankstown, Unit 2, 39-41 Allingham Street, Condell Park, 2200, NSW, A], [TAR, 5019, ST, Penrith, Penrith, 58 Leland Street, Penrith, 2750, NSW, A], [TAR, 5033, ST, Blacktown, Marayong, Dock 2, 11 Melissa Place, Marayong, 2148, NSW, A], [TAR, 5035, ST, Rockdale, Building B,  Portside DC, 2-8 Mc Pherson Street, Botany, 2019, NSW, A], [TAR, 5037, ST, Miranda, Westfield Shoppingtown, Cnr. Urunga Pde & The Kingsway, Miranda, 2228, NSW, A], [TAR, 5052, ST, Eastwood, Marayong Offsite Reserve, 11 Melissa Place, Marayong, 2148, NSW, A], [TAR, 5055, ST, Leichhardt, Marketown, Marion Street, Leichhardt, 2040, NSW, A], [TAR, 5060, ST, St Marys, St. Mary\'s, Charles Hackett Drive, St Mary\'s, 2760, NSW, A], [TAR, 5866, DC, WA Ad Support, , , , , , A], [TAR, 5015, ST, Bankstown, Bankstown, Unit 2, 39-41 Allingham Street, Condell Park, 2200, NSW, A], [TAR, 5019, ST, Penrith, Penrith, 58 Leland Street, Penrith, 2750, NSW, A], [TAR, 5070, ST, Bass Hill, Bass Hill Plaza, 753 Hume Highway, Bass Hill, 2197, NSW, A], [TAR, 5074, ST, Campbelltown, Campbelltown Mall, 303 Queen Street, Campbelltown, 2560, NSW, A]]')
-
 		select('Table', 'cell:8 - 2|Loc Type,10(ST)')
 		rightclick('Table', '10 - 35|Loc Name,10')
 		select_menu('Edit Record')
@@ -52,10 +51,13 @@ def test():
 		select('Table', 'cell:Data,4(Campbelltown Mall)')
 		assert_p('Table', 'Content', '[[Brand Id, 1, 3, TAR, TAR], [Loc Nbr, 4, 4, 5074, 5074], [Loc Type, 8, 2, ST, ST], [Loc Name, 10, 35, Campbelltown, Campbelltown], [Loc Addr Ln1, 45, 40, Campbelltown Mall, Campbelltown Mall], [Loc Addr Ln2, 85, 40, 303 Queen Street, 303 Queen Street], [Loc Addr Ln3, 125, 35, Campbelltown, Campbelltown], [Loc Postcode, 160, 10, 2560, 2560], [Loc State, 170, 3, NSW, NSW], [Loc Actv Ind, 173, 1, A, A]]')
 		select('Table', 'cell:Data,4(Campbelltown Mall)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		#click('WindowsInternalFrameTitlePane', 883, 7)
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 		if window('Save Changes to file: ' + commonBits.sampleDir() + 'Ams_LocDownload_20041228.txt'):
 			click('No')

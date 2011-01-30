@@ -8,7 +8,7 @@ def test():
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020.bin')
 		click('Edit1')
 		select_menu('View>>Sorted Field Tree')
-		select('List', 'DTAR020')
+#		select('List', 'DTAR020')
 		select('Table', 'STORE-NO', 'Field,0')
 		select('Table', 'DEPT-NO', 'Field,1')
 		select('Table', 'cell:Field,1(DEPT-NO)')
@@ -26,7 +26,6 @@ def test():
 		select_menu('Expand Tree')
 		select('JTreeTable', 'cell:Tree,7(null)')
 		assert_p('JTreeTable', 'RowCount', '10')
-
 		select('JTreeTable', 'cell:Tree,7(null)')
 		rightclick('JTreeTable', 'Tree,7')
 		select_menu('Expand Tree')

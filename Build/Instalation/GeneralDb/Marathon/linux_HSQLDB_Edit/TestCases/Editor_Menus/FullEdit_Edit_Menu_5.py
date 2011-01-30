@@ -37,8 +37,10 @@ def test():
 		select('Table', 'cell:10 - 35|Loc Name,2(Blacktown)')
 		assert_p('Table', 'Content', '[[TAR, 5853, DC, NSW North Sydney Ad Support, , , , , , A], [TAR, 5019, ST, Penrith, Penrith, 58 Leland Street, Penrith, 2750, NSW, A], [TAR, 5033, ST, Blacktown, Marayong, Dock 2, 11 Melissa Place, Marayong, 2148, NSW, A], [TAR, 5035, ST, Rockdale, Building B,  Portside DC, 2-8 Mc Pherson Street, Botany, 2019, NSW, A], [TAR, 5866, DC, WA Ad Support, , , , , , A], [TAR, 5015, ST, Bankstown, Bankstown, Unit 2, 39-41 Allingham Street, Condell Park, 2200, NSW, A], [TAR, 5052, ST, Eastwood, Marayong Offsite Reserve, 11 Melissa Place, Marayong, 2148, NSW, A]]')
 		select('Table', 'rows:[4,5],columns:[10 - 35|Loc Name]')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 		if window('Save Changes to file: ' + commonBits.sampleDir() + 'Ams_LocDownload_20041228.txt'):
 			click('No')

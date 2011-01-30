@@ -10,7 +10,7 @@ def test():
 
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'Ams_PODownload_20050101.txt')
-		click('Create Layout Wizard')
+		click('Layout Wizard')
 		select('Multiple Records #{fixed length#}', 'true')
 		click('Right')
 		select('TabbedPane', '')
@@ -28,8 +28,10 @@ def test():
 ''')
 		select('TextField1', '01')
 		select('TextField2', '01')
-		assert_p('Table', 'Background', '[r=255,g=255,b=255]')
-		assert_p('Table', 'Background', '[r=255,g=255,b=255]')
+		if commonBits.isNimbusLook():
+			assert_p('Table', 'Background', 'DerivedColor(color=255,255,255 parent=nimbusLightBackground offsets=0.0,0.0,0.0,0 pColor=255,255,255')
+		else:
+			assert_p('Table', 'Background', '[r=255,g=255,b=255]')
 		click('Right')
 		select('TabbedPane', '')
 		keystroke('Right', 'Ctrl+F6')
@@ -49,16 +51,24 @@ def test():
 		select('Table', 'cell:Record Name,1(Detail)')
 		click('Right')
 		select('TabbedPane', '')
-		assert_p('Table', 'Background', '[r=255,g=255,b=255]')
-		assert_p('Table', 'Background', '[r=255,g=255,b=255]')
-		assert_p('Table', 'Background', '[r=255,g=255,b=255]')
+		if commonBits.isNimbusLook():
+			assert_p('Table', 'Background', 'DerivedColor(color=255,255,255 parent=nimbusLightBackground offsets=0.0,0.0,0.0,0 pColor=255,255,255')
+		else:
+			assert_p('Table', 'Background', '[r=255,g=255,b=255]')
 		click('Right')
 		assert_p('TextArea', 'Text', 'You must define the Fields all Records. Please update - Detail')
-		assert_p('Table', 'Background', '[r=255,g=255,b=255]')
+		if commonBits.isNimbusLook():
+			assert_p('Table', 'Background', 'DerivedColor(color=255,255,255 parent=nimbusLightBackground offsets=0.0,0.0,0.0,0 pColor=255,255,255')
+		else:
+			assert_p('Table', 'Background', '[r=255,g=255,b=255]')
+
 		select('ComboBox', 'Store')
 		assert_p('Table', 'Text', 'S', 'A,1')
-		assert_p('Table', 'Background', '[r=255,g=255,b=255]')
-		assert_p('Table', 'Background', '[r=255,g=255,b=255]')
+		if commonBits.isNimbusLook():
+			assert_p('Table', 'Background', 'DerivedColor(color=255,255,255 parent=nimbusLightBackground offsets=0.0,0.0,0.0,0 pColor=255,255,255')
+		else:
+			assert_p('Table', 'Background', '[r=255,g=255,b=255]')
+
 		click('Right')
 		select('TabbedPane', '')
 		select('Table', 'f1', 'Field Name,1')
@@ -147,6 +157,7 @@ def test():
 		select('TabbedPane', '')
 		select('TextField', 'Wizard_AmsPo')
 		click('Right')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 #		click('MetalInternalFrameTitlePane', 674, 1)
 	close()

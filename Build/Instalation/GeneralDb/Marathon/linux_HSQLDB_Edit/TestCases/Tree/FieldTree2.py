@@ -10,7 +10,7 @@ def test():
 
 		click('Edit1')
 		select_menu('View>>Field Based Tree')
-		select('List', 'DTAR020')
+##		select('List', 'DTAR020')
 		select('Table', 'STORE-NO', 'Field,0')
 		select('Table', 'DEPT-NO', 'Field,1')
 		select('Table', 'cell:Field,1(DEPT-NO)')
@@ -21,5 +21,6 @@ def test():
 		select('JTreeTable', 'cell:STORE-NO,2(null)')
 		assert_p('JTreeTable', 'RowCount', '4')
 		select('JTreeTable', 'cell:STORE-NO,2(null)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 	close()

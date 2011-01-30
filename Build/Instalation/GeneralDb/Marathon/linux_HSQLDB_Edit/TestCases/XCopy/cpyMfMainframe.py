@@ -21,8 +21,10 @@ def test():
 		select('TabbedPane', '')
 		click('Copy2')
 		assert_p('TextField1', 'Text', 'Copy Done !!! ')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('Open')
 		select('FileChooser', commonBits.cobolTestDir() + 'zzMainframeComp.bin')
 
@@ -47,8 +49,10 @@ def test():
 			select('BmKeyedComboBox1', 'Mainframe')
 			click('Go')
 			
-			click('BasicInternalFrameTitlePane$NoFocusButton2')
-			click('BasicInternalFrameTitlePane$NoFocusButton2')
+			commonBits.closeWindow(click)
+			##click('BasicInternalFrameTitlePane$NoFocusButton2')
+			commonBits.closeWindow(click)
+			##click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 # -------------------------------------------------------------------
 #   Starting Edit Mainframe file

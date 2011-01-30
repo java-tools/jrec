@@ -49,7 +49,8 @@ def test():
 		select('Table', 'cell:Data,4(Westfield Shoppingtown)')
 		assert_p('Table', 'Content', '[[Brand Id, 1, 3, TAR, TAR], [Loc Nbr, 4, 4, 5037, 5037], [Loc Type, 8, 2, ST, ST], [Loc Name, 10, 35, Miranda, Miranda], [Loc Addr Ln1, 45, 40, Westfield Shoppingtown, Westfield Shoppingtown], [Loc Addr Ln2, 85, 40, Cnr. Urunga Pde & The Kingsway, Cnr. Urunga Pde & The Kingsway], [Loc Addr Ln3, 125, 35, Miranda, Miranda], [Loc Postcode, 160, 10, 2228, 2228], [Loc State, 170, 3, NSW, NSW], [Loc Actv Ind, 173, 1, A, A]]')
 		select('Table', 'cell:Data,4(Westfield Shoppingtown)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'cell:10 - 35|Loc Name,2(Blacktown)')
 		select('Table', 'cell:10 - 35|Loc Name,2(Blacktown)')
 		assert_p('Table', 'RowCount', '6')
@@ -82,7 +83,8 @@ def test():
    ### was 5052
 		select('Table', 'cell:Data,4(Penrith)')
 		select('Table', 'cell:Data,4(Penrith)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'cell:10 - 35|Loc Name,5(WA Ad Support)')
 		select('Table', 'cell:10 - 35|Loc Name,5(WA Ad Support)')
 		assert_p('Table', 'RowCount', '9')
@@ -114,7 +116,8 @@ def test():
 		assert_p('Table', 'Text', '5019', 'Data,1')
 		select('Table', 'cell:Data,4(Penrith)')
 		select('Table', 'cell:Data,4(Penrith)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'cell:10 - 35|Loc Name,2(WA Ad Support)')
 		select('Table', 'cell:10 - 35|Loc Name,2(WA Ad Support)')
 		assert_p('Table', 'RowCount', '6')
@@ -147,7 +150,8 @@ def test():
 		assert_p('Table', 'Text', 'cell:Data,1(5019)')
  ### was 5019 ???
 		select('Table', 'cell:Data,1(5019)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'cell:10 - 35|Loc Name,5(Penrith)')
 		select('Table', 'cell:10 - 35|Loc Name,5(Penrith)')
 		select_menu('Edit>>Paste Record#{s#}')
@@ -165,7 +169,8 @@ def test():
  ### was 5052
 		select('Table', 'cell:Data,2(DC)')
 		select('Table', 'cell:Data,2(DC)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'cell:10 - 35|Loc Name,1(NSW North Sydney Ad Support)')
 		select('Table', 'rows:[1,2,3,4,5],columns:[10 - 35|Loc Name]')
 		select_menu('Edit>>Delete Record#{s#}')
@@ -174,9 +179,11 @@ def test():
   ### was 6
 		select('Table', 'cell:10 - 35|Loc Name,0(VIC West Ad Support)')
 		select('Table', 'cell:10 - 35|Loc Name,0(VIC West Ad Support)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		#click('WindowsInternalFrameTitlePane', 856, 12)
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 		if window('Save Changes to file: ' + commonBits.sampleDir() + 'Ams_LocDownload_20041228.txt'):
 			click('No')

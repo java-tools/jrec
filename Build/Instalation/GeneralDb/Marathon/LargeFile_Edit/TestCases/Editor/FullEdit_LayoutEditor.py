@@ -1,6 +1,7 @@
 useFixture(default)
 
 def test():
+	from Modules import commonBits
 	java_recorded_version = '1.5.0_11'
 
 	if window('Record Editor'):
@@ -21,7 +22,9 @@ def test():
 		select('RecordFieldsJTbl', 'cell:FieldName,0(Record Type)')
 		assert_p('RecordFieldsJTbl', 'Text', 'Record Type', 'FieldName,0')
 		select('RecordFieldsJTbl', 'cell:FieldName,0(Record Type)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 	close()

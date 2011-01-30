@@ -1,6 +1,8 @@
 useFixture(default)
 
 def test():
+	from Modules import commonBits
+
 	java_recorded_version = '1.5.0_11'
 
 	if window('Record Editor'):
@@ -22,6 +24,8 @@ def test():
 		assert_p('TextField', 'Text', 'ams PO Download: Header')
 		click('Right')
 		assert_p('TextArea', 'Text', 'Allocation Line')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 	close()

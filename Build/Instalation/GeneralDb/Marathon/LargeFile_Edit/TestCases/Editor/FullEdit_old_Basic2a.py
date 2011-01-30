@@ -13,7 +13,8 @@ def test():
 		doubleclick('BaseDisplay$HeaderToolTips', '10 - 35|Loc Name')
 		assert_p('Table', 'Text', 'Airport West', '10 - 35|Loc Name,0')
 		assert_p('Table', 'Text', 'Bass Hill', '10 - 35|Loc Name,5')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 		if window(r'Save Changes to file: ' + commonBits.sampleDir() + 'Ams_LocDownload_20041228.txt'):
 			click('No')

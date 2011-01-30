@@ -32,7 +32,8 @@ def test():
 		select('Table', 'cell:7|name,3(Address-Lines)')
 		assert_p('Table', 'RowCount', '11')
 		select('Table', 'cell:7|name,3(Address-Lines)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('JTreeTable', 'cell:Xml~Prefix,2(* Location Download)')
 		click('Delete1')
 		select('JTreeTable', 'cell:Xml~Prefix,1(******************************)')
@@ -40,7 +41,8 @@ def test():
 		select('JTreeTable', 'cell:Xml~Prefix,2(******************************)')
 		assert_p('JTreeTable', 'Text', 'cell:Xml~Prefix,2(******************************)')
 		select('JTreeTable', 'cell:Xml~Prefix,2(******************************)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 		if window('Save Changes to file: ' + commonBits.sampleDir() + 'Xml' + commonBits.fileSep() + 'AmsLocationTest1.xml'):
 			click('No')

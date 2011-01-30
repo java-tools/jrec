@@ -28,7 +28,6 @@ def test():
 		close()
 
 		commonBits.doSleep()
-		commonBits.doSleep()
 		select_menu('Window>>Text_utf16_Test.txt>>Table: ')
 
 		select('Table', 'cell:1 - 1|Data,1(TAR5019STPenrith                            Penrith                                 58 Leland Street                        Penrith                            2750      NSWA)')

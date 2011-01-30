@@ -12,14 +12,19 @@ def test():
 
 		if window(''):
 			commonBits.doSleep()
+			select('CheckBox', 'false')
 
 			click('Go')
 			commonBits.doSleep()
 
+			commonBits.doSleep()
+
+
 		close()
 
 		commonBits.doSleep()
-		commonBits.doSleep()
+
+		commonBits.doSleep()
 
 
 		select('Table', 'cell:4|D,0(Loc_Name)')

@@ -57,12 +57,15 @@ def test():
 		select('Table', 'cell:Data,4(West_field Shoppingtown Eastgardens)')
 ##		assert_p('Table', 'Text', '152 Bunnerong Road', 'Data,5')
 		select('Table', 'cell:Data,4(West_field Shoppingtown Eastgardens)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'cell:1 - 3|Brand Id,2(TAR)')
 		select('Table', 'cell:1 - 3|Brand Id,2(TAR)')
 
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 #		if window(r'Save Changes to file: ' + commonBits.implementationSampleDir() + 'Ams_LocDownload_20041228.txt'):
 #			click('No')

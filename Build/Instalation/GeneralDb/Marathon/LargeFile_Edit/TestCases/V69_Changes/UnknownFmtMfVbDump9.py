@@ -22,11 +22,6 @@ def test():
 		close()
 
 		commonBits.doSleep()
-		commonBits.doSleep()
-
-
-		select_menu('Window>>MF_VBdump_Test.bin>>Table: ')
-
 
 		select('Table', 'cell:1 - 1|Data,1(TAR5019STPenrith                            Penrith                                 58 Leland Street                        Penrith                            2750      NSWA)')
 		assert_p('Table', 'Content', '[[TAR5015STBankstown                          Bankstown                               Unit 2, 39-41 Allingham Street          Condell Park                       2200      NSWA], [TAR5019STPenrith                            Penrith                                 58 Leland Street                        Penrith                            2750      NSWA], [TAR5033STBlacktown                          Marayong                                Dock 2, 11 Melissa Place                Marayong                           2148      NSWA], [TAR5035STRockdale                           Building B,  Portside DC                2-8 Mc Pherson Street                   Botany                             2019      NSWA], [TAR5037STMiranda                            Westfield Shoppingtown                  Cnr. Urunga Pde & The Kingsway          Miranda                            2228      NSWA], [TAR5052STEastwood                           Marayong Offsite Reserve                11 Melissa Place                        Marayong                           2148      NSWA]]')
@@ -72,6 +67,7 @@ ecdffffeed8998a84444444444444444444444444444d8998a844444444444444444444444444444
 ##		assert_p('Table', 'Content', '[[Data, 1, 1, TAR5019STPenrith                            Penrith                                 58 Leland Street                        Penrith                            2750      NSWA, T, [B@fc519b]]')
 ##		assert_p('Table', 'Content', '[[Data, 1, 1, TAR5019STPenrith                            Penrith                                 58 Leland Street                        Penrith                            2750      NSWA, T, [B@fc519b]]')
 		select('Table', 'cell:Hex,0([B@106ef07)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'cell:         +         1|Hex (2 Lines),1([B@150b06b)')
 	close()

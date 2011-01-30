@@ -17,7 +17,8 @@ def test():
 -->> ''' + commonBits.cobolTestDir() + '''cpyComp5Sync.cbl processed
 
       Copybook: cpyComp5Sync''')
-			click('BasicInternalFrameTitlePane$NoFocusButton2')
+			commonBits.closeWindow(click)
+			##click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 
 			click('Open')

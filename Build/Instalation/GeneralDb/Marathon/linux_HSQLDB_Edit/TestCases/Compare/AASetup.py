@@ -10,11 +10,15 @@ def test():
 			select('TabbedPane', 'Properties')
 			select('TabbedPane1', 'Other Options')
 			select('Table2', 'Y', ' Value ,2')
+			select('Table2', '', ' Value ,3')
 			select('Table2', 'cell: Value ,2(null)')
 			keystroke('Table2', 'Down', ' Value ,2')
 			select('Table2', 'N', ' Value ,3')
-			select('Table2', 'cell: Value ,3(null)')
-			keystroke('Table2', 'Down', ' Value ,3')
+
+			select('Table2', '14', ' Value ,4')
+
+			keystroke('Table2', 'Down', ' Value ,4')
+
 			select('TabbedPane', 'Looks')
 			##click('ScrollPane$ScrollBar', 14, 21)
 			select('TabbedPane', 'Looks')

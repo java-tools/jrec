@@ -21,7 +21,7 @@ def test():
 		select('Table2', ' = ', 'Operator,0')
 		select('Table2', '5110', 'Value,0')
 		select('Table2', 'cell:Value,0()')
-		click('Filter')
+		click('Filter1')
 		select('Table', 'cell:30 - 6|Entry Date,0(040929)')
 		assert_p('Table', 'Content', '[[5110, 211985, 040929, 200, 050103, 050107, , , , LADIES KNI, C, FT], [5110, 211987, 040929, 200, 050103, 050106, , , , LADIES KNI, C, FT]]')
 		select('Table', 'cell:52 - 6|Expected Reciept Date,1(050103)')

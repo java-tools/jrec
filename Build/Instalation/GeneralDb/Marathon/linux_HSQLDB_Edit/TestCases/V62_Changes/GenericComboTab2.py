@@ -12,9 +12,13 @@ def test():
 
 		if window(''):
 			commonBits.doSleep()
+			select('CheckBox', 'false')
 
 			click('Go')
 			commonBits.doSleep()
+
+			commonBits.doSleep()
+
 
 		close()
 

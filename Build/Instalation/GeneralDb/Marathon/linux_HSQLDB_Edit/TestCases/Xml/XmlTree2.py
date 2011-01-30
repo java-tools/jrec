@@ -37,8 +37,10 @@ def test():
 		select('Table', r'cell:Text,4(E:\Work\RecordEdit\Jasper\DTAR107_rpt1.jrxml)')
 		assert_p('Table', 'Content', r'[[Xml~Name, 0, , iReportFile, iReportFile], [Xml~Prefix, 3, , , ], [Xml~Namespace, 4, , , ], [Xml~End, 1, , , ], [Following~Text, 2, , E:\Work\RecordEdit\Jasper\DTAR107_rpt1.jrxml, E:\Work\RecordEdit\Jasper\DTAR107_rpt1.jrxml]]')
 		select('Table', r'cell:Text,4(E:\Work\RecordEdit\Jasper\DTAR107_rpt1.jrxml)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 		##if window(r'Save Changes to file: ' + commonBits.sampleDir() + 'Xml\recentFiles.xml'):
 		##	click('No')

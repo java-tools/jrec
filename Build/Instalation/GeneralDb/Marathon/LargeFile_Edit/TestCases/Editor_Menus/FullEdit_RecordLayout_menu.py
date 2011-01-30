@@ -1,6 +1,8 @@
 useFixture(default)
 
 def test():
+	from Modules import commonBits
+
 	java_recorded_version = '1.5.0_11'
 
 	if window('Record Editor'):
@@ -40,20 +42,25 @@ def test():
 		select('RecordFieldsJTbl', 'cell:Description,9(Format YYMMDD)')
 		click('ScrollPane$ScrollBar3', 570, 10)
 		click('ScrollPane$ScrollBar3', 523, 10)
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Record Layouts>>Create Layout')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		select_menu('Record Layouts>>Create Layout Wizard')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		select_menu('Record Layouts>>Layout Wizard')
 		assert_p('Label9', 'Text', 'Data Base')
 		
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Record Layouts>>Load Cobol Copybook')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Record Layouts>>Edit System Table')
 		select('TableListJTbl', 'cell:Details,1(EDI)')
 		assert_p('TableListJTbl', 'Text', 'EDI', 'Details,1')
 		select('TableListJTbl', 'cell:Details,5(Mainframe)')
 		assert_p('TableListJTbl', 'Text', 'Mainframe', 'Details,5')
 		select('TableListJTbl', 'cell:Details,5(Mainframe)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 	close()

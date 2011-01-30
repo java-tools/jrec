@@ -17,7 +17,8 @@ def test():
 -->> ''' + commonBits.cobolTestDir() + '''mfCompSync.cbl processed
 
       Copybook: mfCompSync''')
-			click('BasicInternalFrameTitlePane$NoFocusButton2')
+			commonBits.closeWindow(click)
+			##click('BasicInternalFrameTitlePane$NoFocusButton2')
 			click('Open')
 
 		select('FileChooser', commonBits.cobolTestDir() + 'mfCompSync.bin')

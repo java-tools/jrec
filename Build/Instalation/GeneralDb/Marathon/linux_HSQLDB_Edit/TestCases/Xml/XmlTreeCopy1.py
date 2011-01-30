@@ -67,8 +67,10 @@ def test():
 		select('Table', 'cell:7|name,7(Address-1)')
 		#assert_p('Table', 'Content', '[[item, , , 128, 03, Full-Address, 45, 128, , , , ], [item, , , 4, 05, Location-Number, 4, 4, 9(4), true, True, ], [item, , , 2, 05, Location-Type, 8, 2, XX, , True, ], [item, , , 35, 05, Location-Name, 10, 35, X(35), , True, ], [/item, , , , , , , , , , , ], [item, , , 128, 03, Full-Address, 45, 128, , , , ], [item, , , 115, 05, Address-Lines, 45, 115, , , , ], [item, , , 40, 07, Address-1, 45, 40, X(40), , True, ], [item, , , 40, 07, Address-2, 85, 40, X(40), , True, ], [item, , , 35, 07, Address-3, 125, 35, X(35), , True, ], [/item, , , , , , , , , , , ], [item, , , 10, 05, Postcode, 160, 10, 9(10), true, True, ], [item, , , 3, 05, State, 170, 3, XXX, , True, ], [/item, , , , , , , , , , , ], [item, , , 40, 07, Address-2, 85, 40, X(40), , True, ], [item, , , 1, 03, Location-Active, 173, 1, X, , True, ], [item, , , 3, 03, Brand, 1, 3, x(3), , True, ]]')
 		select('Table', 'cell:7|name,7(Address-1)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 		if window('Save Changes to file: ' + commonBits.sampleDir() + 'Xml' + commonBits.fileSep() + 'AmsLocationTest1.xml'):
 			click('No')

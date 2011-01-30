@@ -27,7 +27,7 @@ def test():
 
 		if window(''):
 			select('CheckBox', 'true')
-			assert_p('ComboBox', 'Text', 'x\'FF')
+			assert_p('ComboBox', 'Text', 'x\'FF\'')
 			assert_p('Table', 'Text', '69684558', 'KEYCODE-NO,0')
 			select('Table', 'cell:DATE,0(40118)')
 			assert_p('Table', 'Text', '40118', 'DATE,0')
@@ -37,15 +37,20 @@ def test():
 			select('Table', 'cell:DEPT-NO,1(280)')
 			commonBits.doSleep()
 
-
+			select('TabbedPane', 'Normal')
 			click('Go')
+			commonBits.doSleep()
+
+			commonBits.doSleep()
+
+
 			commonBits.doSleep()
 
 		close()
 
 		commonBits.doSleep()
-		commonBits.doSleep()
 
+		commonBits.doSleep()
 
 		select_menu('Window>>XffDTAR020.csv>>Table: ')
 
@@ -104,7 +109,8 @@ def test():
 		click('*1')
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020.bin')
 		select('FileChooser1', commonBits.sampleDir() + 'SampleFiles' + commonBits.fileSep())
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('*2')
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020.bin')
 		click('Right')
@@ -113,6 +119,7 @@ def test():
 		click('Right')
 
 		if window(''):
+			select('TabbedPane', 'Normal')
 			select('TextField', 'x\'FF\'')
 			select('CheckBox', 'true')
 ##			select('Table', '')
@@ -131,8 +138,8 @@ def test():
 		select('Table1', 'cell:Equivalent Field,5()')
 		select('Table', 'cell:Equivalent Record,0(0)')
 		select('Table1', 'cell:Equivalent Field,5()')
-		click('MetalInternalFrameTitlePane', 379, 15)
-		click('MetalInternalFrameTitlePane', 345, 11)
+		##click('MetalInternalFrameTitlePane', 379, 15)
+		##click('MetalInternalFrameTitlePane', 345, 11)
 		click('Right')
 		select('TabbedPane', '')
 		click('Compare')

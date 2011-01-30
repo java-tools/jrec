@@ -67,6 +67,7 @@ ecdffffeed8998a84444444444444444444444444444d8998a844444444444444444444444444444
 ##		assert_p('Table', 'Content', '[[Data, 1, 1, TAR5019STPenrith                            Penrith                                 58 Leland Street                        Penrith                            2750      NSWA, T, [B@fc519b]]')
 ##		assert_p('Table', 'Content', '[[Data, 1, 1, TAR5019STPenrith                            Penrith                                 58 Leland Street                        Penrith                            2750      NSWA, T, [B@fc519b]]')
 		select('Table', 'cell:Hex,0([B@106ef07)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'cell:         +         1|Hex (2 Lines),1([B@150b06b)')
 	close()

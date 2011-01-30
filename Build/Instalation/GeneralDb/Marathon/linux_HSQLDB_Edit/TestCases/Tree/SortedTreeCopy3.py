@@ -1,5 +1,7 @@
 useFixture(default)
-
+###
+###  Problem Nimbus ???
+###
 def test():
 	from Modules import commonBits
 	java_recorded_version = '1.5.0_11'
@@ -8,7 +10,7 @@ def test():
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020.bin')
 		click('Edit1')
 		select_menu('View>>Sorted Field Tree')
-		select('List', 'DTAR020')
+#		select('List', 'DTAR020')
 		select('Table', 'STORE-NO', 'Field,0')
 		select('Table', 'DEPT-NO', 'Field,1')
 		select('Table', 'cell:Field,1(DEPT-NO)')
@@ -35,7 +37,8 @@ def test():
 		select('Table', 'cell:1 - 8|KEYCODE-NO,8(67674686)')
 		assert_p('Table', 'RowCount', '13')
 		select('Table', 'cell:1 - 8|KEYCODE-NO,8(67674686)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('JTreeTable', 'cell:KEYCODE-NO,1(null)')
 		rightclick('JTreeTable', 'KEYCODE-NO,1')
 		select_menu('Expand Tree')
@@ -69,7 +72,8 @@ def test():
 		select('Table', 'cell:1 - 8|KEYCODE-NO,0(60694698)')
 		assert_p('Table', 'Content', '[[60694698, 59, 40118, 620, 1, 3.99], [60664659, 59, 40118, 620, 1, 3.99]]')
 		select('Table', 'cell:1 - 8|KEYCODE-NO,0(60694698)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('JTreeTable', 'cell:Tree,4(null)')
 		rightclick('JTreeTable', 'KEYCODE-NO,4')
 		select_menu('Copy Record#{s#}')
@@ -89,12 +93,15 @@ def test():
 		select('Table', 'cell:1 - 8|KEYCODE-NO,3(61664713)')
 		assert_p('Table', 'RowCount', '5')
 		select('Table', 'cell:1 - 8|KEYCODE-NO,3(61664713)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('JTreeTable', 'cell:Tree,12(null)')
 		rightclick('JTreeTable', 'Tree,12')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Window>>DTAR020.bin>>Table: ')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 
 		if window('Save Changes to file: ' + commonBits.sampleDir() + 'DTAR020.bin'):

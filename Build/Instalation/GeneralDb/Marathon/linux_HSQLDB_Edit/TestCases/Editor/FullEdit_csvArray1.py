@@ -27,5 +27,6 @@ def test():
 		assert_p('TextField', 'Text', '2;3;4;5;6')
 		#click('ArrowButton')
 		#assert_p('Table', 'Content', '[[111, 22, 33, 44, 55, 66, 77], [1, 2;3 44 5;4|1;2;3;4|4;5;6, 333, 2;3;4 55 66;5;6, 555, 1:2:3, 1|33|33|11], [111, 22, 33, 44, 55, 66, 1|2|1], [1, 2;3;4|1;2;3;4|4;5;6, 333, 2;3;4;5;6, 555, 1:2:3, 11|2|11]]')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 	close()

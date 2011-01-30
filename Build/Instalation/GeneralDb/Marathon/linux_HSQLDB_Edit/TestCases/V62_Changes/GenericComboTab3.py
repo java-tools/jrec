@@ -12,13 +12,19 @@ def test():
 
 		if window(''):
 			commonBits.doSleep()
+			select('CheckBox', 'false')
 
 			click('Go')
+			commonBits.doSleep()
+
 			commonBits.doSleep()
 
 		close()
 
 		commonBits.doSleep()
+
+		commonBits.doSleep()
+
 
 		select('Table', 'cell:4|D,6(Penrith)')
 		assert_p('Table', 'Text', 'Penrith', '4|D,6')

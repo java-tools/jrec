@@ -21,10 +21,7 @@ def test():
 		close()
 
 		commonBits.doSleep()
-		commonBits.doSleep()
-
-
-		select_menu('Window>>MF_VB_Test.bin>>Table: ')
+		select_menu('Window>>MF_VB_Test.bin>>Table: ')
 
 
 		select('Table', 'cell:1 - 1|Data,1(TAR5019STPenrith                            Penrith                                 58 Leland Street                        Penrith                            2750      NSWA)')

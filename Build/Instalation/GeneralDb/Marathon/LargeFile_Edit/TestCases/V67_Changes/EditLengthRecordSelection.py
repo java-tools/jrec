@@ -64,8 +64,10 @@ def test():
 		assert_p('Table', 'Content', '[[Record Type, 1, 2, S1, S1], [DC Number 1, 3, 4, 5036, 5036], [Pack Quantity 1, 7, 8, 3, 00000003], [DC Number 2, 15, 4, 5043, 5043], [Pack Quantity 2, 19, 8, 5, 00000005], [DC Number 4, 39, 4, 3331, 3331], [Pack Quantity 4, 43, 8, 50710003, 50710003], [DC Number 5, 51, 4, 5065, 5065], [Pack Quantity 5, 55, 8, 4, 00000004], [DC Number 6, 63, 4, 5069, 5069], [Pack Quantity 6, 67, 8, 4, 00000004], [DC Number 7, 75, 4, 5076, 5076], [Pack Quantity 7, 79, 8, 4, 00000004], [DC Number 8, 87, 4, 5079, 5079], [Pack Quantity 8, 91, 8, 2, 00000002], [DC Number 9, 99, 4, 5094, 5094], [Pack Quantity 9, 103, 8, 4, 00000004], [DC Number 10, 111, 4, 5128, 5128], [Pack Quantity 10, 115, 8, 3, 00000003]]')
 		select('Table', 'cell:Data,3(5043)')
 		assert_p('LayoutCombo', 'Text', 'ams PO Download: Allocation')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 		click('Open')
 ##		click('Choose File')
@@ -81,6 +83,7 @@ def test():
 
 		commonBits.setRecordLayout(select, 'ams PO Download')
 		click('Edit1')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 	close()

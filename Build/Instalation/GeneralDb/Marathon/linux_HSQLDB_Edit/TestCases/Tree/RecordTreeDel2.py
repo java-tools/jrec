@@ -51,12 +51,15 @@ def test():
 		select('Table', 'cell:7 - 8|Pack Quantity 1,1(1)')
 		#assert_p('Table', 'RowCount', '5')
 		select('Table', 'cell:7 - 8|Pack Quantity 1,1(1)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'cell:18 - 12|PO,2(700000001507)')
 		assert_p('Table', 'RowCount', '58')
 		select('Table', 'cell:18 - 12|PO,2(700000001507)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 		if window('Save Changes to file: ' + commonBits.sampleDir() + 'Ams_PODownload_20041231.txt'):
 			click('No')

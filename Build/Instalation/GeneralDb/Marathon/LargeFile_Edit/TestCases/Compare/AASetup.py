@@ -11,6 +11,7 @@ def test():
 			select('TabbedPane1', 'Other Options')
 			select('Table2', 'Y', ' Value ,2')
 			select('Table2', '0', ' Value ,4')
+			select('Table2', '1', ' Value ,5')
 			select('Table2', 'cell: Value ,2(null)')
 			keystroke('Table2', 'Down', ' Value ,2')
 			select('Table2', 'N', ' Value ,3')

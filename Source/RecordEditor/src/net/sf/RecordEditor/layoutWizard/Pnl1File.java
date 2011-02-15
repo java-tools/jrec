@@ -74,7 +74,8 @@ public class Pnl1File extends WizardPanel  {
 		    	+ "a sample file. <p> you need to enter a<ol>"
 		    	+ "<li>sample file in the new layout</li>"
 		    	+ "<li>the file structure (use <b>Default Reader</b>"
-		    	+      " for standard windows / Unix files)</li>"
+		    	+      " for standard windows / Unix files) "
+		    	+      " for unknown file format use <b>Unknown Format</b></li>"
 		    	+ "<li>the new layout name</li>";
 		tips = new JEditorPane("text/html", formDescription);
 		

@@ -6,8 +6,7 @@ def test():
 
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'Xml' + commonBits.fileSep() + 'AmsLocationTest1.xml')
-		commonBits.doEdit(click)
-
+		click('Edit1')
 		select('LayoutCombo', 'copybook')
 		#rightclick('JTreeTable', 'Prefix,0')
 		#select_menu('Expand Tree')
@@ -31,8 +30,7 @@ def test():
 		select('Table', 'cell:7|name,7(Full-Address)')
 		assert_p('Table', 'Content', '[[item, , , 173, 01, Ams-Vendor, 1, 173, , , , ], [item, , , 3, 03, Brand, 1, 3, x(3), , True, ], [item, , , 41, 03, Location-Details, 4, 41, , , , ], [item, , , 4, 05, Location-Number, 4, 4, 9(4), true, True, ], [item, , , 2, 05, Location-Type, 8, 2, XX, , True, ], [item, , , 35, 05, Location-Name, 10, 35, X(35), , True, ], [/item, , , , , , , , , , , ], [item, , , 128, 03, Full-Address, 45, 128, , , , ], [item, , , 115, 05, Address-Lines, 45, 115, , , , ], [item, , , 40, 07, Address-1, 45, 40, X(40), , True, ], [item, , , 40, 07, Address-2, 85, 40, X(40), , True, ], [item, , , 35, 07, Address-3, 125, 35, X(35), , True, ], [/item, , , , , , , , , , , ], [item, , , 10, 05, Postcode, 160, 10, 9(10), true, True, ], [item, , , 3, 05, State, 170, 3, XXX, , True, ], [/item, , , , , , , , , , , ], [item, , , 1, 03, Location-Active, 173, 1, X, , True, ]]')
 		select('Table', 'cell:7|name,7(Full-Address)')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('JTreeTable', 'cell:Tree,6(null)')
 		rightclick('JTreeTable', 'Xml~Prefix,6')
 		select_menu('Copy Record#{s#}')
@@ -71,13 +69,11 @@ def test():
 		select('Table', 'cell:7|name,2(Location-Number)')
 		assert_p('Table', 'RowCount', '5')
 		select('Table', 'cell:7|name,2(Location-Number)')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('JTreeTable', 'cell:level,11(05)')
 		rightclick('JTreeTable', 'level,11')
 		select('JTreeTable', 'cell:level,11(05)')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 		if window('Save Changes to file: ' + commonBits.sampleDir() + 'Xml' + commonBits.fileSep() + 'AmsLocationTest1.xml'):
 			click('No')

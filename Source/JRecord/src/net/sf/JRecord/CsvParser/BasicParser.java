@@ -21,10 +21,7 @@ public class BasicParser extends BaseCsvParser implements AbstractParser {
 
     private static BasicParser instance = new BasicParser(false);
 
-    @Deprecated
-    public BasicParser() {
-    	super(false);
-    }
+
     
     public BasicParser(boolean quoteInColumnNames) {
     	super(quoteInColumnNames);

@@ -347,8 +347,10 @@ extends BasicLayout<FieldDetail, RecordDetail> {
 		    ret = Constants.IO_FIXED_LENGTH;
 		} else if ( isBinCSV()) {
 			ret = Constants.IO_BIN_TEXT;
-		} else {
+		} else if (fontName != null && ! "".equals(fontName)){
 		    ret = Constants.IO_TEXT_LINE;
+		} else {
+			ret = Constants.IO_BIN_TEXT;
 		}
        //System.out.println(" ~~ getFileStructure " + fileStructure + " " + ret);
 

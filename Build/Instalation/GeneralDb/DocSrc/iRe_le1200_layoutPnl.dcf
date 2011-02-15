@@ -1,5 +1,5 @@
 :p.
-.****b2h HTML <img SRC="Diagram/LayoutEdit_RecordDtls.GIF">
+.****b2h HTML <img SRC="Diagram/LayoutEdit_RecordDtls.png">
  
 :p.The fields on this section of the screen are:
  :dl.
@@ -8,7 +8,7 @@
   :dt.Buttons
   :dd.The buttons at the top of Record Screen Save, Create, Repeat, Delete and reload
 Record Details to/from the Database.
-.*b2h HTML <table><tr><td><img SRC="Diagram/LayoutEdit_RecBtns1.GIF"></td></tr></table>
+.*b2h HTML <table><tr><td><img SRC="Diagram/LayoutEdit_RecBtns1.png"></td></tr></table>
   :dt.Record Name &amp. Description
   :dd.Self Evident
   :dt.Record Type
@@ -22,12 +22,12 @@ Record Details to/from the Database.
 insert button (just below) is pressed.
  :dt.Table Buttons
  :dd.The second row of buttons refer to the Field Table / Sub-Record Table immediately below the buttons
-.*b2h HTML <table><tr><td><img SRC="Diagram/RecordLayout_RecTableBtns.GIF"></td></tr></table>
+.*b2h HTML <table><tr><td><img SRC="Diagram/RecordLayout_RecTableBtns.png"></td></tr></table>
  :dt.Record Details
  :dd.Lastly we have a Tab Box holding the :hdref refid=Field./:hdref refid=Child. tables +
 the :hdref refid=Extra.. These panels define record details.
 :p.
-.*b2h HTML <img SRC="Diagram/LayoutEdit_Tab.GIF">
+.*b2h HTML <img SRC="Diagram/LayoutEdit_Tab.png">
 :note.The :hdref refid=Child. panel is displayed when :hp2.Record Type:ehp2.=:BBlue.Group of Records:EBBlue.
 or :BBlue.Group of Binary records Records:EBBlue. otherwise :hdref refid=Field. is displayed.
 :edl. 

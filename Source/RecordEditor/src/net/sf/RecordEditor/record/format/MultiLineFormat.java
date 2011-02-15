@@ -10,6 +10,7 @@ package net.sf.RecordEditor.record.format;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
+import com.zbluesoftware.java.bm.AbstractGenericCombo;
 import com.zbluesoftware.java.bm.GenericComboTableRender;
 
 import net.sf.JRecord.Common.Constants;
@@ -46,12 +47,23 @@ public class MultiLineFormat implements CellFormat {
         return Constants.NULL_INTEGER;
     }
 
+    @SuppressWarnings("serial")
+	private GenericComboTableRender getTableRender() {
+        return new GenericComboTableRender(false, new MultiLineCombo()) {
+			@Override
+			protected AbstractGenericCombo getCombo() {
+				return new MultiLineCombo();
+			}
+        };
+    }
+    
+    
     /**
      * @see net.sf.RecordEditor.record.format.CellFormat#getTableCellEditor(net.sf.RecordEditor.record.types.FieldDetail)
      */
     public TableCellEditor getTableCellEditor(FieldDetail fld) {
-        return new GenericComboTableRender(false, 
-				 						   new MultiLineCombo());
+        return getTableRender();
+	//			 						   new MultiLineCombo());
     }
 
     /**
@@ -59,8 +71,7 @@ public class MultiLineFormat implements CellFormat {
      */
     public TableCellRenderer getTableCellRenderer(FieldDetail fld) {
         if (render == null) {
-            render = new GenericComboTableRender(false, 
-            									 new MultiLineCombo());
+            render = getTableRender();
         }
         return render;
     }

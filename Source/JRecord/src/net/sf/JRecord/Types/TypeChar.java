@@ -154,6 +154,7 @@ public class TypeChar implements Type {
 			if (val.length() >= len) {
 				System.arraycopy(byteVal, 0, record, pos, len);
 			} else {
+				//System.out.println("::-> " + val.length() + " " + pos + " " + record.length);
 				System.arraycopy(byteVal, 0, record, pos, val.length());
 				//padWith(record, pos + val.length(), len - val.length(), " ", font);
 				padByte(record, pos + val.length(), len - val.length(), getPadByte(font));

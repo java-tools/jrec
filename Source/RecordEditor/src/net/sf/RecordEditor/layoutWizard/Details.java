@@ -71,6 +71,7 @@ public class Details {
     protected String keyName = "Record_Type";
     protected int keyStart = 0;
     protected int keyLength = 0;
+    protected int textPct = 100;
     protected Integer keyType = CHAR_TYPE;
     
 

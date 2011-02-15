@@ -7,22 +7,11 @@ def test():
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'zzAms_LocDownload_tab.csv')
 		commonBits.setRecordLayout(select, 'Generic CSV - enter details')
-		commonBits.doEdit(click)
-
+		click('Edit1')
 
 		if window(''):
-			commonBits.doSleep()
-			select('CheckBox', 'false')
-
 			click('Go')
-			commonBits.doSleep()
-
-			commonBits.doSleep()
-
-
 		close()
-
-		commonBits.doSleep()
 
 		select('Table', 'cell:4|D,0(Loc_Name)')
 		assert_p('Table', 'Text', 'WA Ad Support', '4|D,4')

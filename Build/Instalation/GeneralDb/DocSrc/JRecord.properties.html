@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>JRecord Properties File.</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- E:\tmp\RecordEditor\Build\Instalation\GeneralDB\DocSrc\JRecord.p -->
+<!-- roperties.dcf converted by B2H R4.7 (390) (WINNT) on 28 Jan 2011 -->
+<!-- at 14:34:22                                                      -->
+<META HTTP-EQUIV="updated" CONTENT="Tue, 27 Jul 2010 23:52:32">
+<META HTTP-EQUIV="review" CONTENT="Wed, 27 Jul 2011 23:52:32">
+<META HTTP-EQUIV="expires" CONTENT="Fri, 27 Jul 2012 23:52:32">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<a name="Toc"/>
+<A NAME="ToC_1" HREF="#HDRJRECORDPROPERTIES" >JRecord Properties File.</A><BR>
+<P>
+<P><H3><A NAME="HDRJRECORDPROPERTIES" HREF="#ToC_1" >JRecord Properties File.</A></H3>
+<P>
+<P>The JRecord.properties file can be used to define a Cobol dialect (provided
+the types already exist in the JRecord/RecordEditor package. Each dialect definition
+consists of a series of assignment statments
+<P>
+<PRE>   <font color="red">###   Definition for Open Cobol</font>
+   <font color="red">###  *-------------------------*</font>
+ 
+   <font color="blue">CnvCode.1</font>=<font color="red">151</font>
+   <font color="blue">CnvName.1</font>=Test Open Cobol
+   <font color="blue">CnvSizes.1</font>=<font color="red">1,2,4,8</font>
+   <font color="blue">CnvSyncSizes.1</font>=<font color="red">1,2,4,8</font>
+ 
+ 
+   <font color="red">###   Definition for BS2000 compiler</font>
+   <font color="red">###  *------------------------------*</font>
+ 
+   <font color="blue">CnvCode.1</font>=<font color="red">152</font>
+   <font color="blue">CnvName.1</font>=BS2000
+   <font color="blue">CnvSizes.1</font>=<font color="red">2,4,8</font>
+   <font color="blue">CnvSyncSizes.1</font>=<font color="red">2,4,8</font>
+</PRE><P><P><BR><TABLE   BORDER="1">	
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="14%">Variable
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA" WIDTH="86%">Description
+	
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="14%"><font color="blue">CnvCode</font>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="86%">Integer code that uniquely identifies the Cobol Dialect. Please use values &gt; 100 to avoid conflicts with builtin dialects
+	
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="14%"><font color="blue">CnvName</font>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="86%">Name of the Cobol dialect. This is what appears in the combo box.
+	
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="14%"><font color="blue">CnvSizes</font>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="86%">The sizes in bytes that are used by Comp (binary integer fields). This <B>2,4,8</B> on the mainframe
+while many PC Cobol compilers allow 1 byte binary fields so <B>1,2,4,8</B>
+	
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="14%"><font color="blue">SyncSizes</font>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="86%">Byte allignment positions (for the Sync keyword). The 4 numbers are
+<UL COMPACT>
+ <LI>Where 1 byte binary numbers align to.
+ <LI>Where 2 byte binary numbers align to.
+ <LI>Where 4 byte binary numbers align to.
+ <LI>Where 8 byte binary numbers align to.
+</UL>
+	
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="14%"><font color="blue">CnvFloatSync</font>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="86%">The byte where Floating point (Comp-1) variables align to
+	
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="14%"><font color="blue">CnvDoubleSync</font>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="86%">The byte where Double (Comp-2) variables align to
+	
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="14%"><font color="blue">CnvType</font>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="86%">The <B>JRecord/RecordEditor</B> Type to assign to
+<P>
+Pic 9, Comp, Comp-1, Comp-2, Comp-3, Comp-4, Comp-5, Comp-6
+<P>
+variables. Values available are
+<UL COMPACT>
+ <LI>zd - Ascii Zoned Decimal
+ <LI>mvszd - Mainframe (EBCDIC) Zoned Decimal
+ <LI>be - Mainframe style Big Endian Binary integer
+ <LI>pbe - Mainframe Style Positive Big endian Integer
+ <LI>le - Intel style Little Endian Binary integer
+ <LI>ple - Intel Style Positive Little endian Integer
+ <LI>f - floating point number
+ <LI>d - Double
+ <LI>pd - Packed Decimal (Comp-3)
+ <LI>ppd - Packed Decimal with no Sign Nyble
+ <LI>rm - RM Cobol Comp (untested, I do not have a RM Cobol File).
+ <LI>rmp - Positive RM Cobool comp.
+</UL>
+<P>
+This field is optional. If left out, it defaults to
+<P>
+zd,be,f,d,pd,be,le
+<P>
+	
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH="14%"><font color="blue">CnvPositiveType</font>
+</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="86%">Types to use for positive [i.e. unsigned Pic 9(?)] variables. If left out it defaults to the <font color="blue">CnvType</font>
+variable. It has exactly the same formats and types as <font color="blue">CnvType</font>.
+<P>
+</TD></TR></TABLE>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

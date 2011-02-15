@@ -6,15 +6,11 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JSplitPane;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.event.ChangeEvent;
@@ -27,8 +23,8 @@ import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.RecordEditor.edit.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.csv.CheckEncoding;
 import net.sf.RecordEditor.utils.csv.CsvSelectionPanel;
+import net.sf.RecordEditor.utils.csv.CsvTabPane;
 import net.sf.RecordEditor.utils.openFile.FormatFileName;
 import net.sf.RecordEditor.utils.openFile.OpenFileInterface;
 import net.sf.RecordEditor.utils.openFile.RecentFiles;
@@ -40,23 +36,21 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
 @SuppressWarnings("serial")
 public class OpenCsvFilePnl 
 extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
-	private final static byte[][] oneBlankLine = {{}};
+
 	private final static int NORMAL_CSV  = 0,
 							 UNICODE_CSV = 1;
 	
 	private JFileChooser chooser = new JFileChooser();
-	//private CsvSelectionPanel csvDetails = new CsvSelectionPanel(false);
 	protected RecentFiles recent;
 	private RecentFilesList recentList;
 	private	ByteTextReader r = new ByteTextReader();
-	
-	private JTabbedPane tab = new JTabbedPane();
+
 	private JTextArea msgField = new JTextArea();
 	private AbstractLineIOProvider ioProvider;
-	private CsvSelectionPanel csvDetails = new CsvSelectionPanel(oneBlankLine, "", false, "File Preview", msgField);
-	private CsvSelectionPanel unicodeCsvDetails = new CsvSelectionPanel(oneBlankLine[0], "", false, "Unicode File Preview", msgField);
+	private CsvTabPane csvTabDtls = new CsvTabPane(msgField);
 	
-	private CsvSelectionPanel[] csvPanels = {csvDetails, unicodeCsvDetails};
+	
+	//private File file;
 
 	   
     public final KeyAdapter keyListner = new KeyAdapter() {
@@ -82,7 +76,7 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 
 		      if ((f != null) && (f.isFile()) &&  (! lastFileName.equals(f.getPath()))) {
 		  		lastFileName = f.getPath();
-		  		readFilePreview(f, true);
+		  		csvTabDtls.readFilePreview(f, true);
 		      }
 		    }
 		}
@@ -100,10 +94,15 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 			@Override
 			public void stateChanged(ChangeEvent e) {
 			//chooser.dispatchEvent(null);
-			chooser.getActionForKeyStroke(
-					KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0))
-			   .actionPerformed(null);
-			readFilePreview(chooser.getSelectedFile(), false);
+				csvTabDtls.tab.removeChangeListener(this);
+				int idx = csvTabDtls.tab.getSelectedIndex();
+				chooser.getActionForKeyStroke(
+						KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0))
+				   .actionPerformed(null);
+				
+				csvTabDtls.tab.setSelectedIndex(idx);
+				csvTabDtls.readFilePreview(chooser.getSelectedFile(), false);
+				csvTabDtls.tab.addChangeListener(this);
 		}
 	};
 	
@@ -115,12 +114,23 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 		recent = new RecentFiles(propertiesFiles, this);
 		recentList = new RecentFilesList(recent, this);
 		
+		boolean filePresent = true;
+		File file;
 		String fname = fileName;
+		String helpname = Common.formatHelpURL(Common.HELP_CSV_EDITOR);
 		if (fname == null || "".equals(fname)) {
 			fname = Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get();
+			filePresent = false;
 		}
 
-		chooser.setSelectedFile(new File(fname));
+		setHelpURL(helpname);
+		setTab(csvTabDtls.csvDetails, helpname);
+		setTab(csvTabDtls.unicodeCsvDetails, helpname);
+		registerComponent(chooser);
+		registerComponent(csvTabDtls.tab);
+		
+		
+		file = new File(fname);
 		
 		chooser.setControlButtonsAreShown(false);
 		
@@ -129,96 +139,113 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 		chooser.addChoosableFileFilter(new FileNameExtensionFilter("CSV file", "csv", "tsv"));
 		chooser.setFileFilter(filter);
 		
-		setTab("Normal",  csvDetails);
-		setTab("Unicode", unicodeCsvDetails);
-		SwingUtils.addKeyListnerToContainer(chooser, keyListner);
-		SwingUtils.addKeyListnerToContainer(tab, keyListner);
 
+		SwingUtils.addKeyListnerToContainer(chooser, keyListner);
+		SwingUtils.addKeyListnerToContainer(csvTabDtls.tab, keyListner);
+
+		chooser.setSelectedFile(file);
 		chooser.addPropertyChangeListener(chgListner);
-		tab.addChangeListener(tabListner);
+		csvTabDtls.tab.addChangeListener(tabListner);
+		
+		if (filePresent) {
+			csvTabDtls.readFilePreview(file, true);
+		}
 	}
 	
-	private void setTab(String tabName, CsvSelectionPanel pnl) {
+	private void setTab(CsvSelectionPanel pnl, String helpname) {
 		
-		
+		pnl.setHelpURL(helpname);
+
+		pnl.go.setIcon(Common.getRecordIcon(Common.ID_OPEN_ICON));
+
 		pnl.go.setText("Edit");
 		pnl.go.addActionListener(goAction);
-		
-		tab.add(tabName, pnl);
 	}
 	
 	
-	private void readFilePreview(File f, boolean allowSwap2Unicode) {
-
-		if ((f != null) && (f.isFile()) ) {
-			String fileName = f.getPath();
-
-			try {
-				byte[] data = readUnicodeFile(fileName);
-				String charSet = CheckEncoding.determineCharSet(data);
-				
-				if (tab.getSelectedIndex() == NORMAL_CSV) { 
-					if (allowSwap2Unicode && ! "".equals(charSet)) {
-						unicodeCsvDetails.fontTxt.setText(charSet);
-						unicodeCsvDetails.setData(data, false);
-						tab.setSelectedIndex(UNICODE_CSV);					
-					} else {
-						setNormalCsv(data);
-					}
-				} else {
-					if (allowSwap2Unicode && "".equals(charSet)) {
-						setNormalCsv(data);
-						tab.setSelectedIndex(NORMAL_CSV);					
-					} else {
-						unicodeCsvDetails.fontTxt.setText(charSet);
-						unicodeCsvDetails.setData(data, true);
-					}
-				}
-			} catch (IOException ex) {
-				Common.logMsg("Error Reading File", ex);
-			}
-		}
-	}
-	
-	private void setNormalCsv(byte[] data) throws IOException {
-		byte[] line;
-		byte[][] lines = new byte[30][];
-		int i = 0;
-		
-		r.open(new ByteArrayInputStream(data));
-		while (i < lines.length && (line = r.read()) != null) {
-			lines[i++] = line;
-		}
-		r.close();
-		csvDetails.setLines(lines, "", lines.length);
-	}
-	
-	
-	private byte[] readUnicodeFile(String fileName) 
-	throws IOException {
-		byte[] data = new byte[8000];
-		FileInputStream in = new FileInputStream(fileName);
-	    int num = in.read(data);
-	    int total = num;
-
-	    while (num >= 0 && total < data.length) {
-	        num = in.read(data, total, data.length - total);
-	        total += Math.max(0, num);
-	    }
-	    in.close();
-	    
-	    if (total < data.length) {
-	    	byte[] t = new byte[total];
-	    	System.arraycopy(data, 0, t, 0, total);
-	    	data = t;
-	    }
-	    return data;
-	}
+//	private void readFilePreview(File f, boolean allowSwap2Unicode) {
+//
+//		if ((f != null) && (f.isFile()) ) {
+//			String fileName = f.getPath();
+//
+//			try {
+//				byte[] data = readUnicodeFile(fileName);
+//				String charSet = CheckEncoding.determineCharSet(data);
+//				
+//				if (csvTabDtls.tab.getSelectedIndex() == NORMAL_CSV) { 
+//					if (allowSwap2Unicode && ! "".equals(charSet)) {
+//						csvTabDtls.unicodeCsvDetails.fontTxt.setText(charSet);
+//						csvTabDtls.unicodeCsvDetails.setData(data, false);
+//						csvTabDtls.tab.setSelectedIndex(UNICODE_CSV);					
+//					} else {
+//						setNormalCsv(data);
+//					}
+//				} else {
+//					if (allowSwap2Unicode && "".equals(charSet)) {
+//						setNormalCsv(data);
+//						csvTabDtls.tab.setSelectedIndex(NORMAL_CSV);					
+//					} else {
+//						csvTabDtls.unicodeCsvDetails.fontTxt.setText(charSet);
+//						csvTabDtls.unicodeCsvDetails.setData(data, true);
+//					}
+//				}
+//			} catch (IOException ex) {
+//				Common.logMsg("Error Reading File", ex);
+//			}
+//		}
+//	}
+//	
+//	private void setNormalCsv(byte[] data) throws IOException {
+//		byte[] line;
+//		byte[][] lines = new byte[30][];
+//		int i = 0;
+//		
+//		r.open(new ByteArrayInputStream(data));
+//		while (i < lines.length && (line = r.read()) != null) {
+//			lines[i++] = line;
+//		}
+//		r.close();
+//		csvTabDtls.csvDetails.setLines(lines, "", lines.length);
+//	}
+//	
+//	
+//	private byte[] readUnicodeFile(String fileName) 
+//	throws IOException {
+//		byte[] data = new byte[8000];
+//		FileInputStream in = new FileInputStream(fileName);
+//	    int num = in.read(data);
+//	    int total = num;
+//
+//	    while (num >= 0 && total < data.length) {
+//	        num = in.read(data, total, data.length - total);
+//	        total += Math.max(0, num);
+//	    }
+//	    in.close();
+//	    
+//	    if (total < data.length) {
+//	    	byte[] t = new byte[total];
+//	    	System.arraycopy(data, 0, t, 0, total);
+//	    	data = t;
+//	    }
+//	    return data;
+//	}
 	
 	private void openFile() {
 		File f = chooser.getSelectedFile(); 
-		
-		CsvSelectionPanel csvpnl = csvPanels[tab.getSelectedIndex()];
+		try {
+			chooser.getActionForKeyStroke(
+							KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0))
+					   .actionPerformed(null);
+			File f1 = chooser.getSelectedFile(); 
+			if (! f1.equals(f)) {
+				f = f1;
+				csvTabDtls.readFilePreview(f, true);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		CsvSelectionPanel csvpnl = csvTabDtls.getSelectedCsvDetails();
 		if (f != null && f.getPath() != null) {
 			try {
 				LayoutDetail l = csvpnl.getLayout(csvpnl.fontTxt.getText(), r.getEol());
@@ -244,9 +271,9 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 	
 	@Override
 	public void done() {
-		addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
+		addComponent(0, 5, BasePanel.FILL, BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL,
-		        new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, chooser, tab));
+		        new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, chooser, csvTabDtls.tab));
 		addMessage(msgField);
 		setHeight(BasePanel.NORMAL_HEIGHT * 3);
 		
@@ -283,11 +310,11 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 			
 			if (layoutName != null && ! "".equals(layoutName)) {
 				if (layoutName.startsWith(CsvSelectionPanel.NORMAL_CSV_STRING)) {
-					csvDetails.setFileDescription(layoutName);
-					tab.setSelectedIndex(NORMAL_CSV);
+					csvTabDtls.csvDetails.setFileDescription(layoutName);
+					csvTabDtls.tab.setSelectedIndex(NORMAL_CSV);
 				} else {
-					unicodeCsvDetails.setFileDescription(layoutName);
-					tab.setSelectedIndex(UNICODE_CSV);	
+					csvTabDtls.unicodeCsvDetails.setFileDescription(layoutName);
+					csvTabDtls.tab.setSelectedIndex(UNICODE_CSV);	
 				}
 			}
 		} catch (Exception e) {

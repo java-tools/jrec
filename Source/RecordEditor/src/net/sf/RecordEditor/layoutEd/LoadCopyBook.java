@@ -187,12 +187,13 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 			if (loaderOptions.getSelectedIndex() < 0) {
 				loaderOptions.setSelectedIndex(0);
 			}
+			innerPnl.setGap(BasePanel.GAP);
 			innerPnl.addLine("Copybook Type", loaderOptions);
-			innerPnl.setGap(BasePanel.GAP1);
+			innerPnl.setGap(BasePanel.GAP);
 		}
 
 		innerPnl.addLine(copybookPrompt, copybookFile, copybookFile.getChooseFileButton());
-		innerPnl.setGap(BasePanel.GAP1);
+		innerPnl.setGap(BasePanel.GAP0);
 		innerPnl.addLine("Split Copybook", splitOptions);
 		innerPnl.addLine("Font Name", fontName);
 		innerPnl.addLine("Binary Format", binaryOptions, go);

@@ -16,7 +16,7 @@ See :hdref refid=ComboPnl. for more details.
 :h3 id=ComboSel.Combo Selection Panel
 :p.This panel is used select the combo Lists to display and edit. 
 
-.pict ComboSel.GIF
+.pict ComboSel.png
 
 :p.Fields
 :dl.
@@ -29,7 +29,7 @@ use % character as a wildcard.
 :h3 id=ComboPnl.Combo Edit Panel
 :p.Used to update a combo list
 
-.pict CobolEditPnl.GIF
+.pict CobolEditPnl.png
 
 :p.Fields on the Screen
 
@@ -47,7 +47,7 @@ while the user sees :blue.PO Header (H1):eblue..
  :dt.Insert Lines:dd.The number of lines to insert
  :dt.Table Buttons:dd.The second row of buttons refer to the Field Table / Sub-Record Table immediately below the buttons
  
-.pict RecordLayout_RecTableBtns.GIF
+.pict RecordLayout_RecTableBtns.png
  
  :dt.Table:dd.Combo Items to be displayed in the Combobox
 :edl.

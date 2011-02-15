@@ -91,6 +91,8 @@ public class TypeManager {
             types[Type.ftSignSeparateLead]		= new TypeSignSeparate(Type.ftSignSeparateLead);
             types[Type.ftSignSeparateTrail]		= new TypeSignSeparate(Type.ftSignSeparateTrail);
             types[Type.ftZonedNumeric]			= new TypeZoned();
+            types[Type.ftNumAnyDecimal]			= new TypeNumAnyDecimal(false);
+            types[Type.ftPositiveNumAnyDecimal]	= new TypeNumAnyDecimal(true);
 
             types[Type.ftFloat]					= new TypeFloat();
             types[Type.ftDouble]				= new TypeFloat();

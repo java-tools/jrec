@@ -26,8 +26,8 @@ more than one record structure. A typical case when to use would be if a file co
 
 :row.:c.
 
-.*b2h HTML <img SRC="Diagram/Record_Standard.GIF">
+.*b2h HTML <img SRC="Diagram/Record_Standard.png">
 :c.
 
-.*b2h HTML <img SRC="Diagram/Record_Group.GIF">
+.*b2h HTML <img SRC="Diagram/Record_Group.png">
 :etable.

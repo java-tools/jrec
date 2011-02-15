@@ -37,7 +37,6 @@ def test():
 		select_menu('Hide Column')
 		assert_p('Table', 'Content', '[[Loc Nbr, 4, 4, 5052, 5052], [Loc Name, 10, 35, Eastwood, Eastwood], [Loc Addr Ln3, 125, 35, Marayong, Marayong], [Loc State, 170, 3, NSW, NSW], [Loc Actv Ind, 173, 1, A, A]]')
 		select_menu('Edit>>Show / Hide Fields')
-
 ##		assert_p('Table', 'Content', '[[Brand Id, true], [Loc Nbr, true], [Loc Type, false], [Loc Name, true], [Loc Addr Ln1, false], [Loc Addr Ln2, false], [Loc Addr Ln3, true], [Loc Postcode, false], [Loc State, true], [Loc Actv Ind, true]]')
 		assert_p('Table', 'Content', '[[Brand Id, false], [Loc Nbr, true], [Loc Type, false], [Loc Name, true], [Loc Addr Ln1, false], [Loc Addr Ln2, false], [Loc Addr Ln3, true], [Loc Postcode, false], [Loc State, true], [Loc Actv Ind, true]]')
 		select('Table', 'cell:Show,7(false)')

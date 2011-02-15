@@ -16,14 +16,15 @@
 	<property name="docs.dir" location="docs" />
 	<property name="javadoc.dir" location="${docs.dir}/api" />
 	<property name="JRecord.jar" location="${outputLib.dir}/JRecord.jar" />
-	<property name="inputLib.dir" location="../../lib" />
+	<property name="inputLib.dir" location="/media/sdc1/lib" />
+	<!--property name="inputLib.dir" location="../../lib" /-->
 
-	<target name="cb2xml" description="compile JRecord code" >
+	<!--target name="cb2xml" description="compile JRecord code" >
 		<ant dir="../cb2xml" antfile="build.xml" output="buildout.txt" inheritall="false" />
-	</target>
+	</target-->
 
 	
-	<target name="compile" description="compile code" depends="cb2xml">
+	<target name="compile" description="compile code"> <!-- depends="cb2xml"-->
 	<echo file="${inputLib.dir}/SmallEditorFiles.txt"/>
 
 		<mkdir dir="${build.dir}" />
@@ -31,7 +32,8 @@
 			<exclude name="net/sf/JRecord/zExamples/**"/>
 			<exclude name="net/sf/JRecord/zTest/**"/>
 			<classpath>
-				<filelist dir="../cb2xml/lib">
+				<!--filelist dir="../../RecordEdit/HSQLDB/lib"-->
+				<filelist dir="/media/sdc1/RecordEditor/USB/lib">
 					<file name="cb2xml.jar"/>
 				</filelist>
 			</classpath>

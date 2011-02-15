@@ -5,7 +5,7 @@
 
 :table cols='* 2* 2*'.
 :row.:c.Movement Buttons:c.
-.*b2h HTML <img SRC="Diagram/RecordEdit_Movement.GIF">
+.*b2h HTML <img SRC="Diagram/RecordEdit_Movement.png">
 :c.At the bottom of the screen, is the various record movement buttons:
 :ul compact.
 :li.First record

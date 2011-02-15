@@ -21,20 +21,20 @@ If you want an alternative Look and Feel, I would suggest looking at
 :h2.Icon Tab
 :p.You can now choose from a variety of different icon sets or create your own.
 
-.pict Option_Icons.GIF
+.pict Option_Icons.png
 
 :p.Here are some of the icons:
 
 :h5.Tango
 
-.pict iconTango.GIF
+.pict iconTango.png
 
 :h5.Eclipse
 
-.pict iconEclipse.GIF
+.pict iconEclipse.png
 
 :h5.Gnome
 
-.pict iconsGnome.GIF
+.pict iconsGnome.png
 
 

@@ -17,8 +17,7 @@ def test():
 		select('FileChooser', commonBits.sampleDir() + 'Xml' + commonBits.fileSep() + 'SAR4180Ba.xml')
 
 
-		commonBits.doEdit(click)
-
+		click('Edit1')
 		select('LayoutCombo', 'XML Start_Document')
 		select('JTreeTable', 'cell:Xml~Standalone,1(SAR4180B.txt)')
 		select('JTreeTable', 'cell:Xml~Version,1(null)')

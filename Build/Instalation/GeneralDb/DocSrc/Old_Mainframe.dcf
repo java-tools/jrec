@@ -18,7 +18,7 @@ be :hp2.Record - Binary:ehp2. or :hp2.Group of Binary Records:ehp2..
 :li.You must define a :hp2.Mainframe Font:ehp2. in the record definition
 (i.e. :hp2.CP037:ehp2. is the standard mainframe font for USA / Australia etc).
 See :hdref refid=extra. for details on defining a Font.
-.*b2h HTML <table><tr><td><img SRC="Diagram/RecordLayout_RecExtraFont.GIF"></td></tr><table>
+.*b2h HTML <table><tr><td><img SRC="Diagram/RecordLayout_RecExtraFont.png"></td></tr><table>
 :eul.
 
 :p.To edit a Mainframe file with the :hp2.Record Editor:ehp2. on a PC you will need to
@@ -37,7 +37,7 @@ See :hdref refid=extra. for details on defining a Font.
 :li.Select the Cobol Import Option (See :hdref refid=LayoutEd. and
 :hdref refid=Import.).
 :li.Fill in the form like:
-.*b2h HTML <table><tr><td><img SRC="Diagram/RecordLayout_MainframeImport.GIF"></td></tr></table>
+.*b2h HTML <table><tr><td><img SRC="Diagram/RecordLayout_MainframeImport.png"></td></tr></table>
 :p.For details on the import screen see :hdref refid=Import..
 :eol.
 :note.CP037 is US / Canada / Australia Mainframe EBCDIC Font name in Java.
@@ -57,7 +57,7 @@ in the next section.
     :edl.
 :eul.
 
-.pict LayoutEdit_VB_File.GIF
+.pict LayoutEdit_VB_File.png
 
 :h4.Transporting VB files to the PC
 .im iRE_VBtransport.dcf

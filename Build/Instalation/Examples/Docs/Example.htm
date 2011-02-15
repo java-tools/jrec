@@ -46,7 +46,7 @@ uses a 3 level definition of each record as follows.
 </TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">net.sf.RecordEditor.record.types.FieldDetails
 </TD></TR></TABLE>
 <P>
-<img SRC="Diagram/Record_Group.GIF">
+<img SRC="Diagram/Record_Group.png">
 <P>
 <HR><H2><A NAME="Header_3">Line class</A></H2>
 <P>Java class <font color="blue">net.sf.RecordEditor.record.Line</font> represents one line
@@ -561,8 +561,8 @@ to retrieve field values:
 </UL><P>All these examples require you update a <B>Table</B> in the <font color="blue"><b>Layout Editor</b></font>
 <P><HR><H2><A NAME="HDRTABLE">Editting a Table in the LayoutEditor</A></H2>
 <P>After starting the <B>LayoutEdit</B>, the menu screen is displayed&#58;
-<P><img SRC="Diagram/LayoutEdit_Menu.GIF"><P><P>Click on the second option <B>Edit Tables</B> and the Table edit screen is displayed&#58;
-<P><img SRC="Diagram/LayoutEdit_Table.GIF"><P><P>You can select a table to be updated by clicking on the Table in the list on the left.
+<P><img SRC="Diagram/LayoutEdit_Menu.png"><P><P>Click on the second option <B>Edit Tables</B> and the Table edit screen is displayed&#58;
+<P><img SRC="Diagram/LayoutEdit_Table.png"><P><P>You can select a table to be updated by clicking on the Table in the list on the left.
 <P><HR><H2><A NAME="Header_16">Type Interface</A></H2>
 <A NAME="IDX28"></A><P>A `<B>Type</B>` acts as an interface between the fields storage in the data
 record and how it is displayed on the screen. It contains methods to extract a field
@@ -734,9 +734,9 @@ You can increase the number of User Types/Cell Formats via the <B>setSystemTypeM
 <P><P><H4><A NAME="Header_22">Defining a Type to the RecordEditor</A></H4>
 <P>Start the <font color="blue">Edit RecordEditor Startup Properties</font> and go to the
 <B>User Types</B> tag and entor the new Type as in the diagram below:
-<P><img SRC="Diagram/Setup_Type.GIF"><P><P>The next step is to define where your type is found, so go to the <B>User Jars</B>
+<P><img SRC="Diagram/Setup_Type.png"><P><P>The next step is to define where your type is found, so go to the <B>User Jars</B>
 tag an enter your new jar as below
-<P><img SRC="Diagram/Setup_UserJars.GIF"><P><P>You can now use the new Type in both the <B>RecordEditor</B> and the <B>LayoutEditor</B>.
+<P><img SRC="Diagram/Setup_UserJars.png"><P><P>You can now use the new Type in both the <B>RecordEditor</B> and the <B>LayoutEditor</B>.
 <P><P><P><H3><A NAME="Header_23">Create the Type (old method)</A></H3>
 <A NAME="IDX33"></A><P>The first step is the type (examples are <font color="blue"><b>TypeCheckBoxYN.Java</b></font>
 and <font color="blue"><b>TypeComboExample.Java</b></font>)
@@ -755,10 +755,10 @@ Next step is to define the Type to the <a href="http://record-editor.sourceforge
 take option 2 <B>Edit Tables</B>. See <A HREF="#HDRTABLE">"Editting a Table in the LayoutEditor"</A> for details).
 In the picture below, a new user type <font color="blue"><b>1001  ~  Checkbox Y/N</b></font>
 has been defined
-<P><img SRC="Diagram/Example_TypeDef.GIF"><P><P><I><B><A NAME="Header_26">Using the new Type</A>:&nbsp;</B></I>&nbsp;
+<P><img SRC="Diagram/Example_TypeDef.png"><P><P><I><B><A NAME="Header_26">Using the new Type</A>:&nbsp;</B></I>&nbsp;
 You should now be able to use the Type <font color="blue"><b>Checkbox Y/N</b></font> in
 the field definition panel (Record Definition screen) as below.
-<P><img SRC="Diagram/Example_TypeUse.GIF"><P><P><P><I><B><A NAME="HDRSTARTED">Starting the RecordEditor with the new Type</A>:&nbsp;</B></I>&nbsp;
+<P><img SRC="Diagram/Example_TypeUse.png"><P><P><P><I><B><A NAME="HDRSTARTED">Starting the RecordEditor with the new Type</A>:&nbsp;</B></I>&nbsp;
 The final step is to start the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> with the new Type. Please note
 that at line 9, the new type <font color="blue"><b>checkBox</b></font> is defined as
 type number <font color="blue"><b>1001</b></font>, which is exactly the same as what it was
@@ -784,8 +784,8 @@ defined in the LayoutEdit (see <A HREF="#HDRTYPEDEF">"Define the Type in the Lay
 <P><P><H4><A NAME="Header_28">Editing a File</A></H4>
 <P>Finally after starting the editor using the java code from <A HREF="#HDRSTARTED">"Starting the RecordEditor with the new Type"</A>,
 it should like (with Combobox's and Checkbox's).
-<P><img SRC="Diagram/Example_TypeRecEdit.GIF"><P>or the record view
-<P><img SRC="Diagram/Example_TypeRecord.GIF"><P><HR><H2><A NAME="HDRFORMAT">Adding a Format to the RecordEditor</A></H2>
+<P><img SRC="Diagram/Example_TypeRecEdit.png"><P>or the record view
+<P><img SRC="Diagram/Example_TypeRecord.png"><P><HR><H2><A NAME="HDRFORMAT">Adding a Format to the RecordEditor</A></H2>
 <P>This section goes through adding and then using a <A HREF="#HDRFORMAT">"Adding a Format to the RecordEditor"</A> in the RecordEdit.
 <P><P><H4><A NAME="Header_30">Writing a format</A></H4>
 <P>The following code was extracted from <B>FormatComboExample.java</B>
@@ -838,10 +838,10 @@ it should like (with Combobox's and Checkbox's).
 take option 2 <B>Edit Tables</B>, finally click on <B>Table 5 ~ Formats</B>.
 See <A HREF="#HDRTABLE">"Editting a Table in the LayoutEditor"</A> for details)
 and enter the new format (in this case <font color="blue"><b>1001 ~ ComboBox</b></font>).
-<P><img SRC="Diagram/Example_FmtDef.GIF"><P><P><P><H4><A NAME="HDRFMTUSE">Using the new Format</A></H4>
+<P><img SRC="Diagram/Example_FmtDef.png"><P><P><P><H4><A NAME="HDRFMTUSE">Using the new Format</A></H4>
 <P>You should now be able to use the format <font color="blue"><b>Combobox</b></font> in Record
 field definitions.
-<P><img SRC="Diagram/Example_FmtUse.GIF"><P><P><H4><A NAME="HDRFMTST">Starting the RecordEditor with the new Type</A></H4>
+<P><img SRC="Diagram/Example_FmtUse.png"><P><P><H4><A NAME="HDRFMTST">Starting the RecordEditor with the new Type</A></H4>
 <P><P>The final step is to start the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> with the new Format. Please note
 <OL COMPACT TYPE=1> <LI>On line 12, the Combo Items are registered against <font color="blue"><b>AMS PO Type</b></font>
 which is the field Parameter in <A HREF="#HDRFMTUSE">"Using the new Format"</A>
@@ -870,7 +870,7 @@ of <font color="blue"><b>1001</b></font>, which was also used in <A HREF="#HDRFM
 <SPAN CLASS="gutter">  21:</SPAN>
 </PRE><P><P><H4><A NAME="Header_34">Editing a File</A></H4>
 <P><P>Finally after starting the editor using the java code from <A HREF="#HDRFMTST">"Starting the RecordEditor with the new Type"</A>
-<P><img SRC="Diagram/Example_FmtRecEdit.GIF"><P><HR><H2><A NAME="HDRDECIDER">Record Deciders</A></H2>
+<P><img SRC="Diagram/Example_FmtRecEdit.png"><P><HR><H2><A NAME="HDRDECIDER">Record Deciders</A></H2>
 <P>When there are more than one Record in a Layout, there has to be a way to decide
 which record should be used. One way of doing this is via a RecordDecider&#58;
 <P><PRE><SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax10">interface</SPAN> RecordDecider <SPAN CLASS="syntax18">{</SPAN>
@@ -957,10 +957,10 @@ methods <B>open, write</B> and <B>close</B>.
 </PRE><P><P><P><H4><A NAME="Header_39">Defining the File Structure in the LayoutEditor</A></H4>
 <P>The next step is to add the new <B>file structure</B> to the
 <B>File Structure</B> table. See <A HREF="#HDRTABLE">"Editting a Table in the LayoutEditor"</A> for details.
-<img SRC="Diagram/Example_FSDef.GIF"><P><P><P><H4><A NAME="Header_40">Using the new File Structure</A></H4>
+<img SRC="Diagram/Example_FSDef.png"><P><P><P><H4><A NAME="Header_40">Using the new File Structure</A></H4>
 <P>You should now be able to use the new file structure in the <B>Record-Definition</B>
 Extra panel&#58;
-<P><img SRC="Diagram/Example_FSUse.GIF"><P><P><H4><A NAME="HDRIDPROV">Creating a LineIOProvider</A></H4>
+<P><img SRC="Diagram/Example_FSUse.png"><P><P><H4><A NAME="HDRIDPROV">Creating a LineIOProvider</A></H4>
 <P>Following is a sample <B>LineIOProvider</B> that will create the new
 LineReader's / LineReader's if the appropriate <B>file structure</B> is supplied.
 <P><A NAME="IDX45"></A><A NAME="IDX46"></A><A NAME="IDX47"></A><PRE><SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax8">public</SPAN> <SPAN CLASS="syntax10">class</SPAN> XmplFileStructure2 <SPAN CLASS="syntax8">extends</SPAN> LineIOProvider <SPAN CLASS="syntax18">{</SPAN>

@@ -5,5 +5,5 @@ ZDate	<lib>\ZCalendar.jar
 jibx	<lib>/jibx-run.jar
 jlibbdiff	<lib>/jlibdiff.jar
 chardet	<lib>/chardet.jar
-chardet	<lib>/chardet.jar
+
 

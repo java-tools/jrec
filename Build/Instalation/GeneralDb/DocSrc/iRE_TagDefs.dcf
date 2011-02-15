@@ -28,8 +28,8 @@
 .*B2H html <P>&nbsp;<p>
 .*B2H html <TABLE width="100%"><tr>
 .*B2H html <td width="34%" id=dark><a id=dark href="http://sourceforge.net/projects/record-editor/">RecordEditor at SourceForge</a></td>
-.*B2H html <td width="33%" id=dark><a id=dark href="http://sourceforge.net/project/showfiles.php?group_id=139274">Download Page</a></td>
-.*B2H html <td id=dark><a id=dark href="http://sourceforge.net/forum/?group_id=139274">Forums</a></td>
+.*B2H html <td width="33%" id=dark><a id=dark href="http://sourceforge.net/projects/record-editor/files/">Download Page</a></td>
+.*B2H html <td id=dark><a id=dark href="http://sourceforge.net/projects/record-editor/forums">Forums</a></td>
 .*B2H html </tr></TABLE>
 .dm off
 .*B2H SYMBOL :tag. rlink   IT=N VAT=N ATT=N SE=N V='.relink'

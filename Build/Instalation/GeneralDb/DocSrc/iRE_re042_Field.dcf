@@ -2,7 +2,7 @@
 :p.A field Tree is like the Sort Tree (except there is no sort). It will group
 records with the same field values together as a Tree.
 
-.pict RecordEdit_FieldTreeDef1.GIF
+.pict RecordEdit_FieldTreeDef1.png
 
 :p.The Screen consists of
 :ul compact.

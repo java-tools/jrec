@@ -63,9 +63,11 @@ public class BinaryCsvParser {
 	public int countTokens(byte[] record) {
 		int count = 1;
 		
-		for (int i =0; i < record.length; i++) {
-			if (record[i] == look4) {
-				count += 1;
+		if (record != null) {
+			for (int i =0; i < record.length; i++) {
+				if (record[i] == look4) {
+					count += 1;
+				}
 			}
 		}
 		return count;

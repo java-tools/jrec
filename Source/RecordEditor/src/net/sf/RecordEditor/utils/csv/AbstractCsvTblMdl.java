@@ -56,6 +56,5 @@ public interface AbstractCsvTblMdl extends TableModel {
 
 	public void setFont(String font);
 	
-	public CsvAnalyser getAnalyser(); 
-
+	public CsvAnalyser getAnalyser();
 }

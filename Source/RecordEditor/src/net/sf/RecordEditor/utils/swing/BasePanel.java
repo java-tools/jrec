@@ -136,7 +136,7 @@ public class BasePanel extends JPanel {
 
 	private static final int MAX_PNL_LINES = 200;
 
-	private static final int FIELD_SEPERATION_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 9;
+	private static final int FIELD_SEPERATION_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 3;
 
 	private int numCols = 1;
 
@@ -226,7 +226,7 @@ public class BasePanel extends JPanel {
 	 * @param prompt Fields Prompt
 	 * @param component Component to be added to the Panel
 	 */
-	public final void addLine(String prompt, JComponent component) {
+	public final BasePanel addLine(String prompt, JComponent component) {
 		JLabel promptLbl = null;
 
 		if (prompt != null) {
@@ -234,9 +234,10 @@ public class BasePanel extends JPanel {
 			 promptLbl.setHorizontalAlignment(JLabel.RIGHT);
 		}
 		addLine(promptLbl, component);
+		return this;
 	}
 	
-	public final void addLine(JComponent promptLbl, JComponent component) {
+	public final BasePanel addLine(JComponent promptLbl, JComponent component) {
 		incRow();
 
 		if (promptLbl != null) {
@@ -268,7 +269,7 @@ public class BasePanel extends JPanel {
 			lSize[currRow] = Math.max(lSize[currRow], component.getPreferredSize().getHeight());
 		    registerComponent(component);
 		}
-
+		return this;
 	}
 
 
@@ -279,7 +280,7 @@ public class BasePanel extends JPanel {
 	 * @param component Primary Component
 	 * @param component2 Seconday component
 	 */
-	public final void addLine(String prompt, JComponent component, JComponent component2) {
+	public final BasePanel addLine(String prompt, JComponent component, JComponent component2) {
 
 		if (component2 == null) {
 			addLine(prompt, component);
@@ -309,6 +310,7 @@ public class BasePanel extends JPanel {
 
 			lSize[currRow] = Math.max(lSize[currRow], component2.getPreferredSize().getHeight());
 		}
+		return this;
 	}
 
 	/**
@@ -319,17 +321,17 @@ public class BasePanel extends JPanel {
 	 * @param component2 Seconday component
 	 * @param component3 third component
 	 */
-	public final void addLine(String prompt, JComponent component, JComponent component2, JComponent component3) {
+	public final BasePanel addLine(String prompt, JComponent component, JComponent component2, JComponent component3) {
 		JLabel promptLbl = null;
 
 		if (promptLbl != null) {
 			 promptLbl = new JLabel(prompt);
 			 promptLbl.setHorizontalAlignment(JLabel.RIGHT);
 		}
-		addLine(promptLbl, component, component2, component3);
+		return addLine(promptLbl, component, component2, component3);
 	}
 	
-	public final void addLine(JComponent prompt, JComponent component, JComponent component2, JComponent component3) {
+	public final BasePanel addLine(JComponent prompt, JComponent component, JComponent component2, JComponent component3) {
 
 		addLine(prompt, component);
 		
@@ -351,6 +353,8 @@ public class BasePanel extends JPanel {
 			lSize[currRow] = Math.max(lSize[currRow], component3.getPreferredSize().getHeight());
 			setNumCols(7);
 		}
+		
+		return this;
 	}
 
 	/**
@@ -530,8 +534,9 @@ public class BasePanel extends JPanel {
 	 *
 	 * @param gap Line gap
 	 */
-	public final void setGap(double gap) {
+	public final BasePanel setGap(double gap) {
 		lSize[currRow + 1] = gap;
+		return this;
 	}
 
 
@@ -540,8 +545,9 @@ public class BasePanel extends JPanel {
 	 *
 	 * @param height Required Height
 	 */
-	public final void setHeight(double height) {
+	public final BasePanel setHeight(double height) {
 		lSize[currRow] = height;
+		return this;
 	}
 
 

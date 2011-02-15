@@ -1,0 +1,59 @@
+<!-- 
+/*************************************************************
+ * This file is part of CB2XML.  
+ * See the file "LICENSE" for copyright information and the
+ * terms and conditions for copying, distribution and
+ * modification of CB2XML.
+ *************************************************************
+ */
+-->
+
+<project name="ZCalendar" default="build">
+
+	<property name="src.dir" location="src" />
+	<property name="build.dir" location="build" />
+	<property name="lib.dir" location="lib" />
+	<property name="docs.dir" location="docs" />
+	<property name="javadoc.dir" location="${docs.dir}/api" />
+	<property name="sablecc.jar" location="sablecc/sablecc.jar" />
+	<property name="ZCalendar.jar" location="${lib.dir}/ZCalendar.jar" />
+	
+	
+	<target name="compile" description="compile ZCalendar code">
+		<mkdir dir="${build.dir}" />
+		<javac srcdir="${src.dir}" destdir="${build.dir}" optimize="true" target="1.5">
+			<exclude name="com/zbluesoftware/java/SwingTest.*"/>
+		</javac>
+		<copy todir="${build.dir}/com/zbluesoftware/java/swing/icons/">
+			<fileset dir="${src.dir}/com/zbluesoftware/java/swing/icons/">
+				<include name="*.gif"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="build" depends="compile" description="build jar">
+		<mkdir dir="${lib.dir}" />
+		<jar basedir="${build.dir}" destfile="${ZCalendar.jar}" filesonly="true">
+		</jar>
+	</target>	
+
+	<target name="javadoc" description="javadoc">
+		<mkdir dir="${javadoc.dir}" />
+		<javadoc destdir="${javadoc.dir}">
+			<fileset dir="${src.dir}" />
+		</javadoc>
+	</target>
+
+	<target name="clean" description="clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${lib.dir}" />
+		<delete dir="${javadoc.dir}" />
+	</target>
+
+    <target name="dist" description="zip and pack appropriate files for distribution">
+        <zip destfile="cb2xml.zip" basedir="."
+        	includes="*,**/*.*"
+            excludes=".*,*.zip,**/*.class,**/sablecc.jar"/>
+    </target>
+
+</project>

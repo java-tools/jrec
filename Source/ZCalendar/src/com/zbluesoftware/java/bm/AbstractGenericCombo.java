@@ -1,6 +1,7 @@
 package com.zbluesoftware.java.bm;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
+@SuppressWarnings("serial")
 public abstract class AbstractGenericCombo extends JPanel implements ActionListener, PropertyChangeListener {
 
 
@@ -134,11 +136,16 @@ public abstract class AbstractGenericCombo extends JPanel implements ActionListe
 		return o.toString();
 	}
 	
+	public void setupBackground() {
+		super.setBackground(Color.WHITE);
+	}
+	
 	/**
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
 	public void propertyChange(PropertyChangeEvent event) {
 		 if (event.getPropertyName().equals(AbstractPopup.POPUP_CHANGED)) {
+			 System.out.println(" ::: " + event.getNewValue());
 			 setValue(event.getNewValue());
 			 this.firePropertyChange(AbstractPopup.POPUP_CHANGED, event.getOldValue(), event.getNewValue());
 		 }
@@ -151,5 +158,4 @@ public abstract class AbstractGenericCombo extends JPanel implements ActionListe
 	public final void setButtonVisible(boolean visible) {
 		btn.setVisible(visible);
 	}
-
 }

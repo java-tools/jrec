@@ -27,11 +27,7 @@ def test():
 		select('Table1', 'APN', 'Equivalent Field,3')
 		select('Table1', 'cell:Equivalent Field,5()')
 #		click('ScrollPane$ScrollBar', 6, 40)
-
-		if commonBits.isNimbusLook():
-			select('Table1', ' ', 'Equivalent Field,5')
-		else:
-			select('Table1', '', 'Equivalent Field,5')
+		select('Table1', '', 'Equivalent Field,5')
 #		select('Table1', '')
 		select('Table', 'cell:Record,1(ams PO Download: Header)')
 		select('Table1', 'cell:Equivalent Field,0()')

@@ -6,7 +6,7 @@ def test():
 
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'Ams_LocDownload_20041228.txt')
-		click('Layout Wizard')
+		click('Create Layout Wizard')
 ##		select('TextField2', 'Wizard - ZZ record 1')
 		click('Right')
 		click('Right')
@@ -39,10 +39,8 @@ def test():
 		select('Table', 'cell:1 - 173|Field 1,1(TAR5850DCVIC West Ad Support                                                        Lot 2 Little Boundary Rd                Laverton                           3028      VICA)')
 		assert_p('Table', 'Content', '[[TAR5839DCDC - Taras Ave                                                             30-68 Taras Ave                         Altona North                       3025      VICA], [TAR5850DCVIC West Ad Support                                                        Lot 2 Little Boundary Rd                Laverton                           3028      VICA], [TAR5853DCNSW North Sydney Ad Support                                                                                                                                        A], [TAR5866DCWA Ad Support                                                                                                                                                      A], [TAR5015STBankstown                          Bankstown                               Unit 2, 39-41 Allingham Street          Condell Park                       2200      NSWA], [TAR5019STPenrith                            Penrith                                 58 Leland Street                        Penrith                            2750      NSWA], [TAR5033STBlacktown                          Marayong                                Dock 2, 11 Melissa Place                Marayong                           2148      NSWA], [TAR5035STRockdale                           Building B,  Portside DC                2-8 Mc Pherson Street                   Botany                             2019      NSWA], [TAR5037STMiranda                            Westfield Shoppingtown                  Cnr. Urunga Pde & The Kingsway          Miranda                            2228      NSWA]]')
 		select('Table', 'cell:1 - 173|Field 1,1(TAR5850DCVIC West Ad Support                                                        Lot 2 Little Boundary Rd                Laverton                           3028      VICA)')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 		select('FileChooser', commonBits.sampleDir() + 'Ams_LocDownload_20041228.txt')
 		commonBits.setRecordLayout(select, 'ams Store')
@@ -75,7 +73,6 @@ def test():
 		select('TextField1', '%')
 		select('TabbedPane', 'Extras')
 		#select('TabbedPane', 'Child Records')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		
 	close()

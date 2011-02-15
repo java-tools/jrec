@@ -7,8 +7,7 @@ def test():
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'zzAms_LocDownload_tab.csv')
 		commonBits.setRecordLayout(select, 'Generic CSV - enter details')
-		commonBits.doEdit(click)
-
+		click('Edit1')
 
 		if window(''):
 			select('CheckBox', 'true')
@@ -19,19 +18,8 @@ def test():
 			select('Table', 'cell:Loc_Name,6(Blacktown)')
 			assert_p('Table', 'Text', 'Blacktown', 'Loc_Name,6')
 			select('Table', 'cell:Loc_Name,6(Blacktown)')
-			commonBits.doSleep()
-
 			click('Go')
-			commonBits.doSleep()
-
-			commonBits.doSleep()
-
 		close()
-
-		commonBits.doSleep()
-
-		commonBits.doSleep()
-
 
 		select('Table', 'cell:5|Loc_Addr_Ln1,8(Westfield Shoppingtown)')
 		assert_p('Table', 'Text', 'Campbelltown Mall', '5|Loc_Addr_Ln1,13')
@@ -54,7 +42,6 @@ def test():
 		select('Table1', 'cell:Field,2(Loc_Type)')
 		assert_p('Table1', 'Content', '[[Brand_Id, 1, ], [Loc_Nbr, 2, ], [Loc_Type, 3, ], [Loc_Name, 4, ], [Loc_Addr_Ln1, 5, ], [Loc_Addr_Ln2, 6, ], [Loc_Addr_Ln3, 7, ], [Loc_Postcode, 8, ], [Loc_State, 9, ], [Loc_Actv_Ind, 10, ], [K, 11, ]]')
 		select('Table1', 'cell:Field,2(Loc_Type)')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'rows:[5,6,7],columns:[4|Loc_Name]')
 	close()

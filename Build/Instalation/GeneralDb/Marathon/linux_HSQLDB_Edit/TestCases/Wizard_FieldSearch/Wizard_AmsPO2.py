@@ -9,7 +9,7 @@ def test():
 #
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'Ams_PODownload_20050101.txt')
-		click('Layout Wizard')
+		click('Create Layout Wizard')
 		select('Multiple Records #{fixed length#}', 'true')
 		click('Right')
 		select('TabbedPane', '')
@@ -26,10 +26,10 @@ def test():
 		select('Table', 'cell:Record Name,0(header)')
 		click('Right')
 		select('TabbedPane', '')
-		if commonBits.isNimbusLook():
-			assert_p('Table', 'Background', 'DerivedColor(color=255,255,255 parent=nimbusLightBackground offsets=0.0,0.0,0.0,0 pColor=255,255,255')
-		else:
-			assert_p('Table', 'Background', '[r=255,g=255,b=255]')
+		assert_p('Table', 'Background', '[r=255,g=255,b=255]')
+		assert_p('Table', 'Background', '[r=255,g=255,b=255]')
+		assert_p('Table', 'Background', '[r=255,g=255,b=255]')
+		assert_p('Table', 'Background', '[r=255,g=255,b=255]')
 		click('Right')
 
 
@@ -94,17 +94,14 @@ def test():
 		assert_p('Table', 'Content', '[[Record_Type, 1, 1, S, S], [S1, 2, 5, 15015, 15015], [S2, 7, 12, 15019, 000000015019], [S3, 19, 12, 35033, 000000035033], [S4, 31, 12, 13337, 000000013337], [S5, 43, 12, 207800015037, 207800015037], [S6, 55, 12, 15052, 000000015052], [S7, 67, 12, 15055, 000000015055], [S8, 79, 12, 15060, 000000015060], [S9, 91, 12, 25070, 000000025070], [S10, 103, 12, 15074, 000000015074], [S11, 115, 8, 1, 00000001]]')
 		click('Right')
 		assert_p('Table', 'Content', '[[Record_Type, 1, 1, S, S], [S1, 2, 5, 15078, 15078], [S2, 7, 12, 15081, 000000015081], [S3, 19, 12, 15085, 000000015085], [S4, 31, 12, 15090, 000000015090], [S5, 43, 12, 15091, 000000015091], [S6, 55, 12, 15093, 000000015093], [S7, 67, 12, 15095, 000000015095], [S8, 79, 12, 15129, 000000015129], [S9, 91, 12, 15144, 000000015144], [S10, 103, 12, 15165, 000000015165], [S11, 115, 8, 1, 00000001]]')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'cell:2 - 5|S1,0(14535)')
 		select('Table', 'cell:2 - 5|S1,0(14535)')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('Open')
 		select('ComboBox1', 'Ams')
 		click('Edit1')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Record Layouts>>Edit Layout')
 		select('TextField', 'Wizard_xAmsPO')
 		select('TabbedPane', 'Extras')
@@ -133,6 +130,5 @@ def test():
 #		select('TabbedPane', 'Extras')
 #		select('TabbedPane', 'Extras')
 #		select('TabbedPane', 'Fields')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 	close()

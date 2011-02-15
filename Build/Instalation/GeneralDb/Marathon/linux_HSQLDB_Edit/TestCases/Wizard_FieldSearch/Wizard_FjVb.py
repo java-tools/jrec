@@ -6,11 +6,10 @@ def test():
 
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'FJ_VB_Test.bin')
-		click('Layout Wizard')
+		click('Create Layout Wizard')
 		click('Right')
 		select('TabbedPane', '')
-##		assert_p('BmKeyedComboBox', 'Text', '7')
-		assert_p('BmKeyedComboBox', 'Text', 'Fujitsu Variable Binary')
+		assert_p('BmKeyedComboBox', 'Text', '7')
 		click('Right')
 		select('TabbedPane', '')
 ##		select('Table', '')
@@ -31,8 +30,7 @@ def test():
 		select('Table', 'cell:45 - 10|n4,1(Penrith)')
 		assert_p('Table', 'Content', '[[TAR, 5015, ST, Bankstown, Bankstown, , , , , , , , , U, nit, 2, 39-41 Alli, n, gha, m Street, Cond, e, ll Park, 2200, , NSWA], [TAR, 5019, ST, Penrith, Penrith, , , , , , , , , 5, 8 Le, land Street, , , , Penr, i, th, 2750, , NSWA], [TAR, 5033, ST, Blacktown, Marayong, , , , , , , , , D, ock, 2, 11 Melissa, , Pla, ce, Mara, y, ong, 2148, , NSWA], [TAR, 5035, ST, Rockdale, Building B, ,, P, o, rt, s, i, d, e DC, 2, -8 M, c Pherson Str, e, et, , Bota, n, y, 2019, , NSWA], [TAR, 5037, ST, Miranda, Westfield, Sho, p, p, in, g, t, o, wn, C, nr., Urunga Pde &, T, he, Kingsway, Mira, n, da, 2228, , NSWA], [TAR, 5052, ST, Eastwood, Marayong O, ffs, i, t, e, R, e, s, erve, 1, 1 Me, lissa Place, , , , Mara, y, ong, 2148, , NSWA]]')
 		select('Table', 'cell:45 - 10|n4,1(Penrith)')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 		select_menu('Record Layouts>>Edit Layout')
 		select('TextField', 'Wizard_Z_FjUnknown')
@@ -43,7 +41,6 @@ def test():
 			click('Yes')
 		close()
 
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 	close()

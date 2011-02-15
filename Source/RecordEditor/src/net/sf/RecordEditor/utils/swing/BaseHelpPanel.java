@@ -25,6 +25,7 @@ import javax.swing.JComponent;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class BaseHelpPanel extends BasePanel  {
 
 	private HelpWindow help = new HelpWindow(null);
@@ -110,7 +111,7 @@ public class BaseHelpPanel extends BasePanel  {
      *
      * @param btn help button
      */
-    public final void addHelpBtn(JComponent component, JButton btn) {
+	public final void addHelpBtn(JComponent component, JButton btn) {
 
         addLine("", component, btn);
         btn.addActionListener(new AbstractAction() {

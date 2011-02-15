@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JTextField;
 
+import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
 import net.sf.RecordEditor.edit.file.FilePosition;
 import net.sf.RecordEditor.edit.file.FileView;
@@ -45,7 +46,7 @@ public class GotoLine extends ReFrame implements ActionListener {
 	    };
 
 
-	public GotoLine(final AbstractFileDisplay src, FileView master) {
+	public GotoLine(final AbstractFileDisplay src, FileView<? extends AbstractLayoutDetails<?, ?>> master) {
 		super(master.getFileNameNoDirectory(), "Find",
 				master);
 		source = src;

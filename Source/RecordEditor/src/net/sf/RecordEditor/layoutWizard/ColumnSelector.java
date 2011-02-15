@@ -127,7 +127,8 @@ public class ColumnSelector {
 	}
 
 	public void addFields(BasePanel pnl, int tblHeight) {
-		JPanel optionPnl = new JPanel(new GridLayout(5,2));
+		JPanel optionPnl = new JPanel(new GridLayout(3,2));
+		JPanel btnPnl = new JPanel(new GridLayout(1,1));
 
 		optionPnl.add(lookMainframeZoned);
 		optionPnl.add(lookPcZoned);
@@ -137,16 +138,19 @@ public class ColumnSelector {
 		optionPnl.add(lookCompBigEndian);		
 		optionPnl.add(lookCompLittleEndian);		
 		
-		optionPnl.add(new JPanel());
-		optionPnl.add(new JPanel());
-		optionPnl.add(clearFieldsBtn);
-		optionPnl.add(addFieldsBtn);
+		//optionPnl.add(new JPanel());
+		//optionPnl.add(new JPanel());
+		btnPnl.add(clearFieldsBtn);
+		btnPnl.add(addFieldsBtn);
 		
-		pnl.addLine("Show Hex", hexChk);
-		pnl.setGap(BasePanel.GAP0);
-		pnl.addLine("Search For", optionPnl);
-		pnl.setHeight(BasePanel.PREFERRED);
-		pnl.addComponent(1, 5, tblHeight, BasePanel.GAP1,
+		pnl.addLine("Show Hex", hexChk)
+		   .setGap(BasePanel.GAP);
+		pnl.addLine("Search For", optionPnl)
+		   .setHeight(BasePanel.PREFERRED)
+		   .setGap(BasePanel.GAP1);
+		pnl.addLine("", btnPnl)
+		   .setHeight(BasePanel.PREFERRED);
+		pnl.addComponent(1, 5, tblHeight, 2,
 		        BasePanel.FULL, BasePanel.FULL,
 				fileTbl);
 	}
@@ -246,8 +250,9 @@ public class ColumnSelector {
         currentDetails = detail;
         recordDef = recordDefinition;
         
+        hexChk.setSelected(hexChk.isSelected() || currentDetails.textPct < 40);
         lookComp3.setSelected(cp037 || Common.OPTIONS.searchForComp3.isSelected()); 
-        lookCompBigEndian.setSelected(cp037 || Common.OPTIONS.searchForCompBigEndian.isSelected());
+        lookCompBigEndian.setSelected(cp037 || currentDetails.textPct < 70 || Common.OPTIONS.searchForCompBigEndian.isSelected());
         lookMainframeZoned.setSelected(cp037 || Common.OPTIONS.searchForMainframeZoned.isSelected());
         lookCompLittleEndian.setSelected((! lookCompBigEndian.isSelected())
         			&& Common.OPTIONS.searchForCompLittleEndian.isSelected());
@@ -280,9 +285,9 @@ public class ColumnSelector {
 	        stdLineHeight = fileTbl.getRowHeight();
 	       
 	        setupTableColumns();
-        } else {
-        	flipHex();
-        }
+        } 
+       	flipHex();
+       
 
         if (findFields 
         && Common.OPTIONS.runFieldSearchAutomatically.isSelected() 

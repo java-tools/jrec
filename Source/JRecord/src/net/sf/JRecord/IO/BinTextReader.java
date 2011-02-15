@@ -31,6 +31,7 @@ import net.sf.JRecord.Types.Type;
  */
 public class BinTextReader extends LineReaderWrapper {
 
+	private String defaultQuote  = "'";
 	private boolean readNames;
 	
 	public BinTextReader(LineProvider provider, boolean nameOn1stLine) {
@@ -67,22 +68,29 @@ public class BinTextReader extends LineReaderWrapper {
 	    int fieldType = Type.ftChar;
         int decimal   = 0;
         int format    = 0;
+        int parser    = 0;
+        int structure = Constants.IO_NAME_1ST_LINE;
         String param  = "";
         byte[] delim  = {0}; 
         String delimStr = "x'00'";
-//        String quote  = defaultQuote;
+        String quote  = defaultQuote;
         String font   = "";
         byte[] recordSep = Constants.SYSTEM_EOL_BYTES;
 
 	    try {
+	    	int ts = getLayout().getFileStructure();
+	    	if (ts != Constants.IO_GENERIC_CSV) {
+	    		structure = ts;
+	    	}
 	    	delim     = getLayout().getDelimiterBytes();
-	    	delimStr = getLayout().getDelimiter();
+	    		delimStr  = getLayout().getDelimiter();
 	        rec = getLayout().getRecord(0);
+	        quote     = rec.getQuote();
+	        parser    = rec.getRecordStyle();
 	        fieldType = rec.getField(0).getType();
 	        decimal   = rec.getField(0).getDecimal();
 	        format    = rec.getField(0).getFormat();
 	        param     = rec.getField(0).getParamater();
-//	        quote     = rec.getQuote();
 	        recordSep = getLayout().getRecordSep();
 	        font      = getLayout().getFontName();
 	    } catch (Exception e) {
@@ -92,7 +100,8 @@ public class BinTextReader extends LineReaderWrapper {
 
 	    layout = createLayout(line, rec, 
 	    		recordSep, font,  delim, delimStr,
-                0, fieldType, decimal, format, param);
+                parser, fieldType, decimal, format, 
+                param, quote, structure);
 	    //System.out.println(" Quote  ->");
 
 	    if (layout != null) {
@@ -112,6 +121,8 @@ public class BinTextReader extends LineReaderWrapper {
      * @param decimal number of decimal places
      * @param format format to use
      * @param param param to add to each field
+     * @param quote Quote
+     * @param Structure file structure
      * @return Create a Layout description form a supplied line (first line of a file ?)
      * + other details
      * @throws IOException any error
@@ -119,7 +130,8 @@ public class BinTextReader extends LineReaderWrapper {
     public static LayoutDetail createLayout(byte[] line, AbstractRecordDetail rec,
     		byte[] recordSep,
             String fontName, byte[] delimiter, String delimStr, int parser,
-            int fieldType, int decimal, int format, String param) throws IOException {
+            int fieldType, int decimal, int format, String param,
+            String quote, int structure) throws IOException {
 
     	int fldType, idx;
         int i;
@@ -152,14 +164,14 @@ public class BinTextReader extends LineReaderWrapper {
             }
 
             recs[0] = new RecordDetail("", "", "", Constants.rtDelimited,
-            		delimStr, "", fontName, flds, 0);
+            		delimStr, quote, fontName, flds, parser);
 
             try {
                 ret =
                     new LayoutDetail("", recs, "",
                         Constants.rtDelimited,
                         recordSep, "", fontName, null,
-                        Constants.IO_NAME_1ST_LINE
+                        structure
                     );
             } catch (Exception e) {
                 e.printStackTrace();

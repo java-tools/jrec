@@ -33,7 +33,7 @@ to the :RecordEditor. using the :PropertiesEditor..
 
  :li.Set the Velocity Directory in the :PropertiesEditor..
 
-.pict Propereties_Velocity2.GIF
+.pict Propereties_Velocity2.png
 :eol.
 
 :h2.Writing a Velocity template for use in the RecordEditor
@@ -84,4 +84,4 @@ you need to
 the :blue.Get Velocity Template:eblue. button to select a template.
 :eol.
 
-.pict RecordEdit_SaveAs_Velocity.GIF
+.pict RecordEdit_SaveAs_Velocity.png

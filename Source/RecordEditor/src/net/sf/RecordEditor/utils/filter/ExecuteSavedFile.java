@@ -98,10 +98,14 @@ public class ExecuteSavedFile<details> extends ReFrame implements ActionListener
 		//fileChooser.processEvent(evt);
 		//fileChooser.getActionMap().get(FilePane.ACTION_APPROVE_SELECTION).actionPerformed(null);
 
-		fileChooser.getActionForKeyStroke(
-						KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0))
-				   .actionPerformed(null);
-		System.out.println("$$$$$$ " + fileChooser.getSelectedFile().getPath());
+		try {
+			fileChooser.getActionForKeyStroke(
+							KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0))
+					   .actionPerformed(null);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		//System.out.println("$$$$$$ " + fileChooser.getSelectedFile().getPath());
 		execAction(e.getSource() == runBtn);
 	}
 	

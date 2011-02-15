@@ -18,6 +18,7 @@ import javax.swing.table.TableCellRenderer;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class ButtonTableRendor extends JButton
 							   implements TableCellRenderer {
 

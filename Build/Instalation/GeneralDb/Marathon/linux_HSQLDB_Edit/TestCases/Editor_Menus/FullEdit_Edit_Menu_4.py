@@ -35,8 +35,7 @@ def test():
 		select('Table', 'cell:10 - 35|Loc Name,7(Miranda)')
 		assert_p('Table', 'RowCount', '13')
 		select('Table', 'cell:10 - 35|Loc Name,7(Miranda)')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 		if window('Save Changes to file: ' + commonBits.sampleDir() + 'Ams_LocDownload_20041228_Extract.txt'):
 			click('No')

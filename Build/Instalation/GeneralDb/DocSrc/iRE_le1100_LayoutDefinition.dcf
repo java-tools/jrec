@@ -5,13 +5,13 @@ create new Record Layouts or edit specific layouts.
 .pict Layout_Edit.png
 
 :p.
-.****b2h HTML <img SRC="Diagram/LayoutEdit_RecordDtls.GIF">
+.****b2h HTML <img SRC="Diagram/LayoutEdit_RecordDtls.png">
  
 .im iRe_le1200_layoutPnl
 
 .fo on
 :h3 id=Field.Field Records
-.*b2h HTML <img SRC="Diagram/LayoutEdit_Fields.GIF">
+.*b2h HTML <img SRC="Diagram/LayoutEdit_Fields.png">
 :p.This panel is used to define the records fields. Fields in the Table are:
 
 :table cols='* 8*'.
@@ -24,10 +24,10 @@ the :BBLue.RecorEditor:EBBlue.
 :row.:C.Description:C.Field Description. This is used as a Column Header Mouse over in the 
 :BBlue.Record editor:EBBlue.. For example if the description was entered as
 :p.
-.*b2h HTML <img SRC="Diagram/RecordLayout_FieldDescription.GIF">
+.*b2h HTML <img SRC="Diagram/RecordLayout_FieldDescription.png">
 :p.Then if you hold the cursor over the column heading in the :hp2.RecordEditor:ehp2. you get
 :p.
-.*b2h HTML <img SRC="Diagram/RecordEdit_MouseOver.GIF">
+.*b2h HTML <img SRC="Diagram/RecordEdit_MouseOver.png">
 :row.:C.Field Type:C.Type of Field. See :hdref refid=FldType. for details.
 :row.:C.Decimal Pos:C.Number of places after the decimal point
 :row.:C.Cell Format:c.Formatting to be applied to this field.
@@ -79,7 +79,7 @@ default record.
 
 :h3 id=extra.Extra Panel
 :p.On the extra panel contains an adhoc mixture of options
-.*b2h HTML <table><tr><td><img SRC="Diagram/RecordLayout_RecExtra.GIF"></td></tr></table>
+.*b2h HTML <table><tr><td><img SRC="Diagram/RecordLayout_RecExtra.png"></td></tr></table>
 
 :p.
 :p.

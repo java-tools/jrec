@@ -23,6 +23,7 @@ import com.zbluesoftware.java.swing.ZCalendar;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class ZDateField extends AbstractGenericCombo implements ActionListener {
     //private static final int FIELD_WIDTH = 20;
     SimpleDateFormat df;

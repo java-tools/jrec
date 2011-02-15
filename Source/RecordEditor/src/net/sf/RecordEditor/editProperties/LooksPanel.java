@@ -77,6 +77,7 @@ public class LooksPanel extends BasePanel implements ActionListener {
             "PGS",
             "Infonode",
             "Nimbus",
+            "RecordEditor Default",
             "Other",
     };
 
@@ -101,6 +102,7 @@ public class LooksPanel extends BasePanel implements ActionListener {
             "pgs<br>See <b>https://pgslookandfeel.dev.java.net/</b>",
             "Infonode many commercial java packages use it<br/>see <b>http://www.infonode.net</b>",
             "Nimbus",
+            "RecordEditor Default (Windows - Windows; other wise Nimbus)",
             "Other Look and Feel, remember to fill in the <b>class name</b>",
      };
 
@@ -125,6 +127,7 @@ public class LooksPanel extends BasePanel implements ActionListener {
             "com.pagosoft.plaf.PgsLookAndFeel",
             "net.infonode.gui.laf.InfoNodeLookAndFeel",
             "Nimbus", //com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel
+            Parameters.VAL_RECORD_EDITOR_DEFAULT,
             "",
     };
 

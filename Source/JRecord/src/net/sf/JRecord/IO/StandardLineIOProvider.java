@@ -51,6 +51,7 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
     //private static StandardLineIOProvider ioProvider = null;
     private LineProvider provider;
     private XmlLineProvider xmlProvider = null;
+    private CharLineProvider charProvider = null;
     
     private static final int numberOfEntries;
     private static String[] names = new String [20] ;
@@ -103,6 +104,7 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
 	   keys[i] = Constants.IO_MICROFOCUS;			externalNames[i] = "Microfocus_Format";    	names[i++] = "Experemental Microfocus Header File";  						
 	   keys[i] = Constants.IO_UNKOWN_FORMAT;		externalNames[i] = "UNKOWN_FORMAT";      	names[i++] = "Unknown File Format";								
 	   keys[i] = Constants.IO_NAME_1ST_LINE;		externalNames[i] = "CSV_NAME_1ST_LINE";  	names[i++] = "Csv Name on 1st line";     			
+	   keys[i] = Constants.IO_UNICODE_NAME_1ST_LINE;externalNames[i] = "CSV_NAME_1ST_LINE";  	names[i++] = "Unicode Name on 1st line";     			
 	   //		keys[i] = Constants.IO_GENERIC_CSV;			externalNames[i] = "CSV_GENERIC";			names[i++] = "Generic CSV (Choose details at run time)";	
 	   keys[i] = Constants.IO_XML_USE_LAYOUT;		externalNames[i] = "XML_Use_Layout";       	names[i++] = "XML - Existing Layout";						
 	   keys[i] = Constants.IO_XML_BUILD_LAYOUT;		externalNames[i] = "XML_Build_Layout";      names[i++] = "XML - Build Layout";						
@@ -170,9 +172,10 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
     	case(Constants.IO_XML_BUILD_LAYOUT):
        	case(Constants.IO_XML_USE_LAYOUT):			return new XmlLineReader(fileStructure == Constants.IO_XML_BUILD_LAYOUT);
        	
-       	case(Constants.IO_BIN_TEXT):				return new BinTextReader(lLineProvider, false);
-       	case(Constants.IO_BIN_NAME_1ST_LINE):		return new BinTextReader(lLineProvider, true);
-       	case(Constants.IO_UNICODE_TEXT):			return new TextLineReader(new CharLineProvider(), false);
+       	case(Constants.IO_BIN_TEXT):				return new BinTextReader(lLineProvider,  false);
+       	case(Constants.IO_BIN_NAME_1ST_LINE):		return new BinTextReader(lLineProvider,  true);
+       	case(Constants.IO_UNICODE_TEXT):			return new TextLineReader(lLineProvider, false);
+       	case(Constants.IO_UNICODE_NAME_1ST_LINE):	return new TextLineReader(lLineProvider, true);
       	default:
             AbstractByteReader byteReader
         	= ByteIOProvider.getInstance().getByteReader(fileStructure);
@@ -201,7 +204,8 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
        	
        	case(Constants.IO_BIN_TEXT):				return new BinTextWriter(false);
        	case(Constants.IO_BIN_NAME_1ST_LINE):		return new BinTextWriter(true);
-       	case(Constants.IO_MICROFOCUS):				return new MicroFocusLineWriter();
+       	case(Constants.IO_UNICODE_NAME_1ST_LINE):	return new TextLineWriter(true);
+      	case(Constants.IO_MICROFOCUS):				return new MicroFocusLineWriter();
       	default:
             AbstractByteWriter byteWriter = ByteIOProvider.getInstance().getByteWriter(fileStructure);
 
@@ -220,7 +224,8 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
     public boolean isCopyBookFileRequired(int fileStructure) {
     	return ! ( fileStructure == Constants.IO_XML_BUILD_LAYOUT
     			|| fileStructure == Constants.IO_GENERIC_CSV
-    			|| fileStructure == Constants.IO_NAME_1ST_LINE);
+    			|| fileStructure == Constants.IO_NAME_1ST_LINE
+    			|| fileStructure == Constants.IO_UNICODE_NAME_1ST_LINE);
     }
     
     
@@ -268,13 +273,22 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
     	if (temp != null) {
     		return temp;
     	}
-       	if (fileStructure == Constants.IO_XML_BUILD_LAYOUT
-        ||  fileStructure == Constants.IO_XML_USE_LAYOUT) {
+    	switch (fileStructure) {
+    	case Constants.IO_XML_BUILD_LAYOUT:
+    	case Constants.IO_XML_USE_LAYOUT:
        		if (xmlProvider == null) {
        			xmlProvider = new XmlLineProvider();
        		}
        		return xmlProvider;
+    	case Constants.IO_UNICODE_NAME_1ST_LINE:
+    	case Constants.IO_UNICODE_TEXT:
+    		if (charProvider == null) {
+       			charProvider = new CharLineProvider();
+       		}
+    		
+    		return charProvider;
        	}
+    	
         return provider;
         
     }

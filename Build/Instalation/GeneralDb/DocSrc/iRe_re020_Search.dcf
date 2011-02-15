@@ -4,7 +4,7 @@ This screen is displayed when the search button (:hdref refid=bintbl.) is presse
 :p.
 :table cols='*'.
 :row.:c.
-.*b2h HTML <img SRC="Diagram/RecordEdit_Find.GIF">
+.*b2h HTML <img SRC="Diagram/RecordEdit_Find.png">
 :etable.
 :p.
 :p.The system can do to types of searches

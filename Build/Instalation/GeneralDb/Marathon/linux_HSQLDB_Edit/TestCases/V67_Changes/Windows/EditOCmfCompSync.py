@@ -9,16 +9,14 @@ def test():
 			select_menu('Record Layouts>>Load Cobol Copybook')
 			select('FileChooser', commonBits.cobolTestDir() + 'mfCompSync.cbl')
 			select('ComputerOptionCombo', 'Open Cobol Micro Focus (Intel)')
-			select('BmKeyedComboBox1', 'Other')
-#			select('BmKeyedComboBox1', '9')
+			select('BmKeyedComboBox1', '9')
 			click('Go')
 			assert_p('TextArea', 'Text', '''
 
 -->> ''' + commonBits.cobolTestDir() + '''mfCompSync.cbl processed
 
       Copybook: mfCompSync''')
-			commonBits.closeWindow(click)
-			##click('BasicInternalFrameTitlePane$NoFocusButton2')
+			click('BasicInternalFrameTitlePane$NoFocusButton2')
 			click('Open')
 
 		select('FileChooser', commonBits.cobolTestDir() + 'mfCompSync.bin')

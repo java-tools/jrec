@@ -2,8 +2,6 @@ useFixture(default)
 
 def test():
 	from Modules import commonBits
-	import time
-
 	java_recorded_version = '1.6.0_10'
 
 	if window('Record Editor'):
@@ -14,18 +12,14 @@ def test():
 		select('FileChooser2', commonBits.cobolTestDir() + 'mfComp.cbl')
 		select('ComputerOptionCombo', 'Open Cobol Micro Focus (Intel)')
 		select('ComputerOptionCombo1', 'Fujitsu')
-##		select('BmKeyedComboBox1', '2')
-		select('BmKeyedComboBox', 'Fixed Length Binary')
-
+		select('BmKeyedComboBox1', '2')
 ##		select('BmKeyedComboBoxxxxx', '2')
 		click('Right')
 		select('TabbedPane', '')
 		click('Copy2')
 		assert_p('TextField1', 'Text', 'Copy Done !!! ')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('Open')
 		select('FileChooser', commonBits.cobolTestDir() + 'zzFjComp.bin')
 		
@@ -37,21 +31,17 @@ def test():
 ##			select('FileChooser', commonBits.cobolTestDir() + 'mfCmp.cbl')
 			select('TextField', '')
 			select('ComputerOptionCombo', 'Open Cobol Micro Focus (Intel)')
-##			select('BmKeyedComboBox1', '9')
-			select('BmKeyedComboBox1', 'Other')
+			select('BmKeyedComboBox1', '9')
 ##			click('Go')
 			select('FileChooser', commonBits.cobolTestDir() + 'mfComp.cbl')
 			click('Go')
 			select('FileChooser', commonBits.cobolTestDir() + 'fjComp.cbl')
 			select('TextField', '')
 			select('ComputerOptionCombo', 'Fujitsu')
-##			select('BmKeyedComboBox1', '9')
-			select('BmKeyedComboBox1', 'Other')
+			select('BmKeyedComboBox1', '9')
 			click('Go')
-			commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
-##	commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+			click('BasicInternalFrameTitlePane$NoFocusButton2')
+##			click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 
 # -----------------------------------------------------------------------------------
@@ -93,8 +83,7 @@ def test():
 
 		select('FileChooser', commonBits.cobolTestDir() + 'zzFjComp.bin')
 		commonBits.setCobolLayout(select,  'fjComp', 'Fujitsu')
-		commonBits.doEdit(click)
-
+		click('Edit1')
 		select('Table', 'cell:30 - 2|Num1,5(-123.45)')
 		assert_p('Table', 'Text', '-19.63', '30 - 2|Num1,6')
 		select('Table', 'cell:30 - 2|Num1,9(166.19)')

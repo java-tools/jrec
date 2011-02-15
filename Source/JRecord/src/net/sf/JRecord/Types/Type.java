@@ -37,10 +37,10 @@ public interface Type {
 
     public static final int BASE_16 = 16;
 
-    public  static final int USER_RANGE_START        = 1000;
+    public  static final int USER_RANGE_START    = 1000;
     public  static final int DEFAULT_USER_RANGE_SIZE = 75;
 
-	public static final int NULL_INT            = -121;
+	public static final int NULL_INT             = -121;
 
 	public static final int ftChar               = 0;
 	public static final int ftCharRightJust      = 1;
@@ -59,7 +59,9 @@ public interface Type {
 	public static final int ftPostiveBinaryInt   = 16;
 	public static final int ftFloat              = 17;
 	public static final int ftDouble             = 18;
-	public static final int ftBit = 21;
+	public static final int ftNumAnyDecimal      = 19;
+	public static final int ftPositiveNumAnyDecimal = 20;
+	public static final int ftBit                = 21;
 
 	public static final int ftPackedDecimal      = 31;
 	public static final int ftZonedNumeric       = 32;
@@ -76,19 +78,19 @@ public interface Type {
 	public static final int ftDateDMY            = 74;
 	public static final int ftDateDMYY           = 75;
 
-	public static final int ftCharRestOfFixedRecord =80;
-	public static final int ftCharRestOfRecord =81;
+	public static final int ftCharRestOfFixedRecord = 80;
+	public static final int ftCharRestOfRecord   = 81;
 	
-	public static final int ftProtoField =91;
-	public static final int ftAvroField =91;
-	public static final int ftArrayField =92;
-	public static final int ftComboItemField =93;
-	public static final int ftAvroUnionField =94;
+	public static final int ftProtoField         = 91;
+	public static final int ftAvroField          = 91;
+	public static final int ftArrayField         = 92;
+	public static final int ftComboItemField     = 93;
+	public static final int ftAvroUnionField     = 94;
 
 	public static final int ftCheckBoxTrue       = 110;
 	public static final int ftCheckBoxYN         = 111;
 	public static final int ftCheckBoxTF         = 112;
-	public static final int ftCheckBoxBoolean = 114;
+	public static final int ftCheckBoxBoolean    = 114;
 
 	public static final int ftCsvArray           = 115;
 	public static final int ftXmlNameTag         = 116;
@@ -96,7 +98,7 @@ public interface Type {
 
 	public static final int NT_TEXT              = 1;
 	public static final int NT_DATE              = 11;
-	public static final int NT_NUMBER         = 21;
+	public static final int NT_NUMBER            = 21;
 
     /**
      * Extracts a field out of a data record

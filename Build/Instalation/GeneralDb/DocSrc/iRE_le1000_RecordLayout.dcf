@@ -9,7 +9,7 @@ layouts into the system.
   :dt.Log :dd.This is where any errors will be written
 :edl.
 
-.*b2h HTML <img SRC="Diagram/LayoutEdit_Menu.GIF">
+.*b2h HTML <img SRC="Diagram/LayoutEdit_Menu.png">
 :p.
 :p.The options on the menu screen are
 
@@ -83,18 +83,18 @@ This is the :hp2.Record Selection:ehp2 panel.
 This is where you enter selection options to limit what is displayed in the 
  :hp2.Record List:ehp2.. To display all records starting with :hp2.t:ehp2.; enter :hp2.t%:ehp2. in the 
  :hp2.Record Name:ehp2. field.
-.*b2h HTML <table><tr><td><img SRC="Diagram/LayoutEdit_RecSelection.GIF"></td></tr></table>
+.*b2h HTML <table><tr><td><img SRC="Diagram/LayoutEdit_RecSelection.png"></td></tr></table>
  :p.
  :row.:c.Bottom Left
  :c.This is the :hp2.Record List:ehp2. panel
 You can select a record to be displayed by clicking on it
-.*b2h HTML <table><tr><td><img SRC="Diagram/LayoutEdit_RecordList.GIF"></td></tr></table>
+.*b2h HTML <table><tr><td><img SRC="Diagram/LayoutEdit_RecordList.png"></td></tr></table>
  :p.
  :row.:c.Right
 .*b2h HTML <A NAME="RecordDtls"/>
  :c.On the right part of the screen is Record Definition. 
  :p.
-.*b2h HTML <img SRC="Diagram/LayoutEdit_RecordDtls.GIF">
+.*b2h HTML <img SRC="Diagram/LayoutEdit_RecordDtls.png">
  
 .im iRe_le1200_layoutPnl
 :note.See :hdref refid=LayoutDef. for more details.
@@ -173,15 +173,15 @@ format / edit table cells. It allows checkbox / comboboxs / etc in the
  :thd refid=xlight.:c.Section:c.Description:ethd.
  :row refid=none.:c.Left
  :c.
-.*b2h HTML <img SRC="Diagram/LayoutEdit_TableList.GIF">
+.*b2h HTML <img SRC="Diagram/LayoutEdit_TableList.png">
    :p.In this section you select which table to edit by clicking on it.
  :row.:c.Top Right
  :c.
-.*b2h HTML <img SRC="Diagram/LayoutEdit_TableDtls.GIF"> 
+.*b2h HTML <img SRC="Diagram/LayoutEdit_TableDtls.png"> 
    :p.In this section you update a Table Header Details
  :row.:c.Bottom Right
  :c.
-.*b2h HTML <img SRC="Diagram/LayoutEdit_TableRows.GIF"> 
+.*b2h HTML <img SRC="Diagram/LayoutEdit_TableRows.png"> 
    :p.In this section you update a Table Row Details. The Columns are:
 :dl.
      :dt.Row Key:dd.Table Row Key. For the Field Type / Table Type tables this value is also
@@ -342,7 +342,7 @@ There is one supplied template to print a RecordLayout as HTML
 :p.In the example below, All layout starting with :hp2.ams shp Upload:ehp2. will copied
 to files in the directory :hp2.C:\Program Files\RecordEdit\MSaccess\CopyBook\csv\:ehp2.
 
-.pict LayoutEdit_Copy.JPG
+.pict LayoutEdit_Copy.png
 
 :p.The Screen consists of 2 Panels:
 :dl.

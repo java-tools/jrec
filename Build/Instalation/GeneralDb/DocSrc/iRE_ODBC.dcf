@@ -20,5 +20,5 @@ the :hp2.ODBC function:ehp2. is on this screen.
 :li.Then fill out Source name and Description. Also use the :hp2.Select Button:ehp2.
 to select the Microsoft Access DB :hp2.RecordEditor.mdb:ehp2.. This is
 found in $install_Directory/MSaccess
-.*b2h HTML <table><tr><td><img SRC="Diagram/ODBC_RecordLayout.GIF"></td></tr></table>
+.*b2h HTML <table><tr><td><img SRC="Diagram/ODBC_RecordLayout.png"></td></tr></table>
 :eol.

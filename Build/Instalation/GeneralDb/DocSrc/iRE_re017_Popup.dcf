@@ -3,7 +3,7 @@
 click button on Windows) for running record (ie line oriented) commands.
 
 :table COLS='*'.:row.:c.
-.pict RecordEdit_Popup.GIF
+.pict RecordEdit_Popup.png
 :etable.
 :p.
 :p.Options include:

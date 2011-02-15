@@ -28,13 +28,13 @@ Each successive field will have alternating background color.
 :p.From both the :bblue.Full Editor:ebblue. and the :bblue.Record Layout Edit:ebblue. programs
 you can select :blue.Create Layout:eblue. from the :hp2.Record Layouts:ehp2. drop down menu.
 
-.pict MenuRL_Create.GIF
+.pict MenuRL_Create.png
 
 :p.You can then create the layout on the :hdref refid=LayoutDef. screen.
 
 :note.In the :bblue.Record Layout Edit:ebblue. program you can also select the
 :hp2.Create Record Layout:ehp2. menu option.
 
-.pict LayoutEdit_Menu.GIF
+.pict LayoutEdit_Menu.png
 
 .im iRE_le1100_LayoutDefinition.dcf

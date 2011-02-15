@@ -40,7 +40,7 @@ public class TextLineReader extends StandardLineReader {
 
     private InputStream inStream;
 	private InputStreamReader stdReader;
-	private BufferedReader reader = null;
+	protected BufferedReader reader = null;
 	private boolean namesInFile = false;
 	
     private String defaultDelim  = ","; 
@@ -129,6 +129,7 @@ public class TextLineReader extends StandardLineReader {
         int decimal   = 0;
         int format    = 0;
         int parser    = 0;
+        int structure = Constants.IO_NAME_1ST_LINE;
         String param  = "";
         String delim  = defaultDelim; 
         String quote  = defaultQuote;
@@ -136,6 +137,11 @@ public class TextLineReader extends StandardLineReader {
         byte[] recordSep = Constants.SYSTEM_EOL_BYTES;
 
 	    try {
+	    	int ts = getLayout().getFileStructure();
+	    	if (ts != Constants.IO_GENERIC_CSV) {
+	    		structure = ts;
+	    	}
+
 	    	delim     = getLayout().getDelimiter();
 	        rec = getLayout().getRecord(0);
 	        quote     = rec.getQuote();
@@ -152,7 +158,7 @@ public class TextLineReader extends StandardLineReader {
 	    //System.out.println(" Quote  ->" + quote + " " + (getLayout() == null));
 
 	    layout = createLayout(pReader.readLine(), rec, 
-	    		recordSep, font,  delim,
+	    		recordSep, structure, font,  delim,
                 quote, parser, fieldType, decimal, format, param);
 	    //System.out.println(" Quote  ->");
 
@@ -165,6 +171,7 @@ public class TextLineReader extends StandardLineReader {
      * create a Layout from the first line in the file
      * @param line line being built
      * @param recordSep record seperator
+     * @param structure File structure
      * @param fontName font name
      * @param delimiter field delimiter
      * @param quote Quote Character to use
@@ -177,6 +184,7 @@ public class TextLineReader extends StandardLineReader {
      */
     public static LayoutDetail createLayout(String line, AbstractRecordDetail rec,
     		byte[] recordSep,
+    		int structure,
             String fontName, String delimiter, String quote, int style,
             int fieldType, int decimal, int format, String param) throws IOException {
 
@@ -218,7 +226,7 @@ public class TextLineReader extends StandardLineReader {
                     new LayoutDetail("", recs, "",
                         Constants.rtDelimited,
                         recordSep, "", fontName, null,
-                        Constants.IO_NAME_1ST_LINE
+                        structure
                     );
             } catch (Exception e) {
                 e.printStackTrace();

@@ -6,7 +6,7 @@ Longer Term I hope to display a Summary Record for each Tree Node.
 :h2.Starting a Sort Tree view
 :p.First select the :hp2.Sorted Tree View:ehp2. option of the View Menu.
 
-.pict RecordEdit_View1.GIF
+.pict RecordEdit_View1.png
 
 .br
 
@@ -35,12 +35,12 @@ organised in array.
 
 :p.Logically records in the :hp2.Ams PO:ehp2. file are arranged like:
 
-.pict AmsPOfile.GIF
+.pict AmsPOfile.png
 
 :h2.Creating a Record Tree View
 :p.The first step is to select the :hp2.Record Based Tree:ehp2. option on the view Menu: 
 
-.pict RecordEdit_View2.GIF
+.pict RecordEdit_View2.png
 
 .br
 

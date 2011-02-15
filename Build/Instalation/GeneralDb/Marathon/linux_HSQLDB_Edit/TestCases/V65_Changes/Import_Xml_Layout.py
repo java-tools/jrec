@@ -7,7 +7,7 @@ def test():
 	if window('Record Editor'):
 		select_menu('Record Layouts>>Load Copybook')
 		select('FileChooser', commonBits.xmlCopybookDir() + 'yyAms PO Download.Xml')
-		select('BmKeyedComboBox1', 'Other')
+		select('BmKeyedComboBox1', '9')
 		click('Go')
 		rightclick('TextArea')
 		assert_p('TextArea', 'Text', '''
@@ -15,8 +15,7 @@ def test():
 -->> ''' + commonBits.xmlCopybookDir() + '''yyAms PO Download.Xml processed
 
       Copybook: yyAms PO Download''')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('Reload from DB')
 		select('FileChooser', commonBits.sampleDir() + 'zzAms_PODownload_20041231.txt')
 		select('ComboBox1', 'Other')
@@ -25,14 +24,13 @@ def test():
 		select('TabbedPane', 'Extras')
 		select('TabbedPane', 'Extras')
 		select('TabbedPane', 'Child Records')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 ##		click('ScrollPane$ScrollBar', 12, 112)
 		click('Reload from DB')
 ##		select('ComboBox2', 'yyAms PO Download')
 		commonBits.setRecordLayout(select, 'yyAms PO Download')
 
-		commonBits.doEdit(click)
+		click('Edit1')
 		select('Table', 'cell:3 - 4|DC Number 1,0(4534)')
 		rightclick('Table', '1 - 2|Record Type,0')
 ##		select('Table', 'cell:3 - 4|DC Number 1,0(4534)')

@@ -109,7 +109,7 @@ using a XML description. The CobolEditor comes as part of the :RecordEditor. pac
 :table cols='* 4*'.
 :thd refid=xlight.:c.File Format:c.Editor:ethd.
 :row refid=none.:c.Fixed Width:c.:RecordEditor. 
-:row.:c.CSV File:c.:RecordEditor. 
+:row.:c.CSV File:c.reCsvEditor and :RecordEditor. 
 :row.:c.Xml File:c.:RecordEditor., Xml needs more work though.
 :row.:c.Cobol File:c.:RecordEditor., CobolEditor
 :row.:c.Mainframe File:c.:RecordEditor. 

@@ -7,7 +7,7 @@ def test():
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'Xml' + commonBits.fileSep() + 'IVM0034_Map.XML')
 
-		commonBits.doEdit(click)
+		click('Edit1')
 ##		select('JTreeTable', '')
 		rightclick('JTreeTable', 'Tree,1')
 		select_menu('Expand Tree')
@@ -49,8 +49,6 @@ def test():
 		assert_p('Table', 'Content', '''[[Xml~Name, 0, , Field, Field], [Xml~Prefix, 3, , , ], [Xml~Namespace, 4, , , ], [Row, 5, , 1, 1], [Col, 6, , 26, 26], [LENGTH, 7, , 23, 23], [INITIAL, 8, ,  REPLENISHMENT ORDERING,  REPLENISHMENT ORDERING], [ATTRB, 9, , (ASKIP,BRT), (ASKIP,BRT)], [id, 10, , , ], [Type, 11, , , ], [Xml~End, 1, , True, True], [Following~Text, 2, , 
 , 
 ]]''')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 	close()

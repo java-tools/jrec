@@ -114,6 +114,7 @@ public class CsvSelectionStringTblMdl
 	public void setParserType(int parserType) {
 		this.parserType = parserType;
 	}
+	
 	/**
 	 * @param font the font to set
 	 */
@@ -125,6 +126,17 @@ public class CsvSelectionStringTblMdl
 		}
 	}
 	
+	
+	/**
+	 * @param font the font to set
+	 */
+	public void setDataFont(byte[] data, String font) {
+		this.data = data;
+		this.font = font;
+		readData();
+		
+	}
+
 	@Override
 	public void setQuote(String quote) {
 		this.quote = quote;

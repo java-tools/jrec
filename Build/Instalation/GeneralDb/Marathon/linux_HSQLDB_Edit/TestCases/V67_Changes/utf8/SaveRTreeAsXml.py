@@ -2,19 +2,15 @@ useFixture(default)
 
 def test():
 	from Modules import commonBits
-	import time
-
 	java_recorded_version = '1.6.0_03'
 
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'utf8a_Ams_PODownload_20041231.txt')
 		commonBits.setRecordLayout(select, 'utf8_ams PO Download')
-		commonBits.doEdit(click)
+		click('Edit1')
 		select_menu('View>>Record Based Tree')
-		select('Table', 'ams PO Download: Header', 'Parent Record,0')
-		select('Table', 'ams PO Download: Detail', 'Parent Record,2')
-#		select('Table', '1', 'Parent Record,0')
-#		select('Table', '0', 'Parent Record,2')
+		select('Table', '1', 'Parent Record,0')
+		select('Table', '0', 'Parent Record,2')
 		select('Table', 'cell:Parent Record,2(0)')
 		click('Build')
 		select('JTreeTable', 'cell:PO,1(222227)')
@@ -32,9 +28,7 @@ def test():
 		select('JTreeTable', 'cell:PO,1(222227)')
 		click('Open')
 		select('FileChooser', commonBits.sampleDir() + 'x1utf8a_Ams_PODownload_20041231.txt.xml')
-		commonBits.doEdit(click)
-
-
+		click('Edit1')
 		select('JTreeTable', 'cell:Xml~Prefix,1(null)')
 		rightclick('JTreeTable', 'Xml~Prefix,1')
 		select_menu('Expand Tree')

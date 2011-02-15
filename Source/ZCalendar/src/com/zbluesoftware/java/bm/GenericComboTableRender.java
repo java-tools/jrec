@@ -12,8 +12,10 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -21,7 +23,8 @@ import javax.swing.table.TableCellRenderer;
  * @author Bruce Martin
  *
  */
-public class GenericComboTableRender extends AbstractCellEditor
+@SuppressWarnings("serial")
+public abstract class GenericComboTableRender extends AbstractCellEditor
     implements TableCellRenderer, TableCellEditor, PropertyChangeListener /*ActionListener*/ {
 
 
@@ -69,8 +72,10 @@ public class GenericComboTableRender extends AbstractCellEditor
     public Component getTableCellEditorComponent(final JTable table, final Object value,
             final boolean isSelected, final int row, final int column) {
 
+    	setComboField(getCombo());
         setValue(value);
         setColor(isSelected, table);
+        comboField.addPropertyChangeListener(new TableNotify(table, row, column));
         
         return comboField;
     }
@@ -152,10 +157,43 @@ public class GenericComboTableRender extends AbstractCellEditor
 	 * @param newComboField the comboField to set
 	 */
 	public void setComboField(final AbstractGenericCombo newComboField) {
+		if (comboField != null) {
+			comboField.removePropertyChangeListener(this);
+		}
 		comboField = newComboField;
 		//comboField.addActionListener(this);
 		comboField.addPropertyChangeListener(this);
 		comboField.setBorder(null);
 	}
 
+	
+	protected abstract AbstractGenericCombo getCombo();
+	
+	private static class TableNotify implements PropertyChangeListener {
+		private JTable table;
+		private int row, col;
+		public TableNotify(JTable table, int row, int col) {
+			super();
+			this.table = table;
+			this.row = row;
+			this.col = col;
+		}
+		
+		
+		/* (non-Javadoc)
+		 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+		 */
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			if (evt.getPropertyName().equals(AbstractPopup.POPUP_CHANGED)) {
+				TableModel mdl = table.getModel();
+				table.setValueAt(evt.getNewValue(), row, col);
+				if (mdl instanceof AbstractTableModel) {
+					((AbstractTableModel) mdl).fireTableDataChanged();
+				}
+			}
+		}
+		
+		
+	}
 }

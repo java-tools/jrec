@@ -97,7 +97,8 @@ public class CsvTabPane implements FormatFileName {
 			if (allowTabSwap && ! "".equals(charSet)) {
 				unicodeCsvDetails.fontTxt.setText(charSet);
 				unicodeCsvDetails.setData(data, false);
-				tab.setSelectedIndex(UNICODE_CSV);					
+
+				checkNormalCsv(data);					
 			} else {
 				setNormalCsv(data);
 			}
@@ -107,9 +108,24 @@ public class CsvTabPane implements FormatFileName {
 				tab.setSelectedIndex(NORMAL_CSV);					
 			} else {
 				unicodeCsvDetails.fontTxt.setText(charSet);
-				unicodeCsvDetails.setData(data, true);
+				unicodeCsvDetails.setData(data, false);
+				
+				if (allowTabSwap) {
+					checkNormalCsv(data);
+				}
 			}
 		}
+	}
+	
+	private void checkNormalCsv(byte[] data) throws IOException {
+		if (unicodeCsvDetails.getColumnCount() == 1) {
+			setNormalCsv(data);
+			if (csvDetails.getColumnCount() > 1) {
+				tab.setSelectedIndex(NORMAL_CSV);
+				return;
+			}
+		}
+		tab.setSelectedIndex(UNICODE_CSV);					
 	}
 	
 	private void setNormalCsv(byte[] data) throws IOException {

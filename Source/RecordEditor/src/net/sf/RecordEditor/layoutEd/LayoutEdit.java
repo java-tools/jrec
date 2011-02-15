@@ -63,9 +63,19 @@ public class LayoutEdit extends ReMainFrame {
 		super("Record Layout Definitions", "");
 		
 		ReIOProvider.register();
-		
+
+		AbstractAction optionAction = new AbstractAction(
+				"Edit Options",
+				Common.getRecordIcon(Common.ID_PREF_ICON)) {
+			public void actionPerformed(ActionEvent e) {
+				 new EditOptions(false, true, true);
+			}
+		};
+    	AbstractAction[] toolbarActions = {
+    			optionAction
+    	};
 		buildMenubar(null);
-		buildToolbar(newAction, null);
+		buildToolbar(newAction, toolbarActions);
 
 		buildFileMenu(null, false, true, newAction);
 		super.addExit();
@@ -77,12 +87,7 @@ public class LayoutEdit extends ReMainFrame {
 		Common.setCurrClass(this);
 		
 	    getEditMenu().addSeparator();
-	    getEditMenu().add(new AbstractAction("Edit Startup Options",
-	            Common.getRecordIcon(Common.ID_PREF_ICON)) {
-	        public void actionPerformed(ActionEvent e) {
-	            new EditOptions(false, true, true);
-	        }
-	    });
+	    getEditMenu().add(optionAction);
 
 	    int idx = Common.getConnectionIndex();
 	    UpgradeDB.checkForUpdate(idx);

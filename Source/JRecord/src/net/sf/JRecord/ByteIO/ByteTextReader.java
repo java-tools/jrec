@@ -20,6 +20,7 @@ public class ByteTextReader extends AbstractByteReader {
 	private static final byte[] NO_EOL = {};
 	private byte[] eol = null;
 	
+
 	private byte[] buffer = new byte[MAX_LINE_SIZE];
 	private int bytesInBuffer;
 	private int[] lineArray = new int[16];
@@ -154,7 +155,7 @@ public class ByteTextReader extends AbstractByteReader {
 
 		num = in.read(buf, total, buf.length - total);
 
-		while (num >= 0 && total < buf.length) {
+		while (num >= 0 && total + num < buf.length) {
 			total += num;
 			num = in.read(buf, total, buf.length - total);
 		}
@@ -170,4 +171,12 @@ public class ByteTextReader extends AbstractByteReader {
 	public long getBytesRead() {
 		return bytesRead;
 	}
+	
+	/**
+	 * @return the eol
+	 */
+	public byte[] getEol() {
+		return eol;
+	}
+
 }

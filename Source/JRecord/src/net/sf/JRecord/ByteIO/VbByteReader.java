@@ -135,7 +135,7 @@ public class VbByteReader extends AbstractByteReader {
         	}
             byte[] inBytes = new byte[lineLength];
 
-            if (readBuffer(stream, inBytes) > 0) {
+            if (readBuffer(stream, inBytes) >= 0) {
                 ret = inBytes;
 
                 if (containsBlockLength) {

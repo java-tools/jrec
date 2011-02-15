@@ -158,7 +158,7 @@ public class EditOptions {
 
     private Object[][] otherParams = {
             {"UserInitilizeClass", "This User written class will be invoked when the <b>RecordEditor</b starts.", EditPropertiesPnl.FLD_TEXT, "User Init Class"},
-            {"DateFormat", "Date Format String eg dd/MM/yy or dd.MMM.yy. the field is case sensitive, it uses Java date Formatting", null, EditPropertiesPnl.FLD_TEXT, "Date Format"},
+            {"DateFormat", "Date Format String eg dd/MM/yy or dd.MMM.yy. the field is case sensitive, it uses Java date Formatting", null, EditPropertiesPnl.FLD_DATE, "Date Format"},
             {Parameters.PROPERTY_TEST_MODE, "Weather we are running automated Tests (Marathon ?) or not ", null, EditPropertiesPnl.FLD_BOOLEAN, "Test Mode"},
             {Parameters.BRING_LOG_TO_FRONT, "Bring Log to the Front if Data is written to it", null, EditPropertiesPnl.FLD_BOOLEAN, "Bring log to Front"}, // Checked
             {Parameters.INVALID_FILE_CHARS, "Characters that are invalid in a file Name", null, EditPropertiesPnl.FLD_TEXT, null},

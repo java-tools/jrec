@@ -2,8 +2,6 @@ useFixture(default)
 
 def test():
 	from Modules import commonBits
-	import time
-
 	java_recorded_version = '1.6.0_10'
 
 	if window('Record Editor'):
@@ -27,7 +25,7 @@ def test():
 
 		if window(''):
 			select('CheckBox', 'true')
-			assert_p('ComboBox', 'Text', 'x\'FF\'')
+			assert_p('ComboBox', 'Text', 'x\'FF')
 			assert_p('Table', 'Text', '69684558', 'KEYCODE-NO,0')
 			select('Table', 'cell:DATE,0(40118)')
 			assert_p('Table', 'Text', '40118', 'DATE,0')
@@ -35,24 +33,8 @@ def test():
 ##			assert_p('Table', 'Content', '[[69684558, 20, 40118, 280, 1], [69684558, 20, 40118, 280, -1], [69684558, 20, 40118, 280, 1], [69694158, 20, 40118, 280, 1], [69694158, 20, 40118, 280, -1], [69694158, 20, 40118, 280, 1], [63604808, 20, 40118, 170, 1], [62684671, 20, 40118, 685, 1], [62684671, 20, 40118, 685, -1], [64634429, 20, 40118, 957, 1], [66624458, 20, 40118, 957, 1], [63674861, 20, 40118, 957, 10], [65674532, 20, 40118, 929, 1], [64614401, 59, 40118, 957, 1], [64614401, 59, 40118, 957, 1], [61664713, 59, 40118, 335, 1], [61664713, 59, 40118, 335, -1], [68634752, 59, 40118, 410, 1], [60614487, 59, 40118, 878, 1], [63644339, 59, 40118, 878, 1], [60694698, 59, 40118, 620, 1], [60664659, 59, 40118, 620, 1], [62684217, 59, 40118, 957, 1], [67674686, 59, 40118, 929, 1], [61684613, 59, 40118, 335, 1], [64624770, 59, 40118, 957, 1], [69694814, 166, 40118, 360, 1], [69694814, 166, 40118, 360, 1], [69644164, 166, 40118, 193, 1]]')
 			assert_p('Table', 'Content', '[[69684558, 20, 40118, 280, 1, 19.00], [69684558, 20, 40118, 280, -1, -19.00], [69684558, 20, 40118, 280, 1, 5.01], [69694158, 20, 40118, 280, 1, 19.00], [69694158, 20, 40118, 280, -1, -19.00], [69694158, 20, 40118, 280, 1, 5.01], [63604808, 20, 40118, 170, 1, 4.87], [62684671, 20, 40118, 685, 1, 69.99], [62684671, 20, 40118, 685, -1, -69.99], [64634429, 20, 40118, 957, 1, 3.99], [66624458, 20, 40118, 957, 1, 0.89], [63674861, 20, 40118, 957, 10, 2.70], [65674532, 20, 40118, 929, 1, 3.59], [64614401, 59, 40118, 957, 1, 1.99], [64614401, 59, 40118, 957, 1, 1.99], [61664713, 59, 40118, 335, 1, 17.99], [61664713, 59, 40118, 335, -1, -17.99], [68634752, 59, 40118, 410, 1, 8.99], [60614487, 59, 40118, 878, 1, 5.95], [63644339, 59, 40118, 878, 1, 12.65], [60694698, 59, 40118, 620, 1, 3.99], [60664659, 59, 40118, 620, 1, 3.99], [62684217, 59, 40118, 957, 1, 9.99], [67674686, 59, 40118, 929, 1, 3.99], [61684613, 59, 40118, 335, 1, 12.99], [64624770, 59, 40118, 957, 1, 2.59], [69694814, 166, 40118, 360, 1, 2.50], [69694814, 166, 40118, 360, 1, 2.50], [69644164, 166, 40118, 193, 1, 21.59]]')
 			select('Table', 'cell:DEPT-NO,1(280)')
-			commonBits.doSleep()
-
-			select('TabbedPane', 'Normal')
 			click('Go')
-			commonBits.doSleep()
-
-			commonBits.doSleep()
-
-
-			commonBits.doSleep()
-
 		close()
-
-		commonBits.doSleep()
-
-		commonBits.doSleep()
-
-		select_menu('Window>>XffDTAR020.csv>>Table: ')
 
 		select('Table', 'cell:1|KEYCODE-NO,0(69684558)')
 		assert_p('Table', 'Text', '69684558', '1|KEYCODE-NO,1')
@@ -109,8 +91,7 @@ def test():
 		click('*1')
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020.bin')
 		select('FileChooser1', commonBits.sampleDir() + 'SampleFiles' + commonBits.fileSep())
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('*2')
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020.bin')
 		click('Right')
@@ -119,7 +100,6 @@ def test():
 		click('Right')
 
 		if window(''):
-			select('TabbedPane', 'Normal')
 			select('TextField', 'x\'FF\'')
 			select('CheckBox', 'true')
 ##			select('Table', '')
@@ -138,8 +118,8 @@ def test():
 		select('Table1', 'cell:Equivalent Field,5()')
 		select('Table', 'cell:Equivalent Record,0(0)')
 		select('Table1', 'cell:Equivalent Field,5()')
-		##click('MetalInternalFrameTitlePane', 379, 15)
-		##click('MetalInternalFrameTitlePane', 345, 11)
+		click('MetalInternalFrameTitlePane', 379, 15)
+		click('MetalInternalFrameTitlePane', 345, 11)
 		click('Right')
 		select('TabbedPane', '')
 		click('Compare')

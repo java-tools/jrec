@@ -10,7 +10,7 @@ def test():
 
 		click('Edit1')
 		select_menu('View>>Sorted Field Tree')
-#		select('List', 'DTAR020')
+		select('List', 'DTAR020')
 		select('Table', 'STORE-NO', 'Field,0')
 		select('Table', 'DEPT-NO', 'Field,1')
 		select('Table', 'cell:Field,1(DEPT-NO)')
@@ -75,6 +75,5 @@ def test():
 		select('Table', 'cell:Data,0(66624458)')
 		assert_p('Table', 'Text', '20', 'Data,1')
 		select('Table', 'cell:Data,0(66624458)')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 	close()

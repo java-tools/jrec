@@ -30,8 +30,6 @@ public class LineReaderWrapper
 extends AbstractLineReader {
 
     private AbstractByteReader reader;
- 
-	int i = 0;
 
     /**
      *  Create a LineReader from a Byte reader
@@ -67,7 +65,6 @@ extends AbstractLineReader {
      * @see net.sf.JRecord.IO.StandardLineReader#read()
      */ @Override
     public AbstractLine read() throws IOException {
-    	 
         byte bytes[] = reader.read();
 
         if (bytes == null) {
@@ -102,5 +99,4 @@ extends AbstractLineReader {
 	public boolean canWrite() {
 		return reader.canWrite();
 	}
-
 }

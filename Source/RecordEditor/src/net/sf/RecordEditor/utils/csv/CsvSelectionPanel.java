@@ -42,7 +42,7 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 	public static final String NORMAL_CSV_STRING  = "CSV";
 	public static final String UNICODE_CSV_STRING = "UNICODECSV";
 	
-	private static final int FILE_HEIGHT = SwingUtils.TABLE_ROW_HEIGHT * 27 / 2;
+	//private static final int FILE_HEIGHT = SwingUtils.TABLE_ROW_HEIGHT * 27 / 2;
 	
 	private static final String SEP = "~";
 	private static final String NULL_STR = "Empty";
@@ -57,7 +57,7 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 	private BmKeyedComboModel styleModel = new BmKeyedComboModel(new ManagerRowList(
 			parserManager, false));
     public JComboBox fieldSeparator;
-    public JTextField fieldSepTxt = new JTextField(8);
+    public JTextField fieldSepTxt = new JTextField(5);
     public JComboBox quote = new JComboBox(Common.QUOTE_LIST);
     public JTextField fontTxt = new JTextField();
     
@@ -152,8 +152,7 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 		}
 
 		fontTxt.setText(font);
-		tableMdl.setData(data);
-		tableMdl.setFont(font);
+		tableMdl.setDataFont(data, font);
 		
 		anaylyser = new CsvAnalyser(tableMdl.getLinesString(), -1, font);
 		setUpSeperator(anaylyser);
@@ -187,6 +186,7 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 	}
 
 	private void init_200_LayoutScreen(boolean showCancel, String heading) {
+		int fileTblHeight = SwingUtils.TABLE_ROW_HEIGHT * 27 / 2;
 		JPanel pnl = new JPanel(new BorderLayout());
 		JPanel pnl1 = new JPanel();
 		JLabel orLbl = new JLabel("   or ");
@@ -220,22 +220,23 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 		
 		if (! isByteBased) {
 			addLine("Font", fontTxt);
+			fileTblHeight -= SwingUtils.TABLE_ROW_HEIGHT * 2;
 		}
 		addLine("Parser", parseType);
 		
 		if (showCancel) {
-			addLine("Fields on First Line", fieldNamesOnLine, go);
+			addLine("Names on First Line", fieldNamesOnLine, go);
 			setGap(BasePanel.GAP);
-			addLine("Evaluate Column Types", checkTypes, cancel);
+			addLine("set Column Types", checkTypes, cancel);
 			setGap(BasePanel.GAP);
 		} else {
-			addLine("Fields on First Line", fieldNamesOnLine);
-			addLine("Evaluate Column Types", checkTypes, go);
+			addLine("Names on First Line", fieldNamesOnLine);
+			addLine("set Column Types", checkTypes, go);
 			setGap(BasePanel.GAP1);
 		}
 		
 		this.addComponent(
-				1, 5, FILE_HEIGHT, BasePanel.GAP,
+				1, 5, fileTblHeight, BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL,
 		        new JScrollPane(linesTbl));
 		
@@ -380,6 +381,7 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 	private void setUpSeperator(CsvAnalyser analyse) {
 		
 		fieldSeparator.setSelectedIndex(analyse.getSeperatorIdx());
+		fieldSepTxt.setText("");
 		quote.setSelectedIndex(analyse.getQuoteIdx());
 		
 		switch (analyse.getColNamesOnFirstLine()) {

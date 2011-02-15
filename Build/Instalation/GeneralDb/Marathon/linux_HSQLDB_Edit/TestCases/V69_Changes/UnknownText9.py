@@ -94,7 +94,6 @@ def test():
 4125033342c13b4f7e00000000000000000000000000d1219fe7000000000000000000000000000000004f3b02c0110d5c933100c1350000000000000000d1219fe70000000000000000000000000002148000000e37''', 'Hex,0')
 		select('Table', 'cell:Hex,0([B@1aff6b1)')
 		select('Table', 'cell:Hex,0([B@1589559)')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'cell:    +    1|Hex (SPF Edit Style),2([B@c31c7d)')
 	close()

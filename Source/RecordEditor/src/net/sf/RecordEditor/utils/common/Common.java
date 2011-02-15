@@ -97,10 +97,25 @@ public final class Common implements Constants {
 //			Parameters.getString(Parameters.BRING_LOG_TO_FRONT)));
 	public static final boolean TEST_MODE = "Y".equalsIgnoreCase(
 			Parameters.getString(Parameters.PROPERTY_TEST_MODE));
-	public static final boolean NIMBUS_LAF 
-			= "Nimbus".equalsIgnoreCase(
-					Parameters.getString(
-							Parameters.PROPERTY_LOOKS_CLASS_NAME));
+	public static final boolean RECORD_EDITOR_LAF 
+		  = Parameters.VAL_RECORD_EDITOR_DEFAULT.equalsIgnoreCase(
+			Parameters.getString(Parameters.PROPERTY_LOOKS_CLASS_NAME));
+	public static final boolean NIMBUS_LAF ;
+	
+	static {
+		boolean w = false;
+		try {
+			String s = System.getProperty("os.name").toLowerCase();
+			w = (RECORD_EDITOR_LAF && (s.indexOf("nix") >= 0 || s.indexOf("nux") >= 0));
+		} catch (Exception e) {
+		}
+		
+//		System.out.println(" >>>" + System.getProperty("os.name") + "<<< " 
+//				+ w + " " + RECORD_EDITOR_LAF);
+		NIMBUS_LAF = w || "Nimbus".equalsIgnoreCase(
+				Parameters.getString(Parameters.PROPERTY_LOOKS_CLASS_NAME));
+	}
+
 
 //	public static final boolean LOAD_FILE_BACKGROUND_THREAD = ! "N".equalsIgnoreCase(
 //			Parameters.getString(Parameters.PROPERTY_LOAD_FILE_BACKGROUND));
@@ -117,6 +132,7 @@ public final class Common implements Constants {
 	/**
 	 * record editor Help Screen
 	 */
+	public static final String HELP_CSV_EDITOR     = "HlpCsv02.htm";
 	public static final String HELP_COBOL_EDITOR   = "HlpCe02.htm";
 	public static final String HELP_RECORD_MAIN    = "HlpRe02.htm";
 	public static final String HELP_RECORD_TABLE   = "HlpRe03.htm";
@@ -377,13 +393,15 @@ public final class Common implements Constants {
 	
 	public static final String USER_INIT_CLASS
 			= Parameters.getString("UserInitilizeClass");
+	
+	public static final String STANDARD_CHARS = "+-.,/?\\!\'\"$%&*@()[]abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	public static final String FILE_SEPERATOR  =  System.getProperty("file.separator");
 	
    	public final static String[] FIELD_SEPARATOR_LIST = {
 		"<Default>", "<Tab>", "<Space>", ",", ";", ":", "|", "/", "\\", "~", "!", "*", "#", "@", "x'00'", "x'01'", "x'02'", "x'FD'", "x'FE'", "x'FF"
 	};
    	public final static String[] FIELD_SEPARATOR_LIST1 = {
-		"<Tab>", "<Space>", ",", ";", ":", "|", "/", "\\", "~", "!", "*", "#", "@", "x'00'", "x'01'", "x'02'", "x'FE'", "x'FE'", "x'FF'"
+		"<Tab>", "<Space>", ",", ";", ":", "|", "/", "\\", "~", "!", "*", "#", "@", "x'00'", "x'01'", "x'02'", "x'FD'", "x'FE'", "x'FF'"
 	};
    	public final static String[] FIELD_SEPARATOR_TEXT_LIST = new String[FIELD_SEPARATOR_LIST1.length - 6];
    	public final static String[] FIELD_SEPARATOR_LIST1_VALUES;

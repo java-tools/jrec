@@ -17,7 +17,7 @@ def test():
 		select('Table2', 'cell:Value,0()')
 		select('Table', 'false', 'Include,1')
 		select('Table', 'cell:Include,2(true)')
-		click('Filter1')
+		click('Filter')
 		select('Table', 'cell:3 - 9|Pack Qty,2(48.0000)')
 		assert_p('Table', 'Text', '16.0000', '3 - 9|Pack Qty,4')
 		select('Table', 'cell:3 - 9|Pack Qty,3(4.0000)')

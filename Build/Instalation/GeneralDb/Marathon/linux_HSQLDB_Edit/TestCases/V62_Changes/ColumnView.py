@@ -27,7 +27,6 @@ def test():
 		select('Table', 'cell:Row 6,5(58 Leland Street)')
 		assert_p('Table', 'Text', 'Penrith', 'Row 6,6')
 		select('Table', 'cell:Row 6,5(58 Leland Street)')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'rows:[0,1,2,3,4,5,6,7],columns:[4 - 4|Loc Nbr,8 - 2|Loc Type,10 - 35|Loc Name]')
 	close()

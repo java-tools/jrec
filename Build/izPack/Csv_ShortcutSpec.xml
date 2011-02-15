@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+<shortcuts>
+
+  <skipIfNotSupported />
+
+  <programGroup defaultName="reCsvEditor" location="applications"/>
+
+   <shortcut
+     name="re Csv Editor"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     initialState="noShow"
+     iconFile="$INSTALL_PATH\lib\CsvEd.ico"
+     target="$JAVA_HOME/bin/javaw"
+     commandLine="-jar &quot;$INSTALL_PATH\lib\runCsvEditor.jar&quot;"
+     description="Csv Editor (built on on RecordEditor)">
+     <createForPack name="Base" />
+   </shortcut>   
+   
+   
+   <shortcut
+     name="re Csv Editor (big File)"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     initialState="noShow"
+     iconFile="$INSTALL_PATH\lib\CsvEd.ico"
+     target="$INSTALL_PATH\lib\CsvEditorBigFile.Bat"
+     description="Csv Editor (using extra memory)">
+     <createForPack name="Base" />
+   </shortcut>   
+   
+   <shortcut
+     name="Uninstaller"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     target="$JAVA_HOME/bin/javaw"
+     commandLine="-jar &quot;$INSTALL_PATH\Uninstaller\uninstaller.jar&quot;"
+     description="IzPack uninstaller">
+     
+     <createForPack name="Base" />
+   </shortcut>
+   
+   
+   <shortcut
+     name="Csv Editor - Documentation"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     target="$INSTALL_PATH\Docs\reCsvEdFR.htm"
+     commandLine=""
+     description="Csv Editor Documentation">
+     
+     <createForPack name="Base" />
+   </shortcut>
+
+   
+</shortcuts>

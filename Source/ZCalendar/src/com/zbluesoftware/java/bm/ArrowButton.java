@@ -39,6 +39,7 @@ import javax.swing.JButton;
 /** JButton showing an arrow.
  * @author Ignacio Merani
  */
+@SuppressWarnings("serial")
 public class ArrowButton extends JButton {
     /** Default size. */
     private static final int DEFAULT_SIZE = 16;

@@ -34,10 +34,8 @@ def test():
 		doubleclick('TextArea')
 		click('TextArea')
 		#assert_p('TextArea', 'Text', '1"2;3;4|1;2;3;4|4;5;6"3332;3;4;5;65551:2:3"1|33|33|11"')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 		if window('Save Changes to file: ' + commonBits.sampleDir() + 'zzzCsvTest4.csv'):
 			click('No')

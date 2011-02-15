@@ -11,6 +11,7 @@ import javax.swing.table.TableModel;
  * Abstract extension of a JTable
  * @author Bruce Martin
  */
+@SuppressWarnings("serial")
 public class AbsJTable extends JTable {
 
 

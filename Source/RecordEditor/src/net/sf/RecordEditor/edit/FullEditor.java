@@ -68,7 +68,6 @@ public class FullEditor extends EditRec {
 	        	      final CopyBookInterface pInterfaceToCopyBooks) {
 		this(pInFile, pInitialRow, ReIOProvider.getInstance(), pInterfaceToCopyBooks);
 		UpgradeDB.checkForUpdate(Common.getConnectionIndex());
-
 	}
 
 	/**
@@ -204,7 +203,7 @@ public class FullEditor extends EditRec {
 	 */
 	public static void main(final String[] pgmArgs) {
 
-		System.out.println("Max Memmory: " + Common.MAX_MEMORY);
+		//System.out.println("Max Memmory: " + Common.MAX_MEMORY);
 	 
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {

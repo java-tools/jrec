@@ -34,6 +34,8 @@ public final class Parameters {
     public static final int NUMBER_OF_LOADERS = 20;
     public static final int NUMBER_OF_USER_FUNCTIONS = 32;
     
+    
+    public static final String VAL_RECORD_EDITOR_DEFAULT = "RecordEditor_Default";
      
     public static final String PROPERTY_BIG_FILE_PERCENT = "BigFilePercentage"; 
     public static final String PROPERTY_BIG_FILE_CHUNK_SIZE = "BigFileChunkSize"; 

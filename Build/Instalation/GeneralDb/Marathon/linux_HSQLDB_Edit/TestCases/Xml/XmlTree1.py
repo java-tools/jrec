@@ -17,20 +17,16 @@ def test():
 		select('FileChooser', commonBits.sampleDir() + 'Xml' + commonBits.fileSep() + '7zip_pad.xml')
 
 
-		#commonBits.doEdit(click)
-		#time.sleep(1)
-		commonBits.doEdit(click)
-
+		click('Edit1')
 		select('LayoutCombo', 'XML Start_Document')
 
-		if commonBits.isWindowsLook() or  commonBits.isNimbusLook():
+		if commonBits.isWindowsLook():
 			rightclick('JTreeTable', 'Tree,1')
 			select_menu('Expand Tree')
 		else:
 			doubleclick('JTreeTable', 'Tree,1')
 
 ##		select('JTreeTable', 'cell:Tree,2(null)')
-
 		assert_p('JTreeTable', 'RowCount', '9')
 		select('JTreeTable', 'cell:Xml~Version,0(1.0)')
 		assert_p('JTreeTable', 'Text', 'false', 'Xml~Standalone,0')

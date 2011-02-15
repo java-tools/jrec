@@ -51,6 +51,7 @@ import net.sf.RecordEditor.utils.common.ReActionHandler;
  * @author Bruce Martin
  * @version 0.70
  */
+@SuppressWarnings("serial")
 public class LineFrameTree extends  BaseLineFrame {
 
 	private static final int IDX_START = 0;

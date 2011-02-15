@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+
+<shortcuts>
+  <skipIfNotSupported />
+
+  <programGroup defaultName="reCsvEditor" location="applications"/>
+
+   <shortcut
+     name="reCsv Editor"
+     programGroup="yes"
+     desktop="yes"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     target="$INSTALL_PATH/lib/runCsvEditor.sh"
+     commandLine=""
+     initialState="noShow"
+     iconFile="$INSTALL_PATH/lib/CsvEd.png"
+     workingDirectory=""
+     iconIndex="0" 
+     type="Application"
+     encoding="UTF-8"
+     description="Csv Editor">
+     <createForPack name="Base" />
+   </shortcut>
+   
+
+   <shortcut
+     name="reCsv Editor (Big File)"
+     programGroup="yes"
+     desktop="yes"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     target="$INSTALL_PATH/lib/runCsvEditorBigFile.sh"
+     commandLine=""
+     initialState="noShow"
+     iconFile="$INSTALL_PATH/lib/CsvEd.png"
+     workingDirectory=""
+     iconIndex="0" 
+     type="Application"
+     encoding="UTF-8"
+     description="Csv Editor for big files. You should change bat/sh to get the most from it.">
+     <createForPack name="Base" />
+   </shortcut>
+   
+
+  <shortcut
+     name="reCsvEd Documentation"
+     programGroup="yes"
+     desktop="yes"
+     applications="no"
+     startMenu="yes"
+     startup="no"
+     target="konqueror"
+     url="$INSTALL_PATH/Docs/CsvEdFR.htm"
+     workingDirectory=""
+     commandLine=""
+     initialState="noShow"
+     iconFile="help"
+     iconIndex="0" 
+     type="Link"
+     encoding="UTF-8"   
+     description="Csv Editor Documetation">
+      <createForPack name="Base" />
+   </shortcut>
+
+     
+   <shortcut
+     name="reCsvEd - Uninstaller"
+     programGroup="yes"
+     desktop="yes"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     initialState="noShow"
+     iconFile="trashcan_full"
+     iconIndex="0" 
+     target="$INSTALL_PATH/lib/Uninstall.sh"
+     type="Application"
+     terminal="true"
+     encoding="UTF-8"
+     description="IzPack uninstaller">
+     <createForPack name="Base" />
+   </shortcut>
+   
+   
+</shortcuts>

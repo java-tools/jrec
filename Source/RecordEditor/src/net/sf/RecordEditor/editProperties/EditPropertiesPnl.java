@@ -21,7 +21,10 @@ import javax.swing.JTextField;
 
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.BasicGenericPopup;
+import net.sf.RecordEditor.utils.swing.DatePopup;
 import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.swing.Combo.ComboStrOption;
 
 /**
@@ -38,12 +41,14 @@ public class EditPropertiesPnl extends BasePanel {
 	private static final int BOOLEAN_VAL = 3;
 		private static final int LIST_VAL    = 5;
 	private static final int DIRECTORY   = 6;
+	private static final int DATE_VAL    = 7;
 
 	public static final Integer FLD_TEXT    = Integer.valueOf(STRING_VAL);
 	public static final Integer FLD_INT     = Integer.valueOf(INT_VAL);
 	public static final Integer FLD_BOOLEAN = Integer.valueOf(BOOLEAN_VAL);
 	public static final Integer FLD_LIST    = Integer.valueOf(LIST_VAL);
 	public static final Integer FLD_DIR     = Integer.valueOf(DIRECTORY);
+	public static final Integer FLD_DATE    = Integer.valueOf(DATE_VAL);
 
     private static final int NAME_COLUMN = 0;
 	private static final int DESCRPTION_COLUMN = 1;
@@ -97,6 +102,9 @@ public class EditPropertiesPnl extends BasePanel {
             	switch (type) {
             	case STRING_VAL:
             		addField(i, new TxtFld(i), null);
+            		break;
+            	case DATE_VAL:
+            		addField(i, new DateFld(i), null);
             		break;
             	case INT_VAL:
             		addField(i, new IntFld(i), null);
@@ -166,6 +174,52 @@ public class EditPropertiesPnl extends BasePanel {
 		@Override
 		public void focusLost(FocusEvent arg0) {
 			setValue(fieldNo, super.getText());
+		}
+
+
+		/* (non-Javadoc)
+		 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
+		 */
+		@Override
+		public void focusGained(FocusEvent arg0) {
+		}
+    }
+	
+	
+	private class DateFld extends BasicGenericPopup implements FocusListener {
+    	
+    	int fieldNo;
+    	DatePopup popup = new DatePopup();
+    	
+    	private DateFld(int fldNo) {
+    		fieldNo = fldNo;
+    		if (tableData[fieldNo][VALUE_COLUMN] == null) {
+    			super.setText("");
+    		} else {
+    	   		super.setText(tableData[fieldNo][VALUE_COLUMN].toString());
+    		}
+    		
+    		this.setupBackground();
+    		//this.setBorder(BorderFactory.createEmptyBorder());
+    		//this.setBorder((new JTextField()).getBorder());
+    		
+    		this.getMinimumSize().setSize(
+    								this.getMinimumSize().getWidth(),
+    								Math.max(
+    										this.getMinimumSize().getWidth(), 
+    										SwingUtils.NORMAL_FIELD_HEIGHT));
+
+    		super.setPopup(popup);
+    		super.addFocusListener(this);
+    	}
+
+    	
+		/* (non-Javadoc)
+		 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
+		 */
+		@Override
+		public void focusLost(FocusEvent arg0) {
+			EditPropertiesPnl.this.setValue(fieldNo, super.getText());
 		}
 
 

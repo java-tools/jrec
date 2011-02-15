@@ -9,8 +9,7 @@ def test():
 			select_menu('Record Layouts>>Load Cobol Copybook')
 			select('FileChooser', commonBits.cobolTestDir() + 'mfComp.cbl')
 			select('ComputerOptionCombo', 'Open Cobol Micro Focus (Intel)')
-			select('BmKeyedComboBox1', 'Other')
-#			select('BmKeyedComboBox1', '9')
+			select('BmKeyedComboBox1', '9')
 			click('Go')
 
 

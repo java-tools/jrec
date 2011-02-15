@@ -10,10 +10,8 @@ def test():
 			select('FileChooser', commonBits.cobolTestDir() + 'bsComp.cbl')
 	
 			select('ComputerOptionCombo', 'Open Cobol bs2000 Little Endian (Intel)')
-			select('BmKeyedComboBox1', 'Other')
-			select('BmKeyedComboBox', 'Fixed Length Binary')
-#			select('BmKeyedComboBox1', '9')
-#			select('BmKeyedComboBox', '2')
+			select('BmKeyedComboBox1', '9')
+			select('BmKeyedComboBox', '2')
 			click('Go')
 
 

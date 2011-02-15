@@ -31,8 +31,10 @@ implements AbstractWizardPanel<Details> {
 
 	@Override
 	public Details getValues() throws Exception {
+
 		wizardDetails.fileStructure = super.getFileStructure();
 		wizardDetails.fontName = super.fontNameTxt.getText();
+		wizardDetails.textPct = textPct;
 
         int len;
         if (wizardDetails.fileStructure == Common.IO_FIXED_LENGTH) {
@@ -100,17 +102,24 @@ implements AbstractWizardPanel<Details> {
 
 	@Override
 	public boolean skip() {
-		// TODO Auto-generated method stub
-		boolean ret =	wizardDetails.fileStructure != Constants.IO_FIXED_LENGTH
-						  &&	wizardDetails.fileStructure != Constants.IO_UNKOWN_FORMAT;
+
+		boolean ret = true;
 		
-		if (wizardDetails.fileStructure == Constants.IO_DEFAULT) {
+		
+		switch (wizardDetails.fileStructure) {
+		case Constants.IO_FIXED_LENGTH:
+		case Constants.IO_UNKOWN_FORMAT:
+			ret = false;
+			break;
+		case Constants.IO_DEFAULT:
 			int fs = super.getFileStructure();
 			switch (fs) {
-			case (Constants.IO_VB):
-			case (Constants.IO_VB_DUMP):
-			case (Constants.IO_VB_FUJITSU):
-			case (Constants.IO_VB_OPEN_COBOL):
+			case Constants.IO_VB:
+			case Constants.IO_VB_DUMP:
+			case Constants.IO_VB_FUJITSU:
+			case Constants.IO_VB_OPEN_COBOL:
+			case Constants.IO_MICROFOCUS:
+			case Constants.IO_FIXED_LENGTH:
 				wizardDetails.fileStructure = fs;
 				ret = false;
 			}

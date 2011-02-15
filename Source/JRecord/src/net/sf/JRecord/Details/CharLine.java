@@ -182,8 +182,11 @@ public class CharLine extends BasicLine<CharLine>  {
 	 */
 	@Override
 	public void setData(byte[] newVal) {
-		// TODO Auto-generated method stub
-		
+		if (newVal == null || newVal.length == 0) {
+			data = "";
+		} else {
+			data = Conversion.toString(newVal, layout.getFontName());
+		}
 	}
 
 
@@ -236,7 +239,7 @@ public class CharLine extends BasicLine<CharLine>  {
 		StringBuilder dataBld = new StringBuilder(getLineData());
 		int en = start + Math.max(len, length) - dataBld.length();
 		
-		System.out.print(" --> " + dataBld.length());
+		//System.out.print(" --> " + dataBld.length());
 		for (i = 0; i <= en; i++) {
 			dataBld.append(' ');
 		}

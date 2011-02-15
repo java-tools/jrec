@@ -16,7 +16,7 @@ import net.sf.RecordEditor.utils.common.Common;
 
 public class SwingUtils {
 
-	public static final int STANDARD_FONT_HEIGHT, STANDARD_FONT_WIDTH   ;
+	public static final int STANDARD_FONT_HEIGHT, STANDARD_FONT_WIDTH;
 	public static final int TABLE_ROW_HEIGHT = getDefault((new JTable()).getRowHeight(), 24);
 	private static final int HALF_TABLE_ROW_HEIGHT = TABLE_ROW_HEIGHT / 2;
 	public static final int COMBO_TABLE_ROW_HEIGHT ;

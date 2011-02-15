@@ -415,6 +415,8 @@ public final class ExternalConversion {
 			}
 			
 			setName(Type.ftChar  , "Char");
+			setName(Type.ftNumAnyDecimal  , "NumAnyDecimal");
+			setName(Type.ftPositiveNumAnyDecimal  , "PositiveNumAnyDecimal");
 			setName(Type.ftCharRightJust  , "Char (right justified)");
 			setName(Type.ftCharNullTerminated  , "Char Null terminated");
 			setName(Type.ftCharNullPadded  , "Char Null padded");
@@ -487,7 +489,11 @@ public final class ExternalConversion {
 
 		@Override
 		public String getTypeAsString(int idx, int type) {
-			return typeNames[TypeManager.getInstance().getIndex(type)];
+			String s = typeNames[TypeManager.getInstance().getIndex(type)];
+			if (s == null || "".equals(s)) {
+				s = Integer.toString(type);
+			}
+			return s;
 		}
 	}
 }

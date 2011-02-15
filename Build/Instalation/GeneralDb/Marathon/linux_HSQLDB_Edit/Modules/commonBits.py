@@ -1,26 +1,15 @@
-import time
-
 def windows():
-	return 1
+	return 0
 ##	return "a" == "a"
 
 
 def Linux():
-	return 'guest'
+	return 'bm/Programs'
 #	return 'knoppix'
 
 
 def isWindowsLook():
 	return 0
-
-
-def isNimbusLook():
-	return 0
-
-
-def isMetalLook():
-	return  isWindowsLook() != 1 & isNimbusLook() != 1
-
 
 def version():
 	return 'HSQLDB'
@@ -60,10 +49,10 @@ def implementationSampleDir():
 
 def cobolTestDir():
 	if windows():
-		return 'E:\\Work\\RecordEdit\\CobolTestData\\'
-#		return 'E:\\Work\\RecordEdit\\CobolTests\\TestData\\'
-	else: 
-		return '/home/' + Linux() + '/reTest/'
+		return 'E:\\Work\\RecordEdit\\CobolTests\\TestData\\'
+	else: 	
+		return '/home/bm/Programs/open-cobol-1.0/CobolSrc/z1Test/'
+##		return '/home/' + Linux() + '/reTest/'
 
 def getJasperReportName():
 	return r'E:\Work\RecordEdit\Jasper\untitled_report_1.jrxml'
@@ -112,39 +101,10 @@ def setCobolLayout2(select, recordLayout, format):
 
 def userDir():
 	if windows():
-		return 'C:\\Documents and Settings\\b\\.RecordEditor\\' + version() + '\\User\\'
-##		return 'C:\\Users\\bm\\.RecordEditor\\' + version() + '\\User\\'
+		return 'C:\\Users\\bm\\.RecordEditor\\' + version() + '\\User\\'
 	else: 
-		return '/home/' + Linux() + '/.RecordEditor/' + version() + '/User/'
+		return '/home/bm' + '/.RecordEditor/' + version() + '/User/'
 
 def selectPane():
-	return 'File Name'
-#	return 'FilePane$4'
-##	return 'FilePane$3'
-
-def doEdit(click):
-	click('Edit1')
-	time.sleep(0.75)
-	return
-
-
-def closeWindow(click):
-	if isNimbusLook():
-		click('InternalFrameTitlePane.closeButton')
-	else:
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
-	return
-
-
-def doSleep():
-
-	time.sleep(1.3)
-	return
-
-def selectFileName(select, name):
-	select('File Name', name)
-##	select('ComboBox2', recordLayout)
-##	select('FileChooser', name
-
-
-
+	return 'FilePane$4'
+#	return 'FilePane$3'

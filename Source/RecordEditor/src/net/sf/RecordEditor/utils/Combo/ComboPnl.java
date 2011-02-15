@@ -24,6 +24,7 @@ import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 
+@SuppressWarnings("serial")
 public class ComboPnl extends BaseHelpPanel implements ActionListener {
 
 

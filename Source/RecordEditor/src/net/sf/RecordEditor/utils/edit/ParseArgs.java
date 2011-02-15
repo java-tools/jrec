@@ -11,6 +11,8 @@
  */
 package net.sf.RecordEditor.utils.edit;
 
+import java.io.File;
+
 /**
  * Parse program arguments
  *
@@ -46,11 +48,28 @@ public class ParseArgs {
 						} catch (Exception e) {	}
 					} else {
 						dfltFile = args[i];
+						if (dfltFile != null) {
+							File f = (new File(dfltFile));
+							if (f.exists()) {
+								try {
+									dfltFile = f.getCanonicalPath();
+								} catch (Exception e) {
+								}
+							} else {
+								String s = System.getProperty("user.dir") 
+										 + "/" + dfltFile;
+								//System.out.println(">>>> " + s + " " + (new File(s)).exists());
+								if ((new File(s)).exists()) {
+									dfltFile = s;
+								}
+							}
+						}
 					}
 
 					cat = IS_A_FILE;
 				}
 			}
+			//System.out.println("++>> " + dfltFile + " " + (new File(dfltFile)).exists());
 		}
     }
 

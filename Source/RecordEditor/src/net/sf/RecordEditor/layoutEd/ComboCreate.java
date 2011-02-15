@@ -40,6 +40,7 @@ import net.sf.RecordEditor.utils.screenManager.ReFrame;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class ComboCreate extends ReFrame {
 
 	private ComboDB dbTblList = new ComboDB();
@@ -85,7 +86,7 @@ public class ComboCreate extends ReFrame {
 
 		pack();
 
-		this.setBounds(1, 1, getWidth() + 60, getHeight()+ 5);
+		this.setBounds(1, 1, getWidth() + 60, Math.min(getHeight()+ 5, ReFrame.getDesktopHeight()-1));
 
 		this.addInternalFrameListener(new InternalFrameAdapter() {
 			public void internalFrameClosed(final InternalFrameEvent e) {

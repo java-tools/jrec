@@ -30,7 +30,7 @@ uses a 3 level definition of each record as follows.
 :row.:c.Field:c.net.sf.RecordEditor.record.types.FieldDetails
 :etable.
 
-.pict Record_Group.GIF
+.pict Record_Group.png
 
 :h2.Line class
 :p.Java class :blue.net.sf.RecordEditor.record.Line:eblue. represents one line
@@ -225,7 +225,7 @@ to retrieve field values:
 :h2 id=table.Editting a Table in the LayoutEditor
 :p.After starting the :hp2.LayoutEdit:ehp2., the menu screen is displayed&gml.
 
-.pict LayoutEdit_Menu.GIF
+.pict LayoutEdit_Menu.png
 
 :p.Click on the second option :hp2.Edit Tables:ehp2. and the Table edit screen is displayed&gml.
 
@@ -305,13 +305,13 @@ take option 2 :hp2.Edit Tables:ehp2.. See :hdref refid=table. for details).
 In the picture below, a new user type :BBlue.1001  ~  Checkbox Y/N:EBBlue.
 has been defined
 
-.pict Example_TypeDef.GIF
+.pict Example_TypeDef.png
 
 :h5.Using the new Type
 :p.You should now be able to use the Type :BBlue.Checkbox Y/N:EBBlue. in
 the field definition panel (Record Definition screen) as below.
 
-.pict Example_TypeUse.GIF
+.pict Example_TypeUse.png
 
 
 :h5 id=startEd.Starting the RecordEditor with the new Type
@@ -328,11 +328,11 @@ defined in the LayoutEdit (see :hdref refid=typedef.).
 :p.Finally after starting the editor using the java code from :hdref refid=startEd.,
 it should like (with Combobox's and Checkbox's).
 
-.pict Example_TypeRecEdit.GIF
+.pict Example_TypeRecEdit.png
 
 or the record view
 
-.pict Example_TypeRecord.GIF
+.pict Example_TypeRecord.png
 
 :h2 id=format.Adding a Format to the RecordEditor
 :p.This section goes through adding and then using a :hdref refid=format. in the RecordEdit.
@@ -348,14 +348,14 @@ take option 2 :hp2.Edit Tables:ehp2., finally click on :hp2.Table 5 ~ Formats:eh
 See :hdref refid=table. for details)
 and enter the new format (in this case :BBlue.1001 ~ ComboBox:eBBlue.).
 
-.pict Example_FmtDef.GIF
+.pict Example_FmtDef.png
 
 
 :h4 id=fmtuse.Using the new Format
 :p.You should now be able to use the format :BBlue.Combobox:EBBlue. in Record 
 field definitions.
 
-.pict Example_FmtUse.GIF
+.pict Example_FmtUse.png
 
 :h4 id=fmtst.Starting the RecordEditor with the new Type
 
@@ -373,7 +373,7 @@ of :bblue.1001:ebblue., which was also used in :hdref refid=fmtdef..
 
 :p.Finally after starting the editor using the java code from :hdref refid=fmtst.
 
-.pict Example_FmtRecEdit.GIF
+.pict Example_FmtRecEdit.png
 
 :h2 id=decider.Record Deciders
 :p.When there are more than one Record in a Layout, there has to be a way to decide
@@ -431,14 +431,14 @@ methods :hp2.open, write:ehp2. and :hp2.close:ehp2..
 :h4.Defining the File Structure in the LayoutEditor
 :p.The next step is to add the new :hp2.file structure:ehp2. to the 
 :hp2.File Structure:ehp2. table. See :hdref refid=table. for details.
-.pict Example_FSDef.GIF
+.pict Example_FSDef.png
 
 
 :h4.Using the new File Structure
 :p.You should now be able to use the new file structure in the :hp2.Record-Definition:ehp2.
 Extra panel&gml.
 
-.pict Example_FSUse.GIF
+.pict Example_FSUse.png
 
 :h4 id=IDprov.Creating a LineIOProvider
 :p.Following is a sample :hp2.LineIOProvider:ehp2. that will create the new
@@ -483,11 +483,11 @@ a Tab delimited file.
  :li.First you must add the code you have written to the :RecordEditor. (as a jar)
 via the :PropertiesEditor..
 
-.pict Setup_UserJars.GIF
+.pict Setup_UserJars.png
 
  :li.Next you must define your new Class on the :hp2.Copybook Loaders:ehp2. tag
  
-.pict Setup_CopybookLoader.GIF
+.pict Setup_CopybookLoader.png
  
 :eol.
 

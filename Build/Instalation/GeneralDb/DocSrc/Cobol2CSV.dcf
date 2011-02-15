@@ -64,7 +64,7 @@ Block descriptor word and Record descriptor word).
 :h2.Cobol2CsvGui
 :p.This is a GUI version of Cobol2Csv. You select the file and copybook on the following screen
 
-.pict Cobol2Csv.GIF
+.pict Cobol2Csv.png
 
 .fo off
 Usage:

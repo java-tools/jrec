@@ -23,7 +23,8 @@ parse arg zType
 	end; else do
 		Call main "-i xRecordEdit_HSQL.nsi"
 		Call main "-i xRecordEdit_MSAccess.nsi "
-		Call main "-i xRecordEdit_H2.nsi"
+		Call main "-i xRecordEdit_CsvEd.nsi"
+		/*Call main "-i xRecordEdit_H2.nsi"*/
 		say 'Normal'
 	end
 /*
@@ -326,7 +327,7 @@ Return
 B500_ProcessPsc:
 
 	if PscValue <>"" then do
-		if Attributes.!proc <> PscValue | Attributes.!xProc = PscValue then do
+		if Attributes.!proc <> PscValue | Attributes.!xProc = PscValue | (Attributes.!proc = 'unix' & linux <> yes) then do
 			Call R000_ReadFile
 			do while MoreData & (translate(substr(strip(line), 1, 5)) <> "</PSC")
 				Call R000_ReadFile

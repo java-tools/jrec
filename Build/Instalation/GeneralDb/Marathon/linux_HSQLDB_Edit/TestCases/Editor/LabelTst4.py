@@ -24,6 +24,6 @@ def test():
 		assert_p('Delete2', 'Text', 'Delete')
 		assert_p('Copy2', 'Text', 'Copy')
 		assert_p('Cut2', 'Text', 'Cut')
-		##assert_p('PasteUp', 'Text', 'Paste')
+		assert_p('Paste3', 'Text', 'Paste')
 		assert_p('Edit Child', 'Text', 'Edit Child')
 	close()

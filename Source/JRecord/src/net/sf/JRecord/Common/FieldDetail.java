@@ -58,9 +58,9 @@ public class FieldDetail {
 	private int pos;
 	private int len;
 	private int end;
-	private final String name;
+	private String name;
 	private final String description;
-	private final int type;
+	private int type;
 	private final int decimal;
 	private final String fontName;
 	private final int format;
@@ -262,5 +262,10 @@ public class FieldDetail {
 	 */
 	public void setRecord(AbstractRecord record) {
 		this.record = record;
+	}
+	
+	public void setNameType(String newName, int newType) {
+		this.name = newName;
+		this.type = newType;
 	}
  }

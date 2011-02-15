@@ -35,7 +35,6 @@ def test():
 		select('Table', 'cell:Data,6(Canberra)')
 		assert_p('Table', 'Content', '[[Brand Id, 1, 3, TAR, TAR], [Loc Nbr, 4, 4, 5096, 5096], [Loc Type, 8, 2, ST, ST], [Loc Name, 10, 35, Canberra Civic, Canberra Civic], [Loc Addr Ln1, 45, 40, Target Canberra, Target Canberra], [Loc Addr Ln2, 85, 40, Canberra City Centre, Akuna Ave, Canberra City Centre, Akuna Ave], [Loc Addr Ln3, 125, 35, Canberra, Canberra], [Loc Postcode, 160, 10, 2601, 2601], [Loc State, 170, 3, ACT, ACT], [Loc Actv Ind, 173, 1, A, A]]')
 		select('Table', 'cell:Data,6(Canberra)')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'cell:1 - 3|Brand Id,2(TAR)')
 	close()

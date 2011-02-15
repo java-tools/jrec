@@ -27,6 +27,7 @@
 	<property name="runLayouteditor.jar" location="${lib.dir}/runLayouteditor.jar" />
 	<property name="RunCobolEditor.jar" location="${lib.dir}/RunCobolEditor.jar" />
 	<property name="RunProtoBufEditor.jar" location="${lib.dir}/RunProtoBufEditor.jar" />
+	<property name="RunCsvEditor.jar" location="${lib.dir}/RunCsvEditor.jar" />
 	<property name="RunAvroEditor.jar" location="${lib.dir}/RunAvroEditor.jar" />
 	<property name="Run.jar" location="${lib.dir}/run.jar" />
 	<property name="RunPB.jar" location="${lib.dir}/RunPB.jar" />
@@ -34,36 +35,44 @@
 	<property name="RunDiffFileLayout.jar" location="${lib.dir}/RunDiffFileLayout.jar" />
 	<property name="work.dir" location="/home/bm/Work/" />
 	<property name="izPack" location="${work.dir}/RecordEditor/Instalation/hsqldb_izpack" />
-	<property name="inputLib.dir" location="../../lib" />
-
-	<target name="jrecord" description="compile JRecord code" >
-		<ant dir="../JRecord" antfile="build.xml" output="buildout.txt" inheritall="false" />
-	</target>
 	
-	<target name="compile" description="compile code" depends="jrecord">
+	<property name="inputLib.dir" location="/media/sdc1/lib" />
+	<!--property name="inputLib.dir" location="../../lib" /-->
+
+	<!--target name="jrecord" description="compile JRecord code" >
+		<ant dir="../JRecord" antfile="build.xml" output="buildout.txt" inheritall="false" />
+	</target!-->
+	
+	<target name="compile" description="compile code"> <!-- depends="jrecord"!-->
 		<mkdir dir="${build.dir}" />
 		<javac srcdir="${src.dir}" destdir="${build.dir}" optimize="true" target="1.5" debug="true">
 			<!--javac srcdir="${src.dir}" destdir="${build.dir}" optimize="true" -->
 			<exclude name="net/sf/RecordEditor/examples/**"/>
 			<exclude name="net/sf/RecordEditor/jibx/**"/>
+			<exclude  name="**ZOld**"/>
 			<!--exclude name="net/sf/RecordEditor/jibx/**"/-->
 			<classpath>
+				<!--filelist dir="../../RecordEdit/HSQLDB/lib"-->
+				<filelist dir="/media/sdc1/RecordEditor/USB/lib">
+					<file name="ZCalendar.jar"/>
+					<file name="jibx-run.jar"/>
+					<file name="jlibdiff.jar"/>
+					<file name="chardet.jar"/>
+					<file name="cb2xml.jar"/>
+				</filelist>
 				<filelist dir="${inputLib.dir}">
 					<file name="TableLayout.jar"/>
-					<file name="ZCalendar.jar"/>
 					<!--file name="hsqldbmain.jar"/-->
 					<file name="velocity-1.4.jar"/>
 					<file name="velocity-dep-1.4.jar"/>
-					<file name="jibx-run.jar"/>
-					<file name="jlibdiff.jar"/>
 				</filelist>
 				<filelist dir="../JRecord/lib/">
 					<file name="JRecord.jar"/>
 				</filelist>
 				<filelist  files="RecordEditor_JibxClasses.jar"/>
-				<filelist dir="../cb2xml/lib/">
+				<!--filelist dir="../cb2xml/lib/">
 					<file name="cb2xml.jar"/>
-				</filelist>
+				</filelist-->
 			</classpath>
 		</javac>
 		<copy todir="${build.dir}/net/sf/RecordEditor/utils/">
@@ -95,8 +104,9 @@
 
 		<jar destfile="${RecordEdit.jar}" filesonly="true">
 			<zipfileset src="${inputLib.dir}/TableLayout.jar"/>			
-			<zipfileset src="RecordEditor_JibxClasses.jar" />
+			<zipfileset src="${inputLib.dir}/RecordEditor_JibxClasses.jar" />
 			<fileset dir="${build.dir}">		
+				<exclude  name="**ZOld**"/>
 				<exclude  name="net/sf/RecordEditor/Run*.*"/>
 				<exclude  name="net/sf/RecordEditor/layoutEd/**"/>
 				<exclude  name="net/sf/RecordEditor/edit.Niche/**"/>
@@ -152,6 +162,13 @@
 			        <attribute name="Main-Class" value="net.sf.RecordEditor.RunCobolEditor"/>
 			</manifest>
 			<include  name="net/sf/RecordEditor/RunCobolEditor.class"/>
+			<include  name="net/sf/RecordEditor/utils/Run.class"/>
+		</jar>
+		<jar basedir="${build.dir}" destfile="${RunCsvEditor.jar}" filesonly="true" >
+			<manifest>
+			        <attribute name="Main-Class" value="net.sf.RecordEditor.RunCsvEditor"/>
+			</manifest>
+			<include  name="net/sf/RecordEditor/RunCsvEditor.class"/>
 			<include  name="net/sf/RecordEditor/utils/Run.class"/>
 		</jar>
 		<!-- jar basedir="${build.dir}" destfile="${RunProtoBufEditor.jar}" filesonly="true" manifest="manifestPB.txt">

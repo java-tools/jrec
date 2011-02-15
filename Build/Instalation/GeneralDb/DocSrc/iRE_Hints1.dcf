@@ -17,15 +17,15 @@ with the Save-As / Export Function (see :hdref refid=SaveAs.).
 :p.
 you can select specific fields of the PO header by entering:
 :p.
-.*b2h HTML <img SRC="Diagram/RecordEdit_Filter_xmpl1.GIF">
+.*b2h HTML <img SRC="Diagram/RecordEdit_Filter_xmpl1.png">
 :p.This will produce a filtered view like
 :p.
-.*b2h HTML <img SRC="Diagram/RecordEdit_Filter_tbl_xmpl1a.GIF">
+.*b2h HTML <img SRC="Diagram/RecordEdit_Filter_tbl_xmpl1a.png">
 :p.
 :p.To save as a HTML file, select the :hp2.SaveAs:ehp2. button, then enter the 
 following on the :hp2.SaveAs:ehp2. Screen:
 :p.
-.*b2h HTML <img SRC="Diagram/RecordEdit_Filter_SaveAs_xmpl1.GIF">
+.*b2h HTML <img SRC="Diagram/RecordEdit_Filter_SaveAs_xmpl1.png">
 :p.
 :p.This will produce the following HTML
 

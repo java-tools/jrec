@@ -56,13 +56,13 @@ implements AbstractRecord, AbstractRecordDetail<FieldDetail> {
 	private String selectionField;
 	private String selectionValue;
 	private String delimiter;
-	private int length = 0;
+	private int    length = 0;
 	private String fontName;
 	private String quote;
 	
-	private int recordStyle;
+	private int    recordStyle;
 	
-	private int numberOfFieldsAdded = 0;
+	private int    numberOfFieldsAdded = 0;
 	//private int editorStatus = STATUS_UNKOWN;
 
 
@@ -146,17 +146,6 @@ implements AbstractRecord, AbstractRecordDetail<FieldDetail> {
 		return str;
 	}
 
-//	/**
-//	 * Get all the fields in the record
-//	 *
-//	 * @return the fields Array
-//	 *
-//	 * @deprecated use getField / getFieldCount instead
-//	 */
-/*	public FieldDetail[] getFields() {
-		return fields;
-	}
-*/
 
 	/* (non-Javadoc)
 	 * @see net.sf.JRecord.Details.AbstractRecordDetail#addField(net.sf.JRecord.Common.FieldDetail)

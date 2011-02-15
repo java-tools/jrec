@@ -64,14 +64,22 @@ public class EditCsvFile extends EditRec {
     	   final AbstractLineIOProvider pIoProvider) {
         super(false, "reCsv Editor", new NewCsvAction());
 
-        OpenFile open = new OpenFile(
-        		new OpenCsvFilePnl(
+//        long time = System.nanoTime();
+        OpenCsvFilePnl csvPnl = new OpenCsvFilePnl(
         				pInFile,
         				Parameters.getApplicationDirectory() + "CsvFiles.txt",
-        				pIoProvider),
+        				pIoProvider);
+//        long time1 = System.nanoTime();
+        OpenFile open = new OpenFile(
+        		csvPnl,
         		Constants.NULL_INTEGER);
-      
+//        long time2 = System.nanoTime();
         super.setOpenFileWindow(open, null, null, false);
+//        long time3 = System.nanoTime();
+//	    System.out.println("Time 2 (csv pnl) : " + ((time1 - time) / 100000000));
+//	    System.out.println("Time 3 (open pnl): " + ((time2 - time1) / 100000000));
+//	    System.out.println("Time 4 (set open): " + ((time3 - time2) / 100000000));
+
         
         super.getEditMenu().addSeparator();     
         super.getEditMenu().add(addAction(new VisibilityAction()));
@@ -111,10 +119,15 @@ public class EditCsvFile extends EditRec {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				//JFrame.setDefaultLookAndFeelDecorated(true);
+
 			    ParseArgs args = new ParseArgs(pgmArgs);
+			    long time1 = System.nanoTime();
 
 			    new EditCsvFile(args.getDfltFile(), args.getInitialRow(), ReIOProvider.getInstance());
 			        	//new CopyBookDbReader());
+			    long time2 = System.nanoTime();
+			    
+			    System.out.println("Time 9: " + ((time2 - time1) / 100000000));
 			}
 		});
 	}

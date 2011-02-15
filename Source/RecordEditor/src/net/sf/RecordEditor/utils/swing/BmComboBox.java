@@ -15,6 +15,7 @@ import javax.swing.JComboBox;
  *
  * @author Bruce Martin
  */
+@SuppressWarnings("serial")
 public class BmComboBox extends JComboBox {
 
 

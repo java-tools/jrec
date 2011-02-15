@@ -38,6 +38,7 @@ import net.sf.RecordEditor.utils.screenManager.ReFrame;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class ComboEdit extends ReFrame {
 
 	
@@ -78,7 +79,7 @@ public class ComboEdit extends ReFrame {
 
 		pack();
 
-		this.setBounds(1, 1, getWidth() + 60, getHeight() + 5);
+		this.setBounds(1, 1, getWidth() + 60, Math.min(getHeight()+ 5, ReFrame.getDesktopHeight()-1));
 
 		this.addInternalFrameListener(new InternalFrameAdapter() {
 			public void internalFrameClosed(final InternalFrameEvent e) {

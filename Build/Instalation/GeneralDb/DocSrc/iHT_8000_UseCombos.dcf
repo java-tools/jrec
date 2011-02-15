@@ -3,11 +3,11 @@
 :h2.Creating a Combobox List
 :p.Take the :hp2.Create Combo:ehp2. option from the :hp2.Layout Editor:ehp2.
 
-.pict LayoutEdit_Menu.GIF
+.pict LayoutEdit_Menu.png
 
 :p.Next Enter the Combo Details:
 
-.pict ComboCreate.GIF
+.pict ComboCreate.png
 
 :note.The :hp2.Combo Type:ehp2. controls wether the user is preseneted with
 a list of values or a description of the values. Possible values are:
@@ -28,16 +28,16 @@ example it is :hp2.AmsPoDownloadType:ehp2..
 
 :p.You can use the Parameter Popup to select the layout:
 
-.pict ComboPopupSelection.GIF
+.pict ComboPopupSelection.png
 
 :h2.Combobox in the Editor
 :p.Now when you edit the file, the :hp2.Record Type:ehp2. field is displayed as a combobox  
 
-.pict RecordEdit_TblCombo1.GIF
+.pict RecordEdit_TblCombo1.png
 
 :p.It can be updated by selectiong from the various options 
 
-.pict RecordEdit_TblCombo2.GIF
+.pict RecordEdit_TblCombo2.png
 
 :p.Finally as seen on the Record Screen, the Data Values is quite different
 from the Text value.

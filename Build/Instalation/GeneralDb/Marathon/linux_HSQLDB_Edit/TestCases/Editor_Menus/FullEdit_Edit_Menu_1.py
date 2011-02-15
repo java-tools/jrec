@@ -51,13 +51,10 @@ def test():
 		select('Table', 'cell:Data,4(Campbelltown Mall)')
 		assert_p('Table', 'Content', '[[Brand Id, 1, 3, TAR, TAR], [Loc Nbr, 4, 4, 5074, 5074], [Loc Type, 8, 2, ST, ST], [Loc Name, 10, 35, Campbelltown, Campbelltown], [Loc Addr Ln1, 45, 40, Campbelltown Mall, Campbelltown Mall], [Loc Addr Ln2, 85, 40, 303 Queen Street, 303 Queen Street], [Loc Addr Ln3, 125, 35, Campbelltown, Campbelltown], [Loc Postcode, 160, 10, 2560, 2560], [Loc State, 170, 3, NSW, NSW], [Loc Actv Ind, 173, 1, A, A]]')
 		select('Table', 'cell:Data,4(Campbelltown Mall)')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		#click('WindowsInternalFrameTitlePane', 883, 7)
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 		if window('Save Changes to file: ' + commonBits.sampleDir() + 'Ams_LocDownload_20041228.txt'):
 			click('No')

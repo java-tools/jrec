@@ -1,7 +1,5 @@
 useFixture(default)
-###
-###  Problem Nimbus ???
-###
+
 def test():
 	from Modules import commonBits
 	java_recorded_version = '1.5.0_11'
@@ -10,7 +8,7 @@ def test():
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020.bin')
 		click('Edit1')
 		select_menu('View>>Sorted Field Tree')
-#		select('List', 'DTAR020')
+		select('List', 'DTAR020')
 		select('Table', 'STORE-NO', 'Field,0')
 		select('Table', 'DEPT-NO', 'Field,1')
 		select('Table', 'cell:Field,1(DEPT-NO)')
@@ -38,8 +36,7 @@ def test():
 		select('Table', 'cell:1 - 8|KEYCODE-NO,3(64624770)')
 		assert_p('Table', 'Text', '60664048', '1 - 8|KEYCODE-NO,4')
 		select('Table', 'cell:1 - 8|KEYCODE-NO,3(64624770)')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Window>>DTAR020.bin>>Table: ')
 		select('Table', 'cell:1 - 8|KEYCODE-NO,7(62684671)')
 		assert_p('Table', 'RowCount', '233')
@@ -61,8 +58,7 @@ def test():
 		select('Table', 'cell:11 - 4|DATE,2(40118)')
 		assert_p('Table', 'RowCount', '3')
 		select('Table', 'cell:11 - 4|DATE,2(40118)')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Window>>DTAR020.bin>>Table: ')
 		select('Table', 'cell:1 - 8|KEYCODE-NO,5(69694158)')
 		assert_p('Table', 'RowCount', '231')
@@ -84,17 +80,14 @@ def test():
 		select('Table', 'cell:15 - 2|DEPT-NO,0(335)')
 		assert_p('Table', 'Text', '335', '15 - 2|DEPT-NO,0')
 		select('Table', 'cell:15 - 2|DEPT-NO,0(335)')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'cell:1 - 8|KEYCODE-NO,0(64614401)')
 		assert_p('Table', 'Text', '64614401', '1 - 8|KEYCODE-NO,1')
 		select('Table', 'cell:1 - 8|KEYCODE-NO,3(61664713)')
 		assert_p('Table', 'RowCount', '218')
 		select('Table', 'cell:1 - 8|KEYCODE-NO,3(61664713)')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 		if window('Save Changes to file: ' + commonBits.sampleDir() + 'DTAR020.bin'):
 			click('No')

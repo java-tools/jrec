@@ -27,19 +27,15 @@ def test():
 ##		click('JTableHeader', 'Ctrl+Button2', 'Data')
 ##		select('Table', '')
 		assert_p('Table', 'Content', '[[Loc Nbr, 4, 4, 5052, 5052], [Loc Name, 10, 35, Eastwood, Eastwood], [Loc Addr Ln1, 45, 40, Marayong Offsite Reserve, Marayong Offsite Reserve]]')
-		
+###		zzzz
 		select_menu('Edit>>Show / Hide Fields')
-
 		select('Table', 'cell:Show,0(false)')
 
 		select('Table', 'cell:Show,8(false)')
 		select('Table', 'cell:Show,9(false)')
 		select('Table', 'cell:Show,9(true)')
-
-		
 		click('Go')
 		select('Table', 'cell:Data,2(Eastwood)')
-		assert_p('Table', 'Content', '[[Brand Id, 1, 3, TAR, TAR], [Loc Nbr, 4, 4, 5052, 5052], [Loc Name, 10, 35, Eastwood, Eastwood], [Loc Addr Ln1, 45, 40, Marayong Offsite Reserve, Marayong Offsite Reserve], [Loc State, 170, 3, NSW, NSW]]')
 		assert_p('Table', 'Content', '[[Brand Id, 1, 3, TAR, TAR], [Loc Nbr, 4, 4, 5052, 5052], [Loc Name, 10, 35, Eastwood, Eastwood], [Loc Addr Ln1, 45, 40, Marayong Offsite Reserve, Marayong Offsite Reserve], [Loc State, 170, 3, NSW, NSW]]')
 		select('Table', 'cell:Data,2(Eastwood)')
 		select_menu('Edit>>Show / Hide Fields')
@@ -108,6 +104,5 @@ def test():
 		assert_p('Table', 'Content', '[[Brand Id, 1, 3, TAR, TAR], [Loc Nbr, 4, 4, 5060, 5060], [Loc Type, 8, 2, ST, ST], [Loc Name, 10, 35, St Marys, St Marys], [Loc Addr Ln1, 45, 40, St. Mary\'s, St. Mary\'s], [Loc Addr Ln2, 85, 40, Charles Hackett Drive, Charles Hackett Drive], [Loc Addr Ln3, 125, 35, St Mary\'s, St Mary\'s], [Loc Postcode, 160, 10, 2760, 2760], [Loc State, 170, 3, NSW, NSW], [Loc Actv Ind, 173, 1, A, A]]')
 
 		select('Table', 'cell:Data,4(St. Mary\'s)')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 	close()

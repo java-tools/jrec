@@ -91,11 +91,8 @@ public abstract class AbstractByteReader {
 	protected final int readBuffer(final InputStream in,
 	        					   final byte[] buf)
 				throws IOException {
-	    int num;
-	    int total;
-
-	    num = in.read(buf);
-	    total = num;
+	    int num = in.read(buf);
+	    int total = num;
 
 	    while (num >= 0 && total < buf.length) {
 	        num = in.read(buf, total, buf.length - total);

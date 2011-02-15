@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Types.Type;
+import net.sf.RecordEditor.utils.common.Common;
 
 /**
  * This class is for finding Fields in supplied lines of a file
@@ -77,8 +78,7 @@ public class FieldSearch {
         byteChecks[POSSIBLE_MAINFRAME_ZONED_SIGN] = new Check4Bytes("}{ABCDEFGHIJKLMNOPQR");
         byteChecks[POSSIBLE_PC_ZONED_SIGN] = new Check4Bytes("@ABCDEFGHIPQRSTUVWXY");
         byteChecks[TYPE_SIGN] = new Check4Bytes("+-");
-        byteChecks[TYPE_TEXT] = new Check4Bytes(
-        		"+-.,/?\\!\'\"$%&*()[]abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+        byteChecks[TYPE_TEXT] = new Check4Bytes(Common.STANDARD_CHARS);
         byteChecks[TYPE_T] = new Check4Bytes("T");
         byteChecks[TYPE_F] = new Check4Bytes("F");
         byteChecks[TYPE_Y] = new Check4Bytes("Yy");
@@ -152,7 +152,7 @@ public class FieldSearch {
 			
 			ColumnDetails dtl = columnDtls.get(0);
 			fieldId += 1;
-			System.out.println(" ## Field " + fieldId + " " + dtl.start + " " + dtl.length);
+			//System.out.println(" ## Field " + fieldId + " " + dtl.start + " " + dtl.length);
 			for (j = 0; j < dtl.length; j++) {
 				fieldIdentifier[dtl.start + j - 1] = fieldId;
 			}
@@ -367,17 +367,26 @@ public class FieldSearch {
     	int len = 0;
     	boolean lastCharNonZero = true;
     	boolean allowDot = false;
+    	boolean wasHexZero = false;
+    	boolean holdWasHexZero = true;
     	
     	for (int i = 0; i < size; i++) {
+    		holdWasHexZero = false;
      		if (fieldIdentifier[i] > 0) {
     			type = NOT_IN_FIELD;
     			allowDot = false;
     		} else if (lookCompBigEndian && counts[i][TYPE_HEX_ZERO] >= limit) {
-    			type = IN_BINARY;
-  				fieldId += 1;
+    			holdWasHexZero = true;
+    			
+    			if (len == 8 || ! wasHexZero) {
+	    			type = IN_BINARY;
+	  				fieldId += 1;
+	    			len = 1;
+    			} else {
+    				len += 1;
+    			}
    	   			charType[i] = Type.ftBinaryBigEndian;
     			fieldIdentifier[i] = fieldId;
-    			len = 1;
     		} else if ((lastCharNonZero && counts[i][TYPE_ZERO] >= limit
     				&&  i < size-1 && counts[i+1][TYPE_NUMBER] >= limit)
     				|| ((type != IN_NUMERIC) && counts[i][TYPE_NUMBER] >= limit)) {
@@ -403,6 +412,7 @@ public class FieldSearch {
 //       		System.out.println(" --> " + i + " " + type + " : " + counts[i][TYPE_TEXT]  + " ~ " + len
 //       				+ " > " + fieldId);
        		lastCharNonZero = counts[i][TYPE_ZERO] < limit;
+       		wasHexZero = holdWasHexZero;
     	}
     	
     	if (lookCompLittleEndian && ! lookCompBigEndian) {

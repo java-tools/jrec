@@ -125,7 +125,7 @@ public class MultiLineCombo extends AbstractGenericCombo {
 
 
         /**
-         * Create an instance of DateChooser before <tt>show</tt> is called and
+         * Create an display area before display is called and
          * can make the popup window pop up a bit quicker. Internally called by
          * <tt>show</tt>.
          */

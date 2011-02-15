@@ -3,7 +3,6 @@ package net.sf.RecordEditor.utils.swing;
 import java.awt.Font;
 
 import javax.swing.JComponent;
-import javax.swing.text.JTextComponent;
 
 public interface AbstractHexDisplay {
 

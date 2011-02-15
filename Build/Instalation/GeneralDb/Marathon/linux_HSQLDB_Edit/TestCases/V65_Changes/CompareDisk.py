@@ -27,8 +27,7 @@ def test():
 ###		assert_p('Table', 'Content', '[[, Old, 1, TAR, 5839, DC, DC - Taras Ave, 1, 30-68 Taras Ave, Altona North, 3025, VIC, A], [, New, 1, , , , , , , , , , ], [, Old, 2, TAR, 5850, DC, VIC West Ad Support, 22, Lot 2 Little Boundary Rd, Laverton, 3028, VIC, A], [, New, 2, , , , , , , , , , ], [, Old, 3, TAR, 5853, DC, NSW North Sydney Ad Support, , 33, , , , A], [, New, 3, , , , , , , , , , ]]')
 		assert_p('Table', 'Content', '[[, Old, 1, TAR, 5839, DC, DC - Taras Ave, , 30-68 Taras Ave, Altona North, 3025, VIC, A], [, New, 1, , , , , 1, , , , , ], [, Old, 2, TAR, 5850, DC, VIC West Ad Support, , Lot 2 Little Boundary Rd, Laverton, 3028, VIC, A], [, New, 2, , , , , 22, , , , , ], [, Old, 3, TAR, 5853, DC, NSW North Sydney Ad Support, , , , , , A], [, New, 3, , , , , , 33, , , , ]]')
 		select('Table', 'cell:Loc Name,0(DC - Taras Ave)')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'cell:125 - 35|Loc Addr Ln3,2()')
 		select('Table', 'cell:125 - 35|Loc Addr Ln3,2()')
 

@@ -47,7 +47,7 @@ uses a 3 level definition of each record as follows.
 </TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH="75%">net.sf.RecordEditor.record.types.FieldDetails
 </TD></TR></TABLE>
 <P>
-<img SRC="Diagram/Record_Group.GIF">
+<img SRC="Diagram/Record_Group.png">
 <P>
 <HR><H2><A NAME="Header_3">Line class</A></H2>
 <P>Java class <font color="blue">net.sf.RecordEditor.record.Line</font> represents one line
@@ -314,7 +314,7 @@ to retrieve field values:
 <HR><H2><A NAME="HDRTABLE">Editting a Table in the LayoutEditor</A></H2>
 <P>After starting the <B>LayoutEdit</B>, the menu screen is displayed&#58;
 <P>
-<img SRC="Diagram/LayoutEdit_Menu.GIF">
+<img SRC="Diagram/LayoutEdit_Menu.png">
 <P>
 <P>Click on the second option <B>Edit Tables</B> and the Table edit screen is displayed&#58;
 <P>
@@ -415,12 +415,12 @@ You can increase the number of User Types/Cell Formats via the <B>setSystemTypeM
 <P>Start the <font color="blue">Edit RecordEditor Startup Properties</font> and go to the
 <B>User Types</B> tag and entor the new Type as in the diagram below:
 <P>
-<img SRC="Diagram/Setup_Type.GIF">
+<img SRC="Diagram/Setup_Type.png">
 <P>
 <P>The next step is to define where your type is found, so go to the <B>User Jars</B>
 tag an enter your new jar as below
 <P>
-<img SRC="Diagram/Setup_UserJars.GIF">
+<img SRC="Diagram/Setup_UserJars.png">
 <P>
 <P>You can now use the new Type in both the <B>RecordEditor</B> and the <B>LayoutEditor</B>.
 <P>
@@ -449,13 +449,13 @@ take option 2 <B>Edit Tables</B>. See <A HREF="#HDRTABLE">"Editting a Table in t
 In the picture below, a new user type <font color="blue"><b>1001  ~  Checkbox Y/N</b></font>
 has been defined
 <P>
-<img SRC="Diagram/Example_TypeDef.GIF">
+<img SRC="Diagram/Example_TypeDef.png">
 <P>
 <P><I><B><A NAME="Header_26">Using the new Type</A>:&nbsp;</B></I>&nbsp;
 You should now be able to use the Type <font color="blue"><b>Checkbox Y/N</b></font> in
 the field definition panel (Record Definition screen) as below.
 <P>
-<img SRC="Diagram/Example_TypeUse.GIF">
+<img SRC="Diagram/Example_TypeUse.png">
 <P>
 <P>
 <P><I><B><A NAME="HDRSTARTED">Starting the RecordEditor with the new Type</A>:&nbsp;</B></I>&nbsp;
@@ -471,11 +471,11 @@ defined in the LayoutEdit (see <A HREF="#HDRTYPEDEF">"Define the Type in the Lay
 <P>Finally after starting the editor using the java code from <A HREF="#HDRSTARTED">"Starting the RecordEditor with the new Type"</A>,
 it should like (with Combobox's and Checkbox's).
 <P>
-<img SRC="Diagram/Example_TypeRecEdit.GIF">
+<img SRC="Diagram/Example_TypeRecEdit.png">
 <P>
 or the record view
 <P>
-<img SRC="Diagram/Example_TypeRecord.GIF">
+<img SRC="Diagram/Example_TypeRecord.png">
 <P>
 <HR><H2><A NAME="HDRFORMAT">Adding a Format to the RecordEditor</A></H2>
 <P>This section goes through adding and then using a <A HREF="#HDRFORMAT">"Adding a Format to the RecordEditor"</A> in the RecordEdit.
@@ -490,14 +490,14 @@ take option 2 <B>Edit Tables</B>, finally click on <B>Table 5 ~ Formats</B>.
 See <A HREF="#HDRTABLE">"Editting a Table in the LayoutEditor"</A> for details)
 and enter the new format (in this case <font color="blue"><b>1001 ~ ComboBox</b></font>).
 <P>
-<img SRC="Diagram/Example_FmtDef.GIF">
+<img SRC="Diagram/Example_FmtDef.png">
 <P>
 <P>
 <P><H4><A NAME="HDRFMTUSE">Using the new Format</A></H4>
 <P>You should now be able to use the format <font color="blue"><b>Combobox</b></font> in Record
 field definitions.
 <P>
-<img SRC="Diagram/Example_FmtUse.GIF">
+<img SRC="Diagram/Example_FmtUse.png">
 <P>
 <P><H4><A NAME="HDRFMTST">Starting the RecordEditor with the new Type</A></H4>
 <P>
@@ -514,7 +514,7 @@ of <font color="blue"><b>1001</b></font>, which was also used in <A HREF="#HDRFM
 <P>
 <P>Finally after starting the editor using the java code from <A HREF="#HDRFMTST">"Starting the RecordEditor with the new Type"</A>
 <P>
-<img SRC="Diagram/Example_FmtRecEdit.GIF">
+<img SRC="Diagram/Example_FmtRecEdit.png">
 <P>
 <HR><H2><A NAME="HDRDECIDER">Record Deciders</A></H2>
 <P>When there are more than one Record in a Layout, there has to be a way to decide
@@ -566,14 +566,14 @@ methods <B>open, write</B> and <B>close</B>.
 <P><H4><A NAME="Header_39">Defining the File Structure in the LayoutEditor</A></H4>
 <P>The next step is to add the new <B>file structure</B> to the
 <B>File Structure</B> table. See <A HREF="#HDRTABLE">"Editting a Table in the LayoutEditor"</A> for details.
-<img SRC="Diagram/Example_FSDef.GIF">
+<img SRC="Diagram/Example_FSDef.png">
 <P>
 <P>
 <P><H4><A NAME="Header_40">Using the new File Structure</A></H4>
 <P>You should now be able to use the new file structure in the <B>Record-Definition</B>
 Extra panel&#58;
 <P>
-<img SRC="Diagram/Example_FSUse.GIF">
+<img SRC="Diagram/Example_FSUse.png">
 <P>
 <P><H4><A NAME="HDRIDPROV">Creating a LineIOProvider</A></H4>
 <P>Following is a sample <B>LineIOProvider</B> that will create the new
@@ -613,11 +613,11 @@ a Tab delimited file.
  <LI>First you must add the code you have written to the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> (as a jar)
 via the <font color="blue">Edit RecordEditor Startup Properties</font> program.
 <P>
-<img SRC="Diagram/Setup_UserJars.GIF">
+<img SRC="Diagram/Setup_UserJars.png">
 <P>
  <LI>Next you must define your new Class on the <B>Copybook Loaders</B> tag
 <P>
-<img SRC="Diagram/Setup_CopybookLoader.GIF">
+<img SRC="Diagram/Setup_CopybookLoader.png">
 <P>
 </OL>
 <P>

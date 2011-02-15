@@ -20,15 +20,15 @@ screen:ehp2. will do. For Gnome you may want set :hp2.Space at Top of the Screen
 
 :p.On this screen you can specify icon set. You could choose Aqua, Gnome or Tango.
 
-.pict Option_Icons.GIF
+.pict Option_Icons.png
 
 
 :p.Here are some of the icons:
 
 :h5.Tango
 
-.pict iconTango.GIF
+.pict iconTango.png
 
 :h5.Gnome
 
-.pict iconsGnome.GIF
+.pict iconsGnome.png

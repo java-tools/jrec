@@ -20,8 +20,6 @@ def test():
 		select_menu('Edit Record')
 		select('Table1', 'cell:Row 2,0(TAR5019STPenrith                            Penrith                                 58 Leland Street                        Penrith                            2750      NSWA)')
 		click('Find1')
-		commonBits.doSleep()
-
 		select_menu('Window>>Unknown_Ams_LocDownload_20041228.txt>>Table: ')
 		select('Table', 'rows:[4,5,6,7,8,9,10,11,12,13,14,15],columns:[1 - 1|Data]')
 ##		select('Table', 'rows:[4,5,6,7,8,9,10,11,12,13,14,15],columns:[1 - 1|Data]')

@@ -29,6 +29,7 @@ import javax.swing.JSeparator;
 import javax.swing.JToolBar;
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.text.DefaultEditorKit;
 
@@ -792,13 +793,10 @@ public class ReMainFrame extends JFrame
                     }
                     
                     if (useSysLaf) {
-                    	if (UIManager.getSystemLookAndFeelClassName().endsWith("GTKLookAndFeel")) {
-                    		JFrame.setDefaultLookAndFeelDecorated(true);
-                    	} else {
-                    		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                    	}
+                    	setSysLAF();
                     }
-
+                } else if (Common.RECORD_EDITOR_LAF) {
+                	setSysLAF();
                 } else {
 	                System.out.println("Setting Class loader " + lafName);
 	                UIManager.put("ClassLoader", getClass().getClassLoader());
@@ -815,6 +813,13 @@ public class ReMainFrame extends JFrame
         return null;
     }
 
+    private static void setSysLAF() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+    	if (UIManager.getSystemLookAndFeelClassName().endsWith("GTKLookAndFeel")) {
+    		JFrame.setDefaultLookAndFeelDecorated(true);
+    	} else {
+    		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+    	}
+    }
 
     /**
      * @return Returns the masterFrame.

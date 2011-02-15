@@ -116,7 +116,8 @@
             	<include name="j*.pack"/>
             	<include name="JRecord.pack"/>
             	<include name="RecordEdit.pack"/>
-            	<include name="ZCalendar.jar"/>
+            	<include name="ZCalendar.pack"/>
+            	<include name="chardet.pack"/>
             	<include name="RecordEdit.GIF"/>
             	<include name="Utility.GIF"/>
              	<include name="RecordEdit.ico"/>

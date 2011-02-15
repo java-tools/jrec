@@ -26,20 +26,20 @@ by a certain character&gml.
 
 :p.See :hdref refid=extra. for details on the "Extra Panel".
 
-.pict LayoutEdit_Delim.GIF
+.pict LayoutEdit_Delim.png
 
 :h2.Defining a Standard Delimited File
 :p.Standard Delimited record layouts are defined as below. The position
 holds the field number (rather than starting position).
 
-.pict LayoutEdit_DelimDef.GIF
+.pict LayoutEdit_DelimDef.png
 
 :h2.Names on the first Line
 :p.To define files where the first line holds the field names you must 
 define a File Structure :BBlue.Delimted, names on first row:EBBlue. 
 (which causes different file readers to be used).
 
-.pict LayoutEdit_Delim_1st_line.GIF  
+.pict LayoutEdit_Delim_1st_line.png  
 
 :p.The Editor comes with 2 Delimited files where names are on the first
 line.
@@ -69,16 +69,16 @@ i.e.
 .fo on
 :p.This can now be defined in the record Editor as:  
 :p. 
-.pict LayoutEdit_CsvArray1.GIF
+.pict LayoutEdit_CsvArray1.png
                                                   
 :p.with the extra panel as follows:
                           
-.pict LayoutEdit_CsvArray2.GIF
+.pict LayoutEdit_CsvArray2.png
                                 
 :p.When editing a file, the field can be displayed in a "Combo Box" like dropdown 
 window                       
 
-.pict Edit_CsvArray1.GIF
+.pict Edit_CsvArray1.png
 
 :h2.Parameter Field
 :p.The Parameter field of a CSV array is defined as

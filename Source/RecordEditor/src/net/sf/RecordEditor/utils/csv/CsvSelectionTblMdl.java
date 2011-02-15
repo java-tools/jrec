@@ -213,6 +213,7 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 			this.quote = quote;
 		}
 
+		
 		/* (non-Javadoc)
 		 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#setFont(java.lang.String)
 		 */
@@ -221,6 +222,8 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 			// TODO Auto-generated method stub
 			
 		}
+		
+		
 		/* (non-Javadoc)
 		 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#setSeperator(java.lang.String)
 		 */
@@ -282,4 +285,5 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 			return seperator != null && seperator.toLowerCase().startsWith("x'");
 		}
 
+		
 }

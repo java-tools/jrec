@@ -22,6 +22,5 @@ def test():
 		select('Table', 'cell:10 - 35|Loc Name,2(NSW North Sydney Ad Support)')
 		assert_p('Table', 'Text', 'cell:10 - 35|Loc Name,2(NSW North Sydney Ad Support)')
 		select('Table', 'cell:10 - 35|Loc Name,2(NSW North Sydney Ad Support)')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 	close()

@@ -57,7 +57,7 @@ and Comp-2). Floating Point numbers are fairly rare in Cobol Programs.
 :epnl.
 :row refid=xlight.:c.The Data displayed in RecordEdit
 :row refid=none.:c.:p. :p.
-.*b2h HTML <img SRC="Diagram/dtar020a.GIF">
+.*b2h HTML <img SRC="Diagram/dtar020a.png">
 :etable.
 
 :table cols=*.

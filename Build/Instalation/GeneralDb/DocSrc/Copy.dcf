@@ -210,9 +210,9 @@ by a certain character&gml.
   :li.The field position should be the field position number and the length should be 0.
 :eul.
 
-.pict LayoutEdit_Delim.GIF
+.pict LayoutEdit_Delim.png
 
-.pict LayoutEdit_DelimDef.GIF
+.pict LayoutEdit_DelimDef.png
 
 :h2.Copy From XML
 :p.While the package can copy from XML to fixed / delimited; The fixed / delimited layout must

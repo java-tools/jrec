@@ -6,8 +6,7 @@ def test():
 
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'Xml' + commonBits.fileSep() + 'AmsLocationTest1.xml')
-		commonBits.doEdit(click)
-
+		click('Edit1')
 		select('JTreeTable', 'cell:Xml~Text,4(null)')
 		rightclick('JTreeTable', 'Xml~Text,4')
 		select_menu('Expand Tree')
@@ -33,8 +32,7 @@ def test():
 		select('Table', 'cell:7|name,0(Location-Details)')
 		assert_p('Table', 'RowCount', '5')
 		select('Table', 'cell:7|name,0(Location-Details)')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('JTreeTable', 'cell:Xml~Prefix,1(null)')
 		rightclick('JTreeTable', 'Xml~Prefix,1')
 		select_menu('Paste Record#{s#}')
@@ -54,10 +52,8 @@ def test():
 		select('Table', 'cell:7|name,0(Location-Details)')
 		assert_p('Table', 'RowCount', '5')
 		select('Table', 'cell:7|name,0(Location-Details)')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
-		commonBits.closeWindow(click)
-		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 		if window('Save Changes to file: ' + commonBits.sampleDir() + 'Xml' + commonBits.fileSep() + 'AmsLocationTest1.xml'):
 			click('No')

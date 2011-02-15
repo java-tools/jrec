@@ -5,6 +5,7 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 
 import net.sf.JRecord.Common.PropertyManager;
+import net.sf.JRecord.Common.UserInit;
 import net.sf.JRecord.Types.Type;
 
 public class LoadConversion {
@@ -92,7 +93,7 @@ public class LoadConversion {
 					s = tok.nextToken();
 					ret[i] = Integer.parseInt(s.trim());
 				} catch (Exception e) {
-					System.out.println("Invalid integer :" + s + ", in " + name);
+					System.out.println("Invalid Integer :" + s + ", in " + name);
 				}
 				i+= 1;
 			}

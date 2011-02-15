@@ -1,0 +1,87 @@
+.im iRE_TagDefs.dcf
+.*B2H SYMBOL :tag. reCsvEditor   IT=N VAT=N ATT=N SE=N V='<b>reCsvEditor</b>'
+.*B2H SYMBOL :tag. AvroEditor   IT=N VAT=N ATT=N SE=N V='<a href="http://avroeditor.sourceforge.net//" TARGET="_top">Avro Editor</a>'
+.*B2H SYMBOL :tag. ProtoEditor   IT=N VAT=N ATT=N SE=N V='<a href="http://code.google.com/p/protobufeditor/" TARGET="_top">Protocol Buffers Editor</a>'
+
+:h1.Csv Editor
+:h2.Introduction
+:p.The :reCsvEditor. is light weight version of the :RecordEditor. for editing simple Csv Files.
+While :RecordEditor. can do every thing the :reCsvEditor. does, the :RecordEditor.
+is much larger and more complicated to use than the :reCsvEditor. 
+:h3.RecordEditor - reCsvEditor Comparison
+
+:tdef id=xlight shade='xlight'.
+:table cols='* *'.
+:thd refid=xlight.:c.RecordEditor:c.reCsvEditor
+:row refid=none.:c.The :RecordEditor. is focused on Fixed Width and Complicated Csv Files  
+with the :hp3.File Definition:ehp3. defined ahead of Time. 
+:c.The :reCsvEditor.
+just edits Csv Files without any "File Definition".
+:row.:c.The :RecordEditor. uses a Database to store File Definitions. 
+   :c.The :reCsvEditor. has no Database to maintain.
+:row.:c.The :RecordEditor. is aimed at Programmers working a complicated file structures and
+requires a certain degree of learning. It is a good option for those who work Complicated Files or
+Mainframe / Cobol / Fixed Width Files.
+:c.The :reCsvEditor. is aimed at advanced users who occassionaly need to view / edit CSV files.
+Although once you get the hang of :reCsvEditor., the :RecordEditor. (or :hp2.Protocol Buffer:ehp2 or :hp2.Avro Editor:ehp2.)
+will be easy to learn.
+:etable.
+:h2.Features
+:p.Program features
+:ul.
+ :li.Supports Very large Files (you will need to make changes to bat / shell scripts
+to make the most of this option; see :hdref refid=BigFiles. for more details.).
+ :li.Columns can be added, moved and copied.
+ :li.Field Separator / Quotes can be changed.
+ :li.Fields can be both hidden and Fixed in position (Right Click Menu)
+ :li.Multiple File Views are Supported including
+  :ol compact.
+   :li.Record View - Display a single record with fields going down the page.
+   :li.Filtered View - Select Records / Fields to be displayed.
+   :li.Sorted Tree View - Gives a Sort / Summary of the file with indivual records as leaf's in the tree
+   :li.Column View - Rows / Columns swapped.
+  :eol.
+  :li.Files can be exports as Fixed Width Text or Xml or Html or via Velocity Template (needs seperate
+velocity Download).
+  :li.Forms part of a family of Editors (:RecordEditor., :AvroEditor. and :ProtoEditor.). 
+All the programs use a common core, so moving from one to the other should be easy.
+:eul.
+
+.im reCsvEd01.dcf
+:h2 id=main.Main Edit Screen
+:p.The main edit screen looks like
+.br
+.pict RecordEdit_Table.png
+.br
+.im iRe_re010_RecordTableOption.dcf
+
+:h3 id=binrecord.Record View
+:p.To display a singe record in record view (as below), press the button to the
+left of the row on the :hdref refid=main. screen.
+
+
+
+:h2.Updating Columns
+:p.There are 2 ways to update the columns details
+:ol compact
+ :li.Via the :hp2.right click >>> Csv Options:ehp2. menu you can do basic column actions (copy, move, add and delete).
+ :li.The :hp2.Update Csv Columns:ehp2. dialog (:hp2.Edit:ehp2. and :hp2.right click >>> Csv Options:ehp2. menu's)
+allows you change column names and types as well as copy, move, add and delete columns.
+:eol.
+:h3.Right Click menu
+.pict CsvEd_ColOptions.png
+
+:h3.Update Csv Columns Dialog
+:p.This dialog lets you:
+:ul.
+ :li.Change Field Separator and quotes char.
+ :li.Change column names and types.
+ :li.Delete Columns
+ :li.Add, copy, move columns (via :hp2.Right Click Menu:ehp2.).
+:eul.
+.pict CsvEd_ColEdit.png
+
+:note.You can save and restore the CSV definition via the :hp2.Edit >>>> Save File Description as Xml:ehp2.
+and :hp2.Edit >>>> Load File Description from Xml:ehp2. options.
+
+.im iHT_B000_BigFiles.dcf

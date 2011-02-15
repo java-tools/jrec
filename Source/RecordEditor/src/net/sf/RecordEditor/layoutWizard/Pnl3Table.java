@@ -65,7 +65,7 @@ public class Pnl3Table extends WizardPanel {
 		tips = new JEditorPane("text/html", formDescription);
 
 		this.setHelpURL(Common.formatHelpURL(Common.HELP_WIZARD_PNL2));
-		this.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP1,
+		this.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(tips));
 

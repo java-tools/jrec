@@ -5,11 +5,13 @@ import java.awt.Component;
 import javax.swing.JTable;
 
 import net.sf.JRecord.Common.Constants;
+import net.sf.RecordEditor.utils.swing.BasicGenericPopup;
 
 import com.zbluesoftware.java.bm.AbstractGenericCombo;
 import com.zbluesoftware.java.bm.AbstractPopup;
 import com.zbluesoftware.java.bm.GenericComboTableRender;
 
+@SuppressWarnings("serial")
 public class ParameterTableEditor extends GenericComboTableRender {
 	
 	private static final int FLD_FIELD_TYPE = 4;
@@ -34,6 +36,18 @@ public class ParameterTableEditor extends GenericComboTableRender {
 		super.setComboField(new ParamCombo());
 	}
 	
+	
+
+	/* (non-Javadoc)
+	 * @see com.zbluesoftware.java.bm.GenericComboTableRender#getCombo()
+	 */
+	@Override
+	protected AbstractGenericCombo getCombo() {
+		// TODO Auto-generated method stub
+		return new ParamCombo();
+	}
+
+
 
 	/**
 	 * @see com.zbluesoftware.java.bm.GenericComboTableRender#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
@@ -96,42 +110,21 @@ public class ParameterTableEditor extends GenericComboTableRender {
 	 * @author Bruce Martin
 	 *
 	 */
-	private class ParamCombo extends AbstractGenericCombo {
-		
-		private AbstractPopup current = null;
+	private class ParamCombo extends BasicGenericPopup {
+
 		/**
 		 * @see com.zbluesoftware.java.bm.AbstractGenericCombo#getPopup()
 		 */
 		@Override
 		public AbstractPopup getPopup() {
-			current = null;
+			AbstractPopup current = null;
 			if (lastParameterEditor != null && lastParameterEditor.hasPopup()) {
 				current = lastParameterEditor.getPopup(dbId);
 			}
 			
+			setPopup(current);
 			return current;
 		}
-
-		/**
-		 * @see com.zbluesoftware.java.bm.AbstractGenericCombo#getValue()
-		 */
-		@Override
-		public Object getValue() {
-			return getText();
-		}
-
-
-		/**
-		 * @see com.zbluesoftware.java.bm.AbstractGenericCombo#setValue(java.lang.Object)
-		 */
-		@Override
-		public void setValue(Object value) {
-			if (current != null) {
-				current.setValue(value);
-			}
-			setText(toString(value));
-		}
-		
 	}
 
 }

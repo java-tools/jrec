@@ -13,6 +13,7 @@ import javax.swing.JPopupMenu;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public abstract class AbstractPopup extends JPopupMenu {
 	
 	public static final String POPUP_CHANGED = "popupChanged"; 

@@ -7,6 +7,7 @@ import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.Types.TypeManager;
 import net.sf.RecordEditor.record.format.CellFormat;
 import net.sf.RecordEditor.record.types.ReTypeManger;
+import net.sf.RecordEditor.utils.swing.DatePopup;
 
 
 public class ParameterPopupManager extends BasicManager<BasicParameterEditor> {

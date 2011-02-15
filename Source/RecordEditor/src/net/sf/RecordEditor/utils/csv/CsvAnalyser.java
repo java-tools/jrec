@@ -25,8 +25,7 @@ public class CsvAnalyser {
 	public static final HashSet<String> STANDARD_CHARS = new HashSet<String>();
 	
 	static {
-		String s = "abcdefghijklmnopqrstuvwxyz";
-		s = s + s.toUpperCase() + "0123456789'\"";
+		String s = Common.STANDARD_CHARS;
 		
 		for (int i = 0; i < s.length(); i++) {
 			STANDARD_CHARS.add(s.substring(i, i+1));

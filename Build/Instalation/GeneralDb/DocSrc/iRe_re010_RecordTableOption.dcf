@@ -2,26 +2,26 @@
 
 :table cols='2* 4* 5*'.
 :row.:c.Layout combo:c.
-.*b2h HTML <img SRC="Diagram/RecordEdit_LayoutCombo.GIF">
+.*b2h HTML <img SRC="Diagram/RecordEdit_LayoutCombo.png">
 :c.Used to select the Record Layout used to format the file
 :row.:c.Edit Buttons (edit mode):c.
-.*b2h HTML <img SRC="Diagram/RecordEdit_Buttons.GIF">
+.*b2h HTML <img SRC="Diagram/RecordEdit_Buttons.png">
 :c.Various Edit options- :hp2.Find, Filter, Save, Save-As / Export, Copy, Paste, 
 New-Record, Correct-length, Delete:ehp2. and :hp2.Help:ehp2..
 .br
 See :hdref refid=Find., :hdref refid=Filter. and :hdref refid=SaveAs. for more details.
 :row.:c.Edit Buttons (Browse mode):c.
-.*b2h HTML <img SRC="Diagram/RecordEdit_BrowseButtons.GIF">
+.*b2h HTML <img SRC="Diagram/RecordEdit_BrowseButtons.png">
 :c.Various Edit options- :hp2.Find, Filter, Save-As / Export, Copy:ehp2. and :hp2.Help:ehp2..
 See :hdref refid=Find., :hdref refid=Filter. and :hdref refid=SaveAs. for more details.
 :row.:c.Selection Buttons:c.
-.*b2h HTML <img SRC="Diagram/RecordEdit_Selection.GIF">
+.*b2h HTML <img SRC="Diagram/RecordEdit_Selection.png">
 :c.On the Far Left (just left of the line number) is the :hp2.record selection:ehp2. Button.
 When one of these buttons is pressed, the record screen (see :hdref refid=binrecord. and 
 :hdref refid=txtrec.) is
 displayed.
 :row.:c.Headings:c.
-.*b2h HTML <img SRC="Diagram/RecordEdit_Heading.GIF">
+.*b2h HTML <img SRC="Diagram/RecordEdit_Heading.png">
 :c.At the top in the column headings you can:
 :ul.
 :li.Move the Column by dragging and dropping the column header:

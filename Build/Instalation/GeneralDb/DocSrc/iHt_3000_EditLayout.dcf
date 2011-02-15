@@ -5,11 +5,11 @@
 of the :hp2.Record Layout:ehp2. drop down Menu in the :Blue.Full Editor:eblue. 
 or the :Blue.Record Layout Edit:EBlue. program.
  
-.pict MenuRL_Edit.GIF
+.pict MenuRL_Edit.png
 
 :p.or in the :Blue.Record Layout Editor:EBlue., select the :hp2.Edit Record Layout:ehp2.
 
-.pict LayoutEdit_Menu_EditlLayout.GIF
+.pict LayoutEdit_Menu_EditlLayout.png
 
  :li.This will bring up the edit screen:
  
@@ -19,7 +19,7 @@ or the :Blue.Record Layout Edit:EBlue. program.
 This will bring up a list of matching records. 
 :note. :BBlue.%:EBBlue. is a wildcard.
  
-.pict LayoutEdit_Record_Selection.GIF
+.pict LayoutEdit_Record_Selection.png
 
  :li.Click on the Record to be edited (Price in this case), this will bring up
 the Record details on the right side of the screen.

@@ -163,6 +163,7 @@ public class UpdateCsvLayout implements ActionListener {
 		if (idx < 0) {
 			idx = combo.getItemCount();
 			combo.addItem(value);
+			combo.setSelectedIndex(idx);
 		}
 		return idx;
 	}

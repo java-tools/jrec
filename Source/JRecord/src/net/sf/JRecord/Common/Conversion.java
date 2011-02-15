@@ -101,15 +101,18 @@ public final class Conversion {
 			 final String fontName) {
 		String s = "";
 		
-		if (fontName == null || "".equals(fontName)) {
-		    s = new String(record);
-		} else {
-		    try {
-		        s = new String(record, fontName);
-		    } catch (Exception e) {
-		        //System.out.println("Conversion Error 2 " + e.getMessage());
-		        s = new String(record);
-		    }
+		try {
+			if (fontName == null || "".equals(fontName)) {
+			    s = new String(record);
+			} else {
+			    try {
+			        s = new String(record, fontName);
+			    } catch (Exception e) {
+			        //System.out.println("Conversion Error 2 " + e.getMessage());
+			        s = new String(record);
+			    }
+			}
+		} catch (Exception e) {
 		}
 		
 		return s;

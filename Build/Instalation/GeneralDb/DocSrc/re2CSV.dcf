@@ -53,7 +53,7 @@ Usage:
 :h2.Re2CsvGui
 :p.This is a GUI version of Re2Csv. You select the file and copybook on the following screen
 
-.pict Re2CsvGui.GIF
+.pict Re2CsvGui.png
 
 
 :h2.Transporting files from the Mainframe

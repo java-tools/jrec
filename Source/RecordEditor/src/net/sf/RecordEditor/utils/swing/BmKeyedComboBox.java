@@ -33,6 +33,7 @@ import javax.swing.table.TableCellRenderer;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class BmKeyedComboBox extends JComboBox {
 
 	private BmKeyedComboModel model;

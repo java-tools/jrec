@@ -9,7 +9,7 @@ def test():
 		commonBits.setRecordLayout(select, 'DTAR020')
 		click('Edit1')
 		select_menu('View>>Field Based Tree')
-#		select('List', 'DTAR020')
+		select('List', 'DTAR020')
 		select('Table', 'QTY-SOLD', 'Field,0')
 		select('Table', 'DEPT-NO', 'Field,1')
 		select('Table', 'cell:Field,1(DEPT-NO)')

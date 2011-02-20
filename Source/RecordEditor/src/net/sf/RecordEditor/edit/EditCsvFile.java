@@ -92,23 +92,25 @@ public class EditCsvFile extends EditRec {
 
 
 
-//	/**
-//	 * Add program specific dropdown menus
-//	 * @param menubar top level menu
-//	 */
-//	protected void addProgramSpecificMenus(JMenuBar menubar) {
-//
-////		JMenu layoutMenu = new JMenu("Record Layouts");
-////	    menubar.add(layoutMenu);
-////	    layoutMenu.add(new AbstractAction("Layout Wizard") {
-////	    	public void actionPerformed(ActionEvent e) {
-////	    		new WizardFileLayout(getOpenFileWindow().getOpenFilePanel().getCurrentFileName());
-////	    	}
-////	    });
-//	    super.addProgramSpecificMenus(menubar);
-//	}
 
 
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.screenManager.ReMainFrame#showAbout()
+	 */
+	@Override
+	protected void showAbout() {
+		showAbout(
+				"The <b>reCsvEditor</b> is an editor for CSV "
+			  + "data files. It is built on top of the RecordEditor.<br><br><pre>"
+			  +	"<br> <b>Authors:</b><br> "
+			  + "\t<b>Bruce Martin</b>: Main author<br/><br/>"
+			  + " <b>Websites:</b><br><br> " 
+			  + "\t<b>reCsvEditor:</b> http://recsveditor.sourceforge.net<br>"
+			  + "\t<b>RecordEditor:</b> http://record-editor.sourceforge.net<br>"
+			  
+			  + "</pre><br>"
+		);
+	}
 
 	/**
 	 * Edit a record oriented file

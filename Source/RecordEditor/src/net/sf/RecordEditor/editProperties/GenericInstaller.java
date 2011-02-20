@@ -236,7 +236,7 @@ public class GenericInstaller implements ActionListener {
         tabbedPane.addTab("DB Definition", new JScrollPane(init_210_buildDbDefPanel()));
         secondPanel = init_220_RunSqlPanel();
 
-        pnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP2,
+        pnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
                 BasePanel.FULL, BasePanel.FULL,
                 tabbedPane);
 
@@ -261,7 +261,7 @@ public class GenericInstaller implements ActionListener {
         
         dropSemiChk.setSelected(false);
 
-        pnl.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP2,
+        pnl.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP0,
                 BasePanel.FULL, BasePanel.FULL,
                 new JScrollPane(tips));
 
@@ -269,17 +269,17 @@ public class GenericInstaller implements ActionListener {
         pnl.addLine("Database Index (0->15)", dbIndex);
         pnl.addLine("Database", database);
         pnl.addLine("Drop ; from SQL", dropSemiChk);
-        pnl.setGap(BasePanel.GAP2);
+        pnl.setGap(BasePanel.GAP0);
         pnl.addLine("Driver", driver);
         pnl.addLine("Source", source);
         pnl.addLine("DB Create Extension", createExt);
-        pnl.setGap(BasePanel.GAP1);
+        pnl.setGap(BasePanel.GAP0);
         pnl.addLine("User", user);
         pnl.addLine("Password", password);
-        pnl.setGap(BasePanel.GAP1);
+        pnl.setGap(BasePanel.GAP0);
         pnl.addLine("JDBC Jar", jdbcJar, jdbcJar.getChooseFileButton());
         pnl.addLine("Save in Lib Dir", saveInLibDir, test);
-        pnl.setGap(BasePanel.GAP2);
+        pnl.setGap(BasePanel.GAP0);
         pnl.addLine("Also ", null, sqlScreen);
         //pnl.setGap(BasePanel.GAP2);
 

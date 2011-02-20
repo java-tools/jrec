@@ -97,7 +97,7 @@ import net.sf.RecordEditor.utils.swing.treeTable.TreeTableNotify;
 public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail, ? extends AbstractRecordDetail>>
 						extends 			AbstractTableModel
 						implements 	TableModelListener, ColumnMappingInterface, 
-												TreeModelListener, AbstractChangeNotify{
+												TreeModelListener, AbstractChangeNotify, GetView {
 
 	public  static final  int SPECIAL_FIELDS_AT_START  = 2;
 	private static final  int BUFFER_SIZE = 65536;
@@ -1250,7 +1250,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 //			System.out.println(" << starting delete  " + start + " " + end);
 			for (i = recNums.length - 1; i >= 0; i--) {
 				//System.out.println("Deleting: " + i + " ~ " + recNums[i]);
-				if (recNums[i] >= 0) {
+				if (recNums[i] >= 0 && recNums[i] < lines.size()) {
 					deleteNode(lines.get(recNums[i]));
 					lines.remove(recNums[i]);
 				}
@@ -2324,7 +2324,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 
 	    boolean isGZip = checkIfGZip(pFileName);
 	    AbstractLineWriter writer = ioProvider.getLineWriter(layout.getFileStructure());
-	    FileWriter fileWriter = new FileWriter(pLines, pFileName, backup, isGZip, writer);
+	    FileWriter fileWriter = new FileWriter(pLines, layout, pFileName, backup, isGZip, writer);
 	    
 	    if (chgListner != null) {
 	    	fileWriter.addPropertyChangeListener(chgListner);
@@ -2990,5 +2990,14 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		&& (   layout.getFileStructure() == Constants.IO_NAME_1ST_LINE
 			|| layout.getRecord(0).getRecordType() == Constants.rtDelimited
 			|| layout.getRecord(0).getRecordType() == Constants.rtDelimitedAndQuote);
+	}
+	
+	
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.edit.file.GetView#getFileView()
+	 */
+	@Override
+	public FileView getFileView() {
+		return this;
 	}
 }

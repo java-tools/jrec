@@ -28,7 +28,8 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
 public class MultiLineFormat implements CellFormat {
 
 
-   private static int HEIGHT = Math.max(SwingUtils.TABLE_ROW_HEIGHT, SwingUtils.CHECK_BOX_HEIGHT) + 1;
+   private static int HEIGHT = Math.max(SwingUtils.TABLE_ROW_HEIGHT, 
+		   Math.min(SwingUtils.CHECK_BOX_HEIGHT, SwingUtils.COMBO_TABLE_ROW_HEIGHT));
    private TableCellRenderer render = null;
 
 

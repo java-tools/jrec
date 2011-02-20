@@ -8,8 +8,10 @@ import java.awt.event.KeyAdapter;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import net.sf.RecordEditor.utils.common.Common;
 
@@ -17,7 +19,7 @@ import net.sf.RecordEditor.utils.common.Common;
 public class SwingUtils {
 
 	public static final int STANDARD_FONT_HEIGHT, STANDARD_FONT_WIDTH;
-	public static final int TABLE_ROW_HEIGHT = getDefault((new JTable()).getRowHeight(), 24);
+	public static final int TABLE_ROW_HEIGHT = getDefault((new JTable()).getRowHeight(), 20);
 	private static final int HALF_TABLE_ROW_HEIGHT = TABLE_ROW_HEIGHT / 2;
 	public static final int COMBO_TABLE_ROW_HEIGHT ;
 	public static final int ONE_CHAR_TABLE_CELL_WIDTH ;
@@ -31,9 +33,13 @@ public class SwingUtils {
 		JTextField fld = new JTextField(r[0]);
 		JCheckBox chk = new JCheckBox(); 
 		double d = fld.getMinimumSize().getHeight();
+		int sub = 2;
+		if (Common.LOOKS_INDEX == 0 || Common.LOOKS_INDEX == 2) {
+			sub = 4;
+		}
 		STANDARD_FONT_HEIGHT = getDefault(fld.getFont().getSize(), 12);
 		STANDARD_FONT_WIDTH  = STANDARD_FONT_HEIGHT * 3 / 4;
-		COMBO_TABLE_ROW_HEIGHT = getDefault((int) ((new JComboBox(r)).getMinimumSize().getHeight()), 20);
+		COMBO_TABLE_ROW_HEIGHT = getDefault((int) ((new JComboBox(r)).getMinimumSize().getHeight()) - sub, 20);
 		CHECK_BOX_HEIGHT = chk.getMinimumSize().height;
 		CHECK_BOX_WIDTH = chk.getMinimumSize().width;
 
@@ -42,7 +48,8 @@ public class SwingUtils {
 			d = 19;
 		}
 		NORMAL_FIELD_HEIGHT = (int) d;
-
+		System.out.println(">>> " + UIManager.getSystemLookAndFeelClassName() + " " + JFrame.isDefaultLookAndFeelDecorated());
+	    
 		System.out.println("### '''''''''''''''''''''''''''''''");
 		System.out.println("###            Font Height " + STANDARD_FONT_HEIGHT);
 		System.out.println("###           Field Height " + NORMAL_FIELD_HEIGHT);

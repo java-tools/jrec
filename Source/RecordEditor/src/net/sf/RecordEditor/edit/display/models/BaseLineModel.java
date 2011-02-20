@@ -7,10 +7,13 @@ import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.edit.file.FieldMapping;
 import net.sf.RecordEditor.edit.file.FileView;
+import net.sf.RecordEditor.edit.file.GetView;
 import net.sf.RecordEditor.utils.common.Common;
 
 @SuppressWarnings("serial")
-public abstract class BaseLineModel extends AbstractTableModel {
+public abstract class BaseLineModel 
+extends AbstractTableModel 
+implements GetView {
 
 	public static final int FIRST_DATA_COLUMN = 3;
 
@@ -238,7 +241,7 @@ public abstract class BaseLineModel extends AbstractTableModel {
 	 * Get The file view
 	 * @return  file view
 	 */
-	protected FileView<?> getFileView() {
+	public final FileView<?> getFileView() {
 		return fileView;
 	}
 

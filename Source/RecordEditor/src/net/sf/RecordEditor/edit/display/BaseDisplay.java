@@ -320,7 +320,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 				}
 			}
 			
-			if (fileView != null && doClose) {
+			if (fileView != null && doClose && fileMaster.isSaveAvailable()) {
 				fileView.clear();
 			}
 		}
@@ -564,17 +564,19 @@ implements AbstractFileDisplay, ILayoutChanged {
 			fileView.getLine(pos).setWriteLayout(layoutCombo.getLayoutIndex());
 		}
 		
+		checkLayout();
 		newLineFrame(fileView, pos);
 	}
 	
 	
 	private void insertLine_200_TreeFile(int adj) {
-		AbstractLine l = getInsertAfterLine(adj == 0);
+		AbstractLine l = getInsertAfterLine(adj < 0);
 		AbstractLine newLine = null;
 		
 		if (l == null) {
 			if (fileView.getRowCount() == 0) {
 				newLine = newMainLine(0);
+				checkLayout();
 				if (newLine != null) {
 					newLineFrame(fileView, 0);
                    	AbstractLineNode root = (AbstractLineNode) fileView.getTreeTableNotify().getRoot();
@@ -653,11 +655,21 @@ implements AbstractFileDisplay, ILayoutChanged {
 		
 		AbstractLineNode pn = fileView.getTreeNode(parent);
 		if (ret != null && pn != null /*&& o instanceof AbstractLineNode */) {
-			System.out.println(" >>> >>> Insert Node: " + ret.getFullLine());
+			//System.out.println(" >>> >>> Insert Node: " + ret.getFullLine());
 			pn.insert(ret, -1, location);
 		}
 		
 		return ret;
+	}
+	
+	private void checkLayout() {
+		if ((!fileView.isView()) && fileView.getRowCount() == 1) {
+			int idx = fileView.getLine(0).getPreferredLayoutIdx();
+			if (idx >= 0) {
+				setLayoutIndex(idx);
+				setupForChangeOfLayout();
+			}
+		}
 	}
 			
 	protected AbstractLine newMainLine(int pos) {

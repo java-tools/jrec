@@ -14,7 +14,6 @@ package net.sf.RecordEditor.editProperties;
 
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -546,28 +545,28 @@ public class EditOptions {
         pnl.add("South", params.msgFld);
         frame.getContentPane().add(pnl);
         
-        printTabDetails("mainTabbed", mainTabbed);
-        printTabDetails("propertiesTabbed", propertiesTabbed);
-        printTabDetails("jarsTabbed", jarsTabbed);
-        printTabDetails("userTabbed", userTabbed);
-        printTabDetails("looksTabbed", looksTabbed);
+//        printTabDetails("mainTabbed", mainTabbed);
+//        printTabDetails("propertiesTabbed", propertiesTabbed);
+//        printTabDetails("jarsTabbed", jarsTabbed);
+//        printTabDetails("userTabbed", userTabbed);
+//        printTabDetails("looksTabbed", looksTabbed);
     }
     
-    private void printTabDetails(String name, JTabbedPane tab) {
-    	
-    	System.out.println(name + " " + tab.getTabCount());
-    	for (int i = 0; i < tab.getTabCount(); i++) {
-    		Component c = tab.getComponentAt(i);
-    		if (c != null) {
-	    		System.out.println(name + " " + i
-	    				+ "\t" + c.getPreferredSize().height
-	    				+ "\t" + c.getClass().getName());
-    		} else {
-    			System.out.print('.');
-    		}
-    	}
-    	
-    }
+//    private void printTabDetails(String name, JTabbedPane tab) {
+//    	
+//    	System.out.println(name + " " + tab.getTabCount());
+//    	for (int i = 0; i < tab.getTabCount(); i++) {
+//    		Component c = tab.getComponentAt(i);
+//    		if (c != null) {
+//	    		System.out.println(name + " " + i
+//	    				+ "\t" + c.getPreferredSize().height
+//	    				+ "\t" + c.getClass().getName());
+//    		} else {
+//    			System.out.print('.');
+//    		}
+//    	}
+//    	
+//    }
     
     public EditParams getParams() {
 		return params;

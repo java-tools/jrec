@@ -19,6 +19,7 @@ import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.screenManager.ReAction;
 
 
+@SuppressWarnings("serial")
 public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 
 //	model.fireTreeStructureChanged(node, node.getPath(), 

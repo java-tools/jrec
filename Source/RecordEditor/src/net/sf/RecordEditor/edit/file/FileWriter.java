@@ -28,19 +28,19 @@ public class FileWriter extends SwingWorker<Void, Void> {
 	private int count;
 	
 	public FileWriter(List<AbstractLine> pLines,
+			AbstractLayoutDetails pLayout,
 	        String  pFileName,
 	        boolean pBackup,
 	        boolean pIsGZip,
 	        AbstractLineWriter pWriter) 
 	throws RecordException {
-		lines = pLines;
+		lines  = pLines;
+		layout = pLayout;
 		fileName = pFileName;
 		backup = pBackup;
 		isGZip = pIsGZip;
 		writer = pWriter;
-		
-		layout = lines.get(0).getLayout();
-		
+
         if (writer == null) {
             throw new RecordException("No file writer available");
         }

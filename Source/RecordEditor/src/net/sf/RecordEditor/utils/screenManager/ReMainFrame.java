@@ -56,8 +56,7 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
 public class ReMainFrame extends JFrame
 					  implements ReActionHandler, ReWindowChanged {
 
-    @SuppressWarnings("unused")
-	private Object o = setLookAndFeel();
+    { setLookAndFeel(); }
  	private JDesktopPane desktop = new JDesktopPane();
 
 	private JInternalFrame logFrame = new JInternalFrame("Program Log", true, false, true, true);
@@ -474,8 +473,7 @@ public class ReMainFrame extends JFrame
 	 *
 	 */
 	protected void showAbout() {
-		ReFrame aboutFrame = new ReFrame("About", null, null);
-		JEditorPane aboutText = new JEditorPane("text/html",
+		showAbout(
 				"The <b>RecordEditor</b> is an editor for Cobol / Fixed Field Width / CSV "
 			  + "data files<br><br><pre>"
 			  +	" <br><b>Authors:</b><br><br> "
@@ -488,6 +486,11 @@ public class ReMainFrame extends JFrame
 			  
 			  + "</pre><br>"
 		);
+	}
+	
+	protected void showAbout(String s) {
+		ReFrame aboutFrame = new ReFrame("About", null, null);
+		JEditorPane aboutText = new JEditorPane("text/html", s);
 		
 		aboutFrame.getContentPane().add(aboutText);
 		aboutFrame.pack();
@@ -767,7 +770,7 @@ public class ReMainFrame extends JFrame
      * @return nothing, allows me to assign to a variable
      */
     @SuppressWarnings("unchecked")
-	public final Object setLookAndFeel() {
+	public final void setLookAndFeel() {
 
         int idx = Common.LOOKS_INDEX;
 
@@ -810,7 +813,6 @@ public class ReMainFrame extends JFrame
             e.printStackTrace();
             JFrame.setDefaultLookAndFeelDecorated(true);
         }
-        return null;
     }
 
     private static void setSysLAF() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {

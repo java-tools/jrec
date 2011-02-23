@@ -2326,18 +2326,26 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    AbstractLineWriter writer = ioProvider.getLineWriter(layout.getFileStructure());
 	    FileWriter fileWriter = new FileWriter(pLines, layout, pFileName, backup, isGZip, writer);
 	    
-	    if (chgListner != null) {
-	    	fileWriter.addPropertyChangeListener(chgListner);
-	    }
-	    
 	    dropCompletedWriters();
 
 	    if (pLines.size() < 30000) {
 	    	fileWriter.doWrite();
+	    	if (chgListner != null) {
+	    		chgListner.propertyChange(null);
+	    	}
 	    } else {
-	    	writers.add(fileWriter);
-	    	fileWriter.addPropertyChangeListener(saveDoneListner);
-	    	fileWriter.execute();
+	    	try {
+	    		net.sf.RecordEditor.edit.file.FileWriterBackground fw = new net.sf.RecordEditor.edit.file.FileWriterBackground(fileWriter);
+				
+				if (chgListner != null) {
+					fw.addPropertyChangeListener(chgListner);
+				}
+				writers.add(fileWriter);
+				fw.addPropertyChangeListener(saveDoneListner);
+				fw.execute();
+			} catch (NoClassDefFoundError e) {
+				fileWriter.doWrite();
+			}
 	    }
 	}
 

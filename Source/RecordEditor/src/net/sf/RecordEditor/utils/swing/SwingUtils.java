@@ -25,7 +25,7 @@ public class SwingUtils {
 	public static final int ONE_CHAR_TABLE_CELL_WIDTH ;
 	public static final int NORMAL_FIELD_HEIGHT;
 	public static final int CHECK_BOX_HEIGHT,  CHECK_BOX_WIDTH;
-	public static final int BUTTON_HEIGHT = (new JButton("Aa")).getPreferredSize().height;
+	public static final int BUTTON_HEIGHT = (new JButton("Aa")).getMinimumSize().height;
 	public static final Font MONO_SPACED_FONT;
 
 	private static String[] r = {"Aapj"};
@@ -48,7 +48,10 @@ public class SwingUtils {
 			d = 19;
 		}
 		NORMAL_FIELD_HEIGHT = (int) d;
-		System.out.println(">>> " + UIManager.getSystemLookAndFeelClassName() + " " + JFrame.isDefaultLookAndFeelDecorated());
+		System.out.println(">>> " + UIManager.getSystemLookAndFeelClassName() + " " + JFrame.isDefaultLookAndFeelDecorated()
+//				+ " " + BUTTON_HEIGHT
+//				+ " " + ((new JButton("Aa")).getMinimumSize().height)
+				);
 	    
 		System.out.println("### '''''''''''''''''''''''''''''''");
 		System.out.println("###            Font Height " + STANDARD_FONT_HEIGHT);
@@ -78,7 +81,7 @@ public class SwingUtils {
 	}
 	
 	public static int calculateTableHeight(int records, int maxHeight) {
-		return Math.min(maxHeight, (records + 1) * TABLE_ROW_HEIGHT + HALF_TABLE_ROW_HEIGHT);
+		return Math.min(maxHeight, (2*records + 3) * TABLE_ROW_HEIGHT / 2 + HALF_TABLE_ROW_HEIGHT);
 	}
 	
 	

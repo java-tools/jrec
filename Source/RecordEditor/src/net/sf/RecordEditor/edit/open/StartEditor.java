@@ -1,7 +1,6 @@
 package net.sf.RecordEditor.edit.open;
 
 import javax.swing.JTextArea;
-import javax.swing.SwingWorker;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.edit.display.BaseDisplay;
@@ -14,7 +13,7 @@ import net.sf.RecordEditor.edit.tree.TreeParserXml;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.EditingCancelled;
 
-public class StartEditor extends SwingWorker<Void, Void> {
+public class StartEditor {
 	protected FileView<?> file;
 	protected String fName;
 	private boolean pBrowse;
@@ -39,15 +38,18 @@ public class StartEditor extends SwingWorker<Void, Void> {
 
 	public void doEdit() {
 		if (Common.OPTIONS.loadInBackgroundThread.isSelected()) {
-			execute();
+			try {
+				(new net.sf.RecordEditor.edit.open.StartEditorBackGround(this)).execute();
+			} catch (NoClassDefFoundError e) {
+				doRead();
+				done();
+			}
 		} else {
-			doInBackground();
+			doRead();
 			done();
 		}
 	}
-
-	@Override
-	public Void doInBackground() {
+	public void doRead() {
 		try {
 			file.readFile(fName);
 			ok = true;
@@ -64,11 +66,9 @@ public class StartEditor extends SwingWorker<Void, Void> {
 			Common.logMsg(e.getMessage(), e);
 			e.printStackTrace();
 		}
-		return null;
 	}
 
  
-	@Override
 	public void done() {
 		
 		if (ok) {

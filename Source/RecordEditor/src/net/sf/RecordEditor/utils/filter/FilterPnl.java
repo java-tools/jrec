@@ -187,7 +187,11 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 
 	
 			if (addFieldFilter) {
-				height = SwingUtils.calculateTableHeight(fieldTbl.getRowCount(), desktopHeight / 2);
+				int rows = fieldTbl.getRowCount();
+				for (int i =0; i < recordLayout.getRecordCount(); i++) {
+					rows = Math.max(rows, recordLayout.getRecord(i).getFieldCount());
+				}
+				height = SwingUtils.calculateTableHeight(rows, desktopHeight / 2);
 				desktopHeight -= height;
 
 				pnl2.addComponent(1, 5, height, BasePanel.GAP1,

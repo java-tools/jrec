@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.zip.GZIPOutputStream;
 
-import javax.swing.SwingWorker;
-
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
@@ -15,8 +13,7 @@ import net.sf.RecordEditor.edit.file.storage.DataStore;
 import net.sf.RecordEditor.edit.file.storage.DataStoreLarge;
 import net.sf.RecordEditor.utils.common.Parameters;
 
-public class FileWriter extends SwingWorker<Void, Void> {
-
+public class FileWriter {
 	private static final long INTERVAL = 1500000000l;
 	
 	private List<AbstractLine> lines;
@@ -26,6 +23,9 @@ public class FileWriter extends SwingWorker<Void, Void> {
 	private AbstractLayoutDetails layout;
 	private long lastTime;
 	private int count;
+	
+	private boolean done = false;
+	
 	
 	public FileWriter(List<AbstractLine> pLines,
 			AbstractLayoutDetails pLayout,
@@ -46,12 +46,6 @@ public class FileWriter extends SwingWorker<Void, Void> {
         }
 	}
 	
-	@Override
-	protected Void doInBackground() throws IOException {
-		doWrite();
-		
-		return null;
-	}
 	
 	public void doWrite() throws IOException {
 		String oFname = fileName + ".~tmp~";
@@ -75,7 +69,7 @@ public class FileWriter extends SwingWorker<Void, Void> {
 
     	Parameters.renameFile(oFname, fileName);
 	    
-	    firePropertyChange("Finished", null, null);
+	   // firePropertyChange("Finished", null, null);
 	}
 	
 	
@@ -120,6 +114,8 @@ public class FileWriter extends SwingWorker<Void, Void> {
 	    if (progress != null) {
 	    	progress.done();
 	    }
+	    
+	    done = true;
 	}
 
 	
@@ -141,4 +137,13 @@ public class FileWriter extends SwingWorker<Void, Void> {
 			}
 		}
 	}
+
+
+	/**
+	 * @return the done
+	 */
+	public boolean isDone() {
+		return done;
+	}
+
 }

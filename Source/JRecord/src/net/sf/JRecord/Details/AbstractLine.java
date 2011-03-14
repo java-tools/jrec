@@ -170,7 +170,6 @@ public interface AbstractLine<Layout extends AbstractLayoutDetails> {
      *
      * @return fields Value
      * 
-     * @deprecated use getFieldValue
      */
     public abstract Object getField(FieldDetail field);
 //

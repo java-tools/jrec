@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class RightJustifyRendor extends DefaultTableCellRenderer {
 
     /**

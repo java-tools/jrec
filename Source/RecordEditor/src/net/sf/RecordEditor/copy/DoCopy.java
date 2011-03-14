@@ -13,6 +13,7 @@ import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.Line;
+import net.sf.JRecord.Details.RecordSelection;
 import net.sf.JRecord.Details.XmlLine;
 import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
@@ -249,9 +250,11 @@ public final class DoCopy {
 					out = LineIOProvider.getInstance().getLineProvider(dtl2.getFileStructure()).getLine(dtl2);
 					
 					try {
-						FieldDetail selField = dtl2.getRecord(i2).getSelectionField();
-						if (selField != null) { 
-							out.setField(selField, dtl2.getRecord(i2).getSelectionValue());
+						RecordSelection sel = dtl2.getRecord(i2).getRecordSelection();
+						for (int i = sel.size() -1; i >= 0; i--) {
+							if (sel.get(i).field != null) { 
+								out.setField(sel.get(i).field , sel.get(i).value);
+							}
 						}
 					} catch (Exception e) {
 					}

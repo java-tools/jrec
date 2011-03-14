@@ -253,11 +253,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 		
 		pnl.addReKeyListener(listner);
 		
-		
-		displayDetails = new RecordFormats[layout.getRecordCount()];
-		for (i = 0; i < displayDetails.length; i++) {
-		    displayDetails[i] = null;
-		}
+		setupDisplayDetails(layout);
 
 		layoutCombo = new LayoutCombo(layout, addFullLine, fullList, prefered, hex);
 
@@ -387,10 +383,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 			layoutCombo.setRecordLayout(newLayout);
 //			layoutCombo.addActionListener(layoutListner);
 			
-			displayDetails = new RecordFormats[newLayout.getRecordCount()];
-			for (int i = 0; i < displayDetails.length; i++) {
-			    displayDetails[i] = null;
-			}
+			setupDisplayDetails(newLayout);
 
 			setTableFormatDetails(getLayoutIndex());
 			setNewLayout(newLayout);
@@ -558,10 +551,24 @@ implements AbstractFileDisplay, ILayoutChanged {
 	
 	private void insertLine_100_FlatFile(int adj) {
 		int pos = fileView.newLine(getInsertAfterPosition(), adj);
+		
 
 		if (layout.isXml()) {
 			//System.out.println("Setting Layout index " + layoutList.getLayoutIndex());
 			fileView.getLine(pos).setWriteLayout(layoutCombo.getLayoutIndex());
+		}
+		if (layout.getRecordCount() == 1) {
+			AbstractRecordDetail rec = layout.getRecord(0);
+			AbstractLine l = fileView.getLine(pos);
+			for (int i = 0; i < rec.getFieldCount(); i++) {
+				if (rec.getField(i).getDefaultValue() != null) {
+					try {
+						l.setField(0, i, rec.getField(i).getDefaultValue());
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+				}
+			}
 		}
 		
 		checkLayout();
@@ -1058,8 +1065,17 @@ implements AbstractFileDisplay, ILayoutChanged {
 	  * New Layout allocated to the frame
 	  */
 	 @Override
-	 public abstract void setNewLayout(AbstractLayoutDetails newLayout);
+	 public void setNewLayout(AbstractLayoutDetails newLayout) {
+		 setupDisplayDetails(newLayout);
+	 }
 
+	 
+	 private void setupDisplayDetails(AbstractLayoutDetails newLayout) {
+		displayDetails = new RecordFormats[newLayout.getRecordCount()];
+		for (int i = 0; i < displayDetails.length; i++) {
+		    displayDetails[i] = null;
+		}
+	 }
 	 /**
 	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplay#getCurrRow()
 	 */
@@ -1331,7 +1347,6 @@ implements AbstractFileDisplay, ILayoutChanged {
 	                for (i = columnsToSkip; i < count; i++) {
 	                    if (cellEditors[i] != null) {
 	                        tcm.getColumn(i + blankColumns - columnsToSkip).setCellEditor(cellEditors[i]);
-	                 
 	                    }
 	                }
 	            }

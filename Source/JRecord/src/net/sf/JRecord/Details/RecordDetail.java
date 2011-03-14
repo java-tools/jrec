@@ -49,12 +49,14 @@ implements AbstractRecord, AbstractRecordDetail<FieldDetail> {
 
 	private String recordName;
 
-	private FieldDetail selectionFld = null;
-	private int    selectionFieldIdx = Constants.NULL_INTEGER;
+	//private FieldDetail selectionFld = null;
+	//private int    selectionFieldIdx = Constants.NULL_INTEGER;
 	private int    recordType;
 
-	private String selectionField;
-	private String selectionValue;
+	//private String selectionField;
+	//private String selectionValue;
+	private RecordSelection recordSelection = new RecordSelection(this);
+	
 	private String delimiter;
 	private int    length = 0;
 	private String fontName;
@@ -88,13 +90,65 @@ implements AbstractRecord, AbstractRecordDetail<FieldDetail> {
 						final FieldDetail[] pFields,
 						final int pRecordStyle
 						) {
+		this(pRecordName, pRecordType, pDelim,
+			 pQuote, pFontName, pFields, pRecordStyle);
+
+		if (!"".equals(pSelectionField)) {
+			recordSelection.addTstField(pSelectionField, pSelectionValue);	
+		}
+	}
+
+	/**
+	 * Create a Record
+	 *
+	 * @param pRecordName  Record Name
+	 * @param pRecordType Record Type
+	 * @param pDelim Record Delimiter
+	 * @param pQuote String Quote (for Comma / Tab Delimeted files)
+	 * @param pFontName fontname to be used
+	 * @param pFields Fields belonging to the record
+	 * @param pRecordStyle Record Style
+	 * @param selection RecordSelection
+	 */
+	public RecordDetail(final String pRecordName,
+						final int pRecordType,
+						final String pDelim,
+						final String pQuote,
+						final String pFontName,
+						final FieldDetail[] pFields,
+						final int pRecordStyle,
+						final RecordSelection selection
+						) {
+		this(pRecordName, pRecordType, pDelim,
+			 pQuote, pFontName, pFields, pRecordStyle);
+
+		recordSelection = selection;
+	}
+
+	/**
+	 * Create a Record
+	 *
+	 * @param pRecordName  Record Name
+	 * @param pRecordType Record Type
+	 * @param pDelim Record Delimiter
+	 * @param pQuote String Quote (for Comma / Tab Delimited files)
+	 * @param pFontName font name to be used
+	 * @param pFields Fields belonging to the record
+	 * @param pRecordStyle Record Style
+	 */
+	public RecordDetail(final String pRecordName,
+						final int pRecordType,
+						final String pDelim,
+						final String pQuote,
+						final String pFontName,
+						final FieldDetail[] pFields,
+						final int pRecordStyle
+						) {
 		super();
 
-		int j;
+		int j, l;
 		this.recordName = pRecordName;
 		this.recordType = pRecordType;
-		this.selectionField = correct(pSelectionField);
-		this.selectionValue = correct(pSelectionValue);
 
 		this.fields   = pFields;
 		this.quote    = pQuote;
@@ -111,26 +165,12 @@ implements AbstractRecord, AbstractRecordDetail<FieldDetail> {
 		//System.out.println("Quote 1 ==>" + pQuote + "<==");
 		for (j = 0; j < fieldCount; j++) {
 		    pFields[j].setRecord(this);
+		    l = pFields[j].getPos() + pFields[j].getLen() - 1;
+		    if (pFields[j].getLen() >= 0 && length < l) {
+		    	length = l;
+		    }
 		}
-
-		try {
-			length = fields[fieldCount - 1].getEnd();
-			if (! "".equals(selectionField)) {
-				for (j = 0; j < fieldCount; j++) {
-					if (selectionField.trim().equalsIgnoreCase(fields[j].getName())) {
-						selectionFieldIdx = j;
-						selectionFld = fields[j];
-					}
-					if (fields[j].getEnd() > length) {
-						length = fields[j].getEnd();
-					}
-				}
-			}
-		} catch (Exception ex1) { }
-		
-
 	}
-
 
 	/**
 	 * if it is null then return "" else return s
@@ -174,35 +214,45 @@ implements AbstractRecord, AbstractRecordDetail<FieldDetail> {
 
 
 
-	/* (non-Javadoc)
+	/**
 	 * @see net.sf.JRecord.Details.AbstractRecordDetail#getSelectionFieldIdx()
+	 * @deprecated use getSelectionField
 	 */
 	public int getSelectionFieldIdx() {
-		return selectionFieldIdx;
+		 if (recordSelection.size() <= 0) {
+			 return Constants.NULL_INTEGER;
+		 }
+		 return getFieldIndex(recordSelection.get(0).fieldName);
 	}
 
-	
-	/* (non-Javadoc)
-	 * @see net.sf.JRecord.Details.AbstractRecordDetail#getSelectionField()
-	 */
-	public final FieldDetail getSelectionField() {
-		return selectionFld;
-	}
+//	
+//	/**
+//	 * @see net.sf.JRecord.Details.AbstractRecordDetail#getSelectionField()
+//	 */ @Deprecated
+//	public final FieldDetail getSelectionField() {
+//		 if (recordSelection.size() <= 0) {
+//			 return null;
+//		 }
+//		return recordSelection.get(0).field;
+//	}
 
 
 	/* (non-Javadoc)
 	 * @see net.sf.JRecord.Details.AbstractRecordDetail#setSelectionField(net.sf.JRecord.Common.FieldDetail)
-	 */
+	 */ @Deprecated
 	public final void setSelectionField(FieldDetail newSelectionField) {
-		this.selectionFld = newSelectionField;
+		 recordSelection.setTstField(0, newSelectionField.getName(), newSelectionField, getSelectionValue());
 	}
 
 
 	/* (non-Javadoc)
 	 * @see net.sf.JRecord.Details.AbstractRecordDetail#getSelectionValue()
-	 */
+	 */ @Deprecated
 	public String getSelectionValue() {
-		return selectionValue;
+		 if (recordSelection.size() <= 0) {
+			 return null;
+		 }
+		 return recordSelection.get(0).value;
 	}
 
 
@@ -320,6 +370,11 @@ implements AbstractRecord, AbstractRecordDetail<FieldDetail> {
 		return delimiter;
 	}
 
-	
-	
+
+	/**
+	 * @return the recordSelection
+	 */
+	public RecordSelection getRecordSelection() {
+		return recordSelection;
+	}
 }

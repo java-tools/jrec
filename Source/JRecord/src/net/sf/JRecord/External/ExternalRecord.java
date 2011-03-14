@@ -1,6 +1,7 @@
 package net.sf.JRecord.External;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.RecordException;
@@ -67,9 +68,15 @@ public class ExternalRecord extends AbstractUpdatableRecord {
   private String fontName;
   private int recordStyle;
   private int fileStructure;
+  private int lineNumberOfFieldNames = 1;
   
-  private String tstField = "";
-  private String tstFieldValue = "";
+  private ArrayList<TstField> tstFields = null;
+  private boolean defaultRecord = false;
+  //private String tstField = "";
+  //private String tstFieldValue = "";
+  
+  
+  
   private int parentRecord = -1;
   
   private String parentName = null;
@@ -701,39 +708,82 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	 * Sub-Record for the current line.
 	 * 
 	 * @return the tstField
-	 */
+	 * 
+	 * @Deprecated Use getTstFields
+	 */ @Deprecated 
 	public String getTstField() {
-		return tstField;
+		if (tstFields == null || tstFields.size() == 0) {
+			return null;
+		} 
+		return tstFields.get(0).fieldName;
 	}
 
 	/**
-	 * Set the Field that should be tested to determine if this is the valid
+	 * Set the Field / value that should be tested to determine if this is the valid
 	 * Sub-Record for the current line.
 	 * 
 	 * @param tstField the tstField to set
-	 */
-	public void setTstField(String tstField) {
-		this.tstField = tstField;
+	 * @param value Value to compare field to
+	 * 
+	 *  @Deprecated  use addTstField
+	 */ @Deprecated 
+	public void setTstField(String tstField, String value) {
+		TstField fld = new TstField(tstField, value);
+		getTestField();
+		if (tstFields.size() == 0) {
+			tstFields.add(fld);
+		}
+		tstFields.set(0, fld);
+	}
+
+	/**
+	 * Add a Field/Value that should be tested to determine if this is the valid
+	 * Sub-Record for the current line.
+	 * 
+	 * @param tstField the tstField to set
+	 * @param value Value to compare field to
+	 */ 
+	public void addTstField(String tstField, String value) {
+		TstField fld = new TstField(tstField, value);
+		getTestField().add(fld);
 	}
 
 	/**
 	 * Get the value the TestField should be compared to
 	 * 
 	 * @return the tstFieldValue
-	 */
+	 * @Deprecated Use getTstFields
+	 */@Deprecated 
 	public String getTstFieldValue() {
-		return tstFieldValue;
+		if (tstFields == null || tstFields.size() == 0) {
+			return null;
+		} 
+		return tstFields.get(0).value;
 	}
 
+	
+	 public int getTstFieldCount() {
+		 int ret = 0;
+		 if (tstFields != null) {
+			 ret = tstFields.size();
+		 }
+		 
+		 return ret;
+	 }
+	 
 	/**
-	 * Set the value the TestField should be compared to
-	 * 
-	 * @param tstFieldValue the tstFieldValue to set
+	 * @return the tstFields
 	 */
-	public void setTstFieldValue(String tstFieldValue) {
-		this.tstFieldValue = tstFieldValue;
+	public List<TstField> getTstFields() {
+		return tstFields;
 	}
 
+	private ArrayList<TstField> getTestField() {
+		if (tstFields == null) {
+			tstFields = new ArrayList<TstField>(5);
+		}
+		return tstFields;
+	}
 	/**
 	 * Get the parent Record of this record
 	 * @return the parent Record
@@ -868,4 +918,33 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 		this.parentName = tmpParentName;
 	}
 
+	/**
+	 * @return the lineNumberOfFieldNames
+	 */
+	public int getLineNumberOfFieldNames() {
+		return lineNumberOfFieldNames;
+	}
+
+	/**
+	 * @param lineNumberOfFieldNames the lineNumberOfFieldNames to set
+	 */
+	public void setLineNumberOfFieldNames(int lineNumberOfFieldNames) {
+		this.lineNumberOfFieldNames = lineNumberOfFieldNames;
+	}
+
+	/**
+	 * @return the defaultRecord
+	 */
+	public boolean isDefaultRecord() {
+		return defaultRecord;
+	}
+
+	/**
+	 * @param defaultRecord the defaultRecord to set
+	 */
+	public void setDefaultRecord(boolean defaultRecord) {
+		this.defaultRecord = defaultRecord;
+	}
+
+	
 }

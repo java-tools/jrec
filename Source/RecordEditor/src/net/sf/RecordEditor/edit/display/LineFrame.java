@@ -198,7 +198,9 @@ public class LineFrame extends    BaseLineFrame {
 
 		switch (event.getType()) {
 			case (TableModelEvent.INSERT):
-				changeRow(event.getLastRow() 	-  event.getFirstRow() + 1);
+				if (event.getFirstRow() <= currRow) {
+					changeRow(event.getLastRow() 	-  event.getFirstRow() + 1);
+				}
 			break;
 			case (TableModelEvent.DELETE):
 				if (currRow > event.getLastRow()) {

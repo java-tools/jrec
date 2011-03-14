@@ -19,6 +19,7 @@ import javax.swing.table.TableCellEditor;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class CsvArrayTableEditor extends AbstractCellEditor
 							  implements TableCellEditor {
     private CsvArray csvArray;

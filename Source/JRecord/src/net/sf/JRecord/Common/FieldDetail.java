@@ -67,6 +67,7 @@ public class FieldDetail {
 	private final String paramater;
 	//private String quote;
 	private AbstractRecord record = DEFAULT_RECORD;
+	private Object defaultValue = null;
 
 
 	/**
@@ -267,5 +268,21 @@ public class FieldDetail {
 	public void setNameType(String newName, int newType) {
 		this.name = newName;
 		this.type = newType;
+	}
+
+
+	/**
+	 * @return the defaultValue
+	 */
+	public Object getDefaultValue() {
+		return defaultValue;
+	}
+
+
+	/**
+	 * @param defaultValue the defaultValue to set
+	 */
+	public void setDefaultValue(Object defaultValue) {
+		this.defaultValue = defaultValue;
 	}
  }

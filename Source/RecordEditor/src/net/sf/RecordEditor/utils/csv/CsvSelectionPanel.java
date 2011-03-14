@@ -11,6 +11,7 @@ import java.awt.event.FocusEvent;
 import java.util.StringTokenizer;
 
 
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -28,6 +29,7 @@ import net.sf.JRecord.CsvParser.ParserManager;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.Types.Type;
+import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
@@ -50,6 +52,7 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 	private boolean isByteBased = true;
 	
 	private ParserManager parserManager = ParserManager.getInstance();
+	private MenuPopupListener popup;
 //	private String[] lines = null;
 //	private int lines2display = 0;
 	
@@ -64,6 +67,7 @@ public class CsvSelectionPanel extends BaseHelpPanel {
     public BmKeyedComboBox parseType  = new BmKeyedComboBox(styleModel, false);
 
     public JCheckBox fieldNamesOnLine = new JCheckBox();
+    public JTextField nameLineNoTxt = new JTextField();
     public JCheckBox checkTypes = new JCheckBox();
     
     public JButton go = new JButton("Go");
@@ -134,10 +138,12 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 	};
 
 	public void setData(byte[][] dataLines, String font) {
-		setUpSeperator(new CsvAnalyser(dataLines, -1, ""));
+		CsvAnalyser anaylyser = new CsvAnalyser(dataLines, -1, "");
+		setUpSeperator(anaylyser);
 		
 		tblMdl = new CsvSelectionTblMdl(parserManager);
 		tblMdl.setLines(dataLines, font);
+		tblMdl.setFieldLineNo(getFieldLineNo());
 		
 		linesTbl.setModel(tblMdl);
 	}
@@ -155,9 +161,10 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 		tableMdl.setDataFont(data, font);
 		
 		anaylyser = new CsvAnalyser(tableMdl.getLinesString(), -1, font);
-		setUpSeperator(anaylyser);
 		
+		setUpSeperator(anaylyser);
 		tblMdl = tableMdl;
+		tblMdl.setFieldLineNo(getFieldLineNo());
 		
 		linesTbl.setModel(tblMdl);
 		valueChanged();
@@ -171,12 +178,14 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 	 */
 	private void init_100_SetupFields() {
 		
+		nameLineNoTxt.setText("1");
 		fieldSeparator.addFocusListener(focusHandler);
 		fieldSepTxt.addFocusListener(focusHandler);
 		quote.addFocusListener(focusHandler);
 		parseType.addFocusListener(focusHandler);
 		fontTxt.addFocusListener(focusHandler);
 		fieldNamesOnLine.addFocusListener(focusHandler);
+		nameLineNoTxt.addFocusListener(focusHandler);
 		
 		fieldSeparator.addActionListener(changed);
 		quote.addActionListener(changed);
@@ -223,14 +232,15 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 			fileTblHeight -= SwingUtils.TABLE_ROW_HEIGHT * 2;
 		}
 		addLine("Parser", parseType);
+		addLine("Names on Line", fieldNamesOnLine);
 		
 		if (showCancel) {
-			addLine("Names on First Line", fieldNamesOnLine, go);
+			addLine("Line Number of Names", nameLineNoTxt, go);
 			setGap(BasePanel.GAP);
 			addLine("set Column Types", checkTypes, cancel);
 			setGap(BasePanel.GAP);
 		} else {
-			addLine("Names on First Line", fieldNamesOnLine);
+			addLine("Line Number of Names", nameLineNoTxt);
 			addLine("set Column Types", checkTypes, go);
 			setGap(BasePanel.GAP1);
 		}
@@ -247,6 +257,25 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 			this.addMessage(message);
 			this.setHeight(HEIGHT_1P4);
 		}
+		
+		popup = new MenuPopupListener();
+		popup.setTable(linesTbl);
+		popup.getPopup().add(new AbstractAction("set as Field Name Row") {
+			public void actionPerformed(ActionEvent e) {
+				int inc = 1;
+				if (fieldNamesOnLine.isSelected() && getFieldLineNo() == 1) {
+					inc = 2;
+				}
+//				System.out.println("Set Row " + fieldNamesOnLine.isSelected()
+//						+ " " + getFieldLineNo()
+//						+ " " + inc
+//						+ " " + popup.getPopupRow());
+				fieldNamesOnLine.setSelected(true);
+				nameLineNoTxt.setText(Integer.toString(popup.getPopupRow() + inc));
+				valueChanged();
+			}
+		});
+		linesTbl.addMouseListener(popup);
 	}
 
 	
@@ -263,12 +292,14 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 			try {
 				String l = tblMdl.getLine(0).trim();
 				
+				tblMdl.setFieldLineNo(getFieldLineNo());
 				if (fieldNamesOnLine.isSelected() && ! "".equals(quote) 
 				&& l.startsWith(quote) && l.endsWith(quote) 
 				&& parseType.getSelectedIndex() == 0) {
 					parseType.setSelectedIndex(3);
 					tblMdl.setParserType(((Integer) parseType.getSelectedItem()).intValue());
 				}
+				
 		 		tblMdl.setHideFirstLine(fieldNamesOnLine.isSelected());
 			} catch (Exception e) {
 			}
@@ -360,7 +391,9 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 		CsvAnalyser analyser = new CsvAnalyser(newLines, numberOfLines, "");
 		tblMdl.setLines(newLines, font);
 		tblMdl.setLines2display(numberOfLines);
+		
 		setUpSeperator(analyser);
+		tblMdl.setFieldLineNo(getFieldLineNo());
 		valueChanged();
 		
 		return analyser.isValidChars();
@@ -379,7 +412,7 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 	}
 
 	private void setUpSeperator(CsvAnalyser analyse) {
-		
+
 		fieldSeparator.setSelectedIndex(analyse.getSeperatorIdx());
 		fieldSepTxt.setText("");
 		quote.setSelectedIndex(analyse.getQuoteIdx());
@@ -387,9 +420,11 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 		switch (analyse.getColNamesOnFirstLine()) {
 		case CsvAnalyser.COLUMN_NAMES_NO: 
 			fieldNamesOnLine.setSelected(false);
+			nameLineNoTxt.setText("1");
 			break;
 		case CsvAnalyser.COLUMN_NAMES_YES: 
 			fieldNamesOnLine.setSelected(true);
+			nameLineNoTxt.setText(Integer.toString(analyse.getFieldNameLineNo()));
 			break;
 		}
 	}
@@ -416,6 +451,7 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 	    int ioId = Constants.IO_BIN_TEXT;
         int format    = 0;
         int i         = 0;
+        int fldLineNo = getFieldLineNo();
         String param  = "";
 	    String s;
 	   
@@ -426,12 +462,12 @@ public class CsvSelectionPanel extends BaseHelpPanel {
         RecordDetail[] recs = new RecordDetail[1];
    
         if (isByteBased) {
-        	if (fieldNamesOnLine.isSelected()) {
+        	if (fieldNamesOnLine.isSelected() && fldLineNo < 2) {
         		ioId = Constants.IO_BIN_NAME_1ST_LINE;
         	}
         } else {
         	ioId = Constants.IO_UNICODE_TEXT;
-        	if (fieldNamesOnLine.isSelected()) {
+        	if (fieldNamesOnLine.isSelected() && fldLineNo < 2) {
         		ioId = Constants.IO_UNICODE_NAME_1ST_LINE;
         	}
         }
@@ -465,6 +501,7 @@ public class CsvSelectionPanel extends BaseHelpPanel {
                 ioId
             );
 
+        layout.setUseThisLayout(true);
 		return layout;
 	}
 	
@@ -479,7 +516,8 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 					+ SEP + parseType.getSelectedIndex()
 					+ SEP + getBool(fieldNamesOnLine)
 					+ SEP + getBool(checkTypes)
-					+ SEP + getStr(fontTxt.getText());
+					+ SEP + getStr(fontTxt.getText())
+					+ SEP + getStr(nameLineNoTxt.getText());
 	}
 	
 	public void setFileDescription(String val) {
@@ -494,6 +532,7 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 			fieldNamesOnLine.setSelected(getBoolTok(tok));
 			checkTypes.setSelected(getBoolTok(tok));
 			fontTxt.setText(getStringTok(tok));
+			nameLineNoTxt.setText(getStringTok(tok));
 		} catch (Exception e) {
 			
 		}
@@ -541,5 +580,25 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 			s = "";
 		}
 		return s;
+	}
+	
+	private int getFieldLineNo() {
+		int ret = 1;
+		String s = nameLineNoTxt.getText();
+		if (! "".equals(s)) {
+			try {
+				ret = Integer.parseInt(s);
+				
+				if (ret < 1) {
+					ret = 1;
+					message.setText("Field Line Number should be one or more and not " + s);
+				}
+			} catch (Exception e) {
+				message.setText("Invalid Field Line Number: " + s);
+			}
+		}
+		
+		
+		return ret;
 	}
 }

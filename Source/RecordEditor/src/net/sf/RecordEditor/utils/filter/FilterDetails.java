@@ -608,7 +608,8 @@ public class FilterDetails {
      * @author Bruce Martin
      *
      */
-    private class LayoutList extends AbstractTableModel {
+    @SuppressWarnings("serial")
+	private class LayoutList extends AbstractTableModel {
 
 
         /**
@@ -648,6 +649,8 @@ public class FilterDetails {
 	        		//return Integer.valueOf(recordNo[rowIndex]);
 	        		if (recordNo[rowIndex] < 0) {
 	        			return recordOptions[0];
+	        		} else if (recordNo[rowIndex] + 1 >= recordOptions.length ) {
+	        			return null;
 	        		}
 	        		return recordOptions[recordNo[rowIndex] + 1];
 	        	}

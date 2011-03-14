@@ -23,6 +23,7 @@ import net.sf.RecordEditor.utils.filter.ColumnMappingInterface;
 import net.sf.RecordEditor.utils.swing.ComboBoxRenderAdapter;
 import net.sf.RecordEditor.utils.swing.LayoutCombo;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.TableCellEditorWithDefault;
 import net.sf.RecordEditor.utils.swing.Combo.ComboItemEditor;
 import net.sf.RecordEditor.utils.swing.Combo.ComboItemRender;
 import net.sf.RecordEditor.utils.swing.Combo.ComboModelSupplier;
@@ -40,7 +41,8 @@ public class RecordFormats {
 
 	private int[] widths;
 	private CellFormat[] fieldFormats;
-	private int rendorStatus = STATUS_UNKOWN;
+	private int rendorStatus = STATUS_UNKOWN,
+				editorStatus = STATUS_UNKOWN;
 
 	private int maxHeight = Type.NULL_INT;
 
@@ -92,7 +94,7 @@ public class RecordFormats {
                 } else if (fieldDef.getType() == Type.ftComboItemField 
                 		&&  fieldDef instanceof ComboModelSupplier) {
                 	cellRenders[j] = new ComboItemRender(((ComboModelSupplier) fieldDef).getComboModel());
-               } else if (idx < fieldFormats.length && fieldFormats[idx] != null) {
+                } else if (idx < fieldFormats.length && fieldFormats[idx] != null) {
                 	try {
                 		cellRenders[j] = fieldFormats[idx]
                 		               .getTableCellRenderer(recordDescription.getField(idx));
@@ -132,7 +134,7 @@ public class RecordFormats {
      */
     public TableCellEditor[] getCellEditors() {
         TableCellEditor[] cellEditor = null;
-        if (rendorStatus != STATUS_DOES_NOT_EXIST) {
+        if (editorStatus != STATUS_DOES_NOT_EXIST) {
             int j, idx;
             FieldDetail fieldDef;
             boolean foundRendor = false;
@@ -162,6 +164,9 @@ public class RecordFormats {
                 		//System.out.print(" found ");
                 	} catch (Exception e) {
                 	}
+                } 
+                if (cellEditor[j] == null && fieldDef.getDefaultValue() != null) {
+                	cellEditor[j] = new TableCellEditorWithDefault(fieldDef.getDefaultValue());
                 }
                 //System.out.println();
                 foundRendor |= (cellEditor[j] != null);
@@ -169,7 +174,7 @@ public class RecordFormats {
 
             if (! foundRendor) {
                 cellEditor = null;
-                rendorStatus = STATUS_DOES_NOT_EXIST;
+                editorStatus = STATUS_DOES_NOT_EXIST;
             }
         }
         return cellEditor; // (TableCellEditor[]) cellEditors.clone();

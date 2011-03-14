@@ -85,7 +85,7 @@ public class PnlUnknownFileFormat extends BaseHelpPanel {
     		new StandardCheckFile(Constants.IO_VB_FUJITSU),
     		new StandardCheckFile(Constants.IO_VB_OPEN_COBOL),
     		new BinTextCheck(),
-    		new StandardCheckFile(Constants.IO_MICROFOCUS),
+//    		new StandardCheckFile(Constants.IO_MICROFOCUS),
 //    		new StandardCheckFile(Constants.IO_UNICODE_TEXT),
     };
 

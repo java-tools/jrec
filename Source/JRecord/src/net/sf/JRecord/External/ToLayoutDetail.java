@@ -13,6 +13,7 @@ import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
 
+
 /**
  * Convert an ExternalRecord (interface format) into a LayoutDetail (internal format)
  *
@@ -73,6 +74,7 @@ public class ToLayoutDetail {
 	            null,
 	            recordDefinition.getFileStructure());
 	    ret.setDelimiter(recordDefinition.getDelimiter());
+	    ret.setLineNumberOfFieldNames(recordDefinition.getLineNumberOfFieldNames());
 
 	    return ret;
 	}
@@ -102,13 +104,28 @@ public class ToLayoutDetail {
 	        } else {
 	        	fields[i].setPosLen(fieldRec.getPos(), fieldRec.getLen());
 	        }
+	        
+		    String s = fieldRec.getDefault();
+		    if (s != null && ! "".equals(s)) {
+		    	fields[i].setDefaultValue(s);
+		    }
 	    }
 
+	    
 	    RecordDetail ret = new RecordDetail(def.getRecordName(), 
-	    		def.getTstField(), def.getTstFieldValue(),
+//	    		def.getTstField(), def.getTstFieldValue(),
 	            def.getRecordType(), def.getDelimiter(), def.getQuote(),
 	            def.getFontName(), fields, def.getRecordStyle());
 	    ret.setParentRecordIndex(def.getParentRecord());
+	    
+	    if (def.getTstFieldCount() > 0) {
+	    	ret.getRecordSelection().add(def.getTstFields());
+	    }
+	    
+	    if (def.isDefaultRecord()) {
+	    	ret.getRecordSelection().setDefaultRecord(true);
+	    }
+	    
 	    return ret;
 	}
 

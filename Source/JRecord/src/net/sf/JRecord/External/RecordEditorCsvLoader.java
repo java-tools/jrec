@@ -147,8 +147,9 @@ public class RecordEditorCsvLoader implements CopybookLoader {
                     	} else if (Constants.SUB_RECORD_NAME.equalsIgnoreCase(fields[0])) {
                     		sr = ExternalRecord.getNullRecord(fields[idx++], "");
                     		try {
-	                    		sr.setTstField(fields[idx++]);
-	                       		sr.setTstFieldValue(fields[idx++]);
+	                    		sr.addTstField(
+	                    					fields[idx++],
+	                    					fields[idx++]);
 	                       		sr.setParentRecord(Integer.parseInt(fields[idx++]));
 	                    	} catch (Exception e) {
                     			log.logMsg(AbsSSLogger.SHOW, "Error File: " + layoutName

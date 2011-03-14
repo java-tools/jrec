@@ -215,6 +215,13 @@ public class MenuPopupListener extends MouseAdapter {
 	}
 
 	/**
+	 * @return the popupCol
+	 */
+	public int getPopupCol() {
+		return popupCol;
+	}
+
+	/**
 	 * @param table the tbl to set
 	 */
 	public final void setTable(JTable table) {

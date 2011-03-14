@@ -1,5 +1,6 @@
 package net.sf.JRecord.External;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import net.sf.JRecord.Common.Constants;
@@ -101,7 +102,7 @@ public class RecordEditorXmlLoader implements CopybookLoader {
 		}
 		
 		if (line == null || name.startsWith("/")) {
-//			System.out.println("Exit Found " + name);
+			//System.out.println("Exit Found " + name);
 			return false;
 		} else if (Constants.RE_XML_RECORD.equalsIgnoreCase(name)) {
 			childRec.setRecordName(line.getFieldValue(Constants.RE_XML_RECORDNAME).asString());
@@ -119,8 +120,25 @@ public class RecordEditorXmlLoader implements CopybookLoader {
 			childRec.setRecordType(ExternalConversion.getRecordType(dbIdx,
 					line.getFieldValue(Constants.RE_XML_RECORDTYPE).asString()));
 			//rec.setSystem((int) line.getFieldValue(Constants.RE_XML_COPYBOOK).asLong());
-			childRec.setTstField(line.getFieldValue(Constants.RE_XML_TESTFIELD).asString());
-			childRec.setTstFieldValue(line.getFieldValue(Constants.RE_XML_TESTVALUE).asString());
+			
+			String fld = line.getFieldValue(Constants.RE_XML_TESTFIELD).asString();
+			String value = line.getFieldValue(Constants.RE_XML_TESTVALUE).asString();
+	
+			if ("".equals(fld)) {
+				if ("*".equals(value)) {
+					childRec.setDefaultRecord(true);
+				}
+			} else {
+				childRec.addTstField(fld, value);
+			}
+
+			try {
+				AbstractFieldValue val = line.getFieldValue(Constants.RE_XML_LINE_NO_FIELD_NAME);
+				if (parentRec == null && val != null && ! "".equals(val.asString())) {
+					childRec.setLineNumberOfFieldNames(val.asInt());
+				}
+			} catch (Exception e) {
+			}
 
 			if (parentRec != null) {
 				parentRec.addRecord(childRec);
@@ -150,17 +168,34 @@ public class RecordEditorXmlLoader implements CopybookLoader {
 			line = reader.read();
 		}
 
+		line = addFieldTsts(childRec, reader, line, dbIdx);
+		line = addFields(childRec, reader, line, dbIdx);
+		line = addFieldTsts(childRec, reader, line, dbIdx);
 
+		return true;
+	}
+	
+	
+	private AbstractLine addFields(
+			ExternalRecord childRec,
+			StandardLineReader reader,
+			AbstractLine line, 
+			int dbIdx)
+	throws IOException {
+		
 		if (Constants.RE_XML_FIELDS.equalsIgnoreCase(line.getFieldValue(XmlConstants.XML_NAME).asString())) {
 			ExternalField fld;
-			String fldName;
+			String fldName, s;
 			int decimal, len;
 			line = reader.read();
 			while (line != null && ! line.getFieldValue(XmlConstants.XML_NAME).asString().startsWith("/")) {
-				try {
+				s = null;
+				try {	
 					decimal = getIntFld(line, Constants.RE_XML_DECIMAL, 0);
 					len     = getIntFld(line, Constants.RE_XML_LENGTH, Constants.NULL_INTEGER);
 					fldName = line.getFieldValue(Constants.RE_XML_NAME).asString();
+					try {s = line.getFieldValue(Constants.RE_XML_DEFAULT).asString();}
+					catch (Exception e) {}
 					fld = new ExternalField(
 						getIntFld(line, Constants.RE_XML_POS),
 						len,
@@ -176,6 +211,10 @@ public class RecordEditorXmlLoader implements CopybookLoader {
 		                "",
 		                0
 					);
+
+					if (! "".equals(s)) {
+						fld.setDefault(s);
+					}
 					childRec.addRecordField(fld);
 				} catch (Exception e) { }
 
@@ -183,13 +222,39 @@ public class RecordEditorXmlLoader implements CopybookLoader {
 			}
 			line = reader.read();
 		}
-//		System.out.println("Exit Record " + rec.getRecordName() + ": " 
-//				+ line.getFieldValue(XmlConstants.XML_NAME).asString()
-//				+ " " + rec.getRecordType()
-//				+ " ~ " + line.getFieldValue(Constants.RE_XML_RECORDTYPE).asString());
-		return true;
+		return line;
 	}
+
 	
+	private AbstractLine addFieldTsts(
+			ExternalRecord childRec,
+			StandardLineReader reader,
+			AbstractLine line, 
+			int dbIdx)
+	throws IOException {
+		
+		if (Constants.RE_XML_TST_FIELDS.equalsIgnoreCase(line.getFieldValue(XmlConstants.XML_NAME).asString())) {
+			String s = line.getFieldValue(Constants.RE_XML_DEFAULTREC).asString();
+			if (s != null && "Y".equalsIgnoreCase(s)) {
+				childRec.setDefaultRecord(true);
+			}
+			line = reader.read();
+			while (line != null && ! line.getFieldValue(XmlConstants.XML_NAME).asString().startsWith("/")) {
+				try {
+					if (Constants.RE_XML_TST_FIELD.equalsIgnoreCase(line.getFieldValue(XmlConstants.XML_NAME).asString())) {
+						childRec.addTstField(
+							line.getFieldValue(Constants.RE_XML_NAME).asString(), 
+							line.getFieldValue(Constants.RE_XML_VALUE).asString());
+					}
+				} catch (Exception e) { }
+
+				line = reader.read();
+			}
+			line = reader.read();
+		}
+		return line;
+	}
+
 	/**
 	 * Get integer field from the line 
 	 * @param line line to access

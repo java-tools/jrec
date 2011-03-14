@@ -29,7 +29,9 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 		private int lines2hide = 0;
 		
 		private String[] columnNames = null;
-	    
+		
+		private boolean namesOnLine;
+		private int lineNoFieldNames = 1;
 		
 		public CsvSelectionTblMdl() {
 			this(ParserManager.getInstance());
@@ -48,7 +50,8 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 		 */
 		@Override
 		public String getColumnName(int col) {
-			if (columnNames == null     || col >= columnNames.length
+			if (! namesOnLine
+			|| columnNames == null     || col >= columnNames.length
 			|| columnNames[col] == null || "".equals(columnNames[col] )) {
 				return super.getColumnName(col);
 			}
@@ -246,20 +249,42 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 		 */
 		@Override
 		public void setHideFirstLine(boolean hide) {
-			lines2hide = 0;
 			columnNames = null;
-			if (hide && lines[0].length > 0) {
+			namesOnLine = hide;
+			
+			setupColumnNames();
+		}
+		
+		
+
+		/**
+		 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#setFieldLineNo(int)
+		 */
+		@Override
+		public void setFieldLineNo(int lineNo) {
+			lineNoFieldNames = lineNo;
+			setupColumnNames();
+		}
+		
+		
+		
+		private void setupColumnNames() {
+			lines2hide = 0;
+			if (namesOnLine && lines[0].length >= lineNoFieldNames) {
 				int i;
-				lines2hide = 1;
+				
+				if (lineNoFieldNames == 1) {
+					lines2hide = 1;
+				}
 				if (isBinSeperator()) {
 					BinaryCsvParser bParser = new BinaryCsvParser(seperator);
-					columnNames = new String[bParser.countTokens(lines[0])] ;
+					columnNames = new String[bParser.countTokens(lines[lineNoFieldNames - 1])] ;
 					for (i = 0; i < columnNames.length; i++) {
-						columnNames[i] = bParser.getValue(lines[0], i+1, fontname);
+						columnNames[i] = bParser.getValue(lines[lineNoFieldNames - 1], i+1, fontname);
 					}
 				} else {
 					AbstractParser p = parserManager.get(parserType);
-					List<String> colnames = p.getColumnNames(getLine(0), seperator, quote);
+					List<String> colnames = p.getColumnNames(getLine(lineNoFieldNames - 1), seperator, quote);
 					columnNames = new String[colnames.size()] ;
 					columnNames = colnames.toArray(columnNames);
 				}

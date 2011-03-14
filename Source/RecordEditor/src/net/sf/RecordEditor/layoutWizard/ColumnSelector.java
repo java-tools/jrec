@@ -27,12 +27,13 @@ import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.HexTwoLineRender;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.tblModels.LineArrayHexModel;
 import net.sf.RecordEditor.utils.tblModels.LineArrayModel;
 
 public class ColumnSelector {
 
-    private static final int STANDARD_TABLE_CELL_WIDTH = 20;
+    private static final int STANDARD_TABLE_CELL_WIDTH = SwingUtils.CHECK_BOX_HEIGHT;
     private static final int COLUMNS_TO_NUMER = 10;
 
     public int stdLineHeight;
@@ -230,6 +231,7 @@ public class ColumnSelector {
         //if (size > 1) System.out.println("-- ");
         for (i = 0; i < size; i++) {
             col = Math.min(recordDef.columnDtls.get(i).start - 1, colorInd.length);
+            //System.out.println("-- " + col + " " + ind);
             while (j < col) {
                 colorInd[j++] = ind;
             }
@@ -370,10 +372,16 @@ public class ColumnSelector {
        	TableColumn tc;
     	String s;
     	TableColumnModel tcm  = fileTbl.getColumnModel();
+    	int cellWidth = STANDARD_TABLE_CELL_WIDTH;
     	
         for (int i = 0; i < fileModel.getColumnCount(); i++) {
             tc = tcm.getColumn(i);
-            tc.setPreferredWidth(STANDARD_TABLE_CELL_WIDTH);
+            cellWidth = STANDARD_TABLE_CELL_WIDTH;
+           	if (Common.NIMBUS_LAF && i >= 99 && i % 10 == 9) {
+         		cellWidth += 8;
+          		//System.out.print(" " + i + " " + cellWidth);
+        	}
+            tc.setPreferredWidth(cellWidth);
             tc.setCellRenderer(tblRender);
 
             //if (! Common.TEST_MODE) {

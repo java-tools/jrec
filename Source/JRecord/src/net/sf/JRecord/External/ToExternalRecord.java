@@ -31,10 +31,18 @@ public final class ToExternalRecord {
 		
 //		System.out.println();
 //		System.out.println("layout type >> " + layout.getFileStructure());
+		
+		String fldSep = layout.getDelimiter();
+		String quote = "";
+		if (layout.getRecordCount() > 0) {
+			//AbstractRecordDetail r = layout.getRecord(0);
+			//fldSep = r.getDelimiter();
+			quote = layout.getRecord(0).getQuote();
+		}
 		ExternalRecord rec = new ExternalRecord( 
 				-1, copybookName, layout.getDescription(),
 				Constants.rtGroupOfRecords, system, "Y", copybookName, 
-				layout.getDelimiter(), "", 0, "default",
+				getSeperator(fldSep), quote, 0, "default",
 				layout.getRecordSep(), layout.getFontName(), 
 				0, fixIOType(layout.getFileStructure())
 		);
@@ -67,9 +75,9 @@ public final class ToExternalRecord {
 		
 		rec = new ExternalRecord( 
 				id, name, "", record.getRecordType(), 
-				system, "N", copybookName + "_" + name, record.getDelimiter(),
-				"", 0, "default", layout.getRecordSep(), record.getFontName(), 
-				0, fixIOType(layout.getFileStructure())
+				system, "N", copybookName + "_" + name, getSeperator(record.getDelimiter()),
+				record.getQuote(), 0, "default", layout.getRecordSep(), record.getFontName(), 
+				record.getRecordStyle(), fixIOType(layout.getFileStructure())
 		);
 		rec.setNew(true);
 		System.out.println("Record >> " + id +  " " + record.getRecordName());
@@ -81,6 +89,11 @@ public final class ToExternalRecord {
 							dtl.getType(), dtl.getDecimal(), dtl.getFormat(), dtl.getParamater(),
 							"", "", i					
 			);
+
+			if (dtl.getDefaultValue() != null 
+			&& ! "".equals(dtl.getDefaultValue().toString())) {
+				field.setDefault(dtl.getDefaultValue().toString());
+			}
 			rec.addRecordField(field);
 		}
 		return rec;
@@ -107,6 +120,17 @@ public final class ToExternalRecord {
 		return ret;
 	}
 
+	
+	private static String getSeperator(String sep) {
+		String s = sep;
+		if ("\t".equals(s)) {
+			s = "<tab>";
+		} else if ("\t".equals(s)) {
+			s = "<tab>";
+		}
+		
+		return s;
+	}
 
 	/**
 	 * Get an instance of ToExternalRecord

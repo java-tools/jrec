@@ -36,13 +36,11 @@ public class CsvAnalyser {
 		}
 		STANDARD_CHARS.add("\n");
 	}
-//	public static final int TYPE_CHAR = 0;
-//	public static final int TYPE_NUMBER = 1;
-//	public static final int TYPE_FIXED_NUMBER = 2;
-	
+
 	private int seperatorIdx = 0;
 	private int quoteIdx = 0;
 	private int colNamesOnFirstLine = COLUMN_NAMES_MAYBE;
+	private int fieldNameLineNo = 1;
 	private int numberOfColumns = 0;
 	private int[] colTypes;
 	
@@ -157,7 +155,6 @@ public class CsvAnalyser {
 			try {
 				ret = Conversion.getString(line, st, en, font);
 			} catch (Exception e) {
-				// TODO: handle exception
 			}
 		}
 		
@@ -194,7 +191,6 @@ public class CsvAnalyser {
 			try {
 				ret = line.substring(st, en);
 			} catch (Exception e) {
-				// TODO: handle exception
 			}
 		}
 		
@@ -379,9 +375,24 @@ public class CsvAnalyser {
 	 * @param lines to check
 	 */
 	private void checkForColNames(ArrayList<ArrayList<String>> lines) {
+		//int fieldsOnLine = 0;
+		int i;
+
 		
-		ArrayList<String> line = lines.get(0);
-		for (int i = 0; i < line.size(); i++) {
+		numberOfColumns = 0;
+		for (i = 1; i < lines.size(); i++) {
+			numberOfColumns = Math.max(numberOfColumns, lines.get(i).size());
+		}
+		
+		int m = Math.min(15, lines.size() - 1);
+		while (fieldNameLineNo < m
+		&& (   lines.get(fieldNameLineNo - 1) == null
+			|| getSize(lines.get(fieldNameLineNo - 1)) < Math.min(5, numberOfColumns-3))) {
+			fieldNameLineNo += 1;
+		}
+		
+		ArrayList<String> line = lines.get(fieldNameLineNo - 1);
+		for (i = 0; i < line.size(); i++) {
 			try {
 				Integer.parseInt(line.get(i));
 				colNamesOnFirstLine = COLUMN_NAMES_NO;
@@ -390,41 +401,68 @@ public class CsvAnalyser {
 			}
 		}
 		
-		if (colNamesOnFirstLine != COLUMN_NAMES_NO && lines.size() > 5) {
+		if (colNamesOnFirstLine != COLUMN_NAMES_NO && lines.size() > fieldNameLineNo + 4) {
 			int noNums;
-			boolean allNums;
-			int limit = lines.size() / 3;
-			numberOfColumns = 0;
-			for (int i = 1; i < lines.size(); i++) {
-				numberOfColumns = Math.max(numberOfColumns, lines.get(i).size());
-			}
+
+			int limit = (lines.size() - fieldNameLineNo) / 3;
+//			System.out.println();
+			System.out.println("Limit: " + limit);
 			
 			colTypes = new int[numberOfColumns];
 			for (int j = 0; j < numberOfColumns; j++) {
-				allNums = true;
 				noNums = 0;
 				colTypes[j] = Type.ftChar;
-				for (int i = 1; i < lines.size(); i++) {
+				for (i = fieldNameLineNo; i < lines.size(); i++) {
 					line = lines.get(i);
 					if (j < line.size()) {
 						try {
 							new BigDecimal(line.get(j));
 							noNums += 1;
 						} catch (Exception e) {
-							allNums = false;
-							break;
 						}
 					}
 				}
 				
-				if (allNums && noNums > 3 && noNums > limit) {
+				System.out.print("\t" + noNums);
+				if (noNums > 3 && noNums > limit) {
 					colNamesOnFirstLine = COLUMN_NAMES_YES;
 					colTypes[j] = Type.ftNumAnyDecimal;
 				}
 			}
 		}
+		
+		if (quoteIdx == 0) {
+			int j, k, l;
+			for (i = 0; i < lines.size(); i++) {
+				line = lines.get(i);
+				for (j = 0; j < line.size() - 1; j++) {
+					for (k = 2; k < Common.QUOTE_LIST.length; k++) {
+						if ( line.get(j).startsWith(Common.QUOTE_LIST[k])
+						&& ! line.get(j).endsWith(Common.QUOTE_LIST[k])) {
+							for (l = j+1; l < line.size(); l++) {
+								if (line.get(l).endsWith(Common.QUOTE_LIST[k])) {
+									quoteIdx = k;
+									return;
+								}
+							}
+						}
+					}
+					
+				}
+			}
+		}
 	}
 	
+	
+	private int getSize(ArrayList<String> l) {
+		int i = l.size() - 1;
+		
+		while (i >= 0 && (l.get(i) == null || "".equals(l.get(i)))) {
+			i -= 1;
+		}
+		
+		return i+1;
+	}
 
 	
 	
@@ -463,6 +501,10 @@ public class CsvAnalyser {
 		return colNamesOnFirstLine;
 	}
 
+	public int getFieldNameLineNo() {
+		return fieldNameLineNo;
+	}
+	
 	/**
 	 * @return the numberOfColumns
 	 */

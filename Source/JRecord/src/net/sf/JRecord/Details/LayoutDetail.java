@@ -91,12 +91,13 @@ extends BasicLayout<FieldDetail, RecordDetail> {
 	private String delimiter = "";
 	private int fileStructure;
 
-	private int recordCount;
+	private int recordCount, lineNumberOfFieldNames = 1;
 	
 	private boolean treeStructure = false;
 	
 	private boolean allowChildren =false;
 	private boolean fixedLength = true;
+	private boolean useThisLayout = false;
 
 
 	/**
@@ -182,7 +183,7 @@ extends BasicLayout<FieldDetail, RecordDetail> {
 		}
 
 	    for (j = 0; j < recordCount; j++) {
-	    	if (pRecords[j] != null) {
+	    	if (pRecords[j] != null && pRecords[j].getFieldCount() > 0) {
 	    		if ((lastSize >= 0 && lastSize != pRecords[j].getLength())
 	    		||  (pRecords[j].getField(pRecords[j].getFieldCount() - 1).getType() 
 	    				== Type.ftCharRestOfRecord )){
@@ -717,22 +718,47 @@ extends BasicLayout<FieldDetail, RecordDetail> {
 	protected RecordDetail getNewRecord(RecordDetail record, ArrayList<FieldDetail> fields) {
 		FieldDetail[] flds = new FieldDetail[fields.size()];
 		RecordDetail ret;
-		String selectionField = "";
-		
-		if (record.getSelectionField() != null) {
-			selectionField = record.getSelectionField().getName();
-		}
 
 		flds = fields.toArray(flds);
 		ret = new RecordDetail(record.getRecordName(),
-				selectionField,
-				record.getSelectionValue(),
 				record.getRecordType(), record.getDelimiter(), record.getQuote(),
-				record.getFontName(), flds, record.getRecordStyle());
-		ret.setSelectionField(record.getSelectionField());
+				record.getFontName(), flds, record.getRecordStyle(),
+				record.getRecordSelection());
+
 		return ret;
 	}
 
+
+	/**
+	 * @return the fieldNamesLine
+	 */
+	public int getLineNumberOfFieldNames() {
+		return lineNumberOfFieldNames;
+	}
+
+
+	/**
+	 * @param fieldNamesLine the fieldNamesLine to set
+	 */
+	public void setLineNumberOfFieldNames(int fieldNamesLine) {
+		this.lineNumberOfFieldNames = fieldNamesLine;
+	}
+
+
+	/**
+	 * @return the useThisLayout
+	 */
+	public boolean useThisLayout() {
+		return useThisLayout;
+	}
+
+
+	/**
+	 * @param useThisLayout the useThisLayout to set
+	 */
+	public void setUseThisLayout(boolean useThisLayout) {
+		this.useThisLayout = useThisLayout;
+	}
 }	
 
 

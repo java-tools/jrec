@@ -20,11 +20,11 @@ extends AbstractRecord {
 	 */
 	public abstract String getRecordName();
 
-	/**
-	 * Get Selection Field
-	 * @return Selection field
-	 */
-	public abstract FieldDefinition getSelectionField();
+//	/**
+//	 * Get Selection Field
+//	 * @return Selection field
+//	 */
+//	public abstract FieldDefinition getSelectionField();
 
 	/**
 	 * @param newSelectionField the selectionFld to set

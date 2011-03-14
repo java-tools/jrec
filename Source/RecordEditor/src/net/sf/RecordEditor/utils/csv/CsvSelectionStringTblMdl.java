@@ -31,6 +31,9 @@ public class CsvSelectionStringTblMdl
 	private ParserManager parserManager;
 	private int parserType = 0;
 	
+	private boolean namesOnLine;
+	private int lineNoFieldNames = 1;
+	
 	private int lines2hide = 0;
 	
 	private String[] columnNames = null;
@@ -75,19 +78,41 @@ public class CsvSelectionStringTblMdl
 
 	@Override
 	public void setHideFirstLine(boolean hide) {
-		lines2hide = 0;
+
 		columnNames = null;
-		if (hide && lines[0].length() > 0) {
-			lines2hide = 1;
+		namesOnLine = hide;
+
+		setupColumnNames();
+	}
+	
+	
+
+	/**
+	 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#setFieldLineNo(int)
+	 */
+	@Override
+	public void setFieldLineNo(int lineNo) {
+		lineNoFieldNames = lineNo;
+		setupColumnNames();
+	}
+	
+	
+	private void setupColumnNames() {
+		
+		lines2hide = 0;
+		if (namesOnLine && lines[0].length() >= lineNoFieldNames) {
+			if (lineNoFieldNames == 1) {
+				lines2hide = 1;
+			}
 			
 			AbstractParser p = parserManager.get(parserType);
-			List<String> colnames = p.getColumnNames(getLine(0), seperator, quote);
+			List<String> colnames = p.getColumnNames(getLine(lineNoFieldNames - 1), seperator, quote);
 			columnNames = new String[colnames.size()] ;
 			columnNames = colnames.toArray(columnNames);
 			
 		}
 	}
-
+	
 	@Override
 	public void setLines(byte[][] lines, String font) {
 		throw new RuntimeException("Not Implemented");
@@ -168,8 +193,9 @@ public class CsvSelectionStringTblMdl
 	 */
 	@Override
 	public String getColumnName(int col) {
-		if (columnNames == null     || col >= columnNames.length
-		|| columnNames[col] == null || "".equals(columnNames[col] )) {
+		if (! namesOnLine
+		|| columnNames == null     || col >= columnNames.length
+		|| columnNames[col] == null || "".equals(columnNames[col])) {
 			return super.getColumnName(col);
 		}
 		return columnNames[col];

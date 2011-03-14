@@ -27,7 +27,7 @@ public class LineArrayModel extends AbstractTableModel {
                 columnCount = lines[i].length;
             }
         }
-
+        columnCount = Math.min(columnCount, 32000);
     }
 
     /**

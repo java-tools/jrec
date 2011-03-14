@@ -105,6 +105,8 @@ public interface Constants {
 	public static final String RE_XML_RECORDS   = "RECORDS";
 	public static final String RE_XML_FIELD     = "FIELD";
 	public static final String RE_XML_FIELDS    = "FIELDS";
+	public static final String RE_XML_TST_FIELD = "TSTFIELD";
+	public static final String RE_XML_TST_FIELDS= "TSTFIELDS";
 	
 	public static final String RE_XML_COPYBOOK    = "COPYBOOK";
 	public static final String RE_XML_DELIMITER   = "DELIMITER";
@@ -119,10 +121,13 @@ public interface Constants {
 	public static final String RE_XML_RECORDSEP   = "RecSep";
 	public static final String RE_XML_STYLE       = "STYLE";
 	public static final String RE_XML_SYSTEMNAME  = "SYSTEMNAME";
+	public static final String RE_XML_DEFAULTREC  = "DEFAULTRECORD";
 	public static final String RE_XML_TESTFIELD   = "TESTFIELD";
 	public static final String RE_XML_TESTVALUE   = "TESTVALUE";
+	public static final String RE_XML_LINE_NO_FIELD_NAME   = "LINE_NO_FIELD_NAMES";
 
 	public static final String RE_XML_NAME        = "NAME";
+	public static final String RE_XML_VALUE       = "VALUE";
 	public static final String RE_XML_DEFAULT     = "DEFAULT";
 	public static final String RE_XML_COBOLNAME   = "COBOLNAME";
 	public static final String RE_XML_PARAMETER   = "PARAMETER";

@@ -91,7 +91,8 @@ implements AbstractLine<LayoutDetail> {
 		if (preferredLayoutAlt == Constants.NULL_INTEGER) {
 			int defaultIdx = Constants.NULL_INTEGER;
 			int i = 0;
-			RecordDetail rec;
+			int defCount = -1;
+			RecordSelection sel;
 			int size = layout.getRecordCount();
 
 			if (size == 1) {
@@ -103,20 +104,18 @@ implements AbstractLine<LayoutDetail> {
 
 	    	//System.out.println();
 			while ((i < size) && (preferredLayoutAlt == Constants.NULL_INTEGER)) {
-			    rec = layout.getRecord(i);
-				//idx = rec.getSelectionFieldIdx();
-			    FieldDetail selectionFld = rec.getSelectionField();
-
-//			    if (selectionFld != null) {
-//			    	System.out.println(" ... " + getField(selectionFld) + " ~ " + rec.getSelectionValue() + "   ...  " + rec.getRecordName());
-//			    }
-				if (selectionFld == null) {
-					if ("*".equals(rec.getSelectionValue())) {
+				sel = layout.getRecord(i).getRecordSelection();
+				switch (sel.isSelected(this)) {
+				case DEFAULT:
+					if (sel.size() > defCount) {
 						defaultIdx = i;
+						defCount = sel.size();
 					}
-				} else if (
-					(getField(selectionFld).equals(rec.getSelectionValue()))) {
+					break;
+
+				case YES:
 					preferredLayoutAlt = i;
+					break;
 				}
 
 				i += 1;

@@ -43,7 +43,7 @@ public class UnknownFormatReader extends AbstractLineReader {
 	@Override
 	public void open(InputStream inputStream, AbstractLayoutDetails layout)
 	throws IOException, RecordException {
-		BufferedInputStream inStream = new BufferedInputStream(inputStream);
+		BufferedInputStream inStream = new BufferedInputStream(inputStream, 32000);
 		int fileStructure = buildLayout(inStream, layout);
 		
 	    reader = LineIOProvider.getInstance().getLineReader(fileStructure);

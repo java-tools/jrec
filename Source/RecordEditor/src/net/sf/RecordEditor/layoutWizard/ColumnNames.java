@@ -195,8 +195,11 @@ public class ColumnNames {
     private void nameColumns() {
     	String s = "n";
     	int i = 0;
-    	if (recordDefinition.keyValue != null && ! "".equals(recordDefinition.keyValue.toString())) {
-    		s = recordDefinition.keyValue.toString();
+    	String t; 
+    	if (recordDefinition.getKeyValue() != null
+    	&&  recordDefinition.getKeyValue().length > 0
+    	&& ! "".equals(t= recordDefinition.getStringKey(""))) {
+    		s = t;
     	}
     	
     	for (ColumnDetails column : recordDefinition.columnDtls) {

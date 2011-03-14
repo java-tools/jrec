@@ -237,6 +237,7 @@ implements TableModelListener, TreeModelListener {
 	 */
 	@Override
 	protected final void setColWidths() {
+	
 		JTable table = getJTable();
 	    if (table != null) {
 	    	setStandardColumnWidths();

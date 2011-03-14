@@ -2,6 +2,7 @@ package net.sf.JRecord.External;
 
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.List;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -17,8 +18,6 @@ import net.sf.JRecord.Log.AbsSSLogger;
  *
  */
 public class RecordEditorXmlWriter implements CopybookWriter {
-
-
 
 	@Override
 	public String writeCopyBook(String directory, ExternalRecord copybook,
@@ -46,8 +45,8 @@ public class RecordEditorXmlWriter implements CopybookWriter {
     		 f = (XMLOutputFactory) o;
 		}
     	//TODO Put line back in once fixed
-       //XMLOutputFactory f =  XMLOutputFactory.newInstance("javax.xml.stream.XMLOutputFactory", 
-       // 									  this.getClass().getClassLoader());
+    	//XMLOutputFactory f =  XMLOutputFactory.newInstance("javax.xml.stream.XMLOutputFactory", 
+    	// 									  this.getClass().getClassLoader());
  
        
        writer = f.createXMLStreamWriter(outStream);
@@ -69,6 +68,7 @@ public class RecordEditorXmlWriter implements CopybookWriter {
 	 */
 	private void writeRecord(XMLStreamWriter writer, ExternalRecord master, ExternalRecord copybook) throws XMLStreamException {
 	   int i;
+	   int firstTstFld = 0;
 	   String name = copybook.getCopyBook();
 		
 	   writer.writeStartElement(Constants.RE_XML_RECORD);
@@ -95,8 +95,18 @@ public class RecordEditorXmlWriter implements CopybookWriter {
        writer.writeAttribute(Constants.RE_XML_QUOTE, copybook.getQuote());
        writer.writeAttribute(Constants.RE_XML_RECORDSEP, copybook.getRecSepList());
        //writer.writeAttribute(Constants.RE_XML_SYSTEMNAME, "");
-       writeAttr(writer, Constants.RE_XML_TESTFIELD, copybook.getTstField());
-       writeAttr(writer, Constants.RE_XML_TESTVALUE, copybook.getTstFieldValue());
+       if (copybook.isDefaultRecord()) {
+    	   if (copybook.getTstFieldCount() == 0) {
+        	   writeAttr(writer, Constants.RE_XML_TESTFIELD, "");
+        	   writeAttr(writer, Constants.RE_XML_TESTVALUE, "*");
+        	   firstTstFld = 1;
+           }
+       } else if (copybook.getTstFieldCount() == 1) {
+    	   writeAttr(writer, Constants.RE_XML_TESTFIELD, copybook.getTstField());
+    	   writeAttr(writer, Constants.RE_XML_TESTVALUE, copybook.getTstFieldValue());
+    	   firstTstFld = 1;
+       }
+       writeAttr(writer, Constants.RE_XML_LINE_NO_FIELD_NAME, copybook.getLineNumberOfFieldNames(), 0);
        
        if (copybook.getNumberOfRecords() > 0) {
     	   writer.writeStartElement(Constants.RE_XML_RECORDS);
@@ -106,7 +116,20 @@ public class RecordEditorXmlWriter implements CopybookWriter {
     	   }
     	   writer.writeEndElement();
        }
- 
+
+       if (copybook.getTstFieldCount() > firstTstFld) {
+    	   List<TstField> tstFields = copybook.getTstFields();
+    	   writer.writeStartElement(Constants.RE_XML_TST_FIELDS);
+    	   if (copybook.isDefaultRecord()) {
+    		   writer.writeAttribute(Constants.RE_XML_DEFAULTREC, "Y");
+    	   }
+    	   
+    	   for (i = firstTstFld; i < tstFields.size(); i++) {
+    		   writeTstField(writer, tstFields.get(i));
+    	   }
+    	   writer.writeEndElement();
+       }
+
        if (copybook.getNumberOfRecordFields() > 0) {
     	   writer.writeStartElement(Constants.RE_XML_FIELDS);
     	   
@@ -148,13 +171,28 @@ public class RecordEditorXmlWriter implements CopybookWriter {
 	}
 	
 	
+	private void writeTstField(XMLStreamWriter writer, TstField fld)
+	throws XMLStreamException {
+		writer.writeEmptyElement(Constants.RE_XML_TST_FIELD);
+		writeAttr(writer, Constants.RE_XML_NAME, fld.fieldName);
+	    writeAttr(writer, Constants.RE_XML_VALUE, fld.value);
+	}
+	
 	private void writeAttr(XMLStreamWriter writer, String attr, String value) 
 	throws XMLStreamException {
 		if (value != null && ! "".equals(value)) {
 			 writer.writeAttribute(attr, value);
 		}
 	}
+
 	
+	private void writeAttr(XMLStreamWriter writer, String attr, int value, int min) 
+	throws XMLStreamException {
+		if (value > min) {
+			writer.writeAttribute(attr, Integer.toString(value));
+		}
+	}
+
 	/**
 	 * fix nulls
 	 * @param s input string

@@ -1,33 +1,49 @@
 package net.sf.RecordEditor.layoutWizard;
 
+import java.awt.event.ActionEvent;
 import java.util.HashMap;
 
+import javax.swing.AbstractAction;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JCheckBox;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumn;
 
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.IO.AbstractLineReader;
+import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 @SuppressWarnings("serial")
 public class Pnl4RecordNames extends WizardPanel {
 	
-	private static final String[] COLUMN_NAMES = {"Key Value", "Record Name"};
+	private static final String[] COLUMN_NAMES = {"Record Name", "Default", "Include"};
     private JEditorPane tips;
     
     private JTable recordTbl = new JTable();
 
     private Details currentDetails;
-    private HashMap<Object, RecordDefinition> keyToRecordMap = new HashMap<Object, RecordDefinition>();
     
     private String lastFile = "";
     
+    private MenuPopupListener popup;
+    private RecordNames recordNamesMdl;
+    
+    private boolean rebuildRecords;
+    
     public Pnl4RecordNames() {
-
+    	int height = Math.max(
+    					40, 
+    				    ReFrame.getDesktopHeight() - TIP_HEIGHT
+    				  - 12 * SwingUtils.NORMAL_FIELD_HEIGHT);
 		String formDescription
 		    = "This screen will display the first 60 lines of the file. "
 		    + "<br>Indicate the <i>start</i> of a <b>field</b> by clicking on the starting column"
@@ -40,71 +56,152 @@ public class Pnl4RecordNames extends WizardPanel {
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(tips));
 		//this.setGap(BasePanel.GAP1);
-		this.addComponent(1, 5, PREFERRED, BasePanel.GAP1,
+		this.addComponent(1, 5, 
+				height, 
+				BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
-				new JScrollPane(recordTbl));
+				recordTbl);
+		
+		popup = new MenuPopupListener();
+		popup.setTable(recordTbl);
+		popup.getPopup().add(new AbstractAction("Clear Value") {
+			public void actionPerformed(ActionEvent e) {
+				int col = popup.getPopupCol();
+				int row = popup.getPopupRow();
+				RecordDefinition rec = currentDetails.recordDtlsFull.get(row);
+
+				if (col < rec.getKeyValue().length) {
+					rec.getKeyValue()[col] = null;
+					recordNamesMdl.fireTableCellUpdated(row, col);
+					rebuildRecords = true;
+				}
+			}
+		});
+		popup.getPopup().add(new AbstractAction("Reset Value") {
+			public void actionPerformed(ActionEvent e) {
+				int col = popup.getPopupCol();
+				int row = popup.getPopupRow();
+				RecordDefinition rec = currentDetails.recordDtlsFull.get(row);
+
+				System.out.print(" == Clear: " + row + ", " + col 
+						+ " " +  rec.getKeyValue().length);
+				if (col < rec.getKeyValue().length) {
+					rec.getKeyValue()[col] = rec.keyValueHold[col];
+					recordNamesMdl.fireTableCellUpdated(row, col);
+					rebuildRecords = true;
+					System.out.print(" ***");
+				}
+				System.out.println();
+			}
+		});
+		popup.getPopup().add(new AbstractAction("Generate Record Names") {
+			public void actionPerformed(ActionEvent e) {
+				for (RecordDefinition rec : currentDetails.recordDtlsFull) {
+					if ("".equals(rec.name)) {
+						rec.name = rec.getStringKey("");
+					}
+				}
+				recordNamesMdl.fireTableDataChanged();
+			} 
+		});
+		recordTbl.addMouseListener(popup);
     }
     
 	@Override
 	public Details getValues() throws Exception {
 		Common.stopCellEditing(recordTbl);
 		
+		if (rebuildRecords) {
+			
+		}
+		
+		currentDetails.recordDtls.clear();
+		for (RecordDefinition rd : currentDetails.recordDtlsFull) {
+			if (rd.include) {
+				currentDetails.recordDtls.add(rd);
+			}
+		}
+		
 		return currentDetails;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void setValues(Details detail) throws Exception {
-		Object key;
+		int noKeys = detail.keyFields.size();
+		Object[] key;// = new Object[noKeys];
+		FieldDetail[] keyDef = new FieldDetail[noKeys];
 		RecordDefinition recDef;
-        FieldDetail keyDef = new FieldDetail(
-        		"", "", detail.keyType.intValue(), 0, detail.fontName, 0, "");
-        keyDef.setPosLen(detail.keyStart, detail.keyLength);
+		KeyField k;
+		for (int i = 0; i < noKeys; i++) {	
+			k = detail.keyFields.get(i);
+			keyDef[i] = new FieldDetail(
+        		"", "", k.keyType.intValue(), 0, detail.fontName, 0, "");
+			keyDef[i].setPosLen(k.keyStart, k.keyLength);
+		}
 
 		currentDetails = detail;
 		
-		keyToRecordMap.clear();
-		
 		if (lastFile.equals(detail.filename)) {
-			for (RecordDefinition rec : detail.recordDtls) {
-				keyToRecordMap.put(rec.keyValue, rec);
-			}
 		} else {
+			HashMap<String, RecordDefinition> keyToRecordMap = new HashMap<String, RecordDefinition>();
 			AbstractLineReader<?> reader = detail.getReader();
 			AbstractLine<?> line;
+			String keyStr;
+			boolean keyPresent;
 			
 			lastFile = detail.filename;
-			detail.recordDtls.clear();
+			detail.recordDtlsFull.clear();
 					
 			while ((line = reader.read()) != null) {
-				key = line.getField(keyDef);
-				if (key != null) {
-					if (keyToRecordMap.containsKey(key)) {
-						recDef = keyToRecordMap.get(key);
+				key = new Object[noKeys];
+				
+				keyPresent = false;
+				for (int i = 0; i < noKeys; i++) {	
+					key[i] = line.getField(keyDef[i]);
+					if (key[i] != null) {
+						keyPresent = true;
+					}
+				}
+				if (keyPresent) {
+					keyStr = RecordDefinition.getStringKey(key);
+					if (keyToRecordMap.containsKey(keyStr)) {
+						recDef = keyToRecordMap.get(keyStr);
 						if (recDef.numRecords < recDef.records.length) {
 							recDef.records[recDef.numRecords++] = line.getData();
 						}
 					} else {
 						recDef = new RecordDefinition();
-						recDef.keyValue = key;
+						recDef.setKeyValue(key);
 						recDef.records[recDef.numRecords++] = line.getData();
 						
 						recDef.addKeyField(detail, true);
-						System.out.println("Setting up Record " + key + " " + recDef.columnDtls.size());
+						//System.out.println("Setting up Record " + keyStr + " " + recDef.columnDtls.size());
 						
-						keyToRecordMap.put(key, recDef);
-						detail.recordDtls.add(recDef);
+						keyToRecordMap.put(keyStr, recDef);
+						detail.recordDtlsFull.add(recDef);
 					}
 				}
 			}
 			reader.close();
 		}
 		
-		recordTbl.setModel(new RecordNames());
+		recordNamesMdl = new RecordNames();
+		recordTbl.setModel(recordNamesMdl);
+
+
+		TableColumn tc = recordTbl.getColumnModel().getColumn(noKeys+2);
+        tc.setCellRenderer(new CheckBoxTableRender());
+        tc.setCellEditor(new DefaultCellEditor(new JCheckBox()));
+		
+        tc = recordTbl.getColumnModel().getColumn(noKeys+1);
+        tc.setCellRenderer(new CheckBoxTableRender());
+        tc.setCellEditor(new DefaultCellEditor(new JCheckBox()));
+
+        rebuildRecords = false;
 	}
 
-	private class RecordNames extends AbstractTableModel {
 
+	private class RecordNames extends AbstractTableModel {
 		
 		
 		/* (non-Javadoc)
@@ -112,7 +209,10 @@ public class Pnl4RecordNames extends WizardPanel {
 		 */
 		@Override
 		public String getColumnName(int column) {
-			return COLUMN_NAMES[column];
+			if (column < currentDetails.keyFields.size()) {
+				return "key " + (column + 1);
+			}
+			return COLUMN_NAMES[column - currentDetails.keyFields.size()];
 		}
 
 		/* (non-Javadoc)
@@ -120,13 +220,24 @@ public class Pnl4RecordNames extends WizardPanel {
 		 */
 		@Override
 		public void setValueAt(Object value, int rowIndex, int columnIndex) {
-			if (columnIndex == 1) {
-				String val = "";
-				RecordDefinition rec = currentDetails.recordDtls.get(rowIndex);
-				if (value != null) {
-					val = value.toString();
+			if (columnIndex >= currentDetails.keyFields.size()) {
+				
+				RecordDefinition rec = currentDetails.recordDtlsFull.get(rowIndex);
+				
+				switch (columnIndex - currentDetails.keyFields.size()) {
+				case 1:  
+					rec.defaultRec = (Boolean) value;
+					break;
+				case 2:
+					rec.include = (Boolean) value;
+					break;
+				default: 
+					String val = "";
+					if(value != null) {
+						val = value.toString();
+					}
+					rec.name = val;
 				}
-				rec.name = val;
 			}
 
 		}
@@ -136,7 +247,7 @@ public class Pnl4RecordNames extends WizardPanel {
 		 */
 		@Override
 		public int getColumnCount() {
-			return 2;
+			return currentDetails.keyFields.size() + 3;
 		}
 
 		/* (non-Javadoc)
@@ -144,7 +255,7 @@ public class Pnl4RecordNames extends WizardPanel {
 		 */
 		@Override
 		public int getRowCount() {
-			return currentDetails.recordDtls.size();
+			return currentDetails.recordDtlsFull.size();
 		}
 
 		/* (non-Javadoc)
@@ -152,7 +263,7 @@ public class Pnl4RecordNames extends WizardPanel {
 		 */
 		@Override
 		public boolean isCellEditable(int rowIndex, int columnIndex) {
-			return columnIndex > 0;
+			return columnIndex >= currentDetails.keyFields.size();
 		}
 
 		/* (non-Javadoc)
@@ -160,11 +271,21 @@ public class Pnl4RecordNames extends WizardPanel {
 		 */
 		@Override
 		public Object getValueAt(int row, int col) {
-			RecordDefinition rec = currentDetails.recordDtls.get(row);
-			if (col == 0) {
-				return rec.keyValue;
+			RecordDefinition rec = currentDetails.recordDtlsFull.get(row);
+			if (col >= currentDetails.keyFields.size()) {
+				switch (col - currentDetails.keyFields.size()) {
+				case 1:  return rec.defaultRec;
+				case 2:  return rec.include;
+				default: return rec.name;
+				}
 			}
-			return rec.name;
+			if (rec.getKeyValue().length <= col) {
+				return null;
+			} 
+			if (rec.getKeyValue()[col] == null) {
+				return "[cleared]";
+			}
+			return rec.getKeyValue()[col];
 		}
 		
 	}

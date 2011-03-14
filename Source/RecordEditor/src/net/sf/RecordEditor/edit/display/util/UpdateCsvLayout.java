@@ -31,12 +31,17 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 public class UpdateCsvLayout implements ActionListener {
 
-	private static final String[] COL_NAMES = {"Field Name", "Include", "Type", "Decimal Places", "Source Column"};
+	private static final String[] COL_NAMES = {
+		"Field Name", "Include", "Type", "Decimal Places", "Source Column",
+		"Default"
+	};
 	private static final int FIELD_COL = 0;
 	private static final int INCLUDE_COL = 1;
 	private static final int TYPE_COL = 2;
 	private static final int DECIMAL_COL = 3;
 	private static final int SOURCE_COL = 4;
+	private static final int DEFAULT_COL = 5;
+	//private static final int DEFAULT_IN_EMPTY_COL = 6;
 	
 	private static final String[] TYPES_TEXT = {
 		"Text",
@@ -106,7 +111,7 @@ public class UpdateCsvLayout implements ActionListener {
 				this.allowTypeUpdates = false;
 			}
 			fields.add(
-					new FieldDef(i, f.getName(), typeStr, f.getDecimal())
+					new FieldDef(i, f.getName(), typeStr, f.getDecimal(), f.getDefaultValue())
 			);
 		}
 	}
@@ -141,7 +146,10 @@ public class UpdateCsvLayout implements ActionListener {
 
 		pnl.addLine(null, null, this.goBtn);
 
-		frame = new ReFrame(view.getFileNameNoDirectory(), "Update Screen Columns", view);	
+		frame = new ReFrame(
+						view.getFileNameNoDirectory(), 
+						"Update Screen Columns", 
+						view);	
 		frame.setDefaultCloseOperation(ReFrame.DISPOSE_ON_CLOSE);
 		frame.addMainComponent(pnl);
 		frame.setVisible(true);
@@ -153,7 +161,7 @@ public class UpdateCsvLayout implements ActionListener {
 	private int getIndex(String value, String[] list, JComboBox combo) {
 		
 		int idx = Common.NULL_INTEGER;
-		for (int i = 0; i < list.length; i++) {
+		for (int i = list.length-1; i >= 0; i--) {
 			if (list[i].equals(value)) {
 				combo.setSelectedIndex(i);
 				idx = i;
@@ -218,6 +226,7 @@ public class UpdateCsvLayout implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 
+		Common.stopCellEditing(fieldTbl);
 		if (isUpdateExistingLayout()) {
 			FieldDef f;
 			RecordDetail rec = layout.getRecord(0);
@@ -225,6 +234,9 @@ public class UpdateCsvLayout implements ActionListener {
 				f = fields.get(i);
 				
 				rec.getField(i).setNameType(f.name, getType(f));
+	            if (f.defaultValue != null && ! "".equals(f.defaultValue.trim())) {
+	            	rec.getField(i).setDefaultValue(f.defaultValue);
+	            }
 			}
 			Code.notifyFramesOfUpdatedLayout(view.getBaseFile(), layout);
 		} else {
@@ -289,6 +301,9 @@ public class UpdateCsvLayout implements ActionListener {
 	            flds[j] = new FieldDetail(f.name, f.name, getType(f), 0,
 	                        layout.getFontName(), format, "");
 	            flds[j].setPosOnly(j + 1);
+	            if (f.defaultValue != null && ! "".equals(f.defaultValue.trim())) {
+	            	flds[j].setDefaultValue(f.defaultValue);
+	            }
 	            j += 1;
 	    	}
 	    }
@@ -338,6 +353,8 @@ public class UpdateCsvLayout implements ActionListener {
 		public String name;
 		public String type;
 		public String source = "";
+		public String defaultValue = "";
+		//public Boolean defaultInEmpty = Boolean.TRUE;
 		
 		public FieldDef(int row) {
 			name = Integer.toString(row+1);
@@ -347,13 +364,18 @@ public class UpdateCsvLayout implements ActionListener {
 			decimal = 0;
 		}
 		
-		public FieldDef(int originalPos, String name, String type, int decimal) {
+		public FieldDef(int originalPos, String name, 
+				String type, int decimal, Object defaultVal) {
 			super();
 			this.sourceField = originalPos;
 			this.originalPos = originalPos;
 			this.name = name;
 			this.type = type;
 			this.decimal = decimal;
+			
+			if (defaultVal != null) {
+				defaultValue = defaultVal.toString();
+			}
 		}
 	}
 	
@@ -386,7 +408,8 @@ public class UpdateCsvLayout implements ActionListener {
 			case TYPE_COL:		return allowTypeUpdates;
 			}
 			
-			return col < SOURCE_COL 
+			return col < SOURCE_COL
+				|| col >= DEFAULT_COL
 				|| f.originalPos < 0;
 		}
 
@@ -426,6 +449,13 @@ public class UpdateCsvLayout implements ActionListener {
 				} else {
 					f.sourceField = layout.getRecord(0).getFieldIndex(val.toString());
 				}
+			case DEFAULT_COL: 
+				if (val == null) {
+					f.defaultValue = "";
+				} else {
+					f.defaultValue = val.toString();
+				}
+				
 			}
 		}
 
@@ -468,6 +498,8 @@ public class UpdateCsvLayout implements ActionListener {
 					ret = layout.getRecord(0).getField(f.sourceField).getName();
 				}
 				break;
+			case DEFAULT_COL:			ret = f.defaultValue;		break;
+			//case DEFAULT_IN_EMPTY_COL:	ret = f.defaultInEmpty;		break;
 			}
 			
 			return ret;

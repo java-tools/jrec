@@ -62,8 +62,11 @@ implements AbstractFileDisplayWithFieldHide {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void setNewLayout(AbstractLayoutDetails newLayout) {
+		super.setNewLayout(newLayout);
 		showFieldMenus = new JMenu[newLayout.getRecordCount()];
 		model.layoutChanged(newLayout);
+		setTableFormatDetails(getLayoutIndex());
+		setColWidths();
 	}
 
 

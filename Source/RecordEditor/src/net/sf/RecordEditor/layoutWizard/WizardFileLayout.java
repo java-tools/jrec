@@ -76,7 +76,7 @@ public class WizardFileLayout extends AbstractWizard<Details> {
 		
 		panelsMulti[0] = panelsFixed[0];
 		panelsMulti[1] = panelsFixed[1];
-		panelsMulti[2] = new Pnl3RecordType(typeList, getMessage());
+		panelsMulti[2] = new Pnl3RecordTypeMF(typeList, getMessage());
 		panelsMulti[3] = new Pnl4RecordNames();
 		panelsMulti[4] = new Pnl5RecordTable(getMessage());
 		panelsMulti[5] = new Pnl6RecordFieldNames(typeList);

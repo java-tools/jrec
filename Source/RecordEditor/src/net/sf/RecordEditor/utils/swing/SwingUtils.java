@@ -8,10 +8,8 @@ import java.awt.event.KeyAdapter;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
 
 import net.sf.RecordEditor.utils.common.Common;
 
@@ -48,10 +46,10 @@ public class SwingUtils {
 			d = 19;
 		}
 		NORMAL_FIELD_HEIGHT = (int) d;
-		System.out.println(">>> " + UIManager.getSystemLookAndFeelClassName() + " " + JFrame.isDefaultLookAndFeelDecorated()
+//		System.out.println(">>> " + UIManager.getSystemLookAndFeelClassName() + " " + JFrame.isDefaultLookAndFeelDecorated()
 //				+ " " + BUTTON_HEIGHT
 //				+ " " + ((new JButton("Aa")).getMinimumSize().height)
-				);
+//				);
 	    
 		System.out.println("### '''''''''''''''''''''''''''''''");
 		System.out.println("###            Font Height " + STANDARD_FONT_HEIGHT);

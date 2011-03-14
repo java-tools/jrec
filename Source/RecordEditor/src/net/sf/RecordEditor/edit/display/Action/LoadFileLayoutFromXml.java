@@ -5,8 +5,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.AbstractAction;
 
+import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.External.CopybookLoaderFactory;
 import net.sf.JRecord.External.ExternalRecord;
+import net.sf.JRecord.External.RecordEditorXmlLoader;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
 import net.sf.RecordEditor.edit.display.util.Code;
 import net.sf.RecordEditor.edit.file.FileView;
@@ -102,16 +104,22 @@ public class LoadFileLayoutFromXml extends AbstractAction implements AbstractAct
 							
 			try {
 			
-				ExternalRecord rec = readers.getLoader(CopybookLoaderFactory.RECORD_EDITOR_XML_LOADER)
+				ExternalRecord rec = new RecordEditorXmlLoader()
 						.loadCopyBook(super.getFileName(), 0, 0, "",
 									  0, 0, Common.getLogger());
-				
-				this.setVisible(false);
-				
-				Code.notifyFramesOfNewLayout(masterView, rec.asLayoutDetail());
+				LayoutDetail l = rec.asLayoutDetail();
+		
+					
+				if (l == null || l.getRecordCount() < 1 || l.getRecord(0).getFieldCount() < 1) {
+					Common.logMsg("Error in the layout that was loaded", null);
+				} else {
+					Code.notifyFramesOfNewLayout(masterView, l);
+				}
 				ReFrame.setActiveFrame((ReFrame) panel);
+				this.setVisible(false);
 			} catch (Exception ex) {
-				Common.logMsg("Can not save Field Sequences", ex);
+				ex.printStackTrace();
+				Common.logMsg("Can not Load Xml Layout: " + ex.getMessage(), ex);
 			}			
 		}
 	}

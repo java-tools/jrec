@@ -109,7 +109,11 @@ public class TextLineReader extends StandardLineReader {
 		reader = new BufferedReader(stdReader);
 
 		if (namesInFile) {
-		    createLayout(reader, inputStream, font);
+			if (layout != null && layout.useThisLayout()) {
+				read();
+			} else {
+				createLayout(reader, inputStream, font);
+			}
 		}
     }
 

@@ -208,31 +208,61 @@ public class Line extends BasicLine<Line> {
 
 
 	/**
-	 * Get the Prefered Record Layou Index for this record
+	 * Get the Prefered Record Layout Index for this record
 	 *
 	 * @return Index of the Record Layout based on the Values
 	 */
 	@Override
 	public int getPreferredLayoutIdx() {
+		return getProbableIndex(true);
+	}
+	
+
+	/**
+	 * Get the Preffered Record Layout Index for this record
+	 *
+	 * @return Index of the Record Layout based on the Values
+	 */
+	@Override
+	public int getPreferredLayoutIdxAlt() {
+		return getProbableIndex(false);
+	}
+	
+	
+	private int getProbableIndex(boolean saveResult) {
 		int ret = preferredLayout;
 		
 		if (ret == Constants.NULL_INTEGER) {
-			ret = getPreferredLayoutIdxAlt();
+			ret = super.getPreferredLayoutIdxAlt();
 			
-			if (ret < 0) {				
+			if (ret < 0) {	
+				int l1, l2;
+				int tp = Constants.NULL_INTEGER;
+				int diff = 2;
+				System.out.println();
 				for (int i=0; i< layout.getRecordCount(); i++) {
-					if (getLineData().length == layout.getRecord(i).getLength()) {
+					//System.out.println(" ::- " + i + " " + getLineData().length + " " + layout.getRecord(i).getLength());
+					l1 = getLineData().length;
+					l2 = layout.getRecord(i).getLength();
+					if (l1 == l2) {
 						ret = i;
-						preferredLayout = i;
+						if (saveResult) {
+							preferredLayout = i;
+						}
 						break;
+					} else if (Math.abs(l1 - l2) < diff) {
+						tp = i;
+						diff = Math.abs(l1 - l2);
 					}
+				}
+				
+				if (ret < 0 && tp >= 0) {
+					ret = tp;		
 				}
 			}
 		}
-		
 		return ret;
 	}
-	
 
 
 	/**

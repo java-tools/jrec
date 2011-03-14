@@ -23,12 +23,13 @@ public class FieldSearch {
 	private static final int IN_TEXT = 6;
 	
     private static final int TYPE_SPACE = 0;
-    private static final int TYPE_COMP3 = 1;
-    private static final int TYPE_COMP3_FINAL_BYTE = 2;
-    private static final int TYPE_HEX_ZERO = 3;
-    private static final int TYPE_ZERO = 4;
-    private static final int TYPE_NUMBER = 5;
-    private static final int POSSIBLE_MAINFRAME_ZONED_SIGN = 6;
+    private static final int TYPE_LAST_SPACE = 1;
+    private static final int TYPE_COMP3 = 2;
+    private static final int TYPE_COMP3_FINAL_BYTE = 3;
+    private static final int TYPE_HEX_ZERO = 4;
+    private static final int TYPE_ZERO = 5;
+    private static final int TYPE_NUMBER = TYPE_ZERO + 1;
+    private static final int POSSIBLE_MAINFRAME_ZONED_SIGN = TYPE_NUMBER + 1;
     private static final int POSSIBLE_PC_ZONED_SIGN = POSSIBLE_MAINFRAME_ZONED_SIGN + 1;
     private static final int TYPE_TEXT = POSSIBLE_PC_ZONED_SIGN + 1;
     private static final int TYPE_T = TYPE_TEXT + 1;
@@ -44,7 +45,8 @@ public class FieldSearch {
     private static final int TYPE_DOT = TYPE_SLASH1 + 4;
     private static final int TYPE_YEAR_CHAR_1 = TYPE_DOT + 1;
     private static final int TYPE_YEAR_CHAR_2 = TYPE_DOT + 2;
-   private static final int TYPE_OTHER = TYPE_YEAR_CHAR_2 + 1;
+    private static final int START_BIN_FIELD = TYPE_DOT + 3;
+    private static final int TYPE_OTHER = START_BIN_FIELD + 1;
     
     private static final int COUNT_IDX = TYPE_OTHER + 1;
     
@@ -69,6 +71,7 @@ public class FieldSearch {
     	currDetails = details;
     	recordDef = recordDefinition;
         byteChecks[TYPE_SPACE] = new Check4Bytes(" ");
+        byteChecks[TYPE_LAST_SPACE] = new LastSpace();
         byteChecks[TYPE_COMP3] = new Comp3Byte();
         byteChecks[TYPE_COMP3_FINAL_BYTE] = new Comp3SignByte();
         byteChecks[TYPE_HEX_ZERO] = new Check4Bytes((byte) 0);
@@ -90,6 +93,7 @@ public class FieldSearch {
         byteChecks[TYPE_DOT] = new Check4Bytes(".");
         byteChecks[TYPE_YEAR_CHAR_1] = new Check4Bytes("12");
         byteChecks[TYPE_YEAR_CHAR_2] = new Check4Bytes("901");
+        byteChecks[START_BIN_FIELD] = new CheckStartBinField();
  	
     	if (recordDef.records != null && recordDef.numRecords > 0) {
     		int i, limit, limit1;
@@ -133,7 +137,7 @@ public class FieldSearch {
     private void ff100_determineByteTypes(
     		ArrayList<ColumnDetails> columnDtls, int size, int[][] counts) {
     	int i, j, k;
-    	boolean foundType;
+    	boolean[] foundType = null;
     	
 		charType = new int[size];
 		fieldIdentifier = new int[size];
@@ -148,29 +152,51 @@ public class FieldSearch {
 		
 		columnDtls.clear();
 		if (currDetails.recordType == Details.RT_MULTIPLE_RECORDS) {
+			ColumnDetails dtl;
 			recordDef.addKeyField(currDetails, false);
 			
-			ColumnDetails dtl = columnDtls.get(0);
-			fieldId += 1;
-			//System.out.println(" ## Field " + fieldId + " " + dtl.start + " " + dtl.length);
-			for (j = 0; j < dtl.length; j++) {
-				fieldIdentifier[dtl.start + j - 1] = fieldId;
+			for (i = 0; i < columnDtls.size(); i++) {
+				dtl = columnDtls.get(i);
+				fieldId += 1;
+				//System.out.println(" ## Field " + fieldId + " " + dtl.start + " " + dtl.length);
+				for (j = 0; j < dtl.length; j++) {
+					fieldIdentifier[dtl.start + j - 1] = fieldId;
+				}
 			}
 		}
 		
 		
+		for (k = 0; k < byteChecks.length; k++) {
+			byteChecks[k].reset();		
+		}
+		
    		for (i = 0; i < recordDef.numRecords; i++) {
+   			if (foundType == null 
+   			|| foundType.length < recordDef.records[i].length) {
+   				foundType = new boolean[recordDef.records[i].length];
+   			}
   			for (j = 0; j < recordDef.records[i].length; j++) {
 				counts[j][COUNT_IDX] += 1;
-    			foundType = false;
+    			foundType[j] = false;
    				for (k = 0; k < byteChecks.length; k++) {
-   					if (byteChecks[k].isAmatch(recordDef.records[i][j])) {
+   					if (byteChecks[k].forward()
+   					&& byteChecks[k].isAmatch(recordDef.records[i][j])) {
    						counts[j][k] += 1;
-   						foundType = true;
+   						foundType[j] = true;
    					}
    				}
-   				
-   				if (foundType) {
+  			}
+  			
+  			for (j = recordDef.records[i].length-1; j >= 0; j--) {
+   				for (k = byteChecks.length - 1; k >= 0; k--) {
+   					if ((! byteChecks[k].forward())
+   					&& byteChecks[k].isAmatch(recordDef.records[i][j])) {
+   						counts[j][k] += 1;
+   						foundType[j] = true;
+   					}
+   				}
+
+   				if (foundType[j]) {
    					counts[j][TYPE_OTHER] += 1; 
    				}
    			}
@@ -190,6 +216,7 @@ public class FieldSearch {
     		boolean lookComp3) {
        		
        		//boolean isComp3 = false;
+    	boolean wasStartOfBin = false;
    		int type = NOT_IN_FIELD;
    		for (int i = size -1; i >= 0; i--) {
    			if (fieldIdentifier[i] > 0) {
@@ -199,7 +226,9 @@ public class FieldSearch {
    				fieldId += 1;
    	   			charType[i] = Type.ftPackedDecimal;
     			fieldIdentifier[i] = fieldId;
-   			} else if ((type == IN_COMP3) && counts[i][TYPE_COMP3] >= limit) {
+   			} else if ((type == IN_COMP3) 
+   				   && counts[i][TYPE_COMP3] >= limit
+   				   && ! wasStartOfBin) {
    				fieldIdentifier[i] = fieldId;
    				charType[i] = charType[i+1]; 
    			} else if (	lookMainframeZoned
@@ -233,6 +262,7 @@ public class FieldSearch {
   				type = NOT_IN_FIELD;
   			}
    			
+   			wasStartOfBin = counts[i][START_BIN_FIELD] >= limit;
 //      		System.out.println(" ==> " + i + " " + type + " : " + counts[i][TYPE_TEXT]  + " ~ #" 
 //      				+ " > " + fieldId + " ==> " + counts[i][TYPE_COMP3]  + " :: " + counts[i][TYPE_COMP3_FINAL_BYTE] );
     	}
@@ -452,7 +482,8 @@ public class FieldSearch {
    	   			charType[i] = Type.ftCheckBoxTF;
     			fieldIdentifier[i] = fieldId;
     		} else if (counts[i][TYPE_Y] + counts[i][TYPE_Y] >= limit
-    				&& counts[i][TYPE_Y]  > 0 && counts[i][TYPE_N] > 0) {
+    				&& counts[i][TYPE_Y]  > 0 && counts[i][TYPE_N] > 0
+    				&& counts[i][TYPE_Y] + counts[i][TYPE_N] >= counts[i][TYPE_TEXT]-1) {
     			type = NOT_IN_FIELD;
   				fieldId += 1;
    	   			charType[i] = Type.ftCheckBoxYN;
@@ -469,9 +500,10 @@ public class FieldSearch {
    		
 //      		System.out.println(" ~~> " + i + " " + type + " : " + counts[i][TYPE_TEXT]  + " ~ #" 
 //       				+ " > " + fieldId + " > " + fieldIdentifier[i] + " " + wasSpace + " "
-//       				+ " " + (wasSpace && counts[i][TYPE_TEXT] >= limit));
+//       				+ " " + (wasSpace && counts[i][TYPE_TEXT] >= limit)
+//       				+ " ~ " + counts[i][TYPE_LAST_SPACE] + " " + limit);
     		
-    		wasSpace = counts[i][TYPE_SPACE] >= limit;
+    		wasSpace = counts[i][TYPE_LAST_SPACE] >= limit;
  
     	}
     }
@@ -502,9 +534,13 @@ public class FieldSearch {
 
 				colDtls = new ColumnDetails(i+1, type);
 				colDtls.length = 1;
-				if (currDetails.recordType == Details.RT_MULTIPLE_RECORDS
-				&& i+1 == currDetails.keyStart) {
-					colDtls.name = currDetails.keyName;
+				
+				if (currDetails.recordType == Details.RT_MULTIPLE_RECORDS) {
+					for (KeyField k : currDetails.keyFields) {
+						if (i+1 == k.keyStart) {
+							colDtls.name = k.keyName;
+						}
+					}
 				}
     		} else {
     			colDtls.length += 1;
@@ -529,12 +565,61 @@ public class FieldSearch {
      * Standard Field Check definition
      */
     private interface CheckByte {
+    	public void reset();
+    	public boolean forward();
     	public boolean isAmatch(byte b);
     }
     
+    private static class BasicCheck {
+    	public void reset() {
+    	
+    	}
+    	public boolean forward() {
+    		return true;
+    	}
+    	
+       	public boolean search(byte[] tstBytes, byte b) {
+    		for (int i = 0; i < tstBytes.length; i++) {
+    			if (b == tstBytes[i]) {
+    				return true;
+    			}
+    		}
+    		return false;
+    	}
+
+    }
     
-    private class Check4Bytes implements CheckByte {
-    	private byte[] tstBytes;
+    private class LastSpace implements CheckByte {
+    	private byte spaceByte = Conversion.getBytes(" ", fontname)[0];
+    	boolean notSpace;
+    	public void reset() {
+    		notSpace = false;
+    	}
+    	public boolean forward() {
+    		return false;
+    	}
+    
+    	public boolean isAmatch(byte b) {
+    		boolean ret = notSpace && b == spaceByte;
+    		notSpace = b != spaceByte;
+    		return ret;
+    	}
+    }
+    
+    private class CheckStartBinField extends BasicCheck implements CheckByte {
+    	private byte[] tstBytes = Conversion.getBytes(" " + Common.STANDARD_CHARS1, fontname);
+    	private boolean m1 = true, m2= true;
+    	
+       	public boolean isAmatch(byte b) {
+    		boolean ret = b == 0 && m1 && m2;
+    		m1 = m2;
+    		m2 = search(tstBytes, b);
+    		return ret;
+    	}
+    }
+    
+    private class Check4Bytes extends BasicCheck implements CheckByte {
+   	private byte[] tstBytes;
     	public Check4Bytes(String tst) {
     		tstBytes = Conversion.getBytes(tst, fontname);
     	}
@@ -544,16 +629,11 @@ public class FieldSearch {
     	}
 
     	public boolean isAmatch(byte b) {
-    		for (int i = 0; i < tstBytes.length; i++) {
-    			if (b == tstBytes[i]) {
-    				return true;
-    			}
-    		}
-    		return false;
+    		return search(tstBytes, b);
     	}
     }
     
-    private class NormalByte implements CheckByte {
+    private class NormalByte extends BasicCheck implements CheckByte {
     	private byte tstByte;
     	public NormalByte() {
     		byte[] b = Conversion.getBytes(" ", fontname);
@@ -571,7 +651,7 @@ public class FieldSearch {
      * @author bm
      *
      */
-    private static class Comp3Byte implements CheckByte {
+    private static class Comp3Byte extends BasicCheck implements CheckByte {
     	
     	public boolean isAmatch(byte b) {
     		int bb = b;
@@ -596,7 +676,7 @@ public class FieldSearch {
      * @author bm
      *
      */
-    private static class Comp3SignByte implements CheckByte {
+    private static class Comp3SignByte extends BasicCheck implements CheckByte {
     	
     	public boolean isAmatch(byte b) {
     		int n1 = b & 15;

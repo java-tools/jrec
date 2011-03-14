@@ -220,6 +220,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
         };
        
         JTable tableDetails = new JTable(viewOfFile);
+        
         super.setJTable(tableDetails);
         tblScrollPane = new FixedColumnScrollPane(tableDetails);
 
@@ -384,25 +385,30 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	@SuppressWarnings("unchecked")
 	@Override
     public void setNewLayout(AbstractLayoutDetails newLayout) {
-    	
+		int idx;
+		
+		super.setNewLayout(newLayout);
+		
 	    tblScrollPane.clearHiddenCols();
 	    fieldMapping.resetMapping(getFieldCounts());
         if (layout.getRecordCount() > 1 && Common.usePrefered()) {
         	LayoutCombo combo = getLayoutCombo();
         	combo.setSelectedIndex(combo.getPreferedIndex());
-        	setTableFormatDetails(combo.getPreferedIndex());
+        	//setTableFormatDetails(combo.getPreferedIndex());
         } else {
         	setLayoutIdx();
         }
-       	fileView.setCurrLayoutIdx(getLayoutIndex());
-	    
+        idx = getLayoutIndex();
+       	fileView.setCurrLayoutIdx(idx);
+       	setTableFormatDetails(idx);
+       	
 		fileView.fireTableStructureChanged();
 	    defColumns();
     }
 
 	private void buildDestinationMenus() {
 		
-		if (layout.getRecordCount() == 1) {
+		if (layout.getRecordCount() == 1 && layout.getRecord(0).getFieldCount() > 0) {
 			AbstractRecordDetail<?> rec = layout.getRecord(0);
 			String s;
 			copyMenu.removeAll();
@@ -485,8 +491,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
         for (int i = 2; i < tcm.getColumnCount(); i++) {
             tcm.getColumn(i).setHeaderRenderer(headerRender);
         }
-        
- //       System.out.println("Full Line Test " + getLayoutIndex() 
+  //       System.out.println("Full Line Test " + getLayoutIndex() 
  //       		+ " >= " + fullLineIndex);
      
         int layoutIdx = getLayoutIndex();
@@ -550,8 +555,8 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	        } 
         }
         setRowHeight(lineHeight);
-
-       if (tblScrollPane != null) {
+        
+        if (tblScrollPane != null) {
     	   int rowCount = this.fileView.getRowCount();
     	   int width = 5;
     	   //System.out.println("Setup fixed columns ... ");

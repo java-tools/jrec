@@ -49,7 +49,13 @@ public class BinTextReader extends LineReaderWrapper {
         super.open(inputStream, layout);
 
 		if (readNames) {
-		    createLayout(super.rawRead());
+			byte[] b = super.rawRead();
+			if ((layout instanceof LayoutDetail)
+			&& ((LayoutDetail) layout).useThisLayout()) {
+				
+			} else {
+				createLayout(b);
+			}
 		}
     }
 

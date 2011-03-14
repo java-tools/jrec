@@ -60,8 +60,13 @@ public class MicroFocusByteReader extends AbstractByteReader {
 			len = new BigInteger(len1).intValue();
 			
 			readnext = ! (attr == 4 || attr == 5 || attr == 7 || attr == 8);
+			if (len > 1000000) {
+				throw new IOException("Record Length to Big: " + len);
+			}
 			rec = new byte[len];
-			readBuffer(instream,rec);
+			if (readBuffer(instream, rec) < len) {
+				throw new IOException("Record Length < Expected (" + len + ")");
+			}
 			switch (headerRecord.getFileFormat()) {
 			case  MicroFocusFileHeader.FORMAT_INDEXED:
 			case  MicroFocusFileHeader.FORMAT_SEQUENTIAL:

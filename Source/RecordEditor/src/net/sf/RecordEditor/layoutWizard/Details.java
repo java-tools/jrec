@@ -38,7 +38,7 @@ public class Details {
 	public static final int RT_DELIMITERED_FIELDS  = 1;
 	public static final int RT_MULTIPLE_RECORDS  = 2;
 	
-    private final static Integer CHAR_TYPE = new Integer(Type.ftChar);
+    //private final static Integer CHAR_TYPE = new Integer(Type.ftChar);
     protected  String filename         = "";
     protected     int fileStructure    = 0;
     protected     int recordType       = 0;
@@ -47,7 +47,7 @@ public class Details {
     protected  String layoutName       = "Wizard_";
     protected  String layoutDescription = "";
     protected  String fontName         = "";
-    protected Integer defaultType      = CHAR_TYPE;
+    protected Integer defaultType      = KeyField.CHAR_TYPE;
     protected  String fieldSeperator   = "";
     protected  String actualSeperator  = "";
     protected  String quote            = "";
@@ -67,14 +67,28 @@ public class Details {
     protected RecordDefinition standardRecord = new RecordDefinition();
     
     protected ArrayList<RecordDefinition> recordDtls = new ArrayList<RecordDefinition>();
-    
-    protected String keyName = "Record_Type";
-    protected int keyStart = 0;
-    protected int keyLength = 0;
+    protected ArrayList<RecordDefinition> recordDtlsFull = new ArrayList<RecordDefinition>();
+   
+//    protected String keyName = "Record_Type";
+//    protected int keyStart = 0;
+//    protected int keyLength = 0;
     protected int textPct = 100;
-    protected Integer keyType = CHAR_TYPE;
+//    protected Integer keyType = KeyField.CHAR_TYPE;
     
+    protected ArrayList<KeyField> keyFields = new ArrayList<KeyField>();
 
+    public Details() {
+    	KeyField k = new KeyField();
+    	k.keyName = "Record_Type";
+    	keyFields.add(k);
+    }
+    
+    public KeyField getMainKey() {
+    	if (keyFields.size() == 0) {
+    		keyFields.add(new KeyField("Record_Type", 0, 0, defaultType));
+    	}
+    	return keyFields.get(0);
+    }
 
     public final ExternalRecord createRecordLayout() {
      	ExternalRecord rec;
@@ -100,22 +114,30 @@ public class Details {
     				Common.LFCR_BYTES, fontName,
     				parserType, fileStructure
     		);
+	 		String value;
     		for (RecordDefinition child : recordDtls) {
-    			childRecord = new ExternalRecord(-1, child.name,
-        				"",
-        				Common.rtRecordLayout, system, "N", "",
-        				"<Tab>", "", 0, Common.DEFAULT_STRING,
-        				Common.LFCR_BYTES, fontName,
-        				parserType, fileStructure
-        		);
-    			addFields(childRecord, child);
-    			childRecord.setTstField(keyName);
-    			if (child.keyValue != null) {
-    				childRecord.setTstFieldValue(child.keyValue.toString());
+    			if (child.include) {
+	    			childRecord = new ExternalRecord(-1, child.name,
+	        				"",
+	        				Common.rtRecordLayout, system, "N", "",
+	        				"<Tab>", "", 0, Common.DEFAULT_STRING,
+	        				Common.LFCR_BYTES, fontName,
+	        				parserType, fileStructure
+	        		);
+	    			
+	    			childRecord.setDefaultRecord(child.defaultRec.booleanValue());
+	    			System.out.println("Record: " + child.name + "\t" + childRecord.isDefaultRecord());
+	    			for (int i = 0; i < keyFields.size(); i++) {
+		    			if (child.getKeyValue()[i] != null) {
+		    				value = child.getKeyValue()[i].toString();
+		    				childRecord.addTstField(keyFields.get(i).keyName, value);
+		    			}
+	    			}
+	    			addFields(childRecord, child);
+	    			childRecord.setNew(true);
+	    			
+	    			rec.addRecord(childRecord);
     			}
-    			childRecord.setNew(true);
-    			
-    			rec.addRecord(childRecord);
     		}
     	break;
     	default:

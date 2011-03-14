@@ -40,7 +40,13 @@ public interface AbstractCsvTblMdl extends TableModel {
 	 * @param hide wether to hide first line
 	 */
 	public abstract void setHideFirstLine(boolean hide);
-	
+
+	/**
+	 * Set the line number where fields are
+	 * @param lineNo where the fields are
+	 */
+	public abstract void setFieldLineNo(int lineNo);
+
 	/* (non-Javadoc)
 	 * @see javax.swing.table.AbstractTableModel#fireTableDataChanged()
 	 */

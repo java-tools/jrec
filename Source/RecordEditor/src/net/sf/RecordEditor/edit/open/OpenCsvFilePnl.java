@@ -16,7 +16,6 @@ import javax.swing.KeyStroke;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import net.sf.JRecord.ByteIO.ByteTextReader;
 import net.sf.JRecord.Details.LayoutDetail;
@@ -134,10 +133,14 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 		
 		chooser.setControlButtonsAreShown(false);
 		
-		FileFilter filter = chooser.getFileFilter();
-		chooser.addChoosableFileFilter(new FileNameExtensionFilter("Text file", "txt"));
-		chooser.addChoosableFileFilter(new FileNameExtensionFilter("CSV file", "csv", "tsv"));
-		chooser.setFileFilter(filter);
+		try {
+			FileFilter filter = chooser.getFileFilter();
+			chooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Text file", "txt"));
+			chooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("CSV file", "csv", "tsv"));
+			chooser.setFileFilter(filter);
+		} catch (NoClassDefFoundError e) {
+
+		}
 		
 
 		SwingUtils.addKeyListnerToContainer(chooser, keyListner);
@@ -163,72 +166,7 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 	}
 	
 	
-//	private void readFilePreview(File f, boolean allowSwap2Unicode) {
-//
-//		if ((f != null) && (f.isFile()) ) {
-//			String fileName = f.getPath();
-//
-//			try {
-//				byte[] data = readUnicodeFile(fileName);
-//				String charSet = CheckEncoding.determineCharSet(data);
-//				
-//				if (csvTabDtls.tab.getSelectedIndex() == NORMAL_CSV) { 
-//					if (allowSwap2Unicode && ! "".equals(charSet)) {
-//						csvTabDtls.unicodeCsvDetails.fontTxt.setText(charSet);
-//						csvTabDtls.unicodeCsvDetails.setData(data, false);
-//						csvTabDtls.tab.setSelectedIndex(UNICODE_CSV);					
-//					} else {
-//						setNormalCsv(data);
-//					}
-//				} else {
-//					if (allowSwap2Unicode && "".equals(charSet)) {
-//						setNormalCsv(data);
-//						csvTabDtls.tab.setSelectedIndex(NORMAL_CSV);					
-//					} else {
-//						csvTabDtls.unicodeCsvDetails.fontTxt.setText(charSet);
-//						csvTabDtls.unicodeCsvDetails.setData(data, true);
-//					}
-//				}
-//			} catch (IOException ex) {
-//				Common.logMsg("Error Reading File", ex);
-//			}
-//		}
-//	}
-//	
-//	private void setNormalCsv(byte[] data) throws IOException {
-//		byte[] line;
-//		byte[][] lines = new byte[30][];
-//		int i = 0;
-//		
-//		r.open(new ByteArrayInputStream(data));
-//		while (i < lines.length && (line = r.read()) != null) {
-//			lines[i++] = line;
-//		}
-//		r.close();
-//		csvTabDtls.csvDetails.setLines(lines, "", lines.length);
-//	}
-//	
-//	
-//	private byte[] readUnicodeFile(String fileName) 
-//	throws IOException {
-//		byte[] data = new byte[8000];
-//		FileInputStream in = new FileInputStream(fileName);
-//	    int num = in.read(data);
-//	    int total = num;
-//
-//	    while (num >= 0 && total < data.length) {
-//	        num = in.read(data, total, data.length - total);
-//	        total += Math.max(0, num);
-//	    }
-//	    in.close();
-//	    
-//	    if (total < data.length) {
-//	    	byte[] t = new byte[total];
-//	    	System.arraycopy(data, 0, t, 0, total);
-//	    	data = t;
-//	    }
-//	    return data;
-//	}
+
 	
 	private void openFile() {
 		File f = chooser.getSelectedFile(); 
@@ -318,7 +256,7 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 				}
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 

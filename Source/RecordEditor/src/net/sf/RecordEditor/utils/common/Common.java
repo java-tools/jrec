@@ -393,8 +393,10 @@ public final class Common implements Constants {
 	
 	public static final String USER_INIT_CLASS
 			= Parameters.getString("UserInitilizeClass");
-	
+
+
 	public static final String STANDARD_CHARS = "+-.,/?\\!\'\"$%&*@()[]abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	public static final String STANDARD_CHARS1 = STANDARD_CHARS.substring(STANDARD_CHARS.indexOf('a'));
 	public static final String FILE_SEPERATOR  =  System.getProperty("file.separator");
 	
    	public final static String[] FIELD_SEPARATOR_LIST = {

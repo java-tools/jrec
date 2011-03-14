@@ -128,7 +128,7 @@ public class Pnl3RecordType extends WizardPanel {
     	
      	if (recordDef.columnDtls.size() == 1) {
     		setRecordTypeDetails(1, recordDef.columnDtls.get(0).start);
-    	} else  	if (recordDef.columnDtls.size() == 1 || recordDef.columnDtls.size() == 2) {
+    	} else if (recordDef.columnDtls.size() == 2) {
     		setRecordTypeDetails(recordDef.columnDtls.get(0).start, recordDef.columnDtls.get(1).start);
     	} else if (recordDef.columnDtls.size() > 2) {
     		setRecordTypeDetails(recordDef.columnDtls.get(1).start, recordDef.columnDtls.get(2).start);
@@ -171,11 +171,11 @@ public class Pnl3RecordType extends WizardPanel {
      */
     public Details getValues() throws Exception {
     	Details ret = columnSelector.getCurrentDetails();
-    	
-    	ret.keyName = nameTxt.getText();
-    	ret.keyStart = getInteger(startTxt);
-    	ret.keyLength = getInteger(lengthTxt);
-    	ret.keyType = (Integer) typeCombo.getSelectedItem();
+    	KeyField k = ret.getMainKey();
+    	k.keyName = nameTxt.getText();
+    	k.keyStart = getInteger(startTxt);
+    	k.keyLength = getInteger(lengthTxt);
+    	k.keyType = (Integer) typeCombo.getSelectedItem();
     	
     	return ret;
     }
@@ -195,13 +195,13 @@ public class Pnl3RecordType extends WizardPanel {
      * @see net.sf.RecordEditor.layoutWizard.WizardPanel#setValues(net.sf.RecordEditor.LayoutWizard.Details)
      */
     public final void setValues(Details detail) throws Exception {
-
+    	KeyField k = detail.getMainKey();
         columnSelector.readFile(detail, recordDef); 
         columnSelector.setValues(detail, recordDef, false);
 
-        nameTxt.setText(detail.keyName);
-        startTxt.setText(Integer.toString(detail.keyStart));
-        lengthTxt.setText(Integer.toString(detail.keyLength));
-        typeCombo.setSelectedItem(detail.keyType);
+        nameTxt.setText(k.keyName);
+        startTxt.setText(Integer.toString(k.keyStart));
+        lengthTxt.setText(Integer.toString(k.keyLength));
+        typeCombo.setSelectedItem(k.keyType);
     }
 }

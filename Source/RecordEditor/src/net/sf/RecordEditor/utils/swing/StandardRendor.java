@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import net.sf.RecordEditor.utils.common.Common;
 
+@SuppressWarnings("serial")
 public class StandardRendor extends DefaultTableCellRenderer {
 
 	private Font font = null;

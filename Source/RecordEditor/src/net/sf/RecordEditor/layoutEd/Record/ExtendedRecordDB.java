@@ -96,8 +96,7 @@ public class ExtendedRecordDB extends RecordDB {
 				recDb.open();
 				r = recDb.fetch();
 				childRecord = r.getValue();
-				childRecord.setTstField(child.getField());
-				childRecord.setTstFieldValue(child.getFieldValue());
+				childRecord.addTstField(child.getField(), child.getFieldValue());
 				childRecord.setParentRecord(child.getParentRecord());
 
 				fetch_Fields(childRecord);

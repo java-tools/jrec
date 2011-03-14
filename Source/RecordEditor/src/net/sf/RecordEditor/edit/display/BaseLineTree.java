@@ -246,6 +246,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	@Override
 	public void setNewLayout(AbstractLayoutDetails newLayout) {
 		
+		super.setNewLayout(newLayout);
 		LayoutCombo combo = getLayoutCombo();
 	    if (layout.getRecordCount() > 1 && combo.getPreferedIndex() > 0 && Common.usePrefered()) {
         	combo.setSelectedIndex(combo.getPreferedIndex());

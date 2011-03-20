@@ -419,7 +419,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		} else {
 			reader = ioProvider.getLineReader(layout.getFileStructure());
 			reader.generateLayout(layout);
-			layout = reader.getLayout();
+			retrieveLayout(reader);
 		    toSave = false;
 		    this.lines      = getDataStore(INITIAL_FILE_SIZE, Constants.NULL_INTEGER, null, "");
 		}
@@ -450,18 +450,17 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    //long s1;
 	    boolean isVeryBigFile = file.length() > ((long) Integer.MAX_VALUE);
 	    
-	    double total = rf.available();
+	    double total = file.length();
 	    double ratio;
 	        
-	    layout = reader.getLayout();
+	    retrieveLayout(reader);
 	    allocateLines(file, isGZip, reader, fname);
 	    
-	    if (isVeryBigFile) {
-	    	total = file.length();
-	    	if (isGZip) {
-	    		total *= 6;
-	    	}
-	    }
+	    
+    	if (isGZip) {
+    		total *= 6;
+    	}
+	    
 
 	    t1 = time;
 	    tt1 = 0;
@@ -481,7 +480,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			    		   if (isVeryBigFile) {
 			    			   ratio = ((double)lines.getSpace()) / total;
 			    		   } else {
-			    			   ratio = 1 - ((double)rf.available()) / total;
+			    			   ratio = 1 - ((double)getAvailable(rf)) / total;
 			    		   }
 			    		   readProgress.updateDisplay(
 			    				   lines.getSizeDisplay(),
@@ -499,7 +498,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		       lines.add(line);
 		    }
 	    }
-	    layout = reader.getLayout();
+	    retrieveLayout(reader);
 	    lines.setLayout(layout);
 
 	    reader.close();
@@ -519,6 +518,23 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    System.out.println("     Lines: " + lines.size());
 	}
 
+	private int getAvailable(InputStream rf) {
+		int ret = 0;
+		try {
+			ret =  rf.available();
+		} catch (Exception e) {
+			
+		}
+		
+		return ret;
+	}
+	
+	private void retrieveLayout(AbstractLineReader<Layout> reader) {
+	    Layout l = reader.getLayout();
+	    if (l != null) {
+	    	layout = l;
+	    }
+	}
 	
 	private void allocateLines(File file, boolean isGZip, AbstractLineReader reader, String fname) {
     	int numLines = INITIAL_FILE_SIZE ;
@@ -531,7 +547,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
     			if (isGZip) {
     				numLines *= 3;
     			}
-    		
+
     			numLines = Math.max(MINIMUM_FILE_SIZE, numLines);
     		}
 			if (isGZip) {

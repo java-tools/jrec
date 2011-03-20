@@ -168,6 +168,7 @@ public class EditOptions {
             {"SignificantCharInFiles.1", "Number of characters to use when looking up record layouts (small)", null, EditPropertiesPnl.FLD_INT, "Significant chars 1"},
             {"SignificantCharInFiles.2", "Number of characters to use when looking up record layouts (medium)", null, EditPropertiesPnl.FLD_INT, "Significant chars 2"},
             {"SignificantCharInFiles.3", "Number of characters to use when looking up record layouts (large)", null, EditPropertiesPnl.FLD_INT, "Significant chars 3"},
+            {Parameters.PROPERTY_LOAD_FILE_BACKGROUND, "Load File in Background thread", null, EditPropertiesPnl.FLD_BOOLEAN, "Load In background"}, // Checked
     };
  
     private String layoutWizardParamsDescription

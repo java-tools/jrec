@@ -171,18 +171,18 @@ public boolean hasTheKeyChanged() {
       if (updateStatus == NULL_INT_VALUE) return "";
 
       switch (fieldNum) {
-        case (0) : return new Integer(value.getPos());
-        case (1) : return new Integer(value.getLen());
-        case (2) : return value.getName();
-        case (3) : return value.getDescription();
-        case (4) : return new Integer(value.getType());
-        case (5) : return new Integer(value.getDecimal());
-        case (6) : return new Integer(value.getCellFormat());
-        case (7) : return value.getParameter();
-        case (8) : return value.getDefault();
-        case (9) : return value.getCobolName();
-        case (10) : return new Integer(value.getSubKey());
-        default  : return "";
+        case (0)  : return Integer.valueOf(value.getPos());
+        case (1)  : return Integer.valueOf(value.getLen());
+        case (2)  : return value.getName();
+        case (3)  : return value.getDescription();
+        case (4)  : return Integer.valueOf(value.getType());
+        case (5)  : return Integer.valueOf(value.getDecimal());
+        case (6)  : return Integer.valueOf(value.getCellFormat());
+        case (7)  : return value.getParameter();
+        case (8)  : return value.getDefault();
+        case (9)  : return value.getCobolName();
+        case (10) : return Integer.valueOf(value.getSubKey());
+        default   : return "";
       }
   }
 

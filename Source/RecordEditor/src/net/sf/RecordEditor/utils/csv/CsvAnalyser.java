@@ -214,7 +214,7 @@ public class CsvAnalyser {
 		
 		for (i = Math.max(0, numberOfLines - 45); i < numberOfLines; i++) {
 			if (lines[i] != null) {
-				s = new String(lines[i]);
+				s = lines[i];
 				if (s != null) {
 					for (j = 0; j < s.length(); j++) {
 						for (k = 0; k < sepChars.length; k++) {

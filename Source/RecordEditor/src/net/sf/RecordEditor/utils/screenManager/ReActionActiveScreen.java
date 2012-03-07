@@ -113,4 +113,11 @@ implements AbstractActiveScreenAction {
 
         super.setEnabled(actionHandler != null && actionHandler.isActionAvailable(actionId));
     }
+    
+	/**
+	 * @return the param
+	 */
+	public Object getParam() {
+		return param;
+	}
 }

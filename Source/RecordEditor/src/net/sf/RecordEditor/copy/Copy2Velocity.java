@@ -55,7 +55,7 @@ public class Copy2Velocity extends AbstractWizard<CopyDefinition> {
 		definition.type = CopyDefinition.VELOCITY_COPY;
 		
 		finalScreen = new CopyWizardFinalPnl(recordSelection1, null);
-		pnls[0] = new getFiles(recordSelection1);
+		pnls[0] = new GetFiles(recordSelection1);
 //		pnls[1] = new CmpFieldSelection(selection);
 		pnls[1] = finalScreen;
 		
@@ -120,7 +120,7 @@ public class Copy2Velocity extends AbstractWizard<CopyDefinition> {
 
 
 	@SuppressWarnings("serial")
-	public static class getFiles extends  AbstractFilePnl<CopyDefinition> {
+	public static class GetFiles extends  AbstractFilePnl<CopyDefinition> {
 
 
 
@@ -133,7 +133,7 @@ public class Copy2Velocity extends AbstractWizard<CopyDefinition> {
 		
 		
 		@SuppressWarnings("unchecked")
-		public getFiles(AbstractLayoutSelection selection1) {
+		public GetFiles(AbstractLayoutSelection selection1) {
 			super(selection1, "CobolFiles.txt");
 			
 			layoutSelection1 = selection1;

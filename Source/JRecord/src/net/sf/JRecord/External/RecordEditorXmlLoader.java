@@ -1,5 +1,6 @@
 package net.sf.JRecord.External;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -9,6 +10,9 @@ import net.sf.JRecord.Common.XmlConstants;
 import net.sf.JRecord.Details.AbstractFieldValue;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
+import net.sf.JRecord.ExternalRecordSelection.ExternalSelection;
+import net.sf.JRecord.ExternalRecordSelection.FieldSelection;
+import net.sf.JRecord.ExternalRecordSelection.GroupSelection;
 import net.sf.JRecord.IO.StandardLineReader;
 import net.sf.JRecord.IO.XmlLineReader;
 import net.sf.JRecord.Log.AbsSSLogger;
@@ -94,17 +98,19 @@ public class RecordEditorXmlLoader implements CopybookLoader {
 	throws Exception {
 
 		AbstractLine line = reader.read();
-		String name = line.getFieldValue(XmlConstants.XML_NAME).asString();
+		String name; 
+		
+		if (line == null || (name= line.getFieldValue(XmlConstants.XML_NAME).asString()).startsWith("/")) {
+			//System.out.println("Exit Found " + name);
+			return false;
+		}
 		
 		if (XmlConstants.XML_START_DOCUMENT.equalsIgnoreCase(name)) {
 			line = reader.read();
 			name = line.getFieldValue(XmlConstants.XML_NAME).asString();
 		}
 		
-		if (line == null || name.startsWith("/")) {
-			//System.out.println("Exit Found " + name);
-			return false;
-		} else if (Constants.RE_XML_RECORD.equalsIgnoreCase(name)) {
+		if (Constants.RE_XML_RECORD.equalsIgnoreCase(name)) {
 			childRec.setRecordName(line.getFieldValue(Constants.RE_XML_RECORDNAME).asString());
 			childRec.setCopyBook(line.getFieldValue(Constants.RE_XML_COPYBOOK).asString());
 			childRec.setDelimiter(line.getFieldValue(Constants.RE_XML_DELIMITER).asString());
@@ -121,15 +127,17 @@ public class RecordEditorXmlLoader implements CopybookLoader {
 					line.getFieldValue(Constants.RE_XML_RECORDTYPE).asString()));
 			//rec.setSystem((int) line.getFieldValue(Constants.RE_XML_COPYBOOK).asLong());
 			
-			String fld = line.getFieldValue(Constants.RE_XML_TESTFIELD).asString();
-			String value = line.getFieldValue(Constants.RE_XML_TESTVALUE).asString();
+			
+			FieldSelection fs = new FieldSelection();
+			fs.setFieldName(line.getFieldValue(Constants.RE_XML_TESTFIELD).asString());
+			fs.setFieldValue(line.getFieldValue(Constants.RE_XML_TESTVALUE).asString());
 	
-			if ("".equals(fld)) {
-				if ("*".equals(value)) {
+			if ("".equals(fs.getFieldName())) {
+				if ("*".equals(fs.getFieldValue())) {
 					childRec.setDefaultRecord(true);
 				}
 			} else {
-				childRec.addTstField(fld, value);
+				childRec.setRecSelect(fs);
 			}
 
 			try {
@@ -232,27 +240,58 @@ public class RecordEditorXmlLoader implements CopybookLoader {
 			AbstractLine line, 
 			int dbIdx)
 	throws IOException {
-		
-		if (Constants.RE_XML_TST_FIELDS.equalsIgnoreCase(line.getFieldValue(XmlConstants.XML_NAME).asString())) {
-			String s = line.getFieldValue(Constants.RE_XML_DEFAULTREC).asString();
-			if (s != null && "Y".equalsIgnoreCase(s)) {
-				childRec.setDefaultRecord(true);
-			}
+		String name = line.getFieldValue(XmlConstants.XML_NAME).asString();
+		if (Constants.RE_XML_TST_FIELDS.equalsIgnoreCase(name)
+		||  Constants.RE_XML_AND_FIELDS.equalsIgnoreCase(name)) {
+			setDefault(childRec, line.getFieldValue(Constants.RE_XML_DEFAULTREC).asString());
+			childRec.setRecSelect(getGroup(reader, ExternalSelection.TYPE_AND));
+			
 			line = reader.read();
-			while (line != null && ! line.getFieldValue(XmlConstants.XML_NAME).asString().startsWith("/")) {
-				try {
-					if (Constants.RE_XML_TST_FIELD.equalsIgnoreCase(line.getFieldValue(XmlConstants.XML_NAME).asString())) {
-						childRec.addTstField(
-							line.getFieldValue(Constants.RE_XML_NAME).asString(), 
-							line.getFieldValue(Constants.RE_XML_VALUE).asString());
-					}
-				} catch (Exception e) { }
-
-				line = reader.read();
-			}
+		} else if (Constants.RE_XML_OR_FIELDS.equalsIgnoreCase(name)) {
+			setDefault(childRec, line.getFieldValue(Constants.RE_XML_DEFAULTREC).asString());
+			childRec.setRecSelect(getGroup(reader, ExternalSelection.TYPE_OR));
+			
 			line = reader.read();
 		}
 		return line;
+	}
+	
+	private void setDefault(ExternalRecord childRec, String s) {
+		if (s != null && "Y".equalsIgnoreCase(s)) {
+			childRec.setDefaultRecord(true);
+		}	
+	}
+	
+	
+	private GroupSelection<ExternalSelection> getGroup(StandardLineReader reader, int type) throws IOException {
+		
+		GroupSelection<ExternalSelection> g = new GroupSelection<ExternalSelection>();
+		String name;
+		
+		g.setType(type);
+	
+		@SuppressWarnings("rawtypes")
+		AbstractLine line = reader.read();
+		while (line != null && ! line.getFieldValue(XmlConstants.XML_NAME).asString().startsWith("/")) {
+			name = line.getFieldValue(XmlConstants.XML_NAME).asString();
+			try {
+				if (Constants.RE_XML_TST_FIELD.equalsIgnoreCase(name)) {
+					g.add(new FieldSelection(
+						line.getFieldValue(Constants.RE_XML_NAME).asString(), 
+						line.getFieldValue(Constants.RE_XML_VALUE).asString(), 
+						line.getFieldValue(Constants.RE_XML_OPERATOR).asString()));
+				} else if (Constants.RE_XML_AND_FIELDS.equalsIgnoreCase(name)) {
+					g.add(getGroup(reader, ExternalSelection.TYPE_AND));
+				} else if (Constants.RE_XML_OR_FIELDS.equalsIgnoreCase(name)) {
+					g.add(getGroup(reader, ExternalSelection.TYPE_OR));
+				}
+			} catch (Exception e) { }
+
+			line = reader.read();
+		}
+		
+		return g;
+
 	}
 
 	/**
@@ -291,4 +330,12 @@ public class RecordEditorXmlLoader implements CopybookLoader {
 		return ret;
 	}
 
+	public static ExternalRecord getExternalRecord(String xml, String name) throws Exception {
+		ByteArrayInputStream bs = new ByteArrayInputStream(xml.getBytes());
+		
+		RecordEditorXmlLoader loader = new RecordEditorXmlLoader();
+       
+		return loader.loadCopyBook(bs, name);
+
+	}
 }

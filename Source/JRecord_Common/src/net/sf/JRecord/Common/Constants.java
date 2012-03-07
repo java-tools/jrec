@@ -101,12 +101,14 @@ public interface Constants {
 	public static final String TXT_EXTENSION   = ".Txt" ;
 	public static final String XML_EXTENSION   = ".Xml" ;
 	
-	public static final String RE_XML_RECORD    = "RECORD";
-	public static final String RE_XML_RECORDS   = "RECORDS";
-	public static final String RE_XML_FIELD     = "FIELD";
-	public static final String RE_XML_FIELDS    = "FIELDS";
-	public static final String RE_XML_TST_FIELD = "TSTFIELD";
-	public static final String RE_XML_TST_FIELDS= "TSTFIELDS";
+	public static final String RE_XML_RECORD      = "RECORD";
+	public static final String RE_XML_RECORDS     = "RECORDS";
+	public static final String RE_XML_FIELD       = "FIELD";
+	public static final String RE_XML_FIELDS      = "FIELDS";
+	public static final String RE_XML_TST_FIELD   = "TSTFIELD";
+	public static final String RE_XML_TST_FIELDS  = "TSTFIELDS";
+	public static final String RE_XML_AND_FIELDS  = "AND";
+	public static final String RE_XML_OR_FIELDS   = "OR";
 	
 	public static final String RE_XML_COPYBOOK    = "COPYBOOK";
 	public static final String RE_XML_DELIMITER   = "DELIMITER";
@@ -128,6 +130,7 @@ public interface Constants {
 
 	public static final String RE_XML_NAME        = "NAME";
 	public static final String RE_XML_VALUE       = "VALUE";
+	public static final String RE_XML_OPERATOR    = "OPERATOR";
 	public static final String RE_XML_DEFAULT     = "DEFAULT";
 	public static final String RE_XML_COBOLNAME   = "COBOLNAME";
 	public static final String RE_XML_PARAMETER   = "PARAMETER";

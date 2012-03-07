@@ -90,7 +90,7 @@ public class AbsRowList implements AbstractRowList {
 
 			for (i = 0; i < rows.length; i++) {
 				if (rows[i] != null) {
-					intObj = new Integer(i);
+					intObj = Integer.valueOf(i);
 					keyMap.put(rows[i].getField(keyIdx), intObj);
 				}
 			}

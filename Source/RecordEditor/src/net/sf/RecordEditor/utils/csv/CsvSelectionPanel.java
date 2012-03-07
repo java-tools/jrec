@@ -39,15 +39,13 @@ import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 @SuppressWarnings("serial")
-public class CsvSelectionPanel extends BaseHelpPanel {
+public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 	
 	public static final String NORMAL_CSV_STRING  = "CSV";
 	public static final String UNICODE_CSV_STRING = "UNICODECSV";
 	
 	//private static final int FILE_HEIGHT = SwingUtils.TABLE_ROW_HEIGHT * 27 / 2;
 	
-	private static final String SEP = "~";
-	private static final String NULL_STR = "Empty";
 	
 	private boolean isByteBased = true;
 	
@@ -136,8 +134,29 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 		init_200_LayoutScreen(showCancel, heading);
 		valueChanged();
 	};
+	
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.csv.FilePreview#getContainer()
+	 */
+	@Override
+	public BaseHelpPanel getPanel() {
+		return this;
+	}
+	
+	
+	@Override
+	public JButton getGoButton() {
+		return go;
+	}
 
-	public void setData(byte[][] dataLines, String font) {
+
+	@Override
+	public String getFontName() {
+		return fontTxt.getText();
+	}
+
+
+	private void setData(byte[][] dataLines, String font) {
 		CsvAnalyser anaylyser = new CsvAnalyser(dataLines, -1, "");
 		setUpSeperator(anaylyser);
 		
@@ -148,6 +167,10 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 		linesTbl.setModel(tblMdl);
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.csv.FilePreview#setData(byte[], boolean)
+	 */
+	@Override
 	public boolean setData(byte[] data, boolean checkCharset) {
 		String font = fontTxt.getText();
 		CsvAnalyser anaylyser;
@@ -289,31 +312,35 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 			tblMdl.setQuote(quote);
 			tblMdl.setSeperator(getSeperator());
 			
-			try {
-				String l = tblMdl.getLine(0).trim();
-				
-				tblMdl.setFieldLineNo(getFieldLineNo());
-				if (fieldNamesOnLine.isSelected() && ! "".equals(quote) 
-				&& l.startsWith(quote) && l.endsWith(quote) 
-				&& parseType.getSelectedIndex() == 0) {
-					parseType.setSelectedIndex(3);
-					tblMdl.setParserType(((Integer) parseType.getSelectedItem()).intValue());
+			if (tblMdl.getRowCount() > 0) {
+				try {
+					String l = tblMdl.getLine(0).trim();
+					
+					tblMdl.setFieldLineNo(getFieldLineNo());
+					if (fieldNamesOnLine.isSelected() && ! "".equals(quote) 
+					&& l.startsWith(quote) && l.endsWith(quote) 
+					&& parseType.getSelectedIndex() == 0) {
+						parseType.setSelectedIndex(3);
+						tblMdl.setParserType(((Integer) parseType.getSelectedItem()).intValue());
+					}
+					
+			 		tblMdl.setHideFirstLine(fieldNamesOnLine.isSelected());
+				} catch (Exception e) {
 				}
-				
-		 		tblMdl.setHideFirstLine(fieldNamesOnLine.isSelected());
-			} catch (Exception e) {
 			}
 			tblMdl.setFont(fontTxt.getText());
 			tblMdl.setupColumnCount();
 			tblMdl.fireTableStructureChanged();
+		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			doAction = true;
 		}
 	}
-	/**
-	 * Get The field seperator 
-	 * @return field seperator 
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.csv.FilePreview#getSeperator()
 	 */
+	@Override
 	public final String getSeperator() {
 		
 		String sep = fieldSepTxt.getText();
@@ -365,10 +392,10 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 	}
 
 	
-	/**
-	 * Get The Quote
-	 * @return Quote
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.csv.FilePreview#getQuote()
 	 */
+	@Override
 	public final String getQuote() {
 		String quoteStr = quote.getSelectedItem().toString().trim();
 		
@@ -383,10 +410,10 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 
 
 
-	/**
-	 * @param newLines the lines to set
-	 * @param numberOfLines the actual number of lines used
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.csv.FilePreview#setLines(byte[][], java.lang.String, int)
 	 */
+	@Override
 	public boolean setLines(byte[][] newLines, String font, int numberOfLines) {
 		CsvAnalyser analyser = new CsvAnalyser(newLines, numberOfLines, "");
 		tblMdl.setLines(newLines, font);
@@ -399,10 +426,10 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 		return analyser.isValidChars();
 	}
 
-	/**
-	 * @param newLines the lines to set
-	 * @param numberOfLines the actual number of lines used
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.csv.FilePreview#setLines(java.lang.String[], java.lang.String, int)
 	 */
+	@Override
 	public void setLines(String[] newLines, String font, int numberOfLines) {
 		
 		tblMdl.setLines(newLines);
@@ -429,21 +456,27 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 		}
 	}
 
-	/**
-	 * @return column count
-	 * @see net.sf.RecordEditor.utils.csv.CsvSelectionTblMdl#getColumnCount()
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.csv.FilePreview#getColumnCount()
 	 */
+	@Override
 	public int getColumnCount() {
 		return tblMdl.getColumnCount();
 	}
 
-	/**
-	 * @return the TableModel
-	 */
-	public AbstractCsvTblMdl getTableModel() {
-		return tblMdl;
-	}
+		
 	
+	@Override
+	public String getColumnName(int idx) {
+		// TODO Auto-generated method stub
+		return tblMdl.getColumnName(idx);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.csv.FilePreview#getLayout(java.lang.String, byte[])
+	 */
+	@Override
 	public LayoutDetail getLayout(String font, byte[] recordSep) {
 		LayoutDetail layout;
 		
@@ -484,7 +517,7 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 	    	if (fieldTypes != null) {
 	    		fieldType = fieldTypes[i];
 	    	}
-		    s = getTableModel().getColumnName(i);
+		    s = getColumnName(i);
             flds[i] = new FieldDetail(s, s, fieldType, 0,
                         font, format, param);
             flds[i].setPosOnly(i + 1);
@@ -505,6 +538,10 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 		return layout;
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.csv.FilePreview#getFileDescription()
+	 */
+	@Override
 	public String getFileDescription() {
 		String csv = UNICODE_CSV_STRING;
 		if (isByteBased) {
@@ -520,6 +557,10 @@ public class CsvSelectionPanel extends BaseHelpPanel {
 					+ SEP + getStr(nameLineNoTxt.getText());
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.csv.FilePreview#setFileDescription(java.lang.String)
+	 */
+	@Override
 	public void setFileDescription(String val) {
 		StringTokenizer tok = new StringTokenizer(val, SEP, false);
 		

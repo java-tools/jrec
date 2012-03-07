@@ -153,16 +153,16 @@ implements FocusListener {
 	 */
 	private void init_200_ScreenFields() {
 
+		Common.setBounds1(HelpWindow.HELP_FRAME);
 
-
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-		HelpWindow.HELP_FRAME.setBounds(Common.getSpaceAtRightOfScreen(),
-		          Common.getSpaceAtTopOfScreen(),
-		          screenSize.width  - Common.getSpaceAtRightOfScreen()
-		          		- Common.getSpaceAtLeftOfScreen(),
-		          screenSize.height - Common.getSpaceAtBottomOfScreen()
-		          		- Common.getSpaceAtTopOfScreen());
+//		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//
+//		HelpWindow.HELP_FRAME.setBounds(Common.getSpaceAtRightOfScreen(),
+//		          Common.getSpaceAtTopOfScreen(),
+//		          screenSize.width  - Common.getSpaceAtRightOfScreen()
+//		          		- Common.getSpaceAtLeftOfScreen(),
+//		          screenSize.height - Common.getSpaceAtBottomOfScreen()
+//		          		- Common.getSpaceAtTopOfScreen());
 
 		fileName.addFcFocusListener(this);
 	}

@@ -74,7 +74,7 @@ public class LayoutEdit extends ReMainFrame {
     	AbstractAction[] toolbarActions = {
     			optionAction
     	};
-		buildMenubar(null);
+		buildMenubar(null, null);
 		buildToolbar(newAction, toolbarActions);
 
 		buildFileMenu(null, false, true, newAction);

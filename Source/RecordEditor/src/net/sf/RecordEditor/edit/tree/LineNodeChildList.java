@@ -28,7 +28,7 @@ implements AbstractLineNode {
 	
 	public final String nodeName;
 	private FileView view;
-	private AbstractLine line = null;
+	private static final AbstractLine line = null;
 	
 	private boolean toBuild = true;
 	

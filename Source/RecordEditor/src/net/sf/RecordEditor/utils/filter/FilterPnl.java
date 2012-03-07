@@ -86,7 +86,7 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 
     private BaseHelpPanel pnl2 = new BaseHelpPanel();
     //private JTabbedPane tabOption    = new JTabbedPane();
-    private JPanel RecordOptionPanel = new JPanel();
+    private JPanel recordOptionPanel = new JPanel();
     private JPanel fieldOptionPanel  = new JPanel();
     protected final JTable recordTbl = new JTable();
     private JTable fieldTbl  = new JTable();
@@ -167,7 +167,7 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 	        		pnl2.addHelpBtn(Common.getHelpButton());
 					height = SwingUtils.calculateComboTableHeight(recordTbl.getRowCount(), maxHeight);
 	        	} else {
-	        		pnl2.addHelpBtn(RecordOptionPanel, Common.getHelpButton());
+	        		pnl2.addHelpBtn(recordOptionPanel, Common.getHelpButton());
 					height = SwingUtils.calculateTableHeight(recordTbl.getRowCount(), maxHeight);
 	        	}
 				pnl2.setHeight(SwingUtils.BUTTON_HEIGHT + 6);
@@ -270,8 +270,8 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
         setRecordTableDetails(recordTbl);
         setFieldTableDetails(fieldTbl);
         
-        RecordOptionPanel.add(uncheckAllRecords);
-        RecordOptionPanel.add(checkAllRecords);
+        recordOptionPanel.add(uncheckAllRecords);
+        recordOptionPanel.add(checkAllRecords);
 
         fieldOptionPanel.add(uncheckAllFields);
         fieldOptionPanel.add(checkAllFields);

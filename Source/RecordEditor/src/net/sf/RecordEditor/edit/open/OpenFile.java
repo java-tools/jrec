@@ -29,7 +29,6 @@ import javax.swing.JInternalFrame;
 
 
 import net.sf.JRecord.IO.AbstractLineIOProvider;
-import net.sf.RecordEditor.edit.display.BaseDisplay;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.openFile.AbstractLayoutSelection;
@@ -51,7 +50,7 @@ public class OpenFile extends ReFrame {
 	private OpenFileInterface openFilePanel;
     private static final int FRAME_WIDTH  = SwingUtils.STANDARD_FONT_WIDTH * 72;
 
-	private BaseDisplay display = null;
+//	private BaseDisplay display = null;
 
 	private Rectangle frameSize;
 
@@ -97,7 +96,7 @@ public class OpenFile extends ReFrame {
 	 * @param propertiesFiles properties file holding the recent files
 	 * @param helpScreen help screen to display
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public OpenFile(final String pInFile,
      	   final int pInitialRow,
      	   final AbstractLineIOProvider pIoProvider,
@@ -146,9 +145,7 @@ public class OpenFile extends ReFrame {
 
 
 		setVisible(true);
-		if (display != null) {
-		    display.moveToFront();
-		}
+		
 		
 //		this.addFocusListener(
 //				new FocusAdapter() {

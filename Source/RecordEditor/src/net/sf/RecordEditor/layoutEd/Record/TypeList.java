@@ -45,7 +45,7 @@ public class TypeList extends TableList {
 		for (int i = 0; i < Parameters.DATE_TYPE_TABLE_SIZE; i++) {
 		    name = Parameters.getString(Parameters.PROPERTY_DATE_TYPE_NAME + i);
 		    if (name != null && ! "".equals(name)) {
-                list.add(new ArrayRow(new Object[]{new Integer(j), name}));
+                list.add(new ArrayRow(new Object[]{Integer.valueOf(j), name}));
 		    }
 		    j += 1;
 		}

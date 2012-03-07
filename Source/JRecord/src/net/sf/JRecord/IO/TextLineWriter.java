@@ -14,7 +14,6 @@ package net.sf.JRecord.IO;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
@@ -74,7 +73,10 @@ public class TextLineWriter extends AbstractLineWriter {
     public void write(AbstractLine line) throws IOException  {
 
     	AbstractLayoutDetails layout =  line.getLayout();
-	    String sep = layout.getEolString();
+	    String sep = Constants.LINE_SEPERATOR;
+	    if (layout != null) {
+	    	sep = layout.getEolString();
+	    }
 	    
 	    if (stdWriter == null) {
 	    	if (layout == null || "".equals(layout.getFontName())) {

@@ -40,7 +40,7 @@ import net.sf.RecordEditor.utils.jdbc.AbsRecord;
  *
  * @author Bruce Martin
  */
-public class XmlCopybookLoaderDB extends XmlCopybookLoader implements CopybookLoader {
+public class XmlCopybookLoaderDB extends XmlCopybookLoader {
 
     private int lastDBidx = -1;
 

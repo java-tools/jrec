@@ -195,7 +195,10 @@ public class RunVelocity {
      * @throws Exception any error that occurs
      */
     public final void genSkel(String template,
-            List<AbstractLine> recordList, 
+            List<List<AbstractLine>> recordList,
+            Object root,
+            Object nodes,
+            int treeDepth,
             boolean onlyData, boolean showBorder,
             int recordIdx,
             String inputFile, String outputFile,
@@ -204,9 +207,14 @@ public class RunVelocity {
 
         if (recordList.size() > 0) {
             VelocityContext context   = new VelocityContext();
-            AbstractLine l = recordList.get(0);
+            AbstractLine l = recordList.get(0).get(0);
 
-            context.put("records",    recordList);
+            context.put("records",    recordList.get(0));
+            context.put("file",       recordList.get(1));
+            context.put("view",       recordList.get(2));
+            context.put("treeRoot",   root);
+            context.put("treeNodes",  nodes);
+            context.put("treeDepth",  treeDepth);
             context.put("fileName",   inputFile);
             context.put("outputFile", outputFile);
             context.put("layout",     l.getLayout());

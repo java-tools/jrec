@@ -322,7 +322,7 @@ public class RecordDB  extends AbsDB<RecordRec> {
    */
   protected void setWhere(PreparedStatement statement, RecordRec value, int idx)
                           throws SQLException {
-      statement.setInt(idx++, value.getInitRecordId());
+      statement.setInt(idx, value.getInitRecordId());
   }
 
   /**

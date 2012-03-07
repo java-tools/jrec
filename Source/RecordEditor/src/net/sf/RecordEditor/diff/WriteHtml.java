@@ -309,7 +309,7 @@ public class WriteHtml {
 			Object value1, Object value2)
 	throws IOException {
 		
-		if ( value1.equals( value1)) {
+		if ( value1.equals( value2)) {
 			writer.write("<td>" + fix(value1) + "</td><td>&nbsp;</td></tr>");
 		} else {
 			writer.write("<td bgcolor=lime>" + fix(value1) 

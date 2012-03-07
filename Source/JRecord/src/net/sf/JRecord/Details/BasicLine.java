@@ -101,8 +101,8 @@ implements AbstractLine<LayoutDetail> {
 			    preferredLayoutAlt = layout.getDecider().getPreferedIndex(this);
 			}
 
-
-	    	//System.out.println();
+			
+			// TODO fix default record
 			while ((i < size) && (preferredLayoutAlt == Constants.NULL_INTEGER)) {
 				sel = layout.getRecord(i).getRecordSelection();
 				switch (sel.isSelected(this)) {

@@ -26,11 +26,11 @@ import net.sf.RecordEditor.utils.swing.AbstractRowList;
 public class ComboRec extends AbsRecord {
 
 	public static final int SINGLE_COLUMN = 1;
-	private int Combo_Id;
+	private int comboId;
 	protected int initCombo_Id ;
-	private int System;
-	private String Combo_Name;
-	private int Column_Type;
+	private int system;
+	private String comboName;
+	private int columnType;
 	private AbstractRowList rows = null;
 	//private DBtableModel children;
 	
@@ -44,10 +44,10 @@ public class ComboRec extends AbsRecord {
 	public ComboRec() {
 		super();
 
-		Combo_Id = 0;
-		System = 0;
-		Combo_Name = "";
-		Column_Type = 0;
+		comboId = 0;
+		system = 0;
+		comboName = "";
+		columnType = 0;
 		//con = dbConnection;
 
 		setKeys();
@@ -56,10 +56,10 @@ public class ComboRec extends AbsRecord {
 	public ComboRec(int pCombo_Id, int pSystem, String pCombo_Name, int pColumn_Type) {
 		super(false);
 
-		Combo_Id = pCombo_Id;
-		System = pSystem;
-		Combo_Name = pCombo_Name;
-		Column_Type = pColumn_Type;
+		comboId = pCombo_Id;
+		system = pSystem;
+		comboName = pCombo_Name;
+		columnType = pColumn_Type;
 		//con = dbConnection;
 
 		setKeys();
@@ -70,7 +70,7 @@ public class ComboRec extends AbsRecord {
 	 */
 	public void setKeys() {
 
-		initCombo_Id = Combo_Id;
+		initCombo_Id = comboId;
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class ComboRec extends AbsRecord {
 			return r;
 		}
 
-		ComboRec ret = new ComboRec(Constants.NULL_INTEGER, System, Combo_Name, Column_Type);
+		ComboRec ret = new ComboRec(Constants.NULL_INTEGER, system, comboName, columnType);
 		ret.setNew(true);
 
 		return ret;
@@ -113,9 +113,9 @@ public class ComboRec extends AbsRecord {
 		switch (fieldNum) {
 			// case (0) : return new Integer(Combo_Id);
 			case (0):
-				return new Integer(System);
+				return Integer.valueOf(system);
 			case (1):
-				return Combo_Name;
+				return comboName;
 			default:
 				return "";
 		}
@@ -135,7 +135,7 @@ public class ComboRec extends AbsRecord {
 			// case (0) : setCombo_Id(cnvToInt(Combo_Id, val, "Combo_Id" ));
 			// break;
 			case (0):
-				setSystem(cnvToInt(System, val, "System"));
+				setSystem(cnvToInt(system, val, "System"));
 			break;
 			case (1):
 				setComboName(val);
@@ -170,7 +170,7 @@ public class ComboRec extends AbsRecord {
 	 * This method gets the vaule of Combo_Id
 	 */
 	public int getComboId() {
-		return Combo_Id;
+		return comboId;
 	}
 
 	/**
@@ -181,8 +181,8 @@ public class ComboRec extends AbsRecord {
 	 */
 	public void setComboId(int val) {
 
-		if ((val != Combo_Id) || (updateStatus == NULL_INT_VALUE)) {
-			Combo_Id = val;
+		if ((val != comboId) || (updateStatus == NULL_INT_VALUE)) {
+			comboId = val;
 			updateStatus = UPDATED;
 		}
 	}
@@ -191,7 +191,7 @@ public class ComboRec extends AbsRecord {
 	 * This method gets the vaule of System
 	 */
 	public int getSystem() {
-		return System;
+		return system;
 	}
 
 	/**
@@ -202,8 +202,8 @@ public class ComboRec extends AbsRecord {
 	 */
 	public void setSystem(int val) {
 
-		if ((val != System) || (updateStatus == NULL_INT_VALUE)) {
-			System = val;
+		if ((val != system) || (updateStatus == NULL_INT_VALUE)) {
+			system = val;
 			updateStatus = UPDATED;
 		}
 	}
@@ -212,7 +212,7 @@ public class ComboRec extends AbsRecord {
 	 * This method gets the vaule of Combo_Name
 	 */
 	public String getComboName() {
-		return Combo_Name;
+		return comboName;
 	}
 
 	/**
@@ -224,13 +224,13 @@ public class ComboRec extends AbsRecord {
 	public void setComboName(String val) {
 
 		if ((val == null || "".equals(val))
-				&& (Combo_Name == null || "".equals(Combo_Name))) {
+				&& (comboName == null || "".equals(comboName))) {
 			return;
 		}
 
-		if ((val == null) || (!val.equals(Combo_Name))
+		if ((val == null) || (!val.equals(comboName))
 				|| (updateStatus == NULL_INT_VALUE)) {
-			Combo_Name = val;
+			comboName = val;
 			updateStatus = UPDATED;
 		}
 	}
@@ -240,7 +240,7 @@ public class ComboRec extends AbsRecord {
 	 * @return the column_Type
 	 */
 	public int getColumnType() {
-		return Column_Type;
+		return columnType;
 	}
 
 	/**
@@ -248,8 +248,8 @@ public class ComboRec extends AbsRecord {
 	 */
 	public void setColumnType(int newColumnType) {
 
-		if (Column_Type != newColumnType) {
-			Column_Type = newColumnType;
+		if (columnType != newColumnType) {
+			columnType = newColumnType;
 			updateStatus = UPDATED;
 		}
 	}
@@ -267,26 +267,4 @@ public class ComboRec extends AbsRecord {
 	public void setRows(AbstractRowList rows) {
 		this.rows = rows;
 	}
-	
-//	public ArrayList<ComboValuesRec> getList() {
-//		
-//		ArrayList<ComboValuesRec> children;
-//		//if (children == null) {
-//			allocDB();
-//
-//			valuesDB.setParams(Combo_Id);
-//
-//			children = valuesDB.fetchAll();
-//		//}
-//		return children;
-//	}
-//
-//	
-//	private void allocDB() {
-//		
-//		if (valuesDB == null) {
-//			valuesDB = new ComboValuesDB();
-//			valuesDB.setConnection(con);
-//		}
-//	}
 }

@@ -7,6 +7,7 @@
 package net.sf.JRecord.External;
 
 import java.io.File;
+import java.io.InputStream;
 
 import org.w3c.dom.Document;
 
@@ -18,6 +19,10 @@ import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.Log.AbsSSLogger;
 //Modified to use the Record-Editor version of class Cb2Xml JFG
+import net.sf.JRecord.Numeric.ConversionManager;
+import net.sf.JRecord.Numeric.Convert;
+import net.sf.cb2xml.CopyBookAnalyzer;
+import net.sf.cb2xml.def.NumericDefinition;
 
 /**
  * This class holds routines to load a Cobol Copybook
@@ -91,12 +96,59 @@ public class CobolCopybookLoader implements CopybookLoader {
             log.logException(AbsSSLogger.ERROR, e);
             e.printStackTrace();
             throw new RecordException("problem loading Copybook: " + copyBookFile
-                    		  + "    Message: " + e.getMessage());
+                    		  + "    Message: " + e.getMessage(), e);
         }
 
         return ret;
     }
 
+    /**
+     * Insert a XML Dom Copybook into the Copybook DB
+     *
+     * @param copyBookName Copy Book file Name
+     * @param splitCopybook wether to split a copy book on a redefine / 01
+     * @param dbIdx Database Index
+     * @param font font name to use
+     * @param binaryFormat binary format to use
+     * @param systemId System Identifier
+     * @param log log where any messages should be written
+     *
+     * @return return the record that has been read in
+     * @throws RecordException General Error
+     */
+    public final ExternalRecord loadCopyBook(InputStream inputStream, //Document copyBookXml,
+    		                             String copyBookName,
+            						  		int splitCopybook,
+            						  		int dbIdx,
+                  						  final String font,
+                						  final int binaryFormat,
+                						  final int systemId,
+                						  final AbsSSLogger log)
+    				throws RecordException {
+        ExternalRecord ret = null;
+        //System.out.println("load Copybook (Cobol)");
+        Convert conv = ConversionManager.getInstance().getConverter4code(binaryFormat) ;
+        try {
+        	CopyBookAnalyzer.setNumericDetails((NumericDefinition) conv.getNumericDefinition());
+            Document xml = net.sf.cb2xml.Cb2Xml.convertToXMLDOM(inputStream, false);
+
+            if (xml != null) {
+	            ret = xmlLoader.loadDOMCopyBook(xml, copyBookName,
+	                    splitCopybook, dbIdx,
+					    font, binaryFormat, systemId);
+	        } else {
+            	log.logMsg(AbsSSLogger.ERROR, "Error parsing Cobol File ???");
+            }
+        } catch (Exception e) {
+            log.logMsg(AbsSSLogger.ERROR, e.getMessage());
+            log.logException(AbsSSLogger.ERROR, e);
+            e.printStackTrace();
+            throw new RecordException("problem loading Copybook: " + copyBookName
+                    		  + "    Message: " + e.getMessage(), e);
+        }
+
+        return ret;
+    }
 
     /**
      * wether cb2xml is available (needed for converting a Cobol Copybook

@@ -43,7 +43,7 @@ public abstract class AbsDB<record extends AbsRecord> {
 	public static final String nullStr = "";
 	public static final byte   nullBytes[] = {};
 
-	public String sqlID;
+//	public String sqlID;
 
 	protected AbsConnection connect;
 
@@ -61,7 +61,7 @@ public abstract class AbsDB<record extends AbsRecord> {
 
 	protected String sep = " Where ";
 	protected String orderBy = nullStr;
-	protected    int numParms = 0;
+//	protected    int numParms = 0;
 
 	private int readLimit = 2000000000;
 
@@ -80,6 +80,7 @@ public abstract class AbsDB<record extends AbsRecord> {
 	protected PreparedStatement updateStatement = null;
 	protected PreparedStatement deleteStatement = null;
 	protected PreparedStatement insertStatement = null;
+	private PreparedStatement getMaxKey = null;
 	protected ResultSet rsCursor;
 
 	private ArrayList<String> parmList = new ArrayList<String>();
@@ -324,7 +325,7 @@ public abstract class AbsDB<record extends AbsRecord> {
 	    int i;
 
 	    for (i = 0; i < parmList.size(); i++) {
-	        sqlCursor.setString(++start, parmList.get(i).toString());
+	        sqlCursor.setString(++start, parmList.get(i));
 	    }
 	}
 
@@ -360,6 +361,7 @@ public abstract class AbsDB<record extends AbsRecord> {
 	    closeStatement(updateStatement);
 	    closeStatement(deleteStatement);
 	    closeStatement(insertStatement);
+	    closeStatement(getMaxKey);
 
 	    rsCursor  = null;
 	}
@@ -403,7 +405,7 @@ public abstract class AbsDB<record extends AbsRecord> {
         parmList.clear();
  	    sWhere = nullStr;
 	    sep = " And ";
-	    numParms = 0;
+	    //numParms = 0;
 	    
 	    if (sqlCursor != null) {
 		    try {
@@ -574,7 +576,7 @@ public abstract class AbsDB<record extends AbsRecord> {
 	 *
 	 * @return columns class
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes" })
 	public Class getColumnClass(Class defaultClass, int column) {
 
 		return defaultClass;
@@ -817,5 +819,41 @@ public abstract class AbsDB<record extends AbsRecord> {
 		this.doFree = free;
 
 		freeConnection();
+	}
+	
+	/**
+	 * This method gets the next key
+	 */
+	protected final int getNextIntSubKey(String sql, int recordId) {
+		return getNextIntSubKey(sql, recordId, Integer.MIN_VALUE);
+	}
+	
+	/**
+	 * This method gets the next key
+	 */
+	protected final int getNextIntSubKey(String sql, int recordId, int key2) {
+		int ret = 1;
+
+		try {
+			if (isPrepareNeeded(getMaxKey)) {
+				getMaxKey = connect.getConnection().prepareStatement(sql);
+			}
+
+			getMaxKey.setInt(1, recordId);
+			if (key2 != Integer.MIN_VALUE) {
+				getMaxKey.setInt(1, key2);
+			}
+
+			ResultSet rsKey = getMaxKey.executeQuery();
+			if (rsKey.next()) {
+				ret = rsKey.getInt(1) + 1;
+			}
+			rsKey.close();
+			message = "";
+		} catch (Exception ex) {
+			setMessage(sql, ex.getMessage(), ex);
+		}
+		
+		return ret;
 	}
 }

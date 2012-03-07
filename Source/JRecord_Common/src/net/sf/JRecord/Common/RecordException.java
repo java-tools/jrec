@@ -21,4 +21,9 @@ public class RecordException extends Exception {
 		super(msg);
 	}
 
+	public RecordException(String msg, Throwable exception) {
+		super(msg, exception);
+		// TODO Auto-generated constructor stub
+	}
+
 }

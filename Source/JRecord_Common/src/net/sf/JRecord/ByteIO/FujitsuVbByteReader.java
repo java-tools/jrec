@@ -23,7 +23,7 @@ import java.math.BigInteger;
  * into an Array of bytes
  *
  * @author Jean-Francois Gagnon
- *
+ * 0.69.1  Bruce Martin Fix to support lines up to 64000 bytes long
  */
 public class FujitsuVbByteReader extends AbstractByteReader {
 

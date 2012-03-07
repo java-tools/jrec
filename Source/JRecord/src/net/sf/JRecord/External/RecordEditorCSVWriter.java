@@ -105,8 +105,8 @@ public class RecordEditorCSVWriter implements CopybookWriter {
 			description = field.getDescription();
 			if (description == null) {
 				description = "";
-			} else if (description.indexOf(fldSeperator) > 0
-					||  description.indexOf('\n') > 0) {
+			} else if (description.indexOf(fldSeperator) >= 0
+					||  description.indexOf('\n') >= 0) {
 				description = fixDescription(description);
 			}
 			writer.write(field.getPos() + fldSeperator

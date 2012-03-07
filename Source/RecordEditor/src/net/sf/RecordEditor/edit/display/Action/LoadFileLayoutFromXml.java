@@ -92,15 +92,15 @@ public class LoadFileLayoutFromXml extends AbstractAction implements AbstractAct
 		public void actionPerformed(ActionEvent arg0) {
 	
 			FileView<?> masterView = panel.getFileView().getBaseFile();
-			CopybookLoaderFactory readers = CopybookLoaderFactory.getInstance();
+			//CopybookLoaderFactory readers = CopybookLoaderFactory.getInstance();
 			String fname = super.getFileName();
-			String lname = Common.stripDirectory(fname);
+			//String lname = Common.stripDirectory(fname);
 
-			if (lname == null || "".equals(lname)) {
-				lname = masterView.getLayout().getLayoutName();
-			} else {
-				lname = removeExtension(lname);
-			}
+//			if (lname == null || "".equals(lname)) {
+//				lname = masterView.getLayout().getLayoutName();
+//			} else {
+//				lname = removeExtension(lname);
+//			}
 							
 			try {
 			

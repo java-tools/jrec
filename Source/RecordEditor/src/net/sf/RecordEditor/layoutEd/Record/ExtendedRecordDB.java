@@ -95,13 +95,13 @@ public class ExtendedRecordDB extends RecordDB {
 				recDb.setSearchArg("RecordId", AbsDB.opEquals, "" + child.getChildRecord());
 				recDb.open();
 				r = recDb.fetch();
-				childRecord = r.getValue();
-				childRecord.addTstField(child.getField(), child.getFieldValue());
-				childRecord.setParentRecord(child.getParentRecord());
-
-				fetch_Fields(childRecord);
-				
 				if (r != null) {
+					childRecord = r.getValue();
+					childRecord.addTstField(child.getField(), child.getFieldValue());
+					childRecord.setParentRecord(child.getParentRecord());
+
+					fetch_Fields(childRecord);
+				
 					rec.addRecord(childRecord);
 				}
 				child = childDb.fetch(); 
@@ -245,7 +245,7 @@ public class ExtendedRecordDB extends RecordDB {
                 	child.setParentRecord(rec.getRecord(child.getParentRecord()).getRecordId());
                 } catch (Exception e) {	}
 
-                childRec = new ChildRecordsRec(child.getRecordId(), 0, "", "", -1);
+                childRec = ChildRecordsRec.getBlankChildRec(child.getRecordId());
                 childRec.setParentRecord(child.getParentRecord());
                 childRec.setField(child.getTstField());
                 childRec.setFieldValue(child.getTstFieldValue());

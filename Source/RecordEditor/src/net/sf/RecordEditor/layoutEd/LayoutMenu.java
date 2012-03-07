@@ -21,6 +21,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JMenu;
 
+import net.sf.RecordEditor.layoutEd.Record.LoadCobolIntoDBScreen;
 import net.sf.RecordEditor.layoutEd.Record.LoadXmlLayoutsIntoDB;
 import net.sf.RecordEditor.layoutEd.Record.RecordEdit1Record;
 import net.sf.RecordEditor.layoutEd.Record.SaveLayoutsDBAsXml;
@@ -112,6 +113,12 @@ public class LayoutMenu extends JMenu {
 		        new LoadXmlLayoutsIntoDB(databaseDetails.getCurrentDbIdentifier());
             }
         };
+        AbstractAction loadCopybooksFromCobol = new AbstractAction("Load Copybooks from Cobol Directory") {
+            public void actionPerformed(ActionEvent e) {
+		        new LoadCobolIntoDBScreen(databaseDetails.getCurrentDbIdentifier());
+            }
+        };
+
 
         create = RecordEdit1Record.getAction(databaseDetails);
 
@@ -129,6 +136,7 @@ public class LayoutMenu extends JMenu {
         this.add(loadCopybook);
         this.add(saveCopybooksAsXml);
         this.add(loadCopybooksFromXml);
+        this.add(loadCopybooksFromCobol);
 
         addSeperator();
         

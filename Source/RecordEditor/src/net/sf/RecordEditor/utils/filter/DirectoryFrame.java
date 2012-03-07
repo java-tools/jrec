@@ -60,7 +60,9 @@ public class DirectoryFrame extends ReFrame {
 			fileChooser.setApproveButtonText(btnTxt[1]);
 		}
 
-		fileChooser.setSelectedFile(new File(dir));
+		if (dir != null) {
+			fileChooser.setSelectedFile(new File(dir));
+		}
 		//fileChooser.setControlButtonsAreShown(false);
 		
 		pnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP1,

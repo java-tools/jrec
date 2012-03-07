@@ -113,7 +113,7 @@ public class TypeManager {
 
             types[Type.ftFjZonedNumeric]		= new TypeFjZoned();
             
-            types[Type.ftCharRestOfFixedRecord] = new TypeCharRestOfFixedRecord();
+//            types[Type.ftCharRestOfFixedRecord] = new TypeCharRestOfFixedRecord();
             types[Type.ftCharRestOfRecord]		= new TypeCharRestOfRecord();
 
         }

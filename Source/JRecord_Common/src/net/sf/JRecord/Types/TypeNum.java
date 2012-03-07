@@ -170,7 +170,7 @@ public class TypeNum extends TypeChar {
 		    len = s.length();
 
 		    s = sign + Conversion.numTrim(s.substring(0, len - decimal))
-		    + "." + s.substring(len - decimal);
+		      + Conversion.getDecimalchar() + s.substring(len - decimal);
 		} else if (! s.equals("")) {
 		    s = Conversion.numTrim(s);
 		}
@@ -203,7 +203,7 @@ public class TypeNum extends TypeChar {
 
 	    checkCharNumLength(val, len);
 
-	    if (padChar == "0" && val.startsWith("-")) {
+	    if (padChar.equals("0") && val.startsWith("-")) {
 	        copyRightJust(record, val.substring(1), pos, len, "0", font);
 	        record[pos] = '-';
 	    } else if (typeIdentifier == Type.ftNumLeftJustified) {
@@ -242,9 +242,10 @@ public class TypeNum extends TypeChar {
 	        }
 	    } else {
 	        try {
+	        	// TODO Introduce localisation !!!!
 	            BigDecimal decimalVal = new BigDecimal(Conversion.numTrim(val));
 
-	            NumberFormat nf = NumberFormat.getNumberInstance();
+	            NumberFormat nf = Conversion.getNumberformat();
 	            nf.setGroupingUsed(false);
 	            if ((field.getDecimal() > 0) && adjustTheDecimal) {
 	                decimalVal = decimalVal.multiply(new BigDecimal(

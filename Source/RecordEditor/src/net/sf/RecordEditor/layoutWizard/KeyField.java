@@ -3,7 +3,7 @@ package net.sf.RecordEditor.layoutWizard;
 import net.sf.JRecord.Types.Type;
 
 public class KeyField {
-	public final static Integer CHAR_TYPE = new Integer(Type.ftChar);
+	public final static Integer CHAR_TYPE = Integer.valueOf(Type.ftChar);
 	
     protected String keyName = "";
     protected int keyStart;

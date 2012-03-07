@@ -20,17 +20,17 @@ import net.sf.RecordEditor.utils.jdbc.AbsRecord;
  */
 public final class TableRec extends AbsRecord {
 
-  private int TblKey;
+  private int tblKey;
   protected int initTblKey ;
-  private String Details;
+  private String details;
 
 
 
   public TableRec () {
       super();
 
-      TblKey = 0;
-      Details = "";
+      tblKey = 0;
+      details = "";
 
       setKeys();
   }
@@ -41,8 +41,8 @@ public final class TableRec extends AbsRecord {
                   ) {
       super(false);
 
-      TblKey = pTblKey;
-      Details = pDetails;
+      tblKey = pTblKey;
+      details = pDetails;
 
       setKeys();
   }
@@ -53,7 +53,7 @@ public final class TableRec extends AbsRecord {
    */
   public void setKeys() {
 
-      initTblKey = TblKey;
+      initTblKey = tblKey;
   }
 
   
@@ -64,7 +64,7 @@ public final class TableRec extends AbsRecord {
    */
   @Override
   public boolean hasTheKeyChanged() {
-	  return initTblKey != TblKey;
+	  return initTblKey != tblKey;
   }
 
 /**
@@ -77,8 +77,8 @@ public final class TableRec extends AbsRecord {
       super.clone();
 
       TableRec ret = new TableRec(
-                        TblKey
-                      , Details
+                        tblKey
+                      , details
                     );
 
       ret.setNew(true);
@@ -109,8 +109,8 @@ public final class TableRec extends AbsRecord {
       if (updateStatus == NULL_INT_VALUE) return "";
 
       switch (fieldNum) {
-        case (0) : return new Integer(TblKey);
-        case (1) : return Details;
+        case (0) : return Integer.valueOf(tblKey);
+        case (1) : return details;
         default  : return "";
       }
   }
@@ -125,7 +125,7 @@ public final class TableRec extends AbsRecord {
   protected void setFieldWithString(int fieldNum, String val) {
 
       switch (fieldNum) {
-        case (0) : setTblKey(cnvToInt(TblKey, val, "TblKey" ));
+        case (0) : setTblKey(cnvToInt(tblKey, val, "TblKey" ));
         break;
         case (1) : setDetails(val);
         break;
@@ -153,7 +153,7 @@ public final class TableRec extends AbsRecord {
    *  This method gets the vaule of TblKey
    */
   public int getTblKey() {
-      return TblKey;
+      return tblKey;
   }
 
   /**
@@ -163,8 +163,8 @@ public final class TableRec extends AbsRecord {
    */
   public void setTblKey(int val) {
 
-      if ((val != TblKey) || (updateStatus == NULL_INT_VALUE)) {
-           TblKey = val;
+      if ((val != tblKey) || (updateStatus == NULL_INT_VALUE)) {
+           tblKey = val;
            updateStatus = UPDATED;
       }
   }
@@ -173,7 +173,7 @@ public final class TableRec extends AbsRecord {
    *  This method gets the vaule of Details
    */
   public String getDetails() {
-      return Details;
+      return details;
   }
 
   /**
@@ -184,12 +184,12 @@ public final class TableRec extends AbsRecord {
   public void setDetails(String val) {
 
       if ((val == null || "".equals(val))
-      && (Details == null || "".equals(Details))) {
+      && (details == null || "".equals(details))) {
           return;
       }
 
-      if ((val == null) || (! val.equals(Details)) || (updateStatus == NULL_INT_VALUE)) {
-           Details = val;
+      if ((val == null) || (! val.equals(details)) || (updateStatus == NULL_INT_VALUE)) {
+           details = val;
            updateStatus = UPDATED;
       }
   }

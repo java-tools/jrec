@@ -217,6 +217,9 @@ public class XmlCopybookLoader implements CopybookLoader {
 
         commonDetails = null;
 
+        if (parentLayout == null) {
+        	parentLayout = currentLayout;
+        }
         parentLayout.dropFiller();
         freeDBs(pDbIdx);
 
@@ -265,8 +268,8 @@ public class XmlCopybookLoader implements CopybookLoader {
                                 newSuffix = nameSuffix + ", " + j;
                             }
 
-                            insertElement(childElement, copyBookPref, newSuffix, j * length);
-                            insertXMLcopybook(copyBookPref,  childElement, j * length, newSuffix);
+                            insertElement(childElement, copyBookPref, newSuffix, basePosition + j * length);
+                            insertXMLcopybook(copyBookPref,  childElement, basePosition + j * length, newSuffix);
                         }
                     } else {
                         insertElement(childElement, copyBookPref, nameSuffix, basePosition);

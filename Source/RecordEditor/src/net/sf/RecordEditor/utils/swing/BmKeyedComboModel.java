@@ -1,5 +1,5 @@
 /*
- * Created on 19/09/2004
+101 * Created on 19/09/2004
  *
  */
 package net.sf.RecordEditor.utils.swing;

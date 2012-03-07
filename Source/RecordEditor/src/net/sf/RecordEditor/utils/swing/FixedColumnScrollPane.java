@@ -156,7 +156,7 @@ public class FixedColumnScrollPane extends JScrollPane  {
 
         //  Remove the fixed columns from the main table
 //        System.out.println("   >>> Fixed Count " + fixedColumns);
-        for (i = fixedColumns - 1; i >= 0; i--) {
+        for (i = Math.min(fixedColumns, columnModel.getColumnCount()) - 1; i >= 0; i--) {
             columnModel.removeColumn(columnModel.getColumn(i));
         }
 
@@ -262,10 +262,10 @@ public class FixedColumnScrollPane extends JScrollPane  {
 
     	int idx;
     	TableColumn mainColumn = main.getColumnModel().getColumn(col);
-      	String s = mainColumn.getHeaderValue().toString();
-    	if ((idx = s.indexOf('|')) >= 0) {
-    		s = s.substring(idx + 1);
-    	}
+//      	String s = mainColumn.getHeaderValue().toString();
+//    	if ((idx = s.indexOf('|')) >= 0) {
+//    		s = s.substring(idx + 1);
+//    	}
 
 
        showFields.hideColumn(mainColumn, col);

@@ -1,7 +1,6 @@
 package net.sf.JRecord.zTest.io;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.FileReader;
 import java.util.StringTokenizer;
 
@@ -253,11 +252,7 @@ public class TstCsvWrite  extends TestCase {
 			+ "		</RECORD>"
 			+ "	</RECORDS>"
 			+ "</RECORD>";
-		
-		ByteArrayInputStream bs = new ByteArrayInputStream(c.getBytes());
-		
-		RecordEditorXmlLoader loader = new RecordEditorXmlLoader();
        
-		return loader.loadCopyBook(bs, "Csv Layout").asLayoutDetail();
+		return RecordEditorXmlLoader.getExternalRecord(c, "Csv Layout").asLayoutDetail();
 	}
 }

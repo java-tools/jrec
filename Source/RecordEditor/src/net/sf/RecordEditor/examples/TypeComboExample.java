@@ -155,7 +155,7 @@ public class TypeComboExample extends TypeChar implements CellFormat {
      * @author Bruce Martin
      *
      */
-    private class ComboRendor implements TableCellRenderer {
+    private static class ComboRendor implements TableCellRenderer {
         private JComboBox combo;
 
 

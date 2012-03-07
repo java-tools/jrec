@@ -42,7 +42,7 @@ public class WizardFileMenu implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getSource() == wizBtn) {
-			new WizardFileLayout(new ReFrame("File Wizard","", null), "", null, true);
+			new WizardFileLayout(new ReFrame("File Wizard","", null), "", null, true, true);
 		} else {
 			new ConvertLayout();
 		}

@@ -219,7 +219,7 @@ implements TreeTableNotify {
 		Object oldValue = rec.getField(recordIdx,  col);
 		
 		if (! ((newValue == null && oldValue == null)
-			|| newValue.equals(oldValue))) {
+			|| (newValue != null && newValue.equals(oldValue)))) {
 //			System.out.println("## " + lNode.getLineNumber() + " " + column 
 //					+ " " + adjustColumn(column) + " >" + newValue);
 	

@@ -163,7 +163,7 @@ public class BasePanel extends JPanel {
 	private String heading = null;
 	private JComponent headingComponent = null;
 
-	private boolean toBeDone = true;
+	private boolean toBeDone = true, singleColumn = false;
 
 	/**
 	 * @throws java.awt.HeadlessException
@@ -180,6 +180,17 @@ public class BasePanel extends JPanel {
 		}
 	}
 
+	public final void oneColumn() {
+		fieldLayout[0][0] = TableLayout.FULL;
+		fieldLayout[0][1] = TableLayout.FULL;
+		
+		vGaps[1] = TableLayout.FILL;
+		vGaps[3] = TableLayout.PREFERRED;
+		
+		singleColumn = true;
+	}
+	
+	
 	/**
 	 * Adds a Heading Field to the Form
 	 *
@@ -245,6 +256,7 @@ public class BasePanel extends JPanel {
 				new TableLayoutConstraints(1, currRow, 1, currRow,
 						fieldLayout[PROMPT][0], fieldLayout[PROMPT][1]));
 			if (component != null
+			&& ! singleColumn
 			&& promptLbl.getPreferredSize().height <= component.getPreferredSize().height
 			&& component.getPreferredSize().height <= FIELD_COMPARE2) {
 				Dimension d = promptLbl.getPreferredSize();
@@ -262,7 +274,11 @@ public class BasePanel extends JPanel {
 		}
 
 		setNumCols(3);
-		if (component != null) {
+		if (component == null) {
+			if (promptLbl != null) {
+				lSize[currRow] = Math.max(lSize[currRow], promptLbl.getPreferredSize().getHeight());
+			}
+		} else {
 		    this.add(component,
 		            new TableLayoutConstraints(3, currRow, 3, currRow,
 		                    fieldLayout[FIELD][0], fieldLayout[FIELD][1]));
@@ -324,10 +340,10 @@ public class BasePanel extends JPanel {
 	public final BasePanel addLine(String prompt, JComponent component, JComponent component2, JComponent component3) {
 		JLabel promptLbl = null;
 
-		if (promptLbl != null) {
+//		if (promptLbl != null) {
 			 promptLbl = new JLabel(prompt);
 			 promptLbl.setHorizontalAlignment(JLabel.RIGHT);
-		}
+//		}
 		return addLine(promptLbl, component, component2, component3);
 	}
 	

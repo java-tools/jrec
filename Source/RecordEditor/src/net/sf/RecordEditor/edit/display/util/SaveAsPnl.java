@@ -17,6 +17,7 @@ import javax.swing.table.TableColumnModel;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.openFile.RecentFiles;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
@@ -30,7 +31,8 @@ public class SaveAsPnl extends BaseHelpPanel {
 	public final static int FMT_FIXED = 2;
 	public final static int FMT_XML = 3;
 	public final static int FMT_HTML = 4;
-	public final static int FMT_VELOCITY = 5;
+	public final static int FMT_XSLT = 5;
+	public final static int FMT_VELOCITY = 6;
 	
 	public final static int SINGLE_TABLE = 1;
 	public final static int TABLE_PER_ROW = 2;
@@ -43,8 +45,17 @@ public class SaveAsPnl extends BaseHelpPanel {
 		"Fixed",
 		"Xml",
 		"Html",
+		"XSLT Transform",
 		"Velocity"
 	};
+	
+//	public final static String[] XSLT_OPTIONS = {
+//		"",
+//		"net.sf.saxon.TransformerFactoryImpl",
+//		"org.apache.xalan.processor.TransformerFactoryImpl"
+//	};
+	
+	
 	private final static int NULL_INT = Constants.NULL_INTEGER;
 	private final static int COL_NAME = 0;
 	private final static int COL_INCLUDE = 1;
@@ -54,12 +65,13 @@ public class SaveAsPnl extends BaseHelpPanel {
 	
 
 	public final String extension;
-	public final int panelFormat;
+	public final int panelFormat, extensionType;
 
     public final JComboBox delimiterCombo  = new JComboBox(Common.FIELD_SEPARATOR_LIST1);
     public final JComboBox quoteCombo = new JComboBox(Common.QUOTE_LIST);
     public final JCheckBox quoteAllTextFields = new JCheckBox();
-    
+    public final JTextField xsltTxt  = new JTextField();
+   
     public final JTextField font = new JTextField();
     
     private final ButtonGroup grp = new ButtonGroup();
@@ -82,9 +94,11 @@ public class SaveAsPnl extends BaseHelpPanel {
     
     public int rowCount;
     
+  
 	public SaveAsPnl(int format) {
 		FileChooser templ = null;
 		String ext = "$";
+		int extType = RecentFiles.RF_NONE;
 		       
         this.setGap(BasePanel.GAP1);
 		switch (format) {
@@ -111,8 +125,19 @@ public class SaveAsPnl extends BaseHelpPanel {
 			this.setGap(GAP0);
 			addHtmlFields();
 			break;
+		case FMT_XSLT:
+			ext = ".xml";
+			extType = RecentFiles.RF_XSLT;
+			
+			this.addLine("Xslt Engine (leave blank for default)", xsltTxt);
+			
+			xsltTxt.setText(Common.OPTIONS.XSLT_ENGINE.get());
+			templ = new FileChooser(true, "get Xslt");
+			templ.setText(Common.OPTIONS.DEFAULT_XSLT_DIRECTORY.get());
+            this.addLine("Xslt File", templ, templ.getChooseFileButton());
+			break;
 		case FMT_VELOCITY:
-			ext = ".html";
+			extType = RecentFiles.RF_XSLT;
 			addHtmlFields();
 			templ = new FileChooser(true, "get Template");
             
@@ -123,6 +148,7 @@ public class SaveAsPnl extends BaseHelpPanel {
 		template = templ;
 		extension = ext;
 		panelFormat = format;
+		extensionType = extType;
 	}
 	
 	private void layoutCsvPnl() {

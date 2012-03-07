@@ -56,7 +56,7 @@ public class ComboCreate extends ReFrame {
 
 	//private int currRow = 0;
 	private int connectionId;
-	private ComboRec firstRecord = null;
+	private static final ComboRec firstRecord = null;
 
 
 

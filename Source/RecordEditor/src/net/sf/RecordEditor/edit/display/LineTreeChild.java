@@ -13,6 +13,7 @@ import net.sf.JRecord.Details.AbstractLine;
 import net.sf.RecordEditor.edit.file.AbstractLineNode;
 import net.sf.RecordEditor.edit.file.FilePosition;
 import net.sf.RecordEditor.edit.file.FileView;
+import net.sf.RecordEditor.edit.tree.LineNode;
 import net.sf.RecordEditor.edit.tree.LineNodeChild;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
@@ -25,7 +26,7 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 //	model.fireTreeStructureChanged(node, node.getPath(), 
 	//		childIdx, children);
 	//private static final Object[] rootPath = {};
-	public LineTreeChild(FileView viewOfFile, AbstractLineNode rootNode, 
+	public LineTreeChild(@SuppressWarnings("rawtypes") FileView viewOfFile, AbstractLineNode rootNode, 
 			boolean mainView, final int columnsToSkip) {
 		super(viewOfFile, mainView, true, columnsToSkip, TREE_OPTION_PANEL);
 		super.setDisplayType(TREE_DISPLAY);
@@ -350,6 +351,20 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 	public boolean isActionAvailable(int action) {
 		
 		return action == ReActionHandler.REPEAT_RECORD
-		 		|| super.isActionAvailable(action);
+		 		|| (  action != ReActionHandler.SELECTED_VIEW
+		 		   && super.isActionAvailable(action));
+	}
+
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getNewDisplay(net.sf.RecordEditor.edit.file.FileView)
+	 */
+	@Override
+	protected BaseDisplay getNewDisplay(FileView view) {
+		LineNode ln = new LineNode("root", view, -1);
+		ln.setFirstLeafLine(0);
+		ln.setLastLeafLine(view.getRowCount());
+		return new LineTreeChild(view, ln, false, this.cols2skip);
 	}
 }

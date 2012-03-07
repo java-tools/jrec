@@ -19,7 +19,7 @@ public class CsvSelectionStringTblMdl
      extends AbstractTableModel 
   implements AbstractCsvTblMdl {
 	
-	private final int lines2read = 30;
+	private static final int LINES_TO_READ = 30;
 	
 	private byte[] data;
 	private int columnCount = 1;
@@ -256,7 +256,7 @@ public class CsvSelectionStringTblMdl
 			int i = 0;
 			BufferedReader r;
 			
-			lines = new String[lines2read];
+			lines = new String[LINES_TO_READ];
 			
 	
 			try {

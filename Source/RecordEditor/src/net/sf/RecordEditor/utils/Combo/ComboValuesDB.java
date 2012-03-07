@@ -183,7 +183,7 @@ public class ComboValuesDB  extends AbsDB<ComboValuesRec> {
                           throws SQLException {
 
       statement.setInt(idx++, paramCombo_Id);
-      statement.setString(idx++, correctStr(value.initCombo_Code));
+      statement.setString(idx, correctStr(value.initCombo_Code));
   }
   
 

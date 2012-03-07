@@ -86,10 +86,10 @@ public class Wizard extends AbstractWizard<Details> {
 	
 	
 	/**
-	 * @see net.sf.RecordEditor.utils.wizards.AbstractWizard#ap_100_changePanel(int)
+	 * @see net.sf.RecordEditor.utils.wizards.AbstractWizard#changePanel(int)
 	 */
 	@Override
-	protected void ap_100_changePanel(int inc) {
+	public void changePanel(int inc) {
 		
 		if (getPanelNumber() == 0) {
 			Details details = super.getWizardDetails();
@@ -103,7 +103,7 @@ public class Wizard extends AbstractWizard<Details> {
 				super.setPanels(panelsCsv);
 			}
 		}
-		super.ap_100_changePanel(inc);
+		super.changePanel(inc);
 	}
 
 

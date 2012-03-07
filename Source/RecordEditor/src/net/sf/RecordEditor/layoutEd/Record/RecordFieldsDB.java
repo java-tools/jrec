@@ -8,7 +8,6 @@
 package net.sf.RecordEditor.layoutEd.Record;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
@@ -58,7 +57,6 @@ public class RecordFieldsDB  extends AbsDB<RecordFieldsRec> {
 
 
   private PreparedStatement delAllRecordFields = null;
-  private PreparedStatement getMaxKey = null;
   private int paramRecordId;
 
   public RecordFieldsDB() {
@@ -238,7 +236,7 @@ public class RecordFieldsDB  extends AbsDB<RecordFieldsRec> {
                           throws SQLException {
  
       statement.setInt(idx++, paramRecordId);
-      statement.setInt(idx++, value.initSubKey);
+      statement.setInt(idx, value.initSubKey);
   }
 
 
@@ -275,26 +273,8 @@ public class RecordFieldsDB  extends AbsDB<RecordFieldsRec> {
       final String sql = "Select max(SubKey) From  Tbl_RF_RecordFields "
                    +  " Where RecordId= ? "
                  ;
-      int ret = 1;
-
-      try {
-          if (isPrepareNeeded(getMaxKey)) {
-              getMaxKey = connect.getConnection().prepareStatement(sql);
-          }
-
-          getMaxKey.setInt(1, paramRecordId);
-
-          ResultSet rsKey = getMaxKey.executeQuery();
-          if (rsKey.next()) {
-              ret = rsKey.getInt(1) + 1;
-          }
-          rsKey.close();
-          message = "";
-     } catch (Exception ex) {
-          setMessage(sql, ex.getMessage(), ex);
-     }
-
-    return ret;
+      
+      return getNextIntSubKey(sql, paramRecordId);
   }
 
 
@@ -333,8 +313,6 @@ public class RecordFieldsDB  extends AbsDB<RecordFieldsRec> {
      super.fullClose();
 
      closeStatement(delAllRecordFields);
-
-     closeStatement(getMaxKey);
 
  }
 

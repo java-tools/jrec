@@ -309,8 +309,7 @@ public class ColumnSelector {
     		lookCompLittleEndian.setSelected(false);
     	}
     	
-    	(new FieldSearch()).findFields(
-    			currentDetails, recordDef,
+    	(new FieldSearch(currentDetails, recordDef)).findFields(
     			lookMainframeZoned.isSelected(), lookPcZoned.isSelected(),
     			lookComp3.isSelected(),
     			lookCompBigEndian.isSelected(), lookCompLittleEndian.isSelected()
@@ -328,7 +327,7 @@ public class ColumnSelector {
      *
      * @throws Exception any errors generated
      */
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public final void readFile(Details detail, RecordDefinition recordDefinition) throws Exception {
         AbstractLineReader reader = detail.getReader();
         int i = 0;

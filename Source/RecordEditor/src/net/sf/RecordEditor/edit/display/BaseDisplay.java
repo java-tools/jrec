@@ -170,7 +170,9 @@ implements AbstractFileDisplay, ILayoutChanged {
                     fileView.pasteLines(getInsertAfterPosition());
                 } else if (event.getKeyCode() == KeyEvent.VK_L) {
                 	new GotoLine(BaseDisplay.this, fileView);;                
-                }
+                } else if (event.getKeyCode() == KeyEvent.VK_K) {
+                	System.out.println("Table Class:" + tblDetails.getClass().getName());
+               }
                 lastWhen = event.getWhen();
                 //System.out.print("   !!!");
             }
@@ -401,7 +403,9 @@ implements AbstractFileDisplay, ILayoutChanged {
 		
 		if (action == ReActionHandler.SAVE_AS_VELOCITY && o != null) {
 			executeSaveAs(SaveAsNew.FORMAT_VELOCITY, o.toString());
-		} else {
+		} else if (action == ReActionHandler.SAVE_AS_XSLT && o != null) {
+			executeSaveAs(SaveAsNew.FORMAT_XSLT, o.toString());
+		} else{
 			executeAction(action);
 		}
 	}
@@ -427,7 +431,16 @@ implements AbstractFileDisplay, ILayoutChanged {
 			case ReActionHandler.SHOW_INVALID_ACTIONS: 		createErrorView();	  					break;
 			case ReActionHandler.TABLE_VIEW_SELECTED: 		createView();							break;
 			case ReActionHandler.RECORD_VIEW_SELECTED:		createRecordView();						break;
-			case ReActionHandler.COLUMN_VIEW_SELECTED:		createColumnView();				   		break;
+			case ReActionHandler.COLUMN_VIEW_SELECTED:		createColumnView();	                    break;
+			case ReActionHandler.SELECTED_VIEW:
+				int[] selRows = getSelectedRows();
+
+				if (selRows != null && selRows.length > 0) {
+					BaseDisplay bd = getNewDisplay(fileView.getView(selRows));
+					copyVisibility(bd);
+					bd.layoutCombo.setSelectedIndex(layoutCombo.getSelectedIndex());
+				}
+				break;
 			case ReActionHandler.BUILD_SORTED_TREE:			new CreateSortedTree(this, fileView);	break;
 			case ReActionHandler.BUILD_FIELD_TREE:			new CreateFieldTree(this, fileView);	break;
 			case ReActionHandler.BUILD_RECORD_TREE:		  	new CreateRecordTree(this, fileView);	break;
@@ -462,6 +475,8 @@ implements AbstractFileDisplay, ILayoutChanged {
 			break;
 			case ReActionHandler.SAVE_AS_VELOCITY:
 			    executeSaveAs(SaveAsNew.FORMAT_VELOCITY, "");
+			case ReActionHandler.SAVE_AS_XSLT:
+			    executeSaveAs(SaveAsNew.FORMAT_XSLT, "");
 			break;
 			case ReActionHandler.SAVE_AS_XML:
 				if (layout.hasTreeStructure() || layout.hasChildren()) {
@@ -508,6 +523,25 @@ implements AbstractFileDisplay, ILayoutChanged {
 	                Common.logMsg("Printing failed (Printing requires Java 1.5)", e);
 	            }
 			break;
+			case ReActionHandler.PRINT_SELECTED:
+				int[] selRowsP = getSelectedRows();
+
+				if (selRowsP != null && selRowsP.length > 0) {
+					try {
+						BaseDisplay bd = getNewDisplay(fileView.getView(selRowsP));
+						//JTable t = bd.tblDetails;
+						bd.layoutCombo.setSelectedIndex(layoutCombo.getSelectedIndex());
+						copyVisibility(bd);
+						bd.setVisible(true);
+						bd.setVisible(false);
+						bd.executeAction(ReActionHandler.PRINT);
+						bd.dispose();
+				    } catch (Exception e) {
+		                Common.logMsg("Printing failed (Printing requires Java 1.5)", e);
+		            }
+				}
+
+				break;
 			case ReActionHandler.AUTOFIT_COLUMNS:
 				Common.calcColumnWidths(getJTable(), 1);
 			}
@@ -808,6 +842,7 @@ implements AbstractFileDisplay, ILayoutChanged {
     	|| (action == ReActionHandler.TABLE_VIEW_SELECTED)
     	|| (action == ReActionHandler.RECORD_VIEW_SELECTED)
     	|| (action == ReActionHandler.COLUMN_VIEW_SELECTED)
+    	|| (action == ReActionHandler.SELECTED_VIEW)
     	|| (action == ReActionHandler.SAVE_AS)
      	|| (action == ReActionHandler.SAVE_AS_CSV)
      	|| (action == ReActionHandler.SAVE_AS_FIXED)
@@ -815,10 +850,12 @@ implements AbstractFileDisplay, ILayoutChanged {
     	|| (action == ReActionHandler.SAVE_AS_HTML_TBL_PER_ROW)
     	|| (action == ReActionHandler.SAVE_AS_HTML_TREE && layout.hasChildren())
     	|| (action == ReActionHandler.SAVE_AS_VELOCITY)
+    	|| (action == ReActionHandler.SAVE_AS_XSLT)
 		|| (action == ReActionHandler.COPY_RECORD)
 		|| (action == ReActionHandler.CLOSE)
         || (action == ReActionHandler.HELP)
         || (action == ReActionHandler.PRINT)
+        || (action == ReActionHandler.PRINT_SELECTED)
         || ( (! layout.hasChildren())
 	        && (  	    action == ReActionHandler.BUILD_SORTED_TREE
 	        		||  action == ReActionHandler.BUILD_FIELD_TREE
@@ -916,17 +953,6 @@ implements AbstractFileDisplay, ILayoutChanged {
 		if (Common.OPTIONS.highlightEmptyActive.isSelected()) {
 			tblDetails.setDefaultRenderer(Object.class, new StandardRendor());
 		}
-
-//		tblDetails.setDefaultRenderer(ArrayInterface.class, new ArrayRender());
-//		for (int i =0; i < classList.size(); i++) {
-//			tblDetails.setDefaultRenderer(classList.get(i), renderList.get(i));
-//			tblDetails.setDefaultEditor(classList.get(i), editorList.get(i));
-//			System.out.println("Render : " + i 
-//					+ " " + classList.get(i).getName() 
-//					+ " " + renderList.get(i).getClass().getName()
-//					+ " " + tblDetails.getDefaultRenderer(classList.get(i)));
-//		}
-		
 	}
 
 
@@ -1311,10 +1337,14 @@ implements AbstractFileDisplay, ILayoutChanged {
      * This method defines the Column Headings
      */
     protected final void defineColumns(int numCols, int blankColumns, int columnsToSkip) {
+    	defineColumns(tblDetails, numCols, blankColumns, columnsToSkip);
+    }
+    
+    protected final void defineColumns(JTable tblDtls, int numCols, int blankColumns, int columnsToSkip) {
         int i, idx, count;
-        tblDetails.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        tblDtls.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        TableColumnModel tcm = tblDetails.getColumnModel();
+        TableColumnModel tcm = tblDtls.getColumnModel();
 
         for (i = blankColumns; i < numCols; i++) {
             if (widths != null && (i - blankColumns) < widths.length  && widths[i - blankColumns] > 0) {
@@ -1355,7 +1385,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 			}
         }
 
-        Common.calcColumnWidths(tblDetails, blankColumns + 1);
+        Common.calcColumnWidths(tblDtls, blankColumns + 1);
         setRowHeight();
     }
 
@@ -1406,46 +1436,6 @@ implements AbstractFileDisplay, ILayoutChanged {
 //		editorList.add(editor);
 //	}
 
-    /**
-     *
-     * @author Bruce Martin
-     *
-     * This class supplies Column Tips (displayed
-     * when the cursor is held over a column).
-     */
-    private class HeaderToolTips extends JTableHeader {
-        private String[] tips;
-
-        /**
-         *
-         * @param columnModel column model to use
-         */
-        public HeaderToolTips(final TableColumnModel columnModel) {
-            super(columnModel);
-        }
-
-        /**
-         * Define the Column Heading Tips
-         *
-         * @param strings - List of strings Tips
-         */
-        public void setTips(String[] strings) {
-            tips = strings;
-        }
-
-        /**
-         * @see javax.swing.table.JTableHeader#getToolTipText
-         */
-        public String getToolTipText(MouseEvent m) {
-            String tip = super.getToolTipText(m);
-            int col = tblDetails.columnAtPoint(m.getPoint());
-            if ((tips != null) && ((col < tips.length) && (col >= 0))) {
-                tip = tips[col];
-            }
-
-            return tip;
-        }
-    }
 
 
 	/**
@@ -1516,6 +1506,20 @@ implements AbstractFileDisplay, ILayoutChanged {
 		this.copyHiddenFields = copyHiddenFields;
 	}
 
+	private void copyVisibility(BaseDisplay bd) {
+		if (this instanceof AbstractFileDisplayWithFieldHide) {
+			int count = layoutCombo.getItemCount();
+			AbstractFileDisplayWithFieldHide from = (AbstractFileDisplayWithFieldHide) this;
+			AbstractFileDisplayWithFieldHide to = (AbstractFileDisplayWithFieldHide) bd;
+			
+			for (int i = 0; i < count; i++) {
+				to.setFieldVisibility(i, from.getFieldVisibility(i));
+			}
+		}
+	}
+	
+	//protected abstract JTable getNewTable(FileView view);
+	protected abstract BaseDisplay getNewDisplay(FileView view);
 	
 	protected final void setupForChangeOfLayout() {
 		
@@ -1527,4 +1531,54 @@ implements AbstractFileDisplay, ILayoutChanged {
 			fireLayoutIndexChanged();
 		}
 	}
+	
+	protected final void setMaximumSize() {
+		
+        try {
+        	this.setMaximum(true);
+        } catch (Exception e) {
+		}
+	}
+	
+	
+    /**
+    *
+    * @author Bruce Martin
+    *
+    * This class supplies Column Tips (displayed
+    * when the cursor is held over a column).
+    */
+   private class HeaderToolTips extends JTableHeader {
+       private String[] tips;
+
+       /**
+        *
+        * @param columnModel column model to use
+        */
+       public HeaderToolTips(final TableColumnModel columnModel) {
+           super(columnModel);
+       }
+
+       /**
+        * Define the Column Heading Tips
+        *
+        * @param strings - List of strings Tips
+        */
+       public void setTips(String[] strings) {
+           tips = strings;
+       }
+
+       /**
+        * @see javax.swing.table.JTableHeader#getToolTipText
+        */
+       public String getToolTipText(MouseEvent m) {
+           String tip = super.getToolTipText(m);
+           int col = tblDetails.columnAtPoint(m.getPoint());
+           if ((tips != null) && ((col < tips.length) && (col >= 0))) {
+               tip = tips[col];
+           }
+
+           return tip;
+       }
+   }
 }

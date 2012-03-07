@@ -178,9 +178,9 @@ public class MenuPopupListener extends MouseAdapter {
      * @param e the mouse event that triggered this action
      */
     private void maybeShowPopup(MouseEvent e) {
-         if (e.isPopupTrigger() && isOkToShowPopup(e)) {
+         if (e != null && e.isPopupTrigger() && isOkToShowPopup(e)) {
         	 popupRow = -1;
-        	 if (tbl != null && e != null) {
+        	 if (tbl != null) {
         		popupCol = tbl.columnAtPoint(e.getPoint());
              	popupRow = tbl.rowAtPoint(e.getPoint());
         	 }

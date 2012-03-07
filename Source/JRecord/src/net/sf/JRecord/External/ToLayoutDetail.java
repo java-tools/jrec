@@ -12,6 +12,7 @@ import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
+import net.sf.JRecord.Details.Selection.Convert;
 
 
 /**
@@ -118,8 +119,8 @@ public class ToLayoutDetail {
 	            def.getFontName(), fields, def.getRecordStyle());
 	    ret.setParentRecordIndex(def.getParentRecord());
 	    
-	    if (def.getTstFieldCount() > 0) {
-	    	ret.getRecordSelection().add(def.getTstFields());
+	    if (def.getRecSelect() != null && def.getRecSelect().getSize() > 0) {
+	    	ret.getRecordSelection().setRecSel((new Convert()).convert(def.getRecSelect(), ret));
 	    }
 	    
 	    if (def.isDefaultRecord()) {

@@ -347,12 +347,12 @@ public class UpdateCsvLayout implements ActionListener {
 		return type;
 	}
 	
-	private class FieldDef {
+	private static class FieldDef {
 		public int sourceField, originalPos, decimal;
 		public Boolean include = Boolean.TRUE;
 		public String name;
 		public String type;
-		public String source = "";
+//		public String source = "";
 		public String defaultValue = "";
 		//public Boolean defaultInEmpty = Boolean.TRUE;
 		
@@ -449,6 +449,7 @@ public class UpdateCsvLayout implements ActionListener {
 				} else {
 					f.sourceField = layout.getRecord(0).getFieldIndex(val.toString());
 				}
+				break;
 			case DEFAULT_COL: 
 				if (val == null) {
 					f.defaultValue = "";

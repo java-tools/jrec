@@ -16,7 +16,7 @@ import net.sf.RecordEditor.utils.jdbc.AbsDB;
  *              FieldStart as Start,
  *              Field,
  *              FieldValue
- *       from Tbl_RS_SubRecords
+ *       from Tbl_RS1_SubRecords
  *       where RecordId = ?
  *
  *   </pre>
@@ -27,213 +27,258 @@ import net.sf.RecordEditor.utils.jdbc.AbsDB;
 
 public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 
+	public static final String DB_NAME = "Tbl_RS1_SubRecords";
+	private static final String[] COLUMN_NAMES = {
+		"Child Record"
+		, "Field Start"
+		, "Field"
+		, "Field Value"
+		, "Tree Parent"
+	};
 
-  private static final String[] COLUMN_NAMES = {
-                   "Child Record"
-                 , "Field Start"
-                 , "Field"
-                 , "Field Value"
-                 , "Tree Parent"
-  };
 
+	private PreparedStatement delAllChildRecords = null;
 
-  private PreparedStatement delAllChildRecords = null;
-  private int paramRecordId;
+	private int paramRecordId;
 
-  public ChildRecordsDB() {
+	public ChildRecordsDB() {
 
-      resetSearch();
+		resetSearch();
 
-      sSQL = " Select  ChildRecord, FieldStart, Field, FieldValue, PARENT_RECORDID";
-      sFrom = "  from Tbl_RS_SubRecords";
-      sWhereSQL = "  where RecordId = ?";
-      sOrderBy = " ";
-      updateSQL = "Update Tbl_RS_SubRecords  "
-                   +  " Set ChildRecord= ? "
-                   +  "   , FieldStart= ? "
-                   +  "   , Field= ? "
-                   +  "   , FieldValue= ? "
-                   +  "   , PARENT_RECORDID = ?"
-                   +  " Where RecordId= ? "
-                   +  "   and ChildRecord= ? "
-                        ;
+		sSQL = " Select  ChildRecord, FieldStart, Field, FieldValue, PARENT_RECORDID, ChildKey, operatorSequence";
+		sFrom = "  from " + DB_NAME;
+		sWhereSQL = "  where RecordId = ?";
+		sOrderBy = " Order by ChildKey";
+		updateSQL = "Update " + DB_NAME
+				+  " Set ChildKey= ? "
+				+  "   , ChildRecord= ? "
+				+  "   , FieldStart= ? "
+				+  "   , Field= ? "
+				+  "   , FieldValue= ? "
+				+  "   , PARENT_RECORDID = ?"
+				+  "   , operatorSequence = ?"
+				+  " Where RecordId= ? "
+				+  "   and ChildKey= ? "
+				;
 
-      deleteSQL = "Delete From  Tbl_RS_SubRecords  "
-                   +  " Where RecordId= ? "
-                   +  "   and ChildRecord= ? "
-                        ;
+		deleteSQL = "Delete From  " + DB_NAME
+				+  " Where RecordId= ? "
+				+  "   and ChildKey= ? "
+				;
 
-      insertSQL = "Insert Into  Tbl_RS_SubRecords  ("
-                      + "    ChildRecord"
-                      + "  , FieldStart"
-                      + "  , Field"
-                      + "  , FieldValue"
-                      + "  , PARENT_RECORDID" 
-                      + "  , RecordId" 
+		insertSQL = "Insert Into  " + DB_NAME + "  ("
+				+ "    ChildKey"
+				+ "  , ChildRecord"
+				+ "  , FieldStart"
+				+ "  , Field"
+				+ "  , FieldValue"
+				+ "  , PARENT_RECORDID" 
+				+ "  , operatorSequence"
+				+ "  , RecordId" 
+
                       + ") Values ("
-                      +    "     ?   , ?   , ?   , ?   , ?, ?"
+                      +    "     ?   , ?   , ?   , ?   , ?, ?   , ?, ?"
                       + ")";
 
-      super.columnNames = ChildRecordsDB.COLUMN_NAMES;
-  }
+		super.columnNames = ChildRecordsDB.COLUMN_NAMES;
+	}
 
 
-  /**
-   * sets up the DB parameters
-   *
-   * @param RecordId
-   *
-   */
-  public void setParams( int RecordId) {
+	/**
+	 * sets up the DB parameters
+	 *
+	 * @param RecordId
+	 *
+	 */
+	public void setParams( int RecordId) {
 
-      paramRecordId = RecordId;
-  }
+		paramRecordId = RecordId;
+	}
+	
+	public int getRecordId() {
 
-  /**
-   *  This method opens a SQL query
-   */
-  public void open() {
+		return paramRecordId;
+	}
 
-      prepareCursor();
+	/**
+	 *  This method opens a SQL query
+	 */
+	public void open() {
 
-      try {
-          sqlCursor.setInt(1, paramRecordId);
+		prepareCursor();
 
-          setStringArgs(1);
+		try {
+			sqlCursor.setInt(1, paramRecordId);
 
-
-          rsCursor  = sqlCursor.executeQuery();
-          message = "";
-      } catch (Exception ex) {
-           setMessage(ex.getMessage(), ex);
-      }
-  }
+			setStringArgs(1);
 
 
-//  /**
-//   *  This method returns the next record (AbsRecord) from the cursor
-//   */
-//  public AbsRecord absFetch() {
-//      return fetch();
-//  }
+			rsCursor  = sqlCursor.executeQuery();
+			message = "";
+		} catch (Exception ex) {
+			setMessage(ex.getMessage(), ex);
+		}
+	}
 
 
-  /**
-   *  This method returns the next record from the cursor
-   */
-  public ChildRecordsRec fetch() {
-  ChildRecordsRec ret = null;
-
-      try {
-          if (rsCursor.next()) {
-             ret = new ChildRecordsRec(
-                        rsCursor.getInt(1)
-                      , rsCursor.getInt(2)
-                      , rsCursor.getString(3)
-                      , rsCursor.getString(4)
-                      , rsCursor.getInt(5)
-                   );
-          }
-          message = "";
-      } catch (Exception ex) {
-           setMessage(ex.getMessage(), ex);
-      }
-
-      return ret;
-  }
+	//  /**
+	//   *  This method returns the next record (AbsRecord) from the cursor
+	//   */
+	//  public AbsRecord absFetch() {
+	//      return fetch();
+	//  }
 
 
-  /**
-   *  Get the number of columns returned by the SQL
-   */
-  public int getColumnCount() {
-      return 5;
-  }
+	/**
+	 *  This method returns the next record from the cursor
+	 */
+	public ChildRecordsRec fetch() {
+		ChildRecordsRec ret = null;
+
+		try {
+			if (rsCursor.next()) {
+				ret = new ChildRecordsRec(
+						  rsCursor.getInt(1)
+						, rsCursor.getInt(2)
+						, rsCursor.getString(3)
+						, rsCursor.getString(4)
+						, rsCursor.getInt(5)
+						, rsCursor.getInt(6)
+						, rsCursor.getInt(7)
+						);
+			}
+			message = "";
+		} catch (Exception ex) {
+			setMessage(ex.getMessage(), ex);
+		}
+
+		return ret;
+	}
 
 
-
-
-
-  /**
-   *
-   * @param statement statement that needs parameteres set
-   * @param value Value to assign to the Statement parameters
-   * @param idx parameter index
-   *
-   * @return updated index
-   * @throws SQLException SQL error
-   */
-  protected int setSQLParams(PreparedStatement statement, ChildRecordsRec value, boolean insert, int idx)
-                             throws SQLException {
-      ChildRecordsRec val = value;
-
-      statement.setInt(idx++, val.getChildRecord());
-      statement.setInt(idx++, val.getStart());
-      statement.setString(idx++, correctStr(val.getField()));
-      statement.setString(idx++, correctStr(val.getFieldValue()));
-      statement.setInt(idx++, val.getParentRecord());
-
-      if (insert) {
-    	  statement.setInt(idx++, paramRecordId);
-      }
-
-      return idx;
-  }
-
-
-  /**
-   * Setup the where parameters
-   *
-   * @param statement SQL statement
-   * @param value Value to assign to the Statement parameters
-   * @param idx current index
-   * @throws SQLException SQL error
-   */
-  protected void setWhere(PreparedStatement statement, ChildRecordsRec value, int idx)
-                          throws SQLException {
-      //ChildRecordsRec val =  value;
-
-      statement.setInt(idx++, paramRecordId);
-      statement.setInt(idx++, value.initChildRecord);
-  }
-
-
-  /**
-   *  This method deletes all records matching the parameters
-   */
-  public void deleteAll() {
-
-      try {
-          if (isPrepareNeeded(delAllChildRecords)) {
-              delAllChildRecords = connect.getUpdateConnection().prepareStatement(
-                   "Delete From  Tbl_RS_SubRecords  "
-                   +  " Where RecordId= ? "
-                        );
-          }
-
-          delAllChildRecords.setInt(1, paramRecordId);
-
-          delAllChildRecords.executeUpdate();
-          message = "";
-      } catch (Exception ex) {
-           setMessage(ex.getMessage(), ex);
-      } finally {
-    	 freeConnection();
-      }
-  }
+	/**
+	 *  Get the number of columns returned by the SQL
+	 */
+	public int getColumnCount() {
+		return 5;
+	}
 
 
 
 
-/**
- *   Close the prepared statments
- */
- public void fullClose() {
 
-     super.fullClose();
+	/**
+	 *
+	 * @param statement statement that needs parameteres set
+	 * @param value Value to assign to the Statement parameters
+	 * @param idx parameter index
+	 *
+	 * @return updated index
+	 * @throws SQLException SQL error
+	 */
+	protected int setSQLParams(PreparedStatement statement, ChildRecordsRec value, boolean insert, int idx)
+			throws SQLException {
+		ChildRecordsRec val = value;
 
-     closeStatement(delAllChildRecords);
+		statement.setInt(idx++, val.getChildKey());
+		statement.setInt(idx++, val.getChildRecord());
+		statement.setInt(idx++, val.getStart());
+		statement.setString(idx++, correctStr(val.getField()));
+		statement.setString(idx++, correctStr(val.getFieldValue()));
+		statement.setInt(idx++, val.getParentRecord());
+		statement.setInt(idx++, val.getOperatorSequence());
+		
 
- }
+		if (insert) {
+			statement.setInt(idx++, paramRecordId);
+		}
+
+		return idx;
+	}
+
+
+	/**
+	 * Setup the where parameters
+	 *
+	 * @param statement SQL statement
+	 * @param value Value to assign to the Statement parameters
+	 * @param idx current index
+	 * @throws SQLException SQL error
+	 */
+	protected void setWhere(PreparedStatement statement, ChildRecordsRec value, int idx)
+			throws SQLException {
+		//ChildRecordsRec val =  value;
+
+		statement.setInt(idx++, paramRecordId);
+		statement.setInt(idx++, value.initChildKey);
+	}
+
+
+	/**
+	 *  This method deletes all records matching the parameters
+	 */
+	public void deleteAll() {
+
+		try {
+			if (isPrepareNeeded(delAllChildRecords)) {
+				delAllChildRecords = connect.getUpdateConnection().prepareStatement(
+						"Delete From  " + DB_NAME
+						+  " Where RecordId= ? "
+						);
+			}
+
+			delAllChildRecords.setInt(1, paramRecordId);
+
+			delAllChildRecords.executeUpdate();
+			message = "";
+		} catch (Exception ex) {
+			setMessage(ex.getMessage(), ex);
+		} finally {
+			freeConnection();
+		}
+	}
+
+
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.jdbc.AbsDB#insert(net.sf.RecordEditor.utils.jdbc.AbsRecord)
+	 */
+	@Override
+	public void insert(ChildRecordsRec value) {
+		int i = 0;
+		boolean free = super.isSetDoFree(false);
+
+		int key = getNextKey();
+
+		value.setChildKey(key++);
+		while ((i++ < 10) && (! tryToInsert(value))) {
+			value.setChildKey(key++);
+		}
+
+		super.setDoFree(free);
+	}
+
+	/**
+	 * This method gets the next key
+	 */
+	private int getNextKey() {
+		final String sql = "Select max(ChildKey) From  Tbl_RS1_SubRecords "
+				+  " Where RecordId= ? "
+				;
+		return getNextIntSubKey(sql, paramRecordId);
+	}
+	
+	
+	/**
+	 *   Close the prepared statments
+	 */
+	public void fullClose() {
+
+		super.fullClose();
+
+		closeStatement(delAllChildRecords);
+
+	}
 
 }

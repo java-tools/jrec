@@ -208,7 +208,7 @@ public class RunSavedCompare extends ReFrame {
 		JibxCall<DiffDefinition> jibx = new JibxCall<DiffDefinition>(DiffDefinition.class);
 		String filename = xmlFileName.getText();
 		
-		if (filename == null && "".equals(filename)) {
+		if (filename == null || "".equals(filename)) {
 			message.setText("You must Enter a filename");
 		} else {		
 			try {

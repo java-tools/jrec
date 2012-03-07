@@ -33,8 +33,7 @@ import net.sf.JRecord.Common.XmlConstants;
  * @author Bruce Martin
  *
  */
-public class XmlLine extends ArrayListLine<FieldDetail, RecordDetail, LayoutDetail>
-implements AbstractLine<LayoutDetail> {
+public class XmlLine extends ArrayListLine<FieldDetail, RecordDetail, LayoutDetail> {
 	private boolean useField4Index = true;
 
     public XmlLine(LayoutDetail layoutDetails, int recordIdx) {

@@ -78,7 +78,7 @@ public class Pnl7SaveDbLayout extends WizardPanel {
 		
         layoutName.setText(detail.layoutName);
         layoutDescription.setText(detail.layoutDescription);
-    	system.setSelectedItem(new Integer(detail.system));
+    	system.setSelectedItem(Integer.valueOf(detail.system));
 		
 		if (detail.layoutWriterIdx < 0) {
 			detail.layoutWriterIdx = Common.getCopybookWriterIndex();

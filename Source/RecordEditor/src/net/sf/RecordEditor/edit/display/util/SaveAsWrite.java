@@ -24,16 +24,16 @@ public class SaveAsWrite {
 		
 		switch(DisplayType.displayType(layout, recFrame.getLayoutIndex())) {
 		case DisplayType.PREFFERED:
-			ret = new writePreferedLayout();
+			ret = new WritePreferedLayout();
 			break;
 		case DisplayType.FULL_LINE:
-			ret = new writeFullLine();
+			ret = new WriteFullLine();
 			break;
 		case DisplayType.HEX_LINE:
-			ret = new writeHexLine();
+			ret = new WriteHexLine();
 			break;
 		default:
-			ret = new writeFromLayout();
+			ret = new WriteFromLayout();
 		}
 		
 		ret.layout = layout;
@@ -100,7 +100,7 @@ public class SaveAsWrite {
 
 	}
 	
-	public static class writeFromLayout extends BaseWrite {
+	public static class WriteFromLayout extends BaseWrite {
 		
 		int colCount;
 
@@ -191,7 +191,7 @@ public class SaveAsWrite {
 
 	}
 	
-	public static class writePreferedLayout extends BaseWrite {
+	public static class WritePreferedLayout extends BaseWrite {
 		protected void writeLine(FieldWriter writer, AbstractLine<?> line) 
 		throws IOException {
 			Object o;
@@ -214,10 +214,8 @@ public class SaveAsWrite {
 
 	}
 	
-	public static class writeFullLine extends BaseWrite {
+	public static class WriteFullLine extends BaseWrite {
 		
-		int colCount;
-
 		protected void writeAFile(
 	    		FieldWriter writer, FileView view, 
 	    		int layoutIdx,
@@ -231,7 +229,7 @@ public class SaveAsWrite {
 	    	super.writeAFile(writer, view, layoutIdx, rows, namesFirstLine);
 		}
 		protected void writeLine(FieldWriter writer, AbstractLine<?> line) throws IOException {
-			byte[] bytes= line.getData();
+			//byte[] bytes= line.getData();
 			
 			writer.writeField(line.getFullLine());
 			writer.newLine();
@@ -240,10 +238,8 @@ public class SaveAsWrite {
 	}
 	
 	
-	public static class writeHexLine extends BaseWrite {
+	public static class WriteHexLine extends BaseWrite {
 		
-		int colCount;
-
 		protected void writeAFile(
 	    		FieldWriter writer, FileView view, 
 	    		int layoutIdx,

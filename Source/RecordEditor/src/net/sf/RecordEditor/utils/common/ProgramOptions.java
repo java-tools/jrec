@@ -14,6 +14,9 @@ public class ProgramOptions {
     private static final char[] compressOptions = {COMPRESS_SPACE, COMPRESS_READ, COMPRESS_READ_FAST_CPU, COMPRESS_NO, COMPRESS_YES};
     private static final char[] largeOptions = {LARGE_VB_NO, LARGE_VB_YES, LARGE_VB_TEST};
                               
+	public final BoolOpt searchAllFields = new BoolOpt(Parameters.SEARCH_ALL_FIELDS);
+	public final BoolOpt MAXIMISE_SCREEN  = new BoolOpt(Parameters.MAXIMISE_SCREEN);
+
 	public final BoolOpt usePrefered = new BoolOpt(Parameters.PREFERED_AS_DEFAULT);
 	public final BoolOpt warnBinaryFieldsAndStructureDefault = new BoolOpt(Parameters.WARN_BINARY_FIELDS_DEFAULT);
 	public final BoolOpt runFieldSearchAutomatically = new BoolOpt(Parameters.FS_RUN_AUTOMATIC);
@@ -21,7 +24,8 @@ public class ProgramOptions {
 	public final BoolOpt searchForPcZoned = new BoolOpt(Parameters.FS_PC_ZONED);
 	public final BoolOpt searchForComp3 = new BoolOpt(Parameters.FS_COMP3);
 	public final BoolOpt searchForCompBigEndian = new BoolOpt(Parameters.FS_COMP_BIG_ENDIAN);
-	public final BoolOpt searchForCompLittleEndian = new BoolOpt(Parameters.FS_COMP_Little_ENDIAN) {
+	public final BoolOpt useNewTreeExpansion = new BoolOpt(Parameters.USE_NEW_TREE_EXPANSION);
+	public final BoolOpt searchForCompLittleEndian = new BoolOpt(Parameters.FS_COMP_LITTLE_ENDIAN) {
 
 		/* (non-Javadoc)
 		 * @see net.sf.RecordEditor.utils.common.ProgramOptions.BoolOpt#isSelected()
@@ -36,10 +40,12 @@ public class ProgramOptions {
 	public final BoolOpt logToFront = new BoolOpt(Parameters.BRING_LOG_TO_FRONT);
 	public final BoolOpt loadInBackgroundThread = new BoolOpt(Parameters.PROPERTY_LOAD_FILE_BACKGROUND);
 	public final BoolOpt asterixInFileName = new BoolOpt(Parameters.ASTERIX_IN_FILE_NAME);
-	public final BoolOpt useBigFixedModel = new BoolOpt(Parameters.PROPERTY_BIG_FILE_USE_SPECIAL_FIXED_MODEL);
+	public final BoolOpt useBigFixedModel  = new BoolOpt(Parameters.PROPERTY_BIG_FILE_USE_SPECIAL_FIXED_MODEL);
 
 	public final UpdateableBoolOpt highlightEmpty = new UpdateableBoolOpt(Parameters.PROPERTY_HIGHLIGHT_EMPTY);
 	public final InternalBoolOption highlightEmptyActive = new InternalBoolOption(false);
+	
+	public final InternalBoolOption XSLT_AVAILABLE = new InternalBoolOption(true);
 	
 	public final IntOpt significantCharInFiles1 = new IntOpt("SignificantCharInFiles.1", 6, 1);
 	public final IntOpt significantCharInFiles2 = new IntOpt("SignificantCharInFiles.2", 12, 1);
@@ -47,7 +53,7 @@ public class ProgramOptions {
 	public final IntOpt launchIfMatch = new IntOpt("LauchEditorIfMatch", 8, 1);
 	
 	public final IntOpt chunkSize = new IntOpt(Parameters.PROPERTY_BIG_FILE_CHUNK_SIZE, 1048576, 1024);
-	public final IntOpt filterLimit = new IntOpt(Parameters.PROPERTY_BIG_FILE_FILTER_LIMIT, 75000, 1000);
+	public final IntOpt filterLimit = new IntOpt(Parameters.PROPERTY_BIG_FILE_FILTER_LIMIT, 300000, 1000);
 	public final IntOpt bigFilePercent = new IntOpt(Parameters.PROPERTY_BIG_FILE_PERCENT, 14, 1);
 	
 	
@@ -58,10 +64,13 @@ public class ProgramOptions {
 	public final StringOpt DEFAULT_BIN_NAME = new StringOpt(Parameters.DEFAULT_BINARY, "");
 	public final StringOpt COPYBOOK_READER = new StringOpt(Parameters.DEFAULT_COPYBOOK_READER, "");
 
+	public final StringOpt XSLT_ENGINE = new StringOpt(Parameters.XSLT_ENGINE, "");
+
 	public final FileNameOpt DEFAULT_FILE_DIRECTORY = new FileNameOpt("DefaultFileDirectory");
 	public final FileNameOpt DEFAULT_COBOL_DIRECTORY = new FileNameOpt("DefaultCobolDirectory");
 	public final FileNameOpt DEFAULT_COPYBOOK_DIRECTORY = new FileNameOpt(Parameters.COPYBOOK_DIRECTORY);
 	public final FileNameOpt DEFAULT_VELOCITY_DIRECTORY = new FileNameOpt(Parameters.VELOCITY_TEMPLATE_DIRECTORY);
+	public final FileNameOptWithDefault DEFAULT_XSLT_DIRECTORY = new FileNameOptWithDefault(Parameters.XSLT_TEMPLATE_DIRECTORY, "<reproperties>/User/Xslt/");
 
 	
 	public static class BoolOpt {
@@ -150,8 +159,8 @@ public class ProgramOptions {
 	}
 	
 	
-	public static final class StringOpt {
-		private String param;
+	public static class StringOpt {
+		protected final String param;
 		private String defValue;
 
 		
@@ -170,17 +179,41 @@ public class ProgramOptions {
 			
 			return ret;
 		}
+		
+		public void set(String newVal) {
+			Parameters.setProperty(param, newVal);
+		}
 	}
 	
-	public static final class FileNameOpt {
+	
+	public static class FileNameOpt {
 		private String param;
 		
 		public FileNameOpt(String value) {
 			param = value;
 		}
 
-		public final String get() {
+		public String get() {
 			return  Parameters.getFileName(param);
+		}
+	}
+	
+	public static final class FileNameOptWithDefault {
+		private String param;
+		private String defaultValue;
+		public FileNameOptWithDefault(String value, String defaultValue) {
+			param = value;
+			
+			this.defaultValue = defaultValue;
+		}
+		
+		public String get() {
+			String s = Parameters.getFileName(param);
+			
+			if ("".equals(s)) {
+				s = defaultValue;
+			}
+			return s;
 		}
 	}
 

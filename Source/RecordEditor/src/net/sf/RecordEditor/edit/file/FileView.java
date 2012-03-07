@@ -933,10 +933,10 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		    if ((layoutIdx >= layout.getRecordCount())) {
 		    	switch(DisplayType.displayType(layout, layoutIdx)) {
 				case DisplayType.FULL_LINE:
-		            String s = "";
-		            if (val != null) {
+		            String s;// = "";
+		            //if (val != null) {
 		                s = val.toString();
-		            }
+		            //}
 		            currLine.setData(s);
 		            fireRowUpdated(row, currLine);
 		        default:
@@ -1816,9 +1816,10 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    if (pos.found) {
 			AbstractLine updateLine;
 			String s;
+			int col = getRealColumn(pos.recordId, pos.currentFieldNumber);
 			
 			if (operator == Compare.OP_CONTAINS) {
-				s =  lines.get(pos.row).getField(pos.recordId, pos.currentFieldNumber).toString();
+				s =  lines.get(pos.row).getField(pos.recordId, col).toString();
 			    StringBuffer b = new StringBuffer(s);
 
 			    b.replace(pos.col, pos.col + searchFor.length(), replaceWith);
@@ -1832,7 +1833,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			if (updateLine == null) {
 				updateLine = lines.get(pos.row);
 			}
-			updateLine.setField(pos.recordId, pos.currentFieldNumber, s);
+			updateLine.setField(pos.recordId, col, s);
 			setChanged(true);
 
 			pos.adjustPosition(searchFor.length(), operator);
@@ -1858,7 +1859,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 
 		String icSearchFor = searchFor;
 		pos.found = false;
-		int numRows = getRowCount();
+		//int numRows = getRowCount();
 		BigDecimal testNumber = Compare.getNumericValue(operator, searchFor);
 		boolean anyWhereInTheField = (operator == Compare.OP_CONTAINS)
 								  || (operator == Compare.OP_DOESNT_CONTAIN);
@@ -2373,32 +2374,32 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    }		
 	}
 	
-	/**
-	 * Writes the lines to using supplied writer
-	 * @param writer writer to write lines to
-	 * @param pLines linesto be written
-	 *
-	 * @throws IOException any error that occurs
-	 */
-	private void writeToFile(AbstractLineWriter writer, List<AbstractLine> pLines)
-	throws IOException {
-	    int i;
-
-	    writer.setLayout(layout);
-	    
-	    if (pLines instanceof DataStore) {
-	    	DataStore ds = (DataStore) pLines;
-		    for (i = 0; i < pLines.size(); i++) {
-		        writer.write(ds.getTempLine(i));
-		    }	
-	    } else {
-		    for (i = 0; i < pLines.size(); i++) {
-		        writer.write(pLines.get(i));
-		    }
-	    }
-
-	    writer.close();
-	}
+//	/**
+//	 * Writes the lines to using supplied writer
+//	 * @param writer writer to write lines to
+//	 * @param pLines linesto be written
+//	 *
+//	 * @throws IOException any error that occurs
+//	 */
+//	private void writeToFile(AbstractLineWriter writer, List<AbstractLine> pLines)
+//	throws IOException {
+//	    int i;
+//
+//	    writer.setLayout(layout);
+//	    
+//	    if (pLines instanceof DataStore) {
+//	    	DataStore ds = (DataStore) pLines;
+//		    for (i = 0; i < pLines.size(); i++) {
+//		        writer.write(ds.getTempLine(i));
+//		    }	
+//	    } else {
+//		    for (i = 0; i < pLines.size(); i++) {
+//		        writer.write(pLines.get(i));
+//		    }
+//	    }
+//
+//	    writer.close();
+//	}
 	
 	/**
 	 * Get the maximum number of lines that can be held
@@ -2407,7 +2408,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	private int getLineHoldLimit() {
         int limit = Integer.MAX_VALUE;
         if (! (lines instanceof DataStoreStd)) {
-        	limit = Common.OPTIONS.filterLimit.get() / 2;
+        	limit = Common.OPTIONS.filterLimit.get();
         }
         return limit;
 	}
@@ -2447,7 +2448,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 //       for (i = 0; i < numRows; i++) {
 //            line = this.getLine(i);
        i = 0;
-       while (it.hasNext() && selectedLines.size() <= limit) {
+       while (it.hasNext()) {
     	   	line = it.next();
     	   	recordType = line.getPreferredLayoutIdxAlt();
 //    	   	if (recordType == 4) {
@@ -2471,6 +2472,22 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
                 }
             }
             i += 1;
+            if (selectedLines.size() >= limit) {
+            	int resp = JOptionPane.showConfirmDialog(
+            		    frame,
+            		    "The Filter limit of " + limit +
+            		    " has been reached, do you wish to continue?",
+            		    "",
+            		    JOptionPane.YES_NO_OPTION);
+            	if (resp == JOptionPane.YES_OPTION) {
+            		limit += getLineHoldLimit();
+            	} else {
+            		Common.logMsg("Filter limit of " + limit
+        					+ " excedded; only the first " + limit
+        					+ " lines in the filtered view", null);
+            		break;
+            	}
+            }
 
         }
 

@@ -177,7 +177,9 @@ public class FieldMapping {
 	}
 	
 	public void setFieldVisibilty(int recordIndex, boolean[] fieldVisible) {
+		if (fieldVisible == null) return;
 		boolean allFields = true;
+		
 		for (int i = 0; i < fieldVisible.length; i++) {
 			if (! fieldVisible[i]) {
 				allFields = false;

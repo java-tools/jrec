@@ -74,12 +74,12 @@ public class TypeFjZoned extends TypeNum {
 	 * @return number-string
 	 */
 	private String toFjZoned(String num) {
-		String ret = num.trim();
 
 		if (num == null || num.equals("") || num.equals("-") || num.equals("+")) {
 			// throw ...
 			return "";
 		}
+		String ret = num.trim();
 
         char lastChar = ret.substring(ret.length() - 1).charAt(0);
 

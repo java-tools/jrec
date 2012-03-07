@@ -40,9 +40,9 @@ public class TstFixedLengthRecordIOWriter extends TestCase {
 
     private static AbstractLayoutDetails copyBook = null;
 
-    private final String dtar107CopybookName = "DTAR107";
-    private final String dtar020CopybookName = "DTAR020";
-    private final String fileName = TMP_DIRECTORY + "VbTestFile.tmp";
+    private static final String dtar107CopybookName = "DTAR107";
+    private static final String dtar020CopybookName = "DTAR020";
+    private static final String fileName = TMP_DIRECTORY + "VbTestFile.tmp";
 	private final byte[][] dtar020Lines = {
 	        { -10,  -7, -10,  -7, -12, -15, -11,  -8,   2,  12,   0,  64,  17,-116
 	             ,  40,  12,   0,   0,   0,   0,  28,   0,   0,   0,   0,  80,  28 },

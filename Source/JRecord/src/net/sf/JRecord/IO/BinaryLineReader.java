@@ -187,7 +187,7 @@ public class BinaryLineReader extends StandardLineReader {
 		if (search) {
 		    recLen = maxLength;
 		    if (recSep.length > 0) {
-		        for (i = recSep.length; (i <= maxLength && recLen == maxLength); i++) {
+		        for (i = recSep.length; (i <= maxLength); i++) {
 		        	if (isEqual(buffer, start + i)) {
 		        	    recLen = i - 1;
 		        	    break;

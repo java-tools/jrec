@@ -46,6 +46,7 @@ public interface ReActionHandler {
     public static final int TABLE_VIEW_SELECTED  = 14;
     public static final int RECORD_VIEW_SELECTED = 15;
     public static final int COLUMN_VIEW_SELECTED = 16;
+    public static final int SELECTED_VIEW        = 55;
     public static final int BUILD_FIELD_TREE     = 17;
     public static final int BUILD_SORTED_TREE    = 18;
     public static final int BUILD_RECORD_TREE    = 19;
@@ -76,6 +77,7 @@ public interface ReActionHandler {
     public static final int CREATE_CHILD    = 34;
     public static final int EDIT_CHILD      = 35;
     public static final int PRINT           = 36;
+    public static final int PRINT_SELECTED  = 54;
     public static final int REBUILD_TREE    = 37;
         
    
@@ -94,7 +96,8 @@ public interface ReActionHandler {
     public static final int AUTOFIT_COLUMNS       = 50;
 
     public static final int INSERT_RECORD_PRIOR   = 53;
-    public static final int MAX_ACTION            = 54;
+    public static final int SAVE_AS_XSLT          = 56;
+    public static final int MAX_ACTION      = 57;
 
     /**
      * Execute a form action

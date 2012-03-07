@@ -73,6 +73,8 @@ public class EditCsvFile extends EditRec {
         OpenFile open = new OpenFile(
         		csvPnl,
         		Constants.NULL_INTEGER);
+        
+        csvPnl.setParentFrame(open);
 //        long time2 = System.nanoTime();
         super.setOpenFileWindow(open, null, null, false);
 //        long time3 = System.nanoTime();

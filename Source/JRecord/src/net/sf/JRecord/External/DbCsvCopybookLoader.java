@@ -93,8 +93,9 @@ public class DbCsvCopybookLoader implements CopybookLoader {
 		
 		lastSystem = null;
 		lastCopybookName = null;
+		BufferedReader r = null;
 		try {
-			BufferedReader r = new BufferedReader(new FileReader(copyBookFile));
+			r = new BufferedReader(new FileReader(copyBookFile));
 			while ((s = r.readLine()) != null) {
 				if (!s.trim().startsWith("#")) {
 					//t = new StringTokenizer(s, seperator);
@@ -167,6 +168,12 @@ public class DbCsvCopybookLoader implements CopybookLoader {
 					+ ": " + e.getMessage());
 			e.printStackTrace();
 			logMsg("Error Loading Copybook: " + e.getMessage(), e);
+		} finally {
+			try {
+			r.close();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 		}
 	}
 	

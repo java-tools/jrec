@@ -68,7 +68,7 @@ public class MultiLineCombo extends AbstractGenericCombo {
      * @author Bruce Martin
      *
      */
-    public class JTextPopup extends AbstractPopup {
+    public static class JTextPopup extends AbstractPopup {
         private JTextArea area = new JTextArea();
         private boolean isPacked = false;
         //private Thread packThread;

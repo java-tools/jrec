@@ -90,9 +90,9 @@ public final class Run {
                 FileReader inReader = new FileReader(getDir() + FILE_SEPERATOR + filename);
                 BufferedReader in = new BufferedReader(inReader);
                 while ((s = in.readLine()) != null) {
-                    if (s != null && ! s.trim().startsWith("#") && ! "".equals(s.trim())) {
+                    //if (s != null && ! s.trim().startsWith("#") && ! "".equals(s.trim())) {
                         list.add(s);
-                    }
+                    //}
                 }
                 in.close();
             } catch (Exception e) {
@@ -109,7 +109,7 @@ public final class Run {
 
             urls = new URL[list.size()];
             for (i = 0; i < urls.length; i++) {
-                s = list.get(i).toString();
+                s = list.get(i);
                 if ((j = s.indexOf('\t')) >= 0) {
                     s = s.substring(j + 1);
                 }

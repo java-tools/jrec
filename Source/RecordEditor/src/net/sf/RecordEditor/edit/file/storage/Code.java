@@ -8,7 +8,7 @@ import java.util.zip.Inflater;
 public class Code {
 
 	public static byte[] compress(int size, byte[] store) {
-		byte[] ret = null;
+		byte[] ret;// = null;
 
 		Deflater deflater = new Deflater();
 		deflater.setInput(store, 0, store.length);

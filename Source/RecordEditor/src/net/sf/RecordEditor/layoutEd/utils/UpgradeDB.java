@@ -17,7 +17,9 @@ package net.sf.RecordEditor.layoutEd.utils;
 import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import net.sf.JRecord.Common.Constants;
@@ -42,14 +44,15 @@ public final class UpgradeDB {
 
 	//private static String VERSION_691  = "0069100";
 	private static String VERSION_692B = "0069200";
-	private static String LATEST_VERSION = VERSION_692B;
+	private static String VERSION_670 = "0070000";
+	//private static String LATEST_VERSION = VERSION_670;
 	private static String VERSION_KEY  = "-101";
 	
 	private static String  SQL_GET_VERION = 
 			"Select DETAILS from TBL_TI_INTTBLS "
 		+	" where   TBLID  = "  + VERSION_KEY
 		+	"   and  TBLKEY  = "  + VERSION_KEY
-		+	"   and DETAILS >= '" + LATEST_VERSION + "'";
+		+	"   and DETAILS >= '" + VERSION_692B + "'";
 	
 	private int[] unknownStructure = {
 		Constants.IO_VB, Constants.IO_VB_DUMP, 
@@ -278,6 +281,31 @@ public final class UpgradeDB {
         insertSQL + "(5," + CellFormat.FMT_BOLD + ",'Bold Format')",
    };
 
+    private String[] sql70 = {
+    		"Drop Table Tbl_RS1_SubRecords",
+    		"Drop Table Tbl_RFS_FieldSelection",
+            "Create Table Tbl_RS1_SubRecords (" 
+                    + "RECORDID   INTEGER, "
+                    + "ChildKey     INTEGER, "
+                    + "CHILDRECORD   INTEGER, "
+                    + "FieldStart   INTEGER, "
+                    + "Field   varchar(30), "
+                    + "FieldValue   varchar(30), "
+                    + "PARENT_RECORDID   INTEGER, "
+                    + "operatorSequence   smallint "
+             + ")",
+               "CREATE UNIQUE INDEX Tbl_RS1_SubRecordsPK  ON Tbl_RS1_SubRecords(RECORDID, ChildKey);",
+               "Create Table Tbl_RFS_FieldSelection (" 
+                       + "RECORDID        INTEGER, "
+                       + "ChildKey        smallint, "
+                       + "FieldNo         smallint, "
+                       + "BooleanOperator smallint, "
+                       + "Field           varchar(30), "
+                       + "Operator        char(2), "
+                       + "FieldValue      varchar(30) "
+                + ")",
+                  "CREATE UNIQUE INDEX Tbl_RFS_FieldSelectionPK  ON Tbl_RFS_FieldSelection(RECORDID, ChildKey, FieldNo);",
+    };
     private String[] updateVersion = {
         	deleteTbl + "TBLID = " + VERSION_KEY + " and TBLKEY = " + VERSION_KEY + ";",
         	insertSQL + "(" + VERSION_KEY + ", " + VERSION_KEY + ", ",
@@ -431,7 +459,81 @@ public final class UpgradeDB {
      	db.close();
     }
     
+    public void upgrade70(int dbIdx) {
+        genericUpgrade(dbIdx, sql70, "");
+        
+        String sSQL = " Select  RecordId, ChildRecord, FieldStart, Field, FieldValue, PARENT_RECORDID"
+                    + "  from Tbl_RS_SubRecords"
+        		    + " Order by RecordId, ChildRecord";
+        String insertSQL = "Insert Into  Tbl_RS1_SubRecords  ("
+                + "    RecordId" 
+                + "  , ChildKey"
+                + "  , ChildRecord"
+                + "  , FieldStart"
+                + "  , Field"
+                + "  , FieldValue"
+                + "  , PARENT_RECORDID" 
+                + "  , operatorSequence"
+                + ") Values ("
+                +    "     ?   , ?   , ?   , ?   , ?, ?, ?, ?"
+                + ")";
+        
+        
+        int lastRecordId=Integer.MIN_VALUE,
+        	childNo=0;
+        int recordId, childRecord, fieldStart, parentId,
+            operatorSeq=0;
+        String field, fieldValue;
+        int count = 0;
+        try {
+        	Connection connect = Common.getUpdateConnection(dbIdx);
+			ResultSet resultset = connect.createStatement().executeQuery(sSQL);
+			PreparedStatement insertStatement = connect.prepareStatement(insertSQL);
+			int idx;
+			
+			while (resultset.next()) {
+				recordId = resultset.getInt(1);
+				childRecord = resultset.getInt(2);
+				fieldStart = resultset.getInt(3);
+				field    = resultset.getString(4);
+				fieldValue    = resultset.getString(5);
+			    parentId    = resultset.getInt(6);
+			    
+			    if (recordId==lastRecordId) {
+			    	childNo += 1;
+			    } else {
+			    	childNo = 0;
+			    	lastRecordId = recordId; 
+			    }
+			    
+			    idx = 1;
+			    insertStatement.setInt(idx++, recordId);
+			    insertStatement.setInt(idx++, childNo);
+			    insertStatement.setInt(idx++, childRecord);
+			    insertStatement.setInt(idx++, fieldStart);
+			    insertStatement.setString(idx++, field);
+			    insertStatement.setString(idx++, fieldValue);
+			    insertStatement.setInt(idx++, parentId);
+			    insertStatement.setInt(idx++, operatorSeq);
+			    
+			    insertStatement.executeUpdate();
+			    count += 1;
+			}
+			
+			upgradeVersion(connect, dbIdx, VERSION_670);
+			insertStatement.close();
+	        Common.logMsg("Database Upgraded, child record copied " + count, null);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			Common.logMsg("Database upgrade failed !!!", null);
+		} finally {
+			Common.freeConnection(dbIdx);
+		}
+        
+
+    }
     
+
     /**
      *
      * @param dbIdx database Index
@@ -445,14 +547,9 @@ public final class UpgradeDB {
             Connection con = Common.getUpdateConnection(dbIdx);
             runSQL(con.createStatement(), sql2run, dropSemi);
             
+            upgradeVersion(con, dbIdx, version);
             Common.getLogger().logMsg(AbsSSLogger.SHOW, "Upgrade SQL Run !!!");
 
-            if (version != null) {
-            	String[] sql = new String[2];
-            	sql[0] = updateVersion[0];
-            	sql[1] = updateVersion[1] + "'" + version + "');";
-                runSQL(con.createStatement(), sql, dropSemi);
-            }
             ret = true;
         } catch (Exception e) {
             Common.getLogger().logException(AbsSSLogger.ERROR, e);
@@ -464,6 +561,15 @@ public final class UpgradeDB {
 		return ret;
     }
 
+    private void upgradeVersion(Connection con, int dbIdx, String version) throws SQLException {
+            if (version != null) {
+            	String[] sql = new String[2];
+            	sql[0] = updateVersion[0];
+            	sql[1] = updateVersion[1] + "'" + version + "');";
+                runSQL(con.createStatement(), sql, Common.isDropSemi(dbIdx));
+            }
+   	
+    }
 
     /**
      * Runs an array of SQL statements
@@ -553,10 +659,21 @@ public final class UpgradeDB {
     					.createStatement()
     					.executeQuery(SQL_GET_VERION);
     		if (resultset.next()) {
+    			String version = resultset.getString(1);
+    			if (version != null) {
+    				version = version.trim();
+    			}
+    			if (VERSION_692B.equals(version)) {
+    				(new UpgradeDB()).upgrade70(dbIndex);
+    				Common.logMsg("Upgraded DB to version 0.69.2b ", null);
+    			}
+    			System.out.println("Current Version: " + version);
     			//System.out.print("Already " + LATEST_VERSION);
     		} else {
     			//System.out.println("upgrading DB");
-    			new UpgradeDB().upgrade69(dbIndex);
+    			UpgradeDB upgrade = new UpgradeDB();
+    			upgrade.upgrade69(dbIndex);
+    			upgrade.upgrade70(dbIndex);
     			Common.logMsg("Upgraded DB to version 0.69.2b ", null);
     			ret = true;
     		}

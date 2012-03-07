@@ -9,7 +9,10 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.StringTokenizer;
 
 import net.sf.RecordEditor.utils.common.Common;
@@ -23,10 +26,20 @@ import net.sf.RecordEditor.utils.common.Common;
  */
 public class RecentFiles {
 
-    private static final int FILE_HISTORY  = 400;
-    private static final int HASH_MAP_SIZE = 600;
     public static final int RECENT_FILE_LIST  = 25;
+	public static final int RF_NONE = -1;
+	public static final int RF_VELOCITY = 3;
+	public static final int RF_XSLT = 4;
+
+	private static final int RF_FILE_MODE = -2;
+	private static final int RECENT_SIZE = 3;
+	private static final int FILE_HISTORY  = 400;
+    private static final int HASH_MAP_SIZE = 600;
     private static final int LAUNCH_EDITOR_MATCH_NUMBER = 5 - Common.OPTIONS.launchIfMatch.get();
+    private static final String EXTENSION_STRING   = "<extensions>";
+    private static final String EXTENSION_VELOCITY = "<velocity>";
+    private static final String EXTENSION_XSLT     = "<xslt>";
+    private static final String[] EXTENSION_NAME = {null, null, null, EXTENSION_VELOCITY, EXTENSION_XSLT};
 
     private static final String SEPERATOR    = "\t\t";
 
@@ -38,9 +51,9 @@ public class RecentFiles {
 	private int fileNum = 0;
 	//private String[] recentFiles   = new String[FILE_HISTORY];
 	//private String[] recentLayouts = new String[FILE_HISTORY];
-	@SuppressWarnings("unchecked")
-	private HashMap[] recentMap = {new HashMap(HASH_MAP_SIZE), new HashMap(HASH_MAP_SIZE),
-	        new HashMap(HASH_MAP_SIZE), new HashMap(HASH_MAP_SIZE)};
+
+	private ArrayList<HashMap<String, String>> recentMap = new ArrayList<HashMap<String, String>>(3);
+
 	private int[] truncSizes = {Integer.MAX_VALUE,
 	        Common.OPTIONS.significantCharInFiles3.get(),
 	        Common.OPTIONS.significantCharInFiles2.get(),
@@ -56,6 +69,8 @@ public class RecentFiles {
 	
 	private FormatFileName selection;
 
+	private static RecentFiles last = null;
+	
     /**
      * Store recently used files and there layouts
      * @param fileName filename of recent files file
@@ -66,33 +81,73 @@ public class RecentFiles {
         int i;
         String l;
         StringTokenizer t;
-	    String recentFile, dir;
-	    String recentLayout;
+	    String recentFile, dir, recentLayout, extension;
+	    HashMap<String, String> extensionMap; 
+	    
+	    recentMap.add(new HashMap<String, String>(HASH_MAP_SIZE));
+	    recentMap.add(new HashMap<String, String>(HASH_MAP_SIZE));
+	    recentMap.add(new HashMap<String, String>(HASH_MAP_SIZE));
+	    
+	    recentMap.add(new HashMap<String, String>(HASH_MAP_SIZE));
+	    recentMap.add(new HashMap<String, String>(HASH_MAP_SIZE));
 
+	    extensionMap=  recentMap.get(RF_VELOCITY);
 
         recentFileName = fileName;
         selection = layoutSelection;
         fileNum = 0;
+        
+        last = this;
 
         try {
             //Common.logMsg("Recent File: " + recentFileName, null);
             FileReader br = new FileReader(recentFileName);
             BufferedReader r = new BufferedReader(br);
+            int mode = RF_FILE_MODE;
 
             while ((l = r.readLine()) != null) {
                 t = new StringTokenizer(l, SEPERATOR);
                 recentFile = correctCase(t.nextToken());
-                 if (recentFile != null && ! "".equals(recentFile)) {
-                   recentLayout = t.nextToken();
-	               dir = "";
-	               if (t.hasMoreElements()) {
-	                	dir = t.nextToken();
-	               }
-
-    	           storeFile(dir, recentFile, recentLayout);
+                
+                if (recentFile == null || "".equals(recentFile)) {
+                } else if (recentFile.toLowerCase().equals(EXTENSION_STRING)) {
+                 	String s = t.nextToken();
+                	
+                 	mode = RF_VELOCITY;
+                	if (s != null && s.toLowerCase().equals(EXTENSION_XSLT)) {
+                		mode = RF_XSLT;
+                	}
+                	extensionMap = recentMap.get(mode);
+                } else {
+                	switch (mode) {
+                	case RF_FILE_MODE: 
+                		if (t.hasMoreElements()) {
+	                		recentLayout = t.nextToken();
+	                		dir = "";
+	                		if (t.hasMoreElements()) {
+	                			dir = t.nextToken();
+	                		}
+	
+	                		storeFile(dir, recentFile, recentLayout);
+	                	}
+                		break;
+	    	        default:
+	    	        	System.out.print(" --> " + l + " >" + recentFile + "< " + t.hasMoreElements()
+	    	        			+ " " + t.hasMoreTokens());
+	    	        	if (t.hasMoreElements()) {
+		    	        	extension = t.nextToken();
+		    	        	System.out.print("      --> " + extension);
+		    	        	if (extension != null && ! "".equals(extension)) {
+		    	        		extensionMap.put(recentFile, extension);
+		    	        		System.out.print("   Done");
+		    	        	}
+	    	        	}
+	    	        	System.out.println(); 
+                	}
                 }
             }
 
+           
             r.close();
             br.close();
             buildRecentList();
@@ -101,7 +156,8 @@ public class RecentFiles {
                 fileNames[i] = null;
                 directory[i] = null;
             }
-        }
+             e.printStackTrace();
+       }
 
 
     }
@@ -128,6 +184,22 @@ public class RecentFiles {
 	    }
 	}
 
+	
+	public void putFileExtension(int type, String filename, String ext, String defaultExt) {
+		String strippedName = correctCase(Common.stripDirectory(filename));
+		if (isExtensionType(type) ) {
+			if (ext.equals(defaultExt)) {
+				if (recentMap.contains(type)) {
+					recentMap.get(type).remove(strippedName);
+					save();
+				}
+			} else {
+				recentMap.get(type).put(strippedName, ext);
+				save();
+			}
+		}
+	}
+
 	/**
 	 * Save the recent files
 	 */
@@ -150,14 +222,31 @@ public class RecentFiles {
                     w.newLine();
                 }
 		    }
+		    
+		    saveExtensions(w, RF_VELOCITY);
+		    saveExtensions(w, RF_XSLT);
 
 		    w.close();
 		    wr.close();
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        } 
 	}
 
+	
+	private void saveExtensions(BufferedWriter w, int mode) throws IOException {
+		w.write(EXTENSION_STRING);
+		w.write(SEPERATOR);
+		w.write(EXTENSION_NAME[mode]);
+		w.newLine();
+		
+		for (Entry<String, String> e : recentMap.get(mode).entrySet()) {
+			w.write(e.getKey());
+			w.write(SEPERATOR);
+			w.write(e.getValue());
+			w.newLine();
+		}
+	}
 
     /**
      * Get the layoutname for the file
@@ -172,8 +261,8 @@ public class RecentFiles {
 //	    System.out.println("-----> Searching ---->"  + fileName);
 //	    Common.logMsg("-----> Searching ---->"  + fileName + " >> " + strippedFile + "<<"
 //	            + " >>" + strippedFile + "<<", null);
-	    for (int i = 0; i < recentMap.length; i++) {
-	        recentLayout = (String) recentMap[i].get(adj4lookup(i, strippedFile));
+	    for (int i = 0; i < RECENT_SIZE; i++) {
+	        recentLayout = recentMap.get(i).get(adj4lookup(i, strippedFile));
 	    	if (recentLayout != null && ! "".equals(recentLayout)) {
 	    	    editorLaunch = (i < LAUNCH_EDITOR_MATCH_NUMBER);
 //	    	    System.out.println("Found at " + i + " " + adj4lookup(i, strippedFile)
@@ -186,7 +275,7 @@ public class RecentFiles {
 	    }
 	    
 	    String s = strippedFile.toLowerCase();
-	    if (s.endsWith("xml")) {
+	    if (s.endsWith("xml")  || s.endsWith("xls")) {
 	    	return selection.formatLayoutName("XML - Build Layout");
 	    } else if (s.endsWith("csv")) {
 	    	return selection.formatLayoutName("Generic CSV - enter details");
@@ -194,6 +283,20 @@ public class RecentFiles {
 	    return "";
     }
 
+	public String getFileExtension(int type, String filename, String defaultExt) {
+		String strippedName = correctCase(Common.stripDirectory(filename));
+		if (isExtensionType(type) && recentMap.get(type).containsKey(strippedName)) {
+			return recentMap.get(type).get(strippedName);
+		}
+		
+		return defaultExt;
+	}
+	
+	private boolean isExtensionType(int type) {
+		return type > RECENT_SIZE || type < recentMap.size();
+	}
+	
+	
     /**
      * Save a file name away for later lookup
      * @param filename filename
@@ -247,14 +350,14 @@ public class RecentFiles {
      * @param filename filename
      * @param layout layout
      */
-    @SuppressWarnings("unchecked")
 	private void putLayout(String filename, String layout) {
 
         String lookup = correctCase(filename);
-        for (int i = 0; i < recentMap.length; i++) {
-            recentMap[i].put(adj4lookup(i, lookup), layout);
+        for (int i = 0; i < RECENT_SIZE; i++) {
+            recentMap.get(i).put(adj4lookup(i, lookup), layout);
         }
     }
+	
 
 
     /**
@@ -335,5 +438,12 @@ public class RecentFiles {
     	}
     	return ret;
     }
+
+	/**
+	 * @return the last
+	 */
+	public static RecentFiles getLast() {
+		return last;
+	}
 
 }

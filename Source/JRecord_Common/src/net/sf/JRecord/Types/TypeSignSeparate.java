@@ -84,13 +84,13 @@ public class TypeSignSeparate extends TypeNum {
                                   FieldDetail field)
     throws RecordException {
 
-		String ret = num.trim();
-        String sign = "";
 
 		if (num == null || num.equals("") || num.equals("-") || num.equals("+")) {
 			// throw ...
 			return paddingString("+", field.getLen(), '0', !isLeadingSign);
 		}
+		String ret = num.trim();
+        String sign = "";
 
 		if (num.startsWith("-")) {
             sign = "-";

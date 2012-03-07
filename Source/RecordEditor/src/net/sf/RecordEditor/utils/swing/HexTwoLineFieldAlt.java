@@ -19,7 +19,7 @@ public class HexTwoLineFieldAlt extends JTable implements AbstractHexDisplay {
 	
 	private byte[] byteArray;
 	private String font = "";
-	private tblModel model = null;
+	private TblModel model = null;
 	private int cellWidth;
 	private int lastCellSetup = 0;
 	
@@ -60,7 +60,7 @@ public class HexTwoLineFieldAlt extends JTable implements AbstractHexDisplay {
 		byteArray = bytes;
 		
 		if (model == null) {
-			model = new tblModel();
+			model = new TblModel();
 			this.setModel(model);
 			TableCellRenderer r = getCellRenderer(1, 0);
 
@@ -97,7 +97,7 @@ public class HexTwoLineFieldAlt extends JTable implements AbstractHexDisplay {
 		return ret;
 	}
 	
-	public class tblModel extends AbstractTableModel {
+	public class TblModel extends AbstractTableModel {
 
 		/* (non-Javadoc)
 		 * @see javax.swing.table.AbstractTableModel#setValueAt(java.lang.Object, int, int)

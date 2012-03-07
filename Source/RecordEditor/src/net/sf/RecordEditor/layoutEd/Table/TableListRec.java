@@ -22,8 +22,8 @@ public final class TableListRec extends AbsRecord {
 
   private int TBlId;
   protected int initTBlId ;
-  private String TblName;
-  private String Description;
+  private String tblName;
+  private String description;
 
 
 
@@ -31,8 +31,8 @@ public final class TableListRec extends AbsRecord {
       super();
 
       TBlId = 0;
-      TblName = "";
-      Description = "";
+      tblName = "";
+      description = "";
 
       setKeys();
   }
@@ -45,8 +45,8 @@ public final class TableListRec extends AbsRecord {
       super(false);
 
       TBlId = pTBlId;
-      TblName = pTblName;
-      Description = pDescription;
+      tblName = pTblName;
+      description = pDescription;
 
       setKeys();
   }
@@ -71,8 +71,8 @@ public final class TableListRec extends AbsRecord {
 
       TableListRec ret = new TableListRec(
                         TBlId
-                      , TblName
-                      , Description
+                      , tblName
+                      , description
                     );
 
       ret.setNew(true);
@@ -103,9 +103,9 @@ public final class TableListRec extends AbsRecord {
       if (updateStatus == NULL_INT_VALUE) return "";
 
       switch (fieldNum) {
-        case (0) : return new Integer(TBlId);
-        case (1) : return TblName;
-        case (2) : return Description;
+        case (0) : return Integer.valueOf(TBlId);
+        case (1) : return tblName;
+        case (2) : return description;
         default  : return "";
       }
   }
@@ -170,7 +170,7 @@ public final class TableListRec extends AbsRecord {
    *  This method gets the vaule of TblName
    */
   public String getTblName() {
-      return TblName;
+      return tblName;
   }
 
   /**
@@ -181,12 +181,12 @@ public final class TableListRec extends AbsRecord {
   public void setTblName(String val) {
 
       if ((val == null || "".equals(val))
-      && (TblName == null || "".equals(TblName))) {
+      && (tblName == null || "".equals(tblName))) {
           return;
       }
 
-      if ((val == null) || (! val.equals(TblName)) || (updateStatus == NULL_INT_VALUE)) {
-           TblName = val;
+      if ((val == null) || (! val.equals(tblName)) || (updateStatus == NULL_INT_VALUE)) {
+           tblName = val;
            updateStatus = UPDATED;
       }
   }
@@ -195,7 +195,7 @@ public final class TableListRec extends AbsRecord {
    *  This method gets the vaule of Description
    */
   public String getDescription() {
-      return Description;
+      return description;
   }
 
   /**
@@ -206,12 +206,12 @@ public final class TableListRec extends AbsRecord {
   public void setDescription(String val) {
 
       if ((val == null || "".equals(val))
-      && (Description == null || "".equals(Description))) {
+      && (description == null || "".equals(description))) {
           return;
       }
 
-      if ((val == null) || (! val.equals(Description)) || (updateStatus == NULL_INT_VALUE)) {
-           Description = val;
+      if ((val == null) || (! val.equals(description)) || (updateStatus == NULL_INT_VALUE)) {
+           description = val;
            updateStatus = UPDATED;
       }
   }

@@ -340,9 +340,9 @@ public class RecordPnl extends BaseHelpPanel
 			sfRecordName.setText(val.getRecordName());
 			//System.out.print(" 1 " + val.getRecordName() + " " + val.getValue().getDescription());
 			sfDescription.setText(val.getValue().getDescription());
-			recordTypeMdl.setSelectedItem(new Integer(val.getValue().getRecordType()));
+			recordTypeMdl.setSelectedItem(Integer.valueOf(val.getValue().getRecordType()));
 			//System.out.print(" 3 ");
-			systemModel.setSelectedItem(new Integer(val.getSystem()));
+			systemModel.setSelectedItem(Integer.valueOf(val.getSystem()));
 			//System.out.print(" 4 ");
 			sfList.setSelected("Y".equals(val.getValue().getListChar()));
 			//System.out.print(" 5 ");
@@ -368,7 +368,7 @@ public class RecordPnl extends BaseHelpPanel
 			//sfPosRecInd.setText("" + val.getPosRecInd());
 			sfRecSepList.setSelectedItem(val.getValue().getRecSepList());
 			//sfRecordSep.setText(val.getRecordSep());
-			sfStructure.setSelectedItem(new Integer(val.getValue().getFileStructure()));
+			sfStructure.setSelectedItem(Integer.valueOf(val.getValue().getFileStructure()));
 
 			sfCanonicalName.setText(val.getValue().getFontName());
 
@@ -776,7 +776,7 @@ public class RecordPnl extends BaseHelpPanel
 
 		dbChildTbl.setConnection(new ReConnection(connectionIdx));
 		dbChildModel = new DBtableModel<ChildRecordsRec>(frame, dbChildTbl);
-		dbChildModel.setEmptyColumns(1);
+		dbChildModel.setEmptyColumns(2);
 
 		dbChildModel.setCellEditable(true);
 		//dbChildModel.setEmptyColumns(1);
@@ -992,7 +992,7 @@ public class RecordPnl extends BaseHelpPanel
 
         //**      if not in the list insert it
         if (insert) {
-            ChildRecordsRec child = new ChildRecordsRec(recordId, 0, "", "", -1);
+            ChildRecordsRec child = ChildRecordsRec.getBlankChildRec(recordId);
             child.setNew(true);
 
             //dbChildModel.addRecordtoDB(new ChildRecordsRec(recordId, 0, "", ""));
@@ -1090,8 +1090,15 @@ public class RecordPnl extends BaseHelpPanel
 		public void mousePressed(MouseEvent m) {
 			col = tblChild.columnAtPoint(m.getPoint());
 			row = tblChild.rowAtPoint(m.getPoint());
-			if (col == 0) {
-			    editRecordAtRow(tblChild.getSelectedRow());
+			int tblCol = tblChild.getColumnModel().getColumn(col).getModelIndex();
+			System.out.println("Column: "  + col + " " + tblCol);
+			switch (tblCol) {
+			case 0: editRecordAtRow(tblChild.getSelectedRow());   break;
+			case 1: new RecordSelectionPnl("", connectionIdx, dbChildTbl.getRecordId(), dbChildModel.getRecord(row).getChildKey());
+				//TODO   Edit selection criteria
+				//TODO   Edit selection criteria
+				//TODO   Edit selection criteria
+				break;
 			}
 			super.mousePressed(m);
 		}

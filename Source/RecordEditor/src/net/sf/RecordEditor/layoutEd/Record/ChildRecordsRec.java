@@ -11,7 +11,7 @@ import net.sf.RecordEditor.utils.jdbc.AbsRecord;
  *              FieldStart as Start,
  *              Field,
  *              FieldValue
- *       from Tbl_RS_SubRecords
+ *       from Tbl_RS1_SubRecords
  *       where RecordId = ?
  *
  *   </pre>
@@ -23,267 +23,318 @@ import net.sf.RecordEditor.utils.jdbc.AbsRecord;
  */
 public class ChildRecordsRec extends AbsRecord {
 
-  private int ChildRecord;
-  protected int initChildRecord ;
-  private int Start;
-  private String Field;
-  private String FieldValue;
-  private int parentRecord;
+	public final static int OP_OR_AND = 0; 
+	private int childRecord;
+	protected int initChildKey ;
+	private int start;
+	private String field;
+	private String fieldValue;
+	private int parentRecord;
+	private int childKey, operatorSequence=0;
 
 
 
-  public ChildRecordsRec () {
-      super();
+	public ChildRecordsRec () {
+		super();
 
-      ChildRecord = 0;
-      Start = 0;
-      Field = "";
-      FieldValue = "";
+		childRecord = 0;
+		start = 0;
+		field = "";
+		fieldValue = "";
+		childKey = 0;
 
-      setKeys();
-  }
+		setKeys();
+	}
 
-  public ChildRecordsRec (
-                    int pChildRecord
-                  , int pStart
-                  , String pField
-                  , String pFieldValue
-                  , int pParentRecord
-                  ) {
-      super(false);
+	public ChildRecordsRec (
+			int pChildRecord
+			, int pStart
+			, String pField
+			, String pFieldValue
+			, int pParentRecord
+			, int pChildKey
+			, int pOperatorSequence
+			) {
+		super(false);
 
-      ChildRecord = pChildRecord;
-      Start = pStart;
-      Field = pField;
-      FieldValue = pFieldValue;
-      parentRecord = pParentRecord;
+		childRecord = pChildRecord;
+		start = pStart;
+		field = pField;
+		fieldValue = pFieldValue;
+		parentRecord = pParentRecord;
+		childKey = pChildKey;
+		operatorSequence = pOperatorSequence;
 
-      setKeys();
-  }
-
-
-  /**
-   *  This method copies the key fields to the Init* fields
-   */
-  public void setKeys() {
-
-      initChildRecord = ChildRecord;
-  }
-  
+		setKeys();
+	}
 
 
-  /**
-   * @see net.sf.RecordEditor.utils.jdbc.AbsRecord#hasTheKeyChanged()
-   */
-  @Override
-  public boolean hasTheKeyChanged() {
-	  return initChildRecord != ChildRecord;
-  }
+	/**
+	 *  This method copies the key fields to the Init* fields
+	 */
+	public void setKeys() {
 
-  
-/**
-   *  This method returns clones the current record
-   *
-   *  @return a duplicate of the current record
-   */
-  public Object clone() {
-
-      super.clone();
-
-      ChildRecordsRec ret = new ChildRecordsRec(
-                        ChildRecord
-                      , Start
-                      , Field
-                      , FieldValue
-                      , parentRecord
-                    );
-
-      ret.setNew(true);
-
-      return ret;
-  }
+		initChildKey = childKey;
+	}
 
 
 
-  /**
-   *  This method returns clones the current record
-   */
-  public int getFieldCount() {
-      return 5;
-  }
+	/**
+	 * @see net.sf.RecordEditor.utils.jdbc.AbsRecord#hasTheKeyChanged()
+	 */
+	@Override
+	public boolean hasTheKeyChanged() {
+		return initChildKey != childKey;
+	}
+
+
+	/**
+	 *  This method returns clones the current record
+	 *
+	 *  @return a duplicate of the current record
+	 */
+	public Object clone() {
+
+		super.clone();
+
+		ChildRecordsRec ret = new ChildRecordsRec(
+				childRecord
+				, start
+				, field
+				, fieldValue
+				, parentRecord
+				, childKey
+				, operatorSequence
+				);
+
+		ret.setNew(true);
+
+		return ret;
+	}
+
+
+
+	/**
+	 *  This method returns clones the current record
+	 */
+	public int getFieldCount() {
+		return 5;
+	}
 
 
 
 
-  /**
-   *  This method returns a field (specified by field number)
-   *
-   *  @param fieldNum the field number (in the record)
-   *  @return the request field
-   */
-  public Object getField(int fieldNum) {
+	/**
+	 *  This method returns a field (specified by field number)
+	 *
+	 *  @param fieldNum the field number (in the record)
+	 *  @return the request field
+	 */
+	public Object getField(int fieldNum) {
 
-      if (updateStatus == NULL_INT_VALUE) return "";
+		if (updateStatus == NULL_INT_VALUE) return "";
 
-      switch (fieldNum) {
-        case (0) : return new Integer(ChildRecord);
-        case (1) : return new Integer(Start);
-        case (2) : return Field;
-        case (3) : return FieldValue;
-        case (4) : return new Integer(parentRecord);
-        default  : return "";
-      }
-  }
-
-
-  /**
-   *  This method sets a field (specified by field number) with a string value
-   *
-   *  @param fieldNum the field number (in the record)
-   *  @param val the value to be assigned to the field
-   */
-  protected void setFieldWithString(int fieldNum, String val) {
-
-      switch (fieldNum) {
-        case (0) : setChildRecord(cnvToInt(ChildRecord, val, "Child Record" ));
-        break;
-        case (1) : setStart(cnvToInt(Start, val, "Field Start" ));
-        break;
-        case (2) : setField(val);
-        break;
-        case (3) : setFieldValue(val);
-        break;
-        case (4) : setParentRecord(cnvToInt(parentRecord, val, "Parent Record" ));
-        default  : ;
-      }
-  }
+		switch (fieldNum) {
+		case (0) : return Integer.valueOf(childRecord);
+		case (1) : return Integer.valueOf(start);
+		case (2) : return field;
+		case (3) : return fieldValue;
+		case (4) : return Integer.valueOf(parentRecord);
+		default  : return "";
+		}
+	}
 
 
-  /**
-   *  This method sets a field (specified by field number) with an object value
-   *
-   *  @param fieldNum the field number (in the record)
-   *  @param val the value to be assigned to the field
-   */
-  protected void setFieldWithObject(int fieldNum, Object val) {
+	/**
+	 *  This method sets a field (specified by field number) with a string value
+	 *
+	 *  @param fieldNum the field number (in the record)
+	 *  @param val the value to be assigned to the field
+	 */
+	protected void setFieldWithString(int fieldNum, String val) {
 
-      switch (fieldNum) {
-        case (0) : setChildRecord(((Integer) val).intValue());
-        break;
-        case (1) : setStart(((Integer) val).intValue());
-        break;
-        case (4) : setParentRecord(((Integer) val).intValue());
-        break;
-        default  : setFieldWithString(fieldNum, (String) val) ;
-      }
-  }
+		switch (fieldNum) {
+		case (0) : setChildRecord(cnvToInt(childRecord, val, "Child Record" ));
+		break;
+		case (1) : setStart(cnvToInt(start, val, "Field Start" ));
+		break;
+		case (2) : setField(val);
+		break;
+		case (3) : setFieldValue(val);
+		break;
+		case (4) : setParentRecord(cnvToInt(parentRecord, val, "Parent Record" ));
+		default  : ;
+		}
+	}
 
-  /**
-   *  This method gets the vaule of ChildRecord
-   */
-  public int getChildRecord() {
-      return ChildRecord;
-  }
 
-  /**
-   *  This method sets the vaule of ChildRecord
-   *
-   * @param val value to be assigned to ChildRecord
-   */
-  public void setChildRecord(int val) {
+	/**
+	 *  This method sets a field (specified by field number) with an object value
+	 *
+	 *  @param fieldNum the field number (in the record)
+	 *  @param val the value to be assigned to the field
+	 */
+	protected void setFieldWithObject(int fieldNum, Object val) {
 
-      if ((val != ChildRecord) || (updateStatus == NULL_INT_VALUE)) {
-           ChildRecord = val;
-           updateStatus = UPDATED;
-      }
-  }
+		switch (fieldNum) {
+		case (0) : setChildRecord(((Integer) val).intValue());
+		break;
+		case (1) : setStart(((Integer) val).intValue());
+		break;
+		case (4) : setParentRecord(((Integer) val).intValue());
+		break;
+		default  : setFieldWithString(fieldNum, (String) val) ;
+		}
+	}
 
-  /**
-   *  This method gets the vaule of Start
-   */
-  public int getStart() {
-      return Start;
-  }
+	/**
+	 *  This method gets the vaule of ChildRecord
+	 */
+	public int getChildRecord() {
+		return childRecord;
+	}
 
-  /**
-   *  This method sets the vaule of Start
-   *
-   * @param val value to be assigned to Start
-   */
-  public void setStart(int val) {
+	/**
+	 *  This method sets the vaule of ChildRecord
+	 *
+	 * @param val value to be assigned to ChildRecord
+	 */
+	public void setChildRecord(int val) {
 
-      if ((val != Start) || (updateStatus == NULL_INT_VALUE)) {
-           Start = val;
-           updateStatus = UPDATED;
-      }
-  }
+		if ((val != childRecord) || (updateStatus == NULL_INT_VALUE)) {
+			childRecord = val;
+			updateStatus = UPDATED;
+		}
+	}
 
-  /**
-   *  This method gets the vaule of Field
-   */
-  public String getField() {
-      return Field;
-  }
+	/**
+	 *  This method gets the vaule of Start
+	 */
+	public int getStart() {
+		return start;
+	}
 
-  /**
-   *  This method sets the vaule of Field
-   *
-   * @param val value to be assigned to Field
-   */
-  public void setField(String val) {
+	/**
+	 *  This method sets the vaule of Start
+	 *
+	 * @param val value to be assigned to Start
+	 */
+	public void setStart(int val) {
 
-      if ((val == null || "".equals(val))
-      && (Field == null || "".equals(Field))) {
-          return;
-      }
+		if ((val != start) || (updateStatus == NULL_INT_VALUE)) {
+			start = val;
+			updateStatus = UPDATED;
+		}
+	}
 
-      if ((val == null) || (! val.equals(Field)) || (updateStatus == NULL_INT_VALUE)) {
-           Field = val;
-           updateStatus = UPDATED;
-      }
-  }
+	/**
+	 *  This method gets the vaule of Field
+	 */
+	public String getField() {
+		return field;
+	}
 
-  /**
-   *  This method gets the vaule of FieldValue
-   */
-  public String getFieldValue() {
-      return FieldValue;
-  }
+	/**
+	 *  This method sets the vaule of Field
+	 *
+	 * @param val value to be assigned to Field
+	 */
+	public void setField(String val) {
 
-  /**
-   *  This method sets the vaule of FieldValue
-   *
-   * @param val value to be assigned to FieldValue
-   */
-  public void setFieldValue(String val) {
+		if ((val == null || "".equals(val))
+				&& (field == null || "".equals(field))) {
+			return;
+		}
 
-      if ((val == null || "".equals(val))
-      && (FieldValue == null || "".equals(FieldValue))) {
-          return;
-      }
+		if ((val == null) || (! val.equals(field)) || (updateStatus == NULL_INT_VALUE)) {
+			field = val;
+			updateStatus = UPDATED;
+		}
+	}
 
-      if ((val == null) || (! val.equals(FieldValue)) || (updateStatus == NULL_INT_VALUE)) {
-           FieldValue = val;
-           updateStatus = UPDATED;
-      }
-  }
+	/**
+	 *  This method gets the vaule of FieldValue
+	 */
+	public String getFieldValue() {
+		return fieldValue;
+	}
 
-  /**
-   * @return the parentRecord
-   */
-  public int getParentRecord() {
-	  return parentRecord;
-  }
+	/**
+	 *  This method sets the vaule of FieldValue
+	 *
+	 * @param val value to be assigned to FieldValue
+	 */
+	public void setFieldValue(String val) {
 
-  /**
-   * @param parentRecord the parentRecord to set
-   */
-  public void setParentRecord(int parentRecord) {
-	  
-	  if (this.parentRecord != parentRecord) {
-		  this.parentRecord = parentRecord;
-		  updateStatus = UPDATED;
-	  }
-  }
+		if ((val == null || "".equals(val))
+				&& (fieldValue == null || "".equals(fieldValue))) {
+			return;
+		}
 
+		if ((val == null) || (! val.equals(fieldValue)) || (updateStatus == NULL_INT_VALUE)) {
+			fieldValue = val;
+			updateStatus = UPDATED;
+		}
+	}
+
+	/**
+	 * @return the parentRecord
+	 */
+	public int getParentRecord() {
+		return parentRecord;
+	}
+
+	/**
+	 * @param parentRecord the parentRecord to set
+	 */
+	public void setParentRecord(int parentRecord) {
+
+		if (this.parentRecord != parentRecord) {
+			this.parentRecord = parentRecord;
+			updateStatus = UPDATED;
+		}
+	}
+
+
+
+
+	/**
+	 * @return the childKey
+	 */
+	public int getChildKey() {
+		return childKey;
+	}
+
+
+
+
+	/**
+	 * @param childKey the childKey to set
+	 */
+	public void setChildKey(int childKey) {
+		this.childKey = childKey;
+	}
+
+
+
+
+	/**
+	 * @return the operatorSequence
+	 */
+	public int getOperatorSequence() {
+		return operatorSequence;
+	}
+
+
+	/**
+	 * @param operatorSequence the operatorSequence to set
+	 */
+	public void setOperatorSequence(int operatorSequence) {
+		this.operatorSequence = operatorSequence;
+	}
+
+
+	public static ChildRecordsRec getBlankChildRec(int recordId) {
+		return new ChildRecordsRec(recordId, 0, "", "", -1, 0, ChildRecordsRec.OP_OR_AND);
+	}
 }

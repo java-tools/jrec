@@ -146,7 +146,7 @@ public class EditDefaults extends BasePanel {
      * @author Bruce Martin
      *
      */
-    private class ListModel extends DefaultTableModel {
+    private static class ListModel extends DefaultTableModel {
 
         private String[][] tableData;
 

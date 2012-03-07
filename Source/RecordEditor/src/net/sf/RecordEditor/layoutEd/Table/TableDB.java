@@ -174,7 +174,7 @@ public final class TableDB  extends AbsDB<TableRec> {
                           throws SQLException {
 
       statement.setInt(idx++, paramTblId);
-      statement.setInt(idx++, value.initTblKey);
+      statement.setInt(idx, value.initTblKey);
   }
 
 }

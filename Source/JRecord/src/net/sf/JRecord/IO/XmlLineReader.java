@@ -58,7 +58,6 @@ public class XmlLineReader extends StandardLineReader {
      */
 /*    public XmlLineReader(LineProvider provider) {
         super(provider);
-        // TODO Auto-generated constructor stub
     }
 */
 
@@ -79,6 +78,8 @@ public class XmlLineReader extends StandardLineReader {
     		e.printStackTrace();
     		f = XMLInputFactory.newInstance("javax.xml.stream.XMLInputFactory", this.getClass().getClassLoader());
 		}
+    	//f.setProperty("javax.xml.stream.isReplacingEntityReferences", Boolean.FALSE);
+    	f.setProperty("javax.xml.stream.isNamespaceAware", Boolean.FALSE);
 
         if (buildLayout || pLayout == null) {
             try {

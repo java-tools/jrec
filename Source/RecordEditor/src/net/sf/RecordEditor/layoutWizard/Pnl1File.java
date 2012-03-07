@@ -156,7 +156,7 @@ public class Pnl1File extends WizardPanel  {
     	wizardDetail = detail;
     	
         filenameFld.setText(detail.filename);
-        fileStructure.setSelectedItem(new Integer(detail.fileStructure));
+        fileStructure.setSelectedItem(Integer.valueOf(detail.fileStructure));
 
         fontname.setText(detail.fontName);
         defaultType.setSelectedItem(detail.defaultType);

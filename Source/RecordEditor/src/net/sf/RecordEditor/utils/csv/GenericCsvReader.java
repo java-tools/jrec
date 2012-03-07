@@ -57,8 +57,8 @@ public class GenericCsvReader extends AbstractLineReader {
 	 	GetCsvDetails getDetails = new GetCsvDetails(fileData, layout.getFontName());
     	
 	 	if (getDetails.ok) {
-	 		CsvSelectionPanel csv = getDetails.csvTab.getSelectedCsvDetails();
-			layout  = csv.getLayout(csv.fontTxt.getText(), recordSep);
+	 		FilePreview csv = getDetails.csvTab.getSelectedCsvDetails();
+			layout  = csv.getLayout(csv.getFontName(), recordSep);
 
 
 			if (layout != null) {
@@ -121,7 +121,7 @@ public class GenericCsvReader extends AbstractLineReader {
 		public GetCsvDetails(byte[] data, String font) throws IOException {
 			super(ReMainFrame.getMasterFrame(), true);
 			
-			csvTab = new CsvTabPane(msgTxt);
+			csvTab = new CsvTabPane(msgTxt, false);
 			csvTab.readFilePreview(data, true);
 			csvTab.readOtherTab(data);
 

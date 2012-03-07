@@ -61,7 +61,7 @@ public class CompareInternalLayout extends AbstractWizard<DiffDefinition> {
 		definition.type = DiffDefinition.TYPE_TWO_LAYOUTS;
 		
 		finalScreen = new CmpWizardFinal(selection1, selection2);
-		pnls[0] = new getFiles(selection1, selection2, recentFiles);
+		pnls[0] = new GetFiles(selection1, selection2, recentFiles);
 		pnls[1] = new FieldChoice<DiffDefinition>(selection1, selection2, "");
 		pnls[2] = finalScreen;
 		
@@ -130,7 +130,7 @@ public class CompareInternalLayout extends AbstractWizard<DiffDefinition> {
 
 
 	@SuppressWarnings("serial")
-	public static class getFiles extends  AbstractFilePnl<DiffDefinition> {
+	public static class GetFiles extends  AbstractFilePnl<DiffDefinition> {
 
 
 
@@ -142,7 +142,7 @@ public class CompareInternalLayout extends AbstractWizard<DiffDefinition> {
 		private AbstractLayoutSelection<?> layoutSelection2;
 		
 		
-		public getFiles(AbstractLayoutSelection<?> selection1, AbstractLayoutSelection<?> selection2, String recentFiles) {
+		public GetFiles(AbstractLayoutSelection<?> selection1, AbstractLayoutSelection<?> selection2, String recentFiles) {
 			super(selection1, recentFiles);
 			
 			newFileName.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());

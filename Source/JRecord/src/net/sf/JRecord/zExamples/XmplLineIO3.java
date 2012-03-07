@@ -94,7 +94,7 @@ public final class XmplLineIO3 {
                         + " " + saleRecord.getFieldValue(salesField).asString());
 
                 gstExclusive =saleRecord.getFieldValue(salesField).asDouble() / GST_CONVERSION;
-                saleRecord.setField(salesField, new Double(gstExclusive));
+                saleRecord.setField(salesField, Double.valueOf(gstExclusive));
                 writer.write(saleRecord);
 
                 System.out.println(" " + saleRecord.getFieldValue(salesField).asString());

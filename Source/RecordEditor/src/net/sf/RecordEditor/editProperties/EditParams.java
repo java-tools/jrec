@@ -43,6 +43,7 @@ public final class EditParams {
     protected JarGroup   systemJars = new JarGroup();
     protected JarGroup optionalJars = new JarGroup();
     protected JarGroup     userJars = new JarGroup();
+    protected JarGroup     xsltJars = new JarGroup();
 
     protected String looksJar = "";
     protected String iconJar  = "";
@@ -121,6 +122,8 @@ public final class EditParams {
             systemJars.add(type, jar, "Holds Compare library code");
         } else if (typeLC.startsWith("chardet")) {
             systemJars.add(type, jar, "Holds Charset Determining library");
+        } else if (typeLC.startsWith("xslt")) {
+            xsltJars.add("xslt" + (xsltJars.count + 1), jar, "Xslt Jar");
        } else if (typeLC.startsWith("optional")) {
             optionalJars.add(type, jar, "");
         } else if (typeLC.startsWith("user")) {

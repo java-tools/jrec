@@ -30,11 +30,11 @@ implements AbstractLineNode {
 	private final static int LINE_NODE = 2;
 	private final static int CHILD_NODE = 3;
 	
-	public final String nodeName;
+//	public final String nodeName;
 	private FileView view;
 	private AbstractLine line = null;
 	
-	private int nodeType = LINE_NODE;
+//	private int nodeType = LINE_NODE;
 	private boolean hasChildren = false;
 	
 	private AbstractLineNode[] children;
@@ -49,9 +49,9 @@ implements AbstractLineNode {
 					final FileView fileView) {
 		super(pNodeName);
 		
-		nodeName = pNodeName;
+//		nodeName = pNodeName;
 		view = fileView;
-		nodeType = ROOT_NODE;
+		//nodeType = ROOT_NODE;
 		
 		if (view.getRowCount() > 0) {
 			String name;
@@ -78,7 +78,7 @@ implements AbstractLineNode {
 					final FileView fileView,
 					final AbstractLine theLine) {
 		super(pNodeName);
-		nodeName = pNodeName;
+//		nodeName = pNodeName;
 		view = fileView;
 		line = theLine;
 		
@@ -156,7 +156,7 @@ implements AbstractLineNode {
 	@Override
 	public void remove(int index) {
 		removeLocal(getChildAt(index));
-		remove(index);
+		super.remove(index);
 	}
 
 	/* (non-Javadoc)

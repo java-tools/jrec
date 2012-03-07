@@ -1,3 +1,3 @@
 /* rexx */
 
-	"java -jar /home/bm/Programs/jibx/lib/jibx-bind.jar diffXmlBindings.xml" 
+	"java -jar C:\Users\mum\Bruce\jibx\lib\jibx-bind.jar diffXmlBindings.xml" 

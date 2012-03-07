@@ -1,11 +1,13 @@
 package net.sf.JRecord.External;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.LayoutDetail;
+import net.sf.JRecord.ExternalRecordSelection.ExternalSelection;
+import net.sf.JRecord.ExternalRecordSelection.FieldSelection;
+import net.sf.JRecord.ExternalRecordSelection.GroupSelection;
 
 //import net.sf.RecordEditor.utils.Common;
 
@@ -70,7 +72,8 @@ public class ExternalRecord extends AbstractUpdatableRecord {
   private int fileStructure;
   private int lineNumberOfFieldNames = 1;
   
-  private ArrayList<TstField> tstFields = null;
+  private ExternalSelection recSelect;
+  //private ArrayList<TstField> tstFields = null;
   private boolean defaultRecord = false;
   //private String tstField = "";
   //private String tstFieldValue = "";
@@ -712,30 +715,33 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	 * @Deprecated Use getTstFields
 	 */ @Deprecated 
 	public String getTstField() {
-		if (tstFields == null || tstFields.size() == 0) {
+		 
+		FieldSelection f = getFirstSelection(recSelect);
+		if (f == null) {
 			return null;
-		} 
-		return tstFields.get(0).fieldName;
-	}
-
-	/**
-	 * Set the Field / value that should be tested to determine if this is the valid
-	 * Sub-Record for the current line.
-	 * 
-	 * @param tstField the tstField to set
-	 * @param value Value to compare field to
-	 * 
-	 *  @Deprecated  use addTstField
-	 */ @Deprecated 
-	public void setTstField(String tstField, String value) {
-		TstField fld = new TstField(tstField, value);
-		getTestField();
-		if (tstFields.size() == 0) {
-			tstFields.add(fld);
+		} else {
+			return f.getFieldName();
 		}
-		tstFields.set(0, fld);
 	}
-
+//
+//	/**
+//	 * Set the Field / value that should be tested to determine if this is the valid
+//	 * Sub-Record for the current line.
+//	 * 
+//	 * @param tstField the tstField to set
+//	 * @param value Value to compare field to
+//	 * 
+//	 *  @Deprecated  use addTstField
+//	 */ @Deprecated 
+//	public void setTstField(String tstField, String value) {
+//		TstField fld = new TstField(tstField, value);
+//		getTestField();
+//		if (tstFields.size() == 0) {
+//			tstFields.add(fld);
+//		}
+//		tstFields.set(0, fld);
+//	}
+//
 	/**
 	 * Add a Field/Value that should be tested to determine if this is the valid
 	 * Sub-Record for the current line.
@@ -744,8 +750,19 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	 * @param value Value to compare field to
 	 */ 
 	public void addTstField(String tstField, String value) {
-		TstField fld = new TstField(tstField, value);
-		getTestField().add(fld);
+		
+		if (recSelect == null) {
+			recSelect = new GroupSelection(1);
+		}
+		if (recSelect instanceof GroupSelection) {
+			GroupSelection g = (GroupSelection) recSelect;
+			g.add(new FieldSelection(tstField, value));
+			return;
+		}
+		System.out.println();
+		System.out.println("-->" + recSelect);
+		System.out.println("-->" + recSelect.getClass().getName());
+		throw new RuntimeException("Can not add Test Field");
 	}
 
 	/**
@@ -755,35 +772,54 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	 * @Deprecated Use getTstFields
 	 */@Deprecated 
 	public String getTstFieldValue() {
-		if (tstFields == null || tstFields.size() == 0) {
-			return null;
-		} 
-		return tstFields.get(0).value;
-	}
-
-	
-	 public int getTstFieldCount() {
-		 int ret = 0;
-		 if (tstFields != null) {
-			 ret = tstFields.size();
-		 }
+			FieldSelection f = getFirstSelection(recSelect);
+			if (f == null) {
+				return null;
+			} else {
+				return f.getFieldValue();
+			}	}
+//
+//	
+//	 public int getTstFieldCount() {
+//		 int ret = 0;
+//		 if (tstFields != null) {
+//			 ret = tstFields.size();
+//		 }
+//		 
+//		 return ret;
+//	 }
+	 
+	 private FieldSelection getFirstSelection(ExternalSelection s) {
 		 
-		 return ret;
+		 if (s == null) {
+			 return null;
+		 } else if (s instanceof FieldSelection) {
+			 return (FieldSelection) s;
+		 } else {
+			 GroupSelection g = (GroupSelection) s;
+			 FieldSelection fs = null;
+			 
+			 for (int i = 0; i < g.size() && fs == null; i++) {
+				 fs = getFirstSelection(g.get(i));
+			 }
+			 
+			 return fs;
+		 }
 	 }
 	 
-	/**
-	 * @return the tstFields
-	 */
-	public List<TstField> getTstFields() {
-		return tstFields;
-	}
-
-	private ArrayList<TstField> getTestField() {
-		if (tstFields == null) {
-			tstFields = new ArrayList<TstField>(5);
-		}
-		return tstFields;
-	}
+//	/**
+//	 * @return the tstFields
+//	 */
+//	public List<TstField> getTstFields() {
+//		return tstFields;
+//	}
+//
+//	private ArrayList<TstField> getTestField() {
+//		if (tstFields == null) {
+//			tstFields = new ArrayList<TstField>(5);
+//		}
+//		return tstFields;
+//	}
 	/**
 	 * Get the parent Record of this record
 	 * @return the parent Record
@@ -944,6 +980,20 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	 */
 	public void setDefaultRecord(boolean defaultRecord) {
 		this.defaultRecord = defaultRecord;
+	}
+
+	/**
+	 * @return the recSelect
+	 */
+	public ExternalSelection getRecSelect() {
+		return recSelect;
+	}
+
+	/**
+	 * @param recSelect the recSelect to set
+	 */
+	public void setRecSelect(ExternalSelection recSelect) {
+		this.recSelect = recSelect;
 	}
 
 	

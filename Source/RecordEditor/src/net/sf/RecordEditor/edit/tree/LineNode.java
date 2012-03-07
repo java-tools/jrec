@@ -10,6 +10,7 @@ import net.sf.JRecord.Details.AbstractLine;
 import net.sf.RecordEditor.edit.file.AbstractLineNode;
 import net.sf.RecordEditor.edit.file.FileView;
 
+@SuppressWarnings("serial")
 public final class LineNode extends DefaultMutableTreeNode implements AbstractLineNode {
 
 
@@ -17,11 +18,13 @@ public final class LineNode extends DefaultMutableTreeNode implements AbstractLi
 	//private boolean loadedChildren = false;
 
 	public final String nodeName;
+	@SuppressWarnings("rawtypes")
 	private FileView view;
 	private int lineNumber;
 	private int firstLeafLine;
 	private int lastLeafLine;
 
+	@SuppressWarnings("rawtypes")
 	private AbstractLine summaryLine = null;
 	private String sortField;
 	//private AbstractLine line = null;
@@ -37,7 +40,7 @@ public final class LineNode extends DefaultMutableTreeNode implements AbstractLi
 	 * @param lineNum line number
 	 */
 	public LineNode(final String pNodeName,
-					final FileView fileView,
+					@SuppressWarnings("rawtypes") final FileView fileView,
 					final int lineNum) {
 		super(pNodeName);
 		
@@ -51,7 +54,8 @@ public final class LineNode extends DefaultMutableTreeNode implements AbstractLi
     /* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.tree.AbstractLineNode#getLayout()
 	 */
-    public final AbstractLayoutDetails getLayout() {
+    @SuppressWarnings("rawtypes")
+	public final AbstractLayoutDetails getLayout() {
     	return view.getLayout();
     }
 
@@ -85,6 +89,7 @@ public final class LineNode extends DefaultMutableTreeNode implements AbstractLi
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.tree.AbstractLineNode#getLine()
 	 */
+	@SuppressWarnings("rawtypes")
 	public final AbstractLine getLine() {
 		if (lineNumber < 0 || lineNumber >= view.getRowCount()) {
 			return summaryLine;
@@ -98,6 +103,7 @@ public final class LineNode extends DefaultMutableTreeNode implements AbstractLi
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.tree.AbstractLineNode#getView()
 	 */
+	@SuppressWarnings("rawtypes")
 	public final FileView getView() {
 		return view;
 	}
@@ -177,7 +183,7 @@ public final class LineNode extends DefaultMutableTreeNode implements AbstractLi
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.tree.AbstractLineNode#setSummaryLine(net.sf.JRecord.Details.AbstractLine, java.lang.String)
 	 */
-	public final void setSummaryLine(AbstractLine summaryLine, String fieldName) {
+	public final void setSummaryLine(@SuppressWarnings("rawtypes") AbstractLine summaryLine, String fieldName) {
 		this.summaryLine = summaryLine;
 		this.sortField = fieldName;
 	}
@@ -220,6 +226,7 @@ public final class LineNode extends DefaultMutableTreeNode implements AbstractLi
 	/**
 	 * @see net.sf.RecordEditor.edit.file.AbstractLineNode#insert(net.sf.JRecord.Details.AbstractLine, int, int)
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public LineNode insert(AbstractLine line, int lineNum, int pos) {
 

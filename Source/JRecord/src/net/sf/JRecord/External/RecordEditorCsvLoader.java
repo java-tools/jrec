@@ -20,6 +20,7 @@ import org.xml.sax.SAXException;
 import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.External.ExternalField;
 import net.sf.JRecord.External.ExternalRecord;
+import net.sf.JRecord.ExternalRecordSelection.FieldSelection;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Numeric.Convert;
 import net.sf.JRecord.Types.Type;
@@ -147,9 +148,11 @@ public class RecordEditorCsvLoader implements CopybookLoader {
                     	} else if (Constants.SUB_RECORD_NAME.equalsIgnoreCase(fields[0])) {
                     		sr = ExternalRecord.getNullRecord(fields[idx++], "");
                     		try {
-	                    		sr.addTstField(
-	                    					fields[idx++],
-	                    					fields[idx++]);
+                    			FieldSelection f = new FieldSelection();
+                    			f.setFieldName(fields[idx++]);
+                    			f.setFieldValue(fields[idx++]);
+	                    		sr.setRecSelect(f);
+	                    					
 	                       		sr.setParentRecord(Integer.parseInt(fields[idx++]));
 	                    	} catch (Exception e) {
                     			log.logMsg(AbsSSLogger.SHOW, "Error File: " + layoutName

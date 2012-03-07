@@ -57,6 +57,7 @@ import net.sf.RecordEditor.utils.swing.LayoutCombo;
  * 
  * 
  */
+@SuppressWarnings("serial")
 public final class Search extends ReFrame implements ActionListener, ILayoutChanged {
 
     private static final int SILLY_INT = -101;
@@ -83,6 +84,7 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 
 	private AbstractFileDisplay source;
 
+	@SuppressWarnings("rawtypes")
 	private FileView file;
 	//private int layout;
 	
@@ -104,7 +106,7 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	 * @param src Where the search came from (parent frame)
 	 * @param lst Layout List
 	 */
-	public Search(final AbstractFileDisplay src, FileView master) {
+	public Search(final AbstractFileDisplay src, @SuppressWarnings("rawtypes") FileView master) {
 		super(master.getFileNameNoDirectory(), "Find",
 				master);
 
@@ -174,7 +176,7 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	 *
 	 * @param iFile - Internal representation of a File
 	 */
-	public void startSearch(final FileView iFile) {
+	public void startSearch(@SuppressWarnings("rawtypes") final FileView iFile) {
 		file = iFile;
 
 		loadFieldList();
@@ -361,7 +363,7 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	private void loadFieldList() {
 		
 		if (file != null) {
-			int i;
+			int i, fieldListIdx = 0;;
 			int idx = layoutList.getSelectedIndex();
 			int numCols = file.getLayoutColumnCount(idx);
 	
@@ -375,7 +377,10 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 					fieldList.addItem(file.getColumnName(idx, i));
 				}
 			}
-			fieldList.setSelectedIndex(0);
+			if (Common.OPTIONS.searchAllFields.isSelected()) {
+				fieldListIdx = 1;
+			}
+			fieldList.setSelectedIndex(fieldListIdx);
 		}
 	}
 

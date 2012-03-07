@@ -208,7 +208,7 @@ public class RunSavedCopy extends ReFrame {
 		JibxCall<CopyDefinition> jibx = new JibxCall<CopyDefinition>(CopyDefinition.class);
 		String filename = xmlFileName.getText();
 		
-		if (filename == null && "".equals(filename)) {
+		if (filename == null || "".equals(filename)) {
 			message.setText("You must Enter a filename");
 		} else {		
 			try {

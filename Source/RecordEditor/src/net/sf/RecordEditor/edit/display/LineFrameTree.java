@@ -422,4 +422,15 @@ public class LineFrameTree extends  BaseLineFrame {
 		return record.getCurrentLine();
 	}
 
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getNewDisplay(net.sf.RecordEditor.edit.file.FileView)
+	 */
+	@Override
+	protected BaseDisplay getNewDisplay(FileView view) {
+		return new LineFrameTree(view, 0);
+	}
+	
+	
+	
 }

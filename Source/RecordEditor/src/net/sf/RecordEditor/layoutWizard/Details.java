@@ -40,13 +40,13 @@ public class Details {
 	
     //private final static Integer CHAR_TYPE = new Integer(Type.ftChar);
     protected  String filename         = "";
-    protected     int fileStructure    = 0;
+    public        int fileStructure    = 0;
     protected     int recordType       = 0;
     protected     int system           = 0;
-    protected     int recordLength     = 0;
+    public        int recordLength     = 0;
     protected  String layoutName       = "Wizard_";
     protected  String layoutDescription = "";
-    protected  String fontName         = "";
+    public     String fontName         = "";
     protected Integer defaultType      = KeyField.CHAR_TYPE;
     protected  String fieldSeperator   = "";
     protected  String actualSeperator  = "";
@@ -55,6 +55,7 @@ public class Details {
     protected     int parserType       = 0;
     protected boolean fieldNamesOnLine = false;
     protected boolean unicode		   = false;
+    public    boolean generateFieldNames = false;
     
     protected  String layoutDirectory       = "";
     protected     int layoutWriterIdx  = -1; 
@@ -125,6 +126,7 @@ public class Details {
 	        				parserType, fileStructure
 	        		);
 	    			
+	    			nameFields(childRecord, child);
 	    			childRecord.setDefaultRecord(child.defaultRec.booleanValue());
 	    			System.out.println("Record: " + child.name + "\t" + childRecord.isDefaultRecord());
 	    			for (int i = 0; i < keyFields.size(); i++) {
@@ -155,6 +157,7 @@ public class Details {
 	    			Common.LFCR_BYTES, fontName,
 	    			parserType, fileStructure
 	    	);
+	    	nameFields(rec, standardRecord);
 	    	addFields(rec, standardRecord);
     	}
     	
@@ -174,6 +177,7 @@ public class Details {
  	
     	for (i = 0; i < recordDef.columnDtls.size(); i++) {
     		column = recordDef.columnDtls.get(i);
+    		
     		if (column.include.booleanValue()) {
     			field = new ExternalField(
     					column.start,
@@ -193,7 +197,20 @@ public class Details {
     		}
     	}
     }
-
+    
+    private void nameFields(ExternalRecord rec, RecordDefinition recordDef) {
+     	ColumnDetails column;
+ 
+    	for (int i = 0; i < recordDef.columnDtls.size(); i++) {
+    		column = recordDef.columnDtls.get(i);
+     		
+			if (column.name == null || "".equals(column.name)) {
+				column.name = "Field_" + i;
+			}	
+    	}
+    }
+    
+    
     /**
      * Get a line Reader
      * @return requested line reader

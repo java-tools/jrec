@@ -243,8 +243,10 @@ public abstract class FileChunkBase<L extends AbstractChunkLine, S extends Recor
 	}
 	
 	private boolean isOkToCompress(boolean force) {
-		return recordStore != null && compressed == null
-			&& (force || details.isOkToCompress());
+		synchronized (this) {
+			return recordStore != null && compressed == null
+				&& (force || details.isOkToCompress());
+		}
 	}
 	
 	protected int getStorageSize() {

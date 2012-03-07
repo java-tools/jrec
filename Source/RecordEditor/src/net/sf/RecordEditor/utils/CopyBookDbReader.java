@@ -136,7 +136,7 @@ public class CopyBookDbReader implements CopyBookInterface {
 	public LayoutDetail getLayout(int dbIndex, String pName) {
 	    LayoutDetail ret = null;
 
-		    message = "";
+		message = "";
 		try {
 			ResultSet resultset = Common.getDBConnection(dbIndex).createStatement().executeQuery(
 				"SELECT RecordId, Description, RecordType, "
@@ -240,7 +240,7 @@ public class CopyBookDbReader implements CopyBookInterface {
 				 "SELECT RS.ChildRecord, R.RecordName, RS.FieldStart, RS.Field, "
 				+       "RS.FieldValue, R.RecordType, R.Delimiter, R.Quote, "
 				+       "R.Canonical_Name, RS.PARENT_RECORDID, R.RECORD_STYLE "
-			    + " FROM Tbl_RS_SubRecords RS INNER JOIN Tbl_R_Records R "
+			    + " FROM Tbl_RS1_SubRecords RS INNER JOIN Tbl_R_Records R "
 			    +   " ON RS.ChildRecord = R.RecordId "
 				+ "WHERE (RS.RecordId=" + recordId + ")");
 

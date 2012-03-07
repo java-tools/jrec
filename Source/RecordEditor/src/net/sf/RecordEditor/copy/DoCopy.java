@@ -15,6 +15,7 @@ import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.Line;
 import net.sf.JRecord.Details.RecordSelection;
 import net.sf.JRecord.Details.XmlLine;
+import net.sf.JRecord.ExternalRecordSelection.FieldSelection;
 import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.JRecord.IO.AbstractLineWriter;
@@ -112,7 +113,7 @@ public final class DoCopy {
 			AbstractLayoutDetails ret = layoutReader.getRecordLayout(name, fileName);
 			if (ret == null) {
 				System.err.println("Retrieve of layout: " + name + " failed");
-			} else if (input && ret.isBuildLayout()) {
+			} else if (input && ret.isBuildLayout() || ret.getFileStructure() == Constants.IO_NAME_1ST_LINE) {
 				AbstractLineIOProvider ioProvider = LineIOProvider.getInstance();
 				AbstractLineReader reader;
 				AbstractLine in;
@@ -251,9 +252,9 @@ public final class DoCopy {
 					
 					try {
 						RecordSelection sel = dtl2.getRecord(i2).getRecordSelection();
-						for (int i = sel.size() -1; i >= 0; i--) {
-							if (sel.get(i).field != null) { 
-								out.setField(sel.get(i).field , sel.get(i).value);
+						for (FieldSelection fs : sel.getAllFields()) {
+							if (fs != null) { 
+								out.setField(fs.getFieldName() , fs.getFieldValue());
 							}
 						}
 					} catch (Exception e) {
@@ -402,7 +403,7 @@ public final class DoCopy {
 						bb.append("<\t>").append(rec1.getField(k).getName());
 					}
 					System.out.println("Can not find input field: " + j + " >" + recList1.fields[j] 
-					                 + "< } " + bb.toString() + " " + fromTbl[i][j]);
+					                 + "< } " + bb.toString() + " -- " + fromTbl[i][j]);
 				} else if (toTbl[i][j] < 0) {
 					System.out.println("Can not find output field: " + j + " " + recList2.fields[j]);
 				}
@@ -563,7 +564,7 @@ public final class DoCopy {
 		 
 		if (cpy.namesOnFirstLine) {
 			
-			byte[] sep = noBytes;
+			//byte[] sep = noBytes;
 			for (int i = 0; i < fromTbl[fromIdx[0]].length; i++) {
 				writer.writeFieldHeading(dtl1.getRecord(fromIdx[0]).getField(fromTbl[0][i]).getName());
 			}

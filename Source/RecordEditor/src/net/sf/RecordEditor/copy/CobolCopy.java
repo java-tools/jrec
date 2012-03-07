@@ -55,7 +55,7 @@ public class CobolCopy extends AbstractWizard<CopyDefinition> {
 		definition.type = CopyDefinition.COBOL_COPY;
 		
 		finalScreen = new CopyWizardFinalPnl(recordSelection1, recordSelection2);
-		pnls[0] = new getFiles(recordSelection1, recordSelection2);
+		pnls[0] = new GetFiles(recordSelection1, recordSelection2);
 //		pnls[1] = new CmpFieldSelection(selection);
 		pnls[1] = finalScreen;
 		
@@ -120,7 +120,7 @@ public class CobolCopy extends AbstractWizard<CopyDefinition> {
 
 
 	@SuppressWarnings("serial")
-	public static class getFiles extends  AbstractFilePnl<CopyDefinition> {
+	public static class GetFiles extends  AbstractFilePnl<CopyDefinition> {
 
 
 
@@ -130,7 +130,7 @@ public class CobolCopy extends AbstractWizard<CopyDefinition> {
 		private LayoutSelectionFile layoutSelection1;
 		private LayoutSelectionFile layoutSelection2;
 		
-		public getFiles(LayoutSelectionFile selection1, LayoutSelectionFile selection2) {
+		public GetFiles(LayoutSelectionFile selection1, LayoutSelectionFile selection2) {
 			super(selection1, "CobolFiles.txt");
 			
 			String s = Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get();

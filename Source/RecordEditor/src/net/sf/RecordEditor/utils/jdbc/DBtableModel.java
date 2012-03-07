@@ -17,6 +17,7 @@ import javax.swing.JFrame;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class DBtableModel<record extends AbsRecord> extends AbsDBTableModel<record> {
 
     private int emptyColumns = 0;
@@ -81,7 +82,7 @@ public class DBtableModel<record extends AbsRecord> extends AbsDBTableModel<reco
 	/**
 	 * @see javax.swing.table.TableModel#getColumnClass(int)
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Class getColumnClass(int col) {
 	    col = adjustColumn(col);
 		return dataBase.getColumnClass(super.getColumnClass(col), col);

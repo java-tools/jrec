@@ -31,55 +31,69 @@ public class XmlLineWriter extends AbstractLineWriter {
     private static final int ATTR_PREFIX_LENGTH   = XmlConstants.ATTRIBUTE_PREFIX.length();
     private static final int FOLLOWING_TEXT_INDEX = XmlConstants.FOLLOWING_TEXT_INDEX;
 
-    private XMLStreamWriter writer;
+    private XMLStreamWriter writer=null;
     private OutputStream os;
+   
 
-    /**
+
+	/**
      * @see net.sf.JRecord.IO.AbstractLineWriter#open(java.io.OutputStream)
      */
     public void open(OutputStream outputStream) throws IOException {
-
-    	XMLOutputFactory f ;
-    	
     	os = outputStream;
-    	try {
-    		 f = XMLOutputFactory.newInstance();	
-    	} catch (Exception e) {
-    		 Object o =  XMLOutputFactory.newInstance("javax.xml.stream.XMLOutputFactory", 
-					  this.getClass().getClassLoader());
-    		 f = (XMLOutputFactory) o;
-		}
-  
+    }
+    
+    private void allocateWriter()  throws IOException {
+    	XMLOutputFactory f = getFactory();
+    	
+    	
         try {
-            writer = f.createXMLStreamWriter(outputStream);
+            writer = f.createXMLStreamWriter(os);
         } catch (XMLStreamException e) {
-            throw new IOException("Error allocating XML Writer: " + e.getMessage());
+            throw new IOException("Error allocating XML Writer: " + e.getMessage(), e);
         }
+    }
 
+    private XMLOutputFactory getFactory() {
+    	XMLOutputFactory f ;
+    	try {
+    		f = XMLOutputFactory.newInstance();	
+    	} catch (Exception e) {
+    		@SuppressWarnings("deprecation")
+			Object o =  XMLOutputFactory.newInstance("javax.xml.stream.XMLOutputFactory", 
+    				this.getClass().getClassLoader());
+    		f = (XMLOutputFactory) o;
+    	}
+    	return f;
     }
 
     /**
      * @see net.sf.JRecord.IO.AbstractLineWriter#write(net.sf.JRecord.Details.AbstractLine)
      */
-    public void write(AbstractLine line) throws IOException {
+    public void write(@SuppressWarnings("rawtypes") AbstractLine line) throws IOException {
         //String name = toString(line.getField(line.getPreferredLayoutIdx(), 0));
         String name = toString(line.getLayout().getRecord(line.getPreferredLayoutIdx()).getRecordName());
 
         try {
             if (XmlConstants.XML_START_DOCUMENT.equals(name)) {
                 write_100_StartDocument(line);
-            } else if (XmlConstants.XML_DTD.equals(name)) {
-                writer.writeDTD(line.getFieldValue(XmlConstants.XML_TEXT).asString());
-            } else if (XmlConstants.XML_COMMENT.equals(name)) {
-                writer.writeComment(fixComment(line.getFieldValue(XmlConstants.XML_TEXT).asString()));
-            } else if (XmlConstants.XML_CDATA.equals(name)) {
-                writer.writeCData(line.getFieldValue(XmlConstants.XML_TEXT).asString());
-            } else if (XmlConstants.XML_REFERENCE.equals(name)) {
-                writer.writeEntityRef(line.getFieldValue(XmlConstants.XML_TEXT).asString());
-            } else if (name.startsWith("/")) {
-                writer.writeEndElement();
             } else {
-                write_200_Element(line);
+            	if (writer == null) {
+            		allocateWriter();
+            	}
+            	if (XmlConstants.XML_DTD.equals(name)) {
+	                writer.writeDTD(line.getFieldValue(XmlConstants.XML_TEXT).asString());
+	            } else if (XmlConstants.XML_COMMENT.equals(name)) {
+	                writer.writeComment(fixComment(line.getFieldValue(XmlConstants.XML_TEXT).asString()));
+	            } else if (XmlConstants.XML_CDATA.equals(name)) {
+	                writer.writeCData(line.getFieldValue(XmlConstants.XML_TEXT).asString());
+	            } else if (XmlConstants.XML_REFERENCE.equals(name)) {
+	                writer.writeEntityRef(line.getFieldValue(XmlConstants.XML_TEXT).asString());
+	            } else if (name.startsWith("/")) {
+	                writer.writeEndElement();
+	            } else {
+	                write_200_Element(line);
+	            }
             }
         } catch (XMLStreamException e) {
         	e.printStackTrace();
@@ -92,9 +106,16 @@ public class XmlLineWriter extends AbstractLineWriter {
      * @param line line to be written
      * @throws XMLStreamException any error that occurs
      */
-    private void write_100_StartDocument(AbstractLine line) throws XMLStreamException {
+    private void write_100_StartDocument(@SuppressWarnings("rawtypes") AbstractLine line) throws XMLStreamException {
         String encoding = line.getFieldValue(XmlConstants.ENCODING).asString();
         String version  = line.getFieldValue(XmlConstants.VERSION).asString();
+        
+    	if (writer == null) {
+    		XMLOutputFactory f = getFactory();
+        	
+            writer = f.createXMLStreamWriter(os, encoding);
+    	}
+
 
         if ("".equals(encoding) && "".equals(version)) {
             writer.writeStartDocument();
@@ -112,7 +133,8 @@ public class XmlLineWriter extends AbstractLineWriter {
      * @param line line to be written
      * @throws XMLStreamException any error that occurs
      */
-    private void write_200_Element(AbstractLine line) throws XMLStreamException {
+    @SuppressWarnings("rawtypes")
+	private void write_200_Element(AbstractLine line) throws XMLStreamException {
         int idx = line.getPreferredLayoutIdx();
         AbstractLayoutDetails layout = line.getLayout();
         AbstractRecordDetail rec = layout.getRecord(idx);
@@ -164,7 +186,7 @@ public class XmlLineWriter extends AbstractLineWriter {
      * @param line line to be written
      * @throws XMLStreamException any error
      */
-    private void writeFollowingText(AbstractLine line) throws XMLStreamException {
+    private void writeFollowingText(@SuppressWarnings("rawtypes") AbstractLine line) throws XMLStreamException {
         int idx = line.getPreferredLayoutIdx();
         String followingText = toString(line.getField(idx, FOLLOWING_TEXT_INDEX));
 

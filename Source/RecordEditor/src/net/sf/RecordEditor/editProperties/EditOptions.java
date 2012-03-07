@@ -63,6 +63,7 @@ public class EditOptions {
 
     private JTabbedPane mainTabbed = new JTabbedPane();
 	private JTabbedPane propertiesTabbed = new JTabbedPane();
+	private JTabbedPane xmlTabbed   = new JTabbedPane();
 	private JTabbedPane jdbcTabbed  = new JTabbedPane();
 	private JTabbedPane jarsTabbed  = new JTabbedPane();
 	private JTabbedPane userTabbed  = new JTabbedPane();
@@ -122,6 +123,7 @@ public class EditOptions {
 //            {"spaceAtRightOfScreen", "Space to be left at the Right of the screen.", null},
 //    };
     private Object[][] screenLocationParams = {
+            {Parameters.MAXIMISE_SCREEN, "Maximise the screen", null, EditPropertiesPnl.FLD_BOOLEAN,  "Maximise the screen"},
             {"spaceAtBottomOfScreen", "Space to be left at the bottom of the screen.", null, EditPropertiesPnl.FLD_INT, null},
             {"spaceAtTopOfScreen", "Space to be left at the top of the screen.", null, EditPropertiesPnl.FLD_INT, null},
             {"spaceAtLeftOfScreen", "Space to be left at the left of the screen.", null, EditPropertiesPnl.FLD_INT, null},
@@ -140,6 +142,7 @@ public class EditOptions {
             {Parameters.VELOCITY_TEMPLATE_DIRECTORY, "Velocity Template directory (Editor)", null, EditPropertiesPnl.FLD_DIR, null},
             {Parameters.VELOCITY_COPYBOOK_DIRECTORY, "Velocity Template directory (Copybooks)", null, EditPropertiesPnl.FLD_DIR, null},
             {Parameters.COPYBOOK_DIRECTORY, "Directory to read / write file copybooks to", null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.XSLT_TEMPLATE_DIRECTORY, "Xslt Template directory (Editor)", null, EditPropertiesPnl.FLD_DIR, null},
     };
     
 
@@ -169,6 +172,8 @@ public class EditOptions {
             {"SignificantCharInFiles.2", "Number of characters to use when looking up record layouts (medium)", null, EditPropertiesPnl.FLD_INT, "Significant chars 2"},
             {"SignificantCharInFiles.3", "Number of characters to use when looking up record layouts (large)", null, EditPropertiesPnl.FLD_INT, "Significant chars 3"},
             {Parameters.PROPERTY_LOAD_FILE_BACKGROUND, "Load File in Background thread", null, EditPropertiesPnl.FLD_BOOLEAN, "Load In background"}, // Checked
+            {Parameters.USE_NEW_TREE_EXPANSION, "Use New Tree Expansion", null, EditPropertiesPnl.FLD_BOOLEAN,  "Use New Tree Expansion"},
+            {Parameters.SEARCH_ALL_FIELDS, "Search: All Fields", null, EditPropertiesPnl.FLD_BOOLEAN,  "On Search Screen default to \"All Fields\""},
     };
  
     private String layoutWizardParamsDescription
@@ -181,7 +186,7 @@ public class EditOptions {
             {Parameters.FS_PC_ZONED, "Look for PC Zoned numeric fields (Cobol PIC 9 fields)", null, EditPropertiesPnl.FLD_BOOLEAN, null},
             {Parameters.FS_COMP3, "Look for comp-3 fields", null, EditPropertiesPnl.FLD_BOOLEAN, null},
             {Parameters.FS_COMP_BIG_ENDIAN, "Look for Big Endian Binary", null, EditPropertiesPnl.FLD_BOOLEAN, null},
-            {Parameters.FS_COMP_Little_ENDIAN, "Look for Little Endian Binary", null, EditPropertiesPnl.FLD_BOOLEAN, null},
+            {Parameters.FS_COMP_LITTLE_ENDIAN, "Look for Little Endian Binary", null, EditPropertiesPnl.FLD_BOOLEAN, null},
    };
 
 
@@ -219,7 +224,7 @@ public class EditOptions {
     private EditPropertiesPnl directoryPnl1
     	= new EditPropertiesPnl(params, directoryDescription, directoryParams1);
     private EditPropertiesPnl directoryPnl2
-	= new EditPropertiesPnl(params, directoryDescription, directoryParams2);
+		= new EditPropertiesPnl(params, directoryDescription, directoryParams2);
     private EditPropertiesPnl otherPnl
 		= new EditPropertiesPnl(params, otherDescription, otherParams);
     private EditPropertiesPnl layoutWizardPnl
@@ -227,6 +232,26 @@ public class EditOptions {
     private EditPropertiesPnl bigModelPnl
 		= new EditPropertiesPnl(params, bigModelDescription, bigModelParams);
 
+    private String xsltDescription
+    	= "<H1>Xslt Properties</h1>"
+    	+ "This panels let you specify XSLT related jars and the XSLT transform class<br>"
+    	+ "For Saxon or Xalan, you can just enter Saxon or Xalan, Or you can enter<pre>"
+    	+ "        net.sf.saxon.TransformerFactoryImpl\n"
+    	+ "    or  org.apache.xalan.processor.TransformerFactoryImpl</pre>";
+
+    private Object[][] xsltParams = {
+
+            {Parameters.XSLT_ENGINE, "Xslt Transform factory class", null, EditPropertiesPnl.FLD_TEXT, null},
+    };
+    private EditPropertiesPnl xsltPnl
+		= new EditPropertiesPnl(params, xsltDescription, xsltParams);
+
+    private EditJarsPanel xsltJarsPnl = new EditJarsPanel(params,
+            "<h1>Xslt Jars</h1>This panel lets you specify your XSLT jars ",
+            params.xsltJars,
+            ""
+            );
+    
     private EditJdbcParamsPanel jdbcParamsPnl = new EditJdbcParamsPanel(params, params.jdbcJars);
 
     private EditJarsPanel jdbcPnl = new EditJarsPanel(params,
@@ -461,6 +486,7 @@ public class EditOptions {
        save.putValue(AbstractAction.SHORT_DESCRIPTION, "Save ...");
 
        programDescription = new JEditorPane("text/html", description);
+       xsltJarsPnl.setInitialValues();
        jdbcPnl.setInitialValues();
        systemPnl.setInitialValues();
        optionalPnl.setInitialValues();
@@ -501,13 +527,15 @@ public class EditOptions {
         
         if (includeWizardOptions) {
         	propertiesTabbed.addTab("Layout Wizard Options", layoutWizardPnl);
-        	propertiesTabbed.addTab("Big Model Options", bigModelPnl);
         }
-        
+       	propertiesTabbed.addTab("Big Model Options", bigModelPnl);
+       
         propertiesTabbed.addTab("Defaults", 
         		new EditDefaults(params, optionDescription, 
         				defaultDetails, defaultModels
         ));
+        xmlTabbed.addTab("Xslt Options", xsltPnl);
+        xmlTabbed.addTab("Xslt Jars", xsltJarsPnl);
 
         jarsTabbed.addTab("System Jars", systemPnl);
         jarsTabbed.addTab("Optional Jars", optionalPnl);
@@ -527,6 +555,7 @@ public class EditOptions {
 
         mainTabbed.addTab("Description", init_310_Screen());
         mainTabbed.addTab("Properties", propertiesTabbed);
+        mainTabbed.addTab("Xml", xmlTabbed);
         if (includeJDBC) {
         	jdbcTabbed.addTab("JDBC Jars", jdbcPnl);
         	jdbcTabbed.addTab("JDBC Properties", jdbcParamsPnl);
@@ -574,6 +603,7 @@ public class EditOptions {
 	}
 
 	public final void displayScreen() {
+		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.pack();
         frame.setBounds(

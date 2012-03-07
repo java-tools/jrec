@@ -167,21 +167,21 @@ public class RecordRec extends AbsRecord {
       if (updateStatus == NULL_INT_VALUE) return "";
 
       switch (fieldNum) {
-        case (0) : return new Integer(value.getRecordId());
+        case (0) : return Integer.valueOf(value.getRecordId());
         case (1) : return value.getRecordName();
         case (2) : return value.getDescription();
-        case (3) : return new Integer(value.getRecordType());
-        case (4) : return new Integer(value.getSystem());
+        case (3) : return Integer.valueOf(value.getRecordType());
+        case (4) : return Integer.valueOf(value.getSystem());
         case (5) : return value.getListChar();
         case (6) : return value.getCopyBook();
         case (7) : return value.getDelimiter();
         case (8) : return value.getQuote();
-        case (9) : return new Integer(value.getPosRecInd());
+        case (9) : return Integer.valueOf(value.getPosRecInd());
         case (10) : return value.getRecSepList();
         case (11) : return value.getRecordSep();
         case (12) : return value.getFontName();
-        case (13) : return new Integer(value.getRecordStyle());
-        case (14) : return new Integer(value.getFileStructure());
+        case (13) : return Integer.valueOf(value.getRecordStyle());
+        case (14) : return Integer.valueOf(value.getFileStructure());
         default  : return "";
       }
   }

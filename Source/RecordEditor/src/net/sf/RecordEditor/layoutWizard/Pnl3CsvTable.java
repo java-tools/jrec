@@ -52,7 +52,7 @@ public class Pnl3CsvTable extends WizardPanel {
             colDtls.length = 0;
             colDtls.decimal = 0;
             colDtls.include = Boolean.TRUE;
-            colDtls.name = pnl.getTableModel().getColumnName(i);
+            colDtls.name = pnl.getColumnName(i);
             wizardDetail.standardRecord.columnDtls.add(i, colDtls);
 	    }
 	    return wizardDetail;

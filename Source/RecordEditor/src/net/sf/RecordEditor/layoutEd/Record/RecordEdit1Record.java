@@ -43,7 +43,7 @@ import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
  *
  */
 @SuppressWarnings("serial")
-public class RecordEdit1Record extends ReFrame implements ReActionHandler {
+public class RecordEdit1Record extends ReFrame {
 
     /* Space for message box consists of */
     private static final int SPACE_FOR_MESSAGE_BOX = 50;
@@ -83,7 +83,7 @@ public class RecordEdit1Record extends ReFrame implements ReActionHandler {
 				  connectionIdx,
 				  this, false, false);
 
-        init(null);
+        init(RecordRec.getNullRecord("", ""));
         Common.setDoFree(free, dbConnectionIdx);
     }
 
@@ -104,6 +104,7 @@ public class RecordEdit1Record extends ReFrame implements ReActionHandler {
             				 final DBtableModel<ChildRecordsRec> recordList) {
         super(dbName, "Edit Record Layout", null);
 
+        
         connectionIdx = dbConnectionIdx;
         //Connection dbConnection = Common.getDBConnectionLogErrors(connectionIdx);
 
@@ -111,6 +112,7 @@ public class RecordEdit1Record extends ReFrame implements ReActionHandler {
         editList  = recordList;
         callback  = callbackClass;
 
+        boolean free = dbRecord.isSetDoFree(false);
         dbRecord.setConnection(new ReConnection(connectionIdx));
 
         pnlRecord = new RecordPnl(ReMainFrame.getMasterFrame(),
@@ -118,6 +120,8 @@ public class RecordEdit1Record extends ReFrame implements ReActionHandler {
 				  this, false, true);
 
         init(getRecord());
+        
+        dbRecord.setDoFree(free);
     }
 
 
@@ -281,7 +285,7 @@ public class RecordEdit1Record extends ReFrame implements ReActionHandler {
     private RecordRec getRecord() {
         ChildRecordsRec r = editList.getRecord(recordIdx);
         if (r == null) {
-            return null;
+            return RecordRec.getNullRecord("", "");
         }
 
         dbRecord.resetSearch();

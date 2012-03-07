@@ -29,7 +29,7 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
 public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
 	
 	private static final int PARENT_INDEX     = 1;
-	public static final Integer BLANK_PARENT = new Integer(-1);
+	public static final Integer BLANK_PARENT = Integer.valueOf(-1);
 	
 	private static final String[] LAYOUT_COLUMN_HEADINGS = {
 		"Record", "Parent Record"

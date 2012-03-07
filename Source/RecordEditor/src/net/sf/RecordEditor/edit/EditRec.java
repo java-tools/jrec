@@ -26,7 +26,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
 import net.sf.JRecord.IO.AbstractLineIOProvider;
-import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.edit.display.BaseDisplay;
 import net.sf.RecordEditor.edit.display.Action.LoadSavedFieldSeqAction;
 import net.sf.RecordEditor.edit.display.Action.LoadSavedVisibilityAction;
@@ -40,6 +39,7 @@ import net.sf.RecordEditor.utils.CopyBookDbReader;
 import net.sf.RecordEditor.utils.CopyBookInterface;
 import net.sf.RecordEditor.utils.Plugin;
 import net.sf.RecordEditor.utils.VelocityPopup;
+import net.sf.RecordEditor.utils.XsltPopup;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
@@ -135,7 +135,6 @@ public class EditRec extends ReMainFrame  {
      * standard initialize
      *
      */
-    @SuppressWarnings("unchecked")
 	private void init(final boolean includeJdbc, AbstractAction newAction) {
     	LoadSavedVisibilityAction savedVisibiltyAction = new LoadSavedVisibilityAction();
     	LoadSavedFieldSeqAction fieldSeqAction = new LoadSavedFieldSeqAction();
@@ -157,7 +156,7 @@ public class EditRec extends ReMainFrame  {
         ReMainFrame.setMasterFrame(this);
         ReTypeManger.setDateFormat(Common.DATE_FORMAT_STR);
         
-        buildMenubar(VelocityPopup.getPopup());
+        buildMenubar(VelocityPopup.getPopup(), XsltPopup.getPopup());
         buildToolbar(newAction, toolbarActions);
         
       
@@ -180,7 +179,9 @@ public class EditRec extends ReMainFrame  {
         viewMenu.add(newAction(ReActionHandler.TABLE_VIEW_SELECTED));
         viewMenu.add(newAction(ReActionHandler.RECORD_VIEW_SELECTED));
         viewMenu.add(newAction(ReActionHandler.COLUMN_VIEW_SELECTED));
+        viewMenu.add(newAction(ReActionHandler.SELECTED_VIEW));
         viewMenu.add(newAction(ReActionHandler.BUILD_XML_TREE_SELECTED));
+        
         viewMenu.addSeparator();
         viewMenu.add(newAction(ReActionHandler.EXECUTE_SAVED_FILTER));
         viewMenu.add(newAction(ReActionHandler.EXECUTE_SAVED_SORT_TREE));
@@ -194,7 +195,8 @@ public class EditRec extends ReMainFrame  {
 
         if (Common.USER_INIT_CLASS != null && ! "".equals(Common.USER_INIT_CLASS)) {
             try {
-                Class c = ClassLoader.getSystemClassLoader().loadClass(Common.USER_INIT_CLASS);
+                @SuppressWarnings("rawtypes")
+				Class c = ClassLoader.getSystemClassLoader().loadClass(Common.USER_INIT_CLASS);
                 c.newInstance();
             } catch (Exception e) {
                 Common.logMsg("Error running user Initialize: "
@@ -313,7 +315,7 @@ public class EditRec extends ReMainFrame  {
     public static void loadUserTypes() {
         int i, typeNum, baseType;
         ReTypeManger sysTypes = ReTypeManger.getInstance();
-        Type newType;
+        net.sf.JRecord.Types.Type newType;
         String name, format, baseTypeStr;
         CellFormat newFormat;
         int[] typeIds = Common.readIntPropertiesArray(Parameters.TYPE_NUMBER_PREFIX, Parameters.NUMBER_OF_TYPES);
@@ -324,7 +326,7 @@ public class EditRec extends ReMainFrame  {
             for (i = 0; i < Parameters.NUMBER_OF_TYPES; i++) {
                 if (types[i] != null) {
                     try {
-                        newType = (Type) types[i];
+                        newType = (net.sf.JRecord.Types.Type) types[i];
                         if (formats == null || formats[i] == null) {
                             sysTypes.registerType(typeIds[i], newType);
                         }  else {
@@ -454,7 +456,7 @@ public class EditRec extends ReMainFrame  {
      * @author Bruce Martin
      *
      */
-    public class LocalAction extends AbstractAction {
+    public static class LocalAction extends AbstractAction {
 
     	private Plugin extension = null;
     	private String param;

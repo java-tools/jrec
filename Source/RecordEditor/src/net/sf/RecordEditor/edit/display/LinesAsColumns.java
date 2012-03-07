@@ -195,7 +195,7 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 	 * (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.display.BaseLineAsColumn#newLayout(net.sf.JRecord.Details.AbstractLayoutDetails)
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void setNewLayout(AbstractLayoutDetails newLayout) {
 		super.setNewLayout(newLayout);
@@ -325,4 +325,14 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 		return action == ReActionHandler.AUTOFIT_COLUMNS
 			|| super.isActionAvailable(action);
 	}
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getNewDisplay(net.sf.RecordEditor.edit.file.FileView)
+	 */
+	@SuppressWarnings("rawtypes")
+	@Override
+	protected BaseDisplay getNewDisplay(FileView view) {
+		return new LinesAsColumns(view);
+	}
+	
 }

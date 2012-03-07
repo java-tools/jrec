@@ -26,7 +26,7 @@ public class FieldSelection extends FilterPnl implements AbstractWizardPanel<Cop
 	private AbstractLayoutSelection<?> selection1;
 
 	
-	private AbstractLayoutDetails<?, ?> layout2 = null;
+	private static final AbstractLayoutDetails<?, ?> layout2 = null;
 	
 	/**
 	 * @param layoutSelection

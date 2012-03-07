@@ -5,6 +5,7 @@ import net.sf.JRecord.Details.LineProvider;
 import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.IO.StandardLineIOProvider;
+import net.sf.RecordEditor.layoutWizard.UnknownFormatReader;
 import net.sf.RecordEditor.utils.csv.GenericCsvReader;
 
 public class ReIOProvider extends StandardLineIOProvider {

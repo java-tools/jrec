@@ -551,13 +551,14 @@ implements DataStore<AbstractLine> {
 	}
 
 	private class ChunkLineDtls {
-		public final int chunksFirstLine, lineInChunk;
+		public final int //chunksFirstLine,
+						 lineInChunk;
 		public final FileChunk<L, R> chunk;
 		public final int index;
 		
 		public ChunkLineDtls( int lineInChunk, FileChunk<L, R> chunk, int idx) {
 			super();
-			this.chunksFirstLine = chunk.getFirstLine();
+			//this.chunksFirstLine = chunk.getFirstLine();
 			this.lineInChunk = lineInChunk;
 			this.chunk = chunk;
 			this.index = idx;

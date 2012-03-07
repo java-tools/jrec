@@ -385,7 +385,7 @@ public final class ExternalConversion {
 	private static AbstractConversion getStandardConversion() {
 		
 		if (standardConversion == null) {
-			standardConversion = new basicConversion();
+			standardConversion = new BasicConversion();
 		}
 		return standardConversion;
 	}
@@ -396,7 +396,7 @@ public final class ExternalConversion {
 	 * @author Bruce Martin
 	 *
 	 */
-	private static class basicConversion implements AbstractConversion {
+	private static class BasicConversion implements AbstractConversion {
 
 		private String[] typeNames ;
 		private HashMap<String, Integer> typeNumbers;
@@ -405,7 +405,7 @@ public final class ExternalConversion {
 		 * Basic Type / Format conversion (for use in JRecord; RecordEditor has
 		 * its own (database based conversion).
 		 */
-		public basicConversion() {
+		public BasicConversion() {
 			TypeManager manager = TypeManager.getInstance();
 			typeNames = new String[manager.getNumberOfTypes()];
 			typeNumbers = new HashMap<String, Integer>(manager.getNumberOfTypes() * 2);

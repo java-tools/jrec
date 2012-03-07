@@ -322,4 +322,13 @@ public class LineFrame extends    BaseLineFrame {
 		currRow += amount;
 		rowChanged();
 	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getNewDisplay(net.sf.RecordEditor.edit.file.FileView)
+	 */
+	@Override
+	protected BaseDisplay getNewDisplay(@SuppressWarnings("rawtypes") FileView view) {
+		return new LineFrame(view, 0);
+	}
 }

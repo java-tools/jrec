@@ -16,9 +16,14 @@ public final class TstConstants {
 
  //   public static final String BM_DIRECTORY = "/home/bm/Programs/";
  //   public static final String TEMP_DIRECTORY = BM_DIRECTORY + "RecordEdit/Test/";
+ //   public static final String BM_DIRECTORY = "C:\\Work\\Temp/";
+ //   public static final String RE_DIRECTORY = "C:\\Program Files\\RecordEdit\\HSQL\\";
+ //   public static final String BM_DIRECTORY = "/home/knoppix/";
+ //   public static final String RE_DIRECTORY = "/media/sdc1/RecordEditor/USB/";
+ //   public static final String TEMP_DIRECTORY = BM_DIRECTORY;
     public static final String BM_DIRECTORY = "/home/knoppix/";
-    public static final String RE_DIRECTORY = "/media/sdc1/RecordEditor/USB/";
-    public static final String TEMP_DIRECTORY = BM_DIRECTORY;
+    public static final String RE_DIRECTORY = "C:\\JavaPrograms\\RecordEdit\\HSQL\\";
+    public static final String TEMP_DIRECTORY = "C:\\Temp\\RecordEditorTest\\";
     public static final int    DB_INDEX       = 0;
     public static final String SAMPLE_DIRECTORY = RE_DIRECTORY + "SampleFiles/";
     public static final String COBOL_DIRECTORY = RE_DIRECTORY + "CopyBook/Cobol/";
@@ -29,7 +34,9 @@ public final class TstConstants {
     public static final String XML_DIRECTORY = RE_DIRECTORY + "CopyBook/Xml/";
     public static final String XML_DIRECTORY_OUTPUT = RE_DIRECTORY + "CopyBook/Xml/";
 
-    public static final String COBOL_TEST_DIR = BM_DIRECTORY + "open-cobol-1.0/CobolSrc/";
+//    public static final String COBOL_TEST_DIR = BM_DIRECTORY + "open-cobol-1.0/CobolSrc/";
+    
+    public static final String COBOL_TEST_DIR = "C:\\Users\\mum\\Bruce\\CobolSrc\\";
     /**
      * tst constants
      */

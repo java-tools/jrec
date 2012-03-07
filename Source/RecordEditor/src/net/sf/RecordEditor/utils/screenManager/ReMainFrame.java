@@ -124,6 +124,8 @@ public class ReMainFrame extends JFrame
 	private final ReActionActiveScreen findAction = newAction(ReActionHandler.FIND);
 	private final ReActionActiveScreen print
 		= newAction(ReActionHandler.PRINT);
+	private final ReActionActiveScreen printSelected
+	= newAction(ReActionHandler.PRINT_SELECTED);
 
 
 	private final ReActionActiveScreen copyRecords
@@ -147,6 +149,7 @@ public class ReMainFrame extends JFrame
 
 
 	private JMenu velocityTemplateList = null;
+	private JMenu xslTransformList = null;
 
 	static {
         int j;
@@ -237,20 +240,21 @@ public class ReMainFrame extends JFrame
 	 */
 	private void init_200_SetSizes() {
 	    int start, height;
-	    int inset = Common.getSpaceAtLeftOfScreen() + Common.getSpaceAtRightOfScreen();
 	    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	    int screenHeight = screenSize.height - Common.getSpaceAtBottomOfScreen()
 	    - Common.getSpaceAtTopOfScreen();
 
-	    HelpWindow.HELP_FRAME.setBounds(Common.getSpaceAtLeftOfScreen(),
-	            Common.getSpaceAtTopOfScreen(),
-	            screenSize.width  - inset,
-	            screenHeight);
-
-	    setBounds(Common.getSpaceAtLeftOfScreen(),
-	            Common.getSpaceAtTopOfScreen(),
-	            screenSize.width  - inset,
-	            screenHeight);
+	    Common.setBounds1(HelpWindow.HELP_FRAME);
+	    Common.setBounds1(this);
+//	    HelpWindow.HELP_FRAME.setBounds(Common.getSpaceAtLeftOfScreen(),
+//	            Common.getSpaceAtTopOfScreen(),
+//	            screenSize.width  - inset,
+//	            screenHeight);
+//
+//	    setBounds(Common.getSpaceAtLeftOfScreen(),
+//	            Common.getSpaceAtTopOfScreen(),
+//	            screenSize.width  - inset,
+//	            screenHeight);
 
 	    start = screenHeight - LOG_SCREEN_HEIGHT - LOG_SCREEN_STARTS_FROM_BOTTOM;
 	    height  = LOG_SCREEN_HEIGHT;
@@ -341,9 +345,10 @@ public class ReMainFrame extends JFrame
 	 * Build the Menu Bar
 	 *
 	 */
-	protected final void buildMenubar(JMenu velocityPopup) {
+	protected final void buildMenubar(JMenu velocityPopup, JMenu xsltPopup) {
 
 		velocityTemplateList = velocityPopup;
+		xslTransformList = xsltPopup;
 	    menuBar.add(fileMenu);
 	    menuBar.add(buildEditMenu());
 
@@ -380,6 +385,10 @@ public class ReMainFrame extends JFrame
 	    	fileMenu.add(SAVE_AS_VELOCITY);
 	    	fileMenu.add(velocityTemplateList);
 	    }
+	    if (xslTransformList != null) {
+
+	    	fileMenu.add(xslTransformList);
+	    }
 	    if (addSaveAsXml) {
 	    	fileMenu.add(newAction(ReActionHandler.SAVE_AS_XML));
 	    }
@@ -398,6 +407,7 @@ public class ReMainFrame extends JFrame
 	    });
 	    fileMenu.addSeparator();
 	    fileMenu.add(print);
+	    fileMenu.add(printSelected);
 	}
 
 	protected final void addExit() {
@@ -635,7 +645,14 @@ public class ReMainFrame extends JFrame
             	velocityTemplateList.setEnabled(actionHandler.isActionAvailable(ReActionHandler.SAVE_AS_VELOCITY));
             }
          }
-    }
+        
+         if (xslTransformList != null) {
+        	ReFrame actionHandler = ReFrame.getActiveFrame();
+            if (actionHandler != null) {
+            	xslTransformList.setEnabled(actionHandler.isActionAvailable(ReActionHandler.SAVE_AS_XSLT));
+            }
+         }
+   }
 
     /**
      * Called when a window has been created
@@ -769,7 +786,6 @@ public class ReMainFrame extends JFrame
      * Set the Look and Feel
      * @return nothing, allows me to assign to a variable
      */
-    @SuppressWarnings("unchecked")
 	public final void setLookAndFeel() {
 
         int idx = Common.LOOKS_INDEX;
@@ -803,7 +819,8 @@ public class ReMainFrame extends JFrame
                 } else {
 	                System.out.println("Setting Class loader " + lafName);
 	                UIManager.put("ClassLoader", getClass().getClassLoader());
-	                Class c = getClass().getClassLoader().loadClass(lafName);
+	                @SuppressWarnings("rawtypes")
+					Class c = getClass().getClassLoader().loadClass(lafName);
 	                //Class c = Class.forName(lafName);
 	                LookAndFeel laf = (LookAndFeel) c.newInstance();
 	                UIManager.setLookAndFeel(laf);
@@ -862,7 +879,7 @@ public class ReMainFrame extends JFrame
      * @author Bruce Martin
      *
      */
-    private class WindowAction extends AbstractAction {
+    private static class WindowAction extends AbstractAction {
         private ReFrame window;
 
         /**

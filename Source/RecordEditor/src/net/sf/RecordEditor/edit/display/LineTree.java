@@ -32,8 +32,7 @@ public class LineTree extends BaseLineTree<LineNode> {
 	private AbstractLineNodeTreeParser parser;
 
 	
-	@SuppressWarnings("unchecked")
-	public LineTree(FileView viewOfFile, AbstractLineNodeTreeParser treeParser, 
+	public LineTree(@SuppressWarnings("rawtypes") FileView viewOfFile, AbstractLineNodeTreeParser treeParser, 
 			boolean mainView, final int columnsToSkip) {
 		super(viewOfFile, mainView, false, columnsToSkip, NO_OPTION_PANEL);
 		
@@ -316,10 +315,10 @@ public class LineTree extends BaseLineTree<LineNode> {
 			break;
 			case (TableModelEvent.UPDATE):
 				LineNode n = findNode4LineNumber(root, firstRowChanged);
-				AbstractLine l = n.getLine();
+				AbstractLine l;
 				
 				if (n == null 
-				|| (l != null && l.isError())
+				|| ((l =  n.getLine()) != null && l.isError())
 				|| (n.getLineNumber() != firstRowChanged && tableChanged_300_isNotEnd(n.getLine()))) {
 					tableChanged_400_Update(firstRowChanged);
 				}
@@ -592,6 +591,9 @@ public class LineTree extends BaseLineTree<LineNode> {
 		 super.setFieldVisibility(idx, fields);
 		 super.setCopyHiddenFields(true);
 	 }
+	 
+	 
+	 
 /*	public static void main(final String[] pgmArgs) {
 		String fn = "/home/knoppix/RecordEdit/HSQLDB/SampleFiles/Xml/IVM0034_Map.XML";
 		
@@ -608,7 +610,17 @@ public class LineTree extends BaseLineTree<LineNode> {
 		}
 	}*/
 
-	 /**
+	 /* (non-Javadoc)
+	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getNewDisplay(net.sf.RecordEditor.edit.file.FileView)
+	 */
+	@Override
+	protected BaseDisplay getNewDisplay(FileView view) {
+		return new LineTree(view, this.parser, false, this.cols2skip);
+	}
+
+
+
+	/**
 	  * rebuild the tree
 	  */
 	 private class RebuildLater implements Runnable {
@@ -622,4 +634,6 @@ public class LineTree extends BaseLineTree<LineNode> {
 			 rebuildNode(parent);
 		 }
 	 }
+	 
+	 
 }

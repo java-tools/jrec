@@ -22,6 +22,7 @@ public class CsvWriter implements FieldWriter {
 	public final boolean quoteAllTextFlds;
 	private boolean[] numericFields = null;
 	private boolean[] printField;
+	private int numberOfInitialFields = 0;
 
 	public CsvWriter(String fileName, String delimiter, 
 			String fontName, String quoteStr, boolean quoteAllTextFields,
@@ -95,40 +96,47 @@ public class CsvWriter implements FieldWriter {
 	 * @see net.sf.RecordEditor.utils.FieldWriter#writeField(java.lang.String)
 	 */
 	public void writeField(String field) throws IOException {
-		writeField(field, numericFields != null && numericFields[fieldNo]);
+		writeField(field,
+				   numericFields != null 
+				&& fieldNo >= numberOfInitialFields
+				&& numericFields[fieldNo-numberOfInitialFields]);
 	}
 	
 	public void writeField(String field, boolean isNumeric) throws IOException {
 
 		if (isFieldToBePrinted(fieldNo)) {
+	
 			fileWriter.write(sep);
-			
-			if (isNumeric) {
-			} else if ("".equals(quote)) {		 
-				if (!"".equals(fieldSep) && field.indexOf(fieldSep) >= 0) {
-					StringBuffer b = new StringBuffer(field);
-					Conversion.replace(b, fieldSep, "");
-					Common.logMsg("Warning: on line " + lineNo + " Field " + fieldNo + ", Seperator " + fieldSep + " Dropped" , null);
-					field = b.toString();
-				}
-			} else if (!"".equals(fieldSep) && field.indexOf(fieldSep) >= 0) {
-				StringBuffer b = new StringBuffer(field);
-	
-				int pos;
-				int j = 0;
-											
-				while ((pos = b.indexOf(quote, j)) >= 0) {
-					b.insert(pos, quote);
-					j = pos + 2;
-				}
 				
-				field = quote + (b.append(quote)).toString();
-			} else if (quoteAllTextFlds) {
-				field = quote + field + quote;
+			if (field != null) {
+				if (isNumeric) {
+				} else if ("".equals(quote)) {		 
+					if (!"".equals(fieldSep) && field.indexOf(fieldSep) >= 0) {
+						StringBuffer b = new StringBuffer(field);
+						Conversion.replace(b, fieldSep, "");
+						Common.logMsg("Warning: on line " + lineNo + " Field " + fieldNo + ", Seperator " + fieldSep + " Dropped" , null);
+						field = b.toString();
+					}
+				} else if (!"".equals(fieldSep) && field.indexOf(fieldSep) >= 0) {
+					StringBuffer b = new StringBuffer(field);
+		
+					int pos;
+					int j = 0;
+												
+					while ((pos = b.indexOf(quote, j)) >= 0) {
+						b.insert(pos, quote);
+						j = pos + 2;
+					}
+					
+					field = quote + (b.append(quote)).toString();
+				} else if (quoteAllTextFlds) {
+					field = quote + field + quote;
+				}
+				fileWriter.write(Conversion.getBytes(field, font));
 			}
-			fileWriter.write(Conversion.getBytes(field, font));
-	
+
 			sep = fieldSepByte;
+			
 		}
 		fieldNo += 1;
 	}
@@ -150,6 +158,18 @@ public class CsvWriter implements FieldWriter {
 
 	private boolean isFieldToBePrinted(int fldNo) {
 		return printField == null 
-			|| (fldNo < printField.length && printField[fldNo]);
+			|| (   fldNo-numberOfInitialFields >= printField.length 
+			    || fldNo < numberOfInitialFields
+			    || printField[fldNo-numberOfInitialFields]);
+	}
+
+	public void setNumberOfInitialFields(int numberOfInitialFields) {
+		this.numberOfInitialFields = numberOfInitialFields;
+	}
+	
+	public void setPrintField(int idx, boolean include) {
+		if (printField != null && idx >= 0 && idx < printField.length) {
+			printField[idx] = include;
+		}
 	}
 }

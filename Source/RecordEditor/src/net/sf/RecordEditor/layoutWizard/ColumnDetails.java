@@ -59,10 +59,10 @@ public class ColumnDetails {
         Object o;
 
         switch (columnIdx) {
-        	case(1): o = new Integer(start);   break;
-        	case(2): o = new Integer(length);  break;
-        	case(3): o = new Integer(type);    break;
-        	case(4): o = new Integer(decimal); break;
+        	case(1): o = Integer.valueOf(start);   break;
+        	case(2): o = Integer.valueOf(length);  break;
+        	case(3): o = Integer.valueOf(type);    break;
+        	case(4): o = Integer.valueOf(decimal); break;
         	case(5): o = include;              break;
         	default: o = name;
         }

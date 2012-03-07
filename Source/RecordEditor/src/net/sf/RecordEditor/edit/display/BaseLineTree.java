@@ -24,6 +24,7 @@ import net.sf.JRecord.Details.AbstractLine;
 import net.sf.RecordEditor.edit.display.Action.AutofitAction;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.edit.display.common.AbstractRowChanged;
+import net.sf.RecordEditor.edit.display.util.AbstractTreeFrame;
 import net.sf.RecordEditor.edit.display.util.RowChangeListner;
 import net.sf.RecordEditor.edit.file.AbstractLineNode;
 import net.sf.RecordEditor.edit.file.FieldMapping;
@@ -45,7 +46,7 @@ import net.sf.RecordEditor.utils.swing.treeTable.TreeTableModelAdapter;
 @SuppressWarnings("serial")
 public abstract class BaseLineTree<LNode extends AbstractLineNode>
 extends BaseDisplay  
-implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChanged  {
+implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChanged, AbstractTreeFrame<LNode>  {
 
 	private static final int MINIMUM_TREE_COLUMN_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 22;
 	private static final int STANDARD_COLUMNS = 2;
@@ -203,7 +204,13 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 		});
 		//treeTable.add
 		
-		if (tableModel.getRowCount() == 1) {
+		if (Common.OPTIONS.useNewTreeExpansion.isSelected()) {
+			//int count = treeTable.getTree().getRowCount();
+			
+			for (int i = 0; i < treeTable.getTree().getRowCount() && treeTable.getTree().getRowCount() < 50; i++) {
+				treeTable.getTree().expandRow(i);
+			}
+		} else if (tableModel.getRowCount() == 1) {
 			treeTable.getTree().expandRow(0);
 		}
 	}
@@ -223,6 +230,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 
 		this.addMainComponent(pnl);
 	    this.setSize(scrSize.width  - 1, scrSize.height - 1);
+	    setMaximumSize();
 		//this.pack();
 		
 	    LayoutCombo combo = getLayoutCombo();
@@ -242,9 +250,8 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#newLayout()
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
-	public void setNewLayout(AbstractLayoutDetails newLayout) {
+	public void setNewLayout(@SuppressWarnings("rawtypes") AbstractLayoutDetails newLayout) {
 		
 		super.setNewLayout(newLayout);
 		LayoutCombo combo = getLayoutCombo();
@@ -478,6 +485,12 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 		return action == ReActionHandler.AUTOFIT_COLUMNS
 			|| super.isActionAvailable(action);
 	}
-    
-    
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.edit.display.AbstractTreeFrame#getRoot()
+	 */
+	@Override
+	public LNode getRoot() {
+		return root;
+	}
 }

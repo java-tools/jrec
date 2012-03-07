@@ -29,6 +29,7 @@ package net.sf.RecordEditor.utils.common;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
@@ -51,6 +52,7 @@ import java.util.Properties;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellEditor;
@@ -356,7 +358,8 @@ public final class Common implements Constants {
     private static ImageIcon[] recIcon  = new ImageIcon[ID_MAX_ICON + 1];
     private static int[] reActionRef    = new int[ReActionHandler.MAX_ACTION + 1];
 
-    @SuppressWarnings("unchecked")
+
+	@SuppressWarnings("rawtypes")
 	private static Class currClass      = (new Common().getClass());
 
     private static AbsSSLogger logger   = null;
@@ -396,6 +399,7 @@ public final class Common implements Constants {
 
 
 	public static final String STANDARD_CHARS = "+-.,/?\\!\'\"$%&*@()[]abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	public static final String STANDARD_CHARS0 = "+-.,abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	public static final String STANDARD_CHARS1 = STANDARD_CHARS.substring(STANDARD_CHARS.indexOf('a'));
 	public static final String FILE_SEPERATOR  =  System.getProperty("file.separator");
 	
@@ -489,13 +493,15 @@ public final class Common implements Constants {
         reActionNames[ReActionHandler.TABLE_VIEW_SELECTED]  = "Table View (Selected Records)";
         reActionNames[ReActionHandler.RECORD_VIEW_SELECTED] = "Record View (Selected Records)";
         reActionNames[ReActionHandler.COLUMN_VIEW_SELECTED] = "Column View (Selected Records)";
-        reActionNames[ReActionHandler.FIND]         = "Find";
+        reActionNames[ReActionHandler.SELECTED_VIEW] = "View Selected Records";
+       reActionNames[ReActionHandler.FIND]         = "Find";
         reActionNames[ReActionHandler.HELP]         = "Help";
         reActionNames[ReActionHandler.INSERT_RECORDS]       = "Insert Record(s)";
         reActionNames[ReActionHandler.INSERT_RECORD_PRIOR]  = "Insert Record Prior";
         reActionNames[ReActionHandler.NEW]          = "New";
         reActionNames[ReActionHandler.OPEN]         = "Open";
         reActionNames[ReActionHandler.PRINT]        = "Print";
+        reActionNames[ReActionHandler.PRINT_SELECTED]= "Print Selected";
         reActionNames[ReActionHandler.PASTE_RECORD] = "Paste Record(s)";
         reActionNames[ReActionHandler.PASTE_RECORD_PRIOR] = "Paste Record(s) Prior";
         reActionNames[ReActionHandler.PASTE_TABLE_INSERT] = "Paste Table (Insert)";
@@ -508,6 +514,7 @@ public final class Common implements Constants {
         reActionNames[ReActionHandler.SAVE_AS_HTML_TBL_PER_ROW] = "Save HTML 1 tbl per Row";
         reActionNames[ReActionHandler.SAVE_AS_HTML_TREE] = "Save HTML (tree)";
         reActionNames[ReActionHandler.SAVE_AS_VELOCITY] = "Save Velocity";
+        reActionNames[ReActionHandler.SAVE_AS_XSLT] = "Save using Xslt";
         reActionNames[ReActionHandler.SAVE_AS_XML]  = "Save Tree as XML";
         reActionNames[ReActionHandler.SAVE_LAYOUT_XML]  = "Save Layout as XML";
 
@@ -651,7 +658,7 @@ public final class Common implements Constants {
 		}
 	}
 	
-	private static String fixVars(String var) {
+	public static String fixVars(String var) {
 		if (var != null) {
 			var = var.replace("<install>", Parameters.getBaseDirectory());
 			var = var.replace("<home>", Parameters.USER_HOME);
@@ -966,6 +973,7 @@ public final class Common implements Constants {
 			//      org.hsqldb.DatabaseManager.closeDatabases(0);
 			//
 			
+			@SuppressWarnings("rawtypes")
 			Class    runClass  = Class.forName("org.hsqldb.DatabaseManager");
 	        Method   closeDB   = runClass.getMethod("closeDatabases", new Class[] {int.class});
 			Object[] arguments = new Object[]{0};
@@ -1210,6 +1218,7 @@ public final class Common implements Constants {
             reActionRef[ReActionHandler.SAVE_AS_HTML_TBL_PER_ROW] = ID_SAVEAS_HTML_ICON;
             reActionRef[ReActionHandler.SAVE_AS_HTML_TREE] = ID_SAVEAS_HTML_ICON;
             reActionRef[ReActionHandler.SAVE_AS_VELOCITY]  = ID_SAVEAS_VELOCITY_ICON;
+            reActionRef[ReActionHandler.SAVE_AS_XSLT]      = ID_SAVEAS_XML_ICON;
             reActionRef[ReActionHandler.SAVE_AS_XML]       = ID_SAVEAS_XML_ICON;
             reActionRef[ReActionHandler.SAVE_LAYOUT_XML]   = ID_SAVEAS_XML_ICON;
 
@@ -1240,6 +1249,7 @@ public final class Common implements Constants {
             reActionRef[ReActionHandler.CREATE_CHILD]    = ID_NEW_ICON;
             reActionRef[ReActionHandler.EDIT_CHILD]      = ID_OPEN_ICON;
             reActionRef[ReActionHandler.PRINT]           = ID_PRINT_ICON;
+            reActionRef[ReActionHandler.PRINT_SELECTED]  = ID_PRINT_ICON;
             reActionRef[ReActionHandler.AUTOFIT_COLUMNS] = ID_AUTOFIT_ICON;
             reActionRef[ReActionHandler.CLOSE]     = ID_EXIT_ICON;
             reActionRef[ReActionHandler.CLOSE_ALL] = ID_EXIT_ICON;
@@ -1477,7 +1487,47 @@ public final class Common implements Constants {
     //        String dir = ClassLoader.getSystemResource("edit/EditRec.class").toString();
 
 
+    public static void setBounds1(JFrame frame) {
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+     
+        frame.setBounds(Common.getSpaceAtRightOfScreen(),
+		          Common.getSpaceAtTopOfScreen(),
+		          screenSize.width  - Common.getSpaceAtRightOfScreen()
+		          		- Common.getSpaceAtLeftOfScreen(),
+		          screenSize.height - Common.getSpaceAtBottomOfScreen()
+		          		- Common.getSpaceAtTopOfScreen());
+        if (OPTIONS.MAXIMISE_SCREEN.isSelected()) {
+    		GraphicsEnvironment e = GraphicsEnvironment
+    				.getLocalGraphicsEnvironment();
+    		frame.setMaximizedBounds(e.getMaximumWindowBounds());
 
+    		frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+	    }
+    }
+    
+//    public static void setBounds2(JFrame frame) {
+//		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//        frame.pack();
+//        if (OPTIONS.MAXIMISE_SCREEN.isSelected()) {
+//    		GraphicsEnvironment e = GraphicsEnvironment
+//    				.getLocalGraphicsEnvironment();
+//    		frame.setMaximizedBounds(e.getMaximumWindowBounds());
+//
+//    		frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+//        } else {
+//	        frame.setBounds(
+//	        		frame.getY(), frame.getX(), 
+//	        		Math.min(frame.getWidth(), 
+//	        				 screenSize.width  - Common.getSpaceAtRightOfScreen() 
+//	        				 				   - frame.getY()), 
+//	        		Math.min(frame.getHeight(),
+//	        				 screenSize.height - Common.getSpaceAtBottomOfScreen()
+//	        				   - SwingUtils.NORMAL_FIELD_HEIGHT * 2
+//			 				   - frame.getX()));
+//	        }
+//        frame.setVisible(true);
+//    }
+   
     /**
      * @return Returns the spaceAtBottomOfScreen.
      */
@@ -1582,7 +1632,7 @@ public final class Common implements Constants {
         int firstRow = Math.max(0, screenStart - TABLE_WINDOW_SIZE_TO_CHECK);
         int rowCount = Math.min(data.getRowCount(),
                 screenStart + screenheight + TABLE_WINDOW_SIZE_TO_CHECK);
-        int totalWidth = 0;
+        //int totalWidth = 0;
         //System.out.println("Column Widths ==> " + visbleRect.width + " " + maxColWidth);
 
         //System.out.println();
@@ -1636,7 +1686,7 @@ public final class Common implements Constants {
 //                }
             }
 
-            totalWidth += column.getPreferredWidth();
+            //totalWidth += column.getPreferredWidth();
         }
     }
 
@@ -1891,7 +1941,7 @@ public final class Common implements Constants {
             String s;
             
              while ((s = in.readLine()) != null) {
-                if (s != null && s.trim().toLowerCase().startsWith("jdbc.")) {
+                if (s.trim().toLowerCase().startsWith("jdbc.")) {
                 	if ((j = s.indexOf('\t')) >= 0) {
                         s = s.substring(j + 1);
                     }
@@ -2021,6 +2071,15 @@ public final class Common implements Constants {
 		
 		return calc.longValue();
 	}
+	
+    public static int toInt(byte b) {
+   	int i = b;
+    	if (i < 0) {
+    		i += 256;
+    	}
+    	return i;
+    }
+
 	
 	
 //	public static int getChunkSize() {

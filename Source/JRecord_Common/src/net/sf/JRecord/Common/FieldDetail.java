@@ -5,7 +5,7 @@
  */
 package net.sf.JRecord.Common;
 
-import net.sf.JRecord.Details.RecordDetail;
+//import net.sf.JRecord.Details.RecordDetail;
 
 
 /**

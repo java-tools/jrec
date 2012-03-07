@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net.sf.RecordEditor.utils.edit;
+package net.sf.RecordEditor.layoutWizard;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

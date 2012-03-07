@@ -43,6 +43,7 @@ import net.sf.RecordEditor.utils.common.ReActionHandler;
  * @author Bruce Martin
  * @version 0.56
  */
+@SuppressWarnings("serial")
 public abstract class BaseLineDisplay extends BaseDisplay {
 
 	

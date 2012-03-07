@@ -11,7 +11,9 @@
 package net.sf.JRecord.Common;
 
 import java.math.BigInteger;
+import java.text.NumberFormat;
 import java.util.Arrays;
+import java.util.Locale;
 
 
 
@@ -29,6 +31,10 @@ public final class Conversion {
 
 	private static int positiveDiff = 'A' - '1';
 	private static int negativeDiff = 'J' - '1';
+	
+	//private static final DecimalFormatSymbols decSymbols = new DecimalFormatSymbols();
+	private static final char decimalChar = '.';  //decSymbols.getDecimalSeparator();
+	private static final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 
 
 	/**
@@ -672,14 +678,15 @@ public final class Conversion {
             ch = s.charAt(i);
         }
 
+       
         if (i > 0) {
-            if (s.charAt(i) == '.') {
+            if (s.charAt(i) == decimalChar) {
                 i -= 1;
             }
             s = s.substring(i);
         }
         
-        if (s.indexOf(",") > 0) {
+        if (decimalChar != ',' && (s.indexOf(",") > 0)) {
         	StringBuffer b = new StringBuffer(s.length());
         	int e = s.length();
         	char chr;
@@ -726,6 +733,9 @@ public final class Conversion {
         String lCopyBook = fileName;
         int pos = lCopyBook.lastIndexOf(Constants.FILE_SEPERATOR);
 
+        if ("\\".equals(Constants.FILE_SEPERATOR) || "/".equals(Constants.FILE_SEPERATOR)) {
+        	pos = Math.max(lCopyBook.lastIndexOf("/"), lCopyBook.lastIndexOf("\\"));
+        }
         if (pos < 0) {
             pos = lCopyBook.lastIndexOf("/");
         }
@@ -751,17 +761,17 @@ public final class Conversion {
      * @param from search string
      * @param to replacement string
      */
-    public static final void replace(StringBuffer in, String from, String to) {
-        int start, j;
+    public static final StringBuffer replace(StringBuffer in, String from, String to) {
+        int start;
         int fromLen = from.length();
 
-        j = 0;
         start = in.indexOf(from, 0);
         while (start > 0) {
-            j += 1;
             in.replace(start, start + fromLen, to);
             start = in.indexOf(from, start + to.length());
         }
+        
+        return in;
     }  
     
     public static byte getByteFromHexString(String s) {
@@ -776,6 +786,16 @@ public final class Conversion {
 		}
 		return (byte) b;
     }
+
+
+	public static char getDecimalchar() {
+		return decimalChar;
+	}
+
+
+	public static NumberFormat getNumberformat() {
+		return numberFormat;
+	}
     
     /**
      * pad string with zero's to format length

@@ -80,7 +80,7 @@ public final class FilterField {
 
         switch (fieldIndex) {
         	case FLD_FIELD_NUMBER:
-        	    return new Integer(fieldNumber + 1);
+        	    return Integer.valueOf(fieldNumber + 1);
             case FLD_CASE_SENSITIVE:
                 return ignoreCase;
             case FLD_OPERATOR:

@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
@@ -55,7 +56,7 @@ public class TestJdbcConnection {
 
         jdbcSourceName  = sourceName;
         jdbcDriver      = driver;
-        jdbcSource      = source;
+        jdbcSource      = Common.fixVars(source);
         jdbcUser        = user;
         jdbcPassword    = password;
         jdbcJar         = jarName;
@@ -87,6 +88,7 @@ public class TestJdbcConnection {
 
         } catch (Exception e) {
             message.setText("Error Connecting to the Database: " + e.getMessage() + common);
+            Common.logMsg("Source: " + jdbcSource, null);
             e.printStackTrace();
         }
     }

@@ -192,12 +192,12 @@ extends FileChunkBase<LineBase, RecordStoreBase> {
 									line.setChunkLine(ikey - linesSoFar);
 									f.getLines().put(line.getChunkLine(), ref);
 									
-									if (ikey > 41 && ikey < 46) {
+//									if (ikey > 41 && ikey < 46) {
 //									System.out.println(" Renumber: " 
 //											+ j + ": " + ikey + " "
 //											+ linesSoFar + " " + line.getChunkLine()
 //											+ " " + f.getFirstLine());
-									}
+//									}
 								}
 								
 								lines.remove(key);

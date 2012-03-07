@@ -45,7 +45,7 @@ import net.sf.RecordEditor.utils.swing.ButtonTableRendor;
 @SuppressWarnings("serial")
 public class ChildRecordsJTbl extends AbsJTable {
 
-	private static final Integer NULL_PARENT = new Integer(-1);
+	private static final Integer NULL_PARENT = Integer.valueOf(-1);
     private RecordDB childRecordRecords   = new RecordDB();
     private DBComboModel<RecordRec> childRecordModel
     		= new DBComboModel<RecordRec>(childRecordRecords, 0, 1 , true, false);
@@ -117,12 +117,18 @@ public class ChildRecordsJTbl extends AbsJTable {
 
 		tcm.getColumn(0).setCellRenderer(tableBtn);
 		tcm.getColumn(0).setMaxWidth(5);
+		tcm.getColumn(1).setCellRenderer(tableBtn);
+		tcm.getColumn(1).setMaxWidth(5);
 
-		tcm.getColumn(1).setCellRenderer(locChildRecord.getTableCellRenderer());
-		tcm.getColumn(1).setCellEditor(childEditor);
+		tcm.getColumn(2).setCellRenderer(locChildRecord.getTableCellRenderer());
+		tcm.getColumn(2).setCellEditor(childEditor);
 
-		tcm.getColumn(5).setCellRenderer(parentCombo.getTableCellRenderer());
-		tcm.getColumn(5).setCellEditor(new DefaultCellEditor(parentCombo));
+		tcm.getColumn(6).setCellRenderer(parentCombo.getTableCellRenderer());
+		tcm.getColumn(6).setCellEditor(new DefaultCellEditor(parentCombo));
+		
+		
+		tcm.moveColumn(1, 5);
+		
 }
 
 
@@ -146,7 +152,7 @@ public class ChildRecordsJTbl extends AbsJTable {
 	            //system = NULL_SYSTEM;
 	        } else {
 	            for (int i = mdl.getRowCount() - 1; i >= 0; i--) {
-	                b.append(sep).append(mdl.getValueAt(i, 1));
+	                b.append(sep).append(mdl.getValueAt(i, 2));
 	                sep = ',';
 	            }
 	            b.append(')').append(')');
@@ -182,7 +188,7 @@ public class ChildRecordsJTbl extends AbsJTable {
 				return NULL_PARENT;
 			}
 			//System.out.println("2 >> " + idx + " " + getModel().getValueAt(idx - 1, 1));
-			return getModel().getValueAt(idx - 1, 1);
+			return getModel().getValueAt(idx - 1, 2);
 		}
 
 		/**
@@ -195,7 +201,7 @@ public class ChildRecordsJTbl extends AbsJTable {
 			}
 			//System.out.println(">> " + idx + " " + getModel().getValueAt(idx - 1, 1));
 			AbstractRowList list =  childRecordModel.getList();
-			return list.getFieldFromKey(getModel().getValueAt(idx - 1, 1));
+			return list.getFieldFromKey(getModel().getValueAt(idx - 1, 2));
 		}
 
 		/**
@@ -230,7 +236,7 @@ public class ChildRecordsJTbl extends AbsJTable {
 			Integer tblVal;
 			
 			for (int i = 0; i < mdl.getRowCount(); i++) {
-				tblVal = (Integer) mdl.getValueAt(i, 1);
+				tblVal = (Integer) mdl.getValueAt(i, 2);
 				if (val.equals(tblVal)) {
 					ret = i + 1;
 					break;

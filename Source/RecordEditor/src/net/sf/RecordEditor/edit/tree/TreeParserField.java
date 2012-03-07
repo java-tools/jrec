@@ -273,7 +273,7 @@ public class TreeParserField extends BaseLineNodeTreeParser implements AbstractL
 					}
 				} catch (Exception e) { }
 			}
-			if (min == "ZZZZ") {
+			if (min.equals("ZZZZ")) {
 				min = "";
 			}
 			return min;
@@ -338,10 +338,10 @@ public class TreeParserField extends BaseLineNodeTreeParser implements AbstractL
 //			existing.get(lineNum - start);
 //		}
 		
-		if (node == null) {
+//		if (node == null) {
 			node = new LineNode(parentFields[numberLevels - 1], view, lineNum);
 			node.setFirstLeafLine(lineNum);
-		}
+//		}
 		
 		levels[numberLevels - 1].add(node);
 	}

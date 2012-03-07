@@ -342,6 +342,8 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
                   screenSize.width  - 1,
                   screenSize.height - 1);
         
+        setMaximumSize();
+        
         if (layout.getRecordCount() > 1 && Common.usePrefered()) {
         	LayoutCombo combo = getLayoutCombo();
         	combo.setSelectedIndex(combo.getPreferedIndex());
@@ -382,7 +384,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	 * (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#newLayout(net.sf.JRecord.Details.AbstractLayoutDetails)
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes" })
 	@Override
     public void setNewLayout(AbstractLayoutDetails newLayout) {
 		int idx;
@@ -482,11 +484,16 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
      * This method defines the Column Headings
      */
     private void defColumns() {
-    	JTable tblDetails = getJTable();
+    	defColumns(getJTable(), fileView, tblScrollPane);
+    }
 
-        TableColumnModel tcm = tblDetails.getColumnModel();
+    private JTable defColumns(
+    		JTable tbl,
+    		@SuppressWarnings("rawtypes") FileView view, 
+    		FixedColumnScrollPane scrollPane) {
+        TableColumnModel tcm = tbl.getColumnModel();
         
-        defineColumns(fileView.getColumnCount(), 2, 0);
+        defineColumns(tbl, view.getColumnCount(), 2, 0);
         
         for (int i = 2; i < tcm.getColumnCount(); i++) {
             tcm.getColumn(i).setHeaderRenderer(headerRender);
@@ -495,8 +502,12 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
  //       		+ " >= " + fullLineIndex);
      
         int layoutIdx = getLayoutIndex();
-        int lineHeight = Math.max(tblScrollPane.STD_LINE_HEIGHT, tblDetails.getRowHeight());
+        int lineHeight =  tbl.getRowHeight();
         String font = layout.getFontName();
+        
+        if (scrollPane != null && scrollPane.STD_LINE_HEIGHT > lineHeight) {
+        	lineHeight = scrollPane.STD_LINE_HEIGHT;
+        }
         //System.out.println(" ~~> LayoutIdx ~~> " + layoutIdx + " " + fullLineIndex + " " + (fullLineIndex + 2));
         
         //System.out.println("check prefered:  " + layoutIdx + " " + getLayoutCombo().getPreferedIndex());
@@ -504,11 +515,13 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
         int fullLineIndex = getLayoutCombo().getFullLineIndex();
         isPrefered = layoutIdx == getLayoutCombo().getPreferedIndex();
         if (isPrefered) {
-        	tblDetails.addKeyListener(keyListner);
+        	if (tbl == tblDetails) {
+        		tbl.addKeyListener(keyListner);
+        	}
         	lastRow = - 1;
-        	checkRowChange(tblDetails.getSelectedRow());
+        	checkRowChange(tbl.getSelectedRow());
         } else {
-        	tblDetails.removeKeyListener(keyListner);
+        	tbl.removeKeyListener(keyListner);
         	if (layoutIdx == fullLineIndex) {
 	            if (charRendor == null) {
 	                charRendor = new MonoSpacedRender();
@@ -533,7 +546,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	
 	            tcm.getColumn(2).setCellRenderer(hex2Rendor);
 	            tcm.getColumn(2).setCellEditor(hex2Editor);
-	            lineHeight = tblScrollPane.TWO_LINE_HEIGHT;
+	            lineHeight = scrollPane.TWO_LINE_HEIGHT;
 	        } else if (layoutIdx == fullLineIndex + 3) {      	 
 	            if (hex3Rendor == null) {
 	                hex3Rendor = new HexThreeLineRender(font);
@@ -542,7 +555,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	
 	            tcm.getColumn(2).setCellRenderer(hex3Rendor);
 	            tcm.getColumn(2).setCellEditor(hex3Editor);
-	            lineHeight = tblScrollPane.THREE_LINE_HEIGHT;
+	            lineHeight = scrollPane.THREE_LINE_HEIGHT;
 	        } else if (layoutIdx == fullLineIndex + 4) {
 	            if (hex2RendorA == null) {
 	                hex2RendorA = new HexGenericRender(font, new HexTwoLineFieldAlt(font));
@@ -551,20 +564,20 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	
 	            tcm.getColumn(2).setCellRenderer(hex2RendorA);
 	            tcm.getColumn(2).setCellEditor(hex2EditorA);
-	            lineHeight = tblScrollPane.TWO_LINE_HEIGHT;
+	            lineHeight = scrollPane.TWO_LINE_HEIGHT;
 	        } 
         }
         setRowHeight(lineHeight);
         
-        if (tblScrollPane != null) {
-    	   int rowCount = this.fileView.getRowCount();
+        if (scrollPane != null) {
+    	   int rowCount = view.getRowCount();
     	   int width = 5;
     	   //System.out.println("Setup fixed columns ... ");
-           tblScrollPane.setFixedColumns(NUMBER_OF_CONTROL_COLUMNS);
-           TableColumn tc = tblScrollPane.getFixedTable().getColumnModel().getColumn(0);
+           scrollPane.setFixedColumns(NUMBER_OF_CONTROL_COLUMNS);
+           TableColumn tc = scrollPane.getFixedTable().getColumnModel().getColumn(0);
            tc.setCellRenderer(tableBtn);
            tc.setPreferredWidth(5);
-           tc = tblScrollPane.getFixedTable().getColumnModel().getColumn(1);
+           tc = scrollPane.getFixedTable().getColumnModel().getColumn(1);
            if (rowCount > 10000000) {
         	   width = 8;
            } else if (rowCount > 1000000) {
@@ -575,16 +588,17 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
            tc.setPreferredWidth(SwingUtils.STANDARD_FONT_WIDTH * width);
            tc.setResizable(false);
            
-           tblScrollPane.correctFixedSize();
+           scrollPane.correctFixedSize();
         }
        
        if (layoutIdx >= fullLineIndex) {
-    	   Common.calcColumnWidths(tblDetails, 1);
+    	   Common.calcColumnWidths(tbl, 1);
     	   copyMenu.removeAll();
     	   moveMenu.removeAll();
        } else {
     	   buildDestinationMenus();
        }
+       return tbl;
     }
 
     
@@ -987,6 +1001,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 		/**
 		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 		 */
+		@SuppressWarnings("unchecked")
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 
@@ -1022,6 +1037,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 		/**
 		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 		 */
+		@SuppressWarnings("unchecked")
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 
@@ -1052,6 +1068,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 		/**
 		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 		 */
+		@SuppressWarnings("unchecked")
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 
@@ -1065,11 +1082,18 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-			
 		}
-    	
-    	
     }
 
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getNewDisplay(net.sf.RecordEditor.edit.file.FileView)
+	 */
+	@Override
+	protected BaseDisplay getNewDisplay(@SuppressWarnings("rawtypes") FileView view) {
+		
+		return new LineList(view.getLayout(), view, this.fileMaster);
+	}
+
+
+    
 }

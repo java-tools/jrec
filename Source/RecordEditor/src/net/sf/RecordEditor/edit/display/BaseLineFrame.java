@@ -65,8 +65,7 @@ implements TableModelListener, TreeModelListener {
 //	private MenuPopupListener popupListner; 
 	
 
-	@SuppressWarnings("unchecked")
-	public BaseLineFrame(String formType, FileView viewOfFile, boolean primary,
+	public BaseLineFrame(String formType, @SuppressWarnings("rawtypes") FileView viewOfFile, boolean primary,
 			boolean fullLine) {
 		super(formType, viewOfFile, primary, fullLine);
 		
@@ -220,8 +219,8 @@ implements TableModelListener, TreeModelListener {
 	/**
 	 * Action performed when frame is closed
 	 */
-	@SuppressWarnings("unchecked")
 	public void closeWindow() {
+		@SuppressWarnings("rawtypes")
 		FileView fv;
 		
 		if ((fv = getFileView()) != null) {
@@ -287,10 +286,10 @@ implements TableModelListener, TreeModelListener {
 	/**
 	 * Setup the full line data
 	 */
-	@SuppressWarnings("unchecked")
 	protected void setFullLine() {
 	
-	    AbstractLine l = record.getCurrentLine();
+	    @SuppressWarnings("rawtypes")
+		AbstractLine l = record.getCurrentLine();
 	    if (l == null) {
 	    } else if (fileMaster.isBinaryFile() || layout.isBinCSV()) {
 	    	hexLine.setHex(l.getData());

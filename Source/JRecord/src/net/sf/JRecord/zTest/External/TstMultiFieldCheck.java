@@ -182,7 +182,7 @@ public class TstMultiFieldCheck  extends TestCase {
 			assertEquals(
 					"Error in line " + i,
 					LAYOUT_IDXS[i], line.getPreferredLayoutIdxAlt());
-			//System.out.print(line.getPreferredLayoutIdxAlt() + ", ");
+			System.out.print(line.getPreferredLayoutIdxAlt() + ", ");
 		}
 	}
 	
@@ -192,10 +192,7 @@ public class TstMultiFieldCheck  extends TestCase {
 		for (int i = 0; i < XML_LAYOUT.length; i++) {
 			b.append(XML_LAYOUT[i]);
 		}
-		
-		ByteArrayInputStream bs = new ByteArrayInputStream(b.toString().getBytes());
-		RecordEditorXmlLoader loader = new RecordEditorXmlLoader();
 	       
-		return loader.loadCopyBook(bs, "Csv Layout").asLayoutDetail();
+		return RecordEditorXmlLoader.getExternalRecord(b.toString(), "Csv Layout").asLayoutDetail();
 	}
 }

@@ -112,7 +112,7 @@ public class ComboPnl extends BaseHelpPanel implements ActionListener {
 			valuesDB.setParams(Constants.NULL_INTEGER);
 			comboDetailsModel.removeAll();
 		} else {
-			sfSystem.setSelectedItem(new Integer(val.getSystem()));
+			sfSystem.setSelectedItem(Integer.valueOf(val.getSystem()));
 			sfComboName.setText(val.getComboName());
 			sfColumnType.setSelectedIndex(val.getColumnType() - 1);
 			valuesDB.setParams(currVal.getComboId());

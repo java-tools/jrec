@@ -53,8 +53,8 @@ import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
  */
 public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements ActionListener {
 	
-    private static final int FORWARD  = 1;
-    private static final int BACKWARD = -1;
+    public static final int FORWARD  = 1;
+    public static final int BACKWARD = -1;
     private static final int WIDTH_INCREASE = 150;
     private static final int HEIGHT_INCREASE = 75;
 
@@ -74,6 +74,7 @@ public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements Act
 	private boolean toInit = true;
 	private Component displayFrame;
 	private RootPaneContainer controlFrame;
+	
 	
 	private JScrollPane oldPane = null;
 	
@@ -119,6 +120,10 @@ public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements Act
      * @param panels the panels up
      */
     public void setPanels(final AbstractWizardPanel<Details>[] panels) {
+    	setPanels(panels, true);
+    }
+    
+    public void setPanels(final AbstractWizardPanel<Details>[] panels, boolean visible) {
     	int height = 0; 
     	int width = 0;
     	Dimension d;
@@ -166,7 +171,9 @@ public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements Act
 	        } catch (Exception ex) { ex.printStackTrace(); }
         }
 
-        displayFrame.setVisible(true);
+        if (visible) {
+        	displayFrame.setVisible(true);
+        }
     }
 
     /**
@@ -200,11 +207,11 @@ public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements Act
 
         if (e.getSource() == leftArrow) {
             if (panelNumber > 0) {
-                ap_100_changePanel(BACKWARD);
+                changePanel(BACKWARD);
             }
         } else if (e.getSource() == rightArrow) {
             if ((panelNumber < pnls.length - 1)) {
-                ap_100_changePanel(FORWARD);
+                changePanel(FORWARD);
             } else {
             	ap_200_finish();
             }
@@ -215,7 +222,7 @@ public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements Act
      * Change the panel
      * @param inc direction of change (forward (+1) or backward (-1))
      */
-    protected void ap_100_changePanel(int inc) {
+    public void changePanel(int inc) {
 
         int old = panelNumber;
         try {

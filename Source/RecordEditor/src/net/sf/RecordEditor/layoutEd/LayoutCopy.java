@@ -49,8 +49,8 @@ import net.sf.RecordEditor.utils.swing.FileChooser;
 @SuppressWarnings("serial")
 public class LayoutCopy extends ReFrame  implements ActionListener {
 
-	private pane from = new pane(true);
-	private pane to = new pane(false);
+	private Pane from = new Pane(true);
+	private Pane to = new Pane(false);
 	private static String[] dbs = Common.getSourceId();
 	private static CopybookWriterManager writerManager = CopybookWriterManager.getInstance();
 
@@ -235,7 +235,7 @@ public class LayoutCopy extends ReFrame  implements ActionListener {
 	 * @author Bruce Martin
 	 *
 	 */
-	private static class pane extends BaseHelpPanel {
+	private static class Pane extends BaseHelpPanel {
 		protected JComboBox  dbCombo     = new JComboBox();
 		protected JComboBox  outputFormat= null;
 		protected FileChooser outputDirectory;
@@ -251,7 +251,7 @@ public class LayoutCopy extends ReFrame  implements ActionListener {
 		 * 
 		 * @param isFrom is it the from pane
 		 */
-		public pane(boolean isFrom) {
+		public Pane(boolean isFrom) {
 			int i;
 			
 			setHelpURL(Common.formatHelpURL(Common.HELP_COPY_LAYOUT));

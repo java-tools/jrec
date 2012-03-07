@@ -17,7 +17,7 @@ public class FixedWriter implements FieldWriter {
 	private byte[] eolBytes;
 	private String font;
 
-	private int lineNo = 0;
+//	private int lineNo = 0;
 	private int fieldNo = 0;
 
 	private boolean[] numericFields = null;
@@ -61,7 +61,7 @@ public class FixedWriter implements FieldWriter {
 	public void newLine() throws IOException {
 		fileWriter.write(eolBytes);
 		sep = noBytes;
-		lineNo += 1;
+//		lineNo += 1;
 		fieldNo = 0;
 	}
 	
@@ -86,7 +86,7 @@ public class FixedWriter implements FieldWriter {
 		}
 		
 		fieldNo += 1;
-		lineNo = -1;
+//		lineNo = -1;
 	}
 	
 	/* (non-Javadoc)

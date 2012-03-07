@@ -58,22 +58,67 @@ public class FieldSearch {
     private Details currDetails;
     
     private int[] charType, fieldIdentifier;
-    private int fieldId;
+    private int fieldId, sameByteOnLines=0;
+    
+    private final  boolean[] check4Byte = new boolean[256];
+    
+    
+    
+    
+    
+    public FieldSearch(Details details, RecordDefinition recordDefinition) {
+		super();
+		resetDetails(details, recordDefinition);
+	}
 
-    
-    
-    public void findFields(
-    		Details details, RecordDefinition recordDefinition, 
+	public void findFields(
     		boolean lookMainframeZoned, boolean lookPcZoned,
     		boolean lookComp3, 
     		boolean lookCompBigEndian, boolean lookCompLittleEndian) {
+
+    	if (recordDef.records != null && recordDef.numRecords > 0) {
+    		int i, limit, limit1;
+    		int size = 0;
+    		int[][] counts; 
+    		
+    		for (i = 0; i < recordDef.numRecords; i++) {
+    			size = Math.max(size, recordDef.records[i].length);
+    		}
+ 
+    		counts = new int[size][];
+       		fieldId = 0;
+       		ff100_determineByteTypes(recordDef.columnDtls, size, counts);
+       		
+        	limit = recordDef.numRecords;
+       		limit1 = recordDef.numRecords;
+        	
+      		if (limit > 3) {
+       			limit = (limit * 9 - 1) / 10;
+       		} else if (limit > 1) {
+       			limit = (limit * 7) / 10;
+       		}
+       		
+       		ff200_checkForCobolNumericFields(limit, size, counts, lookMainframeZoned, lookPcZoned, lookComp3);
+       		ff300_checkForDateAndTime(limit, size, counts);
+       		ff400_checkForNumericFields(limit, size, counts, lookCompBigEndian, lookCompLittleEndian);
+       		ff500_checkForTextFields(limit, limit1, size, counts);
+       		
+       		ff600_createFields(counts);
+       		ff700_checkForSameChars(limit, limit1, size);
+    	}
+    }
+    
+    public final void resetDetails(Details details, RecordDefinition recordDefinition) {
+    	
     	fontname = details.fontName;
     	currDetails = details;
     	recordDef = recordDefinition;
+
+    	Comp3SignByte comp3SignChk = new Comp3SignByte();
         byteChecks[TYPE_SPACE] = new Check4Bytes(" ");
-        byteChecks[TYPE_LAST_SPACE] = new LastSpace();
+        byteChecks[TYPE_LAST_SPACE] = new LastSpace(fontname);
         byteChecks[TYPE_COMP3] = new Comp3Byte();
-        byteChecks[TYPE_COMP3_FINAL_BYTE] = new Comp3SignByte();
+        byteChecks[TYPE_COMP3_FINAL_BYTE] = comp3SignChk;
         byteChecks[TYPE_HEX_ZERO] = new Check4Bytes((byte) 0);
         byteChecks[TYPE_NORMAL] = new NormalByte();
         byteChecks[TYPE_ZERO] = new Check4Bytes("0");
@@ -93,41 +138,27 @@ public class FieldSearch {
         byteChecks[TYPE_DOT] = new Check4Bytes(".");
         byteChecks[TYPE_YEAR_CHAR_1] = new Check4Bytes("12");
         byteChecks[TYPE_YEAR_CHAR_2] = new Check4Bytes("901");
-        byteChecks[START_BIN_FIELD] = new CheckStartBinField();
- 	
-    	if (recordDef.records != null && recordDef.numRecords > 0) {
-    		int i, limit, limit1;
-    		int size = 0;
-    		int[][] counts; 
-    		
-    		for (i = 0; i < recordDef.numRecords; i++) {
-    			size = Math.max(size, recordDef.records[i].length);
-    		}
- 
-    		counts = new int[size][];
-       		fieldId = 0;
-       		ff100_determineByteTypes(recordDefinition.columnDtls, size, counts);
-       		
-        	limit = recordDef.numRecords;
-       		limit1 = recordDef.numRecords;
-       		if (limit > 3) {
-       			limit = (limit * 9 - 1) / 10;
-       		}
-       		if (limit > 1) {
-       			limit = (limit * 6) / 10;
-       		}
-       		
-       		ff200_checkForCobolNumericFields(limit, size, counts, lookMainframeZoned, lookPcZoned, lookComp3);
-       		ff300_checkForDateAndTime(limit, size, counts);
-       		ff400_checkForNumericFields(limit, size, counts, lookCompBigEndian, lookCompLittleEndian);
-       		ff500_checkForTextFields(limit, limit1, size, counts);
-       		
-       		ff600_createFields(counts);
-    	}
-    	charType = null;
-    	fieldIdentifier = null;
-    	recordDef = null;
+        byteChecks[START_BIN_FIELD] = new CheckStartBinField();   
+        
+        byte i;
+        Check4Bytes charCk = new Check4Bytes(" 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.,-+");
+        //System.out.println("Chars To Check, Font: " + fontname + " " + Conversion.getBytes("  ", fontname)[0]);
+        for (i = -128; i < 127; i++) {
+        	check4Byte[Common.toInt(i)] = comp3SignChk.isAmatch(i)
+        							   || charCk.isAmatch(i);
+        	
+//        	if (check4Byte[Common.toInt(i)]) {
+//        		System.out.print(" " + Common.toInt(i));
+//        	}
+        }
+        check4Byte[0] = true;
+        
+        //System.out.println();
+        
+         
     }
+    
+    
     
     /**
      * Determine the "type" for each byte
@@ -553,6 +584,33 @@ public class FieldSearch {
 
     }
     
+    private void ff700_checkForSameChars(int limit, int limit1, int size) {
+    	int i, j, count = 0;
+    	CountBytes countBytes = new CountBytes();
+		
+
+    	for (j = 0; j < size; j++) {
+    		
+    		countBytes.reset();
+    		
+    		for (i = 0; i < recordDef.numRecords; i++) {
+    			
+    			if (recordDef.records[i].length > j) {
+    				if (check4Byte[Common.toInt(recordDef.records[i][j])]) {
+    					countBytes.addByte(recordDef.records[i][j]);
+    				} 
+    			}
+    		}
+    		if (countBytes.getCount() >= limit) {
+    			count += 1;
+    		} 
+    	}
+    	sameByteOnLines = count;			
+    }
+   
+    public int getSameByteOnLines() {
+		return sameByteOnLines;
+	}
     
     
     /* -------------------------------------------------------------------------- *
@@ -561,7 +619,10 @@ public class FieldSearch {
      * 
      * -------------------------------------------------------------------------- */
     
-    /**
+
+
+
+	/**
      * Standard Field Check definition
      */
     private interface CheckByte {
@@ -589,8 +650,11 @@ public class FieldSearch {
 
     }
     
-    private class LastSpace implements CheckByte {
-    	private byte spaceByte = Conversion.getBytes(" ", fontname)[0];
+    private static class LastSpace implements CheckByte {
+    	private final byte spaceByte;
+    	public LastSpace(String fontname) {
+    		spaceByte = Conversion.getBytes(" ", fontname)[0];
+    	}
     	boolean notSpace;
     	public void reset() {
     		notSpace = false;
@@ -683,6 +747,39 @@ public class FieldSearch {
     		int n2 = b >> 4;
         
     		return (n1 == 15 || n1 ==13  || n1 ==12) && n2 < 10;
+    	}
+    }
+    
+    private static class CountBytes {
+    	private byte[] bytes = new byte[256];
+    	private byte[] bytesList = new byte[256];
+    	private int bytesUsed = 0;
+    	
+    	public void reset() {
+    		for (int i = 0; i < 256; i++) {
+    			bytes[i] = 0;
+    		}
+    		bytesUsed = 0;
+    	}
+    	
+    	
+    	public void addByte(byte theByte) {
+    		int idx = Common.toInt(theByte);
+    		if (bytes[idx] == 0) {
+    			bytesList[bytesUsed++] = theByte;
+    		}
+    		bytes[idx] += 1;
+    	}
+    	
+    	public int getCount() {
+    		int idx, max = 0;
+    		for (int i = 0 ; i < bytesUsed; i++) {
+    			idx = Common.toInt(bytesList[i]);
+    			if (bytes[idx] > max) {
+    				max = bytes[idx];
+    			}
+    		}
+    		return max;
     	}
     }
 }

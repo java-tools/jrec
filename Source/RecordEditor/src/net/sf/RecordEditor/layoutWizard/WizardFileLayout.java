@@ -32,13 +32,18 @@ public class WizardFileLayout extends AbstractWizard<Details> {
 
 	private BasicLayoutCallback callbackClass;
 
+	private ExternalRecord externalRecord = null;
+
+	
+	
+	
 	/**
 	 * Wizard to create a file copybook based on a sample data file.
 	 *  
 	 * @param fileName sample file 
 	 */
 	public WizardFileLayout(final String fileName) {
-		this(new ReFrame("File Wizard", "", null), fileName, null, false);
+		this(new ReFrame("File Wizard", "", null), fileName, null, false, true);
 	}
 
 	/**
@@ -48,7 +53,8 @@ public class WizardFileLayout extends AbstractWizard<Details> {
 	 * @param fileName data file name
 	 */
 	public <T extends Component & RootPaneContainer> WizardFileLayout(T frame, 
-			final String fileName, BasicLayoutCallback callback, boolean alwaysShowCsv) {
+			final String fileName, BasicLayoutCallback callback, boolean alwaysShowCsv, 
+			boolean visible) {
 		super(frame, new Details());
 		
 		getWizardDetails().filename = fileName;
@@ -82,27 +88,31 @@ public class WizardFileLayout extends AbstractWizard<Details> {
 		panelsMulti[5] = new Pnl6RecordFieldNames(typeList);
 		panelsMulti[6] = panelsFixed[4];
 		
-		super.setPanels(panelsFixed);
+		super.setPanels(panelsFixed, visible);
 	}
 
 	
 	
 	/**
-	 * @see net.sf.RecordEditor.utils.wizards.AbstractWizard#ap_100_changePanel(int)
+	 * @see net.sf.RecordEditor.utils.wizards.AbstractWizard#changePanel(int)
 	 */
 	@Override
-	protected void ap_100_changePanel(int inc) {
+	public void changePanel(int inc) {
+		changePanel(inc, true);
+	}
+	
+	public void changePanel(int inc, boolean visible) {
 		
 		if (getPanelNumber() == 0) {
 			if (super.getWizardDetails().recordType == Details.RT_FIXED_LENGTH_FIELDS) {
-				super.setPanels(panelsFixed);
+				super.setPanels(panelsFixed, visible);
 			} else if (super.getWizardDetails().recordType == Details.RT_MULTIPLE_RECORDS) {
-				super.setPanels(panelsMulti);
+				super.setPanels(panelsMulti, visible);
 			} else {
-				super.setPanels(panelsCsv);
+				super.setPanels(panelsCsv, visible);
 			}
 		}
-		super.ap_100_changePanel(inc);
+		super.changePanel(inc);
 	}
 
 
@@ -118,25 +128,39 @@ public class WizardFileLayout extends AbstractWizard<Details> {
 		} else {
 	        try {
 	        	String copybookFile;
-		        ExternalRecord rec = details.createRecordLayout();
+		        externalRecord = details.createRecordLayout();
 		        CopybookWriter w = CopybookWriterManager.getInstance().get(details.layoutWriterIdx);
-		        String dir = details.layoutDirectory;
-				if (dir != null && (! "".equals(dir)) && (! dir.endsWith("/")) && (! dir.endsWith("\\"))) {
-					dir = dir + Common.FILE_SEPERATOR;
-				}
 		        
-				copybookFile = w.writeCopyBook(dir, rec, Common.getLogger());
-	
-	            this.setClosed(true);
-		        if (callbackClass != null) {
-		            callbackClass.setRecordLayout(rec.getRecordId(),  copybookFile, details.filename);
+		        
+		        String dir = details.layoutDirectory;
+		        
+		        if (! "".equals(dir)) {
+					if (dir != null && (! "".equals(dir)) && (! dir.endsWith("/")) && (! dir.endsWith("\\"))) {
+						dir = dir + Common.FILE_SEPERATOR;
+					}
+			        
+					copybookFile = w.writeCopyBook(dir, externalRecord, Common.getLogger());
+		
+			        if (callbackClass != null) {
+			            callbackClass.setRecordLayout(externalRecord.getRecordId(),  copybookFile, details.filename);
+			        }
 		        }
 
 	         } catch (Exception ex) {
 	            super.getMessage().setText(ex.getMessage());
 	            Common.logMsg(ex.getMessage(), ex);
 	            ex.printStackTrace();
+	        } finally {
+	        	try {
+	        		this.setClosed(true);
+	        	} catch (Exception e) {
+					
+				}
 	        }
 		}
+	}
+
+	public ExternalRecord getExternalRecord() {
+		return externalRecord;
 	}
 }

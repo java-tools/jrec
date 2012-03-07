@@ -47,7 +47,8 @@ public final class Parameters {
    //public static final String PROPERTY_BIG_FILE_GZIP_WRITE = "BigFileGZipAnalyseSize"; 
     public static final String PROPERTY_TEST_MODE  = "TestMode";
     public static final String PROPERTY_LOAD_FILE_BACKGROUND  = "LoadFileInBackground";
-   
+    public static final String MAXIMISE_SCREEN  = "MaximiseScreen";
+  
     public static final String PROPERTY_COPYBOOK_NAME_PREFIX  = "CopybookLoaderName.";
     public static final String PROPERTY_COPYBOOK_CLASS_PREFIX = "CopybookloaderClass.";
     public static final String PROPERTY_LOOKS_CLASS_INDEX = "LooksClassIndex";
@@ -85,6 +86,7 @@ public final class Parameters {
     public static final String COPYBOOK_DIRECTORY      = "CopybookDirectory";
     public static final String VELOCITY_COPYBOOK_DIRECTORY = "VelocityCopybookDirectory";
     public static final String VELOCITY_TEMPLATE_DIRECTORY = "VelocityTemplateDirectory";
+    public static final String XSLT_TEMPLATE_DIRECTORY = "XsltTemplateDirectory";
     public static final String INVALID_FILE_CHARS      = "InvalidFileChars";
     public static final String FILE_REPLACEMENT_CHAR   = "FileReplChar";
     public static final String ASTERIX_IN_FILE_NAME    = "AsterixInFileName";
@@ -102,7 +104,8 @@ public final class Parameters {
     
     public static final String DEFAULT_COPYBOOK_READER = "CopyBookReader";
     public static final String DEFAULT_COPYBOOK_WRITER = "CopyBookWriter";
- 
+    public static final String XSLT_ENGINE             = "XsltEngine";
+
     public static final String DEFAULT_DATABASE        = "DefaultDB";
     public static final String DEFAULT_IO       	   = "DefaultIO";
     public static final String DEFAULT_BINARY		   = "DefaultBin";
@@ -126,7 +129,10 @@ public final class Parameters {
     public static final String FS_PC_ZONED = "FsPcZoned";
     public static final String FS_COMP3 = "FsComp3";
     public static final String FS_COMP_BIG_ENDIAN = "FsCompBigEndian";
-    public static final String FS_COMP_Little_ENDIAN = "FsCompLittleEndian";
+    public static final String FS_COMP_LITTLE_ENDIAN = "FsCompLittleEndian";
+    public static final String USE_NEW_TREE_EXPANSION = "NewTreeExpansion";
+    
+    public static final String SEARCH_ALL_FIELDS = "SearchAllFields";
     
     private static final HashSet<String> defaultTrue = new HashSet<String>(10);
 
@@ -148,6 +154,7 @@ public final class Parameters {
 
     public static final String USER_HOME       = System.getProperty("user.home");
 	private static String reHomeDirectory = USER_HOME;
+
 	private static String applicationDirectory = null;
 	private static String propertyFileName;
 	private static String globalPropertyFileName = null;
@@ -159,13 +166,21 @@ public final class Parameters {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		defaultTrue.add(PROPERTY_BIG_FILE_USE_SPECIAL_FIXED_MODEL);
-		defaultTrue.add(PROPERTY_LOAD_FILE_BACKGROUND);
-		defaultTrue.add(FS_RUN_AUTOMATIC);
-		defaultTrue.add(BRING_LOG_TO_FRONT);
-		defaultTrue.add(WARN_BINARY_FIELDS_DEFAULT);
-		defaultTrue.add(PROPERTY_PGN_ICONS);
+		String[] defTrueKeys = {
+				PROPERTY_BIG_FILE_USE_SPECIAL_FIXED_MODEL,   
+				PROPERTY_LOAD_FILE_BACKGROUND,
+				FS_RUN_AUTOMATIC,
+				BRING_LOG_TO_FRONT,
+				WARN_BINARY_FIELDS_DEFAULT,
+				PROPERTY_PGN_ICONS,
+				USE_NEW_TREE_EXPANSION,
+				SEARCH_ALL_FIELDS,
+				MAXIMISE_SCREEN,
+		};
+
+		for (String s : defTrueKeys) {
+			defaultTrue.add(s);
+		}
 	}
 
 
@@ -401,8 +416,11 @@ public final class Parameters {
             ret = USER_HOME + name.substring(6);
         } else if (lcName.startsWith("<rehome>")) {
             ret = reHomeDirectory + name.substring("<rehome>".length());
+        } else if (lcName.startsWith("<reproperties>")) {
+            ret = applicationDirectory + name.substring("<reproperties>".length());
         }
-       return ret;
+        
+        return ret;
     }
 
     /**
@@ -477,7 +495,7 @@ public final class Parameters {
     private static void getDirectories() {
 
 
-        baseDirectory = "/home/knoppix/RecordEdit/HSQLDB";
+        baseDirectory = "C:\\JavaPrograms\\RecordEdit\\HSQL";
         libDirectory  = "";
         URL o = Parameters.class.getClassLoader().getResource("net/sf/RecordEditor/utils/common/Parameters.class");
 

@@ -56,6 +56,7 @@ public class RecentFilesList {
 		return recentFiles;
 	}
 
+	@SuppressWarnings("serial")
 	private class FileAction extends AbstractAction {
         private int id;
 

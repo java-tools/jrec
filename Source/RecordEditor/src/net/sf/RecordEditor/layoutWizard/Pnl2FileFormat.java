@@ -4,7 +4,6 @@ import javax.swing.JComponent;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.edit.PnlUnknownFileFormat;
 import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 
 @SuppressWarnings("serial")

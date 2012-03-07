@@ -11,6 +11,8 @@ package net.sf.JRecord.Details;
 import net.sf.JRecord.Common.AbstractRecord;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Details.Selection.FieldSelect;
+import net.sf.JRecord.Details.Selection.FieldSelectX;
 import net.sf.JRecord.Types.TypeManager;
 
 
@@ -94,7 +96,7 @@ implements AbstractRecord, AbstractRecordDetail<FieldDetail> {
 			 pQuote, pFontName, pFields, pRecordStyle);
 
 		if (!"".equals(pSelectionField)) {
-			recordSelection.addTstField(pSelectionField, pSelectionValue);	
+			recordSelection.setRecSel(FieldSelectX.get(pSelectionField, pSelectionValue, "=", getField(pSelectionField)));	
 		}
 	}
 
@@ -172,19 +174,19 @@ implements AbstractRecord, AbstractRecordDetail<FieldDetail> {
 		}
 	}
 
-	/**
-	 * if it is null then return "" else return s
-	 *
-	 * @param str string to test
-	 *
-	 * @return Corrected string
-	 */
-	private String correct(String str) {
-		if (str == null) {
-			return "";
-		}
-		return str;
-	}
+//	/**
+//	 * if it is null then return "" else return s
+//	 *
+//	 * @param str string to test
+//	 *
+//	 * @return Corrected string
+//	 */
+//	private String correct(String str) {
+//		if (str == null) {
+//			return "";
+//		}
+//		return str;
+//	}
 
 
 	/* (non-Javadoc)
@@ -222,7 +224,7 @@ implements AbstractRecord, AbstractRecordDetail<FieldDetail> {
 		 if (recordSelection.size() <= 0) {
 			 return Constants.NULL_INTEGER;
 		 }
-		 return getFieldIndex(recordSelection.get(0).fieldName);
+		 return getFieldIndex(recordSelection.getFirstField().getFieldName());
 	}
 
 //	
@@ -237,11 +239,13 @@ implements AbstractRecord, AbstractRecordDetail<FieldDetail> {
 //	}
 
 
-	/* (non-Javadoc)
+	/* (non-Javadoc) 
 	 * @see net.sf.JRecord.Details.AbstractRecordDetail#setSelectionField(net.sf.JRecord.Common.FieldDetail)
 	 */ @Deprecated
 	public final void setSelectionField(FieldDetail newSelectionField) {
-		 recordSelection.setTstField(0, newSelectionField.getName(), newSelectionField, getSelectionValue());
+		 
+		 recordSelection.setRecSel( 
+				 FieldSelectX.get(newSelectionField.getName(), getSelectionValue(), "=", newSelectionField));
 	}
 
 
@@ -252,7 +256,7 @@ implements AbstractRecord, AbstractRecordDetail<FieldDetail> {
 		 if (recordSelection.size() <= 0) {
 			 return null;
 		 }
-		 return recordSelection.get(0).value;
+		 return recordSelection.getFirstField().getFieldValue();
 	}
 
 

@@ -62,7 +62,7 @@ public class ComboValuesRec extends AbsRecord {
    */
   @Override
   public boolean hasTheKeyChanged() {
-	  return initCombo_Code != Combo_Code;
+	  return initCombo_Code == null || !  initCombo_Code.equals(Combo_Code);
   }
 
 

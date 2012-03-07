@@ -85,7 +85,7 @@ implements GetView {
 				if (df == null) {
 					return null;
 				} else if (col == 1) {
-					return new Integer(df.getPos());
+					return Integer.valueOf(df.getPos());
 				} else {
 					int len = df.getLen();
 	
@@ -93,7 +93,7 @@ implements GetView {
 						return "";
 					}
 	
-					return new Integer(df.getLen());
+					return Integer.valueOf(df.getLen());
 				}
 			}
             return null;
@@ -112,7 +112,7 @@ implements GetView {
 	}
 	
 	public final int getRealRowWithKey(int row) {
-		int idx = getFixedCurrentLayout();
+		//int idx = getFixedCurrentLayout();
 		if (isKeyRow(row)) {
 			return Constants.KEY_INDEX;
 		}

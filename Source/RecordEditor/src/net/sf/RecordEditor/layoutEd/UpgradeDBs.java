@@ -61,6 +61,7 @@ public class UpgradeDBs extends ReFrame implements ActionListener {
 	private JButton upgrade61b		= new JButton("*");
 //	private JButton upgrade67		= new JButton("*");
 	private JButton upgrade69		= new JButton("*");
+	private JButton upgrade70		= new JButton("*");
 	private JButton helpBtn				= Common.getHelpButton();
 	private JCheckBox splitOnRedefine = new JCheckBox();
 
@@ -115,6 +116,7 @@ public class UpgradeDBs extends ReFrame implements ActionListener {
 		pnl.addMenuItem("Upgrade the DB from 0.55 - 0.61b to version 0.62", upgrade61b);
 		//pnl.addMenuItem("Upgrade the Tables from 0.62 to version 0.67", upgrade67);
 		pnl.addMenuItem("Upgrade the DB from 0.62->69* to version 0.69.2c", upgrade69);
+		pnl.addMenuItem("Upgrade the DB from 0.69* to version 0.70", upgrade70);
 
 		helpBtn.addActionListener(this);
 		upgrade55.addActionListener(this);
@@ -123,6 +125,7 @@ public class UpgradeDBs extends ReFrame implements ActionListener {
 		upgrade61b.addActionListener(this);
 		//upgrade67.addActionListener(this);
 		upgrade69.addActionListener(this);
+		upgrade70.addActionListener(this);
 
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -159,6 +162,8 @@ public class UpgradeDBs extends ReFrame implements ActionListener {
 	    //	upgrade.upgrade67(connectionId);
 	    } else if (event.getSource() == upgrade69) {
 	    	upgrade.upgrade69(connectionId);
+	    } else if (event.getSource() == upgrade70) {
+	    	upgrade.upgrade70(connectionId);
 	    } else {
 	    	upgrade.updateRecordSepList(connectionId);
 	    }

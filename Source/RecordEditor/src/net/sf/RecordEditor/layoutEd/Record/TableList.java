@@ -91,7 +91,7 @@ public class TableList extends AbsRowList {
 		            //System.out.print(" ~~ " + s);
 		            if (s != null && ! "".equals(s)) {
 		                //System.out.print(" ~~~");
-		                list.add(new ArrayRow(new Object[]{new Integer(keys[i]), s}));
+		                list.add(new ArrayRow(new Object[]{Integer.valueOf(keys[i]), s}));
 		            }
 		            //System.out.println();
 		        }

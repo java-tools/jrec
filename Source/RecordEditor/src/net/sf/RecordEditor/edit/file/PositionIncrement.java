@@ -66,7 +66,7 @@ public abstract class PositionIncrement {
 	 * @return maximum field number
 	 */
 	protected int getMaxField() {
-		if (pos.row >= lines.size()) {
+		if (pos.row >= lines.size() || pos.row < 0) {
 			return -1;
 		}
 		

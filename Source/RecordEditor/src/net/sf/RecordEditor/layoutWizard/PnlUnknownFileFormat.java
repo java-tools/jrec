@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.utils.edit;
+package net.sf.RecordEditor.layoutWizard;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,8 +10,6 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
 
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
@@ -30,6 +28,7 @@ import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.IO.LineIOProvider;
 
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.edit.ManagerRowList;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
@@ -53,41 +52,7 @@ public class PnlUnknownFileFormat extends BaseHelpPanel {
     private static final int FILE_HEIGHT = SwingUtils.TABLE_ROW_HEIGHT * 14;
     private static final int COLUMNS_TO_NUMER = 10;
     
-    private static final int LAST_7_BITS_SET = 127;
-    private static final boolean[] ASCII_CHAR = init(new boolean[128], false);
-    private static final boolean[] EBCDIC_CHAR = init(new boolean[256], false);
-    
-    static {
-    	String s = Common.STANDARD_CHARS + "\n\t ;:?{}_=~|/!#";
-    	for (int i = 0; i < s.length(); i++) {
-    		ASCII_CHAR[s.charAt(i)] = true;
-    	}
-    	
-    	try {
-			byte[] bytes = s.getBytes("cp037");
-			int j;
-			for (int i = 0; i < bytes.length; i++) {
-				j = toInt(bytes[i]);
-				if (j > 32) {
-					EBCDIC_CHAR[j] = true;
-				}
-	    	}
-		} catch (UnsupportedEncodingException e) {
-		}
-    }
-
- //   private JEditorPane tips;
     private LineArrayModel fileMdl;
-    
-    private checkFile[] fileChecks = {
-     		new VbDumpCheck(),
-    		new StandardCheckFile(Constants.IO_VB, "cp037"),
-    		new StandardCheckFile(Constants.IO_VB_FUJITSU),
-    		new StandardCheckFile(Constants.IO_VB_OPEN_COBOL),
-    		new BinTextCheck(),
-//    		new StandardCheckFile(Constants.IO_MICROFOCUS),
-//    		new StandardCheckFile(Constants.IO_UNICODE_TEXT),
-    };
 
     public final BmKeyedComboBox structureCombo = new BmKeyedComboBox(
     		new ManagerRowList(LineIOProvider.getInstance(), false), 
@@ -105,10 +70,18 @@ public class PnlUnknownFileFormat extends BaseHelpPanel {
     private byte[] fileData;
     
     protected int textPct;
-
+    
+ 
     private ActionListener changed = new ActionListener() {
  	   public void actionPerformed(ActionEvent e) {
- 		   
+ 		   if (getFileStructure() == Constants.IO_FIXED_LENGTH) {
+ 			 FileStructureAnalyser fa = FileStructureAnalyser.getFixedAnalyser(fileData, lengthTxt.getText());
+ 	    	
+ 			 lengthTxt.setText(Integer.toString(fa.getRecordLength()));
+ 	    	 if (! "".equals(fa.getFontName())) {
+ 				fontNameTxt.setText(fa.getFontName());
+ 			 }
+ 		   }
  		  readFile();
  	   }
     };
@@ -172,7 +145,7 @@ public class PnlUnknownFileFormat extends BaseHelpPanel {
 		this.setGap(GAP1);
 		this.addMessage(message);
 		
-		lengthTxt.setText("100");
+		//lengthTxt.setText("100");
 		lengthTxt.addFocusListener(focusHandler);
 		fontNameTxt.addFocusListener(focusHandler);
 		structureCombo.addActionListener(changed);
@@ -214,41 +187,29 @@ public class PnlUnknownFileFormat extends BaseHelpPanel {
     		fileData = new byte[0];
     		return;
     	}
-    	int ebcdicCount, asciiCount;
-    	fileData = new byte[Math.min(34000, in.available())];
+     	fileData = new byte[Math.min(34000, in.available())];
     		
     	in.mark(fileData.length);
     	in.read(fileData);
     	in.reset();
     	
-    	ebcdicCount = countTextChars(fileData, EBCDIC_CHAR);
-    	asciiCount  = countTextChars(fileData, ASCII_CHAR);
-    	if (fileData.length > 0) {
-    		textPct = 100 * Math.max(ebcdicCount, asciiCount) / fileData.length;
-    	}
-    		
-    	for (int i = 0; i < fileChecks.length; i++) {
-			if (fileChecks[i].check(fileData)) {
-				if (! "".equals(fileChecks[i].getFontName())) {
-					fontNameTxt.setText(fileChecks[i].getFontName());
-				}
-				structureCombo.removeActionListener(changed);
-				structureCombo.setSelectedItem(Integer.valueOf(fileChecks[i].getFileStructure()));
-				structureCombo.addActionListener(changed);
-				readFile();
-				return;
-			}
+    	
+    	FileStructureAnalyser fa = FileStructureAnalyser.getAnaylser(fileData, lengthTxt.getText());
+    	
+    	if (! "".equals(fa.getFontName())) {
+			fontNameTxt.setText(fa.getFontName());
 		}
-    	structureCombo.removeActionListener(changed);
-		structureCombo.setSelectedItem(Integer.valueOf(Constants.IO_FIXED_LENGTH));
+		structureCombo.removeActionListener(changed);
+		structureCombo.setSelectedItem(Integer.valueOf(fa.getFileStructure()));
 		structureCombo.addActionListener(changed);
 		
-		if ((countTextChars(fileData, EBCDIC_CHAR) - countTextChars(fileData, ASCII_CHAR)) * 20 / fileData.length > 3) {
-			fontNameTxt.setText("cp037");
+		if (fa.getFileStructure() == Common.IO_FIXED_LENGTH) {
+			lengthTxt.setText(Integer.toString(fa.getRecordLength()));
 		}
-		
 		readFile();
     }
+    
+     
     
     private void readFile() {
     	int structure = getFileStructure();
@@ -331,161 +292,11 @@ public class PnlUnknownFileFormat extends BaseHelpPanel {
 		}
     	return ret;
     }
+ 
     
-    private static boolean[] init(boolean[] b, boolean val) {
-    	for (int i = 0; i < b.length; i++) {
-    		b[i] = val;
-    	}
-    	
-    	return b;
-    }
+ 
     
-    private final static int countTextChars(byte[] data, boolean[] check) {
-		int count = 0;
-		int j;
-		boolean last = false;
-		int cc = 0;
-		
-		for (int i = 0; i < data.length; i++) {
-			j = toInt(data[i]);
-			if (j >= check.length) {
-				last = false;
-			} else {
-    			if (last && check[j]) {
-    				count += 1;
-    				if (cc == 0) {
-    					count += 1;
-    				}
-    				
-    				cc += 1;
-    			}
-    			last = check[j];
-			}
-			if (! last) {
-				cc = 0;
-			}
-		}
-		
-		return count;
-    }
-
+ 
     
-    private static int toInt(byte b) {
-   	int i = b;
-    	if (i < 0) {
-    		i += 256;
-    	}
-    	return i;
-    }
-    
-    
-    private static interface checkFile {
-    	public boolean check(byte[] data);
-    	public int getFileStructure();
-    	public String getFontName();
-    }
-    
-    private static class StandardCheckFile implements checkFile {
-    	private int structure;
-    	private String font = "";
-    	
-       	/**
-		 * @param fileStructure
-		 */
-		public StandardCheckFile(int fileStructure) {
-			this.structure = fileStructure;
-		}
-
-		public StandardCheckFile(int fileStructure, String fontName) {
-			this.structure = fileStructure;
-			this.font = fontName;
-		}
-
-		public boolean check(byte[] data) {
-       		boolean ret = true;
-       		try {
-       			int len = 0;
-       			byte[] bytes;
-       			AbstractByteReader reader = ByteIOProvider.getInstance().getByteReader(structure);
-       			reader.open(new ByteArrayInputStream(data));
-       			
-       			for (int i = 0; 
-       					i < 20 && len < data.length && ((bytes = reader.read()) != null);
-       					i++) {
-       				len += bytes.length;
-       			}
-       			reader.close();
-       		} catch (Exception e) {
-				ret = false;
-			} 
-       		return ret;
-       	}
-       	
-    	public int getFileStructure() {
-    		return structure;
-    	}
-    	
-    	public String getFontName() {
-    		return font;
-    	}
-    }
-    
-    private static class BinTextCheck extends StandardCheckFile {
-    	public BinTextCheck() {
-    		super(Constants.IO_BIN_TEXT);
-    	}
-    	
-    	@Override
-    	public boolean check(byte[] data) {
-    		boolean ret = false;
-    		if (data != null) {
-	    		int count = countTextChars(data, ASCII_CHAR);
-	    		
-	    		//System.out.println(" }}} " + (count * 100 / data.length));
-	    		if (count * 100 / data.length >= 70) {
-	    			ret = super.check(data);
-	    		}
-    		}
-    		
-    		return ret;
-    	}
-    }
-    
-    private class VbDumpCheck extends StandardCheckFile {
-    	
-    	public VbDumpCheck() {
-    		super(Constants.IO_VB_DUMP, "cp037");
-    	}
-    	
-    	@Override
-    	public boolean check(byte[] data) {
-    		boolean ret = false;
-    		if (data == null || data.length < 4) {
-    		} else if (data[6] == 0 && data[7] ==0) {
-    			int blockLength;
-    			byte[] bdwLength;
-       			if (data[0] >= 0) {
-       				bdwLength = new byte[2];
-    	            bdwLength[0] = data[0];
-    	            bdwLength[1] = data[1];
-
-    			} else {
-      				bdwLength = new byte[4];
-      				bdwLength[0] = (byte) (data[0] & LAST_7_BITS_SET);
-       	            bdwLength[1] = data[1];
-       	            bdwLength[2] = data[2];
-       	            bdwLength[3] = data[3];
-    			}
-       			blockLength = (new BigInteger(bdwLength)).intValue();
-       			if (blockLength + 8 < data.length) {
-       				if (data[blockLength + 7] == 0 && data[blockLength + 8] ==0) {
-       					ret = super.check(data);
-       				}
-       			} else {
-       				ret = super.check(data);
-       			}
-    		}
-    		return ret;
-    	}
-    }
+ 
 }

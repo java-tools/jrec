@@ -12,7 +12,7 @@
 
 #set ($border = "")
 #if ($showBorder == true)
-   #set ($border = "border=\"1\"")
+   #set ($border = 'border="1"')
 #end
 
 ### Details ${recordIdx}    $fldCount

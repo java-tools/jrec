@@ -3,9 +3,6 @@
 ##
 #set ( $fldCount = ${layout.getRecord(${recordIdx}).getFieldCount()} - 1)
 #set ($border = "")
-#if ($showBorder == true)
-   #set ($border = "border=\"1\"")
-#end
 ##
 #set ( $fldCount = ${layout.getRecord(${recordIdx}).getFieldCount()} - 1)
 ##

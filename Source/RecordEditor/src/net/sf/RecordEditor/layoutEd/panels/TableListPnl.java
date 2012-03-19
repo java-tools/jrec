@@ -8,7 +8,7 @@
  *   - Changed to use BasePanel constants instead of
  *     TableLayout constants
  */
-package net.sf.RecordEditor.re.db.Table;
+package net.sf.RecordEditor.layoutEd.panels;
 
 
 /**
@@ -30,6 +30,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import net.sf.RecordEditor.re.db.Table.TableDB;
+import net.sf.RecordEditor.re.db.Table.TableListDB;
+import net.sf.RecordEditor.re.db.Table.TableListJTbl;
+import net.sf.RecordEditor.re.db.Table.TableListRec;
+import net.sf.RecordEditor.re.db.Table.TableRec;
 import net.sf.RecordEditor.re.util.TableUpdatePnl;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;

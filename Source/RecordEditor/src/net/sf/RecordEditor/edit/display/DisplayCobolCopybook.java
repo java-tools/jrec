@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.edit.util;
+package net.sf.RecordEditor.edit.display;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,7 +21,6 @@ import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.Numeric.ConversionManager;
 import net.sf.JRecord.Numeric.Convert;
 import net.sf.JRecord.Types.Type;
-import net.sf.RecordEditor.edit.display.LineTree;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.openFile.ComputerOptionCombo;
 import net.sf.RecordEditor.re.tree.TreeParserXml;

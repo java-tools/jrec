@@ -27,10 +27,10 @@ import javax.swing.JMenuBar;
 
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.RecordEditor.edit.display.BaseDisplay;
+import net.sf.RecordEditor.edit.display.DisplayCobolCopybook;
 import net.sf.RecordEditor.edit.display.Action.LoadSavedFieldSeqAction;
 import net.sf.RecordEditor.edit.display.Action.LoadSavedVisibilityAction;
 import net.sf.RecordEditor.edit.open.OpenFile;
-import net.sf.RecordEditor.edit.util.DisplayCobolCopybook;
 import net.sf.RecordEditor.externalInterface.Plugin;
 import net.sf.RecordEditor.re.editProperties.EditOptions;
 import net.sf.RecordEditor.re.jrecord.format.CellFormat;

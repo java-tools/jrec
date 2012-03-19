@@ -455,12 +455,12 @@ public class EditOptions {
 		defaultModels = theDefaultModels;
 	}
 
-	/**
-     * Edit the record Editor Parameter and Jar files
-     */
-    public EditOptions() {
-        this(true, true, true);
-    }
+//	/**
+//     * Edit the record Editor Parameter and Jar files
+//     */
+//    public EditOptions() {
+//        this(true, true, true, true);
+//    }
 
     /**
      * @param terminateOnExit terminate java on exit
@@ -657,14 +657,14 @@ public class EditOptions {
     }
 
 
-    /**
-     *  Run the options editor
-     * @param args program arguments
-     */
-    public static void main(String[] args) {
-
-     	boolean jdbc = ! (args != null && args.length > 0 && "nojdbc".equalsIgnoreCase(args[args.length-1]));
- 
-        new EditOptions(true, jdbc, true);
-    }
+//    /**
+//     *  Run the options editor
+//     * @param args program arguments
+//     */
+//    public static void main(String[] args) {
+//
+//     	boolean jdbc = ! (args != null && args.length > 0 && "nojdbc".equalsIgnoreCase(args[args.length-1]));
+// 
+//        new EditOptions(true, jdbc, true);
+//    }
 }

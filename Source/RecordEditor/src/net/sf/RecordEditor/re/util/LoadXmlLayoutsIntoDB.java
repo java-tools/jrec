@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.re.db.Record;
+package net.sf.RecordEditor.re.util;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,7 +8,7 @@ import java.io.FilenameFilter;
 import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.Log.AbsSSLogger;
-import net.sf.RecordEditor.re.util.CopybookLoaderFactoryDB;
+import net.sf.RecordEditor.re.db.Record.ExtendedRecordDB;
 import net.sf.RecordEditor.re.util.filter.DirectoryFrame;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReConnection;

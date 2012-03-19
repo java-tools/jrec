@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.re.db.Combo;
+package net.sf.RecordEditor.layoutEd.panels;
 
 
 import java.awt.event.ActionEvent;
@@ -9,6 +9,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import net.sf.JRecord.Common.Constants;
+import net.sf.RecordEditor.re.db.Combo.ComboRec;
+import net.sf.RecordEditor.re.db.Combo.ComboValuesDB;
+import net.sf.RecordEditor.re.db.Combo.ComboValuesRec;
 import net.sf.RecordEditor.re.db.Table.TableDB;
 import net.sf.RecordEditor.re.db.Table.TableRec;
 import net.sf.RecordEditor.re.util.TableUpdatePnl;

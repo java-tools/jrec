@@ -19,7 +19,7 @@ import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
 import net.sf.RecordEditor.layoutEd.Parameter.ComboSearch;
-import net.sf.RecordEditor.re.db.Combo.ComboPnl;
+import net.sf.RecordEditor.layoutEd.panels.ComboPnl;
 import net.sf.RecordEditor.re.db.Combo.ComboRec;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;

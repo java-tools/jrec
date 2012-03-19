@@ -25,7 +25,7 @@ import net.sf.RecordEditor.layoutEd.Record.LoadCobolIntoDBScreen;
 import net.sf.RecordEditor.layoutEd.Record.RecordEdit1Record;
 import net.sf.RecordEditor.layoutEd.Record.SaveLayoutsDBAsXml;
 import net.sf.RecordEditor.layoutWizard.Wizard;
-import net.sf.RecordEditor.re.db.Record.LoadXmlLayoutsIntoDB;
+import net.sf.RecordEditor.re.util.LoadXmlLayoutsIntoDB;
 import net.sf.RecordEditor.utils.LayoutConnection;
 import net.sf.RecordEditor.utils.LayoutConnectionAction;
 import net.sf.RecordEditor.utils.common.Common;

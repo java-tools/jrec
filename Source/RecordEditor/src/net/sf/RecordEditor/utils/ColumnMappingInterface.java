@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.utils.filter;
+package net.sf.RecordEditor.utils;
 
 public interface ColumnMappingInterface {
 

@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.utils.csv;
+package net.sf.RecordEditor.edit.util;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,11 +23,11 @@ import net.sf.JRecord.Details.LineProvider;
 import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.Types.Type;
-import net.sf.RecordEditor.edit.file.FileView;
-import net.sf.RecordEditor.edit.file.storage.DataStoreStd;
 import net.sf.RecordEditor.edit.open.StartEditor;
+import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
+import net.sf.RecordEditor.utils.fileStorage.DataStoreStd;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;

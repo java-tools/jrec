@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.edit.display.util;
+package net.sf.RecordEditor.edit.display.common;
 
 import net.sf.RecordEditor.re.file.AbstractLineNode;
 

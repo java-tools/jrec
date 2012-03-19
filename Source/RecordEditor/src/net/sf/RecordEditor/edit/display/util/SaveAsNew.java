@@ -56,6 +56,7 @@ import net.sf.JRecord.External.ExternalField;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.edit.display.SaveAs.SaveAsWrite;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
+import net.sf.RecordEditor.edit.display.common.AbstractTreeFrame;
 import net.sf.RecordEditor.edit.display.models.LineModel;
 import net.sf.RecordEditor.edit.open.StartEditor;
 import net.sf.RecordEditor.edit.util.StandardLayouts;

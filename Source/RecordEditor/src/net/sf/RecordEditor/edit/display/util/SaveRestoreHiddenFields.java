@@ -6,7 +6,7 @@ import javax.swing.JButton;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
-import net.sf.RecordEditor.edit.display.LineList;
+import net.sf.RecordEditor.edit.display.common.AbstractFieldSequencePnl;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
 import net.sf.RecordEditor.jibx.compare.FieldTest;
@@ -46,9 +46,9 @@ implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
 		
 		ret.type = EditorTask.TASK_VISIBLE_FIELDS;
 		ret.filter =  getExternalLayout();
-		if (display instanceof LineList 
+		if (display instanceof AbstractFieldSequencePnl 
 		&& hideFields.isSaveSeqSelected()) {
-			ret.fieldSequence = ((LineList) display).getFieldSequence();
+			ret.fieldSequence = ((AbstractFieldSequencePnl) display).getFieldSequence();
 		}
 		return ret;
 	}
@@ -153,8 +153,8 @@ implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
 		}
 		
 		if (details.fieldSequence != null 
-		&& display instanceof LineList) {
-			((LineList) display).setFieldSequence(details.fieldSequence);
+		&& display instanceof AbstractFieldSequencePnl) {
+			((AbstractFieldSequencePnl) display).setFieldSequence(details.fieldSequence);
 		}
 	}
 	

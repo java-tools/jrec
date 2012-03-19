@@ -16,7 +16,7 @@ import javax.swing.table.TableColumnModel;
  
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
-import net.sf.RecordEditor.edit.display.LineList;
+import net.sf.RecordEditor.edit.display.common.AbstractFieldSequencePnl;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 
 import net.sf.RecordEditor.re.file.FileView;
@@ -91,7 +91,7 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
 		         BasePanel.FULL, BasePanel.FULL,
 				 fieldTbl);
 		
-		if (sourcePanel instanceof LineList) {
+		if (sourcePanel instanceof AbstractFieldSequencePnl) {
 			pnl.setGap(BasePanel.GAP0);
 			saveColSeq.setSelected(true);
 			pnl.addLine("", saveColSeq);

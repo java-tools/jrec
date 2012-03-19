@@ -6,7 +6,7 @@ import javax.swing.JTextArea;
 
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
-import net.sf.RecordEditor.edit.display.util.AbstractTreeFrame;
+import net.sf.RecordEditor.edit.display.common.AbstractTreeFrame;
 import net.sf.RecordEditor.re.file.FileView;
 
 public final class CommonSaveAsFields {

@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.AbstractAction;
 
-import net.sf.RecordEditor.edit.display.LineList;
+import net.sf.RecordEditor.edit.display.common.AbstractFieldSequencePnl;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
 import net.sf.RecordEditor.re.util.filter.DirectoryFrame;
 import net.sf.RecordEditor.utils.common.Common;
@@ -33,7 +33,7 @@ public class SaveFieldSequenceAction extends AbstractAction implements AbstractA
 		ReFrame actionHandler = ReFrame.getActiveFrame();
 		boolean enable = 
 					(actionHandler != null
-				&&	 actionHandler instanceof LineList);
+				&&	 actionHandler instanceof AbstractFieldSequencePnl);
 
 		super.setEnabled(enable);
 	}
@@ -41,17 +41,17 @@ public class SaveFieldSequenceAction extends AbstractAction implements AbstractA
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		ReFrame actionHandler = ReFrame.getActiveFrame();
-		if (actionHandler instanceof LineList) {
+		if (actionHandler instanceof AbstractFieldSequencePnl) {
 			String dir = Parameters.getFileName(Parameters.HIDDEN_FIELDS_SAVE_DIRECTORY);
-			new SaveSequence((LineList) actionHandler, dir);
+			new SaveSequence((AbstractFieldSequencePnl) actionHandler, dir);
 		}
 	}
 	
 	public static class SaveSequence 
 	extends DirectoryFrame implements ActionListener {
 
-		private LineList panel;
-		public SaveSequence(LineList pnl, String dir) {
+		private AbstractFieldSequencePnl panel;
+		public SaveSequence(AbstractFieldSequencePnl pnl, String dir) {
 			super("Save Field Sequence to Xml",  dir, false, false, true);
 			
 			panel = pnl;

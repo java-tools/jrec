@@ -63,6 +63,7 @@ import net.sf.JRecord.Details.LineCompare;
 import net.sf.RecordEditor.edit.display.Action.AutofitAction;
 import net.sf.RecordEditor.edit.display.Action.CsvUpdateLayoutAction;
 import net.sf.RecordEditor.edit.display.Action.GotoLineAction;
+import net.sf.RecordEditor.edit.display.common.AbstractFieldSequencePnl;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.edit.display.common.AbstractRowChanged;
 import net.sf.RecordEditor.edit.display.util.Code;
@@ -103,7 +104,7 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
  */
 @SuppressWarnings("serial")
 public class LineList extends BaseLineDisplay 
-implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChanged {
+implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChanged, AbstractFieldSequencePnl {
 
     //private static final int ROW_WIDTH = 40;
     //private static final int CHAR_WIDTH = 8;
@@ -707,8 +708,12 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
     protected void setColWidths() {
 	}
 
-
-    public FieldSequence getFieldSequence() {
+   
+    /* (non-Javadoc)
+	 * @see net.sf.RecordEditor.edit.display.FieldSequencePnl#getFieldSequence()
+	 */
+    @Override
+	public FieldSequence getFieldSequence() {
     	FieldSequence rec = null;
     	int layoutIdx = getLayoutIndex();
     	
@@ -765,7 +770,11 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
     	return size;
     }
 
-    public void setFieldSequence(FieldSequence seq) {
+    /* (non-Javadoc)
+	 * @see net.sf.RecordEditor.edit.display.FieldSequencePnl#setFieldSequence(net.sf.RecordEditor.jibx.compare.FieldSequence)
+	 */
+    @Override
+	public void setFieldSequence(FieldSequence seq) {
     	int[][] fields = new int[2][];
     	HashMap<String, Integer> map = new HashMap<String, Integer>();
     	int st = FileView.LINE_NUMER_COLUMN+1;

@@ -43,14 +43,14 @@ public interface AbstractFileDisplay {
 	 * Get  Selected Lines
 	 * @return Selected Lines
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public abstract List<AbstractLine> getSelectedLines();
 
 	/**
 	 * Get the current line (tree display only)
 	 * @return current line (tree display only, otherwise null)
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public AbstractLine getTreeLine();
 	
 	/**
@@ -68,7 +68,7 @@ public interface AbstractFileDisplay {
 	/**
 	 * @return the fileView
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public abstract FileView getFileView();
 
 	/**
@@ -86,7 +86,7 @@ public interface AbstractFileDisplay {
 	 * Notify screens of updated layout
 	 * @param newLayout
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public void setNewLayout(AbstractLayoutDetails newLayout);
 
 }

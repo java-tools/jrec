@@ -24,7 +24,7 @@ import net.sf.JRecord.Details.AbstractLine;
 import net.sf.RecordEditor.edit.display.Action.AutofitAction;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.edit.display.common.AbstractRowChanged;
-import net.sf.RecordEditor.edit.display.util.AbstractTreeFrame;
+import net.sf.RecordEditor.edit.display.common.AbstractTreeFrame;
 import net.sf.RecordEditor.edit.display.util.RowChangeListner;
 
 import net.sf.RecordEditor.re.file.AbstractLineNode;

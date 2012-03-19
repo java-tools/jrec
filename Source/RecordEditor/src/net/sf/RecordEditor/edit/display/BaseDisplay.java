@@ -1441,6 +1441,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	/**
 	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplay#getFileView()
 	 */
+	@Override
 	public FileView getFileView() {
 		return fileView;
 	}

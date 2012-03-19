@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import net.sf.RecordEditor.edit.display.LineList;
+import net.sf.RecordEditor.edit.display.common.AbstractFieldSequencePnl;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.util.filter.AbstractExecute;
@@ -35,16 +35,17 @@ implements AbstractActiveScreenAction {
 	public void checkActionEnabled() {
 		ReFrame actionHandler = ReFrame.getActiveFrame();
 
-		super.setEnabled(actionHandler != null && actionHandler instanceof LineList);
+		super.setEnabled(actionHandler != null && actionHandler instanceof AbstractFieldSequencePnl);
 	}
 
-	@SuppressWarnings("unchecked")
+
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		ReFrame actionHandler = ReFrame.getActiveFrame();
-		if (actionHandler instanceof LineList) {
+		if (actionHandler instanceof AbstractFieldSequencePnl) {
 			try {
-				LineList lineList = (LineList) actionHandler;
+				AbstractFieldSequencePnl lineList = (AbstractFieldSequencePnl) actionHandler;
+				@SuppressWarnings("rawtypes")
 				FileView fileView = lineList.getFileView();
 				
 				SetFields setFields = new SetFields(lineList);
@@ -62,9 +63,9 @@ implements AbstractActiveScreenAction {
 	
 	public static class SetFields implements AbstractExecute<EditorTask>{
 		
-		private LineList lineList;
+		private AbstractFieldSequencePnl lineList;
 		
-		public SetFields(LineList lineList) {
+		public SetFields(AbstractFieldSequencePnl lineList) {
 			super();
 
 			this.lineList = lineList;

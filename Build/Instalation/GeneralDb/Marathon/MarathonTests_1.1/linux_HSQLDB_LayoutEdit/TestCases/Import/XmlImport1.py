@@ -8,8 +8,10 @@ def test():
 		click('*7')
 		select('FileChooser', commonBits.cobolDir() + 'CopySAR4180A.xml')
 		select('ComboBox', 'cb2xml XML Copybook (DB)')
-		select('BmKeyedComboBox1', '9')
+		#select('BmKeyedComboBox1', '9')
+		select('BmKeyedComboBox1', 'Mainframe')
 		click('Go')
+		
 		select_menu('Record Layouts>>Edit Layout')
 		select('TextField', 'CopySA%')
 		#select('TabbedPane', 'Extras')

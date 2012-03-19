@@ -1,0 +1,107 @@
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JDesktopPane}
+    - {method: equals, name: indexInContainer, value: '35'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JDesktopPane}
+    - {name: type, value: JDesktopPane}
+    - {name: size, value: '[width=1430,height=790]'}
+    - {name: component.class.simpleName, value: JDesktopPane}
+    - {name: component.class.name, value: javax.swing.JDesktopPane}
+    name: JDesktopPane_35
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    - {method: equals, name: indexInContainer, value: '86'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    - {name: type, value: plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    - {name: size, value: '[width=16,height=14]'}
+    - {name: component.class.simpleName, value: NoFocusButton}
+    - {name: component.class.name, value: javax.swing.plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    - {name: toolTipText, value: Maximize}
+    - {name: accessibleContext.accessibleName, value: Maximize}
+    name: Maximize_3
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Edit Child Record}
+    - {method: equals, name: type, value: JPopupMenu$1}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JPopupMenu$1}
+    - {name: cText, value: Edit Child Record}
+    - {name: type, value: JPopupMenu$1}
+    - {name: size, value: '[width=173,height=19]'}
+    - {name: component.class.simpleName, value: ''}
+    - {name: component.class.name, value: javax.swing.JPopupMenu$1}
+    - {name: accessibleContext.accessibleName, value: Edit Child Record}
+    name: Edit Child Record
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Window}
+    - {method: equals, name: type, value: JMenu}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JMenu}
+    - {name: cText, value: Window}
+    - {name: type, value: JMenu}
+    - {name: size, value: '[width=51,height=19]'}
+    - {name: component.class.simpleName, value: JMenu}
+    - {name: component.class.name, value: javax.swing.JMenu}
+    - {name: accessibleContext.accessibleName, value: Window}
+    name: Window
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JRootPane}
+    - {method: equals, name: indexInContainer, value: '1'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JRootPane}
+    - {name: type, value: JRootPane}
+    - {name: size, value: '[width=1430,height=840]'}
+    - {name: component.class.simpleName, value: JRootPane}
+    - {name: component.class.name, value: javax.swing.JRootPane}
+    name: JRootPane_1
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: 'Edit Record Layout - DB '}
+    - {method: equals, name: type, value: JMenuItem}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JMenuItem}
+    - {name: cText, value: 'Edit Record Layout - DB '}
+    - {name: type, value: JMenuItem}
+    - {name: size, value: '[width=151,height=19]'}
+    - {name: component.class.simpleName, value: JMenuItem}
+    - {name: component.class.name, value: javax.swing.JMenuItem}
+    - {name: accessibleContext.accessibleName, value: 'Edit Record Layout - DB '}
+    name: 'Edit Record Layout - DB '
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Record Edit - hsqldb}
+    - {method: equals, name: type, value: JMenu}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JMenu}
+    - {name: cText, value: Record Edit - hsqldb}
+    - {name: type, value: JMenu}
+    - {name: size, value: '[width=129,height=19]'}
+    - {name: component.class.simpleName, value: JMenu}
+    - {name: component.class.name, value: javax.swing.JMenu}
+    - {name: accessibleContext.accessibleName, value: Record Edit - hsqldb}
+    name: Record Edit - hsqldb
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: iconFile, value: Preferences}
+    - {method: equals, name: type, value: JToolBar$1}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: Preferences}
+    - {name: instanceOf, value: javax.swing.JToolBar$1}
+    - {name: type, value: JToolBar$1}
+    - {name: size, value: '[width=29,height=27]'}
+    - {name: component.class.simpleName, value: ''}
+    - {name: component.class.name, value: javax.swing.JToolBar$1}
+    name: Preferences

@@ -27,7 +27,11 @@ def test():
 		select('Table1', 'APN', 'Equivalent Field,3')
 		select('Table1', 'cell:Equivalent Field,5()')
 #		click('ScrollPane$ScrollBar', 6, 40)
-		select('Table1', '', 'Equivalent Field,5')
+
+		if commonBits.isNimbusLook():
+			select('Table1', ' ', 'Equivalent Field,5')
+		else:
+			select('Table1', '', 'Equivalent Field,5')
 #		select('Table1', '')
 		select('Table', 'cell:Record,1(ams PO Download: Header)')
 		select('Table1', 'cell:Equivalent Field,0()')
@@ -37,8 +41,20 @@ def test():
 		select('Table1', 'Vendor', 'Equivalent Field,2')
 		select('Table1', 'PO', 'Equivalent Field,3')
 		select('Table1', 'cell:Field,2(Vendor)')
-###		assert_p('Table1', 'Content', '[[Record Type, Record_Type], [Sequence Number, Sequence_Number], [Vendor, Vendor], [PO, PO], [Entry Date, ], [Filler, ], [beg01 code, ], [beg02 code, ], [Department, ], [Expected Reciept Date, ], [Cancel by date, ], [EDI Type, ], [Add Date, ], [Filler, ], [Department Name, ], [Prcoess Type, ], [Order Type, ]]')
-		assert_p('Table1', 'Content', '[[Record Type, Record_Type], [Sequence Number, Sequence_Number], [Vendor, Vendor], [PO, PO], [Entry Date, Entry_Date], [Filler, ], [beg01 code, beg01_code], [beg02 code, ], [Department, Department], [Expected Reciept Date, Expected_Reciept_Date], [Cancel by date, Cancel_by_date], [EDI Type, EDI_Type], [Add Date, ], [Filler, ], [Department Name, Department_Name], [Prcoess Type, Prcoess_Type], [Order Type, Order_Type]]')
+
+		select('Table1', 'cell:Equivalent Field,1(Pack Qty)')
+		select('Table1', 'cell:Field,2(Vendor)')
+
+		select('Table1', 'cell:Equivalent Field,2(Pack Qty)')
+
+
+##		assert_p('Table1', 'Content', '[[Record Type, Record_Type], [Sequence Number, Sequence_Number], [Vendor, Vendor], [PO, PO], [Entry Date, ], [Filler, ], [beg01 code, ], [beg02 code, ], [Department, ], [Expected Reciept Date, ], [Cancel by date, ], [EDI Type, ], [Add Date, ], [Filler, ], [Department Name, ], [Prcoess Type, ], [Order Type, ]]')
+##		assert_p('Table1', 'Content', '[[Record Type, Record_Type], [Sequence Number, Sequence_Number], [Vendor, Vendor], [PO, PO], [Entry Date, Entry_Date], [Filler, ], [beg01 code, beg01_code], [beg02 code, ], [Department, Department], [Expected Reciept Date, Expected_Reciept_Date], [Cancel by date, Cancel_by_date], [EDI Type, EDI_Type], [Add Date, ], [Filler, ], [Department Name, Department_Name], [Prcoess Type, Prcoess_Type], [Order Type, Order_Type]]')
+##		assert_p('Table1', 'Content', '[[Record Type, Record_Type], [Sequence Number, Sequence_Number], [Vendor, Vendor], [PO, PO], [Entry Date, ], [Filler, ], [beg01 code, ], [beg02 code, ], [Department, ], [Expected Reciept Date, ], [Cancel by date, ], [EDI Type, ], [Add Date, ], [Filler, ], [Department Name, ], [Prcoess Type, ], [Order Type, ]]')
+##		assert_p('Table1', 'Content', '[[Record Type, Record_Type], [Sequence Number, ], [Vendor, ], [PO, PO], [Entry Date, Entry_Date], [Filler, ], [beg01 code, beg01_code], [beg02 code, ], [Department, Department], [Expected Reciept Date, Expected_Reciept_Date], [Cancel by date, Cancel_by_date], [EDI Type, EDI_Type], [Add Date, ], [Filler, ], [Department Name, Department_Name], [Prcoess Type, Prcoess_Type], [Order Type, Order_Type]]')
+##		assert_p('Table1', 'Content', '[[Record Type, Record_Type], [Sequence Number, ], [Vendor, ], [PO, PO], [Entry Date, Entry_Date], [Filler, ], [beg01 code, beg01_code], [beg02 code, ], [Department, Department], [Expected Reciept Date, Expected_Reciept_Date], [Cancel by date, Cancel_by_date], [EDI Type, EDI_Type], [Add Date, ], [Filler, ], [Department Name, Department_Name], [Prcoess Type, Prcoess_Type], [Order Type, Order_Type]]')
+
+
 #		select('Table1', '')
 		select('Table', 'cell:Record,2(ams PO Download: Allocation)')
 ##		assert_p('Table', 'Content', '[[ams PO Download: Detail, 3], [ams PO Download: Header, 2], [ams PO Download: Allocation, 4]]')

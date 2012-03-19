@@ -9,7 +9,8 @@ def test():
 		select('FileChooser', commonBits.cobolDir() + 'CopyDTAR020.xml')
 		select('ComboBox', 'cb2xml XML Copybook (DB)')
 		select('ComputerOptionCombo', 'Mainframe')
-		select('BmKeyedComboBox1', '9')
+		##select('BmKeyedComboBox1', '9')
+		select('BmKeyedComboBox1', 'Mainframe')
 		select('ComboBox', 'cb2xml XML Copybook (DB)')
 		click('Go')
 		assert_p('TextArea', 'Text', '''

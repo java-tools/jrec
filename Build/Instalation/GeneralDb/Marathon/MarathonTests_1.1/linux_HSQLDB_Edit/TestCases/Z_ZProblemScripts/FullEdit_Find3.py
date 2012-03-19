@@ -39,8 +39,10 @@ def test():
 		click('Find1')
 		select('Table', 'cell:Data,5(Cnr. Urunga Pde & The Kingsway)')
 		click('BasicInternalFrameTitlePane$NoFocusButton5')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 		if window('Save Changes to file: ' + commonBits.sampleDir() + 'Ams_LocDownload_20041228.txt'):
 			click('No')

@@ -1,0 +1,64 @@
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Layouts}
+    - {method: equals, name: type, value: net.sf.RecordEditor.utils.swing.LayoutCombo}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JComboBox}
+    - {name: precedingLabel, value: Layouts}
+    - {name: type, value: net.sf.RecordEditor.utils.swing.LayoutCombo}
+    - {name: size, value: '[width=1179,height=25]'}
+    - {name: component.class.simpleName, value: LayoutCombo}
+    - {name: component.class.name, value: net.sf.RecordEditor.utils.swing.LayoutCombo}
+    name: Layouts
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTable}
+    - {method: equals, name: indexInContainer, value: '14'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTable}
+    - {name: type, value: JTable}
+    - {name: size, value: '[width=1090,height=192]'}
+    - {name: component.class.simpleName, value: JTable}
+    - {name: component.class.name, value: javax.swing.JTable}
+    name: JTable_14
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: toolTipText, value: Close}
+    - {method: equals, name: type, value: plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    - {name: type, value: plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    - {name: size, value: '[width=16,height=16]'}
+    - {name: component.class.simpleName, value: NoFocusButton}
+    - {name: component.class.name, value: javax.swing.plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    - {name: toolTipText, value: Close}
+    - {name: accessibleContext.accessibleName, value: Close}
+    name: Close
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JViewport}
+    - {method: equals, name: indexInContainer, value: '13'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JViewport}
+    - {name: type, value: JViewport}
+    - {name: size, value: '[width=1396,height=612]'}
+    - {name: component.class.simpleName, value: JViewport}
+    - {name: component.class.name, value: javax.swing.JViewport}
+    - {name: fieldName, value: viewport}
+    name: JViewport_13
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: plaf.metal.MetalInternalFrameTitlePane}
+    - {method: equals, name: indexInContainer, value: '17'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.plaf.metal.MetalInternalFrameTitlePane}
+    - {name: type, value: plaf.metal.MetalInternalFrameTitlePane}
+    - {name: size, value: '[width=1419,height=23]'}
+    - {name: component.class.simpleName, value: MetalInternalFrameTitlePane}
+    - {name: component.class.name, value: javax.swing.plaf.metal.MetalInternalFrameTitlePane}
+    name: plaf.metal.MetalInternalFrameTitlePane_17

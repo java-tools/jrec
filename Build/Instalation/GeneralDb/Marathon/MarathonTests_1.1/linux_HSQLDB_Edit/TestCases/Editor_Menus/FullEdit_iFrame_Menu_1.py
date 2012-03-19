@@ -15,7 +15,7 @@ def test():
 		select('Table', 'cell:45 - 40|Loc Addr Ln1,2(Marayong Offsite Reserve)')
 		assert_p('Table', 'Content', '[[TAR, 5015, ST, Bankstown, Bankstown, Unit 2, 39-41 Allingham Street, Condell Park, 2200, NSW, A], [TAR, 5037, ST, Miranda, Westfield Shoppingtown, Cnr. Urunga Pde & The Kingsway, Miranda, 2228, NSW, A], [TAR, 5052, ST, Eastwood, Marayong Offsite Reserve, 11 Melissa Place, Marayong, 2148, NSW, A], [TAR, 5055, ST, Leichhardt, Marketown, Marion Street, Leichhardt, 2040, NSW, A], [TAR, 5060, ST, St Marys, St. Mary\'s, Charles Hackett Drive, St Mary\'s, 2760, NSW, A], [TAR, 5070, ST, Bass Hill, Bass Hill Plaza, 753 Hume Highway, Bass Hill, 2197, NSW, A], [TAR, 5074, ST, Campbelltown, Campbelltown Mall, 303 Queen Street, Campbelltown, 2560, NSW, A], [TAR, 5078, ST, Warringah Mall, Frenchs Forest, Units 2-3, 14 Aquatic Drive, Frenchs Forest, 2086, NSW, A], [TAR, 5081, ST, Ashfield, Ashfield Mall, Knox Street, Ashfield, 2131, NSW, A], [TAR, 5085, ST, Roselands, Condell park, Unit 2, 39-41 Allingham Street, Condell Park, 2200, NSW, A]]')
 		select('Table', 'cell:45 - 40|Loc Addr Ln1,6(Campbelltown Mall)')
-		click('Paste3')
+		click('Paste2')
 		select('Table', 'cell:45 - 40|Loc Addr Ln1,7(Penrith)')
 		assert_p('Table', 'Text', 'Penrith', '45 - 40|Loc Addr Ln1,7')
 		select('Table', 'cell:45 - 40|Loc Addr Ln1,8(Marayong)')
@@ -31,7 +31,7 @@ def test():
 		select('Table', 'rows:[1,2],columns:[45 - 40|Loc Addr Ln1]')
 		click('Copy2')
 		select('Table', 'cell:10 - 35|Loc Name,9(Ashfield)')
-		click('Paste4')
+		click('PasteUp')
 		select('Table', 'cell:45 - 40|Loc Addr Ln1,8(Frenchs Forest)')
 		assert_p('Table', 'Content', '[[TAR, 5015, ST, Bankstown, Bankstown, Unit 2, 39-41 Allingham Street, Condell Park, 2200, NSW, A], [TAR, 5037, ST, Miranda, Westfield Shoppingtown, Cnr. Urunga Pde & The Kingsway, Miranda, 2228, NSW, A], [TAR, 5052, ST, Eastwood, Marayong Offsite Reserve, 11 Melissa Place, Marayong, 2148, NSW, A], [TAR, 5055, ST, Leichhardt, Marketown, Marion Street, Leichhardt, 2040, NSW, A], [TAR, 5060, ST, St Marys, St. Mary\'s, Charles Hackett Drive, St Mary\'s, 2760, NSW, A], [TAR, 5070, ST, Bass Hill, Bass Hill Plaza, 753 Hume Highway, Bass Hill, 2197, NSW, A], [TAR, 5074, ST, Campbelltown, Campbelltown Mall, 303 Queen Street, Campbelltown, 2560, NSW, A], [TAR, 5019, ST, Penrith, Penrith, 58 Leland Street, Penrith, 2750, NSW, A], [TAR, 5078, ST, Warringah Mall, Frenchs Forest, Units 2-3, 14 Aquatic Drive, Frenchs Forest, 2086, NSW, A], [TAR, 5037, ST, Miranda, Westfield Shoppingtown, Cnr. Urunga Pde & The Kingsway, Miranda, 2228, NSW, A], [TAR, 5052, ST, Eastwood, Marayong Offsite Reserve, 11 Melissa Place, Marayong, 2148, NSW, A], [TAR, 5081, ST, Ashfield, Ashfield Mall, Knox Street, Ashfield, 2131, NSW, A], [TAR, 5085, ST, Roselands, Condell park, Unit 2, 39-41 Allingham Street, Condell Park, 2200, NSW, A]]')
 		select('Table', 'cell:45 - 40|Loc Addr Ln1,9(Westfield Shoppingtown)')
@@ -43,7 +43,8 @@ def test():
 		select('Table', 'cell:45 - 40|Loc Addr Ln1,7(Ashfield Mall)')
 		assert_p('Table', 'RowCount', '9')
 		select('Table', 'cell:45 - 40|Loc Addr Ln1,7(Ashfield Mall)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 		if window('Save Changes to file: ' + commonBits.sampleDir() + 'Ams_LocDownload_20041228_Extract.txt'):
 			click('No')

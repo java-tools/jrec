@@ -23,8 +23,14 @@ def test():
 		click('Right')
 		select('TabbedPane', '')
 		select('Table', 'cell:Parent Record,0(-1)')
-		select('Table', '1', 'Parent Record,0')
-		select('Table', '0', 'Parent Record,2')
+
+
+		select('Table', 'ams PO Download: Header', 'Parent Record,0')
+		select('Table', 'ams PO Download: Detail', 'Parent Record,2')
+
+##		select('Table', '1', 'Parent Record,0')
+##		select('Table', '0', 'Parent Record,2')
+
 		select('Table', 'cell:Parent Record,2(0)')
 		assert_p('Table', 'Content', '[[ams PO Download: Detail, 1], [ams PO Download: Header, -1], [ams PO Download: Allocation, 0]]')
 		select('Table', 'cell:Parent Record,2(0)')
@@ -32,6 +38,7 @@ def test():
 		select('TabbedPane', '')
 		click('Copy2')
 		assert_p('TextField1', 'Text', 'Copy Done !!! ')
+
 		select_menu('File>>Compare Menu')
 		click('*2')
 		select('FileChooser', commonBits.sampleDir() + 'Ams_PODownload_20050101.txt')

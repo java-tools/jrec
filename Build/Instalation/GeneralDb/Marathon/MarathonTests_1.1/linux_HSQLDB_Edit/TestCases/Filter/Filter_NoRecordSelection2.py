@@ -7,7 +7,7 @@ def test():
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'zzAms_PODownload_20041231.txt')
 		commonBits.setRecordLayout(select, 'zzAms PO Download')
-		click('Edit1')
+		commonBits.doEdit(click)
 		click('Filter')
 		select('Table', 'cell:Record,0(ams PO Download: Detail)')
 		select('Table2', 'cell:Field,0(null)')
@@ -17,7 +17,7 @@ def test():
 		select('Table2', 'cell:Value,0()')
 		select('Table', 'false', 'Include,1')
 		select('Table', 'cell:Include,2(true)')
-		click('Filter')
+		click('Filter1')
 		select('Table', 'cell:3 - 9|Pack Qty,2(48.0000)')
 		assert_p('Table', 'Text', '16.0000', '3 - 9|Pack Qty,4')
 		select('Table', 'cell:3 - 9|Pack Qty,3(4.0000)')

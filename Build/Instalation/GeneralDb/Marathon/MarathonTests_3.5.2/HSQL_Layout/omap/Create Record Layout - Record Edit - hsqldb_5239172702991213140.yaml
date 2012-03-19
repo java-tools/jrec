@@ -1,0 +1,273 @@
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Save}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: Save}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: Save}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=79,height=25]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: toolTipText, value: Save the Current record back to the DB (if no errors)}
+    - {name: accessibleContext.accessibleName, value: Save}
+    name: Save
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: toolTipText, value: Close}
+    - {method: equals, name: type, value: plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    - {name: type, value: plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    - {name: size, value: '[width=16,height=14]'}
+    - {name: component.class.simpleName, value: NoFocusButton}
+    - {name: component.class.name, value: javax.swing.plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    - {name: toolTipText, value: Close}
+    - {name: accessibleContext.accessibleName, value: Close}
+    name: Close
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Record Name}
+    - {method: equals, name: type, value: JTextField}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextField}
+    - {name: precedingLabel, value: Record Name}
+    - {name: type, value: JTextField}
+    - {name: size, value: '[width=1148,height=20]'}
+    - {name: component.class.simpleName, value: JTextField}
+    - {name: component.class.name, value: javax.swing.JTextField}
+    - {name: fieldName, value: sfRecordName}
+    name: Record Name
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Description}
+    - {method: equals, name: type, value: JTextArea}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextArea}
+    - {name: precedingLabel, value: Description}
+    - {name: type, value: JTextArea}
+    - {name: size, value: '[width=1148,height=60]'}
+    - {name: component.class.simpleName, value: JTextArea}
+    - {name: component.class.name, value: javax.swing.JTextArea}
+    - {name: fieldName, value: sfDescription}
+    name: Description
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Record Type}
+    - {method: equals, name: type, value: net.sf.RecordEditor.utils.swing.BmKeyedComboBox}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JComboBox}
+    - {name: precedingLabel, value: Record Type}
+    - {name: type, value: net.sf.RecordEditor.utils.swing.BmKeyedComboBox}
+    - {name: size, value: '[width=1148,height=20]'}
+    - {name: component.class.simpleName, value: BmKeyedComboBox}
+    - {name: component.class.name, value: net.sf.RecordEditor.utils.swing.BmKeyedComboBox}
+    - {name: fieldName, value: sfRecordType}
+    name: Record Type
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: System}
+    - {method: equals, name: type, value: net.sf.RecordEditor.utils.swing.BmKeyedComboBox}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JComboBox}
+    - {name: precedingLabel, value: System}
+    - {name: type, value: net.sf.RecordEditor.utils.swing.BmKeyedComboBox}
+    - {name: size, value: '[width=1148,height=20]'}
+    - {name: component.class.simpleName, value: BmKeyedComboBox}
+    - {name: component.class.name, value: net.sf.RecordEditor.utils.swing.BmKeyedComboBox}
+    - {name: fieldName, value: sfSystem}
+    name: System
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Lines to Insert}
+    - {method: equals, name: type, value: JTextField}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextField}
+    - {name: precedingLabel, value: Lines to Insert}
+    - {name: type, value: JTextField}
+    - {name: size, value: '[width=1148,height=20]'}
+    - {name: component.class.simpleName, value: JTextField}
+    - {name: component.class.name, value: javax.swing.JTextField}
+    name: Lines to Insert
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Insert}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: New}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: Insert}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=83,height=25]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: toolTipText, value: Insert record(s) after selected records}
+    - {name: fieldName, value: btnIns}
+    - {name: accessibleContext.accessibleName, value: Insert}
+    name: Insert
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: net.sf.RecordEditor.layoutEd.Record.RecordFieldsJTbl}
+    - {method: equals, name: indexInContainer, value: '30'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTable}
+    - {name: type, value: net.sf.RecordEditor.layoutEd.Record.RecordFieldsJTbl}
+    - {name: size, value: '[width=1213,height=69]'}
+    - {name: component.class.simpleName, value: RecordFieldsJTbl}
+    - {name: component.class.name, value: net.sf.RecordEditor.layoutEd.Record.RecordFieldsJTbl}
+    - {name: fieldName, value: tblRecord}
+    name: net.sf.RecordEditor.layoutEd.Record.RecordFieldsJTbl_30
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: net.sf.RecordEditor.layoutEd.Record.RecordPnl}
+    - {method: equals, name: indexInContainer, value: '5'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JPanel}
+    - {name: type, value: net.sf.RecordEditor.layoutEd.Record.RecordPnl}
+    - {name: size, value: '[width=1242,height=733]'}
+    - {name: component.class.simpleName, value: RecordPnl}
+    - {name: component.class.name, value: net.sf.RecordEditor.layoutEd.Record.RecordPnl}
+    - {name: fieldName, value: leftComponent}
+    name: net.sf.RecordEditor.layoutEd.Record.RecordPnl_5
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: List}
+    - {method: equals, name: type, value: JCheckBox}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JCheckBox}
+    - {name: precedingLabel, value: List}
+    - {name: type, value: JCheckBox}
+    - {name: size, value: '[width=1148,height=21]'}
+    - {name: component.class.simpleName, value: JCheckBox}
+    - {name: component.class.name, value: javax.swing.JCheckBox}
+    - {name: fieldName, value: sfList}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: List
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Save As}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: SaveAs}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: Save As}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=93,height=25]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: toolTipText, value: Save the current layout under a new name}
+    - {name: accessibleContext.accessibleName, value: Save As}
+    name: Save As
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: New}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: New}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: New}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=75,height=25]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: toolTipText, value: Create a new record layout}
+    - {name: accessibleContext.accessibleName, value: New}
+    name: New
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: toolTipText, value: Delete selected records from the Table below}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: Delete}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: Delete}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=85,height=25]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: toolTipText, value: Delete selected records from the Table below}
+    - {name: fieldName, value: btnDel}
+    - {name: accessibleContext.accessibleName, value: Delete}
+    name: Delete
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: net.sf.RecordEditor.layoutEd.Record.ChildRecordsJTbl}
+    - {method: equals, name: indexInContainer, value: '31'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTable}
+    - {name: type, value: net.sf.RecordEditor.layoutEd.Record.ChildRecordsJTbl}
+    - {name: size, value: '[width=1213,height=69]'}
+    - {name: component.class.simpleName, value: ChildRecordsJTbl}
+    - {name: component.class.name, value: net.sf.RecordEditor.layoutEd.Record.ChildRecordsJTbl}
+    - {name: fieldName, value: tblChild}
+    name: net.sf.RecordEditor.layoutEd.Record.ChildRecordsJTbl_31
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTextField}
+    - {method: equals, name: indexInContainer, value: '44'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextField}
+    - {name: type, value: JTextField}
+    - {name: size, value: '[width=1242,height=23]'}
+    - {name: component.class.simpleName, value: JTextField}
+    - {name: component.class.name, value: javax.swing.JTextField}
+    - {name: fieldName, value: rightComponent}
+    name: JTextField_44
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: table.JTableHeader}
+    - {method: equals, name: indexInContainer, value: '45'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.table.JTableHeader}
+    - {name: type, value: table.JTableHeader}
+    - {name: size, value: '[width=1186,height=19]'}
+    - {name: component.class.simpleName, value: JTableHeader}
+    - {name: component.class.name, value: javax.swing.table.JTableHeader}
+    name: table.JTableHeader_45
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: iconFile, value: Right}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: Right}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=85,height=41]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: toolTipText, value: Goto Next Record}
+    - {name: fieldName, value: nextBtn}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Right
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: net.sf.RecordEditor.layoutEd.Record.RecordFieldsJTbl}
+    - {method: equals, name: indexInContainer, value: '40'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTable}
+    - {name: type, value: net.sf.RecordEditor.layoutEd.Record.RecordFieldsJTbl}
+    - {name: size, value: '[width=1186,height=46]'}
+    - {name: component.class.simpleName, value: RecordFieldsJTbl}
+    - {name: component.class.name, value: net.sf.RecordEditor.layoutEd.Record.RecordFieldsJTbl}
+    - {name: fieldName, value: tblRecord}
+    name: net.sf.RecordEditor.layoutEd.Record.RecordFieldsJTbl_40

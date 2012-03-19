@@ -1,10 +1,11 @@
 useFixture(default)
 
 def test():
+	from Modules import commonBits
 	java_recorded_version = '1.6.0_17'
 
 	if window('Record Editor'):
-		select('FileChooser', '/C:/Program Files/RecordEdit/HSQL/SampleFiles/Ams_PODownload_20041231.txt')
+		select('FileChooser', commonBits.sampleDir() + 'Ams_PODownload_20041231.txt')
 		click('Edit1')
 		select('Table', 'rows:[0,1,2,3,4,5,6,7,8,9,10,11,12],columns:[7 - 8|Pack Quantity 1]')
 		select_menu('View>>Table View #{Selected Records#}')

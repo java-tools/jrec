@@ -1,6 +1,7 @@
 useFixture(default)
 
-###
+
+###
 ###                  Check Carefully if fails
 ###                 *------------------------* 
 ###
@@ -217,7 +218,7 @@ def test():
 		select('TabbedPane', 'Extras')
 		select('TabbedPane', 'Fields')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		click('MetalInternalFrameTitlePane', 129, 14)
+		##click('MetalInternalFrameTitlePane', 129, 14)
 		assert_p('TextArea', 'Text', '''
 Invalid Record Name 
 

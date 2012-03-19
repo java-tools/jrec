@@ -1,0 +1,40 @@
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTable}
+    - {method: equals, name: indexInContainer, value: '10'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTable}
+    - {name: type, value: JTable}
+    - {name: size, value: '[width=475,height=105]'}
+    - {name: component.class.simpleName, value: JTable}
+    - {name: component.class.name, value: javax.swing.JTable}
+    name: JTable_10
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTable}
+    - {method: equals, name: indexInContainer, value: '15'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTable}
+    - {name: type, value: JTable}
+    - {name: size, value: '[width=475,height=126]'}
+    - {name: component.class.simpleName, value: JTable}
+    - {name: component.class.name, value: javax.swing.JTable}
+    name: JTable_15
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Build Tree}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: SortSum}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: Build Tree}
+    - {name: precedingLabel, value: ''}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=111,height=26]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: accessibleContext.accessibleName, value: Build Tree}
+    name: Build Tree

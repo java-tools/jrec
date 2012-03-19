@@ -6,7 +6,8 @@ def test():
 
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'Xml' + commonBits.fileSep() + 'AmsLocationTest1.xml')
-		click('Edit1')
+		commonBits.doEdit(click)
+
 		select('JTreeTable', 'cell:Xml~Text,1(******************************)')
 		click('Delete1')
 		select('JTreeTable', 'cell:Xml~Text,1(* Location Download)')
@@ -37,8 +38,10 @@ def test():
 		select('JTreeTable', 'rows:[3,4],columns:[Tree]')
 		click('Delete1')
 		select('JTreeTable', 'cell:name,2(Location-Details)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 		if window('Save Changes to file: ' + commonBits.sampleDir() + 'Xml' + commonBits.fileSep() + 'AmsLocationTest1.xml'):
 			click('No')

@@ -6,10 +6,12 @@ def test():
 
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'Ams_PODownload_20041231.txt')
-		click('Edit1')
+		commonBits.doEdit(click)
 		select_menu('View>>Record Based Tree')
-		select('Table', '1', 'Parent Record,0')
-		select('Table', '0', 'Parent Record,2')
+		select('Table', 'ams PO Download: Header', 'Parent Record,0')
+		select('Table', 'ams PO Download: Detail', 'Parent Record,2')
+#		select('Table', '1', 'Parent Record,0')
+#		select('Table', '0', 'Parent Record,2')
 		select('Table', 'cell:Parent Record,2(0)')
 		click('Build')
 		select_menu('File>>Save Tree as XML')

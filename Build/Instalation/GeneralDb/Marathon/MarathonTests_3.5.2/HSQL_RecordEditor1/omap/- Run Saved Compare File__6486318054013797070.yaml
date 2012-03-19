@@ -1,0 +1,47 @@
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: New File}
+    - {method: equals, name: type, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextField}
+    - {name: precedingLabel, value: New File}
+    - {name: cText, value: 'C:\Users\mum/RecordEditor_HSQL/User/Compare/'}
+    - {name: type, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    - {name: size, value: '[width=463,height=26]'}
+    - {name: component.class.simpleName, value: FileChooser}
+    - {name: component.class.name, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    - {name: fieldName, value: xmlFileName}
+    name: New File
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Choose File}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: FileSearch}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: Choose File}
+    - {name: precedingLabel, value: New File}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=149,height=26]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: accessibleContext.accessibleName, value: Choose File}
+    name: Choose File
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Run Compare}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: Run Compare}
+    - {name: precedingLabel, value: ''}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=149,height=26]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: fieldName, value: runCompareBtn}
+    - {name: accessibleContext.accessibleName, value: Run Compare}
+    name: Run Compare

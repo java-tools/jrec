@@ -14,7 +14,7 @@ def test():
 		assert_p('TextField2', 'Text', 'ams PO Download')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('*1')
-		assert_p('BmKeyedComboBox', 'Text', '6')
+		assert_p('BmKeyedComboBox', 'Text', 'XML')
 
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 
@@ -24,13 +24,13 @@ def test():
 ##		assert_p('Label8', 'Text', 'Layout Name')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('*3')
-		assert_p('Label2', 'Text', 'Description')
+		assert_p('Label2', 'Text', 'Table Name')
 		
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('*6')
 		assert_p('SplitCombo', 'Text', 'No Split')
 		assert_p('ComputerOptionCombo', 'Text', 'Intel')
-		assert_p('BmKeyedComboBox', 'Text', '0')
+		assert_p('BmKeyedComboBox', 'Text', 'Default')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('*7')
 		select('ComboBox', 'cb2xml XML Copybook (DB)')

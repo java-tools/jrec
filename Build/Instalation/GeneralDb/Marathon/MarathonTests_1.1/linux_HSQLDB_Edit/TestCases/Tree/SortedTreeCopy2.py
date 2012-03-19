@@ -6,9 +6,10 @@ def test():
 
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020.bin')
-		click('Edit1')
+		commonBits.doEdit(click)
+
 		select_menu('View>>Sorted Field Tree')
-		select('List', 'DTAR020')
+#		select('List', 'DTAR020')
 		select('Table', 'STORE-NO', 'Field,0')
 		select('Table', 'DEPT-NO', 'Field,1')
 		select('Table', 'cell:Field,1(DEPT-NO)')
@@ -66,9 +67,12 @@ def test():
 		select('Table', 'cell:1 - 8|KEYCODE-NO,1(64614401)')
 		assert_p('Table', 'Text', '62684217', '1 - 8|KEYCODE-NO,2')
 		select('Table', 'cell:1 - 8|KEYCODE-NO,1(64614401)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 		if window('Save Changes to file: ' + commonBits.sampleDir() + 'DTAR020.bin'):
 			click('No')

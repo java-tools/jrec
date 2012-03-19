@@ -7,12 +7,12 @@ def test():
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020.bin')
 		commonBits.setRecordLayout(select, 'DTAR020')
-		click('Edit1')
+		commonBits.doEdit(click)
 		select_menu('View>>Sorted Field Tree')
-		select('List', 'DTAR020')
-		select('List', 'DTAR020')
+#		select('List', 'DTAR020')
+#		select('List', 'DTAR020')
 		select('Table', 'cell:Field,0( )')
-		select('List', 'DTAR020')
+#		select('List', 'DTAR020')
 		select('Table', 'DEPT-NO', 'Field,0')
 		select('Table', 'DATE', 'Field,1')
 		select('Table', 'cell:Field,1(DATE)')
@@ -53,9 +53,9 @@ def test():
 
 		click('Open')
 		select('FileChooser', commonBits.sampleDir() + 'xx2DTAR020.bin.xml')
-		click('Edit1')
+		commonBits.doEdit(click)
 ##-------------------------------------------------
-		rightclick('JTreeTable', 'Xml~Prefix,1')
+		rightclick('JTreeTable', 'Tree,0')
 #		select_menu('Fully Expand Tree')
 		select_menu('Expand Tree')
 		select('LayoutCombo', 'DEPT-NO')

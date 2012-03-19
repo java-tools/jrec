@@ -6,7 +6,8 @@ def test():
 
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'Xml' + commonBits.fileSep() + 'AmsLocationTest1.xml')
-		click('Edit1')
+		commonBits.doEdit(click)
+
 		select('LayoutCombo', 'copybook')
 		select('JTreeTable', 'cell:filename,0(AMSLOCATIONTEST1.cbl)')
 		select('JTreeTable', 'cell:Xml~Namespace,0(null)')

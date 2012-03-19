@@ -6,11 +6,14 @@ def test():
 
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'DTAR1000_Store_file_std.bin')
-		click('Create Layout Wizard')
+		click('Layout Wizard')
 		click('Right')
 		select('TabbedPane', '')
 		assert_p('TextField1', 'Text', 'cp037')
-		assert_p('TextField', 'Text', '100')
+		if commonBits.isVersion89():
+			assert_p('TextField', 'Text', '')
+		else:
+			assert_p('TextField', 'Text', '100')
 		assert_p('EditorPane', 'Text', '''<html>
   <head>
     
@@ -29,10 +32,10 @@ def test():
 ''')
 		click('Right')
 		select('TabbedPane', '')
-		assert_p('Table', 'Background', '[r=255,g=255,b=255]')
-		assert_p('Table', 'Background', '[r=255,g=255,b=255]')
-		assert_p('Table', 'Background', '[r=255,g=255,b=255]')
-		assert_p('Table', 'Background', '[r=255,g=255,b=255]')
+		if commonBits.isNimbusLook():
+			assert_p('Table', 'Background', 'DerivedColor(color=255,255,255 parent=nimbusLightBackground offsets=0.0,0.0,0.0,0 pColor=255,255,255')
+		else:
+			assert_p('Table', 'Background', '[r=255,g=255,b=255]')
 		click('Right')
 		select('TabbedPane', '')
 		assert_p('Table', 'Content', '[[, 1, 2, 35, 0, true], [, 3, 2, 35, 0, true], [, 5, 2, 0, 0, true], [, 7, 48, 0, 0, true], [, 55, 6, 0, 0, true]]')
@@ -61,15 +64,18 @@ def test():
 		select_menu('View>>Table View #{Selected Records#}')
 #		select('Table2', 'rows:[2,3,4,5,6,7,8,9,10],columns:[5 - 2|StateChar]')
 		assert_p('Table', 'Content', '[[3, 40, Q, Mackay, NYNNNN], [4, 20, V, Ballarat, NYNNNN], [5, 20, V, Albury, NYNNNN], [6, 20, V, Wodonga, NYNNNN], [7, 20, V, Shepparton, NYNNNN], [8, 20, V, Bendigo, NYNNNN], [9, 50, S, Centrepoint, NYNNNN], [10, 40, Q, Earlville, NYNNNN], [11, 10, N, Cessnock, NYNNNN]]')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 #		select('Table', 'rows:[2,3,4,5,6,7,8,9,10],columns:[5 - 2|StateChar]')
 #		select('Table', 'rows:[2,3,4,5,6,7,8,9,10],columns:[5 - 2|StateChar]')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('Open')
 ##		select('ComboBox1', 'Mainframe')
 		select('ComboBox2', 'DTAR1000 VB')
 		click('Edit1')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Record Layouts>>Edit Layout')
 		select('TextField', 'Wizard_DTAR1000')
 		select('TextField1', '%')
@@ -91,5 +97,6 @@ def test():
 		select('TabbedPane', 'Extras')
 		select('TabbedPane', 'Extras')
 		select('TabbedPane', 'Fields')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 	close()

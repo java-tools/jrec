@@ -1,6 +1,7 @@
 useFixture(default)
 
 def test():
+	from Modules import commonBits
 	java_recorded_version = '1.6.0_17'
 
 	if window('Record Editor'):
@@ -22,9 +23,11 @@ def test():
 		select('TabbedPane', 'Child Records')
 		select('TabbedPane', 'Extras')
 		select('TextField5', 'utf-8')
-		select('BmKeyedComboBox5', '90')
+		select('BmKeyedComboBox5', 'Text IO (Unicode)')
+#		select('BmKeyedComboBox5', '90')
 		click('Save1')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		##time.sleep(2)
 
 		select_menu('Record Layouts>>Edit Layout')
@@ -45,7 +48,8 @@ def test():
 		select('TabbedPane', 'Fields')
 		select('TabbedPane', 'Extras')
 		select('TextField5', 'utf-8')
-		select('BmKeyedComboBox5', '90')
+		select('BmKeyedComboBox5', 'Text IO (Unicode)')
+
 		click('Save1')
 
 	close()

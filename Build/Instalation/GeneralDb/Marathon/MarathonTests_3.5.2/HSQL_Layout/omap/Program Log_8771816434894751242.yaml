@@ -1,0 +1,16 @@
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTextArea}
+    - {method: equals, name: indexInContainer, value: '6'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextArea}
+    - {name: cText, value: '
+
+
+            Invalid Record Name '}
+    - {name: type, value: JTextArea}
+    - {name: size, value: '[width=1412,height=210]'}
+    - {name: component.class.simpleName, value: JTextArea}
+    - {name: component.class.name, value: javax.swing.JTextArea}
+    name: JTextArea_6

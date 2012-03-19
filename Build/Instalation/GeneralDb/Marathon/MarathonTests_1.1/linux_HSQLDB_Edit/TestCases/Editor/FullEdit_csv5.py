@@ -40,14 +40,16 @@ def test():
 		select('Table', 'cell:Text,4(55|66|)')
 		click('TextArea')
 		assert_p('TextArea', 'Text', '111\' 22|22|\'33|\'|44|\'55|66|\'|66|77')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('LayoutCombo', 'Full Line')
 		select('Table', 'cell:Full Line,0(111\' 22|22|\'33|\'|44|\'55|66|\'|66|77)')
 		assert_p('Table', 'Text', '111\' 22|22|\'33|\'|44|\'55|66|\'|66|77', 'Full Line,0')
 		select('Table', 'cell:Full Line,1(1|2;3;4:1;2;3;4:4;5;6|333|2;3;4;5;6|555|1:2:3|777)')
 		assert_p('Table', 'Content', '[[111\' 22|22|\'33|\'|44|\'55|66|\'|66|77], [1|2;3;4:1;2;3;4:4;5;6|333|2;3;4;5;6|555|1:2:3|777], [111|22|33|44|55|66|77], [1|2;3;4:1;2;3;4:4;5;6|333|2;3;4;5;6|555|1:2:3|777]]')
 		select('Table', 'cell:Full Line,1(1|2;3;4:1;2;3;4:4;5;6|333|2;3;4;5;6|555|1:2:3|777)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 		if window('Save Changes to file: ' + commonBits.sampleDir() + 'zzzCsvTest5.csv'):
 			click('No')

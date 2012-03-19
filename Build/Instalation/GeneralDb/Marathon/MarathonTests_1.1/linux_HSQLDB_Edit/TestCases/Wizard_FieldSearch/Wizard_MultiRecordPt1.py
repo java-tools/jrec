@@ -6,7 +6,7 @@ def test():
 
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'Ams_PODownload_20050101.txt')
-		click('Create Layout Wizard')
+		click('Layout Wizard')
 		select('Multiple Records #{fixed length#}', 'true')
 		click('Right')
 		select('TabbedPane', '')
@@ -27,11 +27,15 @@ def test():
 		keystroke('Table', 'Down', 'Record Name,1')
 		select('Table', 'Store', 'Record Name,2')
 		select('Table', 'cell:Record Name,1(Detail)')
-		assert_p('Table', 'Content', '[[H, Header], [D, Detail], [S, Store]]')
+		if commonBits.isVersion89():
+			assert_p('Table', 'Content', '[[H, Header, false, true], [D, Detail, false, true], [S, Store, false, true]]')
+		else:
+			assert_p('Table', 'Content', '[[H, Header], [D, Detail], [S, Store]]')
 		select('Table', 'cell:Record Name,1(Detail)')
 		click('Right')
 		select('TabbedPane', '')
-		assert_p('Table', 'Background', '[r=255,g=255,b=255]')
-		assert_p('Table', 'Background', '[r=255,g=255,b=255]')
-		assert_p('Table', 'Background', '[r=255,g=255,b=255]')
+		if commonBits.isNimbusLook():
+			assert_p('Table', 'Background', 'DerivedColor(color=255,255,255 parent=nimbusLightBackground offsets=0.0,0.0,0.0,0 pColor=255,255,255')
+		else:
+			assert_p('Table', 'Background', '[r=255,g=255,b=255]')
 	close()

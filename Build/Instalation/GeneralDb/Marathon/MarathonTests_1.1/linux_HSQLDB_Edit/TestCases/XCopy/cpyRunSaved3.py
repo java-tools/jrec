@@ -2,6 +2,8 @@ useFixture(default)
 
 def test():
 	from Modules import commonBits
+	import time
+
 	java_recorded_version = '1.6.0_10'
 
 	if window('Record Editor'):
@@ -36,7 +38,8 @@ def test():
 
 		select('FileChooser', commonBits.userDir() + 'CpyDTAR020barCsv.xml')
 		click('Save1')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('*')
 		select('FileChooser', commonBits.userDir() + 'CpyDTAR020barCsv.xml')
 		click('Run Copy Dialog')
@@ -61,10 +64,12 @@ def test():
 		select('TabbedPane', '')
 		click('Copy2')
 		assert_p('TextField1', 'Text', 'Copy Done !!! ')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('Open')
 		select('FileChooser', commonBits.sampleDir() + 'barDTAR020.csv')
-		click('Edit1')
+		commonBits.doEdit(click)
+
 
 		if window(''):
 			select('CheckBox', 'true')
@@ -72,9 +77,12 @@ def test():
 			select('Table', 'cell:DATE,3(40118)')
 			assert_p('Table', 'Content', '[[69684558, 20, 40118, 280, 1, 19.00], [69684558, 20, 40118, 280, -1, -19.00], [69684558, 20, 40118, 280, 1, 5.01], [69694158, 20, 40118, 280, 1, 19.00], [69694158, 20, 40118, 280, -1, -19.00], [69694158, 20, 40118, 280, 1, 5.01], [63604808, 20, 40118, 170, 1, 4.87], [62684671, 20, 40118, 685, 1, 69.99], [62684671, 20, 40118, 685, -1, -69.99], [64634429, 20, 40118, 957, 1, 3.99], [66624458, 20, 40118, 957, 1, 0.89], [63674861, 20, 40118, 957, 10, 2.70], [65674532, 20, 40118, 929, 1, 3.59], [64614401, 59, 40118, 957, 1, 1.99], [64614401, 59, 40118, 957, 1, 1.99], [61664713, 59, 40118, 335, 1, 17.99], [61664713, 59, 40118, 335, -1, -17.99], [68634752, 59, 40118, 410, 1, 8.99], [60614487, 59, 40118, 878, 1, 5.95], [63644339, 59, 40118, 878, 1, 12.65], [60694698, 59, 40118, 620, 1, 3.99], [60664659, 59, 40118, 620, 1, 3.99], [62684217, 59, 40118, 957, 1, 9.99], [67674686, 59, 40118, 929, 1, 3.99], [61684613, 59, 40118, 335, 1, 12.99], [64624770, 59, 40118, 957, 1, 2.59], [69694814, 166, 40118, 360, 1, 2.50], [69694814, 166, 40118, 360, 1, 2.50], [69644164, 166, 40118, 193, 1, 21.59]]')
 			select('Table', 'cell:DATE,3(40118)')
+			commonBits.doSleep()
+
 			click('Go')
 		close()
 
+		commonBits.doSleep()
 		select('Table', 'cell:4|DEPT-NO,0(280)')
 		assert_p('Table', 'Text', 'cell:4|DEPT-NO,0(280)')
 		select('Table', 'cell:1|KEYCODE-NO,1(69684558)')

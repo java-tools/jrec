@@ -1,0 +1,113 @@
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTabbedPane}
+    - {method: equals, name: indexInContainer, value: '5'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTabbedPane}
+    - {name: type, value: JTabbedPane}
+    - {name: size, value: '[width=609,height=481]'}
+    - {name: component.class.simpleName, value: JTabbedPane}
+    - {name: component.class.name, value: javax.swing.JTabbedPane}
+    - {name: accessibleContext.accessibleName, value: Normal}
+    name: JTabbedPane_5
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTable}
+    - {method: equals, name: indexInContainer, value: '29'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTable}
+    - {name: type, value: JTable}
+    - {name: size, value: '[width=450,height=197]'}
+    - {name: component.class.simpleName, value: JTable}
+    - {name: component.class.name, value: javax.swing.JTable}
+    - {name: fieldName, value: linesTbl}
+    name: JTable_29
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JComboBox}
+    - {method: equals, name: indexInContainer, value: '9'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JComboBox}
+    - {name: type, value: JComboBox}
+    - {name: size, value: '[width=78,height=26]'}
+    - {name: component.class.simpleName, value: JComboBox}
+    - {name: component.class.name, value: javax.swing.JComboBox}
+    - {name: fieldName, value: fieldSeparator}
+    name: JComboBox_9
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Quote Character}
+    - {method: equals, name: type, value: JComboBox}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JComboBox}
+    - {name: precedingLabel, value: Quote Character}
+    - {name: type, value: JComboBox}
+    - {name: size, value: '[width=374,height=25]'}
+    - {name: component.class.simpleName, value: JComboBox}
+    - {name: component.class.name, value: javax.swing.JComboBox}
+    - {name: fieldName, value: quote}
+    name: Quote Character
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Parser}
+    - {method: equals, name: type, value: net.sf.RecordEditor.utils.swing.BmKeyedComboBox}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JComboBox}
+    - {name: precedingLabel, value: Parser}
+    - {name: type, value: net.sf.RecordEditor.utils.swing.BmKeyedComboBox}
+    - {name: size, value: '[width=374,height=23]'}
+    - {name: component.class.simpleName, value: BmKeyedComboBox}
+    - {name: component.class.name, value: net.sf.RecordEditor.utils.swing.BmKeyedComboBox}
+    - {name: fieldName, value: parseType}
+    name: Parser
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Names on Line}
+    - {method: equals, name: type, value: JCheckBox}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JCheckBox}
+    - {name: precedingLabel, value: Names on Line}
+    - {name: type, value: JCheckBox}
+    - {name: size, value: '[width=374,height=21]'}
+    - {name: component.class.simpleName, value: JCheckBox}
+    - {name: component.class.name, value: javax.swing.JCheckBox}
+    - {name: fieldName, value: fieldNamesOnLine}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Names on Line
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Line Number of Names}
+    - {method: equals, name: type, value: JTextField}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextField}
+    - {name: precedingLabel, value: Line Number of Names}
+    - {name: cText, value: '1'}
+    - {name: type, value: JTextField}
+    - {name: size, value: '[width=374,height=20]'}
+    - {name: component.class.simpleName, value: JTextField}
+    - {name: component.class.name, value: javax.swing.JTextField}
+    - {name: fieldName, value: nameLineNoTxt}
+    name: Line Number of Names
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Go}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: Go}
+    - {name: precedingLabel, value: set Column Types}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=49,height=26]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: fieldName, value: go}
+    - {name: accessibleContext.accessibleName, value: Go}
+    name: Go

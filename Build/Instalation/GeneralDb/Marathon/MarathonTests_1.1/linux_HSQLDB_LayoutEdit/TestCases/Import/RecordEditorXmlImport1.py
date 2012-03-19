@@ -7,7 +7,9 @@ def test():
 	if window('Record Layout Definitions'):
 		click('*7')
 		select('FileChooser', commonBits.xmlCopybookDir() + 'yyAms PO Download.Xml')
-		select('BmKeyedComboBox1', '9')
+		#select('BmKeyedComboBox1', '9')
+		select('BmKeyedComboBox1', 'Other')
+
 		click('Go')
 		assert_p('TextArea', 'Text', '''
 
@@ -52,15 +54,19 @@ def test():
 		select('RecordFieldsJTbl', 'cell:FieldName,2(Pack Cost)')
 		assert_p('RecordFieldsJTbl', 'Text', 'Pack Cost', 'FieldName,2')
 		select('RecordFieldsJTbl', 'cell:FieldType,1(8)')
-		assert_p('RecordFieldsJTbl', 'Text', '8', 'FieldType,1')
+##		assert_p('RecordFieldsJTbl', 'Text', '8', 'FieldType,1')
+		assert_p('RecordFieldsJTbl', 'Text', 'Num Assumed Decimal (Zero padded)', 'FieldType,1')
 		select('RecordFieldsJTbl', 'cell:FieldType,0(0)')
-		assert_p('RecordFieldsJTbl', 'Text', '0', 'FieldType,0')
+##		assert_p('RecordFieldsJTbl', 'Text', '0', 'FieldType,4')
+		assert_p('RecordFieldsJTbl', 'Text', 'Char', 'FieldType,4')
 		select('RecordFieldsJTbl', 'cell:FieldType,3(7)')
-		assert_p('RecordFieldsJTbl', 'Text', '0', 'FieldType,4')
+##		assert_p('RecordFieldsJTbl', 'Text', '0', 'FieldType,4')
+		assert_p('RecordFieldsJTbl', 'Text', 'Char', 'FieldType,4')
 		select('RecordFieldsJTbl', 'cell:FieldName,8(Product Name)')
 		assert_p('RecordFieldsJTbl', 'Text', 'Product Name', 'FieldName,8')
 		select('RecordFieldsJTbl', 'cell:FieldName,8(Product Name)')
-		assert_p('BmKeyedComboBox3', 'Text', '0')
+##		assert_p('BmKeyedComboBox3', 'Text', '0')
+		assert_p('BmKeyedComboBox3', 'Text', 'Unkown')
 		assert_p('BmKeyedComboBox2', 'Text', 'Record Layout')
 		select('TextField', 'yyAms PO Download: H%')
 		select('TextField1', '%')
@@ -81,9 +87,11 @@ def test():
 		select('RecordFieldsJTbl', 'cell:FieldName,8(Department)')
 		assert_p('RecordFieldsJTbl', 'Text', 'Department', 'FieldName,8')
 		select('RecordFieldsJTbl', 'cell:FieldType,1(8)')
-		assert_p('RecordFieldsJTbl', 'Text', '8', 'FieldType,1')
+##		assert_p('RecordFieldsJTbl', 'Text', '8', 'FieldType,1')
+		assert_p('RecordFieldsJTbl', 'Text', 'Num Assumed Decimal (Zero padded)', 'FieldType,3')
 		select('RecordFieldsJTbl', 'cell:FieldType,3(8)')
-		assert_p('RecordFieldsJTbl', 'Text', '8', 'FieldType,3')
+##		assert_p('RecordFieldsJTbl', 'Text', '8', 'FieldType,3')
+		assert_p('RecordFieldsJTbl', 'Text', 'Num Assumed Decimal (Zero padded)', 'FieldType,3')
 		select('RecordFieldsJTbl', 'cell:FieldType,3(8)')
 		select('TextField', 'yyAms PO Download: A%')
 		select('TextField1', '%')
@@ -100,7 +108,9 @@ def test():
 		select('RecordFieldsJTbl', 'cell:FieldName,4(Pack Quantity 2)')
 		assert_p('RecordFieldsJTbl', 'RowCount', '19')
 		select('RecordFieldsJTbl', 'cell:FieldType,2(7)')
-		assert_p('RecordFieldsJTbl', 'Text', '7', 'FieldType,4')
+		##assert_p('RecordFieldsJTbl', 'Text', '7', 'FieldType,4')
+		assert_p('RecordFieldsJTbl', 'Text', 'Num (Right Justified zero padded)', 'FieldType,4')
+
 
 
 

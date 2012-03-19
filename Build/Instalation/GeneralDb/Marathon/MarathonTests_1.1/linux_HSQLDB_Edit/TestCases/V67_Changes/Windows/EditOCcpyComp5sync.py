@@ -9,14 +9,16 @@ def test():
 			select_menu('Record Layouts>>Load Cobol Copybook')
 			select('FileChooser', commonBits.cobolTestDir() + 'cpyComp5Sync.cbl')
 			select('ComputerOptionCombo', 'Open Cobol Little Endian (Intel)')
-			select('BmKeyedComboBox1', '9')
+			select('BmKeyedComboBox1', 'Other')
+#			select('BmKeyedComboBox1', '9')
 			click('Go')
 			assert_p('TextArea', 'Text', '''
 
 -->> ''' + commonBits.cobolTestDir() + '''cpyComp5Sync.cbl processed
 
       Copybook: cpyComp5Sync''')
-			click('BasicInternalFrameTitlePane$NoFocusButton2')
+			commonBits.closeWindow(click)
+			##click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 
 			click('Open')

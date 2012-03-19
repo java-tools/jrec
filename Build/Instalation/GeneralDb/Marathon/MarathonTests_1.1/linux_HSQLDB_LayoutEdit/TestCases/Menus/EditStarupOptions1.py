@@ -4,7 +4,7 @@ def test():
 	java_recorded_version = '1.5.0_11'
 
 	if window('Record Layout Definitions'):
-		select_menu('Edit>>Edit Startup Options')
+		select_menu('Edit>>Edit Options')
 
 		if window('Record Editor Options Editor'):
 			select('TabbedPane', 'Properties')

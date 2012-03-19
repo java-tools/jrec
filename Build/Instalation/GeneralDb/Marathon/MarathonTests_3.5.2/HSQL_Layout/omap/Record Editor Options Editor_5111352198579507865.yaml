@@ -1,0 +1,223 @@
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: iconFile, value: Save}
+    - {method: equals, name: type, value: JToolBar$1}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: Save}
+    - {name: instanceOf, value: javax.swing.JToolBar$1}
+    - {name: type, value: JToolBar$1}
+    - {name: size, value: '[width=29,height=27]'}
+    - {name: component.class.simpleName, value: ''}
+    - {name: component.class.name, value: javax.swing.JToolBar$1}
+    - {name: toolTipText, value: Save ...}
+    name: Save
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTabbedPane}
+    - {method: equals, name: indexInContainer, value: '9'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTabbedPane}
+    - {name: type, value: JTabbedPane}
+    - {name: size, value: '[width=1171,height=512]'}
+    - {name: component.class.simpleName, value: JTabbedPane}
+    - {name: component.class.name, value: javax.swing.JTabbedPane}
+    - {name: accessibleContext.accessibleName, value: Description}
+    name: JTabbedPane_9
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: net.sf.RecordEditor.editProperties.EditPropertiesPnl}
+    - {method: equals, name: indexInContainer, value: '11'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JPanel}
+    - {name: type, value: net.sf.RecordEditor.editProperties.EditPropertiesPnl}
+    - {name: size, value: '[width=1064,height=482]'}
+    - {name: component.class.simpleName, value: EditPropertiesPnl}
+    - {name: component.class.name, value: net.sf.RecordEditor.editProperties.EditPropertiesPnl}
+    - {name: fieldName, value: visComp}
+    name: net.sf.RecordEditor.editProperties.EditPropertiesPnl_11
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: labelText, value: 'lbl:Space to be left at the bottom
+            of the screen.'}
+    - {method: equals, name: type, value: JLabel}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JLabel}
+    - {name: cText, value: Space to be left at the bottom of the screen.}
+    - {name: type, value: JLabel}
+    - {name: size, value: '[width=216,height=20]'}
+    - {name: labelText, value: 'lbl:Space to be left at the bottom of the screen.'}
+    - {name: component.class.simpleName, value: JLabel}
+    - {name: component.class.name, value: javax.swing.JLabel}
+    - {name: accessibleContext.accessibleName, value: Space to be left at the bottom of the screen.}
+    name: lbl:Space to be left at the bottom of the screen.
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: labelText, value: 'lbl:Space to be left at the top of
+            the screen.'}
+    - {method: equals, name: type, value: JLabel}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JLabel}
+    - {name: cText, value: Space to be left at the top of the screen.}
+    - {name: type, value: JLabel}
+    - {name: size, value: '[width=198,height=20]'}
+    - {name: labelText, value: 'lbl:Space to be left at the top of the screen.'}
+    - {name: component.class.simpleName, value: JLabel}
+    - {name: component.class.name, value: javax.swing.JLabel}
+    - {name: accessibleContext.accessibleName, value: Space to be left at the top of the screen.}
+    name: lbl:Space to be left at the top of the screen.
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: labelText, value: 'lbl:Space to be left at the left of
+            the screen.'}
+    - {method: equals, name: type, value: JLabel}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JLabel}
+    - {name: cText, value: Space to be left at the left of the screen.}
+    - {name: type, value: JLabel}
+    - {name: size, value: '[width=198,height=20]'}
+    - {name: labelText, value: 'lbl:Space to be left at the left of the screen.'}
+    - {name: component.class.simpleName, value: JLabel}
+    - {name: component.class.name, value: javax.swing.JLabel}
+    - {name: accessibleContext.accessibleName, value: Space to be left at the left of the screen.}
+    name: lbl:Space to be left at the left of the screen.
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: labelText, value: 'lbl:Space to be left at the Right
+            of the screen.'}
+    - {method: equals, name: type, value: JLabel}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JLabel}
+    - {name: cText, value: Space to be left at the Right of the screen.}
+    - {name: type, value: JLabel}
+    - {name: size, value: '[width=207,height=20]'}
+    - {name: labelText, value: 'lbl:Space to be left at the Right of the screen.'}
+    - {name: component.class.simpleName, value: JLabel}
+    - {name: component.class.name, value: javax.swing.JLabel}
+    - {name: accessibleContext.accessibleName, value: Space to be left at the Right of the screen.}
+    name: lbl:Space to be left at the Right of the screen.
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTabbedPane}
+    - {method: equals, name: indexInContainer, value: '10'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTabbedPane}
+    - {name: type, value: JTabbedPane}
+    - {name: size, value: '[width=1069,height=507]'}
+    - {name: component.class.simpleName, value: JTabbedPane}
+    - {name: component.class.name, value: javax.swing.JTabbedPane}
+    - {name: fieldName, value: visComp}
+    - {name: accessibleContext.accessibleName, value: Screen Position}
+    name: JTabbedPane_10
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: labelText, value: 'lbl:Directory holding the help files'}
+    - {method: equals, name: type, value: JLabel}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JLabel}
+    - {name: cText, value: Directory holding the help files}
+    - {name: type, value: JLabel}
+    - {name: size, value: '[width=145,height=20]'}
+    - {name: labelText, value: 'lbl:Directory holding the help files'}
+    - {name: component.class.simpleName, value: JLabel}
+    - {name: component.class.name, value: javax.swing.JLabel}
+    - {name: accessibleContext.accessibleName, value: Directory holding the help files}
+    name: lbl:Directory holding the help files
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JEditorPane}
+    - {method: equals, name: indexInContainer, value: '14'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JEditorPane}
+    - {name: cText, value: "<html>\n  <head>\n    \n  </head>\n  <body>\n    <h1>\n\
+            \      Directories\n    </h1>\n    The properties on this panel are for\
+            \ the various directories used by the <b>RecordEditor</b>\n  </body>\n\
+            </html>\n"}
+    - {name: type, value: JEditorPane}
+    - {name: size, value: '[width=1040,height=128]'}
+    - {name: component.class.simpleName, value: JEditorPane}
+    - {name: component.class.name, value: javax.swing.JEditorPane}
+    - {name: fieldName, value: tips}
+    name: JEditorPane_14
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: labelText, value: 'lbl:Velocity Template directory (Copybooks)'}
+    - {method: equals, name: type, value: JLabel}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JLabel}
+    - {name: cText, value: Velocity Template directory (Copybooks)}
+    - {name: type, value: JLabel}
+    - {name: size, value: '[width=194,height=25]'}
+    - {name: labelText, value: 'lbl:Velocity Template directory (Copybooks)'}
+    - {name: component.class.simpleName, value: JLabel}
+    - {name: component.class.name, value: javax.swing.JLabel}
+    - {name: accessibleContext.accessibleName, value: Velocity Template directory (Copybooks)}
+    name: lbl:Velocity Template directory (Copybooks)
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTextField}
+    - {method: equals, name: indexInContainer, value: '17'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextField}
+    - {name: cText, value: dd.MMM.yyyy}
+    - {name: type, value: JTextField}
+    - {name: size, value: '[width=779,height=16]'}
+    - {name: component.class.simpleName, value: JTextField}
+    - {name: component.class.name, value: javax.swing.JTextField}
+    name: JTextField_17
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: labelText, value: 'lbl:Date Format'}
+    - {method: equals, name: type, value: JLabel}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JLabel}
+    - {name: cText, value: Date Format}
+    - {name: type, value: JLabel}
+    - {name: size, value: '[width=60,height=20]'}
+    - {name: labelText, value: 'lbl:Date Format'}
+    - {name: component.class.simpleName, value: JLabel}
+    - {name: component.class.name, value: javax.swing.JLabel}
+    - {name: accessibleContext.accessibleName, value: Date Format}
+    name: lbl:Date Format
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: toolTipText, value: Number of characters to use when looking up record layouts (medium)}
+    - {method: equals, name: type, value: net.sf.RecordEditor.editProperties.EditPropertiesPnl$IntFld}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextField}
+    - {name: precedingLabel, value: Significant chars 2}
+    - {name: cText, value: '12'}
+    - {name: type, value: net.sf.RecordEditor.editProperties.EditPropertiesPnl$IntFld}
+    - {name: size, value: '[width=799,height=20]'}
+    - {name: component.class.simpleName, value: IntFld}
+    - {name: component.class.name, value: net.sf.RecordEditor.editProperties.EditPropertiesPnl$IntFld}
+    - {name: toolTipText, value: Number of characters to use when looking up record layouts (medium)}
+    name: Number of characters to use when looking up record layouts (medium)
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: labelText, value: 'lbl:Significant chars 2'}
+    - {method: equals, name: type, value: JLabel}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JLabel}
+    - {name: cText, value: Significant chars 2}
+    - {name: type, value: JLabel}
+    - {name: size, value: '[width=87,height=20]'}
+    - {name: labelText, value: 'lbl:Significant chars 2'}
+    - {name: component.class.simpleName, value: JLabel}
+    - {name: component.class.name, value: javax.swing.JLabel}
+    - {name: accessibleContext.accessibleName, value: Significant chars 2}
+    name: lbl:Significant chars 2

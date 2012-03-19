@@ -17,5 +17,6 @@ def test():
 		rightclick('Table', 'Full Line,2')
 		select_menu('Edit Record')
 		assert_p('Table', 'Text', 'TAR5033STBlacktown                          Marayong                                Dock 2, 11 Melissa Place                Marayong                           2148      NSWA', 'Data,0')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 	close()

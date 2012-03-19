@@ -1,0 +1,33 @@
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTextArea}
+    - {method: equals, name: indexInContainer, value: '6'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextArea}
+    - {name: cText, value: "\n\nError Loading Record Layout\n\nClass=class java.io.FileNotFoundException\
+            \    Error=C:\\Users\\mum\\RecordEditor_HSQL\\User\\Compare\\C:\\Users\\\
+            mum\\RecordEditor_HSQL\\User\\Compare\\zzTest_asmLocation.Xml (The filename,\
+            \ directory name, or volume label syntax is incorrect)\n\n    java.io.FileInputStream\
+            \  :  -2\n    java.io.FileInputStream  :  -1\n    java.io.FileInputStream\
+            \  :  -1\n    net.sf.RecordEditor.jibx.JibxCall  :  40\n    net.sf.RecordEditor.diff.RunSavedCompare\
+            \  :  215\n    net.sf.RecordEditor.diff.RunSavedCompare  :  171\n    net.sf.RecordEditor.diff.RunSavedCompare\
+            \  :  30\n    net.sf.RecordEditor.diff.RunSavedCompare$1  :  59\n    javax.swing.AbstractButton\
+            \  :  -1\n    javax.swing.AbstractButton$Handler  :  -1\n    javax.swing.DefaultButtonModel\
+            \  :  -1\n    javax.swing.DefaultButtonModel  :  -1\n    javax.swing.plaf.basic.BasicButtonListener\
+            \  :  -1\n    java.awt.Component  :  -1\n    javax.swing.JComponent  :\
+            \  -1\n    java.awt.Component  :  -1\n    java.awt.Container  :  -1\n\
+            \    java.awt.Component  :  -1\n    java.awt.Container  :  -1\n    java.awt.Component\
+            \  :  -1\n    java.awt.LightweightDispatcher  :  -1\n    java.awt.LightweightDispatcher\
+            \  :  -1\n    java.awt.LightweightDispatcher  :  -1\n    java.awt.Container\
+            \  :  -1\n    java.awt.Window  :  -1\n    java.awt.Component  :  -1\n\
+            \    java.awt.EventQueue  :  -1\n    java.awt.EventDispatchThread  : \
+            \ -1\n    java.awt.EventDispatchThread  :  -1\n    java.awt.EventDispatchThread\
+            \  :  -1\n    java.awt.EventDispatchThread  :  -1\n    java.awt.EventDispatchThread\
+            \  :  -1\n    java.awt.EventDispatchThread  :  -1"}
+    - {name: type, value: JTextArea}
+    - {name: size, value: '[width=1394,height=204]'}
+    - {name: component.class.simpleName, value: JTextArea}
+    - {name: component.class.name, value: javax.swing.JTextArea}
+    - {name: fieldName, value: log}
+    name: JTextArea_6

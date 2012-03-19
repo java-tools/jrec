@@ -1,0 +1,125 @@
+- !!net.sourceforge.marathon.objectmap.OMapContainer
+    containerGeneralProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JInternalFrame}
+    - {name: oMapClassName, value: net.sf.RecordEditor.layoutEd.Menu}
+    - {name: size, value: '[width=450,height=436]'}
+    - {name: oMapClassSimpleName, value: Menu}
+    - {name: title, value: ''}
+    - {name: component.class.simpleName, value: Menu}
+    - {name: component.class.name, value: net.sf.RecordEditor.layoutEd.Menu}
+    - {name: accessibleContext.accessibleName, value: ''}
+    containerRecognitionProperties:
+    - {method: equals, name: oMapClassName, value: net.sf.RecordEditor.layoutEd.Menu}
+    containerTitles: ['']
+    fileName: ____196562138137589246.yaml
+- !!net.sourceforge.marathon.objectmap.OMapContainer
+    containerGeneralProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JInternalFrame}
+    - {name: oMapClassName, value: net.sf.RecordEditor.layoutEd.RecordEdit}
+    - {name: size, value: '[width=1429,height=789]'}
+    - {name: oMapClassSimpleName, value: RecordEdit}
+    - {name: title, value: Edit Record Layout - DB  - Record Edit - hsqldb}
+    - {name: component.class.simpleName, value: RecordEdit}
+    - {name: component.class.name, value: net.sf.RecordEditor.layoutEd.RecordEdit}
+    - {name: accessibleContext.accessibleName, value: Edit Record Layout - DB  - Record Edit - hsqldb}
+    containerRecognitionProperties:
+    - {method: equals, name: oMapClassName, value: net.sf.RecordEditor.layoutEd.RecordEdit}
+    containerTitles: [Edit Record Layout - DB  - Record Edit - hsqldb]
+    fileName: Edit Record Layout - DB  - Record Edit - hsqldb_6044058727680364218.yaml
+- !!net.sourceforge.marathon.objectmap.OMapContainer
+    containerGeneralProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JInternalFrame}
+    - {name: oMapClassName, value: net.sf.RecordEditor.layoutEd.Record.RecordEdit1Record}
+    - {name: size, value: '[width=1250,height=789]'}
+    - {name: oMapClassSimpleName, value: RecordEdit1Record}
+    - {name: title, value: Create Record Layout - Record Edit - hsqldb}
+    - {name: component.class.simpleName, value: RecordEdit1Record}
+    - {name: component.class.name, value: net.sf.RecordEditor.layoutEd.Record.RecordEdit1Record}
+    - {name: accessibleContext.accessibleName, value: Create Record Layout - Record Edit - hsqldb}
+    containerRecognitionProperties:
+    - {method: equals, name: oMapClassName, value: net.sf.RecordEditor.layoutEd.Record.RecordEdit1Record}
+    containerTitles: [Create Record Layout - Record Edit - hsqldb, Edit Record Layout - Current DB]
+    fileName: Create Record Layout - Record Edit - hsqldb_5239172702991213140.yaml
+- !!net.sourceforge.marathon.objectmap.OMapContainer
+    containerGeneralProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JInternalFrame}
+    - {name: size, value: '[width=1422,height=240]'}
+    - {name: title, value: Program Log}
+    - {name: component.class.simpleName, value: JInternalFrame}
+    - {name: component.class.name, value: javax.swing.JInternalFrame}
+    - {name: accessibleContext.accessibleName, value: Program Log}
+    containerRecognitionProperties:
+    - {method: equals, name: component.class.name, value: javax.swing.JInternalFrame}
+    - {method: equals, name: title, value: Program Log}
+    containerTitles: [Program Log]
+    fileName: Program Log_8771816434894751242.yaml
+- !!net.sourceforge.marathon.objectmap.OMapContainer
+    containerGeneralProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JDialog}
+    - {name: oMapClassName, value: javax.swing.JOptionPane#Dialog_3_0}
+    - {name: size, value: '[width=373,height=115]'}
+    - {name: oMapClassSimpleName, value: JOptionPane#Dialog}
+    - {name: title, value: 'Delete: zzTestCreate1'}
+    - {name: component.class.simpleName, value: JDialog}
+    - {name: name, value: dialog0}
+    - {name: component.class.name, value: javax.swing.JDialog}
+    - {name: accessibleContext.accessibleName, value: 'Delete: zzTestCreate1'}
+    containerRecognitionProperties:
+    - {method: equals, name: oMapClassName, value: javax.swing.JOptionPane#Dialog_3_0}
+    containerTitles: ['Delete: zzTestCreate1', 'Delete: zzz', 'Delete: zzCreate2',
+        'Delete: zzCreateGroup1', 'Delete: zzCreateGroupC%', 'Delete: zzCreateGroupC2',
+        'Delete: zzCreateGroupC3', 'Delete: zzCreateGroupC1', 'Delete: zzz1', 'Delete:
+            zzzz2']
+    fileName: Delete_ zzTestCreate1_5745460614962263091.yaml
+- !!net.sourceforge.marathon.objectmap.OMapContainer
+    containerGeneralProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JFrame}
+    - {name: oMapClassName, value: net.sf.RecordEditor.layoutEd.LayoutEdit}
+    - {name: size, value: '[width=1438,height=867]'}
+    - {name: oMapClassSimpleName, value: LayoutEdit}
+    - {name: title, value: Record Layout Definitions}
+    - {name: component.class.simpleName, value: LayoutEdit}
+    - {name: name, value: frame0}
+    - {name: component.class.name, value: net.sf.RecordEditor.layoutEd.LayoutEdit}
+    - {name: accessibleContext.accessibleName, value: Record Layout Definitions}
+    containerRecognitionProperties:
+    - {method: equals, name: oMapClassName, value: net.sf.RecordEditor.layoutEd.LayoutEdit}
+    containerTitles: [Record Layout Definitions]
+    fileName: Record Layout Definitions_2953196130339542957.yaml
+- !!net.sourceforge.marathon.objectmap.OMapContainer
+    containerGeneralProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JDialog}
+    - {name: oMapClassName, value: javax.swing.JOptionPane#Dialog_3_2}
+    - {name: size, value: '[width=268,height=116]'}
+    - {name: oMapClassSimpleName, value: JOptionPane#Dialog}
+    - {name: title, value: Input}
+    - {name: component.class.simpleName, value: JDialog}
+    - {name: name, value: dialog0}
+    - {name: component.class.name, value: javax.swing.JDialog}
+    - {name: accessibleContext.accessibleName, value: Input}
+    containerRecognitionProperties:
+    - {method: equals, name: oMapClassName, value: javax.swing.JOptionPane#Dialog_3_2}
+    containerTitles: [Input]
+    fileName: Input_3600034971299870155.yaml
+- !!net.sourceforge.marathon.objectmap.OMapContainer
+    containerGeneralProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JFrame}
+    - {name: size, value: '[width=1179,height=598]'}
+    - {name: title, value: Record Editor Options Editor}
+    - {name: component.class.simpleName, value: JFrame}
+    - {name: name, value: frame1}
+    - {name: component.class.name, value: javax.swing.JFrame}
+    - {name: accessibleContext.accessibleName, value: Record Editor Options Editor}
+    containerRecognitionProperties:
+    - {method: equals, name: component.class.name, value: javax.swing.JFrame}
+    - {method: equals, name: title, value: Record Editor Options Editor}
+    containerTitles: [Record Editor Options Editor]
+    fileName: Record Editor Options Editor_5111352198579507865.yaml

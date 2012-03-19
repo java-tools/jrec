@@ -89,7 +89,7 @@ def test():
 		select('RecordFieldsJTbl', 'cell:FieldName,1(Location-Name)')
 		assert_p('RecordFieldsJTbl', 'RowCount', '4')
 		select('RecordFieldsJTbl', 'cell:FieldName,2(State)')
-		click('Paste3')
+		click('Paste2')
 		select('RecordFieldsJTbl', 'cell:FieldName,2(State)')
 		assert_p('RecordFieldsJTbl', 'Content', '[[1, 3, Brand, , 0, 0, 0, , , Brand], [10, 35, Location-Name, , 0, 0, 0, , , Location-Name], [170, 3, State, , 0, 0, 0, , , State], [45, 40, Address-1, , 0, 0, 0, , , Address-1], [4, 4, Location-Number, , 8, 0, 0, , , Location-Number], [8, 2, Location-Type, , 0, 0, 0, , , Location-Type], [45, 40, Address-1, , 0, 0, 0, , , Address-1]]')
 		select('RecordFieldsJTbl', 'cell:FieldName,4(Location-Number)')

@@ -8,7 +8,7 @@ def test():
 		click('*7')
 		select('FileChooser', commonBits.cobolDir() + 'ZC_AmsPoDownloadTab.Txt')
 		select('ComboBox', 'RecordEditor Tab Copybook (Tab Seperator)')
-		select('BmKeyedComboBox1', '32')
+		##select('BmKeyedComboBox1', '32')
 		click('Go')
 		assert_p('TextArea', 'Text', '''
 

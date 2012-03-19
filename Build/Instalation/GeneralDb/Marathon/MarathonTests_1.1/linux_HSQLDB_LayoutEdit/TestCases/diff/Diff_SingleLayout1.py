@@ -26,7 +26,7 @@ def test():
 		select('TabbedPane', '')
 		click('Choose File')
 
-		if window('Open'):
+		if window('Save'):
 			select('FilePane$3', 'Compare')
 			doubleclick('FilePane$3', '0')
 			select('File Name', 'zzTest_asmLocation.Xml')

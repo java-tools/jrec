@@ -10,9 +10,11 @@ def test():
 			select_menu('Record Layouts>>Load Cobol Copybook')
 			select('FileChooser', commonBits.cobolTestDir() + 'cpyComp.cbl')
 			select('ComputerOptionCombo', 'Open Cobol Little Endian (Intel)')
-			select('BmKeyedComboBox1', '9')
+			select('BmKeyedComboBox1', 'Other')
+#			select('BmKeyedComboBox1', '9')
 			click('Go')
-			click('Open')
+
+			click('Open')
 
 		select('FileChooser', commonBits.cobolTestDir() + 'cpyComp.bin')
 		commonBits.setCobolLayout(select, 'cpyComp', 'Open Cobol Little Endian (Intel)')

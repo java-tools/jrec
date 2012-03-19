@@ -6,6 +6,7 @@ class Fixture:
 		LayoutEdit.main(args)
 
 	def teardown(self):
+		LayoutEdit.close()
 		pass
 
 	def setup(self):

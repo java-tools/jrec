@@ -1,6 +1,8 @@
 useFixture(default)
 
 def test():
+	from Modules import commonBits
+
 	java_recorded_version = '1.5.0_11'
 
 	if window('Record Editor'):
@@ -15,7 +17,10 @@ def test():
 		select('ChildRecordsJTbl', 'cell:Field Start,1(0)')
 		assert_p('ChildRecordsJTbl', 'Text', '0', 'Field Start,1')
 		select('ChildRecordsJTbl', 'cell:Field Start,2(0)')
-		assert_p('ChildRecordsJTbl', 'Content', '[[, 353, 0, Record Type, D1, -1], [, 356, 0, Record Type, H1, -1], [, 357, 0, Record Type, S1, -1]]')
+		if commonBits.isVersion89():
+			assert_p('ChildRecordsJTbl', 'Content', '[[, 353, 0, Record Type, D1, , -1], [, 356, 0, Record Type, H1, , -1], [, 357, 0, Record Type, S1, , -1]]')
+		else:
+			assert_p('ChildRecordsJTbl', 'Content', '[[, 353, 0, Record Type, D1, -1], [, 356, 0, Record Type, H1, -1], [, 357, 0, Record Type, S1, -1]]')
 		select('ChildRecordsJTbl', 'cell:Field Start,0(0)')
 		assert_p('ChildRecordsJTbl', 'Text', 'cell:Field Start,0(0)')
 		select('TextField', 'ams PO Download: Detail%')
@@ -40,20 +45,33 @@ def test():
 		select('RecordFieldsJTbl', 'cell:Description,9(Format YYMMDD)')
 		click('ScrollPane$ScrollBar3', 570, 10)
 		click('ScrollPane$ScrollBar3', 523, 10)
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Record Layouts>>Create Layout')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		select_menu('Record Layouts>>Create Layout Wizard')
-		assert_p('Label9', 'Text', 'Data Base')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		select_menu('Record Layouts>>Layout Wizard')
+		commonBits.doSleep()
+		##commonBits.doSleep()
+		##assert_p('Label9', 'Text', 'Data Base')
+		##assert_p('Label9', 'Text', 'System')
+		assert_p('BmKeyedComboBox', 'Text', 'Default')
+		assert_p('Label3', 'Text', 'Record Type')
+		assert_p('Label4', 'Text', 'Font Name')
+	
+
 		
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Record Layouts>>Load Cobol Copybook')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Record Layouts>>Edit System Table')
 		select('TableListJTbl', 'cell:Details,1(EDI)')
 		assert_p('TableListJTbl', 'Text', 'EDI', 'Details,1')
 		select('TableListJTbl', 'cell:Details,5(Mainframe)')
 		assert_p('TableListJTbl', 'Text', 'Mainframe', 'Details,5')
 		select('TableListJTbl', 'cell:Details,5(Mainframe)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 	close()

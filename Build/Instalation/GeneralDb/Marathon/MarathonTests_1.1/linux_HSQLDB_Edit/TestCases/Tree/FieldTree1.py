@@ -11,7 +11,7 @@ def test():
 		select('Table', 'rows:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30],columns:[9 - 2|STORE-NO,11 - 4|DATE]')
 		select_menu('View>>Field Based Tree')
 ##		select('Table1', 'rows:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30],columns:[9 - 2|STORE-NO,11 - 4|DATE]')
-		select('List', 'DTAR020')
+##		select('List', 'DTAR020')
 		select('ComboBox', 'Selected Records')
 		select('Table', 'STORE-NO', 'Field,0')
 		select('Table', 'DEPT-NO', 'Field,1')

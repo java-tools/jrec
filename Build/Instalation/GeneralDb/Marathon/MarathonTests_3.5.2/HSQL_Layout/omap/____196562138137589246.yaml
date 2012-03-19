@@ -1,0 +1,57 @@
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JButton}
+    - {method: equals, name: indexInContainer, value: '9'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: '*'}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=41,height=20]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: fieldName, value: editRecLayout}
+    - {name: accessibleContext.accessibleName, value: '*'}
+    name: '*'
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Data Base}
+    - {method: equals, name: type, value: JComboBox}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JComboBox}
+    - {name: precedingLabel, value: Data Base}
+    - {name: type, value: JComboBox}
+    - {name: size, value: '[width=280,height=25]'}
+    - {name: component.class.simpleName, value: JComboBox}
+    - {name: component.class.name, value: javax.swing.JComboBox}
+    - {name: fieldName, value: dbCombo}
+    name: Data Base
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JButton}
+    - {method: equals, name: indexInContainer, value: '11'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: '*'}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=41,height=20]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: fieldName, value: createRecLayout}
+    - {name: accessibleContext.accessibleName, value: '*'}
+    name: '*_2'
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: net.sf.RecordEditor.utils.swing.BaseHelpPanel}
+    - {method: equals, name: indexInContainer, value: '4'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JPanel}
+    - {name: type, value: net.sf.RecordEditor.utils.swing.BaseHelpPanel}
+    - {name: size, value: '[width=444,height=410]'}
+    - {name: component.class.simpleName, value: BaseHelpPanel}
+    - {name: component.class.name, value: net.sf.RecordEditor.utils.swing.BaseHelpPanel}
+    - {name: fieldName, value: pnl}
+    name: net.sf.RecordEditor.utils.swing.BaseHelpPanel_4

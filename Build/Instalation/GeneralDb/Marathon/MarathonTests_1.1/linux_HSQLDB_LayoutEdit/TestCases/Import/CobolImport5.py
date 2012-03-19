@@ -8,7 +8,9 @@ def test():
 		click('*6')
 		select('FileChooser', commonBits.cobolDir() + 'CopyDTAR192.cbl')
 		select('ComputerOptionCombo', 'Mainframe')
-		select('BmKeyedComboBox1', '9')
+		select('BmKeyedComboBox1', 'Mainframe')
+
+#		select('BmKeyedComboBox1', '9')
 		click('Go')
 		assert_p('TextArea', 'Text', '''
 

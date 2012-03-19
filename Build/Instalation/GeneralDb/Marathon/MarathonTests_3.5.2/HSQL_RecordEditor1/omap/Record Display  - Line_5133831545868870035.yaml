@@ -1,0 +1,66 @@
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Layouts}
+    - {method: equals, name: type, value: net.sf.RecordEditor.utils.swing.LayoutCombo}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JComboBox}
+    - {name: precedingLabel, value: Layouts}
+    - {name: type, value: net.sf.RecordEditor.utils.swing.LayoutCombo}
+    - {name: size, value: '[width=576,height=25]'}
+    - {name: component.class.simpleName, value: LayoutCombo}
+    - {name: component.class.name, value: net.sf.RecordEditor.utils.swing.LayoutCombo}
+    name: Layouts
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTable}
+    - {method: equals, name: indexInContainer, value: '14'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTable}
+    - {name: type, value: JTable}
+    - {name: size, value: '[width=444,height=160]'}
+    - {name: component.class.simpleName, value: JTable}
+    - {name: component.class.name, value: javax.swing.JTable}
+    name: JTable_14
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: iconFile, value: Right}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: Right}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=84,height=41]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: toolTipText, value: Next Record}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Right
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JRootPane}
+    - {method: equals, name: indexInContainer, value: '1'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JRootPane}
+    - {name: type, value: JRootPane}
+    - {name: size, value: '[width=673,height=565]'}
+    - {name: component.class.simpleName, value: JRootPane}
+    - {name: component.class.name, value: javax.swing.JRootPane}
+    name: JRootPane_1
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: toolTipText, value: Close}
+    - {method: equals, name: type, value: plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    - {name: type, value: plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    - {name: size, value: '[width=16,height=16]'}
+    - {name: component.class.simpleName, value: NoFocusButton}
+    - {name: component.class.name, value: javax.swing.plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    - {name: toolTipText, value: Close}
+    - {name: accessibleContext.accessibleName, value: Close}
+    name: Close

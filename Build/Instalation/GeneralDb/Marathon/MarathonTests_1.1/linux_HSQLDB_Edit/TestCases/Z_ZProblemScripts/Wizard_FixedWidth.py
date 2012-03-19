@@ -106,7 +106,8 @@ def test():
 		click('Right')
 		click('Right')
 		assert_p('Table', 'Content', '[[brand, 1, 3, TAR, TAR], [store, 4, 4, 5015, 5015], [type, 8, 2, ST, ST], [name, 10, 35, Bankstown, Bankstown], [addr1, 45, 40, Bankstown, Bankstown], [addr2, 85, 40, Unit 2, 39-41 Allingham Street, Unit 2, 39-41 Allingham Street], [addr3, 125, 35, Condell Park, Condell Park], [pcode, 160, 4, 2200, 2200], [filler, 164, 6, , ], [state/active, 170, 4, NSWA, NSWA]]')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'cell:4 - 4|store,0(5839)')
 
 		select_menu('Record Layouts>>Edit Layout')
@@ -118,13 +119,15 @@ def test():
 			click('Yes')
 		close()
 
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 		click('Open')
 		select('FileChooser', '/C:/Program Files/RecordEdit/HSQL/SampleFiles/Ams_LocDownload_20041228.txt')
 
 		select('ComboBox2', 'ams Store')
 		click('Edit1')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 	close()

@@ -22,6 +22,7 @@ def test():
 		select('Table', 'cell:Row 3,4(Bankstown)')
 		assert_p('Table', 'Content', '[[TAR, TAR, TAR, TAR, TAR], [5853, 5866, 5015, 5019, 5033], [DC, DC, ST, ST, ST], [NSW North Sydney Ad Support, WA Ad Support, Bankstown, Penrith, Blacktown], [, , Bankstown, Penrith, Marayong], [, , Unit 2, 39-41 Allingham Street, 58 Leland Street, Dock 2, 11 Melissa Place], [, , Condell Park, Penrith, Marayong], [, , 2200, 2750, 2148], [, , NSW, NSW, NSW], [A, A, A, A, A]]')
 		select('Table', 'cell:Row 3,4(Bankstown)')
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'rows:[2,3,4,5,6],columns:[8 - 2|Loc Type]')
 	close()

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net.sf.RecordEditor.utils.csv;
+package net.sf.RecordEditor.re.util.csv;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

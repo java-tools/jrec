@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.utils.filter;
+package net.sf.RecordEditor.re.util.filter;
 
 import java.math.BigDecimal;
 

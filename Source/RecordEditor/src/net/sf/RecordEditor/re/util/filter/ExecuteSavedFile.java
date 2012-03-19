@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.utils.filter;
+package net.sf.RecordEditor.re.util.filter;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -54,7 +54,6 @@ public class ExecuteSavedFile<details> extends ReFrame implements ActionListener
 	 * @param executeAction
 	 * @param detailsClass
 	 */
-	@SuppressWarnings("unchecked")
 	public ExecuteSavedFile(final String docName, final String formName, final Object data, 
 			String dir,
 			AbstractExecute<details> executeAction, Class detailsClass) {
@@ -64,7 +63,9 @@ public class ExecuteSavedFile<details> extends ReFrame implements ActionListener
 		action    = executeAction;
 		dtlsClass = detailsClass;
 		
-		fileChooser.setSelectedFile(new File(dir));
+		if (dir != null) {
+			fileChooser.setSelectedFile(new File(dir));
+		}
 		fileChooser.setControlButtonsAreShown(false);
 
 		pnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP1,

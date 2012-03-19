@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.utils.csv;
+package net.sf.RecordEditor.re.util.csv;
 
 import org.mozilla.intl.chardet.nsDetector;
 

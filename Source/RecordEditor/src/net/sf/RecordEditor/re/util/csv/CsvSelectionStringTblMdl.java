@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.utils.csv;
+package net.sf.RecordEditor.re.util.csv;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -88,7 +88,7 @@ public class CsvSelectionStringTblMdl
 	
 
 	/**
-	 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#setFieldLineNo(int)
+	 * @see net.sf.RecordEditor.re.util.csv.AbstractCsvTblMdl#setFieldLineNo(int)
 	 */
 	@Override
 	public void setFieldLineNo(int lineNo) {

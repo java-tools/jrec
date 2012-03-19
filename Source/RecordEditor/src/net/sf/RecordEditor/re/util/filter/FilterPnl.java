@@ -25,7 +25,7 @@
  * # Version 0.62 Bruce Martin 2007/04/30
  *   - adding support for enter key
  **/
-package net.sf.RecordEditor.utils.filter;
+package net.sf.RecordEditor.re.util.filter;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -410,7 +410,7 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
     
     
     /**
-	 * @see net.sf.RecordEditor.utils.filter.AbstractSaveDetails#getSaveDetails()
+	 * @see net.sf.RecordEditor.re.util.filter.AbstractSaveDetails#getSaveDetails()
 	 */
 	@Override
 	public EditorTask getSaveDetails() {

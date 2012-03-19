@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.utils.csv;
+package net.sf.RecordEditor.re.util.csv;
 
 
 import java.io.ByteArrayInputStream;
@@ -15,10 +15,10 @@ import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Details.LayoutDetail;
 
 import net.sf.RecordEditor.layoutWizard.FileStructureAnalyser;
+import net.sf.RecordEditor.re.openFile.FormatFileName;
+import net.sf.RecordEditor.re.util.csv.CheckEncoding;
+import net.sf.RecordEditor.re.util.csv.CsvSelectionPanel;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.csv.CheckEncoding;
-import net.sf.RecordEditor.utils.csv.CsvSelectionPanel;
-import net.sf.RecordEditor.utils.openFile.FormatFileName;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
 

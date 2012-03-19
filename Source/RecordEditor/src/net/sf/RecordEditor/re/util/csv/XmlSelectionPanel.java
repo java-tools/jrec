@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.utils.csv;
+package net.sf.RecordEditor.re.util.csv;
 
 
 import java.awt.Color;
@@ -19,10 +19,10 @@ import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
 import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.LineIOProvider;
-import net.sf.RecordEditor.edit.file.FileView;
-import net.sf.RecordEditor.edit.tree.AbstractLineNodeTreeParser;
-import net.sf.RecordEditor.edit.tree.LineTreeTabelModel;
-import net.sf.RecordEditor.edit.tree.TreeParserXml;
+import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.tree.AbstractLineNodeTreeParser;
+import net.sf.RecordEditor.re.tree.LineTreeTabelModel;
+import net.sf.RecordEditor.re.tree.TreeParserXml;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;

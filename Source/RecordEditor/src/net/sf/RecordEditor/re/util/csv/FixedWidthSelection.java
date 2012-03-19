@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.utils.csv;
+package net.sf.RecordEditor.re.util.csv;
 
 import java.awt.Component;
 import java.awt.GridLayout;
@@ -21,10 +21,10 @@ import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
 import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.LineIOProvider;
-import net.sf.RecordEditor.edit.file.FileView;
 import net.sf.RecordEditor.layoutWizard.Details;
 import net.sf.RecordEditor.layoutWizard.FileStructureAnalyser;
 import net.sf.RecordEditor.layoutWizard.WizardFileLayout;
+import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;

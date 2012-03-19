@@ -7,7 +7,7 @@
  * # Version 0.61 Bruce Martin 2007/04/14
  *   - JRecord Spun off
  */
-package net.sf.RecordEditor.utils.filter;
+package net.sf.RecordEditor.re.util.filter;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.AbstractTableModel;

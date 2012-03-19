@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.utils.csv;
+package net.sf.RecordEditor.re.util.csv;
 
 import java.util.List;
 
@@ -258,7 +258,7 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 		
 
 		/**
-		 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#setFieldLineNo(int)
+		 * @see net.sf.RecordEditor.re.util.csv.AbstractCsvTblMdl#setFieldLineNo(int)
 		 */
 		@Override
 		public void setFieldLineNo(int lineNo) {

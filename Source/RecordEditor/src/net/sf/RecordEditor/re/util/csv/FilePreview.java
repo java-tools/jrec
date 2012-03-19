@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.utils.csv;
+package net.sf.RecordEditor.re.util.csv;
 
 import javax.swing.JButton;
 
@@ -43,7 +43,7 @@ public interface FilePreview {
 
 	/**
 	 * @return column count
-	 * @see net.sf.RecordEditor.utils.csv.CsvSelectionTblMdl#getColumnCount()
+	 * @see net.sf.RecordEditor.re.util.csv.CsvSelectionTblMdl#getColumnCount()
 	 */
 	public abstract int getColumnCount();
 

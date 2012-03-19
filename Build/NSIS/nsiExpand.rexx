@@ -6,7 +6,7 @@
 	    These Base scripts contain various commands like:
 	      EXPAND which includes a directories contents in the NSIS script
 	      WRITEDELETE - writes the delete code (based on the expansion)
-	      PSC program specific control
+	      PSC program specific controllinux
 	     
 	     It can also exclude files based on Date (for the update scripts).
 
@@ -267,6 +267,7 @@ B210_Expand:
 			end
 			/*say fileDate '~' file*/
 			if substr(file,1,1) <> " " & Strip(file,,".") <> "" ,
+			& pos("bytes free",file) = 0 ,
 			& B910_EndsWith("~,"file) = no & B910_EndsWith(".bak,"file) = no then do
 				Call G100_AddFile outputPath"\"file
 				
@@ -274,7 +275,7 @@ B210_Expand:
 					Queue '  File "'path || file'"'
 					found = yes
 				end
-			end; else if file= ' bytes' | file = ' bytes free' | file = '' then do 
+			end; else if file= ' bytes' | file = ' bytes free' | file = '' | pos("bytes free",file) > 0 then do 
 			end; else say '!!!~~~' file
 		end
 		

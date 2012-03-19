@@ -5,13 +5,12 @@ SetCompressor /SOLID lzma
 SetCompressionLevel 9
 
 !define PRODUCT_NAME "RecordEdit_HSQL"                                                             
-!define PRODUCT_VERSION "0.69.2c"                                                                                 
+!define PRODUCT_VERSION "0.80.4"                                                                                  
 !define PRODUCT_PUBLISHER "Bruce Martin"                                                           
 !define PRODUCT_WEB_SITE "http://record-editor.sf.net"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
-!define PRODUCT_UNINST_ROOT_KEY "HKLM"                                                                                
-!define PRODUCT_STARTMENU_REGVAL "NSIS:StartMenuDir"    
-                         
+!define PRODUCT_UNINST_ROOT_KEY "HKLM"
+!define PRODUCT_STARTMENU_REGVAL "NSIS:StartMenuDir"
 
 !define SEND_TO_NAME "Record Edit HSQL"                           
 
@@ -46,7 +45,7 @@ var ICONS_GROUP
 !define RECORDEDIT_JAR "lib\runFullEditor.jar"
 !insertmacro MUI_PAGE_FINISH
 
-; Uninstaller pages                                                                        
+; Uninstaller pages
 !insertmacro MUI_UNPAGE_INSTFILES
 
 ; Language files
@@ -55,7 +54,7 @@ var ICONS_GROUP
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-<OutFile default="RecordEdit_Installer_for_HSQL_069.2c.exe"/>
+<OutFile default="RecordEdit_Installer_for_HSQL_080.4.exe"/>
 InstallDir "$PROGRAMFILES\RecordEdit\HSQL"
 ShowInstDetails show
 ShowUnInstDetails show
@@ -73,19 +72,22 @@ Section "MainSection" SEC01
  
 
   Delete "$INSTDIR\lib\JRecord.jar"
-  Delete "$INSTDIR\lib\LayoutEdit.jar"
+  Delete "$INSTDIR\lib\ZCalendar.jar"
   Delete "$INSTDIR\lib\RecordEdit.jar"
+  Delete "$INSTDIR\lib\LayoutEdit.jar"
+  Delete "$INSTDIR\lib\cb2xml.Jar"
+
+;  Delete "$INSTDIR\lib\StAX.jar"
 
   <expand overwrite=try outpath="$INSTDIR\License" inpath="..\General" name="LICENSE*.txt">
-  <expand overwrite=try outpath="$INSTDIR\lib" inpath="..\Instalation\GeneralDB\lib" name="run*.jar" name1="ZCalendar.jar">
-  ;<expand overwrite=try outpath="$INSTDIR\lib" inpath="..\lib" name="run*.jar" name1="ZCalendar.jar"
+
+  <expand overwrite=try outpath="$INSTDIR\lib" inpath="..\Instalation\GeneralDB\lib" name="run*.jar" name1="ZCalendar.jar"  name2="SystemJars.txt">
+  ;<expand overwrite=try outpath="$INSTDIR\lib" inpath="..\lib" name="run*.jar"
   ;			name2="JRecord.jar" name3="RecordEdit.jar" name4="LayoutEdit.jar" name5="cb2xml.jar" name6="StAX.jar"/>
-  <expand overwrite=try inpath="..\Instalation\GeneralDB\lib" name="icons*.zip" name1="*.ico"/>
-  <expand  inpath="..\Instalation\hsqldb\lib\" name="properties.zip"/>
-  ;<expand  inpath="..\Instalation\hsqldb\lib\" name="*Files.txt" name1="hsqldbmain.jar"/>
-  <expand  inpath="..\Instalation\hsqldb_izpack\lib\" name="*Files.txt"/>
-  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="*Edit.pack" name1="StAX.pack" name2="cb2xml.pack" name4="chardet.pack"  name5="ZCalendar.pack"/>
-  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="j*.pack"  name1="JRecord.propertie*"/>
+  <expand  inpath="..\Instalation\GeneralDB\lib" name="icons*.zip" name1="*.ico" />
+  <expand  inpath="..\Instalation\hsqldb\lib\" name="properties.zip" name1="SystemJdbcJars.txt"/>
+  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="*Edit.pack" name1="cb2xml.pack" name4="chardet.pack"  name5="ZCalendar.pack"/>
+  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="j*.pack"  name1="JRecord.propertie*" name2="RunUnpack.exe"/>
   <psc proc="unix">
     <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="JRecord.pack">
   </psc>
@@ -105,33 +107,32 @@ Section "MainSection" SEC01
   <expand outpath="$INSTDIR\Docs\jsTree" inpath="..\Instalation\GeneralDB\Docs\JSTREE\" name="*.gif" name1="*.css" name2="*.js"/>
   <expand overwrite="try" outpath="$INSTDIR\Docs\Diagram" inpath="..\Instalation\GeneralDB\Docs\Diagram\"  name="*.png" DateCheck=yes/>
  
-  <expand outpath="$INSTDIR\CopyBook\Cobol" inpath="..\Instalation\GeneralDB\CopyBook\Cobol" name="*.cbl" DateCheck=yes/>
-  <expand outpath="$INSTDIR\CopyBook\cb2xml" inpath="..\Instalation\GeneralDB\CopyBook\cb2xml" name="*.xml" DateCheck=yes/>
-  <expand outpath="$INSTDIR\CopyBook\Csv" inpath="..\Instalation\GeneralDB\CopyBook\Csv" name1="*.Txt" DateCheck=yes/>
-  <expand outpath="$INSTDIR\CopyBook\Xml" inpath="..\Instalation\GeneralDB\CopyBook\Xml" name1="*.Xml" DateCheck=yes/>
+  <expand outpath="$PROFILE\RecordEditor_HSQL\CopyBook\Cobol" inpath="..\Instalation\GeneralDB\CopyBook\Cobol" name="*.cbl" DateCheck=yes/>
+  <expand outpath="$PROFILE\RecordEditor_HSQL\CopyBook\cb2xml" inpath="..\Instalation\GeneralDB\CopyBook\cb2xml" name="*.xml" DateCheck=yes/>
+  <expand outpath="$PROFILE\RecordEditor_HSQL\CopyBook\Csv" inpath="..\Instalation\GeneralDB\CopyBook\Csv" name1="*.Txt" DateCheck=yes/>
+  <expand outpath="$PROFILE\RecordEditor_HSQL\CopyBook\Xml" inpath="..\Instalation\GeneralDB\CopyBook\Xml" name1="*.Xml" DateCheck=yes/>
 ;;  <expand outpath="$INSTDIR\Copybook" inpath="..\Instalation\GeneralDB\Copybook" name="*.txt" DateCheck=yes/>
-  <expand overwrite=try outpath="$INSTDIR\SampleVelocityTemplates\Copybook" inpath="..\Instalation\GeneralDB\SampleVelocityTemplates\Copybook" name="*.vm"/>
-  <expand overwrite=try outpath="$INSTDIR\SampleVelocityTemplates\File" inpath="..\Instalation\GeneralDB\SampleVelocityTemplates\File" name="*.vm"/>
-  <expand overwrite=try outpath="$INSTDIR\SampleFiles" 
+  <expand overwrite=try outpath="$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\Copybook" inpath="..\Instalation\GeneralDB\SampleVelocityTemplates\Copybook" name="*.vm"/>
+  <expand overwrite=try outpath="$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\File" inpath="..\Instalation\GeneralDB\SampleVelocityTemplates\File" name="*.vm"/>
+  <expand overwrite=try outpath="$PROFILE\RecordEditor_HSQL\SampleFiles" 
                         inpath="..\Instalation\GeneralDB\SampleFiles\" name="Ams_LocDownload_20041228_Extract*.txt"/>  
   <expand overwrite=try inpath="..\SampleFiles" name="*.txt" name1="*.bin" DateCheck=yes/>  
   <expand overwrite=try inpath="..\SampleFiles" name="*.csv"  DateCheck=yes/>
-  <expand overwrite=try outpath="$INSTDIR\SampleFiles\Xml" inpath="..\SampleFiles\Xml" name="*.xml"/>  
+  <expand overwrite=try outpath="$PROFILE\RecordEditor_HSQL\SampleFiles\Xml" inpath="..\SampleFiles\Xml" name="*.xml"/>  
 
   <expand overwrite=try outpath="$PROFILE\RecordEditor_HSQL" inpath="..\Instalation\hsqldb_izpack\HSQLDB\" 
-  		name="Params.Properties" name1="Files.txt" name2="Properties.zip"/>  
+  		name="Params.Properties" name1="Files.txt" name2="Properties.zip"  name3="UserJars.txt"/>  
   <expand overwrite=off inpath="..\Instalation\hsqldb\RecordEditor_HSQL_nsis\" name="CobolFiles.txt">  
 	
   <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\User\Compare"    inpath="..\Instalation\GeneralDB\User\Compare"    name="*.xml" />  
   <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\User\Filter"     inpath="..\Instalation\GeneralDB\User\Filter"     name="*.xml" />  
   <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\User\RecordTree" inpath="..\Instalation\GeneralDB\User\RecordTree" name="*.xml" />  
   <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\User\SortTree"   inpath="..\Instalation\GeneralDB\User\SortTree"   name="*.xml" />  
+  <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\User\Xslt"       inpath="..\Instalation\GeneralDB\User\Xslt"       name="*.xml" />  
 
   <psc proc="normal">
     <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\Database" inpath="..\Instalation\hsqldb\Database" name="*"/>
   </psc>
-  
- 
 
     
   SetOverwrite on
@@ -171,8 +172,7 @@ Section -AdditionalIcons
   Delete "$SMPROGRAMS\$ICONS_GROUP\utils\CobolEditor Documentation.lnk"
 
   Delete "$SMPROGRAMS\$ICONS_GROUP\Basic Editor.lnk"
-  Delete "$SMPROGRAMS\$ICONS_GROUP\Examples.lnk"
-  Delete "$SMPROGRAMS\$ICONS_GROUP\Full Editor.lnk"
+   Delete "$SMPROGRAMS\$ICONS_GROUP\Full Editor.lnk"
   Delete "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk"
   Delete "$SMPROGRAMS\$ICONS_GROUP\Record Editor Manual.lnk"
   Delete "$SMPROGRAMS\$ICONS_GROUP\Record Edit.lnk"
@@ -180,15 +180,18 @@ Section -AdditionalIcons
   Delete "$SMPROGRAMS\$ICONS_GROUP\Stop Server.lnk"
   Delete "$SMPROGRAMS\$ICONS_GROUP\Start Server.lnk"
   Delete "$SMPROGRAMS\$ICONS_GROUP\HowTo.lnk"
+ 
 
   SetShellVarContext current
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
+
+;  WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP"
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP\Utils"
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP\Documentation"
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Full Editor.lnk" "$JAVA_RUN"  "-jar $\"$INSTDIR\${RECORDEDIT_JAR}$\"" "$INSTDIR\lib\RecordEdit.ico"
- ;; CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Basic Editor.lnk" "$JAVA_RUN"  "-jar $\"$INSTDIR\lib\runEditor.jar$\"" "$INSTDIR\lib\RecordEdit.ico"
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Record Layout Edit.lnk" "$JAVA_RUN"  "-jar $\"$INSTDIR\lib\runLayouteditor.jar$\"" "$INSTDIR\lib\LayoutEdit.ico"
+;  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Documentation\Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Documentation\Record Editor Manual.lnk" "$INSTDIR\Docs\hRecordEdit.htm"
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Documentation\Examples.lnk" "$INSTDIR\Docs\ExampleFR.htm"  
@@ -359,22 +362,39 @@ Section Uninstall
   RMDir "$SMPROGRAMS\$ICONS_GROUP\Utils"
   RMDir "$SMPROGRAMS\$ICONS_GROUP"
   RMDir "$SMPROGRAMS\RecordEdit_HSQL"
+
   RMDir "$INSTDIR\Copybook\cb2xml"
   RMDir "$INSTDIR\Copybook\Cobol"
   RMDir "$INSTDIR\Copybook\Csv"
   RMDir "$INSTDIR\Copybook"
+
+  RMDir "$INSTDIR\lib\utils"
+  RMDir "$INSTDIR\lib\edit"
+  RMDir "$PROFILE\RecordEditor_HSQL\Copybook\cb2xml"
+  RMDir "$PROFILE\RecordEditor_HSQL\Copybook\Cobol"
+  RMDir "$PROFILE\RecordEditor_HSQL\Copybook\Csv"
+  RMDir "$PROFILE\RecordEditor_HSQL\Copybook\Xml"
+  RMDir "$PROFILE\RecordEditor_HSQL\Copybook"
+
   RMDir "$INSTDIR\src"
   RMDir "$INSTDIR\lib\net"
   RMDir "$INSTDIR\lib"
   RMDir "$INSTDIR\Docs\jsTree"
   RMDir "$INSTDIR\Docs\Diagram"
   RMDir "$INSTDIR\Docs"
-  RMDir "$INSTDIR\SampleVelocityTemplates\Copybook"
-  RMDir "$INSTDIR\SampleVelocityTemplates\File"
-  RMDir "$INSTDIR\SampleVelocityTemplates"
-  RMDir "$INSTDIR\SampleFiles\xml"
-  RMDir "$INSTDIR\SampleFiles"
-  RMDir "$INSTDIR\Database"
+  RMDir "$INSTDIR\License"
+  RMDir "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\Copybook"
+  RMDir "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\File"
+  RMDir "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates"
+  RMDir "$PROFILE\RecordEditor_HSQL\SampleFiles\xml"
+  RMDir "$PROFILE\RecordEditor_HSQL\SampleFiles"
+  RMDir "$PROFILE\RecordEditor_HSQL\Database"
+  RMDir "$PROFILE\RecordEditor_HSQL\User\Compare"
+  RMDir "$PROFILE\RecordEditor_HSQL\User\Filter"
+  RMDir "$PROFILE\RecordEditor_HSQL\User\RecordTree"
+  RMDir "$PROFILE\RecordEditor_HSQL\User\SortTree"
+  RMDir "$PROFILE\RecordEditor_HSQL\User\Xslt"
+  RMDir "$PROFILE\RecordEditor_HSQL\User"
   RMDir "$INSTDIR"         
   RMDir "$PROFILE\RecordEditor_HSQL"
   

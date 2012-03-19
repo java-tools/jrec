@@ -1,8 +1,0 @@
-velocity1	C:\Program Files\JavaApplications\velocity-1.4\velocity-1.4.jar
-Velocity2	C:\Program Files\JavaApplications\velocity-1.4\velocity-dep-1.4.jar
-jdbc.0	<lib>/hsqldbmain.jar
-ZDate	<lib>/ZCalendar.jar
-jibx	<lib>/jibx-run.jar
-jlibbdiff	<lib>/jlibdiff.jar
-chardet	<lib>/chardet.jar
-

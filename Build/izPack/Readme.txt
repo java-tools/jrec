@@ -5,6 +5,33 @@ It can edit both Text and binary files in PC / Unix / IBM Mainframe formats.
 
 The Record-Layouts are stored in a DB, but they can be imported from a Cobol Copybook
 
+Changes Release 0.80.4
+    * Change the Initialisation process
+    * Add Jars to the Export as Xslt option
+Changes Release 0.80.2
+    * On the SaveAs/Export screen there is
+      - Option to edit the output file (only if the recordEditor can work out the structure)
+      - Option to keep the screen open
+      - New Xsl transform option. You can use an external tool (e.g. saxon) but it must 
+        be allocated at RecordEditor Startup. 
+    * Velocity / Xslt opotions now remember theextension last used with a particular
+      Template  
+    
+Changes Release 0.80.1  
+  * Tree (including Xml)
+    - New Tree Csv-Export
+    - 2 Tree Variables (root & nodeList) provided to Velocity templates
+    - 2 new Velocity Templates (zXmlStyleSheet1.vm & zXmlStyleSheet2.vm)
+  
+  * Cobol Changes
+    - New option to import all Cobol Copybooks in a directory
+    - Reintroduced Batch load of cobol copybooks (see runCobolBatchLoad.Bat). This tool
+      allows single files to be loaded or whole directories
+    
+  * LayoutEditor
+    - A child record can be used multiple times in a Group record
+
+    
 Changes Release 0.69.1
     * New Field - Hide / Show function.
     * New Unknown layouts for use with unknown files

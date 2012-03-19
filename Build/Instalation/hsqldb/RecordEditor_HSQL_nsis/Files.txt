@@ -33,3 +33,12 @@ ams_receipt.txt		ams Receipt
 Master_File.txt		Master_Record
 Transaction_File.txt		Transaction_Record
 Rental_File.Txt		Rental_Record
+<extensions>		<velocity>
+tocsv_tab		.csv
+tocsv_comma.vm		.csv
+zxmlstylesheet1.vm		.csv
+zxmlstylesheet2.vm		.csv
+<extensions>		<xslt>
+testxml_01a.xsl		.txt
+testxml_01b.xsl		.html
+

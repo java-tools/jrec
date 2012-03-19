@@ -5,7 +5,7 @@ SetCompressor /SOLID lzma
 SetCompressionLevel 9
 
 !define PRODUCT_NAME "RecordEdit"
-!define PRODUCT_VERSION "0.69.2c"                                                                                
+!define PRODUCT_VERSION "0.80.4"                                                                                
 !define PRODUCT_PUBLISHER "Bruce Martin"                                                                          
 !define PRODUCT_WEB_SITE "http://record-editor.sf.net"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
@@ -14,7 +14,7 @@ SetCompressionLevel 9
 
 ; MUI 1.67 compatible ------
 !include "MUI.nsh"
-                                         
+
 ; MUI Settings
 !define MUI_ABORTWARNING
 !define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\modern-install.ico"
@@ -51,7 +51,7 @@ var ICONS_GROUP
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-<OutFile default="RecordEdit_Installer_for_MSAccess_069.2c.exe">
+<OutFile default="RecordEdit_Installer_for_MSAccess_0.80.4.exe">
 InstallDir "$PROGRAMFILES\RecordEdit\MSaccess"
 ShowInstDetails show
 ShowUnInstDetails show
@@ -88,16 +88,15 @@ Section "MainSection" SEC01
 
 ;  Delete "$INSTDIR\lib\StAX.jar"
 
- 
   <expand overwrite=try outpath="$INSTDIR\License" inpath="..\General" name="LICENSE*.txt">
 
-  <expand overwrite=try outpath="$INSTDIR\lib" inpath="..\Instalation\GeneralDB\lib" name="run*.jar" name2="ZCalendar.jar"/>
+  <expand overwrite=try outpath="$INSTDIR\lib" inpath="..\Instalation\GeneralDB\lib" name="run*.jar" name1="ZCalendar.jar" name2="*Jars.txt"/>
   ;<expand overwrite=try outpath="$INSTDIR\lib" inpath="..\lib" name="run*.jar" name1="JRecord.jar" 
   ;			name2="ZCalendar.jar" name3="RecordEdit.jar" name4="LayoutEdit.jar" name5="cb2xml.jar" name6="StAX.jar"/>
   <expand  inpath="..\Instalation\GeneralDB\lib" name="icons*.zip" name1="*.ico"/>
-  <expand  inpath="..\Instalation\MSaccess\lib\" name="properties.zip" name1="*Files.txt"/>
-  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="*Edit.pack" name1="cb2xm*.pack" name3="StAX.pack" name4="chardet.pack"  name5="ZCalendar.pack"/>
-  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="j*.pack" name1="JRecord.propertie*"/>
+  <expand  inpath="..\Instalation\hsqldb\lib\" name="properties.zip"/>
+  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="*Edit.pack" name1="cb2xm*.pack" name4="chardet.pack"  name5="ZCalendar.pack"/>
+  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="j*.pack" name1="JRecord.propertie*"  name2="RunUnpack.exe"/>
   <psc proc="unix">
     <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="JRecord.pack">
   </psc>
@@ -114,25 +113,26 @@ Section "MainSection" SEC01
   <expand overwrite=try outpath="$INSTDIR\lib\net\sf\RecordEditor\utils" 
                         inpath="..\Instalation\MSaccess\lib\net\sf\RecordEditor\utils\" name="*.properties"/>  
   
-  <expand outpath="$INSTDIR\CopyBook\Cobol" inpath="..\Instalation\GeneralDB\CopyBook\Cobol" name="*.cbl" DateCheck=yes/>
-  <expand outpath="$INSTDIR\CopyBook\cb2xml" inpath="..\Instalation\GeneralDB\CopyBook\cb2xml" name="*.xml" DateCheck=yes/>
-  <expand outpath="$INSTDIR\CopyBook\Csv" inpath="..\Instalation\GeneralDB\CopyBook\Csv" name1="*.Txt" DateCheck=yes/>
-  <expand outpath="$INSTDIR\CopyBook\Xml" inpath="..\Instalation\GeneralDB\CopyBook\Xml" name1="*.Xml" DateCheck=yes/>
-  <expand overwrite=try outpath="$INSTDIR\SampleVelocityTemplates\Copybook" inpath="..\Instalation\GeneralDB\SampleVelocityTemplates\Copybook" name="*.vm"/>
-  <expand overwrite=try outpath="$INSTDIR\SampleVelocityTemplates\File" inpath="..\Instalation\GeneralDB\SampleVelocityTemplates\File" name="*.vm"/>
-  <expand overwrite=try outpath="$INSTDIR\SampleFiles" 
+  <expand outpath="$PROFILE\RecordEditor_MSaccess\CopyBook\Cobol" inpath="..\Instalation\GeneralDB\CopyBook\Cobol" name="*.cbl" DateCheck=yes/>
+  <expand outpath="$PROFILE\RecordEditor_MSaccess\CopyBook\cb2xml" inpath="..\Instalation\GeneralDB\CopyBook\cb2xml" name="*.xml" DateCheck=yes/>
+  <expand outpath="$PROFILE\RecordEditor_MSaccess\CopyBook\Csv" inpath="..\Instalation\GeneralDB\CopyBook\Csv" name1="*.Txt" DateCheck=yes/>
+  <expand outpath="$PROFILE\RecordEditor_MSaccess\CopyBook\Xml" inpath="..\Instalation\GeneralDB\CopyBook\Xml" name1="*.Xml" DateCheck=yes/>
+  <expand overwrite=try outpath="$PROFILE\RecordEditor_MSaccess\SampleVelocityTemplates\Copybook" inpath="..\Instalation\GeneralDB\SampleVelocityTemplates\Copybook" name="*.vm"/>
+  <expand overwrite=try outpath="$PROFILE\RecordEditor_MSaccess\SampleVelocityTemplates\File" inpath="..\Instalation\GeneralDB\SampleVelocityTemplates\File" name="*.vm"/>
+  <expand overwrite=try outpath="$PROFILE\RecordEditor_MSaccess\SampleFiles" 
                         inpath="..\Instalation\GeneralDB\SampleFiles\" name="Ams_LocDownload_20041228_Extract*.txt"/>  
   <expand overwrite=try inpath="..\SampleFiles" name="*.txt" name1="*.bin"  DateCheck=yes/>
   <expand overwrite=try inpath="..\SampleFiles" name="*.csv"   DateCheck=yes/>    
-  <expand overwrite=try outpath="$INSTDIR\SampleFiles\Xml" inpath="..\SampleFiles\Xml" name="*.xml" DateCheck=yes/>  
+  <expand overwrite=try outpath="$PROFILE\RecordEditor_MSaccess\SampleFiles\Xml" inpath="..\SampleFiles\Xml" name="*.xml" DateCheck=yes/>  
                       
   <expand overwrite=try outpath="$PROFILE\RecordEditor_MSaccess" inpath="..\Instalation\MSaccess\Properties" 
-  		name="Params.Properties" name1="Files.txt" name2="Properties.zip" name3="CobolFiles.txt"/>  
+  		name="Params.Properties" name1="*Files.txt" name2="Properties.zip" name3="UserJars.txt"/>  
 	
   <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\Compare"    inpath="..\Instalation\GeneralDB\User\Compare"    name="*.xml" />  
   <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\Filter"     inpath="..\Instalation\GeneralDB\User\Filter"     name="*.xml" />  
   <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\RecordTree" inpath="..\Instalation\GeneralDB\User\RecordTree" name="*.xml" />  
   <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\SortTree"   inpath="..\Instalation\GeneralDB\User\SortTree"   name="*.xml" />  
+  <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\Xslt"       inpath="..\Instalation\GeneralDB\User\Xslt"       name="*.xml" />  
 
 
   SetOverwrite off
@@ -177,7 +177,12 @@ Section "MainSection" SEC01
   ClearErrors
   FileOpen $0 $INSTDIR\lib\EditBigFile.Bat w
   IfErrors done
-  FileWrite $0 "javaw  -Xmx1400m -jar $\"$INSTDIR\${RECORDEDIT_JAR}$\""
+  FileWrite $0 "javaw  -Xmx700m -jar $\"$INSTDIR\${RECORDEDIT_JAR}$\""
+  FileClose $0
+  
+  FileOpen $0 $INSTDIR\lib\BatchCopy.Bat w
+  IfErrors done
+  FileWrite $0 "javaw -jar $\"$INSTDIR\lib\run.jar net.sf.RecordEditor.copy.BatchCopyDbLayout %*$\""
   FileClose $0
   done:
 
@@ -227,8 +232,6 @@ Section -Post
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayVersion" "${PRODUCT_VERSION}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "URLInfoAbout" "${PRODUCT_WEB_SITE}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
-  
-
 SectionEnd
 
 
@@ -328,24 +331,38 @@ Section Uninstall
   RMDir "$SMPROGRAMS\$ICONS_GROUP\Documentation"
   RMDir "$SMPROGRAMS\$ICONS_GROUP\Utils"
   RMDir "$SMPROGRAMS\$ICONS_GROUP"
-  RMDir "$INSTDIR\lib\utils"
-  RMDir "$INSTDIR\lib\edit"
+
   RMDir "$INSTDIR\Copybook\cb2xml"
   RMDir "$INSTDIR\Copybook\Cobol"
   RMDir "$INSTDIR\Copybook\Csv"
   RMDir "$INSTDIR\Copybook"
+
+  RMDir "$INSTDIR\lib\utils"
+  RMDir "$INSTDIR\lib\edit"
+  RMDir "$PROFILE\RecordEditor_MsAccess\Copybook\cb2xml"
+  RMDir "$PROFILE\RecordEditor_MsAccess\Copybook\Cobol"
+  RMDir "$PROFILE\RecordEditor_MsAccess\Copybook\Csv"
+  RMDir "$PROFILE\RecordEditor_MsAccess\Copybook\Xml"
+  RMDir "$PROFILE\RecordEditor_MsAccess\Copybook"
   RMDir "$INSTDIR\src"
   RMDir "$INSTDIR\lib\net"
   RMDir "$INSTDIR\lib"
   RMDir "$INSTDIR\Docs\jsTree"
   RMDir "$INSTDIR\Docs\Diagram"
   RMDir "$INSTDIR\Docs"
-  RMDir "$INSTDIR\SampleVelocityTemplates\Copybook"
-  RMDir "$INSTDIR\SampleVelocityTemplates\File"
-  RMDir "$INSTDIR\SampleVelocityTemplates"
-  RMDir "$INSTDIR\SampleFiles\xml"
-  RMDir "$INSTDIR\SampleFiles"
-  RMDir "$INSTDIR\Database"
+  RMDir "$INSTDIR\License"
+  RMDir "$PROFILE\RecordEditor_MsAccess\SampleVelocityTemplates\Copybook"
+  RMDir "$PROFILE\RecordEditor_MsAccess\SampleVelocityTemplates\File"
+  RMDir "$PROFILE\RecordEditor_MsAccess\SampleVelocityTemplates"
+  RMDir "$PROFILE\RecordEditor_MsAccess\SampleFiles\xml"
+  RMDir "$PROFILE\RecordEditor_MsAccess\SampleFiles"
+  RMDir "$PROFILE\RecordEditor_MsAccess\Database"
+  RMDir "$PROFILE\RecordEditor_MsAccess\User\Compare"
+  RMDir "$PROFILE\RecordEditor_MsAccess\User\Filter"
+  RMDir "$PROFILE\RecordEditor_MsAccess\User\RecordTree"
+  RMDir "$PROFILE\RecordEditor_MsAccess\User\SortTree"
+  RMDir "$PROFILE\RecordEditor_MsAccess\User\Xslt"
+  RMDir "$PROFILE\RecordEditor_MsAccess\User"
   RMDir "$INSTDIR"         
   RMDir "$PROFILE\RecordEditor_MsAccess"
 

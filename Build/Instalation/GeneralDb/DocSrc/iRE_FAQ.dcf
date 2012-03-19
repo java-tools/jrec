@@ -1,5 +1,12 @@
 
 :dl.
+:dt.Question:dd.:hp1.Can I get help with using the editor:ehp1.
+:dt.Answer  :dd.Yes, got to the RecordEditor forum
+.*b2h HTML <a href="http://sourceforge.net/projects/record-editor/forums">http://sourceforge.net/projects/record-editor/forums</a>
+and ask away
+:dt.Question:dd.:hp1.Can I suggestions or request changes:ehp1.
+:dt.Answer  :dd.Yes, either 
+
 :dt.Question:dd.:hp1.Why are there no options in System Combo Box:ehp1.
 :dt.Answer  :dd.This probably means the system cannot connect to the Database.
 This could be due to
@@ -10,26 +17,57 @@ RecordEdit.Jar and LayoutEdit.Jar
 :li.The MS-Access Database is moved (MS-Access version). This will break the ODBC
 definition. The solution is to update the ODBC Definition
 :eul.
-:dt.Question:dd.:hp1.Why isn't the Cobol load option visible:ehp1.
-:dt.Answer  :dd.The Cobol Conversion is only available when the cb2xml package is available
-so if LayoutEdit is started as 
-.fo off
- 
-  java -jar LayoutEdit.jar
-  
-.fo on
-You will not be able to load Cobol Copybooks. While if start ed as follows, you will be able
-to load Cobol Copybooks
-.fo off
- 
-  java -cp LayoutEdit.jar;cb2xml.jar layoutEdit.CobolXML.InsertCobolCopybook 0 E:\Work\MyAccessDBs\RecordEditor\CopyBooks\ttt004.cbl N
-  
-.fo on
+
+:dt.Question:dd.:hp1.How do I create a layout
+:dt.Answer  :dd.There are a number of ways.
+:ul compact.
+ :li.If you have a sample file, use the Layout Wizard
+.pict Edit_WizardButton.png
+ :li.Use the LayoutEditor (either from the Windows / linux start button) or from the Layout Menu
+.pict MenuRL_Create.png
+:eul.
+:dt.Question:dd.:hp1.Why can't I see my layout in the Editor
+:dt.Answer  :dd.There are 2 possible causes&gml.
+:ol compact.
+ :li.Have you reloaded the Database in the editor ???
+.pict Edit_ReloadButton.png
+ :li.Have you selected list in the layout Screen ???
+.pict LayoutWizard_List.png
+:eol.
 :dt.Question:dd.:hp1.Can I load Cobol Copybooks into the DB in batch:ehp1.
 :dt.Answer  :dd.Yes,
 .fo off
  
-  java -cp LayoutEdit.jar;cb2xml.jar layoutEdit.LayoutEdit.InsertCobolCopybook CobolCopybook
+  java -jar run.jar net.sf.RecordEditor.layoutEd.BatchLoadCobol :hp2.<params>:ehp2.
  
+  Required Parameters&gml.
+  --------------------
+
+    -f file                or    -d directory
+
+  Optional Parameters&gml.
+  --------------------
+
+    -font        font name (leave out for normal text, cp037 for EBCIDIC)
+    -s           system name
+    -o, -split   split options  01 or redefines
+                 Used if the file contains mutliple file formats
+    -r           regular expression to check against file name
+                 (i.e. ^PZ.* for files starting with PZ
+		 see http://docs.oracle.com/javase/1.4.2/docs/api/java/util/regex/Pattern.html
+    -c           Cobol Compiler (or binary format) current values&gml.
+                    Intel
+                    Mainframe
+                    Fujitsu
+                    Big-Endian_(Old)
+                    Open_Cobol_Little_Endian_(Intel)
+                    Open_Cobol_bs2000_Little_Endian_(Intel)
+                    Open_Cobol_MVS_Little_Endian_(Intel)
+                    Open_Cobol_Micro_Focus_(Intel)
+                    Open_Cobol_Big_Endian
+                    Open_Cobol_bs2000_Big_Endian
+                    Open_Cobol_MVS_Big_Endian
+                    Open_Cobol_Micro_Focus_Big_E
+
 .fo on
 :edl.

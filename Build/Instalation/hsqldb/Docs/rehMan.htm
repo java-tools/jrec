@@ -2,11 +2,12 @@
 <HTML><HEAD>
 <TITLE>Record Editor</TITLE>
 <!-- Begin Header Records  ========================================== -->
-<!-- E:\tmp\RecordEditor\Build\Instalation\GeneralDB\DocSrc\rehMan.dc -->
-<!-- f converted by B2H R4.7 (390) (WINNT) on 28 Jan 2011 at 14:34:30 -->
-<META HTTP-EQUIV="updated" CONTENT="Fri, 11 Sep 2009 12:13:14">
-<META HTTP-EQUIV="review" CONTENT="Sat, 11 Sep 2010 12:13:14">
-<META HTTP-EQUIV="expires" CONTENT="Sun, 11 Sep 2011 12:13:14">
+<!-- C:\Users\mum\Bruce\Work\RecordEditor\Build\Instalation\GeneralDb -->
+<!-- \DocSrc\rehMan.dcf converted by B2H R4.7 (390) (WINNT) on 18 Mar -->
+<!-- 2012 at 16:06:05                                                 -->
+<META HTTP-EQUIV="updated" CONTENT="Tue, 28 Feb 2012 16:14:19">
+<META HTTP-EQUIV="review" CONTENT="Thu, 28 Feb 2013 16:14:19">
+<META HTTP-EQUIV="expires" CONTENT="Fri, 28 Feb 2014 16:14:19">
 </HEAD><BODY>
 <!-- End Header Records  ============================================ -->
 <A NAME="Top_Of_Page"></A>
@@ -535,6 +536,7 @@ As a (Format determined by the Tab)
   <LI>Xml file
   <LI>Or a HTML file containing the selected records as a single large Table
   <LI>Or a HTML file with one HTML table per record with the fields going down the page.
+  <LI>Or using a Xsl Transform (only Xml).
   <LI>Or using a <a href="http://velocity.apache.org/" TARGET="Velocity">Velocity</a> template (provided <a href="http://velocity.apache.org/" TARGET="Velocity">Velocity</a> is installed, see
 <a href="HowTo.htm#HDRVELOCITY" Target=New>Installing Velocity for details</a>).
 </UL>
@@ -2592,7 +2594,14 @@ more than one record structure. A typical case when to use would be if a file co
 <HR><H1><A NAME="Header_82">Appendix D. FAQ</A></H1>
 <P>
 <TABLE CELLPADDING="3">
-<TR VALIGN="TOP"><TD><P><B>Question</B></TD><TD><P><I>Why are there no options in System Combo Box</I>
+<TR VALIGN="TOP"><TD><P><B>Question</B></TD><TD><P><I>Can I get help with using the editor</I>
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Answer  </B></TD><TD><P>Yes, got to the RecordEditor forum
+<a href="http://sourceforge.net/projects/record-editor/forums">http://sourceforge.net/projects/record-editor/forums</a>
+and ask away
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Question</B></TD><TD><P><I>Can I suggestions or request changes</I>
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Answer  </B></TD><TD><P>Yes, either
+<P>
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Question</B></TD><TD><P><I>Why are there no options in System Combo Box</I>
 </TD></TR><TR VALIGN="TOP"><TD><P><B>Answer  </B></TD><TD><P>This probably means the system cannot connect to the Database.
 This could be due to
 <UL COMPACT>
@@ -2602,21 +2611,56 @@ RecordEdit.Jar and LayoutEdit.Jar
 <LI>The MS-Access Database is moved (MS-Access version). This will break the ODBC
 definition. The solution is to update the ODBC Definition
 </UL>
-</TD></TR><TR VALIGN="TOP"><TD><P><B>Question</B></TD><TD><P><I>Why isn't the Cobol load option visible</I>
-</TD></TR><TR VALIGN="TOP"><TD><P><B>Answer  </B></TD><TD><P>The Cobol Conversion is only available when the cb2xml package is available
-so if LayoutEdit is started as
-<PRE>
-  java -jar LayoutEdit.jar
- 
-</PRE>You will not be able to load Cobol Copybooks. While if start ed as follows, you will be able
-to load Cobol Copybooks
-<PRE>
-  java -cp LayoutEdit.jar;cb2xml.jar layoutEdit.CobolXML.InsertCobolCopybook 0 E:\Work\MyAccessDBs\RecordEditor\CopyBooks\ttt004.cbl N
- 
-</PRE></TD></TR><TR VALIGN="TOP"><TD><P><B>Question</B></TD><TD><P><I>Can I load Cobol Copybooks into the DB in batch</I>
+<P>
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Question</B></TD><TD><P><I>How do I create a layout
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Answer  </B></TD><TD><P>There are a number of ways.
+<UL COMPACT>
+ <LI>If you have a sample file, use the Layout Wizard
+<img SRC="Diagram/Edit_WizardButton.png">
+ <LI>Use the LayoutEditor (either from the Windows / linux start button) or from the Layout Menu
+<img SRC="Diagram/MenuRL_Create.png">
+</UL>
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Question</B></TD><TD><P><I>Why can't I see my layout in the Editor
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Answer  </B></TD><TD><P>There are 2 possible causes&#58;
+<OL COMPACT TYPE=1>
+ <LI>Have you reloaded the Database in the editor ???
+<img SRC="Diagram/Edit_ReloadButton.png">
+ <LI>Have you selected list in the layout Screen ???
+<img SRC="Diagram/LayoutWizard_List.png">
+</OL>
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Question</B></TD><TD><P><I>Can I load Cobol Copybooks into the DB in batch</I>
 </TD></TR><TR VALIGN="TOP"><TD><P><B>Answer  </B></TD><TD><P>Yes,
 <PRE>
-  java -cp LayoutEdit.jar;cb2xml.jar layoutEdit.LayoutEdit.InsertCobolCopybook CobolCopybook
+  java -jar run.jar net.sf.RecordEditor.layoutEd.BatchLoadCobol <B>&lt;params&gt;</B>
+ 
+  Required Parameters&#58;
+  --------------------
+ 
+    -f file                or    -d directory
+ 
+  Optional Parameters&#58;
+  --------------------
+ 
+    -font        font name (leave out for normal text, cp037 for EBCIDIC)
+    -s           system name
+    -o, -split   split options  01 or redefines
+                 Used if the file contains mutliple file formats
+    -r           regular expression to check against file name
+                 (i.e. ^PZ.* for files starting with PZ
+		 see http://docs.oracle.com/javase/1.4.2/docs/api/java/util/regex/Pattern.html                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+    -c           Cobol Compiler (or binary format) current values&#58;
+                    Intel
+                    Mainframe
+                    Fujitsu
+                    Big-Endian_(Old)
+                    Open_Cobol_Little_Endian_(Intel)
+                    Open_Cobol_bs2000_Little_Endian_(Intel)
+                    Open_Cobol_MVS_Little_Endian_(Intel)
+                    Open_Cobol_Micro_Focus_(Intel)
+                    Open_Cobol_Big_Endian
+                    Open_Cobol_bs2000_Big_Endian
+                    Open_Cobol_MVS_Big_Endian
+                    Open_Cobol_Micro_Focus_Big_E
  
 </PRE></TD></TR></TABLE><P><HR><H1><A NAME="Header_83">Appendix E. Reporting</A></H1>
 <P>The old <B>re2jasper</B> addon has been enhanced and rereleased as <a href="http://ffreports.sourceforge.net/" TARGET="ffReports">Flat File Reporting</a>.

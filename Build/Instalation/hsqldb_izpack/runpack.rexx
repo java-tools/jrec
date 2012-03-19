@@ -13,22 +13,28 @@ parse arg arg
 	end; else if arg = 'h2' then do
 		call pack_H2 'h2-1.2.141'
 	end; else if arg = 'v' then do
-		call pack_Utility 'velocity-dep-1.4'
-		call pack_Utility 'velocity-1.4'
+		call pack 'velocity-1.7'
+		call pack 'velocity-1.7-dep'
 	end; else if arg = 'u' then do
 		call pack_Utility 'jibx-run'
 	    call pack_Utility 'jlibdiff'
 	end; else do
-		/*call pack 'StAX'
-		call pack 'jibx-run'
+		/*call pack 'StAX'*/
+		/*call pack 'jibx-run'
 		call pack 'jlibdiff'
+		call pack 'velocity-1.7'
+		call pack 'velocity-1.7-dep'
 		call pack 'hsqldbmain'
-		call pack 'cb2xml'
 		call pack 'chardet'*/
+		
+		/*call pack 'ZCalendar'
+		call pack 'cb2xml'*/
+		
 		call pack 'JRecord'
-		call pack 'ZCalendar'
 		call pack 'LayoutEdit'
 		call pack 'RecordEdit'
+		
+
 		
 		if isUnix() then do
 			'cp JRecord.pack ../ProtoBuf/lib'
@@ -71,10 +77,10 @@ parse arg name x
 	
 	if isUnix() then do
 	   'cp 'name'.pack lib/'
-	   'cp 'name'.pack ../GeneralDBL/lib'
+	  /* 'cp 'name'.pack ../GeneralDBL/lib'*/
 	end; else do
 	   'copy 'name'.pack lib\'
-	   'copy 'name'.pack ..\GeneralDBL\lib'
+	   /*'copy 'name'.pack ..\GeneralDBL\lib'*/
 	end
 
 return

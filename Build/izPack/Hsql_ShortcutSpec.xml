@@ -51,7 +51,8 @@
      description="Cobol Editor">
      <createForPack name="Base" />
    </shortcut>   
-
+   
+   
    <shortcut
      name="RecordEditor - Start Database Server"
      programGroup="yes"
@@ -67,49 +68,8 @@
    </shortcut>   
 
 
-   <shortcut
-     name="Record Editor - Documentation"
-     programGroup="yes"
-     desktop="no"
-     applications="no"
-     startMenu="no"
-     startup="no"
-     target="$INSTALL_PATH\Docs\Documents.htm"
-     commandLine=""
-     description="Record Edit Documentation">
-     
-     <createForPack name="Base" />
-   </shortcut>
 
-    <shortcut
-     name="HowTo"
-     programGroup="yes"
-     desktop="yes"
-     applications="no"
-     startMenu="no"
-     startup="no"
-     target="$INSTALL_PATH\Docs\HowTo.htm"
-     commandLine=""
-     description="Record Edit Howto">
-     
-     <createForPack name="Base" />
-   </shortcut>
 
-   <shortcut
-     name="Record Editor - Big File"
-     programGroup="yes"
-     desktop="no"
-     applications="no"
-     startMenu="no"
-     startup="no"
-     initialState="noShow"
-     iconFile="$INSTALL_PATH/lib/RecordEdit.ico"
-     target="$INSTALL_PATH/lib/RecordEditorBigFile.bat"
-     description="Record Editor - Big file">
-     <createForPack name="Base" />
-   </shortcut>   
- 
-   
    <shortcut
      name="RecordEditor - Velocity"
      programGroup="yes"
@@ -204,7 +164,6 @@
      <createForPack name="Base" />
    </shortcut>   
 
-
    
    <shortcut
      name="Uninstaller"
@@ -220,4 +179,48 @@
      <createForPack name="Base" />
    </shortcut>
    
+       
+   <shortcut
+     name="Record Editor - Big File"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     initialState="noShow"
+     iconFile="$INSTALL_PATH/lib/RecordEdit.ico"
+     target="$INSTALL_PATH/lib/RecordEditorBigFile.bat"
+     commandLine=""
+     description="Record Editor - Big file">
+ 
+     <createForPack name="Base" />
+   </shortcut>    
+   
+   <shortcut
+     name="Record Editor - Documentation"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     target="$INSTALL_PATH\Docs\Documents.htm"
+     commandLine=""
+     description="Record Edit Documentation">
+     
+     <createForPack name="Base" />
+   </shortcut>
+
+    <shortcut
+     name="HowTo"
+     programGroup="yes"
+     desktop="yes"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     target="$INSTALL_PATH\Docs\HowTo.htm"
+     commandLine=""
+     description="Record Edit Howto">
+     
+     <createForPack name="Base" />
+   </shortcut>
 </shortcuts>

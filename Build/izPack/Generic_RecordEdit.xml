@@ -17,7 +17,7 @@
     -->
     <info>
         <appname>RecordEdit/Generic</appname>
-        <appversion>0.69.2c</appversion>
+        <appversion>0.80.4</appversion>
         <authors>
             <author name="Bruce Martin" email="bruce_a_martin@sourceforge.net" />
             <!--author name="Hidden Man" email="hidden@hisdomain.com"/-->
@@ -99,7 +99,7 @@
         </pack-->
         <pack name="SampleFiles" required="yes">
             <description>Sample Files</description>
-            <file src="../SampleFiles" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
+            <file src="../SampleFiles" targetdir="$USER_HOME/.RecordEditor/GenericDB"/> <!-- Reccursive adding -->
         </pack>
         <pack name="Params" required="yes">
             <description>Record Editor Parameters</description>
@@ -113,6 +113,9 @@
         <pack name="lib" required="yes" override="true">
             <description>Record Editor Jars</description>
             <file src="../Instalation/GeneralDBL/lib" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
+            <fileset dir="../Instalation/GeneralDB/lib" includes="run*.jar" targetdir="$INSTALL_PATH/lib"/>
+            <fileset dir="../Instalation/GeneralDB/lib" includes="*Jars.txt" targetdir="$INSTALL_PATH/lib"/>
+            <fileset dir="../Instalation/hsqldb_izpack/lib" includes="*.pack" targetdir="$INSTALL_PATH/lib"/>
             <parsable targetfile="$INSTALL_PATH/lib/runLayoutEdit.sh" type="shell"/> <!-- The file will be parsed -->
 	    <parsable targetfile="$INSTALL_PATH/lib/runFullEditor.sh" type="shell"/> 
             <parsable targetfile="$INSTALL_PATH/lib/runRecordEdit.sh" type="shell"/> <!-- The file will be parsed -->
@@ -146,9 +149,9 @@
         </pack>
 	<pack name="CopyBook" required="yes">
 	    <description>CopyBooks</description>
-	    <fileset dir="../Instalation/GeneralDB/CopyBook" includes="Cobol/*.cbl" targetdir="$INSTALL_PATH/CopyBook"/>
-	    <fileset dir="../Instalation/GeneralDB/CopyBook" includes="*/*.Txt" targetdir="$INSTALL_PATH/CopyBook"/>
-	    <fileset dir="../Instalation/GeneralDB/CopyBook" includes="*/*.Xml" targetdir="$INSTALL_PATH/CopyBook"/>
+	    <fileset dir="../Instalation/GeneralDB/CopyBook" includes="Cobol/*.cbl" targetdir="$USER_HOME/.RecordEditor/GenericDB/CopyBook"/>
+	    <fileset dir="../Instalation/GeneralDB/CopyBook" includes="*/*.Txt" targetdir="$USER_HOME/.RecordEditor/GenericDB/CopyBook"/>
+	    <fileset dir="../Instalation/GeneralDB/CopyBook" includes="*/*.Xml" targetdir="$USER_HOME/.RecordEditor/GenericDB/CopyBook"/>
         </pack>
 	<pack name="SQL" required="yes" override="true">
             <description>SQL</description>
@@ -156,7 +159,7 @@
         </pack>
 	<pack name="Velocity" required="yes">
             <description>Sample Velocity Templates</description>
-            <fileset dir="../Instalation/GeneralDB/SampleVelocityTemplates" includes="*/*.vm" targetdir="$INSTALL_PATH/SampleVelocityTemplates"/> 
+            <fileset dir="../Instalation/GeneralDB/SampleVelocityTemplates" includes="*/*.vm" targetdir="$USER_HOME/.RecordEditor/GenericDB/SampleVelocityTemplates"/> 
         </pack>
         <pack name="bin" os="unix" required="no" override="true">
             <description>Linux/Unix bin direcory</description>

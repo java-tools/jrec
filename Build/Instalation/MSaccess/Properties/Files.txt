@@ -38,3 +38,14 @@ ams_locdownload_20041228.txt		ams Store
 Master_File.txt		Master_Record
 Transaction_File.txt		Transaction_Record
 Rental_File.Txt		Rental_Record
+<extensions>		<velocity>
+tocsv_tab		.csv
+tocsv_comma.vm		.csv
+zxmlstylesheet1.vm		.csv
+zxmlstylesheet2.vm		.csv
+<extensions>		<xslt>
+testxml_01a.xsl		.txt
+xslt2html.xsl		.html
+testxml_01b.xsl		.html
+xslt2csv.xsl		.csv
+

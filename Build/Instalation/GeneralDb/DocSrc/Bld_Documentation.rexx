@@ -4,7 +4,7 @@
 */
 
 	b2h = "C:\BMstuff\Rexx\B2H\B2h4_8\B2H.Rexx"   /* work */
-	b2h = '"E:\Work\Rexx\B2H\B2H.REXX"' /* home */
+	b2h = 'C:\Users\mum\Bruce\Work\Rexx\B2H\B2H.REXX' /* home */
 	
 	if  ISUNIX() then do
 	    say 'Unix ...'
@@ -19,9 +19,10 @@
 	    rename='mv'
 	end; else do
 	    say 'Windaows ...'
-	    regina = 'C:\Regina\regina.exe '
-	    instalation = 'E:\tmp\RecordEditor\Build\Instalation\' /*'E:\Work\RecordEdit\Instalation\'*/
-	    jeRecord='E:\Work\JRecord\Docs\'
+	    regina = '"C:\Regina\regina.exe"'
+	    regina = "regina"
+	    instalation = 'C:\Users\mum\Bruce\Work\RecordEditor\Build\Instalation\' /*'E:\Work\RecordEdit\Instalation\'*/
+	    jeRecord='C:\Users\mum\Bruce\Work\JRecord\Docs\'
 	    sep ='\'
 	    copy='Copy'
 	    del='del'
@@ -33,7 +34,9 @@
 	say ' 'copy del sep html
 	say ' '
 	
+	"regina hello.rexx"
 	/*regina b2h '"reLibDir.dcf" (LOG=reLibDir.log QUIET)'*/
+	
 	regina b2h '"reSampleFiles.dcf (HTMPEXT='html'  LOG=reSampleFiles.log )"'
 	regina b2h '"RecordEditIntro.dcf (HTMPEXT='html' LOG=RecordEditIntro.log QUIET)"'
 	regina b2h '"ceCobolEditor.dcf (HTMPEXT='html' LOG=CE.log QUIET)"'

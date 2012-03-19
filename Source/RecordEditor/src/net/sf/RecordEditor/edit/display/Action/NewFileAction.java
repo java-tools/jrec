@@ -5,8 +5,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import net.sf.RecordEditor.edit.display.util.NewFile;
+import net.sf.RecordEditor.re.openFile.AbstractLayoutSelectCreator;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.openFile.AbstractLayoutSelectCreator;
 
 @SuppressWarnings("serial")
 public class NewFileAction extends AbstractAction {

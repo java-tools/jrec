@@ -2,7 +2,7 @@ package net.sf.RecordEditor.copy;
 
 import net.sf.RecordEditor.jibx.JibxCall;
 import net.sf.RecordEditor.jibx.compare.CopyDefinition;
-import net.sf.RecordEditor.utils.openFile.AbstractLayoutSelection;
+import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 
 public class BatchCopy {
 	

@@ -7,12 +7,12 @@ import net.sf.RecordEditor.edit.display.util.CreateRecordTreePnl;
 import net.sf.RecordEditor.jibx.JibxCall;
 import net.sf.RecordEditor.jibx.compare.CopyDefinition;
 
+import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
+import net.sf.RecordEditor.re.util.wizard.AbstractFilePnl;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
-import net.sf.RecordEditor.utils.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.FileChooser;
-import net.sf.RecordEditor.utils.wizards.AbstractFilePnl;
 import net.sf.RecordEditor.utils.wizards.AbstractWizard;
 import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 

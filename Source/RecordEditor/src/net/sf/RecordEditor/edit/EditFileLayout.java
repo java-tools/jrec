@@ -27,12 +27,12 @@ import net.sf.RecordEditor.edit.display.Action.SaveFieldSequenceAction;
 import net.sf.RecordEditor.edit.display.Action.VisibilityAction;
 import net.sf.RecordEditor.edit.open.OpenFile;
 import net.sf.RecordEditor.layoutWizard.WizardFileLayout;
+import net.sf.RecordEditor.re.openFile.LayoutSelectionFile;
+import net.sf.RecordEditor.re.openFile.LayoutSelectionFileCreator;
+import net.sf.RecordEditor.re.util.ReIOProvider;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.edit.ParseArgs;
-import net.sf.RecordEditor.utils.edit.ReIOProvider;
-import net.sf.RecordEditor.utils.openFile.LayoutSelectionFile;
-import net.sf.RecordEditor.utils.openFile.LayoutSelectionFileCreator;
 
 /**
  * This class will Edit a file with a File-Layout (instead of using a DB copybook) 

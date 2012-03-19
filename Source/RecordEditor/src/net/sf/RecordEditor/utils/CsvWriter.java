@@ -8,7 +8,7 @@ import java.io.OutputStream;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.RecordEditor.utils.common.Common;
 
-public class CsvWriter implements FieldWriter {
+public class CsvWriter extends BaseWriter {
 
 	private static final byte[] noBytes = {};
 	private OutputStream fileWriter;
@@ -20,17 +20,13 @@ public class CsvWriter implements FieldWriter {
 	private int lineNo = 0;
 	private int fieldNo = 0;
 	public final boolean quoteAllTextFlds;
-	private boolean[] numericFields = null;
-	private boolean[] printField;
-	private int numberOfInitialFields = 0;
-
 	public CsvWriter(String fileName, String delimiter, 
 			String fontName, String quoteStr, boolean quoteAllTextFields,
 			boolean[]  includeFields) throws IOException {
 		font = fontName;
 		quote = quoteStr;
 		quoteAllTextFlds = quoteAllTextFields;
-		printField = includeFields;
+		setPrintField(includeFields);
 		
 		fileWriter = new BufferedOutputStream(
 				new FileOutputStream(fileName), 4096);
@@ -96,10 +92,10 @@ public class CsvWriter implements FieldWriter {
 	 * @see net.sf.RecordEditor.utils.FieldWriter#writeField(java.lang.String)
 	 */
 	public void writeField(String field) throws IOException {
-		writeField(field,
-				   numericFields != null 
-				&& fieldNo >= numberOfInitialFields
-				&& numericFields[fieldNo-numberOfInitialFields]);
+		writeField(field, isNumeric(fieldNo));
+//				   numericFields != null 
+//				&& fieldNo >= numberOfInitialFields
+//				&& numericFields[fieldNo-numberOfInitialFields]);
 	}
 	
 	public void writeField(String field, boolean isNumeric) throws IOException {
@@ -146,30 +142,5 @@ public class CsvWriter implements FieldWriter {
 	 */
 	public void close() throws IOException {
 		fileWriter.close();
-	}
-	
-	
-	/* (non-Javadoc)
-	 * @see net.sf.RecordEditor.utils.FieldWriter#setNumericFields(boolean[])
-	 */
-	public void setNumericFields(boolean[] numericFields) {
-		this.numericFields = numericFields;
-	}
-
-	private boolean isFieldToBePrinted(int fldNo) {
-		return printField == null 
-			|| (   fldNo-numberOfInitialFields >= printField.length 
-			    || fldNo < numberOfInitialFields
-			    || printField[fldNo-numberOfInitialFields]);
-	}
-
-	public void setNumberOfInitialFields(int numberOfInitialFields) {
-		this.numberOfInitialFields = numberOfInitialFields;
-	}
-	
-	public void setPrintField(int idx, boolean include) {
-		if (printField != null && idx >= 0 && idx < printField.length) {
-			printField[idx] = include;
-		}
 	}
 }

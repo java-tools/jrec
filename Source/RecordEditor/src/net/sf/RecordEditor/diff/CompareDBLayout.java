@@ -3,9 +3,9 @@
  */
 package net.sf.RecordEditor.diff;
 
+import net.sf.RecordEditor.re.openFile.LayoutSelectionDBCreator;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
 import net.sf.RecordEditor.utils.CopyBookInterface;
-import net.sf.RecordEditor.utils.openFile.LayoutSelectionDBCreator;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 
 /**

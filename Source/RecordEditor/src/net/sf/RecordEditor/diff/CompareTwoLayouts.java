@@ -5,9 +5,9 @@ package net.sf.RecordEditor.diff;
 
 
 import net.sf.RecordEditor.jibx.compare.DiffDefinition;
+import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
+import net.sf.RecordEditor.re.util.wizard.TwoLayoutsWizard;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.openFile.AbstractLayoutSelection;
-import net.sf.RecordEditor.utils.wizards.TwoLayoutsWizard;
 
 /**
  * @author Bruce Martin

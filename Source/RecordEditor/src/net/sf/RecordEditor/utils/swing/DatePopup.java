@@ -15,7 +15,6 @@ import javax.swing.JTextField;
 
 import com.zbluesoftware.java.bm.AbstractPopup;
 
-import net.sf.RecordEditor.editProperties.CommonCode;
 import net.sf.RecordEditor.utils.common.Common;
 
 
@@ -35,7 +34,7 @@ import net.sf.RecordEditor.utils.common.Common;
  */
 @SuppressWarnings("serial")
 public class DatePopup extends AbstractPopup implements ActionListener {
-     
+	public static final int TIP_HEIGHT = SwingUtils.STANDARD_FONT_HEIGHT * 11;
     private JEditorPane tips = new JEditorPane("text/html", Common.DATE_FORMAT_DESCRIPTION);
     private JTextField dateFormat = new JTextField();
 
@@ -138,7 +137,7 @@ public class DatePopup extends AbstractPopup implements ActionListener {
 		if (pnl == null) {
 			pnl = new BasePanel();
 
-			pnl.addComponent(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP2,
+			pnl.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP2,
 					BasePanel.FULL, BasePanel.FULL,
 					new JScrollPane(tips));
 

@@ -44,30 +44,30 @@ import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Details.BasicChildDefinition;
 import net.sf.RecordEditor.diff.DoCompare;
 import net.sf.RecordEditor.diff.LineBufferedReader;
+import net.sf.RecordEditor.edit.display.SaveAs.SaveAs3;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.edit.display.common.ILayoutChanged;
 import net.sf.RecordEditor.edit.display.util.AddAttributes;
 import net.sf.RecordEditor.edit.display.util.GotoLine;
 import net.sf.RecordEditor.edit.display.util.OptionPnl;
-import net.sf.RecordEditor.edit.display.util.SaveAsNew;
 import net.sf.RecordEditor.edit.display.util.Search;
 import net.sf.RecordEditor.edit.display.util.SortFrame;
-import net.sf.RecordEditor.edit.file.AbstractLineNode;
-import net.sf.RecordEditor.edit.file.FilePosition;
-import net.sf.RecordEditor.edit.file.FileView;
-import net.sf.RecordEditor.edit.tree.ChildTreeToXml;
-import net.sf.RecordEditor.edit.tree.TreeParserRecord;
-import net.sf.RecordEditor.edit.tree.TreeParserXml;
-import net.sf.RecordEditor.edit.tree.TreeToXml;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
-import net.sf.RecordEditor.record.types.RecordFormats;
+import net.sf.RecordEditor.re.file.AbstractLineNode;
+import net.sf.RecordEditor.re.file.FilePosition;
+import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.jrecord.types.RecordFormats;
+import net.sf.RecordEditor.re.tree.ChildTreeToXml;
+import net.sf.RecordEditor.re.tree.TreeParserRecord;
+import net.sf.RecordEditor.re.tree.TreeParserXml;
+import net.sf.RecordEditor.re.tree.TreeToXml;
+import net.sf.RecordEditor.re.util.filter.AbstractExecute;
+import net.sf.RecordEditor.re.util.filter.ExecuteSavedFile;
+import net.sf.RecordEditor.re.util.filter.FilterDetails;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
-import net.sf.RecordEditor.utils.filter.AbstractExecute;
-import net.sf.RecordEditor.utils.filter.ExecuteSavedFile;
-import net.sf.RecordEditor.utils.filter.FilterDetails;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
@@ -402,9 +402,9 @@ implements AbstractFileDisplay, ILayoutChanged {
 	public void executeAction(int action, Object o) {
 		
 		if (action == ReActionHandler.SAVE_AS_VELOCITY && o != null) {
-			executeSaveAs(SaveAsNew.FORMAT_VELOCITY, o.toString());
+			executeSaveAs(SaveAs3.FORMAT_VELOCITY, o.toString());
 		} else if (action == ReActionHandler.SAVE_AS_XSLT && o != null) {
-			executeSaveAs(SaveAsNew.FORMAT_XSLT, o.toString());
+			executeSaveAs(SaveAs3.FORMAT_XSLT, o.toString());
 		} else{
 			executeAction(action);
 		}
@@ -456,27 +456,27 @@ implements AbstractFileDisplay, ILayoutChanged {
 	              new LineTree(this.fileView.getView(getSelectedRows()), parser, false, 0);
 			   }
 			break;
-			case ReActionHandler.BUILD_XML_TREE_SELECTED:	createXmlTreeView();              break;
-			case ReActionHandler.SAVE_AS:				    new SaveAsNew(this, this.fileView);  break;
+			case ReActionHandler.BUILD_XML_TREE_SELECTED:	createXmlTreeView();               break;
+			case ReActionHandler.SAVE_AS:				    new SaveAs3(this, this.fileView);  break;
 			case ReActionHandler.SAVE_AS_CSV:
-				executeSaveAs(SaveAsNew.FORMAT_DELIMITED, "");
+				executeSaveAs(SaveAs3.FORMAT_DELIMITED, "");
 			break;
 			case ReActionHandler.SAVE_AS_FIXED:
-				executeSaveAs(SaveAsNew.FORMAT_FIXED, "");
+				executeSaveAs(SaveAs3.FORMAT_FIXED, "");
 			break;
 			case ReActionHandler.SAVE_AS_HTML:
-				executeSaveAs(SaveAsNew.FORMAT_1_TABLE, "");
+				executeSaveAs(SaveAs3.FORMAT_1_TABLE, "");
 			break;
 			case ReActionHandler.SAVE_AS_HTML_TBL_PER_ROW:
-			    executeSaveAs(SaveAsNew.FORMAT_MULTI_TABLE, "");
+			    executeSaveAs(SaveAs3.FORMAT_MULTI_TABLE, "");
 			break;
 			case ReActionHandler.SAVE_AS_HTML_TREE:
-			    executeSaveAs(SaveAsNew.FORMAT_TREE_HTML, "");
+			    executeSaveAs(SaveAs3.FORMAT_TREE_HTML, "");
 			break;
 			case ReActionHandler.SAVE_AS_VELOCITY:
-			    executeSaveAs(SaveAsNew.FORMAT_VELOCITY, "");
+			    executeSaveAs(SaveAs3.FORMAT_VELOCITY, "");
 			case ReActionHandler.SAVE_AS_XSLT:
-			    executeSaveAs(SaveAsNew.FORMAT_XSLT, "");
+			    executeSaveAs(SaveAs3.FORMAT_XSLT, "");
 			break;
 			case ReActionHandler.SAVE_AS_XML:
 				if (layout.hasTreeStructure() || layout.hasChildren()) {
@@ -553,7 +553,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	}
 	
 	private final void executeSaveAs(int format, String s) {
-		new SaveAsNew(this, this.fileView, format, s);
+		new SaveAs3(this, this.fileView, format, s);
 	}
 	protected final void executeTreeAction(int action) {
 		
@@ -1028,7 +1028,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 		boolean ret = true;
 		
 		if ("".equals(fileMaster.getFileName())) {
-			new SaveAsNew(this, fileMaster);
+			new SaveAs3(this, fileMaster);
 		} else {
 		    try {
 		        fileMaster.writeFile();
@@ -1118,7 +1118,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 
 
 	/**
-	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplay#setCurrRow(net.sf.RecordEditor.edit.file.FilePosition)
+	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplay#setCurrRow(net.sf.RecordEditor.re.file.FilePosition)
 	 */
 	@Override
 	public void setCurrRow(FilePosition position) {
@@ -1531,14 +1531,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 			fireLayoutIndexChanged();
 		}
 	}
-	
-	protected final void setMaximumSize() {
-		
-        try {
-        	this.setMaximum(true);
-        } catch (Exception e) {
-		}
-	}
+
 	
 	
     /**

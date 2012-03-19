@@ -10,11 +10,11 @@ import javax.swing.tree.TreePath;
 
 import net.sf.JRecord.Details.AbstractChildDetails;
 import net.sf.JRecord.Details.AbstractLine;
-import net.sf.RecordEditor.edit.file.AbstractLineNode;
-import net.sf.RecordEditor.edit.file.FilePosition;
-import net.sf.RecordEditor.edit.file.FileView;
-import net.sf.RecordEditor.edit.tree.LineNode;
-import net.sf.RecordEditor.edit.tree.LineNodeChild;
+import net.sf.RecordEditor.re.file.AbstractLineNode;
+import net.sf.RecordEditor.re.file.FilePosition;
+import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.tree.LineNode;
+import net.sf.RecordEditor.re.tree.LineNodeChild;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.screenManager.ReAction;
@@ -134,7 +134,7 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 	
 	
 	/**
-	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#setCurrRow(net.sf.RecordEditor.edit.file.FilePosition)
+	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#setCurrRow(net.sf.RecordEditor.re.file.FilePosition)
 	 */
 	@Override
 	public void setCurrRow(FilePosition position) {

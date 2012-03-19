@@ -1,9 +1,13 @@
 package net.sf.RecordEditor.edit.util;
 
+import java.util.List;
+
 import net.sf.JRecord.Details.AbstractLayoutDetails;
+import net.sf.JRecord.External.ExternalField;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.common.TranslateXmlChars;
 
 public final class StandardLayouts {
 
@@ -45,6 +49,80 @@ public final class StandardLayouts {
 	}
 	
 	@SuppressWarnings("rawtypes")
+	public final AbstractLayoutDetails getCsvLayoutNamesFirstLine(String delim, String quote) {
+		return  getLayout(
+					getCsvExternal("CSV_NAME_1ST_LINE", delim, quote)
+				);
+	}
+	
+
+	@SuppressWarnings("rawtypes")
+	public final AbstractLayoutDetails getCsvLayout(List<ExternalField> fields, String delim, String quote) {
+		ExternalRecord rec = getCsvExternal("Default", delim, quote);
+		
+		if (rec == null ) return null;
+		
+		rec.clearRecordFields();
+		
+		for (ExternalField field : fields) {
+			rec.addRecordField(field);
+		}
+
+		return  getLayout(rec);
+	}
+	
+	private final ExternalRecord getCsvExternal(String fileStructure, String delim, String quote) {
+		String xml;
+		
+		if ( "<none>".equals(quote.toLowerCase())) {
+			quote = "";
+		}
+
+		xml = "<RECORD RECORDNAME=\"Delimited\" COPYBOOK=\"\" STYLE=\"0\""
+			+ "        FILESTRUCTURE=\"" + fileStructure + "\""
+			+ "        DELIMITER=\"" + TranslateXmlChars.replaceXmlCharsStr(delim) + "\""
+			+ "        QUOTE=\"" + TranslateXmlChars.replaceXmlCharsStr(quote) + "\""
+			+ "		   DESCRIPTION=\"Delimited\" RECORDTYPE=\"Delimited\" RecSep=\"default\">"
+			+ "	<FIELDS>"
+			+ "		<FIELD NAME=\"Dummy\" DESCRIPTION=\" \" POSITION=\"1\" TYPE=\"Char\"/>"
+			+ "	</FIELDS>"
+			+ "</RECORD>";
+		
+		System.out.println("Generated Xml: " +xml);
+		
+		return getExternal(xml, "CsvNamesFirstLine");
+	}
+	
+
+	@SuppressWarnings("rawtypes")
+	public final AbstractLayoutDetails getFixedLayout(List<ExternalField> fields, String delim, String quote) {
+		ExternalRecord rec; 
+		String xml = "<RECORD RECORDNAME=\"Fixed\" COPYBOOK=\"\" STYLE=\"0\""
+			+ "        FILESTRUCTURE=\"RecordLayout\" DELIMITER=\"\""
+			+ "		   DESCRIPTION=\"Fixed\" RECORDTYPE=\"Delimited\" RecSep=\"default\">"
+			+ "	<FIELDS>"
+			+ "		<FIELD NAME=\"Dummy\" DESCRIPTION=\" \" POSITION=\"1\" TYPE=\"Char\"/>"
+			+ "	</FIELDS>"
+			+ "</RECORD>";
+		
+		System.out.println("Generated Xml: " +xml);
+		
+		rec =  getExternal(xml, "FixedName");
+		if (rec == null ) {
+			return null;
+		}
+		
+		rec.clearRecordFields();
+		
+		for (ExternalField field : fields) {
+			rec.addRecordField(field);
+		}
+
+		return  getLayout(rec);
+	}
+
+	
+	@SuppressWarnings("rawtypes")
 	private AbstractLayoutDetails getLayout(ExternalRecord rec) {
 		AbstractLayoutDetails ret = null;
 		try {
@@ -63,7 +141,9 @@ public final class StandardLayouts {
 		try {
 			ret = RecordEditorXmlLoader.getExternalRecord(xml, name);
 		} catch (Exception e) {
-			Common.logMsg("Internal Error Creating Layouts", e);
+			Common.logMsg("Internal Error Creating Layout: " + name, e);
+			Common.logMsg("Problem Xml: " + xml, null);
+			System.out.println("Problem Xml: " + xml);
 			e.printStackTrace();
 		}
 		

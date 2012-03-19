@@ -10,11 +10,11 @@ import javax.swing.JTextField;
 
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
-import net.sf.RecordEditor.edit.file.FileView;
-import net.sf.RecordEditor.edit.file.storage.DataStoreStd;
 import net.sf.RecordEditor.edit.open.StartEditor;
-import net.sf.RecordEditor.utils.csv.NewCsvFile;
-import net.sf.RecordEditor.utils.openFile.AbstractLayoutSelection;
+import net.sf.RecordEditor.edit.util.NewCsvFile;
+import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
+import net.sf.RecordEditor.utils.fileStorage.DataStoreStd;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -37,6 +37,7 @@ public class NewFile {
 		init_300_Listners();
 		
 		frame.setVisible(true);
+		frame.setToMaximum(false);
 	}
 
 	private void init_100_Setup() {

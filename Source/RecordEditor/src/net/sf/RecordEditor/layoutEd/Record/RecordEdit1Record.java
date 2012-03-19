@@ -23,6 +23,10 @@ import javax.swing.JTextField;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
+import net.sf.RecordEditor.re.db.Record.ChildRecordsRec;
+import net.sf.RecordEditor.re.db.Record.RecordDB;
+import net.sf.RecordEditor.re.db.Record.RecordRec;
+import net.sf.RecordEditor.re.db.Record.SaveRecordAsXml;
 import net.sf.RecordEditor.utils.LayoutConnectionAction;
 import net.sf.RecordEditor.utils.LayoutConnection;
 import net.sf.RecordEditor.utils.common.Common;

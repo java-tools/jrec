@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -23,11 +22,11 @@ import net.sf.JRecord.Numeric.ConversionManager;
 import net.sf.JRecord.Numeric.Convert;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.edit.display.LineTree;
-import net.sf.RecordEditor.edit.file.FileView;
-import net.sf.RecordEditor.edit.file.storage.DataStoreStd;
-import net.sf.RecordEditor.edit.tree.TreeParserXml;
+import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.openFile.ComputerOptionCombo;
+import net.sf.RecordEditor.re.tree.TreeParserXml;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.openFile.ComputerOptionCombo;
+import net.sf.RecordEditor.utils.fileStorage.DataStoreStd;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -89,6 +88,7 @@ public class DisplayCobolCopybook implements ActionListener {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void display(String fileName, int dialect, boolean incComments) {
 
 		Convert conv = ConversionManager.getInstance().getConverter(dialect) ;

@@ -16,12 +16,17 @@ import javax.swing.table.TableColumnModel;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Details.AbstractRecordDetail;
+import net.sf.RecordEditor.re.openFile.RecentFiles;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.openFile.RecentFiles;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
 import net.sf.RecordEditor.utils.swing.FileChooser;
+
+
+//TODO Create Builder & seperate panel classes + include write logic from SaveAsNew
+//TODO Create Builder & seperate panel classes + include write logic from SaveAsNew
+//TODO Create Builder & seperate panel classes + include write logic from SaveAsNew
 
 @SuppressWarnings("serial")
 public class SaveAsPnl extends BaseHelpPanel {
@@ -137,7 +142,7 @@ public class SaveAsPnl extends BaseHelpPanel {
             this.addLine("Xslt File", templ, templ.getChooseFileButton());
 			break;
 		case FMT_VELOCITY:
-			extType = RecentFiles.RF_XSLT;
+			extType = RecentFiles.RF_VELOCITY;
 			addHtmlFields();
 			templ = new FileChooser(true, "get Template");
             

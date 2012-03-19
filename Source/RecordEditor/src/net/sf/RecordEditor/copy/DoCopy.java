@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Common.XmlConstants;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
@@ -23,14 +22,14 @@ import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.jibx.compare.CopyDefinition;
 import net.sf.RecordEditor.jibx.compare.Record;
+import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
+import net.sf.RecordEditor.re.openFile.LayoutSelectionFile;
 import net.sf.RecordEditor.utils.CsvWriter;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.openFile.AbstractLayoutSelection;
-import net.sf.RecordEditor.utils.openFile.LayoutSelectionFile;
 
 public final class DoCopy {
 	
-	private static final byte[] noBytes = {};
+//	private static final byte[] noBytes = {};
 	                    
 	private LayoutDetail dtl1;
 	private LayoutDetail dtl2;

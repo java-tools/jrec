@@ -17,12 +17,12 @@ import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Log.ScreenLog;
 
+import net.sf.RecordEditor.re.openFile.ComputerOptionCombo;
+import net.sf.RecordEditor.re.openFile.ReadLayout;
+import net.sf.RecordEditor.re.openFile.SplitCombo;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
-import net.sf.RecordEditor.utils.openFile.ComputerOptionCombo;
-import net.sf.RecordEditor.utils.openFile.ReadLayout;
-import net.sf.RecordEditor.utils.openFile.SplitCombo;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;

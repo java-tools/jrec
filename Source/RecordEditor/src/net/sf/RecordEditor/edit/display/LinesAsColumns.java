@@ -17,7 +17,7 @@ import net.sf.RecordEditor.edit.display.Action.AutofitAction;
 import net.sf.RecordEditor.edit.display.models.BaseLineModel;
 import net.sf.RecordEditor.edit.display.models.Line2ColModel;
 import net.sf.RecordEditor.edit.display.util.ChooseCellEditor;
-import net.sf.RecordEditor.edit.file.FileView;
+import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;

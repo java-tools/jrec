@@ -6,8 +6,8 @@ import javax.swing.JTable;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
-import net.sf.RecordEditor.edit.file.FilePosition;
-import net.sf.RecordEditor.edit.file.FileView;
+import net.sf.RecordEditor.re.file.FilePosition;
+import net.sf.RecordEditor.re.file.FileView;
 
 public interface AbstractFileDisplay {
 

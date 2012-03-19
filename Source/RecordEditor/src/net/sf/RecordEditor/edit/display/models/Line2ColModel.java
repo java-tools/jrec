@@ -3,7 +3,7 @@
  */
 package net.sf.RecordEditor.edit.display.models;
 
-import net.sf.RecordEditor.edit.file.FileView;
+import net.sf.RecordEditor.re.file.FileView;
 
 /**
  * @author Bruce Martin

@@ -14,6 +14,8 @@ import java.io.Writer;
 //import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import net.sf.RecordEditor.utils.common.TranslateXmlChars;
+
 /**
  * This class writes a Table Model as a HTML table
  *
@@ -191,40 +193,17 @@ public class TableModel2HTML {
         if ("".equals(text.trim())) {
             writer.write("&nbsp;");
         } else {
-            StringBuffer buf = new StringBuffer(text);
+            StringBuilder buf = TranslateXmlChars.replaceXmlChars(new StringBuilder(text));
 
-            replace(buf, "&", "&amp;");
-            replace(buf, "<", "&lt;");
-            replace(buf, ">", "&gt;");
-
+ 
             if (inHeader && ! "".equals(seperator)) {
-                replace(buf, seperator, "<br/>");
+            	TranslateXmlChars.replace(buf, seperator, "<br/>");
             }
 
 
             writer.write(buf.toString());
         }
         writer.write("</" + tag);
-    }
-
-    /**
-     * Replaces on string with another in a String bugffer
-     *
-     * @param in String buffer to be updated
-     * @param from seqarch string
-     * @param to replacement string
-     */
-    private static void replace(StringBuffer in, String from, String to) {
-        int start, j;
-        int fromLen = from.length();
-
-        j = 0;
-        start = in.indexOf(from, 0);
-        while (start > 0) {
-            j += 1;
-            in.replace(start, start + fromLen, to);
-            start = in.indexOf(from, start + to.length());
-        }
     }
 
 

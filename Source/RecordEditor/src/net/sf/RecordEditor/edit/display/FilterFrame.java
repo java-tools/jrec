@@ -35,11 +35,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import net.sf.RecordEditor.edit.file.FileView;
+import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.util.filter.FilterDetails;
+import net.sf.RecordEditor.re.util.filter.FilterPnl;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
-import net.sf.RecordEditor.utils.filter.FilterDetails;
-import net.sf.RecordEditor.utils.filter.FilterPnl;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
@@ -113,6 +113,7 @@ public class FilterFrame extends ReFrame {
 		this.pack();
 		this.setSize(FORM_WIDTH, Math.min(this.getHeight(), screenSize.height - 5));
 		this.setVisible(true);
+		this.setToMaximum(false);
     }
     
     
@@ -147,7 +148,7 @@ public class FilterFrame extends ReFrame {
 
 	/**
 	 * @return
-	 * @see net.sf.RecordEditor.utils.filter.FilterPnl#getFilter()
+	 * @see net.sf.RecordEditor.re.util.filter.FilterPnl#getFilter()
 	 */
 	public final FilterDetails getFilter() {
 		return pnl.getFilter();

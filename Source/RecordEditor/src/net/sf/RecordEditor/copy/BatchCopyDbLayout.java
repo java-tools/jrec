@@ -4,8 +4,8 @@
 package net.sf.RecordEditor.copy;
 
 
+import net.sf.RecordEditor.re.openFile.LayoutSelectionDB;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
-import net.sf.RecordEditor.utils.openFile.LayoutSelectionDB;
 
 
 /**

@@ -10,6 +10,7 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.screenManager.ReAction;
 
+@SuppressWarnings("serial")
 public class OptionPnl extends JPanel {
 	public final static int BROWSE_PANEL = 1;
 	public final static int EDIT_PANEL = 2;

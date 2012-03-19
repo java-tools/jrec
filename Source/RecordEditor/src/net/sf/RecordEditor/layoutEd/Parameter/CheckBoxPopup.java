@@ -7,7 +7,7 @@ import javax.swing.JTextField;
 import com.zbluesoftware.java.bm.AbstractPopup;
 
 import net.sf.JRecord.CsvParser.BasicParser;
-import net.sf.RecordEditor.layoutEd.utils.LayoutCommon;
+import net.sf.RecordEditor.re.util.LayoutCommon;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 
 

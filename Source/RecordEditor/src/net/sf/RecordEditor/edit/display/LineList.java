@@ -67,9 +67,9 @@ import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.edit.display.common.AbstractRowChanged;
 import net.sf.RecordEditor.edit.display.util.Code;
 import net.sf.RecordEditor.edit.display.util.RowChangeListner;
-import net.sf.RecordEditor.edit.file.FieldMapping;
-import net.sf.RecordEditor.edit.file.FileView;
 import net.sf.RecordEditor.jibx.compare.FieldSequence;
+import net.sf.RecordEditor.re.file.FieldMapping;
+import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
@@ -342,7 +342,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
                   screenSize.width  - 1,
                   screenSize.height - 1);
         
-        setMaximumSize();
+        setToMaximum(true);
         
         if (layout.getRecordCount() > 1 && Common.usePrefered()) {
         	LayoutCombo combo = getLayoutCombo();

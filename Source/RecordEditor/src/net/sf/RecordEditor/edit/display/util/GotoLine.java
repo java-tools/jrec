@@ -11,8 +11,8 @@ import javax.swing.JTextField;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
-import net.sf.RecordEditor.edit.file.FilePosition;
-import net.sf.RecordEditor.edit.file.FileView;
+import net.sf.RecordEditor.re.file.FilePosition;
+import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -64,6 +64,7 @@ public class GotoLine extends ReFrame implements ActionListener {
 		this.addMainComponent(pnl);
 		this.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
 		this.setVisible(true);
+		this.setToMaximum(false);
 	}
 
 

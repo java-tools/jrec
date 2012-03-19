@@ -18,8 +18,8 @@ package net.sf.RecordEditor.edit.display;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
 import net.sf.RecordEditor.edit.display.util.BaseFieldSelection;
-import net.sf.RecordEditor.edit.file.FileView;
-import net.sf.RecordEditor.edit.tree.TreeParserField;
+import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.tree.TreeParserField;
 import net.sf.RecordEditor.utils.common.Common;
 
 /**

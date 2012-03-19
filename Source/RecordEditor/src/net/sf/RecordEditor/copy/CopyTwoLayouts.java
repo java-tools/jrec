@@ -5,8 +5,8 @@ package net.sf.RecordEditor.copy;
 
 
 import net.sf.RecordEditor.jibx.compare.CopyDefinition;
-import net.sf.RecordEditor.utils.openFile.AbstractLayoutSelection;
-import net.sf.RecordEditor.utils.wizards.TwoLayoutsWizard;
+import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
+import net.sf.RecordEditor.re.util.wizard.TwoLayoutsWizard;
 
 /**
  * @author Bruce Martin

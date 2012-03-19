@@ -22,7 +22,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 
-import net.sf.RecordEditor.layoutEd.utils.UpgradeDB;
+import net.sf.RecordEditor.re.util.UpgradeDB;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;

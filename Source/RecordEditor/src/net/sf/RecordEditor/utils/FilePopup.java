@@ -80,7 +80,7 @@ public class FilePopup extends JMenu {
 			dirName += Common.FILE_SEPERATOR;
 			ArrayList<FileItem> items = new ArrayList<FilePopup.FileItem>(fileList.length);
 	       	for (int i = 0; i < fileList.length; i++) {
-	       		if (fileList[i].endsWith("^") || fileList[i].toLowerCase().endsWith(".bak")) {
+	       		if (fileList[i].endsWith("~") || fileList[i].toLowerCase().endsWith(".bak")) {
 	       		} else {
 	       			items.add(new FileItem(fileList[i], 
 		       				dirName + fileList[i], 

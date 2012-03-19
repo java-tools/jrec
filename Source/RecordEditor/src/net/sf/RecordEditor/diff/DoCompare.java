@@ -11,8 +11,8 @@ import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 
 import net.sf.RecordEditor.jibx.compare.DiffDefinition;
+import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.openFile.AbstractLayoutSelection;
 
 
 import jlibdiff.Diff;

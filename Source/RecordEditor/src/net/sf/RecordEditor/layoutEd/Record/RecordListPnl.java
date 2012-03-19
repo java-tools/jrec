@@ -23,8 +23,10 @@ import javax.swing.JTextField;
 import javax.swing.table.TableColumn;
 
 import net.sf.JRecord.Log.AbsSSLogger;
-import net.sf.RecordEditor.layoutEd.Table.TableDB;
-import net.sf.RecordEditor.layoutEd.Table.TableRec;
+import net.sf.RecordEditor.re.db.Record.RecordDB;
+import net.sf.RecordEditor.re.db.Record.RecordRec;
+import net.sf.RecordEditor.re.db.Table.TableDB;
+import net.sf.RecordEditor.re.db.Table.TableRec;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;

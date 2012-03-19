@@ -8,17 +8,17 @@ import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.RecordEditor.edit.display.LineList;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
-import net.sf.RecordEditor.edit.file.FileView;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
 import net.sf.RecordEditor.jibx.compare.FieldTest;
 import net.sf.RecordEditor.jibx.compare.Record;
 import net.sf.RecordEditor.jibx.compare.Layout;
+import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.util.filter.AbstractExecute;
+import net.sf.RecordEditor.re.util.filter.AbstractSaveDetails;
+import net.sf.RecordEditor.re.util.filter.ExecuteSavedFile;
+import net.sf.RecordEditor.re.util.filter.FilterField;
+import net.sf.RecordEditor.re.util.filter.SaveButton;
 import net.sf.RecordEditor.utils.common.Parameters;
-import net.sf.RecordEditor.utils.filter.AbstractExecute;
-import net.sf.RecordEditor.utils.filter.AbstractSaveDetails;
-import net.sf.RecordEditor.utils.filter.ExecuteSavedFile;
-import net.sf.RecordEditor.utils.filter.FilterField;
-import net.sf.RecordEditor.utils.filter.SaveButton;
 
 public class SaveRestoreHiddenFields 
 implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
@@ -38,7 +38,7 @@ implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
 
 
 	/**
-	 * @see net.sf.RecordEditor.utils.filter.AbstractSaveDetails#getSaveDetails()
+	 * @see net.sf.RecordEditor.re.util.filter.AbstractSaveDetails#getSaveDetails()
 	 */
 	@Override
 	public EditorTask getSaveDetails() {

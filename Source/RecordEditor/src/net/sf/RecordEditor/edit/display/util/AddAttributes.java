@@ -13,7 +13,7 @@ import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.XmlConstants;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Types.Type;
-import net.sf.RecordEditor.edit.file.FileView;
+import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;

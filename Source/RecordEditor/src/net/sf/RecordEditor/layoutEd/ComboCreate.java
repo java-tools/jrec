@@ -20,9 +20,9 @@ import javax.swing.JSplitPane;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
-import net.sf.RecordEditor.utils.Combo.ComboDB;
-import net.sf.RecordEditor.utils.Combo.ComboPnl;
-import net.sf.RecordEditor.utils.Combo.ComboRec;
+import net.sf.RecordEditor.re.db.Combo.ComboDB;
+import net.sf.RecordEditor.re.db.Combo.ComboPnl;
+import net.sf.RecordEditor.re.db.Combo.ComboRec;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;

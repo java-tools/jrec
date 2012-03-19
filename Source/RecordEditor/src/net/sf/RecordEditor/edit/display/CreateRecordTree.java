@@ -6,9 +6,9 @@ import java.awt.event.ActionListener;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
 import net.sf.RecordEditor.edit.display.util.CreateRecordTreePnl;
-import net.sf.RecordEditor.edit.file.FileView;
-import net.sf.RecordEditor.edit.tree.TreeParserRecord;
 
+import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.tree.TreeParserRecord;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
@@ -22,11 +22,12 @@ public class CreateRecordTree extends ReFrame implements ActionListener  {
 	private AbstractLayoutDetails<?, ?> layout;
 	
 	private AbstractFileDisplay source;
-	@SuppressWarnings("unchecked")
+
+	@SuppressWarnings("rawtypes")
 	private FileView view;
 
-	@SuppressWarnings("unchecked")
-	public CreateRecordTree(AbstractFileDisplay src, FileView fileView) {
+
+	public CreateRecordTree(AbstractFileDisplay src, @SuppressWarnings("rawtypes") FileView fileView) {
 		super(fileView.getFileNameNoDirectory(), "Create Record Tree",
 				fileView.getBaseFile());
 		
@@ -41,6 +42,7 @@ public class CreateRecordTree extends ReFrame implements ActionListener  {
 		
 		super.addMainComponent(treeDisplay.getPanel());		
 		this.setVisible(true);
+		this.setToMaximum(false);
 	}
 
 	
@@ -111,12 +113,12 @@ public class CreateRecordTree extends ReFrame implements ActionListener  {
 	/**
 	 * execute action
 	 */
-	@SuppressWarnings("unchecked")
 	public final void doAction() {
 	     treeDisplay.messageFld.setText("");
 	     
 	     try {
-	     	FileView newView = getNewView();
+	     	@SuppressWarnings("rawtypes")
+			FileView newView = getNewView();
 	        
 	        if (newView == null) {
 	        	treeDisplay.messageFld.setText("No Records Selected");
@@ -142,7 +144,7 @@ public class CreateRecordTree extends ReFrame implements ActionListener  {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	protected final FileView getNewView() {  	
 
         return source.getFileView().getView();

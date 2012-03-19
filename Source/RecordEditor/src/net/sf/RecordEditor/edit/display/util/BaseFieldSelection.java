@@ -26,15 +26,15 @@ import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
 import net.sf.RecordEditor.edit.display.models.SortFieldMdl;
-import net.sf.RecordEditor.edit.file.FileView;
-import net.sf.RecordEditor.edit.tree.FieldSummaryDetails;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
 import net.sf.RecordEditor.jibx.compare.SortTree;
+import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.tree.FieldSummaryDetails;
+import net.sf.RecordEditor.re.util.filter.AbstractSaveDetails;
+import net.sf.RecordEditor.re.util.filter.SaveButton;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
-import net.sf.RecordEditor.utils.filter.AbstractSaveDetails;
-import net.sf.RecordEditor.utils.filter.SaveButton;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
@@ -160,6 +160,7 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 		        Math.min(getHeight(), screenSize.height - 5));
 
 		this.setVisible(true);
+		setToMaximum(false);
 	}
 
 	/**

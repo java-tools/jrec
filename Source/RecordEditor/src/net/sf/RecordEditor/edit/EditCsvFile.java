@@ -24,9 +24,9 @@ import net.sf.RecordEditor.edit.display.Action.SaveFileLayout2Xml;
 import net.sf.RecordEditor.edit.display.Action.VisibilityAction;
 import net.sf.RecordEditor.edit.open.OpenCsvFilePnl;
 import net.sf.RecordEditor.edit.open.OpenFile;
+import net.sf.RecordEditor.re.util.ReIOProvider;
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.edit.ParseArgs;
-import net.sf.RecordEditor.utils.edit.ReIOProvider;
 
 
 /**

@@ -7,12 +7,12 @@ import javax.swing.JPanel;
 
 import net.sf.RecordEditor.jibx.JibxCall;
 import net.sf.RecordEditor.jibx.compare.CopyDefinition;
+import net.sf.RecordEditor.re.openFile.LayoutSelectionFile;
+import net.sf.RecordEditor.re.util.wizard.AbstractFilePnl;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
-import net.sf.RecordEditor.utils.openFile.LayoutSelectionFile;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.FileChooser;
-import net.sf.RecordEditor.utils.wizards.AbstractFilePnl;
 import net.sf.RecordEditor.utils.wizards.AbstractWizard;
 import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 

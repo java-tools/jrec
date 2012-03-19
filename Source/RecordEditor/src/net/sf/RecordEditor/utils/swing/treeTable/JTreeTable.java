@@ -30,9 +30,9 @@ import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
-import net.sf.RecordEditor.edit.display.array.ArrayInterface;
-import net.sf.RecordEditor.edit.display.array.ArrayRender;
-import net.sf.RecordEditor.edit.display.array.ArrayTableEditor;
+import net.sf.RecordEditor.utils.swing.array.ArrayInterface;
+import net.sf.RecordEditor.utils.swing.array.ArrayRender;
+
 
 import java.awt.Component;
 import java.awt.Graphics;
@@ -52,6 +52,7 @@ import java.util.EventObject;
  * @author Philip Milne
  * @author Scott Violet
  */
+@SuppressWarnings("serial")
 public class JTreeTable extends JTable {
     /** A subclass of JTree. */
     protected TreeTableCellRenderer tree;

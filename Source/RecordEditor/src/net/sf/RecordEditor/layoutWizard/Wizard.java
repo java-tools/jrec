@@ -4,11 +4,11 @@ import java.awt.event.ActionEvent;
 
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.IO.LineIOProvider;
-import net.sf.RecordEditor.layoutEd.Record.ExtendedRecordDB;
-import net.sf.RecordEditor.layoutEd.Record.RecordRec;
-import net.sf.RecordEditor.layoutEd.Record.TypeList;
-import net.sf.RecordEditor.layoutEd.Table.TableDB;
-import net.sf.RecordEditor.layoutEd.Table.TableRec;
+import net.sf.RecordEditor.re.db.Record.ExtendedRecordDB;
+import net.sf.RecordEditor.re.db.Record.RecordRec;
+import net.sf.RecordEditor.re.db.Table.TableDB;
+import net.sf.RecordEditor.re.db.Table.TableRec;
+import net.sf.RecordEditor.re.db.Table.TypeList;
 import net.sf.RecordEditor.utils.LayoutConnection;
 import net.sf.RecordEditor.utils.LayoutConnectionAction;
 import net.sf.RecordEditor.utils.common.Common;

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import net.sf.JRecord.ByteIO.ByteTextReader;
 import net.sf.JRecord.Common.Constants;
+import net.sf.RecordEditor.re.util.csv.CsvSelectionPanel;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.csv.CsvSelectionPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 
 @SuppressWarnings("serial")

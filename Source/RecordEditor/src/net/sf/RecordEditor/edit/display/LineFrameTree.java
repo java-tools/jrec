@@ -33,8 +33,8 @@ import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractTreeDetails;
 import net.sf.RecordEditor.edit.display.models.LineModel;
-import net.sf.RecordEditor.edit.file.FilePosition;
-import net.sf.RecordEditor.edit.file.FileView;
+import net.sf.RecordEditor.re.file.FilePosition;
+import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.ExpandLineTree;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
@@ -126,6 +126,7 @@ public class LineFrameTree extends  BaseLineFrame {
 		init_300_setupScreen(btnPanel);
 
 		show();
+		this.setToMaximum(false);
 	}
 
 
@@ -179,7 +180,7 @@ public class LineFrameTree extends  BaseLineFrame {
 	}
 
 	/**
-	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#setCurrRow(net.sf.RecordEditor.edit.file.FilePosition)
+	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#setCurrRow(net.sf.RecordEditor.re.file.FilePosition)
 	 */
 	@Override
 	public void setCurrRow(FilePosition position) {
@@ -360,7 +361,7 @@ public class LineFrameTree extends  BaseLineFrame {
 			setColumnWidths(colWidths); //System.out.println("## Set Column Widths " + " LayoutIndex: " + getLayoutIndex());
 			setFullLine(); //System.out.println("## Set Fulline " + " LayoutIndex: " + getLayoutIndex());
 
-			System.out.println(" ---))) " + record.getValueAt(1, 3));
+			//System.out.println(" ---))) " + record.getValueAt(1, 3));
 		}
 
 	}

@@ -1,7 +1,7 @@
 package net.sf.RecordEditor.layoutEd;
 
 import net.sf.RecordEditor.layoutEd.Record.LoadCobolIntoDB;
-import net.sf.RecordEditor.layoutEd.utils.LoadCobolParseArgs;
+import net.sf.RecordEditor.re.util.LoadCobolParseArgs;
 import net.sf.RecordEditor.utils.common.Common;
 
 public class BatchLoadCobol {
@@ -56,8 +56,10 @@ public class BatchLoadCobol {
 		System.out.println("    -font        font name (leave out for normal text, cp037 for EBCIDIC)");
 		System.out.println("    -s           system name");
 		System.out.println("    -o, -split   split options  01 or redefines");
-		System.out.println("    -r           regular expression to check against member name");
-		System.out.println("    -c           compiler (or binary format) current values:");
+		System.out.println("    -r           regular expression to check against file name");
+		System.out.println("                 (i.e. ^PZ.* for files starting with PZ");
+		System.out.println("                 see http://docs.oracle.com/javase/1.4.2/docs/api/java/util/regex/Pattern.html");
+		System.out.println("    -c           Cobol Compiler (or binary format) current values:");
 		System.out.println("                    Intel");
 		System.out.println("                    Mainframe");
 		System.out.println("                    Fujitsu");

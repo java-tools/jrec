@@ -7,9 +7,9 @@ import javax.swing.AbstractAction;
 
 import net.sf.RecordEditor.edit.display.LineList;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
+import net.sf.RecordEditor.re.util.filter.DirectoryFrame;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
-import net.sf.RecordEditor.utils.filter.DirectoryFrame;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 

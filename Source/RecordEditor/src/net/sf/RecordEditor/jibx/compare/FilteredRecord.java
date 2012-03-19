@@ -18,7 +18,6 @@ extends Record implements  RecordFilter {
 	 */
 	@Override
 	public String getRecordName() {
-		// TODO Auto-generated method stub
 		return name;
 	}
 

@@ -29,7 +29,7 @@ import java.util.ResourceBundle;
  * @author Bruce Martin
  *
  */
-public final class Parameters {
+public final class Parameters implements ExternalReferenceConstants {
 
     public static final int NUMBER_OF_LOADERS = 20;
     public static final int NUMBER_OF_USER_FUNCTIONS = 32;
@@ -87,6 +87,8 @@ public final class Parameters {
     public static final String VELOCITY_COPYBOOK_DIRECTORY = "VelocityCopybookDirectory";
     public static final String VELOCITY_TEMPLATE_DIRECTORY = "VelocityTemplateDirectory";
     public static final String XSLT_TEMPLATE_DIRECTORY = "XsltTemplateDirectory";
+    public static final String XSLT_JAR1 = "XsltJar1";
+    public static final String XSLT_JAR2 = "XsltJar2";
     public static final String INVALID_FILE_CHARS      = "InvalidFileChars";
     public static final String FILE_REPLACEMENT_CHAR   = "FileReplChar";
     public static final String ASTERIX_IN_FILE_NAME    = "AsterixInFileName";
@@ -136,7 +138,7 @@ public final class Parameters {
     
     private static final HashSet<String> defaultTrue = new HashSet<String>(10);
 
-	private static  String bundleName = "net.sf.RecordEditor.utils.RecEdit"; //$NON-NLS-1$
+	private static  String bundleName = DEFAULT_BUNDLE_NAME;
 	private static final String USER_PARAM_FILE      = "Params.Properties";
 	private static final int SIZE_OF_FILE_URL_PREFIX = 9;
 
@@ -158,7 +160,10 @@ public final class Parameters {
 	private static String applicationDirectory = null;
 	private static String propertyFileName;
 	private static String globalPropertyFileName = null;
-	private static String jarListFileDirectory;
+	private static String systemJarFileDirectory, 
+	                      userJarFileDirectory = USER_HOME;
+	
+	public static boolean savePropertyChanges = true;
 	
 	static {
 		try {
@@ -204,10 +209,18 @@ public final class Parameters {
     /**
      * @return Returns the JAR_LIST_FILE_DIRECTORY.
      */
-    public static String getJarListFileDirectory() {
+    public static String getSytemJarFileDirectory() {
         initDirectories();
-        return jarListFileDirectory;
+        return systemJarFileDirectory;
     }
+    /**
+     * @return Returns the JAR_LIST_FILE_DIRECTORY.
+     */
+    public static String getUserJarFileDirectory() {
+        initDirectories();
+        return userJarFileDirectory;
+    }
+
 
     /**
      * Get the library where the jar file is
@@ -225,8 +238,9 @@ public final class Parameters {
     private static void initDirectories() {
     	if (applicationDirectory == null) {
     		String s = getPropertiesDirectory();
-
-    		//System.out.println("!! Properties Directory ~~ " + s);
+    		
+    		userJarFileDirectory = s;
+    		System.out.println("!! Properties Directory ~~ " + s);
     		applicationDirectory = s + File.separator;
     		System.out.println("!! Application Directory ~~ " + applicationDirectory);
 
@@ -236,21 +250,21 @@ public final class Parameters {
     		//        if (s == null || s.trim().equals("")) {
     		//            s = APPLICATION_DIRECTORY;
     		//        }
-    		jarListFileDirectory = getLibDirectory();
+    		systemJarFileDirectory = getLibDirectory();
 
-    		if (jarListFileDirectory == null || "".equals(jarListFileDirectory)) {
-    			//jarListFileDirectory = "C:\\Program Files\\RecordEdit\\MSaccess\\lib";
+    		if (systemJarFileDirectory == null || "".equals(systemJarFileDirectory)) {
+    			systemJarFileDirectory = "C:\\Program Files\\RecordEdit\\MSaccess\\lib";
     			//jarListFileDirectory = "/media/sda1/Bruces/Work/RecordEditParams";
     			//jarListFileDirectory = "/home/knoppix/RecordEdit/HSQLDB/lib";
-    			jarListFileDirectory = "/media/sdc1/RecordEditor/USB/lib";
+    			//systemJarFileDirectory = "/media/sdc1/RecordEditor/USB/lib";
     		} else {
-    			globalPropertyFileName = jarListFileDirectory + "/Params.Properties";
+    			globalPropertyFileName = systemJarFileDirectory + "/Params.Properties";
     		}
     	}
     }
     
     public static String getPropertiesDirectory() {
-		String s = expandVars(getResourceString("PropertiesDirectory"));
+		String s = expandVars(getResourceString(PROPERTIES_DIR_VAR_NAME));
 		if (s == null) {
 			s = USER_HOME + File.separator + ".RecordEditor/HSQLDB";
 		}
@@ -552,7 +566,7 @@ public final class Parameters {
         System.out.println("     lib  dir: " + libDirectory);
         
         try {
-        	 URL[] urls = {new URL("file:" + libDirectory + "/properties.zip" )};
+        	 URL[] urls = {new File("file:" + libDirectory + "/properties.zip" ).toURI().toURL()};
          	 
         	 ResourceBundle rb = ResourceBundle.getBundle(bundleName, 
         			 Locale.getDefault(),
@@ -610,7 +624,10 @@ public final class Parameters {
 
 	public static final void setProperty(String key, String value) {
 		properties.setProperty(key, value);
-		writeProperties();
+		
+		if (savePropertyChanges) {
+			writeProperties();
+		}
 	}
 	
 	public static final void setProperties(Properties prop) {
@@ -654,5 +671,12 @@ public final class Parameters {
     public static boolean isDefaultTrue(String s) {
     	return defaultTrue.contains(s);
     }
+
+	/**
+	 * @param savePropertyChanges the savePropertyChanges to set
+	 */
+	public static void setSavePropertyChanges(boolean savePropertyChanges) {
+		Parameters.savePropertyChanges = savePropertyChanges;
+	}
 
 }

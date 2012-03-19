@@ -21,6 +21,8 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 import net.sf.RecordEditor.layoutEd.Parameter.ParameterTableEditor;
+import net.sf.RecordEditor.re.db.Table.TableList;
+import net.sf.RecordEditor.re.db.Table.TypeList;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.swing.AbsJTable;

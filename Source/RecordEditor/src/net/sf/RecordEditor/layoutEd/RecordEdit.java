@@ -26,9 +26,9 @@ import javax.swing.event.InternalFrameEvent;
 
 import net.sf.RecordEditor.layoutEd.Record.RecordListPnl;
 import net.sf.RecordEditor.layoutEd.Record.RecordPnl;
-import net.sf.RecordEditor.layoutEd.Record.RecordRec;
-import net.sf.RecordEditor.layoutEd.Record.SaveRecordAsXml;
 import net.sf.RecordEditor.layoutEd.Record.SearchArgAction;
+import net.sf.RecordEditor.re.db.Record.RecordRec;
+import net.sf.RecordEditor.re.db.Record.SaveRecordAsXml;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;

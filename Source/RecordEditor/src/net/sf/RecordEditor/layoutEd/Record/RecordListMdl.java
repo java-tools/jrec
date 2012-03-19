@@ -6,6 +6,8 @@ package net.sf.RecordEditor.layoutEd.Record;
 
 import javax.swing.JFrame;
 
+import net.sf.RecordEditor.re.db.Record.RecordDB;
+import net.sf.RecordEditor.re.db.Record.RecordRec;
 import net.sf.RecordEditor.utils.jdbc.DBtableModel;
 
 

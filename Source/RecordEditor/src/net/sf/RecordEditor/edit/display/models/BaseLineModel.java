@@ -5,9 +5,9 @@ import javax.swing.table.AbstractTableModel;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
-import net.sf.RecordEditor.edit.file.FieldMapping;
-import net.sf.RecordEditor.edit.file.FileView;
-import net.sf.RecordEditor.edit.file.GetView;
+import net.sf.RecordEditor.re.file.FieldMapping;
+import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.file.GetView;
 import net.sf.RecordEditor.utils.common.Common;
 
 @SuppressWarnings("serial")

@@ -13,14 +13,14 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import net.sf.JRecord.IO.LineIOProvider;
-import net.sf.RecordEditor.layoutEd.Table.TableDB;
-import net.sf.RecordEditor.layoutEd.Table.TableRec;
+import net.sf.RecordEditor.re.db.Table.TableDB;
+import net.sf.RecordEditor.re.db.Table.TableRec;
+import net.sf.RecordEditor.re.openFile.ComputerOptionCombo;
+import net.sf.RecordEditor.re.openFile.SplitCombo;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
 import net.sf.RecordEditor.utils.jdbc.DBComboModel;
-import net.sf.RecordEditor.utils.openFile.ComputerOptionCombo;
-import net.sf.RecordEditor.utils.openFile.SplitCombo;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;

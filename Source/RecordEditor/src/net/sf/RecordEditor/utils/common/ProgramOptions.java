@@ -71,6 +71,8 @@ public class ProgramOptions {
 	public final FileNameOpt DEFAULT_COPYBOOK_DIRECTORY = new FileNameOpt(Parameters.COPYBOOK_DIRECTORY);
 	public final FileNameOpt DEFAULT_VELOCITY_DIRECTORY = new FileNameOpt(Parameters.VELOCITY_TEMPLATE_DIRECTORY);
 	public final FileNameOptWithDefault DEFAULT_XSLT_DIRECTORY = new FileNameOptWithDefault(Parameters.XSLT_TEMPLATE_DIRECTORY, "<reproperties>/User/Xslt/");
+	public final FileNameOpt XSLT_JAR1 = new FileNameOpt(Parameters.XSLT_JAR1);
+	public final FileNameOpt XSLT_JAR2 = new FileNameOpt(Parameters.XSLT_JAR2);
 
 	
 	public static class BoolOpt {
@@ -195,6 +197,10 @@ public class ProgramOptions {
 
 		public String get() {
 			return  Parameters.getFileName(param);
+		}
+		
+		public void set(String newVal) {
+			Parameters.setProperty(param, newVal);
 		}
 	}
 	

@@ -22,7 +22,7 @@ import java.util.StringTokenizer;
 
 import javax.swing.JTable;
 
-import net.sf.RecordEditor.edit.file.FileView;
+import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 
 

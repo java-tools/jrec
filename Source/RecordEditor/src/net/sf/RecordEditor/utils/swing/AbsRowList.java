@@ -129,14 +129,13 @@ public class AbsRowList implements AbstractRowList {
 	 * load arraylist of ob
 	 * @param a arraylist of details
 	 */
-	@SuppressWarnings("unchecked")
-	public final AbsRowList loadData(ArrayList a) {
+	public final AbsRowList loadData(ArrayList<? extends AbsRow> a) {
 		int i;
 
 		rows = new AbsRow[a.size()];
 
 		for (i = 0; i < a.size(); i++) {
-			rows[i] = (AbsRow) a.get(i);
+			rows[i] = a.get(i);
 		}
 		return this
 		;

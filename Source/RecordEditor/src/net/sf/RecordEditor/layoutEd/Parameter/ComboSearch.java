@@ -10,10 +10,10 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-import net.sf.RecordEditor.layoutEd.Table.TableDB;
-import net.sf.RecordEditor.utils.Combo.ComboDB;
-import net.sf.RecordEditor.utils.Combo.ComboJTbl;
-import net.sf.RecordEditor.utils.Combo.ComboRec;
+import net.sf.RecordEditor.re.db.Combo.ComboDB;
+import net.sf.RecordEditor.re.db.Combo.ComboJTbl;
+import net.sf.RecordEditor.re.db.Combo.ComboRec;
+import net.sf.RecordEditor.re.db.Table.TableDB;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;

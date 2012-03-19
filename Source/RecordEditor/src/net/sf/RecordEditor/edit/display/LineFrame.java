@@ -30,7 +30,7 @@ import javax.swing.event.TableModelEvent;
 
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.RecordEditor.edit.display.models.LineModel;
-import net.sf.RecordEditor.edit.file.FileView;
+import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 
@@ -135,6 +135,7 @@ public class LineFrame extends    BaseLineFrame {
 		init_300_setupScreen(btnPanel);
 		
 		show();
+		this.setToMaximum(false);
 	}
 
 

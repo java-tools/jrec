@@ -26,8 +26,8 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
+import net.sf.RecordEditor.re.util.csv.CsvSelectionTblMdl;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.csv.CsvSelectionTblMdl;
 import net.sf.RecordEditor.utils.swing.AbsRowList;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
@@ -289,7 +289,7 @@ public class Pnl4CsvNames extends WizardPanel {
     private class CsvSelTblMdl extends CsvSelectionTblMdl {
 
 		/**
-		 * @see net.sf.RecordEditor.utils.csv.CsvSelectionTblMdl#getColumnName(int)
+		 * @see net.sf.RecordEditor.re.util.csv.CsvSelectionTblMdl#getColumnName(int)
 		 */
 		@Override
 		public final String getColumnName(int col) {

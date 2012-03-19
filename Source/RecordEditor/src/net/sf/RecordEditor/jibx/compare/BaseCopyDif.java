@@ -13,7 +13,6 @@ public abstract class BaseCopyDif {
 	
 	public boolean stripTrailingSpaces = true;
 	
-	
 	public boolean fileSaved = false;
 
 

@@ -26,9 +26,9 @@ import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.table.TableColumn;
 
-import net.sf.RecordEditor.layoutEd.Table.TableListDB;
-import net.sf.RecordEditor.layoutEd.Table.TableListPnl;
-import net.sf.RecordEditor.layoutEd.Table.TableListRec;
+import net.sf.RecordEditor.re.db.Table.TableListDB;
+import net.sf.RecordEditor.re.db.Table.TableListPnl;
+import net.sf.RecordEditor.re.db.Table.TableListRec;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.common.ReConnection;

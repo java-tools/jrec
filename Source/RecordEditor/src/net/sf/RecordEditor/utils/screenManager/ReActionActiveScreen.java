@@ -112,6 +112,8 @@ implements AbstractActiveScreenAction {
         ReFrame actionHandler = ReFrame.getActiveFrame();
 
         super.setEnabled(actionHandler != null && actionHandler.isActionAvailable(actionId));
+        //if (actionHandler == null) System.out.print(" >> no active screen");
+        //else System.out.print(" >> " + actionHandler.getClass().getName());
     }
     
 	/**

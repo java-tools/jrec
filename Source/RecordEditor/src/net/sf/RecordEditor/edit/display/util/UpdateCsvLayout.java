@@ -20,7 +20,7 @@ import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
-import net.sf.RecordEditor.edit.file.FileView;
+import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
@@ -153,6 +153,7 @@ public class UpdateCsvLayout implements ActionListener {
 		frame.setDefaultCloseOperation(ReFrame.DISPOSE_ON_CLOSE);
 		frame.addMainComponent(pnl);
 		frame.setVisible(true);
+		frame.setToMaximum(false);
 		
 		goBtn.addActionListener(this);
 		fieldTbl.addMouseListener(popupListner);

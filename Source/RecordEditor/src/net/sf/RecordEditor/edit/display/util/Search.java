@@ -38,10 +38,10 @@ import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
 import net.sf.RecordEditor.edit.display.common.ILayoutChanged;
-import net.sf.RecordEditor.edit.file.FilePosition;
-import net.sf.RecordEditor.edit.file.FileView;
+import net.sf.RecordEditor.re.file.FilePosition;
+import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.util.filter.Compare;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.filter.Compare;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -86,6 +86,7 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 
 	@SuppressWarnings("rawtypes")
 	private FileView file;
+	private boolean firstTimeDisplayed = true;
 	//private int layout;
 	
     private KeyAdapter listner = new KeyAdapter() {
@@ -184,6 +185,10 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 
 		this.setVisible(true);
 		this.toFront();
+		if (firstTimeDisplayed) {
+			this.setToMaximum(false);
+			firstTimeDisplayed = false;
+		}
 	}
 
 	/**

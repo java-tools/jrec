@@ -3,7 +3,7 @@
  */
 package net.sf.RecordEditor.copy;
 
-import net.sf.RecordEditor.utils.openFile.LayoutSelectionFileCreator;
+import net.sf.RecordEditor.re.openFile.LayoutSelectionFileCreator;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 
 /**

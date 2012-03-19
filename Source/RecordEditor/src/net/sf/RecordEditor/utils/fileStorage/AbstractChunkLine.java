@@ -1,0 +1,19 @@
+package net.sf.RecordEditor.utils.fileStorage;
+
+import net.sf.JRecord.Details.AbstractLine;
+import net.sf.JRecord.Details.LayoutDetail;
+
+public interface AbstractChunkLine<fc extends FileChunk>
+extends AbstractLine<LayoutDetail> {
+
+	public abstract int getChunkLine();
+
+	public abstract int getActualLine();
+
+	public abstract void setChunkLine(int chunkLine);
+
+	public abstract fc getChunk();
+
+	public abstract void setChunk(fc chunk);
+
+}

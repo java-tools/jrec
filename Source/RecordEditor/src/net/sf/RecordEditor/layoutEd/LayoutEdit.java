@@ -24,13 +24,13 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 
 import net.sf.JRecord.External.CopybookLoaderFactory;
-import net.sf.RecordEditor.edit.util.CopybookLoaderFactoryDB;
-import net.sf.RecordEditor.editProperties.EditOptions;
 import net.sf.RecordEditor.layoutEd.Record.RecordEdit1Record;
-import net.sf.RecordEditor.layoutEd.utils.UpgradeDB;
+import net.sf.RecordEditor.re.editProperties.EditOptions;
+import net.sf.RecordEditor.re.util.CopybookLoaderFactoryDB;
+import net.sf.RecordEditor.re.util.ReIOProvider;
+import net.sf.RecordEditor.re.util.UpgradeDB;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
-import net.sf.RecordEditor.utils.edit.ReIOProvider;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
 import net.sf.RecordEditor.utils.screenManager.ReAction;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;

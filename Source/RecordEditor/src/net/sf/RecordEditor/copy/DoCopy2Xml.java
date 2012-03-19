@@ -1,12 +1,12 @@
 package net.sf.RecordEditor.copy;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
-import net.sf.RecordEditor.edit.tree.TreeParserRecord;
-import net.sf.RecordEditor.edit.tree.TreeToXml;
 import net.sf.RecordEditor.edit.util.WriteLinesAsXml;
 import net.sf.RecordEditor.jibx.compare.CopyDefinition;
 import net.sf.RecordEditor.jibx.compare.RecordParent;
-import net.sf.RecordEditor.utils.openFile.AbstractLayoutSelection;
+import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
+import net.sf.RecordEditor.re.tree.TreeParserRecord;
+import net.sf.RecordEditor.re.tree.TreeToXml;
 
 public class DoCopy2Xml {
 
@@ -20,11 +20,11 @@ public class DoCopy2Xml {
 			layout = layout.getFilteredLayout(copy.oldFile.getLayoutDetails().getFilteredRecords());
 		}
 		
-		net.sf.RecordEditor.edit.file.FileView view = new net.sf.RecordEditor.edit.file.FileView(
+		net.sf.RecordEditor.re.file.FileView view = new net.sf.RecordEditor.re.file.FileView(
 					copy.oldFile.name, layout, true);
 		
 		if (layout.hasChildren()) {
-			new net.sf.RecordEditor.edit.tree.ChildTreeToXml(copy.newFile.name,  view.getLines());
+			new net.sf.RecordEditor.re.tree.ChildTreeToXml(copy.newFile.name,  view.getLines());
 		} else if (layout.getRecordCount() == 1) {
 			new WriteLinesAsXml(copy.newFile.name, view.getLines());
 		} else {

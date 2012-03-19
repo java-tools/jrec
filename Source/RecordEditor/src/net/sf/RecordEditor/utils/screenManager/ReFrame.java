@@ -9,6 +9,7 @@
  */
 package net.sf.RecordEditor.utils.screenManager;
 
+import java.beans.PropertyVetoException;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
@@ -47,6 +48,69 @@ public class ReFrame extends JInternalFrame
 
     private static ArrayList<ReFrame> activeHistory = new ArrayList<ReFrame>();
 
+
+    private InternalFrameListener listener = new InternalFrameListener() {
+        public void internalFrameActivated(InternalFrameEvent e) {
+        	setActiveFrame(ReFrame.this);
+
+//            if (focusChangedListner != null) {
+//            	System.out.println("Setting event status: " + ReFrame.this.getClass().getName());
+//                focusChangedListner.focusChanged(ReFrame.this);
+//            } else {
+//            	System.out.println("Cannot set event status: " + ReFrame.this.getClass().getName());
+//            }
+        }
+
+        public void internalFrameClosed(InternalFrameEvent e) {
+
+        	try {
+        		ReFrame.this.removeInternalFrameListener(ReFrame.this.listener);
+        	} catch (Exception ee) {
+
+			}
+            allFrames.remove(ReFrame.this);
+            focusLost();
+            if (focusChangedListner != null) {
+                focusChangedListner.deleteWindow(ReFrame.this);
+                
+                //System.out.println("Frame Closing 1 ... " + activeHistory.size()
+                //		+ " " + (activeHistory.get(activeHistory.size() - 1) == ReFrame.this));
+                //System.out.println("Frame Closing 2 ... " + activeHistory.get(activeHistory.size() - 1)
+                //		+ " >> " + ReFrame.this);
+                if (activeHistory.size() > 1
+                && activeHistory.get(activeHistory.size() - 1) == ReFrame.this) {
+                	ReFrame nf = activeHistory.get(activeHistory.size() - 2);
+                	setActiveFrame(nf);
+                	
+                	focusChangedListner.focusChanged(nf);
+                }
+            }
+            activeHistory.remove(ReFrame.this);
+            windowClosing();
+        }
+
+        public void internalFrameClosing(InternalFrameEvent e) {
+        }
+
+        public void internalFrameDeactivated(InternalFrameEvent e) {
+            focusLost();
+        }
+
+        public void internalFrameDeiconified(InternalFrameEvent e) {
+        }
+
+        public void internalFrameIconified(InternalFrameEvent e) {
+            focusLost();
+        }
+
+        public void internalFrameOpened(InternalFrameEvent e) {
+        }
+
+//        private void dumpInfo(String s, InternalFrameEvent e) {
+//            System.out.println("Source: " + e.getInternalFrame().getName()
+//                    + " : " + s);
+//        }
+    };
 
 
     /**
@@ -101,61 +165,7 @@ public class ReFrame extends JInternalFrame
      */
     private void init() {
 
-        InternalFrameListener listener = new InternalFrameListener() {
-            public void internalFrameActivated(InternalFrameEvent e) {
-            	setActiveFrame(ReFrame.this);
-
-                if (focusChangedListner != null) {
-                    focusChangedListner.focusChanged(ReFrame.this);
-                }
-            }
-
-            public void internalFrameClosed(InternalFrameEvent e) {
-
-                allFrames.remove(ReFrame.this);
-                focusLost();
-                if (focusChangedListner != null) {
-                    focusChangedListner.deleteWindow(ReFrame.this);
-                    
-                    //System.out.println("Frame Closing 1 ... " + activeHistory.size()
-                    //		+ " " + (activeHistory.get(activeHistory.size() - 1) == ReFrame.this));
-                    //System.out.println("Frame Closing 2 ... " + activeHistory.get(activeHistory.size() - 1)
-                    //		+ " >> " + ReFrame.this);
-                    if (activeHistory.size() > 1
-                    && activeHistory.get(activeHistory.size() - 1) == ReFrame.this) {
-                    	ReFrame nf = activeHistory.get(activeHistory.size() - 2);
-                    	setActiveFrame(nf);
-                    	
-                    	focusChangedListner.focusChanged(nf);
-                    }
-                }
-                activeHistory.remove(ReFrame.this);
-                windowClosing();
-            }
-
-            public void internalFrameClosing(InternalFrameEvent e) {
-            }
-
-            public void internalFrameDeactivated(InternalFrameEvent e) {
-                focusLost();
-            }
-
-            public void internalFrameDeiconified(InternalFrameEvent e) {
-            }
-
-            public void internalFrameIconified(InternalFrameEvent e) {
-                focusLost();
-            }
-
-            public void internalFrameOpened(InternalFrameEvent e) {
-            }
-
-//            private void dumpInfo(String s, InternalFrameEvent e) {
-//                System.out.println("Source: " + e.getInternalFrame().getName()
-//                        + " : " + s);
-//            }
-        };
-
+ 
         allFrames.add(this);
         this.addInternalFrameListener(listener);
 
@@ -294,7 +304,15 @@ public class ReFrame extends JInternalFrame
     public void setVisible(boolean visible) {
 
         updateWindowStatus(visible);
+        
+        //ReWindowChanged holdFocusChangedListner = focusChangedListner;
+        //focusChangedListner = null;
+        //System.out.println(" !!! @Max 1 " + this.getClass().getName() + " " + this.isMaximum());
+        
         super.setVisible(visible);
+        
+        //System.out.println(" !!! @Max 2 "  + this.getClass().getName() + " " + this.isMaximum());
+        //focusChangedListner = holdFocusChangedListner;
     }
 
     /**
@@ -302,7 +320,14 @@ public class ReFrame extends JInternalFrame
      */
     public void show() {
         updateWindowStatus(true);
+        //ReWindowChanged holdFocusChangedListner = focusChangedListner;
+        //focusChangedListner = null;
+        
+        //System.out.println(" !!! @Max 3 " + this.getClass().getName() + " " + this.isMaximum());
         super.show();
+        //System.out.println(" !!! @Max 4 " + this.getClass().getName() + " " + this.isMaximum());
+        
+        //focusChangedListner = holdFocusChangedListner;
     }
 
 
@@ -367,12 +392,19 @@ public class ReFrame extends JInternalFrame
     	if (newActiveFrame != activeFrame) {
 	       	if (activeFrame != null) {
 	    		try {
+		       		//System.out.println(" !! Loosing Focus " + activeFrame.getClass().getName() );
+	    			activeFrame.removeInternalFrameListener(activeFrame.listener);
 	    			activeFrame.setSelected(false);
+	    			activeFrame.addInternalFrameListener(activeFrame.listener);
 	    		} catch (Exception ex) {
 				}
 	    	}
 	       	
 	       	if (newActiveFrame != null) {
+	       		boolean max = newActiveFrame.isMaximum();
+	       		//System.out.println(" !! Getting Focus " + newActiveFrame.getClass().getName() + " " + max);
+	       		newActiveFrame.removeInternalFrameListener(newActiveFrame.listener);
+	       		
 	       		newActiveFrame.moveToFront();
 	       		newActiveFrame.requestFocus(true);
 		        try {
@@ -381,8 +413,19 @@ public class ReFrame extends JInternalFrame
 		        }   	
 	            activeHistory.remove(newActiveFrame);
 	            activeHistory.add(newActiveFrame);
+	            
+	            
+	            try {
+					newActiveFrame.setMaximum(max);
+				} catch (PropertyVetoException e) {
+				}
+	            
+	            newActiveFrame.addInternalFrameListener(newActiveFrame.listener);      
 	       	}
 	        activeFrame = newActiveFrame;
+            if (focusChangedListner != null) {
+                focusChangedListner.focusChanged(activeFrame);
+            } 
     	}
     }
 
@@ -416,5 +459,13 @@ public class ReFrame extends JInternalFrame
 			desktopWidth = desktop.getBounds().width;
 		}
 		return desktopWidth;
+	}
+	
+	public final void setToMaximum(boolean max) {
+		
+        try {
+        	this.setMaximum(max);
+        } catch (Exception e) {
+		}
 	}
 }

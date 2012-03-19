@@ -6,10 +6,12 @@ import java.util.List;
 import javax.xml.stream.XMLStreamException;
 
 import net.sf.JRecord.Details.AbstractLine;
+import net.sf.RecordEditor.re.util.BasicLine2Xml;
 
 public class WriteLinesAsXml extends BasicLine2Xml {
 
 	//private List<AbstractLine> linesToProcess;
+	@SuppressWarnings("rawtypes")
 	private Iterator<? extends AbstractLine> lineIterator;
 	
 	/**
@@ -17,7 +19,7 @@ public class WriteLinesAsXml extends BasicLine2Xml {
 	 * @param filename file to write
 	 * @param lines to be written
 	 */
-	public WriteLinesAsXml(String filename, List<? extends AbstractLine> lines) {
+	public WriteLinesAsXml(String filename, @SuppressWarnings("rawtypes") List<? extends AbstractLine> lines) {
 		super(filename);
 		
 		lineIterator =  lines.listIterator();
@@ -30,7 +32,7 @@ public class WriteLinesAsXml extends BasicLine2Xml {
 	 * @param filename file to write
 	 * @param lines to be written
 	 */
-	public WriteLinesAsXml(String filename, Iterator<? extends AbstractLine> iterator) {
+	public WriteLinesAsXml(String filename, @SuppressWarnings("rawtypes") Iterator<? extends AbstractLine> iterator) {
 		super(filename);
 		
 		lineIterator =  iterator;
@@ -41,7 +43,7 @@ public class WriteLinesAsXml extends BasicLine2Xml {
 
 	
 	/**
-	 * @see net.sf.RecordEditor.edit.util.BasicLine2Xml#writeDetails()
+	 * @see net.sf.RecordEditor.re.util.BasicLine2Xml#writeDetails()
 	 */
 	@Override
 	protected final void writeDetails() throws XMLStreamException {

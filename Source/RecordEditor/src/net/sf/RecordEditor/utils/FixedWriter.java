@@ -5,10 +5,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+
 import net.sf.JRecord.Common.Conversion;
 import net.sf.RecordEditor.utils.common.Common;
 
-public class FixedWriter implements FieldWriter {
+public class FixedWriter extends BaseWriter {
 
 	private static final byte[] noBytes = {};
 	private OutputStream fileWriter;
@@ -20,15 +21,14 @@ public class FixedWriter implements FieldWriter {
 //	private int lineNo = 0;
 	private int fieldNo = 0;
 
-	private boolean[] numericFields = null;
 	private final int[] fieldLen;
-	private final boolean[] printField;
-
+	private  int[] prefixLen = null;
+	
 	public FixedWriter(String fileName, String delimiter, 
 			String fontName, int[] fieldLengths, boolean[] includeField) throws IOException {
 		font = fontName;
 		fieldLen = fieldLengths;
-		printField = includeField;
+		setPrintField(includeField);
 
 		fileWriter = new BufferedOutputStream(
 				new FileOutputStream(fileName), 4096);
@@ -55,6 +55,17 @@ public class FixedWriter implements FieldWriter {
 		sep = noBytes;
 	}
 	
+	
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.BaseWriter#setupInitialFields(int, java.util.List)
+	 */
+	@Override
+	public void setupInitialFields(int numberOfInitialFields, int[] levelSizes) {
+		prefixLen = levelSizes;
+		super.setupInitialFields(numberOfInitialFields, levelSizes);
+	} 
+
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.FieldWriter#newLine()
 	 */
@@ -76,8 +87,8 @@ public class FixedWriter implements FieldWriter {
 				fileWriter.write(
 						Conversion.getBytes(
 								pad(	field, 
-										fieldLen[fieldNo], 
-										numericFields != null && numericFields[fieldNo]),
+										getFieldLength(fieldNo, field.length()), 
+										isNumeric(fieldNo)),
 								font));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -93,7 +104,7 @@ public class FixedWriter implements FieldWriter {
 	 * @see net.sf.RecordEditor.utils.FieldWriter#writeField(java.lang.String)
 	 */
 	public void writeField(String field) throws IOException {
-		writeField(field, numericFields != null && numericFields[fieldNo]);
+		writeField(field, isNumeric(fieldNo));
 	}
 	
 	public void writeField(String field, boolean isNumeric) throws IOException {
@@ -101,9 +112,13 @@ public class FixedWriter implements FieldWriter {
 		if (isFieldToBePrinted(fieldNo)) {
 			fileWriter.write(sep);
 			
+			if (field == null) {
+				field = "";
+			}
+			
 			fileWriter.write(
 					Conversion.getBytes(
-							pad(field, fieldLen[fieldNo], isNumeric),
+							pad(field, getFieldLength(fieldNo, field.length()), isNumeric),
 							font)
 							);
 		
@@ -112,11 +127,36 @@ public class FixedWriter implements FieldWriter {
 		fieldNo += 1;
 	}
 	
+	private int getFieldLength(int fldNo, int fieldLength) {
+		int ret = fieldLength;
+		
+		if (prefixLen!= null && fldNo < prefixLen.length) {
+			if (fieldLength > prefixLen[fldNo]) {
+				prefixLen[fldNo] = fieldLength;
+			}
+			ret = prefixLen[fldNo];
+		} else {
+			int idx = adjustFieldNo(fieldNo);
+			if (idx < fieldLen.length) {
+				if (fieldLength > fieldLen[idx]) {
+					fieldLen[idx] = fieldLength;
+				}
+				ret = fieldLen[idx];
+			}
+		}
+		return ret;
+	}
+	
 	private String pad(String val, int len, boolean rightJustified) {
 		char[] bld = new char[len];
 		int i;
-		int l = Math.min(len, val.length());
+		int l; 
 		int start = 0;
+		
+		if (val == null) {
+			val = "";
+		}
+		l = Math.min(len, val.length());
 		if (rightJustified) {
 			start = len - l;
 		}
@@ -138,17 +178,25 @@ public class FixedWriter implements FieldWriter {
 		fileWriter.close();
 	}
 	
-	
-	/* (non-Javadoc)
-	 * @see net.sf.RecordEditor.utils.FieldWriter#setNumericFields(boolean[])
-	 */
-	public void setNumericFields(boolean[] numericFields) {
-		this.numericFields = numericFields;
-	}
-
-
-	private boolean isFieldToBePrinted(int fldNo) {
-		return printField == null 
-			|| (fldNo < printField.length && printField[fldNo]);
+	public int[] getColumnWidths() {
+		int[] ret;
+		int st = 0;
+		int diff = 0;
+		if (prefixLen == null) {
+			ret = new int[fieldLen.length];
+		} else {
+			ret = new int[prefixLen.length + fieldLen.length];
+			System.arraycopy(prefixLen, 0, ret, 0, prefixLen.length);
+			st = prefixLen.length;
+			diff = st;
+		}
+		
+		for (int i = 0; i < fieldLen.length; i++) {
+			if (isFieldToBePrinted(i+diff)) {
+				ret[st++] = fieldLen[i];
+			}
+		}
+		
+		return ret;
 	}
 }

@@ -10,7 +10,7 @@ package net.sf.RecordEditor.edit.display.util;
 import javax.swing.table.AbstractTableModel;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
-import net.sf.RecordEditor.edit.tree.FieldSummaryDetails;
+import net.sf.RecordEditor.re.tree.FieldSummaryDetails;
 
 /**
  * Table model to display/enter sort options in a JTable

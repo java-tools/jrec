@@ -4,8 +4,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import net.sf.RecordEditor.edit.util.NewCsvFile;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.csv.NewCsvFile;
 
 @SuppressWarnings("serial")
 public class NewCsvAction extends AbstractAction {

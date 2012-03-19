@@ -26,11 +26,11 @@ import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.edit.display.common.AbstractRowChanged;
 import net.sf.RecordEditor.edit.display.util.AbstractTreeFrame;
 import net.sf.RecordEditor.edit.display.util.RowChangeListner;
-import net.sf.RecordEditor.edit.file.AbstractLineNode;
-import net.sf.RecordEditor.edit.file.FieldMapping;
-import net.sf.RecordEditor.edit.file.FileView;
 
-import net.sf.RecordEditor.edit.tree.LineTreeTabelModel;
+import net.sf.RecordEditor.re.file.AbstractLineNode;
+import net.sf.RecordEditor.re.file.FieldMapping;
+import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.tree.LineTreeTabelModel;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
@@ -230,7 +230,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 
 		this.addMainComponent(pnl);
 	    this.setSize(scrSize.width  - 1, scrSize.height - 1);
-	    setMaximumSize();
+	    setToMaximum(true);
 		//this.pack();
 		
 	    LayoutCombo combo = getLayoutCombo();

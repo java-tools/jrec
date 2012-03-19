@@ -2,7 +2,10 @@ package net.sf.RecordEditor.layoutEd.Record;
 
 import javax.swing.JTextField;
 
-import net.sf.RecordEditor.layoutEd.utils.TableUpdatePnl;
+import net.sf.RecordEditor.re.db.Record.ChildRecordsRec;
+import net.sf.RecordEditor.re.db.Record.RecordSelectionDB;
+import net.sf.RecordEditor.re.db.Record.RecordSelectionRec;
+import net.sf.RecordEditor.re.util.TableUpdatePnl;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.jdbc.DBtableModel;

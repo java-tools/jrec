@@ -7,9 +7,9 @@ import net.sf.RecordEditor.edit.display.BaseDisplay;
 import net.sf.RecordEditor.edit.display.LineList;
 import net.sf.RecordEditor.edit.display.LineTree;
 import net.sf.RecordEditor.edit.display.LineTreeChild;
-import net.sf.RecordEditor.edit.file.FileView;
-import net.sf.RecordEditor.edit.tree.LineNodeChild;
-import net.sf.RecordEditor.edit.tree.TreeParserXml;
+import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.tree.LineNodeChild;
+import net.sf.RecordEditor.re.tree.TreeParserXml;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.EditingCancelled;
 

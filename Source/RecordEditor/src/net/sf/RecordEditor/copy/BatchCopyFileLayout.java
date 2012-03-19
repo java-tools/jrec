@@ -4,7 +4,7 @@
 package net.sf.RecordEditor.copy;
 
 
-import net.sf.RecordEditor.utils.openFile.LayoutSelectionFile;
+import net.sf.RecordEditor.re.openFile.LayoutSelectionFile;
 
 
 /**

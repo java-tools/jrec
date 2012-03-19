@@ -30,18 +30,18 @@ import net.sf.RecordEditor.edit.display.Action.NewFileAction;
 import net.sf.RecordEditor.edit.display.Action.SaveFieldSequenceAction;
 import net.sf.RecordEditor.edit.display.Action.VisibilityAction;
 import net.sf.RecordEditor.edit.open.OpenFile;
-import net.sf.RecordEditor.edit.util.CopybookLoaderFactoryDB;
 import net.sf.RecordEditor.layoutEd.LayoutMenu;
-import net.sf.RecordEditor.layoutEd.utils.UpgradeDB;
 import net.sf.RecordEditor.layoutWizard.Wizard;
+import net.sf.RecordEditor.re.openFile.LayoutSelectionDB;
+import net.sf.RecordEditor.re.openFile.LayoutSelectionDBCreator;
+import net.sf.RecordEditor.re.util.CopybookLoaderFactoryDB;
+import net.sf.RecordEditor.re.util.ReIOProvider;
+import net.sf.RecordEditor.re.util.UpgradeDB;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
 import net.sf.RecordEditor.utils.CopyBookInterface;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.ParseArgs;
-import net.sf.RecordEditor.utils.edit.ReIOProvider;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
-import net.sf.RecordEditor.utils.openFile.LayoutSelectionDB;
-import net.sf.RecordEditor.utils.openFile.LayoutSelectionDBCreator;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
 /**

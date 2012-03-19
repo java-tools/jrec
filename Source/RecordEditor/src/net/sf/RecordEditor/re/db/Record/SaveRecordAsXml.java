@@ -1,14 +1,14 @@
-package net.sf.RecordEditor.layoutEd.Record;
+package net.sf.RecordEditor.re.db.Record;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import net.sf.JRecord.External.CopybookWriter;
 import net.sf.JRecord.External.CopybookWriterManager;
-import net.sf.RecordEditor.edit.util.CopybookLoaderFactoryDB;
+import net.sf.RecordEditor.re.util.CopybookLoaderFactoryDB;
+import net.sf.RecordEditor.re.util.filter.DirectoryFrame;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReConnection;
-import net.sf.RecordEditor.utils.filter.DirectoryFrame;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
 
 public class SaveRecordAsXml  implements ActionListener {

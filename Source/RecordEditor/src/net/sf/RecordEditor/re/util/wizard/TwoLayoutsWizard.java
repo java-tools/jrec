@@ -1,14 +1,16 @@
 /**
  * 
  */
-package net.sf.RecordEditor.utils.wizards;
+package net.sf.RecordEditor.re.util.wizard;
 
 import net.sf.RecordEditor.jibx.JibxCall;
 import net.sf.RecordEditor.jibx.compare.BaseCopyDif;
 
+import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
-import net.sf.RecordEditor.utils.openFile.AbstractLayoutSelection;
+import net.sf.RecordEditor.utils.wizards.AbstractWizard;
+import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 
 
 /**
@@ -18,7 +20,8 @@ import net.sf.RecordEditor.utils.openFile.AbstractLayoutSelection;
 public abstract class TwoLayoutsWizard<Save extends BaseCopyDif> extends AbstractWizard<Save> {
 
 	private JibxCall<Save> jibx = null;
-	@SuppressWarnings("unchecked")
+
+	@SuppressWarnings("rawtypes")
 	private AbstractLayoutSelection[] recordSelection = new AbstractLayoutSelection[2];
 
 	
@@ -34,7 +37,8 @@ public abstract class TwoLayoutsWizard<Save extends BaseCopyDif> extends Abstrac
 	}
 
 
-	@SuppressWarnings("unchecked")
+
+	@SuppressWarnings("rawtypes")
 	protected void setUpPanels(AbstractLayoutSelection selection1, AbstractLayoutSelection selection2, 
 			String recentFiles, AbstractWizardPanel<Save> finalScreen,
 			String help) {

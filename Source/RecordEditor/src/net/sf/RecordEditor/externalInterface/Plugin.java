@@ -1,9 +1,9 @@
 /**
  * 
  */
-package net.sf.RecordEditor.utils;
+package net.sf.RecordEditor.externalInterface;
 
-import net.sf.RecordEditor.edit.file.FileView;
+import net.sf.RecordEditor.re.file.FileView;
 
 
 /**

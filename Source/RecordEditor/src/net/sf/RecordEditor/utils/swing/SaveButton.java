@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 
-import net.sf.RecordEditor.re.file.filter.AbstractSaveDetails;
+import net.sf.RecordEditor.utils.common.AbstractSaveDetails;
 import net.sf.RecordEditor.utils.common.Common;
 
 

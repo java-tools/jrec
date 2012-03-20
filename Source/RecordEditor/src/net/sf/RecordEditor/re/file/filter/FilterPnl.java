@@ -49,6 +49,7 @@ import javax.swing.table.TableColumnModel;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
+import net.sf.RecordEditor.utils.common.AbstractSaveDetails;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
@@ -411,7 +412,7 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
     
     
     /**
-	 * @see net.sf.RecordEditor.re.file.filter.AbstractSaveDetails#getSaveDetails()
+	 * @see net.sf.RecordEditor.utils.common.AbstractSaveDetails#getSaveDetails()
 	 */
 	@Override
 	public EditorTask getSaveDetails() {

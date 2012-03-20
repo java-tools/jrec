@@ -13,7 +13,7 @@ import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
 import net.sf.RecordEditor.jibx.compare.RecordParent;
 import net.sf.RecordEditor.jibx.compare.RecordTree;
-import net.sf.RecordEditor.re.file.filter.AbstractSaveDetails;
+import net.sf.RecordEditor.utils.common.AbstractSaveDetails;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.edit.RecordList;
@@ -140,7 +140,7 @@ public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
 	
 	
 	/**
-	 * @see net.sf.RecordEditor.re.file.filter.AbstractSaveDetails#getSaveDetails()
+	 * @see net.sf.RecordEditor.utils.common.AbstractSaveDetails#getSaveDetails()
 	 */
 	@Override
 	public final EditorTask getSaveDetails() {

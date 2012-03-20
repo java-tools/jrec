@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.re.file.filter;
+package net.sf.RecordEditor.utils.common;
 
 public interface AbstractSaveDetails<what> {
 

@@ -316,4 +316,16 @@ implements AbstractLineNode {
 	public AbstractLineNode getChildbyCode(int code) {
 		return children[code];
 	}
+	
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.re.file.AbstractLineNode#insertNode(int, java.lang.String, net.sf.RecordEditor.re.file.FileView, net.sf.JRecord.Details.AbstractLine)
+	 */
+	@Override
+	public AbstractLineNode insertNode(int location, String nodeName,
+			FileView fileView, AbstractLine theLine) {
+		AbstractLineNode node = new LineNodeChild(nodeName, fileView, theLine);
+		this.insert(node, location);
+		return node;
+	}
 }

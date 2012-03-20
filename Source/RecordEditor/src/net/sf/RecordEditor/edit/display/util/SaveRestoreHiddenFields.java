@@ -13,12 +13,12 @@ import net.sf.RecordEditor.jibx.compare.FieldTest;
 import net.sf.RecordEditor.jibx.compare.Record;
 import net.sf.RecordEditor.jibx.compare.Layout;
 import net.sf.RecordEditor.re.file.FileView;
-import net.sf.RecordEditor.re.util.filter.AbstractExecute;
-import net.sf.RecordEditor.re.util.filter.AbstractSaveDetails;
-import net.sf.RecordEditor.re.util.filter.ExecuteSavedFile;
-import net.sf.RecordEditor.re.util.filter.FilterField;
-import net.sf.RecordEditor.re.util.filter.SaveButton;
+import net.sf.RecordEditor.re.file.filter.AbstractExecute;
+import net.sf.RecordEditor.re.file.filter.AbstractSaveDetails;
+import net.sf.RecordEditor.re.file.filter.ExecuteSavedFile;
+import net.sf.RecordEditor.re.file.filter.FilterField;
 import net.sf.RecordEditor.utils.common.Parameters;
+import net.sf.RecordEditor.utils.swing.SaveButton;
 
 public class SaveRestoreHiddenFields 
 implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
@@ -38,7 +38,7 @@ implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
 
 
 	/**
-	 * @see net.sf.RecordEditor.re.util.filter.AbstractSaveDetails#getSaveDetails()
+	 * @see net.sf.RecordEditor.re.file.filter.AbstractSaveDetails#getSaveDetails()
 	 */
 	@Override
 	public EditorTask getSaveDetails() {

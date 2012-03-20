@@ -13,7 +13,7 @@
 package net.sf.RecordEditor.re.file;
 
 import net.sf.JRecord.Details.AbstractLine;
-import net.sf.RecordEditor.re.util.filter.Compare;
+import net.sf.RecordEditor.re.file.filter.Compare;
 import net.sf.RecordEditor.utils.common.Common;
 
 /**

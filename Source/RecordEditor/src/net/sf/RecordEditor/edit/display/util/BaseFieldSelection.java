@@ -29,9 +29,8 @@ import net.sf.RecordEditor.edit.display.models.SortFieldMdl;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
 import net.sf.RecordEditor.jibx.compare.SortTree;
 import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.file.filter.AbstractSaveDetails;
 import net.sf.RecordEditor.re.tree.FieldSummaryDetails;
-import net.sf.RecordEditor.re.util.filter.AbstractSaveDetails;
-import net.sf.RecordEditor.re.util.filter.SaveButton;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
@@ -41,6 +40,7 @@ import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
 import net.sf.RecordEditor.utils.swing.ComboBoxRender;
+import net.sf.RecordEditor.utils.swing.SaveButton;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 @SuppressWarnings("serial")

@@ -9,9 +9,9 @@ import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.re.db.Record.ExtendedRecordDB;
-import net.sf.RecordEditor.re.util.filter.DirectoryFrame;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReConnection;
+import net.sf.RecordEditor.utils.swing.DirectoryFrame;
 
 
 public class LoadXmlLayoutsIntoDB  implements ActionListener {

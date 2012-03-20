@@ -36,8 +36,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import net.sf.RecordEditor.re.file.FileView;
-import net.sf.RecordEditor.re.util.filter.FilterDetails;
-import net.sf.RecordEditor.re.util.filter.FilterPnl;
+import net.sf.RecordEditor.re.file.filter.FilterDetails;
+import net.sf.RecordEditor.re.file.filter.FilterPnl;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
@@ -148,7 +148,7 @@ public class FilterFrame extends ReFrame {
 
 	/**
 	 * @return
-	 * @see net.sf.RecordEditor.re.util.filter.FilterPnl#getFilter()
+	 * @see net.sf.RecordEditor.re.file.filter.FilterPnl#getFilter()
 	 */
 	public final FilterDetails getFilter() {
 		return pnl.getFilter();

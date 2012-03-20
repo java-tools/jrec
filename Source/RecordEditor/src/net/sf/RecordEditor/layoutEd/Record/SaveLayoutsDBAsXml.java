@@ -9,10 +9,10 @@ import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.re.db.Record.ExtendedRecordDB;
 import net.sf.RecordEditor.re.db.Record.RecordRec;
 import net.sf.RecordEditor.re.util.CopybookLoaderFactoryDB;
-import net.sf.RecordEditor.re.util.filter.DirectoryFrame;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
+import net.sf.RecordEditor.utils.swing.DirectoryFrame;
 
 public class SaveLayoutsDBAsXml  implements ActionListener {
 

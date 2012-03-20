@@ -63,11 +63,10 @@ import net.sf.JRecord.IO.AbstractLineWriter;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.IO.LineReaderWrapper;
 
-import net.sf.RecordEditor.re.tree.LineNodeChild;
-import net.sf.RecordEditor.re.util.filter.Compare;
-import net.sf.RecordEditor.re.util.filter.FilterDetails;
-import net.sf.RecordEditor.re.util.filter.FilterField;
-import net.sf.RecordEditor.re.util.filter.FilterFieldList;
+import net.sf.RecordEditor.re.file.filter.Compare;
+import net.sf.RecordEditor.re.file.filter.FilterDetails;
+import net.sf.RecordEditor.re.file.filter.FilterField;
+import net.sf.RecordEditor.re.file.filter.FilterFieldList;
 import net.sf.RecordEditor.utils.ColumnMappingInterface;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ProgramOptions;
@@ -1441,9 +1440,9 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 						name = getLayout().getRecord(RecordIdx).getRecordName();
 					}
 
-					node = new LineNodeChild(name, baseFile, newLine);
+					//node = new LineNodeChild(name, baseFile, newLine);
 
-					((AbstractLineNode) treeTableNotify.getRoot()).insert(node, loc);
+					node = ((AbstractLineNode) treeTableNotify.getRoot()).insertNode(loc, name, baseFile, newLine);
 					treeTableNotify.fireTreeNodesInserted(node);
 				} else {
 					fireTableRowsInsertedLocal(loc, loc);

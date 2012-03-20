@@ -25,7 +25,7 @@
  * # Version 0.62 Bruce Martin 2007/04/30
  *   - adding support for enter key
  **/
-package net.sf.RecordEditor.re.util.filter;
+package net.sf.RecordEditor.re.file.filter;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -56,6 +56,7 @@ import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
 import net.sf.RecordEditor.utils.swing.ComboBoxRender;
+import net.sf.RecordEditor.utils.swing.SaveButton;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
@@ -410,7 +411,7 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
     
     
     /**
-	 * @see net.sf.RecordEditor.re.util.filter.AbstractSaveDetails#getSaveDetails()
+	 * @see net.sf.RecordEditor.re.file.filter.AbstractSaveDetails#getSaveDetails()
 	 */
 	@Override
 	public EditorTask getSaveDetails() {

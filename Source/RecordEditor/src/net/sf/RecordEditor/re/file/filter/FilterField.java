@@ -12,7 +12,7 @@
  *   - Changed final Arrays to protected to limit external
  *     updates
  */
-package net.sf.RecordEditor.re.util.filter;
+package net.sf.RecordEditor.re.file.filter;
 
 /**
  * This class holds field filter details. These details are

@@ -6,10 +6,10 @@ import java.awt.event.ActionListener;
 import net.sf.JRecord.External.CopybookWriter;
 import net.sf.JRecord.External.CopybookWriterManager;
 import net.sf.RecordEditor.re.util.CopybookLoaderFactoryDB;
-import net.sf.RecordEditor.re.util.filter.DirectoryFrame;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
+import net.sf.RecordEditor.utils.swing.DirectoryFrame;
 
 public class SaveRecordAsXml  implements ActionListener {
 

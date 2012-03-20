@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.re.util.filter;
+package net.sf.RecordEditor.re.file.filter;
 
 public interface AbstractExecute<details> {
 

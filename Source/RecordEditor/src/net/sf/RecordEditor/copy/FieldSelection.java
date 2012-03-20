@@ -7,9 +7,9 @@ import javax.swing.JComponent;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.jibx.compare.CopyDefinition;
+import net.sf.RecordEditor.re.file.filter.FilterPnl;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.re.openFile.FormatFileName;
-import net.sf.RecordEditor.re.util.filter.FilterPnl;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;

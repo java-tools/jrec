@@ -89,4 +89,17 @@ public interface AbstractLineNode extends MutableTreeNode{
 	 */
 	public void removeAllChildren();
 
+	
+	/**
+	 * Create a new node at the specified location and return to the calling program
+	 * 
+	 * @param location to insert the new node
+	 * @param nodeName node name
+	 * @param fileView file it pertains to
+	 * @param theLine relevant line in the file
+	 * @return
+	 */
+	public AbstractLineNode insertNode(
+			int location, String nodeName,
+			FileView fileView, AbstractLine theLine);
 }

@@ -13,8 +13,7 @@ import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
 import net.sf.RecordEditor.jibx.compare.RecordParent;
 import net.sf.RecordEditor.jibx.compare.RecordTree;
-import net.sf.RecordEditor.re.util.filter.AbstractSaveDetails;
-import net.sf.RecordEditor.re.util.filter.SaveButton;
+import net.sf.RecordEditor.re.file.filter.AbstractSaveDetails;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.edit.RecordList;
@@ -24,6 +23,7 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBoxRender;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
+import net.sf.RecordEditor.utils.swing.SaveButton;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
@@ -140,7 +140,7 @@ public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
 	
 	
 	/**
-	 * @see net.sf.RecordEditor.re.util.filter.AbstractSaveDetails#getSaveDetails()
+	 * @see net.sf.RecordEditor.re.file.filter.AbstractSaveDetails#getSaveDetails()
 	 */
 	@Override
 	public final EditorTask getSaveDetails() {

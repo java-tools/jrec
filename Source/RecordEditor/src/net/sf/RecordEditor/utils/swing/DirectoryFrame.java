@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.re.util.filter;
+package net.sf.RecordEditor.utils.swing;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,9 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
-import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
-import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 @SuppressWarnings("serial")
 public class DirectoryFrame extends ReFrame {

@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.re.util.filter;
+package net.sf.RecordEditor.re.file.filter;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

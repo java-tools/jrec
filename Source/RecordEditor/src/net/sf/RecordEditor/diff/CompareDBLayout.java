@@ -24,7 +24,7 @@ public class CompareDBLayout {
 	 */
 	public static void main(String[] args) {
 		
-		 new ReMainFrame("File Compare", "");
+		 new ReMainFrame("File Compare", "", "Cmp");
 		 newMenu(CopyBookDbReader.getInstance());
 
 	}

@@ -17,7 +17,8 @@ public class TstBinCsvLine extends TestCase {
 	
 	//private static final String TMP_DIRECTORY = TstConstants.TEMP_DIRECTORY;
 	
-	private String layoutFile = "C:\\Program Files\\RecordEdit\\HSQL\\CopyBook\\Xml/Xml/zzBinCsv.Xml";
+//	private String layoutFile = "C:\\Program Files\\RecordEdit\\HSQL\\CopyBook\\Xml/Xml/zzBinCsv.Xml";
+	private String layoutFile = "C:\\JavaPrograms\\RecordEdit\\HSQL\\CopyBook\\Xml/zzBinCsv.Xml";
 	private LayoutDetail layout = null;
 	
 	

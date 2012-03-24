@@ -6,7 +6,6 @@ package net.sf.RecordEditor.utils.screenManager;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -151,6 +150,7 @@ public class ReMainFrame extends JFrame
 	private JMenu velocityTemplateList = null;
 	private JMenu xslTransformList = null;
 
+	private final String applId;
 	static {
         int j;
         systemActions = new Action[SYSTEM_ACTION_NAMES.length];
@@ -171,11 +171,12 @@ public class ReMainFrame extends JFrame
 	 * Standard Frame for the recordEditor / Layout Editor
 	 * @param name frame name
 	 * @param helpName help screen name
+	 * @param applicationId Very short name for the application
 	 */
-	public ReMainFrame(final String name, final String helpName) {
+	public ReMainFrame(final String name, final String helpName, String applicationId) {
 	    super(name);
 	    masterFrame = this;
-	    
+	    this.applId = applicationId;
 	    init_100_Frame(helpName);
 	    init_200_SetSizes();
 	    init_300_BuildScreen();
@@ -240,31 +241,27 @@ public class ReMainFrame extends JFrame
 	 */
 	private void init_200_SetSizes() {
 	    int start, height;
-	    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	    int screenHeight = screenSize.height - Common.getSpaceAtBottomOfScreen()
-	    - Common.getSpaceAtTopOfScreen();
+	    Dimension desktopSize; 
 
-	    Common.setBounds1(HelpWindow.HELP_FRAME);
-	    Common.setBounds1(this);
-//	    HelpWindow.HELP_FRAME.setBounds(Common.getSpaceAtLeftOfScreen(),
-//	            Common.getSpaceAtTopOfScreen(),
-//	            screenSize.width  - inset,
-//	            screenHeight);
-//
-//	    setBounds(Common.getSpaceAtLeftOfScreen(),
-//	            Common.getSpaceAtTopOfScreen(),
-//	            screenSize.width  - inset,
-//	            screenHeight);
+	    Common.setBounds1(HelpWindow.HELP_FRAME, applId);
+	    Common.setBounds1(this, applId);
+	    
+	    desktopSize = this.getSize();
 
-	    start = screenHeight - LOG_SCREEN_HEIGHT - LOG_SCREEN_STARTS_FROM_BOTTOM;
+	    start = desktopSize.height - LOG_SCREEN_HEIGHT - LOG_SCREEN_STARTS_FROM_BOTTOM;
 	    height  = LOG_SCREEN_HEIGHT;
-	    if (screenSize.height < LOG_SCREEN_HEIGHT) {
+	    if (desktopSize.height - 40 < LOG_SCREEN_HEIGHT) {
 	        start = 4;
-	        height  = screenHeight - start;
+	        height  = height - start;
 	    }
+//	    System.out.println();
+//	    System.out.println("Desktop Size: " + desktopSize.height + " " + desktopSize.width);
+//	    System.out.println("    Log Size: " + height + " " + (desktopSize.width - LOG_SCREEN_WIDTH_ADJUSTMENT));
+//	    System.out.println();
+	    
 	    logFrame.getContentPane().add(log);
 	    logFrame.setBounds(2, start,
-	            screenSize.width - LOG_SCREEN_WIDTH_ADJUSTMENT, height);
+	            desktopSize.width - LOG_SCREEN_WIDTH_ADJUSTMENT, height);
 	    logFrame.setVisible(true);
 
 	    desktop.add(logFrame);
@@ -302,6 +299,7 @@ public class ReMainFrame extends JFrame
 	    	@Override
 	        public void windowClosing(final WindowEvent e) {
 	    		System.out.println("Window Closing");
+	    		
 	            quit();
 	            super.windowClosing(e);
 	        }
@@ -567,6 +565,15 @@ public class ReMainFrame extends JFrame
 	 */
 	protected void quit() {
 		System.out.println("ReMainframe Quit");
+		
+		Dimension d = ReMainFrame.this.getSize();
+		if (d != null && applId != null) {
+			Parameters.setSavePropertyChanges(false);
+			Parameters.setProperty(applId + Parameters.LAST_SCREEN_WIDTH, String.valueOf(d.width));
+			Parameters.setSavePropertyChanges(true);
+			Parameters.setProperty(applId + Parameters.LAST_SCREEN_HEIGHT, String.valueOf(d.height));
+		}
+		
 		ReFrame[] allFrames = ReFrame.getAllFrames();
         for (int i = allFrames.length - 1; i >= 0; i--) {
             if (allFrames[i].isPrimaryView()) {
@@ -872,7 +879,19 @@ public class ReMainFrame extends JFrame
 
 	
 
-    /**
+    /* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.screenManager.ReWindowChanged#getApplicationId()
+	 */
+	@Override
+	public String getApplicationId() {
+		return applId;
+	}
+
+
+
+
+
+	/**
      * Action to bring window to the front; used by the Window menu
      *
      *

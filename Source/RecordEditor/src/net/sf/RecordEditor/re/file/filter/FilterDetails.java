@@ -285,7 +285,7 @@ public class FilterDetails {
 				
 				if (! allFields) {
 					allSelected = false;
-					if (fieldInc != null && i < fieldInc.length) {
+					if (fieldInc != null && i < fieldInc.length && fieldInc[i] != null) {
 						rec.fields = new String[fieldInc[i].length];
 						for (j = 0; j < fieldInc[i].length; j++) {
 							//rec.fields[j]= recordDetail.getField(fieldInc[i][j]).getName();

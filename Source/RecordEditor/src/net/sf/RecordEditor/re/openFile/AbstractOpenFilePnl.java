@@ -153,7 +153,7 @@ implements FocusListener {
 	 */
 	private void init_200_ScreenFields() {
 
-		Common.setBounds1(HelpWindow.HELP_FRAME);
+		Common.setBounds1(HelpWindow.HELP_FRAME, "Help");
 
 //		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 //

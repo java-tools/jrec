@@ -182,7 +182,7 @@ public class DisplayCobolCopybook implements ActionListener {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new ReMainFrame("Cobol CopyBook Analysis", "");
+		new ReMainFrame("Cobol CopyBook Analysis", "", "An");
 		new DisplayCobolCopybook(); 
 		//.display("/home/bm/Programs/open-cobol-1.0/CobolSrc/default/cpyComp.cbl", Convert.FMT_OPEN_COBOL);
 	}

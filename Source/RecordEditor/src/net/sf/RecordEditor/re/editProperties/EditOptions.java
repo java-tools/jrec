@@ -40,6 +40,8 @@ import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.re.util.CopybookLoaderFactoryDB;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
+import net.sf.RecordEditor.utils.common.ProgramOptions;
+import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
@@ -385,12 +387,25 @@ public class EditOptions {
 //            {"spaceAtLeftOfScreen", "Space to be left at the left of the screen.", null},
 //            {"spaceAtRightOfScreen", "Space to be left at the Right of the screen.", null},
 //    };
+	
+	private String applId = ReMainFrame.getMasterFrame().getApplicationId();
+    private static final String[][] SIZE_OPTION = {
+    		{String.valueOf(ProgramOptions.SIZE_MAXIMISED), "Maximized"}, 
+    		{String.valueOf(ProgramOptions.SIZE_LAST), "Last Screen Size"}, 
+    		{String.valueOf(ProgramOptions.SIZE_SPACE_AROUND), "Use Space around parameters"},
+    		{String.valueOf(ProgramOptions.SIZE_SPECIFIED), "Height, Width Below"},
+    };
+
     private Object[][] screenLocationParams = {
-            {Parameters.MAXIMISE_SCREEN, "Maximise the screen", null, EditPropertiesPnl.FLD_BOOLEAN,  "Maximise the screen"},
+            {Parameters.SCREEN_SIZE_OPTION, "Program Initial Size", null, EditPropertiesPnl.FLD_LIST,  "Size of the program when it opens", SIZE_OPTION},
             {"spaceAtBottomOfScreen", "Space to be left at the bottom of the screen.", null, EditPropertiesPnl.FLD_INT, null},
             {"spaceAtTopOfScreen", "Space to be left at the top of the screen.", null, EditPropertiesPnl.FLD_INT, null},
             {"spaceAtLeftOfScreen", "Space to be left at the left of the screen.", null, EditPropertiesPnl.FLD_INT, null},
             {"spaceAtRightOfScreen", "Space to be left at the Right of the screen.", null, EditPropertiesPnl.FLD_INT, null},
+            {"", "", null, EditPropertiesPnl.FLD_EMPTY, null}, 
+            {applId + Parameters.SCREEN_START_HEIGHT, "Screen Height", null, EditPropertiesPnl.FLD_INT, null},
+            {applId + Parameters.SCREEN_START_WIDTH,  "Screen Width",  null, EditPropertiesPnl.FLD_INT, null},
+            {"", "", null, EditPropertiesPnl.FLD_RETRIEVE_SIZE, null}
     };
     
     private EditPropertiesPnl screenPosPnl

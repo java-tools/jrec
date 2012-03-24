@@ -35,6 +35,8 @@ import net.sf.JRecord.Types.Type;
 public class XmlLineReader extends StandardLineReader {
 	
 	private static final int SEARCH_LIMIT = 4000;
+	private static String xlmnsPrefix = "{" + javax.xml.XMLConstants.XMLNS_ATTRIBUTE_NS_URI + "}";
+	//javax.xml.XMLConstants.XMLNS_ATTRIBUTE
 
     private static final int FOLLOWING_TEXT_INDEX = XmlConstants.FOLLOWING_TEXT_INDEX;
     private XMLStreamReader parser;
@@ -79,8 +81,20 @@ public class XmlLineReader extends StandardLineReader {
     		f = XMLInputFactory.newInstance("javax.xml.stream.XMLInputFactory", this.getClass().getClassLoader());
 		}
     	//f.setProperty("javax.xml.stream.isReplacingEntityReferences", Boolean.FALSE);
-    	f.setProperty("javax.xml.stream.isNamespaceAware", Boolean.FALSE);
+    	//f.setProperty("javax.xml.stream.isNamespaceAware", Boolean.FALSE);
+    	
+    	f.setProperty(XMLInputFactory.IS_NAMESPACE_AWARE, Boolean.FALSE);
+    	
+    	//f.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES, Boolean.FALSE);
+    	//f.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
+    	// *** f.setProperty(XMLInputFactory.IS_COALESCING, Boolean.TRUE);
+    	//f.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
+    	//f.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES, Boolean.TRUE);
+    	//javax.xml.XMLConstants.XMLNS_ATTRIBUTE_NS_URI;
+    	
+    	System.out.println("====> " + f.getClass().getName());
 
+    	
         if (buildLayout || pLayout == null) {
             try {
             pLayout = new LayoutDetail("XML Document", new RecordDetail[] {null, null, null, null, null},
@@ -234,6 +248,9 @@ public class XmlLineReader extends StandardLineReader {
 
     private XmlLine read_200_Element() throws IOException {
         String elementName = parser.getName().toString();
+        
+        //System.out.print(" >" + parser.getNamespaceCount());
+        
         int idx = g_100_GetRecordIndex(elementName, parser.getAttributeCount() + 4);
         AbstractRecordDetail rec = getLayout().getRecord(idx);
         Object fieldValue;
@@ -327,9 +344,18 @@ public class XmlLineReader extends StandardLineReader {
 
     private void g_200_LoadAttributes(XmlLine line, AbstractRecordDetail rec, int recordIdx) throws IOException {
 
+//    	for (int i = 0; i < parser.getNamespaceCount(); i++) {
+//    		System.out.println(" ===> " + parser.getNamespacePrefix(i) + " " + parser.getNamespaceURI(i));
+//    	}
+    	
+    	String s;
 		for (int i = 0; i < parser.getAttributeCount(); i++) {
+			s = parser.getAttributeName(i).toString();
+			if (s.startsWith(xlmnsPrefix)) {
+				s = javax.xml.XMLConstants.XMLNS_ATTRIBUTE + ":" +s.substring(xlmnsPrefix.length());
+			}
 		    g_400_SetField(line, recordIdx,
-		            g_500_GetFieldIndex(rec, XmlConstants.ATTRIBUTE_PREFIX + parser.getAttributeName(i).toString()),
+		            g_500_GetFieldIndex(rec, XmlConstants.ATTRIBUTE_PREFIX + s),
 		            parser.getAttributeValue(i));
 		}
 

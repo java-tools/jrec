@@ -60,7 +60,7 @@ public class LayoutEdit extends ReMainFrame {
 	 * @throws java.awt.HeadlessException
 	 */
 	public LayoutEdit() {
-		super("Record Layout Definitions", "");
+		super("Record Layout Definitions", "", "le");
 		
 		ReIOProvider.register();
 

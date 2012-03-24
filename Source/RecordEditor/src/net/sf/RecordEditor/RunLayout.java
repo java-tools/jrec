@@ -30,7 +30,7 @@ public final class RunLayout {
      * @param args program arguments
      */
     public static void main(String[] args) {
-        new Run("FullEditorFiles.txt",
+        new Run("SystemJars.txt",
                 null,
                 "net.sf.RecordEditor.layoutEd.LayoutEdit",
                 args);

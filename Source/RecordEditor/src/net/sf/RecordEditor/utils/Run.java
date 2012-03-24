@@ -75,7 +75,7 @@ public final class Run implements ExternalReferenceConstants {
         readFile(list, libDir + FILE_SEPERATOR + SYSTEM_JARS_FILENAME, true);
         addJars(list, null);
         
-        buildUrls(list, libDir, false); 
+        buildUrls(list, libDir, false, false); 
     }
 
     /**
@@ -109,7 +109,7 @@ public final class Run implements ExternalReferenceConstants {
             
             addJars(list, jars);
 
-            urls = buildUrls(list, libDir, isWinUac); 
+            urls = buildUrls(list, libDir, isWinUac, true); 
 
             urlLoader = new URLClassLoader(urls);
 
@@ -158,7 +158,7 @@ public final class Run implements ExternalReferenceConstants {
 
 	}
 	
-	private URL[] buildUrls(ArrayList<String> list, String libDir, boolean isWinUac) throws MalformedURLException {
+	private URL[] buildUrls(ArrayList<String> list, String libDir, boolean isWinUac, boolean warn) throws MalformedURLException {
 		URL[] urls = new URL[list.size()];
 		boolean tryUnpack = true;
 		String s, packedName;
@@ -244,7 +244,7 @@ public final class Run implements ExternalReferenceConstants {
 			}
         }
         
-        if (missingCount > 0) {
+        if (missingCount > 0 && warn) {
         	JTextArea missingTxt = new JTextArea();
         	missingTxt.setText(missing.toString()
         			+ "\nthis could mean unpack process in the install failed.\n"

@@ -29,7 +29,7 @@ public final class RunCobolEditor {
      * @param args program arguments
      */
     public static void main(String[] args) {
-        new Run("FullEditorFiles.txt",
+        new Run(Run.SYSTEM_JARS_FILENAME,
                 JARS,
                 "net.sf.RecordEditor.editFileLayout.Edit",
                 args);

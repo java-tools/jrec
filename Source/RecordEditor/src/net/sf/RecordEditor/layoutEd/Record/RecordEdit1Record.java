@@ -76,6 +76,7 @@ public class RecordEdit1Record extends ReFrame {
                              final int dbConnectionIdx,
                              final LayoutConnection callbackClass) {
         super(dbName, "Create Record Layout", null);
+        RecordRec rec= RecordRec.getNullRecord("", "");
 
         boolean free = Common.isSetDoFree(false);
         connectionIdx = dbConnectionIdx;
@@ -87,7 +88,8 @@ public class RecordEdit1Record extends ReFrame {
 				  connectionIdx,
 				  this, false, false);
 
-        init(RecordRec.getNullRecord("", ""));
+        rec.setNew(true);
+        init(rec);
         Common.setDoFree(free, dbConnectionIdx);
     }
 
@@ -173,9 +175,9 @@ public class RecordEdit1Record extends ReFrame {
 
 		RecordRec rec = pnlRecord.getValues();
 
-		if (rec == null) {
+		if (rec == null || "".equals(rec.getRecordName())) {
 		    message.setText("Can not save, Invalid Record definition ");
-		} else {
+		} else if (rec.getUpdateStatus() != RecordRec.UNCHANGED) {
 	        dbRecord.checkAndUpdate(rec);
 			if (rec.isUpdateSuccessful()) {
 				pnlRecord.saveRecordDetails();

@@ -100,6 +100,8 @@ public class XmlCopybookLoader implements CopybookLoader {
     private Convert numTranslator;
     private String fontName = "";
     private int system = 0;
+    
+    private int redefLevel = Integer.MAX_VALUE;
 
     /**
      * Load a File as a DOM Document
@@ -197,12 +199,17 @@ public class XmlCopybookLoader implements CopybookLoader {
         Element element = /*(Element)*/ pCopyBookXml.getDocumentElement();
 
         allocDBs(pDbIdx);
-
-        if (pSplitCopybook == SPLIT_NONE) {   /* split copybook on first redefine*/
+        
+        switch (pSplitCopybook) {
+        case SPLIT_NONE:   /* split copybook on first redefine*/
             createRecord(pCopyBook, pCopyBook, STR_YES);
 
             insertXMLcopybook(lCopyBookPref, element, 0, "");
-        } else {
+            break;
+        case SPLIT_REDEFINE:
+        	scanCopybook4RedefLevel(element);
+        	// Deliberate Fall through 
+        default:
             insertXMLcopybook(lCopyBookPref, element, 0, "");
 
             //System.out.println(" ->> " + foundRedefine + " " + commonDetails.size());
@@ -237,6 +244,49 @@ public class XmlCopybookLoader implements CopybookLoader {
 
 
     /**
+     * Scan Copybook for lowest level where that is redefined
+     *
+     * @param element XML element source
+     */
+    private void scanCopybook4RedefLevel(final Element element) {
+
+        NodeList lNodeList = element.getChildNodes();
+
+        for (int i = 0; i < lNodeList.getLength(); i++) {
+            org.w3c.dom.Node node = lNodeList.item(i);
+            if (node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+                Element childElement = (Element) node;
+                if (!childElement.getAttribute(ATTR_LEVEL).equals("88")) {
+                	checkRedef(childElement);
+                    scanCopybook4RedefLevel(childElement);
+                }
+            }
+        }
+    }
+
+    /**
+     * insert an XML element (field) into the Field DB.
+     *
+     * @param element element to be inserted into the DB
+     * @param copyBookPref Copybook name
+     * @param nameSuffix suffix to be used on field names
+     * @param posBase base position
+     */
+    private void checkRedef(Element element) {
+
+       if (element.hasAttribute(ATTR_NAME))  {
+    	   try {
+    		   int level = getIntAttribute(element, ATTR_LEVEL);
+	    	   if (level > 0
+	    	   &&  level < redefLevel
+	    	   &&  getStringAttribute(element, ATTR_REDEFINED).equals("true")) {
+		           redefLevel = level;
+		       }
+    	   } catch (Exception e) {
+    	   }
+       }
+    }
+    /**
      * Insert XML Copybook into Record Fields
      *
      * @param copyBookPref copy book name
@@ -245,9 +295,9 @@ public class XmlCopybookLoader implements CopybookLoader {
      * @param nameSuffix Name suffix
      */
     private void insertXMLcopybook(final String copyBookPref,
-            							  final Element element,
-            							  final int basePosition,
-            							  final String nameSuffix) {
+    							   final Element element,
+            					   final int basePosition,
+            					   final String nameSuffix) {
 
         String newSuffix;
         NodeList lNodeList = element.getChildNodes();
@@ -279,7 +329,6 @@ public class XmlCopybookLoader implements CopybookLoader {
             }
         }
     }
-
 
     /**
      * insert an XML element (field) into the Field DB.
@@ -328,8 +377,12 @@ public class XmlCopybookLoader implements CopybookLoader {
                      }
           	      } else {
           	          opt = OPT_SAVE;
-          	          if (getStringAttribute(element, ATTR_REDEFINED).equals("true")) {
-          	              opt = OPT_REDEFINED;
+          	          try {
+	          	          if (redefLevel == getIntAttribute(element, ATTR_LEVEL) 
+		          	          &&  getStringAttribute(element, ATTR_REDEFINED).equals("true")) {
+		          	              opt = OPT_REDEFINED;
+	          	          }   
+          	          } catch (Exception e) {
           	          }
            	      }
            	  break;

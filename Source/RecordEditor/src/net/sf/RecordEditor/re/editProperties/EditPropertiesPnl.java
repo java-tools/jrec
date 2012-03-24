@@ -7,10 +7,14 @@
  */
 package net.sf.RecordEditor.re.editProperties;
 
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -20,6 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import net.sf.RecordEditor.utils.common.Parameters;
+import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BasicGenericPopup;
 import net.sf.RecordEditor.utils.swing.DatePopup;
@@ -36,19 +41,23 @@ import net.sf.RecordEditor.utils.swing.Combo.ComboStrOption;
 @SuppressWarnings("serial")
 public class EditPropertiesPnl extends BasePanel {
 
+	private static final int EMPTY_VAL  = 0;
 	private static final int STRING_VAL  = 1;
 	private static final int INT_VAL     = 2;
 	private static final int BOOLEAN_VAL = 3;
 		private static final int LIST_VAL    = 5;
 	private static final int DIRECTORY   = 6;
 	private static final int DATE_VAL    = 7;
+	private static final int RETRIEVE_APPL_SIZE    = 8;
 
+	public static final Integer FLD_EMPTY   = Integer.valueOf(EMPTY_VAL);
 	public static final Integer FLD_TEXT    = Integer.valueOf(STRING_VAL);
 	public static final Integer FLD_INT     = Integer.valueOf(INT_VAL);
 	public static final Integer FLD_BOOLEAN = Integer.valueOf(BOOLEAN_VAL);
 	public static final Integer FLD_LIST    = Integer.valueOf(LIST_VAL);
 	public static final Integer FLD_DIR     = Integer.valueOf(DIRECTORY);
 	public static final Integer FLD_DATE    = Integer.valueOf(DATE_VAL);
+	public static final Integer FLD_RETRIEVE_SIZE = Integer.valueOf(RETRIEVE_APPL_SIZE);
 
     private static final int NAME_COLUMN = 0;
 	private static final int DESCRPTION_COLUMN = 1;
@@ -61,7 +70,7 @@ public class EditPropertiesPnl extends BasePanel {
 
 
     private Object[][] tableData;
-
+    private final JComponent[] components;
     private EditParams pgmParams;
 
 
@@ -77,6 +86,7 @@ public class EditPropertiesPnl extends BasePanel {
 
         pgmParams = params;
         tableData = tblData;
+        components = new JComponent[tableData.length];
         //System.out.println(description);
         tips = new JEditorPane("text/html", description);
 
@@ -100,6 +110,8 @@ public class EditPropertiesPnl extends BasePanel {
             if (tableData[i][TYPE_COLUMN] instanceof Integer) {
             	int type = ((Integer) tableData[i][TYPE_COLUMN]).intValue();
             	switch (type) {
+            	case EMPTY_VAL:
+            		addLine("", null);
             	case STRING_VAL:
             		addField(i, new TxtFld(i), null);
             		break;
@@ -120,6 +132,11 @@ public class EditPropertiesPnl extends BasePanel {
             		fn.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
             		addField(i, fn, fn.getChooseFileButton());
              		break;
+            	case RETRIEVE_APPL_SIZE:
+            		if (i > 1 && components[i - 1] instanceof TxtFld && components[i - 2] instanceof TxtFld) {
+            			addField(i, new FetchSize((TxtFld) components[i - 2], (TxtFld) components[i - 1]), null);
+            		}
+            		break;
             	}
             }
         }
@@ -132,6 +149,7 @@ public class EditPropertiesPnl extends BasePanel {
     	}
     	item.setToolTipText(tableData[row][DESCRPTION_COLUMN].toString());
     	super.addLine(prompt.toString(), item, item2);
+    	components[row] = item;
     }
     
     private void setValue(int row, String value) {
@@ -380,5 +398,31 @@ public class EditPropertiesPnl extends BasePanel {
 		@Override
 		public void focusGained(FocusEvent arg0) {		
 		}
+	}
+	
+	public class FetchSize extends JButton implements ActionListener {
+		TxtFld heightTxt, widthTxt;
+
+		public FetchSize(TxtFld height, TxtFld width) {
+			super("Retrieve Screen size");
+			this.heightTxt = height;
+			this.widthTxt = width;
+			
+			this.addActionListener(this);
+		}
+
+		/* (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			Dimension d = ReMainFrame.getMasterFrame().getSize();
+			heightTxt.setText(String.valueOf(d.height));
+			widthTxt.setText(String.valueOf(d.width));
+			heightTxt.focusLost(null);
+			widthTxt.focusLost(null);
+		}
+		
+		
 	}
 }

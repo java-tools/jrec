@@ -21,7 +21,7 @@ public class CompareFileLayout {
 	 */
 	public static void main(String[] args) {
 		
-		 new ReMainFrame("File Compare", "");
+		 new ReMainFrame("File Compare", "", "Cmp");
 		 newMenu();
 	}
 

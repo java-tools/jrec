@@ -53,7 +53,7 @@ public class WizardFileMenu implements ActionListener {
 	 */
 	public static void main(String[] args) {
 		
-		 new ReMainFrame("Wizard - Generate Copybooks", "");
+		 new ReMainFrame("Wizard - Generate Copybooks", "", "Wiz");
 		// JFrame.setDefaultLookAndFeelDecorated(true);
 		 try {
 		 UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");

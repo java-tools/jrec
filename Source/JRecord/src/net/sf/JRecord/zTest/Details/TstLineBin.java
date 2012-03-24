@@ -39,7 +39,7 @@ public class TstLineBin extends TestCase {
     private static String copyBookName    = "Cbl_Line_Test_Record";
     private static String copyBookDTAR020 = "DTAR020";
 
-    private static byte[] rec =
+    private  byte[] rec =
     		{  97, 115, 100, 102,  32,  32,  32,  32,  32,  32,  32
             ,  32,  32,  32, 113, 119, 101, 114, 116, 121,   0,   0
             ,   0,   1,  35,  64,  94,  78, -39,  22,-121,  43,   2
@@ -55,7 +55,7 @@ public class TstLineBin extends TestCase {
             ,   0,   1,  35,  79,   1,  35,  15,  49,  75,  48,  48
             ,  49,  75,-128,-127,-125,   0,   0 };
 
-    private static byte[] recDtar020 =
+    private  byte[] recDtar020 =
     { -10,  -7, -10,  -7, -12, -15, -11,  -8,   2,  12,   0,  64,  17,-116
         ,  40,  12,   0,   0,   0,   0,  28,   0,   0,   0,   0,  80,  28 };
 
@@ -147,7 +147,8 @@ public class TstLineBin extends TestCase {
         assertEquals("GetFieldText - Character Field ", "asdf", line.getFieldText(0, 0));
         assertEquals("GetFieldText - Character Field ", "    qwerty", line.getFieldText(0, 1));
 
-        assertEquals("GetFieldText - 4 >> ", "ChWï¿½", line.getFieldText(0, 4));
+ //       assertEquals("GetFieldText - 4 >> ", "ChWï¿½", line.getFieldText(0, 4));
+        assertEquals("GetFieldText - 4 >> ", "ChWÏ", line.getFieldText(0, 4));
         assertEquals("GetFieldText - 5 >> ", "3456", line.getFieldText(0, 5));
         assertEquals("GetFieldText - 6 >> ", "     123", line.getFieldText(0, 6));
     }

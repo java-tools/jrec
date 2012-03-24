@@ -579,8 +579,12 @@ public class GenericInstaller implements ActionListener {
             e.printStackTrace();
         } finally {
             try {
-            	writer.close();
-            	w.close();
+            	if (writer != null) {
+            		writer.close();
+            	}
+            	if (w != null) {
+            		w.close();
+            	}
             } catch (Exception e) {
             	e.printStackTrace();
             }

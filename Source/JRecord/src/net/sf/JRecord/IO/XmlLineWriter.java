@@ -45,7 +45,7 @@ public class XmlLineWriter extends AbstractLineWriter {
     
     private void allocateWriter()  throws IOException {
     	XMLOutputFactory f = getFactory();
-    	
+    	//f.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, true);
     	
         try {
             writer = f.createXMLStreamWriter(os);
@@ -170,9 +170,9 @@ public class XmlLineWriter extends AbstractLineWriter {
             value = line.getField(idx, i);
 
             if (value != null && ! "".equals(value) && attrName != null) {
-                if (attrName.startsWith(XmlConstants.ATTRIBUTE_PREFIX)) {
-                	attrName = attrName.substring(ATTR_PREFIX_LENGTH);
-            	}
+//                if (attrName.startsWith(XmlConstants.ATTRIBUTE_PREFIX)) {
+//                	attrName = attrName.substring(ATTR_PREFIX_LENGTH);
+//            	}
                 writer.writeAttribute(attrName, value.toString());
             }
         }

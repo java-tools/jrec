@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 public class TstBinType extends TestCase {
 
 
-    private static byte[] rec1 =
+    private  byte[] rec1 =
 		    { 97, 115, 100, 102, 32, 32, 32, 32, 32, 32, 32
 		    	, 32, 32, 32, 113, 119, 101, 114, 116, 121, 0, 0
 		    	, 0, 1, 35, 2, 43, -121, 22, -39, 78, 94, 64
@@ -85,7 +85,7 @@ public class TstBinType extends TestCase {
 //        ,   0,  18,  52,  93,  18,  52,  13,  49,  50,  49,  50
 //        ,  49,  50, -64, -63,-125,   0,   0 ,  13,  10 };
 
-    private static byte[] rec = rec1;
+    private byte[] rec = rec1;
 
 
     private static byte[] recDtar020 =

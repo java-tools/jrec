@@ -23,7 +23,7 @@ public class CopyDBLayout {
 	 */
 	public static void main(String[] args) {
 		
-		 new ReMainFrame("File Copy", "");
+		 new ReMainFrame("File Copy", "", "Cpy");
 		 newMenu(CopyBookDbReader.getInstance());
 
 	}

@@ -475,6 +475,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 			break;
 			case ReActionHandler.SAVE_AS_VELOCITY:
 			    executeSaveAs(SaveAs3.FORMAT_VELOCITY, "");
+			break;
 			case ReActionHandler.SAVE_AS_XSLT:
 			    executeSaveAs(SaveAs3.FORMAT_XSLT, "");
 			break;

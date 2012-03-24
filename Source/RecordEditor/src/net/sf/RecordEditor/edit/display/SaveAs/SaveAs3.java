@@ -268,15 +268,16 @@ public final class SaveAs3 extends ReFrame
         	fname = Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get();
         }
 
-        currentIndex = FORMAT_TRANSLATION[formatIdx];
        
         if (! Common.OPTIONS.XSLT_AVAILABLE.isSelected()) {
         	len -= 1;
         	pnls[pnls.length - 2] = pnls[pnls.length - 1];
+        	FORMAT_TRANSLATION[FORMAT_TRANSLATION.length - 1] -= 1;
         }
         if (Common.isVelocityAvailable()) {
         	len += 1;
         }
+        currentIndex = FORMAT_TRANSLATION[formatIdx];
 
         if (file.isView()) {
             commonSaveFields.saveWhat.addItem(OPT_VIEW);

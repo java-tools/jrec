@@ -21,9 +21,11 @@ import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
+import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.RecordEditor.edit.open.StartEditor;
 import net.sf.RecordEditor.edit.util.StandardLayouts;
 import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.util.ReIOProvider;
 import net.sf.RecordEditor.utils.FieldWriter;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
@@ -240,7 +242,7 @@ public abstract class SaveAsPnlBase {
     		throw new RuntimeErrorException(null, "Can not edit the File: Can not determine the format");
     	} else {
     		FileView newFile = new FileView(layout,
-        			commonSaveAsFields.file.getIoProvider(),
+    				ReIOProvider.getInstance(),
         			false);
     		StartEditor startEditor = new StartEditor(newFile, outFile, false, commonSaveAsFields.message ,0);
     		

@@ -22,7 +22,7 @@ public class TstCharType extends TestCase {
 
     private TypeManager typeManager = new TypeManager();
 
-    private static byte[] rec1 = {
+    private byte[] rec1 = {
             97, 115, 100, 32, 32, 113, 119, 101, 0, 0, 113, 119, 101, 0, 32
     };
 

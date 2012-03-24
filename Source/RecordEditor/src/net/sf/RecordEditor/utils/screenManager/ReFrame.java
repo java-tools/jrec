@@ -9,6 +9,7 @@
  */
 package net.sf.RecordEditor.utils.screenManager;
 
+import java.awt.Dimension;
 import java.beans.PropertyVetoException;
 import java.util.ArrayList;
 
@@ -467,5 +468,23 @@ public class ReFrame extends JInternalFrame
         	this.setMaximum(max);
         } catch (Exception e) {
 		}
+	}
+
+	/**
+	 * @return very short Application id
+	 * @see net.sf.RecordEditor.utils.screenManager.ReWindowChanged#getApplicationId()
+	 */
+	public static String getApplicationId() {
+		if (focusChangedListner == null) return null;
+		return focusChangedListner.getApplicationId();
+	}
+
+	/**
+	 * @return Applications current size
+	 * @see net.sf.RecordEditor.utils.screenManager.ReWindowChanged#getSize()
+	 */
+	public static Dimension getApplicationSize() {
+		if (focusChangedListner == null) return null;
+		return focusChangedListner.getSize();
 	}
 }

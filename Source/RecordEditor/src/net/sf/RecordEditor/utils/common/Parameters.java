@@ -47,7 +47,11 @@ public final class Parameters implements ExternalReferenceConstants {
    //public static final String PROPERTY_BIG_FILE_GZIP_WRITE = "BigFileGZipAnalyseSize"; 
     public static final String PROPERTY_TEST_MODE  = "TestMode";
     public static final String PROPERTY_LOAD_FILE_BACKGROUND  = "LoadFileInBackground";
-    public static final String MAXIMISE_SCREEN  = "MaximiseScreen";
+    public static final String SCREEN_SIZE_OPTION  = "ScreenSizeOpt";
+    public static final String LAST_SCREEN_WIDTH   = "lastScreenWidth";
+    public static final String LAST_SCREEN_HEIGHT  = "lastScreenHeight";
+    public static final String SCREEN_START_WIDTH  = "ScreenStartWidth";
+    public static final String SCREEN_START_HEIGHT = "ScreenStartHeight";
   
     public static final String PROPERTY_COPYBOOK_NAME_PREFIX  = "CopybookLoaderName.";
     public static final String PROPERTY_COPYBOOK_CLASS_PREFIX = "CopybookloaderClass.";
@@ -180,7 +184,6 @@ public final class Parameters implements ExternalReferenceConstants {
 				PROPERTY_PGN_ICONS,
 				USE_NEW_TREE_EXPANSION,
 				SEARCH_ALL_FIELDS,
-				MAXIMISE_SCREEN,
 		};
 
 		for (String s : defTrueKeys) {
@@ -431,6 +434,8 @@ public final class Parameters implements ExternalReferenceConstants {
         } else if (lcName.startsWith("<rehome>")) {
             ret = reHomeDirectory + name.substring("<rehome>".length());
         } else if (lcName.startsWith("<reproperties>")) {
+            ret = getPropertiesDirectory() + name.substring("<reproperties>".length());
+        } else if (lcName.startsWith("<reproperties>")) {
             ret = applicationDirectory + name.substring("<reproperties>".length());
         }
         
@@ -450,6 +455,7 @@ public final class Parameters implements ExternalReferenceConstants {
 
         String ret = name;
         String lcName = name.toLowerCase();
+        String reprops = getPropertiesDirectory();
 
         if (baseDirectory == null) {
             getDirectories();
@@ -466,7 +472,9 @@ public final class Parameters implements ExternalReferenceConstants {
             ret = "<home>" + name.substring(USER_HOME.length());
         } else if ((! "".equals(reHomeDirectory))
                && lcName.startsWith(reHomeDirectory.toLowerCase())) {
-            ret = "<rehome>" + name.substring(reHomeDirectory.length());
+        } else if ((! "".equals(reprops))
+                && lcName.startsWith(reprops.toLowerCase())) {
+            ret = "<reproperties>" + name.substring(reprops.length());
         }
 
         //System.out.println("~~> " + name + " ==> " + ret);

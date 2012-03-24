@@ -11,11 +11,17 @@ public class ProgramOptions {
     public static final char LARGE_VB_NO   = 'N';
     public static final char LARGE_VB_TEST = 'T';
     
+    public static final char SIZE_MAXIMISED = 'M';
+    public static final char SIZE_LAST      = 'L';
+    public static final char SIZE_SPACE_AROUND = 'S';
+    public static final char SIZE_SPECIFIED = 'D';
+    
     private static final char[] compressOptions = {COMPRESS_SPACE, COMPRESS_READ, COMPRESS_READ_FAST_CPU, COMPRESS_NO, COMPRESS_YES};
     private static final char[] largeOptions = {LARGE_VB_NO, LARGE_VB_YES, LARGE_VB_TEST};
+    private static final char[] startSize = {SIZE_MAXIMISED, SIZE_LAST, SIZE_SPACE_AROUND, SIZE_SPECIFIED};
                               
 	public final BoolOpt searchAllFields = new BoolOpt(Parameters.SEARCH_ALL_FIELDS);
-	public final BoolOpt MAXIMISE_SCREEN  = new BoolOpt(Parameters.MAXIMISE_SCREEN);
+	public final MultiValOpt screenStartSizeOpt  = new MultiValOpt(Parameters.SCREEN_SIZE_OPTION, startSize, SIZE_MAXIMISED);
 
 	public final BoolOpt usePrefered = new BoolOpt(Parameters.PREFERED_AS_DEFAULT);
 	public final BoolOpt warnBinaryFieldsAndStructureDefault = new BoolOpt(Parameters.WARN_BINARY_FIELDS_DEFAULT);

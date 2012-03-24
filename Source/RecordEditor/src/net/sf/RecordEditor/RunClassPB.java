@@ -44,7 +44,7 @@ public final class RunClassPB {
     			args1[i] = args[i+1];
     		}
     	}
-        new Run("FullEditorFiles.txt",
+        new Run(Run.SYSTEM_JARS_FILENAME,
         		JARS,
                 args[0],
                 args1);

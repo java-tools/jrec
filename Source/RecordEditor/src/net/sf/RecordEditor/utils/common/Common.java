@@ -1487,22 +1487,67 @@ public final class Common implements Constants {
     //        String dir = ClassLoader.getSystemResource("edit/EditRec.class").toString();
 
 
-    public static void setBounds1(JFrame frame) {
+    public static void setBounds1(JFrame frame, String id) {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
      
+        switch (OPTIONS.screenStartSizeOpt.get()) {
+          case ProgramOptions.SIZE_LAST:
+        	setSizeFromVars(
+        			  frame, screenSize, 
+        			  id + Parameters.LAST_SCREEN_WIDTH, 
+        			  id + Parameters.LAST_SCREEN_HEIGHT);
+        	
+        	break;
+        case ProgramOptions.SIZE_SPACE_AROUND:
+       		setStandardHeight(frame, screenSize);
+       		break;
+        //case ProgramOptions.SIZE_MAXIMISED:
+        case ProgramOptions.SIZE_SPECIFIED:
+        	setSizeFromVars(
+      			  frame, screenSize, 
+      			  id + Parameters.SCREEN_START_WIDTH, 
+      			  id + Parameters.SCREEN_START_HEIGHT);
+      	
+       		break;
+      	default:
+        	setMaximised(frame, screenSize);
+	    }
+    }
+    
+    private static void setSizeFromVars(JFrame frame, Dimension screenSize, String widthPrm, String heightPrm) {
+	    try {
+			int width = Math.min(
+					screenSize.width, 
+					Integer.parseInt(Parameters.getString(widthPrm))),
+				height= Math.min(
+						screenSize.height, 
+						Integer.parseInt(Parameters.getString(heightPrm)));
+			if (width > 0 && height > 0) {
+				frame.setSize(width, height);
+			} else {
+				setMaximised(frame, screenSize);
+			}
+		} catch (Exception e2) {
+			setMaximised(frame, screenSize);
+		}
+    }
+    
+    private static void setMaximised(JFrame frame, Dimension screenSize) {
+       	setStandardHeight(frame, screenSize);
+    		GraphicsEnvironment e = GraphicsEnvironment
+    				.getLocalGraphicsEnvironment();
+    		frame.setMaximizedBounds(e.getMaximumWindowBounds());
+
+    		frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+    }
+    
+    private static void setStandardHeight(JFrame frame, Dimension screenSize) {
         frame.setBounds(Common.getSpaceAtRightOfScreen(),
 		          Common.getSpaceAtTopOfScreen(),
 		          screenSize.width  - Common.getSpaceAtRightOfScreen()
 		          		- Common.getSpaceAtLeftOfScreen(),
 		          screenSize.height - Common.getSpaceAtBottomOfScreen()
 		          		- Common.getSpaceAtTopOfScreen());
-        if (OPTIONS.MAXIMISE_SCREEN.isSelected()) {
-    		GraphicsEnvironment e = GraphicsEnvironment
-    				.getLocalGraphicsEnvironment();
-    		frame.setMaximizedBounds(e.getMaximumWindowBounds());
-
-    		frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-	    }
     }
     
 //    public static void setBounds2(JFrame frame) {
@@ -1928,38 +1973,38 @@ public final class Common implements Constants {
 		return s;
 	}
 
-	/**
-	 * Load the Jars files
-	 */
-	public static void loadJdbcJars() {
-        try {
-            int j;
-            FileReader inReader = new FileReader(Parameters.getLibDirectory()    
-            					+ FILE_SEPERATOR + "FullEditorFiles.txt");
-            BufferedReader in = new BufferedReader(inReader);
-            ArrayList<String> list = new ArrayList<String>();
-            String s;
-            
-             while ((s = in.readLine()) != null) {
-                if (s.trim().toLowerCase().startsWith("jdbc.")) {
-                	if ((j = s.indexOf('\t')) >= 0) {
-                        s = s.substring(j + 1);
-                    }
-                    list.add(s.trim());
-                }
-            }
-            
-            if (list.size() > 0) {
-            	jdbcJarNames = new String[list.size()];
-            	jdbcJarNames = list.toArray(jdbcJarNames);
-            }
-            in.close();
-         } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-
-	}
+//	/**
+//	 * Load the Jars files
+//	 */
+//	public static void loadJdbcJars() {
+//        try {
+//            int j;
+//            FileReader inReader = new FileReader(Parameters.getLibDirectory()    
+//            					+ FILE_SEPERATOR + ExternalReferenceConstants.SYSTEM_JDBC_JARS_FILENAME);
+//            BufferedReader in = new BufferedReader(inReader);
+//            ArrayList<String> list = new ArrayList<String>();
+//            String s;
+//            
+//             while ((s = in.readLine()) != null) {
+//                if (s.trim().toLowerCase().startsWith("jdbc.")) {
+//                	if ((j = s.indexOf('\t')) >= 0) {
+//                        s = s.substring(j + 1);
+//                    }
+//                    list.add(s.trim());
+//                }
+//            }
+//            
+//            if (list.size() > 0) {
+//            	jdbcJarNames = new String[list.size()];
+//            	jdbcJarNames = list.toArray(jdbcJarNames);
+//            }
+//            in.close();
+//         } catch (Exception e) {
+//            e.printStackTrace();
+//            return;
+//        }
+//
+//	}
 
 
 	/**

@@ -680,6 +680,10 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	    return fields.size();
 	}
 
+	public void clearRecordFields() {
+	    fields.clear();
+	}
+
 	/**
 	 * Get a copy of all the fields
 	 * @return Fields array

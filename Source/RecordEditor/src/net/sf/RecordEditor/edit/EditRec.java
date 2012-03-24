@@ -102,7 +102,7 @@ public class EditRec extends ReMainFrame  {
                    final int pInitialRow,
                    final AbstractLineIOProvider pIoProvider,
                    final CopyBookInterface pInterfaceToCopyBooks) {
-       super("Record Editor", "");
+       super("Record Editor", "", "re");
 
  //      copybookInterface = pInterfaceToCopyBooks;
        open = new OpenFile(pInFile,
@@ -126,7 +126,7 @@ public class EditRec extends ReMainFrame  {
     
     
     public EditRec(final boolean includeJdbc, final String name, AbstractAction newAction) {
-    	super(name, "");
+    	super(name, "", "re");
     	init(includeJdbc, newAction);
     }
   

@@ -52,7 +52,7 @@ public class RecentFiles {
 	//private String[] recentFiles   = new String[FILE_HISTORY];
 	//private String[] recentLayouts = new String[FILE_HISTORY];
 
-	private ArrayList<HashMap<String, String>> recentMap = new ArrayList<HashMap<String, String>>(3);
+	private ArrayList<HashMap<String, String>> recentMap = new ArrayList<HashMap<String, String>>(5);
 
 	private int[] truncSizes = {Integer.MAX_VALUE,
 	        Common.OPTIONS.significantCharInFiles3.get(),
@@ -258,10 +258,11 @@ public class RecentFiles {
 	    String strippedFile = correctCase(Common.stripDirectory(fileName));
 
 	    editorLaunch = false;
-//	    System.out.println("-----> Searching ---->"  + fileName);
-//	    Common.logMsg("-----> Searching ---->"  + fileName + " >> " + strippedFile + "<<"
-//	            + " >>" + strippedFile + "<<", null);
+	    //System.out.println("-----> Searching ---->"  + fileName);
+	    //Common.logMsg("-----> Searching ---->"  + fileName + " >> " + strippedFile + "<<"
+	    //        + " >>" + strippedFile + "<<", null);
 	    for (int i = 0; i < RECENT_SIZE; i++) {
+	    	System.out.println(" == Checking " + i + " " + adj4lookup(i, strippedFile));
 	        recentLayout = recentMap.get(i).get(adj4lookup(i, strippedFile));
 	    	if (recentLayout != null && ! "".equals(recentLayout)) {
 	    	    editorLaunch = (i < LAUNCH_EDITOR_MATCH_NUMBER);
@@ -293,7 +294,7 @@ public class RecentFiles {
 	}
 	
 	private boolean isExtensionType(int type) {
-		return type > RECENT_SIZE || type < recentMap.size();
+		return type >= RECENT_SIZE || type < recentMap.size();
 	}
 	
 	

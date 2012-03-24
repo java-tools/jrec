@@ -39,7 +39,7 @@ public final class RunClass {
     	}
     	
     	
-        new Run("FullEditorFiles.txt",
+        new Run(Run.SYSTEM_JARS_FILENAME,
                 null,
                 args[0],
                 args1);

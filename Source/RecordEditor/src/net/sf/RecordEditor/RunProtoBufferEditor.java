@@ -30,7 +30,7 @@ private static final String[] JARS = {
      * @param args program arguments
      */
     public static void main(String[] args) {
-        new Run("FullEditorFiles.txt",
+        new Run(Run.SYSTEM_JARS_FILENAME,
         		JARS,
                 "net.sf.RecordEditor.ProtoBuf.ProtoBufEditor",
                 args);

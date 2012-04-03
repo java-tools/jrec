@@ -13,9 +13,11 @@ def test():
     close()
 
     if window('Record Editor'):
-        select_menu('File>>Save HTML 1 tbl')
+        ##commonBits.selectExport1(select_menu,'HTML 1 tbl'
+        
+        select_menu('File>>Export as HTML 1 tbl')
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        if frame('Export - DTAR020_tst1.bin:0'):
             select('Edit Output File', 'true')
             select('Keep screen open', 'true')
             select('File Name', commonBits.sampleDir() + 'DTAR020_tst1.bin.Xml')
@@ -79,10 +81,10 @@ def test():
 ])
             select('net.sf.RecordEditor.utils.swing.treeTable.JTreeTable_10', 'rows:[6],columns:[Tree]')
             click('Close')
-            select('net.sf.RecordEditor.utils.swing.treeTable.JTreeTable_10', 'rows:[6],columns:[Tree]')
+##            select('net.sf.RecordEditor.utils.swing.treeTable.JTreeTable_10', 'rows:[6],columns:[Tree]')
         close()
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        if frame('Export - DTAR020_tst1.bin:0'):
             select('Edit Output File', 'false')
             select('File Name', commonBits.sampleDir() + 'DTAR020_tst1.bin.html')
             click('save file')

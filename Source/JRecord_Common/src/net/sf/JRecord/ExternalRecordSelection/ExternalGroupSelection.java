@@ -2,20 +2,20 @@ package net.sf.JRecord.ExternalRecordSelection;
 
 import java.util.ArrayList;
 
-public class GroupSelection<fs extends ExternalSelection> implements ExternalSelection {
+public class ExternalGroupSelection<fs extends ExternalSelection> implements ExternalSelection {
 
 	private ArrayList<fs> items ;
 	private int type = ExternalSelection.TYPE_AND;
 
 
 
-	public GroupSelection() {
+	public ExternalGroupSelection() {
 		super();
 		items = new ArrayList<fs>();
 	}
 
 
-	public GroupSelection(int size) {
+	public ExternalGroupSelection(int size) {
 		super();
 		items = new ArrayList<fs>(size);
 	}
@@ -64,11 +64,29 @@ public class GroupSelection<fs extends ExternalSelection> implements ExternalSel
 	
 	@Override
 	public int getSize() {
+		return items.size();
+	}
+	
+	
+	@Override
+	public int getElementCount() {
 		int count = 0;
 		
 		for (ExternalSelection s : items) {
-			count += s.getSize();
+			count += s.getElementCount();
 		}
 		return count;
 	}
+
+
+	/**
+	 * @param idx index
+	 * @param selectionj
+	 * @return
+	 * @see java.util.ArrayList#set(int, java.lang.Object)
+	 */
+	public fs set(int idx, fs selection) {
+		return items.set(idx, selection);
+	}
+
 }

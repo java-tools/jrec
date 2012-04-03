@@ -10,8 +10,8 @@ import javax.xml.stream.XMLStreamWriter;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Details.Selection.RecordSel;
 import net.sf.JRecord.ExternalRecordSelection.ExternalSelection;
-import net.sf.JRecord.ExternalRecordSelection.FieldSelection;
-import net.sf.JRecord.ExternalRecordSelection.GroupSelection;
+import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
+import net.sf.JRecord.ExternalRecordSelection.ExternalGroupSelection;
 import net.sf.JRecord.Log.AbsSSLogger;
 
 /**
@@ -104,7 +104,9 @@ public class RecordEditorXmlWriter implements CopybookWriter {
         	   writeAttr(writer, Constants.RE_XML_TESTVALUE, "*");
         	   toPrint = false;
            }
-       } else if (copybook.getRecSelect() instanceof FieldSelection) {
+       } else if (copybook.getRecSelect() == null) {
+    	   toPrint = false;
+       } else if (copybook.getRecSelect() instanceof ExternalFieldSelection) {
     	   writeAttr(writer, Constants.RE_XML_TESTFIELD, copybook.getTstField());
     	   writeAttr(writer, Constants.RE_XML_TESTVALUE, copybook.getTstFieldValue());
     	   toPrint = false;
@@ -150,18 +152,18 @@ public class RecordEditorXmlWriter implements CopybookWriter {
 		
        switch (sel.getType()) {
        case RecordSel.TYPE_ATOM:
-    	   writeTstField(writer, (FieldSelection) sel);
+    	   writeTstField(writer, (ExternalFieldSelection) sel);
     	   break;
        case RecordSel.TYPE_AND:
-    	   writeGroup(writer, (GroupSelection) sel, Constants.RE_XML_AND_FIELDS);
+    	   writeGroup(writer, (ExternalGroupSelection) sel, Constants.RE_XML_AND_FIELDS);
     	   break;
        case RecordSel.TYPE_OR:
-    	   writeGroup(writer, (GroupSelection) sel, Constants.RE_XML_OR_FIELDS);
+    	   writeGroup(writer, (ExternalGroupSelection) sel, Constants.RE_XML_OR_FIELDS);
     	   break;
        }
 	}
 	
-	private void writeGroup(XMLStreamWriter writer, GroupSelection g, String s) 
+	private void writeGroup(XMLStreamWriter writer, ExternalGroupSelection g, String s) 
 			throws XMLStreamException {
 		
 		writer.writeStartElement(s);
@@ -202,7 +204,7 @@ public class RecordEditorXmlWriter implements CopybookWriter {
 	}
 	
 	
-	private void writeTstField(XMLStreamWriter writer, FieldSelection fld)
+	private void writeTstField(XMLStreamWriter writer, ExternalFieldSelection fld)
 	throws XMLStreamException {
 		writer.writeEmptyElement(Constants.RE_XML_TST_FIELD);
 		writeAttr(writer, Constants.RE_XML_NAME, fld.getFieldName());

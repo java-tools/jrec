@@ -48,6 +48,8 @@ public class SaveAsPnlFixed extends SaveAsPnlBase {
 		panel.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL,
 		        new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, pnl1, pnl2));
+		
+		setupPrintDetails(true);
 	}
 	
 	public void save(String selection, String outFile) throws IOException {

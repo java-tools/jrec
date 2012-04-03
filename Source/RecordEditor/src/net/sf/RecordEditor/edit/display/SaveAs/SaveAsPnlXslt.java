@@ -44,6 +44,8 @@ public class SaveAsPnlXslt extends SaveAsPnlBase {
 		template.setText(Common.OPTIONS.DEFAULT_XSLT_DIRECTORY.get());
 		xsltJar1.setText(Common.OPTIONS.XSLT_JAR1.get());
 		xsltJar2.setText(Common.OPTIONS.XSLT_JAR2.get());
+		
+		template.addFcFocusListener(commonSaveAsFields.templateListner);
      }
 	
 	public void save(String selection, String outFile) throws Exception {

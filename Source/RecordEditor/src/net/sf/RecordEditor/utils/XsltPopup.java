@@ -10,19 +10,19 @@ public class XsltPopup extends FilePopup {
 	private static FileItem[] fileList = null;
 	
 	public XsltPopup() {
-		super("Save via Xsl Transform");
-		this.setIcon(Common.getReActionIcon(ReActionHandler.SAVE_AS_XSLT));
+		super("Export via Xsl Transform");
+		this.setIcon(Common.getReActionIcon(ReActionHandler.EXPORT_XSLT));
 		
 		fileList = getActions(
 						fileList, 
 						Common.OPTIONS.DEFAULT_XSLT_DIRECTORY.get(), 
-						ReActionHandler.SAVE_AS_XSLT,
-						"Transform");
+						ReActionHandler.EXPORT_XSLT,
+						"(Transform)");
 	}
 	
 	public static final XsltPopup getPopup() {
 		XsltPopup ret = null;
-		if (Common.OPTIONS.XSLT_AVAILABLE.isSelected()) {
+		if (Common.OPTIONS.xsltAvailable.isSelected()) {
 			ret = new XsltPopup();
 		}
 		return ret;

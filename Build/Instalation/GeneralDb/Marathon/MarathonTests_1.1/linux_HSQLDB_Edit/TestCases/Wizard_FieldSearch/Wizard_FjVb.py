@@ -19,7 +19,7 @@ def test():
 		rightclick('Table', 'J,0')
 		click('Right')
 		select('TabbedPane', '')
-		if commonBits.isVersion89():
+		if commonBits.isVersion80():
 			assert_p('Table', 'Content', '[[, 1, 3, 0, 0, true], [, 4, 4, 6, 0, true], [, 8, 2, 0, 0, true], [, 10, 35, 0, 0, true], [, 45, 40, 0, 0, true], [, 85, 40, 0, 0, true], [, 125, 35, 0, 0, true], [, 160, 4, 6, 0, true], [, 164, 6, 0, 0, true], [, 170, 4, 0, 0, true]]')
 			assert_p('Table1', 'Content', '[[TAR, 5015, ST, Bankstown                          , Bankstown                               , Unit 2, 39-41 Allingham Street          , Condell Park                       , 2200,       , NSWA], [TAR, 5019, ST, Penrith                            , Penrith                                 , 58 Leland Street                        , Penrith                            , 2750,       , NSWA], [TAR, 5033, ST, Blacktown                          , Marayong                                , Dock 2, 11 Melissa Place                , Marayong                           , 2148,       , NSWA], [TAR, 5035, ST, Rockdale                           , Building B,  Portside DC                , 2-8 Mc Pherson Street                   , Botany                             , 2019,       , NSWA], [TAR, 5037, ST, Miranda                            , Westfield Shoppingtown                  , Cnr. Urunga Pde & The Kingsway          , Miranda                            , 2228,       , NSWA], [TAR, 5052, ST, Eastwood                           , Marayong Offsite Reserve                , 11 Melissa Place                        , Marayong                           , 2148,       , NSWA]]')
 		else:
@@ -32,7 +32,7 @@ def test():
 		select('TabbedPane', '')
 		select('TextField', 'Wizard_Z_FjUnknown')
 		click('Right')
-		if commonBits.isVersion89():
+		if commonBits.isVersion80():
 			select('Table', 'cell:45 - 40|n4,1(Penrith)')
 			assert_p('Table', 'Content', '[[TAR, 5015, ST, Bankstown, Bankstown, Unit 2, 39-41 Allingham Street, Condell Park, 2200, , NSWA], [TAR, 5019, ST, Penrith, Penrith, 58 Leland Street, Penrith, 2750, , NSWA], [TAR, 5033, ST, Blacktown, Marayong, Dock 2, 11 Melissa Place, Marayong, 2148, , NSWA], [TAR, 5035, ST, Rockdale, Building B,  Portside DC, 2-8 Mc Pherson Street, Botany, 2019, , NSWA], [TAR, 5037, ST, Miranda, Westfield Shoppingtown, Cnr. Urunga Pde & The Kingsway, Miranda, 2228, , NSWA], [TAR, 5052, ST, Eastwood, Marayong Offsite Reserve, 11 Melissa Place, Marayong, 2148, , NSWA]]')
 			select('Table', 'cell:45 - 40|n4,1(Penrith)')

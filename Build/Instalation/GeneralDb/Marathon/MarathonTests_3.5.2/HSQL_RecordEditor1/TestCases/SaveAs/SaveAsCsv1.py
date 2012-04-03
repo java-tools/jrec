@@ -9,13 +9,14 @@ def test():
     set_java_recorded_version("1.6.0_22")
     if frame(' - Open File:0'):
         select('File', commonBits.sampleDir() + 'DTAR020_tst1.bin')
+        select('Record Layout', 'DTAR020')
         click('Edit')
     close()
 
     if window('Record Editor'):
-        select_menu('File>>Save as CSV file')
+        select_menu('File>>Export as CSV file')
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        if frame('Export - DTAR020_tst1.bin:0'):
             select('Delimiter', ';')
             select('names on first line', 'true')
             select('Edit Output File', 'true')
@@ -68,17 +69,18 @@ def test():
             select('JTable_22', 'rows:[5],columns:[Full Line]')
             click('Close')
 ##            select('JTable_22', '', '{5, Full Line}')
-            select('JTable_22', 'rows:[5],columns:[Full Line]')
+##            select('JTable_22', 'rows:[5],columns:[Full Line]')
         close()
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
-            select('JTable_33', 'false', '{1, Include}')
-            select('JTable_33', 'false', '{4, Include}')
+        if frame('Export - DTAR020_tst1.bin:0'):
+            select('JTable_31', 'false', '{1, Include}')
+            select('JTable_31', 'false', '{4, Include}')
 #            select('JTable_33', 'rows:[1],columns:[Include]')
 #            select('JTable_33', 'rows:[4],columns:[Include]')
             click('save file')
         close()
 
+        
         if frame('Table:  - DTAR020_tst1.bin.csv:0'):
             select('JTable_22', 'rows:[8],columns:[2|DATE]')
             assert_content('JTable_22', [ ['63604808', '40118', '170', '4.87'],
@@ -127,7 +129,7 @@ def test():
 ##            select('JTable_22', 'rows:[6],columns:[Full Line]')
         close()
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        if frame('Export - DTAR020_tst1.bin:0'):
             select('names on first line', 'false')
             click('save file')
         close()
@@ -158,9 +160,9 @@ def test():
 ##            select('JTable_22', 'rows:[5],columns:[2|DATE]')
         close()
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
-            select('JTable_33', 'true', '{1, Include}')
-            select('JTable_33', 'true', '{4, Include}')
+        if frame('Export - DTAR020_tst1.bin:0'):
+            select('JTable_31', 'true', '{1, Include}')
+            select('JTable_31', 'true', '{4, Include}')
 #           select('JTable_33', 'rows:[1],columns:[Include]')
 #           select('JTable_33', 'rows:[4],columns:[Include]')
             select('Delimiter', '|')
@@ -216,7 +218,7 @@ def test():
 ##            select('JTable_22', 'rows:[7],columns:[Full Line]')
         close()
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        if frame('Export - DTAR020_tst1.bin:0'):
             select('Add Quote to all Text Fields', 'false')
             select('Delimiter', '~')
             click('save file')

@@ -2,6 +2,7 @@ package net.sf.RecordEditor.re.db.Record;
 
 //import java.util.ArrayList;
 
+import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.jdbc.AbsRecord;
 
 
@@ -10,12 +11,12 @@ import net.sf.RecordEditor.utils.jdbc.AbsRecord;
  *
  *   <pre>
  *       Select RECORDID,
- *              ChildKey,        
- *              FieldNo,         
- *              BooleanOperator, 
- *              Field,           
+ *              Child_Key,        
+ *              Field_No,         
+ *              Boolean_Operator, 
+ *              Field_Name,           
  *              Operator,        
- *              FieldValue
+ *              Field_Value
  *       From   Tbl_RFS_FieldSelection
  *
  *   </pre>
@@ -27,11 +28,11 @@ import net.sf.RecordEditor.utils.jdbc.AbsRecord;
  */
 public class RecordSelectionRec extends AbsRecord {
 
-	public static final int OPERATOR_OR  = 0;
-	public static final int OPERATOR_AND = 1;
+//	public static final int OPERATOR_OR  = 0;
+//	public static final int OPERATOR_AND = 1;
 	
 	private static final String[] OR_LIST  = {"Or", ""};
-	private static final String[] AND_LIST = {"And", ""};
+	private static final String[] AND_LIST = {"", "And"};
 	
 	protected int init_FieldNo;
 	private int recordId, 
@@ -48,11 +49,13 @@ public class RecordSelectionRec extends AbsRecord {
 
 		recordId=0;
         childKey=0;
-        fieldNo=0;
-        booleanOperator=0;
+        fieldNo=-1;
+        booleanOperator=Common.BOOLEAN_OPERATOR_AND;
 		testField="";
         operator="=";
         fieldValue="";
+        
+        setNew(true);
 
 		setKeys();
 	}
@@ -116,20 +119,20 @@ public class RecordSelectionRec extends AbsRecord {
 	 */
 	public Object getField(int fieldNum) {
 
-		if (updateStatus == NULL_INT_VALUE)
-			return "";
+//		if (updateStatus == NULL_INT_VALUE)
+//			return "";
 
 		switch (fieldNum) {
 			// case (0) : return new Integer(Combo_Id);
 			case 0: 
-				if (fieldNo ==0) {
-					return "";
-				}
+//				if (fieldNo == 0) {
+//					return "";
+//				}
 				return OR_LIST[booleanOperator];
 			case 1: 
-				if (fieldNo ==0) {
-					return "";
-				}
+//				if (fieldNo ==0) {
+//					return "";
+//				}
 				return AND_LIST[booleanOperator];
 			case 2: return testField;
 			case 3: return operator;
@@ -139,6 +142,9 @@ public class RecordSelectionRec extends AbsRecord {
 				return "";
 		}
 	}
+
+
+
 
 	/**
 	 * This method sets a field (specified by field number) with a string value
@@ -150,6 +156,7 @@ public class RecordSelectionRec extends AbsRecord {
 	 */
 	protected void setFieldWithString(int fieldNum, String val) {
 
+		System.out.println("setFieldWithString " + fieldNum + " " + val);
 		switch (fieldNum) {
 			case 0: searchArray(val, OR_LIST);	break;
 			case 1: searchArray(val, AND_LIST);	break;
@@ -172,12 +179,18 @@ public class RecordSelectionRec extends AbsRecord {
 	 */
 	protected void setFieldWithObject(int fieldNum, Object val) {
 
-		switch (fieldNum) {
-		//case 0: setBooleanOperator(1 - ((Integer) val).intValue());	break;
-		//case 1: setBooleanOperator(((Integer) val).intValue());		break;
-			
-		default:setFieldWithString(fieldNum, (String) val);
+		System.out.println("setFieldWithObject " + fieldNum + " " + val);
+		if (val == null) {
+			setFieldWithString(fieldNum, "");
+		} else {
+			setFieldWithString(fieldNum, (String) val);
 		}
+//		switch (fieldNum) {
+//		//case 0: setBooleanOperator(1 - ((Integer) val).intValue());	break;
+//		//case 1: setBooleanOperator(((Integer) val).intValue());		break;
+//			
+//		default:
+//		}
 	}
 
 	
@@ -238,8 +251,8 @@ public class RecordSelectionRec extends AbsRecord {
 
 
 
-	/**
-	 * @param fieldNo the fieldNo to set
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.re.db.Record.FieldNumberRecord#setFieldNo(int)
 	 */
 	public void setFieldNo(int fieldNo) {
 		this.fieldNo = fieldNo;

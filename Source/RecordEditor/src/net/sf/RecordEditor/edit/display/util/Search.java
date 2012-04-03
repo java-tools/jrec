@@ -95,8 +95,9 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
          */
         public final void keyReleased(KeyEvent event) {
         	
-        	if (event.getKeyCode() == KeyEvent.VK_ENTER) {
-        		ap_100_find();
+        	switch (event.getKeyCode()) {
+        	case KeyEvent.VK_ENTER:		ap_100_find();							break;
+        	case KeyEvent.VK_ESCAPE:	Search.this.doDefaultCloseAction();		break;
         	}
         }
     };

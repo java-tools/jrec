@@ -11,11 +11,13 @@ import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
+import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 
 public class ChangeLayout implements ActionListener {
 	private ReFrame frame;
-	@SuppressWarnings("unchecked")
+
+	@SuppressWarnings("rawtypes")
 	private FileView masterView;
 	private AbstractLayoutSelection<?> layoutReader;
 	
@@ -23,7 +25,7 @@ public class ChangeLayout implements ActionListener {
 	private JTextArea msg = new JTextArea();
 	
 	public ChangeLayout(AbstractLayoutSelection<?> layoutSelection, FileView<?> file) {
-		BasePanel pnl = new BasePanel();
+		BaseHelpPanel pnl = new BaseHelpPanel();
 		
 		layoutReader = layoutSelection;
 		masterView =  file.getBaseFile();
@@ -31,6 +33,7 @@ public class ChangeLayout implements ActionListener {
 		layoutReader.setMessage(msg);
 		
 		frame = new ReFrame(masterView.getBaseFile().getFileNameNoDirectory(), "Change Layout", masterView);
+		frame.addCloseOnEsc(pnl);
 		
 		layoutReader.addLayoutSelection(pnl, null, null, null, null);
 		

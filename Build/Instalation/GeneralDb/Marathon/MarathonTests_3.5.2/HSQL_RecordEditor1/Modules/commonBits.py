@@ -22,8 +22,11 @@ def isNimbusLook():
     return 0
 
 
-def isVersion89():
-    return 0
+def isVersion80():
+    return 1
+
+def isVersion81():
+    return 1
 
 def isMetalLook():
     return  isWindowsLook() != 1 & isNimbusLook() != 1
@@ -46,35 +49,34 @@ def fileSep():
 
 def sampleDir():
     if windows():
-        return 'C:\\JavaPrograms\\RecordEdit\\' + version() + '\\SampleFiles\\'
+        return utilDir()+ 'SampleFiles\\'
     else: 
-        return '/home/' + Linux() + '/RecordEdit/' + version() + '/SampleFiles/'
+        return utilDir()+ 'SampleFiles/'
 ##    return '/home/knoppix/RecordEdit/HSQLDB/SampleFiles/'
-
 
 def sampleXmlDir():
     if windows():
-        return 'C:\\JavaPrograms\\RecordEdit\\' + version() + '\\SampleFiles\\Xml\\'
+        return utilDir()+ 'SampleFiles\\Xml\\'
     else: 
-        return '/home/' + Linux() + '/RecordEdit/' + version() + '/SampleFiles/Xml/'
+        return utilDir()+ 'SampleFiles/Xml/'
 #
 
 def velocityDir():
     if windows():
-        return 'C:\\JavaPrograms\\RecordEdit\\' + version() + '\\SampleVelocityTemplates\\File\\'
+        return utilDir()+ 'SampleVelocityTemplates\\File\\'
     else: 
-        return '/home/' + Linux() + '/RecordEdit/' + version() + '/SampleVelocityTemplates/File/'
+        return utilDir()+ 'SampleVelocityTemplates/File/'
 ##    return '/home/knoppix/RecordEdit/HSQLDB/SampleFiles/'
 
 def implementationSampleDir():
-    return 'C:\\JavaPrograms\\RecordEdit\\' + version() + '\\SampleFiles\\'
+    return  sampleDir()
 ##    return '/C:/Program Files/RecordEdit/HSQLDB/SampleFiles/'
 #    return '/home/knoppix/RecordEdit/HSQLDB/SampleFiles/'
 
 def cobolTestDir():
     if windows():
         return "C:\\Users\\mum\\Bruce\\CobolTestData\\"
-        ##return 'E:\\Work\\RecordEdit\\CobolTests\\TestData\\'
+        ##return 'E:\\Work\\RecordEdit\\CobolTests\    estData\\'
     else:     
         return '/home/bm/Programs/open-cobol-1.0/CobolSrc/z1Test/'
 ##        return '/home/' + Linux() + '/reTest/'
@@ -88,16 +90,16 @@ def usingEditStart():
 
 def xmlCopybookDir():
     if windows():
-        return 'C:\\JavaPrograms\\RecordEdit\\' + version() + '\\CopyBook\Xml\\'
+        return paramDir() + 'CopyBook\Xml\\'
     else: 
-        return '/home/' + Linux() + '/RecordEdit/' + version() + '/CopyBook/Xml/'
+        return paramDir() + 'CopyBook/Xml/'
 
 
 def CobolCopybookDir():
     if windows():
-        return 'C:\\JavaPrograms\\RecordEdit\\' + version() + '\\CopyBook\Cobol\\'
+        return utilDir()+ 'CopyBook\\Cobol\\'
     else: 
-        return '/home/' + Linux() + '/RecordEdit/' + version() + '/CopyBook/Cobol/'
+        return utilDir()+ 'CopyBook/Cobol/'
 ##    return '/union/home/guest/linux_HSQLDB_Edit/TestCase/Xml/XmlTree2.py'
 
 def setRecordLayout(recordLayout):
@@ -126,11 +128,28 @@ def setCobolLayout2(select, recordLayout, format):
 
 def userDir():
     if windows():
-        return 'C:\\Users\\mum\\RecordEditor_HSQL\\User\\'
+        return paramDir() + 'User\\'
+
+        ##return 'C:\\Users\\mum\\RecordEditor_HSQL\\User\\'
         ##return 'C:\\Users\\bm\\.RecordEditor\\' + version() + '\\User\\'
 
     else: 
-        return '/home/bm' + '/.RecordEditor/' + version() + '/User/'
+        return paramDir() + '/User/'
+
+def utilDir():
+    return paramDir()
+    
+def paramDir():
+    if windows():
+        if isVersion80():
+            return 'C:\\Users\\Mum\\RecordEditor_HSQL\\'
+        else:
+            return 'C:\\JavaPrograms\\RecordEdit\\'
+
+        ##return 'C:\\Users\\mum\\RecordEditor_HSQL\\User\\'
+        ##return 'C:\\Users\\bm\\.RecordEditor\\' + version() + '\\User\\'
+    else: 
+        return '/home/bm' + '/.RecordEditor/' + version() 
 
 def selectPane():
 #    return 'FilePane$4'
@@ -172,6 +191,29 @@ def selectFileName(select, name):
     select('File Name', name)
 ##    select('ComboBox2', recordLayout)
 ##    select('FileChooser', name
+
+def selectOldFilemenu(select_menu, menu, text):
+    if isVersion80():
+       select_menu(menu + '>>' + text)
+    else:
+       select_menu('File>>' + text)
+
+
+def selectExport(select_menu, text):
+    if isVersion81():
+        print 'File>>Export ' + text
+        select_menu('File>>Export ' + text)
+    else:
+        select_menu('File>>Save ' + text)
+
+
+def selectExport1(select_menu, text):
+    if isVersion81():
+        select_menu('File>>Export as ' + text)
+    else:
+        select_menu('File>>Save ' + text)
+
+
 
 
 

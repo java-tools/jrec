@@ -140,4 +140,9 @@ public interface Constants {
 	//public static final String RE_XML_SUBKEY      = "SUBKEY";
 	public static final String RE_XML_TYPE        = "TYPE";
 	public static final String RE_XML_DECIMAL     = "DECIMAL";
+	
+	public static final String[] COMPARISON_OPERATORS = {
+		"=", "eq", "!=", "<>", "ne", ">", "gt", ">=", "ge", "<", "lt", "<=", "le"
+	};
+
 }

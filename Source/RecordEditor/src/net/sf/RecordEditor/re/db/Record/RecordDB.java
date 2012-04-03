@@ -219,6 +219,17 @@ public class RecordDB  extends AbsDB<RecordRec> {
 
 
   /**
+   *  This method sets a search argument for RecordName
+   *
+   * @param operator operator to be used in the where clause
+   * @param val value to be used in the search
+   */
+  public void setSearchRecordId(String operator, int val) {
+
+      setSearchArg("RecordId", operator, val);
+  }
+
+  /**
    *  This method sets a search argument for Description
    *
    * @param operator operator to be used in the where clause

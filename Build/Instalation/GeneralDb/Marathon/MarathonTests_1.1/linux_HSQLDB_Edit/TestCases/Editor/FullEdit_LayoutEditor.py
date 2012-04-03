@@ -9,7 +9,7 @@ def test():
 		select('ChildRecordsJTbl', 'cell:Field Start,0(0)')
 		rightclick('ChildRecordsJTbl', 'Field Start,0')
 		select('ChildRecordsJTbl', 'cell:Field Start,0(0)')
-		if commonBits.isVersion89():
+		if commonBits.isVersion80():
 			assert_p('ChildRecordsJTbl', 'Content', '[[, 353, 0, Record Type, D1, , -1], [, 356, 0, Record Type, H1, , -1], [, 357, 0, Record Type, S1, , -1]]')
 		else:
 			assert_p('ChildRecordsJTbl', 'Content', '[[, 353, 0, Record Type, D1, -1], [, 356, 0, Record Type, H1, -1], [, 357, 0, Record Type, S1, -1]]')

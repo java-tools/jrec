@@ -112,7 +112,7 @@ public class EditRec extends ReMainFrame  {
                   new LayoutSelectionDB(pInterfaceToCopyBooks, null, true));
 
         init(true, null);
-        setupFileMenu(null, null);  
+        setupMenus(null, null);  
      }
 
 
@@ -224,19 +224,20 @@ public class EditRec extends ReMainFrame  {
      * Build File menu
      * @param compareAction compare action
      */
-    private void setupFileMenu(Action copyAction, Action compareAction) {
-    	JMenu fm;
+    private void setupMenus(Action copyAction, Action compareAction) {
+    	JMenu  em;
     	
         buildFileMenu(
         		open.getOpenFilePanel().getRecentFileMenu(), 
         		true, false, 
         		newFileAction);
  
-        fm = getFileMenu();
+        //fm = getFileMenu();
+        em = getEditMenu();
         
         if (copyAction != null) {
-        	fm.addSeparator();
-        	fm.add(new AbstractAction("Cobol Copybook Analysis") {
+        	dataMenu.addSeparator();
+        	dataMenu.add(new AbstractAction("Cobol Copybook Analysis") {
 
 					/**
 					 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -246,17 +247,17 @@ public class EditRec extends ReMainFrame  {
 						new DisplayCobolCopybook();
 					}
 		        });
-	        fm.addSeparator();
-	        fm.add(copyAction);
+	        em.addSeparator();
+	        em.add(copyAction);
 	    }
-        fm.addSeparator();
-        fm.add(newAction(ReActionHandler.COMPARE_WITH_DISK));
+        em.addSeparator();
+        em.add(newAction(ReActionHandler.COMPARE_WITH_DISK));
         if (compareAction != null) {
-        	fm.add(compareAction);
+        	em.add(compareAction);
         }
         
-	    getEditMenu().addSeparator();
-	    getEditMenu().add(optionAction);
+	    em.addSeparator();
+	    em.add(optionAction);
 
         super.addExit();
    }
@@ -439,7 +440,7 @@ public class EditRec extends ReMainFrame  {
         this.open = openWindow;
         
         includeWizardOptions = incWizard;
-        setupFileMenu(copyAction, compareAction);
+        setupMenus(copyAction, compareAction);
     }
 
     /**

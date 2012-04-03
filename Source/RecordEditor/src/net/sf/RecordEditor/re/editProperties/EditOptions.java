@@ -150,14 +150,17 @@ public class EditOptions {
             {Parameters.PROPERTY_LOAD_FILE_BACKGROUND, "Load File in Background thread", null, EditPropertiesPnl.FLD_BOOLEAN, "Load In background"}, // Checked
             {Parameters.USE_NEW_TREE_EXPANSION, "Use New Tree Expansion", null, EditPropertiesPnl.FLD_BOOLEAN,  "Use New Tree Expansion"},
             {Parameters.SEARCH_ALL_FIELDS, "Search: All Fields", null, EditPropertiesPnl.FLD_BOOLEAN,  "On Search Screen default to \"All Fields\""},
+            {Parameters.SHOW_ALL_EXPORT_OPTIONS, "Show all export panels", null, EditPropertiesPnl.FLD_BOOLEAN,  "Show all export panels on the export Screen"},
+            {Parameters.DEL_SELECTED_WITH_DEL_KEY, "Delete Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Delete Selected with delete key"},
+            {Parameters.WARN_WHEN_USING_DEL_KEY,  "Warn the user before deleteing Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Warn user with delete key"},
     };
 
 
-    private String otherDescription2
-	= "<H1>Other Propertie 2s</h1>"
-	+ "This panels lists the other non database Properties";
+    private String fileDescription
+	= "<H1>File Propertie 2s</h1>"
+	+ "This panels lists various File related parameters.";
 
-    private Object[][] otherParams2 = {
+    private Object[][] fileParams = {
             {"UserInitilizeClass", "This User written class will be invoked when the <b>RecordEditor</b starts.", EditPropertiesPnl.FLD_TEXT, "User Init Class"},
             {Parameters.INVALID_FILE_CHARS, "Characters that are invalid in a file Name", null, EditPropertiesPnl.FLD_TEXT, null},
             {Parameters.FILE_REPLACEMENT_CHAR, "Char to Replace invalid Filename Chars", null, EditPropertiesPnl.FLD_TEXT, null},
@@ -216,8 +219,8 @@ public class EditOptions {
 		= new EditPropertiesPnl(params, directoryDescription, directoryParams2);
     private EditPropertiesPnl otherPnl
 		= new EditPropertiesPnl(params, otherDescription, otherParams);
-    private EditPropertiesPnl other2Pnl
- 		= new EditPropertiesPnl(params, otherDescription2, otherParams2);
+    private EditPropertiesPnl file2Pnl
+ 		= new EditPropertiesPnl(params, fileDescription, fileParams);
     private EditPropertiesPnl layoutWizardPnl
 		= new EditPropertiesPnl(params, layoutWizardParamsDescription, layoutWizardParams);
     private EditPropertiesPnl bigModelPnl
@@ -552,7 +555,7 @@ public class EditOptions {
         propertiesTabbed.addTab("Directories", directoryPnl1);
         propertiesTabbed.addTab("Save Directories", directoryPnl2);
         propertiesTabbed.addTab("Other Options", otherPnl);
-        propertiesTabbed.addTab("Other Options 2", other2Pnl);
+        propertiesTabbed.addTab("File Options", file2Pnl);
        
         if (includeWizardOptions) {
         	propertiesTabbed.addTab("Layout Wizard Options", layoutWizardPnl);

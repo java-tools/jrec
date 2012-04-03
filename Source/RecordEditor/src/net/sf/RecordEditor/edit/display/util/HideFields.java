@@ -64,6 +64,7 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
 	    TableColumnModel tcm;
 	    TableColumn tc;
 
+	    
        	sourcePnl = sourcePanel;
        	view = sourcePnl.getFileView();
     	layout = view.getLayout();
@@ -77,7 +78,10 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
     	
     	BaseHelpPanel pnl = new BaseHelpPanel();
     	JPanel fieldOptionPanel  = new JPanel();
-    	
+		frame = new ReFrame(
+				view.getBaseFile().getFileNameNoDirectory(), "Field Visibility", view.getBaseFile());
+		frame.addCloseOnEsc(pnl);
+   	
     	saveColSeq.setSelected(false);
     	fieldMdl = new FieldList(layout, recordIndex, sourcePnl.getFieldVisibility(recordIndex));
     	fieldTbl.setModel(fieldMdl);
@@ -109,12 +113,9 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
 		pnl.addLine("", p, goBtn);
 		pnl.setHeight(BasePanel.GAP1 * 2);
 
-
-		frame = new ReFrame(
-				view.getBaseFile().getFileNameNoDirectory(), "Field Visibility", view.getBaseFile());
 		frame.addMainComponent(pnl);
 		frame.setDefaultCloseOperation(ReFrame.DISPOSE_ON_CLOSE);
-		
+
 		tcm = fieldTbl.getColumnModel();
 		tc = tcm.getColumn(1);
 		tc.setCellRenderer(new CheckBoxTableRender());

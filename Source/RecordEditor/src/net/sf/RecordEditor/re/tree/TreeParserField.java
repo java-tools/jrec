@@ -322,9 +322,9 @@ public class TreeParserField extends BaseLineNodeTreeParser implements AbstractL
 			levels[j] = new LineNode(parentFields[j - 1], view, Constants.NULL_INTEGER);
 			levels[j].setFirstLeafLine(lineNum);
 			levels[j].setLastLeafLine(lineNum);
-			if (j == 1) {
-				System.out.println("Adding root ... " + levels[j].getFirstLeafLine() + " " + levels[j].getLastLeafLine()) ;
-			}
+//			if (j == 1) {
+//				System.out.println("Adding root ... " + levels[j].getFirstLeafLine() + " " + levels[j].getLastLeafLine()) ;
+//			}
 			levels[j - 1].add(levels[j]);
 		}
 		

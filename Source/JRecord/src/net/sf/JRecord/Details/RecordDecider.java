@@ -26,5 +26,5 @@ public interface RecordDecider {
      *
      * @return the prefered layout
      */
-    public abstract int getPreferedIndex(AbstractLine line);
+    public abstract int getPreferedIndex(@SuppressWarnings("rawtypes") AbstractLine line);
 }

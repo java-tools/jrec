@@ -12,11 +12,11 @@ import net.sf.RecordEditor.utils.jdbc.AbsDB;
  *
  *   <pre>
  *       Select
- *              ChildRecord,
- *              FieldStart as Start,
+ *              Child_Record,
+ *              Field_Start as Start,
  *              Field,
- *              FieldValue
- *       from Tbl_RS1_SubRecords
+ *              Field_Value
+ *       from Tbl_RS2_SubRecords
  *       where RecordId = ?
  *
  *   </pre>
@@ -27,7 +27,7 @@ import net.sf.RecordEditor.utils.jdbc.AbsDB;
 
 public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 
-	public static final String DB_NAME = "Tbl_RS1_SubRecords";
+	public static final String DB_NAME = "Tbl_RS2_SubRecords";
 	private static final String[] COLUMN_NAMES = {
 		"Child Record"
 		, "Field Start"
@@ -45,39 +45,42 @@ public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 
 		resetSearch();
 
-		sSQL = " Select  ChildRecord, FieldStart, Field, FieldValue, PARENT_RECORDID, ChildKey, operatorSequence";
+		sSQL = " Select  Child_Record, Field_Start, Field_Name, Field_Value, PARENT_RECORDID, "
+			 +          "Child_Key, Operator_Sequence , default_Record ";
 		sFrom = "  from " + DB_NAME;
 		sWhereSQL = "  where RecordId = ?";
-		sOrderBy = " Order by ChildKey";
+		sOrderBy = " Order by Child_Key";
 		updateSQL = "Update " + DB_NAME
-				+  " Set ChildKey= ? "
-				+  "   , ChildRecord= ? "
-				+  "   , FieldStart= ? "
-				+  "   , Field= ? "
-				+  "   , FieldValue= ? "
+				+  " Set Child_Key= ? "
+				+  "   , Child_Record= ? "
+				+  "   , Field_Start= ? "
+				+  "   , Field_Name= ? "
+				+  "   , Field_Value= ? "
 				+  "   , PARENT_RECORDID = ?"
-				+  "   , operatorSequence = ?"
+				+  "   , Operator_Sequence = ?"
+				+  "   , Default_Record = ?"
 				+  " Where RecordId= ? "
-				+  "   and ChildKey= ? "
+				+  "   and Child_Key= ? "
 				;
 
 		deleteSQL = "Delete From  " + DB_NAME
 				+  " Where RecordId= ? "
-				+  "   and ChildKey= ? "
+				+  "   and Child_Key= ? "
 				;
 
 		insertSQL = "Insert Into  " + DB_NAME + "  ("
-				+ "    ChildKey"
-				+ "  , ChildRecord"
-				+ "  , FieldStart"
-				+ "  , Field"
-				+ "  , FieldValue"
+				+ "    Child_Key"
+				+ "  , Child_Record"
+				+ "  , Field_Start"
+				+ "  , Field_Name"
+				+ "  , Field_Value"
 				+ "  , PARENT_RECORDID" 
-				+ "  , operatorSequence"
+				+ "  , Operator_Sequence"
+				+ "  , default_Record "
 				+ "  , RecordId" 
 
                       + ") Values ("
-                      +    "     ?   , ?   , ?   , ?   , ?, ?   , ?, ?"
+                      +    "     ?   , ?   , ?   , ?   , ?, ?   , ?, ?, ?"
                       + ")";
 
 		super.columnNames = ChildRecordsDB.COLUMN_NAMES;
@@ -87,12 +90,12 @@ public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 	/**
 	 * sets up the DB parameters
 	 *
-	 * @param RecordId
+	 * @param recordId
 	 *
 	 */
-	public void setParams( int RecordId) {
+	public void setParams( int recordId) {
 
-		paramRecordId = RecordId;
+		paramRecordId = recordId;
 	}
 	
 	public int getRecordId() {
@@ -145,6 +148,7 @@ public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 						, rsCursor.getInt(5)
 						, rsCursor.getInt(6)
 						, rsCursor.getInt(7)
+						, "Y".equalsIgnoreCase(rsCursor.getString(8))
 						);
 			}
 			message = "";
@@ -179,6 +183,10 @@ public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 	protected int setSQLParams(PreparedStatement statement, ChildRecordsRec value, boolean insert, int idx)
 			throws SQLException {
 		ChildRecordsRec val = value;
+		String defaultRec = "N";
+		if (value.isDefaultRecord()) {
+			 defaultRec = "Y";
+		}
 
 		statement.setInt(idx++, val.getChildKey());
 		statement.setInt(idx++, val.getChildRecord());
@@ -187,6 +195,7 @@ public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 		statement.setString(idx++, correctStr(val.getFieldValue()));
 		statement.setInt(idx++, val.getParentRecord());
 		statement.setInt(idx++, val.getOperatorSequence());
+		statement.setString(idx++, defaultRec);
 		
 
 		if (insert) {
@@ -259,11 +268,12 @@ public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 		super.setDoFree(free);
 	}
 
+	
 	/**
 	 * This method gets the next key
 	 */
 	private int getNextKey() {
-		final String sql = "Select max(ChildKey) From  Tbl_RS1_SubRecords "
+		final String sql = "Select max(Child_Key) From  Tbl_RS2_SubRecords "
 				+  " Where RecordId= ? "
 				;
 		return getNextIntSubKey(sql, paramRecordId);

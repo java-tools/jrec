@@ -13,32 +13,38 @@ def test():
     close()
 
     if window('Record Editor'):
-        click('SaveAs')
+        click('Export')
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        if frame('Export - DTAR020_tst1.bin:0'):
             select('JTabbedPane_16', 'Fixed')
             select('Edit Output File', 'true')
             select('names on first line', 'true')
             select('space between fields', 'true')
             select('Keep screen open', 'true')
-            assert_content('JTable_27', [ ['KEYCODE-NO', 'true', '10'],
+##            assert_content('JTable_27', [ ['KEYCODE-NO', 'true', '10'],
+            assert_content('JTable_25', [ ['KEYCODE-NO', 'true', '10'],
 ['STORE-NO', 'true', '8'],
 ['DATE', 'true', '5'],
 ['DEPT-NO', 'true', '7'],
 ['QTY-SOLD', 'true', '8'],
 ['SALE-PRICE', 'true', '10']
 ])
-            select('JTable_27', 'false', '{2, Include}')
-            select('JTable_27', 'false', '{4, Include}')
-            select('JTable_27', 'rows:[4],columns:[Include]')
-            assert_content('JTable_27', [ ['KEYCODE-NO', 'true', '10'],
+##            select('JTable_27', 'false', '{2, Include}')
+##            select('JTable_27', 'false', '{4, Include}')
+##            select('JTable_27', 'rows:[4],columns:[Include]')
+##            assert_content('JTable_27', [ ['KEYCODE-NO', 'true', '10'],
+            select('JTable_25', 'false', '{2, Include}')
+            select('JTable_25', 'false', '{4, Include}')
+            select('JTable_25', 'rows:[4],columns:[Include]')
+            assert_content('JTable_25', [ ['KEYCODE-NO', 'true', '10'],
 ['STORE-NO', 'true', '8'],
 ['DATE', 'false', '5'],
 ['DEPT-NO', 'true', '7'],
 ['QTY-SOLD', 'false', '8'],
 ['SALE-PRICE', 'true', '10']
 ])
-            select('JTable_27', 'rows:[4],columns:[Include]')
+##            select('JTable_27', 'rows:[4],columns:[Include]')
+            select('JTable_25', 'rows:[4],columns:[Include]')
             click('save file')
 ##          select('JTable_27', 'rows:[4],columns:[Include]')
         close()
@@ -92,7 +98,7 @@ def test():
             click('Close')
         close()
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        if frame('Export - DTAR020_tst1.bin:0'):
             select('space between fields', 'false')
             click('save file')
         close()
@@ -145,7 +151,7 @@ def test():
             click('Close')
         close()
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        if frame('Export - DTAR020_tst1.bin:0'):
             select('names on first line', 'false')
             click('save file')
         close()
@@ -200,7 +206,7 @@ def test():
 ##            select('JTable_22', 'rows:[6],columns:[Full Line]')
         close()
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        if frame('Export - DTAR020_tst1.bin:0'):
             select('space between fields', 'true')
             click('save file')
         close()

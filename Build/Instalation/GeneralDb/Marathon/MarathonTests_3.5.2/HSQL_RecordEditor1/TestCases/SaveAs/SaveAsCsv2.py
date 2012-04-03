@@ -64,9 +64,9 @@ def test():
             select('net.sf.RecordEditor.utils.swing.treeTable.JTreeTable_10', 'rows:[10],columns:[DATE]')
         close()
 
-        select_menu('File>>Save as CSV file')
+        select_menu('File>>Export as CSV file')
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        if frame('Export - DTAR020_tst1.bin:0'):
             select('Export Tree', 'false')
             select('Only export Nodes with Data', 'false')
             select('Only export Nodes with Data', 'true')
@@ -126,7 +126,7 @@ def test():
             click('Close')
         close()
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        if frame('Export - DTAR020_tst1.bin:0'):
             select('names on first line', 'false')
             click('save file')
         close()

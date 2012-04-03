@@ -20,19 +20,16 @@ package net.sf.RecordEditor.layoutEd.Record;
 
 
 import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
-import net.sf.JRecord.Common.AbsRow;
-import net.sf.RecordEditor.re.db.Record.RecordSelectionDB;
+
+
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.ReConnection;
-import net.sf.RecordEditor.utils.jdbc.AbsDB;
-import net.sf.RecordEditor.utils.jdbc.DBComboModel;
 import net.sf.RecordEditor.utils.swing.AbsJTable;
-import net.sf.RecordEditor.utils.swing.AbstractRowList;
-import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
-import net.sf.RecordEditor.utils.swing.ButtonTableRendor;
+import net.sf.RecordEditor.utils.swing.ComboBoxRender;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 
@@ -46,14 +43,28 @@ import net.sf.RecordEditor.utils.swing.ButtonTableRendor;
 @SuppressWarnings("serial")
 public class RecordSelectionJTbl extends AbsJTable {
 
-	private RecordSelectionDB recordSelDb = new RecordSelectionDB();
-    private BmKeyedComboBox locChildRecord;
+	private static final int FLD_OR = 0;
+	private static final int FLD_AND = 1;
+	private static final int FLD_FIELD_NAME = 2;
+	private static final int FLD_OPERATOR   = 3;
+	private static final int FLD_VALUE      = 4;
 
-    private DefaultCellEditor childEditor;
+    private static final int FW_BOOL_WIDTH  = SwingUtils.STANDARD_FONT_WIDTH * 11/ 2;
+    private static final int FW_VALUE_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 11;
+    private static final int FW_WIDE_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 25;
 
-	private ButtonTableRendor tableBtn = new ButtonTableRendor();
+	    
+//	private RecordSelectionDB recordSelDb = new RecordSelectionDB();
 
 
+    private static final String[] OPERATORS = {"=", "!=", "<>", ">", ">=",  "<", "<=",};
+    private ComboBoxRender operatorRender = new ComboBoxRender(OPERATORS);
+    //private DefaultTableCellRenderer operatorRender = new DefaultTableCellRenderer()
+//	private int connectionIdx;
+
+	
+	private DefaultCellEditor operatorEditor = new DefaultCellEditor(new JComboBox<String>(OPERATORS));
+	//DBComboBoxRender  recordRendor;
 
     /**
      * Create the Child record Table
@@ -91,6 +102,7 @@ public class RecordSelectionJTbl extends AbsJTable {
      // childEditor = new DefaultCellEditor(locChildRecord);
 
       setColumnSizes();
+      setRowHeight(SwingUtils.COMBO_TABLE_ROW_HEIGHT);
   }
 
 
@@ -98,7 +110,21 @@ public class RecordSelectionJTbl extends AbsJTable {
   	 * Set the column sizes
   	 */
 	public void setColumnSizes() {
-		//ParentList = new ParentList()
+		
+	  	 this.setAutoResizeMode(AUTO_RESIZE_OFF);
+	  	 TableColumnModel tcm = this.getColumnModel();
+		
+	  	 tcm.getColumn(FLD_OR).setPreferredWidth(FW_BOOL_WIDTH);
+	  	 tcm.getColumn(FLD_AND).setPreferredWidth(FW_BOOL_WIDTH);
+	  	 tcm.getColumn(FLD_FIELD_NAME).setPreferredWidth(FW_WIDE_WIDTH);
+	  	 tcm.getColumn(FLD_OPERATOR).setPreferredWidth(FW_BOOL_WIDTH);
+	  	 tcm.getColumn(FLD_VALUE).setPreferredWidth(FW_VALUE_WIDTH);
+
+	     tcm.getColumn(FLD_OPERATOR).setCellRenderer(operatorRender);
+	     tcm.getColumn(FLD_OPERATOR).setCellEditor(operatorEditor);
+
+	     
+	     //ParentList = new ParentList()
 //		TableColumnModel tcm = this.getColumnModel();
 //
 //		tcm.getColumn(0).setCellRenderer(tableBtn);

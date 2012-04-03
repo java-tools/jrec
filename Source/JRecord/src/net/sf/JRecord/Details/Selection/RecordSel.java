@@ -16,5 +16,4 @@ public interface RecordSel extends ExternalSelection {
 	public void getAllFields(List<FieldSelect> fields);
 	
 	public int getSize();
-
 }

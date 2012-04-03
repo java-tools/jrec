@@ -13,16 +13,18 @@ def test():
     close()
 
     if window('Record Editor'):
-        select_menu('File>>Save as CSV file')
 
-        if frame('Save as - TestXml_01.xml:0'):
+        select_menu('File>>Export as CSV file')
+
+ 
+        if frame('Export - TestXml_01.xml:0'):
             select('Edit Output File', 'true')
             select('Add Quote to all Text Fields', 'true')
             select('Keep screen open', 'true')
             select('names on first line', 'true')
-            select('JTable_37', 'rows:[0],columns:[Include]')
+##            select('JTable_37', 'rows:[0],columns:[Include]')
             select('names on first line', 'true')
-            select('JTable_37', 'rows:[1],columns:[Include]')
+  ##          select('JTable_37', 'rows:[1],columns:[Include]')
             select('names on first line', 'true')
             click('save file')
         close()
@@ -213,7 +215,7 @@ def test():
             click('Close')
         close()
 
-        if frame('Save as - TestXml_01.xml:0'):
+        if frame('Export - TestXml_01.xml:0'):
             select('Only export Nodes with Data', 'false')
             click('save file')
         close()
@@ -452,7 +454,7 @@ def test():
             click('Close')
         close()
 
-        if frame('Save as - TestXml_01.xml:0'):
+        if frame('Export - TestXml_01.xml:0'):
             click('Close')
         close()
 

@@ -11,8 +11,8 @@ import net.sf.JRecord.Details.AbstractFieldValue;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.ExternalRecordSelection.ExternalSelection;
-import net.sf.JRecord.ExternalRecordSelection.FieldSelection;
-import net.sf.JRecord.ExternalRecordSelection.GroupSelection;
+import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
+import net.sf.JRecord.ExternalRecordSelection.ExternalGroupSelection;
 import net.sf.JRecord.IO.StandardLineReader;
 import net.sf.JRecord.IO.XmlLineReader;
 import net.sf.JRecord.Log.AbsSSLogger;
@@ -128,7 +128,7 @@ public class RecordEditorXmlLoader implements CopybookLoader {
 			//rec.setSystem((int) line.getFieldValue(Constants.RE_XML_COPYBOOK).asLong());
 			
 			
-			FieldSelection fs = new FieldSelection();
+			ExternalFieldSelection fs = new ExternalFieldSelection();
 			fs.setFieldName(line.getFieldValue(Constants.RE_XML_TESTFIELD).asString());
 			fs.setFieldValue(line.getFieldValue(Constants.RE_XML_TESTVALUE).asString());
 	
@@ -263,9 +263,9 @@ public class RecordEditorXmlLoader implements CopybookLoader {
 	}
 	
 	
-	private GroupSelection<ExternalSelection> getGroup(StandardLineReader reader, int type) throws IOException {
+	private ExternalGroupSelection<ExternalSelection> getGroup(StandardLineReader reader, int type) throws IOException {
 		
-		GroupSelection<ExternalSelection> g = new GroupSelection<ExternalSelection>();
+		ExternalGroupSelection<ExternalSelection> g = new ExternalGroupSelection<ExternalSelection>();
 		String name;
 		
 		g.setType(type);
@@ -276,7 +276,7 @@ public class RecordEditorXmlLoader implements CopybookLoader {
 			name = line.getFieldValue(XmlConstants.XML_NAME).asString();
 			try {
 				if (Constants.RE_XML_TST_FIELD.equalsIgnoreCase(name)) {
-					g.add(new FieldSelection(
+					g.add(new ExternalFieldSelection(
 						line.getFieldValue(Constants.RE_XML_NAME).asString(), 
 						line.getFieldValue(Constants.RE_XML_VALUE).asString(), 
 						line.getFieldValue(Constants.RE_XML_OPERATOR).asString()));

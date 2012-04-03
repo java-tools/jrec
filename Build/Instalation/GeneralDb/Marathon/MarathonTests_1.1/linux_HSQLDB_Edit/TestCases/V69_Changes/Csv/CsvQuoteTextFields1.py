@@ -28,7 +28,7 @@ def test():
 		select('Table', 'cell:Decimal Places,3(null)')
 		select('Table', 'cell:Decimal Places,5(null)')
 		select('ComboBox', ':')
-		if commonBits.isVersion89():
+		if commonBits.isVersion80():
 			assert_p('Table', 'Content', '[[STORE-NO, true, Number (Fixed Decimal), 0, , ], [REGION-NO, true, Number (Fixed Decimal), 0, , ], [STORE-NAME, true, Text, , , ], [NEW-STORE, true, Text, , , ], [ACTIVE-STORE, true, Text, , , ], [CLOSED-STORE, true, Text, , , ], [DC-TYPE, true, Text, , , ], [SRC-TYPE, true, Text, , , ], [HO-TYPE, true, Text, , , ]]')
 		else:
 			assert_p('Table', 'Content', '[[STORE-NO, true, Number (Fixed Decimal), 0, ], [REGION-NO, true, Number (Fixed Decimal), 0, ], [STORE-NAME, true, Text, , ], [NEW-STORE, true, Text, , ], [ACTIVE-STORE, true, Text, , ], [CLOSED-STORE, true, Text, , ], [DC-TYPE, true, Text, , ], [SRC-TYPE, true, Text, , ], [HO-TYPE, true, Text, , ]]')

@@ -34,7 +34,7 @@ def test():
 		select_menu('View>>Execute Record Tree')
 		##select('FileChooser',  commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
 		commonBits.selectFileName(select, commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
-		
+
 		click('Run Dialog')
 		select('Table', 'cell:Record,1(ams PO Download: Header)')
 		assert_p('Table', 'Content', '[[ams PO Download: Detail, 1], [ams PO Download: Header, -1], [ams PO Download: Allocation, 0]]')

@@ -28,9 +28,11 @@ def test():
             select('net.sf.RecordEditor.utils.swing.treeTable.JTreeTable_10', 'rows:[5],columns:[DATE]')
         close()
 
-        select_menu('File>>Save as CSV file')
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        select_menu('File>>Export as CSV file')
+
+        if frame('Export - DTAR020_tst1.bin:0'):
+
             select('Edit Output File', 'true')
             select('names on first line', 'true')
             select('Keep screen open', 'true')
@@ -85,7 +87,7 @@ def test():
 ##            select('JTable_22', 'rows:[6],columns:[Full Line]')
         close()
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        if frame('Export - DTAR020_tst1.bin:0'):
             select('Delimiter', ',')
             select('names on first line', 'false')
             click('save file')
@@ -139,123 +141,6 @@ def test():
 ##            select('JTable_22', 'rows:[6],columns:[Full Line]')
         close()
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
-            select('JTable_37', 'false', '{2, Include}')
-            select('JTable_37', 'false', '{5, Include}')
-##            select('JTable_37', 'rows:[5],columns:[Include]')
-##            select('JTable_37', 'rows:[2],columns:[Include]')
-##            select('JTable_37', 'rows:[2],columns:[Include]')
-##            select('JTable_37', 'rows:[2],columns:[Include]')
-##            select('JTable_37', 'rows:[5],columns:[Include]')
-##            select('JTable_37', 'rows:[5],columns:[Include]')
-            click('save file')
-        close()
 
-        if frame('Table:  - DTAR020_tst1.bin.csv:0'):
-            select('JTable_22', 'rows:[8],columns:[5|KEYCODE-NO]')
-            assert_content('JTable_22', [ ['File', '20', '170', '', '63604808', '20', '170', '1'],
-['File', '20', '280', '', '69684558', '20', '280', '1'],
-['File', '20', '280', '', '69684558', '20', '280', '-1'],
-['File', '20', '280', '', '69694158', '20', '280', '1'],
-['File', '20', '685', '', '62684671', '20', '685', '1'],
-['File', '20', '685', '', '62684671', '20', '685', '-1'],
-['File', '59', '335', '', '61664713', '59', '335', '1'],
-['File', '59', '335', '', '61664713', '59', '335', '-1'],
-['File', '59', '335', '', '61684613', '59', '335', '1'],
-['File', '59', '410', '', '68634752', '59', '410', '1'],
-['File', '59', '620', '', '60694698', '59', '620', '1'],
-['File', '59', '620', '', '60664659', '59', '620', '1'],
-['File', '59', '878', '', '60614487', '59', '878', '1'],
-['File', '166', '60', '', '68654655', '166', '60', '1'],
-['File', '166', '80', '', '69624033', '166', '80', '1'],
-['File', '166', '80', '', '60604100', '166', '80', '1'],
-['File', '166', '170', '', '68674560', '166', '170', '1']
-])
-            select('JTable_22', 'rows:[8],columns:[5|KEYCODE-NO]')
-            assert_p('net.sf.RecordEditor.edit.display.BaseDisplay$HeaderToolTips_27', 'Text', '5|KEYCODE-NO', '5|KEYCODE-NO')
-            assert_p('net.sf.RecordEditor.edit.display.BaseDisplay$HeaderToolTips_27', 'Text', '4|Level_4', '4|Level_4')
-            assert_p('net.sf.RecordEditor.edit.display.BaseDisplay$HeaderToolTips_27', 'Text', '6|STORE-NO', '6|STORE-NO')
-            select('Layouts', 'Full Line')
-            select('JTable_22', 'rows:[5],columns:[Full Line]')
-            assert_content('JTable_22', [ ['File,20,170,,63604808,20,170,1'],
-['File,20,280,,69684558,20,280,1'],
-['File,20,280,,69684558,20,280,-1'],
-['File,20,280,,69694158,20,280,1'],
-['File,20,685,,62684671,20,685,1'],
-['File,20,685,,62684671,20,685,-1'],
-['File,59,335,,61664713,59,335,1'],
-['File,59,335,,61664713,59,335,-1'],
-['File,59,335,,61684613,59,335,1'],
-['File,59,410,,68634752,59,410,1'],
-['File,59,620,,60694698,59,620,1'],
-['File,59,620,,60664659,59,620,1'],
-['File,59,878,,60614487,59,878,1'],
-['File,166,60,,68654655,166,60,1'],
-['File,166,80,,69624033,166,80,1'],
-['File,166,80,,60604100,166,80,1'],
-['File,166,170,,68674560,166,170,1']
-])
-            select('JTable_22', 'rows:[5],columns:[Full Line]')
-            click('Close')
-##            select('JTable_22', '', '{5, Full Line}')
-##            select('JTable_22', 'rows:[5],columns:[Full Line]')
-        close()
-
-        if frame('Save as - DTAR020_tst1.bin:0'):
-            select('names on first line', 'true')
-            click('save file')
-        close()
-
-        if frame('Table:  - DTAR020_tst1.bin.csv:0'):
-            select('JTable_22', 'rows:[8],columns:[5|KEYCODE-NO]')
-            assert_content('JTable_22', [ ['File', '20', '170', '', '63604808', '20', '170', '1'],
-['File', '20', '280', '', '69684558', '20', '280', '1'],
-['File', '20', '280', '', '69684558', '20', '280', '-1'],
-['File', '20', '280', '', '69694158', '20', '280', '1'],
-['File', '20', '685', '', '62684671', '20', '685', '1'],
-['File', '20', '685', '', '62684671', '20', '685', '-1'],
-['File', '59', '335', '', '61664713', '59', '335', '1'],
-['File', '59', '335', '', '61664713', '59', '335', '-1'],
-['File', '59', '335', '', '61684613', '59', '335', '1'],
-['File', '59', '410', '', '68634752', '59', '410', '1'],
-['File', '59', '620', '', '60694698', '59', '620', '1'],
-['File', '59', '620', '', '60664659', '59', '620', '1'],
-['File', '59', '878', '', '60614487', '59', '878', '1'],
-['File', '166', '60', '', '68654655', '166', '60', '1'],
-['File', '166', '80', '', '69624033', '166', '80', '1'],
-['File', '166', '80', '', '60604100', '166', '80', '1'],
-['File', '166', '170', '', '68674560', '166', '170', '1']
-])
-            select('JTable_22', 'rows:[8],columns:[5|KEYCODE-NO]')
-##            assert_content('net.sf.RecordEditor.edit.display.BaseDisplay$HeaderToolTips_27', [ ['1|Level_1', '2|Level_2', '3|Level_3', '4|Level_4', '5|KEYCODE-NO', '6|STORE-NO', '7|DATE', '8|QTY-SOLD', '9|SALE-PRICE']
-##])
-            select('Layouts', 'Full Line')
-            select('JTable_22', 'rows:[5],columns:[Full Line]')
-            assert_content('JTable_22', [ ['File,20,170,,63604808,20,170,1'],
-['File,20,280,,69684558,20,280,1'],
-['File,20,280,,69684558,20,280,-1'],
-['File,20,280,,69694158,20,280,1'],
-['File,20,685,,62684671,20,685,1'],
-['File,20,685,,62684671,20,685,-1'],
-['File,59,335,,61664713,59,335,1'],
-['File,59,335,,61664713,59,335,-1'],
-['File,59,335,,61684613,59,335,1'],
-['File,59,410,,68634752,59,410,1'],
-['File,59,620,,60694698,59,620,1'],
-['File,59,620,,60664659,59,620,1'],
-['File,59,878,,60614487,59,878,1'],
-['File,166,60,,68654655,166,60,1'],
-['File,166,80,,69624033,166,80,1'],
-['File,166,80,,60604100,166,80,1'],
-['File,166,170,,68674560,166,170,1']
-])
-            select('JTable_22', 'rows:[5],columns:[Full Line]')
-            click('Close')
-##            select('JTable_22', '', '{5, Full Line}')
-##            select('JTable_22', 'rows:[5],columns:[Full Line]')
-        close()
-
-##        window_closed('Record Editor')
-    close()
 
     pass

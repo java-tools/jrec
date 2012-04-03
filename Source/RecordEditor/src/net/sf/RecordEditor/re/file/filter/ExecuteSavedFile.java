@@ -15,7 +15,6 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
-
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 @SuppressWarnings("serial")
@@ -29,7 +28,8 @@ public class ExecuteSavedFile<details> extends ReFrame implements ActionListener
 	private	JButton runDialogBtn = new JButton("Run Dialog");
 	private AbstractExecute<details> action;
 
-	@SuppressWarnings("unchecked")
+
+	@SuppressWarnings("rawtypes")
 	private Class dtlsClass;
 	
 	
@@ -40,7 +40,11 @@ public class ExecuteSavedFile<details> extends ReFrame implements ActionListener
 	        public final void keyReleased(KeyEvent event) {
 	        	
 	        	if (event.getKeyCode() == KeyEvent.VK_ENTER) {
+	        		fileChooser.approveSelection();
+	        		    		
 	        		execAction(true);					
+	         	} else if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
+	         		ExecuteSavedFile.this.doDefaultCloseAction();
 	         	}
 	        }
 	};
@@ -56,15 +60,20 @@ public class ExecuteSavedFile<details> extends ReFrame implements ActionListener
 	 */
 	public ExecuteSavedFile(final String docName, final String formName, final Object data, 
 			String dir,
-			AbstractExecute<details> executeAction, Class detailsClass) {
+			AbstractExecute<details> executeAction, @SuppressWarnings("rawtypes") Class detailsClass) {
 		super(docName, formName, data);
 		BasePanel pnl = new BaseHelpPanel();
 		
 		action    = executeAction;
 		dtlsClass = detailsClass;
 		
+		fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
 		if (dir != null) {
+			if (dir.endsWith("/") || dir.endsWith("\\")) {
+				dir += "*";
+			}
 			fileChooser.setSelectedFile(new File(dir));
+			
 		}
 		fileChooser.setControlButtonsAreShown(false);
 
@@ -87,6 +96,16 @@ public class ExecuteSavedFile<details> extends ReFrame implements ActionListener
         runDialogBtn.addActionListener(this);
         
         setVisible(true);
+        
+        super.setToMaximum(false);
+        
+        fileChooser.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Action Listner ... " + e.getActionCommand());
+			}
+		});
 	}
 
 	/**
@@ -100,11 +119,13 @@ public class ExecuteSavedFile<details> extends ReFrame implements ActionListener
 		//fileChooser.getActionMap().get(FilePane.ACTION_APPROVE_SELECTION).actionPerformed(null);
 
 		try {
+			fileChooser.approveSelection();
+			
 			fileChooser.getActionForKeyStroke(
 							KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0))
 					   .actionPerformed(null);
 		} catch (Exception ex) {
-			ex.printStackTrace();
+		//	ex.printStackTrace();
 		}
 		//System.out.println("$$$$$$ " + fileChooser.getSelectedFile().getPath());
 		execAction(e.getSource() == runBtn);
@@ -118,6 +139,7 @@ public class ExecuteSavedFile<details> extends ReFrame implements ActionListener
 			net.sf.RecordEditor.jibx.JibxCall<details> jibx
 				= new net.sf.RecordEditor.jibx.JibxCall<details>(dtlsClass);
 
+			System.out.println(fileChooser.getSelectedFile().getPath());
 			saveDetails = jibx.marshal(fileChooser.getSelectedFile().getPath());
 			
 			if (run) {

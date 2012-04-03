@@ -47,7 +47,7 @@ import net.sf.RecordEditor.utils.common.ReActionHandler;
  * @version 0.51
  */
 @SuppressWarnings("serial")
-public class LineFrame extends    BaseLineFrame {
+public class LineFrame extends  BaseLineFrame {
 
     private int currRow;
     private ImageIcon[] icons = Common.getArrowIcons();
@@ -125,6 +125,7 @@ public class LineFrame extends    BaseLineFrame {
 		super("Record: ", viewOfFile, false, ! viewOfFile.getLayout().isXml());
 		
 		JPanel btnPanel = new JPanel();
+
 		
 		record = new LineModel(fileView);
 		setModel(record);

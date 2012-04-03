@@ -139,7 +139,11 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String USE_NEW_TREE_EXPANSION = "NewTreeExpansion";
     
     public static final String SEARCH_ALL_FIELDS = "SearchAllFields";
-    
+    public static final String SHOW_ALL_EXPORT_OPTIONS = "AllExportOptions"; 
+
+    public static final String DEL_SELECTED_WITH_DEL_KEY = "DeleteSelectedWithDelKey"; 
+    public static final String WARN_WHEN_USING_DEL_KEY   = "WarnWithDelKey"; 
+  
     private static final HashSet<String> defaultTrue = new HashSet<String>(10);
 
 	private static  String bundleName = DEFAULT_BUNDLE_NAME;
@@ -184,6 +188,8 @@ public final class Parameters implements ExternalReferenceConstants {
 				PROPERTY_PGN_ICONS,
 				USE_NEW_TREE_EXPANSION,
 				SEARCH_ALL_FIELDS,
+				DEL_SELECTED_WITH_DEL_KEY,
+				WARN_WHEN_USING_DEL_KEY,
 		};
 
 		for (String s : defTrueKeys) {
@@ -435,10 +441,14 @@ public final class Parameters implements ExternalReferenceConstants {
             ret = reHomeDirectory + name.substring("<rehome>".length());
         } else if (lcName.startsWith("<reproperties>")) {
             ret = getPropertiesDirectory() + name.substring("<reproperties>".length());
+        } else if ((lcName.startsWith("<reproperties>/") || lcName.startsWith("<reproperties>\\"))
+        	   && applicationDirectory != null
+        	   && applicationDirectory.endsWith(File.separator)) {
+            ret = applicationDirectory + name.substring("<reproperties>/".length());
         } else if (lcName.startsWith("<reproperties>")) {
             ret = applicationDirectory + name.substring("<reproperties>".length());
         }
-        
+        //File.separator
         return ret;
     }
 

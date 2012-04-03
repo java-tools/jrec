@@ -13,15 +13,15 @@ import net.sf.RecordEditor.utils.jdbc.AbsDB;
  *   <pre>
  *       Select
  *       Select RECORDID,
- *              ChildKey,        
- *              FieldNo,         
- *              BooleanOperator, 
+ *              Child_Key,        
+ *              Field_No,         
+ *              Boolean_Operator, 
  *              Field,           
  *              Operator,        
- *              FieldValue
+ *              Field_Value
  *       From   Tbl_RFS_FieldSelection
  *       where  RecordId = ?
- *         and  ChildKey = ?
+ *         and  Child_Key = ?
  *
  *   </pre>
  * it also provides Insert / Update / Delete routines (depending on the options selected)
@@ -49,37 +49,41 @@ public class RecordSelectionDB  extends AbsDB<RecordSelectionRec> {
 
 		resetSearch();
 
-		sSQL = " Select  RECORDID, ChildKey, FieldNo, BooleanOperator, Field, Operator, FieldValue";
+		sSQL = " Select  RECORDID, Child_Key, Field_No, Boolean_Operator, Field_Name, Operator, Field_Value";
 		sFrom = "  from " + DB_NAME;
-		sWhereSQL = "  where RecordId = ?  and ChildKey= ?";
-		sOrderBy = " Order by FieldNo";
+		sWhereSQL = "  where RecordId = ?  and Child_Key= ?";
+		sOrderBy = " Order by Field_No";
 		
 		updateSQL = "Update " + DB_NAME
-				+  " Set FieldNo= ? "
-				+  "   , BooleanOperator= ? "
-				+  "   , Field= ? "
+				+  " Set Field_No = ?"
+				+  "   , Boolean_Operator= ? "
+				+  "   , Field_Name= ? "
 				+  "   , Operator= ? "
-				+  "   , FieldValue= ? "
+				+  "   , Field_Value= ? "
 				+  " Where RecordId= ? "
-				+  "   and ChildKey= ? "
-				+  "   and FieldNo= ?"
+				+  "   and Child_Key= ? "
+				+  "   and Field_No= ?"
 				;
 
 		deleteSQL = "Delete From  " + DB_NAME
 				+  " Where RecordId= ? "
-				+  "   and ChildKey= ? "
-				+  "   and FieldNo= ?"
+				+  "   and Child_Key= ? "
+				+  "   and Field_No= ?"
 				;
 
 		insertSQL = "Insert Into  " + DB_NAME + "  ("
-				+ "    FieldNo"
-				+ "  , BooleanOperator"
-				+ "  , Field"
+				+ "    Field_No"
+				+ "  , Boolean_Operator"
+				+ "  , Field_Name"
 				+ "  , Operator"
-				+ "  , FieldValue"
+				+ "  , Field_Value"
+				+ "  , RecordId "
+				+  " , Child_Key "
+
+
 
                       + ") Values ("
-                      +    "     ?   , ?   , ?   , ?   , ?, ?   , ?, ?"
+                      +    "     ?   , ?   , ?   , ?   , ?,  ?   , ?"
                       + ")";
 
 		super.columnNames = RecordSelectionDB.COLUMN_NAMES;
@@ -188,6 +192,8 @@ public class RecordSelectionDB  extends AbsDB<RecordSelectionRec> {
 
 		if (insert) {
 			statement.setInt(idx++, paramRecordId);
+			statement.setInt(idx++, paramChildKey);
+			//System.out.println("Insert Key: " + paramRecordId + " " + paramChildKey + " " +  val.getFieldNo());
 		}
 
 		return idx;
@@ -222,11 +228,12 @@ public class RecordSelectionDB  extends AbsDB<RecordSelectionRec> {
 				delAllChildRecords = connect.getUpdateConnection().prepareStatement(
 						"Delete From  " + DB_NAME
 						+  " Where RecordId= ? "
-						+  "   and ChildKey = ? "
+						+  "   and Child_Key = ? "
 						);
 			}
 
 			delAllChildRecords.setInt(1, paramRecordId);
+			delAllChildRecords.setInt(2, paramChildKey);
 
 			delAllChildRecords.executeUpdate();
 			message = "";
@@ -248,13 +255,16 @@ public class RecordSelectionDB  extends AbsDB<RecordSelectionRec> {
 		int i = 0;
 		boolean free = super.isSetDoFree(false);
 
-		int key = getNextKey();
-
-		value.setChildKey(key++);
-		while ((i++ < 10) && (! tryToInsert(value))) {
-			value.setChildKey(key++);
+		//System.out.println();
+		//System.out.println("--- Inserting -----");
+		if (! tryToInsert(value)) {
+			int key = getNextKey();
+	
+			value.setFieldNo(key++);
+			while ((i++ < 10) && (! tryToInsert(value))) {
+				value.setFieldNo(key++);
+			}
 		}
-
 		super.setDoFree(free);
 	}
 
@@ -262,7 +272,7 @@ public class RecordSelectionDB  extends AbsDB<RecordSelectionRec> {
 	 * This method gets the next key
 	 */
 	private int getNextKey() {
-		final String sql = "Select max(ChildKey) From  " + DB_NAME
+		final String sql = "Select max(fieldNo) From  " + DB_NAME
 				+  " Where RecordId= ?  and childKey = ?"
 				;
 		return getNextIntSubKey(sql, paramRecordId, paramChildKey);

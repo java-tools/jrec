@@ -92,7 +92,13 @@ public abstract class BaseLineDisplay extends BaseDisplay {
 			int startCol = getJTable().getSelectedColumn();
 			//System.out.println("))) " + startRow + " " + startCol);
 			if (startRow >= 0) {
-				pasteTable(startRow, startCol);
+				Clipboard system = Toolkit.getDefaultToolkit().getSystemClipboard();
+				try {
+					pasteTable(startRow, startCol,
+							(String) (system.getContents(this)
+									.getTransferData(DataFlavor.stringFlavor)));
+				} catch (Exception e) {
+				}
 			}
 		} else {
 			super.executeAction(action);
@@ -111,15 +117,6 @@ public abstract class BaseLineDisplay extends BaseDisplay {
 			|| super.isActionAvailable(action);
 	}
 	
-	private final void pasteTable(int startRow, int startCol) {
-		Clipboard system = Toolkit.getDefaultToolkit().getSystemClipboard();
-		try {
-			pasteTable(startRow, startCol,
-					(String) (system.getContents(this)
-							.getTransferData(DataFlavor.stringFlavor)));
-		} catch (Exception e) {
-		}
-	}
 	
 	protected final void pasteTable(int startRow, int startCol, String trstring) {
 		String val, rowStr;

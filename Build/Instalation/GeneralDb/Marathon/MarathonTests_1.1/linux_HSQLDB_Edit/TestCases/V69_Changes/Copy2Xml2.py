@@ -6,7 +6,7 @@ def test():
 
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'Ams_PODownload_20050101.txt')
-		select_menu('File>>File Copy Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Edit', 'File Copy Menu')
 		click('*4')
 		select('FileChooser', commonBits.sampleDir() + 'Ams_PODownload_20050101.txt')
 		select('FileChooser1', commonBits.sampleDir() + 'CpyXml_Ams_PODownload_20050101.xml')
@@ -39,7 +39,7 @@ def test():
 		click('Copy2')
 		assert_p('TextField1', 'Text', 'Copy Done !!! ')
 
-		select_menu('File>>Compare Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Edit', 'Compare Menu')
 		click('*2')
 		select('FileChooser', commonBits.sampleDir() + 'Ams_PODownload_20050101.txt')
 		select('ComboBox2', 'ams PO Download')

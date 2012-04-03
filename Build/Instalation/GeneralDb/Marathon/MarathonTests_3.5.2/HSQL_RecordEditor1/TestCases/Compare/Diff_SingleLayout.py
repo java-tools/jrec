@@ -8,7 +8,7 @@ def test():
 
     set_java_recorded_version("1.6.0_22")
     if window('Record Editor'):
-        select_menu('File>>Compare Menu')
+        select_menu('Edit>>Compare Menu')
 
         if frame('Compare Menu - Menu:0'):
             click('*_2')

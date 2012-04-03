@@ -6,7 +6,8 @@ from Modules import commonBits
 
 def test():
 
-    set_java_recorded_version("1.6.0_22")
+
+    set_java_recorded_version("1.6.0_22")
     if frame(' - Open File:0'):
         select('File', commonBits.sampleDir() + 'DTAR020_tst1.bin')
         click('Edit')
@@ -64,15 +65,15 @@ def test():
             select('net.sf.RecordEditor.utils.swing.treeTable.JTreeTable_10', 'rows:[11],columns:[DEPT-NO]')
         close()
 
-        click('SaveAs')
+        click('Export')
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        if frame('Export - DTAR020_tst1.bin:0'):
             select('JTabbedPane_16', 'Fixed')
             select('Edit Output File', 'true')
             select('space between fields', 'true')
-            select('JTable_31', 'rows:[5],columns:[Include]')
+            select('JTable_29', 'rows:[5],columns:[Include]')
             select('space between fields', 'true')
-            select('JTable_31', 'rows:[2],columns:[Include]')
+            select('JTable_29', 'rows:[2],columns:[Include]')
             select('space between fields', 'true')
             select('Keep screen open', 'true')
             click('save file')
@@ -82,9 +83,9 @@ def test():
             click('Close')
         close()
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
-            select('JTable_31', 'rows:[4],columns:[Include]')
-            select('JTable_31', 'rows:[5],columns:[Include]')
+        if frame('Export - DTAR020_tst1.bin:0'):
+            select('JTable_29', 'rows:[4],columns:[Include]')
+            select('JTable_29', 'rows:[5],columns:[Include]')
             click('save file')
         close()
 
@@ -92,7 +93,7 @@ def test():
             click('Close')
         close()
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        if frame('Export - DTAR020_tst1.bin:0'):
             click('save file')
         close()
 
@@ -100,7 +101,7 @@ def test():
             click('Close')
         close()
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        if frame('Export - DTAR020_tst1.bin:0'):
             select('names on first line', 'true')
             click('save file')
         close()
@@ -109,7 +110,7 @@ def test():
             click('Close')
         close()
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        if frame('Export - DTAR020_tst1.bin:0'):
             click('save file')
         close()
 
@@ -117,18 +118,7 @@ def test():
             click('Close')
         close()
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
-            select('JTabbedPane_16', 'CSV')
-            select('JTable_37', 'rows:[2],columns:[Include]')
-            select('JTable_37', 'rows:[4],columns:[Include]')
-            select('names on first line', 'true')
-            select('names on first line', 'false')
-            click('save file')
-        close()
 
-        if frame('Table:  - DTAR020_tst1.bin.csv:0'):
-            click('Close')
-        close()
 
 ##        window_closed('Record Editor')
     close()

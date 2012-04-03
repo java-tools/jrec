@@ -30,6 +30,8 @@ public class DirectoryFrame extends ReFrame {
 	        	if (event.getKeyCode() == KeyEvent.VK_ENTER 
 	        	&&  actionListner != null) {
 	        		actionListner.actionPerformed(new ActionEvent(DirectoryFrame.this, 0, "Open"));
+	         	} else if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
+	         		DirectoryFrame.this.doDefaultCloseAction();
 	         	}
 	        }
 	};

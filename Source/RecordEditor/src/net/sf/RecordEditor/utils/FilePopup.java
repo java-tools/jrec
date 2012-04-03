@@ -31,6 +31,9 @@ public class FilePopup extends JMenu {
 
 
 		try {
+			if (filename != null && filename.endsWith("*")) {
+				filename = filename.substring(0, filename.length()-2);
+			}
 			if (fileList == null) {
 				fileList = readFiles(filename, actionId);
 			}	

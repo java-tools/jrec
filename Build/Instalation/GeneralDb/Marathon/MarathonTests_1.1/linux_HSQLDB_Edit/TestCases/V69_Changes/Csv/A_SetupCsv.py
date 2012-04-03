@@ -7,11 +7,17 @@ def test():
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020.bin')
 		click('Edit1')
-		select_menu('File>>Save as CSV file')
-		select('FileChooser', commonBits.sampleDir() + 'csv_DTAR020.bin.csv')
-		if commonBits.isVersion89():
+		if commonBits.isVersion80():
+			select_menu('File>>Export as CSV file')
+			select('FileChooser', commonBits.sampleDir() + 'csv_DTAR020.bin.csv')
+			select('CheckBox', 'true')
+		elif commonBits.isVersion80():
+			select_menu('File>>Save as CSV file')
+			select('FileChooser', commonBits.sampleDir() + 'csv_DTAR020.bin.csv')
 			select('CheckBox1', 'true')
 		else:
+			select_menu('File>>Save as CSV file')
+			select('FileChooser', commonBits.sampleDir() + 'csv_DTAR020.bin.csv')
 			select('CheckBox', 'true')
 		select('ComboBox1', ',')
 		select('FileChooser', commonBits.sampleDir() + 'csvB_DTAR020.bin.csv')
@@ -19,7 +25,7 @@ def test():
 		click('save file')
 		commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
-		select_menu('File>>Compare Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Edit', 'Compare Menu')
 		click('*2')
 		select('FileChooser', commonBits.sampleDir() + 'csvB_DTAR020.bin.csv')
 		select('ComboBox2', 'Generic CSV - enter details')

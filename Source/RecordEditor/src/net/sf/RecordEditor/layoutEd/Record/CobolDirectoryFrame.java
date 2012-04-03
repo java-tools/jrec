@@ -32,7 +32,7 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
 public class CobolDirectoryFrame extends ReFrame {
 	
 	//public final JButton saveBtn;
-	private JFileChooser fileChooser = new JFileChooser();
+	public JFileChooser fileChooser = new JFileChooser();
 	
 	public final SplitCombo  splitOptions  = new SplitCombo();
 	public BmKeyedComboBox fileStructure;
@@ -53,12 +53,15 @@ public class CobolDirectoryFrame extends ReFrame {
 	        	
 	        	if (event.getKeyCode() == KeyEvent.VK_ENTER 
 	        	&&  actionListner != null) {
-	        		actionListner.actionPerformed(new ActionEvent(CobolDirectoryFrame.this, 0, "Open"));
+	        		loadFiles();
+	         	} else if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
+	         		CobolDirectoryFrame.this.doDefaultCloseAction();
 	         	}
 	        }
 	};
 	
-	public CobolDirectoryFrame(String name, String dir, boolean displayMsg, boolean directorySelection, int dbIdx) {
+	public CobolDirectoryFrame(String name, String dir,
+			/*boolean displayMsg, boolean directorySelection,*/ int dbIdx) {
 		super("", name, null);
  
 		init(dbIdx);
@@ -69,9 +72,9 @@ public class CobolDirectoryFrame extends ReFrame {
 
 		BasePanel pnl = new BaseHelpPanel();
 		
-		if (directorySelection) {
+		//if (directorySelection) {
 			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		}
+		//}
 		
 
 //			saveBtn= new JButton(btnTxt[1]);	
@@ -97,15 +100,15 @@ public class CobolDirectoryFrame extends ReFrame {
 		pnl.addLine("File Structure", fileStructure);
 		pnl.addLine("System", system);
 
-        if (displayMsg) {
-        	msg = new JTextArea();
-        	pnl.setGap(BasePanel.GAP1);
-        	pnl.addMessage(msg);
+        //if (displayMsg) {
+    	msg = new JTextArea();
+    	pnl.setGap(BasePanel.GAP1);
+    	pnl.addMessage(msg);
 
-        	SwingUtils.addKeyListnerToContainer(msg, keyListner);
-        } else {
-        	msg = null;
-        }
+    	SwingUtils.addKeyListnerToContainer(msg, keyListner);
+        //} else {
+        //	msg = null;
+        //}
 		
 		pnl.done();
 		
@@ -165,6 +168,10 @@ public class CobolDirectoryFrame extends ReFrame {
 		return fileChooser.getSelectedFile();
 	}
 
+	public final void loadFiles() {
+		actionListner.actionPerformed(new ActionEvent(CobolDirectoryFrame.this, 0, "Open"));
+	}
+	
 	/**
 	 * @param actionListner the actionListner to set
 	 */

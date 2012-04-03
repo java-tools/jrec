@@ -391,4 +391,12 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 	public String getDatabaseName() {
 		return dbCombo.getSelectedItem().toString();
 	}
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.re.openFile.AbstractLayoutSelection#isFileBasedLayout()
+	 */
+	@Override
+	public boolean isFileBasedLayout() {
+		return false;
+	}
 }

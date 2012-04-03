@@ -15,6 +15,7 @@ import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDecider;
 import net.sf.JRecord.Details.RecordDetail;
+import net.sf.JRecord.Details.Selection.RecordSel;
 import net.sf.RecordEditor.utils.common.Common;
 
 
@@ -228,37 +229,59 @@ public class CopyBookDbReader implements CopyBookInterface {
 	    RecordDetail[] ret = null;
 		try {
 		    int subRecordId, recordType, parentId, recordStyle;
+		    FieldDetail[] fields;
+		    String tstFieldName, tstFieldValue;
 		    String fontName;
 			int i = 0;
+			int childKey;
 			boolean hasTreeDef = false;
+			ReadRecordSelection readSel = ReadRecordSelection.getInstance();
+			RecordSel recSel;
 			//DetailRecord tmpLayouts[] = new DetailRecord[250];
 			RecordDetail rec;
 			ArrayList<RecordDetail> list = new ArrayList<RecordDetail>();
 			HashMap<Integer, Integer> id2idx = new HashMap<Integer, Integer>();
 
 			ResultSet resultset = Common.getDBConnection(dbIndex).createStatement().executeQuery(
-				 "SELECT RS.ChildRecord, R.RecordName, RS.FieldStart, RS.Field, "
-				+       "RS.FieldValue, R.RecordType, R.Delimiter, R.Quote, "
-				+       "R.Canonical_Name, RS.PARENT_RECORDID, R.RECORD_STYLE "
-			    + " FROM Tbl_RS1_SubRecords RS INNER JOIN Tbl_R_Records R "
-			    +   " ON RS.ChildRecord = R.RecordId "
+				 "SELECT RS.Child_Record, R.RecordName, RS.Field_Start, RS.Field_Name, "
+				+       "RS.Field_Value, R.RecordType, R.Delimiter, R.Quote, "
+				+       "R.Canonical_Name, RS.PARENT_RECORDID, R.RECORD_STYLE, Child_Key, Default_Record "
+			    + " FROM Tbl_RS2_SubRecords RS INNER JOIN Tbl_R_Records R "
+			    +   " ON RS.Child_Record = R.RecordId "
 				+ "WHERE (RS.RecordId=" + recordId + ")");
 
 			while (resultset.next()) {
-			    subRecordId = resultset.getInt(1);
-			    recordType  = resultset.getInt(6);
-			    fontName    = resultset.getString(9);
-			    parentId    = resultset.getInt(10);
-			    recordStyle = resultset.getInt(11);
+			    subRecordId   = resultset.getInt(1);
+			    tstFieldName  = resultset.getString(4);
+			    tstFieldValue = resultset.getString(5);
+			    recordType    = resultset.getInt(6);
+			    fontName      = resultset.getString(9);
+			    parentId      = resultset.getInt(10);
+			    recordStyle   = resultset.getInt(11);
+			    childKey      = resultset.getInt(12);
+			    fields        = getFields(dbIndex, subRecordId, recordType, fontName);
 			    rec = new RecordDetail(resultset.getString(2),
-						  resultset.getString(4),
-						  resultset.getString(5),
+//			    		  tstFieldName,
+//			    		  tstFieldValue,
 						  recordType,
 						  resultset.getString(7),
 						  resultset.getString(8),
 						  fontName,
-						  getFields(dbIndex, subRecordId, recordType, fontName),
+						  fields,
 						  recordStyle);
+			    recSel = readSel.getRecordSelection(
+			    				dbIndex, subRecordId, childKey, 
+			    				fields, tstFieldName, tstFieldValue);
+			    
+			    if (recSel != null) {
+			    	rec.getRecordSelection().setRecSel(recSel);
+			    	rec.getRecordSelection().setDefaultRecord(
+			    				"Y".equals(resultset.getString(9))
+			    			||	(  "".equals(tstFieldName)
+			    				&& "*".equals(tstFieldValue))
+			    	);
+			    }
+
 			    
 			    rec.setSourceIndex(Common.getConnectionIndex());
 			    

@@ -5,25 +5,30 @@ import java.math.BigDecimal;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.AbstractLine;
-import net.sf.JRecord.ExternalRecordSelection.FieldSelection;
+import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
 import net.sf.JRecord.Types.TypeManager;
 
 public abstract class FieldSelectX extends FieldSelect {
 	protected final boolean numeric;
 	protected final BigDecimal num;
 	
-	public FieldSelectX(String name, String value, FieldDetail fieldDef) {
-		super(name, value, fieldDef);
+	public FieldSelectX(String name, String value, String op, FieldDetail fieldDef) {
+		super(name, value, op, fieldDef);
 		BigDecimal d = null;
-		numeric = TypeManager.getInstance().getType(field.getType()).isNumeric();
 		
-		if (numeric) {
-			d = new BigDecimal(value);
+		if (fieldDetail == null) {
+			numeric = false;
+		} else {
+			numeric = TypeManager.getInstance().getType(fieldDetail.getType()).isNumeric();
+			
+			if (numeric) {
+				d = new BigDecimal(value);
+			}
 		}
 		num = d;
 	}
 	
-	public static FieldSelect get(FieldSelection fs, FieldDetail fieldDef) {
+	public static FieldSelect get(ExternalFieldSelection fs, FieldDetail fieldDef) {
 		return get(fs.getFieldName(), fs.getFieldValue(), fs.getOperator(), fieldDef);
 	}
 
@@ -32,13 +37,13 @@ public abstract class FieldSelectX extends FieldSelect {
 		if ("!=".equals(op) || "ne".equalsIgnoreCase(op)) {
 			ret = new FieldSelect.NotEqualsSelect(name, value, fieldDef);
 		} else if (">".equals(op) || "gt".equalsIgnoreCase(op)) {
-			ret = new FieldSelectX.GreaterThan(name, value, fieldDef, 1);
+			ret = new FieldSelectX.GreaterThan(name, value, ">", fieldDef);
 		} else if (">=".equals(op) || "ge".equalsIgnoreCase(op)) {
-			ret = new FieldSelectX.GreaterThan(name, value, fieldDef, 0);
+			ret = new FieldSelectX.GreaterThan(name, value,  ">=", fieldDef);
 		} else if ("<".equals(op) || "lt".equalsIgnoreCase(op)) {
-			ret = new FieldSelectX.LessThan(name, value, fieldDef, -1);
+			ret = new FieldSelectX.LessThan(name, value, "<", fieldDef);
 		} else if ("<=".equals(op) || "le".equalsIgnoreCase(op)) {
-			ret = new FieldSelectX.LessThan(name, value, fieldDef, 0);
+			ret = new FieldSelectX.LessThan(name, value, "<=", fieldDef);
 		} else {
 			ret = new FieldSelect.EqualsSelect(name, value, fieldDef);
 		}
@@ -48,7 +53,7 @@ public abstract class FieldSelectX extends FieldSelect {
 	
 	protected final int compare(@SuppressWarnings("rawtypes") AbstractLine line) {
 		int res;
-		Object o = line.getField(field);
+		Object o = line.getField(fieldDetail);
 		if (o == null) return Constants.NULL_INTEGER;
 		if (numeric) {	
 			if (o instanceof BigDecimal) {
@@ -64,11 +69,14 @@ public abstract class FieldSelectX extends FieldSelect {
 	}
 
 
-	protected static class GreaterThan extends FieldSelectX {
-		private final int cmpTo;
-		protected GreaterThan(String name, String value, FieldDetail fieldDef, int compareTo) {
-			super(name, value, fieldDef);
-			cmpTo = compareTo;
+	public static final class GreaterThan extends FieldSelectX {
+		private int cmpTo = 0;
+		private GreaterThan(String name, String value, String op, FieldDetail fieldDef) {
+			super(name, value, op, fieldDef);
+			
+			if (">".equals(op)) {
+				cmpTo = 1;
+			}
 		}
 
 		/* (non-Javadoc)
@@ -81,11 +89,14 @@ public abstract class FieldSelectX extends FieldSelect {
 		}
 	}
 	
-	protected static class LessThan extends FieldSelectX {
-		private final int cmpTo;
-		protected LessThan(String name, String value, FieldDetail fieldDef, int compareTo) {
-			super(name, value, fieldDef);
-			cmpTo = compareTo;
+	public static final class LessThan extends FieldSelectX {
+		private int cmpTo = 0;
+		private LessThan(String name, String value, String op, FieldDetail fieldDef) {
+			super(name, value, op, fieldDef);
+
+			if ("<".equals(op)) {
+				cmpTo = -1;
+			}
 		}
 
 		/* (non-Javadoc)

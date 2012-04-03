@@ -83,11 +83,6 @@ public interface AbstractFieldValue {
 	 */
 	public String asHex();
 	
-//	/**
-//	 * Get the value as what ever
-//	 * @return
-//	 */
-//	public Object asDefault();
 	
 	/**
 	 * Set the fields value

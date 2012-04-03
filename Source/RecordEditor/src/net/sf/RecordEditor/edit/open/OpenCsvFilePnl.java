@@ -119,7 +119,7 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 			final String propertiesFiles, 
 			AbstractLineIOProvider pIoProvider) {
 		ioProvider = pIoProvider;
-		recent = new RecentFiles(propertiesFiles, this);
+		recent = new RecentFiles(propertiesFiles, this, true);
 		recentList = new RecentFilesList(recent, this);
 		
 		boolean filePresent = true;

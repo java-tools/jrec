@@ -47,11 +47,15 @@ public class ProgramOptions {
 	public final BoolOpt loadInBackgroundThread = new BoolOpt(Parameters.PROPERTY_LOAD_FILE_BACKGROUND);
 	public final BoolOpt asterixInFileName = new BoolOpt(Parameters.ASTERIX_IN_FILE_NAME);
 	public final BoolOpt useBigFixedModel  = new BoolOpt(Parameters.PROPERTY_BIG_FILE_USE_SPECIAL_FIXED_MODEL);
+	public final BoolOpt showAllExportPnls = new BoolOpt(Parameters.SHOW_ALL_EXPORT_OPTIONS);
+	public final BoolOpt deleteSelectedWithDelKey = new BoolOpt(Parameters.DEL_SELECTED_WITH_DEL_KEY);
+	public final BoolOpt warnWhenUsingDelKey = new BoolOpt(Parameters.WARN_WHEN_USING_DEL_KEY);
+	
 
 	public final UpdateableBoolOpt highlightEmpty = new UpdateableBoolOpt(Parameters.PROPERTY_HIGHLIGHT_EMPTY);
 	public final InternalBoolOption highlightEmptyActive = new InternalBoolOption(false);
 	
-	public final InternalBoolOption XSLT_AVAILABLE = new InternalBoolOption(true);
+	public final InternalBoolOption xsltAvailable = new InternalBoolOption(true);
 	
 	public final IntOpt significantCharInFiles1 = new IntOpt("SignificantCharInFiles.1", 6, 1);
 	public final IntOpt significantCharInFiles2 = new IntOpt("SignificantCharInFiles.2", 12, 1);

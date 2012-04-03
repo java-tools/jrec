@@ -39,8 +39,9 @@ public class GotoLine extends ReFrame implements ActionListener {
 	         */
 	        public final void keyReleased(KeyEvent event) {
 	        	
-	        	if (event.getKeyCode() == KeyEvent.VK_ENTER) {
-	        		doGoto();
+	        	switch (event.getKeyCode()) {
+	        	case KeyEvent.VK_ENTER:		doGoto();								break;
+	        	case KeyEvent.VK_ESCAPE:	GotoLine.this.doDefaultCloseAction();	break;
 	        	}
 	        }
 	    };

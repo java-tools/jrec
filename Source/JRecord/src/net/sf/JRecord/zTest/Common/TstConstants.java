@@ -22,7 +22,7 @@ public final class TstConstants {
  //   public static final String RE_DIRECTORY = "/media/sdc1/RecordEditor/USB/";
  //   public static final String TEMP_DIRECTORY = BM_DIRECTORY;
     public static final String BM_DIRECTORY = "/home/knoppix/";
-    public static final String RE_DIRECTORY = "C:\\JavaPrograms\\RecordEdit\\HSQL\\";
+    public static final String RE_DIRECTORY = "C:\\Users\\mum\\RecordEditor_HSQL\\";
     public static final String TEMP_DIRECTORY = "C:\\Temp\\RecordEditorTest\\";
     public static final int    DB_INDEX       = 0;
     public static final String SAMPLE_DIRECTORY = RE_DIRECTORY + "SampleFiles/";

@@ -111,6 +111,8 @@ extends ReadLayout implements FormatFileName {
 	 */
 	public abstract	void setMessage(JTextArea message);
 	
+	public abstract boolean isFileBasedLayout();
+	
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.openFile.FormatFileName#formatLayoutName(java.lang.String)
 	 */

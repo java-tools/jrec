@@ -31,6 +31,7 @@ public class BaseHelpPanel extends BasePanel  {
 	private HelpWindow help = new HelpWindow(null);
     
     private ArrayList<KeyAdapter> list = new ArrayList<KeyAdapter>();
+    private ArrayList<Component> componentList = new ArrayList<Component>(15);
 
 
     /**
@@ -39,7 +40,8 @@ public class BaseHelpPanel extends BasePanel  {
      * @see net.sf.RecordEditor.utils.swing.BasePanel#registerComponent
      */
     public final void registerComponent(JComponent component) {
-    	registerComponent(component, 0);
+    	registerComponent(component, 0, help);
+    	componentList.add(component);
 //        int i;
 //        registerOneComponent(component);
 // 
@@ -48,25 +50,39 @@ public class BaseHelpPanel extends BasePanel  {
 //        }
     }
     
+    public final void registerListner(KeyAdapter keyListner) {
+    	registerComponent(this, -2, keyListner);
+    }
+   
+    
+    /**
+     * register one component
+     * @param component component to be registered
+     */
+    public final void registerOneComponent(Component component) {
+    	registerOneComponent(component, help);
+    	componentList.add(component);
+    }
+
     
     /**
      * Recursively register components
      * @param component component to register
      * @param depth current recursion depth
      */
-    private void registerComponent(JComponent component, int depth) {
+    private void registerComponent(JComponent component, int depth, KeyAdapter keyListner) {
         int i;
         Component c;
-        registerOneComponent(component);
+        registerOneComponent(component, keyListner);
  
         for (i = 0; i < component.getComponentCount(); i++) {
         	c = component.getComponent(i);
         	//registerOneComponent(c);
         	
         	if (depth < 4 && c instanceof JComponent) {
-        		registerComponent((JComponent) c, depth + 1);
+        		registerComponent((JComponent) c, depth + 1, keyListner);
         	} else {
-        		registerOneComponent(c);
+        		registerOneComponent(c, keyListner);
         	}
         }
     }
@@ -74,11 +90,12 @@ public class BaseHelpPanel extends BasePanel  {
     /**
      * register one component
      * @param component component to be registered
+     * @param listner to register
      */
-    public final void registerOneComponent(Component component) {
+    private void registerOneComponent(Component component, KeyAdapter keyListner) {
     	
     
-        component.addKeyListener(help);
+        component.addKeyListener(keyListner);
         //System.out.println("}} " + component.getName() + " " + component.getClass().getName());
         
         for (int i = 0; i < list.size(); i++) {     	
@@ -92,6 +109,15 @@ public class BaseHelpPanel extends BasePanel  {
      */
     public void addReKeyListener(KeyAdapter adapter) {
     	list.add(adapter);
+    	this.addKeyListener(adapter);
+    	
+    	for (Component c : componentList) {
+    		if (c instanceof BaseHelpPanel) {
+    			((BaseHelpPanel) c).addReKeyListener(adapter);
+    		} else {
+    			c.addKeyListener(adapter);
+    		}
+    	}
     	//System.out.println("==}} " +  " " + adapter.getClass().getName());
     }
 
@@ -119,6 +145,7 @@ public class BaseHelpPanel extends BasePanel  {
                 help.showHelp();
             }
         });
+        registerOneComponent(btn);
     }
 
 
@@ -139,6 +166,6 @@ public class BaseHelpPanel extends BasePanel  {
      */
     public final void setHelpURL(String helpUrl) {
         help.setHelpURL(helpUrl);
-        registerOneComponent(this);
+        registerOneComponent(this, help);
     }
 }

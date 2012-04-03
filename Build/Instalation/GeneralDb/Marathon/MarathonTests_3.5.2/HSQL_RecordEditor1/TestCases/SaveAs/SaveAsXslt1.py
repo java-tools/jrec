@@ -13,9 +13,11 @@ def test():
     close()
 
     if window('Record Editor'):
-        select_menu('File>>Save via Xsl Transform>>TextXml_01_trans1.Xsl')
 
-        if frame('Save as - TestXml_01.xml:0'):
+        select_menu('File>>Export via Xsl Transform>>TextXml_01_trans1.Xsl')
+
+        if frame('Export - TestXml_01.xml:0'):
+        ##if frame('Export - TestXml_01.xml:0'):
             select('Edit Output File', 'true')
             click('save file')
         close()
@@ -80,7 +82,7 @@ def test():
             
             select('net.sf.RecordEditor.utils.swing.treeTable.JTreeTable_10', 'rows:[10],columns:[Tree]')
             click('Close')
-            select('net.sf.RecordEditor.utils.swing.treeTable.JTreeTable_10', 'rows:[10],columns:[Tree]')
+##            select('net.sf.RecordEditor.utils.swing.treeTable.JTreeTable_10', 'rows:[10],columns:[Tree]')
         close()
 
         if frame('Tree View - TestXml_01.xml:0'):

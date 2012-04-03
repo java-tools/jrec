@@ -155,6 +155,8 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
         		desktopHeight -= SwingUtils.BUTTON_HEIGHT * 3;
         	}
         	
+        	this.registerComponent(pnl2);
+        	
         	pnl2.setBorder(BorderFactory.createEmptyBorder());
         	scrollPane.setBorder(BorderFactory.createEmptyBorder());
         	
@@ -224,7 +226,9 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 				setGap(BasePanel.GAP0);	
 				String dir = Parameters.getFileName(Parameters.FILTER_SAVE_DIRECTORY);
 				JPanel p = new JPanel();
-				p.add(new SaveButton<EditorTask>(this, dir));
+				SaveButton<EditorTask> btn = new SaveButton<EditorTask>(this, dir);
+				p.add(btn);
+				registerComponent(btn);
 				addLine("", p, execute);
 				setHeight(BasePanel.GAP1 * 2);
 				setGap(BasePanel.GAP0);
@@ -300,6 +304,11 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 			checkAllRecords.addActionListener(this);
 			uncheckAllFields.addActionListener(this);
 			checkAllFields.addActionListener(this);
+			
+			registerComponent(uncheckAllRecords);
+			registerComponent(checkAllRecords);
+			registerComponent(uncheckAllFields);
+			registerComponent(checkAllFields);
 	    } else {
 	    	recordMdl.fireTableDataChanged();
 	    	fieldMdl.fireTableDataChanged();

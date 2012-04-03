@@ -6,8 +6,9 @@ import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.ExternalRecordSelection.ExternalSelection;
-import net.sf.JRecord.ExternalRecordSelection.FieldSelection;
-import net.sf.JRecord.ExternalRecordSelection.GroupSelection;
+import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
+import net.sf.JRecord.ExternalRecordSelection.ExternalGroupSelection;
+import net.sf.JRecord.ExternalRecordSelection.StreamLine;
 
 //import net.sf.RecordEditor.utils.Common;
 
@@ -720,7 +721,7 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	 */ @Deprecated 
 	public String getTstField() {
 		 
-		FieldSelection f = getFirstSelection(recSelect);
+		ExternalFieldSelection f = getFirstSelection(recSelect);
 		if (f == null) {
 			return null;
 		} else {
@@ -756,11 +757,11 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	public void addTstField(String tstField, String value) {
 		
 		if (recSelect == null) {
-			recSelect = new GroupSelection(1);
+			recSelect = new ExternalGroupSelection(1);
 		}
-		if (recSelect instanceof GroupSelection) {
-			GroupSelection g = (GroupSelection) recSelect;
-			g.add(new FieldSelection(tstField, value));
+		if (recSelect instanceof ExternalGroupSelection) {
+			ExternalGroupSelection g = (ExternalGroupSelection) recSelect;
+			g.add(new ExternalFieldSelection(tstField, value));
 			return;
 		}
 		System.out.println();
@@ -776,12 +777,13 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	 * @Deprecated Use getTstFields
 	 */@Deprecated 
 	public String getTstFieldValue() {
-			FieldSelection f = getFirstSelection(recSelect);
+			ExternalFieldSelection f = getFirstSelection(recSelect);
 			if (f == null) {
 				return null;
 			} else {
 				return f.getFieldValue();
-			}	}
+			}
+	}
 //
 //	
 //	 public int getTstFieldCount() {
@@ -793,15 +795,15 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 //		 return ret;
 //	 }
 	 
-	 private FieldSelection getFirstSelection(ExternalSelection s) {
+	 private ExternalFieldSelection getFirstSelection(ExternalSelection s) {
 		 
 		 if (s == null) {
 			 return null;
-		 } else if (s instanceof FieldSelection) {
-			 return (FieldSelection) s;
+		 } else if (s instanceof ExternalFieldSelection) {
+			 return (ExternalFieldSelection) s;
 		 } else {
-			 GroupSelection g = (GroupSelection) s;
-			 FieldSelection fs = null;
+			 ExternalGroupSelection g = (ExternalGroupSelection) s;
+			 ExternalFieldSelection fs = null;
 			 
 			 for (int i = 0; i < g.size() && fs == null; i++) {
 				 fs = getFirstSelection(g.get(i));
@@ -997,7 +999,7 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	 * @param recSelect the recSelect to set
 	 */
 	public void setRecSelect(ExternalSelection recSelect) {
-		this.recSelect = recSelect;
+		this.recSelect = StreamLine.getExternalStreamLine().streamLine(recSelect);
 	}
 
 	

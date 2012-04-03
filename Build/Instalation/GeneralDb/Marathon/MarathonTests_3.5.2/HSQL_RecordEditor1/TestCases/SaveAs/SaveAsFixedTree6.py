@@ -28,9 +28,9 @@ def test():
             select('net.sf.RecordEditor.utils.swing.treeTable.JTreeTable_10', 'rows:[5],columns:[DATE]')
         close()
 
-        click('SaveAs')
+        click('Export')
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        if frame('Export - DTAR020_tst1.bin:0'):
             select('JTabbedPane_16', 'Fixed')
             select('Edit Output File', 'true')
             select('Only export Nodes with Data', 'false')
@@ -115,7 +115,7 @@ def test():
             click('Close')
         close()
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        if frame('Export - DTAR020_tst1.bin:0'):
             select('names on first line', 'true')
             click('save file')
         close()
@@ -198,176 +198,5 @@ def test():
             click('Close')
         close()
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
-            select('JTable_31', 'false', '{2, Include}')
-##            select('JTable_31', 'rows:[2],columns:[Include]')
-##            select('JTable_31', 'rows:[5],columns:[Include]')
-            select('JTable_31', 'rows:[5],columns:[Include]')
-            select('JTable_31', 'false', '{5, Include}')
-            select('JTable_31', 'false', '{2, Include}')
-            select('JTable_31', 'rows:[5],columns:[Include]')
-##            select('JTable_31', 'false', '{5, Include}')
-            click('save file')
-        close()
-
-        if frame('Table:  - DTAR020_tst1.bin.txt:0'):
-            assert_content('JTable_22', [ ['Level_1', 'Level_2', 'Level_3', 'Level_4', 'KEYCODE-NO', 'STORE-NO', 'DEPT-NO', 'QTY-SOLD'],
-['File', '', '', '', '', '', '', ''],
-['File', '20', '', '', '', '', '', ''],
-['File', '20', '170', '', '', '', '', ''],
-['File', '20', '170', '', '63604808', '20', '170', '1'],
-['File', '20', '280', '', '', '', '', ''],
-['File', '20', '280', '', '69684558', '20', '280', '1'],
-['File', '20', '280', '', '69684558', '20', '280', '-1'],
-['File', '20', '280', '', '69694158', '20', '280', '1'],
-['File', '20', '685', '', '', '', '', ''],
-['File', '20', '685', '', '62684671', '20', '685', '1'],
-['File', '20', '685', '', '62684671', '20', '685', '-1'],
-['File', '59', '', '', '', '', '', ''],
-['File', '59', '335', '', '', '', '', ''],
-['File', '59', '335', '', '61664713', '59', '335', '1'],
-['File', '59', '335', '', '61664713', '59', '335', '-1'],
-['File', '59', '335', '', '61684613', '59', '335', '1'],
-['File', '59', '410', '', '', '', '', ''],
-['File', '59', '410', '', '68634752', '59', '410', '1'],
-['File', '59', '620', '', '', '', '', ''],
-['File', '59', '620', '', '60694698', '59', '620', '1'],
-['File', '59', '620', '', '60664659', '59', '620', '1'],
-['File', '59', '878', '', '', '', '', ''],
-['File', '59', '878', '', '60614487', '59', '878', '1'],
-['File', '166', '', '', '', '', '', ''],
-['File', '166', '60', '', '', '', '', ''],
-['File', '166', '60', '', '68654655', '166', '60', '1'],
-['File', '166', '80', '', '', '', '', ''],
-['File', '166', '80', '', '69624033', '166', '80', '1'],
-['File', '166', '80', '', '60604100', '166', '80', '1'],
-['File', '166', '170', '', '', '', '', ''],
-['File', '166', '170', '', '68674560', '166', '170', '1']
-])
-
-
-            select('JTable_22', 'rows:[0],columns:[9 - 7|Level_2]')
-            assert_p('net.sf.RecordEditor.edit.display.BaseDisplay$HeaderToolTips_27', 'Text', '61 - 8|QTY-SOLD', '61 - 8|QTY-SOLD')
-            assert_p('net.sf.RecordEditor.edit.display.BaseDisplay$HeaderToolTips_27', 'Text', '53 - 7|DEPT-NO', '53 - 7|DEPT-NO')
-            assert_p('net.sf.RecordEditor.edit.display.BaseDisplay$HeaderToolTips_27', 'Text', '44 - 8|STORE-NO', '44 - 8|STORE-NO')
-            assert_p('net.sf.RecordEditor.edit.display.BaseDisplay$HeaderToolTips_27', 'Text', '33 - 10|KEYCODE-NO', '33 - 10|KEYCODE-NO')
-            select('Layouts', 'Full Line')
-            assert_p('JTable_22', 'Text', 'File    20      685             62684671   20       685     1', '{10, Full Line}')
-            assert_content('JTable_22', [ ['Level_1 Level_2 Level_3 Level_4 KEYCODE-NO STORE-NO DEPT-NO QTY-SOLD'],
-['File                                                                '],
-['File    20                                                          '],
-['File    20      170                                                 '],
-['File    20      170             63604808   20       170     1       '],
-['File    20      280                                                 '],
-['File    20      280             69684558   20       280     1       '],
-['File    20      280             69684558   20       280     -1      '],
-['File    20      280             69694158   20       280     1       '],
-['File    20      685                                                 '],
-['File    20      685             62684671   20       685     1       '],
-['File    20      685             62684671   20       685     -1      '],
-['File    59                                                          '],
-['File    59      335                                                 '],
-['File    59      335             61664713   59       335     1       '],
-['File    59      335             61664713   59       335     -1      '],
-['File    59      335             61684613   59       335     1       '],
-['File    59      410                                                 '],
-['File    59      410             68634752   59       410     1       '],
-['File    59      620                                                 '],
-['File    59      620             60694698   59       620     1       '],
-['File    59      620             60664659   59       620     1       '],
-['File    59      878                                                 '],
-['File    59      878             60614487   59       878     1       '],
-['File    166                                                         '],
-['File    166     60                                                  '],
-['File    166     60              68654655   166      60      1       '],
-['File    166     80                                                  '],
-['File    166     80              69624033   166      80      1       '],
-['File    166     80              60604100   166      80      1       '],
-['File    166     170                                                 '],
-['File    166     170             68674560   166      170     1       ']
-])
-            click('Close')
-        close()
-
-        if frame('Save as - DTAR020_tst1.bin:0'):
-            select('names on first line', 'false')
-            click('save file')
-        close()
-
-        if frame('Table:  - DTAR020_tst1.bin.txt:0'):
-            assert_content('JTable_22', [ ['File', '', '', '', '', '', '', ''],
-['File', '20', '', '', '', '', '', ''],
-['File', '20', '170', '', '', '', '', ''],
-['File', '20', '170', '', '63604808', '20', '170', '1'],
-['File', '20', '280', '', '', '', '', ''],
-['File', '20', '280', '', '69684558', '20', '280', '1'],
-['File', '20', '280', '', '69684558', '20', '280', '-1'],
-['File', '20', '280', '', '69694158', '20', '280', '1'],
-['File', '20', '685', '', '', '', '', ''],
-['File', '20', '685', '', '62684671', '20', '685', '1'],
-['File', '20', '685', '', '62684671', '20', '685', '-1'],
-['File', '59', '', '', '', '', '', ''],
-['File', '59', '335', '', '', '', '', ''],
-['File', '59', '335', '', '61664713', '59', '335', '1'],
-['File', '59', '335', '', '61664713', '59', '335', '-1'],
-['File', '59', '335', '', '61684613', '59', '335', '1'],
-['File', '59', '410', '', '', '', '', ''],
-['File', '59', '410', '', '68634752', '59', '410', '1'],
-['File', '59', '620', '', '', '', '', ''],
-['File', '59', '620', '', '60694698', '59', '620', '1'],
-['File', '59', '620', '', '60664659', '59', '620', '1'],
-['File', '59', '878', '', '', '', '', ''],
-['File', '59', '878', '', '60614487', '59', '878', '1'],
-['File', '166', '', '', '', '', '', ''],
-['File', '166', '60', '', '', '', '', ''],
-['File', '166', '60', '', '68654655', '166', '60', '1'],
-['File', '166', '80', '', '', '', '', ''],
-['File', '166', '80', '', '69624033', '166', '80', '1'],
-['File', '166', '80', '', '60604100', '166', '80', '1'],
-['File', '166', '170', '', '', '', '', ''],
-['File', '166', '170', '', '68674560', '166', '170', '1']
-])
-            select('JTable_22', 'rows:[0],columns:[6 - 3|Level_2]')
-            assert_p('net.sf.RecordEditor.edit.display.BaseDisplay$HeaderToolTips_27', 'Text', '47 - 8|QTY-SOLD', '47 - 8|QTY-SOLD')
-            assert_p('net.sf.RecordEditor.edit.display.BaseDisplay$HeaderToolTips_27', 'Text', '39 - 7|DEPT-NO', '39 - 7|DEPT-NO')
-            assert_p('net.sf.RecordEditor.edit.display.BaseDisplay$HeaderToolTips_27', 'Text', '30 - 8|STORE-NO', '30 - 8|STORE-NO')
-            select('Layouts', 'Full Line')
-            assert_content('JTable_22', [ ['File                                                  '],
-['File 20                                               '],
-['File 20  170                                          '],
-['File 20  170      63604808   20       170     1       '],
-['File 20  280                                          '],
-['File 20  280      69684558   20       280     1       '],
-['File 20  280      69684558   20       280     -1      '],
-['File 20  280      69694158   20       280     1       '],
-['File 20  685                                          '],
-['File 20  685      62684671   20       685     1       '],
-['File 20  685      62684671   20       685     -1      '],
-['File 59                                               '],
-['File 59  335                                          '],
-['File 59  335      61664713   59       335     1       '],
-['File 59  335      61664713   59       335     -1      '],
-['File 59  335      61684613   59       335     1       '],
-['File 59  410                                          '],
-['File 59  410      68634752   59       410     1       '],
-['File 59  620                                          '],
-['File 59  620      60694698   59       620     1       '],
-['File 59  620      60664659   59       620     1       '],
-['File 59  878                                          '],
-['File 59  878      60614487   59       878     1       '],
-['File 166                                              '],
-['File 166 60                                           '],
-['File 166 60       68654655   166      60      1       '],
-['File 166 80                                           '],
-['File 166 80       69624033   166      80      1       '],
-['File 166 80       60604100   166      80      1       '],
-['File 166 170                                          '],
-['File 166 170      68674560   166      170     1       ']
-])
-            click('Close')
-        close()
-
-##        window_closed('Record Editor')
-    close()
 
     pass

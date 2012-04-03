@@ -279,7 +279,7 @@ public final class SaveAsNew extends ReFrame
 
         currentIndex = FORMAT_TRANSLATION[formatIdx];
        
-        if (! Common.OPTIONS.XSLT_AVAILABLE.isSelected()) {
+        if (! Common.OPTIONS.xsltAvailable.isSelected()) {
         	len -= 1;
         	pnls[pnls.length - 2] = pnls[pnls.length - 1];
         }

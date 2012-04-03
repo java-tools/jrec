@@ -1099,7 +1099,8 @@ public class RecordPnl extends BaseHelpPanel
 			System.out.println("Column: "  + col + " " + tblCol);
 			switch (tblCol) {
 			case 0: editRecordAtRow(tblChild.getSelectedRow());   break;
-			case 1: new RecordSelectionPnl("", connectionIdx, dbChildTbl.getRecordId(), dbChildModel.getRecord(row).getChildKey());
+			case 1:
+				new RecordSelectionPnl("", connectionIdx, dbChildTbl.getRecordId(), dbChildModel.getRecord(row));
 				//TODO   Edit selection criteria
 				//TODO   Edit selection criteria
 				//TODO   Edit selection criteria

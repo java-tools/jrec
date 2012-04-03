@@ -7,7 +7,7 @@ def test():
 	java_recorded_version = '1.6.0_10'
 
 	if window('Record Editor'):
-		select_menu('File>>File Copy Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Edit', 'File Copy Menu')
 		click('*3')
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020.bin')
 		select('FileChooser1', commonBits.sampleDir() + 'XffDTAR020.csv')
@@ -37,7 +37,8 @@ def test():
 			select('Table', 'cell:DEPT-NO,1(280)')
 			commonBits.doSleep()
 
-			select('TabbedPane', 'Normal')
+
+			select('TabbedPane', 'Normal')
 			click('Go')
 			commonBits.doSleep()
 
@@ -104,7 +105,7 @@ def test():
 		select('Table', 'cell:1|KEYCODE-NO,8(62684671)')
 		assert_p('Table', 'ColumnCount', '6')
 		select('Table', 'cell:1|KEYCODE-NO,8(62684671)')
-		select_menu('File>>Compare Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Edit', 'Compare Menu')
 ##		select('Table', 'cell:1|KEYCODE-NO,8(62684671)')
 		click('*1')
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020.bin')

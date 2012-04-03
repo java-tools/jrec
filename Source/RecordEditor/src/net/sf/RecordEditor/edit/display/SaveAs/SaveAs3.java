@@ -32,16 +32,13 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 
+import javax.swing.BorderFactory;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import net.sf.JRecord.Details.AbstractLayoutDetails;
-import net.sf.JRecord.Details.AbstractLine;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
-import net.sf.RecordEditor.re.file.DisplayType;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.openFile.RecentFiles;
 import net.sf.RecordEditor.utils.common.Common;
@@ -72,24 +69,9 @@ import net.sf.RecordEditor.utils.swing.FileChooser;
  *
  */
 
-//TODO Rewrite: Create separate classes for Tap_Panels and move Save Logic there
-//TODO Rewrite: Create separate classes for Tap_Panels and move Save Logic there
-//TODO Rewrite: Create separate classes for Tap_Panels and move Save Logic there
-
 @SuppressWarnings("serial")
 public final class SaveAs3 extends ReFrame
 				 implements ActionListener {
-
-    //private static final int SAVE_FILE      = 0;
-    //private static final int SAVE_VIEW      = 1;
-    //private static final int SAVE_SELECTED  = 2;
-    //private static final int FILENAME_FIELD_LENGTH = 30;
-
-    //private static final String[] DELIMITER_OPTIONS = {"<TAB>", ","};
-    //private static final String[] DELIMITER_LIST    = {"\t", ","};
-    private static final String OPT_FILE = "File";
-    private static final String OPT_VIEW = "Current View";
-    private static final String OPT_SELECTED = "Selected Records";
 
     public static final int FORMAT_DATA      = 0;
     public static final int FORMAT_1_TABLE   = 1;
@@ -115,16 +97,8 @@ public final class SaveAs3 extends ReFrame
     };
     
 
-    CommonSaveAsFields commonSaveFields;
-    private SaveAsPnlBase[] pnls = {
-    		new SaveAsPnlBasic.Data(commonSaveFields),
-    		new SaveAsPnlCsv(commonSaveFields),
-    		new SaveAsPnlFixed(commonSaveFields),
-    		new SaveAsPnlBasic.Xml(commonSaveFields),
-    		new SaveAsPnlHtml(commonSaveFields),
-    		new SaveAsPnlXslt(commonSaveFields),
-    		new SaveAsPnlVelocity(commonSaveFields) ,
-    };
+    private CommonSaveAsFields commonSaveFields;
+    private SaveAsPnlBase[] pnls;
     //private String[] options;
 
     private BaseHelpPanel pnl = new BaseHelpPanel();
@@ -142,7 +116,7 @@ public final class SaveAs3 extends ReFrame
     
     private JTabbedPane formatTab = new JTabbedPane();
 
-    private JTextArea msg = new JTextArea();
+    //private JTextArea msg = new JTextArea();
 
 
     private FileView<?> file;
@@ -150,16 +124,8 @@ public final class SaveAs3 extends ReFrame
     private int currentIndex;
     private String currentExtension = null;
     
+    private boolean usingTab = true;
     
-   // private AbstractRecordDetail<?> printRecordDetails;
- 
-    ChangeListener actL = new ChangeListener() {
-		
-		@Override
-		public void stateChanged(ChangeEvent e) {
-			setVisibility();
-		}
-	};
     
     private ChangeListener tabListner = new ChangeListener() {
 
@@ -177,19 +143,7 @@ public final class SaveAs3 extends ReFrame
     };
     
     
-	
-	private FocusListener templateChg = new FocusAdapter() {
 
-		/* (non-Javadoc)
-		 * @see java.awt.event.FocusAdapter#focusLost(java.awt.event.FocusEvent)
-		 */
-		@Override
-		public void focusLost(FocusEvent e) {
-			System.out.print("Focus Lost ...");
-			changeExtension();
-		}
-		
-	};
  
     
     private KeyAdapter listner = new KeyAdapter() {
@@ -198,8 +152,9 @@ public final class SaveAs3 extends ReFrame
          */
         public final void keyReleased(KeyEvent event) {
         	
-        	if (event.getKeyCode() == KeyEvent.VK_ENTER) {
-        		saveFile();
+        	switch (event.getKeyCode()) {
+        	case KeyEvent.VK_ENTER:		saveFile();									break;
+        	case KeyEvent.VK_ESCAPE:	SaveAs3.this.doDefaultCloseAction();		break;
         	}
         }
     };
@@ -220,13 +175,24 @@ public final class SaveAs3 extends ReFrame
     		final AbstractFileDisplay recordFrame, 
     		final FileView<?> fileView,
     		int formatIdx, String velocityTemplate) {
-        super(fileView.getFileNameNoDirectory(), "Save as",
+        super(fileView.getFileNameNoDirectory(), 
+        	 ((formatIdx <= 0 || Common.OPTIONS.showAllExportPnls.isSelected()) ? "Export" : "Export1"),
               fileView.getBaseFile());
 
         
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+    	
+    	FocusListener templateChg = new FocusAdapter() {
+    		@Override
+    		public void focusLost(FocusEvent e) {
+    			//System.out.print("Focus Lost ...");
+    			changeExtension();
+    		}
+    		
+    	};
 
-        commonSaveFields = new CommonSaveAsFields(recordFrame, fileView);
+        commonSaveFields = new CommonSaveAsFields(recordFrame, fileView, templateChg);
         file = fileView; 
         
         SaveAsPnlBase[] p = {
@@ -242,10 +208,10 @@ public final class SaveAs3 extends ReFrame
 
         int len = init_100_setupFields_GetPnlLength(formatIdx);
 
-        init_200_layoutScreen();
+        init_200_SetupTabPnls(len, formatIdx, velocityTemplate);
+        init_300_layoutScreen();
         //System.out.println(" !! create class 4 " + this.getClass().getName() + " " + this.isMaximum());
 	
-        init_300_SetupTabPnls(len, formatIdx, velocityTemplate);
         //System.out.println(" !! create class 5 " + this.getClass().getName() + " " + this.isMaximum());
 
         this.addMainComponent(pnl);
@@ -261,7 +227,6 @@ public final class SaveAs3 extends ReFrame
 
     
     private int init_100_setupFields_GetPnlLength(int formatIdx) {
-        int[] selected = commonSaveFields.getRecordFrame().getSelectedRows();
         int len = pnls.length - 1;
         String fname = file.getFileName();
         if ("".equals(fname)) {
@@ -269,7 +234,7 @@ public final class SaveAs3 extends ReFrame
         }
 
        
-        if (! Common.OPTIONS.XSLT_AVAILABLE.isSelected()) {
+        if (! Common.OPTIONS.xsltAvailable.isSelected()) {
         	len -= 1;
         	pnls[pnls.length - 2] = pnls[pnls.length - 1];
         	FORMAT_TRANSLATION[FORMAT_TRANSLATION.length - 1] -= 1;
@@ -279,14 +244,6 @@ public final class SaveAs3 extends ReFrame
         }
         currentIndex = FORMAT_TRANSLATION[formatIdx];
 
-        if (file.isView()) {
-            commonSaveFields.saveWhat.addItem(OPT_VIEW);
-        }
-        commonSaveFields.saveWhat.addItem(OPT_FILE);
-
-        if (selected != null && selected.length > 0) {
-        	commonSaveFields.saveWhat.addItem(OPT_SELECTED);
-        }
  
         for (int i = 0; i < pnls.length; i++) {
         	pnls[i].onlyData.setSelected(! file.isBinaryFile());
@@ -311,7 +268,31 @@ public final class SaveAs3 extends ReFrame
     }
 
     
-    private void init_200_layoutScreen() {
+    private void init_200_SetupTabPnls(int len, int formatIdx, String velocityTemplate) {
+
+       	for (int i = 0; i < len; i++) {
+       		formatTab.add(pnls[i].getTitle(), pnls[i].panel);
+       	}
+
+		formatTab.setSelectedIndex(currentIndex);
+		switch (formatIdx) {
+		case FORMAT_1_TABLE:
+		case FORMAT_MULTI_TABLE:
+		case FORMAT_TREE_HTML:
+			getSelectedPnl().setTableOption(FORMAT_HTML_TRANSLATION[formatIdx]);
+			break;
+		case FORMAT_XSLT:
+		case FORMAT_VELOCITY:
+			if (velocityTemplate != null && ! "".equals(velocityTemplate)) {
+				getSelectedPnl().template.setText(velocityTemplate);
+				changeExtension();
+			}
+			break;
+		}
+    }
+
+    
+    private void init_300_layoutScreen() {
 
 		pnl.addHelpBtn(Common.getHelpButton());
 
@@ -337,138 +318,37 @@ public final class SaveAs3 extends ReFrame
 				});
         	}
         }
-        pnl.addLine("Edit Output File", commonSaveFields.editChk);
 
         pnl.setGap(BasePanel.GAP1);       
-        pnl.addLine("Output Format:", null);
-        pnl.addComponent(1, 5,BasePanel.FILL, BasePanel.GAP,
-                BasePanel.FULL, BasePanel.FULL,
-                formatTab);
+        
+        if (currentIndex < 1 || currentIndex >= pnls.length || Common.OPTIONS.showAllExportPnls.isSelected()) {
+	        pnl.addLine("Output Format:", null);
+	        pnl.addComponent(1, 5,BasePanel.FILL, BasePanel.GAP,
+	                BasePanel.FULL, BasePanel.FULL,
+	                formatTab);
+        } else {
+	        pnl.addComponent(0, 6, BasePanel.FILL, BasePanel.GAP,
+	                BasePanel.FULL, BasePanel.FULL,
+	                pnls[currentIndex].panel);
+	        pnls[currentIndex].panel.setBorder(
+	        		BorderFactory.createTitledBorder(
+	        				BorderFactory.createRaisedBevelBorder(), 
+	        				pnls[currentIndex].getTitle() + " Options : "));
+	        //formatTab.setSelectedIndex(currentIndex);
+	        usingTab = false;
+       }
         
         pnl.setGap(BasePanel.GAP1);
+        pnl.addLine("Edit Output File", commonSaveFields.editChk);
         pnl.addLine("Keep screen open", commonSaveFields.keepOpenChk, saveFile);
         pnl.setGap(BasePanel.GAP3);
-        pnl.addMessage(new JScrollPane(msg));
+        pnl.addMessage(new JScrollPane(commonSaveFields.message));
         pnl.setHeight(BasePanel.GAP3);
 
     }
     
-    
-    private void init_300_SetupTabPnls(int len, int formatIdx, String velocityTemplate) {
-        String f = file.getLayout().getFontName();
-        if (f != null && f.toLowerCase().startsWith("utf")) {
-        	for (int i = 0; i < len; i++) {
-        		pnls[i].font.setText(f);
-        	}
-        }
- 
-        boolean isFixed;
-       	for (int i = 0; i < len; i++) {
-       		formatTab.add(pnls[i].getTitle(), pnls[i].panel);
-       		
-   			if (pnls[i].extensionType >= 0 && pnls[i].template != null) {
-   				pnls[i].template.addFcFocusListener(templateChg);
-   			} 
-
-       		isFixed = false;
-       		switch (pnls[i].panelFormat) {
-       		case CommonSaveAsFields.FMT_HTML:
-       			pnls[i].singleTable.addChangeListener(actL);
-       			break;
-       		case CommonSaveAsFields.FMT_FIXED:
-      			isFixed = true;
-       		case CommonSaveAsFields.FMT_CSV:
-       			AbstractLayoutDetails<?,?> l = file.getLayout();
-       			int layoutIdx = file.getCurrLayoutIdx();
-       			int[] colLengths = null;
-       			commonSaveFields.printRecordDetails = null;
-        			
-       			switch (DisplayType.displayType(l, commonSaveFields.getRecordFrame().getLayoutIndex())) {
-   				case DisplayType.NORMAL:
-   					commonSaveFields.printRecordDetails = l.getRecord(layoutIdx);
-   					if (isFixed) {
-   						colLengths = getFieldWidths();
-   					}
-   					break;
-   				case DisplayType.PREFFERED:
-   					commonSaveFields.printRecordDetails = l.getRecord(DisplayType.getRecordMaxFields(l));
-  					if (isFixed) {
-  						colLengths = getFieldWidthsPrefered();
-  					}
-   					break;  				
-   				case DisplayType.HEX_LINE:
-  					colLengths = new int[1];
-  					colLengths[0] = l.getMaximumRecordLength() * 2;
-   					break;  				
-       			}
-  
-       			pnls[i].setRecordDetails(
-       					commonSaveFields.printRecordDetails,
-       					colLengths,
-       					commonSaveFields.flatFileWriter.getFieldsToInclude()
-       			);
-       		}
-       	}
-
-		formatTab.setSelectedIndex(currentIndex);
-		switch (formatIdx) {
-		case FORMAT_1_TABLE:
-		case FORMAT_MULTI_TABLE:
-		case FORMAT_TREE_HTML:
-			getSelectedPnl().setTableOption(FORMAT_HTML_TRANSLATION[formatIdx]);
-			break;
-		case FORMAT_XSLT:
-		case FORMAT_VELOCITY:
-			if (velocityTemplate != null && ! "".equals(velocityTemplate)) {
-				getSelectedPnl().template.setText(velocityTemplate);
-				changeExtension();
-			}
-			break;
-		}
-    	
-
-    }
-    
-    private int[] getFieldWidths() {
-		AbstractLayoutDetails<?,?> l = file.getLayout();
-   		int layoutIdx = file.getCurrLayoutIdx();
-   		int[] ret = new int[l.getRecord(layoutIdx).getFieldCount()];
-   		int en = Math.min(3000, file.getRowCount());
-   		
-   		for (int i = 0; i < en; i++) {
-   			calcColLengthsForLine(ret, file.getTempLine(i), l, layoutIdx);
-   		}
-   		
-   		return ret;
-    }
-    private int[] getFieldWidthsPrefered() {
-		AbstractLayoutDetails<?,?> l = file.getLayout();
-   		int layoutIdx = DisplayType.getRecordMaxFields(l);
-   		int[] ret = new int[l.getRecord(layoutIdx).getFieldCount()];
-   		int en = Math.min(3000, file.getRowCount());
-   		AbstractLine<?> line;
-   		
-   		for (int i = 0; i < en; i++) {
-   			line = file.getTempLine(i);
-   			calcColLengthsForLine(ret, line, l, line.getPreferredLayoutIdx());
-   		}
-   		
-   		return ret;
-    }
    
-    private void calcColLengthsForLine(
-    		int[] ret, AbstractLine<?> line, 
-    		AbstractLayoutDetails<?,?> layout, int layoutIdx) {
-    	Object o;
-    	int colCount = layout.getRecord(layoutIdx).getFieldCount();
-		for (int j = 0; j < colCount; j++) {
-			o = line.getField(layoutIdx,  j);
-			
-			if (o != null) {
-				ret[j] = Math.max(ret[j], o.toString().length());
-			}
-		}
-    }
+
 //    private int[] getFieldWidths() {
 //		AbstractLayoutDetails l = file.getLayout();
 //   		int layoutIdx = file.getCurrLayoutIdx();
@@ -516,11 +396,10 @@ public final class SaveAs3 extends ReFrame
        
 
         if (outFile.equals("")) {
-            msg.setText("Please Enter a file name");
+        	commonSaveFields.message.setText("Please Enter a file name");
             return;
         }
     	SaveAsPnlBase activePnl =  getSelectedPnl();
-        int dataFormat = activePnl.panelFormat;
         String selection = commonSaveFields.saveWhat.getSelectedItem().toString();
         String ext = "";
 
@@ -548,7 +427,7 @@ public final class SaveAs3 extends ReFrame
             }
         } catch (Exception e) {
             e.printStackTrace();
-            msg.setText("Error: " + e.getMessage());
+            commonSaveFields.message.setText("Error: " + e.getMessage());
         }
     }
 
@@ -557,7 +436,10 @@ public final class SaveAs3 extends ReFrame
  
     
     private SaveAsPnlBase getSelectedPnl() {
-    	int idx = formatTab.getSelectedIndex();
+    	int idx = currentIndex;
+    	if (usingTab) {
+    		idx = formatTab.getSelectedIndex();
+    	}
     	
     	return pnls[idx];
     }
@@ -566,21 +448,8 @@ public final class SaveAs3 extends ReFrame
     
     private void setVisibility() {
     	SaveAsPnlBase pnl = getSelectedPnl();
-    	int pnlFormat = pnl.panelFormat;
-    	boolean visible = (   pnlFormat == CommonSaveAsFields.FMT_CSV
-    					   || pnlFormat == CommonSaveAsFields.FMT_FIXED
-    					   || (   pnlFormat == CommonSaveAsFields.FMT_HTML
-    					      &&  pnl.singleTable.isSelected())
-    					   || (   pnlFormat == CommonSaveAsFields.FMT_XML
-    					       && commonSaveFields.getTreeFrame() != null)
-    					  ) 
-    			       && (  commonSaveFields.saveWhat.getItemCount() == 1
-    			          || OPT_VIEW.equals(commonSaveFields.saveWhat.getSelectedItem())
-    			          || (OPT_FILE.equals(commonSaveFields.saveWhat.getSelectedItem()) && ! file.isView())
-    			           );
     	
-    	commonSaveFields.treeExportChk.setVisible(visible);
-    	commonSaveFields.nodesWithDataChk.setVisible(visible &&  pnlFormat != CommonSaveAsFields.FMT_XML);
+    	commonSaveFields.setVisibility(pnl.panelFormat, pnl.singleTable.isSelected());
     }
     
     private void changeExtension() {

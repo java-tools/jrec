@@ -22,6 +22,7 @@ def test():
 		select('ComboBox1', 'Other')
 		select_menu('Record Layouts>>Edit Layout')
 		select('TextField', 'yy%')
+		select('TextField1', '%')
 		select('TabbedPane', 'Extras')
 		select('TabbedPane', 'Extras')
 		select('TabbedPane', 'Child Records')
@@ -56,6 +57,7 @@ def test():
 
 		select_menu('Record Layouts>>Edit Layout')
 		select('TextField', 'yy%')
+		select('TextField1', '%')
 		select('TabbedPane', 'Extras')
 		select('TabbedPane', 'Extras')
 		select('TabbedPane', 'Child Records')

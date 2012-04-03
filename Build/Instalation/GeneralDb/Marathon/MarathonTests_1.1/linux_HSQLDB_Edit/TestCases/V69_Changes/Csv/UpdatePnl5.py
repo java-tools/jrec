@@ -39,7 +39,7 @@ def test():
 		select_menu('Edit>>Update Csv Columns')
 		select('ComboBox1', '\'')
 		select('ComboBox', '~')
-		if commonBits.isVersion89():
+		if commonBits.isVersion80():
 			assert_p('Table', 'Content', '[[STORE-NO, true, Number, , , ], [REGION-NO, true, Number, , , ], [STORE-NAME, true, Text, , , ], [NEW-STORE, true, Text, , , ], [ACTIVE-STORE, true, Text, , , ], [CLOSED-STORE, true, Text, , , ], [DC-TYPE, true, Text, , , ], [SRC-TYPE, true, Text, , , ], [HO-TYPE, true, Text, , , ]]')
 		else:
 			assert_p('Table', 'Content', '[[STORE-NO, true, Number, , ], [REGION-NO, true, Number, , ], [STORE-NAME, true, Text, , ], [NEW-STORE, true, Text, , ], [ACTIVE-STORE, true, Text, , ], [CLOSED-STORE, true, Text, , ], [DC-TYPE, true, Text, , ], [SRC-TYPE, true, Text, , ], [HO-TYPE, true, Text, , ]]')

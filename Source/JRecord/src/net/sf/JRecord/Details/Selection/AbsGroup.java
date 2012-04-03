@@ -2,9 +2,9 @@ package net.sf.JRecord.Details.Selection;
 
 import java.util.List;
 
-import net.sf.JRecord.ExternalRecordSelection.GroupSelection;
+import net.sf.JRecord.ExternalRecordSelection.ExternalGroupSelection;
 
-public abstract class AbsGroup extends GroupSelection<RecordSel> implements RecordSel  {
+public abstract class AbsGroup extends ExternalGroupSelection<RecordSel> implements RecordSel  {
 
 	
 	public AbsGroup(int size) {

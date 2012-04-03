@@ -133,6 +133,7 @@ public class LineFrameTree extends  BaseLineFrame {
 	public LineFrameTree(final FileView viewOfFile,
    		 final AbstractLine line) {
 		super("Record: ", viewOfFile, false, ! viewOfFile.getLayout().isXml());
+
 		
 		if (line == null) {
 			Common.logMsg("Line Can not be Viewed !!!!", null);

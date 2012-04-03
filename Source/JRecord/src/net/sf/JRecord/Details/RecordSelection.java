@@ -6,19 +6,17 @@ import java.util.List;
 import net.sf.JRecord.Details.Selection.FieldSelect;
 import net.sf.JRecord.Details.Selection.RecordSel;
 
-import net.sf.JRecord.ExternalRecordSelection.FieldSelection;
-
 public class RecordSelection {
 	
 	private RecordSel recSel;
 
-	private final RecordDetail parent;
+	//private final RecordDetail parent;
 	private boolean defaultRecord = false;
 	
 	
 	public RecordSelection(RecordDetail parent) {
 		super();
-		this.parent = parent;
+		//this.parent = parent;
 	}
 	
 	
@@ -42,7 +40,20 @@ public class RecordSelection {
 		return recSel.getSize();
 	}
 
-	public FieldSelection getFirstField() {
+
+	/**
+	 * @return
+	 * @see net.sf.JRecord.ExternalRecordSelection.ExternalSelection#getElementCount()
+	 */
+	public int getElementCount() {
+		if (recSel == null) {
+			return 0;
+		}
+		return recSel.getElementCount();
+	}
+
+
+	public FieldSelect getFirstField() {
 		return recSel.getFirstField();
 	}
 	
@@ -83,7 +94,7 @@ public class RecordSelection {
 //		flds.set(idx, new SelectionField(tstField, fld, value));
 //	}
 	
-	public RecordSelectionResult isSelected(AbstractLine line) {
+	public RecordSelectionResult isSelected(@SuppressWarnings("rawtypes") AbstractLine line) {
 		RecordSelectionResult ret = RecordSelectionResult.NO;
 		
 		if (recSel != null) {

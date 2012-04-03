@@ -1,22 +1,23 @@
 package net.sf.JRecord.ExternalRecordSelection;
 
-public class FieldSelection implements ExternalSelection {
+import net.sf.JRecord.Common.Constants;
+
+public class ExternalFieldSelection implements ExternalSelection {
 	
 	private String fieldName, fieldValue, operator="=", booleanOp="";
-	private static final String[] VALID_OPS = {
-		"=", "eq", "!=", "<>", "ne", ">", "gt", ">=", "ge", "<", "lt", "<=", "le"
-	};
-	public FieldSelection() {
+	private static final String[] VALID_OPS = Constants.COMPARISON_OPERATORS;
+
+	public ExternalFieldSelection() {
 		super();
 	}
 	
 
-	public FieldSelection(String name, String value) {
+	public ExternalFieldSelection(String name, String value) {
 		fieldName = name;
 		fieldValue = value;
 	}
 
-	public FieldSelection(String name, String value, String op) {
+	public ExternalFieldSelection(String name, String value, String op) {
 		fieldName = name;
 		fieldValue = value;
 		if (op != null) {
@@ -30,7 +31,7 @@ public class FieldSelection implements ExternalSelection {
 	}
 	
 
-	public void set(FieldSelection fs) {
+	public void set(ExternalFieldSelection fs) {
 		fieldName = fs.fieldName;
 		fieldValue = fs.fieldValue;
 		booleanOp = fs.booleanOp;
@@ -89,4 +90,15 @@ public class FieldSelection implements ExternalSelection {
 	public int getSize() {
 		return 1;
 	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.ExternalRecordSelection.ExternalSelection#getElementCount()
+	 */
+	@Override
+	public int getElementCount() {
+		return 1;
+	}
+	
+	
 }

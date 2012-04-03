@@ -12,14 +12,14 @@ public class VelocityPopup extends FilePopup {
 //	private static boolean doLayout = true;
 	
 	public VelocityPopup() {
-		super("Save via Velociy Skelton");
-		this.setIcon(Common.getReActionIcon(ReActionHandler.SAVE_AS_VELOCITY));
+		super("Export via Velociy Skelton");
+		this.setIcon(Common.getReActionIcon(ReActionHandler.EXPORT_VELOCITY));
 		
 		fileList = getActions(
 						fileList, 
 						Common.OPTIONS.DEFAULT_VELOCITY_DIRECTORY.get(), 
-						ReActionHandler.SAVE_AS_VELOCITY,
-						null);
+						ReActionHandler.EXPORT_VELOCITY,
+						"(Velocity)");
 	}
 
 

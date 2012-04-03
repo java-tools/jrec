@@ -10,6 +10,8 @@
 package net.sf.RecordEditor.utils.screenManager;
 
 import java.awt.Dimension;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.util.ArrayList;
 
@@ -48,6 +50,8 @@ public class ReFrame extends JInternalFrame
     private boolean primaryView = false;
 
     private static ArrayList<ReFrame> activeHistory = new ArrayList<ReFrame>();
+    
+    private KeyAdapter escListner = null;
 
 
     private InternalFrameListener listener = new InternalFrameListener() {
@@ -67,30 +71,22 @@ public class ReFrame extends JInternalFrame
         	try {
         		ReFrame.this.removeInternalFrameListener(ReFrame.this.listener);
         	} catch (Exception ee) {
-
 			}
             allFrames.remove(ReFrame.this);
-            focusLost();
-            if (focusChangedListner != null) {
-                focusChangedListner.deleteWindow(ReFrame.this);
-                
-                //System.out.println("Frame Closing 1 ... " + activeHistory.size()
-                //		+ " " + (activeHistory.get(activeHistory.size() - 1) == ReFrame.this));
-                //System.out.println("Frame Closing 2 ... " + activeHistory.get(activeHistory.size() - 1)
-                //		+ " >> " + ReFrame.this);
-                if (activeHistory.size() > 1
-                && activeHistory.get(activeHistory.size() - 1) == ReFrame.this) {
-                	ReFrame nf = activeHistory.get(activeHistory.size() - 2);
-                	setActiveFrame(nf);
-                	
-                	focusChangedListner.focusChanged(nf);
-                }
-            }
+            
+            findNewActiveDisplay();
+            
             activeHistory.remove(ReFrame.this);
             windowClosing();
         }
 
         public void internalFrameClosing(InternalFrameEvent e) {
+        	System.out.println("Closing " + ReFrame.this.getClass().getName()
+        			+ " " + ReFrame.this.getDefaultCloseOperation()
+        			+ " ~ " + ReFrame.HIDE_ON_CLOSE);
+        	if (ReFrame.this.getDefaultCloseOperation() == ReFrame.HIDE_ON_CLOSE) {
+        		findNewActiveDisplay();
+        	}
         }
 
         public void internalFrameDeactivated(InternalFrameEvent e) {
@@ -187,6 +183,25 @@ public class ReFrame extends JInternalFrame
 	}
 
 
+	private void findNewActiveDisplay() {
+        focusLost();
+        if (focusChangedListner != null) {
+            focusChangedListner.deleteWindow(ReFrame.this);
+            
+            //System.out.println("Frame Closing 1 ... " + activeHistory.size()
+            //		+ " " + (activeHistory.get(activeHistory.size() - 1) == ReFrame.this));
+            //System.out.println("Frame Closing 2 ... " + activeHistory.get(activeHistory.size() - 1)
+            //		+ " >> " + ReFrame.this);
+            if (activeHistory.size() > 1
+            && activeHistory.get(activeHistory.size() - 1) == ReFrame.this) {
+            	ReFrame nf = activeHistory.get(activeHistory.size() - 2);
+            	setActiveFrame(nf);
+            	
+            	focusChangedListner.focusChanged(nf);
+            }
+        }
+	}
+	
     /**
      * update fields when status has been lost
      *
@@ -486,5 +501,24 @@ public class ReFrame extends JInternalFrame
 	public static Dimension getApplicationSize() {
 		if (focusChangedListner == null) return null;
 		return focusChangedListner.getSize();
+	}
+	
+	public void addCloseOnEsc(BaseHelpPanel panel) {
+		
+		if (escListner == null) {
+			escListner = new KeyAdapter() {
+				   /**
+			     * @see java.awt.event.KeyAdapter#keyReleased
+			     */
+			    public final void keyReleased(KeyEvent event) {
+			         if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			            ReFrame.this.doDefaultCloseAction();
+			        }
+			    }
+	
+			};
+		}
+		
+		panel.addReKeyListener(escListner);
 	}
 }

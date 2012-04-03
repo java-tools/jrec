@@ -1,19 +1,25 @@
 package net.sf.JRecord.Details.Selection;
 
 import net.sf.JRecord.Details.AbstractLine;
-import net.sf.JRecord.ExternalRecordSelection.GroupSelection;
+import net.sf.JRecord.ExternalRecordSelection.ExternalGroupSelection;
 
 public class OrSelection extends AbsGroup {
 
-	public OrSelection(GroupSelection sel) {
+	public OrSelection() {
+		super(10);
+		setType(TYPE_OR);
+	}
+
+	public OrSelection(@SuppressWarnings("rawtypes") ExternalGroupSelection sel) {
 		super(sel.size());
+		setType(TYPE_OR);
 	}
 
 	/* (non-Javadoc)
 	 * @see net.sf.JRecord.Details.Selection.RecordSelection#isSelected(net.sf.JRecord.Details.AbstractLine)
 	 */
 	@Override
-	public boolean isSelected(AbstractLine line) {
+	public boolean isSelected(@SuppressWarnings("rawtypes") AbstractLine line) {
 
 		if (size() > 0) {
 			RecordSel sel;

@@ -45,6 +45,7 @@ import net.sf.JRecord.Details.BasicChildDefinition;
 import net.sf.RecordEditor.diff.DoCompare;
 import net.sf.RecordEditor.diff.LineBufferedReader;
 import net.sf.RecordEditor.edit.display.SaveAs.SaveAs3;
+import net.sf.RecordEditor.edit.display.SaveAs.SaveAs4;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.edit.display.common.ILayoutChanged;
@@ -129,7 +130,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 //	protected final int fullLineIndex;
 
 	//protected ListnerPanel pnl = new ListnerPanel();
-	protected BaseHelpPanel pnl = new BaseHelpPanel();
+	protected BaseHelpPanel actualPnl = new BaseHelpPanel();
 
 	protected TableCellRenderer[] cellRenders;
 	//protected TableCellEditor[]   cellEditors;
@@ -173,7 +174,7 @@ implements AbstractFileDisplay, ILayoutChanged {
                 } else if (event.getKeyCode() == KeyEvent.VK_K) {
                 	System.out.println("Table Class:" + tblDetails.getClass().getName());
                }
-                lastWhen = event.getWhen();
+               lastWhen = event.getWhen();
                 //System.out.print("   !!!");
             }
         }
@@ -230,13 +231,13 @@ implements AbstractFileDisplay, ILayoutChanged {
 		//fullLineIndex = layoutCombo.getFullLineIndex();
 		
 		if (option == NO_OPTION_PANEL) {
-			pnl.addLine("Layouts", getLayoutCombo());
+			actualPnl.addLine("Layouts", getLayoutCombo());
 		} else {
 			int opt = fileView.isBrowse() ? OptionPnl.BROWSE_PANEL
 					 : OptionPnl.EDIT_PANEL;
 
 
-			pnl.addComponent3Lines("Layouts", getLayoutCombo(), new OptionPnl(opt, this));
+			actualPnl.addComponent3Lines("Layouts", getLayoutCombo(), new OptionPnl(opt, this));
 		}
 	}
 
@@ -253,7 +254,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 		fileMaster = fileView.getBaseFile();
 		layout     = fileMaster.getLayout();
 		
-		pnl.addReKeyListener(listner);
+		actualPnl.addReKeyListener(listner);
 		
 		setupDisplayDetails(layout);
 
@@ -401,9 +402,9 @@ implements AbstractFileDisplay, ILayoutChanged {
 	 */
 	public void executeAction(int action, Object o) {
 		
-		if (action == ReActionHandler.SAVE_AS_VELOCITY && o != null) {
+		if (action == ReActionHandler.EXPORT_VELOCITY && o != null) {
 			executeSaveAs(SaveAs3.FORMAT_VELOCITY, o.toString());
-		} else if (action == ReActionHandler.SAVE_AS_XSLT && o != null) {
+		} else if (action == ReActionHandler.EXPORT_XSLT && o != null) {
 			executeSaveAs(SaveAs3.FORMAT_XSLT, o.toString());
 		} else{
 			executeAction(action);
@@ -457,26 +458,27 @@ implements AbstractFileDisplay, ILayoutChanged {
 			   }
 			break;
 			case ReActionHandler.BUILD_XML_TREE_SELECTED:	createXmlTreeView();               break;
-			case ReActionHandler.SAVE_AS:				    new SaveAs3(this, this.fileView);  break;
-			case ReActionHandler.SAVE_AS_CSV:
+			case ReActionHandler.SAVE_AS:				    new SaveAs4(this, this.fileView);  break;
+			case ReActionHandler.EXPORT:				    new SaveAs3(this, this.fileView);  break;
+			case ReActionHandler.EXPORT_AS_CSV:
 				executeSaveAs(SaveAs3.FORMAT_DELIMITED, "");
 			break;
-			case ReActionHandler.SAVE_AS_FIXED:
+			case ReActionHandler.EXPORT_AS_FIXED:
 				executeSaveAs(SaveAs3.FORMAT_FIXED, "");
 			break;
-			case ReActionHandler.SAVE_AS_HTML:
+			case ReActionHandler.EXPORT_AS_HTML:
 				executeSaveAs(SaveAs3.FORMAT_1_TABLE, "");
 			break;
-			case ReActionHandler.SAVE_AS_HTML_TBL_PER_ROW:
+			case ReActionHandler.EXPORT_AS_HTML_TBL_PER_ROW:
 			    executeSaveAs(SaveAs3.FORMAT_MULTI_TABLE, "");
 			break;
-			case ReActionHandler.SAVE_AS_HTML_TREE:
+			case ReActionHandler.EXPORT_HTML_TREE:
 			    executeSaveAs(SaveAs3.FORMAT_TREE_HTML, "");
 			break;
-			case ReActionHandler.SAVE_AS_VELOCITY:
+			case ReActionHandler.EXPORT_VELOCITY:
 			    executeSaveAs(SaveAs3.FORMAT_VELOCITY, "");
 			break;
-			case ReActionHandler.SAVE_AS_XSLT:
+			case ReActionHandler.EXPORT_XSLT:
 			    executeSaveAs(SaveAs3.FORMAT_XSLT, "");
 			break;
 			case ReActionHandler.SAVE_AS_XML:
@@ -515,7 +517,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 			case ReActionHandler.INSERT_RECORD_PRIOR:	insertLine(-1);									break;
 			case ReActionHandler.CLOSE:					closeWindow();									break;
 			case ReActionHandler.SORT:			    	new SortFrame(this, fileView);					break;
-			case ReActionHandler.HELP:		    		pnl.showHelp();									break;
+			case ReActionHandler.HELP:		    		actualPnl.showHelp();									break;
 			case ReActionHandler.ADD_ATTRIBUTES:	new AddAttributes(fileView, layoutCombo.getLayoutIndex());  break;
 			case ReActionHandler.PRINT:
 			    try {
@@ -845,13 +847,14 @@ implements AbstractFileDisplay, ILayoutChanged {
     	|| (action == ReActionHandler.COLUMN_VIEW_SELECTED)
     	|| (action == ReActionHandler.SELECTED_VIEW)
     	|| (action == ReActionHandler.SAVE_AS)
-     	|| (action == ReActionHandler.SAVE_AS_CSV)
-     	|| (action == ReActionHandler.SAVE_AS_FIXED)
-     	|| (action == ReActionHandler.SAVE_AS_HTML)
-    	|| (action == ReActionHandler.SAVE_AS_HTML_TBL_PER_ROW)
-    	|| (action == ReActionHandler.SAVE_AS_HTML_TREE && layout.hasChildren())
-    	|| (action == ReActionHandler.SAVE_AS_VELOCITY)
-    	|| (action == ReActionHandler.SAVE_AS_XSLT)
+    	|| (action == ReActionHandler.EXPORT)
+     	|| (action == ReActionHandler.EXPORT_AS_CSV)
+     	|| (action == ReActionHandler.EXPORT_AS_FIXED)
+     	|| (action == ReActionHandler.EXPORT_AS_HTML)
+    	|| (action == ReActionHandler.EXPORT_AS_HTML_TBL_PER_ROW)
+    	|| (action == ReActionHandler.EXPORT_HTML_TREE && layout.hasChildren())
+    	|| (action == ReActionHandler.EXPORT_VELOCITY)
+    	|| (action == ReActionHandler.EXPORT_XSLT)
 		|| (action == ReActionHandler.COPY_RECORD)
 		|| (action == ReActionHandler.CLOSE)
         || (action == ReActionHandler.HELP)
@@ -1058,6 +1061,27 @@ implements AbstractFileDisplay, ILayoutChanged {
 	}
 
 
+	private void check4Delete() {
+		int[] selected = getSelectedRows();
+		if (selected != null 
+		&& selected.length > 0
+		/*&& super.tblDetails.getCellEditor(). == null*/) {
+			
+			int res = JOptionPane.YES_OPTION;
+			if (Common.OPTIONS.warnWhenUsingDelKey.isSelected()) {
+				res = JOptionPane.showConfirmDialog(
+					actualPnl, 
+					"Do you want to delete the selected " +selected.length + " lines ?" , 
+					"Line Delete confirmation ", 
+					JOptionPane.YES_NO_OPTION);
+			} 
+			if (res == JOptionPane.YES_OPTION) {
+				deleteLines();
+			}
+		}
+	}
+	
+	
 	/**
 	 * Deleting one or more records
 	 */
@@ -1575,5 +1599,27 @@ implements AbstractFileDisplay, ILayoutChanged {
 
            return tip;
        }
+   }
+   
+   protected class DelKeyWatcher extends KeyAdapter {
+	   	private long lastWhen = Long.MIN_VALUE;
+        /**
+         * @see java.awt.event.KeyAdapter#keyReleased
+         */
+        public final void keyReleased(KeyEvent event) {
+        	
+        	long when = event.getWhen();
+        	
+        	if (when != lastWhen 
+        	&& (event.getModifiers() & KeyEvent.CTRL_MASK) == 0
+        	&& (event.getModifiers() & KeyEvent.SHIFT_MASK) == 0
+        	&& Common.OPTIONS.deleteSelectedWithDelKey.isSelected()) {
+	        	switch (event.getKeyCode()) {
+	        	case KeyEvent.VK_DELETE: check4Delete();	break;
+	        	}
+	        }
+        	
+        	lastWhen = when;
+        }
    }
 }

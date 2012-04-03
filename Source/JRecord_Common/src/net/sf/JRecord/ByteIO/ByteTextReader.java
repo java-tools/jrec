@@ -74,7 +74,7 @@ public class ByteTextReader extends AbstractByteReader {
 		int lno = getLineNo();
 		
 		if (eof) {
-			if (bytesInBuffer == lineArray[lno]) {
+			if (bytesInBuffer <= lineArray[lno]) {
 				return null;
 			}
 			ret = new byte[bytesInBuffer - lineArray[lno]];

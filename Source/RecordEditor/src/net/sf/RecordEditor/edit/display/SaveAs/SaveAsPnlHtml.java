@@ -7,6 +7,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import net.sf.JRecord.Details.AbstractChildDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractTreeDetails;
@@ -25,6 +28,15 @@ import net.sf.RecordEditor.utils.swing.TableModel2HTML;
  */
 public class SaveAsPnlHtml extends SaveAsPnlBase {
 
+    ChangeListener actL = new ChangeListener() {
+		
+		@Override
+		public void stateChanged(ChangeEvent e) {
+			commonSaveAsFields.setVisibility(panelFormat, singleTable.isSelected());
+		}
+	};
+	
+	
 	private String outfile;
 	/**
 	 * @param extension
@@ -42,6 +54,8 @@ public class SaveAsPnlHtml extends SaveAsPnlBase {
 		addHtmlFields();
 		
 		namesFirstLine.setSelected(true);
+		
+		singleTable.addChangeListener(actL);
 	}
 	
 	public void save(String selection, String outFile)  throws Exception  {

@@ -494,4 +494,13 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 	public final FileChooser getCopybookFile() {
 		return copybookFile;
 	}
+	
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.re.openFile.AbstractLayoutSelection#isFileBasedLayout()
+	 */
+	@Override
+	public boolean isFileBasedLayout() {
+		return true;
+	}
 }

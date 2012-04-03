@@ -10,6 +10,7 @@
  */
 package net.sf.RecordEditor.utils;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -49,12 +50,14 @@ public class MenuPopupListener extends MouseAdapter {
 	private static final ReActionActiveScreen FILTER_ACTION       = new ReActionActiveScreen(ReActionHandler.FILTER);
 	private static final ReActionActiveScreen SAVE                = new ReActionActiveScreen(ReActionHandler.SAVE);
 	private static final ReActionActiveScreen SAVE_AS             = new ReActionActiveScreen(ReActionHandler.SAVE_AS);
-	private static final ReActionActiveScreen SAVE_AS_CSV         = new ReActionActiveScreen(ReActionHandler.SAVE_AS_CSV);
-	private static final ReActionActiveScreen SAVE_AS_FIXED       = new ReActionActiveScreen(ReActionHandler.SAVE_AS_FIXED);
-	private static final ReActionActiveScreen SAVE_AS_HTML        = new ReActionActiveScreen(ReActionHandler.SAVE_AS_HTML);
-	private static final ReActionActiveScreen SAVE_AS_HTML_TBLS   = new ReActionActiveScreen(ReActionHandler.SAVE_AS_HTML_TBL_PER_ROW);
-	private static final ReActionActiveScreen SAVE_AS_HTML_TREE   = new ReActionActiveScreen(ReActionHandler.SAVE_AS_HTML_TREE);
-	private static final ReActionActiveScreen SAVE_AS_VELOCITY    = new ReActionActiveScreen(ReActionHandler.SAVE_AS_VELOCITY);
+	private static final ReActionActiveScreen EXPORT              = new ReActionActiveScreen(ReActionHandler.EXPORT);
+	private static final ReActionActiveScreen SAVE_AS_CSV         = new ReActionActiveScreen(ReActionHandler.EXPORT_AS_CSV);
+	private static final ReActionActiveScreen SAVE_AS_FIXED       = new ReActionActiveScreen(ReActionHandler.EXPORT_AS_FIXED);
+	private static final ReActionActiveScreen SAVE_AS_HTML        = new ReActionActiveScreen(ReActionHandler.EXPORT_AS_HTML);
+	private static final ReActionActiveScreen SAVE_AS_HTML_TBLS   = new ReActionActiveScreen(ReActionHandler.EXPORT_AS_HTML_TBL_PER_ROW);
+	private static final ReActionActiveScreen SAVE_AS_HTML_TREE   = new ReActionActiveScreen(ReActionHandler.EXPORT_HTML_TREE);
+	private static final ReActionActiveScreen SAVE_AS_VELOCITY    = new ReActionActiveScreen(ReActionHandler.EXPORT_VELOCITY);
+	private static final ReActionActiveScreen EXPORT_VIA_XSLT     = new ReActionActiveScreen(ReActionHandler.EXPORT_XSLT);
 	private static final ReActionActiveScreen REPEAT_RECORD       = new ReActionActiveScreen(ReActionHandler.REPEAT_RECORD);
 
     /**
@@ -104,9 +107,11 @@ public class MenuPopupListener extends MouseAdapter {
 	        
 	        saveMenu.add(SAVE);
 	        saveMenu.add(SAVE_AS);
-	        if (Common.isVelocityAvailable()) {
-	        	saveMenu.addSeparator();
-	        }
+	        //if (Common.isVelocityAvailable()) {
+	        saveMenu.addSeparator();
+	        //}
+	        
+	        saveMenu.add(EXPORT);
 	        saveMenu.add(SAVE_AS_CSV);
 	        saveMenu.add(SAVE_AS_FIXED);
 	        saveMenu.add(SAVE_AS_HTML);
@@ -116,6 +121,11 @@ public class MenuPopupListener extends MouseAdapter {
 	        if (Common.isVelocityAvailable()) {
 	        	saveMenu.add(SAVE_AS_VELOCITY);
 	        	saveMenu.add(new VelocityPopup());
+	        }
+
+	        if (Common.OPTIONS.xsltAvailable.isSelected()) {
+	        	saveMenu.add(EXPORT_VIA_XSLT);
+	        	saveMenu.add(new XsltPopup());
 	        }
 	    }
 	    
@@ -179,21 +189,34 @@ public class MenuPopupListener extends MouseAdapter {
      */
     private void maybeShowPopup(MouseEvent e) {
          if (e != null && e.isPopupTrigger() && isOkToShowPopup(e)) {
+        	 int x = e.getX(),
+        	     y = e.getY();
         	 popupRow = -1;
         	 if (tbl != null) {
         		popupCol = tbl.columnAtPoint(e.getPoint());
              	popupRow = tbl.rowAtPoint(e.getPoint());
         	 }
+        	 
+        	 if (Common.TEST_MODE) {
+        		 try {
+	        		 Dimension d = popup.getPreferredSize();
+	        		 int vpHeight = tbl.getParent().getHeight();
+	        		 if ( y + d.height > vpHeight) {
+	        			 y = Math.max(1, vpHeight - d.height);
+	        		 }
+        		 } catch (Exception exc) {
+				 }
+        	 }
 
              popup.show(e.getComponent(),
-                       e.getX(), e.getY());
+                       x, y);
         }
     }
 
     /**
-     * Check if it is ok to show the popu menu
+     * Check if it is ok to show the popup menu
      * @param e the mouse event that triggered this action
-     * @return wether to show the popu or not
+     * @return whether to show the popup or not
      */
     protected boolean isOkToShowPopup(MouseEvent e) {
         return true;

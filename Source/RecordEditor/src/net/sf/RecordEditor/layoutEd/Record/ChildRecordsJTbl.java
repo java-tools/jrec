@@ -113,7 +113,8 @@ public class ChildRecordsJTbl extends AbsJTable {
   	 */
 	public void setColumnSizes() {
 		//ParentList = new ParentList()
-		BmKeyedComboBox parentCombo = new BmKeyedComboBox(new ParentList(), false);
+		ParentList list = new ParentList();
+		BmKeyedComboBox parentCombo = new BmKeyedComboBox(list, false);
 
 		TableColumnModel tcm = this.getColumnModel();
 
@@ -126,8 +127,7 @@ public class ChildRecordsJTbl extends AbsJTable {
 		tcm.getColumn(2).setCellEditor(childEditor);
 
 		tcm.getColumn(6).setCellRenderer(parentCombo.getTableCellRenderer());
-		tcm.getColumn(6).setCellEditor(new DefaultCellEditor(parentCombo));
-		
+		tcm.getColumn(6).setCellEditor(new DefaultCellEditor(new BmKeyedComboBox(list, false)));
 		
 		tcm.moveColumn(1, 5);
 		

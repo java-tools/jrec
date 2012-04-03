@@ -14,7 +14,7 @@ import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.Line;
 import net.sf.JRecord.Details.RecordSelection;
 import net.sf.JRecord.Details.XmlLine;
-import net.sf.JRecord.ExternalRecordSelection.FieldSelection;
+import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
 import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.JRecord.IO.AbstractLineWriter;
@@ -251,7 +251,7 @@ public final class DoCopy {
 					
 					try {
 						RecordSelection sel = dtl2.getRecord(i2).getRecordSelection();
-						for (FieldSelection fs : sel.getAllFields()) {
+						for (ExternalFieldSelection fs : sel.getAllFields()) {
 							if (fs != null) { 
 								out.setField(fs.getFieldName() , fs.getFieldValue());
 							}

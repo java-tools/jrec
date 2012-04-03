@@ -1,7 +1,8 @@
 #{{{ Marathon
 from default import *
 #}}} Marathon
-from Modules import commonBits
+
+from Modules import commonBits
 
 
 def test():
@@ -13,9 +14,9 @@ def test():
     close()
 
     if window('Record Editor'):
-        click('SaveAs')
+        click('Export')
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        if frame('Export - DTAR020_tst1.bin:0'):
             select('Keep screen open', 'true')
             select('Edit Output File', 'true')
             click('save file')
@@ -47,9 +48,9 @@ def test():
             click('Close')
         close()
 
-        select_menu('Window>>DTAR020_tst1.bin>>Save as')
+        select_menu('Window>>DTAR020_tst1.bin>>Export')
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        if frame('Export - DTAR020_tst1.bin:0'):
             select('JTabbedPane_16', 'Fixed')
 
             click('Close')

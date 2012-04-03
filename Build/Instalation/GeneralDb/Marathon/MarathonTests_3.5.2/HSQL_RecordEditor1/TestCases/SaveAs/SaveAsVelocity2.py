@@ -13,9 +13,10 @@ def test():
     close()
 
     if window('Record Editor'):
-        select_menu('File>>Save via Velociy Skelton>>toCsv_Tab.vm')
+        ##commonBits.selectExport(select_menu,'via Velociy Skelton>>toCsv_Tab.vm')
+        select_menu('File>>Export via Velociy Skelton>>toCsv_Tab.vm')
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        if frame('Export - DTAR020_tst1.bin:0'):
  ##           select('File Name', '/C:/JavaPrograms/RecordEdit/HSQL/SampleFiles/DTAR020_tst1.bin.csv')
             select('File Name', commonBits.sampleDir() + 'DTAR020_tst1.bin.csv')
             select('Edit Output File', 'true')
@@ -53,11 +54,11 @@ def test():
 ['', '', '', '', '', ''],
 ['', '', '', '', '', '']
 ])
-            assert_p('Line Number of Names', 'Text', '1')
-            assert_p('Names on Line', 'Text', 'true')
-            assert_p('Parser', 'Text', 'Basic Parser')
-            assert_p('Quote Character', 'Text', '<None>')
-            assert_p('JComboBox_9', 'Text', '<Tab>')
+#            assert_p('Line Number of Names', 'Text', '1')
+#            assert_p('Names on Line', 'Text', 'true')
+#            assert_p('Parser', 'Text', 'Basic Parser')
+#            assert_p('Quote Character', 'Text', '<None>')
+#            assert_p('JComboBox_9', 'Text', '<Tab>')
             click('Go')
         close()
 

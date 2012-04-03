@@ -7,8 +7,7 @@ def test():
 
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020~~.bin')
-		commonBits.setRecordLayout(select, 'DTAR020')
-		
+		select('ComboBox2', 'DTAR020')
 		click('Edit1')
 		select('Table', '11', 'Data,0')
 		select('Table', '0.11', 'Data,5')

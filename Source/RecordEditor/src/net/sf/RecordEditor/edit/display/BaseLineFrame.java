@@ -3,6 +3,8 @@ package net.sf.RecordEditor.edit.display;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -10,6 +12,7 @@ import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -64,10 +67,13 @@ implements TableModelListener, TreeModelListener {
 //	private JMenu currentShowFields = null;
 //	private MenuPopupListener popupListner; 
 	
+ 
 
 	public BaseLineFrame(String formType, @SuppressWarnings("rawtypes") FileView viewOfFile, boolean primary,
 			boolean fullLine) {
 		super(formType, viewOfFile, primary, fullLine);
+		super.addCloseOnEsc(actualPnl);
+
 		
 		AbstractAction[] actions = {
 	            new AbstractAction("Hide Column") {
@@ -128,7 +134,7 @@ implements TableModelListener, TreeModelListener {
 		fileView.addTreeModelListener(this);
 		setColWidths();
 	
-		pnl.setHelpURL(Common.formatHelpURL(Common.HELP_SINGLE_RECORD));
+		actualPnl.setHelpURL(Common.formatHelpURL(Common.HELP_SINGLE_RECORD));
 	
 		for (i = 0; i < btn.length; i++) {
 			btn[i] = new JButton("", icon[i]);
@@ -187,15 +193,15 @@ implements TableModelListener, TreeModelListener {
 		        fileMaster.isBinaryFile() ? 780 : 615);
 	
 		if (! isTree()) {
-			pnl.addLine("Record", lineNum);
+			actualPnl.addLine("Record", lineNum);
 		}
 		
 		if (fileMaster.isBinaryFile()) {
-		    pnl.addLine("1 line Hex", oneLineHex);
+		    actualPnl.addLine("1 line Hex", oneLineHex);
 		}
 		//pnl.setGap(BasePanel.GAP1);
 	
-		pnl.addComponent(1, 5, BasePanel.FILL,
+		actualPnl.addComponent(1, 5, BasePanel.FILL,
 		        BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL,
 		        tblDetails);
@@ -203,14 +209,14 @@ implements TableModelListener, TreeModelListener {
 		
 	
 		if (! this.layout.isXml()) {
-		    pnl.addComponent(1, 5, fullLineHeight, BasePanel.GAP,
+		    actualPnl.addComponent(1, 5, fullLineHeight, BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL, new JScrollPane(fullLine));
 		}
 	
-		pnl.addComponent(1, 5, BasePanel.PREFERRED, BasePanel.GAP,
+		actualPnl.addComponent(1, 5, BasePanel.PREFERRED, BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL, btnPanel);
 	
-		addMainComponent(pnl);
+		addMainComponent(actualPnl);
 	
 		setBounds(getY(), getX(), preferedWidth,
 		        Math.min(getHeight(), this.screenSize.height - 5));

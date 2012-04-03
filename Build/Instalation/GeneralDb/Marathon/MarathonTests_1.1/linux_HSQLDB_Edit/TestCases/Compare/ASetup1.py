@@ -50,7 +50,11 @@ def test():
 		select('Table', 'cell:Data,5(3331)')
 		assert_p('Table', 'Content', '[[Record Type, 1, 2, S1, S1], [DC Number 1, 3, 4, 5036, 5036], [Pack Quantity 1, 7, 8, 6, 00000006], [DC Number 2, 15, 4, 5043, 5043], [Pack Quantity 2, 19, 8, 51, 00000051], [DC Number 4, 39, 4, 3331, 3331], [Pack Quantity 4, 43, 8, 50710003, 50710003], [DC Number 5, 51, 4, 5065, 5065], [Pack Quantity 5, 55, 8, 4, 00000004], [DC Number 6, 63, 4, 5069, 5069], [Pack Quantity 6, 67, 8, 4, 00000004], [DC Number 7, 75, 4, 5076, 5076], [Pack Quantity 7, 79, 8, 4, 00000004], [DC Number 8, 87, 4, 5079, 5079], [Pack Quantity 8, 91, 8, 2, 00000002], [DC Number 9, 99, 4, 5094, 5094], [Pack Quantity 9, 103, 8, 4, 00000004], [DC Number 10, 111, 4, 5128, 5128], [Pack Quantity 10, 115, 8, 3, 00000003]]')
 		select('Table', 'cell:Data,5(3331)')
-		select_menu('File>>Compare with Disk')
+		
+#		if commonBits.isVersion80():
+#			select_menu('Edit>>Compare with Disk')
+#		else:
+		commonBits.selectOldFilemenu(select_menu, 'Edit', 'Compare with Disk')
 ##		select('Table1', 'cell:Data,5(3331)')
 		assert_p('Table', 'Enabled', 'true')
 		assert_p('Table', 'Content', '[[, Old, 2, D1, 7.0000, 0.0002, 2222500000000, , 43314531, 2075359, 45614531,  DONKEY 24-006607 SHWL WRAP CARD, , , , , , , , , , ], [, New, 2, , 17.0000, 0.0102, , , , , , , , , , , , , , , , ], [, Old, 3, S1, 5043, 1, 5045, 1, 5076, 1, 5079, 1, 5151, 1, 5072, 1, , 0, , 0, , 0], [, New, 3, , , 10, 9045, 2, , , , , , , , , , , , , , ], [, Old, 4, D1, 4.0000, 148.3200, 0, , 5614944, 2075360, 5614944,  MILK 24-006607 SHWL WRAP CARD, , , , , , , , , , ], [, New, 4, , 14.0000, , , , , , , , , , , , , , , , , ], [, Old, 5, S1, 5045, 1, 5076, 1, 3331, 49440001, , 0, , 0, , 0, , 0, , 0, , 0], [, New, 5, , , 11, , , , , , , , , , , , , , , , ], [, Old, 6, D1, 48.0000, 148.3200, 0, , 55615071, 2075361, 55615071,  M.ROSE 24-006607 SHWL WRAP CARD, , , , , , , , , , ], [, New, 6, , 8.0000, 48.3200, , , , , , , , , , , , , , , , ], [, Old, 7, S1, 5036, 3, 5043, 5, 3331, 50710003, 5065, 4, 5069, 4, 5076, 4, 5079, 2, 5094, 4, 5128, 3], [, New, 7, , , 6, , 51, , , , , , , , , , , , , , ]]')
@@ -70,7 +74,10 @@ def test():
 		select('Table', 'cell:3 - 4|DC Number 1,0(4534)')
 		select_menu('Window>>Ams_PODownload_20041231.txt>>Table: ')
 		select('Table', 'cell:3 - 4|DC Number 1,0(4534)')
-		click('SaveAs')
+		if commonBits.isVersion81():
+			click('Export')
+		else:
+			click('SaveAs')
 		select('FileChooser', commonBits.sampleDir() + 'Ams_PODownload_20041231_Compare.txt')
 		click('save file')
 		select('Table', 'cell:3 - 4|DC Number 1,0(4534)')

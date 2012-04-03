@@ -7,20 +7,25 @@ def test():
 
     set_java_recorded_version("1.6.0_22")
     if window('Record Editor'):
-        select_menu('File>>Recent Files>>dtar020_tst1.bin')
-        select_menu('File>>Save as CSV file')
+        ##select_menu('File>>Recent Files>>DTAR020_tst1.bin')
+        select_menu('File>>Recent Files>>DTAR020_tst1.bin_2')
+        select_menu('File>>Export as CSV file')
 
-        if frame('Save as - dtar020_tst1.bin:0'):
-            doubleclick('JTable_33', '{1, Field Name}')
-            select('JTable_33', 'false', '{1, Include}')
-            select('JTable_33', 'false', '{4, Include}')
-            select('JTable_33', 'rows:[4],columns:[Include]')
+        if frame('Export - DTAR020_tst1.bin:0'):
+##            doubleclick('JTable_33', '{1, Field Name}')
+##            select('JTable_33', 'false', '{1, Include}')
+##            select('JTable_33', 'false', '{4, Include}')
+##            select('JTable_33', 'rows:[4],columns:[Include]')
+            doubleclick('JTable_31', '{1, Field Name}')
+            select('JTable_31', 'false', '{1, Include}')
+            select('JTable_31', 'false', '{4, Include}')
+            select('JTable_31', 'rows:[4],columns:[Include]')
             select('Edit Output File', 'true')
             select('Keep screen open', 'true')
             click('save file')
         close()
 
-        if frame('Table:  - dtar020_tst1.bin.csv:0'):
+        if frame('Table:  - DTAR020_tst1.bin.csv:0'):
             select('JTable_22', 'rows:[7],columns:[2|DATE]')
             assert_content('JTable_22', [ ['63604808', '40118', '170', '4.87'],
 ['69684558', '40118', '280', '19.00'],

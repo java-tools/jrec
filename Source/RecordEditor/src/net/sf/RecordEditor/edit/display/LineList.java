@@ -140,6 +140,8 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
     private KeyListener keyListner; 
     
     private FieldMapping fieldMapping = null;
+    
+
 
     /**
      *
@@ -273,8 +275,8 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 
         super.setAlternativeTbl(tblScrollPane.getFixedTable());
         
-        pnl.registerComponent(tableDetails);
-        pnl.registerComponent(tblScrollPane.getFixedTable());
+        actualPnl.registerComponent(tableDetails);
+        actualPnl.registerComponent(tblScrollPane.getFixedTable());
         defColumns();
 
         tblScrollPane.getFixedTable().getTableHeader().addMouseListener(new HeaderSort());
@@ -329,14 +331,15 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
     
     private void init_200_LayoutScreen() {
     	
-        pnl.setHelpURL(Common.formatHelpURL(Common.HELP_RECORD_TABLE));
+    	super.actualPnl.addReKeyListener(new DelKeyWatcher());
+        actualPnl.setHelpURL(Common.formatHelpURL(Common.HELP_RECORD_TABLE));
 
-        pnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
+        actualPnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
                          BasePanel.FULL, BasePanel.FULL,
                          tblScrollPane);
 
 
-        addMainComponent(pnl);
+        addMainComponent(actualPnl);
 
 
         setBounds(1, 1,
@@ -1102,7 +1105,4 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 		
 		return new LineList(view.getLayout(), view, this.fileMaster);
 	}
-
-
-    
 }

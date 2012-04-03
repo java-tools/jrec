@@ -39,7 +39,8 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
 public class TableUpdatePnl<record extends AbsRecord> extends javax.swing.JPanel implements  ReActionHandler {
 
 	private BasePanel bPanel;
-	@SuppressWarnings("unchecked")
+
+	@SuppressWarnings("rawtypes")
 	private DBtableModel dbTableModel;
 	private AbsJTable jTable;
 
@@ -142,11 +143,11 @@ public class TableUpdatePnl<record extends AbsRecord> extends javax.swing.JPanel
 	 * Defines the table on which insert / deletes etc are to operate on
 	 *
 	 * @param dbTblModel Table model being displayed
-	 * @param jtable Table being displayefd
+	 * @param jtable Table being displayed
 	 * @param pBlankRecord a blank record
 	 */
-	@SuppressWarnings("unchecked")
-	public void setTableDtls(final DBtableModel dbTblModel,
+
+	public void setTableDtls(@SuppressWarnings("rawtypes") final DBtableModel dbTblModel,
 							 final AbsJTable jtable,
 							 final record pBlankRecord) {
 
@@ -203,7 +204,9 @@ public class TableUpdatePnl<record extends AbsRecord> extends javax.swing.JPanel
 		} else {
 			Common.stopCellEditing(jTable);
 
-			if (action == ReActionHandler.INSERT_RECORDS) {
+			switch (action) {
+			case ReActionHandler.INSERT_RECORDS:
+			
 				int i;
 				int inRow = jTable.getSelectedRow() + 1;
 				int lines = cntInt(1, insLines.getText());
@@ -215,17 +218,25 @@ public class TableUpdatePnl<record extends AbsRecord> extends javax.swing.JPanel
 				for (i = 0; i < lines; i++) {
 				    dbTableModel.addRow(inRow, (record) blankRecord.clone());
 				}
-			} else if (action == ReActionHandler.DELETE_RECORD) {
+				break;
+			case ReActionHandler.DELETE_RECORD:
 				dbTableModel.deleteRows(jTable.getSelectedRows());
-			} else if (action == ReActionHandler.COPY_RECORD) {
+				break;
+			case ReActionHandler.COPY_RECORD:
 				dbTableModel.setCopyLines(jTable.getSelectedRows());
-			} else if (action == ReActionHandler.CUT_RECORD) {
+				break;
+			case ReActionHandler.CUT_RECORD:
 				dbTableModel.setCopyLines(jTable.getSelectedRows());
 				dbTableModel.deleteRows(jTable.getSelectedRows());
-			} else if (action == ReActionHandler.PASTE_RECORD) {
+				break;
+			case ReActionHandler.PASTE_RECORD:
 				dbTableModel.pasteLines(jTable.getSelectedRow());
-			} else if (action == ReActionHandler.PASTE_RECORD_PRIOR) {
+				break;
+			case ReActionHandler.PASTE_RECORD_PRIOR:
 				dbTableModel.pasteLines(jTable.getSelectedRow() - 1);
+				break;
+			default:
+				return;
 			}
 			dbTableModel.fireTableStructureChanged();
 			jTable.setColumnSizes();

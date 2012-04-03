@@ -5,7 +5,7 @@ def test():
 	java_recorded_version = '1.6.0_03'
 
 	if window('Record Editor'):
-		select_menu('File>>Compare Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Edit', 'Compare Menu')
 		click('*2')
 		select('FileChooser', commonBits.sampleDir() + 'Ams_PODownload_20041231.txt')
 		commonBits.setRecordLayout(select, 'ams PO Download')
@@ -51,9 +51,7 @@ def test():
 ##		assert_p('Table1', 'Content', '[[Record Type, Record_Type], [Sequence Number, Sequence_Number], [Vendor, Vendor], [PO, PO], [Entry Date, ], [Filler, ], [beg01 code, ], [beg02 code, ], [Department, ], [Expected Reciept Date, ], [Cancel by date, ], [EDI Type, ], [Add Date, ], [Filler, ], [Department Name, ], [Prcoess Type, ], [Order Type, ]]')
 ##		assert_p('Table1', 'Content', '[[Record Type, Record_Type], [Sequence Number, Sequence_Number], [Vendor, Vendor], [PO, PO], [Entry Date, Entry_Date], [Filler, ], [beg01 code, beg01_code], [beg02 code, ], [Department, Department], [Expected Reciept Date, Expected_Reciept_Date], [Cancel by date, Cancel_by_date], [EDI Type, EDI_Type], [Add Date, ], [Filler, ], [Department Name, Department_Name], [Prcoess Type, Prcoess_Type], [Order Type, Order_Type]]')
 ##		assert_p('Table1', 'Content', '[[Record Type, Record_Type], [Sequence Number, Sequence_Number], [Vendor, Vendor], [PO, PO], [Entry Date, ], [Filler, ], [beg01 code, ], [beg02 code, ], [Department, ], [Expected Reciept Date, ], [Cancel by date, ], [EDI Type, ], [Add Date, ], [Filler, ], [Department Name, ], [Prcoess Type, ], [Order Type, ]]')
-##		assert_p('Table1', 'Content', '[[Record Type, Record_Type], [Sequence Number, ], [Vendor, ], [PO, PO], [Entry Date, Entry_Date], [Filler, ], [beg01 code, beg01_code], [beg02 code, ], [Department, Department], [Expected Reciept Date, Expected_Reciept_Date], [Cancel by date, Cancel_by_date], [EDI Type, EDI_Type], [Add Date, ], [Filler, ], [Department Name, Department_Name], [Prcoess Type, Prcoess_Type], [Order Type, Order_Type]]')
-##		assert_p('Table1', 'Content', '[[Record Type, Record_Type], [Sequence Number, ], [Vendor, ], [PO, PO], [Entry Date, Entry_Date], [Filler, ], [beg01 code, beg01_code], [beg02 code, ], [Department, Department], [Expected Reciept Date, Expected_Reciept_Date], [Cancel by date, Cancel_by_date], [EDI Type, EDI_Type], [Add Date, ], [Filler, ], [Department Name, Department_Name], [Prcoess Type, Prcoess_Type], [Order Type, Order_Type]]')
-
+		assert_p('Table1', 'Content', '[[Record Type, Record_Type], [Sequence Number, ], [Vendor, ], [PO, PO], [Entry Date, Entry_Date], [Filler, ], [beg01 code, beg01_code], [beg02 code, ], [Department, Department], [Expected Reciept Date, Expected_Reciept_Date], [Cancel by date, Cancel_by_date], [EDI Type, EDI_Type], [Add Date, ], [Filler, ], [Department Name, Department_Name], [Prcoess Type, Prcoess_Type], [Order Type, Order_Type]]')
 
 #		select('Table1', '')
 		select('Table', 'cell:Record,2(ams PO Download: Allocation)')

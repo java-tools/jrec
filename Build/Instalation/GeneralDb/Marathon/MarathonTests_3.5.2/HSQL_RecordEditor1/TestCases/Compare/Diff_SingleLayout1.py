@@ -7,7 +7,7 @@ def test():
 
     set_java_recorded_version("1.6.0_22")
     if window('Record Editor'):
-        select_menu('File>>Compare Menu')
+        select_menu('Edit>>Compare Menu')
 
         if frame('Compare Menu - Menu:0'):
             click('*_2')
@@ -79,7 +79,8 @@ def test():
 ##            select('New File', 'C:\\Users\\mum/RecordEditor_HSQL/User/Compare/zzTest_asmLocation.Xml')
 ##            click('Run Compare')
 ##        close()
-        if frame(' - Run Saved Compare File::0'):
+
+        if frame(' - Run Saved Compare File::0'):
             select('New File', 'C:\\\\Users\\\\mum/RecordEditor_HSQL/User/Compare/zzTest_asmLocation.Xml')
             click('Run Compare')
         close()

@@ -32,9 +32,7 @@ import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
@@ -46,9 +44,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Properties;
-
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -64,6 +60,7 @@ import javax.swing.table.TableModel;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.External.CopybookWriterManager;
 import net.sf.JRecord.Log.AbsSSLogger;
+import net.sf.JRecord.Log.TextLog;
 
 /**
  *
@@ -85,6 +82,9 @@ public final class Common implements Constants {
     // calculate the size of a box to hold the text with some padding.
     Dimension size = new Dimension(adv+2, hgt+2);
      */
+
+	public static final int BOOLEAN_OPERATOR_OR  = 0;
+    public static final int BOOLEAN_OPERATOR_AND = 1;
 
 	public static final ProgramOptions OPTIONS = new ProgramOptions();
 	public static final Object MISSING_VALUE = new StringBuilder("");
@@ -243,27 +243,28 @@ public final class Common implements Constants {
     public static final int ID_EDIT_RECORD_ICON   = 26;
     public static final int ID_NEW_UP_ICON        = 27;
     public static final int ID_PASTE_UP_ICON      = 28;
-    public static final int ID_SAVEAS_CSV_ICON    = 29;
-    public static final int ID_SAVEAS_FIXED_ICON  = 30;
-    public static final int ID_SAVEAS_HTML_ICON   = 31;
-    public static final int ID_SAVEAS_XML_ICON    = 32;
-    public static final int ID_SAVEAS_VELOCITY_ICON = 33;
-    public static final int ID_SUMMARY_ICON       = 34;
-    public static final int ID_SORT_SUM_ICON      = 35;
-    public static final int ID_VIEW_RECORD_ICON   = 36;
-    public static final int ID_VIEW_TABLE_ICON    = 37;
-    public static final int ID_VIEW_COLUMN_ICON   = 38;
-    public static final int ID_EXIT_ICON          = 39;
-    public static final int ID_GOTO_ICON          = 40;
-    public static final int ID_RELOAD_ICON        = 41;
-    public static final int ID_WIZARD_ICON        = 42;
-    public static final int ID_LAYOUT_CREATE_ICON = 43;
-    public static final int ID_LAYOUT_EDIT_ICON   = 44;
-    public static final int ID_COMBO_EDIT_ICON    = 45; 
-    public static final int ID_FILE_SEARCH_ICON   = 46;
-    public static final int ID_DIRECTORY_SEARCH_ICON = 47;   
+    public static final int ID_EXPORT_ICON        = 29;
+    public static final int ID_SAVEAS_CSV_ICON    = 30;
+    public static final int ID_SAVEAS_FIXED_ICON  = 31;
+    public static final int ID_SAVEAS_HTML_ICON   = 32;
+    public static final int ID_SAVEAS_XML_ICON    = 33;
+    public static final int ID_SAVEAS_VELOCITY_ICON = 34;
+    public static final int ID_SUMMARY_ICON       = 35;
+    public static final int ID_SORT_SUM_ICON      = 36;
+    public static final int ID_VIEW_RECORD_ICON   = 37;
+    public static final int ID_VIEW_TABLE_ICON    = 38;
+    public static final int ID_VIEW_COLUMN_ICON   = 39;
+    public static final int ID_EXIT_ICON          = 40;
+    public static final int ID_GOTO_ICON          = 41;
+    public static final int ID_RELOAD_ICON        = 42;
+    public static final int ID_WIZARD_ICON        = 43;
+    public static final int ID_LAYOUT_CREATE_ICON = 44;
+    public static final int ID_LAYOUT_EDIT_ICON   = 45;
+    public static final int ID_COMBO_EDIT_ICON    = 46; 
+    public static final int ID_FILE_SEARCH_ICON   = 47;
+    public static final int ID_DIRECTORY_SEARCH_ICON = 48;   
   
-    public static final int ID_MAX_ICON       = 48;
+    public static final int ID_MAX_ICON       = 49;
 
     public static final int TI_FIELD_TYPE     = 1;
 	public static final int TI_RECORD_TYPE    = 2;
@@ -298,56 +299,6 @@ public final class Common implements Constants {
     //private static final int LOGGER_ERROR   = 10;
     
     
-//    public static final boolean USE_SPECIAL_FIXED_MODEL = ! "N".equalsIgnoreCase(
-//			Parameters.getString(Parameters.PROPERTY_BIG_FILE_USE_SPECIAL_FIXED_MODEL)
-//	);
-//    public static final char COMPRESS_SPACE = 'S';
-//    public static final char COMPRESS_READ = 'R';
-//    public static final char COMPRESS_READ_FAST_CPU = 'F';
-//    public static final char COMPRESS_NO = 'N';
-//    public static final char COMPRESS_YES = 'Y';
-//    public static final char COMPRESS_OPTION;
-//    public static final char LARGE_VB_OPTION;
-//    public static final char LARGE_VB_YES  = 'Y';
-//    public static final char LARGE_VB_NO   = 'N';
-//    public static final char LARGE_VB_TEST = 'T';
-//       static {
-//    	String s = Parameters.getString(Parameters.PROPERTY_BIG_FILE_COMPRESS_OPT);
-//    	char c = COMPRESS_READ;
-//
-//    	if (s == null || "".equals(s)) {
-//    		
-//    	} else {
-//    		s = s.toUpperCase();
-//    		if (s.startsWith("N")) {
-//    			c = COMPRESS_NO;
-//    		} else if (s.startsWith("Y")) {
-//    			c = COMPRESS_YES;
-////    		} else if (s.startsWith("R")) {
-////    			c = COMPRESS_READ;
-//    		} else if (s.startsWith("F")) {
-//    			c = COMPRESS_READ_FAST_CPU;
-//    		} else if (s.startsWith("S")) {
-//    			c = COMPRESS_SPACE;
-//    		}
-//    	}
-//    	COMPRESS_OPTION = c;
-//    	
-//    	 s = Parameters.getString(Parameters.PROPERTY_BIG_FILE_LARGE_VB);
-//    	 c = LARGE_VB_NO;
-//    	 
-//    	 if (s == null || "".equals(s)) {
-//    		 
-//    	 } else {
-//    		 s = s.toUpperCase();
-//    		 if (s.startsWith("Y")) {
-//    			 c = LARGE_VB_YES;
-//    		 } else if (s.startsWith("T")) {
-//    			 c = LARGE_VB_TEST;
-//    		 }
-//    	 }
-//    	 LARGE_VB_OPTION = c;
-//    }
 
     private static final boolean USE_PNG;
     private static final String[] ICON_NAMES = {"LeftM", "Left", "Up", "Down",
@@ -494,27 +445,28 @@ public final class Common implements Constants {
         reActionNames[ReActionHandler.RECORD_VIEW_SELECTED] = "Record View (Selected Records)";
         reActionNames[ReActionHandler.COLUMN_VIEW_SELECTED] = "Column View (Selected Records)";
         reActionNames[ReActionHandler.SELECTED_VIEW] = "View Selected Records";
-       reActionNames[ReActionHandler.FIND]         = "Find";
-        reActionNames[ReActionHandler.HELP]         = "Help";
+        reActionNames[ReActionHandler.FIND]          = "Find";
+        reActionNames[ReActionHandler.HELP]          = "Help";
         reActionNames[ReActionHandler.INSERT_RECORDS]       = "Insert Record(s)";
         reActionNames[ReActionHandler.INSERT_RECORD_PRIOR]  = "Insert Record Prior";
-        reActionNames[ReActionHandler.NEW]          = "New";
-        reActionNames[ReActionHandler.OPEN]         = "Open";
-        reActionNames[ReActionHandler.PRINT]        = "Print";
+        reActionNames[ReActionHandler.NEW]           = "New";
+        reActionNames[ReActionHandler.OPEN]          = "Open";
+        reActionNames[ReActionHandler.PRINT]         = "Print";
         reActionNames[ReActionHandler.PRINT_SELECTED]= "Print Selected";
-        reActionNames[ReActionHandler.PASTE_RECORD] = "Paste Record(s)";
+        reActionNames[ReActionHandler.PASTE_RECORD]  = "Paste Record(s)";
         reActionNames[ReActionHandler.PASTE_RECORD_PRIOR] = "Paste Record(s) Prior";
         reActionNames[ReActionHandler.PASTE_TABLE_INSERT] = "Paste Table (Insert)";
         reActionNames[ReActionHandler.PASTE_TABLE_OVERWRITE] = "Paste Table Overwrite";
         reActionNames[ReActionHandler.SAVE]         = "Save";
         reActionNames[ReActionHandler.SAVE_AS]      = "Save As";
-        reActionNames[ReActionHandler.SAVE_AS_CSV]  = "Save as CSV file";
-        reActionNames[ReActionHandler.SAVE_AS_FIXED]= "Save as Fixed Length file";
-        reActionNames[ReActionHandler.SAVE_AS_HTML] = "Save HTML 1 tbl";
-        reActionNames[ReActionHandler.SAVE_AS_HTML_TBL_PER_ROW] = "Save HTML 1 tbl per Row";
-        reActionNames[ReActionHandler.SAVE_AS_HTML_TREE] = "Save HTML (tree)";
-        reActionNames[ReActionHandler.SAVE_AS_VELOCITY] = "Save Velocity";
-        reActionNames[ReActionHandler.SAVE_AS_XSLT] = "Save using Xslt";
+        reActionNames[ReActionHandler.EXPORT]       = "Export";
+        reActionNames[ReActionHandler.EXPORT_AS_CSV]  = "Export as CSV file";
+        reActionNames[ReActionHandler.EXPORT_AS_FIXED]= "Export as Fixed Length file";
+        reActionNames[ReActionHandler.EXPORT_AS_HTML] = "Export as HTML 1 tbl";
+        reActionNames[ReActionHandler.EXPORT_AS_HTML_TBL_PER_ROW] = "Export as HTML 1 tbl per Row";
+        reActionNames[ReActionHandler.EXPORT_HTML_TREE] = "Export as HTML (tree)";
+        reActionNames[ReActionHandler.EXPORT_VELOCITY] = "Export using Velocity";
+        reActionNames[ReActionHandler.EXPORT_XSLT] = "Save using Xslt";
         reActionNames[ReActionHandler.SAVE_AS_XML]  = "Save Tree as XML";
         reActionNames[ReActionHandler.SAVE_LAYOUT_XML]  = "Save Layout as XML";
 
@@ -538,6 +490,7 @@ public final class Common implements Constants {
         reActionNames[ReActionHandler.AUTOFIT_COLUMNS] = "Recalculate Column widths";
 
         
+        reActionDesc[ReActionHandler.EXPORT]        = "Export in another format";
         reActionDesc[ReActionHandler.SAVE_AS_XML]   = "Converts a Tree View to XML";
         reActionDesc[ReActionHandler.SAVE_LAYOUT_XML]   = "Save Layout as RecordEditor XML";
 
@@ -570,7 +523,7 @@ public final class Common implements Constants {
         reActionDesc[ReActionHandler.EXECUTE_SAVED_SORT_TREE]  = "Load and Execute a saved Sort Tree";
         reActionDesc[ReActionHandler.EXECUTE_SAVED_RECORD_TREE]= "Load and Execute a saved Record Tree";
         reActionDesc[ReActionHandler.COMPARE_WITH_DISK]        = "Compare what is being edited with what is stored on disk";
-        reActionDesc[ReActionHandler.SHOW_INVALID_ACTIONS]   = "Show Invlid (incomplete) Records (Messages)";
+        reActionDesc[ReActionHandler.SHOW_INVALID_ACTIONS]     = "Show Invlid (incomplete) Records (Messages)";
         reActionDesc[ReActionHandler.AUTOFIT_COLUMNS]   = "Calculate the column widths based on data in the columns";
    }
 
@@ -1159,6 +1112,7 @@ public final class Common implements Constants {
             recIcon[ID_EDIT_RECORD_ICON   ] = getIcon("EditRecord");
             recIcon[ID_NEW_UP_ICON        ] = getIcon("NewUp");
             recIcon[ID_PASTE_UP_ICON      ] = getIcon("PasteUp");
+            recIcon[ID_EXPORT_ICON        ] = getIcon("Export");
             recIcon[ID_SAVEAS_CSV_ICON    ] = getIcon("SaveAs_Csv");
             recIcon[ID_SAVEAS_FIXED_ICON  ] = getIcon("SaveAs_Fixed");
             recIcon[ID_SAVEAS_HTML_ICON   ] = getIcon("SaveAs_Html");
@@ -1212,13 +1166,14 @@ public final class Common implements Constants {
             
             reActionRef[ReActionHandler.SAVE]    = ID_SAVE_ICON;
             reActionRef[ReActionHandler.SAVE_AS] = ID_SAVE_AS_ICON;
-            reActionRef[ReActionHandler.SAVE_AS_HTML]      = ID_SAVEAS_HTML_ICON;
-            reActionRef[ReActionHandler.SAVE_AS_CSV]       = ID_SAVEAS_CSV_ICON;
-            reActionRef[ReActionHandler.SAVE_AS_FIXED]     = ID_SAVEAS_FIXED_ICON;
-            reActionRef[ReActionHandler.SAVE_AS_HTML_TBL_PER_ROW] = ID_SAVEAS_HTML_ICON;
-            reActionRef[ReActionHandler.SAVE_AS_HTML_TREE] = ID_SAVEAS_HTML_ICON;
-            reActionRef[ReActionHandler.SAVE_AS_VELOCITY]  = ID_SAVEAS_VELOCITY_ICON;
-            reActionRef[ReActionHandler.SAVE_AS_XSLT]      = ID_SAVEAS_XML_ICON;
+            reActionRef[ReActionHandler.EXPORT]  = ID_EXPORT_ICON;
+            reActionRef[ReActionHandler.EXPORT_AS_HTML]      = ID_SAVEAS_HTML_ICON;
+            reActionRef[ReActionHandler.EXPORT_AS_CSV]       = ID_SAVEAS_CSV_ICON;
+            reActionRef[ReActionHandler.EXPORT_AS_FIXED]     = ID_SAVEAS_FIXED_ICON;
+            reActionRef[ReActionHandler.EXPORT_AS_HTML_TBL_PER_ROW] = ID_SAVEAS_HTML_ICON;
+            reActionRef[ReActionHandler.EXPORT_HTML_TREE] = ID_SAVEAS_HTML_ICON;
+            reActionRef[ReActionHandler.EXPORT_VELOCITY]  = ID_SAVEAS_VELOCITY_ICON;
+            reActionRef[ReActionHandler.EXPORT_XSLT]      = ID_SAVEAS_XML_ICON;
             reActionRef[ReActionHandler.SAVE_AS_XML]       = ID_SAVEAS_XML_ICON;
             reActionRef[ReActionHandler.SAVE_LAYOUT_XML]   = ID_SAVEAS_XML_ICON;
 
@@ -1412,6 +1367,9 @@ public final class Common implements Constants {
      * @return Returns the logger.
      */
     public static final AbsSSLogger getLogger() {
+    	if (logger == null) {
+    		logger = new TextLog();
+    	}
         return logger;
     }
 

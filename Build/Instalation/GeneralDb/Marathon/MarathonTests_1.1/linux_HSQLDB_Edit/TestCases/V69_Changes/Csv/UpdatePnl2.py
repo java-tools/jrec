@@ -26,7 +26,7 @@ def test():
 		select('Table', 'KEYCODE NO', 'Field Name,1')
 		select('Table', 'STORE-NO', 'Source Column,0')
 		select('Table', 'cell:Source Column,0(STORE-NO)')
-		if commonBits.isVersion89():
+		if commonBits.isVersion80():
 			assert_p('Table', 'Content', '[[field 1, true, Text, , STORE-NO, ], [KEYCODE NO, true, Text, , , ], [STORE-NO, true, Text, , , ], [DEPT-NO, true, Text, , , ], [5, true, Text, , , ], [QTY-SOLD, true, Text, , , ], [SALE-PRICE, true, Text, , , ], [8, true, Text, , DEPT-NO, ], [DATE, true, Text, , , ]]')
 		else:
 			assert_p('Table', 'Content', '[[field 1, true, Text, , STORE-NO], [KEYCODE NO, true, Text, , ], [STORE-NO, true, Text, , ], [DEPT-NO, true, Text, , ], [5, true, Text, , ], [QTY-SOLD, true, Text, , ], [SALE-PRICE, true, Text, , ], [8, true, Text, , DEPT-NO], [DATE, true, Text, , ]]')

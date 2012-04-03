@@ -23,7 +23,7 @@ def test():
 ##		select('Table1', 'cell:2|REGION-NO,0(20)')
 		assert_p('Table', 'Content', '[[STORE-NO, 1, , 8, 8], [REGION-NO, 2, , 20, 20], [STORE-NAME, 3, , V Bendigo, V Bendigo], [NEW-STORE, 4, , N, N], [ACTIVE-STORE, 5, , Y, Y], [CLOSED-STORE, 6, , N, N], [DC-TYPE, 7, , N, N], [SRC-TYPE, 8, , N, N], [HO-TYPE, 9, , N, N]]')
 		select_menu('Edit>>Update Csv Columns')
-		if commonBits.isVersion89():
+		if commonBits.isVersion80():
 			assert_p('Table', 'Content', '[[STORE-NO, true, Number, , , ], [REGION-NO, true, Number, , , ], [STORE-NAME, true, Text, , , ], [NEW-STORE, true, Text, , , ], [ACTIVE-STORE, true, Text, , , ], [CLOSED-STORE, true, Text, , , ], [DC-TYPE, true, Text, , , ], [SRC-TYPE, true, Text, , , ], [HO-TYPE, true, Text, , , ]]')
 		else:
 			assert_p('Table', 'Content', '[[STORE-NO, true, Number, , ], [REGION-NO, true, Number, , ], [STORE-NAME, true, Text, , ], [NEW-STORE, true, Text, , ], [ACTIVE-STORE, true, Text, , ], [CLOSED-STORE, true, Text, , ], [DC-TYPE, true, Text, , ], [SRC-TYPE, true, Text, , ], [HO-TYPE, true, Text, , ]]')
@@ -35,7 +35,7 @@ def test():
 		select('Table', 'Number (Fixed Decimal)', 'Type,0')
 		select('Table', 'Number (Fixed Decimal)', 'Type,1')
 		select('Table', 'cell:Decimal Places,1(0)')
-		if commonBits.isVersion89():
+		if commonBits.isVersion80():
 			assert_p('Table', 'Content', '[[STORE NO, true, Number (Fixed Decimal), 0, , ], [REGION NO, true, Number (Fixed Decimal), 0, , ], [STORE-NAME, true, Text, , , ], [NEW-STORE, true, Text, , , ], [ACTIVE-STORE, true, Text, , , ], [CLOSED-STORE, true, Text, , , ], [DC-TYPE, true, Text, , , ], [SRC-TYPE, true, Text, , , ], [HO-TYPE, true, Text, , , ]]')
 		else:
 			assert_p('Table', 'Content', '[[STORE NO, true, Number (Fixed Decimal), 0, ], [REGION NO, true, Number (Fixed Decimal), 0, ], [STORE-NAME, true, Text, , ], [NEW-STORE, true, Text, , ], [ACTIVE-STORE, true, Text, , ], [CLOSED-STORE, true, Text, , ], [DC-TYPE, true, Text, , ], [SRC-TYPE, true, Text, , ], [HO-TYPE, true, Text, , ]]')

@@ -102,6 +102,8 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 		cols2skip = columnsToSkip;		
 		
 		fieldMapping = new FieldMapping(getFieldCounts());
+		
+		super.actualPnl.addReKeyListener(new DelKeyWatcher());
 	}
 	
 	protected final void init_100_setupScreenFields(AbstractAction[] extraActions) {
@@ -119,7 +121,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 		treeTable.getTree().setShowsRootHandles(true);
 		keyListner =    new RowChangeListner(treeTable, this);
 		
-		pnl.setHelpURL(Common.formatHelpURL(Common.HELP_TREE_VIEW));
+		actualPnl.setHelpURL(Common.formatHelpURL(Common.HELP_TREE_VIEW));
 		
 		
 		initToolTips();
@@ -220,15 +222,15 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 
 		
 //		pnl.addComponent("Layouts", getLayoutList());
-		pnl.setGap(BasePanel.GAP1);
+		actualPnl.setGap(BasePanel.GAP1);
 		
-	    pnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
+	    actualPnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
                    BasePanel.FULL, BasePanel.FULL,
                    treeTablePane);
 
 	    Common.calcColumnWidths(treeTable, 3);
 
-		this.addMainComponent(pnl);
+		this.addMainComponent(actualPnl);
 	    this.setSize(scrSize.width  - 1, scrSize.height - 1);
 	    setToMaximum(true);
 		//this.pack();
@@ -330,6 +332,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	 * @param row row to get the node for
 	 * @return requested node
 	 */
+	@SuppressWarnings("unchecked")
 	protected final LNode getNodeForRow(int row) {
 		if (row >= 0) {
 			TreePath treePath = treeTable.getPathForRow(row);

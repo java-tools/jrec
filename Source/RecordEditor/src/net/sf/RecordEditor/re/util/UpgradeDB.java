@@ -44,7 +44,8 @@ public final class UpgradeDB {
 
 	//private static String VERSION_691  = "0069100";
 	private static String VERSION_692B = "0069200";
-	private static String VERSION_670 = "0070000";
+	private static String VERSION_700 = "0070000";
+	private static String VERSION_800 = "0080000";
 	//private static String LATEST_VERSION = VERSION_670;
 	private static String VERSION_KEY  = "-101";
 	
@@ -281,30 +282,31 @@ public final class UpgradeDB {
         insertSQL + "(5," + CellFormat.FMT_BOLD + ",'Bold Format')",
    };
 
-    private String[] sql70 = {
-    		"Drop Table Tbl_RS1_SubRecords",
+    private String[] sql71 = {
+    		"Drop Table Tbl_RS2_SubRecords",
     		"Drop Table Tbl_RFS_FieldSelection",
-            "Create Table Tbl_RS1_SubRecords (" 
+            "Create Table Tbl_RS2_SubRecords (" 
                     + "RECORDID   INTEGER, "
-                    + "ChildKey     INTEGER, "
-                    + "CHILDRECORD   INTEGER, "
-                    + "FieldStart   INTEGER, "
-                    + "Field   varchar(30), "
-                    + "FieldValue   varchar(30), "
+                    + "Child_Key     INTEGER, "
+                    + "Child_Record   INTEGER, "
+                    + "Field_Start   INTEGER, "
+                    + "Field_Name    varchar(30), "
+                    + "Field_Value   varchar(30), "
                     + "PARENT_RECORDID   INTEGER, "
-                    + "operatorSequence   smallint "
+                    + "operator_Sequence   smallint, "
+                    + "default_Record   char(1) "
              + ")",
-               "CREATE UNIQUE INDEX Tbl_RS1_SubRecordsPK  ON Tbl_RS1_SubRecords(RECORDID, ChildKey);",
+               "CREATE UNIQUE INDEX Tbl_RS2_SubRecordsPK  ON Tbl_RS2_SubRecords(RECORDID, Child_Key);",
                "Create Table Tbl_RFS_FieldSelection (" 
-                       + "RECORDID        INTEGER, "
-                       + "ChildKey        smallint, "
-                       + "FieldNo         smallint, "
-                       + "BooleanOperator smallint, "
-                       + "Field           varchar(30), "
-                       + "Operator        char(2), "
-                       + "FieldValue      varchar(30) "
+                       + "RECORDID         INTEGER, "
+                       + "Child_Key         smallint, "
+                       + "Field_No         smallint, "
+                       + "Boolean_Operator smallint, "
+                       + "Field_Name       varchar(30), "
+                       + "Operator         char(2), "
+                       + "Field_Value      varchar(30) "
                 + ")",
-                  "CREATE UNIQUE INDEX Tbl_RFS_FieldSelectionPK  ON Tbl_RFS_FieldSelection(RECORDID, ChildKey, FieldNo);",
+                  "CREATE UNIQUE INDEX Tbl_RFS_FieldSelectionPK  ON Tbl_RFS_FieldSelection(RECORDID, Child_Key, Field_No);",
     };
     private String[] updateVersion = {
         	deleteTbl + "TBLID = " + VERSION_KEY + " and TBLKEY = " + VERSION_KEY + ";",
@@ -459,23 +461,30 @@ public final class UpgradeDB {
      	db.close();
     }
     
-    public void upgrade70(int dbIdx) {
-        genericUpgrade(dbIdx, sql70, null);
+    public void upgrade71(int dbIdx) {
         
+        upgrade80(dbIdx, "Tbl_RS_SubRecords");
+    }
+    
+    
+    public void upgrade80(int dbIdx, String tbl) {
+        genericUpgrade(dbIdx, sql71, null);
+
         String sSQL = " Select  RecordId, ChildRecord, FieldStart, Field, FieldValue, PARENT_RECORDID"
-                    + "  from Tbl_RS_SubRecords"
+                    + "  from " + tbl
         		    + " Order by RecordId, ChildRecord";
-        String insertSQL = "Insert Into  Tbl_RS1_SubRecords  ("
+        String insertSQL = "Insert Into  Tbl_RS2_SubRecords  ("
                 + "    RecordId" 
-                + "  , ChildKey"
-                + "  , ChildRecord"
-                + "  , FieldStart"
-                + "  , Field"
-                + "  , FieldValue"
+                + "  , Child_Key"
+                + "  , Child_Record"
+                + "  , Field_Start"
+                + "  , Field_Name"
+                + "  , Field_Value"
                 + "  , PARENT_RECORDID" 
-                + "  , operatorSequence"
+                + "  , Operator_Sequence"
+                + "  , default_Record"  
                 + ") Values ("
-                +    "     ?   , ?   , ?   , ?   , ?, ?, ?, ?"
+                +    "     ?   , ?   , ?   , ?   , ?, ?, ?, ?, ?"
                 + ")";
         
         
@@ -515,14 +524,16 @@ public final class UpgradeDB {
 			    insertStatement.setString(idx++, fieldValue);
 			    insertStatement.setInt(idx++, parentId);
 			    insertStatement.setInt(idx++, operatorSeq);
+			    insertStatement.setString(idx++, "N");
 			    
 			    insertStatement.executeUpdate();
 			    count += 1;
 			}
 			
-			upgradeVersion(connect, dbIdx, VERSION_670);
+			upgradeVersion(connect, dbIdx, VERSION_800);
 			insertStatement.close();
-	        Common.logMsg("Database Upgraded, child record copied " + count, null);
+	        Common.logMsg("Database Upgraded to " + VERSION_800 + " , child record copied " + count, null);
+			System.out.println("Current Version: " + VERSION_800);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			Common.logMsg("Database upgrade failed !!!", null);
@@ -663,17 +674,18 @@ public final class UpgradeDB {
     				version = version.trim();
     			}
     			if (VERSION_692B.equals(version)) {
-    				(new UpgradeDB()).upgrade70(dbIndex);
-    				Common.logMsg("Upgraded DB to version 0.69.2b ", null);
+    				(new UpgradeDB()).upgrade71(dbIndex);
+    			} else if (VERSION_700.equals(version)) {
+    				(new UpgradeDB()).upgrade80(dbIndex, "Tbl_RS1_SubRecords");
     			}
-    			System.out.println("Current Version: " + version);
+				
     			//System.out.print("Already " + LATEST_VERSION);
     		} else {
     			//System.out.println("upgrading DB");
     			UpgradeDB upgrade = new UpgradeDB();
     			upgrade.upgrade69(dbIndex);
-    			upgrade.upgrade70(dbIndex);
-    			Common.logMsg("Upgraded DB to version 0.69.2b ", null);
+    			upgrade.upgrade71(dbIndex);
+    			Common.logMsg("Upgraded DB to version 0.80.0 ", null);
     			ret = true;
     		}
     	} catch (Exception e) {

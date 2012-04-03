@@ -22,9 +22,12 @@ def test():
             click('Build Tree')
         close()
 
-        select_menu('File>>Save as CSV file')
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        select_menu('File>>Export as CSV file')
+
+        if frame('Export - DTAR020_tst1.bin:0'):
+            print get_window()  
+
             select('Only export Nodes with Data', 'false')
             select('Edit Output File', 'true')
             select('Keep screen open', 'true')
@@ -119,11 +122,22 @@ def test():
             click('Close')
         close()
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
-            select('JTable_37', 'rows:[4],columns:[Include]')
-            select('JTable_37', 'false', '{2, Include}')
-            select('JTable_37', 'rows:[2],columns:[Include]')
-            select('JTable_37', 'false', '{4, Include}')
+        print get_window() 
+
+        select_menu('Window>>DTAR020_tst1.bin>>Export')
+        print get_window()
+        
+        if frame('Export - DTAR020_tst1.bin:0'):
+            print get_window() 
+            
+#            select('JTable_37', 'rows:[4],columns:[Include]')
+#            select('JTable_37', 'false', '{2, Include}')
+#            select('JTable_37', 'rows:[2],columns:[Include]')
+#            select('JTable_37', 'false', '{4, Include}')
+            select('JTable_35', 'rows:[4],columns:[Include]')
+            select('JTable_35', 'false', '{2, Include}')
+            select('JTable_35', 'rows:[2],columns:[Include]')
+            select('JTable_35', 'false', '{4, Include}')
             click('save file')
         close()
 
@@ -213,7 +227,7 @@ def test():
             click('Close')
         close()
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        if frame('Export - DTAR020_tst1.bin:0'):
             select('Delimiter', ',')
             click('save file')
         close()
@@ -307,11 +321,11 @@ def test():
             click('Close')
         close()
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
-            select('JTable_37', 'rows:[4],columns:[Include]')
-            select('JTable_37', 'rows:[2],columns:[Include]')
-            select('JTable_37', 'true', '{2, Include}')
-            select('JTable_37', 'true', '{4, Include}')
+        if frame('Export - DTAR020_tst1.bin:0'):
+            select('JTable_35', 'rows:[4],columns:[Include]')
+            select('JTable_35', 'rows:[2],columns:[Include]')
+            select('JTable_35', 'true', '{2, Include}')
+            select('JTable_35', 'true', '{4, Include}')
 
             click('save file')
         close()

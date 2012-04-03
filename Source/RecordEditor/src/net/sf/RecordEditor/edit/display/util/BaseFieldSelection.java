@@ -77,8 +77,9 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 	         */
 	        public final void keyReleased(KeyEvent event) {
 	        	
-	        	if (event.getKeyCode() == KeyEvent.VK_ENTER) {
-	        		doAction();
+	        	switch (event.getKeyCode()) {
+	        	case KeyEvent.VK_ENTER:		doAction();										break;
+	        	case KeyEvent.VK_ESCAPE:	BaseFieldSelection.this.doDefaultCloseAction();	break;
 	        	}
 	        }
 	};
@@ -104,6 +105,10 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 		pnl.setBorder(BorderFactory.createEmptyBorder());
 		pnlTop.setBorder(BorderFactory.createEmptyBorder());
 		pnlBottom.setBorder(BorderFactory.createEmptyBorder());
+		
+		super.addCloseOnEsc(pnlTop);
+		super.addCloseOnEsc(pnlBottom);
+
 
 		
 		source   = src;
@@ -161,6 +166,7 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 
 		this.setVisible(true);
 		setToMaximum(false);
+		super.addCloseOnEsc(pnlTop);
 	}
 
 	/**

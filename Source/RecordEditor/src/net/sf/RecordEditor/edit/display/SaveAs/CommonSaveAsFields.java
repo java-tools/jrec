@@ -1,5 +1,7 @@
 package net.sf.RecordEditor.edit.display.SaveAs;
 
+import java.awt.event.FocusListener;
+
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
@@ -34,12 +36,17 @@ public final class CommonSaveAsFields {
 
     public final FileView<?> file;
     public final SaveAsWrite flatFileWriter;
+    public final FocusListener templateListner;
+    
     private final AbstractFileDisplay recordFrame;
     private AbstractTreeFrame treeFrame = null;
     
     protected AbstractRecordDetail<?> printRecordDetails;
     
     
+
+
+
 	/**
 	 * @return the recordFrame
 	 */
@@ -51,15 +58,28 @@ public final class CommonSaveAsFields {
 	/**
 	 * @param recordFrame the recordFrame to set
 	 */
-	protected CommonSaveAsFields(final AbstractFileDisplay recordFrame, final FileView<?> file) {
+	protected CommonSaveAsFields(
+			final AbstractFileDisplay recordFrame, final FileView<?> file, final FocusListener templateListner) {
 		this.recordFrame = recordFrame;
 		this.file = file;
+		this.templateListner = templateListner;
+		
+		int[] selected = recordFrame.getSelectedRows();
 		
 		treeFrame = null;
         if (recordFrame instanceof AbstractTreeFrame) {
         	treeFrame = (AbstractTreeFrame) recordFrame;
         }
         flatFileWriter = SaveAsWrite.getWriter(file, getRecordFrame());
+
+       if (file.isView()) {
+            saveWhat.addItem(OPT_VIEW);
+        }
+        saveWhat.addItem(OPT_FILE);
+
+        if (selected != null && selected.length > 0) {
+        	saveWhat.addItem(OPT_SELECTED);
+        }
 	}
 
 
@@ -97,4 +117,23 @@ public final class CommonSaveAsFields {
     	
     	return ret;
    	}
+    
+    public final void setVisibility(int pnlFormat, boolean singleTable) {
+
+    	boolean visible = (   pnlFormat == FMT_CSV
+    					   || pnlFormat == FMT_FIXED
+    					   || (   pnlFormat == FMT_HTML
+    					      &&  singleTable)
+    					   || (   pnlFormat == FMT_XML
+    					      &&  getTreeFrame() != null)
+    					  ) 
+    			       && (       saveWhat.getItemCount() == 1
+    			           ||     OPT_VIEW.equals(saveWhat.getSelectedItem())
+    			           || (   OPT_FILE.equals(saveWhat.getSelectedItem()) 
+    			         	  &&  ! file.isView())
+    			           );
+    	
+    	treeExportChk.setVisible(visible);
+    	nodesWithDataChk.setVisible(visible &&  pnlFormat != FMT_XML);
+    }
 }

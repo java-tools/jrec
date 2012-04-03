@@ -121,7 +121,7 @@ implements FocusListener {
 		super();
 
 		ioProvider = pIoProvider;
-		recent = new RecentFiles(propertiesFiles, newLayoutSelection);
+		recent = new RecentFiles(propertiesFiles, newLayoutSelection, newLayoutSelection.isFileBasedLayout());
 		layoutSelection = newLayoutSelection;
 		lCreate1 = layoutCreate1;
 		lCreate2 = layoutCreate2;

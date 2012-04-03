@@ -295,6 +295,7 @@ public class RecordEdit extends    ReFrame
 	                        currRow = tRow;
 	                        pnlRecord.set2clone(rec);
 	                    }
+	                    this.message.setText("Old record saved, New Record " + newName + " created");
 	                }
 	            }
 	        }

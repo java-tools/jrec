@@ -24,8 +24,11 @@ public class TextLog implements AbsSSLogger {
 	public void logException(int level, Exception ex) {
 
 		System.out.println();
-		System.out.println();
-		ex.printStackTrace();
+		
+		if (ex != null) {
+			System.out.println();
+			ex.printStackTrace();
+		}
 	}
 	/**
 	 * @see net.sf.JRecord.Log#logMsg(int, java.lang.String)

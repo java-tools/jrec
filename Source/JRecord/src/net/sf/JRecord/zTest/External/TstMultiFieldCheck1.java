@@ -1,7 +1,5 @@
 package net.sf.JRecord.zTest.External;
 
-import java.io.ByteArrayInputStream;
-
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.Line;
@@ -10,10 +8,10 @@ import junit.framework.TestCase;
 
 public class TstMultiFieldCheck1  extends TestCase {
 
-	private final static int[] LAYOUT_IDXS = {
+	private final  int[] LAYOUT_IDXS = {
 		0, 1, 2, 2, 2, 2, 2, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6,
 	};
-	private final static String[] LINES = {
+	private final  String[] LINES = {
 		"H  111111 2222 333",
 		"K H 111111 2222 333",
 		"K 1 aaaa    ss ww  111111 2222 333 ",
@@ -177,7 +175,7 @@ public class TstMultiFieldCheck1  extends TestCase {
 			assertEquals(
 					"Selection Field Record " +i, 
 					selectionFields[i], 
-					l.getRecord(i).getRecordSelection().size());
+					l.getRecord(i).getRecordSelection().getElementCount());
 			assertEquals(
 					"Default Check Record " + i, 
 					isDefault[i], 

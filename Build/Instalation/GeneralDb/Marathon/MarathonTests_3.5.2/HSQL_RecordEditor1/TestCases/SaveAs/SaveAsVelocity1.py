@@ -13,9 +13,10 @@ def test():
     close()
 
     if window('Record Editor'):
-        select_menu('File>>Save via Velociy Skelton>>toCsv_Comma.vm')
+        ##commonBits.selectExport(select_menu,'via Velociy Skelton>>toCsv_Comma.vm')
+        select_menu('File>>Export via Velociy Skelton>>toCsv_Comma.vm')
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        if frame('Export - DTAR020_tst1.bin:0'):
             select('Edit Output File', 'true')
             click('save file')
         close()
@@ -51,10 +52,10 @@ def test():
 ['', '', '', '', '', ''],
 ['', '', '', '', '', '']
 ])
-            assert_p('JComboBox_9', 'Text', ',')
-            assert_p('Parser', 'Text', 'Basic Parser')
-            assert_p('Names on Line', 'Text', 'true')
-            assert_p('Line Number of Names', 'Text', '1')
+#            assert_p('JComboBox_9', 'Text', ',')
+#            assert_p('Parser', 'Text', 'Basic Parser')
+#            assert_p('Names on Line', 'Text', 'true')
+#            assert_p('Line Number of Names', 'Text', '1')
             click('Go')
         close()
 

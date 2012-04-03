@@ -21,6 +21,7 @@ import javax.swing.table.AbstractTableModel;
  * Table model using a AbsDB to get the records to be
  * displayed in the Table
  */
+@SuppressWarnings("serial")
 public abstract class AbsDBTableModel<record extends AbsRecord> extends AbstractTableModel {
 
 

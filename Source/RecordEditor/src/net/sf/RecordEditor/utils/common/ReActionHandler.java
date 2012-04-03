@@ -20,14 +20,14 @@ public interface ReActionHandler {
     public static final int SAVE      = 1;
 
     public static final int SAVE_AS           = 2;
-    public static final int SAVE_AS_HTML      = 3;
-    public static final int SAVE_AS_HTML_TBL_PER_ROW = 4;
-    public static final int SAVE_AS_VELOCITY  = 5;
-    public static final int SAVE_AS_XML       = 44;
+    public static final int EXPORT_AS_HTML    = 3;
+    public static final int EXPORT_AS_HTML_TBL_PER_ROW = 4;
+    public static final int EXPORT_VELOCITY   = 5;
+    public static final int SAVE_AS_XML     = 44;
     public static final int SAVE_LAYOUT_XML   = 45;
-    public static final int SAVE_AS_HTML_TREE = 46;
-    public static final int SAVE_AS_CSV       = 51;
-    public static final int SAVE_AS_FIXED       = 52;
+    public static final int EXPORT_HTML_TREE  = 46;
+    public static final int EXPORT_AS_CSV     = 51;
+    public static final int EXPORT_AS_FIXED   = 52;
  
     public static final int DELETE    = 6;
 
@@ -96,8 +96,9 @@ public interface ReActionHandler {
     public static final int AUTOFIT_COLUMNS       = 50;
 
     public static final int INSERT_RECORD_PRIOR   = 53;
-    public static final int SAVE_AS_XSLT          = 56;
-    public static final int MAX_ACTION      = 57;
+    public static final int EXPORT_XSLT           = 56;
+    public static final int EXPORT                = 57;
+   public static final int MAX_ACTION      = 58;
 
     /**
      * Execute a form action

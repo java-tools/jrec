@@ -158,7 +158,7 @@ public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements Act
 	        height = d.height +HEIGHT_INCREASE;
 	        ReMainFrame frame = ReMainFrame.getMasterFrame();
 	        if (frame != null) {
-	        	height = frame.getDesktop().getHeight() - 1;
+	        	height = Math.min(height, frame.getDesktop().getHeight() - 1);
 	        	width  = Math.min(width, frame.getDesktop().getWidth() - 1);
 	        }
 	        displayFrame.setBounds(displayFrame.getY(), displayFrame.getX(), width, height);

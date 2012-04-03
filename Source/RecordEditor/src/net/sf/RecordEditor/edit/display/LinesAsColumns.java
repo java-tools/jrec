@@ -49,14 +49,14 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 		
 	    init_100_SetupJtables(viewOfFile);
 
-	    pnl.setHelpURL(Common.formatHelpURL(Common.HELP_COLUMN_VIEW));
+	    actualPnl.setHelpURL(Common.formatHelpURL(Common.HELP_COLUMN_VIEW));
 
-	    pnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
+	    actualPnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
 	                         BasePanel.FULL, BasePanel.FULL,
 	                         tblScrollPane);
 
 
-	    addMainComponent(pnl);
+	    addMainComponent(actualPnl);
 
 
 	    setBounds(1, 1,
@@ -161,8 +161,8 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
         fixedTbl = tblScrollPane.getFixedTable();
 
         
-        pnl.registerComponent(tableDetails);
-        pnl.registerComponent(fixedTbl);
+        actualPnl.registerComponent(tableDetails);
+        actualPnl.registerComponent(fixedTbl);
         super.setAlternativeTbl(fixedTbl);
         setColWidths();
 

@@ -70,9 +70,14 @@ public class FilterFrame extends ReFrame {
          */
         public final void keyReleased(KeyEvent event) {
         	
-        	if (event.getKeyCode() == KeyEvent.VK_ENTER) {
- 		        filter();					
-         	}
+        	switch (event.getKeyCode()) {
+        	case KeyEvent.VK_ENTER:
+        		if (! Common.TEST_MODE) {
+        			filter();
+        		}
+        		break;	
+        	case KeyEvent.VK_ESCAPE:	FilterFrame.this.doDefaultCloseAction();	break;
+        	}
         }
     };
 
@@ -103,9 +108,9 @@ public class FilterFrame extends ReFrame {
 			}
 			
 		});
-    	if (! Common.TEST_MODE) {
+    	//if (! Common.TEST_MODE) {
     		pnl.addReKeyListener(listner);
-    	}
+    	//}
 
     	
 		

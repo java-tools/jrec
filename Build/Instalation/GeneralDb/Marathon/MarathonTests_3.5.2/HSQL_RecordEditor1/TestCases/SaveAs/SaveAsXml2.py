@@ -58,9 +58,9 @@ def test():
             select('net.sf.RecordEditor.utils.swing.treeTable.JTreeTable_10', 'rows:[13],columns:[DEPT-NO]')
         close()
 
-        click('SaveAs')
+        click('Export')
 
-        if frame('Save as - DTAR020_tst1.bin:0'):
+        if frame('Export - DTAR020_tst1.bin:0'):
             select('JTabbedPane_16', 'Xml')
             select('Edit Output File', 'true')
             click('save file')

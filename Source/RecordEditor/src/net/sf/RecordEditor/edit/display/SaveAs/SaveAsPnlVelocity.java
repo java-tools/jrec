@@ -38,6 +38,8 @@ public class SaveAsPnlVelocity extends SaveAsPnlBase {
         
         template.setText(Common.OPTIONS.DEFAULT_VELOCITY_DIRECTORY.get());
         panel.addLine("Velocity Template", template, template.getChooseFileButton());
+        
+        template.addFcFocusListener(commonSaveAsFields.templateListner);
     }
 	
 	public void save(String selection, String outFile) throws Exception {

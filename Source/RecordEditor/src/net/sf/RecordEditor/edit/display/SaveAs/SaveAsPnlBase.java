@@ -21,9 +21,9 @@ import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
-import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.RecordEditor.edit.open.StartEditor;
 import net.sf.RecordEditor.edit.util.StandardLayouts;
+import net.sf.RecordEditor.re.file.DisplayType;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.util.ReIOProvider;
 import net.sf.RecordEditor.utils.FieldWriter;
@@ -102,6 +102,8 @@ public abstract class SaveAsPnlBase {
 
     
     public int rowCount;
+    
+    private FileView file;
 
     
     
@@ -114,6 +116,12 @@ public abstract class SaveAsPnlBase {
 		this.panelFormat = panelFormat;
 		this.extensionType = extensionType;
 		this.template = template;
+		file = commonSaveAsFields.getRecordFrame().getFileView();
+		
+        String f = file.getLayout().getFontName();
+		if (f != null && f.toLowerCase().startsWith("utf")) {
+   			font.setText(f);
+   		}
 	}
     
     
@@ -263,14 +271,11 @@ public abstract class SaveAsPnlBase {
 	/**
 	 * @param layout the layout to set
 	 */
-	public void setRecordDetails(
-			AbstractRecordDetail<?> recordDef,
-			int[] fldLengths,
-			boolean[] incFields) {
-		this.record = recordDef;
+	public void setRecordDetails(int[] fldLengths) {
+		this.record = commonSaveAsFields.printRecordDetails;
 		this.suppliedFieldLengths = fldLengths;
 		
-		includeFields = incFields;
+		includeFields = commonSaveAsFields.flatFileWriter.getFieldsToInclude();
 		
 		if (fldLengths != null) {
 			rowCount = suppliedFieldLengths.length;
@@ -394,19 +399,23 @@ public abstract class SaveAsPnlBase {
 				} 
 				break;
 			case COL_INCLUDE: 
-				ret = Boolean.valueOf(includeFields[row]);
+				if (includeFields != null) {
+					ret = Boolean.valueOf(includeFields[row]);
+				}
 				break;
 			case COL_LENGTH: 
-				int v = suppliedFieldLengths[row];
-				
-				if (fieldLengths[row] > 0) {
-					v = fieldLengths[row];
-				} else if (namesFirstLine.isSelected() && record != null) {
-					v = Math.max(
-							suppliedFieldLengths[row], 
-							record.getField(row).getName().length());
-				} 
-				ret = Integer.valueOf(v);
+				if (suppliedFieldLengths != null) {
+					int v = suppliedFieldLengths[row];
+					
+					if (fieldLengths[row] > 0) {
+						v = fieldLengths[row];
+					} else if (namesFirstLine.isSelected() && record != null) {
+						v = Math.max(
+								suppliedFieldLengths[row], 
+								record.getField(row).getName().length());
+					} 
+					ret = Integer.valueOf(v);
+				}
 				break;
 			}
 			} catch (Exception e) {
@@ -417,4 +426,76 @@ public abstract class SaveAsPnlBase {
 		}
 		
 	}
+	
+	protected final void setupPrintDetails(boolean isFixed) {
+			AbstractLayoutDetails<?,?> l = file.getLayout();
+			int layoutIdx = file.getCurrLayoutIdx();
+			int[] colLengths = null;
+			commonSaveAsFields.printRecordDetails = null;
+			
+			switch (DisplayType.displayType(l, commonSaveAsFields.getRecordFrame().getLayoutIndex())) {
+			case DisplayType.NORMAL:
+				commonSaveAsFields.printRecordDetails = l.getRecord(layoutIdx);
+				if (isFixed) {
+					colLengths = getFieldWidths();
+				}
+				break;
+			case DisplayType.PREFFERED:
+				commonSaveAsFields.printRecordDetails = l.getRecord(DisplayType.getRecordMaxFields(l));
+				if (isFixed) {
+					colLengths = getFieldWidthsPrefered();
+				}
+				break;  				
+			case DisplayType.HEX_LINE:
+				colLengths = new int[1];
+				colLengths[0] = l.getMaximumRecordLength() * 2;
+				break;  				
+			}
+
+			setRecordDetails(colLengths);
+
+	}
+	
+	   private int[] getFieldWidths() {
+			AbstractLayoutDetails<?,?> l = file.getLayout();
+	   		int layoutIdx = file.getCurrLayoutIdx();
+	   		int[] ret = new int[l.getRecord(layoutIdx).getFieldCount()];
+	   		int en = Math.min(3000, file.getRowCount());
+	   		
+	   		for (int i = 0; i < en; i++) {
+	   			calcColLengthsForLine(ret, file.getTempLine(i), l, layoutIdx);
+	   		}
+	   		
+	   		return ret;
+	    }
+	    
+	    
+	    private int[] getFieldWidthsPrefered() {
+			AbstractLayoutDetails<?,?> l = file.getLayout();
+	   		int layoutIdx = DisplayType.getRecordMaxFields(l);
+	   		int[] ret = new int[l.getRecord(layoutIdx).getFieldCount()];
+	   		int en = Math.min(3000, file.getRowCount());
+	   		AbstractLine<?> line;
+	   		
+	   		for (int i = 0; i < en; i++) {
+	   			line = file.getTempLine(i);
+	   			calcColLengthsForLine(ret, line, l, line.getPreferredLayoutIdx());
+	   		}
+	   		
+	   		return ret;
+	    }
+	    
+	    private void calcColLengthsForLine(
+	    		int[] ret, AbstractLine<?> line, 
+	    		AbstractLayoutDetails<?,?> layout, int layoutIdx) {
+	    	Object o;
+	    	int colCount = layout.getRecord(layoutIdx).getFieldCount();
+			for (int j = 0; j < colCount; j++) {
+				o = line.getField(layoutIdx,  j);
+				
+				if (o != null) {
+					ret[j] = Math.max(ret[j], o.toString().length());
+				}
+			}
+	    }
 }

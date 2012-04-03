@@ -18,7 +18,8 @@ public class LoadCobolIntoDBScreen  implements ActionListener {
 		loadFrame = new CobolDirectoryFrame(
 				"Load Directory", 
 				stripStar(Common.OPTIONS.DEFAULT_COPYBOOK_DIRECTORY.get()), 
-				true, true, dbIdx);
+				//true, true,
+				dbIdx);
 		
 		loadFrame.setActionListner(this);
 		loadFrame.setVisible(true);

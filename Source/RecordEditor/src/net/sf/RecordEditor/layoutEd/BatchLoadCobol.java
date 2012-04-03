@@ -55,7 +55,7 @@ public class BatchLoadCobol {
 		System.out.println("");
 		System.out.println("    -font        font name (leave out for normal text, cp037 for EBCIDIC)");
 		System.out.println("    -s           system name");
-		System.out.println("    -o, -split   split options  01 or redefines");
+		System.out.println("    -o, -split   split options  none, 01 or redefines");
 		System.out.println("    -r           regular expression to check against file name");
 		System.out.println("                 (i.e. ^PZ.* for files starting with PZ");
 		System.out.println("                 see http://docs.oracle.com/javase/1.4.2/docs/api/java/util/regex/Pattern.html");

@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -107,11 +108,13 @@ public class ReMainFrame extends JFrame
 								= newAction(ReActionHandler.SAVE);
 	private final ReActionActiveScreen saveAs
 								= newAction(ReActionHandler.SAVE_AS);
-	private final ReActionActiveScreen SAVE_AS_CSV         = newAction(ReActionHandler.SAVE_AS_CSV);
-	private final ReActionActiveScreen SAVE_AS_HTML        = newAction(ReActionHandler.SAVE_AS_HTML);
-	private final ReActionActiveScreen SAVE_AS_HTML_TBLS   = newAction(ReActionHandler.SAVE_AS_HTML_TBL_PER_ROW);
-	private final ReActionActiveScreen SAVE_AS_HTML_TREE   = newAction(ReActionHandler.SAVE_AS_HTML_TREE);
-	private final ReActionActiveScreen SAVE_AS_VELOCITY    = newAction(ReActionHandler.SAVE_AS_VELOCITY);
+	private final ReActionActiveScreen export
+								= newAction(ReActionHandler.EXPORT);
+	private final ReActionActiveScreen SAVE_AS_CSV         = newAction(ReActionHandler.EXPORT_AS_CSV);
+	private final ReActionActiveScreen SAVE_AS_HTML        = newAction(ReActionHandler.EXPORT_AS_HTML);
+	private final ReActionActiveScreen SAVE_AS_HTML_TBLS   = newAction(ReActionHandler.EXPORT_AS_HTML_TBL_PER_ROW);
+	private final ReActionActiveScreen SAVE_AS_HTML_TREE   = newAction(ReActionHandler.EXPORT_HTML_TREE);
+	private final ReActionActiveScreen SAVE_AS_VELOCITY    = newAction(ReActionHandler.EXPORT_VELOCITY);
 	private final ReAction close = new ReAction("Close", "Close DB's and exit application",
 												//Common.getRecordIcon(Common.ID_EXIT_ICON),
 												ReActionHandler.CLOSE, closeAction);
@@ -375,16 +378,16 @@ public class ReMainFrame extends JFrame
 	    }
 	    
 	    fileMenu.addSeparator();
+	    fileMenu.add(export);
 	    fileMenu.add(SAVE_AS_CSV);
 	    fileMenu.add(SAVE_AS_HTML);
 	    fileMenu.add(SAVE_AS_HTML_TBLS);
 	    fileMenu.add(SAVE_AS_HTML_TREE);
 	    if (velocityTemplateList != null && Common.isVelocityAvailable()) {
-	    	fileMenu.add(SAVE_AS_VELOCITY);
+//	    	fileMenu.add(SAVE_AS_VELOCITY);
 	    	fileMenu.add(velocityTemplateList);
 	    }
 	    if (xslTransformList != null) {
-
 	    	fileMenu.add(xslTransformList);
 	    }
 	    if (addSaveAsXml) {
@@ -395,14 +398,6 @@ public class ReMainFrame extends JFrame
 	    	fileMenu.add(newAction(ReActionHandler.SAVE_LAYOUT_XML));
 	    }
 
-	    fileMenu.addSeparator();
-	    fileMenu.add(close);
-	    fileMenu.addSeparator();
-	    fileMenu.add(new AbstractAction("Show Jars") {
-	        public void actionPerformed(ActionEvent e) {
-	            showURLS();
-	        }
-	    });
 	    fileMenu.addSeparator();
 	    fileMenu.add(print);
 	    fileMenu.add(printSelected);
@@ -440,7 +435,6 @@ public class ReMainFrame extends JFrame
 	    editMenu.addSeparator();
 	    editMenu.add(findAction);
 
-
 	    return editMenu;
 	}
 
@@ -471,6 +465,16 @@ public class ReMainFrame extends JFrame
 				showAbout();				
 			}
 		});
+		
+		if (Common.TEST_MODE) {
+			helpMenu.addSeparator();
+			helpMenu.add(new AbstractAction("Allocated Jars") {
+		        public void actionPerformed(ActionEvent e) {
+		            showURLS();
+		        }
+		    });
+		}
+
 		
 		return helpMenu;
 	}
@@ -519,6 +523,7 @@ public class ReMainFrame extends JFrame
 	    }
 	    toolBar.add(save);
 	    toolBar.add(saveAs);
+	    toolBar.add(export);
 	    toolBar.add(delete);
 	    Dimension seperatorSize = new Dimension(TOOL_BAR_SEPARATOR_WIDTH,
 	            							    toolBar.getHeight());
@@ -649,14 +654,14 @@ public class ReMainFrame extends JFrame
         if (velocityTemplateList != null) {
         	ReFrame actionHandler = ReFrame.getActiveFrame();
             if (actionHandler != null) {
-            	velocityTemplateList.setEnabled(actionHandler.isActionAvailable(ReActionHandler.SAVE_AS_VELOCITY));
+            	velocityTemplateList.setEnabled(actionHandler.isActionAvailable(ReActionHandler.EXPORT_VELOCITY));
             }
          }
         
          if (xslTransformList != null) {
         	ReFrame actionHandler = ReFrame.getActiveFrame();
             if (actionHandler != null) {
-            	xslTransformList.setEnabled(actionHandler.isActionAvailable(ReActionHandler.SAVE_AS_XSLT));
+            	xslTransformList.setEnabled(actionHandler.isActionAvailable(ReActionHandler.EXPORT_XSLT));
             }
          }
    }
@@ -676,6 +681,11 @@ public class ReMainFrame extends JFrame
         String frameId = newFrame.getFrameId();
         //JMenuItem menuItem = newWinAction(frameId, newFrame);
 
+        int itemCount = windowMenu.getItemCount();
+        if (itemCount > 1) {
+        	windowMenu.remove(itemCount - 1);
+        	windowMenu.remove(itemCount - 2);
+        }
         if (isDocument) {
             if (datafileItemMap.containsKey(newFrame.getDocument())) {
                 m = datafileItemMap.get(newFrame.getDocument());
@@ -712,6 +722,9 @@ public class ReMainFrame extends JFrame
                 windowList.add(m);
             }
         }
+        
+        windowMenu.addSeparator();
+        windowMenu.add(close);
     }
 
 
@@ -774,10 +787,12 @@ public class ReMainFrame extends JFrame
     private void showURLS() {
         try {
             URL[] urls = ((URLClassLoader) ReMainFrame.class.getClassLoader()).getURLs();
+            String s;
 
             Common.logMsg("", null);
             for (int i = 0; i < urls.length; i++) {
-                Common.logMsg("url " + i + " = " + urls[i].getFile(), null);
+            	s = urls[i].getFile();
+                Common.logMsg("url " + i + " = " + s + "\t" + (new File(s)).exists(), null);
             }
         } catch (Exception e) {
         }

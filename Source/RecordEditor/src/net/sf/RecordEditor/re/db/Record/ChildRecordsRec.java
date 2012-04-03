@@ -7,11 +7,11 @@ import net.sf.RecordEditor.utils.jdbc.AbsRecord;
  *
  *   <pre>
  *       Select
- *              ChildRecord,
+ *              Child_Record,
  *              FieldStart as Start,
  *              Field,
- *              FieldValue
- *       from Tbl_RS1_SubRecords
+ *              Field_Value
+ *       from Tbl_RS2_SubRecords
  *       where RecordId = ?
  *
  *   </pre>
@@ -31,6 +31,7 @@ public class ChildRecordsRec extends AbsRecord {
 	private String fieldValue;
 	private int parentRecord;
 	private int childKey, operatorSequence=0;
+	private boolean defaultRecord;
 
 
 
@@ -41,7 +42,10 @@ public class ChildRecordsRec extends AbsRecord {
 		start = 0;
 		field = "";
 		fieldValue = "";
-		childKey = 0;
+		childKey = -1;
+		defaultRecord = false;
+        
+        setNew(true);
 
 		setKeys();
 	}
@@ -54,6 +58,7 @@ public class ChildRecordsRec extends AbsRecord {
 			, int pParentRecord
 			, int pChildKey
 			, int pOperatorSequence
+			, boolean defaultRec
 			) {
 		super(false);
 
@@ -64,6 +69,7 @@ public class ChildRecordsRec extends AbsRecord {
 		parentRecord = pParentRecord;
 		childKey = pChildKey;
 		operatorSequence = pOperatorSequence;
+		defaultRecord = defaultRec;
 
 		setKeys();
 	}
@@ -105,6 +111,7 @@ public class ChildRecordsRec extends AbsRecord {
 				, parentRecord
 				, childKey
 				, operatorSequence
+				, defaultRecord
 				);
 
 		ret.setNew(true);
@@ -335,6 +342,20 @@ public class ChildRecordsRec extends AbsRecord {
 
 
 	public static ChildRecordsRec getBlankChildRec(int recordId) {
-		return new ChildRecordsRec(recordId, 0, "", "", -1, 0, ChildRecordsRec.OP_OR_AND);
+		return new ChildRecordsRec(recordId, 0, "", "", -1, 0, ChildRecordsRec.OP_OR_AND, false);
+	}
+
+	/**
+	 * @return the defaultRecord
+	 */
+	public boolean isDefaultRecord() {
+		return defaultRecord;
+	}
+
+	/**
+	 * @param defaultRecord the defaultRecord to set
+	 */
+	public void setDefaultRecord(boolean defaultRecord) {
+		this.defaultRecord = defaultRecord;
 	}
 }

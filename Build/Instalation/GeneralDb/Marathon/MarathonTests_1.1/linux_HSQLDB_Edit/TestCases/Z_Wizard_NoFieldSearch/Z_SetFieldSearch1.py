@@ -11,8 +11,10 @@ def test():
 			select('TabbedPane', 'Properties')
 			select('TabbedPane1', 'Layout Wizard Options')
 			
-			if commonBits.isVersion89():
-				select('EditPropertiesPnl$BoolFld9', 'true')
+			if commonBits.isVersion81():
+				select('EditPropertiesPnl$BoolFld11', 'true')
+			elif commonBits.isVersion80():
+				select('EditPropertiesPnl$BoolFld8', 'true')
 			else:
 				select('EditPropertiesPnl$BoolFld5', 'true')
 			click('Save')

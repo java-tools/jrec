@@ -13,9 +13,9 @@ def test():
     close()
 
     if window('Record Editor'):
-        click('SaveAs')
+        click('Export')
 
-        if frame('Save as - AmsLocationTest2.xml:0'):
+        if frame('Export - AmsLocationTest2.xml:0'):
             select('JTabbedPane_16', 'Fixed')
             select('Edit Output File', 'true')
             select('Keep screen open', 'true')
@@ -72,14 +72,21 @@ def test():
             click('Close')
         close()
 
-        if frame('Save as - AmsLocationTest2.xml:0'):
-            select('JTable_31', 'rows:[5],columns:[Include]')
-            select('JTable_31', 'false', '{5, Include}')
+        if frame('Export - AmsLocationTest2.xml:0'):
+##            select('JTable_31', 'rows:[5],columns:[Include]')
+##            select('JTable_31', 'false', '{5, Include}')
 
-            select('JTable_31', 'rows:[6],columns:[Include]')
-            select('JTable_31', 'false', '{6, Include}')
-            select('JTable_31', 'rows:[5],columns:[Include]')
-            
+##            select('JTable_31', 'rows:[6],columns:[Include]')
+##            select('JTable_31', 'false', '{6, Include}')
+##            select('JTable_31', 'rows:[5],columns:[Include]')
+
+            select('JTable_29', 'rows:[5],columns:[Include]')
+            select('JTable_29', 'false', '{5, Include}')
+
+            select('JTable_29', 'rows:[6],columns:[Include]')
+            select('JTable_29', 'false', '{6, Include}')
+            select('JTable_29', 'rows:[5],columns:[Include]')
+
             click('save file')
         close()
 
@@ -115,7 +122,7 @@ def test():
             click('Close')
         close()
 
-        if frame('Save as - AmsLocationTest2.xml:0'):
+        if frame('Export - AmsLocationTest2.xml:0'):
             select('names on first line', 'true')
             select('space between fields', 'true')
             click('save file')
@@ -150,13 +157,22 @@ def test():
             click('Close')
         close()
 
-        if frame('Save as - AmsLocationTest2.xml:0'):
-            select('JTable_31', 'true', '{5, Include}')
-            select('JTable_31', 'true', '{6, Include}')
+        if frame('Export - AmsLocationTest2.xml:0'):
+##            select('JTable_31', 'true', '{5, Include}')
+##            select('JTable_31', 'true', '{6, Include}')
 
-            select('JTable_31', 'rows:[6],columns:[Include]')
-            select('JTable_31', 'true', '{6, Include}')
-            select('JTable_31', 'rows:[6],columns:[Include]')
+##            select('JTable_31', 'rows:[6],columns:[Include]')
+##            select('JTable_31', 'true', '{6, Include}')
+##            select('JTable_31', 'rows:[6],columns:[Include]')
+
+            select('JTable_29', 'true', '{5, Include}')
+            select('JTable_29', 'true', '{6, Include}')
+
+            select('JTable_29', 'rows:[6],columns:[Include]')
+            select('JTable_29', 'true', '{6, Include}')
+            select('JTable_29', 'rows:[6],columns:[Include]')
+
+            
             click('save file')
         close()
 

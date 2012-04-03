@@ -9,7 +9,10 @@ def test():
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020.bin')
 		commonBits.setRecordLayout(select, 'DTAR020')
 		commonBits.doEdit(click)
-		click('SaveAs1')
+		if commonBits.isVersion81():
+			click('Export')
+		else:
+			click('SaveAs1')
 		select('TabbedPane', 'Xml')
 #		select('ComboBox1', 'XML')
 ##		select('FileChooser', '/C:/Program Files/RecordEdit/HSQLDB/SampleFiles/x1DTAR020.bin.xml')

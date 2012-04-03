@@ -2,19 +2,21 @@
 from default import *
 #}}} Marathon
 
+from Modules import commonBits
+
 def test():
 
     set_java_recorded_version("1.6.0_22")
     if window('Record Editor'):
-        select_menu('File>>Compare Menu')
+        select_menu('Edit>>Compare Menu')
 
         if frame('Compare Menu - Menu:0'):
             click('*_2')
         close()
 
         if frame(' - Single Layout Compare:0'):
-            select('Old File', '/C:/JavaPrograms/RecordEdit/HSQL/SampleFiles/Ams_PODownload_20041231.txt')
-            select('New File', '/C:/JavaPrograms/RecordEdit/HSQL/SampleFiles/Ams_PODownload_20041231_Compare.txt')
+            select('Old File', commonBits.sampleDir() + 'Ams_PODownload_20041231.txt')
+            select('New File', commonBits.sampleDir() + 'Ams_PODownload_20041231_Compare1.txt')
             click('Right')
             select('JTabbedPane_7', 'tabIndex-0')
             click('Right')

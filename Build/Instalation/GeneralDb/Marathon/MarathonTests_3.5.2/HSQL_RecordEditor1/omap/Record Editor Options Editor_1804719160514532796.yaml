@@ -286,3 +286,388 @@
     - {name: fieldName, value: closeButton}
     - {name: accessibleContext.accessibleName, value: Close}
     name: JButton_36
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: toolTipText, value: 'Weather we are running automated
+            Tests (Marathon ?) or not '}
+    - {method: equals, name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JCheckBox}
+    - {name: precedingLabel, value: Test Mode}
+    - {name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: size, value: '[width=602,height=21]'}
+    - {name: component.class.simpleName, value: BoolFld}
+    - {name: component.class.name, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: toolTipText, value: 'Weather we are running automated Tests (Marathon
+            ?) or not '}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Test Mode
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: toolTipText, value: Bring Log to the Front if Data is written to it}
+    - {method: equals, name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JCheckBox}
+    - {name: precedingLabel, value: Bring log to Front}
+    - {name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: size, value: '[width=602,height=21]'}
+    - {name: component.class.simpleName, value: BoolFld}
+    - {name: component.class.name, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: toolTipText, value: Bring Log to the Front if Data is written to it}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Bring log to Front
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTextArea}
+    - {method: equals, name: indexInContainer, value: '33'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextArea}
+    - {name: type, value: JTextArea}
+    - {name: size, value: '[width=1041,height=16]'}
+    - {name: component.class.simpleName, value: JTextArea}
+    - {name: component.class.name, value: javax.swing.JTextArea}
+    name: JTextArea_33
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: toolTipText, value: Load File in Background thread}
+    - {method: equals, name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JCheckBox}
+    - {name: precedingLabel, value: Load In background}
+    - {name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: size, value: '[width=655,height=21]'}
+    - {name: component.class.simpleName, value: BoolFld}
+    - {name: component.class.name, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: toolTipText, value: Load File in Background thread}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Load In background
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JButton}
+    - {method: equals, name: indexInContainer, value: '35'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=16,height=16]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: fieldName, value: closeButton}
+    - {name: accessibleContext.accessibleName, value: Close}
+    name: JButton_35
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: toolTipText, value: Use New Tree Expansion}
+    - {method: equals, name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JCheckBox}
+    - {name: precedingLabel, value: Use New Tree Expansion}
+    - {name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: size, value: '[width=602,height=21]'}
+    - {name: component.class.simpleName, value: BoolFld}
+    - {name: component.class.name, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: toolTipText, value: Use New Tree Expansion}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Use New Tree Expansion_2
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTabbedPane}
+    - {method: equals, name: indexInContainer, value: '11'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTabbedPane}
+    - {name: type, value: JTabbedPane}
+    - {name: size, value: '[width=1041,height=520]'}
+    - {name: component.class.simpleName, value: JTabbedPane}
+    - {name: component.class.name, value: javax.swing.JTabbedPane}
+    - {name: accessibleContext.accessibleName, value: Properties}
+    name: JTabbedPane_11
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: plaf.metal.MetalTitlePane}
+    - {method: equals, name: indexInContainer, value: '30'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.plaf.metal.MetalTitlePane}
+    - {name: type, value: plaf.metal.MetalTitlePane}
+    - {name: size, value: '[width=1041,height=23]'}
+    - {name: component.class.simpleName, value: MetalTitlePane}
+    - {name: component.class.name, value: javax.swing.plaf.metal.MetalTitlePane}
+    name: plaf.metal.MetalTitlePane_30
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTextArea}
+    - {method: equals, name: indexInContainer, value: '31'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextArea}
+    - {name: type, value: JTextArea}
+    - {name: size, value: '[width=1041,height=16]'}
+    - {name: component.class.simpleName, value: JTextArea}
+    - {name: component.class.name, value: javax.swing.JTextArea}
+    name: JTextArea_31
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JButton}
+    - {method: equals, name: indexInContainer, value: '23'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=16,height=16]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: fieldName, value: closeButton}
+    - {name: accessibleContext.accessibleName, value: Close}
+    name: JButton_23
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: toolTipText, value: Warn the user if Binary-Fields and Structure=Default}
+    - {method: equals, name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JCheckBox}
+    - {name: precedingLabel, value: Warn on Structure change}
+    - {name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: size, value: '[width=602,height=21]'}
+    - {name: component.class.simpleName, value: BoolFld}
+    - {name: component.class.name, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: toolTipText, value: Warn the user if Binary-Fields and Structure=Default}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Warn on Structure change
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JButton}
+    - {method: equals, name: indexInContainer, value: '37'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=16,height=16]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: fieldName, value: closeButton}
+    - {name: accessibleContext.accessibleName, value: Close}
+    name: JButton_37
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: toolTipText, value: Delete Selected with delete key}
+    - {method: equals, name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JCheckBox}
+    - {name: precedingLabel, value: Delete Selected Rows using the delete key}
+    - {name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: size, value: '[width=458,height=21]'}
+    - {name: component.class.simpleName, value: BoolFld}
+    - {name: component.class.name, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: toolTipText, value: Delete Selected with delete key}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Delete Selected with delete key
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: toolTipText, value: 'Search: All Fields'}
+    - {method: equals, name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JCheckBox}
+    - {name: precedingLabel, value: On Search Screen default to "All Fields"}
+    - {name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: size, value: '[width=458,height=21]'}
+    - {name: component.class.simpleName, value: BoolFld}
+    - {name: component.class.name, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: toolTipText, value: 'Search: All Fields'}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: 'Search: All Fields'
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTextArea}
+    - {method: equals, name: indexInContainer, value: '37'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextArea}
+    - {name: type, value: JTextArea}
+    - {name: size, value: '[width=1025,height=16]'}
+    - {name: component.class.simpleName, value: JTextArea}
+    - {name: component.class.name, value: javax.swing.JTextArea}
+    name: JTextArea_37
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: toolTipText, value: Warn user with delete key}
+    - {method: equals, name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JCheckBox}
+    - {name: precedingLabel, value: Warn the user before deleteing Selected Rows using the delete key}
+    - {name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: size, value: '[width=458,height=21]'}
+    - {name: component.class.simpleName, value: BoolFld}
+    - {name: component.class.name, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: toolTipText, value: Warn user with delete key}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Warn user with delete key
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTextArea}
+    - {method: equals, name: indexInContainer, value: '39'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextArea}
+    - {name: type, value: JTextArea}
+    - {name: size, value: '[width=1025,height=16]'}
+    - {name: component.class.simpleName, value: JTextArea}
+    - {name: component.class.name, value: javax.swing.JTextArea}
+    name: JTextArea_39
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: toolTipText, value: Delete Selected Rows using the delete key}
+    - {method: equals, name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JCheckBox}
+    - {name: precedingLabel, value: Delete Selected with delete key}
+    - {name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: size, value: '[width=586,height=21]'}
+    - {name: component.class.simpleName, value: BoolFld}
+    - {name: component.class.name, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: toolTipText, value: Delete Selected Rows using the delete key}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Delete Selected Rows using the delete key
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: toolTipText, value: Warn the user before deleteing Selected Rows using the delete key}
+    - {method: equals, name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JCheckBox}
+    - {name: precedingLabel, value: Warn user with delete key}
+    - {name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: size, value: '[width=586,height=21]'}
+    - {name: component.class.simpleName, value: BoolFld}
+    - {name: component.class.name, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: toolTipText, value: Warn the user before deleteing Selected Rows using the delete key}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Warn the user before deleteing Selected Rows using the delete key
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: toolTipText, value: Show all export panels}
+    - {method: equals, name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JCheckBox}
+    - {name: precedingLabel, value: Show all export panels on the export Screen}
+    - {name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: size, value: '[width=799,height=21]'}
+    - {name: component.class.simpleName, value: BoolFld}
+    - {name: component.class.name, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: toolTipText, value: Show all export panels}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Show all export panels
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: toolTipText, value: Default to prefered layout}
+    - {method: equals, name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JCheckBox}
+    - {name: precedingLabel, value: Default to prefered layout}
+    - {name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: size, value: '[width=565,height=21]'}
+    - {name: component.class.simpleName, value: BoolFld}
+    - {name: component.class.name, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: toolTipText, value: Default to prefered layout}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Default to prefered layout
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JButton}
+    - {method: equals, name: indexInContainer, value: '43'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=16,height=16]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: fieldName, value: closeButton}
+    - {name: accessibleContext.accessibleName, value: Close}
+    name: JButton_43
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTextArea}
+    - {method: equals, name: indexInContainer, value: '27'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextArea}
+    - {name: type, value: JTextArea}
+    - {name: size, value: '[width=967,height=16]'}
+    - {name: component.class.simpleName, value: JTextArea}
+    - {name: component.class.name, value: javax.swing.JTextArea}
+    name: JTextArea_27
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: name, value: Add names to JComponents for use by testing tools}
+    - {method: equals, name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JCheckBox}
+    - {name: precedingLabel, value: Add names to JComponents for use by testing tools}
+    - {name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: size, value: '[width=488,height=21]'}
+    - {name: component.class.simpleName, value: BoolFld}
+    - {name: name, value: Add names to JComponents for use by testing tools}
+    - {name: component.class.name, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: toolTipText, value: Add names to screen Componenets}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Add names to JComponents for use by testing tools
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JButton}
+    - {method: equals, name: indexInContainer, value: '33'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=16,height=16]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: fieldName, value: closeButton}
+    - {name: accessibleContext.accessibleName, value: Close}
+    name: JButton_33
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: name, value: Add names to JComponents for use by testing tools_Chk}
+    - {method: equals, name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JCheckBox}
+    - {name: precedingLabel, value: Add names to JComponents for use by testing tools}
+    - {name: type, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: size, value: '[width=488,height=21]'}
+    - {name: component.class.simpleName, value: BoolFld}
+    - {name: name, value: Add names to JComponents for use by testing tools_Chk}
+    - {name: component.class.name, value: net.sf.RecordEditor.re.editProperties.EditPropertiesPnl$BoolFld}
+    - {name: toolTipText, value: Add names to screen Componenets}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Add names to JComponents for use by testing tools_Chk
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Choose File}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: FileSearch}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: Choose File}
+    - {name: precedingLabel, value: Jar}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=119,height=26]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: accessibleContext.accessibleName, value: Choose File}
+    name: Choose File

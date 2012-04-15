@@ -1,11 +1,22 @@
-parse arg arg
+parse arg xx
 
 
+/*   call doPack 'a'
+   call doPack 'pb'*/
+   call doPack 
+   
+   /* call doPack xx */
+return
+
+
+doPack:
+parse arg arg x
 	if arg = 'pb' then do
-		call pack_ProtoBuf 'ProtoBuffers'
+		/*call pack_ProtoBuf 'ProtoBuffers'*/
 		call pack_ProtoBuf 'ProtoBufEditor'
 	end; else if arg = 'a' then do
 		call pack_Avro 'AvroEditor'
+		/*call pack_Avro 'avro-tools-1.6.3'*/
 	end; else if arg = 'aa' then do
 		call pack_Avro 'AvroEditor'
 		/*call pack_Avro 'avro-1.4.0'*/
@@ -37,23 +48,23 @@ parse arg arg
 
 		
 		if isUnix() then do
-			'cp JRecord.pack ../ProtoBuf/lib'
+			/*'cp JRecord.pack ../ProtoBuf/lib'
 			'cp RecordEdit.pack ../ProtoBuf/lib'
 			'cp chardet.pack ../ProtoBuf/lib'
 			'cp ZCalendar.pack ../ProtoBuf/lib'
 			'cp JRecord.pack ../Avro/lib'
 			'cp RecordEdit.pack ../Avro/lib'
 			'cp chardet.pack ../Avro/lib'
-			'cp ZCalendar.pack ../Avro/lib'
+			'cp ZCalendar.pack ../Avro/lib'*/
 		end; else do
-			'copy JRecord.pack ..\ProtoBuf\lib'
+			/*'copy JRecord.pack ..\ProtoBuf\lib'
 			'copy RecordEdit.pack ..\ProtoBuf\lib'
 			'copy chardet.pack ..\ProtoBuf\lib'
 			'copy ZCalendar.pack ..\ProtoBuf\lib'
 			'copy JRecord.pack ..\Avro\lib'
 			'copy RecordEdit.pack ..\Avro\lib'
 			'copy chardet.pack ..\Avro\lib'
-			'copy ZCalendar.pack ..\Avro\lib'
+			'copy ZCalendar.pack ..\Avro\lib'*/
 		end
 	end
 	

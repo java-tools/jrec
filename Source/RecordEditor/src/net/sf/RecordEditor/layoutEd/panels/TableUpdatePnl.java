@@ -12,7 +12,7 @@
  *   - New EditChild and NewChild buttons added +
  *     code to hide / unhide buttons
  */
-package net.sf.RecordEditor.re.util;
+package net.sf.RecordEditor.layoutEd.panels;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;

@@ -37,3 +37,99 @@
     - {name: component.class.simpleName, value: JTable}
     - {name: component.class.name, value: javax.swing.JTable}
     name: JTable_24
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: net.sf.RecordEditor.utils.swing.BaseHelpPanel}
+    - {method: equals, name: indexInContainer, value: '4'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JPanel}
+    - {name: type, value: net.sf.RecordEditor.utils.swing.BaseHelpPanel}
+    - {name: size, value: '[width=605,height=617]'}
+    - {name: component.class.simpleName, value: BaseHelpPanel}
+    - {name: component.class.name, value: net.sf.RecordEditor.utils.swing.BaseHelpPanel}
+    name: net.sf.RecordEditor.utils.swing.BaseHelpPanel_4
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: plaf.metal.MetalInternalFrameTitlePane}
+    - {method: equals, name: indexInContainer, value: '35'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.plaf.metal.MetalInternalFrameTitlePane}
+    - {name: type, value: plaf.metal.MetalInternalFrameTitlePane}
+    - {name: size, value: '[width=605,height=23]'}
+    - {name: component.class.simpleName, value: MetalInternalFrameTitlePane}
+    - {name: component.class.name, value: javax.swing.plaf.metal.MetalInternalFrameTitlePane}
+    name: plaf.metal.MetalInternalFrameTitlePane_35
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: iconFile, value: Left}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: Left}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=84,height=41]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: toolTipText, value: Previous Record}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Left
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: iconFile, value: Right}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: Right}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=84,height=41]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: toolTipText, value: Next Record}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Right
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: iconFile, value: RightM}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'false'}
+    - {name: iconFile, value: RightM}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=84,height=41]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: toolTipText, value: Last Record}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: RightM
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: iconFile, value: Delete}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: Delete}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=21,height=21]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: toolTipText, value: Delete}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Delete
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JRootPane}
+    - {method: equals, name: indexInContainer, value: '1'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JRootPane}
+    - {name: type, value: JRootPane}
+    - {name: size, value: '[width=605,height=572]'}
+    - {name: component.class.simpleName, value: JRootPane}
+    - {name: component.class.name, value: javax.swing.JRootPane}
+    name: JRootPane_1

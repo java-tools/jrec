@@ -8,7 +8,7 @@
  *   - moved code/constants to either Common class
  *     or ExtendedRecord class
  */
-package net.sf.RecordEditor.re.util;
+package net.sf.RecordEditor.layoutEd.Parameter;
 
 /**
  * Common stuff for the layout editor

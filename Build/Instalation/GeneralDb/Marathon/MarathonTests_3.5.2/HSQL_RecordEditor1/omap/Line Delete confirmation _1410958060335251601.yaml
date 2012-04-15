@@ -1,0 +1,44 @@
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: 'Yes'}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: 'Yes'}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=43,height=26]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: name, value: OptionPane.button}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: fieldName, value: defaultButton}
+    - {name: accessibleContext.accessibleName, value: 'Yes'}
+    name: OptionPane.button
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: 'No'}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: 'No'}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=43,height=26]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: name, value: OptionPane.button}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: accessibleContext.accessibleName, value: 'No'}
+    name: 'No'
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JRootPane}
+    - {method: equals, name: indexInContainer, value: '1'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JRootPane}
+    - {name: type, value: JRootPane}
+    - {name: size, value: '[width=372,height=90]'}
+    - {name: component.class.simpleName, value: JRootPane}
+    - {name: component.class.name, value: javax.swing.JRootPane}
+    - {name: fieldName, value: rootPane}
+    name: JRootPane_1

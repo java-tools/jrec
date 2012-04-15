@@ -1,0 +1,115 @@
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JEditorPane}
+    - {method: equals, name: indexInContainer, value: '7'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JEditorPane}
+    - {name: cText, value: "<html>\n  <head>\n    \n  </head>\n  <body>\n    <font\
+            \ color=\"Blue\">This option loads a <b>User Selected Copybooks</b> into\
+            \ \n    the <b>Record Edit DB.</b></font>\n\n    <p>\n      <b>Note:</b>\
+            \ If the <i>Split Copybook on Redefine</i> field is selected, \n     \
+            \ The system will\n    </p>\n    <ol compact=\"compact\">\n      <li>\n\
+            \        Insert a Group record for the copybook.\n      </li>\n      <li>\n\
+            \        The copybook will be split the copybook on a <b>redefines clause</b>\
+            \ \n        or <b>01 level</b> into seperate Child-Records.\n      </li>\n\
+            \    </ol>\n    <p>\n      <b>Note:</b> Cobol Copybooks are converted\
+            \ to XML copybook by the Open \n      Source project cb2xml (see www.sourceforge.net)\n\
+            \    </p>\n    <p>\n      <b>Warning:</b> cb2xml has some bugs at present.\n\
+            \    </p>\n  </body>\n</html>\n"}
+    - {name: type, value: JEditorPane}
+    - {name: size, value: '[width=741,height=189]'}
+    - {name: component.class.simpleName, value: JEditorPane}
+    - {name: component.class.name, value: javax.swing.JEditorPane}
+    - {name: fieldName, value: tips}
+    name: JEditorPane_7
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: User Selected Copybook}
+    - {method: equals, name: type, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextField}
+    - {name: precedingLabel, value: User Selected Copybook}
+    - {name: cText, value: 'C:\Users\mum/RecordEditor_HSQL\Copybook/Cobol/*'}
+    - {name: type, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    - {name: size, value: '[width=454,height=26]'}
+    - {name: component.class.simpleName, value: FileChooser}
+    - {name: component.class.name, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    - {name: fieldName, value: copybookFile}
+    name: User Selected Copybook
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Choose File}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: FileSearch}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: Choose File}
+    - {name: precedingLabel, value: User Selected Copybook}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=119,height=26]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: accessibleContext.accessibleName, value: Choose File}
+    name: Choose File
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: System}
+    - {method: equals, name: type, value: net.sf.RecordEditor.utils.swing.BmKeyedComboBox}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JComboBox}
+    - {name: precedingLabel, value: System}
+    - {name: type, value: net.sf.RecordEditor.utils.swing.BmKeyedComboBox}
+    - {name: size, value: '[width=454,height=23]'}
+    - {name: component.class.simpleName, value: BmKeyedComboBox}
+    - {name: component.class.name, value: net.sf.RecordEditor.utils.swing.BmKeyedComboBox}
+    - {name: fieldName, value: system}
+    name: System
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Go}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: Go}
+    - {name: precedingLabel, value: Binary Format}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=119,height=26]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: fieldName, value: go}
+    - {name: accessibleContext.accessibleName, value: Go}
+    name: Go
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTextArea}
+    - {method: equals, name: indexInContainer, value: '40'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextArea}
+    - {name: cText, value: "\n\n-->> C:\\Users\\mum/RecordEditor_HSQL\\Copybook/Xml/wwFile.Xml\
+            \ processed\n\n      Copybook: wwFile"}
+    - {name: type, value: JTextArea}
+    - {name: size, value: '[width=741,height=87]'}
+    - {name: component.class.simpleName, value: JTextArea}
+    - {name: component.class.name, value: javax.swing.JTextArea}
+    - {name: fieldName, value: log}
+    name: JTextArea_40
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: toolTipText, value: Close}
+    - {method: equals, name: type, value: plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    - {name: type, value: plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    - {name: size, value: '[width=16,height=16]'}
+    - {name: component.class.simpleName, value: NoFocusButton}
+    - {name: component.class.name, value: javax.swing.plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    - {name: toolTipText, value: Close}
+    - {name: accessibleContext.accessibleName, value: Close}
+    name: Close

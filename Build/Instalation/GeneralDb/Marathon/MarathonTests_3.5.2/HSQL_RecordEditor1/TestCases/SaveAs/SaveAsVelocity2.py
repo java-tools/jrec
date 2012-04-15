@@ -14,7 +14,10 @@ def test():
 
     if window('Record Editor'):
         ##commonBits.selectExport(select_menu,'via Velociy Skelton>>toCsv_Tab.vm')
-        select_menu('File>>Export via Velociy Skelton>>toCsv_Tab.vm')
+
+##        select_menu('File>>Export via Velociy Skelton>>toCsv_Tab.vm')
+##        select_menu('File>>SaveAs_Velocity>>toCsv_Comma.vm')
+        select_menu('File>>Export via Velociy Skelton_2>>toCsv_Tab.vm')
 
         if frame('Export - DTAR020_tst1.bin:0'):
  ##           select('File Name', '/C:/JavaPrograms/RecordEdit/HSQL/SampleFiles/DTAR020_tst1.bin.csv')

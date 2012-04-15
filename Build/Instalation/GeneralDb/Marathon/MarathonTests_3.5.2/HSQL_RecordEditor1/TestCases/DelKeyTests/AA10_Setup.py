@@ -10,12 +10,13 @@ def test():
 
         if window('Record Editor Options Editor'):
             select('JTabbedPane_9', 'Properties')
-            select('JTabbedPane_10', 'Other Options')
+            select('JTabbedPane_10', 'Behaviour')
 ##            select('Delete Selected with delete key', 'false')
             select('Delete Selected Rows using the delete key', 'false')
             select('Warn the user before deleteing Selected Rows using the delete key', 'false')
             select('Delete Selected Rows using the delete key', 'true')
             select('Warn the user before deleteing Selected Rows using the delete key', 'true')
+
 
             click('Save')
 ##            select('JTabbedPane_12', 'File Options')

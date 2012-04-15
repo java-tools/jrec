@@ -1,0 +1,277 @@
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Help}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: Help}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: Help}
+    - {name: precedingLabel, value: ''}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=119,height=26]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: accessibleContext.accessibleName, value: Help}
+    name: Help
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Keep screen open}
+    - {method: equals, name: type, value: JCheckBox}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JCheckBox}
+    - {name: precedingLabel, value: Keep screen open}
+    - {name: type, value: JCheckBox}
+    - {name: size, value: '[width=516,height=26]'}
+    - {name: component.class.simpleName, value: JCheckBox}
+    - {name: component.class.name, value: javax.swing.JCheckBox}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Keep screen open
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Edit Output File}
+    - {method: equals, name: type, value: JCheckBox}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JCheckBox}
+    - {name: precedingLabel, value: Edit Output File}
+    - {name: type, value: JCheckBox}
+    - {name: size, value: '[width=516,height=21]'}
+    - {name: component.class.simpleName, value: JCheckBox}
+    - {name: component.class.name, value: javax.swing.JCheckBox}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Edit Output File
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: save file}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: Save}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: save file}
+    - {name: precedingLabel, value: Keep screen open}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=119,height=26]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: fieldName, value: saveFile}
+    - {name: accessibleContext.accessibleName, value: save file}
+    name: save file
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: ''}
+    - {method: equals, name: type, value: JTabbedPane}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTabbedPane}
+    - {name: precedingLabel, value: ''}
+    - {name: type, value: JTabbedPane}
+    - {name: size, value: '[width=770,height=190]'}
+    - {name: component.class.simpleName, value: JTabbedPane}
+    - {name: component.class.name, value: javax.swing.JTabbedPane}
+    - {name: fieldName, value: formatTab}
+    - {name: accessibleContext.accessibleName, value: Data}
+    name: JTabbedPane_16
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: names on first line}
+    - {method: equals, name: type, value: JCheckBox}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JCheckBox}
+    - {name: precedingLabel, value: names on first line}
+    - {name: type, value: JCheckBox}
+    - {name: size, value: '[width=21,height=21]'}
+    - {name: component.class.simpleName, value: JCheckBox}
+    - {name: component.class.name, value: javax.swing.JCheckBox}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: names on first line
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: space between fields}
+    - {method: equals, name: type, value: JCheckBox}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JCheckBox}
+    - {name: precedingLabel, value: space between fields}
+    - {name: type, value: JCheckBox}
+    - {name: size, value: '[width=21,height=21]'}
+    - {name: component.class.simpleName, value: JCheckBox}
+    - {name: component.class.name, value: javax.swing.JCheckBox}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: space between fields
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: toolTipText, value: Close}
+    - {method: equals, name: type, value: plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    - {name: type, value: plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    - {name: size, value: '[width=16,height=16]'}
+    - {name: component.class.simpleName, value: NoFocusButton}
+    - {name: component.class.name, value: javax.swing.plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    - {name: toolTipText, value: Close}
+    - {name: accessibleContext.accessibleName, value: Close}
+    name: Close
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Delimiter}
+    - {method: equals, name: type, value: JComboBox}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JComboBox}
+    - {name: precedingLabel, value: Delimiter}
+    - {name: type, value: JComboBox}
+    - {name: size, value: '[width=82,height=25]'}
+    - {name: component.class.simpleName, value: JComboBox}
+    - {name: component.class.name, value: javax.swing.JComboBox}
+    name: Delimiter
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTable}
+    - {method: equals, name: indexInContainer, value: '33'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTable}
+    - {name: type, value: JTable}
+    - {name: size, value: '[width=450,height=96]'}
+    - {name: component.class.simpleName, value: JTable}
+    - {name: component.class.name, value: javax.swing.JTable}
+    name: JTable_33
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Add Quote to all Text Fields}
+    - {method: equals, name: type, value: JCheckBox}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JCheckBox}
+    - {name: precedingLabel, value: Add Quote to all Text Fields}
+    - {name: type, value: JCheckBox}
+    - {name: size, value: '[width=82,height=21]'}
+    - {name: component.class.simpleName, value: JCheckBox}
+    - {name: component.class.name, value: javax.swing.JCheckBox}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Add Quote to all Text Fields
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTable}
+    - {method: equals, name: indexInContainer, value: '37'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTable}
+    - {name: type, value: JTable}
+    - {name: size, value: '[width=450,height=96]'}
+    - {name: component.class.simpleName, value: JTable}
+    - {name: component.class.name, value: javax.swing.JTable}
+    name: JTable_37
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTable}
+    - {method: equals, name: indexInContainer, value: '27'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTable}
+    - {name: type, value: JTable}
+    - {name: size, value: '[width=543,height=96]'}
+    - {name: component.class.simpleName, value: JTable}
+    - {name: component.class.name, value: javax.swing.JTable}
+    name: JTable_27
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTable}
+    - {method: equals, name: indexInContainer, value: '31'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTable}
+    - {name: type, value: JTable}
+    - {name: size, value: '[width=543,height=96]'}
+    - {name: component.class.simpleName, value: JTable}
+    - {name: component.class.name, value: javax.swing.JTable}
+    name: JTable_31
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Only export Nodes with Data}
+    - {method: equals, name: type, value: JCheckBox}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JCheckBox}
+    - {name: precedingLabel, value: Only export Nodes with Data}
+    - {name: type, value: JCheckBox}
+    - {name: size, value: '[width=459,height=21]'}
+    - {name: component.class.simpleName, value: JCheckBox}
+    - {name: component.class.name, value: javax.swing.JCheckBox}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Only export Nodes with Data
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Export Tree}
+    - {method: equals, name: type, value: JCheckBox}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JCheckBox}
+    - {name: precedingLabel, value: Export Tree}
+    - {name: type, value: JCheckBox}
+    - {name: size, value: '[width=459,height=21]'}
+    - {name: component.class.simpleName, value: JCheckBox}
+    - {name: component.class.name, value: javax.swing.JCheckBox}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Export Tree
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: File Name}
+    - {method: equals, name: type, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextField}
+    - {name: precedingLabel, value: File Name}
+    - {name: cText, value: '/C:/JavaPrograms/RecordEdit/HSQL/SampleFiles/DTAR020_tst1.bin.html'}
+    - {name: type, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    - {name: size, value: '[width=516,height=26]'}
+    - {name: component.class.simpleName, value: FileChooser}
+    - {name: component.class.name, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    - {name: fieldName, value: fileNameTxt}
+    name: File Name
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Choose File}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: FileSearch}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: Choose File}
+    - {name: precedingLabel, value: File Name}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=119,height=26]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: accessibleContext.accessibleName, value: Choose File}
+    name: Choose File
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTable}
+    - {method: equals, name: indexInContainer, value: '25'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTable}
+    - {name: type, value: JTable}
+    - {name: size, value: '[width=543,height=96]'}
+    - {name: component.class.simpleName, value: JTable}
+    - {name: component.class.name, value: javax.swing.JTable}
+    name: JTable_25
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTextArea}
+    - {method: equals, name: indexInContainer, value: '16'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextArea}
+    - {name: cText, value: Export data as an XML file}
+    - {name: type, value: JTextArea}
+    - {name: size, value: '[width=745,height=147]'}
+    - {name: component.class.simpleName, value: JTextArea}
+    - {name: component.class.name, value: javax.swing.JTextArea}
+    name: JTextArea_16

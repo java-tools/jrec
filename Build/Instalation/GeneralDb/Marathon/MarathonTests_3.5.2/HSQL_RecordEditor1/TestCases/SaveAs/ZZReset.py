@@ -10,7 +10,7 @@ def test():
 
         if window('Record Editor Options Editor'):
             select('JTabbedPane_9', 'Properties')
-            select('JTabbedPane_10', 'Other Options')
+            select('JTabbedPane_10', 'Test')
             ##select('Use New Tree Expansion', 'false')
             select('Use New Tree Expansion_2', 'false')
             click('Save')

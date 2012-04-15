@@ -1,40 +1,40 @@
-DTAR020.bin		$USER_HOME/.RecordEditor/HSQLDB/Cobol/DTAR020.cbl,,1,,1,,0,,1   
-Ams_Receipt_05AUG08190103.txt		$USER_HOME/.RecordEditor/HSQLDB/Cobol/AmsReceipt.cbl,,1,,0,,1,,0
-DTAR020.bin		$USER_HOME/.RecordEditor/HSQLDB/Cobol/DTAR020.cbl,,1,,2,,0,,1
-DTAR1000_Store_file_std.bin		$USER_HOME/.RecordEditor/HSQLDB/Cobol/DTAR1000.cbl,,1,,4,,0,,1
-DTAR1000_Store_file_large_Recfm_U.bin		$USER_HOME/.RecordEditor/HSQLDB/Cobol/DTAR1000.cbl,,1,,5,,0,,1
-DTAR1000_Store_file_std_recfm_U.bin		$USER_HOME/.RecordEditor/HSQLDB/Cobol/DTAR1000.cbl,,1,,5,,0,,1
-DTAR107.bin		$USER_HOME/.RecordEditor/HSQLDB/Cobol/DTAR107.cbl,,1,,2,,0,,1
-DTAR119_keyode.bin		$USER_HOME/.RecordEditor/HSQLDB/Cobol/DTAR119.cbl,,1,,2,,0,,1
-DTAR192.bin		$USER_HOME/.RecordEditor/HSQLDB/Cobol/DTAR192.cbl,,1,,2,,0,,1
-Transaction_File.txt		$USER_HOME/.RecordEditor/HSQLDB/Cobol/Transaction_Record.cbl,,1,,0,,0,,0
-Rental_File.Txt		$USER_HOME/.RecordEditor/HSQLDB/Cobol/Rental_Record.cbl,,1,,0,,0,,0
-Ams_VendorDownload_20041229.txt		$USER_HOME/.RecordEditor/HSQLDB/Cobol/AmsVendor.cbl,,1,,0,,0,,0
-Ams_LocDownload_20041228.txt		$USER_HOME/.RecordEditor/HSQLDB/Cobol/AmsLocation.cbl,,1,,0,,0,,0
-Ams_Receipt.txt		$USER_HOME/.RecordEditor/HSQLDB/Cobol/AmsReceipt.cbl,,1,,0,,1,,0
-Ams_Receipt_05AUG08190103.txt		$USER_HOME/.RecordEditor/HSQLDB/Cobol/AmsReceipt.cbl,,1,,0,,1,,0
-Ams_Receipt_05AUG08190103.txt		$USER_HOME/.RecordEditor/HSQLDB/Cobol/AmsReceipt.cbl,,1,,0,,1,,0
-Ams_PODownload_20041231.txt		$USER_HOME/.RecordEditor/HSQLDB/Xml/ams PO Download.Xml,,2,,0,,0,,0,,0,,0
-Ams_VendorDownload_20041229.txt		$USER_HOME/.RecordEditor/HSQLDB/Cobol/AmsVendor.cbl,,1,,0,,0,,0,,0,,0
-Ams_Shipping_04DEC01190125.txt		$USER_HOME/.RecordEditor/HSQLDB/Xml/ams Shipping Upload.Xml,,2,,0,,0,,0,,0,,0
-DTAR1000_Store_file_std.bin		$USER_HOME/.RecordEditor/HSQLDB/Xml/DTAR1000 VB.Xml,,2,,0,,0,,1,,0,,0
-DTAR1000_Store_file_std_recfm_U.bin		$USER_HOME/.RecordEditor/HSQLDB/Cobol/DTAR1000.cbl,,1,,6,,0,,1,,0,,0
-Ams_Shipping_04DEC01190125.txt		$USER_HOME/.RecordEditor/HSQLDB/Xml/ams Shipping Upload.Xml,,2,,0,,0,,0,,0,,0
-DTAR119_keyode.bin		$USER_HOME/.RecordEditor/HSQLDB/Cobol/DTAR119.cbl,,1,,2,,0,,1,,0,,0
-DTAR1000_Store_file_std_recfm_U.bin		$USER_HOME/.RecordEditor/HSQLDB/Cobol/DTAR1000.cbl,,1,,6,,0,,1,,0,,0
-DTAR1000_Store_file_std.bin		$USER_HOME/.RecordEditor/HSQLDB/Xml/DTAR1000 VB.Xml,,2,,0,,0,,1,,0,,0
-DTAR192.bin		$USER_HOME/.RecordEditor/HSQLDB/Cobol/DTAR192.cbl,,1,,2,,0,,1,,0,,0
-Master_File.txt		$USER_HOME/.RecordEditor/HSQLDB/Cobol/Master_Record.cbl,,1,,0,,0,,0,,0,,0
-Pos_Price_1.bin		$USER_HOME/.RecordEditor/HSQLDB/Xml/Price.Xml,,2,,3,,0,,0,,0,,0
-Pos_Price_2.bin		$USER_HOME/.RecordEditor/HSQLDB/Xml/Price.Xml,,2,,3,,0,,0,,0,,0
-Pos_Spl_2.bin		$USER_HOME/.RecordEditor/HSQLDB/Xml/SPL.Xml,,2,,3,,0,,0,,0,,0
-Rental_File.Txt		$USER_HOME/.RecordEditor/HSQLDB/Cobol/Rental_Record.cbl,,1,,0,,0,,0,,0,,0
-SalesData.txt		$USER_HOME/.RecordEditor/HSQLDB/Cobol/SalesRecord.cbl,,1,,0,,0,,0,,0,,0
-Transaction_File.txt		$USER_HOME/.RecordEditor/HSQLDB/Cobol/Transaction_Record.cbl,,1,,0,,0,,0,,0,,0
-RBIFCopy.cbl		$USER_HOME/.RecordEditor/HSQLDB/Cobol/RBIFCopy.cbl,,1,,0,,0,,2,,0,,0
-Copy of FujitsuVariableWidthFile.seq		$USER_HOME/.RecordEditor/HSQLDB/Cobol/RBIVCopy.cbl,,1,,7,,2,,2,,0,,0
-FujitsuVariableWidthFile.seq		$USER_HOME/.RecordEditor/HSQLDB/Cobol/RBIVCopy.cbl,,1,,7,,2,,2,,0,,0
-FujitsuFixedWidthFile.seq		$USER_HOME/.RecordEditor/HSQLDB/Cobol/RBIFCopy.cbl,,1,,0,,2,,2,,0,,0
+DTAR020.bin		<reproperties>/Copybook/Cobol/DTAR020.cbl,,1,,1,,0,,1   
+Ams_Receipt_05AUG08190103.txt		<reproperties>/Copybook/Cobol/AmsReceipt.cbl,,1,,0,,1,,0
+DTAR020.bin		<reproperties>/Copybook/Cobol/DTAR020.cbl,,1,,2,,0,,1
+DTAR1000_Store_file_std.bin		<reproperties>/Copybook/Cobol/DTAR1000.cbl,,1,,4,,0,,1
+DTAR1000_Store_file_large_Recfm_U.bin		<reproperties>/Copybook/Cobol/DTAR1000.cbl,,1,,5,,0,,1
+DTAR1000_Store_file_std_recfm_U.bin		<reproperties>/Copybook/Cobol/DTAR1000.cbl,,1,,5,,0,,1
+DTAR107.bin		<reproperties>/Copybook/Cobol/DTAR107.cbl,,1,,2,,0,,1
+DTAR119_keyode.bin		<reproperties>/Copybook/Cobol/DTAR119.cbl,,1,,2,,0,,1
+DTAR192.bin		<reproperties>/Copybook/Cobol/DTAR192.cbl,,1,,2,,0,,1
+Transaction_File.txt		<reproperties>/Copybook/Cobol/Transaction_Record.cbl,,1,,0,,0,,0
+Rental_File.Txt		<reproperties>/Copybook/Cobol/Rental_Record.cbl,,1,,0,,0,,0
+Ams_VendorDownload_20041229.txt		<reproperties>/Copybook/Cobol/AmsVendor.cbl,,1,,0,,0,,0
+Ams_LocDownload_20041228.txt		<reproperties>/Copybook/Cobol/AmsLocation.cbl,,1,,0,,0,,0
+Ams_Receipt.txt		<reproperties>/Copybook/Cobol/AmsReceipt.cbl,,1,,0,,1,,0
+Ams_Receipt_05AUG08190103.txt		<reproperties>/Copybook/Cobol/AmsReceipt.cbl,,1,,0,,1,,0
+Ams_Receipt_05AUG08190103.txt		<reproperties>/Copybook/Cobol/AmsReceipt.cbl,,1,,0,,1,,0
+Ams_PODownload_20041231.txt		<reproperties>/Copybook/Xml/ams PO Download.Xml,,2,,0,,0,,0,,0,,0
+Ams_VendorDownload_20041229.txt		<reproperties>/Copybook/Cobol/AmsVendor.cbl,,1,,0,,0,,0,,0,,0
+Ams_Shipping_04DEC01190125.txt		<reproperties>/Copybook/Xml/ams Shipping Upload.Xml,,2,,0,,0,,0,,0,,0
+DTAR1000_Store_file_std.bin		<reproperties>/Copybook/Xml/DTAR1000 VB.Xml,,2,,0,,0,,1,,0,,0
+DTAR1000_Store_file_std_recfm_U.bin		<reproperties>/Copybook/Cobol/DTAR1000.cbl,,1,,6,,0,,1,,0,,0
+Ams_Shipping_04DEC01190125.txt		<reproperties>/Copybook/Xml/ams Shipping Upload.Xml,,2,,0,,0,,0,,0,,0
+DTAR119_keyode.bin		<reproperties>/Copybook/Cobol/DTAR119.cbl,,1,,2,,0,,1,,0,,0
+DTAR1000_Store_file_std_recfm_U.bin		<reproperties>/Copybook/Cobol/DTAR1000.cbl,,1,,6,,0,,1,,0,,0
+DTAR1000_Store_file_std.bin		<reproperties>/Copybook/Xml/DTAR1000 VB.Xml,,2,,0,,0,,1,,0,,0
+DTAR192.bin		<reproperties>/Copybook/Cobol/DTAR192.cbl,,1,,2,,0,,1,,0,,0
+Master_File.txt		<reproperties>/Copybook/Cobol/Master_Record.cbl,,1,,0,,0,,0,,0,,0
+Pos_Price_1.bin		<reproperties>/Copybook/Xml/Price.Xml,,2,,3,,0,,0,,0,,0
+Pos_Price_2.bin		<reproperties>/Copybook/Xml/Price.Xml,,2,,3,,0,,0,,0,,0
+Pos_Spl_2.bin		<reproperties>/Copybook/Xml/SPL.Xml,,2,,3,,0,,0,,0,,0
+Rental_File.Txt		<reproperties>/Copybook/Cobol/Rental_Record.cbl,,1,,0,,0,,0,,0,,0
+SalesData.txt		<reproperties>/Copybook/Cobol/SalesRecord.cbl,,1,,0,,0,,0,,0,,0
+Transaction_File.txt		<reproperties>/Copybook/Cobol/Transaction_Record.cbl,,1,,0,,0,,0,,0,,0
+RBIFCopy.cbl		<reproperties>/Copybook/Cobol/RBIFCopy.cbl,,1,,0,,0,,2,,0,,0
+Copy of FujitsuVariableWidthFile.seq		<reproperties>/Copybook/Cobol/RBIVCopy.cbl,,1,,7,,2,,2,,0,,0
+FujitsuVariableWidthFile.seq		<reproperties>/Copybook/Cobol/RBIVCopy.cbl,,1,,7,,2,,2,,0,,0
+FujitsuFixedWidthFile.seq		<reproperties>/Copybook/Cobol/RBIFCopy.cbl,,1,,0,,2,,2,,0,,0
 <extensions>		<velocity>
 tocsv_tab		.csv
 tocsv_comma.vm		.csv

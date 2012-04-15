@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.edit.display.common;
+package net.sf.RecordEditor.re.script;
 
 import java.util.List;
 

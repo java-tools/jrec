@@ -100,3 +100,72 @@
     - {name: component.class.simpleName, value: HeaderToolTips}
     - {name: component.class.name, value: net.sf.RecordEditor.edit.display.BaseDisplay$HeaderToolTips}
     name: net.sf.RecordEditor.edit.display.BaseDisplay$HeaderToolTips_29
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: iconFile, value: New}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: New}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=21,height=21]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: toolTipText, value: New Record}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: New
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: iconFile, value: Save}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: Save}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=21,height=21]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: toolTipText, value: Save}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Save
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: net.sf.RecordEditor.edit.display.BaseDisplay$HeaderToolTips}
+    - {method: equals, name: indexInContainer, value: '32'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.table.JTableHeader}
+    - {name: type, value: net.sf.RecordEditor.edit.display.BaseDisplay$HeaderToolTips}
+    - {name: size, value: '[width=1332,height=36]'}
+    - {name: component.class.simpleName, value: HeaderToolTips}
+    - {name: component.class.name, value: net.sf.RecordEditor.edit.display.BaseDisplay$HeaderToolTips}
+    name: net.sf.RecordEditor.edit.display.BaseDisplay$HeaderToolTips_32
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JRootPane}
+    - {method: equals, name: indexInContainer, value: '1'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JRootPane}
+    - {name: type, value: JRootPane}
+    - {name: size, value: '[width=1430,height=749]'}
+    - {name: component.class.simpleName, value: JRootPane}
+    - {name: component.class.name, value: javax.swing.JRootPane}
+    name: JRootPane_1
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: iconFile, value: Filter}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: Filter}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=21,height=21]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: toolTipText, value: Filter}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Filter

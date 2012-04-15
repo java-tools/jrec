@@ -1,6 +1,7 @@
 useFixture(default)
 
 def test():
+	from Modules import commonBits
 	java_recorded_version = '1.5.0_11'
 
 	if window('Record Layout Definitions'):
@@ -13,12 +14,15 @@ def test():
 		select('TabbedPane', 'Extras')
 		select('TabbedPane', 'Child Records')
 		assert_p('TextField2', 'Text', 'ams PO Download')
-		select('ChildRecordsJTbl', 'cell:Field Start,0(0)')
+##		select('ChildRecordsJTbl', 'cell:,0(0)')
 		assert_p('ChildRecordsJTbl', 'RowCount', '3')
-		select('ChildRecordsJTbl', 'cell:Field Start,0(0)')
+##		select('ChildRecordsJTbl', 'cell:,0(0)')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Record Layouts>>Create Layout')
-		assert_p('BmKeyedComboBox', 'Text', 'XML')
+		if commonBits.isVersion89():
+			assert_p('BmKeyedComboBox', 'Text', 'Record Layout')
+		else:
+			assert_p('BmKeyedComboBox', 'Text', 'XML')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Record Layouts>>Layout Wizard')
 ##		assert_p('Label8', 'Text', 'Layout Name')

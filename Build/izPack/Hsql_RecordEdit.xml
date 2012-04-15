@@ -17,7 +17,7 @@
     -->
     <info>
         <appname>RecordEdit/HSQLDB</appname>
-        <appversion>0.80.4</appversion>
+        <appversion>0.80.6</appversion>
         <authors>
             <author name="Bruce Martin" email="bruce_a_martin@sourceforge.net" />
             <!--author name="Hidden Man" email="hidden@hisdomain.com"/-->
@@ -105,10 +105,10 @@
             <description>Sample Files</description>
             <file src="../SampleFiles" targetdir="$USER_HOME/.RecordEditor/HSQLDB"/> <!-- Reccursive adding -->
         </pack>
-        <pack name="Params" required="yes">
+        <pack name="Params" required="yes" >
             <description>Record Editor Parameters</description>
             <file src="../Instalation/hsqldb_izpack/HSQLDB" targetdir="$USER_HOME/.RecordEditor"/> 
-	    <parsable targetfile="$USER_HOME/.RecordEditor/HSQLDB/CobolFiles.txt"/>
+	    <!--parsable targetfile="$USER_HOME/.RecordEditor/HSQLDB/CobolFiles.txt"/-->
         </pack>
         <pack name="User" required="yes">
             <description>Record Editor Parameters</description>
@@ -155,6 +155,7 @@
 		<fileset dir="../Instalation/GeneralDB/CopyBook" includes="Cobol/*.cbl" targetdir="$USER_HOME/.RecordEditor/HSQLDB/CopyBook"/>
 		<fileset dir="../Instalation/GeneralDB/CopyBook" includes="*/*.Txt" targetdir="$USER_HOME/.RecordEditor/HSQLDB/CopyBook"/>
 		<fileset dir="../Instalation/GeneralDB/CopyBook" includes="*/*.Xml" targetdir="$USER_HOME/.RecordEditor/HSQLDB/CopyBook"/>
+		<fileset dir="../Instalation/GeneralDB/CopyBook" includes="*/*.xml" targetdir="$USER_HOME/.RecordEditor/HSQLDB/CopyBook"/>
 	</pack>
 	<pack name="Velocity" required="yes">
             <description>Sample Velocity Templates</description>

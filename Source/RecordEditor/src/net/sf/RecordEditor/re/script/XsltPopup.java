@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.utils;
+package net.sf.RecordEditor.re.script;
 
 
 import net.sf.RecordEditor.utils.common.Common;
@@ -17,7 +17,8 @@ public class XsltPopup extends FilePopup {
 						fileList, 
 						Common.OPTIONS.DEFAULT_XSLT_DIRECTORY.get(), 
 						ReActionHandler.EXPORT_XSLT,
-						"(Transform)");
+						"(Transform)",
+						null);
 	}
 	
 	public static final XsltPopup getPopup() {

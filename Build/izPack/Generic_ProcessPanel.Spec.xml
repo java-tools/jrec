@@ -15,5 +15,4 @@
 		<executefile name="$INSTALL_PATH/lib/runGenericInstall.bat">
 		</executefile>
 	</job>
-
 </processing>

@@ -13,7 +13,7 @@
  *   - Can edit a list of records (with arrow buttons to
  *     move between the records)
  */
-package net.sf.RecordEditor.layoutEd.Record;
+package net.sf.RecordEditor.layoutEd.panels;
 
 import java.awt.event.ActionEvent;
 
@@ -24,6 +24,7 @@ import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
 import net.sf.RecordEditor.re.db.Record.ChildRecordsRec;
+import net.sf.RecordEditor.re.db.Record.ExtendedRecordDB;
 import net.sf.RecordEditor.re.db.Record.RecordDB;
 import net.sf.RecordEditor.re.db.Record.RecordRec;
 import net.sf.RecordEditor.re.db.Record.SaveRecordAsXml;
@@ -63,7 +64,7 @@ public class RecordEdit1Record extends ReFrame {
 
 	private int recordIdx = 0;
 	private DBtableModel<ChildRecordsRec> editList;
-
+//	private DBtableModel<ChildRecordsRec> parentMdl = null;
     /**
      * Edit / Create 1 record
      *
@@ -72,9 +73,10 @@ public class RecordEdit1Record extends ReFrame {
      * @param callbackClass class to be notified of when a layout
      *        has been created / selected
      */
-    public RecordEdit1Record(final String dbName,
+	public RecordEdit1Record(final String dbName,
                              final int dbConnectionIdx,
-                             final LayoutConnection callbackClass) {
+                             final LayoutConnection callbackClass,
+                             final DBtableModel<ChildRecordsRec> parentModel) {
         super(dbName, "Create Record Layout", null);
         RecordRec rec= RecordRec.getNullRecord("", "");
 
@@ -83,6 +85,7 @@ public class RecordEdit1Record extends ReFrame {
         //Connection dbConnection = Common.getDBConnectionLogErrors(connectionIdx);
         dbRecord.setConnection(new ReConnection(connectionIdx));
         callback = callbackClass;
+        editList = parentModel;
 
         pnlRecord = new RecordPnl(ReMainFrame.getMasterFrame(),
 				  connectionIdx,
@@ -177,22 +180,52 @@ public class RecordEdit1Record extends ReFrame {
 
 		if (rec == null || "".equals(rec.getRecordName())) {
 		    message.setText("Can not save, Invalid Record definition ");
-		} else if (rec.getUpdateStatus() != RecordRec.UNCHANGED) {
-	        dbRecord.checkAndUpdate(rec);
-			if (rec.isUpdateSuccessful()) {
-				pnlRecord.saveRecordDetails();
-			} else {
-				message.setText(pnlRecord.getMsg());
-			}
+		} else /*if (rec.getUpdateStatus() != RecordRec.UNCHANGED)*/ {
+			doSave(rec);
+	        
 			if (callback != null) {
 			    callback.setRecordLayout(rec.getRecordId(), rec.getRecordName(), "");
 			}
+
+			fireParentTblChg();
 		}
 		//System.out.println(pnlRecord.getMsg());
 
 		return rec;
 	}
+	
+	private void doSave(RecordRec rec) {
+        dbRecord.checkAndUpdate(rec);
+		if (rec.isUpdateSuccessful()) {
+			pnlRecord.saveRecordDetails();
+		} else {
+			message.setText(pnlRecord.getMsg());
+		}
+	}
 
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.screenManager.ReFrame#executeAction(int, java.lang.Object)
+	 */
+	@Override
+	public void executeAction(int action, Object o) {
+		if (action == ReActionHandler.EXPORT_VELOCITY) {
+			String s = "";
+			if (o != null) {
+				s = o.toString();
+			}
+			
+			RecordRec rec1 = saveRecord();
+			if (rec1 != null) {
+				new net.sf.RecordEditor.layoutEd.panels.ExportVelocityPnl(
+						connectionIdx, s, ExtendedRecordDB.getRecord(connectionIdx, rec1.getRecordId()));
+			} else {
+				Common.logMsg("No Layout to Export", null);
+			}
+		} else {
+			executeAction(action);
+		}
+	}
 
 	/**
 	 * Execut the requested action
@@ -202,8 +235,8 @@ public class RecordEdit1Record extends ReFrame {
 	public void executeAction(int action) {
 
 		switch (action) {
-		case ReActionHandler.HELP: 							pnlRecord.showHelp();    	break;
-		case ReActionHandler.SAVE:							saveRecord();					break;
+		case ReActionHandler.HELP: 					pnlRecord.showHelp();		   	break;
+		case ReActionHandler.SAVE:					saveRecord();					break;
 		case ReActionHandler.NEXT_RECORD:			changeRecord(1);				break;
 		case ReActionHandler.PREVIOUS_RECORD:		changeRecord(-1);				break;
 		case ReActionHandler.DELETE:
@@ -211,6 +244,8 @@ public class RecordEdit1Record extends ReFrame {
 		        dbRecord.delete(pnlRecord.getValues());
 		        pnlRecord.deleteRecordDetails();
 		        pnlRecord.setValues(null);
+		        
+		        fireParentTblChg();
 		    }
 		    break;
 		case ReActionHandler.NEW:
@@ -224,12 +259,16 @@ public class RecordEdit1Record extends ReFrame {
 	
 			if (rec != null && rec.isUpdateSuccessful()) {
 			    String newName = JOptionPane.showInputDialog(this, "New Record Layout Name", rec.getRecordName());
-	
+			    System.out.println(" -- -- " +  rec.getRecordName() + " -- " + newName 
+			    		+ " " + rec.getValue().getRecordType());
 			    if (newName != null && ! "".equals(newName)) {
 			        rec = (RecordRec) rec.clone();
 			        rec.getValue().setRecordName(newName);
+				    System.out.println(" -- -- " +  rec.getRecordName() + " -- " + newName 
+				    		+ " " + rec.getValue().getRecordType());
 			        pnlRecord.set2clone(rec);
-			        saveRecord();
+			        doSave(rec);
+			        fireParentTblChg();
 			    }
 			}
 			break;
@@ -247,12 +286,26 @@ public class RecordEdit1Record extends ReFrame {
 		}
 	}
 
+	
+	private void fireParentTblChg() {
+
+		try {
+			if (callback instanceof ReActionHandler 
+			&& ((ReActionHandler) callback).isActionAvailable(ReActionHandler.REFRESH)) {
+				((ReActionHandler) callback).executeAction(ReActionHandler.REFRESH);
+			} else if (editList != null) {
+				editList.load();
+				editList.fireTableDataChanged();
+			}
+		} catch (Exception e) {
+
+		}
+	}
     /**
      * @see net.sf.RecordEditor.utils.common.ReActionHandler#isActionAvailable(int)
      */
     public boolean isActionAvailable(int action) {
 
-        //System.out.println("!! " + (pnlRecord == null));
         return (action == ReActionHandler.HELP)
         	|| (action == ReActionHandler.DELETE)
         	|| (action == ReActionHandler.SAVE)
@@ -261,6 +314,7 @@ public class RecordEdit1Record extends ReFrame {
         	|| (action == ReActionHandler.SAVE_LAYOUT_XML)
         	|| (action == ReActionHandler.NEXT_RECORD)
         	|| (action == ReActionHandler.PREVIOUS_RECORD)
+        	|| (action == ReActionHandler.EXPORT_VELOCITY)
         	|| ((pnlRecord != null)
         	 &&  pnlRecord.getRecordActionHandler().isActionAvailable(action));
     }
@@ -295,7 +349,7 @@ public class RecordEdit1Record extends ReFrame {
         }
 
         dbRecord.resetSearch();
-        dbRecord.setSearchArg("RecordId", AbsDB.opEquals, "" + r.getChildRecord());
+        dbRecord.setSearchArg("RecordId", AbsDB.opEquals, "" + r.getChildRecordId());
         dbRecord.open();
         RecordRec rec = dbRecord.fetch();
         dbRecord.close();
@@ -319,7 +373,8 @@ public class RecordEdit1Record extends ReFrame {
             public void actionPerformed(ActionEvent e) {
                 new RecordEdit1Record(getCallback().getCurrentDbName(),
                         			  getCallback().getCurrentDbIdentifier(),
-                        			  getCallback());
+                        			  getCallback(), 
+                        			  null);
             }
         };
     }

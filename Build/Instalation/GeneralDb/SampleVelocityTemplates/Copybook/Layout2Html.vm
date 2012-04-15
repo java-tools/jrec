@@ -9,23 +9,8 @@
 <h1>${recordLayout.getRecordName()}</h1>
 <p>${recordLayout.getDescription()}</p>
 
-#if ($recCount > 0)
-  <table $border>
-    <tr>
-      <TD><b>Record Name</b></td>
-      <TD><b>Field to Test</b></td>
-      <TD><b>Value to test against</b></td>
-    </tr>
-  #foreach( $j in [0 .. ${recCount}])
-     #set ($rec =  ${recordLayout.getRecord($j)})
-     <tr>
-        <TD>${rec.getRecordName()}</td>
-        <TD>${rec.getTstField()}</td>
-         <TD>${rec.getTstFieldValue()}</td>
-     </tr>
-  #end
-  </table>
-
+#if ($recCount >= 0)
+  #parse ("LayoutRecordSelectionInc.vm")
 
   #foreach( $j in [0 .. ${recCount}])
      #set ($rec =  ${recordLayout.getRecord($j)})

@@ -10,3 +10,11 @@ Transaction_File.txt		$INSTALL_PATH/Cobol/Transaction_Record.cbl,,1,,0,,0,,0
 Rental_File.Txt		$INSTALL_PATH/Cobol/Rental_Record.cbl,,1,,0,,0,,0
 Ams_VendorDownload_20041229.txt		$INSTALL_PATH/Cobol/AmsVendor.cbl,,1,,0,,0,,0
 Ams_LocDownload_20041228.txt		$INSTALL_PATH/Cobol/AmsLocation.cbl,,1,,0,,0,,0
+<extensions>		<velocity>
+tocsv_tab		.csv
+tocsv_comma.vm		.csv
+zxmlstylesheet1.vm		.csv
+zxmlstylesheet2.vm		.csv
+<extensions>		<xslt>
+testxml_01a.xsl		.txt
+testxml_01b.xsl		.html

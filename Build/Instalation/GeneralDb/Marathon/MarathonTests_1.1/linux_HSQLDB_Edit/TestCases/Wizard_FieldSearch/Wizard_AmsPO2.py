@@ -151,6 +151,7 @@ def test():
 		select('ChildRecordsJTbl', 'cell:Field Value,1(D)')
 		assert_p('ChildRecordsJTbl', 'Text', 'D', 'Field Value,1')
 		select('ChildRecordsJTbl', 'cell:Field Value,2(S)')
+		
 		assert_p('ChildRecordsJTbl', 'Text', 'S', 'Field Value,2')
 		select('ChildRecordsJTbl', 'cell:Field,2(Record_Type)')
 		assert_p('ChildRecordsJTbl', 'Text', 'Record_Type', 'Field,2')

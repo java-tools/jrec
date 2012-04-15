@@ -2,53 +2,72 @@ def windows():
 	return "a" == "a"
 
 
+def isVersion89():
+	return 1
+
 def Linux():
 	return 'guest'
 #	return 'knoppix'
 
 def sampleDir():
 	if windows():
-		return 'C:\\JavaPrograms\\RecordEdit\\HSQL\\SampleFiles\\'
+		return utilDir()+ 'SampleFiles\\'
 	else:
-		return '/home/' + Linux() + '/RecordEdit/HSQLDB/SampleFiles/'
+		return utilDir()+ 'SampleFiles/'
+
 
 def implementationSampleDir():
-	if windows():
-		return 'C:\\JavaPrograms\\RecordEdit\\HSQL\\SampleFiles\\'
-	else:
-		return '/home/' + Linux() + '/RecordEdit/HSQLDB/SampleFiles/'
+	return  sampleDir()
+##	return '/C:/Program Files/RecordEdit/HSQLDB/SampleFiles/'
+#	return '/home/knoppix/RecordEdit/HSQLDB/SampleFiles/'
 
-def cobolDir():
-	if windows():
-		return 'C:\\JavaPrograms\\RecordEdit\\HSQL\\CopyBook\\Cobol\\'
-	else: 
-		return '/home/' + Linux() + '/RecordEdit/HSQLDB/CopyBook/Cobol/'
-
-def csvDir():
-	if windows():
-		return 'C:\\JavaPrograms\\RecordEdit\\HSQL\\CopyBook\\Cobol\\'
-	else: 
-		return '/home/' + Linux() + '/RecordEdit/HSQLDB/CopyBook/Csv/'
 
 def xmlCopybookDir():
 	if windows():
-		return 'C:\\JavaPrograms\\RecordEdit\\HSQL\\CopyBook\\Xml\\'
+		return paramDir() + 'CopyBook\Xml\\'
 	else: 
-		return '/home/' + Linux() + '/RecordEdit/HSQLDB/CopyBook/Xml/'
+		return paramDir() + 'CopyBook/Xml/'
 
 def copybookDir():
 	if windows():
-		return 'C:\\JavaPrograms\\RecordEdit\\HSQL\\CopyBook\\'
+		return utilDir()+ 'CopyBook\\'
 	else: 
-		return '/home/' + Linux() + '/RecordEdit/HSQLDB/CopyBook/'
+		return utilDir()+ 'CopyBook/'
+def cobolDir():
+	if windows():
+		return utilDir()+ 'CopyBook\\Cobol\\'
+	else: 
+		return utilDir()+ 'CopyBook/Cobol/'
+
+def csvDir():
+	if windows():
+		return utilDir()+ 'CopyBook\\Csv\\'
+	else: 
+		return utilDir()+ 'CopyBook/Csv/'
 
 def userDir():
 	if windows():
-##		return 'C:\\Users\\mum\\.RecordEditor\\HSQLDB\\User\\'
-		return 'C:\\Users\\bm\\RecordEditor_HSQL\\User\\'
-	else: 
-		return '/home/' + Linux() + '/.RecordEditor/HSQLDB/User/'
+		return paramDir() + 'User\\'
 
+		##return 'C:\\Users\\mum\\RecordEditor_HSQL\\User\\'
+		##return 'C:\\Users\\bm\\.RecordEditor\\' + version() + '\\User\\'
+
+	else: 
+		return paramDir() + '/User/'
+
+def utilDir():
+	return paramDir()
+	
+def paramDir():
+	if windows():
+		if isVersion89():
+			return 'C:\\Users\\mum\\.RecordEditor\\HSQLDB\\'
+		else:
+			return 'C:\\JavaPrograms\\RecordEdit\\'
+		##return 'C:\\Users\\mum\\RecordEditor_HSQL\\User\\'
+		##return 'C:\\Users\\bm\\.RecordEditor\\' + version() + '\\User\\'
+	else: 
+		return '/home/bm' + '/.RecordEditor/' + version() 
 
 def separator():
 	if windows():

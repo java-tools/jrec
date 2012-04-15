@@ -1,17 +1,22 @@
 <body>
 <h1>ProtoBuf Editor</h1>
 <p>This program is for editing Binary Files in 
-Googles Protocol Buffers format (2.20 and hopefully latter).
+Googles Protocol Buffers format.
 It is built on top of the RecordEditor Project 
-(<a href="http://record-editor.sourceforge.net">RecordEditor</a>).
+(<a href="http://record-editor.sourceforge.net">RecordEditor 0.80.5</a>) and uses Protocol Buffer 2.4.1.
 
-<p>The editor requires Protocol buffers 2.20 (or later ???)
+<p>The editor requires Protocol buffers 2.41 (or later ???)
 to be installed. The Protocol Buffer programs need to be 
-on the Program Path
+on the Program Path, it uses the protoc exe to compile proto files.
+
+<p>For later versions of Protocol Buffers, it may be possible to replace the ProtoBuffers.jar with a later
+protocol buffers jar (this will work if Google maintains backward compatibility) ???
+
+
 <p>&nbsp;<p>
 <h1>ProtoBuf Editor Documents</h1>
 
-<p>Documentation supplied with the <b>ProtoBuf:</b>
+<p>Documentation supplied with the <b>ProtoBuf Editor:</b>
 <p>At this stage, all the documentation is for the RecordEditor so not all of it is relavent
 to the ProtoBuffer Editor.
 <ul>
@@ -22,4 +27,20 @@ to the ProtoBuffer Editor.
 </ul>
 <p>&nbsp;<p>
 
+
+<h1>Suggestions</h1>
+<p>Suggestions, comments and enhancement request are most welcome either at either:
+<ul>
+  <li><a href="http://groups.google.com/group/protobufeditor-users">ProtoBuf Editor Group</a></li>
+  <li><a href="http://sourceforge.net/projects/record-editor/forums">RecordEditor Forums</a></li>
+</ul>
+
+<h1>Packages used</h1>
+<ul>
+  <li>jlibdiff - File comparison</li>
+  <li>JiBX - Xml binding</li>
+  <li>RecordEditor - Core Editor</li>
+  <li>JRecord Extended - used by RecordEditor contains low level Abstract Schema, Record and IO Definitions</li>
+  <li>ProtocolBuffers</li>
+  <li>chardet - used by the RecordEditor for determining fonts but not exploited in this package</li>
 </BODY>

@@ -19,7 +19,7 @@ def test():
 		assert_p('Table', 'Text', 'ams PO Download', 'Record Name,0')
 		select('TextField', 'ams PO Downl%')
 		assert_p('TextField2', 'Text', 'ams PO Download')
-		select('ChildRecordsJTbl', 'cell:Field Start,1(0)')
+		select('ChildRecordsJTbl', 'cell:Child Name,1(0)')
 		click('Edit Child')
 		assert_p('TextField', 'Text', 'ams PO Download: Header')
 		click('Right')

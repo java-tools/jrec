@@ -1,3 +1,66 @@
+:h4.Release 0.80.6
+  :ul compact.
+    :li.Option to Edit saved/exported File (if it is in a supported format: Xml, Csv, Fixed)
+    :li.Option to set the size of the screen when the program starts 
+ (Edit Options >>>> Looks >>>> Screen properties)
+    :li.Reorganise the Menu's
+      :ul compact.
+        :li.:hp3.File Copy:ehp3., :hp3.File Copy:ehp3. and :hp3.Cobol Copybook Analysis:ehp3. have moved from :hp2.File:ehp2. to :hp2.Utilities:ehp2..
+      :eul.
+    :li.Complete rewrite of the Save As / Export functions. Changes include
+      :ul compact.
+        :li.New :hp2.SaveAs:ehp2. function
+        :li.Old :hp2.SaveAs:ehp2. has become Export
+        :li.You can now specify the :hp2.Xsl Transform:ehp2. Jars on the Export optioiExport option.
+        :li.When using Export AS Csv / Xml / Velocity etc, only the relavent panel is displayed.
+The old Tab format is available as an Option (Edit Option>>>>Properties>>>>Other Options)
+        :li.New Export via Script (Jython, JRuby etc) option
+      :eul.
+    :li.Updated startup procedure (Windows UAC related).
+    :li.Copybooks and sample files have moved from the install directory to the user directory (UAC related).
+    :li.Layout Editor changes
+      :ul compact.
+       :li.Support for using a Record-Layout multiple times in a Layout-Group.
+       :li.Extended Record Selection&gml. More complicated record selection criteria can be entered. You can now&gml.
+        :ul.
+         :li.Test multiple fields
+         :li.Use >, >=, <, and <= comparisons
+         :li.Use And and Or boolean operators
+        :eul.
+        :li.Fixed a number of bugs in the Layout Editor.
+      :eul.
+    :li.Delete key will delete selected records on the Line List screen
+    :li.Escape key will close most utility screens and the Single record Display
+    :li.Fixed several issue's on the Layout screen.
+  :eul.
+
+:h4.Release 0.80.2
+:p.On the SaveAs/Export screen there is
+:ul compact.
+ :li.Option to edit the output file (only if the recordEditor can work out the structure)
+ :li.Option to keep the screen open
+ :li.New Xsl transform option. You can use an external tool (e.g. saxon) but it must  be allocated at RecordEditor Startup. 
+ :li.Velocity / Xslt options now remember the extension last used with a particular Template  
+:eul.
+
+:h4.Release 0.80.1  Tree (including Xml)
+:ul compact.
+ :li.General Changes
+ :ul compact.
+  :li.New Tree Csv-Export
+  :li.2 Tree Variables (root & nodeList) provided to Velocity templates
+  :li.2 new Velocity Templates (zXmlStyleSheet1.vm & zXmlStyleSheet2.vm)
+ :eul. 
+ :li.Cobol Changes
+  :ul compact.
+    :li.New option to import all Cobol Copybooks in a directory
+    :li.Reintroduced Batch load of cobol copybooks (see runCobolBatchLoad.Bat). This tool allows single files to be loaded or whole directories
+  :eul.
+  :li.LayoutEditor Changes
+  :ul compact.
+    :li.A child record can be used multiple times in a Group record
+  :eul.
+:eul.
 :h4.Release 0.69.1
 :p.Minor release&gml.
 :ul compact.

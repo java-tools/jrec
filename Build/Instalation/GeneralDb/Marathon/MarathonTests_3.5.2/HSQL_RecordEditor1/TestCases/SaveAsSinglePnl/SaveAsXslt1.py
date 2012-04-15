@@ -14,7 +14,9 @@ def test():
 
     if window('Record Editor'):
 
-        select_menu('File>>Export via Xsl Transform>>TextXml_01_trans1.Xsl')
+##        select_menu('File>>Export via Xsl Transform>>TextXml_01_trans1.Xsl')
+##        select_menu('File>>SaveAs_xml>>TextXml_01_trans1.Xsl')
+        select_menu('File>>Export via Xsl Transform_2>>TextXml_01_trans1.Xsl')
 
         if frame('Export1 - TestXml_01.xml:0'):
         ##if frame('Export - TestXml_01.xml:0'):

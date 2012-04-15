@@ -19,10 +19,9 @@ def test():
 		select('Table', '22', '45 - 40|Loc Addr Ln1,1')
 		select('Table', '33', '85 - 40|Loc Addr Ln2,2')
 		select('Table', 'cell:125 - 35|Loc Addr Ln3,2()')
-		if commonBits.isVersion80():
-			select_menu('Edit>>Compare with Disk')
-		else:
-			commonBits.selectOldFilemenu(select_menu, 'Edit', 'Compare with Disk')
+		
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'Compare with Disk')
+
 ##		select('Table1', 'cell:125 - 35|Loc Addr Ln3,2()')
 		select('Table', 'cell:Loc Name,0(DC - Taras Ave)')
 		assert_p('Table', 'Text', 'DC - Taras Ave', 'Loc Name,0')

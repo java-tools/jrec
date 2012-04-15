@@ -10,21 +10,21 @@ def test():
 
         if window('Record Editor Options Editor'):
             select('JTabbedPane_9', 'Properties')
-            select('JTabbedPane_10', 'Other Options')
-
-            select('Bring log to Front', 'false')
-            select('Show all export panels', 'true')
-
-            select('Warn on Structure change', 'false')
-
+            select('JTabbedPane_10', 'Test')
             select('Test Mode', 'true')
-
-##            select('Delete Selected with delete key', 'true')
-            select('Delete Selected Rows using the delete key', 'false')
-            select('Warn the user before deleteing Selected Rows using the delete key', 'true')
-
-            
+            select('Warn on Structure change', 'false')
             select('Load In background', 'false')
+            select('Use New Tree Expansion_2', 'false')
+            select('Search: All Fields', 'false')
+            select('Add names to JComponents for use by testing tools_Chk', 'false')
+
+            select('JTabbedPane_10', 'Behaviour')
+            select('Bring log to Front', 'false')
+            select('Default to prefered layout', 'false')
+            select('Show all export panels', 'true')
+            select('Delete Selected Rows using the delete key', 'false')
+
+
             select('JTabbedPane_9', 'Looks')
 
             select('Look and Feel', 'Default')

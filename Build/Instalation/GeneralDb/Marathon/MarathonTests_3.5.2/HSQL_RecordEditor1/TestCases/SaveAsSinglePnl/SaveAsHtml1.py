@@ -81,7 +81,7 @@ def test():
 ])
             select('net.sf.RecordEditor.utils.swing.treeTable.JTreeTable_10', 'rows:[6],columns:[Tree]')
             click('Close')
-            select('net.sf.RecordEditor.utils.swing.treeTable.JTreeTable_10', 'rows:[6],columns:[Tree]')
+##            select('net.sf.RecordEditor.utils.swing.treeTable.JTreeTable_10', 'rows:[6],columns:[Tree]')
         close()
 
         if frame('Export1 - DTAR020_tst1.bin:0'):

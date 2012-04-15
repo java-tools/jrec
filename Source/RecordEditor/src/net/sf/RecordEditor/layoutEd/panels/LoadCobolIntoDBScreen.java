@@ -1,10 +1,12 @@
-package net.sf.RecordEditor.layoutEd.Record;
+package net.sf.RecordEditor.layoutEd.panels;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import net.sf.RecordEditor.layoutEd.Record.LoadCobolIntoDB;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.common.Parameters;
 
 public class LoadCobolIntoDBScreen  implements ActionListener {
 
@@ -59,9 +61,6 @@ public class LoadCobolIntoDBScreen  implements ActionListener {
 	}
 	
 	private static String stripStar(String dir) {
-		if (dir != null && dir.endsWith("*")) {
-			dir = dir.substring(0, dir.length() - 1);
-		}
-		return dir;
+		return Parameters.dropStar(dir);
 	}
 }

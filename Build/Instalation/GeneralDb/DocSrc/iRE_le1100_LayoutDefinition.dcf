@@ -66,6 +66,7 @@ then the RecordLayout of :hp2.DCR0470 s13:ehp2. would be used.
 :eol.
 :row.:C.FieldValue
 :c.Field value that the Field above is tested against.
+:row.:c. :c.Extended Record Selection Button - Starts the Extended Record Selection dialog
 :row.:c.Tree Parent:c.Logical Parent Record for the record. This can be used to build a Tree
 using the :Hp2.Record Layout Tree:ehp2. option of the :hp2.View:ehp2. menu in the :RecordEditor. 
 :etable.
@@ -76,6 +77,56 @@ default record.
 
 
 .fo on
+:h4 id=RecSel.Record Selection Screen
+:p.To start the Record selection editor Press the appropriate button on the record group screen&gml.
+
+.pict LayoutEdit_ExtendedRecordSelect1.png
+
+:p.On the record Selection you enter fields and the criteria
+
+.pict LayoutEdit_ExtendedRecordSelect2.png
+:p.For the Field, operator and value fields just enter the values. For the :hp2.And / Or:ehp2.
+value you can change by :Blue.clicking:eblue. on the :hp2.And / Or:ehp2., it will swap
+:p.The screen :bblue.only:ebblue. supports simple expressions of the form
+
+.fo off
+        (     field1 = value1
+          and field2 = value2
+          and field3 > value3
+         )
+      or (    field4 < value4
+          and field5 > value5
+         )
+      or (    field6 = value6
+          and field7 > field8 
+             ..........
+             
+ The system :bblue.does not:EBBlue. support complicated expressions or And before or expressions.
+ 
+     
+.fo on
+:p.If Field values are entered at the 
+Group level They will be included as well. 
+
+.pict LayoutEdit_ExtendedRecordSelect2.png
+
+:p.The above will be interpreted as 
+
+.fo off
+       Record Type = S1
+  and
+      (
+          (    f1  = v1
+           and f2  = v2
+          )
+       or (    f3  = v3
+           and f4  = v4
+          )
+      )
+           
+
+.fo on
+
 
 :h3 id=extra.Extra Panel
 :p.On the extra panel contains an adhoc mixture of options

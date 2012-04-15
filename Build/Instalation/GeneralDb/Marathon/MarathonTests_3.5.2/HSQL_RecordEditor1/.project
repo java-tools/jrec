@@ -1,11 +1,12 @@
 #Marathon Project File
-#Sun Mar 11 22:00:05 EST 2012
+#Sun Apr 15 12:02:58 EST 2012
 marathon.checklist.dir=%marathon.project.dir%/Checklists
 marathon.test.dir=%marathon.project.dir%/TestCases
 marathon.application.launchtime=60000
 marathon.application.pythonpath=
 marathon.runtime.assertions=Enabled\:\:;Background\:\:;Foreground\:\:;RowCount\:javax.swing.JTable\:;ColumnCount\:javax.swing.JTable\:;ItemCount\:javax.swing.JComboBox\:;Model.Size\:javax.swing.JList\:ItemCount;Font\:\:;Font.Family\:\:FontFamily;Border\:\:;Border.LineColor\:\:BorderLineColor
 marathon.component.ignore.components=javax.swing.JMenuBar(ignorechild\:false);javax.swing.JToolBar(ignorechild\:false);javax.swing.JPanel(ignorechild\:false);javax.swing.JViewport(ignorechild\:false);javax.swing.JScrollBar(ignorechild\:true)
+marathon.WINDOW_TIMEOUT=10
 marathon.data.dir=%marathon.project.dir%/TestData
 marathon.application.classpath=C\:/JavaPrograms/RecordEdit/HSQL/lib/runFullEditor.jar
 marathon.application.arguments=
@@ -17,8 +18,8 @@ marathon.application.pythonhome=
 marathon.recorder.namingstrategy=net.sourceforge.marathon.objectmap.ObjectMapNamingStrategy
 marathon.fixture.dir=%marathon.project.dir%/Fixtures
 marathon.component.resolvers=
-marathon.application.toolkit_menumask=false
 marathon.project.description=
+marathon.application.toolkit_menumask=false
 marathon.application.vm.command=
 marathon.project.name=HSQL RecordEditor
 marathon.project.script.model=net.sourceforge.marathon.python.PythonScriptModel

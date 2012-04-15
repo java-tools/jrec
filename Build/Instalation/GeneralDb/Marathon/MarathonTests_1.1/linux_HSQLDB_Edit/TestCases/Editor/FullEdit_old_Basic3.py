@@ -14,7 +14,7 @@ def test():
 		rightclick('Table', 'Record Name,0')
 		assert_p('Table', 'Text', 'cell:Record Name,0(ams PO Download)')
 		assert_p('TextField2', 'Text', 'ams PO Download')
-		select('ChildRecordsJTbl', 'cell:Child Record,0(353)')
+##		select('ChildRecordsJTbl', 'cell:Child Record,0(353)')
 		assert_p('ChildRecordsJTbl', 'Text', 'ams PO Download: Detail', 'Child Record,0')
 		select('ChildRecordsJTbl', 'cell:Child Record,0(353)')
 		commonBits.closeWindow(click)

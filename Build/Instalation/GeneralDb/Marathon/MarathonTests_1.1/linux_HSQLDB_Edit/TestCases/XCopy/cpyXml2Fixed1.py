@@ -22,7 +22,7 @@ def test():
 		click('save file')
 #commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
-		commonBits.selectOldFilemenu(select_menu, 'Edit', 'File Copy Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'File Copy Menu')
 		click('*1')
 		select('FileChooser', commonBits.sampleDir() + 'zXmlDTAR020.bin$.xml')
 		click('Right')
@@ -53,8 +53,8 @@ def test():
 		##click('MetalInternalFrameTitlePane', 778, 12)
 		commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
-		commonBits.selectOldFilemenu(select_menu, 'Edit', 'File Copy Menu')
-		commonBits.selectOldFilemenu(select_menu, 'Edit', 'Compare Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'File Copy Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'Compare Menu')
 		click('*2')
 		commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
@@ -103,7 +103,7 @@ def test():
 ### ------------------------------------------------------------------------
 ### ---  Compare files
 ### ------------------------------------------------------------------------
-		commonBits.selectOldFilemenu(select_menu, 'Edit', 'Compare Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'Compare Menu')
 		click('*1')
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020.bin')
 		select('FileChooser1', commonBits.sampleDir() + 'DTAR020_CopyFromXml.bin')

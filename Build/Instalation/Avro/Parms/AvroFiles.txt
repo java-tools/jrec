@@ -1,14 +1,22 @@
-ProtoTest_Address1.bin		$INSTALL_PATH/CopyBook/addressbook.avpr,,1,,0,,0,,1,,AddressBook		$INSTALL_PATH/SampleFiles
-ProtoTest_Address3.bin		$INSTALL_PATH//CopyBook/addressbook.avpr,,1,,1,,0,,0,,Person		$INSTALL_PATH//SampleFiles
-protoSales.bin		$INSTALL_PATH/CopyBook/sales.avpr,,1,,1,,0,,0,,sale		$INSTALL_PATH/SampleFiles
-protoSales11.bin		$INSTALL_PATH/CopyBook/Sales11.avpr,,1,,1,,0,,0,,sale		$INSTALL_PATH/SampleFiles
-protoStoreSales3.bin		$INSTALL_PATH/CopyBook/StoreSales3.avpr,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
-protoStoreSales3a.bin		$INSTALL_PATH/CopyBook/StoreSales3.avpr,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
-protoStoreSales3b.bin		$INSTALL_PATH/CopyBook/StoreSales3.avpr,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
-protoStoreSales3c.bin		$INSTALL_PATH/CopyBook/StoreSales3.avpr,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
-protoStoreSales3a.bin$		$INSTALL_PATH/CopyBook/StoreSales3.avpr,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
-protoStoreSales5.bin		$INSTALL_PATH/CopyBook/StoreSales5.avpr,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
-protoStoreSales6.bin		$INSTALL_PATH/CopyBook/StoreSales6.avpr,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
-protoStoreSales7.bin		$INSTALL_PATH/CopyBook/StoreSales7.avpr,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
-protoFieldTest.bin		$INSTALL_PATH/CopyBook/FieldTest.avpr,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
-Ams_LocDownload_20041228.bin		$INSTALL_PATH/CopyBook/Ams_Location.avpr,,1,,1,,0,,0,,Locations		$INSTALL_PATH/SampleFiles
+ProtoTest_Address1.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/addressbook.avpr,,1,,0,,0,,1,,AddressBook		$INSTALL_PATH/SampleFiles
+ProtoTest_Address3.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/addressbook.avpr,,1,,1,,0,,0,,Person		$INSTALL_PATH//SampleFiles
+protoSales.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/sales.avpr,,1,,1,,0,,0,,sale		$INSTALL_PATH/SampleFiles
+protoSales11.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/Sales11.avpr,,1,,1,,0,,0,,sale		$INSTALL_PATH/SampleFiles
+protoStoreSales3.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/StoreSales3.avpr,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
+protoStoreSales3a.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/StoreSales3.avpr,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
+protoStoreSales3b.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/StoreSales3.avpr,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
+protoStoreSales3c.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/StoreSales3.avpr,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
+protoStoreSales3a.bin$		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/StoreSales3.avpr,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
+protoStoreSales5.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/StoreSales5.avpr,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
+protoStoreSales6.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/StoreSales6.avpr,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
+protoStoreSales7.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/StoreSales7.avpr,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
+protoFieldTest.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/FieldTest.avpr,,1,,1,,0,,4,,Store		$INSTALL_PATH/SampleFiles
+Ams_LocDownload_20041228.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/Ams_Location.avpr,,1,,1,,0,,0,,Locations		$INSTALL_PATH/SampleFiles
+<extensions>		<velocity>
+tocsv_tab		.csv
+tocsv_comma.vm		.csv
+zxmlstylesheet1.vm		.csv
+zxmlstylesheet2.vm		.csv
+<extensions>		<xslt>
+testxml_01a.xsl		.txt
+testxml_01b.xsl		.html

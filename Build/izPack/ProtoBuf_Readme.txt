@@ -1,14 +1,27 @@
- ProtoCol Buffers Editor 0.69h
-*=============================*
+ Protocol Buffers Editor 0.80.5
+*==============================*
 
 This program is for editing Binary Files in 
-Googles Protocol Buffers format (2.20 and hopefully latter).
+Googles Protocol Buffers format (2.4.1 and hopefully latter).
 It is built on top of the RecordEditor Project 
 (http://record-editor.sourceforge.net).
 
-The editor requires Protocol buffers 2.20 (or later ???, tested with 2.30)
+The editor requires Protocol buffers 2.4.1 (or later ???, tested with 2.41)
 to be installed. The Protocol Buffer programs need to be 
-on the Program Path
+on the Program Path, The packages uses the protoc command to compile .proto files.
+
+
+
+Changes 0.80.5
+  * Use Protocol Buffers 2.4.1
+  * Enhanced SaveAs/Export : Tree Export option for Xml, Csv and Fixed.
+  * Option to Edit saved/exported File (if it is in a supported format: Xml, Csv, Fixed)
+  * Seperated SaveAs and export functions
+  * Export using Velocity Templates 
+  * Option to set the size of the screen when the program starts 
+    (Edit Options >>>> Looks >>>> Screen properties)
+  * Esc closes most utility screens (but not main edit screens)
+  * Can delete records with delete key
 
 
 Changes 0.69h

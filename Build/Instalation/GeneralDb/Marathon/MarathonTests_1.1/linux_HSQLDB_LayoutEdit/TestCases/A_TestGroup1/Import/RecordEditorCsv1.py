@@ -9,9 +9,11 @@ def test():
 
 		select('FileChooser', commonBits.copybookDir() + 'csv' + commonBits.separator() + 'ams@PO@Download.Txt')
 
+		
 
 		select('ComboBox', 'RecordEditor Tab Copybook (Tab Seperator)')
 		click('Go')
+		
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('*')
 		select('TextField', 'ams@%')
@@ -157,15 +159,7 @@ line 3''')
 		if window('Delete: ams@PO@Download'):
 			click('Yes')
 		close()
-
-		select('TabbedPane', 'Extras')
-		select('TabbedPane', 'Extras')
-		select('TabbedPane', 'Fields')
-		select('TabbedPane', 'Extras')
-		select('TabbedPane', 'Extras')
-		select('TabbedPane', 'Fields')
-		click('RecordEdit', 1413, 4)
-		click('BasicInternalFrameTitlePane$NoFocusButton2')
+
 		click('Close')
 ##		select_menu('File>>Exit')
 	close()

@@ -15,7 +15,10 @@ def test():
 
     if window('Record Editor'):
         ##commonBits.selectExport(select_menu,'via Velociy Skelton>>toCsv_Comma.vm')
-        select_menu('File>>Export via Velociy Skelton>>toCsv_Comma.vm')
+##        select_menu('File>>Export via Velociy Skelton>>toCsv_Comma.vm')
+
+##        select_menu('File>>SaveAs_Velocity>>toCsv_Comma.vm')
+        select_menu('File>>Export via Velociy Skelton_2>>toCsv_Comma.vm')
 
         if frame('Export - DTAR020_tst1.bin:0'):
             select('File Name', commonBits.sampleDir() + 'DTAR020_tst1.bin.csv')

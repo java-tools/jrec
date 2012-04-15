@@ -5,7 +5,7 @@ def test():
 	java_recorded_version = '1.6.0_10'
 
 	if window('Record Editor'):
-		commonBits.selectOldFilemenu(select_menu, 'Edit', 'File Copy Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'File Copy Menu')
 		click('*2')
 		select('FileChooser', commonBits.cobolTestDir() + 'mfComp.cbl')
 		select('FileChooser1', commonBits.cobolTestDir() + 'mfComp.bin')
@@ -236,7 +236,7 @@ def test():
 # Do Compare
 # -----------------------------------------------------------------------------------
 
-		commonBits.selectOldFilemenu(select_menu, 'Edit', 'Compare Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'Compare Menu')
 		click('*2')
 		select('FileChooser', commonBits.cobolTestDir() + 'mfComp.bin')
 		commonBits.setCobolLayout(select,  'mfComp', 'Open Cobol Micro Focus (Intel)')

@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.layoutEd.Record;
+package net.sf.RecordEditor.layoutEd.panels;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -5,14 +5,13 @@
  * Purpose:
  * Run velocity on a Record Based File
  */
-package net.sf.RecordEditor.utils;
+package net.sf.RecordEditor.re.script;
 
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.zip.GZIPInputStream;
 
 import net.sf.JRecord.Common.RecordException;
@@ -24,6 +23,7 @@ import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.JRecord.IO.LineIOProvider;
+import net.sf.RecordEditor.utils.TypeNameArray;
 import net.sf.RecordEditor.utils.common.Common;
 
 import org.apache.velocity.Template;
@@ -54,7 +54,7 @@ public class RunVelocity {
      *
      * @throws Exception any error that occurs in running velocity
      */
-    public void processFile(AbstractLayoutDetails layout,
+    public void processFile(@SuppressWarnings("rawtypes") AbstractLayoutDetails layout,
 			String inputFile,
 			String template,
 			String outputFile)
@@ -91,7 +91,8 @@ public class RunVelocity {
      *
      * @throws Exception any error that occurs in running velocity
      */
-    public void processFile(AbstractLayoutDetails layout,
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public void processFile(AbstractLayoutDetails layout,
             				LineProvider lineProvider,
             				int[] records,
             				String inputFile,
@@ -188,39 +189,32 @@ public class RunVelocity {
     /**
      * Generate a Velocity template with the supplied records
      * @param template template file
-     * @param recordList list of lines (or records to use)
-     * @param inputFile input file the records came from
+     * @param data Data to pass to the Velocity template
      * @param writer writer used to write the generated skelto
      *
      * @throws Exception any error that occurs
      */
     public final void genSkel(String template,
-            List<List<AbstractLine>> recordList,
-            Object root,
-            Object nodes,
-            int treeDepth,
-            boolean onlyData, boolean showBorder,
-            int recordIdx,
-            String inputFile, String outputFile,
+    		ScriptData data,
             Writer writer) 
     throws Exception {
 
-        if (recordList.size() > 0) {
+        if (data.view != null) {
             VelocityContext context   = new VelocityContext();
-            AbstractLine l = recordList.get(0).get(0);
 
-            context.put("records",    recordList.get(0));
-            context.put("file",       recordList.get(1));
-            context.put("view",       recordList.get(2));
-            context.put("treeRoot",   root);
-            context.put("treeNodes",  nodes);
-            context.put("treeDepth",  treeDepth);
-            context.put("fileName",   inputFile);
-            context.put("outputFile", outputFile);
-            context.put("layout",     l.getLayout());
-            context.put("onlyData",   Boolean.valueOf(onlyData));
-            context.put("showBorder", Boolean.valueOf(showBorder));
-            context.put("recordIdx",  Integer.valueOf(recordIdx));
+            context.put("records",    data.selectedLines);
+            context.put("file",       data.fileLines);
+            context.put("view",       data.viewLines);
+            context.put("treeRoot",   data.root);
+            context.put("treeNodes",  data.nodes);
+            context.put("treeDepth",  data.treeDepth);
+            context.put("fileName",   data.inputFile);
+            context.put("outputFile", data.outputFile);
+            context.put("layout",     data.view.getLayout());
+            context.put("onlyData",   Boolean.valueOf(data.onlyData));
+            context.put("showBorder", Boolean.valueOf(data.showBorder));
+            context.put("recordIdx",  Integer.valueOf(data.recordIdx));
+            context.put("RecordEditorData", data);
 
             genSkel(template, writer, context);
             //l.getPreferredLayoutIdx()

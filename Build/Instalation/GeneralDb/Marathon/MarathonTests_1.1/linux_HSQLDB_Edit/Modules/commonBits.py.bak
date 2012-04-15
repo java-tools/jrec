@@ -18,7 +18,10 @@ def isNimbusLook():
 	return 0
 
 
-def isVersion89():
+def isVersion80():
+	return 1
+
+def isVersion81():
 	return 1
 
 def isMetalLook():
@@ -45,7 +48,6 @@ def sampleDir():
 		return utilDir()+ 'SampleFiles\\'
 	else: 
 		return utilDir()+ 'SampleFiles/'
-##	return '/home/knoppix/RecordEdit/HSQLDB/SampleFiles/'
 
 
 def velocityDir():
@@ -53,12 +55,9 @@ def velocityDir():
 		return utilDir()+ 'SampleVelocityTemplates\\File\\'
 	else: 
 		return utilDir()+ 'SampleVelocityTemplates/File/'
-##	return '/home/knoppix/RecordEdit/HSQLDB/SampleFiles/'
 
 def implementationSampleDir():
 	return  sampleDir()
-##	return '/C:/Program Files/RecordEdit/HSQLDB/SampleFiles/'
-#	return '/home/knoppix/RecordEdit/HSQLDB/SampleFiles/'
 
 def cobolTestDir():
 	if windows():
@@ -85,10 +84,9 @@ def xmlCopybookDir():
 
 def CobolCopybookDir():
 	if windows():
-		return utilDir()+ 'CopyBook\Cobol\\'
+		return utilDir()+ 'CopyBook\\Cobol\\'
 	else: 
 		return utilDir()+ 'CopyBook/Cobol/'
-##	return '/union/home/guest/linux_HSQLDB_Edit/TestCase/Xml/XmlTree2.py'
 
 def setRecordLayout(select, recordLayout):
 	select('ComboBox2', recordLayout)
@@ -129,15 +127,15 @@ def utilDir():
 	
 def paramDir():
 	if windows():
-		if isVersion89():
-			return 'C:\\Users\\Mum\\.RecordEditor\\' + version() + '\\'
+		if isVersion80():
+			return 'C:\\Users\\Mum\\.RecordEditor\\HSQLDB\\'
 		else:
 			return 'C:\\JavaPrograms\\RecordEdit\\'
 
 		##return 'C:\\Users\\mum\\RecordEditor_HSQL\\User\\'
 		##return 'C:\\Users\\bm\\.RecordEditor\\' + version() + '\\User\\'
 	else: 
-		return '/home/bm' + '/.RecordEditor/' + version() +'/'
+		return '/home/bm' + '/.RecordEditor/' + version() + '/'
 
 def selectPane():
 #	return 'FilePane$4'
@@ -180,5 +178,11 @@ def selectFileName(select, name):
 ##	select('ComboBox2', recordLayout)
 ##	select('FileChooser', name
 
+
+def selectOldFilemenu(select_menu, menu, text):
+	if isVersion80():
+		select_menu(menu + '>>' + text)
+	else:
+		select_menu('File>>' + text)
 
 

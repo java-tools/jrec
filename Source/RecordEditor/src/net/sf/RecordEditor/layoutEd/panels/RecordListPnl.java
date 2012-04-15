@@ -5,7 +5,7 @@
  * # Version 0.56 Bruce Martin 2007/01/16
  *   - sort the record layout list prior to display
  */
-package net.sf.RecordEditor.layoutEd.Record;
+package net.sf.RecordEditor.layoutEd.panels;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -23,6 +23,8 @@ import javax.swing.JTextField;
 import javax.swing.table.TableColumn;
 
 import net.sf.JRecord.Log.AbsSSLogger;
+import net.sf.RecordEditor.layoutEd.Record.RecordListMdl;
+import net.sf.RecordEditor.layoutEd.Record.SearchArgAction;
 import net.sf.RecordEditor.re.db.Record.RecordDB;
 import net.sf.RecordEditor.re.db.Record.RecordRec;
 import net.sf.RecordEditor.re.db.Table.TableDB;
@@ -103,6 +105,7 @@ public class RecordListPnl extends BaseHelpPanel
 		//this.pnlRecord = recordPanel;
 		this.searchAction = action;
 
+		setFieldNamePrefix("RecordList");
 		initScreenFields(frame, connectionIdx);
 
 	    addLine("Record Name", sfRecordName);
@@ -157,6 +160,7 @@ public class RecordListPnl extends BaseHelpPanel
 
 		scrollrecordList = new JScrollPane(tbRecord);
 		this.registerComponent(tbRecord);
+		setComponentName(tbRecord, "RecordListTbl");
 
 		scrollrecordList.setPreferredSize(new Dimension(150, 100));
 

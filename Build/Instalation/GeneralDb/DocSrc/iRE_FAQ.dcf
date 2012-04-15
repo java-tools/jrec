@@ -49,8 +49,8 @@ definition. The solution is to update the ODBC Definition
   --------------------
 
     -font        font name (leave out for normal text, cp037 for EBCIDIC)
-    -s           system name
-    -o, -split   split options  01 or redefines
+    -s           system name (Defaults to :hp2.CobolBatchLoad:ehp2.
+    -o, -split   split options  none, 01 or redefines
                  Used if the file contains mutliple file formats
     -r           regular expression to check against file name
                  (i.e. ^PZ.* for files starting with PZ
@@ -70,4 +70,9 @@ definition. The solution is to update the ODBC Definition
                     Open_Cobol_Micro_Focus_Big_E
 
 .fo on
+:dt.Question:dd.:hp1.I would like the column heading's to match the Current Record:ehp1.
+:dt.Answer  :dd.Set the record layout to :hp2.preferred:ehp2. You can set this as the 
+default :hp2.Edit Options >>>> Properties >>>> Other Options:ehp2.
+
+.pict PreferedOption.png
 :edl.

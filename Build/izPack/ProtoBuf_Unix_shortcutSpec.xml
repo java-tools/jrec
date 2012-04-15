@@ -76,7 +76,6 @@
      iconIndex="0" 
      target="$INSTALL_PATH/lib/Uninstall.sh"
      type="Application"
-     terminal="true"
      encoding="UTF-8"
      description="IzPack uninstaller">
      <createForPack name="Base" />

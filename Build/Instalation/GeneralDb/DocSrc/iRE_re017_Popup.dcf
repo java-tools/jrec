@@ -16,10 +16,13 @@ click button on Windows) for running record (ie line oriented) commands.
  :dt.Delete Record(s):dd.Delete highlighted records (or the record being updated in record view).
  :dt.Find:dd.Start search dialogue. See :hdref refid=Find. for more details.
  :dt.Filter:dd.Create a filtered view of the file. See :hdref refid=filter. for more details.
- :dt.Save As:dd.Saves the selected records to the file in a variety of formats. See :hdref refid=SaveAs. for more details.
+ :dt.Save:dd.Saves the selected records to the file in a variety of formats. See :hdref refid=SaveAs. for more details.
+ :dt.Sort:dd.Sort dialog - sorts the file
  :dt.Edit Record:dd.Edit the record under the cursor in the Single Record Screen. See :hdref refid=BINRECORD. for more details.
+ :dt.Autofit Columns:dd.Sets the column widths based on the data in the columns
  :dt.Fix Column:dd.Move the column to the left of screen and stop it scrolling off the screen when you scroll right or left.
- :dt.Autofit Columns:dd.Adjust column sizes based on the data being displayed.
+ :dt.Hide Columns:dd.Hide the column under the cursor
+ :dt.Show Column:dd.Redisplay a "Hidden " column.
 :edl.
   
 :p.The right click button will :hp1.Fix:ehp1. a column so it will not scroll of the screen

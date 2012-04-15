@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.utils;
+package net.sf.RecordEditor.re.script;
 
 
 import net.sf.RecordEditor.utils.common.Common;
@@ -11,22 +11,31 @@ public class VelocityPopup extends FilePopup {
 	private static FileItem[] fileList = null;
 //	private static boolean doLayout = true;
 	
-	public VelocityPopup() {
+	public VelocityPopup(String dir) {
 		super("Export via Velociy Skelton");
 		this.setIcon(Common.getReActionIcon(ReActionHandler.EXPORT_VELOCITY));
 		
 		fileList = getActions(
 						fileList, 
-						Common.OPTIONS.DEFAULT_VELOCITY_DIRECTORY.get(), 
+						dir, 
 						ReActionHandler.EXPORT_VELOCITY,
-						"(Velocity)");
+						"(Velocity)",
+						null);
 	}
 
 
 	public static final VelocityPopup getPopup() {
 		VelocityPopup ret = null;
 		if (Common.isVelocityAvailable()) {
-			ret = new VelocityPopup();
+			ret = new VelocityPopup(Common.OPTIONS.DEFAULT_VELOCITY_DIRECTORY.get());
+		}
+		return ret;
+	}
+	
+	public static final VelocityPopup getLayoutPopup() {
+		VelocityPopup ret = null;
+		if (Common.isVelocityAvailable()) {
+			ret = new VelocityPopup(Common.OPTIONS.copybookVelocityDirectory.get());
 		}
 		return ret;
 	}

@@ -5,7 +5,7 @@ def test():
 	java_recorded_version = '1.6.0_10'
 
 	if window('Record Editor'):
-		commonBits.selectOldFilemenu(select_menu, 'Edit', 'File Copy Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'File Copy Menu')
 		click('*3')
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020.bin')
 		select('FileChooser1', commonBits.sampleDir() +  'CpyCsvDtar020a.Txt')

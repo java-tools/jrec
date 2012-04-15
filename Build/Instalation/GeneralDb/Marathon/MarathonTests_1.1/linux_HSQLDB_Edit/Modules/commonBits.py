@@ -24,6 +24,9 @@ def isVersion80():
 def isVersion81():
 	return 1
 
+def isVersion82():
+	return 1
+
 def isMetalLook():
 	return  isWindowsLook() != 1 & isNimbusLook() != 1
 

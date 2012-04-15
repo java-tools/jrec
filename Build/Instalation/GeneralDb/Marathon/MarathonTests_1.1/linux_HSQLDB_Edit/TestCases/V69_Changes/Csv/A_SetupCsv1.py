@@ -29,7 +29,7 @@ def test():
 		click('save file')
 		commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
-		commonBits.selectOldFilemenu(select_menu, 'Edit', 'Compare Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'Compare Menu')
 		click('*2')
 		select('FileChooser', commonBits.sampleDir() + 'csv_DTAR1000_Store_file_std.bin.csv')
 		select('ComboBox1', 'CSV')

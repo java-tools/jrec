@@ -17,7 +17,7 @@
     -->
     <info>
         <appname>RecordEdit/ProtoBuf</appname>
-        <appversion>0.69g</appversion>
+        <appversion>0.80.5</appversion>
         <authors>
             <author name="Bruce Martin" email="bruce_a_martin@sourceforge.net" />
             <!--author name="Hidden Man" email="hidden@hisdomain.com"/-->
@@ -49,7 +49,7 @@
         The ids must be these ones if you want to use the LicencePanel and/or the InfoPanel.
     -->
     <resources>
-        <res id="LicencePanel.licence"  src="../License/ProtoBufEditor/LICENSE.txt"/>
+        <res id="LicencePanel.licence"  src="../Instalation/ProtoBuf/License/LICENSE.txt"/>
         <res id="InfoPanel.info"        src="ProtoBuf_Readme.txt"/>
         <res id="HTMLInfoPanel.info"    src="ProtoBuf_readme.html"/>
 	<res id="shortcutSpec.xml"      src="ProtoBuf_ShortcutSpec.xml"/>
@@ -83,11 +83,11 @@
             <description>The base files</description>
             <file src="ProtoBuf_Readme.txt" targetdir="$INSTALL_PATH"/>
             <file src="ProtoBuf_readme.html" targetdir="$INSTALL_PATH"/>
-            <fileset dir="../License/ProtoBufEditor/" includes="LICENSE*.txt" targetdir="$INSTALL_PATH/License"/>
+            <fileset dir="../Instalation/ProtoBuf/License/" includes="LICENSE*.txt" targetdir="$INSTALL_PATH/License"/>
         </pack>
         <pack name="Documentation" required="yes" override="true">
             <description>Record Editor Docs</description>
-            <file src="../Instalation/ProtoBuf/Docs" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
+            <file src="../Instalation/ProtoBuf/Docs" targetdir="$INSTALL_PATH"/> <!-- Recursive adding -->
         </pack>
         <pack name="Diagrams" required="yes" override="true">
             <description>Record Editor Diagrams</description>
@@ -98,7 +98,7 @@
         </pack>
         <pack name="SampleFiles" required="yes">
             <description>Sample Files</description>
-            <file src="../Instalation/ProtoBuf/SampleFiles" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
+            <file src="../Instalation/ProtoBuf/SampleFiles" targetdir="$USER_HOME/.RecordEditor/ProtoBuf"/> <!-- Recursive adding -->
         </pack>
         <pack name="Params" required="yes">
             <description>Record Editor Parameters</description>
@@ -113,9 +113,11 @@
             <description>Record Editor Jars</description>
             <file src="../Instalation/ProtoBuf/lib" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
             <fileset dir="../Instalation/hsqldb_izpack/lib/" targetdir="$INSTALL_PATH/lib">
-            	<include name="j*.pack"/>
+             	<include name="jibx-run.pack"/>
+            	<include name="jlibdiff.pack"/>
             	<include name="JRecord.pack"/>
             	<include name="RecordEdit.pack"/>
+            	<include name="velocity-1.7*.pack"/>
             	<include name="ZCalendar.pack"/>
             	<include name="chardet.pack"/>
             	<include name="RecordEdit.GIF"/>
@@ -133,7 +135,7 @@
        </pack>
 	<pack name="CopyBook" required="yes">
 		<description>CopyBooks</description>
-		<fileset dir="../Instalation/ProtoBuf/CopyBook" includes="**" targetdir="$INSTALL_PATH/CopyBook"/>
+		<fileset dir="../Instalation/ProtoBuf/CopyBook" includes="*.*" targetdir="$USER_HOME/.RecordEditor/ProtoBuf/CopyBook"/>
 	</pack>
 	<pack name="Source" required="no">
 		<description>Source</description>
@@ -145,7 +147,7 @@
 	</pack>
 	<pack name="Velocity" required="yes">
             <description>Sample Velocity Templates</description>
-            <fileset dir="../Instalation/GeneralDB/SampleVelocityTemplates" includes="*/*.vm" targetdir="$INSTALL_PATH/SampleVelocityTemplates"/> 
+            <fileset dir="../Instalation/GeneralDB/SampleVelocityTemplates" includes="*/*.vm" targetdir="$USER_HOME/.RecordEditor/ProtoBuf/SampleVelocityTemplates"/> 
         </pack>
         <pack name="bin" os="unix" required="no" override="true">
             <description>Linux/Unix bin direcory</description>

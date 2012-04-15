@@ -9,11 +9,10 @@
  *   - changed var initialRow, dfltFile to private and added get...
  *     methods
  */
-package net.sf.RecordEditor.re.util;
+package net.sf.RecordEditor.layoutEd.panels;
 
 import java.io.File;
 
-import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.Numeric.ConversionManager;
 import net.sf.JRecord.Numeric.Convert;
@@ -88,7 +87,7 @@ public class LoadCobolParseArgs {
 						break;
 					case IS_A_COMPILER:
 						ConversionManager conv = ConversionManager.getInstance();
-						String compare = Conversion.replace(new StringBuffer(s), "_", " ").toString();
+						//String compare = Conversion.replace(new StringBuilder(s), "_", " ").toString();
 						for (int j = 0; j < conv.getNumberOfEntries(); j++) {
 							if (s.equalsIgnoreCase(conv.getName(j))) {
 								compiler = conv.getKey(i);

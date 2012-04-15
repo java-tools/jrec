@@ -14,15 +14,20 @@ def test():
 		#select('TabbedPane', 'Extras')
 		#select('TabbedPane', 'Child Records')
 		select('Table', 'cell:Record Name,0(ams PO Download)')
-		select('ChildRecordsJTbl', 'cell:Field Start,1(0)')
-		assert_p('ChildRecordsJTbl', 'Text', '0', 'Field Start,1')
-		select('ChildRecordsJTbl', 'cell:Field Start,2(0)')
-		if commonBits.isVersion80():
+		select('ChildRecordsJTbl', 'cell:Child Name,1(0)')
+		assert_p('ChildRecordsJTbl', 'Text', '', 'Child Name,1')
+		select('ChildRecordsJTbl', 'cell:Child Name,2(0)')
+		if commonBits.isVersion82():
+##			assert_p('ChildRecordsJTbl', 'Content', '[[, ams PO Download: Detail, 0, Record Type, D1, , ], [, ams PO Download: Header, 0, Record Type, H1, , ], [, ams PO Download: Allocation, 0, Record Type, S1, , ]]')
+			assert_p('ChildRecordsJTbl', 'Content', '[[, ams PO Download: Detail, , Record Type, D1, , ], [, ams PO Download: Header, , Record Type, H1, , ], [, ams PO Download: Allocation, , Record Type, S1, , ]]')
+			assert_p('ChildRecordsJTbl', 'Content', '[[, ams PO Download: Detail, , Record Type, D1, , ], [, ams PO Download: Header, , Record Type, H1, , ], [, ams PO Download: Allocation, , Record Type, S1, , ]]')
+		elif commonBits.isVersion80():
+			assert_p('ChildRecordsJTbl', 'Content', '[[, 353, 0, Record Type, D1, , -1], [, 356, 0, Record Type, H1, , -1], [, 357, 0, Record Type, S1, , -1]]')
 			assert_p('ChildRecordsJTbl', 'Content', '[[, 353, 0, Record Type, D1, , -1], [, 356, 0, Record Type, H1, , -1], [, 357, 0, Record Type, S1, , -1]]')
 		else:
 			assert_p('ChildRecordsJTbl', 'Content', '[[, 353, 0, Record Type, D1, -1], [, 356, 0, Record Type, H1, -1], [, 357, 0, Record Type, S1, -1]]')
-		select('ChildRecordsJTbl', 'cell:Field Start,0(0)')
-		assert_p('ChildRecordsJTbl', 'Text', 'cell:Field Start,0(0)')
+		select('ChildRecordsJTbl', 'cell:Child Name,0(0)')
+		assert_p('ChildRecordsJTbl', 'Text', 'cell:Child Name,0()')
 		select('TextField', 'ams PO Download: Detail%')
 		select('TextField1', '%')
 

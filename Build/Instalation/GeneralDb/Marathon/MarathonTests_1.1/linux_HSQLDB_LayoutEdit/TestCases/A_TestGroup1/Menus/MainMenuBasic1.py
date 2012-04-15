@@ -1,6 +1,7 @@
 useFixture(default)
 
 def test():
+	from Modules import commonBits
 	java_recorded_version = '1.5.0_11'
 
 	if window('Record Layout Definitions'):
@@ -14,7 +15,10 @@ def test():
 		assert_p('TextField2', 'Text', 'ams PO Download')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('*1')
-		assert_p('BmKeyedComboBox', 'Text', 'XML')
+		if commonBits.isVersion89():
+			assert_p('BmKeyedComboBox', 'Text', 'Record Layout')
+		else:
+			assert_p('BmKeyedComboBox', 'Text', 'XML')
 
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 

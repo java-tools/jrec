@@ -5,9 +5,19 @@ It can edit both Text and binary files in PC / Unix / IBM Mainframe formats.
 
 The Record-Layouts are stored in a DB, but they can be imported from a Cobol Copybook
 
-Changes Release 0.80.4
+Changes Release 0.80.6
     * Change the Initialisation process
-    * Add Jars to the Export as Xslt option
+    * Can enter Jars in the Export as Xslt option
+    * Created seperate SaveAs function.
+    * Reorganised menu's
+    * Utility (but not main screens) close with esc key.
+    * Seperate SaveAs and Export Screens
+    * Added Option to export via Script (Jython, JRuby etc)
+    * Extended Record Selection option in the Layout Editor
+    * Fixed several bugs in the Layout Editor.
+    * Can include a child-layout multiple times in a Group-Layout
+    * Extended Record Selection (layout editor). You can now use extended expresions
+    
 Changes Release 0.80.2
     * On the SaveAs/Export screen there is
       - Option to edit the output file (only if the recordEditor can work out the structure)

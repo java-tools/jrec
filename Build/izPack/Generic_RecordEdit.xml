@@ -17,7 +17,7 @@
     -->
     <info>
         <appname>RecordEdit/Generic</appname>
-        <appversion>0.80.4</appversion>
+        <appversion>0.80.6</appversion>
         <authors>
             <author name="Bruce Martin" email="bruce_a_martin@sourceforge.net" />
             <!--author name="Hidden Man" email="hidden@hisdomain.com"/-->
@@ -150,6 +150,7 @@
 	<pack name="CopyBook" required="yes">
 	    <description>CopyBooks</description>
 	    <fileset dir="../Instalation/GeneralDB/CopyBook" includes="Cobol/*.cbl" targetdir="$USER_HOME/.RecordEditor/GenericDB/CopyBook"/>
+	    <fileset dir="../Instalation/GeneralDB/CopyBook" includes="*/*.xml" targetdir="$USER_HOME/.RecordEditor/GenericDB/CopyBook"/>
 	    <fileset dir="../Instalation/GeneralDB/CopyBook" includes="*/*.Txt" targetdir="$USER_HOME/.RecordEditor/GenericDB/CopyBook"/>
 	    <fileset dir="../Instalation/GeneralDB/CopyBook" includes="*/*.Xml" targetdir="$USER_HOME/.RecordEditor/GenericDB/CopyBook"/>
         </pack>

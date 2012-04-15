@@ -17,7 +17,7 @@
     -->
     <info>
         <appname>RecordEdit/Avro</appname>
-        <appversion>0.69h</appversion>
+        <appversion>0.80.4</appversion>
         <authors>
             <author name="Bruce Martin" email="bruce_a_martin@sourceforge.net" />
             <!--author name="Hidden Man" email="hidden@hisdomain.com"/-->
@@ -49,7 +49,7 @@
         The ids must be these ones if you want to use the LicencePanel and/or the InfoPanel.
     -->
     <resources>
-        <res id="LicencePanel.licence"  src="../License/AvroEditor/LICENSE.txt"/>
+        <res id="LicencePanel.licence"  src="../Instalation/Avro/License/LICENSE.txt"/>
         <res id="InfoPanel.info"        src="Avro_Readme.txt"/>
         <res id="HTMLInfoPanel.info"    src="Avro_readme.html"/>
 	<res id="shortcutSpec.xml"      src="Avro_ShortcutSpec.xml"/>
@@ -83,7 +83,7 @@
             <description>The base files</description>
             <file src="Avro_Readme.txt" targetdir="$INSTALL_PATH"/>
             <file src="Avro_readme.html" targetdir="$INSTALL_PATH"/>
-            <fileset dir="../License/AvroEditor/" includes="LICENSE*.txt" targetdir="$INSTALL_PATH/License"/>
+            <fileset dir="../Instalation/Avro/License/" includes="LICENSE*.txt" targetdir="$INSTALL_PATH/License"/>
         </pack>
         <pack name="Documentation" required="yes" override="true">
             <description>Record Editor Docs</description>
@@ -98,7 +98,7 @@
         </pack>
         <pack name="SampleFiles" required="yes">
             <description>Sample Files</description>
-            <file src="../Instalation/Avro/SampleFiles" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
+            <file src="../Instalation/Avro/SampleFiles" targetdir="$USER_HOME/.RecordEditor/Avro"/> <!-- Reccursive adding -->
         </pack>
         <pack name="Params" required="yes">
             <description>Record Editor Parameters</description>
@@ -113,7 +113,8 @@
             <description>Record Editor Jars</description>
             <file src="../Instalation/Avro/lib" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
             <fileset dir="../Instalation/hsqldb_izpack/lib/" targetdir="$INSTALL_PATH/lib">
-            	<include name="j*.pack"/>
+            	<include name="jibx-run.pack"/>
+            	<include name="jlibdiff.pack"/>
             	<include name="JRecord.pack"/>
             	<include name="RecordEdit.pack"/>
             	<include name="ZCalendar.pack"/>
@@ -133,7 +134,7 @@
        </pack>
 	<pack name="CopyBook" required="yes">
 		<description>CopyBooks</description>
-		<fileset dir="../Instalation/Avro/CopyBook" includes="**" targetdir="$INSTALL_PATH/CopyBook"/>
+		<fileset dir="../Instalation/Avro/CopyBook" includes="**" targetdir="$USER_HOME/.RecordEditor/Avro/CopyBook"/>
 	</pack>
 	<pack name="Source" required="no">
 		<description>Source</description>
@@ -145,7 +146,7 @@
 	</pack>
 	<pack name="Velocity" required="yes">
             <description>Sample Velocity Templates</description>
-            <fileset dir="../Instalation/GeneralDB/SampleVelocityTemplates" includes="*/*.vm" targetdir="$INSTALL_PATH/SampleVelocityTemplates"/> 
+            <fileset dir="../Instalation/GeneralDB/SampleVelocityTemplates" includes="*/*.vm" targetdir="$USER_HOME/.RecordEditor/Avro/SampleVelocityTemplates"/> 
         </pack>
         <pack name="bin" os="unix" required="no" override="true">
             <description>Linux/Unix bin direcory</description>

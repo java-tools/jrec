@@ -165,7 +165,11 @@
     containerTitles: ['Table:  - DTAR020_tst1.bin', 'Table:  - DTAR020_tst1.bin$',
         'Table:  - DTAR020_tst1.bin.csv', 'Table:  - dtar020_tst1.bin', 'Table:  -
             dtar020_tst1.bin.csv', 'Table:  - DTAR020_tst1.bin.txt', 'Table:  - AmsLocationTest2.xml.csv',
-        'Table:  - TestXml_01.xml.csv', 'Table:  - AmsLocationTest2.xml.txt']
+        'Table:  - TestXml_01.xml.csv', 'Table:  - AmsLocationTest2.xml.txt', 'Table:  -
+            Ams_PODownload_20041231.txt', 'Table:  - Ams_PODownload_ZZZ.txt', 'Table:  -
+            Ams_PODownload_20041231_Compare.txt', 'Table:  - Ams_PODownload_20050101.txt',
+        'Table:  - Ams_PODownload_20041231_Compare1.txt', 'Table:  - wx1File.txt',
+        'Table:  - Ams_LocDownload_20041228.txt']
     fileName: Table_  - DTAR020_tst1.bin_1940654640925323445.yaml
 - !!net.sourceforge.marathon.objectmap.OMapContainer
     containerGeneralProperties:
@@ -181,7 +185,8 @@
     containerRecognitionProperties:
     - {method: equals, name: oMapClassName, value: net.sf.RecordEditor.edit.display.SaveAs.SaveAs3}
     containerTitles: [Save as - DTAR020_tst1.bin, Save as - dtar020_tst1.bin, Save as - AmsLocationTest2.xml,
-        Save as - TestXml_01.xml]
+        Save as - TestXml_01.xml, Export - DTAR020_tst1.bin, Export - TestXml_01.xml,
+        Export - AmsLocationTest2.xml, Export - wx1File.txt, Export - Ams_LocDownload_20041228.txt]
     fileName: Save as - DTAR020_tst1.bin_3995659115671346002.yaml
 - !!net.sourceforge.marathon.objectmap.OMapContainer
     containerGeneralProperties:
@@ -197,7 +202,9 @@
     containerRecognitionProperties:
     - {method: equals, name: oMapClassName, value: net.sf.RecordEditor.edit.display.LineTree}
     containerTitles: [Tree View - DTAR020_tst1.bin.xml, Tree View - DTAR020_tst1.bin,
-        Tree View - AmsLocationTest2.xml, Tree View - TestXml_01.xml, Tree View - TestXml_01.xml.xml]
+        Tree View - AmsLocationTest2.xml, Tree View - TestXml_01.xml, Tree View - TestXml_01.xml.xml,
+        Tree View - Ams_PODownload_20041231_Compare.txt, Tree View - Ams_PODownload_20041231_Compare1.txt,
+        Tree View - wx1File.txt, Tree View - wx1File.txt.xml]
     fileName: Tree View - DTAR020_tst1.bin.xml_2993606946914052531.yaml
 - !!net.sourceforge.marathon.objectmap.OMapContainer
     containerGeneralProperties:
@@ -228,7 +235,8 @@
     containerRecognitionProperties:
     - {method: equals, name: oMapClassName, value: net.sf.RecordEditor.edit.display.LineFrame}
     containerTitles: ['Record:  - dtar020_tst1.bin', 'Record:  - AmsLocationTest2.xml.csv',
-        'Record:  - TestXml_01.xml.csv']
+        'Record:  - TestXml_01.xml.csv', 'Record:  - Ams_PODownload_20041231.txt',
+        'Record:  - Ams_PODownload_ZZZ.txt', 'Record:  - wx1File.txt.xml']
     fileName: Record_  - dtar020_tst1.bin_3985519069730053843.yaml
 - !!net.sourceforge.marathon.objectmap.OMapContainer
     containerGeneralProperties:
@@ -244,3 +252,159 @@
     - {method: equals, name: oMapClassName, value: net.sf.RecordEditor.utils.csv.GenericCsvReader$GetCsvDetails}
     containerTitles: [<NoTitle>]
     fileName: _NoTitle__4986502271069197317.yaml
+- !!net.sourceforge.marathon.objectmap.OMapContainer
+    containerGeneralProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JDialog}
+    - {name: oMapClassName, value: net.sf.RecordEditor.re.util.csv.GenericCsvReader$GetCsvDetails}
+    - {name: size, value: '[width=637,height=572]'}
+    - {name: oMapClassSimpleName, value: GetCsvDetails}
+    - {name: component.class.simpleName, value: GetCsvDetails}
+    - {name: name, value: dialog0}
+    - {name: component.class.name, value: net.sf.RecordEditor.re.util.csv.GenericCsvReader$GetCsvDetails}
+    containerRecognitionProperties:
+    - {method: equals, name: oMapClassName, value: net.sf.RecordEditor.re.util.csv.GenericCsvReader$GetCsvDetails}
+    containerTitles: [<NoTitle>]
+    fileName: _NoTitle__6107012936092441754.yaml
+- !!net.sourceforge.marathon.objectmap.OMapContainer
+    containerGeneralProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JDialog}
+    - {name: oMapClassName, value: javax.swing.JOptionPane#Dialog_3_0}
+    - {name: size, value: '[width=317,height=115]'}
+    - {name: oMapClassSimpleName, value: JOptionPane#Dialog}
+    - {name: title, value: 'Line Delete confirmation '}
+    - {name: component.class.simpleName, value: JDialog}
+    - {name: name, value: dialog0}
+    - {name: component.class.name, value: javax.swing.JDialog}
+    - {name: accessibleContext.accessibleName, value: 'Line Delete confirmation '}
+    containerRecognitionProperties:
+    - {method: equals, name: oMapClassName, value: javax.swing.JOptionPane#Dialog_3_0}
+    containerTitles: ['Line Delete confirmation ', 'Save Changes to file: C:\Users\mum/RecordEditor_HSQL/SampleFiles/DTAR020_tst1.bin',
+        'Save Changes to file: C:\Users\mum/RecordEditor_HSQL/SampleFiles\DTAR020_tst1.bin',
+        'Save Changes to file: C:\Users\mum/RecordEditor_HSQL\SampleFiles/Ams_PODownload_ZZZ.txt',
+        'Delete: wx1File']
+    fileName: Line Delete confirmation _1410958060335251601.yaml
+- !!net.sourceforge.marathon.objectmap.OMapContainer
+    containerGeneralProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JDialog}
+    - {name: oMapClassName, value: javax.swing.JOptionPane#Dialog_0_2}
+    - {name: size, value: '[width=297,height=121]'}
+    - {name: oMapClassSimpleName, value: JOptionPane#Dialog}
+    - {name: title, value: Conversion Error}
+    - {name: component.class.simpleName, value: JDialog}
+    - {name: name, value: dialog0}
+    - {name: component.class.name, value: javax.swing.JDialog}
+    - {name: accessibleContext.accessibleName, value: Conversion Error}
+    containerRecognitionProperties:
+    - {method: equals, name: oMapClassName, value: javax.swing.JOptionPane#Dialog_0_2}
+    containerTitles: [Conversion Error]
+    fileName: Conversion Error_8859260515475371034.yaml
+- !!net.sourceforge.marathon.objectmap.OMapContainer
+    containerGeneralProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JInternalFrame}
+    - {name: size, value: '[width=268,height=119]'}
+    - {name: title, value: Message}
+    - {name: component.class.simpleName, value: JInternalFrame}
+    - {name: component.class.name, value: javax.swing.JInternalFrame}
+    - {name: accessibleContext.accessibleName, value: Message}
+    containerRecognitionProperties:
+    - {method: equals, name: component.class.name, value: javax.swing.JInternalFrame}
+    - {method: equals, name: title, value: Message}
+    containerTitles: [Message]
+    fileName: Message_9170504669499375786.yaml
+- !!net.sourceforge.marathon.objectmap.OMapContainer
+    containerGeneralProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JInternalFrame}
+    - {name: oMapClassName, value: net.sf.RecordEditor.layoutEd.LoadCopyBook}
+    - {name: size, value: '[width=774,height=633]'}
+    - {name: oMapClassSimpleName, value: LoadCopyBook}
+    - {name: title, value: ' - Load Record Layout using selectedLoaderRecord Edit
+            - hsqldb'}
+    - {name: component.class.simpleName, value: LoadCopyBook}
+    - {name: component.class.name, value: net.sf.RecordEditor.layoutEd.LoadCopyBook}
+    - {name: accessibleContext.accessibleName, value: ' - Load Record Layout using
+            selectedLoaderRecord Edit - hsqldb'}
+    containerRecognitionProperties:
+    - {method: equals, name: oMapClassName, value: net.sf.RecordEditor.layoutEd.LoadCopyBook}
+    containerTitles: [' - Load Record Layout using selectedLoaderRecord Edit - hsqldb']
+    fileName: ' - Load Record Layout using selectedLoaderRecord Edit - hsqldb_2446275905865698408.yaml'
+- !!net.sourceforge.marathon.objectmap.OMapContainer
+    containerGeneralProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JInternalFrame}
+    - {name: oMapClassName, value: net.sf.RecordEditor.layoutEd.RecordEdit}
+    - {name: size, value: '[width=1439,height=781]'}
+    - {name: oMapClassSimpleName, value: RecordEdit}
+    - {name: title, value: Edit Record Layout - DB  - Record Edit - hsqldb}
+    - {name: component.class.simpleName, value: RecordEdit}
+    - {name: component.class.name, value: net.sf.RecordEditor.layoutEd.RecordEdit}
+    - {name: accessibleContext.accessibleName, value: Edit Record Layout - DB  - Record Edit - hsqldb}
+    containerRecognitionProperties:
+    - {method: equals, name: oMapClassName, value: net.sf.RecordEditor.layoutEd.RecordEdit}
+    containerTitles: [Edit Record Layout - DB  - Record Edit - hsqldb]
+    fileName: Edit Record Layout - DB  - Record Edit - hsqldb_5380927252903630752.yaml
+- !!net.sourceforge.marathon.objectmap.OMapContainer
+    containerGeneralProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JInternalFrame}
+    - {name: oMapClassName, value: net.sf.RecordEditor.re.file.filter.ExecuteSavedFile}
+    - {name: size, value: '[width=530,height=511]'}
+    - {name: oMapClassSimpleName, value: ExecuteSavedFile}
+    - {name: title, value: Execute Saved Sort Tree - Ams_PODownload_20041231_Compare.txt}
+    - {name: component.class.simpleName, value: ExecuteSavedFile}
+    - {name: component.class.name, value: net.sf.RecordEditor.re.file.filter.ExecuteSavedFile}
+    - {name: accessibleContext.accessibleName, value: Execute Saved Sort Tree - Ams_PODownload_20041231_Compare.txt}
+    containerRecognitionProperties:
+    - {method: equals, name: oMapClassName, value: net.sf.RecordEditor.re.file.filter.ExecuteSavedFile}
+    containerTitles: [Execute Saved Sort Tree - Ams_PODownload_20041231_Compare.txt]
+    fileName: Execute Saved Sort Tree - Ams_PODownload_20041231_Compare.txt_359347456479516433.yaml
+- !!net.sourceforge.marathon.objectmap.OMapContainer
+    containerGeneralProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JInternalFrame}
+    - {name: oMapClassName, value: net.sf.RecordEditor.edit.display.CreateRecordTree}
+    - {name: size, value: '[width=483,height=245]'}
+    - {name: oMapClassSimpleName, value: CreateRecordTree}
+    - {name: title, value: Create Record Tree - Ams_PODownload_20041231_Compare.txt}
+    - {name: component.class.simpleName, value: CreateRecordTree}
+    - {name: component.class.name, value: net.sf.RecordEditor.edit.display.CreateRecordTree}
+    - {name: accessibleContext.accessibleName, value: Create Record Tree - Ams_PODownload_20041231_Compare.txt}
+    containerRecognitionProperties:
+    - {method: equals, name: oMapClassName, value: net.sf.RecordEditor.edit.display.CreateRecordTree}
+    containerTitles: [Create Record Tree - Ams_PODownload_20041231_Compare.txt]
+    fileName: Create Record Tree - Ams_PODownload_20041231_Compare.txt_1208925550407394522.yaml
+- !!net.sourceforge.marathon.objectmap.OMapContainer
+    containerGeneralProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JInternalFrame}
+    - {name: oMapClassName, value: net.sf.RecordEditor.edit.display.FilterFrame}
+    - {name: size, value: '[width=648,height=445]'}
+    - {name: oMapClassSimpleName, value: FilterFrame}
+    - {name: title, value: Filter Options - DTAR020_tst1.bin}
+    - {name: component.class.simpleName, value: FilterFrame}
+    - {name: component.class.name, value: net.sf.RecordEditor.edit.display.FilterFrame}
+    - {name: accessibleContext.accessibleName, value: Filter Options - DTAR020_tst1.bin}
+    containerRecognitionProperties:
+    - {method: equals, name: oMapClassName, value: net.sf.RecordEditor.edit.display.FilterFrame}
+    containerTitles: [Filter Options - DTAR020_tst1.bin]
+    fileName: Filter Options - DTAR020_tst1.bin_911812947733960116.yaml
+- !!net.sourceforge.marathon.objectmap.OMapContainer
+    containerGeneralProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JDialog}
+    - {name: oMapClassName, value: javax.swing.JOptionPane#Dialog_1_-1}
+    - {name: size, value: '[width=268,height=115]'}
+    - {name: oMapClassSimpleName, value: JOptionPane#Dialog}
+    - {name: title, value: Message}
+    - {name: component.class.simpleName, value: JDialog}
+    - {name: name, value: dialog0}
+    - {name: component.class.name, value: javax.swing.JDialog}
+    - {name: accessibleContext.accessibleName, value: Message}
+    containerRecognitionProperties:
+    - {method: equals, name: oMapClassName, value: javax.swing.JOptionPane#Dialog_1_-1}
+    containerTitles: [Message]
+    fileName: Message_4385294967072787160.yaml

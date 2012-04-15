@@ -5,7 +5,7 @@ def test():
 	java_recorded_version = '1.6.0_10'
 
 	if window('Record Editor'):
-		commonBits.selectOldFilemenu(select_menu, 'Edit', 'File Copy Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'File Copy Menu')
 		click('*5')
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020.bin')
 		select('FileChooser1', commonBits.sampleDir() + 'csvDTAR020comma.csv')
@@ -110,7 +110,7 @@ def test():
 		select('Table', 'cell:2|STORE-NO,38(166)')
 		commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
-		commonBits.selectOldFilemenu(select_menu, 'Edit', 'Compare Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'Compare Menu')
 		click('*2')
 		select('FileChooser', commonBits.sampleDir() + 'csvDTAR020comma.csv')
 		click('Right')

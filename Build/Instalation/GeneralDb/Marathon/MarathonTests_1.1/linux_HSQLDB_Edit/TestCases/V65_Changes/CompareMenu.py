@@ -5,7 +5,7 @@ def test():
 	java_recorded_version = '1.6.0_03'
 
 	if window('Record Editor'):
-		commonBits.selectOldFilemenu(select_menu, 'Edit', 'Compare Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'Compare Menu')
 		click('*1')
 		click('Choose File')
 

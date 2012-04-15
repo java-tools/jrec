@@ -1,0 +1,34 @@
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: name, value: OptionPane.button}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: OK}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=39,height=26]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: name, value: OptionPane.button}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: fieldName, value: defaultButton}
+    - {name: accessibleContext.accessibleName, value: OK}
+    name: OptionPane.button
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: name, value: OptionPane.label}
+    - {method: equals, name: type, value: JLabel}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JLabel}
+    - {name: cText, value: 'Hello, world!'}
+    - {name: type, value: JLabel}
+    - {name: size, value: '[width=195,height=16]'}
+    - {name: labelText, value: 'lbl:Hello, world!'}
+    - {name: component.class.simpleName, value: JLabel}
+    - {name: name, value: OptionPane.label}
+    - {name: layoutData.gridy, value: '0'}
+    - {name: layoutData.gridx, value: '0'}
+    - {name: component.class.name, value: javax.swing.JLabel}
+    - {name: accessibleContext.accessibleName, value: 'Hello, world!'}
+    name: OptionPane.label

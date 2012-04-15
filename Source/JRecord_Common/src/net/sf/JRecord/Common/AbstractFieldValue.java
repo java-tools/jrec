@@ -1,9 +1,8 @@
-package net.sf.JRecord.Details;
+package net.sf.JRecord.Common;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import net.sf.JRecord.Common.RecordException;
 
 /**
  * Interface to one field from a line (or Record).

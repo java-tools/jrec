@@ -1,9 +1,9 @@
-package net.sf.JRecord.Details.Selection;
+package net.sf.JRecord.detailsSelection;
 
 import java.util.List;
 
+import net.sf.JRecord.Common.AbstractIndexedLine;
 import net.sf.JRecord.Common.FieldDetail;
-import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
 
 public abstract class FieldSelect extends ExternalFieldSelection implements RecordSel {
@@ -66,8 +66,7 @@ public abstract class FieldSelect extends ExternalFieldSelection implements Reco
 	 * @see net.sf.JRecord.Details.Selection.RecordSel#isSelected(net.sf.JRecord.Details.AbstractLine)
 	 */
 	@Override
-	public boolean isSelected(AbstractLine line) {
-		// TODO Auto-generated method stub
+	public boolean isSelected(AbstractIndexedLine line) {
 		return false;
 	}
 
@@ -87,7 +86,7 @@ public abstract class FieldSelect extends ExternalFieldSelection implements Reco
 		 * @see net.sf.JRecord.Details.Selection.RecordSelection#isSelected(net.sf.JRecord.Details.AbstractLine)
 		 */
 		@Override
-		public boolean isSelected(AbstractLine line) {
+		public boolean isSelected(AbstractIndexedLine line) {
 			
 			Object o = line.getField(fieldDetail);
 			return  o != null 
@@ -108,7 +107,7 @@ public abstract class FieldSelect extends ExternalFieldSelection implements Reco
 		 * @see net.sf.JRecord.Details.Selection.RecordSelection#isSelected(net.sf.JRecord.Details.AbstractLine)
 		 */
 		@Override
-		public boolean isSelected(AbstractLine line) {
+		public boolean isSelected(AbstractIndexedLine line) {
 			
 			Object o = line.getField(fieldDetail);
 			return  o != null 
@@ -120,7 +119,7 @@ public abstract class FieldSelect extends ExternalFieldSelection implements Reco
 	/**
 	 * @return the fieldDetail
 	 */
-	protected FieldDetail getFieldDetail() {
+	public FieldDetail getFieldDetail() {
 		return fieldDetail;
 	}
 }

@@ -1,4 +1,4 @@
-package net.sf.JRecord.Details.Selection;
+package net.sf.JRecord.detailsSelection;
 
 import net.sf.JRecord.ExternalRecordSelection.StreamLine;
 

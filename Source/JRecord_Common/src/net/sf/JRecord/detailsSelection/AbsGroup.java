@@ -1,4 +1,4 @@
-package net.sf.JRecord.Details.Selection;
+package net.sf.JRecord.detailsSelection;
 
 import java.util.List;
 

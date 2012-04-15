@@ -1,6 +1,6 @@
-package net.sf.JRecord.Details.Selection;
+package net.sf.JRecord.detailsSelection;
 
-import net.sf.JRecord.Details.AbstractLine;
+import net.sf.JRecord.Common.AbstractIndexedLine;
 import net.sf.JRecord.ExternalRecordSelection.ExternalGroupSelection;
 
 public class OrSelection extends AbsGroup {
@@ -19,22 +19,22 @@ public class OrSelection extends AbsGroup {
 	 * @see net.sf.JRecord.Details.Selection.RecordSelection#isSelected(net.sf.JRecord.Details.AbstractLine)
 	 */
 	@Override
-	public boolean isSelected(@SuppressWarnings("rawtypes") AbstractLine line) {
+	public boolean isSelected(AbstractIndexedLine line) {
 
 		if (size() > 0) {
 			RecordSel sel;
 			
-			System.out.println();
-			System.out.print("Or --> ");
+			//System.out.println();
+			//System.out.print("Or --> ");
 			for (int i = 0; i < size(); i++) {
 				sel = get(i);
 
 				if (sel.isSelected(line)) {
-					System.out.println();
+					//System.out.println();
 					return true;
 				}
 			}
-			System.out.println();
+			//System.out.println();
 		} else {
 			return true;
 		}

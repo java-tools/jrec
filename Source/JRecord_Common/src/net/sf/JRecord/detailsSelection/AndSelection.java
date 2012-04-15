@@ -1,6 +1,6 @@
-package net.sf.JRecord.Details.Selection;
+package net.sf.JRecord.detailsSelection;
 
-import net.sf.JRecord.Details.AbstractLine;
+import net.sf.JRecord.Common.AbstractIndexedLine;
 import net.sf.JRecord.ExternalRecordSelection.ExternalGroupSelection;
 
 public class AndSelection extends AbsGroup {
@@ -9,7 +9,7 @@ public class AndSelection extends AbsGroup {
 		super(10);
 	}
 
-	public AndSelection(ExternalGroupSelection sel) {
+	public AndSelection(@SuppressWarnings("rawtypes") ExternalGroupSelection sel) {
 		super(sel.size());
 	}
 
@@ -17,7 +17,7 @@ public class AndSelection extends AbsGroup {
 	 * @see net.sf.JRecord.Details.Selection.RecordSelection#isSelected(net.sf.JRecord.Details.AbstractLine)
 	 */
 	@Override
-	public boolean isSelected(AbstractLine line) {
+	public boolean isSelected(AbstractIndexedLine line) {
 
 		if (size() > 0) {
 			RecordSel sel;

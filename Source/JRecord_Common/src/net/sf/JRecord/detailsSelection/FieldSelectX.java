@@ -1,10 +1,10 @@
-package net.sf.JRecord.Details.Selection;
+package net.sf.JRecord.detailsSelection;
 
 import java.math.BigDecimal;
 
+import net.sf.JRecord.Common.AbstractIndexedLine;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
-import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
 import net.sf.JRecord.Types.TypeManager;
 
@@ -51,7 +51,7 @@ public abstract class FieldSelectX extends FieldSelect {
 		return ret;
 	}
 	
-	protected final int compare(@SuppressWarnings("rawtypes") AbstractLine line) {
+	protected final int compare(AbstractIndexedLine line) {
 		int res;
 		Object o = line.getField(fieldDetail);
 		if (o == null) return Constants.NULL_INTEGER;
@@ -82,9 +82,8 @@ public abstract class FieldSelectX extends FieldSelect {
 		/* (non-Javadoc)
 		 * @see net.sf.JRecord.Details.Selection.RecordSelection#isSelected(net.sf.JRecord.Details.AbstractLine)
 		 */
-		@SuppressWarnings("rawtypes")
 		@Override
-		public boolean isSelected(AbstractLine line) {
+		public boolean isSelected(AbstractIndexedLine line) {
 			 return compare(line) >= cmpTo;
 		}
 	}
@@ -102,9 +101,8 @@ public abstract class FieldSelectX extends FieldSelect {
 		/* (non-Javadoc)
 		 * @see net.sf.JRecord.Details.Selection.RecordSelection#isSelected(net.sf.JRecord.Details.AbstractLine)
 		 */
-		@SuppressWarnings("rawtypes")
 		@Override
-		public boolean isSelected(AbstractLine line) {
+		public boolean isSelected(AbstractIndexedLine line) {
 			int cmp = compare(line);
 			return  cmp <= cmpTo && cmp != Constants.NULL_INTEGER;
 		}

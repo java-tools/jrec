@@ -1,19 +1,18 @@
-package net.sf.JRecord.Details.Selection;
+package net.sf.JRecord.detailsSelection;
 
-import net.sf.JRecord.Details.RecordDetail;
+import net.sf.JRecord.Common.AbstractRecordX;
+import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.ExternalRecordSelection.ExternalSelection;
 import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
 import net.sf.JRecord.ExternalRecordSelection.ExternalGroupSelection;
 
 public class Convert {
 	private int lvl = 0;
-	public RecordSel convert(ExternalSelection sel, RecordDetail r) {
+	public RecordSel convert(ExternalSelection sel, AbstractRecordX<FieldDetail> recDef) {
 		lvl = 0;
-		System.out.println(" ");
-		System.out.println(" Starting  " + sel.getType());
-		return convertI(sel, r);
+		return convertI(sel, recDef);
 	}
-	private RecordSel convertI(ExternalSelection sel, RecordDetail r) {
+	private RecordSel convertI(ExternalSelection sel, AbstractRecordX<FieldDetail> recDef) {
 		RecordSel ret=null;
 		ExternalGroupSelection<ExternalSelection> g;
 		
@@ -26,20 +25,20 @@ public class Convert {
 			System.out.println(" Field " + f.getFieldName() 
 					+" " + f.getOperator() + " " + f.getFieldValue());
 			
-			ret = FieldSelectX.get(f, r.getField(f.getFieldName()));
+			ret = FieldSelectX.get(f, recDef.getField(f.getFieldName()));
 			break;
 		case ExternalSelection.TYPE_AND: 
 			g = (ExternalGroupSelection<ExternalSelection>) sel;
 			System.out.println(" And");
 			AndSelection and = new AndSelection(g);
-			copy(g, and, r);
+			copy(g, and, recDef);
 			ret = and;
 			break;
 		case ExternalSelection.TYPE_OR: 
 			g = (ExternalGroupSelection<ExternalSelection>) sel;
 			System.out.println(" Or");
 			OrSelection or = new OrSelection(g);
-			ret = copy(g, or, r);
+			ret = copy(g, or, recDef);
 			break;
 		}
 		lvl -= 1;
@@ -47,7 +46,7 @@ public class Convert {
 		return ret;
 	}
 	
-	private RecordSel copy(ExternalGroupSelection<ExternalSelection> g, ExternalGroupSelection<RecordSel> to, RecordDetail r) {
+	private RecordSel copy(ExternalGroupSelection<ExternalSelection> g, ExternalGroupSelection<RecordSel> to, AbstractRecordX<FieldDetail> r) {
 		for (int i = 0; i < g.size(); i++) {
 			to.add(convertI(g.get(i), r));
 		}

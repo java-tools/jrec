@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
 
 /**
@@ -236,7 +237,33 @@ public class ComboDB  extends AbsDB<ComboRec> {
 	}
 
 	
-	  /**
+
+	
+	  /* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.jdbc.AbsDB#delete(net.sf.RecordEditor.utils.jdbc.AbsRecord)
+	 */
+	@Override
+	public void delete(ComboRec val) {
+
+		String updSql  = 
+				  "Delete from  Tbl_CI_ComboItems "
+				 + "where Combo_Id = "  + val.getComboId();
+
+		try {
+			connect.getUpdateConnection().createStatement().execute(updSql);
+		} catch (Exception e) {
+			Common.logMsg(updSql, null);
+			Common.logMsg("Update Failed: " + e.getClass().getName() + " " + e.getMessage(), e);
+			e.printStackTrace();
+		}
+
+		
+		
+		super.delete(val);
+	}
+
+
+	/**
 	   *  This method sets a search argument for RecordType
 	   *
 	   * @param operator operator to be used in the where clause

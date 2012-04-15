@@ -36,11 +36,11 @@ import javax.swing.JTextField;
 
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
-import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
 import net.sf.RecordEditor.edit.display.common.ILayoutChanged;
 import net.sf.RecordEditor.re.file.FilePosition;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.file.filter.Compare;
+import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
@@ -115,7 +115,7 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 		//this.getContentPane().setLayout(null);
 		this.setTitle("Search Screen");
 
-		BaseHelpPanel pnl = new BaseHelpPanel();
+		BaseHelpPanel pnl = new BaseHelpPanel("Find");
 		
 		pnl.addReKeyListener(listner);
 

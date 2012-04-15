@@ -6,7 +6,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JTable;
 
-import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
+import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 

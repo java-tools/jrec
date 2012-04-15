@@ -38,9 +38,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.openFile.RecentFiles;
+import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
@@ -73,6 +73,11 @@ import net.sf.RecordEditor.utils.swing.FileChooser;
 public final class SaveAs3 extends ReFrame
 				 implements ActionListener {
 
+	//TODO
+	//TODO Convert to enum !!!!!
+	//TODO Convert to enum !!!!!
+	// Include FORMAT_TRANSLATION, name and RecentFile lookup key
+	//TODO
     public static final int FORMAT_DATA      = 0;
     public static final int FORMAT_1_TABLE   = 1;
     public static final int FORMAT_MULTI_TABLE   = 2;
@@ -80,15 +85,18 @@ public final class SaveAs3 extends ReFrame
     public static final int FORMAT_DELIMITED = 4;
     public static final int FORMAT_FIXED = 5;
     public static final int FORMAT_XML = 6;
-    public static final int FORMAT_XSLT = 7;
-    public static final int FORMAT_VELOCITY = 8;
+    public static final int FORMAT_SCRIPT = 7;
+    public static final int FORMAT_XSLT = 8;
+    public static final int FORMAT_VELOCITY = 9;
     
     
     
-    private static int[] FORMAT_TRANSLATION = {
-    	CommonSaveAsFields.FMT_DATA,  CommonSaveAsFields.FMT_HTML, CommonSaveAsFields.FMT_HTML,
-    	CommonSaveAsFields.FMT_HTML,  CommonSaveAsFields.FMT_CSV,  CommonSaveAsFields.FMT_FIXED, 
-    	CommonSaveAsFields.FMT_XML, CommonSaveAsFields.FMT_XSLT,   CommonSaveAsFields.FMT_VELOCITY};
+	//TODO Replace by the enum above !!!!!
+    private final static int[] FORMAT_TRANSLATION = {
+    	CommonSaveAsFields.FMT_DATA,  CommonSaveAsFields.FMT_HTML,   CommonSaveAsFields.FMT_HTML,
+    	CommonSaveAsFields.FMT_HTML,  CommonSaveAsFields.FMT_CSV,    CommonSaveAsFields.FMT_FIXED, 
+    	CommonSaveAsFields.FMT_XML,   CommonSaveAsFields.FMT_SCRIPT,
+    	CommonSaveAsFields.FMT_XSLT,  CommonSaveAsFields.FMT_VELOCITY};
     private static int[] FORMAT_HTML_TRANSLATION = {
     	-1, 
     	SaveAsPnlBase.SINGLE_TABLE, 
@@ -132,7 +140,7 @@ public final class SaveAs3 extends ReFrame
 		@Override
 		public void stateChanged(ChangeEvent e) {
 	
-			int idx = formatTab.getSelectedIndex();
+			int idx = getTabIndex();
 			
 			if (currentIndex != idx) {
 				changeExtension();
@@ -174,7 +182,7 @@ public final class SaveAs3 extends ReFrame
 	public SaveAs3(
     		final AbstractFileDisplay recordFrame, 
     		final FileView<?> fileView,
-    		int formatIdx, String velocityTemplate) {
+    		int formatIdx, String script) {
         super(fileView.getFileNameNoDirectory(), 
         	 ((formatIdx <= 0 || Common.OPTIONS.showAllExportPnls.isSelected()) ? "Export" : "Export1"),
               fileView.getBaseFile());
@@ -201,20 +209,21 @@ public final class SaveAs3 extends ReFrame
         		new SaveAsPnlFixed(commonSaveFields),
         		new SaveAsPnlBasic.Xml(commonSaveFields),
         		new SaveAsPnlHtml(commonSaveFields),
+        		new SaveAsPnlScript(commonSaveFields),
         		new SaveAsPnlXslt(commonSaveFields),
         		new SaveAsPnlVelocity(commonSaveFields) ,
         };
         pnls = p;
 
-        int len = init_100_setupFields_GetPnlLength(formatIdx);
+        init_100_setupFields_GetPnlLength(formatIdx);
 
-        init_200_SetupTabPnls(len, formatIdx, velocityTemplate);
+        init_200_SetupTabPnls(formatIdx, script);
         init_300_layoutScreen();
         //System.out.println(" !! create class 4 " + this.getClass().getName() + " " + this.isMaximum());
 	
         //System.out.println(" !! create class 5 " + this.getClass().getName() + " " + this.isMaximum());
 
-        this.addMainComponent(pnl);
+        super.addMainComponent(pnl);
         //System.out.println(" !! create class 6 " + this.getClass().getName() + " " + this.isMaximum());
         this.setVisible(true);
         //System.out.println(" !! create class 7 " + this.getClass().getName() + " " + this.isMaximum());
@@ -226,28 +235,37 @@ public final class SaveAs3 extends ReFrame
     }
 
     
-    private int init_100_setupFields_GetPnlLength(int formatIdx) {
-        int len = pnls.length - 1;
+    private void init_100_setupFields_GetPnlLength(int formatType) {
+//        int len = pnls.length - 1;
+    	
+    	int saveAsId = FORMAT_TRANSLATION[formatType];
+    	int idx = 0;
         String fname = file.getFileName();
         if ("".equals(fname)) {
         	fname = Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get();
         }
 
        
-        if (! Common.OPTIONS.xsltAvailable.isSelected()) {
-        	len -= 1;
-        	pnls[pnls.length - 2] = pnls[pnls.length - 1];
-        	FORMAT_TRANSLATION[FORMAT_TRANSLATION.length - 1] -= 1;
-        }
-        if (Common.isVelocityAvailable()) {
-        	len += 1;
-        }
-        currentIndex = FORMAT_TRANSLATION[formatIdx];
-
+//        if (! Common.OPTIONS.xsltAvailable.isSelected()) {
+//        	len -= 1;
+//        	pnls[pnls.length - 2] = pnls[pnls.length - 1];
+//        	FORMAT_TRANSLATION[FORMAT_TRANSLATION.length - 1] -= 1;
+//        }
+//        if (Common.isVelocityAvailable()) {
+//        	len += 1;
+//        }
+        currentIndex = saveAsId;
  
         for (int i = 0; i < pnls.length; i++) {
         	pnls[i].onlyData.setSelected(! file.isBinaryFile());
         	pnls[i].showBorder.setSelected(true);
+        	if (pnls[i].isActive()) {
+        		formatTab.add(pnls[i].getTitle(), pnls[i].panel);
+        		if (pnls[i].panelFormat == saveAsId) {
+        			currentIndex = idx;
+        		}
+        		idx += 1;
+        	}
         }
 
         commonSaveFields.keepOpenChk.setSelected(false);
@@ -263,16 +281,11 @@ public final class SaveAs3 extends ReFrame
 
       //findFile.addActionListener(this);
         saveFile.addActionListener(this);
-        
-        return len;
+
     }
 
     
-    private void init_200_SetupTabPnls(int len, int formatIdx, String velocityTemplate) {
-
-       	for (int i = 0; i < len; i++) {
-       		formatTab.add(pnls[i].getTitle(), pnls[i].panel);
-       	}
+    private void init_200_SetupTabPnls(int formatIdx, String script) {
 
 		formatTab.setSelectedIndex(currentIndex);
 		switch (formatIdx) {
@@ -281,14 +294,13 @@ public final class SaveAs3 extends ReFrame
 		case FORMAT_TREE_HTML:
 			getSelectedPnl().setTableOption(FORMAT_HTML_TRANSLATION[formatIdx]);
 			break;
-		case FORMAT_XSLT:
-		case FORMAT_VELOCITY:
-			if (velocityTemplate != null && ! "".equals(velocityTemplate)) {
-				getSelectedPnl().template.setText(velocityTemplate);
-				changeExtension();
-			}
-			break;
 		}
+		
+		if (script != null && ! "".equals(script) && getSelectedPnl().template != null) {
+			getSelectedPnl().setTemplateText(script);
+			changeExtension();
+		}
+
     }
 
     
@@ -341,9 +353,9 @@ public final class SaveAs3 extends ReFrame
         pnl.setGap(BasePanel.GAP1);
         pnl.addLine("Edit Output File", commonSaveFields.editChk);
         pnl.addLine("Keep screen open", commonSaveFields.keepOpenChk, saveFile);
-        pnl.setGap(BasePanel.GAP3);
+        pnl.setGap(BasePanel.GAP1);
         pnl.addMessage(new JScrollPane(commonSaveFields.message));
-        pnl.setHeight(BasePanel.GAP3);
+        pnl.setHeight(BasePanel.GAP5);
 
     }
     
@@ -436,12 +448,7 @@ public final class SaveAs3 extends ReFrame
  
     
     private SaveAsPnlBase getSelectedPnl() {
-    	int idx = currentIndex;
-    	if (usingTab) {
-    		idx = formatTab.getSelectedIndex();
-    	}
-    	
-    	return pnls[idx];
+    	return pnls[getTabIndex()];
     }
 
  
@@ -454,7 +461,7 @@ public final class SaveAs3 extends ReFrame
     
     private void changeExtension() {
 		String s = fileNameTxt.getText();
-		int idx = formatTab.getSelectedIndex();
+		int idx = getTabIndex();
 		String newExtension = getExtension(idx);
 		
 //		System.out.println("Extension: " + idx 
@@ -472,7 +479,14 @@ public final class SaveAs3 extends ReFrame
 		
 		currentIndex = idx;
 		currentExtension = newExtension;
-
+    }
+    
+    private int getTabIndex() {
+    	int idx = currentIndex;
+    	if (usingTab) {
+    		idx = formatTab.getSelectedIndex();
+    	}
+    	return idx;
     }
     
     private String getExtension(int idx) {

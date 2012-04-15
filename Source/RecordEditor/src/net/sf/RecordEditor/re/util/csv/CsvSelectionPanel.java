@@ -525,7 +525,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 
         recs[0] = new RecordDetail("GeneratedCsvRecord", "", "", Constants.rtDelimited,
         		getSeperator(),  getQuote(), font, flds, 
-        		((Integer)parseType.getSelectedItem()).intValue());
+        		((Integer)parseType.getSelectedItem()).intValue(), 0);
         
         layout  =
             new LayoutDetail("GeneratedCsv", recs, "",

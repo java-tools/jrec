@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import net.sf.JRecord.External.ExternalRecord;
+import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
 //import net.sf.RecordEditor.utils.jdbc.AbsRecord;
 
@@ -193,7 +194,44 @@ public class RecordDB  extends AbsDB<RecordRec> {
 
 
 
-  /**
+  /* (non-Javadoc)
+ * @see net.sf.RecordEditor.utils.jdbc.AbsDB#delete(net.sf.RecordEditor.utils.jdbc.AbsRecord)
+ */
+@Override
+	public void delete(RecordRec val) {
+		String[] updSql  = {
+					  " Update  TBL_RS2_SUBRECORDS rs3 "
+			        + "    set PARENT_RECORDID = -1 "
+					+ "  where rs3.child_key in "
+					+ "    (select rs2.child_key from    TBL_RS2_SUBRECORDS rs1"
+					+ "                            join  TBL_RS2_SUBRECORDS rs2"
+					+ "                              on  rs1.RECORDID = rs2.RECORDID"
+					+ "                             and  rs2.PARENT_RECORDID = rs1.CHILD_ID"
+					+ "                           where  rs1.CHILD_RECORD = " + val.getRecordId()
+					+ "                             and  rs1.RECORDID = rs3.RECORDID"
+					+ "                             and  rs2.RECORDID = rs3.RECORDID)",
+					  "Delete from  TBL_RS2_SUBRECORDS where CHILD_RECORD = " + val.getRecordId(),
+					  "Delete from  TBL_RFS_FIELDSELECTION where RECORDID = " + val.getRecordId(),	
+					  "Delete from  TBL_RF_RECORDFIELDS where RECORDID = " + val.getRecordId(),	
+					  "Delete from  TBL_RS2_SUBRECORDS where RECORDID = " + val.getRecordId(),	
+		};
+		
+		for (String sql : updSql) {
+			try {
+				connect.getUpdateConnection().createStatement().execute(sql);
+			} catch (Exception e) {
+				Common.logMsg(sql, null);
+				Common.logMsg("Update Failed: " + e.getClass().getName() + " " + e.getMessage(), e);
+				e.printStackTrace();
+			}
+		}
+	
+		super.delete(val);
+	}
+
+
+
+/**
    *  This method resets the search Arguments
    *
    */

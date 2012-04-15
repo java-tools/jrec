@@ -369,7 +369,7 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 
 
 	 /**
-	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplay#getCurrRow()
+	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getCurrRow()
 	 */
 	 public abstract int getCurrRow();
 
@@ -429,7 +429,7 @@ public abstract class AbstractCompareDisplay extends ReFrame {
     }
     
 	/**
-	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplay#getSelectedRows()
+	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getSelectedRows()
 	 */
 	public int[] getSelectedRows() {
 		return tblDetails.getSelectedRows();
@@ -478,7 +478,7 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 
 
 	/**
-	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplay#getLayoutIndex()
+	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getLayoutIndex()
 	 */
 	public final int getLayoutIndex() {
 		return layoutList.getLayoutIndex();

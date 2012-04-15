@@ -15,15 +15,22 @@
  */
 package net.sf.RecordEditor.utils.swing;
 
+import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+import net.sf.RecordEditor.utils.common.Parameters;
 
 import info.clearthought.layout.TableLayout;
 import info.clearthought.layout.TableLayoutConstraints;
@@ -39,6 +46,9 @@ import info.clearthought.layout.TableLayoutConstraints;
  */
 @SuppressWarnings("serial")
 public class BasePanel extends JPanel {
+
+	public static final boolean NAME_COMPONENTS = "Y".equalsIgnoreCase(
+			Parameters.getString(Parameters.NAME_FIELDS));
 
     public static final int LEFT = TableLayout.LEFT;
 
@@ -165,6 +175,9 @@ public class BasePanel extends JPanel {
 
 	private boolean toBeDone = true, singleColumn = false;
 
+	private String fieldNamePrefix = "";
+	
+	private boolean nameComponents = NAME_COMPONENTS;
 	/**
 	 * @throws java.awt.HeadlessException
 	 */
@@ -245,6 +258,8 @@ public class BasePanel extends JPanel {
 			 promptLbl.setHorizontalAlignment(JLabel.RIGHT);
 		}
 		addLine(promptLbl, component);
+		setComponentName(component, prompt);
+
 		return this;
 	}
 	
@@ -282,6 +297,9 @@ public class BasePanel extends JPanel {
 		    this.add(component,
 		            new TableLayoutConstraints(3, currRow, 3, currRow,
 		                    fieldLayout[FIELD][0], fieldLayout[FIELD][1]));
+		    
+		    //setComponentName(component, promptLbl);
+
 			lSize[currRow] = Math.max(lSize[currRow], component.getPreferredSize().getHeight());
 		    registerComponent(component);
 		}
@@ -323,6 +341,11 @@ public class BasePanel extends JPanel {
 				 new TableLayoutConstraints(5, currRow, 5, currRow,
 						fieldLayout[LAST][0], fieldLayout[LAST][1]));
 			registerComponent(component2);
+			
+
+			setComponent2Name(component2, prompt +"_fld2");
+			
+		    
 
 			lSize[currRow] = Math.max(lSize[currRow], component2.getPreferredSize().getHeight());
 		}
@@ -432,7 +455,7 @@ public class BasePanel extends JPanel {
 	 * @param vPosition  Vertial Position
 	 * @param table      Table to be added to the Panel
 	 */
-	public final void addComponent(int startCol, int endCol,
+	public final BasePanel addComponent(int startCol, int endCol,
 							 double height, double gap,
 							 int hPosition, int vPosition,
 							 JTable table) {
@@ -442,6 +465,8 @@ public class BasePanel extends JPanel {
 				 hPosition, vPosition,
 				 new JScrollPane(table));
 		registerComponent(table);
+		
+		return this;
 	}
 
 
@@ -456,7 +481,7 @@ public class BasePanel extends JPanel {
 	 * @param vPosition  Vertial Position
 	 * @param component  Component to be added to the Panel
 	 */
-	public final void addComponent(int startCol, int endCol,
+	public final BasePanel addComponent(int startCol, int endCol,
 							 double height, double gap,
 							 int hPosition, int vPosition,
 							 JComponent component) {
@@ -468,6 +493,8 @@ public class BasePanel extends JPanel {
 												  endCol, currRow,
 												  hPosition, vPosition));
 		registerComponent(component);
+		
+		return this;
 	}
 
 
@@ -477,7 +504,7 @@ public class BasePanel extends JPanel {
 	 * @param prompt Menu Prompt
 	 * @param btn    Menu Button to be added to the panel
 	 */
-	public final void addMenuItem(String prompt, JButton btn) {
+	public final BasePanel addMenuItem(String prompt, JButton btn) {
 
 		incRow();
 
@@ -493,6 +520,8 @@ public class BasePanel extends JPanel {
 			new TableLayoutConstraints(3, currRow, 3, currRow,
 					fieldLayout[FIELD][0], fieldLayout[FIELD][1]));
 
+		setComponentName(btn, prompt);
+		return this;
 	}
 
 	/**
@@ -503,7 +532,7 @@ public class BasePanel extends JPanel {
 	 * @param height height of the Button
 	 * @param btn    Button to Add
 	 */
-	public final void addButton(boolean incRow, int col, int height, JButton btn) {
+	public final BasePanel addButton(boolean incRow, int col, int height, JButton btn) {
 
 
 		if (col < 4) {
@@ -524,6 +553,8 @@ public class BasePanel extends JPanel {
 			        BasePanel.RIGHT, BasePanel.TOP));
 			registerComponent(btn);
 		}
+		
+		return this;
 	}
 
 
@@ -572,7 +603,7 @@ public class BasePanel extends JPanel {
 	 *
 	 * @param msg message Field
 	 */
-	public final void addMessage(JComponent msg) {
+	public final BasePanel addMessage(JComponent msg) {
 
 		incRow(hGaps[FIELD_HEIGHT_INDEX], 2);
 
@@ -583,6 +614,8 @@ public class BasePanel extends JPanel {
 		if (msg.getMinimumSize().height < HEIGHT_1P6) {
 			setHeight(HEIGHT_1P6);
 		}
+		
+		return this;
 	}
 
 
@@ -726,5 +759,61 @@ public class BasePanel extends JPanel {
 		}
 	}
 	
+	
+//	public final BasePanel setComponentName(Component component, Component name) {
+//		
+//		if (name != null) {
+//			setComponentName(component, name.toString());
+//		}
+//		return this;
+//	}
+	
+	
+	public final BasePanel setComponent2Name(Component component, String name) {
+		if (name != null && ! "".equals(name)) {
+			setComponentName(component, name + "_Fld2");
+		}
+		return this;
+	}
+	
+	
+	public final BasePanel setComponentName(Component component, String name) {
+		
+	    if (nameComponents && component != null && name != null && ! "".equals(name)) {
+	    	String suffix = "";
+	    	if (component instanceof JTextField 
+	    	|| component instanceof JTextArea 
+	    	|| component instanceof JComboBox) {
+	    		suffix = "_Txt";
+	    	} else if (component instanceof JCheckBox) {
+	    		suffix = "_Chk";
+	    	}  else if (component instanceof JButton) {
+	    		suffix = "_Btn";
+	    	} else if (component instanceof JTable) {
+	    		suffix = "_JTbl";
+	    	}
+	    	component.setName(fieldNamePrefix + name + suffix);
+	    }
+
+		return this;
+	}
+
+	/**
+	 * @param fieldNamePrefix the fieldNamePrefix to set
+	 */
+	public void setFieldNamePrefix(String fieldNamePrefix) {
+		if ( fieldNamePrefix == null || "".equals(fieldNamePrefix) ) {
+			this.fieldNamePrefix = "";
+		} else {
+			this.fieldNamePrefix = fieldNamePrefix + ".";
+		}
+	}
+
+	/**
+	 * @param nameComponents the nameComponents to set
+	 */
+	public void setNameComponents(boolean nameComponents) {
+		this.nameComponents = nameComponents;
+	}
 
 }

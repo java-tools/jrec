@@ -7,7 +7,7 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileWriter;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -23,12 +23,10 @@ import net.sf.JRecord.External.CopybookWriter;
 import net.sf.JRecord.External.CopybookWriterManager;
 import net.sf.JRecord.External.ExternalConversion;
 import net.sf.JRecord.External.ExternalRecord;
+//import net.sf.RecordEditor.layoutEd.utils.LayoutVelocity;
 import net.sf.RecordEditor.re.db.Record.ExtendedRecordDB;
 import net.sf.RecordEditor.re.db.Record.RecordRec;
-import net.sf.RecordEditor.re.db.Table.TypeList;
 import net.sf.RecordEditor.re.util.CopybookLoaderFactoryDB;
-import net.sf.RecordEditor.utils.RunVelocity;
-import net.sf.RecordEditor.utils.TypeNameArray;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.common.ReConnection;
@@ -182,30 +180,21 @@ public class LayoutCopy extends ReFrame  implements ActionListener {
 						r = dbFrom.fetch();
 					}						
 				} else {
-					RunVelocity velocity = RunVelocity.getInstance();
-					int key;
-					FileWriter w;
-					String s, e;
-			  		TypeList types = new TypeList(fromIdx, false, false);
-			  		TypeNameArray typeNames = new TypeNameArray();
-			  		for (int i = 0; i < types.getSize(); i++) {
-			  			key = ((Integer) types.getKeyAt(i)).intValue();
-			  		
-			  			typeNames.set(key, String.valueOf(types.getFieldAt(i)));
-			  		}
+					net.sf.RecordEditor.layoutEd.utils.LayoutVelocity velocity
+							= new net.sf.RecordEditor.layoutEd.utils.LayoutVelocity(fromIdx);
+			
+					String outputFile;
+					String ext = to.extension.getText();
+					if (!"".equals(ext)) {
+						ext = "." + ext;
+					}
 			  		 
 					while (r != null) {
-						e = to.extension.getText();
-						if (!"".equals(e)) {
-							e = "." + e;
-						}
-						s = to.outputDirectory.getText() 
+						outputFile = to.outputDirectory.getText() 
 						  + ExternalConversion.copybookNameToFileName(r.getRecordName())
-						  + e;
-					    w = new FileWriter(s);
-					        //System.out.println(Velocity.FILE_RESOURCE_LOADER_PATH);
-					    velocity.genSkel(to.template.getText(), r.getValue(), typeNames, s, w);
-					    w.close();
+						  + ext;
+						
+						velocity.run(to.template.getText(), r, outputFile);
 						
 						msg.append("\n      ").append(r.getRecordName());
 						r = dbFrom.fetch();

@@ -15,7 +15,7 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.FileChooser;
 
 /**
- * @author mum
+ * @author Bruce Martin
  *
  */
 public class SaveAsPnlXslt extends SaveAsPnlBase {
@@ -113,5 +113,14 @@ public class SaveAsPnlXslt extends SaveAsPnlBase {
 		trans = transFact.newTransformer(xsltSource);
 
 		trans.transform(xmlSource, result);
+	}
+	
+
+	/**
+	 * @see net.sf.RecordEditor.edit.display.SaveAs.SaveAsPnlBase#isActive()
+	 */
+	@Override
+	public boolean isActive() {
+		return Common.OPTIONS.xsltAvailable.isSelected();
 	}
 }

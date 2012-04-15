@@ -98,7 +98,10 @@ public interface ReActionHandler {
     public static final int INSERT_RECORD_PRIOR   = 53;
     public static final int EXPORT_XSLT           = 56;
     public static final int EXPORT                = 57;
-   public static final int MAX_ACTION      = 58;
+    public static final int EXPORT_SCRIPT         = 58;
+    public static final int RUN_SCRIPT            = 59;
+    public static final int REFRESH               = 60;
+    public static final int MAX_ACTION      = 61;
 
     /**
      * Execute a form action

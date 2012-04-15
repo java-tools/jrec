@@ -4,10 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
-import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
 import net.sf.RecordEditor.edit.display.util.CreateRecordTreePnl;
 
 import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.re.tree.TreeParserRecord;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;

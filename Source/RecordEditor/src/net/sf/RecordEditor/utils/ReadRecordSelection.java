@@ -4,13 +4,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import net.sf.JRecord.Common.FieldDetail;
-import net.sf.JRecord.Details.Selection.AbsGroup;
-import net.sf.JRecord.Details.Selection.AndSelection;
-import net.sf.JRecord.Details.Selection.FieldSelect;
-import net.sf.JRecord.Details.Selection.FieldSelectX;
-import net.sf.JRecord.Details.Selection.OrSelection;
-import net.sf.JRecord.Details.Selection.RecordSel;
-import net.sf.JRecord.Details.Selection.Streamline;
+import net.sf.JRecord.detailsSelection.AbsGroup;
+import net.sf.JRecord.detailsSelection.AndSelection;
+import net.sf.JRecord.detailsSelection.FieldSelect;
+import net.sf.JRecord.detailsSelection.FieldSelectX;
+import net.sf.JRecord.detailsSelection.OrSelection;
+import net.sf.JRecord.detailsSelection.RecordSel;
+import net.sf.JRecord.detailsSelection.Streamline;
 import net.sf.RecordEditor.utils.common.AbsConnection;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReConnection;
@@ -60,12 +60,13 @@ public class ReadRecordSelection {
 		AbsGroup retGroup = andSel;
 		RecordSel ret = null;
 		String sql = "Select Boolean_Operator, Field_Name, Operator, Field_Value"
-				   + "  from TBL_RFS_FIELDSELECTION "
+				   + "  from Tbl_RFS_FieldSelection "
 				   + " where RecordId = " + parentRecId
 				   + "   and Child_Key= " + childKey
 				   + " order by Field_No";
 		
 		try {
+		
 			ResultSet resultset = connect.getConnection().createStatement().executeQuery(sql);
 			
 			if (resultset.next()) {
@@ -89,13 +90,14 @@ public class ReadRecordSelection {
 			
 			resultset.close();
 		} catch (SQLException e) {
+			System.out.println(sql);
 			e.printStackTrace();
 		}
 		
 		if (tstFieldName != null && ! "".equals(tstFieldName)) {
 			FieldSelect sel = getFieldDef(tstFieldName, "=", tstFieldValue, fields);
 			
-			if (retGroup.getSize() == 0) {
+			if (retGroup == null || retGroup.getSize() == 0) {
 				ret = sel;
 			} else {
 				AndSelection retSel = new AndSelection();

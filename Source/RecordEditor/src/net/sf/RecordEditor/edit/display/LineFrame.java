@@ -104,6 +104,7 @@ public class LineFrame extends  BaseLineFrame {
 		init_300_setupScreen(btnPanel);
 
 		show();
+		this.setToMaximum(false);
 	}
 	
 	/**

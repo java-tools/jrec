@@ -91,6 +91,8 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String VELOCITY_COPYBOOK_DIRECTORY = "VelocityCopybookDirectory";
     public static final String VELOCITY_TEMPLATE_DIRECTORY = "VelocityTemplateDirectory";
     public static final String XSLT_TEMPLATE_DIRECTORY = "XsltTemplateDirectory";
+    public static final String EXPORT_SCRIPT_DIRECTORY = "ExportScriptDirectory";
+    public static final String SCRIPT_DIRECTORY        = "ScriptDirectory";
     public static final String XSLT_JAR1 = "XsltJar1";
     public static final String XSLT_JAR2 = "XsltJar2";
     public static final String INVALID_FILE_CHARS      = "InvalidFileChars";
@@ -101,6 +103,8 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String COPY_SAVE_DIRECTORY  = "CopySaveDirectory";
     public static final String COPY_SAVE_FILE  	   = "CopySaveFile";
     
+    public static final String LAYOUT_EXPORT_DIRECTORY  = "LayoutExportDirectory";
+
     public static final String COMPARE_SAVE_DIRECTORY  = "CompareSaveDirectory";
     public static final String COMPARE_SAVE_FILE  	   = "CompareSaveFile";
     public static final String FILTER_SAVE_DIRECTORY   = "FilterSaveDirectory";
@@ -140,6 +144,7 @@ public final class Parameters implements ExternalReferenceConstants {
     
     public static final String SEARCH_ALL_FIELDS = "SearchAllFields";
     public static final String SHOW_ALL_EXPORT_OPTIONS = "AllExportOptions"; 
+    public static final String NAME_FIELDS = "NameFields"; 
 
     public static final String DEL_SELECTED_WITH_DEL_KEY = "DeleteSelectedWithDelKey"; 
     public static final String WARN_WHEN_USING_DEL_KEY   = "WarnWithDelKey"; 
@@ -248,9 +253,16 @@ public final class Parameters implements ExternalReferenceConstants {
     	if (applicationDirectory == null) {
     		String s = getPropertiesDirectory();
     		
+    		if (s == null) {
+    			s = "C:\\Users\\mum\\RecordEditor_HSQL\\";
+    		} 
     		userJarFileDirectory = s;
     		System.out.println("!! Properties Directory ~~ " + s);
-    		applicationDirectory = s + File.separator;
+    		
+    		applicationDirectory = s;
+    		if ((! s.endsWith("/")) && (! s.endsWith("\\"))) {
+    			applicationDirectory = s + File.separator;
+    		}
     		System.out.println("!! Application Directory ~~ " + applicationDirectory);
 
     		propertyFileName = applicationDirectory + USER_PARAM_FILE;
@@ -431,6 +443,7 @@ public final class Parameters implements ExternalReferenceConstants {
         String ret = name;
         String lcName = name.toLowerCase();
 
+        
         if (lcName.startsWith("<lib>")) {
             ret = getLibDirectory() /*+ File.separator*/  + name.substring(5);
         } else if (lcName.startsWith("<install>")) {
@@ -439,12 +452,10 @@ public final class Parameters implements ExternalReferenceConstants {
             ret = USER_HOME + name.substring(6);
         } else if (lcName.startsWith("<rehome>")) {
             ret = reHomeDirectory + name.substring("<rehome>".length());
-        } else if (lcName.startsWith("<reproperties>")) {
-            ret = getPropertiesDirectory() + name.substring("<reproperties>".length());
-        } else if ((lcName.startsWith("<reproperties>/") || lcName.startsWith("<reproperties>\\"))
-        	   && applicationDirectory != null
-        	   && applicationDirectory.endsWith(File.separator)) {
-            ret = applicationDirectory + name.substring("<reproperties>/".length());
+       } else if ((lcName.startsWith("<reproperties>/") || lcName.startsWith("<reproperties>\\"))
+         	   && applicationDirectory != null
+         	   && applicationDirectory.endsWith(File.separator)) {
+             ret = applicationDirectory + name.substring("<reproperties>/".length());
         } else if (lcName.startsWith("<reproperties>")) {
             ret = applicationDirectory + name.substring("<reproperties>".length());
         }
@@ -641,7 +652,7 @@ public final class Parameters implements ExternalReferenceConstants {
 	}
 
 	public static final void setProperty(String key, String value) {
-		properties.setProperty(key, value);
+		getInitialisedProperties().setProperty(key, value);
 		
 		if (savePropertyChanges) {
 			writeProperties();
@@ -696,5 +707,29 @@ public final class Parameters implements ExternalReferenceConstants {
 	public static void setSavePropertyChanges(boolean savePropertyChanges) {
 		Parameters.savePropertyChanges = savePropertyChanges;
 	}
+	
+	public static String dropStar(String filename) {
+		if (filename != null && filename.endsWith("*")) {
+			filename = filename.substring(0, filename.length()-1);
+		}
+		return filename;
+	}
 
+	public static String getExtensionOnly(String filename) {
+		String s = getExtension(filename);
+		if (s.startsWith(".")) {
+			s = s.substring(1);
+		}
+		
+		return s;
+	}
+
+	public static String getExtension(String filename) {
+		int lastDot;
+		if (filename == null || ((lastDot = filename.lastIndexOf('.')) < 0)) {
+			return "";
+		}
+
+		return filename.substring(lastDot);
+	}
 }

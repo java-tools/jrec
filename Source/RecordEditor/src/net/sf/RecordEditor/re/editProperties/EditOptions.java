@@ -87,14 +87,15 @@ public class EditOptions {
 		+ "<br>There is little validation, so be very careful what changes you make."
 		+ "<br>Any changes will not take affect until the next time"
 		+ "the <b>RecordEditor</b> / <b>Layout Editor</b> is run again."
-		+ "<br><br>There are 4 basic tab types in the program: "
+		+ "<br><br>There are 5 basic tab types in the program: "
 		+ "<table border=\"1\" cellpadding=\"3\">"
 		+ "<tr><TD><b>Properties</b></td>"
 		   +  "<td>Lets you update system properties like "
 		   +  "<b>Screen Position, Directories, Other Options, Wizard Option and Big File Options</b></td></tr>"
-		+ "<tr><td><b>JDBC Properties</b></td><td>Lets you set / update the Database (JDBC) "
-		        + "Connection properties "
-		        + "<br>to the <b>RecordEditor</b> backend DB </td></tr>"
+		+ "<tr><TD><b>Properties</b></td>"
+			   +  "<td>Lets you update system properties like "
+			   +  "<b>Screen Position, Directories, Other Options, Wizard Option and Big File Options</b></td></tr>"
+		+ "<tr><td><b>Xml</b></td><td>Xml Xslt properties / jars "
 		+ "<tr><td><b>Jars</b></td><td>These options let you update "
 		    + "the various JAR (java libraries) used by the <b>RecordEditor</b>."
 		    + "<br>The only time you should need to do this "
@@ -103,18 +104,19 @@ public class EditOptions {
 		   + "the <b>RecordEditor</b>.</td></tr>"
 		+ "<tr><td><b>Looks</b></td><td>This option lets you define the look and feel of the RecordEditor</td</tr>"
 		+ "</table>"
-		+ "<br><br><b>Files being updated are:</b>"
-		+ "<br>Editor Jars File=" + CommonCode.SYSTEM_JAR_FILE
-		+ "<br>  User Jars File=" + CommonCode.USER_JAR_FILE
+		+ "<br><br><b>Files being updated are:</b><pre>"
+		+ "<br>System       Jars File=" + CommonCode.SYSTEM_JAR_FILE
+		+ "<br>System JDBC  Jars File=" + CommonCode.SYSTEM_JDBC_JAR_FILE
+		+ "<br>  User       Jars File=" + CommonCode.USER_JAR_FILE
        //+ "<br>Editor Jars File=" + CommonCode.EDITOR_JAR_FILE
-        + "<br>Properties file=" + Parameters.getPropertyFileName();
+        + "<br>       Properties file=" + Parameters.getPropertyFileName() + "</pre>";
 
 //    tabbed.addTab("Copybook Loaders", loadersPnl);
 //    tabbed.addTab("User Types", typePnl);
 //    tabbed.addTab("User Formats", formatPnl);
 
 	private String directoryDescription
-		= "<h1>Directories</h1>"
+		= "<h2>Directories</h2>"
 		+ "The properties on this panel are for the various directories "
 		+ "used by the <b>RecordEditor</b>";
 
@@ -126,6 +128,8 @@ public class EditOptions {
             {Parameters.VELOCITY_COPYBOOK_DIRECTORY, "Velocity Template directory (Copybooks)", null, EditPropertiesPnl.FLD_DIR, null},
             {Parameters.COPYBOOK_DIRECTORY, "Directory to read / write file copybooks to", null, EditPropertiesPnl.FLD_DIR, null},
             {Parameters.XSLT_TEMPLATE_DIRECTORY, "Xslt Template directory (Editor)", null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.EXPORT_SCRIPT_DIRECTORY, "Export Script directory", null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.SCRIPT_DIRECTORY, "Extension Script directory", null, EditPropertiesPnl.FLD_DIR, null},
     };
     
 
@@ -135,29 +139,52 @@ public class EditOptions {
             {Parameters.SORT_TREE_SAVE_DIRECTORY, "Sort Tree Save Directory", null, EditPropertiesPnl.FLD_DIR, null},
             {Parameters.RECORD_TREE_SAVE_DIRECTORY, "Record Tree Save Directory", null, EditPropertiesPnl.FLD_DIR, null},
             {Parameters.COPY_SAVE_DIRECTORY, "Copy Save Directory",null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.LAYOUT_EXPORT_DIRECTORY, "Layout Velocity Export Directory",null, EditPropertiesPnl.FLD_DIR, null},
     };
 
-    private String otherDescription
-    	= "<H1>Other Properties</h1>"
-    	+ "This panels list various options / test parameters";
+    private String testDescription
+    	= "<h2>Test Properties</h2>"
+    	+ "The options on this screen are used in Testing the Editor.";
 
-    private Object[][] otherParams = {
+    private Object[][] testParams = {
             {Parameters.PROPERTY_TEST_MODE, "Weather we are running automated Tests (Marathon ?) or not ", null, EditPropertiesPnl.FLD_BOOLEAN, "Test Mode"},
-            {Parameters.BRING_LOG_TO_FRONT, "Bring Log to the Front if Data is written to it", null, EditPropertiesPnl.FLD_BOOLEAN, "Bring log to Front"}, // Checked
-            {Parameters.ASTERIX_IN_FILE_NAME, "Allow the asterix ('*') character in file Names", null, EditPropertiesPnl.FLD_BOOLEAN, null},
-            {Parameters.PREFERED_AS_DEFAULT, "Default to prefered layout", null, EditPropertiesPnl.FLD_BOOLEAN, null},
+ //           {Parameters.BRING_LOG_TO_FRONT, "Bring Log to the Front if Data is written to it", null, EditPropertiesPnl.FLD_BOOLEAN, "Bring log to Front"}, // Checked
+ //           {Parameters.ASTERIX_IN_FILE_NAME, "Allow the asterix ('*') character in file Names", null, EditPropertiesPnl.FLD_BOOLEAN, null},
+ //           {Parameters.PREFERED_AS_DEFAULT, "Default to prefered layout", null, EditPropertiesPnl.FLD_BOOLEAN, null},
             {Parameters.WARN_BINARY_FIELDS_DEFAULT, "Warn the user if Binary-Fields and Structure=Default", null, EditPropertiesPnl.FLD_BOOLEAN, "Warn on Structure change"}, // CHECK
             {Parameters.PROPERTY_LOAD_FILE_BACKGROUND, "Load File in Background thread", null, EditPropertiesPnl.FLD_BOOLEAN, "Load In background"}, // Checked
             {Parameters.USE_NEW_TREE_EXPANSION, "Use New Tree Expansion", null, EditPropertiesPnl.FLD_BOOLEAN,  "Use New Tree Expansion"},
             {Parameters.SEARCH_ALL_FIELDS, "Search: All Fields", null, EditPropertiesPnl.FLD_BOOLEAN,  "On Search Screen default to \"All Fields\""},
-            {Parameters.SHOW_ALL_EXPORT_OPTIONS, "Show all export panels", null, EditPropertiesPnl.FLD_BOOLEAN,  "Show all export panels on the export Screen"},
-            {Parameters.DEL_SELECTED_WITH_DEL_KEY, "Delete Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Delete Selected with delete key"},
-            {Parameters.WARN_WHEN_USING_DEL_KEY,  "Warn the user before deleteing Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Warn user with delete key"},
+            {Parameters.NAME_FIELDS, "Add names to screen Componenets", null, EditPropertiesPnl.FLD_BOOLEAN,  "Add names to JComponents for use by testing tools"},
+//            {Parameters.SHOW_ALL_EXPORT_OPTIONS, "Show all export panels", null, EditPropertiesPnl.FLD_BOOLEAN,  "Show all export panels on the export Screen"},
+//            {Parameters.DEL_SELECTED_WITH_DEL_KEY, "Delete Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Delete Selected with delete key"},
+//            {Parameters.WARN_WHEN_USING_DEL_KEY,  "Warn the user before deleteing Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Warn user with delete key"},
     };
 
+    private String behaviourDescription
+	= "<h2>Behavior Properties</h2>"
+	+ "The options on this screen affect the behavior of the editor.<br/"
+	+ "<b>Bring Log to the Front</b>: Wether the log file will be brought to the fron when "
+	+ "data is written to it.<br/>"
+	+ "<b>Default to prefered</b>: Wether to use the prefered layout by default when editting<br/>"
+	+ "<b>Show all export panels</b>: Wether to show all export options or just the option selected<br/>";
+
+private Object[][] behaviourParams = {
+//        {Parameters.PROPERTY_TEST_MODE, "Weather we are running automated Tests (Marathon ?) or not ", null, EditPropertiesPnl.FLD_BOOLEAN, "Test Mode"},
+        {Parameters.BRING_LOG_TO_FRONT, "Bring Log to the Front if Data is written to it", null, EditPropertiesPnl.FLD_BOOLEAN, "Bring log to Front"}, // Checked
+        {Parameters.ASTERIX_IN_FILE_NAME, "Allow the asterix ('*') character in file Names", null, EditPropertiesPnl.FLD_BOOLEAN, null},
+        {Parameters.PREFERED_AS_DEFAULT, "Default to prefered layout", null, EditPropertiesPnl.FLD_BOOLEAN, null},
+//        {Parameters.WARN_BINARY_FIELDS_DEFAULT, "Warn the user if Binary-Fields and Structure=Default", null, EditPropertiesPnl.FLD_BOOLEAN, "Warn on Structure change"}, // CHECK
+//        {Parameters.PROPERTY_LOAD_FILE_BACKGROUND, "Load File in Background thread", null, EditPropertiesPnl.FLD_BOOLEAN, "Load In background"}, // Checked
+//        {Parameters.USE_NEW_TREE_EXPANSION, "Use New Tree Expansion", null, EditPropertiesPnl.FLD_BOOLEAN,  "Use New Tree Expansion"},
+//        {Parameters.SEARCH_ALL_FIELDS, "Search: All Fields", null, EditPropertiesPnl.FLD_BOOLEAN,  "On Search Screen default to \"All Fields\""},
+        {Parameters.SHOW_ALL_EXPORT_OPTIONS, "Show all export panels", null, EditPropertiesPnl.FLD_BOOLEAN,  "Show all export panels on the export Screen"},
+        {Parameters.DEL_SELECTED_WITH_DEL_KEY, "Delete Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Delete Selected rows with the delete key"},
+        {Parameters.WARN_WHEN_USING_DEL_KEY,  "Warn the user before deleteing Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Warn when deleteing rows via delete key"},
+};
 
     private String fileDescription
-	= "<H1>File Propertie 2s</h1>"
+	= "<h2>File Propertie 2s</h2>"
 	+ "This panels lists various File related parameters.";
 
     private Object[][] fileParams = {
@@ -171,7 +198,7 @@ public class EditOptions {
     };
 
     private String layoutWizardParamsDescription
-	= "<H1>Layout Wizard Properties</h1>"
+	= "<h2>Layout Wizard Properties</h2>"
 	+ "This panels holds various Field Search options used by the Layout Wizard";
 
     private Object[][] layoutWizardParams = {
@@ -185,7 +212,7 @@ public class EditOptions {
 
 
     private String bigModelDescription
-    	= "<H1>Big Model Properties</h1>"
+    	= "<h2>Big Model Properties</h2>"
     	+ "This panels lists parameters for the \"Big File\" Data Models.\n"
     	+ "You can use these options to optermise the Read Time for very big files";
 
@@ -217,8 +244,10 @@ public class EditOptions {
     	= new EditPropertiesPnl(params, directoryDescription, directoryParams1);
     private EditPropertiesPnl directoryPnl2
 		= new EditPropertiesPnl(params, directoryDescription, directoryParams2);
-    private EditPropertiesPnl otherPnl
-		= new EditPropertiesPnl(params, otherDescription, otherParams);
+    private EditPropertiesPnl testPnl
+		= new EditPropertiesPnl(params, testDescription, testParams);
+    private EditPropertiesPnl behaviourPnl
+ 		= new EditPropertiesPnl(params, behaviourDescription, behaviourParams);
     private EditPropertiesPnl file2Pnl
  		= new EditPropertiesPnl(params, fileDescription, fileParams);
     private EditPropertiesPnl layoutWizardPnl
@@ -227,7 +256,7 @@ public class EditOptions {
 		= new EditPropertiesPnl(params, bigModelDescription, bigModelParams);
 
     private String xsltDescription
-    	= "<H1>Xslt Properties</h1>"
+    	= "<h2>Xslt Properties</h2>"
     	+ "This panels let you specify XSLT related jars and the XSLT transform class<br>"
     	+ "For Saxon or Xalan, you can just enter Saxon or Xalan, Or you can enter<pre>"
     	+ "        net.sf.saxon.TransformerFactoryImpl\n"
@@ -241,7 +270,7 @@ public class EditOptions {
 		= new EditPropertiesPnl(params, xsltDescription, xsltParams);
 
     private EditJarsPanel xsltJarsPnl = new EditJarsPanel(params,
-            "<h1>Xslt Jars</h1>This panel lets you specify your XSLT jars ",
+            "<h2>Xslt Jars</h2>This panel lets you specify your XSLT jars ",
             params.xsltJars,
             "xslt",
             true);
@@ -249,7 +278,7 @@ public class EditOptions {
     private EditJdbcParamsPanel jdbcParamsPnl = new EditJdbcParamsPanel(params, params.jdbcJars);
 
     private EditJarsPanel jdbcPnl = new EditJarsPanel(params,
-            "<h1>JDBC Jars</h1>This panel lets you change the "
+            "<h2>JDBC Jars</h2>This panel lets you change the "
           + "JDBC (Java Database Conectivity) Jars that are needed by "
           + "the <b>RecordEditor</b>."
           + "<br><br>If you click on a row in the table, the fields at the bottom "
@@ -260,7 +289,7 @@ public class EditOptions {
             "jdbc.",
             true);
     private EditJarsPanel systemPnl = new EditJarsPanel(params,
-            "<h1>System Jars</h1>This panel lets you change the "
+            "<h2>System Jars</h2>This panel lets you change the "
           + "Jars supplied with the <b>RecordEditor</b> like cb2xml."
           + "<br>These jars are used by the <b>RecordEditor</b> but are written "
           + "and maintained by other people",
@@ -268,14 +297,14 @@ public class EditOptions {
             "",
             false);
     private EditJarsPanel optionalPnl = new EditJarsPanel(params,
-            "<h1>Optional Jars</h1>This panel lets you specify jars "
+            "<h2>Optional Jars</h2>This panel lets you specify jars "
           + "the <b>full editor</b> needs but the light weight editor does not.",
             params.optionalJars,
             "optional.",
             true
             );
     private EditJarsPanel userPnl = new EditJarsPanel(params,
-            "<h1>User Jars</h1>This panel lets you specify your own jars "
+            "<h2>User Jars</h2>This panel lets you specify your own jars "
           + "<br>These jars will be used when the <b>RecordEditor</b starts. "
           + "<br>When adding your own jars, <br>you should also invoke your own "
           + "initialisation class via the <i>UserInitilizeClass</i> property "
@@ -379,7 +408,7 @@ public class EditOptions {
    };
 
 	private String screenLocationDescription
-		= "<h1>Screen positioning Properties</h1>"
+		= "<h2>Screen positioning Properties</h2>"
 		+ "The properties on this panel are for setting the amount "
 		+ "of space to be left around the edge of the <b>RecordEditor</b>."
 		+ "<br>The editor can start using the full screen or any part "
@@ -554,13 +583,14 @@ public class EditOptions {
 
         propertiesTabbed.addTab("Directories", directoryPnl1);
         propertiesTabbed.addTab("Save Directories", directoryPnl2);
-        propertiesTabbed.addTab("Other Options", otherPnl);
+        propertiesTabbed.addTab("Test", testPnl);
+        propertiesTabbed.addTab("Behaviour", behaviourPnl);
         propertiesTabbed.addTab("File Options", file2Pnl);
        
         if (includeWizardOptions) {
-        	propertiesTabbed.addTab("Layout Wizard Options", layoutWizardPnl);
+        	propertiesTabbed.addTab("Layout Wizard", layoutWizardPnl);
         }
-       	propertiesTabbed.addTab("Big Model Options", bigModelPnl);
+       	propertiesTabbed.addTab("Big Model", bigModelPnl);
        
         propertiesTabbed.addTab("Defaults", 
         		new EditDefaults(params, optionDescription, 
@@ -586,17 +616,17 @@ public class EditOptions {
         looksTabbed.addTab("Icons", new EditIcons(params));
         looksTabbed.addTab("Screen Properties", screenPosPnl);
 
-        mainTabbed.addTab("Description", init_310_Screen());
-        mainTabbed.addTab("Properties", propertiesTabbed);
-        mainTabbed.addTab("Xml", xmlTabbed);
+        addMainTab("Description", init_310_Screen());
+        addMainTab("Properties", propertiesTabbed);
+        addMainTab("Xml", xmlTabbed);
         if (includeJDBC) {
         	jdbcTabbed.addTab("JDBC Jars", jdbcPnl);
         	jdbcTabbed.addTab("JDBC Properties", jdbcParamsPnl);
-        	mainTabbed.addTab("JDBC Parameters", jdbcTabbed);
+        	addMainTab("JDBC Parameters", jdbcTabbed);
         }
-        mainTabbed.addTab("Jars", jarsTabbed);
-        mainTabbed.addTab("Extensions", userTabbed);
-        mainTabbed.addTab("Looks", looksTabbed);
+        addMainTab("Jars", jarsTabbed);
+        addMainTab("Extensions", userTabbed);
+        addMainTab("Looks", looksTabbed);
 
         topPnl.setLayout(new BorderLayout());
         topPnl.add("North", toolBar);
@@ -615,6 +645,11 @@ public class EditOptions {
 //        printTabDetails("looksTabbed", looksTabbed);
     }
     
+    
+    private void addMainTab(String name, JComponent item) {
+    	item.setName(name + "Tab");
+    	mainTabbed.add(name, item);
+    }
 //    private void printTabDetails(String name, JTabbedPane tab) {
 //    	
 //    	System.out.println(name + " " + tab.getTabCount());

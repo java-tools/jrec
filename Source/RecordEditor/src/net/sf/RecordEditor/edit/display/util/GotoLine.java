@@ -10,9 +10,9 @@ import javax.swing.JInternalFrame;
 import javax.swing.JTextField;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
-import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
 import net.sf.RecordEditor.re.file.FilePosition;
 import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;

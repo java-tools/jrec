@@ -20,7 +20,6 @@ import java.util.HashMap;
 
 import net.sf.JRecord.Common.AbstractManager;
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Details.DefaultLineProvider;
 import net.sf.JRecord.Details.LineProvider;
 
 
@@ -49,8 +48,9 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
 	private HashMap<Integer, AbstractLineIOProvider> providers = new HashMap<Integer, AbstractLineIOProvider>();
 	public int START_USER_FILE_STRUCTURES = 1000;
     private static LineIOProvider ioProvider = null;
-    @SuppressWarnings("unchecked")
-	private LineProvider provider;
+
+//	@SuppressWarnings("rawtypes")
+//	private LineProvider provider;
  
     
     //private  int numberOfEntries = 0;
@@ -75,14 +75,13 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
      * @param lineProvider lineProvider to use. Line providers
      * create Lines.
      */
-    @SuppressWarnings("unchecked")
-	public LineIOProvider(final LineProvider lineProvider) {
+	public LineIOProvider(@SuppressWarnings("rawtypes") final LineProvider lineProvider) {
         super();
 
-        provider = lineProvider;
-        if (lineProvider == null) {
-            provider = new DefaultLineProvider();
-        }
+//        provider = lineProvider;
+//        if (lineProvider == null) {
+//            provider = new DefaultLineProvider();
+//        }
         registerNames(standardProvider);
     }
 
@@ -96,7 +95,7 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
      *
      * @return line reader
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings( "rawtypes" )
 	public AbstractLineReader getLineReader(int fileStructure) {
         return getLineReader(fileStructure, getLineProvider(fileStructure));
     }
@@ -105,7 +104,7 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
     /* (non-Javadoc)
 	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineReader(int, net.sf.JRecord.Details.LineProvider)
 	 */
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public AbstractLineReader getLineReader(int fileStructure,
             						   LineProvider lineProvider) {
     	return getProvider(fileStructure).getLineReader(fileStructure, lineProvider);
@@ -167,21 +166,21 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
     }
 
     
-    /**
-     * Get line provider
-     * @return Returns the provider.
-     * @deprecated use getLineProvider(fileStructure)
-     */
-    @SuppressWarnings("unchecked")
-	public LineProvider getLineProvider() {
-        return provider;
-    }
+//    /**
+//     * Get line provider
+//     * @return Returns the provider.
+//     * @deprecated use getLineProvider(fileStructure)
+//     */
+//	@SuppressWarnings("rawtypes")
+//	public LineProvider getLineProvider() {
+//        return provider;
+//    }
 
 
     /* (non-Javadoc)
 	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineProvider(int)
 	 */
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public LineProvider getLineProvider(int fileStructure) {
     	return getProvider(fileStructure).getLineProvider(fileStructure);
     }

@@ -726,27 +726,23 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 			return null;
 		} else {
 			return f.getFieldName();
-		}
+        }
 	}
-//
-//	/**
-//	 * Set the Field / value that should be tested to determine if this is the valid
-//	 * Sub-Record for the current line.
-//	 * 
-//	 * @param tstField the tstField to set
-//	 * @param value Value to compare field to
-//	 * 
-//	 *  @Deprecated  use addTstField
-//	 */ @Deprecated 
-//	public void setTstField(String tstField, String value) {
-//		TstField fld = new TstField(tstField, value);
-//		getTestField();
-//		if (tstFields.size() == 0) {
-//			tstFields.add(fld);
-//		}
-//		tstFields.set(0, fld);
-//	}
-//
+
+	/**
+	 * Set the Field / value that should be tested to determine if this is the valid
+	 * Sub-Record for the current line.
+	 * 
+	 * @param tstField the tstField to set
+	 * @param value Value to compare field to
+	 * 
+	 *  @Deprecated  use addTstField
+	 */ @Deprecated 
+	public void setTstField(String tstField, String value) {
+
+		recSelect = new ExternalFieldSelection(tstField, value);
+	}
+
 	/**
 	 * Add a Field/Value that should be tested to determine if this is the valid
 	 * Sub-Record for the current line.
@@ -764,9 +760,9 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 			g.add(new ExternalFieldSelection(tstField, value));
 			return;
 		}
-		System.out.println();
-		System.out.println("-->" + recSelect);
-		System.out.println("-->" + recSelect.getClass().getName());
+		//System.out.println();
+		//System.out.println("-->" + recSelect);
+		//System.out.println("-->" + recSelect.getClass().getName());
 		throw new RuntimeException("Can not add Test Field");
 	}
 
@@ -784,16 +780,16 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 				return f.getFieldValue();
 			}
 	}
-//
-//	
-//	 public int getTstFieldCount() {
-//		 int ret = 0;
-//		 if (tstFields != null) {
-//			 ret = tstFields.size();
-//		 }
-//		 
-//		 return ret;
-//	 }
+
+	
+	 public int getTstFieldCount() {
+		 int ret = 0;
+		 if (recSelect != null) {
+			 ret = recSelect.getElementCount();
+		 }
+		 
+		 return ret;
+	 }
 	 
 	 private ExternalFieldSelection getFirstSelection(ExternalSelection s) {
 		 
@@ -991,14 +987,14 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	/**
 	 * @return the recSelect
 	 */
-	public ExternalSelection getRecSelect() {
+	public ExternalSelection getRecordSelection() {
 		return recSelect;
 	}
 
 	/**
 	 * @param recSelect the recSelect to set
 	 */
-	public void setRecSelect(ExternalSelection recSelect) {
+	public void setRecordSelection(ExternalSelection recSelect) {
 		this.recSelect = StreamLine.getExternalStreamLine().streamLine(recSelect);
 	}
 

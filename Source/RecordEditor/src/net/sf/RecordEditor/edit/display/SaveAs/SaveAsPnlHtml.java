@@ -23,7 +23,7 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.TableModel2HTML;
 
 /**
- * @author mum
+ * @author Bruce Martin
  *
  */
 public class SaveAsPnlHtml extends SaveAsPnlBase {
@@ -38,11 +38,10 @@ public class SaveAsPnlHtml extends SaveAsPnlBase {
 	
 	
 	private String outfile;
+	
+	
 	/**
-	 * @param extension
-	 * @param panelFormat
-	 * @param extensionType
-	 * @param template
+	 * @param commonSaveAsFields common screen fields
 	 */
 	public SaveAsPnlHtml(CommonSaveAsFields commonSaveAsFields) {
 		super(commonSaveAsFields, ".html", CommonSaveAsFields.FMT_HTML, RecentFiles.RF_NONE, null);
@@ -129,7 +128,7 @@ public class SaveAsPnlHtml extends SaveAsPnlBase {
      *
      * @throws IOException any io errors
      */
-    private void treeTableHtml(String selection, FileView currFile)
+    private void treeTableHtml(String selection, @SuppressWarnings("rawtypes") FileView currFile)
     				throws IOException {
 
         FileWriter writer = new FileWriter(getHtmlName());
@@ -155,7 +154,8 @@ public class SaveAsPnlHtml extends SaveAsPnlBase {
         htmlOut.writeHtmlEnd();
     }
 
-    private void writeTreeLineAsHtml(TableModel2HTML htmlOut, LineModel mdl, AbstractLine line, 
+    @SuppressWarnings("rawtypes")
+	private void writeTreeLineAsHtml(TableModel2HTML htmlOut, LineModel mdl, AbstractLine line, 
     		String indent, String id) 
     throws IOException {
         mdl.setCurrentLine(line, Common.NULL_INTEGER);

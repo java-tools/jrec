@@ -11,8 +11,8 @@ package net.sf.JRecord.Details;
 import net.sf.JRecord.Common.AbstractRecord;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
-import net.sf.JRecord.Details.Selection.FieldSelectX;
 import net.sf.JRecord.Types.TypeManager;
+import net.sf.JRecord.detailsSelection.FieldSelectX;
 
 
 
@@ -44,7 +44,7 @@ import net.sf.JRecord.Types.TypeManager;
  * @version 0.55
  */
 public class RecordDetail extends BasicRecordDetail<FieldDetail, RecordDetail, AbstractChildDetails<RecordDetail>>
-implements AbstractRecord, AbstractRecordDetail<FieldDetail> {
+implements AbstractRecordDetail<FieldDetail> {
 
     //private static final int STATUS_EXISTS         =  1;
 
@@ -66,6 +66,8 @@ implements AbstractRecord, AbstractRecordDetail<FieldDetail> {
 	private int    recordStyle;
 	
 	private int    numberOfFieldsAdded = 0;
+	
+	private int    childId=0;
 	//private int editorStatus = STATUS_UNKOWN;
 
 
@@ -89,10 +91,11 @@ implements AbstractRecord, AbstractRecordDetail<FieldDetail> {
 						final String pQuote,
 						final String pFontName,
 						final FieldDetail[] pFields,
-						final int pRecordStyle
+						final int pRecordStyle,
+						final int childId
 						) {
 		this(pRecordName, pRecordType, pDelim,
-			 pQuote, pFontName, pFields, pRecordStyle);
+			 pQuote, pFontName, pFields, pRecordStyle, childId);
 
 		if (!"".equals(pSelectionField)) {
 			recordSelection.setRecSel(FieldSelectX.get(pSelectionField, pSelectionValue, "=", getField(pSelectionField)));	
@@ -118,10 +121,11 @@ implements AbstractRecord, AbstractRecordDetail<FieldDetail> {
 						final String pFontName,
 						final FieldDetail[] pFields,
 						final int pRecordStyle,
-						final RecordSelection selection
+						final RecordSelection selection,
+						final int childId
 						) {
 		this(pRecordName, pRecordType, pDelim,
-			 pQuote, pFontName, pFields, pRecordStyle);
+			 pQuote, pFontName, pFields, pRecordStyle, childId);
 
 		recordSelection = selection;
 	}
@@ -143,7 +147,8 @@ implements AbstractRecord, AbstractRecordDetail<FieldDetail> {
 						final String pQuote,
 						final String pFontName,
 						final FieldDetail[] pFields,
-						final int pRecordStyle
+						final int pRecordStyle,
+						final int childId
 						) {
 		super();
 
@@ -155,6 +160,7 @@ implements AbstractRecord, AbstractRecordDetail<FieldDetail> {
 		this.quote    = pQuote;
 		this.fontName = pFontName;
 		this.recordStyle = pRecordStyle;
+		this.childId = childId;
 
 		this.fieldCount = pFields.length;
 		while (fieldCount > 0 && fields[fieldCount - 1] == null) {
@@ -379,5 +385,12 @@ implements AbstractRecord, AbstractRecordDetail<FieldDetail> {
 	 */
 	public RecordSelection getRecordSelection() {
 		return recordSelection;
+	}
+
+	/**
+	 * @return the childId
+	 */
+	public int getChildId() {
+		return childId;
 	}
 }

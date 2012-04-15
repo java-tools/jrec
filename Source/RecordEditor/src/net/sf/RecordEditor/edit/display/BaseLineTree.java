@@ -24,10 +24,10 @@ import net.sf.JRecord.Details.AbstractLine;
 import net.sf.RecordEditor.edit.display.Action.AutofitAction;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.edit.display.common.AbstractRowChanged;
-import net.sf.RecordEditor.edit.display.common.AbstractTreeFrame;
 import net.sf.RecordEditor.edit.display.util.RowChangeListner;
 
 import net.sf.RecordEditor.re.file.AbstractLineNode;
+import net.sf.RecordEditor.re.file.AbstractTreeFrame;
 import net.sf.RecordEditor.re.file.FieldMapping;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.tree.LineTreeTabelModel;
@@ -168,10 +168,10 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
             public void mousePressed(MouseEvent m) {
                 int col = treeTable.columnAtPoint(m.getPoint());
 
-                popupRow = tblDetails.rowAtPoint(m.getPoint());
+                popupRow = treeTable.rowAtPoint(m.getPoint());
 
                 checkRowChange(popupRow);
-                if (col == 0) {
+                if (treeTable.getColumnModel().getColumn(col).getModelIndex() == 0) {
                 	newLineFrame(getNodeForRow(popupRow));
                 } else {
                 	super.mousePressed(m);

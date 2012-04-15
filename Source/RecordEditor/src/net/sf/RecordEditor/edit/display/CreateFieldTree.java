@@ -16,9 +16,9 @@ package net.sf.RecordEditor.edit.display;
 
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
-import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
 import net.sf.RecordEditor.edit.display.util.BaseFieldSelection;
 import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.re.tree.TreeParserField;
 import net.sf.RecordEditor.utils.common.Common;
 
@@ -28,6 +28,7 @@ import net.sf.RecordEditor.utils.common.Common;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class CreateFieldTree extends BaseFieldSelection {
 
     /**
@@ -36,7 +37,8 @@ public class CreateFieldTree extends BaseFieldSelection {
      * @param src Display source
      * @param fileTbl file to be sorted
      */
-    public CreateFieldTree(final AbstractFileDisplay src, final FileView fileTbl) {
+    @SuppressWarnings("rawtypes")
+	public CreateFieldTree(final AbstractFileDisplay src, final FileView fileTbl) {
     	super(src, fileTbl, "Create Field Tree View", Common.ID_SUMMARY_ICON, "Build Tree",
     			1, true, true);
 		super.setHelpURL(Common.formatHelpURL(Common.HELP_FIELD_TREE));
@@ -49,7 +51,8 @@ public class CreateFieldTree extends BaseFieldSelection {
      * @param descending wether it is a descending (or ascending sort
      * @param layout Record Layout definition
      */
-    protected void doAction(FileView view, int recordIndex, AbstractFileDisplay src,
+    @SuppressWarnings("rawtypes")
+	protected void doAction(FileView view, int recordIndex, AbstractFileDisplay src,
     		int[] fieldList, boolean[] descending, AbstractLayoutDetails layout) {
     	
     	FileView newView = getNewView();

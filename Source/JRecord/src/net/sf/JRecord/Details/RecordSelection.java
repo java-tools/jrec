@@ -3,8 +3,8 @@ package net.sf.JRecord.Details;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.JRecord.Details.Selection.FieldSelect;
-import net.sf.JRecord.Details.Selection.RecordSel;
+import net.sf.JRecord.detailsSelection.FieldSelect;
+import net.sf.JRecord.detailsSelection.RecordSel;
 
 public class RecordSelection {
 	

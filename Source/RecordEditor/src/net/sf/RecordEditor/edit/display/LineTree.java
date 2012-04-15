@@ -300,7 +300,6 @@ public class LineTree extends BaseLineTree<LineNode> {
 	/**
 	 * @see javax.swing.event.TableModelListener#tableChanged(javax.swing.event.TableModelEvent)
 	 */
-	@SuppressWarnings("unchecked")
 	public void tableChanged(TableModelEvent event) {
         int lastRowChanged  = event.getLastRow();
         int firstRowChanged =  event.getFirstRow();
@@ -315,6 +314,7 @@ public class LineTree extends BaseLineTree<LineNode> {
 			break;
 			case (TableModelEvent.UPDATE):
 				LineNode n = findNode4LineNumber(root, firstRowChanged);
+				@SuppressWarnings("rawtypes")
 				AbstractLine l;
 				
 				if (n == null 
@@ -424,8 +424,7 @@ public class LineTree extends BaseLineTree<LineNode> {
 	 * @param l line to check
 	 * @return if it is a Xml end tag
 	 */
-	@SuppressWarnings("unchecked")
-	private boolean tableChanged_300_isNotEnd(AbstractLine l) {
+	private boolean tableChanged_300_isNotEnd(@SuppressWarnings("rawtypes") AbstractLine l) {
 		Object o = l.getField(l.getPreferredLayoutIdx(), 0);
 		String s = "";
 		if (o != null) {
@@ -594,27 +593,12 @@ public class LineTree extends BaseLineTree<LineNode> {
 	 
 	 
 	 
-/*	public static void main(final String[] pgmArgs) {
-		String fn = "/home/knoppix/RecordEdit/HSQLDB/SampleFiles/Xml/IVM0034_Map.XML";
-		
-		try {
-			CopyBookInterface copyBookInterface = new CopyBookDbReader();
-			LayoutDetail layout = copyBookInterface.getLayout("XML");
-			FileView view = new FileView(fn, layout, false);
-			
-			new ReMainFrame("Specific file", "");
-			new LineTree(view);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
 
 	 /* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getNewDisplay(net.sf.RecordEditor.edit.file.FileView)
 	 */
 	@Override
-	protected BaseDisplay getNewDisplay(FileView view) {
+	protected BaseDisplay getNewDisplay(@SuppressWarnings("rawtypes") FileView view) {
 		return new LineTree(view, this.parser, false, this.cols2skip);
 	}
 
@@ -635,5 +619,22 @@ public class LineTree extends BaseLineTree<LineNode> {
 		 }
 	 }
 	 
+	 
+	 /*	public static void main(final String[] pgmArgs) {
+		String fn = "/home/knoppix/RecordEdit/HSQLDB/SampleFiles/Xml/IVM0034_Map.XML";
+		
+		try {
+			CopyBookInterface copyBookInterface = new CopyBookDbReader();
+			LayoutDetail layout = copyBookInterface.getLayout("XML");
+			FileView view = new FileView(fn, layout, false);
+			
+			new ReMainFrame("Specific file", "");
+			new LineTree(view);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}*/
+
 	 
 }

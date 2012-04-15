@@ -32,4 +32,7 @@ public class ReConnection implements AbsConnection {
 		return false;
 	}
 
+	public static ReConnection getConnection(int dbIdx) {
+		return new ReConnection(dbIdx);
+	}
 }

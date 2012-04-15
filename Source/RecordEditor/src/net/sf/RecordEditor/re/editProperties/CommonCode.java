@@ -26,7 +26,7 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
  *
  */
 public final class CommonCode {
-    public static final int TIP_HEIGHT = SwingUtils.STANDARD_FONT_HEIGHT * 11;
+    public static final int TIP_HEIGHT = SwingUtils.TIP_HEIGHT;
     public static final String SYSTEM_JAR_FILE = Parameters.getSytemJarFileDirectory()
     												+ Common.FILE_SEPERATOR
     												+ ExternalReferenceConstants.SYSTEM_JARS_FILENAME;

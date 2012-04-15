@@ -107,7 +107,7 @@ public class UnknownFormatReader extends AbstractLineReader {
 	            }
 	            
 	            recs[0] = new RecordDetail("UnknownFormatRecord", "", "", Constants.rtRecordLayout,
-	            		"",  "", font, flds, 0);
+	            		"",  "", font, flds, 0, 0);
 	            
 	            layout  =
 	                new LayoutDetail(layout.getLayoutName(), recs, "",

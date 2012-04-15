@@ -239,7 +239,7 @@ public class Line extends BasicLine<Line> {
 				int l1, l2;
 				int tp = Constants.NULL_INTEGER;
 				int diff = 2;
-				System.out.println();
+				//System.out.println();
 				for (int i=0; i< layout.getRecordCount(); i++) {
 					//System.out.println(" ::- " + i + " " + getLineData().length + " " + layout.getRecord(i).getLength());
 					l1 = getLineData().length;

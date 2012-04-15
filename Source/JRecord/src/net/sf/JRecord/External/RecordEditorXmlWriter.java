@@ -8,11 +8,12 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Details.Selection.RecordSel;
 import net.sf.JRecord.ExternalRecordSelection.ExternalSelection;
 import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
 import net.sf.JRecord.ExternalRecordSelection.ExternalGroupSelection;
+import net.sf.JRecord.ExternalRecordSelection.StreamLine;
 import net.sf.JRecord.Log.AbsSSLogger;
+import net.sf.JRecord.detailsSelection.RecordSel;
 
 /**
  * Write a RecordLayout (Record or Line Description) to a RecordEditor-XML file.
@@ -46,11 +47,7 @@ public class RecordEditorXmlWriter implements CopybookWriter {
     		 Object o =  XMLOutputFactory.newInstance("javax.xml.stream.XMLOutputFactory", 
 					  this.getClass().getClassLoader());
     		 f = (XMLOutputFactory) o;
-		}
-    	//TODO Put line back in once fixed
-    	//XMLOutputFactory f =  XMLOutputFactory.newInstance("javax.xml.stream.XMLOutputFactory", 
-    	// 									  this.getClass().getClassLoader());
- 
+		} 
        
        writer = f.createXMLStreamWriter(outStream);
        
@@ -98,18 +95,24 @@ public class RecordEditorXmlWriter implements CopybookWriter {
        writer.writeAttribute(Constants.RE_XML_QUOTE, copybook.getQuote());
        writer.writeAttribute(Constants.RE_XML_RECORDSEP, copybook.getRecSepList());
        //writer.writeAttribute(Constants.RE_XML_SYSTEMNAME, "");
+       ExternalSelection xSel = StreamLine.getExternalStreamLine().streamLine(copybook.getRecordSelection());
        if (copybook.isDefaultRecord()) {
-    	   if (copybook.getRecSelect() == null) {
+    	   if (xSel == null) {
         	   writeAttr(writer, Constants.RE_XML_TESTFIELD, "");
         	   writeAttr(writer, Constants.RE_XML_TESTVALUE, "*");
         	   toPrint = false;
            }
-       } else if (copybook.getRecSelect() == null) {
+       } else if (xSel == null) {
     	   toPrint = false;
-       } else if (copybook.getRecSelect() instanceof ExternalFieldSelection) {
-    	   writeAttr(writer, Constants.RE_XML_TESTFIELD, copybook.getTstField());
-    	   writeAttr(writer, Constants.RE_XML_TESTVALUE, copybook.getTstFieldValue());
-    	   toPrint = false;
+       } else if (xSel instanceof ExternalFieldSelection) {
+    	   ExternalFieldSelection eFld = (ExternalFieldSelection) xSel;
+    	   if ("=".equals(eFld.getOperator()) || "eq".equalsIgnoreCase(eFld.getOperator())) {
+	    	   writeAttr(writer, Constants.RE_XML_TESTFIELD, eFld.getFieldName());
+	    	   writeAttr(writer, Constants.RE_XML_TESTVALUE, eFld.getFieldValue());
+	    	   toPrint = false;
+    	   }
+       } else if (xSel instanceof ExternalGroupSelection) {
+    	   toPrint = ((ExternalGroupSelection) xSel).getSize() > 0;
        }
        writeAttr(writer, Constants.RE_XML_LINE_NO_FIELD_NAME, copybook.getLineNumberOfFieldNames(), 0);
        
@@ -128,7 +131,7 @@ public class RecordEditorXmlWriter implements CopybookWriter {
     		   writer.writeAttribute(Constants.RE_XML_DEFAULTREC, "Y");
     	   }
     	   
-    	   writeSelection(writer, copybook.getRecSelect());
+    	   writeSelection(writer, xSel);
     	   writer.writeEndElement();
        }
 

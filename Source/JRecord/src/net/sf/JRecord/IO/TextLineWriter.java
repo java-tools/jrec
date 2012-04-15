@@ -70,9 +70,10 @@ public class TextLineWriter extends AbstractLineWriter {
     /**
      * @see net.sf.JRecord.IO.AbstractLineWriter#write(net.sf.JRecord.Details.AbstractLine)
      */
-    public void write(AbstractLine line) throws IOException  {
+    public void write(@SuppressWarnings("rawtypes") AbstractLine line) throws IOException  {
 
-    	AbstractLayoutDetails layout =  line.getLayout();
+    	@SuppressWarnings("rawtypes")
+		AbstractLayoutDetails layout =  line.getLayout();
 	    String sep = Constants.LINE_SEPERATOR;
 	    if (layout != null) {
 	    	sep = layout.getEolString();
@@ -104,7 +105,7 @@ public class TextLineWriter extends AbstractLineWriter {
      * Set the Record Layout
      * @param layout record layout to set
      */
-    public void setLayout(AbstractLayoutDetails layout) {
+    public void setLayout(@SuppressWarnings("rawtypes") AbstractLayoutDetails layout) {
         try {
             if (writeNames && writer != null) {
                 writeLayout(writer, layout);
@@ -122,12 +123,13 @@ public class TextLineWriter extends AbstractLineWriter {
      * @throws IOException any error that occurs
      */
     public void writeLayout(BufferedWriter pWriter,
-            				AbstractLayoutDetails layout)
+            				@SuppressWarnings("rawtypes") AbstractLayoutDetails layout)
     throws IOException {
 
         int i;
-       // FieldDetail[] fields = layout.getRecord(0).getFields();
-        AbstractRecordDetail rec = layout.getRecord(0);
+
+        @SuppressWarnings("rawtypes")
+		AbstractRecordDetail rec = layout.getRecord(0);
         AbstractParser parser = ParserManager.getInstance().get(layout.getRecord(0).getRecordStyle());
         String delim = layout.getRecord(0).getDelimiter();
 

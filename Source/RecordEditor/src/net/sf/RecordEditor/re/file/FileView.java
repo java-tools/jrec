@@ -829,12 +829,15 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	public Object getValueAt(final int layoutIdx, final int row, final int col) {
 	    int tmpCol = getRealColumn(layoutIdx, col);
 
-		if ((row >= getRowCount())
-		|| (tmpCol < 0 && tmpCol != Constants.KEY_INDEX)
-		|| (tmpCol >= layout.getRecord(layoutIdx).getFieldCount())) {
-			return null;
-		}
-		try {
+		try {	
+			if ((row >= getRowCount())
+			|| (tmpCol < 0 && tmpCol != Constants.KEY_INDEX)
+			|| layout == null
+			|| layoutIdx > layout.getRecordCount()
+			|| (tmpCol >= layout.getRecord(layoutIdx).getFieldCount())) {
+				return null;
+			}
+
 			return lines.getTempLine(row).getField(layoutIdx, tmpCol);
 		} catch (Exception e) {
 			return null;
@@ -917,12 +920,13 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		if (browse) { return; }
 		int layoutIdx = layoutIndex;
 		if (DisplayType.displayType(layout, layoutIdx) == DisplayType.PREFFERED) {
-			layoutIdx = currLine.getPreferredLayoutIdx();
+			layoutIdx = Math.max(0, currLine.getPreferredLayoutIdx());
 		}
 		
 		col = getRealColumn(layoutIdx, col);
 		if ((col < 0 && col != Constants.KEY_INDEX)
 		||  (layoutIdx < layout.getRecordCount()
+		   && layoutIdx >= 0
 		   && col >= layout.getRecord(layoutIdx).getFieldCount())) {
 			//System.out.println("Set Value 3");
 		} else {

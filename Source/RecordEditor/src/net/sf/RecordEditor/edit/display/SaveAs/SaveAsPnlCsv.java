@@ -18,13 +18,16 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
 
 public class SaveAsPnlCsv extends SaveAsPnlBase {
 
-	
+	/**
+	 * @param commonSaveAsFields common screen fields
+	 */	
 	public SaveAsPnlCsv(CommonSaveAsFields commonSaveAsFields) {
 		super(commonSaveAsFields, ".csv", CommonSaveAsFields.FMT_CSV, RecentFiles.RF_NONE, null);
 		
 		BasePanel pnl1 = new BasePanel();
 		BasePanel pnl2 = new BasePanel();
 		
+		pnl1.setFieldNamePrefix("Csv");
 		pnl1.addLine("Delimiter", delimiterCombo);
 		pnl1.addLine("Quote", quoteCombo);
 		pnl1.addLine("names on first line", namesFirstLine);
@@ -33,6 +36,7 @@ public class SaveAsPnlCsv extends SaveAsPnlBase {
 		fieldTbl = new JTable();
 		pnl2.addComponent(1, 5, 130, BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL,fieldTbl);
+		pnl2.setComponentName(fieldTbl, "CsvColNames");
 
 
 		panel.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,

@@ -67,7 +67,7 @@ public abstract class ShowFieldsMenu {
    public int doShowColumn(TableColumn column) {
     	int col = -1;
     	for (int i = 0; i < hiddenColumns.size(); i++) {
-	    	if (hiddenColumns.get(i).equals(column)) {
+	    	if (hiddenColumns.get(i).colDef.equals(column)) {
 	    		col = hiddenColumns.get(i).insertColumn;
 	    		hiddenColumns.get(i).show();
 	    		break;

@@ -15,7 +15,7 @@ import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDecider;
 import net.sf.JRecord.Details.RecordDetail;
-import net.sf.JRecord.Details.Selection.RecordSel;
+import net.sf.JRecord.detailsSelection.RecordSel;
 import net.sf.RecordEditor.utils.common.Common;
 
 
@@ -191,7 +191,7 @@ public class CopyBookDbReader implements CopyBookInterface {
 									fix(resultset.getString(5)),
 									fontName,
 									getFields(dbIndex, recordId, recordType, fontName),
-									recordStyle);
+									recordStyle, 0);
 					layouts[0].setSourceIndex(Common.getConnectionIndex());
 				}
 
@@ -209,7 +209,8 @@ public class CopyBookDbReader implements CopyBookInterface {
 
 		} catch (Exception ex) {
 			message = ex.getMessage();
-		    Common.logMsg("CopyBook - " + ex.getMessage(), ex);
+		    Common.logMsg("CopyBook - " + ex.getClass().getName() + ex.getMessage(), ex);
+		    ex.printStackTrace();
 		} finally {
 			Common.freeConnection(dbIndex);
 		}
@@ -228,7 +229,7 @@ public class CopyBookDbReader implements CopyBookInterface {
 	private RecordDetail[] getGroupOfRecords(final int dbIndex, final int recordId) {
 	    RecordDetail[] ret = null;
 		try {
-		    int subRecordId, recordType, parentId, recordStyle;
+		    int subRecordId, recordType, parentId, recordStyle, childId;
 		    FieldDetail[] fields;
 		    String tstFieldName, tstFieldValue;
 		    String fontName;
@@ -242,10 +243,12 @@ public class CopyBookDbReader implements CopyBookInterface {
 			ArrayList<RecordDetail> list = new ArrayList<RecordDetail>();
 			HashMap<Integer, Integer> id2idx = new HashMap<Integer, Integer>();
 
+			
 			ResultSet resultset = Common.getDBConnection(dbIndex).createStatement().executeQuery(
 				 "SELECT RS.Child_Record, R.RecordName, RS.Field_Start, RS.Field_Name, "
 				+       "RS.Field_Value, R.RecordType, R.Delimiter, R.Quote, "
-				+       "R.Canonical_Name, RS.PARENT_RECORDID, R.RECORD_STYLE, Child_Key, Default_Record "
+				+       "R.Canonical_Name, RS.PARENT_RECORDID, R.RECORD_STYLE, "
+				+       "Child_Key, Default_Record, Child_Id "
 			    + " FROM Tbl_RS2_SubRecords RS INNER JOIN Tbl_R_Records R "
 			    +   " ON RS.Child_Record = R.RecordId "
 				+ "WHERE (RS.RecordId=" + recordId + ")");
@@ -259,6 +262,7 @@ public class CopyBookDbReader implements CopyBookInterface {
 			    parentId      = resultset.getInt(10);
 			    recordStyle   = resultset.getInt(11);
 			    childKey      = resultset.getInt(12);
+			    childId       = resultset.getInt(14);
 			    fields        = getFields(dbIndex, subRecordId, recordType, fontName);
 			    rec = new RecordDetail(resultset.getString(2),
 //			    		  tstFieldName,
@@ -268,15 +272,16 @@ public class CopyBookDbReader implements CopyBookInterface {
 						  resultset.getString(8),
 						  fontName,
 						  fields,
-						  recordStyle);
+						  recordStyle,
+						  childId);
 			    recSel = readSel.getRecordSelection(
-			    				dbIndex, subRecordId, childKey, 
+			    				dbIndex, recordId, childKey, 
 			    				fields, tstFieldName, tstFieldValue);
 			    
 			    if (recSel != null) {
 			    	rec.getRecordSelection().setRecSel(recSel);
 			    	rec.getRecordSelection().setDefaultRecord(
-			    				"Y".equals(resultset.getString(9))
+			    				"Y".equals(resultset.getString(13))
 			    			||	(  "".equals(tstFieldName)
 			    				&& "*".equals(tstFieldValue))
 			    	);
@@ -292,7 +297,7 @@ public class CopyBookDbReader implements CopyBookInterface {
 			    }
 			    
 				list.add(rec);
-				id2idx.put(Integer.valueOf(subRecordId), Integer.valueOf(i));
+				id2idx.put(Integer.valueOf(childId), Integer.valueOf(i));
 
 				i += 1;
 			}
@@ -323,7 +328,9 @@ public class CopyBookDbReader implements CopyBookInterface {
 			//}
 
 		} catch (Exception ex) {
-		    Common.logMsg("Copybook: loadGroupOfRecords - " + ex.getMessage(), ex);
+		    Common.logMsg("Copybook: loadGroupOfRecords - " + ex.getClass().getName() + " " + ex.getMessage(), ex);
+		    //System.out.println(sql);
+		    ex.printStackTrace();
 //		} finally {
 //			Common.freeConnection(dbIndex);
 		}

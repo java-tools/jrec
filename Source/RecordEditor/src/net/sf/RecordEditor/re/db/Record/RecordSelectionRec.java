@@ -156,13 +156,13 @@ public class RecordSelectionRec extends AbsRecord {
 	 */
 	protected void setFieldWithString(int fieldNum, String val) {
 
-		System.out.println("setFieldWithString " + fieldNum + " " + val);
+		//System.out.println("setFieldWithString " + fieldNum + " " + val);
 		switch (fieldNum) {
-			case 0: searchArray(val, OR_LIST);	break;
-			case 1: searchArray(val, AND_LIST);	break;
-			case 2: testField = val;			break;
-			case 3: operator = val;				break;
-			case 4: fieldValue = val;			break;
+			case 0: setBooleanOperator(searchArray(val, OR_LIST));	break;
+			case 1: setBooleanOperator(searchArray(val, AND_LIST));	break;
+			case 2: setTestField(val);			break;
+			case 3: setOperator(val);			break;
+			case 4: setFieldValue(val);			break;
 			default:
 				;
 		}
@@ -183,7 +183,7 @@ public class RecordSelectionRec extends AbsRecord {
 		if (val == null) {
 			setFieldWithString(fieldNum, "");
 		} else {
-			setFieldWithString(fieldNum, (String) val);
+			setFieldWithString(fieldNum, val.toString());
 		}
 //		switch (fieldNum) {
 //		//case 0: setBooleanOperator(1 - ((Integer) val).intValue());	break;
@@ -237,7 +237,10 @@ public class RecordSelectionRec extends AbsRecord {
 	 * @param childKey the childKey to set
 	 */
 	public void setChildKey(int childKey) {
-		this.childKey = childKey;
+		if (this.childKey != childKey) {
+			this.childKey = childKey;
+			updateStatus = UPDATED;
+		}
 	}
 
 
@@ -255,7 +258,10 @@ public class RecordSelectionRec extends AbsRecord {
 	 * @see net.sf.RecordEditor.re.db.Record.FieldNumberRecord#setFieldNo(int)
 	 */
 	public void setFieldNo(int fieldNo) {
-		this.fieldNo = fieldNo;
+		if (this.fieldNo != fieldNo) {
+			this.fieldNo = fieldNo;
+			updateStatus = UPDATED;
+		}
 	}
 
 
@@ -273,7 +279,10 @@ public class RecordSelectionRec extends AbsRecord {
 	 * @param booleanOperator the booleanOperator to set
 	 */
 	public void setBooleanOperator(int booleanOperator) {
-		this.booleanOperator = booleanOperator;
+		if (this.booleanOperator != booleanOperator) {
+			this.booleanOperator = booleanOperator;
+			updateStatus = UPDATED;
+		}
 	}
 
 
@@ -281,7 +290,7 @@ public class RecordSelectionRec extends AbsRecord {
 	/**
 	 * @return the testField
 	 */
-	public String getTestField() {
+	public String getFieldName() {
 		return testField;
 	}
 
@@ -291,7 +300,9 @@ public class RecordSelectionRec extends AbsRecord {
 	 * @param testField the testField to set
 	 */
 	public void setTestField(String testField) {
-		this.testField = testField;
+		if (! equals(this.testField , testField)) {
+			this.testField = testField;
+		}
 	}
 
 
@@ -309,7 +320,10 @@ public class RecordSelectionRec extends AbsRecord {
 	 * @param operator the operator to set
 	 */
 	public void setOperator(String operator) {
-		this.operator = operator;
+
+		if (! equals(this.operator , operator)) {
+			this.operator = operator;
+		}
 	}
 
 
@@ -327,7 +341,9 @@ public class RecordSelectionRec extends AbsRecord {
 	 * @param fieldValue the fieldValue to set
 	 */
 	public void setFieldValue(String fieldValue) {
-		this.fieldValue = fieldValue;
+		if (! equals(this.fieldValue , fieldValue)) {
+			this.fieldValue = fieldValue;
+		}
 	}
 
 	

@@ -20,11 +20,13 @@ public class SwingUtils {
 	public static final int TABLE_ROW_HEIGHT = getDefault((new JTable()).getRowHeight(), 20);
 	private static final int HALF_TABLE_ROW_HEIGHT = TABLE_ROW_HEIGHT / 2;
 	public static final int COMBO_TABLE_ROW_HEIGHT ;
+	public static final int TABLE_BUTTON_WIDTH ;
 	public static final int ONE_CHAR_TABLE_CELL_WIDTH ;
 	public static final int NORMAL_FIELD_HEIGHT;
 	public static final int CHECK_BOX_HEIGHT,  CHECK_BOX_WIDTH;
 	public static final int BUTTON_HEIGHT = (new JButton("Aa")).getMinimumSize().height;
 	public static final Font MONO_SPACED_FONT;
+	public static final int TIP_HEIGHT;
 
 	private static String[] r = {"Aapj"};
 	static {
@@ -68,6 +70,9 @@ public class SwingUtils {
         }
 		
 		ONE_CHAR_TABLE_CELL_WIDTH = tblCellWidth;
+		TABLE_BUTTON_WIDTH = ONE_CHAR_TABLE_CELL_WIDTH / 3;
+		
+		TIP_HEIGHT = SwingUtils.STANDARD_FONT_HEIGHT * 11;
 	}
 
 	private static int getDefault(int val, int defaultVal) {

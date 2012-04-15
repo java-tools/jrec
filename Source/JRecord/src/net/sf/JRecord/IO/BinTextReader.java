@@ -170,7 +170,7 @@ public class BinTextReader extends LineReaderWrapper {
             }
 
             recs[0] = new RecordDetail("", "", "", Constants.rtDelimited,
-            		delimStr, quote, fontName, flds, parser);
+            		delimStr, quote, fontName, flds, parser, 0);
 
             try {
                 ret =

@@ -3,6 +3,7 @@ package net.sf.RecordEditor.re.db.Record;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
 
 
@@ -40,6 +41,12 @@ public class RecordSelectionDB  extends AbsDB<RecordSelectionRec> {
 		, "Field Value"
 	};
 
+	static {
+		if (Common.TEST_MODE) {
+			COLUMN_NAMES[0] = "or";
+			COLUMN_NAMES[1] = "and";
+		}
+	}
 
 	private PreparedStatement delAllChildRecords = null;
 
@@ -185,7 +192,7 @@ public class RecordSelectionDB  extends AbsDB<RecordSelectionRec> {
 
 		statement.setInt(idx++, val.getFieldNo());
 		statement.setInt(idx++, val.getBooleanOperator());
-		statement.setString(idx++, correctStr(val.getTestField()));
+		statement.setString(idx++, correctStr(val.getFieldName()));
 		statement.setString(idx++, correctStr(val.getOperator()));
 		statement.setString(idx++, correctStr(val.getFieldValue()));
 		

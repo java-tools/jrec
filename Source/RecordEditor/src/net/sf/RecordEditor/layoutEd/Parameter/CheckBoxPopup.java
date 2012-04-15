@@ -7,7 +7,6 @@ import javax.swing.JTextField;
 import com.zbluesoftware.java.bm.AbstractPopup;
 
 import net.sf.JRecord.CsvParser.BasicParser;
-import net.sf.RecordEditor.re.util.LayoutCommon;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 
 
@@ -25,6 +24,7 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class CheckBoxPopup extends AbstractPopup  {
     //private static final int FIELD_WIDTH = 20;
      

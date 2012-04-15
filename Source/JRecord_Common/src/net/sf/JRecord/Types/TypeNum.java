@@ -300,7 +300,7 @@ public class TypeNum extends TypeChar {
 	private void checkCharNumLength(String val, int length) throws RecordException {
 
 	    if (val.length() > length) {
-	        throw new RecordException("Value is to big");
+	        throw new RecordException("Value is to big !! " + val.length() + " > " + length);
 	    }
 	}
 

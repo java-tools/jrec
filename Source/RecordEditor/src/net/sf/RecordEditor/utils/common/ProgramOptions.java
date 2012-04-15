@@ -80,7 +80,11 @@ public class ProgramOptions {
 	public final FileNameOpt DEFAULT_COBOL_DIRECTORY = new FileNameOpt("DefaultCobolDirectory");
 	public final FileNameOpt DEFAULT_COPYBOOK_DIRECTORY = new FileNameOpt(Parameters.COPYBOOK_DIRECTORY);
 	public final FileNameOpt DEFAULT_VELOCITY_DIRECTORY = new FileNameOpt(Parameters.VELOCITY_TEMPLATE_DIRECTORY);
+	public final FileNameOpt copybookVelocityDirectory = new FileNameOpt(Parameters.VELOCITY_COPYBOOK_DIRECTORY);
+	public final FileNameOpt layoutExportDirectory = new FileNameOpt(Parameters.LAYOUT_EXPORT_DIRECTORY);
 	public final FileNameOptWithDefault DEFAULT_XSLT_DIRECTORY = new FileNameOptWithDefault(Parameters.XSLT_TEMPLATE_DIRECTORY, "<reproperties>/User/Xslt/");
+	public final FileNameOptWithDefault DEFAULT_SCRIPT_EXPORT_DIRECTORY = new FileNameOptWithDefault(Parameters.EXPORT_SCRIPT_DIRECTORY, "<reproperties>/User/ExportScripts/");
+	public final FileNameOptWithDefault DEFAULT_SCRIPT_DIRECTORY = new FileNameOptWithDefault(Parameters.SCRIPT_DIRECTORY, "<reproperties>/User/Scripts/");
 	public final FileNameOpt XSLT_JAR1 = new FileNameOpt(Parameters.XSLT_JAR1);
 	public final FileNameOpt XSLT_JAR2 = new FileNameOpt(Parameters.XSLT_JAR2);
 
@@ -208,6 +212,9 @@ public class ProgramOptions {
 		public String get() {
 			return  Parameters.getFileName(param);
 		}
+		public String getNoStar() {
+			return  Parameters.dropStar(get());
+		}
 		
 		public void set(String newVal) {
 			Parameters.setProperty(param, newVal);
@@ -226,8 +233,9 @@ public class ProgramOptions {
 		public String get() {
 			String s = Parameters.getFileName(param);
 			
-			if ("".equals(s)) {
-				s = defaultValue;
+			if (s == null || "".equals(s)) {
+				s = Parameters.expandVars(defaultValue);
+				Parameters.setProperty(param, defaultValue);
 			}
 			return s;
 		}

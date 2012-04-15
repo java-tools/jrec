@@ -21,12 +21,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.RecordEditorCsvLoader;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Types.Type;
+import net.sf.RecordEditor.re.db.Record.ChildRecordsRec;
 import net.sf.RecordEditor.re.db.Record.ExtendedRecordDB;
 import net.sf.RecordEditor.re.db.Record.RecordRec;
 import net.sf.RecordEditor.re.jrecord.format.CellFormat;
@@ -287,19 +291,22 @@ public final class UpgradeDB {
     		"Drop Table Tbl_RFS_FieldSelection",
             "Create Table Tbl_RS2_SubRecords (" 
                     + "RECORDID   INTEGER, "
-                    + "Child_Key     INTEGER, "
-                    + "Child_Record   INTEGER, "
-                    + "Field_Start   INTEGER, "
-                    + "Field_Name    varchar(30), "
-                    + "Field_Value   varchar(30), "
-                    + "PARENT_RECORDID   INTEGER, "
-                    + "operator_Sequence   smallint, "
-                    + "default_Record   char(1) "
+                    + "Child_Key          INTEGER, "
+                    + "Child_Record       INTEGER, "
+                    + "Field_Start        INTEGER, "
+                    + "Field_Name         varchar(30), "
+                    + "Field_Value        varchar(30), "
+                    + "PARENT_RECORDID    INTEGER, "
+                    + "Operator_Sequence  smallint, "
+                    + "Default_Record     char(1), "
+                    + "Child_Name         char(30), "
+                    + "Child_Id           INTEGER "
              + ")",
                "CREATE UNIQUE INDEX Tbl_RS2_SubRecordsPK  ON Tbl_RS2_SubRecords(RECORDID, Child_Key);",
+              // "CREATE UNIQUE INDEX Tbl_RS2_SubRecordsPK1  ON Tbl_RS2_SubRecords(RECORDID, Child_Id);",
                "Create Table Tbl_RFS_FieldSelection (" 
                        + "RECORDID         INTEGER, "
-                       + "Child_Key         smallint, "
+                       + "Child_Key        smallint, "
                        + "Field_No         smallint, "
                        + "Boolean_Operator smallint, "
                        + "Field_Name       varchar(30), "
@@ -470,6 +477,7 @@ public final class UpgradeDB {
     public void upgrade80(int dbIdx, String tbl) {
         genericUpgrade(dbIdx, sql71, null);
 
+        List<ChildRecordsRec> list = new ArrayList<ChildRecordsRec>();
         String sSQL = " Select  RecordId, ChildRecord, FieldStart, Field, FieldValue, PARENT_RECORDID"
                     + "  from " + tbl
         		    + " Order by RecordId, ChildRecord";
@@ -482,9 +490,11 @@ public final class UpgradeDB {
                 + "  , Field_Value"
                 + "  , PARENT_RECORDID" 
                 + "  , Operator_Sequence"
-                + "  , default_Record"  
+                + "  , Default_Record"  
+                + "  , Child_Name"
+                + "  , Child_Id"
                 + ") Values ("
-                +    "     ?   , ?   , ?   , ?   , ?, ?, ?, ?, ?"
+                +    "     ?   , ?   , ?   , ?   , ?, ?, ?, ?, ?, ?, ?"
                 + ")";
         
         
@@ -498,37 +508,29 @@ public final class UpgradeDB {
         	Connection connect = Common.getUpdateConnection(dbIdx);
 			ResultSet resultset = connect.createStatement().executeQuery(sSQL);
 			PreparedStatement insertStatement = connect.prepareStatement(insertSQL);
-			int idx;
 			
 			while (resultset.next()) {
 				recordId = resultset.getInt(1);
+			    
+			    if (recordId==lastRecordId) {
+			    	childNo += 1;
+			    } else {
+			    	insertChildren(lastRecordId, list, insertStatement);
+			    	childNo = 0;
+			    	lastRecordId = recordId; 
+			    }
 				childRecord = resultset.getInt(2);
 				fieldStart = resultset.getInt(3);
 				field    = resultset.getString(4);
 				fieldValue    = resultset.getString(5);
 			    parentId    = resultset.getInt(6);
+			    list.add(new ChildRecordsRec(
+			    		childRecord, fieldStart, field, fieldValue, parentId, childNo, 
+			    		operatorSeq, false, "", childNo));
 			    
-			    if (recordId==lastRecordId) {
-			    	childNo += 1;
-			    } else {
-			    	childNo = 0;
-			    	lastRecordId = recordId; 
-			    }
-			    
-			    idx = 1;
-			    insertStatement.setInt(idx++, recordId);
-			    insertStatement.setInt(idx++, childNo);
-			    insertStatement.setInt(idx++, childRecord);
-			    insertStatement.setInt(idx++, fieldStart);
-			    insertStatement.setString(idx++, field);
-			    insertStatement.setString(idx++, fieldValue);
-			    insertStatement.setInt(idx++, parentId);
-			    insertStatement.setInt(idx++, operatorSeq);
-			    insertStatement.setString(idx++, "N");
-			    
-			    insertStatement.executeUpdate();
 			    count += 1;
 			}
+			insertChildren(lastRecordId, list, insertStatement);
 			
 			upgradeVersion(connect, dbIdx, VERSION_800);
 			insertStatement.close();
@@ -540,10 +542,49 @@ public final class UpgradeDB {
 		} finally {
 			Common.freeConnection(dbIdx);
 		}
-        
-
     }
     
+    
+    private void insertChildren(int recordId, List<ChildRecordsRec> list, PreparedStatement insertStatement) 
+    throws SQLException {
+    	if (list.size() > 0) {
+    		HashMap<Integer, ChildRecordsRec> lookup = new HashMap<Integer, ChildRecordsRec>();
+    		ChildRecordsRec parent;
+    		int idx;
+    		for (ChildRecordsRec child : list) {
+    			lookup.put(child.getChildRecordId(), child);
+    		}
+    		for (ChildRecordsRec child : list) {
+    			if (child.getParentRecord() >= 0) {
+    				parent = lookup.get(child.getParentRecord());
+    				if (parent == null) {
+    					child.setParentRecord(-1);
+    				} else {
+    					child.setParentRecord(parent.getChildId());
+    				}
+    			}
+    			
+    			idx = 1;
+			    insertStatement.setInt(idx++, recordId);
+			    insertStatement.setInt(idx++, child.getChildKey());
+			    insertStatement.setInt(idx++, child.getChildRecordId());
+			    insertStatement.setInt(idx++, child.getStart());
+			    insertStatement.setString(idx++, child.getField());
+			    insertStatement.setString(idx++, child.getFieldValue());
+			    insertStatement.setInt(idx++, child.getParentRecord());
+			    insertStatement.setInt(idx++, child.getOperatorSequence());
+			    insertStatement.setString(idx++, "N");
+			    insertStatement.setString(idx++, "");
+			    insertStatement.setInt(idx++, child.getChildId());
+			    
+			    insertStatement.executeUpdate();
+
+    		}
+    		
+    		
+    		list.clear();
+    	}
+    }
 
     /**
      *

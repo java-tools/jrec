@@ -28,13 +28,13 @@ import javax.swing.event.ListDataListener;
  * @author Bruce Martin
  *
  */
-public class BmKeyedComboModel implements ComboBoxModel, ListCellRenderer {
+public class BmKeyedComboModel<rowList extends AbstractRowList> implements ComboBoxModel, ListCellRenderer {
 
 	//public boolean trace=false;
 
 	private JLabel display = new JLabel();
 
-	private AbstractRowList list;
+	private rowList list;
 
 	private int currIdx = 0;
 
@@ -46,7 +46,7 @@ public class BmKeyedComboModel implements ComboBoxModel, ListCellRenderer {
 	 *
 	 * @param rowList list of Record (from a DB)
 	 */
-	public BmKeyedComboModel(final AbstractRowList rowList) {
+	public BmKeyedComboModel(final rowList rowList) {
 		super();
 
 		this.list = rowList;
@@ -198,7 +198,7 @@ public class BmKeyedComboModel implements ComboBoxModel, ListCellRenderer {
 	/**
 	 * @return Returns the list.
 	 */
-	public AbstractRowList getList() {
+	public rowList getList() {
 		return list;
 	}
 }

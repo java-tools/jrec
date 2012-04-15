@@ -23,8 +23,10 @@ import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.RecordEditor.edit.open.StartEditor;
 import net.sf.RecordEditor.edit.util.StandardLayouts;
+import net.sf.RecordEditor.re.file.AbstractLineNode;
 import net.sf.RecordEditor.re.file.DisplayType;
 import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.script.ScriptData;
 import net.sf.RecordEditor.re.util.ReIOProvider;
 import net.sf.RecordEditor.utils.FieldWriter;
 import net.sf.RecordEditor.utils.common.Common;
@@ -46,6 +48,7 @@ public abstract class SaveAsPnlBase {
 		"Fixed",
 		"Xml",
 		"Html",
+		"Script",
 		"XSLT Transform",
 		"Velocity"
 	};
@@ -71,7 +74,7 @@ public abstract class SaveAsPnlBase {
 	protected final CommonSaveAsFields commonSaveAsFields;
 
     
-	public final BaseHelpPanel panel = new BaseHelpPanel();
+	public final BaseHelpPanel panel = new BaseHelpPanel(this.getClass().getSimpleName());
 	
     public final JComboBox delimiterCombo  = new JComboBox(Common.FIELD_SEPARATOR_LIST1);
     public final JComboBox quoteCombo = new JComboBox(Common.QUOTE_LIST);
@@ -110,7 +113,7 @@ public abstract class SaveAsPnlBase {
     public SaveAsPnlBase(CommonSaveAsFields commonSaveAsFields, String extension, int panelFormat, int extensionType,
 			FileChooser template) {
 		super();
-		
+
 		this.commonSaveAsFields = commonSaveAsFields;
 		this.extension = extension;
 		this.panelFormat = panelFormat;
@@ -234,7 +237,8 @@ public abstract class SaveAsPnlBase {
    	}
     
     public void edit(String outFile, String ext) {
-    	AbstractLayoutDetails layout = getEditLayout(ext);
+    	@SuppressWarnings("rawtypes")
+		AbstractLayoutDetails layout = getEditLayout(ext);
     	String lcExt = ext.toLowerCase();
     	StandardLayouts genLayout = StandardLayouts.getInstance();
     	
@@ -259,15 +263,34 @@ public abstract class SaveAsPnlBase {
     	}
     }
    
-    public AbstractLayoutDetails getEditLayout(String ext) {
+    @SuppressWarnings("rawtypes")
+	public AbstractLayoutDetails getEditLayout(String ext) {
     	return null;
     }
     
-    protected final List<AbstractLine> saveFile_getLines(String selection) {
+    @SuppressWarnings("rawtypes")
+	protected final List<AbstractLine> saveFile_getLines(String selection) {
     	return commonSaveAsFields.getViewToSave(selection).getLines();
     }
     
     
+    protected final ScriptData getScriptData(String selection, String outFile) {
+        AbstractLineNode root = null;
+         
+        if (commonSaveAsFields.getTreeFrame() != null) {
+        	root = commonSaveAsFields.getTreeFrame().getRoot();
+         }
+        
+	   	return new ScriptData(
+	   				saveFile_getLines(selection), 
+	   				commonSaveAsFields.file,
+	        		root,
+	        		onlyData.isSelected(), showBorder.isSelected(),
+	        		commonSaveAsFields.getRecordFrame().getLayoutIndex(),
+	        		outFile);
+    }
+	
+	
 	/**
 	 * @param layout the layout to set
 	 */
@@ -456,46 +479,62 @@ public abstract class SaveAsPnlBase {
 
 	}
 	
-	   private int[] getFieldWidths() {
-			AbstractLayoutDetails<?,?> l = file.getLayout();
-	   		int layoutIdx = file.getCurrLayoutIdx();
-	   		int[] ret = new int[l.getRecord(layoutIdx).getFieldCount()];
-	   		int en = Math.min(3000, file.getRowCount());
-	   		
-	   		for (int i = 0; i < en; i++) {
-	   			calcColLengthsForLine(ret, file.getTempLine(i), l, layoutIdx);
-	   		}
-	   		
-	   		return ret;
-	    }
-	    
-	    
-	    private int[] getFieldWidthsPrefered() {
-			AbstractLayoutDetails<?,?> l = file.getLayout();
-	   		int layoutIdx = DisplayType.getRecordMaxFields(l);
-	   		int[] ret = new int[l.getRecord(layoutIdx).getFieldCount()];
-	   		int en = Math.min(3000, file.getRowCount());
-	   		AbstractLine<?> line;
-	   		
-	   		for (int i = 0; i < en; i++) {
-	   			line = file.getTempLine(i);
-	   			calcColLengthsForLine(ret, line, l, line.getPreferredLayoutIdx());
-	   		}
-	   		
-	   		return ret;
-	    }
-	    
-	    private void calcColLengthsForLine(
-	    		int[] ret, AbstractLine<?> line, 
-	    		AbstractLayoutDetails<?,?> layout, int layoutIdx) {
-	    	Object o;
-	    	int colCount = layout.getRecord(layoutIdx).getFieldCount();
-			for (int j = 0; j < colCount; j++) {
-				o = line.getField(layoutIdx,  j);
-				
-				if (o != null) {
-					ret[j] = Math.max(ret[j], o.toString().length());
-				}
+	public boolean isActive() {
+		return true;
+	}
+	
+	private int[] getFieldWidths() {
+		AbstractLayoutDetails<?,?> l = file.getLayout();
+		int layoutIdx = file.getCurrLayoutIdx();
+		int[] ret = new int[l.getRecord(layoutIdx).getFieldCount()];
+		int en = Math.min(3000, file.getRowCount());
+
+		for (int i = 0; i < en; i++) {
+			calcColLengthsForLine(ret, file.getTempLine(i), l, layoutIdx);
+		}
+
+		return ret;
+	}
+
+
+	private int[] getFieldWidthsPrefered() {
+		AbstractLayoutDetails<?,?> l = file.getLayout();
+		int layoutIdx = DisplayType.getRecordMaxFields(l);
+		int[] ret = new int[l.getRecord(layoutIdx).getFieldCount()];
+		int en = Math.min(3000, file.getRowCount());
+		AbstractLine<?> line;
+
+		for (int i = 0; i < en; i++) {
+			line = file.getTempLine(i);
+			calcColLengthsForLine(ret, line, l, line.getPreferredLayoutIdx());
+		}
+
+		return ret;
+	}
+
+	/**
+	 * @param text
+	 * @see javax.swing.text.JTextComponent#setText(java.lang.String)
+	 */
+	public void setTemplateText(String text) {
+		
+		if (template != null) {
+			template.setText(text);
+		}
+	}
+
+
+	private void calcColLengthsForLine(
+			int[] ret, AbstractLine<?> line, 
+			AbstractLayoutDetails<?,?> layout, int layoutIdx) {
+		Object o;
+		int colCount = layout.getRecord(layoutIdx).getFieldCount();
+		for (int j = 0; j < colCount; j++) {
+			o = line.getField(layoutIdx,  j);
+
+			if (o != null) {
+				ret[j] = Math.max(ret[j], o.toString().length());
 			}
-	    }
+		}
+	}
 }

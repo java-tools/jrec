@@ -23,6 +23,7 @@ import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.CsvParser.AbstractParser;
 import net.sf.JRecord.CsvParser.BinaryCsvParser;
 import net.sf.JRecord.CsvParser.ParserManager;
+import net.sf.JRecord.Types.ISizeInformation;
 import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.Types.TypeManager;
 
@@ -467,13 +468,32 @@ extends BasicLayout<FieldDetail, RecordDetail> {
         		}
         	}
             record = TypeManager.getSystemTypeManager().getType(type)
-				.setField(record, field.getPos(), field, value);
+            				    .setField(record, field.getPos(), field, value);
         } else  {
             String font = field.getFontName();
             AbstractParser parser = ParserManager.getInstance().get(field.getRecord().getRecordStyle());
 
             Type typeVal = TypeManager.getSystemTypeManager().getType(type);
-            String s = typeVal.formatValueForRecord(field, value.toString());
+            String s ="";
+            if (value == null) {
+            } else if (value instanceof String) {
+            	s = typeVal.formatValueForRecord(field, (String) value);
+            } else if (typeVal instanceof ISizeInformation){
+            	byte[] data = new byte[((ISizeInformation) typeVal).getNormalSize()]; 
+                FieldDetail fldDef
+            		= new FieldDetail(field.getName(), "", type,
+            		        		   field.getDecimal(), field.getFontName(),
+            		        		   field.getFormat(), field.getParamater());
+       
+                fldDef.setRecord(field.getRecord());
+
+                fldDef.setPosLen(1, data.length);
+
+            	typeVal.setField(data, 1, fldDef, value);
+            	s = Conversion.toString(data, field.getFontName());
+            } else {
+            	s = typeVal.formatValueForRecord(field, value.toString());
+            }
             //System.out.println(" ---> setField ~ " + delimiter + " ~ " + s + " ~ " + new String(record));
             if  (isBinCSV()) {
              	record = (new BinaryCsvParser(delimiter)).updateValue(record, field, s);
@@ -723,7 +743,7 @@ extends BasicLayout<FieldDetail, RecordDetail> {
 		ret = new RecordDetail(record.getRecordName(),
 				record.getRecordType(), record.getDelimiter(), record.getQuote(),
 				record.getFontName(), flds, record.getRecordStyle(),
-				record.getRecordSelection());
+				record.getRecordSelection(), record.getChildId());
 
 		return ret;
 	}

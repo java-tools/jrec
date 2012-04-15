@@ -112,4 +112,15 @@ public class AbstractUpdatableRecord {
 		this.newRecord = pInserted;
 	}
 
+	public final boolean equals(String val, String fieldValue) {
+		
+		if ((val == null || "".equals(val))
+		&& (fieldValue == null || "".equals(fieldValue))) {
+			
+		} else if ((val == null) || (! val.equals(fieldValue)) || (updateStatus == NULL_INT_VALUE)) {
+			updateStatus = UPDATED;
+			return false;
+		}
+		return true;
+	}
 }

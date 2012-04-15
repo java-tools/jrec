@@ -4,8 +4,8 @@ import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
 
 public abstract class BasicRecordDetail<FieldDefinition extends FieldDetail,
-																 recordDtls extends AbstractRecordDetail<FieldDefinition>,
-																 ChildDtls extends AbstractChildDetails<recordDtls>> {
+										recordDtls 		extends AbstractRecordDetail<FieldDefinition>,
+										ChildDtls 		extends AbstractChildDetails<recordDtls>> {
 
 	protected int fieldCount;
 	protected FieldDefinition[] fields;

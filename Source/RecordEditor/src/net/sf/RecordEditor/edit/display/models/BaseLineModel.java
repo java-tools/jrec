@@ -21,6 +21,7 @@ implements GetView {
 
 //	public abstract int getColumnCount();
 
+	@SuppressWarnings("rawtypes")
 	private FileView fileView;
 	protected AbstractLayoutDetails<?, ?> layout;
 	private int currentLayout;
@@ -29,7 +30,7 @@ implements GetView {
 	FieldMapping fieldMapping = null;
 
 
-	public BaseLineModel(final FileView file) {
+	public BaseLineModel(@SuppressWarnings("rawtypes") final FileView file) {
 		super();
 
 	    fileView = file;
@@ -45,10 +46,16 @@ implements GetView {
 	 */
 	public int getRowCount() {
 	    int layoutIndex = getFixedCurrentLayout();
-	    int ret = fileView.getLayoutColumnCount(layoutIndex);
-
-	    ret = fieldMapping.getColumnCount(layoutIndex, ret);
-	    	    
+	    int ret;
+	    
+	    if (layoutIndex >= layout.getRecordCount()) {
+	    	ret = 1;
+	    } else {
+		    ret = fileView.getLayoutColumnCount(layoutIndex);
+		    
+		    ret = fieldMapping.getColumnCount(layoutIndex, ret);
+	    }
+	    
 	    if (showKey()) {
 	    	ret += 1;
 	    }

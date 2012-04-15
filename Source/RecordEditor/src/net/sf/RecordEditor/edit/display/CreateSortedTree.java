@@ -2,9 +2,9 @@ package net.sf.RecordEditor.edit.display;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.LineCompare;
-import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
 import net.sf.RecordEditor.edit.display.util.BaseFieldSelection;
 import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.re.tree.TreeParserField;
 import net.sf.RecordEditor.utils.common.Common;
 
@@ -31,7 +31,7 @@ public class CreateSortedTree extends BaseFieldSelection {
 
 	/**
 	 * 
-	 * @see net.sf.RecordEditor.edit.display.util.SortFrame#doAction(net.sf.RecordEditor.re.file.FileView, int, net.sf.RecordEditor.edit.display.common.AbstractFileDisplay, int[], boolean[], net.sf.JRecord.Details.LayoutDetail)
+	 * @see net.sf.RecordEditor.edit.display.util.SortFrame#doAction(net.sf.RecordEditor.re.file.FileView, int, net.sf.RecordEditor.re.script.AbstractFileDisplay, int[], boolean[], net.sf.JRecord.Details.LayoutDetail)
 	 */
 	@SuppressWarnings("rawtypes")
 	@Override

@@ -35,7 +35,6 @@ import net.sf.RecordEditor.re.db.Table.TableListDB;
 import net.sf.RecordEditor.re.db.Table.TableListJTbl;
 import net.sf.RecordEditor.re.db.Table.TableListRec;
 import net.sf.RecordEditor.re.db.Table.TableRec;
-import net.sf.RecordEditor.re.util.TableUpdatePnl;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;

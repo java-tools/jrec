@@ -332,7 +332,7 @@ public class XmlLineReader extends StandardLineReader {
 
             ret = layout.getRecordCount();
             layout.addRecord(new RecordDetail(name, XmlConstants.XML_NAME, name, Constants.RT_XML,
-                    "", "", "", fields, 0));
+                    "", "", "", fields, 0, ret));
          }
         //System.out.println("~~ " + name + " ~ " + ret + " " + layout.getRecordCount());
 

@@ -19,17 +19,16 @@ import net.sf.RecordEditor.utils.FixedWriter;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 
 /**
- * @author mum
+ * @author Bruce Martin
  *
  */
 public class SaveAsPnlFixed extends SaveAsPnlBase {
 
 	private FixedWriter writer;
+	
+	
 	/**
-	 * @param extension
-	 * @param panelFormat
-	 * @param extensionType
-	 * @param template
+	 * @param commonSaveAsFields common screen fields
 	 */
 	public SaveAsPnlFixed(CommonSaveAsFields commonSaveAsFields) {
 		super(commonSaveAsFields, ".txt", CommonSaveAsFields.FMT_FIXED, RecentFiles.RF_NONE, null);
@@ -43,6 +42,7 @@ public class SaveAsPnlFixed extends SaveAsPnlBase {
 		fieldTbl = new JTable();
 		pnl2.addComponent(1, 5, 130, BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL, fieldTbl);
+		pnl2.setComponentName(fieldTbl, "FixedColNames");
 
 
 		panel.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,

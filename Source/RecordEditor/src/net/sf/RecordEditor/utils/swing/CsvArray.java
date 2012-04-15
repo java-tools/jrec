@@ -9,6 +9,7 @@
 package net.sf.RecordEditor.utils.swing;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -21,6 +22,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.LookAndFeel;
+import javax.swing.UIManager;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import javax.swing.table.AbstractTableModel;
@@ -91,7 +94,13 @@ public class CsvArray extends JPanel implements ActionListener, TableCellRendere
 
         fld.setMinimumSize(new Dimension(FIELD_WIDTH, fld.getHeight()));
 
-        this.setBorder(fld.getBorder());
+        LookAndFeel s = UIManager.getLookAndFeel();
+        //System.out.println(" <<<< LAF >>>> " +  s.getName() + " " + s.getClass());
+        if (s != null && s.getName().toLowerCase().contains("nimbus")) {
+        	this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        } else {
+        	this.setBorder(fld.getBorder());
+        }
         fld.setBorder(BorderFactory.createEmptyBorder());
         btn.addActionListener(this);
     }

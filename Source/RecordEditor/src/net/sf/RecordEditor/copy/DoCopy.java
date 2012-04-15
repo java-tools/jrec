@@ -80,7 +80,7 @@ public final class DoCopy {
 					null
 			).copy2BinDelim();
 		} else if (CopyDefinition.VELOCITY_COPY.equals(copy.type)) {
-			net.sf.RecordEditor.utils.RunVelocity.getInstance()      
+			net.sf.RecordEditor.re.script.RunVelocity.getInstance()      
                 	.processFile(layoutReader1.getRecordLayout(""),
                 		copy.oldFile.name, copy.velocityTemplate, copy.newFile.name);
 		} else if (CopyDefinition.XML_COPY.equals(copy.type)) {

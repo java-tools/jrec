@@ -46,7 +46,6 @@ import net.sf.RecordEditor.diff.DoCompare;
 import net.sf.RecordEditor.diff.LineBufferedReader;
 import net.sf.RecordEditor.edit.display.SaveAs.SaveAs3;
 import net.sf.RecordEditor.edit.display.SaveAs.SaveAs4;
-import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.edit.display.common.ILayoutChanged;
 import net.sf.RecordEditor.edit.display.util.AddAttributes;
@@ -62,6 +61,7 @@ import net.sf.RecordEditor.re.file.filter.AbstractExecute;
 import net.sf.RecordEditor.re.file.filter.ExecuteSavedFile;
 import net.sf.RecordEditor.re.file.filter.FilterDetails;
 import net.sf.RecordEditor.re.jrecord.types.RecordFormats;
+import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.re.tree.ChildTreeToXml;
 import net.sf.RecordEditor.re.tree.TreeParserRecord;
 import net.sf.RecordEditor.re.tree.TreeParserXml;
@@ -118,8 +118,11 @@ implements AbstractFileDisplay, ILayoutChanged {
 	protected Rectangle screenSize = ReMainFrame.getMasterFrame().getDesktop().getBounds();
 	    //Toolkit.getDefaultToolkit().getScreenSize();
 
+	@SuppressWarnings("rawtypes")
 	protected AbstractLayoutDetails layout;
+	@SuppressWarnings("rawtypes")
 	protected FileView fileView;
+	@SuppressWarnings("rawtypes")
 	protected FileView fileMaster;
 
 	protected JTable tblDetails;
@@ -130,7 +133,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 //	protected final int fullLineIndex;
 
 	//protected ListnerPanel pnl = new ListnerPanel();
-	protected BaseHelpPanel actualPnl = new BaseHelpPanel();
+	protected BaseHelpPanel actualPnl = new BaseHelpPanel(this.getClass().getSimpleName());
 
 	protected TableCellRenderer[] cellRenders;
 	//protected TableCellEditor[]   cellEditors;
@@ -197,7 +200,6 @@ implements AbstractFileDisplay, ILayoutChanged {
 		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 		 */
 		public final void actionPerformed(final ActionEvent e) {
-			int idx;
 
 			if (e.getSource() == layoutCombo) {
 		    	setupForChangeOfLayout();
@@ -402,10 +404,20 @@ implements AbstractFileDisplay, ILayoutChanged {
 	 */
 	public void executeAction(int action, Object o) {
 		
-		if (action == ReActionHandler.EXPORT_VELOCITY && o != null) {
-			executeSaveAs(SaveAs3.FORMAT_VELOCITY, o.toString());
-		} else if (action == ReActionHandler.EXPORT_XSLT && o != null) {
-			executeSaveAs(SaveAs3.FORMAT_XSLT, o.toString());
+		if (o != null) {
+			switch (action) {
+			case ReActionHandler.EXPORT_VELOCITY:
+				executeSaveAs(SaveAs3.FORMAT_VELOCITY, o.toString());
+				break;
+			case ReActionHandler.EXPORT_XSLT:
+				executeSaveAs(SaveAs3.FORMAT_XSLT, o.toString());
+				break;
+			case ReActionHandler.EXPORT_SCRIPT:
+				executeSaveAs(SaveAs3.FORMAT_SCRIPT, o.toString());
+				break;
+				default:
+					executeAction(action);
+			}
 		} else{
 			executeAction(action);
 		}
@@ -480,6 +492,9 @@ implements AbstractFileDisplay, ILayoutChanged {
 			break;
 			case ReActionHandler.EXPORT_XSLT:
 			    executeSaveAs(SaveAs3.FORMAT_XSLT, "");
+			break;
+			case ReActionHandler.EXPORT_SCRIPT:
+			    executeSaveAs(SaveAs3.FORMAT_SCRIPT, "");
 			break;
 			case ReActionHandler.SAVE_AS_XML:
 				if (layout.hasTreeStructure() || layout.hasChildren()) {
@@ -855,6 +870,7 @@ implements AbstractFileDisplay, ILayoutChanged {
     	|| (action == ReActionHandler.EXPORT_HTML_TREE && layout.hasChildren())
     	|| (action == ReActionHandler.EXPORT_VELOCITY)
     	|| (action == ReActionHandler.EXPORT_XSLT)
+    	|| (action == ReActionHandler.EXPORT_SCRIPT)
 		|| (action == ReActionHandler.COPY_RECORD)
 		|| (action == ReActionHandler.CLOSE)
         || (action == ReActionHandler.HELP)
@@ -952,6 +968,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	public final void setJTable(JTable tableDetails) {
 		this.tblDetails = tableDetails;
 		
+		actualPnl.setComponentName(tableDetails, "FileDisplay");
 		tblDetails.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 		
 		if (Common.OPTIONS.highlightEmptyActive.isSelected()) {
@@ -1128,13 +1145,13 @@ implements AbstractFileDisplay, ILayoutChanged {
 		}
 	 }
 	 /**
-	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplay#getCurrRow()
+	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getCurrRow()
 	 */
 	 public abstract int getCurrRow();
 
 	 
 	 /**
-	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplay#getTreeLine()
+	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getTreeLine()
 	 */
 	@Override
 	public AbstractLine getTreeLine() {
@@ -1143,7 +1160,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 
 
 	/**
-	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplay#setCurrRow(net.sf.RecordEditor.re.file.FilePosition)
+	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#setCurrRow(net.sf.RecordEditor.re.file.FilePosition)
 	 */
 	@Override
 	public void setCurrRow(FilePosition position) {
@@ -1152,7 +1169,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 
 
 	/**
-	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplay#setCurrRow(int, int, int)
+	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#setCurrRow(int, int, int)
 	 */
 	 public abstract void setCurrRow(int newRow, int layoutId, int fieldNum);
 
@@ -1232,7 +1249,7 @@ implements AbstractFileDisplay, ILayoutChanged {
     }
     
 	/**
-	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplay#getSelectedRows()
+	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getSelectedRows()
 	 */
 	public int[] getSelectedRows() {
 		return tblDetails.getSelectedRows();
@@ -1240,7 +1257,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 
 
 	/**
-	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplay#getSelectedLines()
+	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getSelectedLines()
 	 */
 	@Override
 	public List<AbstractLine> getSelectedLines() {
@@ -1416,7 +1433,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 
 
 	/**
-	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplay#getLayoutIndex()
+	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getLayoutIndex()
 	 */
 	public final int getLayoutIndex() {
 		return layoutCombo.getLayoutIndex();
@@ -1424,7 +1441,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 
 
 	/**
-	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplay#setLayoutIndex(int)
+	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#setLayoutIndex(int)
 	 */
 	public void setLayoutIndex(int recordIndex) {
 //		System.out.println("Set Layout Index " + recordIndex);
@@ -1464,7 +1481,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 
 
 	/**
-	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplay#getFileView()
+	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getFileView()
 	 */
 	@Override
 	public FileView getFileView() {

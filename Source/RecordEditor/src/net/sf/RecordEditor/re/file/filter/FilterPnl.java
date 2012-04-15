@@ -86,7 +86,7 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 //    	= (FilterFieldList.NUMBER_FIELD_FILTER_ROWS + 2)
 //        * FIELD_VALUE_ROW_HEIGHT;
 
-    private BaseHelpPanel pnl2 = new BaseHelpPanel();
+    private BaseHelpPanel pnl2 = new BaseHelpPanel("Filter");
     //private JTabbedPane tabOption    = new JTabbedPane();
     private JPanel recordOptionPanel = new JPanel();
     private JPanel fieldOptionPanel  = new JPanel();
@@ -109,7 +109,8 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
     private JButton uncheckAllFields  = new JButton("Uncheck Fields");
 
     private FilterDetails filter;
-    private AbstractLayoutDetails recordLayout;
+    @SuppressWarnings("rawtypes")
+	private AbstractLayoutDetails recordLayout;
  
     private boolean addExecute;
     private boolean toInit = true;
@@ -128,14 +129,15 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
      *
      * @param fileTbl file to be filtered
      */
-    public FilterPnl(final AbstractLayoutDetails layout, boolean pAddExecute) {
-    	
+    public FilterPnl(@SuppressWarnings("rawtypes") final AbstractLayoutDetails layout, boolean pAddExecute) {
+    	super();
     	addExecute = pAddExecute;
 
     	setRecordLayout(layout, null, false, 0);
     }
     
-    public final void setRecordLayout(final AbstractLayoutDetails layout, 
+    @SuppressWarnings("rawtypes")
+	public final void setRecordLayout(final AbstractLayoutDetails layout, 
     		final AbstractLayoutDetails layout2, 
     		boolean is2ndLayout, int heightOverhead) {
     	recordLayout = layout;
@@ -182,6 +184,7 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 				         BasePanel.GAP1,
 				         BasePanel.FULL, BasePanel.FULL,
 						 recordTbl);
+				pnl2.setComponentName(recordTbl, "RecordSelection");
 	        }
        	
 			if (! is2ndLayout) {
@@ -202,11 +205,13 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 				         BasePanel.FULL, BasePanel.FULL,
 						 fieldTbl);
 				
+				
 				height = SwingUtils.calculateComboTableHeight(FilterFieldList.NUMBER_FIELD_FILTER_ROWS, desktopHeight * 7 / 10);
 				pnl2.addComponent(1, 5,
 						height, 3,
 			         BasePanel.FULL, BasePanel.FULL,
 					 filterFieldTbl);
+				pnl2.setComponentName(filterFieldTbl, "FieldRelationship");
 			} else {
 				//height = SwingUtils.calculateComboTableHeight(fieldTbl.getRowCount(), desktopHeight * 8 / 10);
 				height =  desktopHeight  * 4 / 5;
@@ -215,6 +220,7 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 				         BasePanel.FULL, BasePanel.FULL,
 						 fieldTbl);
 			}
+			pnl2.setComponentName(fieldTbl, "FieldSelection");
 			
 			setGap(0);
 			setHelpURL(Common.formatHelpURL(Common.HELP_FILTER));
@@ -244,6 +250,7 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
     /**
 	 * @return the recordLayout
 	 */
+	@SuppressWarnings("rawtypes")
 	public final AbstractLayoutDetails getRecordLayout() {
 		return recordLayout;
 	}
@@ -252,7 +259,9 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 	/**
      * define screen fields
      */
-    private void setupScreenFields(boolean is2ndLayout, final AbstractLayoutDetails layout2) {
+    private void setupScreenFields(
+    		boolean is2ndLayout,
+    		@SuppressWarnings("rawtypes") final AbstractLayoutDetails layout2) {
     	
         filter = new FilterDetails(recordLayout); // getFilterDetails(recordLayout);
         filter.setMessageFld(messageFld);

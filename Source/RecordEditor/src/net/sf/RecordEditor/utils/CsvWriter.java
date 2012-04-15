@@ -108,7 +108,7 @@ public class CsvWriter extends BaseWriter {
 				if (isNumeric) {
 				} else if ("".equals(quote)) {		 
 					if (!"".equals(fieldSep) && field.indexOf(fieldSep) >= 0) {
-						StringBuffer b = new StringBuffer(field);
+						StringBuilder b = new StringBuilder(field);
 						Conversion.replace(b, fieldSep, "");
 						Common.logMsg("Warning: on line " + lineNo + " Field " + fieldNo + ", Seperator " + fieldSep + " Dropped" , null);
 						field = b.toString();

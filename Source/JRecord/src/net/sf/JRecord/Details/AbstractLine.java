@@ -6,6 +6,8 @@
  */
 package net.sf.JRecord.Details;
 
+import net.sf.JRecord.Common.AbstractFieldValue;
+import net.sf.JRecord.Common.AbstractIndexedLine;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
 
@@ -34,7 +36,7 @@ import net.sf.JRecord.Common.RecordException;
  * @author Bruce Martin
  *
  */
-public interface AbstractLine<Layout extends AbstractLayoutDetails> {
+public interface AbstractLine<Layout extends AbstractLayoutDetails> extends AbstractIndexedLine {
     /**
      *   This method completely replaces a lines value. It is used to determine
      * a records prefered record layout
@@ -161,37 +163,6 @@ public interface AbstractLine<Layout extends AbstractLayoutDetails> {
      *
      * @return the request field (formated)
      */
-    public abstract Object getField(final int recordIdx, final int fieldIdx);
-
-    /**
-     * Get a fields value
-     *
-     * @param field field to retrieve
-     *
-     * @return fields Value
-     * 
-     */
-    public abstract Object getField(FieldDetail field);
-//
-//    /**
-//     * Get a fields value
-//     *
-//     * @param fieldName field to retrieve
-//     *
-//     * @return fields Value
-//     * 
-//     * @deprecated use getFieldValue
-//     */
-//    public abstract Object getField(String fieldName);
-
-    /**
-     * Gets a fields value
-     *
-     * @param recordIdx Index of the RecordDescription to be used.
-     * @param fieldIdx Index of the required field
-     *
-     * @return the request field (formated)
-     */
     public abstract AbstractFieldValue getFieldValue(final int recordIdx, final int fieldIdx);
 
     /**
@@ -223,29 +194,6 @@ public interface AbstractLine<Layout extends AbstractLayoutDetails> {
      * @deprecated use getFieldValue(..).set
      */
     public abstract void setField(String fieldName, Object value)
-            throws RecordException;
-
-    /**
-     * Sets a field to a new value
-     *
-     * @param recordIdx record layout
-     * @param fieldIdx field number in the record
-     * @param val new value
-     *
-     * @throws RecordException any error that occurs during the save
-     */
-    public abstract void setField(final int recordIdx, final int fieldIdx,
-            Object val) throws RecordException;
-
-    /**
-     * Set a fields value
-     *
-     * @param field field to retrieve
-     * @param value value to set the field to
-     *
-     * @throws RecordException any error that occurs
-     */
-    public abstract void setField(FieldDetail field, Object value)
             throws RecordException;
 
     /**

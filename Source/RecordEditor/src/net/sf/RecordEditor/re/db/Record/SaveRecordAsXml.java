@@ -7,8 +7,6 @@ import net.sf.JRecord.External.CopybookWriter;
 import net.sf.JRecord.External.CopybookWriterManager;
 import net.sf.RecordEditor.re.util.CopybookLoaderFactoryDB;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.ReConnection;
-import net.sf.RecordEditor.utils.jdbc.AbsDB;
 import net.sf.RecordEditor.utils.swing.DirectoryFrame;
 
 public class SaveRecordAsXml  implements ActionListener {
@@ -17,12 +15,13 @@ public class SaveRecordAsXml  implements ActionListener {
 			"Save Layout", 
 			Common.OPTIONS.DEFAULT_COPYBOOK_DIRECTORY.get(), 
 			true, true, true);
-	private int dbIdx;
-	private String idStr;
+	private final int dbIdx;
+	//private String idStr;
+	private final int recordId;
 	
 	public SaveRecordAsXml(int databaseIdx, int recordId) {
 		
-		idStr = recordId + "";
+		this.recordId = recordId;
 		dbIdx = databaseIdx;
 		
 		saveFrame.setActionListner(this);
@@ -40,18 +39,8 @@ public class SaveRecordAsXml  implements ActionListener {
 		if (dir == null || "".equals(dir)) {
 			saveFrame.msg.setText("You must enter a directory to save the layout");
 		} else {
-			RecordRec r;
-		
-			ExtendedRecordDB dbFrom = new ExtendedRecordDB();
-			
 			CopybookLoaderFactoryDB.setCurrentDB(dbIdx);
-			dbFrom.setConnection(new ReConnection(dbIdx));
-			dbFrom.resetSearch();
-			dbFrom.setSearchArg("RecordId", AbsDB.opEquals, idStr);
-
-			dbFrom.open();
-			
-			r = dbFrom.fetch();
+			RecordRec r = ExtendedRecordDB.getRecord(dbIdx, recordId);
 			
 			if (r != null) {
 				CopybookWriter writer = CopybookWriterManager.getInstance()
@@ -65,8 +54,6 @@ public class SaveRecordAsXml  implements ActionListener {
 					e.printStackTrace();
 				}
 			}
-			
-			dbFrom.close();
 		}
 	
 	}

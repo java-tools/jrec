@@ -33,8 +33,21 @@ public class BaseHelpPanel extends BasePanel  {
     private ArrayList<KeyAdapter> list = new ArrayList<KeyAdapter>();
     private ArrayList<Component> componentList = new ArrayList<Component>(15);
 
+    
+    
 
-    /**
+    public BaseHelpPanel() {
+		super();
+	}
+
+
+    public BaseHelpPanel(String fieldNamePrefix) {
+		super();
+		
+		super.setFieldNamePrefix(fieldNamePrefix);
+	}
+
+	/**
      * Register a component (ie for PF1 handling)
      *
      * @see net.sf.RecordEditor.utils.swing.BasePanel#registerComponent

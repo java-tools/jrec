@@ -1,6 +1,6 @@
 package net.sf.JRecord.zExamples;
 
-import net.sf.JRecord.Details.AbstractFieldValue;
+import net.sf.JRecord.Common.AbstractFieldValue;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.External.CopybookLoaderFactory;

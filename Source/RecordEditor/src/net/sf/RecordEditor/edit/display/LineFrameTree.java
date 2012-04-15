@@ -66,6 +66,7 @@ public class LineFrameTree extends  BaseLineFrame {
     private ImageIcon[] icons = Common.getArrowTreeIcons();
 
 	private ActionListener listner = new ActionListener() {
+			@SuppressWarnings("rawtypes")
 			public void actionPerformed(ActionEvent event) {
 					
 //				System.out.println("Lister start " + (event.getSource() == btn[2]));
@@ -110,7 +111,7 @@ public class LineFrameTree extends  BaseLineFrame {
 	 * @param masterFile - Internal representation of the file
 	 * @param cRow       - current row
 	 */
-	public LineFrameTree(final FileView viewOfFile,
+	public LineFrameTree(@SuppressWarnings("rawtypes") final FileView viewOfFile,
 	        		 final int cRow) {
 		super("Record: ", viewOfFile, false, ! viewOfFile.getLayout().isXml());
 
@@ -130,6 +131,7 @@ public class LineFrameTree extends  BaseLineFrame {
 	}
 
 
+	@SuppressWarnings("rawtypes")
 	public LineFrameTree(final FileView viewOfFile,
    		 final AbstractLine line) {
 		super("Record: ", viewOfFile, false, ! viewOfFile.getLayout().isXml());
@@ -163,6 +165,7 @@ public class LineFrameTree extends  BaseLineFrame {
 	 */
 	public int getCurrRow() {
 		int ret = Constants.NULL_INTEGER;
+		@SuppressWarnings("rawtypes")
 		AbstractLine l = record.getCurrentLine();
 		
 		if (l != null) {
@@ -173,8 +176,9 @@ public class LineFrameTree extends  BaseLineFrame {
 	}
 
 	 /**
-	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplay#getTreeLine()
+	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getTreeLine()
 	 */
+	@SuppressWarnings("rawtypes")
 	@Override
 	public AbstractLine getTreeLine() {
 		return record.getCurrentLine();
@@ -276,7 +280,8 @@ public class LineFrameTree extends  BaseLineFrame {
 
     	switch (action) {
     	case(ReActionHandler.REPEAT_RECORD) :
-        	AbstractLine l = getFileView().repeatLine(record.getCurrentLine());
+        	@SuppressWarnings({ "rawtypes", "unchecked" })
+			AbstractLine l = getFileView().repeatLine(record.getCurrentLine());
         	if (l != null) {
         		record.setCurrentLine(l, getLayoutIndex());
         		setDirectionButtonStatus();
@@ -298,6 +303,7 @@ public class LineFrameTree extends  BaseLineFrame {
 	protected void setDirectionButtonStatus() {
 
 
+		@SuppressWarnings("rawtypes")
 		AbstractLine l = record.getCurrentLine();
 	    btn[IDX_START].setEnabled(true);
 		if (l== null) {
@@ -307,6 +313,7 @@ public class LineFrameTree extends  BaseLineFrame {
 		    btn[IDX_NEXT].setEnabled(false);
 		} else {
 			int rowCount = fileView.getRowCount();
+			@SuppressWarnings("rawtypes")
 			AbstractLine parent = l.getTreeDetails().getParentLine();
 			boolean changeParent = (parent == null) && (rowCount > 1);
 			
@@ -324,9 +331,10 @@ public class LineFrameTree extends  BaseLineFrame {
 	
 	
 	private void changeRow(int amount) {
+		@SuppressWarnings("rawtypes")
 		AbstractLine l = record.getCurrentLine();
 		//int[] colWidths = getColumnWidths();
-		int i;
+		//int i;
 		
 		if (l.getTreeDetails().getParentLine() == null) {
 			int idx = fileView.indexOf(l);
@@ -346,7 +354,7 @@ public class LineFrameTree extends  BaseLineFrame {
 		setLine(l);
 	}
 	
-	private void setLine(AbstractLine l) {
+	private void setLine(@SuppressWarnings("rawtypes") AbstractLine l) {
 		
 //		System.out.println("## Set Line ... " + (l != record.getCurrentLine()) 
 //				+ " LayoutIndex: " + getLayoutIndex());
@@ -367,8 +375,9 @@ public class LineFrameTree extends  BaseLineFrame {
 
 	}
 	
+	@SuppressWarnings("rawtypes")
 	private AbstractLine prevLine(AbstractLine l) {
-		int j;
+
 		AbstractLine prev = l;
 		AbstractLine parent =  l.getTreeDetails().getParentLine();
 		if (parent != null) {
@@ -388,8 +397,8 @@ public class LineFrameTree extends  BaseLineFrame {
 	}
 
 	
+	@SuppressWarnings("rawtypes")
 	private AbstractLine nextLine(AbstractLine l) {
-		int j;
 		AbstractLine next = l;
 		AbstractLine parent =  l.getTreeDetails().getParentLine();
 		if (parent != null) {
@@ -415,6 +424,7 @@ public class LineFrameTree extends  BaseLineFrame {
 	/**
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getInsertAfterLine()
 	 */
+	@SuppressWarnings("rawtypes")
 	@Override
 	protected AbstractLine getInsertAfterLine(boolean prev) {
 
@@ -429,7 +439,7 @@ public class LineFrameTree extends  BaseLineFrame {
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getNewDisplay(net.sf.RecordEditor.edit.file.FileView)
 	 */
 	@Override
-	protected BaseDisplay getNewDisplay(FileView view) {
+	protected BaseDisplay getNewDisplay(@SuppressWarnings("rawtypes") FileView view) {
 		return new LineFrameTree(view, 0);
 	}
 	

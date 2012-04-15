@@ -81,9 +81,9 @@ public class ReFrame extends JInternalFrame
         }
 
         public void internalFrameClosing(InternalFrameEvent e) {
-        	System.out.println("Closing " + ReFrame.this.getClass().getName()
-        			+ " " + ReFrame.this.getDefaultCloseOperation()
-        			+ " ~ " + ReFrame.HIDE_ON_CLOSE);
+//        	System.out.println("Closing " + ReFrame.this.getClass().getName()
+//        			+ " " + ReFrame.this.getDefaultCloseOperation()
+//        			+ " ~ " + ReFrame.HIDE_ON_CLOSE);
         	if (ReFrame.this.getDefaultCloseOperation() == ReFrame.HIDE_ON_CLOSE) {
         		findNewActiveDisplay();
         	}
@@ -239,7 +239,7 @@ public class ReFrame extends JInternalFrame
      *
      * @param action action to be checked
      *
-     * @return wether action is available
+     * @return whether action is available
      */
     public boolean isActionAvailable(int action) {
 

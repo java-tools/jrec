@@ -761,7 +761,7 @@ public final class Conversion {
      * @param from search string
      * @param to replacement string
      */
-    public static final StringBuffer replace(StringBuffer in, String from, String to) {
+    public static final StringBuilder replace(StringBuilder in, String from, String to) {
         int start;
         int fromLen = from.length();
 

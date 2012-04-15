@@ -1,11 +1,11 @@
 package net.sf.JRecord.Details;
 
-import net.sf.JRecord.Common.AbstractRecord;
+import net.sf.JRecord.Common.AbstractRecordX;
 import net.sf.JRecord.Common.FieldDetail;
 
 
 public interface AbstractRecordDetail<FieldDefinition extends FieldDetail> 
-extends AbstractRecord {
+extends AbstractRecordX<FieldDefinition> {
 
 	/**
 	 * Add a record to the layout
@@ -87,13 +87,6 @@ extends AbstractRecord {
 	public abstract int getFieldIndex(String fieldName);
 
 	/**
-	 * Get a specific field definition
-	 * @param idx index of the required field
-	 * @return requested field
-	 */
-	public abstract FieldDefinition getField(int idx);
-
-	/**
 	 * Get the numeric Type of field
 	 * @param idx field index
 	 * @return numeric type (if it is numeric)
@@ -110,13 +103,6 @@ extends AbstractRecord {
 	public abstract FieldDefinition getField(String fieldName);
 
 	/**
-	 * get the number of fields in the record
-	 *
-	 * @return the number of fields in the record
-	 */
-	public abstract int getFieldCount();
-
-	/**
 	 * Get the maximum width of the fields (a value < 0 means
 	 * use the default width).
 	 *
@@ -131,25 +117,25 @@ extends AbstractRecord {
 	 */
 	public abstract String getDelimiter();
 
-	/**
-	 * @see net.sf.JRecord.Common.AbstractRecord#getQuote()
-	 */
-	public abstract String getQuote();
-
-	/**
-	 * @see net.sf.JRecord.Common.AbstractRecord#getParentRecordIndex()
-	 */
-	public abstract int getParentRecordIndex();
-
-	/**
-	 * @param parentRecordIndex the parentRecordIndex to set
-	 */
-	public abstract void setParentRecordIndex(int parentRecordIndex);
-
-	/**
-	 * @see net.sf.JRecord.Common.AbstractRecord#getRecordStyle()
-	 */
-	public abstract int getRecordStyle();
+//	/**
+//	 * @see net.sf.JRecord.Common.AbstractRecord#getQuote()
+//	 */
+//	public abstract String getQuote();
+//
+//	/**
+//	 * @see net.sf.JRecord.Common.AbstractRecord#getParentRecordIndex()
+//	 */
+//	public abstract int getParentRecordIndex();
+//
+//	/**
+//	 * @param parentRecordIndex the parentRecordIndex to set
+//	 */
+//	public abstract void setParentRecordIndex(int parentRecordIndex);
+//
+//	/**
+//	 * @see net.sf.JRecord.Common.AbstractRecord#getRecordStyle()
+//	 */
+//	public abstract int getRecordStyle();
 
 	/**
 	 * get the count of childRecords

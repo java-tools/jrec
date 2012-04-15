@@ -60,7 +60,7 @@ public abstract class AbsDB<record extends AbsRecord> {
 	protected String insertSQL = nullStr;
 
 	protected String sep = " Where ";
-	protected String orderBy = nullStr;
+//	protected String orderBy = nullStr;
 //	protected    int numParms = 0;
 
 	private int readLimit = 2000000000;
@@ -381,8 +381,6 @@ public abstract class AbsDB<record extends AbsRecord> {
                 setMessage(ex.getMessage(), ex);
              }
          }
-
-         pStatement = null;
     }
 
 
@@ -749,9 +747,9 @@ public abstract class AbsDB<record extends AbsRecord> {
     public void setOrderBy(String newOrderBy) {
 
         if (newOrderBy == null || "".equals(newOrderBy)) {
-            newOrderBy = "";
+        	sOrderBy = "";
         } else {
-            this.orderBy = newOrderBy;
+            this.sOrderBy = newOrderBy;
         }
     }
 
@@ -855,5 +853,35 @@ public abstract class AbsDB<record extends AbsRecord> {
 		}
 		
 		return ret;
+	}
+
+	/**
+	 * @return the connect
+	 */
+	public AbsConnection getConnect() {
+		return connect;
+	}
+
+	public void rollback() {
+		if (connect != null) {
+			try {
+				connect.getUpdateConnection().rollback();
+			} catch (SQLException e) {
+					e.printStackTrace();
+			}
+		}
+	}
+
+	public final boolean setAutoCommit(boolean commit) {
+		boolean ok = false;
+		if (connect != null) {
+			try {
+				connect.getUpdateConnection().setAutoCommit(false);
+				ok = true;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return ok;
 	}
 }

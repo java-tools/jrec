@@ -293,7 +293,7 @@ public final class ExternalConversion {
 	 */  
     public static final String copybookNameToFileName(String name) {
     	
-    	StringBuffer b = new StringBuffer(name);
+    	StringBuilder b = new StringBuilder(name);
     	if (invalidFileChars != null) {
     		for (int i = 0; i < invalidFileChars.length(); i++) {
     			Conversion.replace(b, invalidFileChars.substring(i, i+1), replacementChar);

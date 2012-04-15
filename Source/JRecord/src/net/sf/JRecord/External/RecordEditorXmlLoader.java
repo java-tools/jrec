@@ -4,10 +4,10 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import net.sf.JRecord.Common.AbstractFieldValue;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.XmlConstants;
-import net.sf.JRecord.Details.AbstractFieldValue;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.ExternalRecordSelection.ExternalSelection;
@@ -137,7 +137,7 @@ public class RecordEditorXmlLoader implements CopybookLoader {
 					childRec.setDefaultRecord(true);
 				}
 			} else {
-				childRec.setRecSelect(fs);
+				childRec.setRecordSelection(fs);
 			}
 
 			try {
@@ -244,12 +244,12 @@ public class RecordEditorXmlLoader implements CopybookLoader {
 		if (Constants.RE_XML_TST_FIELDS.equalsIgnoreCase(name)
 		||  Constants.RE_XML_AND_FIELDS.equalsIgnoreCase(name)) {
 			setDefault(childRec, line.getFieldValue(Constants.RE_XML_DEFAULTREC).asString());
-			childRec.setRecSelect(getGroup(reader, ExternalSelection.TYPE_AND));
+			childRec.setRecordSelection(getGroup(reader, ExternalSelection.TYPE_AND));
 			
 			line = reader.read();
 		} else if (Constants.RE_XML_OR_FIELDS.equalsIgnoreCase(name)) {
 			setDefault(childRec, line.getFieldValue(Constants.RE_XML_DEFAULTREC).asString());
-			childRec.setRecSelect(getGroup(reader, ExternalSelection.TYPE_OR));
+			childRec.setRecordSelection(getGroup(reader, ExternalSelection.TYPE_OR));
 			
 			line = reader.read();
 		}

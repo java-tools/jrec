@@ -10,6 +10,7 @@ import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.re.db.Record.ExtendedRecordDB;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.swing.DirectoryFrame;
 
@@ -94,9 +95,6 @@ public class LoadXmlLayoutsIntoDB  implements ActionListener {
 	}
 	
 	private static String stripStar(String dir) {
-		if (dir != null && dir.endsWith("*")) {
-			dir = dir.substring(0, dir.length() - 1);
-		}
-		return dir;
+		return Parameters.dropStar(dir);
 	}
 }

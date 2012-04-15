@@ -12,6 +12,7 @@ import net.sf.RecordEditor.re.db.Table.TableDB;
 import net.sf.RecordEditor.re.db.Table.TableRec;
 import net.sf.RecordEditor.re.util.CopybookLoaderFactoryDB;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.common.ReConnection;
 
 public class LoadCobolIntoDB {
@@ -132,9 +133,6 @@ public class LoadCobolIntoDB {
 	}
 	
 	private static String stripStar(String dir) {
-		if (dir != null && dir.endsWith("*")) {
-			dir = dir.substring(0, dir.length() - 1);
-		}
-		return dir;
+		return Parameters.dropStar(dir);
 	}
 }

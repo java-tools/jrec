@@ -3,6 +3,7 @@ package net.sf.JRecord.Details;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.sf.JRecord.Common.AbstractFieldValue;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
@@ -110,6 +111,7 @@ implements AbstractLine<Layout> {
 	 * @see net.sf.JRecord.Details.AbstractLine#getField(net.sf.JRecord.Common.FieldDetail)
 	 */
 	public Object getField(FieldDetail field) {
+		if (field == null) return null;
 	    return getFieldRaw(preferredLayout, field.getPos());
 	}
 
@@ -160,7 +162,7 @@ implements AbstractLine<Layout> {
 
 	@Override
 	public AbstractFieldValue getFieldValue(String fieldName) {
-		return  getFieldValue(layout.getFieldFromName(fieldName));
+		return  getFieldValue(getFieldFromName(fieldName));
 	}
 
 	/**
@@ -240,6 +242,7 @@ implements AbstractLine<Layout> {
 	 * @see net.sf.JRecord.Details.AbstractLine#setField(net.sf.JRecord.Common.FieldDetail, java.lang.Object)
 	 */
 	public void setField(FieldDetail field, Object value) throws RecordException {
+    	if (field == null && (value == null || "".equals(value.toString()))) return;
 		setRawField(preferredLayout, field.getPos(), value);
 	}
 
@@ -279,7 +282,7 @@ implements AbstractLine<Layout> {
 	 * @see net.sf.JRecord.Details.AbstractLine#setField(java.lang.String, java.lang.Object)
 	 */
 	public void setField(String fieldName, Object value) throws RecordException {
-	    setField(layout.getFieldFromName(fieldName), value);
+	    setField(getFieldFromName(fieldName), value);
 	}
 
 	/**
@@ -365,4 +368,13 @@ implements AbstractLine<Layout> {
 		// TODO Auto-generated method stub
 		return (L) clone();
 	}
-}
+	
+	protected final FieldDetail getFieldFromName(String fieldName) {
+		FieldDetail fldDef = null;
+		if (preferredLayout >= 0) {
+			fldDef = layout.getRecord(preferredLayout).getField(fieldName);
+		}
+		return fldDef;
+		
+	}
+} 

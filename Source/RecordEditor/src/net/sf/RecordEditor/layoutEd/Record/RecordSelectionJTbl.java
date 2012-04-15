@@ -10,8 +10,7 @@
 package net.sf.RecordEditor.layoutEd.Record;
 
 /**
- * This class implements a JTable to display Child Records of a parent
- * record
+ * This class implements a JTable to display Records Selection Expression
  *
  * @author Bruce Martin
  *
@@ -19,14 +18,20 @@ package net.sf.RecordEditor.layoutEd.Record;
 
 
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
 
-
-
+import net.sf.RecordEditor.re.db.Record.ChildRecordsRec;
+import net.sf.RecordEditor.re.db.Record.RecordFieldsDB;
+import net.sf.RecordEditor.re.db.Record.RecordFieldsRec;
+import net.sf.RecordEditor.re.db.Record.RecordSelectionRec;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.common.ReConnection;
+import net.sf.RecordEditor.utils.jdbc.DBtableModel;
 import net.sf.RecordEditor.utils.swing.AbsJTable;
 import net.sf.RecordEditor.utils.swing.ComboBoxRender;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
@@ -34,7 +39,7 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 /**
- * Child record Table
+ * This class implements a JTable to display Records Selection Expression
  *
  *
  * @author Bruce Martin
@@ -57,25 +62,14 @@ public class RecordSelectionJTbl extends AbsJTable {
 //	private RecordSelectionDB recordSelDb = new RecordSelectionDB();
 
 
-    private static final String[] OPERATORS = {"=", "!=", "<>", ">", ">=",  "<", "<=",};
-    private ComboBoxRender operatorRender = new ComboBoxRender(OPERATORS);
-    //private DefaultTableCellRenderer operatorRender = new DefaultTableCellRenderer()
-//	private int connectionIdx;
-
-	
-	private DefaultCellEditor operatorEditor = new DefaultCellEditor(new JComboBox<String>(OPERATORS));
+    //private static final String[] OPERATORS = {"=", "!=", "<>", ">", ">=",  "<", "<=",};
+    private ComboBoxRender operatorRender = new ComboBoxRender(Common.COMPARISON_OPERATORS);
+ 
+	private DefaultCellEditor operatorEditor = new DefaultCellEditor(
+			new JComboBox<String>(Common.COMPARISON_OPERATORS));
 	//DBComboBoxRender  recordRendor;
-
-    /**
-     * Create the Child record Table
-     *
-     * @param dbIdx Database Index
-     */
-    public RecordSelectionJTbl(final int dbIdx) {
-        super();
-
-        commonInit(dbIdx);
-    }
+	private String[] fields;
+  
 
 
   /**
@@ -84,23 +78,44 @@ public class RecordSelectionJTbl extends AbsJTable {
    * @param mdl Table model
    * @param dbIdx Database Index
    */
-  public RecordSelectionJTbl(final TableModel mdl, final int dbIdx) {
-      super(mdl);
+  public RecordSelectionJTbl(
+		  final DBtableModel<RecordSelectionRec> mdl, 
+		  final int dbIdx, 
+		  final ChildRecordsRec parent) {
+      super(mdl); 
 
-      commonInit(dbIdx);
-  }
-
-
-  /**
-   * common initialisation
-   *
-   * @param dbIdx Database Index
-   */
-  private void commonInit(int dbIdx) {
-
-	 
-     // childEditor = new DefaultCellEditor(locChildRecord);
-
+      String s;
+      RecordFieldsDB db = new RecordFieldsDB();
+      RecordFieldsRec rec;
+      ArrayList<String> fieldsList = new ArrayList<String>();
+      HashSet<String> used = new HashSet<String>();
+//      HashSet<String> 
+      
+	  fieldsList.add("");
+      for (int i = 0; i < mdl.getRowCount(); i++) {
+    	  s = mdl.getRecord(i).getFieldName();
+    	  if (s != null && ! "".equals(s) && ! used.contains(s)) {
+    		  fieldsList.add(s);
+    		  used.add(s);
+    	  }
+      }
+      db.setConnection(new ReConnection(dbIdx));
+      db.setOrderBy(" Order By FieldName");
+      db.resetSearch();
+      db.setParams(parent.getChildRecordId());
+      db.open();
+     // System.out.println(" Field Search: " + parent.getChildRecord());
+      while ((rec = db.fetch()) != null) {
+    	  s = rec.getValue().getName();
+    	  if (! used.contains(s)) {
+    		  fieldsList.add(s);
+    		  used.add(s);
+    	  }
+      }
+      db.close();
+      fields = new String[fieldsList.size()];
+      fields = fieldsList.toArray(fields);
+      
       setColumnSizes();
       setRowHeight(SwingUtils.COMBO_TABLE_ROW_HEIGHT);
   }
@@ -122,6 +137,10 @@ public class RecordSelectionJTbl extends AbsJTable {
 
 	     tcm.getColumn(FLD_OPERATOR).setCellRenderer(operatorRender);
 	     tcm.getColumn(FLD_OPERATOR).setCellEditor(operatorEditor);
+	     
+	     tcm.getColumn(FLD_FIELD_NAME).setCellRenderer(new ComboBoxRender(fields));
+	     tcm.getColumn(FLD_FIELD_NAME).setCellEditor(new DefaultCellEditor(new JComboBox(fields)));
+	    
 
 	     
 	     //ParentList = new ParentList()

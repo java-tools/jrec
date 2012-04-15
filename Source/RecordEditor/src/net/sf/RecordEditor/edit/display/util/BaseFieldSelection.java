@@ -24,11 +24,11 @@ import javax.swing.table.TableColumnModel;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
-import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
 import net.sf.RecordEditor.edit.display.models.SortFieldMdl;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
 import net.sf.RecordEditor.jibx.compare.SortTree;
 import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.re.tree.FieldSummaryDetails;
 import net.sf.RecordEditor.utils.common.AbstractSaveDetails;
 import net.sf.RecordEditor.utils.common.Common;
@@ -131,6 +131,7 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 					BasePanel.GAP0,
 					BasePanel.FULL, BasePanel.FULL,
 					new JScrollPane(records));
+			pnlTop.setComponentName(records, "records");
 		}
 
 		if (addFieldSummary) {
@@ -144,12 +145,15 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 			pnlTop.addComponent(1, 5, height, BasePanel.GAP,
 					BasePanel.FULL, BasePanel.FULL,
 					fldSummaryTbl);
+			
+			pnlTop.setComponentName(fldSummaryTbl, "fieldSummary");
 		} else {
 			height = SwingUtils.calculateComboTableHeight(fldTable.getRowCount(), desktopHeight * 4 / 5);
 			pnlTop.addComponent(1, 5, height, BasePanel.GAP,
 					BasePanel.FULL, BasePanel.FULL,
 					fldTable);
 		}
+		pnlTop.setComponentName(fldTable, "fields");
 
 		pnlBottom.addLine("Use", whatToSelect);
 		pnlBottom.setGap(BasePanel.GAP0);

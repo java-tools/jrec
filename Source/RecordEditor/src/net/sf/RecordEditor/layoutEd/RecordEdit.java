@@ -24,9 +24,10 @@ import javax.swing.JTextField;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
-import net.sf.RecordEditor.layoutEd.Record.RecordListPnl;
-import net.sf.RecordEditor.layoutEd.Record.RecordPnl;
 import net.sf.RecordEditor.layoutEd.Record.SearchArgAction;
+import net.sf.RecordEditor.layoutEd.panels.RecordListPnl;
+import net.sf.RecordEditor.layoutEd.panels.RecordPnl;
+import net.sf.RecordEditor.re.db.Record.ExtendedRecordDB;
 import net.sf.RecordEditor.re.db.Record.RecordRec;
 import net.sf.RecordEditor.re.db.Record.SaveRecordAsXml;
 import net.sf.RecordEditor.utils.common.Common;
@@ -233,6 +234,32 @@ public class RecordEdit extends    ReFrame
 		message.setText("");
 	}
 
+	
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.screenManager.ReFrame#executeAction(int, java.lang.Object)
+	 */
+	@Override
+	public void executeAction(int action, Object o) {
+		if (action == ReActionHandler.EXPORT_VELOCITY) {
+			String s = "";
+			if (o != null) {
+				s = o.toString();
+			}
+			
+			RecordRec rec1 = saveRecord();
+			
+			if (rec1 != null) {
+				new net.sf.RecordEditor.layoutEd.panels.ExportVelocityPnl(
+					connectionIdx, s, ExtendedRecordDB.getRecord(connectionIdx, rec1.getRecordId()));
+			} else {
+				Common.logMsg("No Layout to Export", null);
+			}
+		} else {
+			executeAction(action);
+		}
+	}
+
 
 	/**
 	 * Execut the requested action
@@ -324,6 +351,7 @@ public class RecordEdit extends    ReFrame
         	|| (action == ReActionHandler.SAVE)
             || (action == ReActionHandler.NEW)
             || (action == ReActionHandler.SAVE_LAYOUT_XML)
+            || (action == ReActionHandler.EXPORT_VELOCITY)
         	|| (action == ReActionHandler.SAVE_AS);
 
         if (recordActionHandler != null && ! ret) {

@@ -181,8 +181,11 @@ public abstract class AbsDBTableModel<record extends AbsRecord> extends Abstract
 	 */
 	public void addRow(int row, record val) {
 
-		//System.out.println("DBTableModel - addRow " + lines == null);
-		lines.add(row, val);
+		if (row >= lines.size()) {
+			lines.add(val);
+		} else {
+			lines.add(row, val);
+		}
 	}
 
 
@@ -216,26 +219,38 @@ public abstract class AbsDBTableModel<record extends AbsRecord> extends Abstract
 		int num = deletedLines.size();
 		record rec;
 		
-
-		for (i = num - 1; i >= 0; i--) {
-			dataBase.delete(deletedLines.get(i));
-			deletedLines.remove(i);
-		}
-
-		num = getRowCount();
-		for (i = 0; i < num; i++) {
-			rec = getRecord(i);
-			if (rec.hasTheKeyChanged()
-			&& !rec.isNew()
-			&&  rec.getUpdateStatus() == AbsRecord.UPDATED) {
-				dataBase.delete(rec);
-				rec.setNew(true);
+		boolean autoCommitOff = dataBase.setAutoCommit(false);
+		try {
+			for (i = num - 1; i >= 0; i--) {
+				dataBase.delete(deletedLines.get(i));
+				deletedLines.remove(i);
+			}
+	
+			num = getRowCount();
+			for (i = 0; i < num; i++) {
+				rec = getRecord(i);
+				if (rec.hasTheKeyChanged()
+				&& !rec.isNew()
+				&&  rec.getUpdateStatus() == AbsRecord.UPDATED) {
+					dataBase.delete(rec);
+					rec.setNew(true);
+				}
+			}
+			
+			for (i = 0; i < num; i++) {
+				dataBase.checkAndUpdate(getRecord(i));
+			}
+		} catch (Exception e) {
+			if (autoCommitOff) {
+				dataBase.rollback();
+			}
+			throw new RuntimeException(e);
+		} finally {
+			if (autoCommitOff) {
+				dataBase.setAutoCommit(true);
 			}
 		}
-		
-		for (i = 0; i < num; i++) {
-			dataBase.checkAndUpdate(getRecord(i));
-		}
+
 	}
 
 
@@ -337,7 +352,8 @@ public abstract class AbsDBTableModel<record extends AbsRecord> extends Abstract
 			System.out.println("Nothing to paste");
 		} else {
 			for (i = copyLines.length - 1; i >= 0; i--) {
-				lines.add(pos + 1, (record) copyLines[i].clone());
+				//lines.add(pos + 1, (record) copyLines[i].clone());
+				addRow(pos+1, (record) copyLines[i].clone());
 			}
 		}
 	}

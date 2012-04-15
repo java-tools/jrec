@@ -100,6 +100,8 @@ public class EditPropertiesPnl extends BasePanel {
      */
     private void init_100_Fields() {
 
+    	this.setNameComponents(true);
+
         this.addComponent(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(tips));
@@ -147,6 +149,10 @@ public class EditPropertiesPnl extends BasePanel {
     	if (prompt == null) {
     		prompt = tableData[row][DESCRPTION_COLUMN];
     	}
+//    	if (prompt != null) {
+//    		item.setName(prompt.toString());
+//    		//System.out.println("Set name: " + prompt.toString() + " " + item.getName());
+//    	}
     	item.setToolTipText(tableData[row][DESCRPTION_COLUMN].toString());
     	super.addLine(prompt.toString(), item, item2);
     	components[row] = item;
@@ -400,7 +406,7 @@ public class EditPropertiesPnl extends BasePanel {
 		}
 	}
 	
-	public class FetchSize extends JButton implements ActionListener {
+	public static class FetchSize extends JButton implements ActionListener {
 		TxtFld heightTxt, widthTxt;
 
 		public FetchSize(TxtFld height, TxtFld width) {

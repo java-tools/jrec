@@ -57,8 +57,9 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 
 
 	/**
-	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplay#getSelectedLines()
+	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getSelectedLines()
 	 */
+	@SuppressWarnings("rawtypes")
 	@Override
 	public List<AbstractLine> getSelectedLines() {
 
@@ -89,6 +90,7 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 		return -1;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	protected AbstractLine getInsertAfterLine(boolean prev) {
 		AbstractLine ret = null;
@@ -115,8 +117,9 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 	
 	
 	 /**
-	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplay#getTreeLine()
+	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getTreeLine()
 	 */
+	@SuppressWarnings("rawtypes")
 	@Override
 	public AbstractLine getTreeLine() {
 		AbstractLine line = getInsertAfterLine(false);
@@ -150,6 +153,7 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	private AbstractLineNode createNodes(AbstractLine line) {
 		AbstractLineNode node = view.getTreeNode(line);
 		if (node == null) {

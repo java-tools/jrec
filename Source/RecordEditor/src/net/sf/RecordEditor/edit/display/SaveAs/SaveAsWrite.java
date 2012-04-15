@@ -12,10 +12,10 @@ import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Types.Type;
-import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
 import net.sf.RecordEditor.re.file.AbstractLineNode;
 import net.sf.RecordEditor.re.file.DisplayType;
 import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.FieldWriter;
 import net.sf.RecordEditor.utils.common.Common;
 

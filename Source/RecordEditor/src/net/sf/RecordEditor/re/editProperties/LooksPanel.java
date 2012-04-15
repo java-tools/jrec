@@ -214,6 +214,8 @@ public class LooksPanel extends BasePanel implements ActionListener {
      */
     private void init_200_ScreenBuild() {
 
+    	this.setNameComponents(true);
+    	
 		this.addComponent(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP2,
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(tips));

@@ -119,6 +119,7 @@ public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
 		         BasePanel.GAP1,
 		         BasePanel.FULL, BasePanel.FULL,
 				 recordTbl);
+		pnl.setComponentName(recordTbl, "Recs");
 
 		if (addSave) {
 			SaveButton<EditorTask> saveBtn = new SaveButton<EditorTask>(this, 

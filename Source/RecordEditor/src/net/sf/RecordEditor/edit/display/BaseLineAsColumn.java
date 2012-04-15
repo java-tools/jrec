@@ -31,8 +31,8 @@ implements AbstractFileDisplayWithFieldHide {
 	private JMenu currentShowFields = null;
 
 	
-	@SuppressWarnings("unchecked")
-	public BaseLineAsColumn(String formType, FileView viewOfFile,
+
+	public BaseLineAsColumn(String formType, @SuppressWarnings("rawtypes") FileView viewOfFile,
 			boolean primary, boolean fullLine) {
 		super(formType, viewOfFile, primary, fullLine, false, false);
 		
@@ -59,9 +59,8 @@ implements AbstractFileDisplayWithFieldHide {
 	/**
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#setNewLayout(net.sf.JRecord.Details.AbstractLayoutDetails)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
-	public void setNewLayout(AbstractLayoutDetails newLayout) {
+	public void setNewLayout(@SuppressWarnings("rawtypes") AbstractLayoutDetails newLayout) {
 		super.setNewLayout(newLayout);
 		showFieldMenus = new JMenu[newLayout.getRecordCount()];
 		model.layoutChanged(newLayout);

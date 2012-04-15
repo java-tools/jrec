@@ -3,6 +3,7 @@ package net.sf.RecordEditor.re.db.Record;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
 
 
@@ -30,12 +31,12 @@ public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 	public static final String DB_NAME = "Tbl_RS2_SubRecords";
 	private static final String[] COLUMN_NAMES = {
 		"Child Record"
-		, "Field Start"
+		, "Child Name"
 		, "Field"
 		, "Field Value"
 		, "Tree Parent"
 	};
-
+	
 
 	private PreparedStatement delAllChildRecords = null;
 
@@ -46,7 +47,7 @@ public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 		resetSearch();
 
 		sSQL = " Select  Child_Record, Field_Start, Field_Name, Field_Value, PARENT_RECORDID, "
-			 +          "Child_Key, Operator_Sequence , default_Record ";
+			 +          "Child_Key, Operator_Sequence , default_Record, Child_Name , Child_Id ";
 		sFrom = "  from " + DB_NAME;
 		sWhereSQL = "  where RecordId = ?";
 		sOrderBy = " Order by Child_Key";
@@ -59,6 +60,8 @@ public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 				+  "   , PARENT_RECORDID = ?"
 				+  "   , Operator_Sequence = ?"
 				+  "   , Default_Record = ?"
+				+  "   , Child_Name = ?"
+                + "    , Child_Id = ? "
 				+  " Where RecordId= ? "
 				+  "   and Child_Key= ? "
 				;
@@ -77,10 +80,12 @@ public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 				+ "  , PARENT_RECORDID" 
 				+ "  , Operator_Sequence"
 				+ "  , default_Record "
+				+ "  , Child_Name"
+                + "  , Child_Id"
 				+ "  , RecordId" 
 
                       + ") Values ("
-                      +    "     ?   , ?   , ?   , ?   , ?, ?   , ?, ?, ?"
+                      +    "     ?   , ?   , ?   , ?   , ?, ?   , ?, ?, ?, ?, ?"
                       + ")";
 
 		super.columnNames = ChildRecordsDB.COLUMN_NAMES;
@@ -149,6 +154,8 @@ public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 						, rsCursor.getInt(6)
 						, rsCursor.getInt(7)
 						, "Y".equalsIgnoreCase(rsCursor.getString(8))
+						, rsCursor.getString(9)
+						, rsCursor.getInt(10)
 						);
 			}
 			message = "";
@@ -183,19 +190,30 @@ public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 	protected int setSQLParams(PreparedStatement statement, ChildRecordsRec value, boolean insert, int idx)
 			throws SQLException {
 		ChildRecordsRec val = value;
+		int childId = value.getChildId();
 		String defaultRec = "N";
+		
 		if (value.isDefaultRecord()) {
 			 defaultRec = "Y";
 		}
+		
+		if (childId < 0) {
+			final String sql = "Select max(Child_Id) From  Tbl_RS2_SubRecords "
+					+  " Where RecordId= ? "
+					;
+			childId = getNextIntSubKey(sql, paramRecordId);
+		}
 
 		statement.setInt(idx++, val.getChildKey());
-		statement.setInt(idx++, val.getChildRecord());
+		statement.setInt(idx++, val.getChildRecordId());
 		statement.setInt(idx++, val.getStart());
 		statement.setString(idx++, correctStr(val.getField()));
 		statement.setString(idx++, correctStr(val.getFieldValue()));
 		statement.setInt(idx++, val.getParentRecord());
 		statement.setInt(idx++, val.getOperatorSequence());
 		statement.setString(idx++, defaultRec);
+		statement.setString(idx++, val.getChildName());
+		statement.setInt(idx++, childId);
 		
 
 		if (insert) {
@@ -220,6 +238,31 @@ public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 
 		statement.setInt(idx++, paramRecordId);
 		statement.setInt(idx++, value.initChildKey);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.jdbc.AbsDB#delete(net.sf.RecordEditor.utils.jdbc.AbsRecord)
+	 */
+	@Override
+	public void delete(ChildRecordsRec val) {
+
+		String updSql  = 
+				  "Delete from  TBL_RFS_FIELDSELECTION "
+				 + "where RECORDID = "  + paramRecordId
+				 + "  and Child_Key = " + val.getChildKey();	
+		
+
+		try {
+			connect.getUpdateConnection().createStatement().execute(updSql);
+		} catch (Exception e) {
+			Common.logMsg(updSql, null);
+			Common.logMsg("Update Failed: " + e.getClass().getName() + " " + e.getMessage(), e);
+			e.printStackTrace();
+		}
+		
+
+		super.delete(val);
 	}
 
 

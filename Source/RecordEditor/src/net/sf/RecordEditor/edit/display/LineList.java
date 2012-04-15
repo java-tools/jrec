@@ -581,18 +581,22 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
            TableColumn tc = scrollPane.getFixedTable().getColumnModel().getColumn(0);
            tc.setCellRenderer(tableBtn);
            tc.setPreferredWidth(5);
-           tc = scrollPane.getFixedTable().getColumnModel().getColumn(1);
-           if (rowCount > 10000000) {
-        	   width = 8;
-           } else if (rowCount > 1000000) {
-        	   width = 7;
-           } else if (rowCount > 100000) {
-        	   width = 6;
+           if ( scrollPane.getFixedTable().getColumnModel().getColumnCount() <= 1) {
+        	   Common.logMsg("Error No Fields defined in the layout !!!", null);
+           } else {
+	           tc = scrollPane.getFixedTable().getColumnModel().getColumn(1);
+	           if (rowCount > 10000000) {
+	        	   width = 8;
+	           } else if (rowCount > 1000000) {
+	        	   width = 7;
+	           } else if (rowCount > 100000) {
+	        	   width = 6;
+	           }
+	           tc.setPreferredWidth(SwingUtils.STANDARD_FONT_WIDTH * width);
+	           tc.setResizable(false);
+	           
+	           scrollPane.correctFixedSize();
            }
-           tc.setPreferredWidth(SwingUtils.STANDARD_FONT_WIDTH * width);
-           tc.setResizable(false);
-           
-           scrollPane.correctFixedSize();
         }
        
        if (layoutIdx >= fullLineIndex) {

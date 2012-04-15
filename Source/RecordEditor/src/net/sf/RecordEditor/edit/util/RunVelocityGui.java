@@ -20,8 +20,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import net.sf.RecordEditor.re.openFile.LayoutSelectionDB;
+import net.sf.RecordEditor.re.script.RunVelocity;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
-import net.sf.RecordEditor.utils.RunVelocity;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.FileChooser;

@@ -31,16 +31,19 @@ public class RecentFiles {
 	public static final int RF_NONE = -1;
 	public static final int RF_VELOCITY = 4;
 	public static final int RF_XSLT = 5;
+	public static final int RF_SCRIPT = 6;
 
 	private static final int RF_FILE_MODE = -2;
-	//private static final int RECENT_SIZE = 4;
+
 	private static final int FILE_HISTORY  = 400;
     private static final int HASH_MAP_SIZE = 600;
     private static final int LAUNCH_EDITOR_MATCH_NUMBER = 5 - Common.OPTIONS.launchIfMatch.get();
     private static final String EXTENSION_STRING   = "<extensions>";
     private static final String EXTENSION_VELOCITY = "<velocity>";
     private static final String EXTENSION_XSLT     = "<xslt>";
-    private static final String[] EXTENSION_NAME = {null, null, null, null, EXTENSION_VELOCITY, EXTENSION_XSLT};
+    private static final String EXTENSION_SCRIPT   = "<script>";
+    private static final String[] EXTENSION_NAME = {
+    	null, null, null, null, EXTENSION_VELOCITY, EXTENSION_XSLT, EXTENSION_SCRIPT};
 
     private static final String SEPERATOR    = "\t\t";
 
@@ -85,15 +88,11 @@ public class RecentFiles {
 	    String recentFile, recentFileNormal, dir, recentLayout, extension;
 	    HashMap<String, String> extensionMap; 
 	    
-	    recentMap.add(new HashMap<String, String>(HASH_MAP_SIZE));
-	    recentMap.add(new HashMap<String, String>(HASH_MAP_SIZE));
-	    recentMap.add(new HashMap<String, String>(HASH_MAP_SIZE));
-	    recentMap.add(new HashMap<String, String>(HASH_MAP_SIZE));
-	    
-	    recentMap.add(new HashMap<String, String>(HASH_MAP_SIZE));
-	    recentMap.add(new HashMap<String, String>(HASH_MAP_SIZE));
+	    for (i = 0; i < EXTENSION_NAME.length; i++) {
+	    	recentMap.add(new HashMap<String, String>(HASH_MAP_SIZE));
+	    }
 
-	    extensionMap=  recentMap.get(RF_VELOCITY);
+	    extensionMap =  recentMap.get(RF_VELOCITY);
 
         recentFileName = fileName;
         selection = layoutSelection;
@@ -118,8 +117,11 @@ public class RecentFiles {
                 		String s = t.nextToken();
 
                 		mode = RF_VELOCITY;
-                		if (s != null && s.toLowerCase().equals(EXTENSION_XSLT)) {
+                		if (s == null) {
+                		} else if (s.toLowerCase().equals(EXTENSION_XSLT)) {
                 			mode = RF_XSLT;
+                		} else if (s.toLowerCase().equals(EXTENSION_SCRIPT))  {
+                			mode = RF_SCRIPT;
                 		}
                 		extensionMap = recentMap.get(mode);
                 	} else {
@@ -237,6 +239,7 @@ public class RecentFiles {
 		    
 		    saveExtensions(w, RF_VELOCITY);
 		    saveExtensions(w, RF_XSLT);
+		    saveExtensions(w, RF_SCRIPT);
 
 		    w.close();
 		    wr.close();

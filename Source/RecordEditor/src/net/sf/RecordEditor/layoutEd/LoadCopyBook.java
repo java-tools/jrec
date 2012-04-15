@@ -330,6 +330,10 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 			                systemId,
 			                msgField);
 			        
+			        if (rec == null) {
+			        	msgField.logMsg(AbsSSLogger.ERROR, "Could not load Copybook");
+			        }
+			        
 			        if (fstructure != Constants.IO_DEFAULT
 			        && rec.getFileStructure() <= Constants.IO_DEFAULT) {
 			        	rec.setFileStructure(fstructure);
@@ -355,9 +359,10 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 			    ex.printStackTrace();
             } finally {
             	Common.setDoFree(free, connectionId);
-            }
-	        tableId = null;
-	        tblsDB  = null;
+		        tableId = null;
+		        tblsDB  = null; 
+	        }
+
 		}
 	}
 	
@@ -367,6 +372,7 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 	 *
 	 */
 	private void ap100_updateSystem(ExternalRecord rec) throws SQLException {
+		
 		int i, ckey;
 		String s;
 		TableRec aTbl;

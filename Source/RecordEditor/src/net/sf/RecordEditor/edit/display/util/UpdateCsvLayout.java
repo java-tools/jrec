@@ -19,8 +19,8 @@ import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.Types.Type;
-import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
 import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
@@ -139,6 +139,7 @@ public class UpdateCsvLayout implements ActionListener {
 		pnl.addComponent(1, 5, 300, BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL,
 		        fieldTbl);
+		pnl.setComponentName(fieldTbl, "FieldChange");
 
 		pnl.setGap(BasePanel.GAP2);
 		pnl.addLine("Field Delimiter", delimiterCombo);
@@ -312,7 +313,7 @@ public class UpdateCsvLayout implements ActionListener {
         recs[0] = new RecordDetail(
         		rec.getRecordName(), "", "", rec.getRecordType(),
         		delimiterCombo.getSelectedItem().toString(), quote, 
-        		layout.getFontName(), flds, rec.getRecordStyle());
+        		layout.getFontName(), flds, rec.getRecordStyle(), 0);
         
         return
             new LayoutDetail(layout.getLayoutName(), recs, "",

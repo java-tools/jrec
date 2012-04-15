@@ -24,6 +24,7 @@ package net.sf.RecordEditor.edit.display.models;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Details.AbstractLine;
+import net.sf.RecordEditor.re.file.DisplayType;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
@@ -37,6 +38,7 @@ import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class LineModel extends BaseLineModel {
 
 	public static final int DATA_COLUMN = 3;
@@ -235,6 +237,9 @@ public class LineModel extends BaseLineModel {
 		
 	    if (newIdx == Common.NULL_INTEGER) {
 	        this.fireTableDataChanged();
+	        if (DisplayType.displayType(layout, defaultLayout) == DisplayType.PREFFERED) {
+	        	defaultLayout = 0;
+	        }
 	        newIdx = defaultLayout;
 	    } else if  (newIdx == getFixedCurrentLayout()) {
 	        this.fireTableDataChanged();

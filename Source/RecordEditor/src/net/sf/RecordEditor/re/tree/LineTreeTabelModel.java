@@ -61,36 +61,39 @@ implements TreeTableNotify {
     // The TreeModel interface
     //
 
-    /**
-     * Returns the number of children of <code>node</code>.
-     *
-     * @see javax.swing.tree.TreeModel#getChildCount(java.lang.Object)
-     */
-    public int getChildCount(Object node) {
-        return ((AbstractLineNode) node).getChildCount();
-    }
-
-    /**
-     * Returns the child of <code>node</code> at index <code>i</code>.
-     *
-     * @see  javax.swing.tree.TreeModel#getChild(java.lang.Object, int)
-     */
-    public Object getChild(Object node, int i) {
-        return ((AbstractLineNode) node).getChildAt(i);
-    }
-
-    /**
-     * Returns true if the passed in object represents a leaf, false
-     * otherwise.
-     *
-     * @param node to test if it is a leaf node
-     *
-     * @return weather it is a leaf node
-     */
-    public boolean isLeaf(Object node) {
-        //System.out.println(" is Leaf " + ((AbstractLineNode)node).isLeaf());
-        return ((AbstractLineNode) node).isLeaf();
-    }
+//
+//    Code moved to AbstractTreeTableModel.
+//
+//    /**
+//     * Returns the number of children of <code>node</code>.
+//     *
+//     * @see javax.swing.tree.TreeModel#getChildCount(java.lang.Object)
+//     */
+//    public int getChildCount(Object node) {
+//        return ((AbstractLineNode) node).getChildCount();
+//    }
+//
+//    /**
+//     * Returns the child of <code>node</code> at index <code>i</code>.
+//     *
+//     * @see  javax.swing.tree.TreeModel#getChild(java.lang.Object, int)
+//     */
+//    public Object getChild(Object node, int i) {
+//        return ((AbstractLineNode) node).getChildAt(i);
+//    }
+//
+//    /**
+//     * Returns true if the passed in object represents a leaf, false
+//     * otherwise.
+//     *
+//     * @param node to test if it is a leaf node
+//     *
+//     * @return weather it is a leaf node
+//     */
+//    public boolean isLeaf(Object node) {
+//        //System.out.println(" is Leaf " + ((AbstractLineNode)node).isLeaf());
+//        return ((AbstractLineNode) node).isLeaf();
+//    }
 
     //
     //  The TreeTableNode interface.

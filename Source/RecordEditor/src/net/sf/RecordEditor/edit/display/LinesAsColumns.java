@@ -65,6 +65,7 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 	    setLayoutIdx();
 
 	    setVisible(true);
+	    super.actualPnl.addReKeyListener(new DelKeyWatcher());
 	}
 
 	/**
@@ -282,7 +283,7 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
     }
     
 	/**
-	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplay#getSelectedRows()
+	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getSelectedRows()
 	 */
 	public int[] getSelectedRows() {
 		return getJTable().getSelectedColumns();

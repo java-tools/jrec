@@ -49,7 +49,8 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
 
 	public int START_USER_FILE_STRUCTURES = 1000;
     //private static StandardLineIOProvider ioProvider = null;
-    private LineProvider provider;
+    @SuppressWarnings("rawtypes")
+	private LineProvider provider;
     private XmlLineProvider xmlProvider = null;
     private CharLineProvider charProvider = null;
     
@@ -58,7 +59,8 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
     private static String[] externalNames = new String [20] ;
     private static int[] keys = new int[20];
     
-    private BasicManager<LineProvider> lineProviderManager =
+    @SuppressWarnings("rawtypes")
+	private BasicManager<LineProvider> lineProviderManager =
     	new BasicManager<LineProvider>(100, START_USER_FILE_STRUCTURES, new LineProvider[200]) ;
     
 //    public static final int[] FILE_STRUCTURE_ID = {
@@ -122,7 +124,7 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
      * @param lineProvider lineProvider to use. Line providers
      * create Lines.
      */
-    public StandardLineIOProvider(final LineProvider lineProvider) {
+    public StandardLineIOProvider(@SuppressWarnings("rawtypes") final LineProvider lineProvider) {
         super();
 
         provider = lineProvider;
@@ -150,7 +152,8 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
      *
      * @return line reader
      */
-    public AbstractLineReader getLineReader(int fileStructure) {
+    @SuppressWarnings("rawtypes")
+	public AbstractLineReader getLineReader(int fileStructure) {
         return getLineReader(fileStructure, provider);
     }
 
@@ -158,7 +161,8 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
     /* (non-Javadoc)
 	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineReader(int, net.sf.JRecord.Details.LineProvider)
 	 */
-    public AbstractLineReader getLineReader(int fileStructure,
+    @SuppressWarnings("rawtypes")
+	public AbstractLineReader getLineReader(int fileStructure,
             						   LineProvider lineProvider) {
         LineProvider lLineProvider = lineProvider;
 
@@ -267,7 +271,8 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
     /* (non-Javadoc)
 	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineProvider(int)
 	 */
-    public LineProvider getLineProvider(int fileStructure) {
+    @SuppressWarnings("rawtypes")
+	public LineProvider getLineProvider(int fileStructure) {
     	
     	LineProvider temp = lineProviderManager.get(fileStructure);
     	if (temp != null) {

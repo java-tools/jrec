@@ -6,7 +6,7 @@ import javax.swing.tree.TreeNode;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 
-public interface AbstractLineNode extends MutableTreeNode{
+public interface AbstractLineNode extends MutableTreeNode {
 
 	
 	/**

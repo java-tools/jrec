@@ -151,7 +151,7 @@ public class RecordEditorCsvLoader implements CopybookLoader {
                     			ExternalFieldSelection f = new ExternalFieldSelection();
                     			f.setFieldName(fields[idx++]);
                     			f.setFieldValue(fields[idx++]);
-	                    		sr.setRecSelect(f);
+	                    		sr.setRecordSelection(f);
 	                    					
 	                       		sr.setParentRecord(Integer.parseInt(fields[idx++]));
 	                    	} catch (Exception e) {
@@ -248,7 +248,7 @@ public class RecordEditorCsvLoader implements CopybookLoader {
 		if (description == null || description.indexOf('\n') == 0) {
 			return description;
 		}
-		StringBuffer b = new StringBuffer(description);
+		StringBuilder b = new StringBuilder(description);
 		
 		Conversion.replace(b,  "\\n", "\n");
 		return b.toString();

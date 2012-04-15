@@ -55,21 +55,22 @@ import net.sf.JRecord.Details.RecordFilter;
 import net.sf.JRecord.External.ExternalField;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.edit.display.SaveAs.SaveAsWrite;
-import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
-import net.sf.RecordEditor.edit.display.common.AbstractTreeFrame;
 import net.sf.RecordEditor.edit.display.models.LineModel;
 import net.sf.RecordEditor.edit.open.StartEditor;
 import net.sf.RecordEditor.edit.util.StandardLayouts;
 import net.sf.RecordEditor.edit.util.WriteLinesAsXml;
 import net.sf.RecordEditor.re.file.AbstractLineNode;
+import net.sf.RecordEditor.re.file.AbstractTreeFrame;
 import net.sf.RecordEditor.re.file.DisplayType;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.openFile.RecentFiles;
+import net.sf.RecordEditor.re.script.AbstractFileDisplay;
+import net.sf.RecordEditor.re.script.RunVelocity;
+import net.sf.RecordEditor.re.script.ScriptData;
 import net.sf.RecordEditor.re.tree.ChildTreeToXml;
 import net.sf.RecordEditor.utils.CsvWriter;
 import net.sf.RecordEditor.utils.FieldWriter;
 import net.sf.RecordEditor.utils.FixedWriter;
-import net.sf.RecordEditor.utils.RunVelocity;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
@@ -650,14 +651,16 @@ public final class SaveAsNew extends ReFrame
         	treeDepth = saveFile_210_checkLevels(nodeList, root, 0);
         }
         
-        velocity.genSkel(activePnl.template.getText(), 
-        		lines, 
-        		root,
-        		nodeList,
-        		treeDepth,
-        		activePnl.onlyData.isSelected(), activePnl.showBorder.isSelected(),
-        		recFrame.getLayoutIndex(),
-        		file.getFileName(), outFile, w);
+//        velocity.genSkel(
+//        		activePnl.template.getText(), 
+//        		new ScriptData( lines, 
+//				        		root,
+//				        		nodeList,
+//				        		treeDepth,
+//				        		activePnl.onlyData.isSelected(), activePnl.showBorder.isSelected(),
+//				        		recFrame.getLayoutIndex(),
+//				        		file.getFileName(), outFile),
+//        		w);
         w.close();
     }
     

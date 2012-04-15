@@ -1,7 +1,7 @@
 package net.sf.RecordEditor.layoutEd;
 
 import net.sf.RecordEditor.layoutEd.Record.LoadCobolIntoDB;
-import net.sf.RecordEditor.re.util.LoadCobolParseArgs;
+import net.sf.RecordEditor.layoutEd.panels.LoadCobolParseArgs;
 import net.sf.RecordEditor.utils.common.Common;
 
 public class BatchLoadCobol {

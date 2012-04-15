@@ -6,7 +6,6 @@
  */
 package net.sf.RecordEditor.utils.jdbc;
 
-import net.sf.RecordEditor.utils.swing.AbstractRowList;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
 
 /**
@@ -15,7 +14,7 @@ import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
  * To change the template for this generated type comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
-public class DBComboModel<record extends AbsRecord> extends BmKeyedComboModel {
+public class DBComboModel<record extends AbsRecord> extends BmKeyedComboModel<DBList<record>> {
 
 
 	/**
@@ -44,7 +43,7 @@ public class DBComboModel<record extends AbsRecord> extends BmKeyedComboModel {
 	 *
 	 * @param list list of Record (from a DB)
 	 */
-	public DBComboModel(final AbstractRowList list) {
+	public DBComboModel(final DBList<record> list) {
 		super(list);
 	}
 }

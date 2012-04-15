@@ -232,7 +232,7 @@ public class Details {
             field[0].setPosLen(1, recordLength);
             recs = new RecordDetail[1];
             recs[0] = new RecordDetail(
-                    	"", "", "", Common.rtBinaryRecord, "", "", "", field, parserType
+                    	"", "", "", Common.rtBinaryRecord, "", "", "", field, parserType, 0
                     );
         } else {
             recs = new RecordDetail[0];

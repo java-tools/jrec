@@ -21,6 +21,8 @@ import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 
+import net.sf.RecordEditor.re.script.VelocityPopup;
+import net.sf.RecordEditor.re.script.XsltPopup;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.screenManager.ReActionActiveScreen;
@@ -120,7 +122,7 @@ public class MenuPopupListener extends MouseAdapter {
 
 	        if (Common.isVelocityAvailable()) {
 	        	saveMenu.add(SAVE_AS_VELOCITY);
-	        	saveMenu.add(new VelocityPopup());
+	        	saveMenu.add(VelocityPopup.getPopup());
 	        }
 
 	        if (Common.OPTIONS.xsltAvailable.isSelected()) {

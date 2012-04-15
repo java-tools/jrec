@@ -18,13 +18,14 @@ package net.sf.RecordEditor.re.db.Record;
 
 import java.sql.SQLException;
 
-import net.sf.JRecord.Details.Selection.RecordSel;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
 import net.sf.JRecord.ExternalRecordSelection.ExternalGroupSelection;
 import net.sf.JRecord.ExternalRecordSelection.ExternalSelection;
+import net.sf.JRecord.detailsSelection.RecordSel;
 import net.sf.RecordEditor.utils.ReadRecordSelection;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
 import net.sf.RecordEditor.utils.jdbc.AbsRecord;
 
@@ -80,6 +81,8 @@ public class ExtendedRecordDB extends RecordDB {
 		
 		childDb.open();
 		child = childDb.fetch(); 
+//		System.out.println(" >>> " + rec.getRecordId());
+//		System.out.println();
 		if (child != null) {
 			int i, j, id, parentId;
 			ReadRecordSelection readSel = ReadRecordSelection.getInstance();
@@ -90,18 +93,20 @@ public class ExtendedRecordDB extends RecordDB {
 			recDb.setConnection(this.connect);
 			while (child != null) {
 				recDb.resetSearch();
-				recDb.setSearchArg("RecordId", AbsDB.opEquals, "" + child.getChildRecord());
+				recDb.setSearchArg("RecordId", AbsDB.opEquals, "" + child.getChildRecordId());
 				recDb.open();
 				r = recDb.fetch();
+				//System.out.print(" ~~ " + child.getChildKey() + " " + child.getChildRecord() + " " + (r == null));
 				if (r != null) {
 					childRecord = r.getValue();
+					//System.out.print(" " + r.getRecordName());
 					
 					//childRecord.addTstField(child.getField(), child.getFieldValue());
 					recSel = readSel.getRecordSelection(
 									connect, rec.getRecordId(), child.getChildKey(), null,
 									child.getField(), child.getFieldValue());
 					if (recSel != null) {
-						childRecord.setRecSelect(recSel);
+						childRecord.setRecordSelection(recSel);
 					}
 					childRecord.setParentRecord(child.getParentRecord());
 
@@ -109,6 +114,7 @@ public class ExtendedRecordDB extends RecordDB {
 				
 					rec.addRecord(childRecord);
 				}
+				//System.out.println();
 				child = childDb.fetch(); 
 			}
 			
@@ -233,6 +239,7 @@ public class ExtendedRecordDB extends RecordDB {
     	if (rec.getNumberOfRecords() > 0) {
     		ExternalRecord child;
     		ChildRecordsRec childRec;
+    		//ArrayList<ChildRecordsRec> children = new ArrayList<ChildRecordsRec>();
     		ChildRecordsDB db = new ChildRecordsDB();
     		db.setDoFree(false);
     		for (i = 0; i < rec.getNumberOfRecords(); i++) {
@@ -243,21 +250,38 @@ public class ExtendedRecordDB extends RecordDB {
     		db.setConnection(this.connect);
     		db.setParams(rec.getRecordId());
     		db.deleteAll();
+    		
 
     		for (i = 0; i < rec.getNumberOfRecords(); i++) {
     			child = rec.getRecord(i);
-    			try {
-    				child.setParentRecord(rec.getRecord(child.getParentRecord()).getRecordId());
-    			} catch (Exception e) {	}
-
+    			//System.out.print("Insert Child: " + i + " " + child.getRecordName()
+    			//		+ " > " + child.getParentRecord());
+    			if (child.getParentRecord() >= 0) {
+    				//System.out.print(" " + rec.getRecord(child.getParentRecord()).getRecordName());
+    			}
+    			//System.out.println();
     			childRec = ChildRecordsRec.getBlankChildRec(child.getRecordId());
+    			childRec.setChildId(i);
     			childRec.setParentRecord(child.getParentRecord());
-//    			childRec.setField(child.getTstField());
-//    			childRec.setFieldValue(child.getTstFieldValue());
-//
-//    			db.insert(childRec);
-    			writeChild(db, rec.getRecordId(), childRec, child.getRecSelect());
+    			
+    			writeChild(db, rec.getRecordId(), childRec, child.getRecordSelection());
     		}
+    		
+    		
+//    		for (i = 0; i < rec.getNumberOfRecords(); i++) {
+//    			child = rec.getRecord(i);
+//    			try {
+//    				child.setParentRecord(rec.getRecord(child.getParentRecord()).getRecordId());
+//    			} catch (Exception e) {	}
+//
+//    			childRec = ChildRecordsRec.getBlankChildRec(child.getRecordId());
+//    			childRec.setParentRecord(child.getParentRecord());
+////    			childRec.setField(child.getTstField());
+////    			childRec.setFieldValue(child.getTstFieldValue());
+////
+////    			db.insert(childRec);
+//    			writeChild(db, rec.getRecordId(), childRec, child.getRecSelect());
+//    		}
     	}
 
     	if (rec.getNumberOfRecordFields() > 0) {
@@ -285,6 +309,7 @@ public class ExtendedRecordDB extends RecordDB {
     			recordSel = null;
     		} else if (grp.size() == 2 
     			   && grp.getType() == ExternalSelection.TYPE_AND
+    			   && grp.get(1).getType() != ExternalSelection.TYPE_ATOM
     			   && updateSelectionFields(childRec, grp.get(0))) {
     			recordSel = grp.get(1);
     		} 
@@ -478,5 +503,24 @@ public class ExtendedRecordDB extends RecordDB {
 			childDb = null;
 		}
 		fieldDb = null;
+    }
+    
+    public static RecordRec getRecord(int dbIdx, int recordId) {
+    	
+		RecordRec r;
+		
+		ExtendedRecordDB dbFrom = new ExtendedRecordDB();
+		boolean free = dbFrom.isSetDoFree(false);
+
+		dbFrom.setConnection(new ReConnection(dbIdx));
+		dbFrom.resetSearch();
+		dbFrom.setSearchRecordId(AbsDB.opEquals, recordId);
+		dbFrom.open();
+		
+		r = dbFrom.fetch();
+		dbFrom.close();
+		dbFrom.setDoFree(free);
+		
+		return r;
     }
 }

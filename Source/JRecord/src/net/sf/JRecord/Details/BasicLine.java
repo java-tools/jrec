@@ -1,6 +1,7 @@
 package net.sf.JRecord.Details;
 
 
+import net.sf.JRecord.Common.AbstractFieldValue;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;

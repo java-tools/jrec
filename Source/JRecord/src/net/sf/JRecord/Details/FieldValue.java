@@ -3,6 +3,7 @@ package net.sf.JRecord.Details;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import net.sf.JRecord.Common.AbstractFieldValue;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Types.Type;
@@ -58,7 +59,7 @@ public final class FieldValue implements AbstractFieldValue {
 	}
 	
 	/**
-	 * @see net.sf.JRecord.Details.AbstractFieldValue#asBigDecimal()
+	 * @see net.sf.JRecord.Common.AbstractFieldValue#asBigDecimal()
 	 */
 	@Override
 	public BigDecimal asBigDecimal() {
@@ -74,7 +75,7 @@ public final class FieldValue implements AbstractFieldValue {
 	}
 
 	/**
-	 * @see net.sf.JRecord.Details.AbstractFieldValue#asBigInteger()
+	 * @see net.sf.JRecord.Common.AbstractFieldValue#asBigInteger()
 	 */
 	@Override
 	public BigInteger asBigInteger() {
@@ -90,7 +91,7 @@ public final class FieldValue implements AbstractFieldValue {
 	}
 
 	/**
-	 * @see net.sf.JRecord.Details.AbstractFieldValue#asDouble()
+	 * @see net.sf.JRecord.Common.AbstractFieldValue#asDouble()
 	 */
 	@Override
 	public double asDouble() {
@@ -107,7 +108,7 @@ public final class FieldValue implements AbstractFieldValue {
 
 
 	/**
-	 * @see net.sf.JRecord.Details.AbstractFieldValue#asFloat()
+	 * @see net.sf.JRecord.Common.AbstractFieldValue#asFloat()
 	 */
 	@Override
 	public float asFloat() {
@@ -123,7 +124,7 @@ public final class FieldValue implements AbstractFieldValue {
 	}
 
 	/**
-	 * @see net.sf.JRecord.Details.AbstractFieldValue#asLong()
+	 * @see net.sf.JRecord.Common.AbstractFieldValue#asLong()
 	 */
 	@Override
 	public long asLong() {
@@ -140,7 +141,7 @@ public final class FieldValue implements AbstractFieldValue {
 
 	
 	/**
-	 * @see net.sf.JRecord.Details.AbstractFieldValue#asInt()
+	 * @see net.sf.JRecord.Common.AbstractFieldValue#asInt()
 	 */
 	@Override
 	public int asInt() {
@@ -150,7 +151,7 @@ public final class FieldValue implements AbstractFieldValue {
 	
 	
 	/**
-	 * @see net.sf.JRecord.Details.AbstractFieldValue#asBoolean()
+	 * @see net.sf.JRecord.Common.AbstractFieldValue#asBoolean()
 	 */
 	@Override
 	public boolean asBoolean() {
@@ -201,7 +202,7 @@ public final class FieldValue implements AbstractFieldValue {
 	}
 	
 	/**
-	 * @see net.sf.JRecord.Details.AbstractFieldValue#asHex()
+	 * @see net.sf.JRecord.Common.AbstractFieldValue#asHex()
 	 */
 	@Override
 	public String asHex() {
@@ -215,7 +216,7 @@ public final class FieldValue implements AbstractFieldValue {
 	}
 
 	/**
-	 * @see net.sf.JRecord.Details.AbstractFieldValue#set(boolean)
+	 * @see net.sf.JRecord.Common.AbstractFieldValue#set(boolean)
 	 */
 	@Override
 	public void set(boolean value) throws RecordException {
@@ -224,7 +225,7 @@ public final class FieldValue implements AbstractFieldValue {
 
 
 	/**
-	 * @see net.sf.JRecord.Details.AbstractFieldValue#set(double)
+	 * @see net.sf.JRecord.Common.AbstractFieldValue#set(double)
 	 */
 	@Override
 	public void set(double value) throws RecordException {
@@ -232,7 +233,7 @@ public final class FieldValue implements AbstractFieldValue {
 	}
 
 	/**
-	 * @see net.sf.JRecord.Details.AbstractFieldValue#set(float)
+	 * @see net.sf.JRecord.Common.AbstractFieldValue#set(float)
 	 */
 	@Override
 	public void set(float value) throws RecordException {
@@ -240,7 +241,7 @@ public final class FieldValue implements AbstractFieldValue {
 	}
 
 	/**
-	 * @see net.sf.JRecord.Details.AbstractFieldValue#set(long)
+	 * @see net.sf.JRecord.Common.AbstractFieldValue#set(long)
 	 */
 	@Override
 	public void set(long value) throws RecordException {
@@ -248,7 +249,7 @@ public final class FieldValue implements AbstractFieldValue {
 	}
 
 	/**
-	 * @see net.sf.JRecord.Details.AbstractFieldValue#set(java.lang.Object)
+	 * @see net.sf.JRecord.Common.AbstractFieldValue#set(java.lang.Object)
 	 */
 	@Override
 	public void set(Object value) throws RecordException {

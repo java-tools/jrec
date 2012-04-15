@@ -22,7 +22,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 
 import net.sf.JRecord.External.CobolCopybookLoader;
-import net.sf.RecordEditor.layoutEd.Record.RecordEdit1Record;
+import net.sf.RecordEditor.layoutEd.panels.RecordEdit1Record;
 import net.sf.RecordEditor.layoutWizard.Wizard;
 import net.sf.RecordEditor.utils.LayoutConnection;
 import net.sf.RecordEditor.utils.common.Common;
@@ -156,7 +156,7 @@ public class Menu extends ReFrame
 		if (e.getSource() == editRecLayout) {
 			new RecordEdit(lDBid, dbCombo.getSelectedIndex());
 		} else if (e.getSource() == createRecLayout) {
-			new RecordEdit1Record(lDBid,  dbCombo.getSelectedIndex(), null);
+			new RecordEdit1Record(lDBid,  dbCombo.getSelectedIndex(), null, null);
 		} else if (e.getSource() == createWizard) {
             new Wizard(dbCombo.getSelectedIndex(), "", null);
 		} else if (e.getSource() == btnHelp) {
@@ -170,21 +170,14 @@ public class Menu extends ReFrame
 		} else if (e.getSource() == copyLayouts) {	
 			new LayoutCopy();
 		} else if (e.getSource() == upgrade) {
-//		    UpgradeDBs upgradeDBs =
 		    new UpgradeDBs(lDBid, dbCombo.getSelectedIndex());
-//		    desktop.add(upgradeDBs);
-//		    upgradeDBs.moveToFront();
 		} else {
-		    //LoadXmlCopyBook copybook;
 
-		    //copybook =
 		        new LoadCopyBook(
 		            				e.getSource() == xmlCopyBook,
 		            						/* choosing between Cobol and other Copybooks */
 		            				lDBid, dbCombo.getSelectedIndex(),
 		            				null);
-//		    desktop.add(copybook);
-//			copybook.moveToFront();
 		}
 	}
 

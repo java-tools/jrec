@@ -12,7 +12,7 @@ import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
-import net.sf.JRecord.Details.Selection.Convert;
+import net.sf.JRecord.detailsSelection.Convert;
 
 
 /**
@@ -57,11 +57,11 @@ public class ToLayoutDetail {
 
 	    if (recordDefinition.getNumberOfRecords() == 0) {
 	        layouts = new RecordDetail[1];
-	        layouts[0] = toRecordDetail(recordDefinition);
+	        layouts[0] = toRecordDetail(recordDefinition, 0);
 	    } else {
 	        layouts = new RecordDetail[recordDefinition.getNumberOfRecords()];
 	        for (int i = 0; i < layouts.length; i++) {
-	            layouts[i] = toRecordDetail(recordDefinition.getRecord(i));
+	            layouts[i] = toRecordDetail(recordDefinition.getRecord(i), i);
 	        }
 	    }
 
@@ -89,7 +89,7 @@ public class ToLayoutDetail {
 	 *
 	 * @return the same definition as used in the record editor
 	 */
-	private RecordDetail toRecordDetail(ExternalRecord def) {
+	private RecordDetail toRecordDetail(ExternalRecord def, int idx) {
 	    FieldDetail[] fields = new FieldDetail[def.getNumberOfRecordFields()];
 	    ExternalField fieldRec;
 	    int i;
@@ -116,11 +116,11 @@ public class ToLayoutDetail {
 	    RecordDetail ret = new RecordDetail(def.getRecordName(), 
 //	    		def.getTstField(), def.getTstFieldValue(),
 	            def.getRecordType(), def.getDelimiter(), def.getQuote(),
-	            def.getFontName(), fields, def.getRecordStyle());
+	            def.getFontName(), fields, def.getRecordStyle(), idx);
 	    ret.setParentRecordIndex(def.getParentRecord());
 	    
-	    if (def.getRecSelect() != null && def.getRecSelect().getSize() > 0) {
-	    	ret.getRecordSelection().setRecSel((new Convert()).convert(def.getRecSelect(), ret));
+	    if (def.getRecordSelection() != null && def.getRecordSelection().getSize() > 0) {
+	    	ret.getRecordSelection().setRecSel((new Convert()).convert(def.getRecordSelection(), ret));
 	    }
 	    
 	    if (def.isDefaultRecord()) {

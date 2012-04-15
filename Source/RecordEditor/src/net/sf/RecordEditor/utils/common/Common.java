@@ -95,10 +95,13 @@ public final class Common implements Constants {
 
 	public static final String COLUMN_LINE_SEP =  "|";
 	
+	public static final String[] COMPARISON_OPERATORS = {"=", "!=", "<>", ">", ">=",  "<", "<=",};
 //	public static final boolean LOG_TO_FRONT = ! ("N".equalsIgnoreCase(
 //			Parameters.getString(Parameters.BRING_LOG_TO_FRONT)));
 	public static final boolean TEST_MODE = "Y".equalsIgnoreCase(
 			Parameters.getString(Parameters.PROPERTY_TEST_MODE));
+	public static final boolean NAME_COMPONENTS = "Y".equalsIgnoreCase(
+			Parameters.getString(Parameters.NAME_FIELDS));
 	public static final boolean RECORD_EDITOR_LAF 
 		  = Parameters.VAL_RECORD_EDITOR_DEFAULT.equalsIgnoreCase(
 			Parameters.getString(Parameters.PROPERTY_LOOKS_CLASS_NAME));
@@ -175,10 +178,11 @@ public final class Common implements Constants {
 	public static final String HELP_LAYOUT_RECORD_DEF = "HlpLe02.htm";
 	public static final String HELP_LAYOUT_CHILD   = "HlpLe02.htm#HDRCHILD";
 	public static final String HELP_LAYOUT_FIELD   = "HlpLe02.htm#HDRFIELD";
+	public static final String HELP_LAYOUT_RECSEL  = "HlpLe02.htm#HDRRECSEL";
+	public static final String HELP_LAYOUT_EXTRA   = "HlpLe02.htm#HDREXTRA";
 	public static final String HELP_LAYOUT_RECORD  = "HlpLe03.htm";
 	public static final String HELP_LAYOUT_DETAILS = "HlpLe03.htm#RecordDtls";
 	public static final String HELP_LAYOUT_LIST    = "HlpLe03.htm#RecordList";
-	public static final String HELP_LAYOUT_EXTRA   = "HlpLe02.htm#HDREXTRA";
 	public static final String HELP_WIZARD         = "HlpLe04.htm";
 	public static final String HELP_WIZARD_PNL2    = "HlpLe04.htm#HDRWIZ2";
 	public static final String HELP_WIZARD_PNL3    = "HlpLe04.htm#HDRWIZ3";
@@ -263,8 +267,10 @@ public final class Common implements Constants {
     public static final int ID_COMBO_EDIT_ICON    = 46; 
     public static final int ID_FILE_SEARCH_ICON   = 47;
     public static final int ID_DIRECTORY_SEARCH_ICON = 48;   
+    public static final int ID_EXPORT_SCRIPT_ICON  = 49;
+    public static final int ID_SCRIPT_ICON  = 49;
   
-    public static final int ID_MAX_ICON       = 49;
+    public static final int ID_MAX_ICON       = 51;
 
     public static final int TI_FIELD_TYPE     = 1;
 	public static final int TI_RECORD_TYPE    = 2;
@@ -466,7 +472,9 @@ public final class Common implements Constants {
         reActionNames[ReActionHandler.EXPORT_AS_HTML_TBL_PER_ROW] = "Export as HTML 1 tbl per Row";
         reActionNames[ReActionHandler.EXPORT_HTML_TREE] = "Export as HTML (tree)";
         reActionNames[ReActionHandler.EXPORT_VELOCITY] = "Export using Velocity";
-        reActionNames[ReActionHandler.EXPORT_XSLT] = "Save using Xslt";
+        reActionNames[ReActionHandler.EXPORT_XSLT] = "Export using Xslt";
+        reActionNames[ReActionHandler.EXPORT_SCRIPT] = "Export using a Script";
+        reActionNames[ReActionHandler.RUN_SCRIPT] = "Run a Script";
         reActionNames[ReActionHandler.SAVE_AS_XML]  = "Save Tree as XML";
         reActionNames[ReActionHandler.SAVE_LAYOUT_XML]  = "Save Layout as XML";
 
@@ -491,6 +499,8 @@ public final class Common implements Constants {
 
         
         reActionDesc[ReActionHandler.EXPORT]        = "Export in another format";
+        reActionDesc[ReActionHandler.EXPORT_SCRIPT] = "Export using an external Script (Jython, JRuby, JavaScript etc)";
+        reActionDesc[ReActionHandler.RUN_SCRIPT]    = "Run an external Script (Jython, JRuby, JavaScript etc)";
         reActionDesc[ReActionHandler.SAVE_AS_XML]   = "Converts a Tree View to XML";
         reActionDesc[ReActionHandler.SAVE_LAYOUT_XML]   = "Save Layout as RecordEditor XML";
 
@@ -544,10 +554,14 @@ public final class Common implements Constants {
 	public static final void stopCellEditing(final JTable tbl) {
 
 	    if (tbl != null) {
-	        TableCellEditor cellEdit = tbl.getCellEditor();
-	        if (cellEdit != null) {
-	            cellEdit.stopCellEditing();
-	        }
+	    	try {
+	    		TableCellEditor cellEdit = tbl.getCellEditor();
+	    		if (cellEdit != null) {
+	    			cellEdit.stopCellEditing();
+	    		}
+	    	} catch (Exception e) {
+
+	    	}
 		}
 	}
 
@@ -1117,7 +1131,9 @@ public final class Common implements Constants {
             recIcon[ID_SAVEAS_FIXED_ICON  ] = getIcon("SaveAs_Fixed");
             recIcon[ID_SAVEAS_HTML_ICON   ] = getIcon("SaveAs_Html");
             recIcon[ID_SAVEAS_XML_ICON    ] = getIcon("SaveAs_xml");
-            recIcon[ID_SAVEAS_VELOCITY_ICON] = getIcon("SaveAs_Velocity");
+            recIcon[ID_SAVEAS_VELOCITY_ICON]= getIcon("SaveAs_Velocity");
+            recIcon[ID_EXPORT_SCRIPT_ICON]  = getIcon("ScriptExport");
+            recIcon[ID_SCRIPT_ICON]         = getIcon("Script");
             recIcon[ID_SUMMARY_ICON       ] = getIcon("Summary");
             recIcon[ID_SORT_SUM_ICON      ] = getIcon("SortSum");
 
@@ -1174,8 +1190,10 @@ public final class Common implements Constants {
             reActionRef[ReActionHandler.EXPORT_HTML_TREE] = ID_SAVEAS_HTML_ICON;
             reActionRef[ReActionHandler.EXPORT_VELOCITY]  = ID_SAVEAS_VELOCITY_ICON;
             reActionRef[ReActionHandler.EXPORT_XSLT]      = ID_SAVEAS_XML_ICON;
-            reActionRef[ReActionHandler.SAVE_AS_XML]       = ID_SAVEAS_XML_ICON;
-            reActionRef[ReActionHandler.SAVE_LAYOUT_XML]   = ID_SAVEAS_XML_ICON;
+            reActionRef[ReActionHandler.EXPORT_SCRIPT]    = ID_EXPORT_SCRIPT_ICON;
+            reActionRef[ReActionHandler.RUN_SCRIPT]       = ID_SCRIPT_ICON;
+            reActionRef[ReActionHandler.SAVE_AS_XML]      = ID_SAVEAS_XML_ICON;
+            reActionRef[ReActionHandler.SAVE_LAYOUT_XML]  = ID_SAVEAS_XML_ICON;
 
             reActionRef[ReActionHandler.REPEAT_RECORD] = ID_COPY_ICON;
             reActionRef[ReActionHandler.COPY_RECORD]   = ID_COPY_ICON;

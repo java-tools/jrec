@@ -37,11 +37,14 @@ import net.sf.RecordEditor.re.jrecord.format.CellFormat;
 import net.sf.RecordEditor.re.jrecord.types.ReTypeManger;
 import net.sf.RecordEditor.re.jrecord.types.TypeDateWrapper;
 import net.sf.RecordEditor.re.openFile.LayoutSelectionDB;
+import net.sf.RecordEditor.re.script.RunScriptPopup;
+import net.sf.RecordEditor.re.script.ExportScriptPopup;
+import net.sf.RecordEditor.re.script.ScriptRunFrame;
+import net.sf.RecordEditor.re.script.VelocityPopup;
+import net.sf.RecordEditor.re.script.XsltPopup;
 import net.sf.RecordEditor.re.util.ReIOProvider;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
 import net.sf.RecordEditor.utils.CopyBookInterface;
-import net.sf.RecordEditor.utils.VelocityPopup;
-import net.sf.RecordEditor.utils.XsltPopup;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
@@ -59,6 +62,7 @@ import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 public class EditRec extends ReMainFrame  {
 
     private OpenFile open; 
+    private JMenu utilityMenu;
     private JMenu dataMenu;
     private JMenu viewMenu;
     private AbstractAction newFileAction = null;
@@ -156,7 +160,7 @@ public class EditRec extends ReMainFrame  {
         ReMainFrame.setMasterFrame(this);
         ReTypeManger.setDateFormat(Common.DATE_FORMAT_STR);
         
-        buildMenubar(VelocityPopup.getPopup(), XsltPopup.getPopup());
+        buildMenubar(VelocityPopup.getPopup(), XsltPopup.getPopup(), ExportScriptPopup.getPopup());
         buildToolbar(newAction, toolbarActions);
         
       
@@ -233,11 +237,10 @@ public class EditRec extends ReMainFrame  {
         		newFileAction);
  
         //fm = getFileMenu();
-        em = getEditMenu();
         
         if (copyAction != null) {
-        	dataMenu.addSeparator();
-        	dataMenu.add(new AbstractAction("Cobol Copybook Analysis") {
+        	//dataMenu.addSeparator();
+        	utilityMenu.add(new AbstractAction("Cobol Copybook Analysis") {
 
 					/**
 					 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -247,15 +250,26 @@ public class EditRec extends ReMainFrame  {
 						new DisplayCobolCopybook();
 					}
 		        });
-	        em.addSeparator();
-	        em.add(copyAction);
+        	utilityMenu.addSeparator();
+	        utilityMenu.add(copyAction);
 	    }
-        em.addSeparator();
-        em.add(newAction(ReActionHandler.COMPARE_WITH_DISK));
+        utilityMenu.addSeparator();
+        utilityMenu.add(newAction(ReActionHandler.COMPARE_WITH_DISK));
         if (compareAction != null) {
-        	em.add(compareAction);
+        	utilityMenu.add(compareAction);
         }
+        utilityMenu.addSeparator();
+        utilityMenu.add(RunScriptPopup.getPopup());
+        utilityMenu.add(new AbstractAction("Script Test Panel",  Common.getRecordIcon(Common.ID_SCRIPT_ICON)) {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new ScriptRunFrame();
+			}
+        	
+        });
         
+        em = getEditMenu();
 	    em.addSeparator();
 	    em.add(optionAction);
 
@@ -268,9 +282,11 @@ public class EditRec extends ReMainFrame  {
 	 * @param menubar top level menu
 	 */
 	protected void addProgramSpecificMenus(JMenuBar menubar) {
+		utilityMenu = new JMenu("Utilities");
 	    dataMenu = new JMenu("Data");
 	    viewMenu = new JMenu("View");
 
+        menubar.add(utilityMenu);
         menubar.add(dataMenu);
         menubar.add(viewMenu);
         

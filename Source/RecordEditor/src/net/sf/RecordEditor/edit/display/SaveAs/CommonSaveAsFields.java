@@ -7,9 +7,9 @@ import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 
 import net.sf.JRecord.Details.AbstractRecordDetail;
-import net.sf.RecordEditor.edit.display.common.AbstractFileDisplay;
-import net.sf.RecordEditor.edit.display.common.AbstractTreeFrame;
+import net.sf.RecordEditor.re.file.AbstractTreeFrame;
 import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 
 public final class CommonSaveAsFields {
     public static final String OPT_FILE = "File";
@@ -22,8 +22,9 @@ public final class CommonSaveAsFields {
 	public final static int FMT_FIXED = 2;
 	public final static int FMT_XML = 3;
 	public final static int FMT_HTML = 4;
-	public final static int FMT_XSLT = 5;
-	public final static int FMT_VELOCITY = 6;
+	public final static int FMT_SCRIPT = 5;
+	public final static int FMT_XSLT = 6;
+	public final static int FMT_VELOCITY = 7;
 	
     public final JComboBox saveWhat   = new JComboBox();
     

@@ -28,12 +28,11 @@ import net.sf.JRecord.Details.AbstractRecordDetail;
  */
 public class XmlLineWriter extends AbstractLineWriter {
 
-    private static final int ATTR_PREFIX_LENGTH   = XmlConstants.ATTRIBUTE_PREFIX.length();
+//    private static final int ATTR_PREFIX_LENGTH   = XmlConstants.ATTRIBUTE_PREFIX.length();
     private static final int FOLLOWING_TEXT_INDEX = XmlConstants.FOLLOWING_TEXT_INDEX;
 
     private XMLStreamWriter writer=null;
     private OutputStream os;
-   
 
 
 	/**
@@ -97,7 +96,7 @@ public class XmlLineWriter extends AbstractLineWriter {
             }
         } catch (XMLStreamException e) {
         	e.printStackTrace();
-            throw new IOException("Error allocating XML Writer: " + e.getMessage());
+            throw new IOException("Error allocating XML Writer: " + e.getMessage(), e);
         }
     }
 
@@ -197,7 +196,7 @@ public class XmlLineWriter extends AbstractLineWriter {
 
     
     private String fixComment(Object o) {
-    	StringBuffer comment = new StringBuffer(toString(o));
+    	StringBuilder comment = new StringBuilder(toString(o));
     	int l;
     	
     	replace(comment, "--", "==");
@@ -223,7 +222,7 @@ public class XmlLineWriter extends AbstractLineWriter {
      * @param from seqarch string
      * @param to replacement string
      */
-    private static void replace(StringBuffer in, String from, String to) {
+    private static void replace(StringBuilder in, String from, String to) {
         Conversion.replace(in, from, to);
     }
 
@@ -247,14 +246,18 @@ public class XmlLineWriter extends AbstractLineWriter {
      */
     public void close() throws IOException {
 
-        try {
-            writer.writeEndDocument();
-            writer.close();
-            os.close();
-        } catch (XMLStreamException e) {
-        	e.printStackTrace();
-            throw new IOException("Error closing XML Writer: " + e.getMessage());
-        }
+    	if (writer != null) {
+	        try {
+	            writer.writeEndDocument();
+	            writer.close();
+	            os.close();
+	            writer = null;
+	            os = null;
+	        } catch (XMLStreamException e) {
+	        	e.printStackTrace();
+	            throw new IOException("Error closing XML Writer: " + e.getMessage(), e);
+	        }
+    	}
     }
 
 }

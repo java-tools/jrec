@@ -16,6 +16,7 @@ import com.zbluesoftware.java.bm.ZDateField;
 
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
+import net.sf.JRecord.Types.ISizeInformation;
 import net.sf.JRecord.Types.Type;
 
 /**
@@ -25,11 +26,12 @@ import net.sf.JRecord.Types.Type;
  * @author Bruce Martin
  *
  */
-public class TypeDateWrapper implements Type {
+public class TypeDateWrapper implements Type, ISizeInformation {
 
     private Type baseType;
     private SimpleDateFormat df = null;
     private String dateFormatStr;
+    private final int defaultSize;
 
     /**
      * Implements Date as a wrapper around another Type
@@ -40,10 +42,14 @@ public class TypeDateWrapper implements Type {
         super();
 
         baseType = type;
+        
 
         dateFormatStr = dateFormat;
-        if (dateFormat != null) {
+        if (dateFormat == null) {
+        	defaultSize = 20;
+        } else {
             df = new SimpleDateFormat(dateFormat);
+            defaultSize = dateFormat.length();
         }
     }
 
@@ -170,4 +176,15 @@ public class TypeDateWrapper implements Type {
 	public boolean isNumeric() {
 		return baseType.isNumeric();
 	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Types.ISizeInformation#getNormalSize()
+	 */
+	@Override
+	public int getNormalSize() {
+		return defaultSize;
+	}
+	
+	
 }

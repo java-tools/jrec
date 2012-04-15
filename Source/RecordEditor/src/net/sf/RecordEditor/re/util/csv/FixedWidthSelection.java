@@ -275,7 +275,7 @@ public class FixedWidthSelection implements FilePreview {
 
 
 	@SuppressWarnings("serial")
-	private class HeaderRender extends JPanel implements TableCellRenderer {
+	private static class HeaderRender extends JPanel implements TableCellRenderer {
     	   
         /**
          * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent

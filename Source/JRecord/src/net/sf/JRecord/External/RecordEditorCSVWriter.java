@@ -125,7 +125,7 @@ public class RecordEditorCSVWriter implements CopybookWriter {
 	}
 	
 	private String fixDescription(String description) {	
-		StringBuffer b = new StringBuffer(description);
+		StringBuilder b = new StringBuilder(description);
 		
 		Conversion.replace(b,  fldSeperator, " ");
 		Conversion.replace(b,  "\n", "\\n");

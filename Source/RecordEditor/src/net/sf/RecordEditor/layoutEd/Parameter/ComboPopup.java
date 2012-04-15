@@ -19,6 +19,7 @@ import com.zbluesoftware.java.bm.AbstractPopup;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class ComboPopup extends AbstractPopup  {
 
 	private ComboSearch search;

@@ -186,7 +186,7 @@ public class NewCsvFile {
 
         recs[0] = new RecordDetail("GeneratedCsvRecord", "", "", Constants.rtDelimited,
         		sep, q, font, flds, 
-        		((Integer)parser.getSelectedItem()).intValue());
+        		((Integer)parser.getSelectedItem()).intValue(), 0);
         
         layout  =
             new LayoutDetail("GeneratedCsv", recs, "",

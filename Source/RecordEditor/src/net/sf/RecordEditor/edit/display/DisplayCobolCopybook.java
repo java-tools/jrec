@@ -87,7 +87,7 @@ public class DisplayCobolCopybook implements ActionListener {
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void display(String fileName, int dialect, boolean incComments) {
 
 		Convert conv = ConversionManager.getInstance().getConverter(dialect) ;
@@ -148,7 +148,7 @@ public class DisplayCobolCopybook implements ActionListener {
 		RecordDetail item = new RecordDetail(recordName, XmlConstants.XML_NAME, recordName, Constants.RT_XML,
                 "", "", "", 
                 fields, 
-                0);
+                0, 0);
 		RecordDetail[] recs = {item, null, null, null, null, null};
 		
 		if (incComment) {
@@ -163,7 +163,7 @@ public class DisplayCobolCopybook implements ActionListener {
 			RecordDetail comment = new RecordDetail(recordName, XmlConstants.XML_NAME, recordName, Constants.RT_XML,
 					"", "", "", 
 					fields1, 
-					0);
+					0, 0);
 			RecordDetail[] r1 = {item, comment, null, null, null, null};
 			recs = r1;
 		}

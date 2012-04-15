@@ -18,6 +18,7 @@ import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class FieldSelection extends FilterPnl implements AbstractWizardPanel<CopyDefinition> {
 
 	private CopyDefinition values;

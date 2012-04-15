@@ -32,6 +32,8 @@ public class ChildRecordsRec extends AbsRecord {
 	private int parentRecord;
 	private int childKey, operatorSequence=0;
 	private boolean defaultRecord;
+	private String childName="";
+	private int childId;
 
 
 
@@ -42,8 +44,11 @@ public class ChildRecordsRec extends AbsRecord {
 		start = 0;
 		field = "";
 		fieldValue = "";
+		childRecord = -1;
 		childKey = -1;
 		defaultRecord = false;
+		childId = -1;
+		parentRecord = -1;
         
         setNew(true);
 
@@ -59,6 +64,8 @@ public class ChildRecordsRec extends AbsRecord {
 			, int pChildKey
 			, int pOperatorSequence
 			, boolean defaultRec
+			, String childName
+			, int childId
 			) {
 		super(false);
 
@@ -70,6 +77,8 @@ public class ChildRecordsRec extends AbsRecord {
 		childKey = pChildKey;
 		operatorSequence = pOperatorSequence;
 		defaultRecord = defaultRec;
+		this.childName = childName;
+		this.childId = childId;
 
 		setKeys();
 	}
@@ -112,6 +121,8 @@ public class ChildRecordsRec extends AbsRecord {
 				, childKey
 				, operatorSequence
 				, defaultRecord
+				, childName
+				, -1
 				);
 
 		ret.setNew(true);
@@ -143,7 +154,7 @@ public class ChildRecordsRec extends AbsRecord {
 
 		switch (fieldNum) {
 		case (0) : return Integer.valueOf(childRecord);
-		case (1) : return Integer.valueOf(start);
+		case (1) : return childName;
 		case (2) : return field;
 		case (3) : return fieldValue;
 		case (4) : return Integer.valueOf(parentRecord);
@@ -163,7 +174,7 @@ public class ChildRecordsRec extends AbsRecord {
 		switch (fieldNum) {
 		case (0) : setChildRecord(cnvToInt(childRecord, val, "Child Record" ));
 		break;
-		case (1) : setStart(cnvToInt(start, val, "Field Start" ));
+		case (1) : setChildName(val);
 		break;
 		case (2) : setField(val);
 		break;
@@ -186,8 +197,6 @@ public class ChildRecordsRec extends AbsRecord {
 		switch (fieldNum) {
 		case (0) : setChildRecord(((Integer) val).intValue());
 		break;
-		case (1) : setStart(((Integer) val).intValue());
-		break;
 		case (4) : setParentRecord(((Integer) val).intValue());
 		break;
 		default  : setFieldWithString(fieldNum, (String) val) ;
@@ -197,7 +206,7 @@ public class ChildRecordsRec extends AbsRecord {
 	/**
 	 *  This method gets the vaule of ChildRecord
 	 */
-	public int getChildRecord() {
+	public int getChildRecordId() {
 		return childRecord;
 	}
 
@@ -273,12 +282,7 @@ public class ChildRecordsRec extends AbsRecord {
 	 */
 	public void setFieldValue(String val) {
 
-		if ((val == null || "".equals(val))
-				&& (fieldValue == null || "".equals(fieldValue))) {
-			return;
-		}
-
-		if ((val == null) || (! val.equals(fieldValue)) || (updateStatus == NULL_INT_VALUE)) {
+		if (! equals(fieldValue, val)) {
 			fieldValue = val;
 			updateStatus = UPDATED;
 		}
@@ -319,7 +323,10 @@ public class ChildRecordsRec extends AbsRecord {
 	 * @param childKey the childKey to set
 	 */
 	public void setChildKey(int childKey) {
-		this.childKey = childKey;
+		if (this.childKey != childKey) {
+			this.childKey = childKey;
+			updateStatus = UPDATED;
+		}
 	}
 
 
@@ -337,12 +344,17 @@ public class ChildRecordsRec extends AbsRecord {
 	 * @param operatorSequence the operatorSequence to set
 	 */
 	public void setOperatorSequence(int operatorSequence) {
-		this.operatorSequence = operatorSequence;
+
+		if (this.operatorSequence != operatorSequence) {
+			this.operatorSequence = operatorSequence;
+			updateStatus = UPDATED;
+		}
+
 	}
 
 
 	public static ChildRecordsRec getBlankChildRec(int recordId) {
-		return new ChildRecordsRec(recordId, 0, "", "", -1, 0, ChildRecordsRec.OP_OR_AND, false);
+		return new ChildRecordsRec(recordId, 0, "", "", -1, 0, ChildRecordsRec.OP_OR_AND, false, "", -1);
 	}
 
 	/**
@@ -356,6 +368,42 @@ public class ChildRecordsRec extends AbsRecord {
 	 * @param defaultRecord the defaultRecord to set
 	 */
 	public void setDefaultRecord(boolean defaultRecord) {
-		this.defaultRecord = defaultRecord;
+		if (this.defaultRecord != defaultRecord) {
+			this.defaultRecord = defaultRecord;
+			updateStatus = UPDATED;
+		}
+	}
+
+	/**
+	 * @return the childName
+	 */
+	public String getChildName() {
+		return childName;
+	}
+
+	/**
+	 * @param childName the childName to set
+	 */
+	public void setChildName(String childName) {
+		if (! equals(this.childName , childName)) {
+			this.childName = childName;
+		}
+	}
+
+	/**
+	 * @return the childId
+	 */
+	public int getChildId() {
+		return childId;
+	}
+
+	/**
+	 * @param childId the childId to set
+	 */
+	public void setChildId(int childId) {
+		if (this.childId != childId) {
+			this.childId = childId;
+			updateStatus = UPDATED;
+		}
 	}
 }

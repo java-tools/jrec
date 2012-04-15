@@ -53,9 +53,9 @@ public class FileChunkCharLine extends FileChunkBase<CharLineBase, RecordStoreCh
 		return new String(getChar(idx));
 	}
 
-	@SuppressWarnings("unchecked")
+
 	@Override
-	public void put(int idx, AbstractLine l) {
+	public void put(int idx, @SuppressWarnings("rawtypes") AbstractLine l) {
 
 		put(idx, ((CharLine) l).getFullLine().toCharArray());
 		
@@ -70,7 +70,7 @@ public class FileChunkCharLine extends FileChunkBase<CharLineBase, RecordStoreCh
 	} 
 
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	@Override
 	public AbstractLine removeLine(int lineNo) {
 		uncompress();

@@ -195,19 +195,19 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 		return "";
 	}
 	
-	/**
-	 * Check if field seperator is valid
-	 * @return wether the field seperator is valid
-	 */
-	private boolean isSepValid() {
-		
-		return true;
-	}
-	
-	private boolean isBinarySep() {
-		
-		return false;
-	}
+//	/**
+//	 * Check if field seperator is valid
+//	 * @return wether the field seperator is valid
+//	 */
+//	private boolean isSepValid() {
+//		
+//		return true;
+//	}
+//	
+//	private boolean isBinarySep() {
+//		
+//		return false;
+//	}
 
 	
 	/* (non-Javadoc)
@@ -239,9 +239,9 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 		
 	}
 
-	private void setUpSeperator(CsvAnalyser analyse) {
-
-	}
+//	private void setUpSeperator(CsvAnalyser analyse) {
+//
+//	}
 
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.csv.FilePreview#getColumnCount()
@@ -319,39 +319,39 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 	}
 	
 	
-	private String getStr(String s) {
-		if (s == null || "".equals(s)) {
-			s = NULL_STR;
-		}
-		
-		return s;
-	}
-	
-	private int getIntTok(StringTokenizer tok) {
-		int ret = 0;
-		try {
-			ret = Integer.parseInt(tok.nextToken());
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		
-		return ret;
-	}
-	
-	
-	private boolean getBoolTok(StringTokenizer tok) {
-
-		return "Y".equalsIgnoreCase(tok.nextToken());
-	}
-	
-	
-	
-	private String getStringTok(StringTokenizer tok) {
-
-		String s = tok.nextToken();
-		if (s == null) {
-			s = "";
-		}
-		return s;
-	}
+//	private String getStr(String s) {
+//		if (s == null || "".equals(s)) {
+//			s = NULL_STR;
+//		}
+//		
+//		return s;
+//	}
+//	
+//	private int getIntTok(StringTokenizer tok) {
+//		int ret = 0;
+//		try {
+//			ret = Integer.parseInt(tok.nextToken());
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}
+//		
+//		return ret;
+//	}
+//	
+//	
+//	private boolean getBoolTok(StringTokenizer tok) {
+//
+//		return "Y".equalsIgnoreCase(tok.nextToken());
+//	}
+//	
+//	
+//	
+//	private String getStringTok(StringTokenizer tok) {
+//
+//		String s = tok.nextToken();
+//		if (s == null) {
+//			s = "";
+//		}
+//		return s;
+//	}
 }

@@ -150,10 +150,18 @@ public class TextLineReader extends StandardLineReader {
 	        rec = getLayout().getRecord(0);
 	        quote     = rec.getQuote();
 	        parser    = rec.getRecordStyle();
-	        fieldType = rec.getField(0).getType();
-	        decimal   = rec.getField(0).getDecimal();
-	        format    = rec.getField(0).getFormat();
-	        param     = rec.getField(0).getParamater();
+	        
+	        fieldType = Type.ftChar;
+	        decimal   = 0;
+	        format    = 0;
+	        param     = "";
+	        
+	        if (rec.getFieldCount() == 1) {
+		        fieldType = rec.getField(0).getType();
+		        decimal   = rec.getField(0).getDecimal();
+		        format    = rec.getField(0).getFormat();
+		        param     = rec.getField(0).getParamater();
+	        }
 	        recordSep = getLayout().getRecordSep();
 	        font      = getLayout().getFontName();
 	    } catch (Exception e) {
@@ -180,22 +188,24 @@ public class TextLineReader extends StandardLineReader {
      * @param delimiter field delimiter
      * @param quote Quote Character to use
      * @param style Identifier of the CSV parser to use
-     * @param fieldType field type
-     * @param decimal number of decimal places
-     * @param format format to use
-     * @param param param to add to each field
+     * @param defaultFieldType field type
+     * @param defaultDecimal number of decimal places
+     * @param defaultFormat format to use
+     * @param defaultParam param to add to each field
      * @throws IOException any error
      */
     public static LayoutDetail createLayout(String line, AbstractRecordDetail rec,
     		byte[] recordSep,
     		int structure,
             String fontName, String delimiter, String quote, int style,
-            int fieldType, int decimal, int format, String param) throws IOException {
+            int defaultFieldType, int defaultDecimal, int defaultFormat, String defaultParam) throws IOException {
 
     	int fldType, idx;
         //int i = 0;
         LayoutDetail ret = null;
         String s;
+        int decimal; int format; String param;
+        FieldDetail fldDetail;
 
         if (line != null) {
         	AbstractParser parser = ParserManager.getInstance().get(style);
@@ -206,16 +216,23 @@ public class TextLineReader extends StandardLineReader {
             FieldDetail[] flds = new FieldDetail[len];
             RecordDetail[] recs = new RecordDetail[1];
 
-            if (fieldType < 0) {
-                fieldType = Type.ftChar;
+            if (defaultFieldType < 0) {
+            	defaultFieldType = Type.ftChar;
             }
 
             for (int i = 0; i < colNames.size(); i++) {
                 s = colNames.get(i);
-                fldType = fieldType;
+                fldType = defaultFieldType;
+                decimal = defaultDecimal;
+                format = defaultFormat;
+                param = defaultParam;
                 if (rec != null 
                 && (idx = rec.getFieldIndex(s)) >= 0) {
-                	fldType = rec.getField(idx).getType();
+                	fldDetail = rec.getField(idx);
+                	fldType = fldDetail.getType();
+                	decimal = fldDetail.getDecimal();
+                    format = fldDetail.getFormat();
+                    param = fldDetail.getParamater();
                 }
                 flds[i] = new FieldDetail(s, s, fldType, decimal,
                         fontName, format, param);
@@ -223,7 +240,7 @@ public class TextLineReader extends StandardLineReader {
             }
 
             recs[0] = new RecordDetail("", "", "", Constants.rtDelimited,
-                    delimiter, quote, fontName, flds, style);
+                    delimiter, quote, fontName, flds, style, 0);
 
             try {
                 ret =

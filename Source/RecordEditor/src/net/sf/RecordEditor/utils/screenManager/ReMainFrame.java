@@ -114,7 +114,7 @@ public class ReMainFrame extends JFrame
 	private final ReActionActiveScreen SAVE_AS_HTML        = newAction(ReActionHandler.EXPORT_AS_HTML);
 	private final ReActionActiveScreen SAVE_AS_HTML_TBLS   = newAction(ReActionHandler.EXPORT_AS_HTML_TBL_PER_ROW);
 	private final ReActionActiveScreen SAVE_AS_HTML_TREE   = newAction(ReActionHandler.EXPORT_HTML_TREE);
-	private final ReActionActiveScreen SAVE_AS_VELOCITY    = newAction(ReActionHandler.EXPORT_VELOCITY);
+//	private final ReActionActiveScreen SAVE_AS_VELOCITY    = newAction(ReActionHandler.EXPORT_VELOCITY);
 	private final ReAction close = new ReAction("Close", "Close DB's and exit application",
 												//Common.getRecordIcon(Common.ID_EXIT_ICON),
 												ReActionHandler.CLOSE, closeAction);
@@ -150,6 +150,7 @@ public class ReMainFrame extends JFrame
 	private JMenu editMenu = new JMenu("Edit");
 
 
+	private JMenu scriptList = null;
 	private JMenu velocityTemplateList = null;
 	private JMenu xslTransformList = null;
 
@@ -346,8 +347,9 @@ public class ReMainFrame extends JFrame
 	 * Build the Menu Bar
 	 *
 	 */
-	protected final void buildMenubar(JMenu velocityPopup, JMenu xsltPopup) {
+	protected final void buildMenubar(JMenu velocityPopup, JMenu xsltPopup, JMenu scriptPopup) {
 
+		scriptList = scriptPopup;
 		velocityTemplateList = velocityPopup;
 		xslTransformList = xsltPopup;
 	    menuBar.add(fileMenu);
@@ -389,6 +391,9 @@ public class ReMainFrame extends JFrame
 	    }
 	    if (xslTransformList != null) {
 	    	fileMenu.add(xslTransformList);
+	    }
+	    if (scriptList != null) {
+	    	fileMenu.add(scriptList);
 	    }
 	    if (addSaveAsXml) {
 	    	fileMenu.add(newAction(ReActionHandler.SAVE_AS_XML));
@@ -651,18 +656,24 @@ public class ReMainFrame extends JFrame
             activeScreenActions[i].checkActionEnabled();
         }
         
+    	ReFrame actionHandler = ReFrame.getActiveFrame();
         if (velocityTemplateList != null) {
-        	ReFrame actionHandler = ReFrame.getActiveFrame();
-            if (actionHandler != null) {
-            	velocityTemplateList.setEnabled(actionHandler.isActionAvailable(ReActionHandler.EXPORT_VELOCITY));
-            }
+            velocityTemplateList.setEnabled(
+            		actionHandler != null 
+            		&& actionHandler.isActionAvailable(ReActionHandler.EXPORT_VELOCITY));
          }
         
          if (xslTransformList != null) {
-        	ReFrame actionHandler = ReFrame.getActiveFrame();
-            if (actionHandler != null) {
-            	xslTransformList.setEnabled(actionHandler.isActionAvailable(ReActionHandler.EXPORT_XSLT));
-            }
+            	xslTransformList.setEnabled(
+            			actionHandler != null 
+            			&& actionHandler.isActionAvailable(ReActionHandler.EXPORT_XSLT));
+         }
+         
+         
+         if (scriptList != null) {
+        	 scriptList.setEnabled(
+        			 actionHandler != null 
+        			 && actionHandler.isActionAvailable(ReActionHandler.EXPORT_SCRIPT));
          }
    }
 

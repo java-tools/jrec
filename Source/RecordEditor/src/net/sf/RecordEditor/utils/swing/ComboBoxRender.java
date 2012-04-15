@@ -57,6 +57,11 @@ public class ComboBoxRender extends JComboBox
 	public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 
+//		System.out.print("ComboRendor > " + row + " " + column + " >>" + value + "<<" );
+//		if (value != null) {
+//			System.out.print("  " + value.getClass().getName());
+//		}
+		System.out.println();
 		this.setSelectedItem(value);
         if (isSelected) {
             setForeground(table.getSelectionForeground());

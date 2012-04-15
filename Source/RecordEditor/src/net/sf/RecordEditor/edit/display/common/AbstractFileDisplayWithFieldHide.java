@@ -1,5 +1,7 @@
 package net.sf.RecordEditor.edit.display.common;
 
+import net.sf.RecordEditor.re.script.AbstractFileDisplay;
+
 public interface AbstractFileDisplayWithFieldHide extends AbstractFileDisplay {
 
 	/** 

@@ -24,8 +24,9 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 
 import net.sf.JRecord.External.CopybookLoaderFactory;
-import net.sf.RecordEditor.layoutEd.Record.RecordEdit1Record;
+import net.sf.RecordEditor.layoutEd.panels.RecordEdit1Record;
 import net.sf.RecordEditor.re.editProperties.EditOptions;
+import net.sf.RecordEditor.re.script.VelocityPopup;
 import net.sf.RecordEditor.re.util.CopybookLoaderFactoryDB;
 import net.sf.RecordEditor.re.util.ReIOProvider;
 import net.sf.RecordEditor.re.util.UpgradeDB;
@@ -74,7 +75,7 @@ public class LayoutEdit extends ReMainFrame {
     	AbstractAction[] toolbarActions = {
     			optionAction
     	};
-		buildMenubar(null, null);
+		buildMenubar(VelocityPopup.getLayoutPopup(), null, null);
 		buildToolbar(newAction, toolbarActions);
 
 		buildFileMenu(null, false, true, newAction);
@@ -137,7 +138,7 @@ public class LayoutEdit extends ReMainFrame {
                 ReFrame.getActiveFrame().executeAction(action);
             } else {
                 new RecordEdit1Record(menu.getCurrentDbName(),
-                        menu.getCurrentDbIdentifier(), null);
+                        menu.getCurrentDbIdentifier(), null, null);
             }
         } else if (action == ReActionHandler.OPEN) {
             menu.setVisible(true);

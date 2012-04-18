@@ -5,7 +5,7 @@ def test():
 	java_recorded_version = '1.6.0_10'
 
 	if window('Record Editor'):
-		select_menu('File>>Compare Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'Compare Menu')
 		click('*2')
 		select('FileChooser', commonBits.sampleDir() + 'xmlModDTAR020.bin.xml')
 		click('Right')

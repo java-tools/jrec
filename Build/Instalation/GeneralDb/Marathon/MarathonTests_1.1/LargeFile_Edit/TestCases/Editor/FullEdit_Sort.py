@@ -8,7 +8,7 @@ def test():
 		select('FileChooser', commonBits.sampleDir() + 'Ams_LocDownload_20041228.txt')
 		commonBits.setRecordLayout(select, 'ams Store')
 		click('Edit1')
-		click('Filter')
+		click('Filter1')
 		click('Filter1')
 		select('Table', 'cell:10 - 35|Loc Name,1(VIC West Ad Support)')
 		assert_p('Table', 'Text', 'VIC West Ad Support', '10 - 35|Loc Name,1')

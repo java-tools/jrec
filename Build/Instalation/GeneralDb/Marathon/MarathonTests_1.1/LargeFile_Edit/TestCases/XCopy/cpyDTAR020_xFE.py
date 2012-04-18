@@ -6,7 +6,7 @@ def test():
 	java_recorded_version = '1.6.0_10'
 
 	if window('Record Editor'):
-		select_menu('File>>File Copy Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'File Copy Menu')
 		click('*3')
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020.bin')
 		select('FileChooser1', commonBits.sampleDir() + 'XfeDTAR020.csv')
@@ -101,7 +101,7 @@ def test():
 		select('Table', 'cell:1|KEYCODE-NO,8(62684671)')
 		assert_p('Table', 'ColumnCount', '6')
 		select('Table', 'cell:1|KEYCODE-NO,8(62684671)')
-		select_menu('File>>Compare Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'Compare Menu')
 ##		select('Table', 'cell:1|KEYCODE-NO,8(62684671)')
 		click('*1')
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020.bin')

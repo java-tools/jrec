@@ -27,7 +27,10 @@ def test():
 		keystroke('Table', 'Down', 'Record Name,1')
 		select('Table', 'Store', 'Record Name,2')
 		select('Table', 'cell:Record Name,1(Detail)')
-		assert_p('Table', 'Content', '[[H, Header], [D, Detail], [S, Store]]')
+		if commonBits.isVersion80():
+			assert_p('Table', 'Content', '[[H, Header, false, true], [D, Detail, false, true], [S, Store, false, true]]')
+		else:
+			assert_p('Table', 'Content', '[[H, Header], [D, Detail], [S, Store]]')
 		select('Table', 'cell:Record Name,1(Detail)')
 		click('Right')
 		select('TabbedPane', '')

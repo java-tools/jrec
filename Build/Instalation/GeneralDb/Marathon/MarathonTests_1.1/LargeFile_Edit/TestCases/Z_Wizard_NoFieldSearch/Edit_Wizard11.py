@@ -60,7 +60,6 @@ def test():
 		select('TextField', 'Wizard - ZZ1')
 		click('Right')
 
-		##commonBits.doSleep()
 		select('Table', 'cell:10 - 11|a1,2(Bankstown  )')
 		assert_p('Table', 'Text', 'Bankstown  ', '10 - 11|a1,2')
 		select('Table', 'cell:10 - 11|a1,4(Blacktown  )')

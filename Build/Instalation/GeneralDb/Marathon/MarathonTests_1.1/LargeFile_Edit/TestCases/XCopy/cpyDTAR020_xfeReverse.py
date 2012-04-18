@@ -5,7 +5,7 @@ def test():
 	java_recorded_version = '1.6.0_10'
 
 	if window('Record Editor'):
-		select_menu('File>>File Copy Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'File Copy Menu')
 		click('*1')
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020.bin')
 		click('Right')
@@ -74,7 +74,7 @@ d1ed19e00e280e40118e20e69694158''')
 		select('Table', 'cell:Data,3(40118)')
 		assert_p('Table', 'Content', '[[QTY-SOLD, 1, , 1, 1], [SALE-PRICE, 2, , 5.01, 5.01], [DEPT-NO, 3, , 280, 280], [DATE, 4, , 40118, 40118], [STORE-NO, 5, , 20, 20], [KEYCODE-NO, 6, , 69694158, 69694158]]')
 		select('Table', 'cell:Data,3(40118)')
-		select_menu('File>>Compare Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'Compare Menu')
 ##		select('Table', 'cell:Data,3(40118)')
 		click('*2')
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020.bin')

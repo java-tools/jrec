@@ -14,7 +14,7 @@ def test():
 ##commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Window>>Unknown_Ams_LocDownload_20041228.txt>>Table: ')
-		click('Filter')
+		click('Filter1')
 		select('Table1', 'Data', 'Field,0')
 		select('Table1', 'Cnr', 'Value,0')
 		select('Table1', 'cell:Value,0()')

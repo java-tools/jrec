@@ -14,7 +14,7 @@ def test():
 		commonBits.setRecordLayout(select, 'DTAR020')
 
 		click('Edit1')
-		click('Filter')
+		click('Filter1')
 		select('Table1', 'STORE-NO', 'Field,0')
 		select('Table1', '20', 'Value,0')
 		select('Table1', 'cell:Field,1(null)')

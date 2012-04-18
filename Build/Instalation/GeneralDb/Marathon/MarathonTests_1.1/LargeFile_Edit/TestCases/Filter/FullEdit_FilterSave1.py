@@ -13,7 +13,7 @@ def test():
 		close()
 
 		click('Edit1')
-		click('Filter')
+		click('Filter1')
 		select('Table1', 'Loc Type', 'Field,0')
 		select('Table1', 'st', 'Value,0')
 		select('Table1', 'cell:Field,2(null)')

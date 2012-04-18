@@ -5,7 +5,7 @@ def test():
 	java_recorded_version = '1.6.0_17'
 
 	if window('Record Editor'):
-		select_menu('File>>Compare Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'Compare Menu')
 		click('*2')
 		select('FileChooser', commonBits.sampleDir() + 'Ams_PODownload_20041231.txt')
 		click('Right')
@@ -43,16 +43,25 @@ def test():
 		select('Table', 'cell:Equivalent Record,0(ams PO Download: Detail)')
 		select('Table1', 'cell:Equivalent Field,1(Pack Qty)')
 		select('Table', 'cell:Equivalent Record,0(ams PO Download: Detail)')
+		
 		select('Table1', 'cell:Equivalent Field,1(Pack Qty)')
 ##		click('ScrollPane$ScrollBar', 8, 51)
 		if commonBits.isNimbusLook():
 			select('Table1', ' ', 'Equivalent Field,2')
-			select('Table1', ' ', 'Equivalent Field,2')
+			select('Table1', ' ', 'Equivalent Field,3')
 		else:
+			select('Table1', 'cell:Equivalent Field,2(Pack Qty)')
+
 			select('Table1', '', 'Equivalent Field,2')
-			select('Table1', '', 'Equivalent Field,2')
+			select('Table1', 'cell:Field,4(Filler)')
+##			select('Table1', '', 'Equivalent Field,2')
+##			select('Table1', 'cell:Field,4(Filler)')
+			
+##			select('Table1', '', 'Equivalent Field,2')
+##			select('Table1', '', 'Equivalent Field,2')
 		select('Table1', 'cell:Field,0(Record Type)')
 		assert_p('Table1', 'Content', '[[Record Type, Record Type], [Pack Qty, ], [Pack Cost, ], [APN, APN], [Filler, Filler], [Product, Product], [pmg dtl tech key, pmg dtl tech key], [Case Pack id, Case Pack id], [Product Name, Product Name]]')
+		
 		select('Table1', 'cell:Field,0(Record Type)')
 		click('Right')
 		select('TabbedPane', '')

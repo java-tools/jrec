@@ -60,7 +60,7 @@ def test():
 		select('Table', 'cell:Data,1(5045)')
 		commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
-		click('Filter')
+		click('Filter1')
 		select('Table', 'false', 'Include,1')
 		select('Table', 'false', 'Include,2')
 		click('Filter1')

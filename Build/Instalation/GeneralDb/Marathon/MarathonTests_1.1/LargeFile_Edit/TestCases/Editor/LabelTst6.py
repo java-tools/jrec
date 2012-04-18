@@ -1,10 +1,11 @@
 useFixture(default)
 
 def test():
+	from Modules import commonBits
 	java_recorded_version = '1.6.0_17'
 
 	if window('Record Editor'):
-		select_menu('File>>Cobol Copybook Analysis')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'Cobol Copybook Analysis')
 		assert_p('Label', 'Text', 'Copybook')
 		assert_p('Label1', 'Text', 'Cobol Dialect')
 		assert_p('Label2', 'Text', 'Include Comments')

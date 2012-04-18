@@ -10,7 +10,10 @@ def test():
 		click('Right')
 		select('TabbedPane', '')
 		assert_p('TextField1', 'Text', 'cp037')
-		assert_p('TextField', 'Text', '100')
+		if commonBits.isVersion80():
+			assert_p('TextField', 'Text', '')
+		else:
+			assert_p('TextField', 'Text', '100')
 		assert_p('EditorPane', 'Text', '''<html>
   <head>
     

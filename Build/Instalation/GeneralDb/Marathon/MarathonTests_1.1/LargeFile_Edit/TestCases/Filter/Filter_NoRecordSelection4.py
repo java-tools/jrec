@@ -7,7 +7,7 @@ def test():
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'zzAms_PODownload_20041231.txt')
 		commonBits.setRecordLayout(select, 'zzAms PO Download')
-		click('Edit1')
+		commonBits.doEdit(click)
 		click('Filter')
 		select('Table', 'false', 'Include,1')
 		select('Table', 'cell:Record,0(ams PO Download: Detail)')

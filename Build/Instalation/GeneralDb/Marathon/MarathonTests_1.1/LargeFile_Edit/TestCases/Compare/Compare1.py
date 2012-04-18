@@ -5,7 +5,7 @@ def test():
 	java_recorded_version = '1.6.0_17'
 
 	if window('Record Editor'):
-		select_menu('File>>Compare Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'Compare Menu')
 		click('*1')
 		select('FileChooser', commonBits.sampleDir() + 'Ams_PODownload_20041231_Compare.txt')
 		select('FileChooser1', commonBits.sampleDir() + 'Ams_PODownload_20041231.txt')

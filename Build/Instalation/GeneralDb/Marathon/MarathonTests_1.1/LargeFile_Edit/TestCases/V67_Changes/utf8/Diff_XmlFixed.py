@@ -22,7 +22,7 @@ def test():
 			click('Open')
 		close()
 
-		select_menu('File>>Compare Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'Compare Menu')
 		click('*2')
 		select('FileChooser', commonBits.sampleDir() + 'xmlTreeSaveAms_PODownload_20041231.xml')
 		click('Right')

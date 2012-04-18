@@ -8,21 +8,27 @@ def test():
 
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020.bin')
+		select('ComboBox2', 'DTAR020')
+
 		commonBits.doEdit(click)
 
-		click('SaveAs')
+		if commonBits.isVersion81():
+			click('Export')
+		else:
+			click('SaveAs')
 		##select('ComboBox1', 'XML')
 		select('TabbedPane', 'Xml')
 		select('FileChooser', commonBits.sampleDir() + 'zXmlDTAR020.bin$.xml')
 		click('save file')
 #commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
-		select_menu('File>>File Copy Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'File Copy Menu')
 		click('*1')
 		select('FileChooser', commonBits.sampleDir() + 'zXmlDTAR020.bin$.xml')
 		click('Right')
 		select('TabbedPane', '')
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020_CopyFromXml.bin')
+		select('ComboBox2', 'DTAR020')
 		click('Right')
 		select('TabbedPane', '')
 		select('Table', 'cell:Record,2(DTAR020)')
@@ -47,8 +53,8 @@ def test():
 		##click('MetalInternalFrameTitlePane', 778, 12)
 		commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
-		select_menu('File>>File Copy Menu')
-		select_menu('File>>Compare Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'File Copy Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'Compare Menu')
 		click('*2')
 		commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
@@ -97,7 +103,7 @@ def test():
 ### ------------------------------------------------------------------------
 ### ---  Compare files
 ### ------------------------------------------------------------------------
-		select_menu('File>>Compare Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'Compare Menu')
 		click('*1')
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020.bin')
 		select('FileChooser1', commonBits.sampleDir() + 'DTAR020_CopyFromXml.bin')

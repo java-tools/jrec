@@ -6,7 +6,7 @@ def test():
 	java_recorded_version = '1.6.0_10'
 
 	if window('Record Editor'):
-		select_menu('File>>File Copy Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'File Copy Menu')
 		click('*1')
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020.bin')
 		commonBits.setMainframeCobolLayout(select, 'DTAR020')

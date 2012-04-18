@@ -7,7 +7,7 @@ def test():
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'Ams_PODownload_20050101.txt')
 		click('Edit1')
-		click('Filter')
+		click('Filter1')
 		select('Table', 'false', 'Include,0')
 		select('Table', 'false', 'Include,2')
 		#select('Table', 'cell:Include,2(false)')

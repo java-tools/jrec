@@ -5,7 +5,7 @@ def test():
 	java_recorded_version = '1.6.0_17'
 
 	if window('Record Editor'):
-		select_menu('File>>File Copy Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'File Copy Menu')
 		click('*4')
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020.bin')
 		select('FileChooser1', commonBits.sampleDir() + 'xmlCopyDTAR020.xml')
@@ -22,7 +22,7 @@ def test():
 		assert_p('TextField1', 'Text', 'Copy Done !!! ')
 		commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
-		select_menu('File>>Compare Menu')
+		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'Compare Menu')
 		click('*1')
 		commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')

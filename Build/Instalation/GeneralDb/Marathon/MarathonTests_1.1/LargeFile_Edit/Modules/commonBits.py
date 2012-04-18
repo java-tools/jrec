@@ -1,8 +1,25 @@
 from datetime import datetime
 import time
 
+def testType():
+	return "DiskTst"
+#
+#	return "VbFbTst"
+#	return "VbTst"
+
+def isBigModelVBtest():
+	return testType() == "VbTst"
+
+def isBigModelVBandFixedtest():
+	return testType() == "VbFbTst"
+
+def isBigModelDiskTest():
+	return testType() == "DiskTst"
+
+
+
 def windows():
-	return 1
+	return 01
 ##	return "a" == "a"
 
 
@@ -14,14 +31,21 @@ def Linux():
 def isWindowsLook():
 	return 0
 
-
 def isNimbusLook():
 	return 0
 
 
+def isVersion80():
+	return 1
+
+def isVersion81():
+	return 1
+
+def isVersion82():
+	return 1
+
 def isMetalLook():
 	return  isWindowsLook() != 1 & isNimbusLook() != 1
-
 
 def version():
 	return 'HSQLDB'
@@ -41,30 +65,28 @@ def fileSep():
 
 def sampleDir():
 	if windows():
-		return 'C:\\Program Files\\RecordEdit\\' + version() + '\\SampleFiles\\'
+		return utilDir()+ 'SampleFiles\\'
 	else: 
-		return '/home/' + Linux() + '/RecordEdit/' + version() + '/SampleFiles/'
-##	return '/home/knoppix/RecordEdit/HSQLDB/SampleFiles/'
+		return utilDir()+ 'SampleFiles/'
 
 
 def velocityDir():
 	if windows():
-		return 'C:\\Program Files\\RecordEdit\\' + version() + '\\SampleVelocityTemplates\\File\\'
+		return utilDir()+ 'SampleVelocityTemplates\\File\\'
 	else: 
-		return '/home/' + Linux() + '/RecordEdit/' + version() + '/SampleVelocityTemplates/File/'
-##	return '/home/knoppix/RecordEdit/HSQLDB/SampleFiles/'
+		return utilDir()+ 'SampleVelocityTemplates/File/'
 
 def implementationSampleDir():
-	return 'C:\\Program Files\\RecordEdit\\' + version() + '\\SampleFiles\\'
-##	return '/C:/Program Files/RecordEdit/HSQLDB/SampleFiles/'
-#	return '/home/knoppix/RecordEdit/HSQLDB/SampleFiles/'
+	return  sampleDir()
 
 def cobolTestDir():
 	if windows():
-		return 'E:\\Work\\RecordEdit\\CobolTestData\\'
-#		return 'E:\\Work\\RecordEdit\\CobolTests\\TestData\\'
-	else: 
-		return '/home/' + Linux() + '/reTest/'
+		return "C:\\Users\\mum\\Bruce\\CobolTestData\\"
+		##return "C:\\Users\\mum\\Bruce\\CobolTestData\\"
+		##return 'E:\\Work\\RecordEdit\\CobolTests\\TestData\\'
+	else: 	
+		return '/home/bm/Programs/open-cobol-1.0/CobolSrc/z1Test/'
+##		return '/home/' + Linux() + '/reTest/'
 
 def getJasperReportName():
 	return r'E:\Work\RecordEdit\Jasper\untitled_report_1.jrxml'
@@ -75,17 +97,16 @@ def usingEditStart():
 
 def xmlCopybookDir():
 	if windows():
-		return 'C:\\Program Files\\RecordEdit\\' + version() + '\\CopyBook\Xml\\'
+		return paramDir() + 'CopyBook\Xml\\'
 	else: 
-		return '/home/' + Linux() + '/RecordEdit/' + version() + '/CopyBook/Xml/'
+		return paramDir() + 'CopyBook/Xml/'
 
 
 def CobolCopybookDir():
 	if windows():
-		return 'C:\\Program Files\\RecordEdit\\' + version() + '\\CopyBook\Cobol\\'
+		return utilDir()+ 'CopyBook\\Cobol\\'
 	else: 
-		return '/home/' + Linux() + '/RecordEdit/' + version() + '/CopyBook/Cobol/'
-##	return '/union/home/guest/linux_HSQLDB_Edit/TestCase/Xml/XmlTree2.py'
+		return utilDir()+ 'CopyBook/Cobol/'
 
 def setRecordLayout(select, recordLayout):
 	select('ComboBox2', recordLayout)
@@ -113,10 +134,33 @@ def setCobolLayout2(select, recordLayout, format):
 
 def userDir():
 	if windows():
-		return 'C:\\Documents and Settings\\b\\.RecordEditor\\' + version() + '\\User\\'
-##		return 'C:\\Users\\bm\\.RecordEditor\\' + version() + '\\User\\'
+		return paramDir() + 'User\\'
+
+		##return 'C:\\Users\\mum\\RecordEditor_HSQL\\User\\'
+		##return 'C:\\Users\\bm\\.RecordEditor\\' + version() + '\\User\\'
+
 	else: 
-		return '/home/' + Linux() + '/.RecordEditor/' + version() + '/User/'
+		return paramDir() + '/User/'
+
+def utilDir():
+	return paramDir()
+	
+def paramDir():
+	if windows():
+		if isVersion80():
+			return 'C:\\Users\\BruceTst\\.RecordEditor\\' + version() + '\\'
+		else:
+			return 'C:\\JavaPrograms\\RecordEdit\\'
+
+		##return 'C:\\Users\\mum\\RecordEditor_HSQL\\User\\'
+		##return 'C:\\Users\\bm\\.RecordEditor\\' + version() + '\\User\\'
+	else: 
+		return '/home/bm' + '/.RecordEditor/' + version() + '/'
+
+def selectPane():
+#	return 'File Name'
+#	return 'FilePane$4'
+	return 'FilePane$3'
 
 def filterDir():
 	if windows():
@@ -125,11 +169,10 @@ def filterDir():
 	else: 
 		return '/home/' + Linux() + '/.RecordEditor/' + version() + '/User/Filter/'
 
+def closeWindow(click):
+	click('BasicInternalFrameTitlePane$NoFocusButton2')
+	return
 
-def selectPane():
-	return 'File Name'
-#	return 'FilePane$4'
-##	return 'FilePane$3'
 
 def doEdit(click):
 	click('Edit1')
@@ -161,5 +204,11 @@ def selectFileName(select, name):
 ##	select('ComboBox2', recordLayout)
 ##	select('FileChooser', name
 
+
+def selectOldFilemenu(select_menu, menu, text):
+	if isVersion80():
+		select_menu(menu + '>>' + text)
+	else:
+		select_menu('File>>' + text)
 
 

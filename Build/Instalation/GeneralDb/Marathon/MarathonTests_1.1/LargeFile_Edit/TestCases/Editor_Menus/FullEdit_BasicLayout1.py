@@ -11,7 +11,10 @@ def test():
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Record Layouts>>Create Layout')
 #		assert_p('BmKeyedComboBox', 'Text', '6')
-		assert_p('BmKeyedComboBox', 'Text', 'XML')
+		if commonBits.isVersion80():
+			assert_p('BmKeyedComboBox', 'Text', 'Record Layout')
+		else:
+			assert_p('BmKeyedComboBox', 'Text', 'XML')
 		commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Record Layouts>>Layout Wizard')

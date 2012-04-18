@@ -8,7 +8,7 @@ def test():
 		select('FileChooser', commonBits.sampleDir() + 'utf8a_Ams_LocDownload_20041228.txt')
 		commonBits.setRecordLayout(select, 'utf8_ams Store')
 		click('Edit1')
-		click('Filter')
+		click('Filter1')
 		select('Table1', 'Loc Type', 'Field,0')
 		select('Table1', ' = ', 'Operator,0')
 		select('Table1', 'dc', 'Value,0')

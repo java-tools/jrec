@@ -7,7 +7,7 @@ def test():
 		select('FileChooser', commonBits.sampleDir() + 'Ams_LocDownload_20041228.txt')
 		commonBits.setRecordLayout(select, 'ams Store')
 		click('Edit1')
-		click('Filter')
+		click('Filter1')
 		select('Table1', 'Loc Nbr', 'Field,0')
 		select('Table1', '1', 'Value,0')
 		select('Table1', 'Loc Nbr', 'Field,1')

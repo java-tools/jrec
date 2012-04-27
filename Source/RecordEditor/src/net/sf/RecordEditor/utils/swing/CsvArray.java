@@ -175,13 +175,14 @@ public class CsvArray extends JPanel implements ActionListener, TableCellRendere
 
 	    this.setText(s);
 
-        if (isSelected) {
-            fld.setForeground(tbl.getSelectionForeground());
-            fld.setBackground(tbl.getSelectionBackground());
-        } else {
-            fld.setForeground(tbl.getForeground());
-            fld.setBackground(tbl.getBackground());
-        }
+	    SwingUtils.setTableCellColors(fld, tbl, row, isSelected);
+//        if (isSelected) {
+//            fld.setForeground(tbl.getSelectionForeground());
+//            fld.setBackground(tbl.getSelectionBackground());
+//        } else {
+//            fld.setForeground(tbl.getForeground());
+//            fld.setBackground(tbl.getBackground());
+//        }
 
 		return this;
 	}

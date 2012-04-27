@@ -47,8 +47,7 @@ public class SaveAs4 extends ReFrame {
     		final FileView<?> fileView) {
 		super(fileView.getFileNameNoDirectory(), "Save as",
 	              fileView.getBaseFile());
- 
-		
+ 		
 		BaseHelpPanel pnl = new BaseHelpPanel();
         String fname = fileView.getFileName();
         if ("".equals(fname)) {
@@ -101,6 +100,7 @@ public class SaveAs4 extends ReFrame {
 			}
         });
         
+        this.setToMaximum(false);
         this.setVisible(true);
  	}
 	

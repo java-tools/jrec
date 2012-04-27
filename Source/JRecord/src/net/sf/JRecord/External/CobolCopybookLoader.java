@@ -130,7 +130,7 @@ public class CobolCopybookLoader implements CopybookLoader {
         Convert conv = ConversionManager.getInstance().getConverter4code(binaryFormat) ;
         try {
         	CopyBookAnalyzer.setNumericDetails((NumericDefinition) conv.getNumericDefinition());
-            Document xml = net.sf.cb2xml.Cb2Xml.convertToXMLDOM(inputStream, false);
+            Document xml = net.sf.cb2xml.Cb2Xml.convertToXMLDOM(inputStream, copyBookName, false);
 
             if (xml != null) {
 	            ret = xmlLoader.loadDOMCopyBook(xml, copyBookName,

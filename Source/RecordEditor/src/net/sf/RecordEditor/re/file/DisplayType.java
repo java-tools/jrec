@@ -25,6 +25,35 @@ public class DisplayType {
 		return ret;
 	}
 	
+	public static int displayTypePrint(AbstractLayoutDetails<?,?> layout, int idx) {
+		int ret = NORMAL;
+		if (idx == layout.getRecordCount() || isTreeStructure(layout)) {
+			ret = PREFFERED;
+		} else if (idx == layout.getRecordCount() + FULL_LINE_INC) {
+			ret = FULL_LINE;
+		} else if (idx > layout.getRecordCount() + FULL_LINE_INC) {
+			ret = HEX_LINE;
+		}
+		
+		return ret;
+	}
+	public static int getFieldCount(AbstractLayoutDetails<?,?> layout, int idx) {
+		int ret = layout.getRecord(idx).getFieldCount();
+		if (isTreeStructure(layout)) {
+			ret = getMaxFields(layout);
+		}
+		
+		return ret;
+	}
+	
+	public static boolean isTreeStructure(AbstractLayoutDetails<?,?> layout) {
+		return (layout.isXml() || layout.hasChildren());
+	}
+	
+	public static int getMaxFields(AbstractLayoutDetails<?,?> layout) {
+		return layout.getRecord(DisplayType.getRecordMaxFields(layout)).getFieldCount();
+	}
+	
 	public static int getRecordMaxFields(AbstractLayoutDetails<?,?> layout) {
 		int idx = 0;
 		int fields = -1;

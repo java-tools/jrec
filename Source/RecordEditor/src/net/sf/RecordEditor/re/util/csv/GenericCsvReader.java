@@ -122,8 +122,8 @@ public class GenericCsvReader extends AbstractLineReader {
 			super(ReMainFrame.getMasterFrame(), true);
 			
 			csvTab = new CsvTabPane(msgTxt, false);
-			csvTab.readFilePreview(data, true);
-			csvTab.readOtherTab(data);
+			csvTab.readFilePreview(data, true, "", null);
+			csvTab.readOtherTab("", data);
 
 			pnl.setHelpURL(Common.formatHelpURL(Common.HELP_GENERIC_CSV));
 

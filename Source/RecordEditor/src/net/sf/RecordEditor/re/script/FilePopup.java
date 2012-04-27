@@ -77,20 +77,24 @@ public class FilePopup extends JMenu {
 	       	for (int i = 0; i < fileList.length; i++) {
 	       		if (fileList[i].endsWith("~") || fileList[i].toLowerCase().endsWith(".bak")) {
 	       		} else {
-	       			ok = checkExtension == null 
-	       			  || checkExtension.isValidExtension(Parameters.getExtensionOnly(fileList[i]));
-
-	       			if (ok) {
-	       				String filePathName = dirName + fileList[i];
-	       				AbstractAction action = null;
-	       				if (! (new File(filePathName)).isDirectory()) {
-	       					action = getAction(actionId, fileList[i], filePathName);
-	       				}
-	       				
-		       			items.add(new FileItem(fileList[i], 
-		       					filePathName, 
-			       				action));
-	       			}
+	       			try {
+		       			ok = checkExtension == null 
+		       			  || checkExtension.isValidExtension(Parameters.getExtensionOnly(fileList[i]));
+	
+		       			if (ok) {
+		       				String filePathName = dirName + fileList[i];
+		       				AbstractAction action = null;
+		       				if (! (new File(filePathName)).isDirectory()) {
+		       					action = getAction(actionId, fileList[i], filePathName);
+		       				}
+		       				
+			       			items.add(new FileItem(fileList[i], 
+			       					filePathName, 
+				       				action));
+		       			}
+	       			} catch (Exception e) {
+						e.printStackTrace();
+					}
 	       		}
 	       	}
 			files = new FileItem[items.size()];

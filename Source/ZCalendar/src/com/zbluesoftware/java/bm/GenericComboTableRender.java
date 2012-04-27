@@ -6,12 +6,15 @@
  */
 package com.zbluesoftware.java.bm;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.AbstractCellEditor;
+import javax.swing.BorderFactory;
 import javax.swing.JTable;
+import javax.swing.UIManager;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
@@ -27,6 +30,12 @@ import javax.swing.table.TableModel;
 public abstract class GenericComboTableRender extends AbstractCellEditor
     implements TableCellRenderer, TableCellEditor, PropertyChangeListener /*ActionListener*/ {
 
+	private static boolean isNimbus = false;
+	
+
+
+	private static Color BACKGROUND_COLOR_1 = Color.WHITE,
+			             BACKGROUND_COLOR_2;
 
 	private AbstractGenericCombo comboField;
     private final boolean usesValue;
@@ -38,10 +47,20 @@ public abstract class GenericComboTableRender extends AbstractCellEditor
      */
     public GenericComboTableRender(final boolean useValue, final AbstractGenericCombo field) {
 
+    	String lafName = UIManager.getLookAndFeel().getName();
         this.usesValue  = useValue;
         comboField = field;
         if (comboField != null) {
         	setComboField(comboField);
+        }
+        
+        comboField.setBorder(BorderFactory.createEmptyBorder());
+        //comboField.fld.setOpaque(true);
+        comboField.setOpaque(true);
+        
+        System.out.println("Laf: " + lafName + " " + lafName.toLowerCase().contains("nimbus"));
+        if (lafName != null) {
+        	setNimbus(lafName.toLowerCase().contains("nimbus"));
         }
     }
 
@@ -59,7 +78,7 @@ public abstract class GenericComboTableRender extends AbstractCellEditor
             final int column) {
 
         setValue(value);
-        setColor(isSelected, table);
+        setColor(isSelected, table, row);
         
         return comboField;
     }
@@ -74,7 +93,7 @@ public abstract class GenericComboTableRender extends AbstractCellEditor
 
     	setComboField(getCombo());
         setValue(value);
-        setColor(isSelected, table);
+        setColor(isSelected, table, row);
         comboField.addPropertyChangeListener(new TableNotify(table, row, column));
         
         return comboField;
@@ -107,15 +126,26 @@ public abstract class GenericComboTableRender extends AbstractCellEditor
 	 * @param isSelected wether the cell is selected
 	 * @param tbl table being displayed
 	 */   
-    private void setColor(final boolean isSelected, final JTable tbl) {
+    private void setColor(final boolean isSelected, final JTable tbl, int row) {
     	
+    	Color background;
         if (isSelected) {
-        	comboField.fld.setForeground(tbl.getSelectionForeground());
-        	comboField.fld.setBackground(tbl.getSelectionBackground());
+        	comboField.getField().setForeground(tbl.getSelectionForeground());
+        	background = tbl.getSelectionBackground();
         } else {
-        	comboField.fld.setForeground(tbl.getForeground());
-        	comboField.fld.setBackground(tbl.getBackground());
+        	comboField.getField().setForeground(tbl.getForeground());
+        	background = tbl.getBackground();
+        	if (isNimbus) {
+        		background = BACKGROUND_COLOR_1;
+        		if ( row % 2 != 0 ) {
+        			background = BACKGROUND_COLOR_2;
+        		}
+        	}
         }
+        
+//        comboField.fld.setOpaque(true);
+        comboField.setBackgroundOfField(background);
+        comboField.setBackground(background);
     }
     
     /**
@@ -193,7 +223,16 @@ public abstract class GenericComboTableRender extends AbstractCellEditor
 				}
 			}
 		}
+	}
+	
+	/**
+	 * @param isNimbus the isNimbus to set
+	 */
+	public static void setNimbus(boolean isNimbus) {
+		GenericComboTableRender.isNimbus = isNimbus;
 		
-		
+		if (isNimbus) {
+			BACKGROUND_COLOR_2 = UIManager.getColor("Table.alternateRowColor");
+		}
 	}
 }

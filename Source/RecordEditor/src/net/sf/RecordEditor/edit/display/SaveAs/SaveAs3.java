@@ -300,7 +300,6 @@ public final class SaveAs3 extends ReFrame
 			getSelectedPnl().setTemplateText(script);
 			changeExtension();
 		}
-
     }
 
     
@@ -314,7 +313,7 @@ public final class SaveAs3 extends ReFrame
         
         if (commonSaveFields.getTreeFrame() != null) {
         	commonSaveFields.treeExportChk.setSelected(true);
-        	commonSaveFields.nodesWithDataChk.setSelected(true);
+        	commonSaveFields.nodesWithDataChk.setSelected(false);
 
         	
         	pnl.addLine("Export Tree", commonSaveFields.treeExportChk);

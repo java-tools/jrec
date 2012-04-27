@@ -526,7 +526,9 @@ public abstract class AbsDB<record extends AbsRecord> {
 
 		if (val.isNew()) {
 		    //System.out.println("~~~> inserting ");
-			insert(val);
+			if (val.getUpdateStatus() == AbsRecord.UPDATED) {
+				insert(val);
+			}
 		} else if (val.getUpdateStatus() == AbsRecord.UPDATED) {
 		    //System.out.println("~~~> updating ");
 			update(val);
@@ -876,7 +878,7 @@ public abstract class AbsDB<record extends AbsRecord> {
 		boolean ok = false;
 		if (connect != null) {
 			try {
-				connect.getUpdateConnection().setAutoCommit(false);
+				connect.getUpdateConnection().setAutoCommit(commit);
 				ok = true;
 			} catch (SQLException e) {
 				e.printStackTrace();

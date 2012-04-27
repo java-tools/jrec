@@ -134,7 +134,13 @@ public class EditRec extends ReMainFrame  {
     	init(includeJdbc, newAction);
     }
   
+ 
     
+    public EditRec(final boolean includeJdbc, final String name, String id, AbstractAction newAction) {
+    	super(name, "", id);
+    	init(includeJdbc, newAction);
+    }
+
     /**
      * standard initialize
      *
@@ -154,6 +160,7 @@ public class EditRec extends ReMainFrame  {
     	
     	newFileAction = newAction;
     	incJdbc = includeJdbc;
+    	optionAction.putValue(AbstractAction.SHORT_DESCRIPTION, "Edit Options");
     	
  
     	
@@ -235,11 +242,8 @@ public class EditRec extends ReMainFrame  {
         		open.getOpenFilePanel().getRecentFileMenu(), 
         		true, false, 
         		newFileAction);
- 
-        //fm = getFileMenu();
-        
+         
         if (copyAction != null) {
-        	//dataMenu.addSeparator();
         	utilityMenu.add(new AbstractAction("Cobol Copybook Analysis") {
 
 					/**
@@ -252,8 +256,8 @@ public class EditRec extends ReMainFrame  {
 		        });
         	utilityMenu.addSeparator();
 	        utilityMenu.add(copyAction);
+	        utilityMenu.addSeparator();
 	    }
-        utilityMenu.addSeparator();
         utilityMenu.add(newAction(ReActionHandler.COMPARE_WITH_DISK));
         if (compareAction != null) {
         	utilityMenu.add(compareAction);

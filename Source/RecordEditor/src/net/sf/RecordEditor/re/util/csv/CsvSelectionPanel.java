@@ -128,7 +128,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 		isByteBased = false;
 		fieldSeparator = new JComboBox(Common.FIELD_SEPARATOR_TEXT_LIST);
 		
-		setData(data, true);
+		setData("", data, true, null);
 
 		init_100_SetupFields();
 		init_200_LayoutScreen(showCancel, heading);
@@ -171,7 +171,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 	 * @see net.sf.RecordEditor.utils.csv.FilePreview#setData(byte[], boolean)
 	 */
 	@Override
-	public boolean setData(byte[] data, boolean checkCharset) {
+	public boolean setData(String filename, byte[] data, boolean checkCharset, String layoutId) {
 		String font = fontTxt.getText();
 		CsvAnalyser anaylyser;
 		CsvSelectionStringTblMdl tableMdl = new CsvSelectionStringTblMdl(parserManager);
@@ -641,5 +641,14 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 		
 		
 		return ret;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.re.util.csv.FilePreview#isMyLayout(java.lang.String)
+	 */
+	@Override
+	public boolean isMyLayout(String layout) {
+		return false;
 	}
 }

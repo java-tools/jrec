@@ -12,6 +12,7 @@ import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
+
 /**
  * table rendor for 3 line hex display
  *
@@ -33,8 +34,8 @@ public  class HexGenericRender implements TableCellRenderer  {
 
 
         val = display;
-
-        //pnl.add(val);
+        //val.getComponent().setBorder(new EmptyBorder(1, 1, 1, 1));
+        val.getComponent().setOpaque(true);
     }
 
 	/**
@@ -55,13 +56,17 @@ public  class HexGenericRender implements TableCellRenderer  {
 	    } catch (Exception e) {
         }
 
-        if (isSelected) {
-        	control.setForeground(tbl.getSelectionForeground());
-        	control.setBackground(tbl.getSelectionBackground());
-        } else {
-        	control.setForeground(tbl.getForeground());
-        	control.setBackground(tbl.getBackground());
-        }
+	    SwingUtils.setTableCellColors(control, tbl, row, isSelected);
+//        if (isSelected) {
+//        	control.setForeground(tbl.getSelectionForeground());
+//        	control.setBackground(tbl.getSelectionBackground());
+//        } else {
+//        	control.setForeground(tbl.getForeground());
+//        	control.setBackground(tbl.getBackground());
+//        }
+
+        control.setBorder(null);
+ 
 
 		return control;
 	}

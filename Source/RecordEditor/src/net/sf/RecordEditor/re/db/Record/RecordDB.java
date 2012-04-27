@@ -204,7 +204,7 @@ public class RecordDB  extends AbsDB<RecordRec> {
 			        + "    set PARENT_RECORDID = -1 "
 					+ "  where rs3.child_key in "
 					+ "    (select rs2.child_key from    TBL_RS2_SUBRECORDS rs1"
-					+ "                            join  TBL_RS2_SUBRECORDS rs2"
+					+ "                      inner join  TBL_RS2_SUBRECORDS rs2"
 					+ "                              on  rs1.RECORDID = rs2.RECORDID"
 					+ "                             and  rs2.PARENT_RECORDID = rs1.CHILD_ID"
 					+ "                           where  rs1.CHILD_RECORD = " + val.getRecordId()

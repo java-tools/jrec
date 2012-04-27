@@ -115,7 +115,6 @@ public class RecordEdit1Record extends ReFrame {
 
         
         connectionIdx = dbConnectionIdx;
-        //Connection dbConnection = Common.getDBConnectionLogErrors(connectionIdx);
 
         recordIdx = recordIndex;
         editList  = recordList;
@@ -146,6 +145,7 @@ public class RecordEdit1Record extends ReFrame {
 		int width  = frame.getDesktop().getWidth() - SPACE_ON_THE_RIGHT;
 
 
+		//rec.getValue().setListChar("Y");
  	    pnlRecord.setValues(rec);
 
 		splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,

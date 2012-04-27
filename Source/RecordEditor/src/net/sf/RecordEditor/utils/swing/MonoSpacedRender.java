@@ -13,6 +13,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.TableCellRenderer;
 
+
 /**
  * Mono spaced text field table rendor
  *
@@ -29,6 +30,7 @@ public class MonoSpacedRender extends JTextField implements TableCellRenderer  {
         super();
         this.setFont(SwingUtils.getMonoSpacedFont());
 		this.setBorder(BorderFactory.createEmptyBorder());
+		this.setOpaque(true);
     }
 
 
@@ -44,13 +46,14 @@ public class MonoSpacedRender extends JTextField implements TableCellRenderer  {
         }
         setText(val);
 
-        if (isSelected) {
-            super.setForeground(table.getSelectionForeground());
-            super.setBackground(table.getSelectionBackground());
-        } else {
-            super.setForeground(table.getForeground());
-            super.setBackground(table.getBackground());
-        }
+        SwingUtils.setTableCellColors(this, table, row, isSelected);
+//        if (isSelected) {
+//            super.setForeground(table.getSelectionForeground());
+//            super.setBackground(table.getSelectionBackground());
+//        } else {
+//            super.setForeground(table.getForeground());
+//            super.setBackground(table.getBackground());
+//        }
 
 
         return this;

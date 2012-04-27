@@ -753,7 +753,7 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	public void addTstField(String tstField, String value) {
 		
 		if (recSelect == null) {
-			recSelect = new ExternalGroupSelection(1);
+			recSelect = new ExternalGroupSelection<ExternalSelection>(1);
 		}
 		if (recSelect instanceof ExternalGroupSelection) {
 			ExternalGroupSelection g = (ExternalGroupSelection) recSelect;

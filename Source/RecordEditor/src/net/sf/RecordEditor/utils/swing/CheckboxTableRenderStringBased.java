@@ -14,6 +14,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
+
 /**
  *
  *
@@ -77,6 +78,9 @@ public class CheckboxTableRenderStringBased extends AbstractCellEditor
         } catch (Exception e) {
         }
         checkBox.setSelected(val);
+
+        SwingUtils.setTableCellBackGround(checkBox, tbl, row, isSelected);
+
         return checkBox;
     }
 

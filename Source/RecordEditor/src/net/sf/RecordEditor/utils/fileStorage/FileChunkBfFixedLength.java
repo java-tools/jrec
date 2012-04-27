@@ -9,7 +9,8 @@ public class FileChunkBfFixedLength extends FileChunkLine {
 		initialFirstLine = theFirstLine;
 	}
 
-	@SuppressWarnings("unchecked")
+
+	@SuppressWarnings("rawtypes")
 	@Override
 	protected void uncompress() {
 		

@@ -35,6 +35,10 @@ public class HexTwoLineField extends JTextArea implements AbstractHexDisplay {
         this.setRows(3);
         this.setFont(new Font("Monospaced", Font.PLAIN,  SwingUtils.STANDARD_FONT_HEIGHT));
         this.setBorder(BorderFactory.createEmptyBorder());
+        //this.setBorder(((new DefaultTableCellRenderer()).getBorder()));
+        //(new DefaultTableCellRenderer()).g
+
+
         fontName = font;
     }
 
@@ -112,7 +116,7 @@ public class HexTwoLineField extends JTextArea implements AbstractHexDisplay {
 							+ " value=" + tmp + " Message: "  +e.getMessage());
 				}
 			}
-    		System.out.println();
+    		//System.out.println();
     		
     		len = Math.min(Math.min((line1.length() + 1) / 2, oldValueStr.length()), ret.length);
 

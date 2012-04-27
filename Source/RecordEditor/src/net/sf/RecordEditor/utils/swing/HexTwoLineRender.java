@@ -6,6 +6,9 @@
  */
 package net.sf.RecordEditor.utils.swing;
 
+import javax.swing.JLabel;
+
+
 /**
  * table rendor for 3 line hex display
  *
@@ -18,6 +21,5 @@ public class HexTwoLineRender extends HexGenericRender  {
      */
     public HexTwoLineRender(final String font) {
         super(font, new HexTwoLineField(font));
-
     }
 }

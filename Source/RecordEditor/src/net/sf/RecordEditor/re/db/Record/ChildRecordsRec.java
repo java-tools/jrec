@@ -1,5 +1,6 @@
 package net.sf.RecordEditor.re.db.Record;
 
+import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.jdbc.AbsRecord;
 
 /**
@@ -77,7 +78,9 @@ public class ChildRecordsRec extends AbsRecord {
 		childKey = pChildKey;
 		operatorSequence = pOperatorSequence;
 		defaultRecord = defaultRec;
-		this.childName = childName;
+		
+
+		this.childName = Common.trimRight(childName);
 		this.childId = childId;
 
 		setKeys();
@@ -385,11 +388,14 @@ public class ChildRecordsRec extends AbsRecord {
 	 * @param childName the childName to set
 	 */
 	public void setChildName(String childName) {
+		
+		childName = Common.trimRight(childName);
+		
 		if (! equals(this.childName , childName)) {
 			this.childName = childName;
 		}
 	}
-
+	
 	/**
 	 * @return the childId
 	 */

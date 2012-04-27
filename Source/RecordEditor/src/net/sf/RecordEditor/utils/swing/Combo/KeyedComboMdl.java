@@ -56,22 +56,21 @@ public class KeyedComboMdl<Key> extends ListListner implements  ComboBoxModel<Co
 	/* (non-Javadoc)
 	 * @see javax.swing.ComboBoxModel#setSelectedItem(java.lang.Object)
 	 */
-	@SuppressWarnings("rawtypes")
 	@Override
 	public void setSelectedItem(Object item) {
 		int lastIdx = currIdx;
 		
 		currIdx = 0;
-		if (trace) {
-			System.out.print(" --> " + item);
-			if (item != null) {
-				System.out.print(" " + item.getClass().getName());
-				if (item instanceof ComboObjOption) {
-					System.out.print(" " + ((ComboObjOption) item).index);
-				}
-			}
-			System.out.println();
-		}
+//		if (trace) {
+//			System.out.print(" --> " + item);
+//			if (item != null) {
+//				System.out.print(" " + item.getClass().getName());
+//				if (item instanceof ComboObjOption) {
+//					System.out.print(" " + ((ComboObjOption) item).index);
+//				}
+//			}
+//			System.out.println();
+//		}
 		if (item instanceof  ComboObjOption) {
 			@SuppressWarnings("unchecked")
 			ComboObjOption<Key> parentItem = (ComboObjOption<Key>) item;

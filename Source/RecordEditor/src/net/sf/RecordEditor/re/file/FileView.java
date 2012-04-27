@@ -96,8 +96,8 @@ import net.sf.RecordEditor.utils.swing.treeTable.TreeTableNotify;
 @SuppressWarnings("serial")
 public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail, ? extends AbstractRecordDetail>>
 						extends 			AbstractTableModel
-						implements 	TableModelListener, ColumnMappingInterface, 
-												TreeModelListener, AbstractChangeNotify, GetView, ArrayNotifyInterface {
+						implements 	Iterable<AbstractLine>, TableModelListener, ColumnMappingInterface, 
+									TreeModelListener, AbstractChangeNotify, GetView, ArrayNotifyInterface {
 
 	public  static final  int SPECIAL_FIELDS_AT_START  = 2;
 	private static final  int BUFFER_SIZE = 65536;
@@ -1880,51 +1880,6 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			icSearchFor = searchFor.toUpperCase();
 		}
 
-//		//System.out.println("==> " + pos.getFieldId() + " " + pos.currentFieldNumber);
-//		if (pos.getFieldId() == Common.ALL_FIELDS) {
-//		    int maxField;
-//		    //System.out.println("~~> " + pos.currentFieldNumber);
-//		    if (anyWhereInTheField) {
-//		        while ((pos.row < numRows) && (pos.row >= 0)
-//		                && ! pos.found) {
-//		            maxField = find_100_getMaxField(pos);
-//
-//		            while (pos.isValidFieldNum(maxField)
-//		               && ! contains(ignoreCase, pos, icSearchFor, normalSearch)) {
-//		                pos.nextField();
-//		                //System.out.print('.');
-//		            }
-//		            if (!pos.found) {
-//		                pos.nextRow();
-//		            }
-//		        }
-//		    } else {
-//		        while ((pos.row < numRows) && (pos.row >= 0)
-//		                && ! pos.found) {
-//		            maxField = find_100_getMaxField(pos);
-//
-//		            while (pos.isValidFieldNum(maxField)
-//				       && ! cmp(ignoreCase, pos, icSearchFor, testNumber, operator)) {
-//		                pos.nextField();
-//		            }
-//		            if (!pos.found) {
-//		                pos.nextRow();
-//		            }
-//		        }
-//		    }
-//		} else {
-//		    if (anyWhereInTheField) {
-//		        while ((pos.row < numRows) && (pos.row >= 0)
-//		                && ! contains(ignoreCase, pos, icSearchFor, normalSearch)) {
-//		            pos.nextRow();
-//		        }
-//		    } else {
-//		        while ((pos.row < numRows) && (pos.row >= 0)
-//		                && ! cmp(ignoreCase, pos, icSearchFor, testNumber, operator)) {
-//		            pos.nextRow();
-//		        }
-//		    }
-//		}
 
 		PositionIncrement inc = PositionIncrement.newIncrement(pos, lines);
 	    if (anyWhereInTheField) {
@@ -2827,6 +2782,16 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
     		
     	}
     }
+    
+    public Iterator<AbstractLine> iterator() {
+
+    	if (layout.hasChildren()) {
+    		return new TreeIteratorForward(lines, lines.get(0));
+    	}
+    	
+    	return lines.listIterator();
+    }
+    
 	/**
 	 * @return the lines
 	 */

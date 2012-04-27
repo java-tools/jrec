@@ -970,7 +970,8 @@ public class RecordPnl extends BaseHelpPanel
 			getValues();
 			if (currVal != null) {
 			    tblChild.setSystem(currVal.getSystem());
-			    dbChildModel.fireTableDataChanged();
+			    dbChildModel.fireTableStructureChanged();
+			    tblChild.setColumnSizes();
 			}
 		} else if (arg0.getSource() == btnHelp) {
 		    this.showHelp();

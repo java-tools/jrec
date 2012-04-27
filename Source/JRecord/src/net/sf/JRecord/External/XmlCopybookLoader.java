@@ -379,8 +379,8 @@ public class XmlCopybookLoader implements CopybookLoader {
           	          opt = OPT_SAVE;
           	          try {
 	          	          if (redefLevel == getIntAttribute(element, ATTR_LEVEL) 
-		          	          &&  getStringAttribute(element, ATTR_REDEFINED).equals("true")) {
-		          	              opt = OPT_REDEFINED;
+		          	      &&  getStringAttribute(element, ATTR_REDEFINED).equals("true")) {
+		          	          opt = OPT_REDEFINED;
 	          	          }   
           	          } catch (Exception e) {
           	          }
@@ -390,7 +390,7 @@ public class XmlCopybookLoader implements CopybookLoader {
           	      if (getStringAttribute(element, ATTR_LEVEL).equals("01")) {
         	          opt = OPT_REDEFINED;
           	          if (foundRedefine) {
-          	            opt = OPT_REDEFINES;
+          	        	  opt = OPT_REDEFINES;
           	          }
            	      }
               default:
@@ -413,6 +413,9 @@ public class XmlCopybookLoader implements CopybookLoader {
            	  break;
            	  case OPT_REDEFINES:
                   insertCommonFields(copyBookPref, lName, false);
+                  if (print) {
+                      insertRecordField(convertElement2Field(lName, lIsNumeric, posBase, element));
+                  }
            	  break;
            	  case OPT_SAVE:
                   if (print) {

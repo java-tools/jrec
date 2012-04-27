@@ -263,6 +263,10 @@ public class BasePanel extends JPanel {
 		return this;
 	}
 	
+	public final BasePanel addLine(JComponent promptLbl) {
+		return addLine(promptLbl, (JComponent) null);
+	}
+	
 	public final BasePanel addLine(JComponent promptLbl, JComponent component) {
 		incRow();
 

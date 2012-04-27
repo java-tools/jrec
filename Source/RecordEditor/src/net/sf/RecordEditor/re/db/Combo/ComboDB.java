@@ -256,7 +256,6 @@ public class ComboDB  extends AbsDB<ComboRec> {
 			Common.logMsg("Update Failed: " + e.getClass().getName() + " " + e.getMessage(), e);
 			e.printStackTrace();
 		}
-
 		
 		
 		super.delete(val);

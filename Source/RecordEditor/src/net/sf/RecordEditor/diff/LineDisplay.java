@@ -13,7 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
@@ -24,6 +24,7 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class LineDisplay extends AbstractCompareDisplay {
 
     private static Color ADDED_COLOR    = Color.yellow;
@@ -78,7 +79,8 @@ public class LineDisplay extends AbstractCompareDisplay {
 	 * @param primary
 	 */
 	public LineDisplay(String name,
-			AbstractLayoutDetails recordLayout, ArrayList<LineCompare> before,
+			@SuppressWarnings("rawtypes") AbstractLayoutDetails recordLayout, 
+			ArrayList<LineCompare> before,
 			ArrayList<LineCompare> after, ArrayList<LineCompare> chgBefore,
 			ArrayList<LineCompare> chgAfter, boolean primary, boolean allRows) {
 		super("Record Display ", name, recordLayout, before, after, chgBefore, chgAfter,
@@ -199,7 +201,7 @@ public class LineDisplay extends AbstractCompareDisplay {
 	private class Render implements TableCellRenderer {
 		
 
-	    private JTextField text    = new JTextField();
+	    private DefaultTableCellRenderer text    = new DefaultTableCellRenderer();
 	    
 	    public Render() {
 	    	text.setBorder(null);

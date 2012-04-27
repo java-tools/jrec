@@ -1,5 +1,6 @@
 package net.sf.RecordEditor.utils.swing;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
@@ -8,8 +9,10 @@ import java.awt.event.KeyAdapter;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import net.sf.RecordEditor.utils.common.Common;
 
@@ -116,5 +119,39 @@ public class SwingUtils {
 		c.addKeyListener(keyListner);
 	}
 	
+
+	public static void setTableCellColors(JComponent component, JTable table, int row, boolean isSelected) {
+		
+		setTableCellBackGround(component, table, row, isSelected);
+		if (isSelected) {
+			component.setForeground(table.getSelectionForeground());
+		} else {
+			component.setForeground(table.getForeground());
+		}
+
+	}
+	
+	public static void setTableCellBackGround(JComponent component, JTable table, int row, boolean isSelected) {
+		
+		Color background;
+		component.setOpaque(true);
+		
+		if (isSelected) {
+			background = table.getSelectionBackground();
+		} else {
+			background = table.getBackground();
+			if (Common.NIMBUS_LAF) {
+			   	background = Color.WHITE;
+			    if ( row % 2 != 0 ) {
+			    	Color c = UIManager.getColor("Table.alternateRowColor");
+			    	if (c != null) {
+			    		background = c;
+			    	}
+			    }
+			}
+		}
+		component.setBackground(background);
+
+	}
 
 }

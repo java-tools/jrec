@@ -14,6 +14,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
@@ -47,6 +48,7 @@ public class ComboItemRender
 		//System.out.println("Create Combo Item Render ...");
 		combo.setBorder(BorderFactory.createEmptyBorder());
 		combo.setBounds(combo.getY(), combo.getX(), combo.getWidth(), COMBO_HEIGHT);
+		combo.setOpaque(true);
 	}
 
 
@@ -81,7 +83,13 @@ public class ComboItemRender
 	            background = table.getSelectionBackground();
 	        } else {
 	        	foreground = table.getForeground();
-	            background = table.getBackground();
+
+			    if ( row % 2 == 0 ) {
+			    	background = UIManager.getColor("Table.alternateRowColor");
+			    } else { 
+			    	background = table.getBackground();
+			    }
+
 	        }
 
 			if (Common.OPTIONS.highlightEmpty.isSelected() && value == Common.MISSING_VALUE) {

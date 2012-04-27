@@ -284,7 +284,7 @@ public class RecordRec extends AbsRecord {
 	        									final int recordType,
 	        									final String fontName) {
 
-	    return new RecordRec(-1, pRecordName, "", recordType, 0, "N",
+	    return new RecordRec(-1, pRecordName, "", recordType, 0, "Y",
 			"", "<Tab>", "", 0, Common.DEFAULT_STRING, Common.LFCR_BYTES, 
 			fontName, 0, Constants.IO_DEFAULT);
 	}

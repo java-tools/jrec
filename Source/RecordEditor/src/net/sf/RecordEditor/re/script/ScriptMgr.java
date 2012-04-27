@@ -17,7 +17,7 @@ public class ScriptMgr implements ValidExtensionCheck {
 	private  final static  List<String> languages = new ArrayList<String>();
 	
 
-	private ScriptEngineManager scriptManager = new ScriptEngineManager();
+	private ScriptEngineManager scriptManager = new ScriptEngineManager(this.getClass().getClassLoader());
 
     public final void runScript(
     		String script,
@@ -123,9 +123,9 @@ public class ScriptMgr implements ValidExtensionCheck {
 		
 		synchronized (languages) {
 			if (languages.size() == 0) {
-				ScriptEngineManager manager = new ScriptEngineManager();
+				ScriptEngineManager manager = new ScriptEngineManager(ScriptMgr.class.getClassLoader());
 				List<ScriptEngineFactory> engines = manager.getEngineFactories();
-	
+
 				for (ScriptEngineFactory engine : engines) {
 					languages.add(engine.getLanguageName());
 				}

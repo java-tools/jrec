@@ -15,6 +15,7 @@ public class ExpandLineTree {
 	private final static Option NORMAL = new Option(CONTINUE, null) ;
 	
 	private final Option opt;
+	@SuppressWarnings("rawtypes")
 	private List<AbstractLine> list;
 	private boolean addLine;
 	private boolean exit = false;
@@ -24,6 +25,7 @@ public class ExpandLineTree {
 	 * @param line line to expand
 	 * @return list of line + children
 	 */
+	@SuppressWarnings("rawtypes")
 	public static ArrayList<AbstractLine> expandTree(AbstractLine line) {
 		ArrayList<AbstractLine> lines = new ArrayList<AbstractLine>();
 		(new ExpandLineTree(NORMAL, lines)).expand(line);
@@ -31,6 +33,7 @@ public class ExpandLineTree {
 		return lines;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public static ExpandLineTree newExpandLineTree(List<AbstractLine> lines) {
 		return new ExpandLineTree(NORMAL, lines);
 	}
@@ -40,6 +43,7 @@ public class ExpandLineTree {
 	 * @param fromLine line to start expanding from
 	 * @return list of lines
 	 */
+	@SuppressWarnings("rawtypes")
 	public static ArrayList<AbstractLine> expandFrom(AbstractLine fromLine) {
 		ArrayList<AbstractLine> lines = new ArrayList<AbstractLine>();
 		AbstractLine root = getRootLine(fromLine);
@@ -54,6 +58,7 @@ public class ExpandLineTree {
 	 * @param toLine line to expand tree to
 	 * @return line expansion
 	 */
+	@SuppressWarnings("rawtypes")
 	public static ArrayList<AbstractLine> expandTo(AbstractLine toLine) {
 		ArrayList<AbstractLine> lines = new ArrayList<AbstractLine>();
 
@@ -63,13 +68,14 @@ public class ExpandLineTree {
 		return lines;
 	}
 
-	private ExpandLineTree(Option option, List<AbstractLine> lines) {
+	private ExpandLineTree(Option option, @SuppressWarnings("rawtypes") List<AbstractLine> lines) {
 		opt = option;
 		list = lines;
 		
 		addLine = option.val != START_SAVING;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public final   void expand(AbstractLine line) {
 		boolean doAdd = addLine;
 		switch (opt.check(line)) {
@@ -100,6 +106,7 @@ public class ExpandLineTree {
 		return;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public static AbstractLine getRootLine(AbstractLine line) {
 		AbstractLine root = line.getTreeDetails().getRootLine();
 		if (root == null) {

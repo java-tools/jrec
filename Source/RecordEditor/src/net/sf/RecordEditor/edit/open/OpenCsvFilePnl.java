@@ -78,7 +78,7 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 
 		      if ((f != null) && (f.isFile()) &&  (! lastFileName.equals(f.getPath()))) {
 		  		lastFileName = f.getPath();
-		  		csvTabDtls.readFilePreview(f, true);
+		  		readFilePreview(f, true);
 		      }
 		    }
 		}
@@ -109,7 +109,7 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 				}
 				
 				csvTabDtls.tab.setSelectedIndex(idx);
-				csvTabDtls.readFilePreview(chooser.getSelectedFile(), false);
+				readFilePreview(chooser.getSelectedFile(), false);
 				csvTabDtls.tab.addChangeListener(this);
 		}
 	};
@@ -164,7 +164,7 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 		csvTabDtls.tab.addChangeListener(tabListner);
 		
 		if (filePresent) {
-			csvTabDtls.readFilePreview(file, true);
+			readFilePreview(file, true);
 		}
 	}
 	
@@ -191,7 +191,7 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 			File f1 = chooser.getSelectedFile(); 
 			if (! f1.equals(f)) {
 				f = f1;
-				csvTabDtls.readFilePreview(f, true);
+				readFilePreview(f, true);
 			}
 		} catch (Exception ex) {
 			//ex.printStackTrace();
@@ -284,6 +284,15 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 	}
 
 
+	private void readFilePreview(File f, boolean allowTabSwap) {
+		String layoutDtls = null;
+		try {
+			layoutDtls = recent.getLayoutName(f.getCanonicalPath());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		csvTabDtls.readFilePreview(f, allowTabSwap, layoutDtls);
+	}
 
 	@Override
 	public JMenu getRecentFileMenu() {

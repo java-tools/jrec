@@ -138,15 +138,18 @@ public abstract class AbsComboAgent extends KeyAdapter implements FocusListener 
 		int i = st + step;
 		int l = str.length();
 		while (i < size) {
-			s = getRow(i).substring(0, l).toUpperCase();
-			if (str.compareTo(s) > 0) {
-				st = i;
-				/*if (cellRender && l>2) System.out.println(" -  " + i
-						+ " " + st + " " + str + " " + s
-						+ " " + (str.compareTo(s))
-						+ " " + list.getFieldAt(st) );*/
-			} else {
-				break;
+			s = getRow(i);
+			if (s.length() > l) {
+				s = s.substring(0, l).toUpperCase();
+				if (str.compareTo(s) > 0) {
+					st = i;
+					/*if (cellRender && l>2) System.out.println(" -  " + i
+							+ " " + st + " " + str + " " + s
+							+ " " + (str.compareTo(s))
+							+ " " + list.getFieldAt(st) );*/
+				} else {
+					break;
+				}
 			}
 
 			i += step;

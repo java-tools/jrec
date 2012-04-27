@@ -35,8 +35,8 @@ public class RecentFiles {
 
 	private static final int RF_FILE_MODE = -2;
 
-	private static final int FILE_HISTORY  = 400;
-    private static final int HASH_MAP_SIZE = 600;
+	private static final int FILE_HISTORY  = 800;
+    private static final int HASH_MAP_SIZE = 1200;
     private static final int LAUNCH_EDITOR_MATCH_NUMBER = 5 - Common.OPTIONS.launchIfMatch.get();
     private static final String EXTENSION_STRING   = "<extensions>";
     private static final String EXTENSION_VELOCITY = "<velocity>";

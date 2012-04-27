@@ -6,7 +6,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.RecordException;
-import net.sf.JRecord.IO.StandardLineReader;
 import net.sf.JRecord.IO.XmlLineReader;
 import net.sf.JRecord.Log.AbsSSLogger;
 
@@ -20,7 +19,7 @@ public class XmlFileLoader implements CopybookLoader {
 	public ExternalRecord loadCopyBook(String copyBookFile, int splitCopybookOption, int dbIdx, String font, int binFormat, int systemId, AbsSSLogger log) 
 	throws IOException, SAXException, ParserConfigurationException, RecordException {
 		int i;
-		StandardLineReader r = new XmlLineReader(true);
+		XmlLineReader r = new XmlLineReader(true);
 		r.open(copyBookFile);
 		
 		for (i = 0; i < 20000 && (r.read() != null); i++) {

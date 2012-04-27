@@ -59,7 +59,7 @@ public class ZDateField extends AbstractGenericCombo implements ActionListener {
     public Date getDate() {
         Date ret = null;
         try {
-            ret = df.parse(padZeros(dateFormatStr, fld.getText()));
+            ret = df.parse(padZeros(dateFormatStr, getField().getText()));
         } catch (final Exception ex) {
         }
 
@@ -88,7 +88,7 @@ public class ZDateField extends AbstractGenericCombo implements ActionListener {
         if (date != null) {
             s = df.format(date);
         }
-        fld.setText(s);
+        getField().setText(s);
     }
 
     /**
@@ -148,7 +148,7 @@ public class ZDateField extends AbstractGenericCombo implements ActionListener {
                         final Date d = (Date) event.getNewValue();
                         dateSelector.setCurrentDate(d);
                         if (d != null) {
-                            fld.setText(df.format(d));
+                        	getField().setText(df.format(d));
                         }
                     }
                 }
@@ -169,9 +169,9 @@ public class ZDateField extends AbstractGenericCombo implements ActionListener {
 		@Override
 		public void setValue(final Object value) {
 	        try {
-	            popup.setCurrentDate(df.parse(padZeros(dateFormatStr, fld.getText())));
+	            popup.setCurrentDate(df.parse(padZeros(dateFormatStr, getField().getText())));
 	        } catch (final Exception ex) {
-	            System.out.println("Error Parsing date ))" + fld.getText() + "((");
+	            System.out.println("Error Parsing date ))" + getField().getText() + "((");
 	        }
 		}
 

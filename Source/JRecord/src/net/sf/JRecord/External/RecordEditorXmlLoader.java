@@ -13,7 +13,6 @@ import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.ExternalRecordSelection.ExternalSelection;
 import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
 import net.sf.JRecord.ExternalRecordSelection.ExternalGroupSelection;
-import net.sf.JRecord.IO.StandardLineReader;
 import net.sf.JRecord.IO.XmlLineReader;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Log.TextLog;
@@ -54,7 +53,7 @@ public class RecordEditorXmlLoader implements CopybookLoader {
                 font);
         rec.setNew(true);
         
-		StandardLineReader r = new XmlLineReader(true);
+        XmlLineReader r = new XmlLineReader(true);
 		r.open(copyBookFile);
 		insertRecord(log, null, rec, r, dbIdx);
         r.close();
@@ -63,23 +62,23 @@ public class RecordEditorXmlLoader implements CopybookLoader {
 	}
 	
 	public ExternalRecord loadCopyBook(InputStream is, String layoutName) throws Exception {
-		
-        int rt = Constants.rtRecordLayout;
-        
-        ExternalRecord rec = ExternalRecord.getNullRecord(
-        		layoutName,
-                rt,
-                "");
-        rec.setNew(true);
-        
-        StandardLineReader r = new XmlLineReader(true);
-		r.open(is, (LayoutDetail) null);
-		insertRecord(new TextLog(), null, rec, r, 0);
-        r.close();
-        
-        return rec;
-}
-
+			
+	        int rt = Constants.rtRecordLayout;
+	        
+	        ExternalRecord rec = ExternalRecord.getNullRecord(
+	        		layoutName,
+	                rt,
+	                "");
+	        rec.setNew(true);
+	        
+	        XmlLineReader r = new XmlLineReader(true);
+			r.open(is, (LayoutDetail) null);
+			insertRecord(new TextLog(), null, rec, r, 0);
+	        r.close();
+	        
+	        return rec;
+	}
+	
 	
 	/**
 	 * Add  an External-Record (Sub-Record) to an External-Record
@@ -94,7 +93,7 @@ public class RecordEditorXmlLoader implements CopybookLoader {
 	 * @throws Exception any error that occurs
 	 */
 	private boolean insertRecord(AbsSSLogger log, ExternalRecord parentRec, ExternalRecord childRec,
-			StandardLineReader reader, int dbIdx)
+			XmlLineReader reader, int dbIdx)
 	throws Exception {
 
 		AbstractLine line = reader.read();
@@ -186,7 +185,7 @@ public class RecordEditorXmlLoader implements CopybookLoader {
 	
 	private AbstractLine addFields(
 			ExternalRecord childRec,
-			StandardLineReader reader,
+			XmlLineReader reader,
 			AbstractLine line, 
 			int dbIdx)
 	throws IOException {
@@ -236,7 +235,7 @@ public class RecordEditorXmlLoader implements CopybookLoader {
 	
 	private AbstractLine addFieldTsts(
 			ExternalRecord childRec,
-			StandardLineReader reader,
+			XmlLineReader reader,
 			AbstractLine line, 
 			int dbIdx)
 	throws IOException {
@@ -263,14 +262,13 @@ public class RecordEditorXmlLoader implements CopybookLoader {
 	}
 	
 	
-	private ExternalGroupSelection<ExternalSelection> getGroup(StandardLineReader reader, int type) throws IOException {
+	private ExternalGroupSelection<ExternalSelection> getGroup(XmlLineReader reader, int type) throws IOException {
 		
 		ExternalGroupSelection<ExternalSelection> g = new ExternalGroupSelection<ExternalSelection>();
 		String name;
 		
 		g.setType(type);
 	
-		@SuppressWarnings("rawtypes")
 		AbstractLine line = reader.read();
 		while (line != null && ! line.getFieldValue(XmlConstants.XML_NAME).asString().startsWith("/")) {
 			name = line.getFieldValue(XmlConstants.XML_NAME).asString();
@@ -336,6 +334,5 @@ public class RecordEditorXmlLoader implements CopybookLoader {
 		RecordEditorXmlLoader loader = new RecordEditorXmlLoader();
        
 		return loader.loadCopyBook(bs, name);
-
 	}
 }

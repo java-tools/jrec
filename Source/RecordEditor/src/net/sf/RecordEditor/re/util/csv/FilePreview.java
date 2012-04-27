@@ -13,7 +13,7 @@ public interface FilePreview {
 	public abstract BaseHelpPanel getPanel();
 	public abstract JButton getGoButton();
 
-	public abstract boolean setData(byte[] data, boolean checkCharset);
+	public abstract boolean setData(String filename, byte[] data, boolean checkCharset, String layoutId);
 
 	/**
 	 * Get The field seperator 
@@ -60,4 +60,5 @@ public interface FilePreview {
 
 	public abstract String getFontName();
 
+	public boolean isMyLayout(String layout);
 }

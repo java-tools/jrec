@@ -390,7 +390,7 @@ public final class SaveAsNew extends ReFrame
        			int[] colLengths = null;
        			printRecordDetails = null;
         			
-       			switch (DisplayType.displayType(l, recFrame.getLayoutIndex())) {
+       			switch (DisplayType.displayTypePrint(l, recFrame.getLayoutIndex())) {
    				case DisplayType.NORMAL:
    					printRecordDetails = l.getRecord(layoutIdx);
    					if (isFixed) {

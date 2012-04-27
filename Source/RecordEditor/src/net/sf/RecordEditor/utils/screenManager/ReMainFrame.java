@@ -500,8 +500,13 @@ public class ReMainFrame extends JFrame
 			  + "\t<b>Peter Thomas</b>: Wrote the <b>cb2xml</b> which provides the cobol interface<br/><br/>"
 			  + " <b>Websites:</b><br><br> " 
 			  + "\t<b>RecordEditor:</b> http://record-editor.sourceforge.net<br>"
-			  
-			  + "</pre><br>"
+			  + "<br><br>"
+			  + "<b>Packages Used:</b>"
+			  + "\t<b>cb2xml<b>:\tCobol Copybook Analysis"
+			  + "\t<b>TableLayout<b>:\tSwing Layout manager used"
+			  + "\t<b>jibx<b>:\t\t Xml Bindings"
+			  + "\t<b>jlibdif<b>:\tFile Compare"
+			  + "</pre><br><br><b>Packages Used:</b><br><br> "
 		);
 	}
 	

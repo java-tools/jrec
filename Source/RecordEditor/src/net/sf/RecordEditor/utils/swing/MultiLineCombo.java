@@ -30,7 +30,7 @@ public class MultiLineCombo extends AbstractGenericCombo {
 
     protected void init() {
     	tArea = new JTextArea();
-    	fld = tArea;
+    	setField(tArea);
     	
     	super.init();
     }

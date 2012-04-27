@@ -91,6 +91,7 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
         //this.setBorder();
         fld.setBorder(BorderFactory.createEmptyBorder());
         btn.addActionListener(this);
+        this.setOpaque(true);
     }
 
     /**

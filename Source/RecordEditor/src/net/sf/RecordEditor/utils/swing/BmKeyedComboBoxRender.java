@@ -11,6 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
+
 /**
  * This class will display a DB result set in a combo in a JTable.
  * It is for internal use.
@@ -41,6 +42,8 @@ public class BmKeyedComboBoxRender extends BmKeyedComboBox
 
 		this.setBorder(BorderFactory.createEmptyBorder());
 		this.setBounds(this.getY(), this.getX(), this.getWidth(), COMBO_HEIGHT);
+		this.setOpaque(true);
+
 	}
 
 
@@ -50,13 +53,14 @@ public class BmKeyedComboBoxRender extends BmKeyedComboBox
 	public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 
-        if (isSelected) {
-        	super.setForeground(table.getSelectionForeground());
-            super.setBackground(table.getSelectionBackground());
-        } else {
-        	super.setForeground(table.getForeground());
-        	super.setBackground(table.getBackground());
-        }
+		SwingUtils.setTableCellColors(this, table, row, isSelected);
+//        if (isSelected) {
+//        	super.setForeground(table.getSelectionForeground());
+//            super.setBackground(table.getSelectionBackground());
+//        } else {
+//        	super.setForeground(table.getForeground());
+//        	super.setBackground(table.getBackground());
+//        }
 
         setSelectedItem(value);
         return this;

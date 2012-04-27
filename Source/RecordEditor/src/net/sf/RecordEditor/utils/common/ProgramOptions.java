@@ -51,6 +51,7 @@ public class ProgramOptions {
 	public final BoolOpt deleteSelectedWithDelKey = new BoolOpt(Parameters.DEL_SELECTED_WITH_DEL_KEY);
 	public final BoolOpt warnWhenUsingDelKey = new BoolOpt(Parameters.WARN_WHEN_USING_DEL_KEY);
 	
+	public final BoolOpt csvSearchFixed = new BoolOpt(Parameters.CSV_LOOK_4_FIXED_WIDTH);
 
 	public final UpdateableBoolOpt highlightEmpty = new UpdateableBoolOpt(Parameters.PROPERTY_HIGHLIGHT_EMPTY);
 	public final InternalBoolOption highlightEmptyActive = new InternalBoolOption(false);

@@ -8,6 +8,7 @@ import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.table.TableCellRenderer;
 
+
 @SuppressWarnings("serial")
 public class TextFieldRender extends JTextField implements TableCellRenderer {
 
@@ -17,13 +18,14 @@ public class TextFieldRender extends JTextField implements TableCellRenderer {
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value,
 		      boolean isSelected, boolean hasFocus, int row, int column)  {
-		if (isSelected) {
-			setForeground(table.getSelectionForeground());
-			setBackground(table.getSelectionBackground());
-		} else {
-			setForeground(table.getForeground());
-			setBackground(table.getBackground());
-		}
+//		if (isSelected) {
+//			setForeground(table.getSelectionForeground());
+//			setBackground(table.getSelectionBackground());
+//		} else {
+//			setForeground(table.getForeground());
+//			setBackground(table.getBackground());
+//		}
+		SwingUtils.setTableCellColors(this, table, row, isSelected);
 		setFont(table.getFont());
 
 		if (hasFocus) {

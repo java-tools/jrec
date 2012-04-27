@@ -17,7 +17,7 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ProgramOptions;
 
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings({ "rawtypes" })
 public class DataStoreLarge<L extends AbstractChunkLine, R extends RecordStore>
 extends AbstractList<AbstractLine>
 implements DataStore<AbstractLine> {
@@ -211,13 +211,13 @@ implements DataStore<AbstractLine> {
 		if (cd != null) {
 			ret = cd.chunk.getLine(idx);
 		} else { 
-			int expected = 0;
-			for (FileChunk f : chunks) {
+//			int expected = 0;
+//			for (FileChunk f : chunks) {
 //				System.out.println(" ++ " + f.getFirstLine()
 //						+ " " + f.getCount() 
 //						+ " " + (expected == f.getFirstLine()));
-				expected = f.getFirstLine()	+ f.getCount(); 
-			}
+//				expected = f.getFirstLine()	+ f.getCount(); 
+//			}
 			throw new RuntimeException("line not found: " + idx);
 		}
 		

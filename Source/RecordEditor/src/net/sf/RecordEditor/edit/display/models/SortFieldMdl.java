@@ -18,6 +18,7 @@ import net.sf.RecordEditor.jibx.compare.SortFields;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public final class SortFieldMdl extends AbstractTableModel {
 
     private static final String[] COLUMN_NAMES = {"Field", "Ascending" };

@@ -71,7 +71,7 @@ public class RecordSelectionRec extends AbsRecord {
 		this.fieldNo = fieldNo;
 		this.booleanOperator = booleanOperator;
 		this.testField = field;
-		this.operator = operator;
+		this.operator = trimField(operator);
 		this.fieldValue = fieldValue;
 	}
 
@@ -123,19 +123,10 @@ public class RecordSelectionRec extends AbsRecord {
 //			return "";
 
 		switch (fieldNum) {
-			// case (0) : return new Integer(Combo_Id);
-			case 0: 
-//				if (fieldNo == 0) {
-//					return "";
-//				}
-				return OR_LIST[booleanOperator];
-			case 1: 
-//				if (fieldNo ==0) {
-//					return "";
-//				}
-				return AND_LIST[booleanOperator];
+			case 0: return OR_LIST[booleanOperator];
+			case 1: return AND_LIST[booleanOperator];
 			case 2: return testField;
-			case 3: return operator;
+			case 3: return trimField(operator);
 			case 4: return fieldValue;
 			
 			default:
@@ -311,7 +302,7 @@ public class RecordSelectionRec extends AbsRecord {
 	 * @return the operator
 	 */
 	public String getOperator() {
-		return operator;
+		return trimField(operator);
 	}
 
 
@@ -321,12 +312,22 @@ public class RecordSelectionRec extends AbsRecord {
 	 */
 	public void setOperator(String operator) {
 
+		System.out.println("setOperator: " + operator + "< >" + trimField(operator) + "<");
+		operator = trimField(operator);
 		if (! equals(this.operator , operator)) {
 			this.operator = operator;
 		}
 	}
 
 
+	
+	protected String trimField(String s) {
+		if (s != null) {
+			s = s.trim();
+		}
+		
+		return s;
+	}
 
 	/**
 	 * @return the fieldValue

@@ -349,7 +349,7 @@ public class ChildRecordsTblMdl extends DBtableModel<ChildRecordsRec> {
 					if (getRecord(i).getChildId() == childId) {
 						ChildRecordsRec child = getRecord(i);
 						StringBuilder b = new StringBuilder();
-						if (child.getChildName() != null && ! "".equals(child.getChildName())) {
+						if (child.getChildName() != null && ! "".equals(child.getChildName().trim())) {
 							b.append(child.getChildName())
 							 .append(": ");
 						}

@@ -15,6 +15,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
 
+
 /**
  * This class will display a combo box in a Table Cell
  *
@@ -40,6 +41,7 @@ public class ComboBoxRender extends JComboBox
 
 		this.setBorder(BorderFactory.createEmptyBorder());
 		this.setBounds(this.getY(), this.getX(), this.getWidth(), COMBO_HEIGHT);
+		this.setOpaque(true);
 	}
 
 
@@ -61,15 +63,18 @@ public class ComboBoxRender extends JComboBox
 //		if (value != null) {
 //			System.out.print("  " + value.getClass().getName());
 //		}
-		System.out.println();
+//		System.out.println();
+//		this.setSelectedItem(value);
+//        if (isSelected) {
+//            setForeground(table.getSelectionForeground());
+//            super.setBackground(table.getSelectionBackground());
+//        } else {
+//            setForeground(table.getForeground());
+//            setBackground(table.getBackground());
+//        }
+
 		this.setSelectedItem(value);
-        if (isSelected) {
-            setForeground(table.getSelectionForeground());
-            super.setBackground(table.getSelectionBackground());
-        } else {
-            setForeground(table.getForeground());
-            setBackground(table.getBackground());
-        }
+		SwingUtils.setTableCellColors(this, table, row, isSelected);
         return this;
     }
 }

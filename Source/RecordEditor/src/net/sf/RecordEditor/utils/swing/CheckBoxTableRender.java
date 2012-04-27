@@ -58,10 +58,8 @@ implements TableCellRenderer {
 	    	checkBox.setBackground(Common.EMPTY_COLOR);
 	    } else if (value == Common.MISSING_REQUIRED_VALUE) {
 	    	checkBox.setBackground(Common.MISSING_COLOR);
-	    } else if (isSelected) {
-	    	checkBox.setBackground(tbl.getSelectionBackground());
 	    } else {
-	    	checkBox.setBackground(tbl.getBackground());
+	    	SwingUtils.setTableCellBackGround(checkBox, tbl, row, isSelected);
 	    }
 
 	    checkBox.setSelected(val);

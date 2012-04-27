@@ -111,7 +111,9 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String HIDDEN_FIELDS_SAVE_DIRECTORY   = FILTER_SAVE_DIRECTORY;
     public static final String SORT_TREE_SAVE_DIRECTORY   = "SortTreeSaveDirectory";
     public static final String RECORD_TREE_SAVE_DIRECTORY = "RecordTreeSaveDirectory";
-    
+   
+    public static final String CSV_LOOK_4_FIXED_WIDTH     = "CsvSearchFixed";
+
     public static final String DEFAULT_COPYBOOK_READER = "CopyBookReader";
     public static final String DEFAULT_COPYBOOK_WRITER = "CopyBookWriter";
     public static final String XSLT_ENGINE             = "XsltEngine";

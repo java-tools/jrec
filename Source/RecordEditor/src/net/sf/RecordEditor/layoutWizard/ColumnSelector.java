@@ -14,8 +14,8 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -411,7 +411,7 @@ public class ColumnSelector {
     public class TblRender  implements TableCellRenderer {
 
 
-    	private JTextComponent txtFld = null;
+    	private DefaultTableCellRenderer txtFld = null;
 
         /**
          * Table cell render to give each field a different
@@ -420,7 +420,7 @@ public class ColumnSelector {
         public TblRender() {
             super();
             
-        		txtFld = new JTextField();
+        		txtFld = new DefaultTableCellRenderer();
         		txtFld.setBorder(BorderFactory.createEmptyBorder());
  
            // this.setBorder(BorderFactory.createEmptyBorder());
@@ -457,9 +457,9 @@ public class ColumnSelector {
  
     	    txtFld.setText(value.toString());
     	   
-    	    
+    	   
 
-    	    return txtFld;
+    	    return txtFld.getTableCellRendererComponent(tbl, value, isSelected, hasFocus, row, column);
     	}
     }
   

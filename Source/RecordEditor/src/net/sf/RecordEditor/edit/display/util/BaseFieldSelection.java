@@ -53,9 +53,11 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 	private static final String[] WHAT_TO_SORT = {"Whole File", "Selected Records"};
 	private BaseHelpPanel pnlTop = new BaseHelpPanel();
 	private BaseHelpPanel pnlBottom = new BaseHelpPanel();
+	@SuppressWarnings("rawtypes")
 	protected JList records;
 	protected SortFieldMdl model = new SortFieldMdl(FIELD_TABLE_SIZE);
 	protected JTable fldTable, fldSummaryTbl;
+	@SuppressWarnings("rawtypes")
 	private DefaultComboBoxModel[] fldModel = {
 	            new DefaultComboBoxModel(), new DefaultComboBoxModel()
 	    };

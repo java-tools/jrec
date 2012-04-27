@@ -162,7 +162,7 @@ public class ChildRecordsJTbl extends AbsJTable {
             }
 		}
 	    
-	    childRecordRecords.setOrderBy("Order by RecordName");
+	    childRecordRecords.setOrderBy(" Order by RecordName");
 	    childRecordRecords.open();
 	    RecordRec rec ;
 	    Integer key;
@@ -175,5 +175,8 @@ public class ChildRecordsJTbl extends AbsJTable {
 		
 		childRecordRecords.close();
 		childRecordRecords.setDoFree(doFree);
+		
+		//setColumnSizes();
+		//model.fireTableDataChanged();
 	}
 }

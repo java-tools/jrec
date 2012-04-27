@@ -7,6 +7,7 @@ import java.util.List;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.RecordEditor.utils.ExpandLineTree;
 
+@SuppressWarnings("rawtypes")
 public class TreeIteratorForward implements Iterator<AbstractLine> {
 
 	private List<? extends AbstractLine> list;

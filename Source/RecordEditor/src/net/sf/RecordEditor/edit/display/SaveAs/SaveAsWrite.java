@@ -25,11 +25,12 @@ public abstract class SaveAsWrite {
 	public static final int SAVE_VIEW = 2; 
 	public static final int SAVE_SELECTED = 3; 
 	
+	@SuppressWarnings("rawtypes")
 	public static SaveAsWrite getWriter(FileView file, AbstractFileDisplay recFrame) {
 		SaveAsWrite ret;
 		AbstractLayoutDetails layout = file.getLayout();
 		
-		switch(DisplayType.displayType(layout, recFrame.getLayoutIndex())) {
+		switch(DisplayType.displayTypePrint(layout, recFrame.getLayoutIndex())) {
 		case DisplayType.PREFFERED:
 			ret = new WritePreferedLayout();
 			break;
@@ -52,7 +53,9 @@ public abstract class SaveAsWrite {
 	}
 
 //	public static abstract class BaseWrite {
+		@SuppressWarnings("rawtypes")
 		protected AbstractLayoutDetails layout;
+		@SuppressWarnings("rawtypes")
 		protected FileView file;
 		protected AbstractFileDisplay recFrame;
 		protected int layoutIdx;
@@ -75,7 +78,8 @@ public abstract class SaveAsWrite {
 	   	}
 	    
 	    
-	    public final FileView getViewToSave(int whatToSave) {
+	    @SuppressWarnings("rawtypes")
+		public final FileView getViewToSave(int whatToSave) {
 	    	FileView ret = null;
 	    	switch (whatToSave) {
 	    	case SaveAsWrite.SAVE_SELECTED: ret = file.getView(recFrame.getSelectedRows()); break;
@@ -95,7 +99,8 @@ public abstract class SaveAsWrite {
 
 
 		protected void writeAFile(
-	    		FieldWriter writer, FileView view, 
+	    		FieldWriter writer,
+	    		@SuppressWarnings("rawtypes") FileView view, 
 	    		int layoutIdx,
 	    		boolean namesFirstLine) throws IOException {
 			this.writer = writer;
@@ -123,16 +128,18 @@ public abstract class SaveAsWrite {
 	
 		protected final void writeLine(FieldWriter writer, AbstractLine<?> line, int idx, int fieldCount) 
 		throws IOException {
-			Object o;
-			String s;
-        	for (int j = 0; j < fieldCount; j++) {
-        		o = line.getField(idx, j);
-        		s = null;
-        		if (o != null) {
-        			s = o.toString();
-        		}
-        		writer.writeField(s);
-        	}
+			if (line != null) {
+				Object o;
+				String s;
+	        	for (int j = 0; j < fieldCount; j++) {
+	        		o = line.getField(idx, j);
+	        		s = null;
+	        		if (o != null) {
+	        			s = o.toString();
+	        		}
+	        		writer.writeField(s);
+	        	}
+			}
         	writer.newLine();	
 		}
 
@@ -216,6 +223,7 @@ public abstract class SaveAsWrite {
 		private int countLevels(List<Integer> levelSizes, AbstractLineNode node, int lvl) {
 			int ret = lvl + 1;
 			int len;
+			@SuppressWarnings("rawtypes")
 			AbstractLine line = node.getLine();
 			
 			if (node == null || node.toString() == null) {
@@ -252,9 +260,9 @@ public abstract class SaveAsWrite {
 		private void printTree(AbstractLineNode node) {
 			
 			boolean hasData = false;
+			@SuppressWarnings("rawtypes")
 			AbstractLine line = node.getLine();
 			Object o;
-			String s;
 			int fieldCount = 0,
 				prefIdx = 0;
 			
@@ -318,7 +326,8 @@ public abstract class SaveAsWrite {
 			return levelCount - firstLevel;
 		}
 
-		protected void allocateColumnNames(FileView fieldMapping, int idx) {
+		protected void allocateColumnNames(@SuppressWarnings("rawtypes") FileView fieldMapping, int idx) {
+			@SuppressWarnings("rawtypes")
 			AbstractRecordDetail rec = layout.getRecord(idx);
 			int colCount = rec.getFieldCount();
 			int layoutFieldNo;
@@ -382,6 +391,7 @@ public abstract class SaveAsWrite {
 		
 		int colCount;
 
+		@SuppressWarnings("rawtypes")
 		@Override
 		protected void writeAFile(
 	    		FieldWriter writer, FileView view, 
@@ -389,8 +399,7 @@ public abstract class SaveAsWrite {
 	    		boolean namesFirstLine) throws IOException {
 
 	    	colCount = layout.getRecord(layoutIdx).getFieldCount();
-	    	boolean[] numeric = new boolean[colCount];
-	    	int layoutFieldNo; 
+	    	boolean[] numeric = new boolean[colCount]; 
 			   
 	    	for (int i = 0; i < colCount; i++) {
 	    		numeric[i] = false;
@@ -453,7 +462,19 @@ public abstract class SaveAsWrite {
 		}
 
 		public boolean[] getFieldsToInclude() {
-			return file.getFieldVisibility(layoutIdx);
+			boolean[] t = file.getFieldVisibility(layoutIdx);
+			boolean[] ret = t;
+			int maxFlds = DisplayType.getMaxFields(layout);
+			if ((layout.isXml() || layout.hasChildren()) 
+			&& (t != null && maxFlds > t.length)) {
+				ret = new boolean[maxFlds];
+			
+				System.arraycopy(t, 0, ret, 0, t.length);
+				for (int i = t.length; i < ret.length; i++) {
+					ret[i] = false;
+				}
+			}
+			return ret;
 		}
 
 	}
@@ -465,7 +486,7 @@ public abstract class SaveAsWrite {
 		 * @see net.sf.RecordEditor.edit.display.util.SaveAsWrite.BaseWrite#getColumnNames()
 		 */
 		@Override
-		protected void allocateColumnNames(FileView fieldMapping, int index) {
+		protected void allocateColumnNames(@SuppressWarnings("rawtypes") FileView fieldMapping, int index) {
 			int idx=0;
 			
 			if (layout.getRecordCount() > 1) {
@@ -491,15 +512,23 @@ public abstract class SaveAsWrite {
 		protected void writeLine(FieldWriter writer, AbstractLine<?> line) 
 		throws IOException {
 			
-			int idx = line.getPreferredLayoutIdx();
-			writeLine(writer, line, idx, layout.getRecord(idx).getFieldCount());
+			if (line == null) {
+				writer.newLine();
+			} else {
+				int idx = line.getPreferredLayoutIdx();
+				writeLine(writer, line, idx, layout.getRecord(idx).getFieldCount());
+			}
 		}
 
 		protected void writeLine(FieldWriter writer, AbstractLine<?> line, int fieldCount) 
 		throws IOException {
 			
-			int idx = line.getPreferredLayoutIdx();
-			writeLine(writer, line, idx, fieldCount);
+			if (line == null) {
+				writer.newLine();
+			} else {
+				int idx = line.getPreferredLayoutIdx();
+				writeLine(writer, line, idx, fieldCount);
+			}
 		}
 
 		public boolean[] getFieldsToInclude() {
@@ -514,7 +543,7 @@ public abstract class SaveAsWrite {
 		 * @see net.sf.RecordEditor.edit.display.util.SaveAsWrite.BaseWrite#getColumnNames()
 		 */
 		@Override
-		protected void allocateColumnNames(FileView fieldMapping, int idx) {
+		protected void allocateColumnNames(@SuppressWarnings("rawtypes") FileView fieldMapping, int idx) {
 			columnNames.add("Full Line");
 		}
 
@@ -523,7 +552,9 @@ public abstract class SaveAsWrite {
 		protected void writeLine(FieldWriter writer, AbstractLine<?> line) throws IOException {
 			//byte[] bytes= line.getData();
 			
-			writer.writeField(line.getFullLine());
+			if (line != null) {
+				writer.writeField(line.getFullLine());
+			}
 			writer.newLine();
 		}
 
@@ -537,7 +568,7 @@ public abstract class SaveAsWrite {
 		 * @see net.sf.RecordEditor.edit.display.util.SaveAsWrite.BaseWrite#getColumnNames()
 		 */
 		@Override
-		protected void allocateColumnNames(FileView fieldMapping, int idx) {
+		protected void allocateColumnNames(@SuppressWarnings("rawtypes") FileView fieldMapping, int idx) {
 			columnNames.add("Hex");
 		}
 

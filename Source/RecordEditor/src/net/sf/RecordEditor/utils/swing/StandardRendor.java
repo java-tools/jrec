@@ -39,10 +39,8 @@ public class StandardRendor extends DefaultTableCellRenderer {
 			ret.setBackground(Common.EMPTY_COLOR);
 		} else if (value == Common.MISSING_REQUIRED_VALUE) {
 			ret.setBackground(Common.MISSING_COLOR);
-		} else if (isSelected) {
-	        super.setBackground(tbl.getSelectionBackground());
-		} else {
-	        setBackground(tbl.getBackground());
+//		} else  {
+//			CommonSwingCode.setTableCellBackGround(this, tbl, row, isSelected);
 		}
 		
 		if (font != null) {

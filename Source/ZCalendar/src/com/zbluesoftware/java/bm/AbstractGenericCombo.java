@@ -21,7 +21,7 @@ public abstract class AbstractGenericCombo extends JPanel implements ActionListe
 	private static final int FIELD_WIDTH = 20;
 	
 	private JTextField tFld = new JTextField();
-	protected JTextComponent fld = tFld;
+	private JTextComponent fld = tFld;
 	protected JButton btn = new ArrowButton(ArrowButton.SOUTH);
 	
 	private boolean visible = false;
@@ -30,6 +30,7 @@ public abstract class AbstractGenericCombo extends JPanel implements ActionListe
 	public AbstractGenericCombo() {
 		super(); 
 		
+		tFld.setOpaque(true);
 		init();
 	}
 	
@@ -136,8 +137,24 @@ public abstract class AbstractGenericCombo extends JPanel implements ActionListe
 		return o.toString();
 	}
 	
+
 	public void setupBackground() {
 		super.setBackground(Color.WHITE);
+	}
+	
+//	/* (non-Javadoc)
+//	 * @see javax.swing.JComponent#setBackground(java.awt.Color)
+//	 */
+//	@Override
+//	public void setBackground(Color bg) {
+//		fld.setBackground(bg);
+//		//btn.setBackground(bg);
+//		super.setBackground(bg);
+//	}
+
+	public void setBackgroundOfField(Color bg) {
+		fld.setBackground(bg);
+		tFld.setBackground(bg);
 	}
 	
 	/**
@@ -151,6 +168,20 @@ public abstract class AbstractGenericCombo extends JPanel implements ActionListe
 		 }
 	}
 	
+	/**
+	 * @return the fld
+	 */
+	public JTextComponent getField() {
+		return fld;
+	}
+
+	/**
+	 * @param fld the fld to set
+	 */
+	public void setField(JTextComponent fld) {
+		this.fld = fld;
+	}
+
 	/**
 	 * Set the popup buttons visibility
 	 * @param visible wether the button should be visible or not

@@ -4,7 +4,6 @@ package net.sf.RecordEditor.re.util.csv;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.ByteArrayInputStream;
-import java.util.StringTokenizer;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -32,6 +31,8 @@ import net.sf.RecordEditor.utils.swing.treeTable.JTreeTable;
 
 @SuppressWarnings("serial")
 public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
+
+	private static final String XML_ID = "XML";
 
 	private static final int MINIMUM_TREE_COLUMN_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 22;
 
@@ -87,10 +88,11 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 	 * @see net.sf.RecordEditor.utils.csv.FilePreview#setData(byte[], boolean)
 	 */
 	@Override
-	public boolean setData(byte[] data, boolean checkCharset) {
+	public boolean setData(String filename, byte[] data, boolean checkCharset, String layoutId) {
 		ByteArrayInputStream is = new ByteArrayInputStream(data);
 		LayoutDetail layout = getLayout("", null);
 		LineIOProvider ioProvider = LineIOProvider.getInstance();
+		@SuppressWarnings("unchecked")
 		AbstractLineReader<LayoutDetail> reader = ioProvider.getLineReader(layout.getFileStructure());
 		AbstractLine<LayoutDetail> l;
 		AbstractLineNodeTreeParser parser = TreeParserXml.getInstance();
@@ -285,7 +287,7 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 	 */
 	@Override
 	public String getFileDescription() {
-		String csv = "XML";
+		String csv = XML_ID;
 		return csv	+ SEP + NULL_STR
 					+ SEP + NULL_STR
 					+ SEP + NULL_STR
@@ -318,6 +320,14 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 //		}
 	}
 	
+	
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.re.util.csv.FilePreview#isMyLayout(java.lang.String)
+	 */
+	@Override
+	public boolean isMyLayout(String layout) {
+		return layout != null && layout.startsWith(XML_ID);
+	}
 	
 //	private String getStr(String s) {
 //		if (s == null || "".equals(s)) {

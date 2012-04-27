@@ -33,6 +33,7 @@ public class HexOneLineRender extends JTextField implements TableCellRenderer, A
 
         this.setFont(SwingUtils.getMonoSpacedFont());
 		this.setBorder(BorderFactory.createEmptyBorder());
+		this.setOpaque(true);
     }
 
 

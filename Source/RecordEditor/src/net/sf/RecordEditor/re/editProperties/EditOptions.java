@@ -274,7 +274,20 @@ private Object[][] behaviourParams = {
             params.xsltJars,
             "xslt",
             true);
-    
+
+
+    private String csvDescription
+    	= "<h2>Csv Editor Properties</h2>"
+    	+ "This panels holds Csv-Editor specific options<br>";
+
+    private Object[][] csvParams = {
+
+            {Parameters.CSV_LOOK_4_FIXED_WIDTH, "Check for binary Fixed Width", null, EditPropertiesPnl.FLD_BOOLEAN, "Should the program check for binary Fixed Width Files ???"},
+    };
+    private EditPropertiesPnl csvPnl
+		= new EditPropertiesPnl(params, csvDescription, csvParams);
+
+
     private EditJdbcParamsPanel jdbcParamsPnl = new EditJdbcParamsPanel(params, params.jdbcJars);
 
     private EditJarsPanel jdbcPnl = new EditJarsPanel(params,
@@ -297,8 +310,8 @@ private Object[][] behaviourParams = {
             "",
             false);
     private EditJarsPanel optionalPnl = new EditJarsPanel(params,
-            "<h2>Optional Jars</h2>This panel lets you specify jars "
-          + "the <b>full editor</b> needs but the light weight editor does not.",
+            "<h2>Optional Jars</h2>This panel lets you specify your own jars. <br/>"
+          + "This could include User code or scripting languages (JRuby.jar, Jython.jar etc).",
             params.optionalJars,
             "optional.",
             true
@@ -420,7 +433,9 @@ private Object[][] behaviourParams = {
 //            {"spaceAtRightOfScreen", "Space to be left at the Right of the screen.", null},
 //    };
 	
-	private String applId = ReMainFrame.getMasterFrame().getApplicationId();
+	private String applId = getApplId();
+
+	
     private static final String[][] SIZE_OPTION = {
     		{String.valueOf(ProgramOptions.SIZE_MAXIMISED), "Maximized"}, 
     		{String.valueOf(ProgramOptions.SIZE_LAST), "Last Screen Size"}, 
@@ -552,6 +567,7 @@ private Object[][] behaviourParams = {
        systemPnl.setInitialValues();
        optionalPnl.setInitialValues();
        userPnl.setInitialValues();
+       
        jdbcParamsPnl.buildJarCombo();
 
        mainTabbed.setTabPlacement(JTabbedPane.LEFT);
@@ -618,6 +634,12 @@ private Object[][] behaviourParams = {
 
         addMainTab("Description", init_310_Screen());
         addMainTab("Properties", propertiesTabbed);
+        
+        System.out.println("Application Id: " + getApplId());
+        if (Common.CSV_PROGRAM_ID.equals(getApplId())) {
+        	addMainTab("Csv Options", csvPnl);
+        }
+        
         addMainTab("Xml", xmlTabbed);
         if (includeJDBC) {
         	jdbcTabbed.addTab("JDBC Jars", jdbcPnl);
@@ -709,6 +731,16 @@ private Object[][] behaviourParams = {
         return pnl;
     }
 
+    
+	private static String getApplId() {  
+		String ret = "";
+		ReMainFrame f = ReMainFrame.getMasterFrame();
+		if (f != null) {
+			ret = f.getApplicationId();
+		}
+		
+		return ret;
+	}
 
 //    /**
 //     *  Run the options editor

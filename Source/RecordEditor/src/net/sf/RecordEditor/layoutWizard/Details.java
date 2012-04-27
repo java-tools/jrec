@@ -103,6 +103,7 @@ public class Details {
     				Common.LFCR_BYTES, fontName,
     				parserType, fileStructure
     		);
+    		nameFields(rec, standardRecord);
     		addFields(rec, standardRecord);
     	break;
     	case (Details.RT_MULTIPLE_RECORDS):

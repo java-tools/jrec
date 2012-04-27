@@ -10,6 +10,7 @@ import net.sf.RecordEditor.utils.common.Common;
 public abstract class PositionIncrement {
 
 	public final FilePosition pos;
+	@SuppressWarnings("rawtypes")
 	protected final List<? extends AbstractLine> lines;
 	
 	
@@ -19,6 +20,7 @@ public abstract class PositionIncrement {
 	 * @param allLines all the lines in the view
 	 * @return increment class
 	 */
+	@SuppressWarnings("rawtypes")
 	public static PositionIncrement newIncrement(FilePosition position, List<? extends AbstractLine> allLines) {
 		PositionIncrement ret;
 		
@@ -51,7 +53,8 @@ public abstract class PositionIncrement {
 	
 	
 	
-	private PositionIncrement(FilePosition position, List<? extends AbstractLine> allLines) {
+	private PositionIncrement(FilePosition position,
+			@SuppressWarnings("rawtypes") List<? extends AbstractLine> allLines) {
 		pos = position;
 		lines = allLines;
 	}
@@ -70,7 +73,8 @@ public abstract class PositionIncrement {
 			return -1;
 		}
 		
-        AbstractLine currLine = lines.get(pos.row);
+        @SuppressWarnings("rawtypes")
+		AbstractLine currLine = lines.get(pos.row);
         if (pos.currentLine != null) {
         	currLine = pos.currentLine;
         }
@@ -93,6 +97,7 @@ public abstract class PositionIncrement {
 	
 	
 	private static class SpecificField extends PositionIncrement {
+		@SuppressWarnings("rawtypes")
 		private SpecificField(FilePosition position, List<? extends AbstractLine> allLines) {
 			super(position, allLines);
 		}
@@ -107,6 +112,7 @@ public abstract class PositionIncrement {
 	
 	private static class AllFields extends PositionIncrement {
 		int maxField;
+		@SuppressWarnings("rawtypes")
 		private AllFields(FilePosition position, List<? extends AbstractLine> allLines) {
 			super(position, allLines);
 			maxField = getMaxField();
@@ -140,9 +146,11 @@ public abstract class PositionIncrement {
 	}
 	
 	private abstract static class IteratorInc extends PositionIncrement {
+		@SuppressWarnings("rawtypes")
 		private Iterator<AbstractLine> it;
 		private boolean valid = true;
 		
+		@SuppressWarnings("rawtypes")
 		public IteratorInc(FilePosition position, 
 				List<? extends AbstractLine> allLines,
 				Iterator<AbstractLine> iterator) {
@@ -161,6 +169,7 @@ public abstract class PositionIncrement {
 
 		
 		public FilePosition nextRow() {
+			@SuppressWarnings("rawtypes")
 			AbstractLine l;
 			if (it.hasNext()) {
 				do {
@@ -196,6 +205,7 @@ public abstract class PositionIncrement {
 	
 	private static class SpecificFieldIterator extends IteratorInc {
 		
+		@SuppressWarnings("rawtypes")
 		private SpecificFieldIterator(FilePosition position, 
 				List<? extends AbstractLine> allLines,
 				Iterator<AbstractLine> iterator) {
@@ -212,6 +222,7 @@ public abstract class PositionIncrement {
 	private static class AllFieldsIterator extends IteratorInc {
 		int maxField;
 		
+		@SuppressWarnings("rawtypes")
 		private AllFieldsIterator(
 				FilePosition position, 
 				List<? extends AbstractLine> allLines,

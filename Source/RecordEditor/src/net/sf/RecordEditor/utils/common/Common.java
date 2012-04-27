@@ -96,6 +96,8 @@ public final class Common implements Constants {
 	public static final String COLUMN_LINE_SEP =  "|";
 	
 	public static final String[] COMPARISON_OPERATORS = {"=", "!=", "<>", ">", ">=",  "<", "<=",};
+	
+	public static final String CSV_PROGRAM_ID = "csv";
 //	public static final boolean LOG_TO_FRONT = ! ("N".equalsIgnoreCase(
 //			Parameters.getString(Parameters.BRING_LOG_TO_FRONT)));
 	public static final boolean TEST_MODE = "Y".equalsIgnoreCase(
@@ -317,7 +319,7 @@ public final class Common implements Constants {
 
 
 	@SuppressWarnings("rawtypes")
-	private static Class currClass      = (new Common().getClass());
+	private static Class currClass      = Common.class;
 
     private static AbsSSLogger logger   = null;
 
@@ -1938,8 +1940,7 @@ public final class Common implements Constants {
 			l -= 1;
 		}
 		
-		s = s.substring(0, l+1);
-		return s;
+		return s.substring(0, l+1);
 	}
 	
 	public static final String fix(String s) {

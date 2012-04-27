@@ -25,6 +25,7 @@ import net.sf.RecordEditor.edit.display.Action.VisibilityAction;
 import net.sf.RecordEditor.edit.open.OpenCsvFilePnl;
 import net.sf.RecordEditor.edit.open.OpenFile;
 import net.sf.RecordEditor.re.util.ReIOProvider;
+import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.edit.ParseArgs;
 
@@ -62,7 +63,7 @@ public class EditCsvFile extends EditRec {
     public EditCsvFile(final String pInFile,
      	   final int pInitialRow,
     	   final AbstractLineIOProvider pIoProvider) {
-        super(false, "reCsv Editor", new NewCsvAction());
+        super(false, "reCsv Editor", Common.CSV_PROGRAM_ID, new NewCsvAction());
 
 //        long time = System.nanoTime();
         OpenCsvFilePnl csvPnl = new OpenCsvFilePnl(

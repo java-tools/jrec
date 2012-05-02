@@ -1,0 +1,179 @@
+.im iRE_TagDefs.dcf
+.***B2H SYMBOL :tag. reCsvEditor   IT=N VAT=N ATT=N SE=N V='<b>reCsvEditor</b>'
+.***B2H SYMBOL :tag. AvroEditor   IT=N VAT=N ATT=N SE=N V='<a href="http://avroeditor.sourceforge.net//" TARGET="_top">Avro Editor</a>'
+.***B2H SYMBOL :tag. ProtoEditor   IT=N VAT=N ATT=N SE=N V='<a href="http://code.google.com/p/protobufeditor/" TARGET="_top">Protocol Buffers Editor</a>'
+.***B2H SYMBOL :tag. downloadPage   IT=N VAT=N ATT=N SE=N V='<a href="https://sourceforge.net/projects/recsveditor/files/reCsvEditor/" >reCsvEditor Download page</a>'
+.***B2H SYMBOL :tag. forum   IT=N VAT=N ATT=N SE=N V='<a href="https://sourceforge.net/p/recsveditor/discussion/" >reCsvEditor Forums</a>'
+.***B2H SYMBOL :tag. bug   IT=N VAT=N ATT=N SE=N V='<a href="https://sourceforge.net/p/recsveditor/tickets/" >reCsvEditor Tickets</a>'
+
+:h1.Csv Editor
+:h2.Introduction
+:p.The :reCsvEditor. is lightweight  version of the :RecordEditor. for editing simple Csv Files.
+While :RecordEditor. can do every thing the :reCsvEditor. does, the :RecordEditor.
+is much larger and more complicated to use than the :reCsvEditor. 
+:h3.RecordEditor - reCsvEditor Comparison
+
+:p.:reCsvEditor. is intended as a simpler, easy to learn, lightweight  version of the :RecordEditor.
+:tdef id=xlight shade='xlight'.
+:table cols='* *'.
+:thd refid=xlight.:c.RecordEditor:c.reCsvEditor
+:ethd.
+:row refid=none.:c.The :RecordEditor. is focused on Fixed Width and Complicated Csv Files  
+with the :hp3.File Definition:ehp3. defined ahead of Time. 
+:c.The :reCsvEditor.
+just edits Csv Files without any "File Definition".
+:row.:c.The :RecordEditor. uses a Database to store File Definitions. 
+   :c.The :reCsvEditor. has no Database to maintain.
+:row.:c.The :RecordEditor. is aimed at Programmers working a complicated file structures and
+requires a certain degree of learning. It is a good option for those who work Complicated Files or
+Mainframe / Cobol / Fixed Width Files.
+:c.The :reCsvEditor. is aimed at advanced users who occasionally need to view / edit CSV files.
+Although once you get the hang of :reCsvEditor., the :RecordEditor. (or :ProtoEditor. or :AvroEditor.)
+will be easy to learn.
+:etable.
+:h2.Forums
+:p.If you have any suggestions or comments, please leave them at :forum..
+:p.Please report any problems at either :gforum. or :bug..
+:h2.Features
+:p.Program features
+:p.Program features include
+:ul compact.
+ :li.Supports for very large Files.
+ :li.Supports just about any character being used as a field separators  - Tabs, comma's, colons, semi colons,
+hex chars (i.e. x'00', x'FA') etc. 
+ :li.Columns can be added, moved and copied.
+ :li.Field Separator / Quotes can be changed.
+ :li.Fields can be both hidden and Fixed in position (Right Click Menu)
+ :li.Multiple File Views are Supported including
+  :ol compact.
+   :li.Record View - Display a single record with fields going down the page.
+   :li.Filtered View - Select Records / Fields to be displayed.
+   :li.Sorted Tree View - Gives a Sort / Summary of the file with individual records as leaf's in the tree
+   :li.Column View - Rows / Columns swapped.
+  :eol.
+  :li.Files can be exports as Fixed Width Text or Xml or Html or via Velocity Template (needs separate
+velocity Download).
+  :li.Forms part of a family of Editors (:RecordEditor., :AvroEditor. and :ProtoEditor.). 
+All the programs use a common core, so moving from one to the other should be easy.
+  :li.Can view / edit existing Xml files.
+  :li.Can edit Fixed width files (using a wizard to define the fields).
+:eul.
+
+.im reCsvEd01.dcf
+:h2 id=main.Main Edit Screen
+:p.The main edit screen looks like
+.br
+.pict RecordEdit_Table.png
+.br
+.im iRe_re010_RecordTableOption.dcf
+
+:h3 id=binrecord.Record View
+:p.To display a singe record in record view (as below), press the button to the
+left of the row on the :hdref refid=main. screen.
+
+
+
+:h2.Updating Columns
+:p.There are 2 ways to update the columns details
+:ol compact
+ :li.Via the :hp2.right click >>> Csv Options:ehp2. menu you can do basic column actions (copy, move, add and delete).
+ :li.The :hp2.Update Csv Columns:ehp2. dialog (:hp2.Edit:ehp2. and :hp2.right click >>> Csv Options:ehp2. menu's)
+allows you change column names and types as well as copy, move, add and delete columns.
+:eol.
+:h3.Right Click menu
+.pict CsvEd_ColOptions.png
+
+:h3.Update Csv Columns Dialog
+:p.This dialog lets you:
+:ul compact.
+ :li.Change Field Separator and quotes char.
+ :li.Change column names and types.
+ :li.Delete Columns.
+ :li.Add, copy, move columns (via :hp2.Right Click Menu:ehp2.).
+ :li.Set a default value for a column.
+:eul.
+.pict CsvEd_ColEdit.png
+
+:note.You can save and restore the CSV definition via the :hp2.Edit >>>> Save File Description as Xml:ehp2.
+and :hp2.Edit >>>> Load File Description from Xml:ehp2. options.
+
+:h2.Xml Files
+:p.:reCsvEditor. can  view / update existing Xml file in a Tree View. It is not intended for 
+creating new Xml files from scratch. If you use Xml parameter files, you may find
+the Xml view useful.
+
+:p.:hp2.Xml Preview:ehp2.
+.pict CsvEdit_XmlPreview.png
+
+:h2.Fixed Width Files
+:p.:reCsvEditor. has support for simple fixed width files. The editor can not 
+handle more complicated Fixed width files, you will be better off with the :RecordEditor.
+:reCsvEditor. will 
+try and work out the format for you and display the result in the preview screen.
+
+.pict CsvEdit_FixedPreview.png
+
+:p.If you already have a file description, you can enter the Xml File Description in the
+:hp2.Layout File:ehp2. field.
+
+:p.Other wise when you edit the file, you will get a "Wizard) where you can correct the field sizes
+and  define field names and sizes.
+:h4 id=wiz2.Field Position screen
+:p.When no existing Layout is specified, a wizard will be displayed to correct / 
+collect field details.
+:p.To create a new field, click on the first column of the field.
+:p.To remove a field, click on the first column again
+
+.pict layout_wizard2.png
+
+:p.Other Fields Buttons on the screen include&gml.
+:ul.
+ :li.:hp2.Show Hex:ehp2. Display the file in 2 line Hex mode (Both Text and Hex). Useful when working with Binary / Comp-3 fields.
+ :li.:hp2.Search for:ehp2. Used control what fields are searched for&gml.
+  :dl.
+    :dt.Mainframe Zoned Decimal
+    :dd.Look for Mainframe Zoned decimal. In Zoned Decimals, The sign is represented as an
+over-strike of the last character.
+    :dt.PC/Unix Zoned Decimal
+    :dd.Look for Zoned decimal in the Ascii Character set.
+    :dt.Comp 3
+    :dd.Look for :hp1.Comp 3 (Binary Coded Decimals):ehp1. in the file. This does not
+do any harm in EBCDIC files but in Ascii files, Alphabetic Characters can be mistaken
+for Comp 3 characters.
+    :dt.Binary Integer (Big Endian)
+    :dd.Look for Binary integers (Big Endian) - Cobol Comp Fields
+   :edl.
+  :li.:hp2.Clear Fields:ehp2. Removes all fields
+  :li.:hp2.Add Fields:ehp2. Clear existing fields and search for Fields using the :hp2.Search For:ehp2.
+options above.
+:eul.
+
+:note.The initial values of the :hp2.Search For:ehp2. + whether a search is done automatically
+is set in the :hp2. Edit >>>> Edit Startup Options:ehp2. dialog. See :hdref refid=wizStartup. for more details
+
+:h4 id=wiz3.Field Definition screen
+:p.This screen is for defining the field names and field types.
+:p.Once all the fields have been defined, click on the right arrow button
+to define the new layout.
+
+.pict layout_wizard3.png
+
+
+:h4 id=wizsave1.Save screen
+:p.On the final screen you save the file description for later use.
+
+.pict Layout_wizard_save.png
+
+
+:h3.Cobol Files
+:p.With the addition of the :hp2.cb2xml.jar:ehp2. (available at :downloadPage.)
+:reCsvEditor. can edit Fixed width files with a :hp2.Cobol:ehp2.-Copybook.
+
+:p.Once the :hp2.cb2xml.jar:ehp2. has been added to the lib directory, you can 
+specify a cobol copybook as the layout file on the Fixed width preview screen.
+The editor uses the file extension (cbl, cob or cobol) to decide if it is a 
+Cobol or Xml file description.
+
+.pict CsvEdit_CobolPreview.png
+
+.im iHT_B000_BigFiles.dcf

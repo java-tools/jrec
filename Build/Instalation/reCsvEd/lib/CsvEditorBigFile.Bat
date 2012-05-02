@@ -1,0 +1,1 @@
+start  /b javaw  -Xmx700m -jar "%INSTALL_PATH\lib\runCsvEditor.jar" %*

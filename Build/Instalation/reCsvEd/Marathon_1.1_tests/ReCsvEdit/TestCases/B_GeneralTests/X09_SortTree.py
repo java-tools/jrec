@@ -1,0 +1,30 @@
+useFixture(default)
+
+def test():
+	java_recorded_version = '1.6.0_22'
+
+	if window('reCsv Editor'):
+		select('FilePane$3', 'XfdDTAR020.csv')
+		select('FilePane$3', 'XfdDTAR020.csv')
+		doubleclick('FilePane$3', '6')
+		select('FilePane$3', 'XfdDTAR020.csv')
+		click('Edit1')
+		select_menu('View>>Sorted Field Tree')
+		select('fields_JTbl', 'STORE-NO', 'Field,0')
+		select('fields_JTbl', 'DEPT-NO', 'Field,1')
+		select('fields_JTbl', 'cell:Field,1(DEPT-NO)')
+		select('fieldSummary_JTbl', 'cell:Function,4()')
+		select('fields_JTbl', 'cell:Field,1(DEPT-NO)')
+		select('fieldSummary_JTbl', 'Sum', 'Function,4')
+		select('fieldSummary_JTbl', 'Sum', 'Function,5')
+		select('fieldSummary_JTbl', 'Maximum', 'Function,1')
+		select('fieldSummary_JTbl', 'Maximum', 'Function,3')
+		select('fieldSummary_JTbl', 'cell:Function,3(Maximum)')
+		assert_p('fieldSummary_JTbl', 'Content', '[[KEYCODE-NO, ], [STORE-NO, Maximum], [DATE, ], [DEPT-NO, Maximum], [QTY-SOLD, Sum], [SALE-PRICE, Sum]]')
+		select('fieldSummary_JTbl', 'cell:Function,3(Maximum)')
+		assert_p('fields_JTbl', 'Content', '[[STORE-NO, true], [DEPT-NO, true], [ , true], [ , true], [ , true]]')
+		select('fieldSummary_JTbl', 'cell:Function,3(Maximum)')
+		click('Build Tree')
+		select('LineTree.FileDisplay_JTbl', 'cell:DATE,8()')
+		assert_p('LineTree.FileDisplay_JTbl', 'Content', '[[, , , 20, , 957, 16, 26.06], [, , , 20, , 170, 1, 4.87], [, , 63604808, 20, 40118, 170, 1, 4.87], [, , , 20, , 280, 2, 10.02], [, , 69684558, 20, 40118, 280, 1, 5.01], [, , 69694158, 20, 40118, 280, 1, 19.00], [, , 69694158, 20, 40118, 280, -1, -19.00], [, , 69694158, 20, 40118, 280, 1, 5.01], [, , , 20, , 685, 0, 0.00], [, , 62684671, 20, 40118, 685, 1, 69.99], [, , 62684671, 20, 40118, 685, -1, -69.99], [, , , 20, , 929, 1, 3.59], [, , 65674532, 20, 40118, 929, 1, 3.59], [, , , 20, , 957, 12, 7.58], [, , 64634429, 20, 40118, 957, 1, 3.99], [, , 66624458, 20, 40118, 957, 1, 0.89], [, , 63674861, 20, 40118, 957, 10, 2.70], [, , , 59, , 957, 9, 53.53], [, , , 59, , 335, 0, 0.00], [, , 61664713, 59, 40118, 335, 1, 17.99], [, , 61664713, 59, 40118, 335, -1, -17.99], [, , , 59, , 410, 1, 8.99], [, , 68634752, 59, 40118, 410, 1, 8.99], [, , , 59, , 620, 2, 7.98], [, , 60694698, 59, 40118, 620, 1, 3.99], [, , 60664659, 59, 40118, 620, 1, 3.99], [, , , 59, , 878, 2, 18.60], [, , 60614487, 59, 40118, 878, 1, 5.95], [, , 63644339, 59, 40118, 878, 1, 12.65], [, , , 59, , 929, 1, 3.99], [, , 67674686, 59, 40118, 929, 1, 3.99], [, , , 59, , 957, 3, 13.97], [, , 64614401, 59, 40118, 957, 1, 1.99], [, , 64614401, 59, 40118, 957, 1, 1.99], [, , 62684217, 59, 40118, 957, 1, 9.99]]')
+	close()

@@ -1,0 +1,9 @@
+DTAR020.bin		FIXED~<reproperties>\CopyBook\Xml\DTAR020.Xml~Empty		
+<extensions>		<velocity>
+tocsv_tab		.csv
+tocsv_comma.vm		.csv
+zxmlstylesheet1.vm		.csv
+zxmlstylesheet2.vm		.csv
+<extensions>		<xslt>
+testxml_01a.xsl		.txt
+testxml_01b.xsl		.html

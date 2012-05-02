@@ -1,0 +1,38 @@
+.im iRE_TagDefs.dcf
+:h1.How To
+:ol.
+ :li.:hp1.How to add / copy / delete columns:ehp1.
+ :ul compact.
+  :li.There are 2 ways  to do this
+   :ul compact.
+    :li.View the :hp2.Right Click >>> CSV Options:ehp2. sub menu.
+    :li.Via the :hdref refid=UpdateCols. option
+   :eul.
+ :eul.
+ :li.:hp1.How do I change the field seperator:ehp1.
+   :ul compact.
+     :li.Via the :hdref refid=UpdateCols. option.
+   :eul.
+ :li.:hp1.Can I get Help with using ReCsvEditor:ehp1. ???
+   :ul.
+     :li.Try :forum.
+   :eul.
+:eol.
+ 
+:h2 id=UpdateCols.Update Columns Funtions
+:li.This function is available via :hp2.Edit >>> Update Csv Columns:ehp2. or
+:hp2.Right Click >>> CSV Options >>>  Update Csv Columns:ehp2.. It
+is a basic bulk update function. It allows you
+to 
+:ol compact.
+:li.Add, Copy, move and delete multiple columns in the one action.
+:li.Change Field seperator or Quote character.
+:li.Change the field type.
+:eul.
+In the one action.
+
+.pict CsvEdit_Update.png
+
+:note.You use the :hp2.Right Click:ehp2. button to add / move columns.
+
+

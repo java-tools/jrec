@@ -1,0 +1,128 @@
+
+:h2 id=BigFiles.Big Files
+:h3 id=java.Java Considerations
+:p.By default, a Java program gets allocated a maximum of 256 megabytes.
+For big files you need to increase this. There should be sample shell script / bat files
+(runEditorBigFile.sh and RecordEditorBigFile.Bat) in the RecordEditor/<Version>/lib directory for this purpose.
+In case they are missing, there are samples in this Zip file.
+
+:p.You will need to :hp2.update:ehp2. the :hp2.-Xmx:ehp2. parameter in the supplied shell script/bat file and use this shell script/bat file
+for editing large files
+
+:tdef id=xlight shade='xlight'.
+:table cols='* 3*'.
+ :thd refid=xlight.:c.Memory/OS:c.Suggested Parameter:ethd.
+ :row refid=none.:c.1 GB:c.-Xmx500m
+ :row.:c.2 GB:c.-Xmx1400m
+ :row.:c.4 GB/32 bit java:c.-Xmx1600m
+ :row.:c.4 GB/64 bit java:c.-Xmx3000m
+ :row.:c.8 GB/64 bit java:c.-Xmx6000m
+:etable.
+
+:h3.Large File Model
+:p.I have introduced a new Large-File model to support editing big Files. This 
+Large-File model supports editing veryu large files with reduced program functionality (Filters and Tree views). It
+will allow the editing of files that are much larger than the available memory (it uses GZip compression
+and overflow files).
+This Large-File model is used when file size is greater than 14% of available memory (% can be
+changed via start up parameters- :hdref refid=param.).
+
+Limitations of Large-File-Model
+:ul compact.
+ :li.File Loading will be very slow on old single core computers.
+ :li.Not available for Xml files. 
+ :li.Record / Sort Trees are nota available (if record count > 75000).
+ :li.Only the first 75000 records (can be changed via start-up parameters - :hdref refid=param.)
+are extracted in Filter's.
+ :li.Sorting will be very slow.
+ :li.Copying large numbers of records will cause problems (i.e. crash the editor).
+ :li.There is a limit of 2.4 billion lines (or records) in the Editor. This comes from using
+Java List's to represent the file.
+:eul.
+
+:note.I plan to more work on the "Big File Models" so I if you have any comments,
+suggestions I would be interested in hearing them
+
+:h4.How it Works
+:p.The Large-File-Model reduces memory usage in 4 ways
+:ol compact.
+ :li.Instead of storing lines as objects, the data is stored in one megabyte blocks. This
+saves the line overhead (about 40 bytes per line).
+ :li.Blocks are compressed (GZipped) when not in use. This should work well on a recent quad core
+PC (Compression is done in a background thread) but will slow down old single core PC's
+ :li.When memory is tight, data is written to a Overflow File.
+ :li.For Fixed-Width files, data is only read from the input file when it is being
+used.
+:eol.
+
+:h4.GZip
+:p.If a file name ends in .gz, the RecordEditor treats it as being GZipped and will
+read and write it as a GZipped file. This create a problem of knowing how big the file is and when to
+use the Large-Memory-Model. I you edit GZipped files, you may need to decreased the 
+Large File Model Percentage, see :hdref refid=param..
+
+:p.GZip files can take a lot longer to load because
+
+:h3 id=param.Parameters
+:p.There are several parameters that affect the Large-Memory-Model (under
+the :hp2.Edit >>>> Edit Startup Parameters  ;;;   Properties  >>>> Big Model Options:ehp2.).
+
+:p.Here are some suggestions for the parameters:
+
+:dl.
+  :dt.Large Multi-User Server.
+  :dd.Large heavily used Unix/Mainframe serves typically have fast Disks and heavy loads.
+.fo off
+    :hp2.Compress Option:red.=:ered.:blue.N/S:eblue.
+    Use Large VB model:red.=:ered.:blue.Y:eblue.:ehp2. 
+.fo on  
+  :dt.Small Server.
+  :dd.Small Lightly used servers
+.fo off 
+    :hp2.Compress Option:red.=:ered.:blue.S/R:eblue.
+    Use Large VB model:red.=:ered.:blue.Y:eblue.:ehp2.   
+.fo on          
+  :dt.Very Fast Multi core PC.
+  :dd.
+.fo off 
+    :hp2.Compress Option:red.=:ered.:blue.F/Y:eblue.
+    Use Large VB model:red.=:ered.:blue.N:eblue.:ehp2. 
+.fo on    
+  :dt.Slow PC.
+  :dd.
+.fo off  
+    :hp2.Compress Option:red.=:ered.:blue.Read:eblue.
+    Use Large VB model:red.=:ered.:blue.Y:eblue.:ehp2. 
+.fo on
+:edl.
+
+.pict BigFileOptions.png
+
+:p.Following are the parameters that affect the Big-File-Mode. I use them for testing.
+:dl.
+ :dthd.Parameter        :ddhd.Description
+ :dt.Big File Percentage  :dd.Percentage at which Big-File-Model is used. Default is 14%, used in testing to force Big-File-Models
+to be used for small files. You may need to lower it if you are editing big GZIP files with a very high compression ratio.
+ :dt.Chunk Size   :dd.Size of chunks used to store the file. Default is 1000, values between 500 to 4000 should produce the best results.
+ :dt.Compress Option:dd.This option controls when compression is used.
+ :table cols='* 3*'.
+  :thd refid=xlight.:c.Option:c.Description:ethd.
+  :row refid=none.:c.Yes:c.Compress aggressively
+  :row.:c.Space:c.Compress when storage gets low. :hp2.Space:ehp2. based compression.
+  :row.:c.Read:c.Use :hp2.Space:ehp2. (option S) based compression when reading the file then compress aggressively (option Y).  
+  :row.:c.Read (Fast CPU):c.Like option R but will use compression a bit more aggressively.
+  :row.:c.No:c.Never compress a block.
+ :etable.
+ 
+ :dt.Big File Filter Limit :dd.Maximum number of records extracted via Filter (also affects Tree views).
+ :dt.Store Chunks on Disk:dd.Force Storing chunks on Disk. This is only useful in testing.
+ :dt.Use Fixed Model:dd.Use Fixed Length Model. There is a special model for fixed length files
+which rather than reading the file, it calculates the Disk position then reads blocks as they are requested.
+Leave as Selected, this option is for testing.
+ :dt.Use Large VB model:dd.There is a special LargeVB-Model that while reading a file rather than compressing
+blocks it stores the disk address. This speeds up the reading in of the file on old slow PC (particularly for
+Cobol-VB files) but will slow down other operations (particularly saving the file).
+ :dt.Load In Background:dd.Controls wether files are loaded on a background thread with progress display or not. Leave as
+selected.
+:edl.
+

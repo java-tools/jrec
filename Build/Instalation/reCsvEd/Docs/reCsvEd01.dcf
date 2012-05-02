@@ -1,0 +1,18 @@
+:h2 id=CsvOpen.Open File
+:p.The open file screen has both a :hp2.file search dialog:ehp2. (left) and a :hp2.File Preview:ehp2. (right).
+
+.pict CsvEdit.png
+
+:h3.Preview screen
+:p.On the File preview screen you can switch a normal and Unicode Csv (Tab), specify the
+Field separator and Quote. Press the :bblue.Edit:ebblue. button to edit the file with the options specified.
+
+.pict CsvEdit1.png
+
+:p.You can use a right click to set a line as the Column Heading line&gml.
+
+.pict CsvEd_RightClick.png
+
+:note.If the first line is the Field name line, it will not be displayed. If any other line 
+is selected as the Field name line it wll be
+displayed but if you change the line, the column headings will not be updated.

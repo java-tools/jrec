@@ -7,7 +7,6 @@ public class EditingCancelled extends RecordException {
 
 	public EditingCancelled() {
 		super("Editing canceled");
-		// TODO Auto-generated constructor stub
 	}
 
 }

@@ -1,4 +1,4 @@
-/* 
+/*
  * Created on 8/05/2004
  *
  * Changes
@@ -22,7 +22,7 @@
  *   - Changed heading to allow testing with Marathon
  */
 package net.sf.RecordEditor.re.file;
- 
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.BufferedInputStream;
@@ -96,16 +96,16 @@ import net.sf.RecordEditor.utils.swing.treeTable.TreeTableNotify;
 @SuppressWarnings("serial")
 public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail, ? extends AbstractRecordDetail>>
 						extends 			AbstractTableModel
-						implements 	Iterable<AbstractLine>, TableModelListener, ColumnMappingInterface, 
+						implements 	Iterable<AbstractLine>, TableModelListener, ColumnMappingInterface,
 									TreeModelListener, AbstractChangeNotify, GetView, ArrayNotifyInterface {
 
 	public  static final  int SPECIAL_FIELDS_AT_START  = 2;
 	private static final  int BUFFER_SIZE = 65536;
-	
+
     private static final  int SET_USING_FIELD = 1;
     public  static final  int SET_USING_TEXT  = 2;
     public  static final  int SET_USING_HEX   = 3;
-	
+
 	public  static final  int SELECTION_COLUMN = 0;
 	public  static final  int LINE_NUMER_COLUMN = 1;
     private static final  int INITIAL_FILE_SIZE = 1000;
@@ -115,33 +115,33 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
     private static final  int FAILED_2ND_ROOT_NOT_ALLOWED = 3;
     private static final  int FAILED_CHILD_ALREADY_EXISTS = 4;
     private static final  int FAILED_CHILD_NOT_IN_PARENT = 5;
-  
+
     private static final byte NO_CHANGE   = 1;
     private static final byte BEING_SAVED = 2;
     private static final byte CHANGED     = 3;
-    
 
-    
+
+
     private static final FieldMapping NULL_MAPPING =  new FieldMapping(new int[0]);
-    
+
     private static final String[] LINE_COLUMN_HEADINGS = {
-    	"", "Full Line",  "Hex (1 Line)", "Hex (2 Lines)", "Hex (SPF Edit Style)", "Hex (Alternative)" 
+    	"", "Full Line",  "Hex (1 Line)", "Hex (2 Lines)", "Hex (SPF Edit Style)", "Hex (Alternative)"
     };
 	private String[] lineColumns = new String[LINE_COLUMN_HEADINGS.length];
-    
+
 	private int maxNumColumns = -1;
 	private int defaultPreferredIndex = 0;
     //TODO this class badly needs to be split up
     //TODO ---------------------------------------------
-    
+
     public boolean saveAvailable = true;
-    
+
 	private static AbstractLine[] copySrc = null;
 
-	
+
 	private String fileName;
 	private String altName = null;
-	
+
 	private AbstractLineIOProvider ioProvider;
 
 	private int currLayoutIdx = 0;
@@ -166,12 +166,12 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	private FieldMapping columnMapping = NULL_MAPPING;
 	private boolean displayErrorDialog = true;
 	private boolean allowMultipleRecords = true;
-	
-	private TreeTableNotify treeTableNotify = null; 
+
+	private TreeTableNotify treeTableNotify = null;
 	private WeakHashMap<AbstractLine<Layout>, AbstractLineNode> nodes = null;
 
 	private ArrayList<FileWriter> writers = new ArrayList<FileWriter>();
-	
+
 	private PropertyChangeListener saveDoneListner = new PropertyChangeListener() {
 
 		@Override
@@ -183,7 +183,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			}
 		}
 	};
-	
+
 	/**
 	 * Create empty View / storage
 	 * @param pFd record layout
@@ -246,10 +246,10 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		this.ioProvider = pIoProvider;
 		this.browse     = pBrowse;
 		this.baseFile   = this;
-		
+
 		readFile(pFileName);
 	}
-	
+
 
 	/**
 	 * Create a view of a file
@@ -277,12 +277,12 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	        		boolean pBrowse) {
 		this(pLines, pBaseFile, pLines.getLayout(), colMapping, pBrowse);
 	}
-	
-	
+
+
 	public FileView(String name, final DataStore pLines,
     		final AbstractLayoutDetails layoutDtls) {
 		this(pLines, null, layoutDtls, null, false);
-		
+
 		altName = name;
 		saveAvailable = false;
 	}
@@ -298,7 +298,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		if (colMapping != null) {
 			columnMapping = colMapping;
 		}
-		
+
 	    fileRead = true;
 	    view     = pBaseFile != null;
 
@@ -320,22 +320,22 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    initLineCols();
 	}
 
-	
+
 	private void initLineCols() {
 		StringBuffer buf = new StringBuffer();
 		int num;
 
 		num = layout.getMaximumRecordLength() / 10 + 1;
 		String s;
-		
+
 		for (int i = 1; i < num + 1; i++) {
 			s = "    " + i;
 			buf.append("    +").append(s.substring(s.length() - 5 ));
 		}
-		
+
 		lineColumns[1] = buf.toString();
 		lineColumns[4] = lineColumns[1];
-		
+
 		buf = new StringBuffer();
 		for (int i = 1; i < num + 1; i++) {
 			s = "         " + i;
@@ -344,7 +344,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 
 		lineColumns[2] = buf.toString();
 		lineColumns[3] = lineColumns[2];
-		
+
 		buf = new StringBuffer();
 		for (int i = 1; i < num + 1; i++) {
 			s = "                " + i;
@@ -352,21 +352,21 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		}
 
 		lineColumns[5] = buf.toString();
-		
+
 		//System.out.println("Column length Summary " + num + " " + layout.getMaximumRecordLength());
 	}
 
 
 	public final void clear() {
 		dropCompletedWriters();
-		
+
 		if (writers.size() > 0) {
 			clearWaiting = true;
 		} else {
 			doClear();
 		}
 	}
-	
+
 	public final void doClear() {
 		if (lines != null) {
 			lines.clear();
@@ -376,16 +376,16 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		nodes = null;
 		System.gc();
 	}
-	
-	public void readFile(String pFileName) 
+
+	public void readFile(String pFileName)
 	throws IOException, RecordException {
 		AbstractLineReader<Layout> reader;
 		File file;
-		
+
 		this.fileName   = pFileName;
 		file = new File(pFileName);
 
-		if (file.exists()) {		
+		if (file.exists()) {
 		    if (file.isDirectory()) {
 		        throw new IOException(pFileName + " is a directory not a file");
 		    } else if (! file.isFile()) {
@@ -393,7 +393,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		    } else {
 		    	boolean isGZip = checkIfGZip(pFileName);
 		    	int structure = layout.getFileStructure();
-		    	
+
 				if (ioProvider == null) {
 					ioProvider = LineIOProvider.getInstance();
 				}
@@ -405,13 +405,13 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 
 		            readFile(reader, file, isGZip, rff, pFileName);
 		        } else if (Common.OPTIONS.useBigFixedModel.isSelected()
-		        	   &&  structure == Constants.IO_FIXED_LENGTH 
+		        	   &&  structure == Constants.IO_FIXED_LENGTH
 		        	   &&  useBigFileModel(file.length())) {
 		        	lines = DataStoreLarge.getFixedLengthRecordStore((LayoutDetail)layout, pFileName);
 		        } else {
 		        	BufferedInputStream rf = new BufferedInputStream(rff, BUFFER_SIZE);
 
-		            reader.open(rf, layout);
+		            reader.open(rf, pFileName, layout);
 		            browse |= (! reader.canWrite());
 		            readFile(reader, file, isGZip, rf, pFileName);
 		        }
@@ -424,10 +424,10 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		    toSave = false;
 		    this.lines      = getDataStore(INITIAL_FILE_SIZE, Constants.NULL_INTEGER, null, "");
 		}
-		
+
 		initLineCols();
 	}
-	
+
 	/**
 	 * Reads a file
 	 *
@@ -436,11 +436,11 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	 * @throws IOException any IOerror that occurs
 	 */
 	private void readFile(
-			AbstractLineReader<Layout> reader, 
-			File file, 
+			AbstractLineReader<Layout> reader,
+			File file,
 			boolean isGZip,
 			InputStream rf,
-			String fname) 
+			String fname)
 	throws IOException {
 	    AbstractLine<Layout> line;
 	    int count = 0;
@@ -450,18 +450,18 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    long lastTime = time;
 	    //long s1;
 	    boolean isVeryBigFile = file.length() > ((long) Integer.MAX_VALUE);
-	    
+
 	    double total = file.length();
 	    double ratio;
-	        
+
 	    retrieveLayout(reader);
 	    allocateLines(file, isGZip, reader, fname);
-	    
-	    
+
+
     	if (isGZip) {
     		total *= 6;
     	}
-	    
+
 
 	    t1 = time;
 	    tt1 = 0;
@@ -503,17 +503,17 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    lines.setLayout(layout);
 
 	    reader.close();
-	    
-	    
+
+
 	    time = (( System.nanoTime() - time) / 10000000);
 	    double ttime = ((double) time) / 100;
-//	    Common.logMsg(1, 
+//	    Common.logMsg(1,
 //	    		lines.getSizeDisplay() + "\n  Load Time : " + ttime,
 //	    		null);
 	    System.out.println(
 	    		lines.getSizeDisplay());
 	    System.out.println("File Read Time: "  + ttime);
-	    
+
 	    System.out.println("Read Total: " + (tt1 / 100000000));
 	    System.out.println("Add  Total: " + (tt2 / 100000000));
 	    System.out.println("     Lines: " + lines.size());
@@ -524,19 +524,19 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		try {
 			ret =  rf.available();
 		} catch (Exception e) {
-			
+
 		}
-		
+
 		return ret;
 	}
-	
+
 	private void retrieveLayout(AbstractLineReader<Layout> reader) {
 	    Layout l = reader.getLayout();
 	    if (l != null) {
 	    	layout = l;
 	    }
 	}
-	
+
 	private void allocateLines(File file, boolean isGZip, AbstractLineReader reader, String fname) {
     	int numLines = INITIAL_FILE_SIZE ;
     	int maxLength = layout.getMaximumRecordLength();
@@ -598,7 +598,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	}
 
 	/**
-	 * 
+	 *
 	 * @param layoutIndex layout index to use
 	 * @param row row to look up
 	 * @param col column to look up
@@ -639,7 +639,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	 */
 	public void setValueAt(int layoutIdx, Object val, int row, int col) {
 
-		if ((row >= getRowCount()) || (col >= (getLayoutColumnCount(layoutIdx) + SPECIAL_FIELDS_AT_START)) 
+		if ((row >= getRowCount()) || (col >= (getLayoutColumnCount(layoutIdx) + SPECIAL_FIELDS_AT_START))
 		|| (col <= LINE_NUMER_COLUMN)) {
 //			System.out.println("**Set Value 1 "
 //					+ row  + ">= " + getRowCount()
@@ -659,7 +659,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	public String getColumnName(int col) {
 
 		switch (col) {
-		case SELECTION_COLUMN:	
+		case SELECTION_COLUMN:
 			if (Common.TEST_MODE) {
 				return "Sl";
 			}
@@ -676,8 +676,8 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		    	int idx = Math.min(
 		    						currLayoutIdx - layout.getRecordCount(),
 		    	                    LINE_COLUMN_HEADINGS.length - 1);
-		    	
-		    	return lineColumns[idx] + Common.COLUMN_LINE_SEP 
+
+		    	return lineColumns[idx] + Common.COLUMN_LINE_SEP
 		    			+ LINE_COLUMN_HEADINGS[idx];
 		    default:
 		    	return getFieldName(currLayoutIdx, col);
@@ -701,7 +701,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	}
 
 	/**
-	 * 
+	 *
 	 * @param layoutIndex record index
 	 * @param fldNum field number
 	 * @return field name
@@ -829,7 +829,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	public Object getValueAt(final int layoutIdx, final int row, final int col) {
 	    int tmpCol = getRealColumn(layoutIdx, col);
 
-		try {	
+		try {
 			if ((row >= getRowCount())
 			|| (tmpCol < 0 && tmpCol != Constants.KEY_INDEX)
 			|| layout == null
@@ -905,10 +905,10 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			setValueAt(parentFrame, layoutIdx, getLine(row), row, col, val);
 		}
 	}
-	
+
 	/**
 	 * Set the value of a field
-	 * 
+	 *
 	 * @param parentFrame  JFrame being displayed (used in any dialogue)
 	 * @param layoutIndex Current record layout index
 	 * @param currLine currentLine being updated
@@ -922,7 +922,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		if (DisplayType.displayType(layout, layoutIdx) == DisplayType.PREFFERED) {
 			layoutIdx = Math.max(0, currLine.getPreferredLayoutIdx());
 		}
-		
+
 		col = getRealColumn(layoutIdx, col);
 		if ((col < 0 && col != Constants.KEY_INDEX)
 		||  (layoutIdx < layout.getRecordCount()
@@ -935,9 +935,9 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 				//System.out.println("Set Value 5");
 				val = ((DelayedFieldValue) val).getValue(parentFrame);
 			}
-			
-			if (val == null 
-			|| (   layoutIdx <= layout.getRecordCount() 
+
+			if (val == null
+			|| (   layoutIdx <= layout.getRecordCount()
 				&& val.equals(currLine.getField(layoutIdx, col)))) { return; }
 
 		    if ((layoutIdx >= layout.getRecordCount())) {
@@ -953,12 +953,12 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		        	if (val instanceof byte[]) {
 		        		currLine.setData((byte[]) val);
 		        	} else {
-		        		
+
 		        	}
 		        }
 		    } else if (parentFrame == null) {
 			    try {
-			    	Object o = null; 
+			    	Object o = null;
 			    	try { o = currLine.getField(layoutIdx, col); } catch (Exception e1) { }
 			        currLine.setField(layoutIdx, col, val);
 			        setChangedValue(o, currLine.getField(layoutIdx, col));
@@ -982,7 +982,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
         	setChanged(true);
         }
 	}
-	
+
 	/**
 	 * Set a field to a Hex value
 	 * @param parentFrame parent fram to use
@@ -994,7 +994,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	 */
 	public void setHexTextValueAt(JFrame parentFrame, int inputType, int recordIdx, int row, int col, String val) {
 
-		if (baseFile.treeTableNotify != null) { 
+		if (baseFile.treeTableNotify != null) {
 			return;
 		}
 		AbstractLine currLine = getLine(row);
@@ -1060,7 +1060,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	private String updateField_100_applyValue(int updateType, AbstractLine currLine, int layoutIdx, int row, int col, Object val) {
 
 		try {
-	    	Object o = null; 
+	    	Object o = null;
 	    	try { o = currLine.getField(layoutIdx, col); } catch (Exception e1) { }
 
 		    switch (updateType) {
@@ -1068,7 +1068,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		    	case(SET_USING_HEX)   : currLine.setFieldHex(layoutIdx, col, val.toString()); break;
 		    	default               : currLine.setField(layoutIdx, col, val);
 		    }
-		    
+
 		    setChangedValue(o, currLine.getField(layoutIdx, col));
 
 			fireRowUpdated(row, currLine);
@@ -1099,7 +1099,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			//invokeLaterDataChanged();
 		}
 	}
-	
+
 	/**
 	 * Tell the world that the row has been updated
 	 * @param row row
@@ -1109,11 +1109,11 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 
 		if (baseFile.treeTableNotify == null) {
 			tblFireRowUpdated(row, currLine);
-		} else if (isView()) { 
+		} else if (isView()) {
 			baseFile.fireRowUpdated(row, currLine);
 		} else {
 			AbstractLineNode node = getTreeNode(currLine);
-			
+
 			if (node == null) {
 				tblFireRowUpdated(row, currLine);
 			} else {
@@ -1121,9 +1121,9 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			}
 		}
 	}
-	
+
 	private void tblFireRowUpdated(int row, AbstractLine currLine) {
-		
+
 		if (view) {
 	        int baseRecordNumber = baseFile.indexOf(currLine);
 	        baseFile.fireTableRowsUpdated(baseRecordNumber, baseRecordNumber);
@@ -1137,7 +1137,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 
 	private AbstractLineNode getNode(int lineNumber) {
 		AbstractLine<Layout> l = lines.get(lineNumber);
-		
+
 		return getTreeNode(l);
 	}
 
@@ -1218,15 +1218,15 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	 * @param recNums record number to delete
 	 */
 	public void deleteLines(int[] recNums) {
-		
+
 		if (view) {
 			if (baseFile.treeTableNotify == null) {
 			    int[] baseRecNums = new int[recNums.length];
-	
+
 			    for (int i = 0; i < baseRecNums.length; i++) {
 			        baseRecNums[i] = baseFile.indexOf(lines.get(recNums[i]));
 			    }
-	
+
 			    deleteLinesFromView(recNums);
 			    baseFile.deleteLinesFromView(baseRecNums);
 			} else {
@@ -1241,14 +1241,14 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			deleteLinesFromView(recNums);
 		}
 	}
-	
-	
+
+
 	/**
-	 * delete lines from view 
+	 * delete lines from view
 	 * @param recNums reords to be deleted
 	 */
 	protected final void deleteLinesFromView(int[] recNums) {
-		
+
 		if (recNums != null && recNums.length > 0) {
 			int start, end, i;
 			Arrays.sort(recNums);
@@ -1272,7 +1272,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 				System.out.println(" << delete range " + start + " " + end);
 				fireTableRowsDeleted(start, end);
 			}
-			
+
 //			System.out.println(" << starting delete  " + start + " " + end);
 			for (i = recNums.length - 1; i >= 0; i--) {
 				//System.out.println("Deleting: " + i + " ~ " + recNums[i]);
@@ -1284,7 +1284,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 //			System.out.println(" << end delete  " + start + " " + end);
 		}
 	}
-	
+
 //	public final void deleteLines(AbstractLine<Layout>[] linesTodelete) {
 //		if (view) {
 //			this.baseFile.deleteLines(linesTodelete);
@@ -1294,22 +1294,22 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 //			}
 //		}
 //	}
-	
+
 	/**
 	 * Delete a single line from the table
 	 * @param line to delete
 	 */
 	public final void deleteLine(AbstractLine<Layout> line) {
-		
+
 		if (view) {
 			baseFile.deleteOneLine(line);
 		} else {
 			deleteOneLine(line);
 		}
 	}
-	
+
 	private final void deleteOneLine(AbstractLine<Layout> line) {
-		
+
 		deleteNode(line);
 		if (line.getTreeDetails().getParentLine() != null) {
 			line.getTreeDetails().getParentLine().getTreeDetails().removeChild(line);
@@ -1321,14 +1321,14 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	        	lines.remove(num);
 			}
 		}
-		
+
 		setChanged(true);
 	}
-	
+
 	private void deleteNode(AbstractLine<Layout> line) {
-		
+
 		AbstractLineNode node= getTreeNode(line) ;
-		
+
 		if (node != null) {
 			if (treeTableNotify != null) {
 				treeTableNotify.fireTreeNodesRemoved(node);
@@ -1336,7 +1336,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			node.removeFromParent();
 		}
 	}
-	
+
 	public final AbstractLineNode getTreeNode(AbstractLine line) {
 		AbstractLineNode ret = null;
 		if (nodes != null) {
@@ -1344,14 +1344,14 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		}
 		return ret;
 	}
-	
+
 	public final void setNodeForLine(AbstractLine line, AbstractLineNode node) {
 		if (nodes == null) {
 			defineNodes();
 		}
 		nodes.put(line, node);
 	}
-	
+
 	private synchronized void defineNodes() {
 		if (nodes == null) {
 			nodes = new WeakHashMap<AbstractLine<Layout>, AbstractLineNode>(lines.size());
@@ -1364,7 +1364,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 //	 */
 //	private void deleteLinesFromView_doDelete(int start, int end) {
 //		int min = Math.max(0, start);
-//		
+//
 //		for (int i = end;  i >= min; i--) {
 //			lines.remove(start);
 //		}
@@ -1381,11 +1381,11 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    AbstractLine<Layout> newLine;
 	    if (isView() || this.treeTableNotify == null) {
 	        return stdRepeatLine(lineNumber);
-	    } 
+	    }
 	    return repeatLine(lines.get(lineNumber));
 	}
 
-	
+
 	public final AbstractLine<Layout> repeatLine(AbstractLine<Layout> line) {
 		 AbstractLine<Layout> newLine = null;
 		 int idx = lines.indexOf(line);
@@ -1403,7 +1403,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 				AbstractLine parent =line.getTreeDetails().getParentLine();
 				int childIdx = line.getTreeDetails().getChildDefinitionInParent().getChildIndex();
 				int loc = parent.getTreeDetails().getLines(childIdx).indexOf(line);
-				
+
 				newLine = (AbstractLine<Layout>) line.clone();
 				insert(parent, newLine, loc);
 			break;
@@ -1415,16 +1415,16 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 						+" is allowed !!!", null);
 			}
 		 }
-		
+
 		 return newLine;
 	}
-	
+
 
 	public void insert(
 			AbstractLine<Layout> parent,
 			AbstractLine<Layout> newLine,
 			int loc) {
-		
+
 
 		AbstractLineNode node;
 		AbstractChildDetails childDef = newLine.getTreeDetails().getChildDefinitionInParent();
@@ -1455,10 +1455,10 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 				parent.getTreeDetails().addChild(newLine, loc);
 
 				AbstractLineNode pn;
-				if (baseFile.treeTableNotify != null 
-				&&  (pn = getTreeNode(parent)) != null) {			
+				if (baseFile.treeTableNotify != null
+				&&  (pn = getTreeNode(parent)) != null) {
 					node = pn.insert(newLine, -1, loc);
-						
+
 					//baseFile.treeTableNotify.fireTreeNodesInserted(node, node.getPath(), null, null);
 					//baseFile.treeTableNotify.fireTreeStructureChanged(pn, pn.getPath(), null, null);
 					//baseFile.treeTableNotify.fireTreeNodesInserted(node, node.getPath(), null, null);
@@ -1468,7 +1468,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 //					AbstractLineNode pn = (AbstractLineNode) parent.getTreeDetails().getTreeNode();
 //
 //					node = (AbstractLineNode) newLine.getTreeDetails().getTreeNode();
-//						
+//
 //					baseFile.treeTableNotify.fireTreeNodesInserted(node, node.getPath(), null, null);
 //					baseFile.treeTableNotify.fireTreeStructureChanged(pn, pn.getPath(), null, null);
 //					//baseFile.treeTableNotify.fireTreeNodesInserted(node, node.getPath(), null, null);
@@ -1483,10 +1483,10 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 					+" is allowed !!!", null);
 		}
 	}
-	
+
 	private int checkInsertOk(AbstractLine<Layout> parent, AbstractChildDetails childDef) {
 		int ret = CAN_INSERT;
-		
+
 		if (parent == null) {
 			if (! allowMultipleRecords) {
 				ret= FAILED_2ND_ROOT_NOT_ALLOWED;
@@ -1502,7 +1502,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 				ret = FAILED_CHILD_ALREADY_EXISTS;
 			}
 		}
-		
+
 		return ret;
 	}
 	/**
@@ -1526,7 +1526,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    return newLine;
 	}
 
-	
+
 	/**
 	 * copy records
 	 *
@@ -1537,14 +1537,14 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		int i;
 		int num = recNums.length;
 		int limit = getLineHoldLimit();
-		
+
 		if (num > limit) {
 			num = limit;
 			Common.logMsg("Copy limit of " + limit
 					+ " excedded; only the first " + limit
 					+ " lines copied", null);
 		}
-		
+
 		copySrc = new AbstractLine[num];
 
 		for (i = 0; i < num; i++) {
@@ -1573,9 +1573,9 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		}
 		pasteLines(pos, l);
 	}
-	
+
 	public final AbstractLine[] pasteLines(int pos, AbstractLine line) {
-		int i;	
+		int i;
 		AbstractLine[] ret = copySrc;
 		if (copySrc != null && copySrc.length > 0) {
 			if (treeTableNotify == null || pos < 0
@@ -1590,47 +1590,47 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 
 	private final  AbstractLine[] pasteTableLines(int pos) {
 		AbstractLine[] cpy;
-		
+
 	    if (view) {
 	    	AbstractLine line = lines.get(Math.max(0, pos));
 	    	int baseRecordNumber = baseFile.indexOf(line);
 
 	        cpy = baseFile.pasteLines(baseRecordNumber, line);
-	    } else {    	
+	    } else {
 			cpy = copySrc;
 	    }
 
 	   return performPaste(pos, cpy);
 	}
-	
-	
+
+
 	public final  AbstractLine[] pasteTreeLines(AbstractLine pos) {
 		AbstractLine[] ret = null;
-		if (copySrc != null && copySrc.length > 0 
+		if (copySrc != null && copySrc.length > 0
 		&& copySrc[0].getLayout() == layout ) {
 			cloneCopyLines();
 			ret = pasteTreeLines(pos, copySrc);
 		}
-		
+
 		return ret;
 	}
 
 
 	private final AbstractLine[]  pasteTreeLines(AbstractLine pos, AbstractLine[] copySource) {
-		
+
 		AbstractLine parent = null;
 		AbstractChildDetails childDef;
-		
+
 		AbstractLine[] ret = copySource;
 		ArrayList<AbstractLine> accepted = new ArrayList<AbstractLine>(copySource.length);
-		
+
 		int arrayPos = -1;
-		
+
 		if (pos != null) {
 			parent = pos.getTreeDetails().getParentLine();
 			arrayPos = pos.getTreeDetails().getParentIndex()+1;
 		}
-		
+
 		int p = -1;
 		if (pos == null) {
 			p = 0;
@@ -1652,7 +1652,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 					int id = -1;
 					if (pos.getTreeDetails().getChildDefinitionInParent() == childDef) {
 						id = arrayPos++;
-					} 
+					}
 					accepted.add(copySource[i]);
 					insert(parent, copySource[i], id);
 				}
@@ -1664,14 +1664,14 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 				}
 				Common.logMsg("Can not paste " +  name + ":  " + copySource[i].getFullLine(), null);
 			}
-		}			
+		}
 		if (accepted.size() < ret.length) {
 			ret = new AbstractLine[accepted.size()];
 			ret = accepted.toArray(ret);
 		}
 		return ret;
 	}
-	
+
 	private void cloneCopyLines() {
 
 		AbstractLine<Layout> ttt;
@@ -1681,7 +1681,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
         	copySrc[i] = ttt;
 		}
 	}
-	
+
 	/**
 	 * paste a series of records
 	 *
@@ -1694,7 +1694,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    if (lines instanceof ArrayList) {
 	    	((ArrayList)lines).ensureCapacity(lines.size() + newLines.length);
 	    }
-		
+
 	    if (isView()) {
 	        for (i = 0; i < newLines.length; i++) {
 				lines.add(pos + i + 1, newLines[i]);
@@ -1708,7 +1708,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 
         setChanged(true);
         fireTableRowsInsertedLocal(pos + 1, pos + newLines.length);
-        
+
         return ret;
 	}
 
@@ -1827,7 +1827,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			AbstractLine updateLine;
 			String s;
 			int col = getRealColumn(pos.recordId, pos.currentFieldNumber);
-			
+
 			if (operator == Compare.OP_CONTAINS) {
 				s =  lines.get(pos.row).getField(pos.recordId, col).toString();
 			    StringBuffer b = new StringBuffer(s);
@@ -1837,9 +1837,9 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			} else {
 				s = replaceWith;
 			}
-			
+
 			updateLine = pos.currentLine;
-			
+
 			if (updateLine == null) {
 				updateLine = lines.get(pos.row);
 			}
@@ -1875,7 +1875,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 								  || (operator == Compare.OP_DOESNT_CONTAIN);
 		boolean normalSearch = (operator == Compare.OP_CONTAINS);
 		//int  inc, initCol;
-		
+
 		if (ignoreCase) {
 			icSearchFor = searchFor.toUpperCase();
 		}
@@ -1902,7 +1902,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	 * @param ignoreCase wether to ignore the case of the string
 	 * @param pos file position
 	 * @param testValue value the field against
-	 * @param testNumber value as a bigDecimal 
+	 * @param testNumber value as a bigDecimal
 	 * @param operator operator to use in the comparison
 	 * @return
 	 */
@@ -1936,7 +1936,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			case (Compare.OP_NUMERIC_GT):
 			case (Compare.OP_NUMERIC_LE):
 			case (Compare.OP_NUMERIC_LT):
-				pos.found = cmpToNum(s, testNumber, 
+				pos.found = cmpToNum(s, testNumber,
 						Compare.OPERATOR_COMPARATOR_VALUES[operator - Compare.OP_NUMERIC_GT]);
 			break;
 			case (Compare.OP_TEXT_GE):
@@ -1956,7 +1956,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 					v = -1;
 				}
 				//System.out.println("Compare Details -> " + s + " < >" + testValue +  "<   -->" + v +" ~ " + vals[0] + " ~ " + vals[1]);
-				pos.found = v == vals[0] || v == vals[1]; 
+				pos.found = v == vals[0] || v == vals[1];
 			break;
 		}
 
@@ -1969,11 +1969,11 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	private boolean cmpToNum(String s, BigDecimal testValue, int[] vals) {
 		int v = Compare.cNULL;
 		BigDecimal fldValue = null;
-		
+
 		try {
 			fldValue = new BigDecimal(s);
 		} catch (Exception e) { }
-		
+
 		if (fldValue == null && testValue == null) {
 			v = 0;
 		} else if (fldValue == null) {
@@ -1983,11 +1983,11 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		} else {
 			v = fldValue.compareTo(testValue);
 		}
-		
+
 //		System.out.println("Compare Details -> " + testValue + " < >" + fldValue + "< >" + s + "<   -->" + v
 //				+" ~ " + vals[0] + " ~ " + vals[1]);
-		
-		return v == vals[0] || v == vals[1]; 
+
+		return v == vals[0] || v == vals[1];
 	}
 
 
@@ -2011,9 +2011,9 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    //System.out.println("~~ " + pos.currentFieldNumber + " ");
 	    int col = getRealColumn(pos.recordId, pos.currentFieldNumber);
 		String s = getFieldValue(pos, col);
-				
+
 		int fromIndex = Integer.MAX_VALUE;
-		
+
 		//System.out.println("==> " + pos.currentFieldNumber + " " + pos.row + " >" + s + "< " + testValue);
 		if (pos.isForward()) {
 		    fromIndex = 0;
@@ -2037,7 +2037,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		    }
 		}
 		pos.found = (pos.col >= 0) == normalSearch;
-		
+
 //		if (pos.found) {
 //			System.out.println("Contains " + pos.found + " row: " + pos.row
 //		        + " " + pos.recordId + " " + pos.currentFieldNumber
@@ -2051,8 +2051,8 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		String s= "";
 		if (l == null && pos.row >= 0 && pos.row < lines.size()) {
 			 l = lines.getTempLine(pos.row);
-		} 
-		
+		}
+
 		if (l != null) {
 			try {
 				if (pos.getFieldId() == Common.FULL_LINE) {
@@ -2068,10 +2068,10 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			}
 		}
 
-				 
+
 		return s;
 	}
-	
+
 	private String toStr(Object o) {
 	    String s = "";
 	    if (o != null) {
@@ -2131,12 +2131,12 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 //        if (fileChanged) {
 //        	System.out.println("FileChanged");
 //        }
-        if (fileChanged) { 
+        if (fileChanged) {
         	changeStatus = CHANGED;
         } else {
         	changeStatus = NO_CHANGE;
         }
-        
+
     }
 
 	public boolean isSaveAvailable() {
@@ -2178,7 +2178,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	public final void setLayout(Layout layout) {
 		this.layout = layout;
 		lines.setLayout(layout);
-		
+
 		maxNumColumns = -1;
 		columnMapping = NULL_MAPPING;
 	}
@@ -2268,11 +2268,11 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    }
 
 	    toSave &= sameName;
-	    
+
 	    if (sameName) {
 	    	changeStatus = BEING_SAVED;
 	    	chg = new PropertyChangeListener() {
-	
+
 				@Override
 				public void propertyChange(PropertyChangeEvent arg0) {
 					if (changeStatus == BEING_SAVED) {
@@ -2283,7 +2283,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			};
 	    }
 
-	    saveFile(lines2write, outFile, toSave, chg); 	    
+	    saveFile(lines2write, outFile, toSave, chg);
 	}
 
 
@@ -2308,7 +2308,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    boolean isGZip = checkIfGZip(pFileName);
 	    AbstractLineWriter writer = ioProvider.getLineWriter(layout.getFileStructure());
 	    FileWriter fileWriter = new FileWriter(pLines, layout, pFileName, backup, isGZip, writer);
-	    
+
 	    dropCompletedWriters();
 
 	    if (pLines.size() < 30000) {
@@ -2319,7 +2319,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    } else {
 	    	try {
 	    		net.sf.RecordEditor.re.file.FileWriterBackground fw = new net.sf.RecordEditor.re.file.FileWriterBackground(fileWriter);
-				
+
 				if (chgListner != null) {
 					fw.addPropertyChangeListener(chgListner);
 				}
@@ -2337,9 +2337,9 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    	if (writers.get(i).isDone()) {
 	    		writers.remove(i);
 	    	}
-	    }		
+	    }
 	}
-	
+
 //	/**
 //	 * Writes the lines to using supplied writer
 //	 * @param writer writer to write lines to
@@ -2352,12 +2352,12 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 //	    int i;
 //
 //	    writer.setLayout(layout);
-//	    
+//
 //	    if (pLines instanceof DataStore) {
 //	    	DataStore ds = (DataStore) pLines;
 //		    for (i = 0; i < pLines.size(); i++) {
 //		        writer.write(ds.getTempLine(i));
-//		    }	
+//		    }
 //	    } else {
 //		    for (i = 0; i < pLines.size(); i++) {
 //		        writer.write(pLines.get(i));
@@ -2366,7 +2366,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 //
 //	    writer.close();
 //	}
-	
+
 	/**
 	 * Get the maximum number of lines that can be held
 	 * @return maximum number of lines that can be held
@@ -2395,7 +2395,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 
         FilePosition pos = new FilePosition(0, 0, 0, 0, true);
         boolean filterNonPrefered = false;
-        
+
         if (layout.getRecordCount() > 1) {
         	for (k = 0; (!filterNonPrefered) && k < layout.getRecordCount(); k++) {
         		filterNonPrefered = filter.isInclude(k) && "".equals(layout.getRecord(k).getSelectionValue());
@@ -2459,17 +2459,17 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 
         if (selectedLines.size() > 0) {
     		int[] rows = new int[layout.getRecordCount()];
-            
+
     	    for (i = 0; i < layout.getRecordCount(); i++) {
     	    	rows[i] = getLayoutColumnCount(i);
     	    }
-    	
+
             return new FileView<Layout>(selectedLines, baseFile, new FieldMapping(filter.getFieldMap(), rows));
         }
         return null;
 	}
 
-	private boolean getFilteredView_MatchesFilter(int rowNum,  int recordType, FilePosition pos, 
+	private boolean getFilteredView_MatchesFilter(int rowNum,  int recordType, FilePosition pos,
 			FilterFieldList list, boolean defaultOk, AbstractLine line) {
 		boolean ok = defaultOk;
 		for (int j = 0; j < FilterFieldList.NUMBER_FIELD_FILTER_ROWS; j++) {
@@ -2479,11 +2479,11 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 
 	         if (filterField.getFieldNumber() != FilterField.NULL_FIELD) {
 	        	boolean ignorecase = filterField.getIgnoreCase().booleanValue();
-	
+
 	       		pos.setAll(rowNum, 0, recordType, fldNum, true);
 	       		pos.currentLine = line;
 	            int op = filterField.getOperator();
-	
+
 	            if ((op == Compare.OP_CONTAINS)
 	            ||  (op == Compare.OP_DOESNT_CONTAIN)) {
 	            	ok = contains(ignorecase, pos, val, op == Compare.OP_CONTAINS);
@@ -2497,8 +2497,8 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
         }
 		return ok;
 	}
-	
-	
+
+
 	/**
 	 * Get a view based on the current file
 	 * @return duplicate view
@@ -2519,7 +2519,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    if (rows == null || rows.length == 0) {
 	        return null;
 	    }
-	    DataStoreStd<AbstractLine> selectedLines 
+	    DataStoreStd<AbstractLine> selectedLines
 	    		= new DataStoreStd<AbstractLine>(layout, rows.length);
 
 	    for (int i = 0; i < rows.length; i++) {
@@ -2571,8 +2571,8 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    }
 
         return new FileView(
-        		new DataStoreStd<AbstractLine>(layout, list), 
-        		baseFile, 
+        		new DataStoreStd<AbstractLine>(layout, list),
+        		baseFile,
         		columnMapping);
 	}
 
@@ -2581,7 +2581,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	 */
 	public int getRealColumn(int layoutIndex, int inColumn) {
 	    int ret = columnMapping.getRealColumn(layoutIndex, inColumn);
-	    
+
 	    ret = layout.getAdjFieldNumber(layoutIndex, ret);
 
 	    return ret;
@@ -2638,7 +2638,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 							recNums[i - firstRow] =  lines.indexOf(baseFile.getLine(i));
 							System.out.println(">" + i + " " + recNums[i - firstRow]);
 						}
-						
+
 						deleteLinesFromView(recNums);
 					}
 				break;
@@ -2728,7 +2728,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 
         sortNotify();
     }
-    
+
     /**
      * Sorts the file into the requested sequence
      * @param compare compare to use in the sort
@@ -2736,42 +2736,42 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
     public void sort(int[] rows, LineCompare compare) {
     	int i;
     	AbstractLine[] rowsToSort = new AbstractLine[rows.length];
-    	
+
     	for (i = 0; i < rows.length; i++) {
     		rowsToSort[i] = lines.get(rows[i]);
     	}
-    	
+
         Arrays.sort(rowsToSort, compare);
-        
+
     	for (i = 0; i < rows.length; i++) {
     		lines.set(rows[i], rowsToSort[i]);
     	}
-      
+
         sortNotify();
     }
 
-    
+
     private void sortNotify() {
-    	
+
     	changeStatus = CHANGED;
     	if (this.treeTableNotify == null) {
     		this.fireTableDataChanged();
     	} else if (lines.size() > 0) {
     		Object rootObject = treeTableNotify.getRoot();
-    		
+
     		if (rootObject instanceof AbstractLineNode) {
 				AbstractLineNode node;
-				int[] childIndices = new int[lines.size()]; 
+				int[] childIndices = new int[lines.size()];
 				AbstractLineNode[] children = new AbstractLineNode[lines.size()];
     			AbstractLineNode root = (AbstractLineNode) rootObject;
     			synchronized (rootObject) {
 	    			root.removeAllChildren();
-	    			
+
 	    			for (int i =0; i < getRowCount(); i++) {
 	    				node = getTreeNode(lines.get(i));
 	    				childIndices[i] = i;
 	    				children[i] = node;
-	    				
+
 	    				if (node != null) {
 	    					root.add(node);
 	    				}
@@ -2779,19 +2779,19 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
     			}
     			treeTableNotify.fireTreeNodesChanged(root, root.getPath(), childIndices, children);
     		}
-    		
+
     	}
     }
-    
+
     public Iterator<AbstractLine> iterator() {
 
     	if (layout.hasChildren()) {
     		return new TreeIteratorForward(lines, lines.get(0));
     	}
-    	
+
     	return lines.listIterator();
     }
-    
+
 	/**
 	 * @return the lines
 	 */
@@ -2802,13 +2802,13 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	public final List<AbstractLine> getLines(int[] lineNumbers) {
 	    ArrayList<AbstractLine> returnLines = new ArrayList<AbstractLine>(lineNumbers.length);
 	    int i;
-	
+
 	    for (i = 0; i < lineNumbers.length; i++) {
 	        returnLines.add(lines.get(lineNumbers[i]));
 	    }
 	    return returnLines;
 	}
-	
+
 	/**
 	 * @param newDisplayErrorDialog the displayErrorDialog to set
 	 */
@@ -2866,9 +2866,9 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			treeTableNotify.removeTreeModelListener(l);
 		}
 	}
-	
-	
-	
+
+
+
 	/**
 	 * @see javax.swing.event.TreeModelListener#treeNodesChanged(javax.swing.event.TreeModelEvent)
 	 */
@@ -2911,9 +2911,9 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		} else {
 			baseFile.fireRowUpdated(0, line);
 		}
-	} 
-	
-	
+	}
+
+
 	private void invokeLaterDataChanged() {
 		SwingUtilities.invokeLater(new Runnable() {
 
@@ -2926,7 +2926,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			}
 		});
 	}
-	 
+
 	private DataStore getDataStore(int lines, long bytes, AbstractLineReader reader, String fname) {
 		if (useBigFileModel(bytes)) {
 			LayoutDetail l = (LayoutDetail) layout;
@@ -2937,10 +2937,11 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 				//Common.logMsg(AbsSSLogger.WARNING,
 				//		"\nEditing using Char-Line Big memory Model - this will reduce functionality !!!", null);
 				return new DataStoreLarge(
-						(LayoutDetail) layout, 
-						FileDetails.CHAR_LINE, 
+						(LayoutDetail) layout,
+						FileDetails.CHAR_LINE,
 						100000);
 			} else 	if (l.getFileStructure() == Constants.IO_UNKOWN_FORMAT
+					||  l.getFileStructure() == Constants.IO_WIZARD
 					||  l.getLayoutType()    == Constants.rtDelimited
 					||  l.getFileStructure() == Constants.IO_NAME_1ST_LINE
 					||  l.getFileStructure() == Constants.IO_GENERIC_CSV) {
@@ -2948,40 +2949,40 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 //				Common.logMsg(AbsSSLogger.WARNING,
 //						"\nEditing using Big Variable Length memory Model - this will reduce functionality !!!", null);
 				return new DataStoreLarge(
-						(LayoutDetail) layout, 
-						FileDetails.VARIABLE_LENGTH, 
+						(LayoutDetail) layout,
+						FileDetails.VARIABLE_LENGTH,
 						100000);
 			} else 	if (l.isFixedLength()) {
 				System.out.println("Editing using Big Fixed Length memory Model - this will reduce functionality !!!");
 //				Common.logMsg(AbsSSLogger.WARNING,
 //						"\nEditing using Big Fixed Length memory Model - this will reduce functionality !!!", null);
 				return new DataStoreLarge(
-						(LayoutDetail) layout, 
-						FileDetails.FIXED_LENGTH, 
+						(LayoutDetail) layout,
+						FileDetails.FIXED_LENGTH,
 						layout.getMaximumRecordLength());
 			} else {
 				System.out.println("Editing using Big Variable Length memory Model - this will reduce functionality !!!");
 //				Common.logMsg("", null);
 //				Common.logMsg(AbsSSLogger.WARNING,
 //						"Editing using Big Variable Length memory Model - this will reduce functionality !!!", null);
-				
+
 				int type = FileDetails.VARIABLE_LENGTH;
 				AbstractByteReader r = null;
-				
+
 				char largeOpt = Common.OPTIONS.largeVbOption.get();
 				if (reader != null && reader instanceof LineReaderWrapper
 				&& l.getFileStructure() != Constants.IO_VB_DUMP
 				&& (   ( largeOpt == ProgramOptions.LARGE_VB_TEST)
 					|| ( largeOpt == ProgramOptions.LARGE_VB_YES
-					  && bytes > Runtime.getRuntime().totalMemory())	
+					  && bytes > Runtime.getRuntime().totalMemory())
 				)) {
 					type = FileDetails.VARIABLE_LENGTH_BASEFILE;
 					r = ((LineReaderWrapper) reader).getByteReader();
 				}
 
 				return new DataStoreLarge(
-						(LayoutDetail) layout, 
-						type, 
+						(LayoutDetail) layout,
+						type,
 						layout.getMaximumRecordLength(),
 						r,
 						fname);
@@ -2989,10 +2990,10 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		}
 		return new DataStoreStd<AbstractLine>(layout, lines);
 	}
-	
+
 	public boolean useBigFileModel(long bytes) {
 //		System.out.println(
-//				(layout instanceof LayoutDetail) 
+//				(layout instanceof LayoutDetail)
 //			  + " && " + bytes + " > " + Common.getMemoryCompare());
 		return layout instanceof LayoutDetail && bytes > Common.getMemoryCompare();
 	}
@@ -3005,15 +3006,15 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	public boolean[] getFieldVisibility(int recordIdx) {
 		return columnMapping.getFieldVisibility(recordIdx);
 	}
-	
+
 	public boolean isSimpleCsvFile() {
 		return layout.getRecordCount() == 1
 		&& (   layout.getFileStructure() == Constants.IO_NAME_1ST_LINE
 			|| layout.getRecord(0).getRecordType() == Constants.rtDelimited
 			|| layout.getRecord(0).getRecordType() == Constants.rtDelimitedAndQuote);
 	}
-	
-	
+
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.file.GetView#getFileView()
 	 */

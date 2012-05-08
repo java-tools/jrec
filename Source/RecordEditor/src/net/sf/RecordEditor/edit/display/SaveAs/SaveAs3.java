@@ -16,7 +16,7 @@
  *
  * # Version 0.61 Bruce Martin 2007/04/14
  *   - Refactoring changes from moving classes to new packages
- *   
+ *
  * # Version 0.62 Bruce Martin 2007/05/01
  *   - Added <Enter> key support
  */
@@ -57,7 +57,7 @@ import net.sf.RecordEditor.utils.swing.FileChooser;
  * </ol>
  *
  * <p>The file can be save in the following formats
- * <ol compact> 
+ * <ol compact>
  *   <li>Data (ie same as the source file
  *   <li>HTML table (either Spreadsheet format or one record per
  *       table).
@@ -88,22 +88,22 @@ public final class SaveAs3 extends ReFrame
     public static final int FORMAT_SCRIPT = 7;
     public static final int FORMAT_XSLT = 8;
     public static final int FORMAT_VELOCITY = 9;
-    
-    
-    
+
+
+
 	//TODO Replace by the enum above !!!!!
     private final static int[] FORMAT_TRANSLATION = {
     	CommonSaveAsFields.FMT_DATA,  CommonSaveAsFields.FMT_HTML,   CommonSaveAsFields.FMT_HTML,
-    	CommonSaveAsFields.FMT_HTML,  CommonSaveAsFields.FMT_CSV,    CommonSaveAsFields.FMT_FIXED, 
+    	CommonSaveAsFields.FMT_HTML,  CommonSaveAsFields.FMT_CSV,    CommonSaveAsFields.FMT_FIXED,
     	CommonSaveAsFields.FMT_XML,   CommonSaveAsFields.FMT_SCRIPT,
     	CommonSaveAsFields.FMT_XSLT,  CommonSaveAsFields.FMT_VELOCITY};
     private static int[] FORMAT_HTML_TRANSLATION = {
-    	-1, 
-    	SaveAsPnlBase.SINGLE_TABLE, 
+    	-1,
+    	SaveAsPnlBase.SINGLE_TABLE,
     	SaveAsPnlBase.TABLE_PER_ROW,
     	SaveAsPnlBase.TREE_TABLE
     };
-    
+
 
     private CommonSaveAsFields commonSaveFields;
     private SaveAsPnlBase[] pnls;
@@ -113,35 +113,35 @@ public final class SaveAs3 extends ReFrame
     private FileChooser fileNameTxt = new FileChooser(false);
 
     private JButton saveFile
-    	= new JButton("save file", 
+    	= new JButton("save file",
     			      Common.getRecordIcon(Common.ID_SAVE_ICON));
 //    private JComboBox saveWhat   = new JComboBox();
-//    
+//
 //    private JCheckBox treeExportChk    = new JCheckBox(),
 //    		          nodesWithDataChk = new JCheckBox(),
 //    		          keepOpenChk      = new JCheckBox(),
 //    		          editChk          = new JCheckBox();
-    
+
     private JTabbedPane formatTab = new JTabbedPane();
 
     //private JTextArea msg = new JTextArea();
 
 
     private FileView<?> file;
-    
+
     private int currentIndex;
     private String currentExtension = null;
-    
+
     private boolean usingTab = true;
-    
-    
+
+
     private ChangeListener tabListner = new ChangeListener() {
 
 		@Override
 		public void stateChanged(ChangeEvent e) {
-	
+
 			int idx = getTabIndex();
-			
+
 			if (currentIndex != idx) {
 				changeExtension();
 
@@ -149,17 +149,17 @@ public final class SaveAs3 extends ReFrame
 			}
 		}
     };
-    
-    
 
- 
-    
+
+
+
+
     private KeyAdapter listner = new KeyAdapter() {
         /**
          * @see java.awt.event.KeyAdapter#keyReleased
          */
         public final void keyReleased(KeyEvent event) {
-        	
+
         	switch (event.getKeyCode()) {
         	case KeyEvent.VK_ENTER:		saveFile();									break;
         	case KeyEvent.VK_ESCAPE:	SaveAs3.this.doDefaultCloseAction();		break;
@@ -180,29 +180,29 @@ public final class SaveAs3 extends ReFrame
 
 
 	public SaveAs3(
-    		final AbstractFileDisplay recordFrame, 
+    		final AbstractFileDisplay recordFrame,
     		final FileView<?> fileView,
     		int formatIdx, String script) {
-        super(fileView.getFileNameNoDirectory(), 
+        super(fileView.getFileNameNoDirectory(),
         	 ((formatIdx <= 0 || Common.OPTIONS.showAllExportPnls.isSelected()) ? "Export" : "Export1"),
               fileView.getBaseFile());
 
-        
+
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
-    	
+
+
     	FocusListener templateChg = new FocusAdapter() {
     		@Override
     		public void focusLost(FocusEvent e) {
     			//System.out.print("Focus Lost ...");
     			changeExtension();
     		}
-    		
+
     	};
 
         commonSaveFields = new CommonSaveAsFields(recordFrame, fileView, templateChg);
-        file = fileView; 
-        
+        file = fileView;
+
         SaveAsPnlBase[] p = {
         		new SaveAsPnlBasic.Data(commonSaveFields),
         		new SaveAsPnlCsv(commonSaveFields),
@@ -220,7 +220,7 @@ public final class SaveAs3 extends ReFrame
         init_200_SetupTabPnls(formatIdx, script);
         init_300_layoutScreen();
         //System.out.println(" !! create class 4 " + this.getClass().getName() + " " + this.isMaximum());
-	
+
         //System.out.println(" !! create class 5 " + this.getClass().getName() + " " + this.isMaximum());
 
         super.addMainComponent(pnl);
@@ -234,10 +234,10 @@ public final class SaveAs3 extends ReFrame
         setToMaximum(false);
     }
 
-    
+
     private void init_100_setupFields_GetPnlLength(int formatType) {
 //        int len = pnls.length - 1;
-    	
+
     	int saveAsId = FORMAT_TRANSLATION[formatType];
     	int idx = 0;
         String fname = file.getFileName();
@@ -245,7 +245,7 @@ public final class SaveAs3 extends ReFrame
         	fname = Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get();
         }
 
-       
+
 //        if (! Common.OPTIONS.xsltAvailable.isSelected()) {
 //        	len -= 1;
 //        	pnls[pnls.length - 2] = pnls[pnls.length - 1];
@@ -255,7 +255,7 @@ public final class SaveAs3 extends ReFrame
 //        	len += 1;
 //        }
         currentIndex = saveAsId;
- 
+
         for (int i = 0; i < pnls.length; i++) {
         	pnls[i].onlyData.setSelected(! file.isBinaryFile());
         	pnls[i].showBorder.setSelected(true);
@@ -264,6 +264,7 @@ public final class SaveAs3 extends ReFrame
         		if (pnls[i].panelFormat == saveAsId) {
         			currentIndex = idx;
         		}
+        		pnls[idx] = pnls[i];
         		idx += 1;
         	}
         }
@@ -284,7 +285,7 @@ public final class SaveAs3 extends ReFrame
 
     }
 
-    
+
     private void init_200_SetupTabPnls(int formatIdx, String script) {
 
 		formatTab.setSelectedIndex(currentIndex);
@@ -295,14 +296,14 @@ public final class SaveAs3 extends ReFrame
 			getSelectedPnl().setTableOption(FORMAT_HTML_TRANSLATION[formatIdx]);
 			break;
 		}
-		
+
 		if (script != null && ! "".equals(script) && getSelectedPnl().template != null) {
 			getSelectedPnl().setTemplateText(script);
 			changeExtension();
 		}
     }
 
-    
+
     private void init_300_layoutScreen() {
 
 		pnl.addHelpBtn(Common.getHelpButton());
@@ -310,18 +311,18 @@ public final class SaveAs3 extends ReFrame
 		pnl.setHelpURL(Common.formatHelpURL(Common.HELP_SAVE_AS));
         pnl.addLine("File Name", fileNameTxt, fileNameTxt.getChooseFileButton());
         pnl.addLine("What to Save", commonSaveFields.saveWhat);
-        
+
         if (commonSaveFields.getTreeFrame() != null) {
         	commonSaveFields.treeExportChk.setSelected(true);
         	commonSaveFields.nodesWithDataChk.setSelected(false);
 
-        	
+
         	pnl.addLine("Export Tree", commonSaveFields.treeExportChk);
         	pnl.addLine("Only export Nodes with Data", commonSaveFields.nodesWithDataChk);
-        	
+
         	if (commonSaveFields.saveWhat.getItemCount() > 1) {
         		commonSaveFields.saveWhat.addActionListener(new ActionListener() {
-					
+
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						setVisibility();
@@ -330,8 +331,8 @@ public final class SaveAs3 extends ReFrame
         	}
         }
 
-        pnl.setGap(BasePanel.GAP1);       
-        
+        pnl.setGap(BasePanel.GAP1);
+
         if (currentIndex < 1 || currentIndex >= pnls.length || Common.OPTIONS.showAllExportPnls.isSelected()) {
 	        pnl.addLine("Output Format:", null);
 	        pnl.addComponent(1, 5,BasePanel.FILL, BasePanel.GAP,
@@ -343,12 +344,12 @@ public final class SaveAs3 extends ReFrame
 	                pnls[currentIndex].panel);
 	        pnls[currentIndex].panel.setBorder(
 	        		BorderFactory.createTitledBorder(
-	        				BorderFactory.createRaisedBevelBorder(), 
+	        				BorderFactory.createRaisedBevelBorder(),
 	        				pnls[currentIndex].getTitle() + " Options : "));
 	        //formatTab.setSelectedIndex(currentIndex);
 	        usingTab = false;
        }
-        
+
         pnl.setGap(BasePanel.GAP1);
         pnl.addLine("Edit Output File", commonSaveFields.editChk);
         pnl.addLine("Keep screen open", commonSaveFields.keepOpenChk, saveFile);
@@ -357,8 +358,8 @@ public final class SaveAs3 extends ReFrame
         pnl.setHeight(BasePanel.GAP5);
 
     }
-    
-   
+
+
 
 //    private int[] getFieldWidths() {
 //		AbstractLayoutDetails l = file.getLayout();
@@ -367,11 +368,11 @@ public final class SaveAs3 extends ReFrame
 //   		int[] ret = new int[colCount];
 //   		Object o;
 //   		int en = Math.min(3000, file.getRowCount());
-//   		
+//
 //   		for (int i = 0; i < en; i++) {
 //   			for (int j = 0; j < colCount; j++) {
 //   				o = file.getValueAt(i, j + FileView.SPECIAL_FIELDS_AT_START);
-//   				
+//
 //   				if (j == 0) {
 //   					o = o;
 //   				}
@@ -380,7 +381,7 @@ public final class SaveAs3 extends ReFrame
 //   				}
 //   			}
 //   		}
-//   		
+//
 //   		return ret;
 //    }
 
@@ -398,13 +399,13 @@ public final class SaveAs3 extends ReFrame
         saveFile();
     }
 
- 
+
     /**
      * Saves the file
      */
     private void saveFile() {
         String outFile = fileNameTxt.getText();
-       
+
 
         if (outFile.equals("")) {
         	commonSaveFields.message.setText("Please Enter a file name");
@@ -418,19 +419,19 @@ public final class SaveAs3 extends ReFrame
         	int lastDot = outFile.lastIndexOf('.');
         	ext = outFile.substring(lastDot);
         	if (activePnl.extensionType >= 0 && lastDot > 0) {
-        		
+
         		RecentFiles.getLast().putFileExtension(
-        				activePnl.extensionType, 
-        				activePnl.template.getText(), 
+        				activePnl.extensionType,
+        				activePnl.template.getText(),
         				ext,
         				activePnl.extension);
         	}
         	activePnl.save(selection, outFile);
-       	
+
         	if (commonSaveFields.editChk.isSelected()) {
         		activePnl.edit(outFile, ext);
         	}
- 
+
             if (! commonSaveFields.keepOpenChk.isSelected()) {
 	            formatTab.removeChangeListener(tabListner);
 	            this.setVisible(false);
@@ -444,42 +445,42 @@ public final class SaveAs3 extends ReFrame
 
 
 
- 
-    
+
+
     private SaveAsPnlBase getSelectedPnl() {
     	return pnls[getTabIndex()];
     }
 
- 
-    
+
+
     private void setVisibility() {
     	SaveAsPnlBase pnl = getSelectedPnl();
-    	
+
     	commonSaveFields.setVisibility(pnl.panelFormat, pnl.singleTable.isSelected());
     }
-    
+
     private void changeExtension() {
 		String s = fileNameTxt.getText();
 		int idx = getTabIndex();
 		String newExtension = getExtension(idx);
-		
-//		System.out.println("Extension: " + idx 
+
+//		System.out.println("Extension: " + idx
 //				+ " " + currentExtension
 //				+ " ~ " + newExtension
-//				+ " " + s + " # " + s.endsWith(currentExtension));		
+//				+ " " + s + " # " + s.endsWith(currentExtension));
 		if (currentExtension != null
 		&& s.endsWith(currentExtension)
-		&&  ! currentExtension.equals(newExtension)) { 
+		&&  ! currentExtension.equals(newExtension)) {
 			fileNameTxt.setText(
 					s.substring(0, s.length() - currentExtension.length())
 				+	newExtension
 			);
 		}
-		
+
 		currentIndex = idx;
 		currentExtension = newExtension;
     }
-    
+
     private int getTabIndex() {
     	int idx = currentIndex;
     	if (usingTab) {
@@ -487,14 +488,14 @@ public final class SaveAs3 extends ReFrame
     	}
     	return idx;
     }
-    
+
     private String getExtension(int idx) {
     	if (pnls[idx].template == null) {
     		return pnls[idx].extension;
     	}
     	return RecentFiles.getLast().getFileExtension(
-    			pnls[idx].extensionType, 
-    			pnls[idx].template.getText(),  
+    			pnls[idx].extensionType,
+    			pnls[idx].template.getText(),
     			pnls[idx].extension);
     }
 }

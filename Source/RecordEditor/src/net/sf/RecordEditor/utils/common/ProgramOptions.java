@@ -10,16 +10,16 @@ public class ProgramOptions {
     public static final char LARGE_VB_YES  = 'Y';
     public static final char LARGE_VB_NO   = 'N';
     public static final char LARGE_VB_TEST = 'T';
-    
+
     public static final char SIZE_MAXIMISED = 'M';
     public static final char SIZE_LAST      = 'L';
     public static final char SIZE_SPACE_AROUND = 'S';
     public static final char SIZE_SPECIFIED = 'D';
-    
+
     private static final char[] compressOptions = {COMPRESS_SPACE, COMPRESS_READ, COMPRESS_READ_FAST_CPU, COMPRESS_NO, COMPRESS_YES};
     private static final char[] largeOptions = {LARGE_VB_NO, LARGE_VB_YES, LARGE_VB_TEST};
     private static final char[] startSize = {SIZE_MAXIMISED, SIZE_LAST, SIZE_SPACE_AROUND, SIZE_SPECIFIED};
-                              
+
 	public final BoolOpt searchAllFields = new BoolOpt(Parameters.SEARCH_ALL_FIELDS);
 	public final MultiValOpt screenStartSizeOpt  = new MultiValOpt(Parameters.SCREEN_SIZE_OPTION, startSize, SIZE_MAXIMISED);
 
@@ -38,10 +38,10 @@ public class ProgramOptions {
 		 */
 		@Override
 		public boolean isSelected() {
-			return (! searchForCompBigEndian.isSelected()) 
+			return (! searchForCompBigEndian.isSelected())
 				&& super.isSelected();
 		}
-		
+
 	};
 	public final BoolOpt logToFront = new BoolOpt(Parameters.BRING_LOG_TO_FRONT);
 	public final BoolOpt loadInBackgroundThread = new BoolOpt(Parameters.PROPERTY_LOAD_FILE_BACKGROUND);
@@ -50,27 +50,29 @@ public class ProgramOptions {
 	public final BoolOpt showAllExportPnls = new BoolOpt(Parameters.SHOW_ALL_EXPORT_OPTIONS);
 	public final BoolOpt deleteSelectedWithDelKey = new BoolOpt(Parameters.DEL_SELECTED_WITH_DEL_KEY);
 	public final BoolOpt warnWhenUsingDelKey = new BoolOpt(Parameters.WARN_WHEN_USING_DEL_KEY);
-	
+
 	public final BoolOpt csvSearchFixed = new BoolOpt(Parameters.CSV_LOOK_4_FIXED_WIDTH);
+	public final BoolOpt useFileWizard  = new BoolOpt(Parameters.USE_FILE_WIZARD);
 
 	public final UpdateableBoolOpt highlightEmpty = new UpdateableBoolOpt(Parameters.PROPERTY_HIGHLIGHT_EMPTY);
 	public final InternalBoolOption highlightEmptyActive = new InternalBoolOption(false);
-	
+
 	public final InternalBoolOption xsltAvailable = new InternalBoolOption(true);
-	
+	public final InternalBoolOption fileWizardAvailable = new InternalBoolOption(false);
+
 	public final IntOpt significantCharInFiles1 = new IntOpt("SignificantCharInFiles.1", 6, 1);
 	public final IntOpt significantCharInFiles2 = new IntOpt("SignificantCharInFiles.2", 12, 1);
 	public final IntOpt significantCharInFiles3 = new IntOpt("SignificantCharInFiles.3", 18, 1);
 	public final IntOpt launchIfMatch = new IntOpt("LauchEditorIfMatch", 8, 1);
-	
+
 	public final IntOpt chunkSize = new IntOpt(Parameters.PROPERTY_BIG_FILE_CHUNK_SIZE, 1048576, 1024);
 	public final IntOpt filterLimit = new IntOpt(Parameters.PROPERTY_BIG_FILE_FILTER_LIMIT, 300000, 1000);
 	public final IntOpt bigFilePercent = new IntOpt(Parameters.PROPERTY_BIG_FILE_PERCENT, 14, 1);
-	
-	
+
+
 	public final MultiValOpt compressOption = new MultiValOpt(Parameters.PROPERTY_BIG_FILE_COMPRESS_OPT, compressOptions, COMPRESS_READ);
 	public final MultiValOpt largeVbOption = new MultiValOpt(Parameters.PROPERTY_BIG_FILE_LARGE_VB, largeOptions, LARGE_VB_YES);
-	
+
 	public final StringOpt DEFAULT_IO_NAME = new StringOpt(Parameters.DEFAULT_IO, "");
 	public final StringOpt DEFAULT_BIN_NAME = new StringOpt(Parameters.DEFAULT_BINARY, "");
 	public final StringOpt COPYBOOK_READER = new StringOpt(Parameters.DEFAULT_COPYBOOK_READER, "");
@@ -89,37 +91,37 @@ public class ProgramOptions {
 	public final FileNameOpt XSLT_JAR1 = new FileNameOpt(Parameters.XSLT_JAR1);
 	public final FileNameOpt XSLT_JAR2 = new FileNameOpt(Parameters.XSLT_JAR2);
 
-	
+
 	public static class BoolOpt {
 		private String param;
-		
+
 		public BoolOpt(String value) {
 			param = value;
 		}
-		
+
 		public boolean isSelected() {
 			boolean ret;
-			
+
 			if (Parameters.isDefaultTrue(param)) {
 				ret = ! "N".equalsIgnoreCase(Parameters.getString(param));
 			} else {
 				ret = "Y".equalsIgnoreCase(Parameters.getString(param));
 			}
-			
+
 			return ret;
 		}
 	}
-	
+
 	public static class InternalBoolOption  {
 
 		boolean val;
-		
 
-		public InternalBoolOption(boolean initialVal) {		
+
+		public InternalBoolOption(boolean initialVal) {
 			val = initialVal;
 		}
-		
-		
+
+
 		public boolean isSelected() {
 			return val;
 		}
@@ -128,33 +130,33 @@ public class ProgramOptions {
 			val = newValue;
 		}
 	}
-	
+
 	public static final class UpdateableBoolOpt extends InternalBoolOption {
 		private String param;
-		
+
 
 		public UpdateableBoolOpt(String value) {
 			super("Y".equalsIgnoreCase(Parameters.getString(value)));
 			param = value;
-		}	
-		
+		}
+
 		public void set(boolean newVal) {
 			String value = "N";
-			
-			val = newVal;			
+
+			val = newVal;
 			if (val) {
 				value = "Y";
 			}
-			
+
 			Parameters.setProperty(param, value);
 		}
 	}
-	
+
 	public static final class IntOpt {
 		private String param;
 		private int defValue;
 		private int mult;
-		
+
 		public IntOpt(String value, int defaultValue, int multBy) {
 			param = value;
 			defValue = defaultValue;
@@ -174,13 +176,13 @@ public class ProgramOptions {
 			return ret;
 		}
 	}
-	
-	
+
+
 	public static class StringOpt {
 		protected final String param;
 		private String defValue;
 
-		
+
 		public StringOpt(String value, String defaultValue) {
 			param = value;
 			defValue = defaultValue;
@@ -193,19 +195,19 @@ public class ProgramOptions {
 			if (s != null) {
 				ret = s;
 			}
-			
+
 			return ret;
 		}
-		
+
 		public void set(String newVal) {
 			Parameters.setProperty(param, newVal);
 		}
 	}
-	
-	
+
+
 	public static class FileNameOpt {
 		private String param;
-		
+
 		public FileNameOpt(String value) {
 			param = value;
 		}
@@ -216,24 +218,24 @@ public class ProgramOptions {
 		public String getNoStar() {
 			return  Parameters.dropStar(get());
 		}
-		
+
 		public void set(String newVal) {
 			Parameters.setProperty(param, newVal);
 		}
 	}
-	
+
 	public static final class FileNameOptWithDefault {
 		private String param;
 		private String defaultValue;
 		public FileNameOptWithDefault(String value, String defaultValue) {
 			param = value;
-			
+
 			this.defaultValue = defaultValue;
 		}
-		
+
 		public String get() {
 			String s = Parameters.getFileName(param);
-			
+
 			if (s == null || "".equals(s)) {
 				s = Parameters.expandVars(defaultValue);
 				Parameters.setProperty(param, defaultValue);
@@ -246,7 +248,7 @@ public class ProgramOptions {
 		private String param;
 		private char[] options;
 		private char defaultVal;
-		
+
 
 		public MultiValOpt(String param, char[] options, char defaultVal) {
 			super();
@@ -254,14 +256,14 @@ public class ProgramOptions {
 			this.options = options;
 			this.defaultVal = defaultVal;
 		}
-		
+
 		public char get() {
 			char ret = defaultVal;
-			
+
 			String s = Parameters.getString(param);
 
 	    	if (s == null || "".equals(s)) {
-	    		
+
 	    	} else {
 	    		s = s.toUpperCase();
 	    		for (int i =0; i < options.length; i++) {
@@ -271,7 +273,7 @@ public class ProgramOptions {
 	    			}
 	    		}
 	    	}
-	    	
+
 	    	return ret;
 		}
 	}

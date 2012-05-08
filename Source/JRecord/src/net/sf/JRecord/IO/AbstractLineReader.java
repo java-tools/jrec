@@ -6,7 +6,6 @@
  */
 package net.sf.JRecord.IO;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,13 +27,13 @@ import net.sf.JRecord.External.ExternalRecord;
  *
  * <pre>
  * <b>Usage:</b>
- * 
+ *
  *         CopybookLoader loader = <font color="brown"><b>new</b></font> RecordEditorXmlLoader();
  *         LayoutDetail layout = loader.loadCopyBook(copybookName, 0, 0, "", 0, 0, <font color="brown"><b>null</b></font>).asLayoutDetail();
- *        
+ *
  *         <b>AbstractLineReader</b> reader = LineIOProvider.getInstance().getLineReader(layout.getFileStructure());
  * </pre>
- * 
+ *
  * @author Bruce Martin
  *
  */
@@ -94,36 +93,51 @@ public abstract class AbstractLineReader<Layout extends AbstractLayoutDetails<? 
             layout = pLayout;
         }
     }
-    
+
     /**
      * Several IO readers generate a layout as part of the open file process
      * (i.e. XML, Csv File withe the names on the first line)
      * But if there is no file to open, no layout is generated.
      * This method can be overwritten to provided as an alternative when there is no file.
-     * 
+     *
      * @param pLayout default standard layout.
      */
     public void generateLayout(Layout pLayout) {
     	layout = pLayout;
     }
-    
-    
-    /**
-     * Open a file using an external record Definition 
-     * @param inputStream input
-     * @param recordLayout recordlayout to use
-     * @throws IOException any IOError that occurs
-     * @throws RecordException any other error
-     */
-    public void open(InputStream inputStream, ExternalRecord recordLayout) 
-    throws IOException, RecordException {
-    	Layout pLayout = (Layout) recordLayout.asLayoutDetail();
-    	open(inputStream, pLayout);
 
-        if (layout == null) {
-            layout = pLayout;
-        }
+
+//    /**
+//     * Open a file using an external record Definition
+//     * @param inputStream input
+//     * @param recordLayout recordlayout to use
+//     * @throws IOException any IOError that occurs
+//     * @throws RecordException any other error
+//     */
+//    public void open(InputStream inputStream, ExternalRecord recordLayout)
+//    throws IOException, RecordException {
+//    	Layout pLayout = (Layout) recordLayout.asLayoutDetail();
+//    	open(inputStream, pLayout);
+//
+//        if (layout == null) {
+//            layout = pLayout;
+//        }
+//    }
+
+
+    /**
+     * Open file for input
+     *
+     * @param inputStream input stream to be read
+     * @param pLayout record layout
+     *
+     * @throws IOException any IOerror
+     */
+    public void open(InputStream inputStream, String filename, Layout pLayout)
+    throws IOException, RecordException{
+    	open(inputStream, pLayout);
     }
+
 
 
     /**
@@ -136,7 +150,6 @@ public abstract class AbstractLineReader<Layout extends AbstractLayoutDetails<? 
      */
     public abstract void open(InputStream inputStream, Layout pLayout)
     throws IOException, RecordException;
-
 
 
     /**
@@ -231,7 +244,7 @@ public abstract class AbstractLineReader<Layout extends AbstractLayoutDetails<? 
     public final void setLayout(Layout pLayout) {
         this.layout = pLayout;
     }
-    
+
     public boolean canWrite() {
     	return true;
     }

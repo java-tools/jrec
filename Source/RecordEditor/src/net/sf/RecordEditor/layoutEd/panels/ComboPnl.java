@@ -55,8 +55,8 @@ public class ComboPnl extends BaseHelpPanel implements ActionListener {
 
 	public  ComboPnl(ComboRec value, int connectionIndex) {
 		super();
-		
-		connectionIdx = connectionIndex;		
+
+		connectionIdx = connectionIndex;
 
 		init_100_setupScreenFields();
 		setValues(value);
@@ -79,21 +79,21 @@ public class ComboPnl extends BaseHelpPanel implements ActionListener {
 
 	private void init_100_setupScreenFields() {
 		ReConnection con = new ReConnection(connectionIdx);
-		
+
 		this.setHelpURL(Common.formatHelpURL(Common.HELP_COMBO_EDIT));
 
 		systemTable.setConnection(con);
 		systemTable.setParams(3);
 		sfSystem = new BmKeyedComboBox(systemModel, false);
-		
+
 		valuesDB.setConnection(con);
 		//valuesDB.setParams(currVal.getComboId());
 
 		comboDetailsModel = new DBtableModel<ComboValuesRec>(ReMainFrame.getMasterFrame(), valuesDB);
 		comboDetailsModel.setCellEditable(true);
-		
+
 		comboDetails = new AbsJTable(comboDetailsModel);
-	
+
 		sfColumnType.addActionListener(this);
 	}
 
@@ -101,7 +101,7 @@ public class ComboPnl extends BaseHelpPanel implements ActionListener {
 
 	/**
 	 *  This method sets the value of the Screen values from the values in  Val.
-	 *  
+	 *
 	 *  @param val holds the values to be assigned to screen fields
 	 */
 	public void setValues(ComboRec val) {
@@ -132,26 +132,27 @@ public class ComboPnl extends BaseHelpPanel implements ActionListener {
 	public ComboRec getClone(String newName) {
 		ComboRec ret = null;
 		ComboRec temp = getValues();
-		
+
 		if (temp.isUpdateSuccessful()) {
 			ComboValuesRec rec;
 			int numRecs = comboDetailsModel.getRowCount();
-			
+
 			ret = (ComboRec) temp.clone();
 			ret.setComboName(newName);
 			sfComboName.setText(newName);
-			
+
 			for (int i = 0; i < numRecs; i++) {
 				rec = (ComboValuesRec) comboDetailsModel.getRecord(i).clone();
 				rec.setNew(true);
+				rec.setUpdateStatus(ComboValuesRec.UPDATED);
 				comboDetailsModel.setRecord(i, rec);
 			}
 			currVal = ret;
 		}
-		
+
 		return ret;
 	}
-	
+
 
 	/**
 	 *  This method gets the Screen values as a ComboListRec
@@ -160,7 +161,7 @@ public class ComboPnl extends BaseHelpPanel implements ActionListener {
 	 */
 	public ComboRec getValues() {
 		String fld="";
-		
+
 		if (currVal == null) {
 			currVal = new ComboRec();
 		}
@@ -179,7 +180,7 @@ public class ComboPnl extends BaseHelpPanel implements ActionListener {
 		}
 		return currVal;
 	}
-	
+
 	/**
 	 * Save Combo Items back to the DB
 	 */
@@ -200,7 +201,7 @@ public class ComboPnl extends BaseHelpPanel implements ActionListener {
 	public String getMsg() {
 		return msgText;
 	}
-	
+
 	/**
 	 * Stop cell editing
 	 *
@@ -219,20 +220,20 @@ public class ComboPnl extends BaseHelpPanel implements ActionListener {
 	    return updateOptions;
 	}
 
-	
+
 	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent event) {
-	
+
 		if (event.getSource() == sfColumnType) {
 			valuesDB.setColumnCount(sfColumnType.getSelectedIndex() + 1);
 			comboDetailsModel.fireTableStructureChanged();
 		}
-		
+
 	}
 
-	
+
 
 	/**
 	 * Check if the user really wants to delete a record Layout
@@ -240,7 +241,7 @@ public class ComboPnl extends BaseHelpPanel implements ActionListener {
 	 */
 	public final boolean isOkToDelete() {
 		boolean ret = false;
-		
+
 		if (currVal != null) {
 			int result = JOptionPane.showConfirmDialog(null,
 					"Are you sure you want to delete record layout: " + sfComboName.getText(),

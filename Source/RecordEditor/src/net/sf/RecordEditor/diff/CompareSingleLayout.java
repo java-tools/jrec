@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package net.sf.RecordEditor.diff;
 
@@ -23,19 +23,19 @@ public class CompareSingleLayout extends AbstractWizard<DiffDefinition> {
 
 	private CmpWizardFinal finalScreen;
 	private JibxCall<DiffDefinition> jibx = null;
-	
+
 	/**
 	 * Create Single layout
 	 * @param selection record layout selection class
 	 */
 	public CompareSingleLayout(AbstractLayoutSelection<?> selection, String recentFiles) {
 		this(
-			 selection, 
-			 new net.sf.RecordEditor.jibx.compare.DiffDefinition(), 
+			 selection,
+			 new net.sf.RecordEditor.jibx.compare.DiffDefinition(),
 			 recentFiles);
 	}
-	
-	
+
+
 	/**
 	 * Create Single layout
 	 * @param selection record layout selection class
@@ -44,18 +44,18 @@ public class CompareSingleLayout extends AbstractWizard<DiffDefinition> {
 	@SuppressWarnings("unchecked")
 	public CompareSingleLayout(AbstractLayoutSelection selection, DiffDefinition definition, String recentFiles) {
 		super("Single Layout Compare", definition);
-		
-		AbstractWizardPanel<DiffDefinition>[] pnls = new AbstractWizardPanel[3]; 
+
+		AbstractWizardPanel<DiffDefinition>[] pnls = new AbstractWizardPanel[3];
 
 		selection.setMessage(super.getMessage());
-		
+
 		definition.type = DiffDefinition.TYPE_SINGLE_LAYOUT;
-		
+
 		finalScreen = new CmpWizardFinal(selection, null);
 		pnls[0] = new GetFiles(selection, recentFiles);
 		pnls[1] = new CmpFieldSelection(selection);
 		pnls[2] = finalScreen;
-		
+
 		super.setPanels(pnls);
 	}
 
@@ -66,15 +66,15 @@ public class CompareSingleLayout extends AbstractWizard<DiffDefinition> {
 	 */
 	@Override
 	public void finished(DiffDefinition details) {
-		
+
 		if (finalScreen.isToRun()) {
 			finalScreen.run();
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 	/**
 	 * @see net.sf.RecordEditor.utils.wizards.AbstractWizard#executeAction(int)
 	 */
@@ -83,7 +83,7 @@ public class CompareSingleLayout extends AbstractWizard<DiffDefinition> {
        if (action == ReActionHandler.SAVE) {
     	   try {
     		   DiffDefinition diff = super.getActivePanel().getValues();
-    		   
+
     		   if (! "".equals(diff.saveFile)) {
     			   getJibx().unmarshal(diff.saveFile, diff);
     			   diff.fileSaved = true;
@@ -129,17 +129,17 @@ public class CompareSingleLayout extends AbstractWizard<DiffDefinition> {
 //		private JPanel goPanel = new JPanel();
 		private FileChooser newFileName = new FileChooser();
 		private AbstractLayoutSelection<?> layoutSelection;
-		
-		
+
+
 		public GetFiles(AbstractLayoutSelection<?> selection, String recentFiles) {
 			super(selection, recentFiles);
-			
+
 			newFileName.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());
 			layoutSelection = selection;
-			
+
 			setHelpURL(Common.formatHelpURL(Common.HELP_DIFF_SL));
 		}
-		
+
 
 		/**
 		 * @see net.sf.RecordEditor.utils.wizards.AbstractWizardPanel#getValues()
@@ -165,23 +165,23 @@ public class CompareSingleLayout extends AbstractWizard<DiffDefinition> {
 		public void setValues(DiffDefinition detail) throws Exception {
 			System.out.println("Setting Values ... ");
 			values = detail;
-			
+
 			if (! "".equals(values.oldFile.name)) {
 				fileName.setText(values.oldFile.name);
 			}
-			
+
 			if (! "".equals(values.newFile.name)) {
 				newFileName.setText(values.newFile.name);
 			}
-			
+
 			if (! "".equals(values.getLayoutDetails().name)) {
 				layoutSelection.setLayoutName(values.getLayoutDetails().name);
 			}
 		}
-		
+
 		@Override
 		protected void addFileName(BaseHelpPanel pnl) {
-					
+
 			pnl.addLine("Old File", fileName, fileName.getChooseFileButton());
 			pnl.addLine("New File", newFileName, newFileName.getChooseFileButton());
 		}
@@ -191,7 +191,7 @@ public class CompareSingleLayout extends AbstractWizard<DiffDefinition> {
 //	 * @param args
 //	 */
 //	public static void main(String[] args) {
-//		
+//
 //		 new ReMainFrame("File Compare", "");
 //		 new CmpSingleLayout(new LayoutSelectionDB(new CopyBookDbReader()));
 //	}

@@ -118,10 +118,10 @@ public class RecordFieldsRec extends AbsRecord {
       initSubKey = value.getSubKey();
   }
 
-  
-  
-  
-  
+
+
+
+
   /**
  * @see net.sf.RecordEditor.utils.jdbc.AbsRecord#hasTheKeyChanged()
  */
@@ -144,6 +144,7 @@ public boolean hasTheKeyChanged() {
                     );
 
       ret.setNew(true);
+      ret.setUpdateStatus(UPDATED);
 
       return ret;
   }

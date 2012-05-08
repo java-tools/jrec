@@ -15,15 +15,15 @@ import junit.framework.TestCase;
 
 /**
  * This class perform basic tests on the screen RecordSelectionPnl
- * 
+ *
  * @author Bruce Martin
  *
  */
 public class TestRecordSelectionPnl1 extends TestCase {
 
 	TestValues vals = new TestValues();
-	
-	
+
+
 	public void testRead() {
 		RecordSelectionDB db = new RecordSelectionDB();
 		int i = 0;
@@ -31,27 +31,27 @@ public class TestRecordSelectionPnl1 extends TestCase {
 		ArrayList<RecordSelectionRec> screenRecs;
 		rsPnl pnl;
 		 DBtableModel<RecordSelectionRec> mdl;
-		
+
 		db.setConnection(new ReConnection(Common.getConnectionIndex()));
 		db.setParams(-1331, -1330);
-		
+
 		for (RecordSelectionRec[] tst : vals.tests) {
 			vals.insertTest(-1331, tst);
 			pnl = new rsPnl("xx", idx, -1331);
-			
+
 			screenRecs = new ArrayList<RecordSelectionRec>(tst.length);
-			
+
 			mdl = pnl.getSelectionMdl();
 			for (int j = 0 ; j < mdl.size(); j++) {
 				screenRecs.add(mdl.getRecord(j));
 			}
 			vals.compare("Read " + i, tst, screenRecs);
-			
+
 			db.deleteAll();
 			i += 1;
 		}
 	}
-	
+
 	public void testRead1() {
 		RecordSelectionDB db = new RecordSelectionDB();
 		int i = 0;
@@ -59,15 +59,15 @@ public class TestRecordSelectionPnl1 extends TestCase {
 		rsPnl pnl;
 		DBtableModel<RecordSelectionRec> mdl;
 		String s;
-		
+
 		db.setConnection(new ReConnection(Common.getConnectionIndex()));
 		db.setParams(-1331, -1330);
-		
+
 		for (RecordSelectionRec[] tst : vals.tests) {
 			vals.insertTest(-1331, tst);
 			pnl = new rsPnl("xx", idx, -1331);
-			
-			
+
+
 			mdl = pnl.getSelectionMdl();
 			assertEquals("Read1 ", tst.length, mdl.size());
 			for (int j = 0 ; j < tst.length; j++) {
@@ -87,39 +87,39 @@ public class TestRecordSelectionPnl1 extends TestCase {
 				assertEquals("Read1 Value " + s, tst[j].getFieldValue(), mdl.getValueAt(j, 4));
 				i +=1;
 			}
-			
+
 			db.deleteAll();
 			i += 1;
 		}
 	}
-	
+
 	public void testWrite() {
 		RecordSelectionDB db = new RecordSelectionDB();
 		int i = 0;
 		int idx = Common.getConnectionIndex();
 		rsPnl pnl;
 		DBtableModel<RecordSelectionRec> mdl;
-		
+
 		db.setConnection(new ReConnection(Common.getConnectionIndex()));
 		db.setParams(-1331, -1330);
-		
+
 		for (RecordSelectionRec[] tst : vals.tests) {
 			db.deleteAll();
 			pnl = new rsPnl("xx", idx, -1331);
-			
+
 			mdl = pnl.getSelectionMdl();
 			for (int j = 0 ; j < tst.length; j++) {
 				mdl.setRecord(j, tst[j]);
 			}
 			pnl.save(false);
 			vals.compare("Read " + i + " ", tst, db.fetchAll());
-			
+
 			//db.deleteAll();
 			i += 1;
 		}
 	}
 
-	
+
 	public void testWrite1() {
 		RecordSelectionDB db = new RecordSelectionDB();
 		int i = 0;
@@ -127,14 +127,14 @@ public class TestRecordSelectionPnl1 extends TestCase {
 		rsPnl pnl;
 		DBtableModel<RecordSelectionRec> mdl;
 		TableUpdatePnl<RecordSelectionRec> upd;
-		
+
 		db.setConnection(new ReConnection(Common.getConnectionIndex()));
 		db.setParams(-1331, -1330);
-		
+
 		for (RecordSelectionRec[] tst : vals.tests) {
 			db.deleteAll();
 			pnl = new rsPnl("xx", idx, -1331);
-			
+
 			mdl = pnl.getSelectionMdl();
 			upd = pnl.getUpdatePnl();
 			for (int j = 0 ; j < tst.length; j++) {
@@ -148,7 +148,7 @@ public class TestRecordSelectionPnl1 extends TestCase {
 			}
 			pnl.save(false);
 			vals.compare("Read " + i + " ", tst, db.fetchAll());
-			
+
 			//db.deleteAll();
 			i += 1;
 		}
@@ -158,16 +158,16 @@ public class TestRecordSelectionPnl1 extends TestCase {
 	private class rsPnl extends RecordSelectionPnl {
 
 		public rsPnl(String dbName, int dbConnectionIdx, int recordIdentifier) {
-			super(dbName, dbConnectionIdx, recordIdentifier, 
+			super(dbConnectionIdx, recordIdentifier,
 					new ChildRecordsRec(-1332, 0, "", "", recordIdentifier, -1330, 0, false, "", -1332));
 		}
-		
+
 		public rsPnl(String dbName, int dbConnectionIdx, int recordIdentifier,
 				ChildRecordsRec parent) {
-			super(dbName, dbConnectionIdx, recordIdentifier, parent);
+			super(dbConnectionIdx, recordIdentifier, parent);
 		}
-		
-		
+
+
 		public DBtableModel<RecordSelectionRec> getSelectionMdl() {
 			return selectionMdl;
 		}

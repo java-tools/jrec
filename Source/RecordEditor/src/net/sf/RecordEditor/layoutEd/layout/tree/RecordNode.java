@@ -11,7 +11,7 @@ import net.sf.RecordEditor.utils.common.ReConnection;
 public class RecordNode extends BaseNode {
 	private ChildRecordsRec childDef;
 	private final int dbIdx, recordId;
-	
+
 	private final ArrayList<RecordSelectionRec> selections = new ArrayList<RecordSelectionRec>();
 
 	public RecordNode(int dbIdx, int recordId, String nodeName, ChildRecordsRec childDef) {
@@ -19,9 +19,16 @@ public class RecordNode extends BaseNode {
 		this.recordId = recordId;
 		this.dbIdx = dbIdx;
 		this.childDef = childDef;
-		
-		//System.out.println("Node: " + nodeName + "\t" + recordId + "\t" + childDef.getChildKey());
-		
+
+		load();
+	}
+
+	public final void reload() {
+		super.removeAllChildren();
+		load();
+	}
+
+	private void load() {
 		int idx=0;
 		RecordSelectionRec selectionRec;
 		RecordSelectionDB db = new RecordSelectionDB();
@@ -29,7 +36,7 @@ public class RecordNode extends BaseNode {
 		db.setParams(recordId, childDef.getChildKey());
 		db.resetSearch();
 		db.open();
-		
+
 		while ((selectionRec = db.fetch()) != null) {
 			super.add(new SelectionTestNode(idx++, selectionRec));
 			selections.add(selectionRec);
@@ -37,8 +44,8 @@ public class RecordNode extends BaseNode {
 		db.close();
 	}
 
-	
-	
+
+
 	/* (non-Javadoc)
 	 * @see javax.swing.tree.DefaultMutableTreeNode#isLeaf()
 	 */
@@ -64,7 +71,7 @@ public class RecordNode extends BaseNode {
 		case COLUMN_FIELD_NAME:  childDef.setField(value);		break;
 		case COLUMN_FIELD_VALUE: childDef.setFieldValue(value);	break;
 		}
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -107,14 +114,19 @@ public class RecordNode extends BaseNode {
 		return idx == COLUMN_FIELD_NAME
 			|| idx == COLUMN_FIELD_VALUE;
 	}
-	
+
 	public void update() {
 		RecordSelectionDB db = new RecordSelectionDB();
 		db.setConnection(ReConnection.getConnection(dbIdx));
 		db.setParams(recordId, childDef.getChildKey());
-		
+
+		System.out.println("~~ " + recordId + " " + childDef.getChildKey()
+				+ " " + selections.size());
 		for (RecordSelectionRec selRec : selections) {
 			if (selRec.getUpdateStatus() == RecordSelectionRec.UPDATED) {
+
+				System.out.println("---> " + selRec.getChildKey() + " " +  selRec.getFieldNo()
+						+ " " + selRec.getFieldName()  + " " + selRec.getFieldValue());
 				db.update(selRec);
 			}
 		}

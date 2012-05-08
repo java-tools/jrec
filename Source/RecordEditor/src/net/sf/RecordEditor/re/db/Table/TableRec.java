@@ -56,7 +56,7 @@ public final class TableRec extends AbsRecord {
       initTblKey = tblKey;
   }
 
-  
+
 
 
   /**
@@ -82,6 +82,7 @@ public final class TableRec extends AbsRecord {
                     );
 
       ret.setNew(true);
+      ret.setUpdateStatus(UPDATED);
 
       return ret;
   }

@@ -37,53 +37,54 @@ public class Details {
 	public static final int RT_FIXED_LENGTH_FIELDS = 0;
 	public static final int RT_DELIMITERED_FIELDS  = 1;
 	public static final int RT_MULTIPLE_RECORDS  = 2;
-	
+
     //private final static Integer CHAR_TYPE = new Integer(Type.ftChar);
-    protected  String filename         = "";
-    public        int fileStructure    = 0;
-    protected     int recordType       = 0;
-    protected     int system           = 0;
-    public        int recordLength     = 0;
-    protected  String layoutName       = "Wizard_";
-    protected  String layoutDescription = "";
-    public     String fontName         = "";
-    protected Integer defaultType      = KeyField.CHAR_TYPE;
-    protected  String fieldSeperator   = "";
-    protected  String actualSeperator  = "";
-    protected  String quote            = "";
-    protected  String actualQuote      = "";
-    protected     int parserType       = 0;
-    protected boolean fieldNamesOnLine = false;
-    protected boolean unicode		   = false;
-    public    boolean generateFieldNames = false;
-    
-    protected  String layoutDirectory       = "";
-    protected     int layoutWriterIdx  = -1; 
+	public  String filename         = "";
+    public     int fileStructure    = 0;
+    public     int recordType       = 0;
+    public     int system           = 0;
+    public     int recordLength     = 0;
+    public  String layoutName       = "Wizard_";
+    public  String layoutDescription = "";
+    public  String fontName         = "";
+    public Integer defaultType      = KeyField.CHAR_TYPE;
+    public  String fieldSeperator   = "";
+    public  String actualSeperator  = "";
+    public  String quote            = "";
+    public  String actualQuote      = "";
+    public     int parserType       = 0;
+    public boolean fieldNamesOnLine = false;
+    public boolean unicode		    = false;
+    public boolean generateFieldNames = false;
+    public boolean editFile         = true;
+
+    public  String layoutDirectory  = "";
+    public     int layoutWriterIdx  = -1;
 
     //protected     int numRecords = 0;
     //protected byte[][] records = new byte[30][];
 
     //protected ColumnList columnDtls = new ColumnList();
     //protected ArrayList<ColumnDetails> columnDtls = new ArrayList<ColumnDetails>();
-    protected RecordDefinition standardRecord = new RecordDefinition();
-    
-    protected ArrayList<RecordDefinition> recordDtls = new ArrayList<RecordDefinition>();
-    protected ArrayList<RecordDefinition> recordDtlsFull = new ArrayList<RecordDefinition>();
-   
+    public RecordDefinition standardRecord = new RecordDefinition();
+
+    public ArrayList<RecordDefinition> recordDtls = new ArrayList<RecordDefinition>();
+    public ArrayList<RecordDefinition> recordDtlsFull = new ArrayList<RecordDefinition>();
+
 //    protected String keyName = "Record_Type";
 //    protected int keyStart = 0;
 //    protected int keyLength = 0;
-    protected int textPct = 100;
+    public int textPct = 100;
 //    protected Integer keyType = KeyField.CHAR_TYPE;
-    
-    protected ArrayList<KeyField> keyFields = new ArrayList<KeyField>();
+
+    public ArrayList<KeyField> keyFields = new ArrayList<KeyField>();
 
     public Details() {
     	KeyField k = new KeyField();
     	k.keyName = "Record_Type";
     	keyFields.add(k);
     }
-    
+
     public KeyField getMainKey() {
     	if (keyFields.size() == 0) {
     		keyFields.add(new KeyField("Record_Type", 0, 0, defaultType));
@@ -108,7 +109,7 @@ public class Details {
     	break;
     	case (Details.RT_MULTIPLE_RECORDS):
     		ExternalRecord childRecord;
-    	
+
     		rec = new ExternalRecord(-1, layoutName,
     				layoutDescription,
     				Common.rtGroupOfRecords, system, "Y", "",
@@ -126,7 +127,7 @@ public class Details {
 	        				Common.LFCR_BYTES, fontName,
 	        				parserType, fileStructure
 	        		);
-	    			
+
 	    			nameFields(childRecord, child);
 	    			childRecord.setDefaultRecord(child.defaultRec.booleanValue());
 	    			System.out.println("Record: " + child.name + "\t" + childRecord.isDefaultRecord());
@@ -138,22 +139,22 @@ public class Details {
 	    			}
 	    			addFields(childRecord, child);
 	    			childRecord.setNew(true);
-	    			
+
 	    			rec.addRecord(childRecord);
     			}
     		}
     	break;
     	default:
     		String delim = fieldSeperator;
- 
+
 	    	if ("<Default>".equalsIgnoreCase(delim)) {
 	    		delim = actualSeperator;
 	    	}
-	    	
+
 	    	rec = new ExternalRecord(-1, layoutName,
 	    			layoutDescription,
 	    			Common.rtDelimited, system, "Y", "",
-	    			delim, actualQuote, 0, 
+	    			delim, actualQuote, 0,
 	    			Common.DEFAULT_STRING,
 	    			Common.LFCR_BYTES, fontName,
 	    			parserType, fileStructure
@@ -161,24 +162,24 @@ public class Details {
 	    	nameFields(rec, standardRecord);
 	    	addFields(rec, standardRecord);
     	}
-    	
+
     	rec.setNew(true);
     	return rec;
     }
-    
+
     /**
      * Add Fields to a external record definition
-     * @param rec external record 
+     * @param rec external record
      * @param recordDef Wizard Record
      */
     private void addFields(ExternalRecord rec, RecordDefinition recordDef) {
        	int i;
     	ColumnDetails column;
     	ExternalField field;
- 	
+
     	for (i = 0; i < recordDef.columnDtls.size(); i++) {
     		column = recordDef.columnDtls.get(i);
-    		
+
     		if (column.include.booleanValue()) {
     			field = new ExternalField(
     					column.start,
@@ -198,26 +199,26 @@ public class Details {
     		}
     	}
     }
-    
+
     private void nameFields(ExternalRecord rec, RecordDefinition recordDef) {
      	ColumnDetails column;
- 
+
     	for (int i = 0; i < recordDef.columnDtls.size(); i++) {
     		column = recordDef.columnDtls.get(i);
-     		
+
 			if (column.name == null || "".equals(column.name)) {
 				column.name = "Field_" + i;
-			}	
+			}
     	}
     }
-    
-    
+
+
     /**
      * Get a line Reader
      * @return requested line reader
-     * 
+     *
      * @throws RecordException any RecordEditor Exceptions that occur
-     * @throws IOException any IO Errors 
+     * @throws IOException any IO Errors
      */
     @SuppressWarnings("unchecked")
 	public AbstractLineReader<LayoutDetail> getReader() throws RecordException, IOException {
@@ -225,7 +226,7 @@ public class Details {
         LayoutDetail emptyLayout;
         RecordDetail[] recs;
 
-        
+
         if (fileStructure == Common.IO_FIXED_LENGTH) {
             FieldDetail[] field = new FieldDetail[1];
 
@@ -247,10 +248,10 @@ public class Details {
         reader.open(filename, emptyLayout);
         return reader;
     }
-    
+
     public void setFieldSearch() {
     	standardRecord.searchForFields = true;
-    	
+
     	if (recordDtls != null) {
     		for (int i = 0; i<recordDtls.size(); i++) {
     			recordDtls.get(i).searchForFields = true;

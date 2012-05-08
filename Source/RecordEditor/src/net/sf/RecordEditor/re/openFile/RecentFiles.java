@@ -70,11 +70,11 @@ public class RecentFiles {
 	private String[] directory = new String[FILE_HISTORY];
 	private int[] prevFiles = new int[RECENT_FILE_LIST];
 	//private HashMap  idxLookup = new HashMap(HASH_MAP_SIZE);
-	
+
 	private FormatFileName selection;
 
 	private static RecentFiles last = null;
-	
+
     /**
      * Store recently used files and there layouts
      * @param fileName filename of recent files file
@@ -86,8 +86,8 @@ public class RecentFiles {
         String l;
         StringTokenizer t;
 	    String recentFile, recentFileNormal, dir, recentLayout, extension;
-	    HashMap<String, String> extensionMap; 
-	    
+	    HashMap<String, String> extensionMap;
+
 	    for (i = 0; i < EXTENSION_NAME.length; i++) {
 	    	recentMap.add(new HashMap<String, String>(HASH_MAP_SIZE));
 	    }
@@ -97,7 +97,7 @@ public class RecentFiles {
         recentFileName = fileName;
         selection = layoutSelection;
         fileNum = 0;
-        
+
         last = this;
 
         try {
@@ -126,7 +126,7 @@ public class RecentFiles {
                 		extensionMap = recentMap.get(mode);
                 	} else {
                 		switch (mode) {
-                		case RF_FILE_MODE: 
+                		case RF_FILE_MODE:
                 			if (t.hasMoreElements()) {
                 				recentLayout = t.nextToken();
 
@@ -155,13 +155,13 @@ public class RecentFiles {
                 					//System.out.print("   Done");
                 				}
                 			}
-                			//System.out.println(); 
+                			//System.out.println();
                 		}
                 	}
                 }
             }
 
-           
+
             r.close();
             br.close();
             buildRecentList();
@@ -184,7 +184,8 @@ public class RecentFiles {
 	public void putFileLayout(String fileName, String layoutName) {
 		String strippedName = Common.stripDirectory(fileName);
 
-	    if (strippedName != null && ! "".equals(strippedName)) {
+	    if (strippedName != null && ! "".equals(strippedName)
+	    && layoutName != null && ! "".equals(layoutName) && ! "FileWizard".equalsIgnoreCase(layoutName)) {
 	        String dir = fileName.substring(0, fileName.length() - strippedName.length() - 1);
 
 	        if (correctCase(strippedName).equals(lastFile)) {
@@ -198,7 +199,7 @@ public class RecentFiles {
 	    }
 	}
 
-	
+
 	public void putFileExtension(int type, String filename, String ext, String defaultExt) {
 		String strippedName = correctCase(Common.stripDirectory(filename));
 		if (isExtensionType(type) ) {
@@ -236,7 +237,7 @@ public class RecentFiles {
                     w.newLine();
                 }
 		    }
-		    
+
 		    saveExtensions(w, RF_VELOCITY);
 		    saveExtensions(w, RF_XSLT);
 		    saveExtensions(w, RF_SCRIPT);
@@ -245,16 +246,16 @@ public class RecentFiles {
 		    wr.close();
         } catch (Exception e) {
             e.printStackTrace();
-        } 
+        }
 	}
 
-	
+
 	private void saveExtensions(BufferedWriter w, int mode) throws IOException {
 		w.write(EXTENSION_STRING);
 		w.write(SEPERATOR);
 		w.write(EXTENSION_NAME[mode]);
 		w.newLine();
-		
+
 		for (Entry<String, String> e : recentMap.get(mode).entrySet()) {
 			w.write(e.getKey());
 			w.write(SEPERATOR);
@@ -285,16 +286,19 @@ public class RecentFiles {
 //	    	            + " " + recentLayout);
 //	    	    Common.logMsg("Found at " + i + " " + adj4lookup(i, strippedFile)
 //	    	            + " " + recentLayout, null);
-	    	    
+
 	    	    return recentLayout;
 	    	}
 	    }
-	    
+
 	    String s = strippedFile.toLowerCase();
 	    if (s.endsWith("xml")  || s.endsWith("xls")) {
 	    	return selection.formatLayoutName("XML - Build Layout");
 	    } else if (s.endsWith("csv")) {
 	    	return selection.formatLayoutName("Generic CSV - enter details");
+	    } else if (Common.OPTIONS.fileWizardAvailable.isSelected()
+	    	   &&  Common.OPTIONS.useFileWizard.isSelected()) {
+	    	return selection.formatLayoutName("FileWizard");
 	    }
 	    return "";
     }
@@ -304,15 +308,15 @@ public class RecentFiles {
 		if (isExtensionType(type) && recentMap.get(type).containsKey(strippedName)) {
 			return recentMap.get(type).get(strippedName);
 		}
-		
+
 		return defaultExt;
 	}
-	
+
 	private boolean isExtensionType(int type) {
 		return type >= truncSizes.length || type < recentMap.size();
 	}
-	
-	
+
+
     /**
      * Save a file name away for later lookup
      * @param filename filename
@@ -333,13 +337,13 @@ public class RecentFiles {
             fileNum = 0;
         }
     }
-    
+
     private void buildRecentList() {
-    	int st = fileNum; 
+    	int st = fileNum;
     	int i = fileNum - 1;
     	int j = 0;
     	HashMap<String, String> used = new HashMap<String, String>();
-    	
+
     	while (j < prevFiles.length && i != st) {
     		if (i < 0) {
     			i = FILE_HISTORY - 1;
@@ -379,7 +383,7 @@ public class RecentFiles {
 //    		System.out.println(" - " + lookup);
 //    	}
     }
-	
+
 
 
     /**
@@ -414,7 +418,7 @@ public class RecentFiles {
     public boolean isEditorLaunch() {
         return editorLaunch;
     }
-    
+
     /**
      * Get a recent filename by index
      * @param idx index of the required file
@@ -427,11 +431,11 @@ public class RecentFiles {
     		if (s != null) {
     			ret = s;
      		}
-    		
+
     	}
     	return ret;
     }
-    
+
     public String getRecentFullFileName(int idx) {
     	String ret = "";
     	if (idx >= 0 && idx < prevFiles.length && prevFiles[idx] >= 0) {
@@ -439,11 +443,11 @@ public class RecentFiles {
     		if (s != null) {
     			ret = s;
      		}
-    		
+
     	}
     	return ret;
     }
- 
+
     /**
      * Get a recent layout by index
      * @param idx index of the required layout
@@ -456,7 +460,7 @@ public class RecentFiles {
     		if (s != null) {
     			ret = s;
      		}
-    		
+
     	}
     	return ret;
     }

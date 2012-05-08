@@ -33,18 +33,18 @@ public final class Parameters implements ExternalReferenceConstants {
 
     public static final int NUMBER_OF_LOADERS = 20;
     public static final int NUMBER_OF_USER_FUNCTIONS = 32;
-    
-    
+
+
     public static final String VAL_RECORD_EDITOR_DEFAULT = "RecordEditor_Default";
-     
-    public static final String PROPERTY_BIG_FILE_PERCENT = "BigFilePercentage"; 
-    public static final String PROPERTY_BIG_FILE_CHUNK_SIZE = "BigFileChunkSize"; 
-    public static final String PROPERTY_BIG_FILE_COMPRESS_OPT = "BigFileCompressOption"; 
-    public static final String PROPERTY_BIG_FILE_LARGE_VB = "BigFileLargeVB"; 
-    public static final String PROPERTY_BIG_FILE_FILTER_LIMIT = "BigFileFilterLimit"; 
-    public static final String PROPERTY_BIG_FILE_DISK_FLAG = "BigFileDiskFlag"; 
-    public static final String PROPERTY_BIG_FILE_USE_SPECIAL_FIXED_MODEL = "BigFileUseFixedModel"; 
-   //public static final String PROPERTY_BIG_FILE_GZIP_WRITE = "BigFileGZipAnalyseSize"; 
+
+    public static final String PROPERTY_BIG_FILE_PERCENT = "BigFilePercentage";
+    public static final String PROPERTY_BIG_FILE_CHUNK_SIZE = "BigFileChunkSize";
+    public static final String PROPERTY_BIG_FILE_COMPRESS_OPT = "BigFileCompressOption";
+    public static final String PROPERTY_BIG_FILE_LARGE_VB = "BigFileLargeVB";
+    public static final String PROPERTY_BIG_FILE_FILTER_LIMIT = "BigFileFilterLimit";
+    public static final String PROPERTY_BIG_FILE_DISK_FLAG = "BigFileDiskFlag";
+    public static final String PROPERTY_BIG_FILE_USE_SPECIAL_FIXED_MODEL = "BigFileUseFixedModel";
+   //public static final String PROPERTY_BIG_FILE_GZIP_WRITE = "BigFileGZipAnalyseSize";
     public static final String PROPERTY_TEST_MODE  = "TestMode";
     public static final String PROPERTY_LOAD_FILE_BACKGROUND  = "LoadFileInBackground";
     public static final String SCREEN_SIZE_OPTION  = "ScreenSizeOpt";
@@ -52,7 +52,7 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String LAST_SCREEN_HEIGHT  = "lastScreenHeight";
     public static final String SCREEN_START_WIDTH  = "ScreenStartWidth";
     public static final String SCREEN_START_HEIGHT = "ScreenStartHeight";
-  
+
     public static final String PROPERTY_COPYBOOK_NAME_PREFIX  = "CopybookLoaderName.";
     public static final String PROPERTY_COPYBOOK_CLASS_PREFIX = "CopybookloaderClass.";
     public static final String PROPERTY_LOOKS_CLASS_INDEX = "LooksClassIndex";
@@ -67,7 +67,7 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String PROPERTY_DATE_TYPE_NAME    = "DateTypeName.";
     public static final String PROPERTY_DATE_BASE_TYPE    = "DateBaseType.";
     public static final String PROPERTY_DATE_FORMAT       = "DateFormat.";
-    
+
     public static final String PROPERTY_HIGHLIGHT_EMPTY       = "ShowEmpty.";
 
     public static final String PROPERTY_ICON_INDEX   = "IconIndex";
@@ -83,10 +83,10 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String FORMAT_CLASS_PREFIX     = "FormatClass.";
     public static final String FORMAT_NUMBER_PREFIX    = "FormatNumber.";
     public static final String FORMAT_NAME_PREFIX      = "FormatName.";
-    
-    public static final String BRING_LOG_TO_FRONT      = "LogToFront";   
-    public static final String PREFERED_AS_DEFAULT      = "PreferedAsDefault"; 
-    public static final String WARN_BINARY_FIELDS_DEFAULT      = "WarnBinFieldsAndDefault"; 
+
+    public static final String BRING_LOG_TO_FRONT      = "LogToFront";
+    public static final String PREFERED_AS_DEFAULT      = "PreferedAsDefault";
+    public static final String WARN_BINARY_FIELDS_DEFAULT      = "WarnBinFieldsAndDefault";
     public static final String COPYBOOK_DIRECTORY      = "CopybookDirectory";
     public static final String VELOCITY_COPYBOOK_DIRECTORY = "VelocityCopybookDirectory";
     public static final String VELOCITY_TEMPLATE_DIRECTORY = "VelocityTemplateDirectory";
@@ -99,10 +99,10 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String FILE_REPLACEMENT_CHAR   = "FileReplChar";
     public static final String ASTERIX_IN_FILE_NAME    = "AsterixInFileName";
  //   public static final String DIRECTORY_IN_SOURCE_VAR = "DirVarInSource.";
-    
+
     public static final String COPY_SAVE_DIRECTORY  = "CopySaveDirectory";
     public static final String COPY_SAVE_FILE  	   = "CopySaveFile";
-    
+
     public static final String LAYOUT_EXPORT_DIRECTORY  = "LayoutExportDirectory";
 
     public static final String COMPARE_SAVE_DIRECTORY  = "CompareSaveDirectory";
@@ -111,8 +111,9 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String HIDDEN_FIELDS_SAVE_DIRECTORY   = FILTER_SAVE_DIRECTORY;
     public static final String SORT_TREE_SAVE_DIRECTORY   = "SortTreeSaveDirectory";
     public static final String RECORD_TREE_SAVE_DIRECTORY = "RecordTreeSaveDirectory";
-   
+
     public static final String CSV_LOOK_4_FIXED_WIDTH     = "CsvSearchFixed";
+    public static final String USE_FILE_WIZARD		   = "UseFileWizard";
 
     public static final String DEFAULT_COPYBOOK_READER = "CopyBookReader";
     public static final String DEFAULT_COPYBOOK_WRITER = "CopyBookWriter";
@@ -125,7 +126,7 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String DB_READ_ONLY_SOURCE	   = "ReadOnly.";
     public static final String DB_EXPAND_VARS	       = "ExpandVars.";
     public static final String DB_CLOSE_AFTER_EXEC	   = "AutoClose.";
-    
+
     public static final String DB_DROP_SEMI			   = "DBDropSemi.";
     public static final String DB_SOURCE_NAME		   = "SourceName.";
     public static final String DB_SOURCE			   = "Source.";
@@ -143,14 +144,14 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String FS_COMP_BIG_ENDIAN = "FsCompBigEndian";
     public static final String FS_COMP_LITTLE_ENDIAN = "FsCompLittleEndian";
     public static final String USE_NEW_TREE_EXPANSION = "NewTreeExpansion";
-    
-    public static final String SEARCH_ALL_FIELDS = "SearchAllFields";
-    public static final String SHOW_ALL_EXPORT_OPTIONS = "AllExportOptions"; 
-    public static final String NAME_FIELDS = "NameFields"; 
 
-    public static final String DEL_SELECTED_WITH_DEL_KEY = "DeleteSelectedWithDelKey"; 
-    public static final String WARN_WHEN_USING_DEL_KEY   = "WarnWithDelKey"; 
-  
+    public static final String SEARCH_ALL_FIELDS = "SearchAllFields";
+    public static final String SHOW_ALL_EXPORT_OPTIONS = "AllExportOptions";
+    public static final String NAME_FIELDS = "NameFields";
+
+    public static final String DEL_SELECTED_WITH_DEL_KEY = "DeleteSelectedWithDelKey";
+    public static final String WARN_WHEN_USING_DEL_KEY   = "WarnWithDelKey";
+
     private static final HashSet<String> defaultTrue = new HashSet<String>(10);
 
 	private static  String bundleName = DEFAULT_BUNDLE_NAME;
@@ -175,11 +176,11 @@ public final class Parameters implements ExternalReferenceConstants {
 	private static String applicationDirectory = null;
 	private static String propertyFileName;
 	private static String globalPropertyFileName = null;
-	private static String systemJarFileDirectory, 
+	private static String systemJarFileDirectory,
 	                      userJarFileDirectory = USER_HOME;
-	
+
 	public static boolean savePropertyChanges = true;
-	
+
 	static {
 		try {
 			resourceBundle = ResourceBundle.getBundle(bundleName);
@@ -187,7 +188,7 @@ public final class Parameters implements ExternalReferenceConstants {
 			e.printStackTrace();
 		}
 		String[] defTrueKeys = {
-				PROPERTY_BIG_FILE_USE_SPECIAL_FIXED_MODEL,   
+				PROPERTY_BIG_FILE_USE_SPECIAL_FIXED_MODEL,
 				PROPERTY_LOAD_FILE_BACKGROUND,
 				FS_RUN_AUTOMATIC,
 				BRING_LOG_TO_FRONT,
@@ -254,13 +255,13 @@ public final class Parameters implements ExternalReferenceConstants {
     private static void initDirectories() {
     	if (applicationDirectory == null) {
     		String s = getPropertiesDirectory();
-    		
+
     		if (s == null) {
     			s = "C:\\Users\\mum\\RecordEditor_HSQL\\";
-    		} 
+    		}
     		userJarFileDirectory = s;
     		System.out.println("!! Properties Directory ~~ " + s);
-    		
+
     		applicationDirectory = s;
     		if ((! s.endsWith("/")) && (! s.endsWith("\\"))) {
     			applicationDirectory = s + File.separator;
@@ -285,7 +286,7 @@ public final class Parameters implements ExternalReferenceConstants {
     		}
     	}
     }
-    
+
     public static String getPropertiesDirectory() {
 		String s = expandVars(getResourceString(PROPERTIES_DIR_VAR_NAME));
 		if (s == null) {
@@ -318,12 +319,12 @@ public final class Parameters implements ExternalReferenceConstants {
 		    	if (properties != null) {
 		    		s = properties.getProperty(key);
 		    	}
-		    	
+
 		    	if (s == null && properties2 != null) {
 		    		s = properties2.getProperty(key);
 //		    		System.out.println(" ::: Got 2: " + key + " = " + s);
 		    	}
-		        
+
 		        if (s == null && globalProperties != null) {
 		        	s = globalProperties.getProperty(key);
 		        }
@@ -348,7 +349,7 @@ public final class Parameters implements ExternalReferenceConstants {
 	 * @return value of the requested value
 	 */
 	private static String getResourceString(final String key) {
-		
+
 		if (resourceBundle != null) {
 			try {
 				return resourceBundle.getString(key);
@@ -368,7 +369,7 @@ public final class Parameters implements ExternalReferenceConstants {
 	    if (toInit) {
 	        if (useUserParamFile) {
 	            properties = readProperties();
-	            
+
 	            if (globalPropertyFileName != null) {
 	            	globalProperties = readProperties(globalPropertyFileName);
 	            }
@@ -445,7 +446,7 @@ public final class Parameters implements ExternalReferenceConstants {
         String ret = name;
         String lcName = name.toLowerCase();
 
-        
+
         if (lcName.startsWith("<lib>")) {
             ret = getLibDirectory() /*+ File.separator*/  + name.substring(5);
         } else if (lcName.startsWith("<install>")) {
@@ -549,7 +550,7 @@ public final class Parameters implements ExternalReferenceConstants {
 
             if (dir.startsWith("jar:")) {
                 int pos = dir.indexOf('!');
-                
+
 //                String dfltEncName = AccessController.doPrivileged(
 //                	    new GetPropertyAction("file.encoding")
 //                	);
@@ -575,17 +576,17 @@ public final class Parameters implements ExternalReferenceConstants {
             }
         }
     }
-    
+
     /**
      * Set the Application directory (JRecord / RecordEditor) ...
      * @param dir new Application directory
      */
     public static void setApplicationDirectory(String dir) {
-    	
+
     	if (dir == null || "".equals(dir)) {
     		return;
     	}
-    	
+
     	baseDirectory = dir;
     	if ((dir.endsWith("/") || dir.endsWith("\\"))
     	&& (dir.length() > 1)) {
@@ -595,11 +596,11 @@ public final class Parameters implements ExternalReferenceConstants {
     	System.out.println("-- Setting Application Directory");
         System.out.println("     base dir: " + baseDirectory);
         System.out.println("     lib  dir: " + libDirectory);
-        
+
         try {
         	 URL[] urls = {new File("file:" + libDirectory + "/properties.zip" ).toURI().toURL()};
-         	 
-        	 ResourceBundle rb = ResourceBundle.getBundle(bundleName, 
+
+        	 ResourceBundle rb = ResourceBundle.getBundle(bundleName,
         			 Locale.getDefault(),
         			 new URLClassLoader(urls));
 
@@ -625,11 +626,11 @@ public final class Parameters implements ExternalReferenceConstants {
 //	            }
 			// Going back to system class loader
           		try {
-          			ResourceBundle.getBundle(bundleName, 
+          			ResourceBundle.getBundle(bundleName,
               			 Locale.getDefault(),
                			 ClassLoader.getSystemClassLoader());
           		} catch (Exception e) {
-				}	
+				}
           		}
     }
 
@@ -644,29 +645,29 @@ public final class Parameters implements ExternalReferenceConstants {
 	public static final Properties getProperties() {
 		return properties;
 	}
-	
+
 	public static final Properties getInitialisedProperties() {
 		checkInit();
 		if (properties == null) {
 			properties = new Properties();
 		}
-		return properties;		
+		return properties;
 	}
 
 	public static final void setProperty(String key, String value) {
 		getInitialisedProperties().setProperty(key, value);
-		
+
 		if (savePropertyChanges) {
 			writeProperties();
 		}
 	}
-	
+
 	public static final void setProperties(Properties prop) {
 		properties = prop;
 	}
-	
+
     public static final void writeProperties() {
-    	
+
         try {
             renameFile(getPropertyFileName());
             properties.store(
@@ -709,7 +710,7 @@ public final class Parameters implements ExternalReferenceConstants {
 	public static void setSavePropertyChanges(boolean savePropertyChanges) {
 		Parameters.savePropertyChanges = savePropertyChanges;
 	}
-	
+
 	public static String dropStar(String filename) {
 		if (filename != null && filename.endsWith("*")) {
 			filename = filename.substring(0, filename.length()-1);
@@ -722,7 +723,7 @@ public final class Parameters implements ExternalReferenceConstants {
 		if (s.startsWith(".")) {
 			s = s.substring(1);
 		}
-		
+
 		return s;
 	}
 

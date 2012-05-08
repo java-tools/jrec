@@ -83,13 +83,13 @@ public class FullEditor extends EditRec {
      	   final int pInitialRow,
     	   final AbstractLineIOProvider pIoProvider,
     	   final CopyBookInterface pInterfaceToCopyBooks) {
-        super(true, 
+        super(true,
         	  "Record Editor",
         	  new NewFileAction(
         			  new LayoutSelectionDBCreator(pInterfaceToCopyBooks)
         	  )
         );
-        
+
 //        try {
 //        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 //        } catch (Exception e) {
@@ -98,7 +98,7 @@ public class FullEditor extends EditRec {
 
         setupOpenWindow(pInFile, pInitialRow,
           	    pIoProvider,  pInterfaceToCopyBooks);
-        
+
 //        getFileMenu().add(new AbstractAction("Compare Menu") {
 //
 //			/**
@@ -111,7 +111,7 @@ public class FullEditor extends EditRec {
 //        });
     }
 
-    
+
     /**
      * Create the openFile window
 	 * @param pInFile File to be read (optional)
@@ -126,28 +126,28 @@ public class FullEditor extends EditRec {
      	   final CopyBookInterface pInterfaceToCopyBooks) {
         //JButton createLayout = new JButton();
         JButton createLayoutWizard = new JButton("XX");
-        
+
         CopybookLoaderFactory.setInstance(new CopybookLoaderFactoryDB());
-        
+
         OpenFile open = new OpenFile(pInFile, pInitialRow, pIoProvider,
                 createLayoutWizard, null /* createLayout */,
                 new LayoutSelectionDB(pInterfaceToCopyBooks, null, true));
         ChangeLayoutAction changeLayout = new ChangeLayoutAction(
      		   new LayoutSelectionDBCreator(pInterfaceToCopyBooks));
-         
+
         //createLayout.setAction(RecordEdit1Record.getAction(open.getOpenFilePanel()));
         createLayoutWizard.setAction(Wizard.getAction(open.getOpenFilePanel()));
 
         layoutMenu.setDatabaseDetails(open.getOpenFilePanel());
-        
-        super.getEditMenu().addSeparator();     
+
+        super.getEditMenu().addSeparator();
         super.getEditMenu().add(addAction(new VisibilityAction()));
         super.getEditMenu().add(addAction(new SaveFieldSequenceAction()));
         super.getEditMenu().addSeparator();
         super.getEditMenu().add(addAction(changeLayout));
         super.getEditMenu().add(addAction(new CsvUpdateLayoutAction()));
-       
-        this.setOpenFileWindow(open,  
+
+        this.setOpenFileWindow(open,
         		new AbstractAction("File Copy Menu") {
 
 					/**
@@ -173,7 +173,7 @@ public class FullEditor extends EditRec {
        AbsDB.setSystemLog(super.getLog());
    }
 
-    
+
 	/**
 	 * Add program specific dropdown menus
 	 * @param menubar top level menu
@@ -196,7 +196,7 @@ public class FullEditor extends EditRec {
 
 		}
 	}
-	
+
 	/**
 	 * Edit a record oriented file
 	 * @param pgmArgs program arguments
@@ -204,7 +204,8 @@ public class FullEditor extends EditRec {
 	public static void main(final String[] pgmArgs) {
 
 		//System.out.println("Max Memmory: " + Common.MAX_MEMORY);
-	 
+
+		Common.OPTIONS.fileWizardAvailable.set(true);
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 

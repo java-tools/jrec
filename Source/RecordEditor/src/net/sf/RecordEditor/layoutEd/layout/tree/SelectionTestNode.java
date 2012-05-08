@@ -10,13 +10,13 @@ public class SelectionTestNode extends BaseNode {
 	private final int index;
 	public SelectionTestNode(int index, RecordSelectionRec selection) {
 		super("Check");
-		
+
 		this.index = index;
 		this.selection = selection;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param idx return the boolean operator (there are 3 levels)
 	 * @return boolean operator
 	 */
@@ -32,8 +32,8 @@ public class SelectionTestNode extends BaseNode {
 		}
 		return s;
 	}
-	
-	
+
+
 	/**
 	 * @return field to be tested
 	 * @see net.sf.RecordEditor.re.db.Record.RecordSelectionRec#getFieldName()
@@ -68,9 +68,13 @@ public class SelectionTestNode extends BaseNode {
 	 */
 	@Override
 	public void setField(int fldNum, Object val) {
-		selection.setField(fldNum, val);
+		int fnum = fldNum;
+		if (fnum >= COLUMN_FIELD_NAME) {
+			fnum -=1;
+		}
+		selection.setField(fnum, val);
 	}
-	
+
 
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.layoutEd.layout.tree.IntSelectionTest#isUpdateAble(int)

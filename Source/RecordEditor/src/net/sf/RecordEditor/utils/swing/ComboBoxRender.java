@@ -30,7 +30,7 @@ public class ComboBoxRender extends JComboBox
 
     private static final int COMBO_HEIGHT = SwingUtils.COMBO_TABLE_ROW_HEIGHT;
 
-    
+
 	/**
 	 * This class will display a combo box in a JTable
 	 *
@@ -74,7 +74,8 @@ public class ComboBoxRender extends JComboBox
 //        }
 
 		this.setSelectedItem(value);
-		SwingUtils.setTableCellColors(this, table, row, isSelected);
+		SwingUtils.setTableCellBackGround(this, table, row, isSelected);
+
         return this;
     }
 }

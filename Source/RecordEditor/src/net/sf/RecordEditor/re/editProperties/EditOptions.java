@@ -54,7 +54,7 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 public class EditOptions {
 
-    private static final int PROGRAM_DESCRIPTION_HEIGHT 
+    private static final int PROGRAM_DESCRIPTION_HEIGHT
     		= Math.min(
     				SwingUtils.NORMAL_FIELD_HEIGHT * 21,
     				Toolkit.getDefaultToolkit().getScreenSize().height * 3 / 5);
@@ -131,7 +131,7 @@ public class EditOptions {
             {Parameters.EXPORT_SCRIPT_DIRECTORY, "Export Script directory", null, EditPropertiesPnl.FLD_DIR, null},
             {Parameters.SCRIPT_DIRECTORY, "Extension Script directory", null, EditPropertiesPnl.FLD_DIR, null},
     };
-    
+
 
     private Object[][] directoryParams2 = {
             {Parameters.COMPARE_SAVE_DIRECTORY, "Compare Save Directory",null, EditPropertiesPnl.FLD_DIR, null},
@@ -181,6 +181,7 @@ private Object[][] behaviourParams = {
         {Parameters.SHOW_ALL_EXPORT_OPTIONS, "Show all export panels", null, EditPropertiesPnl.FLD_BOOLEAN,  "Show all export panels on the export Screen"},
         {Parameters.DEL_SELECTED_WITH_DEL_KEY, "Delete Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Delete Selected rows with the delete key"},
         {Parameters.WARN_WHEN_USING_DEL_KEY,  "Warn the user before deleteing Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Warn when deleteing rows via delete key"},
+        {Parameters.USE_FILE_WIZARD,  "Use File Wizard when no Layout is known for the file", null, EditPropertiesPnl.FLD_BOOLEAN, "Use file Wizard"},
 };
 
     private String fileDescription
@@ -346,18 +347,18 @@ private Object[][] behaviourParams = {
 		+ "Drop down menu in the   <b>RecordEditor</b>.<br> "
 		+ "Local Functions must implement the Plugin interface";
 
-    private static String optionDescription 
+    private static String optionDescription
     	= "<h2>Default Options</h2>"
     	+ "This Tab is for defining the default value for several Combo Box's used by the Package"
     	+ "<br/><br/>Click on a row to change the default Value";
-    
+
     private static final String[] LOADER_COLUMN_HEADINGS = {"Loader Name", "Loader Class"};
     private static final String[] LOADER_COLUMN_NAMES = {
             Parameters.PROPERTY_COPYBOOK_NAME_PREFIX, Parameters.PROPERTY_COPYBOOK_CLASS_PREFIX
     };
     private static final String[] PLUGIN_COLUMN_HEADINGS = {"Name", "Class Name", "Parameter"};
     private static final String[] PLUGIN_COLUMN_NAMES = {
-        Parameters.PROPERTY_PLUGIN_FUNC_NAME, 
+        Parameters.PROPERTY_PLUGIN_FUNC_NAME,
         Parameters.PROPERTY_PLUGIN_FUNC_CLASS,
         Parameters.PROPERTY_PLUGIN_FUNC_PARAM
     };
@@ -432,13 +433,13 @@ private Object[][] behaviourParams = {
 //            {"spaceAtLeftOfScreen", "Space to be left at the left of the screen.", null},
 //            {"spaceAtRightOfScreen", "Space to be left at the Right of the screen.", null},
 //    };
-	
+
 	private String applId = getApplId();
 
-	
+
     private static final String[][] SIZE_OPTION = {
-    		{String.valueOf(ProgramOptions.SIZE_MAXIMISED), "Maximized"}, 
-    		{String.valueOf(ProgramOptions.SIZE_LAST), "Last Screen Size"}, 
+    		{String.valueOf(ProgramOptions.SIZE_MAXIMISED), "Maximized"},
+    		{String.valueOf(ProgramOptions.SIZE_LAST), "Last Screen Size"},
     		{String.valueOf(ProgramOptions.SIZE_SPACE_AROUND), "Use Space around parameters"},
     		{String.valueOf(ProgramOptions.SIZE_SPECIFIED), "Height, Width Below"},
     };
@@ -449,16 +450,16 @@ private Object[][] behaviourParams = {
             {"spaceAtTopOfScreen", "Space to be left at the top of the screen.", null, EditPropertiesPnl.FLD_INT, null},
             {"spaceAtLeftOfScreen", "Space to be left at the left of the screen.", null, EditPropertiesPnl.FLD_INT, null},
             {"spaceAtRightOfScreen", "Space to be left at the Right of the screen.", null, EditPropertiesPnl.FLD_INT, null},
-            {"", "", null, EditPropertiesPnl.FLD_EMPTY, null}, 
+            {"", "", null, EditPropertiesPnl.FLD_EMPTY, null},
             {applId + Parameters.SCREEN_START_HEIGHT, "Screen Height", null, EditPropertiesPnl.FLD_INT, null},
             {applId + Parameters.SCREEN_START_WIDTH,  "Screen Width",  null, EditPropertiesPnl.FLD_INT, null},
             {"", "", null, EditPropertiesPnl.FLD_RETRIEVE_SIZE, null}
     };
-    
+
     private EditPropertiesPnl screenPosPnl
 	= new EditPropertiesPnl(params, screenLocationDescription, screenLocationParams);
-  
- 
+
+
     private static  ComboBoxModel[] defaultModels = new ComboBoxModel[5];
     static {
 	    CopybookLoaderFactory loaders = CopybookLoaderFactoryDB.getInstance();
@@ -468,7 +469,7 @@ private Object[][] behaviourParams = {
 	    	mdl.addElement(loaders.getName(i));
 	    }
 	    defaultModels[0] = mdl;
-	    
+
 	    CopybookWriterManager manager = CopybookWriterManager.getInstance();
 	    String s;
 	    mdl = new DefaultComboBoxModel();
@@ -479,22 +480,22 @@ private Object[][] behaviourParams = {
 	    	}
 	    }
 	    defaultModels[1] = getManagerModel(CopybookWriterManager.getInstance());
-	    
+
 	    String[] ids = Common.getSourceId();
 	    mdl = new DefaultComboBoxModel();
-	    
+
 	    for (i = 0; i < ids.length; i++) {
 	    	if (ids[i] != null && ! "".equals(ids[i])) {
 	    		mdl.addElement(ids[i]);
 	    	}
 	    }
 	    defaultModels[2] = mdl;
-	    
+
 	    defaultModels[3] = getManagerModel(LineIOProvider.getInstance());
 	    defaultModels[4] = getManagerModel(ConversionManager.getInstance());
     }
-		
-    
+
+
     private static ComboBoxModel getManagerModel(AbstractManager manager) {
 	    String s;
 	    DefaultComboBoxModel mdl = new DefaultComboBoxModel();
@@ -567,7 +568,7 @@ private Object[][] behaviourParams = {
        systemPnl.setInitialValues();
        optionalPnl.setInitialValues();
        userPnl.setInitialValues();
-       
+
        jdbcParamsPnl.buildJarCombo();
 
        mainTabbed.setTabPlacement(JTabbedPane.LEFT);
@@ -585,7 +586,7 @@ private Object[][] behaviourParams = {
            }
        });
     }
- 
+
     /**
      * Setup the screen
      *
@@ -602,14 +603,14 @@ private Object[][] behaviourParams = {
         propertiesTabbed.addTab("Test", testPnl);
         propertiesTabbed.addTab("Behaviour", behaviourPnl);
         propertiesTabbed.addTab("File Options", file2Pnl);
-       
+
         if (includeWizardOptions) {
         	propertiesTabbed.addTab("Layout Wizard", layoutWizardPnl);
         }
        	propertiesTabbed.addTab("Big Model", bigModelPnl);
-       
-        propertiesTabbed.addTab("Defaults", 
-        		new EditDefaults(params, optionDescription, 
+
+        propertiesTabbed.addTab("Defaults",
+        		new EditDefaults(params, optionDescription,
         				defaultDetails, defaultModels
         ));
         xmlTabbed.addTab("Xslt Options", xsltPnl);
@@ -617,7 +618,7 @@ private Object[][] behaviourParams = {
 
         jarsTabbed.addTab("System Jars", systemPnl);
         jarsTabbed.addTab("Optional Jars", optionalPnl);
-        
+
 
         userTabbed.addTab("User Jars", userPnl);
         userTabbed.addTab("Copybook Loaders", loadersPnl);
@@ -634,12 +635,12 @@ private Object[][] behaviourParams = {
 
         addMainTab("Description", init_310_Screen());
         addMainTab("Properties", propertiesTabbed);
-        
+
         System.out.println("Application Id: " + getApplId());
         if (Common.CSV_PROGRAM_ID.equals(getApplId())) {
         	addMainTab("Csv Options", csvPnl);
         }
-        
+
         addMainTab("Xml", xmlTabbed);
         if (includeJDBC) {
         	jdbcTabbed.addTab("JDBC Jars", jdbcPnl);
@@ -659,21 +660,21 @@ private Object[][] behaviourParams = {
         pnl.add("Center", mainTabbed);
         pnl.add("South", params.msgFld);
         frame.getContentPane().add(pnl);
-        
+
 //        printTabDetails("mainTabbed", mainTabbed);
 //        printTabDetails("propertiesTabbed", propertiesTabbed);
 //        printTabDetails("jarsTabbed", jarsTabbed);
 //        printTabDetails("userTabbed", userTabbed);
 //        printTabDetails("looksTabbed", looksTabbed);
     }
-    
-    
+
+
     private void addMainTab(String name, JComponent item) {
     	item.setName(name + "Tab");
     	mainTabbed.add(name, item);
     }
 //    private void printTabDetails(String name, JTabbedPane tab) {
-//    	
+//
 //    	System.out.println(name + " " + tab.getTabCount());
 //    	for (int i = 0; i < tab.getTabCount(); i++) {
 //    		Component c = tab.getComponentAt(i);
@@ -685,22 +686,22 @@ private Object[][] behaviourParams = {
 //    			System.out.print('.');
 //    		}
 //    	}
-//    	
+//
 //    }
-    
+
     public EditParams getParams() {
 		return params;
 	}
 
 	public final void displayScreen() {
-		
+
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.pack();
         frame.setBounds(
-        		frame.getY(), frame.getX(), 
-        		Math.min(frame.getWidth(), 
-        				 screenSize.width  - Common.getSpaceAtRightOfScreen() 
-        				 				   - frame.getY()), 
+        		frame.getY(), frame.getX(),
+        		Math.min(frame.getWidth(),
+        				 screenSize.width  - Common.getSpaceAtRightOfScreen()
+        				 				   - frame.getY()),
         		Math.min(frame.getHeight(),
         				 screenSize.height - Common.getSpaceAtBottomOfScreen()
         				   - SwingUtils.NORMAL_FIELD_HEIGHT * 2
@@ -716,7 +717,7 @@ private Object[][] behaviourParams = {
     public void add(String name, JComponent component) {
     	mainTabbed.addTab(name, component);
     }
-    
+
     /**
      * Build Program description panel
      * @return Program description panel
@@ -731,14 +732,14 @@ private Object[][] behaviourParams = {
         return pnl;
     }
 
-    
-	private static String getApplId() {  
+
+	private static String getApplId() {
 		String ret = "";
 		ReMainFrame f = ReMainFrame.getMasterFrame();
 		if (f != null) {
 			ret = f.getApplicationId();
 		}
-		
+
 		return ret;
 	}
 
@@ -749,7 +750,7 @@ private Object[][] behaviourParams = {
 //    public static void main(String[] args) {
 //
 //     	boolean jdbc = ! (args != null && args.length > 0 && "nojdbc".equalsIgnoreCase(args[args.length-1]));
-// 
+//
 //        new EditOptions(true, jdbc, true);
 //    }
 }

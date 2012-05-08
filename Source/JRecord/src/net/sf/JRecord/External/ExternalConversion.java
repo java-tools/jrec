@@ -12,9 +12,9 @@ import net.sf.JRecord.Types.TypeManager;
 
 /**
  * This class holds conversions from external representations of types / formats etc to the internal
- * representations 
- * 
- * 
+ * representations
+ *
+ *
  * @author Bruce Martin
  *
  */
@@ -22,11 +22,11 @@ public final class ExternalConversion {
 
 	public static int USE_DEFAULT_DB = -1;
 	private static AbstractConversion standardConversion ;
-	
+
 	private static String invalidFileChars = null;
-	private static String replacementChar = " ";	
-	
-	
+	private static String replacementChar = " ";
+
+
 	private static String[] names = new String [15] ;
 	private static int[] keys = new int[15];
 	static {
@@ -42,7 +42,7 @@ public final class ExternalConversion {
 		keys[i] = Constants.NULL_INTEGER;		 names[i++] = null;
 	}
 
-	
+
 /*	private static HashMap<String, Integer>[] typeConv = new HashMap[Constants.NUMBER_OF_COPYBOOK_SOURCES];
 	private static HashMap<String, Integer>[] formatConv = new HashMap[Constants.NUMBER_OF_COPYBOOK_SOURCES];
 	static {
@@ -68,7 +68,7 @@ public final class ExternalConversion {
 		if (type < 0) {
 			type = getStandardConversion().getType(dbIdx,typeStr);
 		}
-		
+
 		if (type < 0) {
 			type = Type.ftChar;
 		}
@@ -84,7 +84,7 @@ public final class ExternalConversion {
 	 */
 	public final static int getRecordType(int dbIdx, String typeStr) {
 		int type = Constants.NULL_INTEGER;
-	
+
 	   	for (int i = 0; i < keys.length && keys[i] != Constants.NULL_INTEGER; i++) {
     		if (names[i].equalsIgnoreCase(typeStr)) {
     			return keys[i];
@@ -94,14 +94,14 @@ public final class ExternalConversion {
 		try {
 			type = Integer.parseInt(typeStr);
 		} catch (Exception e) {	}
-		
+
 		return type;
 	}
-	
-	
+
+
 	/**
 	 * Get the RecordStyle Id from its name
-	 * 
+	 *
 	 * @param dbIdx DB index
 	 * @param styleStr RecordStyle name
 	 * @return RecordStyle
@@ -112,24 +112,24 @@ public final class ExternalConversion {
 		try {
 			type = Integer.parseInt(styleStr);
 		} catch (Exception e) {	}
-		
+
 		return type;
 	}
-	
-	
+
+
 	/**
 	 * Get File Structure from its name
-	 * 
+	 *
 	 * @param dbIdx DB index (RecordEditor)
 	 * @param fileStructureStr File Structure name
-	 * 
+	 *
 	 * @return file Structure
 	 */
 	public final static int getFileStructure(int dbIdx, String fileStructureStr) {
 		int fileStructure = Constants.NULL_INTEGER;
 
 		fileStructure = LineIOProvider.getInstance().getStructure(fileStructureStr);
-		
+
 		if (fileStructure == Constants.NULL_INTEGER) {
 			try {
 				fileStructure = Integer.parseInt(fileStructureStr);
@@ -140,7 +140,7 @@ public final class ExternalConversion {
 	}
 
 	/**
-	 * Convert a Type to a Type Name 
+	 * Convert a Type to a Type Name
 	 * @param dbIdx DB index
 	 * @param type Type Id
 	 * @return Type name
@@ -158,10 +158,10 @@ public final class ExternalConversion {
 		return typeStr;
 	}
 
-	
+
 	/**
 	 * Convert a Format Name to a Format Id (Formats are used by the Record Editor)
-	 * 
+	 *
 	 * @param dbIdx Database id
 	 * @param formatStr Format represented as a char
 	 * @return Format value
@@ -176,18 +176,18 @@ public final class ExternalConversion {
 		if (format < 0) {
 			format = getStandardConversion().getFormat(dbIdx,formatStr);
 		}
-		
+
 		if (format < 0) {
 			format = 0;
 		}
 
 		return format;
 	}
-	
-	
+
+
 	/**
 	 * Convert a Format Id to a Format Name
-	 * @param dbIdx Database index 
+	 * @param dbIdx Database index
 	 * @param format format id
 	 * @return Format Name
 	 */
@@ -203,12 +203,12 @@ public final class ExternalConversion {
 
 		return formatStr;
 	}
-	
-	
+
+
 	/**
 	 * Convert File Structure to File Structure name
-	 * 
-	 * @param dbIdx DB index 
+	 *
+	 * @param dbIdx DB index
 	 * @param fileStructure file Structure Id
 	 * @return FileStructure name
 	 */
@@ -216,7 +216,7 @@ public final class ExternalConversion {
 		String fileStructureStr = "";
 
 		fileStructureStr = LineIOProvider.getInstance().getStructureName(fileStructure);
-		
+
 		if ("".equals(fileStructureStr) && fileStructure >= 0) {
 			try {
 				fileStructureStr = Integer.toString(fileStructure);
@@ -226,7 +226,7 @@ public final class ExternalConversion {
 		return fileStructureStr;
 	}
 
-	
+
 	/**
 	 * Convert Record Style to its equivalent name
 	 * @param dbIdx DB index
@@ -239,20 +239,20 @@ public final class ExternalConversion {
 		try {
 			recordStyleStr = Integer.toString(fileStructure);
 		} catch (Exception e) {	}
-	
+
 		if (fileStructure < 0) {
 			recordStyleStr = "";
 		}
 
 		return recordStyleStr;
 	}
-	
+
 	/**
 	 * Convert Record-Type id to Record-Type name
-	 * 
+	 *
 	 * @param dbIdx database Index
 	 * @param recordType Record-Type id
-	 * 
+	 *
 	 * @return Record-Type Name
 	 */
 	public final static String getRecordTypeAsString(int dbIdx, int recordType) {
@@ -267,7 +267,7 @@ public final class ExternalConversion {
 		try {
 			recordTypeStr = Integer.toString(recordType);
 		} catch (Exception e) {	}
-	
+
 		if (recordType < 0) {
 			recordTypeStr = "";
 		}
@@ -275,7 +275,7 @@ public final class ExternalConversion {
 		return recordTypeStr;
 	}
 
-	
+
 
 	/**
 	 * set the standard conversion
@@ -284,15 +284,15 @@ public final class ExternalConversion {
 	public final static void setStandardConversion(AbstractConversion newStandardConversion) {
 		standardConversion = newStandardConversion;
 	}
-	
-	
+
+
 	/**
 	 * Change characters that are invalid in file names to a valid character
 	 * @param name filename
 	 * @return fixed filename
-	 */  
+	 */
     public static final String copybookNameToFileName(String name) {
-    	
+
     	StringBuilder b = new StringBuilder(name);
     	if (invalidFileChars != null) {
     		for (int i = 0; i < invalidFileChars.length(); i++) {
@@ -301,10 +301,10 @@ public final class ExternalConversion {
     	}
 		Conversion.replace(b, "\t", " ");
 		Conversion.replace(b, "\n", " ");
-		
+
 		return b.toString();
     }
-    
+
     /**
      * Get all Type Ids / Type Names
      * @return Type Ids / Type Names
@@ -312,22 +312,22 @@ public final class ExternalConversion {
     public final static ArrayList<BasicKeyedField> getTypes() {
 		TypeManager manager = TypeManager.getInstance();
     	AbstractConversion conv = getStandardConversion();
-    	ArrayList<BasicKeyedField> ret = new ArrayList<BasicKeyedField>(40);
+    	ArrayList<BasicKeyedField> ret = new ArrayList<BasicKeyedField>(manager.getNumberOfTypes());
     	BasicKeyedField fld;
     	int t;
     	String s;
-    	
+
     	for (int i = 0; i < manager.getNumberOfTypes(); i++) {
     		t = manager.getTypeId(i);
     		s = conv.getTypeAsString(0, t);
-    		if (! "".equals(s)) {
+    		if (s != null && ! "".equals(s)) {
     			fld = new BasicKeyedField();
     			fld.key = t;
     			fld.name = s;
     			ret.add(fld);
     		}
     	}
-    	
+
     	return ret;
     }
 
@@ -338,35 +338,35 @@ public final class ExternalConversion {
     public final static ArrayList<BasicKeyedField> getRecordTypes() {
     	ArrayList<BasicKeyedField> ret = new ArrayList<BasicKeyedField>();
     	BasicKeyedField fld;
-    	
+
     	for (int i = 0; i < names.length && ! "".equals(names[i]); i++) {
  			fld = new BasicKeyedField();
 			fld.key = keys[i];
 			fld.name = names[i];
 			ret.add(fld);
     	}
-    	
+
     	return ret;
     }
 
 	/**
 	 * Define the invalid File name characters and there replacement Chars
-	 * 
+	 *
 	 * @param invalidFileCharacters the invalidFileChars to set
 	 * @param replacementCharacter Characters to replace the invalid Characters
 	 */
 	public final static void setInvalidFileChars(String invalidFileCharacters, String replacementCharacter) {
 		invalidFileChars = invalidFileCharacters;
-		
+
 		if (replacementChar != null) {
 			replacementChar = replacementCharacter;
 		}
 	}
-	
-	
+
+
 	public final static String fixDirectory(String directory) {
 		String ret = directory;
-		
+
 		if (! ("".equals(ret))) {
 			if (ret.endsWith("*")) {
 				ret = ret.substring(0, ret.length()-2);
@@ -377,20 +377,20 @@ public final class ExternalConversion {
 		}
 		return ret;
 	}
-	
+
 	/**
 	 * Get the Conversion class
 	 * @return Conversion class
 	 */
 	private static AbstractConversion getStandardConversion() {
-		
+
 		if (standardConversion == null) {
 			standardConversion = new BasicConversion();
 		}
 		return standardConversion;
 	}
-	
-	
+
+
 	/**
 	 * Basic conversion class for use by JRecord
 	 * @author Bruce Martin
@@ -400,7 +400,7 @@ public final class ExternalConversion {
 
 		private String[] typeNames ;
 		private HashMap<String, Integer> typeNumbers;
-		
+
 		/**
 		 * Basic Type / Format conversion (for use in JRecord; RecordEditor has
 		 * its own (database based conversion).
@@ -409,11 +409,11 @@ public final class ExternalConversion {
 			TypeManager manager = TypeManager.getInstance();
 			typeNames = new String[manager.getNumberOfTypes()];
 			typeNumbers = new HashMap<String, Integer>(manager.getNumberOfTypes() * 2);
-			
+
 			for (int i=0; i < typeNames.length; i++) {
 				typeNames[i] = "";
 			}
-			
+
 			setName(Type.ftChar  , "Char");
 			setName(Type.ftNumAnyDecimal  , "NumAnyDecimal");
 			setName(Type.ftPositiveNumAnyDecimal  , "PositiveNumAnyDecimal");
@@ -449,13 +449,13 @@ public final class ExternalConversion {
 			setName(Type.ftCheckBoxTF  , "Checkbox T/F");
 			setName(Type.ftCsvArray  , "CSV array");
 			setName(Type.ftXmlNameTag  , "XML Name Tag");
-			setName(Type.ftMultiLineEdit  , "Edit Multi Line field"); 
-			
-			setName(Type.ftCharRestOfFixedRecord  , "Char Rest of Fixed Length"); 
-			setName(Type.ftCharRestOfRecord  , "Char Rest of Record"); 
-			
+			setName(Type.ftMultiLineEdit  , "Edit Multi Line field");
+
+			setName(Type.ftCharRestOfFixedRecord  , "Char Rest of Fixed Length");
+			setName(Type.ftCharRestOfRecord  , "Char Rest of Record");
+
 		}
-		
+
 		/**
 		 * Set The type name
 		 * @param type type Id
@@ -465,8 +465,8 @@ public final class ExternalConversion {
 			typeNames[TypeManager.getInstance().getIndex(type)] = name;
 			typeNumbers.put(name.toLowerCase(), Integer.valueOf(type));
 		}
-			
-	
+
+
 		@Override
 		public int getFormat(int idx, String format) {
 			return 0;

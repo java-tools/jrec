@@ -11,12 +11,12 @@ package net.sf.JRecord.External;
 
 /**
  * Abstract record that can be editted by the user and keeps track
- * of wether it is new Record / updated Record. 
- * It is important to keep track of wether the record has been update for 
+ * of wether it is new Record / updated Record.
+ * It is important to keep track of wether the record has been update for
  * DB updates.
- * 
- * This class forms basis of all parts of a Record Description that are written 
- * to external files / DB (i.e. ExternalRecord / ExternalField + DBRecord / DBField in 
+ *
+ * This class forms basis of all parts of a Record Description that are written
+ * to external files / DB (i.e. ExternalRecord / ExternalField + DBRecord / DBField in
  * the RecordEditor)..
  *
  *
@@ -27,8 +27,10 @@ public class AbstractUpdatableRecord {
 
     public static final int UNCHANGED  = 1;
 	//final public static int Inserted  = 2;
-    public static final int UPDATED    = 3;
     public static final int NEW_RECORD = 2;
+    public static final int UPDATED    = 3;
+    public static final int BLANK_RECORD = 4;
+
     public static final int NULL_INT_VALUE  = -1;
 
 	protected int updateStatus = UNCHANGED;
@@ -113,10 +115,10 @@ public class AbstractUpdatableRecord {
 	}
 
 	public final boolean equals(String val, String fieldValue) {
-		
+
 		if ((val == null || "".equals(val))
 		&& (fieldValue == null || "".equals(fieldValue))) {
-			
+
 		} else if ((val == null) || (! val.equals(fieldValue)) || (updateStatus == NULL_INT_VALUE)) {
 			updateStatus = UPDATED;
 			return false;

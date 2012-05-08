@@ -28,6 +28,7 @@ import java.util.List;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.RecordEditorCsvLoader;
+import net.sf.JRecord.External.RecordEditorXmlLoader;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.re.db.Record.ChildRecordsRec;
@@ -50,17 +51,18 @@ public final class UpgradeDB {
 	private static String VERSION_692B = "0069200";
 	private static String VERSION_700 = "0070000";
 	private static String VERSION_800 = "0080000";
+	private static String VERSION_801 = "0080001";
 	//private static String LATEST_VERSION = VERSION_670;
 	private static String VERSION_KEY  = "-101";
-	
-	private static String  SQL_GET_VERION = 
+
+	private static String  SQL_GET_VERION =
 			"Select DETAILS from TBL_TI_INTTBLS "
 		+	" where   TBLID  = "  + VERSION_KEY
 		+	"   and  TBLKEY  = "  + VERSION_KEY
 		+	"   and DETAILS >= '" + VERSION_692B + "'";
-	
+
 	private int[] unknownStructure = {
-		Constants.IO_VB, Constants.IO_VB_DUMP, 
+		Constants.IO_VB, Constants.IO_VB_DUMP,
 		Constants.IO_VB_OPEN_COBOL, Constants.IO_VB_FUJITSU,
 		Constants.IO_BIN_TEXT, Constants.IO_UNICODE_TEXT
 	};
@@ -79,8 +81,8 @@ public final class UpgradeDB {
 	private String unknownLine1Pt1 = "Record\t";
 	private String unknownLine1Pt2 ="\t1\t<Tab>\t0\t\tY\t";
 	private String unknownLine2 ="1\t1\tData\t\t81\t0\t0\t";
-		
-	private String unknownFormatLines 
+
+	private String unknownFormatLines
 		= "Record\t21\t1\t<Tab>\t0\t\tY\tUnknown Format\n"
 		+ "1\t1\tUnknown\t\t0\t0\t0\t";
     private String updateRecordSep
@@ -90,7 +92,7 @@ public final class UpgradeDB {
     private String  deleteTbl = "delete from TBL_TI_INTTBLS where ";
     private String insertTbl
     	= "insert into Tbl_T_Table (TblId, TblName, TblDescription) values ";
-    
+
     private String insertRecord = "INSERT INTO Tbl_R_Records "
     	+ "(RecordId,RecordName,Description,RecordType,System,ListChar,CopyBook,Delimiter,"
         + "Quote,PosRecInd,RecSepList,RecordSep,ExternalId,Canonical_Name,Record_Style,"
@@ -196,14 +198,14 @@ public final class UpgradeDB {
             insertSQL + "(5,3,'Date - DDMMYYYY')",
             insertSQL + "(5,4,'Date - YYYYMMDD')",
             insertSQL + "(5," + CellFormat.FMT_COMBO + ",'ComboBox Format, (combo name in parameter)')",
-            
+
             insertRecord + "(70,'zzzCsvTest3','Tab Delimited file with CSV array fields',2,101,'Y','','<Tab>','',0,'default','\n',0,'',0,0);",
             insertRecord + "(71,'zzzCsvTest4','Tab Delimited file with CSV array fields',2,101,'Y','','<Tab>','\"',0,'default','\n',0,'',0,0);",
-            insertRecord + "(72,'XML - Build Layout','XML file, build the layout based on the files contents'" 
+            insertRecord + "(72,'XML - Build Layout','XML file, build the layout based on the files contents'"
                          + ",6,101,'Y','','|','''',0,'default','\n',0,'',0,62);",
             insertRecord + "(73,'zzzCsvTest5','| Delimited file with CSV array fields',2,101,'Y','','|','\'\'',0,'default','\n',0,'',0,0);",
             insertRecord + "(74,'Generic CSV - enter details','Generic CSV - user supplies details',2,101,'Y','','|','',0,'default','\n',0,'',0,52);",
-  
+
 
             insertRF + "(70,1,1,0,'Field 1','',0,0,'','',null,0,'');",
             insertRF + "(70,2,2,0,'Array 1 (; and :)','',115,0,'','',null,0,'//:/;/');",
@@ -219,7 +221,7 @@ public final class UpgradeDB {
             insertRF + "(71,5,5,0,'Field 5','',0,0,'','',null,0,'');",
             insertRF + "(71,6,6,0,'Array 3 (:)','',115,0,'','',null,0,'//:/');",
             insertRF + "(71,7,7,0,'Array 4 (|)','',115,0,'','',null,0,'//|/');",
-            insertRF + "(72,1,1,0,'Dummy','1 field is Required for the layout to load'" 
+            insertRF + "(72,1,1,0,'Dummy','1 field is Required for the layout to load'"
             		 + ",0,0,'','',null,0,'');",
             insertRF + "(73,1,1,0,'Field 1','',0,0,'','',null,0,'');",
             insertRF + "(73,2,2,0,'Array 1 (; and colon)','',115,0,'','',null,0,'//:/;/');",
@@ -230,9 +232,9 @@ public final class UpgradeDB {
             insertRF + "(73,7,7,0,'Field 7','',0,0,'','',null,0,'');",
 
             insertRF + "(74,1,1,0,'Field 1','',0,0,'','',null,0,'');",
-            
-            
-            "Create Table Tbl_C_Combos (" 
+
+
+            "Create Table Tbl_C_Combos ("
                  + "Combo_Id   INTEGER, "
                  + "System     smallint, "
                  + "Combo_Name varchar(30), "
@@ -242,14 +244,14 @@ public final class UpgradeDB {
             "CREATE UNIQUE INDEX Tbl_C_Combos_PK1 ON Tbl_C_Combos(Combo_Name);",
 
 
-            "Create Table Tbl_CI_ComboItems (" 
+            "Create Table Tbl_CI_ComboItems ("
           		+ "Combo_Id   INTEGER, "
           		+ "Combo_Code varchar(30), "
           		+ "Combo_Value varchar(60) "
           + ");",
             "CREATE UNIQUE INDEX Tbl_CI_ComboItems_PK ON Tbl_CI_ComboItems(Combo_Id, Combo_Code);"
    };
-    
+
 //    private String[] sql67 = {
 //    	deleteTbl + "TBLID = 1 and TBLKEY in (" + Type.ftPositiveBinaryBigEndian + ","
 //    	                           + Type.ftBinaryBigEndian + ")",
@@ -258,18 +260,18 @@ public final class UpgradeDB {
 //       	insertSQL + "(1," + Type.ftPositiveBinaryBigEndian + ",'Positive Integer (Big Endian)');",
 //       	insertSQL + "(4," + Constants.IO_VB_OPEN_COBOL +",'Open Cobol VB');",
 //   };
-    
+
     private String[] sql69 = {
     	deleteTbl + "TBLID = 1 and TBLKEY in (" + Type.ftPositiveBinaryBigEndian + ","
-            + Type.ftBinaryBigEndian 
+            + Type.ftBinaryBigEndian
             + "," + Type.ftNumAnyDecimal + "," + Type.ftPositiveNumAnyDecimal + ")",
-        deleteTbl + "TBLID = 4 and TBLKEY in (" + Constants.IO_VB_OPEN_COBOL 
+        deleteTbl + "TBLID = 4 and TBLKEY in (" + Constants.IO_VB_OPEN_COBOL
         	+ "," + Constants.IO_UNICODE_NAME_1ST_LINE
         	+ "," + Constants.IO_BIN_NAME_1ST_LINE
         	+")",
-       	deleteTbl + "TBLID = 1 and TBLKEY in (" + Type.ftCharRestOfFixedRecord 
-       		+ "," + Type.ftCharRestOfRecord 
-       		+ "," + Type.ftRmComp + "," + Type.ftRmCompPositive 
+       	deleteTbl + "TBLID = 1 and TBLKEY in (" + Type.ftCharRestOfFixedRecord
+       		+ "," + Type.ftCharRestOfRecord
+       		+ "," + Type.ftRmComp + "," + Type.ftRmCompPositive
        		+ ")",
       	deleteTbl + "TBLID = 5 and TBLKEY in (" + CellFormat.FMT_BOLD + ")",
  //      	insertSQL + "(1," + Type.ftCharRestOfFixedRecord + ",'Char Rest of Fixed Length');",
@@ -289,7 +291,7 @@ public final class UpgradeDB {
     private String[] sql71 = {
     		"Drop Table Tbl_RS2_SubRecords",
     		"Drop Table Tbl_RFS_FieldSelection",
-            "Create Table Tbl_RS2_SubRecords (" 
+            "Create Table Tbl_RS2_SubRecords ("
                     + "RECORDID   INTEGER, "
                     + "Child_Key          INTEGER, "
                     + "Child_Record       INTEGER, "
@@ -304,7 +306,7 @@ public final class UpgradeDB {
              + ")",
                "CREATE UNIQUE INDEX Tbl_RS2_SubRecordsPK  ON Tbl_RS2_SubRecords(RECORDID, Child_Key);",
               // "CREATE UNIQUE INDEX Tbl_RS2_SubRecordsPK1  ON Tbl_RS2_SubRecords(RECORDID, Child_Id);",
-               "Create Table Tbl_RFS_FieldSelection (" 
+               "Create Table Tbl_RFS_FieldSelection ("
                        + "RECORDID         INTEGER, "
                        + "Child_Key        smallint, "
                        + "Field_No         smallint, "
@@ -319,6 +321,16 @@ public final class UpgradeDB {
         	deleteTbl + "TBLID = " + VERSION_KEY + " and TBLKEY = " + VERSION_KEY + ";",
         	insertSQL + "(" + VERSION_KEY + ", " + VERSION_KEY + ", ",
         			};
+
+    private String[] sql8001 = {
+            insertSQL + "(3, 103, 'System Layouts')",
+    };
+
+    private String fileWizardXmlLayout = "<?xml version=\"1.0\" ?>\n"
+    		+ "<RECORD RECORDNAME=\"FileWizard\" COPYBOOK=\"\" DELIMITER=\"&lt;Tab&gt;\" FILESTRUCTURE=\"FILE_WIZARD\" STYLE=\"0\" RECORDTYPE=\"RecordLayout\" LIST=\"Y\" QUOTE=\"\" RecSep=\"default\" LINE_NO_FIELD_NAMES=\"1\">\n"
+    		+ "	<FIELDS><FIELD NAME=\"Dummy\" POSITION=\"1\" LENGTH=\"1\" TYPE=\"Char\"/></FIELDS>\n"
+    		+ "</RECORD>";
+
 
 
     /**
@@ -413,22 +425,22 @@ public final class UpgradeDB {
 //    public void upgrade67(int dbIdx) {
 //        genericUpgrade(dbIdx, sql67);
 //    }
-// 
+//
 
     public void upgrade69(int dbIdx) {
         genericUpgrade(dbIdx, sql69, VERSION_692B);
-        
+
         for (int i =0; i < unknownStructure.length; i++) {
         	addLayout(
         			dbIdx,
         			"Unknown " + unknownNames[i],
-        			unknownLine1Pt1 + unknownStructure[i] 
-        	   +	unknownLine1Pt2 + unknownNames[i] 
+        			unknownLine1Pt1 + unknownStructure[i]
+        	   +	unknownLine1Pt2 + unknownNames[i]
         	   +	"\n" + unknownLine2,
         	   		unknownFonts[i],
         	   		0);
         }
-         
+
         addLayout(	dbIdx,
         			"Unknown Format",
         			unknownFormatLines,
@@ -447,12 +459,12 @@ public final class UpgradeDB {
      	db.setSearchRecordName(ExtendedRecordDB.opEquals, name);
      	db.open();
      	rec = db.fetch();
-     	
+
      	if (rec != null) {
      		db.delete(rec);
      		Common.getLogger().logMsg(AbsSSLogger.SHOW, " --> Deleting Layout " + name);
      	}
-     	
+
         ext = ExternalRecord.getNullRecord(
         		name,
         		Constants.rtBinaryRecord,
@@ -461,19 +473,19 @@ public final class UpgradeDB {
 
      	(new RecordEditorCsvLoader("\t"))
      			.insertFields(Common.getLogger(), ext, new InputStreamReader(in), name, dbIdx);
-     	
+
      	rec = new RecordRec(ext);
      	db.insert(rec);
      	Common.getLogger().logMsg(AbsSSLogger.SHOW, " --> Adding Layout " + name);
      	db.close();
     }
-    
+
     public void upgrade71(int dbIdx) {
-        
+
         upgrade80(dbIdx, "Tbl_RS_SubRecords");
     }
-    
-    
+
+
     public void upgrade80(int dbIdx, String tbl) {
         genericUpgrade(dbIdx, sql71, null);
 
@@ -482,22 +494,22 @@ public final class UpgradeDB {
                     + "  from " + tbl
         		    + " Order by RecordId, ChildRecord";
         String insertSQL = "Insert Into  Tbl_RS2_SubRecords  ("
-                + "    RecordId" 
+                + "    RecordId"
                 + "  , Child_Key"
                 + "  , Child_Record"
                 + "  , Field_Start"
                 + "  , Field_Name"
                 + "  , Field_Value"
-                + "  , PARENT_RECORDID" 
+                + "  , PARENT_RECORDID"
                 + "  , Operator_Sequence"
-                + "  , Default_Record"  
+                + "  , Default_Record"
                 + "  , Child_Name"
                 + "  , Child_Id"
                 + ") Values ("
                 +    "     ?   , ?   , ?   , ?   , ?, ?, ?, ?, ?, ?, ?"
                 + ")";
-        
-        
+
+
         int lastRecordId=Integer.MIN_VALUE,
         	childNo=0;
         int recordId, childRecord, fieldStart, parentId,
@@ -508,16 +520,16 @@ public final class UpgradeDB {
         	Connection connect = Common.getUpdateConnection(dbIdx);
 			ResultSet resultset = connect.createStatement().executeQuery(sSQL);
 			PreparedStatement insertStatement = connect.prepareStatement(insertSQL);
-			
+
 			while (resultset.next()) {
 				recordId = resultset.getInt(1);
-			    
+
 			    if (recordId==lastRecordId) {
 			    	childNo += 1;
 			    } else {
 			    	insertChildren(lastRecordId, list, insertStatement);
 			    	childNo = 0;
-			    	lastRecordId = recordId; 
+			    	lastRecordId = recordId;
 			    }
 				childRecord = resultset.getInt(2);
 				fieldStart = resultset.getInt(3);
@@ -525,17 +537,16 @@ public final class UpgradeDB {
 				fieldValue    = resultset.getString(5);
 			    parentId    = resultset.getInt(6);
 			    list.add(new ChildRecordsRec(
-			    		childRecord, fieldStart, field, fieldValue, parentId, childNo, 
+			    		childRecord, fieldStart, field, fieldValue, parentId, childNo,
 			    		operatorSeq, false, "", childNo));
-			    
+
 			    count += 1;
 			}
 			insertChildren(lastRecordId, list, insertStatement);
-			
-			upgradeVersion(connect, dbIdx, VERSION_800);
+			Common.logMsg("Database Upgraded to " + VERSION_800 + " , child record copied " + count, null);
 			insertStatement.close();
-	        Common.logMsg("Database Upgraded to " + VERSION_800 + " , child record copied " + count, null);
-			System.out.println("Current Version: " + VERSION_800);
+
+			addFileWizardReader(dbIdx);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			Common.logMsg("Database upgrade failed !!!", null);
@@ -543,9 +554,33 @@ public final class UpgradeDB {
 			Common.freeConnection(dbIdx);
 		}
     }
-    
-    
-    private void insertChildren(int recordId, List<ChildRecordsRec> list, PreparedStatement insertStatement) 
+
+    public final void addFileWizardReader(int dbIdx) throws SQLException {
+    	Connection connect = Common.getUpdateConnection(dbIdx);
+
+    	genericUpgrade(dbIdx, sql8001, null);
+
+    	try {
+			ExternalRecord rec = RecordEditorXmlLoader.getExternalRecord(fileWizardXmlLayout, "FileWizard");
+			ExtendedRecordDB db = new ExtendedRecordDB();
+
+			rec.setSystem(103);
+			db.setConnection(new ReConnection(dbIdx));
+
+			db.insert(new RecordRec(rec));
+			db.close();
+
+			upgradeVersion(connect, dbIdx, VERSION_801);
+	        Common.logMsg("Database Upgraded to " + VERSION_801, null);
+			System.out.println("Current Version: " + VERSION_801);
+		} catch (Exception e) {
+			Common.logMsg("Could not load FileWizardReader", e);
+			e.printStackTrace();
+		}
+
+    }
+
+    private void insertChildren(int recordId, List<ChildRecordsRec> list, PreparedStatement insertStatement)
     throws SQLException {
     	if (list.size() > 0) {
     		HashMap<Integer, ChildRecordsRec> lookup = new HashMap<Integer, ChildRecordsRec>();
@@ -563,7 +598,7 @@ public final class UpgradeDB {
     					child.setParentRecord(parent.getChildId());
     				}
     			}
-    			
+
     			idx = 1;
 			    insertStatement.setInt(idx++, recordId);
 			    insertStatement.setInt(idx++, child.getChildKey());
@@ -576,12 +611,12 @@ public final class UpgradeDB {
 			    insertStatement.setString(idx++, "N");
 			    insertStatement.setString(idx++, "");
 			    insertStatement.setInt(idx++, child.getChildId());
-			    
+
 			    insertStatement.executeUpdate();
 
     		}
-    		
-    		
+
+
     		list.clear();
     	}
     }
@@ -594,11 +629,11 @@ public final class UpgradeDB {
     private boolean genericUpgrade(int dbIdx, String[] sql2run, String version) {
     	boolean ret = false;
     	boolean dropSemi = Common.isDropSemi(dbIdx);
-  
+
         try {
             Connection con = Common.getUpdateConnection(dbIdx);
             runSQL(con.createStatement(), sql2run, dropSemi);
-            
+
             upgradeVersion(con, dbIdx, version);
             Common.getLogger().logMsg(AbsSSLogger.SHOW, "Upgrade SQL Run !!!");
 
@@ -609,7 +644,7 @@ public final class UpgradeDB {
 		} finally {
 			Common.freeConnection(dbIdx);
         }
-		
+
 		return ret;
     }
 
@@ -699,7 +734,7 @@ public final class UpgradeDB {
             }
         }
     }
-    
+
     public static boolean checkForUpdate(int dbIndex) {
     	boolean ret = false;
     	//System.out.print("Checking for update ");
@@ -718,15 +753,17 @@ public final class UpgradeDB {
     				(new UpgradeDB()).upgrade71(dbIndex);
     			} else if (VERSION_700.equals(version)) {
     				(new UpgradeDB()).upgrade80(dbIndex, "Tbl_RS1_SubRecords");
+    			} else if (VERSION_800.equals(version)) {
+    				(new UpgradeDB()).addFileWizardReader(dbIndex);
     			}
-				
+
     			//System.out.print("Already " + LATEST_VERSION);
     		} else {
     			//System.out.println("upgrading DB");
     			UpgradeDB upgrade = new UpgradeDB();
     			upgrade.upgrade69(dbIndex);
     			upgrade.upgrade71(dbIndex);
-    			Common.logMsg("Upgraded DB to version 0.80.0 ", null);
+    			Common.logMsg("Upgraded DB to version 0.80.1 ", null);
     			ret = true;
     		}
     	} catch (Exception e) {

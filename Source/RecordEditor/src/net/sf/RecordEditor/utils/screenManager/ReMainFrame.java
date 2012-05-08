@@ -118,7 +118,7 @@ public class ReMainFrame extends JFrame
 	private final ReAction close = new ReAction("Close", "Close DB's and exit application",
 												//Common.getRecordIcon(Common.ID_EXIT_ICON),
 												ReActionHandler.CLOSE, closeAction);
-			
+
 	private final ReActionActiveScreen delete
 		= newAction(ReActionHandler.DELETE);
 	private final ReActionActiveScreen helpAction
@@ -142,10 +142,10 @@ public class ReMainFrame extends JFrame
 	= newAction(ReActionHandler.PASTE_TABLE_OVERWRITE);
 	private final ReActionActiveScreen pasteTableInsert
 	= newAction(ReActionHandler.PASTE_TABLE_INSERT);
-	
+
 	private final ReActionActiveScreen deleteRecords
 		= newAction(ReActionHandler.DELETE_RECORD);
-	
+
 	private JMenu fileMenu = new JMenu("File");
 	private JMenu editMenu = new JMenu("Edit");
 
@@ -207,13 +207,13 @@ public class ReMainFrame extends JFrame
 				        try {
 							logFrame.setIcon(false);
 				        	logFrame.setSelected(true);
-				        } catch (Exception ex) { 
-				        }   	
+				        } catch (Exception ex) {
+				        }
 					}
 
 			 	}
-				
-				
+
+
 			};
 		} else {
 			log = new ScreenLog(logFrame);
@@ -245,11 +245,11 @@ public class ReMainFrame extends JFrame
 	 */
 	private void init_200_SetSizes() {
 	    int start, height;
-	    Dimension desktopSize; 
+	    Dimension desktopSize;
 
 	    Common.setBounds1(HelpWindow.HELP_FRAME, applId);
 	    Common.setBounds1(this, applId);
-	    
+
 	    desktopSize = this.getSize();
 
 	    start = desktopSize.height - LOG_SCREEN_HEIGHT - LOG_SCREEN_STARTS_FROM_BOTTOM;
@@ -262,7 +262,7 @@ public class ReMainFrame extends JFrame
 //	    System.out.println("Desktop Size: " + desktopSize.height + " " + desktopSize.width);
 //	    System.out.println("    Log Size: " + height + " " + (desktopSize.width - LOG_SCREEN_WIDTH_ADJUSTMENT));
 //	    System.out.println();
-	    
+
 	    logFrame.getContentPane().add(log);
 	    logFrame.setBounds(2, start,
 	            desktopSize.width - LOG_SCREEN_WIDTH_ADJUSTMENT, height);
@@ -303,7 +303,7 @@ public class ReMainFrame extends JFrame
 	    	@Override
 	        public void windowClosing(final WindowEvent e) {
 	    		System.out.println("Window Closing");
-	    		
+
 	            quit();
 	            super.windowClosing(e);
 	        }
@@ -317,7 +317,7 @@ public class ReMainFrame extends JFrame
 				Common.closeConnection();
 				System.exit(0);
 				super.windowClosed(e);
-			}	    	
+			}
 	    });
 	}
 
@@ -342,7 +342,7 @@ public class ReMainFrame extends JFrame
 		 activeScreenActions[numActiveScreenActions++] = action;
 		 return action;
 	}
-	
+
 	/**
 	 * Build the Menu Bar
 	 *
@@ -378,7 +378,7 @@ public class ReMainFrame extends JFrame
 	    if (recentFiles != null) {
 	    	fileMenu.add(recentFiles);
 	    }
-	    
+
 	    fileMenu.addSeparator();
 	    fileMenu.add(export);
 	    fileMenu.add(SAVE_AS_CSV);
@@ -398,7 +398,7 @@ public class ReMainFrame extends JFrame
 	    if (addSaveAsXml) {
 	    	fileMenu.add(newAction(ReActionHandler.SAVE_AS_XML));
 	    }
-	    
+
 	    if (addSaveLayout) {
 	    	fileMenu.add(newAction(ReActionHandler.SAVE_LAYOUT_XML));
 	    }
@@ -409,7 +409,7 @@ public class ReMainFrame extends JFrame
 	}
 
 	protected final void addExit() {
-		
+
 	    fileMenu.addSeparator();
 		fileMenu.add(new AbstractAction("Exit") {
 	        public void actionPerformed(ActionEvent e) {
@@ -451,15 +451,15 @@ public class ReMainFrame extends JFrame
 	protected void addProgramSpecificMenus(JMenuBar menubar) {
 
 	}
-	
-	
+
+
 	/**
 	 * Build the Help Menu
 	 * @return Help Menu
 	 */
 	private JMenu buildHelpMenu() {
 		JMenu helpMenu = new JMenu("Help");
-		
+
 		helpMenu.add(helpAction);
 		helpMenu.add(new AbstractAction("About") {
 
@@ -467,10 +467,19 @@ public class ReMainFrame extends JFrame
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 			 */
 			public void actionPerformed(ActionEvent arg0) {
-				showAbout();				
+				showAbout();
 			}
 		});
-		
+		helpMenu.add(new AbstractAction("Online Help") {
+
+			/**
+			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+			 */
+			public void actionPerformed(ActionEvent arg0) {
+				showOnlineHelp();
+			}
+		});
+
 		if (Common.TEST_MODE) {
 			helpMenu.addSeparator();
 			helpMenu.add(new AbstractAction("Allocated Jars") {
@@ -480,40 +489,56 @@ public class ReMainFrame extends JFrame
 		    });
 		}
 
-		
+
 		return helpMenu;
 	}
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 *
 	 */
 	protected void showAbout() {
 		showAbout(
 				"The <b>RecordEditor</b> is an editor for Cobol / Fixed Field Width / CSV "
-			  + "data files<br><br><pre>"
+			  + "data files.<br><br>"
+			  + "It is distributed under a GPL 3 (or later) license<br/><pre>"
 			  +	" <br><b>Authors:</b><br><br> "
 			  + "\t<b>Bruce Martin</b>: Main author<br>"
 			  + "\t<b>Jean-Francois Gagnon</b>: Provided Fujitsu IO / Types<br><br>"
 			  + " <b>Associated:</b><br><br> "
-			  + "\t<b>Peter Thomas</b>: Wrote the <b>cb2xml</b> which provides the cobol interface<br/><br/>"
-			  + " <b>Websites:</b><br><br> " 
+			  + "\t<b>Peter Thomas</b>: Wrote the <b>cb2xml</b> which provides the cobol interface<br/><br/> &nbsp; "
+			  + " <b>Websites:</b><br><br> "
 			  + "\t<b>RecordEditor:</b> http://record-editor.sourceforge.net<br>"
 			  + "<br><br>"
-			  + "<b>Packages Used:</b>"
-			  + "\t<b>cb2xml<b>:\tCobol Copybook Analysis"
-			  + "\t<b>TableLayout<b>:\tSwing Layout manager used"
-			  + "\t<b>jibx<b>:\t\t Xml Bindings"
-			  + "\t<b>jlibdif<b>:\tFile Compare"
-			  + "</pre><br><br><b>Packages Used:</b><br><br> "
+			  + "<b>Packages Used:</b><br/>"
+			  + "\t<b>cb2xml<b>:\t\tCobol Copybook Analysis<br/>"
+			  + "\t<b>jibx<b>:\t\tXml Bindings<br/>"
+			  + "\t<b>TableLayout<b>:\tSwing Layout manager used<br>"
+			  + "\t<b>jlibdif<b>:\tFile Compare<br/>"
 		);
 	}
-	
+
 	protected void showAbout(String s) {
-		ReFrame aboutFrame = new ReFrame("About", null, null);
+		showHtmlPnl("About", s);
+	}
+
+	protected void showOnlineHelp() {
+		showHtmlPnl("Online Help",
+					"<h1>Online Help</h1>"
+				  + "If you need help using the <b>RecordEditor</b>, try asking at the<br/>"
+				  + "RecordEditor Forum "
+				  + "<b><font color=blue>http://sourceforge.net/projects/record-editor/forums</font></b>"
+				  + "&nbsp;  &nbsp;  &nbsp;  "
+				  + "<br/><br/>If you discover any problems, please report it at either the forum<br/>"
+				  + "or at <b>http://sourceforge.net/tracker/?group_id=139274&atid=742839</b>   <br/><br/>"
+		);
+	}
+
+	protected void showHtmlPnl(String name, String s) {
+		ReFrame aboutFrame = new ReFrame(name, null, null);
 		JEditorPane aboutText = new JEditorPane("text/html", s);
-		
+
 		aboutFrame.getContentPane().add(aboutText);
 		aboutFrame.pack();
 		aboutFrame.setVisible(true);
@@ -560,10 +585,10 @@ public class ReMainFrame extends JFrame
 		    	}
 		    }
 	    }
-	    
+
 	    toolBar.addSeparator(seperatorSize);
 	    toolBar.addSeparator(seperatorSize);
-	    
+
 	    toolBar.add(close);
 
 	    try {
@@ -580,7 +605,7 @@ public class ReMainFrame extends JFrame
 	 */
 	protected void quit() {
 		System.out.println("ReMainframe Quit");
-		
+
 		Dimension d = ReMainFrame.this.getSize();
 		if (d != null && applId != null) {
 			Parameters.setSavePropertyChanges(false);
@@ -588,7 +613,7 @@ public class ReMainFrame extends JFrame
 			Parameters.setSavePropertyChanges(true);
 			Parameters.setProperty(applId + Parameters.LAST_SCREEN_HEIGHT, String.valueOf(d.height));
 		}
-		
+
 		ReFrame[] allFrames = ReFrame.getAllFrames();
         for (int i = allFrames.length - 1; i >= 0; i--) {
             if (allFrames[i].isPrimaryView()) {
@@ -660,24 +685,24 @@ public class ReMainFrame extends JFrame
         for (i = 0; i < numActiveScreenActions; i++) {
             activeScreenActions[i].checkActionEnabled();
         }
-        
+
     	ReFrame actionHandler = ReFrame.getActiveFrame();
         if (velocityTemplateList != null) {
             velocityTemplateList.setEnabled(
-            		actionHandler != null 
+            		actionHandler != null
             		&& actionHandler.isActionAvailable(ReActionHandler.EXPORT_VELOCITY));
          }
-        
+
          if (xslTransformList != null) {
             	xslTransformList.setEnabled(
-            			actionHandler != null 
+            			actionHandler != null
             			&& actionHandler.isActionAvailable(ReActionHandler.EXPORT_XSLT));
          }
-         
-         
+
+
          if (scriptList != null) {
         	 scriptList.setEnabled(
-        			 actionHandler != null 
+        			 actionHandler != null
         			 && actionHandler.isActionAvailable(ReActionHandler.EXPORT_SCRIPT));
          }
    }
@@ -738,7 +763,7 @@ public class ReMainFrame extends JFrame
                 windowList.add(m);
             }
         }
-        
+
         windowMenu.addSeparator();
         windowMenu.add(close);
     }
@@ -830,7 +855,7 @@ public class ReMainFrame extends JFrame
 
         try {
 //        	System.out.println(">>> LAF >>> " + UIManager.getSystemLookAndFeelClassName() + " "
-//        			+ UIManager.getLookAndFeel() 
+//        			+ UIManager.getLookAndFeel()
 //        			+ " " + UIManager.getCrossPlatformLookAndFeelClassName());
              if (idx == 0) {
                 JFrame.setDefaultLookAndFeelDecorated(true);
@@ -848,7 +873,7 @@ public class ReMainFrame extends JFrame
                             break;
                         }
                     }
-                    
+
                     if (useSysLaf) {
                     	setSysLAF();
                     }
@@ -908,7 +933,7 @@ public class ReMainFrame extends JFrame
 		return editMenu;
 	}
 
-	
+
 
     /* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.screenManager.ReWindowChanged#getApplicationId()
@@ -950,7 +975,7 @@ public class ReMainFrame extends JFrame
             try {
                 window.setIcon(false);
             } catch (Exception ex) { }
-            
+
             ReFrame.setActiveFrame(window);
         }
     }

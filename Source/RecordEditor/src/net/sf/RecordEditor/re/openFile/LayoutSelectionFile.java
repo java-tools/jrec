@@ -28,15 +28,15 @@ import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
 import net.sf.RecordEditor.utils.swing.FileChooser;
 
 public class LayoutSelectionFile extends AbstractLayoutSelection  {
-	
+
 	private static final String OLD_SEPERATOR = ",,";
 	private static final String SEPERATOR = "~";
-	
+
 	private static final int MODE_NORMAL = 0;
 	private static final int MODE_1ST_COBOL = 1;
 	private static final int MODE_2ND_COBOL = 2;
 
-   
+
     private static final int TAB_CSV_IDX = 8;
 
    	private JComboBox   loaderOptions = null;
@@ -47,15 +47,15 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 
 	private SplitCombo   splitOption;
 	private ComputerOptionCombo numericFormat;
-	
+
     private JComboBox fieldSeparator;
     private JComboBox quote;
 	private JTextArea message = null;
-	
+
 	private String lastFileName = "";
 	private String lastLayoutDetails = "";
 	private AbstractLayoutDetails lastLayout;
-	
+
 	//private boolean isCob = false;
 
 	private int mode = MODE_NORMAL;
@@ -63,11 +63,11 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
     public LayoutSelectionFile() {
 		super();
     }
- 
+
 
     public LayoutSelectionFile(boolean isCobol) {
 		super();
-		
+
 		if (isCobol) {
 			mode = MODE_1ST_COBOL;
 		}
@@ -86,7 +86,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 	 * @param layoutFile layout file
 	 */
 	public void addLayoutSelection(BasePanel pnl, JPanel goPanel, 	FileChooser layoutFile) {
-		
+
 		addLayoutSelection(pnl, goPanel, null, null, layoutFile);
 	}
 
@@ -115,7 +115,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 	    if (layoutFile != null)  {
 	    	loaderOptions.setSelectedIndex(CopybookLoaderFactoryExtended.COBOL_LOADER);
 	    	copybookFile = layoutFile;
-	    	
+
 		    pnl.addLine("Output File Structure", fileStructure);
 		    pnl.addLine("Output Numeric Format", numericFormat);
 		    mode = MODE_2ND_COBOL;
@@ -123,22 +123,22 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 	    	loaderOptions.setSelectedIndex(CopybookLoaderFactoryExtended.COBOL_LOADER);
 
 			pnl.addLine("Copybook", copybookFile, copybookFile.getChooseFileButton());
-			
+
 		    pnl.addLine("Input File Structure", fileStructure);
 		    pnl.addLine("Input Numeric Format", numericFormat);
 	    } else {
 		    pnl.addLine("File Structure", fileStructure);
-		    
+
 		    loaderOptions.setSelectedItem(Common.OPTIONS.COPYBOOK_READER.get());
 	    	pnl.addLine("Copybook Type", loaderOptions);
 	    	pnl.addLine("Split Copybook", splitOption);
-	    	
+
 	    	pnl.setGap(BasePanel.GAP0);
 			pnl.addLine("Copybook", copybookFile, copybookFile.getChooseFileButton());
 		    pnl.setGap(BasePanel.GAP0);
-		    
+
 		    pnl.addLine("Numeric Format", numericFormat);
-	    
+
 		    pnl.addLine("Field Seperator", fieldSeparator);
 		    pnl.addLine("Quote", quote);
 		    pnl.setGap(BasePanel.GAP1);
@@ -147,24 +147,24 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 				pnl.setHeight(Math.max(BasePanel.NORMAL_HEIGHT * 3, goPanel.getPreferredSize().getHeight()));
 			}
 	    }
-		
+
 //	    } else {
 //		    pnl.setGap(BasePanel.GAP1);
 //	    }
-	    
+
 		setEditable();
 	}
-	
 
-    
+
+
     /**
      * set editable
      */
     private void setEditable() {
-    	
+
     	int fileStruc = ((Integer) fileStructure.getSelectedItem()).intValue();
     	boolean copybookRequired = LineIOProvider.getInstance().isCopyBookFileRequired(fileStruc);
-    	
+
 //    	System.out.println("Setting Enabled: " + copybookRequired + " " + fileStruc
 //    			+ " " + (fileStruc == Constants.IO_NAME_1ST_LINE)
 //    			+ " " + (! (
@@ -172,14 +172,14 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 //           			|| fileStruc == Constants.IO_GENERIC_CSV
 //           			|| fileStruc == Constants.IO_XML_BUILD_LAYOUT
 //           	)));
-  	
+
     	loaderOptions.setEnabled(copybookRequired);
     	copybookFile.setEnabled(copybookRequired);
     	splitOption.setEnabled(copybookRequired);
-    	
+
     	fieldSeparator.setEnabled(fileStruc == Constants.IO_NAME_1ST_LINE);
     	quote.setEnabled(fileStruc == Constants.IO_NAME_1ST_LINE);
-    	
+
     	numericFormat.setEnabled(! (
     			   fileStruc ==  Constants.IO_NAME_1ST_LINE
     			|| fileStruc == Constants.IO_GENERIC_CSV
@@ -208,26 +208,26 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 		AbstractLayoutDetails ret = null;
         int fileStruc;
         String layoutName = copybookFile.getText();
-        
+
         fileStruc = ((Integer) fileStructure.getSelectedItem()).intValue();
 
         if (loadFromFile && lastLayoutDetails != null && lastLayoutDetails.equalsIgnoreCase(layoutName)
         && ((lastFileName != null && lastFileName.equals(fileName)) || (lastFileName == fileName))) {
         	ret = lastLayout;
         } else if (! LineIOProvider.getInstance().isCopyBookFileRequired(fileStruc)) {
-        	ret = buildLayoutFromSample(fileStruc, 
+        	ret = buildLayoutFromSample(fileStruc,
         			fileStructure.getSelectedIndex() == TAB_CSV_IDX,
         			getFontName(), fieldSeparator.getSelectedItem().toString(), fileName);
          	lastLayoutDetails = layoutName;
          	lastLayout = ret;
-       	
+
         } else if (layoutName == null ||  "".equals(layoutName)) {
             setMessageText("You must enter a Record Layout name ", copybookFile);
         } else {
             try {
                 ret = getRecordLayout_readLayout(layoutName, fileName);
 
-            	if (  loadFromFile  
+            	if (  loadFromFile
             	&&    ret != null
                	&&  ! LineIOProvider.getInstance().isCopyBookFileRequired(ret.getFileStructure())) {
             		ret = getFileBasedLayout(fileName, ret);
@@ -238,7 +238,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
              	lastLayout = ret;
             } catch (Exception e) {
 	            setMessageText("You must enter a copybook name ", copybookFile);
-            	
+
                 e.printStackTrace();
             }
         }
@@ -258,7 +258,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 	}
 
 
-	
+
     /**
      * Read a layout
      * @param copyBookFile layout filename to be read
@@ -286,7 +286,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
             	ExternalRecord rec = loader.loadCopyBook(
                     copy, split, 0, font,
                     numFormat, 0, Common.getLogger());
- 
+
             	if (rec.getFileStructure() == Constants.IO_NAME_1ST_LINE
             	||  rec.getFileStructure() == Constants.IO_BIN_NAME_1ST_LINE
             	||  rec.getFileStructure() == Constants.IO_UNICODE_NAME_1ST_LINE
@@ -294,13 +294,14 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
             		//fileStructure.setSelectedIndex(4);
             	} else if (rec.getFileStructure() == Constants.IO_XML_BUILD_LAYOUT
             			|| rec.getFileStructure() == Constants.IO_XML_USE_LAYOUT
+                    	|| rec.getFileStructure() == Constants.IO_WIZARD
             			|| structure == Constants.IO_DEFAULT) {
             	} else {
             		rec.setFileStructure(structure);
             	}
 
             	ret = rec.asLayoutDetail();
-            	
+
             } else {
             	System.out.println("Record Layout file does not exist: " + copy);
                 setMessageText("Record Layout file does not exist: " + copy, copybookFile);
@@ -313,7 +314,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 
         return ret;
     }
-    
+
     private String getFontName() {
     	int numFormat = numericFormat.getSelectedValue();
         String font = "";
@@ -333,7 +334,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 	@Override
 	public boolean setLayoutName(String layoutName) {
         StringTokenizer t = new StringTokenizer(layoutName, SEPERATOR);
-        
+
         if (t.countTokens() < 5) {
         	t = new StringTokenizer(layoutName, OLD_SEPERATOR);
         }
@@ -343,11 +344,11 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
         	int loader,split;
         	setupFields();
             copybookFile.setText(t.nextToken());
-            
+
             loader = getIntToken(t);
             fileStructure.setSelectedIndex(getIntToken(t));
             split = getIntToken(t);
-            
+
             if (mode == MODE_NORMAL) {
             	loaderOptions.setSelectedIndex(loader);
             	splitOption.setSelectedIndex(split);
@@ -364,9 +365,9 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 
 		return false;
 	}
-	
+
 	private void setupFields() {
-		
+
 		if (loaderOptions == null) {
 			String s;
 	 	    CopybookLoaderFactory loaders = CopybookLoaderFactoryExtended.getInstance();
@@ -378,7 +379,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
     		numericFormat  = new ComputerOptionCombo();
     		fieldSeparator = new JComboBox(Common.FIELD_SEPARATOR_LIST);
         	quote          = new JComboBox(Common.QUOTE_LIST);
-        	
+
     	    for (int i = 0; i < loaders.getNumberofLoaders(); i++) {
     	        loaderOptions.addItem(loaders.getName(i));
     	    }
@@ -401,11 +402,11 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
      */
     private int getIntToken(StringTokenizer t) {
         int ret = 0;
-        
+
         if (t.hasMoreElements()) {
 	        String s = t.nextToken();
-	
-	        try { 
+
+	        try {
 	            ret = Integer.parseInt(s);
 	        } catch (Exception e) {
 	        }
@@ -437,7 +438,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 	 */
 	@Override
 	public void setDatabaseIdx(int idx) {
-		
+
 	}
 
 	/**
@@ -462,19 +463,19 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 	@Override
 	public String formatLayoutName(String layoutName) {
 		String name = layoutName;
-//		
+//
 //		if (name != null || name.indexOf(',') > 1) {
 //			name = name.substring(0, name.indexOf(',') - 2)
 //			     + name.substring(name.indexOf(','));
 //		}
-		
+
 		return Common.OPTIONS.DEFAULT_COPYBOOK_DIRECTORY.get() + name + ".Xml"
-			 + SEPERATOR + "2" + SEPERATOR + "0" 
+			 + SEPERATOR + "2" + SEPERATOR + "0"
 			 + SEPERATOR + "0" + SEPERATOR + "0" + SEPERATOR + "0" + SEPERATOR + "0";
 	}
 
 	private void setMessageText(String text, JComponent component) {
-		
+
 		if (message == null) {
 			System.err.println();
 			System.err.println("Error: " + text);
@@ -494,7 +495,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 	public final FileChooser getCopybookFile() {
 		return copybookFile;
 	}
-	
+
 
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.re.openFile.AbstractLayoutSelection#isFileBasedLayout()

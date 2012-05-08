@@ -55,8 +55,8 @@ public class ComboValuesRec extends AbsRecord {
 
       initCombo_Code = Combo_Code;
   }
-  
-  
+
+
   /**
    * @see net.sf.RecordEditor.utils.jdbc.AbsRecord#hasTheKeyChanged()
    */
@@ -81,6 +81,7 @@ public class ComboValuesRec extends AbsRecord {
                     );
 
       ret.setNew(true);
+      ret.setUpdateStatus(ComboValuesRec.UPDATED);
 
       return ret;
   }

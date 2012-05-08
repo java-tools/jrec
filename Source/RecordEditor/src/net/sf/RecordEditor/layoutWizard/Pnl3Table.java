@@ -82,14 +82,14 @@ public class Pnl3Table extends WizardPanel {
 
 
     /**
-     * @see net.sf.RecordEditor.layoutWizard.WizardPanel#getValues(net.sf.RecordEditor.LayoutWizard.Details)
+     * @see net.sf.RecordEditor.layoutWizard.WizardPanel#getValues(net.sf.RecordEditor.layoutWizard.LayoutWizard.Details)
      */
     public Details getValues() throws Exception {
     	return columnSelector.getCurrentDetails();
     }
 
     /**
-     * @see net.sf.RecordEditor.layoutWizard.WizardPanel#setValues(net.sf.RecordEditor.LayoutWizard.Details)
+     * @see net.sf.RecordEditor.layoutWizard.WizardPanel#setValues(net.sf.RecordEditor.layoutWizard.LayoutWizard.Details)
      */
     public final void setValues(Details detail) throws Exception {
 

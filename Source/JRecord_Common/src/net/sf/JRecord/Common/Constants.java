@@ -17,17 +17,17 @@ public interface Constants {
 	public  static final int NULL_INTEGER	= -121;
 	public static final int KEY_INDEX		= -765;
 	public static final int FULL_LINE			= -101;
-	
+
 	public static final  int NUMBER_OF_COPYBOOK_SOURCES = 16;
 
- 
+
     public static final byte BYTE_CR = 10;
     public static final byte BYTE_LF = 13;
-    
+
 	public static final byte[] LFCR_BYTES      = {BYTE_LF, BYTE_CR};
 	public static final byte[] LF_BYTES        = {BYTE_LF};
 	public static final byte[] CR_BYTES        = {BYTE_CR};
-	public static final byte[] SYSTEM_EOL_BYTES = System.getProperty("line.separator").getBytes(); 
+	public static final byte[] SYSTEM_EOL_BYTES = System.getProperty("line.separator").getBytes();
 
    	/* record Type constatnts */
 	public static final int rtBinaryRecord         = 0;
@@ -41,7 +41,7 @@ public interface Constants {
 	public static final int rtProtoRecord         = rtRecordLayout;
 
 	public static final int FORMAT_DEFAULT  = 0;
-	
+
 
 	public static final int IO_DEFAULT      = 0;
     public static final int IO_TEXT_LINE    = 1;
@@ -52,9 +52,10 @@ public interface Constants {
     public static final int IO_VB_FUJITSU   = 7;
     public static final int IO_VB_OPEN_COBOL   = 8;
     public static final int IO_BIN_TEXT  = 9;
-    
+
     public static final int IO_UNKOWN_FORMAT = 21 /* RecordEditor Format */;
-    
+    public static final int IO_WIZARD        = 22 /* RecordEditor Format */;
+
     public static final int IO_MICROFOCUS = 31;
 
     public static final int IO_NAME_1ST_LINE    = 51;
@@ -62,21 +63,26 @@ public interface Constants {
 //    public static final int IO_GENERIC_CSV_UNICODE = 53 /* RecordEditor Format */;
     public static final int IO_XML_USE_LAYOUT   = 61;
     public static final int IO_XML_BUILD_LAYOUT = 62;
-    
+
+    public static final int IO_EVALUATE_DEFAULT_BINARY    = 80;
+    public static final int IO_EVALUATE_DEFAULT_FIXED     = 81;
+    public static final int IO_EVALUATE_DEFAULT_BIN_TEXT  = 82;
+    public static final int IO_EVALUATE_DEFAULT_TEXT      = 83;
+
     public static final int IO_UNICODE_TEXT = 90;
-    
+
     public static final int IO_PROTO_DELIMITED = 71;
     public static final int IO_PROTO_SINGLE_MESSAGE = 72;
     public static final int IO_PROTO_SD_DELIMITED = 73;
     public static final int IO_PROTO_SD_SINGLE_MESSAGE = 74;
     public static final int IO_THRIFT_FILE = 81;
     public static final int IO_AVRO_FILE = 91;
-    
+
     /**
      * IO_BIN_NAME_1ST_LINE is for internal use
      */
-    public static final int IO_BIN_NAME_1ST_LINE    = 54; 
-    public static final int IO_UNICODE_NAME_1ST_LINE    = 55; 
+    public static final int IO_BIN_NAME_1ST_LINE    = 54;
+    public static final int IO_UNICODE_NAME_1ST_LINE    = 55;
 
     /* Provided for backward compatibility */
     @Deprecated public static final int DEFAULT_IO       = IO_DEFAULT;
@@ -95,12 +101,12 @@ public interface Constants {
 
 	public static final String FILE_SEPERATOR  =  System.getProperty("file.separator");
 	public static final String LINE_SEPERATOR  =  System.getProperty("line.separator");
-	
+
 	public static final String RECORD_NAME     = "Record";
 	public static final String SUB_RECORD_NAME = "SR";
 	public static final String TXT_EXTENSION   = ".Txt" ;
 	public static final String XML_EXTENSION   = ".Xml" ;
-	
+
 	public static final String RE_XML_RECORD      = "RECORD";
 	public static final String RE_XML_RECORDS     = "RECORDS";
 	public static final String RE_XML_FIELD       = "FIELD";
@@ -109,7 +115,7 @@ public interface Constants {
 	public static final String RE_XML_TST_FIELDS  = "TSTFIELDS";
 	public static final String RE_XML_AND_FIELDS  = "AND";
 	public static final String RE_XML_OR_FIELDS   = "OR";
-	
+
 	public static final String RE_XML_COPYBOOK    = "COPYBOOK";
 	public static final String RE_XML_DELIMITER   = "DELIMITER";
 	public static final String RE_XML_DESCRIPTION = "DESCRIPTION";
@@ -140,7 +146,7 @@ public interface Constants {
 	//public static final String RE_XML_SUBKEY      = "SUBKEY";
 	public static final String RE_XML_TYPE        = "TYPE";
 	public static final String RE_XML_DECIMAL     = "DECIMAL";
-	
+
 	public static final String[] COMPARISON_OPERATORS = {
 		"=", "eq", "!=", "<>", "ne", ">", "gt", ">=", "ge", "<", "lt", "<=", "le"
 	};

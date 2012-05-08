@@ -175,7 +175,7 @@ public class RecordDB  extends AbsDB<RecordRec> {
       } catch (Exception ex) {
            setMessage(ex.getMessage(), ex);
       }
-      
+
       if (ret == null) {
     	  super.freeConnection();
       }
@@ -199,22 +199,44 @@ public class RecordDB  extends AbsDB<RecordRec> {
  */
 @Override
 	public void delete(RecordRec val) {
+		String   uSql;
+		String   sSql  =
+				  " select rs2.RECORDID, rs2.child_key"
+				+ "   from  TBL_RS2_SUBRECORDS rs1 inner join TBL_RS2_SUBRECORDS rs2"
+				+ "     on  rs1.RECORDID = rs2.RECORDID"
+				+ "    and  rs2.PARENT_RECORDID = rs1.CHILD_ID"
+				+ "  where  rs1.CHILD_RECORD = " + val.getRecordId();
 		String[] updSql  = {
-					  " Update  TBL_RS2_SUBRECORDS rs3 "
-			        + "    set PARENT_RECORDID = -1 "
-					+ "  where rs3.child_key in "
-					+ "    (select rs2.child_key from    TBL_RS2_SUBRECORDS rs1"
-					+ "                      inner join  TBL_RS2_SUBRECORDS rs2"
-					+ "                              on  rs1.RECORDID = rs2.RECORDID"
-					+ "                             and  rs2.PARENT_RECORDID = rs1.CHILD_ID"
-					+ "                           where  rs1.CHILD_RECORD = " + val.getRecordId()
-					+ "                             and  rs1.RECORDID = rs3.RECORDID"
-					+ "                             and  rs2.RECORDID = rs3.RECORDID)",
+//					  " Update  TBL_RS2_SUBRECORDS rs3 "
+//			        + "    set PARENT_RECORDID = -1 "
+//					+ "  where rs3.child_key in "
+//					+ "    (select rs2.child_key from    TBL_RS2_SUBRECORDS rs1"
+//					+ "                      inner join  TBL_RS2_SUBRECORDS rs2"
+//					+ "                              on  rs1.RECORDID = rs2.RECORDID"
+//					+ "                             and  rs2.PARENT_RECORDID = rs1.CHILD_ID"
+//					+ "                           where  rs1.CHILD_RECORD = " + val.getRecordId()
+//					+ "                             and  rs1.RECORDID = rs3.RECORDID"
+//					+ "                             and  rs2.RECORDID = rs3.RECORDID)",
 					  "Delete from  TBL_RS2_SUBRECORDS where CHILD_RECORD = " + val.getRecordId(),
-					  "Delete from  TBL_RFS_FIELDSELECTION where RECORDID = " + val.getRecordId(),	
-					  "Delete from  TBL_RF_RECORDFIELDS where RECORDID = " + val.getRecordId(),	
-					  "Delete from  TBL_RS2_SUBRECORDS where RECORDID = " + val.getRecordId(),	
+					  "Delete from  TBL_RFS_FIELDSELECTION where RECORDID = " + val.getRecordId(),
+					  "Delete from  TBL_RF_RECORDFIELDS where RECORDID = " + val.getRecordId(),
+					  "Delete from  TBL_RS2_SUBRECORDS where RECORDID = " + val.getRecordId(),
 		};
+
+		try {
+			ResultSet resultset = connect.getUpdateConnection().createStatement().executeQuery(sSql);
+			while (resultset.next()) {
+				uSql = " Update  TBL_RS2_SUBRECORDS rs3 "
+				     + "    set PARENT_RECORDID = -1 "
+					 + "  Where RecordId   = " + resultset.getString(1)
+					 +    " and  child_key = " + resultset.getString(2);
+				connect.getUpdateConnection().createStatement().execute(uSql);
+			}
+		} catch (Exception e) {
+			Common.logMsg(sSql, null);
+			Common.logMsg("Update Failed: " + e.getClass().getName() + " " + e.getMessage(), e);
+			e.printStackTrace();
+		}
 		
 		for (String sql : updSql) {
 			try {
@@ -225,7 +247,7 @@ public class RecordDB  extends AbsDB<RecordRec> {
 				e.printStackTrace();
 			}
 		}
-	
+
 		super.delete(val);
 	}
 
@@ -416,7 +438,7 @@ public class RecordDB  extends AbsDB<RecordRec> {
       int i = 0;
       //System.out.print("  Record DB 2");
       boolean free = super.isSetDoFree(false);
-      
+
       int key = getNextKey();
 
       //System.out.print("  Record DB 3");

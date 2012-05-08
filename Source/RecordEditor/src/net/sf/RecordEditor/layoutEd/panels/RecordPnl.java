@@ -56,6 +56,7 @@ import net.sf.RecordEditor.utils.LayoutConnection;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
+import net.sf.RecordEditor.utils.common.ReActionHandlerWithSave;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
 import net.sf.RecordEditor.utils.jdbc.AbsRecord;
@@ -92,7 +93,7 @@ public class RecordPnl extends BaseHelpPanel
 	private static final int NULL_RECORD = -999;
 	private static final int DESCRIPTION_HEIGHT =  SwingUtils.STANDARD_FONT_HEIGHT * 5;
 
-	private static final String[] FIELD_SEPERATOR  = Common.FIELD_SEPARATOR_LIST1; //{"<Tab>", "<Space>", ",", ";", ":", "|", "/", "\\", "~", "!", "*", "#", "@"}; 
+	private static final String[] FIELD_SEPERATOR  = Common.FIELD_SEPARATOR_LIST1; //{"<Tab>", "<Space>", ",", ";", ":", "|", "/", "\\", "~", "!", "*", "#", "@"};
 	private static final String[] RECORD_SEPERATOR = {Common.DEFAULT_STRING, Common.CRLF_STRING, Common.CR_STRING, Common.LF_STRING};
 	private static final byte[][] RECORD_SEP_VALS  = {Common.LFCR_BYTES,     Common.LFCR_BYTES,  Common.CR_BYTES,  Common.LF_BYTES};
 
@@ -179,8 +180,8 @@ public class RecordPnl extends BaseHelpPanel
 
 	private HelpWindow childHelp = new HelpWindow(Common.formatHelpURL(Common.HELP_LAYOUT_CHILD));
 	private HelpWindow fieldHelp = new HelpWindow(Common.formatHelpURL(Common.HELP_LAYOUT_FIELD));
-	
-	private final ReActionHandler parentActionHandler;
+
+	private final ReActionHandlerWithSave parentActionHandler;
 
 	/**
 	 * Define the Record Definition panel
@@ -193,7 +194,7 @@ public class RecordPnl extends BaseHelpPanel
 	 */
 	public RecordPnl(final JFrame jframe,
 	        		 final int dbConnectionIdx,
-	        		 final ReActionHandler actionHandler,
+	        		 final ReActionHandlerWithSave actionHandler,
 	        		 final boolean isRtEditable,
 	        		 final boolean showArrows) {
 		super();
@@ -203,7 +204,7 @@ public class RecordPnl extends BaseHelpPanel
 		this.parentActionHandler = actionHandler;
 
 		setFieldNamePrefix("RecordDef");
-		
+
 		init_100_ScreenFields(actionHandler, isRtEditable, showArrows);
 		sfRecordType.setEditable(isRtEditable);
 
@@ -230,7 +231,14 @@ public class RecordPnl extends BaseHelpPanel
 
 		defTabpane();
 
-		//done();
+		try {
+			int sys = ((Integer) systemModel.getSelectedItem()).intValue();
+			if (tblChild != null && sys >= 0) {
+				tblChild.setSystem(sys);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -349,9 +357,9 @@ public class RecordPnl extends BaseHelpPanel
 
 			dbRecordModel.load();
 			dbChildModel.load();
-			
+
 			setTabs();
-			
+
 			checkForBinaryFields();
 
 			fireTableChanged();
@@ -373,7 +381,7 @@ public class RecordPnl extends BaseHelpPanel
 					+ " " + val.getListChar()
 			        + " " + sfList.isSelected());*/
 			sfCopyBook.setText(val.getValue().getCopyBook());
-			
+
 
 			v = val.getValue().getDelimiter();
 			if ("null".equals(v)) {
@@ -421,7 +429,7 @@ public class RecordPnl extends BaseHelpPanel
 			recFields.setParams(val.getRecordId());
 			dbRecordModel.load();
 			checkForBinaryFields();
-			
+
 			dbChildTbl.setParams(val.getRecordId());
 			dbChildModel.load();
 
@@ -453,7 +461,7 @@ public class RecordPnl extends BaseHelpPanel
 						          dbTo   = new RecordSelectionDB();
 				dbFrom.setConnection(new ReConnection(connectionIdx));
 				dbTo.setConnection(new ReConnection(connectionIdx));
-				
+
 				boolean from = dbFrom.isSetDoFree(false);
 				boolean to   = dbFrom.isSetDoFree(false);
 				int numRecs = dbChildModel.getRowCount();
@@ -462,25 +470,29 @@ public class RecordPnl extends BaseHelpPanel
 				for (i = 0; i < numRecs; i++) {
 					oldRec = dbChildModel.getRecord(i);
 					rec = (ChildRecordsRec) oldRec.clone();
+					rec.setChildId(oldRec.getChildId());
 					rec.setNew(true);
+					rec.setUpdateStatus(ChildRecordsRec.UPDATED);
 					//dbChildModel.setRecord(i, rec);
 					try {
 						RecordSelectionRec recSelRec;
 						int idx = 1;
-						
+
+						//System.out.print(">> " + i + " " + rec.getChildId() + " " + rec.getChildKey());
 						dbChildModel.setRecordAndDB(i, rec);
+						//System.out.println(">> " + i + " " + rec.getChildId() + " " + rec.getChildKey());
 						dbFrom.setParams(oldRecId, oldRec.getChildKey());
 						dbTo.setParams(val.getRecordId(), rec.getChildKey());
-						
+
 						dbFrom.open();
-						
+
 						while ((recSelRec = dbFrom.fetch()) != null) {
 							recSelRec.setRecordId(val.getRecordId());
 							recSelRec.setChildKey(rec.getChildKey());
 							recSelRec.setFieldNo(idx++);
 							dbTo.insert(recSelRec);
 						}
-						
+
 						dbFrom.close();
 						dbTo.close();
 					} catch (Exception e) {
@@ -488,6 +500,7 @@ public class RecordPnl extends BaseHelpPanel
 					}
 					dbFrom.setDoFree(from);
 					dbFrom.setDoFree(to);
+					updateSystemDtls();
 				}
 			} else {
 				RecordFieldsRec rec;
@@ -497,6 +510,7 @@ public class RecordPnl extends BaseHelpPanel
 				for (i = 0; i < numRecs; i++) {
 					rec = (RecordFieldsRec) dbRecordModel.getRecord(i).clone();
 					rec.setNew(true);
+					rec.setUpdateStatus(RecordFieldsRec.UPDATED);
 					dbRecordModel.setRecord(i, rec);
 				}
 			}
@@ -587,7 +601,7 @@ public class RecordPnl extends BaseHelpPanel
 			currVal.getValue().setFontName(sfCanonicalName.getText());
 
 			//String s = (String) sfDelimiter.getSelectedItem();
-			
+
 			fld = "Quote";
 			field = sfQuote;
 			currVal.getValue().setQuote(sfQuote.getText());
@@ -614,7 +628,7 @@ public class RecordPnl extends BaseHelpPanel
 			String v = sfDelimTxt.getText();
 			if ("".equals(v)) {
 				currVal.getValue().setDelimiter("" + (String) sfDelimiter.getSelectedItem());
-			} else if (v.length() == 1) { 
+			} else if (v.length() == 1) {
 				currVal.getValue().setDelimiter(v);
 			} else if ((v.length() == 5) && v.toLowerCase().startsWith("x'") && v.endsWith("'") ){
 				try {
@@ -699,27 +713,27 @@ public class RecordPnl extends BaseHelpPanel
 
 			recFields.setParams(recId);
 			dbRecordModel.updateDB();
-			
+
 			checkForBinaryFields();
 			if (binaryStatus == currVal.getBinaryFields()) {
-				
+
 			} else if (structure == Constants.IO_DEFAULT) {
 				if (Common.OPTIONS.warnBinaryFieldsAndStructureDefault.isSelected()) {
 					if (currVal.getBinaryFields() == RecordRec.BF_BINARY_FIELDS) {
-						warnUser("You have binary fields with a default FileStructure." 
+						warnUser("You have binary fields with a default FileStructure."
 								+ "\nThis will also change the File reader from a Text File Reader "
-								+ "\nto a binary Reader (Fixed Length ?)." 
-								+	"\nThis may have unexpected consequences (Fields not alligned) ." 
+								+ "\nto a binary Reader (Fixed Length ?)."
+								+	"\nThis may have unexpected consequences (Fields not alligned) ."
 								+ REVIEW_EXTRA);
 					} else if (binaryStatus != RecordRec.BF_NOT_DEFINED) {
-						warnUser("You removed all binary fields from the record and the FileStructure=Default." 
+						warnUser("You removed all binary fields from the record and the FileStructure=Default."
 								+ "\nThis will also change the File reader from a  binary Reader (Fixed Length ?) "
-								+ "\nto a Text File Reader" 
-								+	"\nThis may have unexpected consequences (Fields not alligned)." 
+								+ "\nto a Text File Reader"
+								+	"\nThis may have unexpected consequences (Fields not alligned)."
 								+ REVIEW_EXTRA);
 					}
 				}
-			} else if (structure == Constants.IO_BIN_TEXT 
+			} else if (structure == Constants.IO_BIN_TEXT
 					|| structure == Constants.IO_TEXT_LINE
 					|| structure == Constants.IO_UNICODE_TEXT
 					|| structure == Constants.IO_UNICODE_NAME_1ST_LINE) {
@@ -733,14 +747,14 @@ public class RecordPnl extends BaseHelpPanel
 		Common.setDoFree(free, connectionIdx);
 	}
 
-	
+
 	private void warnUser(String message) {
-	
+
 		JOptionPane.showMessageDialog(this, message);
 
 		Common.logMsg(0, message, null);
 	}
-	
+
 	/**
 	 * wether there are binary fields or not
 	 * @return binary fields present
@@ -758,7 +772,7 @@ public class RecordPnl extends BaseHelpPanel
 					break;
 				}
 			}
-			
+
 			currVal.setBinaryFields(RecordRec.BF_NO_BINARY_FIELDS);
 			if (binary) {
 				currVal.setBinaryFields(RecordRec.BF_BINARY_FIELDS);
@@ -799,14 +813,14 @@ public class RecordPnl extends BaseHelpPanel
 	 */
 	private void defTabpane() {
 		boolean free = Common.isSetDoFree(false);
-		
+
 		defTabTable();
 		defTabChild();
 		defTabExtra();
 
 		addComponent(1, 3, BasePanel.FILL, BasePanel.GAP, BasePanel.FULL,
 		        BasePanel.FULL, tabbed);
-		
+
 		Common.setDoFree(free, connectionIdx);
 	}
 
@@ -839,7 +853,7 @@ public class RecordPnl extends BaseHelpPanel
 
 		dbChildTbl.setConnection(new ReConnection(connectionIdx));
 		dbChildModel = new ChildRecordsTblMdl(
-				dbChildTbl, 
+				dbChildTbl,
 				new KeyedComboMdl<Integer>(
 						new ComboObjOption<Integer>(-1, "")));
 		dbChildModel.setEmptyColumns(2);
@@ -868,15 +882,15 @@ public class RecordPnl extends BaseHelpPanel
 		JPanel delimPnl = new JPanel(new BorderLayout());
 		JPanel p1 = new JPanel();
 		BaseHelpPanel pnl = new BaseHelpPanel();
-		
+
 		p1.add(sfDelimiter);
 		p1.add(new JLabel("  or  "));
 		p1.add(sfDelimTxt);
 		delimPnl.add(BorderLayout.WEST, p1);
 		delimPnl.setMinimumSize(new Dimension(delimPnl.getPreferredSize().width, SwingUtils.TABLE_ROW_HEIGHT));
-		
+
 		pnl.setHelpURL(Common.formatHelpURL(Common.HELP_LAYOUT_EXTRA));
-		
+
 		pnl.setFieldNamePrefix("RcdExtra");
 
 		pnl.addLine("Cobol Copybook"  , sfCopyBook)        .setGap(BasePanel.GAP0);
@@ -968,13 +982,18 @@ public class RecordPnl extends BaseHelpPanel
 			setValues(currVal);
 		} else if (arg0.getSource() == sfSystem) {
 			getValues();
-			if (currVal != null) {
-			    tblChild.setSystem(currVal.getSystem());
-			    dbChildModel.fireTableStructureChanged();
-			    tblChild.setColumnSizes();
-			}
+			updateSystemDtls();
 		} else if (arg0.getSource() == btnHelp) {
 		    this.showHelp();
+		}
+	}
+
+	private void updateSystemDtls() {
+
+		if (currVal != null) {
+		    tblChild.setSystem(currVal.getSystem());
+		    dbChildModel.fireTableStructureChanged();
+		    tblChild.setColumnSizes();
 		}
 	}
 
@@ -1081,10 +1100,10 @@ public class RecordPnl extends BaseHelpPanel
 	    if (dbChildModel.getRowCount() == 0) {
 	        createChildRecord();
 	    } else {
-			parentActionHandler.executeAction(ReActionHandler.SAVE);
-
-	        new RecordEdit1Record("Current DB", connectionIdx, this,
+			if (parentActionHandler.saveOk()) {
+				new RecordEdit1Record("Current DB", connectionIdx, this,
 	                row2edit, dbChildModel);
+			}
 	    }
 	}
 
@@ -1096,8 +1115,9 @@ public class RecordPnl extends BaseHelpPanel
 	private void createChildRecord() {
 
 		//dbChildModel.updateDB();
-		parentActionHandler.executeAction(ReActionHandler.SAVE);
-        new RecordEdit1Record("Current DB", connectionIdx, this, dbChildModel);
+		if (parentActionHandler.saveOk()) {
+			new RecordEdit1Record("Current DB", connectionIdx, this, dbChildModel);
+		}
 	}
 
 	/**
@@ -1154,13 +1174,17 @@ public class RecordPnl extends BaseHelpPanel
 	        });
 	        this.getPopup().add(new AbstractAction("Edit Record Selections") {
 	            public void actionPerformed(ActionEvent e) {
-					new RecordSelectionPnl("", connectionIdx, dbChildTbl.getRecordId(), dbChildModel.getRecord(row));
-	            }	        	
+					//new RecordSelectionFrame("", connectionIdx, dbChildTbl.getRecordId(), dbChildModel.getRecord(row));
+					//new RecordSelectionFrm("", connectionIdx, dbChildTbl.getRecordId(), dbChildModel, row);
+					startRecordSelectionFrm(row);
+				}
 	        });
 	        this.getPopup().add(new AbstractAction("View Record Selections Tree") {
 	            public void actionPerformed(ActionEvent e) {
-	                new SelectionTreeTablePnl(connectionIdx, "", dbChildModel);
-	            }	        	
+	//                new SelectionTreeTableFrame(connectionIdx, "", dbChildModel);
+					//new RecordSelectionFrm("", connectionIdx, dbChildTbl.getRecordId(), dbChildModel, dbChildModel.getRowCount());
+					startRecordSelectionFrm(dbChildModel.getRowCount());
+	            }
 	        });
 	    }
 
@@ -1176,10 +1200,19 @@ public class RecordPnl extends BaseHelpPanel
 			switch (tblCol) {
 			case 0: editRecordAtRow(tblChild.getSelectedRow());   break;
 			case 1:
-				new RecordSelectionPnl("", connectionIdx, dbChildTbl.getRecordId(), dbChildModel.getRecord(row));
+				//new RecordSelectionFrame("", connectionIdx, dbChildTbl.getRecordId(), dbChildModel.getRecord(row));
+				//new RecordSelectionFrm("", connectionIdx, dbChildTbl.getRecordId(), dbChildModel, row);
+				startRecordSelectionFrm(row);
 				break;
 			}
 			super.mousePressed(m);
+		}
+
+		private void startRecordSelectionFrm(int row) {
+
+			if (parentActionHandler.saveOk()) {
+				new RecordSelectionFrm("", connectionIdx, dbChildTbl.getRecordId(), dbChildModel, row);
+			}
 		}
 	}
 }

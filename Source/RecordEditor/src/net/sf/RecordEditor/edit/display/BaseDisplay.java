@@ -94,17 +94,17 @@ import net.sf.RecordEditor.utils.swing.StandardRendor;
  * @version 0.56
  */
 @SuppressWarnings("serial")
-public abstract class BaseDisplay extends ReFrame 
+public abstract class BaseDisplay extends ReFrame
 implements AbstractFileDisplay, ILayoutChanged {
 
 //	private static ArrayList<Class> classList = new ArrayList<Class>();
 //	private static ArrayList<TableCellRenderer> renderList = new ArrayList<TableCellRenderer>();
 //	private static ArrayList<TableCellEditor> editorList = new ArrayList<TableCellEditor>();
-	
+
 	protected static final int NORMAL_DISPLAY = 3;
 	protected static final int TREE_DISPLAY = 5;
 	//static ImageIcon searchIcon = new ImageIcon(Common.dir + "searchEye.gif");
-	
+
 	private static final int RECORDS_TO_CHECK = 30;
 	public static final int MAXIMUM_NO_COLUMNS = 5000;
 
@@ -112,7 +112,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	protected static final int STD_OPTION_PANEL = 2;
 	protected static final int TREE_OPTION_PANEL = 3;
 	//private int displayOpt = STD_OPTION_PANEL;
-	
+
 	private Search searchScreen;
 
 	protected Rectangle screenSize = ReMainFrame.getMasterFrame().getDesktop().getBounds();
@@ -146,9 +146,9 @@ implements AbstractFileDisplay, ILayoutChanged {
 
 	private HeaderToolTips toolTips;
     //private HeaderRender headerRender = new HeaderRender();
-	
+
 	private int displayType = NORMAL_DISPLAY;
-    
+
 	private boolean copyHiddenFields = false;
 
 
@@ -166,6 +166,8 @@ implements AbstractFileDisplay, ILayoutChanged {
             if (event.getModifiers() == KeyEvent.CTRL_MASK && lastWhen != event.getWhen()) {
                 if (event.getKeyCode() == KeyEvent.VK_F) {
                     searchScreen.startSearch(fileView);
+                } else if (event.getKeyCode() == KeyEvent.VK_A) {
+                	tblDetails.selectAll();
                 } else if (event.getKeyCode() == KeyEvent.VK_S) {
                     saveFile();
                 } else if (event.getKeyCode() == KeyEvent.VK_C) {
@@ -173,7 +175,7 @@ implements AbstractFileDisplay, ILayoutChanged {
                 } else if (event.getKeyCode() == KeyEvent.VK_V) {
                     fileView.pasteLines(getInsertAfterPosition());
                 } else if (event.getKeyCode() == KeyEvent.VK_L) {
-                	new GotoLine(BaseDisplay.this, fileView);;                
+                	new GotoLine(BaseDisplay.this, fileView);;
                 } else if (event.getKeyCode() == KeyEvent.VK_K) {
                 	System.out.println("Table Class:" + tblDetails.getClass().getName());
                }
@@ -231,7 +233,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 
 		init(addFullLine, fullList, prefered, hex);
 		//fullLineIndex = layoutCombo.getFullLineIndex();
-		
+
 		if (option == NO_OPTION_PANEL) {
 			actualPnl.addLine("Layouts", getLayoutCombo());
 		} else {
@@ -251,13 +253,11 @@ implements AbstractFileDisplay, ILayoutChanged {
 			final boolean addFullLine, final boolean fullList,
 			final boolean prefered,  final boolean hex) {
 
-		int i;
-
 		fileMaster = fileView.getBaseFile();
 		layout     = fileMaster.getLayout();
-		
+
 		actualPnl.addReKeyListener(listner);
-		
+
 		setupDisplayDetails(layout);
 
 		layoutCombo = new LayoutCombo(layout, addFullLine, fullList, prefered, hex);
@@ -272,9 +272,9 @@ implements AbstractFileDisplay, ILayoutChanged {
 
 
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		
+
 //		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		
+
 	    this.addInternalFrameListener(new InternalFrameAdapter() {
 //	        public void internalFrameClosed(final InternalFrameEvent e) {
 //	            closeWindow();
@@ -283,20 +283,20 @@ implements AbstractFileDisplay, ILayoutChanged {
                  windowClosingCheck();
             }
 	    });
-	    
+
 	    fileView.addTableModelListener(layoutChangeListner);
 	}
-	
+
 
 	protected final void initToolTips() {
-		
+
         toolTips = new HeaderToolTips(tblDetails.getColumnModel());
         tblDetails.setTableHeader(toolTips);
 	}
 
 	/**
-	 * 
-	 * Check if changes to be saved 
+	 *
+	 * Check if changes to be saved
 	 */
 	public void windowClosingCheck() {
 		boolean doClose = true;
@@ -320,12 +320,12 @@ implements AbstractFileDisplay, ILayoutChanged {
 					doClose = saveFile();
 				}
 			}
-			
+
 			if (fileView != null && doClose && fileMaster.isSaveAvailable()) {
 				fileView.clear();
 			}
 		}
-		
+
 		if (doClose) {
 			if (fileView != null) {
 				fileView.removeTableModelListener(layoutChangeListner);
@@ -345,7 +345,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 		try {
 			if (searchScreen != null) {
 				ReMainFrame.getMasterFrame().deleteWindow(searchScreen);
-				searchScreen.setVisible(false);		
+				searchScreen.setVisible(false);
 				searchScreen.setClosed(true);
 				searchScreen = null;
 			}
@@ -355,30 +355,30 @@ implements AbstractFileDisplay, ILayoutChanged {
 		} catch (Exception ex) {
 		}
 	}
-	
+
 	@Override
 	public void reClose() {
-		
+
 		if (fileView != null) {
 			closeWindow();
-			
+
 			if (fileView == fileMaster && super.isPrimaryView()) {
 				fileView.clear();
 			}
 			fileView = null;
-			
+
 		}
 		super.reClose();
 	}
 
-	
+
 	/**
 	 * @see net.sf.RecordEditor.edit.display.common.ILayoutChanged#layoutChanged(net.sf.JRecord.Details.AbstractLayoutDetails)
 	 */
 	@Override
 	public final void layoutChanged(AbstractLayoutDetails newLayout) {
 	}
-		
+
 	private void layoutChangedInternal(AbstractLayoutDetails newLayout) {
 //		System.out.println("Change Layout 2 !!! ");
 
@@ -387,7 +387,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 //			layoutCombo.removeActionListener(layoutListner);
 			layoutCombo.setRecordLayout(newLayout);
 //			layoutCombo.addActionListener(layoutListner);
-			
+
 			setupDisplayDetails(newLayout);
 
 			setTableFormatDetails(getLayoutIndex());
@@ -403,7 +403,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	 * @param o option supplied
 	 */
 	public void executeAction(int action, Object o) {
-		
+
 		if (o != null) {
 			switch (action) {
 			case ReActionHandler.EXPORT_VELOCITY:
@@ -422,8 +422,8 @@ implements AbstractFileDisplay, ILayoutChanged {
 			executeAction(action);
 		}
 	}
-	
-	
+
+
 	/**
 	 *  Execute standard RecordEditor actions
 	 *
@@ -432,10 +432,10 @@ implements AbstractFileDisplay, ILayoutChanged {
 	public void executeAction(int action) {
 
 		stopCellEditing();
-		
+
 		try {
 			switch (action) {
-			case ReActionHandler.FIND:						searchScreen.startSearch(fileView);		break;       	
+			case ReActionHandler.FIND:						searchScreen.startSearch(fileView);		break;
 			case ReActionHandler.FILTER:					new FilterFrame(fileView);				break;
 			case ReActionHandler.COMPARE_WITH_DISK:			compareWithDisk();						break;
 			case ReActionHandler.EXECUTE_SAVED_FILTER:		executeSavedFilter();					break;
@@ -459,13 +459,13 @@ implements AbstractFileDisplay, ILayoutChanged {
 			case ReActionHandler.BUILD_RECORD_TREE:		  	new CreateRecordTree(this, fileView);	break;
 			case ReActionHandler.BUILD_LAYOUT_TREE: {
 	        	TreeParserRecord parser = new TreeParserRecord(executeAction_100_getParent());
-	          
+
 	            new LineTree(this.fileView, parser, false, 0);
 			} break;
-			case ReActionHandler.BUILD_LAYOUT_TREE_SELECTED: 
+			case ReActionHandler.BUILD_LAYOUT_TREE_SELECTED:
 			   if (getSelectedRowCount() > 0) {
 	        	  TreeParserRecord parser = new TreeParserRecord(executeAction_100_getParent());
-	          
+
 	              new LineTree(this.fileView.getView(getSelectedRows()), parser, false, 0);
 			   }
 			break;
@@ -500,7 +500,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 				if (layout.hasTreeStructure() || layout.hasChildren()) {
 					JFileChooser chooseFile = new JFileChooser();
 					chooseFile.setSelectedFile(new File(fileView.getFileName() + ".xml"));
-					
+
 					int ret = chooseFile.showOpenDialog(null);
 
 					if (ret == JFileChooser.APPROVE_OPTION) {
@@ -508,23 +508,23 @@ implements AbstractFileDisplay, ILayoutChanged {
 							new ChildTreeToXml(chooseFile.getSelectedFile().getPath(),  fileView.getLines());
 						} else {
 				        	TreeParserRecord parser = new TreeParserRecord(executeAction_100_getParent());
-					          
-							new TreeToXml(chooseFile.getSelectedFile().getPath(), 
+
+							new TreeToXml(chooseFile.getSelectedFile().getPath(),
 									parser.parse(fileView)
 							);
 						}
 					}
-				} 
+				}
 			break;
 			case ReActionHandler.SAVE:		    	saveFile();				break;
 			case ReActionHandler.DELETE_RECORD:		deleteLines();			break;
-			case ReActionHandler.COPY_RECORD:		
+			case ReActionHandler.COPY_RECORD:
 				copyRecords();			break;
 			case ReActionHandler.CUT_RECORD:
 				copyRecords();
 				deleteLines();
 			break;
-			case ReActionHandler.PASTE_RECORD:		
+			case ReActionHandler.PASTE_RECORD:
 				fileView.pasteLines(getInsertAfterPosition());		break;
 			case ReActionHandler.PASTE_RECORD_PRIOR:	fileView.pasteLines(getInsertBeforePosition());	break;
 			case ReActionHandler.CORRECT_RECORD_LENGTH:	setRecordLayout();								break;
@@ -569,14 +569,14 @@ implements AbstractFileDisplay, ILayoutChanged {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private final void executeSaveAs(int format, String s) {
 		new SaveAs3(this, this.fileView, format, s);
 	}
 	protected final void executeTreeAction(int action) {
-		
+
 		switch (action) {
-		case ReActionHandler.PASTE_RECORD_PRIOR:	
+		case ReActionHandler.PASTE_RECORD_PRIOR:
 		case(ReActionHandler.PASTE_RECORD):
 			getFileView().pasteTreeLines(getInsertAfterLine(action == ReActionHandler.PASTE_RECORD_PRIOR));
 		break;
@@ -592,7 +592,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 		}
 
 	}
-	
+
 	public void insertLine(int adj) {
 		if (fileMaster.getTreeTableNotify() == null) {
 			insertLine_100_FlatFile(adj);
@@ -600,10 +600,10 @@ implements AbstractFileDisplay, ILayoutChanged {
 			insertLine_200_TreeFile(adj);
 		}
 	}
-	
+
 	private void insertLine_100_FlatFile(int adj) {
 		int pos = fileView.newLine(getInsertAfterPosition(), adj);
-		
+
 
 		if (layout.isXml()) {
 			//System.out.println("Setting Layout index " + layoutList.getLayoutIndex());
@@ -622,16 +622,16 @@ implements AbstractFileDisplay, ILayoutChanged {
 				}
 			}
 		}
-		
+
 		checkLayout();
 		newLineFrame(fileView, pos);
 	}
-	
-	
+
+
 	private void insertLine_200_TreeFile(int adj) {
 		AbstractLine l = getInsertAfterLine(adj < 0);
 		AbstractLine newLine = null;
-		
+
 		if (l == null) {
 			if (fileView.getRowCount() == 0) {
 				newLine = newMainLine(0);
@@ -652,7 +652,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 					Common.logMsg("Nothing can be inserted at this point", null);
 					return;
 				}
-				
+
 				if (parent == null ) {
 					newLine = insertLine_210_CreateMainRecord(l);
 				} else {
@@ -667,14 +667,14 @@ implements AbstractFileDisplay, ILayoutChanged {
 												l.getLayout().getRecord(idx), idx ,0);
 					children.add(rootDef);
 				}
-				
+
 				if (children.size() == 1) {
 					newLine = insertLine_230_CreateChild(l, children.get(0), -1);
 				} else {
 					AbstractChildDetails resp = (AbstractChildDetails) JOptionPane.showInputDialog(
 						this, "Select the Record to Insert", "Record Selection", JOptionPane.QUESTION_MESSAGE, null,
 						children.toArray(), children.get(0));
-					
+
 					if (resp != null) {
 						if (resp == rootDef) {
 							newLine = insertLine_210_CreateMainRecord(l);
@@ -691,36 +691,36 @@ implements AbstractFileDisplay, ILayoutChanged {
 			}
 		}
 	}
-	
+
 	private AbstractLine insertLine_210_CreateMainRecord (AbstractLine line) {
 		return newMainLine(fileView.indexOf(line));
 	}
 
 	private AbstractLine insertLine_220_CreateRepeated(
 			AbstractLine parent, AbstractLine child, AbstractChildDetails childDef) {
-		
+
 		int location = parent.getTreeDetails().getLines(childDef.getChildIndex()).indexOf(child);
-		
+
 		if (location >= 0) {
 			location += 1;
 		}
-		
+
 		return insertLine_230_CreateChild(parent, childDef, location);
 	}
-	
+
 	private AbstractLine insertLine_230_CreateChild(
 		AbstractLine parent, AbstractChildDetails childDef, int location) {
 		AbstractLine ret =  parent.getTreeDetails().addChild(childDef, location);
-		
+
 		AbstractLineNode pn = fileView.getTreeNode(parent);
 		if (ret != null && pn != null /*&& o instanceof AbstractLineNode */) {
 			//System.out.println(" >>> >>> Insert Node: " + ret.getFullLine());
 			pn.insert(ret, -1, location);
 		}
-		
+
 		return ret;
 	}
-	
+
 	private void checkLayout() {
 		if ((!fileView.isView()) && fileView.getRowCount() == 1) {
 			int idx = fileView.getLine(0).getPreferredLayoutIdx();
@@ -730,37 +730,37 @@ implements AbstractFileDisplay, ILayoutChanged {
 			}
 		}
 	}
-			
+
 	protected AbstractLine newMainLine(int pos) {
 		int location =  fileView.newLine(pos, 0) ;
 		AbstractLine ret = fileView.getLine(location);
-		AbstractLineNode pn = (AbstractLineNode) fileView.getTreeTableNotify().getRoot(); 
+		AbstractLineNode pn = (AbstractLineNode) fileView.getTreeTableNotify().getRoot();
 		if (ret != null && pn != null /*&& o instanceof AbstractLineNode */) {
 			pn.insert(ret, -1, location);
 			//fileView.getTreeTableNotify().fireTreeNodesInserted(pn);
 			//fileView.getTreeTableNotify().fireTreeNodesInserted(pn);
 		}
-		
+
 		return ret;
 
 //		int location =  fileView.newLine(0) ;
-//		AbstractLine newLine = fileView.getLine(location);				
+//		AbstractLine newLine = fileView.getLine(location);
 //		if (newLine != null) {
 //			newLineFrame(fileView, 0);
 //		}
 	}
-	
+
 	private int[] executeAction_100_getParent() {
-		
+
     	int[] parentIdxs = new int[layout.getRecordCount()];
-    	
+
     	for (int i = 0; i < parentIdxs.length; i++) {
     		parentIdxs[i] = layout.getRecord(i).getParentRecordIndex();
     	}
-    	
+
     	return parentIdxs;
 	}
-	
+
 	private void compareWithDisk() {
 		try {
 			(new DoCompare()).compare1Layout(
@@ -777,26 +777,26 @@ implements AbstractFileDisplay, ILayoutChanged {
 		AbstractExecute<EditorTask> action = new AbstractExecute<EditorTask>() {
 			public void execute(EditorTask details) {
 				FilterDetails filter = new FilterDetails(layout);
-				
+
 				filter.updateFromExternalLayout(details.filter);
 		    	FileView view = fileView.getFilteredView(filter);
 		    	if (view == null) {
 		    		Common.logMsg("No records matched the filter", null);
 		    	} else {
 		    		new LineList(layout, view, fileView.getBaseFile());
-		    	}								
+		    	}
 			}
-			
+
 			public void executeDialog(EditorTask details) {
 				(new FilterFrame(fileView)).getFilter()
 						.updateFromExternalLayout(details.filter);
-				
+
 			}
 		};
-		
+
 		new ExecuteSavedFile<EditorTask>(
 				fileView.getBaseFile().getFileNameNoDirectory(), "Execute Saved Filter", fileView,
-				Parameters.getFileName(Parameters.FILTER_SAVE_DIRECTORY), 
+				Parameters.getFileName(Parameters.FILTER_SAVE_DIRECTORY),
 				action, EditorTask.class
 		);
 	}
@@ -809,20 +809,20 @@ implements AbstractFileDisplay, ILayoutChanged {
 				treePnl.setFromSavedDetails(details);
 				treePnl.doAction();
 			}
-			
+
 			public void executeDialog(EditorTask details) {
 				(new CreateSortedTree(BaseDisplay.this, fileView)).setFromSavedDetails(details);
-				
+
 			}
 		};
-		
+
 		new ExecuteSavedFile<EditorTask>(
 				fileView.getBaseFile().getFileNameNoDirectory(), "Execute Saved Sort Tree", fileView,
-				Parameters.getFileName(Parameters.SORT_TREE_SAVE_DIRECTORY), 
+				Parameters.getFileName(Parameters.SORT_TREE_SAVE_DIRECTORY),
 				action, EditorTask.class
 		);
 	}
-	
+
 
 	private void executeSavedRecordTree() {
 		AbstractExecute<EditorTask> action = new AbstractExecute<EditorTask>() {
@@ -831,20 +831,20 @@ implements AbstractFileDisplay, ILayoutChanged {
 				treePnl.treeDisplay.setFromSavedDetails(details);
 				treePnl.doAction();
 			}
-			
+
 			public void executeDialog(EditorTask details) {
 				(new CreateRecordTree(BaseDisplay.this, fileView)).treeDisplay.setFromSavedDetails(details);
-				
+
 			}
 		};
-		
+
 		new ExecuteSavedFile<EditorTask>(
 				fileView.getBaseFile().getFileNameNoDirectory(), "Execute Saved Sort Tree", fileView,
-				Parameters.getFileName(Parameters.RECORD_TREE_SAVE_DIRECTORY), 
+				Parameters.getFileName(Parameters.RECORD_TREE_SAVE_DIRECTORY),
 				action, EditorTask.class
 		);
 	}
-	
+
 	/**
 	 * Check if action is available
 	 *
@@ -854,7 +854,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	 */
 	public boolean isActionAvailable(final int action) {
 
-	    boolean ret = 
+	    boolean ret =
 	       (action == ReActionHandler.FIND)
     	|| (action == ReActionHandler.FILTER)
     	|| (action == ReActionHandler.TABLE_VIEW_SELECTED)
@@ -880,8 +880,8 @@ implements AbstractFileDisplay, ILayoutChanged {
 	        && (  	    action == ReActionHandler.BUILD_SORTED_TREE
 	        		||  action == ReActionHandler.BUILD_FIELD_TREE
 	        		||  action == ReActionHandler.BUILD_RECORD_TREE
-	        		|| (action == ReActionHandler.EXECUTE_SAVED_SORT_TREE)		
-			        || (action == ReActionHandler.EXECUTE_SAVED_RECORD_TREE)	
+	        		|| (action == ReActionHandler.EXECUTE_SAVED_SORT_TREE)
+			        || (action == ReActionHandler.EXECUTE_SAVED_RECORD_TREE)
 			    )
 			&& fileView.isTreeViewAvailable()
 	        )
@@ -890,11 +890,11 @@ implements AbstractFileDisplay, ILayoutChanged {
         || (action == ReActionHandler.SAVE_AS_XML && (layout.hasTreeStructure() || layout.hasChildren()))
         || (action == ReActionHandler.BUILD_XML_TREE_SELECTED && layout.isXml())
         || (action == ReActionHandler.ADD_ATTRIBUTES && layout.isOkToAddAttributes()
-        || (action == ReActionHandler.EXECUTE_SAVED_FILTER)		
+        || (action == ReActionHandler.EXECUTE_SAVED_FILTER)
         || (action == ReActionHandler.COMPARE_WITH_DISK)
-        );	 
-	    
-	    
+        );
+
+
 	    if (! this.fileView.isBrowse()) {
 		    ret =   ret
 			    || (action == ReActionHandler.SAVE)
@@ -907,22 +907,22 @@ implements AbstractFileDisplay, ILayoutChanged {
 				|| (action == ReActionHandler.INSERT_RECORDS)
 				|| (action == ReActionHandler.INSERT_RECORD_PRIOR)
 				|| (action == ReActionHandler.SORT)
-				|| (action == ReActionHandler.SHOW_INVALID_ACTIONS);        
+				|| (action == ReActionHandler.SHOW_INVALID_ACTIONS);
 	    }
 
 		return ret;
 	}
-	
+
 	/**
 	 * Get the insert / paste position
 	 * @return insert / paste position
 	 */
-	protected abstract int getInsertAfterPosition(); 
-	
+	protected abstract int getInsertAfterPosition();
+
 	protected int getInsertBeforePosition() {
 		return getStandardPosition() - 1;
 	}
-	
+
 	/**
 	 * Get Insertion Point for Tree Display
 	 * @return Insertion Point (line)
@@ -937,21 +937,21 @@ implements AbstractFileDisplay, ILayoutChanged {
 		}
 		return fileView.getLine(idx);
 	}
-	
+
 	/**
 	 * Standard table position calculation
 	 * @return position
 	 */
 	protected int getStandardPosition() {
-		
+
 		int pos = getCurrRow();
 		if (pos < 0) {
 			pos = fileView.getRowCount() - 1;
 		}
-		
+
 		return pos;
 	}
-	
+
 
 	/**
 	 * @return the tblDetails
@@ -967,10 +967,10 @@ implements AbstractFileDisplay, ILayoutChanged {
 	 */
 	public final void setJTable(JTable tableDetails) {
 		this.tblDetails = tableDetails;
-		
+
 		actualPnl.setComponentName(tableDetails, "FileDisplay");
 		tblDetails.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
-		
+
 		if (Common.OPTIONS.highlightEmptyActive.isSelected()) {
 			tblDetails.setDefaultRenderer(Object.class, new StandardRendor());
 		}
@@ -993,12 +993,12 @@ implements AbstractFileDisplay, ILayoutChanged {
 	 * Create a view from the selected records
 	 */
 	private void createColumnView() {
-		
+
 		if (getSelectedRowCount() > MAXIMUM_NO_COLUMNS) {
 			Common.logMsg("To Many Rows Selected for ColumnDisplay", null);
 		} else {
 			int[] selRows = getSelectedRows();
-	
+
 			if (selRows != null && selRows.length > 0) {
 			    new LinesAsColumns(fileView.getView(selRows));
 			}
@@ -1047,21 +1047,21 @@ implements AbstractFileDisplay, ILayoutChanged {
 	 */
 	protected final boolean saveFile() {
 		boolean ret = true;
-		
+
 		if ("".equals(fileMaster.getFileName())) {
 			new SaveAs3(this, fileMaster);
 		} else {
 		    try {
 		        fileMaster.writeFile();
-		        
+
 				FileView errorView = fileView.getViewOfErrorRecords();
-	
+
 				if (errorView != null) {
 					saveFileError("File saved, but there where records in error that may not make it on to the file", null);
 					new LineFrame("Error Records", errorView, 0);
 					ret = false;
 				}
-	
+
 		    } catch (Exception ex) {
 		    	saveFileError("Save Failed: " + ex.getMessage(), ex);
 		        ex.printStackTrace();
@@ -1070,9 +1070,9 @@ implements AbstractFileDisplay, ILayoutChanged {
 			}
 	    return ret;
 	}
-	
+
 	private void saveFileError(String s, Exception ex) {
-		
+
         JOptionPane.showInternalMessageDialog(this, s);
         Common.logMsg(s, ex);
 	}
@@ -1080,25 +1080,25 @@ implements AbstractFileDisplay, ILayoutChanged {
 
 	private void check4Delete() {
 		int[] selected = getSelectedRows();
-		if (selected != null 
+		if (selected != null
 		&& selected.length > 0
 		/*&& super.tblDetails.getCellEditor(). == null*/) {
-			
+
 			int res = JOptionPane.YES_OPTION;
 			if (Common.OPTIONS.warnWhenUsingDelKey.isSelected()) {
 				res = JOptionPane.showConfirmDialog(
-					actualPnl, 
-					"Do you want to delete the selected " +selected.length + " lines ?" , 
-					"Line Delete confirmation ", 
+					actualPnl,
+					"Do you want to delete the selected " +selected.length + " lines ?" ,
+					"Line Delete confirmation ",
 					JOptionPane.YES_NO_OPTION);
-			} 
+			}
 			if (res == JOptionPane.YES_OPTION) {
 				deleteLines();
 			}
 		}
 	}
-	
-	
+
+
 	/**
 	 * Deleting one or more records
 	 */
@@ -1137,7 +1137,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 		 setupDisplayDetails(newLayout);
 	 }
 
-	 
+
 	 private void setupDisplayDetails(AbstractLayoutDetails newLayout) {
 		displayDetails = new RecordFormats[newLayout.getRecordCount()];
 		for (int i = 0; i < displayDetails.length; i++) {
@@ -1149,7 +1149,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	 */
 	 public abstract int getCurrRow();
 
-	 
+
 	 /**
 	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getTreeLine()
 	 */
@@ -1190,7 +1190,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 			}
 		}
 	}
-	
+
     /**
      * set the record layout based on the most common record
      * in the first 30 lines
@@ -1201,10 +1201,10 @@ implements AbstractFileDisplay, ILayoutChanged {
             int i, l;
             int record2Use = 0;
             int currMax = 0;
-            int recordsToCheck = Math.min(RECORDS_TO_CHECK, 
+            int recordsToCheck = Math.min(RECORDS_TO_CHECK,
             							  fileView.getRowCount());
             int[] layoutCounts = new int[layout.getRecordCount()];
-            
+
  //           System.out.println("setLayoutIdx: " + fileView.getRowCount() + " " + tblDetails.getRowCount());
 
             for (i = 0; i < layoutCounts.length; i++) {
@@ -1229,8 +1229,8 @@ implements AbstractFileDisplay, ILayoutChanged {
             setupForChangeOfLayout();
         }
     }
-    
-    
+
+
     /**
      * get the prefered layout for a row. note: this is overriden in LineTree
      * @param row table row to get the layout for
@@ -1247,7 +1247,7 @@ implements AbstractFileDisplay, ILayoutChanged {
     public int getSelectedRowCount() {
     	return tblDetails.getSelectedRowCount();
     }
-    
+
 	/**
 	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getSelectedRows()
 	 */
@@ -1290,7 +1290,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	        cellRenders = recordDesc.getCellRenders();
 	        cellEditors = recordDesc.getCellEditors();
 	        widths      = recordDesc.getWidths();
-	        
+
 	        maxHeight   = recordDesc.getMaxHeight();
 	        if (tblDetails != null && (tblDetails.getRowHeight() > maxHeight)) {
 	        	maxHeight = Math.max(maxHeight, (int) tblDetails.getRowHeight());
@@ -1314,39 +1314,39 @@ implements AbstractFileDisplay, ILayoutChanged {
         }
         return displayDetails[idx];
 	}
-	
-	
+
+
 	/**
 	 * check if the format has changed
-	 * @param event 
+	 * @param event
 	 * @return
 	 */
 	protected final boolean hasTheFormatChanged(TableModelEvent event) {
 		boolean changed = false ;
-		
-		if (event.getType() == TableModelEvent.UPDATE 
+
+		if (event.getType() == TableModelEvent.UPDATE
 		&& event.getFirstRow() < 0 && event.getLastRow() < 0) {
 			for (int i = 0; i < displayDetails.length && ! changed; i++) {
 				if (displayDetails[i] != null) {
 					changed = changed || displayDetails[i].hasTheFormatChanged();
 				}
 			}
-		} 
-			
+		}
+
 		if (changed) {
 			//System.out.println("Set Format ");
 			setTableFormatDetails(getLayoutIndex());
 		}
-		
+
 		return  changed ;
 	}
 
 //	private void layoutChanged() {
 //		boolean changed = layout != this.fileMaster.getLayout();
-//		
+//
 //		if (changed) {
 //			layoutCombo.setRecordLayout(this.fileMaster.getLayout());
-//			
+//
 //			displayDetails = new RecordFormats[layout.getRecordCount()];
 //			for (int i = 0; i < displayDetails.length; i++) {
 //			    displayDetails[i] = null;
@@ -1356,7 +1356,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 //			newLayout();
 //		}
 //	}
-	
+
 	/**
 	 * Set the table cell height
 	 *
@@ -1364,7 +1364,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	protected void setRowHeight() {
 		setRowHeight(maxHeight);
 	}
-	
+
 	protected void setRowHeight(int height) {
 	    if (height > 0) {
 	        tblDetails.setRowHeight(height);
@@ -1374,14 +1374,14 @@ implements AbstractFileDisplay, ILayoutChanged {
 	    }
 	}
 
-	
+
 	   /**
      * This method defines the Column Headings
      */
     protected final void defineColumns(int numCols, int blankColumns, int columnsToSkip) {
     	defineColumns(tblDetails, numCols, blankColumns, columnsToSkip);
     }
-    
+
     protected final void defineColumns(JTable tblDtls, int numCols, int blankColumns, int columnsToSkip) {
         int i, idx, count;
         tblDtls.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -1405,7 +1405,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	            	count =  Math.min(this.fileView.getLayoutColumnCount(idx), cellRenders.length);
 	                for (i = columnsToSkip; i < count ; i++) {
 	                    if (cellRenders[i] != null) {
-//	                    	System.out.println("Rendor ~~> 1 " + i 
+//	                    	System.out.println("Rendor ~~> 1 " + i
 //	                    			+ ", " + (i + blankColumns - columnsToSkip)
 //	                    			+ "  idx  " + idx
 //	                    			+ ", " + fileView.getRealColumn(idx, i));
@@ -1413,7 +1413,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	                    }
 	                }
 	            }
-	
+
 	            if (cellEditors != null) {
 	            	count =  Math.min(this.fileView.getLayoutColumnCount(idx), cellEditors.length);
 	                for (i = columnsToSkip; i < count; i++) {
@@ -1446,7 +1446,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	public void setLayoutIndex(int recordIndex) {
 //		System.out.println("Set Layout Index " + recordIndex);
 		//Common.logMsg("Setting LayoutIndex", null);
-		
+
 		layoutCombo.removeActionListener(layoutListner);
 		layoutCombo.setLayoutIndex(recordIndex);
 		if (recordIndex >= 0) {
@@ -1463,10 +1463,10 @@ implements AbstractFileDisplay, ILayoutChanged {
 	protected final LayoutCombo getLayoutCombo() {
 		return layoutCombo;
 	}
-	
+
 //	/**
 //	 * Register a rendor/editor for a class
-//	 * 
+//	 *
 //	 * @param classDtls class to register editor / render for
 //	 * @param render rendor to register
 //	 * @param editor editor to register
@@ -1505,25 +1505,25 @@ implements AbstractFileDisplay, ILayoutChanged {
 		} else {
 			newScreen = new LineFrame(viewOfFile, cRow);
 		}
-		
+
 		if (copyHiddenFields && this instanceof AbstractFileDisplayWithFieldHide) {
 			int idx = getLayoutIndex();
 			newScreen.setFieldVisibility(idx,
 					((AbstractFileDisplayWithFieldHide) this).getFieldVisibility(idx));
 		}
 	}
-	
+
 	protected final int[] getColumnWidths() {
 		TableColumnModel tcm = tblDetails.getColumnModel();
 		int[] ret = new int[tcm.getColumnCount()];
 		for (int i = 0; i < tcm.getColumnCount(); i++) {
 			ret[i] = tcm.getColumn(i).getPreferredWidth();
 		}
-		
+
 		return ret;
 	}
 
-	
+
 	protected final void setColumnWidths(int[] colWidths) {
 		TableColumnModel tcm = tblDetails.getColumnModel();
 		int size = Math.min(colWidths.length,  tcm.getColumnCount());
@@ -1531,7 +1531,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 		for (int i = 0; i < size; i++) {
 			tcm.getColumn(i).setPreferredWidth(colWidths[i]);
 		}
-	
+
 	}
 
 	   /**
@@ -1554,20 +1554,20 @@ implements AbstractFileDisplay, ILayoutChanged {
 			int count = layoutCombo.getItemCount();
 			AbstractFileDisplayWithFieldHide from = (AbstractFileDisplayWithFieldHide) this;
 			AbstractFileDisplayWithFieldHide to = (AbstractFileDisplayWithFieldHide) bd;
-			
+
 			for (int i = 0; i < count; i++) {
 				to.setFieldVisibility(i, from.getFieldVisibility(i));
 			}
 		}
 	}
-	
+
 	//protected abstract JTable getNewTable(FileView view);
 	protected abstract BaseDisplay getNewDisplay(FileView view);
-	
+
 	protected final void setupForChangeOfLayout() {
-		
+
 		int idx = layoutCombo.getSelectedIndex();
-		
+
 		if (idx >= 0) {
 			setTableFormatDetails(idx);
 			setRowHeight();
@@ -1575,8 +1575,8 @@ implements AbstractFileDisplay, ILayoutChanged {
 		}
 	}
 
-	
-	
+
+
     /**
     *
     * @author Bruce Martin
@@ -1617,17 +1617,17 @@ implements AbstractFileDisplay, ILayoutChanged {
            return tip;
        }
    }
-   
+
    protected class DelKeyWatcher extends KeyAdapter {
 	   	private long lastWhen = Long.MIN_VALUE;
         /**
          * @see java.awt.event.KeyAdapter#keyReleased
          */
         public final void keyReleased(KeyEvent event) {
-        	
+
         	long when = event.getWhen();
-        	
-        	if (when != lastWhen 
+
+        	if (when != lastWhen
         	&& (event.getModifiers() & KeyEvent.CTRL_MASK) == 0
         	&& (event.getModifiers() & KeyEvent.SHIFT_MASK) == 0
         	&& Common.OPTIONS.deleteSelectedWithDelKey.isSelected()) {
@@ -1635,7 +1635,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	        	case KeyEvent.VK_DELETE: check4Delete();	break;
 	        	}
 	        }
-        	
+
         	lastWhen = when;
         }
    }

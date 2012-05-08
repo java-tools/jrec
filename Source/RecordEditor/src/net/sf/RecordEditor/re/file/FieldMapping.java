@@ -10,8 +10,8 @@ public class FieldMapping {
 
 	private int[] colLengths;
 	private int[] totalColumnLengths;
-	
-	
+
+
 	/**
 	 * Setup column Mapping
 	 * @param columnLengths the field counts by layout
@@ -20,16 +20,16 @@ public class FieldMapping {
 		colLengths = columnLengths;
 		totalColumnLengths = columnLengths.clone();
 	}
-	
+
 
 	/**
-	 * Set up column mapping 
+	 * Set up column mapping
 	 * @param remapColumns column mapping
 	 */
 	public FieldMapping(int[][] remapColumns, int[] numCols) {
 		columnMapping = remapColumns;
 		totalColumnLengths = numCols;
-		
+
 		if (columnMapping == null) {
 			colLengths = new int[0];
 		} else {
@@ -42,12 +42,12 @@ public class FieldMapping {
 			}
 		}
 	}
-	
+
 	public void resetMapping(final int[] columnLengths) {
 		colLengths = columnLengths;
 		columnMapping = null;
 	}
-	
+
 	/**
 	 * Get the row count
 	 * @param recordIdx record index
@@ -86,15 +86,15 @@ public class FieldMapping {
 	 * @param row row to be hiddeb
 	 */
 	public final void hideColumn(int recordIdx, int row) {
-		
+
 		int[] cols = getRemapCols(recordIdx);
 		boolean found = false;
-		
+
 		for (int i = 0; i < colLengths[recordIdx]; i++) {
 			if (cols[i] == row) {
 				found = true;
 				colLengths[recordIdx] -= 1;
-			} 
+			}
 			if (found && i < cols.length - 1) {
 				cols[i] = cols[i+1];
 			}
@@ -109,14 +109,14 @@ public class FieldMapping {
 	public final void showColumn(int recordIdx, int row) {
 		int[] cols = getRemapCols(recordIdx);
 		boolean searching = true;
-		
+
 		for (int i = 0; cols[i]  <= row && i < colLengths[recordIdx]; i++) {
 			if (cols[i] == row) {
 				searching = false;
 				break;
-			} 
+			}
 		}
-		
+
 		if (searching) {
 			cols[colLengths[recordIdx]] = row;
 
@@ -128,30 +128,33 @@ public class FieldMapping {
 		}
 	}
 
-	
+
 	private int[] getRemapCols(int idx) {
-		
+
 		if (columnMapping == null) {
 			columnMapping = new int[colLengths.length][];
 		}
-		
+
 		if (columnMapping[idx] == null) {
 			columnMapping[idx] = new int[colLengths[idx]];
-			
+
 			for (int i =0; i < colLengths[idx]; i++) {
 				columnMapping[idx][i] = i;
 			}
 		}
-		
+
 		return columnMapping[idx];
 	}
 
 	public boolean[] getFieldVisibility(int recordIdx) {
 		boolean[] ret = null;
-		
+
 		if (colLengths != null && recordIdx < colLengths.length) {
-			int size = totalColumnLengths[recordIdx];
-			
+			int size = colLengths[recordIdx];
+			if (totalColumnLengths != null && recordIdx < totalColumnLengths.length) {
+				size = totalColumnLengths[recordIdx];
+			}
+
 			if (columnMapping == null || columnMapping[recordIdx] ==null) {
 				ret = initArray(size, true);
 			} else {
@@ -164,29 +167,29 @@ public class FieldMapping {
 				}
 			}
 		}
-		
+
 		return ret;
 	}
-	
+
 	private boolean[] initArray(int size, boolean value) {
-		boolean[] array = new boolean[size]; 
+		boolean[] array = new boolean[size];
 		for (int i = 0; i < size; i++) {
 			array[i] = value;
 		}
 		return array;
 	}
-	
+
 	public void setFieldVisibilty(int recordIndex, boolean[] fieldVisible) {
 		if (fieldVisible == null) return;
 		boolean allFields = true;
-		
+
 		for (int i = 0; i < fieldVisible.length; i++) {
 			if (! fieldVisible[i]) {
 				allFields = false;
 				break;
 			}
 		}
-		
+
 		if (allFields) {
 			if (columnMapping != null && columnMapping[recordIndex] != null) {
 				columnMapping[recordIndex] = null;
@@ -201,7 +204,7 @@ public class FieldMapping {
 			if (columnMapping[recordIndex] == null) {
 				columnMapping[recordIndex] = new int[Math.max(fieldVisible.length, colLengths[recordIndex])];
 			}
-			
+
 			for (int i = 0; i < fieldVisible.length; i++) {
 				if (fieldVisible[i]) {
 					columnMapping[recordIndex][count++] = i;
@@ -210,5 +213,5 @@ public class FieldMapping {
 			colLengths[recordIndex] = count;
 		}
 	}
-	
+
 }

@@ -30,17 +30,17 @@ import net.sf.JRecord.Details.XmlLineProvider;
  * LineIOprovider - This class returns a LineIO class appropriate for
  * the supplied file structure. All the Files Structures are available as
  * Constants.IO_*
- * 
+ *
  * <pre>
  * <b>Usage:</b>
- * 
+ *
  *         CopybookLoader loader = <font color="brown"><b>new</b></font> RecordEditorXmlLoader();
  *         ExternalRecord extlayout = loader.loadCopyBook(copybookName, 0, 0, "", 0, 0, <font color="brown"><b>null</b></font>);
- *        
+ *
  *         LayoutDetail layout = extlayout.asLayoutDetail();
  *         AbstractLineWriter writer = <b>LineIOProvider.getInstance()</b>.getLineWriter(layout.getFileStructure());
  * </pre>
- * 
+ *
  * @author Bruce Martin
  * @version 0.55
  *
@@ -53,18 +53,18 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
 	private LineProvider provider;
     private XmlLineProvider xmlProvider = null;
     private CharLineProvider charProvider = null;
-    
+
     private static final int numberOfEntries;
     private static String[] names = new String [20] ;
     private static String[] externalNames = new String [20] ;
     private static int[] keys = new int[20];
-    
+
     @SuppressWarnings("rawtypes")
 	private BasicManager<LineProvider> lineProviderManager =
     	new BasicManager<LineProvider>(100, START_USER_FILE_STRUCTURES, new LineProvider[200]) ;
-    
+
 //    public static final int[] FILE_STRUCTURE_ID = {
-//    	Constants.IO_DEFAULT, 
+//    	Constants.IO_DEFAULT,
 //    	Constants.IO_FIXED_LENGTH,
 //    	Constants.IO_BINARY,
 //    	Constants.IO_VB,
@@ -76,12 +76,12 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
 //    	Constants.IO_XML_USE_LAYOUT,
 //    	Constants.IO_XML_BUILD_LAYOUT};
 //    public static final String[] FILE_STRUCTURE_NAME;
-//	keys[i] = Constants.IO_NAME_1ST_LINE;			externalNames[i] = "CSV_NAME_1ST_LINE";  names[i++] = "Delimited, names first line";     			
-//	keys[i] = Constants.IO_GENERIC_CSV;				externalNames[i] = "CSV_GENERIC";			names[i++] = "Generic CSV (Choose details at run time)";	
-//	keys[i] = Constants.IO_XML_USE_LAYOUT;		externalNames[i] = "XML_Use_Layout";       	names[i++] = "XML - Existing Layout";						
-//	keys[i] = Constants.IO_XML_BUILD_LAYOUT;		externalNames[i] = "XML_Build_Layout";      names[i++] = "XML - Build Layout";						
-//	keys[i] = Constants.NULL_INTEGER;					externalNames[i] = null;                    			names[i++] = null;										
-   
+//	keys[i] = Constants.IO_NAME_1ST_LINE;			externalNames[i] = "CSV_NAME_1ST_LINE";  names[i++] = "Delimited, names first line";
+//	keys[i] = Constants.IO_GENERIC_CSV;				externalNames[i] = "CSV_GENERIC";			names[i++] = "Generic CSV (Choose details at run time)";
+//	keys[i] = Constants.IO_XML_USE_LAYOUT;		externalNames[i] = "XML_Use_Layout";       	names[i++] = "XML - Existing Layout";
+//	keys[i] = Constants.IO_XML_BUILD_LAYOUT;		externalNames[i] = "XML_Build_Layout";      names[i++] = "XML - Build Layout";
+//	keys[i] = Constants.NULL_INTEGER;					externalNames[i] = null;                    			names[i++] = null;
+
    static {
 	   String rdDefault = "Default";
 	   String rdFixed = "Fixed Length Binary";
@@ -93,28 +93,29 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
 
 	   int i = 0;
 
-	   keys[i] = Constants.IO_DEFAULT;				externalNames[i] = "Default";               names[i++] = rdDefault;               					
-	   keys[i] = Constants.IO_TEXT_LINE;			externalNames[i] = "Text";                  names[i++] = "Text IO";                 					
-	   keys[i] = Constants.IO_BIN_TEXT;				externalNames[i] = "Byte_Text";             names[i++] = "Text IO (byte Based)";                 					
-	   keys[i] = Constants.IO_UNICODE_TEXT;			externalNames[i] = "Text_Unicode";          names[i++] = "Text IO (Unicode)";                 					
-	   keys[i] = Constants.IO_FIXED_LENGTH;			externalNames[i] = "Fixed_Length";          names[i++] = rdFixed;						
-	   keys[i] = Constants.IO_BINARY; 				externalNames[i] = "Binary";                names[i++] = rdLineBin;     					
-	   keys[i] = Constants.IO_VB;					externalNames[i] = "Mainframe_VB";          names[i++] = rdVb;      		
-	   keys[i] = Constants.IO_VB_DUMP;				externalNames[i] = "Mainframe_VB_As_RECFMU";names[i++] = rdVbDump;	
-	   keys[i] = Constants.IO_VB_FUJITSU;			externalNames[i] = "FUJITSU_VB";            names[i++] = "Fujitsu Variable Binary";           		
-	   keys[i] = Constants.IO_VB_OPEN_COBOL;		externalNames[i] = "Open_Cobol_VB";      	names[i++] = rdOcVb;								
-	   keys[i] = Constants.IO_MICROFOCUS;			externalNames[i] = "Microfocus_Format";    	names[i++] = "Experemental Microfocus Header File";  						
-	   keys[i] = Constants.IO_UNKOWN_FORMAT;		externalNames[i] = "UNKOWN_FORMAT";      	names[i++] = "Unknown File Format";								
-	   keys[i] = Constants.IO_NAME_1ST_LINE;		externalNames[i] = "CSV_NAME_1ST_LINE";  	names[i++] = "Csv Name on 1st line";     			
-	   keys[i] = Constants.IO_UNICODE_NAME_1ST_LINE;externalNames[i] = "CSV_NAME_1ST_LINE";  	names[i++] = "Unicode Name on 1st line";     			
-	   //		keys[i] = Constants.IO_GENERIC_CSV;			externalNames[i] = "CSV_GENERIC";			names[i++] = "Generic CSV (Choose details at run time)";	
-	   keys[i] = Constants.IO_XML_USE_LAYOUT;		externalNames[i] = "XML_Use_Layout";       	names[i++] = "XML - Existing Layout";						
-	   keys[i] = Constants.IO_XML_BUILD_LAYOUT;		externalNames[i] = "XML_Build_Layout";      names[i++] = "XML - Build Layout";						
-	   keys[i] = Constants.NULL_INTEGER;			externalNames[i] = null;               		names[i] = null;										
+	   keys[i] = Constants.IO_DEFAULT;				externalNames[i] = "Default";               names[i++] = rdDefault;
+	   keys[i] = Constants.IO_TEXT_LINE;			externalNames[i] = "Text";                  names[i++] = "Text IO";
+	   keys[i] = Constants.IO_BIN_TEXT;				externalNames[i] = "Byte_Text";             names[i++] = "Text IO (byte Based)";
+	   keys[i] = Constants.IO_UNICODE_TEXT;			externalNames[i] = "Text_Unicode";          names[i++] = "Text IO (Unicode)";
+	   keys[i] = Constants.IO_FIXED_LENGTH;			externalNames[i] = "Fixed_Length";          names[i++] = rdFixed;
+	   keys[i] = Constants.IO_BINARY; 				externalNames[i] = "Binary";                names[i++] = rdLineBin;
+	   keys[i] = Constants.IO_VB;					externalNames[i] = "Mainframe_VB";          names[i++] = rdVb;
+	   keys[i] = Constants.IO_VB_DUMP;				externalNames[i] = "Mainframe_VB_As_RECFMU";names[i++] = rdVbDump;
+	   keys[i] = Constants.IO_VB_FUJITSU;			externalNames[i] = "FUJITSU_VB";            names[i++] = "Fujitsu Variable Binary";
+	   keys[i] = Constants.IO_VB_OPEN_COBOL;		externalNames[i] = "Open_Cobol_VB";      	names[i++] = rdOcVb;
+	   keys[i] = Constants.IO_MICROFOCUS;			externalNames[i] = "Microfocus_Format";    	names[i++] = "Experemental Microfocus Header File";
+	   keys[i] = Constants.IO_UNKOWN_FORMAT;		externalNames[i] = "UNKOWN_FORMAT";      	names[i++] = "Unknown File Format";
+	   keys[i] = Constants.IO_WIZARD;		        externalNames[i] = "FILE_WIZARD";		  	names[i++] = "File Wizard";
+	   keys[i] = Constants.IO_NAME_1ST_LINE;		externalNames[i] = "CSV_NAME_1ST_LINE";  	names[i++] = "Csv Name on 1st line";
+	   keys[i] = Constants.IO_UNICODE_NAME_1ST_LINE;externalNames[i] = "CSV_NAME_1ST_LINE";  	names[i++] = "Unicode Name on 1st line";
+	   //		keys[i] = Constants.IO_GENERIC_CSV;			externalNames[i] = "CSV_GENERIC";			names[i++] = "Generic CSV (Choose details at run time)";
+	   keys[i] = Constants.IO_XML_USE_LAYOUT;		externalNames[i] = "XML_Use_Layout";       	names[i++] = "XML - Existing Layout";
+	   keys[i] = Constants.IO_XML_BUILD_LAYOUT;		externalNames[i] = "XML_Build_Layout";      names[i++] = "XML - Build Layout";
+	   keys[i] = Constants.NULL_INTEGER;			externalNames[i] = null;               		names[i] = null;
 
 	   numberOfEntries = i;
     }
- 
+
 
 
     /**
@@ -169,13 +170,13 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
         if (lLineProvider == null) {
             lLineProvider = provider;
         }
-        
+
        	switch (fileStructure) {
     	case(Constants.IO_BINARY):					return new BinaryLineReader(lLineProvider);
-    	
+
     	case(Constants.IO_XML_BUILD_LAYOUT):
        	case(Constants.IO_XML_USE_LAYOUT):			return new XmlLineReader(fileStructure == Constants.IO_XML_BUILD_LAYOUT);
-       	
+
        	case(Constants.IO_BIN_TEXT):				return new BinTextReader(lLineProvider,  false);
        	case(Constants.IO_BIN_NAME_1ST_LINE):		return new BinTextReader(lLineProvider,  true);
        	case(Constants.IO_UNICODE_TEXT):			return new TextLineReader(lLineProvider, false);
@@ -201,11 +202,11 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
 
     	switch (fileStructure) {
     	case(Constants.IO_BINARY):
-    	case(Constants.IO_FIXED_LENGTH):			return new BinaryLineWriter();		
-    	
+    	case(Constants.IO_FIXED_LENGTH):			return new BinaryLineWriter();
+
     	case(Constants.IO_XML_BUILD_LAYOUT):
        	case(Constants.IO_XML_USE_LAYOUT):			return new XmlLineWriter();
-       	
+
        	case(Constants.IO_BIN_TEXT):				return new BinTextWriter(false);
        	case(Constants.IO_BIN_NAME_1ST_LINE):		return new BinTextWriter(true);
        	case(Constants.IO_UNICODE_NAME_1ST_LINE):	return new TextLineWriter(true);
@@ -221,7 +222,7 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
         return new TextLineWriter(fileStructure == Constants.IO_NAME_1ST_LINE);
     }
 
-    
+
     /* (non-Javadoc)
 	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#isCopyBookFileRequired(int)
 	 */ @Override
@@ -231,8 +232,8 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
     			|| fileStructure == Constants.IO_NAME_1ST_LINE
     			|| fileStructure == Constants.IO_UNICODE_NAME_1ST_LINE);
     }
-    
-    
+
+
     /* (non-Javadoc)
 	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getStructureName(int)
 	 */ @Override
@@ -244,8 +245,8 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
     	}
     	return "";
     }
-    
-	 
+
+
     @Override
 	public String getStructureNameForIndex(int index) {
 		return externalNames[index];
@@ -256,7 +257,7 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
      * Convert a structure-name to a file-Structure identifier
      * @param name Name of the File Structure
      * @return The file Structure
-     */ 
+     */
     public int getStructure(String name) {
     	for (int i = 0; i < keys.length && keys[i] != Constants.NULL_INTEGER; i++) {
     		if (externalNames[i].equalsIgnoreCase(name)) {
@@ -273,7 +274,7 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
 	 */
     @SuppressWarnings("rawtypes")
 	public LineProvider getLineProvider(int fileStructure) {
-    	
+
     	LineProvider temp = lineProviderManager.get(fileStructure);
     	if (temp != null) {
     		return temp;
@@ -290,12 +291,12 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
     		if (charProvider == null) {
        			charProvider = new CharLineProvider();
        		}
-    		
+
     		return charProvider;
        	}
-    	
+
         return provider;
-        
+
     }
 
 

@@ -24,7 +24,7 @@ import net.sf.RecordEditor.utils.jdbc.AbsRecord;
  */
 public class ChildRecordsRec extends AbsRecord {
 
-	public final static int OP_OR_AND = 0; 
+	public final static int OP_OR_AND = 0;
 	private int childRecord;
 	protected int initChildKey ;
 	private int start;
@@ -50,7 +50,7 @@ public class ChildRecordsRec extends AbsRecord {
 		defaultRecord = false;
 		childId = -1;
 		parentRecord = -1;
-        
+
         setNew(true);
 
 		setKeys();
@@ -78,7 +78,7 @@ public class ChildRecordsRec extends AbsRecord {
 		childKey = pChildKey;
 		operatorSequence = pOperatorSequence;
 		defaultRecord = defaultRec;
-		
+
 
 		this.childName = Common.trimRight(childName);
 		this.childId = childId;
@@ -129,7 +129,7 @@ public class ChildRecordsRec extends AbsRecord {
 				);
 
 		ret.setNew(true);
-
+		ret.setUpdateStatus(UPDATED);
 		return ret;
 	}
 
@@ -388,14 +388,14 @@ public class ChildRecordsRec extends AbsRecord {
 	 * @param childName the childName to set
 	 */
 	public void setChildName(String childName) {
-		
+
 		childName = Common.trimRight(childName);
-		
+
 		if (! equals(this.childName , childName)) {
 			this.childName = childName;
 		}
 	}
-	
+
 	/**
 	 * @return the childId
 	 */

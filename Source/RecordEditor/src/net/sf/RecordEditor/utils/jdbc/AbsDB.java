@@ -121,9 +121,9 @@ public abstract class AbsDB<record extends AbsRecord> {
 	 */
 	protected final boolean isPrepareNeeded(PreparedStatement statement) {
 		boolean ret = true;
-		
-		try {		
-			if (statement != null 
+
+		try {
+			if (statement != null
 			&& statement.getConnection() != null) {
 				ret = statement.getConnection().isClosed();
 			}
@@ -131,7 +131,7 @@ public abstract class AbsDB<record extends AbsRecord> {
 			// TODO: handle exception
 		}
 
-		
+
 		return ret;
 	}
 
@@ -166,7 +166,7 @@ public abstract class AbsDB<record extends AbsRecord> {
 
 	     try {
 	    	 doUpdate(val);
-	    	 
+
 	         message = "";
 	         val.setUpdateStatus(AbsRecord.UNCHANGED);
 	     } catch (Exception ex) {
@@ -174,11 +174,11 @@ public abstract class AbsDB<record extends AbsRecord> {
 	        // ex.printStackTrace();
 	     }
 	 }
-	 
-	 
+
+
 	 protected final void doUpdate(record val) throws Exception {
 	     int idx;
-		 
+
 	     //TODO
 	    try {
 	         if (isPrepareNeeded(updateStatement)) {
@@ -190,6 +190,7 @@ public abstract class AbsDB<record extends AbsRecord> {
 
 	         updateStatement.executeUpdate();
 	    } catch (Exception e) {
+	    	e.printStackTrace();
 			throw e;
 		} finally {
 	         if (connect.isTempUpdateConnection()) {
@@ -197,7 +198,7 @@ public abstract class AbsDB<record extends AbsRecord> {
 	        	 freeConnection();
 	         }
 		}
-		 
+
 	 }
 
 
@@ -342,7 +343,7 @@ public abstract class AbsDB<record extends AbsRecord> {
 	    }
 	    freeConnection();
 	}
-	
+
 	public void freeConnection() {
 		if (doFree && connect != null) {
 			connect.free();
@@ -404,7 +405,7 @@ public abstract class AbsDB<record extends AbsRecord> {
  	    sWhere = nullStr;
 	    sep = " And ";
 	    //numParms = 0;
-	    
+
 	    if (sqlCursor != null) {
 		    try {
 		    	sqlCursor.close();
@@ -507,7 +508,7 @@ public abstract class AbsDB<record extends AbsRecord> {
 	 * Get requested record
 	 *
 	 * @return request record
-	 * 
+	 *
 	 * @deprecated not used
 	 */
 	public final record absGet() {
@@ -526,7 +527,7 @@ public abstract class AbsDB<record extends AbsRecord> {
 
 		if (val.isNew()) {
 		    //System.out.println("~~~> inserting ");
-			if (val.getUpdateStatus() == AbsRecord.UPDATED) {
+			if  (val.getUpdateStatus() !=  AbsRecord.BLANK_RECORD) {
 				insert(val);
 			}
 		} else if (val.getUpdateStatus() == AbsRecord.UPDATED) {
@@ -820,14 +821,14 @@ public abstract class AbsDB<record extends AbsRecord> {
 
 		freeConnection();
 	}
-	
+
 	/**
 	 * This method gets the next key
 	 */
 	protected final int getNextIntSubKey(String sql, int recordId) {
 		return getNextIntSubKey(sql, recordId, Integer.MIN_VALUE);
 	}
-	
+
 	/**
 	 * This method gets the next key
 	 */
@@ -853,7 +854,7 @@ public abstract class AbsDB<record extends AbsRecord> {
 		} catch (Exception ex) {
 			setMessage(sql, ex.getMessage(), ex);
 		}
-		
+
 		return ret;
 	}
 

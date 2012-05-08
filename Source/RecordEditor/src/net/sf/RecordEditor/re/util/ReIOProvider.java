@@ -11,38 +11,40 @@ import net.sf.RecordEditor.re.util.csv.GenericCsvReader;
 public class ReIOProvider extends StandardLineIOProvider {
 
 	private static ReIOProvider instance = null;
-	
+
     private static final int numberOfEntries = 3;
     private static String[] names = new String [numberOfEntries] ;
     private static String[] externalNames = new String [numberOfEntries] ;
     private static int[] keys = new int[numberOfEntries];
-    
- 	
+
+
     static {
 			int i = 0;
-		 
-			keys[i] = Constants.IO_UNKOWN_FORMAT;		externalNames[i] = "UNKNOWN_FORMAT";		names[i++] = "Unknow Format (Choose details at run time)";	
-			keys[i] = Constants.IO_GENERIC_CSV;			externalNames[i] = "CSV_GENERIC";			names[i++] = "Generic CSV (Choose details at run time)";	
+
+			keys[i] = Constants.IO_UNKOWN_FORMAT;		externalNames[i] = "UNKNOWN_FORMAT";		names[i++] = "Unknow Format (Choose details at run time)";
+			keys[i] = Constants.IO_WIZARD;				externalNames[i] = "FILE_WIZARD";			names[i++] = "File Wizard, Generate layout at run time";
+			keys[i] = Constants.IO_GENERIC_CSV;			externalNames[i] = "CSV_GENERIC";			names[i++] = "Generic CSV (Choose details at run time)";
     }
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public AbstractLineReader getLineReader(int fileStructure,
 			LineProvider lineProvider) {
-	
+
+    	LineProvider lLineProvider = lineProvider;
+
+        if (lLineProvider == null) {
+            lLineProvider = super.getLineProvider(fileStructure);
+        }
+
 		//System.out.println(" ~~ ReIOProvider ~ " + fileStructure + " --> " + Constants.IO_GENERIC_CSV);
 		switch (fileStructure) {
 		case Constants.IO_GENERIC_CSV:
-        	LineProvider lLineProvider = lineProvider;
-
-	        if (lLineProvider == null) {
-	            lLineProvider = super.getLineProvider(fileStructure);
-	        }
-
 	        return new GenericCsvReader(lLineProvider);
-//		case Constants.IO_GENERIC_CSV_UNICODE:
-//			return new OldGenericCsvReaderUnicode();
-	    case Constants.IO_UNKOWN_FORMAT:    
+	    case Constants.IO_UNKOWN_FORMAT:
 	    	return new UnknownFormatReader();
+	    case Constants.IO_WIZARD:
+	    	return new WizardReader(lLineProvider);
         default:
 			return super.getLineReader(fileStructure, lineProvider);
         }
@@ -54,20 +56,21 @@ public class ReIOProvider extends StandardLineIOProvider {
 //		if (structure == Constants.IO_UNKOWN_FORMAT) {
 //			return
 //		}
-//	
+//
 //		return super.getLineWriter(structure);
 //	}
 
-	   
+
     /* (non-Javadoc)
 	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#isCopyBookFileRequired(int)
 	 */ @Override
     public boolean isCopyBookFileRequired(int fileStructure) {
     	return ! ( fileStructure == Constants.IO_UNKOWN_FORMAT
+    			|| fileStructure == Constants.IO_WIZARD
     			|| fileStructure == Constants.IO_GENERIC_CSV);
     }
-    
-    
+
+
     /* (non-Javadoc)
 	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getStructureName(int)
 	 */ @Override
@@ -124,14 +127,14 @@ public class ReIOProvider extends StandardLineIOProvider {
 	}
 
 	public static void register() {
-		
+
 		if (instance == null) {
 			instance = new ReIOProvider();
 
 			LineIOProvider.getInstance().register(instance);
 		}
 	}
-	
+
 	public static LineIOProvider getInstance() {
 		register();
 		return LineIOProvider.getInstance();

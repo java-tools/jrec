@@ -9,15 +9,15 @@ import javax.swing.ComboBoxModel;
 public class KeyedComboMdl<Key> extends ListListner implements  ComboBoxModel<ComboObjOption<Key>> {
 
 	public final ComboObjOption<Key> nullItem;
-	
+
 	public final HashMap<Key, ComboObjOption<Key>> items = new HashMap<Key, ComboObjOption<Key>>();
 
 	private int currIdx = 0;
-	
+
 	public final ArrayList<ComboObjOption<Key>> itemList = new ArrayList<ComboObjOption<Key>>();
-	
+
 	public boolean trace = false;
-	
+
 	public KeyedComboMdl(ComboObjOption<Key> nullItem) {
 		super();
 		this.nullItem = nullItem;
@@ -29,7 +29,7 @@ public class KeyedComboMdl<Key> extends ListListner implements  ComboBoxModel<Co
 	@Override
 	public ComboObjOption<Key> getElementAt(int row) {
 		//System.out.println("Get Element: : " + row + " " + getRowCount());
-		if (row < 1 || row >= itemList.size()) {
+		if (row < 1 || row > itemList.size()) {
 			return nullItem;
 		}
 		return itemList.get(row - 1);
@@ -59,7 +59,7 @@ public class KeyedComboMdl<Key> extends ListListner implements  ComboBoxModel<Co
 	@Override
 	public void setSelectedItem(Object item) {
 		int lastIdx = currIdx;
-		
+
 		currIdx = 0;
 //		if (trace) {
 //			System.out.print(" --> " + item);
@@ -75,9 +75,9 @@ public class KeyedComboMdl<Key> extends ListListner implements  ComboBoxModel<Co
 			@SuppressWarnings("unchecked")
 			ComboObjOption<Key> parentItem = (ComboObjOption<Key>) item;
 			for (int i = 0; i < itemList.size(); i++) {
-				if (itemList.get(i).index == parentItem.index) {
+				if (itemList.get(i).index != null && itemList.get(i).index.equals(parentItem.index)) {
 					currIdx = i + 1;
-					
+
 					break;
 				}
 			}
@@ -87,15 +87,15 @@ public class KeyedComboMdl<Key> extends ListListner implements  ComboBoxModel<Co
 			tellOfUpdates(currIdx);
 		}
 	}
-	
+
 
 	/**
 	 * @param arg0
 	 * @return
 	 * @see java.util.ArrayList#add(java.lang.Object)
 	 */
-	public void addElement(Key key, String value) {
-		
+	public ComboObjOption<Key> addElement(Key key, String value) {
+
 		ComboObjOption<Key> o = items.get(key);
 		if (o == null) {
 			o = new ComboObjOption<Key>(key, value);
@@ -103,12 +103,20 @@ public class KeyedComboMdl<Key> extends ListListner implements  ComboBoxModel<Co
 		} else {
 			o.setString(value);
 		}
-		
+
+		addElement(o);
+		return o;
+	}
+
+	public void addElement(ComboObjOption<Key> o) {
+		if (! items.containsKey(o.index)) {
+			items.put(o.index, o);
+		}
 		itemList.add(o);
 	}
 
 	/**
-	 * 
+	 *
 	 * @see java.util.ArrayList#clear()
 	 */
 	public void removeAllElements() {

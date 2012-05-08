@@ -76,6 +76,7 @@ public final class TableListRec extends AbsRecord {
                     );
 
       ret.setNew(true);
+      ret.setUpdateStatus(UPDATED);
 
       return ret;
   }

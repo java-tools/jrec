@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package net.sf.RecordEditor.layoutEd.Record;
 
@@ -29,83 +29,90 @@ public class ChildRecordsTblMdl extends DBtableModel<ChildRecordsRec> {
 
 	public static final int RECORD_COLUMN = 2;
 	public static final int PARENT_COLUMN = 6;
-	
+
 	public final KeyedComboMdl<Integer> recordKeys;
 	//public final int recordId;
-	
+
 	private final HashMap<Integer, ParentItem> parentItems = new HashMap<Integer, ChildRecordsTblMdl.ParentItem>();
 	private final HashMap<Integer, String> recordNameLookup = new HashMap<Integer, String>();
 	private AbsConnection dbConnection;
-	
+
 	private ParentItem nullParent = new ParentItem(-1);
 	private ChildRecordsDB childDb;
-	
+
 	public ChildRecordsTblMdl(ChildRecordsDB db, KeyedComboMdl<Integer> recordKeys) {
 		super(db);
-		
+
 		this.recordKeys = recordKeys;
-		dbConnection = db.getConnect();	
+		dbConnection = db.getConnect();
 		childDb = db;
-		
-		
+
+
 		RecordDB recDb = new RecordDB();
 		recDb.setConnection(dbConnection);
-		
+
 		for (int i = 0; i < getRowCount(); i++) {
 			lookupRecord(recDb, getRecord(i).getChildRecordId());
 		}
 	}
 
-	
+
 	public String getName4record(int recordId) {
 		String s = "";
 		Integer recordIdKey = Integer.valueOf(recordId);
-		
+
 		if (! recordNameLookup.containsKey(recordIdKey)) {
 			RecordDB recDb = new RecordDB();
 			recDb.setConnection(dbConnection);
-			lookupRecord(recDb, recordId); 
+
+			lookupRecord(recDb, recordId);
 		}
 		if (recordNameLookup.containsKey(recordIdKey)) {
 			s = recordNameLookup.get(recordIdKey);
+			//System.out.println("Found Record Name: " + recordId + " " + s);
 		}
-		
+
 		return s;
 	}
-	
+
 	private void lookupRecord(RecordDB recDb, int recordId) {
 		recDb.resetSearch();
 		recDb.setSearchRecordId(RecordDB.opEquals, recordId);
 		recDb.open();
 		RecordRec rec = recDb.fetch();
+
+		//System.out.println(" Record Lookup: " + recordId + " " + (rec == null));
 		if (rec != null) {
 			recordNameLookup.put(recordId, rec.getRecordName());
 		}
 	}
-	
+
 	private ParentItem getParentItem(int id) {
-		
+
+		//System.out.print("Get Parent Item: " + id + " ");
 		if (id < 0) {
 			return nullParent;
 		}
-		
+
 		Integer key = Integer.valueOf(id);
 		ParentItem ret = parentItems.get(key);
+
+		//System.out.print(ret == null);
 		if (ret == null) {
 			ret = new ParentItem(id);
 			parentItems.put(key, ret);
 			//System.out.println("putParent: " + id);
 		}
-		
+		//System.out.println(" " + ret.childId + " >" + ret.toString());
 		return ret;
-	
+
 	}
-	
-	
+
+
 	public final ComboBoxModel<ParentItem> getParentModel() {
 		return new ParentComboModel();
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.jdbc.DBtableModel#getColumnName(int)
 	 */
@@ -121,7 +128,7 @@ public class ChildRecordsTblMdl extends DBtableModel<ChildRecordsRec> {
 		return super.getColumnName(col);
 	}
 
-	
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.jdbc.DBtableModel#getValueAt(int, int)
 	 */
@@ -129,13 +136,13 @@ public class ChildRecordsTblMdl extends DBtableModel<ChildRecordsRec> {
 	public Object getValueAt(int row, int col) {
 		Object ret = super.getValueAt(row, col);
 		int val;
-		
+
 		switch (col) {
 		case RECORD_COLUMN:
 			//recordKeys
 			ComboObjOption<Integer> rRet = recordKeys.nullItem;
-			
-			
+
+
 			if (ret instanceof Integer && (val = ((Integer) ret).intValue()) >= 0) {
 				rRet = recordKeys.items.get(val);
 			} else if (ret instanceof Number && (val = ((Number) ret).intValue()) >= 0) {
@@ -152,7 +159,7 @@ public class ChildRecordsTblMdl extends DBtableModel<ChildRecordsRec> {
 			break;
 		case PARENT_COLUMN:
 			ParentItem iRet = nullParent;
-			
+
 			if (ret instanceof Number && (val = ((Number) ret).intValue()) >= 0) {
 				iRet = getParentItem(val);
 			}
@@ -173,7 +180,7 @@ public class ChildRecordsTblMdl extends DBtableModel<ChildRecordsRec> {
 	@Override
 	public void setValueAt(Object val, int row, int col) {
 		//System.out.print("Set Value: " + col + " " + val + " " + (val instanceof ParentItem) + "> ");
-		
+
 		switch (col) {
 		case RECORD_COLUMN:
 			if (val instanceof ComboObjOption) {
@@ -189,7 +196,7 @@ public class ChildRecordsTblMdl extends DBtableModel<ChildRecordsRec> {
 		super.setValueAt(val, row, col);
 	}
 
-	
+
 
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.jdbc.AbsDBTableModel#addRow(int, net.sf.RecordEditor.utils.jdbc.AbsRecord)
@@ -197,7 +204,7 @@ public class ChildRecordsTblMdl extends DBtableModel<ChildRecordsRec> {
 	@Override
 	public void addRow(int row, ChildRecordsRec val) {
 		super.addRow(row, val);
-		
+
 		if (val.getChildId() < 0) {
 			if (childDb.getRecordId() >= 0) {
 				childDb.insert(val);
@@ -221,8 +228,8 @@ public class ChildRecordsTblMdl extends DBtableModel<ChildRecordsRec> {
 	public int getRecordId() {
 		return childDb.getRecordId();
 	}
-	
-	
+
+
 
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.jdbc.AbsDBTableModel#load()
@@ -232,10 +239,10 @@ public class ChildRecordsTblMdl extends DBtableModel<ChildRecordsRec> {
 		boolean error = false;
 		int parentId, id, i, j;
 		HashSet<Integer> used = new HashSet<Integer>();
-		
+
 		super.load();
 		recordNameLookup.clear();
-		
+
 		for (i = 0; i < getRowCount(); i++) {
 			id = getRecord(i).getChildId();
 			if (id >= 0 && used.contains(id)) {
@@ -244,7 +251,7 @@ public class ChildRecordsTblMdl extends DBtableModel<ChildRecordsRec> {
 			}
 			used.add(id);
 		}
-		
+
 		if (error) {
 			for (i = 0; i < getRowCount(); i++) {
 				parentId = getRecord(i).getParentRecord();
@@ -256,7 +263,7 @@ public class ChildRecordsTblMdl extends DBtableModel<ChildRecordsRec> {
 						}
 					}
 				}
-				
+
 			}
 			for (i = 0; i < getRowCount(); i++) {
 				getRecord(i).setChildId(i+1);
@@ -313,15 +320,15 @@ public class ChildRecordsTblMdl extends DBtableModel<ChildRecordsRec> {
 		@Override
 		public void setSelectedItem(Object item) {
 			int lastIdx = currIdx;
-			
+
 			currIdx = 0;
-			
+
 			if (item instanceof ParentItem) {
 				ParentItem parentItem = (ParentItem) item;
 				for (int i = 0; i < getRowCount(); i++) {
 					if (getRecord(i).getChildId() == parentItem.childId) {
 						currIdx = i + 1;
-						
+
 						break;
 					}
 				}
@@ -331,10 +338,10 @@ public class ChildRecordsTblMdl extends DBtableModel<ChildRecordsRec> {
 				tellOfUpdates(currIdx);
 			}
 		}
-		
+
 	}
-	
-	
+
+
 	private final class ParentItem {
 		public final int childId;
 
@@ -342,10 +349,11 @@ public class ChildRecordsTblMdl extends DBtableModel<ChildRecordsRec> {
 			super();
 			this.childId = childId;
 		}
-		
+
 		public String toString() {
 			if (childId >= 0) {
 				for (int i = 0; i < getRowCount(); i++) {
+					//System.out.println(" Parent: " + i + " " + childId + " " + getRecord(i).getChildId());
 					if (getRecord(i).getChildId() == childId) {
 						ChildRecordsRec child = getRecord(i);
 						StringBuilder b = new StringBuilder();
@@ -353,15 +361,16 @@ public class ChildRecordsTblMdl extends DBtableModel<ChildRecordsRec> {
 							b.append(child.getChildName())
 							 .append(": ");
 						}
-						
+
+						//System.out.println(" Find name: " + child.getChildRecordId());
 						return b.append(getName4record(child.getChildRecordId())).toString();
 					}
 				}
 			}
-			
+
 			return "";
 		}
-		
+
 		/* (non-Javadoc)
 		 * @see java.lang.Object#equals(java.lang.Object)
 		 */

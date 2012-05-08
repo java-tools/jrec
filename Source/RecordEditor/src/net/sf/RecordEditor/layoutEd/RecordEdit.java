@@ -32,6 +32,7 @@ import net.sf.RecordEditor.re.db.Record.RecordRec;
 import net.sf.RecordEditor.re.db.Record.SaveRecordAsXml;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
+import net.sf.RecordEditor.utils.common.ReActionHandlerWithSave;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
@@ -52,7 +53,7 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
  */
 @SuppressWarnings("serial")
 public class RecordEdit extends    ReFrame
-						implements SearchArgAction {
+						implements SearchArgAction, ReActionHandlerWithSave {
 
     private static final int MAIN_PANEL_HEIGHT_ADJUSTMET =  SwingUtils.STANDARD_FONT_HEIGHT * 5;
  	private RecordListPnl pnlRecordList;
@@ -197,6 +198,15 @@ public class RecordEdit extends    ReFrame
 	}
 
 
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.common.ReActionHandlerWithSave#doSave()
+	 */
+	@Override
+	public boolean saveOk() {
+		RecordRec rec = saveRecord();
+		return  rec != null && rec.isUpdateSuccessful();
+	}
+
 	/**
 	 * save the Record Layout details being displayed to the user
 	 *
@@ -234,7 +244,7 @@ public class RecordEdit extends    ReFrame
 		message.setText("");
 	}
 
-	
+
 
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.screenManager.ReFrame#executeAction(int, java.lang.Object)
@@ -246,9 +256,9 @@ public class RecordEdit extends    ReFrame
 			if (o != null) {
 				s = o.toString();
 			}
-			
+
 			RecordRec rec1 = saveRecord();
-			
+
 			if (rec1 != null) {
 				new net.sf.RecordEditor.layoutEd.panels.ExportVelocityPnl(
 					connectionIdx, s, ExtendedRecordDB.getRecord(connectionIdx, rec1.getRecordId()));
@@ -274,7 +284,7 @@ public class RecordEdit extends    ReFrame
 	    case ReActionHandler.HELP:
 	        pnlRecord.showHelp();
 	        break;
-	    case ReActionHandler.DELETE: 
+	    case ReActionHandler.DELETE:
 	        if (pnlRecord.isOkToDelete()) {
 	            msg = pnlRecordList.deleteRecord(currRow);
 
@@ -303,7 +313,7 @@ public class RecordEdit extends    ReFrame
 	            if (action == ReActionHandler.NEW) {
 	                rec = RecordRec.getNullRecord("", "");
 	                rec.getValue().setListChar("Y");
-	                
+
 	                tRow = pnlRecordList.addRecord(rec);
 
 	                if (tRow > 0) {

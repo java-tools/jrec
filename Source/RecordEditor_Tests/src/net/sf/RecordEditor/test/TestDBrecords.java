@@ -101,8 +101,8 @@ public class TestDBrecords extends TestCase {
         ExternalRecord val = rec.getValue();
 
         assertTrue("1) Record is not inserted", rec.isNew());
-        assertEquals("2) is not null update status " + rec.getUpdateStatus(), AbsRecord.NULL_INT_VALUE, rec.getUpdateStatus());
-        assertEquals("2a) is not null update status " + val.getUpdateStatus(), AbsRecord.NULL_INT_VALUE, val.getUpdateStatus());
+        assertEquals("2) is not null update status " + rec.getUpdateStatus(), AbsRecord.BLANK_RECORD, rec.getUpdateStatus());
+        assertEquals("2a) is not null update status " + val.getUpdateStatus(), AbsRecord.BLANK_RECORD, val.getUpdateStatus());
 
         rec.getValue().setRecordName("Test Record ");
 
@@ -138,8 +138,8 @@ public class TestDBrecords extends TestCase {
         RecordRec rec = RecordRec.getNullRecord("", Constants.rtGroupOfRecords, "");
 
         assertFalse("1) Record is inserted ", rec.isNew());
-        assertEquals("2) is not unchanged update status " + rec.getUpdateStatus(), AbsRecord.UNCHANGED, rec.getUpdateStatus());
-        assertEquals("2a) is not unchanged update status " + rec.getValue().getUpdateStatus(), AbsRecord.UNCHANGED, rec.getValue().getUpdateStatus());
+        assertEquals("2) is not unchanged update status " + rec.getUpdateStatus(), AbsRecord.BLANK_RECORD, rec.getUpdateStatus());
+        assertEquals("2a) is not unchanged update status " + rec.getValue().getUpdateStatus(), AbsRecord.BLANK_RECORD, rec.getValue().getUpdateStatus());
 
         rec.getValue().setRecordName("new value");
         assertFalse("3) Record is inserted ", rec.isNew());

@@ -43,14 +43,14 @@ import net.sf.RecordEditor.utils.jdbc.AbsRecord;
  */
 public class RecordRec extends AbsRecord {
 
-  public static int BF_NOT_DEFINED = 0; 
-  public static int BF_NO_BINARY_FIELDS = 1; 
-  public static int BF_BINARY_FIELDS = 2; 
-  
+  public static int BF_NOT_DEFINED = 0;
+  public static int BF_NO_BINARY_FIELDS = 1;
+  public static int BF_BINARY_FIELDS = 2;
+
   private ExternalRecord value;
 
   private int initRecordId;
-  
+
   private int binaryFields = BF_NOT_DEFINED;
 
 
@@ -63,7 +63,8 @@ public class RecordRec extends AbsRecord {
 
       value = new ExternalRecord();
       setExternalValue(value);
-
+      this.setNew(true);
+      this.setUpdateStatus(BLANK_RECORD);
       setKeys();
   }
 
@@ -139,6 +140,7 @@ public class RecordRec extends AbsRecord {
                     );
 
       ret.setNew(true);
+      ret.setUpdateStatus(UPDATED);
 
       return ret;
   }
@@ -284,9 +286,11 @@ public class RecordRec extends AbsRecord {
 	        									final int recordType,
 	        									final String fontName) {
 
-	    return new RecordRec(-1, pRecordName, "", recordType, 0, "Y",
-			"", "<Tab>", "", 0, Common.DEFAULT_STRING, Common.LFCR_BYTES, 
+		RecordRec ret = new RecordRec(-1, pRecordName, "", recordType, 0, "Y",
+			"", "<Tab>", "", 0, Common.DEFAULT_STRING, Common.LFCR_BYTES,
 			fontName, 0, Constants.IO_DEFAULT);
+		ret.setUpdateStatus(RecordRec.BLANK_RECORD);
+		return ret;
 	}
 
 	/**

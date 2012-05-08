@@ -114,6 +114,20 @@ public abstract class AbsDBTableModel<record extends AbsRecord> extends Abstract
 
 
 	/**
+	 * Get a specific record
+	 *
+	 * @param row row to be retrieved
+	 * @return requested row
+	 */
+	public java.util.List<record> getRecords() {
+
+		checkLoad();
+
+
+		return lines;
+	}
+
+	/**
 	 * This method updates the value of a row
 	 *
 	 * @param row row to update
@@ -218,14 +232,14 @@ public abstract class AbsDBTableModel<record extends AbsRecord> extends Abstract
 		int i;
 		int num = deletedLines.size();
 		record rec;
-		
+
 		boolean autoCommitOff = dataBase.setAutoCommit(false);
 		try {
 			for (i = num - 1; i >= 0; i--) {
 				dataBase.delete(deletedLines.get(i));
 				deletedLines.remove(i);
 			}
-	
+
 			num = getRowCount();
 			for (i = 0; i < num; i++) {
 				rec = getRecord(i);
@@ -236,7 +250,7 @@ public abstract class AbsDBTableModel<record extends AbsRecord> extends Abstract
 					rec.setNew(true);
 				}
 			}
-			
+
 			for (i = 0; i < num; i++) {
 				dataBase.checkAndUpdate(getRecord(i));
 			}

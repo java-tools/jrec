@@ -38,7 +38,7 @@ public class ReFrame extends JInternalFrame
 
 //    private static ReMainFrame masterFrame = null;
     private static JDesktopPane desktop = null;
-    
+
     private static ReFrame activeFrame = null;
     private static ReWindowChanged focusChangedListner;
     private static ArrayList<ReFrame> allFrames = new ArrayList<ReFrame>();
@@ -50,7 +50,7 @@ public class ReFrame extends JInternalFrame
     private boolean primaryView = false;
 
     private static ArrayList<ReFrame> activeHistory = new ArrayList<ReFrame>();
-    
+
     private KeyAdapter escListner = null;
 
 
@@ -73,9 +73,9 @@ public class ReFrame extends JInternalFrame
         	} catch (Exception ee) {
 			}
             allFrames.remove(ReFrame.this);
-            
+
             findNewActiveDisplay();
-            
+
             activeHistory.remove(ReFrame.this);
             windowClosing();
         }
@@ -162,7 +162,7 @@ public class ReFrame extends JInternalFrame
      */
     private void init() {
 
- 
+
         allFrames.add(this);
         this.addInternalFrameListener(listener);
 
@@ -187,7 +187,7 @@ public class ReFrame extends JInternalFrame
         focusLost();
         if (focusChangedListner != null) {
             focusChangedListner.deleteWindow(ReFrame.this);
-            
+
             //System.out.println("Frame Closing 1 ... " + activeHistory.size()
             //		+ " " + (activeHistory.get(activeHistory.size() - 1) == ReFrame.this));
             //System.out.println("Frame Closing 2 ... " + activeHistory.get(activeHistory.size() - 1)
@@ -196,34 +196,34 @@ public class ReFrame extends JInternalFrame
             && activeHistory.get(activeHistory.size() - 1) == ReFrame.this) {
             	ReFrame nf = activeHistory.get(activeHistory.size() - 2);
             	setActiveFrame(nf);
-            	
+
             	focusChangedListner.focusChanged(nf);
             }
         }
 	}
-	
+
     /**
      * update fields when status has been lost
      *
      */
     private void focusLost() {
-    	
+
         if (activeFrame == this) {
         	setActiveFrame(null);
         }
     }
-    
+
 	/**
 	 * Execute standard RecordEditor action with an option
 	 * @param action action to perform
 	 * @param o option supplied
 	 */
 	public void executeAction(int action, Object o) {
-		
+
 		executeAction(action);
 	}
-	
-	
+
+
 
     /**
      * Execute a form action
@@ -320,13 +320,13 @@ public class ReFrame extends JInternalFrame
     public void setVisible(boolean visible) {
 
         updateWindowStatus(visible);
-        
+
         //ReWindowChanged holdFocusChangedListner = focusChangedListner;
         //focusChangedListner = null;
         //System.out.println(" !!! @Max 1 " + this.getClass().getName() + " " + this.isMaximum());
-        
+
         super.setVisible(visible);
-        
+
         //System.out.println(" !!! @Max 2 "  + this.getClass().getName() + " " + this.isMaximum());
         //focusChangedListner = holdFocusChangedListner;
     }
@@ -338,11 +338,11 @@ public class ReFrame extends JInternalFrame
         updateWindowStatus(true);
         //ReWindowChanged holdFocusChangedListner = focusChangedListner;
         //focusChangedListner = null;
-        
+
         //System.out.println(" !!! @Max 3 " + this.getClass().getName() + " " + this.isMaximum());
         super.show();
         //System.out.println(" !!! @Max 4 " + this.getClass().getName() + " " + this.isMaximum());
-        
+
         //focusChangedListner = holdFocusChangedListner;
     }
 
@@ -370,7 +370,7 @@ public class ReFrame extends JInternalFrame
         return document;
     }
 
-    
+
     /**
      * Add main component panel
      * @param panel panel to add
@@ -397,14 +397,14 @@ public class ReFrame extends JInternalFrame
 		pack();
 		setResizable(true);
     }
-    
-    
+
+
     /**
      * Change active frame
      * @param newActiveFrame
      */
     public static void setActiveFrame(ReFrame newActiveFrame) {
-    	
+
     	if (newActiveFrame != activeFrame) {
 	       	if (activeFrame != null) {
 	    		try {
@@ -415,33 +415,33 @@ public class ReFrame extends JInternalFrame
 	    		} catch (Exception ex) {
 				}
 	    	}
-	       	
+
 	       	if (newActiveFrame != null) {
 	       		boolean max = newActiveFrame.isMaximum();
 	       		//System.out.println(" !! Getting Focus " + newActiveFrame.getClass().getName() + " " + max);
 	       		newActiveFrame.removeInternalFrameListener(newActiveFrame.listener);
-	       		
+
 	       		newActiveFrame.moveToFront();
 	       		newActiveFrame.requestFocus(true);
 		        try {
 		        	newActiveFrame.setSelected(true);
-		        } catch (Exception ex) { 
-		        }   	
+		        } catch (Exception ex) {
+		        }
 	            activeHistory.remove(newActiveFrame);
 	            activeHistory.add(newActiveFrame);
-	            
-	            
+
+
 	            try {
 					newActiveFrame.setMaximum(max);
 				} catch (PropertyVetoException e) {
 				}
-	            
-	            newActiveFrame.addInternalFrameListener(newActiveFrame.listener);      
+
+	            newActiveFrame.addInternalFrameListener(newActiveFrame.listener);
 	       	}
 	        activeFrame = newActiveFrame;
             if (focusChangedListner != null) {
                 focusChangedListner.focusChanged(activeFrame);
-            } 
+            }
     	}
     }
 
@@ -464,7 +464,7 @@ public class ReFrame extends JInternalFrame
 		}
 		return desktopHeight;
 	}
-	
+
 
 	/**
 	 * @return the desktopHeight
@@ -476,12 +476,13 @@ public class ReFrame extends JInternalFrame
 		}
 		return desktopWidth;
 	}
-	
+
 	public final void setToMaximum(boolean max) {
-		
+
         try {
         	this.setMaximum(max);
         } catch (Exception e) {
+        	e.printStackTrace();
 		}
 	}
 
@@ -502,9 +503,9 @@ public class ReFrame extends JInternalFrame
 		if (focusChangedListner == null) return null;
 		return focusChangedListner.getSize();
 	}
-	
+
 	public void addCloseOnEsc(BaseHelpPanel panel) {
-		
+
 		if (escListner == null) {
 			escListner = new KeyAdapter() {
 				   /**
@@ -515,10 +516,10 @@ public class ReFrame extends JInternalFrame
 			            ReFrame.this.doDefaultCloseAction();
 			        }
 			    }
-	
+
 			};
 		}
-		
+
 		panel.addReKeyListener(escListner);
 	}
 }

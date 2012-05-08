@@ -70,7 +70,7 @@ import net.sf.JRecord.Log.TextLog;
  * @version 0.521
  */
 public final class Common implements Constants {
- 
+
 
     /*
      // get metrics from the graphics
@@ -89,14 +89,14 @@ public final class Common implements Constants {
 	public static final ProgramOptions OPTIONS = new ProgramOptions();
 	public static final Object MISSING_VALUE = new StringBuilder("");
 	public static final Object MISSING_REQUIRED_VALUE = new StringBuilder("");
-	
+
 	public static final Color EMPTY_COLOR = new Color(230, 230, 255);
 	public static final Color MISSING_COLOR = new Color(255, 230, 230);
 
 	public static final String COLUMN_LINE_SEP =  "|";
-	
+
 	public static final String[] COMPARISON_OPERATORS = {"=", "!=", "<>", ">", ">=",  "<", "<=",};
-	
+
 	public static final String CSV_PROGRAM_ID = "csv";
 //	public static final boolean LOG_TO_FRONT = ! ("N".equalsIgnoreCase(
 //			Parameters.getString(Parameters.BRING_LOG_TO_FRONT)));
@@ -104,11 +104,11 @@ public final class Common implements Constants {
 			Parameters.getString(Parameters.PROPERTY_TEST_MODE));
 	public static final boolean NAME_COMPONENTS = "Y".equalsIgnoreCase(
 			Parameters.getString(Parameters.NAME_FIELDS));
-	public static final boolean RECORD_EDITOR_LAF 
+	public static final boolean RECORD_EDITOR_LAF
 		  = Parameters.VAL_RECORD_EDITOR_DEFAULT.equalsIgnoreCase(
 			Parameters.getString(Parameters.PROPERTY_LOOKS_CLASS_NAME));
 	public static final boolean NIMBUS_LAF ;
-	
+
 	static {
 		boolean w = false;
 		try {
@@ -116,8 +116,8 @@ public final class Common implements Constants {
 			w = (RECORD_EDITOR_LAF && (s.indexOf("nix") >= 0 || s.indexOf("nux") >= 0));
 		} catch (Exception e) {
 		}
-		
-//		System.out.println(" >>>" + System.getProperty("os.name") + "<<< " 
+
+//		System.out.println(" >>>" + System.getProperty("os.name") + "<<< "
 //				+ w + " " + RECORD_EDITOR_LAF);
 		NIMBUS_LAF = w || "Nimbus".equalsIgnoreCase(
 				Parameters.getString(Parameters.PROPERTY_LOOKS_CLASS_NAME));
@@ -130,10 +130,10 @@ public final class Common implements Constants {
 //			Parameters.getString(Parameters.ASTERIX_IN_FILE_NAME));
 
 	private static String jdbcJarNames[] = null;
-	
+
 	private static boolean searchActiveDB = true;
 	//private static boolean highlightEmpty = "Y".equals(Parameters.getString(Parameters.PROPERTY_HIGHLIGHT_EMPTY));
-	
+
 	//private static boolean highlightEmptyActive = false;
 
 	/**
@@ -164,7 +164,7 @@ public final class Common implements Constants {
 		+ "<li>yyyy - is 4 charcter year (lowercase y for month)</li>"
 		+ "</ul><br>use dd/MM/yy for 25/12/98, dd.MM.yyyy for 25.Dec.1998";
 
-	
+
 	public static final String[] FIELD_SEPERATOR_OPTIONS  = {"<Tab>", "<Space>", ",", ";", ":", "|", "/", "\\", "~", "!", "*", "#", "@"};
 
 
@@ -196,7 +196,7 @@ public final class Common implements Constants {
 	public static final String HELP_WIZARD_RECORD_FIELD_NAMES= "HlpLe04.htm#HDRWIZ3M";
 	public static final String HELP_WIZARD_FILE_STRUCTURE    = "HlpLe04.htm#HDRWIZFILESTRUCTURE";
 	public static final String HELP_WIZARD_SAVE    = "HlpLe04.htm#HDRWIZSAVE1";
-	
+
 	public static final String HELP_COMBO_SEARCH   = "HlpLe05.htm#HDRCOMBOSEL";
 	public static final String HELP_COMBO_EDIT     = "HlpLe05.htm#HDRCOMBOPNL";
 	//public static final String HELP_COMBO_CREATE   = "HlpLe05.htm#HDRCOMBOPNL";
@@ -216,7 +216,7 @@ public final class Common implements Constants {
 	private static       int spaceAtTopOfScreen    = 1;
 	//public static final int SPACE_AT_TOP_OF_SCREEN    = 25;
 
-	
+
 	public static final long MAX_MEMORY = Runtime.getRuntime().maxMemory();
 	public static final BigDecimal MAX_MEMORY_BD = BigDecimal.valueOf(MAX_MEMORY);
  		/* Icon Indexs */
@@ -266,12 +266,12 @@ public final class Common implements Constants {
     public static final int ID_WIZARD_ICON        = 43;
     public static final int ID_LAYOUT_CREATE_ICON = 44;
     public static final int ID_LAYOUT_EDIT_ICON   = 45;
-    public static final int ID_COMBO_EDIT_ICON    = 46; 
+    public static final int ID_COMBO_EDIT_ICON    = 46;
     public static final int ID_FILE_SEARCH_ICON   = 47;
-    public static final int ID_DIRECTORY_SEARCH_ICON = 48;   
+    public static final int ID_DIRECTORY_SEARCH_ICON = 48;
     public static final int ID_EXPORT_SCRIPT_ICON  = 49;
     public static final int ID_SCRIPT_ICON  = 49;
-  
+
     public static final int ID_MAX_ICON       = 51;
 
     public static final int TI_FIELD_TYPE     = 1;
@@ -282,11 +282,11 @@ public final class Common implements Constants {
 
 	//public static final String COPYBOOK_READER =  Parameters.getString(Parameters.DEFAULT_COPYBOOK_READER);
 	private static int copybookWriterIndex = -121;
-	
+
 	private static boolean doFree = true;
-	
-	
-	
+
+
+
 	public static final int LOOKS_INDEX
 		= getIntProperty(0, Parameters.PROPERTY_LOOKS_CLASS_INDEX);
 
@@ -305,8 +305,8 @@ public final class Common implements Constants {
     //public static final int FULL_LINE       = -101;
     public static final int ALL_FIELDS      = -102;
     //private static final int LOGGER_ERROR   = 10;
-    
-    
+
+
 
     private static final boolean USE_PNG;
     private static final String[] ICON_NAMES = {"LeftM", "Left", "Up", "Down",
@@ -352,7 +352,7 @@ public final class Common implements Constants {
 //			= Parameters.getFileName(Parameters.COPYBOOK_DIRECTORY);
 //	public static final String DEFAULT_VELOCITY_DIRECTORY
 //			= Parameters.getFileName(Parameters.VELOCITY_TEMPLATE_DIRECTORY);
-	
+
 	public static final String USER_INIT_CLASS
 			= Parameters.getString("UserInitilizeClass");
 
@@ -361,7 +361,7 @@ public final class Common implements Constants {
 	public static final String STANDARD_CHARS0 = "+-.,abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	public static final String STANDARD_CHARS1 = STANDARD_CHARS.substring(STANDARD_CHARS.indexOf('a'));
 	public static final String FILE_SEPERATOR  =  System.getProperty("file.separator");
-	
+
    	public final static String[] FIELD_SEPARATOR_LIST = {
 		"<Default>", "<Tab>", "<Space>", ",", ";", ":", "|", "/", "\\", "~", "!", "*", "#", "@", "x'00'", "x'01'", "x'02'", "x'FD'", "x'FE'", "x'FF"
 	};
@@ -372,13 +372,13 @@ public final class Common implements Constants {
    	public final static String[] FIELD_SEPARATOR_LIST1_VALUES;
    	static {
    		String[] l = FIELD_SEPARATOR_LIST1.clone();
-   		
+
    		l[0] = "\t";
    		l[1] = " ";
    		FIELD_SEPARATOR_LIST1_VALUES = l;
-   		
+
    		System.arraycopy(
-   				FIELD_SEPARATOR_LIST1, 0, 
+   				FIELD_SEPARATOR_LIST1, 0,
    				FIELD_SEPARATOR_TEXT_LIST, 0, FIELD_SEPARATOR_TEXT_LIST.length);
    	}
   	public final static String QUOTE_LIST[] = {
@@ -388,7 +388,7 @@ public final class Common implements Constants {
  	public final static String QUOTE_VALUES[] = {
 		"", "\"", "\"", "'", "`"
 	};
-	
+
 	private static int connectionIndex = 0;
 	//private static int defaultConnection = -1;
 	//private static int currIdx = 0;
@@ -399,17 +399,17 @@ public final class Common implements Constants {
 
 	private static final int TABLE_WINDOW_SIZE_TO_CHECK = 200;
 	private static final int MINIMUM_MAX_COLUMN_WIDTH   = 100;
-	
+
 
 
 	private static String[] reActionNames = new String[ReActionHandler.MAX_ACTION];
 	private static String[] reActionDesc  = new String[ReActionHandler.MAX_ACTION];
 	private static  boolean velocityAvailable;
 	private static  boolean toCheckVelocity = true;
-	
+
 	private static  boolean toWarn = true;
-	
-	
+
+
 	private static boolean dbDefined;
 
     static {
@@ -426,8 +426,8 @@ public final class Common implements Constants {
             }
         }
         DATE_FORMAT_STR = s;
-      
-        
+
+
     	spaceAtBottomOfScreen = getIntProperty(spaceAtBottomOfScreen,
         		"spaceAtBottomOfScreen");
     	spaceAtTopOfScreen = getIntProperty(spaceAtTopOfScreen,
@@ -483,7 +483,7 @@ public final class Common implements Constants {
         reActionNames[ReActionHandler.SORT]          = "Sort";
         reActionNames[ReActionHandler.REPEAT_RECORD] = "Repeat Record";
         reActionNames[ReActionHandler.REBUILD_TREE]  = "Rebuild Tree";
-        
+
         reActionNames[ReActionHandler.BUILD_SORTED_TREE]   = "Sorted Field Tree";
         reActionNames[ReActionHandler.BUILD_FIELD_TREE]    = "Field Based Tree";
         reActionNames[ReActionHandler.BUILD_RECORD_TREE]   = "Record Based Tree";
@@ -499,7 +499,7 @@ public final class Common implements Constants {
         reActionNames[ReActionHandler.SHOW_INVALID_ACTIONS] = "Show invalid Records";
         reActionNames[ReActionHandler.AUTOFIT_COLUMNS] = "Recalculate Column widths";
 
-        
+
         reActionDesc[ReActionHandler.EXPORT]        = "Export in another format";
         reActionDesc[ReActionHandler.EXPORT_SCRIPT] = "Export using an external Script (Jython, JRuby, JavaScript etc)";
         reActionDesc[ReActionHandler.RUN_SCRIPT]    = "Run an external Script (Jython, JRuby, JavaScript etc)";
@@ -518,9 +518,9 @@ public final class Common implements Constants {
         reActionDesc[ReActionHandler.DELETE_RECORD] = "Delete Selected records";
         reActionDesc[ReActionHandler.REPEAT_RECORD] = "Repeat the record under the cursor";
         reActionDesc[ReActionHandler.REBUILD_TREE]  = "Rebuild the Tree Display";
-        
+
         reActionNames[ReActionHandler.ADD_ATTRIBUTES]    = "Add Attributes";
-        
+
         reActionDesc[ReActionHandler.BUILD_SORTED_TREE]  = "Create Tree View by sorting on selected fields";
         reActionDesc[ReActionHandler.BUILD_FIELD_TREE]   = "Create Tree View based on changes in selected fields";
         reActionDesc[ReActionHandler.BUILD_RECORD_TREE]  = "Create Tree View based on Record Hierarchy";
@@ -528,9 +528,9 @@ public final class Common implements Constants {
         		+ "Definition from the currently selected records";
         reActionDesc[ReActionHandler.BUILD_XML_TREE_SELECTED]  = "Create XML Tree View from the currently selected records";
         reActionDesc[ReActionHandler.FULL_TREE_REBUILD]  = "Completely rebuild the Tree from scratch";
-        
+
         reActionDesc[ReActionHandler.ADD_ATTRIBUTES]     = "Add Attributes to the layout Definition";
-        
+
         reActionDesc[ReActionHandler.EXECUTE_SAVED_FILTER]     = "Load and Execute a saved filter";
         reActionDesc[ReActionHandler.EXECUTE_SAVED_SORT_TREE]  = "Load and Execute a saved Sort Tree";
         reActionDesc[ReActionHandler.EXECUTE_SAVED_RECORD_TREE]= "Load and Execute a saved Record Tree";
@@ -602,10 +602,10 @@ public final class Common implements Constants {
 			        dropSemi[j]   = "Y".equalsIgnoreCase(dropSemiStr)
 			                      || (   (dropSemiStr == null ||"".equals(dropSemiStr))
 			                    	  && (driver[j] != null && driver[j].toLowerCase().contains("derby") ));
-			        
+
 
 			        boolean expandVars = "y".equalsIgnoreCase(Parameters.getString(Parameters.DB_EXPAND_VARS + s));
-			        
+
 			        //System.out.println(" --- " + dataSource[j] + " " + driver[j]);
 			        if (expandVars) {
 			        	dataSource[j] = fixVars(dataSource[j]);
@@ -626,7 +626,7 @@ public final class Common implements Constants {
 			}
 		}
 	}
-	
+
 	public static String fixVars(String var) {
 		if (var != null) {
 			var = var.replace("<install>", Parameters.getBaseDirectory());
@@ -636,15 +636,20 @@ public final class Common implements Constants {
 	    		String hsqlDir=Parameters.getBaseDirectory();
 	    		if (isWindows()) {
 	    			hsqlDir = Parameters.getPropertiesDirectory();
-	    		} 
+	    		}
 	    		hsqlDir += FILE_SEPERATOR + "Database";
 	    		var = var.replace("<hsqlDB>", hsqlDir);
+
+//	    		logMsg("" + var, null);
+//	    		logMsg("Hsql Dir: " + hsqlDir, null);
+//	    		logMsg("   param: " + var, null);
+//	    		logMsg("" + var, null);
 	    	}
 		}
-    	
+
     	return var;
 	}
-	
+
 	private static boolean isWindows() {
 		return "\\".equals(FILE_SEPERATOR);
 	}
@@ -680,8 +685,8 @@ public final class Common implements Constants {
 	 * @throws SQLException SQL Errors received
 	 * @throws ClassNotFoundException JDBC Class not found
 	 * @throws MalformedURLException
-	 * @throws IllegalAccessException 
-	 * @throws InstantiationException 
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
 	 */
 	private static final void makeConnection(int connectionIdx)
 						throws SQLException, ClassNotFoundException, MalformedURLException, InstantiationException, IllegalAccessException {
@@ -694,30 +699,30 @@ public final class Common implements Constants {
 		}
 		//yet2Init = false;
 	}
-	
+
 	/**
-	 * Make a connection to DB 
+	 * Make a connection to DB
 	 * @param connectionArray connection array to update
 	 * @param connectionIdx connection index to be updated
 	 * @param source Data source array
 	 * @param trys number of try's to make a connection
 	 * @param readOnlyOpt wether it is a readonly connection
-	 * 
-	 * @throws SQLException any SQL error that occurs 
-	 * @throws ClassNotFoundException class not found error 
+	 *
+	 * @throws SQLException any SQL error that occurs
+	 * @throws ClassNotFoundException class not found error
 	 * @throws MalformedURLException invalid URL
 	 * @throws InstantiationException error that occurred during initialize
-	 * @throws IllegalAccessException 
+	 * @throws IllegalAccessException
 	 */
-	private static final void makeConnection(Connection[] connectionArray, int connectionIdx, String[] source, int trys, boolean readOnlyOpt) 
+	private static final void makeConnection(Connection[] connectionArray, int connectionIdx, String[] source, int trys, boolean readOnlyOpt)
 	throws SQLException, ClassNotFoundException, MalformedURLException, InstantiationException, IllegalAccessException {
 
 		if (connectionArray[connectionIdx] != null && ! connectionArray[connectionIdx].isClosed()) {
 			return;
 		}
-		
+
 		//System.out.println("Source > " + source[connectionIdx] + " JDBC Names >> " + jdbcJarNames);
-		for (int j = 0; j <= trys; j++) { 
+		for (int j = 0; j <= trys; j++) {
 			try {
 				if (jdbcJarNames == null) {
 					Class.forName(driver[connectionIdx]);
@@ -813,14 +818,14 @@ public final class Common implements Constants {
 		} catch (Exception e) {
 		}
 	}
-	
+
 	/**
 	 * wether connection is defined
-	 * 
-	 * @return 
+	 *
+	 * @return
 	 */
 	public static boolean isDbConnectionDefined() {
-		
+
 		initVars();
 		return dbDefined;
 	}
@@ -841,7 +846,7 @@ public final class Common implements Constants {
 			        closeAConnection(i);
 		    	}
 		    }
-		    
+
 		    if (hsql) {
 		    	closeHSQL();
 		    }
@@ -901,7 +906,7 @@ public final class Common implements Constants {
 	}
 
 	public static final Connection getUpdateConnection(final int dbIdx) {
-		
+
 		initVars();
 		if (dbUpdate[dbIdx] == null) {
 			try {
@@ -909,7 +914,7 @@ public final class Common implements Constants {
 					makeConnection(dbIdx);
 				} else {
 					if (dbConnection[dbIdx] != null) {
-						
+
 						dbConnection[dbIdx] .close();
 						dbConnection[dbIdx]  = null;
 						dbUpdate[dbIdx] = null;
@@ -928,25 +933,25 @@ public final class Common implements Constants {
 						+ "\nConnection ID " + dataSource[dbIdx], ex);
 			}
 		}
-		
+
 		return dbUpdate[dbIdx];
 	}
 
 	@SuppressWarnings("unchecked")
 	public static void closeHSQL() {
-		
+
 		System.out.println("Closing HSQL");
 		try {
 			//  Using reflection to perform:
 			//
 			//      org.hsqldb.DatabaseManager.closeDatabases(0);
 			//
-			
+
 			@SuppressWarnings("rawtypes")
 			Class    runClass  = Class.forName("org.hsqldb.DatabaseManager");
 	        Method   closeDB   = runClass.getMethod("closeDatabases", new Class[] {int.class});
 			Object[] arguments = new Object[]{0};
-	        
+
 	        closeDB.invoke(null, arguments);
 
 		} catch (NoClassDefFoundError e) {
@@ -1059,11 +1064,11 @@ public final class Common implements Constants {
 			}
 		}
 	}
-	
+
 	public static boolean isDropSemi(int idx) {
 		return dropSemi[idx];
 	}
-	
+
 	/**
 	 * This method shuts down HSQLDB Databases
 	 */
@@ -1181,7 +1186,7 @@ public final class Common implements Constants {
             reActionRef[ReActionHandler.BUILD_XML_TREE_SELECTED]    = ID_TREE_ICON;
             reActionRef[ReActionHandler.BUILD_LAYOUT_TREE_SELECTED] = ID_TREE_ICON;
             reActionRef[ReActionHandler.FULL_TREE_REBUILD]    = ID_TREE_ICON;
-            
+
             reActionRef[ReActionHandler.SAVE]    = ID_SAVE_ICON;
             reActionRef[ReActionHandler.SAVE_AS] = ID_SAVE_AS_ICON;
             reActionRef[ReActionHandler.EXPORT]  = ID_EXPORT_ICON;
@@ -1312,7 +1317,7 @@ public final class Common implements Constants {
         return icon;
     }
 
-    
+
 
     /**
      * Get the Direction Arrow Icons
@@ -1467,14 +1472,14 @@ public final class Common implements Constants {
 
     public static void setBounds1(JFrame frame, String id) {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-     
+
         switch (OPTIONS.screenStartSizeOpt.get()) {
           case ProgramOptions.SIZE_LAST:
         	setSizeFromVars(
-        			  frame, screenSize, 
-        			  id + Parameters.LAST_SCREEN_WIDTH, 
+        			  frame, screenSize,
+        			  id + Parameters.LAST_SCREEN_WIDTH,
         			  id + Parameters.LAST_SCREEN_HEIGHT);
-        	
+
         	break;
         case ProgramOptions.SIZE_SPACE_AROUND:
        		setStandardHeight(frame, screenSize);
@@ -1482,23 +1487,23 @@ public final class Common implements Constants {
         //case ProgramOptions.SIZE_MAXIMISED:
         case ProgramOptions.SIZE_SPECIFIED:
         	setSizeFromVars(
-      			  frame, screenSize, 
-      			  id + Parameters.SCREEN_START_WIDTH, 
+      			  frame, screenSize,
+      			  id + Parameters.SCREEN_START_WIDTH,
       			  id + Parameters.SCREEN_START_HEIGHT);
-      	
+
        		break;
       	default:
         	setMaximised(frame, screenSize);
 	    }
     }
-    
+
     private static void setSizeFromVars(JFrame frame, Dimension screenSize, String widthPrm, String heightPrm) {
 	    try {
 			int width = Math.min(
-					screenSize.width, 
+					screenSize.width,
 					Integer.parseInt(Parameters.getString(widthPrm))),
 				height= Math.min(
-						screenSize.height, 
+						screenSize.height,
 						Integer.parseInt(Parameters.getString(heightPrm)));
 			if (width > 0 && height > 0) {
 				frame.setSize(width, height);
@@ -1509,7 +1514,7 @@ public final class Common implements Constants {
 			setMaximised(frame, screenSize);
 		}
     }
-    
+
     private static void setMaximised(JFrame frame, Dimension screenSize) {
        	setStandardHeight(frame, screenSize);
     		GraphicsEnvironment e = GraphicsEnvironment
@@ -1518,7 +1523,7 @@ public final class Common implements Constants {
 
     		frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
     }
-    
+
     private static void setStandardHeight(JFrame frame, Dimension screenSize) {
         frame.setBounds(Common.getSpaceAtRightOfScreen(),
 		          Common.getSpaceAtTopOfScreen(),
@@ -1527,7 +1532,7 @@ public final class Common implements Constants {
 		          screenSize.height - Common.getSpaceAtBottomOfScreen()
 		          		- Common.getSpaceAtTopOfScreen());
     }
-    
+
 //    public static void setBounds2(JFrame frame) {
 //		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 //        frame.pack();
@@ -1539,10 +1544,10 @@ public final class Common implements Constants {
 //    		frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 //        } else {
 //	        frame.setBounds(
-//	        		frame.getY(), frame.getX(), 
-//	        		Math.min(frame.getWidth(), 
-//	        				 screenSize.width  - Common.getSpaceAtRightOfScreen() 
-//	        				 				   - frame.getY()), 
+//	        		frame.getY(), frame.getX(),
+//	        		Math.min(frame.getWidth(),
+//	        				 screenSize.width  - Common.getSpaceAtRightOfScreen()
+//	        				 				   - frame.getY()),
 //	        		Math.min(frame.getHeight(),
 //	        				 screenSize.height - Common.getSpaceAtBottomOfScreen()
 //	        				   - SwingUtils.NORMAL_FIELD_HEIGHT * 2
@@ -1550,7 +1555,7 @@ public final class Common implements Constants {
 //	        }
 //        frame.setVisible(true);
 //    }
-   
+
     /**
      * @return Returns the spaceAtBottomOfScreen.
      */
@@ -1626,7 +1631,7 @@ public final class Common implements Constants {
     public static void calcColumnWidths(JTable table, int minColumns) {
     	int screenWidth = table.getVisibleRect().width;
     	int maxColWidth = Math.max(screenWidth * 2 / 3, MINIMUM_MAX_COLUMN_WIDTH);
-    	
+
     	calcColumnWidths(table, minColumns, maxColWidth);
     }
     public static void calcColumnWidths(JTable table, int minColumns, int maxColWidth) {
@@ -1686,13 +1691,13 @@ public final class Common implements Constants {
 
                 try {
 	               Component c = r.getTableCellRendererComponent(
-	                		table, 
+	                		table,
 	                		data.getValueAt(row, columnIndex), false, false, row, i);
                 	width = Math.max(width, c.getPreferredSize().width);
                 } catch (Exception e) {
                 	System.out.println("Error Row,col= " + row + ", " + columnIndex);
 				}
-                
+
             }
 
             if (width >= 0) {
@@ -1702,7 +1707,7 @@ public final class Common implements Constants {
                 } else {
                     column.setPreferredWidth(Math.min(width + margin, maxColWidth)); // <1.3: without margin
                 }
-                
+
                 //column.setPreferredWidth(width + margin);
 //                if (width > maxColWidth) {
 //                    System.out.println("~~ " + width + " " + maxColWidth);
@@ -1830,7 +1835,7 @@ public final class Common implements Constants {
         if (fileName == null) {
             return null;
         }
-        
+
         return (new File(fileName)).getName();
 //        int pos = fileName.lastIndexOf(FILE_SEPERATOR);
 //
@@ -1872,13 +1877,13 @@ public final class Common implements Constants {
 						}
 					}
 				}
-				if (hsqlServer && toWarn 
+				if (hsqlServer && toWarn
 				&& dataSource[connectionIndex] != null
 				&& dataSource[connectionIndex].toLowerCase().startsWith("jdbc:hsqldb:file:")) {
 					String message = "\t********************   Warning ***************************\n"
 						+ "Tried to Connect to the HSQL Data Base Server and failed. Will run in Database embedded mode.\n"
 						+ "This package works best in Data Base Server Mode (option on menu, exit this program before you start the Server).\n\n"
-						+ "If you wish to use the package in imbeded Mode, You may wish to reveiw the Database\n" 
+						+ "If you wish to use the package in imbeded Mode, You may wish to reveiw the Database\n"
 						+	"Options (Menu option Edit >>> Edit Startup options) \n"
 						+ " 1) Properties >>>> Defaults     then click on the Default DB tab. You can now select"
 						+     " the Normal DB Connection\n"
@@ -1887,7 +1892,7 @@ public final class Common implements Constants {
 						+ " but you may have update problems\n\n"
 						+ "See \"Improving the running of RecordEditor HSQL\" section in HowTo documnetation "
 						+ "for more details";
-						   
+
 					logMsg(message, null);
 				}
 			}
@@ -1895,9 +1900,9 @@ public final class Common implements Constants {
 
 		return connectionIndex;
 	}
-	
-	
-	
+
+
+
 //	/**
 //	 * Get standard sized font
 //	 * @return standard sized font
@@ -1926,8 +1931,8 @@ public final class Common implements Constants {
 		}
 		return copybookWriterIndex;
 	}
-	
-	
+
+
 	public static final String trimRight(Object o) {
 		if (o == null || "".equals(o) || "".equals(o.toString().trim())) {
 			return "";
@@ -1935,14 +1940,14 @@ public final class Common implements Constants {
 
 		String s = o.toString();
 		int l = s.length() - 1;
-		
+
 		while (s.charAt(l) == ' ') {
 			l -= 1;
 		}
-		
+
 		return s.substring(0, l+1);
 	}
-	
+
 	public static final String fix(String s) {
 		if (s == null) {
 			return "";
@@ -1956,12 +1961,12 @@ public final class Common implements Constants {
 //	public static void loadJdbcJars() {
 //        try {
 //            int j;
-//            FileReader inReader = new FileReader(Parameters.getLibDirectory()    
+//            FileReader inReader = new FileReader(Parameters.getLibDirectory()
 //            					+ FILE_SEPERATOR + ExternalReferenceConstants.SYSTEM_JDBC_JARS_FILENAME);
 //            BufferedReader in = new BufferedReader(inReader);
 //            ArrayList<String> list = new ArrayList<String>();
 //            String s;
-//            
+//
 //             while ((s = in.readLine()) != null) {
 //                if (s.trim().toLowerCase().startsWith("jdbc.")) {
 //                	if ((j = s.indexOf('\t')) >= 0) {
@@ -1970,7 +1975,7 @@ public final class Common implements Constants {
 //                    list.add(s.trim());
 //                }
 //            }
-//            
+//
 //            if (list.size() > 0) {
 //            	jdbcJarNames = new String[list.size()];
 //            	jdbcJarNames = list.toArray(jdbcJarNames);
@@ -2001,38 +2006,38 @@ public final class Common implements Constants {
 		Common.doFree = free;
 		freeConnection(idx);
 	}
-	
+
 	public static final boolean usePrefered() {
 		return OPTIONS.usePrefered.isSelected();
 	}
-//	
+//
 //	public static final boolean isWarnBinaryFieldsAndStructureDefault() {
 //		return ! "N".equalsIgnoreCase(Parameters.getString(Parameters.WARN_BINARY_FIELDS_DEFAULT));
 //	}
 //
-//	
+//
 //	public static final boolean isFieldSearchAutomatic() {
 //		return ! "N".equalsIgnoreCase(Parameters.getString(Parameters.FS_RUN_AUTOMATIC));
 //	}
-//	
+//
 //	public static final boolean isSearchForMainframeZoned() {
 //		return  "Y".equalsIgnoreCase(Parameters.getString(Parameters.FS_MAINFRAME_ZONED));
 //	}
-//	
+//
 //	public static final boolean isSearchForPcZoned() {
 //		return  "Y".equalsIgnoreCase(Parameters.getString(Parameters.FS_PC_ZONED));
 //	}
-//	
+//
 //	public static final boolean isSearchForComp3() {
 //		return  "Y".equalsIgnoreCase(Parameters.getString(Parameters.FS_COMP3));
 //	}
-//	
+//
 //	public static final boolean isSearchForCompBigEndian() {
 //		return  "Y".equalsIgnoreCase(Parameters.getString(Parameters.FS_COMP_BIG_ENDIAN));
 //	}
-//	
+//
 //	public static final boolean isSearchForCompLittleEndian() {
-//		return  ! OPTIONS.searchForCompBigEndian.isSelected() 
+//		return  ! OPTIONS.searchForCompBigEndian.isSelected()
 //				&& "Y".equalsIgnoreCase(Parameters.getString(Parameters.FS_COMP_Little_ENDIAN));
 //	}
 //
@@ -2067,33 +2072,33 @@ public final class Common implements Constants {
 //	public static final void setHighlightEmpty(boolean highlightEmpty) {
 //		Common.highlightEmpty = highlightEmpty;
 //		String value = "N";
-//		
+//
 //		if (highlightEmpty) {
 //			value = "Y";
 //		}
-//		
+//
 //		Parameters.setProperty(Parameters.PROPERTY_HIGHLIGHT_EMPTY, value);
 //	}
-	 
+
 	/**
 	 * Check to see if the field value is Empty
 	 * @param value value to check
 	 * @return wether it is empty or not ??
 	 */
 	public static boolean isEmpty(Object value) {
-		return 	value == null 
-			||	value == Common.MISSING_VALUE 
+		return 	value == null
+			||	value == Common.MISSING_VALUE
 			|| 	value == Common.MISSING_REQUIRED_VALUE;
 	}
-	
+
 	public static long getMemoryCompare() {
 		BigDecimal pct = BigDecimal.valueOf(OPTIONS.bigFilePercent.get());
 		BigDecimal calc = MAX_MEMORY_BD.multiply(pct);
 		calc = calc.divide(BigDecimal.valueOf(100));
-		
+
 		return calc.longValue();
 	}
-	
+
     public static int toInt(byte b) {
    	int i = b;
     	if (i < 0) {
@@ -2102,17 +2107,17 @@ public final class Common implements Constants {
     	return i;
     }
 
-	
-	
+
+
 //	public static int getChunkSize() {
 //		return getSize(Parameters.PROPERTY_BIG_FILE_CHUNK_SIZE, 1048576);
 //	}
-//	
-//	
+//
+//
 //	public static int getBigFileFilterLimit() {
 //		return getSize(Parameters.PROPERTY_BIG_FILE_FILTER_LIMIT, 75000);
 //	}
-//	
+//
 //	private static int getSize(String name, int defaultValue) {
 //		int size = defaultValue;
 //

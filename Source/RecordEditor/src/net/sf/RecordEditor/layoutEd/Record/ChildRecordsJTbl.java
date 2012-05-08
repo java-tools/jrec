@@ -45,13 +45,13 @@ import net.sf.RecordEditor.utils.swing.Combo.KeyedComboMdl;
 @SuppressWarnings("serial")
 public class ChildRecordsJTbl extends AbsJTable {
 
-    private RecordDB childRecordRecords   = new RecordDB();
+    private final RecordDB childRecordRecords   = new RecordDB();
 
-    private KeyedComboMdl<Integer> childRecordModel; 
- 
+    private final KeyedComboMdl<Integer> childRecordModel;
+
 	private ButtonTableRendor tableBtn = new ButtonTableRendor();
 
-	private ChildRecordsTblMdl model;
+	private final ChildRecordsTblMdl model;
 
 
 //    /**
@@ -75,9 +75,9 @@ public class ChildRecordsJTbl extends AbsJTable {
   public ChildRecordsJTbl(final ChildRecordsTblMdl mdl, final int dbIdx) {
       super(mdl);
       model = mdl;
-      
+
       //super.setName("ChildRecordsJTbl");
-      
+
       childRecordModel = new KeyedComboMdl<Integer>(model.recordKeys.nullItem);
 
       childRecordRecords.setConnection(new ReConnection(dbIdx));
@@ -115,9 +115,9 @@ public class ChildRecordsJTbl extends AbsJTable {
 		tcm.getColumn(ChildRecordsTblMdl.PARENT_COLUMN).setCellEditor(
 				new DefaultCellEditor(
 						new JComboBox(model.getParentModel())));
-		
+
 		tcm.moveColumn(1, 5);
-		
+
 }
 
 
@@ -129,9 +129,9 @@ public class ChildRecordsJTbl extends AbsJTable {
 	public void setSystem(int system) {
 
 		boolean doFree = childRecordRecords.isSetDoFree(false);
-		
+
 		KeyedComboMdl<Integer> childRecordModel1 = model.recordKeys;
-		
+
 		childRecordModel.removeAllElements();
 		childRecordModel1.removeAllElements();
 	    childRecordRecords.resetSearch();
@@ -147,8 +147,8 @@ public class ChildRecordsJTbl extends AbsJTable {
 	            	if (model.getRecord(i).getChildRecordId() >= 0) {
 	            		b.append(sep).append(model.getRecord(i).getChildRecordId());
 	            		foundRec = true;
+		                sep = ',';
 	            	}
-	                sep = ',';
 	            }
 	        }
             if (foundRec) {
@@ -161,21 +161,27 @@ public class ChildRecordsJTbl extends AbsJTable {
             	childRecordRecords.setSearchSystem(AbsDB.opEquals, system);
             }
 		}
-	    
+
+	    //System.out.println();
+	    //System.out.println(" --------------------------------------------------------------");
 	    childRecordRecords.setOrderBy(" Order by RecordName");
 	    childRecordRecords.open();
 	    RecordRec rec ;
-	    Integer key;
+
 		while ((rec = childRecordRecords.fetch()) != null) {
-//			System.out.println(" ==> " + rec.getRecordId() + " "+ rec.getRecordName());
-			key = Integer.valueOf(rec.getRecordId());
-			childRecordModel.addElement(key, rec.getRecordName());
-			childRecordModel1.addElement(key, rec.getRecordName());
+			//System.out.println(" ==> " + rec.getRecordId() + " "+ rec.getRecordName());
+
+
+			childRecordModel1.addElement(
+					childRecordModel.addElement(
+							Integer.valueOf(rec.getRecordId()),
+							rec.getRecordName()));
 		}
-		
+	    //System.out.println(" --------------------------------------------------------------");
+
 		childRecordRecords.close();
 		childRecordRecords.setDoFree(doFree);
-		
+
 		//setColumnSizes();
 		//model.fireTableDataChanged();
 	}

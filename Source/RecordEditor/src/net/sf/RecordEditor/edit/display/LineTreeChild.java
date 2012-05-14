@@ -23,16 +23,16 @@ import net.sf.RecordEditor.utils.screenManager.ReAction;
 @SuppressWarnings("serial")
 public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 
-//	model.fireTreeStructureChanged(node, node.getPath(), 
+//	model.fireTreeStructureChanged(node, node.getPath(),
 	//		childIdx, children);
 	//private static final Object[] rootPath = {};
-	public LineTreeChild(@SuppressWarnings("rawtypes") FileView viewOfFile, AbstractLineNode rootNode, 
+	public LineTreeChild(@SuppressWarnings("rawtypes") FileView viewOfFile, AbstractLineNode rootNode,
 			boolean mainView, final int columnsToSkip) {
 		super(viewOfFile, mainView, true, columnsToSkip, TREE_OPTION_PANEL);
 		super.setDisplayType(TREE_DISPLAY);
 
 		root = rootNode;
-		
+
 		AbstractAction[] extraActions = {
                 null,
                 new ReAction(ReActionHandler.SORT, this),
@@ -46,7 +46,7 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
   		};
 
 		init_100_setupScreenFields(extraActions);
-			
+
 		init_200_LayoutScreen();
 
 		if ( ! viewOfFile.isView()) {
@@ -66,18 +66,18 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 		int[] sel = tblDetails.getSelectedRows();
 		ArrayList<AbstractLine> list = new ArrayList<AbstractLine>(sel.length);
 		AbstractLineNode node;
-				
+
 		for (int i = 0; i < sel.length; i++) {
 			node = getNodeForRow(sel[i]);
 			if (node != null && node.getLine() != null) {
 				list.add(node.getLine());
 			}
 		}
-		
+
 		return list;
 	}
 
-	
+
 	@Override
 	public int getCurrRow() {
 		// TODO Auto-generated method stub
@@ -103,7 +103,7 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 			AbstractLineNode node = getNodeForRow(row);
 			if (node != null) {
 				ret = node.getLine();
-				while (ret == null 
+				while (ret == null
 					&& node.getParent() != null
 					&& node.getParent() instanceof AbstractLineNode) {
 					node = (AbstractLineNode) node.getParent();
@@ -114,8 +114,8 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 
 		return ret;
 	}
-	
-	
+
+
 	 /**
 	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getTreeLine()
 	 */
@@ -134,8 +134,8 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 	public void setCurrRow(int newRow, int layoutId, int fieldNum) {
 
 	}
-	
-	
+
+
 	/**
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#setCurrRow(net.sf.RecordEditor.re.file.FilePosition)
 	 */
@@ -143,13 +143,15 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 	public void setCurrRow(FilePosition position) {
 
 		if (position.currentLine != null) {
+			int idx = setLayoutForPosition(position);
+			int fNo = super.getAdjColumn(idx, position.col) - 1;
 			AbstractLineNode node = createNodes(position.currentLine);
-			
+
 			int row = expandNode(node);
             fileView.fireTableDataChanged();
-            
-            tblDetails.changeSelection(row, 1, false, false);
 
+            tblDetails.changeSelection(row, 1, false, false);
+//            treeTable.editCellAt(row, fNo);
 		}
 	}
 
@@ -161,23 +163,23 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 			if (p != null) {
 				AbstractChildDetails childDtls = line.getTreeDetails().getChildDefinitionInParent();
 				AbstractLineNode parentNode = createNodes(p);
-				
+
 				if (childDtls.isRepeated() && parentNode instanceof LineNodeChild) {
 					// Ensure Tree is expanded
 					int idx = childDtls.getRecordIndex();
 					AbstractLineNode childNode = ((LineNodeChild) parentNode)
 							.getChildbyCode(childDtls.getChildIndex());
-					
+
 					if (childNode.getChildCount() > idx) {
 						childNode.getChildAt(idx);
 					}
-				
+
 				}
-				
+
 				node = view.getTreeNode(line);
 			}
 		}
-		
+
 		return node;
 	}
 
@@ -193,11 +195,11 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 
 	@Override
 	public void tableChanged(TableModelEvent event) {
-		
+
 	}
 
 
-	
+
 	public void deleteLines() {
 		int[] selRows = treeTable.getSelectedRows();
 
@@ -209,7 +211,7 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 				treePath = treeTable.getPathForRow(selRows[i]);
 				nodes[i] = (AbstractLineNode) treePath.getLastPathComponent();
 			}
-			
+
 			for (i = 0; i < selRows.length; i++) {
 				AbstractLineNode parent = (AbstractLineNode) nodes[i].getParent();
 				if (nodes[i].getLine() != null) {
@@ -224,24 +226,24 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 						AbstractLine parentLine = parent.getLine();
 						if (parentLine.getTreeDetails().removeChildren(childDef)) {
 							model.fireTreeNodesRemoved(nodes[i]);
-							nodes[i].removeFromParent();							
+							nodes[i].removeFromParent();
 						}
 					}
 				}
 			}
-			
-//			model.fireTreeStructureChanged(node, node.getPath(), 
+
+//			model.fireTreeStructureChanged(node, node.getPath(),
 //					childIdx, children);
 		}
 	}
 
-	
+
 	/**
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#executeAction(int)
 	 */
 	@Override
 	public void executeAction(int action) {
-		
+
 		switch (action) {
 		case(ReActionHandler.REPEAT_RECORD) :
 			getFileView().repeatLine(getNodeForRow(popupRow).getLine());
@@ -280,18 +282,18 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 					j += 1;
 				}
 			}
-			
+
 			if (j != lines.length) {
 				AbstractLine[] temp = lines;
 				lines = new AbstractLine[j];
 				System.arraycopy(temp, 0, lines, 0, j);
 			}
-			
+
 			FileView.setCopyRecords(lines);
 		}
 	}
-	
-	
+
+
 	/**
 	 * Create a view from the selected records
 	 */
@@ -308,7 +310,7 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 	 * Create a view from the selected records
 	 */
 	private void createColumnView() {
-		
+
 		if (getSelectedRowCount() > MAXIMUM_NO_COLUMNS) {
 			Common.logMsg("To Many Rows Selected for ColumnDisplay", null);
 		} else {
@@ -333,18 +335,18 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 
 	public void expandTree(String option) {
 		getLayoutCombo().setSelectedItem(option);
-		
+
 		doFullExpansion(root);
-				
+
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				Common.calcColumnWidths(tblDetails, 1);
 			}
 		});
-				
-				
+
+
 
 		//setLayoutIdx();
 	}
@@ -353,7 +355,7 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 	 */
 	@Override
 	public boolean isActionAvailable(int action) {
-		
+
 		return action == ReActionHandler.REPEAT_RECORD
 		 		|| (  action != ReActionHandler.SELECTED_VIEW
 		 		   && super.isActionAvailable(action));

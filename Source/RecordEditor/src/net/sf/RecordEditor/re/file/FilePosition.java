@@ -25,18 +25,21 @@ import net.sf.RecordEditor.utils.common.Common;
  */
 public final class FilePosition {
     public static final int END_OF_COLUMN = Integer.MAX_VALUE;
+    public static final int ALL_FIELDS_IDX = -1;
     public int row;
     public int col;
     public int recordId;
     private   int fieldId;
     public boolean found = false;
     public int currentFieldNumber;
-    
-    public AbstractLine currentLine = null;
+    public int layoutIdxUsed = Common.NULL_INTEGER;
+
+    @SuppressWarnings("rawtypes")
+	public AbstractLine currentLine = null;
 
     private boolean forward;
     private int  inc, initCol;
-    
+
     private boolean readPending = false;
 
 
@@ -132,9 +135,9 @@ public final class FilePosition {
     public void setFieldId(int newFieldId) {
         int nFieldId = newFieldId;
 
-		if (nFieldId == -1) {
+		if (nFieldId == ALL_FIELDS_IDX) {
 		    nFieldId = Common.ALL_FIELDS;
-		} else if (nFieldId < -1) {
+		} else if (nFieldId < ALL_FIELDS_IDX) {
 		    nFieldId = Common.FULL_LINE;
 		    currentFieldNumber = Common.FULL_LINE;
 		}
@@ -174,7 +177,7 @@ public final class FilePosition {
 	    row += inc;
 	    col = initCol;
     }
-    
+
     public void resetCol() {
     	col = initCol;
     }

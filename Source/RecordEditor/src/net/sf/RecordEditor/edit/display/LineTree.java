@@ -28,18 +28,18 @@ import net.sf.RecordEditor.utils.common.ReActionHandler;
 
 @SuppressWarnings("serial")
 public class LineTree extends BaseLineTree<LineNode> {
-	
+
 	private AbstractLineNodeTreeParser parser;
 
-	
-	public LineTree(@SuppressWarnings("rawtypes") FileView viewOfFile, AbstractLineNodeTreeParser treeParser, 
+
+	public LineTree(@SuppressWarnings("rawtypes") FileView viewOfFile, AbstractLineNodeTreeParser treeParser,
 			boolean mainView, final int columnsToSkip) {
 		super(viewOfFile, mainView, false, columnsToSkip, NO_OPTION_PANEL);
-		
-		parser = treeParser;	
+
+		parser = treeParser;
 		root = parser.parse(view);
 
-		
+
 		AbstractAction[] extraActions = {
                 new AbstractAction("Rebuild Tree") {
                     public void actionPerformed(ActionEvent e) {
@@ -49,7 +49,7 @@ public class LineTree extends BaseLineTree<LineNode> {
                 new AbstractAction("Print Line Details") {
                     public void actionPerformed(ActionEvent e) {
                     	int[] selected = treeTable.getSelectedRows();
-                    	
+
                     	//System.out.println();
                     	for (int i =0; i < selected.length; i++) {
                     		getNodeForRow(selected[i]);
@@ -65,17 +65,17 @@ public class LineTree extends BaseLineTree<LineNode> {
 		};
 
 		init_100_setupScreenFields(extraActions);
-			
+
 		init_200_LayoutScreen();
 	}
-	
+
 
 	/**
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#executeAction(int)
 	 */
 	@Override
 	public void executeAction(int action) {
-		
+
 		if (action == ReActionHandler.REBUILD_TREE) {
 			root.removeAllChildren();
 			parser.parseAppend(view, root);
@@ -89,12 +89,12 @@ public class LineTree extends BaseLineTree<LineNode> {
 			//parser.parseAppend(view, root, 0, fileView.getRowCount());
 			//tableModel.fireTableDataChanged();
 			//model.f
-			//model.fireTreeStructureChanged(node, node.getPath(), 
+			//model.fireTreeStructureChanged(node, node.getPath(),
 			//		childIdx, children);
 		} else if (action == ReActionHandler.SAVE_AS_XML) {
 			JFileChooser chooseFile = new JFileChooser();
 			chooseFile.setSelectedFile(new File(view.getFileName() + ".xml"));
-			
+
 			int ret = chooseFile.showOpenDialog(null);
 
 			if (ret == JFileChooser.APPROVE_OPTION) {
@@ -118,7 +118,7 @@ public class LineTree extends BaseLineTree<LineNode> {
 	 */
 	@Override
 	public boolean isActionAvailable(int action) {
-		
+
 		return action == ReActionHandler.REBUILD_TREE
 		    || action == ReActionHandler.REPEAT_RECORD
 		    || action == ReActionHandler.FULL_TREE_REBUILD
@@ -126,8 +126,8 @@ public class LineTree extends BaseLineTree<LineNode> {
 		    || super.isActionAvailable(action);
 	}
 
-	
-	
+
+
    /**
      * get the prefered layout for a row. note: this is overriden in LineTree
      * @param row table row to get the layout for
@@ -136,11 +136,11 @@ public class LineTree extends BaseLineTree<LineNode> {
     protected int getLayoutIdx_100_getLayout4Row(int row) {
     	int ret = -1;
     	AbstractLineNode node = getNodeForRow(row);
-    	
+
     	if (node != null && node.getLine() != null) {
     		ret = node.getLine().getPreferredLayoutIdx();
     	}
-    	
+
     	return ret;
     }
 
@@ -152,30 +152,40 @@ public class LineTree extends BaseLineTree<LineNode> {
 	public void setCurrRow(int newRow, int layoutId, int fieldNum) {
 
 		//System.out.print("### " + newRow);
-		
+
 		LineNode node = findNode4LineNumber(root, newRow);
 		//System.out.print(" ### " + fieldNum + " " + newRow);
-		
-		if (node != null) {
+
+		if (node != null && fieldNum >= 0) {
 			int row;
+			int fNo = super.getAdjColumn(layoutId, fieldNum);
 			TreePath path = new TreePath(node.getPath());
 			//System.out.println("  " + path);
 			treeTable.getTree().makeVisible(path);
 			row = treeTable.getTree().getRowForPath(path);
-			System.out.println(" ### " + fieldNum + " " + row + " " + node.getLineNumber());
+			//System.out.print(" --> cols2skip --> " + cols2skip  + " " + row + " " + newRow + " " + fNo);
+			//if (node.getLine() != null) {
+			//	System.out.print(" >> " + node.getLineNumber() + " >> " +node.getLine().getField(layoutId, fieldNum));
+			//}
+			//System.out.println();
+			//System.out.println(" ### " + fieldNum + " " + row + " " + node.getLineNumber());
 			//treeTable.setSe
-			
-            if ((getCurrRow() != newRow)) {
-                tblDetails.changeSelection(row, fieldNum + 1, false, false);
-            }
 
-			treeTable.editCellAt(row, fieldNum + 1);
-			//System.out.println("Check Row :: " + treeTable.getEditingRow() + " " + treeTable.getSelectedRow() 
+			try {
+	            if ((getCurrRow() != newRow)) {
+	           		tblDetails.changeSelection(row, fNo, false, false);
+	            }
+
+	           	treeTable.editCellAt(row, fNo);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			//System.out.println("Check Row :: " + treeTable.getEditingRow() + " " + treeTable.getSelectedRow()
 			//		+ " " + treeTable.getSelectedRowCount());
 
 		}
 	}
-	
+
 
 	/**
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getCurrRow()
@@ -186,9 +196,12 @@ public class LineTree extends BaseLineTree<LineNode> {
 
 		if (row >= 0) {
 			LineNode node = getNodeForRow(row);
-			//System.out.println("Got Node:: " + row + " " + treeTable.getSelectedRow() + " " + node.getLineNumber());
+//			System.out.println("Got Node:: " + row + " " + treeTable.getSelectedRow() + " " + node.getLineNumber()
+//					+ " -->" + node.getLineNumber());
 
-			return node.getFirstLeafLine() - 1;
+			return node.getLineNumber();
+
+//			return node.getFirstLeafLine() - 1;
 		}
 		return -1;
 	}
@@ -200,10 +213,10 @@ public class LineTree extends BaseLineTree<LineNode> {
 	public int[] getSelectedRows() {
 		//int[] selected = super.getSelectedRows();
 		int[] selected = treeTable.getSelectedRows();
-		
+
 		//System.out.println("gSel 1 >> " + (selected == null));
 		if (selected == null || selected.length == 0) {
-			return selected; 
+			return selected;
 		}
 		//System.out.println("gSel 2 >> " + selected.length);
 		ArrayList<Integer> list = new ArrayList<Integer>();
@@ -211,15 +224,15 @@ public class LineTree extends BaseLineTree<LineNode> {
 		LineNode node;
 		int[] ret;
 		int i;
-		
+
 		for (i = 0; i < selected.length; i++) {
 			treePath = treeTable.getPathForRow(selected[i]);
 			node = (LineNode) treePath.getLastPathComponent();
-			
+
 			if (node.getLineNumber() >= 0) {
 				list.add(Integer.valueOf(node.getLineNumber()));
 			}
-			
+
 			//System.out.println("--> " + node.isLeaf() + " " + treeTable.getTree().isExpanded(treePath)
 			//		+ " " + node.getChildCount());
 			if (! node.isLeaf() && ! treeTable.getTree().isExpanded(treePath)) {
@@ -230,23 +243,23 @@ public class LineTree extends BaseLineTree<LineNode> {
 				}
 			}
 		}
-		
+
 		//System.out.print("Selection: -- ");
 		ret = new int[list.size()];
 		for (i = 0; i < ret.length; i++) {
 			ret[i] = list.get(i).intValue();
 			//System.out.print("  " + ret[i]);
-		}	
+		}
 		//System.out.println();
-		
+
 		return ret;
 	}
 
-	
+
 	/**
 	 * Get the insert / paste after position
 	 * @return insert / paste after position
-	 * 
+	 *
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getInsertAfterPosition()
 	 */
 	@Override
@@ -261,17 +274,17 @@ public class LineTree extends BaseLineTree<LineNode> {
 		TreePath treePath = treeTable.getPathForRow(row);
 		LineNode node = (LineNode) treePath.getLastPathComponent();
 		int lineNum;
-		
+
 		if (node.isLeaf() || treeTable.getTree().isExpanded(treePath)) {
 			lineNum = node.getFirstLeafLine() - 1;
 		} else {
 			lineNum = node.getLastLeafLine();
 		}
-		
+
 		return lineNum;
 	}
-	
-	
+
+
 	/**
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getInsertBeforePosition()
 	 */
@@ -279,21 +292,21 @@ public class LineTree extends BaseLineTree<LineNode> {
 	protected int getInsertBeforePosition() {
 		int row = getTreeTblRow();
 		//TreePath treePath;
-		
+
 		if (row < 0) {
 			throw new RuntimeException("No Destination line");
 		}
-	
+
 		TreePath treePath = treeTable.getPathForRow(row);
-		LineNode node = (LineNode) treePath.getLastPathComponent();	
+		LineNode node = (LineNode) treePath.getLastPathComponent();
 		int ret;
-		
+
 		ret = node.getLineNumber();
-		
+
 		if (ret < 0) {
 			ret = node.getFirstLeafLine();
 		}
-		
+
 		return Math.max(-1, ret - 1);
 	}
 
@@ -316,8 +329,8 @@ public class LineTree extends BaseLineTree<LineNode> {
 				LineNode n = findNode4LineNumber(root, firstRowChanged);
 				@SuppressWarnings("rawtypes")
 				AbstractLine l;
-				
-				if (n == null 
+
+				if (n == null
 				|| ((l =  n.getLine()) != null && l.isError())
 				|| (n.getLineNumber() != firstRowChanged && tableChanged_300_isNotEnd(n.getLine()))) {
 					tableChanged_400_Update(firstRowChanged);
@@ -332,11 +345,11 @@ public class LineTree extends BaseLineTree<LineNode> {
 				+ " ->> " + TableModelEvent.INSERT + " " + TableModelEvent.DELETE
 				+ " " + TableModelEvent.UPDATE);*/
 		//treeTable.getTree().fireTreeExpanded(arg0);
-		
+
 		if (super.hasTheFormatChanged(event)) {
 			tableModel.fireTableStructureChanged();
 			defColumns(getLayoutIndex());
-		} else { 
+		} else {
 			tableModel.fireTableDataChanged();
 		}
 	}
@@ -351,15 +364,15 @@ public class LineTree extends BaseLineTree<LineNode> {
 		LineNode node = findNode4LineNumber(root, start - 1);
 		LineNode parent;
 		int diff = end - start + 1;
-	
+
 		if (node == null) {
 			node = root;
 		}
-		
+
 		while (node != null && node.getLineNumber() < start - 2) {
 			node = (LineNode) node.getNextNode();
 		}
-		
+
 //		if (node != null) {
 //		System.out.println("Insert Find Parent:: start " + start + " " + node.getLineNumber()
 //				+ " " + node.getUserObject());
@@ -370,17 +383,17 @@ public class LineTree extends BaseLineTree<LineNode> {
 //				+ " " + parent.getFirstLeafLine()
 //				+ " " + parent.getLastLeafLine()
 //				+ " " + parent.getUserObject());
-		
+
 		updateLineNumber(start, diff);
-		
+
 //		System.out.println("Parent:: start " + parent.getLineNumber()
 //				+ " " + parent.getFirstLeafLine()
 //				+ " " + parent.getLastLeafLine()
 //				+ " " + parent.getUserObject());
-		
+
 		parseLater(parent);
 	}
-	
+
 
 	/**
 	 * update tree for deleted lines
@@ -398,7 +411,7 @@ public class LineTree extends BaseLineTree<LineNode> {
 			node = root;
 		}
 //		System.out.print(" " + node.getLineNumber());
-		
+
 		while (node != null && node.getLineNumber() < start) {
 			node = (LineNode) node.getNextNode();
 		}
@@ -415,10 +428,10 @@ public class LineTree extends BaseLineTree<LineNode> {
 		}
 
 		updateLineNumber(end, -diff);
-		
+
 		parseLater(parent);
 	}
-	
+
 	/**
 	 * Check if it is a Xml end tag
 	 * @param l line to check
@@ -432,66 +445,66 @@ public class LineTree extends BaseLineTree<LineNode> {
 		}
 		return ! (l.getLayout().isXml() && s.startsWith("/"));
 	}
-	
-	
+
+
 	/**
 	 * update tree for inserted lines
 	 * @param start first inserted line
 	 */
 	private void tableChanged_400_Update(int start) {
 		LineNode node = findNode4LineNumber(root, start);
-	
+
 		if (node == null) {
 			node = root;
 		}
-		
+
 		while (node != null && node.getLineNumber() < start) {
 			node = (LineNode) node.getNextNode();
 		}
-		
+
 //		System.out.print("Update:: >> " + start + " << ");
 
 		rebuildNode(getParent(node, start + 1));
 	}
 
-	
+
 	private void parseLater(LineNode parent) {
 		javax.swing.SwingUtilities.invokeLater(new RebuildLater(parent));
 	}
-	
+
 	/**
 	 * update nodes for insert / delete
 	 * @param start starting line number
 	 * @param difference difference to apply
 	 */
 	private void updateLineNumber(int start, int difference) {
-		
+
 		LineNode node = root;
-		
+
 		while (node != null) {
 			node.adjustLineNumbers(start, difference);
 			node = (LineNode) node.getNextNode();
 		}
 	}
-	
-	
+
+
 	/**
 	 * rebuild the tree starting at a specific node
 	 * @param node to rebuild
 	 */
 	private void rebuildNode(final LineNode node) {
-		
+
 		if (node != null) {
 			int start = node.getFirstLeafLine();
 			int end = node.getLastLeafLine();
-			
+
 			if (node.getLevel() == 0) { // ie is thew root
 				start = 0;
 				end = view.getRowCount();
 			}
-			
+
 			parser.parseAppend(view, node, start, end);
-			
+
 //			System.out.println("Line Numbers > > " );
 			int[] childIdx = new int[node.getChildCount()];
 			Object[] children = new Object[node.getChildCount()];
@@ -501,17 +514,17 @@ public class LineTree extends BaseLineTree<LineNode> {
 //				System.out.print(", " + ((LineNode) children[j]).getLineNumber());
 			}
 			//System.out.println("<<< " + node.getChildCount() + " Firing model changed ");
-			
+
 			treeTable.getTree().expandPath(new TreePath(node.getPath()));
-			model.fireTreeStructureChanged(node, node.getPath(), 
+			model.fireTreeStructureChanged(node, node.getPath(),
 					childIdx, children);
 		}
 	}
-	
-	
 
 
-	
+
+
+
 	/**
 	 * Find the Node corresponding to a line number
 	 * @param node root node
@@ -519,20 +532,20 @@ public class LineTree extends BaseLineTree<LineNode> {
 	 * @return requested node
 	 */
 	private LineNode findNode4LineNumber(LineNode node, int lineNumber) {
-		
+
 		LineNode child = null;
-		
+
 //		System.out.println();
-//		System.out.println("++ " + node.getLineNumber() + " " + lineNumber 
+//		System.out.println("++ " + node.getLineNumber() + " " + lineNumber
 //				+ " " +  node.isLeaf() );
 		if (! node.isLeaf()) {
-			
-			for (int i = 0;     i < node.getChildCount() 
+
+			for (int i = 0;     i < node.getChildCount()
 			                && ((child = (LineNode) node.getChildAt(i)).getLastLeafLine() < lineNumber); i++) {
 			}
 
 //			if (child != null) {
-//				System.out.println("Searching for " + lineNumber 
+//				System.out.println("Searching for " + lineNumber
 //						+ " " + child.getLineNumber() + " " + child.getLastLeafLine());
 //			}
 			if (child != null && child.getLineNumber() < lineNumber && ! child.isLeaf()) {
@@ -550,7 +563,7 @@ public class LineTree extends BaseLineTree<LineNode> {
 	 */
 	private LineNode getParent(LineNode node, int lastLineNum) {
 		LineNode parent;
-		
+
 		if (node == null || node == root) {
 			parent = root;
 		} else {
@@ -566,7 +579,7 @@ public class LineTree extends BaseLineTree<LineNode> {
 				//System.out.println(" >> " + parent.getLastLeafLine() + " Depth = " + parent.getLevel());
 			}
 		}
-		
+
 		return parent;
 	}
 
@@ -575,24 +588,24 @@ public class LineTree extends BaseLineTree<LineNode> {
 		 String s;
 		 doFullExpansion(root);
 		 getLayoutCombo().setSelectedItem("item");
-		 
+
 		 int idx = getLayoutCombo().getSelectedIndex();
 		 boolean[] fields = super.getFieldVisibility(idx);
 		 AbstractRecordDetail<?> rec = layout.getRecord(idx);
-		 
+
 		 for (int i = 1; i < fields.length; i++) {
 			 s = rec.getField(layout.getAdjFieldNumber(idx, i)).getName();
 			 if (s.indexOf('~') > 0 || s.equals("numeric")) {
 				 fields[i] = false;
 			 }
 		 }
-		 
+
 		 super.setFieldVisibility(idx, fields);
 		 super.setCopyHiddenFields(true);
 	 }
-	 
-	 
-	 
+
+
+
 
 	 /* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getNewDisplay(net.sf.RecordEditor.edit.file.FileView)
@@ -618,16 +631,16 @@ public class LineTree extends BaseLineTree<LineNode> {
 			 rebuildNode(parent);
 		 }
 	 }
-	 
-	 
+
+
 	 /*	public static void main(final String[] pgmArgs) {
 		String fn = "/home/knoppix/RecordEdit/HSQLDB/SampleFiles/Xml/IVM0034_Map.XML";
-		
+
 		try {
 			CopyBookInterface copyBookInterface = new CopyBookDbReader();
 			LayoutDetail layout = copyBookInterface.getLayout("XML");
 			FileView view = new FileView(fn, layout, false);
-			
+
 			new ReMainFrame("Specific file", "");
 			new LineTree(view);
 
@@ -636,5 +649,5 @@ public class LineTree extends BaseLineTree<LineNode> {
 		}
 	}*/
 
-	 
+
 }

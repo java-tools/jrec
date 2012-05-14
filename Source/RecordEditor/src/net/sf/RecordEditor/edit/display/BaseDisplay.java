@@ -499,6 +499,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 			case ReActionHandler.SAVE_AS_XML:
 				if (layout.hasTreeStructure() || layout.hasChildren()) {
 					JFileChooser chooseFile = new JFileChooser();
+					chooseFile.setDialogType(JFileChooser.SAVE_DIALOG);
 					chooseFile.setSelectedFile(new File(fileView.getFileName() + ".xml"));
 
 					int ret = chooseFile.showOpenDialog(null);
@@ -1164,9 +1165,25 @@ implements AbstractFileDisplay, ILayoutChanged {
 	 */
 	@Override
 	public void setCurrRow(FilePosition position) {
-		setCurrRow((position.row), position.recordId, position.currentFieldNumber);
+		int idx = setLayoutForPosition(position);
+
+		setCurrRow((position.row), idx, position.currentFieldNumber);
 	}
 
+	protected final int setLayoutForPosition(FilePosition position) {
+		int idx = position.recordId;
+		if (position.layoutIdxUsed >= 0 && position.layoutIdxUsed < layout.getRecordCount()) {
+			int currIdx;
+
+			idx = position.layoutIdxUsed;
+			if (position.layoutIdxUsed != (currIdx = getLayoutIndex())
+			&&  currIdx < layout.getRecordCount() ) {
+				setLayoutIndex(position.layoutIdxUsed);
+				setupForChangeOfLayout();
+			}
+		}
+		return idx;
+	}
 
 	/**
 	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#setCurrRow(int, int, int)
@@ -1431,6 +1448,12 @@ implements AbstractFileDisplay, ILayoutChanged {
         setRowHeight();
     }
 
+
+    protected final boolean isCurrLayoutIdx(int layoutId) {
+    	int idx = layoutCombo.getLayoutIndex();
+    	return idx == layoutId
+    		|| idx == layoutCombo.getPreferedIndex();
+    }
 
 	/**
 	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getLayoutIndex()

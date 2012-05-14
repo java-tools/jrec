@@ -2053,14 +2053,17 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			 l = lines.getTempLine(pos.row);
 		}
 
+		pos.layoutIdxUsed = Common.NULL_INTEGER;
 		if (l != null) {
 			try {
 				if (pos.getFieldId() == Common.FULL_LINE) {
 					s = toStr(l.getFullLine());
 				} else if (pos.currentLine != null && pos.getFieldId() == Common.ALL_FIELDS) {
+					pos.layoutIdxUsed = l.getPreferredLayoutIdx();
 					s = toStr(l.getField(l.getPreferredLayoutIdx(), col));
-					System.out.println("All Fields, layout: " + l.getPreferredLayoutIdx() + " Col: " + col + " > " + s);
+					//System.out.println("All Fields, layout: " + l.getPreferredLayoutIdx() + " Col: " + col + " > " + s);
 				} else{
+					pos.layoutIdxUsed = pos.recordId;
 					s = toStr(l.getField(pos.recordId, col));
 				}
 			} catch (Exception e) {

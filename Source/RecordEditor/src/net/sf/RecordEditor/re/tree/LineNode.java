@@ -28,7 +28,7 @@ public final class LineNode extends DefaultMutableTreeNode implements AbstractLi
 	private AbstractLine summaryLine = null;
 	private String sortField;
 	//private AbstractLine line = null;
-	
+
 	//private ArrayList<LineNode> children = null;
 
 
@@ -43,14 +43,14 @@ public final class LineNode extends DefaultMutableTreeNode implements AbstractLi
 					@SuppressWarnings("rawtypes") final FileView fileView,
 					final int lineNum) {
 		super(pNodeName);
-		
+
 		nodeName = pNodeName;
 		view = fileView;
 		setLineNumberEtc(lineNum);
 	}
 
 
-    
+
     /* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.tree.AbstractLineNode#getLayout()
 	 */
@@ -69,11 +69,11 @@ public final class LineNode extends DefaultMutableTreeNode implements AbstractLi
 
 
 
-	public final void setLineNumber(int lineNumber) {
-		this.lineNumber = lineNumber;
-	}
+//	public final void setLineNumber(int lineNumber) {
+//		this.lineNumber = lineNumber;
+//	}
 
-	
+
 	/**
 	 * Set Linenumber + leaf numbers
 	 * @param lineNumber new linenumber
@@ -127,7 +127,7 @@ public final class LineNode extends DefaultMutableTreeNode implements AbstractLi
 	}
 
 
-	
+
 
 	/**
 	 * @see net.sf.RecordEditor.re.file.AbstractLineNode#getDefaultLineNumber()
@@ -154,7 +154,7 @@ public final class LineNode extends DefaultMutableTreeNode implements AbstractLi
 	public final void setFirstLeafLine(int firstLeafLine) {
 		this.firstLeafLine = firstLeafLine;
 	}
-	
+
 
 	/**
 	 * Adjust all the line number for a insertion / deletion
@@ -163,7 +163,7 @@ public final class LineNode extends DefaultMutableTreeNode implements AbstractLi
 	 */
 	public final void adjustLineNumbers(int start, int difference) {
 
-//		System.out.print("Updating Pos \t: " + start + "\t" + firstLeafLine 
+//		System.out.print("Updating Pos \t: " + start + "\t" + firstLeafLine
 //				+ "\t" + lastLeafLine + "\t"+ lineNumber );
 		if (lineNumber > start) {
 			lineNumber += difference;
@@ -174,7 +174,7 @@ public final class LineNode extends DefaultMutableTreeNode implements AbstractLi
 		if (lastLeafLine >= start) {
 			lastLeafLine += difference;
 		}
-//		System.out.println("\t Changed \t: " + firstLeafLine 
+//		System.out.println("\t Changed \t: " + firstLeafLine
 //				+ "\t" + lastLeafLine + "\t"+ lineNumber );
 	}
 
@@ -188,13 +188,13 @@ public final class LineNode extends DefaultMutableTreeNode implements AbstractLi
 		this.sortField = fieldName;
 	}
 
-	
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.tree.AbstractLineNode#getLineType()
 	 */
 	public final String getLineType() {
 		String ret = "";
-		
+
 		if (summaryLine == null) {
 			if (lineNumber >= 0) {
 				int pref = view.getLine(lineNumber).getPreferredLayoutIdx();
@@ -208,16 +208,16 @@ public final class LineNode extends DefaultMutableTreeNode implements AbstractLi
 		} else {
 			ret = sortField;
 		}
-		
+
 		return ret;
 	}
-	
+
 	public final String getSortValue() {
 		String ret = "";
 		if (summaryLine != null) {
 			ret = nodeName;
 		}
-		
+
 		return ret;
 	}
 
@@ -240,7 +240,7 @@ public final class LineNode extends DefaultMutableTreeNode implements AbstractLi
 		} else {
 			insert(n , pos);
 		}
-		
+
 		if (view.getBaseFile().getTreeTableNotify() != null) {
 			view.getBaseFile().getTreeTableNotify().fireTreeNodesInserted(n);
 		}
@@ -260,17 +260,17 @@ public final class LineNode extends DefaultMutableTreeNode implements AbstractLi
 		return node;
 	}
 
-	
-	
+
+
 //	/**
 //	 * @see javax.swing.tree.DefaultMutableTreeNode#getUserObject()
 //	 */
 //	@Override
 //	public Object getUserObject() {
-//		
+//
 //		if (lineNumber >= 0 && getLine().getPreferredLayoutIdx() >= 0) {
 //			int idx = getLine().getPreferredLayoutIdx();
-//			
+//
 //			try {
 //				return this.view.getLayout().getRecord(idx).getRecordName();
 //			} catch (Exception e) {

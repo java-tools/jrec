@@ -254,7 +254,7 @@ public final class Parameters implements ExternalReferenceConstants {
      */
     private static void initDirectories() {
     	if (applicationDirectory == null) {
-    		String s = getPropertiesDirectory();
+    		String s = getPropertiesDirectoryWithFinalSlash();
 
     		if (s == null) {
     			s = "C:\\Users\\mum\\RecordEditor_HSQL\\";
@@ -263,9 +263,7 @@ public final class Parameters implements ExternalReferenceConstants {
     		System.out.println("!! Properties Directory ~~ " + s);
 
     		applicationDirectory = s;
-    		if ((! s.endsWith("/")) && (! s.endsWith("\\"))) {
-    			applicationDirectory = s + File.separator;
-    		}
+
     		System.out.println("!! Application Directory ~~ " + applicationDirectory);
 
     		propertyFileName = applicationDirectory + USER_PARAM_FILE;
@@ -295,6 +293,13 @@ public final class Parameters implements ExternalReferenceConstants {
 		return s;
     }
 
+    public static String getPropertiesDirectoryWithFinalSlash() {
+ 		String s = getPropertiesDirectory();
+ 		if (s != null && (! s.endsWith("/")) && (! s.endsWith("\\"))) {
+ 			s = s + File.separator;
+ 		}
+ 		return s;
+     }
 
 	/**
 	 * get The filename

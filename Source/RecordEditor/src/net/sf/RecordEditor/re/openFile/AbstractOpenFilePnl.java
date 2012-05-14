@@ -13,7 +13,7 @@
  * # Version 0.61 Bruce Martin 2007/04/14
  *   - Remove call to BasePanel.done()
  *   - JRecord Spun off, code reorg
- *   
+ *
  *
  * # Version 0.62 Bruce Martin 2007/04/30
  *   - adding support for enter key
@@ -27,6 +27,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JButton;
@@ -56,7 +57,7 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
  */
 @SuppressWarnings({ "serial", "rawtypes" })
 public abstract class AbstractOpenFilePnl
-						<Layout extends AbstractLayoutDetails<? extends FieldDetail, ? extends AbstractRecordDetail>> 
+						<Layout extends AbstractLayoutDetails<? extends FieldDetail, ? extends AbstractRecordDetail>>
 extends BaseHelpPanel
 implements FocusListener {
 
@@ -76,11 +77,11 @@ implements FocusListener {
 	private Rectangle frameSize;
 	private boolean doListener = true;
 	private AbstractLayoutSelection<Layout> layoutSelection;
-	
+
 	private JButton lCreate1;
 	private JButton lCreate2;
     //private final String recentFileName;
-	
+
 
 
 	private KeyAdapter listner = new KeyAdapter() {
@@ -125,7 +126,7 @@ implements FocusListener {
 		layoutSelection = newLayoutSelection;
 		lCreate1 = layoutCreate1;
 		lCreate2 = layoutCreate2;
-		
+
 		layoutSelection.setMessage(message);
 
 		init_100_RecentFiles(pInFile);
@@ -139,7 +140,7 @@ implements FocusListener {
 	 */
 	protected void init_100_RecentFiles(String pInFile) {
 	    Common.setCurrClass(this);
-	
+
 		if (pInFile == null || "".equals(pInFile)) {
 			//System.out.println("!! ~~ " + Common.DEFAULT_FILE_DIRECTORY);
 		    fileName.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());
@@ -182,12 +183,12 @@ implements FocusListener {
 		setHelpURL(Common.formatHelpURL(helpScreen));
 		//G:\RecordEdit_Prj\Docs\hlpRE_RecordMain.htm
 	}
-	
+
 	/**
 	 * Executed prior to display
 	 */
 	public void done() {
-		
+
 		setGap(BasePanel.GAP1);
 		addFileName(this);
 		setGap(BasePanel.GAP2);
@@ -206,14 +207,14 @@ implements FocusListener {
 		setBounds(getY(), getX(), FRAME_WIDTH, getHeight());
 		frameSize = this.getBounds();
 	}
-	
+
 	protected void addFileName(BaseHelpPanel pnl) {
-		
+
 		pnl.addLine("File", fileName, fileName.getChooseFileButton());
 	}
 
 	protected void addLayoutSelection() {
-		
+
 	    getLayoutSelection().addLayoutSelection(this, fileName, getGoPanel(), lCreate1, lCreate2);
 		setGap(BasePanel.GAP2);
 	}
@@ -263,18 +264,18 @@ implements FocusListener {
 				    Common.logMsg(s, e);
    					message.setText(s);
    					e.printStackTrace();
-				} 
+				}
 			}
 		}
 	}
-	
+
 	protected abstract 	void processFile(String sFileName,
 			Layout layout,
 		    AbstractLineIOProvider lineIoProvider,
 		    boolean pBrowse) throws Exception ;
-	
+
 	private void stdError(Exception e) {
-		
+
 	    String s = "Error Loading File: " + e.getMessage();
 	    Common.logMsg(s, null);
 		message.setText(s);
@@ -337,8 +338,9 @@ implements FocusListener {
      * Get the layoutname for the file
      * @param pFile file to find the layout for
      */
-    protected void updateLayoutForFile(String pFile) {
-	    String recentLayout = recent.getLayoutName(pFile);
+    private void updateLayoutForFile(String pFile) {
+    	File f = new File(pFile);
+	    String recentLayout = recent.getLayoutName(pFile, new File(pFile));
 
 	    if (recentLayout != null && ! "".equals(recentLayout)) {
 	    	setLayout(recentLayout);
@@ -354,8 +356,8 @@ implements FocusListener {
 	public String getCurrentFileName() {
 	    return fileName.getText();
 	}
-	
-	
+
+
     /**
      * @return Returns the layoutSelection.
      */

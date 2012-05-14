@@ -7,6 +7,7 @@ package net.sf.RecordEditor.re.openFile;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -269,7 +270,7 @@ public class RecentFiles {
      * @param fileName file to find the layout for
      * @return layoutname
      */
-    public String getLayoutName(String fileName) {
+    public String getLayoutName(String fileName, File f) {
 	    String recentLayout;
 	    String strippedFile = correctCase(Common.stripDirectory(fileName));
 
@@ -292,13 +293,15 @@ public class RecentFiles {
 	    }
 
 	    String s = strippedFile.toLowerCase();
-	    if (s.endsWith("xml")  || s.endsWith("xls")) {
-	    	return selection.formatLayoutName("XML - Build Layout");
-	    } else if (s.endsWith("csv")) {
-	    	return selection.formatLayoutName("Generic CSV - enter details");
-	    } else if (Common.OPTIONS.fileWizardAvailable.isSelected()
-	    	   &&  Common.OPTIONS.useFileWizard.isSelected()) {
-	    	return selection.formatLayoutName("FileWizard");
+	    if ( f.exists() && f.length() > 0) {
+		    if (s.endsWith("xml")  || s.endsWith("xls")) {
+		    	return selection.formatLayoutName("XML - Build Layout");
+		    } else if (s.endsWith("csv")) {
+		    	return selection.formatLayoutName("Generic CSV - enter details");
+		    } else if (Common.OPTIONS.fileWizardAvailable.isSelected()
+		    	   &&  Common.OPTIONS.useFileWizard.isSelected()) {
+		    	return selection.formatLayoutName("FileWizard");
+		    }
 	    }
 	    return "";
     }

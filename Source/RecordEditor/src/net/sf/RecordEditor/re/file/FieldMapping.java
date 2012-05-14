@@ -80,6 +80,22 @@ public class FieldMapping {
 	    return ret;
 	}
 
+	public final int getAdjColumn(int recordIdx, int inRow) {
+	    int ret = inRow;
+
+	    if (inRow >= 0
+	    &&  columnMapping != null
+	    &&  columnMapping[recordIdx] != null
+	    &&  columnMapping[recordIdx].length > 0) {
+	        ret = 0;
+	        while (ret < columnMapping[recordIdx].length && columnMapping[recordIdx][ret] < inRow) {
+	        	ret += 1;
+	        }
+	    }
+
+	    return ret;
+	}
+
 	/**
 	 * Hide a row from view
 	 * @param recordIdx record index
@@ -212,6 +228,13 @@ public class FieldMapping {
 			}
 			colLengths[recordIndex] = count;
 		}
+	}
+
+	public static int getAdjColumn(FieldMapping mapping, int recordIdx, int inRow) {
+		if (mapping != null) {
+			return mapping.getAdjColumn(recordIdx, inRow);
+		}
+		return inRow;
 	}
 
 }

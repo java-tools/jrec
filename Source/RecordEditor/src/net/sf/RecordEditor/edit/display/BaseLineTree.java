@@ -45,7 +45,7 @@ import net.sf.RecordEditor.utils.swing.treeTable.TreeTableModelAdapter;
 
 @SuppressWarnings("serial")
 public abstract class BaseLineTree<LNode extends AbstractLineNode>
-extends BaseDisplay  
+extends BaseDisplay
 implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChanged, AbstractTreeFrame<LNode>  {
 
 	private static final int MINIMUM_TREE_COLUMN_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 22;
@@ -57,19 +57,19 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	protected TreeTableModelAdapter tableModel;
 	protected FileView<?> view;
 	protected LNode root;
-	
+
 	protected ButtonTableRendor buttonRendor = new ButtonTableRendor();
-	
+
 //	protected int firstDisplayColumn = 1;
 	protected int cols2skip, lastRow;
 	protected int popupRow, popupCol = 0;
-	
+
 	private boolean isPrefered = false;
-	
+
 	private FieldMapping fieldMapping;
-	
-	private KeyListener keyListner; 
-	
+
+	private KeyListener keyListner;
+
 //    private JMenu showColumnsMenu = new JMenu("Show Column");
 //    private ArrayList<ShowFieldAction> hiddenColumns = new ArrayList<ShowFieldAction>();
 
@@ -80,54 +80,54 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 				fieldMapping.showColumn(getLayoutIndex(), colDef.getModelIndex() - getColAdjust());
 			}
 			mdl.addColumn(colDef);
-//			System.out.println(" -- display " + colDef.getHeaderValue() 
+//			System.out.println(" -- display " + colDef.getHeaderValue()
 //					+ " " + colDef.getModelIndex()
 //					+ " ! "+ originalColumn
 //					+" $ " + mdl.getColumnCount());
-		
+
 			mdl.moveColumn(mdl.getColumnCount() - 1, originalColumn);
 			return true;
 	    }
 	};
-	
+
 	public BaseLineTree(
-			FileView<?> viewOfFile,  
+			FileView<?> viewOfFile,
 			boolean mainView,
-			boolean prefered, 
+			boolean prefered,
 			final int columnsToSkip,
 			final int option) {
 		super("Tree View", viewOfFile, mainView, false, false, prefered, false, option);
-		
+
 		view = viewOfFile;
-		cols2skip = columnsToSkip;		
-		
+		cols2skip = columnsToSkip;
+
 		fieldMapping = new FieldMapping(getFieldCounts());
-		
+
 		super.actualPnl.addReKeyListener(new DelKeyWatcher());
 	}
-	
+
 	protected final void init_100_setupScreenFields(AbstractAction[] extraActions) {
-		
+
 		view.addTableModelListener(this);
 
 		model = new LineTreeTabelModel(view, root, cols2skip, view.getLayout().isMapPresent());
 		treeTable = new JTreeTable(model);
 		treeTablePane = new JScrollPane(treeTable);
-		tableModel = treeTable.getTableModel();	
-		treeTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);	
+		tableModel = treeTable.getTableModel();
+		treeTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		setJTable(treeTable);
 		treeTable.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 		treeTable.getTree().setRootVisible(false);
 		treeTable.getTree().setShowsRootHandles(true);
 		keyListner =    new RowChangeListner(treeTable, this);
-		
+
 		actualPnl.setHelpURL(Common.formatHelpURL(Common.HELP_TREE_VIEW));
-		
-		
+
+
 		initToolTips();
-		
+
 		defColumns(0);
-		
+
 		AbstractAction[] mainActions = {
 	        		new AbstractAction("Edit Record") {
 	    	            public void actionPerformed(ActionEvent e) {
@@ -145,7 +145,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	                new AbstractAction("Fully Expand Tree") {
 	                    public void actionPerformed(ActionEvent e) {
 	                    	doFullExpansion(getNodeForRow(popupRow));
-	                    	
+
 	                    }
 	                },
 	                new AbstractAction("Collapse Tree") {
@@ -155,7 +155,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	                },
 
         };
-        
+
 
         if (extraActions != null && mainActions.length > 0) {
         	AbstractAction[] tmpActions = mainActions;
@@ -193,22 +193,22 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
         });
 
         mainPopup.getPopup().add(showFields.getMenu());
-        
+
 		treeTable.addMouseListener(mainPopup);
-		
+
 		treeTable.getTree().addTreeExpansionListener(new TreeExpansionListener() {
 			 public void treeCollapsed(TreeExpansionEvent event) {
-				
+
 			 }
 			 public void treeExpanded(TreeExpansionEvent event) {
 				 defColumns(getLayoutIndex());
 			 }
 		});
 		//treeTable.add
-		
+
 		if (Common.OPTIONS.useNewTreeExpansion.isSelected()) {
 			//int count = treeTable.getTree().getRowCount();
-			
+
 			for (int i = 0; i < treeTable.getTree().getRowCount() && treeTable.getTree().getRowCount() < 50; i++) {
 				treeTable.getTree().expandRow(i);
 			}
@@ -216,14 +216,14 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 			treeTable.getTree().expandRow(0);
 		}
 	}
-	
+
 	protected final void init_200_LayoutScreen()  {
 		Rectangle scrSize = ReMainFrame.getMasterFrame().getDesktop().getBounds();
 
-		
+
 //		pnl.addComponent("Layouts", getLayoutList());
 		actualPnl.setGap(BasePanel.GAP1);
-		
+
 	    actualPnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
                    BasePanel.FULL, BasePanel.FULL,
                    treeTablePane);
@@ -234,7 +234,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	    this.setSize(scrSize.width  - 1, scrSize.height - 1);
 	    setToMaximum(true);
 		//this.pack();
-		
+
 	    LayoutCombo combo = getLayoutCombo();
 	    if (layout.getRecordCount() > 1 && combo.getPreferedIndex() > 0 && Common.usePrefered()) {
         	combo.setSelectedIndex(combo.getPreferedIndex());
@@ -248,13 +248,13 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 		this.setVisible(true);
 	}
 
-	
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#newLayout()
 	 */
 	@Override
 	public void setNewLayout(@SuppressWarnings("rawtypes") AbstractLayoutDetails newLayout) {
-		
+
 		super.setNewLayout(newLayout);
 		LayoutCombo combo = getLayoutCombo();
 	    if (layout.getRecordCount() > 1 && combo.getPreferedIndex() > 0 && Common.usePrefered()) {
@@ -275,33 +275,33 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	public void tableChanged(TableModelEvent event) {
 		// TODO Auto-generated method stub
 		//System.out.println(" ^^^^ 1 " + event.getType() + " " + event.getFirstRow());
-		
+
 
 	}
 
 	private void newLineFrame(LNode n) {
-		
-       	int lineNumber = n.getLineNumber(); 
+
+       	int lineNumber = n.getLineNumber();
 
     	if (lineNumber < 0) {
     		lineNumber = n.getDefaultLineNumber();
     	}
- 
+
     	if (lineNumber < 0) {
     		new LineFrameTree(getFileView(), n.getLine());
-    	} else { 
+    	} else {
     		newLineFrame(getFileView(), lineNumber);
     	}
 	}
 
-	
+
 	/**
 	 * Get the number of fields for each record
 	 * @return field counts for for each record
 	 */
 	private int[] getFieldCounts() {
        int[] rows = new int[layout.getRecordCount()];
-        
+
         for (int i = 0; i < layout.getRecordCount(); i++) {
         	rows[i] = fileView.getLayoutColumnCount(i);
         }
@@ -328,7 +328,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 
 
 	/**
-	 * Get the node at a specified TreeTable Row 
+	 * Get the node at a specified TreeTable Row
 	 * @param row row to get the node for
 	 * @return requested node
 	 */
@@ -351,22 +351,22 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 		int columns = model.getColumnCount();
 			//layout.getRecord(idx).getFieldCount() + 2 - firstDisplayColumn;
 		defineColumns(columns, model.getSkipColumns(), cols2skip);
-		
+
 		TableColumn tc = treeTable.getColumnModel().getColumn(0);
 		tc.setCellRenderer(buttonRendor);
 		//tc.setCellEditor(buttonRendor);
 		tc.setMaxWidth(5);
 		tc.setResizable(false);
-		
+
 		if (treeTable.getColumnModel().getColumnCount() > 1) {
 			tc = treeTable.getColumnModel().getColumn(1);
-	//		System.out.println(">> " + tc.getPreferredWidth() 
+	//		System.out.println(">> " + tc.getPreferredWidth()
 	//				+ " " + MINIMUM_TREE_COLUMN_WIDTH
 	//				+ " " + tc.getMaxWidth()
 	//				+ " " + tc.getMinWidth());
 			tc.setPreferredWidth(Math.max(tc.getPreferredWidth(), MINIMUM_TREE_COLUMN_WIDTH));
 			//System.out.println(">> " + tc.getPreferredWidth());
-			
+
 			int layoutIdx = getLayoutIndex();
 		    isPrefered = layoutIdx == getLayoutCombo().getPreferedIndex();
 		   	treeTable.removeKeyListener(keyListner);
@@ -379,7 +379,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	}
 
 
-	
+
 	 /**
 	  * Fully expand a node
 	  * @param node node to be expanded
@@ -399,16 +399,16 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	 * @return current row
 	 */
 	protected final int getTreeTblRow() {
-		
+
 		int row = treeTable.getEditingRow();
-		//System.out.println("GetRow:: " + row + " " + treeTable.getSelectedRow() 
+		//System.out.println("GetRow:: " + row + " " + treeTable.getSelectedRow()
 		//		+ " " + treeTable.getSelectedRowCount());
 		if (row < 0 && treeTable.getSelectedRowCount() > 0) {
 			row = treeTable.getSelectedRow();
 		}
 		return row;
 	}
-	
+
 
     public final void checkRowChange(int row) {
 //    	System.out.println("Check Row: " + isPrefered + "   " + lastRow + " " + row);
@@ -419,7 +419,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	    		int recordIdx = line.getPreferredLayoutIdx();
 	    		if (recordIdx != model.getDefaultPreferredIndex()) {
 	    			model.setDefaultPreferredIndex(recordIdx);
-		    		
+
 		    		TableColumnModel columns = tblDetails.getColumnModel();
 		    		int last = Math.min(model.getColumnCount(), columns.getColumnCount());
 		    		for (int i = 0; i < last; i++) {
@@ -427,7 +427,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 		    			columns.getColumn(i).setHeaderValue(model.getColumnName(columns.getColumn(i).getModelIndex()));
 		    		}
 		    		//tblScrollPane.correctFixedSize();
-		    		System.out.println("!!! " + (treeTablePane.getColumnHeader() == null) 
+		    		System.out.println("!!! " + (treeTablePane.getColumnHeader() == null)
 		    				+" " + (treeTablePane.getRowHeader() == null));
 		    		treeTablePane.getColumnHeader().repaint();
 //		            treeTable.setPreferredScrollableViewportSize(treeTable.getPreferredSize());
@@ -448,10 +448,10 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 		return fieldMapping.getFieldVisibility(recordIndex);
 	}
 
-	private int getColAdjust() {
+	protected final int getColAdjust() {
 		return STANDARD_COLUMNS - cols2skip;
 	}
-	
+
 	/**
 	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide#setFieldVisibility(int, boolean[])
 	 */
@@ -459,12 +459,12 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	public void setFieldVisibility(int recordIndex, boolean[] fieldVisibile) {
 
 		fieldMapping.setFieldVisibilty(recordIndex, fieldVisibile);
-		
+
 		if (recordIndex == getLayoutIndex()) {
 			int adj = getColAdjust();
 			showFields.setFieldVisibility(tblDetails.getColumnModel(), adj, adj, fieldVisibile);
 		}
-		
+
 		setActiveFrame(this);
 	}
 
@@ -472,13 +472,13 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
     private void hideColumn(int col) {
     	JTable tblDetails = getJTable();
     	TableColumn colDef = tblDetails.getColumnModel().getColumn(col);
-    	
+
     	if (getLayoutIndex() < layout.getRecordCount()) {
     		fieldMapping.hideColumn(getLayoutIndex(), colDef.getModelIndex() - getColAdjust());
     	}
 
     	tblDetails.getColumnModel().removeColumn(colDef);
-    	
+
     	showFields.hideColumn(colDef, col);
     }
 
@@ -495,5 +495,15 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	@Override
 	public LNode getRoot() {
 		return root;
+	}
+
+	/**
+	 * @param recordIdx
+	 * @param inRow
+	 * @return
+	 * @see net.sf.RecordEditor.re.file.FieldMapping#getRealColumn(int, int)
+	 */
+	public final int getAdjColumn(int recordIdx, int inRow) {
+		return FieldMapping.getAdjColumn(fieldMapping, recordIdx, inRow) + getColAdjust();
 	}
 }

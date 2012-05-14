@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package net.sf.RecordEditor.edit.display;
 
@@ -17,6 +17,7 @@ import net.sf.RecordEditor.edit.display.Action.AutofitAction;
 import net.sf.RecordEditor.edit.display.models.BaseLineModel;
 import net.sf.RecordEditor.edit.display.models.Line2ColModel;
 import net.sf.RecordEditor.edit.display.util.ChooseCellEditor;
+import net.sf.RecordEditor.re.file.FieldMapping;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
@@ -27,7 +28,7 @@ import net.sf.RecordEditor.utils.swing.FixedColumnScrollPane;
 
 /**
  * Display each line as a column in the table with fields going down the screen
- * 
+ *
  * @author Bruce Martin
  *
  */
@@ -41,12 +42,12 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 
 	/**
 	 * Display each line as a column in the table with fields going down the screen
-	 * 
+	 *
 	 * @param viewOfFile file view
 	 */
 	public LinesAsColumns(FileView<?> viewOfFile) {
 		super("Column Table", viewOfFile, viewOfFile == viewOfFile.getBaseFile(), true);
-		
+
 	    init_100_SetupJtables(viewOfFile);
 
 	    actualPnl.setHelpURL(Common.formatHelpURL(Common.HELP_COLUMN_VIEW));
@@ -74,11 +75,11 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
      */
     private void init_100_SetupJtables(final FileView<?> viewOfFile) {
 
-    	Line2ColModel mdl = new Line2ColModel(viewOfFile); 
+    	Line2ColModel mdl = new Line2ColModel(viewOfFile);
     	JTable fixedTbl;
-    	
+
 		setModel(mdl);
-		
+
 
   //      ReAction sort = new ReAction(ReActionHandler.SORT, this);
         AbstractAction editRecord = new AbstractAction("Edit Record") {
@@ -110,29 +111,29 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
                 },
 
         };
-        
+
         JTable tableDetails = new JTable(mdl);
         setJTable(tableDetails);
-        
+
         popupListner = //MenuPopupListener.getEditMenuPopupListner(mainActions);
         new MenuPopupListener(mainActions, true, tableDetails) {
- 
+
 		    public void mousePressed(MouseEvent e) {
 		    	super.mousePressed(e);
 		    	JTable tbl = getJTable();
-		    	
+
 	      		int col = tbl.columnAtPoint(e.getPoint());
 	            popupRow = tbl.rowAtPoint(e.getPoint());
-	            
-	            if (popupRow >= 0 && popupRow != tbl.getEditingRow() 
+
+	            if (popupRow >= 0 && popupRow != tbl.getEditingRow()
 	        	&&  col >= 0 && col != tbl.getEditingRow()
 	        	&& cellEditors != null && cellEditors[col] != null
 	        	) {
 	            	getJTable().editCellAt(popupRow, col);
 	            }
-	 
+
 		    }
-		    
+
            protected boolean isOkToShowPopup(MouseEvent e) {
                 //mainPopupCol = tblDetails.columnAtPoint(e.getPoint());
             	try {
@@ -145,7 +146,7 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
                 return true;
             }
         };
-        
+
         viewOfFile.setFrame(ReMainFrame.getMasterFrame());
 
        //viewOfFile.setFrame(ReMainFrame.getMasterFrame());
@@ -153,7 +154,7 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
         tableDetails.addMouseListener(popupListner);
         tableDetails.setColumnSelectionAllowed(true);
         tableDetails.setRowSelectionAllowed(true);
-        
+
 
         initToolTips();
 
@@ -161,13 +162,13 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
         tblScrollPane = new FixedColumnScrollPane(tableDetails, BaseLineModel.FIRST_DATA_COLUMN);
         fixedTbl = tblScrollPane.getFixedTable();
 
-        
+
         actualPnl.registerComponent(tableDetails);
         actualPnl.registerComponent(fixedTbl);
         super.setAlternativeTbl(fixedTbl);
         setColWidths();
 
-        
+
         fixedTbl.addMouseListener(new MenuPopupListener(null, true, null) {
             public void mousePressed(MouseEvent m) {
                 JTable tbl = tblScrollPane.getFixedTable();
@@ -185,7 +186,7 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
                 return fixedPopupCol > 0;
             }
         });
-        
+
         if (viewOfFile.getLayout().isOkToAddAttributes()) {
         	viewOfFile.getBaseFile().addTableModelListener(this);
         }
@@ -206,24 +207,24 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 		tblScrollPane.setFixedColumns(BaseLineModel.FIRST_DATA_COLUMN);
 //		getModel().fireTableDataChanged();
 	}
-  
+
 	/*
 	 * (non-Javadoc) This method sets the column sizes in the record layout
 	 * @see net.sf.RecordEditor.edit.display.BaseLineAsColumn#setColWidths()
 	 */
 	@Override
 	protected final void setColWidths() {
-		
+
 		TableColumn tc;
 		JTable tbl = getJTable();
- 
+
         for (int i =  Math.min(BaseLineModel.FIRST_DATA_COLUMN, tbl.getColumnCount()) - 1; i >= 0; i--) {
         	tc =  tbl.getColumnModel().getColumn(i);
             if (tc.getModelIndex() < BaseLineModel.FIRST_DATA_COLUMN) {
         		tbl.getColumnModel().removeColumn(tc);
         	}
         }
-        
+
         if (cellRenders != null || cellEditors != null) {
          	for (int i =  0;  i < tbl.getColumnCount(); i++) {
 	        	tc =  tbl.getColumnModel().getColumn(i);
@@ -251,7 +252,7 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 	public int getCurrRow() {
 		int pos = 0;
 		JTable tableDetails = getJTable();
-		
+
 	    if (tableDetails.getSelectedColumnCount() > 0) {
 	        pos = tableDetails.getSelectedColumn();
 		}
@@ -270,7 +271,7 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 	    if (tbl.getSelectedColumnCount() > 0) {
 	        pos = tbl.getSelectedColumn();
 		}
-		
+
 		return pos;
 	}
 
@@ -281,7 +282,7 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
     public int getSelectedRowCount() {
     	return tblDetails.getSelectedColumnCount();
     }
-    
+
 	/**
 	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getSelectedRows()
 	 */
@@ -295,16 +296,18 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 	 */
 	@Override
 	public void setCurrRow(int newRow, int layoutId, int fieldNum) {
-		
        if ((newRow >= 0) && newRow <= fileView.getRowCount()) {
+    	   int fNo = FieldMapping.getAdjColumn(getModel().getFieldMapping(), layoutId, fieldNum);
     	   JTable tbl = getJTable();
-           if ((getCurrRow() != newRow)) {
+           //if ((getCurrRow() != newRow)) {
                 getModel().fireTableDataChanged();
-                tbl.changeSelection(BaseLineModel.FIRST_DATA_COLUMN, newRow, false, false);
-           }
+                tbl.changeSelection(fNo, newRow, false, false);
+           //}
            if (fieldNum > 0  && getLayoutIndex() == layoutId) {
                 stopCellEditing();
-                tbl.editCellAt(fieldNum + BaseLineModel.FIRST_DATA_COLUMN, newRow);
+                tbl.editCellAt(
+                		fNo,
+                		newRow);
            }
         }
 	}
@@ -319,7 +322,7 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 			getModel().fireTableDataChanged();
 		}
 	}
-	
+
 	@Override
 	public boolean isActionAvailable(int action) {
 
@@ -335,5 +338,5 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 	protected BaseDisplay getNewDisplay(FileView view) {
 		return new LinesAsColumns(view);
 	}
-	
+
 }

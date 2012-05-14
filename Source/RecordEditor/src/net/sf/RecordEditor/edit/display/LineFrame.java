@@ -30,6 +30,7 @@ import javax.swing.event.TableModelEvent;
 
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.RecordEditor.edit.display.models.LineModel;
+import net.sf.RecordEditor.re.file.FieldMapping;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
@@ -86,8 +87,8 @@ public class LineFrame extends  BaseLineFrame {
 	        		 final int cRow) {
 		this("Record: ", viewOfFile, cRow);
 	}
-	
-	
+
+
 	public LineFrame(
 			final String screenName,
 			final FileView<?> viewOfFile,
@@ -106,17 +107,17 @@ public class LineFrame extends  BaseLineFrame {
 		show();
 		this.setToMaximum(false);
 	}
-	
+
 	/**
 	 * Define the screen fields
 	 * @param cRow current row (row todisplay)
 	 * @param btnPanel button panel
 	 */
 	public void init_100_setupRow(int cRow) {
-	
+
 		lineNum.setText(Integer.toString(cRow + 1));
 		lineNum.setEditable(false);
-	
+
 		record.setCurrentLine(cRow, fileView.getCurrLayoutIdx());
 		currRow = cRow;
 	}
@@ -124,18 +125,18 @@ public class LineFrame extends  BaseLineFrame {
 	public LineFrame(final FileView<?> viewOfFile,
    		 final AbstractLine<?> line) {
 		super("Record: ", viewOfFile, false, ! viewOfFile.getLayout().isXml());
-		
+
 		JPanel btnPanel = new JPanel();
 
-		
+
 		record = new LineModel(fileView);
 		setModel(record);
-		
+
 		record.setCurrentLine(line, fileView.getCurrLayoutIdx());
 		currRow = Common.NULL_INTEGER;
 		init_200_setupFields(btnPanel, icons, listner);
 		init_300_setupScreen(btnPanel);
-		
+
 		show();
 		this.setToMaximum(false);
 	}
@@ -150,7 +151,7 @@ public class LineFrame extends  BaseLineFrame {
 		return currRow;
 	}
 
-	
+
 
 	/**
 	 * Set the row to be displayed
@@ -168,9 +169,10 @@ public class LineFrame extends  BaseLineFrame {
 		}
 
 		if (fieldNum > 0 && getLayoutIndex() == layout) {
+			int fNo =  FieldMapping.getAdjColumn(getModel().getFieldMapping(), layout, fieldNum);
 		    tblDetails.getSelectionModel().clearSelection();
-		    tblDetails.getSelectionModel().setSelectionInterval(fieldNum, fieldNum);
-		    tblDetails.editCellAt(fieldNum, LineModel.DATA_COLUMN);
+		    tblDetails.getSelectionModel().setSelectionInterval(fNo, fNo);
+		    tblDetails.editCellAt(fNo, LineModel.DATA_COLUMN);
 		}
 	}
 
@@ -314,13 +316,13 @@ public class LineFrame extends  BaseLineFrame {
 
 		boolean allowBack = currRow > 0;
 		boolean allowForward = fileView != null && currRow < fileView.getRowCount() - 1;
-		
+
 	    btn[0].setEnabled(allowBack);
 	    btn[1].setEnabled(allowBack);
 	    btn[2].setEnabled(allowForward);
 	    btn[3].setEnabled(allowForward);
 	}
-	
+
 	private void changeRow(int amount) {
 		currRow += amount;
 		rowChanged();

@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -32,7 +33,7 @@ import net.sf.RecordEditor.utils.common.Common;
 public class FileChooser extends JTextField implements ActionListener  {
     private JButton chooseFileButton;
     private JFileChooser chooseFile = null;
-    private FocusListener listner;
+    private ArrayList<FocusListener> listner = new ArrayList<FocusListener>();
     private int mode = Constants.NULL_INTEGER;
     private String defaultDirectory = "";
     private boolean open = true;
@@ -42,11 +43,11 @@ public class FileChooser extends JTextField implements ActionListener  {
      *
      */
     public FileChooser() {
-        this(true, "Choose File"); 
+        this(true, "Choose File");
     }
 
     public FileChooser(final boolean isOpen) {
-        this(isOpen, "Choose File"); 
+        this(isOpen, "Choose File");
     }
 
     /**
@@ -60,7 +61,7 @@ public class FileChooser extends JTextField implements ActionListener  {
         		buttonPrompt,
         		Common.getRecordIcon(Common.ID_FILE_SEARCH_ICON));
         chooseFileButton.addActionListener(this);
-        
+
         open = isOpen;
     }
 
@@ -79,7 +80,7 @@ public class FileChooser extends JTextField implements ActionListener  {
 	public void actionPerformed(final ActionEvent event) {
 		if (chooseFile == null) {
 			chooseFile = new JFileChooser();
-			
+
 			if ( mode != Constants.NULL_INTEGER) {
 				chooseFile.setFileSelectionMode(mode);
 			}
@@ -89,9 +90,9 @@ public class FileChooser extends JTextField implements ActionListener  {
 			this.setText(defaultDirectory);
 		}
 		chooseFile.setSelectedFile(new File(this.getText()));
-		
+
 		int ret;
-		
+
 		if (open) {
 			ret = chooseFile.showOpenDialog(null);
 		} else {
@@ -100,8 +101,8 @@ public class FileChooser extends JTextField implements ActionListener  {
 
 		if (ret == JFileChooser.APPROVE_OPTION) {
 		    this.setText(chooseFile.getSelectedFile().getPath());
-		    if (listner != null) {
-		        listner.focusLost(null);
+		    for (FocusListener item : listner) {
+		    	item.focusLost(null);
 		    }
 		}
 	}
@@ -115,7 +116,13 @@ public class FileChooser extends JTextField implements ActionListener  {
     public synchronized void addFcFocusListener(FocusListener fcListner) {
 
         super.addFocusListener(fcListner);
-        listner = fcListner;
+
+        if (fcListner == null) {
+        	listner.clear();
+        } else {
+        	listner.add(fcListner);
+        }
+
     }
 
 
@@ -136,7 +143,7 @@ public class FileChooser extends JTextField implements ActionListener  {
 		if (chooseFile != null) {
 			chooseFile.setFileSelectionMode(newMode);
 		}
-		
+
 		if (mode == JFileChooser.DIRECTORIES_ONLY) {
 			chooseFileButton.setIcon(Common.getRecordIcon(Common.ID_DIRECTORY_SEARCH_ICON));
 		} else {

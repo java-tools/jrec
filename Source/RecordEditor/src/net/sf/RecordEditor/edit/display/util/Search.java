@@ -17,7 +17,7 @@
  *
  * # Version 0.62 Bruce Martin 2007/04/30
  *   - adding support for enter key
- *     
+ *
  */
 package net.sf.RecordEditor.edit.display.util;
 
@@ -54,8 +54,8 @@ import net.sf.RecordEditor.utils.swing.LayoutCombo;
  *
  * @author Bruce Martin
  * @version 0.51
- * 
- * 
+ *
+ *
  */
 @SuppressWarnings("serial")
 public final class Search extends ReFrame implements ActionListener, ILayoutChanged {
@@ -88,13 +88,13 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	private FileView file;
 	private boolean firstTimeDisplayed = true;
 	//private int layout;
-	
+
     private KeyAdapter listner = new KeyAdapter() {
         /**
          * @see java.awt.event.KeyAdapter#keyReleased
          */
         public final void keyReleased(KeyEvent event) {
-        	
+
         	switch (event.getKeyCode()) {
         	case KeyEvent.VK_ENTER:		ap_100_find();							break;
         	case KeyEvent.VK_ESCAPE:	Search.this.doDefaultCloseAction();		break;
@@ -116,7 +116,7 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 		this.setTitle("Search Screen");
 
 		BaseHelpPanel pnl = new BaseHelpPanel("Find");
-		
+
 		pnl.addReKeyListener(listner);
 
 		layoutList = new LayoutCombo(master.getLayout(), false, true);
@@ -182,7 +182,7 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 		file = iFile;
 
 		loadFieldList();
-		layoutList.setSelectedIndex(source.getLayoutIndex());
+		layoutList.setSelectedIndex(Math.min(source.getLayoutIndex(), layoutList.getItemCount() - 1));
 
 		this.setVisible(true);
 		this.toFront();
@@ -258,11 +258,18 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 				ignoreCase.isSelected(),
 	//			(func == 0) || (func == 2),
 				func);
-    	source.setCurrRow(pos);	
+    	source.setCurrRow(pos);
     	if (pos.currentLine == null && pos.row >= 0) {
-
- 	        msg.setText("Found (line, field position)=" + (pos.row+1) + " " + pos.col);
+ 	        msg.setText("Found (line, field Num, field position)="
+				    	+ (pos.row+1)
+				    	+ ", " + pos.currentFieldNumber
+				    	+ ", " + pos.col);
 	    }
+
+    	if (super.getActiveFrame() != this) {
+    		setActiveFrame(this);
+
+    	}
 		//System.out.println("--3 " + pos.row + " " + pos.col);
 	}
 
@@ -323,14 +330,14 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	    if (fieldId == -2 && this.file.getLayout().isXml()) {
 	    	fieldId = -1;
 	    }
-	    
+
 	    row = source.getCurrRow();
-	    
+
 	    source.stopCellEditing();
-	    
+
 	    pos.currentLine = source.getTreeLine();
 	    //System.out.print("==>> " + row + " " + pos.row + " " + pos.col  + " " + pos.currentFieldNumber);
-	    if (pos.row > 0 && (row < 0 || pos.row == row)) {
+	    if (pos.row >= 0 && (row < 0 || pos.row == row)) {
 	        pos.setForward(forward);
 		    pos.setFieldId(fieldId);
 		    pos.recordId = layoutList.getSelectedIndex();
@@ -341,8 +348,8 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	                fieldId,
 	                forward);
 	    } else {
-	        //System.out.println();
-	        //System.out.println("==== " + "    00".indexOf("00", 1));
+	        System.out.println();
+	        System.out.println("==== " + "    00".indexOf("00", 1));
 	        pos.setAll(Math.max(0, row), 0,
 	                layoutList.getSelectedIndex(),
 	                fieldId,
@@ -367,14 +374,14 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	 * Reload field list after the user changes the record layout
 	 */
 	private void loadFieldList() {
-		
+
 		if (file != null) {
 			int i, fieldListIdx = 0;;
 			int idx = layoutList.getSelectedIndex();
 			int numCols = file.getLayoutColumnCount(idx);
-	
+
 			//System.out.println("search layout " + idx);
-	
+
 			fieldList.removeAllItems();
 			fieldList.addItem("");
 			fieldList.addItem("All Fields");
@@ -400,6 +407,6 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 		loadFieldList();
 		layoutList.addActionListener(this);
 	}
-	
-	
+
+
 }

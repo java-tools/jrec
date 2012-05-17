@@ -118,7 +118,7 @@ public class SelectionTreeTablePnl implements IntRecordSelectPnl {
 				.getColumn(SelectionTreeTblMdl.SPECIAL_COLUMNS + IntSelectionTest.COLUMN_OPERATOR);
 
 		tc.setCellRenderer(new ComboBoxRender(Common.COMPARISON_OPERATORS));
-		tc.setCellEditor(new DefaultCellEditor(new JComboBox<String>(Common.COMPARISON_OPERATORS)));
+		tc.setCellEditor(new DefaultCellEditor(new JComboBox(Common.COMPARISON_OPERATORS)));
 
 	}
 

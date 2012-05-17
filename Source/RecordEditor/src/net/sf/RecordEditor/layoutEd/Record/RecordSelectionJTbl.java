@@ -58,18 +58,18 @@ public class RecordSelectionJTbl extends AbsJTable {
     private static final int FW_VALUE_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 11;
     private static final int FW_WIDE_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 25;
 
-	    
+
 //	private RecordSelectionDB recordSelDb = new RecordSelectionDB();
 
 
     //private static final String[] OPERATORS = {"=", "!=", "<>", ">", ">=",  "<", "<=",};
     private ComboBoxRender operatorRender = new ComboBoxRender(Common.COMPARISON_OPERATORS);
- 
+
 	private DefaultCellEditor operatorEditor = new DefaultCellEditor(
-			new JComboBox<String>(Common.COMPARISON_OPERATORS));
+			new JComboBox(Common.COMPARISON_OPERATORS));
 	//DBComboBoxRender  recordRendor;
 	private String[] fields;
-  
+
 
 
   /**
@@ -79,18 +79,18 @@ public class RecordSelectionJTbl extends AbsJTable {
    * @param dbIdx Database Index
    */
   public RecordSelectionJTbl(
-		  final DBtableModel<RecordSelectionRec> mdl, 
-		  final int dbIdx, 
+		  final DBtableModel<RecordSelectionRec> mdl,
+		  final int dbIdx,
 		  final ChildRecordsRec parent) {
-      super(mdl); 
+      super(mdl);
 
       String s;
       RecordFieldsDB db = new RecordFieldsDB();
       RecordFieldsRec rec;
       ArrayList<String> fieldsList = new ArrayList<String>();
       HashSet<String> used = new HashSet<String>();
-//      HashSet<String> 
-      
+//      HashSet<String>
+
 	  fieldsList.add("");
       for (int i = 0; i < mdl.getRowCount(); i++) {
     	  s = mdl.getRecord(i).getFieldName();
@@ -115,7 +115,7 @@ public class RecordSelectionJTbl extends AbsJTable {
       db.close();
       fields = new String[fieldsList.size()];
       fields = fieldsList.toArray(fields);
-      
+
       setColumnSizes();
       setRowHeight(SwingUtils.COMBO_TABLE_ROW_HEIGHT);
   }
@@ -125,10 +125,10 @@ public class RecordSelectionJTbl extends AbsJTable {
   	 * Set the column sizes
   	 */
 	public void setColumnSizes() {
-		
+
 	  	 this.setAutoResizeMode(AUTO_RESIZE_OFF);
 	  	 TableColumnModel tcm = this.getColumnModel();
-		
+
 	  	 tcm.getColumn(FLD_OR).setPreferredWidth(FW_BOOL_WIDTH);
 	  	 tcm.getColumn(FLD_AND).setPreferredWidth(FW_BOOL_WIDTH);
 	  	 tcm.getColumn(FLD_FIELD_NAME).setPreferredWidth(FW_WIDE_WIDTH);
@@ -137,12 +137,12 @@ public class RecordSelectionJTbl extends AbsJTable {
 
 	     tcm.getColumn(FLD_OPERATOR).setCellRenderer(operatorRender);
 	     tcm.getColumn(FLD_OPERATOR).setCellEditor(operatorEditor);
-	     
+
 	     tcm.getColumn(FLD_FIELD_NAME).setCellRenderer(new ComboBoxRender(fields));
 	     tcm.getColumn(FLD_FIELD_NAME).setCellEditor(new DefaultCellEditor(new JComboBox(fields)));
-	    
 
-	     
+
+
 	     //ParentList = new ParentList()
 //		TableColumnModel tcm = this.getColumnModel();
 //
@@ -156,10 +156,10 @@ public class RecordSelectionJTbl extends AbsJTable {
 //
 //		tcm.getColumn(6).setCellRenderer(parentCombo.getTableCellRenderer());
 //		tcm.getColumn(6).setCellEditor(new DefaultCellEditor(parentCombo));
-//		
-//		
+//
+//
 //		tcm.moveColumn(1, 5);
-		
+
 	}
 
 

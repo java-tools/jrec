@@ -15,18 +15,17 @@ import net.sf.RecordEditor.jibx.compare.Layout;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.file.filter.AbstractExecute;
 import net.sf.RecordEditor.re.file.filter.ExecuteSavedFile;
-import net.sf.RecordEditor.re.file.filter.FilterField;
 import net.sf.RecordEditor.utils.common.AbstractSaveDetails;
 import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.swing.SaveButton;
 
-public class SaveRestoreHiddenFields 
+public class SaveRestoreHiddenFields
 implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
 
-	private AbstractFileDisplayWithFieldHide display; 
+	private AbstractFileDisplayWithFieldHide display;
 	private HideFields hideFields;
-	
-  
+
+
    /**
 	 * @param display
 	 */
@@ -43,16 +42,16 @@ implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
 	@Override
 	public EditorTask getSaveDetails() {
 		EditorTask ret = new EditorTask();
-		
+
 		ret.type = EditorTask.TASK_VISIBLE_FIELDS;
 		ret.filter =  getExternalLayout();
-		if (display instanceof AbstractFieldSequencePnl 
+		if (display instanceof AbstractFieldSequencePnl
 		&& hideFields.isSaveSeqSelected()) {
 			ret.fieldSequence = ((AbstractFieldSequencePnl) display).getFieldSequence();
 		}
 		return ret;
 	}
-	
+
     private Layout getExternalLayout() {
     	int j, k, count;
 		Layout tmpLayoutSelection = new Layout();
@@ -60,10 +59,10 @@ implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
 		boolean allSelected = true;
 		AbstractRecordDetail recordDetail;
 		AbstractLayoutDetails layout = display.getFileView().getLayout();
-		
+
 		boolean[] recordFields;
-		
-		
+
+
 		tmpLayoutSelection.name = layout.getLayoutName();
 		for (int i =0; i < layout.getRecordCount(); i++) {
 //			if (isInclude(i)) {
@@ -81,10 +80,10 @@ implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
 				for (j = 0; j < recordDetail.getFieldCount() ; j++) {
 					if ((recordFields[j])) {
 						count += 1;
-					} 
+					}
 				}
-	
-				
+
+
 				if (count != recordDetail.getFieldCount()) {
 					k = 0;
 					allSelected = false;
@@ -92,38 +91,38 @@ implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
 					for (j = 0; j < recordDetail.getFieldCount() ; j++) {
 						if ((recordFields[j])) {
 							rec.fields[k++] = recordDetail.getField(j).getName();
-						} 
+						}
 					}
-				}		
+				}
 			}
-			FilterField filterFld;
+
 			FieldTest test;
-			rec.fieldTest = new ArrayList<FieldTest>(0); 		
-			
+			rec.fieldTest = new ArrayList<FieldTest>(0);
+
 			tmpLayoutSelection.getRecords().add(rec);
-			
+
 		}
 
 		if (allSelected) {
 			tmpLayoutSelection.records = null;
 		}
-		
+
 		return tmpLayoutSelection;
     }
 
-  
+
 
 	public void execute(EditorTask details) {
-		
+
 	   	int idx, fieldIdx, j;
 		Record rec;
 		boolean fieldsPresent;
 		AbstractRecordDetail recordDetail;
 		AbstractLayoutDetails layout = display.getFileView().getLayout();
-		
+
 		boolean[] recordFields;
 
-		if (details.filter.records == null 
+		if (details.filter.records == null
 		||  details.filter.records.size() == 0) {
 			for (int i =0; i < layout.getRecordCount(); i++) {
 				recordDetail = layout.getRecord(i);
@@ -134,11 +133,11 @@ implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
 			for (int i =0; i < layout.getRecordCount(); i++) {
 				rec = details.filter.records.get(i);
 				idx = layout.getRecordIndex(rec.name);
-				if (idx >= 0) { 
+				if (idx >= 0) {
 					recordDetail = layout.getRecord(idx);
 					fieldsPresent = rec.fields != null && rec.fields.length > 0;
 					recordFields = createBooleanArray(recordDetail.getFieldCount(), ! fieldsPresent);
-					
+
 					if (fieldsPresent) {
 						for (j = 0; j  < rec.fields.length; j++) {
 							fieldIdx = recordDetail.getFieldIndex(rec.fields[j]);
@@ -151,27 +150,27 @@ implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
 				}
 			}
 		}
-		
-		if (details.fieldSequence != null 
+
+		if (details.fieldSequence != null
 		&& display instanceof AbstractFieldSequencePnl) {
 			((AbstractFieldSequencePnl) display).setFieldSequence(details.fieldSequence);
 		}
 	}
-	
+
 	public boolean[] createBooleanArray(int size, boolean initValue) {
 		boolean[] ret = new boolean[size];
 		for (int i = 0; i < size; i++) {
 			ret[i] = initValue;
 		}
-		
+
 		return ret;
 	}
-	
+
 	public void executeDialog(EditorTask details) {
 		execute(details);
 	}
 
-    
+
 	public static JButton getSaveButton(
 			AbstractFileDisplayWithFieldHide pnl, HideFields hideFields) {
 		String dir = Parameters.getFileName(Parameters.HIDDEN_FIELDS_SAVE_DIRECTORY);
@@ -179,19 +178,19 @@ implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
 				new net.sf.RecordEditor.edit.display.util.SaveRestoreHiddenFields(pnl, hideFields),
 				dir);
 	}
-	
-	   
+
+
 	public static void restoreHiddenFields(AbstractFileDisplayWithFieldHide pnl) {
 		SaveRestoreHiddenFields action = new SaveRestoreHiddenFields(pnl, null);
 		FileView fileView = pnl.getFileView();
-		
+
 		new ExecuteSavedFile<EditorTask>(
 				fileView.getBaseFile().getFileNameNoDirectory(), "Execute Saved Filter", fileView,
-				Parameters.getFileName(Parameters.HIDDEN_FIELDS_SAVE_DIRECTORY), 
+				Parameters.getFileName(Parameters.HIDDEN_FIELDS_SAVE_DIRECTORY),
 				action, EditorTask.class
 		);
 
 	}
-			
+
 
 }

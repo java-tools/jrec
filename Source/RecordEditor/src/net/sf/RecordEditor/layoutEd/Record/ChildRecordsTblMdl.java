@@ -109,7 +109,7 @@ public class ChildRecordsTblMdl extends DBtableModel<ChildRecordsRec> {
 	}
 
 
-	public final ComboBoxModel<ParentItem> getParentModel() {
+	public final ComboBoxModel getParentModel() {
 		return new ParentComboModel();
 	}
 
@@ -280,7 +280,7 @@ public class ChildRecordsTblMdl extends DBtableModel<ChildRecordsRec> {
 	/* ------------------------------------------------------------------------------
 	 * Class definitions - Combo Items for the combo Box
 	 * ------------------------------------------------------------------------------ */
-	private final class ParentComboModel extends ListListner implements  ComboBoxModel<ParentItem> {
+	private final class ParentComboModel extends ListListner implements  ComboBoxModel {
 
 		private int currIdx = 0;
 

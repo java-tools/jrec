@@ -6,7 +6,7 @@ import java.util.HashMap;
 import javax.swing.ComboBoxModel;
 
 
-public class KeyedComboMdl<Key> extends ListListner implements  ComboBoxModel<ComboObjOption<Key>> {
+public class KeyedComboMdl<Key> extends ListListner implements  ComboBoxModel {
 
 	public final ComboObjOption<Key> nullItem;
 

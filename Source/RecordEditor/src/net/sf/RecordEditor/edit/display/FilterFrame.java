@@ -57,25 +57,25 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
 public class FilterFrame extends ReFrame {
 
 
-    private static final int FORM_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 72;
+    private static final int FORM_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 81;
 
     private FileView<?> fileTable;
-    
+
     private FilterPnl pnl;
 
-    
+
     private KeyAdapter listner = new KeyAdapter() {
         /**
          * @see java.awt.event.KeyAdapter#keyReleased
          */
         public final void keyReleased(KeyEvent event) {
-        	
+
         	switch (event.getKeyCode()) {
         	case KeyEvent.VK_ENTER:
         		if (! Common.TEST_MODE) {
         			filter();
         		}
-        		break;	
+        		break;
         	case KeyEvent.VK_ESCAPE:	FilterFrame.this.doDefaultCloseAction();	break;
         	}
         }
@@ -94,7 +94,7 @@ public class FilterFrame extends ReFrame {
         fileTable = fileTbl;
 
         Rectangle screenSize = ReMainFrame.getMasterFrame().getDesktop().getBounds();
-        
+
 		//pnl.done();
 		pnl = new FilterPnl(fileTable.getLayout(), true);
 		pnl.getExecute().addActionListener(new ActionListener() {
@@ -106,22 +106,22 @@ public class FilterFrame extends ReFrame {
 			public void actionPerformed(ActionEvent e) {
 				filter();
 			}
-			
+
 		});
     	//if (! Common.TEST_MODE) {
     		pnl.addReKeyListener(listner);
     	//}
 
-    	
-		
+
+
 		this.getContentPane().add(pnl);
 		this.pack();
 		this.setSize(FORM_WIDTH, Math.min(this.getHeight(), screenSize.height - 5));
 		this.setVisible(true);
 		this.setToMaximum(false);
     }
-    
-    
+
+
     private void filter() {
 
     	FileView<?> fileView = fileTable.getFilteredView(pnl.getFilter());
@@ -129,7 +129,7 @@ public class FilterFrame extends ReFrame {
     		pnl.getMessageFld().setText("No records matched the filter");
     	} else {
     		new LineList(fileTable.getLayout(), fileView, fileTable.getBaseFile());
-    	}								
+    	}
 
     }
 
@@ -158,6 +158,6 @@ public class FilterFrame extends ReFrame {
 	public final FilterDetails getFilter() {
 		return pnl.getFilter();
 	}
-	
-	
+
+
 }

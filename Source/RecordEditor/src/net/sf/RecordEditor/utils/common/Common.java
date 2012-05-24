@@ -95,7 +95,8 @@ public final class Common implements Constants {
 
 	public static final String COLUMN_LINE_SEP =  "|";
 
-	public static final String[] COMPARISON_OPERATORS = {"=", "!=", "<>", ">", ">=",  "<", "<=",};
+	public static final String[] COMPARISON_OPERATORS =
+		{"=", "!=", "<>", ">", ">=",  "<", "<=", STARTS_WITH, CONTAINS};
 
 	public static final String CSV_PROGRAM_ID = "csv";
 //	public static final boolean LOG_TO_FRONT = ! ("N".equalsIgnoreCase(

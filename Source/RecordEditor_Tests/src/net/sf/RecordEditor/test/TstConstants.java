@@ -39,6 +39,17 @@ public final class TstConstants {
 			+ "		<FIELD NAME=\"Dummy\" DESCRIPTION=\"1 field is Required for the layout to load\" POSITION=\"1\" TYPE=\"Char\"/>"
 			+ "	</FIELDS>"
 			+ "</RECORD>";
+
+
+    public static final String TAB_CSV_LAYOUT_NUM =
+			  "<?xml version=\"1.0\" ?>"
+			+ "<RECORD RECORDNAME=\"Tab Delimited, names on the first line\" COPYBOOK=\"\" DELIMITER=\"&lt;Tab&gt;\" DESCRIPTION=\"Tab Delimited, names on the first line\" FILESTRUCTURE=\"CSV_NAME_1ST_LINE\" STYLE=\"0\" RECORDTYPE=\"Delimited\" LIST=\"Y\" QUOTE=\"\" RecSep=\"default\">"
+			+ "	<FIELDS>"
+			+ "		<FIELD NAME=\"Dummy\" DESCRIPTION=\"1 field is Required for the layout to load\" POSITION=\"1\" TYPE=\"Num (Left Justified)\"/>"
+			+ "	</FIELDS>"
+			+ "</RECORD>";
+
+
     public static final String AMS_PO_LAYOUT
     		=	"<?xml version=\"1.0\" ?>"
     		+	"<RECORD RECORDNAME=\"ams PO Download\" COPYBOOK=\"\" DELIMITER=\"&lt;Tab&gt;\" FILESTRUCTURE=\"Default\" STYLE=\"0\" "

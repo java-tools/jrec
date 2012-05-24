@@ -36,7 +36,7 @@ public class TypeChar implements Type {
 
     private boolean leftJust;
     private boolean binary = false;
-    
+
     private boolean numeric = false;
 
 
@@ -45,7 +45,7 @@ public class TypeChar implements Type {
      * Type Char
      * <p>This class is the interface between the raw data in the file
      * and what is to be displayed on the screen for Character Strings.
-     * <p>It also acts as the base class to other Text base Types 
+     * <p>It also acts as the base class to other Text base Types
      *
      * @param leftJustified left justified option
      */
@@ -64,12 +64,12 @@ public class TypeChar implements Type {
      * @param leftJustified left justified option
      * @param binaryField wether this is a binary field
      */
-    public TypeChar(final boolean leftJustified, final boolean binaryField) {
+    public TypeChar(final boolean leftJustified, final boolean binaryField, final boolean num) {
         super();
 
         leftJust = leftJustified;
         binary   = binaryField;
-        numeric  = binary;
+        numeric  = num;
     }
 
 
@@ -267,7 +267,7 @@ public class TypeChar implements Type {
     public final boolean isBinary() {
         return binary;
     }
- 
+
 
 
     protected final void setNumeric(boolean numeric) {
@@ -284,7 +284,7 @@ public class TypeChar implements Type {
         return numeric;
     }
 
- 
+
     /**
      * @see net.sf.JRecord.Types.Type#getFieldType()
      */

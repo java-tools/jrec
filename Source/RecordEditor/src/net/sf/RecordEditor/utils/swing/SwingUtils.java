@@ -20,7 +20,7 @@ import net.sf.RecordEditor.utils.common.Common;
 public class SwingUtils {
 
 	public static final int STANDARD_FONT_HEIGHT, STANDARD_FONT_WIDTH;
-	public static final int TABLE_ROW_HEIGHT = getDefault((new JTable()).getRowHeight(), 20);
+	public static final int TABLE_ROW_HEIGHT = getDefault((new JTable()).getRowHeight(), 16);
 	private static final int HALF_TABLE_ROW_HEIGHT = TABLE_ROW_HEIGHT / 2;
 	public static final int COMBO_TABLE_ROW_HEIGHT ;
 	public static final int TABLE_BUTTON_WIDTH ;
@@ -34,7 +34,7 @@ public class SwingUtils {
 	private static String[] r = {"Aapj"};
 	static {
 		JTextField fld = new JTextField(r[0]);
-		JCheckBox chk = new JCheckBox(); 
+		JCheckBox chk = new JCheckBox();
 		double d = fld.getMinimumSize().getHeight();
 		int sub = 2;
 		if (Common.LOOKS_INDEX == 0 || Common.LOOKS_INDEX == 2) {
@@ -46,7 +46,7 @@ public class SwingUtils {
 		CHECK_BOX_HEIGHT = chk.getMinimumSize().height;
 		CHECK_BOX_WIDTH = chk.getMinimumSize().width;
 
-		
+
 		if (d <= 0) {
 			d = 19;
 		}
@@ -55,7 +55,7 @@ public class SwingUtils {
 //				+ " " + BUTTON_HEIGHT
 //				+ " " + ((new JButton("Aa")).getMinimumSize().height)
 //				);
-	    
+
 		System.out.println("### '''''''''''''''''''''''''''''''");
 		System.out.println("###            Font Height " + STANDARD_FONT_HEIGHT);
 		System.out.println("###           Field Height " + NORMAL_FIELD_HEIGHT);
@@ -65,16 +65,16 @@ public class SwingUtils {
 		System.out.println("### ...............................");
 
 		MONO_SPACED_FONT = new Font("Monospaced", Font.PLAIN,  STANDARD_FONT_HEIGHT);
-		
+
 		int tblCellWidth = TABLE_ROW_HEIGHT;
-		
+
         if (Common.NIMBUS_LAF) {
         	tblCellWidth = COMBO_TABLE_ROW_HEIGHT;
         }
-		
+
 		ONE_CHAR_TABLE_CELL_WIDTH = tblCellWidth;
 		TABLE_BUTTON_WIDTH = ONE_CHAR_TABLE_CELL_WIDTH / 3;
-		
+
 		TIP_HEIGHT = SwingUtils.STANDARD_FONT_HEIGHT * 11;
 	}
 
@@ -83,20 +83,20 @@ public class SwingUtils {
 		if (ret <= 0) {
 			ret = defaultVal;
 		}
-		return ret; 
+		return ret;
 	}
-	
+
 	public static int calculateTableHeight(int records, int maxHeight) {
 		return Math.min(maxHeight, (2*records + 3) * TABLE_ROW_HEIGHT / 2 + HALF_TABLE_ROW_HEIGHT);
 	}
-	
-	
+
+
 	public static int calculateComboTableHeight(int records, int maxHeight) {
 		return Math.min(
-				maxHeight, 
+				maxHeight,
 				(records + 1) * COMBO_TABLE_ROW_HEIGHT + HALF_TABLE_ROW_HEIGHT);
 	}
-	
+
 	/**
 	 * Get standard sized font
 	 * @return standard sized font
@@ -106,7 +106,7 @@ public class SwingUtils {
 	}
 
 
-	
+
 	public static void addKeyListnerToContainer(Container c, KeyAdapter keyListner) {
 		Component[] clist = c.getComponents();
 		for (Component cc : clist) {
@@ -118,10 +118,10 @@ public class SwingUtils {
 		}
 		c.addKeyListener(keyListner);
 	}
-	
+
 
 	public static void setTableCellColors(JComponent component, JTable table, int row, boolean isSelected) {
-		
+
 		setTableCellBackGround(component, table, row, isSelected);
 		if (isSelected) {
 			component.setForeground(table.getSelectionForeground());
@@ -130,12 +130,12 @@ public class SwingUtils {
 		}
 
 	}
-	
+
 	public static void setTableCellBackGround(JComponent component, JTable table, int row, boolean isSelected) {
-		
+
 		Color background;
 		component.setOpaque(true);
-		
+
 		if (isSelected) {
 			background = table.getSelectionBackground();
 		} else {

@@ -61,7 +61,7 @@ import net.sf.RecordEditor.utils.swing.LayoutCombo;
 public final class Search extends ReFrame implements ActionListener, ILayoutChanged {
 
     private static final int SILLY_INT = -101;
-	private static final String[] FIELD_SEARCH_OPTIONS = Compare.OPERATOR_STRING_VALUES;
+	private static final String[] FIELD_SEARCH_OPTIONS = Compare.OPERATOR_SEARCH_OPTIONS;
 	//{"Any Part of Field", "Whole Field", "Not in Field", "<> Field" };
 	private static final String[] SEARCH_DIRECTIONS = {"Forward", "Backward" };
 

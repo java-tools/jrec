@@ -6,7 +6,7 @@ import net.sf.JRecord.Common.RecordException;
 public class TypeCharRestOfRecord extends TypeChar {
 
 	public TypeCharRestOfRecord() {
-		super(true, true);
+		super(true, true, false);
 	}
 
 //	/* (non-Javadoc)
@@ -50,6 +50,6 @@ public class TypeCharRestOfRecord extends TypeChar {
 		}
 		return record;
 	}
-	
-	
+
+
 }

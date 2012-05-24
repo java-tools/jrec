@@ -10,20 +10,14 @@ public abstract class FieldSelect extends ExternalFieldSelection implements Reco
 
 	protected final FieldDetail fieldDetail;
 
-//	public FieldSelect(FieldSelection fs, FieldDetail fieldDef) {
-//		field = fieldDef;
-//		set(fs);
-//	}
-	
-	
-	
-	
-	protected FieldSelect(String name, String value, String op, FieldDetail fieldDef) {
+
+
+	public FieldSelect(String name, String value, String op, FieldDetail fieldDef) {
 		super(name, value, op);
 		fieldDetail = fieldDef;
 	}
-	
-	
+
+
 
 
 
@@ -45,8 +39,8 @@ public abstract class FieldSelect extends ExternalFieldSelection implements Reco
 	public FieldSelect getFirstField() {
 		return this;
 	}
-	
-	
+
+
 
 
 
@@ -72,12 +66,32 @@ public abstract class FieldSelect extends ExternalFieldSelection implements Reco
 
 
 
+	public static class Contains extends FieldSelect {
+
+		protected Contains(String name, String value, FieldDetail fieldDef) {
+			super(name, value, "Contains", fieldDef);
+		}
 
 
-	public static class EqualsSelect extends FieldSelect {		
+		/* (non-Javadoc)
+		 * @see net.sf.JRecord.Details.Selection.RecordSelection#isSelected(net.sf.JRecord.Details.AbstractLine)
+		 */
+		@Override
+		public boolean isSelected(AbstractIndexedLine line) {
 
-		protected EqualsSelect(String name, String value, FieldDetail fieldDef) {
-			super(name, value, "=", fieldDef);
+			Object o = line.getField(fieldDetail);
+			if (super.isCaseSensitive() || o == null) {
+				return  o != null
+					&& (o.toString().indexOf(getFieldValue()) >= 0);
+			}
+			return (o.toString().toLowerCase().indexOf(getFieldValue()) >= 0);
+		}
+	}
+
+	public static class DoesntContain extends FieldSelect {
+
+		protected DoesntContain(String name, String value, FieldDetail fieldDef) {
+			super(name, value, "Doesnt_Contain", fieldDef);
 		}
 
 
@@ -87,18 +101,20 @@ public abstract class FieldSelect extends ExternalFieldSelection implements Reco
 		 */
 		@Override
 		public boolean isSelected(AbstractIndexedLine line) {
-			
+
 			Object o = line.getField(fieldDetail);
-			return  o != null 
-			   && (o.toString().equals(getFieldValue()));
+			if (super.isCaseSensitive() || o == null) {
+				return  o == null
+					|| (o.toString().indexOf(getFieldValue()) < 0);
+			}
+			return (o.toString().toLowerCase().indexOf(getFieldValue()) < 0);
 		}
 	}
 
+	public static class StartsWith extends FieldSelect {
 
-	public static class NotEqualsSelect extends FieldSelect {
-
-		protected NotEqualsSelect(String name, String value, FieldDetail fieldDef) {
-			super(name, value, "!=", fieldDef);
+		protected StartsWith(String name, String value, FieldDetail fieldDef) {
+			super(name, value, "Doesnt_Contain", fieldDef);
 		}
 
 
@@ -108,13 +124,32 @@ public abstract class FieldSelect extends ExternalFieldSelection implements Reco
 		 */
 		@Override
 		public boolean isSelected(AbstractIndexedLine line) {
-			
+
 			Object o = line.getField(fieldDetail);
-			return  o != null 
-			   && (! o.toString().equals(getFieldValue()));
+			if (super.isCaseSensitive() || o == null) {
+				return  o != null
+					&& (o.toString().startsWith(getFieldValue()));
+			}
+			return (o.toString().toLowerCase().startsWith(getFieldValue()));
 		}
 	}
 
+	public static class TrueSelect extends FieldSelect {
+
+		protected TrueSelect() {
+			super("", "", "True", null);
+
+		}
+
+		/* (non-Javadoc)
+		 * @see net.sf.JRecord.Details.Selection.RecordSelection#isSelected(net.sf.JRecord.Details.AbstractLine)
+		 */
+		@Override
+		public boolean isSelected(AbstractIndexedLine line) {
+
+			return true;
+		}
+	}
 
 	/**
 	 * @return the fieldDetail

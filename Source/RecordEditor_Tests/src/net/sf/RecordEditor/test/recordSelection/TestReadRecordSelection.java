@@ -19,7 +19,7 @@ public class TestReadRecordSelection extends TestCase {
 	public void test1() {
 		runTest("Test 1 - Single ", tstVals.singleTest, tstVals.singleTestResult);
 	}
-	
+
 	public void test2() {
 		runTest("Test 2 - And ", tstVals.andTest, tstVals.andTestResult);
 	}
@@ -48,47 +48,47 @@ public class TestReadRecordSelection extends TestCase {
 	public void test8() {
 		runTest("Test 8 - Or 6 ", tstVals.orTest6, tstVals.orTest6Result);
 	}
-	
+
 	public void runTest(String id, RecordSelectionRec[] test, OpTree result) {
 		int key = -1331;
 		tstVals.insertTest(key, test);
-		
+
 		RecordSel sel = ReadRecordSelection.getInstance().getRecordSelection(
 				Common.getConnectionIndex(), key, key+1, null, "", "");
-		
+
 		checkTest(id, sel, result);
-		
-		
+
+
 		RecordSel sel1 = ReadRecordSelection.getInstance().getRecordSelection(
 				Common.getConnectionIndex(), key, key+1, null, "fff", "vvv");
-		
+
 		checkTestDefaultField(id, sel1, result);
 
 	}
-	
 
-	
+
+
 	private static void checkTestDefaultField(String id, RecordSel sel, OpTree result) {
-		
+
 		assertTrue(id + " aa", sel instanceof AndSelection);
 		if (sel instanceof AndSelection) {
 			AndSelection a = (AndSelection) sel;
 			assertEquals(id, 2, a.getSize());
-			
+
 			checkField(
-					id + "Field: ", 
+					id + "Field: ",
 					a.get(0),
 					new OpTree("fff", "=", "vvv"));
 			checkTest(id + " db: ", a.get(1), result);
 		}
 	}
-	
+
 	private static void checkTest(String id, RecordSel sel, OpTree result) {
 		String testId = id + result.id;
-		
+
 		System.out.print(testId);
 		if ("".equals(result.boolOp)) {
-			checkField(testId, sel, result);			
+			checkField(testId, sel, result);
 		} else {
 			System.out.print("\t\t" + sel.getClass().getName());
 			if (sel instanceof AbsGroup) {
@@ -112,22 +112,22 @@ public class TestReadRecordSelection extends TestCase {
 		}
 		System.out.println();
 	}
-	
+
 	private static void checkField(String testId, RecordSel sel, OpTree result) {
 		if (sel instanceof FieldSelect) {
 			FieldSelect fs = (FieldSelect) sel;
-			System.out.print("\t" + result.fieldName 
+			System.out.print("\t" + result.fieldName
 					+ "\t" +result.op + "\t" + result.fieldValue);
-			System.out.print("\t" + fs.getFieldName() 
+			System.out.print("\t" + fs.getFieldName()
 					+ "\t" + fs.getOperator() + "\t" + fs.getFieldValue());
 
 			assertEquals(testId, result.fieldName, fs.getFieldName());
 			assertEquals(testId, result.op, fs.getOperator());
 			assertEquals(testId, result.fieldValue, fs.getFieldValue());
-			
+
 			String op = result.op;
 			if ("!=".equals(op) ) {
-				assertTrue(testId+ " wrong class", fs instanceof FieldSelect.NotEqualsSelect);
+				assertTrue(testId+ " wrong class", fs instanceof FieldSelectX.NotEqualsSelect);
 			} else if (">".equals(op)) {
 				assertTrue(testId+ " wrong class", fs instanceof FieldSelectX.GreaterThan);
 			} else if (">=".equals(op)) {

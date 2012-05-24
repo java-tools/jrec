@@ -73,7 +73,7 @@ public class TypeNum extends TypeChar {
      * </ul>
      */
     public TypeNum(final int typeId) {
-        super(typeId == Type.ftNumLeftJustified, false);
+        super(typeId == Type.ftNumLeftJustified, false, true);
 
         adjustTheDecimal =  (typeId == Type.ftAssumedDecimal);
         setNumeric(true);
@@ -111,7 +111,7 @@ public class TypeNum extends TypeChar {
             		  final boolean couldBeALong,
             		  final boolean isPositive,
             		  final boolean binary) {
-        super(leftJustified, binary);
+        super(leftJustified, binary, true);
         adjustTheDecimal = adjustDecimal;
         couldBeLong = couldBeALong;
         positive = isPositive;
@@ -320,18 +320,18 @@ public class TypeNum extends TypeChar {
         return Type.NT_NUMBER;
     }
 
-    
+
     protected long getRmComp(byte[] record, int position, int len) {
 		long retL = 0;
 
 		position = position - 1;
 		if (record != null && record.length >= position) {
 			int en = position + Math.min(len, record.length - position);
-			
+
 			for (int i = position; i < en; i++) {
 				retL = record[i] + retL * 10;
 			}
-			
+
 			if (len > record.length - position) {
 				for (int i = len - record.length + position; i > 0; i--) {
 					retL = retL * 10;
@@ -341,7 +341,7 @@ public class TypeNum extends TypeChar {
 
 		return retL;
     }
-    
+
     protected byte[] setRmComp(byte[] record, int position, int len, long value) {
 
     	int ii;
@@ -350,7 +350,7 @@ public class TypeNum extends TypeChar {
 			record[position + i - 1] = (byte) ii;
 			value = value / 10;
 		}
-		
+
 		return record;
     }
 }

@@ -6,7 +6,7 @@ import net.sf.JRecord.Common.RecordException;
 public class TypeCharRestOfFixedRecord extends TypeChar {
 
 	public TypeCharRestOfFixedRecord() {
-		super(true, true);
+		super(true, true, false);
 	}
 
 	/**
@@ -39,6 +39,6 @@ public class TypeCharRestOfFixedRecord extends TypeChar {
 		}
 		return record;
 	}
-	
-	
+
+
 }

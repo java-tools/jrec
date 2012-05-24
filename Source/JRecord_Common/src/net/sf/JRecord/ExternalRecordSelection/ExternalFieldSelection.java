@@ -3,14 +3,15 @@ package net.sf.JRecord.ExternalRecordSelection;
 import net.sf.JRecord.Common.Constants;
 
 public class ExternalFieldSelection implements ExternalSelection {
-	
+
 	private String fieldName, fieldValue, operator="=", booleanOp="";
-	private static final String[] VALID_OPS = Constants.COMPARISON_OPERATORS;
+	private boolean caseSensitive = true;
+	private static final String[] VALID_OPS = Constants.VALID_COMPARISON_OPERATORS;
 
 	public ExternalFieldSelection() {
 		super();
 	}
-	
+
 
 	public ExternalFieldSelection(String name, String value) {
 		fieldName = name;
@@ -29,13 +30,14 @@ public class ExternalFieldSelection implements ExternalSelection {
 			}
 		}
 	}
-	
+
 
 	public void set(ExternalFieldSelection fs) {
 		fieldName = fs.fieldName;
 		fieldValue = fs.fieldValue;
 		booleanOp = fs.booleanOp;
 		operator = fs.operator;
+		caseSensitive = fs.caseSensitive;
 	}
 
 
@@ -49,7 +51,10 @@ public class ExternalFieldSelection implements ExternalSelection {
 	}
 
 	public String getFieldValue() {
-		return fieldValue;
+		if (isCaseSensitive() || fieldValue == null) {
+			return fieldValue;
+		}
+		return fieldValue.toLowerCase();
 	}
 
 	public void setFieldValue(String fieldValue) {
@@ -61,7 +66,7 @@ public class ExternalFieldSelection implements ExternalSelection {
 	}
 
 	public void setOperator(String operator) {
-	
+
 		this.operator = null;
 		if (operator != null) {
 			this.operator = operator.trim();
@@ -84,7 +89,7 @@ public class ExternalFieldSelection implements ExternalSelection {
 	public int getType() {
 		return ExternalSelection.TYPE_ATOM;
 	}
-	
+
 
 	@Override
 	public int getSize() {
@@ -99,6 +104,22 @@ public class ExternalFieldSelection implements ExternalSelection {
 	public int getElementCount() {
 		return 1;
 	}
-	
-	
+
+
+	/**
+	 * @return the caseSensitive
+	 */
+	public boolean isCaseSensitive() {
+		return caseSensitive;
+	}
+
+
+	/**
+	 * @param caseSensitive the caseSensitive to set
+	 */
+	public void setCaseSensitive(boolean caseSensitive) {
+		this.caseSensitive = caseSensitive;
+	}
+
+
 }

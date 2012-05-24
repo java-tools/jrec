@@ -33,7 +33,7 @@ public class TypeBit extends TypeChar {
      *
      */
     public TypeBit() {
-        super(true, true);
+        super(true, true, true);
     }
 
 

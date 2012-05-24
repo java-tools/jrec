@@ -1,7 +1,5 @@
 package net.sf.JRecord.zTest.External;
 
-import java.io.ByteArrayInputStream;
-
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.Line;
@@ -153,30 +151,30 @@ public class TstMultiFieldCheck  extends TestCase {
 		"	</RECORDS>",
 		"</RECORD>",
 	};
-	
+
 	public void test1() throws RecordException, Exception {
 		int[] selectionFields = {1, 2, 1, 2, 2, 1, 1};
 		boolean[] isDefault = {false, false, true, false, false, true, false};
 		LayoutDetail l = getLayout();
-		
+
 		assertEquals("Record Count", selectionFields.length, l.getRecordCount());
-		
+
 		for (int i = 0; i < selectionFields.length; i++) {
 			assertEquals(
-					"Selection Field Record " +i, 
-					selectionFields[i], 
+					"Selection Field Record " +i,
+					selectionFields[i],
 					l.getRecord(i).getRecordSelection().size());
 			assertEquals(
-					"Default Check Record " + i, 
-					isDefault[i], 
+					"Default Check Record " + i,
+					isDefault[i],
 					l.getRecord(i).getRecordSelection().isDefaultRecord());
 		}
 	};
-	
+
 	public void test2() throws RecordException, Exception {
 		LayoutDetail l = getLayout();
 		Line line;
-		
+
 		for (int i = 0; i < LINES.length; i++) {
 			line = new Line(l, LINES[i].getBytes());
 			assertEquals(
@@ -185,14 +183,14 @@ public class TstMultiFieldCheck  extends TestCase {
 			System.out.print(line.getPreferredLayoutIdxAlt() + ", ");
 		}
 	}
-	
+
 	private LayoutDetail getLayout() throws RecordException, Exception {
 		StringBuilder b = new StringBuilder();
-			
+
 		for (int i = 0; i < XML_LAYOUT.length; i++) {
 			b.append(XML_LAYOUT[i]);
 		}
-	       
+
 		return RecordEditorXmlLoader.getExternalRecord(b.toString(), "Csv Layout").asLayoutDetail();
 	}
 }

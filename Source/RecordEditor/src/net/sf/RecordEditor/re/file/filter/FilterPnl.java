@@ -72,15 +72,16 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
 @SuppressWarnings("serial")
 public class FilterPnl extends BaseHelpPanel implements ActionListener, AbstractSaveDetails<EditorTask> {
 
-    private static final int FIRST_COLUMN_WIDTH      = SwingUtils.STANDARD_FONT_WIDTH * 35;
-    private static final int SECOND_COLUMN_WIDTH     = SwingUtils.STANDARD_FONT_WIDTH * 9;
+    private   static final int FIRST_COLUMN_WIDTH     = SwingUtils.STANDARD_FONT_WIDTH * 35;
+    private   static final int SECOND_COLUMN_WIDTH    = SwingUtils.STANDARD_FONT_WIDTH * 9;
 
-    protected static final int FIELD_VALUE_ROW_HEIGHT  = SwingUtils.COMBO_TABLE_ROW_HEIGHT;
-    protected static final int FIELD_NAME_WIDTH      = SwingUtils.STANDARD_FONT_WIDTH * 22;
-    private static final int CASE_SENSTIVE_WIDTH     = SwingUtils.STANDARD_FONT_WIDTH * 10;
-    private static final int OPERATOR_WIDTH          = CASE_SENSTIVE_WIDTH;
-    private static final int VALUE_WIDTH             = FIELD_NAME_WIDTH;
- 
+    protected static final int FIELD_VALUE_ROW_HEIGHT = SwingUtils.COMBO_TABLE_ROW_HEIGHT;
+    protected static final int FIELD_NAME_WIDTH       = SwingUtils.STANDARD_FONT_WIDTH * 22;
+    private   static final int AND_WIDTH              = SwingUtils.STANDARD_FONT_WIDTH * 5;
+    private   static final int CASE_SENSTIVE_WIDTH    = SwingUtils.STANDARD_FONT_WIDTH * 10;
+    private   static final int OPERATOR_WIDTH         = CASE_SENSTIVE_WIDTH;
+    private   static final int VALUE_WIDTH            = FIELD_NAME_WIDTH;
+
 //    private static final double TABLE_HEIGHT         = 8 * BasePanel.NORMAL_HEIGHT;
 //    private static final double FIELD_VALUE_TABLE_HEIGHT
 //    	= (FilterFieldList.NUMBER_FIELD_FILTER_ROWS + 2)
@@ -95,8 +96,8 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
     private JTable filterFieldTbl = new JTable();
     private AbstractTableModel recordMdl;
     private AbstractTableModel fieldMdl;
-    private AbstractTableModel filterFieldMdl;
-    
+    private FilterFieldList filterFieldMdl;
+
    // private DefaultCellEditor includeEditor = new DefaultCellEditor(new JCheckBox());
     private JButton execute
     		  = new JButton("Filter", Common.getRecordIcon(Common.ID_FILTER_ICON));
@@ -111,18 +112,47 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
     private FilterDetails filter;
     @SuppressWarnings("rawtypes")
 	private AbstractLayoutDetails recordLayout;
- 
+
     private boolean addExecute;
     private boolean toInit = true;
-    
+
     private boolean addFieldFilter = true;
-    
-    public FilterPnl(boolean pAddExecute) {  
+
+	private final MouseAdapter fieldMouseListner = new MouseAdapter() {
+
+	  /**
+       * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
+       */
+		public void mousePressed(MouseEvent m) {
+			try {
+				int col = filterFieldTbl.columnAtPoint(m.getPoint());
+				int row = filterFieldTbl.rowAtPoint(m.getPoint());
+				int tblCol = filterFieldTbl.getColumnModel().getColumn(col).getModelIndex();
+
+				if (tblCol == FilterField.FLD_AND_VAL || tblCol == FilterField.FLD_OR_VAL) {
+					FilterField rec = filterFieldMdl.getFilterField(row);
+
+					//rec.setBooleanOperator(1 - rec.getBooleanOperator());
+					//filterFieldMdl.clearRecordSelection();
+					filterFieldMdl.setValueAt(1 - rec.getBooleanOperator(), row, tblCol);
+
+					filterFieldMdl.fireTableRowsUpdated(row, row);
+					System.out.print(" ## " + row);
+				}
+			} catch (Exception e) {
+				// if it does not work so what
+				e.printStackTrace();
+			}
+		}
+	};
+
+
+    public FilterPnl(boolean pAddExecute) {
     	addExecute = pAddExecute;
-    	
+
     	addFieldFilter = false;
     }
-    
+
 
     /**
      * Display Filter on the screen for the user to update
@@ -135,13 +165,13 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 
     	setRecordLayout(layout, null, false, 0);
     }
-    
+
     @SuppressWarnings("rawtypes")
-	public final void setRecordLayout(final AbstractLayoutDetails layout, 
-    		final AbstractLayoutDetails layout2, 
+	public final void setRecordLayout(final AbstractLayoutDetails layout,
+    		final AbstractLayoutDetails layout2,
     		boolean is2ndLayout, int heightOverhead) {
     	recordLayout = layout;
-    	
+
 
         setupScreenFields(is2ndLayout, layout2);
 
@@ -156,13 +186,13 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
         	if (addExecute) {
         		desktopHeight -= SwingUtils.BUTTON_HEIGHT * 3;
         	}
-        	
+
         	this.registerComponent(pnl2);
-        	
+
         	pnl2.setBorder(BorderFactory.createEmptyBorder());
         	scrollPane.setBorder(BorderFactory.createEmptyBorder());
-        	
-        	if (this.getClass() != FilterPnl.class 
+
+        	if (this.getClass() != FilterPnl.class
         	|| is2ndLayout
         	|| layout.getRecordCount() > 1) {
         		int maxHeight = desktopHeight / 3;
@@ -177,7 +207,7 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 					height = SwingUtils.calculateTableHeight(recordTbl.getRowCount(), maxHeight);
 	        	}
 				pnl2.setHeight(SwingUtils.BUTTON_HEIGHT + 6);
-				
+
 				desktopHeight -= height + SwingUtils.BUTTON_HEIGHT + 6;
 				pnl2.addComponent(1, 5,
 						 height,
@@ -186,13 +216,13 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 						 recordTbl);
 				pnl2.setComponentName(recordTbl, "RecordSelection");
 	        }
-       	
+
 			if (! is2ndLayout) {
 				pnl2.addLine("", fieldOptionPanel);
 				pnl2.setHeight(SwingUtils.BUTTON_HEIGHT + 6);
 			}
 
-	
+
 			if (addFieldFilter) {
 				int rows = fieldTbl.getRowCount();
 				for (int i =0; i < recordLayout.getRecordCount(); i++) {
@@ -204,14 +234,15 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 				pnl2.addComponent(1, 5, height, BasePanel.GAP1,
 				         BasePanel.FULL, BasePanel.FULL,
 						 fieldTbl);
-				
-				
+
+
 				height = SwingUtils.calculateComboTableHeight(FilterFieldList.NUMBER_FIELD_FILTER_ROWS, desktopHeight * 7 / 10);
 				pnl2.addComponent(1, 5,
 						height, 3,
 			         BasePanel.FULL, BasePanel.FULL,
 					 filterFieldTbl);
 				pnl2.setComponentName(filterFieldTbl, "FieldRelationship");
+				filterFieldTbl.addMouseListener(fieldMouseListner);
 			} else {
 				//height = SwingUtils.calculateComboTableHeight(fieldTbl.getRowCount(), desktopHeight * 8 / 10);
 				height =  desktopHeight  * 4 / 5;
@@ -221,15 +252,15 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 						 fieldTbl);
 			}
 			pnl2.setComponentName(fieldTbl, "FieldSelection");
-			
+
 			setGap(0);
 			setHelpURL(Common.formatHelpURL(Common.HELP_FILTER));
 			addComponent(0, 6, BasePanel.FILL, BasePanel.GAP, BasePanel.FULL,
 			        BasePanel.FULL, new JScrollPane(pnl2));
-		
-			
+
+
 			if (addExecute) {
-				setGap(BasePanel.GAP0);	
+				setGap(BasePanel.GAP0);
 				String dir = Parameters.getFileName(Parameters.FILTER_SAVE_DIRECTORY);
 				JPanel p = new JPanel();
 				SaveButton<EditorTask> btn = new SaveButton<EditorTask>(this, dir);
@@ -239,7 +270,7 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 				setHeight(BasePanel.GAP1 * 2);
 				setGap(BasePanel.GAP0);
 			}
-	
+
 			addMessage(messageFld);
 			super.done();
 			toInit = false;
@@ -254,15 +285,15 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 	public final AbstractLayoutDetails getRecordLayout() {
 		return recordLayout;
 	}
-	
-	
+
+
 	/**
      * define screen fields
      */
     private void setupScreenFields(
     		boolean is2ndLayout,
     		@SuppressWarnings("rawtypes") final AbstractLayoutDetails layout2) {
-    	
+
         filter = new FilterDetails(recordLayout); // getFilterDetails(recordLayout);
         filter.setMessageFld(messageFld);
         filter.set2Layouts(is2ndLayout);
@@ -273,29 +304,29 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
         fieldMdl       = filter.getFieldListMdl();
         filterFieldMdl = filter.getFilterFieldListMdl();
         recordMdl      = filter.getLayoutListMdl();
-    
+
     	recordTbl.setModel(recordMdl);
         fieldTbl.setModel(fieldMdl);
-        
+
         if (addFieldFilter) {
         	filterFieldTbl.setModel(filterFieldMdl);
         	buildFieldFilterTable();
         }
-	
+
         setRecordTableDetails(recordTbl);
         setFieldTableDetails(fieldTbl);
-        
+
         recordOptionPanel.add(uncheckAllRecords);
         recordOptionPanel.add(checkAllRecords);
 
         fieldOptionPanel.add(uncheckAllFields);
         fieldOptionPanel.add(checkAllFields);
-	
+
 	    if (toInit) {
 			recordTbl.addMouseListener(new MouseAdapter() {
 				public void mousePressed(final MouseEvent m) {
 				    int idx = recordTbl.getSelectedRow();
-				    
+
 				    if (idx >= 0 && idx < recordTbl.getRowCount()) {
 				        if (addFieldFilter && idx != filter.getLayoutIndex()) {
 				        	Common.stopCellEditing(filterFieldTbl);
@@ -308,12 +339,12 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 				    }
 				}
 			});
-	
+
 			uncheckAllRecords.addActionListener(this);
 			checkAllRecords.addActionListener(this);
 			uncheckAllFields.addActionListener(this);
 			checkAllFields.addActionListener(this);
-			
+
 			registerComponent(uncheckAllRecords);
 			registerComponent(checkAllRecords);
 			registerComponent(uncheckAllFields);
@@ -321,7 +352,7 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 	    } else {
 	    	recordMdl.fireTableDataChanged();
 	    	fieldMdl.fireTableDataChanged();
-	    	
+
 	    	if (addFieldFilter) {
 	    		filterFieldMdl.fireTableDataChanged();
 	    	}
@@ -337,7 +368,7 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
     protected void setRecordTableDetails(JTable tbl) {
     	setTableDetails(tbl);
     }
-    
+
     /**
      * Set Record Table
      * @param tbl table to update
@@ -356,7 +387,7 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
         TableColumn tc;
 
         setTableDetailsCol0(tbl);
-        
+
 		tc = tbl.getColumnModel().getColumn(1);
 	  	tc.setCellRenderer(new CheckBoxTableRender());
 		tc.setCellEditor(includeEditor);
@@ -364,7 +395,7 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
     }
 
     protected final void setTableDetailsCol0(JTable tbl) {
- 
+
         tbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         tbl.getColumnModel().getColumn(0).setPreferredWidth(FIRST_COLUMN_WIDTH);
     }
@@ -385,25 +416,31 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
         filterFieldTbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         filterFieldTbl.setRowHeight(FIELD_VALUE_ROW_HEIGHT);
         tcm = filterFieldTbl.getColumnModel();
-		tc = tcm.getColumn(0);
+
+		tc = tcm.getColumn(FilterField.FLD_OR_VAL);
+		tc.setPreferredWidth(AND_WIDTH);
+		tc = tcm.getColumn(FilterField.FLD_AND_VAL);
+		tc.setPreferredWidth(AND_WIDTH);
+
+		tc = tcm.getColumn(FilterField.FLD_FIELD_NUMBER);
 		tc.setPreferredWidth(FIELD_NAME_WIDTH);
 	  	tc.setCellRenderer(fieldRendor);
 		tc.setCellEditor(new DefaultCellEditor(
 		    new JComboBox(filter.getFilterFieldListMdl().getFieldModel())));
 
-		tc = tcm.getColumn(1);
+		tc = tcm.getColumn(FilterField.FLD_CASE_SENSITIVE);
 		tc.setPreferredWidth(CASE_SENSTIVE_WIDTH);
 	  	tc.setCellRenderer(new CheckBoxTableRender());
 		tc.setCellEditor(new DefaultCellEditor(new JCheckBox()));
 
-		tc = tcm.getColumn(2);
+		tc = tcm.getColumn(FilterField.FLD_OPERATOR);
 		tc.setPreferredWidth(OPERATOR_WIDTH);
 	  	tc.setCellRenderer(operatorRendor);
 		tc.setCellEditor(
 		    new DefaultCellEditor(
 		        new JComboBox(Compare.OPERATOR_STRING_VALUES)));
 
-		tcm.getColumn(3).setPreferredWidth(VALUE_WIDTH);
+		tcm.getColumn(FilterField.FLD_VALUE).setPreferredWidth(VALUE_WIDTH);
 
     }
 
@@ -415,7 +452,7 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
     public void actionPerformed(ActionEvent event) {
 
     	stopTblEdit();
-    	
+
         if (event.getSource() == uncheckAllFields) {
             updateIncludeFlag(Boolean.FALSE);
         } else if (event.getSource() == checkAllFields) {
@@ -427,8 +464,8 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
         }
     }
 
-    
-    
+
+
     /**
 	 * @see net.sf.RecordEditor.utils.common.AbstractSaveDetails#getSaveDetails()
 	 */
@@ -439,8 +476,8 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 			    new net.sf.RecordEditor.jibx.compare.EditorTask())
 			    .setFilter(filter.getExternalLayout());
 	}
-	
-	
+
+
 	/**
      * Updates the include flag in the field list table
      *
@@ -470,7 +507,7 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
         fieldMdl.fireTableDataChanged();
     }
 
-    
+
 	/**
 	 * @return the messageFld
 	 */
@@ -487,13 +524,13 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 
 		return filter;
 	}
-	
+
 	private void stopTblEdit() {
-		
+
 
         Common.stopCellEditing(recordTbl);
         Common.stopCellEditing(fieldTbl);
-        
+
         if (addFieldFilter) {
         	Common.stopCellEditing(filterFieldTbl);
         }

@@ -28,6 +28,7 @@ import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.RecordEditor.jibx.compare.FieldTest;
 import net.sf.RecordEditor.jibx.compare.Layout;
 import net.sf.RecordEditor.jibx.compare.Record;
+import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.Combo.ComboOption;
 
 
@@ -48,8 +49,10 @@ public class FilterDetails {
     private static final int INCLUDE_INDEX  = 1;
     private static final int SEQUENCE_INDEX = 1;
 
-    private final AbstractLayoutDetails layout;
-    private AbstractLayoutDetails layout2;
+    @SuppressWarnings("rawtypes")
+	private final AbstractLayoutDetails layout;
+    @SuppressWarnings("rawtypes")
+	private AbstractLayoutDetails layout2;
 
     private int[] recordNo;
     private int[][] fields;
@@ -63,7 +66,7 @@ public class FilterDetails {
     private FilterFieldList filterFieldsL2 = null;
     private FilterFieldList filterFieldsL2a;
     private FieldList fieldList;
-    
+
     private boolean twoLayouts = false;
 
 
@@ -72,20 +75,20 @@ public class FilterDetails {
      *
      * @param group detail group
      */
-    public FilterDetails(final AbstractLayoutDetails group) {
+    public FilterDetails(@SuppressWarnings("rawtypes") final AbstractLayoutDetails group) {
         super();
         layout = group;
-        
+
         init();
     }
-    
+
     private void init() {
         int count = layout.getRecordCount();
-        
+
         recordNo = new int[count];
         fields = new int[count][];
         filterFields = new FilterFieldList(layout);
-        
+
         for (int i = 0; i < count; i++) {
         	recordNo[i] = 0;
 
@@ -193,13 +196,15 @@ public class FilterDetails {
          return filterFields;
     }
 
-    
-    public DefaultComboBoxModel getComboModelLayout2() {
- 
+
+    @SuppressWarnings("rawtypes")
+	public DefaultComboBoxModel getComboModelLayout2() {
+
     	return  filterFieldsL2.getFieldModel();
     }
-    
-    public DefaultComboBoxModel getComboModelLayout2a() {
+
+    @SuppressWarnings("rawtypes")
+	public DefaultComboBoxModel getComboModelLayout2a() {
 
     	return filterFieldsL2a.getFieldModel();
     }
@@ -240,7 +245,7 @@ public class FilterDetails {
      * @return wether to include this record type
      */
     public final boolean isInclude(int index) {
-       
+
     	if (index < 0 || index >= recordNo.length) {
             return false;
         }
@@ -259,20 +264,21 @@ public class FilterDetails {
 		Record rec;
 		boolean allFields;
 		boolean allSelected = true;
+		@SuppressWarnings("rawtypes")
 		AbstractRecordDetail recordDetail;
-		
+
 //		System.out.println("field Get 1 -Layout Name: " + values.getLayoutDetails().name);
-		
+
 		int[][] fieldInc = getFieldMap();
-		
+
 		tmpLayoutSelection.name = layout.getLayoutName();
 		for (int i =0; i < layout.getRecordCount(); i++) {
 			if (isInclude(i)) {
 				rec = new net.sf.RecordEditor.jibx.compare.Record();
-				
+
 				recordDetail = layout.getRecord(i);
 				rec.name = recordDetail.getRecordName();
-				
+
 				allFields = ! twoLayouts;
 				if (allFields && fieldInc != null && fieldInc[i] != null) {
 					allFields = fieldInc[i].length == recordDetail.getFieldCount();
@@ -282,7 +288,7 @@ public class FilterDetails {
 						}
 					}
 				}
-				
+
 				if (! allFields) {
 					allSelected = false;
 					if (fieldInc != null && i < fieldInc.length && fieldInc[i] != null) {
@@ -298,15 +304,18 @@ public class FilterDetails {
 						}
 					}
 				}
-				
+
 				if (! twoLayouts) {
 					FilterField filterFld;
 					FieldTest test;
-					rec.fieldTest = new ArrayList<FieldTest>(FilterFieldList.NUMBER_FIELD_FILTER_ROWS); 
+					rec.fieldTest = new ArrayList<FieldTest>(FilterFieldList.NUMBER_FIELD_FILTER_ROWS);
 					for (j = 0; j < FilterFieldList.NUMBER_FIELD_FILTER_ROWS; j++) {
 						filterFld = filterFields.getFilterField(i, j);
 						if (filterFld.getFieldNumber() >= 0) {
 							test = new net.sf.RecordEditor.jibx.compare.FieldTest();
+							if (filterFld.getBooleanOperator() == Common.BOOLEAN_OPERATOR_OR) {
+								test.booleanOperator = "Or";
+							}
 							test.fieldName = recordDetail.getField(filterFld.getFieldNumber()).getName();
 							test.operator  = Compare.getOperatorAsString(filterFld.getOperator());
 							test.value     = filterFld.getValue();
@@ -315,18 +324,18 @@ public class FilterDetails {
 						}
 					}
 				}
-				
+
 				tmpLayoutSelection.getRecords().add(rec);
 			} else {
 				allSelected = false;
 			}
 		}
-		
+
 
 		if (allSelected) {
 			tmpLayoutSelection.records = null;
 		}
-		
+
 		return tmpLayoutSelection;
     }
 
@@ -339,22 +348,23 @@ public class FilterDetails {
     	int j, idx;
 		Layout tmpLayoutSelection = new net.sf.RecordEditor.jibx.compare.Layout();
 		Record rec;
+		@SuppressWarnings("rawtypes")
 		AbstractRecordDetail recordDetail;
-		
+
 //		System.out.println("field Get 1 -Layout Name: " + values.getLayoutDetails().name);
-		
+
 		int[][] fieldInc = getFieldMap();
-		
+
 		tmpLayoutSelection.name = layout2.getLayoutName();
 		for (int i =0; i < layout.getRecordCount(); i++) {
 			if (isInclude(i) && fieldInc != null && fieldInc[i] != null) {
 				rec = new net.sf.RecordEditor.jibx.compare.Record();
-				
+
 				idx = recordNo[i];
-				
+
 				recordDetail = layout2.getRecord(idx);
 				rec.name = recordDetail.getRecordName();
-				
+
 				rec.fields = new String[fieldInc[i].length];
 				for (j = 0; j < fieldInc[i].length; j++) {
 					rec.fields[j]= recordDetail.getField(fields[i][fieldInc[i][j]]).getName();
@@ -362,14 +372,14 @@ public class FilterDetails {
 //					        + " " + fields[i][fieldInc[i][j]]
 //							+ " " + recordDetail.getRecordName() + ": " + rec.fields[j]);
 				}
-				
+
 				tmpLayoutSelection.getRecords().add(rec);
 			}
 		}
-		
+
 		return tmpLayoutSelection;
     }
-   
+
     /**
      * Set Filter based on the external XML Layout interface
      * @param values external XML Layout interface to be used to update the filter
@@ -377,8 +387,8 @@ public class FilterDetails {
     public final void updateFromExternalLayout(Layout values) {
     	int i, j, k, idx;
     	Record rec;
-    	
-		if (values.records == null 
+
+		if (values.records == null
 		||  values.records.size() == 0) {
 			init();
 		} else {
@@ -391,17 +401,18 @@ public class FilterDetails {
 						recordNo[i] = 0;
 						if (rec.fields == null || rec.fields.length == 0) {
 							fields[i] = null;
-						} else {							
+						} else {
 							initFieldRow(i);
-							
+
                             for (k = 0; k < rec.fields.length; k++) {
                             	idx = layout.getRecord(i).getFieldIndex(rec.fields[k]);
                             	fields[i][idx] = 0;
                             }
 						}
-						
+
 						if (rec.fieldTest != null && rec.fieldTest.size() > 0) {
 							FilterField filterFld;
+							@SuppressWarnings("rawtypes")
 							AbstractRecordDetail recDtl = layout.getRecord(i);
 							FieldTest tst;
 							for (k = 0; k < rec.fieldTest.size(); k++) {
@@ -411,15 +422,19 @@ public class FilterDetails {
 								filterFld.setOperator(Compare.getOperator(tst.operator));
 								filterFld.setValue(tst.value);
 
+								if ("Or".equalsIgnoreCase(tst.booleanOperator)) {
+									filterFld.setBooleanOperator(Common.BOOLEAN_OPERATOR_OR);
+								}
+
 								filterFields.setFilterField(i, k, filterFld);
 							}
 						}
-						
+
 						break;
 					}
 				}
 			}
-			
+
 		}
     }
 
@@ -428,7 +443,7 @@ public class FilterDetails {
         int len = layout.getRecord(row).getFieldCount();
 
         fields[row] = new int[len];
-		
+
         for (int k = 0; k < len; k++) {
         	fields[row][k] = -1;
         }
@@ -447,15 +462,15 @@ public class FilterDetails {
 	 * @param dtl second layout details
 	 * @param values2 external layout selection details
 	 */
-	public final void set2ndLayout(AbstractLayoutDetails dtl) {
+	public final void set2ndLayout(@SuppressWarnings("rawtypes") AbstractLayoutDetails dtl) {
 		this.twoLayouts = true;
-		
+
 		if (layout2 != dtl && dtl != null) {
 			layout2 = dtl;
-		
+
 			filterFieldsL2 = new FilterFieldList(layout2);
 			filterFieldsL2a = new FilterFieldList(layout2);
-						
+
 		    recordOptions = new ComboOption[layout2.getRecordCount()+1];
 	        recordOptions[0] = new ComboOption(Constants.NULL_INTEGER, " ");
 	        for (int i = 1; i < recordOptions.length; i++) {
@@ -464,11 +479,12 @@ public class FilterDetails {
 
 		}
 	}
-	
+
+	@SuppressWarnings("rawtypes")
 	public final void set2ndLayout(AbstractLayoutDetails dtl, Layout values1, Layout values2) {
 		//TODO 2nd layout
 		set2ndLayout(dtl);
-		
+
 		if (dtl.getRecordCount() > 0) {
 			int i, j, idx1, idx2, end, fIdx1, fIdx2, ii;
 			Record recDiff1, recDiff2;
@@ -496,7 +512,7 @@ public class FilterDetails {
 								end = Math.min(recDiff1.fields.length, recDiff2.fields.length);
 								rec1 = layout.getRecord(idx1);
 								rec2 = layout2.getRecord(idx2);
-								
+
 								fields[idx1] = getInitialisedArray(rec1.getFieldCount());
 								for (j = 0; j < end; j++) {
 									fIdx1 = rec1.getFieldIndex(recDiff1.fields[j]);
@@ -520,10 +536,10 @@ public class FilterDetails {
 		String l1, l2;//, f1, f2;
 		int j;
 //		RecordDetail rec1, rec2;
-		
+
 //		rec1 = layout.getRecord(i);
 		l1 = layout.getRecord(i).getRecordName().toLowerCase();
-		
+
 		for (j = 0; j < layout2.getRecordCount(); j++) {
 			l2 = layout2.getRecord(j).getRecordName().toLowerCase();
 			//System.out.println("-->> " + i + " " + j + " >" + l1 + "<   >" + l2 + "<");
@@ -548,10 +564,11 @@ public class FilterDetails {
 //				}
 				break;
 			}
-		}	
+		}
 	}
-	
+
 	//TODO setUpRecord
+	@SuppressWarnings("rawtypes")
 	private boolean updateRecordsFields(int rowIndex) {
 
 		int i, j, k;
@@ -560,15 +577,15 @@ public class FilterDetails {
 		AbstractRecordDetail rec1 = layout.getRecord(rowIndex);
    		AbstractRecordDetail rec2 = layout2.getRecord(recordNo[rowIndex]);
    		//System.out.println();
-   		
+
    		if (rec2 != null) {
         	//System.out.println("== " + rec1.getRecordName() + "   "+ rec2.getRecordName());
-   		
+
         	String[] names = new String[rec2.getFieldCount()];
     		for (i = 0; i < rec2.getFieldCount(); i++) {
     			names[i] = standardiseName(rec2.getField(i).getName());
     		}
-        		
+
         	for (i = 0; i < rec1.getFieldCount(); i++) {
     			//idx = rec2.getFieldIndex(rec1.getField(i).getName());
     			k = layout.getAdjFieldNumber(rowIndex, i);
@@ -590,18 +607,18 @@ public class FilterDetails {
        	return tableUpdated;
 	}
 
-	
+
 	private int[] getInitialisedArray(int size) {
 		int[] ret = new int[size];
-		
+
 		for (int i = 0; i < size; i++) {
 			ret[i] = -1;
 		}
-	
+
 		return ret;
 	}
 
-	
+
     /**
      * Table model to display records
      *
@@ -643,7 +660,7 @@ public class FilterDetails {
          * @see javax.swing.table.TableModel#getValueAt
          */
         public Object getValueAt(int rowIndex, int columnIndex) {
-        	
+
             if (columnIndex == INCLUDE_INDEX) {
 	        	if (twoLayouts) {
 	        		//return Integer.valueOf(recordNo[rowIndex]);
@@ -654,7 +671,7 @@ public class FilterDetails {
 	        		}
 	        		return recordOptions[recordNo[rowIndex] + 1];
 	        	}
-        	
+
                 return Boolean.valueOf(recordNo[rowIndex] >= 0);
             }
             return layout.getRecord(rowIndex).getRecordName();
@@ -673,7 +690,7 @@ public class FilterDetails {
          * @see javax.swing.table.TableModel#setValueAt
          */
         public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        	
+
 //        	System.out.println("~~>>> " + rowIndex + " " + aValue + " " + aValue.getClass()
 //        			+ " " + (aValue instanceof Integer));
 
@@ -688,7 +705,7 @@ public class FilterDetails {
         		if (filterFieldsL2 != null) {
     	        	filterFieldsL2.setLayoutIndex(recordNo[rowIndex]);
     	        	filterFieldsL2a.setLayoutIndex(recordNo[rowIndex]);
-    	        	
+
     	        	//System.out.print("  -  " +  (fields[rowIndex] == null) + " ");
     	        	if (fields[rowIndex] == null) {
  	    	        	if (updateRecordsFields(rowIndex)) {
@@ -707,7 +724,7 @@ public class FilterDetails {
         		if (filterFieldsL2 != null) {
     	        	filterFieldsL2.setLayoutIndex(recordNo[rowIndex]);
     	        	filterFieldsL2a.setLayoutIndex(recordNo[rowIndex]);
-    	        	
+
     	        	//System.out.print("  -  " +  (fields[rowIndex] == null) + " ");
     	        	if (fields[rowIndex] == null) {
  	    	        	if (updateRecordsFields(rowIndex)) {
@@ -722,18 +739,18 @@ public class FilterDetails {
 
         	} else if (((Boolean) aValue).booleanValue()) {
             	recordNo[rowIndex] = 0;
-            } 
+            }
         }
      }
 
-	
+
 	private String standardiseName(String name) {
 		if (name == null) {
 			return null;
 		}
 		StringBuffer b = new StringBuffer(name.toLowerCase());
 		char c;
-		
+
 		for (int i = name.length() -1; i >= 0; i--) {
 			c = b.charAt(i);
 			if (c == ' ' || c == '-' || c == '_') {
@@ -750,7 +767,8 @@ public class FilterDetails {
      * @author Bruce Martin
      *
      */
-    private class FieldList extends AbstractTableModel {
+    @SuppressWarnings("serial")
+	private class FieldList extends AbstractTableModel {
 
         /**
          * @see javax.swing.table.TableModel#getColumnCount
@@ -775,7 +793,8 @@ public class FilterDetails {
          * @see javax.swing.table.TableModel#isCellEditable
          */
         public int getRowCount() {
-        	AbstractRecordDetail rec = layout.getRecord(layoutIndex);
+        	@SuppressWarnings("rawtypes")
+			AbstractRecordDetail rec = layout.getRecord(layoutIndex);
         	if (rec == null) {
         		return 0;
         	}
@@ -829,12 +848,12 @@ public class FilterDetails {
         	boolean isDefaultValue;
         	int fieldNo = -1;
         	int defaultVal = 0;
-        	
-        	
+
+
        		if (twoLayouts) {
-       			if (aValue != null && ! "".equals(aValue) 
+       			if (aValue != null && ! "".equals(aValue)
        			&& layoutIndex >= 0 && layoutIndex < recordNo.length && recordNo[layoutIndex] >= 0) {
-       				int idx = recordNo[layoutIndex];       				
+       				int idx = recordNo[layoutIndex];
 //					System.out.print("~~>> " + rowIndex + " " + idx + " " + (layout2 == null));
 //      				System.out.print(" " + (layout2.getRecord(idx) == null));
       				fieldNo = layout2.getRecord(idx).getFieldIndex(aValue.toString());
@@ -854,7 +873,7 @@ public class FilterDetails {
        				fieldNo = 0;
        			}
        		}
-       		
+
             if (!(fields[layoutIndex] == null && isDefaultValue)) {
                 if (isDefaultValue) {
                     fields[layoutIndex][rowIndex] = fieldNo;

@@ -57,6 +57,8 @@
 		<value style="attribute" name="fieldName" field="fieldName"/>
 		<value style="attribute" name="operator"  field="operator"/>
 		<value style="attribute" name="value"     field="value"/>
+		<value style="attribute" name="booleanOperator" field="booleanOperator"  usage="optional">
+</value>
 	</mapping>
 	<mapping name="EditorTask" class="net.sf.RecordEditor.jibx.compare.EditorTask">
 		<value     name="type"           field="type"        style="attribute"/>
@@ -78,12 +80,12 @@
 	<mapping name="SortSummary" class="net.sf.RecordEditor.jibx.compare.SortSummary">
 		<value     name="fieldName"     field="fieldName"    style="attribute"/>
 		<value     name="operator"      field="operator"     style="attribute"/>
-	</mapping>	
+	</mapping>
 	<mapping name="RecordTree" class="net.sf.RecordEditor.jibx.compare.RecordTree">
 		<collection field="parentRelationship"   usage="optional"/>
-	</mapping>	
+	</mapping>
 	<mapping name="RecordParent" class="net.sf.RecordEditor.jibx.compare.RecordParent">
 		<value     name="recordName"    field="recordName"   style="attribute"/>
 		<value     name="parentName"    field="parentName"   style="attribute"/>
-	</mapping>	
+	</mapping>
 </binding>

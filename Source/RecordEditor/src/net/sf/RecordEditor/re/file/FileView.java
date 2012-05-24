@@ -1931,6 +1931,9 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 					pos.found = s.equals(testValue) == normalSearch;
 				}
 			break;
+			case (Compare.OP_STARTS_WITH):
+				pos.found = s != null && s.startsWith(testValue);
+				break;
 			case (Compare.OP_NUMERIC_EQ):
 			case (Compare.OP_NUMERIC_GE):
 			case (Compare.OP_NUMERIC_GT):
@@ -2474,31 +2477,32 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 
 	private boolean getFilteredView_MatchesFilter(int rowNum,  int recordType, FilePosition pos,
 			FilterFieldList list, boolean defaultOk, AbstractLine line) {
-		boolean ok = defaultOk;
-		for (int j = 0; j < FilterFieldList.NUMBER_FIELD_FILTER_ROWS; j++) {
-			FilterField filterField = list.getFilterField(recordType, j);
-			int fldNum = filterField.getFieldNumber();
-			String val = filterField.getValue();
-
-	         if (filterField.getFieldNumber() != FilterField.NULL_FIELD) {
-	        	boolean ignorecase = filterField.getIgnoreCase().booleanValue();
-
-	       		pos.setAll(rowNum, 0, recordType, fldNum, true);
-	       		pos.currentLine = line;
-	            int op = filterField.getOperator();
-
-	            if ((op == Compare.OP_CONTAINS)
-	            ||  (op == Compare.OP_DOESNT_CONTAIN)) {
-	            	ok = contains(ignorecase, pos, val, op == Compare.OP_CONTAINS);
-	            } else {
-	            	ok = cmp(ignorecase, pos, val, Compare.getNumericValue(op, val), op);
-	            }
-	            if (ok != defaultOk) {
-	            	return ok;
-	            }
-	        }
-        }
-		return ok;
+		return list.getRecordSelection(recordType).isSelected(line);
+//		boolean ok = defaultOk;
+//		for (int j = 0; j < FilterFieldList.NUMBER_FIELD_FILTER_ROWS; j++) {
+//			FilterField filterField = list.getFilterField(recordType, j);
+//			int fldNum = filterField.getFieldNumber();
+//			String val = filterField.getValue();
+//
+//	         if (filterField.getFieldNumber() != FilterField.NULL_FIELD) {
+//	        	boolean ignorecase = filterField.getIgnoreCase().booleanValue();
+//
+//	       		pos.setAll(rowNum, 0, recordType, fldNum, true);
+//	       		pos.currentLine = line;
+//	            int op = filterField.getOperator();
+//
+//	            if ((op == Compare.OP_CONTAINS)
+//	            ||  (op == Compare.OP_DOESNT_CONTAIN)) {
+//	            	ok = contains(ignorecase, pos, val, op == Compare.OP_CONTAINS);
+//	            } else {
+//	            	ok = cmp(ignorecase, pos, val, Compare.getNumericValue(op, val), op);
+//	            }
+//	            if (ok != defaultOk) {
+//	            	return ok;
+//	            }
+//	        }
+//        }
+//		return ok;
 	}
 
 

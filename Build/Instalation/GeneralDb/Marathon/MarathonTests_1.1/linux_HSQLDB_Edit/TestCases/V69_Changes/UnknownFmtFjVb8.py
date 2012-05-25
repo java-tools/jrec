@@ -22,12 +22,12 @@ def test():
 			commonBits.doSleep()
 
 			commonBits.doSleep()
-			commonBits.doSleep()
+
+			commonBits.doSleep()
 
 
 		close()
 
-		commonBits.doSleep()
 		commonBits.doSleep()
 
 		select_menu('Window>>FJ_VB_Test.bin>>Table: ')

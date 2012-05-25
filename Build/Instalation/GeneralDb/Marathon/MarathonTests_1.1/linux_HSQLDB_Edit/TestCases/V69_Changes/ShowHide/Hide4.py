@@ -6,6 +6,7 @@ def test():
 
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() +  'Ams_LocDownload_20041228.txt')
+
 		click('Edit1')
 		select('Table', 'cell:4 - 4|Loc Nbr,0(5839)')
 		rightclick('Table', '1 - 3|Brand Id,9')

@@ -7,6 +7,9 @@ def test():
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'csvB_DTAR020.bin.csv')
 
+		if commonBits.version()  == 'MsAccess':
+			select('ComboBox2', 'Comma Delimited, names on the first line')
+
 		click('Edit1')
 		select('Table', 'cell:2|STORE-NO,0(20)')
 #		rightclick('Table', '4|DEPT-NO,6')

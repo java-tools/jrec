@@ -1,6 +1,7 @@
 useFixture(default)
 
 def test():
+	import time
 	java_recorded_version = '1.6.0_22'
 
 	if window('Record Editor'):
@@ -8,7 +9,7 @@ def test():
 		select_menu('Record Layouts>>Edit Layout')
 		click('New1')
 
-		select('RecordDef.Record Name_Txt', 'zxxxzFLD1')
+		select('RecordDef.Record Name_Txt', 'zx33xzFLD1')
 		select('RecordDef.Description_Txt', 'fld tst 3')
 		select('RecordDef.Lines to Insert_Txt', '3')
 		click('Insert')
@@ -28,20 +29,20 @@ def test():
 		select('RecordFieldsJTbl', 'cell:Description,1()')
 		assert_p('RecordDef.Description_Txt', 'Text', 'fld tst 3')
 		select('RecordFieldsJTbl', 'cell:Description,1()')
-		assert_p('RecordDef.Record Name_Txt', 'Text', 'zxxxzFLD1')
+		assert_p('RecordDef.Record Name_Txt', 'Text', 'zx33xzFLD1')
 		select('RecordFieldsJTbl', 'cell:Description,1()')
 		click('Save As')
 
 		if window('Input'):
-			assert_p('OptionPane.textField', 'Text', 'zxxxzFLD1')
-			select('OptionPane.textField', 'zxxxzFLD2')
+			assert_p('OptionPane.textField', 'Text', 'zx33xzFLD1')
+			select('OptionPane.textField', 'zx33xzFLD2')
 			click('OK')
 		close()
 
 
 		assert_p('RecordFieldsJTbl', 'Content', '[[1, 1, fld 11, , 0, 0, 0, , , ], [2, 5, fld 12, , 0, 0, 0, , , ], [7, 9, fld 13, , 0, 0, 0, , , ]]')
 		assert_p('RecordDef.Description_Txt', 'Text', 'fld tst 3')
-		assert_p('RecordDef.Record Name_Txt', 'Text', 'zxxxzFLD2')
+		assert_p('RecordDef.Record Name_Txt', 'Text', 'zx33xzFLD2')
 		select('RecordFieldsJTbl', 'cell:Description,2()')
 		click('Insert')
 		select('RecordFieldsJTbl', '18', 'Position,3')
@@ -56,8 +57,8 @@ def test():
 		click('Save As')
 
 		if window('Input'):
-			assert_p('OptionPane.textField', 'Text', 'zxxxzFLD2')
-			select('OptionPane.textField', 'zxxxzFLD3')
+			assert_p('OptionPane.textField', 'Text', 'zx33xzFLD2')
+			select('OptionPane.textField', 'zx33xzFLD3')
 			click('OK')
 		close()
 
@@ -77,29 +78,30 @@ def test():
 		select('RecordFieldsJTbl', 'cell:Description,3()')
 		assert_p('RecordFieldsJTbl', 'Content', '[[1, 1, fld 31, , 0, 0, 0, , , ], [2, 5, fld 32, , 0, 0, 0, , , ], [7, 9, fld 33, , 0, 0, 0, , , ], [18, 10, fld 34, , 0, 0, 0, , , ], [28, 12, fld 35, , 0, 0, 0, , , ]]')
 		select('RecordFieldsJTbl', 'cell:Description,3()')
-		assert_p('RecordDef.Record Name_Txt', 'Text', 'zxxxzFLD3')
+		assert_p('RecordDef.Record Name_Txt', 'Text', 'zx33xzFLD3')
 		select('RecordFieldsJTbl', 'cell:Description,3()')
 		assert_p('RecordDef.Description_Txt', 'Text', 'fld tst 3')
 		select('RecordFieldsJTbl', 'cell:Description,3()')
-		select('RecordList.Record Name_Txt', 'zxxxzFLD1')
+		select('RecordList.Record Name_Txt', 'zx33xzFLD1')
 
 		select('RecordList.Description_Txt', '%')
+		time.sleep(1.0)
 
 		assert_p('RecordFieldsJTbl', 'Content', '[[1, 1, fld 11, , 0, 0, 0, , , ], [2, 5, fld 12, , 0, 0, 0, , , ], [7, 9, fld 13, , 0, 0, 0, , , ]]')
 		assert_p('RecordDef.Description_Txt', 'Text', 'fld tst 3')
-		assert_p('RecordDef.Record Name_Txt', 'Text', 'zxxxzFLD1')
-		select('RecordList.Record Name_Txt', 'zxxxzFLD2')
+		assert_p('RecordDef.Record Name_Txt', 'Text', 'zx33xzFLD1')
+		select('RecordList.Record Name_Txt', 'zx33xzFLD2')
 
 		select('RecordList.Description_Txt', '%%')
 
 		assert_p('RecordFieldsJTbl', 'Content', '[[1, 1, fld 21, , 0, 0, 0, , , ], [2, 5, fld 22, , 0, 0, 0, , , ], [7, 9, fld 23, , 0, 0, 0, , , ], [18, 10, fld 24, , 0, 0, 0, , , ]]')
-		assert_p('RecordDef.Record Name_Txt', 'Text', 'zxxxzFLD2')
+		assert_p('RecordDef.Record Name_Txt', 'Text', 'zx33xzFLD2')
 		assert_p('RecordDef.Description_Txt', 'Text', 'fld tst 3')
-		select('RecordList.Record Name_Txt', 'zxxxzFLD3')
+		select('RecordList.Record Name_Txt', 'zx33xzFLD3')
 
 		select('RecordList.Description_Txt', '%')
 
 		assert_p('RecordFieldsJTbl', 'Content', '[[1, 1, fld 31, , 0, 0, 0, , , ], [2, 5, fld 32, , 0, 0, 0, , , ], [7, 9, fld 33, , 0, 0, 0, , , ], [18, 10, fld 34, , 0, 0, 0, , , ], [28, 12, fld 35, , 0, 0, 0, , , ]]')
-		assert_p('RecordDef.Record Name_Txt', 'Text', 'zxxxzFLD3')
+		assert_p('RecordDef.Record Name_Txt', 'Text', 'zx33xzFLD3')
 ##		click('BasicInternalFrameTitlePane$NoFocusButton2')
 	close()

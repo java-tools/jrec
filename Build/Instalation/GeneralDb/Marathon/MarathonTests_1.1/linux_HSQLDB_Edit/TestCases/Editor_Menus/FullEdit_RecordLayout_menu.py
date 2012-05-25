@@ -37,7 +37,10 @@ def test():
 		select('RecordFieldsJTbl', 'cell:Description,2()')
 		assert_p('RecordFieldsJTbl', 'Text', '', 'Description,2')
 		select('RecordFieldsJTbl', 'cell:Description,3()')
-		assert_p('RecordFieldsJTbl', 'Content', '[[1, 2, Record Type, , 0, 0, 0, , , ], [3, 9, Pack Qty, , 8, 4, 0, , , ], [12, 13, Pack Cost, , 8, 4, 0, , , ], [25, 13, APN, , 7, 0, 0, , , ], [38, 1, Filler, , 0, 0, 0, , , ], [39, 8, Product, , 7, 0, 0, , , ], [72, 15, pmg dtl tech key, , 0, 0, 0, , , ], [87, 15, Case Pack id, , 0, 0, 0, , , ], [101, 50, Product Name, , 0, 0, 0, , , ]]')
+		if commonBits.version() == 'MsAccess':
+			assert_p('RecordFieldsJTbl', 'Content', '[[1, 2, Record Type, , 0, 0, 15, Ams PO Download, , ], [3, 9, Pack Qty, , 8, 4, 0, , , ], [12, 13, Pack Cost, , 8, 4, 0, , , ], [25, 13, APN, , 7, 0, 0, , , ], [38, 1, Filler, , 0, 0, 0, , , ], [39, 8, Product, , 7, 0, 0, , , ], [72, 15, pmg dtl tech key, , 0, 0, 0, , , ], [87, 15, Case Pack id, , 0, 0, 0, , , ], [101, 50, Product Name, , 0, 0, 0, , , ]]')
+		else:
+			assert_p('RecordFieldsJTbl', 'Content', '[[1, 2, Record Type, , 0, 0, 0, , , ], [3, 9, Pack Qty, , 8, 4, 0, , , ], [12, 13, Pack Cost, , 8, 4, 0, , , ], [25, 13, APN, , 7, 0, 0, , , ], [38, 1, Filler, , 0, 0, 0, , , ], [39, 8, Product, , 7, 0, 0, , , ], [72, 15, pmg dtl tech key, , 0, 0, 0, , , ], [87, 15, Case Pack id, , 0, 0, 0, , , ], [101, 50, Product Name, , 0, 0, 0, , , ]]')
 		#select('TabbedPane', 'Extras')
 		#select('TabbedPane', 'Fields')
 		#select('Table', '')
@@ -46,7 +49,10 @@ def test():
 		select('RecordFieldsJTbl', 'cell:Description,4(Format YYMMDD)')
 		assert_p('RecordFieldsJTbl', 'Text', 'Format YYMMDD', 'Description,4')
 		select('RecordFieldsJTbl', 'cell:Description,9(Format YYMMDD)')
-		assert_p('RecordFieldsJTbl', 'Content', '[[1, 2, Record Type, , 0, 0, 0, , , ], [3, 5, Sequence Number, , 8, 3, 0, , , ], [8, 10, Vendor, , 7, 0, 0, , , ], [18, 12, PO, , 8, 0, 0, , , ], [30, 6, Entry Date, Format YYMMDD, 0, 0, 0, , , ], [36, 8, Filler, , 0, 0, 0, , , ], [44, 2, beg01 code, , 0, 0, 0, , , ], [46, 2, beg02 code, , 0, 0, 0, , , ], [48, 4, Department, , 0, 0, 0, , , ], [52, 6, Expected Reciept Date, Format YYMMDD, 0, 0, 0, , , ], [58, 6, Cancel by date, Format YYMMDD, 0, 0, 0, , , ], [68, 1, EDI Type, , 0, 0, 0, , , ], [69, 6, Add Date, Format YYMMDD, 0, 0, 0, , , ], [75, 1, Filler, , 0, 0, 0, , , ], [76, 10, Department Name, , 0, 0, 0, , , ], [86, 1, Prcoess Type, C/N Conveyable/Non-Conveyable, 0, 0, 0, , , ], [87, 2, Order Type, , 0, 0, 0, , , ]]')
+		if commonBits.version() == 'MsAccess':
+			assert_p('RecordFieldsJTbl', 'Content', '[[1, 2, Record Type, , 0, 0, 15, Ams PO Download, , ], [3, 5, Sequence Number, , 8, 3, 0, , , ], [8, 10, Vendor, , 7, 0, 0, , , ], [18, 12, PO, , 8, 0, 0, , , ], [30, 6, Entry Date, Format YYMMDD, 0, 0, 0, , , ], [36, 8, Filler, , 0, 0, 0, , , ], [44, 2, beg01 code, , 0, 0, 0, , , ], [46, 2, beg02 code, , 0, 0, 0, , , ], [48, 4, Department, , 0, 0, 0, , , ], [52, 6, Expected Reciept Date, Format YYMMDD, 0, 0, 0, , , ], [58, 6, Cancel by date, Format YYMMDD, 0, 0, 0, , , ], [68, 1, EDI Type, , 0, 0, 0, , , ], [69, 6, Add Date, Format YYMMDD, 0, 0, 0, , , ], [75, 1, Filler, , 0, 0, 0, , , ], [76, 10, Department Name, , 0, 0, 0, , , ], [86, 1, Prcoess Type, C/N Conveyable/Non-Conveyable, 0, 0, 0, , , ], [87, 2, Order Type, , 0, 0, 0, , , ]]')
+		else:
+			assert_p('RecordFieldsJTbl', 'Content', '[[1, 2, Record Type, , 0, 0, 0, , , ], [3, 5, Sequence Number, , 8, 3, 0, , , ], [8, 10, Vendor, , 7, 0, 0, , , ], [18, 12, PO, , 8, 0, 0, , , ], [30, 6, Entry Date, Format YYMMDD, 0, 0, 0, , , ], [36, 8, Filler, , 0, 0, 0, , , ], [44, 2, beg01 code, , 0, 0, 0, , , ], [46, 2, beg02 code, , 0, 0, 0, , , ], [48, 4, Department, , 0, 0, 0, , , ], [52, 6, Expected Reciept Date, Format YYMMDD, 0, 0, 0, , , ], [58, 6, Cancel by date, Format YYMMDD, 0, 0, 0, , , ], [68, 1, EDI Type, , 0, 0, 0, , , ], [69, 6, Add Date, Format YYMMDD, 0, 0, 0, , , ], [75, 1, Filler, , 0, 0, 0, , , ], [76, 10, Department Name, , 0, 0, 0, , , ], [86, 1, Prcoess Type, C/N Conveyable/Non-Conveyable, 0, 0, 0, , , ], [87, 2, Order Type, , 0, 0, 0, , , ]]')
 		select('RecordFieldsJTbl', 'cell:Description,9(Format YYMMDD)')
 		click('ScrollPane$ScrollBar3', 570, 10)
 		click('ScrollPane$ScrollBar3', 523, 10)

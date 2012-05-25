@@ -5,7 +5,7 @@ def test():
 
 	if window('Record Editor'):
 		select_menu('Record Layouts>>Edit Layout')
-		select('RecordList.Record Name_Txt', 'zxxxzFLDg1')
+		select('RecordList.Record Name_Txt', 'zx33xzFLDg1')
 		select('RecordList.Description_Txt', '%')
 
 ##		select('ChildRecordsJTbl', '')

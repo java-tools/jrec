@@ -42,16 +42,11 @@ def test():
 			click('Go')
 			commonBits.doSleep()
 
-			commonBits.doSleep()
-
-
-			commonBits.doSleep()
 
 		close()
 
 		commonBits.doSleep()
 
-		commonBits.doSleep()
 
 		select_menu('Window>>XffDTAR020.csv>>Table: ')
 

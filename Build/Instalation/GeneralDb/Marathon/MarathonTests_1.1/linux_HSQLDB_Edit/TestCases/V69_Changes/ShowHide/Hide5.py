@@ -6,6 +6,7 @@ def test():
 
 	if window('Record Editor'):
 		select('FileChooser',  commonBits.sampleDir() +  'Ams_LocDownload_20041228.txt')
+
 		click('Edit1')
 		select('Table', 'rows:[4,5,6,7,8,9,10,11,12,13],columns:[10 - 35|Loc Name]')
 		select_menu('View>>Table View #{Selected Records#}')

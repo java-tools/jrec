@@ -11,8 +11,11 @@ def test():
 		#click('Edit1')
 		#commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
-		select('ComboBox1', 'CSV')
-		select('ComboBox2', 'Tab Delimited, names on the first line, quote=d')
+##		select('ComboBox1', 'CSV')
+		if commonBits.version() == 'MsAccess':
+			select('ComboBox2', 'Tab Delimited, names on the first line, Quote=D')
+		else:
+			select('ComboBox2', 'Tab Delimited, names on the first line, quote=d')
 		##select('ComboBox2', 'Tab Delimited, names on the first line, quote=d')
 		click('Edit1')
 		select('Table', 'cell:2|REGION-NO,0(20)')

@@ -25,14 +25,27 @@ def test():
 		click('Find1')
 		select('Table', 'cell:Data,3(Kalgoorlie (not yet open))')
 ##		assert_p('Table', 'Content', '[[Brand Id, 1, 3, TAR, TAR], [Loc Nbr, 4, 4, 5193, 5193], [Loc Type, 8, 2, ST, ST], [Loc Name, 10, 35, Kalgoorlie (not yet open), Kalgoorlie (not yet open)], [Loc Addr Ln1, 45, 40, Shopping Centre, Shopping Centre], [Loc Addr Ln2, 85, 40, Cnr Cassidy and Egan Streets, Cnr Cassidy and Egan Streets], [Loc Addr Ln3, 125, 35, Kalgoorlie, Kalgoorlie], [Loc Postcode, 160, 10, 6430, 6430], [Loc State, 170, 3, WA, WA], [Loc Actv Ind, 173, 1, A, A]]')
-		assert_p('Table', 'Content', '[[Brand Id, 1, 3, TAR, TAR], [Loc Nbr, 4, 4, 5169, 5169], [Loc Type, 8, 2, ST, ST], [Loc Name, 10, 35, Hornsby, Hornsby], [Loc Addr Ln1, 45, 40, Westfield Shopping Centre, Westfield Shopping Centre], [Loc Addr Ln2, 85, 40, George Street, George Street], [Loc Addr Ln3, 125, 35, Hornsby, Hornsby], [Loc Postcode, 160, 10, 2077, 2077], [Loc State, 170, 3, NSW, NSW], [Loc Actv Ind, 173, 1, A, A]]')
+
+##		assert_p('Table', 'Content', '[[Brand Id, 1, 3, TAR, TAR], [Loc Nbr, 4, 4, 5169, 5169], [Loc Type, 8, 2, ST, ST], [Loc Name, 10, 35, Hornsby, Hornsby], [Loc Addr Ln1, 45, 40, Westfield Shopping Centre, Westfield Shopping Centre], [Loc Addr Ln2, 85, 40, George Street, George Street], [Loc Addr Ln3, 125, 35, Hornsby, Hornsby], [Loc Postcode, 160, 10, 2077, 2077], [Loc State, 170, 3, NSW, NSW], [Loc Actv Ind, 173, 1, A, A]]')
+		if commonBits.isMissingCol():
+			assert_p('Table', 'Content', '[[Brand Id, 1, 3, TAR, TAR], [Loc Nbr, 4, 4, 5169, 5169], [Loc Type, 8, 2, ST, ST], [Loc Name, 10, 35, Hornsby, Hornsby], [Loc Addr Ln1, 45, 40, Westfield Shopping Centre, Westfield Shopping Centre], [Loc Addr Ln2, 85, 40, George Street, George Street], [Loc Addr Ln3, 125, 35, Hornsby, Hornsby], [Loc Postcode, 160, 10, 2077, 2077], [Loc State, 170, 3, NSW, NSW]]')
+		else:
+			assert_p('Table', 'Content', '[[Brand Id, 1, 3, TAR, TAR], [Loc Nbr, 4, 4, 5169, 5169], [Loc Type, 8, 2, ST, ST], [Loc Name, 10, 35, Hornsby, Hornsby], [Loc Addr Ln1, 45, 40, Westfield Shopping Centre, Westfield Shopping Centre], [Loc Addr Ln2, 85, 40, George Street, George Street], [Loc Addr Ln3, 125, 35, Hornsby, Hornsby], [Loc Postcode, 160, 10, 2077, 2077], [Loc State, 170, 3, NSW, NSW], [Loc Actv Ind, 173, 1, A, A]]')
+
 		select('Table', 'cell:Data,3(Kalgoorlie (not yet open))')
 		select('ComboBox1', 'Contains')
 		select('ComboBox2', 'Backward')
 		click('Find1')
 
 		select('Table', 'cell:Data,3(Carindale)')
-		assert_p('Table', 'Content', '[[Brand Id, 1, 3, TAR, TAR], [Loc Nbr, 4, 4, 5169, 5169], [Loc Type, 8, 2, ST, ST], [Loc Name, 10, 35, Hornsby, Hornsby], [Loc Addr Ln1, 45, 40, Westfield Shopping Centre, Westfield Shopping Centre], [Loc Addr Ln2, 85, 40, George Street, George Street], [Loc Addr Ln3, 125, 35, Hornsby, Hornsby], [Loc Postcode, 160, 10, 2077, 2077], [Loc State, 170, 3, NSW, NSW], [Loc Actv Ind, 173, 1, A, A]]')
+
+##		assert_p('Table', 'Content', '[[Brand Id, 1, 3, TAR, TAR], [Loc Nbr, 4, 4, 5169, 5169], [Loc Type, 8, 2, ST, ST], [Loc Name, 10, 35, Hornsby, Hornsby], [Loc Addr Ln1, 45, 40, Westfield Shopping Centre, Westfield Shopping Centre], [Loc Addr Ln2, 85, 40, George Street, George Street], [Loc Addr Ln3, 125, 35, Hornsby, Hornsby], [Loc Postcode, 160, 10, 2077, 2077], [Loc State, 170, 3, NSW, NSW], [Loc Actv Ind, 173, 1, A, A]]')
+		if commonBits.isMissingCol():
+			assert_p('Table', 'Content', '[[Brand Id, 1, 3, TAR, TAR], [Loc Nbr, 4, 4, 5169, 5169], [Loc Type, 8, 2, ST, ST], [Loc Name, 10, 35, Hornsby, Hornsby], [Loc Addr Ln1, 45, 40, Westfield Shopping Centre, Westfield Shopping Centre], [Loc Addr Ln2, 85, 40, George Street, George Street], [Loc Addr Ln3, 125, 35, Hornsby, Hornsby], [Loc Postcode, 160, 10, 2077, 2077], [Loc State, 170, 3, NSW, NSW]]')
+		else:
+			assert_p('Table', 'Content', '[[Brand Id, 1, 3, TAR, TAR], [Loc Nbr, 4, 4, 5169, 5169], [Loc Type, 8, 2, ST, ST], [Loc Name, 10, 35, Hornsby, Hornsby], [Loc Addr Ln1, 45, 40, Westfield Shopping Centre, Westfield Shopping Centre], [Loc Addr Ln2, 85, 40, George Street, George Street], [Loc Addr Ln3, 125, 35, Hornsby, Hornsby], [Loc Postcode, 160, 10, 2077, 2077], [Loc State, 170, 3, NSW, NSW], [Loc Actv Ind, 173, 1, A, A]]')
+
+
 ##		assert_p('Table', 'Content', '[[Brand Id, 1, 3, TAR, TAR], [Loc Nbr, 4, 4, 5174, 5174], [Loc Type, 8, 2, ST, ST], [Loc Name, 10, 35, Carindale, Carindale], [Loc Addr Ln1, 45, 40, Carindale Shopping Centre, Carindale Shopping Centre], [Loc Addr Ln2, 85, 40, Creek Rd, Creek Rd], [Loc Addr Ln3, 125, 35, Carindale, Carindale], [Loc Postcode, 160, 10, 4152, 4152], [Loc State, 170, 3, QLD, QLD], [Loc Actv Ind, 173, 1, A, A]]')
 		#select('Table', 'cell:Data,3(Carindale)')
 		#click('BasicInternalFrameTitlePane$NoFocusButton5')

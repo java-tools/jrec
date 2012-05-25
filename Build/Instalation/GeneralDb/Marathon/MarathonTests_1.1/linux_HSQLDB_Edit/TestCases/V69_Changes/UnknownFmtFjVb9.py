@@ -21,10 +21,7 @@ def test():
 			commonBits.doSleep()
 			click('Go')
 			commonBits.doSleep()
-			commonBits.doSleep()
 		close()
-		commonBits.doSleep()
-
 		commonBits.doSleep()
 
 

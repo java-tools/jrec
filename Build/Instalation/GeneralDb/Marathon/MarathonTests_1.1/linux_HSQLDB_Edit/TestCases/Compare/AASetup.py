@@ -22,6 +22,7 @@ def test():
 				click('Save')
 				select('PropertiesTab', 'Behaviour')
 				select('Bring log to Front_Chk', 'false')
+				select('Default to prefered layout_Chk', 'false')
 				select('Show all export panels on the export Screen_Chk', 'true')
 				select('Delete Selected rows with the delete key_Chk', 'false')
 

@@ -11,18 +11,17 @@ def test():
 
 
 		if window(''):
-			commonBits.doSleep()
-			select('CheckBox', 'false')
+
+
+			select('CheckBox', 'false')
 
 			click('Go')
-			commonBits.doSleep()
 
-			commonBits.doSleep()
+
 
 
 		close()
 
-		commonBits.doSleep()
 
 		select('Table', 'cell:4|D,0(Loc_Name)')
 		assert_p('Table', 'Text', 'WA Ad Support', '4|D,4')

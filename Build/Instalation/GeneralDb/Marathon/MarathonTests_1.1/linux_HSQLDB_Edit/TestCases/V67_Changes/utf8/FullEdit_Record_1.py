@@ -17,7 +17,12 @@ def test():
 		select('Table', 'cell:Data,3(VIC West Ad Support)')
 		assert_p('Table', 'Text', 'cell:Data,3(VIC West Ad Support)')
 		select('Table', 'cell:Data,3(VIC West Ad Support)')
-		assert_p('Table', 'RowCount', '10')
+
+		if commonBits.isMissingCol():
+			assert_p('Table', 'RowCount', '9')
+		else:
+			assert_p('Table', 'RowCount', '10')
+
 		select('Table', 'cell:Data,3(VIC West Ad Support)')
 		select('Table', 'cell:Data,4()')
 		select('Table', 'cell:Data,4()')
@@ -25,7 +30,12 @@ def test():
 		click('Left')
 		click('Left')
 		select('Table', 'cell:Data,2(DC)')
-		assert_p('Table', 'RowCount', '10')
+
+		if commonBits.isMissingCol():
+			assert_p('Table', 'RowCount', '9')
+		else:
+			assert_p('Table', 'RowCount', '10')
+
 		select('Table', 'cell:Data,2(DC)')
 		assert_p('Table', 'ColumnCount', '5')
 		select('Table', 'cell:Data,2(DC)')

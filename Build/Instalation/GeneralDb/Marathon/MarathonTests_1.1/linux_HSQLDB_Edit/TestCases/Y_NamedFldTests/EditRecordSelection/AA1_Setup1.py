@@ -12,9 +12,11 @@ def test():
 			select('PropertiesTab', 'Test')
 			select('Test Mode_Chk', 'true')
 			select('Warn on Structure change_Chk', 'false')
+			select('Add names to JComponents for use by testing tools_Chk', 'true')
+
 			select('PropertiesTab', 'Behaviour')
 			select('Bring log to Front_Chk', 'false')
-			select('Add names to JComponents for use by testing tools_Chk', 'true')
+##			select('Add names to JComponents for use by testing tools_Chk', 'true')
 ##	select('PropertiesTab', 'File Options')
 			click('Save')
 

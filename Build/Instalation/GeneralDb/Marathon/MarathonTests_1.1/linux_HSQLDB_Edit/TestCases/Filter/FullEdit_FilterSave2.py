@@ -50,7 +50,9 @@ def test():
 		rightclick('Table1', 'Value,0')
 		assert_p('Table1', 'Text', 'st', 'Value,0')
 		select('Table1', 'cell:Value,0(st)')
-		assert_p('Table1', 'Content', '[[Loc Type, true, Contains, st], [, true, Contains, ], [, true, Contains, ], [, true, Contains, ]]')
+##		assert_p('Table1', 'Content', '[[Loc Type, true, Contains, st], [, true, Contains, ], [, true, Contains, ], [, true, Contains, ]]')
+		assert_p('Table1', 'Content', '[[, , Loc Type, true, Contains, st], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ]]');
+
 		select('Table1', 'cell:Value,0(st)')
 		click('Filter1')
 		select('Table', 'cell:10 - 35|Loc Name,6(Leichhardt)')

@@ -7,8 +7,10 @@ def test():
 
 	if window('Record Editor'):
 		select_menu('Record Layouts>>Edit Combo Lists')
-		assert_p('ComboBox', 'Text', 'Standard Combo')
-##		assert_p('ComboBox', 'Text', 'Key / Value Combo')
+		if commonBits.version()  == 'MsAccess':
+			assert_p('ComboBox', 'Text', 'Key / Value Combo')
+		else:
+			assert_p('ComboBox', 'Text', 'Standard Combo')
 		click('Label5')
 		assert_p('Label5', 'Text', 'Combo Type')
 		click('Label6')

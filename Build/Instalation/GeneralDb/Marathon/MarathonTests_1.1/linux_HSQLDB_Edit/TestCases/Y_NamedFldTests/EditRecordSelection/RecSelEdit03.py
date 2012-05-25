@@ -5,23 +5,23 @@ def test():
 
 	if window('Record Editor'):
 		select_menu('Record Layouts>>Edit Layout')
-		select('RecordList.Record Name_Txt', 'zxxxzFLDg1')
+		select('RecordList.Record Name_Txt', 'zx33xzFLDg1')
 
 		select('RecordList.Description_Txt', '%')
 
 		click('Save As')
 
 		if window('Input'):
-			select('OptionPane.textField', 'zxxxzFLDg4')
+			select('OptionPane.textField', 'zx33xzFLDg4')
 			click('OK')
 		close()
 
 
-		select('RecordList.Record Name_Txt', 'zxxxzFLDg1%')
+		select('RecordList.Record Name_Txt', 'zx33xzFLDg1%')
 
 		select('RecordList.Description_Txt', '%%')
 
-		select('RecordList.Record Name_Txt', 'zxxxzFLDg4')
+		select('RecordList.Record Name_Txt', 'zx33xzFLDg4')
 
 		select('RecordList.Description_Txt', '%')
 
@@ -46,7 +46,6 @@ def test():
 		select('RecordSelectionJTbl', 'cell:Field Value,1(11a)')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 
-
 		select('ChildRecordsJTbl', 'fff', 'Field,0')
 		select('ChildRecordsJTbl', 'vvv1', 'Field Value,0')
 		select('ChildRecordsJTbl', 'cell:rs,0(null)')
@@ -55,18 +54,23 @@ def test():
 
 
 ##		select('ChildRecordsJTbl', 'cell:rs,0(null)')
-		select('Lines to Insert_Txt', '2')
-		click('Insert')
+##		select('Lines to Insert_Txt', '2')
+		select('Lines to Insert_Txt1', '2')
+		click('Insert1')
+##		click('Insert')
 
 
-		select('RecordSelectionJTbl', 'cell:Field,0()')
-		select('RecordSelectionJTbl', 'fld 21', 'Field,0')
-		select('RecordSelectionJTbl', 'fld 22', 'Field,1')
-		select('RecordSelectionJTbl', '21', 'Field Value,0')
-		select('RecordSelectionJTbl', '22', 'Field Value,1')
-		select('RecordSelectionJTbl', 'cell:Field Value,0(21)')
-		assert_p('RecordSelectionJTbl', 'Content', '[[, , fld 21, =, 21], [, And, fld 22, =, 22]]')
-		select('RecordSelectionJTbl', 'cell:Field Value,0(21)')
+		select('RecordSelectionJTbl1', 'cell:Field,0()')
+		select('RecordSelectionJTbl1', 'fld 21', 'Field,0')
+		select('RecordSelectionJTbl1', 'fld 22', 'Field,1')
+		select('RecordSelectionJTbl1', '21', 'Field Value,0')
+		select('RecordSelectionJTbl1', '22', 'Field Value,1')
+		select('RecordSelectionJTbl1', 'cell:Field Value,0(21)')
+		assert_p('RecordSelectionJTbl1', 'Content', '[[, , fld 21, =, 21], [, And, fld 22, =, 22]]')
+		select('RecordSelectionJTbl1', 'cell:Field Value,0(21)')
+
+		
+
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('ChildRecordsJTbl', 'cell:rs,0(null)')
 		select('ChildRecordsJTbl', 'ggg', 'Field,1')
@@ -76,7 +80,7 @@ def test():
 		select_menu('Edit Record Selections')
 ##		select('ChildRecordsJTbl', 'cell:Field,1(ggg)')
 
-		assert_p('RecordSelectionJTbl', 'Content', '[[, , fld 21, =, 21], [, And, fld 22, =, 22]]')
+		assert_p('RecordSelectionJTbl1', 'Content', '[[, , fld 21, =, 21], [, And, fld 22, =, 22]]')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('ChildRecordsJTbl', 'cell:Field,1(ggg)')
 		select('ChildRecordsJTbl', 'cell:Field,1(ggg)')
@@ -84,13 +88,14 @@ def test():
 		select_menu('Edit Record Selections')
 ##		select('ChildRecordsJTbl', 'cell:Field,1(ggg)')
 
-		click('Insert')
-		select('RecordSelectionJTbl', 'cell:Field,0()')
-		select('RecordSelectionJTbl', 'fld 32', 'Field,0')
-		select('RecordSelectionJTbl', '32', 'Field Value,0')
-		select('RecordSelectionJTbl', 'cell:or,0()')
-		assert_p('RecordSelectionJTbl', 'Content', '[[, , fld 32, =, 32]]')
-		select('RecordSelectionJTbl', 'cell:or,0()')
+		click('Insert2')
+##		click('Insert')
+		select('RecordSelectionJTbl2', 'cell:Field,0()')
+		select('RecordSelectionJTbl2', 'fld 32', 'Field,0')
+		select('RecordSelectionJTbl2', '32', 'Field Value,0')
+		select('RecordSelectionJTbl2', 'cell:or,0()')
+		assert_p('RecordSelectionJTbl2', 'Content', '[[, , fld 32, =, 32]]')
+		select('RecordSelectionJTbl2', 'cell:or,0()')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('ChildRecordsJTbl', 'cell:Field,1(ggg)')
 		select('ChildRecordsJTbl', 'cell:Field,1(ggg)')
@@ -112,7 +117,7 @@ def test():
 		select('ChildRecordsJTbl', 'cell:Field,1(ggg)')
 		click('Delete3')
 
-		if window('Delete: zxxxzFLDg4'):
+		if window('Delete: zx33xzFLDg4'):
 			click('Yes')
 		close()
 

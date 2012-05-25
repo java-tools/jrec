@@ -5,23 +5,23 @@ def test():
 
 	if window('Record Editor'):
 		select_menu('Record Layouts>>Edit Layout')
-		select('RecordList.Record Name_Txt', 'zxxxzFLDg1')
+		select('RecordList.Record Name_Txt', 'zx33xzFLDg1')
 
 		select('RecordList.Description_Txt', '%')
 
 		click('Save As')
 
 		if window('Input'):
-			select('OptionPane.textField', 'zxxxzFLDg4')
+			select('OptionPane.textField', 'zx33xzFLDg4')
 			click('OK')
 		close()
 
 
-		select('RecordList.Record Name_Txt', 'zxxxzFLDg1%')
+		select('RecordList.Record Name_Txt', 'zx33xzFLDg1%')
 
 		select('RecordList.Description_Txt', '%%')
 
-		select('RecordList.Record Name_Txt', 'zxxxzFLDg4')
+		select('RecordList.Record Name_Txt', 'zx33xzFLDg4')
 
 		select('RecordList.Description_Txt', '%')
 
@@ -78,12 +78,15 @@ def test():
 		rightclick('RecordSelectionJTbl', 'and,2')
 		assert_p('RecordSelectionJTbl', 'Content', '[[, , fld 11, =, 11], [, And, fld 12, =, 12], [, And, fld 11, =, 11a], [, And, fld 12, =, 12a], [Or, , fld 11, =, 11b], [, And, fld 12, =, 12b], [Or, , fld 11, =, 11c], [, And, fld 12, =, 12c]]')
 		select('RecordSelectionJTbl', 'cell:Field Value,6(11c)')
+
+		
+
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		select('RecordList.Record Name_Txt', 'zxxxzFLDg1')
+		select('RecordList.Record Name_Txt', 'zx33xzFLDg1')
 
 		select('RecordList.Description_Txt', '%%')
 
-		select('RecordList.Record Name_Txt', 'zxxxzFLDg4')
+		select('RecordList.Record Name_Txt', 'zx33xzFLDg4')
 
 		select('RecordList.Description_Txt', '%')
 
@@ -91,10 +94,12 @@ def test():
 		rightclick('ChildRecordsJTbl', 'Field,0')
 		select_menu('Edit Record Selections')
 		assert_p('RecordSelectionJTbl', 'Content', '[[, , fld 11, =, 11], [, And, fld 12, =, 12], [, And, fld 11, =, 11a], [, And, fld 12, =, 12a], [Or, , fld 11, =, 11b], [, And, fld 12, =, 12b], [Or, , fld 11, =, 11c], [, And, fld 12, =, 12c]]')
+		assert_p('RecordSelectionJTbl', 'Content', '[[, , fld 11, =, 11], [, And, fld 12, =, 12], [, And, fld 11, =, 11a], [, And, fld 12, =, 12a], [Or, , fld 11, =, 11b], [, And, fld 12, =, 12b], [Or, , fld 11, =, 11c], [, And, fld 12, =, 12c]]')
+
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('Delete3')
 
-		if window('Delete: zxxxzFLDg4'):
+		if window('Delete: zx33xzFLDg4'):
 			click('Yes')
 		close()
 

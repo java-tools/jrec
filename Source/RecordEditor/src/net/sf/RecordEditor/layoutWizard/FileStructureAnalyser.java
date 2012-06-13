@@ -45,15 +45,19 @@ public class FileStructureAnalyser {
 
     private byte[] fData;
 
+    public static FileStructureAnalyser getAnaylserNoLengthCheck(byte[] fileData, String lengthStr) {
+    	return new FileStructureAnalyser(fileData, lengthStr, true, false);
+    }
+
     public static FileStructureAnalyser getAnaylser(byte[] fileData, String lengthStr) {
-    	return new FileStructureAnalyser(fileData, lengthStr, true);
+    	return new FileStructureAnalyser(fileData, lengthStr, true, true);
     }
 
     public static FileStructureAnalyser getFixedAnalyser(byte[] fileData, String lengthStr) {
-    	return new FileStructureAnalyser(fileData, lengthStr, false);
+    	return new FileStructureAnalyser(fileData, lengthStr, false, true);
     }
 
-    private FileStructureAnalyser(byte[] fileData, String lengthStr, boolean searchFileStructures) {
+    private FileStructureAnalyser(byte[] fileData, String lengthStr, boolean searchFileStructures, boolean searchFixedWidthLength) {
 		super();
 
 		fData = fileData;
@@ -91,7 +95,9 @@ public class FileStructureAnalyser {
     			+ " -- " + ebcdicRun + " " + asciiRun);
     	fileStructure = Constants.IO_FIXED_LENGTH;
 
-    	findRecordLength(fileData, lengthStr);
+    	if (searchFixedWidthLength) {
+    		findRecordLength(fileData, lengthStr);
+    	}
 	}
 
 

@@ -164,15 +164,17 @@ implements AbstractFileDisplay, ILayoutChanged {
         			+ " when " + event.getWhen() + " " + lastWhen);*/
         	//Common.logMsg("Key Released ", null);
             if (event.getModifiers() == KeyEvent.CTRL_MASK && lastWhen != event.getWhen()) {
-                if (event.getKeyCode() == KeyEvent.VK_F) {
+                /*if (event.getKeyCode() == KeyEvent.VK_F) {
                     searchScreen.startSearch(fileView);
-                } else if (event.getKeyCode() == KeyEvent.VK_A) {
+                } else*/ if (event.getKeyCode() == KeyEvent.VK_A) {
                 	tblDetails.selectAll();
-                } else if (event.getKeyCode() == KeyEvent.VK_S) {
-                    saveFile();
+//                } else if (event.getKeyCode() == KeyEvent.VK_S) {
+//                    saveFile();
+                } else if (event.getKeyCode() == KeyEvent.VK_INSERT) {
+                	insertLine(0);
                 } else if (event.getKeyCode() == KeyEvent.VK_C) {
                     copyRecords();
-                } else if (event.getKeyCode() == KeyEvent.VK_V) {
+               } else if (event.getKeyCode() == KeyEvent.VK_V) {
                     fileView.pasteLines(getInsertAfterPosition());
                 } else if (event.getKeyCode() == KeyEvent.VK_L) {
                 	new GotoLine(BaseDisplay.this, fileView);;
@@ -1049,6 +1051,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	protected final boolean saveFile() {
 		boolean ret = true;
 
+		//System.out.println("Save File Called");
 		if ("".equals(fileMaster.getFileName())) {
 			new SaveAs3(this, fileMaster);
 		} else {
@@ -1094,6 +1097,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 					JOptionPane.YES_NO_OPTION);
 			}
 			if (res == JOptionPane.YES_OPTION) {
+				Common.stopCellEditing(tblDetails);
 				deleteLines();
 			}
 		}

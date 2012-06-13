@@ -6,8 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.StringTokenizer;
 
 import javax.swing.BorderFactory;
@@ -47,36 +50,36 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 
 	private static final String FIXED_ID = "FIXED";
 	private BaseHelpPanel pnl = new BaseHelpPanel();
-	
+
 	private FileChooser layoutFile = new FileChooser();
 	private final JLabel dialectLbl = new JLabel("Cobol Dialect");
 	private final ComputerOptionCombo dialectCombo = new ComputerOptionCombo();
 
 	private JButton editBtn = new JButton("Edit");
-	
+
 	private JTable fileTable = new JTable();
-	
+
 	private  JTextComponent msg;
-	
+
 	private String fontName = "";
 	private String filename = "";
 	private int fileStructure;
 	private int recordLength = 100;
-	
+
 	private byte[] lastData;
 	private String lastLayoutFile = null;
-	
-	
-	
+
+
+
 	public FixedWidthSelection(JTextComponent message) {
 		msg = message;
-		
+
 		JLabel layoutLbl = new JLabel("Layout File");
-		
+
 		fileTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		
+
 		layoutFile.setDefaultDirectory(Parameters.getFileName(Parameters.COPYBOOK_DIRECTORY));
-		
+
 		pnl.oneColumn();
 		pnl.addComponent(1, 3, SwingUtils.TABLE_ROW_HEIGHT, BasePanel.GAP, BasePanel.FULL, BasePanel.FULL, layoutLbl);
 		pnl.addLine(layoutFile, layoutFile.getChooseFileButton());
@@ -98,21 +101,21 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 				setCobolVisible();
 			}
 		});
-		
+
 		dialectCombo.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				buildFileLayout(lastData);
-			
+
 				setCobolVisible();
 			}
 		});
-		
+
 		setCobolVisible();
 	}
-	
-	
+
+
 	@Override
 	public BaseHelpPanel getPanel() {
 		return pnl;
@@ -125,23 +128,23 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 
 	@Override
 	public boolean setData(String filename, byte[] data, boolean checkCharset, String layoutId) {
-		
+
 		if (lastData == data) {
 			return true;
 		}
-		
+
 		if (layoutId != null && ! "".equals(layoutId)) {
 			setFileDescription(layoutId);
 		}
 
-		
+
 		return buildFileLayout(data);
 	}
-	
+
 	private boolean buildFileLayout(byte[] data) {
 		try {
 			LayoutDetail layout = getLocalLayout(null, data);
-			
+
 			lastLayoutFile = layoutFile.getText();
 
 			if (layout == null) {
@@ -155,7 +158,7 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 			fileStructure = layout.getFileStructure();
 			fontName = layout.getFontName();
 			recordLength = layout.getMaximumRecordLength();
-			
+
 			ByteArrayInputStream is = new ByteArrayInputStream(data);
 			LineIOProvider iop = LineIOProvider.getInstance();
 			@SuppressWarnings("unchecked")
@@ -163,7 +166,7 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 			FileView<LayoutDetail> view = new FileView<LayoutDetail>(layout, iop, false);
 			AbstractLine<LayoutDetail> l;
 			int i=0;
-			
+
 			r.open(is, layout);
 			try {
 				while ( i++ < 60 && (l = r.read()) != null) {
@@ -172,14 +175,14 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
-		
+
 			fileTable.setModel(view);
 			view.fireTableStructureChanged();
-			
+
 			TableColumnModel tcm = fileTable.getColumnModel();
 			TableColumn tc = tcm.getColumn(0);
 			HeaderRender headerRender = new HeaderRender();
-	    	        
+
 	        for (i = 2; i < tcm.getColumnCount(); i++) {
 	            tcm.getColumn(i).setHeaderRenderer(headerRender);
 	        }
@@ -188,12 +191,12 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 			}
 			r.close();
 			is.close();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
-		
+
 		lastData = data;
 		return true;
 	}
@@ -210,7 +213,7 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 
 	@Override
 	public boolean setLines(byte[][] newLines, String font, int numberOfLines) {
-		
+
 		return false;
 	}
 
@@ -235,7 +238,7 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 		if (l != null) {
 			return l;
 		}
-		
+
 		JDialog d = new JDialog(ReMainFrame.getMasterFrame(), true);
 		WizardFileLayout wiz = new WizardFileLayout(d, filename, this, false, false);
 
@@ -244,14 +247,14 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 		details.fontName = font;
 		details.recordLength = recordLength;
 		details.generateFieldNames = true;
-				
+
 		wiz.changePanel(WizardFileLayout.FORWARD, false);
 		if (wiz.getPanelNumber() == 1) {
 			wiz.changePanel(WizardFileLayout.FORWARD, false);
 		}
-		
+
 		d.setVisible(true);
-		
+
 		ExternalRecord rec = wiz.getExternalRecord();
 		if (rec != null) {
 			try {
@@ -267,7 +270,7 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 
 	@Override
 	public String getFileDescription() {
-		
+
 		return FIXED_ID	+ SEP + getStr(layoutFile.getText())
 						+ SEP + dialectCombo.getSelectedIndex()
 						+ SEP + NULL_STR;
@@ -276,17 +279,17 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 	@Override
 	public void setFileDescription(String val) {
 		StringTokenizer tok = new StringTokenizer(val, SEP, false);
-		
+
 		try {
 			tok.nextToken();
 			layoutFile.setText(Parameters.expandVars(getStringTok(tok)));
 			dialectCombo.setSelectedIndex(getIntTok(tok));
 		} catch (Exception e) {
-			
+
 		}
 	}
 
-	
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.re.util.csv.FilePreview#isMyLayout(java.lang.String)
 	 */
@@ -294,8 +297,8 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 	public boolean isMyLayout(String layout) {
 		return layout != null && layout.startsWith(FIXED_ID);
 	}
-	
-	
+
+
 
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.BasicLayoutCallback#setRecordLayout(int, java.lang.String, java.lang.String)
@@ -305,27 +308,27 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 		layoutFile.setText(layoutName);
 	}
 
-	
+
 	private LayoutDetail getLocalLayout(String font, byte[] data) {
-		
+
 		String layoutFileName = layoutFile.getText();
 		if (! "".equals(layoutFileName)) {
 			File f = new File(layoutFileName);
-			
+
 			if (f.exists() && ! f.isDirectory()) {
 				try {
 					CopybookLoader loader;
 					if (isCobol() && CobolCopybookLoader.isAvailable()) {
 						loader = new CobolCopybookLoader();
 						if (font == null) {
-							FileStructureAnalyser analyser = FileStructureAnalyser.getAnaylser(lastData, "");
+							FileStructureAnalyser analyser = FileStructureAnalyser.getAnaylserNoLengthCheck(lastData, "");
 							font = analyser.getFontName();
 							fileStructure = analyser.getFileStructure();
 						}
 					} else {
 						loader = new RecordEditorXmlLoader();
 					}
-					
+
 					ExternalRecord rec = loader.loadCopyBook(layoutFileName, 0, 0, font, dialectCombo.getSelectedValue(), 0, Common.getLogger());
 					if (fileStructure >= 0) {
 						rec.setFileStructure(fileStructure);
@@ -348,11 +351,20 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 	private boolean isCobol() {
 		boolean ret = false;
 		String layoutFileName = layoutFile.getText();
-		if (layoutFileName != null && ! "".equals(layoutFileName)) {
-			layoutFileName = layoutFileName.toLowerCase();
-			ret = layoutFileName.endsWith(".cobol")
-			   || layoutFileName.endsWith(".cbl")
-			   || layoutFileName.endsWith(".cob");
+
+		if (layoutFileName != null
+		&& ! "".equals(layoutFileName)
+		&& ! layoutFileName.toLowerCase().endsWith(".xml")) {
+			File f = new File(layoutFileName);
+			if (f.exists() && ! f.isDirectory()) {
+				try {
+					BufferedReader r = new BufferedReader(new FileReader(f));
+					String s = r.readLine();
+					r.close();
+					ret = s != null && ! s.trim().startsWith("<");
+				} catch (IOException e) {
+				}
+			}
 		}
 		return ret;
 
@@ -362,11 +374,11 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 		if (s == null || "".equals(s)) {
 			s = NULL_STR;
 		}
-		
+
 		return s;
 	}
-	
-	
+
+
 	private String getStringTok(StringTokenizer tok) {
 
 		String s = tok.nextToken();
@@ -375,23 +387,23 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 		}
 		return s;
 	}
-	
+
 	private int getIntTok(StringTokenizer tok) {
 		int ret = 0;
 		try {
 			ret = Integer.parseInt(tok.nextToken());
 		} catch (Exception e) {
 		}
-		
+
 		return ret;
 	}
-	
+
 	@Override
 	public String getFontName() {
 		return fontName;
 	}
 
-	
+
     public void setLayoutFile(String lFile) {
 		this.layoutFile.setText(lFile);
 	}
@@ -404,11 +416,11 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 		this.filename = filename;
 	}
 
-	
+
 
 	@SuppressWarnings("serial")
 	private static class HeaderRender extends JPanel implements TableCellRenderer {
-    	   
+
         /**
          * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent
          * 		(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
@@ -438,7 +450,7 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
                 add(label);
                 if ((!second.equals(""))) {
                     label = new JLabel(second);
-                 
+
                     add(label);
                 }
             }

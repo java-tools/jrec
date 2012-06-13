@@ -22,9 +22,9 @@ import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.jibx.compare.CopyDefinition;
 import net.sf.RecordEditor.jibx.compare.Record;
+import net.sf.RecordEditor.re.fileWriter.CsvWriter;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.re.openFile.LayoutSelectionFile;
-import net.sf.RecordEditor.utils.CsvWriter;
 import net.sf.RecordEditor.utils.common.Common;
 
 public final class DoCopy {

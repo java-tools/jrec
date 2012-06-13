@@ -16,21 +16,21 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ProgramOptions;
 
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public abstract class FileChunkBase<L extends AbstractChunkLine, S extends RecordStore> implements FileChunk<L, S> {
 
 	protected final FileDetails details;
-	
+
 	protected int count = 0;
 	private int size = 0;
 	private int firstLine;
 	protected byte[] compressed = null;
-	
+
 	protected S recordStore = null;
-	
+
 	private long diskAddress = Constants.NULL_INTEGER;
-	
-	  
+
+
 	private static final  ArrayBlockingQueue<CompressThread> queue;
 	private static boolean useThread = true;
 	private static boolean COMPRESS_DISK = Common.OPTIONS.compressOption.get() != ProgramOptions.COMPRESS_NO;
@@ -44,17 +44,17 @@ public abstract class FileChunkBase<L extends AbstractChunkLine, S extends Recor
 		queue = new ArrayBlockingQueue<CompressThread>(
 				processors
 		);
-		
+
 		for (int i = 0; i < processors; i++) {
 			queue.offer(new CompressThread());
 		}
-		
+
 		System.out.println("Processors: " + processors);
 	}
-	
+
 	public FileChunkBase(FileDetails details, int theFirstLine) {
 		super();
-	
+
 		this.details = details;
 
 		if (details == null) {
@@ -76,7 +76,7 @@ public abstract class FileChunkBase<L extends AbstractChunkLine, S extends Recor
 		if (recordStore != null) {
 			ret = recordStore.getRecordCount();
 		}
-		
+
 		return ret;
 	}
 
@@ -92,12 +92,12 @@ public abstract class FileChunkBase<L extends AbstractChunkLine, S extends Recor
 	 * @see net.sf.RecordEditor.edit.file.storage.FileChunk#add(int, net.sf.JRecord.Details.AbstractLine)
 	 */
 	public abstract  void add(int idx, AbstractLine l);
-	
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.file.storage.FileChunk#addLineToManagedLines(L)
 	 */ @Override
 	public final void addLineToManagedLines(L l) {
-		
+
 		getLines().put(l.getChunkLine(), new WeakReference<L>(l));
 	}
 
@@ -123,16 +123,16 @@ public abstract class FileChunkBase<L extends AbstractChunkLine, S extends Recor
 			recordStore.remove(idx);
 			count = recordStore.getRecordCount();
 			compressed = null;
-			
+
 			Integer key = idx;
 			if (lines != null && lines.containsKey(key)) {
 				lines.remove(key);
 			}
-			
+
 			updateLines(idx, -1);
 		}
 	}
-	
+
 	@Override
 	public final L getLineIfDefined(int lineNo) {
 		Integer key = (lineNo - firstLine);
@@ -142,19 +142,19 @@ public abstract class FileChunkBase<L extends AbstractChunkLine, S extends Recor
 		}
 		return ret;
 	}
-	
+
 	@Override
 	public final List<L> getActiveLines() {
 		List<L> ret = null;
 		L tmp;
-		
+
 		if (lines != null) {
 			Set<Integer> keySet = lines.keySet();
 			Integer[] keys = new Integer[keySet.size()];
 			ret = new ArrayList<L>(keys.length);
-			
+
 			keys = keySet.toArray(keys);
-			
+
 			for (Integer key : keys) {
 				tmp = lines.get(key).get();
 				if (tmp == null) {
@@ -166,8 +166,8 @@ public abstract class FileChunkBase<L extends AbstractChunkLine, S extends Recor
 		}
 		return ret;
 	}
-	
-	
+
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.file.storage.FileChunk#split()
 	 */
@@ -190,39 +190,39 @@ public abstract class FileChunkBase<L extends AbstractChunkLine, S extends Recor
 			}
 		}
 	}
-	
+
 	private final void doCompress(boolean force) {
-		
+
 		synchronized (this) {
-			if (isOkToCompress(force)) {	
+			if (isOkToCompress(force)) {
 				try {
 					Runtime rt = Runtime.getRuntime();
 					long free = rt.maxMemory() - rt.totalMemory();
 					long time = System.nanoTime();
-	
+
 					String msg ;
 					count = recordStore.getRecordCount();
 					size = recordStore.getSize();
 					compressed = recordStore.getCompressed();
-					
-					totalTime += System.nanoTime() - time; 
-					
+
+					totalTime += System.nanoTime() - time;
+
 					if (compressed != null && writeCount++ > 10) {
 						writeCount = 0;
-	
-						msg = " -- " + this.firstLine 
-							+ " size: " + size 
-							+ " Compressed: " + compressed.length 
+
+						msg = " -- " + this.firstLine
+							+ " size: " + size
+							+ " Compressed: " + compressed.length
 							+ " " + count
 							+ " Free: " + free + " " + rt.totalMemory()
 							+ "\t Time:" + ( System.nanoTime() - time)
 							+ "\t Total Time:" + ( totalTime / 100000000);
-		
+
 						System.out.println(msg);
 						//Common.logMsg(AbsSSLogger.WARNING, msg, null);
 					}
-					
-					if (compressed != null 
+
+					if (compressed != null
 					&& compressed.length + 40 < size * getStorageSize()) {
 						recordStore = null;
 					} else {
@@ -241,18 +241,18 @@ public abstract class FileChunkBase<L extends AbstractChunkLine, S extends Recor
 			}
 		}
 	}
-	
+
 	private boolean isOkToCompress(boolean force) {
 		synchronized (this) {
 			return recordStore != null && compressed == null
 				&& (force || details.isOkToCompress());
 		}
 	}
-	
+
 	protected int getStorageSize() {
 		return 1;
 	}
-	
+
 	protected void uncompress() {
 		synchronized (this) {
 			if (recordStore == null) {
@@ -269,7 +269,7 @@ public abstract class FileChunkBase<L extends AbstractChunkLine, S extends Recor
 						return;
 					}
 				}
-				
+
 				if (compressed == null) {
 					recordStore = (S) details.getRecordStore();
 				} else {
@@ -280,7 +280,7 @@ public abstract class FileChunkBase<L extends AbstractChunkLine, S extends Recor
 		}
 		details.registerUse(this);
 	}
-	
+
 	protected void saveToDisk() {
 		synchronized (this) {
 			if (compressed != null || recordStore != null) {
@@ -289,19 +289,19 @@ public abstract class FileChunkBase<L extends AbstractChunkLine, S extends Recor
 				if (compressed == null) {
 					doCompress(COMPRESS_DISK);
 				}
-				
+
 				save = compressed;
 				if (save == null) {
 					save = recordStore.getBytes();
 					compressedBytes = false;
 //					System.out.println("++++++++++   No Compressed Data +++++++");
 				}
-				
+
 				try {
 //					System.out.print("Save: " + getSize() + " "
 //							+ " " + compressedBytes + " ");
 					diskAddress = details.saveToDisk(diskAddress, save, compressedBytes);
-		
+
 					compressed = null;
 					recordStore = null;
 				} catch (IOException e) {
@@ -310,17 +310,17 @@ public abstract class FileChunkBase<L extends AbstractChunkLine, S extends Recor
 			}
 		}
 	}
-	
+
 	protected final void clearOldLines() {
-	
+
 		if (lines != null) {
 			synchronized (lines) {
 				Set<Integer> keySet = lines.keySet();
 				Integer[] keys = new Integer[keySet.size()];
 				AbstractChunkLine tmp;
-				
+
 				keys = keySet.toArray(keys);
-				
+
 				for (Integer key : keys) {
 					tmp = lines.get(key).get();
 					if (tmp == null) {
@@ -330,7 +330,7 @@ public abstract class FileChunkBase<L extends AbstractChunkLine, S extends Recor
 			}
 		}
 	}
-	
+
 
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.file.storage.FileChunk#hasRoomForMore(net.sf.JRecord.Details.AbstractLine)
@@ -351,7 +351,7 @@ public abstract class FileChunkBase<L extends AbstractChunkLine, S extends Recor
 	public final void setFirstLine(int firstLine) {
 		this.firstLine = firstLine;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.file.storage.FileChunk#setLayout(net.sf.JRecord.Details.LayoutDetail)
 	 */
@@ -363,23 +363,23 @@ public abstract class FileChunkBase<L extends AbstractChunkLine, S extends Recor
 			}
 		}
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.file.storage.FileChunk#getSpaceUsed()
 	 */
 	public int getSpaceUsed() {
 		int ret = 0;
-		
+
 		if (this.recordStore != null) {
 			ret = this.recordStore.getStoreSize();
 		}
 		if (this.compressed != null) {
 			ret += this.compressed.length;
 		}
-		
+
 		return ret;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.file.storage.FileChunk#getSize()
 	 */
@@ -421,11 +421,11 @@ public abstract class FileChunkBase<L extends AbstractChunkLine, S extends Recor
 				if (inc > 0) {
 					cmp -= 1;
 				}
-//				System.out.println("Update Lines " + keys.length 
+//				System.out.println("Update Lines " + keys.length
 //						+ " Line: " + lineNo + " " + inc + " " + getCount()
 //						+ " Cmp: " + cmp + " > ");
-				
-				
+
+
 //				try {
 //					Arrays.sort(keys);
 //				} catch (Exception e) {
@@ -452,12 +452,12 @@ public abstract class FileChunkBase<L extends AbstractChunkLine, S extends Recor
 					//	nullC += 1;
 					}
 				}
-				
+
 				lines.putAll(tmap);
 //				LineBase l;
 //				for (int i = 0; i < ll.size(); i++) {
 //					l = ll.get(i);
-//					
+//
 //					lines.put(l.getChunkLine(), l);
 //				}
 //				System.out.println();
@@ -468,11 +468,11 @@ public abstract class FileChunkBase<L extends AbstractChunkLine, S extends Recor
 //		} else {
 //			System.out.println("Skip update " + (lines == null) + " " + lineNo + " < " + count);
 		}
-		
+
 		compressed = null;
 	}
 
-	
+
 	public static class CompressThread extends Thread {
 
 		private FileChunkBase ch;
@@ -480,7 +480,7 @@ public abstract class FileChunkBase<L extends AbstractChunkLine, S extends Recor
 			ch = chunk;
 			start();
 		}
-		
+
 		@Override
 		public void start() {
 			try {
@@ -496,6 +496,6 @@ public abstract class FileChunkBase<L extends AbstractChunkLine, S extends Recor
 				}
 			}
 		}
-		
+
 	}
 }

@@ -9,11 +9,15 @@
 package net.sf.RecordEditor.utils.screenManager;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.Icon;
+import javax.swing.KeyStroke;
 
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.common.ReActionHandler;
 
 
 /**
@@ -24,12 +28,12 @@ import net.sf.RecordEditor.utils.common.Common;
  *
  */
 @SuppressWarnings("serial")
-public class ReActionActiveScreen 
-extends AbstractAction 
+public class ReActionActiveScreen
+extends AbstractAction
 implements AbstractActiveScreenAction {
 
     private int actionId;
-    
+
 	private Object param = null;
 
     /**
@@ -62,7 +66,7 @@ implements AbstractActiveScreenAction {
             s = name;
         }
 	    putValue(AbstractAction.SHORT_DESCRIPTION, s);
-
+	    setKey();
     }
 
     /**
@@ -82,14 +86,37 @@ implements AbstractActiveScreenAction {
 
         actionId = actionIdentifier;
 	    putValue(AbstractAction.SHORT_DESCRIPTION, description);
+	    setKey();
     }
 
     public ReActionActiveScreen(final String name, final int actionIdentifier, final Object paramValue) {
     	super(name);
     	param = paramValue;
     	actionId = actionIdentifier;
+    	setKey();
     }
 
+
+    private void setKey() {
+    	KeyStroke k = null;
+
+    	switch (actionId) {
+    	case ReActionHandler.INSERT_RECORDS:
+    		k = KeyStroke.getKeyStroke(KeyEvent.VK_INSERT,ActionEvent.CTRL_MASK);
+    		break;
+    	//case ReActionHandler.DELETE_RECORD: k = KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0);	break;
+      	case ReActionHandler.FIND: k = KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.CTRL_MASK);	break;
+        case ReActionHandler.SAVE: k = KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK);	break;
+        case ReActionHandler.SAVE_AS:
+        	k = KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK + ActionEvent.ALT_MASK );
+        	break;
+    	case ReActionHandler.PRINT: k = KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK);	break;
+   	}
+
+    	if ( k != null) {
+    		this.putValue(Action.ACCELERATOR_KEY, k);
+    	}
+    }
     /**
 	 * @see net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction#actionPerformed(java.awt.event.ActionEvent)
 	 */
@@ -115,7 +142,7 @@ implements AbstractActiveScreenAction {
         //if (actionHandler == null) System.out.print(" >> no active screen");
         //else System.out.print(" >> " + actionHandler.getClass().getName());
     }
-    
+
 	/**
 	 * @return the param
 	 */

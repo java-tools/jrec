@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package net.sf.RecordEditor.diff;
 
@@ -31,7 +31,7 @@ public class TableDisplay extends AbstractCompareDisplay {
 	private CmpTableRender render = new CmpTableRender();
 	private CmpTableModel model;
 	private JTextPane msgTxt = new JTextPane();
-	
+
 	/**
 	 * @param name
 	 * @param recordLayout
@@ -51,7 +51,7 @@ public class TableDisplay extends AbstractCompareDisplay {
         init_100_SetupJtables();
 
 //        pnl.setHelpURL(Common.formatHelpURL(Common.HELP_RECORD_TABLE));
-        
+
         if (chgBefore.size() == 0 && chgAfter.size() == 0) {
         	try {
         		Style def = StyleContext.getDefaultStyleContext().getStyle( StyleContext.DEFAULT_STYLE );
@@ -61,22 +61,22 @@ public class TableDisplay extends AbstractCompareDisplay {
         	    StyleConstants.setBold( bold, true );
         	    StyleConstants.setFontSize( bold, 16 );
         	    StyleConstants.setAlignment(bold, StyleConstants.ALIGN_CENTER);
-        	    
+
         		//Style large = doc.addStyle( "large", bold);
         	    //StyleConstants.setFontSize( large, 16 );
 
         		doc.insertString( doc.getLength(), "Files are Identical !!!", bold );
         		//msgTxt.setAlignmentX(CENTER_ALIGNMENT);
-        		
+
 		         pnl.addLine("", msgTxt);
 		         pnl.setGap(BasePanel.GAP0);
         	} catch (Exception e) {
-			}       	
+			}
         } else if (Common.TEST_MODE) {
 	         pnl.addLine("", msgTxt);
        }
 
-        
+
         pnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
                          BasePanel.FULL, BasePanel.FULL,
                          new JScrollPane(tblDetails));
@@ -91,20 +91,22 @@ public class TableDisplay extends AbstractCompareDisplay {
         model.setRecordIndex(Integer.MAX_VALUE);  /* use prefered layout */
         setTableFeatures() ;
 
+		render.setSchemaIdx(getLayoutIndex());
+
         setVisible(true);
 	}
-	
+
 	private void init_100_SetupJtables() {
-		render.setList(displayBefore);
+		render.setList(displayBefore, displayAfter);
 		model = new CmpTableModel(layout, displayBefore, displayAfter);
-		
+
 		setDisplay(USE_CHANGE_LIST);
 		tblDetails = new JTable(model);
 		tblDetails.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		
+
 		//tblDetails.setC
 //		Common.calcColumnWidths(tblDetails, 1);
-		
+
 		tblDetails.addMouseListener(new MouseAdapter() {
 	         public void mousePressed(MouseEvent m) {
 	                int col = tblDetails.columnAtPoint(m.getPoint());
@@ -121,7 +123,7 @@ public class TableDisplay extends AbstractCompareDisplay {
 
 		});
 	}
-	
+
 	public void setTableFeatures() {
 		TableColumnModel colMdl;
 
@@ -130,7 +132,7 @@ public class TableDisplay extends AbstractCompareDisplay {
 		colMdl = tblDetails.getColumnModel();
 		colMdl.getColumn(0).setPreferredWidth(5);
 		colMdl.getColumn(1).setPreferredWidth(50);
-		
+
 		for (int i = 0; i < colMdl.getColumnCount(); i++) {
 			colMdl.getColumn(i).setCellRenderer(render);
 		}
@@ -145,12 +147,12 @@ public class TableDisplay extends AbstractCompareDisplay {
 	public void setDisplay(int type) {
 		boolean recalcSize = displayBefore.size() == 0;
 		super.setDisplay(type);
-		
-		render.setList(displayBefore);
+
+		render.setList(displayBefore, displayAfter);
 		model.setDisplayRows(displayBefore, displayAfter);
-		
+
 		if (recalcSize && tblDetails != null) {
-			Common.calcColumnWidths(tblDetails, 3);			
+			Common.calcColumnWidths(tblDetails, 3);
 			TableColumnModel colMdl = tblDetails.getColumnModel();
 			colMdl.getColumn(0).setPreferredWidth(5);
 			colMdl.getColumn(1).setPreferredWidth(50);
@@ -164,7 +166,10 @@ public class TableDisplay extends AbstractCompareDisplay {
 	public void changeLayout() {
 
 		if (model != null) {
-			if (model.setRecordIndex(getLayoutIndex())) {
+			int layoutIndex = getLayoutIndex();
+
+			render.setSchemaIdx(layoutIndex);
+			if (model.setRecordIndex(layoutIndex)) {
 				setTableFeatures();
 			}
 		}

@@ -2,6 +2,7 @@ package net.sf.RecordEditor.re.script;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.tree.TreeNode;
@@ -35,15 +36,15 @@ public class ScriptData {
 			int recordIdx, String outputFile) {
 		super();
 
-		this.selectedLines = selectedList;
+		this.selectedLines =selectedList;
 
 		if (view == null) {
 			this.viewLines = null;
 			this.fileLines = null;
 			this.inputFile = null;
 		} else {
-			this.viewLines = view.getLines();
-			this.fileLines = view.getBaseFile().getLines();
+			this.viewLines = Collections.unmodifiableList(view.getLines());
+			this.fileLines = Collections.unmodifiableList(view.getBaseFile().getLines());
 			this.inputFile = view.getFileNameNoDirectory();
 		}
 		this.view = view;

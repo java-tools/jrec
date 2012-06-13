@@ -19,8 +19,8 @@ import net.sf.RecordEditor.re.openFile.FormatFileName;
 import net.sf.RecordEditor.re.util.csv.CheckEncoding;
 import net.sf.RecordEditor.re.util.csv.CsvSelectionPanel;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.common.StreamUtil;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
-import net.sf.RecordEditor.utils.swing.Combo.StreamUtil;
 
 
 /**

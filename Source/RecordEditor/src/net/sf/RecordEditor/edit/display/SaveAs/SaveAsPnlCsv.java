@@ -11,8 +11,8 @@ import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.External.ExternalField;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.edit.util.StandardLayouts;
+import net.sf.RecordEditor.re.fileWriter.CsvWriter;
 import net.sf.RecordEditor.re.openFile.RecentFiles;
-import net.sf.RecordEditor.utils.CsvWriter;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 

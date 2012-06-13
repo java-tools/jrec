@@ -102,13 +102,17 @@ public class ProgramOptions {
 		public boolean isSelected() {
 			boolean ret;
 
-			if (Parameters.isDefaultTrue(param)) {
+			if (isDefaultTrue()) {
 				ret = ! "N".equalsIgnoreCase(Parameters.getString(param));
 			} else {
 				ret = "Y".equalsIgnoreCase(Parameters.getString(param));
 			}
 
 			return ret;
+		}
+
+		protected boolean isDefaultTrue() {
+			return Parameters.isDefaultTrue(param);
 		}
 	}
 

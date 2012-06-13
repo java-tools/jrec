@@ -142,6 +142,7 @@ public final class Common implements Constants {
 	 */
 	public static final String HELP_CSV_EDITOR     = "HlpCsv02.htm";
 	public static final String HELP_COBOL_EDITOR   = "HlpCe02.htm";
+	public static final String HELP_PROTOBUF_EDITOR= "HlpPf02.htm";
 	public static final String HELP_RECORD_MAIN    = "HlpRe02.htm";
 	public static final String HELP_RECORD_TABLE   = "HlpRe03.htm";
 	public static final String HELP_SINGLE_RECORD  = "HlpRe04.htm";
@@ -1631,7 +1632,9 @@ public final class Common implements Constants {
      */
     public static void calcColumnWidths(JTable table, int minColumns) {
     	int screenWidth = table.getVisibleRect().width;
+    	//int screenWidth = table.getMaximumSize().width;
     	int maxColWidth = Math.max(screenWidth * 2 / 3, MINIMUM_MAX_COLUMN_WIDTH);
+    	System.out.println("Col Widths: " + screenWidth + " " + maxColWidth);
 
     	calcColumnWidths(table, minColumns, maxColWidth);
     }

@@ -7,9 +7,12 @@ package net.sf.RecordEditor.utils.screenManager;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -143,8 +147,10 @@ public class ReMainFrame extends JFrame
 	private final ReActionActiveScreen pasteTableInsert
 	= newAction(ReActionHandler.PASTE_TABLE_INSERT);
 
+	private final ReActionActiveScreen insertRecords
+		= newAction(ReActionHandler.INSERT_RECORDS);
 	private final ReActionActiveScreen deleteRecords
-		= newAction(ReActionHandler.DELETE_RECORD);
+	= newAction(ReActionHandler.DELETE_RECORD);
 
 	private JMenu fileMenu = new JMenu("File");
 	private JMenu editMenu = new JMenu("Edit");
@@ -369,10 +375,16 @@ public class ReMainFrame extends JFrame
 	 */
 	protected void buildFileMenu( JMenu recentFiles, boolean addSaveAsXml, boolean addSaveLayout, AbstractAction newAction) {
 
+		open.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(
+	            KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 	    fileMenu.add(open);
 	    if (newAction != null) {
+	    	newAction.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(
+		            KeyEvent.VK_N, ActionEvent.CTRL_MASK));
 	    	fileMenu.add(newAction);
 	    }
+	    //save.putValue(Action.MNEMONIC_KEY /*ACCELERATOR_KEY*/, Integer.valueOf(KeyEvent.VK_S));
+
 	    fileMenu.add(save);
 	    fileMenu.add(saveAs);
 	    if (recentFiles != null) {
@@ -406,6 +418,8 @@ public class ReMainFrame extends JFrame
 	    fileMenu.addSeparator();
 	    fileMenu.add(print);
 	    fileMenu.add(printSelected);
+
+
 	}
 
 	protected final void addExit() {
@@ -435,6 +449,7 @@ public class ReMainFrame extends JFrame
 	    editMenu.add(pasteRecordsPrior);
 	    editMenu.add(pasteTableInsert);
 	    editMenu.add(pasteTableOver);
+	    editMenu.add(insertRecords);
 	    editMenu.add(deleteRecords);
 
 	    editMenu.addSeparator();
@@ -461,6 +476,11 @@ public class ReMainFrame extends JFrame
 		JMenu helpMenu = new JMenu("Help");
 
 		helpMenu.add(helpAction);
+		helpMenu.add(
+				new showURI(
+						"RecordEditor Manual",
+						(new File(Common.formatHelpURL("RecordEdit.htm").substring(5))).toURI()));
+
 		helpMenu.add(new AbstractAction("About") {
 
 			/**
@@ -470,15 +490,16 @@ public class ReMainFrame extends JFrame
 				showAbout();
 			}
 		});
-		helpMenu.add(new AbstractAction("Online Help") {
-
-			/**
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
-			public void actionPerformed(ActionEvent arg0) {
-				showOnlineHelp();
-			}
-		});
+//		helpMenu.add(new AbstractAction("Online Help") {
+//
+//			/**
+//			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+//			 */
+//			public void actionPerformed(ActionEvent arg0) {
+//				showOnlineHelp();
+//			}
+//		});
+//
 
 		if (Common.TEST_MODE) {
 			helpMenu.addSeparator();
@@ -493,6 +514,17 @@ public class ReMainFrame extends JFrame
 		return helpMenu;
 	}
 
+
+	protected void addWebsitesToHelpMenu(JMenu helpMenu) {
+
+		try {
+			helpMenu.addSeparator();
+			helpMenu.add(new showURI("RecordEditor Web Page", new URI("http://record-editor.sourceforge.net/")));
+			helpMenu.add(new showURI("RecordEditor Forum", new URI("https://sourceforge.net/projects/record-editor/forums")));
+		} catch (URISyntaxException e1) {
+			e1.printStackTrace();
+		}
+	}
 
 	/**
 	 *
@@ -523,17 +555,17 @@ public class ReMainFrame extends JFrame
 		showHtmlPnl("About", s);
 	}
 
-	protected void showOnlineHelp() {
-		showHtmlPnl("Online Help",
-					"<h1>Online Help</h1>"
-				  + "If you need help using the <b>RecordEditor</b>, try asking at the<br/>"
-				  + "RecordEditor Forum "
-				  + "<b><font color=blue>http://sourceforge.net/projects/record-editor/forums</font></b>"
-				  + "&nbsp;  &nbsp;  &nbsp;  "
-				  + "<br/><br/>If you discover any problems, please report it at either the forum<br/>"
-				  + "or at <b>http://sourceforge.net/tracker/?group_id=139274&atid=742839</b>   <br/><br/>"
-		);
-	}
+//	protected void showOnlineHelp() {
+//		showHtmlPnl("Online Help",
+//					"<h1>Online Help</h1>"
+//				  + "If you need help using the <b>RecordEditor</b>, try asking at the<br/>"
+//				  + "RecordEditor Forum "
+//				  + "<b><font color=blue>http://sourceforge.net/projects/record-editor/forums</font></b>"
+//				  + "&nbsp;  &nbsp;  &nbsp;  "
+//				  + "<br/><br/>If you discover any problems, please report it at either the forum<br/>"
+//				  + "or at <b>http://sourceforge.net/tracker/?group_id=139274&atid=742839</b>   <br/><br/>"
+//		);
+//	}
 
 	protected void showHtmlPnl(String name, String s) {
 		ReFrame aboutFrame = new ReFrame(name, null, null);
@@ -980,4 +1012,27 @@ public class ReMainFrame extends JFrame
         }
     }
 
+
+    public static final class showURI extends AbstractAction {
+    	private URI uri;
+
+		public showURI(String name, URI uri) {
+			super(name);
+			this.uri = uri;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			if (java.awt.Desktop.isDesktopSupported()) {
+				try {
+					java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
+
+	                desktop.browse(uri);
+	            } catch ( Exception ex ) {
+	                System.err.println( "Error showing Web page" + ex.getMessage() );
+	            }
+			}
+		}
+    }
 }

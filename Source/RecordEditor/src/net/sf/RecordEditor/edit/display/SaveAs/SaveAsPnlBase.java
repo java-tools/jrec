@@ -27,9 +27,9 @@ import net.sf.RecordEditor.edit.util.StandardLayouts;
 import net.sf.RecordEditor.re.file.AbstractLineNode;
 import net.sf.RecordEditor.re.file.DisplayType;
 import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.fileWriter.FieldWriter;
 import net.sf.RecordEditor.re.script.ScriptData;
 import net.sf.RecordEditor.re.util.ReIOProvider;
-import net.sf.RecordEditor.utils.FieldWriter;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -37,12 +37,12 @@ import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
 import net.sf.RecordEditor.utils.swing.FileChooser;
 
 public abstract class SaveAsPnlBase {
-	
+
 	public final static int SINGLE_TABLE = 1;
 	public final static int TABLE_PER_ROW = 2;
 	public final static int TREE_TABLE = 3;
 	public final static String[] FIXED_COL_NAMES = {"Field Name", "Include", "Length"};
-	
+
 	public final static String[] TITLES = {
 		"Data",
 		"CSV",
@@ -53,64 +53,63 @@ public abstract class SaveAsPnlBase {
 		"XSLT Transform",
 		"Velocity"
 	};
-	
+
 //	public final static String[] XSLT_OPTIONS = {
 //		"",
 //		"net.sf.saxon.TransformerFactoryImpl",
 //		"org.apache.xalan.processor.TransformerFactoryImpl"
 //	};
-	
-	
+
+
 	private final static int NULL_INT = Constants.NULL_INTEGER;
 	private final static int COL_NAME = 0;
 	private final static int COL_INCLUDE = 1;
 	private final static int COL_LENGTH = 2;
-	
+
 	private final static int[] FMT_TO_NUMBER_OF_COLS = {1, 2, 3};
-	
+
 
 	public final String extension;
 	public final int panelFormat, extensionType;
 
 	protected final CommonSaveAsFields commonSaveAsFields;
 
-    
+
 	public final BaseHelpPanel panel = new BaseHelpPanel(this.getClass().getSimpleName());
-	
+
     public final JComboBox delimiterCombo  = new JComboBox(Common.FIELD_SEPARATOR_LIST1);
     public final JComboBox quoteCombo = new JComboBox(Common.QUOTE_LIST);
     public final JCheckBox quoteAllTextFields = new JCheckBox();
     public final JTextField xsltTxt  = new JTextField();
-   
+
     public final JTextField font = new JTextField();
-    
-    private   final ButtonGroup grp = new ButtonGroup();
-    protected final JRadioButton singleTable = generateRadioButton("Single Table");
-    protected final JRadioButton tablePerRow = generateRadioButton("Table per Row");
-    protected final JRadioButton treeTable   = generateRadioButton("Tree Table");
-   
-    
+
+    private   final ButtonGroup tableTypeGrp = new ButtonGroup();
+    protected final JRadioButton singleTable = genTableTypeBtn("Single Table");
+    protected final JRadioButton tablePerRow = genTableTypeBtn("Table per Row");
+    protected final JRadioButton treeTable   = genTableTypeBtn("Tree Table");
+
     public final JCheckBox onlyData   = new JCheckBox();
     public final JCheckBox showBorder = new JCheckBox();
     public final JCheckBox namesFirstLine = new JCheckBox();
     public final JCheckBox spaceBetweenFields = new JCheckBox();
     public final FileChooser template;
-    
+
     protected JTable fieldTbl;
     protected FldTblMdl fixedModel;
 
-    
+
     private AbstractRecordDetail<?> record;
     private int[] fieldLengths, suppliedFieldLengths;
     private boolean[] includeFields;
 
-    
+
     public int rowCount;
-    
+
     private FileView file;
 
-    
-    
+
+
     public SaveAsPnlBase(CommonSaveAsFields commonSaveAsFields, String extension, int panelFormat, int extensionType,
 			FileChooser template) {
 		super();
@@ -121,47 +120,52 @@ public abstract class SaveAsPnlBase {
 		this.extensionType = extensionType;
 		this.template = template;
 		file = commonSaveAsFields.getRecordFrame().getFileView();
-		
+
         String f = file.getLayout().getFontName();
 		if (f != null && f.toLowerCase().startsWith("utf")) {
    			font.setText(f);
    		}
 	}
-    
-    
+
+
     protected final void addDescription(String s) {
 		JTextArea area = new JTextArea(s);
-		
+
 		panel.addComponent(1, 5,BasePanel.FILL, BasePanel.GAP,
                 BasePanel.FULL, BasePanel.FULL,
                 area);
 	}
 
-    protected final void addHtmlFields() {
-    	panel.addLine("Only Data Column", onlyData);
-    	panel.addLine("Show Table Border", showBorder);
+    protected final void addHtmlFields(BasePanel pnl) {
+    	pnl.addLine("Only Data Column", onlyData);
+    	pnl.addLine("Show Table Border", showBorder);
     }
 
 
-	private JRadioButton generateRadioButton(String s) {
+	private JRadioButton genTableTypeBtn(String s) {
+    	return generateRadioButton(tableTypeGrp, s);
+    }
+
+
+	protected final JRadioButton generateRadioButton(ButtonGroup grp, String s) {
     	JRadioButton btn = new JRadioButton(s);
-    	
+
     	grp.add(btn);
     	return btn;
     }
 
    public int getTableOption() {
     	int ret = SINGLE_TABLE;
-    	
+
     	if (this.tablePerRow.isSelected()) {
     		ret = TABLE_PER_ROW;
     	} else if (this.treeTable.isSelected()) {
     		ret = TREE_TABLE;
     	}
-    	
+
     	return ret;
     }
-    
+
     public void setTableOption(int opt) {
     	switch (opt) {
     	case SINGLE_TABLE:  this.singleTable.setSelected(true); break;
@@ -173,15 +177,15 @@ public abstract class SaveAsPnlBase {
 	public String getTitle() {
 		return TITLES[this.panelFormat];
 	}
-	
+
 	public String getQuote() {
 		String ret = "";
 		int idx = quoteCombo.getSelectedIndex();
-		
+
 		if (idx >= 0) {
 			ret = Common.QUOTE_VALUES[idx];
 		}
-		
+
 		return ret;
 	}
 
@@ -190,12 +194,12 @@ public abstract class SaveAsPnlBase {
 	 * @return the fieldLengths
 	 */
 	public int[] getFieldLengths() {
-	
+
 		if (this.namesFirstLine.isSelected() && record != null) {
 			for (int i = 0; i < fieldLengths.length; i++) {
 				if (fieldLengths[i] < 0) {
 					fieldLengths[i] = Math.max(
-							suppliedFieldLengths[i], 
+							suppliedFieldLengths[i],
 							record.getField(i).getName().length());
 				}
 			}
@@ -216,19 +220,19 @@ public abstract class SaveAsPnlBase {
 	public boolean[] getIncludeFields() {
 		return includeFields;
 	}
-	
-	
-    
-    public abstract void save(String selection, String outFile)  throws Exception ; 
 
 
-    protected final void save_writeFile(FieldWriter writer, String selection) 
+
+    public abstract void save(String selection, String outFile)  throws Exception ;
+
+
+    protected final void save_writeFile(FieldWriter writer, String selection)
     throws IOException{
 
     	if (commonSaveAsFields.treeExportChk.isSelected()) {
     		commonSaveAsFields.flatFileWriter.writeTree(
-        			writer, commonSaveAsFields.getTreeFrame().getRoot(),  
-        			namesFirstLine.isSelected(), 
+        			writer, commonSaveAsFields.getTreeFrame().getRoot(),
+        			namesFirstLine.isSelected(),
         			! commonSaveAsFields.nodesWithDataChk.isSelected(),
         			commonSaveAsFields.getRecordFrame().getLayoutIndex());
         } else {
@@ -236,13 +240,13 @@ public abstract class SaveAsPnlBase {
         			writer, namesFirstLine.isSelected(), commonSaveAsFields.getWhatToSave(selection));
         }
    	}
-    
+
     public void edit(String outFile, String ext) {
     	@SuppressWarnings("rawtypes")
 		AbstractLayoutDetails layout = getEditLayout(ext);
     	String lcExt = ext.toLowerCase();
     	StandardLayouts genLayout = StandardLayouts.getInstance();
-    	
+
     	if (layout == null) {
 	    	if (".xml".equals(lcExt) || ".xsl".equals(lcExt)) {
 	    		layout = genLayout.getXmlLayout();
@@ -250,7 +254,7 @@ public abstract class SaveAsPnlBase {
 	        	layout = genLayout.getGenericCsvLayout();
 	        }
     	}
-    	
+
     	if (layout == null) {
     		throw new RuntimeErrorException(null, "Can not edit the File: Can not determine the format");
     	} else {
@@ -258,69 +262,69 @@ public abstract class SaveAsPnlBase {
     				ReIOProvider.getInstance(),
         			false);
     		StartEditor startEditor = new StartEditor(newFile, outFile, false, commonSaveAsFields.message ,0);
-    		
+
     		startEditor.doEdit();
 
     	}
     }
-   
+
     @SuppressWarnings("rawtypes")
 	public AbstractLayoutDetails getEditLayout(String ext) {
     	return null;
     }
-    
+
     @SuppressWarnings("rawtypes")
 	protected final List<AbstractLine> saveFile_getLines(String selection) {
     	return commonSaveAsFields.getViewToSave(selection).getLines();
     }
-    
-    
+
+
     protected final ScriptData getScriptData(String selection, String outFile) {
         AbstractLineNode root = null;
-         
+
         if (commonSaveAsFields.getTreeFrame() != null) {
         	root = commonSaveAsFields.getTreeFrame().getRoot();
          }
-        
+
 	   	return new ScriptData(
-	   				saveFile_getLines(selection), 
+	   				saveFile_getLines(selection),
 	   				commonSaveAsFields.file,
 	        		root,
 	        		onlyData.isSelected(), showBorder.isSelected(),
 	        		commonSaveAsFields.getRecordFrame().getLayoutIndex(),
 	        		outFile);
     }
-	
-	
+
+
 	/**
 	 * @param layout the layout to set
 	 */
 	public void setRecordDetails(int[] fldLengths) {
 		this.record = commonSaveAsFields.printRecordDetails;
 		this.suppliedFieldLengths = fldLengths;
-		
+
 		includeFields = commonSaveAsFields.flatFileWriter.getFieldsToInclude();
-		
+
 		if (fldLengths != null) {
 			rowCount = suppliedFieldLengths.length;
 			fieldLengths = new int[rowCount];
-							
+
 			for (int i = 0; i < fieldLengths.length; i++) {
 				fieldLengths[i] = NULL_INT;
 			}
-			
+
 		}
-		
+
 		if (record != null) {
 			AbstractLayoutDetails l = file.getLayout();
 			rowCount = record.getFieldCount();
 			fixedModel = new FldTblMdl();
 			fieldTbl.setModel(fixedModel);
-			
+
 			if (DisplayType.isTreeStructure(l)) {
 				rowCount = DisplayType.getMaxFields(l);
 			}
-			
+
 			TableColumnModel tcm = fieldTbl.getColumnModel();
 			tcm.getColumn(COL_INCLUDE).setCellRenderer(new CheckBoxTableRender());
 			tcm.getColumn(COL_INCLUDE).setCellEditor(new DefaultCellEditor(new JCheckBox()));
@@ -340,13 +344,13 @@ public abstract class SaveAsPnlBase {
 				public void stateChanged(ChangeEvent arg0) {
 					fixedModel.fireTableDataChanged();
 				}
-				
+
 			});
 		}
 	}
 
-    
-	
+
+
 	protected final void setupPrintDetails(boolean isFixed) {
 		AbstractLayoutDetails<?,?> l = file.getLayout();
 		int layoutIdx = file.getCurrLayoutIdx();
@@ -365,20 +369,20 @@ public abstract class SaveAsPnlBase {
 			if (isFixed) {
 				colLengths = getFieldWidthsPrefered();
 			}
-			break;  				
+			break;
 		case DisplayType.HEX_LINE:
 			colLengths = new int[1];
 			colLengths[0] = l.getMaximumRecordLength() * 2;
-			break;  				
+			break;
 		}
 
 		setRecordDetails(colLengths);
 	}
-	
+
 	public boolean isActive() {
 		return true;
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	private int[] getFieldWidths() {
 		AbstractLayoutDetails<?,?> l = file.getLayout();
@@ -423,7 +427,7 @@ public abstract class SaveAsPnlBase {
 	 * @see javax.swing.text.JTextComponent#setText(java.lang.String)
 	 */
 	public void setTemplateText(String text) {
-		
+
 		if (template != null) {
 			template.setText(text);
 		}
@@ -431,19 +435,19 @@ public abstract class SaveAsPnlBase {
 
 
 	private void calcColLengthsForLine(
-			int[] ret, AbstractLine<?> line, 
+			int[] ret, AbstractLine<?> line,
 			AbstractLayoutDetails<?,?> layout, int layoutIdx) {
 
 		int colCount = layout.getRecord(layoutIdx).getFieldCount();
 		calcLengths(ret, line, layoutIdx, 0, colCount);
-		
+
 		if (DisplayType.isTreeStructure(layout)) {
 			int idx = DisplayType.getRecordMaxFields(layout);
 			calcLengths(ret, line, idx, colCount, ret.length);
 		}
 	}
-	
-	private void calcLengths(int[] ret, AbstractLine<?> line, 
+
+	private void calcLengths(int[] ret, AbstractLine<?> line,
 			int layoutIdx,
 			int colStart, int colEnd) {
 		Object o;
@@ -455,8 +459,8 @@ public abstract class SaveAsPnlBase {
 			}
 		}
 	}
-	
-	
+
+
 	@SuppressWarnings("serial")
 	protected final  class FldTblMdl extends AbstractTableModel {
 
@@ -485,12 +489,12 @@ public abstract class SaveAsPnlBase {
 		public void setValueAt(Object val, int row, int col) {
 			if (val != null) {
 			switch (col) {
-				case COL_INCLUDE: 
+				case COL_INCLUDE:
 					if (val instanceof Boolean) {
 						includeFields[row] = ((Boolean) val).booleanValue();
 					}
 					break;
-				case COL_LENGTH: 
+				case COL_LENGTH:
 					try {
 						int v = new Integer(val.toString().trim());
 						if (v > 0) {
@@ -503,7 +507,7 @@ public abstract class SaveAsPnlBase {
 					break;
 				}
 			}
-			
+
 		}
 
 		/* (non-Javadoc)
@@ -528,32 +532,32 @@ public abstract class SaveAsPnlBase {
 		@Override
 		public Object getValueAt(int row, int col) {
 			Object ret = null;
-			
+
 			try {
 			switch (col) {
-			case COL_NAME: 
+			case COL_NAME:
 				if (record == null || row >= record.getFieldCount()) {
 					ret = "Column " + row;
 				} else {
 					ret = record.getField(row).getName();
-				} 
+				}
 				break;
-			case COL_INCLUDE: 
+			case COL_INCLUDE:
 				if (includeFields != null) {
 					ret = Boolean.valueOf(includeFields[row]);
 				}
 				break;
-			case COL_LENGTH: 
+			case COL_LENGTH:
 				if (suppliedFieldLengths != null) {
 					int v = suppliedFieldLengths[row];
-					
+
 					if (fieldLengths[row] > 0) {
 						v = fieldLengths[row];
 					} else if (namesFirstLine.isSelected() && record != null) {
 						v = Math.max(
-								suppliedFieldLengths[row], 
+								suppliedFieldLengths[row],
 								record.getField(row).getName().length());
-					} 
+					}
 					ret = Integer.valueOf(v);
 				}
 				break;
@@ -564,7 +568,7 @@ public abstract class SaveAsPnlBase {
 
 			return ret;
 		}
-		
+
 	}
 
 }

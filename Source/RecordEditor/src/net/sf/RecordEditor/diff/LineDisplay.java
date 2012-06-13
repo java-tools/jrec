@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package net.sf.RecordEditor.diff;
 
@@ -29,9 +29,10 @@ public class LineDisplay extends AbstractCompareDisplay {
 
     private static Color ADDED_COLOR    = Color.yellow;
     private static Color DELETED_COLOR  = Color.cyan;
+    private static Color MODIFIED_COLOR = Color.green;
 
 	private CmpLineModel model;
-	
+
 	private JButton[] btn       = new JButton[4];
 	private String[] moveHints  = {
 	        	"Start of File", "Previous Record",
@@ -39,7 +40,7 @@ public class LineDisplay extends AbstractCompareDisplay {
 
 	private ActionListener lineListner = new ActionListener() {
 		public void actionPerformed(ActionEvent event) {
-				
+
 				//stopCellEditing();
 
 				if (event.getSource() == btn[0]) {
@@ -62,7 +63,7 @@ public class LineDisplay extends AbstractCompareDisplay {
 					setCurrRow(displayBefore.size() - 1);
 					rowChanged();
 				}
-				
+
 				//System.out.println("Lister End " + (event.getSource() == btn[2]));
 
 		//	}
@@ -79,7 +80,7 @@ public class LineDisplay extends AbstractCompareDisplay {
 	 * @param primary
 	 */
 	public LineDisplay(String name,
-			@SuppressWarnings("rawtypes") AbstractLayoutDetails recordLayout, 
+			@SuppressWarnings("rawtypes") AbstractLayoutDetails recordLayout,
 			ArrayList<LineCompare> before,
 			ArrayList<LineCompare> after, ArrayList<LineCompare> chgBefore,
 			ArrayList<LineCompare> chgAfter, boolean primary, boolean allRows) {
@@ -113,7 +114,7 @@ public class LineDisplay extends AbstractCompareDisplay {
         setBounds(1, 1,
                 Math.min(this.getWidth() + 200, screenSize.width  - 1),
                 this.getHeight());
-     
+
         /* set tot prefered Inde */
         model.setRecordIdx(Integer.MAX_VALUE);
         super.setLayoutIndex(model.getRecordIdx());
@@ -121,19 +122,19 @@ public class LineDisplay extends AbstractCompareDisplay {
         setVisible(true);
 	}
 
-	
+
 	/**
 	 * Setup Table details
 	 */
 	private void init_100_SetupJtables() {
 		Render cellRenderer = new Render();
 		model = new CmpLineModel(layout, displayBefore, displayAfter);
-		
+
 		setDisplay(displayType);
 		tblDetails = new JTable(model);
 		tblDetails.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		Common.calcColumnWidths(tblDetails, 0, 220);
-		
+
 		tblDetails.getColumnModel().getColumn(3).setCellRenderer(cellRenderer);
 		tblDetails.getColumnModel().getColumn(4).setCellRenderer(cellRenderer);
 	}
@@ -159,8 +160,8 @@ public class LineDisplay extends AbstractCompareDisplay {
 			model.setRecordIdx(getLayoutIndex());
 		}
 	}
-	
-	
+
+
 	public void setDisplayFields(int fieldDisplay) {
 
 		model.setDisplayChangedFields(fieldDisplay == CHANGED_FIELDS);
@@ -185,8 +186,8 @@ public class LineDisplay extends AbstractCompareDisplay {
 	public void rowChanged() {
 		super.setLayoutIndex(model.getRecordIdx());
 	}
-	
-	
+
+
 	/**
 	 * @see net.sf.RecordEditor.diff.AbstractCompareDisplay#setCurrRow(int, int, int)
 	 */
@@ -195,14 +196,13 @@ public class LineDisplay extends AbstractCompareDisplay {
 		// TODO Auto-generated method stub
 
 	}
-	
-	    private static Color MODIFIED_COLOR = Color.green;
+
 
 	private class Render implements TableCellRenderer {
-		
+
 
 	    private DefaultTableCellRenderer text    = new DefaultTableCellRenderer();
-	    
+
 	    public Render() {
 	    	text.setBorder(null);
 	    }
@@ -217,16 +217,16 @@ public class LineDisplay extends AbstractCompareDisplay {
 			boolean hasFocus,
 			int row,
 			int column) {
-			
+
 			if (value == null) {
 				text.setText("");
 			} else {
 				text.setText(value.toString());
 			}
-			
+
     		LineCompare cmp  = model.getCurrentCompareLine();
     		Color color = Color.WHITE;
-    		
+
     		if (row == 0) {
     		} else if (cmp == null || cmp.line == null) {
     			if (column == 4) {
@@ -239,7 +239,7 @@ public class LineDisplay extends AbstractCompareDisplay {
      			color = MODIFIED_COLOR;
     		}
     		text.setBackground(color);
-			
+
 			return text;
 		}
 	}

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package net.sf.RecordEditor.edit.display.SaveAs;
 
@@ -16,30 +16,30 @@ import net.sf.RecordEditor.utils.swing.FileChooser;
  */
 public class SaveAsPnlVelocity extends SaveAsPnlBase {
 
-	
+
 	/**
 	 * @param commonSaveAsFields common screen fields
 	 */
 	public SaveAsPnlVelocity(CommonSaveAsFields commonSaveAsFields) {
 		super(commonSaveAsFields, ".html", CommonSaveAsFields.FMT_VELOCITY, RecentFiles.RF_VELOCITY, new FileChooser(true, "get Template"));
-		
-		addHtmlFields();
-		
-        
+
+		addHtmlFields(panel);
+
+
         template.setText(Common.OPTIONS.DEFAULT_VELOCITY_DIRECTORY.get());
         panel.addLine("Velocity Template", template, template.getChooseFileButton());
-        
+
         template.addFcFocusListener(commonSaveAsFields.templateListner);
     }
-	
+
 
 	public void save(String selection, String outFile) throws Exception {
 	       RunVelocity velocity = RunVelocity.getInstance();
 
 	        FileWriter w = new FileWriter(outFile);
 
-	        
-	        velocity.genSkel(template.getText(), 
+
+	        velocity.genSkel(template.getText(),
 	        		getScriptData(selection, outFile),
 	        		w);
 	        w.close();
@@ -53,7 +53,7 @@ public class SaveAsPnlVelocity extends SaveAsPnlBase {
 	public boolean isActive() {
 		return Common.isVelocityAvailable();
 	}
-	
-	
-	
+
+
+
 }

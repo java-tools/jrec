@@ -8,10 +8,11 @@ import javax.swing.JTextField;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
+import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 
 /**
- * 
+ *
  * @author Bruce Martin
  *
  * These class's will -
@@ -20,16 +21,17 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
  *  <li>Get / Set Record names
  *  <li>Read a record Layout from external storage
  * </ol>
- * 
- * Basically it holds everything necessary for the user to Select a 
+ *
+ * Basically it holds everything necessary for the user to Select a
  * record layout from an external storage medium (be it Database or File
  * storage).
- * 
+ *
  */
-public abstract class AbstractLayoutSelection<Layout extends AbstractLayoutDetails<? extends FieldDetail, ? extends AbstractRecordDetail>> 
+public abstract class AbstractLayoutSelection<Layout extends AbstractLayoutDetails<? extends FieldDetail, ? extends AbstractRecordDetail>>
 extends ReadLayout implements FormatFileName {
 
-	
+	private StartActionInterface executeAction = null;
+
 	/**
 	 * This method adds layout selection fields to the panel
 	 *
@@ -43,40 +45,40 @@ extends ReadLayout implements FormatFileName {
 			final JButton layoutCreate1, final JButton layoutCreate2);
 
 	public void setFileNameField(JTextField fileNameField) {
-		
+
 	}
-	
+
 	/**
 	 * get the Database names
 	 * @return Database names
 	 */
 	public abstract String[] getDataBaseNames();
-	
+
 	/**
 	 * set the database index
 	 * @param idx new index
 	 */
 	public abstract void setDatabaseIdx(int idx);
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 * @return Database index
 	 */
 	public abstract int getDatabaseIdx();
 
 	/**
-	 * 
+	 *
 	 * @return Database name
 	 */
 	public abstract String getDatabaseName();
-	
-	
+
+
 	/**
 	 * Reload Database details
 	 */
 	public abstract void reload();
-	
+
 
 	/**
 	 * Set the layout name
@@ -85,14 +87,21 @@ extends ReadLayout implements FormatFileName {
 	 * @return wether the layout was found
 	 */
 	public abstract boolean setLayoutName(String layoutName);
-	
-	
+
+	/**
+	 *
+	 * @param newFileName
+	 */
+	public void notifyFileNameChanged(String newFileName) {
+
+	}
+
 	/**
 	 * Get the layout Name
 	 * @return layout name
 	 */
 	public abstract String getLayoutName();
-	
+
 	/**
 	 * retrieve the layout
 	 * @return the layout
@@ -110,13 +119,32 @@ extends ReadLayout implements FormatFileName {
 	 * @param message
 	 */
 	public abstract	void setMessage(JTextArea message);
-	
+
 	public abstract boolean isFileBasedLayout();
-	
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.openFile.FormatFileName#formatLayoutName(java.lang.String)
 	 */
 	public String formatLayoutName(String layoutName) {
 		return layoutName;
+	}
+
+	/**
+	 * @param executeAction the executeAction to set
+	 */
+	public void setExecuteAction(StartActionInterface executeAction) {
+		this.executeAction = executeAction;
+	}
+
+	/**
+	 * @param pBrowse
+	 * @see net.sf.RecordEditor.re.openFile.StartActionInterface#loadFile(boolean)
+	 */
+	public void loadFile(boolean pBrowse) {
+		if (executeAction == null) {
+			Common.logMsg("", null);
+		} else {
+			executeAction.loadFile(pBrowse);
+		}
 	}
 }

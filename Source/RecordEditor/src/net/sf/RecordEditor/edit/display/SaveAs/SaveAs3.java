@@ -29,10 +29,12 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 import javax.swing.JButton;
 
 import javax.swing.BorderFactory;
+import javax.swing.JCheckBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
@@ -122,6 +124,8 @@ public final class SaveAs3 extends ReFrame
 //    		          keepOpenChk      = new JCheckBox(),
 //    		          editChk          = new JCheckBox();
 
+    private JCheckBox openChk = new JCheckBox();
+
     private JTabbedPane formatTab = new JTabbedPane();
 
     //private JTextArea msg = new JTextArea();
@@ -129,10 +133,12 @@ public final class SaveAs3 extends ReFrame
 
     private FileView<?> file;
 
-    private int currentIndex;
+    private int currentIndex, currentType;
     private String currentExtension = null;
 
-    private boolean usingTab = true;
+    private boolean usingTab = true,
+    		        normalOpen = false,
+    		        htmlOpen = true;
 
 
     private ChangeListener tabListner = new ChangeListener() {
@@ -255,6 +261,7 @@ public final class SaveAs3 extends ReFrame
 //        	len += 1;
 //        }
         currentIndex = saveAsId;
+        currentType  = pnls[saveAsId].panelFormat;
 
         for (int i = 0; i < pnls.length; i++) {
         	pnls[i].onlyData.setSelected(! file.isBinaryFile());
@@ -263,11 +270,13 @@ public final class SaveAs3 extends ReFrame
         		formatTab.add(pnls[i].getTitle(), pnls[i].panel);
         		if (pnls[i].panelFormat == saveAsId) {
         			currentIndex = idx;
+        			currentType  = pnls[i].panelFormat;
         		}
         		pnls[idx] = pnls[i];
         		idx += 1;
         	}
         }
+        setOpenChk();
 
         commonSaveFields.keepOpenChk.setSelected(false);
         commonSaveFields.editChk.setSelected(false);
@@ -282,7 +291,6 @@ public final class SaveAs3 extends ReFrame
 
       //findFile.addActionListener(this);
         saveFile.addActionListener(this);
-
     }
 
 
@@ -352,6 +360,9 @@ public final class SaveAs3 extends ReFrame
 
         pnl.setGap(BasePanel.GAP1);
         pnl.addLine("Edit Output File", commonSaveFields.editChk);
+        if (java.awt.Desktop.isDesktopSupported()) {
+        	pnl.addLine("Open Output File", openChk);
+        }
         pnl.addLine("Keep screen open", commonSaveFields.keepOpenChk, saveFile);
         pnl.setGap(BasePanel.GAP1);
         pnl.addMessage(new JScrollPane(commonSaveFields.message));
@@ -432,6 +443,12 @@ public final class SaveAs3 extends ReFrame
         		activePnl.edit(outFile, ext);
         	}
 
+        	if (openChk.isSelected()) {
+				java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
+
+                desktop.open(new File(outFile));
+        	}
+
             if (! commonSaveFields.keepOpenChk.isSelected()) {
 	            formatTab.removeChangeListener(tabListner);
 	            this.setVisible(false);
@@ -477,8 +494,24 @@ public final class SaveAs3 extends ReFrame
 			);
 		}
 
+		if (currentType == CommonSaveAsFields.FMT_HTML) {
+			htmlOpen = openChk.isSelected();
+		} else {
+			normalOpen = openChk.isSelected();
+		}
 		currentIndex = idx;
+		currentType = pnls[idx].panelFormat;
 		currentExtension = newExtension;
+		setOpenChk();
+    }
+
+    private void setOpenChk() {
+
+		if (pnls[currentIndex].panelFormat == CommonSaveAsFields.FMT_HTML) {
+			openChk.setSelected(htmlOpen);
+		} else {
+			openChk.setSelected(normalOpen);
+		}
     }
 
     private int getTabIndex() {

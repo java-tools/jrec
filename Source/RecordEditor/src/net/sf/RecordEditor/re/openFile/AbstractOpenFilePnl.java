@@ -59,7 +59,7 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
 public abstract class AbstractOpenFilePnl
 						<Layout extends AbstractLayoutDetails<? extends FieldDetail, ? extends AbstractRecordDetail>>
 extends BaseHelpPanel
-implements FocusListener {
+implements FocusListener, StartActionInterface {
 
 	protected FileChooser fileName = new FileChooser();
 	protected RecentFiles recent;
@@ -342,7 +342,9 @@ implements FocusListener {
     	File f = new File(pFile);
 	    String recentLayout = recent.getLayoutName(pFile, new File(pFile));
 
-	    if (recentLayout != null && ! "".equals(recentLayout)) {
+	    if (recentLayout == null || "".equals(recentLayout)) {
+	    	getLayoutSelection().notifyFileNameChanged(pFile);
+	    } else {
 	    	setLayout(recentLayout);
 	    	if (recent.isEditorLaunch()) {
 	    	    loadFile(false);

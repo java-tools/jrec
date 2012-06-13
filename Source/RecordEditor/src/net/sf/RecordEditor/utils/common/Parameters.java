@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.MissingResourceException;
@@ -178,6 +179,8 @@ public final class Parameters implements ExternalReferenceConstants {
 	private static String globalPropertyFileName = null;
 	private static String systemJarFileDirectory,
 	                      userJarFileDirectory = USER_HOME;
+
+	private static ArrayList<AParameterChangeListner> paramChangeListners = new ArrayList<AParameterChangeListner>(3);
 
 	public static boolean savePropertyChanges = true;
 
@@ -663,6 +666,7 @@ public final class Parameters implements ExternalReferenceConstants {
 		getInitialisedProperties().setProperty(key, value);
 
 		if (savePropertyChanges) {
+			notifyParamChg();
 			writeProperties();
 		}
 	}
@@ -740,4 +744,34 @@ public final class Parameters implements ExternalReferenceConstants {
 
 		return filename.substring(lastDot);
 	}
+
+	private static void notifyParamChg() {
+
+		for (AParameterChangeListner l : paramChangeListners) {
+			try {
+				l.notifyParamChanged();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+	}
+
+	/**
+	 * @param e
+	 * @return
+	 * @see java.util.ArrayList#add(java.lang.Object)
+	 */
+	public static boolean addParameterChangeListner(AParameterChangeListner e) {
+		return paramChangeListners.add(e);
+	}
+
+	/**
+	 * @param e
+	 * @return
+	 * @see java.util.ArrayList#add(java.lang.Object)
+	 */
+	public static void removeParameterChangeListner(AParameterChangeListner e) {
+		paramChangeListners.remove(e);
+	}
+
 }

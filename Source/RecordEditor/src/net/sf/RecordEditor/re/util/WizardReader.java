@@ -24,10 +24,10 @@ import net.sf.RecordEditor.layoutWizard.Wizard;
 import net.sf.RecordEditor.re.openFile.RecentFiles;
 import net.sf.RecordEditor.utils.LayoutConnection;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.common.StreamUtil;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.EditingCancelled;
-import net.sf.RecordEditor.utils.swing.Combo.StreamUtil;
 
 /**
  * @author Bruce Martin

@@ -105,7 +105,7 @@ public class EditPropertiesPnl extends BasePanel {
         this.addComponent(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(tips));
-        
+
         for (int i = 0; i < tableData.length; i++) {
             tableData[i][VALUE_COLUMN]
                          = Parameters.getString(tableData[i][NAME_COLUMN].toString());
@@ -114,6 +114,7 @@ public class EditPropertiesPnl extends BasePanel {
             	switch (type) {
             	case EMPTY_VAL:
             		addLine("", null);
+            		break;
             	case STRING_VAL:
             		addField(i, new TxtFld(i), null);
             		break;
@@ -143,7 +144,7 @@ public class EditPropertiesPnl extends BasePanel {
             }
         }
     }
-    
+
     private void addField(int row, JComponent item, JComponent item2) {
     	Object prompt = tableData[row][PROMPT_COLUMN];
     	if (prompt == null) {
@@ -157,10 +158,10 @@ public class EditPropertiesPnl extends BasePanel {
     	super.addLine(prompt.toString(), item, item2);
     	components[row] = item;
     }
-    
+
     private void setValue(int row, String value) {
 		tableData[row][VALUE_COLUMN] = value;
-		
+
 		String propertyName = tableData[row][NAME_COLUMN].toString();
         String oldValue = pgmParams.getProperty(propertyName);
 
@@ -175,10 +176,10 @@ public class EditPropertiesPnl extends BasePanel {
         }
 
     }
-    
+
 
 	private class TxtFld extends JTextField implements FocusListener {
-    	
+
     	int fieldNo;
     	private TxtFld(int fldNo) {
     		fieldNo = fldNo;
@@ -187,11 +188,11 @@ public class EditPropertiesPnl extends BasePanel {
     		} else {
     	   		super.setText(tableData[fieldNo][VALUE_COLUMN].toString());
     		}
-    		
+
     		super.addFocusListener(this);
     	}
 
-    	
+
 		/* (non-Javadoc)
 		 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
 		 */
@@ -208,13 +209,13 @@ public class EditPropertiesPnl extends BasePanel {
 		public void focusGained(FocusEvent arg0) {
 		}
     }
-	
-	
+
+
 	private class DateFld extends BasicGenericPopup implements FocusListener {
-    	
+
     	int fieldNo;
     	DatePopup popup = new DatePopup();
-    	
+
     	private DateFld(int fldNo) {
     		fieldNo = fldNo;
     		if (tableData[fieldNo][VALUE_COLUMN] == null) {
@@ -222,22 +223,22 @@ public class EditPropertiesPnl extends BasePanel {
     		} else {
     	   		super.setText(tableData[fieldNo][VALUE_COLUMN].toString());
     		}
-    		
+
     		this.setupBackground();
     		//this.setBorder(BorderFactory.createEmptyBorder());
     		//this.setBorder((new JTextField()).getBorder());
-    		
+
     		this.getMinimumSize().setSize(
     								this.getMinimumSize().getWidth(),
     								Math.max(
-    										this.getMinimumSize().getWidth(), 
+    										this.getMinimumSize().getWidth(),
     										SwingUtils.NORMAL_FIELD_HEIGHT));
 
     		super.setPopup(popup);
     		super.addFocusListener(this);
     	}
 
-    	
+
 		/* (non-Javadoc)
 		 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
 		 */
@@ -254,12 +255,12 @@ public class EditPropertiesPnl extends BasePanel {
 		public void focusGained(FocusEvent arg0) {
 		}
     }
-    
+
     private class IntFld extends TxtFld {
     	private IntFld(int row) {
     		super(row);
     	}
-    	
+
     	/* (non-Javadoc)
 		 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
 		 */
@@ -274,7 +275,7 @@ public class EditPropertiesPnl extends BasePanel {
 			}
 		}
     }
-    
+
 	private class BoolFld extends JCheckBox implements FocusListener {
     	int fieldNo;
     	boolean defaultVal;
@@ -294,7 +295,7 @@ public class EditPropertiesPnl extends BasePanel {
     				super.setSelected(defaultVal);
     			}
     		}
-//    		System.out.println("Field " + fldNo 
+//    		System.out.println("Field " + fldNo
 //    				+ "\t" + tableData[fieldNo][NAME_COLUMN]
 //    				+ "\t" + tableData[fieldNo][VALUE_COLUMN]
 //    				+ "\t" + super.isSelected()
@@ -302,18 +303,18 @@ public class EditPropertiesPnl extends BasePanel {
     		super.addFocusListener(this);
     	}
 
-    	
+
 		/* (non-Javadoc)
 		 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
 		 */
-		@Override 
+		@Override
 		public void focusLost(FocusEvent arg0) {
 			if (super.isSelected() == defaultVal) {
 				setValue(fieldNo, null);
 			} else if (super.isSelected()) {
-				setValue(fieldNo, "Y"); 
+				setValue(fieldNo, "Y");
 			} else {
-				setValue(fieldNo, "N"); 
+				setValue(fieldNo, "N");
 			}
 		}
 
@@ -325,7 +326,7 @@ public class EditPropertiesPnl extends BasePanel {
 		public void focusGained(FocusEvent arg0) {
 		}
     }
-	
+
 	private class ChooseFileName extends FileChooser implements FocusListener {
 
 		private int fieldNo;
@@ -337,11 +338,11 @@ public class EditPropertiesPnl extends BasePanel {
     		} else {
     	   		super.setText(tableData[fieldNo][VALUE_COLUMN].toString());
     		}
-    		
+
     		super.addFocusListener(this);
     	}
 
-    	
+
 		/* (non-Javadoc)
 		 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
 		 */
@@ -354,10 +355,10 @@ public class EditPropertiesPnl extends BasePanel {
 		 */
 		@Override
 		public void focusGained(FocusEvent arg0) {
-			
+
 		}
 	}
-	
+
 	private class Combo extends JComboBox implements FocusListener {
 
 		private int fieldNo;
@@ -368,29 +369,29 @@ public class EditPropertiesPnl extends BasePanel {
 			String[][] items = (String[][])tableData[fldNo][PARAM_COLUMN];
 			ComboStrOption[] options = new ComboStrOption[items.length + 1];
     		fieldNo = fldNo;
-    		
+
     		if (o != null) {
     			s = o.toString();
     		}
-    		
+
     		options[0] = new ComboStrOption("", "");
     		for (int i = 0; i < items.length; i++) {
     			options[i+1] = new ComboStrOption(items[i][0], items[i][1]);
-    			
+
     			if (s.equalsIgnoreCase(items[i][0])) {
     				idx = i+1;
     			}
     		}
-    		
+
     		super.setModel(new DefaultComboBoxModel(options));
-    		
+
     		super.setSelectedIndex(idx);
-    		
-    		
+
+
     		super.addFocusListener(this);
     	}
 
-    	
+
 		/* (non-Javadoc)
 		 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
 		 */
@@ -402,10 +403,10 @@ public class EditPropertiesPnl extends BasePanel {
 		 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
 		 */
 		@Override
-		public void focusGained(FocusEvent arg0) {		
+		public void focusGained(FocusEvent arg0) {
 		}
 	}
-	
+
 	public static class FetchSize extends JButton implements ActionListener {
 		TxtFld heightTxt, widthTxt;
 
@@ -413,7 +414,7 @@ public class EditPropertiesPnl extends BasePanel {
 			super("Retrieve Screen size");
 			this.heightTxt = height;
 			this.widthTxt = width;
-			
+
 			this.addActionListener(this);
 		}
 
@@ -428,7 +429,7 @@ public class EditPropertiesPnl extends BasePanel {
 			heightTxt.focusLost(null);
 			widthTxt.focusLost(null);
 		}
-		
-		
+
+
 	}
 }

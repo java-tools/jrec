@@ -13,7 +13,7 @@
  * # Version 0.61 Bruce Martin 2007/04/14
  *   - Remove call to BasePanel.done()
  *   - JRecord Spun off, code reorg
- *   
+ *
  *
  * # Version 0.62 Bruce Martin 2007/04/30
  *   - adding support for enter key
@@ -54,18 +54,18 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
  * @version 0.56
  */
 @SuppressWarnings("serial")
-public class OpenFileEditPnl<Layout extends AbstractLayoutDetails<? extends FieldDetail, ? extends AbstractRecordDetail<FieldDetail>>> 
-extends AbstractOpenFilePnl<Layout> 
+public class OpenFileEditPnl<Layout extends AbstractLayoutDetails<? extends FieldDetail, ? extends AbstractRecordDetail<FieldDetail>>>
+extends AbstractOpenFilePnl<Layout>
 implements ActionListener, OpenFileInterface {
-	
+
 	private int initialRow;
-	private JPanel goPanel = null; 
+	private JPanel goPanel = null;
 
 	private JButton browse;
 	private JButton edit ;
 
 	private JPanel nullComponent;
-	
+
 	private RecentFilesList recentList;
 
 	/**
@@ -85,7 +85,7 @@ implements ActionListener, OpenFileInterface {
 	        	   final JButton layoutCreate1,
 	        	   final JButton layoutCreate2,
 	        	   @SuppressWarnings("rawtypes") final AbstractLayoutSelection newLayoutSelection) {
-	    this(pInFile, pInitialRow, pIoProvider, 
+	    this(pInFile, pInitialRow, pIoProvider,
 	         layoutCreate1, layoutCreate2,
 	         Parameters.getApplicationDirectory() + "Files.txt",
 	         Common.HELP_RECORD_MAIN,
@@ -113,15 +113,17 @@ implements ActionListener, OpenFileInterface {
      	   final String propertiesFiles,
      	   final String helpScreen,
      	   @SuppressWarnings("rawtypes") final AbstractLayoutSelection newLayoutSelection) {
-		super(pInFile,
-		     	   pIoProvider,
-		     	   layoutCreate1,
-		     	   layoutCreate2,
-		     	   propertiesFiles,
-		     	   helpScreen,
-		     	   newLayoutSelection);
-		
+		super(	pInFile,
+		     	pIoProvider,
+		     	layoutCreate1,
+		     	layoutCreate2,
+		     	propertiesFiles,
+		     	helpScreen,
+		     	newLayoutSelection);
+
 		initialRow = pInitialRow - 1;
+
+		newLayoutSelection.setExecuteAction(this);
 
 		recentList = new RecentFilesList(recent, this);
 
@@ -130,21 +132,21 @@ implements ActionListener, OpenFileInterface {
 //		edit.addActionListener(this);
 	}
 
-	//@Override
+	@Override
 	public void processFile(String sFileName,
 			Layout layoutDetails,
 			AbstractLineIOProvider ioProvider,
 			boolean pBrowse) throws Exception {
-	
+
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		FileView file = new FileView(layoutDetails,
     			ioProvider,
     			pBrowse);
 		StartEditorExtended startEditor = new StartEditorExtended(file, sFileName, pBrowse);
-		
+
 		startEditor.doEdit();
-		
-		
+
+
 //		AbstractLayoutDetails layoutDtls = file.getLayout();
 //
 //		if (layoutDtls.hasChildren()) {
@@ -157,7 +159,7 @@ implements ActionListener, OpenFileInterface {
 //		} else {
 //			display = new LineList(layoutDtls, file, file);
 //			display.setCurrRow(initialRow, -1, -1);
-//		
+//
 //			if (file.getRowCount() == 0 && ! pBrowse) {
 //				display.insertLine();
 //			}
@@ -201,12 +203,12 @@ implements ActionListener, OpenFileInterface {
     		edit   = new JButton("Edit", Common.getRecordIcon(Common.ID_OPEN_ICON));
 
     		nullComponent = new JPanel();
-   		
+
     		goPanel.setLayout(new BorderLayout());
     		goPanel.add(BorderLayout.NORTH, edit);
     		goPanel.add(BorderLayout.CENTER, nullComponent);
     		goPanel.add(BorderLayout.SOUTH, browse);
-    		
+
     		browse.addActionListener(this);
     		edit.addActionListener(this);
     	}
@@ -218,18 +220,18 @@ implements ActionListener, OpenFileInterface {
      * @see net.sf.RecordEditor.utils.LayoutConnection#getCurrentDbIdentifier()
      */
     public int getCurrentDbIdentifier() {
-        return getLayoutSelection().getDatabaseIdx(); 
+        return getLayoutSelection().getDatabaseIdx();
     }
-    
+
 
     /**
      * @see net.sf.RecordEditor.utils.LayoutConnection#getCurrentDbName()
      */
     public String getCurrentDbName() {
-        return getLayoutSelection().getDatabaseName(); 
+        return getLayoutSelection().getDatabaseName();
     }
 
-    
+
     @Override
 	public BasePanel getPanel() {
 		return this;
@@ -243,9 +245,9 @@ implements ActionListener, OpenFileInterface {
     	super.setDoListener(false);
         @SuppressWarnings("rawtypes")
 		AbstractLayoutSelection selection = getLayoutSelection();
-        
+
         selection.reload();
-         
+
 		if (newFileName != null && ! "".equals(newFileName)) {
 		    fileName.setText(newFileName);
 			selection.setLayoutName(layoutName);
@@ -264,7 +266,7 @@ implements ActionListener, OpenFileInterface {
 	public final JMenu getRecentFileMenu() {
 		return recentList.getMenu();
 	}
-	
+
 	private class StartEditorExtended extends StartEditor {
 
 		public StartEditorExtended(@SuppressWarnings("rawtypes") FileView file, String name, boolean browse) {
@@ -273,15 +275,15 @@ implements ActionListener, OpenFileInterface {
 
 		@Override
 		public void done() {
-			
+
 			if (ok) {
 				super.done();
-	
+
 				try {
 					if ("".equals(file.getMsg())) {
 						String layoutName = getCurrentLayout();
 						//list.moveToFront();
-	
+
 						recent.putFileLayout(fName, layoutName);
 						recentList.update();
 					}
@@ -290,6 +292,6 @@ implements ActionListener, OpenFileInterface {
 				}
 			}
 		}
-		
+
 	}
 }

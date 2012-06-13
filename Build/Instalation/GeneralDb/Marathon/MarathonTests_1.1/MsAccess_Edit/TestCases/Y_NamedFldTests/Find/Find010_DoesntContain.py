@@ -1,0 +1,35 @@
+useFixture(default)
+
+def test():
+	from Modules import commonBits
+	java_recorded_version = '1.6.0_22'
+
+	if window('Record Editor'):
+		select('File_Txt', commonBits.sampleDir() + 'csv2DTAR020_tst1.bin.csv')
+		click('Edit1')
+		click('Find1')
+##		click('WindowsInternalFrameTitlePane', 139, 9)
+		select('Find.Search For_Txt', '1')
+		select('Find.Field_Txt', 'KEYCODE-NO')
+		select('Find.Operator_Txt', 'Doesn\'t Contain')
+		click('Find1')
+		assert_p('TextField', 'Text', 'Found (line, field Num, field position)=1, 0, -1')
+		click('Find1')
+		assert_p('TextField', 'Text', 'Found (line, field Num, field position)=2, 0, -1')
+		click('Find1')
+		assert_p('TextField', 'Text', 'Found (line, field Num, field position)=3, 0, -1')
+		click('Find1')
+		assert_p('TextField', 'Text', 'Found (line, field Num, field position)=10, 0, -1')
+		click('Find1')
+		assert_p('TextField', 'Text', 'Found (line, field Num, field position)=11, 0, -1')
+		click('Find1')
+		assert_p('TextField', 'Text', 'Found (line, field Num, field position)=12, 0, -1')
+		click('Find1')
+		assert_p('TextField', 'Text', 'Found (line, field Num, field position)=14, 0, -1')
+		click('Find1')
+		assert_p('TextField', 'Text', 'Found (line, field Num, field position)=15, 0, -1')
+		click('Find1')
+		assert_p('TextField', 'Text', 'Found (line, field Num, field position)=17, 0, -1')
+		click('Find1')
+		assert_p('TextField', 'Text', 'Found (line, field Num, field position)=18, 0, 0')
+	close()

@@ -18,6 +18,10 @@ def isNimbusLook():
 	return 0
 
 
+def isMissingCol():
+	return 0
+
+
 def isVersion80():
 	return 1
 
@@ -47,10 +51,7 @@ def fileSep():
 		return '/'
 
 def sampleDir():
-	if windows():
-		return utilDir()+ 'SampleFiles\\'
-	else: 
-		return utilDir()+ 'SampleFiles/'
+	return utilDir()+ 'SampleFiles' + fileSep()
 
 
 def velocityDir():
@@ -79,17 +80,12 @@ def usingEditStart():
 	return true
 
 def xmlCopybookDir():
-	if windows():
-		return paramDir() + 'CopyBook\Xml\\'
-	else: 
-		return paramDir() + 'CopyBook/Xml/'
+	return paramDir() + 'CopyBook' + fileSep() +'Xml' + fileSep()
 
 
 def CobolCopybookDir():
-	if windows():
-		return utilDir()+ 'CopyBook\\Cobol\\'
-	else: 
-		return utilDir()+ 'CopyBook/Cobol/'
+	return paramDir() + 'CopyBook' + fileSep() +'Cobol' + fileSep()
+
 
 def setRecordLayout(select, recordLayout):
 	select('ComboBox2', recordLayout)
@@ -131,7 +127,8 @@ def utilDir():
 def paramDir():
 	if windows():
 		if isVersion80():
-			return 'C:\\Users\\Mum\\.RecordEditor\\HSQLDB\\'
+			return 'C:\\Users\\BruceTst2\\.RecordEditor\\HSQLDB\\'
+##			return 'C:\\Users\\Mum\\.RecordEditor\\HSQLDB\\'
 		else:
 			return 'C:\\JavaPrograms\\RecordEdit\\'
 
@@ -141,7 +138,7 @@ def paramDir():
 		return '/home/bm' + '/.RecordEditor/' + version() + '/'
 
 def selectPane():
-#	return 'FilePane$4'
+##	return 'FilePane$4'
 	return 'FilePane$3'
 
 #	return 'File Name'
@@ -170,9 +167,9 @@ def doSleep():
 #	print start
 #	time.sleep(.9)
 	diff = datetime.now() - start
-	while diff.seconds < 1.8:
+	while diff.seconds < 1.1:
 #		print diff
-		time.sleep(1.8 - diff.seconds)
+		time.sleep(1.0 - diff.seconds)
 		diff = datetime.now() - start
 	return
 

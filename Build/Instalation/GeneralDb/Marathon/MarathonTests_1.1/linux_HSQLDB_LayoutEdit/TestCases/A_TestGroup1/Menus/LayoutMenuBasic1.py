@@ -19,7 +19,7 @@ def test():
 ##		select('ChildRecordsJTbl', 'cell:,0(0)')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Record Layouts>>Create Layout')
-		if commonBits.isVersion89():
+		if commonBits.isVersion80():
 			assert_p('BmKeyedComboBox', 'Text', 'Record Layout')
 		else:
 			assert_p('BmKeyedComboBox', 'Text', 'XML')

@@ -9,18 +9,18 @@ def test():
 		select_menu('Edit>>Edit Options')
 
 		if window('Record Editor Options Editor'):
-			if commonBits.isVersion89():
+			if commonBits.isVersion80():
 				select('TabbedPane', 'Looks')
 				select('LooksTab', 'Screen Properties')
 				##select('Table', 'cell:Parameter Description,1(Space to be left at the bottom of the screen.)')
 				##assert_p('Label74', 'Text', 'Space to be left at the bottom of the screen.')
 				##assert_p('Label75', 'Text', 'Space to be left at the top of the screen.')
 				##select('TabbedPane6', 'Screen Properties')
-				assert_p('Label80', 'Text', 'Size of the program when it opens')
-				assert_p('Label82', 'Text', 'Space to be left at the top of the screen.')
-				assert_p('Label84', 'Text', 'Space to be left at the Right of the screen.')
-				assert_p('Label87', 'Text', 'Screen Height')
-				assert_p('Label88', 'Text', 'Screen Width')
+				assert_p('Label81', 'Text', 'Size of the program when it opens')
+				assert_p('Label83', 'Text', 'Space to be left at the top of the screen.')
+				assert_p('Label85', 'Text', 'Space to be left at the Right of the screen.')
+				assert_p('Label88', 'Text', 'Screen Height')
+				assert_p('Label89', 'Text', 'Screen Width')
 				assert_p('Retrieve Screen size', 'Text', 'Retrieve Screen size')
 #				assert_p('EditorPane24', 'Text', '''<html>''')
 #				assert_p('EditorPane20', 'Text', '''<html>''')

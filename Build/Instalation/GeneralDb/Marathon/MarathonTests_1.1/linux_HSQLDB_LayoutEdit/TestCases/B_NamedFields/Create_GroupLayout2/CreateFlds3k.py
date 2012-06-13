@@ -4,8 +4,8 @@ def test():
 	java_recorded_version = '1.6.0_22'
 
 	if window('Record Layout Definitions'):
-		select_menu('Record Layouts>>Create Layout')
-		select('RecordDef.Record Name_Txt', 'zxzxzFLDg777')
+		click('*1')
+		select('RecordDef.Record Name_Txt', 'zx3xzFLDg777')
 		click('Insert')
 		select('RecordFieldsJTbl', 'cell:Description,0()')
 		click('Delete2')
@@ -15,42 +15,42 @@ def test():
 		click('Insert')
 		click('Insert')
 		select('ChildRecordsJTbl', 'cell:Child Record,0()')
-		select('ChildRecordsJTbl', 'zxzxzFLD1', 'Child Record,0')
-		select('ChildRecordsJTbl', 'zxzxzFLD2', 'Child Record,1')
-		select('ChildRecordsJTbl', 'zxzxzFLD2', 'Tree Parent,0')
-		select('ChildRecordsJTbl', 'cell:Tree Parent,0(zxzxzFLD2)')
-		assert_p('ChildRecordsJTbl', 'Content', '[[, zxzxzFLD1, , , , , zxzxzFLD2], [, zxzxzFLD2, , , , , ]]')
+		select('ChildRecordsJTbl', 'zx3xzFLD1', 'Child Record,0')
+		select('ChildRecordsJTbl', 'zx3xzFLD2', 'Child Record,1')
+		select('ChildRecordsJTbl', 'zx3xzFLD2', 'Tree Parent,0')
+		select('ChildRecordsJTbl', 'cell:Tree Parent,0(zx3xzFLD2)')
+		assert_p('ChildRecordsJTbl', 'Content', '[[, zx3xzFLD1, , , , , zx3xzFLD2], [, zx3xzFLD2, , , , , ]]')
 ##		select('ChildRecordsJTbl', '')
 ##		select('ChildRecordsJTbl', 'cell: ,0(null)')
 		select('ChildRecordsJTbl', 'cell: ,1(null)')
-		select('RecordDef.Record Name_Txt', 'zxzxzFLD2aaa')
+		select('RecordDef.Record Name_Txt', 'zx3xzFLD2aaa')
 		click('Save1')
 
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 
-		assert_p('ChildRecordsJTbl', 'Content', '[[, zxzxzFLD1, , , , , zxzxzFLD2aaa], [, zxzxzFLD2aaa, , , , , ]]')
+		assert_p('ChildRecordsJTbl', 'Content', '[[, zx3xzFLD1, , , , , zx3xzFLD2aaa], [, zx3xzFLD2aaa, , , , , ]]')
 ##		select('ChildRecordsJTbl', '')
 		select('ChildRecordsJTbl', 'cell: ,1(null)')
-		select('RecordDef.Record Name_Txt', 'zxzxzFLD2asd')
+		select('RecordDef.Record Name_Txt', 'zx3xzFLD2asd')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 
-		assert_p('ChildRecordsJTbl', 'Content', '[[, zxzxzFLD1, , , , , zxzxzFLD2asd], [, zxzxzFLD2asd, , , , , ]]')
+		assert_p('ChildRecordsJTbl', 'Content', '[[, zx3xzFLD1, , , , , zx3xzFLD2asd], [, zx3xzFLD2asd, , , , , ]]')
 ##		select('ChildRecordsJTbl', '')
 		select('ChildRecordsJTbl', 'cell: ,1(null)')
-		select('RecordDef.Record Name_Txt', 'zxzxzFLD2')
+		select('RecordDef.Record Name_Txt', 'zx3xzFLD2')
 		click('Save1')
 
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 
-		assert_p('ChildRecordsJTbl', 'Content', '[[, zxzxzFLD1, , , , , zxzxzFLD2], [, zxzxzFLD2, , , , , ]]')
+		assert_p('ChildRecordsJTbl', 'Content', '[[, zx3xzFLD1, , , , , zx3xzFLD2], [, zx3xzFLD2, , , , , ]]')
 		select('ChildRecordsJTbl', 'cell:Field,1()')
 		click('Delete2')
-		assert_p('ChildRecordsJTbl', 'Content', '[[, zxzxzFLD1, , , , , ]]')
+		assert_p('ChildRecordsJTbl', 'Content', '[[, zx3xzFLD1, , , , , ]]')
 		select('ChildRecordsJTbl', 'cell:Field,0()')
 		click('Delete2')
 		click('Delete3')
 
-		if window('Delete: zxzxzFLDg777'):
+		if window('Delete: zx3xzFLDg777'):
 			click('Yes')
 		close()
 

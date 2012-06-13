@@ -1,6 +1,7 @@
 useFixture(default)
 
 def test():
+	import time
 	java_recorded_version = '1.6.0_22'
 
 	if window('Record Layout Definitions'):
@@ -98,6 +99,7 @@ def test():
 
 		select('RecordList.Description_Txt', '%')
 
+		time.sleep(0.6)
 		assert_p('RecordFieldsJTbl', 'Content', '[[1, 1, fld 31, , 0, 0, 0, , , ], [2, 5, fld 32, , 0, 0, 0, , , ], [7, 9, fld 33, , 0, 0, 0, , , ], [18, 10, fld 34, , 0, 0, 0, , , ], [28, 12, fld 35, , 0, 0, 0, , , ]]')
 		assert_p('RecordDef.Record Name_Txt', 'Text', 'zxzxzFLD3')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')

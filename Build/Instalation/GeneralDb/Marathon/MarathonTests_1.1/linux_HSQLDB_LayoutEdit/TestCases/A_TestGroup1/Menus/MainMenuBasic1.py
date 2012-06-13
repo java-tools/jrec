@@ -15,7 +15,7 @@ def test():
 		assert_p('TextField2', 'Text', 'ams PO Download')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('*1')
-		if commonBits.isVersion89():
+		if commonBits.isVersion80():
 			assert_p('BmKeyedComboBox', 'Text', 'Record Layout')
 		else:
 			assert_p('BmKeyedComboBox', 'Text', 'XML')

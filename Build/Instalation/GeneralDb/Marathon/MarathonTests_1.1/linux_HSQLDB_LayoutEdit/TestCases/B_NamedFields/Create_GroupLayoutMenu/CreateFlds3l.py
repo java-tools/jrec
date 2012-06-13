@@ -1,6 +1,7 @@
 useFixture(default)
 
 def test():
+	import time
 	java_recorded_version = '1.6.0_22'
 
 	if window('Record Layout Definitions'):
@@ -40,6 +41,9 @@ def test():
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 		assert_p('ChildRecordsJTbl', 'Content', '[[, zxzxzFLD1, , , , , zxzxzFLD2], [, zxzxzFLD2, , , , , ], [, zxzxzFLD3, , , , , ]]')
+		assert_p('ChildRecordsJTbl', 'Content', '[[, zxzxzFLD1, , , , , zxzxzFLD2], [, zxzxzFLD2, , , , , ], [, zxzxzFLD3, , , , , ]]')
+
+		time.sleep(1)
 		select('ChildRecordsJTbl', '', 'Tree Parent,0')
 		select('ChildRecordsJTbl', 'cell:Tree Parent,0()')
 		click('Save1')

@@ -12,6 +12,7 @@ def test():
 		select_menu('Record Layouts>>Create Layout')
 		select('RecordDef.Record Name_Txt', 'zxzxzFLDg777')
 		select('RecordDef.Record Type_Txt', 'Group of Records')
+		select('RecordDef.System_Txt', 'Unkown')
 
 		click('Insert')
 		select('ChildRecordsJTbl', 'cell:Child Record,0()')

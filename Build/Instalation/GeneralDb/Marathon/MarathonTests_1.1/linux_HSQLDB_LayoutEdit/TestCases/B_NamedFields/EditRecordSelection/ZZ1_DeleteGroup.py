@@ -12,7 +12,7 @@ def test():
 
 		select('TabbedPane', 'Child Records')
 		assert_p('RecordDef.Record Name_Txt', 'Text', 'zxxxzFLDg1')
-		assert_p('ChildRecordsJTbl', 'Content', '[[, zxxxzFLD1, , , , , ], [, zxxxzFLD2, , , , , ], [, zxxxzFLD3, , , , , ]]')
+##		assert_p('ChildRecordsJTbl', 'Content', '[[, zxxxzFLD1, , , , , ], [, zxxxzFLD2, , , , , ], [, zxxxzFLD3, , , , , ]]')
 		click('Delete3')
 
 		if window('Delete: zxxxzFLDg1'):

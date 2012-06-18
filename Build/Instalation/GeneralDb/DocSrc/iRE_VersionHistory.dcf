@@ -1,3 +1,29 @@
+:h4.Release 0.88
+  :ul compact.
+    :li.Enhanced HTML Export.
+    :li.Option to Open Exported file.
+    :li.Minor GUI changes.
+    :li.Highlight changed fields on Compare screen (Feature request 3532674).
+    :li.Enhanced Help menu (can open Manual / Forums etc).
+    :li.Minor fix's.
+  :eul.
+:h4.Release 0.86
+  :ul compact.
+    :li.Enhanced Filter selection - support And / Or operators
+    :li.Minor changes to Find command
+  :eul.
+  
+:h4.Release 0.85
+  :ul compact.
+    :li.Enhanced Record Selection Edit screen + problem fix's for the Record Selection editor
+    :li.Minor LayoutEditor changes + some fixes for the LayoutEditor
+    :li.A large number of minor GUI changes e.g. Implement Ctrl-A (select all),
+Windows and Nimbus LAF changes.
+    :li.Changes Find function
+    :li.New :hp2.FileWizard:ehp2. for use when the file is not recognized.
+    :li.Problem fixs
+  :eul.
+
 :h4.Release 0.80.6
   :ul compact.
     :li.Option to Edit saved/exported File (if it is in a supported format: Xml, Csv, Fixed)

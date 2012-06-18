@@ -16,13 +16,15 @@ def test():
         click('Export')
 
         if frame('Export - DTAR020_tst1.bin:0'):
-            select('JTabbedPane_16', 'Fixed')
+##            select('JTabbedPane_16', 'Fixed')
+            select('File Name_2', 'Fixed')
             select('Edit Output File', 'true')
             select('names on first line', 'true')
             select('space between fields', 'true')
             select('Keep screen open', 'true')
 ##            assert_content('JTable_27', [ ['KEYCODE-NO', 'true', '10'],
-            assert_content('JTable_25', [ ['KEYCODE-NO', 'true', '10'],
+##            assert_content('JTable_25', [ ['KEYCODE-NO', 'true', '10'],
+            assert_content('JTable_24', [ ['KEYCODE-NO', 'true', '10'],
 ['STORE-NO', 'true', '8'],
 ['DATE', 'true', '5'],
 ['DEPT-NO', 'true', '7'],
@@ -33,10 +35,10 @@ def test():
 ##            select('JTable_27', 'false', '{4, Include}')
 ##            select('JTable_27', 'rows:[4],columns:[Include]')
 ##            assert_content('JTable_27', [ ['KEYCODE-NO', 'true', '10'],
-            select('JTable_25', 'false', '{2, Include}')
-            select('JTable_25', 'false', '{4, Include}')
-            select('JTable_25', 'rows:[4],columns:[Include]')
-            assert_content('JTable_25', [ ['KEYCODE-NO', 'true', '10'],
+            select('JTable_24', 'false', '{2, Include}')
+            select('JTable_24', 'false', '{4, Include}')
+            select('JTable_24', 'rows:[4],columns:[Include]')
+            assert_content('JTable_24', [ ['KEYCODE-NO', 'true', '10'],
 ['STORE-NO', 'true', '8'],
 ['DATE', 'false', '5'],
 ['DEPT-NO', 'true', '7'],
@@ -44,7 +46,7 @@ def test():
 ['SALE-PRICE', 'true', '10']
 ])
 ##            select('JTable_27', 'rows:[4],columns:[Include]')
-            select('JTable_25', 'rows:[4],columns:[Include]')
+            select('JTable_24', 'rows:[4],columns:[Include]')
             click('save file')
 ##          select('JTable_27', 'rows:[4],columns:[Include]')
         close()

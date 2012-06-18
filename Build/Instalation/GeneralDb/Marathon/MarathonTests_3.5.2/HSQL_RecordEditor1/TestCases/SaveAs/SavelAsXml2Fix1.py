@@ -16,8 +16,10 @@ def test():
         click('Export')
 
         if frame('Export - AmsLocationTest2.xml:0'):
-            select('JTabbedPane_16', 'Fixed')
+##            select('JTabbedPane_16', 'Fixed')
+            select('File Name_2', 'Fixed')
             select('Edit Output File', 'true')
+            select('Only export Nodes with Data', 'true')
             select('Keep screen open', 'true')
             click('save file')
         close()
@@ -80,12 +82,12 @@ def test():
 ##            select('JTable_31', 'false', '{6, Include}')
 ##            select('JTable_31', 'rows:[5],columns:[Include]')
 
-            select('JTable_29', 'rows:[5],columns:[Include]')
-            select('JTable_29', 'false', '{5, Include}')
+            select('JTable_28', 'rows:[5],columns:[Include]')
+            select('JTable_28', 'false', '{5, Include}')
 
-            select('JTable_29', 'rows:[6],columns:[Include]')
-            select('JTable_29', 'false', '{6, Include}')
-            select('JTable_29', 'rows:[5],columns:[Include]')
+            select('JTable_28', 'rows:[6],columns:[Include]')
+            select('JTable_28', 'false', '{6, Include}')
+            select('JTable_28', 'rows:[5],columns:[Include]')
 
             click('save file')
         close()
@@ -165,12 +167,12 @@ def test():
 ##            select('JTable_31', 'true', '{6, Include}')
 ##            select('JTable_31', 'rows:[6],columns:[Include]')
 
-            select('JTable_29', 'true', '{5, Include}')
-            select('JTable_29', 'true', '{6, Include}')
+            select('JTable_28', 'true', '{5, Include}')
+            select('JTable_28', 'true', '{6, Include}')
 
-            select('JTable_29', 'rows:[6],columns:[Include]')
-            select('JTable_29', 'true', '{6, Include}')
-            select('JTable_29', 'rows:[6],columns:[Include]')
+            select('JTable_28', 'rows:[6],columns:[Include]')
+            select('JTable_28', 'true', '{6, Include}')
+            select('JTable_28', 'rows:[6],columns:[Include]')
 
             
             click('save file')

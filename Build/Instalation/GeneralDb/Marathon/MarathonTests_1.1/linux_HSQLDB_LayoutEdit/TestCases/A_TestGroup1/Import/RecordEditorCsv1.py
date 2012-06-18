@@ -32,7 +32,9 @@ line 3)''')
 		select('ChildRecordsJTbl', 'cell:Field,0(Record Type)')
 		assert_p('BmKeyedComboBox2', 'Text', 'Group of Records')
 		click('RecordPnl', 93, 74)
-		assert_p('BmKeyedComboBox3', 'Content', '[[7, 101, 3, 99, 32, 9, 5, 0, 102]]')
+##		assert_p('BmKeyedComboBox3', 'Content', '[[7, 101, 3, 99, 32, 9, 5, 0, 102]]')
+		assert_p('BmKeyedComboBox3', 'Content', '[[7, 101, 3, 99, 32, 9, 5, 103, 0, 102]]')
+		
 ##		assert_p('BmKeyedComboBox3', 'Content', '[[7, 3, 101, 32, 9, 5, 0]]')
 		select('TextArea', '''ams PO Download: Allocation 
 
@@ -159,7 +161,8 @@ line 3''')
 		if window('Delete: ams@PO@Download'):
 			click('Yes')
 		close()
-
+
+
 		click('Close')
 ##		select_menu('File>>Exit')
 	close()

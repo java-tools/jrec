@@ -1,0 +1,5 @@
+
+<h1>${recordLayout.getRecordName()}</h1>
+<p>${recordLayout.getDescription()}</p>
+
+#parse ("LayoutRecordSelectionInc.vm")

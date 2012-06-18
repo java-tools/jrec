@@ -31,7 +31,9 @@ def test():
         click('Export')
 
         if frame('Export - DTAR020_tst1.bin:0'):
-            select('JTabbedPane_16', 'Fixed')
+##            select('JTabbedPane_16', 'Fixed')
+            select('File Name_2', 'Fixed')
+            select('Only export Nodes with Data', 'true')
             select('Edit Output File', 'true')
             select('Only export Nodes with Data', 'false')
             select('names on first line', 'true')

@@ -1,0 +1,65 @@
+useFixture(default)
+
+def test():
+	from Modules import commonBits
+	java_recorded_version = '1.5.0_11'
+
+	if window('Protocol Buffer Editor'):
+		select('FileChooser', commonBits.sampleDir() + 'protoSales.bin')
+		click('Edit1')
+		select_menu('View>>Sorted Field Tree')
+		##select('List', 'sale')
+		select('Table', 'store', 'Field,0')
+		select('Table', 'department', 'Field,1')
+		select('Table', 'cell:Field,1(department)')
+		click('Build Tree')
+		select('JTreeTable', 'cell:Tree,0(null)')
+		rightclick('JTreeTable', 'Tree,0')
+		select_menu('Copy Record#{s#}')
+		select('JTreeTable', 'cell:Tree,3(null)')
+		rightclick('JTreeTable', 'keycode,3')
+		select_menu('Paste Record#{s#}')
+		select('JTreeTable', 'cell:keycode,3(null)')
+		assert_p('JTreeTable', 'RowCount', '5')
+		select('JTreeTable', 'cell:keycode,4(null)')
+		rightclick('JTreeTable', 'keycode,4')
+		select_menu('Expand Tree')
+		select('JTreeTable', 'cell:Tree,7(null)')
+		assert_p('JTreeTable', 'RowCount', '10')
+		select('JTreeTable', 'cell:Tree,7(null)')
+		rightclick('JTreeTable', 'Tree,7')
+		select_menu('Expand Tree')
+		select('JTreeTable', 'cell:keycode,8(62684671)')
+		assert_p('JTreeTable', 'Content', '[[, , , , , , , ], [, , , , , , , ], [, , , , , , , ], [, , , , , , , ], [, , , , , , , ], [, , , , , , , ], [, , , , , , , ], [, , , , , , , ], [, , 62684671, 20, 685, 40118, 1, 69990], [, , 62684671, 20, 685, 40118, -1, -69990], [, , , , , , , ], [, , , , , , , ]]')
+
+		select('JTreeTable', 'cell:keycode,5(null)')
+		rightclick('JTreeTable', 'keycode,5')
+		select_menu('Expand Tree')
+		select('JTreeTable', 'cell:keycode,6(63604808)')
+		assert_p('JTreeTable', 'Text', '63604808', 'keycode,6')
+		select('JTreeTable', 'cell:store,6(20)')
+		assert_p('JTreeTable', 'Content', '[[, , , , , , , ], [, , , , , , , ], [, , , , , , , ], [, , , , , , , ], [, , , , , , , ], [, , , , , , , ], [, , 63604808, 20, 170, 40118, 1, 4870], [, , , , , , , ], [, , , , , , , ], [, , 62684671, 20, 685, 40118, 1, 69990], [, , 62684671, 20, 685, 40118, -1, -69990], [, , , , , , , ], [, , , , , , , ]]')
+
+		select('JTreeTable', 'cell:keycode,11(null)')
+		rightclick('JTreeTable', 'keycode,11')
+		select_menu('Expand Tree')
+		select('JTreeTable', 'cell:keycode,12(65674532)')
+		assert_p('JTreeTable', 'Content', '[[, , , , , , , ], [, , , , , , , ], [, , , , , , , ], [, , , , , , , ], [, , , , , , , ], [, , , , , , , ], [, , 63604808, 20, 170, 40118, 1, 4870], [, , , , , , , ], [, , , , , , , ], [, , 62684671, 20, 685, 40118, 1, 69990], [, , 62684671, 20, 685, 40118, -1, -69990], [, , , , , , , ], [, , 65674532, 20, 929, 40118, 1, 3590], [, , , , , , , ]]')
+
+		select('JTreeTable', 'cell:Tree,3(null)')
+		rightclick('JTreeTable', 'Tree,3')
+		select_menu('Expand Tree')
+		click('ScrollPane$ScrollBar', 5, 364)
+		click('ScrollPane$ScrollBar', 10, 374)
+		#select('JTreeTable', 'rows:[58,59,60,61,62,63,64,65,66,67,68],columns:[Tree]')
+		select('JTreeTable', 'rows:[58,59,60,61,62,63],columns:[Tree]')
+		select_menu('View>>Table View #{Selected Records#}')
+		select('JTreeTable', 'rows:[58,59,60,61,62,63],columns:[Tree]')
+		select('Table', 'cell:1|keycode,3(69684558)')
+		assert_p('Table', 'Content', '[[60694909, 184, 998, 40118, 1, 2000], [63604808, 20, 170, 40118, 1, 4870], [69684558, 20, 280, 40118, 1, 19000], [69684558, 20, 280, 40118, -1, -19000], [69684558, 20, 280, 40118, 1, 5010], [69694158, 20, 280, 40118, 1, 19000], [69694158, 20, 280, 40118, -1, -19000], [69694158, 20, 280, 40118, 1, 5010]]')
+
+
+		#if window('Save Changes to file: ' + commonBits.sampleDir() + 'protoSales.bin'):
+		#	click('No')
+		#close()
+	close()

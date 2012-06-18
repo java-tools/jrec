@@ -10,11 +10,12 @@ def test():
         click('Export')
 
         if frame('Export - DTAR020_tst1.bin:0'):
-            select('JTabbedPane_16', 'CSV')
+            select('File Name_2', 'CSV')
+##            select('JTabbedPane_16', 'CSV')
 #            select('JTable_31', 'rows:[1],columns:[Include]')
 #            select('JTable_31', 'rows:[4],columns:[Include]')
-            select('JTable_31', 'false', '{1, Include}')
-            select('JTable_31', 'false', '{4, Include}')
+            select('JTable_30', 'false', '{1, Include}')
+            select('JTable_30', 'false', '{4, Include}')
             select('Edit Output File', 'true')
             select('Keep screen open', 'true')
             click('save file')

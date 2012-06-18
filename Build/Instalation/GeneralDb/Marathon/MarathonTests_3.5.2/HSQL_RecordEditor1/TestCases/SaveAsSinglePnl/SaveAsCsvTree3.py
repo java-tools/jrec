@@ -34,6 +34,7 @@ def test():
         if frame('Export1 - DTAR020_tst1.bin:0'):
 
             select('Edit Output File', 'true')
+            select('Only export Nodes with Data', 'true')
             select('names on first line', 'true')
             select('Keep screen open', 'true')
             click('save file')

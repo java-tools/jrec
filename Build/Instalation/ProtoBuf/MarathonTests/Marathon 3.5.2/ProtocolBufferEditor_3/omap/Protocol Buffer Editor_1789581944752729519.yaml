@@ -1,0 +1,216 @@
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: File}
+    - {method: equals, name: type, value: JMenu}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JMenu}
+    - {name: cText, value: File}
+    - {name: type, value: JMenu}
+    - {name: size, value: '[width=31,height=21]'}
+    - {name: component.class.simpleName, value: JMenu}
+    - {name: component.class.name, value: javax.swing.JMenu}
+    - {name: accessibleContext.accessibleName, value: File}
+    name: File
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JRootPane}
+    - {method: equals, name: indexInContainer, value: '1'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JRootPane}
+    - {name: type, value: JRootPane}
+    - {name: size, value: '[width=1440,height=837]'}
+    - {name: component.class.simpleName, value: JRootPane}
+    - {name: component.class.name, value: javax.swing.JRootPane}
+    name: JRootPane_1
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Save as CSV file}
+    - {method: equals, name: type, value: JMenu$1}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: SaveAs_Csv}
+    - {name: instanceOf, value: javax.swing.JMenu$1}
+    - {name: cText, value: Save as CSV file}
+    - {name: type, value: JMenu$1}
+    - {name: size, value: '[width=181,height=21]'}
+    - {name: component.class.simpleName, value: ''}
+    - {name: component.class.name, value: javax.swing.JMenu$1}
+    - {name: toolTipText, value: Save as CSV file}
+    - {name: accessibleContext.accessibleName, value: Save as CSV file}
+    name: Save as CSV file
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: View}
+    - {method: equals, name: type, value: JMenu}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JMenu}
+    - {name: cText, value: View}
+    - {name: type, value: JMenu}
+    - {name: size, value: '[width=41,height=21]'}
+    - {name: component.class.simpleName, value: JMenu}
+    - {name: component.class.name, value: javax.swing.JMenu}
+    - {name: accessibleContext.accessibleName, value: View}
+    name: View
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Sorted Field Tree}
+    - {method: equals, name: type, value: JMenu$1}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: SortSum}
+    - {name: instanceOf, value: javax.swing.JMenu$1}
+    - {name: cText, value: Sorted Field Tree}
+    - {name: type, value: JMenu$1}
+    - {name: size, value: '[width=263,height=21]'}
+    - {name: component.class.simpleName, value: ''}
+    - {name: component.class.name, value: javax.swing.JMenu$1}
+    - {name: toolTipText, value: Create Tree View by sorting on selected fields}
+    - {name: accessibleContext.accessibleName, value: Sorted Field Tree}
+    name: Sorted Field Tree
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: iconFile, value: Preferences}
+    - {method: equals, name: type, value: JToolBar$1}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: Preferences}
+    - {name: instanceOf, value: javax.swing.JToolBar$1}
+    - {name: type, value: JToolBar$1}
+    - {name: size, value: '[width=28,height=28]'}
+    - {name: component.class.simpleName, value: ''}
+    - {name: component.class.name, value: javax.swing.JToolBar$1}
+    name: Preferences
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: dtar020_tst1.bin}
+    - {method: equals, name: type, value: JMenuItem}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JMenuItem}
+    - {name: cText, value: dtar020_tst1.bin}
+    - {name: type, value: JMenuItem}
+    - {name: size, value: '[width=263,height=21]'}
+    - {name: component.class.simpleName, value: JMenuItem}
+    - {name: component.class.name, value: javax.swing.JMenuItem}
+    - {name: accessibleContext.accessibleName, value: dtar020_tst1.bin}
+    name: dtar020_tst1.bin
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Recent Files}
+    - {method: equals, name: type, value: JMenu}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JMenu}
+    - {name: cText, value: Recent Files}
+    - {name: type, value: JMenu}
+    - {name: size, value: '[width=181,height=21]'}
+    - {name: component.class.simpleName, value: JMenu}
+    - {name: component.class.name, value: javax.swing.JMenu}
+    - {name: accessibleContext.accessibleName, value: Recent Files}
+    name: Recent Files
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Save As}
+    - {method: equals, name: type, value: JMenu$1}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: SaveAs}
+    - {name: instanceOf, value: javax.swing.JMenu$1}
+    - {name: cText, value: Save As}
+    - {name: type, value: JMenu$1}
+    - {name: size, value: '[width=181,height=21]'}
+    - {name: component.class.simpleName, value: ''}
+    - {name: component.class.name, value: javax.swing.JMenu$1}
+    - {name: toolTipText, value: Save As}
+    - {name: accessibleContext.accessibleName, value: Save As}
+    name: Save As
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Save HTML 1 tbl}
+    - {method: equals, name: type, value: JMenu$1}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: SaveAs_Html}
+    - {name: instanceOf, value: javax.swing.JMenu$1}
+    - {name: cText, value: Save HTML 1 tbl}
+    - {name: type, value: JMenu$1}
+    - {name: size, value: '[width=181,height=21]'}
+    - {name: component.class.simpleName, value: ''}
+    - {name: component.class.name, value: javax.swing.JMenu$1}
+    - {name: toolTipText, value: Save HTML 1 tbl}
+    - {name: accessibleContext.accessibleName, value: Save HTML 1 tbl}
+    name: Save HTML 1 tbl
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: toCsv_Comma.vm}
+    - {method: equals, name: type, value: JMenu$1}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JMenu$1}
+    - {name: cText, value: toCsv_Comma.vm}
+    - {name: type, value: JMenu$1}
+    - {name: size, value: '[width=205,height=21]'}
+    - {name: component.class.simpleName, value: ''}
+    - {name: component.class.name, value: javax.swing.JMenu$1}
+    - {name: accessibleContext.accessibleName, value: toCsv_Comma.vm}
+    name: toCsv_Comma.vm
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Save via Velociy Skelton}
+    - {method: equals, name: type, value: net.sf.RecordEditor.utils.VelocityPopup}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: SaveAs_Velocity}
+    - {name: instanceOf, value: javax.swing.JMenu}
+    - {name: cText, value: Save via Velociy Skelton}
+    - {name: type, value: net.sf.RecordEditor.utils.VelocityPopup}
+    - {name: size, value: '[width=181,height=21]'}
+    - {name: component.class.simpleName, value: VelocityPopup}
+    - {name: component.class.name, value: net.sf.RecordEditor.utils.VelocityPopup}
+    - {name: accessibleContext.accessibleName, value: Save via Velociy Skelton}
+    name: Save via Velociy Skelton
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: iconFile, value: SaveAs}
+    - {method: equals, name: type, value: JToolBar$1}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: SaveAs}
+    - {name: instanceOf, value: javax.swing.JToolBar$1}
+    - {name: type, value: JToolBar$1}
+    - {name: size, value: '[width=28,height=28]'}
+    - {name: component.class.simpleName, value: ''}
+    - {name: component.class.name, value: javax.swing.JToolBar$1}
+    - {name: toolTipText, value: Save As}
+    name: SaveAs
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Compare Menu}
+    - {method: equals, name: type, value: JMenu$1}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JMenu$1}
+    - {name: cText, value: Compare Menu}
+    - {name: type, value: JMenu$1}
+    - {name: size, value: '[width=181,height=21]'}
+    - {name: component.class.simpleName, value: ''}
+    - {name: component.class.name, value: javax.swing.JMenu$1}
+    - {name: accessibleContext.accessibleName, value: Compare Menu}
+    name: Compare Menu
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: toCsv_Tab.vm}
+    - {method: equals, name: type, value: JMenu$1}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JMenu$1}
+    - {name: cText, value: toCsv_Tab.vm}
+    - {name: type, value: JMenu$1}
+    - {name: size, value: '[width=205,height=21]'}
+    - {name: component.class.simpleName, value: ''}
+    - {name: component.class.name, value: javax.swing.JMenu$1}
+    - {name: accessibleContext.accessibleName, value: toCsv_Tab.vm}
+    name: toCsv_Tab.vm

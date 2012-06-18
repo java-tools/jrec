@@ -100,11 +100,11 @@ value you can change by :Blue.clicking:eblue. on the :hp2.And / Or:ehp2., it wil
       or (    field6 = value6
           and field7 > field8 
              ..........
-             
- The system :bblue.does not:EBBlue. support complicated expressions or And before or expressions.
- 
-     
-.fo on
+
+.fo off
+:p.The system only supports simple :bblue.Or ~ And:ebblue. boolean
+expressions. It :bblue.does not:EBBlue. support complicated expressions or :bblue.And ~ Or:ebblue. boolean expressions.
+
 :p.If Field values are entered at the 
 Group level They will be included as well. 
 
@@ -116,11 +116,11 @@ Group level They will be included as well.
        Record Type = S1
   and
       (
-          (    f1  = v1
-           and f2  = v2
+          (    Case Pack id  = P
+           and Pack Qty      > 0
           )
-       or (    f3  = v3
-           and f4  = v4
+       or (    Case Pack id  = S
+           and Pack Qty      < 0
           )
       )
            

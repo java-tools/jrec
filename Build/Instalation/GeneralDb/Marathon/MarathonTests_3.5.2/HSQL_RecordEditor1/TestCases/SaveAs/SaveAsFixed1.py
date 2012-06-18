@@ -16,7 +16,8 @@ def test():
         click('Export')
 
         if frame('Export - DTAR020_tst1.bin:0'):
-            select('JTabbedPane_16', 'Fixed')
+##            select('JTabbedPane_16', 'Fixed')
+            select('File Name_2', 'Fixed')
             select('names on first line', 'true')
             select('space between fields', 'true')
             select('Edit Output File', 'true')

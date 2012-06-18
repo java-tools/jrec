@@ -1,0 +1,102 @@
+<H2><A NAME="Header_3">Open Screen</A></H2>
+<P>
+<P>On starting the editor, the following screen is displayed&#58;
+<P>
+<img SRC="Diagram/ProtoBuf_open.png">
+<P>
+<P>Fields are
+<P>
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>File
+ </B></TD><TD><P>Protocol Buffers Message file to be editted
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>File Structure
+ </B></TD><TD><P>How the message('s) are stored. Current options are
+ <UL COMPACT>
+  <LI><B>ProtoBuffer Message</B> A single mesaage in the file (written using the writeTo method
+  <LI><B>ProtoBuffer Delimited Messages</B> Multiple Protocol Messages (written using the writeDelimitedTo method).
+ </UL>
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Type of Definition
+ </B></TD><TD><P>Wether the definition is a Standard .proto definition file or the
+proto has been "compiled" to the
+protocol buffers message (using command <B><I>protoc msg.proto  --descriptor_set_out=msg.protocomp</I></B>).
+If you have trouble processing a .proto file, I would suggest "manually compiling". The actual options are
+<UL COMPACT>
+ <LI><B>Proto Definition</B> Standard proto file. The Editor will "compile" the
+proto file to a temporary directory using the protoc command.
+ <LI><B>Compiled Proto</B> A pre compiled proto file (using command <B><I>protoc msg.proto  --descriptor_set_out=msg.protocomp</I></B>).
+</UL>
+proto file and using
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Proto Definition
+ </B></TD><TD><P>Protocol buffers definition file.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Proto File
+ </B></TD><TD><P>The actual proto file (from the definition).
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Primary Message
+ </B></TD><TD><P>Primary (or main) top level message.
+</TD></TR></TABLE>
+<P>
+<P><H3><A NAME="Header_4"  >Proto Search button</A></H3>
+<P>You can use the <B>Proto Search</B> button to find Proto Definition that
+matches you data file. Currently it does not handle imported files.
+<img SRC="Diagram/ProtoBuf_Open_FindProto.png">
+<P>
+<P><I><B><A NAME="Header_5">Workaround for imported files</A>:&nbsp;</B></I>&nbsp;
+<OL TYPE=1>
+ <P><LI>Use the <B>protoc</B> command to create a "compiled" definition i.e.
+<PRE>
+            <B>protoc ${protofile} --descriptor_set_out=${protofile}comp --proto_path=Whatever  </B>
+ 
+</PRE>  <P><LI>Add the required paths to the <B>protoc</B> command.
+<P>
+<img SRC="Diagram/ProtoBuf_ProtocImport.png">
+<P>
+ </OL>
+<P>
+<P><H3><A NAME="ProtoSearch" >Proto Search Screen</A></H3>
+<P>You can use this screen to search for <B>proto files</B> that match Protocol buffer binary message file.
+The screen currently has several limitations
+<UL COMPACT>
+ <LI>It currently looks for an exact match's so it may miss slightly out of date
+proto definitions. Protocol Buffers files from external organisations could be missed for this reason.
+ <LI>The search will throw up false positives, At wire (binary file) level, there are no fieldnames you can not
+always tell wether a field is required, repeated or optional. It is also impossible to be completely sure of the
+type, for example you can not tell wether a field is a enum of an int32.
+ <LI>It may miss proto's that import other proto's. You can get aound this limitation using
+  <OL COMPACT TYPE=1>
+  <LI>Use the <B>protoc</B> command to create a "compiled" definition i.e.
+<PRE>
+            <B>protoc ${protofile} --descriptor_set_out=${protofile}comp --proto_path=Whatever  </B>
+ 
+</PRE>  <LI>Add the required paths to the <B>protoc</B> command.
+<P>
+<img SRC="Diagram/ProtoBuf_ProtocImport.png">
+ </OL>
+</UL>
+<P>
+<BR>
+<BR>
+<P>Proto Search Screen
+<BR>
+<img SRC="Diagram/ProtoBuf_ProtoSearch.png">
+<P>
+<TABLE CELLPADDING="3">
+  <TR VALIGN="TOP"><TD><P><B>Field</B>
+  </TD><TD><P><B>Field Description</B>
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Proto Directory Table
+  </B></TD><TD><P>This lists the Proto directories the system knows about.
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Proto Directory 1
+  </B></TD><TD><P>Extra Proto Directory to search, it will be added to the search list permanently.
+You will need to press the search button though.
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Proto Directory 2
+  </B></TD><TD><P>See Proto Directory 1.
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>File
+  </B></TD><TD><P>File the system is looking for a matching protocol definition for.
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Keep open
+  </B></TD><TD><P>Normally when you double click on a Proto definition in the Table below,
+this screen will close. This option can be used to keep the screen open so you can
+check out multiple files.
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Search Button
+  </B></TD><TD><P>This button on the right hand side of the screen will do another proto search using the new Proto Directories.
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Proto File Name
+  </B></TD><TD><P>This table lists all matching proto files.
+</TD></TR></TABLE>
+<P>

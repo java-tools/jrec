@@ -25,6 +25,7 @@ def test():
         if frame('Tree View - DTAR020_tst1.bin:0'):
             select('net.sf.RecordEditor.utils.swing.treeTable.JTreeTable_10', 'rows:[5],columns:[DATE]')
             assert_p('net.sf.RecordEditor.utils.swing.treeTable.JTreeTable_10', 'Text', 'rows:[5],columns:[DATE]')
+            
             select('net.sf.RecordEditor.utils.swing.treeTable.JTreeTable_10', 'rows:[5],columns:[DATE]')
         close()
 
@@ -32,6 +33,8 @@ def test():
         select_menu('File>>Export as CSV file')
 
         if frame('Export - DTAR020_tst1.bin:0'):
+
+            select('Only export Nodes with Data', 'true')
 
             select('Edit Output File', 'true')
             select('names on first line', 'true')
@@ -142,8 +145,8 @@ def test():
         close()
 
         if frame('Export - DTAR020_tst1.bin:0'):
-            select('JTable_35', 'false', '{2, Include}')
-            select('JTable_35', 'false', '{5, Include}')
+            select('JTable_34', 'false', '{2, Include}')
+            select('JTable_34', 'false', '{5, Include}')
 ##            select('JTable_37', 'rows:[5],columns:[Include]')
 ##            select('JTable_37', 'rows:[2],columns:[Include]')
 ##            select('JTable_37', 'rows:[2],columns:[Include]')

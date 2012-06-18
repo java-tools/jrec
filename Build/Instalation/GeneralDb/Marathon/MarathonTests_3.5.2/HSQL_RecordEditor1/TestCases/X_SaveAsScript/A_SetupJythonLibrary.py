@@ -14,37 +14,7 @@ def test():
             select('JTable_17', 'rows:[0],columns:[Jar]')
             select('JTable_17', 'rows:[3],columns:[Jar]')
             select('Jar', 'C:\\JavaPrograms\\Marathon\\Marathon\\marathon_3.1.5.2\\jython\\jython.jar')
-            assert_content('JTable_17', [ ['optional.0', 'C:\\JavaPrograms\\Marathon\\Marathon\\marathon_3.1.5.2\\jython\\jython.jar', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', ''],
-['', '', '']
-])
+
 
             select('JTable_17', 'rows:[0],columns:[Jar]')
             click('Save')

@@ -10,6 +10,7 @@ def test():
     if frame(' - Open File:0'):
         select('File', commonBits.sampleDir() + 'DTAR020_tst1.bin')
         click('Edit')
+
     close()
 
     if frame('Table:  - DTAR020_tst1.bin:0'):

@@ -5,14 +5,16 @@
 
 :h1.Csv Editor
 :h2.Introduction
-:p.The :reCsvEditor. is light weight version of the :RecordEditor. for editing simple Csv Files.
+:p.The :reCsvEditor. is lightweight  version of the :RecordEditor. for editing simple Csv Files.
 While :RecordEditor. can do every thing the :reCsvEditor. does, the :RecordEditor.
 is much larger and more complicated to use than the :reCsvEditor. 
 :h3.RecordEditor - reCsvEditor Comparison
 
+:p.:reCsvEditor. is intended as a simpler, easy to learn, lightweight  version of the :RecordEditor.
 :tdef id=xlight shade='xlight'.
 :table cols='* *'.
 :thd refid=xlight.:c.RecordEditor:c.reCsvEditor
+:ethd.
 :row refid=none.:c.The :RecordEditor. is focused on Fixed Width and Complicated Csv Files  
 with the :hp3.File Definition:ehp3. defined ahead of Time. 
 :c.The :reCsvEditor.
@@ -22,15 +24,17 @@ just edits Csv Files without any "File Definition".
 :row.:c.The :RecordEditor. is aimed at Programmers working a complicated file structures and
 requires a certain degree of learning. It is a good option for those who work Complicated Files or
 Mainframe / Cobol / Fixed Width Files.
-:c.The :reCsvEditor. is aimed at advanced users who occassionaly need to view / edit CSV files.
-Although once you get the hang of :reCsvEditor., the :RecordEditor. (or :hp2.Protocol Buffer:ehp2 or :hp2.Avro Editor:ehp2.)
+:c.The :reCsvEditor. is aimed at advanced users who occasionally need to view / edit CSV files.
+Although once you get the hang of :reCsvEditor., the :RecordEditor. (or :ProtoEditor. or :AvroEditor.)
 will be easy to learn.
 :etable.
 :h2.Features
 :p.Program features
-:ul.
- :li.Supports Very large Files (you will need to make changes to bat / shell scripts
-to make the most of this option; see :hdref refid=BigFiles. for more details.).
+:p.Program features include
+:ul compact.
+ :li.Supports for very large Files.
+ :li.Supports just about any character being used as a field separators  - Tabs, comma's, colons, semi colons,
+hex chars (i.e. x'00', x'FA') etc. 
  :li.Columns can be added, moved and copied.
  :li.Field Separator / Quotes can be changed.
  :li.Fields can be both hidden and Fixed in position (Right Click Menu)
@@ -38,10 +42,10 @@ to make the most of this option; see :hdref refid=BigFiles. for more details.).
   :ol compact.
    :li.Record View - Display a single record with fields going down the page.
    :li.Filtered View - Select Records / Fields to be displayed.
-   :li.Sorted Tree View - Gives a Sort / Summary of the file with indivual records as leaf's in the tree
+   :li.Sorted Tree View - Gives a Sort / Summary of the file with individual records as leaf's in the tree
    :li.Column View - Rows / Columns swapped.
   :eol.
-  :li.Files can be exports as Fixed Width Text or Xml or Html or via Velocity Template (needs seperate
+  :li.Files can be exports as Fixed Width Text or Xml or Html or via Velocity Template (needs separate
 velocity Download).
   :li.Forms part of a family of Editors (:RecordEditor., :AvroEditor. and :ProtoEditor.). 
 All the programs use a common core, so moving from one to the other should be easy.
@@ -73,11 +77,12 @@ allows you change column names and types as well as copy, move, add and delete c
 
 :h3.Update Csv Columns Dialog
 :p.This dialog lets you:
-:ul.
+:ul compact.
  :li.Change Field Separator and quotes char.
  :li.Change column names and types.
- :li.Delete Columns
+ :li.Delete Columns.
  :li.Add, copy, move columns (via :hp2.Right Click Menu:ehp2.).
+ :li.Set a default value for a column.
 :eul.
 .pict CsvEd_ColEdit.png
 

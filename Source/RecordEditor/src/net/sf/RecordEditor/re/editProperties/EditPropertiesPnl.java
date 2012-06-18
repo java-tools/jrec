@@ -113,7 +113,7 @@ public class EditPropertiesPnl extends BasePanel {
             	int type = ((Integer) tableData[i][TYPE_COLUMN]).intValue();
             	switch (type) {
             	case EMPTY_VAL:
-            		addLine("", null);
+            		addLine(" ", null);
             		break;
             	case STRING_VAL:
             		addField(i, new TxtFld(i), null);

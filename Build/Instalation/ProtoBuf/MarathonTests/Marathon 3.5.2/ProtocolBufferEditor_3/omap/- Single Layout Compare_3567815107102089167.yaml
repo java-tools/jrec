@@ -1,0 +1,165 @@
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTabbedPane}
+    - {method: equals, name: indexInContainer, value: '7'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTabbedPane}
+    - {name: type, value: JTabbedPane}
+    - {name: size, value: '[width=774,height=688]'}
+    - {name: component.class.simpleName, value: JTabbedPane}
+    - {name: component.class.name, value: javax.swing.JTabbedPane}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: JTabbedPane_7
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: toolTipText, value: Close}
+    - {method: equals, name: type, value: plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    - {name: type, value: plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    - {name: size, value: '[width=16,height=16]'}
+    - {name: component.class.simpleName, value: NoFocusButton}
+    - {name: component.class.name, value: javax.swing.plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    - {name: toolTipText, value: Close}
+    - {name: accessibleContext.accessibleName, value: Close}
+    name: Close
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Old File}
+    - {method: equals, name: type, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextField}
+    - {name: precedingLabel, value: Old File}
+    - {name: cText, value: 'C:\Users\mum/.RecordEditor/ProtoBuf/SampleFiles/*'}
+    - {name: type, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    - {name: size, value: '[width=444,height=26]'}
+    - {name: component.class.simpleName, value: FileChooser}
+    - {name: component.class.name, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    name: Old File
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: New File}
+    - {method: equals, name: type, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextField}
+    - {name: precedingLabel, value: New File}
+    - {name: cText, value: 'C:\Users\mum/.RecordEditor/ProtoBuf/SampleFiles/*'}
+    - {name: type, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    - {name: size, value: '[width=444,height=26]'}
+    - {name: component.class.simpleName, value: FileChooser}
+    - {name: component.class.name, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    - {name: fieldName, value: newFileName}
+    name: New File
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: New File}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: FileSearch}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: Choose File}
+    - {name: precedingLabel, value: New File}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=144,height=26]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: accessibleContext.accessibleName, value: Choose File}
+    name: FileSearch
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Choose Layout}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: FileSearch}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: Choose Layout}
+    - {name: precedingLabel, value: Proto Definition}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=144,height=26]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: accessibleContext.accessibleName, value: Choose Layout}
+    name: Choose Layout
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Proto Definition}
+    - {method: equals, name: type, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextField}
+    - {name: precedingLabel, value: Proto Definition}
+    - {name: cText, value: 'C:\Users\mum/.RecordEditor/ProtoBuf/CopyBook/'}
+    - {name: type, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    - {name: size, value: '[width=444,height=26]'}
+    - {name: component.class.simpleName, value: FileChooser}
+    - {name: component.class.name, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    name: Proto Definition
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: iconFile, value: Right}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: Right}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=84,height=41]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: accessibleContext.accessibleName, value: ''}
+    name: Right
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Save File}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: FileSearch}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: Choose File}
+    - {name: precedingLabel, value: Save File}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=129,height=26]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: accessibleContext.accessibleName, value: Choose File}
+    name: Choose File
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Save}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: Save}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: Save}
+    - {name: precedingLabel, value: ''}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=129,height=26]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: fieldName, value: saveBtn}
+    - {name: accessibleContext.accessibleName, value: Save}
+    name: Save
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Compare}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: Compare}
+    - {name: precedingLabel, value: ''}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=129,height=26]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: fieldName, value: runBtn}
+    - {name: accessibleContext.accessibleName, value: Compare}
+    name: Compare

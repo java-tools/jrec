@@ -5,7 +5,7 @@ SetCompressor /SOLID lzma
 SetCompressionLevel 9
 
 !define PRODUCT_NAME "RecordEdit"
-!define PRODUCT_VERSION "0.80.6"                                                                                
+!define PRODUCT_VERSION "0.88"                                                                                
 !define PRODUCT_PUBLISHER "Bruce Martin"                                                                          
 !define PRODUCT_WEB_SITE "http://record-editor.sf.net"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
@@ -51,7 +51,7 @@ var ICONS_GROUP
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "RecordEdit_Installer_for_MSAccess_0.80.6.exe"
+OutFile "RecordEdit_Installer_for_MSAccess_0.88.exe"
 InstallDir "$PROGRAMFILES\RecordEdit\MSaccess"
 ShowInstDetails show
 ShowUnInstDetails show
@@ -137,6 +137,7 @@ Section "MainSection" SEC01
   File "..\Instalation\hsqldb_izpack\lib\RunUnpack.exe"
   File "..\Instalation\hsqldb_izpack\lib\velocity-1.7-dep.pack"
   File "..\Instalation\hsqldb_izpack\lib\velocity-1.7.pack"
+  File "..\Instalation\hsqldb_izpack\lib\runCobolBatchLoad.bat"
   File "NsisUnpack.jar"
   
   exec '"$JAVA_RUN1" -jar "$INSTDIR\lib\NsisUnpack.jar" $INSTDIR\lib'
@@ -514,6 +515,7 @@ Section "MainSection" SEC01
   File "..\Instalation\GeneralDB\CopyBook\Xml\wx3File.Xml"
   File "..\Instalation\GeneralDB\CopyBook\Xml\wx4File.Xml"
   File "..\Instalation\GeneralDB\CopyBook\Xml\wx5File.Xml"
+  File "..\Instalation\GeneralDB\CopyBook\Xml\xDTAR1000 VB.Xml"
   File "..\Instalation\GeneralDB\CopyBook\Xml\yyAms PO Download.Xml"
   File "..\Instalation\GeneralDB\CopyBook\Xml\zFixedWidth_ams_Store.Xml"
   File "..\Instalation\GeneralDB\CopyBook\Xml\zzAms PO Download.Xml"
@@ -670,6 +672,7 @@ Section "MainSection" SEC01
   File "..\Instalation\GeneralDB\User\ExportScripts\hello.rb"
   File "..\Instalation\GeneralDB\User\ExportScripts\note.txt"
   File "..\Instalation\GeneralDB\User\ExportScripts\toCsvComma.py"
+  File "..\Instalation\GeneralDB\User\ExportScripts\toCsvComma1.py"
 
   SetOverwrite off
   SetOutPath "$PROFILE\RecordEditor_MSaccess\User\Scripts"
@@ -740,8 +743,9 @@ Section "MainSection" SEC01
 SectionEnd
 
 Section -AdditionalIcons
-  !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
+  SetShellVarContext all
 
+  !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
 ;  WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP"
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP\Utils"
@@ -826,6 +830,9 @@ FunctionEnd
 
 Section Uninstall
   !insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
+
+  SetShellVarContext all
+  
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
  
 
@@ -870,6 +877,7 @@ Section Uninstall
   Delete "$INSTDIR\lib\RunUnpack.exe"
   Delete "$INSTDIR\lib\velocity-1.7-dep.pack"
   Delete "$INSTDIR\lib\velocity-1.7.pack"
+  Delete "$INSTDIR\lib\runCobolBatchLoad.bat"
 
   Delete "$INSTDIR\Docs\aRecordEdit.htm"
   Delete "$INSTDIR\Docs\aWelcome.htm"
@@ -1230,6 +1238,7 @@ Section Uninstall
   Delete "$PROFILE\RecordEditor_MSaccess\CopyBook\Xml\wx3File.Xml"
   Delete "$PROFILE\RecordEditor_MSaccess\CopyBook\Xml\wx4File.Xml"
   Delete "$PROFILE\RecordEditor_MSaccess\CopyBook\Xml\wx5File.Xml"
+  Delete "$PROFILE\RecordEditor_MSaccess\CopyBook\Xml\xDTAR1000"
   Delete "$PROFILE\RecordEditor_MSaccess\CopyBook\Xml\yyAms"
   Delete "$PROFILE\RecordEditor_MSaccess\CopyBook\Xml\zFixedWidth_ams_Store.Xml"
   Delete "$PROFILE\RecordEditor_MSaccess\CopyBook\Xml\zzAms"
@@ -1357,6 +1366,7 @@ Section Uninstall
   Delete "$PROFILE\RecordEditor_MSaccess\User\ExportScripts\hello.rb"
   Delete "$PROFILE\RecordEditor_MSaccess\User\ExportScripts\note.txt"
   Delete "$PROFILE\RecordEditor_MSaccess\User\ExportScripts\toCsvComma.py"
+  Delete "$PROFILE\RecordEditor_MSaccess\User\ExportScripts\toCsvComma1.py"
 
   Delete "$PROFILE\RecordEditor_MSaccess\User\Scripts\Hello.js"
   Delete "$PROFILE\RecordEditor_MSaccess\User\Scripts\hello.rb"
@@ -1438,6 +1448,8 @@ Section Uninstall
   RMDir "$PROFILE\RecordEditor_MsAccess\User\RecordTree"
   RMDir "$PROFILE\RecordEditor_MsAccess\User\SortTree"
   RMDir "$PROFILE\RecordEditor_MsAccess\User\Xslt"
+  RMDir "$PROFILE\RecordEditor_MsAccess\User\ExportScripts" 
+  RMDir "$PROFILE\RecordEditor_MsAccess\User\Scripts"       
   RMDir "$PROFILE\RecordEditor_MsAccess\User"
   RMDir "$INSTDIR"         
   RMDir "$PROFILE\RecordEditor_MsAccess"

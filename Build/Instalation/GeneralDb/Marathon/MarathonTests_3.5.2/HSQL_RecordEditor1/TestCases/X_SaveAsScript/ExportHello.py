@@ -2,11 +2,13 @@
 from default import *
 #}}} Marathon
 
+from Modules import commonBits
+
 def test():
 
     set_java_recorded_version("1.6.0_22")
     if frame(' - Open File:0'):
-        select('File', 'C:\\Users\\mum/RecordEditor_HSQL\\SampleFiles/DTAR020_tst1.bin')
+        select('File', commonBits.sampleDir() + 'DTAR020_tst1.bin')
         click('Edit')
     close()
 

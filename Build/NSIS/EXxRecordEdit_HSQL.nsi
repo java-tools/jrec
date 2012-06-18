@@ -5,7 +5,7 @@ SetCompressor /SOLID lzma
 SetCompressionLevel 9
 
 !define PRODUCT_NAME "RecordEdit_HSQL"                                                             
-!define PRODUCT_VERSION "0.80.6"                                                                                  
+!define PRODUCT_VERSION "0.88"                                                                                  
 !define PRODUCT_PUBLISHER "Bruce Martin"                                                           
 !define PRODUCT_WEB_SITE "http://record-editor.sf.net"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
@@ -54,7 +54,7 @@ var ICONS_GROUP
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "RecordEdit_Installer_for_HSQL_080.6.exe"
+OutFile "RecordEdit_Installer_for_HSQL_088.exe"
 InstallDir "$PROGRAMFILES\RecordEdit\HSQL"
 ShowInstDetails show
 ShowUnInstDetails show
@@ -131,6 +131,7 @@ Section "MainSection" SEC01
   File "..\Instalation\hsqldb_izpack\lib\RunUnpack.exe"
   File "..\Instalation\hsqldb_izpack\lib\velocity-1.7-dep.pack"
   File "..\Instalation\hsqldb_izpack\lib\velocity-1.7.pack"
+  File "..\Instalation\hsqldb_izpack\lib\runCobolBatchLoad.bat"
 
   File "..\Instalation\hsqldb_izpack\lib\hsqldbmain.pack"
   File "NsisUnpack.jar"
@@ -541,6 +542,7 @@ Section "MainSection" SEC01
   File "..\Instalation\GeneralDB\CopyBook\Xml\wx3File.Xml"
   File "..\Instalation\GeneralDB\CopyBook\Xml\wx4File.Xml"
   File "..\Instalation\GeneralDB\CopyBook\Xml\wx5File.Xml"
+  File "..\Instalation\GeneralDB\CopyBook\Xml\xDTAR1000 VB.Xml"
   File "..\Instalation\GeneralDB\CopyBook\Xml\yyAms PO Download.Xml"
   File "..\Instalation\GeneralDB\CopyBook\Xml\zFixedWidth_ams_Store.Xml"
   File "..\Instalation\GeneralDB\CopyBook\Xml\zzAms PO Download.Xml"
@@ -699,6 +701,7 @@ Section "MainSection" SEC01
   File "..\Instalation\GeneralDB\User\ExportScripts\hello.rb"
   File "..\Instalation\GeneralDB\User\ExportScripts\note.txt"
   File "..\Instalation\GeneralDB\User\ExportScripts\toCsvComma.py"
+  File "..\Instalation\GeneralDB\User\ExportScripts\toCsvComma1.py"
 
   SetOverwrite off
   SetOutPath "$PROFILE\RecordEditor_HSQL\User\Scripts"
@@ -711,7 +714,6 @@ Section "MainSection" SEC01
   SetOutPath "$PROFILE\RecordEditor_HSQL\Database"
   File "..\Instalation\hsqldb\Database\recordedit.properties"
   File "..\Instalation\hsqldb\Database\recordedit.script"
-  File "..\Instalation\hsqldb\Database\recordedit_old.script"
   File "..\Instalation\hsqldb\Database\RunDBManager.Rexx"
   File "..\Instalation\hsqldb\Database\RunDBManagerInquiry.Rexx"
   File "..\Instalation\hsqldb\Database\runServer.rexx"
@@ -756,7 +758,7 @@ Section -AdditionalIcons
   Delete "$SMPROGRAMS\$ICONS_GROUP\utils\CobolEditor Documentation.lnk"
 
   Delete "$SMPROGRAMS\$ICONS_GROUP\Basic Editor.lnk"
-   Delete "$SMPROGRAMS\$ICONS_GROUP\Full Editor.lnk"
+  Delete "$SMPROGRAMS\$ICONS_GROUP\Full Editor.lnk"
   Delete "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk"
   Delete "$SMPROGRAMS\$ICONS_GROUP\Record Editor Manual.lnk"
   Delete "$SMPROGRAMS\$ICONS_GROUP\Record Edit.lnk"
@@ -765,8 +767,6 @@ Section -AdditionalIcons
   Delete "$SMPROGRAMS\$ICONS_GROUP\Start Server.lnk"
   Delete "$SMPROGRAMS\$ICONS_GROUP\HowTo.lnk"
  
-
-  SetShellVarContext current
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
 
 ;  WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
@@ -867,9 +867,11 @@ FunctionEnd
 
 
 Section Uninstall
-  Delete "$INSTDIR\${PRODUCT_NAME}.url"
+  !insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
 
-  SetShellVarContext current
+  SetShellVarContext all
+  
+  Delete "$INSTDIR\${PRODUCT_NAME}.url"
 
 
   Delete "$INSTDIR\License\LICENSE.txt"
@@ -916,6 +918,7 @@ Section Uninstall
   Delete "$INSTDIR\lib\RunUnpack.exe"
   Delete "$INSTDIR\lib\velocity-1.7-dep.pack"
   Delete "$INSTDIR\lib\velocity-1.7.pack"
+  Delete "$INSTDIR\lib\runCobolBatchLoad.bat"
 
   Delete "$INSTDIR\lib\hsqldbmain.pack"
 
@@ -1309,6 +1312,7 @@ Section Uninstall
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\wx3File.Xml"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\wx4File.Xml"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\wx5File.Xml"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\xDTAR1000"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\yyAms"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\zFixedWidth_ams_Store.Xml"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\zzAms"
@@ -1437,6 +1441,7 @@ Section Uninstall
   Delete "$PROFILE\RecordEditor_HSQL\User\ExportScripts\hello.rb"
   Delete "$PROFILE\RecordEditor_HSQL\User\ExportScripts\note.txt"
   Delete "$PROFILE\RecordEditor_HSQL\User\ExportScripts\toCsvComma.py"
+  Delete "$PROFILE\RecordEditor_HSQL\User\ExportScripts\toCsvComma1.py"
 
   Delete "$PROFILE\RecordEditor_HSQL\User\Scripts\Hello.js"
   Delete "$PROFILE\RecordEditor_HSQL\User\Scripts\hello.rb"
@@ -1444,7 +1449,6 @@ Section Uninstall
 
   Delete "$PROFILE\RecordEditor_HSQL\Database\recordedit.properties"
   Delete "$PROFILE\RecordEditor_HSQL\Database\recordedit.script"
-  Delete "$PROFILE\RecordEditor_HSQL\Database\recordedit_old.script"
   Delete "$PROFILE\RecordEditor_HSQL\Database\RunDBManager.Rexx"
   Delete "$PROFILE\RecordEditor_HSQL\Database\RunDBManagerInquiry.Rexx"
   Delete "$PROFILE\RecordEditor_HSQL\Database\runServer.rexx"
@@ -1488,6 +1492,7 @@ Section Uninstall
   Delete "$SMPROGRAMS\$ICONS_GROUP\Stop Server.lnk"
   Delete "$SMPROGRAMS\$ICONS_GROUP\Start Server.lnk"      
   Delete "$SMPROGRAMS\$ICONS_GROUP\Documentation\Examples.lnk"
+  Delete "$SMPROGRAMS\$ICONS_GROUP\Documentation\Website.lnk" 
   Delete "$SMPROGRAMS\$ICONS_GROUP\Full Editor.lnk"
   Delete "$SMPROGRAMS\$ICONS_GROUP\Documentation\HowTo.lnk"
   Delete "$SMPROGRAMS\$ICONS_GROUP\utils\Editor Big Files.lnk"                                                               
@@ -1522,14 +1527,19 @@ Section Uninstall
   Delete "$SMPROGRAMS\$ICONS_GROUP\Documentation\Record Editor Manual.lnk"
 
 
+  RMDir "$SMPROGRAMS\$ICONS_GROUP\Documentation\"
+  RMDir "$SMPROGRAMS\$ICONS_GROUP\Utils\"
   RMDir "$SMPROGRAMS\$ICONS_GROUP\Documentation"
   RMDir "$SMPROGRAMS\$ICONS_GROUP\Utils"
   RMDir "$SMPROGRAMS\$ICONS_GROUP"
+  RMDir "$SMPROGRAMS\RecordEdit_HSQL\Documentation"
+  RMDir "$SMPROGRAMS\RecordEdit_HSQL\Utils"
   RMDir "$SMPROGRAMS\RecordEdit_HSQL"
 
   RMDir "$INSTDIR\Copybook\cb2xml"
   RMDir "$INSTDIR\Copybook\Cobol"
   RMDir "$INSTDIR\Copybook\Csv"
+  RMDir "$INSTDIR\Copybook\Xml"
   RMDir "$INSTDIR\Copybook"
 
   RMDir "$INSTDIR\lib\utils"
@@ -1559,10 +1569,18 @@ Section Uninstall
   RMDir "$PROFILE\RecordEditor_HSQL\User\RecordTree"
   RMDir "$PROFILE\RecordEditor_HSQL\User\SortTree"
   RMDir "$PROFILE\RecordEditor_HSQL\User\Xslt"
+  RMDir "$PROFILE\RecordEditor_HSQL\User\ExportScripts" 
+  RMDir "$PROFILE\RecordEditor_HSQL\User\Scripts"       
   RMDir "$PROFILE\RecordEditor_HSQL\User"
   RMDir "$INSTDIR"         
   RMDir "$PROFILE\RecordEditor_HSQL"
   
+
+      
+  RMDir "$PROFILE\RecordEditor_HSQL\User\ExportScripts" 
+  RMDir "$PROFILE\RecordEditor_HSQL\User\Scripts"       
+  
+
 ;  DeleteRegKey HKEY_CLASSES_ROOT "*\Shell\Record Edit HSQL" 
 ;  DeleteRegKey HKEY_CLASSES_ROOT "*\Shell\Record Edit HSQL\command"
 

@@ -25,26 +25,26 @@ public final class CommonSaveAsFields {
 	public final static int FMT_SCRIPT = 5;
 	public final static int FMT_XSLT = 6;
 	public final static int FMT_VELOCITY = 7;
-	
+
     public final JComboBox saveWhat   = new JComboBox();
-    
+
     public final JCheckBox treeExportChk    = new JCheckBox(),
     		               nodesWithDataChk = new JCheckBox(),
     		               keepOpenChk      = new JCheckBox(),
     		               editChk          = new JCheckBox();
-    
+
     public final JTextArea message = new JTextArea();
 
     public final FileView<?> file;
     public final SaveAsWrite flatFileWriter;
     public final FocusListener templateListner;
-    
+
     private final AbstractFileDisplay recordFrame;
     private AbstractTreeFrame treeFrame = null;
-    
+
     protected AbstractRecordDetail<?> printRecordDetails;
-    
-    
+
+
 
 
 
@@ -64,9 +64,9 @@ public final class CommonSaveAsFields {
 		this.recordFrame = recordFrame;
 		this.file = file;
 		this.templateListner = templateListner;
-		
+
 		int[] selected = recordFrame.getSelectedRows();
-		
+
 		treeFrame = null;
         if (recordFrame instanceof AbstractTreeFrame) {
         	treeFrame = (AbstractTreeFrame) recordFrame;
@@ -87,38 +87,41 @@ public final class CommonSaveAsFields {
 	/**
 	 * @return the treeFrame
 	 */
+	@SuppressWarnings("rawtypes")
 	protected AbstractTreeFrame getTreeFrame() {
 		return treeFrame;
 	}
-	
-    
+
+
     public final int getWhatToSave(String selection) {
         int whatToSave = SaveAsWrite.SAVE_SELECTED;
         if (OPT_FILE.equals(selection)) {
         	whatToSave = SaveAsWrite.SAVE_FILE;
         } else if (OPT_VIEW.equals(selection)) {
         	whatToSave = SaveAsWrite.SAVE_VIEW;
-        } 
+        }
         return whatToSave;
     }
 
-    
-    public final FileView getViewToSave(String selection) {
+
+    @SuppressWarnings("rawtypes")
+	public final FileView getViewToSave(String selection) {
     	return getViewToSave(getWhatToSave(selection));
     }
 
-    
-    public final FileView getViewToSave(int whatToSave) {
+
+    @SuppressWarnings("rawtypes")
+	public final FileView getViewToSave(int whatToSave) {
     	FileView ret = null;
     	switch (whatToSave) {
     	case SaveAsWrite.SAVE_SELECTED: ret = file.getView(recordFrame.getSelectedRows()); break;
-    	case SaveAsWrite.SAVE_FILE: ret = file.getBaseFile();
+    	case SaveAsWrite.SAVE_FILE: ret = file.getBaseFile();							   break;
     	case SaveAsWrite.SAVE_VIEW: ret = file;
     	}
-    	
+
     	return ret;
    	}
-    
+
     public final void setVisibility(int pnlFormat, boolean singleTable) {
 
     	boolean visible = (   pnlFormat == FMT_CSV
@@ -127,13 +130,13 @@ public final class CommonSaveAsFields {
     					      &&  singleTable)
     					   || (   pnlFormat == FMT_XML
     					      &&  getTreeFrame() != null)
-    					  ) 
+    					  )
     			       && (       saveWhat.getItemCount() == 1
     			           ||     OPT_VIEW.equals(saveWhat.getSelectedItem())
-    			           || (   OPT_FILE.equals(saveWhat.getSelectedItem()) 
+    			           || (   OPT_FILE.equals(saveWhat.getSelectedItem())
     			         	  &&  ! file.isView())
     			           );
-    	
+
     	treeExportChk.setVisible(visible);
     	nodesWithDataChk.setVisible(visible &&  pnlFormat != FMT_XML);
     }

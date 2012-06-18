@@ -6,7 +6,7 @@
 	    These Base scripts contain various commands like:
 	      EXPAND which includes a directories contents in the NSIS script
 	      WRITEDELETE - writes the delete code (based on the expansion)
-	      PSC program specific controllinux
+	      PSC program specific control
 	     
 	     It can also exclude files based on Date (for the update scripts).
 

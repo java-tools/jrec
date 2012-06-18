@@ -2,12 +2,12 @@
 <HTML><HEAD>
 <TITLE>Proto Buffers Message Editor Introduction</TITLE>
 <!-- Begin Header Records  ========================================== -->
-<!-- /home/bm/Work/RecordEditor/Instalation/ProtoBuf/DocSrc/ProtoBufI -->
-<!-- ntro.dcf converted by B2H R4.7 (390) (LINUX) on 18 Aug 2010 at   -->
-<!-- 04:46:51                                                         -->
-<META HTTP-EQUIV="updated" CONTENT="Wed, 18 Aug 2010 04:46:00">
-<META HTTP-EQUIV="review" CONTENT="Thu, 18 Aug 2011 04:46:00">
-<META HTTP-EQUIV="expires" CONTENT="Sat, 18 Aug 2012 04:46:00">
+<!-- C:\Users\mum\Bruce\Work\RecordEditor\Build\Instalation\ProtoBuf\ -->
+<!-- DocSrc\ProtoBufIntro.dcf converted by B2H R4.7 (390) (WINNT) on  -->
+<!-- 18 Jun 2012 at 15:15:38                                          -->
+<META HTTP-EQUIV="updated" CONTENT="Mon, 18 Jun 2012 15:15:30">
+<META HTTP-EQUIV="review" CONTENT="Tue, 18 Jun 2013 15:15:30">
+<META HTTP-EQUIV="expires" CONTENT="Wed, 18 Jun 2014 15:15:30">
 <link rel="stylesheet" type="text/css" href="syntaxP.css">
 </HEAD><BODY>
 <!-- End Header Records  ============================================ -->
@@ -27,17 +27,27 @@
 <MENU>
 <LI><A NAME="ToC_2" HREF="#Header_2" >Project Details</A>
 <LI><A NAME="ToC_3" HREF="#Header_3" >Getting Started</A>
-<LI><A NAME="ToC_4" HREF="#Header_4" >Main Edit Screen (Tree View)</A>
-<LI><A NAME="ToC_5" HREF="#Header_5" >Main Edit Screen (Table View)</A>
-<LI><A NAME="ToC_6" HREF="#Header_6" >Compare Function</A>
-<LI><A NAME="ToC_7" HREF="#Header_7" >Protoc definition screen</A>
-<LI><A NAME="ToC_8" HREF="#Header_8" >Other Functions</A>
-<LI><A NAME="ToC_9" HREF="#Header_9" >Self Describing Files.</A>
 <MENU>
-<LI><A NAME="ToC_10" HREF="#HDRSDDELIM" >Self Describing Delimited file</A>
-<LI><A NAME="ToC_11" HREF="#HDRSDMSG" >Self describing message.</A>
+<LI><A NAME="ToC_4" HREF="#Header_4" >Proto Search button</A>
+<LI><A NAME="ToC_6" HREF="#Header_6" >Proto Search Screen</A>
+<LI><A NAME="ToC_7" HREF="#Header_7" >Proto Search Options</A>
+</MENU>
+<LI><A NAME="ToC_8" HREF="#Header_8" >Organising Proto definitions</A>
+<MENU>
+<LI><A NAME="ToC_9" HREF="#Header_9" >File Naming Standards</A>
+<LI><A NAME="ToC_10" HREF="#Header_10" >Common Fields</A>
+</MENU>
+<LI><A NAME="ToC_11" HREF="#Header_11" >Main Edit Screen (Tree View)</A>
+<LI><A NAME="ToC_12" HREF="#Header_12" >Main Edit Screen (Table View)</A>
+<LI><A NAME="ToC_13" HREF="#Header_13" >Compare Function</A>
+<LI><A NAME="ToC_14" HREF="#HDRPROTOCDEF" >Protoc definition screen</A>
+<LI><A NAME="ToC_15" HREF="#Header_15" >Other Functions</A>
+<LI><A NAME="ToC_16" HREF="#Header_16" >Self Describing Files.</A>
+<MENU>
+<LI><A NAME="ToC_17" HREF="#HDRSDDELIM" >Self Describing Delimited file</A>
+<LI><A NAME="ToC_18" HREF="#HDRSDMSG" >Self describing message.</A>
 </MENU></MENU>
-<P><B><A NAME="ToC_12" HREF="#Header_12" >Upgrading the Editor</A></B><BR>
+<P><B><A NAME="ToC_19" HREF="#Header_19" >Upgrading the Editor</A></B><BR>
 <P>
 <HR><H1><A NAME="Header_1" HREF="#ToC_1" >Proto Buffers Message Editor Introduction</A></H1>
 <P>The <B>Proto Buffer Editor</B> is built using <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> to do the actual
@@ -68,7 +78,7 @@ there is an issue.
 <P>
 <HR><H2><A NAME="Header_3" HREF="#ToC_3" >Getting Started</A></H2>
 <P>
-<P>On starting the edittor, the following screen is displayed&#58;
+<P>On starting the editor, the following screen is displayed&#58;
 <P>
 <img SRC="Diagram/ProtoBuf_open.png">
 <P>
@@ -102,7 +112,150 @@ proto file and using
  </B></TD><TD><P>Primary (or main) top level message.
 </TD></TR></TABLE>
 <P>
-<HR><H2><A NAME="Header_4" HREF="#ToC_4" >Main Edit Screen (Tree View)</A></H2>
+<P><H3><A NAME="Header_4" HREF="#ToC_4" >Proto Search button</A></H3>
+<P>You can use the <B>Proto Search</B> button to find Proto Definition that
+matches you data file. Currently it does not handle imported files.
+<img SRC="Diagram/ProtoBuf_Open_FindProto.png">
+<P>
+<P><I><B><A NAME="Header_5">Workaround for imported files</A>:&nbsp;</B></I>&nbsp;
+<OL TYPE=1>
+ <P><LI>Use the <B>protoc</B> command to create a "compiled" definition i.e.
+<PRE>
+            <B>protoc ${protofile} --descriptor_set_out=${protofile}comp --proto_path=Whatever  </B>
+ 
+</PRE>  <P><LI>Add the required paths to the <B>protoc</B> command (see <A HREF="#HDRPROTOCDEF">"Protoc definition screen"</A>).
+<P>
+<img SRC="Diagram/ProtoBuf_ProtocImport.png">
+<P>
+ </OL>
+<P>
+<P><H3><A NAME="Header_6" HREF="#ToC_6" >Proto Search Screen</A></H3>
+<P>You can use this screen to search for <B>proto files</B> that match Protocol buffer binary message file.
+The screen currently has several limitations
+<UL COMPACT>
+ <LI>It currently looks for an exact match's so it may miss slightly out of date
+proto definitions. Protocol Buffers files from external organisations could be missed for this reason.
+ <LI>The search will throw up false positives, At wire (binary file) level, there are no fieldnames you can not
+always tell wether a field is required, repeated or optional. It is also impossible to be completely sure of the
+type, for example you can not tell wether a field is a enum of an int32.
+ <LI>It may miss proto's that import other proto's. You can get aound this limitation using
+  <OL COMPACT TYPE=1>
+  <LI>Use the <B>protoc</B> command to create a "compiled" definition i.e.
+<PRE>
+            <B>protoc ${protofile} --descriptor_set_out=${protofile}comp --proto_path=Whatever  </B>
+ 
+</PRE>  <LI>Add the required paths to the <B>protoc</B> command (see <A HREF="#HDRPROTOCDEF">"Protoc definition screen"</A>).
+<P>
+<img SRC="Diagram/ProtoBuf_ProtocImport.png">
+ </OL>
+</UL>
+<P>
+<BR>
+<BR>
+<P>Proto Search Screen
+<BR>
+<img SRC="Diagram/ProtoBuf_ProtoSearch.png">
+<P>
+<TABLE CELLPADDING="3">
+  <TR VALIGN="TOP"><TD><P><B>Field</B>
+  </TD><TD><P><B>Field Description</B>
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Proto Directory Table
+  </B></TD><TD><P>This lists the Proto directories the system knows about.
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Proto Directory 1
+  </B></TD><TD><P>Extra Proto Directory to search, it will be added to the search list permanently.
+You will need to press the search button though.
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Proto Directory 2
+  </B></TD><TD><P>See Proto Directory 1.
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>File
+  </B></TD><TD><P>File the system is looking for a matching protocol definition for.
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Keep open
+  </B></TD><TD><P>Normally when you double click on a Proto definition in the Table below,
+this screen will close. This option can be used to keep the screen open so you can
+check out multiple files.
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Search Button
+  </B></TD><TD><P>This button on the right hand side of the screen will do another proto search using the new Proto Directories.
+  </TD></TR><TR VALIGN="TOP"><TD><P><B>Proto File Name
+  </B></TD><TD><P>This table lists all matching proto files.
+</TD></TR></TABLE>
+<P><H3><A NAME="Header_7" HREF="#ToC_7" >Proto Search Options</A></H3>
+<P>On the option screen (Edit Options &gt;&gt;&gt; Proto Buf &gt;&gt;&gt; Lookup / Directories),  there are 2 options to control Automatic-Proto-Search&#58;
+<TABLE CELLPADDING="3">
+ <TR VALIGN="TOP"><TD><P><B>Use Extended Proto Lookup
+ </B></TD><TD><P>When selected, the system will search through known proto's trying to find
+a matching Proto. On very slow systems, you may want to turn this option off ??.
+ </TD></TR><TR VALIGN="TOP"><TD><P><B>Check previously use proto
+ </B></TD><TD><P>Normally when editing a file for the second time, the proto last used
+will be reused. This option controls wether the proto is checked to see if it
+is valid for the file (a proto search will be initiated if need be).
+</TD></TR></TABLE>
+<P>
+<img SRC="Diagram/ProtoBuf_ProtoSearchOpt.png">
+<P>
+<HR><H2><A NAME="Header_8" HREF="#ToC_8" >Organising Proto definitions</A></H2>
+<P>If you only have a few protocol buffer it does not matter how you name / organise the protocol
+buffers files. But if you have a lot, it is important that you create some standards. It will
+make your life + anyone who follows you life easier.
+<P>I would suggest
+<UL COMPACT>
+  <LI>Have some naming standard standard that relates to Protocol Buffer file with its definition
+  <LI>Have standard fields / id in each Proto file, That
+</UL>
+<P><H3><A NAME="Header_9" HREF="#ToC_9" >File Naming Standards</A></H3>
+<P>I would create a short (7 / 8 character) id for each proto definition. It could be
+a 3 character System Id followed by a 4 character number and use this in both the
+proto definition file and the data files. This short Id would also be used in all files created with
+that proto definition.
+<P>For a pricing System, you could do some thing like&#58;
+<DL>
+ <DD><P>PRZ0001_Price_Extract.proto  -   Proto definition for Price extract file
+ <UL COMPACT>
+   <LI>PRZ0001_Daily_Price_Extract.bin - Extract file using proto PRZ0001_Price_Extract.proto
+   <LI>PRZ0001_Daily_Price_Extract_Sorted_on_Product.bin - Sorted Extract file using proto PRZ0001_Price_Extract.proto
+   <LI>PRZ0001_Daily_Price_Extract_Store_0004.bin
+ </UL>
+ <DD><P>PRZ0002_Price_Upload.proto  -   Proto definition for Strore level Price overide file
+ <UL COMPACT>
+   <LI>PRZ0002_Store_0004_Price_Upload_2011_10_23.bin - Store 4 upload file using PRZ0002_Price_Upload.proto
+   <LI>PRZ0002_Store_0006_Price_Upload_2011_10_23.bin
+   <LI>PRZ0002_Store_0004_Price_Upload_2011_10_24.bin
+   <LI>PRZ0002_Store_0006_Price_Upload_2011_10_24.bin
+   <LI>PRZ0002_All_Stores_2011_10_24.bin
+ </UL></DL>
+<P>
+<P>Having an Id in both the proto files and the data files it easier to use the <B>Proto Buffers Editor</B>
+in particular but life in general easier. What standard you use is of course up to you.
+<P>If enough people adopt a standard of using the first part of the file name as an Id,
+I can make it part of the Editor.
+<P>
+<P><H3><A NAME="Header_10" HREF="#ToC_10" >Common Fields</A></H3>
+<P>It is also a good idea to use standard <B>File Id</B> fields in all your proto's. If you do this, you can use a standard
+proto definition to view these fields any file using the <B>Protocol Buffer Editor</B>. The following message could be
+used to view multiple records which contain the same fields.
+<P>
+<pre><font color="#000000"><span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 6 </font></span><font color="#006699"><strong>message</strong></font> StandardHeader <font color="#000000"><strong>{</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 7 </font></span>  <font color="#006699"><strong>required</strong></font> string proto_id <font color="#000000"><strong>=</strong></font> <font color="#ff0000">91</font>;
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 8 </font></span>  <font color="#006699"><strong>required</strong></font> int32 creationDate <font color="#000000"><strong>=</strong></font> <font color="#ff0000">92</font>;
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 9 </font></span>  <font color="#006699"><strong>required</strong></font> string dataSource <font color="#000000"><strong>=</strong></font> <font color="#ff0000">93</font>;
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">10 </font></span><font color="#000000"><strong>}</strong></font>
+</font></pre>
+<P>
+<P>A typical message would be&#58;
+<P>
+<pre><font color="#000000"><span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 6 </font></span><font color="#006699"><strong>message</strong></font> UserMsgXXXX <font color="#000000"><strong>{</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 7 </font></span>  <font color="#006699"><strong>required</strong></font> int32 fld1
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 8 </font></span>  optional string fld2 ....
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 9 </font></span>     ......
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">10 </font></span>  optional ... fldn
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">11 </font></span>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">12 </font></span>    <font color="#cc0000">/*</font><font color="#cc0000"> </font><font color="#cc0000">Standard</font><font color="#cc0000"> </font><font color="#cc0000">Fields</font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000">*/</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">13 </font></span>  <font color="#006699"><strong>required</strong></font> string proto_id <font color="#000000"><strong>=</strong></font> <font color="#ff0000">91</font>;
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">14 </font></span>  <font color="#006699"><strong>required</strong></font> int32 creationDate <font color="#000000"><strong>=</strong></font> <font color="#ff0000">92</font>;
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">15 </font></span>  <font color="#006699"><strong>required</strong></font> string dataSource <font color="#000000"><strong>=</strong></font> <font color="#ff0000">93</font>;
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">16 </font></span><font color="#000000"><strong>}</strong></font>
+</font></pre>
+<P>You would be able to use the <B>StandardHeader</B> to view the standard fields (and only the standard fields) for message UserMsgXXXX.
+<P>
+<HR><H2><A NAME="Header_11" HREF="#ToC_11" >Main Edit Screen (Tree View)</A></H2>
 <P>If the main message in the file has child messages, the file will be displayed
 in a tree view&#58;
 <P>
@@ -113,13 +266,13 @@ of the screen to navigate between records.
 <P>
 <img SRC="Diagram/ProtoBuf_Record.png">
 <P>
-<HR><H2><A NAME="Header_5" HREF="#ToC_5" >Main Edit Screen (Table View)</A></H2>
+<HR><H2><A NAME="Header_12" HREF="#ToC_12" >Main Edit Screen (Table View)</A></H2>
 <P>If the main message has no child messages, it is displayed in a table.
 You can click on the buttons to left of a row to view the record in a single.
 <P>
 <img SRC="Diagram/ProtoBuf_Table.png">
 <P>
-<HR><H2><A NAME="Header_6" HREF="#ToC_6" >Compare Function</A></H2>
+<HR><H2><A NAME="Header_13" HREF="#ToC_13" >Compare Function</A></H2>
 <P>Included in the package is a Compare Function. It is available
 as a
 <OL COMPACT TYPE=1>
@@ -140,7 +293,7 @@ You can
 have been affected,
 </UL>
 <P>
-<HR><H2><A NAME="Header_7" HREF="#ToC_7" >Protoc definition screen</A></H2>
+<HR><H2><A NAME="HDRPROTOCDEF" HREF="#ToC_14" >Protoc definition screen</A></H2>
 <P>If you select <B>Edit &gt;&gt;&gt;&gt; Edit Startup options &gt;&gt;&gt;&gt; Protobuf</B>,
 it is possible to change the protoc command (i.e. specify a specific directory)
 and add options to it. You could use <B>--proto_path=My.Import.Directory</B>
@@ -149,7 +302,7 @@ to add import directories to the protoc command.
 <img SRC="Diagram/ProtoBuf_protoc.png">
 <P>
 <P>
-<HR><H2><A NAME="Header_8" HREF="#ToC_8" >Other Functions</A></H2>
+<HR><H2><A NAME="Header_15" HREF="#ToC_15" >Other Functions</A></H2>
 <P>Other functions available in the editor include
 <P>
 <TABLE CELLPADDING="3">
@@ -164,11 +317,11 @@ the right click menu).
 <P>
 <P>Much of the <a href="gRecordEdit.htm">RecordEditor Manual<a> is relevant to the <B>Protocol Buffer Editor</B>
 <P>
-<HR><H2><A NAME="Header_9" HREF="#ToC_9" >Self Describing Files.</A></H2>
+<HR><H2><A NAME="Header_16" HREF="#ToC_16" >Self Describing Files.</A></H2>
 <P>The package now supports 2 self describing file formats <A HREF="#HDRSDDELIM">"Self Describing Delimited file"</A> and <A HREF="#HDRSDMSG">"Self describing message."</A>
 <P>
 <P>
-<P><H3><A NAME="HDRSDDELIM" HREF="#ToC_10" >Self Describing Delimited file</A></H3>
+<P><H3><A NAME="HDRSDDELIM" HREF="#ToC_17" >Self Describing Delimited file</A></H3>
 <P>Self describing Delimited files are delimited files where the first message is a <B>FileDescriptorSet</B>
 that describes that following messages.
 <P>
@@ -189,7 +342,7 @@ that describes that following messages.
 <span class="gutterH">  15 </span>
 </span></pre>
 <P>
-<P><H3><A NAME="HDRSDMSG" HREF="#ToC_11" >Self describing message.</A></H3>
+<P><H3><A NAME="HDRSDMSG" HREF="#ToC_18" >Self describing message.</A></H3>
 <P>The system supports Self Describing messages where the first field in the message is a <B>FileDescriptorSet</B> field that describes the
 message.
 <P>
@@ -210,7 +363,7 @@ message.
 <span class="gutterH">  15 </span><span class="syntax-OPERATOR">}</span>
 </span></pre>
 <P>
-<HR><H1><A NAME="Header_12" HREF="#ToC_12" >Upgrading the Editor</A></H1>
+<HR><H1><A NAME="Header_19" HREF="#ToC_19" >Upgrading the Editor</A></H1>
 <P>In the ProtoBuffer lib directory, there is a file <B>FullEditorFiles.txt</B>. This contains
 jars allocated to the editor at startup (RecordEditor.jar and JRecord.jar are also allocated).
 You can change the files in this text file to point to replacement jars if need be.

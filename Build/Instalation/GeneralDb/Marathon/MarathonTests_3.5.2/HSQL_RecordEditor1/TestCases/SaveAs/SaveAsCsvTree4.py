@@ -134,10 +134,10 @@ def test():
 #            select('JTable_37', 'false', '{2, Include}')
 #            select('JTable_37', 'rows:[2],columns:[Include]')
 #            select('JTable_37', 'false', '{4, Include}')
-            select('JTable_35', 'rows:[4],columns:[Include]')
-            select('JTable_35', 'false', '{2, Include}')
-            select('JTable_35', 'rows:[2],columns:[Include]')
-            select('JTable_35', 'false', '{4, Include}')
+            select('JTable_34', 'rows:[4],columns:[Include]')
+            select('JTable_34', 'false', '{2, Include}')
+            select('JTable_34', 'rows:[2],columns:[Include]')
+            select('JTable_34', 'false', '{4, Include}')
             click('save file')
         close()
 
@@ -322,10 +322,10 @@ def test():
         close()
 
         if frame('Export - DTAR020_tst1.bin:0'):
-            select('JTable_35', 'rows:[4],columns:[Include]')
-            select('JTable_35', 'rows:[2],columns:[Include]')
-            select('JTable_35', 'true', '{2, Include}')
-            select('JTable_35', 'true', '{4, Include}')
+            select('JTable_34', 'rows:[4],columns:[Include]')
+            select('JTable_34', 'rows:[2],columns:[Include]')
+            select('JTable_34', 'true', '{2, Include}')
+            select('JTable_34', 'true', '{4, Include}')
 
             click('save file')
         close()

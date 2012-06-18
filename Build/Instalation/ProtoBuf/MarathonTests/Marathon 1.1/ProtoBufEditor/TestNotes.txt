@@ -1,0 +1,5 @@
+This directory holds Marathon GUI tests
+You will need to install Marathon (1.1) to run them.
+
+Tests are normally run in the Java Default Gui (i.e. successor to Metal)
+rather than the System look and feel). 

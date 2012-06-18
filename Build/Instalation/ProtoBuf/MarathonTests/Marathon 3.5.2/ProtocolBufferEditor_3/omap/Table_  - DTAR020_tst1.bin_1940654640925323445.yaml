@@ -1,0 +1,114 @@
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Layouts}
+    - {method: equals, name: type, value: net.sf.RecordEditor.utils.swing.LayoutCombo}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JComboBox}
+    - {name: precedingLabel, value: Layouts}
+    - {name: type, value: net.sf.RecordEditor.utils.swing.LayoutCombo}
+    - {name: size, value: '[width=1042,height=25]'}
+    - {name: component.class.simpleName, value: LayoutCombo}
+    - {name: component.class.name, value: net.sf.RecordEditor.utils.swing.LayoutCombo}
+    name: Layouts
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTable}
+    - {method: equals, name: indexInContainer, value: '22'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTable}
+    - {name: type, value: JTable}
+    - {name: size, value: '[width=541,height=272]'}
+    - {name: component.class.simpleName, value: JTable}
+    - {name: component.class.name, value: javax.swing.JTable}
+    - {name: fieldName, value: main}
+    name: JTable_22
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: toolTipText, value: Close}
+    - {method: equals, name: type, value: plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    - {name: type, value: plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    - {name: size, value: '[width=16,height=16]'}
+    - {name: component.class.simpleName, value: NoFocusButton}
+    - {name: component.class.name, value: javax.swing.plaf.basic.BasicInternalFrameTitlePane$NoFocusButton}
+    - {name: toolTipText, value: Close}
+    - {name: accessibleContext.accessibleName, value: Close}
+    name: Close
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTable}
+    - {method: equals, name: indexInContainer, value: '24'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTable}
+    - {name: type, value: JTable}
+    - {name: size, value: '[width=60,height=272]'}
+    - {name: component.class.simpleName, value: JTable}
+    - {name: component.class.name, value: javax.swing.JTable}
+    - {name: fieldName, value: fixedTable}
+    name: JTable_24
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: net.sf.RecordEditor.edit.display.BaseDisplay$HeaderToolTips}
+    - {method: equals, name: indexInContainer, value: '27'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.table.JTableHeader}
+    - {name: type, value: net.sf.RecordEditor.edit.display.BaseDisplay$HeaderToolTips}
+    - {name: size, value: '[width=1347,height=36]'}
+    - {name: component.class.simpleName, value: HeaderToolTips}
+    - {name: component.class.name, value: net.sf.RecordEditor.edit.display.BaseDisplay$HeaderToolTips}
+    name: net.sf.RecordEditor.edit.display.BaseDisplay$HeaderToolTips_27
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: plaf.metal.MetalInternalFrameTitlePane}
+    - {method: equals, name: indexInContainer, value: '28'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.plaf.metal.MetalInternalFrameTitlePane}
+    - {name: type, value: plaf.metal.MetalInternalFrameTitlePane}
+    - {name: size, value: '[width=1430,height=23]'}
+    - {name: component.class.simpleName, value: MetalInternalFrameTitlePane}
+    - {name: component.class.name, value: javax.swing.plaf.metal.MetalInternalFrameTitlePane}
+    name: plaf.metal.MetalInternalFrameTitlePane_28
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTable}
+    - {method: equals, name: indexInContainer, value: '27'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTable}
+    - {name: type, value: JTable}
+    - {name: size, value: '[width=60,height=653]'}
+    - {name: component.class.simpleName, value: JTable}
+    - {name: component.class.name, value: javax.swing.JTable}
+    - {name: fieldName, value: fixedTable}
+    name: JTable_27
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: net.sf.RecordEditor.edit.display.BaseDisplay$HeaderToolTips}
+    - {method: equals, name: indexInContainer, value: '29'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.table.JTableHeader}
+    - {name: type, value: net.sf.RecordEditor.edit.display.BaseDisplay$HeaderToolTips}
+    - {name: size, value: '[width=1347,height=36]'}
+    - {name: component.class.simpleName, value: HeaderToolTips}
+    - {name: component.class.name, value: net.sf.RecordEditor.edit.display.BaseDisplay$HeaderToolTips}
+    name: net.sf.RecordEditor.edit.display.BaseDisplay$HeaderToolTips_29
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: net.sf.RecordEditor.utils.swing.BaseHelpPanel}
+    - {method: equals, name: indexInContainer, value: '4'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JPanel}
+    - {name: type, value: net.sf.RecordEditor.utils.swing.BaseHelpPanel}
+    - {name: size, value: '[width=1430,height=749]'}
+    - {name: component.class.simpleName, value: BaseHelpPanel}
+    - {name: component.class.name, value: net.sf.RecordEditor.utils.swing.BaseHelpPanel}
+    name: net.sf.RecordEditor.utils.swing.BaseHelpPanel_4

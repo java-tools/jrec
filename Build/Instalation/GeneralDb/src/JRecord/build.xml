@@ -17,13 +17,14 @@
 	<property name="javadoc.dir" location="${docs.dir}/api" />
 	<property name="JRecord.jar" location="${outputLib.dir}/JRecord.jar" />
 	<property name="inputLib.dir" location="../../lib" />
+	<property name="JRecordCommon.dir" location="../JRecord_Common/build" />
 
-	<target name="cb2xml" description="compile JRecord code" >
-		<ant dir="../cb2xml" antfile="build.xml" output="buildout.txt" inheritall="false" />
+	<target name="JRecord_Common" description="compile JRecord code" >
+		<ant dir="../JRecord_Common" antfile="build.xml" output="buildout.txt" inheritall="false" />
 	</target>
 
 	
-	<target name="compile" description="compile code" depends="cb2xml">
+	<target name="compile" description="compile code" depends="JRecord_Common">
 	<echo file="${inputLib.dir}/SmallEditorFiles.txt"/>
 
 		<mkdir dir="${build.dir}" />
@@ -34,13 +35,17 @@
 				<filelist dir="../cb2xml/lib">
 					<file name="cb2xml.jar"/>
 				</filelist>
+				<pathelement path="${JRecordCommon.dir}"/>
 			</classpath>
 		</javac>
 	</target>
 
 	<target name="build" depends="compile" description="build jar">
 		<mkdir dir="${outputLib.dir}" />
-		<jar basedir="${build.dir}" destfile="${JRecord.jar}" filesonly="true"/> 
+		<jar destfile="${JRecord.jar}" filesonly="true">
+			<fileset dir="${build.dir}"/>
+			<fileset dir="${JRecordCommon.dir}"/>
+		</jar>
 	</target>	
 
 	<target name="javadoc" description="javadoc">

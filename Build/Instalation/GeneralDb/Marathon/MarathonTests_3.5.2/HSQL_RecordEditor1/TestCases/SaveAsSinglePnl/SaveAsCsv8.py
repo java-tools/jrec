@@ -2,11 +2,13 @@
 from default import *
 #}}} Marathon
 
+from Modules import commonBits
+
 def test():
 
     set_java_recorded_version("1.6.0_22")
     if frame(' - Open File:0'):
-        select('File', 'C:\\Users\\mum/RecordEditor_HSQL/SampleFiles/DTAR020_tst1.bin')
+        select('File', commonBits.sampleDir() + 'DTAR020_tst1.bin')
         click('Edit')
     close()
 
@@ -17,9 +19,9 @@ def test():
             select('names on first line', 'true')
             select('Edit Output File', 'true')
             select('Keep screen open', 'true')
-            select('JTable_29', 'false', '{2, Include}')
-            select('JTable_29', 'false', '{3, Include}')
-            select('JTable_29', 'rows:[4],columns:[Field Name]')
+            select('JTable_28', 'false', '{2, Include}')
+            select('JTable_28', 'false', '{3, Include}')
+            select('JTable_28', 'rows:[4],columns:[Field Name]')
             click('save file')
         close()
 

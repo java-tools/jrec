@@ -19,6 +19,7 @@ def test():
  
         if frame('Export - TestXml_01.xml:0'):
             select('Edit Output File', 'true')
+            select('Only export Nodes with Data', 'true')
             select('Add Quote to all Text Fields', 'true')
             select('Keep screen open', 'true')
             select('names on first line', 'true')

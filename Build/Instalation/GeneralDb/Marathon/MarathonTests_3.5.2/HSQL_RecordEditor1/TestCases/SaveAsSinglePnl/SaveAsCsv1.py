@@ -73,8 +73,8 @@ def test():
         close()
 
         if frame('Export1 - DTAR020_tst1.bin:0'):
-            select('JTable_29', 'false', '{1, Include}')
-            select('JTable_29', 'false', '{4, Include}')
+            select('JTable_28', 'false', '{1, Include}')
+            select('JTable_28', 'false', '{4, Include}')
 #            select('JTable_33', 'rows:[1],columns:[Include]')
 #            select('JTable_33', 'rows:[4],columns:[Include]')
             click('save file')
@@ -161,8 +161,8 @@ def test():
         close()
 
         if frame('Export1 - DTAR020_tst1.bin:0'):
-            select('JTable_29', 'true', '{1, Include}')
-            select('JTable_29', 'true', '{4, Include}')
+            select('JTable_28', 'true', '{1, Include}')
+            select('JTable_28', 'true', '{4, Include}')
 #           select('JTable_33', 'rows:[1],columns:[Include]')
 #           select('JTable_33', 'rows:[4],columns:[Include]')
             select('Delimiter', '|')

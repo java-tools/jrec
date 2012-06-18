@@ -1,0 +1,27 @@
+package net.sf.RecordEditor.ProtoBuf.summary;
+option optimize_for = SPEED;
+
+
+message Proto {
+  required string filename = 1;
+  required int64 changeDate = 2;
+
+  repeated File files = 9;
+}
+
+message File {
+  repeated Msg messages = 1;
+  repeated int32 messagesToCheck = 2;
+}
+
+message Msg {
+  repeated Field fields = 1;
+  repeated Field optionalFields = 2;
+}
+
+message Field {  
+  required int32 tag = 1;
+  required int32 type = 2;
+  optional int32 fileNo = 3;
+  optional int32 msgNo = 4;
+}

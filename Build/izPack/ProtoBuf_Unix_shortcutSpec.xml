@@ -42,6 +42,25 @@
      description="Protocol Buffer Compare Menu">
      <createForPack name="Base" />
    </shortcut>
+ <shortcut
+     name="Csv and Xml file Editor"
+     programGroup="yes"
+     desktop="yes"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     target="$INSTALL_PATH/lib/runCsvEditor.sh"
+     commandLine=""
+     initialState="noShow"
+     iconFile="$INSTALL_PATH/lib/CsvEd.png"
+     workingDirectory=""
+     iconIndex="0" 
+     type="Application"
+     encoding="UTF-8"
+     description="Csv Editor">
+     <createForPack name="Base" />
+   </shortcut>
+   
 
   <shortcut
      name="RecordEditor Documentation"

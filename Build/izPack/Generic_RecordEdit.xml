@@ -17,7 +17,7 @@
     -->
     <info>
         <appname>RecordEdit/Generic</appname>
-        <appversion>0.80.6</appversion>
+        <appversion>0.85</appversion>
         <authors>
             <author name="Bruce Martin" email="bruce_a_martin@sourceforge.net" />
             <!--author name="Hidden Man" email="hidden@hisdomain.com"/-->
@@ -115,7 +115,9 @@
             <file src="../Instalation/GeneralDBL/lib" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
             <fileset dir="../Instalation/GeneralDB/lib" includes="run*.jar" targetdir="$INSTALL_PATH/lib"/>
             <fileset dir="../Instalation/GeneralDB/lib" includes="*Jars.txt" targetdir="$INSTALL_PATH/lib"/>
-            <fileset dir="../Instalation/hsqldb_izpack/lib" includes="*.pack" targetdir="$INSTALL_PATH/lib"/>
+            <fileset dir="../Instalation/hsqldb_izpack/lib" includes="*.pack" targetdir="$INSTALL_PATH/lib">
+            	<exclude name="hsqldbmain.pack"/>
+            </fileset>
             <parsable targetfile="$INSTALL_PATH/lib/runLayoutEdit.sh" type="shell"/> <!-- The file will be parsed -->
 	    <parsable targetfile="$INSTALL_PATH/lib/runFullEditor.sh" type="shell"/> 
             <parsable targetfile="$INSTALL_PATH/lib/runRecordEdit.sh" type="shell"/> <!-- The file will be parsed -->
@@ -212,6 +214,10 @@
 	    <executable targetfile="$USER_HOME/bin/StartServer.sh"   stage="never"/>
 	    <executable targetfile="$USER_HOME/bin/runFullEditor.sh" stage="never"/>
 	    <executable targetfile="$USER_HOME/bin/runEditorBigFile.sh" stage="never"/>
+        </pack>
+        <pack name="Uninstall" os="Windows" required="yes" override="true">
+            <description>Record Editor Jars</description>
+            <file src="../Instalation/GeneralDb/Uninstaller" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
         </pack>
     </packs>
     

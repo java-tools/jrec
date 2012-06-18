@@ -1,0 +1,48 @@
+useFixture(default)
+
+def test():
+	from Modules import commonBits
+	java_recorded_version = '1.6.0_17'
+
+	if window('Protocol Buffer Editor'):
+		select('FileChooser', commonBits.sampleDir() +  'protoSales11.bin')
+		click('Edit1')
+		assert_p('Table', 'Text', 'cell:2|store,0(20)')
+		select('Table', 'cell:11|strArray,0([])')
+		select('Table', 'cell:11|strArray,0([])')
+		click('ArrowButton')
+		click('Add Row After')
+		assert_p('Table', 'Text', '')
+		select('Table', ' 1 1 ', 'Data,0')
+		select('Table', 'all')
+		assert_p('Table', 'Content', '[[0,  1 1 ]]')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		assert_p('Table', 'Text', '')
+		select('Table', 'cell:11|strArray,0([\' 1 1 \'])')
+		select('TextField', '[\' 1 1 \',\' 3 4 \']')
+		select('Table', 'cell:8|priceDouble,1(-19.0)')
+		assert_p('Table', 'Text', 'cell:8|priceDouble,1(-19.0)')
+		select('Table', 'cell:11|strArray,0([\' 1 1 \',\' 3 4 \'])')
+		select('Table', 'cell:11|strArray,0([\' 1 1 \',\' 3 4 \'])')
+		select('Table', 'cell:11|strArray,0([\' 1 1 \',\' 3 4 \'])')
+		click('ArrowButton')
+		assert_p('Table', 'Text', '')
+		select('Table', 'cell:Data,1( 3 4 )')
+		select('Table', 'cell:Data,1( 3 4 )')
+		click('Add Row After')
+		select('Table', '5 6 7', 'Data,2')
+		select('Table', 'cell:Data,2(5 6 7)')
+		click('Add Row After')
+		select('Table', '8 9 10', 'Data,3')
+		select('Table', 'cell:Data,2(5 6 7)')
+		assert_p('Table', 'Content', '[[0,  1 1 ], [1,  3 4 ], [2, 5 6 7], [3, 8 9 10]]')
+		select('Table', 'cell:Data,0( 1 1 )')
+		click('Delete Rows')
+		assert_p('Table', 'Content', '[[0,  3 4 ], [1, 5 6 7], [2, 8 9 10]]')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		assert_p('Table', 'Text', '')
+
+##		if window('Save Changes to file: ' + commonBits.sampleDir() + 'protosales11.bin'):
+##			click('No')
+##		close()
+	close()

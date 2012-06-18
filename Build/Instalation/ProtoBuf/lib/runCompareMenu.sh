@@ -4,6 +4,6 @@
 
     cd %INSTALL_PATH/lib
  
-    %JAVA_HOME/bin/java -jar "${libdir}/RunPB.jar" net.sf.RecordEditor.ProtoBuf.CompareProtoLayout
+    %JAVA_HOME/bin/java -jar "${libdir}/runPB.jar" net.sf.RecordEditor.ProtoBuf.CompareProtoLayout
 
  

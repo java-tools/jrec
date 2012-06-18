@@ -1,0 +1,196 @@
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Help}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: Help}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: Help}
+    - {name: precedingLabel, value: ''}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=144,height=26]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: accessibleContext.accessibleName, value: Help}
+    name: Help
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: File}
+    - {method: equals, name: type, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextField}
+    - {name: precedingLabel, value: File}
+    - {name: cText, value: 'C:\Users\mum/.RecordEditor/ProtoBuf/SampleFiles/*'}
+    - {name: type, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    - {name: size, value: '[width=316,height=26]'}
+    - {name: component.class.simpleName, value: FileChooser}
+    - {name: component.class.name, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    name: File
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Choose File}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: FileSearch}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: Choose File}
+    - {name: precedingLabel, value: File}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=144,height=26]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: accessibleContext.accessibleName, value: Choose File}
+    name: Choose File
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Proto Definition}
+    - {method: equals, name: type, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextField}
+    - {name: precedingLabel, value: Proto Definition}
+    - {name: cText, value: 'C:\Users\mum/.RecordEditor/ProtoBuf/CopyBook/'}
+    - {name: type, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    - {name: size, value: '[width=316,height=26]'}
+    - {name: component.class.simpleName, value: FileChooser}
+    - {name: component.class.name, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    name: Proto Definition
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Choose Layout}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: FileSearch}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: Choose Layout}
+    - {name: precedingLabel, value: Proto Definition}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=144,height=26]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: accessibleContext.accessibleName, value: Choose Layout}
+    name: Choose Layout
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Type of Definition}
+    - {method: equals, name: type, value: JComboBox}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JComboBox}
+    - {name: precedingLabel, value: Type of Definition}
+    - {name: type, value: JComboBox}
+    - {name: size, value: '[width=316,height=25]'}
+    - {name: component.class.simpleName, value: JComboBox}
+    - {name: component.class.name, value: javax.swing.JComboBox}
+    name: Type of Definition
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Proto Import Directory}
+    - {method: equals, name: type, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextField}
+    - {name: precedingLabel, value: Proto Import Directory}
+    - {name: type, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    - {name: size, value: '[width=316,height=26]'}
+    - {name: component.class.simpleName, value: FileChooser}
+    - {name: component.class.name, value: net.sf.RecordEditor.utils.swing.FileChooser}
+    name: Proto Import Directory
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: cText, value: Edit}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: iconFile, value: Open}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: cText, value: Edit}
+    - {name: type, value: JButton}
+    - {name: size, value: '[width=144,height=26]'}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: fieldName, value: edit}
+    - {name: accessibleContext.accessibleName, value: Edit}
+    name: Edit
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Primary Message}
+    - {method: equals, name: type, value: JComboBox}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JComboBox}
+    - {name: precedingLabel, value: Primary Message}
+    - {name: type, value: JComboBox}
+    - {name: size, value: '[width=316,height=25]'}
+    - {name: component.class.simpleName, value: JComboBox}
+    - {name: component.class.name, value: javax.swing.JComboBox}
+    name: Primary Message
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: Proto File}
+    - {method: equals, name: type, value: JComboBox}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JComboBox}
+    - {name: precedingLabel, value: Proto File}
+    - {name: type, value: JComboBox}
+    - {name: size, value: '[width=316,height=25]'}
+    - {name: component.class.simpleName, value: JComboBox}
+    - {name: component.class.name, value: javax.swing.JComboBox}
+    name: Proto File
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: type, value: JTextArea}
+    - {method: equals, name: indexInContainer, value: '35'}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JTextArea}
+    - {name: cText, value: "Error Compiling proto file:\nsales.protocomp:2:1: Expected\
+            \ top-level statement (e.g. \"message\").\r\nsales.protocomp:2:2: Invalid\
+            \ control characters encountered in text.\r\nsales.protocomp:3:13: Invalid\
+            \ control characters encountered in text.\r\nsales.protocomp:3:22: String\
+            \ literals cannot cross line boundaries.\r\nsales.protocomp:4:1: Invalid\
+            \ control characters encountered in text.\r\nsales.protocomp:4:6: Invalid\
+            \ control characters encountered in text.\r\nsales.protocomp:5:9: Invalid\
+            \ control characters encountered in text.\r\nsales.protocomp:5:12: Invalid\
+            \ control characters encountered in text.\r\nsales.protocomp:5:14: Invalid\
+            \ control characters encountered in text.\r\nsales.protocomp:6:7: Invalid\
+            \ control characters encountered in text.\r\nsales.protocomp:6:10: Invalid\
+            \ control characters encountered in text.\r\nsales.protocomp:6:12: Invalid\
+            \ control characters encountered in text.\r\nsales.protocomp:8:11: Invalid\
+            \ control characters encountered in text.\r\nsales.protocomp:8:14: Invalid\
+            \ control characters encountered in text.\r\nsales.protocomp:8:16: Invalid\
+            \ control characters encountered in text.\r\nsales.protocomp:9:10: Invalid\
+            \ control characters encountered in text.\r\nsales.protocomp:9:13: Invalid\
+            \ control characters encountered in text.\r\nsales.protocomp:9:15: Invalid\
+            \ control characters encountered in text.\r\nsales.protocomp:10:10: Invalid\
+            \ control characters encountered in text.\r\nsales.protocomp:10:13: Invalid\
+            \ control characters encountered in text.\r\nsales.protocomp:10:15: Invalid\
+            \ control characters encountered in text.\r\nsales.protocomp:11:7: Invalid\
+            \ control characters encountered in text.\r\nsales.protocomp:11:10: Invalid\
+            \ control characters encountered in text.\r\nsales.protocomp:11:12: Invalid\
+            \ control characters encountered in text.\r\nsales.protocomp:11:14: Invalid\
+            \ control characters encountered in text.\r\nsales.protocomp:11:16: Invalid\
+            \ control characters encountered in text.\r\n"}
+    - {name: type, value: JTextArea}
+    - {name: size, value: '[width=600,height=77]'}
+    - {name: component.class.simpleName, value: JTextArea}
+    - {name: component.class.name, value: javax.swing.JTextArea}
+    name: JTextArea_35
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: precedingLabel, value: File Structure}
+    - {method: equals, name: type, value: JComboBox}
+    generalProperties:
+    - {name: enabled, value: 'true'}
+    - {name: instanceOf, value: javax.swing.JComboBox}
+    - {name: precedingLabel, value: File Structure}
+    - {name: type, value: JComboBox}
+    - {name: size, value: '[width=316,height=25]'}
+    - {name: component.class.simpleName, value: JComboBox}
+    - {name: component.class.name, value: javax.swing.JComboBox}
+    name: File Structure

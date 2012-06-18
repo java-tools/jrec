@@ -1,0 +1,82 @@
+useFixture(default)
+
+def test():
+	from Modules import commonBits
+	import os
+	java_recorded_version = '1.6.0_17'
+
+	if window('Protocol Buffer Editor'):
+##		select('FileChooser1', r'C:\Program Files\RecordEdit\ProtoBuf/CopyBook/sales.protocomp')
+##		select('ComboBox1', 'Compiled Proto')
+
+##		select('FileChooser', commonBits.sampleDir() + 'zzCreateSales.bin')
+		select('FileChooser', commonBits.sampleDir() + 'zzCreateSales3xx.bin')
+		select('FileChooser1', commonBits.stdCopybookDir() +'StoreSales3.protocomp')
+		select('ComboBox1', 'Compiled Proto')
+		click('Edit1')
+		assert_p('Table', 'Text', '')
+		select('Table', '11', 'Data,0')
+		select('Table', '22', 'Data,1')
+		select('Table', 'cell:Data,0(11)')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		select('LayoutCombo', 'Store')
+		assert_p('JTreeTable', 'Content', '[[, , 11, 22]]')
+##		select_menu('Utilities>>Compare with Disk')
+		select('JTreeTable', 'cell:store,0(11)')
+		click('New')
+
+		if window('Record Selection'):
+			click('OK')
+###			assert_p('Table', 'Content', '[[department, 1, , 0, 0], [name, 2, , , ]]')
+		close()
+		assert_p('Table', 'Content', '[[department, 1, , 0, 0], [name, 2, , , ]]')
+
+		select('Table', '321', 'Data,0')
+		select('Table', 'Dept 321', 'Data,1')
+		select('Table', 'cell:Data,0(321)')
+		click('New')
+
+		if window('Record Selection'):
+			click('OK')
+##			assert_p('Table', 'Content', '[[keycode, 1, , 0, 0], [saleDate, 2, , 0, 0], [quantity, 3, , 0, 0], [price, 4, , 0, 0]]')
+		close()
+
+		assert_p('Table', 'Content', '[[keycode, 1, , 0, 0], [saleDate, 2, , 0, 0], [quantity, 3, , 0, 0], [price, 4, , 0, 0]]')
+		select('Table', '12345', 'Data,0')
+		select('Table', '1111', 'Data,1')
+		select('Table', '11', 'Data,2')
+		select('Table', '11000', 'Data,3')
+		select('Table', 'cell:Data,2(11)')
+		assert_p('Table', 'Content', '[[keycode, 1, , 12345, 12345], [saleDate, 2, , 1111, 1111], [quantity, 3, , 11, 11], [price, 4, , 11000, 11000]]')
+		click('Save1')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		select_menu('Window>>zzCreateSales3xx.bin>>Tree View')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('Edit1')
+##		select('JTreeTable', '')
+		rightclick('JTreeTable', 'Tree,0')
+		select_menu('Fully Expand Tree')
+		assert_p('JTreeTable', 'Content', '[[, , 11, 22], [, , , ], [, , , ], [, , , ], [, , , ]]')
+		select('LayoutCombo', 'Prefered')
+		assert_p('JTreeTable', 'Content', '[[, , 11, 22, , ], [, , , , , ], [, , 321, Dept 321, , ], [, , , , , ], [, , 12345, 1111, 11, 11000]]')
+##		select('JTreeTable', '')
+		rightclick('JTreeTable', 'Tree,4')
+		select_menu('Edit Record')
+		assert_p('Table', 'Content', '[[keycode, 1, , 12345, 12345], [saleDate, 2, , 1111, 1111], [quantity, 3, , 11, 11], [price, 4, , 11000, 11000]]')
+		click('Up')
+		assert_p('Table', 'Content', '[[department, 1, , 321, 321], [name, 2, , Dept 321, Dept 321]]')
+		click('Up')
+		assert_p('Table', 'Content', '[[store, 1, , 11, 11], [name, 2, , 22, 22]]')
+		click('Delete2')
+		select_menu('Window>>zzCreateSales3xx.bin>>Tree View')
+		click('Save1')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('Edit1')
+		select('Table', 'cell:Data,0(0)')
+		assert_p('Table', 'Content', '[[store, 1, , 0, 0], [name, 2, , , ]]')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		select_menu('Window>>zzCreateSales3xx.bin>>Tree View')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		os.remove(commonBits.sampleDir() + 'zzCreateSales3xx.bin')
+
+	close()

@@ -40,16 +40,14 @@ def test():
 		select('ChildRecordsJTbl', 'cell: ,2(null)')
 		select('RecordDef.Record Name_Txt', 'zxzxzFLD3')
 		click('Save1')
-
-		time.sleep(0.5)
+		time.sleep(0.5)
 
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
-
-		time.sleep(0.5)
+		time.sleep(0.5)
 
 		assert_p('ChildRecordsJTbl', 'Content', '[[, zxzxzFLD1, , , , , zxzxzFLD3], [, zxzxzFLD2, , , , , ], [, zxzxzFLD3, , , , , ]]')
 
-		time.sleep(0.7)
+		time.sleep(0.5)
 		select('ChildRecordsJTbl', '', 'Tree Parent,0')
 		select('ChildRecordsJTbl', 'cell:Tree Parent,0()')
 		assert_p('ChildRecordsJTbl', 'Content', '[[, zxzxzFLD1, , , , , ], [, zxzxzFLD2, , , , , ], [, zxzxzFLD3, , , , , ]]')

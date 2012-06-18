@@ -3,8 +3,8 @@
 <TITLE>Layout Editor</TITLE>
 <!-- Begin Header Records  ========================================== -->
 <!-- C:\Users\mum\Bruce\Work\RecordEditor\Build\Instalation\GeneralDb -->
-<!-- \DocSrc\HlpLe.dcf converted by B2H R4.7 (390) (WINNT) on 3 Apr   -->
-<!-- 2012 at 22:14:34                                                 -->
+<!-- \DocSrc\HlpLe.dcf converted by B2H R4.7 (390) (WINNT) on 19 Apr  -->
+<!-- 2012 at 17:03:52                                                 -->
 <META HTTP-EQUIV="updated" CONTENT="Tue, 28 Feb 2012 14:14:19">
 <META HTTP-EQUIV="review" CONTENT="Thu, 28 Feb 2013 14:14:19">
 <META HTTP-EQUIV="expires" CONTENT="Fri, 28 Feb 2014 14:14:19">
@@ -185,7 +185,7 @@ default record.
 <P>
 <P>On the record Selection you enter fields and the criteria
 <P>
-<img SRC="Diagram/LayoutEdit_ExtendedRecordSelect1.png">
+<img SRC="Diagram/LayoutEdit_ExtendedRecordSelect2.png">
 <P>For the Field, operator and value fields just enter the values. For the <B>And / Or</B>
 value you can change by <font color="blue">clicking</font> on the <B>And / Or</B>, it will swap
 <P>The screen <font color="blue"><b>only</b></font> supports simple expressions of the form
@@ -201,17 +201,16 @@ value you can change by <font color="blue">clicking</font> on the <B>And / Or</B
           and field7 &gt; field8
              ..........
  
- The system <font color="blue"><b>does not</b></font> support complicated expressions or And before or expressions.
+</PRE><PRE><P>The system only supports simple <font color="blue"><b>Or ~ And</b></font> boolean
+expressions. It <font color="blue"><b>does not</b></font> support complicated expressions or <font color="blue"><b>And ~ Or</b></font> boolean expressions.
  
- 
-</PRE><P>If Field values are entered at the
+<P>If Field values are entered at the
 Group level They will be included as well.
-<P>
-<img SRC="Diagram/LayoutEdit_ExtendedRecordSelect1.png">
-<P>
+ 
+<img SRC="Diagram/LayoutEdit_ExtendedRecordSelect2.png"> 
 <P>The above will be interpreted as
-<P>
-<PRE>       Record Type = S1
+ 
+</PRE><PRE>       Record Type = S1
   and
       (
           (    f1  = v1

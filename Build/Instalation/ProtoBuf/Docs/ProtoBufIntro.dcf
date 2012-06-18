@@ -1,3 +1,4 @@
+.*b2h option headrec.text='<link rel="stylesheet" type="text/css" href="syntaxP.css">'
 .im iRE_TagDefs.dcf
 :h1.Proto Buffers Message Editor Introduction
 :p.The :hp2.Proto Buffer Editor:ehp2. is built using :RecordEditor. to do the actual 
@@ -11,9 +12,24 @@ any problems you come across.
 should unpack the files as part of the install process. If this fails, you can use
 java's unpack200 utility to manually unpack the jars in the lib directory.
 
+:h2.Project Details
+:p.The 
+.*B2H html <a href="http://code.google.com/p/protobufeditor/">Protocol Buffer Editor</a> 
+project is currently hosted on Google Code. You can log problems / issues /requests 
+.*B2H html <a href="http://code.google.com/p/protobufeditor/issues/list">here</a>.
+Finally there is a 
+.*B2H html <a href="http://groups.google.com/group/protobufeditor-users">Disscussion Group</a>.
+
+:p.If you have files that are not currently handled well, feel free to contact me.
+
+:p.This project is basically revamp of the :RecordEditor., all the help screens where written for the 
+RecordEditor and not the ProtoBufEditor. Most of the time this will not matter but there will be a some screens where 
+there is an issue.
+
+
 :h2.Getting Started
 
-:p.On starting the edittor, the following screen is displayed&gml.
+:p.On starting the editor, the following screen is displayed&gml.
 
 .pict ProtoBuf_open.png
 
@@ -46,6 +62,156 @@ proto file and using
  :dt.Primary Message
  :dd.Primary (or main) top level message.
 :edl.  
+
+:h3.Proto Search button
+:p.You can use the :hp2.Proto Search:ehp2. button to find Proto Definition that 
+matches you data file. Currently it does not handle imported files.
+.pict ProtoBuf_Open_FindProto.png
+
+:h5.Workaround for imported files
+:ol.
+ :li.Use the :hp2.protoc:ehp2. command to create a "compiled" definition i.e.
+.fo off
+
+            :hp2.protoc ${protofile} --descriptor_set_out=${protofile}comp --proto_path=Whatever  :ehp2.
+            
+.fo on
+  :li.Add the required paths to the :hp2.protoc:ehp2. command (see :hdref refid=protocdef.).
+
+.pict ProtoBuf_ProtocImport.png
+
+ :eol.
+
+:h3.Proto Search Screen
+:p.You can use this screen to search for :hp2.proto files:ehp2. that match Protocol buffer binary message file.
+The screen currently has several limitations 
+:ul compact.
+ :li.It currently looks for an exact match's so it may miss slightly out of date 
+proto definitions. Protocol Buffers files from external organisations could be missed for this reason.
+ :li.The search will throw up false positives, At wire (binary file) level, there are no fieldnames you can not
+always tell wether a field is required, repeated or optional. It is also impossible to be completely sure of the
+type, for example you can not tell wether a field is a enum of an int32.
+ :li.It may miss proto's that import other proto's. You can get aound this limitation using
+  :ol compact.
+  :li.Use the :hp2.protoc:ehp2. command to create a "compiled" definition i.e.
+.fo off
+
+            :hp2.protoc ${protofile} --descriptor_set_out=${protofile}comp --proto_path=Whatever  :ehp2.
+            
+.fo on
+  :li.Add the required paths to the :hp2.protoc:ehp2. command (see :hdref refid=protocdef.).
+
+.pict ProtoBuf_ProtocImport.png
+ :eol.
+:eul.
+
+.br
+.br
+:p.Proto Search Screen
+.br
+.pict ProtoBuf_ProtoSearch.png
+
+:dl.
+  :dthd.Field
+  :ddhd.Field Description
+  :dt.Proto Directory Table
+  :dd.This lists the Proto directories the system knows about.
+  :dt.Proto Directory 1
+  :dd.Extra Proto Directory to search, it will be added to the search list permanently.
+You will need to press the search button though.
+  :dt.Proto Directory 2
+  :dd.See Proto Directory 1.
+  :dt.File
+  :dd.File the system is looking for a matching protocol definition for.
+  :dt.Keep open
+  :dd.Normally when you double click on a Proto definition in the Table below, 
+this screen will close. This option can be used to keep the screen open so you can
+check out multiple files.
+  :dt.Search Button
+  :dd.This button on the right hand side of the screen will do another proto search using the new Proto Directories.
+  :dt.Proto File Name
+  :dd.This table lists all matching proto files.
+:edl.
+:h3.Proto Search Options
+:p.On the option screen (Edit Options >>> Proto Buf >>> Lookup / Directories),  there are 2 options to control Automatic-Proto-Search&gml.
+:dl.
+ :dt.Use Extended Proto Lookup
+ :dd.When selected, the system will search through known proto's trying to find
+a matching Proto. On very slow systems, you may want to turn this option off ??.
+ :dt.Check previously use proto
+ :dd.Normally when editing a file for the second time, the proto last used
+will be reused. This option controls wether the proto is checked to see if it
+is valid for the file (a proto search will be initiated if need be).
+:edl.
+
+.pict ProtoBuf_ProtoSearchOpt.png
+
+:h2.Organising Proto definitions
+:p.If you only have a few protocol buffer it does not matter how you name / organise the protocol
+buffers files. But if you have a lot, it is important that you create some standards. It will
+make your life + anyone who follows you life easier.
+:p.I would suggest
+:ul compact.
+  :li.Have some naming standard standard that relates to Protocol Buffer file with its definition
+  :li.Have standard fields / id in each Proto file, That 
+:eul.
+:h3.File Naming Standards
+:p.I would create a short (7 / 8 character) id for each proto definition. It could be
+a 3 character System Id followed by a 4 character number and use this in both the 
+proto definition file and the data files. This short Id would also be used in all files created with 
+that proto definition.
+:p.For a pricing System, you could do some thing like&gml.
+:sl.
+ :li.PRZ0001_Price_Extract.proto  -   Proto definition for Price extract file
+ :ul compact.
+   :li.PRZ0001_Daily_Price_Extract.bin - Extract file using proto PRZ0001_Price_Extract.proto
+   :li.PRZ0001_Daily_Price_Extract_Sorted_on_Product.bin - Sorted Extract file using proto PRZ0001_Price_Extract.proto
+   :li.PRZ0001_Daily_Price_Extract_Store_0004.bin
+ :eul.
+ :li.PRZ0002_Price_Upload.proto  -   Proto definition for Strore level Price overide file
+ :ul compact.
+   :li.PRZ0002_Store_0004_Price_Upload_2011_10_23.bin - Store 4 upload file using PRZ0002_Price_Upload.proto
+   :li.PRZ0002_Store_0006_Price_Upload_2011_10_23.bin
+   :li.PRZ0002_Store_0004_Price_Upload_2011_10_24.bin
+   :li.PRZ0002_Store_0006_Price_Upload_2011_10_24.bin
+   :li.PRZ0002_All_Stores_2011_10_24.bin
+ :eul
+:esl.
+
+:p.Having an Id in both the proto files and the data files it easier to use the :hp2.Proto Buffers Editor:ehp2.
+in particular but life in general easier. What standard you use is of course up to you.
+:p.If enough people adopt a standard of using the first part of the file name as an Id,
+I can make it part of the Editor.
+
+:h3.Common Fields
+:p.It is also a good idea to use standard :hp2.File Id:ehp2. fields in all your proto's. If you do this, you can use a standard
+proto definition to view these fields any file using the :hp2.Protocol Buffer Editor:ehp2.. The following message could be 
+used to view multiple records which contain the same fields.
+
+.*B2H html <pre><font color="#000000"><span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 6 </font></span><font color="#006699"><strong>message</strong></font> StandardHeader <font color="#000000"><strong>{</strong></font>
+.*B2H html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 7 </font></span>  <font color="#006699"><strong>required</strong></font> string proto_id <font color="#000000"><strong>=</strong></font> <font color="#ff0000">91</font>;
+.*B2H html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 8 </font></span>  <font color="#006699"><strong>required</strong></font> int32 creationDate <font color="#000000"><strong>=</strong></font> <font color="#ff0000">92</font>;     
+.*B2H html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 9 </font></span>  <font color="#006699"><strong>required</strong></font> string dataSource <font color="#000000"><strong>=</strong></font> <font color="#ff0000">93</font>;
+.*B2H html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">10 </font></span><font color="#000000"><strong>}</strong></font>
+.*B2H html </font></pre>
+.** "
+
+:p.A typical message would be&gml.
+
+.*B2H html <pre><font color="#000000"><span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 6 </font></span><font color="#006699"><strong>message</strong></font> UserMsgXXXX <font color="#000000"><strong>{</strong></font>
+.*B2H html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 7 </font></span>  <font color="#006699"><strong>required</strong></font> int32 fld1
+.*B2H html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 8 </font></span>  optional string fld2 ....
+.*B2H html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 9 </font></span>     ......
+.*B2H html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">10 </font></span>  optional ... fldn   
+.*B2H html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">11 </font></span>   
+.*B2H html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">12 </font></span>    <font color="#cc0000">/*</font><font color="#cc0000"> </font><font color="#cc0000">Standard</font><font color="#cc0000"> </font><font color="#cc0000">Fields</font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000">*/</font>
+.*B2H html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">13 </font></span>  <font color="#006699"><strong>required</strong></font> string proto_id <font color="#000000"><strong>=</strong></font> <font color="#ff0000">91</font>;
+.*B2H html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">14 </font></span>  <font color="#006699"><strong>required</strong></font> int32 creationDate <font color="#000000"><strong>=</strong></font> <font color="#ff0000">92</font>;     
+.*B2H html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">15 </font></span>  <font color="#006699"><strong>required</strong></font> string dataSource <font color="#000000"><strong>=</strong></font> <font color="#ff0000">93</font>;
+.*B2H html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">16 </font></span><font color="#000000"><strong>}</strong></font>
+.*B2H html </font></pre>
+.** "
+:p.You would be able to use the :hp2.StandardHeader:ehp2. to view the standard fields (and only the standard fields) for message UserMsgXXXX.
 
 :h2.Main Edit Screen (Tree View)
 :p.If the main message in the file has child messages, the file will be displayed
@@ -85,6 +251,14 @@ You can
 have been affected,
 :eul.
  
+:h2 id=protocdef.Protoc definition screen
+:p.If you select :hp2.Edit >>>> Edit Startup options >>>> Protobuf:ehp2.,
+it is possible to change the protoc command (i.e. specify a specific directory) 
+and add options to it. You could use :hp2.--proto_path=My.Import.Directory:ehp2.
+to add import directories to the protoc command.
+
+.pict ProtoBuf_protoc.png
+
 
 :h2.Other Functions
 :p.Other functions available in the editor include
@@ -100,6 +274,52 @@ the right click menu).
 :edl.
 
 :p.Much of the :RecordEditMan. is relevant to the :hp2.Protocol Buffer Editor:ehp2.
+
+:h2.Self Describing Files.
+:p.The package now supports 2 self describing file formats :hdref refid=sdDelim. and :hdref refid=sdMsg.
+
+
+:h3 id=sdDelim.Self Describing Delimited file
+:p.Self describing Delimited files are delimited files where the first message is a :hp2.FileDescriptorSet:ehp2. 
+that describes that following messages.
+
+.*b2h html <pre><span class="syntax0"><span class="gutter">   1 </span>            MyProto.mystuff.Builder myStuff1 <span class="syntax-OPERATOR">=</span> MyProto.mystuff.<span class="syntax-FUNCTION">newBuilder</span><span class="syntax-OPERATOR">(</span><span class="syntax-OPERATOR">)</span>;
+.*b2h html <span class="gutter">   2 </span>            MyProto.mystuff.Builder myStuff2 <span class="syntax-OPERATOR">=</span> MyProto.mystuff.<span class="syntax-FUNCTION">newBuilder</span><span class="syntax-OPERATOR">(</span><span class="syntax-OPERATOR">)</span>;
+.*b2h html <span class="gutter">   3 </span>            MyProto.mystuff.Builder myStuff3 <span class="syntax-OPERATOR">=</span> MyProto.mystuff.<span class="syntax-FUNCTION">newBuilder</span><span class="syntax-OPERATOR">(</span><span class="syntax-OPERATOR">)</span>;
+.*b2h html <span class="gutter">   4 </span>            
+.*b2h html <span class="gutterH">   5 </span>            <span class="syntax-COMMENT2">//</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">....................</span>
+.*b2h html <span class="gutter">   6 </span>            
+.*b2h html <span class="gutter">   7 </span>            FileOutputStream out <span class="syntax-OPERATOR">=</span> <span class="syntax-KEYWORD1">new</span> <span class="syntax-FUNCTION">FileOutputStream</span><span class="syntax-OPERATOR">(</span>myFile<span class="syntax-OPERATOR">)</span>;
+.*b2h html <span class="gutter">   8 </span>
+.*b2h html <span class="gutter">   9 </span>            ProtoHelper .<span class="syntax-FUNCTION">getFileDescriptorSet</span><span class="syntax-OPERATOR">(</span>MyProto.<span class="syntax-FUNCTION">getDescriptor</span><span class="syntax-OPERATOR">(</span><span class="syntax-OPERATOR">)</span><span class="syntax-OPERATOR">)</span>
+.*b2h html <span class="gutterH">  10 </span>                                .<span class="syntax-FUNCTION">writeDelimitedTo</span><span class="syntax-OPERATOR">(</span>out<span class="syntax-OPERATOR">)</span>;
+.*b2h html <span class="gutter">  11 </span>                                
+.*b2h html <span class="gutter">  12 </span>            myStuff1.<span class="syntax-FUNCTION">build</span><span class="syntax-OPERATOR">(</span><span class="syntax-OPERATOR">)</span>.<span class="syntax-FUNCTION">writeDelimitedTo</span><span class="syntax-OPERATOR">(</span>out<span class="syntax-OPERATOR">)</span>;
+.*b2h html <span class="gutter">  13 </span>            myStuff2.<span class="syntax-FUNCTION">build</span><span class="syntax-OPERATOR">(</span><span class="syntax-OPERATOR">)</span>.<span class="syntax-FUNCTION">writeDelimitedTo</span><span class="syntax-OPERATOR">(</span>out<span class="syntax-OPERATOR">)</span>;
+.*b2h html <span class="gutter">  14 </span>            myStuff3.<span class="syntax-FUNCTION">build</span><span class="syntax-OPERATOR">(</span><span class="syntax-OPERATOR">)</span>.<span class="syntax-FUNCTION">writeDelimitedTo</span><span class="syntax-OPERATOR">(</span>out<span class="syntax-OPERATOR">)</span>;
+.*b2h html <span class="gutterH">  15 </span>
+.*b2h html </span></pre>
+
+:h3 id=sdMsg.Self describing message.
+:p.The system supports Self Describing messages where the first field in the message is a :hp2.FileDescriptorSet:ehp2. field that describes the
+message.
+
+.*b2h html <pre><span class="syntax0"><span class="gutter">   1 </span><span class="syntax-COMMENT2">//</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">Self</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">describing</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">message</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">with</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">imports</span>
+.*b2h html <span class="gutter">   2 </span><span class="syntax-COMMENT2">//</span>
+.*b2h html <span class="gutter">   3 </span><span class="syntax-KEYWORD2">package</span> tutorial;
+.*b2h html <span class="gutter">   4 </span>
+.*b2h html <span class="gutterH">   5 </span><span class="syntax-KEYWORD2">import</span> <span class="syntax-LITERAL1">&quot;</span><span class="syntax-LITERAL1">google/protobuf/descriptor.proto</span><span class="syntax-LITERAL1">&quot;</span>;
+.*b2h html <span class="gutter">   6 </span><span class="syntax-KEYWORD2">import</span> <span class="syntax-LITERAL1">&quot;</span><span class="syntax-LITERAL1">addressbookSD1_Person.proto</span><span class="syntax-LITERAL1">&quot;</span>;
+.*b2h html <span class="gutter">   7 </span>
+.*b2h html <span class="gutter">   8 </span><span class="syntax-KEYWORD1">option</span> java_package <span class="syntax-OPERATOR">=</span> <span class="syntax-LITERAL1">&quot;</span><span class="syntax-LITERAL1">com.example.tutorial</span><span class="syntax-LITERAL1">&quot;</span>;
+.*b2h html <span class="gutter">   9 </span><span class="syntax-KEYWORD1">option</span> java_outer_classname <span class="syntax-OPERATOR">=</span> <span class="syntax-LITERAL1">&quot;</span><span class="syntax-LITERAL1">AddressBookProtosSD1</span><span class="syntax-LITERAL1">&quot;</span>;
+.*b2h html <span class="gutterH">  10 </span>
+.*b2h html <span class="gutter">  11 </span><span class="syntax-COMMENT2">//</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">Our</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">address</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">book</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">file</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">is</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">just</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">one</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">of</span><span class="syntax-COMMENT2"> </span><span class="syntax-COMMENT2">these.</span>
+.*b2h html <span class="gutter">  12 </span><span class="syntax-KEYWORD1">message</span> AddressBook <span class="syntax-OPERATOR">{</span>
+.*b2h html <span class="gutter">  13 </span>  <span class="syntax-KEYWORD1">required</span> google.protobuf.FileDescriptorSet proto_files <span class="syntax-OPERATOR">=</span> <span class="syntax-DIGIT">7</span>;
+.*b2h html <span class="gutter">  14 </span>  <span class="syntax-KEYWORD1">repeated</span> Person person <span class="syntax-OPERATOR">=</span> <span class="syntax-DIGIT">12</span>;
+.*b2h html <span class="gutterH">  15 </span><span class="syntax-OPERATOR">}</span>
+.*b2h html </span></pre>
 
 :h1.Upgrading the Editor
 :p.In the ProtoBuffer lib directory, there is a file :hp2.FullEditorFiles.txt:ehp2.. This contains

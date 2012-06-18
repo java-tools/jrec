@@ -1,0 +1,10 @@
+pb	<lib>/ProtoBuffers.jar
+pbe	<lib>/ProtoBufEditor.jar
+ZDate	<lib>/ZCalendar.jar
+Velocity1	<lib>/velocity-1.7.jar
+Velocity2	<lib>/velocity-1.7-dep.jar
+jibx	<lib>/jibx-run.jar
+jlibbdiff	<lib>/jlibdiff.jar
+chardet	<lib>/chardet.jar
+cb2xml	<lib>/cb2xml.jar
+

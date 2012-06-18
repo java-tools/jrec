@@ -258,7 +258,11 @@ public class BasePanel extends JPanel {
 			 promptLbl.setHorizontalAlignment(JLabel.RIGHT);
 		}
 
-		if (component != null) {
+		if (component == null) {
+			if (promptLbl != null) {
+				addLine(promptLbl, component);
+			}
+		} else {
 			addLine(promptLbl, component);
 			setComponentName(component, prompt);
 		}

@@ -17,7 +17,7 @@
     -->
     <info>
         <appname>RecordEdit/ProtoBuf</appname>
-        <appversion>0.80.5</appversion>
+        <appversion>0.88</appversion>
         <authors>
             <author name="Bruce Martin" email="bruce_a_martin@sourceforge.net" />
             <!--author name="Hidden Man" email="hidden@hisdomain.com"/-->
@@ -116,6 +116,7 @@
              	<include name="jibx-run.pack"/>
             	<include name="jlibdiff.pack"/>
             	<include name="JRecord.pack"/>
+           	<include name="cb2xml.pack"/>
             	<include name="RecordEdit.pack"/>
             	<include name="velocity-1.7*.pack"/>
             	<include name="ZCalendar.pack"/>
@@ -132,6 +133,8 @@
 	    <executable targetfile="$INSTALL_PATH/lib/runCompareMenu.sh" stage="never"/>
 	    <parsable targetfile="$INSTALL_PATH/lib/Uninstall.sh"   type="shell"/>
 	    <executable targetfile="$INSTALL_PATH/lib/Uninstall.sh" stage="never"/>
+	    <parsable targetfile="$INSTALL_PATH/lib/runCsvEditor.sh"   type="shell"/>
+	    <executable targetfile="$INSTALL_PATH/lib/runCsvEditor.sh" stage="never"/>
        </pack>
 	<pack name="CopyBook" required="yes">
 		<description>CopyBooks</description>
@@ -160,6 +163,10 @@
             <fileset dir="../Instalation/ProtoBuf/lib" includes="*.sh" targetdir="$USER_HOME/bin"/> <!-- Reccursive adding -->
  	    <parsable targetfile="$USER_HOME/bin/runEditor.sh"   type="shell"/>
 	    <executable targetfile="$USER_HOME/bin/runEditor.sh"    stage="never"/>
+        </pack>
+        <pack name="Uninstall" os="Windows" required="yes" override="true">
+            <description>Record Editor Jars</description>
+            <file src="../Instalation/GeneralDb/Uninstaller" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
         </pack>
     </packs>
     

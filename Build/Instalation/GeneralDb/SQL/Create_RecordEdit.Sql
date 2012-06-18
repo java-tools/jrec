@@ -60,46 +60,50 @@ CREATE TABLE TBL_RF_RECORDFIELDS
 
 -- ======================================================================
 
-
-CREATE TABLE TBL_RS1_SUBRECORDS
+CREATE TABLE TBL_RS2_SUBRECORDS
 (
    RECORDID integer,
-   CHILDKEY integer,
-   CHILDRECORD integer,
-   FIELDSTART integer,
-   FIELD varchar(30),
-   FIELDVALUE varchar(30),
+   CHILD_KEY integer,
+   CHILD_RECORD integer,
+   FIELD_START integer,
+   FIELD_NAME varchar(30),
+   FIELD_VALUE varchar(30),
    PARENT_RECORDID integer,
-   OPERATORSEQUENCE smallint
+   OPERATOR_SEQUENCE smallint,
+   DEFAULT_RECORD varchar(1),
+   CHILD_NAME varchar(30),
+   CHILD_ID integer
 )
 ;
-CREATE UNIQUE INDEX TBL_RS1_SUBRECORDSPK ON TBL_RS1_SUBRECORDS
+CREATE UNIQUE INDEX TBL_RS2_SUBRECORDSPK ON TBL_RS2_SUBRECORDS
 (
   RECORDID,
-  CHILDKEY
+  CHILD_KEY
 )
 ;
+
 
 -- ======================================================================
 
 CREATE TABLE TBL_RFS_FIELDSELECTION
 (
    RECORDID integer,
-   CHILDKEY smallint,
-   FIELDNO smallint,
-   BOOLEANOPERATOR smallint,
-   FIELD varchar(30),
-   OPERATOR char(2),
-   FIELDVALUE varchar(30)
-);
-
+   CHILD_KEY smallint,
+   FIELD_NO smallint,
+   BOOLEAN_OPERATOR smallint,
+   FIELD_NAME varchar(30),
+   OPERATOR varchar(2),
+   FIELD_VALUE varchar(30)
+)
+;
 CREATE UNIQUE INDEX TBL_RFS_FIELDSELECTIONPK ON TBL_RFS_FIELDSELECTION
 (
   RECORDID,
-  CHILDKEY,
-  FIELDNO
+  CHILD_KEY,
+  FIELD_NO
 )
 ;
+
 
 -- ======================================================================
 

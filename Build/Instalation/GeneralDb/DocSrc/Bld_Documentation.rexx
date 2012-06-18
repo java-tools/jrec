@@ -34,7 +34,6 @@
 	say ' 'copy del sep html
 	say ' '
 	
-	"regina hello.rexx"
 	/*regina b2h '"reLibDir.dcf" (LOG=reLibDir.log QUIET)'*/
 	
 /*	regina b2h '"reSampleFiles.dcf (HTMPEXT='html'  LOG=reSampleFiles.log )"'

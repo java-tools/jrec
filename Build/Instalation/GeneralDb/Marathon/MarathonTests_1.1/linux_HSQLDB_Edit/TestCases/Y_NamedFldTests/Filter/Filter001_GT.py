@@ -6,7 +6,10 @@ def test():
 
 	if window('Record Editor'):
 		select('File_Txt', commonBits.sampleDir() + 'csv2DTAR020_tst1.bin.csv')
-		select('System_Txt', 'CSV')
+		if commonBits.version() == 'MsAccess':
+			select('Record Layout_Txt', 'Comma Delimited, names on the first line')
+		else:
+			select('System_Txt', 'CSV')
 		click('Edit1')
 		select_menu('Edit>>Update Csv Columns')
 		select('FieldChange_JTbl', 'Number', 'Type,5')

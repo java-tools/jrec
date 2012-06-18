@@ -19,9 +19,11 @@ def test():
 				assert_p('Label81', 'Text', 'Size of the program when it opens')
 				assert_p('Label83', 'Text', 'Space to be left at the top of the screen.')
 				assert_p('Label85', 'Text', 'Space to be left at the Right of the screen.')
-				assert_p('Label88', 'Text', 'Screen Height')
-				assert_p('Label89', 'Text', 'Screen Width')
-				assert_p('Retrieve Screen size', 'Text', 'Retrieve Screen size')
+			
+ ##				assert_p('Label88', 'Text', 'Screen Height')
+				
+ ##				assert_p('Label89', 'Text', 'Screen Width')
+ ##				assert_p('Retrieve Screen size', 'Text', 'Retrieve Screen size')
 #				assert_p('EditorPane24', 'Text', '''<html>''')
 #				assert_p('EditorPane20', 'Text', '''<html>''')
 				

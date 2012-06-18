@@ -1,0 +1,84 @@
+#set ($border = "border=1")
+#set ( $fldCount = ${recordLayout.getNumberOfRecordFields()} - 1)
+#set ( $recCount = ${recordLayout.getNumberOfRecords()} - 1)
+#set ( $TYPE_ATOM = 1 )
+#set ( $TYPE_AND  = 2 )
+#set ( $TYPE_OR  = 3 )
+
+#if ($recCount >= 0)
+  <table $border>
+    <tr>
+      <TD><b>Record Name</b></td>
+      <TD><b>Selection Criteria</b></td>
+    </tr>
+  #foreach( $j in [0 .. ${recCount}])
+     #set ($rec =  ${recordLayout.getRecord($j)})
+     <tr>
+        <TD>${rec.getRecordName()}</td>
+        <TD>
+          #if (${rec.getRecordSelection()})
+              #set ( $sel = ${rec.getRecordSelection()})
+              <table>
+              #if (${sel.getType()} == $TYPE_ATOM)
+          	  <tr><td>${rec.getRecordSelection().getFieldName()}</td><td> = </td><td>${rec.getRecordSelection().getFieldValue()}</td></tr>
+              #elseif (${sel.size()} > 0)
+              	   #set ( $sep1 = "" )
+              	   #set ( $nextSep1 = "And" )
+              	   #if (${sel.getType()} == $TYPE_OR)
+              	   	#set ( $nextSep1 = "Or" )
+              	   #end
+              	   	   
+              	   #set ( $count1 = ${sel.size()} - 1 )
+		   #foreach ($k1 in [0 .. $count1] )
+		   	   #set ( $sel1 = ${sel.get($k1)})
+		   	   #if (${sel1.getType()} == $TYPE_ATOM)
+		   	   	   <tr><td>$sep1</td> <td>&nbsp;</td><td>&nbsp;</td><td>${sel1.getFieldName()}</td><td> = </td><td>${sel1.getFieldValue()}</td></tr>
+		   	   #elseif (${sel1.size()} > 0)
+		   	   	#set ( $sep2 = "" )
+		   	   	#set ( $nextSep2 = "And" )
+		   	   	#if (${sel1.getType()} == $TYPE_OR)
+		   	   	   #set ( $nextSep2 = "Or" )
+		   	   	#end
+
+		   	   	#set ( $count2 = ${sel1.size()} - 1 )
+		   	   	#foreach ($k2 in [0 .. $count2] )
+		   	   		#set ( $sel2 = ${sel1.get($k2)})
+		   	   		
+		   	   		#if (${sel2.getType()} == $TYPE_ATOM)
+		   	   			<tr><td>&nbsp;</td><td>$sep2</td><td>&nbsp;</td><td>${sel2.getFieldName()}</td><td>${sel2.getOperator()}</td><td>${sel2.getFieldValue()}</td></tr>
+		   	   		#elseif (${sel2.size()} > 0)
+		   	   			#set ( $sep3 = "" )
+		   	   			#set ( $nextSep3 = "And" )
+		   	   			#if (${sel2.getType()} == $TYPE_OR)
+		   	   				#set ( $nextSep3 = "Or" )
+		   	   			#end
+
+		   	   			#set ( $count3 = ${sel2.size()} - 1 )
+		   	   			#foreach ($k3 in [0 .. $count3] )
+		   	   				#set ( $sel3 = ${sel2.get($k2)})
+		   	   				<tr><td>&nbsp;</td><td>$sep2</td><td>$sep3</td>
+		   	   				#if (${sel3.getType()} == $TYPE_ATOM)
+		   	   					<td>${sel3.getFieldName()}</td><td>${sel3.getOperator()}</td><td>${sel3.getFieldValue()}</td>
+		   	   				#elseif (${sel3.size()} > 0)
+		   	   					<td><b>Expression</b></td>
+		   	   				#end
+		   	   				</tr>
+		   	   				
+		   	   				#set ( $sep3 = $nextSep3 )
+		   	   			#end
+		   	   	        #end
+		  	  
+		   	   	        #set ( $sep2 = $nextSep2 )
+			   	#end
+		   	   #end
+		  	   #set ( $sep1 = $nextSep1 )
+		   #end
+		   	   
+              #end
+              </table>
+          #end
+        </td>
+     </tr>
+  #end
+  </table>
+#end

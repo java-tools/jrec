@@ -1,0 +1,70 @@
+useFixture(default)
+
+def test():
+	from Modules import commonBits
+	java_recorded_version = '1.6.0_03'
+
+	if window('Protocol Buffer Editor'):
+		click('Choose File')
+
+		if window('Open'):
+			select(commonBits.selectPaneFn(), 'ams_locdownload_20041228.bin')
+			click('Open')
+		close()
+
+		#commonBits.setRecordLayout(select, 'ams Store')
+
+		click('Edit1')
+		select('Table', 'cell:1|Brand_Id,2(TAR)')
+		rightclick('Table', '1|Brand_Id,2')
+		select_menu('Edit Record')
+##		select('Table1', 'cell:1 - 3|Brand_Id,2(TAR)')
+		click('Find1')
+##		click('MetalInternalFrameTitlePane', 230, 8)
+		select('TextField', 'West')
+		select('TextField1', 'West_')
+		select('ComboBox', 'All Fields')
+		click('Replace')
+##		select('Table', '')
+		select('Table', 'cell:Data,4(West_field Shoppingtown)')
+		select('Table', 'cell:Data,4(West_field Shoppingtown)')
+		assert_p('Table', 'Text', 'West_field Shoppingtown', 'Data,4')
+		select('Table', 'cell:Data,4(West_field Shoppingtown)')
+##		click('MetalInternalFrameTitlePane', 253, 21)
+		click('Find1')
+##		click('MetalInternalFrameTitlePane', 80, 17)
+		select('ComboBox', 'All Fields')
+		click('Find1')
+		assert_p('Table', 'Text', 'Westfield Phoenix Plaza', 'Data,4')
+		click('Find1')
+##		click('MetalInternalFrameTitlePane', 80, 17)
+		select('ComboBox', 'All Fields')
+		click('Find1')
+##		click('Replace')
+##		select('ComboBox', 'All Fields')
+		click('Replace')
+		select('Table', 'cell:Data,4(West_field Phoenix Plaza)')
+		select('Table', 'cell:Data,4(West_field Phoenix Plaza)')
+##		assert_p('Table', 'Text', 'West_field Phoenix Plaza', 'Data,4')
+		select('Table', 'cell:Data,4(West_field Phoenix Plaza)')
+		click('Find1')
+##		click('MetalInternalFrameTitlePane', 80, 17)
+		select('ComboBox', 'All Fields')
+		click('Find1')
+		click('Replace')
+##		select('Table', '')
+		select('Table', 'cell:Data,4(West_field Shoppingtown Eastgardens)')
+		select('Table', 'cell:Data,4(West_field Shoppingtown Eastgardens)')
+##		assert_p('Table', 'Text', '152 Bunnerong Road', 'Data,5')
+		select('Table', 'cell:Data,4(West_field Shoppingtown Eastgardens)')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		select('Table', 'cell:1|Brand_Id,2(TAR)')
+		select('Table', 'cell:1|Brand_Id,2(TAR)')
+
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
+
+#		if window(r'Save Changes to file: ' + commonBits.implementationSampleDir() + 'Ams_LocDownload_20041228.bin'):
+#			click('No')
+#		close()
+	close()

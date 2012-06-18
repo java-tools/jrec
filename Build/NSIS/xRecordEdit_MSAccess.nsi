@@ -5,7 +5,7 @@ SetCompressor /SOLID lzma
 SetCompressionLevel 9
 
 !define PRODUCT_NAME "RecordEdit"
-!define PRODUCT_VERSION "0.80.6"                                                                                
+!define PRODUCT_VERSION "0.88"                                                                                
 !define PRODUCT_PUBLISHER "Bruce Martin"                                                                          
 !define PRODUCT_WEB_SITE "http://record-editor.sf.net"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
@@ -51,7 +51,7 @@ var ICONS_GROUP
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-<OutFile default="RecordEdit_Installer_for_MSAccess_0.80.6.exe">
+<OutFile default="RecordEdit_Installer_for_MSAccess_0.88.exe">
 InstallDir "$PROGRAMFILES\RecordEdit\MSaccess"
 ShowInstDetails show
 ShowUnInstDetails show
@@ -96,7 +96,7 @@ Section "MainSection" SEC01
   <expand  inpath="..\Instalation\GeneralDB\lib" name="icons*.zip" name1="*.ico"/>
   <expand  inpath="..\Instalation\MsAccess\lib\" name="properties.zip" name1"*.txt"/>
   <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="*Edit.pack" name1="cb2xm*.pack" name4="chardet.pack"  name5="ZCalendar.pack"/>
-  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="j*.pack" name1="JRecord.propertie*"  name2="RunUnpack.exe" name3="velocity-1.7*.pack"/>
+  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="j*.pack" name1="JRecord.propertie*"  name2="RunUnpack.exe" name3="velocity-1.7*.pack"  name4="runCobolBatchLoad.bat"/>
   <psc proc="unix">
     <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="JRecord.pack">
   </psc>
@@ -203,8 +203,9 @@ Section "MainSection" SEC01
 SectionEnd
 
 Section -AdditionalIcons
-  !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
+  SetShellVarContext all
 
+  !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
 ;  WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP"
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP\Utils"
@@ -289,6 +290,9 @@ FunctionEnd
 
 Section Uninstall
   !insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
+
+  SetShellVarContext all
+  
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
  
   <WriteDelete/>
@@ -369,6 +373,8 @@ Section Uninstall
   RMDir "$PROFILE\RecordEditor_MsAccess\User\RecordTree"
   RMDir "$PROFILE\RecordEditor_MsAccess\User\SortTree"
   RMDir "$PROFILE\RecordEditor_MsAccess\User\Xslt"
+  RMDir "$PROFILE\RecordEditor_MsAccess\User\ExportScripts" 
+  RMDir "$PROFILE\RecordEditor_MsAccess\User\Scripts"       
   RMDir "$PROFILE\RecordEditor_MsAccess\User"
   RMDir "$INSTDIR"         
   RMDir "$PROFILE\RecordEditor_MsAccess"

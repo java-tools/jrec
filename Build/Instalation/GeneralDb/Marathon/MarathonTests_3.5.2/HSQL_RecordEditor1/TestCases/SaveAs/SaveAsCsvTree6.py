@@ -2,11 +2,13 @@
 from default import *
 #}}} Marathon
 
+from Modules import commonBits
+
 def test():
 
     set_java_recorded_version("1.6.0_22")
     if frame(' - Open File:0'):
-        select('File', 'C:\\Users\\mum/RecordEditor_HSQL/SampleFiles/DTAR020_tst1.bin')
+        select('File', commonBits.sampleDir() + 'DTAR020_tst1.bin')
         click('Edit')
     close()
 
@@ -23,10 +25,11 @@ def test():
         select_menu('File>>Export as CSV file')
 
         if frame('Export - DTAR020_tst1.bin:0'):
-            select('JTable_35', 'false', '{1, Include}')
-            select('JTable_35', 'false', '{3, Include}')
-            select('JTable_35', 'rows:[3],columns:[Include]')
+            select('JTable_34', 'false', '{1, Include}')
+            select('JTable_34', 'false', '{3, Include}')
+            select('JTable_34', 'rows:[3],columns:[Include]')
             select('Edit Output File', 'true')
+            select('Only export Nodes with Data', 'true')
             select('Keep screen open', 'true')
             click('save file')
         close()

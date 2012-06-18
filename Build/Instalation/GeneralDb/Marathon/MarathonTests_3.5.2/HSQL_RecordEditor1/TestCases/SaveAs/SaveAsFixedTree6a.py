@@ -31,7 +31,8 @@ def test():
         click('Export')
 
         if frame('Export - DTAR020_tst1.bin:0'):
-            select('JTabbedPane_16', 'Fixed')
+##            select('JTabbedPane_16', 'Fixed')
+            select('File Name_2', 'Fixed')
             select('Edit Output File', 'true')
             select('Only export Nodes with Data', 'false')
             select('names on first line', 'true')
@@ -199,13 +200,13 @@ def test():
         close()
 
         if frame('Export - DTAR020_tst1.bin:0'):
-            select('JTable_29', 'false', '{2, Include}')
+            select('JTable_28', 'false', '{2, Include}')
 ##            select('JTable_31', 'rows:[2],columns:[Include]')
 ##            select('JTable_31', 'rows:[5],columns:[Include]')
-            select('JTable_29', 'rows:[5],columns:[Include]')
-            select('JTable_29', 'false', '{5, Include}')
-            select('JTable_29', 'false', '{2, Include}')
-            select('JTable_29', 'rows:[5],columns:[Include]')
+            select('JTable_28', 'rows:[5],columns:[Include]')
+            select('JTable_28', 'false', '{5, Include}')
+            select('JTable_28', 'false', '{2, Include}')
+            select('JTable_28', 'rows:[5],columns:[Include]')
 ##            select('JTable_31', 'false', '{5, Include}')
             click('save file')
         close()

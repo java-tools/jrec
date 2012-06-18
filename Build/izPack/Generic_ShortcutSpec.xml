@@ -140,12 +140,14 @@
      applications="no"
      startMenu="no"
      startup="no"
-     target="$JAVA_HOME/bin/javaw"
-     commandLine="-jar &quot;$INSTALL_PATH\Uninstaller\uninstaller.jar&quot;"
+     target="$INSTALL_PATH/Uninstaller/uninstaller.exe"
+     commandLine=""
      description="IzPack uninstaller">
      
      <createForPack name="Base" />
    </shortcut>
+   <!--  target="$JAVA_HOME/bin/javaw"
+     commandLine="-jar &quot;$INSTALL_PATH\Uninstaller\uninstaller.jar&quot;"" !-->
    
    
      <shortcut

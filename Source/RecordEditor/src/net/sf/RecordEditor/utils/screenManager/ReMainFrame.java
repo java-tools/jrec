@@ -481,6 +481,9 @@ public class ReMainFrame extends JFrame
 						"RecordEditor Manual",
 						(new File(Common.formatHelpURL("RecordEdit.htm").substring(5))).toURI()));
 
+		addWebsitesToHelpMenu(helpMenu);
+
+		helpMenu.addSeparator();
 		helpMenu.add(new AbstractAction("About") {
 
 			/**

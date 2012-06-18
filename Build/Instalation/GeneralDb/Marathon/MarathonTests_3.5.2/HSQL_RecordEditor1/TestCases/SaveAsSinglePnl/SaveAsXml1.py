@@ -17,7 +17,8 @@ def test():
         click('Export')
 
         if frame('Export - DTAR020_tst1.bin:0'):
-            select('JTabbedPane_16', 'Xml')
+##            select('JTabbedPane_16', 'Xml')
+            select('File Name_2', 'Xml')
             select('Edit Output File', 'true')
             click('save file')
         close()

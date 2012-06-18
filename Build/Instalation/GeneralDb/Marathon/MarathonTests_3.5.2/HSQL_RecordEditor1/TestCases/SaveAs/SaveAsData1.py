@@ -48,13 +48,13 @@ def test():
             click('Close')
         close()
 
-        select_menu('Window>>DTAR020_tst1.bin>>Export')
+#        select_menu('Window>>DTAR020_tst1.bin>>Export')
 
-        if frame('Export - DTAR020_tst1.bin:0'):
-            select('JTabbedPane_16', 'Fixed')
-
-            click('Close')
-        close()
+#        if frame('Export - DTAR020_tst1.bin:0'):
+#            select('JTabbedPane_16', 'Fixed')
+#
+#            click('Close')
+#        close()
 
 ##        window_closed('Record Editor')
     close()

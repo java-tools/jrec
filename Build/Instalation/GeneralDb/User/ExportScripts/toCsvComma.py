@@ -1,3 +1,8 @@
+###
+###   This will loop through all the selected Records.
+###   For protocol buffers / Avro Editors, child records will 
+###   not be included
+###
 
 print 'hello from python'
 print outputFile
@@ -8,9 +13,15 @@ for line in records:
 	count = layout.getRecord(idx).getFieldCount()
 	i = 0
 	sep = ''
+	
 	while i < count:
 		my_file.write(sep)
-		my_file.write(line.getField(idx, i))
+		
+		v = line.getField(idx, i)
+		if (v is None):
+			v = ""
+
+		my_file.write(str(v))
 		sep = ','
 		i = i + 1
 	my_file.write('\n')

@@ -1,5 +1,5 @@
 #Marathon Project File
-#Sun Apr 15 12:02:58 EST 2012
+#Sat Jun 16 09:35:50 EST 2012
 marathon.checklist.dir=%marathon.project.dir%/Checklists
 marathon.test.dir=%marathon.project.dir%/TestCases
 marathon.application.launchtime=60000
@@ -16,10 +16,10 @@ marathon.capture.dir=%marathon.project.dir%\\Modules;
 marathon.application.mainclass=net.sf.RecordEditor.RunFullEditor
 marathon.application.pythonhome=
 marathon.recorder.namingstrategy=net.sourceforge.marathon.objectmap.ObjectMapNamingStrategy
-marathon.fixture.dir=%marathon.project.dir%/Fixtures
 marathon.component.resolvers=
-marathon.project.description=
+marathon.fixture.dir=%marathon.project.dir%/Fixtures
 marathon.application.toolkit_menumask=false
+marathon.project.description=
 marathon.application.vm.command=
 marathon.project.name=HSQL RecordEditor
 marathon.project.script.model=net.sourceforge.marathon.python.PythonScriptModel

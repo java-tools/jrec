@@ -1,0 +1,180 @@
+<?xml version="1.0" ?>
+<RECORD RECORDNAME="wwFile" COPYBOOK="" DELIMITER="&lt;Tab&gt;" DESCRIPTION="ww File Def" FILESTRUCTURE="Default" STYLE="0" RECORDTYPE="GroupOfRecords" LIST="Y" QUOTE="" RecSep="default" LINE_NO_FIELD_NAMES="1">
+	<RECORDS>
+		<RECORD RECORDNAME="wwProd01" COPYBOOK="" DELIMITER="&lt;Tab&gt;" DESCRIPTION="Prod 01 Record" FILESTRUCTURE="Default" STYLE="0" RECORDTYPE="RecordLayout" LIST="N" QUOTE="" RecSep="default" LINE_NO_FIELD_NAMES="1">
+			<TSTFIELDS>
+				<AND>
+					<TSTFIELD NAME="RecordType1" VALUE="P"/>
+					<TSTFIELD NAME="RecordType2" VALUE="01"/>
+				</AND>
+			</TSTFIELDS>
+			<FIELDS>
+				<FIELD NAME="RecordType1" DESCRIPTION="Char" POSITION="1" LENGTH="1" TYPE="Char"/>
+				<FIELD NAME="RecordType2" DESCRIPTION="Char" POSITION="3" LENGTH="2" TYPE="Char"/>
+				<FIELD NAME="Field11" DESCRIPTION="Char" POSITION="5" LENGTH="4" TYPE="Char"/>
+				<FIELD NAME="Field12" DESCRIPTION="Num (Right Justified zero padded)" POSITION="9" LENGTH="8" TYPE="Num (Right Justified zero padded)"/>
+				<FIELD NAME="Field13" DESCRIPTION="Char" POSITION="17" LENGTH="3" TYPE="Char"/>
+			</FIELDS>
+		</RECORD>
+		<RECORD RECORDNAME="wwProd02" COPYBOOK="" DELIMITER="&lt;Tab&gt;" FILESTRUCTURE="Default" STYLE="0" RECORDTYPE="RecordLayout" LIST="N" QUOTE="" RecSep="default" LINE_NO_FIELD_NAMES="1">
+			<TSTFIELDS>
+				<AND>
+					<TSTFIELD NAME="RecordType1" VALUE="P"/>
+					<TSTFIELD NAME="RecordType2" VALUE="02"/>
+				</AND>
+			</TSTFIELDS>
+			<FIELDS>
+				<FIELD NAME="RecordType1" DESCRIPTION="Char" POSITION="1" LENGTH="1" TYPE="Char"/>
+				<FIELD NAME="RecordType2" DESCRIPTION="Char" POSITION="3" LENGTH="2" TYPE="Char"/>
+				<FIELD NAME="Field21" DESCRIPTION="Char" POSITION="5" LENGTH="4" TYPE="Char"/>
+				<FIELD NAME="Field22" DESCRIPTION="Num (Right Justified zero padded)" POSITION="9" LENGTH="8" TYPE="Num (Right Justified zero padded)"/>
+				<FIELD NAME="Field23" DESCRIPTION="Char" POSITION="17" LENGTH="3" TYPE="Char"/>
+			</FIELDS>
+		</RECORD>
+		<RECORD RECORDNAME="wwProd05" COPYBOOK="" DELIMITER="&lt;Tab&gt;" FILESTRUCTURE="Default" STYLE="0" RECORDTYPE="RecordLayout" LIST="N" QUOTE="" RecSep="default" LINE_NO_FIELD_NAMES="1">
+			<TSTFIELDS>
+				<AND>
+					<TSTFIELD NAME="RecordType1" VALUE="P"/>
+					<TSTFIELD NAME="RecordType2" VALUE="05"/>
+				</AND>
+			</TSTFIELDS>
+			<FIELDS>
+				<FIELD NAME="RecordType1" DESCRIPTION="Char" POSITION="1" LENGTH="1" TYPE="Char"/>
+				<FIELD NAME="RecordType2" DESCRIPTION="Char" POSITION="3" LENGTH="2" TYPE="Char"/>
+				<FIELD NAME="Field51" DESCRIPTION="Char" POSITION="5" LENGTH="6" TYPE="Char"/>
+				<FIELD NAME="Field52" DESCRIPTION="Num (Right Justified zero padded)" POSITION="11" LENGTH="9" TYPE="Num (Right Justified zero padded)"/>
+				<FIELD NAME="Field53" DESCRIPTION="Char" POSITION="26" LENGTH="3" TYPE="Char"/>
+			</FIELDS>
+		</RECORD>
+		<RECORD RECORDNAME="wwProd07" COPYBOOK="" DELIMITER="&lt;Tab&gt;" FILESTRUCTURE="Default" STYLE="0" RECORDTYPE="RecordLayout" LIST="N" QUOTE="" RecSep="default" LINE_NO_FIELD_NAMES="1">
+			<TSTFIELDS>
+				<AND>
+					<TSTFIELD NAME="RecordType1" VALUE="P"/>
+					<TSTFIELD NAME="RecordType2" VALUE="07"/>
+				</AND>
+			</TSTFIELDS>
+			<FIELDS>
+				<FIELD NAME="RecordType1" DESCRIPTION="Char" POSITION="1" LENGTH="1" TYPE="Char"/>
+				<FIELD NAME="RecordType2" DESCRIPTION="Char" POSITION="3" LENGTH="2" TYPE="Char"/>
+				<FIELD NAME="Field71" DESCRIPTION="Char" POSITION="5" LENGTH="6" TYPE="Char"/>
+				<FIELD NAME="Field72" DESCRIPTION="Num (Right Justified zero padded)" POSITION="11" LENGTH="9" TYPE="Num (Right Justified zero padded)"/>
+				<FIELD NAME="Field73" DESCRIPTION="Char" POSITION="26" LENGTH="3" TYPE="Char"/>
+			</FIELDS>
+		</RECORD>
+		<RECORD RECORDNAME="wwProd09" COPYBOOK="" DELIMITER="&lt;Tab&gt;" FILESTRUCTURE="Default" STYLE="0" RECORDTYPE="RecordLayout" LIST="N" QUOTE="" RecSep="default" LINE_NO_FIELD_NAMES="1">
+			<TSTFIELDS>
+				<AND>
+					<TSTFIELD NAME="RecordType1" VALUE="P"/>
+					<TSTFIELD NAME="RecordType2" VALUE="09"/>
+				</AND>
+			</TSTFIELDS>
+			<FIELDS>
+				<FIELD NAME="RecordType1" DESCRIPTION="Char" POSITION="1" LENGTH="1" TYPE="Char"/>
+				<FIELD NAME="RecordType2" DESCRIPTION="Char" POSITION="3" LENGTH="2" TYPE="Char"/>
+				<FIELD NAME="Field91" DESCRIPTION="Char" POSITION="5" LENGTH="6" TYPE="Char"/>
+				<FIELD NAME="Field92" DESCRIPTION="Num (Right Justified zero padded)" POSITION="11" LENGTH="9" TYPE="Num (Right Justified zero padded)"/>
+			</FIELDS>
+		</RECORD>
+		<RECORD RECORDNAME="wwProd11" COPYBOOK="" DELIMITER="&lt;Tab&gt;" FILESTRUCTURE="Default" STYLE="0" RECORDTYPE="RecordLayout" LIST="N" QUOTE="" RecSep="default" LINE_NO_FIELD_NAMES="1">
+			<TSTFIELDS>
+				<AND>
+					<TSTFIELD NAME="RecordType1" VALUE="P"/>
+					<TSTFIELD NAME="RecordType2" VALUE="11"/>
+				</AND>
+			</TSTFIELDS>
+			<FIELDS>
+				<FIELD NAME="RecordType1" DESCRIPTION="Char" POSITION="1" LENGTH="1" TYPE="Char"/>
+				<FIELD NAME="RecordType2" DESCRIPTION="Char" POSITION="3" LENGTH="2" TYPE="Char"/>
+				<FIELD NAME="Field111" DESCRIPTION="Char" POSITION="5" LENGTH="4" TYPE="Char"/>
+				<FIELD NAME="Field112" DESCRIPTION="Num (Right Justified zero padded)" POSITION="9" LENGTH="8" TYPE="Num (Right Justified zero padded)"/>
+				<FIELD NAME="Field113" DESCRIPTION="Char" POSITION="17" LENGTH="3" TYPE="Char"/>
+			</FIELDS>
+		</RECORD>
+		<RECORD RECORDNAME="wwProd12" COPYBOOK="" DELIMITER="&lt;Tab&gt;" FILESTRUCTURE="Default" STYLE="0" RECORDTYPE="RecordLayout" LIST="N" QUOTE="" RecSep="default" LINE_NO_FIELD_NAMES="1">
+			<TSTFIELDS>
+				<AND>
+					<TSTFIELD NAME="RecordType1" VALUE="P"/>
+					<TSTFIELD NAME="RecordType2" VALUE="12"/>
+				</AND>
+			</TSTFIELDS>
+			<FIELDS>
+				<FIELD NAME="RecordType1" DESCRIPTION="Char" POSITION="1" LENGTH="1" TYPE="Char"/>
+				<FIELD NAME="RecordType2" DESCRIPTION="Char" POSITION="3" LENGTH="2" TYPE="Char"/>
+				<FIELD NAME="Field121" DESCRIPTION="Char" POSITION="5" LENGTH="4" TYPE="Char"/>
+				<FIELD NAME="Field122" DESCRIPTION="Num (Right Justified zero padded)" POSITION="9" LENGTH="8" TYPE="Num (Right Justified zero padded)"/>
+				<FIELD NAME="Field123" DESCRIPTION="Char" POSITION="17" LENGTH="3" TYPE="Char"/>
+			</FIELDS>
+		</RECORD>
+		<RECORD RECORDNAME="wwProd15" COPYBOOK="" DELIMITER="&lt;Tab&gt;" FILESTRUCTURE="Default" STYLE="0" RECORDTYPE="RecordLayout" LIST="N" QUOTE="" RecSep="default" LINE_NO_FIELD_NAMES="1">
+			<TSTFIELDS>
+				<AND>
+					<TSTFIELD NAME="RecordType1" VALUE="P"/>
+					<TSTFIELD NAME="RecordType2" VALUE="15"/>
+				</AND>
+			</TSTFIELDS>
+			<FIELDS>
+				<FIELD NAME="RecordType1" DESCRIPTION="Char" POSITION="1" LENGTH="1" TYPE="Char"/>
+				<FIELD NAME="RecordType2" DESCRIPTION="Char" POSITION="3" LENGTH="2" TYPE="Char"/>
+				<FIELD NAME="Field151" DESCRIPTION="Char" POSITION="5" LENGTH="6" TYPE="Char"/>
+				<FIELD NAME="Field152" DESCRIPTION="Num (Right Justified zero padded)" POSITION="11" LENGTH="9" TYPE="Num (Right Justified zero padded)"/>
+				<FIELD NAME="Field153" DESCRIPTION="Char" POSITION="26" LENGTH="3" TYPE="Char"/>
+			</FIELDS>
+		</RECORD>
+		<RECORD RECORDNAME="wwProdFoot" COPYBOOK="" DELIMITER="&lt;Tab&gt;" FILESTRUCTURE="Default" STYLE="0" RECORDTYPE="RecordLayout" LIST="N" QUOTE="" RecSep="default" LINE_NO_FIELD_NAMES="1">
+			<TSTFIELDS>
+				<AND>
+					<TSTFIELD NAME="RecordType1" VALUE="P"/>
+					<TSTFIELD NAME="RecordType2" VALUE="TR"/>
+				</AND>
+			</TSTFIELDS>
+			<FIELDS>
+				<FIELD NAME="RecordType1" DESCRIPTION="Char" POSITION="1" LENGTH="1" TYPE="Char"/>
+				<FIELD NAME="RecordType2" DESCRIPTION="Char" POSITION="3" LENGTH="2" TYPE="Char"/>
+				<FIELD NAME="Dept" DESCRIPTION="Char" POSITION="5" LENGTH="4" TYPE="Char"/>
+				<FIELD NAME="Product" DESCRIPTION="Num (Right Justified zero padded)" POSITION="9" LENGTH="8" TYPE="Num (Right Justified zero padded)"/>
+				<FIELD NAME="Count" DESCRIPTION="Num (Right Justified zero padded)" POSITION="17" LENGTH="6" TYPE="Num (Right Justified zero padded)"/>
+			</FIELDS>
+		</RECORD>
+		<RECORD RECORDNAME="wwTrailer" COPYBOOK="" DELIMITER="&lt;Tab&gt;" DESCRIPTION="File Trailor " FILESTRUCTURE="Default" STYLE="0" RECORDTYPE="RecordLayout" LIST="N" QUOTE="" RecSep="default" LINE_NO_FIELD_NAMES="1">
+			<TSTFIELDS>
+				<AND>
+					<TSTFIELD NAME="RecordType1" VALUE="T"/>
+					<TSTFIELD NAME="RecordType2" VALUE="TR"/>
+				</AND>
+			</TSTFIELDS>
+			<FIELDS>
+				<FIELD NAME="RecordType1" DESCRIPTION="Char" POSITION="1" LENGTH="1" TYPE="Char"/>
+				<FIELD NAME="RecordType2" DESCRIPTION="Char" POSITION="3" LENGTH="2" TYPE="Char"/>
+				<FIELD NAME="Count" DESCRIPTION="Num (Right Justified zero padded)" POSITION="17" LENGTH="8" TYPE="Num (Right Justified zero padded)"/>
+			</FIELDS>
+		</RECORD>
+		<RECORD RECORDNAME="wwProdHead" COPYBOOK="" DELIMITER="&lt;Tab&gt;" FILESTRUCTURE="Default" STYLE="0" RECORDTYPE="RecordLayout" LIST="N" QUOTE="" RecSep="default" LINE_NO_FIELD_NAMES="1">
+			<TSTFIELDS>
+				<AND>
+					<TSTFIELD NAME="RecordType1" VALUE="P"/>
+					<TSTFIELD NAME="RecordType2" VALUE="HD"/>
+				</AND>
+			</TSTFIELDS>
+			<FIELDS>
+				<FIELD NAME="RecordType1" DESCRIPTION="Char" POSITION="1" LENGTH="1" TYPE="Char"/>
+				<FIELD NAME="RecordType2" DESCRIPTION="Char" POSITION="3" LENGTH="2" TYPE="Char"/>
+				<FIELD NAME="Dept" DESCRIPTION="Char" POSITION="5" LENGTH="4" TYPE="Char"/>
+				<FIELD NAME="Product" DESCRIPTION="Num (Right Justified zero padded)" POSITION="9" LENGTH="8" TYPE="Num (Right Justified zero padded)"/>
+			</FIELDS>
+		</RECORD>
+		<RECORD RECORDNAME="wwHeader" COPYBOOK="" DELIMITER="&lt;Tab&gt;" DESCRIPTION="File Header" FILESTRUCTURE="Default" STYLE="0" RECORDTYPE="RecordLayout" LIST="Y" PARENT="wwProd01" QUOTE="" RecSep="default" LINE_NO_FIELD_NAMES="1">
+			<TSTFIELDS>
+				<AND>
+					<TSTFIELD NAME="RecordType1" VALUE="H"/>
+					<TSTFIELD NAME="RecordType2" VALUE="HD"/>
+				</AND>
+			</TSTFIELDS>
+			<FIELDS>
+				<FIELD NAME="RecordType1" DESCRIPTION="Char" POSITION="1" LENGTH="1" TYPE="Char"/>
+				<FIELD NAME="RecordType2" DESCRIPTION="Char" POSITION="3" LENGTH="2" TYPE="Char"/>
+				<FIELD NAME="RunDate" POSITION="5" LENGTH="8" TYPE="Char"/>
+				<FIELD NAME="RunNumber" POSITION="13" LENGTH="8" TYPE="Num (Right Justified zero padded)"/>
+			</FIELDS>
+		</RECORD>
+	</RECORDS>
+</RECORD>

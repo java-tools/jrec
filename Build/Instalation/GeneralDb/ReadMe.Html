@@ -1,5 +1,8 @@
 <h1>Record Editor</h1>
-<p>Welcome to the Record editor. Documentation available is
+<p>Welcome to the Record editor. This zip file contains the Source + Document source. The source
+can be found in the <b>src</b> directory, there are ant build steps to compile it
+
+<p>Documentation available is
 <ul>
   <li><a href="Docs/gWelcome.htm">Welcome note</a></li>
   <li><a href="Docs/gRecordEdit.htm">Record Edit Manual</a></li>
@@ -14,43 +17,25 @@
 <p>If you want to get involved, post suggestion etc here are the RecordEditor Web pages
 <ul>
  <li><a href="http://record-editor.sourceforge.net/">RecordEditor Home Page</a></li>
- <li><a href="http://sourceforge.net/forum/?group_id=139274/">RecordEditor Forums</a> If you have any query's, comments, suggestions
+ <li><a href="https://sourceforge.net/projects/record-editor/forums">RecordEditor Forums</a> If you have any query's, comments, suggestions
 please post here.</li>
- <li><a href="http://sourceforge.net/tracker/?group_id=139274/">RecordEditor Tracker</a> Where you can log Problems, Feature Requests etc / </li>
+ <li><a href="https://sourceforge.net/tracker/?group_id=139274">RecordEditor Tracker</a> Where you can log Problems, Feature Requests etc / </li>
 </ul>
 
-<p/><h2>Requirements</h2>
-<p>The source code of <b>RecordEditor</b> has the following requirements (all optional):
-<ul compact>
-  <li><b>cb2xml</b> and <b>Table Layout</b>. Both these 2 packages are included in the download in the
-      <b>lib</b> directory of the zip file. ie lib/cb2xml.Jar and lib/TableLayout.jar</li>
-  <li><b>Test Classes</b> use <b>JUnit</b>. If you do not have JUnit, these classes can be deleted 
-       (they are only used for to automate the testing).</li>
-  <li><b>Example</b> - Some of the examples use <a href="http://jakarta.apache.org/velocity/">Velocity</a>.
-      Again these classes can be deleted if required.</li>
-</ul>      
-      
+<h1>Compiling the Source</h1>
+<p>Its assumed that you have <b>RecordEditor</b> installed, you <b>must</b> copy 
+velocity-1.7.jar andvelocity-dep-1.7.jar from your RecordEditor lib to the lib
+directory in this zip file  !!!!!!</p>
 
 
-<h2>Directories</h2>
-<table BORDER="1">
-  <tr><td>Cobol</td><td>Cobol Copybooks for use in some of the examples</td></tr>
-  <tr><td>Database</td><td>HSQLDB database details</td></tr>
-  <tr><td>Docs</td><td>Documentation</td></tr>
-  <tr><td>DocSrc</td><td>Documentation Source (in a IBM Bookmaster format)
-     <a href="DocSrc/Readme.htm">DocSrc directory</a></td></tr>
-  <tr><td>JavaDoc</td><td>JavaDoc to the <b>RecordEditor</b></td></tr>
-  <tr><td>lib</td><td>Holds the Jars + sample bat files to run them.
-     <a href="lib/LibDirectory.htm">lib directory</a></td></tr>
-  <tr><td>SampleFiles</td><td>Sample files you can edit
-     <a href="SampleFiles/Readme.htm">SampleFiles directory</a></td></tr>
-  <tr><td>SQL</td><td>Database Creation Scripts</td></tr>
-  <tr><td>src</td><td>Java Source  - The three directories are
-    <ol compact>
-      <li><b>bm</b> - My java utilities</li>
-      <li><b>recordEdit</b> - code for the <i>Record Editor</i> and <i>Layout Editor</i></li>
-      <li><b>zOtherPeoples</b> - holds the <i>cb2xml</i> source. I have made changes
-               to support Comp fields</li>
-    </ol>
-  </td></tr>
+<p>In the Source Directory, there are the following sub directories.</p>
+<table border="1">
+<tr><th bgcolor="#DADADA">Directory</th><th bgcolor="#DADADA">Content</th></tr>
+<tr><td><b>cb2xml</b></td><td>holds my version of cb2xml - Cobol Copybook analysis</td></tr> 
+<tr><td><b>JRecord_Common</b></td><td>Low level IO and line representation code that is shared with the JRecord</td></tr>
+<tr><td><b>JRecord</b></td><td>Mid level IO and line representation code</td></tr>
+<tr><td><b>RecordEditor</b></td><td>Source for the editor</td></tr>
+<tr><td><b>RecordEditor_Tests</b></td><td>Record Editor Tests</td></tr>
+<tr><td><b>re_utilities</b></td><td>RecordEditor utilities holds JUnit tests + some example code.</td></tr>
+<tr><td><b>ZCalendar</b></td><td>Date Display jar + lowlevel ComboPopup code.</td></tr>
 </table>

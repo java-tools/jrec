@@ -32,11 +32,26 @@
      initialState="noShow"
      iconFile="$INSTALL_PATH/lib/Utility.Ico"
      target="$JAVA_HOME/bin/javaw"
-     commandLine="-jar &quot;$INSTALL_PATH/lib/run.jar&quot; net.sf.RecordEditor.ProtoBuf.CompareProtoLayout"
+     commandLine="-jar &quot;$INSTALL_PATH/lib/RunPB.jar&quot; net.sf.RecordEditor.ProtoBuf.CompareProtoLayout"
      description="Diff - File Compare">
      <createForPack name="Base" />
    </shortcut>   
 
+
+   <shortcut
+     name="Csv and Xml file Editor"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     initialState="noShow"
+     iconFile="$INSTALL_PATH\lib\CsvEd.ico"
+     target="$JAVA_HOME/bin/javaw"
+     commandLine="-jar &quot;$INSTALL_PATH\lib\runCsvEditor.jar&quot;"
+     description="Csv Editor (built on on RecordEditor)">
+     <createForPack name="Base" />
+   </shortcut>   
 
    
    <shortcut
@@ -46,13 +61,14 @@
      applications="no"
      startMenu="no"
      startup="no"
-     target="$JAVA_HOME/bin/javaw"
-     commandLine="-jar &quot;$INSTALL_PATH\Uninstaller\uninstaller.jar&quot;"
+     target="$INSTALL_PATH/Uninstaller/uninstaller.exe"
+     commandLine=""
      description="IzPack uninstaller">
      
      <createForPack name="Base" />
    </shortcut>
-   
+   <!--  target="$JAVA_HOME/bin/javaw"
+     commandLine="-jar &quot;$INSTALL_PATH\Uninstaller\uninstaller.jar&quot;"" !-->
    
    <shortcut
      name="ProtoBuffer Editor - Documentation"

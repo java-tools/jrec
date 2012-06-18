@@ -38,7 +38,7 @@ def test():
         select_menu('File>>Export via Script>>toCsvComma.py')
 
         if frame('Export - DTAR020_tst1.bin:0'):
-            select('File Name', 'C:\\Users\\mum/RecordEditor_HSQL\\SampleFiles/DTAR020_tst1.bin.csv')
+            select('File Name', commonBits.sampleDir() + 'DTAR020_tst1.bin.csv')
             select('Edit Output File', 'true')
             select('Keep screen open', 'true')
             click('save file')

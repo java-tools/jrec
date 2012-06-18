@@ -68,6 +68,7 @@ def test():
 
 #		select('TabbedPane', 'Child Records')
 		assert_p('ChildRecordsJTbl', 'Content', '[[, ams PO Download: Allocation, , , , , ], [, ams PO Download: Detail, , , , , ams PO Download: Allocation], [, ams PO Download: Header, , , , , ams PO Download: Header]]')
+		assert_p('ChildRecordsJTbl', 'Content', '[[, ams PO Download: Allocation, , , , , ], [, ams PO Download: Detail, , , , , ams PO Download: Allocation], [, ams PO Download: Header, , , , , ams PO Download: Header]]')
 		click('Delete3')
 
 		if window('Delete: xx22xx22'):

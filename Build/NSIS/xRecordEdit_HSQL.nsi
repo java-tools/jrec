@@ -5,7 +5,7 @@ SetCompressor /SOLID lzma
 SetCompressionLevel 9
 
 !define PRODUCT_NAME "RecordEdit_HSQL"                                                             
-!define PRODUCT_VERSION "0.80.6"                                                                                  
+!define PRODUCT_VERSION "0.88"                                                                                  
 !define PRODUCT_PUBLISHER "Bruce Martin"                                                           
 !define PRODUCT_WEB_SITE "http://record-editor.sf.net"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
@@ -54,7 +54,7 @@ var ICONS_GROUP
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-<OutFile default="RecordEdit_Installer_for_HSQL_080.6.exe"/>
+<OutFile default="RecordEdit_Installer_for_HSQL_088.exe"/>
 InstallDir "$PROGRAMFILES\RecordEdit\HSQL"
 ShowInstDetails show
 ShowUnInstDetails show
@@ -87,7 +87,7 @@ Section "MainSection" SEC01
   <expand  inpath="..\Instalation\GeneralDB\lib" name="icons*.zip" name1="*.ico" />
   <expand  inpath="..\Instalation\hsqldb\lib\" name="properties.zip" name1="*.txt"/>
   <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="*Edit.pack" name1="cb2xml.pack" name4="chardet.pack"  name5="ZCalendar.pack"/>
-  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="j*.pack"  name1="JRecord.propertie*" name2="RunUnpack.exe" name3="velocity-1.7*.pack"/>
+  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="j*.pack"  name1="JRecord.propertie*" name2="RunUnpack.exe" name3="velocity-1.7*.pack" name4="runCobolBatchLoad.bat"/>
   <psc proc="unix">
     <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="JRecord.pack">
   </psc>
@@ -176,7 +176,7 @@ Section -AdditionalIcons
   Delete "$SMPROGRAMS\$ICONS_GROUP\utils\CobolEditor Documentation.lnk"
 
   Delete "$SMPROGRAMS\$ICONS_GROUP\Basic Editor.lnk"
-   Delete "$SMPROGRAMS\$ICONS_GROUP\Full Editor.lnk"
+  Delete "$SMPROGRAMS\$ICONS_GROUP\Full Editor.lnk"
   Delete "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk"
   Delete "$SMPROGRAMS\$ICONS_GROUP\Record Editor Manual.lnk"
   Delete "$SMPROGRAMS\$ICONS_GROUP\Record Edit.lnk"
@@ -185,8 +185,6 @@ Section -AdditionalIcons
   Delete "$SMPROGRAMS\$ICONS_GROUP\Start Server.lnk"
   Delete "$SMPROGRAMS\$ICONS_GROUP\HowTo.lnk"
  
-
-  SetShellVarContext current
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
 
 ;  WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
@@ -287,9 +285,11 @@ FunctionEnd
 
 
 Section Uninstall
-  Delete "$INSTDIR\${PRODUCT_NAME}.url"
+  !insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
 
-  SetShellVarContext current
+  SetShellVarContext all
+  
+  Delete "$INSTDIR\${PRODUCT_NAME}.url"
 
   <WriteDelete/>
   Delete "$INSTDIR\lib\JRecord.jar"
@@ -330,6 +330,7 @@ Section Uninstall
   Delete "$SMPROGRAMS\$ICONS_GROUP\Stop Server.lnk"
   Delete "$SMPROGRAMS\$ICONS_GROUP\Start Server.lnk"      
   Delete "$SMPROGRAMS\$ICONS_GROUP\Documentation\Examples.lnk"
+  Delete "$SMPROGRAMS\$ICONS_GROUP\Documentation\Website.lnk" 
   Delete "$SMPROGRAMS\$ICONS_GROUP\Full Editor.lnk"
   Delete "$SMPROGRAMS\$ICONS_GROUP\Documentation\HowTo.lnk"
   Delete "$SMPROGRAMS\$ICONS_GROUP\utils\Editor Big Files.lnk"                                                               
@@ -364,14 +365,19 @@ Section Uninstall
   Delete "$SMPROGRAMS\$ICONS_GROUP\Documentation\Record Editor Manual.lnk"
 
 
+  RMDir "$SMPROGRAMS\$ICONS_GROUP\Documentation\"
+  RMDir "$SMPROGRAMS\$ICONS_GROUP\Utils\"
   RMDir "$SMPROGRAMS\$ICONS_GROUP\Documentation"
   RMDir "$SMPROGRAMS\$ICONS_GROUP\Utils"
   RMDir "$SMPROGRAMS\$ICONS_GROUP"
+  RMDir "$SMPROGRAMS\RecordEdit_HSQL\Documentation"
+  RMDir "$SMPROGRAMS\RecordEdit_HSQL\Utils"
   RMDir "$SMPROGRAMS\RecordEdit_HSQL"
 
   RMDir "$INSTDIR\Copybook\cb2xml"
   RMDir "$INSTDIR\Copybook\Cobol"
   RMDir "$INSTDIR\Copybook\Csv"
+  RMDir "$INSTDIR\Copybook\Xml"
   RMDir "$INSTDIR\Copybook"
 
   RMDir "$INSTDIR\lib\utils"
@@ -401,10 +407,18 @@ Section Uninstall
   RMDir "$PROFILE\RecordEditor_HSQL\User\RecordTree"
   RMDir "$PROFILE\RecordEditor_HSQL\User\SortTree"
   RMDir "$PROFILE\RecordEditor_HSQL\User\Xslt"
+  RMDir "$PROFILE\RecordEditor_HSQL\User\ExportScripts" 
+  RMDir "$PROFILE\RecordEditor_HSQL\User\Scripts"       
   RMDir "$PROFILE\RecordEditor_HSQL\User"
   RMDir "$INSTDIR"         
   RMDir "$PROFILE\RecordEditor_HSQL"
   
+
+      
+  RMDir "$PROFILE\RecordEditor_HSQL\User\ExportScripts" 
+  RMDir "$PROFILE\RecordEditor_HSQL\User\Scripts"       
+  
+
 ;  DeleteRegKey HKEY_CLASSES_ROOT "*\Shell\Record Edit HSQL" 
 ;  DeleteRegKey HKEY_CLASSES_ROOT "*\Shell\Record Edit HSQL\command"
 

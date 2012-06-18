@@ -186,7 +186,8 @@
     - {method: equals, name: oMapClassName, value: net.sf.RecordEditor.edit.display.SaveAs.SaveAs3}
     containerTitles: [Save as - DTAR020_tst1.bin, Save as - dtar020_tst1.bin, Save as - AmsLocationTest2.xml,
         Save as - TestXml_01.xml, Export - DTAR020_tst1.bin, Export - TestXml_01.xml,
-        Export - AmsLocationTest2.xml, Export - wx1File.txt, Export - Ams_LocDownload_20041228.txt]
+        Export - AmsLocationTest2.xml, Export - wx1File.txt, Export - Ams_LocDownload_20041228.txt,
+        Export1 - DTAR020_tst1.bin]
     fileName: Save as - DTAR020_tst1.bin_3995659115671346002.yaml
 - !!net.sourceforge.marathon.objectmap.OMapContainer
     containerGeneralProperties:

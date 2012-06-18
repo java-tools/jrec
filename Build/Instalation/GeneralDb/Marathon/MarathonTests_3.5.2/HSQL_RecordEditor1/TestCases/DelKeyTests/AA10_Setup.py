@@ -12,6 +12,7 @@ def test():
             select('JTabbedPane_9', 'Properties')
             select('JTabbedPane_10', 'Behaviour')
 ##            select('Delete Selected with delete key', 'false')
+            select('Show all export panels', 'true')
             select('Delete Selected Rows using the delete key', 'false')
             select('Warn the user before deleteing Selected Rows using the delete key', 'false')
             select('Delete Selected Rows using the delete key', 'true')

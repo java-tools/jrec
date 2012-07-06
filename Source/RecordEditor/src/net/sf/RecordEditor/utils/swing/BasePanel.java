@@ -23,14 +23,17 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.text.JTextComponent;
 
-import net.sf.RecordEditor.utils.common.Parameters;
+import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.params.Parameters;
 
 import info.clearthought.layout.TableLayout;
 import info.clearthought.layout.TableLayoutConstraints;
@@ -176,8 +179,13 @@ public class BasePanel extends JPanel {
 	private boolean toBeDone = true, singleColumn = false;
 
 	private String fieldNamePrefix = "";
+	private String panelId = "";
 
 	private boolean nameComponents = NAME_COMPONENTS;
+
+	private JTextComponent messageTxt;
+
+
 	/**
 	 * @throws java.awt.HeadlessException
 	 */
@@ -190,6 +198,11 @@ public class BasePanel extends JPanel {
 		lSize[0] = hGaps[0];
 		for (i = 1; i < lSize.length; i++) {
 			lSize[i] = 0;
+		}
+
+		String className = this.getClass().getSimpleName();
+		if (! ("BasePanel".equals(className) || "BaseHelpPanel".equals(className))) {
+			panelId = className;
 		}
 	}
 
@@ -254,7 +267,7 @@ public class BasePanel extends JPanel {
 		JLabel promptLbl = null;
 
 		if (prompt != null) {
-			 promptLbl = new JLabel(prompt);
+			 promptLbl = new JLabel(LangConversion.convertFld(panelId, prompt));
 			 promptLbl.setHorizontalAlignment(JLabel.RIGHT);
 		}
 
@@ -382,7 +395,7 @@ public class BasePanel extends JPanel {
 		JLabel promptLbl = null;
 
 //		if (promptLbl != null) {
-			 promptLbl = new JLabel(prompt);
+			 promptLbl = new JLabel(LangConversion.convertFld(fieldNamePrefix, prompt));
 			 promptLbl.setHorizontalAlignment(JLabel.RIGHT);
 //		}
 		return addLine(promptLbl, component, component2, component3);
@@ -506,6 +519,25 @@ public class BasePanel extends JPanel {
 		return addComponent(startCol, endCol, height, gap, hPosition, vPosition, true, component);
 	}
 
+
+	/**
+	 * Add a Component in a supplied Column with supplied column height
+	 *
+	 * @param startCol   Starting Column
+	 * @param endCol     End Column
+	 * @param height     Height of the row
+	 * @param gap        Gap to follow the row
+	 * @param hPosition  Horizontal Position
+	 * @param vPosition  Vertial Position
+	 * @param component  Component to be added to the Panel
+	 */
+	public final BasePanel addComponent(int startCol, int endCol,
+							 double height, double gap,
+							 int hPosition, int vPosition,
+							 JEditorPane component) {
+		return addComponent(startCol, endCol, height, gap, hPosition, vPosition, true, new JScrollPane(component));
+	}
+
 	/**
 	 * Add a Component in a supplied Column with supplied column height
 	 *
@@ -537,12 +569,22 @@ public class BasePanel extends JPanel {
 
 
 	/**
-	 * Adds a Menu item to the panel
+	 * Adds a Menu item to the panel; the prompt is in English
 	 *
 	 * @param prompt Menu Prompt
 	 * @param btn    Menu Button to be added to the panel
 	 */
 	public final BasePanel addMenuItem(String prompt, JButton btn) {
+		return addMenuItemNative(LangConversion.convertFld(fieldNamePrefix, prompt), btn);
+	}
+
+	/**
+	 * Adds a Menu item to the panel; the prompt is in the local language
+	 *
+	 * @param prompt Menu Prompt
+	 * @param btn    Menu Button to be added to the panel
+	 */
+	public final BasePanel addMenuItemNative(String prompt, JButton btn) {
 
 		incRow();
 
@@ -636,12 +678,56 @@ public class BasePanel extends JPanel {
 	}
 
 
+	public void setMessageTxt(String msg) {
+		messageTxt.setText(msg);
+	}
+
+	public void setMessageTxt(String msg, String error) {
+		messageTxt.setText(msg + " " + error);
+	}
+
+	public void setMessageRplTxt(String msg, String msg2) {
+		messageTxt.setText(LangConversion.convert(msg, msg2));
+	}
+
+	public void setMessageRawTxt(String msg) {
+		messageTxt.setText(msg);
+	}
+
+	/**
+	 * Add a message Field to the panel
+	 */
+	public final BasePanel addMessage() {
+		return addMessage(new JTextField());
+	}
+
+
+	/**
+	 * Add a message Field to the panel
+	 *
+	 * @param msg message Field
+	 */
+	public final BasePanel addMessage(JTextComponent msg) {
+		messageTxt = msg;
+		return addMessageI(msg);
+	}
+
 	/**
 	 * Add a message Field to the panel
 	 *
 	 * @param msg message Field
 	 */
 	public final BasePanel addMessage(JComponent msg) {
+
+		return addMessageI(msg);
+	}
+
+	/**
+	 * Add a message Field to the panel
+	 *
+	 * @param msg message Field
+	 */
+	private final BasePanel addMessageI(JComponent msg) {
 
 		incRow(hGaps[FIELD_HEIGHT_INDEX], 2);
 
@@ -728,11 +814,12 @@ public class BasePanel extends JPanel {
 					new TableLayoutConstraints(1, 0, numCols, 0,
 							TableLayout.CENTER, TableLayout.FULL));
 		} else if (heading != null) {
-			JLabel jHeading = new JLabel(heading);
+			JLabel jHeading = new JLabel(LangConversion.convertFld(fieldNamePrefix, heading));
 			add(jHeading,
 					 new TableLayoutConstraints(1, 0, numCols, 0,
 							TableLayout.CENTER, TableLayout.FULL));
 		}
+		LangConversion.flush(LangConversion.FLUSH_PNL);
 
 		if (numCols == 1) {
 			double[] vG = {vGaps[0], vGaps[1], vGaps[vGaps.length - 1]};
@@ -844,6 +931,7 @@ public class BasePanel extends JPanel {
 			this.fieldNamePrefix = "";
 		} else {
 			this.fieldNamePrefix = fieldNamePrefix + ".";
+			this.panelId = fieldNamePrefix;
 		}
 	}
 
@@ -852,6 +940,10 @@ public class BasePanel extends JPanel {
 	 */
 	public void setNameComponents(boolean nameComponents) {
 		this.nameComponents = nameComponents;
+	}
+
+	public void setPanelId(String panelId) {
+		this.panelId = panelId;
 	}
 
 }

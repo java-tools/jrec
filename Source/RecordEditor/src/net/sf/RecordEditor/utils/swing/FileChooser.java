@@ -22,6 +22,8 @@ import javax.swing.JTextField;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.params.Parameters;
+
 
 /**
  * implement file chooser Text box & button
@@ -37,6 +39,7 @@ public class FileChooser extends JTextField implements ActionListener  {
     private int mode = Constants.NULL_INTEGER;
     private String defaultDirectory = "";
     private boolean open = true;
+    private boolean expandVars = false;
 
     /**
      * Create File chooser code
@@ -57,7 +60,7 @@ public class FileChooser extends JTextField implements ActionListener  {
     public FileChooser(final boolean isOpen, final String buttonPrompt) {
         super();
 
-        chooseFileButton  = new JButton(
+        chooseFileButton  = SwingUtils.newButton(
         		buttonPrompt,
         		Common.getRecordIcon(Common.ID_FILE_SEARCH_ICON));
         chooseFileButton.addActionListener(this);
@@ -78,6 +81,8 @@ public class FileChooser extends JTextField implements ActionListener  {
 	 * @see java.awt.Event.actionPerformed
 	 */
 	public void actionPerformed(final ActionEvent event) {
+
+		String s = this.getText();
 		if (chooseFile == null) {
 			chooseFile = new JFileChooser();
 
@@ -86,10 +91,16 @@ public class FileChooser extends JTextField implements ActionListener  {
 			}
 		}
 
-		if ("".equals(this.getText())) {
+
+		if ("".equals(s)) {
 			this.setText(defaultDirectory);
+			s = defaultDirectory;
 		}
-		chooseFile.setSelectedFile(new File(this.getText()));
+
+		if (expandVars) {
+			s = Parameters.expandVars(s);
+		}
+		chooseFile.setSelectedFile(new File(s));
 
 		int ret;
 
@@ -100,7 +111,12 @@ public class FileChooser extends JTextField implements ActionListener  {
 		}
 
 		if (ret == JFileChooser.APPROVE_OPTION) {
-		    this.setText(chooseFile.getSelectedFile().getPath());
+			String newPath = chooseFile.getSelectedFile().getPath();
+			if (expandVars) {
+				newPath = Parameters.encodeVars(s);
+			}
+
+		    this.setText(newPath);
 		    for (FocusListener item : listner) {
 		    	item.focusLost(null);
 		    }
@@ -156,5 +172,12 @@ public class FileChooser extends JTextField implements ActionListener  {
 	 */
 	public final void setDefaultDirectory(String defaultDirectory) {
 		this.defaultDirectory = defaultDirectory;
+	}
+
+	/**
+	 * @param expandVars the expandVars to set
+	 */
+	public void setExpandVars(boolean expandVars) {
+		this.expandVars = expandVars;
 	}
 }

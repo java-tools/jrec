@@ -6,15 +6,20 @@ import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 
 public class SwingUtils {
@@ -154,4 +159,30 @@ public class SwingUtils {
 
 	}
 
+	public static JMenu newMenu(String s) {
+		return new JMenu(LangConversion.convert(LangConversion.ST_MENU, s));
+	}
+
+	public static JMenuItem newMenuItem(String s) {
+		return new JMenuItem(LangConversion.convert(LangConversion.ST_MENU, s));
+	}
+
+	public static JButton newButton(String s) {
+		return new JButton(LangConversion.convert(LangConversion.ST_BUTTON, s));
+	}
+
+	public static JButton newButton(String s, Icon icon) {
+		return new JButton(LangConversion.convert(LangConversion.ST_BUTTON, s), icon);
+	}
+
+	public static void addTab(JTabbedPane tab, String tabId, String name, JComponent tabComponenet) {
+		tab.addTab(LangConversion.convertDesc(LangConversion.ST_TAB, name, "Tab: " + tabId), tabComponenet);
+	}
+
+
+	public static void insertTab(JTabbedPane tab, String tabId, String name, JComponent tabComponenet, String tip, int index) {
+		tab.insertTab(
+				LangConversion.convertDesc(LangConversion.ST_TAB, name, "Tab: " + tabId),
+				null, tabComponenet, tip, index);
+	}
 }

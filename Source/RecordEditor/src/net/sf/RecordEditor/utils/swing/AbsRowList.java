@@ -42,7 +42,7 @@ public class AbsRowList implements AbstractRowList {
   		  final boolean sort,
   		  final boolean nullFirstRow) {
 		this(0,1,sort,nullFirstRow);
-		
+
 		rows = new AbsRow[size];
 	}
 
@@ -96,10 +96,10 @@ public class AbsRowList implements AbstractRowList {
 			}
 		}
 	}
-	
+
 	public final void setRow(int idx, Object key, Object value) {
 		Object[] a = new Object[2];
-		
+
 		a[0] = key;
 		a[1] = value;
 		rows[idx] = new ArrayRow(a);
@@ -289,5 +289,19 @@ public class AbsRowList implements AbstractRowList {
 	public void reload() {
 		toInit = true;
 		rows = null;
+	}
+
+	/**
+	 * @return the keyIdx
+	 */
+	public int getKeyIdx() {
+		return keyIdx;
+	}
+
+	/**
+	 * @param keyIdx the keyIdx to set
+	 */
+	public void setKeyIdx(int keyIdx) {
+		this.keyIdx = keyIdx;
 	}
 }

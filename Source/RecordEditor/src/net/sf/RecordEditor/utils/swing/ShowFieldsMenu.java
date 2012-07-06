@@ -11,10 +11,12 @@ import javax.swing.table.TableColumnModel;
 
 
 
+
+
 public abstract class ShowFieldsMenu {
 
-    private JMenu menu = new JMenu("Show Column");
- 
+    private JMenu menu = SwingUtils.newMenu("Show Column");
+
 	private ArrayList<ShowFieldAction> hiddenColumns = new ArrayList<ShowFieldAction>();
 
     public abstract boolean showColumn(TableColumn colDef, int originalColumn);
@@ -27,7 +29,7 @@ public abstract class ShowFieldsMenu {
 //
 //	mdl.moveColumn(mdl.getColumnCount() - 1, originalColumn);
 //    }
-    
+
     public void hideColumn(TableColumn colDefinition, int col) {
     	int idx;
       	String s = colDefinition.getHeaderValue().toString();
@@ -37,7 +39,7 @@ public abstract class ShowFieldsMenu {
     	System.out.println("Hide: " + s + " " + col + " " + colDefinition.getModelIndex());
     	new ShowFieldAction(s, colDefinition, col);
     }
-    
+
     public void removeAll() {
     	menu.removeAll();
     	hiddenColumns.clear();
@@ -48,13 +50,13 @@ public abstract class ShowFieldsMenu {
 	public final JMenu getMenu() {
 		return menu;
 	}
-	
+
 	public void addjustHiddenColumns(int tblPos, int amount, int origColumn) {
 		for (ShowFieldAction action : hiddenColumns) {
 			System.out.print(" ==> " + action.insertColumn + " " + tblPos
 					+ " ~ " + amount);
 			if (action.insertColumn > tblPos
-			|| (	action.insertColumn == tblPos 
+			|| (	action.insertColumn == tblPos
 				&& action.colDef.getModelIndex() > origColumn)) {
 				action.insertColumn += amount;
 			}
@@ -63,7 +65,7 @@ public abstract class ShowFieldsMenu {
 		}
 	}
 
-	
+
    public int doShowColumn(TableColumn column) {
     	int col = -1;
     	for (int i = 0; i < hiddenColumns.size(); i++) {
@@ -80,7 +82,7 @@ public abstract class ShowFieldsMenu {
 	public boolean[] getFieldVisibility(int length, int colsToSkip) {
 		boolean[] ret = new boolean[length - colsToSkip];
 		int i;
-		for (i = 0; i < ret.length; i++) { 
+		for (i = 0; i < ret.length; i++) {
 			ret[i] = true;
 		}
 		for (i = 0; i < hiddenColumns.size(); i++) {
@@ -105,7 +107,7 @@ public abstract class ShowFieldsMenu {
 			}
 		}
 //		System.out.println();
-		
+
 		int hiddenNum = 0;
 		for (i = 0; i < fieldVisibility.length; i++) {
 			if (! fieldVisibility[i] ) {
@@ -126,36 +128,36 @@ public abstract class ShowFieldsMenu {
     	public TableColumn colDef ;
     	public int insertColumn;
 //    	private int position;
-    	
+
     	public ShowFieldAction(String name, TableColumn colDefinition, int col) {
     		super(name);
     		colDef = colDefinition;
     		insertColumn = col;
-    		
+
     		super.addActionListener(this);
-    		
+
 			addjustHiddenColumns(insertColumn, -1, colDef.getModelIndex());
-			
-			
+
+
 			menu.add(this);
 			hiddenColumns.add(this);
     	}
-    	
+
     	@Override
 		public void actionPerformed(ActionEvent e) {
     		show();
     	}
-    	
+
     	public void show() {
-    		
+
     		if (showColumn(colDef, insertColumn)) {
 				menu.remove(this);
 				hiddenColumns.remove(this);
-				
+
 				addjustHiddenColumns(insertColumn, 1, colDef.getModelIndex());
     		}
 		}
-    	
+
     }
 
 

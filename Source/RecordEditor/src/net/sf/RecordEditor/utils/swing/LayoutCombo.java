@@ -7,6 +7,7 @@ import java.util.HashSet;
 import javax.swing.JComboBox;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 /**
  * This class displays the Records in a Layout as a Combobox
@@ -16,6 +17,12 @@ import net.sf.JRecord.Details.AbstractLayoutDetails;
 @SuppressWarnings("serial")
 public class LayoutCombo extends JComboBox {
 
+	private static final String FULL_LINE = LangConversion.convertComboItms("layout", "Full Line");
+	private static final String LAYOUT_HEX_2_LINE_ALT = LangConversion.convertComboItms("layout", "Hex 2 Lines (Alternative)");
+	private static final String LAYOUT_HEX_3_LINE = LangConversion.convertComboItms("layout", "Hex 3 Lines (ISPF Edit Hex)");
+	private static final String LAYOUT_HEX_2_LINE_MAINFRAME = LangConversion.convertComboItms("layout", "Hex 2 Lines (Mainframe Style)");
+	private static final String LAYOUT_HEX_1_LINE = LangConversion.convertComboItms("layout", "Hex 1 Line");
+	private static final String PREFERED_LAYOUT = LangConversion.convertComboItms("layout", "Prefered");
 	private int[] layoutListMap;
 	private int[] layoutListReMap;
 
@@ -103,19 +110,19 @@ public class LayoutCombo extends JComboBox {
 		//System.out.print(" Preffered.");
 		if (prefered) {
 			preferedIndex = this.getItemCount();
-			this.addItem("Prefered");
+			this.addItem(PREFERED_LAYOUT);
 		} else {
 			preferedIndex = 0;
 		}
 		fullLineIndex = this.getItemCount();
 		if (addFullLine) {
-			this.addItem("Full Line");
+			this.addItem(FULL_LINE);
 		}
 		if (addHex) {
-			this.addItem("Hex 1 Line");
-			this.addItem("Hex 2 Lines (Mainframe Style)");
-			this.addItem("Hex 3 Lines (ISPF Edit Hex)");
-			this.addItem("Hex 2 Lines (Alternative)");
+			this.addItem(LAYOUT_HEX_1_LINE);
+			this.addItem(LAYOUT_HEX_2_LINE_MAINFRAME);
+			this.addItem(LAYOUT_HEX_3_LINE);
+			this.addItem(LAYOUT_HEX_2_LINE_ALT);
 		}
 		//System.out.println(" Finished add.");
 

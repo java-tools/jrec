@@ -5,26 +5,9 @@ package net.sf.RecordEditor.utils.swing.Combo;
  * @author Bruce Martin
  *
  */
-public class ComboObjOption<Key> {
-	private String string;
-	public final Key index;
-	
-	public ComboObjOption(Key idx, String str) {
-		string = str;
-		index = idx;
-	}
-	
-	public String toString() {
-		return string;
-	}
-
-
-
-	/**
-	 * @param string the string to set
-	 */
-	public void setString(String string) {
-		this.string = string;
+public class ComboObjOption<Key> extends ComboStdOption<Key> {
+	public ComboObjOption(Key idx, String str, String englishString) {
+		super(idx, str, englishString);
 	}
 
 	/* (non-Javadoc)
@@ -33,8 +16,8 @@ public class ComboObjOption<Key> {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof ComboObjOption && index != null) {
-			return index.equals(((ComboObjOption) obj).index);
+		if (obj instanceof ComboObjOption && key != null) {
+			return key.equals(((ComboObjOption) obj).key);
 		}
 		return super.equals(obj);
 	}
@@ -44,6 +27,6 @@ public class ComboObjOption<Key> {
 	 */
 	@Override
 	public int hashCode() {
-		return index.hashCode();
+		return key.hashCode();
 	}
 }

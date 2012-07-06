@@ -36,8 +36,11 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
 import net.sf.RecordEditor.utils.common.Common;
+
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 import com.zbluesoftware.java.bm.ArrowButton;
@@ -51,20 +54,23 @@ import com.zbluesoftware.java.bm.ArrowButton;
 @SuppressWarnings("serial")
 public class ArrayRender extends JPanel implements ActionListener, TableCellRenderer {
 
-	private static String[] ARRAY_COLUMN_NAMES = {"Index", "Data"};
-	private static String[] MAP_COLUMN_NAMES = {"Key", ARRAY_COLUMN_NAMES[1]};
-	
+	private static String[] ARRAY_COLUMN_NAMES = LangConversion.convertColHeading(
+			"ArrayRender",
+			new String[] {"Index", "Data"});
+	private static String[] MAP_COLUMN_NAMES = LangConversion.convertColHeading(
+			"MapRender",
+			new String[] {"Key", "Data"});
+
     private static final int FIELD_WIDTH = 20;
     private JTextField fld = new JTextField();
     private JButton btn = new ArrowButton(ArrowButton.SOUTH);
-    //private JPopupArray popup = null;
 
 
     private JTable parentTable = null;
     private int parentRow, parentColumn;
     private ArrayInterface arrayDtls;
-    
-    private String docName; 
+
+    private String docName;
     private Object doc;
     private String initialValue;
 
@@ -108,7 +114,7 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
         parentColumn = col;
 		docName = documentName;
 		doc = document;
-       
+
 		if (value instanceof ArrayInterface) {
 			arrayDtls = (ArrayInterface) value;
 			fld.setText(arrayDtls.toString());
@@ -116,7 +122,7 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
 		initialValue = fld.getText();
     }
 
-    
+
     public Object getValue() {
     	if (initialValue.equals(fld.getText())) {
     		return arrayDtls.getReturn();
@@ -147,7 +153,7 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
 		int row,
 		int column) {
 		//System.out.println("Getting Render Component: " + row + ", " + column);
-		
+
 		Color foreground, background;
 		if (value != null && value instanceof ArrayInterface) {
 			arrayDtls = (ArrayInterface) value;
@@ -158,7 +164,7 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
 			btn.setVisible(false);
 		}
 		initialValue = fld.getText();
-		
+
         if (isSelected) {
             foreground = tbl.getSelectionForeground();
             background = tbl.getSelectionBackground();
@@ -166,7 +172,7 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
         	foreground = tbl.getForeground();
             background = tbl.getBackground();
         }
- 
+
         fld.setForeground(foreground);
         fld.setBackground(background);
 
@@ -181,7 +187,7 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
 
     	if (e.getSource() == btn) {
     		 new JPopupArray(docName, doc,
-    				arrayDtls, 
+    				arrayDtls,
     				parentTable, parentRow , parentColumn);
     		 Common.stopCellEditing(parentTable);
     	}
@@ -195,7 +201,7 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
      * @author Bruce Martin
      *
      */
-    public static class JPopupArray extends ReFrame 
+    public static class JPopupArray extends ReFrame
     implements ActionListener,  TableModelListener {
         //private Calendar date = null;
         private ArrayTableModel model;
@@ -204,28 +210,33 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
         private int parentR, parentC;
         private ArrayInterface arrayDtls;
 
-        private JButton addBtn = new JButton("Add Row Before");
-        private JButton addAfterBtn = new JButton("Add Row After");
-        private JButton deleteBtn = new JButton("Delete Rows");
+        private JButton addBtn = SwingUtils.newButton("Add Row Before");
+        private JButton addAfterBtn = SwingUtils.newButton("Add Row After");
+        private JButton deleteBtn = SwingUtils.newButton("Delete Rows");
         private Object parentDoc;
         private boolean changed = false;
 
         public JPopupArray(String documentName, Object document,
         		ArrayInterface array, JTable parentTable, int parentRow, int parentColumn) {
-            super(documentName, "Array View: " + parentRow + ", " + parentColumn, document);
-            
+            super(  documentName,
+            		"",
+            		LangConversion.convert(LangConversion.ST_FRAME_HEADING, "Array View:")
+            			+ " " + parentRow + ", " + parentColumn,
+            		"",
+            		document);
+
             arrayDtls = array;
             parentTbl = parentTable;
             parentR = parentRow;
             parentC = parentColumn;
             parentDoc = document;
-             
+
         	model = new ArrayTableModel(array);
         	table = new JTable(model);
 
             BasePanel pnl = new BasePanel();
             JPanel p = new JPanel();
-           
+
             table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 
             p.add(addBtn);
@@ -236,26 +247,26 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
 
     		pnl.addComponent(1, 5, BasePanel.PREFERRED, BasePanel.GAP,
     		        BasePanel.FULL, BasePanel.FULL, table);
-    		
+
     		addMainComponent(pnl);
-    		
+
     		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     		addBtn.addActionListener(this);
     		addAfterBtn.addActionListener(this);
     		deleteBtn.addActionListener(this);
     		setVisible(true);
-    		
+
     		TableCellRenderer render = array.getTableCellRenderer();
     		if (render != null) {
     			TableCellEditor editor = array.getTableCellEditor();
     			int height = array.getFieldHeight();
     			TableColumn tc =  table.getColumnModel().getColumn(1);
     			tc.setCellRenderer(render);
-    			
+
     			if (editor != null) {
     				tc.setCellEditor(editor);
     			}
-    			
+
     			if (height > 0) {
     				table.setRowHeight(height);
     			}
@@ -264,31 +275,31 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
     			     * @see MouseAdapter#mousePressed(java.awt.event.MouseEvent)
     			     */
     			    public void mousePressed(MouseEvent e) {
-    			    	super.mousePressed(e);			      	
- 			    	    			    	
+    			    	super.mousePressed(e);
+
     		      		int col = table.columnAtPoint(e.getPoint());
-    		            int row = table.rowAtPoint(e.getPoint());  		
-    		            
+    		            int row = table.rowAtPoint(e.getPoint());
+
   			       		if (! table.hasFocus()) {
 			       			table.requestFocusInWindow();
 			       		}
 
-     		            if (row >= 0 && row != table.getEditingRow() 
+     		            if (row >= 0 && row != table.getEditingRow()
     		        	&&  col >= 0 && col != table.getEditingColumn()) {
     		            	table.editCellAt(row, col);
     		            }
     			    }
-				
+
     			});
     		}
-    		
-    		
+
+
     		this.addFocusListener(new FocusAdapter() {
     	    	public void focusLost(FocusEvent e) {
     	    		notifyParent();
     	    	}
     		});
-    		
+
     	    this.addInternalFrameListener(new InternalFrameAdapter() {
                 public void internalFrameClosing(InternalFrameEvent e)  {
                 	notifyParent();
@@ -308,7 +319,7 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
 
 		private void notifyParent() {
         	TableModel parentMdl = parentTbl.getModel();
-        	
+
         	Common.stopCellEditing(table);
         	arrayDtls.flush();
         	if (parentMdl instanceof AbstractTableModel) {
@@ -316,7 +327,7 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
         	} else {
         		parentTbl.setValueAt(parentTbl.getValueAt(parentR, parentC), parentR, parentC);
         	}
-        	
+
         	if (parentDoc instanceof ArrayNotifyInterface) {
         		ArrayNotifyInterface doc = (ArrayNotifyInterface) parentDoc;
 
@@ -326,7 +337,7 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
 	        	}
         	}
         }
-        
+
 
 		/* (non-Javadoc)
 		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -348,7 +359,7 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
 				if (event.getSource() == addAfterBtn) {
 					row += 1;
 				}
-				
+
 				//Common.stopCellEditing(table);
 				if (row >= 0 && row < arrayDtls.size()) {
 					arrayDtls.add(row, null);
@@ -356,7 +367,7 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
 					arrayDtls.add(null);
 				}
 				model.fireTableDataChanged();
-			}			
+			}
 			changed = true;
 		}
 
@@ -369,7 +380,7 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
 			//System.out.println("## Table Changed");
 			arrayDtls.retrieveArray();
 			model.fireTableDataChanged();
-		}		
+		}
     }
 
     /**
@@ -384,21 +395,21 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
     	boolean changed = false;
     	String[] columnNames = ARRAY_COLUMN_NAMES;
     	int colAdj = 1;
-    	
+
         /**
 		 * @param array
 		 */
 		public ArrayTableModel(ArrayInterface array) {
 			this.array = array;
-			
+
 			if (array.getColumnCount() == 2) {
 				columnNames = MAP_COLUMN_NAMES;
 				colAdj = 0;
 			}
 		}
 
-		
-		
+
+
 		/**
 		 * @see javax.swing.table.AbstractTableModel#getColumnName(int)
 		 */
@@ -422,7 +433,7 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
          */
 		public void setValueAt(Object newValue, int row, int column) {
             changed |= newValue == null || ! newValue.equals(array.get(row, column - colAdj)) ;
- 
+
             array.set(row, column - colAdj, newValue);
         }
 
@@ -437,7 +448,7 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
          * @see javax.swing.table.TableModel#getRowCount()
          */
         public int getRowCount() {
-            
+
             return array.size();
         }
 
@@ -445,7 +456,7 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
          * @see javax.swing.table.TableModel#getValueAt(int, int)
          */
         public Object getValueAt(int row, int column) {
-        	
+
        		if (column == 0 && array.getColumnCount() == 1) {
          		return Integer.valueOf(row);
         	}

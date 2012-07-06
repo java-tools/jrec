@@ -13,17 +13,18 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
 import net.sf.JRecord.Common.Conversion;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 @SuppressWarnings("serial")
 public class HexTwoLineFieldAlt extends JTable implements AbstractHexDisplay {
-	
+
 	private byte[] byteArray;
 	private String font = "";
 	private TblModel model = null;
 	private int cellWidth;
 	private int lastCellSetup = 0;
-	
-	
+
+
 	public HexTwoLineFieldAlt(String fontname) {
 		font = fontname;
 		this.setAutoResizeMode(AUTO_RESIZE_OFF);
@@ -31,13 +32,13 @@ public class HexTwoLineFieldAlt extends JTable implements AbstractHexDisplay {
 		//this.setBorder(BorderFactory.createLineBorder(Color.lightGray));
 		setIntercellSpacing(new Dimension(0, 0));
 		setDefaultRenderer(
-				Object.class, 
+				Object.class,
 				(new TextFieldRender())
 					.setColumnBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1)
 				)
 		);
 	}
-	
+
 	@Override
 	public byte[] getBytes(byte[] oldValue) {
 		return byteArray;
@@ -56,9 +57,9 @@ public class HexTwoLineFieldAlt extends JTable implements AbstractHexDisplay {
 	@Override
 	public void setHex(byte[] bytes) {
 		TableColumnModel columns = getColumnModel();
-		
+
 		byteArray = bytes;
-		
+
 		if (model == null) {
 			model = new TblModel();
 			this.setModel(model);
@@ -73,7 +74,7 @@ public class HexTwoLineFieldAlt extends JTable implements AbstractHexDisplay {
 		for (int i = columns.getColumnCount() - 1; i >= lastCellSetup; --i) {
 			columns.getColumn(i).setPreferredWidth(cellWidth);
 		}
-		
+
 		lastCellSetup = columns.getColumnCount() - 1;
 	}
 
@@ -96,7 +97,7 @@ public class HexTwoLineFieldAlt extends JTable implements AbstractHexDisplay {
 		ret.setHex(byteArray);
 		return ret;
 	}
-	
+
 	public class TblModel extends AbstractTableModel {
 
 		/* (non-Javadoc)
@@ -108,7 +109,7 @@ public class HexTwoLineFieldAlt extends JTable implements AbstractHexDisplay {
 			while (msg != null) {
 				value= JOptionPane.showInputDialog(null,
 		                msg,
-		                "Invalid Hex",
+		                LangConversion.convert(LangConversion.ST_MESSAGE, "Invalid Hex"),
 		                JOptionPane.ERROR_MESSAGE,
 		                null, null, value);
 				if (value == null) {
@@ -117,7 +118,7 @@ public class HexTwoLineFieldAlt extends JTable implements AbstractHexDisplay {
 				msg = tryToSetValueAt(value, rowIndex, columnIndex);
 			}
 		}
-		
+
 		public String tryToSetValueAt(Object value, int rowIndex, int columnIndex) {
 			String ret = null;
 			try {
@@ -129,8 +130,12 @@ public class HexTwoLineFieldAlt extends JTable implements AbstractHexDisplay {
 				}
 				fireTableCellUpdated(1 - rowIndex, columnIndex);
 			} catch (Exception e) {
-				ret = "Error Converting Hex; " + rowIndex 
-						+ " value=" + value + " Message: "  +e.getMessage();
+				ret = LangConversion.convert(
+						"Error Converting Hex; {0} value={1} Message:",
+						new Object[] {rowIndex, value});
+
+//						"Error Converting Hex; " + rowIndex
+//						+ " value=" + value + " Message: "  +e.getMessage();
 			}
 			return ret;
 		}
@@ -163,6 +168,6 @@ public class HexTwoLineFieldAlt extends JTable implements AbstractHexDisplay {
 				return Conversion.getDecimal(byteArray, col, col+1);
 			}
 		}
-		
+
 	}
 }

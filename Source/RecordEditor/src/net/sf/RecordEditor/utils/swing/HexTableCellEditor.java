@@ -17,15 +17,17 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.text.JTextComponent;
 
 
+
+
 @SuppressWarnings("serial")
 public class HexTableCellEditor
 extends AbstractCellEditor implements TableCellEditor {
 
 	private static final byte[] EMPTY_BYTE_ARRAY = {};
-	
+
 	private AbstractHexDisplay component;
 	private byte[] lastValue = EMPTY_BYTE_ARRAY;
-	
+
 	public HexTableCellEditor(AbstractHexDisplay displayItem) {
 		component = displayItem;
 	}
@@ -50,7 +52,7 @@ extends AbstractCellEditor implements TableCellEditor {
 			lastValue = (byte[]) arg1;
 			component.setHex(lastValue);
 		}
-		
+
 		return component.getComponent();
 	}
 
@@ -61,19 +63,19 @@ extends AbstractCellEditor implements TableCellEditor {
 	 */
 	private static class ErrorDialog  implements ActionListener, DelayedFieldValue {
 		public boolean exit;
-		
-		private JDialog dialog; 
-		private JTextField rulerField = new JTextField(); 
-		private JButton goBtn = new JButton("go");
-		private JButton exitBtn = new JButton("exit");
-		
-		public final JTextField msg = new JTextField();
-		
+
+		private JDialog dialog;
+		private JTextField rulerField = new JTextField();
+		private JButton goBtn = SwingUtils.newButton("go");
+		private JButton exitBtn = SwingUtils.newButton("exit");
+
+		public final JTextField msgTxt = new JTextField();
+
 		private AbstractHexDisplay hexDisplay;
 		private BasePanel pnl = null;
 		private final byte[] lastValue;
 		private Object initialMessage;
-		
+
 		/**
 		 * Create Error Dialog
 		 * @param displ field to display
@@ -81,14 +83,14 @@ extends AbstractCellEditor implements TableCellEditor {
 		 * @param initialMsg initial message
 		 */
 		public ErrorDialog(AbstractHexDisplay displ, byte[] initialValue, Object initialMsg) {
-			
+
 			hexDisplay = displ;
 			lastValue = initialValue;
 			initialMessage = initialMsg;
 		}
-		
+
 		private void setupScreen(JFrame parentFrame) {
-			
+
 			if (pnl == null) {
 				String s;
 				StringBuilder buf = new StringBuilder();
@@ -96,21 +98,21 @@ extends AbstractCellEditor implements TableCellEditor {
 				JPanel tp = new JPanel(new BorderLayout());
 				pnl = new BasePanel();
 				pnl.setGap(BasePanel.GAP1);
-				
+
 				tp.add(BorderLayout.CENTER, hexDisplay.getComponent());
 				if (hexDisplay instanceof JTextComponent) {
 					tp.add(BorderLayout.SOUTH, rulerField);
-					
+
 					hexDisplay.setFont(SwingUtils.getMonoSpacedFont());
 					rulerField.setFont(SwingUtils.getMonoSpacedFont());
-					
+
 					s = ((JTextComponent) hexDisplay).getText();
 					num = s.indexOf("\n");
 					if (num < 0) {
 						num = s.length();
 					}
-					
-					if (hexDisplay.isTwoBytesPerCharacter()) {	
+
+					if (hexDisplay.isTwoBytesPerCharacter()) {
 						num = num / 20;
 						for (int i = 1; i < num + 1; i++) {
 							s = "         " + i;
@@ -125,7 +127,7 @@ extends AbstractCellEditor implements TableCellEditor {
 					}
 					rulerField.setText(buf.toString());
 				}
-				
+
 
 				pnl.addLine("Hex Value in error", new JScrollPane(tp));
 				pnl.setHeight(BasePanel.HEIGHT_1P1 * 4);
@@ -133,12 +135,12 @@ extends AbstractCellEditor implements TableCellEditor {
 				pnl.addLine("", null, goBtn);
 				pnl.addLine("", null, exitBtn);
 				pnl.setGap(BasePanel.GAP2);
-				pnl.addMessage(msg);
+				pnl.addMessage(msgTxt);
 
-				dialog = new JDialog(parentFrame, true); 
+				dialog = new JDialog(parentFrame, true);
 				dialog.getContentPane().add(pnl);
 				dialog.pack();
-				
+
 				goBtn.addActionListener(this);
 				exitBtn.addActionListener(this);
 			}
@@ -148,23 +150,23 @@ extends AbstractCellEditor implements TableCellEditor {
 		 * @see net.sf.RecordEditor.utils.swing.DelayedFieldValue#getValue()
 		 */
 		public Object getValue(JFrame parentFrame) {
-			Object o = initialMessage;	
-	
+			Object o = initialMessage;
+
 			setupScreen(parentFrame);
 			do {
 				exit = true;
-				msg.setText(o.toString());
+				msgTxt.setText(o.toString());
 				dialog.setVisible(true);
-				System.out.println("Checking exit " + exit + " " 
+				System.out.println("Checking exit " + exit + " "
 						+ ((o = getValue(hexDisplay)) instanceof byte[]));
 				if (exit) {
 					return lastValue;
-				} 
+				}
 			} while (! ((o = getValue(hexDisplay)) instanceof byte[]));
-			
-			return o;			
+
+			return o;
 		}
-		
+
 		/**
 		 * get fields value
 		 * @param display hex field being displayed
@@ -183,7 +185,7 @@ extends AbstractCellEditor implements TableCellEditor {
 		 */
 		@Override
 		public void actionPerformed(ActionEvent event) {
-			
+
 			System.out.println("ap 1 " + (event.getSource() == goBtn) );
 			if (event.getSource() == goBtn) {
 				System.out.println("ap 2 " + (event.getSource() == goBtn) );
@@ -192,5 +194,5 @@ extends AbstractCellEditor implements TableCellEditor {
 			dialog.setVisible(false);
 		}
 	}
-	
+
 }

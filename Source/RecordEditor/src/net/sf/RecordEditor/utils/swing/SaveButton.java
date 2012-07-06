@@ -8,6 +8,7 @@ import javax.swing.JButton;
 
 import net.sf.RecordEditor.utils.common.AbstractSaveDetails;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 
 @SuppressWarnings("serial")
@@ -16,28 +17,28 @@ public class SaveButton<what> extends JButton implements ActionListener {
 
 	private AbstractSaveDetails<what> saveCallBack;
 	private String dir;
-	
+
 	private DirectoryFrame saveFrame= null;
 
-	
+
 	public SaveButton(AbstractSaveDetails<what> save, String directory) {
-		super("Save", Common.getRecordIcon(Common.ID_SAVE_ICON));
-		
+		super(LangConversion.convert(LangConversion.ST_BUTTON, "Save"), Common.getRecordIcon(Common.ID_SAVE_ICON));
+
 		saveCallBack = save;
 		dir = directory;
-		
+
 		this.addActionListener(this);
 	}
-	
-	
+
+
 	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+
 		if (e.getSource() == this) {
-			ap_InitFrame();			
+			ap_InitFrame();
 		} else {
 			what saveDetails = saveCallBack.getSaveDetails();
 			try {
@@ -47,18 +48,18 @@ public class SaveButton<what> extends JButton implements ActionListener {
 				saveFrame = null;
 			} catch (Exception ex) {
 				ex.printStackTrace();
-				Common.logMsg("Save to Xml failed", ex);
+				Common.logMsg("jibx- Save to Xml failed:", ex);
 			}
 		}
 	}
-	
+
 	private void ap_InitFrame() {
 		if (saveFrame == null) {
 			saveFrame = new DirectoryFrame("Save to Xml",  dir, false, false, true);
 
 			saveFrame.setActionListner(this);
 		}
-		
+
 		saveFrame.setVisible(true);
 	}
 }

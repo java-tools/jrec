@@ -10,12 +10,12 @@ import java.util.GregorianCalendar;
 
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import com.zbluesoftware.java.bm.AbstractPopup;
 
 import net.sf.RecordEditor.utils.common.Common;
+
 
 
 /*
@@ -38,16 +38,16 @@ public class DatePopup extends AbstractPopup implements ActionListener {
     private JEditorPane tips = new JEditorPane("text/html", Common.DATE_FORMAT_DESCRIPTION);
     private JTextField dateFormat = new JTextField();
 
-    private JTextField message = new JTextField();
-    private JButton test = new JButton("Test");
+    //private JTextField message = new JTextField();
+    private JButton test = SwingUtils.newButton("Test");
 
     private boolean isPacked = false;
-    
+
     private BasePanel pnl = null;
-    
+
     private static final Calendar XMAS_CAL = new GregorianCalendar(1998, Calendar.DECEMBER, 25);
     private static Date xmas = XMAS_CAL.getTime();
-    
+
 
 
     /**
@@ -56,20 +56,20 @@ public class DatePopup extends AbstractPopup implements ActionListener {
      */
     public DatePopup() {
     	super();
-    	
+
     	dateFormat.addFocusListener(lostFocus);
     	test.addActionListener(this);
     	tips.setCaretPosition(0);
      	//this.addP
     }
-    
+
     public Object getValue() {
- 	    
+
 	    return dateFormat.getText();
    }
-    
+
     /**
-     * Set the Text value 
+     * Set the Text value
      * @param text new text value
      */
 	public void setValue(Object value) {
@@ -94,10 +94,10 @@ public class DatePopup extends AbstractPopup implements ActionListener {
 			try {
 //				System.out.println("~~ " + format);
 				SimpleDateFormat sd = new SimpleDateFormat(format);
-				message.setText("25.Dec.98 will be formatted as " + sd.format(xmas));
+				pnl.setMessageTxt("25.Dec.98 will be formatted as", sd.format(xmas));
 				this.firePropertyChange(AbstractPopup.POPUP_CHANGED, null, format);
 			} catch (Exception e) {
-				message.setText("Date Format Error: " + e.getMessage());
+				pnl.setMessageTxt("Date Format Error: " + e.getMessage());
 			}
 		}
 	}
@@ -139,12 +139,12 @@ public class DatePopup extends AbstractPopup implements ActionListener {
 
 			pnl.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP2,
 					BasePanel.FULL, BasePanel.FULL,
-					new JScrollPane(tips));
+					tips);
 
 
 			pnl.addLine("Date Format", dateFormat, test);
 			pnl.setGap(BasePanel.GAP2);
-			pnl.addMessage(message);
+			pnl.addMessage();
 		}
 		add(pnl);
 		super.pack();

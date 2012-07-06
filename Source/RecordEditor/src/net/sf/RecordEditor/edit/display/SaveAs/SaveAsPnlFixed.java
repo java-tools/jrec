@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package net.sf.RecordEditor.edit.display.SaveAs;
 
@@ -25,20 +25,20 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
 public class SaveAsPnlFixed extends SaveAsPnlBase {
 
 	private FixedWriter writer;
-	
-	
+
+
 	/**
 	 * @param commonSaveAsFields common screen fields
 	 */
 	public SaveAsPnlFixed(CommonSaveAsFields commonSaveAsFields) {
 		super(commonSaveAsFields, ".txt", CommonSaveAsFields.FMT_FIXED, RecentFiles.RF_NONE, null);
-		
+
 		BasePanel pnl1 = new BasePanel();
 		BasePanel pnl2 = new BasePanel();
-		
+
 		pnl1.addLine("names on first line", namesFirstLine);
 		pnl1.addLine("space between fields", spaceBetweenFields);
-		
+
 		fieldTbl = new JTable();
 		pnl2.addComponent(1, 5, 130, BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL, fieldTbl);
@@ -48,10 +48,10 @@ public class SaveAsPnlFixed extends SaveAsPnlBase {
 		panel.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL,
 		        new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, pnl1, pnl2));
-		
+
 		setupPrintDetails(true);
 	}
-	
+
 	public void save(String selection, String outFile) throws IOException {
         String fieldSeperator = "";
         String fontname = font.getText();
@@ -59,14 +59,14 @@ public class SaveAsPnlFixed extends SaveAsPnlBase {
         if (spaceBetweenFields.isSelected()) {
         	fieldSeperator = " ";
         }
-        
-    
-        writer = new FixedWriter(outFile, fieldSeperator, fontname, 
+
+
+        writer = new FixedWriter(outFile, fieldSeperator, fontname,
         					getFieldLengths(),
         					getIncludeFields());
 
         save_writeFile(writer, selection);
- 
+
 	}
 
 	/* (non-Javadoc)
@@ -76,7 +76,7 @@ public class SaveAsPnlFixed extends SaveAsPnlBase {
 	@Override
 	public AbstractLayoutDetails getEditLayout(String ext) {
     	AbstractLayoutDetails ret = null;
-    	
+
     	if (commonSaveAsFields.printRecordDetails != null) {
         	List<ExternalField> ef = new ArrayList<ExternalField>(commonSaveAsFields.printRecordDetails.getFieldCount());
 	    	int pos = 1;
@@ -87,15 +87,15 @@ public class SaveAsPnlFixed extends SaveAsPnlBase {
         	if (spaceBetweenFields.isSelected()) {
         		sepLength = 1;
             }
-                	
+
 	    	//TODO  Fix
         	//TODO  Fix
         	//TODO  Fix
-        	
+
         	for (int i = 0; i < levels; i++) {
     			ef.add(new ExternalField(
-    					pos, lengths[i], 
-    					colNames.get(i), 
+    					pos, lengths[i],
+    					colNames.get(i),
     					"", Type.ftChar, 0, 0, "", "", "", 0));
     			pos += sepLength + lengths[i];
 	    	}
@@ -103,20 +103,17 @@ public class SaveAsPnlFixed extends SaveAsPnlBase {
 	    	//for (int i = 0; i < fieldCount; i++) {
 //	    		if (include == null || (include.length > i-levels && include[i-levels])) {
 	    			ef.add(new ExternalField(
-	    					pos, lengths[i], 
-	    					colNames.get(i), 
+	    					pos, lengths[i],
+	    					colNames.get(i),
 	    					"", Type.ftChar, 0, 0, "", "", "", 0));
 	    			pos += sepLength + lengths[i];
 //	    		}
 	    	}
-	    	
-	    	ret = StandardLayouts.getInstance().getFixedLayout(
-	    							ef, 
-	    							delimiterCombo.getSelectedItem().toString(), 
-	        			   			getQuote());
+
+	    	ret = StandardLayouts.getInstance().getFixedLayout(ef);
     	}
     	return ret;
     }
-	
-	
+
+
 }

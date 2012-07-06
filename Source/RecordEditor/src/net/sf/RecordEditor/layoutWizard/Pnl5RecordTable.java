@@ -24,8 +24,6 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.JEditorPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
 import net.sf.JRecord.Common.RecordException;
@@ -51,7 +49,7 @@ public class Pnl5RecordTable extends WizardPanel {
 
     private JEditorPane tips;
    // private JComboBox recordCombo = new JComboBox();
-    private JTextField message = new JTextField();
+    //private JTextField message = new JTextField();
     private RecordComboMgr recordMgr = new RecordComboMgr(
     		new AbstractAction() {
 						/* (non-Javadoc)
@@ -62,7 +60,7 @@ public class Pnl5RecordTable extends WizardPanel {
 							setRecord();
 						}
     });
-    
+
     private ColumnSelector columnSelector;
 
     /**
@@ -72,7 +70,7 @@ public class Pnl5RecordTable extends WizardPanel {
     public Pnl5RecordTable(JTextComponent msg) {
         super();
         columnSelector = new ColumnSelector(msg);
-        
+
 		String formDescription
 		    = "This screen will display the first 60 lines for each Record Type. "
 		   	+ "<br>Use the Record Combo to switch between the various record layouts.<br/>"
@@ -84,10 +82,10 @@ public class Pnl5RecordTable extends WizardPanel {
 		this.setHelpURL(Common.formatHelpURL(Common.HELP_WIZARD_RECORD_FIELD_DEF));
 		this.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
-				new JScrollPane(tips));
+				tips);
 		//this.setGap(BasePanel.GAP1);
 		this.addLine("Record", recordMgr.recordCombo);
-		
+
 		columnSelector.addFields(this, FILE_HEIGHT);
 //		this.addComponent("Show Hex", columnSelector.hexChk);
 //		this.setGap(BasePanel.GAP1);
@@ -95,8 +93,8 @@ public class Pnl5RecordTable extends WizardPanel {
 //		        BasePanel.FULL, BasePanel.FULL,
 //				new JScrollPane(columnSelector.fileTbl));
 
-		this.addMessage(message);
-		
+		this.addMessage();
+
 		columnSelector.addMouseListner();
     }
 
@@ -112,7 +110,7 @@ public class Pnl5RecordTable extends WizardPanel {
 			recdef = detail.recordDtls.get(i);
 			if (! recdef.displayedFieldSelection) {
 				recordMgr.recordCombo.setSelectedIndex(i);
-				throw new RecordException("You must define the Fields all Records. Please update - " 
+				throw new RecordException("You must define the Fields all Records. Please update - "
 						+ recdef.name);
 			}
 		}
@@ -126,28 +124,28 @@ public class Pnl5RecordTable extends WizardPanel {
     public final void setValues(Details detail) throws Exception {
 
     	if (detail.recordDtls.size() == 0) {
-    		message.setText("No Records to display");
+    		setMessageTxt("No Records to display");
     	} else {
     		RecordDefinition recDef = detail.recordDtls.get(0);
 	        columnSelector.setValues(detail, recDef, true);
 	        recDef.displayedFieldSelection = true;
-	
+
 	        recordMgr.load(detail.recordDtls);
     	}
     }
-    
+
     /**
-     * Set 
+     * Set
      */
     private void setRecord() {
     	Details detail = columnSelector.getCurrentDetails();
     	try {
     		RecordDefinition recDef = detail.recordDtls.get(recordMgr.recordCombo.getSelectedIndex());
-    		message.setText("");
+    		setMessageRawTxt("");
     		columnSelector.setValues(detail, recDef, true);
     		recDef.displayedFieldSelection = true;
     	} catch (Exception e) {
-    		message.setText("Error Changing Record: " + e.getMessage());
+    		setMessageTxt("Error Changing Record: " + e.getMessage());
     		e.printStackTrace();
 		}
     }

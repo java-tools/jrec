@@ -13,6 +13,7 @@ import javax.swing.JRadioButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.edit.display.util.SaveAsPnl;
 import net.sf.RecordEditor.re.file.DisplayType;
 import net.sf.RecordEditor.re.fileWriter.HtmlColors;
@@ -114,7 +115,7 @@ public class SaveAsPnlHtml extends SaveAsPnlBase {
 	        }
         } catch (IOException e) {
 			e.printStackTrace();
-			Common.logMsg("WritingHTML File failed: " + e.getMessage(), null);
+			Common.logMsg(AbsSSLogger.ERROR, "Writing HTML File failed:", e.getMessage(), null);
 		}
 	}
 

@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReAction;
 
 @SuppressWarnings("serial")
@@ -16,9 +17,10 @@ public class OptionPnl extends JPanel {
 	public final static int EDIT_PANEL = 2;
 	public final static int TREE_PANEL = 3;
 
-	private static String[] hints = { "Find", "Filter", "Save", "Save As",
+	private static String[] hints =  LangConversion.convert(LangConversion.ST_FIELD_HINT, "FileDisplayBtns", new String[] {
+			"Find", "Filter", "Save", "Save As",
 			"Copy", "Cut", "Paste", "Paste Prior", "New Record",
-			"Set the length based on Current Layout", "Delete", "Help" };
+			"Set the length based on Current Layout", "Delete", "Help" });
 
 	private static int[] actionIds = { ReActionHandler.FIND,
 			ReActionHandler.FILTER, ReActionHandler.SAVE,
@@ -31,7 +33,7 @@ public class OptionPnl extends JPanel {
 	private JButton[] btn;
 
 	public OptionPnl(int option, ReActionHandler action) {
-		
+
 		int num = option == BROWSE_PANEL ? 5 : hints.length - 1;
 
 		int i;
@@ -51,12 +53,12 @@ public class OptionPnl extends JPanel {
 
 	/**
 	 * Define a Button
-	 * 
+	 *
 	 * @param stdSize
 	 *            size of button
 	 * @param iconIdx
 	 *            icon index
-	 * 
+	 *
 	 * @return button just defined
 	 */
 	private JButton defineBtn(Dimension stdSize, int iconIdx,

@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
@@ -84,10 +85,10 @@ public class TestJdbcConnection {
 
      		dbConnection.close();
 
-    		message.setText("Connection succesfull to " + jdbcSourceName + common);
+    		message.setText(LangConversion.convert("Connection succesfull to") + " " + jdbcSourceName + common);
 
         } catch (Exception e) {
-            message.setText("Error Connecting to the Database: " + e.getMessage() + common);
+            message.setText(LangConversion.convert("Error Connecting to the Database:") + e.getMessage() + common);
             Common.logMsg("Source: " + jdbcSource, null);
             e.printStackTrace();
         }

@@ -8,6 +8,8 @@ package net.sf.RecordEditor.utils.jdbc;
 
 import javax.swing.JFrame;
 
+import net.sf.RecordEditor.utils.lang.LangConversion;
+
 /**
  * @author Bruce Martin
  *
@@ -18,6 +20,7 @@ public class CorrectFieldBoolean implements CorrectCallBack {
 
 
 
+	private static final String INVALID_BOOLEAN = LangConversion.convert("Invalid Boolean");
 	private boolean cVal, ret;
 
 
@@ -71,7 +74,7 @@ public class CorrectFieldBoolean implements CorrectCallBack {
 		} else if (ss.equals("TRUE") || ss.equals("YES")) {
 			ret = false;
 		} else {
-			retVal = "Invalid Boolean";
+			retVal = INVALID_BOOLEAN;
 		}
 
 		return retVal;

@@ -4,14 +4,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.StringTokenizer;
 
+import javax.swing.JOptionPane;
 import javax.swing.tree.TreeNode;
 
+import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.RecordEditor.re.file.AbstractLineNode;
 import net.sf.RecordEditor.re.file.AbstractTreeFrame;
 import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.script.extensions.LanguageTrans;
 import net.sf.RecordEditor.utils.common.TranslateXmlChars;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
 public class ScriptData {
@@ -26,6 +31,7 @@ public class ScriptData {
 	public final boolean onlyData, showBorder;
 	public final int recordIdx;
 	public final String inputFile, outputFile;
+	private final String dir;
 
 	@SuppressWarnings("rawtypes")
 	public ScriptData(
@@ -54,6 +60,10 @@ public class ScriptData {
 		this.showBorder = showBorder;
 		this.recordIdx = recordIdx;
 		this.outputFile = outputFile;
+
+		dir = (new java.io.File(view.getFileName())).getParent();
+		System.out.println("Directory ??? ~ " + dir);
+		LanguageTrans.clear();
 	}
 
 
@@ -78,6 +88,83 @@ public class ScriptData {
 	public String htmlCharsToVars(Object o) {
 		if (o == null) return "";
 		return TranslateXmlChars.replaceXmlCharsStr(o.toString());
+	}
+
+
+
+	public String trans4getText(String type, String val) {
+		StringBuilder b;
+		if ("u".equalsIgnoreCase(type)) {
+			StringTokenizer t = new StringTokenizer(val, ":");
+			String sep = "";
+
+			b = new StringBuilder();
+
+			while (t.hasMoreTokens()) {
+				b.append(sep);
+				try {
+					b.append(LangConversion.MSG_NAMES[Integer.parseInt(t.nextToken().trim())]);
+				} catch (Exception e) {
+				}
+				sep = " : ";
+			}
+		} else {
+			b = new StringBuilder(val);
+
+			if ("c".equalsIgnoreCase(type)) {
+				Conversion.replace(b, "\n", "\n# ");
+				Conversion.replace(b, "<br>", "<br>\n# ");
+				Conversion.replace(b, "<br/>", "<br/>\n# ");
+				Conversion.replace(b, "<p>", "\n# <p>");
+
+				Conversion.replace(b, "</h1>", "</h1>\n# ");
+				Conversion.replace(b, "</h2>", "</h2>\n# ");
+				Conversion.replace(b, "</h3>", "</h3>\n# ");
+				Conversion.replace(b, "</ul>", "</ul>\n# ");
+				Conversion.replace(b, "</ol>", "</ol>\n# ");
+				Conversion.replace(b, "</table>", "<table>\n# ");
+
+				Conversion.replace(b, "<table>", "\n# <table>");
+				Conversion.replace(b, "<tr>", "\n# <tr>");
+				Conversion.replace(b, "<li>", "\n# <li>");
+				Conversion.replace(b, "<pre>", "\n# <pre>");
+
+			} else {
+				Conversion.replace(b, "\"", "\\\"\\\"");
+				Conversion.replace(b, "\n", "\"\n\"");
+				Conversion.replace(b, "<br>", "<br>\"\n\"");
+				Conversion.replace(b, "<br/>", "<br/>\"\n\"");
+				Conversion.replace(b, "<p>", "\"\n\"<p>");
+
+				Conversion.replace(b, "</h1>", "</h1>\"\n\"");
+				Conversion.replace(b, "</h2>", "</h2>\"\n\"");
+				Conversion.replace(b, "</h3>", "</h3>\"\n\"");
+				Conversion.replace(b, "</ol>", "</ol>\"\n\"");
+				Conversion.replace(b, "</ul>", "</ul>\"\n\"");
+				Conversion.replace(b, "</table>", "</table>\"\n\"");
+
+				Conversion.replace(b, "<table>", "\"\n\"<table>");
+				Conversion.replace(b, "<tr>", "\"\n\"<tr>");
+				Conversion.replace(b, "<li>", "\"\n\"<li>");
+				Conversion.replace(b, "<pre>", "\"\n\"<pre>");
+
+			}
+		}
+		return b.toString();
+	}
+
+	public String getLangTrans(String lang, String key) {
+		String ret = "";
+
+		try {
+			ret = LanguageTrans.getTrans(dir + "/Trans" + lang + ".txt").get(Integer.parseInt(key.trim()));
+		} catch (Exception e) {
+		}
+		return ret;
+	}
+
+	public String ask(String message) {
+		return JOptionPane.showInputDialog(message);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

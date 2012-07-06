@@ -26,7 +26,7 @@ public class Copy2Xml extends AbstractWizard<CopyDefinition> {
 		this(recordSelection1, new net.sf.RecordEditor.jibx.compare.CopyDefinition(), "");
 	}
 	/**
-	 * 
+	 *
 	 * @param recordSelection1
 	 * @param definition
 	 */
@@ -34,22 +34,22 @@ public class Copy2Xml extends AbstractWizard<CopyDefinition> {
 	public Copy2Xml(AbstractLayoutSelection recordSelection1, CopyDefinition definition, String recentFiles) {
 		super("Copy to Xml file", definition);
 
-		AbstractWizardPanel<CopyDefinition>[] pnls = new AbstractWizardPanel[4]; 
+		AbstractWizardPanel<CopyDefinition>[] pnls = new AbstractWizardPanel[4];
 
 		recordSelection1.setMessage(super.getMessage());
-		
+
 		definition.type = CopyDefinition.XML_COPY;
-		
+
 		finalScreen = new CopyWizardFinalPnl(recordSelection1, null);
 		pnls[0] = new GetFiles(recordSelection1, recentFiles);
 		pnls[1] = new FieldSelection(recordSelection1, null, "");
 		pnls[2] = new CreateTree(recordSelection1);
 		pnls[3] = finalScreen;
-		
+
 		super.setPanels(pnls);
 	}
 
-	
+
 	@Override
 	public void finished(CopyDefinition details) {
 		if (finalScreen.isToRun()) {
@@ -58,7 +58,7 @@ public class Copy2Xml extends AbstractWizard<CopyDefinition> {
 	}
 
 
-	
+
 	/**
 	 * @see net.sf.RecordEditor.utils.wizards.AbstractWizard#executeAction(int)
 	 */
@@ -67,7 +67,7 @@ public class Copy2Xml extends AbstractWizard<CopyDefinition> {
        if (action == ReActionHandler.SAVE) {
     	   try {
     		   CopyDefinition diff = super.getActivePanel().getValues();
-    		   
+
     		   if (! "".equals(diff.saveFile)) {
     			   if (jibx == null) {
     				   jibx = new JibxCall<CopyDefinition>(CopyDefinition.class);
@@ -78,7 +78,7 @@ public class Copy2Xml extends AbstractWizard<CopyDefinition> {
     		   }
     	   } catch (Exception e) {
     		   e.printStackTrace();
-    		   Common.logMsg("File Save Failed:", e);
+    		   Common.logMsgRaw(FILE_SAVE_FAILED, e);
     	   }
         } else {
             super.executeAction(action);
@@ -103,7 +103,7 @@ public class Copy2Xml extends AbstractWizard<CopyDefinition> {
 		private CopyDefinition copydef;
 		@SuppressWarnings("unchecked")
 		private AbstractLayoutSelection recordSelection;
-		
+
 		/**
 		 * @param recordSelection1
 		 */
@@ -159,24 +159,24 @@ public class Copy2Xml extends AbstractWizard<CopyDefinition> {
 			return recordTree.getLayout().getRecordCount() == 1;
 		}
 	}
-	
+
 	public static class GetFiles extends  AbstractFilePnl<CopyDefinition> {
 
 		private CopyDefinition values = new net.sf.RecordEditor.jibx.compare.CopyDefinition();
 
 		private FileChooser xmlFileName = new FileChooser();
 		private AbstractLayoutSelection<?> layoutSelection;
-		
-		
+
+
 		public GetFiles(AbstractLayoutSelection<?> selection, String recentFiles) {
 			super(selection, recentFiles);
-			
+
 			xmlFileName.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());
 			layoutSelection = selection;
-			
+
 			//setHelpURL(Common.formatHelpURL(Common.HELP_DIFF_SL));
 		}
-		
+
 
 		/**
 		 * @see net.sf.RecordEditor.utils.wizards.AbstractWizardPanel#getValues()
@@ -203,23 +203,23 @@ public class Copy2Xml extends AbstractWizard<CopyDefinition> {
 		public void setValues(CopyDefinition detail) throws Exception {
 			System.out.println("Setting Values ... ");
 			values = detail;
-			
+
 			if (! "".equals(values.oldFile.name)) {
 				fileName.setText(values.oldFile.name);
 			}
-			
+
 			if (! "".equals(values.newFile.name)) {
 				xmlFileName.setText(values.newFile.name);
 			}
-			
+
 			if (! "".equals(values.oldFile.getLayoutDetails().name)) {
 				layoutSelection.setLayoutName(values.oldFile.getLayoutDetails().name);
 			}
 		}
-		
+
 		@Override
 		protected void addFileName(BaseHelpPanel pnl) {
-					
+
 			pnl.addLine("Input File", fileName, fileName.getChooseFileButton());
 			pnl.addLine("Xml output File", xmlFileName, xmlFileName.getChooseFileButton());
 		}

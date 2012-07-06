@@ -19,6 +19,7 @@ import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.jdbc.DBComboModel;
 import net.sf.RecordEditor.utils.jdbc.DBtableModel;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.AbsJTable;
@@ -32,7 +33,9 @@ public class ComboPnl extends BaseHelpPanel implements ActionListener {
 
 
 	//private JTextField sfCombo_Id = new JTextField();
-	private static final String[] COLUMN_TYPE_LIST = {"Standard Combo", "Key / Value Combo"};
+	private static final String[] COLUMN_TYPE_LIST = LangConversion.convertComboItms(
+			"Combo Options",
+			new String[] {"Standard Combo", "Key / Value Combo"});
 
 	private TableDB systemTable = new TableDB();
 	private DBComboModel<TableRec> systemModel = new DBComboModel<TableRec>(systemTable, 0, 1 , false, false);
@@ -176,7 +179,7 @@ public class ComboPnl extends BaseHelpPanel implements ActionListener {
 			currVal.setColumnType(sfColumnType.getSelectedIndex() + 1);
 		} catch (Exception ex) {
 			currVal.setUpdateSuccessful(false);
-			setMessage("Invalid Field " + fld + " - " + ex.getMessage());
+			setMessage(LangConversion.convert("Invalid Field") + " "  + fld + " - " + ex.getMessage());
 		}
 		return currVal;
 	}
@@ -244,8 +247,8 @@ public class ComboPnl extends BaseHelpPanel implements ActionListener {
 
 		if (currVal != null) {
 			int result = JOptionPane.showConfirmDialog(null,
-					"Are you sure you want to delete record layout: " + sfComboName.getText(),
-					"Delete: " + sfComboName.getText(),
+					LangConversion.convert("Are you sure you want to delete Combo: {0}", sfComboName.getText()),
+					LangConversion.convert("Delete: {0}", sfComboName.getText()),
 					JOptionPane.YES_NO_OPTION);
 
 			ret = result == JOptionPane.YES_OPTION;

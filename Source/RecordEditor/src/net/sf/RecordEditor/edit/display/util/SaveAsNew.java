@@ -16,7 +16,7 @@
  *
  * # Version 0.61 Bruce Martin 2007/04/14
  *   - Refactoring changes from moving classes to new packages
- *   
+ *
  * # Version 0.62 Bruce Martin 2007/05/01
  *   - Added <Enter> key support
  */
@@ -72,10 +72,12 @@ import net.sf.RecordEditor.re.script.RunVelocity;
 import net.sf.RecordEditor.re.script.ScriptData;
 import net.sf.RecordEditor.re.tree.ChildTreeToXml;
 import net.sf.RecordEditor.utils.common.Common;
+
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.swing.TableModel2HTML;
 
 
@@ -88,7 +90,7 @@ import net.sf.RecordEditor.utils.swing.TableModel2HTML;
  * </ol>
  *
  * <p>The file can be save in the following formats
- * <ol compact> 
+ * <ol compact>
  *   <li>Data (ie same as the source file
  *   <li>HTML table (either Spreadsheet format or one record per
  *       table).
@@ -128,18 +130,18 @@ public final class SaveAsNew extends ReFrame
     public static final int FORMAT_XML = 6;
     public static final int FORMAT_XSLT = 7;
     public static final int FORMAT_VELOCITY = 8;
-    
+
     private static int[] FORMAT_TRANSLATION = {
-    	SaveAsPnl.FMT_DATA,  SaveAsPnl.FMT_HTML, SaveAsPnl.FMT_HTML, SaveAsPnl.FMT_HTML, 
+    	SaveAsPnl.FMT_DATA,  SaveAsPnl.FMT_HTML, SaveAsPnl.FMT_HTML, SaveAsPnl.FMT_HTML,
     	SaveAsPnl.FMT_CSV,  SaveAsPnl.FMT_FIXED,  SaveAsPnl.FMT_XML, SaveAsPnl.FMT_XSLT,
     	SaveAsPnl.FMT_VELOCITY};
     private static int[] FORMAT_HTML_TRANSLATION = {
-    	-1, 
-    	SaveAsPnl.SINGLE_TABLE, 
+    	-1,
+    	SaveAsPnl.SINGLE_TABLE,
     	SaveAsPnl.TABLE_PER_ROW,
     	SaveAsPnl.TREE_TABLE
     };
-    
+
 
     private SaveAsPnl[] pnls = {
     		new SaveAsPnl(SaveAsPnl.FMT_DATA),
@@ -156,15 +158,15 @@ public final class SaveAsNew extends ReFrame
     private FileChooser fileNameTxt = new FileChooser(false);
 
     private JButton saveFile
-    	= new JButton("save file", 
+    	= SwingUtils.newButton("save file",
     			      Common.getRecordIcon(Common.ID_SAVE_ICON));
     private JComboBox saveWhat   = new JComboBox();
-    
+
     private JCheckBox treeExportChk    = new JCheckBox(),
     		          nodesWithDataChk = new JCheckBox(),
     		          keepOpenChk      = new JCheckBox(),
     		          editChk          = new JCheckBox();
-    
+
     private JTabbedPane formatTab = new JTabbedPane();
 
     private JTextArea msg = new JTextArea();
@@ -173,23 +175,23 @@ public final class SaveAsNew extends ReFrame
     @SuppressWarnings("rawtypes")
 	private AbstractTreeFrame treeFrame = null;
     private FileView<?> file;
-    
+
     private int currentIndex;
     private String currentExtension = null;
-    
+
     private SaveAsWrite flatFileWriter;
-    
+
     private AbstractRecordDetail<?> printRecordDetails;
- 
-    
-    
+
+
+
     private ChangeListener tabListner = new ChangeListener() {
 
 		@Override
 		public void stateChanged(ChangeEvent e) {
-	
+
 			int idx = formatTab.getSelectedIndex();
-			
+
 			if (currentIndex != idx) {
 				changeExtension();
 
@@ -197,9 +199,9 @@ public final class SaveAsNew extends ReFrame
 			}
 		}
     };
-    
-    
-	
+
+
+
 	private FocusListener templateChg = new FocusAdapter() {
 
 		/* (non-Javadoc)
@@ -210,16 +212,16 @@ public final class SaveAsNew extends ReFrame
 			System.out.print("Focus Lost ...");
 			changeExtension();
 		}
-		
+
 	};
- 
-    
+
+
     private KeyAdapter listner = new KeyAdapter() {
         /**
          * @see java.awt.event.KeyAdapter#keyReleased
          */
         public final void keyReleased(KeyEvent event) {
-        	
+
         	if (event.getKeyCode() == KeyEvent.VK_ENTER) {
         		saveFile();
         	}
@@ -239,22 +241,22 @@ public final class SaveAsNew extends ReFrame
 
 
 	public SaveAsNew(
-    		final AbstractFileDisplay recordFrame, 
+    		final AbstractFileDisplay recordFrame,
     		final FileView<?> fileView,
     		int formatIdx, String velocityTemplate) {
         super(fileView.getFileNameNoDirectory(), "Save as",
               fileView.getBaseFile());
 
-        
+
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         recFrame = recordFrame;
-        file = fileView; 
+        file = fileView;
 
         int len = init_100_setupFields_GetPnlLength(formatIdx);
 
         init_200_layoutScreen();
-		
+
         init_300_SetupTabPnls(len, formatIdx, velocityTemplate);
 
         this.addMainComponent(pnl);
@@ -264,7 +266,7 @@ public final class SaveAsNew extends ReFrame
         pnl.addReKeyListener(listner);
     }
 
-    
+
     private int init_100_setupFields_GetPnlLength(int formatIdx) {
         int[] selected = recFrame.getSelectedRows();
         int len = pnls.length - 1;
@@ -272,14 +274,14 @@ public final class SaveAsNew extends ReFrame
         if ("".equals(fname)) {
         	fname = Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get();
         }
-        
+
         if (recFrame instanceof AbstractTreeFrame) {
         	treeFrame = (AbstractTreeFrame) recFrame;
         }
         flatFileWriter = SaveAsWrite.getWriter(file, recFrame);
 
         currentIndex = FORMAT_TRANSLATION[formatIdx];
-       
+
         if (! Common.OPTIONS.xsltAvailable.isSelected()) {
         	len -= 1;
         	pnls[pnls.length - 2] = pnls[pnls.length - 1];
@@ -296,7 +298,7 @@ public final class SaveAsNew extends ReFrame
         if (selected != null && selected.length > 0) {
             saveWhat.addItem(OPT_SELECTED);
         }
- 
+
         for (int i = 0; i < pnls.length; i++) {
         	pnls[i].onlyData.setSelected(! file.isBinaryFile());
         	pnls[i].showBorder.setSelected(true);
@@ -315,31 +317,31 @@ public final class SaveAsNew extends ReFrame
 
       //findFile.addActionListener(this);
         saveFile.addActionListener(this);
-        
+
         return len;
     }
 
-    
+
     private void init_200_layoutScreen() {
 		pnl.addHelpBtn(Common.getHelpButton());
 
 		pnl.setHelpURL(Common.formatHelpURL(Common.HELP_SAVE_AS));
         pnl.addLine("File Name", fileNameTxt, fileNameTxt.getChooseFileButton());
         pnl.addLine("What to Save", saveWhat);
-        
+
         if (recFrame instanceof AbstractTreeFrame) {
         	treeFrame = (AbstractTreeFrame) recFrame;
-        	
+
         	treeExportChk.setSelected(true);
     		nodesWithDataChk.setSelected(true);
 
-        	
+
         	pnl.addLine("Export Tree", treeExportChk);
         	pnl.addLine("Only export Nodes with Data", nodesWithDataChk);
-        	
+
         	if (saveWhat.getItemCount() > 1) {
         		saveWhat.addActionListener(new ActionListener() {
-					
+
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						setVisibility();
@@ -349,12 +351,12 @@ public final class SaveAsNew extends ReFrame
         }
         pnl.addLine("Edit Output File", editChk);
 
-        pnl.setGap(BasePanel.GAP1);       
+        pnl.setGap(BasePanel.GAP1);
         pnl.addLine("Output Format:", null);
         pnl.addComponent(1, 5,BasePanel.FILL, BasePanel.GAP,
                 BasePanel.FULL, BasePanel.FULL,
                 formatTab);
-        
+
         pnl.setGap(BasePanel.GAP1);
         pnl.addLine("Keep screen open", keepOpenChk, saveFile);
         pnl.setGap(BasePanel.GAP3);
@@ -362,8 +364,8 @@ public final class SaveAsNew extends ReFrame
         pnl.setHeight(BasePanel.GAP3);
 
     }
-    
-    
+
+
     private void init_300_SetupTabPnls(int len, int formatIdx, String velocityTemplate) {
         String f = file.getLayout().getFontName();
         if (f != null && f.toLowerCase().startsWith("utf")) {
@@ -371,14 +373,14 @@ public final class SaveAsNew extends ReFrame
         		pnls[i].font.setText(f);
         	}
         }
- 
+
         boolean isFixed;
        	for (int i = 0; i < len; i++) {
        		formatTab.add(pnls[i].getTitle(), pnls[i]);
-       		
+
    			if (pnls[i].extensionType >= 0 && pnls[i].template != null) {
    				pnls[i].template.addFcFocusListener(templateChg);
-   			} 
+   			}
 
        		isFixed = false;
        		switch (pnls[i].panelFormat) {
@@ -389,7 +391,7 @@ public final class SaveAsNew extends ReFrame
        			int layoutIdx = file.getCurrLayoutIdx();
        			int[] colLengths = null;
        			printRecordDetails = null;
-        			
+
        			switch (DisplayType.displayTypePrint(l, recFrame.getLayoutIndex())) {
    				case DisplayType.NORMAL:
    					printRecordDetails = l.getRecord(layoutIdx);
@@ -402,13 +404,13 @@ public final class SaveAsNew extends ReFrame
   					if (isFixed) {
   						colLengths = getFieldWidthsPrefered();
   					}
-   					break;  				
+   					break;
    				case DisplayType.HEX_LINE:
   					colLengths = new int[1];
   					colLengths[0] = l.getMaximumRecordLength() * 2;
-   					break;  				
+   					break;
        			}
-  
+
        			pnls[i].setRecordDetails(
        					printRecordDetails,
        					colLengths,
@@ -432,20 +434,20 @@ public final class SaveAsNew extends ReFrame
 			}
 			break;
 		}
-    	
+
 
     }
-    
+
     private int[] getFieldWidths() {
 		AbstractLayoutDetails<?,?> l = file.getLayout();
    		int layoutIdx = file.getCurrLayoutIdx();
    		int[] ret = new int[l.getRecord(layoutIdx).getFieldCount()];
    		int en = Math.min(3000, file.getRowCount());
-   		
+
    		for (int i = 0; i < en; i++) {
    			calcColLengthsForLine(ret, file.getTempLine(i), l, layoutIdx);
    		}
-   		
+
    		return ret;
     }
     private int[] getFieldWidthsPrefered() {
@@ -454,23 +456,23 @@ public final class SaveAsNew extends ReFrame
    		int[] ret = new int[l.getRecord(layoutIdx).getFieldCount()];
    		int en = Math.min(3000, file.getRowCount());
    		AbstractLine<?> line;
-   		
+
    		for (int i = 0; i < en; i++) {
    			line = file.getTempLine(i);
    			calcColLengthsForLine(ret, line, l, line.getPreferredLayoutIdx());
    		}
-   		
+
    		return ret;
     }
-   
+
     private void calcColLengthsForLine(
-    		int[] ret, AbstractLine<?> line, 
+    		int[] ret, AbstractLine<?> line,
     		AbstractLayoutDetails<?,?> layout, int layoutIdx) {
     	Object o;
     	int colCount = layout.getRecord(layoutIdx).getFieldCount();
 		for (int j = 0; j < colCount; j++) {
 			o = line.getField(layoutIdx,  j);
-			
+
 			if (o != null) {
 				ret[j] = Math.max(ret[j], o.toString().length());
 			}
@@ -483,11 +485,11 @@ public final class SaveAsNew extends ReFrame
 //   		int[] ret = new int[colCount];
 //   		Object o;
 //   		int en = Math.min(3000, file.getRowCount());
-//   		
+//
 //   		for (int i = 0; i < en; i++) {
 //   			for (int j = 0; j < colCount; j++) {
 //   				o = file.getValueAt(i, j + FileView.SPECIAL_FIELDS_AT_START);
-//   				
+//
 //   				if (j == 0) {
 //   					o = o;
 //   				}
@@ -496,7 +498,7 @@ public final class SaveAsNew extends ReFrame
 //   				}
 //   			}
 //   		}
-//   		
+//
 //   		return ret;
 //    }
 
@@ -514,7 +516,7 @@ public final class SaveAsNew extends ReFrame
         saveFile();
     }
 
- 
+
     /**
      * Saves the file
      */
@@ -524,7 +526,7 @@ public final class SaveAsNew extends ReFrame
         String selection = saveWhat.getSelectedItem().toString();
         String outFile = fileNameTxt.getText();
         String ext = "";
-       
+
 
         if (outFile.equals("")) {
             msg.setText("Please Enter a file name");
@@ -535,15 +537,15 @@ public final class SaveAsNew extends ReFrame
         	int lastDot = outFile.lastIndexOf('.');
         	if (activePnl.extensionType >= 0 && lastDot > 0) {
         		ext = outFile.substring(lastDot);
-        		
+
         		RecentFiles.getLast().putFileExtension(
-        				activePnl.extensionType, 
-        				activePnl.template.getText(), 
+        				activePnl.extensionType,
+        				activePnl.template.getText(),
         				ext,
         				activePnl.extension);
         	}
-        	
-            if (dataFormat == SaveAsPnl.FMT_DATA   
+
+            if (dataFormat == SaveAsPnl.FMT_DATA
             || (dataFormat == SaveAsPnl.FMT_XML && file.getLayout().isXml())) {
                 if (OPT_VIEW.equals(selection)) {
                     file.writeFile(outFile);
@@ -585,7 +587,7 @@ public final class SaveAsNew extends ReFrame
             }
 
             saveFile_600_Edit(activePnl, outFile, ext);
-            
+
             if (! keepOpenChk.isSelected()) {
 	            formatTab.removeChangeListener(tabListner);
 	            this.setVisible(false);
@@ -605,19 +607,19 @@ public final class SaveAsNew extends ReFrame
      * @param outFile output file name
      */
     private void saveFile_100_writeCsvFile(SaveAsPnl activePnl, String selection, String outFile) {
-        String fieldSeperator = Common.FIELD_SEPARATOR_LIST1_VALUES[activePnl.delimiterCombo.getSelectedIndex()];
+        String fieldSeperator = activePnl.delimiterCombo.getSelectedEnglish();
         String fontname = activePnl.font.getText();
         boolean addQuote = activePnl.quoteAllTextFields.isSelected();
-        
+
         try {
 	        CsvWriter writer
-	        		= new CsvWriter(outFile, fieldSeperator, fontname, 
-	        					activePnl.getQuote(), addQuote, 
+	        		= new CsvWriter(outFile, fieldSeperator, fontname,
+	        					activePnl.getQuote(), addQuote,
 	        					activePnl.getIncludeFields());
-	
-	        
+
+
 	        saveFile_910_writeFile(writer, activePnl, selection);
-	        
+
         } catch (IOException e) {
 			Common.logMsg("Error writing CSV file", e);
 			msg.setText(e.getMessage());
@@ -641,19 +643,19 @@ public final class SaveAsNew extends ReFrame
         List<List<TreeNode>> nodeList = new ArrayList<List<TreeNode>>();
         int treeDepth=0;
         List<List<AbstractLine>> lines = new ArrayList<List<AbstractLine>>();
-        
+
         lines.add(saveFile_300_getLines(selection));
         lines.add(file.getBaseFile().getLines());
         lines.add(file.getLines());
-        
+
         if (treeFrame != null) {
         	root = treeFrame.getRoot();
         	treeDepth = saveFile_210_checkLevels(nodeList, root, 0);
         }
-        
+
 //        velocity.genSkel(
-//        		activePnl.template.getText(), 
-//        		new ScriptData( lines, 
+//        		activePnl.template.getText(),
+//        		new ScriptData( lines,
 //				        		root,
 //				        		nodeList,
 //				        		treeDepth,
@@ -663,9 +665,9 @@ public final class SaveAsNew extends ReFrame
 //        		w);
         w.close();
     }
-    
-    
-	
+
+
+
 	private int saveFile_210_checkLevels(List<List<TreeNode>> nodeList, AbstractLineNode node, int lvl) {
 		int ret = lvl + 1;
 		List<TreeNode> nodes = Arrays.asList(node.getPath());
@@ -673,15 +675,15 @@ public final class SaveAsNew extends ReFrame
 			nodes=new ArrayList<TreeNode>(1);
 			nodes.add(node);
 		}
-		
+
 		nodeList.add((nodes));
 		for (int i = 0; i < node.getChildCount(); i++) {
 			ret = Math.max(ret, saveFile_210_checkLevels(nodeList, (AbstractLineNode) node.getChildAt(i), lvl));
 		}
-		
+
 		return ret;
 	}
-    
+
     /**
      * Get the required lines as a ArrayList
      * @param selection  what records to select
@@ -700,10 +702,10 @@ public final class SaveAsNew extends ReFrame
 //            }
 //            lines = process.getLines();
 //        }
-//        
+//
 //        return lines;
     }
-    
+
     /**
      * Writes a TAB file
      *
@@ -717,13 +719,13 @@ public final class SaveAsNew extends ReFrame
         if (activePnl.spaceBetweenFields.isSelected()) {
         	fieldSeperator = " ";
         }
-        
+
         try {
 	        FixedWriter writer
-	        		= new FixedWriter(outFile, fieldSeperator, fontname, 
+	        		= new FixedWriter(outFile, fieldSeperator, fontname,
 	        					activePnl.getFieldLengths(),
 	        					activePnl.getIncludeFields());
-	
+
 	        saveFile_910_writeFile(writer, activePnl, selection);
         } catch (IOException e) {
 			Common.logMsg("Error writing CSV file", e);
@@ -733,7 +735,7 @@ public final class SaveAsNew extends ReFrame
 
     private void saveFile_500_Xslt(SaveAsPnl activePnl, String selection, String outFile)
     	    throws Exception {
-    	
+
     	//TODO Xslt Processing
     	//TODO Xslt Processing
     	//TODO Xslt Processing
@@ -741,15 +743,15 @@ public final class SaveAsNew extends ReFrame
     	javax.xml.transform.Result result;
     	javax.xml.transform.TransformerFactory transFact;
     	javax.xml.transform.Transformer trans;
-    	
+
     	FileView view = flatFileWriter.getViewToSave(getWhatToSave(selection));
     	File tempFile = File.createTempFile("reXsltInput", ".xml");
     	String xsltFileName = activePnl.template.getText(),
     	       xsltClass = activePnl.xsltTxt.getText();
-    	
-    	
+
+
     	view.writeFile(tempFile.getCanonicalPath());
-    	
+
 		xmlSource = new javax.xml.transform.stream.StreamSource(tempFile);
 		xsltSource = new javax.xml.transform.stream.StreamSource(xsltFileName);
 		result = new javax.xml.transform.stream.StreamResult(outFile);
@@ -763,7 +765,7 @@ public final class SaveAsNew extends ReFrame
 			} else if ("xalan".equalsIgnoreCase(xsltClass)) {
 				xsltClass = "org.apache.xalan.processor.TransformerFactoryImpl";
 			}
-				
+
 			transFact = javax.xml.transform.TransformerFactory
 							 .newInstance(xsltClass, null);
 		}
@@ -772,16 +774,16 @@ public final class SaveAsNew extends ReFrame
 
 		trans.transform(xmlSource, result);
     }
-    
+
     @SuppressWarnings("rawtypes")
 	private void saveFile_600_Edit(SaveAsPnl activePnl, String outFile, String ext) {
-    	
+
     	if (editChk.isSelected()) {
 	    	int dataFormat = activePnl.panelFormat;
 	    	String lcExt = ext.toLowerCase();
 	    	AbstractLayoutDetails layout = null;
 	    	StandardLayouts genLayout = StandardLayouts.getInstance();
-	    	
+
 	    	if (dataFormat == SaveAsPnl.FMT_XML || ".xml".equals(lcExt) || ".xsl".equals(lcExt)) {
 	    		layout = genLayout.getXmlLayout();
 	    	} else if (dataFormat == SaveAsPnl.FMT_DATA) {
@@ -790,12 +792,12 @@ public final class SaveAsNew extends ReFrame
 	    		for (int i = 0; i < tl.getRecordCount(); i++) {
 	    			filter.add(new RecFilter(tl.getRecord(i).getRecordName()));
 	    		}
-	    		
+
 	    		layout = tl.getFilteredLayout(filter);
 	        } else if (dataFormat == SaveAsPnl.FMT_CSV) {
 	        	if (activePnl.namesFirstLine.isSelected()) {
 	        	   layout = genLayout.getCsvLayoutNamesFirstLine(
-	        			   			activePnl.delimiterCombo.getSelectedItem().toString(), 
+	        			   			activePnl.delimiterCombo.getSelectedItem().toString(),
 	        			   			activePnl.getQuote());
 	        	} else {
 	        		layout = saveFile_610_getCsvLayout(activePnl);
@@ -805,58 +807,58 @@ public final class SaveAsNew extends ReFrame
 	        } else if (".csv".equals(lcExt)) {
 	        	layout = genLayout.getGenericCsvLayout();
 	        }
-	    	
+
 	    	if (layout != null) {
 	    		FileView newFile = new FileView(layout,
 	        			file.getIoProvider(),
 	        			false);
 	    		StartEditor startEditor = new StartEditor(newFile, outFile, false, msg ,0);
-	    		
+
 	    		startEditor.doEdit();
-	
+
 	    	}
     	}
     }
 
     private AbstractLayoutDetails saveFile_610_getCsvLayout(SaveAsPnl activePnl) {
     	AbstractLayoutDetails ret = null;
-    	
+
     	if (printRecordDetails != null) {
         	List<ExternalField> ef = new ArrayList<ExternalField>(printRecordDetails.getFieldCount());
         	int pos = 1;
 	    	boolean[] include = activePnl.getIncludeFields();
 	    	int levelCount = this.flatFileWriter.getLevelCount();
-	    	
+
 	    	for (int i = 0; i < levelCount; i++) {
 	    		if (include == null || (include.length < i && include[i])) {
 	    			ef.add(new ExternalField(
-	    					pos++, Common.NULL_INTEGER, 
-	    					"Level_" + i, 
+	    					pos++, Common.NULL_INTEGER,
+	    					"Level_" + i,
 	    					"", Type.ftChar, 0, 0, "", "", "", 0));
 	    		}
 	    	}
-	    	
+
 	    	for (int i = 0; i < printRecordDetails.getFieldCount(); i++) {
 	    		if (include == null || (include.length < i && include[i])) {
 	    			ef.add(new ExternalField(
-	    					pos++, Common.NULL_INTEGER, 
-	    					printRecordDetails.getField(i).getName(), 
+	    					pos++, Common.NULL_INTEGER,
+	    					printRecordDetails.getField(i).getName(),
 	    					"", Type.ftChar, 0, 0, "", "", "", 0));
 	    		}
 	    	}
-	    	
+
 	    	ret = StandardLayouts.getInstance().getCsvLayout(
-	    							ef, 
-	    							activePnl.delimiterCombo.getSelectedItem().toString(), 
+	    							ef,
+	    							activePnl.delimiterCombo.getSelectedItem().toString(),
 	        			   			activePnl.getQuote());
     	}
     	return ret;
     }
- 
+
 
     private AbstractLayoutDetails saveFile_620_getFixedLayout(SaveAsPnl activePnl) {
     	AbstractLayoutDetails ret = null;
-    	
+
     	if (printRecordDetails != null) {
         	List<ExternalField> ef = new ArrayList<ExternalField>(printRecordDetails.getFieldCount());
 	    	boolean[] include = activePnl.getIncludeFields();
@@ -867,22 +869,19 @@ public final class SaveAsNew extends ReFrame
         	if (activePnl.spaceBetweenFields.isSelected()) {
         		sepLength = 1;
             }
-                	
-	    	
+
+
 	    	for (int i = 0; i < fieldCount; i++) {
 	    		if (include == null || (include.length > i && include[i])) {
 	    			ef.add(new ExternalField(
-	    					pos, lengths[i], 
-	    					printRecordDetails.getField(i).getName(), 
+	    					pos, lengths[i],
+	    					printRecordDetails.getField(i).getName(),
 	    					"", Type.ftChar, 0, 0, "", "", "", 0));
 	    			pos += sepLength + lengths[i];
 	    		}
 	    	}
-	    	
-	    	ret = StandardLayouts.getInstance().getFixedLayout(
-	    							ef, 
-	    							activePnl.delimiterCombo.getSelectedItem().toString(), 
-	        			   			activePnl.getQuote());
+
+	    	ret = StandardLayouts.getInstance().getFixedLayout(ef);
     	}
     	return ret;
     }
@@ -891,8 +890,8 @@ public final class SaveAsNew extends ReFrame
 
     	if (this.treeExportChk.isSelected()) {
         	this.flatFileWriter.writeTree(
-        			writer, treeFrame.getRoot(),  
-        			activePnl.namesFirstLine.isSelected(), 
+        			writer, treeFrame.getRoot(),
+        			activePnl.namesFirstLine.isSelected(),
         			! nodesWithDataChk.isSelected(),
         			recFrame.getLayoutIndex());
         } else {
@@ -900,7 +899,7 @@ public final class SaveAsNew extends ReFrame
         			writer, activePnl.namesFirstLine.isSelected(), getWhatToSave(selection));
         }
    	}
-    
+
 //    private FileView getViewToSave(String selection) {
 //    	FileView ret = null;
 //    	switch (getWhatToSave(selection)) {
@@ -908,21 +907,21 @@ public final class SaveAsNew extends ReFrame
 //    	case SaveAsWrite.SAVE_FILE: ret = file.getBaseFile();
 //    	case SaveAsWrite.SAVE_VIEW: ret = file;
 //    	}
-//    	
+//
 //    	return ret;
 //   	}
-    
+
     private int getWhatToSave(String selection) {
         int whatToSave = SaveAsWrite.SAVE_SELECTED;
         if (OPT_FILE.equals(selection)) {
         	whatToSave = SaveAsWrite.SAVE_FILE;
         } else if (OPT_VIEW.equals(selection)) {
         	whatToSave = SaveAsWrite.SAVE_VIEW;
-        } 
+        }
         return whatToSave;
     }
 
-	
+
     /**
      * Writes the file as a single HTML table
      *
@@ -932,8 +931,8 @@ public final class SaveAsNew extends ReFrame
      * @throws IOException any io errors
      */
     private void singleTableHtml(
-    		SaveAsPnl activePnl, 
-    		String selection, 
+    		SaveAsPnl activePnl,
+    		String selection,
     		FileView<?> currFile) throws IOException {
 
         FileWriter writer = new FileWriter(getHtmlName());
@@ -971,7 +970,7 @@ public final class SaveAsNew extends ReFrame
         LineModel mdl = new LineModel(currFile);
         TableModel2HTML htmlOut = new TableModel2HTML(writer, "", mdl, activePnl.showBorder.isSelected());
         int i;
-        
+
         if (activePnl.onlyData.isSelected()) {
         	mdl.setColumnCount(4);
         }
@@ -1018,7 +1017,7 @@ public final class SaveAsNew extends ReFrame
         LineModel mdl = new LineModel(currFile);
         TableModel2HTML htmlOut = new TableModel2HTML(writer, "", mdl, activePnl.showBorder.isSelected());
         int i;
-        
+
         if (activePnl.onlyData.isSelected()) {
         	mdl.setColumnCount(4);
         }
@@ -1040,27 +1039,27 @@ public final class SaveAsNew extends ReFrame
             	htmlOut.writeText("<hr>");
             }
         }
- 
+
         htmlOut.writeHtmlEnd();
     }
 
-    private void writeTreeLineAsHtml(TableModel2HTML htmlOut, LineModel mdl, AbstractLine line, 
-    		String indent, String id) 
+    private void writeTreeLineAsHtml(TableModel2HTML htmlOut, LineModel mdl, AbstractLine line,
+    		String indent, String id)
     throws IOException {
         mdl.setCurrentLine(line, Common.NULL_INTEGER);
 
         htmlOut.writeText("<table><tr><td>" + indent + "</td><td><p><b>Record " + id + "</b></p>");
         htmlOut.writeTable();
-        
+
         AbstractTreeDetails tree = line.getTreeDetails();
         AbstractChildDetails childDef;
         List<? extends AbstractLine> list;
         int j;
-        
+
         for (int i =0; i < tree.getChildCount(); i++) {
         	childDef = tree.getChildDetails(i);
         	list = tree.getLines(i);
-        	
+
         	if (list.size() == 1) {
         		writeTreeLineAsHtml(htmlOut, mdl, list.get(0), "", childDef.getName());
         	} else {
@@ -1069,14 +1068,14 @@ public final class SaveAsNew extends ReFrame
 	        	}
         	}
         }
-   	
-        
+
+
         htmlOut.writeText("</td></tr></table>");
     }
-    
+
     private SaveAsPnl getSelectedPnl() {
     	int idx = formatTab.getSelectedIndex();
-    	
+
     	return pnls[idx];
     }
 
@@ -1095,56 +1094,56 @@ public final class SaveAsNew extends ReFrame
 
         return s;
     }
-    
+
     private void setVisibility() {
     	boolean visible = getSelectedPnl().panelFormat == SaveAsPnl.FMT_CSV
     			       && (  saveWhat.getItemCount() == 1
     			          || OPT_VIEW.equals(saveWhat.getSelectedItem())
     			          || (OPT_FILE.equals(saveWhat.getSelectedItem()) && ! file.isView())
     			           );
-    	
+
     	treeExportChk.setVisible(visible);
 		nodesWithDataChk.setVisible(visible);
     }
-    
+
     private void changeExtension() {
 		String s = fileNameTxt.getText();
 		int idx = formatTab.getSelectedIndex();
 		String newExtension = getExtension(idx);
-		
-//		System.out.println("Extension: " + idx 
+
+//		System.out.println("Extension: " + idx
 //				+ " " + currentExtension
 //				+ " ~ " + newExtension
-//				+ " " + s + " # " + s.endsWith(currentExtension));		
+//				+ " " + s + " # " + s.endsWith(currentExtension));
 		if (currentExtension != null
 		&& s.endsWith(currentExtension)
-		&&  ! currentExtension.equals(newExtension)) { 
+		&&  ! currentExtension.equals(newExtension)) {
 			fileNameTxt.setText(
 					s.substring(0, s.length() - currentExtension.length())
 				+	newExtension
 			);
 		}
-		
+
 		currentIndex = idx;
 		currentExtension = newExtension;
 
     }
-    
+
     private String getExtension(int idx) {
     	if (pnls[idx].template == null) {
     		return pnls[idx].extension;
     	}
     	return RecentFiles.getLast().getFileExtension(
-    			pnls[idx].extensionType, 
-    			pnls[idx].template.getText(),  
+    			pnls[idx].extensionType,
+    			pnls[idx].template.getText(),
     			pnls[idx].extension);
     }
-    
+
     private static class RecFilter implements RecordFilter {
 
     	private String name;
-    	
-    	
+
+
 		public RecFilter(String name) {
 			super();
 			this.name = name;
@@ -1165,6 +1164,6 @@ public final class SaveAsNew extends ReFrame
 		public String[] getFields() {
 			return null;
 		}
-    	
+
     }
 }

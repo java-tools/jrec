@@ -11,6 +11,7 @@ import javax.swing.table.AbstractTableModel;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.re.tree.FieldSummaryDetails;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 /**
  * Table model to display/enter sort options in a JTable
@@ -20,8 +21,8 @@ import net.sf.RecordEditor.re.tree.FieldSummaryDetails;
  */
 @SuppressWarnings("serial")
 public final class SortFieldSummaryMdl extends AbstractTableModel {
-	
-	
+
+
 //	public static final String[] OPERATOR_NAMES = new String[5];
 //	static {
 //		OPERATOR_NAMES[FieldSummaryDetails.OP_NONE] = "";
@@ -31,13 +32,15 @@ public final class SortFieldSummaryMdl extends AbstractTableModel {
 //		OPERATOR_NAMES[FieldSummaryDetails.OP_AVE] = "Average";
 //	};
 //	private static final int[] OPERATORS = {
-//		FieldSummaryDetails.OP_NONE, FieldSummaryDetails.OP_SUM, 
+//		FieldSummaryDetails.OP_NONE, FieldSummaryDetails.OP_SUM,
 //		FieldSummaryDetails.OP_MIN, FieldSummaryDetails.OP_MAX, FieldSummaryDetails.OP_AVE
 //	};
 
 
 
-    private static final String[] COLUMN_NAMES = {"Field", "Function" };
+    private static final String[] COLUMN_NAMES = LangConversion.convertColHeading(
+			"SortSum Field Function",
+			new String[] {"Field", "Function" });
  //   private String[] fieldName;
  //   private boolean[] ascending;
     private FieldSummaryDetails fieldSummary;
@@ -76,7 +79,7 @@ public final class SortFieldSummaryMdl extends AbstractTableModel {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
     	if (rowIndex >= 0) {
 	    	int val = FieldSummaryDetails.OP_NONE;
-	    	
+
 	        if (aValue != null && ! "".equals(aValue)) {
 	        	String s = aValue.toString();
 	        	for (int i = 0; i < FieldSummaryDetails.OPERATOR_NAMES.length; i++) {
@@ -86,7 +89,7 @@ public final class SortFieldSummaryMdl extends AbstractTableModel {
 	        		}
 	        	}
 	        }
-	    	
+
 	    	fieldSummary.setOperator(rowIndex, val);
     	}
     }
@@ -97,8 +100,8 @@ public final class SortFieldSummaryMdl extends AbstractTableModel {
     public int getColumnCount() {
         return columnCount;
     }
-    
-    
+
+
 
     /**
 	 * @param newColumnCount the columnCount to set
@@ -125,7 +128,7 @@ public final class SortFieldSummaryMdl extends AbstractTableModel {
 
         return FieldSummaryDetails.OPERATOR_NAMES[fieldSummary.getOperator(rowIndex)];
     }
-    
+
 
 	public FieldSummaryDetails getFieldSummary() {
 		return fieldSummary;
@@ -141,7 +144,7 @@ public final class SortFieldSummaryMdl extends AbstractTableModel {
 
 	public void setRecordIndex(int layoutIndex) {
 		fieldSummary.setRecordIndex(layoutIndex);
-		
+
 		this.fireTableDataChanged();
 	}
 }

@@ -18,6 +18,7 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
 import net.sf.RecordEditor.utils.jdbc.DBList;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.AbsRowList;
 import net.sf.RecordEditor.utils.wizards.AbstractWizard;
@@ -42,7 +43,7 @@ public class Wizard extends AbstractWizard<Details> {
 
 	public Wizard(final int connectionId,
             final String fileName, final LayoutConnection callback) {
-		this(new ReFrame("File Wizard", "", null), connectionId, fileName, callback, true);
+		this(new ReFrame("", "File Wizard", "", null), connectionId, fileName, callback, true);
 	}
 
 	public <T extends Component & RootPaneContainer> Wizard(
@@ -147,7 +148,7 @@ public class Wizard extends AbstractWizard<Details> {
             this.setClosed(true);
          } catch (Exception ex) {
             super.getMessage().setText(ex.getMessage());
-            Common.logMsg(ex.getMessage(), ex);
+            Common.logMsgRaw(ex.getMessage(), ex);
         }
 	}
 

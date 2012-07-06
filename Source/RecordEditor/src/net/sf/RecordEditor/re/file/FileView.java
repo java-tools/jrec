@@ -62,6 +62,7 @@ import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.JRecord.IO.AbstractLineWriter;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.IO.LineReaderWrapper;
+import net.sf.JRecord.Log.AbsSSLogger;
 
 import net.sf.RecordEditor.re.file.filter.Compare;
 import net.sf.RecordEditor.re.file.filter.FilterDetails;
@@ -69,11 +70,12 @@ import net.sf.RecordEditor.re.file.filter.FilterField;
 import net.sf.RecordEditor.re.file.filter.FilterFieldList;
 import net.sf.RecordEditor.utils.ColumnMappingInterface;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.ProgramOptions;
 import net.sf.RecordEditor.utils.fileStorage.DataStore;
 import net.sf.RecordEditor.utils.fileStorage.DataStoreLarge;
 import net.sf.RecordEditor.utils.fileStorage.DataStoreStd;
 import net.sf.RecordEditor.utils.fileStorage.FileDetails;
+import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.params.ProgramOptions;
 import net.sf.RecordEditor.utils.swing.DelayedFieldValue;
 import net.sf.RecordEditor.utils.swing.array.ArrayNotifyInterface;
 import net.sf.RecordEditor.utils.swing.treeTable.TreeTableNotify;
@@ -99,6 +101,9 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 						implements 	Iterable<AbstractLine>, TableModelListener, ColumnMappingInterface,
 									TreeModelListener, AbstractChangeNotify, GetView, ArrayNotifyInterface {
 
+	private static final String INTERNAL_ERROR_LINES_CLEARED_SAVE_IS_NOT_POSSIBLE
+			= LangConversion.convert("Internal Error: lines cleared, save is not possible !!!");
+	private static final String ONLY_ONE_IS_ALLOWED = "Only one {0} is allowed !!!";
 	public  static final  int SPECIAL_FIELDS_AT_START  = 2;
 	private static final  int BUFFER_SIZE = 65536;
 
@@ -124,9 +129,10 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 
     private static final FieldMapping NULL_MAPPING =  new FieldMapping(new int[0]);
 
-    private static final String[] LINE_COLUMN_HEADINGS = {
+    private static final String[] LINE_COLUMN_HEADINGS = LangConversion.convert(
+    		LangConversion.ST_COLUMN_HEADING, "Record_ColumnHeadings", new String[] {
     	"", "Full Line",  "Hex (1 Line)", "Hex (2 Lines)", "Hex (SPF Edit Style)", "Hex (Alternative)"
-    };
+    });
 	private String[] lineColumns = new String[LINE_COLUMN_HEADINGS.length];
 
 	private int maxNumColumns = -1;
@@ -1034,7 +1040,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    while (iMsg != null && this.displayErrorDialog) {
 	        val =  JOptionPane.showInputDialog(parentFrame,
 	                iMsg,
-	                "Conversion Error",
+	                LangConversion.convert(LangConversion.ST_MESSAGE, "Conversion Error"),
 	                JOptionPane.ERROR_MESSAGE,
 	                null, null, val);
 
@@ -1411,8 +1417,11 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 				Common.logMsg("You can not Repeat the root Segment !!!", null);
 			break;
 			case (FAILED_CHILD_ALREADY_EXISTS):
-				Common.logMsg("Only one " + line.getTreeDetails().getChildDefinitionInParent().getName()
-						+" is allowed !!!", null);
+				Common.logMsgRaw(
+						LangConversion.convert(
+								ONLY_ONE_IS_ALLOWED,
+								line.getTreeDetails().getChildDefinitionInParent().getName()),
+						null);
 			}
 		 }
 
@@ -1479,8 +1488,11 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			Common.logMsg("You can not add a second root segment !!!", null);
 		break;
 		case (FAILED_CHILD_ALREADY_EXISTS):
-			Common.logMsg("Only one " + newLine.getTreeDetails().getChildDefinitionInParent().getName()
-					+" is allowed !!!", null);
+			Common.logMsgRaw(
+					LangConversion.convert(
+							ONLY_ONE_IS_ALLOWED,
+							newLine.getTreeDetails().getChildDefinitionInParent().getName()),
+					 null);
 		}
 	}
 
@@ -1540,9 +1552,11 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 
 		if (num > limit) {
 			num = limit;
-			Common.logMsg("Copy limit of " + limit
-					+ " excedded; only the first " + limit
-					+ " lines copied", null);
+			Common.logMsgRaw(
+					LangConversion.convert(
+							"Copy limit of {0} excedded; only the first {1} lines copied",
+							new Object[] {limit, limit}),
+					null);
 		}
 
 		copySrc = new AbstractLine[num];
@@ -1662,7 +1676,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 					name = layout.getRecord(copySource[i].getPreferredLayoutIdx()).getRecordName();
 				} catch (Exception e) {
 				}
-				Common.logMsg("Can not paste " +  name + ":  " + copySource[i].getFullLine(), null);
+				Common.logMsg(AbsSSLogger.ERROR, "Can not paste", name + ":  " + copySource[i].getFullLine(), null);
 			}
 		}
 		if (accepted.size() < ret.length) {
@@ -2200,9 +2214,9 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    if (view) {
 	        baseFile.writeFile();
 	    } else if (lines == null) {
-	    	Common.logMsg("Internal Error: lines cleared, save is not possible !!!", null);
-	    	Common.logMsg("Internal Error: lines cleared, save is not possible !!", null);
-	    	Common.logMsg("Internal Error: lines cleared, save is not possible !", null);
+	    	Common.logMsgRaw(INTERNAL_ERROR_LINES_CLEARED_SAVE_IS_NOT_POSSIBLE, null);
+	    	Common.logMsgRaw(INTERNAL_ERROR_LINES_CLEARED_SAVE_IS_NOT_POSSIBLE, null);
+	    	Common.logMsgRaw(INTERNAL_ERROR_LINES_CLEARED_SAVE_IS_NOT_POSSIBLE, null);
 	    } else {
 	    	changeStatus = BEING_SAVED;
 	        saveFile(lines, fileName, toSave,
@@ -2447,16 +2461,19 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
             if (selectedLines.size() >= limit) {
             	int resp = JOptionPane.showConfirmDialog(
             		    frame,
-            		    "The Filter limit of " + limit +
-            		    " has been reached, do you wish to continue?",
+            		    LangConversion.convert(
+            		    		"The Filter limit of {0} has been reached, do you wish to continue?",
+            		    		Integer.toString(limit)),
             		    "",
             		    JOptionPane.YES_NO_OPTION);
             	if (resp == JOptionPane.YES_OPTION) {
             		limit += getLineHoldLimit();
             	} else {
-            		Common.logMsg("Filter limit of " + limit
-        					+ " excedded; only the first " + limit
-        					+ " lines in the filtered view", null);
+            		Common.logMsgRaw(
+            				LangConversion.convert(
+            						"Filter limit of {0} excedded; only the first {0} lines in the filtered view",
+            						Integer.toString(limit)),
+            				null);
             		break;
             	}
             }

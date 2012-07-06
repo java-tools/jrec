@@ -4,8 +4,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 /**
  * This class provides DB Access using
@@ -26,10 +28,12 @@ import net.sf.RecordEditor.utils.jdbc.AbsDB;
 public class ComboDB  extends AbsDB<ComboRec> {
 
 
-  private static final String[] COLUMN_NAMES = {
+  private static final String[] COLUMN_NAMES = LangConversion.convertColHeading(
+			"DB-Combo Columns",
+			new String[] {
                    "System"
                  , "Combo_Name"
-  };
+  });
 
   private PreparedStatement getMaxKey = null;
   protected PreparedStatement getSql = null;
@@ -48,11 +52,11 @@ public class ComboDB  extends AbsDB<ComboRec> {
                    +  "   , System= ? "
                    +  "   , Combo_Name= ? "
                    +  "   , Column_Type= ? "
-                   +  " Where Combo_Id= ? " 
+                   +  " Where Combo_Id= ? "
                         ;
 
       deleteSQL = "Delete From  Tbl_C_Combos  "
-                   +  " Where Combo_Id= ? " 
+                   +  " Where Combo_Id= ? "
                         ;
 
       insertSQL = "Insert Into  Tbl_C_Combos  ("
@@ -82,7 +86,7 @@ public class ComboDB  extends AbsDB<ComboRec> {
   public ComboRec fetch() {
 	  return fetch(rsCursor);
   }
-  
+
   /**
    * get the next cursor entry
    * @param results SQL resultset
@@ -107,33 +111,33 @@ public class ComboDB  extends AbsDB<ComboRec> {
 
       return ret;
   }
-  
-  
+
+
   public ComboRec get(String name) {
 	  String sql = sSQL + sFrom + " Where Combo_Name = ? ;";
 	  ComboRec ret = null;
 	  ResultSet rs = null;
-	  
+
 	  try {
 		  if (isPrepareNeeded(getSql)) {
 			  getSql = connect.getConnection().prepareStatement(sql);
 		  }
 		  getSql.setString(1, correctStr(name));
-		  
+
 		  rs = getSql.executeQuery();
-		  
-		  try {		  
+
+		  try {
 			  ret = fetch(rs);
 		  } finally {
 			  rs.close();
 		  }
-		  
+
 	  } catch (Exception ex) {
 		  setMessage(sql, ex.getMessage(), ex);
 	  } finally {
 		  freeConnection();
 	  }
-	  
+
 	  return ret;
   }
 
@@ -185,7 +189,7 @@ public class ComboDB  extends AbsDB<ComboRec> {
       statement.setInt(idx++, value.initCombo_Id);
   }
 
-  
+
   /**
    *  This method inserts one record
    *
@@ -228,36 +232,36 @@ public class ComboDB  extends AbsDB<ComboRec> {
 
     return ret;
   }
-  
+
 	public void fullClose() {
 		super.fullClose();
-		
+
 		closeStatement(getMaxKey);
 		closeStatement(getSql);
 	}
 
-	
 
-	
+
+
 	  /* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.jdbc.AbsDB#delete(net.sf.RecordEditor.utils.jdbc.AbsRecord)
 	 */
 	@Override
 	public void delete(ComboRec val) {
 
-		String updSql  = 
+		String updSql  =
 				  "Delete from  Tbl_CI_ComboItems "
 				 + "where Combo_Id = "  + val.getComboId();
 
 		try {
 			connect.getUpdateConnection().createStatement().execute(updSql);
 		} catch (Exception e) {
-			Common.logMsg(updSql, null);
-			Common.logMsg("Update Failed: " + e.getClass().getName() + " " + e.getMessage(), e);
+			Common.logMsgRaw(updSql, null);
+			Common.logMsg(AbsSSLogger.ERROR, "Update Failed:", e.getClass().getName() + " " + e.getMessage(), e);
 			e.printStackTrace();
 		}
-		
-		
+
+
 		super.delete(val);
 	}
 
@@ -273,8 +277,8 @@ public class ComboDB  extends AbsDB<ComboRec> {
 		  setSearchStrArg("Combo_Name", operator, val);
 	  }
 
-	  
-		
+
+
 	  /**
 	   *  This method sets a search argument for RecordType
 	   *
@@ -289,10 +293,10 @@ public class ComboDB  extends AbsDB<ComboRec> {
 	  }
 
 	  public void resetSearch() {
-		   
+
 		   super.resetSearch();
 
-		   sep = " Where ";    
+		   sep = " Where ";
 	  }
 
 }

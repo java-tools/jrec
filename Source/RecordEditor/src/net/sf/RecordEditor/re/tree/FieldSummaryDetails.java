@@ -2,15 +2,16 @@ package net.sf.RecordEditor.re.tree;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.jibx.compare.SortSummary;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 public class FieldSummaryDetails {
-	
+
 	public static final int OP_NONE = 0;
 	public static final int OP_SUM  = 1;
 	public static final int OP_MAX  = 3;
 	public static final int OP_MIN  = 2;
 	public static final int OP_AVE  = 4;
-	
+
 	public static final String[] OPERATOR_NAMES = new String[5];
 	static {
 		OPERATOR_NAMES[FieldSummaryDetails.OP_NONE] = "";
@@ -18,20 +19,22 @@ public class FieldSummaryDetails {
 		OPERATOR_NAMES[FieldSummaryDetails.OP_MIN] = "Minimum";
 		OPERATOR_NAMES[FieldSummaryDetails.OP_MAX] = "Maximum";
 		OPERATOR_NAMES[FieldSummaryDetails.OP_AVE] = "Average";
+
+		LangConversion.convertComboItms("Sum Operators", OPERATOR_NAMES);
 	};
-	
+
 
 	private AbstractLayoutDetails layout;
 	private int recordIndex = 0;
 	private int[] operator;
-	
+
 	public FieldSummaryDetails(AbstractLayoutDetails recordLayout) {
 		int max = 1;
 		layout = recordLayout;
 		for (int i = 0; i < layout.getRecordCount(); i++) {
 			max = Math.max(max, layout.getRecord(i).getFieldCount());
 		}
-		
+
 		operator = new int[max];
 		setOperator(OP_NONE);
 	}
@@ -66,11 +69,11 @@ public class FieldSummaryDetails {
 	public final void setOperator(int idx, int newOption) {
 		operator[idx] = newOption;
 	}
-	
+
 	public final int getFieldCount() {
 		return layout.getRecord(recordIndex).getFieldCount();
 	}
-	
+
 	public final int getRecordIndex() {
 		return recordIndex;
 	}
@@ -81,9 +84,9 @@ public class FieldSummaryDetails {
 			this.recordIndex = layoutIndex;
 		}
 	}
-	
+
 	public final void setOperator(int op) {
-		
+
 		for (int i = 0; i < operator.length; i++) {
 			operator[i] = OP_NONE;
 		}
@@ -96,16 +99,16 @@ public class FieldSummaryDetails {
 	public final SortSummary[] getSummary() {
 		SortSummary[] ret;
 		int i, j, size;
-		
+
 		size = 0;
 		for (i = 0; i < operator.length; i++) {
 			if (operator[i] != OP_NONE) {
 				size += 1;
 			}
 		}
-		
+
 		ret = new SortSummary[size];
-		
+
 		j= 0;
 		for (i = 0; i < operator.length; i++) {
 			if (operator[i] != OP_NONE) {
@@ -114,7 +117,7 @@ public class FieldSummaryDetails {
 				ret[j++].operator  = OPERATOR_NAMES[getOperator(i)];
 			}
 		}
-		
+
 		return ret;
 	}
 
@@ -124,12 +127,12 @@ public class FieldSummaryDetails {
 	 * @param summary summary details
 	 */
 	public final void setSummary(int recordIdx, SortSummary[] summary) {
-		int i, j, idx, op;		
+		int i, j, idx, op;
 
 		if (summary != null) {
 			for (i = 0; i < summary.length; i++) {
 				idx = layout.getRecord(recordIdx).getFieldIndex(summary[i].fieldName);
-				
+
 				if (idx >= 0) {
 					op = OP_NONE;
 					for (j = 0; j < OPERATOR_NAMES.length; j++) {
@@ -138,7 +141,7 @@ public class FieldSummaryDetails {
 							break;
 						}
 					}
-	
+
 					operator[idx] = op;
 				}
 			}

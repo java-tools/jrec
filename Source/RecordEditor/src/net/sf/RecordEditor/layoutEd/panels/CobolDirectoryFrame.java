@@ -30,10 +30,10 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 @SuppressWarnings("serial")
 public class CobolDirectoryFrame extends ReFrame {
-	
+
 	//public final JButton saveBtn;
 	public JFileChooser fileChooser = new JFileChooser();
-	
+
 	public final SplitCombo  splitOptions  = new SplitCombo();
 	public BmKeyedComboBox fileStructure;
 	public final JTextField  fontName      = new JTextField();
@@ -41,17 +41,19 @@ public class CobolDirectoryFrame extends ReFrame {
 	                    binaryOptions = new ComputerOptionCombo();
     public BmKeyedComboBox      system;
 
-	public JTextArea msg;
-	
+	//public JTextArea msgTxt;
+	public BasePanel panel = new BaseHelpPanel();
+
+
 	private ActionListener actionListner = null;
-	
+
 	public final KeyAdapter keyListner = new KeyAdapter() {
 	        /**
 	         * @see java.awt.event.KeyAdapter#keyReleased
 	         */
 	        public final void keyReleased(KeyEvent event) {
-	        	
-	        	if (event.getKeyCode() == KeyEvent.VK_ENTER 
+
+	        	if (event.getKeyCode() == KeyEvent.VK_ENTER
 	        	&&  actionListner != null) {
 	        		loadFiles();
 	         	} else if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -59,67 +61,66 @@ public class CobolDirectoryFrame extends ReFrame {
 	         	}
 	        }
 	};
-	
+
 	public CobolDirectoryFrame(String name, String dir,
 			/*boolean displayMsg, boolean directorySelection,*/ int dbIdx) {
 		super("", name, null);
- 
+
 		init(dbIdx);
         //String[] dirAction = {"Save to Directory", "Load From Directory"};
         //String[] fileAction = {"Save", "Load"};
         //String[] btnTxt = fileAction;
 
 
-		BasePanel pnl = new BaseHelpPanel();
-		
+
 		//if (directorySelection) {
 			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		//}
-		
 
-//			saveBtn= new JButton(btnTxt[1]);	
+
+//			saveBtn= new JButton(btnTxt[1]);
 		fileChooser.setApproveButtonText("Load");
 
 		if (dir != null) {
 			fileChooser.setSelectedFile(new File(dir));
 		}
 		//fileChooser.setControlButtonsAreShown(false);
-		
-		pnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP1,
+
+		panel.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP1,
 		         BasePanel.FULL, BasePanel.FULL,
 		         fileChooser);
 
-		SwingUtils.addKeyListnerToContainer(pnl, keyListner);
+		SwingUtils.addKeyListnerToContainer(panel, keyListner);
 		//pnl.setGap(BasePanel.GAP1);
 		//pnl.addLine("", null, saveBtn);
-       
-		pnl.addLine("Split Copybook", splitOptions);
-		pnl.addLine("Font Name", fontName);
-		pnl.addLine("Binary Format", binaryOptions);
 
-		pnl.addLine("File Structure", fileStructure);
-		pnl.addLine("System", system);
+		panel.addLine("Split Copybook", splitOptions);
+		panel.addLine("Font Name", fontName);
+		panel.addLine("Binary Format", binaryOptions);
+
+		panel.addLine("File Structure", fileStructure);
+		panel.addLine("System", system);
 
         //if (displayMsg) {
-    	msg = new JTextArea();
-    	pnl.setGap(BasePanel.GAP1);
-    	pnl.addMessage(msg);
+		JTextArea msgTxt = new JTextArea();
+    	panel.setGap(BasePanel.GAP1);
+    	panel.addMessage(msgTxt);
 
-    	SwingUtils.addKeyListnerToContainer(msg, keyListner);
+    	SwingUtils.addKeyListnerToContainer(msgTxt, keyListner);
         //} else {
         //	msg = null;
         //}
-		
-		pnl.done();
-		
-		addMainComponent(new JScrollPane(pnl));
 
-//        setBounds(getY(), getX(), 
+		panel.done();
+
+		addMainComponent(new JScrollPane(panel));
+
+//        setBounds(getY(), getX(),
 //        		Math.min(width, getWidth() + WIDTH_INCREASE),
 //        		getHeight());
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
+
         fileChooser.addActionListener(new ActionListener() {
 
 			/* (non-Javadoc)
@@ -137,18 +138,18 @@ public class CobolDirectoryFrame extends ReFrame {
 			}
         });
  	}
-	
-	
+
+
 	private void init(int dbIdx) {
 	    splitOptions.setSelectedIndex(0);
-	    
+
 	    TableDB         systemTable = new TableDB();
 	    DBComboModel<TableRec>    systemModel
 			= new DBComboModel<TableRec>(systemTable, 0, 1, true, false);
-	    
+
 	    BmKeyedComboModel structureModel = new BmKeyedComboModel(new ManagerRowList(
 				LineIOProvider.getInstance(), false));
-	    
+
 		systemTable.setConnection(new ReConnection(dbIdx));
 
 		systemTable.setParams(Common.TI_SYSTEMS);
@@ -158,12 +159,12 @@ public class CobolDirectoryFrame extends ReFrame {
 
 
 	}
-	
+
 	public String getFileName() {
 		return fileChooser.getSelectedFile().getPath();
 	}
-	
-	
+
+
 	public File getFile() {
 		return fileChooser.getSelectedFile();
 	}
@@ -171,7 +172,7 @@ public class CobolDirectoryFrame extends ReFrame {
 	public final void loadFiles() {
 		actionListner.actionPerformed(new ActionEvent(CobolDirectoryFrame.this, 0, "Open"));
 	}
-	
+
 	/**
 	 * @param actionListner the actionListner to set
 	 */

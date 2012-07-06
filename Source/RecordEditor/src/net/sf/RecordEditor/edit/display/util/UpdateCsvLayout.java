@@ -23,18 +23,24 @@ import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
+
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
 import net.sf.RecordEditor.utils.swing.ComboBoxRender;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimitierCombo;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.QuoteCombo;
 
 public class UpdateCsvLayout implements ActionListener {
 
-	private static final String[] COL_NAMES = {
+	private static final String[] COL_NAMES = LangConversion.convertColHeading(
+			"Update Csv File Format",
+			new String[] {
 		"Field Name", "Include", "Type", "Decimal Places", "Source Column",
 		"Default"
-	};
+	});
 	private static final int FIELD_COL = 0;
 	private static final int INCLUDE_COL = 1;
 	private static final int TYPE_COL = 2;
@@ -43,29 +49,32 @@ public class UpdateCsvLayout implements ActionListener {
 	private static final int DEFAULT_COL = 5;
 	//private static final int DEFAULT_IN_EMPTY_COL = 6;
 
-	private static final String[] TYPES_TEXT = {
+	private static final String[] TYPES_TEXT = LangConversion.convertComboItms(
+			"Csv Field Types",
+			new String[] {
 		"Text",
 		"Number",
 		"Number (Fixed Decimal)"
-	};
+	});
 	private static final int[] TYPE = {
 		Type.ftChar, Type.ftNumAnyDecimal, Type.ftNumLeftJustified
 	};
 
 	private ArrayList<FieldDef> fields = new ArrayList<FieldDef>(20);
 	private LayoutDetail layout;
-	@SuppressWarnings("unchecked")
+
+	@SuppressWarnings("rawtypes")
 	private FileView view;
 	private AbstractFileDisplay source;
 
 	//private BasePanel panel = new BasePanel();
 	private FieldModel fieldModel = new FieldModel();
 	private JTable fieldTbl = new JTable(fieldModel);
-	private JComboBox delimiterCombo;
-	private JComboBox quoteCombo = new JComboBox(Common.QUOTE_LIST);
-	private JButton goBtn = new JButton("Apply");
+	private DelimitierCombo delimiterCombo;
+	private QuoteCombo quoteCombo = QuoteCombo.NewCombo();
+	private JButton goBtn = SwingUtils.newButton("Apply");
 
-	private JMenu moveMenu = new JMenu("Move ...");
+	private JMenu moveMenu = SwingUtils.newMenu("Move ...");
 
 	private MenuPopupListener popupListner = new MenuPopupListener();
 	private ReFrame frame;
@@ -125,13 +134,14 @@ public class UpdateCsvLayout implements ActionListener {
 
 		if (layout.getFileStructure() == Constants.IO_UNICODE_TEXT
 		||  layout.getFileStructure() == Constants.IO_UNICODE_NAME_1ST_LINE) {
-			delimiterCombo = new JComboBox(Common.FIELD_SEPARATOR_TEXT_LIST);
+			delimiterCombo = DelimitierCombo.NewTextDelimCombo();
 		} else {
-			delimiterCombo = new JComboBox(Common.FIELD_SEPARATOR_LIST1);
+			delimiterCombo = DelimitierCombo.NewDelimCombo();
 		}
 
-		delimiterIdx = getIndex(delim, Common.FIELD_SEPARATOR_LIST1_VALUES, delimiterCombo);
-		quoteIdx = getIndex(quote, Common.QUOTE_VALUES, quoteCombo);
+		delimiterIdx = delimiterCombo.getAddEnglish(delim, true);// getIndex(delim, Common.FIELD_SEPARATOR_LIST1_VALUES, delimiterCombo);
+		quoteIdx =  quoteCombo.getAddEnglish(quote, true);
+				//getIndex(quote, Common.QUOTE_VALUES, quoteCombo);
 
 
 		setupTable();
@@ -297,7 +307,8 @@ public class UpdateCsvLayout implements ActionListener {
         String quote = rec.getQuote();
 
         if (quoteCombo.getSelectedIndex() < Common.QUOTE_VALUES.length) {
-        	quote = Common.QUOTE_VALUES[quoteCombo.getSelectedIndex()];
+        	quote = quoteCombo.getSelectedKey();
+        			//Common.QUOTE_VALUES[quoteCombo.getSelectedIndex()];
         }
 
 	    for (int i = 0; i < fields.size(); i++) {

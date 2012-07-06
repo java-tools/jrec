@@ -4,7 +4,6 @@ package net.sf.RecordEditor.edit.display.util;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 
@@ -15,8 +14,10 @@ import net.sf.RecordEditor.jibx.compare.RecordParent;
 import net.sf.RecordEditor.jibx.compare.RecordTree;
 import net.sf.RecordEditor.utils.common.AbstractSaveDetails;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.edit.RecordList;
+
+import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -27,24 +28,26 @@ import net.sf.RecordEditor.utils.swing.SaveButton;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
-	
+
 	private static final int PARENT_INDEX     = 1;
 	public static final Integer BLANK_PARENT = Integer.valueOf(-1);
-	
-	private static final String[] LAYOUT_COLUMN_HEADINGS = {
-		"Record", "Parent Record"
-	};
-	
-	private BaseHelpPanel pnl = new BaseHelpPanel();
-	
+
+	private static final String[] LAYOUT_COLUMN_HEADINGS = LangConversion.convertColHeading(
+			"Create_Record_Tree",
+			new String[] {
+					"Record", "Parent Record"
+	});
+
+	public final BaseHelpPanel panel = new BaseHelpPanel();
+
 	private LayoutTblMdl recordMdl = new LayoutTblMdl();
 	public final JTable recordTbl = new JTable(recordMdl);
-	
-	public final JButton execute
-	  = new JButton("Build", Common.getRecordIcon(Common.ID_TREE_ICON));
-	public final JTextField messageFld = new JTextField();
 
-	
+	public final JButton execute
+	  = SwingUtils.newButton("Build", Common.getRecordIcon(Common.ID_TREE_ICON));
+	//private final JTextField msgTxt = new JTextField();
+
+
 	private AbstractLayoutDetails<?, ?> layout;
 	private Integer[] parent;
 
@@ -52,15 +55,15 @@ public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
 	public CreateRecordTreePnl() {
 		init_200_FormatScreen(false, 10);
 	}
-	
+
 	public CreateRecordTreePnl(AbstractLayoutDetails<?, ?> layoutDetails, boolean addSave) {
 		super();
-		
+
 		setLayout(layoutDetails);
-		
+
 		init_200_FormatScreen(addSave, recordTbl.getRowCount());
 	}
-	
+
 	/**
 	 * Set the layout
 	 * @param layoutDetails new layout details
@@ -72,10 +75,10 @@ public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
 		for (int i = 0; i < parent.length; i++) {
 			parent[i] = BLANK_PARENT;
 		}
-		
-		init_100_ScreenFields();	
+
+		init_100_ScreenFields();
 	}
-	
+
 	/**
 	 * @return the layout
 	 */
@@ -92,54 +95,53 @@ public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
 		RecordList records = new RecordList(layout, false, true, true);
 		BmKeyedComboBox editor = new BmKeyedComboBox(new BmKeyedComboModel(records), false);
 		//pnl.registerComponent(parentFrame);
-		pnl.registerComponent(editor);
+		panel.registerComponent(editor);
 
 		tc = recordTbl.getColumnModel().getColumn(1);
 		tc.setCellRenderer(new BmKeyedComboBoxRender(new BmKeyedComboModel(records), false));
 		tc.setCellEditor(new DefaultCellEditor(editor));
-		
+
 		recordTbl.setRowHeight(SwingUtils.COMBO_TABLE_ROW_HEIGHT);
 	}
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 * Format the screen
 	 */
 	private void init_200_FormatScreen(boolean addSave, int recs) {
-		
+
 		int height = SwingUtils.calculateComboTableHeight(
-				recs, 
+				recs,
 				ReFrame.getDesktopHeight() / 2);
-		
-		pnl.setHelpURL(Common.formatHelpURL(Common.HELP_RECORD_TREE));
-		
-		pnl.addComponent(1, 5,
+
+		panel.setHelpURL(Common.formatHelpURL(Common.HELP_RECORD_TREE));
+
+		panel.addComponent(1, 5,
 		         height,
 		         BasePanel.GAP1,
 		         BasePanel.FULL, BasePanel.FULL,
 				 recordTbl);
-		pnl.setComponentName(recordTbl, "Recs");
+		panel.setComponentName(recordTbl, "Recs");
 
 		if (addSave) {
-			SaveButton<EditorTask> saveBtn = new SaveButton<EditorTask>(this, 
-					Parameters.getFileName(Parameters.RECORD_TREE_SAVE_DIRECTORY)); 
-			pnl.addLine("", saveBtn, execute);
+			SaveButton<EditorTask> saveBtn = new SaveButton<EditorTask>(this,
+					Parameters.getFileName(Parameters.RECORD_TREE_SAVE_DIRECTORY));
+			panel.addLine("", saveBtn, execute);
 		}
-		pnl.setGap(BasePanel.GAP2);
-		
-		pnl.addMessage(messageFld);
+		panel.setGap(BasePanel.GAP2);
 
-		pnl.done();
-		
+		panel.addMessage();
+
+		panel.done();
 //		if (parentFrame != null) {
 //			parentFrame.addMainComponent(pnl);
 //		}
 	}
 
 
-	
-	
+
+
 	/**
 	 * @see net.sf.RecordEditor.utils.common.AbstractSaveDetails#getSaveDetails()
 	 */
@@ -147,7 +149,7 @@ public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
 	public final EditorTask getSaveDetails() {
 		RecordTree tree = new net.sf.RecordEditor.jibx.compare.RecordTree();
 		int i, j, size;
-		
+
 		Common.stopCellEditing(recordTbl);
 		size = 0;
 		for (i = 0; i < parent.length; i++) {
@@ -155,22 +157,22 @@ public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
 				size += 1;
 			}
 		}
-		
+
 		j = 0;
 		tree.parentRelationship = new RecordParent[size];
 		for (i = 0; i < parent.length; i++) {
 			if (parent[i] != CreateRecordTreePnl.BLANK_PARENT) {
 				tree.parentRelationship[j] = new net.sf.RecordEditor.jibx.compare.RecordParent();
 				tree.parentRelationship[j].recordName   = layout.getRecord(i).getRecordName();
-				
-				tree.parentRelationship[j++].parentName 
+
+				tree.parentRelationship[j++].parentName
 					= layout.getRecord(parent[i].intValue()).getRecordName();
 			}
 		}
 		return (new EditorTask())
 					.setRecordTree(layout.getLayoutName(), tree);
 	}
-	
+
 	/**
 	 * update tree definition from save details
 	 * @param saveDetails details that have been saved
@@ -178,7 +180,7 @@ public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
 	public final void setFromSavedDetails(EditorTask saveDetails) {
 		setFromSavedDetails(saveDetails.recordTree);
 	}
-	
+
 	public final void setFromSavedDetails(RecordTree recordTree) {
 		int i, idx;
 		RecordParent[] parentRel = recordTree.parentRelationship;
@@ -195,7 +197,7 @@ public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
 
 	}
 
-	
+
     /**
      * Table model to display records
      *
@@ -256,7 +258,7 @@ public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
          * @see javax.swing.table.TableModel#setValueAt
          */
         public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        	
+
         	if (aValue == null) {
         		parent[rowIndex] = BLANK_PARENT;
         	} else if (aValue instanceof Integer) {
@@ -266,12 +268,12 @@ public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
         	}
         }
     }
-    
+
 	/**
 	 * @return the pnl
 	 */
 	public final BaseHelpPanel getPanel() {
-		return pnl;
+		return panel;
 	}
 
 	/**
@@ -309,7 +311,7 @@ public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
 //	 * @return wether action is available
 //	 */
 //	public boolean isActionAvailable(final int action) {
-//		return  (action == ReActionHandler.HELP) 
+//		return  (action == ReActionHandler.HELP)
 //		    ||  super.isActionAvailable(action);
 //	}
 

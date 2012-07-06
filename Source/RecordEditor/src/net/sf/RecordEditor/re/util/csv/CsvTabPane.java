@@ -119,7 +119,7 @@ public class CsvTabPane implements FormatFileName {
 			try {
 				readFilePreview(readUnicodeFile(fileName), allowTabSwap, fileName, layoutId);
 			} catch (IOException ex) {
-				Common.logMsg("Error Reading File", ex);
+				Common.logMsg("Error Reading File:", ex);
 			}
 		}
 	}

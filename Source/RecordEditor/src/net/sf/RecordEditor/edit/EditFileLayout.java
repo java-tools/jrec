@@ -15,7 +15,6 @@ package net.sf.RecordEditor.edit;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.AbstractAction;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
@@ -31,11 +30,15 @@ import net.sf.RecordEditor.re.openFile.LayoutSelectionFile;
 import net.sf.RecordEditor.re.openFile.LayoutSelectionFileCreator;
 import net.sf.RecordEditor.re.util.ReIOProvider;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.edit.ParseArgs;
 
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
+import net.sf.RecordEditor.utils.params.Parameters;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
+
+
 /**
- * This class will Edit a file with a File-Layout (instead of using a DB copybook) 
+ * This class will Edit a file with a File-Layout (instead of using a DB copybook)
  *
  * @author Bruce Martin
  *
@@ -78,43 +81,43 @@ public class EditFileLayout extends EditRec {
                 null, null, Parameters.getApplicationDirectory() + "CobolFiles.txt",
                 Common.HELP_COBOL_EDITOR, new LayoutSelectionFile());
 
-        this.setOpenFileWindow(open, 
-        		new AbstractAction("File Copy Menu") {
+        this.setOpenFileWindow(open,
+        		new ReAbstractAction("File Copy Menu") {
 
 					/**
 					 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 					 */
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						CopyFileLayout.newMenu();			
+						CopyFileLayout.newMenu();
 					}
         		},
-				new AbstractAction("Compare Menu") {
-		
+				new ReAbstractAction("Compare Menu") {
+
 					/**
 					 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 					 */
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						CompareFileLayout.newMenu();			
+						CompareFileLayout.newMenu();
 					}
 				},
 				true
 		);
-        
-        getEditMenu().add(new AbstractAction("Layout Wizard") {
+
+        getEditMenu().add(new ReAbstractAction("Layout Wizard") {
 
 			/**
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 			 */
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new WizardFileLayout(getOpenFileWindow().getOpenFilePanel().getCurrentFileName());			
+				new WizardFileLayout(getOpenFileWindow().getOpenFilePanel().getCurrentFileName());
 			}
         });
-        
-   
-        super.getEditMenu().addSeparator();     
+
+
+        super.getEditMenu().addSeparator();
         super.getEditMenu().add(addAction(new VisibilityAction()));
         super.getEditMenu().add(addAction(new SaveFieldSequenceAction()));
     }
@@ -127,9 +130,9 @@ public class EditFileLayout extends EditRec {
 	 */
 	protected void addProgramSpecificMenus(JMenuBar menubar) {
 
-		JMenu layoutMenu = new JMenu("Record Layouts");
+		JMenu layoutMenu = SwingUtils.newMenu("Record Layouts");
 	    menubar.add(layoutMenu);
-	    layoutMenu.add(new AbstractAction("Layout Wizard") {
+	    layoutMenu.add(new ReAbstractAction("Layout Wizard") {
 	    	public void actionPerformed(ActionEvent e) {
 	    		new WizardFileLayout(getOpenFileWindow().getOpenFilePanel().getCurrentFileName());
 	    	}

@@ -25,6 +25,7 @@ import net.sf.RecordEditor.re.tree.AbstractLineNodeTreeParser;
 import net.sf.RecordEditor.re.tree.LineNode;
 import net.sf.RecordEditor.re.tree.TreeToXml;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 
 @SuppressWarnings("serial")
 public class LineTree extends BaseLineTree<LineNode> {
@@ -41,12 +42,12 @@ public class LineTree extends BaseLineTree<LineNode> {
 
 
 		AbstractAction[] extraActions = {
-                new AbstractAction("Rebuild Tree") {
+                new ReAbstractAction("Rebuild Tree") {
                     public void actionPerformed(ActionEvent e) {
                     	rebuildNode(getNodeForRow(popupRow));
                     }
                 },
-                new AbstractAction("Print Line Details") {
+                new ReAbstractAction("Print Line Details") {
                     public void actionPerformed(ActionEvent e) {
                     	int[] selected = treeTable.getSelectedRows();
 

@@ -13,7 +13,7 @@
  * # Version 0.61 Bruce Martin 2007/04/14
  *   - Remove call to BasePanel.done()
  *   - JRecord Spun off, code reorg
- *   
+ *
  *
  * # Version 0.62 Bruce Martin 2007/04/30
  *   - adding support for enter key
@@ -32,7 +32,7 @@ import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.re.openFile.OpenFileInterface;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
@@ -116,13 +116,13 @@ public class OpenFile extends ReFrame {
 						selection)
 		);
 	}
-	
+
 	public OpenFile(final OpenFileInterface openFile) {
 		this(openFile, FRAME_WIDTH);
 	}
-	
+
 	public OpenFile(final OpenFileInterface openFile, int width) {
-		super("Open File", "", null);
+		super("", "Open File", "", null);
 
 //		copyBookInterface = pInterfaceToCopyBooks;
 
@@ -145,9 +145,9 @@ public class OpenFile extends ReFrame {
 
 
 		setVisible(true);
-		
+
 		setToMaximum(false);
-		
+
 //		this.addFocusListener(
 //				new FocusAdapter() {
 //
@@ -184,7 +184,7 @@ public class OpenFile extends ReFrame {
 	public final void setTheBounds() {
 	    this.setBounds(frameSize);
 	}
- 
+
 
 	/**
 	 * @return the openFilePanel

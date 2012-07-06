@@ -62,6 +62,11 @@ import net.sf.JRecord.External.CopybookWriterManager;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Log.TextLog;
 
+import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.params.Parameters;
+import net.sf.RecordEditor.utils.params.ProgramOptions;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
+
 /**
  *
  * Holds common routines for RecordEdit and layoutEdit programs
@@ -157,16 +162,17 @@ public final class Common implements Constants {
 	public static final String HELP_GENERIC_CSV    = "HlpRe16.htm#HDRGENERICCSV";
 
 	public static final String DATE_FORMAT_DESCRIPTION
-		= "Please remember that Date formats are case sensitive:<ul compact>"
-		+ "<li>dd   - is 2 charcter day (lowercase d for day)</li>"
-		+ "<li>MM   - is 2 charcter month (uppercase M for month)</li>"
-		+ "<li>MMM  - is 3 charcter month (uppercase M for month)</li>"
-		+ "<li>yy   - is 2 charcter year (lowercase y for month)</li>"
-		+ "<li>yyyy - is 4 charcter year (lowercase y for month)</li>"
-		+ "</ul><br>use dd/MM/yy for 25/12/98, dd.MM.yyyy for 25.Dec.1998";
+		= LangConversion.convertId(LangConversion.ST_MESSAGE, "DateFormatDescription",
+				  "Please remember that Date formats are case sensitive:<ul compact>"
+				+ "<li>dd   - is 2 charcter day (lowercase d for day)</li>"
+				+ "<li>MM   - is 2 charcter month (uppercase M for month)</li>"
+				+ "<li>MMM  - is 3 charcter month (uppercase M for month)</li>"
+				+ "<li>yy   - is 2 charcter year (lowercase y for month)</li>"
+				+ "<li>yyyy - is 4 charcter year (lowercase y for month)</li>"
+				+ "</ul><br>use dd/MM/yy for 25/12/98, dd.MM.yyyy for 25.Dec.1998");
 
 
-	public static final String[] FIELD_SEPERATOR_OPTIONS  = {"<Tab>", "<Space>", ",", ";", ":", "|", "/", "\\", "~", "!", "*", "#", "@"};
+//	public static final String[] FIELD_SEPERATOR_OPTIONS  = {"<Tab>", "<Space>", ",", ";", ":", "|", "/", "\\", "~", "!", "*", "#", "@"};
 
 
 	/**
@@ -205,6 +211,8 @@ public final class Common implements Constants {
 	public static final String HELP_COPYBOOK       = "HlpLe08.htm";
 	public static final String HELP_COPYBOOK_CHOOSE= "HlpLe09.htm";
 	public static final String HELP_COPY_LAYOUT    = "HlpLe10.htm";
+
+	public static final String FILE_SAVE_FAILED = LangConversion.convert("File Save Failed:");
 
 	private static final String DATABASE_NAME       = fix(Parameters.getString(Parameters.DEFAULT_DATABASE));
 //	public static final String DEFAULT_IO_NAME       = fix(Parameters.getString(Parameters.DEFAULT_IO));
@@ -345,29 +353,22 @@ public final class Common implements Constants {
 	private static boolean[] dropSemi      = new boolean[NUMBER_OF_COPYBOOK_SOURCES];
 
 	public static final String DATE_FORMAT_STR;
-//	public static final String DEFAULT_FILE_DIRECTORY
-//			= Parameters.getFileName("DefaultFileDirectory");
-//	public static final String DEFAULT_COBOL_DIRECTORY
-//			= Parameters.getFileName("DefaultCobolDirectory");
-//	public static final String DEFAULT_COPYBOOK_DIRECTORY
-//			= Parameters.getFileName(Parameters.COPYBOOK_DIRECTORY);
-//	public static final String DEFAULT_VELOCITY_DIRECTORY
-//			= Parameters.getFileName(Parameters.VELOCITY_TEMPLATE_DIRECTORY);
 
 	public static final String USER_INIT_CLASS
 			= Parameters.getString("UserInitilizeClass");
 
 
+	public static final String DEFAULT_STRUCTURE = LangConversion.convert(DEFAULT_STRING);
 	public static final String STANDARD_CHARS = "+-.,/?\\!\'\"$%&*@()[]abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	public static final String STANDARD_CHARS0 = "+-.,abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	public static final String STANDARD_CHARS1 = STANDARD_CHARS.substring(STANDARD_CHARS.indexOf('a'));
 	public static final String FILE_SEPERATOR  =  System.getProperty("file.separator");
 
    	public final static String[] FIELD_SEPARATOR_LIST = {
-		"<Default>", "<Tab>", "<Space>", ",", ";", ":", "|", "/", "\\", "~", "!", "*", "#", "@", "x'00'", "x'01'", "x'02'", "x'FD'", "x'FE'", "x'FF"
+		"<Default>", "<Tab>", "<Space>", ",", ";", ":", "|", "/", "\\", "~", "!", "*", "#", "@", "x'00'", "x'01'", "x'02'", "x'FD'", "x'FE'", "x'FF'"
 	};
    	public final static String[] FIELD_SEPARATOR_LIST1 = {
-		"<Tab>", "<Space>", ",", ";", ":", "|", "/", "\\", "~", "!", "*", "#", "@", "x'00'", "x'01'", "x'02'", "x'FD'", "x'FE'", "x'FF'"
+   					 "<Tab>", "<Space>", ",", ";", ":", "|", "/", "\\", "~", "!", "*", "#", "@", "x'00'", "x'01'", "x'02'", "x'FD'", "x'FE'", "x'FF'"
 	};
    	public final static String[] FIELD_SEPARATOR_TEXT_LIST = new String[FIELD_SEPARATOR_LIST1.length - 6];
    	public final static String[] FIELD_SEPARATOR_LIST1_VALUES;
@@ -382,6 +383,7 @@ public final class Common implements Constants {
    				FIELD_SEPARATOR_LIST1, 0,
    				FIELD_SEPARATOR_TEXT_LIST, 0, FIELD_SEPARATOR_TEXT_LIST.length);
    	}
+
   	public final static String QUOTE_LIST[] = {
 		"<None>", "<Default>", "\"", "'", "`"
 	};
@@ -536,9 +538,24 @@ public final class Common implements Constants {
         reActionDesc[ReActionHandler.EXECUTE_SAVED_SORT_TREE]  = "Load and Execute a saved Sort Tree";
         reActionDesc[ReActionHandler.EXECUTE_SAVED_RECORD_TREE]= "Load and Execute a saved Record Tree";
         reActionDesc[ReActionHandler.COMPARE_WITH_DISK]        = "Compare what is being edited with what is stored on disk";
-        reActionDesc[ReActionHandler.SHOW_INVALID_ACTIONS]     = "Show Invlid (incomplete) Records (Messages)";
+        reActionDesc[ReActionHandler.SHOW_INVALID_ACTIONS]     = "Show Invalid (incomplete) Records (Messages)";
         reActionDesc[ReActionHandler.AUTOFIT_COLUMNS]   = "Calculate the column widths based on data in the columns";
-   }
+
+        String desc;
+        for (int i = 0; i < reActionNames.length; i++) {
+        	desc = "Description_for_" + reActionNames[i];
+        	reActionNames[i] = getName(reActionNames[i], "");
+        	reActionDesc[i]  = getName(reActionDesc[i], desc);
+        }
+    }
+
+    private static String getName(String s, String desc) {
+    	if (s != null && ! "".equals(s)) {
+    		s = LangConversion.convertDesc(LangConversion.ST_ACTION, s, desc);
+    	}
+    	return s;
+    }
+
 
 	/**
 	 * Static Common procedures
@@ -895,10 +912,10 @@ public final class Common implements Constants {
 			} catch (Exception ex) {
 				dbConnection[dbIdx] = null;
 			    String msg = ex.getMessage();
-			    jdbcMsg[dbIdx] = "DataBase Connection error: " + msg;
+			    jdbcMsg[dbIdx] = LangConversion.convert("DataBase Connection error:") + " " + msg;
 
-			    logMsg(jdbcMsg[dbIdx] + "\nConnection Index " + dbIdx
-			    		+ "\nConnection ID " + dataSource[dbIdx], ex);
+			    logMsgRaw(jdbcMsg[dbIdx] + "\n" + LangConversion.convert("Connection Index") + dbIdx
+			    		+ "\n" + LangConversion.convert("Connection ID") + dataSource[dbIdx], ex);
 			    throw new java.sql.SQLException(jdbcMsg[dbIdx]);
 			}
 		}
@@ -930,8 +947,9 @@ public final class Common implements Constants {
 				String msg = ex.getMessage();
 				jdbcMsg[dbIdx] = "DataBase Connection error: " + msg;
 
-				logMsg(jdbcMsg[dbIdx] + "\nConnection Index " + dbIdx
-						+ "\nConnection ID " + dataSource[dbIdx], ex);
+				logMsgRaw(jdbcMsg[dbIdx]
+						+ "\n" + LangConversion.convert("Connection Index") + " " + dbIdx
+						+ "\n" + LangConversion.convert("Connection ID ") + " " + dataSource[dbIdx], ex);
 			}
 		}
 
@@ -974,7 +992,7 @@ public final class Common implements Constants {
 	    try {
 	        return getDBConnection(dbIndex);
 	    } catch (Exception ex) {
-	        logMsg(ex.getMessage(), null);
+	        logMsgRaw(ex.getMessage(), null);
             return null;
         }
     }
@@ -1265,12 +1283,21 @@ public final class Common implements Constants {
 
         //System.out.println(")) " + url);
         if (url == null) {
-            logMsg("Can not find icon " + name, null);
+            logMsgRaw("Can not find icon:" + name, null);
             return null;
         }
     	return new ImageIcon(url);
     }
 
+    public static ImageIcon readIcon(String name) {
+    	URL url = currClass.getResource(name);
+
+    	if (url == null) {
+            logMsg("Can not find icon:" + name, null);
+            return null;
+        }
+    	return new ImageIcon(url);
+    }
 
 
     /**
@@ -1284,7 +1311,7 @@ public final class Common implements Constants {
             recIcon[ID_HELP_ICON]    = getIcon("Help");
         }
 
-        return new JButton("Help", recIcon[ID_HELP_ICON]);
+        return SwingUtils.newButton("Help", recIcon[ID_HELP_ICON]);
     }
 
     /**
@@ -1339,12 +1366,25 @@ public final class Common implements Constants {
      * @param ex Exception being logged
      */
     public static final void logMsg(String message, Exception ex) {
+    	logMsgRaw(AbsSSLogger.ERROR, LangConversion.convert(LangConversion.ST_MESSAGE, message), ex);
+    }
 
-    	logMsg(AbsSSLogger.ERROR, message, ex);
-
+    public static final void logMsgRaw(String message, Exception ex) {
+    	logMsgRaw(AbsSSLogger.ERROR, message, ex);
     }
 
     public static final void logMsg(int level, String message, Exception ex) {
+    	logMsgRaw(level, LangConversion.convert(LangConversion.ST_MESSAGE, message), ex);
+    }
+    public static final void logMsg(int level, String message, String message2, Exception ex) {
+    	logMsgRaw(level, LangConversion.convert(LangConversion.ST_MESSAGE, message) + " " + message2, ex);
+    }
+
+    public static final void logMsgId(String id, int level, String message, Exception ex) {
+    	logMsgRaw(level,  LangConversion.convertId(LangConversion.ST_MESSAGE, id, message), ex);
+    }
+
+    public static final void logMsgRaw(int level, String message, Exception ex) {
 	    if (logger == null) {
 	        System.out.println(message);
 	        if (ex != null) {
@@ -1450,6 +1490,8 @@ public final class Common implements Constants {
      */
     public static final String formatHelpURL(String helpId) {
 
+    	String lang = Parameters.getString(Parameters.CURRENT_LANGUAGE);
+    	File f;
         if (htmlDir == null) {
             htmlDir = Parameters.getFileName("HelpDir");
         }
@@ -1457,16 +1499,36 @@ public final class Common implements Constants {
         //System.out.println("Help Directory: " + htmlDir);
         if (htmlDir == null || "".equals(htmlDir)) {
             try {
-                htmlDir = "File:" + Parameters.getBaseDirectory() + "/Docs/";
+                htmlDir = Parameters.getBaseDirectory() + "/Docs/";
             } catch (Exception e) {
                 e.printStackTrace();
                 htmlDir = "";
             }
         }
 
-        //System.out.println("Help file: " + htmlDir + helpId);
+        if (htmlDir.toUpperCase().startsWith("FILE:")) {
+        	htmlDir = htmlDir.substring(5);
+        }
+        if ((! htmlDir.endsWith("/")) && (! htmlDir.endsWith("\""))) {
+        	htmlDir += "/";
+        }
 
-        return htmlDir + helpId;
+        f = new File(htmlDir + lang + "/" + helpId);
+
+        //System.out.println(htmlDir + lang + "/" + helpId + " " + f.exists() + " " + f.isFile());
+        if (f.isFile()) {
+        	try {
+        		return f.toURI().toURL().toString();
+        	} catch (Exception e) {
+			}
+        }
+
+        try {
+        	return (new File(htmlDir + helpId)).toURI().toURL().toString();
+        } catch (Exception e) {
+        	e.printStackTrace();
+		}
+        return "";
     }
     //        String dir = ClassLoader.getSystemResource("edit/EditRec.class").toString();
 
@@ -1749,9 +1811,10 @@ public final class Common implements Constants {
                     }
                     ret[i] = id;
                 } catch (Exception e) {
-                    logMsg("Error Loading Index: " + i + " "
-                            + s + " " + Parameters.TYPE_CLASS_PREFIX + " "
-                            + e.getMessage(), null);
+                    logMsg( AbsSSLogger.ERROR,
+                    		"Error Loading Array, Index:",
+                    		i + " " + s + " " + Parameters.TYPE_CLASS_PREFIX + " " + e.getMessage(),
+                    		null);
                     //e.printStackTrace();
                 }
             }
@@ -1818,8 +1881,10 @@ public final class Common implements Constants {
                         }
                         ret[i] = Class.forName(s).newInstance();
                     } catch (Exception e) {
-                        logMsg("Error Loading Property: " + i + " "
-                                + e.getMessage(), null);
+                        logMsg( AbsSSLogger.ERROR,
+                        		"Error Loading Property:",
+                        		i + " " + e.getMessage(),
+                        		null);
                         e.printStackTrace();
                     }
                 }
@@ -1883,7 +1948,10 @@ public final class Common implements Constants {
 				if (hsqlServer && toWarn
 				&& dataSource[connectionIndex] != null
 				&& dataSource[connectionIndex].toLowerCase().startsWith("jdbc:hsqldb:file:")) {
-					String message = "\t********************   Warning ***************************\n"
+					String message = LangConversion.convertId(
+						LangConversion.ST_MESSAGE,
+						"DB001",
+						  "\t********************   Warning ***************************\n"
 						+ "Tried to Connect to the HSQL Data Base Server and failed. Will run in Database embedded mode.\n"
 						+ "This package works best in Data Base Server Mode (option on menu, exit this program before you start the Server).\n\n"
 						+ "If you wish to use the package in imbeded Mode, You may wish to reveiw the Database\n"
@@ -1894,9 +1962,9 @@ public final class Common implements Constants {
 						+       " multiple versions of the RecordEditor to be run at once,"
 						+ " but you may have update problems\n\n"
 						+ "See \"Improving the running of RecordEditor HSQL\" section in HowTo documnetation "
-						+ "for more details";
+						+ "for more details");
 
-					logMsg(message, null);
+					logMsgRaw(message, null);
 				}
 			}
 		}

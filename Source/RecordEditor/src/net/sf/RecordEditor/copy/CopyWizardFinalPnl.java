@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package net.sf.RecordEditor.copy;
 
@@ -17,10 +17,13 @@ import net.sf.RecordEditor.jibx.JibxCall;
 import net.sf.RecordEditor.jibx.compare.CopyDefinition;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
+
+import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 
 /**
@@ -33,28 +36,28 @@ public class CopyWizardFinalPnl extends BaseHelpPanel implements AbstractWizardP
 	private FileChooser saveFileName   = new FileChooser(false);
 	private FileChooser fieldErrorFile = new FileChooser(false);
 	private JTextField  maxErrors      = new JTextField();
-	
+
 	private AbstractLayoutSelection<?> selection;
 	private AbstractLayoutSelection<?> selection2;
-	
-	private JButton saveBtn = new JButton("Save", Common.getRecordIcon(Common.ID_SAVE_ICON)); 
-	private JButton runBtn  = new JButton("Copy");
-//	private JButton htmlBtn = new JButton("Compare (HTML)");
-	
+
+	private JButton saveBtn = SwingUtils.newButton("Save", Common.getRecordIcon(Common.ID_SAVE_ICON));
+	private JButton runBtn  = SwingUtils.newButton("Copy");
+//	private JButton htmlBtn = SwingUtils.newButton("Compare (HTML)");
+
 	private JRadioButton stripTrailingSpaces = new JRadioButton("Strip Trailing Spaces");
 
-	private JTextField message        = new JTextField();
-	
-	
+//	private JTextField message        = new JTextField();
+
+
 	private CopyDefinition copyDetail;
-	
+
 	private JibxCall<CopyDefinition> jibx = null;
-	
+
 	private boolean toRun = true;
-	
 
 
-	
+
+
 	private AbstractAction btnAction = new AbstractAction() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -65,31 +68,31 @@ public class CopyWizardFinalPnl extends BaseHelpPanel implements AbstractWizardP
 				save();
 			}
 		}
-		
+
 	};
-	
-	
+
+
 	/**
 	 * Final wizard Screen
 	 */
 	public CopyWizardFinalPnl(
-			AbstractLayoutSelection<?> layoutSelection, 
+			AbstractLayoutSelection<?> layoutSelection,
 			AbstractLayoutSelection<?> layoutSelection2) {
 		super();
 		JPanel pnl = new JPanel(new GridLayout(3,2));
 		//JPanel pnlStrip = new JPanel();
-		
-		
+
+
 		selection = layoutSelection ;
 		selection2 = layoutSelection2;
-		
+
 		saveFileName.setDefaultDirectory(Parameters.getFileName(Parameters.COMPARE_SAVE_DIRECTORY));
 
 		saveBtn.addActionListener(btnAction);
 		runBtn.addActionListener(btnAction);
-	
+
 		super.setHelpURL(Common.formatHelpURL(Common.HELP_DIFF_SL));
-		
+
 		super.addLine("Save File", saveFileName, saveFileName.getChooseFileButton());
 		super.setGap(BasePanel.GAP1);
 		super.addLine("Field Error File", fieldErrorFile, fieldErrorFile.getChooseFileButton());
@@ -98,15 +101,15 @@ public class CopyWizardFinalPnl extends BaseHelpPanel implements AbstractWizardP
 		super.addLine("", stripTrailingSpaces);
 		super.addLine("", pnl);
 		super.setHeight(BasePanel.GAP5);
-		
+
 		super.addLine("", null, saveBtn);
 		super.setGap(BasePanel.GAP0);
 		super.addLine("", null, runBtn);
 		super.setGap(BasePanel.GAP2);
-		super.addMessage(message);
+		super.addMessage();
 		super.setHeight(BasePanel.HEIGHT_1P6);
 	}
-	
+
 
 	/**
 	 * @see net.sf.RecordEditor.utils.wizards.AbstractWizardPanel#getComponent()
@@ -121,29 +124,30 @@ public class CopyWizardFinalPnl extends BaseHelpPanel implements AbstractWizardP
 	 */
 	@Override
 	public final CopyDefinition getValues() throws Exception {
-		
+
 		if (! "".equals(saveFileName.getText())) {
 			copyDetail.saveFile = saveFileName.getText();
 		}
-		
+
 		copyDetail.fieldErrorFile = fieldErrorFile.getText();
 		if ("".equals(copyDetail.fieldErrorFile.trim())) {
 			copyDetail.fieldErrorFile = null;
 		}
-		
+
 		if ("".equals(maxErrors.getText().trim())) {
 			copyDetail.maxErrors = -1;
 		} else {
 			try {
 				copyDetail.maxErrors = Integer.parseInt(maxErrors.getText());
 			} catch (Exception e) {
-				String em = "Invalid max errors value: " + e.getMessage();
-				message.setText(em);
+				String em = LangConversion.convert("Invalid max errors value: ") + e.getMessage();
+
+				super.setMessageRawTxt(em);
 				copyDetail.maxErrors = -1;
 				throw new RuntimeException(em, e);
 			}
 		}
-		
+
 		copyDetail.stripTrailingSpaces = stripTrailingSpaces.isSelected();
 		//System.out.println("Final Get -Layout Name: " + diffDetail.getLayoutDetails().name);
 
@@ -165,12 +169,12 @@ public class CopyWizardFinalPnl extends BaseHelpPanel implements AbstractWizardP
 	 */
 	@Override
 	public final void setValues(CopyDefinition detail) throws Exception {
-		
+
 		saveFileName.setText(detail.saveFile);
 		copyDetail = detail;
 		copyDetail.fileSaved = false;
 		copyDetail.complete = "YES";
-		
+
 		if (copyDetail.fieldErrorFile == null) {
 			fieldErrorFile.setText("");
 		} else {
@@ -181,12 +185,12 @@ public class CopyWizardFinalPnl extends BaseHelpPanel implements AbstractWizardP
 		if (copyDetail.maxErrors >= 0) {
 			maxErrors.setText(Integer.toString(copyDetail.maxErrors));
 		}
-		
+
 		stripTrailingSpaces.setSelected(copyDetail.stripTrailingSpaces);
 	}
-	
+
 	public final void run() {
-		
+
 		try {
 			copyDetail = getValues();
 
@@ -194,26 +198,26 @@ public class CopyWizardFinalPnl extends BaseHelpPanel implements AbstractWizardP
 
 			toRun = false;
 			if (ok) {
-				message.setText("Copy Done !!! ");
+				setMessageTxt("Copy Done !!!");
 			} else {
-				message.setText("Copy Done !!!, check log for errors ");
+				setMessageTxt("Copy Done !!!, check log for errors");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			Common.logMsg("Copy Failed", e);
-			message.setText("Copy Failed: " + e.getMessage());
+			Common.logMsg("Copy Failed:", e);
+			setMessageTxt("Copy Failed:", e.getMessage());
 		}
 	}
 
 
-	
+
 	/**
 	 * Save the file
 	 */
 	public final void save() {
 		try {
 			copyDetail = getValues();
-			
+
 		    if (jibx == null) {
 			   jibx = new JibxCall<CopyDefinition>(CopyDefinition.class);
 		    }
@@ -221,7 +225,7 @@ public class CopyWizardFinalPnl extends BaseHelpPanel implements AbstractWizardP
 			copyDetail.fileSaved = true;
 		} catch (Exception e) {
  		   e.printStackTrace();
-		   Common.logMsg("File Save Failed:", e);
+		   Common.logMsgRaw(Common.FILE_SAVE_FAILED, e);
 		}
 	}
 

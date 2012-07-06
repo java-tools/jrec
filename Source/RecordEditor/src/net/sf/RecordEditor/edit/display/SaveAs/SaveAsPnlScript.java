@@ -13,7 +13,7 @@ import javax.swing.JComboBox;
 import net.sf.RecordEditor.re.openFile.RecentFiles;
 import net.sf.RecordEditor.re.script.ScriptMgr;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.FileChooser;
 

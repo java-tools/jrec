@@ -11,6 +11,8 @@
  */
 package net.sf.RecordEditor.layoutWizard;
 
+import net.sf.RecordEditor.utils.lang.LangConversion;
+
 /**
  * Column details record
  *
@@ -27,9 +29,11 @@ public class ColumnDetails {
     public static final int INCLUDE_IDX = 5;
     public static final int NUMBER_OF_COLUMNS = 6;
 
-    private static final String[] COLUMN_NAMES = {
+    private static final String[] COLUMN_NAMES = LangConversion.convertColHeading(
+			"LayoutWizard Field definition",
+			new String[] {
             "Field Name", "Start", "Length", "Type", "Decimal", "Include"
-    };
+    });
 
     protected String name = "";
     protected int start  = 0;

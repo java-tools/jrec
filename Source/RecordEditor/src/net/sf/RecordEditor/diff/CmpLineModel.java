@@ -8,42 +8,45 @@ import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 @SuppressWarnings("serial")
 public class CmpLineModel extends AbstractTableModel {
-	
+
 	public static final int BEFORE = 0;
 	public static final int AFTER  = 1;
-	
-	
-	private static final String[] columnNames = {"Field", "Position", "Length", "Old", "New"}; 
-	
+
+
+	private static final String[] columnNames = LangConversion.convertColHeading(
+			"Compare_Line",
+			new String[] {"Field", "Position", "Length", "Old", "New"});
+
 	private ArrayList<LineCompare>[] displayRows;
 	private AbstractLayoutDetails<?, ?> description;
 	private int[] changedFields = null;
-	
+
 	private static final int COLUMN_COUNT = 5;
-	
+
 	private int recordIdx = 0;
 	private int currentRow = 0;
 	private boolean displayChangedFields = false;
-	
-	
+
+
 
 	@SuppressWarnings("unchecked")
 	public CmpLineModel(AbstractLayoutDetails<?, ?> layout,
 						  ArrayList<LineCompare> displayBefore, ArrayList<LineCompare> displayAfter) {
 
 		displayRows = new ArrayList[2];
-	
+
 		description = layout;
-		
+
 		displayRows[BEFORE] = displayBefore;
 		displayRows[AFTER]  = displayAfter;
-		
+
 		//System.out.println("Changed: " + displayBefore.size() + " " + displayAfter.size());
 	}
-	
+
 	@Override
 	public int getColumnCount() {
 		return COLUMN_COUNT;
@@ -66,7 +69,7 @@ public class CmpLineModel extends AbstractTableModel {
 		Object ret = null;
 		int idx = columnIndex - 3;
 		int id = getAdjustedRow(rowIndex);
-		
+
 		if (columnIndex < 3) {
 			if (rowIndex == 0) {
 				if (columnIndex == 0) {
@@ -95,11 +98,11 @@ public class CmpLineModel extends AbstractTableModel {
 
 		return ret;
 	}
-	
+
 	private Object standardFields(int rowIndex, int idx) {
 		Object ret = null;
 		LineCompare cmp = displayRows[idx].get(currentRow);
-		
+
 		if (cmp == null) {
 			ret = "";
 		} else  if (rowIndex == 0) {
@@ -107,14 +110,14 @@ public class CmpLineModel extends AbstractTableModel {
 		} else {
 			LineCompare before = displayRows[BEFORE].get(currentRow);
 			int lineIdx = rowIndex - 1 ;
-			
+
 			if (idx == 1 && before != null) {
 				if (Common.trimRight(before.line.getField(recordIdx, lineIdx))
 						.equals(Common.trimRight(cmp.line.getField(recordIdx, lineIdx)))) {
 					return  "";
 				}
 			}
-			
+
 			if (lineIdx >= description.getRecord(recordIdx).getFieldCount()) {
 				return "";
 			}
@@ -123,17 +126,17 @@ public class CmpLineModel extends AbstractTableModel {
 		}
 		return ret;
 	}
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 * @param rowIndex
 	 * @return
 	 */
 	private int getAdjustedRow(int rowIndex) {
-		
+
 		int id = rowIndex;
-		
+
 		if (description.isMapPresent() && rowIndex > 0) {
 			if (rowIndex == 1) {
 				return Constants.KEY_INDEX + 1;
@@ -141,16 +144,16 @@ public class CmpLineModel extends AbstractTableModel {
 
 			id -= 1;
 		}
-		
+
 		if ( displayChangedFields && id > 0 && getChangedFields().length >= id
 		&& ! isAllFields()) {
 			id = getChangedFields()[id - 1];
 		}
-		
+
 		return id;
 	}
-	
-	
+
+
 	/**
 	 * check if a particular row has changed
 	 * @param rowIdx row to check
@@ -159,14 +162,14 @@ public class CmpLineModel extends AbstractTableModel {
 	public final boolean isFieldChanged(int rowIdx) {
 		boolean ret = false;
 		int row = getAdjustedRow(rowIdx);
-		
+
 		if (row > 0 && currentRow <= displayRows[0].size()) {
 			LineCompare before = displayRows[0].get(currentRow);
 			LineCompare after  = displayRows[1].get(currentRow);
 			int lineIdx = row - 1 ;
-			
+
 			if (before != null && before.line != null
-			&& before.code == LineCompare.CHANGED 
+			&& before.code == LineCompare.CHANGED
 			&& after != null && after.line != null) {
 				if (! Common.trimRight(before.line.getField(recordIdx, lineIdx))
 						.equals(Common.trimRight(after.line.getField(recordIdx, lineIdx)))) {
@@ -176,15 +179,15 @@ public class CmpLineModel extends AbstractTableModel {
 		}
 		return ret;
 	}
-	
+
 	@Override
 	public String getColumnName(int column) {
-		
+
 		return columnNames[column];
 	}
-	
+
 	public final void setDisplayRows(ArrayList<LineCompare> displayBefore, ArrayList<LineCompare> displayAfter) {
-		
+
 		displayRows[BEFORE] = displayBefore;
 		displayRows[AFTER]  = displayAfter;
 
@@ -196,13 +199,13 @@ public class CmpLineModel extends AbstractTableModel {
 	protected final int getRecordIdx() {
 		return recordIdx;
 	}
-	
+
 	/**
 	 * @param recordIdx the recordIdx to set
 	 */
 	protected final boolean setRecordIdx(int recordIndex) {
 		int idx = recordIndex;
-		
+
 		if (idx >= description.getRecordCount()) {
 			LineCompare cmp = this.displayRows[BEFORE].get(currentRow);
 			if (cmp == null) {
@@ -220,50 +223,50 @@ public class CmpLineModel extends AbstractTableModel {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @return the currentRow
 	 */
 	protected final int getCurrentRow() {
 		return currentRow;
 	}
-	
+
 	/**
 	 * Get the BEFORE compare line detail
 	 * @return compare line details
 	 */
 	public final LineCompare getCurrentCompareLine() {
-//		if (displayRows[BEFORE].get(currentRow) != null 
-//		&&  (displayRows[AFTER].get(currentRow) == null 
+//		if (displayRows[BEFORE].get(currentRow) != null
+//		&&  (displayRows[AFTER].get(currentRow) == null
 //		  || displayRows[AFTER].get(currentRow).line == null)) {
 //			displayRows[BEFORE].get(currentRow).code = LineCompare.DELETED;
 //		}
 		return displayRows[BEFORE].get(currentRow);
 	}
-	
+
 	/**
 	 * @param currentRow the currentRow to set
 	 */
 	protected final void setCurrentRow(int newRow) {
 		if (newRow >= 0 && currentRow != newRow) {
 			this.currentRow = newRow;
-			
+
 			changedFields = null;
-			
+
 			if (! setRecordIdx(description.getRecordCount())) {
 				this.fireTableDataChanged();
 			}
 		}
 	}
-	
+
 	private int[] getChangedFields() {
-		
+
 		if (changedFields == null) {
 			int size = 0;
 			int i, j;
 			LineCompare before = displayRows[BEFORE].get(currentRow);
 			LineCompare after  = displayRows[AFTER].get(currentRow);
-			
+
 			if (before == null || after == null) {
 				changedFields = new int[0];
 				return changedFields;
@@ -271,17 +274,17 @@ public class CmpLineModel extends AbstractTableModel {
 
 			for (i = 0; i < description.getRecord(recordIdx).getFieldCount(); i++) {
 				if (! Common.trimRight(before.line.getField(recordIdx, i))
-						.equals(Common.trimRight(after .line.getField(recordIdx, i)))	
+						.equals(Common.trimRight(after .line.getField(recordIdx, i)))
 				) {
 					size += 1;
 				}
 			}
-			
+
 			changedFields = new int[size];
 			j = 0;
 			for (i = 0; i < description.getRecord(recordIdx).getFieldCount(); i++) {
 				if (! Common.trimRight(before.line.getField(recordIdx, i))
-						.equals(Common.trimRight(after .line.getField(recordIdx, i)))	
+						.equals(Common.trimRight(after .line.getField(recordIdx, i)))
 				) {
 					changedFields[j++] = i + 1;
 				}
@@ -299,7 +302,7 @@ public class CmpLineModel extends AbstractTableModel {
 		if (! displayChangedFields) {
 			return true;
 		}
-		
+
 		LineCompare before = displayRows[BEFORE].get(currentRow);
 
 		return (before == null || before.code == LineCompare.DELETED
@@ -309,7 +312,7 @@ public class CmpLineModel extends AbstractTableModel {
 	 * @param onlyChangedFields the displayChangedFields to set
 	 */
 	public final void setDisplayChangedFields(boolean onlyChangedFields) {
-		
+
 		this.displayChangedFields = onlyChangedFields;
 		fireTableDataChanged();
 	}

@@ -19,6 +19,7 @@ import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.AbsRowList;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
@@ -47,16 +48,17 @@ public class Pnl4Names extends WizardPanel {
         super();
 
 		String formDescription
-		    = "This screen will display the Column Details and allow you to change them. ";
+		    = LangConversion.convertId(LangConversion.ST_MESSAGE, "FileWizard_4",
+		    		"This screen will display the Column Details and allow you to change them. ");
 		JEditorPane tips = new JEditorPane("text/html", formDescription);
-		
+
 		columnNames = new ColumnNames(typeList);
 
 
 		this.setHelpURL(Common.formatHelpURL(Common.HELP_WIZARD_PNL3));
 		this.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP3,
 		        BasePanel.FULL, BasePanel.FULL,
-				new JScrollPane(tips));
+				tips);
 		this.setGap(BasePanel.GAP1);
 		this.addComponent(1, 5, COLUMN_HEIGHT, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
@@ -73,7 +75,7 @@ public class Pnl4Names extends WizardPanel {
      * @see net.sf.RecordEditor.layoutWizard.WizardPanel#getValues(net.sf.RecordEditor.layoutWizard.LayoutWizard.Details)
      */
     public Details getValues() throws Exception {
-       
+
         return columnNames.getValues();
     }
 

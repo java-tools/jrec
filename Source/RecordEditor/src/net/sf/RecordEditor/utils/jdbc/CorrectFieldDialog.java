@@ -15,7 +15,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+
 import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 /**
@@ -24,6 +26,7 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
  * To change the template for this generated type comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
+@SuppressWarnings("serial")
 public class CorrectFieldDialog extends JDialog implements ActionListener {
 
     private static final int FIELD_LENGTH = 15;
@@ -33,8 +36,8 @@ public class CorrectFieldDialog extends JDialog implements ActionListener {
 	private JTextField newVal  = new JTextField(FIELD_LENGTH);
 	private JTextField message = new JTextField();
 
-	private JButton next   = new JButton("Next >");
-	private JButton stop   = new JButton("Stop");
+	private JButton next   = SwingUtils.newButton("Next >");
+	private JButton stop   = SwingUtils.newButton("Stop");
 	private JPanel  btnPnl = new JPanel();
 
 	private  BasePanel dtls = new BasePanel();

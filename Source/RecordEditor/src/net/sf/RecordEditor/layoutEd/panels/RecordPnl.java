@@ -20,10 +20,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
-import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -37,6 +35,7 @@ import javax.swing.JTextField;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.CsvParser.ParserManager;
+import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.Types.TypeManager;
 import net.sf.RecordEditor.layoutEd.Record.ChildRecordsJTbl;
@@ -62,6 +61,9 @@ import net.sf.RecordEditor.utils.edit.ManagerRowList;
 import net.sf.RecordEditor.utils.jdbc.AbsRecord;
 import net.sf.RecordEditor.utils.jdbc.DBComboModel;
 import net.sf.RecordEditor.utils.jdbc.DBtableModel;
+
+import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.ReAction;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -70,7 +72,9 @@ import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
 import net.sf.RecordEditor.utils.swing.HelpWindow;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.swing.Combo.ComboObjOption;
-import net.sf.RecordEditor.utils.swing.Combo.KeyedComboMdl;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimitierCombo;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.KeyedComboMdl;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.RecordSepCombo;
 
 
 
@@ -93,13 +97,14 @@ public class RecordPnl extends BaseHelpPanel
 	private static final int NULL_RECORD = -999;
 	private static final int DESCRIPTION_HEIGHT =  SwingUtils.STANDARD_FONT_HEIGHT * 5;
 
-	private static final String[] FIELD_SEPERATOR  = Common.FIELD_SEPARATOR_LIST1; //{"<Tab>", "<Space>", ",", ";", ":", "|", "/", "\\", "~", "!", "*", "#", "@"};
-	private static final String[] RECORD_SEPERATOR = {Common.DEFAULT_STRING, Common.CRLF_STRING, Common.CR_STRING, Common.LF_STRING};
-	private static final byte[][] RECORD_SEP_VALS  = {Common.LFCR_BYTES,     Common.LFCR_BYTES,  Common.CR_BYTES,  Common.LF_BYTES};
+	//private static final String[] FIELD_SEPERATOR  = Common.FIELD_SEPARATOR_LIST1; //{"<Tab>", "<Space>", ",", ";", ":", "|", "/", "\\", "~", "!", "*", "#", "@"};
+//	private static final String[] RECORD_SEPERATOR = {Common.DEFAULT_STRING, Common.CRLF_STRING, Common.CR_STRING, Common.LF_STRING};
+//	private static final byte[][] RECORD_SEP_VALS  = {Common.LFCR_BYTES,     Common.LFCR_BYTES,  Common.CR_BYTES,  Common.LF_BYTES};
 
 	private TableDB recTypeTbl = new TableDB();
 
-	private DBComboModel<TableRec> recordTypeMdl = new DBComboModel<TableRec>(recTypeTbl, 0, 1, true, false);
+	private DBComboModel<TableRec> recordTypeMdl //= new DBComboModel<TableRec>(recTypeTbl, 0, 1, true, false);
+						= recTypeTbl.getComboModel(Common.TI_RECORD_TYPE, true, false);
 
 	private TableDB systemTable      = new TableDB();
 
@@ -117,10 +122,10 @@ public class RecordPnl extends BaseHelpPanel
 	private BmKeyedComboBox sfRecordStyle = new BmKeyedComboBox(styleModel, false);
 	private JCheckBox sfList = new JCheckBox();
 	private JTextField sfCopyBook  = new JTextField();
-	private JComboBox sfDelimiter  = new JComboBox(FIELD_SEPERATOR);
-	private JTextField sfDelimTxt = new JTextField(5);
+	private DelimitierCombo sfDelimiter  = DelimitierCombo.NewDelimCombo();
+	private JTextField sfDelimTxt  = new JTextField(5);
 	private JTextField sfQuote     = new JTextField();
-	private JComboBox sfRecSepList = new JComboBox(RECORD_SEPERATOR);
+	private RecordSepCombo sfRecSepList = new RecordSepCombo();
 
 	private TableDB structureTable    = new TableDB();
 //	private DBComboModel<TableRec> structureModel = new DBComboModel<TableRec>(structureTable, 0, 1,
@@ -137,11 +142,7 @@ public class RecordPnl extends BaseHelpPanel
 
 	private JPanel optionPnl   = new JPanel();
 
-/*	public  JButton btnSave    = new JButton("Save");
-	public  JButton btnNew     = new JButton("New");
-	public  JButton btnRepeat  = new JButton("Repeat");
-	public  JButton btnDel     = new JButton("Delete");*/
-	private JButton btnRefresh = new JButton("Refresh");
+	private JButton btnRefresh = SwingUtils.newButton("Refresh");
 	private JButton btnHelp    = Common.getHelpButton();
 
 	private JButton prevBtn;
@@ -257,7 +258,7 @@ public class RecordPnl extends BaseHelpPanel
 		systemTable.setConnection(con);
 		structureTable.setConnection(con);
 
-		recTypeTbl.setParams(Common.TI_RECORD_TYPE);
+		//recTypeTbl.setParams(Common.TI_RECORD_TYPE);
 		systemTable.setParams(Common.TI_SYSTEMS);
 		structureTable.setParams(Common.TI_FILE_STRUCTURE);
 
@@ -289,7 +290,8 @@ public class RecordPnl extends BaseHelpPanel
 		    headerPnl.add("East", nextBtn);
 		}
 
-		btnRefresh.setToolTipText("Reload values - ie abandon any changes");
+		btnRefresh.setToolTipText(
+				LangConversion.convert(LangConversion.ST_FIELD_HINT, "Reload values - ie abandon any changes"));
 
 		btnRefresh.addActionListener(this);
 		btnHelp.addActionListener(this);
@@ -312,7 +314,10 @@ public class RecordPnl extends BaseHelpPanel
 	 */
 	private JButton buildButton(int action, ReActionHandler handler,
 	        String text, String tip) {
-	    return new JButton(new ReAction(text, tip, Common.getReActionIcon(action),
+	    return new JButton(new ReAction(
+	    		LangConversion.convert(LangConversion.ST_ACTION, text),
+	    		LangConversion.convert(LangConversion.ST_ACTION, tip),
+	    		Common.getReActionIcon(action),
 	            action, handler));
 	}
 
@@ -388,15 +393,15 @@ public class RecordPnl extends BaseHelpPanel
 				v = "<Tab>";
 			}
 
-			sfDelimiter.setSelectedItem(v);
+			sfDelimiter.setEnglish(v);
 			sfDelimTxt.setText("");
-			if (v != null && ! v.equalsIgnoreCase(sfDelimiter.getSelectedItem().toString())) {
+			if (v != null && ! v.equalsIgnoreCase(sfDelimiter.getSelectedEnglish())) {
 				sfDelimTxt.setText(v);
 			}
 			sfRecordStyle.setSelectedItem(Integer.valueOf(val.getValue().getRecordStyle()));
 			sfQuote.setText(val.getValue().getQuote());
 			//sfPosRecInd.setText("" + val.getPosRecInd());
-			sfRecSepList.setSelectedItem(val.getValue().getRecSepList());
+			sfRecSepList.setEnglish(val.getValue().getRecSepList());
 			//sfRecordSep.setText(val.getRecordSep());
 			sfStructure.setSelectedItem(Integer.valueOf(val.getValue().getFileStructure()));
 
@@ -558,7 +563,7 @@ public class RecordPnl extends BaseHelpPanel
 		updating = true;
 		if (currVal == null) {
 			if (sfRecordName.getText().equals("")) {
-				Common.logMsg("Invalid Record Name ", null);
+				Common.logMsg("You must enter a Record Name", null);
 				sfRecordName.requestFocus();
 				return null;
 			}
@@ -570,7 +575,7 @@ public class RecordPnl extends BaseHelpPanel
 			currVal.setUpdateSuccessful(true);
 			//fld = "RecordId";
 			//currVal.setRecordId(Integer.parseInt(sfRecordId.getText()));
-			fld = "RecordName";
+			fld = "Record Name";
 			field = sfRecordName;
 			currVal.getValue().setRecordName(sfRecordName.getText());
 			fld = "Description";
@@ -627,7 +632,7 @@ public class RecordPnl extends BaseHelpPanel
 			field = sfDelimiter;
 			String v = sfDelimTxt.getText();
 			if ("".equals(v)) {
-				currVal.getValue().setDelimiter("" + (String) sfDelimiter.getSelectedItem());
+				currVal.getValue().setDelimiter("" + (String) sfDelimiter.getSelectedEnglish());
 			} else if (v.length() == 1) {
 				currVal.getValue().setDelimiter(v);
 			} else if ((v.length() == 5) && v.toLowerCase().startsWith("x'") && v.endsWith("'") ){
@@ -638,7 +643,7 @@ public class RecordPnl extends BaseHelpPanel
 				} catch (Exception e) {
 					sfDelimTxt.requestFocus();
 					currVal.setUpdateSuccessful(false);
-					Common.logMsg("Invalid Delimiter - Invalid  hex string: " + v.substring(2, 3), null);
+					Common.logMsg(AbsSSLogger.ERROR, "Invalid Delimiter - Invalid  hex string:", v.substring(2, 3), null);
 				}
 			} else {
 				currVal.setUpdateSuccessful(false);
@@ -647,7 +652,7 @@ public class RecordPnl extends BaseHelpPanel
 			}
 		} catch (Exception ex) {
 			currVal.setUpdateSuccessful(false);
-			Common.logMsg("Invalid Field " + fld + " - " + ex.getMessage(), ex);
+			Common.logMsg(AbsSSLogger.ERROR, "Invalid Field", LangConversion.convert(fld) + " - " + ex.getMessage(), ex);
 			if (field != null) {
 				field.requestFocus();
 			}
@@ -678,12 +683,12 @@ public class RecordPnl extends BaseHelpPanel
 	 */
 	private void setSeperator() {
 
-		currVal.getValue().setRecSepList((String) sfRecSepList.getSelectedItem());
+		currVal.getValue().setRecSepList(sfRecSepList.getSelectedEnglish());
 		int idx = sfRecSepList.getSelectedIndex();
 		if (idx < 0) {
 		    idx = 0;
 		}
-		currVal.getValue().setRecordSep(RECORD_SEP_VALS[idx]);
+		currVal.getValue().setRecordSep(sfRecSepList.getKey(idx));
 
 	}
 
@@ -720,13 +725,16 @@ public class RecordPnl extends BaseHelpPanel
 			} else if (structure == Constants.IO_DEFAULT) {
 				if (Common.OPTIONS.warnBinaryFieldsAndStructureDefault.isSelected()) {
 					if (currVal.getBinaryFields() == RecordRec.BF_BINARY_FIELDS) {
-						warnUser("You have binary fields with a default FileStructure."
+						//TODO create multi-line external messages
+						warnUser('1',
+								  "You have binary fields with a default FileStructure."
 								+ "\nThis will also change the File reader from a Text File Reader "
 								+ "\nto a binary Reader (Fixed Length ?)."
 								+	"\nThis may have unexpected consequences (Fields not alligned) ."
 								+ REVIEW_EXTRA);
 					} else if (binaryStatus != RecordRec.BF_NOT_DEFINED) {
-						warnUser("You removed all binary fields from the record and the FileStructure=Default."
+						warnUser('2',
+								  "You removed all binary fields from the record and the FileStructure=Default."
 								+ "\nThis will also change the File reader from a  binary Reader (Fixed Length ?) "
 								+ "\nto a Text File Reader"
 								+	"\nThis may have unexpected consequences (Fields not alligned)."
@@ -738,7 +746,7 @@ public class RecordPnl extends BaseHelpPanel
 					|| structure == Constants.IO_UNICODE_TEXT
 					|| structure == Constants.IO_UNICODE_NAME_1ST_LINE) {
 				if (currVal.getBinaryFields() == RecordRec.BF_BINARY_FIELDS) {
-					warnUser("You have binary fields in a Text file that is not a good Idea. " + REVIEW_EXTRA);
+					warnUser('3', "You have binary fields in a Text file that is not a good Idea. " + REVIEW_EXTRA);
 				}
 			}
 		}
@@ -748,11 +756,13 @@ public class RecordPnl extends BaseHelpPanel
 	}
 
 
-	private void warnUser(String message) {
+	private void warnUser(char id, String message) {
+		String m = LangConversion.convertId(LangConversion.ST_MESSAGE, "RecordPnl_Warn_0" + id, message);
+		JOptionPane.showMessageDialog(
+				this,
+				m);
 
-		JOptionPane.showMessageDialog(this, message);
-
-		Common.logMsg(0, message, null);
+		Common.logMsgId("RecordPnl_00" + id, 0, m, null);
 	}
 
 	/**
@@ -855,7 +865,7 @@ public class RecordPnl extends BaseHelpPanel
 		dbChildModel = new ChildRecordsTblMdl(
 				dbChildTbl,
 				new KeyedComboMdl<Integer>(
-						new ComboObjOption<Integer>(-1, "")));
+						new ComboObjOption<Integer>(-1, "", null)));
 		dbChildModel.setEmptyColumns(2);
 
 		dbChildModel.setCellEditable(true);
@@ -906,7 +916,7 @@ public class RecordPnl extends BaseHelpPanel
 
 		//pnl.done();
 
-		tabbed.addTab("Extras", pnl);
+		SwingUtils.addTab(tabbed, "Record_Layout_Edit", "Extras", pnl);
 	}
 
 
@@ -922,8 +932,9 @@ public class RecordPnl extends BaseHelpPanel
 		if (group) {
 			tabbed.remove(tblPane);
 
-			tabbed.insertTab("Child Records", null, childPane,
-					"Define Child Records", 0);
+			SwingUtils.insertTab(tabbed, "LayoutEdit", "Child Records", childPane, "Define Child Records", 0);
+//			tabbed.insertTab("Child Records", null, childPane,
+//					"Define Child Records", 0);
 
 			updateOptions.setTableDtls(dbChildModel, tblChild, blankChildRecord);
 
@@ -933,7 +944,8 @@ public class RecordPnl extends BaseHelpPanel
 		} else {
 			tabbed.remove(childPane);
 
-			tabbed.insertTab("Fields", null, tblPane, "Field Details", 0);
+			SwingUtils.insertTab(tabbed, "LayoutEdit", "Fields", tblPane, "Field Details", 0);
+//			tabbed.insertTab("Fields", null, tblPane, "Field Details", 0);
 
 			updateOptions.setTableDtls(dbRecordModel, tblRecord, blankRecordFields);
 		}
@@ -958,8 +970,10 @@ public class RecordPnl extends BaseHelpPanel
 	 */
 	public final boolean isOkToDelete() {
 		int result = JOptionPane.showConfirmDialog(null,
-				"Are you sure you want to delete record layout: " + sfRecordName.getText(),
-				"Delete: " + sfRecordName.getText(),
+				LangConversion.convert(
+						"Are you sure you want to delete record layout: {0}",
+						sfRecordName.getText()),
+				LangConversion.convert("Delete: {0}", sfRecordName.getText()),
 				JOptionPane.YES_NO_OPTION);
 
 		return (result == JOptionPane.YES_OPTION);
@@ -1156,7 +1170,7 @@ public class RecordPnl extends BaseHelpPanel
 	        super(null, false, null);
 
 	        this.getPopup().addSeparator();
-	        this.getPopup().add(new AbstractAction("Edit Child Record") {
+	        this.getPopup().add(new ReAbstractAction("Edit Child Record") {
 	            /**
 	             * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	             */
@@ -1164,7 +1178,7 @@ public class RecordPnl extends BaseHelpPanel
 	                editRecordAtRow(row);
 	            }
 	        });
-	        this.getPopup().add(new AbstractAction("Create New Child Record") {
+	        this.getPopup().add(new ReAbstractAction("Create New Child Record") {
 	            /**
 	             * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	             */
@@ -1172,14 +1186,14 @@ public class RecordPnl extends BaseHelpPanel
 	                createChildRecord();
 	            }
 	        });
-	        this.getPopup().add(new AbstractAction("Edit Record Selections") {
+	        this.getPopup().add(new ReAbstractAction("Edit Record Selections") {
 	            public void actionPerformed(ActionEvent e) {
 					//new RecordSelectionFrame("", connectionIdx, dbChildTbl.getRecordId(), dbChildModel.getRecord(row));
 					//new RecordSelectionFrm("", connectionIdx, dbChildTbl.getRecordId(), dbChildModel, row);
 					startRecordSelectionFrm(row);
 				}
 	        });
-	        this.getPopup().add(new AbstractAction("View Record Selections Tree") {
+	        this.getPopup().add(new ReAbstractAction("View Record Selections Tree") {
 	            public void actionPerformed(ActionEvent e) {
 	//                new SelectionTreeTableFrame(connectionIdx, "", dbChildModel);
 					//new RecordSelectionFrm("", connectionIdx, dbChildTbl.getRecordId(), dbChildModel, dbChildModel.getRowCount());

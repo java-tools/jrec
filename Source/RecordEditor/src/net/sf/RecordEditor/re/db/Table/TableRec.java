@@ -22,7 +22,7 @@ public final class TableRec extends AbsRecord {
 
   private int tblKey;
   protected int initTblKey ;
-  private String details;
+  private String details, foreignName = "";
 
 
 
@@ -43,10 +43,24 @@ public final class TableRec extends AbsRecord {
 
       tblKey = pTblKey;
       details = pDetails;
+      foreignName = details;
 
       setKeys();
   }
 
+//  public TableRec (
+//          int pTblKey
+//        , String pDetails
+//        , String foreignNameStr
+//        ) {
+//	  super(false);
+//
+//	  tblKey = pTblKey;
+//	  details = pDetails;
+//	  foreignName = foreignNameStr;
+//
+//	  setKeys();
+//  }
 
   /**
    *  This method copies the key fields to the Init* fields
@@ -112,6 +126,7 @@ public final class TableRec extends AbsRecord {
       switch (fieldNum) {
         case (0) : return Integer.valueOf(tblKey);
         case (1) : return details;
+        case (2) : return foreignName;
         default  : return "";
       }
   }
@@ -126,11 +141,10 @@ public final class TableRec extends AbsRecord {
   protected void setFieldWithString(int fieldNum, String val) {
 
       switch (fieldNum) {
-        case (0) : setTblKey(cnvToInt(tblKey, val, "TblKey" ));
-        break;
-        case (1) : setDetails(val);
-        break;
-        default  : ;
+        case (0) : setTblKey(cnvToInt(tblKey, val, "TblKey" ));		break;
+        case (1) : setDetails(val);									break;
+        case (2) : foreignName = val;								break;
+       default  : ;
       }
   }
 

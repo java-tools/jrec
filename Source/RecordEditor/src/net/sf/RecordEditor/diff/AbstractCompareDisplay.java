@@ -35,11 +35,13 @@ import net.sf.JRecord.Details.AbstractLayoutDetails;
 
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
+
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.LayoutCombo;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 /**
@@ -62,11 +64,11 @@ import net.sf.RecordEditor.utils.swing.LayoutCombo;
 public abstract class AbstractCompareDisplay extends ReFrame {
 
 	//static ImageIcon searchIcon = new ImageIcon(Common.dir + "searchEye.gif");
-	
+
 	//private static final int RECORDS_TO_CHECK = 30;
 	public static final int USE_FULL_LIST = 1;
 	public static final int USE_CHANGE_LIST = 2;
-	
+
 	public static final int ALL_FIELDS     = 1;
 	public static final int CHANGED_FIELDS = 2;
 
@@ -79,10 +81,10 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 	protected JTable tblDetails;
 	private JTable alternativeTbl = null;
 	private LayoutCombo layoutList;
-	
-	private JButton fullListBtn = new JButton("All Included Lines");
-	private JButton chgListBtn  = new JButton("Changed Lines");
-	private JButton allFieldsBtn, changedFieldsBtn ; 
+
+	private JButton fullListBtn = SwingUtils.newButton("All Included Lines");
+	private JButton chgListBtn  = SwingUtils.newButton("Changed Lines");
+	private JButton allFieldsBtn, changedFieldsBtn ;
 	protected final int prefferedIndex;
 
 	protected BaseHelpPanel pnl = new BaseHelpPanel();
@@ -92,13 +94,13 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 	private   int maxHeight = -1;
 	protected int[] widths;
 
-	
+
 	protected final ArrayList<LineCompare> fullBefore, fullAfter, changeBefore, changeAfter;
 	protected ArrayList<LineCompare> displayBefore, displayAfter;
-	
+
 	protected int displayType = USE_CHANGE_LIST;
-	
-	
+
+
 	private ActionListener listner = new ActionListener() {
 		/**
 		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -118,11 +120,11 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 				setDisplayFields(CHANGED_FIELDS);
 			}
 		}
-		
+
 	};
 
     //private HeaderRender headerRender = new HeaderRender();
-    
+
 
 
 	/**
@@ -140,7 +142,7 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 			  		final ArrayList<LineCompare> before,    final ArrayList<LineCompare> after,
 			        final ArrayList<LineCompare> chgBefore, final ArrayList<LineCompare> chgAfter,
 	        		final boolean primary,                  final boolean allRows) {
-		super(name, formType, before);
+		super("", name, formType, before);
 		this.setPrimaryView(primary);
 
 		layout = recordLayout;
@@ -148,22 +150,22 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 		fullAfter    = after;
 		changeBefore = chgBefore;
 		changeAfter  = chgAfter;
-		
+
 		displayBefore = chgBefore;
 		displayAfter  = chgAfter;
 		if (allRows) {
 			displayBefore = before;
-			displayAfter  = after;	
+			displayAfter  = after;
 			displayType = USE_FULL_LIST;
 		}
-		
+
 		screenSize = ReMainFrame.getMasterFrame().getDesktop().getBounds();
 
 		init(primary);
 		prefferedIndex = layoutList.getPreferedIndex();
 		layoutList.setSelectedIndex(prefferedIndex);
 	}
-	
+
 
 
 	/**
@@ -171,7 +173,7 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 	 */
 	private void init(boolean primary) {
 
-		JPanel btnPnl = new JPanel(); 
+		JPanel btnPnl = new JPanel();
 
 		layoutList = new LayoutCombo(layout, false, false, true,  false);
 
@@ -179,28 +181,28 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 		layoutList.addActionListener(listner);
 		fullListBtn.addActionListener(listner);
 		chgListBtn.addActionListener(listner);
-		
+
 		btnPnl.add(fullListBtn);
 		btnPnl.add(chgListBtn);
 		if (! primary) {
-			allFieldsBtn  = new JButton("Show All Fields");
-			changedFieldsBtn = new JButton("Show Changed Fields");
-			
+			allFieldsBtn  = SwingUtils.newButton("Show All Fields");
+			changedFieldsBtn = SwingUtils.newButton("Show Changed Fields");
+
 			btnPnl.add(allFieldsBtn);
 			btnPnl.add(changedFieldsBtn);
-			
+
 			allFieldsBtn.addActionListener(listner);
 			changedFieldsBtn.addActionListener(listner);
 //			setBtnSize(allFieldsBtn, changedFieldsBtn);
 		}
-		
+
 		if (super.isPrimaryView()) {
-			pnl.addComponent3Lines("Layouts", getLayoutList(), btnPnl);			
+			pnl.addComponent3Lines("Layouts", getLayoutList(), btnPnl);
 		} else {
 			pnl.addComponent3Lines("Layouts", getLayoutList(), null);
 			pnl.addLine("", btnPnl);
 		}
-		
+
 		pnl.setHeight(BasePanel.NORMAL_HEIGHT * 2);
 //		setBtnSize(fullListBtn, chgListBtn);
 
@@ -218,21 +220,21 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 //            }
 	    });
 	}
-	
+
 //	private void setBtnSize(JButton btn1, JButton btn2) {
-//		
+//
 //		int width = Math.max(btn1.getWidth(), btn2.getWidth());
 //		btn1.setBounds(btn1.getX(), btn1.getY(), width, btn1.getHeight());
 //		btn2.setBounds(btn2.getX(), btn2.getY(), width, btn2.getHeight());
 //	}
 
-	
+
 	/**
 	 * setup what should be displayed - Full List / Changes
 	 * @param type what to display
 	 */
 	public void setDisplay(int type) {
-		
+
 		displayType = type;
 		if (type == USE_FULL_LIST) {
 			displayBefore = fullBefore;
@@ -241,7 +243,7 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 			displayBefore = changeBefore;
 			displayAfter  = changeAfter;
 		}
-		
+
 		fullListBtn.setVisible(type == USE_CHANGE_LIST);
 		chgListBtn .setVisible(type == USE_FULL_LIST);
 	}
@@ -251,17 +253,17 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 	 * @param fieldDisplay
 	 */
 	public void setDisplayFields(int fieldDisplay) {
-		
-		allFieldsBtn.setVisible(fieldDisplay == CHANGED_FIELDS); 
+
+		allFieldsBtn.setVisible(fieldDisplay == CHANGED_FIELDS);
 		changedFieldsBtn.setVisible(fieldDisplay == ALL_FIELDS);
 	}
 
 	/**
-	 * 
+	 *
 	 * @see net.sf.RecordEditor.utils.screenManager.ReFrame#windowClosing()
 	 */ @Override
 	public void windowClosing() {
-		
+
 		if (super.isPrimaryView()) {
 			ReFrame[] allFrames = ReFrame.getAllFrames();
 			System.out.println("closeWindow " + this.getName());
@@ -273,7 +275,7 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 				}
 			}
 		}
-		
+
 		super.windowClosing();
 	}
 	/**
@@ -290,8 +292,8 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 
 
 
-	
-	
+
+
 	/**
 	 *  Execute standard RecordEditor actions
 	 *
@@ -300,11 +302,11 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 	public void executeAction(int action) {
 
 		stopCellEditing();
-		
+
 		try {
 		switch (action) {
-		case ReActionHandler.HELP:		    	
-			pnl.showHelp();			
+		case ReActionHandler.HELP:
+			pnl.showHelp();
 		break;
 		case ReActionHandler.PRINT:
 		    try {
@@ -321,7 +323,7 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 			e.printStackTrace();
 		}
 	}
-	
+
 
 	/**
 	 * Check if action is available
@@ -331,35 +333,35 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 	 * @return wether action is available
 	 */
 	public boolean isActionAvailable(final int action) {
-	    boolean ret = 
+	    boolean ret =
            (action == ReActionHandler.HELP)
-        || (action == ReActionHandler.PRINT);	 
-	    
+        || (action == ReActionHandler.PRINT);
+
 
 
 		return ret;
 	}
 
-	
+
 	protected int getInsertBeforePosition() {
 		return getStandardPosition() - 1;
 	}
-	
-	
+
+
 	/**
 	 * Standard table position calculation
 	 * @return position
 	 */
 	protected int getStandardPosition() {
-		
+
 		int pos = getCurrRow();
 		if (pos < 0) {
 			pos = displayBefore.size() - 1;
 		}
-		
+
 		return pos;
 	}
-	
+
 
 
 	/**
@@ -380,7 +382,7 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 
 
 
-	
+
     /**
      * set the record layout based on the most common record
      * in the first 30 lines
@@ -391,10 +393,10 @@ public abstract class AbstractCompareDisplay extends ReFrame {
             int i;
             int record2Use = 0;
             int currMax = 0;
-            //int recordsToCheck = Math.min(RECORDS_TO_CHECK, 
+            //int recordsToCheck = Math.min(RECORDS_TO_CHECK,
             //							  displayBefore.size());
             int[] layoutCounts = new int[layout.getRecordCount()];
-            
+
  //           System.out.println("setLayoutIdx: " + fileView.getRowCount() + " " + tblDetails.getRowCount());
 
             for (i = 0; i < layoutCounts.length; i++) {
@@ -418,7 +420,7 @@ public abstract class AbstractCompareDisplay extends ReFrame {
             setLayoutIndex(record2Use);
         }
     }
-    
+
 
     /**
      * get the selected Row count
@@ -427,7 +429,7 @@ public abstract class AbstractCompareDisplay extends ReFrame {
     public int getSelectedRowCount() {
     	return tblDetails.getSelectedRowCount();
     }
-    
+
 	/**
 	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getSelectedRows()
 	 */
@@ -445,20 +447,20 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 	}
 
 
-	
-	
+
+
 	/**
 	 * check if the format has changed
-	 * @param event 
+	 * @param event
 	 * @return
 	 */
 	protected final boolean hasTheFormatChanged(TableModelEvent event) {
 		boolean changed = false;
-		
-		if (event.getType() == TableModelEvent.UPDATE 
+
+		if (event.getType() == TableModelEvent.UPDATE
 				&& event.getFirstRow() < 0 && event.getLastRow() < 0) {
 		}
-		
+
 		return changed;
 	}
 
@@ -487,7 +489,7 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 
 	/**
 	 * Set the layout index
-	 */ 
+	 */
 	 public final void setLayoutIndex(int recordIndex) {
 //		System.out.println("Set Layout Index " + recordIndex);
 		//Common.logMsg("Setting LayoutIndex", null);
@@ -501,9 +503,9 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 	protected final LayoutCombo getLayoutList() {
 		return layoutList;
 	}
-	
 
- 
+
+
 
 
 	/**

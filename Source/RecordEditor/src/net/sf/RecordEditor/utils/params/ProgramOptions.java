@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.utils.common;
+package net.sf.RecordEditor.utils.params;
 
 public class ProgramOptions {
     public static final char COMPRESS_SPACE = 'S';
@@ -92,29 +92,6 @@ public class ProgramOptions {
 	public final FileNameOpt XSLT_JAR2 = new FileNameOpt(Parameters.XSLT_JAR2);
 
 
-	public static class BoolOpt {
-		private String param;
-
-		public BoolOpt(String value) {
-			param = value;
-		}
-
-		public boolean isSelected() {
-			boolean ret;
-
-			if (isDefaultTrue()) {
-				ret = ! "N".equalsIgnoreCase(Parameters.getString(param));
-			} else {
-				ret = "Y".equalsIgnoreCase(Parameters.getString(param));
-			}
-
-			return ret;
-		}
-
-		protected boolean isDefaultTrue() {
-			return Parameters.isDefaultTrue(param);
-		}
-	}
 
 	public static class InternalBoolOption  {
 

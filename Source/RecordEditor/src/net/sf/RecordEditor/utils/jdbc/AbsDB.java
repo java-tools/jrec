@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.utils.common.AbsConnection;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 
 /**
@@ -42,6 +43,7 @@ public abstract class AbsDB<record extends AbsRecord> {
 
 	public static final String nullStr = "";
 	public static final byte   nullBytes[] = {};
+	protected static final String UPDATE_FAILED = LangConversion.convert("Update Failed:");
 
 //	public String sqlID;
 

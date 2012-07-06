@@ -32,6 +32,7 @@ import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
 import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.LineIOProvider;
+import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.layoutWizard.Details;
 import net.sf.RecordEditor.layoutWizard.FileStructureAnalyser;
 import net.sf.RecordEditor.layoutWizard.WizardFileLayout;
@@ -39,7 +40,8 @@ import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.openFile.ComputerOptionCombo;
 import net.sf.RecordEditor.utils.BasicLayoutCallback;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
+
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -55,7 +57,7 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 	private final JLabel dialectLbl = new JLabel("Cobol Dialect");
 	private final ComputerOptionCombo dialectCombo = new ComputerOptionCombo();
 
-	private JButton editBtn = new JButton("Edit");
+	private JButton editBtn = SwingUtils.newButton("Edit");
 
 	private JTable fileTable = new JTable();
 
@@ -260,7 +262,7 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 			try {
 				return rec.asLayoutDetail();
 			} catch (Exception e) {
-				Common.logMsg("Layout Generation Failed: " + e.getMessage(), null);
+				Common.logMsg(AbsSSLogger.ERROR, "Layout Generation Failed:", e.getMessage(), null);
 			}
 		}
 

@@ -19,7 +19,10 @@ import net.sf.RecordEditor.utils.CopyBookInterface;
 import net.sf.RecordEditor.utils.LayoutItem;
 import net.sf.RecordEditor.utils.SystemItem;
 import net.sf.RecordEditor.utils.common.Common;
+
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 /**
@@ -33,14 +36,15 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 
 
 
+	private static final String ALL_SYSTEMS = LangConversion.convertComboItms("Layout Selection", "<All>");
 	private JComboBox   dbCombo     = new JComboBox();
 	private JComboBox   systemCombo = new JComboBox();
 	private JComboBox   layoutCombo = new JComboBox();
 	private JTextArea   description = new JTextArea();
 	private JTextArea   message = null;
 
-	private JButton reload = new JButton(
-			"Reload from DB", 
+	private JButton reload = SwingUtils.newButton(
+			"Reload from DB",
 			Common.getRecordIcon(Common.ID_RELOAD_ICON));
 
 	private ArrayList<SystemItem> systems = new ArrayList<SystemItem>();
@@ -52,7 +56,7 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 	private boolean dbLink = true;
 
 	private CopyBookInterface copyBookInterface;
-	
+
 	private String lastLayoutName = "";
 	private AbstractLayoutDetails lastLayout = null;
 
@@ -80,17 +84,17 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 		loadLayoutCombo();
 
 		reload.addActionListener(this);
-		
+
 		dbCombo.addActionListener(this);
 		systemCombo.addActionListener(this);
 		layoutCombo.addActionListener(this);
 		Common.setDoFree(free, con);
 	}
-	
-	public LayoutSelectionDB(final CopyBookInterface pInterfaceToCopyBooks, JTextArea messageFld, 
+
+	public LayoutSelectionDB(final CopyBookInterface pInterfaceToCopyBooks, JTextArea messageFld,
 			boolean doPrimingRead) {
 		this(pInterfaceToCopyBooks, doPrimingRead);
-		
+
 		message = messageFld;
 	}
 
@@ -111,7 +115,7 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 		}
 		pnl.setGap(BasePanel.GAP1);
 		pnl.addLine("Description", description, goPanel);
-		
+
 		double size = 0;
 		if (goPanel != null) {
 			try {
@@ -120,7 +124,7 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 			}
 		}
 		pnl.setHeight(Math.max(BasePanel.NORMAL_HEIGHT * 3 + 3, size));
-		
+
 		tmpBtn.setVisible(false);
 	}
 
@@ -199,7 +203,7 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 
 		systemCombo.removeAllItems();
 
-		systemCombo.addItem("<All>");
+		systemCombo.addItem(ALL_SYSTEMS);
 
 		dbLink = true;
 		try {
@@ -260,7 +264,7 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 		AbstractLayoutDetails ret = null;
 
 		if (layoutName == null || layoutName.equals("")) {
-			Common.logMsg("No Layout " + layoutName, null);
+			Common.logMsg("No Layout Entered", null);
 		} else if (loadFromFile && lastLayoutName.equals(layoutName)){
 			ret = lastLayout;
 		} else {
@@ -271,7 +275,7 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 		//	}
 			if (lastLayout == null) {
 				message.setText(
-					"Record Layout \"" + layoutName + "\" can not be loaded: \n "
+					LangConversion.convert("Record Layout {0} can not be loaded:", layoutName) + "\n "
 					+ copyBookInterface.getMessage());
 			} else {
 				lastLayoutName = layoutName;
@@ -320,7 +324,7 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
     public JComboBox getSystemCombo() {
         return systemCombo;
     }
-    
+
 	/**
 	 * @see net.sf.RecordEditor.re.openFile.AbstractLayoutSelection#getLayoutName()
 	 */
@@ -329,7 +333,7 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 		if (o == null) {
 			return null;
 		}
-			
+
 		return layoutCombo.getSelectedItem().toString();
 	}
 
@@ -357,7 +361,7 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 	public void setMessage(JTextArea message) {
 		this.message = message;
 	}
-	
+
 
 	/**
 	 * @see net.sf.RecordEditor.re.openFile.AbstractLayoutSelection#getDataBaseNames()

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package net.sf.RecordEditor.diff;
 
@@ -24,7 +24,7 @@ public class CompareInternalLayout extends AbstractWizard<DiffDefinition> {
 
 	private CmpWizardFinal finalScreen;
 	private JibxCall<DiffDefinition> jibx = null;
-	
+
 	/**
 	 * Create Single layout
 	 * @param selection1 record layout selection class 1
@@ -34,13 +34,13 @@ public class CompareInternalLayout extends AbstractWizard<DiffDefinition> {
 	public CompareInternalLayout(
 			AbstractLayoutSelection<?> selection1, AbstractLayoutSelection<?> selection2,
 			String recentFiles) {
-		this(selection1, 
-			 selection2, 
-			 new net.sf.RecordEditor.jibx.compare.DiffDefinition(), 
+		this(selection1,
+			 selection2,
+			 new net.sf.RecordEditor.jibx.compare.DiffDefinition(),
 			 recentFiles);
 	}
-	
-	
+
+
 	/**
 	 * Create Single layout
 	 * @param selection1 record layout selection class 1
@@ -50,21 +50,21 @@ public class CompareInternalLayout extends AbstractWizard<DiffDefinition> {
 	 */
 	@SuppressWarnings("unchecked")
 	public CompareInternalLayout(
-			AbstractLayoutSelection selection1, AbstractLayoutSelection selection2, 
+			AbstractLayoutSelection selection1, AbstractLayoutSelection selection2,
 			DiffDefinition definition, String recentFiles) {
 		super("File Compare", definition);
-		
-		AbstractWizardPanel<DiffDefinition>[] pnls = new AbstractWizardPanel[3]; 
+
+		AbstractWizardPanel<DiffDefinition>[] pnls = new AbstractWizardPanel[3];
 
 		selection1.setMessage(super.getMessage());
-		
+
 		definition.type = DiffDefinition.TYPE_TWO_LAYOUTS;
-		
+
 		finalScreen = new CmpWizardFinal(selection1, selection2);
 		pnls[0] = new GetFiles(selection1, selection2, recentFiles);
 		pnls[1] = new FieldChoice<DiffDefinition>(selection1, selection2, "");
 		pnls[2] = finalScreen;
-		
+
 		super.setPanels(pnls);
 	}
 
@@ -75,15 +75,15 @@ public class CompareInternalLayout extends AbstractWizard<DiffDefinition> {
 	 */
 	@Override
 	public void finished(DiffDefinition details) {
-		
+
 		if (finalScreen.isToRun()) {
 			finalScreen.run();
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 	/**
 	 * @see net.sf.RecordEditor.utils.wizards.AbstractWizard#executeAction(int)
 	 */
@@ -92,14 +92,14 @@ public class CompareInternalLayout extends AbstractWizard<DiffDefinition> {
        if (action == ReActionHandler.SAVE) {
     	   try {
     		   DiffDefinition diff = super.getActivePanel().getValues();
-    		   
+
     		   if (! "".equals(diff.saveFile)) {
     			   getJibx().unmarshal(diff.saveFile, diff);
     			   diff.fileSaved = true;
     		   }
     	   } catch (Exception e) {
     		   e.printStackTrace();
-    		   Common.logMsg("File Save Failed:", e);
+    		   Common.logMsgRaw(Common.FILE_SAVE_FAILED, e);
     	   }
         } else {
             super.executeAction(action);
@@ -134,27 +134,27 @@ public class CompareInternalLayout extends AbstractWizard<DiffDefinition> {
 
 
 
-		private DiffDefinition values 
+		private DiffDefinition values
 			= new net.sf.RecordEditor.jibx.compare.DiffDefinition();
 //		private JPanel goPanel = new JPanel();
 		private FileChooser newFileName = new FileChooser();
 		private AbstractLayoutSelection<?> layoutSelection1;
 		private AbstractLayoutSelection<?> layoutSelection2;
-		
-		
+
+
 		public GetFiles(AbstractLayoutSelection<?> selection1, AbstractLayoutSelection<?> selection2, String recentFiles) {
 			super(selection1, recentFiles);
-			
+
 			newFileName.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());
 			layoutSelection1 = selection1;
 			layoutSelection2 = selection2;
-			
+
 			layoutSelection1.setFileNameField(fileName);
 			layoutSelection2.setFileNameField(newFileName);
 
 			setHelpURL(Common.formatHelpURL(Common.HELP_DIFF_SL));
 		}
-		
+
 
 		/**
 		 * @see net.sf.RecordEditor.utils.wizards.AbstractWizardPanel#getValues()
@@ -178,25 +178,25 @@ public class CompareInternalLayout extends AbstractWizard<DiffDefinition> {
 		public void setValues(DiffDefinition detail) throws Exception {
 			System.out.println("Setting Values ... ");
 			values = detail;
-			
+
 			layoutSelection1.setFileNameField(fileName);
 			layoutSelection2.setFileNameField(newFileName);
 			if (! "".equals(values.oldFile.name)) {
 				fileName.setText(values.oldFile.name);
 			}
-			
+
 			if (! "".equals(values.newFile.name)) {
 				newFileName.setText(values.newFile.name);
 			}
-			
+
 //			if (! "".equals(values.oldFile.getLayoutDetails().name)) {
 //				layoutSelection1.setLayoutName(values.oldFile.getLayoutDetails().name);
 //			}
 		}
-		
+
 		@Override
 		protected void addFileName(BaseHelpPanel pnl) {
-					
+
 			pnl.addLine("Old File", fileName, fileName.getChooseFileButton());
 			pnl.addLine("New File", newFileName, newFileName.getChooseFileButton());
 		}
@@ -206,7 +206,7 @@ public class CompareInternalLayout extends AbstractWizard<DiffDefinition> {
 //	 * @param args
 //	 */
 //	public static void main(String[] args) {
-//		
+//
 //		 new ReMainFrame("File Compare", "");
 //		 new CmpSingleLayout(new LayoutSelectionDB(new CopyBookDbReader()));
 //	}

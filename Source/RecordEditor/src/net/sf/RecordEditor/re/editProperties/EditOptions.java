@@ -39,8 +39,10 @@ import net.sf.JRecord.Numeric.ConversionManager;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.re.util.CopybookLoaderFactoryDB;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
-import net.sf.RecordEditor.utils.common.ProgramOptions;
+import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
+import net.sf.RecordEditor.utils.params.Parameters;
+import net.sf.RecordEditor.utils.params.ProgramOptions;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
@@ -55,73 +57,83 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
 public class EditOptions {
 
     private static final int PROGRAM_DESCRIPTION_HEIGHT
-    		= Math.min(
-    				SwingUtils.NORMAL_FIELD_HEIGHT * 21,
-    				Toolkit.getDefaultToolkit().getScreenSize().height * 3 / 5);
+            = Math.min(
+                    SwingUtils.NORMAL_FIELD_HEIGHT * 21,
+                    Toolkit.getDefaultToolkit().getScreenSize().height * 3 / 5);
     private EditParams params = new EditParams();
 
     private JFrame frame = new JFrame("Record Editor Options Editor");
     private JEditorPane programDescription;
 
     private JTabbedPane mainTabbed = new JTabbedPane();
-	private JTabbedPane propertiesTabbed = new JTabbedPane();
-	private JTabbedPane xmlTabbed   = new JTabbedPane();
-	private JTabbedPane jdbcTabbed  = new JTabbedPane();
-	private JTabbedPane jarsTabbed  = new JTabbedPane();
-	private JTabbedPane userTabbed  = new JTabbedPane();
-	private JTabbedPane looksTabbed = new JTabbedPane();
-	//private JTextArea msgFld = new JTextArea("");
+    private JTabbedPane propertiesTabbed = new JTabbedPane();
+    private JTabbedPane xmlTabbed   = new JTabbedPane();
+    private JTabbedPane jdbcTabbed  = new JTabbedPane();
+    private JTabbedPane jarsTabbed  = new JTabbedPane();
+    private JTabbedPane userTabbed  = new JTabbedPane();
+    private JTabbedPane looksTabbed = new JTabbedPane();
+    //private JTextArea msgFld = new JTextArea("");
 
-	@SuppressWarnings("serial")
-	private AbstractAction save = new AbstractAction("Save", Common.getRecordIcon(Common.ID_SAVE_ICON)) {
-	    public void actionPerformed(ActionEvent e) {
-	        params.writeProperties();
-	        params.writeJarFiles();
-	    }
-	};
+    @SuppressWarnings("serial")
+    private AbstractAction save = new ReAbstractAction("Save", Common.getRecordIcon(Common.ID_SAVE_ICON)) {
+        public void actionPerformed(ActionEvent e) {
+            params.writeProperties();
+            params.writeJarFiles();
+        }
+    };
 
-	private String description
-		= "<h2>Edit RecordEditor Properties Editor</h2>"
-		+ "This program lets you edit the <b>RecordEditor</b> properties files "
-		+ "and jar files."
-		+ "<br>There is little validation, so be very careful what changes you make."
-		+ "<br>Any changes will not take affect until the next time"
-		+ "the <b>RecordEditor</b> / <b>Layout Editor</b> is run again."
-		+ "<br><br>There are 5 basic tab types in the program: "
-		+ "<table border=\"1\" cellpadding=\"3\">"
-		+ "<tr><TD><b>Properties</b></td>"
-		   +  "<td>Lets you update system properties like "
-		   +  "<b>Screen Position, Directories, Other Options, Wizard Option and Big File Options</b></td></tr>"
-		+ "<tr><TD><b>Properties</b></td>"
-			   +  "<td>Lets you update system properties like "
-			   +  "<b>Screen Position, Directories, Other Options, Wizard Option and Big File Options</b></td></tr>"
-		+ "<tr><td><b>Xml</b></td><td>Xml Xslt properties / jars "
-		+ "<tr><td><b>Jars</b></td><td>These options let you update "
-		    + "the various JAR (java libraries) used by the <b>RecordEditor</b>."
-		    + "<br>The only time you should need to do this "
-		    + "is if you are adding your own code to the <b>RecordEditor</b> or installing Velocity.</td></tr>"
-		+ "<tr><td><b>Extensions</b></td><td>These option let you define your own Types, formats to "
-		   + "the <b>RecordEditor</b>.</td></tr>"
-		+ "<tr><td><b>Looks</b></td><td>This option lets you define the look and feel of the RecordEditor</td</tr>"
-		+ "</table>"
-		+ "<br><br><b>Files being updated are:</b><pre>"
-		+ "<br>System       Jars File=" + CommonCode.SYSTEM_JAR_FILE
-		+ "<br>System JDBC  Jars File=" + CommonCode.SYSTEM_JDBC_JAR_FILE
-		+ "<br>  User       Jars File=" + CommonCode.USER_JAR_FILE
+    private String description
+        = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_PnlDescription",
+
+          "<h2>Edit RecordEditor Properties Editor</h2>"
+        + "This program lets you edit the <b>RecordEditor</b> properties files "
+        + "and jar files."
+        + "<br>There is little validation, so be very careful what changes you make."
+        + "<br>Any changes will not take affect until the next time"
+        + "the <b>RecordEditor</b> / <b>Layout Editor</b> is run again."
+        + "<br><br>There are 5 basic tab types in the program: "
+        + "<table border=\"1\" cellpadding=\"3\">"
+        + "<tr><TD><b>Properties</b></td>"
+           +  "<td>Lets you update system properties like "
+           +  "<b>Screen Position, Directories, Other Options, Wizard Option and Big File Options</b></td></tr>"
+        + "<tr><TD><b>Properties</b></td>"
+               +  "<td>Lets you update system properties like "
+               +  "<b>Screen Position, Directories, Other Options, Wizard Option and Big File Options</b></td></tr>"
+        + "<tr><td><b>Xml</b></td><td>Xml Xslt properties / jars "
+        + "<tr><td><b>Jars</b></td><td>These options let you update "
+            + "the various JAR (java libraries) used by the <b>RecordEditor</b>."
+            + "<br>The only time you should need to do this "
+            + "is if you are adding your own code to the <b>RecordEditor</b> or installing Velocity.</td></tr>"
+        + "<tr><td><b>Extensions</b></td><td>These option let you define your own Types, formats to "
+           + "the <b>RecordEditor</b>.</td></tr>"
+        + "<tr><td><b>Looks</b></td><td>This option lets you define the look and feel of the RecordEditor</td</tr>"
+        + "</table>"
+        + "<br><br><b>Files being updated are:</b><pre>"
+        + "<br>System       Jars File={0}"
+        + "<br>System JDBC  Jars File={1}"
+        + "<br>  User       Jars File={2}"
        //+ "<br>Editor Jars File=" + CommonCode.EDITOR_JAR_FILE
-        + "<br>       Properties file=" + Parameters.getPropertyFileName() + "</pre>";
+        + "<br>       Properties file={3}</pre>",
+        new Object[] {
+            CommonCode.SYSTEM_JAR_FILE,
+            CommonCode.SYSTEM_JDBC_JAR_FILE,
+            CommonCode.USER_JAR_FILE,
+            Parameters.getPropertyFileName()
+        });
 
 //    tabbed.addTab("Copybook Loaders", loadersPnl);
 //    tabbed.addTab("User Types", typePnl);
 //    tabbed.addTab("User Formats", formatPnl);
 
-	private String directoryDescription
-		= "<h2>Directories</h2>"
-		+ "The properties on this panel are for the various directories "
-		+ "used by the <b>RecordEditor</b>";
+    private String directoryDescription
+        = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_Directories",
+
+        "<h2>Directories</h2>"
+        + "The properties on this panel are for the various directories "
+        + "used by the <b>RecordEditor</b>");
 
     private Object[][] directoryParams1 = {
-            {"HelpDir",	"Directory holding the help files", null, EditPropertiesPnl.FLD_TEXT, null},
+            {"HelpDir",	"Directory holding the help files", null, EditPropertiesPnl.FLD_DIR, null},
             {"DefaultFileDirectory",	"Directory where the Editor Starts in (if no file specified)", null, EditPropertiesPnl.FLD_DIR, null},
             {"DefaultCobolDirectory", "The Directory where Cobol Copybooks are stored.", null, EditPropertiesPnl.FLD_DIR, null},
             {Parameters.VELOCITY_TEMPLATE_DIRECTORY, "Velocity Template directory (Editor)", null, EditPropertiesPnl.FLD_DIR, null},
@@ -143,11 +155,13 @@ public class EditOptions {
     };
 
     private String testDescription
-    	= "<h2>Test Properties</h2>"
-    	+ "The options on this screen are used in Testing the Editor.";
+        = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_Test",
+
+          "<h2>Test Properties</h2>"
+        + "The options on this screen are used in Testing the Editor.");
 
     private Object[][] testParams = {
-            {Parameters.PROPERTY_TEST_MODE, "Weather we are running automated Tests (Marathon ?) or not ", null, EditPropertiesPnl.FLD_BOOLEAN, "Test Mode"},
+            {Parameters.PROPERTY_TEST_MODE, "Weather we are running automated Tests (Marathon ?) or not", null, EditPropertiesPnl.FLD_BOOLEAN, "Test Mode"},
  //           {Parameters.BRING_LOG_TO_FRONT, "Bring Log to the Front if Data is written to it", null, EditPropertiesPnl.FLD_BOOLEAN, "Bring log to Front"}, // Checked
  //           {Parameters.ASTERIX_IN_FILE_NAME, "Allow the asterix ('*') character in file Names", null, EditPropertiesPnl.FLD_BOOLEAN, null},
  //           {Parameters.PREFERED_AS_DEFAULT, "Default to prefered layout", null, EditPropertiesPnl.FLD_BOOLEAN, null},
@@ -156,21 +170,24 @@ public class EditOptions {
             {Parameters.USE_NEW_TREE_EXPANSION, "Use New Tree Expansion", null, EditPropertiesPnl.FLD_BOOLEAN,  "Use New Tree Expansion"},
             {Parameters.SEARCH_ALL_FIELDS, "Search: All Fields", null, EditPropertiesPnl.FLD_BOOLEAN,  "On Search Screen default to \"All Fields\""},
             {Parameters.NAME_FIELDS, "Add names to screen Componenets", null, EditPropertiesPnl.FLD_BOOLEAN,  "Add names to JComponents for use by testing tools"},
+            {Parameters.LOG_TEXT_FIELDS,  "Keep a record of all Text Fields going through the Language section. This can be used to generate the language conversion file (GetText PO)", null, EditPropertiesPnl.FLD_BOOLEAN,  "Record Text Fields",},
 //            {Parameters.SHOW_ALL_EXPORT_OPTIONS, "Show all export panels", null, EditPropertiesPnl.FLD_BOOLEAN,  "Show all export panels on the export Screen"},
 //            {Parameters.DEL_SELECTED_WITH_DEL_KEY, "Delete Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Delete Selected with delete key"},
 //            {Parameters.WARN_WHEN_USING_DEL_KEY,  "Warn the user before deleteing Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Warn user with delete key"},
     };
 
     private String behaviourDescription
-	= "<h2>Behavior Properties</h2>"
-	+ "The options on this screen affect the behavior of the editor.<br/"
-	+ "<b>Bring Log to the Front</b>: Wether the log file will be brought to the fron when "
-	+ "data is written to it.<br/>"
-	+ "<b>Default to prefered</b>: Wether to use the prefered layout by default when editting<br/>"
-	+ "<b>Show all export panels</b>: Wether to show all export options or just the option selected<br/>";
+    = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_Behaviour",
 
-private Object[][] behaviourParams = {
-//        {Parameters.PROPERTY_TEST_MODE, "Weather we are running automated Tests (Marathon ?) or not ", null, EditPropertiesPnl.FLD_BOOLEAN, "Test Mode"},
+      "<h2>Behavior Properties</h2>"
+    + "The options on this screen affect the behavior of the editor.<br/>"
+    + "<b>Bring Log to the Front</b>: Wether the log file will be brought to the fron when "
+    + "data is written to it.<br/>"
+    + "<b>Default to prefered</b>: Wether to use the prefered layout by default when editting<br/>"
+    + "<b>Show all export panels</b>: Wether to show all export options or just the option selected<br/>");
+
+    private Object[][] behaviourParams = {
+//        {Parameters.PROPERTY_TEST_MODE, "Weather we are running automated Tests (Marathon ?) or not", null, EditPropertiesPnl.FLD_BOOLEAN, "Test Mode"},
         {Parameters.BRING_LOG_TO_FRONT, "Bring Log to the Front if Data is written to it", null, EditPropertiesPnl.FLD_BOOLEAN, "Bring log to Front"}, // Checked
         {Parameters.ASTERIX_IN_FILE_NAME, "Allow the asterix ('*') character in file Names", null, EditPropertiesPnl.FLD_BOOLEAN, null},
         {Parameters.PREFERED_AS_DEFAULT, "Default to prefered layout", null, EditPropertiesPnl.FLD_BOOLEAN, null},
@@ -182,11 +199,14 @@ private Object[][] behaviourParams = {
         {Parameters.DEL_SELECTED_WITH_DEL_KEY, "Delete Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Delete Selected rows with the delete key"},
         {Parameters.WARN_WHEN_USING_DEL_KEY,  "Warn the user before deleteing Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Warn when deleteing rows via delete key"},
         {Parameters.USE_FILE_WIZARD,  "Use File Wizard when no Layout is known for the file", null, EditPropertiesPnl.FLD_BOOLEAN, "Use file Wizard"},
-};
+        {Parameters.HIGHLIGHT_MISSING_TRANSLATIONS,  "Highlight text for which there is no translation by adding a # to the start of the text", null, EditPropertiesPnl.FLD_BOOLEAN,  "Hightlight missing translations",},
+    };
 
     private String fileDescription
-	= "<h2>File Propertie 2s</h2>"
-	+ "This panels lists various File related parameters.";
+    = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_FileParams",
+
+      "<h2>File Propertie 2s</h2>"
+    + "This panels lists various File related parameters.");
 
     private Object[][] fileParams = {
             {"UserInitilizeClass", "This User written class will be invoked when the <b>RecordEditor</b starts.", EditPropertiesPnl.FLD_TEXT, "User Init Class"},
@@ -199,11 +219,12 @@ private Object[][] behaviourParams = {
     };
 
     private String layoutWizardParamsDescription
-	= "<h2>Layout Wizard Properties</h2>"
-	+ "This panels holds various Field Search options used by the Layout Wizard";
+    = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_WizardParams",
+      "<h2>Layout Wizard Properties</h2>"
+    + "This panels holds various Field Search options used by the Layout Wizard");
 
     private Object[][] layoutWizardParams = {
-            {Parameters.FS_RUN_AUTOMATIC, "Weather to Run the field search Automatically or not ", null, EditPropertiesPnl.FLD_BOOLEAN, "Run the field search Automatically"}, // Check
+            {Parameters.FS_RUN_AUTOMATIC, "Weather to Run the field search Automatically or not", null, EditPropertiesPnl.FLD_BOOLEAN, "Run the field search Automatically"}, // Check
             {Parameters.FS_MAINFRAME_ZONED, "Look for Mainframe Zoned numeric fields", null, EditPropertiesPnl.FLD_BOOLEAN, null},
             {Parameters.FS_PC_ZONED, "Look for PC Zoned numeric fields (Cobol PIC 9 fields)", null, EditPropertiesPnl.FLD_BOOLEAN, null},
             {Parameters.FS_COMP3, "Look for comp-3 fields", null, EditPropertiesPnl.FLD_BOOLEAN, null},
@@ -213,9 +234,11 @@ private Object[][] behaviourParams = {
 
 
     private String bigModelDescription
-    	= "<h2>Big Model Properties</h2>"
-    	+ "This panels lists parameters for the \"Big File\" Data Models.\n"
-    	+ "You can use these options to optermise the Read Time for very big files";
+        = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_BigFiles",
+
+          "<h2>Big Model Properties</h2>"
+        + "This panels lists parameters for the \"Big File\" Data Models.\n"
+        + "You can use these options to optermise the Read Time for very big files");
 
 //    private String[][] bigModelParams = {
 //            {Parameters.PROPERTY_BIG_FILE_PERCENT, "File Size to Memory Percent to Start using the Big-File-Model", null},
@@ -242,56 +265,62 @@ private Object[][] behaviourParams = {
     };
 
    private EditPropertiesPnl directoryPnl1
-    	= new EditPropertiesPnl(params, directoryDescription, directoryParams1);
+        = new EditPropertiesPnl(params, directoryDescription, directoryParams1);
     private EditPropertiesPnl directoryPnl2
-		= new EditPropertiesPnl(params, directoryDescription, directoryParams2);
+        = new EditPropertiesPnl(params, directoryDescription, directoryParams2);
     private EditPropertiesPnl testPnl
-		= new EditPropertiesPnl(params, testDescription, testParams);
+        = new EditPropertiesPnl(params, testDescription, testParams);
     private EditPropertiesPnl behaviourPnl
- 		= new EditPropertiesPnl(params, behaviourDescription, behaviourParams);
+         = new EditPropertiesPnl(params, behaviourDescription, behaviourParams);
     private EditPropertiesPnl file2Pnl
- 		= new EditPropertiesPnl(params, fileDescription, fileParams);
+         = new EditPropertiesPnl(params, fileDescription, fileParams);
     private EditPropertiesPnl layoutWizardPnl
-		= new EditPropertiesPnl(params, layoutWizardParamsDescription, layoutWizardParams);
+        = new EditPropertiesPnl(params, layoutWizardParamsDescription, layoutWizardParams);
     private EditPropertiesPnl bigModelPnl
-		= new EditPropertiesPnl(params, bigModelDescription, bigModelParams);
+        = new EditPropertiesPnl(params, bigModelDescription, bigModelParams);
 
     private String xsltDescription
-    	= "<h2>Xslt Properties</h2>"
-    	+ "This panels let you specify XSLT related jars and the XSLT transform class<br>"
-    	+ "For Saxon or Xalan, you can just enter Saxon or Xalan, Or you can enter<pre>"
-    	+ "        net.sf.saxon.TransformerFactoryImpl\n"
-    	+ "    or  org.apache.xalan.processor.TransformerFactoryImpl</pre>";
+        = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_Xslt",
+
+          "<h2>Xslt Properties</h2>"
+        + "This panels let you specify XSLT related jars and the XSLT transform class<br>"
+        + "For Saxon or Xalan, you can just enter Saxon or Xalan, Or you can enter<pre>"
+        + "        net.sf.saxon.TransformerFactoryImpl\n"
+        + "    or  org.apache.xalan.processor.TransformerFactoryImpl</pre>");
 
     private Object[][] xsltParams = {
 
             {Parameters.XSLT_ENGINE, "Xslt Transform factory class", null, EditPropertiesPnl.FLD_TEXT, null},
     };
     private EditPropertiesPnl xsltPnl
-		= new EditPropertiesPnl(params, xsltDescription, xsltParams);
+        = new EditPropertiesPnl(params, xsltDescription, xsltParams);
 
-    private EditJarsPanel xsltJarsPnl = new EditJarsPanel(params,
-            "<h2>Xslt Jars</h2>This panel lets you specify your XSLT jars ",
+    private EditJarsPanel xsltJarsPnl = new EditJarsPanel(
+            params,   "EditProps_XsltJars",
+            "<h2>Xslt Jars</h2>This panel lets you specify your XSLT jars",
             params.xsltJars,
             "xslt",
             true);
 
 
     private String csvDescription
-    	= "<h2>Csv Editor Properties</h2>"
-    	+ "This panels holds Csv-Editor specific options<br>";
+        = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_CsvParams",
+          "<h2>Csv Editor Properties</h2>"
+        + "This panels holds Csv-Editor specific options<br>");
 
     private Object[][] csvParams = {
 
             {Parameters.CSV_LOOK_4_FIXED_WIDTH, "Check for binary Fixed Width", null, EditPropertiesPnl.FLD_BOOLEAN, "Should the program check for binary Fixed Width Files ???"},
     };
     private EditPropertiesPnl csvPnl
-		= new EditPropertiesPnl(params, csvDescription, csvParams);
+        = new EditPropertiesPnl(params, csvDescription, csvParams);
 
 
     private EditJdbcParamsPanel jdbcParamsPnl = new EditJdbcParamsPanel(params, params.jdbcJars);
 
-    private EditJarsPanel jdbcPnl = new EditJarsPanel(params,
+    private EditJarsPanel jdbcPnl = new EditJarsPanel(
+            params,
+            "EditProps_JdbcJars",
             "<h2>JDBC Jars</h2>This panel lets you change the "
           + "JDBC (Java Database Conectivity) Jars that are needed by "
           + "the <b>RecordEditor</b>."
@@ -302,7 +331,8 @@ private Object[][] behaviourParams = {
           params.jdbcJars,
             "jdbc.",
             true);
-    private EditJarsPanel systemPnl = new EditJarsPanel(params,
+    private EditJarsPanel systemPnl = new EditJarsPanel(
+            params, "EditProps_Jars",
             "<h2>System Jars</h2>This panel lets you change the "
           + "Jars supplied with the <b>RecordEditor</b> like cb2xml."
           + "<br>These jars are used by the <b>RecordEditor</b> but are written "
@@ -310,14 +340,16 @@ private Object[][] behaviourParams = {
             params.systemJars,
             "",
             false);
-    private EditJarsPanel optionalPnl = new EditJarsPanel(params,
+    private EditJarsPanel optionalPnl = new EditJarsPanel(
+            params, "EditProps_OptionalJars",
             "<h2>Optional Jars</h2>This panel lets you specify your own jars. <br/>"
           + "This could include User code or scripting languages (JRuby.jar, Jython.jar etc).",
             params.optionalJars,
             "optional.",
             true
             );
-    private EditJarsPanel userPnl = new EditJarsPanel(params,
+    private EditJarsPanel userPnl = new EditJarsPanel(
+            params, "EditProps_UserJars",
             "<h2>User Jars</h2>This panel lets you specify your own jars "
           + "<br>These jars will be used when the <b>RecordEditor</b starts. "
           + "<br>When adding your own jars, <br>you should also invoke your own "
@@ -328,29 +360,34 @@ private Object[][] behaviourParams = {
             true
             );
 
-    private static String jarsNote = "<b>Note:</b>You will also need to add the jar with your class "
-	+ "to the <b>User Jars</b> tab.";
+    private static String jarsNote = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_JarsNote",
+
+       "<b>Note:</b>You will also need to add the jar with your class "
+    + "to the <b>User Jars</b> tab.");
 
     private static String loaderDescription
-		= "<h2>Copybook Loaders</h2>"
-		+ "This tab is for defining user written <b>Copybook Loader's</b> to the <b>RecordEditor</b>."
-		+ "<br>A <b>Copybook Loader's</b> is a Java Class that can load "
-		+ "a copybook from a file into the <b>RecordEditor</b>."
-		+ "<br><br><b>Copybook Loader's</b> are used in <ul>"
-		+ "<li>Load Copybook function in the <b>LayoutEditor</b>"
-		+ "<li>Cobol Editor</ul><br>"
-		+ jarsNote;
+        = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_CopyBook_Loaders",
+          "<h2>Copybook Loaders</h2>"
+        + "This tab is for defining user written <b>Copybook Loader's</b> to the <b>RecordEditor</b>."
+        + "<br>A <b>Copybook Loader's</b> is a Java Class that can load "
+        + "a copybook from a file into the <b>RecordEditor</b>."
+        + "<br><br><b>Copybook Loader's</b> are used in <ul>"
+        + "<li>Load Copybook function in the <b>LayoutEditor</b>"
+        + "<li>Cobol Editor</ul><br>")
+        + jarsNote;
 
     private static String pluginDescription
-		= "<h2>Plugins</h2>"
-		+ "This tab is for defining user written <b>Functions</b> that will listed on the <br/><b>Plugin</b> "
-		+ "Drop down menu in the   <b>RecordEditor</b>.<br> "
-		+ "Local Functions must implement the Plugin interface";
+        =  LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_Plugin",
+          "<h2>Plugins</h2>"
+        + "This tab is for defining user written <b>Functions</b> that will listed on the <br/><b>Plugin</b> "
+        + "Drop down menu in the   <b>RecordEditor</b>.<br> "
+        + "Local Functions must implement the Plugin interface");
 
     private static String optionDescription
-    	= "<h2>Default Options</h2>"
-    	+ "This Tab is for defining the default value for several Combo Box's used by the Package"
-    	+ "<br/><br/>Click on a row to change the default Value";
+        = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_DefaultOpts",
+          "<h2>Default Options</h2>"
+        + "This Tab is for defining the default value for several Combo Box's used by the Package"
+        + "<br/><br/>Click on a row to change the default Value");
 
     private static final String[] LOADER_COLUMN_HEADINGS = {"Loader Name", "Loader Class"};
     private static final String[] LOADER_COLUMN_NAMES = {
@@ -364,24 +401,31 @@ private Object[][] behaviourParams = {
     };
 
     private static String typeDescription
-		= "<h2>Type Definition</h2>"
-		+ "This tab for defining user written <b>Type's</b> to the <b>RecordEditor</b>."
-		+ "<br>A <b>Type's</b> is a Java Class that converts a fields "
-		+ "between the external representation and the internal Java Representation."
-		+ "<br>Columns in the Table are <br><table>"
-		+ "<tr><td>Type Number</td><td>Unique number used to identify the type."
-		+ "It should be between " + Type.USER_RANGE_START + " and "
-		    + (Type.USER_RANGE_START + Type.DEFAULT_USER_RANGE_SIZE - 1) + "</td></tr>"
-		+ "<tr><td>Type Name</td><td>Name of the Type</td></tr>"
-		+ "<tr><td>Type Class</td><td>Java Type class.</td></tr>"
-		+ "<tr><td>Format Class</td><td>Class that implements table cell Formating. Leave blank if there is not one</td></tr>"
-		+ "</table><br>"
-		+ jarsNote;
+        = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_TypeDef",
+
+          "<h2>Type Definition</h2>"
+        + "This tab for defining user written <b>Type's</b> to the <b>RecordEditor</b>."
+        + "<br>A <b>Type's</b> is a Java Class that converts a fields "
+        + "between the external representation and the internal Java Representation."
+        + "<br>Columns in the Table are <br><table>"
+        + "<tr><td>Type Number</td><td>Unique number used to identify the type."
+        + "It should be between {0} and {1}</td></tr>"
+        + "<tr><td>Type Name</td><td>Name of the Type</td></tr>"
+        + "<tr><td>Type Class</td><td>Java Type class.</td></tr>"
+        + "<tr><td>Format Class</td><td>Class that implements table cell Formating. Leave blank if there is not one</td></tr>"
+        + "</table><br>"
+        + jarsNote,
+
+        new Object[] {
+             Type.USER_RANGE_START,
+             (Type.USER_RANGE_START + Type.DEFAULT_USER_RANGE_SIZE - 1)
+        });
     private static String formatDescription
-		= "<h2>Format Definition</h2>"
-		    + "This tab for defining user written <b>Format's</b> to the <b>RecordEditor</b>."
-		    + "<br><b>Format's</b> define TableCellRenders and TableCellEditors for a field."
-		    + "<br><br>You may want to use Format to edit Dates using a Date Popup";
+        = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_Format",
+              "<h2>Format Definition</h2>"
+            + "This tab for defining user written <b>Format's</b> to the <b>RecordEditor</b>."
+            + "<br><b>Format's</b> define TableCellRenders and TableCellEditors for a field."
+            + "<br><br>You may want to use Format to edit Dates using a Date Popup");
 
 
     private static final String[] TYPE_COLUMN_HEADINGS = {"Type Number", "Type Name", "Type Class", "Format Class"};
@@ -397,36 +441,38 @@ private Object[][] behaviourParams = {
     };
 
     private EditPropertiesTblPanel loadersPnl
-    	= new  EditPropertiesTblPanel(params, loaderDescription,
-    	       LOADER_COLUMN_NAMES, LOADER_COLUMN_HEADINGS,
-    	       Parameters.NUMBER_OF_LOADERS);
+        = new  EditPropertiesTblPanel(params, loaderDescription,
+               LOADER_COLUMN_NAMES, LOADER_COLUMN_HEADINGS,
+               Parameters.NUMBER_OF_LOADERS);
     private EditPropertiesTblPanel pluginPnl
-		= new EditPropertiesTblPanel(params, pluginDescription,
-			  PLUGIN_COLUMN_NAMES, PLUGIN_COLUMN_HEADINGS,
-			  Parameters.NUMBER_OF_USER_FUNCTIONS);
+        = new EditPropertiesTblPanel(params, pluginDescription,
+              PLUGIN_COLUMN_NAMES, PLUGIN_COLUMN_HEADINGS,
+              Parameters.NUMBER_OF_USER_FUNCTIONS);
    private EditPropertiesTblPanel typePnl
-		= new EditPropertiesTblPanel(params, typeDescription,
-		      TYPE_COLUMN_NAMES, TYPE_COLUMN_HEADINGS,
-		      Parameters.NUMBER_OF_TYPES);
+        = new EditPropertiesTblPanel(params, typeDescription,
+              TYPE_COLUMN_NAMES, TYPE_COLUMN_HEADINGS,
+              Parameters.NUMBER_OF_TYPES);
     private EditPropertiesTblPanel formatPnl
-		= new EditPropertiesTblPanel(params, formatDescription,
-		        FORMAT_COLUMN_NAMES, FORMAT_COLUMN_HEADINGS,
-		        Parameters.NUMBER_OF_FORMATS);
+        = new EditPropertiesTblPanel(params, formatDescription,
+                FORMAT_COLUMN_NAMES, FORMAT_COLUMN_HEADINGS,
+                Parameters.NUMBER_OF_FORMATS);
 
     private static String[][] defaultDetails = {
-    		{Parameters.DEFAULT_COPYBOOK_READER,	"The default copybook reader"},
-    		{Parameters.DEFAULT_COPYBOOK_WRITER,	"The default copybook writer"},
-    		{Parameters.DEFAULT_DATABASE,			"The default Database to use"},
-    		{Parameters.DEFAULT_IO,					"The default IO Routine to use"},
-       		{Parameters.DEFAULT_BINARY,				"The default Binary Encoding"},
+            {Parameters.DEFAULT_COPYBOOK_READER,	"The default copybook reader"},
+            {Parameters.DEFAULT_COPYBOOK_WRITER,	"The default copybook writer"},
+            {Parameters.DEFAULT_DATABASE,			"The default Database to use"},
+            {Parameters.DEFAULT_IO,					"The default IO Routine to use"},
+               {Parameters.DEFAULT_BINARY,				"The default Binary Encoding"},
    };
 
-	private String screenLocationDescription
-		= "<h2>Screen positioning Properties</h2>"
-		+ "The properties on this panel are for setting the amount "
-		+ "of space to be left around the edge of the <b>RecordEditor</b>."
-		+ "<br>The editor can start using the full screen or any part "
-		+ "of the screen that you desire.";
+    private String screenLocationDescription
+        = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_ScreenLocation",
+
+          "<h2>Screen positioning Properties</h2>"
+        + "The properties on this panel are for setting the amount "
+        + "of space to be left around the edge of the <b>RecordEditor</b>."
+        + "<br>The editor can start using the full screen or any part "
+        + "of the screen that you desire.");
 //    private String[][] screenLocationParams = {
 //            {"spaceAtBottomOfScreen", "Space to be left at the bottom of the screen.", null},
 //            {"spaceAtTopOfScreen", "Space to be left at the top of the screen.", null},
@@ -434,14 +480,14 @@ private Object[][] behaviourParams = {
 //            {"spaceAtRightOfScreen", "Space to be left at the Right of the screen.", null},
 //    };
 
-	private String applId = getApplId();
+    private String applId = getApplId();
 
 
     private static final String[][] SIZE_OPTION = {
-    		{String.valueOf(ProgramOptions.SIZE_MAXIMISED), "Maximized"},
-    		{String.valueOf(ProgramOptions.SIZE_LAST), "Last Screen Size"},
-    		{String.valueOf(ProgramOptions.SIZE_SPACE_AROUND), "Use Space around parameters"},
-    		{String.valueOf(ProgramOptions.SIZE_SPECIFIED), "Height, Width Below"},
+            {String.valueOf(ProgramOptions.SIZE_MAXIMISED), "Maximized"},
+            {String.valueOf(ProgramOptions.SIZE_LAST), "Last Screen Size"},
+            {String.valueOf(ProgramOptions.SIZE_SPACE_AROUND), "Use Space around parameters"},
+            {String.valueOf(ProgramOptions.SIZE_SPECIFIED), "Height, Width Below"},
     };
 
     private Object[][] screenLocationParams = {
@@ -457,66 +503,66 @@ private Object[][] behaviourParams = {
     };
 
     private EditPropertiesPnl screenPosPnl
-	= new EditPropertiesPnl(params, screenLocationDescription, screenLocationParams);
+    = new EditPropertiesPnl(params, screenLocationDescription, screenLocationParams);
 
 
     private static  ComboBoxModel[] defaultModels = new ComboBoxModel[5];
     static {
-	    CopybookLoaderFactory loaders = CopybookLoaderFactoryDB.getInstance();
-	    DefaultComboBoxModel mdl = new DefaultComboBoxModel();
-	    int i;
-	    for (i = 0; i < loaders.getNumberofLoaders(); i++) {
-	    	mdl.addElement(loaders.getName(i));
-	    }
-	    defaultModels[0] = mdl;
+        CopybookLoaderFactory loaders = CopybookLoaderFactoryDB.getInstance();
+        DefaultComboBoxModel mdl = new DefaultComboBoxModel();
+        int i;
+        for (i = 0; i < loaders.getNumberofLoaders(); i++) {
+            mdl.addElement(loaders.getName(i));
+        }
+        defaultModels[0] = mdl;
 
-	    CopybookWriterManager manager = CopybookWriterManager.getInstance();
-	    String s;
-	    mdl = new DefaultComboBoxModel();
-	    for (i = 0; i < manager.getNumberOfEntries(); i++) {
-	    	s = manager.getName(i);
-	    	if (s != null && ! "".equals(s)) {
-	    		mdl.addElement(s);
-	    	}
-	    }
-	    defaultModels[1] = getManagerModel(CopybookWriterManager.getInstance());
+        CopybookWriterManager manager = CopybookWriterManager.getInstance();
+        String s;
+        mdl = new DefaultComboBoxModel();
+        for (i = 0; i < manager.getNumberOfEntries(); i++) {
+            s = manager.getName(i);
+            if (s != null && ! "".equals(s)) {
+                mdl.addElement(s);
+            }
+        }
+        defaultModels[1] = getManagerModel(CopybookWriterManager.getInstance());
 
-	    String[] ids = Common.getSourceId();
-	    mdl = new DefaultComboBoxModel();
+        String[] ids = Common.getSourceId();
+        mdl = new DefaultComboBoxModel();
 
-	    for (i = 0; i < ids.length; i++) {
-	    	if (ids[i] != null && ! "".equals(ids[i])) {
-	    		mdl.addElement(ids[i]);
-	    	}
-	    }
-	    defaultModels[2] = mdl;
+        for (i = 0; i < ids.length; i++) {
+            if (ids[i] != null && ! "".equals(ids[i])) {
+                mdl.addElement(ids[i]);
+            }
+        }
+        defaultModels[2] = mdl;
 
-	    defaultModels[3] = getManagerModel(LineIOProvider.getInstance());
-	    defaultModels[4] = getManagerModel(ConversionManager.getInstance());
+        defaultModels[3] = getManagerModel(LineIOProvider.getInstance());
+        defaultModels[4] = getManagerModel(ConversionManager.getInstance());
     }
 
 
     private static ComboBoxModel getManagerModel(AbstractManager manager) {
-	    String s;
-	    DefaultComboBoxModel mdl = new DefaultComboBoxModel();
-	    for (int i = 0; i < manager.getNumberOfEntries(); i++) {
-	    	s = manager.getName(i);
-	    	if (s != null && ! "".equals(s)) {
-	    		mdl.addElement(s);
-	    	}
-	    }
-	    return mdl;
+        String s;
+        DefaultComboBoxModel mdl = new DefaultComboBoxModel();
+        for (int i = 0; i < manager.getNumberOfEntries(); i++) {
+            s = manager.getName(i);
+            if (s != null && ! "".equals(s)) {
+                mdl.addElement(s);
+            }
+        }
+        return mdl;
     }
 
     /**
-	 * @param theDefaultDetails the defaultDetails to set
-	 */
-	public static final void setDefaultDetails(
-			String[][] theDefaultDetails, ComboBoxModel[] theDefaultModels) {
+     * @param theDefaultDetails the defaultDetails to set
+     */
+    public static final void setDefaultDetails(
+            String[][] theDefaultDetails, ComboBoxModel[] theDefaultModels) {
 
-		defaultDetails = theDefaultDetails;
-		defaultModels = theDefaultModels;
-	}
+        defaultDetails = theDefaultDetails;
+        defaultModels = theDefaultModels;
+    }
 
 //	/**
 //     * Edit the record Editor Parameter and Jar files
@@ -532,7 +578,7 @@ private Object[][] behaviourParams = {
      *
      */
     public EditOptions(final boolean terminateOnExit, boolean includeJDBC, boolean includeWizardOptions) {
-    	this(terminateOnExit, includeJDBC, includeWizardOptions, true);
+        this(terminateOnExit, includeJDBC, includeWizardOptions, true);
     }
 
     /**
@@ -547,7 +593,7 @@ private Object[][] behaviourParams = {
         init_100_ScreenFields(terminateOnExit);
         init_200_Screen(includeJDBC, includeWizardOptions);
         if (display) {
-        	displayScreen();
+            displayScreen();
         }
     }
 
@@ -560,7 +606,7 @@ private Object[][] behaviourParams = {
      */
     private void init_100_ScreenFields(boolean terminateOnExit) {
 
-       save.putValue(AbstractAction.SHORT_DESCRIPTION, "Save ...");
+       save.putValue(AbstractAction.SHORT_DESCRIPTION, LangConversion.convert(LangConversion.ST_MESSAGE, "Save ..."));
 
        programDescription = new JEditorPane("text/html", description);
        xsltJarsPnl.setInitialValues();
@@ -598,55 +644,56 @@ private Object[][] behaviourParams = {
 
         toolBar.add(save);
 
-        propertiesTabbed.addTab("Directories", directoryPnl1);
-        propertiesTabbed.addTab("Save Directories", directoryPnl2);
-        propertiesTabbed.addTab("Test", testPnl);
-        propertiesTabbed.addTab("Behaviour", behaviourPnl);
-        propertiesTabbed.addTab("File Options", file2Pnl);
+        SwingUtils.addTab(propertiesTabbed, "EditOpts_Properties","Directories", directoryPnl1);
+        SwingUtils.addTab(propertiesTabbed, "EditOpts_Properties","Save Directories", directoryPnl2);
+        SwingUtils.addTab(propertiesTabbed, "EditOpts_Properties","Test", testPnl);
+        SwingUtils.addTab(propertiesTabbed, "EditOpts_Properties","Behaviour", behaviourPnl);
+        SwingUtils.addTab(propertiesTabbed, "EditOpts_Properties","File Options", file2Pnl);
 
         if (includeWizardOptions) {
-        	propertiesTabbed.addTab("Layout Wizard", layoutWizardPnl);
+            SwingUtils.addTab(propertiesTabbed, "EditOpts_Properties","Layout Wizard", layoutWizardPnl);
         }
-       	propertiesTabbed.addTab("Big Model", bigModelPnl);
+           SwingUtils.addTab(propertiesTabbed, "EditOpts_Properties","Big Model", bigModelPnl);
 
-        propertiesTabbed.addTab("Defaults",
-        		new EditDefaults(params, optionDescription,
-        				defaultDetails, defaultModels
+        SwingUtils.addTab(propertiesTabbed, "EditOpts_Properties","Defaults",
+                new EditDefaults(params, optionDescription,
+                        defaultDetails, defaultModels
         ));
-        xmlTabbed.addTab("Xslt Options", xsltPnl);
-        xmlTabbed.addTab("Xslt Jars", xsltJarsPnl);
+        SwingUtils.addTab(xmlTabbed, "EditOpts_Xml","Xslt Options", xsltPnl);
+        SwingUtils.addTab(xmlTabbed, "EditOpts_Xml","Xslt Jars", xsltJarsPnl);
 
-        jarsTabbed.addTab("System Jars", systemPnl);
-        jarsTabbed.addTab("Optional Jars", optionalPnl);
+        SwingUtils.addTab(jarsTabbed, "EditOpts_Jars","System Jars", systemPnl);
+        SwingUtils.addTab(jarsTabbed, "EditOpts_Jars","Optional Jars", optionalPnl);
 
 
-        userTabbed.addTab("User Jars", userPnl);
-        userTabbed.addTab("Copybook Loaders", loadersPnl);
-        userTabbed.addTab("Plugins", pluginPnl);
-        userTabbed.addTab("User Types", typePnl);
-        userTabbed.addTab("User Formats", formatPnl);
+        SwingUtils.addTab(userTabbed, "EditOpts_User","User Jars", userPnl);
+        SwingUtils.addTab(userTabbed, "EditOpts_User","Copybook Loaders", loadersPnl);
+        SwingUtils.addTab(userTabbed, "EditOpts_User","Plugins", pluginPnl);
+        SwingUtils.addTab(userTabbed, "EditOpts_User","User Types", typePnl);
+        SwingUtils.addTab(userTabbed, "EditOpts_User","User Formats", formatPnl);
         if (includeJDBC) {
-        	userTabbed.addTab("Date Types", new EditDateTypes(params));
+            SwingUtils.addTab(propertiesTabbed, "EditOpts_User","Date Types", new EditDateTypes(params));
         }
 
-        looksTabbed.addTab("Look and Feel", new LooksPanel(params));
-        looksTabbed.addTab("Icons", new EditIcons(params));
-        looksTabbed.addTab("Screen Properties", screenPosPnl);
+        SwingUtils.addTab(looksTabbed, "EditOpts_User","Look and Feel", new LooksPanel(params));
+        SwingUtils.addTab(looksTabbed, "EditOpts_User","Icons", new EditIcons(params));
+        SwingUtils.addTab(looksTabbed, "EditOpts_User","Screen Properties", screenPosPnl);
 
         addMainTab("Description", init_310_Screen());
         addMainTab("Properties", propertiesTabbed);
 
         System.out.println("Application Id: " + getApplId());
         if (Common.CSV_PROGRAM_ID.equals(getApplId())) {
-        	addMainTab("Csv Options", csvPnl);
+            addMainTab("Csv Options", csvPnl);
         }
 
         addMainTab("Xml", xmlTabbed);
         if (includeJDBC) {
-        	jdbcTabbed.addTab("JDBC Jars", jdbcPnl);
-        	jdbcTabbed.addTab("JDBC Properties", jdbcParamsPnl);
-        	addMainTab("JDBC Parameters", jdbcTabbed);
+            SwingUtils.addTab(jdbcTabbed, "EditOpts_JDBC","JDBC Jars", jdbcPnl);
+            SwingUtils.addTab(jdbcTabbed, "EditOpts_JDBC","JDBC Properties", jdbcParamsPnl);
+            addMainTab("JDBC Parameters", jdbcTabbed);
         }
+        addMainTab("Language", new EditLanguage(params));
         addMainTab("Jars", jarsTabbed);
         addMainTab("Extensions", userTabbed);
         addMainTab("Looks", looksTabbed);
@@ -670,8 +717,8 @@ private Object[][] behaviourParams = {
 
 
     private void addMainTab(String name, JComponent item) {
-    	item.setName(name + "Tab");
-    	mainTabbed.add(name, item);
+        item.setName(name + "Tab");
+        SwingUtils.addTab(mainTabbed, "EdProps_MainTab_" + name, name, item);
     }
 //    private void printTabDetails(String name, JTabbedPane tab) {
 //
@@ -690,32 +737,32 @@ private Object[][] behaviourParams = {
 //    }
 
     public EditParams getParams() {
-		return params;
-	}
+        return params;
+    }
 
-	public final void displayScreen() {
+    public final void displayScreen() {
 
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.pack();
         frame.setBounds(
-        		frame.getY(), frame.getX(),
-        		Math.min(frame.getWidth(),
-        				 screenSize.width  - Common.getSpaceAtRightOfScreen()
-        				 				   - frame.getY()),
-        		Math.min(frame.getHeight(),
-        				 screenSize.height - Common.getSpaceAtBottomOfScreen()
-        				   - SwingUtils.NORMAL_FIELD_HEIGHT * 2
-		 				   - frame.getX()));
+                frame.getY(), frame.getX(),
+                Math.min(frame.getWidth(),
+                         screenSize.width  - Common.getSpaceAtRightOfScreen()
+                                            - frame.getY()),
+                Math.min(frame.getHeight(),
+                         screenSize.height - Common.getSpaceAtBottomOfScreen()
+                           - SwingUtils.NORMAL_FIELD_HEIGHT * 2
+                            - frame.getX()));
         frame.setVisible(true);
     }
 
-	/**
-	 * Add a component to the startup properties editor
-	 * @param name Tab name
-	 * @param component component to add
-	 */
+    /**
+     * Add a component to the startup properties editor
+     * @param name Tab name
+     * @param component component to add
+     */
     public void add(String name, JComponent component) {
-    	mainTabbed.addTab(name, component);
+        SwingUtils.addTab(mainTabbed, "EditOptions_MainTab", name, component);
     }
 
     /**
@@ -726,22 +773,22 @@ private Object[][] behaviourParams = {
         BasePanel pnl = new BasePanel();
 
         pnl.addComponent(1, 5, PROGRAM_DESCRIPTION_HEIGHT, BasePanel.GAP1,
-		        BasePanel.FULL, BasePanel.FULL,
-				new JScrollPane(programDescription));
+                BasePanel.FULL, BasePanel.FULL,
+                new JScrollPane(programDescription));
 
         return pnl;
     }
 
 
-	private static String getApplId() {
-		String ret = "";
-		ReMainFrame f = ReMainFrame.getMasterFrame();
-		if (f != null) {
-			ret = f.getApplicationId();
-		}
+    private static String getApplId() {
+        String ret = "";
+        ReMainFrame f = ReMainFrame.getMasterFrame();
+        if (f != null) {
+            ret = f.getApplicationId();
+        }
 
-		return ret;
-	}
+        return ret;
+    }
 
 //    /**
 //     *  Run the options editor

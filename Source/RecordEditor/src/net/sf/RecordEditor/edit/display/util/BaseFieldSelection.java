@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
@@ -32,8 +31,10 @@ import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.re.tree.FieldSummaryDetails;
 import net.sf.RecordEditor.utils.common.AbstractSaveDetails;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
+import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
@@ -44,13 +45,15 @@ import net.sf.RecordEditor.utils.swing.SaveButton;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 @SuppressWarnings("serial")
-public abstract class BaseFieldSelection extends ReFrame 
+public abstract class BaseFieldSelection extends ReFrame
 implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 
 //	protected static final int RECORD_LIST_HEIGHT = SwingConstants.TABLE_ROW_HEIGHT * 18;
 //	protected static final int FIELD_TABLE_HEIGHT = SwingConstants.TABLE_ROW_HEIGHT * 8;
 	protected static final int FIELD_TABLE_SIZE = 5;
-	private static final String[] WHAT_TO_SORT = {"Whole File", "Selected Records"};
+	private static final String[] WHAT_TO_SORT = LangConversion.convertComboItms(
+			"File SelectionOptions",
+			new String[] {"Whole View", "Selected Records"});
 	private BaseHelpPanel pnlTop = new BaseHelpPanel();
 	private BaseHelpPanel pnlBottom = new BaseHelpPanel();
 	@SuppressWarnings("rawtypes")
@@ -67,18 +70,18 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 	protected int lastSelection = 0;
 	protected AbstractFileDisplay source;
 	protected SortFieldSummaryMdl summaryMdl;
-	
+
 	private SaveButton<EditorTask> saveBtn
-				= new SaveButton<EditorTask>(this, 
+				= new SaveButton<EditorTask>(this,
 						Parameters.getFileName(Parameters.SORT_TREE_SAVE_DIRECTORY));
-	
-	
+
+
 	private KeyAdapter listner = new KeyAdapter() {
 	        /**
 	         * @see java.awt.event.KeyAdapter#keyReleased
 	         */
 	        public final void keyReleased(KeyEvent event) {
-	        	
+
 	        	switch (event.getKeyCode()) {
 	        	case KeyEvent.VK_ENTER:		doAction();										break;
 	        	case KeyEvent.VK_ESCAPE:	BaseFieldSelection.this.doDefaultCloseAction();	break;
@@ -94,32 +97,32 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 	 * @param fileTbl file to be sorted
 	 * @param id screen identifier
 	 */
-	public BaseFieldSelection(final AbstractFileDisplay src, final FileView<?> fileTbl, 
+	public BaseFieldSelection(final AbstractFileDisplay src, final FileView<?> fileTbl,
 			final String id, final int icondId, final String btnText, final int columnCount,
 			final boolean addFieldSummary, final boolean showRecordList) {
 		super(fileTbl.getFileNameNoDirectory(), id,
 				fileTbl.getBaseFile());
 		Rectangle screenSize = ReMainFrame.getMasterFrame().getDesktop().getBounds();
-		int recCount, height; 
-		
+		int recCount, height;
+
 		int desktopHeight = screenSize.height - SwingUtils.COMBO_TABLE_ROW_HEIGHT * 6;
 		JPanel pnl = new JPanel(new BorderLayout());
 		pnl.setBorder(BorderFactory.createEmptyBorder());
 		pnlTop.setBorder(BorderFactory.createEmptyBorder());
 		pnlBottom.setBorder(BorderFactory.createEmptyBorder());
-		
+
 		super.addCloseOnEsc(pnlTop);
 		super.addCloseOnEsc(pnlBottom);
 
 
-		
+
 		source   = src;
 		fileView = src.getFileView();
 		recCount = fileView.getLayout().getRecordCount();
 		//helpPresent = true;
-		
+
 		model.setColumnCount(columnCount);
-		
+
 		//System.out.println("==> column count " + columnCount);
 
 		init(icondId, btnText);
@@ -128,8 +131,8 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 		if (showRecordList && recCount > 1) {
 			height = SwingUtils.calculateTableHeight(recCount, desktopHeight * 3 / 10);
 			desktopHeight -= height;
-			pnlTop.addComponent(1, 5, 
-					height, 
+			pnlTop.addComponent(1, 5,
+					height,
 					BasePanel.GAP0,
 					BasePanel.FULL, BasePanel.FULL,
 					new JScrollPane(records));
@@ -147,7 +150,7 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 			pnlTop.addComponent(1, 5, height, BasePanel.GAP,
 					BasePanel.FULL, BasePanel.FULL,
 					fldSummaryTbl);
-			
+
 			pnlTop.setComponentName(fldSummaryTbl, "fieldSummary");
 		} else {
 			height = SwingUtils.calculateComboTableHeight(fldTable.getRowCount(), desktopHeight * 4 / 5);
@@ -166,7 +169,7 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 		pnl.add(BorderLayout.CENTER, new JScrollPane(pnlTop));
 		pnl.add(BorderLayout.SOUTH, pnlBottom);
 		this.addMainComponent(pnl);
-		
+
 		setBounds(getY(), getX(), Math.min(getWidth() + 25, screenSize.width -10),
 		        Math.min(getHeight(), screenSize.height - 5));
 
@@ -187,20 +190,20 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 	    String[] recordName = new String[layout.getRecordCount()];
 	    JComboBox fieldList;
 	    JComboBox OperatorList = new JComboBox(FieldSummaryDetails.OPERATOR_NAMES);
-	    
+
 		summaryMdl = new SortFieldSummaryMdl(fileView.getLayout());
 		fldSummaryTbl = new JTable(summaryMdl);
 
 	    fldTable = new JTable(model);
-	
+
 	    for (i = 0; i < layout.getRecordCount(); i++) {
 	        recordName[i] = layout.getRecord(i).getRecordName();
 	    }
 	    records = new JList(recordName);
 	    records.addListSelectionListener(this);
-	    
+
 	    pnlTop.addReKeyListener(listner);
-	
+
 	    fieldList = new JComboBox(fldModel[1]);
 	    fldTable.setRowHeight(SwingUtils.COMBO_TABLE_ROW_HEIGHT);
 	    tcm = fldTable.getColumnModel();
@@ -213,7 +216,7 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 			tc.setCellRenderer(new CheckBoxTableRender());
 			tc.setCellEditor(new DefaultCellEditor(new JCheckBox()));
 		}
-	
+
 		fldSummaryTbl.setRowHeight(SwingUtils.COMBO_TABLE_ROW_HEIGHT);
 	    tcm = fldSummaryTbl.getColumnModel();
 		tc = tcm.getColumn(1);
@@ -223,11 +226,11 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 		//if (helpPresent) {
 		pnlTop.registerComponent(fieldList);
 		//}
-	
+
 	    setFieldCombos(lastSelection);
 	    records.setSelectedIndex(lastSelection);
-	
-	    executeBtn.setAction(new AbstractAction(btnText,
+
+	    executeBtn.setAction(new ReAbstractAction(btnText,
 	              					Common.getRecordIcon(icondId)) {
 	        public void actionPerformed(ActionEvent e) {
 	            doAction();
@@ -242,9 +245,9 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 	protected final void setFieldCombos(int index) {
 	    int i, j;
 	    AbstractRecordDetail<?> rec = fileView.getLayout().getRecord(index);
-	
+
 	    lastSelection = index;
-	
+
 	    for (i = 0; i < fldModel.length; i++) {
 	        fldModel[i].removeAllElements();
 	        fldModel[i].addElement(" ");
@@ -253,7 +256,7 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 	        }
 	    }
 	    model.resetFields();
-	    
+
 	    summaryMdl.setRecordIndex(index);
 	}
 
@@ -263,16 +266,16 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
      */
     public final void doAction() {
         int numSortFields = getNumberOfSortFields();
- 
+
         if (numSortFields > 0) {
             int[] fieldList = new int[numSortFields];
             boolean[] descending = new boolean[numSortFields];;
             AbstractLayoutDetails<?, ?> layout = fileView.getLayout();
-            
-            String s;   	
+
+            String s;
             AbstractRecordDetail<?> record = layout.getRecord(lastSelection);
             int j = 0;
-            
+
             for (int i = 0; i < FIELD_TABLE_SIZE; i++) {
                 s = model.getFieldName(i);
                 if (s != null && ! "".equals(s.trim())) {
@@ -288,11 +291,11 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
         } catch (Exception e) {
         }
     }
-	
-    
+
+
     /**
      * Execute required action
-     * 
+     *
      * @param view file view to use
      * @param recordIndex record index
      * @param src source (or calling screen)
@@ -302,9 +305,9 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
      */
 	protected abstract void doAction(FileView<?> view, int recordIndex, AbstractFileDisplay src,
     		int[] fieldList, boolean[] descending, AbstractLayoutDetails<?, ?> layout);
-	
-	
-	
+
+
+
 	/**
 	 * Get the number of sort fields
 	 * @return number of sort fields
@@ -318,19 +321,19 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 	            numSortFields += 1;
 	        }
 	    }
-	    
+
 	    return numSortFields;
 	}
-	
+
 	protected FileView<?> getNewView() {
 		FileView<?> view = source.getFileView();
     	FileView<?> newView = null;
-    	
+
         if (selectWholeFile()) {
         	newView = view.getView();
         } else {
         	int[] selected = source.getSelectedRows();
-        	
+
         	if (selected != null && selected.length > 0) {
                	newView = view.getView(selected);
         	}
@@ -348,7 +351,7 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 	public void valueChanged(ListSelectionEvent e) {
 	    int idx = records.getSelectedIndex();
 	    if (lastSelection != idx && idx >= 0) {
-	        setFieldCombos(idx); 
+	        setFieldCombos(idx);
 	    }
 	}
 
@@ -374,10 +377,10 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 	 * @return wether action is available
 	 */
 	public boolean isActionAvailable(final int action) {
-		return  (action == ReActionHandler.HELP) // && helpPresent) 
+		return  (action == ReActionHandler.HELP) // && helpPresent)
 		    ||  super.isActionAvailable(action);
 	}
-	
+
 	/**
 	 * get the sort Tree definition (for saving as XML)
 	 * @return sort Tree definition
@@ -385,7 +388,7 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 	public final EditorTask getSaveDetails() {
 		SortTree sortTree = new SortTree();
 		Object rn = records.getSelectedValue();
-		
+
 		if (rn != null) {
 			sortTree.recordName = rn.toString();
 			sortTree.sortFields = model.getSortFields();
@@ -402,12 +405,12 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 	 */
 	public void setFromSavedDetails(EditorTask details) {
 		int idx = fileView.getLayout().getRecordIndex(details.sortTree.recordName);
-		
+
 		model.setSortTree(details.sortTree.sortFields);
-		
+
 		if (idx >= 0) {
 			records.setSelectedIndex(idx);
-		
+
 			summaryMdl.getFieldSummary().setSummary(idx, details.sortTree.sortSummary);
 		}
 	}

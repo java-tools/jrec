@@ -28,6 +28,7 @@ import javax.swing.table.TableColumnModel;
 
 import net.sf.RecordEditor.re.util.csv.CsvSelectionTblMdl;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.AbsRowList;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
@@ -65,8 +66,8 @@ public class Pnl4CsvNames extends WizardPanel {
 
 
     private Details currentDetails;
-    
-    private boolean alwayShow; 
+
+    private boolean alwayShow;
     //private int[] colorInd;
 
     /**
@@ -78,8 +79,9 @@ public class Pnl4CsvNames extends WizardPanel {
         super();
 
 		String formDescription
-		    = "This screen will display the Column Details and allow you to change them. ";
-		
+		    = LangConversion.convertId(LangConversion.ST_MESSAGE, "FileWizard_4_csv",
+		    		"This screen will display the Column Details and allow you to change them. ");
+
 		alwayShow = alwayShowScreen;
 		tips = new JEditorPane("text/html", formDescription);
 
@@ -94,7 +96,7 @@ public class Pnl4CsvNames extends WizardPanel {
 		this.setHelpURL(Common.formatHelpURL(Common.HELP_WIZARD_PNL5));
 		this.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP3,
 		        BasePanel.FULL, BasePanel.FULL,
-				new JScrollPane(tips));
+				tips);
 		this.setGap(BasePanel.GAP1);
 		this.addComponent(1, 5, COLUMN_HEIGHT, BasePanel.GAP3,
 		        BasePanel.FULL, BasePanel.FULL,
@@ -119,7 +121,7 @@ public class Pnl4CsvNames extends WizardPanel {
      */
     public final Details getValues() throws Exception {
         Common.stopCellEditing(columnTbl);
-     
+
         return currentDetails;
     }
 
@@ -190,15 +192,15 @@ public class Pnl4CsvNames extends WizardPanel {
         fileTbl.setModel(fileMdl);
         fileMdl.fireTableDataChanged();
     }
-    
-    
+
+
     /**
      * Adjust the columns to remove 2 indexs
      * @param col column to be adjusted
      * @return adjusted column
      */
     private static int adjustColumn(int col) {
-    	
+
     	if (col < 2) {
     		return col;
     	} else if (col == 2) {
@@ -219,7 +221,7 @@ public class Pnl4CsvNames extends WizardPanel {
     private class ColumnTblModel extends AbstractTableModel {
         //private String[] lines;
         private ArrayList<ColumnDetails> columns;
- 
+
         /**
          * Table model to display column details for the user
          *
@@ -281,11 +283,11 @@ public class Pnl4CsvNames extends WizardPanel {
                     fileMdl.fireTableStructureChanged();
                 }
             } catch (Exception e) {
-                Common.logMsg(e.getMessage(), null);
+                Common.logMsgRaw(e.getMessage(), null);
             }
         }
-    }       
-    
+    }
+
     private class CsvSelTblMdl extends CsvSelectionTblMdl {
 
 		/**
@@ -295,8 +297,8 @@ public class Pnl4CsvNames extends WizardPanel {
 		public final String getColumnName(int col) {
 			return currentDetails.standardRecord.columnDtls.get(col).name;
 		}
-    	
-    	
+
+
     }
-  
+
  }

@@ -29,6 +29,7 @@ import net.sf.RecordEditor.jibx.compare.FieldTest;
 import net.sf.RecordEditor.jibx.compare.Layout;
 import net.sf.RecordEditor.jibx.compare.Record;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.Combo.ComboOption;
 
 
@@ -42,8 +43,12 @@ import net.sf.RecordEditor.utils.swing.Combo.ComboOption;
  */
 public class FilterDetails {
 
-    private static final String[] LAYOUT_COLUMN_HEADINGS = {"Record", "Include"};
-    private static final String[] FIELD_COLUMN_HEADINGS  = {"Field", "Include"};
+    private static final String[] LAYOUT_COLUMN_HEADINGS = LangConversion.convertColHeading(
+			"Filter Record Selection",
+			new String[] {"Record", "Include"});
+    private static final String[] FIELD_COLUMN_HEADINGS  = LangConversion.convertColHeading(
+			"Filter Field Selection",
+			new String[] {"Field", "Include"});
 
     private ComboOption[] recordOptions;
     private static final int INCLUDE_INDEX  = 1;
@@ -642,7 +647,7 @@ public class FilterDetails {
          */
         public String getColumnName(int columnIndex) {
         	if (twoLayouts && columnIndex == 1) {
-        		return "Equivalent Record";
+        		return LangConversion.convert(LangConversion.ST_COLUMN_HEADING, "Equivalent Record");
         	}
             return LAYOUT_COLUMN_HEADINGS[columnIndex];
         }

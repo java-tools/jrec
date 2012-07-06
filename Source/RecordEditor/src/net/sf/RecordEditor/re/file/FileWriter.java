@@ -9,9 +9,9 @@ import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.IO.AbstractLineWriter;
-import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.fileStorage.DataStore;
 import net.sf.RecordEditor.utils.fileStorage.DataStoreLarge;
+import net.sf.RecordEditor.utils.params.Parameters;
 
 public class FileWriter {
 	private static final long INTERVAL = 1500000000l;

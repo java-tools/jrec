@@ -135,7 +135,7 @@ public class LineFrameTree extends  BaseLineFrame {
 	@SuppressWarnings("rawtypes")
 	public LineFrameTree(final FileView viewOfFile,
    		 final AbstractLine line) {
-		super("Record: ", viewOfFile, false, ! viewOfFile.getLayout().isXml());
+		super("Record:", viewOfFile, false, ! viewOfFile.getLayout().isXml());
 
 
 		if (line == null) {

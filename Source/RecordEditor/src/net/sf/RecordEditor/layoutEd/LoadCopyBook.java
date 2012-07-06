@@ -45,6 +45,8 @@ import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
 import net.sf.RecordEditor.utils.jdbc.DBComboModel;
+import net.sf.RecordEditor.utils.lang.LangConversion;
+
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
@@ -53,6 +55,7 @@ import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
 import net.sf.RecordEditor.utils.swing.FileChooser;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimitierCombo;
 
 
 
@@ -92,6 +95,10 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 		//"<Default>", "\"", "'", "`"
 	//};
 
+	private static final String COBOL_LAYOUT = LangConversion.convert(LangConversion.ST_FRAME_HEADING, "Load Cobol Record Layout - DB ");
+
+	private static final String SELECTED_LOADER = LangConversion.convert(LangConversion.ST_FRAME_HEADING, "Load Record Layout using selectedLoader");
+
 	private String formDescription;
 
 //	private TableDB      structureTable = new TableDB();
@@ -99,11 +106,11 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 	private BmKeyedComboModel structureModel = new BmKeyedComboModel(new ManagerRowList(
 			LineIOProvider.getInstance(), false));
 
-//	private DBComboModel<TableRec> structureModel 
+//	private DBComboModel<TableRec> structureModel
 //			= new DBComboModel<TableRec>(structureTable, 0, 1, true, false);
 	private DBComboModel<TableRec>    systemModel
 			= new DBComboModel<TableRec>(systemTable, 0, 1, true, false);
-	
+
 
 
 		/* screen fields */
@@ -116,14 +123,14 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 	private JTextField  fontName      = new JTextField();
 	private ComputerOptionCombo
 	                    binaryOptions = new ComputerOptionCombo();
-	private JButton     go            = new JButton("Go");
+	private JButton     go            = SwingUtils.newButton("Go");
 	private JButton     helpBtn       = Common.getHelpButton();
 	private SplitCombo  splitOptions  = new SplitCombo();
 	private BmKeyedComboBox fileStructure;
 
     private BmKeyedComboBox      system;
-    
-    private JComboBox fieldSeparator = new JComboBox(Common.FIELD_SEPARATOR_LIST);
+
+    private DelimitierCombo fieldSeparator = DelimitierCombo.NewDelimComboWithDefault();
     private JComboBox quote = new JComboBox(Common.QUOTE_LIST);
 
 	private BaseHelpPanel pnl = new BaseHelpPanel();
@@ -134,11 +141,11 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 		/* input params */
 	private int connectionId;
 	private boolean copybookChoice;
-	
+
 	private HashMap<String, Integer> tableId = null;
 	private int maxKey;
 	TableDB tblsDB = null;
-	
+
 	private BasicLayoutCallback layoutCallback;
 
 
@@ -153,16 +160,16 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 						   final String pDBid,
 						   final int pConnectionId,
 						   final BasicLayoutCallback callback)  {
-		super((chooseCopyBook ? "Load Record Layout using selectedLoader"
-							 : "Load Cobol Record Layout - DB ") + pDBid,
+		super((chooseCopyBook ? SELECTED_LOADER
+							 : COBOL_LAYOUT) + " " + pDBid,
 			   "", null);
 		boolean free = Common.isSetDoFree(false);
-		
+
 		this.connectionId = pConnectionId;
 		this.copybookChoice = chooseCopyBook;
 		layoutCallback = callback;
 		init(chooseCopyBook);
-		
+
 		BaseHelpPanel innerPnl = new BaseHelpPanel();
 		JScrollPane innerScroll;
 		ReMainFrame frame = ReMainFrame.getMasterFrame();
@@ -179,7 +186,7 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 		pnl.addComponent(1, 5, SwingUtils.STANDARD_FONT_HEIGHT * 16,
 				BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
-				new JScrollPane(tips));
+				tips);
 		//innerPnl.setGap(BasePanel.GAP1);
 
 		if (chooseCopyBook) {
@@ -200,12 +207,12 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 
 		innerPnl.addLine("File Structure", fileStructure);
 		innerPnl.addLine("System", system);
-		
+
 		if (chooseCopyBook) {
 			innerPnl.addLine("Field Seperator", fieldSeparator);
 			innerPnl.addLine("Quote", quote);
 		}
-		
+
 		innerScroll = new JScrollPane(innerPnl);
 		innerScroll.setBorder(BorderFactory.createEmptyBorder());
 
@@ -250,10 +257,13 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 				  : "Cobol";
 
 		copybookPrompt = typeOfCopybook + " Copybook";
-	    formDescription = "<font COLOR=Blue>This option loads a <b>"
-	        + typeOfCopybook
-	        + " Copybooks</b> into the <b>Record Edit DB.</b></font>"
-	        + ReadFile.getCb2XmlHtml();
+	    formDescription = LangConversion.convertId(
+	    		LangConversion.ST_MESSAGE,
+	    		"CopybookLoad",
+	    		"<font COLOR=Blue>This option loads a <b>{0} Copybooks</b> into the <b>Record Edit DB.</b></font>"
+	    	    + ReadFile.getCb2XmlHtml(),
+	    		new Object[] {typeOfCopybook});
+
 	    tips = new JEditorPane("text/html", formDescription);
 	    tips.setEditable(false);
 	    copybookFile.setText(Common.OPTIONS.DEFAULT_COBOL_DIRECTORY.get());
@@ -263,7 +273,7 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 	    }
 
 	    splitOptions.setSelectedIndex(0);
-	    
+
 	    fieldSeparator.setSelectedIndex(0);
 	    quote.setSelectedIndex(0);
 
@@ -283,7 +293,7 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 	    	fileStructure.setSelectedDisplay(s);
 	    }
 	    //System.out.println(">> File Structure: " + s + " " + fileStructure.getSelectedItem());
-	 
+
 	    s = Common.OPTIONS.DEFAULT_BIN_NAME.get();
 	    if (! "".equals(s)) {
 	    	binaryOptions.setSelectedItem(s);
@@ -314,7 +324,7 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 			        ExtendedRecordDB db = new ExtendedRecordDB();
 			        int copybookId = CopybookLoaderFactoryDB.COBOL_LOADER;
 			        int fstructure = ((Integer) fileStructure.getSelectedItem()).intValue();
-			        
+
 			        if (copybookChoice) {
 				         //copybookId = ((Integer) loaderOptions.getSelectedItem()).intValue();
 			            copybookId = loaderOptions.getSelectedIndex();
@@ -329,16 +339,16 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 			                binaryFormat,
 			                systemId,
 			                msgField);
-			        
+
 			        if (rec == null) {
 			        	msgField.logMsg(AbsSSLogger.ERROR, "Could not load Copybook");
 			        }
-			        
+
 			        if (fstructure != Constants.IO_DEFAULT
 			        && rec.getFileStructure() <= Constants.IO_DEFAULT) {
 			        	rec.setFileStructure(fstructure);
 			        }
-			       			        
+
 			        ap100_updateSystem(rec);
 
 			        //System.out.println("## " + rec.getRecordId() + " " + rec.getRecordName());
@@ -347,9 +357,9 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 
 			        msgField.logMsg(AbsSSLogger.SHOW, "-->> " + copyBookFile + " processed");
 			        msgField.logMsg(AbsSSLogger.SHOW, "      Copybook: " + rec.getRecordName());
-			        
+
 			        db.close();
-			        
+
 			        if (layoutCallback != null) {
 			        	layoutCallback.setRecordLayout(0, rec.getRecordName(), null);
 			        }
@@ -360,29 +370,29 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
             } finally {
             	Common.setDoFree(free, connectionId);
 		        tableId = null;
-		        tblsDB  = null; 
+		        tblsDB  = null;
 	        }
 
 		}
 	}
-	
-	
+
+
 	/**
 	 * Set the System Id based on the System Name
 	 *
 	 */
 	private void ap100_updateSystem(ExternalRecord rec) throws SQLException {
-		
+
 		int i, ckey;
 		String s;
 		TableRec aTbl;
         int fieldSeparatorIdx = fieldSeparator.getSelectedIndex();
         int quoteIdx = quote.getSelectedIndex();
-		
+
 		for (i = 0; i < rec.getNumberOfRecords(); i++) {
 			ap100_updateSystem(rec.getRecord(i));
 		}
-		
+
 		s =  rec.getSystemName();
 		if (s != null) {
 			if (tableId == null) {
@@ -403,14 +413,14 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 				}
 				tblsDB.close();
 			}
-			
-			
+
+
 			if (tableId.containsKey(s)) {
 				Integer tblKey = tableId.get(s);
 				rec.setSystem(tblKey.intValue());
 			} else {
 				maxKey += 1;
-				aTbl = new TableRec(maxKey, s); 
+				aTbl = new TableRec(maxKey, s);
 				i = 0;
 				while ((i++ < 15) && (! tblsDB.tryToInsert(aTbl))) {
 					maxKey += 1;
@@ -419,11 +429,11 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 				tableId.put(s, Integer.valueOf(maxKey));
 			}
 		}
-		
+
         if (fieldSeparatorIdx > 0) {
-        	rec.setDelimiter(Common.FIELD_SEPARATOR_LIST[fieldSeparatorIdx]);
+        	rec.setDelimiter(fieldSeparator.getSelectedEnglish());
         }
-        
+
         if (quoteIdx > 0) {
         	rec.setQuote(Common.QUOTE_LIST[quoteIdx]);
         }

@@ -105,7 +105,7 @@ public class TblEdit extends ReFrame {
 	 * @param connectionIdx Database connection index
 	 */
 	public TblEdit(final String dbName, final JFrame jframe, final int connectionIdx)   {
-		super(dbName, "Edit Tables DB ", null);
+		super(dbName, "Edit Tables DB", null);
 		boolean free = Common.isSetDoFree(false);
 		Container cont = getContentPane();
 		cont.setLayout(new BorderLayout());

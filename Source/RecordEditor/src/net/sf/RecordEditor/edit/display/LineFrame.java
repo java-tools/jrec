@@ -85,7 +85,7 @@ public class LineFrame extends  BaseLineFrame {
 	 */
 	public LineFrame(final FileView<?> viewOfFile,
 	        		 final int cRow) {
-		this("Record: ", viewOfFile, cRow);
+		this("Record:", viewOfFile, cRow);
 	}
 
 

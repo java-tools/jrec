@@ -7,15 +7,17 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import net.sf.RecordEditor.utils.BasicLayoutCallback;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
+
 
 
 public class RecentFilesList {
 
-	private JMenu menu = new JMenu("Recent Files");
+	private JMenu menu = SwingUtils.newMenu("Recent Files");
 	private RecentFiles recentFiles;
 	private BasicLayoutCallback connection;
 	private FileAction[] actions = new FileAction[RecentFiles.RECENT_FILE_LIST];
-	
+
 	/**
 	 * @param recentfiles recent files details
 	 * @param callback callback function;
@@ -70,7 +72,7 @@ public class RecentFilesList {
             id = idx;
         }
 
-        
+
         /**
          * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
          */
@@ -79,7 +81,7 @@ public class RecentFilesList {
             try {
             	connection.setRecordLayout(-1, recentFiles.getRecentLayoutName(id), recentFiles.getRecentFullFileName(id));
             } catch (Exception ex) { }
-       
+
         }
 
     }

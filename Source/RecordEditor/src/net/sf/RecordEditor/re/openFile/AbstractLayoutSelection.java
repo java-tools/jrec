@@ -142,7 +142,7 @@ extends ReadLayout implements FormatFileName {
 	 */
 	public void loadFile(boolean pBrowse) {
 		if (executeAction == null) {
-			Common.logMsg("", null);
+			Common.logMsgRaw("", null);
 		} else {
 			executeAction.loadFile(pBrowse);
 		}

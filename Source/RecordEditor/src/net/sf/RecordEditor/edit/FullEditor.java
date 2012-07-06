@@ -16,7 +16,6 @@ package net.sf.RecordEditor.edit;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
 
@@ -42,6 +41,7 @@ import net.sf.RecordEditor.utils.CopyBookInterface;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.ParseArgs;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
 /**
@@ -148,7 +148,7 @@ public class FullEditor extends EditRec {
         super.getEditMenu().add(addAction(new CsvUpdateLayoutAction()));
 
         this.setOpenFileWindow(open,
-        		new AbstractAction("File Copy Menu") {
+        		new ReAbstractAction("File Copy Menu") {
 
 					/**
 					 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -158,7 +158,7 @@ public class FullEditor extends EditRec {
 						CopyDBLayout.newMenu(pInterfaceToCopyBooks);
 					}
 		        },
-   				new AbstractAction("Compare Menu") {
+   				new ReAbstractAction("Compare Menu") {
 
 					/**
 					 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)

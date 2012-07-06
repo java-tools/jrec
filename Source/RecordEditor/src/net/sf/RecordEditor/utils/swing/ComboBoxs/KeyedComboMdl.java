@@ -1,9 +1,12 @@
-package net.sf.RecordEditor.utils.swing.Combo;
+package net.sf.RecordEditor.utils.swing.ComboBoxs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.ComboBoxModel;
+
+import net.sf.RecordEditor.utils.swing.Combo.ComboObjOption;
+import net.sf.RecordEditor.utils.swing.Combo.ListListner;
 
 
 public class KeyedComboMdl<Key> extends ListListner implements  ComboBoxModel {
@@ -75,7 +78,7 @@ public class KeyedComboMdl<Key> extends ListListner implements  ComboBoxModel {
 			@SuppressWarnings("unchecked")
 			ComboObjOption<Key> parentItem = (ComboObjOption<Key>) item;
 			for (int i = 0; i < itemList.size(); i++) {
-				if (itemList.get(i).index != null && itemList.get(i).index.equals(parentItem.index)) {
+				if (itemList.get(i).key != null && itemList.get(i).key.equals(parentItem.key)) {
 					currIdx = i + 1;
 
 					break;
@@ -98,10 +101,10 @@ public class KeyedComboMdl<Key> extends ListListner implements  ComboBoxModel {
 
 		ComboObjOption<Key> o = items.get(key);
 		if (o == null) {
-			o = new ComboObjOption<Key>(key, value);
+			o = new ComboObjOption<Key>(key, value, null);
 			items.put(key, o);
 		} else {
-			o.setString(value);
+			o.setString(value, null);
 		}
 
 		addElement(o);
@@ -109,8 +112,8 @@ public class KeyedComboMdl<Key> extends ListListner implements  ComboBoxModel {
 	}
 
 	public void addElement(ComboObjOption<Key> o) {
-		if (! items.containsKey(o.index)) {
-			items.put(o.index, o);
+		if (! items.containsKey(o.key)) {
+			items.put(o.key, o);
 		}
 		itemList.add(o);
 	}

@@ -74,6 +74,8 @@ import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
+
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.ReAction;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -115,8 +117,8 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
     private ButtonTableRendor tableBtn = new ButtonTableRendor();
     private FixedColumnScrollPane tblScrollPane = null;
 
-    private JMenu copyMenu = new JMenu("Copy Column");
-    private JMenu moveMenu = new JMenu("Move Column");
+    private JMenu copyMenu = SwingUtils.newMenu("Copy Column");
+    private JMenu moveMenu = SwingUtils.newMenu("Move Column");
 
     private int fixedPopupCol = 1;
     private int mainPopupCol = 1;
@@ -152,7 +154,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
     public LineList(final AbstractLayoutDetails<?, ?> group,
                     final FileView<?> viewOfFile,
                     final FileView<?> masterFile) {
-        super("Table: ", viewOfFile, viewOfFile == masterFile, ! viewOfFile.getLayout().isXml(),
+        super("Table:", viewOfFile, viewOfFile == masterFile, ! viewOfFile.getLayout().isXml(),
         		 true, group.isBinary());
 
         fieldMapping = new FieldMapping(getFieldCounts());
@@ -172,7 +174,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 
         ReAction sort = new ReAction(ReActionHandler.SORT, this);
         AbstractAction editRecord
-        	= new AbstractAction(
+        	= new ReAbstractAction(
         		"Edit Record",
         		Common.getRecordIcon(Common.ID_EDIT_RECORD_ICON)) {
             public void actionPerformed(ActionEvent e) {
@@ -180,6 +182,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
            }
         };
         AbstractAction gotoLine   = new GotoLineAction(this, fileView);
+
 
         MenuPopupListener mainPopup;
         AbstractAction[] mainActions = {
@@ -190,14 +193,14 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
                 null,
                 new AutofitAction(this),
                 null,
-                new AbstractAction("Fix Column") {
+                new ReAbstractAction("Fix Column") {
                     public void actionPerformed(ActionEvent e) {
                         //int col = tblDetails.getSelectedColumn();
 
                         tblScrollPane.doFixColumn(mainPopupCol);
                     };
                 },
-                new AbstractAction("Hide Column") {
+                new ReAbstractAction("Hide Column") {
                     public void actionPerformed(ActionEvent e) {
                     	hideColumn(mainPopupCol);
                     }
@@ -210,7 +213,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
                 editRecord,
                 gotoLine,
                 null,
-                new AbstractAction("Unfix Column") {
+                new ReAbstractAction("Unfix Column") {
                     public void actionPerformed(ActionEvent e) {
                        // int col = tblScrollPane.getFixedTable().getSelectedColumn();
 
@@ -311,7 +314,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 
 
     private JMenu init_110_GetCsvMenu() {
-    	JMenu m = new JMenu("CSV Options");
+    	JMenu m = SwingUtils.newMenu("CSV Options");
 
     	copyMenu.setIcon(Common.getRecordIcon(Common.ID_COLUMN_COPY_ICON));
     	moveMenu.setIcon(Common.getRecordIcon(Common.ID_COLUMN_MOVE_ICON));

@@ -22,10 +22,13 @@ import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.Numeric.Convert;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
 import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimitierCombo;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.QuoteCombo;
 
 public class LayoutSelectionFile extends AbstractLayoutSelection  {
 
@@ -48,8 +51,8 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 	private SplitCombo   splitOption;
 	private ComputerOptionCombo numericFormat;
 
-    private JComboBox fieldSeparator;
-    private JComboBox quote;
+    private DelimitierCombo fieldSeparator;
+    private QuoteCombo quote;
 	private JTextArea message = null;
 
 	private String lastFileName = "";
@@ -217,7 +220,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
         } else if (! LineIOProvider.getInstance().isCopyBookFileRequired(fileStruc)) {
         	ret = buildLayoutFromSample(fileStruc,
         			fileStructure.getSelectedIndex() == TAB_CSV_IDX,
-        			getFontName(), fieldSeparator.getSelectedItem().toString(), fileName);
+        			getFontName(), fieldSeparator.getSelectedEnglish(), fileName);
          	lastLayoutDetails = layoutName;
          	lastLayout = ret;
 
@@ -377,8 +380,9 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
     		fileStructure  = new BmKeyedComboBox(structureModel, false);
     		splitOption    = new SplitCombo();
     		numericFormat  = new ComputerOptionCombo();
-    		fieldSeparator = new JComboBox(Common.FIELD_SEPARATOR_LIST);
-        	quote          = new JComboBox(Common.QUOTE_LIST);
+    		fieldSeparator = DelimitierCombo.NewDelimComboWithDefault();
+    				//new JComboBox(Common.FIELD_SEPARATOR_LIST);
+        	quote          = QuoteCombo.NewCombo();
 
     	    for (int i = 0; i < loaders.getNumberofLoaders(); i++) {
     	        loaderOptions.addItem(loaders.getName(i));
@@ -478,7 +482,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 
 		if (message == null) {
 			System.err.println();
-			System.err.println("Error: " + text);
+			System.err.println(LangConversion.convert("Error:") + " " + text);
 			System.err.println("================================================================");
 			System.err.println();
 		} else {

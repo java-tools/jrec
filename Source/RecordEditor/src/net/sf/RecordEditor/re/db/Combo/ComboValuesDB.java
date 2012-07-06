@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 /**
  * This class provides DB Access using
@@ -23,19 +24,21 @@ import net.sf.RecordEditor.utils.jdbc.AbsDB;
 public class ComboValuesDB  extends AbsDB<ComboValuesRec> {
 
 
-  private static final String[] COLUMN_NAMES = {
+  private static final String[] COLUMN_NAMES = LangConversion.convertColHeading(
+			"DB ComboValues",
+			new String[] {
                    "Combo Code"
                  , "Combo Value"
-  };
+  });
 
 
   private int paramCombo_Id;
-  
+
   private int columnCount = 2 ;
-  
+
   private PreparedStatement delAllRecordFields = null;
-  
-  
+
+
 
   public ComboValuesDB() {
 
@@ -48,13 +51,13 @@ public class ComboValuesDB  extends AbsDB<ComboValuesRec> {
       updateSQL = "Update Tbl_CI_ComboItems  "
                    +  " Set Combo_Code= ? "
                    +  "   , Combo_Value= ? "
-                   +  " Where Combo_Id= ? " 
-                   +  "   and Combo_Code= ? " 
+                   +  " Where Combo_Id= ? "
+                   +  "   and Combo_Code= ? "
                         ;
 
       deleteSQL = "Delete From  Tbl_CI_ComboItems  "
-                   +  " Where Combo_Id= ? " 
-                   +  "   and Combo_Code= ? " 
+                   +  " Where Combo_Id= ? "
+                   +  "   and Combo_Code= ? "
                         ;
 
       insertSQL = "Insert Into  Tbl_CI_ComboItems  ("
@@ -185,7 +188,7 @@ public class ComboValuesDB  extends AbsDB<ComboValuesRec> {
       statement.setInt(idx++, paramCombo_Id);
       statement.setString(idx, correctStr(value.initCombo_Code));
   }
-  
+
 
 
   /**

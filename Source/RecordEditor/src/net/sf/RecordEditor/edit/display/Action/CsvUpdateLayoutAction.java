@@ -2,17 +2,16 @@ package net.sf.RecordEditor.edit.display.Action;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.AbstractAction;
-
 import net.sf.RecordEditor.edit.display.util.UpdateCsvLayout;
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
 @SuppressWarnings("serial")
-public class CsvUpdateLayoutAction 
-extends AbstractAction implements AbstractActiveScreenAction {
+public class CsvUpdateLayoutAction
+extends ReAbstractAction implements AbstractActiveScreenAction {
 
 	/**
 	 * @param creator
@@ -38,7 +37,7 @@ extends AbstractAction implements AbstractActiveScreenAction {
 	@Override
 	public void checkActionEnabled() {
 		ReFrame activeScreen = ReFrame.getActiveFrame();
-		
+
 		super.setEnabled(isActive(activeScreen));
 	}
 
@@ -49,15 +48,15 @@ extends AbstractAction implements AbstractActiveScreenAction {
 			new UpdateCsvLayout((AbstractFileDisplay) activeScreen);
 		}
 	}
-	
+
 	private boolean isActive(ReFrame activeScreen) {
 		boolean active = false;
-		
+
 		if (activeScreen instanceof AbstractFileDisplay) {
 			AbstractFileDisplay source = (AbstractFileDisplay) activeScreen;
 			active =  source.getFileView().isSimpleCsvFile();
 		}
-		
+
 		return active;
 	}
 }

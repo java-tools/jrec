@@ -37,6 +37,7 @@ import net.sf.RecordEditor.re.db.Record.RecordRec;
 import net.sf.RecordEditor.re.jrecord.format.CellFormat;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReConnection;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 
 /**
@@ -47,6 +48,7 @@ import net.sf.RecordEditor.utils.common.ReConnection;
  */
 public final class UpgradeDB {
 
+	private static final String DATABASE_UPGRADED = LangConversion.convert("Database Upgraded to Version") + " ";
 	//private static String VERSION_691  = "0069100";
 	private static String VERSION_692B = "0069200";
 	private static String VERSION_700 = "0070000";
@@ -543,7 +545,8 @@ public final class UpgradeDB {
 			    count += 1;
 			}
 			insertChildren(lastRecordId, list, insertStatement);
-			Common.logMsg("Database Upgraded to " + VERSION_800 + " , child record copied " + count, null);
+			Common.logMsgRaw(AbsSSLogger.SHOW, DATABASE_UPGRADED + VERSION_800 + " , child record copied " + count, null);
+
 			insertStatement.close();
 
 			addFileWizardReader(dbIdx);
@@ -571,7 +574,7 @@ public final class UpgradeDB {
 			db.close();
 
 			upgradeVersion(connect, dbIdx, VERSION_801);
-	        Common.logMsg("Database Upgraded to " + VERSION_801, null);
+	        Common.logMsgRaw(AbsSSLogger.SHOW, DATABASE_UPGRADED + VERSION_801, null);
 			System.out.println("Current Version: " + VERSION_801);
 		} catch (Exception e) {
 			Common.logMsg("Could not load FileWizardReader", e);
@@ -763,7 +766,7 @@ public final class UpgradeDB {
     			UpgradeDB upgrade = new UpgradeDB();
     			upgrade.upgrade69(dbIndex);
     			upgrade.upgrade71(dbIndex);
-    			Common.logMsg("Upgraded DB to version 0.80.1 ", null);
+    			Common.logMsgRaw(AbsSSLogger.SHOW, DATABASE_UPGRADED + VERSION_801, null);
     			ret = true;
     		}
     	} catch (Exception e) {

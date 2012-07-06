@@ -2,13 +2,12 @@ package net.sf.RecordEditor.edit.display.Action;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.AbstractAction;
-
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 
 @SuppressWarnings("serial")
-public class AutofitAction extends AbstractAction {
+public class AutofitAction extends ReAbstractAction {
 	private AbstractFileDisplay display;
 
 	public AutofitAction(AbstractFileDisplay displ) {
@@ -16,9 +15,9 @@ public class AutofitAction extends AbstractAction {
         	  Common.getRecordIcon(Common.ID_AUTOFIT_ICON));
 		this.display = displ;
 	}
-	
+
     public void actionPerformed(ActionEvent e) {
         Common.calcColumnWidths(display.getJTable(), 1);
     }
-	
+
 }

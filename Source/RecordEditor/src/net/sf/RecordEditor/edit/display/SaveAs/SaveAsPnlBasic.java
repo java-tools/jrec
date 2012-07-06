@@ -6,6 +6,7 @@ import javax.swing.JTextArea;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.RecordFilter;
+import net.sf.RecordEditor.edit.util.ReMessages;
 import net.sf.RecordEditor.edit.util.StandardLayouts;
 import net.sf.RecordEditor.edit.util.WriteLinesAsXml;
 import net.sf.RecordEditor.re.openFile.RecentFiles;
@@ -19,14 +20,14 @@ public class SaveAsPnlBasic extends SaveAsPnlBase {
 	public SaveAsPnlBasic(CommonSaveAsFields commonSaveAsFields, int panelFormat, String extension, String description) {
 		super(commonSaveAsFields, extension, panelFormat, RecentFiles.RF_NONE, null);
 		JTextArea area = new JTextArea(description);
-		
+
 		panel.addComponent(1, 5,BasePanel.FILL, BasePanel.GAP,
                 BasePanel.FULL, BasePanel.FULL,
                 area);	}
 
 	@Override
 	public void save(String selection, String outFile) throws Exception {
-		
+
         if (CommonSaveAsFields.OPT_VIEW.equals(selection)) {
         	commonSaveAsFields.file.writeFile(outFile);
         } else if (CommonSaveAsFields.OPT_SELECTED.equals(selection)) {
@@ -36,22 +37,27 @@ public class SaveAsPnlBasic extends SaveAsPnlBase {
         }
 	}
 
-	
-	
 
-	
+
+
+
 	public static class Data extends SaveAsPnlBasic {
 
 		public Data(CommonSaveAsFields commonSaveAsFields) {
-			super(commonSaveAsFields, CommonSaveAsFields.FMT_DATA, "$", "Export data in native format\n\nChange the tab to change Data format");
+			super(commonSaveAsFields, CommonSaveAsFields.FMT_DATA, "$",
+					ReMessages.EXPORT_DATA_DESC.get());
+//				LangConversion.convertId(
+//						LangConversion.ST_MESSAGE, "ExportDataDesc",
+//						"Export data in native format\n\nChange the tab to change Data format"));
 		}
 
 		/* (non-Javadoc)
 		 * @see net.sf.RecordEditor.edit.display.SaveAs.SaveAsPnlBase#getEditLayout()
 		 */
+		@SuppressWarnings("rawtypes")
 		@Override
 		public AbstractLayoutDetails getEditLayout(String ext) {
-			
+
     		AbstractLayoutDetails tl = commonSaveAsFields.file.getLayout();
     		if (tl.isXml()) {
     			return StandardLayouts.getInstance().getXmlLayout();
@@ -60,20 +66,23 @@ public class SaveAsPnlBasic extends SaveAsPnlBase {
     		for (int i = 0; i < tl.getRecordCount(); i++) {
     			filter.add(new RecFilter(tl.getRecord(i).getRecordName()));
     		}
-    		
+
     		return tl.getFilteredLayout(filter);
 		}
-		
-		
+
+
 	}
-	
-	
+
+
 	public static class Xml extends SaveAsPnlBasic {
 
 		public Xml(CommonSaveAsFields commonSaveAsFields) {
-			super(commonSaveAsFields, CommonSaveAsFields.FMT_XML, ".xml", "Export data as an XML file");
+			super(commonSaveAsFields, CommonSaveAsFields.FMT_XML, ".xml",
+					ReMessages.EXPORT_XML_DESC.get());
+//					LangConversion.convertId(
+//							LangConversion.ST_MESSAGE, "ExportXmlDesc",  "Export data as an XML file"));
 		}
-		
+
 
 		@Override
 		public void save(String selection, String outFile) throws Exception {
@@ -100,12 +109,12 @@ public class SaveAsPnlBasic extends SaveAsPnlBase {
 			return StandardLayouts.getInstance().getXmlLayout();
 		}
 	}
-	
+
     private static class RecFilter implements RecordFilter {
 
     	private String name;
-    	
-    	
+
+
 		public RecFilter(String name) {
 			super();
 			this.name = name;

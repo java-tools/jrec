@@ -42,6 +42,7 @@ import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.FileChooser;
@@ -82,6 +83,7 @@ implements FocusListener, StartActionInterface {
 	private JButton lCreate2;
     //private final String recentFileName;
 
+	private static String LOAD_ERROR = LangConversion.convert("Error Loading File:") + " ";
 
 
 	private KeyAdapter listner = new KeyAdapter() {
@@ -240,12 +242,12 @@ implements FocusListener, StartActionInterface {
 		String sFileName = fileName.getText();
 
 		if (sFileName.equals("")) {
-		    String s = "invalid file ~ " + sFileName;
-			Common.logMsg(s, null);
+		    String s = LangConversion.convert("Please Enter a file name");
+			Common.logMsgRaw(s, null);
 			message.setText(s);
 		} else if ((!Common.OPTIONS.asterixInFileName.isSelected()) && (sFileName.indexOf('*') >= 0)) {
-		    String s = "invalid file (* present) ~ " + sFileName;
-			Common.logMsg(s, null);
+		    String s = LangConversion.convert("invalid filename (* present) ~") + " " + sFileName;
+			Common.logMsgRaw(s, null);
 			message.setText(s);
 		} else {
 			fileDescription = getLayoutSelection().getRecordLayout(sFileName);
@@ -260,8 +262,8 @@ implements FocusListener, StartActionInterface {
 			    } catch (RecordException e) {
 			    	stdError(e);
 			    } catch (Exception e) {
-				    String s = "Error Loading File: " + e.getMessage();
-				    Common.logMsg(s, e);
+				    String s = LOAD_ERROR + e.getMessage();
+				    Common.logMsgRaw(s, e);
    					message.setText(s);
    					e.printStackTrace();
 				}
@@ -276,8 +278,8 @@ implements FocusListener, StartActionInterface {
 
 	private void stdError(Exception e) {
 
-	    String s = "Error Loading File: " + e.getMessage();
-	    Common.logMsg(s, null);
+	    String s = LOAD_ERROR + e.getMessage();
+	    Common.logMsgRaw(s, null);
 		message.setText(s);
 		e.printStackTrace();
 	}

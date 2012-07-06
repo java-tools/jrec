@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package net.sf.RecordEditor.re.util.wizard;
 
@@ -24,8 +24,8 @@ public abstract class TwoLayoutsWizard<Save extends BaseCopyDif> extends Abstrac
 	@SuppressWarnings("rawtypes")
 	private AbstractLayoutSelection[] recordSelection = new AbstractLayoutSelection[2];
 
-	
-	
+
+
 	/**
 	 * Create Single layout
 	 * @param selection1 record layout selection class
@@ -39,22 +39,22 @@ public abstract class TwoLayoutsWizard<Save extends BaseCopyDif> extends Abstrac
 
 
 	@SuppressWarnings("rawtypes")
-	protected void setUpPanels(AbstractLayoutSelection selection1, AbstractLayoutSelection selection2, 
+	protected void setUpPanels(AbstractLayoutSelection selection1, AbstractLayoutSelection selection2,
 			String recentFiles, AbstractWizardPanel<Save> finalScreen,
 			String help) {
-		AbstractWizardPanel<Save>[] pnls = new AbstractWizardPanel[4]; 
-		
+		AbstractWizardPanel<Save>[] pnls = new AbstractWizardPanel[4];
+
 		int oldIdx = StandardGetFiles.OLD;
 		int newIdx = StandardGetFiles.NEW;
-		
+
 		recordSelection[oldIdx] = selection1;
 		recordSelection[newIdx] = selection2;
-		
+
 		pnls[0] = new StandardGetFiles(recordSelection[oldIdx], oldIdx, recentFiles, help);
 		pnls[1] = new StandardGetFiles(recordSelection[newIdx], newIdx, recentFiles, help);
 		pnls[2] = new FieldChoice<Save>(selection1, selection2, help);
 		pnls[3] = finalScreen;
-		
+
 		super.setPanels(pnls);
 	}
 
@@ -63,15 +63,15 @@ public abstract class TwoLayoutsWizard<Save extends BaseCopyDif> extends Abstrac
 //	 */
 //	@Override
 //	public void finished(save details) {
-//		
+//
 //		if (finalScreen.isToRun()) {
 //			finalScreen.run();
 //		}
 //	}
-	
-	
-	
-	
+
+
+
+
 	/**
 	 * @see net.sf.RecordEditor.utils.wizards.AbstractWizard#executeAction(int)
 	 */
@@ -80,14 +80,14 @@ public abstract class TwoLayoutsWizard<Save extends BaseCopyDif> extends Abstrac
 	       if (action == ReActionHandler.SAVE) {
 	    	   try {
 	    		   Save diff = super.getActivePanel().getValues();
-	    		   
+
 	    		   if (! "".equals(diff.saveFile)) {
 	    			   saveJibx(diff);
 	    			   diff.fileSaved = true;
 	    		   }
 	    	   } catch (Exception e) {
 	    		   e.printStackTrace();
-	    		   Common.logMsg("File Save Failed:", e);
+	    		   Common.logMsgRaw(Common.FILE_SAVE_FAILED, e);
 	    	   }
 	        } else {
 	            super.executeAction(action);
@@ -116,7 +116,7 @@ public abstract class TwoLayoutsWizard<Save extends BaseCopyDif> extends Abstrac
 	   if (jibx == null) {
 		   jibx = new JibxCall<Save>(save.getClass());
 	   }
-	   
+
 	   jibx.unmarshal(save.saveFile, save);
 	}
 }

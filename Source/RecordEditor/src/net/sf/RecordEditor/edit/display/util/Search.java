@@ -36,16 +36,20 @@ import javax.swing.JTextField;
 
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
+import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.edit.display.common.ILayoutChanged;
 import net.sf.RecordEditor.re.file.FilePosition;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.file.filter.Compare;
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.common.Common;
+
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.LayoutCombo;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 /**
@@ -60,10 +64,19 @@ import net.sf.RecordEditor.utils.swing.LayoutCombo;
 @SuppressWarnings("serial")
 public final class Search extends ReFrame implements ActionListener, ILayoutChanged {
 
-    private static final int SILLY_INT = -101;
+    private static final String ALL_FIELDS = LangConversion.convertComboItms("Field List", "All Fields");
+	private static final String FIND_ERROR = LangConversion.convert("Find error:");
+	private static final String LINE_MSG = LangConversion.convert("Found (line, field Num, field position)=");
+	private static final String YOU_MUST_SPECIFY_A_FIELD = LangConversion.convert("You must specify a specific field when using replace");
+	private static final String CAN_NOT_USE_REPLACE_IN_BROWSE_MODE = LangConversion.convert("Can not use replace in browse mode");
+	private static final String YOU_MUST_ENTER_TEXT_TO_SEARCH_FOR  = LangConversion.convert("You must enter text to search for");
+
+	private static final int SILLY_INT = -101;
 	private static final String[] FIELD_SEARCH_OPTIONS = Compare.OPERATOR_SEARCH_OPTIONS;
 	//{"Any Part of Field", "Whole Field", "Not in Field", "<> Field" };
-	private static final String[] SEARCH_DIRECTIONS = {"Forward", "Backward" };
+	private static final String[] SEARCH_DIRECTIONS = LangConversion.convertComboItms(
+			"File Search Direction",
+			new String[] {"Forward", "Backward"});
 
 	private JTextField search      = new JTextField();
 	private JTextField replace     = new JTextField();
@@ -73,11 +86,11 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	private JComboBox direction    = new JComboBox(SEARCH_DIRECTIONS);
 	private JCheckBox ignoreCase   = new JCheckBox();
 	private JButton searchBtn;
-	private JButton replaceBtn     = new JButton("Replace");
-	private JButton replaceFindBtn = new JButton("Replace Find");
-	private JButton replaceAllBtn  = new JButton("Replace All");
+	private JButton replaceBtn     = SwingUtils.newButton("Replace");
+	private JButton replaceFindBtn = SwingUtils.newButton("Replace Find");
+	private JButton replaceAllBtn  = SwingUtils.newButton("Replace All");
 
-	private JTextField msg     = new JTextField();
+	private JTextField msgTxt      = new JTextField();
 
 	private FilePosition pos = new FilePosition(SILLY_INT, -SILLY_INT, SILLY_INT, SILLY_INT, true);
 
@@ -133,7 +146,7 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 		pnl.setGap(BasePanel.GAP1);
 
 		//searchBtn = pnl.addIconButton(true, 2, Common.getRecordIcon(Common.ID_SEARCH_ICON));
-		searchBtn = new JButton("Find", Common.getRecordIcon(Common.ID_SEARCH_ICON));
+		searchBtn = SwingUtils.newButton("Find", Common.getRecordIcon(Common.ID_SEARCH_ICON));
 
 		if (master.isBrowse()) {
 			pnl.addLine("", searchBtn);
@@ -152,11 +165,11 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 			replaceAllBtn.addActionListener(this);
 		}
 		pnl.setGap(BasePanel.GAP1);
-		pnl.addMessage(msg);
+		pnl.addMessage(msgTxt);
 		//pnl.addComponent("", replaceAllBtn);
 
 		searchBtn.addActionListener(this);
-		searchBtn.setToolTipText("Start Searching the file");
+		searchBtn.setToolTipText( LangConversion.convert(LangConversion.ST_FIELD_HINT,"Start Searching the file"));
 
 		layoutList.addActionListener(this);
 
@@ -200,18 +213,18 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	public final void actionPerformed(final ActionEvent event) {
 
 	    String searchFor = search.getText();
-	    msg.setText("");
+	    msgTxt.setText("");
 	    try {
 	        if (event.getSource() == layoutList) {
 	            loadFieldList();
 	        } else if (searchFor == null || "".equals(searchFor)) {
-	            ap_920_setMessage("You must enter text to search for");
+	            ap_920_setMessage(YOU_MUST_ENTER_TEXT_TO_SEARCH_FOR);
 	        } else if (event.getSource() == searchBtn) {
 	            ap_100_find();
 	        } else if (file.isBrowse()) {
-	            ap_920_setMessage("Can not use replace in browse mode");
+	            ap_920_setMessage(CAN_NOT_USE_REPLACE_IN_BROWSE_MODE);
 	        } else if (fieldList.getSelectedIndex() == 0) {
-	            ap_920_setMessage("You must specify a specific field when using replace");
+	            ap_920_setMessage(YOU_MUST_SPECIFY_A_FIELD);
 	        } else if (event.getSource() == replaceBtn) {
 	            ap_300_replace();
 	        } else if (event.getSource() == replaceFindBtn) {
@@ -260,7 +273,7 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 				func);
     	source.setCurrRow(pos);
     	if (pos.currentLine == null && pos.row >= 0) {
- 	        msg.setText("Found (line, field Num, field position)="
+ 	        msgTxt.setText(LINE_MSG
 				    	+ (pos.row+1)
 				    	+ ", " + pos.currentFieldNumber
 				    	+ ", " + pos.col);
@@ -365,8 +378,8 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	 */
 	private final void ap_920_setMessage(String message) {
 
-        msg.setText(message);
-        Common.logMsg("Find error: " + message, null);
+        msgTxt.setText(message);
+        Common.logMsgRaw(FIND_ERROR + " " + message, null);
 	}
 
 
@@ -384,7 +397,7 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 
 			fieldList.removeAllItems();
 			fieldList.addItem("");
-			fieldList.addItem("All Fields");
+			fieldList.addItem(ALL_FIELDS);
 			if (idx >= 0) {
 				for (i = 0; i < numCols; i++) {
 					fieldList.addItem(file.getColumnName(idx, i));

@@ -98,7 +98,7 @@ public class EditDefaults extends BasePanel {
 
 		this.addComponent(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
-				new JScrollPane(tips));
+				tips);
 
 		this.addComponent(1, 5, TABLE_HEIGHT, BasePanel.GAP2,
 		        BasePanel.FULL, BasePanel.FULL,

@@ -25,6 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.text.JTextComponent;
 
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
@@ -45,7 +46,7 @@ public class Pnl3Table extends WizardPanel {
 
 
     private JEditorPane tips;
-    
+
     private ColumnSelector columnSelector;
 
     /**
@@ -54,20 +55,21 @@ public class Pnl3Table extends WizardPanel {
      */
     public Pnl3Table(JTextComponent msg) {
         super();
-        
+
         columnSelector = new ColumnSelector(msg);
 
 		String formDescription
-		    = "This screen will display the first 60 lines of the file. "
-		    + "<br>Indicate the <i>start</i> of a <b>field</b> by clicking on the starting column"
-		    + "<br>Each succesive <b>field</b> will have alternating background color"
-	    	+ "<p>To remove a <b>field</b> click on the starting column again.";
+		    = LangConversion.convertId(LangConversion.ST_MESSAGE, "FileWizard_3b",
+		    		  "This screen will display the first 60 lines of the file. "
+		    		+ "<br>Indicate the <i>start</i> of a <b>field</b> by clicking on the starting column"
+		    		+ "<br>Each succesive <b>field</b> will have alternating background color"
+		    		+ "<p>To remove a <b>field</b> click on the starting column again.");
 		tips = new JEditorPane("text/html", formDescription);
 
 		this.setHelpURL(Common.formatHelpURL(Common.HELP_WIZARD_PNL2));
 		this.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
-				new JScrollPane(tips));
+				tips);
 
 		columnSelector.addFields(this, FILE_HEIGHT);
 //		this.addComponent("Show Hex", columnSelector.hexChk);
@@ -76,7 +78,7 @@ public class Pnl3Table extends WizardPanel {
 //		        BasePanel.FULL, BasePanel.FULL,
 //				new JScrollPane(columnSelector.fileTbl));
 		//this.setGap(BasePanel.GAP1);
-		
+
 		columnSelector.addMouseListner();
     }
 

@@ -2,15 +2,14 @@ package net.sf.RecordEditor.edit.display.Action;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.AbstractAction;
-
 import net.sf.RecordEditor.edit.display.util.GotoLine;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 
 @SuppressWarnings("serial")
-public class GotoLineAction extends AbstractAction {
+public class GotoLineAction extends ReAbstractAction {
 	private final AbstractFileDisplay src;
 	private FileView<?> master;
 
@@ -20,7 +19,7 @@ public class GotoLineAction extends AbstractAction {
 		this.src = src;
 		this.master = master;
 	}
-	
+
 	public void actionPerformed(ActionEvent e) {
 		new GotoLine(src, master);
     }

@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 //import net.sf.RecordEditor.utils.jdbc.AbsRecord;
 
 /**
@@ -50,8 +51,8 @@ public class RecordDB  extends AbsDB<RecordRec> {
 
   private static final String[] COLUMN_NAMES = {
                    "Record Id"
-                 , "Record Name"
-                 , "Description"
+                 , LangConversion.convert(LangConversion.ST_COLUMN_HEADING, "Record Name")
+                 , LangConversion.convert(LangConversion.ST_COLUMN_HEADING,"Description")
                  , "Record Type"
                  , "System"
                  , "ListChar"
@@ -233,17 +234,17 @@ public class RecordDB  extends AbsDB<RecordRec> {
 				connect.getUpdateConnection().createStatement().execute(uSql);
 			}
 		} catch (Exception e) {
-			Common.logMsg(sSql, null);
-			Common.logMsg("Update Failed: " + e.getClass().getName() + " " + e.getMessage(), e);
+			Common.logMsgRaw(sSql, null);
+			Common.logMsgRaw(UPDATE_FAILED + e.getClass().getName() + " " + e.getMessage(), e);
 			e.printStackTrace();
 		}
-		
+
 		for (String sql : updSql) {
 			try {
 				connect.getUpdateConnection().createStatement().execute(sql);
 			} catch (Exception e) {
-				Common.logMsg(sql, null);
-				Common.logMsg("Update Failed: " + e.getClass().getName() + " " + e.getMessage(), e);
+				Common.logMsgRaw(sql, null);
+				Common.logMsgRaw(UPDATE_FAILED + e.getClass().getName() + " " + e.getMessage(), e);
 				e.printStackTrace();
 			}
 		}

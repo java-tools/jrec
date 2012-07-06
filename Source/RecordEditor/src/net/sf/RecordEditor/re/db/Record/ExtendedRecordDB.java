@@ -22,6 +22,7 @@ import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
 import net.sf.JRecord.ExternalRecordSelection.ExternalGroupSelection;
 import net.sf.JRecord.ExternalRecordSelection.ExternalSelection;
+import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.detailsSelection.RecordSel;
 import net.sf.RecordEditor.utils.ReadRecordSelection;
 import net.sf.RecordEditor.utils.common.Common;
@@ -49,8 +50,8 @@ public class ExtendedRecordDB extends RecordDB {
     	}
     	return rec.getValue();
     }
-    
-    
+
+
     /**
 	 * @see net.sf.RecordEditor.re.db.Record.RecordDB#fetch()
 	 */
@@ -58,12 +59,12 @@ public class ExtendedRecordDB extends RecordDB {
 		boolean free = super.isSetDoFree(false);
 
 		RecordRec rec = super.fetch();
-		
+
 		if (rec == null) {
 			closeChildDbs();
 		} else {
 			defineChildDbs();
-			
+
 			fetch_Records(rec.getValue());
 			fetch_Fields(rec.getValue());
 		}
@@ -78,9 +79,9 @@ public class ExtendedRecordDB extends RecordDB {
 	private void fetch_Records(ExternalRecord rec) {
 		ChildRecordsRec child;
 		childDb.setParams(rec.getRecordId());
-		
+
 		childDb.open();
-		child = childDb.fetch(); 
+		child = childDb.fetch();
 //		System.out.println(" >>> " + rec.getRecordId());
 //		System.out.println();
 		if (child != null) {
@@ -100,7 +101,7 @@ public class ExtendedRecordDB extends RecordDB {
 				if (r != null) {
 					childRecord = r.getValue();
 					//System.out.print(" " + r.getRecordName());
-					
+
 					//childRecord.addTstField(child.getField(), child.getFieldValue());
 					recSel = readSel.getRecordSelection(
 									connect, rec.getRecordId(), child.getChildKey(), null,
@@ -111,13 +112,13 @@ public class ExtendedRecordDB extends RecordDB {
 					childRecord.setParentRecord(child.getParentRecord());
 
 					fetch_Fields(childRecord);
-				
+
 					rec.addRecord(childRecord);
 				}
 				//System.out.println();
-				child = childDb.fetch(); 
+				child = childDb.fetch();
 			}
-			
+
 			for (i = 0; i < rec.getNumberOfRecords(); i++) {
 				parentId = rec.getRecord(i).getParentRecord();
 				for (j = 0; j < rec.getNumberOfRecords(); j++) {
@@ -131,18 +132,18 @@ public class ExtendedRecordDB extends RecordDB {
 		}
 		//childDb.freeConnection();
 	}
-	
+
 	private void fetch_Fields(ExternalRecord rec) {
 		RecordFieldsRec field;
-		
+
 		fieldDb.setParams(rec.getRecordId());
-		
+
 		fieldDb.open();
 		field = fieldDb.fetch();
 		while (field != null) {
 			rec.addRecordField(field.getValue());
 			field = fieldDb.fetch();
-		}	
+		}
 	}
 
 
@@ -167,7 +168,7 @@ public class ExtendedRecordDB extends RecordDB {
 //        System.out.println("~~~> " + rec.getRecordName()
 //                + " " + rec.isNew()
 //                + " " + rec.getUpdateStatus());
-    	
+
 		if (rec.isNew()) {
 		    //System.out.println("~~~> inserting ");
 			RecordRec old;
@@ -176,13 +177,13 @@ public class ExtendedRecordDB extends RecordDB {
 			super.open();
 			old = super.fetch();
 			super.close();
-			
+
 			if (old != null) {
 				rec.getValue().setRecordId(old.getValue().getRecordId());
 				rec.setNew(false);
 				rec.setUpdateStatus(AbsRecord.UPDATED);
 			}
-		}  
+		}
 
 		super.checkAndUpdate(rec);
 		super.setDoFree(free);
@@ -200,10 +201,10 @@ public class ExtendedRecordDB extends RecordDB {
                 + " " + value.isNew()
                 + " " + value.getUpdateStatus());*/
         super.insert(value);
-        
+
         updateChildSegments(value.getValue());
         writeFields(value.getValue());
-        
+
         super.setDoFree(free);
      }
 
@@ -219,10 +220,10 @@ public class ExtendedRecordDB extends RecordDB {
     	} catch (Exception e) {
 			super.insert(val);
 		}
-        
+
         updateChildSegments(val.getValue());
         writeFields(val.getValue());
-        
+
         super.setDoFree(free);
     }
 
@@ -250,7 +251,7 @@ public class ExtendedRecordDB extends RecordDB {
     		db.setConnection(this.connect);
     		db.setParams(rec.getRecordId());
     		db.deleteAll();
-    		
+
 
     		for (i = 0; i < rec.getNumberOfRecords(); i++) {
     			child = rec.getRecord(i);
@@ -263,11 +264,11 @@ public class ExtendedRecordDB extends RecordDB {
     			childRec = ChildRecordsRec.getBlankChildRec(child.getRecordId());
     			childRec.setChildId(i);
     			childRec.setParentRecord(child.getParentRecord());
-    			
+
     			writeChild(db, rec.getRecordId(), childRec, child.getRecordSelection());
     		}
-    		
-    		
+
+
 //    		for (i = 0; i < rec.getNumberOfRecords(); i++) {
 //    			child = rec.getRecord(i);
 //    			try {
@@ -300,41 +301,41 @@ public class ExtendedRecordDB extends RecordDB {
 
 
     public final void writeChild(ChildRecordsDB db, int recordId, ChildRecordsRec childRec, ExternalSelection recordSel) {
-    	
+
     	if (recordSel == null) {
     	} else if (recordSel instanceof ExternalGroupSelection) {
     		@SuppressWarnings("rawtypes")
 			ExternalGroupSelection grp = (ExternalGroupSelection) recordSel;
     		if (grp.size() == 1 && updateSelectionFields(childRec, grp.get(0))) {
     			recordSel = null;
-    		} else if (grp.size() == 2 
+    		} else if (grp.size() == 2
     			   && grp.getType() == ExternalSelection.TYPE_AND
     			   && grp.get(1).getType() != ExternalSelection.TYPE_ATOM
     			   && updateSelectionFields(childRec, grp.get(0))) {
     			recordSel = grp.get(1);
-    		} 
+    		}
     	} else if (updateSelectionFields(childRec, recordSel)) {
     		recordSel = null;
     	}
-    	
+
     	db.insert(childRec);
-    	
+
     	writeRecordSelection(recordId, childRec.getChildKey(), recordSel);
     }
-    
+
     public final void writeRecordSelection(int recordId, int childKey, ExternalSelection recordSel) {
     	RecordSelectionDB db = new RecordSelectionDB();
-    	
+
     	db.setConnection(this.connect);
 		db.setParams(recordId, childKey);
     	db.deleteAll();
-    	
+
     	recSelWarn = false;
     	if (recordSel == null) {
     	} else if (recordSel instanceof ExternalGroupSelection) {
     		@SuppressWarnings("rawtypes")
 			ExternalGroupSelection grp = (ExternalGroupSelection) recordSel;
-    		
+
     		if (grp.getType() == ExternalSelection.TYPE_AND) {
     			writeAndSelection(db, recordId, childKey, 1, Common.BOOLEAN_OPERATOR_AND, grp);
     		} else {
@@ -343,28 +344,28 @@ public class ExtendedRecordDB extends RecordDB {
     	} else {
     		writeSelectionField(db, recordId, childKey, 1, Common.BOOLEAN_OPERATOR_AND, recordSel);
     	}
-    	
+
     	if (recSelWarn) {
     		String s = "     ----- Warning  -- Waring ---------\n"
     				 + "     ----------------------------------\n\n"
     				 + "  The record Selection was to complicated to be loaded in to the Database\n\n"
     				 + "  You need to update Record Selection manualy ";
-    		
+
     		System.out.println(s);
-    		Common.logMsg(s, null);
+    		Common.logMsgId("RecSel001", AbsSSLogger.SHOW, s, null);
     	}
     	db.close();
     }
-    
+
     @SuppressWarnings("rawtypes")
 	private void writeOrSelection(
-    		RecordSelectionDB db, 
-    		int recordId, int childKey,  
+    		RecordSelectionDB db,
+    		int recordId, int childKey,
     		ExternalGroupSelection grp) {
     	int idx = 1;
     	int op = Common.BOOLEAN_OPERATOR_AND;
     	ExternalSelection child;
-    	
+
     	for (int i = 0; i < grp.size(); i++) {
     		child = grp.get(i);
     		if (child.getType() ==  ExternalSelection.TYPE_ATOM) {
@@ -374,18 +375,18 @@ public class ExtendedRecordDB extends RecordDB {
     		} else {
     			recSelWarn = true;
     		}
-    		
+
     		op = Common.BOOLEAN_OPERATOR_OR;
     	}
     }
-    
+
     private int writeAndSelection(
-    		RecordSelectionDB db, 
-    		int recordId, int childKey, int fieldNo, 
+    		RecordSelectionDB db,
+    		int recordId, int childKey, int fieldNo,
     		int boolOp, @SuppressWarnings("rawtypes") ExternalGroupSelection grp) {
-   	
+
     	int idx = fieldNo;
-    	
+
     	for (int i = 0; i < grp.size(); i++) {
     		if (grp.get(i).getType() ==  ExternalSelection.TYPE_ATOM) {
     			writeSelectionField(db, recordId, childKey, idx++, boolOp, grp.get(i));
@@ -396,19 +397,19 @@ public class ExtendedRecordDB extends RecordDB {
     	}
     	return idx;
     }
-    
+
     private void writeSelectionField(
-    		RecordSelectionDB db, 
-    		int recordId, int childKey, int fieldNo, 
+    		RecordSelectionDB db,
+    		int recordId, int childKey, int fieldNo,
     		int boolOp, ExternalSelection recordSel) {
-    	
+
     	if (recordSel instanceof ExternalFieldSelection) {
     		ExternalFieldSelection fieldSel = (ExternalFieldSelection) recordSel;
     		RecordSelectionRec selRec = new RecordSelectionRec(
-    				recordId, childKey, fieldNo, boolOp, 
+    				recordId, childKey, fieldNo, boolOp,
     				fieldSel.getFieldName(), fieldSel.getOperator(), fieldSel.getFieldValue()
     		);
-    		
+
     		db.insert(selRec);
     	}
     }
@@ -417,14 +418,14 @@ public class ExtendedRecordDB extends RecordDB {
     	boolean ret = false;
     	if (recordSel instanceof ExternalFieldSelection) {
     		ExternalFieldSelection fieldSel = (ExternalFieldSelection) recordSel;
-    		
+
     		if ("=".equals(fieldSel.getOperator()) || "eq".equalsIgnoreCase(fieldSel.getOperator())) {
     			childRec.setField(fieldSel.getFieldName());
     			childRec.setFieldValue(fieldSel.getFieldValue());
     			ret = true;
     		}
     	}
-    	
+
     	return ret;
     }
 
@@ -448,44 +449,44 @@ public class ExtendedRecordDB extends RecordDB {
     	}
     	super.setDoFree(free);
     }
-    
+
     public void delete(int recordId) {
     	RecordRec rec = RecordRec.getNullRecord("xx", "");
     	rec.getValue().setRecordId(recordId);
-    	
+
 
     	delete(rec);
     }
-    
-    
+
+
     public void delete(RecordRec rec) {
     	boolean free = super.isSetDoFree(false);
     	int recordId = rec.getRecordId();
     	String deleteSQL = "Delete From  " + RecordSelectionDB.DB_NAME
     					 + " Where RecordId = " + recordId;
-    	 
+
     	defineChildDbs();
-    	
+
     	childDb.setParams(recordId);
     	fieldDb.setParams(recordId);
-    	
+
     	childDb.deleteAll();
     	fieldDb.deleteAll();
-    	
+
     	try {
 			connect.getUpdateConnection().createStatement().executeQuery(deleteSQL);
 		} catch (SQLException ex) {
 			setMessage(deleteSQL, ex.getMessage(), ex);
 		}
-    	
+
     	super.delete(rec);
-    	
+
     	closeChildDbs();
     	super.setDoFree(free);
     }
-    
+
     private void defineChildDbs() {
-    	
+
 		if (childDb == null) {
 			childDb = new ChildRecordsDB();
 			fieldDb = new RecordFieldsDB();
@@ -495,7 +496,7 @@ public class ExtendedRecordDB extends RecordDB {
 			fieldDb.setDoFree(false);
 		}
     }
-    
+
     private void closeChildDbs() {
 		if (childDb != null) {
 			childDb.close();
@@ -504,11 +505,11 @@ public class ExtendedRecordDB extends RecordDB {
 		}
 		fieldDb = null;
     }
-    
+
     public static RecordRec getRecord(int dbIdx, int recordId) {
-    	
+
 		RecordRec r;
-		
+
 		ExtendedRecordDB dbFrom = new ExtendedRecordDB();
 		boolean free = dbFrom.isSetDoFree(false);
 
@@ -516,11 +517,11 @@ public class ExtendedRecordDB extends RecordDB {
 		dbFrom.resetSearch();
 		dbFrom.setSearchRecordId(AbsDB.opEquals, recordId);
 		dbFrom.open();
-		
+
 		r = dbFrom.fetch();
 		dbFrom.close();
 		dbFrom.setDoFree(free);
-		
+
 		return r;
     }
 }

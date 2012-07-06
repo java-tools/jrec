@@ -16,8 +16,9 @@ package net.sf.RecordEditor.re.db.Table;
 import java.util.ArrayList;
 
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.common.ReConnection;
+import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.AbsRowList;
 
 /**
@@ -32,7 +33,8 @@ public class TableList extends AbsRowList {
 	private TableDB tableDb = new TableDB();
 	private String idName;
 	private String name;
-	private int arraySize;
+	private int arraySize, tableIdent;
+
 
 	/**
 	 * This class reads both DB values and properties
@@ -51,8 +53,9 @@ public class TableList extends AbsRowList {
             final boolean sort, final boolean nullFirstRow,
             final String propertiesIdName, final String propertiesName,
             final int propertiesArraySize) {
-        super(0, 1, sort, nullFirstRow);
+        super(0, getNameIdx(tableId), sort, nullFirstRow);
 
+        tableIdent = tableId;
     	idName = propertiesIdName;
     	name   = propertiesName;
     	arraySize = propertiesArraySize;
@@ -80,12 +83,13 @@ public class TableList extends AbsRowList {
 		int[] keys = Common.readIntPropertiesArray(idName, arraySize);
 		String s;
 
+		getForeignTranslation(list);
+
 		if (keys != null) {
 		    for (int i = 0; i < arraySize; i++) {
 		        if (keys[i] != Common.NULL_INTEGER) {
-		            //System.out.print(i + " " + name + " ");
 		            s = Parameters.getString(name + i);
-		            //System.out.print(" ~~ " + s);
+
 		            if (s != null && ! "".equals(s)) {
 		                list.add(new TableRec(keys[i], s));
 		            }
@@ -94,5 +98,39 @@ public class TableList extends AbsRowList {
 		    }
 		}
 		return list;
+	}
+
+	protected void getForeignTranslation(ArrayList<TableRec> list) {
+
+		if (isForeignTranslation(tableIdent)) {
+			String foreignLookUpId = TableDB.getTblLookupKey(tableIdent);
+			for (TableRec rec : list) {
+				rec.setField(
+						2,
+						LangConversion.convertId(
+								LangConversion.ST_EXTERNAL,
+								foreignLookUpId + rec.getField(getKeyIdx()),
+								fix(rec.getField(1))
+						));
+			}
+
+		}
+	}
+
+	private String fix(Object o) {
+		if (o == null) return "";
+		return o.toString();
+	}
+
+	private static int getNameIdx(int tableId) {
+		int ret = 1;
+		if (isForeignTranslation(tableId)) {
+			ret = 2;
+		}
+		return ret;
+	}
+
+	private static boolean isForeignTranslation(int tableId) {
+		return tableId != Common.TI_SYSTEMS;
 	}
 }

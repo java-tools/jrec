@@ -2,16 +2,15 @@ package net.sf.RecordEditor.edit.display.Action;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.AbstractAction;
-
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
 @SuppressWarnings("serial")
-public class LoadSavedVisibilityAction 
-extends AbstractAction implements AbstractActiveScreenAction {
+public class LoadSavedVisibilityAction
+extends ReAbstractAction implements AbstractActiveScreenAction {
 
 	/**
 	 * @param creator

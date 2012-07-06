@@ -33,6 +33,8 @@ import net.sf.RecordEditor.re.db.Record.SaveRecordAsXml;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.common.ReActionHandlerWithSave;
+import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.lang.ReOptionDialog;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
@@ -81,7 +83,7 @@ public class RecordEdit extends    ReFrame
 	 */
 	public RecordEdit(final String dbName,
 	        		  final int dbConnectionIdx)   {
-		super(dbName, "Edit Record Layout - DB ", null); //iconifiable
+		super(dbName, "Edit Record Layout - DB", null); //iconifiable
 
 		frame = ReMainFrame.getMasterFrame();
 		int height = frame.getDesktop().getHeight() - 1;
@@ -321,7 +323,7 @@ public class RecordEdit extends    ReFrame
 	                    pnlRecord.setValues(rec);
 	                }
 	            } else if (action == ReActionHandler.SAVE_AS) {
-	                String newName = JOptionPane.showInputDialog(this, "New Record Layout Name", rec.getRecordName());
+	                String newName = ReOptionDialog.showInputDialog(this, "New Record Layout Name", rec.getRecordName());
 
 	                if (newName != null && ! "".equals(newName)) {
 	                    rec = (RecordRec) rec.clone();
@@ -332,7 +334,7 @@ public class RecordEdit extends    ReFrame
 	                        currRow = tRow;
 	                        pnlRecord.set2clone(rec);
 	                    }
-	                    this.message.setText("Old record saved, New Record " + newName + " created");
+	                    this.message.setText(LangConversion.convert("Old record saved, New Record {0} created", newName));
 	                }
 	            }
 	        }

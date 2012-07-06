@@ -14,6 +14,7 @@ import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
+import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.re.jrecord.format.CellFormat;
 import net.sf.RecordEditor.utils.ColumnMappingInterface;
@@ -84,14 +85,14 @@ public class RecordFormats {
             for (j = 0; j < cellRenders.length; j++) {
                 cellRenders[j] = null;
                 idx = mapping.getRealColumn(recordIdx, j);
-                
+
                 fieldDef = recordDescription.getField(idx);
                 if (fieldDef.getType() == Type.ftXmlNameTag) {
                 	cellRenders[j] = new ComboBoxRenderAdapter(
                 			new LayoutCombo(layout, false, true));
                 } else if (fieldDef.getType() == Type.ftArrayField) {
                 	cellRenders[j] = new ArrayRender();
-                } else if (fieldDef.getType() == Type.ftComboItemField 
+                } else if (fieldDef.getType() == Type.ftComboItemField
                 		&&  fieldDef instanceof ComboModelSupplier) {
                 	cellRenders[j] = new ComboItemRender(((ComboModelSupplier) fieldDef).getComboModel());
                 } else if (idx < fieldFormats.length && fieldFormats[idx] != null) {
@@ -99,22 +100,22 @@ public class RecordFormats {
                 		cellRenders[j] = fieldFormats[idx]
                 		               .getTableCellRenderer(recordDescription.getField(idx));
                 	} catch (Exception e) {
-                		Common.logMsg("Can not create Rendor for field: " + recordDescription.getField(idx).getName(), e);
+                		Common.logMsg(AbsSSLogger.ERROR, "Can not create Rendor for field:", recordDescription.getField(idx).getName(), e);
                 	}
                 }
-                
+
 //                if (cellRenders[j]  != null) {
-//                	System.out.println("## Got Render " + j 
+//                	System.out.println("## Got Render " + j
 //                			+ " " + recordDescription.getField(idx).getName()
 //                			+ " " + recordDescription.getField(idx).getType()
 //                			+ " " + cellRenders[j].getClass().getName());
 //                } else {
 //
-//                	System.out.println("## No  Render " + j 
+//                	System.out.println("## No  Render " + j
 //                			+ " " + recordDescription.getField(idx).getName()
 //                			+ " " + recordDescription.getField(idx).getType()
 //                	);
-//                    
+//
 //                }
                 foundRendor |= (cellRenders[j] != null);
             }
@@ -144,7 +145,7 @@ public class RecordFormats {
             for (j = 0; j < cellEditor.length; j++) {
                 cellEditor[j] = null;
                 idx = mapping.getRealColumn(recordIdx, j);
-                //System.out.print("Mapping ~~> " + j + " " + idx 
+                //System.out.print("Mapping ~~> " + j + " " + idx
                 //		+ " " + (recordDescription.getField(idx).getType() == Type.ftXmlNameTag));
 
                 fieldDef = recordDescription.getField(idx);
@@ -164,7 +165,7 @@ public class RecordFormats {
                 		//System.out.print(" found ");
                 	} catch (Exception e) {
                 	}
-                } 
+                }
                 if (cellEditor[j] == null && fieldDef.getDefaultValue() != null) {
                 	cellEditor[j] = new TableCellEditorWithDefault(fieldDef.getDefaultValue());
                 }
@@ -179,23 +180,23 @@ public class RecordFormats {
         }
         return cellEditor; // (TableCellEditor[]) cellEditors.clone();
     }
-    
-    
+
+
     /**
      * Check if the format has changed
      * @return wether the format has changed
      */
     public boolean hasTheFormatChanged() {
     	boolean ret = fieldFormats.length != recordDescription.getFieldCount();
-    	
+
     	if (ret) {
     		allocateArrays();
     	}
-    	
+
     	return ret;
     }
 
-    
+
     private void allocateArrays() {
     	boolean foundWidth = false;
     	ReTypeManger manager = ReTypeManger.getInstance();

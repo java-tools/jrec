@@ -22,7 +22,7 @@ import net.sf.RecordEditor.re.db.Table.TableList;
 import net.sf.RecordEditor.re.db.Table.TypeList;
 import net.sf.RecordEditor.re.jrecord.types.ReTypeManger;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
+import net.sf.RecordEditor.utils.params.Parameters;
 
 /**
  * Generate a copybook loader based on the
@@ -33,11 +33,11 @@ import net.sf.RecordEditor.utils.common.Parameters;
  *
  */
 @SuppressWarnings("unchecked")
-public class CopybookLoaderFactoryDB extends CopybookLoaderFactory 
+public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
 								  implements AbstractConversion {
 
    //public static final int COBOL_LOADER = 1;
-	
+
 	public static int currentDB = -1;
 
 
@@ -57,7 +57,7 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
    //private String[] loaderName;
    //private int numberLoaded = 0;
 
-   
+
 //private static CopybookLoaderFactoryDB instance = new CopybookLoaderFactoryDB();
 
 
@@ -67,7 +67,7 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
     */
    public CopybookLoaderFactoryDB() {
        this(NUMBER_OF_LOADERS);
-       
+
    }
 
 
@@ -79,11 +79,11 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
        super(maximumNumberOfLoaders);
 
        ExternalConversion.setStandardConversion(this);
-       
+
        String s1 =  Parameters.getString(Parameters.INVALID_FILE_CHARS);
        String s2 = Parameters.getString(Parameters.FILE_REPLACEMENT_CHAR);
        ExternalConversion.setInvalidFileChars(s1, s2);
-    		 // Parameters.getString(Parameters.INVALID_FILE_CHARS), 
+    		 // Parameters.getString(Parameters.INVALID_FILE_CHARS),
     		 //  Parameters.getString(Parameters.FILE_REPLACEMENT_CHAR));
    }
 
@@ -107,7 +107,7 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
        registerStandardLoaders2();
   //     register("RecordEditor Csv Copybook (Comma Seperator)",CsvLayoutParser.Comma.class, "");
   //     register("RecordEditor Csv Copybook (Tab Seperator)",CsvLayoutParser.Tab.class, "");
- 
+
        for (int i = 0; i < Parameters.NUMBER_OF_LOADERS; i++) {
            copybookLoaderName = Parameters.getString("CopybookLoaderName." + i);
            if (copybookLoaderName != null && ! "".equals(copybookLoaderName)) {
@@ -117,18 +117,18 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
 	                   try {
 	                       register(copybookLoaderName, (Class<? extends CopybookLoader>) Class.forName(copybookloaderClass), "");
 	                   } catch (Exception e) {
-	                       Common.logMsg(e.getMessage(), e);
+	                       Common.logMsgRaw(e.getMessage(), e);
 	                   }
 	               }
         	   } catch (Exception e) {
-				 Common.logMsg(e.getMessage(), e);
+				 Common.logMsgRaw(e.getMessage(), e);
         	   }
            }
        }
    }
-   
 
-   
+
+
    /**
     * @see net.sf.JRecord.External.AbstractConversion#getFormat(int, java.lang.String)
     */
@@ -136,7 +136,7 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
    public int getFormat(int idx, String format) {
 	   int val = 0;
 	   format = format.toLowerCase();
-	   
+
 	   loadTypesFormats(idx);
        if (typeConv[idx].containsKey(format)) {
            val = (typeConv[idx].get(format)).intValue();
@@ -153,7 +153,7 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
    public int getType(int idx, String type) {
 	   int typeVal = 0;
        type = type.toLowerCase();
-       
+
        loadTypesFormats(idx);
        if (typeConv[idx].containsKey(type)) {
            typeVal = (typeConv[idx].get(type)).intValue();
@@ -173,7 +173,7 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
    		Integer key;
    		TypeList types = new TypeList(dbIdx, false, false);
    		String str;
-   		
+
    		typeConv[dbIdx] = new HashMap<String, Integer>();
    		typeNames[dbIdx] = new String[typeMgr.getNumberOfTypes()];
    		types.loadData();
@@ -185,11 +185,11 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
    			typeNames[dbIdx][typeMgr.getIndex(key.intValue())] = str;
    		}
 
-   		TableList formats = 
+   		TableList formats =
    		new TableList(dbIdx, Common.TI_FORMAT, false, false,
 	                Parameters.FORMAT_NUMBER_PREFIX, Parameters.FORMAT_NAME_PREFIX,
 	                Parameters.NUMBER_OF_FORMATS);
-   		
+
    		formatConv[dbIdx] = new HashMap<String, Integer>();
    		formatNames[dbIdx] = new String[typeMgr.getNumberOfFormats()];
    		formats.loadData();
@@ -198,28 +198,28 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
    			str = toString(formats.getFieldAt(i));
    			formatConv[dbIdx].put(str.toLowerCase(), key);
    			formatConv[dbIdx].put(key.toString(), key);
-   			
+
    			formatNames[dbIdx][typeMgr.getFormatIndex(key.intValue())] = str;
    		}
 
    	}
    }
-   
-   
+
+
     @Override
 	public String getFormatAsString(int idx, int format) {
 		ReTypeManger typeMgr = ReTypeManger.getInstance();
 		loadTypesFormats(idx);
-	
+
 		return formatNames[idx][typeMgr.getFormatIndex(format)];
 	}
-	
-	
+
+
 	@Override
 	public String getTypeAsString(int idx, int type) {
 		int id = idx;
 		ReTypeManger typeMgr = ReTypeManger.getInstance();
-		
+
 		if (id == ExternalConversion.USE_DEFAULT_DB) {
 			id = currentDB;
 			if (id < 0) {
@@ -227,7 +227,7 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
 			}
 		}
 		loadTypesFormats(id);
-	
+
 		return typeNames[id][typeMgr.getIndex(type)];
 	}
 
@@ -240,7 +240,7 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
 		}
 		return ret;
 	}
-	
+
 	/**
 	 * @param currentDB the currentDB to set
 	 */

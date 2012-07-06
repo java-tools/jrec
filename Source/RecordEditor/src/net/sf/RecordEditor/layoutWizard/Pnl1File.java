@@ -22,10 +22,10 @@ import javax.swing.ButtonGroup;
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.AbsRowList;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
@@ -42,7 +42,7 @@ import net.sf.RecordEditor.utils.swing.FileChooser;
 public class Pnl1File extends WizardPanel  {
 
     private JEditorPane tips;
-    private FileChooser     filenameFld = new FileChooser();
+    private FileChooser filenameFld = new FileChooser();
 
 
 	private JRadioButton fixedLengthBtn 	= new JRadioButton("Fixed Length Fields");
@@ -56,7 +56,7 @@ public class Pnl1File extends WizardPanel  {
 
 
     private Details wizardDetail;
-    
+
     /**
      * Panel1 File Details
      *
@@ -70,15 +70,16 @@ public class Pnl1File extends WizardPanel  {
 
 		fileStructure  = new BmKeyedComboBox(structureList, false);
 
-		String formDescription = "This wizard will build a <b>Record-Layout</b> from "
+		String formDescription = LangConversion.convertId(LangConversion.ST_MESSAGE, "FileWizard_1",
+				"This wizard will build a <b>Record-Layout</b> from "
 		    	+ "a sample file. <p> you need to enter a<ol>"
 		    	+ "<li>sample file in the new layout</li>"
 		    	+ "<li>the file structure (use <b>Default Reader</b>"
 		    	+      " for standard windows / Unix files) "
 		    	+      " for unknown file format use <b>Unknown Format</b></li>"
-		    	+ "<li>the new layout name</li>";
+		    	+ "<li>the new layout name</li>");
 		tips = new JEditorPane("text/html", formDescription);
-		
+
 		ButtonGroup grp = new ButtonGroup();
 		JPanel recordTypePnl = new JPanel(new GridLayout(2,2));
 		addRadioGrp(recordTypePnl, grp, fixedLengthBtn);
@@ -92,7 +93,7 @@ public class Pnl1File extends WizardPanel  {
 		this.setHelpURL(Common.formatHelpURL(Common.HELP_WIZARD));
 		this.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP3,
 		        BasePanel.FULL, BasePanel.FULL,
-				new JScrollPane(tips));
+				tips);
 		this.setGap(BasePanel.GAP1);
 
 		this.addLine("File Name", filenameFld, filenameFld.getChooseFileButton());
@@ -108,18 +109,18 @@ public class Pnl1File extends WizardPanel  {
 		//this.done();
     }
 
-	
+
 	private void addRadioGrp(JPanel pnl, ButtonGroup grp, JRadioButton btn1) {
 		grp.add(btn1);
-		
+
 		pnl.add(btn1);
 	}
-    
+
     /**
-     * 
+     *
      */
     public final Details getValues() throws Exception {
-     	
+
         wizardDetail.filename   = filenameFld.getText();
         wizardDetail.fileStructure = ((Integer) fileStructure.getSelectedItem()).intValue();
  //       wizardDetail.layoutName = layoutName.getText();
@@ -138,7 +139,7 @@ public class Pnl1File extends WizardPanel  {
         if (wizardDetail.fileStructure == Common.IO_NAME_1ST_LINE) {
         	delimitedBtn.setSelected(true);
         }
-        
+
         wizardDetail.recordType = Details.RT_FIXED_LENGTH_FIELDS;
         if (delimitedBtn.isSelected()) {
         	wizardDetail.recordType = Details.RT_DELIMITERED_FIELDS;
@@ -154,7 +155,7 @@ public class Pnl1File extends WizardPanel  {
     public final void setValues(Details detail) {
 
     	wizardDetail = detail;
-    	
+
         filenameFld.setText(detail.filename);
         fileStructure.setSelectedItem(Integer.valueOf(detail.fileStructure));
 

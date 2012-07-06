@@ -25,12 +25,12 @@ import java.util.ArrayList;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JEditorPane;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.text.JTextComponent;
 
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.AbsRowList;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
@@ -45,13 +45,15 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
  */
 @SuppressWarnings("serial")
 public class Pnl3RecordTypeMF extends WizardPanel {
-	private static final String[] FIELD_COL_NAMES = {
+	private static final String[] FIELD_COL_NAMES = LangConversion.convertColHeading(
+			"LayoutWizard Record Selection Fields",
+			new String[] {
 		"Field Name", "Start", "Length", "Type"
-	};
+	});
     private static final int FILE_HEIGHT =  SwingUtils.TABLE_ROW_HEIGHT * 15 - 3;
 
     private JEditorPane tips;
-   
+
     private FieldMdl keyFieldMdl = new FieldMdl();
     private JTable keyFieldTbl = new JTable(keyFieldMdl);
 //    private JTextField nameTxt = new JTextField();
@@ -61,13 +63,13 @@ public class Pnl3RecordTypeMF extends WizardPanel {
 
     private Details dtl;
     private ArrayList<KeyField> keys;
-    
+
     private ColumnSelector columnSelector;
-    
+
     //private ArrayList<ColumnDetails> columnList = new ArrayList<ColumnDetails>();
     private RecordDefinition recordDef = new RecordDefinition();
-    
-    
+
+
 //    FocusListener focusListner = new FocusAdapter() {
 //
 //		/* (non-Javadoc)
@@ -76,21 +78,21 @@ public class Pnl3RecordTypeMF extends WizardPanel {
 //		@Override
 //		public void focusLost(FocusEvent e) {
 //			super.focusLost(e);
-//			
+//
 //			setSelectedFieldOnTable();
 //		}
-//    	
+//
 //    };
-    
+
     /**
      * Panel1 File Details
      *
      */
     public Pnl3RecordTypeMF(AbsRowList typeList, JTextComponent message) {
         super();
-        
+
         columnSelector = new ColumnSelector(message);
-        
+
         keyFieldTbl.getColumnModel().getColumn(3).setCellRenderer(
         		(new BmKeyedComboBox(typeList, false)).getTableCellRenderer()
         );
@@ -98,19 +100,20 @@ public class Pnl3RecordTypeMF extends WizardPanel {
         		new DefaultCellEditor(new BmKeyedComboBox(typeList, false))
         );
         keyFieldTbl.setRowHeight(SwingUtils.COMBO_TABLE_ROW_HEIGHT);
-        
+
 		String formDescription
-		    = "This screen will display the first 60 lines of the file. "
-		    + "<br>Indicate the <i>start</i> of the <b>Record-Type field</b> by clicking on the starting column"
-		    + "<br>Then click on the start of the Next Field."
-		    + "<br>To remove a position click on it again.";
+		    = LangConversion.convertId(LangConversion.ST_MESSAGE, "FileWizard_3mf",
+		    		  "This screen will display the first 60 lines of the file. "
+		    		+ "<br>Indicate the <i>start</i> of the <b>Record-Type field</b> by clicking on the starting column"
+		    		+ "<br>Then click on the start of the Next Field."
+		    		+ "<br>To remove a position click on it again.");
 		tips = new JEditorPane("text/html", formDescription);
 
 		this.setHelpURL(Common.formatHelpURL(Common.HELP_WIZARD_RECORD_TYPE));
-		
+
 		this.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
-				new JScrollPane(tips));
+				tips);
 		//this.setGap(BasePanel.GAP1);
 //		this.addLine("Name", nameTxt);
 //		this.addLine("Field Start", startTxt);
@@ -120,9 +123,9 @@ public class Pnl3RecordTypeMF extends WizardPanel {
 				BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
 		        keyFieldTbl);
-		
+
 		//this.setGap(BasePanel.GAP0);
-		
+
 		this.addLine("Show Hex", columnSelector.hexChk);
 		this.setGap(BasePanel.GAP0);
 		this.addComponent(1, 5, FILE_HEIGHT, BasePanel.GAP1,
@@ -131,7 +134,7 @@ public class Pnl3RecordTypeMF extends WizardPanel {
 
 //		startTxt.addFocusListener(focusListner);
 //		lengthTxt.addFocusListener(focusListner);
-		
+
 		columnSelector.addMouseListner(new MouseAdapter() {
 			public void mousePressed(MouseEvent m) {
 			    int col = columnSelector.fileTbl.columnAtPoint(m.getPoint());
@@ -140,23 +143,23 @@ public class Pnl3RecordTypeMF extends WizardPanel {
 			}
 		});
     }
-    
+
     private void checkSelectedFieldOnTable() {
     	ArrayList<ColumnDetails> cd = recordDef.columnDtls;
 //    	ArrayList<ColumnDetails> cd = new ArrayList<ColumnDetails>(recordDef.columnDtls.size());
-//    	
+//
 //    	for (int i = cd.size() - 1; i >= 0; i--) {
 //    		if (recordDef.columnDtls.get(i).length > 0) {
 //    			cd.add(recordDef.columnDtls.get(i));
 //    		}
 //    	}
-     	
+
     	if (cd.size() > 0) {
     		int start = 1;
 	    	int cmp = cd.size() % 2;
 	    	int fieldCount = 1;
 	    	String name = "Record_Type";
-	    	
+
 	    	keys.clear();
     		for (int i = 0; i < cd.size(); i++) {
 	    		if (i % 2 == cmp) {
@@ -167,42 +170,42 @@ public class Pnl3RecordTypeMF extends WizardPanel {
 	    			name = "Record_Type_" + fieldCount;
 	    		}
 	    	}
-    	
+
     		padKeys();
     		keyFieldMdl.fireTableDataChanged();
     	}
     }
-   
+
     private void setSelectedFieldOnTable() {
      	for (KeyField k : keys) {
      		if ((k.keyStart <= 0 && k.keyLength <= 0)
      		||  (k.keyStart > 0 && k.keyLength > 0)) {
-     			
+
      		} else {
      			return;
      		}
      	}
-    	try {    		
+    	try {
     		if (keys.size() > 0) {
     			int prev = 1;
     			recordDef.columnDtls.clear();
     			//if (keys.get(0).keyStart > 1) {
        			//	recordDef.columnDtls.add(
-    			//			new ColumnDetails(keys.get(0).keyStart, 
+    			//			new ColumnDetails(keys.get(0).keyStart,
     			//					columnSelector.getCurrentDetails().defaultType.intValue()));
     			//}
-    			
+
     			for (KeyField k : keys) {
     				if (k.keyStart >= 1 && k.keyLength >= 1) {
     					if (k.keyStart > prev) {
 	          				recordDef.columnDtls.add(
-	        						new ColumnDetails(k.keyStart, 
+	        						new ColumnDetails(k.keyStart,
 	        								columnSelector.getCurrentDetails().defaultType.intValue()));
-//	    					System.out.println(" *+ " 
+//	    					System.out.println(" *+ "
 //	    							+ (k.keyStart)
 //	    							+ " " + k.keyStart + " " + k.keyLength);
     					}
-//    					System.out.println(" ** " 
+//    					System.out.println(" ** "
 //    							+ (k.keyStart + k.keyLength)
 //    							+ " " + k.keyStart + " " + k.keyLength);
     					prev = k.keyStart + k.keyLength;
@@ -211,7 +214,7 @@ public class Pnl3RecordTypeMF extends WizardPanel {
     				}
     			}
     			columnSelector.setColorIndicator();
-    		}    		
+    		}
     	} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -223,20 +226,20 @@ public class Pnl3RecordTypeMF extends WizardPanel {
      */
     public Details getValues() throws Exception {
     	Details ret = columnSelector.getCurrentDetails();
-  
+
         for (int i = keys.size() - 1; i >= 0; i--) {
         	if (keys.get(i).keyStart < 0) {
         		keys.remove(i);
         	}
         }
      	ret.keyFields = keys;
-     	
+
     	return ret;
     }
-  
+
 
 //    private int getInteger(JTextField fld)  throws Exception {
-//    
+//
 //    	try {
 //    		return Integer.parseInt(fld.getText());
 //    	} catch (Exception e) {
@@ -244,14 +247,14 @@ public class Pnl3RecordTypeMF extends WizardPanel {
 //			throw e;
 //		}
 //    }
-    
-    
+
+
     /**
      * @see net.sf.RecordEditor.layoutWizard.WizardPanel#setValues(net.sf.RecordEditor.layoutWizard.LayoutWizard.Details)
      */
     public final void setValues(Details detail) throws Exception {
 
-        columnSelector.readFile(detail, recordDef); 
+        columnSelector.readFile(detail, recordDef);
         columnSelector.setValues(detail, recordDef, false);
 
         dtl = detail;
@@ -260,14 +263,14 @@ public class Pnl3RecordTypeMF extends WizardPanel {
        	keyFieldMdl.fireTableDataChanged();
 
     }
-    
-    
+
+
     private void padKeys() {
     	for (int i = keys.size(); i < 5; i++) {
     		keys.add(new KeyField("", -1, -1, dtl.defaultType));
     	}
     }
-    
+
     private class FieldMdl extends AbstractTableModel {
 
 		/* (non-Javadoc)
@@ -293,9 +296,9 @@ public class Pnl3RecordTypeMF extends WizardPanel {
 		public void setValueAt(Object value, int rowIndex, int columnIndex) {
 			KeyField k = keys.get(rowIndex);
 			int t;
-			
+
 			switch (columnIndex) {
-			case 0:  
+			case 0:
 				if (value == null) {
 					k.keyName = "";
 				} else {
@@ -316,17 +319,17 @@ public class Pnl3RecordTypeMF extends WizardPanel {
 					setSelectedFieldOnTable();
 				}
 				break;
-			default: 
+			default:
 				if (value != null && value instanceof Integer) {
 					k.keyType = (Integer) value;
 				}
 			}
 		}
-		
+
 		private int toInt(Object o) {
 			int ret = -1;
 			if (o == null) {
-				
+
 			} else if (o instanceof Number) {
 				ret = ((Number) o).intValue();
 			} else {
@@ -335,7 +338,7 @@ public class Pnl3RecordTypeMF extends WizardPanel {
 				} catch (Exception e) {
 				}
 			}
-			
+
 			return ret;
 		}
 
@@ -367,9 +370,9 @@ public class Pnl3RecordTypeMF extends WizardPanel {
 			case 2:  return fixInt(k.keyLength);
 			default: return k.keyType;
 			}
-			
+
 		}
-    	
+
 		public Object fixInt(int ii) {
 			if (ii < 0) {
 				return "";

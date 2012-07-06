@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 /**
  * This class provides DB Access using
@@ -41,7 +42,9 @@ import net.sf.RecordEditor.utils.jdbc.AbsDB;
 public class RecordFieldsDB  extends AbsDB<RecordFieldsRec> {
 
 
-  private static final String[] COLUMN_NAMES = {
+  private static final String[] COLUMN_NAMES = LangConversion.convertColHeading(
+			"DB-RecordFields Columns",
+			new String[] {
                    "Position"
                  , "Length"
                  , "FieldName"
@@ -53,7 +56,7 @@ public class RecordFieldsDB  extends AbsDB<RecordFieldsRec> {
                  , "DefaultValue"
                  , "Cobol Name"
                  , "Field Id"
-  };
+  });
 
 
   private PreparedStatement delAllRecordFields = null;
@@ -234,7 +237,7 @@ public class RecordFieldsDB  extends AbsDB<RecordFieldsRec> {
    */
   protected void setWhere(PreparedStatement statement, RecordFieldsRec value, int idx)
                           throws SQLException {
- 
+
       statement.setInt(idx++, paramRecordId);
       statement.setInt(idx, value.initSubKey);
   }
@@ -273,7 +276,7 @@ public class RecordFieldsDB  extends AbsDB<RecordFieldsRec> {
       final String sql = "Select max(SubKey) From  Tbl_RF_RecordFields "
                    +  " Where RecordId= ? "
                  ;
-      
+
       return getNextIntSubKey(sql, paramRecordId);
   }
 
@@ -291,14 +294,14 @@ public class RecordFieldsDB  extends AbsDB<RecordFieldsRec> {
 
       int i = 0;
       boolean free = super.isSetDoFree(false);
-      
+
       int key = getNextKey();
 
       value.getValue().setSubKey(key++);
       while ((i++ < 10) && (! tryToInsert(value))) {
           value.getValue().setSubKey(key++);
       }
-      
+
       super.setDoFree(free);
   }
 

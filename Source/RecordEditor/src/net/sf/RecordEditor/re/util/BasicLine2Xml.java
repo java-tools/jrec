@@ -15,29 +15,29 @@ public abstract class BasicLine2Xml {
 
 	public BasicLine2Xml(String fileName) {
 	   	XMLOutputFactory f ;
-	   	
+
     	try {
-    		 f = XMLOutputFactory.newInstance();	
+    		 f = XMLOutputFactory.newInstance();
     	} catch (Exception e) {
-    		 Object o =  XMLOutputFactory.newInstance("javax.xml.stream.XMLOutputFactory", 
+    		 Object o =  XMLOutputFactory.newInstance("javax.xml.stream.XMLOutputFactory",
 					  this.getClass().getClassLoader());
     		 f = (XMLOutputFactory) o;
 		}
- 
+
     	try {
     		writer = f.createXMLStreamWriter(new FileOutputStream(fileName));
     	} catch (Exception e) {
 			e.printStackTrace();
-			Common.logMsg("Error Writing XML: ", e);
+			Common.logMsg("Error Opening XML file:", e);
 		}
 	}
-	
+
 	protected final void doWork() {
        	try {
     		writer.writeStartDocument();
-    		
+
     		writeDetails();
-     	       
+
     		writer.writeEndDocument();
     	    writer.close();
     	} catch (Exception e) {
@@ -45,29 +45,29 @@ public abstract class BasicLine2Xml {
 			Common.logMsg("Error Writing XML: ", e);
 		}
 	}
-	
+
 	protected abstract void writeDetails() throws XMLStreamException;
-	
+
 	protected final void writeAttributes(AbstractLine line) throws XMLStreamException {
 		if (line != null) {
 			int pref = line.getPreferredLayoutIdx();
 			AbstractRecordDetail rec = line.getLayout().getRecord(pref);
 			int end = rec.getFieldCount();
 			Object value;
-			
+
 			for (int i = 0; i < end; i++) {
 				value = line.getField(pref, i);
 				if (value != null && ! "".equals(value)) {
 					 writer.writeAttribute(fixName(rec.getField(i).getName()), value.toString());
-//					 System.out.println("<<< " + fixName(rec.getField(i).getName()) 
+//					 System.out.println("<<< " + fixName(rec.getField(i).getName())
 //							 + ": " + value.toString());
-					 
+
 				}
-				
+
 			}
 		}
 	}
-	
+
 	protected final String fixName(String name) {
 		return name.replace(" ", "_").replace(":","_").replace(".", "_");
 	}

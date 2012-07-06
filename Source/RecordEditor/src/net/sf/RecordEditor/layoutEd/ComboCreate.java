@@ -25,6 +25,7 @@ import net.sf.RecordEditor.re.db.Combo.ComboDB;
 import net.sf.RecordEditor.re.db.Combo.ComboRec;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.common.ReConnection;
+import net.sf.RecordEditor.utils.lang.ReOptionDialog;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
 
@@ -118,7 +119,7 @@ public class ComboCreate extends ReFrame {
 		pnlCombo = new ComboPnl(firstRecord, connectionId);
 
 		pnlCombo.setMinimumSize(new Dimension(400, 50));
-		
+
 		pnlCombo.setValues(firstRecord);
 	}
 
@@ -132,12 +133,12 @@ public class ComboCreate extends ReFrame {
 	private ComboRec saveRecord() {
 
 		ComboRec rec = pnlCombo.getValues();
-		
-		if (rec.isUpdateSuccessful() 
+
+		if (rec.isUpdateSuccessful()
 		&& rec.getComboName() != null && ! "".equals(rec.getComboName())) {
 			dbTblList.checkAndUpdate(rec);
 			//pnlTableList.saveTableDetails();
-			
+
 			pnlCombo.saveItems();
 		}
 
@@ -149,7 +150,7 @@ public class ComboCreate extends ReFrame {
      * @see net.sf.RecordEditor.utils.common.ReActionHandler#executeAction(int)
      */
     public void executeAction(int action) {
-    	
+
     	ComboRec rec;
 
         if (action == ReActionHandler.HELP) {
@@ -157,7 +158,7 @@ public class ComboCreate extends ReFrame {
 //        } else if (action == ReActionHandler.NEW) {
 //        	if (saveRecord().isUpdateSuccessful()) {
 //        		pnlCombo.setValues(null);
-//        	}        	
+//        	}
 	    } else if ((action == ReActionHandler.NEW)
 	            || (action == ReActionHandler.SAVE_AS)
 	    ) {
@@ -167,7 +168,7 @@ public class ComboCreate extends ReFrame {
 	            if (action == ReActionHandler.NEW) {
 	            	pnlCombo.setValues(null);
 	            } else if (action == ReActionHandler.SAVE_AS) {
-	                String newName = JOptionPane.showInputDialog(this, "New Combo Name", rec.getComboName());
+	                String newName = ReOptionDialog.showInputDialog(this, "New Combo Name", rec.getComboName());
 
 	                if (newName != null && ! "".equals(newName)) {
 	                    rec = pnlCombo.getClone(newName);
@@ -177,9 +178,9 @@ public class ComboCreate extends ReFrame {
 	    } else if (action == ReActionHandler.DELETE) {
 	        if (pnlCombo.isOkToDelete()) {
 	        	rec = pnlCombo.getValues();
-	        	
+
 	        	dbTblList.delete(rec);
-                
+
        			pnlCombo.setValues(null);
 	        }
         } else if (action == ReActionHandler.SAVE) {

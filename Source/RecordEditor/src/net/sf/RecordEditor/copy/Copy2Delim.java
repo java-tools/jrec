@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package net.sf.RecordEditor.copy;
 
@@ -20,6 +20,7 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimitierCombo;
 import net.sf.RecordEditor.utils.wizards.AbstractWizard;
 import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 
@@ -34,8 +35,8 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 	private CopyWizardFinalPnl finalScreen;
 	private JibxCall<CopyDefinition> jibx = null;
 //	private final  LayoutSelectionFile recordSelection = new LayoutSelectionFile();
-	
-	
+
+
 	/**
 	 * Create Single layout
 	 * @param selection record layout selection class
@@ -44,8 +45,8 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 	public Copy2Delim(AbstractLayoutSelection recordSelection1) {
 		this(recordSelection1, new net.sf.RecordEditor.jibx.compare.CopyDefinition());
 	}
-	
-	
+
+
 	/**
 	 * Create Single layout
 	 * @param selection record layout selection class
@@ -54,18 +55,18 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 	@SuppressWarnings("unchecked")
 	public Copy2Delim(AbstractLayoutSelection recordSelection1 , CopyDefinition definition) {
 		super("Copy to Delimited file", definition);
-		
-		AbstractWizardPanel<CopyDefinition>[] pnls = new AbstractWizardPanel[3]; 
+
+		AbstractWizardPanel<CopyDefinition>[] pnls = new AbstractWizardPanel[3];
 
 		recordSelection1.setMessage(super.getMessage());
-		
+
 		definition.type = CopyDefinition.DELIM_COPY;
-		
+
 		finalScreen = new CopyWizardFinalPnl(recordSelection1, null);
 		pnls[0] = new GetFiles(recordSelection1);
 		pnls[1] = new FieldSelection(recordSelection1, null, "");
 		pnls[2] = finalScreen;
-		
+
 		super.setPanels(pnls);
 	}
 
@@ -76,15 +77,15 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 	 */
 	@Override
 	public void finished(CopyDefinition details) {
-		
+
 		if (finalScreen.isToRun()) {
 			finalScreen.run();
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 	/**
 	 * @see net.sf.RecordEditor.utils.wizards.AbstractWizard#executeAction(int)
 	 */
@@ -93,7 +94,7 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
        if (action == ReActionHandler.SAVE) {
     	   try {
     		   CopyDefinition diff = super.getActivePanel().getValues();
-    		   
+
     		   if (! "".equals(diff.saveFile)) {
     			   if (jibx == null) {
     				   jibx = new JibxCall<CopyDefinition>(CopyDefinition.class);
@@ -104,7 +105,7 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
     		   }
     	   } catch (Exception e) {
     		   e.printStackTrace();
-    		   Common.logMsg("File Save Failed:", e);
+    		   Common.logMsgRaw(FILE_SAVE_FAILED, e);
     	   }
         } else {
             super.executeAction(action);
@@ -131,24 +132,24 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 		private FileChooser newFileName = new FileChooser();
 		@SuppressWarnings("unchecked")
 		private AbstractLayoutSelection layoutSelection1;
-		
-		private JComboBox delimCombo = new JComboBox(Common.FIELD_SEPARATOR_LIST1);
+
+		private DelimitierCombo delimCombo = DelimitierCombo.NewDelimCombo();
 		private JTextField delimTxt = new JTextField(8);
 		private JCheckBox names1stLineChk = new JCheckBox();
 		private JTextField quoteTxt = new JTextField();
 		private JTextField fontTxt = new JTextField();
-		
-		
+
+
 		@SuppressWarnings("unchecked")
 		public GetFiles(AbstractLayoutSelection selection1) {
 			super(selection1, "CobolFiles.txt");
-			
+
 			newFileName.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());
 			layoutSelection1 = selection1;
-		
+
 			setHelpURL(Common.formatHelpURL(Common.HELP_DIFF_SL));
 		}
-		
+
 
 		/**
 		 * @see net.sf.RecordEditor.utils.wizards.AbstractWizardPanel#getValues()
@@ -160,12 +161,12 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 			values.newFile.name = newFileName.getText();
 
 			values.oldFile.getLayoutDetails().name  = layoutSelection1.getLayoutName();
-			
+
 			values.delimiter = getDelim();
 			values.namesOnFirstLine = names1stLineChk.isSelected();
 			values.quote = quoteTxt.getText();
 			values.font = fontTxt.getText();
-			
+
 			if (layoutSelection1.getRecordLayout(getCurrentFileName()) == null) {
 				throw new RuntimeException("Layout Does not exist");
 			}
@@ -180,70 +181,70 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 		public void setValues(CopyDefinition detail) throws Exception {
 			System.out.println("Setting Values ... ");
 			values = detail;
-			
+
 			if (! "".equals(values.oldFile.name)) {
 				fileName.setText(values.oldFile.name);
 			}
-			
+
 			if (! "".equals(values.newFile.name)) {
 				newFileName.setText(values.newFile.name);
 			}
-			
+
 			if (! "".equals(values.oldFile.getLayoutDetails().name)) {
 				layoutSelection1.setLayoutName(values.oldFile.getLayoutDetails().name);
 			}
-			
+
 			delimTxt.setText("");
-			delimCombo.setSelectedItem(values.delimiter);
-			if (values.delimiter != null && ! values.delimiter.equals(delimCombo.getSelectedItem().toString())) {
+			delimCombo.setEnglish(values.delimiter);
+			if (values.delimiter != null && ! values.delimiter.equals(delimCombo.getSelectedEnglish())) {
 				delimTxt.setText(values.delimiter);
 			}
 			names1stLineChk.setSelected(values.namesOnFirstLine);
 			quoteTxt.setText(values.quote);
 			fontTxt.setText(values.font);
 		}
-		
+
 		@Override
 		protected void addFileName(BaseHelpPanel pnl) {
-					
+
 			pnl.addLine("Old File", fileName, fileName.getChooseFileButton());
 			pnl.addLine("New File", newFileName, newFileName.getChooseFileButton());
 		}
-		
+
 		@Override
 		protected void addLayoutSelection() {
-			
+
 			layoutSelection1.addLayoutSelection(this, fileName, new JPanel(), null, null);
 			JPanel delimPnl = new JPanel(new BorderLayout());
 			JPanel orLabel = new JPanel();
 			orLabel.add(new JLabel("or"));
-			
+
 			delimPnl.add(BorderLayout.WEST, delimCombo);
 			delimPnl.add(BorderLayout.CENTER, orLabel);
 			delimPnl.add(BorderLayout.EAST, delimTxt);
-			
+
 			this.setGap(GAP3);
 			this.addLine("Field Delimitier", delimPnl);
 			this.setHeight(HEIGHT_1P1);
 			this.setGap(GAP1);
-			
+
 			this.addLine("Names on 1st Line", names1stLineChk);
 			this.addLine("Quote", quoteTxt);
 			this.addLine("Font Name", fontTxt);
-			
+
 			this.setGap(GAP3);
 		}
-		
-		
+
+
 		private String getDelim() {
 			String ret = delimTxt.getText();
-			
+
 			if ("".equals(ret)) {
-				ret = delimCombo.getSelectedItem().toString();
+				ret = delimCombo.getSelectedEnglish();
 			} else {
 				String v = delimTxt.getText();
-				
-				if (v.length() < 2) { 
+
+				if (v.length() < 2) {
 				} else if (((v.length() == 5) && v.toLowerCase().startsWith("x'") && v.endsWith("'"))) {
 					try {
 						Conversion.getByteFromHexString(v);
@@ -259,9 +260,9 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 				}
 
 			}
-			
+
 			return ret;
 		}
 	}
-	
+
 }

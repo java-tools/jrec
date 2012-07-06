@@ -22,6 +22,7 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
 import net.sf.RecordEditor.utils.common.ReActionHandler;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 
 /**
@@ -118,25 +119,32 @@ public class ReFrame extends JInternalFrame
     public ReFrame(final String docName) {
         super();
 
-        documentName = docName;
+        documentName = LangConversion.convert(LangConversion.ST_FRAME_HEADING, docName);
 
         init();
     }
 
-    /**
-     * standard record editor internal frame
-     *
-     * @param docName Name of the document being edited
-     */
-    public ReFrame(final String docName, String screenName) {
-        super(screenName);
+//    /**
+//     * standard record editor internal frame
+//     *
+//     * @param docName Name of the document being edited
+//     */
+//    public ReFrame(final String docName, String screenName) {
+//        super(screenName);
+//
+//        documentName = docName;
+//
+//        init();
+//    }
 
-        documentName = docName;
 
-        init();
+    public ReFrame(final String docName, final String name, final Object doc) {
+    	this(docName, "", "", name, doc);
     }
 
-
+    public ReFrame(final String docName, final String enDocName,final String name, final Object doc) {
+    	this(docName, enDocName, "", name, doc);
+    }
 
     /**
      * standard record editor internal frame
@@ -145,11 +153,11 @@ public class ReFrame extends JInternalFrame
      * @param name name of the frame
      * @param doc data document
      */
-    public ReFrame(final String docName, final String name, final Object doc) {
-        super(name + " - " + docName, true, true, true, true);
+    public ReFrame(final String docName, final String enDocName, final String name, final String enName,final Object doc) {
+        super(formatName(docName, enDocName, name, enName), true, true, true, true);
 
-        documentName = docName;
-        frameId = name;
+        documentName = formatName(docName, enDocName);
+        frameId = formatName(name, enName);
         document = doc;
 
         init();
@@ -169,7 +177,31 @@ public class ReFrame extends JInternalFrame
         if (desktop != null) {
             desktop.add(this);
         }
-   }
+    }
+
+    private static String formatName(final String docName, final String enDocName,final String name, final String enName) {
+
+        return formatName(name, enName) + " - " + formatName(docName, enDocName);
+    }
+
+    private static String formatName(String name, String enName) {
+    	name = formatName(name);
+
+    	enName = LangConversion.convert(LangConversion.ST_FRAME_HEADING, formatName(enName));
+    	if ("".equals(name) || "".equals(enName)) {
+    		return name + enName;
+    	}
+    	return name + " " + enName;
+    }
+
+    private static String formatName(String name) {
+    	String s = name;
+    	if (s == null) {
+    		s = "";
+    	}
+    	return s;
+    }
+
 
     public void reClose() {
     	doDefaultCloseAction();

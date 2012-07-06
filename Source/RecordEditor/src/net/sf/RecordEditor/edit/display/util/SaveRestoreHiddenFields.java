@@ -16,7 +16,7 @@ import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.file.filter.AbstractExecute;
 import net.sf.RecordEditor.re.file.filter.ExecuteSavedFile;
 import net.sf.RecordEditor.utils.common.AbstractSaveDetails;
-import net.sf.RecordEditor.utils.common.Parameters;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.SaveButton;
 
 public class SaveRestoreHiddenFields

@@ -34,6 +34,8 @@ import net.sf.RecordEditor.re.tree.LineTreeTabelModel;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
+import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.ButtonTableRendor;
@@ -128,8 +130,9 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 
 		defColumns(0);
 
+
 		AbstractAction[] mainActions = {
-	        		new AbstractAction("Edit Record") {
+	        		new ReAbstractAction("Edit Record") {
 	    	            public void actionPerformed(ActionEvent e) {
 	    	            	newLineFrame(getNodeForRow(popupRow));
 	    	           }
@@ -137,18 +140,18 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	                null,
 	                new AutofitAction(this),
 	    	        null,
-	                new AbstractAction("Expand Tree") {
+	                new ReAbstractAction("Expand Tree") {
 	                    public void actionPerformed(ActionEvent e) {
 	                    	treeTable.getTree().expandRow(popupRow);
 	                    }
 	                },
-	                new AbstractAction("Fully Expand Tree") {
+	                new ReAbstractAction( "Fully Expand Tree") {
 	                    public void actionPerformed(ActionEvent e) {
 	                    	doFullExpansion(getNodeForRow(popupRow));
 
 	                    }
 	                },
-	                new AbstractAction("Collapse Tree") {
+	                new ReAbstractAction("Collapse Tree") {
 	                    public void actionPerformed(ActionEvent e) {
 	                    	treeTable.getTree().collapseRow(popupRow);
 	                    }
@@ -186,7 +189,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
             }
         };
         mainPopup.getPopup().addSeparator();
-        mainPopup.getPopup().add(new AbstractAction("Hide Column") {
+        mainPopup.getPopup().add(new ReAbstractAction("Hide Column") {
             public void actionPerformed(ActionEvent e) {
             	hideColumn(popupCol);
             }

@@ -3,8 +3,10 @@ package net.sf.RecordEditor.re.db.Record;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 
 
@@ -29,14 +31,16 @@ import net.sf.RecordEditor.utils.jdbc.AbsDB;
 public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 
 	public static final String DB_NAME = "Tbl_RS2_SubRecords";
-	private static final String[] COLUMN_NAMES = {
+	private static final String[] COLUMN_NAMES = LangConversion.convertColHeading(
+			"DB-ChildRecords columns",
+			new String[] {
 		"Child Record"
 		, "Child Name"
 		, "Field"
 		, "Field Value"
 		, "Tree Parent"
-	};
-	
+	});
+
 
 	private PreparedStatement delAllChildRecords = null;
 
@@ -77,12 +81,12 @@ public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 				+ "  , Field_Start"
 				+ "  , Field_Name"
 				+ "  , Field_Value"
-				+ "  , PARENT_RECORDID" 
+				+ "  , PARENT_RECORDID"
 				+ "  , Operator_Sequence"
 				+ "  , default_Record "
 				+ "  , Child_Name"
                 + "  , Child_Id"
-				+ "  , RecordId" 
+				+ "  , RecordId"
 
                       + ") Values ("
                       +    "     ?   , ?   , ?   , ?   , ?, ?   , ?, ?, ?, ?, ?"
@@ -102,7 +106,7 @@ public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 
 		paramRecordId = recordId;
 	}
-	
+
 	public int getRecordId() {
 
 		return paramRecordId;
@@ -192,11 +196,11 @@ public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 		ChildRecordsRec val = value;
 		int childId = value.getChildId();
 		String defaultRec = "N";
-		
+
 		if (value.isDefaultRecord()) {
 			 defaultRec = "Y";
 		}
-		
+
 		if (childId < 0) {
 			final String sql = "Select max(Child_Id) From  Tbl_RS2_SubRecords "
 					+  " Where RecordId= ? "
@@ -214,7 +218,7 @@ public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 		statement.setString(idx++, defaultRec);
 		statement.setString(idx++, val.getChildName());
 		statement.setInt(idx++, childId);
-		
+
 
 		if (insert) {
 			statement.setInt(idx++, paramRecordId);
@@ -247,20 +251,20 @@ public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 	@Override
 	public void delete(ChildRecordsRec val) {
 
-		String updSql  = 
+		String updSql  =
 				  "Delete from  TBL_RFS_FIELDSELECTION "
 				 + "where RECORDID = "  + paramRecordId
-				 + "  and Child_Key = " + val.getChildKey();	
-		
+				 + "  and Child_Key = " + val.getChildKey();
+
 
 		try {
 			connect.getUpdateConnection().createStatement().execute(updSql);
 		} catch (Exception e) {
 			Common.logMsg(updSql, null);
-			Common.logMsg("Update Failed: " + e.getClass().getName() + " " + e.getMessage(), e);
+			Common.logMsg(AbsSSLogger.ERROR, "Update Failed:", e.getClass().getName() + " " + e.getMessage(), e);
 			e.printStackTrace();
 		}
-		
+
 
 		super.delete(val);
 	}
@@ -311,7 +315,7 @@ public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 		super.setDoFree(free);
 	}
 
-	
+
 	/**
 	 * This method gets the next key
 	 */
@@ -321,8 +325,8 @@ public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 				;
 		return getNextIntSubKey(sql, paramRecordId);
 	}
-	
-	
+
+
 	/**
 	 *   Close the prepared statments
 	 */

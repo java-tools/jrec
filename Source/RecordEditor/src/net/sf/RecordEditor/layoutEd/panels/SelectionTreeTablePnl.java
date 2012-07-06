@@ -6,7 +6,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import javax.swing.table.TableColumn;
@@ -21,6 +20,7 @@ import net.sf.RecordEditor.layoutEd.layout.tree.SelectionTreeTblMdl;
 import net.sf.RecordEditor.re.db.Record.ChildRecordsRec;
 import net.sf.RecordEditor.utils.common.Common;
 
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.ButtonTableRendor;
@@ -34,9 +34,10 @@ public class SelectionTreeTablePnl implements IntRecordSelectPnl {
 
 	private JEditorPane tips = new JEditorPane(
 			"text/html",
-			"<h3>Selection Viewer</h3><br/> "
-		  + "<b>Warning:</b> Changes made on this screen will not be reflected on other open screens<br/>"
-		  + "and vice versa."
+			LangConversion.convertId(LangConversion.ST_MESSAGE, "LayoutEditor_SelectionTreeTbl",
+				"<h3>Selection Viewer</h3><br/> "
+			  + "<b>Warning:</b> Changes made on this screen will not be reflected on other open screens<br/>"
+			  + "and vice versa.")
 
 	);
 	private final ChildRecordsTblMdl childMdl;
@@ -100,7 +101,7 @@ public class SelectionTreeTablePnl implements IntRecordSelectPnl {
 
 		panel.addComponent(1, 5, SwingUtils.TIP_HEIGHT, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
-				new JScrollPane(tips));
+				tips);
 
 		panel.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP1,
                 BasePanel.FULL, BasePanel.FULL,

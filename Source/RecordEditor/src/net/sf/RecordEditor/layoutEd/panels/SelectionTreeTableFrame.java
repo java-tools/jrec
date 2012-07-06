@@ -6,7 +6,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
@@ -22,6 +21,7 @@ import net.sf.RecordEditor.layoutEd.layout.tree.SelectionTreeTblMdl;
 import net.sf.RecordEditor.re.db.Record.ChildRecordsRec;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -35,10 +35,11 @@ public class SelectionTreeTableFrame extends ReFrame {
 	public final BaseHelpPanel panel = new BaseHelpPanel();
 
 	private JEditorPane tips = new JEditorPane(
-			"text/html",
-			"<h3>Selection Viewer</h3><br/> "
-		  + "<b>Warning:</b> Changes made on this screen will not be reflected on other open screens<br/>"
-		  + "and vi versa."
+				"text/html",
+				LangConversion.convertId(LangConversion.ST_MESSAGE, "LayoutEdit_SelectionTreeTbl",
+					"<h3>Selection Viewer</h3><br/> "
+				  + "<b>Warning:</b> Changes made on this screen will not be reflected on other open screens<br/>"
+				  + "and vi versa.")
 
 	);
 	private final ChildRecordsTblMdl childMdl;
@@ -103,7 +104,7 @@ public class SelectionTreeTableFrame extends ReFrame {
 
 		panel.addComponent(1, 5, SwingUtils.TIP_HEIGHT, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
-				new JScrollPane(tips));
+				tips);
 
 		panel.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP1,
                 BasePanel.FULL, BasePanel.FULL,

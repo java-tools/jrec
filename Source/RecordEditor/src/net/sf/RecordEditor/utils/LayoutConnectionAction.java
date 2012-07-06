@@ -18,6 +18,7 @@ package net.sf.RecordEditor.utils;
 import javax.swing.AbstractAction;
 
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 
 /**
@@ -60,7 +61,7 @@ public abstract class LayoutConnectionAction extends AbstractAction {
     public LayoutConnectionAction(final String name,
             					  final LayoutConnection callbackClass,
             					  final int iconId) {
-        super(name, Common.getRecordIcon(iconId));
+        super(LangConversion.convert(LangConversion.ST_ACTION, name), Common.getRecordIcon(iconId));
         callback = callbackClass;
      }
 

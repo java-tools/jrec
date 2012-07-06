@@ -15,7 +15,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
@@ -25,7 +24,10 @@ import net.sf.RecordEditor.re.script.VelocityPopup;
 import net.sf.RecordEditor.re.script.XsltPopup;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
+
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.ReActionActiveScreen;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 /**
@@ -36,9 +38,9 @@ import net.sf.RecordEditor.utils.screenManager.ReActionActiveScreen;
  */
 public class MenuPopupListener extends MouseAdapter {
     private JPopupMenu popup = new JPopupMenu();
-    
+
     private JTable tbl = null;
-    
+
     private int popupCol, popupRow;
 
     private static final ReActionActiveScreen COPY_RECORDS        = new ReActionActiveScreen(ReActionHandler.COPY_RECORD);
@@ -71,7 +73,7 @@ public class MenuPopupListener extends MouseAdapter {
     @SuppressWarnings("serial")
 	public MenuPopupListener(final Action[] userAction, final boolean isFileEdit, final JTable table) {
         super();
-        
+
         tbl = table;
 	    popup.add(COPY_RECORDS);
 	    popup.add(CUT_RECORDS);
@@ -82,13 +84,13 @@ public class MenuPopupListener extends MouseAdapter {
 	    popup.add(DELETE_RECORDS);
 
 	    if (isFileEdit) {
-	    	JMenu saveMenu = new JMenu("Save ...");
-	    	
+	    	JMenu saveMenu = SwingUtils.newMenu("Save ...");
+
 	        popup.add(REPEAT_RECORD);
-	        
+
 	        if (Common.OPTIONS.highlightEmpty.isSelected()) {
-		        popup.add(new AbstractAction("Clear Field") {
-	
+		        popup.add(new ReAbstractAction("Clear Field") {
+
 					/* (non-Javadoc)
 					 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 					 */
@@ -100,19 +102,19 @@ public class MenuPopupListener extends MouseAdapter {
 					}
 		        });
 	        }
-	        
+
 	        popup.addSeparator();
 	        popup.add(FIND_ACTION);
 	        popup.add(FILTER_ACTION);
 	        popup.addSeparator();
 	        popup.add(saveMenu);
-	        
+
 	        saveMenu.add(SAVE);
 	        saveMenu.add(SAVE_AS);
 	        //if (Common.isVelocityAvailable()) {
 	        saveMenu.addSeparator();
 	        //}
-	        
+
 	        saveMenu.add(EXPORT);
 	        saveMenu.add(SAVE_AS_CSV);
 	        saveMenu.add(SAVE_AS_FIXED);
@@ -130,18 +132,18 @@ public class MenuPopupListener extends MouseAdapter {
 	        	saveMenu.add(new XsltPopup());
 	        }
 	    }
-	    
+
 	    if (userAction != null) {
 	        popup.addSeparator();
 
 	        addUserActions(userAction);
 	    }
     }
- 
+
     public MenuPopupListener() {
-    	
+
     }
-    
+
 	public MenuPopupListener(final Action userAction) {
 		popup.add(userAction);
     }
@@ -153,7 +155,7 @@ public class MenuPopupListener extends MouseAdapter {
     public MenuPopupListener(final Action[] userAction) {
     	addUserActions(userAction);
     }
-   
+
     private void addUserActions(final Action[] userAction) {
 	    if (userAction != null) {
 	        for (int i = 0; i < userAction.length; i++) {
@@ -165,7 +167,7 @@ public class MenuPopupListener extends MouseAdapter {
 	        }
 	    }
     }
-    
+
     /**
      * @see MouseAdapter#mousePressed(java.awt.event.MouseEvent)
      */
@@ -198,7 +200,7 @@ public class MenuPopupListener extends MouseAdapter {
         		popupCol = tbl.columnAtPoint(e.getPoint());
              	popupRow = tbl.rowAtPoint(e.getPoint());
         	 }
-        	 
+
         	 if (Common.TEST_MODE) {
         		 try {
 	        		 Dimension d = popup.getPreferredSize();
@@ -260,7 +262,7 @@ public class MenuPopupListener extends MouseAdapter {
      * @param addFind wether to add find button
      * @return the mouse adapter
      */
-    public static MouseAdapter getEditMenuPopupListner(final Action[] userAction, 
+    public static MouseAdapter getEditMenuPopupListner(final Action[] userAction,
     		final boolean addFind, final JTable table) {
         return new MenuPopupListener(userAction, addFind, table);
     }

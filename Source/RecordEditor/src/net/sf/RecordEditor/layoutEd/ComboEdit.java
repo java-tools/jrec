@@ -23,6 +23,7 @@ import net.sf.RecordEditor.layoutEd.panels.ComboPnl;
 import net.sf.RecordEditor.re.db.Combo.ComboRec;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
+import net.sf.RecordEditor.utils.lang.ReOptionDialog;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
 
@@ -41,7 +42,7 @@ import net.sf.RecordEditor.utils.screenManager.ReFrame;
 @SuppressWarnings("serial")
 public class ComboEdit extends ReFrame {
 
-	
+
 	private ComboSearch comboSearch;
 
 	private ComboPnl pnlCombo;
@@ -62,7 +63,7 @@ public class ComboEdit extends ReFrame {
 	public ComboEdit(final String dbName, final int connectionIdx)   {
 		super(dbName, "Edit Combo Contents ", null);
 		boolean free = Common.isSetDoFree(false);
-		
+
 		Container cont = getContentPane();
 		//cont.setLayout(new BorderLayout());
 
@@ -103,20 +104,20 @@ public class ComboEdit extends ReFrame {
 				if (saveRecord().isUpdateSuccessful()) {
 					super.changeSearchArguments();
 				}
-			} 
+			}
 		};
 
 		comboSearch.getComboList().addMouseListener(new MouseAdapter() {
 			public void mouseReleased(final MouseEvent m) {
 				int row = comboSearch.rowAtPoint(m.getPoint());
 			    pnlCombo.stopCellEditing();
-			    
+
 			    if (row >= 0) {
 			    	setRow(row);
 			    }
 			}
 		});
-		
+
 		comboSearch.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent event) {
 
@@ -126,11 +127,11 @@ public class ComboEdit extends ReFrame {
 					pnlCombo.setValues(rec);
 
 					comboSearch.getComboListModel().fireTableDataChanged();
-				}				
+				}
 			}
-			
+
 		});
-		
+
 		firstRecord = comboSearch.getComboListModel().getRecord(0);
 
 		//scrollComboList = new JScrollPane(comboSearch.getComboList());
@@ -150,7 +151,7 @@ public class ComboEdit extends ReFrame {
 		pnlCombo.setMinimumSize(new Dimension(400, 50));
 
 		pnlCombo.registerComponent(comboSearch.getComboList());
-		
+
 		pnlCombo.setValues(firstRecord);
 	}
 
@@ -185,22 +186,22 @@ public class ComboEdit extends ReFrame {
 	private ComboRec saveRecord() {
 
 		ComboRec rec = pnlCombo.getValues();
-		
-		if (rec.isUpdateSuccessful() 
+
+		if (rec.isUpdateSuccessful()
 		&& rec.getComboName() != null && ! "".equals(rec.getComboName())) {
 			boolean free = Common.isSetDoFree(false);
 			comboSearch.getComboListModel().setRecord(currRow, rec);
 
 			comboSearch.checkAndUpdate(rec);
 			//pnlTableList.saveTableDetails();
-			
+
 			pnlCombo.saveItems();
 			Common.setDoFree(free, connectionId);
 		}
 
 		return rec;
 	}
-	
+
 
 	/**
 	 * Save the Table record being displayed
@@ -210,11 +211,11 @@ public class ComboEdit extends ReFrame {
 	private void saveRecord2db() {
 
 		ComboRec rec = pnlCombo.getValues();
-		
-		if (rec.isUpdateSuccessful() 
+
+		if (rec.isUpdateSuccessful()
 		&& rec.getComboName() != null && ! "".equals(rec.getComboName())) {
 			comboSearch.checkAndUpdate(rec);
-			
+
 			pnlCombo.saveItems();
 		}
 
@@ -226,7 +227,7 @@ public class ComboEdit extends ReFrame {
      * @see net.sf.RecordEditor.utils.common.ReActionHandler#executeAction(int)
      */
     public void executeAction(int action) {
-    	
+
     	ComboRec rec;
 
         if (action == ReActionHandler.HELP) {
@@ -234,7 +235,7 @@ public class ComboEdit extends ReFrame {
 //        } else if (action == ReActionHandler.NEW) {
 //        	if (saveRecord().isUpdateSuccessful()) {
 //        		pnlCombo.setValues(null);
-//        	}        	
+//        	}
 	    } else if ((action == ReActionHandler.NEW)
 	            || (action == ReActionHandler.SAVE_AS)
 	    ) {
@@ -246,7 +247,7 @@ public class ComboEdit extends ReFrame {
 	            	comboSearch.getComboListModel().fireTableDataChanged();
 	            	currRow = comboSearch.getComboListModel().getRowCount();
 	            } else if (action == ReActionHandler.SAVE_AS) {
-	                String newName = JOptionPane.showInputDialog(this, "New Combo Name", rec.getComboName());
+	                String newName = ReOptionDialog.showInputDialog(this, "New Combo Name", rec.getComboName());
 
 	                if (newName != null && ! "".equals(newName)) {
 	                    rec = pnlCombo.getClone(newName);
@@ -263,15 +264,15 @@ public class ComboEdit extends ReFrame {
 	    } else if (action == ReActionHandler.DELETE) {
 	        if (pnlCombo.isOkToDelete()) {
 	        	rec = pnlCombo.getValues();
-	        	
+
 	        	currRow = comboSearch.getComboListModel().indexOf(rec);
-	        	
+
 	        	if (currRow >= 0 && currRow < comboSearch.getComboListModel().getRowCount()) {
 		        	comboSearch.getComboListModel().deleteRecordFromDB(currRow);
 		        	comboSearch.getComboListModel().fireTableRowsDeleted(currRow, currRow);
-	
+
 	                currRow = Math.min(0, currRow - 1);
-	                
+
 	        		if (comboSearch.getComboListModel().getRowCount() > currRow) {
 	        			pnlCombo.setValues(comboSearch.getComboListModel().getRecord(currRow));
 	        		} else {

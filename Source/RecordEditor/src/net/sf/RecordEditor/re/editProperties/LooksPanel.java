@@ -18,7 +18,8 @@ import javax.swing.JTextField;
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 
-import net.sf.RecordEditor.utils.common.Parameters;
+import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.FileChooser;
 
@@ -33,16 +34,17 @@ public class LooksPanel extends BasePanel implements ActionListener {
 
 
     private static final String PANEL_DESCRIPTION =
-          "<h1>Look and Feel</h1>"
-        + "In java you can plug in a look-and-feel module to format Screen. "
-        + "This screen lets you choose which Look-and-Feel to use."
-        + "<br><b>Warning:</b> Independent Look-and-Feel modules can slow down response times "
-        + "and cause the <b>RecordEditor</b> to crash."
-        + "<br><br>The following 2 sites list a number of <b>Look and Feel</b><ul compact>"
-        + "<li><b>http://www.java2s.com/Product/Java/Swing/LookAndFeel.htm</b>"
-        + "<li><b>http://www.java-tips.org/java-libraries/java-look-and-feel/</b>"
-        + "</ul>The JGoodies Look-and-Feel (<b>http://www.java2s.com/Product/Java/Swing/LookAndFeel.htm</b>)"
-        + "is popular";
+    		LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProperties_Looks",
+    			  "<h1>Look and Feel</h1>"
+    			+ "In java you can plug in a look-and-feel module to format Screen. "
+    			+ "This screen lets you choose which Look-and-Feel to use."
+    			+ "<br><b>Warning:</b> Independent Look-and-Feel modules can slow down response times "
+    			+ "and cause the <b>RecordEditor</b> to crash."
+    			+ "<br><br>The following 2 sites list a number of <b>Look and Feel</b><ul compact>"
+    			+ "<li><b>http://www.java2s.com/Product/Java/Swing/LookAndFeel.htm</b>"
+    			+ "<li><b>http://www.java-tips.org/java-libraries/java-look-and-feel/</b>"
+    			+ "</ul>The JGoodies Look-and-Feel (<b>http://www.java2s.com/Product/Java/Swing/LookAndFeel.htm</b>)"
+    			+ "is popular");
     private static final String JGOODIES
     	= "JGoodies provide a popular Look and Feel, <br>"
     	+ "You may find the Jar <b>looks-<i>&lt;<i>version<i>&gt;.jar</b> is already on your system.<br>"
@@ -215,10 +217,10 @@ public class LooksPanel extends BasePanel implements ActionListener {
     private void init_200_ScreenBuild() {
 
     	this.setNameComponents(true);
-    	
+
 		this.addComponent(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP2,
 		        BasePanel.FULL, BasePanel.FULL,
-				new JScrollPane(tips));
+				tips);
 
         this.addLine("Look and Feel", looks);
         this.setGap(BasePanel.GAP1);

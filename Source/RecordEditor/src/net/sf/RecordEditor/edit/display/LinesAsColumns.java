@@ -22,6 +22,7 @@ import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.FixedColumnScrollPane;
@@ -82,7 +83,7 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 
 
   //      ReAction sort = new ReAction(ReActionHandler.SORT, this);
-        AbstractAction editRecord = new AbstractAction("Edit Record") {
+        AbstractAction editRecord = new ReAbstractAction("Edit Record") {
             public void actionPerformed(ActionEvent e) {
             	if (popupCol >= 0) {
             		new LineFrame(fileView, popupCol);
@@ -104,7 +105,7 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
                 },*/
                 new AutofitAction(this),
                 null,
-	            new AbstractAction("Hide Column") {
+	            new ReAbstractAction("Hide Column") {
                     public void actionPerformed(ActionEvent e) {
                     	hideRow(popupRow);
                       }

@@ -22,6 +22,7 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.jdbc.AbsRecord;
 import net.sf.RecordEditor.utils.jdbc.DBtableModel;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReAction;
 import net.sf.RecordEditor.utils.swing.AbsJTable;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -118,6 +119,8 @@ public class TableUpdatePnl<record extends AbsRecord> extends javax.swing.JPanel
 	    ImageIcon icon = Common.getReActionIcon(action);
 	    ReAction reAction;
 
+	    name = LangConversion.convert(LangConversion.ST_ACTION, name);
+	    desc = LangConversion.convert(LangConversion.ST_ACTION, desc);
 	    if (icon == null) {
 	        reAction = new ReAction(name, desc, action, handler);
 	    } else {
@@ -206,7 +209,7 @@ public class TableUpdatePnl<record extends AbsRecord> extends javax.swing.JPanel
 
 			switch (action) {
 			case ReActionHandler.INSERT_RECORDS:
-			
+
 				int i;
 				int inRow = jTable.getSelectedRow() + 1;
 				int lines = cntInt(1, insLines.getText());

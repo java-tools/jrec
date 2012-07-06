@@ -7,6 +7,7 @@ import java.io.OutputStream;
 
 import net.sf.JRecord.Common.Conversion;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 public class CsvWriter extends BaseWriter {
 
@@ -20,18 +21,18 @@ public class CsvWriter extends BaseWriter {
 	private int lineNo = 0;
 	private int fieldNo = 0;
 	public final boolean quoteAllTextFlds;
-	public CsvWriter(String fileName, String delimiter, 
+	public CsvWriter(String fileName, String delimiter,
 			String fontName, String quoteStr, boolean quoteAllTextFields,
 			boolean[]  includeFields) throws IOException {
 		font = fontName;
 		quote = quoteStr;
 		quoteAllTextFlds = quoteAllTextFields;
 		setPrintField(includeFields);
-		
+
 		fileWriter = new BufferedOutputStream(
 				new FileOutputStream(fileName), 4096);
 
-		
+
 		eolBytes = Conversion.getBytes(System.getProperty("line.separator"), font);
 		fieldSepByte = Conversion.getBytes(delimiter, font);
 		fieldSep = delimiter;
@@ -56,10 +57,10 @@ public class CsvWriter extends BaseWriter {
 				e.printStackTrace();
 			}
 		}
-		
+
 		sep = noBytes;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.FieldWriter#newLine()
 	 */
@@ -69,7 +70,7 @@ public class CsvWriter extends BaseWriter {
 		lineNo += 1;
 		fieldNo = 0;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.FieldWriter#writeFieldHeading(java.lang.String)
 	 */
@@ -81,49 +82,53 @@ public class CsvWriter extends BaseWriter {
 				fileWriter.write(Conversion.getBytes(field, font));
 			} catch (Exception e) {
 			}
-			
+
 			sep = fieldSepByte;
 		}
 		fieldNo += 1;
 		lineNo = -1;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.FieldWriter#writeField(java.lang.String)
 	 */
 	public void writeField(String field) throws IOException {
 		writeField(field, isNumeric(fieldNo));
-//				   numericFields != null 
+//				   numericFields != null
 //				&& fieldNo >= numberOfInitialFields
 //				&& numericFields[fieldNo-numberOfInitialFields]);
 	}
-	
+
 	public void writeField(String field, boolean isNumeric) throws IOException {
 
 		if (isFieldToBePrinted(fieldNo)) {
-	
+
 			fileWriter.write(sep);
-				
+
 			if (field != null) {
 				if (isNumeric) {
-				} else if ("".equals(quote)) {		 
+				} else if ("".equals(quote)) {
 					if (!"".equals(fieldSep) && field.indexOf(fieldSep) >= 0) {
 						StringBuilder b = new StringBuilder(field);
 						Conversion.replace(b, fieldSep, "");
-						Common.logMsg("Warning: on line " + lineNo + " Field " + fieldNo + ", Seperator " + fieldSep + " Dropped" , null);
+						Common.logMsgRaw(
+								LangConversion.convert(
+										"Warning: on line {0} Field {1} Seperator {2} Dropped",
+										new Object[] {lineNo, fieldNo , fieldSep}),
+								null);
 						field = b.toString();
 					}
 				} else if (!"".equals(fieldSep) && field.indexOf(fieldSep) >= 0) {
 					StringBuffer b = new StringBuffer(field);
-		
+
 					int pos;
 					int j = 0;
-												
+
 					while ((pos = b.indexOf(quote, j)) >= 0) {
 						b.insert(pos, quote);
 						j = pos + 2;
 					}
-					
+
 					field = quote + (b.append(quote)).toString();
 				} else if (quoteAllTextFlds) {
 					field = quote + field + quote;
@@ -132,11 +137,11 @@ public class CsvWriter extends BaseWriter {
 			}
 
 			sep = fieldSepByte;
-			
+
 		}
 		fieldNo += 1;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.FieldWriter#close()
 	 */

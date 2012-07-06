@@ -53,6 +53,7 @@ import net.sf.RecordEditor.edit.display.util.GotoLine;
 import net.sf.RecordEditor.edit.display.util.OptionPnl;
 import net.sf.RecordEditor.edit.display.util.Search;
 import net.sf.RecordEditor.edit.display.util.SortFrame;
+import net.sf.RecordEditor.edit.util.ReMessages;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
 import net.sf.RecordEditor.re.file.AbstractLineNode;
 import net.sf.RecordEditor.re.file.FilePosition;
@@ -67,8 +68,10 @@ import net.sf.RecordEditor.re.tree.TreeParserRecord;
 import net.sf.RecordEditor.re.tree.TreeParserXml;
 import net.sf.RecordEditor.re.tree.TreeToXml;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
+import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.lang.ReOptionDialog;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
@@ -101,6 +104,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 //	private static ArrayList<TableCellRenderer> renderList = new ArrayList<TableCellRenderer>();
 //	private static ArrayList<TableCellEditor> editorList = new ArrayList<TableCellEditor>();
 
+	private static final String PRINTING_REQUIRES_JAVA_5 = "Printing failed (Printing requires Java 1.5)";
 	protected static final int NORMAL_DISPLAY = 3;
 	protected static final int TREE_DISPLAY = 5;
 	//static ImageIcon searchIcon = new ImageIcon(Common.dir + "searchEye.gif");
@@ -287,6 +291,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	    });
 
 	    fileView.addTableModelListener(layoutChangeListner);
+
 	}
 
 
@@ -314,8 +319,12 @@ implements AbstractFileDisplay, ILayoutChanged {
 			}
 
 			if (fileMaster != null && fileMaster.isChanged() && fileMaster.isSaveAvailable()) {
-				int result = JOptionPane.showConfirmDialog(null, "Save changes",
-						"Save Changes to file: " + fileMaster.getFileName(),
+				int result = JOptionPane.showConfirmDialog(
+						null,
+						ReMessages.SAVE_CHANGES.get(),
+						//LangConversion.convert(LangConversion.ST_MESSAGE, "Save changes"),
+						ReMessages.SAVE_CHANGES.get(fileMaster.getFileName()),
+						//LangConversion.convert("Save Changes to file: {0}", fileMaster.getFileName()),
 						JOptionPane.YES_NO_OPTION);
 
 				if (result == JOptionPane.YES_OPTION) {
@@ -541,7 +550,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 			    try {
 			        tblDetails.print(JTable.PrintMode.NORMAL);
 			    } catch (Exception e) {
-	                Common.logMsg("Printing failed (Printing requires Java 1.5)", e);
+	                Common.logMsg(PRINTING_REQUIRES_JAVA_5, e);
 	            }
 			break;
 			case ReActionHandler.PRINT_SELECTED:
@@ -558,7 +567,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 						bd.executeAction(ReActionHandler.PRINT);
 						bd.dispose();
 				    } catch (Exception e) {
-		                Common.logMsg("Printing failed (Printing requires Java 1.5)", e);
+		                Common.logMsg(PRINTING_REQUIRES_JAVA_5, e);
 		            }
 				}
 
@@ -674,7 +683,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 				if (children.size() == 1) {
 					newLine = insertLine_230_CreateChild(l, children.get(0), -1);
 				} else {
-					AbstractChildDetails resp = (AbstractChildDetails) JOptionPane.showInputDialog(
+					AbstractChildDetails resp = (AbstractChildDetails) ReOptionDialog.showInputDialog(
 						this, "Select the Record to Insert", "Record Selection", JOptionPane.QUESTION_MESSAGE, null,
 						children.toArray(), children.get(0));
 
@@ -1061,13 +1070,13 @@ implements AbstractFileDisplay, ILayoutChanged {
 				FileView errorView = fileView.getViewOfErrorRecords();
 
 				if (errorView != null) {
-					saveFileError("File saved, but there where records in error that may not make it on to the file", null);
+					saveFileError(LangConversion.convert("File saved, but there where records in error that may not make it on to the file"), null);
 					new LineFrame("Error Records", errorView, 0);
 					ret = false;
 				}
 
 		    } catch (Exception ex) {
-		    	saveFileError("Save Failed: " + ex.getMessage(), ex);
+		    	saveFileError(LangConversion.convert("Save Failed:") + " " + ex.getMessage(), ex);
 		        ex.printStackTrace();
 		        ret = false;
 	        }
@@ -1078,7 +1087,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	private void saveFileError(String s, Exception ex) {
 
         JOptionPane.showInternalMessageDialog(this, s);
-        Common.logMsg(s, ex);
+        Common.logMsgRaw(s, ex);
 	}
 
 
@@ -1092,8 +1101,13 @@ implements AbstractFileDisplay, ILayoutChanged {
 			if (Common.OPTIONS.warnWhenUsingDelKey.isSelected()) {
 				res = JOptionPane.showConfirmDialog(
 					actualPnl,
-					"Do you want to delete the selected " +selected.length + " lines ?" ,
-					"Line Delete confirmation ",
+					ReMessages.LINE_DELETE_MSG.get(Integer.toString(selected.length)),
+//					LangConversion.convert(
+//							"Do you want to delete the selected {0} lines ?",
+//							Integer.toString(selected.length)),
+
+					ReMessages.LINE_DELETE_CHECK.get(),
+					//LangConversion.convert(LangConversion.ST_MESSAGE, "Line Delete confirmation"),
 					JOptionPane.YES_NO_OPTION);
 			}
 			if (res == JOptionPane.YES_OPTION) {

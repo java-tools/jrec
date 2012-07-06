@@ -16,7 +16,7 @@ import java.util.Properties;
 
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ExternalReferenceConstants;
-import net.sf.RecordEditor.utils.common.Parameters;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**

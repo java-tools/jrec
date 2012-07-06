@@ -40,8 +40,11 @@ import javax.swing.text.DefaultEditorKit;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Log.ScreenLog;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
+
+import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.HelpWindow;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
@@ -63,7 +66,8 @@ public class ReMainFrame extends JFrame
     { setLookAndFeel(); }
  	private JDesktopPane desktop = new JDesktopPane();
 
-	private JInternalFrame logFrame = new JInternalFrame("Program Log", true, false, true, true);
+	private JInternalFrame logFrame = new JInternalFrame(
+			LangConversion.convert(LangConversion.ST_FRAME_HEADING, "Program Log"), true, false, true, true);
 	private ScreenLog log;
 
     private static ReMainFrame masterFrame = null;
@@ -77,7 +81,7 @@ public class ReMainFrame extends JFrame
 
     private JMenuBar menuBar = new JMenuBar();
     private JToolBar toolBar = new JToolBar();
-    private JMenu windowMenu = new JMenu("Window");
+    private JMenu windowMenu = SwingUtils.newMenu("Window");
 
     private ArrayList<JMenu> windowList  = new ArrayList<JMenu>();
     private HashMap<ReFrame,JMenuItem> windowActionMap = new HashMap<ReFrame,JMenuItem>();
@@ -104,7 +108,9 @@ public class ReMainFrame extends JFrame
 	private AbstractActiveScreenAction[] activeScreenActions
 								= new AbstractActiveScreenAction[ReActionHandler.MAX_ACTION + 10];
 
-	private final ReAction open = new ReAction("Open", "Open",
+	private final ReAction open = new ReAction(
+			LangConversion.convert(LangConversion.ST_ACTION, "Open"),
+			LangConversion.convert(LangConversion.ST_ACTION, "Open"),
 	        Common.getRecordIcon(Common.ID_OPEN_ICON), ReActionHandler.OPEN, this);
 //	private final ReAction newAction = new ReAction("New", "New Layout",
 //	        Common.getRecordIcon(Common.ID_NEW_ICON), ReActionHandler.NEW, this);
@@ -119,9 +125,11 @@ public class ReMainFrame extends JFrame
 	private final ReActionActiveScreen SAVE_AS_HTML_TBLS   = newAction(ReActionHandler.EXPORT_AS_HTML_TBL_PER_ROW);
 	private final ReActionActiveScreen SAVE_AS_HTML_TREE   = newAction(ReActionHandler.EXPORT_HTML_TREE);
 //	private final ReActionActiveScreen SAVE_AS_VELOCITY    = newAction(ReActionHandler.EXPORT_VELOCITY);
-	private final ReAction close = new ReAction("Close", "Close DB's and exit application",
-												//Common.getRecordIcon(Common.ID_EXIT_ICON),
-												ReActionHandler.CLOSE, closeAction);
+	private final ReAction close = new ReAction(
+											LangConversion.convert(LangConversion.ST_ACTION, "Close"),
+											LangConversion.convert(LangConversion.ST_ACTION, "Close DB's and exit application"),
+											//Common.getRecordIcon(Common.ID_EXIT_ICON),
+											ReActionHandler.CLOSE, closeAction);
 
 	private final ReActionActiveScreen delete
 		= newAction(ReActionHandler.DELETE);
@@ -152,8 +160,8 @@ public class ReMainFrame extends JFrame
 	private final ReActionActiveScreen deleteRecords
 	= newAction(ReActionHandler.DELETE_RECORD);
 
-	private JMenu fileMenu = new JMenu("File");
-	private JMenu editMenu = new JMenu("Edit");
+	private JMenu fileMenu = SwingUtils.newMenu("File");
+	private JMenu editMenu = SwingUtils.newMenu("Edit");
 
 
 	private JMenu scriptList = null;
@@ -303,12 +311,15 @@ public class ReMainFrame extends JFrame
 	 */
 	private void init_400_AddListners() {
 
+		String msg = UtMessages.LANGUAGE_WARNING.get();
+
 		ReFrame.addFocusChangedListner(this);
 
 	    this.addWindowListener(new WindowAdapter() {
 	    	@Override
 	        public void windowClosing(final WindowEvent e) {
 	    		System.out.println("Window Closing");
+	    		LangConversion.flush(LangConversion.FLUSH_PROGRAM);
 
 	            quit();
 	            super.windowClosing(e);
@@ -325,6 +336,10 @@ public class ReMainFrame extends JFrame
 				super.windowClosed(e);
 			}
 	    });
+
+	    if (! ("".equals(msg) || "#".equals(msg))) {
+	    	Common.logMsgRaw(msg, null);
+	    }
 	}
 
 
@@ -425,7 +440,7 @@ public class ReMainFrame extends JFrame
 	protected final void addExit() {
 
 	    fileMenu.addSeparator();
-		fileMenu.add(new AbstractAction("Exit") {
+		fileMenu.add(new ReAbstractAction("Exit") {
 	        public void actionPerformed(ActionEvent e) {
 	            quit();
 	        }
@@ -473,7 +488,7 @@ public class ReMainFrame extends JFrame
 	 * @return Help Menu
 	 */
 	private JMenu buildHelpMenu() {
-		JMenu helpMenu = new JMenu("Help");
+		JMenu helpMenu = SwingUtils.newMenu("Help");
 
 		helpMenu.add(helpAction);
 		helpMenu.add(
@@ -484,7 +499,7 @@ public class ReMainFrame extends JFrame
 		addWebsitesToHelpMenu(helpMenu);
 
 		helpMenu.addSeparator();
-		helpMenu.add(new AbstractAction("About") {
+		helpMenu.add(new ReAbstractAction("About") {
 
 			/**
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -506,7 +521,7 @@ public class ReMainFrame extends JFrame
 
 		if (Common.TEST_MODE) {
 			helpMenu.addSeparator();
-			helpMenu.add(new AbstractAction("Allocated Jars") {
+			helpMenu.add(new ReAbstractAction("Allocated Jars") {
 		        public void actionPerformed(ActionEvent e) {
 		            showURLS();
 		        }
@@ -571,7 +586,7 @@ public class ReMainFrame extends JFrame
 //	}
 
 	protected void showHtmlPnl(String name, String s) {
-		ReFrame aboutFrame = new ReFrame(name, null, null);
+		ReFrame aboutFrame = new ReFrame("", name, null, null);
 		JEditorPane aboutText = new JEditorPane("text/html", s);
 
 		aboutFrame.getContentPane().add(aboutText);
@@ -747,6 +762,7 @@ public class ReMainFrame extends JFrame
      *
      * @param newFrame frame that was created
      */
+    @Override
     public void newWindow(ReFrame newFrame) {
 
         int i;
@@ -828,7 +844,10 @@ public class ReMainFrame extends JFrame
      * Called when a window has been deleted
      *
      * @param oldFrame frame that was deleted
+     *
+     * @see net.sf.RecordEditor.utils.screenManager.ReWindowChanged
      */
+    @Override
     public void deleteWindow(ReFrame oldFrame) {
         int i;
         boolean cont = true;
@@ -865,10 +884,10 @@ public class ReMainFrame extends JFrame
             URL[] urls = ((URLClassLoader) ReMainFrame.class.getClassLoader()).getURLs();
             String s;
 
-            Common.logMsg("", null);
+            Common.logMsgRaw("", null);
             for (int i = 0; i < urls.length; i++) {
             	s = urls[i].getFile();
-                Common.logMsg("url " + i + " = " + s + "\t" + (new File(s)).exists(), null);
+                Common.logMsgRaw("url " + i + " = " + s + "\t" + (new File(s)).exists(), null);
             }
         } catch (Exception e) {
         }
@@ -1020,7 +1039,7 @@ public class ReMainFrame extends JFrame
     	private URI uri;
 
 		public showURI(String name, URI uri) {
-			super(name);
+			super(LangConversion.convert(LangConversion.ST_ACTION, name));
 			this.uri = uri;
 		}
 

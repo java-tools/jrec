@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 
 
@@ -14,11 +15,11 @@ import net.sf.RecordEditor.utils.jdbc.AbsDB;
  *   <pre>
  *       Select
  *       Select RECORDID,
- *              Child_Key,        
- *              Field_No,         
- *              Boolean_Operator, 
- *              Field,           
- *              Operator,        
+ *              Child_Key,
+ *              Field_No,
+ *              Boolean_Operator,
+ *              Field,
+ *              Operator,
  *              Field_Value
  *       From   Tbl_RFS_FieldSelection
  *       where  RecordId = ?
@@ -33,13 +34,15 @@ import net.sf.RecordEditor.utils.jdbc.AbsDB;
 public class RecordSelectionDB  extends AbsDB<RecordSelectionRec> {
 
 	public static final String DB_NAME = "Tbl_RFS_FieldSelection";
-	private static final String[] COLUMN_NAMES = {
+	private static final String[] COLUMN_NAMES = LangConversion.convertColHeading(
+			"DB-RecordSelection Columns",
+			new String[] {
 		  ""
 		, ""
 		, "Field"
 		, "Operator"
 		, "Field Value"
-	};
+	});
 
 	static {
 		if (Common.TEST_MODE) {
@@ -60,7 +63,7 @@ public class RecordSelectionDB  extends AbsDB<RecordSelectionRec> {
 		sFrom = "  from " + DB_NAME;
 		sWhereSQL = "  where RecordId = ?  and Child_Key= ?";
 		sOrderBy = " Order by Field_No";
-		
+
 		updateSQL = "Update " + DB_NAME
 				+  " Set Field_No = ?"
 				+  "   , Boolean_Operator= ? "
@@ -195,7 +198,7 @@ public class RecordSelectionDB  extends AbsDB<RecordSelectionRec> {
 		statement.setString(idx++, correctStr(val.getFieldName()));
 		statement.setString(idx++, correctStr(val.getOperator()));
 		statement.setString(idx++, correctStr(val.getFieldValue()));
-		
+
 
 		if (insert) {
 			statement.setInt(idx++, paramRecordId);
@@ -266,7 +269,7 @@ public class RecordSelectionDB  extends AbsDB<RecordSelectionRec> {
 		//System.out.println("--- Inserting -----");
 		if (! tryToInsert(value)) {
 			int key = getNextKey();
-	
+
 			value.setFieldNo(key++);
 			while ((i++ < 10) && (! tryToInsert(value))) {
 				value.setFieldNo(key++);
@@ -284,8 +287,8 @@ public class RecordSelectionDB  extends AbsDB<RecordSelectionRec> {
 				;
 		return getNextIntSubKey(sql, paramRecordId, paramChildKey);
 	}
-	
-	
+
+
 	/**
 	 *   Close the prepared statments
 	 */

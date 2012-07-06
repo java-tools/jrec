@@ -15,38 +15,39 @@ import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.edit.display.models.BaseLineModel;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.MenuPopupListener;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.StandardRendor;
 
 @SuppressWarnings("serial")
-public abstract class BaseLineAsColumn 
-extends BaseLineDisplay 
+public abstract class BaseLineAsColumn
+extends BaseLineDisplay
 implements AbstractFileDisplayWithFieldHide {
 
 	protected ChooseRender render = new ChooseRender();
-	protected MenuPopupListener popupListner; 
+	protected MenuPopupListener popupListner;
 
 	private BaseLineModel model;
-	
+
 	private JMenu[] showFieldMenus;
 	private JMenu currentShowFields = null;
 
-	
+
 
 	public BaseLineAsColumn(String formType, @SuppressWarnings("rawtypes") FileView viewOfFile,
 			boolean primary, boolean fullLine) {
 		super(formType, viewOfFile, primary, fullLine, false, false);
-		
+
 		showFieldMenus = new JMenu[viewOfFile.getLayout().getRecordCount()];
 	}
-	
-	
+
+
 
 	/**
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#fireLayoutIndexChanged()
 	 */
 	@Override
 	public void fireLayoutIndexChanged() {
-		
+
 //		System.out.println("Change Layout ... " + model.getCurrentLayout()
 //				+ " != " +  getLayoutIndex());
 		if (model.getCurrentLayout() != getLayoutIndex()) {
@@ -85,10 +86,10 @@ implements AbstractFileDisplayWithFieldHide {
 		model = newModel;
 	}
 
-	
+
 
 	protected final void setStandardColumnWidths() {
-		
+
 	//    if (tblDetails != null) {
 		JTable tbl = getJTable();
         tbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -103,9 +104,9 @@ implements AbstractFileDisplayWithFieldHide {
         tc.setPreferredWidth(180);
 	//    }
 	}
-	
-	
-	
+
+
+
 	/**
 	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide#getFieldVisibility(int)
 	 */
@@ -125,11 +126,11 @@ implements AbstractFileDisplayWithFieldHide {
 		boolean allFieldsDisplayed = true;
 		model.getFieldMapping().setFieldVisibilty(recordIndex, fieldVisible);
 		model.fireTableDataChanged();
-		
+
 		for (i = 0; allFieldsDisplayed && i < fieldVisible.length; i++) {
 			allFieldsDisplayed = fieldVisible[i];
 		}
-		
+
 		if (allFieldsDisplayed) {
 			if (showFieldMenus[recordIndex]  != null) {
 				showFieldMenus[recordIndex].removeAll();
@@ -144,15 +145,15 @@ implements AbstractFileDisplayWithFieldHide {
 				}
 			}
 		}
-		
+
 		if (recordIndex == getLayoutIndex()) {
 			setShowFieldsMenu(recordIndex);
 		}
-		
+
 		setActiveFrame(this);
 	}
 
-    
+
     public void setLayoutIndex(int recordIndex) {
     	int idx = getLayoutIndex();
     	if (idx != recordIndex) {
@@ -161,9 +162,9 @@ implements AbstractFileDisplayWithFieldHide {
     	super.setLayoutIndex(recordIndex);
     }
 
-    
+
     private void setShowFieldsMenu(int recordIndex) {
-    	
+
    		if (currentShowFields != null) {
     		popupListner.getPopup().remove(currentShowFields);
    		}
@@ -175,45 +176,45 @@ implements AbstractFileDisplayWithFieldHide {
    		}
     }
 
-    
+
     protected final void hideRow(int row) {
       	int index = model.getFixedCurrentLayout();
-    	
+
     	if (showFieldMenus[index] == null) {
     		setupShowFields(index);
     		currentShowFields = showFieldMenus[index] ;
 			popupListner.getPopup().add(currentShowFields);
     	}
-    	
+
     	addHiddenFieldToMenu(
-    			index, 
-    			model.getFieldMapping().getRealColumn(index, row), 
+    			index,
+    			model.getFieldMapping().getRealColumn(index, row),
     			model.getRealRow(row));
-  
+
     	model.hideRow(row);
     }
 
     private void setupShowFields(int index) {
     	if (showFieldMenus[index] == null) {
-    		showFieldMenus[index] = new JMenu("Show " + layout.getRecord(index).getRecordName() + " Fields");
+    		showFieldMenus[index] = new JMenu(LangConversion.convert("Show {0} Fields", layout.getRecord(index).getRecordName()));
     	}
     }
-    
+
     private void addHiddenFieldToMenu(int index, int row, int realRow) {
 
     	String s = layout.getRecord(index).getField(realRow).getName();
     	int idx;
-    	
+
     	if ((idx = s.indexOf('|')) >= 0) {
     		s = s.substring(idx + 1);
     	}
     	showFieldMenus[index].add(new ShowFieldAction(
-    			s, index, 
+    			s, index,
     			row));
     }
-    
+
     protected abstract void setColWidths();
-    
+
 	/**
 	 * This class will choose the rendor
 	 *
@@ -239,10 +240,10 @@ implements AbstractFileDisplayWithFieldHide {
 
     		TableCellRenderer render;
     		int calcRow = model.getFieldMapping().getRealColumn(
-    									getLayoutIndex(), 
+    									getLayoutIndex(),
     									row);
 
-//    		System.out.print("Choose Render: " + row + ", " + column 
+//    		System.out.print("Choose Render: " + row + ", " + column
 //    			+ " " + model.getFieldMapping().getRealColumn(getLayoutIndex(), row)
 //    			+ " " + calcRow
 //    			+ " " + layout.getUnAdjFieldNumber(getLayoutIndex(),row));
@@ -267,21 +268,21 @@ implements AbstractFileDisplayWithFieldHide {
 
     private class ShowFieldAction extends JMenuItem implements ActionListener {
     	final int theRow, idx;
-    	
+
     	public ShowFieldAction(String s, int index, int row) {
     		super(s);
     		theRow = row;
     		idx =index;
     		super.addActionListener(this);
     	}
-    	
+
     	@Override
 		public void actionPerformed(ActionEvent e) {
-    		
+
     		BaseLineAsColumn.this.model.showRow(theRow);
-			
+
 			showFieldMenus[idx].remove(this);
-			
+
 			if (showFieldMenus[idx].getMenuComponentCount() == 0) {
 				showFieldMenus[idx] = null;
 				setShowFieldsMenu(getLayoutIndex());

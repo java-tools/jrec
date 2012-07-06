@@ -13,7 +13,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
- 
+
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.RecordEditor.edit.display.common.AbstractFieldSequencePnl;
@@ -21,30 +21,35 @@ import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
+
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 public class HideFields implements ActionListener { //, AbstractSaveDetails<EditorTask> {
 
-    private static final String[] FIELD_COLUMN_HEADINGS  = {"Field", "Show"};
+    private static final String[] FIELD_COLUMN_HEADINGS  = LangConversion.convertColHeading(
+			"Show/Hide Fields",
+			new String[] {"Field", "Show"});
     private static final int SHOW_INDEX  = 1;
-    
+
     private JTable fieldTbl  = new JTable();
-    
-    private JButton checkAllFields    = new JButton("Check Fields");
-    private JButton uncheckAllFields  = new JButton("Uncheck Fields");
-    
+
+    private JButton checkAllFields    = SwingUtils.newButton("Check Fields");
+    private JButton uncheckAllFields  = SwingUtils.newButton("Uncheck Fields");
+
     private JCheckBox saveColSeq = new JCheckBox("Save Column Sequence");
-    private JButton goBtn  = new JButton("Go");
+    private JButton goBtn  = SwingUtils.newButton("Go");
 
     private AbstractFileDisplayWithFieldHide sourcePnl;
     private AbstractLayoutDetails<?, ?> layout;
     private int recordIndex;
-    private FieldList fieldMdl;  
-    private ReFrame frame; 
-    
+    private FieldList fieldMdl;
+    private ReFrame frame;
+
     private TableModelListener listner = new TableModelListener() {
 
 		/* (non-Javadoc)
@@ -64,7 +69,7 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
 	    TableColumnModel tcm;
 	    TableColumn tc;
 
-	    
+
        	sourcePnl = sourcePanel;
        	view = sourcePnl.getFileView();
     	layout = view.getLayout();
@@ -74,14 +79,14 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
     	} else if (recordIndex == layout.getRecordCount()) {
     		recordIndex = view.getDefaultPreferredIndex();
     	}
-    	
-    	
+
+
     	BaseHelpPanel pnl = new BaseHelpPanel();
     	JPanel fieldOptionPanel  = new JPanel();
 		frame = new ReFrame(
 				view.getBaseFile().getFileNameNoDirectory(), "Field Visibility", view.getBaseFile());
 		frame.addCloseOnEsc(pnl);
-   	
+
     	saveColSeq.setSelected(false);
     	fieldMdl = new FieldList(layout, recordIndex, sourcePnl.getFieldVisibility(recordIndex));
     	fieldTbl.setModel(fieldMdl);
@@ -94,21 +99,21 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
 		pnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP1,
 		         BasePanel.FULL, BasePanel.FULL,
 				 fieldTbl);
-		
+
 		if (sourcePanel instanceof AbstractFieldSequencePnl) {
 			pnl.setGap(BasePanel.GAP0);
 			saveColSeq.setSelected(true);
 			pnl.addLine("", saveColSeq);
 		}
-		
-		pnl.setGap(BasePanel.GAP1);	
-		
+
+		pnl.setGap(BasePanel.GAP1);
+
 //		pnl.addComponent("", null, goBtn);
 		JPanel p = new JPanel();
 		try {
 			p.add(net.sf.RecordEditor.edit.display.util.SaveRestoreHiddenFields.getSaveButton(sourcePanel, this));
 		} catch(NoClassDefFoundError nce) {
-		} catch (Exception e) { 
+		} catch (Exception e) {
 		}
 		pnl.addLine("", p, goBtn);
 		pnl.setHeight(BasePanel.GAP1 * 2);
@@ -124,17 +129,17 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
 		uncheckAllFields.addActionListener(this);
 		checkAllFields.addActionListener(this);
 		goBtn.addActionListener(this);
-		
+
 		view.addTableModelListener(listner);
-		
+
 		frame.setVisible(true);
 		frame.setToMaximum(false);
     }
-	
+
     public boolean isSaveSeqSelected() {
     	return saveColSeq.isSelected();
     }
-    
+
     public boolean[] getVisibleFields() {
     	return fieldMdl.include.clone();
     }
@@ -151,7 +156,7 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
     public void actionPerformed(ActionEvent event) {
 
     	Common.stopCellEditing(fieldTbl);
-    	
+
         if (event.getSource() == uncheckAllFields) {
         	fieldMdl.updateIncludeFlag(false);
         } else if (event.getSource() == checkAllFields) {
@@ -160,7 +165,7 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
         	sourcePnl.setFieldVisibility(recordIndex, fieldMdl.include);
         	frame.setVisible(false);
         	sourcePnl.getFileView().removeTableModelListener(listner);
-       } 
+       }
     }
 
 
@@ -171,8 +176,8 @@ private static class FieldList extends AbstractTableModel {
 		private AbstractRecordDetail<?> rec;
 		public final boolean[] include;
 		int recordIdx;
-	   
-	   
+
+
 	   /**
 		 * @param record
 		 * @param showField
@@ -188,7 +193,7 @@ private static class FieldList extends AbstractTableModel {
 			for (int i = 0; i < include.length; i++) {
 				include[i] = newValue;
 			}
-			
+
 			super.fireTableDataChanged();
 		}
 
@@ -244,11 +249,11 @@ private static class FieldList extends AbstractTableModel {
          * @see javax.swing.table.TableModel#setValueAt
          */
         public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-     	
+
         	include[rowIndex] =  aValue == null
         				 || (aValue.getClass() != Boolean.class)
         				 || ((Boolean) aValue).booleanValue();
-   		
+
         }
     }
 }

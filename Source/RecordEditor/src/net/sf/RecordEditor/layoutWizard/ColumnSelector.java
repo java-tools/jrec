@@ -25,6 +25,7 @@ import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.IO.AbstractLineReader;
 
 import net.sf.RecordEditor.utils.common.Common;
+
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.HexTwoLineRender;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
@@ -37,7 +38,7 @@ public class ColumnSelector {
     private static final int COLUMNS_TO_NUMER = 10;
 
     public int stdLineHeight;
-    
+
     private AbstractTableModel stdModel, hexModel, fileModel;
     private TableCellRenderer stdRender, hexRender, tblRender;
 
@@ -47,22 +48,22 @@ public class ColumnSelector {
 
     public final JTable fileTbl = new JTable();
     public final JCheckBox hexChk = new JCheckBox();
-  
+
     private final JCheckBox lookMainframeZoned = new JCheckBox("Mainframe Zoned Numeric");
     private final JCheckBox lookPcZoned = new JCheckBox("PC/Unix Zoned Numeric");
     private final JCheckBox lookComp3 = new JCheckBox("Comp 3");
     private final JCheckBox lookCompBigEndian = new JCheckBox("Binary Integer (Big Endian)");
     private final JCheckBox lookCompLittleEndian = new JCheckBox("Binary Integer (Little Endian)");
-   
-    private final JButton clearFieldsBtn = new JButton("Clear Fields");
-    private final JButton addFieldsBtn = new JButton("Add Fields");
-    
+
+    private final JButton clearFieldsBtn = SwingUtils.newButton("Clear Fields");
+    private final JButton addFieldsBtn = SwingUtils.newButton("Add Fields");
+
     private  JTextComponent msg;
-    
- 	private  int[] colorInd;   
+
+ 	private  int[] colorInd;
     private boolean firstTime = true;
-    
-    
+
+
     private ActionListener listner = new ActionListener() {
 
 		/* (non-Javadoc)
@@ -72,7 +73,7 @@ public class ColumnSelector {
 		public void actionPerformed(ActionEvent event) {
 			if (event.getSource() == clearFieldsBtn) {
 				recordDef.columnDtls.clear();
-				
+
 				if (currentDetails.recordType == Details.RT_MULTIPLE_RECORDS) {
 					recordDef.addKeyField(currentDetails, true);
 				}
@@ -82,8 +83,8 @@ public class ColumnSelector {
 			setColorIndicator();
 		}
     };
- 
-    
+
+
     /**
 	 * @param columnsList
 	 * @param details
@@ -91,17 +92,17 @@ public class ColumnSelector {
 	 */
 	public ColumnSelector(JTextComponent message) {
 		msg = message;
-		
+
         fileTbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         hexChk.setSelected(false);
-        
+
         lookPcZoned.setSelected(Common.OPTIONS.searchForPcZoned.isSelected());
         clearFieldsBtn.addActionListener(listner);
         addFieldsBtn.addActionListener(listner);
 	}
-	
-	
-	
+
+
+
 	public void addMouseListner() {
 		addMouseListner(new MouseAdapter() {
 			public void mousePressed(MouseEvent m) {
@@ -110,11 +111,11 @@ public class ColumnSelector {
 			}
 		});
 	}
-	
+
 	public void addMouseListner(MouseListener mouseListner) {
 		fileTbl.addMouseListener(mouseListner);
 		fileTbl.getTableHeader().addMouseListener(mouseListner);
-		
+
         hexChk.addActionListener(new ActionListener() {
 
 			/* (non-Javadoc)
@@ -133,17 +134,17 @@ public class ColumnSelector {
 
 		optionPnl.add(lookMainframeZoned);
 		optionPnl.add(lookPcZoned);
-		
-		optionPnl.add(lookComp3);		
+
+		optionPnl.add(lookComp3);
 		optionPnl.add(new JPanel());
-		optionPnl.add(lookCompBigEndian);		
-		optionPnl.add(lookCompLittleEndian);		
-		
+		optionPnl.add(lookCompBigEndian);
+		optionPnl.add(lookCompLittleEndian);
+
 		//optionPnl.add(new JPanel());
 		//optionPnl.add(new JPanel());
 		btnPnl.add(clearFieldsBtn);
 		btnPnl.add(addFieldsBtn);
-		
+
 		pnl.addLine("Show Hex", hexChk)
 		   .setGap(BasePanel.GAP);
 		pnl.addLine("Search For", optionPnl)
@@ -245,15 +246,15 @@ public class ColumnSelector {
         fileModel.fireTableDataChanged();
     }
 
-    
-    public final void setValues(Details detail, RecordDefinition recordDefinition, boolean findFields) 
+
+    public final void setValues(Details detail, RecordDefinition recordDefinition, boolean findFields)
     throws Exception {
     	boolean cp037 = "cp037".equalsIgnoreCase(detail.fontName);
         currentDetails = detail;
         recordDef = recordDefinition;
-        
+
         hexChk.setSelected(hexChk.isSelected() || currentDetails.textPct < 40);
-        lookComp3.setSelected(cp037 || Common.OPTIONS.searchForComp3.isSelected()); 
+        lookComp3.setSelected(cp037 || Common.OPTIONS.searchForComp3.isSelected());
         lookCompBigEndian.setSelected(cp037 || currentDetails.textPct < 70 || Common.OPTIONS.searchForCompBigEndian.isSelected());
         lookMainframeZoned.setSelected(cp037 || Common.OPTIONS.searchForMainframeZoned.isSelected());
         lookCompLittleEndian.setSelected((! lookCompBigEndian.isSelected())
@@ -262,7 +263,7 @@ public class ColumnSelector {
         setValues_100_SetupTable(findFields);
     }
 
- 
+
     /**
      * Setup the file table for display
      *
@@ -270,29 +271,29 @@ public class ColumnSelector {
     private void setValues_100_SetupTable(boolean findFields) {
 
         stdRender = new TblRender();
-        stdModel = new LineArrayModel(recordDef.records, 
+        stdModel = new LineArrayModel(recordDef.records,
         		currentDetails.fontName, recordDef.numRecords);
         fileModel = stdModel;
         tblRender = stdRender;
-        
-        hexModel = new LineArrayHexModel(recordDef.records, 
+
+        hexModel = new LineArrayHexModel(recordDef.records,
         		recordDef.numRecords);
         hexRender = new HexRender(currentDetails.fontName);
-        
+
         colorInd = new int[fileModel.getColumnCount()];
-        
+
         if (firstTime) {
         	firstTime = false;
 	        fileTbl.setModel(fileModel);
 	        stdLineHeight = fileTbl.getRowHeight();
-	       
-	        setupTableColumns();
-        } 
-       	flipHex();
-       
 
-        if (findFields 
-        && Common.OPTIONS.runFieldSearchAutomatically.isSelected() 
+	        setupTableColumns();
+        }
+       	flipHex();
+
+
+        if (findFields
+        && Common.OPTIONS.runFieldSearchAutomatically.isSelected()
         && recordDef.searchForFields) {
         	findFields();
         }
@@ -301,14 +302,14 @@ public class ColumnSelector {
         //fileMdl.fireTableDataChanged();
     }
 
-    
+
     private void findFields() {
-  
+
     	if (lookCompBigEndian.isSelected() && lookCompLittleEndian.isSelected()) {
     		msg.setText("Can only look for one type of binary field !!!");
     		lookCompLittleEndian.setSelected(false);
     	}
-    	
+
     	(new FieldSearch(currentDetails, recordDef)).findFields(
     			lookMainframeZoned.isSelected(), lookPcZoned.isSelected(),
     			lookComp3.isSelected(),
@@ -317,8 +318,8 @@ public class ColumnSelector {
 
     	recordDef.searchForFields = false;
     }
-    
-    
+
+
     /**
      * Read the record from the file <b>detail.filename</b>
      * into the array <b>detail.records</b>
@@ -333,14 +334,14 @@ public class ColumnSelector {
         int i = 0;
         AbstractLine l;
         byte[] s;
-        
+
         currentDetails = detail;
         recordDef = recordDefinition;
 
         l = reader.read();
         while (l != null && i < recordDef.records.length) {
             s = l.getData();
- 
+
             recordDef.records[i++] = s;
             l = reader.read();
         }
@@ -348,7 +349,7 @@ public class ColumnSelector {
     }
 
     private void flipHex() {
-    	
+
     	int height = stdLineHeight;
     	fileModel = stdModel;
     	tblRender = stdRender;
@@ -357,22 +358,22 @@ public class ColumnSelector {
         	tblRender = hexRender;
         	height = (stdLineHeight + 1) * 2;
     	}
-    	
+
     	fileTbl.setModel(fileModel);
     	fileTbl.setRowHeight(height);
-    	
+
     	setupTableColumns();
         fileModel.fireTableDataChanged();
     }
 
-    
+
     private void setupTableColumns() {
-    	
+
        	TableColumn tc;
     	String s;
     	TableColumnModel tcm  = fileTbl.getColumnModel();
     	int cellWidth = STANDARD_TABLE_CELL_WIDTH;
-    	
+
         for (int i = 0; i < fileModel.getColumnCount(); i++) {
             tc = tcm.getColumn(i);
             cellWidth = STANDARD_TABLE_CELL_WIDTH;
@@ -419,10 +420,10 @@ public class ColumnSelector {
          * */
         public TblRender() {
             super();
-            
+
         		txtFld = new DefaultTableCellRenderer();
         		txtFld.setBorder(BorderFactory.createEmptyBorder());
- 
+
            // this.setBorder(BorderFactory.createEmptyBorder());
 //            this.setAlignmentX(JTextField.CENTER_ALIGNMENT);
 //            this.setAlignmentY(JTextField.CENTER_ALIGNMENT);
@@ -441,11 +442,11 @@ public class ColumnSelector {
     			int column) {
 
     	    //this.setText(value.toString());
-    		
+
 
 //    	    System.out.print(" ~> " + row + " " + column + " " + colorInd[column] + " > " + (disp.getBackground() == Color.LIGHT_GRAY)
 //    	    		 + " > " + (disp.getBackground() == Color.WHITE));
-    		
+
     	    if (colorInd[column] == 0) {
     	    	txtFld.setBackground(Color.LIGHT_GRAY);
     	    } else {
@@ -453,17 +454,17 @@ public class ColumnSelector {
     	    }
 //    	    System.out.println(" : " + (disp.getBackground() == Color.cyan)
 //   	    		 + " > " + (disp.getBackground() == Color.WHITE));
-    	    
- 
+
+
     	    txtFld.setText(value.toString());
-    	   
-    	   
+
+
 
     	    return txtFld.getTableCellRendererComponent(tbl, value, isSelected, hasFocus, row, column);
     	}
     }
-  
-    
+
+
     public class HexRender extends HexTwoLineRender {
 
 		/**
@@ -472,7 +473,7 @@ public class ColumnSelector {
 		public HexRender(String font) {
 			super(font);
 		}
-    	
+
     	public Component getTableCellRendererComponent(
     			JTable tbl,
     			Object value,
@@ -480,7 +481,7 @@ public class ColumnSelector {
     			boolean hasFocus,
     			int row,
     			int column) {
-    		
+
     		Component ret = super.getTableCellRendererComponent(tbl, value, isSelected, hasFocus, row, column);
     	    if (colorInd[column] == 0) {
     	    	ret.setBackground(Color.LIGHT_GRAY);

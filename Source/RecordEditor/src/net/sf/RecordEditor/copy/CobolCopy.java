@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package net.sf.RecordEditor.copy;
 
@@ -26,8 +26,8 @@ public class CobolCopy extends AbstractWizard<CopyDefinition> {
 	private CopyWizardFinalPnl finalScreen;
 	private JibxCall<CopyDefinition> jibx = null;
 //	private final  LayoutSelectionFile recordSelection = new LayoutSelectionFile();
-	
-	
+
+
 	/**
 	 * Create Single layout
 	 * @param selection record layout selection class
@@ -35,8 +35,8 @@ public class CobolCopy extends AbstractWizard<CopyDefinition> {
 	public CobolCopy() {
 		this(new net.sf.RecordEditor.jibx.compare.CopyDefinition());
 	}
-	
-	
+
+
 	/**
 	 * Create Single layout
 	 * @param selection record layout selection class
@@ -45,20 +45,20 @@ public class CobolCopy extends AbstractWizard<CopyDefinition> {
 	@SuppressWarnings("unchecked")
 	public CobolCopy(CopyDefinition definition) {
 		super("Cobol Copy", definition);
-		
-		AbstractWizardPanel<CopyDefinition>[] pnls = new AbstractWizardPanel[2]; 
+
+		AbstractWizardPanel<CopyDefinition>[] pnls = new AbstractWizardPanel[2];
 		LayoutSelectionFile recordSelection1 = new LayoutSelectionFile(true);
 		LayoutSelectionFile recordSelection2 = new LayoutSelectionFile(true);
 
 		recordSelection1.setMessage(super.getMessage());
-		
+
 		definition.type = CopyDefinition.COBOL_COPY;
-		
+
 		finalScreen = new CopyWizardFinalPnl(recordSelection1, recordSelection2);
 		pnls[0] = new GetFiles(recordSelection1, recordSelection2);
 //		pnls[1] = new CmpFieldSelection(selection);
 		pnls[1] = finalScreen;
-		
+
 		super.setPanels(pnls);
 	}
 
@@ -69,15 +69,15 @@ public class CobolCopy extends AbstractWizard<CopyDefinition> {
 	 */
 	@Override
 	public void finished(CopyDefinition details) {
-		
+
 		if (finalScreen.isToRun()) {
 			finalScreen.run();
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 	/**
 	 * @see net.sf.RecordEditor.utils.wizards.AbstractWizard#executeAction(int)
 	 */
@@ -86,7 +86,7 @@ public class CobolCopy extends AbstractWizard<CopyDefinition> {
        if (action == ReActionHandler.SAVE) {
     	   try {
     		   CopyDefinition diff = super.getActivePanel().getValues();
-    		   
+
     		   if (! "".equals(diff.saveFile)) {
     			   if (jibx == null) {
     				   jibx = new JibxCall<CopyDefinition>(CopyDefinition.class);
@@ -97,7 +97,7 @@ public class CobolCopy extends AbstractWizard<CopyDefinition> {
     		   }
     	   } catch (Exception e) {
     		   e.printStackTrace();
-    		   Common.logMsg("File Save Failed:", e);
+    		   Common.logMsgRaw(FILE_SAVE_FAILED, e);
     	   }
         } else {
             super.executeAction(action);
@@ -129,20 +129,20 @@ public class CobolCopy extends AbstractWizard<CopyDefinition> {
 		private FileChooser newFileName = new FileChooser();
 		private LayoutSelectionFile layoutSelection1;
 		private LayoutSelectionFile layoutSelection2;
-		
+
 		public GetFiles(LayoutSelectionFile selection1, LayoutSelectionFile selection2) {
 			super(selection1, "CobolFiles.txt");
-			
+
 			String s = Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get();
 			newFileName.setDefaultDirectory(s);
 			newFileName.setText(s);
 			layoutSelection1 = selection1;
 			layoutSelection2 = selection2;
-		
+
 			layoutSelection1.setLayoutName(Common.OPTIONS.DEFAULT_COBOL_DIRECTORY.get());
 			//setHelpURL(Common.formatHelpURL(Common.HELP_DIFF_SL));
 		}
-		
+
 
 		/**
 		 * @see net.sf.RecordEditor.utils.wizards.AbstractWizardPanel#getValues()
@@ -169,39 +169,39 @@ public class CobolCopy extends AbstractWizard<CopyDefinition> {
 		public void setValues(CopyDefinition detail) throws Exception {
 			System.out.println("Setting Values ... ");
 			values = detail;
-			
+
 			if (! "".equals(values.oldFile.name)) {
 				fileName.setText(values.oldFile.name);
 			}
-			
+
 			if (! "".equals(values.newFile.name)) {
 				newFileName.setText(values.newFile.name);
 			}
-			
+
 			if (! "".equals(values.oldFile.getLayoutDetails().name)) {
 				layoutSelection1.setLayoutName(values.oldFile.getLayoutDetails().name);
 			}
-			
+
 			if (! "".equals(values.newFile.getLayoutDetails().name)) {
 				layoutSelection2.setLayoutName(values.newFile.getLayoutDetails().name);
 			}
-			
-			
+
+
 //			if (! "".equals(values.getLayoutDetails().name)) {
 //				layoutSelection1.setLayoutName(values.getLayoutDetails().name);
 //			}
 		}
-		
+
 		@Override
 		protected void addFileName(BaseHelpPanel pnl) {
-					
+
 			pnl.addLine("Old File", fileName, fileName.getChooseFileButton());
 			pnl.addLine("New File", newFileName, newFileName.getChooseFileButton());
 		}
-		
+
 		@Override
 		protected void addLayoutSelection() {
-			
+
 			layoutSelection1.addLayoutSelection(this, fileName, new JPanel(), null, null);
 			this.setGap(GAP3);
 			layoutSelection2.addLayoutSelection(this, getGoPanel(), layoutSelection1.getCopybookFile());
@@ -214,7 +214,7 @@ public class CobolCopy extends AbstractWizard<CopyDefinition> {
 //	 * @param args
 //	 */
 //	public static void main(String[] args) {
-//		
+//
 //		 new ReMainFrame("File Compare", "");
 //		 new CmpSingleLayout(new LayoutSelectionDB(new CopyBookDbReader()));
 //	}

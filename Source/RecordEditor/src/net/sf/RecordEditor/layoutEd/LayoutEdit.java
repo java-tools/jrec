@@ -33,6 +33,8 @@ import net.sf.RecordEditor.re.util.UpgradeDB;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
+import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.ReAction;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
@@ -52,9 +54,11 @@ import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 @SuppressWarnings("serial")
 public class LayoutEdit extends ReMainFrame {
 
-	private Menu menu; 
+	private Menu menu;
 
-	private final ReAction newAction = new ReAction("New", "New Layout",
+	private final ReAction newAction = new ReAction(
+			LangConversion.convert(LangConversion.ST_ACTION, "New"),
+			LangConversion.convert(LangConversion.ST_ACTION, "New Layout"),
 	        Common.getRecordIcon(Common.ID_NEW_ICON), ReActionHandler.NEW, this);
 
 	/**
@@ -62,10 +66,10 @@ public class LayoutEdit extends ReMainFrame {
 	 */
 	public LayoutEdit() {
 		super("Record Layout Definitions", "", "le");
-		
+
 		ReIOProvider.register();
 
-		AbstractAction optionAction = new AbstractAction(
+		AbstractAction optionAction = new ReAbstractAction(
 				"Edit Options",
 				Common.getRecordIcon(Common.ID_PREF_ICON)) {
 			public void actionPerformed(ActionEvent e) {
@@ -80,13 +84,13 @@ public class LayoutEdit extends ReMainFrame {
 
 		buildFileMenu(null, false, true, newAction);
 		super.addExit();
-		
+
         CopybookLoaderFactory.setInstance(new CopybookLoaderFactoryDB());
 
 		AbsDB.setSystemLog(getLog());
 
 		Common.setCurrClass(this);
-		
+
 	    getEditMenu().addSeparator();
 	    getEditMenu().add(optionAction);
 
@@ -157,7 +161,7 @@ public class LayoutEdit extends ReMainFrame {
             || action == ReActionHandler.OPEN
             || super.isActionAvailable(action);
     }
-    
+
 
 	/**
 	 * Close the application and Database (used in automated testing)
@@ -170,7 +174,7 @@ public class LayoutEdit extends ReMainFrame {
 
 		}
 	}
-	
+
 
     /**
 	 * Run record layout editor

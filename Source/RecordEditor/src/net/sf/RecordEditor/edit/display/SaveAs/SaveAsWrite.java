@@ -13,6 +13,7 @@ import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Details.AbstractTreeDetails;
+import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.re.file.AbstractLineNode;
 import net.sf.RecordEditor.re.file.DisplayType;
@@ -20,6 +21,7 @@ import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.fileWriter.FieldWriter;
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 
 
@@ -240,7 +242,7 @@ public abstract class SaveAsWrite {
 					writeColumnHeadings();
 				} catch (Exception e) {
 					e.printStackTrace();
-					Common.logMsg("Error Writing File: " + e.getMessage(), e);
+					Common.logMsg(AbsSSLogger.ERROR, "Error Writing Column Headings:", e.getMessage(), e);
 				}
 			}
 
@@ -249,7 +251,7 @@ public abstract class SaveAsWrite {
 			try {
 				writer.close();
 			} catch (Exception e) {
-				Common.logMsg("Write Csv Failed " + e.getClass().getName() + " " + e.getMessage(), null);
+				Common.logMsg(AbsSSLogger.ERROR, "Error Closing File:", e.getClass().getName() + " " + e.getMessage(), null);
 				e.printStackTrace();
 			}
 		}
@@ -334,7 +336,7 @@ public abstract class SaveAsWrite {
 //						writer.writeField(s);
 //					}
 				} catch (Exception e) {
-					Common.logMsg("Write Csv Failed " + e.getClass().getName() + " " + e.getMessage(), null);
+					Common.logMsg(AbsSSLogger.ERROR, "Write Failed", e.getClass().getName() + " " + e.getMessage(), null);
 					e.printStackTrace();
 				}
 			}
@@ -587,7 +589,7 @@ public abstract class SaveAsWrite {
 		 */
 		@Override
 		protected void allocateColumnNames(@SuppressWarnings("rawtypes") FileView fieldMapping, int idx) {
-			columnNames.add("Full Line");
+			columnNames.add(LangConversion.convert("Full Line"));
 		}
 
 

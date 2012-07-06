@@ -26,8 +26,8 @@ import net.sf.RecordEditor.edit.open.OpenCsvFilePnl;
 import net.sf.RecordEditor.edit.open.OpenFile;
 import net.sf.RecordEditor.re.util.ReIOProvider;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.edit.ParseArgs;
+import net.sf.RecordEditor.utils.params.Parameters;
 
 
 /**

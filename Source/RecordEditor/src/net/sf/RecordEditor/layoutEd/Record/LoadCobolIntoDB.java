@@ -12,8 +12,8 @@ import net.sf.RecordEditor.re.db.Table.TableDB;
 import net.sf.RecordEditor.re.db.Table.TableRec;
 import net.sf.RecordEditor.re.util.CopybookLoaderFactoryDB;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.common.ReConnection;
+import net.sf.RecordEditor.utils.params.Parameters;
 
 public class LoadCobolIntoDB {
 
@@ -22,9 +22,9 @@ public class LoadCobolIntoDB {
         ExternalRecord rec;
 		CopybookLoader loader = CopybookLoaderFactoryDB.getInstance()
 			.getLoader(CopybookLoaderFactoryDB.COBOL_LOADER);
-		
+
 		FilenameFilter filter = new FilenameFilter() {
-			
+
 			@Override
 			public boolean accept(File dir, String name) {
 				if (pattern != null) {
@@ -39,19 +39,19 @@ public class LoadCobolIntoDB {
 
 
 		File dirFile = new File(stripStar(dir));
-		
+
 		ExtendedRecordDB dbTo = new ExtendedRecordDB();
 		dbTo.setConnection(new ReConnection(dbIdx));
 		boolean free = dbTo.isSetDoFree(false);
-		
+
 		pattern = null;
-		
+
 		if (regExp != null && ! "".equals(regExp)) {
 			pattern = Pattern.compile(regExp);
 		}
-		
+
 		System.out.println("Pattern: " + regExp);
-		
+
 		try {
 
 			if (dirFile.isDirectory()) {
@@ -65,13 +65,13 @@ public class LoadCobolIntoDB {
 			                systemId,
 			                Common.getLogger());
 						dbTo.checkAndUpdate(rec);
-						
-						Common.logMsg(AbsSSLogger.SHOW, "Loading " + cobolFile.getPath(), null);
+
+						Common.logMsg(AbsSSLogger.SHOW, "Loading:", cobolFile.getPath(), null);
 					} catch (Exception e) {
-						Common.logMsg(e.getMessage(), e);
+						Common.logMsgRaw(e.getMessage(), e);
 					}
 				}
-		
+
 			} else if (dirFile.isFile()) {
 				System.out.println("File: " + dir);
 				rec = loader.loadCopyBook(dirFile.getCanonicalPath(),
@@ -90,19 +90,19 @@ public class LoadCobolIntoDB {
 			dbTo.setDoFree(free);
 		}
 	}
-	
-	
+
+
 	public static int getSystemId(int db, String systemName) {
 		int system = Integer.MIN_VALUE;
-		
+
 		if (systemName == null || "".equals(systemName)) return 0;
-		
+
 		TableRec aTbl;
 		TableDB tblsDB = new TableDB();
 		boolean found = false;
 		int maxKey = 0;
 		int cKey;
-		
+
 		try {
 			tblsDB.setConnection(new ReConnection(db));
 			tblsDB.resetSearch();
@@ -110,7 +110,7 @@ public class LoadCobolIntoDB {
 			tblsDB.open();
 			while ((aTbl = tblsDB.fetch()) != null) {
 				cKey = aTbl.getTblKey();
-				
+
 				if (systemName.equalsIgnoreCase(aTbl.getDetails())) {
 					system = cKey;
 					found = true;
@@ -120,7 +120,7 @@ public class LoadCobolIntoDB {
 					maxKey = cKey;
 				}
 			}
-		
+
 			if (! found) {
 				system = maxKey + 1;
 				tblsDB.insert(new TableRec(system, systemName));
@@ -131,7 +131,7 @@ public class LoadCobolIntoDB {
 
 		return system;
 	}
-	
+
 	private static String stripStar(String dir) {
 		return Parameters.dropStar(dir);
 	}

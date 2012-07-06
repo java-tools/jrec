@@ -7,6 +7,7 @@ import net.sf.RecordEditor.re.db.Record.RecordDB;
 import net.sf.RecordEditor.re.db.Record.RecordRec;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.common.ReConnection;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
 
@@ -25,7 +26,12 @@ public class RecordSelectionFrm1 extends ReFrame {
             final int dbConnectionIdx,
             final int recordIdentifier,
             final ChildRecordsRec parent) {
-		super(dbName, "Record Selection: " + getRecordName(dbConnectionIdx, parent.getChildRecordId()), null);
+		super(  dbName,
+				"",
+				LangConversion.convert(LangConversion.ST_FRAME_HEADING, "Record Selection:")
+					+ " " + getRecordName(dbConnectionIdx, parent.getChildRecordId()),
+				"",
+				null);
 
 		this.dbConnectionIdx = dbConnectionIdx;
 		this.recordIdentifier = recordIdentifier;

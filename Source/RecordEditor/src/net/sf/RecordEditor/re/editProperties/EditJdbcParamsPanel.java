@@ -14,7 +14,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
@@ -23,7 +22,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
@@ -53,10 +53,10 @@ public class EditJdbcParamsPanel extends BasePanel {
     //private JTextField commit     = new JTextField();
     //private JTextField checkpoint = new JTextField();
 
-    private AbstractAction startAction;
+    private ReAbstractAction startAction;
     private JComboBox jdbcJarsCombo = new JComboBox();
 
-    private JTextField[] screenFields = {
+    private JTextField[] screenFields =  {
             sourceName, driver, source, readOnly, user, password
     };
     private int currentRow;
@@ -68,9 +68,9 @@ public class EditJdbcParamsPanel extends BasePanel {
             "Drop ; from SQL statements"
     };
     private static final String[] COL_NAMES = {
-    		Parameters.DB_SOURCE_NAME, Parameters.DB_DRIVER, Parameters.DB_SOURCE, 
+    		Parameters.DB_SOURCE_NAME, Parameters.DB_DRIVER, Parameters.DB_SOURCE,
     		Parameters.DB_READ_ONLY_SOURCE,  Parameters.DB_USER, Parameters.DB_PASSWORD,
-    		Parameters.DB_COMMIT, Parameters.DB_CHECKPOINT, Parameters.DB_EXPAND_VARS, 
+    		Parameters.DB_COMMIT, Parameters.DB_CHECKPOINT, Parameters.DB_EXPAND_VARS,
     		Parameters.DB_CLOSE_AFTER_EXEC,
             Parameters.DB_DROP_SEMI
     };
@@ -111,7 +111,7 @@ public class EditJdbcParamsPanel extends BasePanel {
     private void init_100_ScreenFields() {
 
         tips = new JEditorPane("text/html", description);
-        model    = new PropertiesTableModel(pgmParams, COL_NAMES, COL_HEADERS, JDBC_TABLE_SIZE) {
+        model    = new PropertiesTableModel(pgmParams, COL_NAMES, COL_HEADERS, "PropsEd_JDBC", JDBC_TABLE_SIZE) {
             public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
                 super.setValueAt(aValue, rowIndex, columnIndex);
                 if (aValue != null && columnIndex < screenFields.length) {
@@ -133,7 +133,7 @@ public class EditJdbcParamsPanel extends BasePanel {
             new FieldAddapter(screenFields[i], i);
         }
 
-        startAction = new AbstractAction("Test Driver") {
+        startAction = new ReAbstractAction("Test Driver") {
             public void actionPerformed(ActionEvent e) {
                 g500_TestConnection();
             }
@@ -158,7 +158,7 @@ public class EditJdbcParamsPanel extends BasePanel {
 
 		this.addComponent(1, 5, TABLE_HEIGHT, BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
-				new JScrollPane(tips));
+				tips);
 		//this.setGap(BasePanel.GAP1);
 		this.addComponent(1, 5, TABLE_HEIGHT, BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,

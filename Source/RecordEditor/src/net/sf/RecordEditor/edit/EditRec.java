@@ -26,6 +26,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
 import net.sf.JRecord.IO.AbstractLineIOProvider;
+import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.edit.display.BaseDisplay;
 import net.sf.RecordEditor.edit.display.DisplayCobolCopybook;
 import net.sf.RecordEditor.edit.display.Action.LoadSavedFieldSeqAction;
@@ -46,11 +47,14 @@ import net.sf.RecordEditor.re.util.ReIOProvider;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
 import net.sf.RecordEditor.utils.CopyBookInterface;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.edit.ParseArgs;
+import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
  * Record Editor Main screen
@@ -61,7 +65,7 @@ import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 @SuppressWarnings("serial")
 public class EditRec extends ReMainFrame  {
 
-    private OpenFile open; 
+    private OpenFile open;
     private JMenu utilityMenu;
     private JMenu dataMenu;
     private JMenu viewMenu;
@@ -69,7 +73,7 @@ public class EditRec extends ReMainFrame  {
 
     private boolean incJdbc;
     private boolean includeWizardOptions = true;
-    private AbstractAction optionAction = new AbstractAction(
+    private AbstractAction optionAction = new ReAbstractAction(
     				"Edit Options",
     				Common.getRecordIcon(Common.ID_PREF_ICON)) {
         public void actionPerformed(ActionEvent e) {
@@ -116,7 +120,7 @@ public class EditRec extends ReMainFrame  {
                   new LayoutSelectionDB(pInterfaceToCopyBooks, null, true));
 
         init(true, null);
-        setupMenus(null, null);  
+        setupMenus(null, null);
      }
 
 
@@ -127,15 +131,15 @@ public class EditRec extends ReMainFrame  {
     public EditRec(final boolean includeJdbc) {
         this(includeJdbc, "Record Editor", null);
     }
-    
-    
+
+
     public EditRec(final boolean includeJdbc, final String name, AbstractAction newAction) {
     	super(name, "", "re");
     	init(includeJdbc, newAction);
     }
-  
- 
-    
+
+
+
     public EditRec(final boolean includeJdbc, final String name, String id, AbstractAction newAction) {
     	super(name, "", id);
     	init(includeJdbc, newAction);
@@ -151,26 +155,26 @@ public class EditRec extends ReMainFrame  {
     	AbstractAction filterAction = newAction(ReActionHandler.FILTER);
     	AbstractAction sortAction = newAction(ReActionHandler.SORT);
     	AbstractAction[] toolbarActions = {
-    			filterAction, 
+    			filterAction,
     			sortAction,
     			newAction(ReActionHandler.AUTOFIT_COLUMNS),
     			null,
     			optionAction
     	};
-    	
+
     	newFileAction = newAction;
     	incJdbc = includeJdbc;
-    	optionAction.putValue(AbstractAction.SHORT_DESCRIPTION, "Edit Options");
-    	
- 
-    	
+    	optionAction.putValue(AbstractAction.SHORT_DESCRIPTION, LangConversion.convert(LangConversion.ST_MESSAGE, "Edit Options"));
+
+
+
         ReMainFrame.setMasterFrame(this);
         ReTypeManger.setDateFormat(Common.DATE_FORMAT_STR);
-        
+
         buildMenubar(VelocityPopup.getPopup(), XsltPopup.getPopup(), ExportScriptPopup.getPopup());
         buildToolbar(newAction, toolbarActions);
-        
-      
+
+
         dataMenu.add(filterAction);
         dataMenu.add(newAction(ReActionHandler.TABLE_VIEW_SELECTED));
         dataMenu.add(sortAction);
@@ -179,7 +183,7 @@ public class EditRec extends ReMainFrame  {
         dataMenu.add(newAction(ReActionHandler.ADD_ATTRIBUTES));
         dataMenu.addSeparator();
         dataMenu.add(newAction(ReActionHandler.FULL_TREE_REBUILD));
-        
+
         viewMenu.add(newAction(ReActionHandler.BUILD_FIELD_TREE));
         viewMenu.add(newAction(ReActionHandler.BUILD_SORTED_TREE));
         viewMenu.add(newAction(ReActionHandler.BUILD_RECORD_TREE));
@@ -192,7 +196,7 @@ public class EditRec extends ReMainFrame  {
         viewMenu.add(newAction(ReActionHandler.COLUMN_VIEW_SELECTED));
         viewMenu.add(newAction(ReActionHandler.SELECTED_VIEW));
         viewMenu.add(newAction(ReActionHandler.BUILD_XML_TREE_SELECTED));
-        
+
         viewMenu.addSeparator();
         viewMenu.add(newAction(ReActionHandler.EXECUTE_SAVED_FILTER));
         viewMenu.add(newAction(ReActionHandler.EXECUTE_SAVED_SORT_TREE));
@@ -210,8 +214,11 @@ public class EditRec extends ReMainFrame  {
 				Class c = ClassLoader.getSystemClassLoader().loadClass(Common.USER_INIT_CLASS);
                 c.newInstance();
             } catch (Exception e) {
-                Common.logMsg("Error running user Initialize: "
-                        + e.getMessage(), null);
+                Common.logMsg(
+                		AbsSSLogger.ERROR,
+                		"Error running user Initialize:",
+                        e.getMessage(),
+                        null);
             }
         }
 
@@ -222,7 +229,7 @@ public class EditRec extends ReMainFrame  {
 //            public void windowClosing(WindowEvent e) {
 //                closeProcessing();
 //            }
-//            
+//
 //            public void windowClosed(WindowEvent e) {
 //                Common.closeConnection();
 //
@@ -230,21 +237,21 @@ public class EditRec extends ReMainFrame  {
 //            }
 //        });
     }
-    
+
     /**
      * Build File menu
      * @param compareAction compare action
      */
     private void setupMenus(Action copyAction, Action compareAction) {
     	JMenu  em;
-    	
+
         buildFileMenu(
-        		open.getOpenFilePanel().getRecentFileMenu(), 
-        		true, false, 
+        		open.getOpenFilePanel().getRecentFileMenu(),
+        		true, false,
         		newFileAction);
-         
+
         if (copyAction != null) {
-        	utilityMenu.add(new AbstractAction("Cobol Copybook Analysis") {
+        	utilityMenu.add(new ReAbstractAction("Cobol Copybook Analysis") {
 
 					/**
 					 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -264,15 +271,15 @@ public class EditRec extends ReMainFrame  {
         }
         utilityMenu.addSeparator();
         utilityMenu.add(RunScriptPopup.getPopup());
-        utilityMenu.add(new AbstractAction("Script Test Panel",  Common.getRecordIcon(Common.ID_SCRIPT_ICON)) {
+        utilityMenu.add(new ReAbstractAction("Script Test Panel",  Common.getRecordIcon(Common.ID_SCRIPT_ICON)) {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new ScriptRunFrame();
 			}
-        	
+
         });
-        
+
         em = getEditMenu();
 	    em.addSeparator();
 	    em.add(optionAction);
@@ -286,27 +293,27 @@ public class EditRec extends ReMainFrame  {
 	 * @param menubar top level menu
 	 */
 	protected void addProgramSpecificMenus(JMenuBar menubar) {
-		utilityMenu = new JMenu("Utilities");
-	    dataMenu = new JMenu("Data");
-	    viewMenu = new JMenu("View");
+		utilityMenu = SwingUtils.newMenu("Utilities");
+	    dataMenu = SwingUtils.newMenu("Data");
+	    viewMenu = SwingUtils.newMenu("View");
 
         menubar.add(utilityMenu);
         menubar.add(dataMenu);
         menubar.add(viewMenu);
-        
+
         loadUserFunctions(menubar);
 	}
-	
+
 	private void loadUserFunctions(JMenuBar menubar) {
-		Object[] userFunctions = Common.readPropertiesArray(Parameters.PROPERTY_PLUGIN_FUNC_CLASS, 
+		Object[] userFunctions = Common.readPropertiesArray(Parameters.PROPERTY_PLUGIN_FUNC_CLASS,
 				Parameters.NUMBER_OF_USER_FUNCTIONS);
 
 		if (userFunctions != null) {
-			JMenu localMenu = new JMenu("Plugin");
+			JMenu localMenu = SwingUtils.newMenu("Plugin");
 			String name, param;
 			Plugin userClass;
 			int j = 0;
-			
+
 			for (int i = 0; i < Parameters.NUMBER_OF_USER_FUNCTIONS; i++) {
 				if (userFunctions[i] != null) {
 					try {
@@ -316,11 +323,11 @@ public class EditRec extends ReMainFrame  {
 						localMenu.add(new LocalAction(name, userClass, param));
 						j += 1;
 					} catch (Exception e) {
-						Common.logMsg("Error loading Function " + e.getMessage(), e);
+						Common.logMsg(AbsSSLogger.ERROR, "Error loading Function", e.getMessage(), e);
 					}
 				}
 			}
-			
+
 			if (j > 0) {
 				menubar.add(localMenu);
 			}
@@ -388,15 +395,15 @@ public class EditRec extends ReMainFrame  {
 		}
 
     }
-    
+
     public static void loadUserFormats() {
-    	
+
     	int i;
     	CellFormat fmt;
     	ReTypeManger sysTypes = ReTypeManger.getInstance();
         int[] formatIds = Common.readIntPropertiesArray(Parameters.FORMAT_NUMBER_PREFIX, Parameters.NUMBER_OF_FORMATS);
         Object[] formats = Common.readPropertiesArray(formatIds, Parameters.FORMAT_CLASS_PREFIX);
-        
+
         if (formats != null) {
             for (i = 0; i < Parameters.NUMBER_OF_FORMATS; i++) {
             	if (formats[i] != null) {
@@ -404,16 +411,21 @@ public class EditRec extends ReMainFrame  {
             			fmt = (CellFormat) formats[i];
             			sysTypes.registerFormat(formatIds[i], fmt);
             		} catch (Exception e) {
-            			Common.logMsg("Error Defining Type > " + formatIds[i]
-            			                                                   + " class=" + Parameters.getString(Parameters.TYPE_CLASS_PREFIX + i)
-            			                                                   + "  " + e.getMessage(), e);
+            			Common.logMsgRaw(
+            					LangConversion.convert(
+            							"Error Defining Type > {0} class={1} {2}",
+            							new Object[] {
+            									formatIds[i],
+            									Parameters.getString(Parameters.TYPE_CLASS_PREFIX + i),
+            									e.getMessage()}),
+            					e);
             		}
             	}
             }
         }
 
     }
-    	 
+
 
 
 
@@ -453,12 +465,12 @@ public class EditRec extends ReMainFrame  {
     /**
      * @param openWindow The open to set.
      */
-    protected void setOpenFileWindow(OpenFile openWindow, 
-    		Action copyAction, 
+    protected void setOpenFileWindow(OpenFile openWindow,
+    		Action copyAction,
     		Action compareAction,
     		boolean incWizard) {
         this.open = openWindow;
-        
+
         includeWizardOptions = incWizard;
         setupMenus(copyAction, compareAction);
     }
@@ -473,7 +485,7 @@ public class EditRec extends ReMainFrame  {
 	/**
      * This Class Executes a user written function. It is initiated from
      * the Local Dropdown Menu
-     * 
+     *
      * @author Bruce Martin
      *
      */
@@ -481,16 +493,16 @@ public class EditRec extends ReMainFrame  {
 
     	private Plugin extension = null;
     	private String param;
-    	
+
     	public LocalAction(String name, Plugin userClass, String userParam) {
     		super(name);
     		extension = userClass;
     		param = userParam;
     	}
-    	
+
     	@Override
     	public void actionPerformed(ActionEvent event) {
-    		
+
     	    ReFrame actionHandler = ReFrame.getActiveFrame();
     	    if (actionHandler != null) {
     	    	try {
@@ -501,7 +513,7 @@ public class EditRec extends ReMainFrame  {
     	}
 
     }
-    
+
     protected void editProperties(boolean includeJdbc, boolean includeWizardOptions) {
     	new EditOptions(false, includeJdbc, includeWizardOptions);
     }

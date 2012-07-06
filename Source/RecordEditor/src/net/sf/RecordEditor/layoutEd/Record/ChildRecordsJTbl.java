@@ -31,7 +31,7 @@ import net.sf.RecordEditor.utils.jdbc.AbsDB;
 import net.sf.RecordEditor.utils.swing.AbsJTable;
 import net.sf.RecordEditor.utils.swing.ButtonTableRendor;
 import net.sf.RecordEditor.utils.swing.ComboBoxRender;
-import net.sf.RecordEditor.utils.swing.Combo.KeyedComboMdl;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.KeyedComboMdl;
 
 
 

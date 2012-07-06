@@ -9,7 +9,8 @@ package net.sf.RecordEditor.re.script;
 
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.zip.GZIPInputStream;
@@ -25,6 +26,7 @@ import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.RecordEditor.utils.TypeNameArray;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -62,16 +64,15 @@ public class RunVelocity {
 
         int[] records = {};
 
-           BufferedWriter writer = new BufferedWriter(
-                     new FileWriter(outputFile));
-            processFile(layout,
-                    new DefaultLineProvider(),
-                    records,
-                    inputFile,
-                    outputFile,
-                    template,
-                    writer);
-            writer.close();
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), "utf8"));
+        processFile(layout,
+                new DefaultLineProvider(),
+                records,
+                inputFile,
+                outputFile,
+                template,
+                writer);
+        writer.close();
 
 
     }
@@ -174,10 +175,10 @@ public class RunVelocity {
             ExternalRecord layout,
             TypeNameArray typeNames,
             String outputFile,
-            Writer writer) 
+            Writer writer)
     throws Exception {
     	VelocityContext context   = new VelocityContext();
-    	
+
         context.put("outputFile",   outputFile);
         context.put("typeNames",    typeNames);
         context.put("recordLayout", layout);
@@ -196,7 +197,7 @@ public class RunVelocity {
      */
     public final void genSkel(String template,
     		ScriptData data,
-            Writer writer) 
+            Writer writer)
     throws Exception {
 
         if (data.view != null) {
@@ -259,15 +260,15 @@ public class RunVelocity {
             }
             e.init();
 
-            template = e.getTemplate(templateFile);
+            template = e.getTemplate(templateFile, "UTF8");
         } catch (ResourceNotFoundException rnfe) {
-            String msg = "Error : cannot find template " + templateFile;
-            Common.logMsg(msg, rnfe);
+            String msg = LangConversion.convert("Error - cannot find template:") + " " + templateFile;
+            Common.logMsgRaw(msg, rnfe);
             throw new RecordException(msg);
         } catch (ParseErrorException pee) {
-            String msg = "Syntax error in template "
+            String msg = LangConversion.convert("Syntax error in template") + " "
                 + templateFile + ":" + pee;
-            Common.logMsg(msg, pee);
+            Common.logMsgRaw(msg, pee);
             throw new RecordException(msg);
         }
 

@@ -2,21 +2,20 @@ package net.sf.RecordEditor.edit.display.Action;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.AbstractAction;
-
 import net.sf.RecordEditor.edit.display.common.AbstractFieldSequencePnl;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.file.filter.AbstractExecute;
 import net.sf.RecordEditor.re.file.filter.ExecuteSavedFile;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
 @SuppressWarnings("serial")
-public class LoadSavedFieldSeqAction 
-extends AbstractAction 
+public class LoadSavedFieldSeqAction
+extends ReAbstractAction
 implements AbstractActiveScreenAction {
 
 	/**
@@ -47,24 +46,24 @@ implements AbstractActiveScreenAction {
 				AbstractFieldSequencePnl lineList = (AbstractFieldSequencePnl) actionHandler;
 				@SuppressWarnings("rawtypes")
 				FileView fileView = lineList.getFileView();
-				
+
 				SetFields setFields = new SetFields(lineList);
 				new ExecuteSavedFile<EditorTask>(
 						fileView.getBaseFile().getFileNameNoDirectory(), "Execute Saved Filter", fileView,
-						Parameters.getFileName(Parameters.HIDDEN_FIELDS_SAVE_DIRECTORY), 
+						Parameters.getFileName(Parameters.HIDDEN_FIELDS_SAVE_DIRECTORY),
 						setFields, EditorTask.class);
 			} catch (NoClassDefFoundError e) {
-				Common.logMsg("Unable to loaved saved definition: jibx not present ???", null);
+				Common.logMsg("Unable to load saved definition: jibx not present ???", null);
 			}
 		}
 	}
 
-	
-	
+
+
 	public static class SetFields implements AbstractExecute<EditorTask>{
-		
+
 		private AbstractFieldSequencePnl lineList;
-		
+
 		public SetFields(AbstractFieldSequencePnl lineList) {
 			super();
 
@@ -78,7 +77,7 @@ implements AbstractActiveScreenAction {
 				lineList.setFieldSequence(saveDetails.fieldSequence);
 			}
 		}
-	
+
 		@Override
 		public void executeDialog(EditorTask saveDetails) {
 			execute(saveDetails);

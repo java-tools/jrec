@@ -10,11 +10,12 @@ import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.RecordEditor.re.file.AbstractTreeFrame;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 public final class CommonSaveAsFields {
-    public static final String OPT_FILE = "File";
-    public static final String OPT_VIEW = "Current View";
-    public static final String OPT_SELECTED = "Selected Records";
+    public static final String OPT_FILE = LangConversion.convertComboItms("File SelectionOptions", "File");
+    public static final String OPT_VIEW = LangConversion.convertComboItms("File SelectionOptions", "Current View");
+    public static final String OPT_SELECTED = LangConversion.convertComboItms("File SelectionOptions", "Selected Records");
 
 
 	public final static int FMT_DATA = 0;

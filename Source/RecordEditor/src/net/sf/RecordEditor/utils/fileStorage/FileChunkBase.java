@@ -13,7 +13,7 @@ import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.ProgramOptions;
+import net.sf.RecordEditor.utils.params.ProgramOptions;
 
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -305,7 +305,7 @@ public abstract class FileChunkBase<L extends AbstractChunkLine, S extends Recor
 					compressed = null;
 					recordStore = null;
 				} catch (IOException e) {
-					Common.logMsg("Error Saving to Disk", e);
+					Common.logMsg("Error Saving to Spill file", e);
 				}
 			}
 		}

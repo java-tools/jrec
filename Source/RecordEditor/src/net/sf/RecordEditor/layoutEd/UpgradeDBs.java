@@ -20,10 +20,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JEditorPane;
-import javax.swing.JScrollPane;
 
 import net.sf.RecordEditor.re.util.UpgradeDB;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -49,6 +49,8 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
  */
 @SuppressWarnings("serial")
 public class UpgradeDBs extends ReFrame implements ActionListener {
+
+	private static final String UPGRADE_DB_MSG = "Upgrade the DB from {0} to version {1}";
 
 	private String formDescription;
 
@@ -82,17 +84,18 @@ public class UpgradeDBs extends ReFrame implements ActionListener {
 	 */
 	public UpgradeDBs(final String pDBid,
 					  final int pConnectionId)  {
-		super(pDBid, "Upgrade ", null);
+		super(pDBid, "Upgrade", null);
 
 		this.connectionId = pConnectionId;
 
-		formDescription = "The options available on this screen are<ol compact>"
-		    			+ "<li><font COLOR=Blue>Upgrade the DB to "
-		    			+ "<b> the latest version of the Databases</b></font>"
-						+ " <p>This option should be used <b>only once</b>"
-						+ " when using upgrade package"
-						+ "<li>Update the Record Seperator to <font COLOR=Blue>"
-						+ "default</font>. Again this should only be done once.</ol>";
+		formDescription = LangConversion.convertId(LangConversion.ST_MESSAGE, "UpgradeDbHint",
+				"The options available on this screen are<ol compact>"
+				+ "<li><font COLOR=Blue>Upgrade the DB to "
+		    	+ "<b> the latest version of the Databases</b></font>"
+				+ " <p>This option should be used <b>only once</b>"
+				+ " when using upgrade package"
+				+ "<li>Update the Record Seperator to <font COLOR=Blue>"
+				+ "default</font>. Again this should only be done once.</ol>");
 		tips = new JEditorPane("text/html", formDescription);
 		tips.setEditable(false);
 
@@ -107,16 +110,33 @@ public class UpgradeDBs extends ReFrame implements ActionListener {
 
 		pnl.addComponent(1, 5, TIPS_HEIGHT, BasePanel.GAP3,
 		        BasePanel.FULL, BasePanel.FULL,
-				new JScrollPane(tips));
+				tips);
 		pnl.setGap(BasePanel.GAP2);
 
-		pnl.addMenuItem("Upgrade from 0.52.1/0.53 to version 0.55", upgrade55);
+		//pnl.addMenuItem("Upgrade from 0.52.1/0.53 to version 0.55", upgrade55);
 		//pnl.addMenuItem("Upgrade the Tables from 0.55 to 0.56", upgrade56);
 		//pnl.addMenuItem("Upgrade the Tables from 0.56 to 0.60", upgrade60);
-		pnl.addMenuItem("Upgrade the DB from 0.55 - 0.61b to version 0.62", upgrade61b);
+
+
+		pnl.addMenuItemNative(
+				LangConversion.convertId(
+						LangConversion.ST_FIELD, "",
+						UPGRADE_DB_MSG,
+						new Object[] {"0.55 - 0.61b", "62"}),
+				upgrade61b);
 		//pnl.addMenuItem("Upgrade the Tables from 0.62 to version 0.67", upgrade67);
-		pnl.addMenuItem("Upgrade the DB from 0.62->69* to version 0.69.2c", upgrade69);
-		pnl.addMenuItem("Upgrade the DB from 0.69* to version 0.80", upgrade80);
+		pnl.addMenuItemNative(
+				LangConversion.convertId(
+						LangConversion.ST_FIELD, "",
+						UPGRADE_DB_MSG,
+						new Object[] {"0.62->69*", "0.69.2c"}),
+				upgrade69);
+		pnl.addMenuItemNative(
+				LangConversion.convertId(
+						LangConversion.ST_FIELD, "",
+						UPGRADE_DB_MSG,
+						new Object[] {"0.69*", "0.80"}),
+				upgrade80);
 
 		helpBtn.addActionListener(this);
 		upgrade55.addActionListener(this);
@@ -147,7 +167,7 @@ public class UpgradeDBs extends ReFrame implements ActionListener {
 	 */
 	public void actionPerformed(final ActionEvent event) {
 		UpgradeDB upgrade = new UpgradeDB();
-		
+
 	    if (event.getSource() == helpBtn) {
 	        pnl.showHelp();
 	    } else if (event.getSource() == upgrade55) {

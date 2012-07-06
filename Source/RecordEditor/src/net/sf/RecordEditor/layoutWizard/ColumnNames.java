@@ -18,7 +18,6 @@ package net.sf.RecordEditor.layoutWizard;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
-import javax.swing.AbstractAction;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JCheckBox;
 
@@ -33,6 +32,7 @@ import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.Types.TypeManager;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.swing.AbsRowList;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
@@ -67,7 +67,7 @@ public class ColumnNames {
     private RecordDefinition recordDefinition;
 
 
- 
+
     @SuppressWarnings("serial")
 	public ColumnNames(AbsRowList typeList) {
 		columnTbl.setRowHeight(SwingUtils.COMBO_TABLE_ROW_HEIGHT);
@@ -77,11 +77,11 @@ public class ColumnNames {
         typeCombo = new BmKeyedComboBox(typeList, false);
 	    typeEditor = new DefaultCellEditor(typeCombo);
 	    typeEditor.setClickCountToStart(1);
-	    
-	    columnTbl.addMouseListener(new MenuPopupListener(new AbstractAction("Generate Field Names") {
+
+	    columnTbl.addMouseListener(new MenuPopupListener(new ReAbstractAction("Generate Field Names") {
                     public void actionPerformed(ActionEvent e) {
                     	nameColumns();
-                    } 
+                    }
 	    }));
     }
 
@@ -92,7 +92,7 @@ public class ColumnNames {
      */
     public Details getValues() throws Exception {
         Common.stopCellEditing(columnTbl);
-        
+
         return currentDetails;
     }
 
@@ -191,29 +191,29 @@ public class ColumnNames {
         fileMdl.fireTableDataChanged();
     }
 
-    
+
     private void nameColumns() {
     	String s = "n";
     	int i = 0;
-    	String t; 
+    	String t;
     	if (recordDefinition.getKeyValue() != null
     	&&  recordDefinition.getKeyValue().length > 0
     	&& ! "".equals(t= recordDefinition.getStringKey(""))) {
     		s = t;
     	}
-    	
+
     	for (ColumnDetails column : recordDefinition.columnDtls) {
     		if (column.name == null || "".equals(column.name.trim())) {
     			column.name = s + i;
     		}
     		i += 1;
     	}
-    	
+
     	columnMdl.fireTableDataChanged();
     	fileMdl.fireTableStructureChanged();
     }
-    
-    
+
+
     /**
      * Table model to display column details for the user
      *
@@ -290,7 +290,7 @@ public class ColumnNames {
                     fileMdl.fireTableStructureChanged();
                 }
             } catch (Exception e) {
-                Common.logMsg(e.getMessage(), null);
+                Common.logMsgRaw(e.getMessage(), null);
                 e.printStackTrace();
             }
         }
@@ -353,15 +353,15 @@ public class ColumnNames {
             case(Type.ftChar):
             case(Type.ftCharNullPadded):
             case(Type.ftCharRightJust):
-            case(Type.ftCheckBoxTF):            
-            case(Type.ftCheckBoxYN):            
+            case(Type.ftCheckBoxTF):
+            case(Type.ftCheckBoxYN):
 	            return getStandardField(rowIndex, colStart, colEnd);
             }
 
             FieldDetail fldDef = new FieldDetail(
             		"", "", colDtls.type, colDtls.decimal, currentDetails.fontName, 0, "");
             fldDef.setPosLen(colDtls.start, colDtls.length);
-            
+
             try {
             	return TypeManager.getInstance().getType(colDtls.type).getField(
             		lines[rowIndex], colDtls.start, fldDef);
@@ -369,14 +369,14 @@ public class ColumnNames {
 				return getStandardField(rowIndex, colStart, colEnd);
 			}
         }
-        
+
         private String getStandardField(int rowIndex, int colStart, int colEnd) {
             if (lines[rowIndex].length < colEnd) {
                 return Conversion.getString(lines[rowIndex], colStart, lines[rowIndex].length, font);
                 //lines[rowIndex].substring(colStart);
             }
             return Conversion.getString(lines[rowIndex], colStart, colEnd, font);
-       	
+
         }
 
 

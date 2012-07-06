@@ -20,9 +20,13 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.Properties;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
-import net.sf.RecordEditor.utils.common.Parameters;
+import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.msg.UtilMessages;
+import net.sf.RecordEditor.utils.params.Parameters;
+import net.sf.RecordEditor.utils.screenManager.UtMessages;
 
 /**
  * Store properties etc. Used as a parameter by many of EditOption
@@ -47,6 +51,10 @@ public final class EditParams {
 
     protected String looksJar = "";
     protected String iconJar  = "";
+   // protected boolean langChanged = false;
+
+    private String lastLang;
+    private String lastLangDir;
 
 
     /**
@@ -61,6 +69,8 @@ public final class EditParams {
         if (properties == null) {
             properties = new Properties();
         }
+        lastLang = fix(properties.getProperty(Parameters.CURRENT_LANGUAGE));
+        lastLangDir = fix(properties.getProperty(Parameters.LANG_DIRECTORY));
 
         init_100_LoadJars();
     }
@@ -74,7 +84,7 @@ public final class EditParams {
     	init_110_LoadJars(CommonCode.SYSTEM_JDBC_JAR_FILE, false, true);
     	init_110_LoadJars(CommonCode.USER_JAR_FILE, false, false);
     }
-    
+
     private void init_110_LoadJars(String jarFile, boolean required, boolean system) {
     	try {
             FileReader inReader
@@ -176,7 +186,7 @@ public final class EditParams {
             w1110_writeOneJarGroup(writer, this.jdbcJars, true);
 
             w1110_writeOneJarGroup(writer, this.userJars, true);
-            
+
 //            for (int i = 0; i < this.xsltJars.jars.length; i++) {
 //            	s = this.xsltJars.jars[i][JarGroup.JAR_COLUMN];
 //            	if (s != null && ! "".equals(s)) {
@@ -250,16 +260,43 @@ public final class EditParams {
      *
      */
     public final void writeProperties() {
-
+    	String lang = fix(properties.getProperty(Parameters.CURRENT_LANGUAGE));
+    	String langDir = fix(properties.getProperty(Parameters.LANG_DIRECTORY));
         try {
             CommonCode.renameFile(Parameters.getPropertyFileName());
             properties.store(
                 new FileOutputStream(Parameters.getPropertyFileName()),
                 "RecordEditor");
             Parameters.setProperties(properties);
+
+            if ((! lastLang.equals(lang)) || (! lastLangDir.equals(langDir))) {
+            	String s, t;
+
+            	lastLang = lang;
+                lastLangDir = langDir;
+            	if (lang == null || "".equals(lang)) {
+            		lang = "English";
+            	}
+            	LangConversion.setConversion();
+
+            	t = "";
+            	if (LangConversion.isPoTrans()) {
+	            	t = UtMessages.LANGUAGE_WARNING.get();
+	            	if ("#".equals(t)) {
+	            		t = "";
+	            	}
+            	}
+            	s = UtMessages.LANG_RESTART.get(lang) + "\n\n" + t;
+            	JOptionPane.showMessageDialog(null, s);
+             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private String fix(String s) {
+    	if (s == null) return "";
+    	return s;
     }
 
     /**

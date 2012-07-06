@@ -17,7 +17,7 @@ import java.util.Map.Entry;
 import java.util.StringTokenizer;
 
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
+import net.sf.RecordEditor.utils.params.Parameters;
 
 /**
  * This class manages the Recent Files and there corresponding

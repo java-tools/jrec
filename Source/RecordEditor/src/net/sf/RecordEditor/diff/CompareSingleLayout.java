@@ -90,7 +90,7 @@ public class CompareSingleLayout extends AbstractWizard<DiffDefinition> {
     		   }
     	   } catch (Exception e) {
     		   e.printStackTrace();
-    		   Common.logMsg("File Save Failed:", e);
+    		   Common.logMsgRaw(Common.FILE_SAVE_FAILED, e);
     	   }
         } else {
             super.executeAction(action);

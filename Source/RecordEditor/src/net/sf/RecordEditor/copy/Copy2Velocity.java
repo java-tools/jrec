@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package net.sf.RecordEditor.copy;
 
@@ -26,8 +26,8 @@ public class Copy2Velocity extends AbstractWizard<CopyDefinition> {
 	private CopyWizardFinalPnl finalScreen;
 	private JibxCall<CopyDefinition> jibx = null;
 //	private final  LayoutSelectionFile recordSelection = new LayoutSelectionFile();
-	
-	
+
+
 	/**
 	 * Create Single layout
 	 * @param selection record layout selection class
@@ -36,8 +36,8 @@ public class Copy2Velocity extends AbstractWizard<CopyDefinition> {
 	public Copy2Velocity(AbstractLayoutSelection recordSelection1) {
 		this(new net.sf.RecordEditor.jibx.compare.CopyDefinition(), recordSelection1);
 	}
-	
-	
+
+
 	/**
 	 * Create Single layout
 	 * @param selection record layout selection class
@@ -46,19 +46,19 @@ public class Copy2Velocity extends AbstractWizard<CopyDefinition> {
 	@SuppressWarnings("unchecked")
 	public Copy2Velocity(CopyDefinition definition, AbstractLayoutSelection recordSelection1) {
 		super("Reformat via Velocity Template", definition);
-		
-		AbstractWizardPanel<CopyDefinition>[] pnls = new AbstractWizardPanel[2]; 
+
+		AbstractWizardPanel<CopyDefinition>[] pnls = new AbstractWizardPanel[2];
 
 		recordSelection1.setMessage(super.getMessage());
 		recordSelection1.setMessage(super.getMessage());
-		
+
 		definition.type = CopyDefinition.VELOCITY_COPY;
-		
+
 		finalScreen = new CopyWizardFinalPnl(recordSelection1, null);
 		pnls[0] = new GetFiles(recordSelection1);
 //		pnls[1] = new CmpFieldSelection(selection);
 		pnls[1] = finalScreen;
-		
+
 		super.setPanels(pnls);
 	}
 
@@ -69,15 +69,15 @@ public class Copy2Velocity extends AbstractWizard<CopyDefinition> {
 	 */
 	@Override
 	public void finished(CopyDefinition details) {
-		
+
 		if (finalScreen.isToRun()) {
 			finalScreen.run();
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 	/**
 	 * @see net.sf.RecordEditor.utils.wizards.AbstractWizard#executeAction(int)
 	 */
@@ -86,7 +86,7 @@ public class Copy2Velocity extends AbstractWizard<CopyDefinition> {
        if (action == ReActionHandler.SAVE) {
     	   try {
     		   CopyDefinition diff = super.getActivePanel().getValues();
-    		   
+
     		   if (! "".equals(diff.saveFile)) {
     			   if (jibx == null) {
     				   jibx = new JibxCall<CopyDefinition>(CopyDefinition.class);
@@ -97,7 +97,7 @@ public class Copy2Velocity extends AbstractWizard<CopyDefinition> {
     		   }
     	   } catch (Exception e) {
     		   e.printStackTrace();
-    		   Common.logMsg("File Save Failed:", e);
+    		   Common.logMsgRaw(FILE_SAVE_FAILED, e);
     	   }
         } else {
             super.executeAction(action);
@@ -130,20 +130,20 @@ public class Copy2Velocity extends AbstractWizard<CopyDefinition> {
 		private FileChooser velocityTemplateFile = new FileChooser();
 		@SuppressWarnings("unchecked")
 		private AbstractLayoutSelection layoutSelection1;
-		
-		
+
+
 		@SuppressWarnings("unchecked")
 		public GetFiles(AbstractLayoutSelection selection1) {
 			super(selection1, "CobolFiles.txt");
-			
+
 			layoutSelection1 = selection1;
 			newFileName.setDefaultDirectory(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());
 			velocityTemplateFile.setDefaultDirectory(Common.OPTIONS.DEFAULT_VELOCITY_DIRECTORY.get());
 
-		
+
 			setHelpURL(Common.formatHelpURL(Common.HELP_DIFF_SL));
 		}
-		
+
 
 		/**
 		 * @see net.sf.RecordEditor.utils.wizards.AbstractWizardPanel#getValues()
@@ -170,34 +170,34 @@ public class Copy2Velocity extends AbstractWizard<CopyDefinition> {
 		public void setValues(CopyDefinition detail) throws Exception {
 			System.out.println("Setting Values ... ");
 			values = detail;
-			
+
 			if (! "".equals(values.oldFile.name)) {
 				fileName.setText(values.oldFile.name);
 			}
-			
+
 			if (! "".equals(values.newFile.name)) {
 				newFileName.setText(values.newFile.name);
 			}
-			
+
 			if (! "".equals(values.oldFile.getLayoutDetails().name)) {
 				layoutSelection1.setLayoutName(values.oldFile.getLayoutDetails().name);
 			}
-			
+
 			if (! "".equals(values.velocityTemplate)) {
 				velocityTemplateFile.setText(values.velocityTemplate);
 			}
 		}
-		
+
 		@Override
 		protected void addFileName(BaseHelpPanel pnl) {
-					
+
 			pnl.addLine("Old File", fileName, fileName.getChooseFileButton());
 			pnl.addLine("New File", newFileName, newFileName.getChooseFileButton());
 		}
-		
+
 		@Override
 		protected void addLayoutSelection() {
-			
+
 			layoutSelection1.addLayoutSelection(this, fileName, new JPanel(), null, null);
 			this.setGap(GAP3);
 			this.addLine("Velocity Template", velocityTemplateFile, velocityTemplateFile.getChooseFileButton());

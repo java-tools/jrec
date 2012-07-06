@@ -20,10 +20,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 
 import net.sf.JRecord.Common.RecordException;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.AbsRowList;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
@@ -42,8 +42,8 @@ public class Pnl6RecordFieldNames extends WizardPanel {
     private static final int COLUMN_HEIGHT  = SwingUtils.TABLE_ROW_HEIGHT * 9;
     private static final int FILE_HEIGHT = SwingUtils.TABLE_ROW_HEIGHT * 15 / 2;
 
-    private JTextField message = new JTextField();
-    
+    //private JTextField message = new JTextField();
+
     private ColumnNames columnNames;
     private RecordComboMgr recordMgr = new RecordComboMgr(
     		new AbstractAction() {
@@ -56,7 +56,7 @@ public class Pnl6RecordFieldNames extends WizardPanel {
 						}
     });
 
-    
+
     /**
      * Panel1 File Details
      *
@@ -66,17 +66,18 @@ public class Pnl6RecordFieldNames extends WizardPanel {
         super();
 
 		String formDescription
-		    = "This screen will display the Column Details (for each Record) and allow you to change them. "
-		    + "<br>The Record controls which Records columns are displayed.";
+		    = LangConversion.convertId(LangConversion.ST_MESSAGE, "FileWizard_6_RecordNames",
+		    		  "This screen will display the Column Details (for each Record) and allow you to change them. "
+		    		+ "<br>The Record controls which Records columns are displayed.");
 		JEditorPane tips = new JEditorPane("text/html", formDescription);
-		
+
 		columnNames = new ColumnNames(typeList);
 
 
 		this.setHelpURL(Common.formatHelpURL(Common.HELP_WIZARD_RECORD_FIELD_NAMES));
 		this.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
-				new JScrollPane(tips));
+				tips);
 //		this.setGap(BasePanel.GAP1);
 		this.addLine("Record", recordMgr.recordCombo);
 		this.setGap(BasePanel.GAP0);
@@ -87,8 +88,8 @@ public class Pnl6RecordFieldNames extends WizardPanel {
 		this.addComponent(1, 5, FILE_HEIGHT, BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(columnNames.fileTbl));
-		
-		this.addMessage(message);
+
+		this.addMessage();
     }
 
 
@@ -109,7 +110,7 @@ public class Pnl6RecordFieldNames extends WizardPanel {
 						+ "please update: " + recdef.name);
 			}
 		}
-    
+
         return detail;
     }
 
@@ -121,19 +122,19 @@ public class Pnl6RecordFieldNames extends WizardPanel {
    		RecordDefinition recDef = detail.recordDtls.get(0);
     	columnNames.setValues(detail, recDef);
         recDef.displayedFieldNames = true;
-    	
+
     	recordMgr.load(detail.recordDtls);
      }
-    
+
     private void changeRecord() {
-		message.setText("");
+		setMessageRawTxt("");
 		try {
 			Details detail = columnNames.getValues();
 			RecordDefinition recDef = detail.recordDtls.get(recordMgr.recordCombo.getSelectedIndex());
 			columnNames.setValues(detail, recDef);
 			recDef.displayedFieldNames = true;
 		} catch (Exception e) {
-			message.setText("Error Changing Record: " + e.getMessage());
+			setMessageTxt("Error Changing Record:", e.getMessage());
     		e.printStackTrace();
 		}
 

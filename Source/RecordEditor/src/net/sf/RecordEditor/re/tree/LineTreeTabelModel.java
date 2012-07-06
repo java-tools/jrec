@@ -9,13 +9,16 @@ import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.RecordEditor.re.file.AbstractChangeNotify;
 import net.sf.RecordEditor.re.file.AbstractLineNode;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.treeTable.AbstractTreeTableModel;
 import net.sf.RecordEditor.utils.swing.treeTable.TreeTableModel;
 import net.sf.RecordEditor.utils.swing.treeTable.TreeTableNotify;
 
-public class LineTreeTabelModel extends AbstractTreeTableModel 
+public class LineTreeTabelModel extends AbstractTreeTableModel
 implements TreeTableNotify {
-    /** Node currently being reloaded, this becomes somewhat muddy if
+    private static final String MAP_KEY = LangConversion.convert(LangConversion.ST_COLUMN_HEADING, "Map Key");
+	private static final String TREE = LangConversion.convert(LangConversion.ST_COLUMN_HEADING, "Tree");
+	/** Node currently being reloaded, this becomes somewhat muddy if
      * reloading is happening in multiple threads. */
 
 	private static final  int MAP_SKIP_COLUMNS = 3;
@@ -27,7 +30,7 @@ implements TreeTableNotify {
     //private int tableSkipColumns;
     private final int skipColumns;
     private int recordIndex = 0;
-    
+
     private AbstractLayoutDetails<?, ?> layout;
     private AbstractChangeNotify notify;
 
@@ -41,15 +44,15 @@ implements TreeTableNotify {
      * @param rootNode rote node to use as the base for the tree table
      */
     public LineTreeTabelModel(
-    		final AbstractChangeNotify changeNotify, final AbstractLineNode rootNode, 
+    		final AbstractChangeNotify changeNotify, final AbstractLineNode rootNode,
     		final int columnsToSkip, boolean showKey) {
         super(null);
         root   = rootNode;
         columnShift = columnsToSkip;
         notify = changeNotify;
-            
+
         layout = ((AbstractLineNode) root).getLayout();
-        
+
          if (showKey) {
         	skipColumns = MAP_SKIP_COLUMNS;
         } else {
@@ -131,9 +134,9 @@ implements TreeTableNotify {
      */
     public String getColumnName(int column) {
     	if (column == treeColumn) {
-    		return "Tree";
+    		return TREE;
     	} else if (skipColumns == MAP_SKIP_COLUMNS && column == MAP_SKIP_COLUMN) {
-    		return "Map Key";
+    		return MAP_KEY;
     	} else if (column < skipColumns) {
    		return " ";
     	}
@@ -157,7 +160,7 @@ implements TreeTableNotify {
     public Class<?> getColumnClass(int column) {
 
         int col = adjustColumn(null, column);
-        if (column == treeColumn) {           
+        if (column == treeColumn) {
             return TreeTableModel.class;
         }
         return super.getColumnClass(col);
@@ -181,7 +184,7 @@ implements TreeTableNotify {
 		    return null;
 		} else if (skipColumns == MAP_SKIP_COLUMNS && column == MAP_SKIP_COLUMN) {
 			col = Constants.KEY_INDEX;
-		} else {	
+		} else {
 			col = adjustColumn(rec, column);
 		}
 
@@ -211,28 +214,28 @@ implements TreeTableNotify {
 		AbstractLine<?> rec = lNode.getLine();
 		int recordIdx = getRecordIndex(rec);
 		int col;
-		
+
 		if (rec == null || column < MAP_SKIP_COLUMN) {
 		    return;
 		} else if (skipColumns == MAP_SKIP_COLUMNS && column == MAP_SKIP_COLUMN) {
 			col = Constants.KEY_INDEX;
-		} else {	
+		} else {
 			col = adjustColumn(rec, column);
 		}
 		Object oldValue = rec.getField(recordIdx,  col);
-		
+
 		if (! ((newValue == null && oldValue == null)
 			|| (newValue != null && newValue.equals(oldValue)))) {
-//			System.out.println("## " + lNode.getLineNumber() + " " + column 
+//			System.out.println("## " + lNode.getLineNumber() + " " + column
 //					+ " " + adjustColumn(column) + " >" + newValue);
-	
+
 			//lNode.getView().setValueAt(null, recordIndex, lNode.getLineNumber(), adjustColumn(column), aValue);
-			
+
 			String eMsg = doFieldUpdate(lNode, rec, recordIdx, col, oldValue, newValue);
 			while (eMsg != null) {
 		        newValue =  JOptionPane.showInputDialog(null,
 		                eMsg,
-		                "Conversion Error",
+		                LangConversion.convert(LangConversion.ST_MESSAGE, "Conversion Error"),
 		                JOptionPane.ERROR_MESSAGE,
 		                null, null, newValue);
 
@@ -243,9 +246,9 @@ implements TreeTableNotify {
 			}
 		}
 	}
-	
+
 	private String doFieldUpdate(
-			AbstractLineNode lNode, AbstractLine<?> rec, 
+			AbstractLineNode lNode, AbstractLine<?> rec,
 			int recordIdx, int col, Object oldValue, Object newValue) {
 		String ret = null;
 		try {
@@ -253,7 +256,7 @@ implements TreeTableNotify {
 			if (oldValue == null || ! oldValue.equals(rec.getField(recordIdx, col))) {
 				notify.setChanged(true);
 			}
-			lNode.getView().fireRowUpdated(lNode.getLineNumber(), rec);			
+			lNode.getView().fireRowUpdated(lNode.getLineNumber(), rec);
 		} catch (Exception e) {
 			ret = e.getMessage();
 		}
@@ -280,7 +283,7 @@ implements TreeTableNotify {
     public void setTreeColumn(int newTreeColumn) {
         this.treeColumn = newTreeColumn;
     }
-    
+
     /**
      * Get the current record
      * @return requested record
@@ -319,7 +322,7 @@ implements TreeTableNotify {
 	public void setRecordIndex(int recordIndex) {
 		this.recordIndex = recordIndex;
 	}
-	
+
 	/**
 	 * @return the defaultPreferedIndex
 	 */
@@ -350,7 +353,7 @@ implements TreeTableNotify {
 			fireTreeNodesInserted(parentNode, parentNode.getPath(), ic, c);
 		}
 	}
-	
+
 	/**
 	 * Fire nodes deleted for one node
 	 * @param node node that was deleted

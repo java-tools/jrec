@@ -17,6 +17,7 @@ import net.sf.RecordEditor.re.tree.LineNode;
 import net.sf.RecordEditor.re.tree.LineNodeChild;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.ReAction;
 
 
@@ -33,11 +34,12 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 
 		root = rootNode;
 
+
 		AbstractAction[] extraActions = {
                 null,
                 new ReAction(ReActionHandler.SORT, this),
                 null,
-                new AbstractAction("Redisplay Tree") {
+                new ReAbstractAction("Redisplay Tree") {
                     public void actionPerformed(ActionEvent e) {
                     	AbstractLineNode root = (AbstractLineNode) model.getRoot();
                     	model.fireTreeStructureChanged(root, root.getPath(), null, null);

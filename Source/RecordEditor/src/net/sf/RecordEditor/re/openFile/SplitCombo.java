@@ -10,6 +10,7 @@ package net.sf.RecordEditor.re.openFile;
 import javax.swing.JComboBox;
 
 import net.sf.JRecord.External.CopybookLoader;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 /**
  * A Combo box listing Copybook split options.
@@ -17,9 +18,12 @@ import net.sf.JRecord.External.CopybookLoader;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class SplitCombo extends JComboBox {
 
-    private static final String[] SPLIT_OPTIONS = {"No Split", "On Redefine", "On 01 level"};
+    private static final String[] SPLIT_OPTIONS = LangConversion.convertComboItms(
+			"Cobol Split options",
+			new String[] {"No Split", "On Redefine", "On 01 level"});
     private static final int[] SPLIT_CONVERSION = {
             CopybookLoader.SPLIT_NONE,
             CopybookLoader.SPLIT_REDEFINE,

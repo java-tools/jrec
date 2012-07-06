@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.utils.common;
+package net.sf.RecordEditor.utils.params;
 
 public interface AParameterChangeListner {
 

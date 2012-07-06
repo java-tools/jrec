@@ -15,8 +15,10 @@ import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDecider;
 import net.sf.JRecord.Details.RecordDetail;
+import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.detailsSelection.RecordSel;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 
 
@@ -30,11 +32,12 @@ import net.sf.RecordEditor.utils.common.Common;
  */
 public class CopyBookDbReader implements CopyBookInterface {
 
-    private HashMap<String, RecordDecider> deciderMap = new HashMap<String, RecordDecider>();
+    private static final String COPY_BOOK_ERROR = LangConversion.convert("CopyBook Error:");
+	private HashMap<String, RecordDecider> deciderMap = new HashMap<String, RecordDecider>();
     private String message = "";
 
     private static CopyBookDbReader instance = null;
-    
+
     /**
      * Register a record Decider for later use
      *
@@ -57,8 +60,8 @@ public class CopyBookDbReader implements CopyBookInterface {
 			throws SQLException  {
 		return getSystems(Common.getConnectionIndex());
 	}
-	
-	
+
+
 	public final ArrayList<SystemItem> getSystems(int dbIndex)
 	throws SQLException  {
 
@@ -80,7 +83,7 @@ public class CopyBookDbReader implements CopyBookInterface {
 		}
 		resultset.close();
 
-	
+
 		Common.freeConnection(dbIndex);
 
 		return systems;
@@ -95,7 +98,7 @@ public class CopyBookDbReader implements CopyBookInterface {
 	public final void loadLayouts(final ArrayList<LayoutItem> layouts) {
 		loadLayouts(Common.getConnectionIndex(), layouts);
 	}
-	
+
 	public final void loadLayouts(int dbIndex, final ArrayList<LayoutItem> layouts) {
 		layouts.clear();
 		try {
@@ -114,7 +117,7 @@ public class CopyBookDbReader implements CopyBookInterface {
 			resultset.close();
 
 		} catch (Exception ex) {
-			Common.logMsg("EditRec Load Layouts - " + ex.getMessage(), null);
+			Common.logMsgRaw(COPY_BOOK_ERROR + ex.getMessage(), null);
 		} finally {
 			Common.freeConnection(dbIndex);
 		}
@@ -132,8 +135,8 @@ public class CopyBookDbReader implements CopyBookInterface {
 	public LayoutDetail getLayout(String pName) {
 	    return getLayout(Common.getConnectionIndex(), pName);
 	}
-	
-	
+
+
 	public LayoutDetail getLayout(int dbIndex, String pName) {
 	    LayoutDetail ret = null;
 
@@ -209,7 +212,7 @@ public class CopyBookDbReader implements CopyBookInterface {
 
 		} catch (Exception ex) {
 			message = ex.getMessage();
-		    Common.logMsg("CopyBook - " + ex.getClass().getName() + ex.getMessage(), ex);
+		    Common.logMsg(COPY_BOOK_ERROR + ex.getClass().getName() + ex.getMessage(), ex);
 		    ex.printStackTrace();
 		} finally {
 			Common.freeConnection(dbIndex);
@@ -243,7 +246,7 @@ public class CopyBookDbReader implements CopyBookInterface {
 			ArrayList<RecordDetail> list = new ArrayList<RecordDetail>();
 			HashMap<Integer, Integer> id2idx = new HashMap<Integer, Integer>();
 
-			
+
 			ResultSet resultset = Common.getDBConnection(dbIndex).createStatement().executeQuery(
 				 "SELECT RS.Child_Record, R.RecordName, RS.Field_Start, RS.Field_Name, "
 				+       "RS.Field_Value, R.RecordType, R.Delimiter, R.Quote, "
@@ -275,9 +278,9 @@ public class CopyBookDbReader implements CopyBookInterface {
 						  recordStyle,
 						  childId);
 			    recSel = readSel.getRecordSelection(
-			    				dbIndex, recordId, childKey, 
+			    				dbIndex, recordId, childKey,
 			    				fields, tstFieldName, tstFieldValue);
-			    
+
 			    if (recSel != null) {
 			    	rec.getRecordSelection().setRecSel(recSel);
 			    	rec.getRecordSelection().setDefaultRecord(
@@ -287,22 +290,22 @@ public class CopyBookDbReader implements CopyBookInterface {
 			    	);
 			    }
 
-			    
+
 			    rec.setSourceIndex(Common.getConnectionIndex());
-			    
+
 			    //System.out.println("parent ~~> " + subRecordId + " " + parentId);
 			    if (parentId >= 0) {
 			    	rec.setParentRecordIndex(parentId);
 			    	hasTreeDef = true;
 			    }
-			    
+
 				list.add(rec);
 				id2idx.put(Integer.valueOf(childId), Integer.valueOf(i));
 
 				i += 1;
 			}
 			resultset.close();
-			
+
 			if (hasTreeDef) {
 				Integer parentIdx;
 				for (i = 0; i < list.size(); i++) {
@@ -328,7 +331,7 @@ public class CopyBookDbReader implements CopyBookInterface {
 			//}
 
 		} catch (Exception ex) {
-		    Common.logMsg("Copybook: loadGroupOfRecords - " + ex.getClass().getName() + " " + ex.getMessage(), ex);
+		    Common.logMsg(AbsSSLogger.ERROR, "Copybook Error: Reading Child Records:", ex.getClass().getName() + " " + ex.getMessage(), ex);
 		    //System.out.println(sql);
 		    ex.printStackTrace();
 //		} finally {
@@ -353,7 +356,7 @@ public class CopyBookDbReader implements CopyBookInterface {
 	        							 final String fontName) {
 		return getFields(Common.getConnectionIndex(), recordId, recordType, fontName);
 	}
-	
+
 	private final FieldDetail[] getFields(
 			 final int dbIndex,
 			 final int recordId,
@@ -404,7 +407,7 @@ public class CopyBookDbReader implements CopyBookInterface {
 
 		} catch (Exception ex) {
 			message = ex.getMessage();
-			Common.logMsg("CopyBookInterface Error - " + message, ex);
+			Common.logMsg(AbsSSLogger.ERROR, "CopyBook Error- Reading Fields:", message, ex);
 //		} finally {
 //			Common.freeConnection(dbIndex);
 		}
@@ -419,7 +422,7 @@ public class CopyBookDbReader implements CopyBookInterface {
 	public final String getMessage() {
 		return message;
 	}
-	
+
 
 	 private String fix(String s) {
 		 if (s == null) {
@@ -427,7 +430,7 @@ public class CopyBookDbReader implements CopyBookInterface {
 		 }
 		 return s.trim();
 	 }
-	 
+
 	 /**
 	  * get instance of CopyBookDbReader
 	  * @return instance of CopyBookDbReader
@@ -436,7 +439,7 @@ public class CopyBookDbReader implements CopyBookInterface {
 		 if (instance == null) {
 			 instance = new CopyBookDbReader();
 		 }
-		 
+
 		 return instance;
 	 }
 }

@@ -23,6 +23,8 @@ import net.sf.RecordEditor.re.tree.AbstractLineNodeTreeParser;
 import net.sf.RecordEditor.re.tree.LineTreeTabelModel;
 import net.sf.RecordEditor.re.tree.TreeParserXml;
 import net.sf.RecordEditor.utils.common.Common;
+
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
@@ -45,25 +47,25 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 			+ "<FIELD NAME=\"Dummy\" DESCRIPTION=\"1 field is Required for the layout to load\" POSITION=\"1\" TYPE=\"Char\"/>"
 			+ "</FIELDS></RECORD>";
 	private static final byte[] LAYOUT_XML_BYTES = LAYOUT_XML_STR.getBytes();
-	
+
     private JTextComponent message;
-    
+
     private JTreeTable treeTable;
 	private JScrollPane treeTablePane = new JScrollPane();
 	private LineTreeTabelModel model;
-	
-	public JButton go = new JButton("Edit");
-    
-	
+
+	public JButton go = SwingUtils.newButton("Edit");
+
+
 	private String headingStr;
-	
+
 	public XmlSelectionPanel(String heading, JTextComponent msg) {
 		message = msg;
 		headingStr = heading;
-		
+
 		layoutScreen();
 	};
-	
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.csv.FilePreview#getContainer()
 	 */
@@ -71,19 +73,19 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 	public BaseHelpPanel getPanel() {
 		return this;
 	}
-	
-	
+
+
 	@Override
 	public JButton getGoButton() {
 		return go;
 	}
-	
+
 	@Override
 	public String getFontName() {
 		return "";
 	}
 
-	
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.csv.FilePreview#setData(byte[], boolean)
 	 */
@@ -97,34 +99,34 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 		AbstractLine<LayoutDetail> l;
 		AbstractLineNodeTreeParser parser = TreeParserXml.getInstance();
 		FileView<LayoutDetail> view = new FileView<LayoutDetail>(layout, ioProvider, false);
-		
+
 		try {
 			reader.open(is, layout);
 			while ((l = reader.read()) != null) {
 				view.add(l);
 			}
 		} catch (Exception e) {
-			
+
 		}
 		view.setLayout(reader.getLayout());
-		
+
 		//treeTablePane.setVisible(false);
 		model = new LineTreeTabelModel(view, parser.parse(view), 1, view.getLayout().isMapPresent());
 		treeTable = new JTreeTable(model);
-				
-		treeTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);	
-		
+
+		treeTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
 		treeTable.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 		treeTable.getTree().setRootVisible(false);
 		treeTable.getTree().setShowsRootHandles(true);
-		
+
 		//treeTablePane = new JScrollPane(treeTable);
-		
+
 		removeColumn(0);
 		removeColumn(1);
 		removeColumn(1);
-		
-		
+
+
 		for (int i = 0; i < treeTable.getTree().getRowCount() && treeTable.getTree().getRowCount() < 50; i++) {
 			treeTable.getTree().expandRow(i);
 		}
@@ -132,24 +134,24 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 		treeTablePane.getViewport().removeAll();
 		treeTablePane.getViewport().add(treeTable);
 		this.doLayout();
-		
+
 		//treeTablePane.setVisible(true);
-		
+
 		TableColumn tc = treeTable.getColumnModel().getColumn(0);
 		tc.setPreferredWidth(Math.max(tc.getPreferredWidth(), MINIMUM_TREE_COLUMN_WIDTH));
 		//layoutScreen();
-		
+
 		return true;
 	}
-	
+
 	private void removeColumn(int idx) {
 		TableColumn tc = treeTable.getColumnModel().getColumn(idx);
 		if (tc != null) {
 			treeTable.getColumnModel().removeColumn(tc);
 		}
 	}
-	
-	/** 
+
+	/**
 	 * Setup screen fields
 	 *
 	 */
@@ -161,63 +163,63 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 			headingLabel.setBackground(Color.WHITE);
 			headingLabel.setOpaque(true);
 			headingLabel.setFont(new Font(font.getFamily(), Font.BOLD, font.getSize() +2));
-			
+
 			this.addHeadingComponent(headingLabel);
 			this.setGap(GAP0);
 		}
-		
-		
-	
+
+
+
 
 		addLine("", null, go);
-	
-		
+
+
 		this.addComponent(
 				1, 5, BasePanel.FILL, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
 		        treeTablePane);
-		
+
 		if (message == null) {
 			message = new JTextField();
-			
+
 			this.setGap(GAP1);
 			this.addMessage(message);
 			this.setHeight(HEIGHT_1P4);
 		}
 	}
 
-	
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.csv.FilePreview#getSeperator()
 	 */
 	@Override
 	public final String getSeperator() {
-	
-		
+
+
 		return "";
 	}
-	
+
 //	/**
 //	 * Check if field seperator is valid
 //	 * @return wether the field seperator is valid
 //	 */
 //	private boolean isSepValid() {
-//		
+//
 //		return true;
 //	}
-//	
+//
 //	private boolean isBinarySep() {
-//		
+//
 //		return false;
 //	}
 
-	
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.csv.FilePreview#getQuote()
 	 */
 	@Override
 	public final String getQuote() {
-		
+
 		return "";
 	}
 
@@ -228,8 +230,8 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 	 */
 	@Override
 	public boolean setLines(byte[][] newLines, String font, int numberOfLines) {
-		
-		
+
+
 		return true;
 	}
 
@@ -238,7 +240,7 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 	 */
 	@Override
 	public void setLines(String[] newLines, String font, int numberOfLines) {
-		
+
 	}
 
 //	private void setUpSeperator(CsvAnalyser analyse) {
@@ -253,8 +255,8 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 		return treeTable.getColumnCount() - 2;
 	}
 
-	
-	
+
+
 	@Override
 	public String getColumnName(int idx) {
 		// TODO Auto-generated method stub
@@ -270,18 +272,18 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 		LayoutDetail layout = null;
 		RecordEditorXmlLoader loader = new RecordEditorXmlLoader();
 		ByteArrayInputStream is = new ByteArrayInputStream(LAYOUT_XML_BYTES);
-		
+
 		try {
 			layout = loader.loadCopyBook(is, "Xml Layout").asLayoutDetail();
 			is.close();
 		} catch (Exception e) {
-			String s = "Creation of XML Description Failed";
+			String s = LangConversion.convert("Creation of XML Description Failed");
 			message.setText(s);
-			Common.logMsg(s, null);
+			Common.logMsgRaw(s, null);
 		}
 		return layout;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.csv.FilePreview#getFileDescription()
 	 */
@@ -297,14 +299,14 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 					+ SEP + NULL_STR
 					+ SEP + NULL_STR;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.csv.FilePreview#setFileDescription(java.lang.String)
 	 */
 	@Override
 	public void setFileDescription(String val) {
 //		StringTokenizer tok = new StringTokenizer(val, SEP, false);
-//		
+//
 //		try {
 //			System.out.print(tok.nextToken());
 //			getIntTok(tok);
@@ -316,11 +318,11 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 //			fontTxt.setText(getStringTok(tok));
 //			nameLineNoTxt.setText(getStringTok(tok));
 //		} catch (Exception e) {
-//			
+//
 //		}
 	}
-	
-	
+
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.re.util.csv.FilePreview#isMyLayout(java.lang.String)
 	 */
@@ -328,15 +330,15 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 	public boolean isMyLayout(String layout) {
 		return layout != null && layout.startsWith(XML_ID);
 	}
-	
+
 //	private String getStr(String s) {
 //		if (s == null || "".equals(s)) {
 //			s = NULL_STR;
 //		}
-//		
+//
 //		return s;
 //	}
-//	
+//
 //	private int getIntTok(StringTokenizer tok) {
 //		int ret = 0;
 //		try {
@@ -344,18 +346,18 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 //		} catch (Exception e) {
 //			// TODO: handle exception
 //		}
-//		
+//
 //		return ret;
 //	}
-//	
-//	
+//
+//
 //	private boolean getBoolTok(StringTokenizer tok) {
 //
 //		return "Y".equalsIgnoreCase(tok.nextToken());
 //	}
-//	
-//	
-//	
+//
+//
+//
 //	private String getStringTok(StringTokenizer tok) {
 //
 //		String s = tok.nextToken();

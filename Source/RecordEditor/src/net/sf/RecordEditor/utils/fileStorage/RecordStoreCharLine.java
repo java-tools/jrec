@@ -3,6 +3,7 @@ package net.sf.RecordEditor.utils.fileStorage;
 
 import net.sf.JRecord.Common.Conversion;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 
 public class RecordStoreCharLine implements RecordStore  {
@@ -11,19 +12,19 @@ public class RecordStoreCharLine implements RecordStore  {
 	private int recordCount=0;
 	private int size = 0;
 	private static final int lengthSize = 1;
-	
+
 	private static final int INDEX_RECORD = 8;
 	private int maxLen;
 	private int[] recIndex = null;
 	private String font;
-	
+
 	public RecordStoreCharLine(int size, int mLen, String fontName) {
 		super();
-		
+
 		//this.recordCount = recs;
 		this.font = fontName;
 		this.maxLen = mLen;
-		
+
 		if (size > 0) {
 			store = new char[size];
 		}
@@ -31,14 +32,14 @@ public class RecordStoreCharLine implements RecordStore  {
 
 
 	public void add(int idx, char[] rec) {
-		
+
 		if (idx > recordCount) {
 			idx = recordCount + 1;
-		} 
+		}
 
 		LineDtls p = getPosLen(idx, rec.length);
-		
-//		System.out.println("Add Check move: " 
+
+//		System.out.println("Add Check move: "
 //				+ idx + " < " + recordCount
 //				+ " Pos: " + (p.pos - lengthSize)
 //				+ " New Pos: " + (p.pos + p.newLength)
@@ -51,7 +52,7 @@ public class RecordStoreCharLine implements RecordStore  {
 		recordCount += 1;
 		size += rec.length + lengthSize;
 		checkSize();
-		
+
 		if (recIndex != null
 		&& ( idx < recordCount - 1
 		 ||  idx % INDEX_RECORD == INDEX_RECORD - 1)) {
@@ -77,27 +78,27 @@ public class RecordStoreCharLine implements RecordStore  {
 //			e.printStackTrace();
 //		}
 //		} else {
-//		System.out.println(" Get: " + + idx 
+//		System.out.println(" Get: " + + idx
 //				+ " " + this.recordCount
 //				+ " " + p.pos
 //				+ " " + p.len
 //				+ " " + ret.length);
 		}
-		
-		return ret;
-	} 
 
-	
+		return ret;
+	}
+
+
 	protected final void moveData(int oldPos, int newPos) {
 		//int size = getSize();
-		
+
 		if (size + newPos - oldPos > store.length) {
 			//System.out.print("*");
 			//System.out.print(" Size:" + size + " newPos:"
 			//		+ newPos + " " + oldPos);
 			char[] newStore = new char[size + newPos - oldPos];
 			//System.out.print(" new len:" + newStore.length);
-			
+
 			System.arraycopy(store, 0, newStore, 0, oldPos);
 			//System.out.print(" test: " + (size > oldPos)
 			//		+ " && " + (newStore.length > newPos));
@@ -131,16 +132,16 @@ public class RecordStoreCharLine implements RecordStore  {
 //					+ " >> " + (p.pos + p.len ) + " ! " + getSize()
 //					+ " ! " + idx);
 			System.arraycopy(
-					store, p.pos + p.len + lengthSize, 
+					store, p.pos + p.len + lengthSize,
 					store, p.pos, getSize() - p.pos - p.len - lengthSize);
 		}
-		
+
 		recordCount -= 1;
-		
+
 		size -= p.len + lengthSize ;
 		checkSize();
 		buildIndex();
-		
+
 		return p.len + lengthSize;
 	}
 
@@ -149,39 +150,42 @@ public class RecordStoreCharLine implements RecordStore  {
 		return recordCount;
 	}
 
-	
+
 
 	public int getStoreSize() {
 		return store.length;
 	}
-	
-	
+
+
 
 	public byte[] getCompressed() {
 		return Code.compress(size, getBytes());
 	}
-	
+
 
 	public byte[] getBytes() {
 		String s =  new String(store, 0, size);
-		
+
 		return Conversion.getBytes(s, font);
 	}
 
 	public final void setCompressed(byte[] compressedData, int length, int count) {
 		this.size = length;
 		recordCount = count;
-		
+
 		ByteArray tmp = Code.uncompressed(compressedData, length * 2 + 20, false);
-		
+
 		if (tmp.size == 0) {
 			store = new char[0];
 		} else {
 			String s = Conversion.getString(tmp.bytes, 0, tmp.size, font);
-			
+
 			if (s.length() != length) {
-				Common.logMsg("Error uncompressing chunk expected " 
-						+ length + " but was " + s.length(), null);
+				Common.logMsgRaw(
+						LangConversion.convert(
+								"Error uncompressing chunk expected {0} but was {1}",
+								new Object[] {length, s.length()}),
+						null);
 			}
 			store = s.toCharArray();
 		}
@@ -203,17 +207,17 @@ public class RecordStoreCharLine implements RecordStore  {
 
 	public void put(int idx, char[] rec) {
 		LineDtls p = getPosLen(idx, rec.length);
-		
+
 		if (idx >= recordCount) {
 			size += rec.length + lengthSize;
 		} else if (rec.length != p.len) {
 			moveData(p.pos + p.len, p.pos + rec.length);
-			
+
 			if (recIndex != null) {
 				synchronized (recIndex) {
 					int index = idx / INDEX_RECORD;
 					int diff = rec.length - p.len;
-//					System.out.println("Update Index: " + idx + " " 
+//					System.out.println("Update Index: " + idx + " "
 //							+ diff + " " + p.len + ">");
 					for (int i = Math.max(0, index); i < recordCount / INDEX_RECORD; i++) {
 						//System.out.print("\t" + i + ": " + recIndex[i]);
@@ -222,17 +226,17 @@ public class RecordStoreCharLine implements RecordStore  {
 				}
 			}
 			size += rec.length - p.len;
-		} 
-//		System.out.println(" put " + this.hashCode() + " " + size + " " 
+		}
+//		System.out.println(" put " + this.hashCode() + " " + size + " "
 //				+ rec.length);
 		checkSize();
-		
+
 		put(p, rec);
 	}
 
-	
-	
-	
+
+
+
 
 	protected void put(LineDtls p, char[] rec) {
 
@@ -241,7 +245,7 @@ public class RecordStoreCharLine implements RecordStore  {
 		store[p.pos + rec.length] = '\n';
 	}
 
-	
+
 
 
 	public int getSize() {
@@ -250,7 +254,7 @@ public class RecordStoreCharLine implements RecordStore  {
 
 
 	protected LineDtls getPosLen(int idx, int newLen) {
-		
+
 		int lastP;
 		int l = lengthSize;
 		if (idx >= recordCount) {
@@ -260,12 +264,12 @@ public class RecordStoreCharLine implements RecordStore  {
 			int p = 0;
 			int index = idx / INDEX_RECORD - 1;
 			int count = idx % INDEX_RECORD;
-			
+
 			if (index >= 0) {
 				if (recIndex == null) {
 					buildIndex();
 				}
-			
+
 				p = recIndex[index];
 			}
 			lastP = p;
@@ -276,11 +280,11 @@ public class RecordStoreCharLine implements RecordStore  {
 				p += l + lengthSize;
 			}
 		}
-		
+
 		return new LineDtls(lastP, l, newLen, idx);
 	}
-	
-	
+
+
 	protected void buildIndex() {
 		if (recordCount < INDEX_RECORD) {
 			return;
@@ -294,14 +298,14 @@ public class RecordStoreCharLine implements RecordStore  {
 			//System.out.println("Index ");
 			recIndex = new int[Math.max(recordCount, store.length / maxLen) / INDEX_RECORD + 10];
 		}
-		
+
 		synchronized (recIndex) {
 			for (i = 0; i < recordCount; i++) {
 				l = getLength(p);
 				p += l + lengthSize;
-				
+
 				//System.out.println(" --> " + j + "\t" + p + "\t" + l);
-				
+
 				j += 1;
 				if (j >= INDEX_RECORD) {
 					j = 0;
@@ -312,12 +316,12 @@ public class RecordStoreCharLine implements RecordStore  {
 			}
 			//System.out.print("$");
 //			System.out.println(" ==> Size Check: " + this.hashCode()
-//					+ " > "+ p + " " + size 
+//					+ " > "+ p + " " + size
 //					+ " > " + store.length
 //					+ " " + getRecordCount());
 			size = p;
 			checkSize();
-			
+
 //			System.out.print("Rebuilt Index count=" + recordCount + " " + k + " : ");
 //			for (i = 0; i < k; i++) {
 //				System.out.print(i + ": " + recIndex[i] + "\t");
@@ -326,9 +330,9 @@ public class RecordStoreCharLine implements RecordStore  {
 		}
 
 	}
-	
-	
-	
+
+
+
 	@Override
 	public void add(int idx, byte[] rec) {
 		throw new RuntimeException("Can not add Byte Array");
@@ -348,19 +352,19 @@ public class RecordStoreCharLine implements RecordStore  {
 
 
 	private int getLength(int p) {
-		
+
 		int len = 0;
 		int i = p;
-		
+
 		while (i < size && i < store.length && store[i] != '\n') {
 			i   += 1;
 			len += 1;
 		}
-		
+
 		return len;
 	}
 
-	
+
 	private void checkSize() {
 //		if (size > store.length) {
 //			System.out.println("*");

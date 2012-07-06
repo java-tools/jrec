@@ -31,19 +31,24 @@ import net.sf.RecordEditor.re.fileWriter.FieldWriter;
 import net.sf.RecordEditor.re.script.ScriptData;
 import net.sf.RecordEditor.re.util.ReIOProvider;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
 import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimitierCombo;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.QuoteCombo;
 
 public abstract class SaveAsPnlBase {
 
 	public final static int SINGLE_TABLE = 1;
 	public final static int TABLE_PER_ROW = 2;
 	public final static int TREE_TABLE = 3;
-	public final static String[] FIXED_COL_NAMES = {"Field Name", "Include", "Length"};
+	public final static String[] FIXED_COL_NAMES = LangConversion.convertColHeading(
+			"Export_Field_Selection",
+			new String[] {"Field Name", "Include", "Length"});
 
-	public final static String[] TITLES = {
+	public final static String[] TITLES = LangConversion.convert(LangConversion.ST_TAB, "ExportTab", new String[] {
 		"Data",
 		"CSV",
 		"Fixed",
@@ -52,7 +57,7 @@ public abstract class SaveAsPnlBase {
 		"Script",
 		"XSLT Transform",
 		"Velocity"
-	};
+	});
 
 //	public final static String[] XSLT_OPTIONS = {
 //		"",
@@ -77,8 +82,8 @@ public abstract class SaveAsPnlBase {
 
 	public final BaseHelpPanel panel = new BaseHelpPanel(this.getClass().getSimpleName());
 
-    public final JComboBox delimiterCombo  = new JComboBox(Common.FIELD_SEPARATOR_LIST1);
-    public final JComboBox quoteCombo = new JComboBox(Common.QUOTE_LIST);
+    public final DelimitierCombo delimiterCombo  = DelimitierCombo.NewDelimCombo();
+    public final QuoteCombo quoteCombo = QuoteCombo.NewCombo();
     public final JCheckBox quoteAllTextFields = new JCheckBox();
     public final JTextField xsltTxt  = new JTextField();
 
@@ -148,7 +153,7 @@ public abstract class SaveAsPnlBase {
 
 
 	protected final JRadioButton generateRadioButton(ButtonGroup grp, String s) {
-    	JRadioButton btn = new JRadioButton(s);
+    	JRadioButton btn = new JRadioButton(LangConversion.convert(LangConversion.ST_FIELD,s));
 
     	grp.add(btn);
     	return btn;

@@ -20,6 +20,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.FileChooser;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
@@ -45,7 +46,8 @@ public class EditJarsPanel extends BasePanel {
 
     private JarGroup jarsList;
     private String typeName;
-    private final static String[] columnHeadings = {"Name", "Jar", "Description"};
+    private final static String[] columnHeadings = LangConversion.convertColHeading(
+    		"PropEd_Jars", new String[] {"Name", "Jar", "Description"});
 
     private boolean update;
     private int currentRow = -1;
@@ -57,7 +59,7 @@ public class EditJarsPanel extends BasePanel {
      * @param jars jars to be displayed
      * @param namePrefix type name prefix
      */
-    public EditJarsPanel(final EditParams params, final String description,
+    public EditJarsPanel(final EditParams params, final String id, final String description,
             final JarGroup jars, final String namePrefix, boolean updatePnl) {
         super();
 
@@ -65,7 +67,9 @@ public class EditJarsPanel extends BasePanel {
         typeName = namePrefix;
         update = updatePnl;
 
-        tips = new JEditorPane("text/html", description);
+        tips = new JEditorPane(
+        		"text/html",
+        		LangConversion.convertId(LangConversion.ST_MESSAGE, id, description));
 
         init_100_ScreenFields();
         init_200_Screen();
@@ -114,7 +118,7 @@ public class EditJarsPanel extends BasePanel {
 
 		this.addComponent(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
-				new JScrollPane(tips));
+				tips);
 
 		this.addComponent(1, 5, TABLE_HEIGHT, BasePanel.GAP2,
 		        BasePanel.FULL, BasePanel.FULL,

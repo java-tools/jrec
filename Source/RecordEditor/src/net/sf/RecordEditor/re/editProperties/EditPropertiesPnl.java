@@ -20,10 +20,10 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import net.sf.RecordEditor.utils.common.Parameters;
+import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BasicGenericPopup;
@@ -45,7 +45,7 @@ public class EditPropertiesPnl extends BasePanel {
 	private static final int STRING_VAL  = 1;
 	private static final int INT_VAL     = 2;
 	private static final int BOOLEAN_VAL = 3;
-		private static final int LIST_VAL    = 5;
+	private static final int LIST_VAL    = 5;
 	private static final int DIRECTORY   = 6;
 	private static final int DATE_VAL    = 7;
 	private static final int RETRIEVE_APPL_SIZE    = 8;
@@ -104,7 +104,7 @@ public class EditPropertiesPnl extends BasePanel {
 
         this.addComponent(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
-				new JScrollPane(tips));
+				tips);
 
         for (int i = 0; i < tableData.length; i++) {
             tableData[i][VALUE_COLUMN]
@@ -132,7 +132,6 @@ public class EditPropertiesPnl extends BasePanel {
              		break;
             	case DIRECTORY:
             		ChooseFileName fn = new ChooseFileName(i);
-            		fn.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
             		addField(i, fn, fn.getChooseFileButton());
              		break;
             	case RETRIEVE_APPL_SIZE:
@@ -154,7 +153,7 @@ public class EditPropertiesPnl extends BasePanel {
 //    		item.setName(prompt.toString());
 //    		//System.out.println("Set name: " + prompt.toString() + " " + item.getName());
 //    	}
-    	item.setToolTipText(tableData[row][DESCRPTION_COLUMN].toString());
+    	item.setToolTipText(LangConversion.convert(LangConversion.ST_FIELD_HINT, tableData[row][DESCRPTION_COLUMN].toString()));
     	super.addLine(prompt.toString(), item, item2);
     	components[row] = item;
     }
@@ -332,6 +331,9 @@ public class EditPropertiesPnl extends BasePanel {
 		private int fieldNo;
 		public ChooseFileName(int fldNo) {
 			super(true, "Choose Directory");
+
+			super.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+			super.setExpandVars(true);
     		fieldNo = fldNo;
     		if (tableData[fieldNo][VALUE_COLUMN] == null) {
     			super.setText("");
@@ -374,9 +376,9 @@ public class EditPropertiesPnl extends BasePanel {
     			s = o.toString();
     		}
 
-    		options[0] = new ComboStrOption("", "");
+    		options[0] = new ComboStrOption("", "", null);
     		for (int i = 0; i < items.length; i++) {
-    			options[i+1] = new ComboStrOption(items[i][0], items[i][1]);
+    			options[i+1] = new ComboStrOption(items[i][0], items[i][1], null);
 
     			if (s.equalsIgnoreCase(items[i][0])) {
     				idx = i+1;
@@ -411,7 +413,7 @@ public class EditPropertiesPnl extends BasePanel {
 		TxtFld heightTxt, widthTxt;
 
 		public FetchSize(TxtFld height, TxtFld width) {
-			super("Retrieve Screen size");
+			super(LangConversion.convert(LangConversion.ST_BUTTON, "Retrieve Screen size"));
 			this.heightTxt = height;
 			this.widthTxt = width;
 

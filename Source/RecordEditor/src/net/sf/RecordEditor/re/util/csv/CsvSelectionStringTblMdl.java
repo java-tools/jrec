@@ -12,45 +12,46 @@ import javax.swing.table.AbstractTableModel;
 import net.sf.JRecord.CsvParser.AbstractParser;
 import net.sf.JRecord.CsvParser.BasicParser;
 import net.sf.JRecord.CsvParser.ParserManager;
+import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.utils.common.Common;
 
 @SuppressWarnings("serial")
-public class CsvSelectionStringTblMdl 
-     extends AbstractTableModel 
+public class CsvSelectionStringTblMdl
+     extends AbstractTableModel
   implements AbstractCsvTblMdl {
-	
+
 	private static final int LINES_TO_READ = 30;
-	
+
 	private byte[] data;
 	private int columnCount = 1;
-	private int lines2display = 0;		
+	private int lines2display = 0;
 	private String[] lines = null;
 	private String seperator = "";
 	private String quote = "";
 	private String font = "";
 	private ParserManager parserManager;
 	private int parserType = 0;
-	
+
 	private boolean namesOnLine;
 	private int lineNoFieldNames = 1;
-	
+
 	private int lines2hide = 0;
-	
+
 	private String[] columnNames = null;
-    
-	
+
+
 	public CsvSelectionStringTblMdl() {
 		this(ParserManager.getInstance());
 	}
 	/**
-	 * CsvSelection Table model 
+	 * CsvSelection Table model
 	 * @param theParserManager CSV parser manager
-	 */		
+	 */
 	public CsvSelectionStringTblMdl(ParserManager theParserManager) {
 		super();
 		parserManager = theParserManager;
 	}
-	
+
 	@Override
 	public String getLine(int idx) {
 		return lines[idx];
@@ -84,8 +85,8 @@ public class CsvSelectionStringTblMdl
 
 		setupColumnNames();
 	}
-	
-	
+
+
 
 	/**
 	 * @see net.sf.RecordEditor.re.util.csv.AbstractCsvTblMdl#setFieldLineNo(int)
@@ -95,29 +96,29 @@ public class CsvSelectionStringTblMdl
 		lineNoFieldNames = lineNo;
 		setupColumnNames();
 	}
-	
-	
+
+
 	private void setupColumnNames() {
-		
+
 		lines2hide = 0;
 		if (namesOnLine && lines[0].length() >= lineNoFieldNames) {
 			if (lineNoFieldNames == 1) {
 				lines2hide = 1;
 			}
-			
+
 			AbstractParser p = parserManager.get(parserType);
 			List<String> colnames = p.getColumnNames(getLine(lineNoFieldNames - 1), seperator, quote);
 			columnNames = new String[colnames.size()] ;
 			columnNames = colnames.toArray(columnNames);
-			
+
 		}
 	}
-	
+
 	@Override
 	public void setLines(byte[][] lines, String font) {
 		throw new RuntimeException("Not Implemented");
 	}
-	
+
 	@Override
 	public void setLines(String[] lines) {
 		this.lines = lines;
@@ -125,7 +126,7 @@ public class CsvSelectionStringTblMdl
 
 	public void setData(byte[] data) {
 		this.data = data;
-		
+
 		readData();
 	}
 
@@ -139,7 +140,7 @@ public class CsvSelectionStringTblMdl
 	public void setParserType(int parserType) {
 		this.parserType = parserType;
 	}
-	
+
 	/**
 	 * @param font the font to set
 	 */
@@ -150,8 +151,8 @@ public class CsvSelectionStringTblMdl
 			readData();
 		}
 	}
-	
-	
+
+
 	/**
 	 * @param font the font to set
 	 */
@@ -159,7 +160,7 @@ public class CsvSelectionStringTblMdl
 		this.data = data;
 		this.font = font;
 		readData();
-		
+
 	}
 
 	@Override
@@ -180,12 +181,12 @@ public class CsvSelectionStringTblMdl
 
 		String sep = seperator;
 		BasicParser parser = new BasicParser(false);
-					
+
 		columnCount = 1;
 		for (int i = 0; i < lines2display; i++) {
-			columnCount = Math.max(columnCount, 
+			columnCount = Math.max(columnCount,
 								   parser.getFieldCount(lines[i], sep, quote));
-		}	
+		}
 	}
 
 	/* (non-Javadoc)
@@ -221,26 +222,26 @@ public class CsvSelectionStringTblMdl
             s = p.getField(columnIndex, lines[rowIndex + lines2hide], seperator, quote);
         }
 
-        return s;	
+        return s;
     }
-	
-	
+
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#getAnalyser()
 	 */
 	@Override
 	public CsvAnalyser getAnalyser() {
-		
+
 		char b = ',';
-		if (seperator != null 
+		if (seperator != null
 		&& seperator.length() > 0) {
 			b = seperator.charAt(0);
 		}
 		return new CsvAnalyser(lines, getLines2display(), font, b);
 	}
 
-	
-	
+
+
 	/**
 	 * Get the index of the parser
 	 * @return
@@ -249,16 +250,16 @@ public class CsvSelectionStringTblMdl
 		return parserManager.get(parserType);
 	}
 
-	
+
 	private void readData() {
 		if (data != null) {
 			InputStream in = new ByteArrayInputStream(data);
 			int i = 0;
 			BufferedReader r;
-			
+
 			lines = new String[LINES_TO_READ];
-			
-	
+
+
 			try {
 				if ("".equals(font)) {
 					r = new BufferedReader(new InputStreamReader(in));
@@ -266,19 +267,19 @@ public class CsvSelectionStringTblMdl
 					try {
 						r = new BufferedReader(new InputStreamReader(in, font));
 					} catch (UnsupportedEncodingException e) {
-						Common.logMsg("Invalid Fon Specified on CSV Preview screen", null);
+						Common.logMsg("Invalid Font Specified on CSV Preview screen", null);
 						r = new BufferedReader(new InputStreamReader(in));
 					}
 				}
-				
-			
+
+
 				while (i < lines.length && (lines[i] = r.readLine()) != null) {
 					i +=1;
 				}
 			} catch (Exception e) {
-				Common.logMsg("Error loading CSV Preview " + e.getMessage(), null);
+				Common.logMsg(AbsSSLogger.ERROR, "Error loading CSV Preview:", e.getMessage(), null);
 			}
-			
+
 			lines2display = i;
 		}
 	}

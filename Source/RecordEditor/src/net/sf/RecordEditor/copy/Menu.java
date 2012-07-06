@@ -58,13 +58,13 @@ public class Menu extends ReFrame
 	private JButton helpBtn      = Common.getHelpButton();
 
 	private BaseHelpPanel pnl    = new BaseHelpPanel();
-	
+
 	private String rFiles;
-	
+
 	//private AbstractLayoutSelection selection;
 	@SuppressWarnings("unchecked")
 	private AbstractLayoutSelectCreator layoutCreator;
-	
+
 
 
 
@@ -75,7 +75,7 @@ public class Menu extends ReFrame
 	 */
 	@SuppressWarnings("unchecked")
 	public Menu(AbstractLayoutSelectCreator creator, String recentFiles)  {
-		super("Menu", "Copy Menu", null);
+		super("", "Menu", "Copy Menu", null);
 		String[] dbs;
 
 		layoutCreator = creator;
@@ -90,7 +90,7 @@ public class Menu extends ReFrame
 		pnl.setHelpURL(Common.formatHelpURL(Common.HELP_DIFF));
 
 		dbs = selection.getDataBaseNames();
-		
+
 		pnl.setGap(BasePanel.GAP1);
 		if (dbs != null) {
 			for (int i = 0; (i < dbs.length) && (dbs[i] != null) && (!dbs[i].equals("")); i++) {
@@ -99,9 +99,9 @@ public class Menu extends ReFrame
 			dbCombo.setSelectedIndex(Common.getConnectionIndex());
 			pnl.addLine("Data Base", dbCombo, helpBtn);
 		}
-		
+
 		pnl.setGap(BasePanel.GAP3);
-		
+
 		pnl.addMenuItem("Run Stored Copy", fromFileBtn);
 		pnl.setGap(BasePanel.GAP1);
 
@@ -115,10 +115,10 @@ public class Menu extends ReFrame
 		pnl.setGap(BasePanel.GAP1);
 
 		pnl.addMenuItem("Copy To Xml", copyToXmlBtn);
-		
+
 		if (Common.isVelocityAvailable()) {
 			pnl.setGap(BasePanel.GAP1);
-	
+
 			pnl.addMenuItem("Copy using Velocity Template", copyToVelocityBtn);
 		}
 		pnl.setGap(BasePanel.GAP3);
@@ -166,25 +166,25 @@ public class Menu extends ReFrame
 		} else if (e.getSource() == copyToDelimBtn) {
 			AbstractLayoutSelection selection = layoutCreator.create();
 			selection.setDatabaseIdx(dbCombo.getSelectedIndex());
-			
+
 			new Copy2Delim(selection);
 		} else if (e.getSource() == copyToVelocityBtn) {
 			AbstractLayoutSelection selection = layoutCreator.create();
 			selection.setDatabaseIdx(dbCombo.getSelectedIndex());
-			
+
 			new Copy2Velocity(selection);
 		} else if (e.getSource() == copyBtn) {
 			AbstractLayoutSelection selection = layoutCreator.create();
 			AbstractLayoutSelection selection1 = layoutCreator.create();
-			
+
 			selection.setDatabaseIdx(dbCombo.getSelectedIndex());
 			selection1.setDatabaseIdx(dbCombo.getSelectedIndex());
-			
+
 			new CopyTwoLayouts(selection, selection1, rFiles);
 		} else if (e.getSource() == copyToXmlBtn) {
 			AbstractLayoutSelection selection = layoutCreator.create();
 			selection.setDatabaseIdx(dbCombo.getSelectedIndex());
-			
+
 			new Copy2Xml(selection);
 		} else if (e.getSource() == copyBtn) {
 		} else if (e.getSource() == dbCombo) {

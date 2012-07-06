@@ -12,22 +12,22 @@ import net.sf.RecordEditor.utils.swing.DirectoryFrame;
 public class SaveRecordAsXml  implements ActionListener {
 
 	private DirectoryFrame saveFrame = new DirectoryFrame(
-			"Save Layout", 
-			Common.OPTIONS.DEFAULT_COPYBOOK_DIRECTORY.get(), 
+			"Save Layout",
+			Common.OPTIONS.DEFAULT_COPYBOOK_DIRECTORY.get(),
 			true, true, true);
 	private final int dbIdx;
 	//private String idStr;
 	private final int recordId;
-	
+
 	public SaveRecordAsXml(int databaseIdx, int recordId) {
-		
+
 		this.recordId = recordId;
 		dbIdx = databaseIdx;
-		
+
 		saveFrame.setActionListner(this);
 		saveFrame.setVisible(true);
 	}
-	
+
 	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
@@ -35,13 +35,13 @@ public class SaveRecordAsXml  implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 
 		String dir = saveFrame.getFileName();
-		
+
 		if (dir == null || "".equals(dir)) {
-			saveFrame.msg.setText("You must enter a directory to save the layout");
+			saveFrame.panel.setMessageTxt("You must enter a directory to save the layout");
 		} else {
 			CopybookLoaderFactoryDB.setCurrentDB(dbIdx);
 			RecordRec r = ExtendedRecordDB.getRecord(dbIdx, recordId);
-			
+
 			if (r != null) {
 				CopybookWriter writer = CopybookWriterManager.getInstance()
 							.get(CopybookWriterManager.RECORD_EDITOR_XML_WRITER);
@@ -50,11 +50,11 @@ public class SaveRecordAsXml  implements ActionListener {
 					saveFrame.setVisible(false);
 					saveFrame = null;
 				} catch (Exception e) {
-					saveFrame.msg.setText("Error saving layout: " + e.getMessage());
+					saveFrame.panel.setMessageTxt("Error saving layout:",  e.getMessage());
 					e.printStackTrace();
 				}
 			}
 		}
-	
+
 	}
 }

@@ -12,8 +12,9 @@ import java.util.Date;
 import net.sf.JRecord.ByteIO.AbstractByteReader;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
-import net.sf.RecordEditor.utils.common.ProgramOptions;
+import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.params.Parameters;
+import net.sf.RecordEditor.utils.params.ProgramOptions;
 
 public class FileDetails {
 
@@ -250,8 +251,8 @@ public class FileDetails {
 			return new ByteArray(bytes.length, bytes, c == 1);
 
 		} catch (Exception e) {
-			String m = "Can not Read block from disk at " + pos;
-			Common.logMsg(m, e);
+			String m = LangConversion.convert("Can not Read block from disk at:") + " " + pos;
+			Common.logMsgRaw(m, e);
 
 			throw new RuntimeException(m, e);
 		}
@@ -270,8 +271,8 @@ public class FileDetails {
 				mainFile.read(bytes);
 			}
 		} catch (IOException e) {
-			String m = "Can not Read block from disk at " + pos;
-			Common.logMsg(m, e);
+			String m = LangConversion.convert("Can not Read block from File at:") + " " + pos;
+			Common.logMsgRaw(m, e);
 
 			throw new RuntimeException(m, e);
 		}

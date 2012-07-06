@@ -24,7 +24,8 @@ import javax.swing.table.TableColumn;
 
 import net.sf.RecordEditor.re.db.Table.TableList;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
+import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
@@ -48,9 +49,10 @@ public class EditDateTypes extends BasePanel {
     private static final int FORMAT_COLUMN    = 2;
 
     private static final String DESCRIPTION
-		= "<h2>Date Types</h2>"
-		+ "This screen lets you define Date Types to the <b>RecordEditor</b>"
-		+ "<br><br>" + Common.DATE_FORMAT_DESCRIPTION;
+		= LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProtoperties_DataTypes",
+				  "<h2>Date Types</h2>"
+				+ "This screen lets you define Date Types to the <b>RecordEditor</b>"
+				+ "<br><br>") + Common.DATE_FORMAT_DESCRIPTION;
 
     private static final String[] COL_HEADERS = {
             "Type Name", "Base Type", "Date Format",
@@ -72,7 +74,7 @@ public class EditDateTypes extends BasePanel {
     private BmKeyedComboBox typeName;
     private JTextField dateFormat = new JTextField();
 
-    private JTextField message = new JTextField();
+    //private JTextField message = new JTextField();
 
     private EditParams pgmParams;
     private int currentRow = 0;
@@ -110,7 +112,7 @@ public class EditDateTypes extends BasePanel {
         typeName = new BmKeyedComboBox(typeModel, false);
 
         typeTblModel = new PropertiesTableModel(pgmParams, COL_NAMES,
-                COL_HEADERS, Parameters.DATE_TYPE_TABLE_SIZE) {
+                COL_HEADERS, "PropEd_DataTypes", Parameters.DATE_TYPE_TABLE_SIZE) {
             public Object getValueAt(int rowIndex, int columnIndex) {
                 Object ret = super.getValueAt(rowIndex, columnIndex);
 
@@ -146,7 +148,7 @@ public class EditDateTypes extends BasePanel {
         BmKeyedComboBox tblTypeCombo = new BmKeyedComboBox(typeModel, false);
         DefaultCellEditor typeEditor = new DefaultCellEditor(tblTypeCombo);
 	    typeEditor.setClickCountToStart(1);
-	    
+
 	    tips.setCaretPosition(0);
 
 	    tc = typeTbl.getColumnModel().getColumn(BASE_TYPE_COLUMN);
@@ -159,7 +161,6 @@ public class EditDateTypes extends BasePanel {
 	    tc = typeTbl.getColumnModel().getColumn(TYPE_NAME_COLUMN);
 	    tc.setPreferredWidth(Math.max(tc.getPreferredWidth(), NAME_WIDTH));
 
-	    message.setEditable(false);
 	    name.addFocusListener(lostFocus);
 	    typeName.addFocusListener(lostFocus);
 	    dateFormat.addFocusListener(lostFocus);
@@ -180,7 +181,7 @@ public class EditDateTypes extends BasePanel {
 
 		this.addComponent(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP2,
 		        BasePanel.FULL, BasePanel.FULL,
-				new JScrollPane(tips));
+				tips);
 
 		this.addComponent(1, 5, TABLE_HEIGHT, BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
@@ -191,7 +192,7 @@ public class EditDateTypes extends BasePanel {
 		this.addLine("Date Format", dateFormat);
 
 		this.setGap(BasePanel.GAP2);
-		this.addMessage(message);
+		this.addMessage();
    }
 
    /**
@@ -241,9 +242,9 @@ public class EditDateTypes extends BasePanel {
            try {
 //               System.out.println("~~ " + format);
                SimpleDateFormat sd = new SimpleDateFormat(format);
-               message.setText("25.Dec.98 will be formatted as " + sd.format(xmas));
+               setMessageTxt("25.Dec.98 will be formatted as " + sd.format(xmas));
            } catch (Exception e) {
-               message.setText("Date Format Error: " + e.getMessage());
+        	   setMessageTxt("Date Format Error: " + e.getMessage());
            }
        }
    }

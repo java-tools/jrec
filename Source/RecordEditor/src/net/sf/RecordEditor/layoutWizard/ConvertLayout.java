@@ -21,12 +21,14 @@ import net.sf.RecordEditor.re.openFile.ComputerOptionCombo;
 import net.sf.RecordEditor.re.openFile.ReadLayout;
 import net.sf.RecordEditor.re.openFile.SplitCombo;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
+
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 @SuppressWarnings("serial")
 public class ConvertLayout extends ReFrame {
@@ -36,7 +38,7 @@ public class ConvertLayout extends ReFrame {
 	private SplitCombo  splitOptions  = new SplitCombo();
 	private JTextField  fontName      = new JTextField();
 	private BmKeyedComboBox fileStructure     = new BmKeyedComboBox(
-			new ManagerRowList(LineIOProvider.getInstance(), false), false); 
+			new ManagerRowList(LineIOProvider.getInstance(), false), false);
 
 	private ComputerOptionCombo binaryOptions = new ComputerOptionCombo();
 	private FileChooser sampleFile  = new FileChooser();
@@ -46,9 +48,9 @@ public class ConvertLayout extends ReFrame {
 			new ManagerRowList(CopybookWriterManager.getInstance(), false), false);
 	private FileChooser     outputCopybookDir = new FileChooser();
 
-	private JButton goBtn = new JButton("Convert");
+	private JButton goBtn = SwingUtils.newButton("Convert");
 
-	private ScreenLog msgField; 
+	private ScreenLog msgField;
 
 	private ActionListener listner = new ActionListener() {
 
@@ -69,12 +71,12 @@ public class ConvertLayout extends ReFrame {
 				}
 			}
 		}
-		
+
 	};
-	
+
 	public ConvertLayout() {
 		super("", "Convert Copybook", null);
-		
+
 		init_Fields();
 		setup_Screen();
 	}
@@ -92,23 +94,23 @@ public class ConvertLayout extends ReFrame {
 		if (loaderOptions.getSelectedIndex() < 0) {
 			loaderOptions.setSelectedIndex(0);
 		}
-		
+
 		copybookFile.setText(dir);
 		outputCopybookDir.setText(dir);
 		outputCopybookDir.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		writerOptions.setSelectedIndex(Common.getCopybookWriterIndex());
-		
+
 		sampleFile.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());
-		
+
 		sampleFile.setEnabled(false);
 		layoutName.setEnabled(false);
 	}
 
 	private void setup_Screen() {
 		BasePanel pnl = new BasePanel();
-		
+
 		msgField = new ScreenLog(pnl);
-		
+
 		pnl.setGap(BasePanel.GAP2);
 		pnl.addLine("Input Copybook", copybookFile, copybookFile.getChooseFileButton());
 		pnl.addLine("Input Copybook Type", loaderOptions);
@@ -119,23 +121,23 @@ public class ConvertLayout extends ReFrame {
 		pnl.setGap(BasePanel.GAP1);
 		pnl.addLine("Sample File", sampleFile, sampleFile.getChooseFileButton());
 		pnl.addLine("Layout Name", layoutName);
-		
+
 		pnl.setGap(BasePanel.GAP3);
-		
+
 		pnl.addLine("Output Copybook Directory", outputCopybookDir, outputCopybookDir.getChooseFileButton());
 		pnl.addLine("Output Copybook Type", writerOptions, goBtn);
 		pnl.setGap(BasePanel.GAP3);
-		
+
 		pnl.addMessage(msgField);
 		pnl.setHeight(BasePanel.GAP4);
 
 		this.addMainComponent(pnl);
 		this.setVisible(true);
-		
+
 		goBtn.addActionListener(listner);
 		loaderOptions.addActionListener(listner);
 	}
-	
+
 	private void copyLayout() {
 	    CopybookLoaderFactory loaders = CopybookLoaderFactory.getInstance();
 	    CopybookWriterManager writers = CopybookWriterManager.getInstance();
@@ -155,28 +157,28 @@ public class ConvertLayout extends ReFrame {
 					if (isCsv) {
 						struc = Common.IO_NAME_1ST_LINE;
 					}
-					AbstractLayoutDetails<?, ?> dtl 
+					AbstractLayoutDetails<?, ?> dtl
 							= new ReadLayout()
 												.setLoadFromFile(true)
 												.buildLayoutFromSample(
-																	struc, isCsv, 
+																	struc, isCsv,
 																	fontName.getText(),
-																	loaders.getFieldDelim(loaderId), 
+																	loaders.getFieldDelim(loaderId),
 																	sampleFile.getText()
 					);
 					ExternalRecord rec = ToExternalRecord.getInstance()
 							.getExternalRecord(dtl, layoutName.getText(), 0);
 					rec.setDelimiter(loaders.getFieldDelim(loaderId));
 			        writers.get(writerOptions.getSelectedIndex()).writeCopyBook(
-			        		outputCopybookDir.getText(), 
-			        		rec, 
+			        		outputCopybookDir.getText(),
+			        		rec,
 			        		msgField);
 				}
 			} else if ("".equals(copybookFile.getText())) {
 				msgField.logMsg(AbsSSLogger.ERROR, "You must enter a input copybook");
 				copybookFile.requestFocus();
 			} else {
-				
+
 		        ExternalRecord rec = loaders.getLoader(loaderId).loadCopyBook(
 		        		copybookFile.getText(),
 		                split,
@@ -185,12 +187,12 @@ public class ConvertLayout extends ReFrame {
 		                binaryOptions.getSelectedIndex(),
 		                0,
 		                msgField);
-				
+
 		        rec.setFileStructure(((Integer) fileStructure.getSelectedItem()).intValue());
-		        
+
 		        writers.get(writerOptions.getSelectedIndex()).writeCopyBook(
 		        		outputCopybookDir.getText(), rec, msgField);
-		        
+
 			}
 		} catch (NoClassDefFoundError e) {
 			e.printStackTrace();

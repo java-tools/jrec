@@ -36,6 +36,8 @@ import net.sf.RecordEditor.utils.common.ReActionHandlerWithSave;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
 import net.sf.RecordEditor.utils.jdbc.DBtableModel;
+import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.lang.ReOptionDialog;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 
@@ -113,7 +115,7 @@ public class RecordEdit1Record extends ReFrame implements ReActionHandlerWithSav
             				 final LayoutConnection callbackClass,
             				 final int recordIndex,
             				 final DBtableModel<ChildRecordsRec> recordList) {
-        super(dbName, "Edit Record Layout", null);
+        super(dbName, "", "Edit Record Layout", null);
 
 
         connectionIdx = dbConnectionIdx;
@@ -192,7 +194,7 @@ public class RecordEdit1Record extends ReFrame implements ReActionHandlerWithSav
 		RecordRec rec = pnlRecord.getValues();
 
 		if (rec == null || "".equals(rec.getRecordName())) {
-		    message.setText("Can not save, Invalid Record definition ");
+		    message.setText(LangConversion.convert("Can not save, Invalid Record definition"));
 		} else /*if (rec.getUpdateStatus() != RecordRec.UNCHANGED)*/ {
 			doSave(rec);
 
@@ -271,7 +273,7 @@ public class RecordEdit1Record extends ReFrame implements ReActionHandlerWithSav
 			RecordRec rec = saveRecord();
 
 			if (rec != null && rec.isUpdateSuccessful()) {
-			    String newName = JOptionPane.showInputDialog(this, "New Record Layout Name", rec.getRecordName());
+			    String newName = ReOptionDialog.showInputDialog(this, "New Record Layout Name", rec.getRecordName());
 			    //System.out.println(" -- -- " +  rec.getRecordName() + " -- " + newName
 			    //		+ " " + rec.getValue().getRecordType());
 			    if (newName != null && ! "".equals(newName)) {
@@ -283,7 +285,7 @@ public class RecordEdit1Record extends ReFrame implements ReActionHandlerWithSav
 					if (rec.isUpdateSuccessful()) {
 				        pnlRecord.set2clone(rec);
 					} else {
-						message.setText("New Record Creation Failed!! " + pnlRecord.getMsg());
+						message.setText(LangConversion.convert("New Record Creation Failed!!") + " " + pnlRecord.getMsg());
 					}
 
 			        fireParentTblChg();

@@ -33,6 +33,7 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
 import net.sf.RecordEditor.utils.jdbc.DBComboModel;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmComboBox;
@@ -53,7 +54,8 @@ public class RecordListPnl extends BaseHelpPanel
 
 	private TableDB recTypeTbl = new TableDB();
 	private DBComboModel<TableRec> recordTypeMdl
-				= new DBComboModel<TableRec>(recTypeTbl, 0, 1, true, true);
+				= recTypeTbl.getComboModel(Common.TI_RECORD_TYPE, true, true);
+	//			= new DBComboModel<TableRec>(recTypeTbl, 0, 1, true, true);
 
 	private TableDB systemTable = new TableDB();
 	private DBComboModel<TableRec>  systemModel
@@ -137,7 +139,7 @@ public class RecordListPnl extends BaseHelpPanel
 	    systemTable.setConnection(dbConnection);
 	    dbRecord.setConnection(dbConnection);
 
-	    recTypeTbl.setParams(Common.TI_RECORD_TYPE);
+	    //recTypeTbl.setParams(Common.TI_RECORD_TYPE);
 	    systemTable.setParams(Common.TI_SYSTEMS);
 
 	    sfRecordType = new BmKeyedComboBox(recordTypeMdl, true);
@@ -232,7 +234,7 @@ public class RecordListPnl extends BaseHelpPanel
 		if (row < 0) {
 			AbsDB.getSystemLog()
 				 .logMsg(AbsSSLogger.WARNING, "RecordListPnl - setRecord error row <0");
-			return "Program error: Row < 0  ??";
+			return LangConversion.convert("Program error: Row < 0  ??");
 		}
 
 		//currRow = row;

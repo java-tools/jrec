@@ -3,7 +3,9 @@
  */
 package net.sf.RecordEditor.edit.display.SaveAs;
 
-import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 
 import net.sf.RecordEditor.re.openFile.RecentFiles;
 import net.sf.RecordEditor.re.script.RunVelocity;
@@ -36,7 +38,7 @@ public class SaveAsPnlVelocity extends SaveAsPnlBase {
 	public void save(String selection, String outFile) throws Exception {
 	       RunVelocity velocity = RunVelocity.getInstance();
 
-	        FileWriter w = new FileWriter(outFile);
+	       BufferedWriter w = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile), "utf8"));;
 
 
 	        velocity.genSkel(template.getText(),

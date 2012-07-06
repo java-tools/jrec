@@ -3,23 +3,23 @@ package net.sf.RecordEditor.edit.display.Action;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.AbstractAction;
 
 import net.sf.JRecord.Details.LayoutDetail;
-import net.sf.JRecord.External.CopybookLoaderFactory;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
+import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.edit.display.util.Code;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.DirectoryFrame;
 
 @SuppressWarnings("serial")
-public class LoadFileLayoutFromXml extends AbstractAction implements AbstractActiveScreenAction {
+public class LoadFileLayoutFromXml extends ReAbstractAction implements AbstractActiveScreenAction {
 
 	private static final String MSG = "Load File Description from Xml";
 	/**
@@ -47,27 +47,27 @@ public class LoadFileLayoutFromXml extends AbstractAction implements AbstractAct
 			String dir = Parameters.getFileName(Parameters.COPYBOOK_DIRECTORY);
 			String s = "";
 			String fn = fileDisplay.getFileView().getBaseFile().getFileNameNoDirectory();
-			
+
 			if (fn != null && ! "".equals(fn)) {
 				s = removeExtension(fn) + ".Xml";
 			}
 			new LoadLayout(
-					fileDisplay, 
+					fileDisplay,
 					dir + s);
 		}
 	}
-	
+
 	private boolean isActive(ReFrame activeScreen) {
 		boolean active = false;
-		
+
 		if (activeScreen instanceof AbstractFileDisplay) {
 			AbstractFileDisplay source = (AbstractFileDisplay) activeScreen;
 			active =  source.getFileView().isSimpleCsvFile();
 		}
-		
+
 		return active;
 	}
-	
+
 	private static String removeExtension(String s) {
 		if (s.indexOf('.') >= 0) {
 			int l = s.lastIndexOf('.');
@@ -75,14 +75,14 @@ public class LoadFileLayoutFromXml extends AbstractAction implements AbstractAct
 		}
 		return s;
 	}
-	
-	public static class LoadLayout 
+
+	public static class LoadLayout
 	extends DirectoryFrame implements ActionListener {
 
 		private AbstractFileDisplay panel;
 		public LoadLayout(AbstractFileDisplay pnl, String dir) {
 			super(MSG,  dir, false, false, false);
-			
+
 			panel = pnl;
 			setActionListner(this);
 			this.setVisible(true);
@@ -90,10 +90,10 @@ public class LoadFileLayoutFromXml extends AbstractAction implements AbstractAct
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-	
+
 			FileView<?> masterView = panel.getFileView().getBaseFile();
 			//CopybookLoaderFactory readers = CopybookLoaderFactory.getInstance();
-			String fname = super.getFileName();
+			//String fname = super.getFileName();
 			//String lname = Common.stripDirectory(fname);
 
 //			if (lname == null || "".equals(lname)) {
@@ -101,15 +101,15 @@ public class LoadFileLayoutFromXml extends AbstractAction implements AbstractAct
 //			} else {
 //				lname = removeExtension(lname);
 //			}
-							
+
 			try {
-			
+
 				ExternalRecord rec = new RecordEditorXmlLoader()
 						.loadCopyBook(super.getFileName(), 0, 0, "",
 									  0, 0, Common.getLogger());
 				LayoutDetail l = rec.asLayoutDetail();
-		
-					
+
+
 				if (l == null || l.getRecordCount() < 1 || l.getRecord(0).getFieldCount() < 1) {
 					Common.logMsg("Error in the layout that was loaded", null);
 				} else {
@@ -119,8 +119,8 @@ public class LoadFileLayoutFromXml extends AbstractAction implements AbstractAct
 				this.setVisible(false);
 			} catch (Exception ex) {
 				ex.printStackTrace();
-				Common.logMsg("Can not Load Xml Layout: " + ex.getMessage(), ex);
-			}			
+				Common.logMsg(AbsSSLogger.ERROR, "Can not Load Xml Layout:", ex.getMessage(), ex);
+			}
 		}
 	}
 }

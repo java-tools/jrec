@@ -34,6 +34,7 @@ import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
+import net.sf.JRecord.Log.AbsSSLogger;
 
 
 import net.sf.RecordEditor.re.file.FileView;
@@ -42,8 +43,10 @@ import net.sf.RecordEditor.re.openFile.AbstractOpenFilePnl;
 import net.sf.RecordEditor.re.openFile.OpenFileInterface;
 import net.sf.RecordEditor.re.openFile.RecentFilesList;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
+
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 
@@ -199,8 +202,8 @@ implements ActionListener, OpenFileInterface {
     protected JPanel getGoPanel() {
     	if (goPanel == null) {
     		goPanel = new JPanel();
-    		browse = new JButton("Browse", Common.getRecordIcon(Common.ID_OPEN_ICON));
-    		edit   = new JButton("Edit", Common.getRecordIcon(Common.ID_OPEN_ICON));
+    		browse = SwingUtils.newButton("Browse", Common.getRecordIcon(Common.ID_OPEN_ICON));
+    		edit   = SwingUtils.newButton("Edit", Common.getRecordIcon(Common.ID_OPEN_ICON));
 
     		nullComponent = new JPanel();
 
@@ -288,7 +291,7 @@ implements ActionListener, OpenFileInterface {
 						recentList.update();
 					}
 				} catch (Exception e) {
-					Common.logMsg("Error Updating recent files" + e.getMessage(), null);
+					Common.logMsg(AbsSSLogger.ERROR, "Error Updating Recent-History file", e.getMessage(), null);
 				}
 			}
 		}

@@ -28,12 +28,15 @@ import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
 import net.sf.RecordEditor.utils.fileStorage.DataStoreStd;
+
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimitierCombo;
 
 public class NewCsvFile {
 
@@ -45,50 +48,51 @@ public class NewCsvFile {
 	public final ReFrame frame;
 	public final BaseHelpPanel panel = new BaseHelpPanel();
 
+	@SuppressWarnings("rawtypes")
 	private BmKeyedComboModel styleModel = new BmKeyedComboModel(new ManagerRowList(
 			ParserManager.getInstance(), false));
 
 	private ColumnNameMdl colNameMdl = new ColumnNameMdl();
-	
+
 	private NumField   rowFld		 = new NumField("row", 5, null);
 	private NumField   colFld		 = new NumField("row", 3, colNameMdl);
-	
+
 	private JCheckBox  namesChk		 = new JCheckBox();
 	private JCheckBox  unicodeChk	 = new JCheckBox();
 	private JTextField fontTxt		 = new JTextField();
-	private JComboBox  fieldSep		 = new JComboBox(Common.FIELD_SEPARATOR_LIST1);
+	private DelimitierCombo fieldSep = DelimitierCombo.NewDelimCombo();
 	private JComboBox  quote		 = new JComboBox(Common.QUOTE_LIST);
    private BmKeyedComboBox parser   = new BmKeyedComboBox(styleModel, false);
-	
+
 	//private JLabel     colNamesLbl   = new JLabel("Column Names:");
 	private JTable     colNamesTbl	 = new JTable(colNameMdl);
-	
-	private JButton    goBtn	     = new JButton("Create");
-	
+
+	private JButton    goBtn	     = SwingUtils.newButton("Create");
+
 	private JTextField msgTxt	     = new JTextField();
-	
+
 	private ArrayList<String> columnNames = new ArrayList<String>();
-	
+
 	public NewCsvFile() {
 		this(new ReFrame("","New Csv File", null));
 	}
-		
+
 	public NewCsvFile(ReFrame displayFrame) {
 		frame = displayFrame;
 		init_100_Setup();
 		init_200_LayoutScreen();
 		init_300_Listners();
-		
+
 		frame.setVisible(true);
 	}
-	
+
 	private void init_100_Setup() {
-		
+
 		namesChk.setSelected(true);
 	}
-	
+
 	private void init_200_LayoutScreen() {
-		
+
 		panel.setGap(BasePanel.GAP2);
 		panel.addLine("Rows", rowFld.field);
 		panel.addLine("Cols", colFld.field);
@@ -99,9 +103,9 @@ public class NewCsvFile {
 		panel.addLine("Quote", quote);
 		panel.addLine("Parser", parser);
 		panel.setGap(BasePanel.GAP1);
-		
+
 		//panel.addLine(colNamesLbl, null);
-		
+
 		panel.addComponent(1, 3, SwingUtils.TABLE_ROW_HEIGHT * 10,
 		        BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL,
@@ -112,35 +116,35 @@ public class NewCsvFile {
 		panel.setGap(BasePanel.GAP1);
 		panel.addMessage(msgTxt);
 		panel.setHeight(BasePanel.HEIGHT_1P6);
-		
+
 		frame.addMainComponent(panel);
 		frame.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
 	}
-	
-	
-	
+
+
+
 	private void init_300_Listners() {
-		
+
 		namesChk.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				boolean visible = namesChk.isSelected();
-				
+
 				colNamesTbl.setVisible(visible);
 			}
 		});
-		
+
 		goBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Common.stopCellEditing(colNamesTbl);
 				editFile();
-				
+
 				frame.setVisible(false);
 			}
 		});
 	}
-	
+
 	private void editFile() {
 		LayoutDetail layout = getLayout();
 		AbstractLine<LayoutDetail> l;
@@ -155,7 +159,7 @@ public class NewCsvFile {
 			}
 			store.add(l);
 		}
-		
+
 		FileView file = new FileView(
 				store,
 				null,
@@ -164,19 +168,19 @@ public class NewCsvFile {
 		StartEditor.doOpen(file, 0, false);
 
 	}
-	
+
 	private LayoutDetail getLayout() {
 		LayoutDetail layout;
 		int i;
 		String s;
 		String font = fontTxt.getText();
 		String q   = Common.QUOTE_VALUES[quote.getSelectedIndex()];
-		String sep = Common.FIELD_SEPARATOR_LIST1_VALUES[fieldSep.getSelectedIndex()];
+		String sep = fieldSep.getSelectedEnglish();
 		int structure = STRUCTURES[toInt(unicodeChk.isSelected())]
 		                          [toInt(namesChk.isSelected())];
 		FieldDetail[] flds = new FieldDetail[colFld.value];
 	    RecordDetail[] recs = new RecordDetail[1];
-	    
+
 	    for (i = 0; i < colFld.value; i++) {
 		    s = columnNames.get(i);
             flds[i] = new FieldDetail(s, s, Type.ftChar, 0,
@@ -185,9 +189,9 @@ public class NewCsvFile {
 	    }
 
         recs[0] = new RecordDetail("GeneratedCsvRecord", "", "", Constants.rtDelimited,
-        		sep, q, font, flds, 
+        		sep, q, font, flds,
         		((Integer)parser.getSelectedItem()).intValue(), 0);
-        
+
         layout  =
             new LayoutDetail("GeneratedCsv", recs, "",
                 Constants.rtDelimited,
@@ -197,7 +201,7 @@ public class NewCsvFile {
 
 		return layout;
 	}
-	
+
 	private int toInt(boolean b) {
 		int ret = 0;
 		if (b) {
@@ -206,13 +210,13 @@ public class NewCsvFile {
 		return ret;
 	}
 //  ===========================================================
-	
+
 	private class NumField extends FocusAdapter {
 		public int value;
 		public JTextField field = new JTextField();
 		private final String name;
 		private final AbstractTableModel mdl;
-		
+
 		public NumField(String fieldName, int initialValue, AbstractTableModel model) {
 			name = fieldName;
 			value = initialValue;
@@ -229,17 +233,17 @@ public class NewCsvFile {
 			try {
 				int lastValue = value;
 				value = Integer.parseInt(field.getText());
-				
+
 				if (mdl != null && lastValue != value && namesChk.isSelected()) {
 					mdl.fireTableDataChanged();
 				}
 			} catch (Exception ex) {
-				msgTxt.setText("Invalid number in " + name + ", msg=" + ex.getMessage());
+				msgTxt.setText(LangConversion.convert("Invalid number in {0}, msg=", name) + ex.getMessage());
 			}
 		}
 	}
-	
-	
+
+
 
 	@SuppressWarnings("serial")
 	private class ColumnNameMdl extends AbstractTableModel {
@@ -257,7 +261,6 @@ public class NewCsvFile {
 		 */
 		@Override
 		public int getRowCount() {
-			// TODO Auto-generated method stub
 			return colFld.value;
 		}
 
@@ -267,11 +270,11 @@ public class NewCsvFile {
 		@Override
 		public Object getValueAt(int rowIndex, int columnIndex) {
 			String s = "";
-			
+
 			if (rowIndex < columnNames.size()) {
 				s = columnNames.get(rowIndex);
 			}
-				
+
 			return s;
 		}
 
@@ -305,7 +308,7 @@ public class NewCsvFile {
 			}
 			columnNames.set(rowIndex, s);
 		}
-		
-		
+
+
 	}
 }

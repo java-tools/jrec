@@ -6,7 +6,7 @@
  *   - changed to optional read properties from user properties
  *     file (as well as system properties
  */
-package net.sf.RecordEditor.utils.common;
+package net.sf.RecordEditor.utils.params;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,6 +20,8 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.Properties;
 import java.util.ResourceBundle;
+
+import net.sf.RecordEditor.utils.common.ExternalReferenceConstants;
 
 
 //import sun.security.action.GetPropertyAction;
@@ -94,6 +96,8 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String XSLT_TEMPLATE_DIRECTORY = "XsltTemplateDirectory";
     public static final String EXPORT_SCRIPT_DIRECTORY = "ExportScriptDirectory";
     public static final String SCRIPT_DIRECTORY        = "ScriptDirectory";
+    public static final String LANG_DIRECTORY          = "LangDirectory";
+    public static final String CURRENT_LANGUAGE        = "Language";
     public static final String XSLT_JAR1 = "XsltJar1";
     public static final String XSLT_JAR2 = "XsltJar2";
     public static final String INVALID_FILE_CHARS      = "InvalidFileChars";
@@ -149,9 +153,13 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String SEARCH_ALL_FIELDS = "SearchAllFields";
     public static final String SHOW_ALL_EXPORT_OPTIONS = "AllExportOptions";
     public static final String NAME_FIELDS = "NameFields";
+    public static final String LOG_TEXT_FIELDS = "LogText";
+    public static final String HIGHLIGHT_MISSING_TRANSLATIONS = "FlagMissingTranslations";
 
     public static final String DEL_SELECTED_WITH_DEL_KEY = "DeleteSelectedWithDelKey";
     public static final String WARN_WHEN_USING_DEL_KEY   = "WarnWithDelKey";
+
+	public static String LANG_FILE_PREFIX = "ReMsgs_";
 
     private static final HashSet<String> defaultTrue = new HashSet<String>(10);
 
@@ -459,6 +467,7 @@ public final class Parameters implements ExternalReferenceConstants {
             ret = getLibDirectory() /*+ File.separator*/  + name.substring(5);
         } else if (lcName.startsWith("<install>")) {
             ret = getBaseDirectory() + name.substring("<install>".length());
+            System.out.println("Expand >> " + name + " >> " + ret);
         } else if (lcName.startsWith("<home>")) {
             ret = USER_HOME + name.substring(6);
         } else if (lcName.startsWith("<rehome>")) {
@@ -502,11 +511,12 @@ public final class Parameters implements ExternalReferenceConstants {
         } else if ((! "".equals(USER_HOME)) && (USER_HOME != null)
                && lcName.startsWith(USER_HOME)) {
             ret = "<home>" + name.substring(USER_HOME.length());
-        } else if ((! "".equals(reHomeDirectory))
-               && lcName.startsWith(reHomeDirectory.toLowerCase())) {
-        } else if ((! "".equals(reprops))
+        } else if (reprops != null && (! "".equals(reprops))
                 && lcName.startsWith(reprops.toLowerCase())) {
             ret = "<reproperties>" + name.substring(reprops.length());
+        } else if ((! "".equals(reHomeDirectory))
+               && lcName.startsWith(reHomeDirectory.toLowerCase())) {
+        	ret = "<rehome>" + name.substring(reHomeDirectory.length());
         }
 
         //System.out.println("~~> " + name + " ==> " + ret);
@@ -542,6 +552,13 @@ public final class Parameters implements ExternalReferenceConstants {
         return libDirectory;
     }
 
+    public static String formatLangDir(String dir) {
+ 	   if (dir == null || "".equals(dir)) {
+		   return "<install>/lang/";
+	   }
+
+ 	   return dir;
+    }
     /**
      * Get the install and lib directories for the RecordEditor
      *
@@ -551,7 +568,7 @@ public final class Parameters implements ExternalReferenceConstants {
 
         baseDirectory = "C:\\JavaPrograms\\RecordEdit\\HSQL";
         libDirectory  = "";
-        URL o = Parameters.class.getClassLoader().getResource("net/sf/RecordEditor/utils/common/Parameters.class");
+        URL o = Parameters.class.getClassLoader().getResource("net/sf/RecordEditor/utils/params/Parameters.class");
 
         if (o != null) {
             String dir = o.toString();
@@ -711,6 +728,10 @@ public final class Parameters implements ExternalReferenceConstants {
 
     public static boolean isDefaultTrue(String s) {
     	return defaultTrue.contains(s);
+    }
+
+    public static boolean setDefaultTrue(String s) {
+    	return defaultTrue.add(s);
     }
 
 	/**

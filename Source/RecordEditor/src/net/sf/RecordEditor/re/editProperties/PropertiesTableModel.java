@@ -8,7 +8,8 @@ package net.sf.RecordEditor.re.editProperties;
 
 import javax.swing.table.AbstractTableModel;
 
-import net.sf.RecordEditor.utils.common.Parameters;
+import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.params.Parameters;
 
 /**
  *
@@ -31,15 +32,33 @@ public class PropertiesTableModel extends AbstractTableModel {
      * @param params standard Edit Option parameter
      * @param columnNames column names (of the properties)
      * @param columnHeader column table headings
+     * @param id  Id, used to with foreign language lookup
      * @param tableSize table size
      */
     public PropertiesTableModel(final EditParams params,
-            final String[] columnNames, final String[] columnHeader,
+            final String[] columnNames,
+            final String[] columnHeader,
+            final String id,
+            final int tableSize) {
+        this(params, columnNames, LangConversion.convertColHeading(id,  columnHeader.clone()), tableSize);
+    }
+
+    /**
+     * create a Properties Table model
+     *
+     * @param params standard Edit Option parameter
+     * @param columnNames column names (of the properties)
+     * @param columnHeader column table headings
+     * @param tableSize table size
+     */
+    public PropertiesTableModel(final EditParams params,
+            final String[] columnNames,
+            final String[] columnHeader,
+
             final int tableSize) {
         super();
-
         pgmProperties = params;
-        colHeadings = columnHeader;
+        colHeadings =  columnHeader;
         colNames = columnNames;
         tblSize = tableSize;
     }

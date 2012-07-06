@@ -44,10 +44,13 @@ import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.openFile.RecentFiles;
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.common.Common;
+
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 /**
@@ -115,7 +118,7 @@ public final class SaveAs3 extends ReFrame
     private FileChooser fileNameTxt = new FileChooser(false);
 
     private JButton saveFile
-    	= new JButton("save file",
+    	= SwingUtils.newButton("save file",
     			      Common.getRecordIcon(Common.ID_SAVE_ICON));
 //    private JComboBox saveWhat   = new JComboBox();
 //
@@ -419,7 +422,7 @@ public final class SaveAs3 extends ReFrame
 
 
         if (outFile.equals("")) {
-        	commonSaveFields.message.setText("Please Enter a file name");
+        	commonSaveFields.message.setText(LangConversion.convert("Please Enter a file name"));
             return;
         }
     	SaveAsPnlBase activePnl =  getSelectedPnl();
@@ -456,7 +459,7 @@ public final class SaveAs3 extends ReFrame
             }
         } catch (Exception e) {
             e.printStackTrace();
-            commonSaveFields.message.setText("Error: " + e.getMessage());
+            commonSaveFields.message.setText(LangConversion.convert("Error:") + " "  + e.getMessage());
         }
     }
 

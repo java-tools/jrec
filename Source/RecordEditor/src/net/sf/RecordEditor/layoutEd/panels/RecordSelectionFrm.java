@@ -13,9 +13,11 @@ import net.sf.RecordEditor.re.db.Record.RecordDB;
 import net.sf.RecordEditor.re.db.Record.RecordRec;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.common.ReConnection;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 @SuppressWarnings("serial")
 public class RecordSelectionFrm extends ReFrame {
@@ -37,7 +39,10 @@ public class RecordSelectionFrm extends ReFrame {
             final int recordIdentifier,
             final ChildRecordsTblMdl childMdl,
             final int idx) {
-		super(dbName, "Record Selection: " + getRecordName(dbConnectionIdx, recordIdentifier), null);
+		super(  dbName, "",
+				LangConversion.convert(LangConversion.ST_FRAME_HEADING, "Record Selection:")
+					+ " " + getRecordName(dbConnectionIdx, recordIdentifier),
+				"", null);
 
 		this.dbConnectionIdx = dbConnectionIdx;
 		this.recordIdentifier = recordIdentifier;
@@ -83,7 +88,7 @@ public class RecordSelectionFrm extends ReFrame {
 		}
 		pnls[pnls.length - 1] = summary;
 
-		tab.addTab("Summary", summary.panel);
+		SwingUtils.addTab(tab, "LayoutEdit_RecordSelection", "Summary", summary.panel);
 
 		pnl.registerComponent(summary.panel);
 

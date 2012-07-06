@@ -54,7 +54,7 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
  *
  */
 public abstract class Z_AbstractWizard_New<Details> /*extends ReFrame*/ implements ActionListener {
-	
+
     public static final int FORWARD  = 1;
     public static final int BACKWARD = -1;
     private static final int WIDTH_INCREASE = 150;
@@ -72,19 +72,19 @@ public abstract class Z_AbstractWizard_New<Details> /*extends ReFrame*/ implemen
 	private JButton rightArrow;
 
 	private int panelNumber = 0;
-	
+
 	private boolean toInit = true;
 	private Component displayFrame;
 	private RootPaneContainer controlFrame;
-	
-	
+
+
 	private JScrollPane oldPane = null;
-	
+
 
 
 	/**
 	 * create wizard from name / details
-	 * 
+	 *
 	 * @param name name of the wizard
 	 * @param details wizard details
 	 */
@@ -102,7 +102,7 @@ public abstract class Z_AbstractWizard_New<Details> /*extends ReFrame*/ implemen
 		controlFrame = frame;
 		wizardDetails = details;
 	}
- 
+
 //	/**
 //     * File Layout creation wizard
 //     * @param connectionId Database connection Identifier
@@ -113,10 +113,10 @@ public abstract class Z_AbstractWizard_New<Details> /*extends ReFrame*/ implemen
 //    public AbstractWizard(JInternalFrame frame, final Details details,
 //            final AbstractWizardPanel<Details>[] panels) {
 //    	this(frame, details);
-//    	
+//
 //    	setPanels(panels);
 //    }
-    
+
     /**
      * Set the panels
      * @param panels the panels up
@@ -124,13 +124,13 @@ public abstract class Z_AbstractWizard_New<Details> /*extends ReFrame*/ implemen
     public void setPanels(final AbstractWizardPanel<Details>[] panels) {
     	setPanels(panels, true);
     }
-    
+
     public void setPanels(final AbstractWizardPanel<Details>[] panels, boolean visible) {
-    	int height = 0; 
+    	int height = 0;
     	int width = 0;
     	Dimension d;
         pnls = panels;
-        
+
         for (int i = 0; i < pnls.length; i++) {
         	pnls[i].getComponent().setBorder(BorderFactory.createEmptyBorder());
         }
@@ -139,14 +139,14 @@ public abstract class Z_AbstractWizard_New<Details> /*extends ReFrame*/ implemen
         	//JScrollPane scrollTabbed=  new JScrollPane(tabbed);
         	//scrollTabbed.setBorder(BorderFactory.createEmptyBorder());
         	BaseHelpPanel pnl = new BaseHelpPanel();
-        	
+
         	pnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
                     BasePanel.FULL, BasePanel.FULL,
                     tabbed);
         	pnl.addComponent(1, 5, BasePanel.PREFERRED, BasePanel.GAP,
                     BasePanel.FULL, BasePanel.FULL,
                     getBottomSection());
-     	
+
         	toInit = false;
 
   	        //pnl.setLayout(new BorderLayout());
@@ -154,17 +154,17 @@ public abstract class Z_AbstractWizard_New<Details> /*extends ReFrame*/ implemen
 	        //pnl.add(BorderLayout.SOUTH, getBottomSection());
 	        //addPanel(0);
 	        controlFrame.getContentPane().add(pnl);
-	       
+
 	        int pnlHeight=0,
 	            pnlWidth=0;
 	        width = 0;
 	        height = 0;
 
-	        for (int i = 0; i < pnls.length; i++) {  	
+	        for (int i = 0; i < pnls.length; i++) {
 	            tabbed.add(pnls[i].getComponent());
 	            pnls[i].getComponent().setLayout(new BorderLayout());
 	            displayFrame.doLayout();
-	            
+
 		        d = displayFrame.getPreferredSize();
 		       // pnls[i].getComponent().getPreferredSize();
 		        width = Math.max(width, d.width);
@@ -172,19 +172,19 @@ public abstract class Z_AbstractWizard_New<Details> /*extends ReFrame*/ implemen
 		        d = pnls[i].getComponent().getSize();
 		        pnlWidth = Math.max(pnlWidth, d.width);
 		        pnlHeight = Math.max(pnlHeight, d.height);
-		        
+
 		        tabbed.remove(pnls[i].getComponent());
 	        }
-	        
+
 	        d = new Dimension(pnlWidth, pnlHeight);
 	        System.out.println(" -->  " + pnlWidth + " " + pnlHeight);
-//	        for (int i = 0; i < pnls.length; i++) {  	
+//	        for (int i = 0; i < pnls.length; i++) {
 //	            pnls[i].getComponent().setPreferredSize(d);
 //	        }
 
-	        
 
-	        
+
+
 	        d = displayFrame.getPreferredSize();
 	        width += WIDTH_INCREASE;
 	        height += HEIGHT_INCREASE;
@@ -198,7 +198,7 @@ public abstract class Z_AbstractWizard_New<Details> /*extends ReFrame*/ implemen
 	        try {
 	            pnls[0].setValues(wizardDetails);
 	        } catch (Exception ex) { ex.printStackTrace(); }
-	        
+
 	        addPanel(0);
         }
 
@@ -258,12 +258,12 @@ public abstract class Z_AbstractWizard_New<Details> /*extends ReFrame*/ implemen
         int old = panelNumber;
         try {
         	wizardDetails = pnls[panelNumber].getValues();
-        	
+
             panelNumber += inc;
         	do {
 	            pnls[panelNumber].setValues(wizardDetails);
         	} while (pnls[panelNumber].skip() && (panelNumber > 0) && ((panelNumber += inc) < pnls.length)  );
-        	
+
 //        	System.out.println("~~> Next Panel " + panelNumber + " < " + pnls.length);
         	if (panelNumber < pnls.length) {
         		//tabbed.addTab("", pnls[panelNumber].getComponent());
@@ -280,18 +280,18 @@ public abstract class Z_AbstractWizard_New<Details> /*extends ReFrame*/ implemen
             ex.printStackTrace();
         }
     }
-    
+
     private void addPanel(int num) {
 
     	JScrollPane tmp = new JScrollPane(pnls[panelNumber].getComponent());
-    	
+
 		//tabbed.addTab(null, tmp);
-		 
+
 		if (oldPane != null) {
 			tabbed.remove(oldPane);
 		}
 		tabbed.add(tmp);
-		
+
 		tabbed.invalidate();
 		//tabbed.revalidate();
 		//tabbed.doLayout();
@@ -299,30 +299,30 @@ public abstract class Z_AbstractWizard_New<Details> /*extends ReFrame*/ implemen
 		//displayFrame.doLayout();
 		//displayFrame.repaint();
 		//controlFrame.p
-		
+
 		//controlFrame.getContentPane().invalidate();
 		controlFrame.getContentPane().revalidate();
 		displayFrame.doLayout();
 		displayFrame.repaint();
 
-		
+
 		oldPane = tmp;
 
     }
-    
+
     private void ap_200_finish() {
-    	
+
         try {
         	wizardDetails = pnls[panelNumber].getValues();
         	finished(wizardDetails);
         } catch (Exception ex) {
             message.setText(ex.getMessage());
-            Common.logMsg(ex.getMessage(), ex);
+            Common.logMsgRaw(ex.getMessage(), ex);
             ex.printStackTrace();
         }
     }
 
-    
+
     /**
      * save the newly created record to the DB
      * @throws SQLException any error that occured
@@ -330,7 +330,7 @@ public abstract class Z_AbstractWizard_New<Details> /*extends ReFrame*/ implemen
     public abstract void finished(Details details);
 
 
- 
+
 
     /**
      * @see net.sf.RecordEditor.utils.common.ReActionHandler#executeAction(int)
@@ -348,12 +348,12 @@ public abstract class Z_AbstractWizard_New<Details> /*extends ReFrame*/ implemen
      * @see net.sf.RecordEditor.utils.common.ReActionHandler#isActionAvailable(int)
      */
     public boolean isActionAvailable(int action) {
-    	
+
         return action == ReActionHandler.HELP
             || ((		displayFrame instanceof ReFrame
             	&& ((ReFrame) displayFrame).isActionAvailable(action)));
     }
-    
+
 	/**
 	 * @return the wizardDetails
 	 */
@@ -364,42 +364,42 @@ public abstract class Z_AbstractWizard_New<Details> /*extends ReFrame*/ implemen
 		}
 		return wizardDetails;
 	}
-    
+
 	/**
 	 * @param wizardDetails the wizardDetails to set
 	 */
     public void setWizardDetails(Details wizardDetails) {
 		this.wizardDetails = wizardDetails;
 	}
-    
-    
+
+
 	/**
 	 * @return the panelNumber
 	 */
 	public final AbstractWizardPanel<Details> getActivePanel() {
 		return pnls[panelNumber];
 	}
-	
+
 	/**
 	 * @return the message
 	 */
 	public final JTextArea getMessage() {
 		return message;
 	}
-	
+
 	/**
 	 * @return the panelNumber
 	 */
 	public final int getPanelNumber() {
 		return panelNumber;
 	}
-	
+
 	/**
 	 * Close the frame
 	 */
-	public final void setClosed(boolean close) 
+	public final void setClosed(boolean close)
 	throws PropertyVetoException {
-		
+
 //		System.out.println("setClosed: " + displayFrame.getClass().getName()
 //				+ " --> " + (displayFrame instanceof JInternalFrame));
 		if (displayFrame instanceof JInternalFrame) {

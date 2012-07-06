@@ -70,12 +70,12 @@ public final class Run implements ExternalReferenceConstants {
     public Run() throws MalformedURLException {
         ArrayList<String> list = new ArrayList<String>();
         String libDir = getDir();
-       
+
 
         readFile(list, libDir + FILE_SEPERATOR + SYSTEM_JARS_FILENAME, true);
         addJars(list, null);
-        
-        buildUrls(list, libDir, false, false); 
+
+        buildUrls(list, libDir, false, false);
     }
 
     /**
@@ -92,24 +92,24 @@ public final class Run implements ExternalReferenceConstants {
         try {
     		String os = System.getProperty("os.name");
     		String version = System.getProperty("os.name");
-    		boolean isWinUac = (os != null 
+    		boolean isWinUac = (os != null
     						&& os.toLowerCase().indexOf("win") >= 0
     						&& !"5.1".equals(version));
-     
+
             ArrayList<String> list = new ArrayList<String>();
 
             URL[] urls;
             URLClassLoader urlLoader;
             String libDir = getDir();
-            
+
 
             readFile(list, libDir + FILE_SEPERATOR + SYSTEM_JARS_FILENAME, true);
             readFile(list, libDir + FILE_SEPERATOR + SYSTEM_JDBC_JARS_FILENAME, false);
             readFile(list, getUserJars(libDir), false);
-            
+
             addJars(list, jars);
 
-            urls = buildUrls(list, libDir, isWinUac, true); 
+            urls = buildUrls(list, libDir, isWinUac, true);
 
             urlLoader = new URLClassLoader(urls);
 
@@ -123,9 +123,9 @@ public final class Run implements ExternalReferenceConstants {
             e.printStackTrace();
           }
     }
-	
+
 	private void addJars(ArrayList<String> list, String[] jars) {
-		
+
         if (jars == null) {
         	jars = JARS;
         }
@@ -135,7 +135,7 @@ public final class Run implements ExternalReferenceConstants {
         	}
         }
 	}
-	
+
 	private void readFile(ArrayList<String> list, String fileName, boolean required) {
 		String s;
         try {
@@ -149,7 +149,7 @@ public final class Run implements ExternalReferenceConstants {
             }
             in.close();
         } catch (Exception e) {
-        	System.out.println("Error Reading: " + fileName 
+        	System.out.println("Error Reading: " + fileName
         			+ " ~ " + e.getClass().getName() + " " + e.getMessage());
         	if (required) {
         		e.printStackTrace();
@@ -157,7 +157,7 @@ public final class Run implements ExternalReferenceConstants {
         }
 
 	}
-	
+
 	private URL[] buildUrls(ArrayList<String> list, String libDir, boolean isWinUac, boolean warn) throws MalformedURLException {
 		URL[] urls = new URL[list.size()];
 		boolean tryUnpack = true;
@@ -166,7 +166,7 @@ public final class Run implements ExternalReferenceConstants {
         StringBuilder missing = new StringBuilder("The Following Jars are Missing:\n");
 		Pack200.Unpacker unpacker = null;
 		File packedFile;
-		
+
 		System.out.println("\t listSise " + list.size() + " > " + libDir + " >> " + isWinUac);
         for (int i = 0; i < urls.length; i++) {
             s = list.get(i);
@@ -200,11 +200,11 @@ public final class Run implements ExternalReferenceConstants {
             				//System.out.println("lib dir: " + libDir + " " + (new File(libDirectory)).getCanonicalPath());
             				Process p = builder.start();
             				Thread.sleep(5000);
-            				
-               				gobble(p.getInputStream()); 
+
+               				gobble(p.getInputStream());
                				System.out.println("Errors: ");
-               				gobble(p.getErrorStream());  
-               				
+               				gobble(p.getErrorStream());
+
 			                int exitVal = p.waitFor();
 			                builder.directory(holdDirFile);
 			                System.out.println("Exited with error code "+exitVal + " ");
@@ -243,30 +243,30 @@ public final class Run implements ExternalReferenceConstants {
             	urls[i] = new URL("file:" + s);
 			}
         }
-        
+
         if (missingCount > 0 && warn) {
         	JTextArea missingTxt = new JTextArea();
         	missingTxt.setText(missing.toString()
         			+ "\nthis could mean unpack process in the install failed.\n"
         			+ "\nYou could try running the supplied unpackSubDirectories.jar utility."
-        			+ "\nYou can unpack manually using java's unpack200 utility." 
+        			+ "\nYou can unpack manually using java's unpack200 utility."
         			+	"\n\nWill try to start the application anyway");
-        	
+
         	JOptionPane.showMessageDialog(null, missingTxt, "Missing Jars", JOptionPane.ERROR_MESSAGE);
         }
         return urls;
 	}
 
 	private void gobble(InputStream stream) throws IOException {
-		BufferedReader in = new BufferedReader(  
-                new InputStreamReader(stream));  
-        String line = null;  
-        while ((line = in.readLine()) != null) {  
-            System.out.println(line);  
-        }  
+		BufferedReader in = new BufferedReader(
+                new InputStreamReader(stream));
+        String line = null;
+        while ((line = in.readLine()) != null) {
+            System.out.println(line);
+        }
 
 	}
-	
+
     /**
      * Get the directory where this class is being run from
      * @return the directory where this class is being run from
@@ -285,7 +285,7 @@ public final class Run implements ExternalReferenceConstants {
 //                	    new GetPropertyAction("file.encoding")
 //                	);
 //                 //System.out.println("     dir: " + dir);
-                
+
                 libDirectory = dir.substring(FILENAME_POS, pos);
 
                 pos = libDirectory.lastIndexOf('/');
@@ -301,24 +301,25 @@ public final class Run implements ExternalReferenceConstants {
 
         return libDirectory;
     }
-    
+
     private final String getUserJars(String libDirectory) {
     	String ret = libDirectory;
-    	
+
     	try {
     		URL[] urls = {new File(libDirectory + "/properties.zip" ).toURI().toURL()};
-	 	 
-	   	 	ResourceBundle rb = ResourceBundle.getBundle(DEFAULT_BUNDLE_NAME, 
+
+	   	 	ResourceBundle rb = ResourceBundle.getBundle(DEFAULT_BUNDLE_NAME,
 	   	 			Locale.getDefault(),
 	   	 			new URLClassLoader(urls));
 	   	 	ret = rb.getString(PROPERTIES_DIR_VAR_NAME);
-	   	 	
+
 	        String lcName = ret.toLowerCase();
 
 	        if (lcName.startsWith("<lib>")) {
 	            ret = libDirectory  + ret.substring(5);
-//	        } else if (lcName.startsWith("<install>")) {
-//	            ret = getBaseDirectory() + name.substring("<install>".length());
+	        } else if (lcName.startsWith("<install>")) {
+	            ret = libDirectory.substring(0, libDirectory.length()-4)
+	            	+ ret.substring("<install>".length());
 	        } else if (lcName.startsWith("<home>")) {
 	            ret = System.getProperty("user.home") + ret.substring(6);
 	        }
@@ -327,12 +328,12 @@ public final class Run implements ExternalReferenceConstants {
 		}
     	return ret + "/" + USER_JARS_FILENAME;
     }
-    
-    
+
+
     public static void main(String[] args) throws MalformedURLException {
     	System.out.println("\t Upack program");
     	new Run();
     }
-    
-    
+
+
 }

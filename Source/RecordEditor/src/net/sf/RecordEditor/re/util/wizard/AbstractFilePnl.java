@@ -9,7 +9,7 @@ import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.RecordEditor.jibx.compare.BaseCopyDif;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.re.openFile.AbstractOpenFilePnl;
-import net.sf.RecordEditor.utils.common.Parameters;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 
 public abstract class AbstractFilePnl<save extends BaseCopyDif>

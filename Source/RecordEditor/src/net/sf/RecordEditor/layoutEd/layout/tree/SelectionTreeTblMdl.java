@@ -5,6 +5,7 @@ import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.treeTable.AbstractTreeTableModel;
 import net.sf.RecordEditor.utils.swing.treeTable.TreeTableModel;
 
@@ -30,14 +31,15 @@ public class SelectionTreeTblMdl extends AbstractTreeTableModel {
 
 		if (column < SPECIAL_COLUMNS) {
 			if (column == treeColumn) {
-				return "Record Name       ";
+				return    LangConversion.convert(LangConversion.ST_COLUMN_HEADING, "Record Name")
+						+ "                            ";
 			}
 			if (Common.TEST_MODE) {
 				return "s";
 			}
 			return "";
 		}
-		return BaseNode.getColumnName(column - SPECIAL_COLUMNS);
+		return BaseNode.getColumnName(column - SPECIAL_COLUMNS) + "    ";
 	}
 
 	@Override

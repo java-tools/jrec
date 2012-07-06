@@ -3,8 +3,12 @@ package net.sf.RecordEditor.re.db.Table;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
+import net.sf.RecordEditor.utils.jdbc.DBComboModel;
+import net.sf.RecordEditor.utils.jdbc.DBList;
 //import net.sf.RecordEditor.utils.jdbc.AbsRecord;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 
 
@@ -25,11 +29,13 @@ import net.sf.RecordEditor.utils.jdbc.AbsDB;
 
 public final class TableDB  extends AbsDB<TableRec> {
 
-
-  private static final String[] COLUMN_NAMES = {
+  private static String[] TABLE_NAMES = {"", "FieldType", "RecordType", "System", "FileStructure", "Format"};
+  private static final String[] COLUMN_NAMES = LangConversion.convertColHeading(
+			"DB-Table Columns",
+			new String[] {
                    "Row Key"
                  , "Details"
-  };
+  });
 
 
   private int paramTblId;
@@ -69,12 +75,12 @@ public final class TableDB  extends AbsDB<TableRec> {
   /**
    * sets up the DB parameters
    *
-   * @param TblId
+   * @param tblId table id
    *
    */
-  public void setParams( int TblId) {
+  public void setParams( int tblId) {
 
-      paramTblId = TblId;
+      paramTblId = tblId;
   }
 
   /**
@@ -150,7 +156,7 @@ public final class TableDB  extends AbsDB<TableRec> {
    */
   protected int setSQLParams(PreparedStatement statement, TableRec value, boolean insert, int idx)
                              throws SQLException {
- 
+
 	  statement.setInt(idx++, value.getTblKey());
       statement.setString(idx++, correctStr(value.getDetails()));
 
@@ -175,6 +181,24 @@ public final class TableDB  extends AbsDB<TableRec> {
 
       statement.setInt(idx++, paramTblId);
       statement.setInt(idx, value.initTblKey);
+  }
+
+  public DBComboModel<TableRec> getComboModel(int tblId, final boolean sort, final boolean nullAllowed) {
+	  setParams(tblId);
+
+	  DBComboModel<TableRec> ret;
+	  if (tblId == Common.TI_SYSTEMS) {
+		  ret = new DBComboModel<TableRec>(this, 0, 1, sort, nullAllowed);
+	  } else {
+		  ret = new DBComboModel<TableRec>(
+				  	new DBList<TableRec>(this, 0, 1, 2, getTblLookupKey(tblId), sort, nullAllowed));
+	  }
+
+	  return ret;
+  }
+
+  public static String getTblLookupKey(int tblId) {
+	  return "Tbl_" + TABLE_NAMES[tblId] + "_";
   }
 
 }

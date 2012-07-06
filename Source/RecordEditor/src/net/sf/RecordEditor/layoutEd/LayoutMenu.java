@@ -18,9 +18,6 @@ package net.sf.RecordEditor.layoutEd;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.AbstractAction;
-import javax.swing.JMenu;
-
 import net.sf.RecordEditor.layoutEd.Record.SaveLayoutsDBAsXml;
 import net.sf.RecordEditor.layoutEd.panels.LoadCobolIntoDBScreen;
 import net.sf.RecordEditor.layoutEd.panels.RecordEdit1Record;
@@ -29,6 +26,8 @@ import net.sf.RecordEditor.re.util.LoadXmlLayoutsIntoDB;
 import net.sf.RecordEditor.utils.LayoutConnection;
 import net.sf.RecordEditor.utils.LayoutConnectionAction;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
+import net.sf.RecordEditor.utils.lang.ReMenu;
 
 
 /**
@@ -38,7 +37,7 @@ import net.sf.RecordEditor.utils.common.Common;
  *
  */
 @SuppressWarnings("serial")
-public class LayoutMenu extends JMenu {
+public class LayoutMenu extends ReMenu {
 
     private static final int SYSTEM_TABLE = 3;
     private LayoutConnection databaseDetails;
@@ -55,8 +54,8 @@ public class LayoutMenu extends JMenu {
 
         databaseDetails = dbDetails;
 
-        AbstractAction edit = new AbstractAction(
-        		"Edit Layout", 
+        ReAbstractAction edit = new ReAbstractAction(
+        		"Edit Layout",
         		Common.getRecordIcon(Common.ID_LAYOUT_EDIT_ICON)) {
             public void actionPerformed(ActionEvent e) {
                 new RecordEdit(databaseDetails.getCurrentDbName(),
@@ -64,7 +63,7 @@ public class LayoutMenu extends JMenu {
             }
         };
         createWizard = Wizard.getAction(databaseDetails);
-        AbstractAction editSystemTable = new AbstractAction(
+        ReAbstractAction editSystemTable = new ReAbstractAction(
         		"Edit System Table") {
             public void actionPerformed(ActionEvent e) {
                 new TblEdit(databaseDetails.getCurrentDbName(),
@@ -73,8 +72,8 @@ public class LayoutMenu extends JMenu {
                         SYSTEM_TABLE);
             }
         };
-        AbstractAction comboEdit = new AbstractAction(
-        		"Edit Combo Lists", 
+        ReAbstractAction comboEdit = new ReAbstractAction(
+        		"Edit Combo Lists",
         		Common.getRecordIcon(Common.ID_COMBO_EDIT_ICON)) {
             public void actionPerformed(ActionEvent e) {
             	new ComboEdit(
@@ -83,7 +82,7 @@ public class LayoutMenu extends JMenu {
             }
         };
 
-        AbstractAction loadCobol = new AbstractAction("Load Cobol Copybook") {
+        ReAbstractAction loadCobol = new ReAbstractAction("Load Cobol Copybook") {
             public void actionPerformed(ActionEvent e) {
 		        new LoadCopyBook(
         				false,
@@ -93,7 +92,7 @@ public class LayoutMenu extends JMenu {
         				databaseDetails);
             }
         };
-        AbstractAction loadCopybook = new AbstractAction("Load Copybook") {
+        ReAbstractAction loadCopybook = new ReAbstractAction("Load Copybook") {
             public void actionPerformed(ActionEvent e) {
 		        new LoadCopyBook(
         				true,
@@ -103,17 +102,17 @@ public class LayoutMenu extends JMenu {
         				databaseDetails);
             }
         };
-        AbstractAction saveCopybooksAsXml = new AbstractAction("Save Copybooks as Xml") {
+        ReAbstractAction saveCopybooksAsXml = new ReAbstractAction("Save Copybooks as Xml") {
             public void actionPerformed(ActionEvent e) {
 		        new SaveLayoutsDBAsXml(databaseDetails.getCurrentDbIdentifier());
             }
         };
-        AbstractAction loadCopybooksFromXml = new AbstractAction("Load Copybooks from Xml") {
+        ReAbstractAction loadCopybooksFromXml = new ReAbstractAction("Load Copybooks from Xml") {
             public void actionPerformed(ActionEvent e) {
 		        new LoadXmlLayoutsIntoDB(databaseDetails.getCurrentDbIdentifier());
             }
         };
-        AbstractAction loadCopybooksFromCobol = new AbstractAction("Load Copybooks from Cobol Directory") {
+        ReAbstractAction loadCopybooksFromCobol = new ReAbstractAction("Load Copybooks from Cobol Directory") {
             public void actionPerformed(ActionEvent e) {
 		        new LoadCobolIntoDBScreen(databaseDetails.getCurrentDbIdentifier());
             }
@@ -125,13 +124,13 @@ public class LayoutMenu extends JMenu {
         this.add(edit);
         this.add(create);
         this.add(createWizard);
-        
+
         addSeperator();
-        
+
         this.add(comboEdit);
-        
+
         addSeperator();
-        
+
         this.add(loadCobol);
         this.add(loadCopybook);
         this.add(saveCopybooksAsXml);
@@ -139,12 +138,12 @@ public class LayoutMenu extends JMenu {
         this.add(loadCopybooksFromCobol);
 
         addSeperator();
-        
+
         this.add(editSystemTable);
     }
-    
+
     private void addSeperator() {
-    	
+
         try {
             this.addSeparator();
         } catch (Exception e) {
@@ -162,4 +161,3 @@ public class LayoutMenu extends JMenu {
         createWizard.setCallback(dbDetails);
     }
 }
- 

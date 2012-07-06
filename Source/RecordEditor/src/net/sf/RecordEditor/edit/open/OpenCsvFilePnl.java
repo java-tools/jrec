@@ -22,6 +22,7 @@ import javax.swing.filechooser.FileFilter;
 import net.sf.JRecord.ByteIO.ByteTextReader;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
+import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.openFile.FormatFileName;
 import net.sf.RecordEditor.re.openFile.OpenFileInterface;
@@ -48,9 +49,9 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 	private RecentFilesList recentList;
 	private	ByteTextReader r = new ByteTextReader();
 
-	private JTextArea msgField = new JTextArea();
+	private JTextArea msgTxt = new JTextArea();
 	private AbstractLineIOProvider ioProvider;
-	private CsvTabPane csvTabDtls = new CsvTabPane(msgField, true);
+	private CsvTabPane csvTabDtls = new CsvTabPane(msgTxt, true);
 
 
 	//private File file;
@@ -209,14 +210,14 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 									l,
 									ioProvider,
 									false);
-					StartEditor startEditor = new StartEditor(file, f.getPath(), false, msgField, 0);
+					StartEditor startEditor = new StartEditor(file, f.getPath(), false, msgTxt, 0);
 
 					recent.putFileLayout(f.getPath(), csvpnl.getFileDescription());
 
 					startEditor.doEdit();
 				}
 			} catch (Exception e) {
-				Common.logMsg("Error Loading File: " + e.getMessage(), null);
+				Common.logMsg(AbsSSLogger.ERROR, "Error Loading File:", e.getMessage(), null);
 				e.printStackTrace();
 			}
 
@@ -229,7 +230,7 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 		addComponent(0, 5, BasePanel.FILL, BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL,
 		        new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, chooser, csvTabDtls.tab));
-		addMessage(msgField);
+		addMessage(msgTxt);
 		setHeight(BasePanel.NORMAL_HEIGHT * 3);
 
 		super.done();

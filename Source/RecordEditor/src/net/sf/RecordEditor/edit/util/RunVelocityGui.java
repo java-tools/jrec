@@ -16,13 +16,14 @@ import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import net.sf.RecordEditor.re.openFile.LayoutSelectionDB;
 import net.sf.RecordEditor.re.script.RunVelocity;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
 import net.sf.RecordEditor.utils.common.Common;
+
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.FileChooser;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
@@ -42,7 +43,7 @@ public class RunVelocityGui implements ActionListener {
     private FileChooser inputFile = new FileChooser();
     private FileChooser templateFile = new FileChooser(true, "Choose Velocity Template");
     private FileChooser outputFile = new FileChooser(false, "Choose Output File");
-    private JButton runBtn = new JButton("Run");
+    private JButton runBtn = SwingUtils.newButton("Run");
     private JTextArea message = new JTextArea();
 
 
@@ -56,7 +57,7 @@ public class RunVelocityGui implements ActionListener {
      */
     public RunVelocityGui() {
         super();
-        
+
         if (Common.isVelocityAvailable()) {
              init_100_SetupScreenFields();
             init_200_BuildScreen();
@@ -117,19 +118,23 @@ public class RunVelocityGui implements ActionListener {
      *
      */
     private void init_300_BuildNoVelocityScreen() {
-        JEditorPane description = new JEditorPane("text/html",
-                "<h2>Velocity is not Installed</h2>"
-              + "Velocity has not been installed into the <b>record editor</b>.<br>"
-              + "The easiest way to install Velocity is to go to the RecordEditor Download page<br>"
-              + "<b>http://sourceforge.net/project/showfiles.php?group_id=139274</b> "
-              + "and download file <b>ru_velocity_1.4*.zip</b>.<br>"
-              + "From this zip file and copy the 2 jars files to the <b>&lt;RecordEditor install directory&gt;/lib</b> directory. "
-              + "<br><br>Alternately in the <b>HowTo</b> document, there is a discussion on installing velocity."
+        JEditorPane description = new JEditorPane(
+        		"text/html",
+   				ReMessages.VELOCITY_NOT_INSTALLED.get()
+//       		LangConversion.convertId(
+//        				LangConversion.ST_MESSAGE, "RunVelocityHint",
+//	                "<h2>Velocity is not Installed</h2>"
+//	              + "Velocity has not been installed into the <b>record editor</b>.<br>"
+//	              + "The easiest way to install Velocity is to go to the RecordEditor Download page<br>"
+//	              + "<b>http://sourceforge.net/project/showfiles.php?group_id=139274</b> "
+//	              + "and download file <b>ru_velocity_1.4*.zip</b>.<br>"
+//	              + "From this zip file and copy the 2 jars files to the <b>&lt;RecordEditor install directory&gt;/lib</b> directory. "
+//	              + "<br><br>Alternately in the <b>HowTo</b> document, there is a discussion on installing velocity.")
         );
 
 		pnl.addComponent(1, 5, NOT_INSTALLED_MSG_HEIGHT, BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
-				new JScrollPane(description));
+				description);
     }
 
 
@@ -141,13 +146,13 @@ public class RunVelocityGui implements ActionListener {
         message.setText("");
         if (e.getSource() == runBtn) {
             if ("".equals(inputFile.getText().trim())) {
-                message.setText("You must enter an input file");
+                pnl.setMessageTxt("You must enter an input file");
                 inputFile.requestFocus();
             } else  if ("".equals(templateFile.getText().trim())) {
-                message.setText("You must enter a Velocity Template file");
+            	pnl.setMessageTxt("You must enter a Velocity Template file");
                 templateFile.requestFocus();
             } else  if ("".equals(outputFile.getText().trim())) {
-                message.setText("You must enter an Output file");
+            	pnl.setMessageTxt("You must enter an Output file");
                 outputFile.requestFocus();
             } else {
                 RunVelocity velocity = RunVelocity.getInstance();

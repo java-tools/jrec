@@ -18,6 +18,7 @@ import javax.swing.table.TableCellRenderer;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 
 /**
@@ -34,9 +35,9 @@ public class LineDisplay extends AbstractCompareDisplay {
 	private CmpLineModel model;
 
 	private JButton[] btn       = new JButton[4];
-	private String[] moveHints  = {
+	private String[] moveHints  = LangConversion.convert(LangConversion.ST_FIELD_HINT, "RecordBtns", new String[] {
 	        	"Start of File", "Previous Record",
-	        	"Next Record",   "Last Record"};
+	        	"Next Record",   "Last Record"});
 
 	private ActionListener lineListner = new ActionListener() {
 		public void actionPerformed(ActionEvent event) {

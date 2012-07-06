@@ -11,20 +11,21 @@ import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.tree.LineNodeChild;
 import net.sf.RecordEditor.re.tree.TreeParserXml;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.EditingCancelled;
 
 public class StartEditor {
 	protected FileView<?> file;
 	protected String fName;
 	private boolean pBrowse;
-	
+
 	protected boolean ok = false;
 	private JTextArea   message;
 	private int initialRow;
 	//RecentFilesList recentList;
 
 
-	public StartEditor(FileView<?> file, 
+	public StartEditor(FileView<?> file,
 			String name, boolean browse,
 			JTextArea   messageFld,
 			int startRow) {
@@ -62,24 +63,24 @@ public class StartEditor {
 		} catch (EditingCancelled e) {
 			message.setText(e.getMessage());
 		} catch (Exception e) {
-			message.setText("Error Reading the File: " + e.getMessage());
-			Common.logMsg(e.getMessage(), e);
+			message.setText(LangConversion.convert("Error Reading the File:") + " " + e.getMessage());
+			Common.logMsgRaw(e.getMessage(), e);
 			e.printStackTrace();
 		}
 	}
 
- 
+
 	public void done() {
-		
+
 		if (ok) {
 			doOpen(file, initialRow, pBrowse);
-			
+
 			message.setText(file.getMsg());
 		}
 	}
-	
+
 	public static void doOpen(FileView<?> file, int initialRow, boolean pBrowse) {
-		
+
 		BaseDisplay display = null;
 		AbstractLayoutDetails<?,?> layoutDtls = file.getLayout();
 
@@ -97,6 +98,6 @@ public class StartEditor {
 			if (file.getRowCount() == 0 && ! pBrowse) {
 				display.insertLine(0);
 			}
-		}		
+		}
 	}
 }

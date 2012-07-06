@@ -20,6 +20,7 @@ import net.sf.JRecord.detailsSelection.FieldSelectX;
 import net.sf.JRecord.detailsSelection.RecordSel;
 import net.sf.RecordEditor.utils.RecordSelectionBuilder;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 
 /**
@@ -33,7 +34,9 @@ import net.sf.RecordEditor.utils.common.Common;
 public class FilterFieldList extends AbstractTableModel {
 
     private static final String[] FIELD_FILTER_COLUMN_HEADINGS =
-    		{"", "", "Field", "Ignore Case", "Operator", "Value"};
+    		LangConversion.convertColHeading(
+    				"Filter Selecton Field Values",
+    				new String[] {"", "", "Field", "Ignore Case", "Operator", "Value"});
     public static final int NUMBER_FIELD_FILTER_ROWS = 16;
     public static final int FIELD_NAME_COLUMN = FilterField.FLD_FIELD_NUMBER;
 

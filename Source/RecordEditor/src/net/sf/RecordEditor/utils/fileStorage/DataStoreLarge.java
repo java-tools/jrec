@@ -14,7 +14,8 @@ import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.ProgramOptions;
+import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.params.ProgramOptions;
 
 
 @SuppressWarnings({ "rawtypes" })
@@ -24,34 +25,34 @@ implements DataStore<AbstractLine> {
 
 //	private static long time = 0;
 //	private static long totalTime = 0;
-	
-	private ArrayList<FileChunk<L, R>> chunks 
+
+	private ArrayList<FileChunk<L, R>> chunks
 			= new ArrayList<FileChunk<L, R>>(1000);
-	 
+
 	private FileDetails fileDetails;
-	
+
 	private int tempLineCount = 0;
-	private AbstractChunkLine[] tempLineArray = new AbstractChunkLine[250]; 
+	private AbstractChunkLine[] tempLineArray = new AbstractChunkLine[250];
 	private HashMap<Integer, L> tempLines = new HashMap<Integer, L>(300);
 	private long filePosition = 0;
 	//private LayoutDetail layout;
-	
+
 //	private WeakHashMap<Integer, LineBase> lines = new WeakHashMap<Integer, LineBase>(700);
 
-	
+
 	public DataStoreLarge(LayoutDetail recordLayout, int type, int recLength) {
 		this(recordLayout, type, recLength, null, "");
 	}
-	
-	public DataStoreLarge(LayoutDetail recordLayout, int type, 
+
+	public DataStoreLarge(LayoutDetail recordLayout, int type,
 			int recLength, AbstractByteReader byteReader, String fname) {
 		fileDetails = new FileDetails(recordLayout, type, recLength);
 		fileDetails.setByteReader(byteReader);
 		fileDetails.setMainFileName(fname);
-		
+
 		chunks.add(getFileChunk(fileDetails, 0));
 	}
-	
+
 	private void setFixedLengthFileName(String mainFileName) {
 		File f = new File(mainFileName);
 		fileDetails.setMainFileName(mainFileName);
@@ -62,36 +63,36 @@ implements DataStore<AbstractLine> {
 			int count = (int) c;
 			int l;
 			chunks.clear();
-			
+
 			for (int i = 0; i < count; i+=recordPerBlock) {
 				l = Math.min(recordPerBlock, count - i);
 				chunks.add(
-					(FileChunk<L, R>) new FileChunkBfFixedLength(fileDetails, i,  l)	
+					(FileChunk<L, R>) new FileChunkBfFixedLength(fileDetails, i,  l)
 				);
 			}
-			
+
 			if (! Common.TEST_MODE) {
 				(new LoadFile()).start();
 			}
 		}
-		
-		
+
+
 	}
-	
+
 	@Override
 	public AbstractChunkLine getTempLine(int idx) {
 		L ret = null;
 		Integer key = idx;
-	
+
 		fileDetails.setReading(false);
 		ChunkLineDtls cd = findLine(idx);
 		if (cd != null) {
 			ret =  cd.chunk.getLineIfDefined(idx);
-			
+
 			if (ret == null) {
 				ret = tempLines.get(idx);
 			}
-			
+
 			if (ret == null) {
 				if (tempLineArray[tempLineCount] != null) {
 					tempLines.remove(
@@ -99,9 +100,9 @@ implements DataStore<AbstractLine> {
 							+ tempLineArray[tempLineCount].getChunkLine()
 					);
 				}
-				
+
 				ret = cd.chunk.getTempLine(idx);
-				
+
 				tempLineArray[tempLineCount++] = ret;
 				tempLines.put(key, ret);
 				if (tempLineCount >= tempLineArray.length) {
@@ -112,22 +113,22 @@ implements DataStore<AbstractLine> {
 			throw new RuntimeException("Can not find line: " + idx
 					+ " ");
 		}
-	
-		
+
+
 		return ret;
 	}
 
 	@Override
 	public void add(int lineNo, AbstractLine line) {
 		ChunkLineDtls cd = findLine(lineNo);
-		
+
 		if (cd == null) {
 			add(line);
 		} else {
 			cd.chunk.add(cd.lineInChunk, line);
-	
+
 			updateLines(lineNo, 1);
-			
+
 			checkForSplit(cd.index);
 			fileDetails.setReading(false);
 		}
@@ -138,18 +139,18 @@ implements DataStore<AbstractLine> {
 		addToChunks(chunks, line);
 		return true;
 	}
-	
+
 	@Override
 	public AbstractLine addCopy(int lineNo, AbstractLine line) {
 		add(lineNo, line);
 		return get(lineNo);
 	}
-	
+
 
 	private void addToChunks(ArrayList<FileChunk<L,R>> chunks, AbstractLine line) {
 		int s = chunks.size() - 1;
 		FileChunk<L,R> ch = chunks.get(s);
-		
+
 		if (! ch.hasRoomForMore(line)) {
 			ch = getFileChunk(fileDetails, ch.getFirstLine() + ch.getCount());
 			if (s > 4) {
@@ -157,16 +158,16 @@ implements DataStore<AbstractLine> {
 			}
 			chunks.add(ch);
 		}
-		
+
 		ch.add(line);
-		
+
 		if (fileDetails.isReading() && fileDetails.getByteReader() != null) {
 			filePosition = fileDetails.getByteReader().getBytesRead();
 		}
 	}
-	
 
-	
+
+
 	private void checkForSplit(int idx) {
 		FileChunk<L, R> ch = chunks.get(idx);
 		if (ch.getSize() > fileDetails.dataSize * 4) {
@@ -182,8 +183,8 @@ implements DataStore<AbstractLine> {
 					for (i = split.size() - 1; i >= 0; i--) {
 						chunks.add(idx + 1, split.get(i));
 					}
-					
-//				
+
+//
 //					for (i = Math.max(0, idx - 2); i < Math.min(idx+5, chunks.size()-1); i++) {
 //						System.out.println(i + " " + chunks.get(i).getFirstLine()
 //								+ " " + chunks.get(i).getCount());
@@ -206,21 +207,21 @@ implements DataStore<AbstractLine> {
 	public AbstractLine get(int idx) {
 		AbstractLine ret = null;
 		ChunkLineDtls cd = findLine(idx);
-		
+
 		fileDetails.setReading(false);
 		if (cd != null) {
 			ret = cd.chunk.getLine(idx);
-		} else { 
+		} else {
 //			int expected = 0;
 //			for (FileChunk f : chunks) {
 //				System.out.println(" ++ " + f.getFirstLine()
-//						+ " " + f.getCount() 
+//						+ " " + f.getCount()
 //						+ " " + (expected == f.getFirstLine()));
-//				expected = f.getFirstLine()	+ f.getCount(); 
+//				expected = f.getFirstLine()	+ f.getCount();
 //			}
 			throw new RuntimeException("line not found: " + idx);
 		}
-		
+
 		return ret;
 	}
 
@@ -237,35 +238,35 @@ implements DataStore<AbstractLine> {
 	@Override
 	public AbstractLine remove(int lineNo) {
 		AbstractLine lc = null;
-		
+
 		ChunkLineDtls cd = findLine(lineNo);
-		
+
 		if (cd != null) {
 			lc = cd.chunk.removeLine(cd.lineInChunk);
-				
+
 //				new Line(fileDetails.getLayout(), cd.chunk.get(cd.lineInChunk));
-			
-//			String s = " Remove Line: " 
+
+//			String s = " Remove Line: "
 //					+ lineNo + " " + cd.chunksFirstLine + " " + cd.lineInChunk
-//					+ " ==> " + lc.getField(0, 1) 
+//					+ " ==> " + lc.getField(0, 1)
 //					+ "\t" +lc.getField(0, 2)
 //					+ "\t" +lc.getField(0, 3)
 //					+ "\t" +lc.getField(0, 4)
 //					+ "\t" +lc.getField(0, 5)
 //					+ "\t" +cd.chunk.getCount();
-			
+
 //			cd.chunk.remove(cd.lineInChunk);
-			
+
 //			System.out.println(s + "\t" +cd.chunk.getCount());
-						
+
 			updateLines(lineNo, -1);
-			
+
 			if (cd.chunk.getCount() == 0 && chunks.size() > 1) {
 				chunks.remove(cd.chunk);
 			}
 		}
 		fileDetails.setReading(false);
-		
+
 		return lc;
 	}
 
@@ -298,16 +299,16 @@ implements DataStore<AbstractLine> {
 	public int size() {
 
 		FileChunk<L, R> chunk = chunks.get(chunks.size() - 1);
-		
+
 		return chunk.getFirstLine() + chunk.getCount();
 	}
-	
-	
+
+
 	private ChunkLineDtls findLine(int lineNo) {
 		ChunkLineDtls ret = null;
 //		System.out.println();
 //		System.out.println("Searching for: " + lineNo);
-		
+
 		fileDetails.setReading(false);
 
 		int idx;
@@ -327,23 +328,23 @@ implements DataStore<AbstractLine> {
 						} else if (arg1.getFirstLine() + arg1.getCount() <= arg0.getFirstLine()) {
 							ret = 1;
 						}
-						
+
 //						System.out.println("+++++ >> " + arg0.getFirstLine()
 //								+ " " + arg0.getCount()
-//								+ " :: " + arg1.getFirstLine() 
+//								+ " :: " + arg1.getFirstLine()
 //								+ " " + arg1.getCount() + " " + ret);
 						return ret;
 					}
-			
+
 				});
 		}
-		
+
 		if (idx >= 0) {
 			FileChunk<L,R> chunk = chunks.get(idx);
 			ret = new ChunkLineDtls(lineNo - chunk.getFirstLine(), chunk, idx);
 		}
 		return ret;
-		
+
 //		int currLine = 0;
 //		FileChunk chunk;
 //		for (int i = 0; i < chunks.size(); i++) {
@@ -352,7 +353,7 @@ implements DataStore<AbstractLine> {
 //				return new chunkLineDtls(currLine, lineNo - currLine, chunk);
 //			}
 //		}
-		
+
 //		return null;
 	}
 
@@ -363,11 +364,11 @@ implements DataStore<AbstractLine> {
 			tempLineArray[i] = null;
 		}
 	}
-	
+
 	private void updateLines(int lineNo, int inc) {
 		clearTempLines();
-		
-		synchronized (chunks) {	
+
+		synchronized (chunks) {
 			for (FileChunk<L, R> fcc : chunks) {
 				if (fcc.getFirstLine() > lineNo) {
 					fcc.setFirstLine(fcc.getFirstLine() + inc);
@@ -378,28 +379,29 @@ implements DataStore<AbstractLine> {
 
 	@Override
 	public void sort(final Comparator<AbstractLine> comp) {
-		Runtime runtime = Runtime.getRuntime();  
+		Runtime runtime = Runtime.getRuntime();
 		long free = runtime.maxMemory() - runtime.totalMemory();
 		long size = this.size();
 		long using = 0;
-		
+
 		for (FileChunk<L, R> ch : chunks) {
 			using += ch.getSpaceUsed();
 		}
 
-		
+
 		if (size > Integer.MAX_VALUE
 		|| free < using * 1.2 + 2000000) {
-			Common.logMsg("\nNot enough memory to do a sort !!!", null);
-			Common.logMsg("Not enough memory to do a sort !!!", null);
-			throw new RuntimeException("Not enough memory to sort");
+			String s = LangConversion.convert("Not enough memory to do a sort !!!");
+			Common.logMsgRaw("\n" + s, null);
+			Common.logMsgRaw(s, null);
+			throw new RuntimeException(s);
 		} else {
 			synchronized (this) {
 				Integer[] array = new Integer[(int) size];
 				for (int i = 0; i < array.length; i++) {
 					array[i] = i;
 				}
-				
+
 				Arrays.sort(array, new Comparator<Integer>() {
 					@Override
 					public int compare(Integer arg0, Integer arg1) {
@@ -410,7 +412,7 @@ implements DataStore<AbstractLine> {
 						);
 					}
 				});
-				
+
 				int i;
 				AbstractChunkLine tmp;
 				L l;
@@ -420,7 +422,7 @@ implements DataStore<AbstractLine> {
 				List<L> chunkManagedLines;
 				FileChunk<L,R> fc;
 				Integer lineNo;
-				
+
 				for (FileChunk<L,R> f : chunks) {
 					if ((chunkManagedLines = f.getActiveLines()) != null) {
 						for (L lb : chunkManagedLines) {
@@ -428,16 +430,16 @@ implements DataStore<AbstractLine> {
 						}
 					}
 				}
-				
+
 				newChunks.add(getFileChunk(fileDetails, 0));
-				
+
 				for (i = 0; i < array.length; i++) {
 					tmp = getTempLine(array[i].intValue());
 					addToChunks(newChunks, tmp);
-					
-//					System.out.print(" :: --> " + i 
+
+//					System.out.print(" :: --> " + i
 //							+ " " + tmp.getClass().getName()
-//							+ " " + tmp.getActualLine() 
+//							+ " " + tmp.getActualLine()
 //							+ " " + tmp.getChunkLine() + " " + (tmp.getChunk() == null)
 //							+ " " + chunks.indexOf(tmp.getChunk())
 //							+ "\t" + tmp.getField(0,1)
@@ -445,21 +447,21 @@ implements DataStore<AbstractLine> {
 //							+ "\t" + tmp.getField(0,3)
 //							+ "\t" + tmp.getField(0,4)
 //					);
-					
+
 					lineNo = tmp.getActualLine();
 					if (lines.containsKey(lineNo)) {
 						l = lines.get(lineNo);
 						fc = newChunks.get(newChunks.size() - 1);
 						l.setChunk(fc);
 						l.setChunkLine(fc.getCount() - 1);
-						fc.addLineToManagedLines(l); 
-						
+						fc.addLineToManagedLines(l);
+
 						//System.out.print(" active");
 					}
-					
+
 					//System.out.println();
 				}
-				
+
 				clearTempLines();
 
 				chunks = newChunks;
@@ -491,12 +493,12 @@ implements DataStore<AbstractLine> {
 	public DataStore<AbstractLine> newDataStore() {
 		return new DataStoreStd<AbstractLine>(fileDetails.getLayout(), this);
 	}
-	
+
 
 	@Override
 	public long getSpace() {
 		long kb = 0;
-		
+
 		for (FileChunk<L, R> ch : chunks) {
 			kb += ch.getSize();
 		}
@@ -508,7 +510,7 @@ implements DataStore<AbstractLine> {
 		long kb = 0;
 		long using = 0;
 		long kbSize = 1024;
-		
+
 		for (FileChunk<L, R> ch : chunks) {
 			kb += ch.getSize();
 			using += ch.getSpaceUsed();
@@ -518,11 +520,11 @@ implements DataStore<AbstractLine> {
 			+  "\nCompressed Size (kb) : " + (using / kbSize)
 			+  "\n  Disk Overflow (kb) : " + fileDetails.getDiskSpaceUsed() / kbSize;
 	}
-	
+
 	public final void rename(String oldName, String newName) {
-		fileDetails.rename(oldName, newName);		
+		fileDetails.rename(oldName, newName);
 	}
-	
+
 	private FileChunk<L, R> getFileChunk(FileDetails details, int theFirstLine) {
 		switch (this.fileDetails.type) {
 		case FileDetails.CHAR_LINE:
@@ -532,20 +534,20 @@ implements DataStore<AbstractLine> {
 			&&  fileDetails.getByteReader() != null
 			&&  (Common.OPTIONS.largeVbOption.get() == ProgramOptions.LARGE_VB_TEST
 			 ||  FileDetails.getSpaceUsedRatio() > 0.60)) {
-				return (FileChunk<L, R>) 
+				return (FileChunk<L, R>)
 					new FileChunkBfVariableLength(fileDetails, theFirstLine, filePosition);
 			}
-		} 
+		}
 		return (FileChunk<L, R>) new FileChunkLine(details, theFirstLine);
 	}
-	
-	public static DataStoreLarge<LineChunk, RecordStoreFixedLength> 
+
+	public static DataStoreLarge<LineChunk, RecordStoreFixedLength>
 		getFixedLengthRecordStore(LayoutDetail layout, String fileName) {
 		DataStoreLarge<LineChunk, RecordStoreFixedLength> ret
 			= new DataStoreLarge<LineChunk, RecordStoreFixedLength>(layout, FileDetails.FIXED_LENGTH_BASEFILE, layout.getMaximumRecordLength());
-		
+
 		ret.setFixedLengthFileName(fileName);
-		
+
 		System.out.println("Large Fixed Length Model");
 		return ret;
 	}
@@ -555,16 +557,16 @@ implements DataStore<AbstractLine> {
 						 lineInChunk;
 		public final FileChunk<L, R> chunk;
 		public final int index;
-		
+
 		public ChunkLineDtls( int lineInChunk, FileChunk<L, R> chunk, int idx) {
 			super();
 			//this.chunksFirstLine = chunk.getFirstLine();
 			this.lineInChunk = lineInChunk;
 			this.chunk = chunk;
 			this.index = idx;
-		}		
+		}
 	}
-	
+
 	private class LoadFile extends Thread {
 
 		@Override
@@ -580,19 +582,19 @@ implements DataStore<AbstractLine> {
 				}
 			}
 			System.gc();
-			
+
 			i = 26;
 			while (i < 100 && i < chunks.size()
 				&& FileDetails.getSpaceUsedRatio() < 0.40) {
 				fc = chunks.get(i++);
 				fc.getTempLine(fc.getFirstLine());
-				
+
 				try {
 					super.wait(15);
 				} catch (Exception e) {
 				}
 			}
 		}
-		
+
 	}
 }

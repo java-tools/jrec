@@ -14,9 +14,9 @@ import java.awt.event.FocusEvent;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
-import javax.swing.JScrollPane;
 
-import net.sf.RecordEditor.utils.common.Parameters;
+import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.FileChooser;
 
@@ -30,8 +30,9 @@ import net.sf.RecordEditor.utils.swing.FileChooser;
 public class EditIcons extends BasePanel implements ActionListener {
 
     private static final String DESCRIPTION
-    	= "<h2>Icons</h2>"
-        + "This screen lets you choose which icon set to use in the <b>RecordEditor</b>";
+    	= LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProperties_Icons",
+    			  "<h2>Icons</h2>"
+    			+ "This screen lets you choose which icon set to use in the <b>RecordEditor</b>");
     private static final String[] ICON_NAMES = {
             "Windows",
             "Eclipse",
@@ -127,7 +128,7 @@ public class EditIcons extends BasePanel implements ActionListener {
 
 		this.addComponent(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP2,
 		        BasePanel.FULL, BasePanel.FULL,
-				new JScrollPane(tips));
+				tips);
 
         this.addLine("Icon Set", looks);
         this.setGap(BasePanel.GAP1);

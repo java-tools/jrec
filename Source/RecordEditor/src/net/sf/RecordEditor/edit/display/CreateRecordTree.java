@@ -18,9 +18,9 @@ import net.sf.RecordEditor.utils.screenManager.ReFrame;
 public class CreateRecordTree extends ReFrame implements ActionListener  {
 
 	public final CreateRecordTreePnl treeDisplay;
-	
+
 	private AbstractLayoutDetails<?, ?> layout;
-	
+
 	private AbstractFileDisplay source;
 
 	@SuppressWarnings("rawtypes")
@@ -30,23 +30,23 @@ public class CreateRecordTree extends ReFrame implements ActionListener  {
 	public CreateRecordTree(AbstractFileDisplay src, @SuppressWarnings("rawtypes") FileView fileView) {
 		super(fileView.getFileNameNoDirectory(), "Create Record Tree",
 				fileView.getBaseFile());
-		
+
 		view   = fileView;
 		source = src;
 		layout = view.getLayout();
-		
+
 		treeDisplay = new CreateRecordTreePnl(layout, true);
 		this.addMainComponent(treeDisplay.getPanel());
 
 		treeDisplay.execute.addActionListener(this);
-		
-		super.addMainComponent(treeDisplay.getPanel());		
+
+		super.addMainComponent(treeDisplay.getPanel());
 		this.setVisible(true);
 		this.setToMaximum(false);
 	}
 
-	
-	
+
+
 //	/**
 //	 * @see net.sf.RecordEditor.utils.filter.AbstractSaveDetails#getSaveDetails()
 //	 */
@@ -55,7 +55,7 @@ public class CreateRecordTree extends ReFrame implements ActionListener  {
 //		RecordTree tree = new RecordTree();
 //		int i, j, size;
 //		Integer[] parent = pnl.getParent();
-//		
+//
 //		Common.stopCellEditing(pnl.recordTbl);
 //		size = 0;
 //		for (i = 0; i < parent.length; i++) {
@@ -63,21 +63,21 @@ public class CreateRecordTree extends ReFrame implements ActionListener  {
 //				size += 1;
 //			}
 //		}
-//		
+//
 //		j = 0;
 //		tree.parentRelationship = new RecordParent[size];
 //		for (i = 0; i < parent.length; i++) {
 //			if (parent[i] != CreateRecordTreePnl.BLANK_PARENT) {
 //				tree.parentRelationship[j] = new RecordParent();
 //				tree.parentRelationship[j].recordName   = layout.getRecord(i).getRecordName();
-//				
-//				tree.parentRelationship[j++].parentName 
+//
+//				tree.parentRelationship[j++].parentName
 //					= layout.getRecord(parent[i].intValue()).getRecordName();
 //			}
 //		}
 //		return (new EditorTask()).setRecordTree(layout.getLayoutName(), tree);
 //	}
-//	
+//
 //	/**
 //	 * update tree definition from save details
 //	 * @param saveDetails details that have been saved
@@ -87,7 +87,7 @@ public class CreateRecordTree extends ReFrame implements ActionListener  {
 //		RecordParent[] parentRel = saveDetails.recordTree.parentRelationship;
 //		Integer[] parent = pnl.getParent();
 //
-//		
+//
 //		for (i = 0; i < parentRel.length; i++) {
 //			idx = layout.getRecordIndex(parentRel[i].recordName);
 //			if (idx >= 0) {
@@ -96,36 +96,36 @@ public class CreateRecordTree extends ReFrame implements ActionListener  {
 //		}
 //		pnl.setParent(parent);
 //	}
-	
 
-	
+
+
 	/**
-	 * 
+	 *
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	public final void actionPerformed(ActionEvent event) {
 
 	     Common.stopCellEditing(treeDisplay.recordTbl);
-	     
+
 	     doAction();
 	}
-	
+
 	/**
 	 * execute action
 	 */
 	public final void doAction() {
-	     treeDisplay.messageFld.setText("");
-	     
+	     treeDisplay.panel.setMessageRawTxt("");
+
 	     try {
 	     	@SuppressWarnings("rawtypes")
 			FileView newView = getNewView();
-	        
+
 	        if (newView == null) {
-	        	treeDisplay.messageFld.setText("No Records Selected");
+	        	treeDisplay.panel.setMessageTxt("No Records Selected");
 	        } else {
 	        	Integer[] parent = treeDisplay.getParent();
 	        	int[] parentIdxs = new int[parent.length];
-	        	
+
 	        	//System.out.print("Parents --> ");
 	        	for (int i = 0; i < parent.length; i++) {
 	        		parentIdxs[i] = parent[i].intValue();
@@ -133,24 +133,24 @@ public class CreateRecordTree extends ReFrame implements ActionListener  {
 	        	}
 	        	//System.out.println(" <--");
 	        	TreeParserRecord parser = new TreeParserRecord(parentIdxs);
-	          
+
 	            new LineTree(newView, parser, false, 0);
 	        }
 
 	        this.setClosed(true);
 	     } catch (Exception e) {
-	    	 treeDisplay.messageFld.setText(e.getMessage());
+	    	 treeDisplay.panel.setMessageRawTxt(e.getMessage());
 	    	 e.printStackTrace();
 		}
 	}
-	
+
 	@SuppressWarnings("rawtypes")
-	protected final FileView getNewView() {  	
+	protected final FileView getNewView() {
 
         return source.getFileView().getView();
 	}
 
-    
+
 	/**
 	 *  Execute standard RecordEditor actions
 	 *
@@ -172,7 +172,7 @@ public class CreateRecordTree extends ReFrame implements ActionListener  {
 	 * @return wether action is available
 	 */
 	public boolean isActionAvailable(final int action) {
-		return  (action == ReActionHandler.HELP) 
+		return  (action == ReActionHandler.HELP)
 		    ||  super.isActionAvailable(action);
 	}
 

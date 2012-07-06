@@ -9,10 +9,11 @@ import net.sf.RecordEditor.re.file.FieldMapping;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.file.GetView;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 @SuppressWarnings("serial")
-public abstract class BaseLineModel 
-extends AbstractTableModel 
+public abstract class BaseLineModel
+extends AbstractTableModel
 implements GetView {
 
 	public static final int FIRST_DATA_COLUMN = 3;
@@ -25,8 +26,10 @@ implements GetView {
 	private FileView fileView;
 	protected AbstractLayoutDetails<?, ?> layout;
 	private int currentLayout;
-	protected String[] columnName = {"Field", "Start", "Len" , "Data", "Text", "Hex" };
-	
+	protected String[] columnName = LangConversion.convertColHeading(
+			"Single_Record",
+			new String[] {"Field", "Start", "Len" , "Data", "Text", "Hex" });
+
 	FieldMapping fieldMapping = null;
 
 
@@ -36,8 +39,8 @@ implements GetView {
 	    fileView = file;
 
         layout  = file.getLayout();
-        
-         
+
+
         fieldMapping = new FieldMapping(getFieldCounts());
 	}
 
@@ -47,19 +50,19 @@ implements GetView {
 	public int getRowCount() {
 	    int layoutIndex = getFixedCurrentLayout();
 	    int ret;
-	    
+
 	    if (layoutIndex >= layout.getRecordCount()) {
 	    	ret = 1;
 	    } else {
 		    ret = fileView.getLayoutColumnCount(layoutIndex);
-		    
+
 		    ret = fieldMapping.getColumnCount(layoutIndex, ret);
 	    }
-	    
+
 	    if (showKey()) {
 	    	ret += 1;
 	    }
-	    
+
    	    return ret;
 	}
 
@@ -71,35 +74,35 @@ implements GetView {
 	 * @see javax.swing.table.TableModel#getValueAt(int, int)
 	 */
 	public Object getValueAt(final int row, final int col) {
-	
+
 		    int idx = getFixedCurrentLayout();
 		    if (idx >= layout.getRecordCount()) {
 		        if (col == 0) {
-		            return "Full Line";
+		            return LangConversion.convert("Full Line");
 		        } //else if (col < FIRST_DATA_COLUMN) {
 		      //      return null;
 		      //  }
-		    } else if (row == layout.getRecord(idx).getFieldCount()) { 
-		    	 if (col == 0) { 
-		    		 return "Key Value";
+		    } else if (row == layout.getRecord(idx).getFieldCount()) {
+		    	 if (col == 0) {
+		    		 return LangConversion.convert("Key Value");
 		    	 }
 		    } else if (col == 0) {                  // Selection Button
 			    int column = getRealRow(row);
 			    return layout.getRecord(getFixedCurrentLayout()).getField(column).getName();
 			} else if (col < FIRST_DATA_COLUMN) { //
 				FieldDetail df = fileView.getLayout().getRecord(idx).getField(getRealRow(row));
-	
+
 				if (df == null) {
 					return null;
 				} else if (col == 1) {
 					return Integer.valueOf(df.getPos());
 				} else {
 					int len = df.getLen();
-	
+
 					if (len == Common.NULL_INTEGER) {
 						return "";
 					}
-	
+
 					return Integer.valueOf(df.getLen());
 				}
 			}
@@ -117,7 +120,7 @@ implements GetView {
 	public void setCurrentLayout(int newCurrentLayout) {
 	    this.currentLayout = newCurrentLayout;
 	}
-	
+
 	public final int getRealRowWithKey(int row) {
 		//int idx = getFixedCurrentLayout();
 		if (isKeyRow(row)) {
@@ -125,7 +128,7 @@ implements GetView {
 		}
 		return getRealRow(row);
 	}
-	
+
     /**
      * Get the real row of the data
      * @param row requested row
@@ -136,7 +139,7 @@ implements GetView {
         return fileView.getRealColumn(idx, getRowLocal(idx, row));
     }
 
-    
+
 
 	/**
 	 * Remap the row (taking into account any hidden rows)
@@ -148,7 +151,7 @@ implements GetView {
 		}
 		return getRowLocal(getFixedCurrentLayout(), inRow);
 	}
-	
+
 	/**
 	 * Remap the row (taking into account any hidden rows)
 	 * @param layoutIndex record layout index
@@ -169,9 +172,9 @@ implements GetView {
 		fieldMapping.hideColumn(idx, fieldMapping.getRealColumn(idx, row));
 		this.fireTableDataChanged();
 	}
-	
-	public final void showRow(int row) { 
-		
+
+	public final void showRow(int row) {
+
 	    fieldMapping.showColumn(getFixedCurrentLayout(), row);
 	    this.fireTableDataChanged();
 	}
@@ -192,7 +195,7 @@ implements GetView {
 	 * @return current record layout
 	 */
     public int getFixedCurrentLayout() {
-    	
+
         if (currentLayout < 0) {
             return 0;
         }
@@ -201,32 +204,32 @@ implements GetView {
 
 
     public final void layoutChanged(AbstractLayoutDetails<?, ?> newLayout) {
-    	
+
     	if (layout != newLayout) {
     		layout = newLayout;
-    	    
+
     	    fieldMapping.resetMapping(getFieldCounts());
 
     		super.fireTableStructureChanged();
     	}
-    }  
-    
-	
+    }
+
+
 	/**
 	 * Get the number of fields for each record
 	 * @return field counts for for each record
 	 */
 	private int[] getFieldCounts() {
 		int[] rows = new int[layout.getRecordCount()];
-        
+
 	    for (int i = 0; i < layout.getRecordCount(); i++) {
 	    	rows[i] = fileView.getLayoutColumnCount(i);
 	    }
-	
+
 	    return rows;
 	}
 
-	
+
 	/**
 	 * get the current record layout
 	 *

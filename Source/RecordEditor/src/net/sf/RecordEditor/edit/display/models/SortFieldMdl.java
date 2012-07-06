@@ -10,6 +10,7 @@ package net.sf.RecordEditor.edit.display.models;
 import javax.swing.table.AbstractTableModel;
 
 import net.sf.RecordEditor.jibx.compare.SortFields;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 
 /**
@@ -21,10 +22,12 @@ import net.sf.RecordEditor.jibx.compare.SortFields;
 @SuppressWarnings("serial")
 public final class SortFieldMdl extends AbstractTableModel {
 
-    private static final String[] COLUMN_NAMES = {"Field", "Ascending" };
+    private static final String[] COLUMN_NAMES = LangConversion.convertColHeading(
+			"Sort",
+			new String[] {"Field", "Ascending" });
     private String[] fieldName;
     private boolean[] ascending;
-    
+
     private int columnCount = 2;
 
     /**
@@ -87,8 +90,8 @@ public final class SortFieldMdl extends AbstractTableModel {
     public int getColumnCount() {
         return columnCount;
     }
-    
-    
+
+
 
     /**
 	 * @param newColumnCount the columnCount to set
@@ -132,22 +135,22 @@ public final class SortFieldMdl extends AbstractTableModel {
     public String getFieldName(int index) {
         return fieldName[index];
     }
-    
+
     /**
-     * get model details 
+     * get model details
      * @return model details
      */
     public SortFields[] getSortFields() {
     	int i, j, size;
     	SortFields[] ret;
-    	
+
     	size = 0;
     	for (i = 0; i < fieldName.length; i++) {
     		if (fieldName[i] != null && ! "".equals(fieldName[i])) {
     			size += 1 ;
     		}
     	}
-    	
+
     	j = 0;
     	ret = new SortFields[size];
     	for (i = 0; i < ret.length; i++) {
@@ -158,22 +161,22 @@ public final class SortFieldMdl extends AbstractTableModel {
     			j += 1 ;
     		}
     	}
-    	
+
     	return ret;
      }
-    
+
     /**
-     * 
+     *
      * @param fieldDetails
      */
     public void setSortTree(SortFields[] fieldDetails) {
     	int i;
-    	
+
     	for (i = 0; i < fieldDetails.length; i++) {
     		fieldName[i] = fieldDetails[i].fieldName;
     		ascending[i] = fieldDetails[i].ascending;
     	}
-    	
+
     	for (i = fieldDetails.length; i < fieldName.length; i++) {
     		fieldName[i] = " ";
     		ascending[i] = false;

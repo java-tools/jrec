@@ -53,13 +53,13 @@ public class MenuInternalLayout extends ReFrame
 	private JButton btnHelp     = Common.getHelpButton();
 
 	private BaseHelpPanel pnl   = new BaseHelpPanel();
-	
+
 	private String rFiles;
-	
+
 	//private AbstractLayoutSelection selection;
 	@SuppressWarnings("unchecked")
 	private AbstractLayoutSelectCreator layoutCreator;
-	
+
 
 
 
@@ -70,7 +70,7 @@ public class MenuInternalLayout extends ReFrame
 	 */
 	@SuppressWarnings("unchecked")
 	public MenuInternalLayout(AbstractLayoutSelectCreator creator, String recentFiles)  {
-		super("Menu", "Compare Menu", null);
+		super("", "Menu", "Compare Menu", null);
 		String[] dbs;
 
 		layoutCreator = creator;
@@ -83,7 +83,7 @@ public class MenuInternalLayout extends ReFrame
 		pnl.setHelpURL(Common.formatHelpURL(Common.HELP_DIFF));
 
 		dbs = selection.getDataBaseNames();
-		
+
 		pnl.setGap(BasePanel.GAP1);
 		if (dbs != null) {
 			for (int i = 0; (i < dbs.length) && (dbs[i] != null) && (!dbs[i].equals("")); i++) {
@@ -92,9 +92,9 @@ public class MenuInternalLayout extends ReFrame
 			dbCombo.setSelectedIndex(Common.getConnectionIndex());
 			pnl.addLine("Data Base", dbCombo, btnHelp);
 		}
-		
+
 		pnl.setGap(BasePanel.GAP3);
-		
+
 		pnl.addMenuItem("Run Stored Compare", fromFileBtn);
 		pnl.setGap(BasePanel.GAP1);
 		pnl.addMenuItem("Compare 2 Files", compare);
@@ -143,8 +143,8 @@ public class MenuInternalLayout extends ReFrame
 
 			selection1.setDatabaseIdx(dbCombo.getSelectedIndex());
 			selection2.setDatabaseIdx(dbCombo.getSelectedIndex());
-			
-			if (e.getSource() == compare) {	
+
+			if (e.getSource() == compare) {
 				new CompareInternalLayout(selection1, selection2, rFiles);
 			}
  		}

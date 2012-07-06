@@ -39,6 +39,7 @@ import javax.swing.RootPaneContainer;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 
@@ -52,11 +53,12 @@ import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
  *
  */
 public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements ActionListener {
-	
+
     public static final int FORWARD  = 1;
     public static final int BACKWARD = -1;
     private static final int WIDTH_INCREASE = 150;
     private static final int HEIGHT_INCREASE = 75;
+	protected static final String FILE_SAVE_FAILED = Common.FILE_SAVE_FAILED;
 
 
     private AbstractWizardPanel<Details>[] pnls;
@@ -70,24 +72,24 @@ public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements Act
 	private JButton rightArrow;
 
 	private int panelNumber = 0;
-	
+
 	private boolean toInit = true;
 	private Component displayFrame;
 	private RootPaneContainer controlFrame;
-	
-	
+
+
 	private JScrollPane oldPane = null;
-	
+
 
 
 	/**
 	 * create wizard from name / details
-	 * 
+	 *
 	 * @param name name of the wizard
 	 * @param details wizard details
 	 */
 	public AbstractWizard(String name, final Details details) {
-		this(new ReFrame(name,"", null), details);
+		this(new ReFrame("", name,"", null), details);
 	}
 
 	/**
@@ -100,7 +102,7 @@ public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements Act
 		controlFrame = frame;
 		wizardDetails = details;
 	}
- 
+
 //	/**
 //     * File Layout creation wizard
 //     * @param connectionId Database connection Identifier
@@ -111,10 +113,10 @@ public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements Act
 //    public AbstractWizard(JInternalFrame frame, final Details details,
 //            final AbstractWizardPanel<Details>[] panels) {
 //    	this(frame, details);
-//    	
+//
 //    	setPanels(panels);
 //    }
-    
+
     /**
      * Set the panels
      * @param panels the panels up
@@ -122,13 +124,13 @@ public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements Act
     public void setPanels(final AbstractWizardPanel<Details>[] panels) {
     	setPanels(panels, true);
     }
-    
+
     public void setPanels(final AbstractWizardPanel<Details>[] panels, boolean visible) {
-    	int height = 0; 
+    	int height = 0;
     	int width = 0;
     	Dimension d;
         pnls = panels;
-        
+
         for (int i = 0; i < pnls.length; i++) {
         	pnls[i].getComponent().setBorder(BorderFactory.createEmptyBorder());
         }
@@ -136,7 +138,7 @@ public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements Act
         	JPanel pnl = new JPanel();
         	JScrollPane scrollTabbed=  new JScrollPane(tabbed);
         	scrollTabbed.setBorder(BorderFactory.createEmptyBorder());
-        	
+
         	toInit = false;
 
   	        pnl.setLayout(new BorderLayout());
@@ -152,7 +154,7 @@ public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements Act
 	        displayFrame.doLayout();
 	        //displayFrame.getPreferredSize();
 
-	        
+
 	        d = displayFrame.getPreferredSize();
 	        width = d.width + WIDTH_INCREASE;
 	        height = d.height +HEIGHT_INCREASE;
@@ -227,12 +229,12 @@ public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements Act
         int old = panelNumber;
         try {
         	wizardDetails = pnls[panelNumber].getValues();
-        	
+
             panelNumber += inc;
         	do {
 	            pnls[panelNumber].setValues(wizardDetails);
         	} while (pnls[panelNumber].skip() && (panelNumber > 0) && ((panelNumber += inc) < pnls.length)  );
-        	
+
 //        	System.out.println("~~> Next Panel " + panelNumber + " < " + pnls.length);
         	if (panelNumber < pnls.length) {
         		//tabbed.addTab("", pnls[panelNumber].getComponent());
@@ -245,16 +247,16 @@ public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements Act
         } catch (Exception ex) {
             panelNumber = old;
             message.setText(ex.getMessage());
-            Common.logMsg(AbsSSLogger.WARNING, ex.getMessage(), null);
+            Common.logMsgRaw(AbsSSLogger.WARNING, ex.getMessage(), null);
             ex.printStackTrace();
         }
     }
-    
+
     private void addPanel(int num) {
 
     	JScrollPane tmp = new JScrollPane(pnls[panelNumber].getComponent());
 		tabbed.addTab(null, tmp);
-		 
+
 		if (oldPane != null) {
 			tabbed.remove(oldPane);
 		}
@@ -263,20 +265,20 @@ public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements Act
 		oldPane = tmp;
 
     }
-    
+
     private void ap_200_finish() {
-    	
+
         try {
         	wizardDetails = pnls[panelNumber].getValues();
         	finished(wizardDetails);
         } catch (Exception ex) {
             message.setText(ex.getMessage());
-            Common.logMsg(ex.getMessage(), ex);
+            Common.logMsgRaw(ex.getMessage(), ex);
             ex.printStackTrace();
         }
     }
 
-    
+
     /**
      * save the newly created record to the DB
      * @throws SQLException any error that occured
@@ -284,7 +286,7 @@ public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements Act
     public abstract void finished(Details details);
 
 
- 
+
 
     /**
      * @see net.sf.RecordEditor.utils.common.ReActionHandler#executeAction(int)
@@ -302,12 +304,12 @@ public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements Act
      * @see net.sf.RecordEditor.utils.common.ReActionHandler#isActionAvailable(int)
      */
     public boolean isActionAvailable(int action) {
-    	
+
         return action == ReActionHandler.HELP
             || ((		displayFrame instanceof ReFrame
             	&& ((ReFrame) displayFrame).isActionAvailable(action)));
     }
-    
+
 	/**
 	 * @return the wizardDetails
 	 */
@@ -318,42 +320,42 @@ public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements Act
 		}
 		return wizardDetails;
 	}
-    
+
 	/**
 	 * @param wizardDetails the wizardDetails to set
 	 */
     public void setWizardDetails(Details wizardDetails) {
 		this.wizardDetails = wizardDetails;
 	}
-    
-    
+
+
 	/**
 	 * @return the panelNumber
 	 */
 	public final AbstractWizardPanel<Details> getActivePanel() {
 		return pnls[panelNumber];
 	}
-	
+
 	/**
 	 * @return the message
 	 */
 	public final JTextArea getMessage() {
 		return message;
 	}
-	
+
 	/**
 	 * @return the panelNumber
 	 */
 	public final int getPanelNumber() {
 		return panelNumber;
 	}
-	
+
 	/**
 	 * Close the frame
 	 */
-	public final void setClosed(boolean close) 
+	public final void setClosed(boolean close)
 	throws PropertyVetoException {
-		
+
 //		System.out.println("setClosed: " + displayFrame.getClass().getName()
 //				+ " --> " + (displayFrame instanceof JInternalFrame));
 		if (displayFrame instanceof JInternalFrame) {

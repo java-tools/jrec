@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
@@ -21,6 +20,8 @@ import net.sf.RecordEditor.utils.common.AbsConnection;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.jdbc.DBtableModel;
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
+import net.sf.RecordEditor.utils.lang.ReOptionDialog;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.Combo.ComboOption;
@@ -34,7 +35,7 @@ public class RecordSelectionPnl implements IntRecordSelectPnl {
 	private RecordSelectionDB db;
 	protected final DBtableModel<RecordSelectionRec> selectionMdl;
 	protected final JCheckBox defaultSelectionChk = new JCheckBox();
-	private JButton copyFromBtn = new JButton(new AbstractAction("Copy Selections") {
+	private JButton copyFromBtn = new JButton(new ReAbstractAction("Copy Selections") {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -222,7 +223,7 @@ public class RecordSelectionPnl implements IntRecordSelectPnl {
 		}
 
 		if (records.size() > 1) {
-			Object ret = JOptionPane.showInputDialog(
+			Object ret = ReOptionDialog.showInputDialog(
 					panel, "Record to Copy From", "Record Selecetion", JOptionPane.QUESTION_MESSAGE,
 					null, records.toArray(), "");
 			if (ret != null && ! "".equals(ret.toString()) && ret instanceof ComboOption) {

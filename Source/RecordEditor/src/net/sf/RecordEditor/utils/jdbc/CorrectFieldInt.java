@@ -8,6 +8,8 @@ package net.sf.RecordEditor.utils.jdbc;
 
 import javax.swing.JFrame;
 
+import net.sf.RecordEditor.utils.lang.LangConversion;
+
 /**
  * @author Bruce Martin
  *
@@ -17,6 +19,7 @@ import javax.swing.JFrame;
 public class CorrectFieldInt implements CorrectCallBack {
 
 
+	private static final String INVALID_INTEGER = LangConversion.convert("Invalid Integer");
 	private int cVal, ret;
 
 	/**
@@ -55,7 +58,7 @@ public class CorrectFieldInt implements CorrectCallBack {
 	 * @return the error message
 	 */
 	public String getErrorMsg(String val) {
-		String retVal = "Invalid Integer";
+		String retVal = INVALID_INTEGER;
 		//System.out.println("correct Int next");
 
 		try {

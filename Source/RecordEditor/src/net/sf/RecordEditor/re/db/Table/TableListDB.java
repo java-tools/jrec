@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
 import net.sf.RecordEditor.utils.jdbc.AbsRecord;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 
 
@@ -26,11 +27,13 @@ import net.sf.RecordEditor.utils.jdbc.AbsRecord;
 public final class TableListDB  extends AbsDB<TableListRec> {
 
 
-  private static final String[] COLUMN_NAMES = {
+  private static final String[] COLUMN_NAMES = LangConversion.convertColHeading(
+			"DB-TableList Columns",
+			new String[] {
                    "Table Id"
                  , "Table Name"
                  , "Description"
-  };
+  });
 
 
 
@@ -108,7 +111,7 @@ public final class TableListDB  extends AbsDB<TableListRec> {
    */
   protected int setSQLParams(PreparedStatement statement, TableListRec value, boolean insert, int idx)
                              throws SQLException {
- 
+
       statement.setInt(idx++, value.getTBlId());
       statement.setString(idx++, correctStr(value.getTblName()));
       statement.setString(idx++, correctStr(value.getDescription()));

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package net.sf.RecordEditor.layoutEd;
 
@@ -28,16 +28,19 @@ import net.sf.RecordEditor.re.db.Record.ExtendedRecordDB;
 import net.sf.RecordEditor.re.db.Record.RecordRec;
 import net.sf.RecordEditor.re.util.CopybookLoaderFactoryDB;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
+import net.sf.RecordEditor.utils.lang.LangConversion;
+
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 /**
@@ -52,8 +55,8 @@ public class LayoutCopy extends ReFrame  implements ActionListener {
 	private static String[] dbs = Common.getSourceId();
 	private static CopybookWriterManager writerManager = CopybookWriterManager.getInstance();
 
-	
-	private JButton go = new JButton("Copy");;
+
+	private JButton go = SwingUtils.newButton("Copy");;
 
 	private JTextArea msgField = new JTextArea();
 	private	Dimension dimTo = to.getPreferredSize();
@@ -65,34 +68,34 @@ public class LayoutCopy extends ReFrame  implements ActionListener {
 	 */
 	public LayoutCopy() {
 		super("", "Copy Layouts", null);
-		
+
 		JSplitPane pnl;
 		BaseHelpPanel main = new BaseHelpPanel();
 		Rectangle screenSize = ReMainFrame.getMasterFrame().getDesktop().getBounds();
 
 		main.setHelpURL(Common.formatHelpURL(Common.HELP_COPY_LAYOUT));
-		
+
 		dimFrom.setSize(dimFrom.getWidth(), dimTo.getHeight());
 		from.setPreferredSize(dimFrom);
 
 //		to.setHeight(dim.getHeight());
 		go.addActionListener(this);
 		to.dbCombo.addActionListener(this);
-		
+
 		pnl = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, from, to);
 
 		main.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP3,
 		        BasePanel.FULL, BasePanel.FULL,
 		        pnl);
-		
+
 		main.addLine("", null, go);
 		main.setGap(BasePanel.GAP3);
 		main.addComponent(1, 5, 90 , BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(msgField));
 		this.getContentPane().add(main);
-		
-		
+
+
 		this.pack();
 //		from.setHeight(to.getHeight());
 		if (this.getWidth() >= screenSize.getWidth()) {
@@ -101,13 +104,13 @@ public class LayoutCopy extends ReFrame  implements ActionListener {
 		setVisible(true);
 	}
 
-	
+
 	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent event) {
-		
-		
+
+
 		if (event.getSource() == go) {
 			ap_100_Copy();
 			//to.setEnabledValue();
@@ -115,7 +118,7 @@ public class LayoutCopy extends ReFrame  implements ActionListener {
 			to.setEnabledValue();
 		}
 	}
-	
+
 	/**
 	 * Copy Copybook's between DB's / Files
 	 */
@@ -124,7 +127,7 @@ public class LayoutCopy extends ReFrame  implements ActionListener {
 		int fromIdx = from.dbCombo.getSelectedIndex();
 		int toIdx = to.dbCombo.getSelectedIndex();
 		String name = from.layoutName.getText();
-		
+
 		if (fromIdx == toIdx) {
 			msgField.setText("From and To Database can not be the same");
 		} else if ("".equals(name.trim())) {
@@ -134,9 +137,9 @@ public class LayoutCopy extends ReFrame  implements ActionListener {
 				RecordRec r;
 				ExternalRecord rec;
 				StringBuffer msg = new StringBuffer("Copied:");
-			
+
 				ExtendedRecordDB dbFrom = new ExtendedRecordDB();
-				
+
 				CopybookLoaderFactoryDB.setCurrentDB(fromIdx);
 				dbFrom.setConnection(new ReConnection(fromIdx));
 				dbFrom.resetSearch();
@@ -145,9 +148,9 @@ public class LayoutCopy extends ReFrame  implements ActionListener {
 					dbFrom.setSearchListChar(AbsDB.opEquals, "Y");
 				}
 				dbFrom.open();
-				
+
 				r = dbFrom.fetch();
-				
+
 				if (toIdx < to.fileOption) {
 					ExtendedRecordDB dbTo = new ExtendedRecordDB();
 					dbTo.setConnection(new ReConnection(toIdx));
@@ -156,12 +159,12 @@ public class LayoutCopy extends ReFrame  implements ActionListener {
 						rec = r.getValue();
 						rec.setNew(true);
 						dbTo.checkAndUpdate(rec);
-						
+
 						msg.append("\n      ").append(r.getRecordName());
 						r = dbFrom.fetch();
 
 					}
-					
+
 		        	dbTo.close();
 				} else if (toIdx == to.fileOption) {
 					CopybookWriter writer = writerManager.get(to.outputFormat.getSelectedIndex());
@@ -172,45 +175,45 @@ public class LayoutCopy extends ReFrame  implements ActionListener {
 					if (dir != null && (! "".equals(dir)) && (! dir.endsWith("/")) && (! dir.endsWith("\\"))) {
 						dir = dir + Common.FILE_SEPERATOR;
 					}
-					
+
 					while (r != null) {
 						writer.writeCopyBook(dir, r.getValue(), Common.getLogger());
-						
+
 						msg.append("\n      ").append(r.getRecordName());
 						r = dbFrom.fetch();
-					}						
+					}
 				} else {
 					net.sf.RecordEditor.layoutEd.utils.LayoutVelocity velocity
 							= new net.sf.RecordEditor.layoutEd.utils.LayoutVelocity(fromIdx);
-			
+
 					String outputFile;
 					String ext = to.extension.getText();
 					if (!"".equals(ext)) {
 						ext = "." + ext;
 					}
-			  		 
+
 					while (r != null) {
-						outputFile = to.outputDirectory.getText() 
+						outputFile = to.outputDirectory.getText()
 						  + ExternalConversion.copybookNameToFileName(r.getRecordName())
 						  + ext;
-						
+
 						velocity.run(to.template.getText(), r, outputFile);
-						
+
 						msg.append("\n      ").append(r.getRecordName());
 						r = dbFrom.fetch();
-					}						
+					}
 				}
 	        	msgField.setText(msg.toString());
 	        	dbFrom.close();
 	        	from.setPreferredSize(dimFrom);
 	        	to.setPreferredSize(dimTo);
 			} catch (Exception e) {
-				Common.logMsg(e.getMessage(), e);
+				Common.logMsgRaw(e.getMessage(), e);
 				e.printStackTrace();
 				msgField.setText(e.getMessage());
 			}
 		}
-		
+
 		Common.setDoFree(free, toIdx);
 		Common.setDoFree(free, toIdx);
 	}
@@ -219,12 +222,13 @@ public class LayoutCopy extends ReFrame  implements ActionListener {
 
 	/**
 	 * Panel to Display Source / Destination for copy
-	 * 
-	 * 
+	 *
+	 *
 	 * @author Bruce Martin
 	 *
 	 */
 	private static class Pane extends BaseHelpPanel {
+		private static final String FILE_VALUE = LangConversion.convertComboItms("Layout Copy", "File");
 		protected JComboBox  dbCombo     = new JComboBox();
 		protected JComboBox  outputFormat= null;
 		protected FileChooser outputDirectory;
@@ -234,24 +238,24 @@ public class LayoutCopy extends ReFrame  implements ActionListener {
 		protected int fileOption       = -1;
 		protected int velocityOption   = -1;
 		protected JCheckBox listBox    = new JCheckBox();
-		
+
 		/**
 		 * Panel to Display Source / Destination for copy
-		 * 
+		 *
 		 * @param isFrom is it the from pane
 		 */
 		public Pane(boolean isFrom) {
 			int i;
-			
+
 			setHelpURL(Common.formatHelpURL(Common.HELP_COPY_LAYOUT));
-			
+
 			String header = "Destination";
 			if (isFrom) {
 				header = "Source";
 			}
 			addHeading(header);
 			addLine("Data Base", dbCombo);
-			
+
 			for (i = 0; (i < dbs.length) && (dbs[i] != null) && (!dbs[i].equals("")); i++) {
 				dbCombo.addItem(dbs[i]);
 			}
@@ -259,7 +263,7 @@ public class LayoutCopy extends ReFrame  implements ActionListener {
 			if (isFrom) {
 				dbCombo.setSelectedIndex(Common.getConnectionIndex());
 				setGap(BasePanel.GAP1);
-				
+
 				layoutName = new JTextField(20);
 				addLine("Layout", layoutName);
 				addLine("Only Listed", listBox);
@@ -278,27 +282,27 @@ public class LayoutCopy extends ReFrame  implements ActionListener {
 
 				outputFormat = new BmKeyedComboBox(new ManagerRowList(writerManager, false), false);
 				outputFormat.setSelectedIndex(Common.getCopybookWriterIndex());
-				
+
 				outputDirectory = new FileChooser();
 				outputDirectory.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				outputDirectory.setText(Parameters.getFileName(Parameters.COPYBOOK_DIRECTORY));
 				addLine("Output Format", outputFormat /*, go*/);
 				addLine("Output Directory", outputDirectory, outputDirectory.getChooseFileButton());
-				
+
 				fileOption = dbCombo.getItemCount();
-				dbCombo.addItem("File");
-				
+				dbCombo.addItem(FILE_VALUE);
+
 		       if (Common.isVelocityAvailable()) {
 		    	   template  = new FileChooser(true, "Select");
 		    	   extension = new JTextField();
 		    	   template.setText(Parameters.getFileName(Parameters.VELOCITY_COPYBOOK_DIRECTORY));
 		    	   extension.setText("htm");
-		    	   
+
 		    	   addLine("Extension", extension);
 		    	   setGap(BasePanel.GAP1);
 			       addLine("Velocity Template", template, template.getChooseFileButton());
 			       setGap(BasePanel.GAP1);
-			       
+
 			       velocityOption = dbCombo.getItemCount();
 			       dbCombo.addItem("Velocity");
 		        }
@@ -308,14 +312,14 @@ public class LayoutCopy extends ReFrame  implements ActionListener {
 
 			this.setBorder(BorderFactory.createEtchedBorder());
 		}
-		
+
 		public void setEnabledValue() {
 			if (outputFormat != null) {
 				int idx = dbCombo.getSelectedIndex() ;
-				
+
 				outputFormat.setEnabled(idx == fileOption);
 				outputDirectory.setEnabled(idx >= fileOption);
-				
+
 				if (extension != null) {
 					boolean enabled = idx == velocityOption;
 					extension.setEnabled(enabled);

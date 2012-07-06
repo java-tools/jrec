@@ -51,7 +51,8 @@ import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
 import net.sf.RecordEditor.utils.common.AbstractSaveDetails;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
+
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -100,14 +101,14 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 
    // private DefaultCellEditor includeEditor = new DefaultCellEditor(new JCheckBox());
     private JButton execute
-    		  = new JButton("Filter", Common.getRecordIcon(Common.ID_FILTER_ICON));
-    private JTextField messageFld     = new JTextField();
+    		  = SwingUtils.newButton("Filter", Common.getRecordIcon(Common.ID_FILTER_ICON));
+    private JTextField msgTxt     = new JTextField();
 
-    private JButton checkAllRecords   = new JButton("Check Records");
-    private JButton uncheckAllRecords = new JButton("Uncheck Records");
+    private JButton checkAllRecords   = SwingUtils.newButton("Check Records");
+    private JButton uncheckAllRecords = SwingUtils.newButton("Uncheck Records");
 
-    private JButton checkAllFields    = new JButton("Check Fields");
-    private JButton uncheckAllFields  = new JButton("Uncheck Fields");
+    private JButton checkAllFields    = SwingUtils.newButton("Check Fields");
+    private JButton uncheckAllFields  = SwingUtils.newButton("Uncheck Fields");
 
     private FilterDetails filter;
     @SuppressWarnings("rawtypes")
@@ -271,7 +272,7 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 				setGap(BasePanel.GAP0);
 			}
 
-			addMessage(messageFld);
+			addMessage(msgTxt);
 			super.done();
 			toInit = false;
         }
@@ -295,7 +296,7 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
     		@SuppressWarnings("rawtypes") final AbstractLayoutDetails layout2) {
 
         filter = new FilterDetails(recordLayout); // getFilterDetails(recordLayout);
-        filter.setMessageFld(messageFld);
+        filter.setMessageFld(msgTxt);
         filter.set2Layouts(is2ndLayout);
         if (is2ndLayout) {
         	filter.set2ndLayout(layout2);
@@ -512,7 +513,7 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 	 * @return the messageFld
 	 */
 	public final JTextField getMessageFld() {
-		return messageFld;
+		return msgTxt;
 	}
 
 

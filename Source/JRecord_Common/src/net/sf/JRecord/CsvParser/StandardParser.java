@@ -4,8 +4,8 @@ import net.sf.JRecord.Types.Type;
 
 /**
  * CSV line parser which will look for matching Quotes
- * 
- * 
+ *
+ *
  * @author Bruce Martin
  *
  */
@@ -13,14 +13,14 @@ public class StandardParser extends BaseCsvParser implements AbstractParser {
 
 	private boolean textFieldsInQuotes = false;
 
- 
+
 	/**
 	 * Standard CSV line parser
 	 */
 	public StandardParser() {
 		super(false);
 	}
-	
+
 	/**
 	 * Standard CSV line parser
 	 * @param putTextFieldsInQuotes put Quotes around Text Fields
@@ -29,8 +29,8 @@ public class StandardParser extends BaseCsvParser implements AbstractParser {
 		super(false);
 		textFieldsInQuotes = putTextFieldsInQuotes;
 	}
-	
-	
+
+
 	/**
 	 * Standard CSV line parser
 	 * @param putTextFieldsInQuotes put Quotes around Text Fields
@@ -39,9 +39,9 @@ public class StandardParser extends BaseCsvParser implements AbstractParser {
 		super(quoteInColumnNames);
 		textFieldsInQuotes = putTextFieldsInQuotes;
 	}
-   
 
-	
+
+
 	/**
 	 * @see net.sf.JRecord.CsvParser.AbstractParser#getField(int, java.lang.String, java.lang.String, java.lang.String)
 	 */
@@ -53,9 +53,9 @@ public class StandardParser extends BaseCsvParser implements AbstractParser {
 		}
 		return ret;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
 	public String getField2(int fieldNumber, String line, String delimiter, String quote) {
 		String[] lineVals = split(fieldNumber, line, delimiter, quote);
@@ -67,21 +67,21 @@ public class StandardParser extends BaseCsvParser implements AbstractParser {
 	 */
 	public String setField(int fieldNumber, int fieldType, String line, String delimiter, String quote, String newValue) {
 		String[] lineVals = split(fieldNumber, line, delimiter, quote);
-		String s = newValue; 
+		String s = newValue;
 		if (newValue == null) {
 			s = "";
 		}
-		
+
 //		if (textFieldsInQuotes) {
 //			System.out.print("--> " + fieldType + " " + Type.NT_NUMBER + " " + s + " --> ");
 //		}
 		if (s.indexOf(delimiter) >= 0
-		|| (quote != null && s.indexOf(quote) >= 0) 
+		|| (quote != null && s.indexOf(quote) >= 0)
 		|| (textFieldsInQuotes & (fieldType != Type.NT_NUMBER))) {
 			StringBuffer b = new StringBuffer(s);
 			int pos;
 			int i = 0;
-			
+
 			while ((pos = b.indexOf(quote, i)) >= 0) {
 				b.insert(pos, quote);
 				i = pos + 2;
@@ -93,17 +93,17 @@ public class StandardParser extends BaseCsvParser implements AbstractParser {
 //		}
 		return lineVals[0] + s + lineVals[2];
 	}
-	
+
 	/**
 	 * Split the line into 3<ol compact>
 	 * <li>Line before the request field</li>
 	 * <li>The Requested field</li>
 	 * <li>Line after the request field</li>
 	 * </ol>
-	 * 
+	 *
 	 * @param fieldNumber  field to retrieve
 	 * @param line line to parse for fields
-	 * @param delimiter field delimitier
+	 * @param delimiter field delimiter
 	 * @param quote quote char
 	 * @return Array containg line before the field, The requested field, The line after
 	 * the request field.
@@ -118,11 +118,11 @@ public class StandardParser extends BaseCsvParser implements AbstractParser {
 		boolean lastCharQuote = false;
 		int currFieldNumber = 0;
 		int i = 0;
-		
+
 		while (i < line.length() && currFieldNumber < fieldNumber) {
 			s = line.substring(i, i + 1);
 			pre.append(s);
-			if (s.equals(delimiter) 
+			if (s.equals(delimiter)
 			&& ((! inQuotes) || (inQuotes && lastCharQuote))) {
 				lastCharDelim = true;
 			 	currFieldNumber += 1;
@@ -135,22 +135,22 @@ public class StandardParser extends BaseCsvParser implements AbstractParser {
 				} else if (s.equals(quote)) {
 					lastCharQuote = ! lastCharQuote;
 				}
-				
+
 				lastCharDelim = false;
-			} 
+			}
 			i += 1;
 		}
 
-		if (i < line.length()) { 
+		if (i < line.length()) {
 			field = new StringBuilder("");
 			lastCharDelim = true;
 			while (i < line.length()) {
 				s = line.substring(i, i + 1);
-				
+
 				//System.out.println("~ :" + quote + ": " + field + " ->" + s + "<- " + inQuotes
 				//		+ " " + lastCharQuote + " " + lastCharDelim);
-				
-				if (s.equals(delimiter) 
+
+				if (s.equals(delimiter)
 				&& ((! inQuotes) || (inQuotes && lastCharQuote))) {
 					break;
 				} else if (s.equals(quote) && lastCharDelim) {
@@ -184,7 +184,7 @@ public class StandardParser extends BaseCsvParser implements AbstractParser {
 		}
 
 
-		
+
 		return ret;
 	}
 

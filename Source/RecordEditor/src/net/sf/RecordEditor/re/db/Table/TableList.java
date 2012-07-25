@@ -35,7 +35,7 @@ public class TableList extends AbsRowList {
 	private String name;
 	private int arraySize, tableIdent;
 
-
+	private final boolean foreignTrans;
 	/**
 	 * This class reads both DB values and properties
      * into a list for display in a Combobox
@@ -53,12 +53,21 @@ public class TableList extends AbsRowList {
             final boolean sort, final boolean nullFirstRow,
             final String propertiesIdName, final String propertiesName,
             final int propertiesArraySize) {
+    	this(connectionId, tableId, sort, nullFirstRow, propertiesIdName, propertiesName, propertiesArraySize, true);
+    }
+
+    public TableList(final int connectionId, final int tableId,
+            final boolean sort, final boolean nullFirstRow,
+            final String propertiesIdName, final String propertiesName,
+            final int propertiesArraySize,
+            final boolean foreignTranslation) {
         super(0, getNameIdx(tableId), sort, nullFirstRow);
 
         tableIdent = tableId;
     	idName = propertiesIdName;
     	name   = propertiesName;
     	arraySize = propertiesArraySize;
+    	foreignTrans = foreignTranslation;
 
         tableDb.setConnection(new ReConnection(connectionId));
         tableDb.setParams(tableId);
@@ -102,7 +111,7 @@ public class TableList extends AbsRowList {
 
 	protected void getForeignTranslation(ArrayList<TableRec> list) {
 
-		if (isForeignTranslation(tableIdent)) {
+		if (foreignTrans && isForeignTranslation(tableIdent)) {
 			String foreignLookUpId = TableDB.getTblLookupKey(tableIdent);
 			for (TableRec rec : list) {
 				rec.setField(

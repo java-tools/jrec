@@ -19,18 +19,20 @@ import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.Types.Type;
+import net.sf.RecordEditor.edit.util.ReMessages;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
 
 import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
 import net.sf.RecordEditor.utils.swing.ComboBoxRender;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
-import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimitierCombo;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimiterCombo;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.QuoteCombo;
 
 public class UpdateCsvLayout implements ActionListener {
@@ -70,8 +72,8 @@ public class UpdateCsvLayout implements ActionListener {
 	//private BasePanel panel = new BasePanel();
 	private FieldModel fieldModel = new FieldModel();
 	private JTable fieldTbl = new JTable(fieldModel);
-	private DelimitierCombo delimiterCombo;
-	private QuoteCombo quoteCombo = QuoteCombo.NewCombo();
+	private DelimiterCombo delimiterCombo;
+	private QuoteCombo quoteCombo = QuoteCombo.newCombo();
 	private JButton goBtn = SwingUtils.newButton("Apply");
 
 	private JMenu moveMenu = SwingUtils.newMenu("Move ...");
@@ -134,9 +136,9 @@ public class UpdateCsvLayout implements ActionListener {
 
 		if (layout.getFileStructure() == Constants.IO_UNICODE_TEXT
 		||  layout.getFileStructure() == Constants.IO_UNICODE_NAME_1ST_LINE) {
-			delimiterCombo = DelimitierCombo.NewTextDelimCombo();
+			delimiterCombo = DelimiterCombo.NewTextDelimCombo();
 		} else {
-			delimiterCombo = DelimitierCombo.NewDelimCombo();
+			delimiterCombo = DelimiterCombo.NewDelimCombo();
 		}
 
 		delimiterIdx = delimiterCombo.getAddEnglish(delim, true);// getIndex(delim, Common.FIELD_SEPARATOR_LIST1_VALUES, delimiterCombo);
@@ -170,23 +172,23 @@ public class UpdateCsvLayout implements ActionListener {
 		fieldTbl.addMouseListener(popupListner);
 	}
 
-	private int getIndex(String value, String[] list, JComboBox combo) {
-
-		int idx = Common.NULL_INTEGER;
-		for (int i = list.length-1; i >= 0; i--) {
-			if (list[i].equals(value)) {
-				combo.setSelectedIndex(i);
-				idx = i;
-				break;
-			}
-		}
-		if (idx < 0) {
-			idx = combo.getItemCount();
-			combo.addItem(value);
-			combo.setSelectedIndex(idx);
-		}
-		return idx;
-	}
+//	private int getIndex(String value, String[] list, JComboBox combo) {
+//
+//		int idx = Common.NULL_INTEGER;
+//		for (int i = list.length-1; i >= 0; i--) {
+//			if (list[i].equals(value)) {
+//				combo.setSelectedIndex(i);
+//				idx = i;
+//				break;
+//			}
+//		}
+//		if (idx < 0) {
+//			idx = combo.getItemCount();
+//			combo.addItem(value);
+//			combo.setSelectedIndex(idx);
+//		}
+//		return idx;
+//	}
 
 	private void init_setupTablePopup() {
 		popupListner.setTable(fieldTbl);
@@ -201,10 +203,10 @@ public class UpdateCsvLayout implements ActionListener {
 		//RecordDetail rec = layout.getRecord(0);
 
 		moveMenu.removeAll();
-		moveMenu.add(new MoveAction(0, "Before " + fields.get(0).name));
+		moveMenu.add(new MoveAction(0, ReMessages.BEFORE_FIELD.get(fields.get(0).name)));
 
 		for (int i = 0; i < fields.size(); i++) {
-			moveMenu.add(new MoveAction(i+1, "After  " + fields.get(i).name));
+			moveMenu.add(new MoveAction(i+1, ReMessages.AFTER_FIELD.get(fields.get(i).name)));
 		}
 	}
 
@@ -563,7 +565,7 @@ public class UpdateCsvLayout implements ActionListener {
 	}
 
 	@SuppressWarnings("serial")
-	private class AddAction extends AbstractAction {
+	private class AddAction extends ReAbstractAction {
 		boolean after;
 
 

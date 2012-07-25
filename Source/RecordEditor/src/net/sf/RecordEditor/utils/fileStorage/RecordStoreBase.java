@@ -1,16 +1,18 @@
 package net.sf.RecordEditor.utils.fileStorage;
 
+import net.sf.JRecord.Common.RecordRunTimeException;
+
 public abstract class RecordStoreBase<R extends RecordStoreBase<?>> implements RecordStore {
 
 	protected byte[] store = null;
 	protected int recordCount;
 	protected int size = 0;
 	protected final int lengthSize;
-	
-	
+
+
 	public RecordStoreBase(int recs, int lenSize) {
 		super();
-		
+
 		this.recordCount = recs;
 		this.lengthSize = lenSize;
 	}
@@ -18,17 +20,17 @@ public abstract class RecordStoreBase<R extends RecordStoreBase<?>> implements R
 
 	@Override
 	public void add(int idx, byte[] rec) {
-		
+
 		if (idx > recordCount) {
 			idx = recordCount + 1;
-		} 
+		}
 
 		LineDtls p = getPosLen(idx, rec.length);
-		
+
 //		if ((p == null) || (store == null) ) {
 //			System.out.println("$$$ " + (p == null) + " " + (store == null));
 //	}
-//		System.out.println("Add Check move: " 
+//		System.out.println("Add Check move: "
 //				+ idx + " < " + recordCount
 //				+ " Pos: " + (p.pos - lengthSize)
 //				+ " New Pos: " + (p.pos + p.newLength)
@@ -40,7 +42,7 @@ public abstract class RecordStoreBase<R extends RecordStoreBase<?>> implements R
 		put(p, rec);
 		recordCount += 1;
 	}
-	
+
 
 //	public abstract void add(byte[] rec);
 
@@ -60,14 +62,14 @@ public abstract class RecordStoreBase<R extends RecordStoreBase<?>> implements R
 		} catch (Exception e) {
 			System.out.println("Error Retrieving Line Data: " + e.getMessage());
 		}
-		
-		return ret;
-	} 
 
-	
+		return ret;
+	}
+
+
 	protected final void moveData(int oldPos, int newPos) {
 		int size = getSize();
-		
+
 		if (size + newPos - oldPos > store.length) {
 			//System.out.print("*");
 //			System.out.print(" Size:" + size + " newPos:"
@@ -75,7 +77,7 @@ public abstract class RecordStoreBase<R extends RecordStoreBase<?>> implements R
 			byte[] newStore = new byte[size + newPos - oldPos];
 //			System.out.print(" new len:" + newStore.length
 //					+ " " + store.length);
-			
+
 			System.arraycopy(store, 0, newStore, 0, oldPos);
 			//System.out.print(" test: " + (size > oldPos)
 			//		+ " && " + (newStore.length > newPos));
@@ -86,7 +88,7 @@ public abstract class RecordStoreBase<R extends RecordStoreBase<?>> implements R
 //							+ " " + (size - oldPos));
 					System.arraycopy(store, oldPos, newStore, newPos, size - oldPos);
 				} else {
-					throw new RuntimeException("Internal Error in RecordStoreBase can not copy data, so dropping lines ? ");
+					throw new RecordRunTimeException("Internal Error in RecordStoreBase can not copy data, so dropping lines ?");
 				}
 			}
 			store = newStore;
@@ -110,10 +112,10 @@ public abstract class RecordStoreBase<R extends RecordStoreBase<?>> implements R
 //					+ " >> " + (p.pos + p.len ) + " ! " + getSize()
 //					+ " ! " + idx);
 			System.arraycopy(
-					store, p.pos + p.len, 
+					store, p.pos + p.len,
 					store, p.pos - lengthSize, getSize() - p.pos - p.len);
 		}
-		
+
 		recordCount -= 1;
 		return p.len + lengthSize;
 	}
@@ -126,19 +128,19 @@ public abstract class RecordStoreBase<R extends RecordStoreBase<?>> implements R
 
 	@Override
 	public abstract int getSize();
-	
+
 	@Override
 	public int getStoreSize() {
 		return store.length;
 	}
-	
-	
+
+
 	@Override
 	public byte[] getCompressed() {
-		
+
 		return Code.compress(getSize(), store);
 	}
-	
+
 	@Override
 	public byte[] getBytes() {
 		return store;
@@ -151,7 +153,7 @@ public abstract class RecordStoreBase<R extends RecordStoreBase<?>> implements R
 		this.size = length;
 		store = Code.uncompressed(compressedData, length).bytes;
 	}
-	
+
 
 	@Override
 	public final void setBytes(byte[] bytes, int length, int count) {
@@ -159,10 +161,10 @@ public abstract class RecordStoreBase<R extends RecordStoreBase<?>> implements R
 		this.size = length;
 		store = bytes;
 	}
-	
+
 	public abstract R[] split(int size);
 
 	protected abstract LineDtls getPosLen(int idx, int newLength);
-	
-	
+
+
 }

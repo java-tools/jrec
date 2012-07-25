@@ -164,11 +164,11 @@ public final class Common implements Constants {
 	public static final String DATE_FORMAT_DESCRIPTION
 		= LangConversion.convertId(LangConversion.ST_MESSAGE, "DateFormatDescription",
 				  "Please remember that Date formats are case sensitive:<ul compact>"
-				+ "<li>dd   - is 2 charcter day (lowercase d for day)</li>"
-				+ "<li>MM   - is 2 charcter month (uppercase M for month)</li>"
-				+ "<li>MMM  - is 3 charcter month (uppercase M for month)</li>"
-				+ "<li>yy   - is 2 charcter year (lowercase y for month)</li>"
-				+ "<li>yyyy - is 4 charcter year (lowercase y for month)</li>"
+				+ "<li>dd   - is 2 character day (lowercase d for day)</li>"
+				+ "<li>MM   - is 2 character month (uppercase M for month)</li>"
+				+ "<li>MMM  - is 3 character month (uppercase M for month)</li>"
+				+ "<li>yy   - is 2 character year (lowercase y for month)</li>"
+				+ "<li>yyyy - is 4 character year (lowercase y for month)</li>"
 				+ "</ul><br>use dd/MM/yy for 25/12/98, dd.MM.yyyy for 25.Dec.1998");
 
 
@@ -1290,13 +1290,18 @@ public final class Common implements Constants {
     }
 
     public static ImageIcon readIcon(String name) {
-    	URL url = currClass.getResource(name);
+    	try {
+	    	URL url = currClass.getResource(name);
 
-    	if (url == null) {
-            logMsg("Can not find icon:" + name, null);
-            return null;
-        }
-    	return new ImageIcon(url);
+	    	if (url == null) {
+	            logMsgRaw(LangConversion.convert(LangConversion.ST_MESSAGE,"Can not find icon:") + " " + name, null);
+	            return null;
+	        }
+	    	return new ImageIcon(url);
+    	} catch (Exception e) {
+            logMsgRaw(LangConversion.convert(LangConversion.ST_MESSAGE,"Can not find icon:") + " " + name, e);
+		}
+    	return null;
     }
 
 

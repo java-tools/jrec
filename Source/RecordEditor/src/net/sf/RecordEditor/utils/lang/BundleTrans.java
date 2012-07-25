@@ -3,7 +3,7 @@ package net.sf.RecordEditor.utils.lang;
 import java.util.ResourceBundle;
 
 
-public class BundleTrans implements IStringTrans {
+public class BundleTrans extends BasicTrans {
 	private ResourceBundle rb;
 
 	public BundleTrans(ResourceBundle rb) {
@@ -19,17 +19,9 @@ public class BundleTrans implements IStringTrans {
 //		}
 	}
 
-	/**
-	 * @see net.sf.RecordEditor.utils.lang.IStringTrans#convert(java.lang.String)
-	 */
-	@Override
-	public String convert(String s) {
-
-		return convert(s, s);
-	}
 
 	/**
-	 * @see net.sf.RecordEditor.utils.lang.IStringTrans#convert(java.lang.String, java.lang.String)
+	 * @see net.sf.JRecord.Common.ITranslation#convert(java.lang.String, java.lang.String)
 	 */
 	@Override
 	public String convert(String s, String defaultStr) {

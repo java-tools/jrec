@@ -25,22 +25,22 @@ import net.sf.JRecord.Types.Type;
  * preferred layout etc
  *
  * <p>The one important method is getFieldValue
- * 
+ *
  * <p>Creating:
  * <pre>
  *              <font color="brown"><b>Line</b></font> outLine = new Line(oLayout);
  * </pre>
- * 
+ *
  * <p>Getting a field value:
  * <pre>
  *              <font color="brown"><b>long</b></font> sku = saleRecord.getFieldValue("<font color="blue"><b>KEYCODE-NO</b></font>").asLong();
  * </pre>
- * 
+ *
  * <p>Updating a field:
  * <pre>
  *              saleRecord.getFieldValue("<font color="blue"><b>KEYCODE-NO</b></font>").set(1331);
  * </pre>
- * 
+ *
  * @author Bruce Martin
  * @version 0.55
  */
@@ -81,7 +81,7 @@ public class Line extends BasicLine<Line> {
 		super(defaultProvider, group, NULL_TREE_DETAILS);
 
 		data = Conversion.getBytes(rec, group.getFontName());
-		
+
 		init();
 	}
 
@@ -96,7 +96,7 @@ public class Line extends BasicLine<Line> {
 		super(defaultProvider, group, NULL_TREE_DETAILS);
 
 		data = rec;
-		
+
 		init();
 	}
 
@@ -118,11 +118,11 @@ public class Line extends BasicLine<Line> {
 		if (recordLen > 0) {
 		    System.arraycopy(buf, start, data, 0, recordLen);
 		}
-		
+
 		init();
 	}
 
-	
+
 	/**
 	 *   This method completely replaces a lines value. It is used to determine
 	 * a records prefered record layout
@@ -216,7 +216,7 @@ public class Line extends BasicLine<Line> {
 	public int getPreferredLayoutIdx() {
 		return getProbableIndex(true);
 	}
-	
+
 
 	/**
 	 * Get the Preffered Record Layout Index for this record
@@ -227,15 +227,15 @@ public class Line extends BasicLine<Line> {
 	public int getPreferredLayoutIdxAlt() {
 		return getProbableIndex(false);
 	}
-	
-	
+
+
 	private int getProbableIndex(boolean saveResult) {
 		int ret = preferredLayout;
-		
+
 		if (ret == Constants.NULL_INTEGER) {
 			ret = super.getPreferredLayoutIdxAlt();
-			
-			if (ret < 0) {	
+
+			if (ret < 0) {
 				int l1, l2;
 				int tp = Constants.NULL_INTEGER;
 				int diff = 2;
@@ -255,9 +255,9 @@ public class Line extends BasicLine<Line> {
 						diff = Math.abs(l1 - l2);
 					}
 				}
-				
+
 				if (ret < 0 && tp >= 0) {
-					ret = tp;		
+					ret = tp;
 				}
 			}
 		}
@@ -360,7 +360,7 @@ public class Line extends BasicLine<Line> {
 		}
 		return getLineData();
 	}
-	
+
 	protected byte[] getLineData() {
 		return data;
 	}
@@ -368,7 +368,7 @@ public class Line extends BasicLine<Line> {
 	protected void clearData() {
 		data = NULL_RECORD;
 	}
-	
+
 	public final void setData(String newVal) {
 	    data = Conversion.getBytes(newVal, layout.getFontName());
 	}
@@ -387,7 +387,7 @@ public class Line extends BasicLine<Line> {
 			data = newVal;
 		}
 	}
-	
+
 	protected void setDataRaw(byte[] newVal) {
 		data = newVal;
 	}
@@ -417,7 +417,7 @@ public class Line extends BasicLine<Line> {
 
 
 
- 
+
 
     /**
      * Set a fields value
@@ -434,10 +434,10 @@ public class Line extends BasicLine<Line> {
         data = layout.setField(data, field, value);
     }
 
- 
+
     /**
      * Update field without appling any formatting
-     * 
+     *
      * @param recordIdx record layout
 	 * @param fieldIdx field number in the record
 	 * @param value new value
@@ -480,7 +480,7 @@ public class Line extends BasicLine<Line> {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RecordException("Error saving Hex value: " + e.getMessage());
+            throw new RecordException("Error saving Hex value: {0}", e.getMessage());
         }
         return ret;
 	}

@@ -4,11 +4,13 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 import net.sf.JRecord.ByteIO.AbstractByteReader;
+import net.sf.JRecord.Common.RecordRunTimeException;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.utils.common.Common;
 
 public class FileChunkBfVariableLength extends FileChunkLine {
+	private static final String ERROR_READING_UNPACKING_SPILL_FILE = "Error Reading & unpacking spill file:";
 	private long filePostion;
 	private int length = 0;
 	private boolean blockRead = false;
@@ -20,9 +22,8 @@ public class FileChunkBfVariableLength extends FileChunkLine {
 	}
 
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public boolean hasRoomForMore(AbstractLine l) {
+	public boolean hasRoomForMore(@SuppressWarnings("rawtypes") AbstractLine l) {
 		if (isNormalMode()) {
 			return super.hasRoomForMore(l);
 		}
@@ -30,7 +31,8 @@ public class FileChunkBfVariableLength extends FileChunkLine {
 		return (length + l.getData().length < details.dataSize);
 	}
 
-	@SuppressWarnings("unchecked")
+
+	@SuppressWarnings("rawtypes")
 	@Override
 	protected void uncompress() {
 
@@ -53,8 +55,8 @@ public class FileChunkBfVariableLength extends FileChunkLine {
 				}
 				blockRead = true;
 			} catch (IOException e) {
-				Common.logMsg(AbsSSLogger.ERROR, "Error Reading & unpacking spill file:", e.getMessage(), e);
-				throw new RuntimeException("Error Unpacking file",e);
+				Common.logMsg(AbsSSLogger.ERROR, ERROR_READING_UNPACKING_SPILL_FILE, e.getMessage(), e);
+				throw new RecordRunTimeException(ERROR_READING_UNPACKING_SPILL_FILE, e);
 			} finally {
 				try {
 					r.close();
@@ -69,9 +71,8 @@ public class FileChunkBfVariableLength extends FileChunkLine {
 	}
 
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public void add(int idx, AbstractLine l) {
+	public void add(int idx, @SuppressWarnings("rawtypes") AbstractLine l) {
 
 		if (isNormalMode()) {
 			super.add(idx, l);

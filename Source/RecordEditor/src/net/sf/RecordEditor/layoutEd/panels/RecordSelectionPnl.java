@@ -224,7 +224,7 @@ public class RecordSelectionPnl implements IntRecordSelectPnl {
 
 		if (records.size() > 1) {
 			Object ret = ReOptionDialog.showInputDialog(
-					panel, "Record to Copy From", "Record Selecetion", JOptionPane.QUESTION_MESSAGE,
+					panel, "Record to Copy From", "Record Selection", JOptionPane.QUESTION_MESSAGE,
 					null, records.toArray(), "");
 			if (ret != null && ! "".equals(ret.toString()) && ret instanceof ComboOption) {
 				ComboOption co = (ComboOption) ret;

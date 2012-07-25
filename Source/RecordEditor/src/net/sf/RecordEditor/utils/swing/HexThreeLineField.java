@@ -13,6 +13,7 @@ import javax.swing.JTextArea;
 import javax.swing.text.JTextComponent;
 
 import net.sf.JRecord.Common.Conversion;
+import net.sf.JRecord.Common.RecordRunTimeException;
 
 
 /**
@@ -88,7 +89,7 @@ public class HexThreeLineField extends JTextArea implements AbstractHexDisplay {
         //System.out.println("~~> " + buf.toString());
         setText(buf.toString());
     }
-    
+
     /* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.swing.AbstractHexDisplay#getBytes(byte[])
 	 */
@@ -103,9 +104,9 @@ public class HexThreeLineField extends JTextArea implements AbstractHexDisplay {
     		String line1 = s.substring(0, pos);
     		String line2 = s.substring(pos + 1, lastPos);
     		String line3 = s.substring(lastPos + 1);
-    		String oldValueStr = Conversion.toString(oldValue, fontName); 
+    		String oldValueStr = Conversion.toString(oldValue, fontName);
     		String tmp = "";
-    		
+
     		int hexLen = Math.min(line2.length(), line3.length());
 //    		System.out.println(" --- " + (line2.length()) + " " + line1.length()
 //    				+ " ~~ " + ((Math.max(line2.length() - 1, line1.length())) / 2));
@@ -122,19 +123,20 @@ public class HexThreeLineField extends JTextArea implements AbstractHexDisplay {
     				ret[i] = Conversion.long2byte(
 							Integer.parseInt(tmp, 16));
  				} catch (Exception e) {
-					throw new RuntimeException("Error Converting Hex; byteNumber=" + i 
-							+ " value=" + tmp + " Message: "  +e.getMessage());
+					throw new RecordRunTimeException(
+							ERROR_CONVERTING_HEX,
+							new Object[] {i, tmp, e.getMessage()});
 				}
-				
+
 			}
 //    		System.out.println();
-    		
+
     		len = Math.min(Math.min(line1.length(), oldValueStr.length()), ret.length);
 
-     	
+
 //    		System.out.println(" -->> " + len + " " + line1 + "< " + line1.length());
     		for (int i = 0; i < len; i++) {
-//    			System.out.print(" > " + line1.substring(i*2, i*2 + 1) 
+//    			System.out.print(" > " + line1.substring(i*2, i*2 + 1)
 //    					+ " " + oldValueStr.substring(i, i+1));
     			if (! line1.substring(i, i + 1)
     					.equals(oldValueStr.substring(i, i+1))) {
@@ -142,12 +144,14 @@ public class HexThreeLineField extends JTextArea implements AbstractHexDisplay {
      					temp =  Conversion.getBytes(line1.substring(i, i + 1), fontName);
      					ret[i] = temp[0];
      				} catch (Exception e) {
-    					throw new RuntimeException("Error Converting Text; byteNumber=" + i + " " +e.getMessage());
+    					throw new RecordRunTimeException(
+    							ERROR_CONVERTING_HEX,
+    							new Object[] {i, line1.substring(i, i + 1), e.getMessage()});
 					}
     			}
     		}
 //    		System.out.println();
-    		
+
     		return ret;
     	}
     	return oldValue;
@@ -164,7 +168,7 @@ public class HexThreeLineField extends JTextArea implements AbstractHexDisplay {
             buf.replace(i, i + 1, ".");
         }
     }
-    
+
 
 
 	/* (non-Javadoc)
@@ -187,7 +191,7 @@ public class HexThreeLineField extends JTextArea implements AbstractHexDisplay {
 		 ret.setText(this.getText());
 		 return ret;
 	}
-	
+
 
 
 	/* (non-Javadoc)

@@ -32,7 +32,7 @@ public class SaveAsPnlHtml extends SaveAsPnlBase {
 
 	private BasePanel htmlColorPnl = new BasePanel();
     private   final ButtonGroup  htmlColorGrp    = new ButtonGroup();
-    protected final JRadioButton whiteHtmlBtn    = genHtmlColorBtn("White Backround");
+    protected final JRadioButton whiteHtmlBtn    = genHtmlColorBtn("White Background");
     protected final JRadioButton standardBtn     = genHtmlColorBtn("Standard Colors");
     protected final JRadioButton dullBtn         = genHtmlColorBtn("Dull colors");
     protected final JRadioButton colorfulHtmlBtn = genHtmlColorBtn("Colorfull Table");

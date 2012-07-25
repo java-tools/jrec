@@ -788,7 +788,7 @@ public class FilterDetails {
          */
         public String getColumnName(int columnIndex) {
         	if (twoLayouts && columnIndex == 1) {
-        		return "Equivalent Field";
+        		return LangConversion.convert(LangConversion.ST_COLUMN_HEADING, "Equivalent Field");
         	}
             return FIELD_COLUMN_HEADINGS[columnIndex];
         }

@@ -78,8 +78,7 @@ public class TypeBit extends TypeChar {
         try {
             Long.parseLong(val, 2);
         } catch (final Exception ex) {
-            throw new RecordException("Invalid Bit String: "
-                    + ex.getMessage());
+            throw new RecordException("Invalid Bit String: {0}", ex.getMessage());
         }
         return val;
     }

@@ -153,7 +153,8 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String SEARCH_ALL_FIELDS = "SearchAllFields";
     public static final String SHOW_ALL_EXPORT_OPTIONS = "AllExportOptions";
     public static final String NAME_FIELDS = "NameFields";
-    public static final String LOG_TEXT_FIELDS = "LogText";
+    public static final String SPECIAL_FIND_BTN_NAME = "useAltFindName";
+   public static final String LOG_TEXT_FIELDS = "LogText";
     public static final String HIGHLIGHT_MISSING_TRANSLATIONS = "FlagMissingTranslations";
 
     public static final String DEL_SELECTED_WITH_DEL_KEY = "DeleteSelectedWithDelKey";

@@ -21,7 +21,7 @@ package net.sf.JRecord.Common;
 /**
  * This class stores / returns managed classes to the calling program based
  * on a supplied index.
- * 
+ *
  * i.e. it is a repository for variations on a class.
  *
  * @author Bruce Martin
@@ -30,7 +30,7 @@ package net.sf.JRecord.Common;
  */
 public class BasicManager<managedClass> {
 
-    private final int invalidIndex; 
+    private final int invalidIndex;
     private final int systemEntries;
     private final int userRangeStart;
 
@@ -39,8 +39,8 @@ public class BasicManager<managedClass> {
     private int userSize;
     private int used = 0;
 
- 
- 
+
+
     /**
      *  This class stores / retrieves variations on a Class
      *
@@ -65,8 +65,8 @@ public class BasicManager<managedClass> {
         objects = initialArray;
 
     }
-    
-   
+
+
 
     /**
      * register a type & format
@@ -80,11 +80,11 @@ public class BasicManager<managedClass> {
         int idx = getIndex(classId);
 
         if (idx == invalidIndex) {
-            throw new RuntimeException("Invalid Index Supplied " + classId
-                    + " Should be between " + userRangeStart
-                    + " and " + (userRangeStart + userSize));
+            throw new RecordRunTimeException(
+            		Messages.INVALID_INDEX_MSG,
+            		new Object[] {classId, userRangeStart, (userRangeStart + userSize)});
         }
-        
+
         if (idx > used) {
         	used = idx;
         }
@@ -125,22 +125,22 @@ public class BasicManager<managedClass> {
 
         return idx;
     }
-    
-    
+
+
     /**
      * get key from an index
-     * 
+     *
      * @param index array index
-     * 
+     *
      * @return actual key
      */
     public int getKey(int index) {
     	int key = index;
-    	
+
     	if (key >= systemEntries) {
     		key = index - systemEntries + userRangeStart;
     	}
-    	
+
     	return key;
     }
 
@@ -152,7 +152,7 @@ public class BasicManager<managedClass> {
         return objects.length;
     }
 
-    
+
     public int getNumberUsed() {
         return used;
     }

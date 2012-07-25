@@ -64,6 +64,12 @@ public class ScriptData {
 		dir = (new java.io.File(view.getFileName())).getParent();
 		System.out.println("Directory ??? ~ " + dir);
 		LanguageTrans.clear();
+
+
+//		System.out.println(Conversion.replace(new StringBuilder("1\n 2\n  3\n4\n     5"), "\n", "\n# "));
+//		System.out.println(Conversion.replace
+//				(new StringBuilder(" \n    SQL: {0}"
+//				+ "\nMessage: {1}\n"), "\n", "\n# "));
 	}
 
 
@@ -112,10 +118,10 @@ public class ScriptData {
 			b = new StringBuilder(val);
 
 			if ("c".equalsIgnoreCase(type)) {
-				Conversion.replace(b, "\n", "\n# ");
 				Conversion.replace(b, "<br>", "<br>\n# ");
 				Conversion.replace(b, "<br/>", "<br/>\n# ");
 				Conversion.replace(b, "<p>", "\n# <p>");
+				Conversion.replace(b, "\n", "\n# ");
 
 				Conversion.replace(b, "</h1>", "</h1>\n# ");
 				Conversion.replace(b, "</h2>", "</h2>\n# ");
@@ -129,8 +135,9 @@ public class ScriptData {
 				Conversion.replace(b, "<li>", "\n# <li>");
 				Conversion.replace(b, "<pre>", "\n# <pre>");
 
-			} else {
-				Conversion.replace(b, "\"", "\\\"\\\"");
+			} else if ("m".equalsIgnoreCase(type)) {
+				Conversion.replace(b, "\\", "\\\\");
+				Conversion.replace(b, "\"", "\\\"");
 				Conversion.replace(b, "\n", "\"\n\"");
 				Conversion.replace(b, "<br>", "<br>\"\n\"");
 				Conversion.replace(b, "<br/>", "<br/>\"\n\"");
@@ -147,7 +154,33 @@ public class ScriptData {
 				Conversion.replace(b, "<tr>", "\"\n\"<tr>");
 				Conversion.replace(b, "<li>", "\"\n\"<li>");
 				Conversion.replace(b, "<pre>", "\"\n\"<pre>");
+			} else if ("g".equalsIgnoreCase(type)) {
+				Conversion.replace(b, "<br>", "\n\n<br>\n\n");
+				Conversion.replace(b, "<br/>", "\n\n<br/>\n\n");
+				Conversion.replace(b, "<p>", "\n\n<p>\n\n");
+				Conversion.replace(b, "<b>", "");
+				Conversion.replace(b, "</b>", "");
+				Conversion.replace(b, "<i>", "");
+				Conversion.replace(b, "</i>", "");
 
+				Conversion.replace(b, "<h1>", "<h1>\n\n");
+				Conversion.replace(b, "<h2>", "<h2>\n\n");
+				Conversion.replace(b, "<h3>", "<h3>\n\n");
+				Conversion.replace(b, "</h1>", "\n\n</h1>\n\n");
+				Conversion.replace(b, "</h2>", "\n\n</h2>\n\n");
+				Conversion.replace(b, "</h3>", "\n\n</h3>\n\n");
+				Conversion.replace(b, "</ol>", "</ol>\n\n");
+				Conversion.replace(b, "</ul>", "</ul>\n\n");
+				Conversion.replace(b, "</table>", "</table>\n\n");
+
+				Conversion.replace(b, "<table>", "\n\n<table>");
+				Conversion.replace(b, "<tr>", "\n\n<tr>");
+				Conversion.replace(b, "<li>", "\n\n<li>\n\n");
+				Conversion.replace(b, "</li>", "\n\n</li>");
+				Conversion.replace(b, "<td>", "<td>\n\n");
+				Conversion.replace(b, "</td>", "\n\n</td>");
+				Conversion.replace(b, "<pre>", "\n\n<pre>\n\n");
+				Conversion.replace(b, "</pre>", "\n\n</pre>\n\n");
 			}
 		}
 		return b.toString();

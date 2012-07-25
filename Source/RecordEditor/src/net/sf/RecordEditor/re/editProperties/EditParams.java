@@ -24,9 +24,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
 import net.sf.RecordEditor.utils.lang.LangConversion;
-import net.sf.RecordEditor.utils.msg.UtilMessages;
+import net.sf.RecordEditor.utils.msg.UtMessages;
 import net.sf.RecordEditor.utils.params.Parameters;
-import net.sf.RecordEditor.utils.screenManager.UtMessages;
 
 /**
  * Store properties etc. Used as a parameter by many of EditOption

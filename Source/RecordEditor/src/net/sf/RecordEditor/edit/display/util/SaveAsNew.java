@@ -69,7 +69,6 @@ import net.sf.RecordEditor.re.fileWriter.FixedWriter;
 import net.sf.RecordEditor.re.openFile.RecentFiles;
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.re.script.RunVelocity;
-import net.sf.RecordEditor.re.script.ScriptData;
 import net.sf.RecordEditor.re.tree.ChildTreeToXml;
 import net.sf.RecordEditor.utils.common.Common;
 
@@ -158,7 +157,7 @@ public final class SaveAsNew extends ReFrame
     private FileChooser fileNameTxt = new FileChooser(false);
 
     private JButton saveFile
-    	= SwingUtils.newButton("save file",
+    	= SwingUtils.newButton("Save File",
     			      Common.getRecordIcon(Common.ID_SAVE_ICON));
     private JComboBox saveWhat   = new JComboBox();
 
@@ -244,7 +243,7 @@ public final class SaveAsNew extends ReFrame
     		final AbstractFileDisplay recordFrame,
     		final FileView<?> fileView,
     		int formatIdx, String velocityTemplate) {
-        super(fileView.getFileNameNoDirectory(), "Save as",
+        super(fileView.getFileNameNoDirectory(), "Save As",
               fileView.getBaseFile());
 
 

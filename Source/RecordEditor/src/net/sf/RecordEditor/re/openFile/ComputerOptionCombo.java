@@ -16,6 +16,7 @@ package net.sf.RecordEditor.re.openFile;
 import javax.swing.JComboBox;
 
 import net.sf.JRecord.Numeric.ConversionManager;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 /**
  * Provides a Combobox  that lists all Computer/Compiler
@@ -27,7 +28,8 @@ import net.sf.JRecord.Numeric.ConversionManager;
 public class ComputerOptionCombo extends JComboBox {
 
     private static final String[] COMPUTER_OPTIONS; //= {"Intel ", "Mainframe ", "Big-Endian", "Fujitsu"};
-    private static final int[] COMPUTER_CONVERSION;
+    private static final String[] COMPUTER_OPTIONS_FOREIGN; //= {"Intel ", "Mainframe ", "Big-Endian", "Fujitsu"};
+   private static final int[] COMPUTER_CONVERSION;
 //    = {
 //            XmlCopybookLoaderDB.FMT_INTEL,
 //            XmlCopybookLoaderDB.FMT_MAINFRAME,
@@ -39,14 +41,19 @@ public class ComputerOptionCombo extends JComboBox {
         ConversionManager manager = ConversionManager.getInstance();
         int count = manager.getNumberOfEntries();
         String[] tmpOptions = new String[count];
+        String[] tmpForeignOptions = new String[count];
         int[] tmpConversions = new int[count];
+        String mgrName = manager.getManagerName();
 
         for (int i = 0; i < count; i++) {
             tmpOptions[i] = manager.getName(i);
             tmpConversions[i] = manager.getKey(i);
+            tmpForeignOptions[i] = LangConversion.convertId(
+            		LangConversion.ST_COMBO, mgrName + "_" + i, tmpOptions[i]);
         }
 
         COMPUTER_OPTIONS = tmpOptions;
+        COMPUTER_OPTIONS_FOREIGN = tmpForeignOptions;
         COMPUTER_CONVERSION = tmpConversions;
     }
 
@@ -54,7 +61,7 @@ public class ComputerOptionCombo extends JComboBox {
      * Combobox to display machine format
      */
     public ComputerOptionCombo() {
-        super(COMPUTER_OPTIONS);
+        super(COMPUTER_OPTIONS_FOREIGN);
     }
 
 
@@ -65,4 +72,21 @@ public class ComputerOptionCombo extends JComboBox {
     public int getSelectedValue() {
         return COMPUTER_CONVERSION[this.getSelectedIndex()];
     }
+
+
+
+	public void setEnglishText(Object itm) {
+		if (itm != null) {
+			String s = itm.toString();
+			for (int i = 0; i < COMPUTER_OPTIONS.length; i++) {
+				if (s.equals(COMPUTER_OPTIONS[i])) {
+					super.setSelectedItem(COMPUTER_OPTIONS_FOREIGN[i]);
+					return;
+				}
+			}
+		}
+		super.setSelectedItem(itm);
+	}
+
+
 }

@@ -29,7 +29,7 @@ public class CmpTableModel extends AbstractTableModel {
 
 
 	@SuppressWarnings("unchecked")
-	public CmpTableModel(AbstractLayoutDetails layout,
+	public CmpTableModel(@SuppressWarnings("rawtypes") AbstractLayoutDetails layout,
 //						  ArrayList<LineCompare> before,    ArrayList<LineCompare> after,
 						  ArrayList<LineCompare> displayBefore, ArrayList<LineCompare> displayAfter) {
 
@@ -116,7 +116,8 @@ public class CmpTableModel extends AbstractTableModel {
 
 
 			if (idx == 1 && before != null) {
-				if (Common.trimRight(before.line.getField(r, lineIdx))
+				if (lineIdx >= before.line.getLayout().getRecord(r).getFieldCount()
+				||	Common.trimRight(before.line.getField(r, lineIdx))
 						.equals(Common.trimRight(cmp.line.getField(r, lineIdx)))) {
 					return "";
 				}

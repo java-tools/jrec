@@ -5,8 +5,9 @@ import java.util.List;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.RecordRunTimeException;
 
-public abstract class BasicLayout<FieldDescription extends FieldDetail, RecordDescription extends AbstractRecordDetail<FieldDescription>> 
+public abstract class BasicLayout<FieldDescription extends FieldDetail, RecordDescription extends AbstractRecordDetail<FieldDescription>>
 implements AbstractLayoutDetails<FieldDescription, RecordDescription>{
 
 	protected RecordDescription[] records;
@@ -62,14 +63,14 @@ implements AbstractLayoutDetails<FieldDescription, RecordDescription>{
         }
         return ret;
     }
-    
-	
+
+
 	public AbstractLayoutDetails<FieldDescription, RecordDescription> getFilteredLayout(List<RecordFilter> filter) {
 		AbstractLayoutDetails<FieldDescription, RecordDescription> ret ;
 		ArrayList<RecordDescription> recs = new ArrayList<RecordDescription>(filter.size());
 		ArrayList<FieldDescription>  fields;
 		int recIdx, fldIdx;
-		
+
 		String[] fieldDef;
 		RecordDescription rec;
 		//int i = 0;
@@ -77,12 +78,13 @@ implements AbstractLayoutDetails<FieldDescription, RecordDescription>{
 			recIdx = getRecordIndex(recDef.getRecordName());
 
 			fieldDef = recDef.getFields();
-			
+
 			if (recIdx < 0) {
-				throw new RuntimeException("Compare Error- Record " + recDef.getRecordName() 
-						+ "from filter was not found in record Layout");
+				throw new RecordRunTimeException(
+						"Compare Error- Record {0} from filter was not found in record Layout",
+						recDef.getRecordName());
 			}
-			
+
 			rec = this.getRecord(recIdx);
 			if (fieldDef == null || fieldDef.length == 0) {
 				fields = new ArrayList<FieldDescription>(rec.getFieldCount());
@@ -94,30 +96,31 @@ implements AbstractLayoutDetails<FieldDescription, RecordDescription>{
 				for (int j = 0; j < fieldDef.length; j++) {
 					fldIdx = rec.getFieldIndex(fieldDef[j]);
 					if (fldIdx < 0) {
-						throw new RuntimeException("Compare Error- Record/Field " + recDef.getRecordName()
-								+ "/" + fieldDef[j]
-								+ "from filter was not found in record Layout");
+						throw new RecordRunTimeException(
+								"Compare Error- Record/Field {0}/{1} from filter was not found in record Layout",
+								new Object[] {recDef.getRecordName(), fieldDef[j]});
+
 					}
 					fields.add(rec.getField(fldIdx));
 				}
 			}
 			recs.add(getNewRecord(rec, fields));
 		}
-		
+
 		ret = getNewLayout(recs);
 
 //		ret = new LayoutDetail(getLayoutName(), recs, getDescription(),
 //				getLayoutType(), getRecordSep(), getEolString(),
 //				getFontName(), getDecider(), getFileStructure());
-		
+
 //		System.out.println("Field Counts " + ret.getRecord(0).getFieldCount()
 //				+ " ~ "  + ret.getRecord(1).getFieldCount());
 
 		return ret;
 
 	}
-	
-	
+
+
 	/* (non-Javadoc)
 	 * @see net.sf.JRecord.Details.AbstractLayoutDetails#hasMaps()
 	 */
@@ -129,6 +132,6 @@ implements AbstractLayoutDetails<FieldDescription, RecordDescription>{
 
 	protected abstract AbstractLayoutDetails<FieldDescription, RecordDescription>
 										getNewLayout(ArrayList<RecordDescription> recs);
-	
+
 	protected abstract  RecordDescription  getNewRecord(RecordDescription record, ArrayList<FieldDescription> fields);
 }

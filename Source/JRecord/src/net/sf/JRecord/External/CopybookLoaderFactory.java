@@ -10,6 +10,7 @@
 package net.sf.JRecord.External;
 
 
+import net.sf.JRecord.Common.AbstractManager;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.External.CobolCopybookLoader;
 import net.sf.JRecord.External.CopybookLoader;
@@ -24,17 +25,17 @@ import net.sf.JRecord.Log.AbsSSLogger;
  * <p>Examples of use:
  * <pre>
  *       LayoutDetail layout = CopybookLoaderFactory.getInstance().getLayoutRecordEditXml(copybookName, null);
- *       
+ *
  *       CopybookLoader loader = CopybookLoaderFactory.getInstance()
  *              .getLoader(CopybookLoaderFactory.RECORD_EDITOR_XML_LOADER);
  *       LayoutDetail layout = loader.loadCopyBook(copybookName, 0, 0, "", 0, 0, null).asLayoutDetail();
  *
  * </pre>
- * 
+ *
  * @author Bruce Martin
  *
  */
-public class CopybookLoaderFactory {
+public class CopybookLoaderFactory implements AbstractManager {
 
 	public static final int CB2XML_LOADER = 0;
 	public static final int COBOL_LOADER  = 1;
@@ -43,7 +44,7 @@ public class CopybookLoaderFactory {
 	public static final int TAB_NAMES_1ST_LINE_LOADER;
 	public static final int RECORD_EDITOR_TAB_CSV_LOADER;
 	public static final int RECORD_EDITOR_COMMA_CSV_LOADER;
-	
+
 	static {
 		int idx = 1;
 		if (CobolCopybookLoader.isAvailable()) {
@@ -55,7 +56,7 @@ public class CopybookLoaderFactory {
 		RECORD_EDITOR_TAB_CSV_LOADER   = idx++;
 		RECORD_EDITOR_COMMA_CSV_LOADER = idx++;
 	}
-	
+
 	protected static final int NUMBER_OF_LOADERS = 30;
 
 	private String[] loaderName;
@@ -63,11 +64,11 @@ public class CopybookLoaderFactory {
 	private Class<? extends CopybookLoader>[] loader;
 
 	private int numberLoaded = 0;
-	
+
 	protected int csv1 = 0;
 	private   int csv2 = 0;
 	private   int xml1 = 0;
-	
+
 	private int recordEditorXml = 0;
 
 	private static CopybookLoaderFactory instance = null;
@@ -114,7 +115,7 @@ public class CopybookLoaderFactory {
 	    }
 		recordEditorXml = numberLoaded;
 		register("RecordEditor XML Copybook",RecordEditorXmlLoader.class, "");
-		
+
 	}
 
 	protected final void registerStandardLoaders2() {
@@ -150,16 +151,16 @@ public class CopybookLoaderFactory {
 		boolean ret = (csv1 <= loaderId) && (loaderId <= csv2);
 		return ret;
 	}
-	
+
 	public final String getFieldDelim(int loaderId) {
 		String ret = "";
-		
+
 		if (loaderId == csv2) {
 			ret = "<Tab>";
 		} else if (loaderId == csv2 - 1) {
 			ret = ",";
 		}
-		
+
 		return ret;
 	}
 
@@ -191,31 +192,31 @@ public class CopybookLoaderFactory {
 	public CopybookLoader getLoader(int loaderId) throws IllegalAccessException, InstantiationException {
 		return loader[loaderId].newInstance();
 	}
-	
+
 	/**
 	 * Get a Layout from a RecordEditor-Xml file
-	 * 
+	 *
 	 * @param copyBookFile file that holds the Record Layout (Copybook)
 	 * @param log where to write any errors
 	 * @return requested Record Layout
-	 * 
+	 *
 	 * @throws Exception any Error that occurs
 	 */
-	public final LayoutDetail getLayoutRecordEditXml(String copyBookFile, final AbsSSLogger log) 
+	public final LayoutDetail getLayoutRecordEditXml(String copyBookFile, final AbsSSLogger log)
 	throws Exception {
 		return getLayout(recordEditorXml, copyBookFile, CopybookLoader.SPLIT_NONE, "", 0, log);
 	}
-	
+
 	/**
 	 * Get a RecordLayout from an external File
-	 * 
+	 *
 	 * @param loaderId External Layout format
 	 * @param copyBookFile File holding the External Layout
 	 * @param splitCopybookOption How to split the copybook (Cobol / Cb2Xml)
 	 * @param font Font name
 	 * @param binFormat Binary format
 	 * @param log Where to write any errors
-	 * 
+	 *
 	 * @return The Record Layout
 	 * @throws Exception Any error that occurs reading the copybook
 	 */
@@ -226,7 +227,7 @@ public class CopybookLoaderFactory {
             final AbsSSLogger log)
 	throws Exception {
 		return ToLayoutDetail.getInstance().getLayout(
-				getLoader(loaderId).loadCopyBook(copyBookFile, splitCopybookOption, 
+				getLoader(loaderId).loadCopyBook(copyBookFile, splitCopybookOption,
 				0, font, binFormat, 0, log)
 		);
 	}
@@ -266,7 +267,20 @@ public class CopybookLoaderFactory {
 	 * Get the number of loaders
 	 * @return Returns the numberLoaded.
 	 */
-	public final int getNumberofLoaders() {
+	@Override
+	public final int getNumberOfEntries() {
 		return numberLoaded;
+	}
+
+
+	@Override
+	public String getManagerName() {
+		return "CopybookLoaderFactory";
+	}
+
+
+	@Override
+	public int getKey(int idx) {
+		return idx;
 	}
 }

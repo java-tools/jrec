@@ -12,23 +12,30 @@ import net.sf.RecordEditor.utils.lang.LangConversion;
  */
 public final class ReMsg {
 	private final String msg;
+	private final int msgType;
 
 	public ReMsg(String messsage) {
+		this(LangConversion.ST_MESSAGE, messsage);
+	}
+
+	public ReMsg(int type, String messsage) {
 		super();
 		this.msg = messsage;
+		this.msgType = type;
+		LangConversion.logMsg(msg);
 	}
 
 	public final String get() {
-		return LangConversion.convert(LangConversion.ST_MESSAGE, msg);
+		return LangConversion.convert(msgType, msg);
 	}
 
 	public final String get(String param) {
-		return LangConversion.convert(msg, param);
+		return LangConversion.convert(msgType, msg, param);
 	}
 
 
 	public final String get(Object[] params) {
-		return LangConversion.convert(msg, params);
+		return LangConversion.convert(msgType, msg, params);
 	}
 
 }

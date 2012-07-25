@@ -66,7 +66,6 @@ import net.sf.JRecord.Log.AbsSSLogger;
 
 import net.sf.RecordEditor.re.file.filter.Compare;
 import net.sf.RecordEditor.re.file.filter.FilterDetails;
-import net.sf.RecordEditor.re.file.filter.FilterField;
 import net.sf.RecordEditor.re.file.filter.FilterFieldList;
 import net.sf.RecordEditor.utils.ColumnMappingInterface;
 import net.sf.RecordEditor.utils.common.Common;
@@ -129,7 +128,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 
     private static final FieldMapping NULL_MAPPING =  new FieldMapping(new int[0]);
 
-    private static final String[] LINE_COLUMN_HEADINGS = LangConversion.convert(
+    private static final String[] LINE_COLUMN_HEADINGS = LangConversion.convertArray(
     		LangConversion.ST_COLUMN_HEADING, "Record_ColumnHeadings", new String[] {
     	"", "Full Line",  "Hex (1 Line)", "Hex (2 Lines)", "Hex (SPF Edit Style)", "Hex (Alternative)"
     });
@@ -670,7 +669,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 				return "Sl";
 			}
 			return null;
-		case LINE_NUMER_COLUMN:			return "Line";
+		case LINE_NUMER_COLUMN:			return LangConversion.convert(LangConversion.ST_COLUMN_HEADING, "Line");
 		default:
 			switch(DisplayType.displayType(layout, currLayoutIdx)) {
 			case DisplayType.FULL_LINE:
@@ -1554,7 +1553,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			num = limit;
 			Common.logMsgRaw(
 					LangConversion.convert(
-							"Copy limit of {0} excedded; only the first {1} lines copied",
+							"Copy limit of {0} exceeded; only the first {1} lines copied",
 							new Object[] {limit, limit}),
 					null);
 		}
@@ -2471,7 +2470,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
             	} else {
             		Common.logMsgRaw(
             				LangConversion.convert(
-            						"Filter limit of {0} excedded; only the first {0} lines in the filtered view",
+            						"Filter limit of {0} exceeded; only the first {0} lines in the filtered view",
             						Integer.toString(limit)),
             				null);
             		break;

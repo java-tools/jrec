@@ -21,6 +21,7 @@ public class ReMsgId {
 		super();
 		this.id = id;
 		this.message = message;
+		LangConversion.logMsg(id, message);
 	}
 
 	public final String get() {

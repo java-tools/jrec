@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 import net.sf.JRecord.Common.Conversion;
 
-public class PoTrans implements IStringTrans {
+public class PoTrans extends BasicTrans {
 	private static final int NORMAL_MODE = 0;
 	private static final int TRANS_MODE = 1;
 
@@ -29,6 +29,7 @@ public class PoTrans implements IStringTrans {
 
 					if (lookup != null && b != null) {
 						trans.put(lookup, b.toString());
+						//System.out.println("~~ " + lookup + " " + b.toString());
 					}
 					b = null;
 					lookup = null;
@@ -67,16 +68,7 @@ public class PoTrans implements IStringTrans {
 	}
 
 	/**
-	 * @see net.sf.RecordEditor.utils.lang.IStringTrans#convert(java.lang.String)
-	 */
-	@Override
-	public String convert(String s) {
-
-		return convert(s, s);
-	}
-
-	/**
-	 * @see net.sf.RecordEditor.utils.lang.IStringTrans#convert(java.lang.String, java.lang.String)
+	 * @see net.sf.JRecord.Common.ITranslation#convert(java.lang.String, java.lang.String)
 	 */
 	@Override
 	public String convert(String s, String defaultStr) {

@@ -189,7 +189,7 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 	    AbstractLayoutDetails<?, ?> layout = fileView.getLayout();
 	    String[] recordName = new String[layout.getRecordCount()];
 	    JComboBox fieldList;
-	    JComboBox OperatorList = new JComboBox(FieldSummaryDetails.OPERATOR_NAMES);
+	    JComboBox OperatorList = new JComboBox(FieldSummaryDetails.FOREIGN_OPERATOR_NAMES);
 
 		summaryMdl = new SortFieldSummaryMdl(fileView.getLayout());
 		fldSummaryTbl = new JTable(summaryMdl);
@@ -220,7 +220,7 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 		fldSummaryTbl.setRowHeight(SwingUtils.COMBO_TABLE_ROW_HEIGHT);
 	    tcm = fldSummaryTbl.getColumnModel();
 		tc = tcm.getColumn(1);
-		tc.setCellRenderer(new ComboBoxRender((new JComboBox(FieldSummaryDetails.OPERATOR_NAMES)).getModel()));
+		tc.setCellRenderer(new ComboBoxRender((new JComboBox(FieldSummaryDetails.FOREIGN_OPERATOR_NAMES)).getModel()));
 		tc.setCellEditor(new DefaultCellEditor(OperatorList));
 
 		//if (helpPresent) {

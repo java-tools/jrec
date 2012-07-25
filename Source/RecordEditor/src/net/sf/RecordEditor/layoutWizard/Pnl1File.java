@@ -62,7 +62,7 @@ public class Pnl1File extends WizardPanel  {
      *
      * @param connectionId connection Identifier
      */
-    public Pnl1File(AbsRowList  structureList, AbsRowList typeList ) {
+    public Pnl1File(AbsRowList  structureList, AbsRowList typeList) {
         super();
 
 

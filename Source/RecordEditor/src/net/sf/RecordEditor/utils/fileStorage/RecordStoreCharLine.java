@@ -2,6 +2,7 @@ package net.sf.RecordEditor.utils.fileStorage;
 
 
 import net.sf.JRecord.Common.Conversion;
+import net.sf.JRecord.Common.RecordRunTimeException;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 
@@ -109,7 +110,7 @@ public class RecordStoreCharLine implements RecordStore  {
 //							+ " " + (size - oldPos));
 					System.arraycopy(store, oldPos, newStore, newPos, size - oldPos);
 				} else {
-					throw new RuntimeException("Internal Error in RecordStoreBase can not copy data, so dropping lines ? ");
+					throw new RecordRunTimeException("Internal Error in RecordStoreBase can not copy data, so dropping lines ?");
 				}
 			}
 			store = newStore;
@@ -335,19 +336,19 @@ public class RecordStoreCharLine implements RecordStore  {
 
 	@Override
 	public void add(int idx, byte[] rec) {
-		throw new RuntimeException("Can not add Byte Array");
+		throw new RecordRunTimeException("Can not add Byte Array");
 	}
 
 
 	@Override
 	public byte[] get(int idx) {
-		throw new RuntimeException("Can not get Byte Array");
+		throw new RecordRunTimeException("Can not get Byte Array");
 	}
 
 
 	@Override
 	public void put(int idx, byte[] rec) {
-		throw new RuntimeException("Can not put Byte Array");
+		throw new RecordRunTimeException("Can not put Byte Array");
 	}
 
 

@@ -1,19 +1,15 @@
 package net.sf.RecordEditor.utils.lang;
 
-import java.io.BufferedReader;
+
 import java.io.File;
-import java.io.FileReader;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.text.MessageFormat;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.StringTokenizer;
 
-import net.sf.JRecord.ByteIO.VbByteReader;
-import net.sf.JRecord.ByteIO.VbByteWriter;
+import net.sf.JRecord.Common.BasicTranslation;
+import net.sf.JRecord.Common.ITranslation;
 import net.sf.RecordEditor.utils.params.Parameters;
 
 /**
@@ -26,10 +22,10 @@ public class LangConversion {
 	public static final String[] MSG_NAMES = {
 		"", "Unknown", "Message", "Action", "Menu", "Column_Heading",
 		"Frame_Heading", "Field_Prompt", "Button", "Tab_Heading",
-		"Combobox_Entry", "Field_Hint", "External"
+		"Combobox_Entry", "Field_Hint", "External", "", "Error"
 	};
 	public static final int ST_UNKOWN = TextItem.UNKOWN;
-	public static final int ST_MESSAGE = 2;
+	public static final int ST_MESSAGE = ITranslation.ST_MESSAGE;
 	public static final int ST_ACTION = 3;
 	public static final int ST_MENU = 4;
 	public static final int ST_COLUMN_HEADING = 5;
@@ -40,98 +36,47 @@ public class LangConversion {
 	public static final int ST_COMBO = 10;
 	public static final int ST_FIELD_HINT = 11;
 	public static final int ST_EXTERNAL = 12;
-
-	public static final int FLUSH_PNL = 1;
-	public static final int FLUSH_PROGRAM = 2;
-
-	private static final String txtItmFile = Parameters.getPropertiesDirectoryWithFinalSlash() + "TextItems.bin";
-	private static HashMap<String, TextItem> txtItms = null;
-
-	public static IStringTrans conv = getConv();
-
-	private static boolean  createLangFile =
-						"y".equalsIgnoreCase(
-									Parameters.getString(Parameters.LOG_TEXT_FIELDS)),
-						okToRun = true,
-						changed = false;
-
-	static {
-
-		if (createLangFile) {
-			VbByteReader r = new VbByteReader(false, false);
-			byte[] b;
-			txtItms = new HashMap<String, TextItem>(2000);
+	public static final int ST_ERROR    = ITranslation.ST_ERROR;
 
 
-			try {
-				r.open(txtItmFile);
 
-				while ((b = r.read()) != null) {
-					put(new TextItem(new String(b)));
-				}
-				System.out.println(" ~ " + txtItms.size());
-				r.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+	public static ITranslation conv = getConv();
 
-			if (txtItms.size() == 0) {
-				try {
-					String s, s1, s2;
-					TextItem ti;
-					StringTokenizer tok;
-					BufferedReader br = new BufferedReader(new FileReader(
-							Parameters.getPropertiesDirectoryWithFinalSlash() +"RecordEditorMessages.txt"));
 
-					while ((s = br.readLine()) != null) {
-						if (! "".equals(s.trim())) {
-							s2 = "";
-							tok = new StringTokenizer(s, "\t");
-							s1 = tok.nextToken();
-							if (tok.hasMoreTokens()) {
-								s2 = tok.nextToken();
-							}
-							ti = new TextItem(ST_MESSAGE, "", s1, "");
-							ti.desc = s2;
-							put(ti);
-						}
-					}
-					System.out.println(" ~ " + txtItms.size());
-					br.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
+
+
+	public static void logMsg(String t) {
+		BasicTrans.put(new TextItem(ST_MESSAGE, "", t, ""));
 	}
 
-	private static void put(TextItem t) {
-
-		if ((! createLangFile) ||t.key == null || "".equals(t.key.trim())) {
-
-		} else if (txtItms.containsKey(t.key)) {
-			txtItms.get(t.key).add(t);
-			changed = true;
-		} else {
-			txtItms.put(t.key, t);
-			changed = true;
-		}
+	public static void logMsg(String id, String t) {
+		BasicTrans.put(new TextItem(ST_MESSAGE, id, t, ""));
 	}
+
 
 	public static String convert(String s) {
 
 		return convert(ST_UNKOWN, s);
 	}
 
-	public static String convert(int type, String s) {
-		if (s == null || "".equals(s)) return s;
 
-		put(new TextItem(type, "", s, ""));
-		return conv.convert(s);
+	public static String convert(int type, String s, String param) {
+		return conv.convert(type, s, param);
+	}
+
+
+	public static String convert(int type, String s, Object[] params) {
+		return conv.convert(type, s, params);
+	}
+
+
+	public static String convert(int type, String s) {
+
+		return conv.convert(type, s);
 	}
 
 	public static String[] convertColHeading(String name, String[] flds) {
-		return convert(ST_COLUMN_HEADING, "Tbl- " + name, flds);
+		return convertArray(ST_COLUMN_HEADING, "Tbl- " + name, flds);
 	}
 
 	public static String convertComboItms(String name, String fld) {
@@ -139,46 +84,46 @@ public class LangConversion {
 	}
 
 	public static String[] convertComboItms(String name, String[] flds) {
-		return convert(ST_COMBO, "Combo- " + name, flds);
+		return convertArray(ST_COMBO, "Combo- " + name, flds);
 	}
 
-	public static String[] convert(int type, String name, String[] flds) {
+	public static String[] convertArray(int type, String name, String[] flds) {
 		TextItem ti;
 
 		for (int i = 0; i < flds.length; i++) {
 			ti = new TextItem(type, "", flds[i], "");
 			ti.desc = name + " " + i;
-			put(ti);
+			BasicTrans.put(ti);
 			flds[i] = conv.convert(flds[i]);
 		}
 
 		return flds;
 	}
 
+
 	public static String convert(String s, String param1) {
-		return MessageFormat.format(convert(ST_MESSAGE, s), param1);
+		return conv.convert(ST_MESSAGE, s, param1);
 	}
 
-
 	public static String convertFld(String name, String s) {
-		put(new TextItem(ST_FIELD, "", s, name));
+		BasicTrans.put(new TextItem(ST_FIELD, "", s, name));
 		return conv.convert(s);
 	}
 
 	public static String convertId(int type, String id, String s) {
-		put(new TextItem(type, id, s, ""));
+		BasicTrans.put(new TextItem(type, id, s, ""));
 		return conv.convert(id, s);
 	}
 
 	public static String convertId(int type, String id, String s, Object[] params) {
-		put(new TextItem(type, id, s, ""));
+		//put(new TextItem(type, id, s, ""));
 		return MessageFormat.format(convertId(type, id, s), params);
 	}
 
 	public static String convertDesc(int type, String s, String desc) {
 		TextItem t = new TextItem(type, "", s, "");
 		t.desc = desc;
-		put(t);
+		BasicTrans.put(t);
 		return conv.convert(s);
 	}
 
@@ -201,48 +146,20 @@ public class LangConversion {
 //		return b.toString();
 //	}
 
-	public static void flush(int type) {
 
-		if (createLangFile && changed && type >= FLUSH_PNL && (okToRun || type == FLUSH_PROGRAM)) {
-			okToRun = false;
-			changed = false;
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					synchronized (txtItmFile) {
-						int idx = 0;
-						VbByteWriter w = new VbByteWriter(false);
-						try {
-							Set<String> keys = txtItms.keySet();
-							w.open(txtItmFile);
-
-							System.out.print("Flush: ");
-							for (String key : keys) {
-								w.write(txtItms.get(key).asDelimString(idx++).getBytes());
-								//System.out.print('.');
-							}
-							//System.out.println();
-							w.close();
-						} catch (Exception e) {
-							e.printStackTrace();
-						} finally {
-							okToRun = true;
-							try {
-								w.close();
-							} catch (Exception e) {
-							}
-						}
-					}
-				}
-			}).start();
-		}
-	}
 
 	public static void setConversion() {
 		conv = getConv();
 	}
 
-	public static IStringTrans getConv() {
+	public static ITranslation getConv() {
+		ITranslation ret = getConversion();
+
+		BasicTranslation.setTrans(ret);
+		return ret;
+	}
+
+	private static ITranslation getConversion() {
 		String s = Parameters.getString(Parameters.CURRENT_LANGUAGE);
 		String langDir = Parameters.expandVars(
 							 Parameters.formatLangDir(

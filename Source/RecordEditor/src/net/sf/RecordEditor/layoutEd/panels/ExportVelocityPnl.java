@@ -30,7 +30,7 @@ public class ExportVelocityPnl extends ReFrame {
 
     private final JCheckBox keepOpenChk = new JCheckBox();
     private JButton saveFileBtn = SwingUtils.newButton(
-    				"save file",
+    				"Save File",
     				Common.getRecordIcon(Common.ID_SAVE_ICON));
     public final JTextArea message = new JTextArea();
 

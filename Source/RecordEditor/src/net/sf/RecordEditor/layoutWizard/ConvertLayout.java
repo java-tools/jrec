@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 
@@ -23,26 +22,28 @@ import net.sf.RecordEditor.re.openFile.SplitCombo;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
 
+import net.sf.RecordEditor.utils.msg.UtMessages;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.FileChooser;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.ManagerCombo;
 
 @SuppressWarnings("serial")
 public class ConvertLayout extends ReFrame {
 
-	private JComboBox   loaderOptions = new JComboBox();
-	private FileChooser copybookFile  = new FileChooser();
-	private SplitCombo  splitOptions  = new SplitCombo();
-	private JTextField  fontName      = new JTextField();
+	private ManagerCombo loaderOptions = ManagerCombo.newCopybookLoaderCombo();
+	private FileChooser  copybookFile  = new FileChooser();
+	private SplitCombo   splitOptions  = new SplitCombo();
+	private JTextField   fontName      = new JTextField();
 	private BmKeyedComboBox fileStructure     = new BmKeyedComboBox(
 			new ManagerRowList(LineIOProvider.getInstance(), false), false);
 
 	private ComputerOptionCombo binaryOptions = new ComputerOptionCombo();
-	private FileChooser sampleFile  = new FileChooser();
-	private JTextField  layoutName  = new JTextField();
+	private FileChooser  sampleFile  = new FileChooser();
+	private JTextField   layoutName  = new JTextField();
 
 	private BmKeyedComboBox     writerOptions =  new BmKeyedComboBox(
 			new ManagerRowList(CopybookWriterManager.getInstance(), false), false);
@@ -82,15 +83,11 @@ public class ConvertLayout extends ReFrame {
 	}
 
 	private void init_Fields() {
-		int i;
-	    CopybookLoaderFactory loaders = CopybookLoaderFactory.getInstance();
 	    String dir = Parameters.getFileName(Parameters.COPYBOOK_DIRECTORY);
 
-	    for (i = 0; i < loaders.getNumberofLoaders(); i++) {
-	        loaderOptions.addItem(loaders.getName(i));
-	    }
 
-		loaderOptions.setSelectedItem(Common.OPTIONS.COPYBOOK_READER.get());
+
+		loaderOptions.setEnglish(Common.OPTIONS.COPYBOOK_READER.get());
 		if (loaderOptions.getSelectedIndex() < 0) {
 			loaderOptions.setSelectedIndex(0);
 		}
@@ -146,10 +143,10 @@ public class ConvertLayout extends ReFrame {
 		try {
 			if (loaders.isBasedOnInputFile(loaderId)) {
 				if ("".equals(sampleFile.getText())) {
-					msgField.logMsg(AbsSSLogger.ERROR, "You must enter a sample file");
+					msgField.logMsg(AbsSSLogger.ERROR, UtMessages.SAMPLE_FILE_MSG.get());
 					sampleFile.requestFocus();
 				} else if ("".equals(layoutName.getText())) {
-					msgField.logMsg(AbsSSLogger.ERROR, "You must enter a LayoutName");
+					msgField.logMsg(AbsSSLogger.ERROR, UtMessages.LAYOUT_MSG.get());
 					layoutName.requestFocus();
 				} else {
 					boolean isCsv = loaders.isCsv(loaderId);
@@ -175,7 +172,7 @@ public class ConvertLayout extends ReFrame {
 			        		msgField);
 				}
 			} else if ("".equals(copybookFile.getText())) {
-				msgField.logMsg(AbsSSLogger.ERROR, "You must enter a input copybook");
+				msgField.logMsg(AbsSSLogger.ERROR, UtMessages.INPUT_COPYBOOK.get());
 				copybookFile.requestFocus();
 			} else {
 
@@ -198,7 +195,7 @@ public class ConvertLayout extends ReFrame {
 			e.printStackTrace();
 
 		} catch (Exception e) {
-			msgField.logMsg(AbsSSLogger.ERROR, "Error Converting Copybook:");
+			msgField.logMsg(AbsSSLogger.ERROR, UtMessages.ERROR_CONVERTING_COPYBOOK.get());
 			msgField.logException(AbsSSLogger.ERROR, e);
 			e.printStackTrace();
 		}

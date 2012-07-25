@@ -1,5 +1,6 @@
 package net.sf.RecordEditor.edit.util;
 
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReMsg;
 import net.sf.RecordEditor.utils.screenManager.ReMsgId;
 
@@ -12,6 +13,8 @@ public class ReMessages {
 	public static final ReMsg SAVE_CHANGES      = new ReMsg("Save changes");
 	public static final ReMsg SAVE_CHANGES_FILE = new ReMsg("Save Changes to file: {0}");
 
+	public static final ReMsg BEFORE_FIELD = new ReMsg(LangConversion.ST_ACTION, "Before {0}");
+	public static final ReMsg AFTER_FIELD  = new ReMsg(LangConversion.ST_ACTION, "After {0}");
 
 	public static final ReMsgId EXPORT_DATA_DESC = new ReMsgId("ExportDataDesc",
 						"Export data in native format\n\nChange the tab to change Data format");

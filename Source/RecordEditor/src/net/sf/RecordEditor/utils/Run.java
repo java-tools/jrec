@@ -231,7 +231,8 @@ public final class Run implements ExternalReferenceConstants {
 						}
             		}
             	}
-            	if (s.indexOf("velocity") < 0 && s.indexOf("cb2xml") < 0 && (! (new File(s)).exists())) {
+            	if (s.indexOf("velocity") < 0 && s.indexOf("cb2xml") < 0 && s.indexOf("pict.zip") < 0
+            	&& (! (new File(s)).exists())) {
             		missingCount += 1;
             		missing.append("\n").append(s);
             	}

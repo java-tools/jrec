@@ -3,6 +3,7 @@ package net.sf.RecordEditor.re.file.filter;
 import java.math.BigDecimal;
 
 import net.sf.JRecord.Common.Constants;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 public final class Compare {
 
@@ -41,13 +42,8 @@ public final class Compare {
 			    Constants.TEXT_EQ, 	Constants.TEXT_GT, 	Constants.TEXT_GE,
 			    Constants.TEXT_LT, 	Constants.TEXT_LE
 	   };
-//	   public static final int[]    OPERATOR_VALUES     = {OP_CONTAINS, OP_EQUALS, OP_DOESNT_CONTAIN, OP_NOT_EQUALS,
-//			   OP_NUMERIC_GT , OP_NUMERIC_GE , OP_NUMERIC_LT , OP_NUMERIC_LE , OP_NUMERIC_EQ ,
-//			   OP_TEXT_GT    , OP_TEXT_GE    , OP_TEXT_LT    , OP_TEXT_LE    };
 
-	//   protected static final String[] OPERATOR_STRING_VALUES_BASIC = {OPERATOR_STRING_VALUES[0], OPERATOR_STRING_VALUES[1],
-	//		   OPERATOR_STRING_VALUES[2], OPERATOR_STRING_VALUES[3]
-	//   };
+	   public static final String[] OPERATOR_STRING_FOREIGN_VALUES = convertForeign(OPERATOR_STRING_VALUES);
 
 	   protected static final int cGT = 1;
 	   protected static final int cEQ = 0;
@@ -92,14 +88,39 @@ public final class Compare {
 	    }
 
 	    public static int getOperator(String op) {
-	    	int ret = -1;
+	    	return getOperator(op, OP_CONTAINS, OPERATOR_STRING_VALUES);
+	    }
 
-	    	for (int i = 0; i < OPERATOR_STRING_VALUES.length; i++) {
-	    		if (OPERATOR_STRING_VALUES[i].equalsIgnoreCase(op)) {
+	    public static int getForeignOperator(String op, int ret) {
+	    	return getOperator(op, ret, OPERATOR_STRING_FOREIGN_VALUES);
+	    }
+
+	    public static int getOperator(String op, int ret, String[] operatorValues) {
+
+	    	for (int i = 0; i < operatorValues.length; i++) {
+	    		if (operatorValues[i].equalsIgnoreCase(op)) {
+	    			System.out.println(" ~~ >> found " + op + " " + i);
 	    			ret = i;
 	    			break;
 	    		}
 	    	}
+			System.out.println(" ~~ >> not found " + op + " " + ret);
 	    	return ret;
+	    }
+
+	    public static String[] getSearchOptionsForeign() {
+	    	return convertForeign(OPERATOR_SEARCH_OPTIONS);
+	    }
+
+	    public static String[] convertForeign(String[] a) {
+	    	String[] b = new String[a.length];
+	    	for (int i = 0; i < a.length; i++) {
+	    		b[i] = a[i];
+	    		if (a[i].trim().length() > 2) {
+	    			b[i] = LangConversion.convert(LangConversion.ST_COMBO, a[i]);
+	    		}
+	    	}
+
+	    	return b;
 	    }
 }

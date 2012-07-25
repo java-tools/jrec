@@ -12,15 +12,17 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import net.sf.JRecord.Common.Conversion;
+import net.sf.JRecord.Common.RecordRunTimeException;
 import net.sf.RecordEditor.jibx.JibxCall;
 import net.sf.RecordEditor.jibx.compare.CopyDefinition;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.re.util.wizard.AbstractFilePnl;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.FileChooser;
-import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimitierCombo;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimiterCombo;
 import net.sf.RecordEditor.utils.wizards.AbstractWizard;
 import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 
@@ -133,7 +135,7 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 		@SuppressWarnings("unchecked")
 		private AbstractLayoutSelection layoutSelection1;
 
-		private DelimitierCombo delimCombo = DelimitierCombo.NewDelimCombo();
+		private DelimiterCombo delimCombo = DelimiterCombo.NewDelimCombo();
 		private JTextField delimTxt = new JTextField(8);
 		private JCheckBox names1stLineChk = new JCheckBox();
 		private JTextField quoteTxt = new JTextField();
@@ -224,7 +226,7 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 			delimPnl.add(BorderLayout.EAST, delimTxt);
 
 			this.setGap(GAP3);
-			this.addLine("Field Delimitier", delimPnl);
+			this.addLine("Field Delimiter", delimPnl);
 			this.setHeight(HEIGHT_1P1);
 			this.setGap(GAP1);
 
@@ -249,14 +251,17 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 					try {
 						Conversion.getByteFromHexString(v);
 					} catch (Exception e) {
-						String msg1 = "Invalid Delimiter - Invalid  hex string: " + v.substring(2, 3);
+						String msg1 = LangConversion.convert(
+								LangConversion.ST_ERROR,
+								"Invalid Delimiter - Invalid  hex string: {0}",
+								v.substring(2, 3));
 						//Common.logMsg(msg1, null);
 						throw new RuntimeException(msg1);
 					}
 				} else {
 					String msg1 = "Invalid Delimiter, should be a single character or a hex character";
 					//Common.logMsg(msg1, null);
-					throw new RuntimeException(msg1);
+					throw new RecordRunTimeException(msg1);
 				}
 
 			}

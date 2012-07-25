@@ -6,6 +6,7 @@
  */
 package net.sf.RecordEditor.re.jrecord.types;
 
+import net.sf.JRecord.Common.Messages;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.Types.TypeChar;
@@ -174,9 +175,12 @@ public class ReTypeManger extends TypeManager {
         int idx = getFormatIndex(formatId);
 
         if (idx == INVALID_INDEX) {
-            throw new RecordException("Invalid Index Supplied " + formatId
-                    + " Should be between " + CellFormat.USER_RANGE_START
-                    + " and " + (CellFormat.USER_RANGE_START + userFormatSize));
+            throw new RecordException(
+            		Messages.INVALID_INDEX_MSG,
+            		new Object[] {
+            				formatId, CellFormat.USER_RANGE_START,
+            				(CellFormat.USER_RANGE_START + userFormatSize)}
+            		);
         }
 
         formats[idx] = format;
@@ -277,7 +281,7 @@ public class ReTypeManger extends TypeManager {
 		return userFormatSize;
 	}
 
-	
+
     public final int getNumberOfFormats() {
 	     return formats.length;
 	}

@@ -33,7 +33,8 @@ import net.sf.cb2xml.def.NumericDefinition;
  */
 public class CobolCopybookLoader implements CopybookLoader {
 
-    private static boolean available = true;
+    private static final String PROBLEM_LOADING_COPYBOOK = "Problem loading Copybook: {0}    Message: {1}";
+	private static boolean available = true;
     private static boolean toCheck = true;
 
     private XmlCopybookLoader xmlLoader;
@@ -95,8 +96,10 @@ public class CobolCopybookLoader implements CopybookLoader {
             log.logMsg(AbsSSLogger.ERROR, e.getMessage());
             log.logException(AbsSSLogger.ERROR, e);
             e.printStackTrace();
-            throw new RecordException("problem loading Copybook: " + copyBookFile
-                    		  + "    Message: " + e.getMessage(), e);
+            throw new RecordException(
+            				PROBLEM_LOADING_COPYBOOK,
+            				new Object[] {copyBookFile, e.getMessage()},
+            				e);
         }
 
         return ret;
@@ -143,8 +146,10 @@ public class CobolCopybookLoader implements CopybookLoader {
             log.logMsg(AbsSSLogger.ERROR, e.getMessage());
             log.logException(AbsSSLogger.ERROR, e);
             e.printStackTrace();
-            throw new RecordException("problem loading Copybook: " + copyBookName
-                    		  + "    Message: " + e.getMessage(), e);
+            throw new RecordException(
+            					PROBLEM_LOADING_COPYBOOK,
+                    			new Object[] {copyBookName, e.getMessage()},
+                    			e);
         }
 
         return ret;

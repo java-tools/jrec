@@ -118,7 +118,7 @@ public final class SaveAs3 extends ReFrame
     private FileChooser fileNameTxt = new FileChooser(false);
 
     private JButton saveFile
-    	= SwingUtils.newButton("save file",
+    	= SwingUtils.newButton("Save File",
     			      Common.getRecordIcon(Common.ID_SAVE_ICON));
 //    private JComboBox saveWhat   = new JComboBox();
 //

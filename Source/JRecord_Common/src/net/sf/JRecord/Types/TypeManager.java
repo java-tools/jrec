@@ -17,6 +17,7 @@
  */
 package net.sf.JRecord.Types;
 
+import net.sf.JRecord.Common.Messages;
 import net.sf.JRecord.Common.RecordException;
 //import net.sf.RecordEditor.record.format.CellFormat;
 
@@ -33,7 +34,7 @@ import net.sf.JRecord.Common.RecordException;
  */
 public class TypeManager {
 
-    public static final int SYSTEM_ENTRIES = 120;
+ 	public static final int SYSTEM_ENTRIES = 120;
 
     public static final int INVALID_INDEX  = SYSTEM_ENTRIES - 1;
 
@@ -105,14 +106,14 @@ public class TypeManager {
             types[Type.ftBinaryInt]				= new TypeBinLittleEndian(false);
             types[Type.ftBinaryBigEndian]		= new TypeBinBigEndian(false);
             types[Type.ftPositiveBinaryBigEndian] = new TypeBinBigEndian(true);
-            
+
             types[Type.ftRmComp]				= new TypeRmComp();
             types[Type.ftRmCompPositive]		= new TypeRmCompPositive();
 
             types[Type.ftBit]					= new TypeBit();
 
             types[Type.ftFjZonedNumeric]		= new TypeFjZoned();
-            
+
 //            types[Type.ftCharRestOfFixedRecord] = new TypeCharRestOfFixedRecord();
             types[Type.ftCharRestOfRecord]		= new TypeCharRestOfRecord();
 
@@ -133,9 +134,9 @@ public class TypeManager {
         int idx = getIndex(typeId);
 
         if (idx == INVALID_INDEX) {
-            throw new RecordException("Invalid Index Supplied " + typeId
-                    + " Should be between " + Type.USER_RANGE_START
-                    + " and " + (Type.USER_RANGE_START + userSize));
+            throw new RecordException(
+            		Messages.INVALID_INDEX_MSG,
+            		new Object[] {typeId, Type.USER_RANGE_START, (Type.USER_RANGE_START + userSize)});
         }
 
         types[idx] = typeDef;
@@ -174,7 +175,7 @@ public class TypeManager {
 
         return idx;
     }
-    
+
     /**
      * convert index back to type
      * @param index array index;
@@ -194,7 +195,7 @@ public class TypeManager {
      * @return TypeManager
      */
     public static TypeManager getInstance() {
-    	
+
 	    if (systemTypeManager == null) {
 	        systemTypeManager = new TypeManager();
 	    }

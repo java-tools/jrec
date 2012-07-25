@@ -13,6 +13,7 @@ import javax.swing.JTextArea;
 import javax.swing.text.JTextComponent;
 
 import net.sf.JRecord.Common.Conversion;
+import net.sf.JRecord.Common.RecordRunTimeException;
 
 
 /**
@@ -90,7 +91,7 @@ public class HexTwoLineField extends JTextArea implements AbstractHexDisplay {
 
         setText(buf.toString());
     }
-    
+
     /* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.swing.AbstractHexDisplay#getBytes(byte[])
 	 */
@@ -104,7 +105,7 @@ public class HexTwoLineField extends JTextArea implements AbstractHexDisplay {
     		byte[] ret;
     		String line1 = s.substring(0, pos);
     		String line2 = s.substring(pos + 1);
-    		String oldValueStr = Conversion.toString(oldValue, fontName); 
+    		String oldValueStr = Conversion.toString(oldValue, fontName);
     		ret = new byte[(Math.max(line2.length(), line1.length())) / 2];
 
     		for (int i = 0; i < line2.length(); i += 2) {
@@ -112,18 +113,19 @@ public class HexTwoLineField extends JTextArea implements AbstractHexDisplay {
 					tmp = line2.substring(i, i+2);
 					ret[i/2] = Conversion.long2byte(Integer.parseInt(tmp, 16));
  				} catch (Exception e) {
-					throw new RuntimeException("Error Converting Hex; byteNumber=" + (i/2) 
-							+ " value=" + tmp + " Message: "  +e.getMessage());
+					throw new RecordRunTimeException(
+							ERROR_CONVERTING_HEX,
+							new Object[] {(i/2), tmp, e.getMessage()});
 				}
 			}
     		//System.out.println();
-    		
+
     		len = Math.min(Math.min((line1.length() + 1) / 2, oldValueStr.length()), ret.length);
 
-     	
+
 //    		System.out.println(" -->> " + len + " " + line1 + "< ");
     		for (int i = 0; i < len; i++) {
-//    			System.out.print(" > " + line1.substring(i*2, i*2 + 1) 
+//    			System.out.print(" > " + line1.substring(i*2, i*2 + 1)
 //    					+ " " + oldValueStr.substring(i, i+1));
     			if (! line1.substring(i*2, i*2 + 1)
     					.equals(oldValueStr.substring(i, i+1))) {
@@ -131,13 +133,13 @@ public class HexTwoLineField extends JTextArea implements AbstractHexDisplay {
      					temp =  Conversion.getBytes(line1.substring(i*2, i*2 + 1), fontName);
      					ret[i] = temp[0];
      				} catch (Exception e) {
-       					throw new RuntimeException("Error Converting Text; byteNumber=" + (i / 2) 
+       					throw new RuntimeException("Error Converting Text; byteNumber=" + (i / 2)
        							+ " " +e.getMessage());
 					}
     			}
     		}
 //    		System.out.println();
-    		
+
     		return ret;
     	}
     	return oldValue;
@@ -154,7 +156,7 @@ public class HexTwoLineField extends JTextArea implements AbstractHexDisplay {
             buf.replace(i, i + 1, ".");
         }
     }
-    
+
 
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.swing.AbstractHexDisplay#getComponent()
@@ -164,7 +166,7 @@ public class HexTwoLineField extends JTextArea implements AbstractHexDisplay {
 		return this;
 	}
 
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#clone()
 	 */
@@ -176,7 +178,7 @@ public class HexTwoLineField extends JTextArea implements AbstractHexDisplay {
 		 ret.setText(this.getText());
 		 return ret;
 	}
-	
+
 
 
 	/* (non-Javadoc)

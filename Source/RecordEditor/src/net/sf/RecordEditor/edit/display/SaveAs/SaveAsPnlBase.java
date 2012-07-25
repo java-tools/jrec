@@ -36,7 +36,7 @@ import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
 import net.sf.RecordEditor.utils.swing.FileChooser;
-import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimitierCombo;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimiterCombo;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.QuoteCombo;
 
 public abstract class SaveAsPnlBase {
@@ -48,7 +48,7 @@ public abstract class SaveAsPnlBase {
 			"Export_Field_Selection",
 			new String[] {"Field Name", "Include", "Length"});
 
-	public final static String[] TITLES = LangConversion.convert(LangConversion.ST_TAB, "ExportTab", new String[] {
+	public final static String[] TITLES = LangConversion.convertArray(LangConversion.ST_TAB, "ExportTab", new String[] {
 		"Data",
 		"CSV",
 		"Fixed",
@@ -82,8 +82,8 @@ public abstract class SaveAsPnlBase {
 
 	public final BaseHelpPanel panel = new BaseHelpPanel(this.getClass().getSimpleName());
 
-    public final DelimitierCombo delimiterCombo  = DelimitierCombo.NewDelimCombo();
-    public final QuoteCombo quoteCombo = QuoteCombo.NewCombo();
+    public final DelimiterCombo delimiterCombo  = DelimiterCombo.NewDelimCombo();
+    public final QuoteCombo quoteCombo = QuoteCombo.newCombo();
     public final JCheckBox quoteAllTextFields = new JCheckBox();
     public final JTextField xsltTxt  = new JTextField();
 

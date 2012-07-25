@@ -26,12 +26,13 @@ import java.util.Locale;
  */
 public final class Conversion {
 
-    private static final byte BYTE_NO_BIT_SET   =  0;
+    private static final String VALUE_IS_TO_BIG_FOR_FIELD = "Value is to big for field {0} > {1} {2} ~ {3} {4}";
+	private static final byte BYTE_NO_BIT_SET   =  0;
 	private static final byte BYTE_ALL_BITS_SET = -1;
 
 	private static int positiveDiff = 'A' - '1';
 	private static int negativeDiff = 'J' - '1';
-	
+
 	//private static final DecimalFormatSymbols decSymbols = new DecimalFormatSymbols();
 	private static final char decimalChar = '.';  //decSymbols.getDecimalSeparator();
 	private static final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
@@ -106,7 +107,7 @@ public final class Conversion {
 	public final static String toString(final byte[] record,
 			 final String fontName) {
 		String s = "";
-		
+
 		try {
 			if (fontName == null || "".equals(fontName)) {
 			    s = new String(record);
@@ -120,7 +121,7 @@ public final class Conversion {
 			}
 		} catch (Exception e) {
 		}
-		
+
 		return s;
 	}
 
@@ -277,7 +278,7 @@ public final class Conversion {
 
 		return new BigInteger(bytes);
 	}
-	
+
 	/**
 	 * Get a Binary Integer (Intel Format)
 	 *
@@ -380,7 +381,7 @@ public final class Conversion {
 		return new BigInteger(bytes);
 	}
 
-	
+
 
 
 	/**
@@ -515,26 +516,26 @@ public final class Conversion {
 		}
 	}
 
-	public static void setBigInt(final byte[] record, int pos, int len, BigInteger val, boolean isPositive) 
+	public static void setBigInt(final byte[] record, int pos, int len, BigInteger val, boolean isPositive)
 	throws RecordException {
 		byte[] bytes = val.toByteArray();
 		int i;
 		byte sb = BYTE_NO_BIT_SET;
-		
+
 		if (bytes.length <= len) {
 		} else if (isPositive && bytes.length == len + 1 && (bytes[0] == 0)){
 			byte[] tmp = new byte[len];
 			System.arraycopy(bytes, 1, tmp, 0, len);
 			bytes = tmp;
 		} else {
-//			System.out.println(" To Big " +  isPositive 
+//			System.out.println(" To Big " +  isPositive
 //					+ " > " + pos + " " + bytes.length  + " ~ " + len
 //					+ " " + bytes[0]);
-			throw new RecordException("Value is to big for field "  +  isPositive 
-					+ " > " + pos + " " + bytes.length  + " ~ " + len
-					+ " " + bytes[0]);
+			throw new RecordException(
+					VALUE_IS_TO_BIG_FOR_FIELD,
+					new Object[] {isPositive, pos, bytes.length , len, bytes[0]});
 		}
-		
+
 		if (val.signum() < 0) {
 			sb = BYTE_ALL_BITS_SET;
 		}
@@ -542,16 +543,16 @@ public final class Conversion {
 		for (i = pos ; i < pos + len - bytes.length + 1; i++) {
 			record[i] = sb;
 		}
-		
+
 		System.arraycopy(bytes, 0, record, pos + len - bytes.length, bytes.length);
 	}
-	
 
-	public static void setBigIntLE(final byte[] record, int pos, int len, BigInteger val, boolean isPositive) 
+
+	public static void setBigIntLE(final byte[] record, int pos, int len, BigInteger val, boolean isPositive)
 	throws RecordException {
 		byte[] bytes = val.toByteArray();
 		int i;
-		
+
 		if (bytes.length <= len) {
 			int base = pos + bytes.length - 1;
 			byte fill = BYTE_NO_BIT_SET;
@@ -569,12 +570,12 @@ public final class Conversion {
 				record[base - i] = bytes[i+1];
 			}
 		} else {
-			throw new RecordException("Value is to big for field "  +  isPositive 
-					+ " > " + pos + " " + bytes.length  + " ~ " + len
-					+ " " + bytes[0]);
+			throw new RecordException(
+					VALUE_IS_TO_BIG_FOR_FIELD,
+					new Object[] {isPositive, pos, bytes.length, len,bytes[0]});
 		}
-			
-		
+
+
 	}
 
 
@@ -678,14 +679,14 @@ public final class Conversion {
             ch = s.charAt(i);
         }
 
-       
+
         if (i > 0) {
             if (s.charAt(i) == decimalChar) {
                 i -= 1;
             }
             s = s.substring(i);
         }
-        
+
         if (decimalChar != ',' && (s.indexOf(",") > 0)) {
         	StringBuffer b = new StringBuffer(s.length());
         	int e = s.length();
@@ -722,7 +723,7 @@ public final class Conversion {
         }
         return ret;
     }
-    
+
     /**
      * This method extracts a Copybookname from a file name
      *
@@ -766,19 +767,19 @@ public final class Conversion {
         int fromLen = from.length();
 
         start = in.indexOf(from, 0);
-        while (start > 0) {
+        while (start >= 0) {
             in.replace(start, start + fromLen, to);
             start = in.indexOf(from, start + to.length());
         }
-        
+
         return in;
-    }  
-    
+    }
+
     public static byte getByteFromHexString(String s) {
 		int b = Integer.parseInt(s.substring(2, 4), 16);
 		return long2byte(b);
     }
-    
+
     public static byte long2byte(long i) {
     	long b = i;
 		if (b > 127) {
@@ -796,7 +797,7 @@ public final class Conversion {
 	public static NumberFormat getNumberformat() {
 		return numberFormat;
 	}
-    
+
     /**
      * pad string with zero's to format length
      *

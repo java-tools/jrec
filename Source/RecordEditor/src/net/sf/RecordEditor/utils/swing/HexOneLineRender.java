@@ -15,6 +15,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.text.JTextComponent;
 
 import net.sf.JRecord.Common.Conversion;
+import net.sf.JRecord.Common.RecordRunTimeException;
 
 /**
  * Mono spaced text field table rendor
@@ -25,7 +26,8 @@ import net.sf.JRecord.Common.Conversion;
 @SuppressWarnings("serial")
 public class HexOneLineRender extends JTextField implements TableCellRenderer, AbstractHexDisplay  {
 
-    /**
+
+	/**
      * Mono spaced text field table rendor
      */
     public HexOneLineRender() {
@@ -76,8 +78,9 @@ public class HexOneLineRender extends JTextField implements TableCellRenderer, A
 				tmp = line.substring(i, i+2);
 				ret[i/2] = Conversion.long2byte(Integer.parseInt(tmp, 16));
 			} catch (Exception e) {
-				throw new RuntimeException("Error Converting Hex; byteNumber=" + (i/2) 
-						+ " value=" + tmp + " Message: "  +e.getMessage());
+				throw new RecordRunTimeException(
+						ERROR_CONVERTING_HEX,
+						new Object[] {(i/2), tmp, e.getMessage()});
 			}
 		}
 		return ret;

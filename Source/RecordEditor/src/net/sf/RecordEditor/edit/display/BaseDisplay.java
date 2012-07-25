@@ -323,7 +323,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 						null,
 						ReMessages.SAVE_CHANGES.get(),
 						//LangConversion.convert(LangConversion.ST_MESSAGE, "Save changes"),
-						ReMessages.SAVE_CHANGES.get(fileMaster.getFileName()),
+						ReMessages.SAVE_CHANGES_FILE.get(fileMaster.getFileName()),
 						//LangConversion.convert("Save Changes to file: {0}", fileMaster.getFileName()),
 						JOptionPane.YES_NO_OPTION);
 

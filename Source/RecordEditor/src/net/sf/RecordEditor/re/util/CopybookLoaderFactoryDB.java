@@ -171,7 +171,7 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
    	if (typeConv[dbIdx] == null) {
    		ReTypeManger typeMgr = ReTypeManger.getInstance();
    		Integer key;
-   		TypeList types = new TypeList(dbIdx, false, false);
+   		TypeList types = new TypeList(dbIdx, false, false, false);
    		String str;
 
    		typeConv[dbIdx] = new HashMap<String, Integer>();

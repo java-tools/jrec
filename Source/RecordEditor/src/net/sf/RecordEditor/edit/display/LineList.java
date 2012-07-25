@@ -68,6 +68,7 @@ import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.edit.display.common.AbstractRowChanged;
 import net.sf.RecordEditor.edit.display.util.Code;
 import net.sf.RecordEditor.edit.display.util.RowChangeListner;
+import net.sf.RecordEditor.edit.util.ReMessages;
 import net.sf.RecordEditor.jibx.compare.FieldSequence;
 import net.sf.RecordEditor.re.file.FieldMapping;
 import net.sf.RecordEditor.re.file.FileView;
@@ -423,12 +424,14 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 			copyMenu.removeAll();
 			moveMenu.removeAll();
 
-			s = "Before " + rec.getField(0).getName();
+			s = ReMessages.BEFORE_FIELD.get(rec.getField(0).getName());
+				//LangConversion.convert(LangConversion.ST_ACTION, "Before {0}", rec.getField(0).getName());
 			copyMenu.add(new MoveCopyColumn(s, true, 0));
 			moveMenu.add(new MoveCopyColumn(s, false, 0));
 
 			for (int i=0; i < rec.getFieldCount(); i++) {
-				s = "After " + rec.getField(i).getName();
+				s = ReMessages.AFTER_FIELD.get(rec.getField(i).getName());
+					//LangConversion.convert(LangConversion.ST_ACTION, "After {0}", rec.getField(i).getName());
 				copyMenu.add(new MoveCopyColumn(s, true, i+1));
 				moveMenu.add(new MoveCopyColumn(s, false, i+1));
 			}
@@ -1009,7 +1012,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
     }
 
 
-    private class AddColumn extends AbstractAction {
+    private class AddColumn extends ReAbstractAction {
     	private boolean afterDest;
 
 		public AddColumn(String name, boolean after) {
@@ -1078,7 +1081,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 		}
     }
 
-    private class DeleteColumn extends AbstractAction {
+    private class DeleteColumn extends ReAbstractAction {
 
 		public DeleteColumn() {
 			super("Delete Column",

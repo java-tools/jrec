@@ -5,6 +5,8 @@ import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
+import net.sf.JRecord.Common.RecordRunTimeException;
+
 public class Code {
 
 	public static byte[] compress(int size, byte[] store) {
@@ -14,7 +16,7 @@ public class Code {
 		deflater.setInput(store, 0, store.length);
 		deflater.finish();
 		byte[] buff = new byte[store.length + 50];
-		
+
 		deflater.deflate(buff);
 
 		int compressedSize = deflater.getTotalOut();
@@ -23,39 +25,39 @@ public class Code {
 		if (deflater.getTotalIn() != store.length) {
 			return null;
 		}
-		
+
 		ret = new byte[compressedSize];
 		System.arraycopy(buff, 0, ret, 0, compressedSize);
-		
+
 		return ret;
 	}
 
 	public static ByteArray uncompressed(byte[] compressedData, int length) {
 		return uncompressed(compressedData, length, true);
 	}
-	
+
 
 	public static ByteArray uncompressed(byte[] compressedData, int length, boolean doCheck) {
 
 		byte[] store = new byte[length];
 		int bytesUsed;
-		
+
 
         try {
 			Inflater inflater = new Inflater();
 			inflater.setInput(compressedData, 0, compressedData.length);
 			inflater.finished();
-			
+
 
 			bytesUsed = inflater.inflate(store);
 			//bytesUsed = (int) inflater.getBytesWritten();
-			
+
 			inflater.reset();
-			
+
 		} catch (DataFormatException e) {
-			throw new RuntimeException("Data Format error: " + e.getMessage(), e);
-		}  
-		
+			throw new RecordRunTimeException("Data Format error: {0}", e.getMessage(), e);
+		}
+
 		return new ByteArray(bytesUsed, store, false);
 	}
 }

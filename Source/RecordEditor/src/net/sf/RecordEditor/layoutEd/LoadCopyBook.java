@@ -32,6 +32,7 @@ import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Log.ScreenLog;
+import net.sf.RecordEditor.layoutEd.utils.LeMessages;
 import net.sf.RecordEditor.re.db.Record.ExtendedRecordDB;
 import net.sf.RecordEditor.re.db.Table.TableDB;
 import net.sf.RecordEditor.re.db.Table.TableRec;
@@ -55,7 +56,9 @@ import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
 import net.sf.RecordEditor.utils.swing.FileChooser;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
-import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimitierCombo;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimiterCombo;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.ManagerCombo;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.QuoteCombo;
 
 
 
@@ -81,33 +84,16 @@ import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimitierCombo;
 @SuppressWarnings("serial")
 public class LoadCopyBook extends ReFrame implements ActionListener {
 
-//    private static final String[] SPLIT_OPTIONS = {"No Split", "On Redefine", "On 01 level"};
-//    private static final int[] SPLIT_CONVERSION = {
-//            XmlCopybookLoader.SPLIT_NONE,
-//            XmlCopybookLoader.SPLIT_REDEFINE,
-//            XmlCopybookLoader.SPLIT_01_LEVEL
-//    };
-//	private final static String fieldSeparatorList[] = {
-//		"<Default>", "<Tab>", "<Space>", ",", ";", ":", "|", "/", "\\", "~", "!", "*", "#", "@"
-//
-//	};
-//	private final static String quoteList[] = {
-		//"<Default>", "\"", "'", "`"
-	//};
-
 	private static final String COBOL_LAYOUT = LangConversion.convert(LangConversion.ST_FRAME_HEADING, "Load Cobol Record Layout - DB ");
 
 	private static final String SELECTED_LOADER = LangConversion.convert(LangConversion.ST_FRAME_HEADING, "Load Record Layout using selectedLoader");
 
 	private String formDescription;
 
-//	private TableDB      structureTable = new TableDB();
 	private TableDB         systemTable = new TableDB();
 	private BmKeyedComboModel structureModel = new BmKeyedComboModel(new ManagerRowList(
 			LineIOProvider.getInstance(), false));
 
-//	private DBComboModel<TableRec> structureModel
-//			= new DBComboModel<TableRec>(structureTable, 0, 1, true, false);
 	private DBComboModel<TableRec>    systemModel
 			= new DBComboModel<TableRec>(systemTable, 0, 1, true, false);
 
@@ -118,20 +104,21 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 
 	private String copybookPrompt;
 
-	private JComboBox   loaderOptions = new JComboBox();
-	private FileChooser copybookFile  = new FileChooser();
-	private JTextField  fontName      = new JTextField();
+	private ManagerCombo loaderOptions = ManagerCombo.newCopybookLoaderCombo();
+	private FileChooser  copybookFile  = new FileChooser();
+	private JTextField   fontName      = new JTextField();
 	private ComputerOptionCombo
-	                    binaryOptions = new ComputerOptionCombo();
-	private JButton     go            = SwingUtils.newButton("Go");
-	private JButton     helpBtn       = Common.getHelpButton();
-	private SplitCombo  splitOptions  = new SplitCombo();
-	private BmKeyedComboBox fileStructure;
+	                     binaryOptions = new ComputerOptionCombo();
+	private JButton      go            = SwingUtils.newButton("Go");
+	private JButton      helpBtn       = Common.getHelpButton();
+	private SplitCombo   splitOptions  = new SplitCombo();
+	private BmKeyedComboBox
+						 fileStructure;
 
     private BmKeyedComboBox      system;
 
-    private DelimitierCombo fieldSeparator = DelimitierCombo.NewDelimComboWithDefault();
-    private JComboBox quote = new JComboBox(Common.QUOTE_LIST);
+    private DelimiterCombo fieldSeparator = DelimiterCombo.NewDelimComboWithDefault();
+    private JComboBox quote = QuoteCombo.newCombo(); //Common.QUOTE_LIST);
 
 	private BaseHelpPanel pnl = new BaseHelpPanel();
 
@@ -190,7 +177,7 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 		//innerPnl.setGap(BasePanel.GAP1);
 
 		if (chooseCopyBook) {
-			loaderOptions.setSelectedItem(Common.OPTIONS.COPYBOOK_READER.get());
+			loaderOptions.setEnglish(Common.OPTIONS.COPYBOOK_READER.get());
 			if (loaderOptions.getSelectedIndex() < 0) {
 				loaderOptions.setSelectedIndex(0);
 			}
@@ -251,7 +238,7 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 	    int i;
 	    String s;
 
-	    CopybookLoaderFactory loaders = CopybookLoaderFactoryDB.getInstance();
+	    //CopybookLoaderFactory loaders = CopybookLoaderFactoryDB.getInstance();
 
 		String typeOfCopybook = choseCopyBook ? "User Selected"
 				  : "Cobol";
@@ -267,10 +254,6 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 	    tips = new JEditorPane("text/html", formDescription);
 	    tips.setEditable(false);
 	    copybookFile.setText(Common.OPTIONS.DEFAULT_COBOL_DIRECTORY.get());
-
-	    for (i = 0; i < loaders.getNumberofLoaders(); i++) {
-	        loaderOptions.addItem(loaders.getName(i));
-	    }
 
 	    splitOptions.setSelectedIndex(0);
 
@@ -296,7 +279,7 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 
 	    s = Common.OPTIONS.DEFAULT_BIN_NAME.get();
 	    if (! "".equals(s)) {
-	    	binaryOptions.setSelectedItem(s);
+	    	binaryOptions.setEnglishText(s);
 	    }
 
 	}
@@ -341,7 +324,7 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 			                msgField);
 
 			        if (rec == null) {
-			        	msgField.logMsg(AbsSSLogger.ERROR, "Could not load Copybook");
+			        	msgField.logMsg(AbsSSLogger.ERROR, LeMessages.ERROR_LOADING_COPYBOOK.get());
 			        }
 
 			        if (fstructure != Constants.IO_DEFAULT
@@ -355,9 +338,12 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 			        db.setConnection(new ReConnection(connectionId));
 			        db.checkAndUpdate(rec);
 
-			        msgField.logMsg(AbsSSLogger.SHOW, "-->> " + copyBookFile + " processed");
-			        msgField.logMsg(AbsSSLogger.SHOW, "      Copybook: " + rec.getRecordName());
-
+//			        msgField.logMsg(AbsSSLogger.SHOW, "-->> " + copyBookFile + " processed");
+//			        msgField.logMsg(AbsSSLogger.SHOW, "      Copybook: " + rec.getRecordName());
+			        msgField.logMsg(
+			        		AbsSSLogger.SHOW,
+			        		LeMessages.COPYBOOK_LOADED.get(new Object[] {copyBookFile, rec.getRecordName()}));
+			        System.out.println(LeMessages.COPYBOOK_LOADED.get(new Object[] {copyBookFile, rec.getRecordName()}));
 			        db.close();
 
 			        if (layoutCallback != null) {

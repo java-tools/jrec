@@ -46,7 +46,7 @@ public class SaveAs4 extends ReFrame {
 
 	public SaveAs4(final AbstractFileDisplay recordFrame,
     		final FileView<?> fileView) {
-		super(fileView.getFileNameNoDirectory(), "Save as",
+		super(fileView.getFileNameNoDirectory(), "Save As",
 	              fileView.getBaseFile());
 
 		BaseHelpPanel pnl = new BaseHelpPanel();

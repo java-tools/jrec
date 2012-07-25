@@ -10,19 +10,20 @@ import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import net.sf.JRecord.Common.RecordRunTimeException;
 import net.sf.RecordEditor.utils.params.Parameters;
 
 public class ScriptMgr implements ValidExtensionCheck {
 
 	private  final static  List<String> languages = new ArrayList<String>();
-	
+
 
 	private ScriptEngineManager scriptManager = new ScriptEngineManager(this.getClass().getClassLoader());
 
     public final void runScript(
     		String script,
     		ScriptData data) throws FileNotFoundException, ScriptException  {
-    	
+
     	String ext = Parameters.getExtensionOnly(script);
     	ScriptEngine eng = scriptManager.getEngineByExtension(ext);
     	if (eng == null) {
@@ -36,8 +37,8 @@ public class ScriptMgr implements ValidExtensionCheck {
      * @param language script language
      * @param script script file to be run
      * @param data Data to pass to the Velocity template
- 	 * @throws ScriptException 
-	 * @throws FileNotFoundException 
+ 	 * @throws ScriptException
+	 * @throws FileNotFoundException
      *
      * @throws Exception any error that occurs
      */
@@ -45,10 +46,10 @@ public class ScriptMgr implements ValidExtensionCheck {
     		String language,
     		String script,
     		ScriptData data) throws FileNotFoundException, ScriptException  {
-    	
+
     	runScript(scriptManager.getEngineByName(language), script, data);
     }
-    
+
     private final void runScript(
     		ScriptEngine eng,
     		String script,
@@ -56,7 +57,7 @@ public class ScriptMgr implements ValidExtensionCheck {
 
 
        	if (eng == null) {
-    		throw new RuntimeException("No Script Engine found !!! ");
+    		throw new RecordRunTimeException("No Script Engine found !!! ");
     	} else {
     		if (data != null) {
 		        if (data.view != null) {
@@ -66,7 +67,7 @@ public class ScriptMgr implements ValidExtensionCheck {
 		            eng.put("layout",     data.view.getLayout());
 		            //line.getLayout().getRecord(0).getFieldCount()
 		        }
-		        
+
 		        eng.put("treeRoot",   data.root);
 		        eng.put("treeNodes",  data.nodes);
 		        eng.put("treeDepth",  data.treeDepth);
@@ -77,12 +78,12 @@ public class ScriptMgr implements ValidExtensionCheck {
 		        eng.put("recordIdx",  Integer.valueOf(data.recordIdx));
 		        eng.put("RecordEditorData", data);
     		}
-    		
+
 	        eng.eval(new FileReader(script));
     	}
     }
 
-	
+
 	/**
 	 * @param extension
 	 * @return
@@ -111,16 +112,16 @@ public class ScriptMgr implements ValidExtensionCheck {
 	 */
 	@Override
 	public boolean isValidExtension(String extension) {
-		
+
 		return scriptManager.getEngineByExtension(extension) != null;
 	}
-	
-	
+
+
 	/**
 	 * @return the languages
 	 */
 	public static List<String> getLanguages() {
-		
+
 		synchronized (languages) {
 			if (languages.size() == 0) {
 				ScriptEngineManager manager = new ScriptEngineManager(ScriptMgr.class.getClassLoader());

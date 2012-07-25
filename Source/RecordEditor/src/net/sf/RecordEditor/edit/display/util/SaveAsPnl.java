@@ -23,7 +23,8 @@ import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
 import net.sf.RecordEditor.utils.swing.FileChooser;
-import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimitierCombo;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimiterCombo;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.QuoteCombo;
 
 
 //TODO Create Builder & seperate panel classes + include write logic from SaveAsNew
@@ -76,8 +77,8 @@ public class SaveAsPnl extends BaseHelpPanel {
 	public final String extension;
 	public final int panelFormat, extensionType;
 
-    public final DelimitierCombo delimiterCombo  = DelimitierCombo.NewDelimCombo();
-    public final JComboBox quoteCombo = new JComboBox(Common.QUOTE_LIST);
+    public final DelimiterCombo delimiterCombo  = DelimiterCombo.NewDelimCombo();
+    public final JComboBox quoteCombo = QuoteCombo.newCombo();
     public final JCheckBox quoteAllTextFields = new JCheckBox();
     public final JTextField xsltTxt  = new JTextField();
 

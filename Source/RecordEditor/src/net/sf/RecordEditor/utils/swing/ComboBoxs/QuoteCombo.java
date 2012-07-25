@@ -28,9 +28,7 @@ public final class QuoteCombo extends EnglishCombo<String> {
    	}
 
 
-   	public static QuoteCombo NewCombo() {
+   	public static QuoteCombo newCombo() {
    		return new QuoteCombo();
    	}
-
-
 }

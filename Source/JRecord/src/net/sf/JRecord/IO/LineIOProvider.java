@@ -27,17 +27,17 @@ import net.sf.JRecord.Details.LineProvider;
  * LineIOprovider - This class returns a LineIO class appropriate for
  * the supplied file structure. All the Files Structures are available as
  * Constants.IO_*
- * 
+ *
  * <pre>
  * <b>Usage:</b>
- * 
+ *
  *         CopybookLoader loader = <font color="brown"><b>new</b></font> RecordEditorXmlLoader();
  *         ExternalRecord extlayout = loader.loadCopyBook(copybookName, 0, 0, "", 0, 0, <font color="brown"><b>null</b></font>);
- *        
+ *
  *         LayoutDetail layout = extlayout.asLayoutDetail();
  *         AbstractLineWriter writer = <b>LineIOProvider.getInstance()</b>.getLineWriter(layout.getFileStructure());
  * </pre>
- * 
+ *
  * @author Bruce Martin
  * @version 0.55
  *
@@ -51,13 +51,13 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
 
 //	@SuppressWarnings("rawtypes")
 //	private LineProvider provider;
- 
-    
+
+
     //private  int numberOfEntries = 0;
     private  ArrayList<String> names = new ArrayList<String>(20) ;
     private  ArrayList<String> externalNames = new ArrayList<String>(20) ;
     private  ArrayList<Integer>keys = new ArrayList<Integer>(20) ;
-     
+
 
 
     /**
@@ -67,6 +67,14 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
     protected LineIOProvider() {
         this(null);
     }
+
+    /**
+	 * @see net.sf.JRecord.Common.AbstractManager#getManagerName()
+	 */
+	@Override
+	public String getManagerName() {
+		return "Line_IO_Names";
+	}
 
     /**
      * create LineIOprovider class - This class returns IO-Routines
@@ -118,15 +126,15 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
     	return getProvider(fileStructure).getLineWriter(fileStructure);
     }
 
-    
+
     /* (non-Javadoc)
 	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#isCopyBookFileRequired(int)
 	 */
     public boolean isCopyBookFileRequired(int fileStructure) {
     	return getProvider(fileStructure).isCopyBookFileRequired(fileStructure);
     }
-    
-    
+
+
     /* (non-Javadoc)
 	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getStructureName(int)
 	 */
@@ -139,8 +147,8 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
     	}
     	return "";
     }
-    
-	
+
+
 	@Override
 	public String getStructureNameForIndex(int index) {
 		return externalNames.get(index);
@@ -154,7 +162,7 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
     public int getStructure(String name) {
     	int min = Math.min(keys.size(), externalNames.size());
     	if (name != null) {
-	    	for (int i = 0; i < min; i++) { 
+	    	for (int i = 0; i < min; i++) {
 	    		if (name.equalsIgnoreCase(externalNames.get(i))) {
 	    			//System.out.println(" ~~~ getStructure ~ " +  externalNames.get(i) + " " + keys.get(i));
 	    			return keys.get(i).intValue();
@@ -165,7 +173,7 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
     	return Constants.NULL_INTEGER;
     }
 
-    
+
 //    /**
 //     * Get line provider
 //     * @return Returns the provider.
@@ -231,7 +239,7 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
     public static void setInstance(LineIOProvider newProvider) {
         ioProvider = newProvider;
     }
-    
+
     private AbstractLineIOProvider getProvider(int fileStructure) {
     	AbstractLineIOProvider ret = standardProvider;
     	Integer key = Integer.valueOf(fileStructure);
@@ -240,25 +248,25 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
     	}
     	return ret;
     }
-    
+
     public void register(AbstractLineIOProvider newProvider) {
     	for (int i =0; i < newProvider.getNumberOfEntries(); i++) {
     		register(newProvider.getKey(i), newProvider);
     	}
     	registerNames(newProvider);
     }
-    
-    
+
+
     private void register(int fileStructure, AbstractLineIOProvider newProvider) {
-    	
+
     	Integer key = Integer.valueOf(fileStructure);
     	if (providers.containsKey(key)) {
     		throw new RuntimeException("File Structure " + fileStructure + " is already defined");
     	}
-    	
+
     	providers.put(key, newProvider);
     }
-    
+
     public final void registerNames(AbstractLineIOProvider newProvider) {
     	for (int i = 0; i < newProvider.getNumberOfEntries(); i++) {
     		names.add(newProvider.getName(i));

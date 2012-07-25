@@ -135,7 +135,7 @@ public class ScriptRunFrame extends ReFrame {
 					.runScript(templateFC.getText(), data);
 
 			if (data != null && ! "".equals(data.outputFile)) {
-				s = "\n " +  LangConversion.convert("OutputFile:") + " " + data.outputFile;
+				s = "\n " +  LangConversion.convert("Output File:") + " " + data.outputFile;
 			}
 			msg.setText(LangConversion.convert("Script {0} run  !!!", templateFC.getText()) + s);
 		} catch (Exception e) {

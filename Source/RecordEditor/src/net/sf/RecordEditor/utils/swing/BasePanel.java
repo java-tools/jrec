@@ -32,6 +32,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
+import net.sf.RecordEditor.utils.lang.BasicTrans;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.params.Parameters;
 
@@ -679,11 +680,11 @@ public class BasePanel extends JPanel {
 
 
 	public void setMessageTxt(String msg) {
-		messageTxt.setText(msg);
+		messageTxt.setText(LangConversion.convert(msg));
 	}
 
 	public void setMessageTxt(String msg, String error) {
-		messageTxt.setText(msg + " " + error);
+		messageTxt.setText(LangConversion.convert(msg) + " " + error);
 	}
 
 	public void setMessageRplTxt(String msg, String msg2) {
@@ -819,7 +820,7 @@ public class BasePanel extends JPanel {
 					 new TableLayoutConstraints(1, 0, numCols, 0,
 							TableLayout.CENTER, TableLayout.FULL));
 		}
-		LangConversion.flush(LangConversion.FLUSH_PNL);
+		BasicTrans.flush(BasicTrans.FLUSH_PNL);
 
 		if (numCols == 1) {
 			double[] vG = {vGaps[0], vGaps[1], vGaps[vGaps.length - 1]};

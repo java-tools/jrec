@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import net.sf.JRecord.Common.RecordRunTimeException;
 import net.sf.JRecord.CsvParser.AbstractParser;
 import net.sf.JRecord.CsvParser.BasicParser;
 import net.sf.JRecord.CsvParser.ParserManager;
@@ -59,7 +60,7 @@ public class CsvSelectionStringTblMdl
 
 	@Override
 	public byte[][] getLines() {
-		throw new RuntimeException("Not Implemented");
+		throw new RecordRunTimeException("Not Implemented");
 	}
 
 	@Override
@@ -116,7 +117,7 @@ public class CsvSelectionStringTblMdl
 
 	@Override
 	public void setLines(byte[][] lines, String font) {
-		throw new RuntimeException("Not Implemented");
+		throw new RecordRunTimeException("Not Implemented");
 	}
 
 	@Override

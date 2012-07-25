@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import net.sf.JRecord.ByteIO.AbstractByteReader;
+import net.sf.JRecord.Common.RecordRunTimeException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
@@ -25,6 +26,8 @@ implements DataStore<AbstractLine> {
 
 //	private static long time = 0;
 //	private static long totalTime = 0;
+
+	private static final String LINE_NOT_FOUND = "Line not found: {0}";
 
 	private ArrayList<FileChunk<L, R>> chunks
 			= new ArrayList<FileChunk<L, R>>(1000);
@@ -110,8 +113,7 @@ implements DataStore<AbstractLine> {
 				}
 			}
 		} else {
-			throw new RuntimeException("Can not find line: " + idx
-					+ " ");
+			throw new RecordRunTimeException(LINE_NOT_FOUND, Integer.toString(idx));
 		}
 
 
@@ -219,7 +221,7 @@ implements DataStore<AbstractLine> {
 //						+ " " + (expected == f.getFirstLine()));
 //				expected = f.getFirstLine()	+ f.getCount();
 //			}
-			throw new RuntimeException("line not found: " + idx);
+			throw new RecordRunTimeException(LINE_NOT_FOUND, Integer.toString(idx));
 		}
 
 		return ret;

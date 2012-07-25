@@ -32,13 +32,13 @@ public class TypeNumAnyDecimal extends TypeNum {
         try {
             new BigDecimal(Conversion.numTrim(val));
         } catch (final Exception ex) {
-            throw new RecordException("Invalid Number: " + ex.getMessage());
+            throw new RecordException("Invalid Number: {0}", ex.getMessage());
         }
 
 	    if (isPositive() && val.indexOf('-') >= 0) {
 	        throw new RecordException("Only positive numbers are allowed");
 	    }
-	    
+
 	    return val.trim();
 	}
 }

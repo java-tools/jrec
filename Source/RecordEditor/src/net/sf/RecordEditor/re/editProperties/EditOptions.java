@@ -21,8 +21,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
@@ -31,8 +29,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 
-import net.sf.JRecord.Common.AbstractManager;
-import net.sf.JRecord.External.CopybookLoaderFactory;
 import net.sf.JRecord.External.CopybookWriterManager;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.Numeric.ConversionManager;
@@ -46,6 +42,7 @@ import net.sf.RecordEditor.utils.params.ProgramOptions;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.EnglishStrModel;
 
 /**
  * Edit RecordEditor Startup options
@@ -169,8 +166,9 @@ public class EditOptions {
             {Parameters.PROPERTY_LOAD_FILE_BACKGROUND, "Load File in Background thread", null, EditPropertiesPnl.FLD_BOOLEAN, "Load In background"}, // Checked
             {Parameters.USE_NEW_TREE_EXPANSION, "Use New Tree Expansion", null, EditPropertiesPnl.FLD_BOOLEAN,  "Use New Tree Expansion"},
             {Parameters.SEARCH_ALL_FIELDS, "Search: All Fields", null, EditPropertiesPnl.FLD_BOOLEAN,  "On Search Screen default to \"All Fields\""},
-            {Parameters.NAME_FIELDS, "Add names to screen Componenets", null, EditPropertiesPnl.FLD_BOOLEAN,  "Add names to JComponents for use by testing tools"},
+            {Parameters.NAME_FIELDS, "Add names to screen Components", null, EditPropertiesPnl.FLD_BOOLEAN,  "Add names to JComponents for use by testing tools"},
             {Parameters.LOG_TEXT_FIELDS,  "Keep a record of all Text Fields going through the Language section. This can be used to generate the language conversion file (GetText PO)", null, EditPropertiesPnl.FLD_BOOLEAN,  "Record Text Fields",},
+            {Parameters.SPECIAL_FIND_BTN_NAME,  "This option adds >> to the search button (on the find search screen) to better identifier it in testing", null, EditPropertiesPnl.FLD_BOOLEAN,  "Rename Search btn",},
 //            {Parameters.SHOW_ALL_EXPORT_OPTIONS, "Show all export panels", null, EditPropertiesPnl.FLD_BOOLEAN,  "Show all export panels on the export Screen"},
 //            {Parameters.DEL_SELECTED_WITH_DEL_KEY, "Delete Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Delete Selected with delete key"},
 //            {Parameters.WARN_WHEN_USING_DEL_KEY,  "Warn the user before deleteing Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Warn user with delete key"},
@@ -199,7 +197,7 @@ public class EditOptions {
         {Parameters.DEL_SELECTED_WITH_DEL_KEY, "Delete Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Delete Selected rows with the delete key"},
         {Parameters.WARN_WHEN_USING_DEL_KEY,  "Warn the user before deleteing Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Warn when deleteing rows via delete key"},
         {Parameters.USE_FILE_WIZARD,  "Use File Wizard when no Layout is known for the file", null, EditPropertiesPnl.FLD_BOOLEAN, "Use file Wizard"},
-        {Parameters.HIGHLIGHT_MISSING_TRANSLATIONS,  "Highlight text for which there is no translation by adding a # to the start of the text", null, EditPropertiesPnl.FLD_BOOLEAN,  "Hightlight missing translations",},
+        {Parameters.HIGHLIGHT_MISSING_TRANSLATIONS,  "Highlight text for which there is no translation by adding a # to the start of the text", null, EditPropertiesPnl.FLD_BOOLEAN,  "Highlight missing translations",},
     };
 
     private String fileDescription
@@ -238,7 +236,7 @@ public class EditOptions {
 
           "<h2>Big Model Properties</h2>"
         + "This panels lists parameters for the \"Big File\" Data Models.\n"
-        + "You can use these options to optermise the Read Time for very big files");
+        + "You can use these options to optimise the Read Time for very big files");
 
 //    private String[][] bigModelParams = {
 //            {Parameters.PROPERTY_BIG_FILE_PERCENT, "File Size to Memory Percent to Start using the Big-File-Model", null},
@@ -408,7 +406,7 @@ public class EditOptions {
         + "<br>A <b>Type's</b> is a Java Class that converts a fields "
         + "between the external representation and the internal Java Representation."
         + "<br>Columns in the Table are <br><table>"
-        + "<tr><td>Type Number</td><td>Unique number used to identify the type."
+        + "<tr><td>Type Number</td><td>Unique number used to identify the type. "
         + "It should be between {0} and {1}</td></tr>"
         + "<tr><td>Type Name</td><td>Name of the Type</td></tr>"
         + "<tr><td>Type Class</td><td>Java Type class.</td></tr>"
@@ -462,7 +460,7 @@ public class EditOptions {
             {Parameters.DEFAULT_COPYBOOK_WRITER,	"The default copybook writer"},
             {Parameters.DEFAULT_DATABASE,			"The default Database to use"},
             {Parameters.DEFAULT_IO,					"The default IO Routine to use"},
-               {Parameters.DEFAULT_BINARY,				"The default Binary Encoding"},
+            {Parameters.DEFAULT_BINARY,				"The default Binary Encoding"},
    };
 
     private String screenLocationDescription
@@ -506,59 +504,60 @@ public class EditOptions {
     = new EditPropertiesPnl(params, screenLocationDescription, screenLocationParams);
 
 
-    private static  ComboBoxModel[] defaultModels = new ComboBoxModel[5];
+    private static  EnglishStrModel[] defaultModels = new EnglishStrModel[5];
     static {
-        CopybookLoaderFactory loaders = CopybookLoaderFactoryDB.getInstance();
-        DefaultComboBoxModel mdl = new DefaultComboBoxModel();
-        int i;
-        for (i = 0; i < loaders.getNumberofLoaders(); i++) {
-            mdl.addElement(loaders.getName(i));
-        }
-        defaultModels[0] = mdl;
+//        CopybookLoaderFactory loaders = CopybookLoaderFactoryDB.getInstance();
+//        DefaultComboBoxModel mdl = new DefaultComboBoxModel();
+//        int i;
+//        for (i = 0; i < loaders.getNumberOfEntries(); i++) {
+//            mdl.addElement(loaders.getName(i));
+//        }
 
-        CopybookWriterManager manager = CopybookWriterManager.getInstance();
-        String s;
-        mdl = new DefaultComboBoxModel();
-        for (i = 0; i < manager.getNumberOfEntries(); i++) {
-            s = manager.getName(i);
-            if (s != null && ! "".equals(s)) {
-                mdl.addElement(s);
-            }
-        }
-        defaultModels[1] = getManagerModel(CopybookWriterManager.getInstance());
+        defaultModels[0] =  DefaultOptModel.newModel(CopybookLoaderFactoryDB.getInstance());;
 
-        String[] ids = Common.getSourceId();
-        mdl = new DefaultComboBoxModel();
+//        CopybookWriterManager manager = CopybookWriterManager.getInstance();
+//        String s;
+//        mdl = new DefaultComboBoxModel();
+//        for (i = 0; i < manager.getNumberOfEntries(); i++) {
+//            s = manager.getName(i);
+//            if (s != null && ! "".equals(s)) {
+//                mdl.addElement(s);
+//            }
+//        }
+        defaultModels[1] = DefaultOptModel.newModel(CopybookWriterManager.getInstance());
 
-        for (i = 0; i < ids.length; i++) {
-            if (ids[i] != null && ! "".equals(ids[i])) {
-                mdl.addElement(ids[i]);
-            }
-        }
-        defaultModels[2] = mdl;
+//        String[] ids = Common.getSourceId();
+//        mdl = new DefaultComboBoxModel();
+//
+//        for (i = 0; i < ids.length; i++) {
+//            if (ids[i] != null && ! "".equals(ids[i])) {
+//                mdl.addElement(ids[i]);
+//            }
+//        }
+        defaultModels[2] = DefaultOptModel.newModel( Common.getSourceId());
 
-        defaultModels[3] = getManagerModel(LineIOProvider.getInstance());
-        defaultModels[4] = getManagerModel(ConversionManager.getInstance());
+        defaultModels[3] = DefaultOptModel.newModel(LineIOProvider.getInstance());
+        defaultModels[4] = DefaultOptModel.newModel(ConversionManager.getInstance());
     }
 
 
-    private static ComboBoxModel getManagerModel(AbstractManager manager) {
-        String s;
-        DefaultComboBoxModel mdl = new DefaultComboBoxModel();
-        for (int i = 0; i < manager.getNumberOfEntries(); i++) {
-            s = manager.getName(i);
-            if (s != null && ! "".equals(s)) {
-                mdl.addElement(s);
-            }
-        }
-        return mdl;
-    }
+//    private static ComboBoxModel getManagerModel(AbstractManager manager) {
+//        String s;
+//        DefaultComboBoxModel mdl = new DefaultComboBoxModel();
+//        for (int i = 0; i < manager.getNumberOfEntries(); i++) {
+//            s = manager.getName(i);
+//            if (s != null && ! "".equals(s)) {
+//                mdl.addElement(s);
+//            }
+//        }
+//        return mdl;
+//    }
 
     /**
      * @param theDefaultDetails the defaultDetails to set
      */
     public static final void setDefaultDetails(
-            String[][] theDefaultDetails, ComboBoxModel[] theDefaultModels) {
+            String[][] theDefaultDetails, EnglishStrModel[] theDefaultModels) {
 
         defaultDetails = theDefaultDetails;
         defaultModels = theDefaultModels;

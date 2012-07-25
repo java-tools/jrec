@@ -7,7 +7,7 @@ import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Types.Type;
 
-public abstract class BasicLine<ActualLine extends AbstractLine<LayoutDetail>> 
+public abstract class BasicLine<ActualLine extends AbstractLine<LayoutDetail>>
 implements AbstractLine<LayoutDetail> {
 
 
@@ -17,22 +17,22 @@ implements AbstractLine<LayoutDetail> {
 	protected int preferredLayoutAlt = Constants.NULL_INTEGER;
 	protected int preferredLayout = Constants.NULL_INTEGER;
 	protected int writeLayout = Constants.NULL_INTEGER;
-	
- 
-	protected AbstractTreeDetails<FieldDetail, RecordDetail, LayoutDetail, ActualLine> 
+
+
+	protected AbstractTreeDetails<FieldDetail, RecordDetail, LayoutDetail, ActualLine>
 							children;
 	//ChildLines<FieldDetail, RecordDetail, LayoutDetail, AbstractChildDetails<RecordDetail>, ActualLine> children = null;
 
 	public BasicLine(LineProvider<LayoutDetail> defaultProvider, LayoutDetail linesLayout,
 			AbstractTreeDetails<FieldDetail, RecordDetail, LayoutDetail, ActualLine> defaultTree) {
 		super();
-		
+
 		lineProvider = defaultProvider;
 		layout = linesLayout;
 		children = defaultTree;
 	}
 
-	
+
 
 	protected final void init() {
 		if (layout != null && layout.hasChildren()) {
@@ -51,14 +51,14 @@ implements AbstractLine<LayoutDetail> {
 	 * @return field value as a Hex String
 	 */
 	public final String getFieldHex(final int recordIdx, final int fieldIdx) {
-	
+
 		try {
 		    FieldDetail field = layout.getField(recordIdx, fieldIdx);
 
 			return layout.getField(getData(),
 			        				Type.ftHex,
 			        				field).toString();
-	
+
 		} catch (final Exception ex) {
 			return "";
 		}
@@ -71,7 +71,7 @@ implements AbstractLine<LayoutDetail> {
 	public void setLayout(final LayoutDetail pLayout) {
 		this.layout = pLayout;
 		preferredLayoutAlt = Constants.NULL_INTEGER;
-		
+
 		init();
 	}
 
@@ -83,7 +83,7 @@ implements AbstractLine<LayoutDetail> {
 	    return layout;
 	}
 
-	
+
 	/**
 	 * Alternative get layout method without length checks
 	 */
@@ -102,7 +102,7 @@ implements AbstractLine<LayoutDetail> {
 			    preferredLayoutAlt = layout.getDecider().getPreferedIndex(this);
 			}
 
-			
+
 			// TODO fix default record
 			while ((i < size) && (preferredLayoutAlt == Constants.NULL_INTEGER)) {
 				sel = layout.getRecord(i).getRecordSelection();
@@ -150,12 +150,11 @@ implements AbstractLine<LayoutDetail> {
 	public Object getField(final int recordIdx, final int fieldIdx) {
 		try {
 			switch (fieldIdx) {
-			case Constants.FULL_LINE:	return getFullLine();		
-			case Constants.KEY_INDEX:	return null;		
+			case Constants.FULL_LINE:	return getFullLine();
+			case Constants.KEY_INDEX:	return null;
 			}
-	
+
 			return getField(layout.getField(recordIdx, fieldIdx));
-	
 		} catch (final Exception ex) {
 			ex.printStackTrace();
 			return "";
@@ -171,11 +170,11 @@ implements AbstractLine<LayoutDetail> {
 	 */
 	public Object getField(String fieldName) {
 	   	FieldDetail fld = layout.getFieldFromName(fieldName);
-	
+
 	   	if (fld == null) {
 	   		return null;
 	   	}
-	
+
 	   	return getField(fld);
 	}
 
@@ -201,7 +200,7 @@ implements AbstractLine<LayoutDetail> {
 	public boolean isRebuildTreeRequired() {
 		return false;
 	}
-	
+
 	/**
 	 * Set a field via its name
 	 *
@@ -212,7 +211,7 @@ implements AbstractLine<LayoutDetail> {
 	 */
 	public void setField(String fieldName, Object value) throws RecordException {
 	   	FieldDetail fld = layout.getFieldFromName(fieldName);
-	
+
 		if (fld != null) {
 			setField(fld, value);
 		}
@@ -229,14 +228,14 @@ implements AbstractLine<LayoutDetail> {
 	 */
 	public void setField(final int recordIdx, final int fieldIdx, Object val)
 			throws RecordException {
-	
+
 	    FieldDetail field = layout.getField(recordIdx, fieldIdx);
-	
+
 	    //adjustLengthIfNecessary(field, recordIdx);
-	
+
 	   	setField(field, val);
 	}
-	
+
 	/**
      * Set the line provider
      *
@@ -248,16 +247,16 @@ implements AbstractLine<LayoutDetail> {
 
 
 	public abstract Object clone();
-	
+
 
 	/**
 	 * @return the children
-	 */ 
+	 */
 	@Override
 	public AbstractTreeDetails<FieldDetail, RecordDetail, LayoutDetail, ActualLine> getTreeDetails() {
 		return children;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.sf.JRecord.Common.AbstractChildLines#isRebuildTreeRequired()
 	 */
@@ -274,7 +273,7 @@ implements AbstractLine<LayoutDetail> {
 		// TODO Auto-generated method stub
 		return (L) clone();
 	}
-	
-	
+
+
 
 }

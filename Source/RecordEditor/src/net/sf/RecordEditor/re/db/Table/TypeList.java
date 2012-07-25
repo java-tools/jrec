@@ -27,9 +27,20 @@ public class TypeList extends TableList {
      */
     public TypeList(final int connectionId,
             final boolean sort, final boolean nullFirstRow) {
+        this(connectionId, sort, nullFirstRow, true);
+    }
+
+    /**
+     * Define List of Types
+     * @param connectionId DB connection
+     * @param sort wether thew list should be sorted
+     * @param nullFirstRow wether the first row should be null
+     */
+    public TypeList(final int connectionId,
+            final boolean sort, final boolean nullFirstRow, boolean foriegnTranslation) {
         super(connectionId, Common.TI_FIELD_TYPE, sort, nullFirstRow,
               Parameters.TYPE_NUMBER_PREFIX, Parameters.TYPE_NAME_PREFIX,
-	          Parameters.NUMBER_OF_TYPES);
+	          Parameters.NUMBER_OF_TYPES, foriegnTranslation);
     }
 
 	/**
@@ -40,8 +51,6 @@ public class TypeList extends TableList {
 		ArrayList<TableRec> list = getPropertiesAndDB();
 		String name;
 		int j = Parameters.FIRST_USER_DATE_TYPE;
-
-		getForeignTranslation(list);
 
 		for (int i = 0; i < Parameters.DATE_TYPE_TABLE_SIZE; i++) {
 		    name = Parameters.getString(Parameters.PROPERTY_DATE_TYPE_NAME + i);

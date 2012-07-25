@@ -13,6 +13,7 @@ public class FieldSummaryDetails {
 	public static final int OP_AVE  = 4;
 
 	public static final String[] OPERATOR_NAMES = new String[5];
+	public static final String[] FOREIGN_OPERATOR_NAMES;
 	static {
 		OPERATOR_NAMES[FieldSummaryDetails.OP_NONE] = "";
 		OPERATOR_NAMES[FieldSummaryDetails.OP_SUM] = "Sum";
@@ -20,15 +21,18 @@ public class FieldSummaryDetails {
 		OPERATOR_NAMES[FieldSummaryDetails.OP_MAX] = "Maximum";
 		OPERATOR_NAMES[FieldSummaryDetails.OP_AVE] = "Average";
 
-		LangConversion.convertComboItms("Sum Operators", OPERATOR_NAMES);
+		FOREIGN_OPERATOR_NAMES = OPERATOR_NAMES.clone();
+
+		LangConversion.convertComboItms("Sum Operators", FOREIGN_OPERATOR_NAMES);
 	};
 
 
+	@SuppressWarnings("rawtypes")
 	private AbstractLayoutDetails layout;
 	private int recordIndex = 0;
 	private int[] operator;
 
-	public FieldSummaryDetails(AbstractLayoutDetails recordLayout) {
+	public FieldSummaryDetails(@SuppressWarnings("rawtypes") AbstractLayoutDetails recordLayout) {
 		int max = 1;
 		layout = recordLayout;
 		for (int i = 0; i < layout.getRecordCount(); i++) {

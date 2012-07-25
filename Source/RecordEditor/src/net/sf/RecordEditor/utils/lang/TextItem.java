@@ -22,7 +22,9 @@ public class TextItem {
 	private static final String NULL_STR = "";
 	public  String desc = "";
 
-	public final String id, key, text;
+	public final String  key;
+	private final String id;
+	private String  text;
 
 	private HashSet<Integer> types = new HashSet<Integer>();
 	private HashSet<String> pnls = new HashSet<String>();
@@ -98,7 +100,7 @@ public class TextItem {
 	private String getKey() {
 		String k;
 		if (id == null || "".equals(id)) {
-			k = text;
+			k = text.toLowerCase();
 		} else {
 			k = id;
 		}
@@ -150,6 +152,10 @@ public class TextItem {
 		if (t.desc != null && ! "".equals(t.desc)
 		&& (desc == null || desc.indexOf(t.desc) < 0)) {
 			desc = (desc + " " + t.desc).trim();
+		}
+
+		if (! "TranslationStatus".equals(id) && ! "".equals(id)) {
+			text = t.text;
 		}
 
 		if (date > t.date) {

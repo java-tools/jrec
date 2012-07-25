@@ -35,7 +35,7 @@ public class LineDisplay extends AbstractCompareDisplay {
 	private CmpLineModel model;
 
 	private JButton[] btn       = new JButton[4];
-	private String[] moveHints  = LangConversion.convert(LangConversion.ST_FIELD_HINT, "RecordBtns", new String[] {
+	private String[] moveHints  = LangConversion.convertArray(LangConversion.ST_FIELD_HINT, "RecordBtns", new String[] {
 	        	"Start of File", "Previous Record",
 	        	"Next Record",   "Last Record"});
 

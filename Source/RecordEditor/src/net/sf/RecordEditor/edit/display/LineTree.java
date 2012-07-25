@@ -30,6 +30,7 @@ import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 @SuppressWarnings("serial")
 public class LineTree extends BaseLineTree<LineNode> {
 
+	private static final String NO_DESTINATION_LINE = "No Destination line";
 	private AbstractLineNodeTreeParser parser;
 
 
@@ -269,7 +270,7 @@ public class LineTree extends BaseLineTree<LineNode> {
 		//TreePath treePath;
 
 		if (row < 0) {
-			throw new RuntimeException("No Destination line");
+			throw new RuntimeException(NO_DESTINATION_LINE);
 		}
 
 		TreePath treePath = treeTable.getPathForRow(row);
@@ -295,7 +296,7 @@ public class LineTree extends BaseLineTree<LineNode> {
 		//TreePath treePath;
 
 		if (row < 0) {
-			throw new RuntimeException("No Destination line");
+			throw new RuntimeException(NO_DESTINATION_LINE);
 		}
 
 		TreePath treePath = treeTable.getPathForRow(row);

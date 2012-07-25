@@ -140,7 +140,8 @@ public class DoCompare  {
 	 * @throws IOException any IO Error
 	 * @throws RecordException any record-editor exception
 	 */
-	private final void compare1Layout(AbstractLayoutDetails dtl, DiffDefinition diffDefinition)
+	private final void compare1Layout(
+			@SuppressWarnings("rawtypes") AbstractLayoutDetails dtl, DiffDefinition diffDefinition)
 	throws IOException, RecordException {
 
 		LineBufferedReader oldReader = new LineBufferedReader(diffDefinition.oldFile.name,

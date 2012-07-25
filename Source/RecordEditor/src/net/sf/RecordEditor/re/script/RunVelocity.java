@@ -264,12 +264,12 @@ public class RunVelocity {
         } catch (ResourceNotFoundException rnfe) {
             String msg = LangConversion.convert("Error - cannot find template:") + " " + templateFile;
             Common.logMsgRaw(msg, rnfe);
-            throw new RecordException(msg);
+            throw new RecordException(true, msg);
         } catch (ParseErrorException pee) {
             String msg = LangConversion.convert("Syntax error in template") + " "
                 + templateFile + ":" + pee;
             Common.logMsgRaw(msg, pee);
-            throw new RecordException(msg);
+            throw new RecordException(true, msg);
         }
 
         /*

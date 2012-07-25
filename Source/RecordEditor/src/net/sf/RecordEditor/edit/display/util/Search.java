@@ -36,7 +36,6 @@ import javax.swing.JTextField;
 
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
-import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.edit.display.common.ILayoutChanged;
 import net.sf.RecordEditor.re.file.FilePosition;
 import net.sf.RecordEditor.re.file.FileView;
@@ -45,6 +44,7 @@ import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.common.Common;
 
 import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -64,6 +64,10 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
 @SuppressWarnings("serial")
 public final class Search extends ReFrame implements ActionListener, ILayoutChanged {
 
+
+	public static final boolean USE_SPECIAL_NAME_FIND_BTN = "Y".equalsIgnoreCase(
+			Parameters.getString(Parameters.SPECIAL_FIND_BTN_NAME));
+
     private static final String ALL_FIELDS = LangConversion.convertComboItms("Field List", "All Fields");
 	private static final String FIND_ERROR = LangConversion.convert("Find error:");
 	private static final String LINE_MSG = LangConversion.convert("Found (line, field Num, field position)=");
@@ -72,17 +76,16 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	private static final String YOU_MUST_ENTER_TEXT_TO_SEARCH_FOR  = LangConversion.convert("You must enter text to search for");
 
 	private static final int SILLY_INT = -101;
-	private static final String[] FIELD_SEARCH_OPTIONS = Compare.OPERATOR_SEARCH_OPTIONS;
-	//{"Any Part of Field", "Whole Field", "Not in Field", "<> Field" };
 	private static final String[] SEARCH_DIRECTIONS = LangConversion.convertComboItms(
 			"File Search Direction",
 			new String[] {"Forward", "Backward"});
+
 
 	private JTextField search      = new JTextField();
 	private JTextField replace     = new JTextField();
 	private LayoutCombo layoutList;
 	private JComboBox fieldList    = new JComboBox();
-	private JComboBox fieldPart    = new JComboBox(FIELD_SEARCH_OPTIONS);
+	private JComboBox fieldPart    = new JComboBox(Compare.getSearchOptionsForeign());
 	private JComboBox direction    = new JComboBox(SEARCH_DIRECTIONS);
 	private JCheckBox ignoreCase   = new JCheckBox();
 	private JButton searchBtn;
@@ -146,7 +149,14 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 		pnl.setGap(BasePanel.GAP1);
 
 		//searchBtn = pnl.addIconButton(true, 2, Common.getRecordIcon(Common.ID_SEARCH_ICON));
-		searchBtn = SwingUtils.newButton("Find", Common.getRecordIcon(Common.ID_SEARCH_ICON));
+
+		String s = LangConversion.convert(LangConversion.ST_BUTTON, "Find");
+
+		if (USE_SPECIAL_NAME_FIND_BTN) {
+			s = s + " >>";
+		}
+		searchBtn = new JButton(s, Common.getRecordIcon(Common.ID_SEARCH_ICON));
+
 
 		if (master.isBrowse()) {
 			pnl.addLine("", searchBtn);

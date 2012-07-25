@@ -106,10 +106,10 @@ public class Menu extends ReFrame
 		pnl.setGap(BasePanel.GAP1);
 		pnl.addMenuItem("Edit Combos", comboEdit);
 		pnl.addMenuItem("Create Combo", comboCreate);
-		
+
 		pnl.setGap(BasePanel.GAP1);
 		if (CobolCopybookLoader.isAvailable()) {
-		    pnl.addMenuItem("Load Cobol copybook", cobolCopyBook);
+		    pnl.addMenuItem("Load Cobol Copybook", cobolCopyBook);
 		    cobolCopyBook.addActionListener(this);
 		}
 		pnl.addMenuItem("Load copybook (choose format)", xmlCopyBook);
@@ -165,9 +165,9 @@ public class Menu extends ReFrame
 			new TblEdit(lDBid, parent, dbCombo.getSelectedIndex());
 		} else if (e.getSource() == comboEdit) {
 			new ComboEdit(lDBid, dbCombo.getSelectedIndex());
-		} else if (e.getSource() == comboCreate) {	
+		} else if (e.getSource() == comboCreate) {
 			new ComboCreate(lDBid, dbCombo.getSelectedIndex());
-		} else if (e.getSource() == copyLayouts) {	
+		} else if (e.getSource() == copyLayouts) {
 			new LayoutCopy();
 		} else if (e.getSource() == upgrade) {
 		    new UpgradeDBs(lDBid, dbCombo.getSelectedIndex());

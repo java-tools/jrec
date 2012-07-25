@@ -6,7 +6,6 @@ import java.io.File;
 import java.util.StringTokenizer;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -27,7 +26,8 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
 import net.sf.RecordEditor.utils.swing.FileChooser;
-import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimitierCombo;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimiterCombo;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.ManagerCombo;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.QuoteCombo;
 
 public class LayoutSelectionFile extends AbstractLayoutSelection  {
@@ -42,7 +42,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 
     private static final int TAB_CSV_IDX = 8;
 
-   	private JComboBox   loaderOptions = null;
+   	private ManagerCombo loaderOptions = null;
 	private FileChooser  copybookFile;
 	private BmKeyedComboBox   fileStructure;
 	private BmKeyedComboModel structureModel = new BmKeyedComboModel(new ManagerRowList(
@@ -51,7 +51,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 	private SplitCombo   splitOption;
 	private ComputerOptionCombo numericFormat;
 
-    private DelimitierCombo fieldSeparator;
+    private DelimiterCombo fieldSeparator;
     private QuoteCombo quote;
 	private JTextArea message = null;
 
@@ -132,7 +132,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 	    } else {
 		    pnl.addLine("File Structure", fileStructure);
 
-		    loaderOptions.setSelectedItem(Common.OPTIONS.COPYBOOK_READER.get());
+		    loaderOptions.setEnglish(Common.OPTIONS.COPYBOOK_READER.get());
 	    	pnl.addLine("Copybook Type", loaderOptions);
 	    	pnl.addLine("Split Copybook", splitOption);
 
@@ -373,20 +373,16 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 
 		if (loaderOptions == null) {
 			String s;
-	 	    CopybookLoaderFactory loaders = CopybookLoaderFactoryExtended.getInstance();
 
-	 	    loaderOptions  = new JComboBox();
+	 	    loaderOptions  = ManagerCombo.newCopybookLoaderCombo();
 			copybookFile   = new FileChooser(true, "Choose Layout");
     		fileStructure  = new BmKeyedComboBox(structureModel, false);
     		splitOption    = new SplitCombo();
     		numericFormat  = new ComputerOptionCombo();
-    		fieldSeparator = DelimitierCombo.NewDelimComboWithDefault();
+    		fieldSeparator = DelimiterCombo.NewDelimComboWithDefault();
     				//new JComboBox(Common.FIELD_SEPARATOR_LIST);
-        	quote          = QuoteCombo.NewCombo();
+        	quote          = QuoteCombo.newCombo();
 
-    	    for (int i = 0; i < loaders.getNumberofLoaders(); i++) {
-    	        loaderOptions.addItem(loaders.getName(i));
-    	    }
 
     	    s = Common.OPTIONS.DEFAULT_IO_NAME.get();
     	    if (! "".equals(s)) {
@@ -394,7 +390,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
     	    }
     	    s = Common.OPTIONS.DEFAULT_BIN_NAME.get();
     	    if (! "".equals(s)) {
-    	    	numericFormat.setSelectedItem(s);
+    	    	numericFormat.setEnglishText(s);
     	    }
 		}
 	}

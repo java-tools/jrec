@@ -36,7 +36,7 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
-import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimitierCombo;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimiterCombo;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.QuoteCombo;
 
 @SuppressWarnings("serial")
@@ -58,9 +58,9 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 
 	private BmKeyedComboModel styleModel = new BmKeyedComboModel(new ManagerRowList(
 			parserManager, false));
-    public DelimitierCombo fieldSeparator;
+    public DelimiterCombo fieldSeparator;
     public JTextField fieldSepTxt = new JTextField(5);
-    public QuoteCombo quoteCombo = QuoteCombo.NewCombo();
+    public QuoteCombo quoteCombo = QuoteCombo.newCombo();
     public JTextField fontTxt = new JTextField();
 
     public BmKeyedComboBox parseType  = new BmKeyedComboBox(styleModel, false);
@@ -114,7 +114,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 
 	public CsvSelectionPanel(byte[][] dataLines, String font,
 			boolean showCancel, String heading, JTextComponent msg) {
-		fieldSeparator = DelimitierCombo.NewDelimCombo();
+		fieldSeparator = DelimiterCombo.NewDelimCombo();
 		message = msg;
 		setData(dataLines, font);
 
@@ -127,7 +127,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 			boolean showCancel, String heading, JTextComponent msg) {
 		message = msg;
 		isByteBased = false;
-		fieldSeparator = DelimitierCombo.NewDelimCombo();
+		fieldSeparator = DelimiterCombo.NewDelimCombo();
 
 		setData("", data, true, null);
 

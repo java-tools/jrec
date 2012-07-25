@@ -6,6 +6,7 @@ import java.io.PrintStream;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.RecordException;
+import net.sf.JRecord.Common.RecordRunTimeException;
 import net.sf.JRecord.Common.XmlConstants;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
@@ -31,6 +32,7 @@ import net.sf.RecordEditor.utils.lang.LangConversion;
 
 public final class DoCopy {
 
+private static final String CAN_NOT_LOCATE_RECORD = "Can not locate record: > {0}< in input layout";
 //	private static final byte[] noBytes = {};
 
 	private LayoutDetail dtl1;
@@ -88,7 +90,7 @@ public final class DoCopy {
 		} else if (CopyDefinition.XML_COPY.equals(copy.type)) {
 			net.sf.RecordEditor.copy.DoCopy2Xml.newCopy().copyFile(layoutReader1, copy);
  		} else {
-			new RuntimeException("Invalid type of Copy --> " + copy.type);
+			new RecordRunTimeException("Invalid type of Copy --> {0}", copy.type);
 		}
 
 		return ret;
@@ -278,7 +280,7 @@ public final class DoCopy {
 							out.setField(i2, toFields[i], o);
 						} catch (Exception e) {
 							String em = LangConversion.convert(
-									"Error Line {0} Field Number {1} - $3 : $4",
+									"Error Line {0} Field Number {1} - {2} : {3}",
 									new Object[] {lineNo, i, e.getMessage(), o});
 							if (fieldErrorStream == null) {
 								Common.logMsgRaw(em, null);
@@ -363,10 +365,11 @@ public final class DoCopy {
 				if (dtl1.getRecordCount() > 0) {
 					System.out.println("Record 0: >" + dtl1.getRecord(0).getRecordName() + "<");
 				}
-				throw new RuntimeException("Can not locate record: >" + recList1.name + "< in input layout");
+				throw new RecordRunTimeException(CAN_NOT_LOCATE_RECORD,  recList1.name);
 			}
 			if (idx2 < 0) {
-				throw new RuntimeException("Can not locate record: " + recList2.name + " in output layout");
+				throw new RecordRunTimeException(
+						"Can not locate record: {0} in output layout", recList2.name);
 			}
 			fromIdx[idx1] = i;
 			toIdx[idx1] = idx2;

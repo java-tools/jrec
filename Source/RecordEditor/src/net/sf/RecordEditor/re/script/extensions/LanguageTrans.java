@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.sf.JRecord.Common.Conversion;
+
 /**
  * Purpose Read Google Translations file back into an array list
  *
@@ -18,6 +20,9 @@ public class LanguageTrans {
 
 	private ArrayList<String> list = new ArrayList<String>(1500);
 	private static String BLANK = "";
+
+	private static final String[] SUPPRESS_AFTER = {"<h1>", "<h2>", "<h3>", "<td>"};
+	private static final String[] SUPPRESS_BEFORE = {"</h1>", "</h2>", "</h3>",};
 
 	private static HashMap<String, LanguageTrans> translations = new HashMap<String, LanguageTrans>();
 
@@ -39,7 +44,7 @@ public class LanguageTrans {
 		try {
 			BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "UTF8"));
 			String s, l = BLANK;
-			boolean newTrans = true;
+			boolean suppress = false;
 			int key = 0,  pos;
 
 
@@ -49,26 +54,51 @@ public class LanguageTrans {
 			while ((s = r.readLine()) != null) {
 				if ("".equals(s.trim())) {
 
-					try {
-						list.set(key, l);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					newTrans = true;
-				} else if (newTrans) {
-					pos = Math.max(s.indexOf(":"), s.indexOf("："));
-					if (pos > 0) {
-						try {
-							key = Integer.parseInt(s.substring(0, pos).trim());
-							System.out.println("  >> " + key + " " + s);
-							l = s.substring(pos + 2);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-						newTrans = false;
-					}
 				} else {
-					l = l + "\n" + s;
+					if (s.startsWith("::") || s.startsWith("：：")) {
+						if (l != BLANK) {
+							try {
+								list.set(key, Conversion.replace(new StringBuilder(l), "</ ", "</").toString());
+								l = BLANK;
+								key = 0;
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+						pos = s.indexOf(":", 2);
+						if (pos < 0) {
+							pos =  s.indexOf("：", 2);
+						} else {
+							pos = Math.min(pos, s.indexOf("：", 2));
+						}
+						if (pos > 2) {
+							try {
+								key = Integer.parseInt(s.substring(2, pos).trim());
+								System.out.println("  >> " + key + " " + s);
+								l = "";
+								if (s.length() > pos + 2) {
+									l = s.substring(pos + 1);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						} else {
+							System.out.println(" ## > " + pos + " " + s);
+						}
+					} else if (suppress || suppressBefore(s)) {
+						l = l + s;
+					} else {
+						l = l + "\n" + s;
+					}
+
+					suppress = false;
+					String t = s.toLowerCase();
+					for (String ss : SUPPRESS_AFTER) {
+						if (t.endsWith(ss)) {
+							suppress = true;
+							break;
+						}
+					}
 				}
 			}
 
@@ -80,6 +110,15 @@ public class LanguageTrans {
 		}
 	}
 
+	private boolean suppressBefore(String s) {
+		String t = s.toLowerCase();
+		for (String ss : SUPPRESS_BEFORE) {
+			if (t.startsWith(ss)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * @param index

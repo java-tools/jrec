@@ -71,18 +71,18 @@ public interface Constants {
 
     public static final int IO_UNICODE_TEXT = 90;
 
-    public static final int IO_PROTO_DELIMITED = 71;
+    public static final int IO_PROTO_DELIMITED      = 71;
     public static final int IO_PROTO_SINGLE_MESSAGE = 72;
-    public static final int IO_PROTO_SD_DELIMITED = 73;
+    public static final int IO_PROTO_SD_DELIMITED   = 73;
     public static final int IO_PROTO_SD_SINGLE_MESSAGE = 74;
     public static final int IO_THRIFT_FILE = 81;
-    public static final int IO_AVRO_FILE = 91;
+    public static final int IO_AVRO_FILE   = 91;
 
     /**
      * IO_BIN_NAME_1ST_LINE is for internal use
      */
-    public static final int IO_BIN_NAME_1ST_LINE    = 54;
-    public static final int IO_UNICODE_NAME_1ST_LINE    = 55;
+    public static final int IO_BIN_NAME_1ST_LINE     = 54;
+    public static final int IO_UNICODE_NAME_1ST_LINE = 55;
 
     /* Provided for backward compatibility */
     @Deprecated public static final int DEFAULT_IO       = IO_DEFAULT;

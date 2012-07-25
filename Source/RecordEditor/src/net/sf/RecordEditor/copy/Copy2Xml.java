@@ -3,6 +3,7 @@ package net.sf.RecordEditor.copy;
 import javax.swing.JComponent;
 
 
+import net.sf.JRecord.Common.RecordRunTimeException;
 import net.sf.RecordEditor.edit.display.util.CreateRecordTreePnl;
 import net.sf.RecordEditor.jibx.JibxCall;
 import net.sf.RecordEditor.jibx.compare.CopyDefinition;
@@ -190,7 +191,7 @@ public class Copy2Xml extends AbstractWizard<CopyDefinition> {
 			values.newFile.name = xmlFileName.getText();
 
 			if (layoutSelection.getRecordLayout(getCurrentFileName()) == null) {
-				throw new RuntimeException("Layout Does not exist");
+				throw new RecordRunTimeException("Layout Does not exist");
 			}
 
 			return values;

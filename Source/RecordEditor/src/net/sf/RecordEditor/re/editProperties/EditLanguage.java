@@ -4,7 +4,8 @@ import java.awt.Component;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.io.File;
-import java.util.HashMap;
+import java.util.Locale;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.swing.ImageIcon;
@@ -40,7 +41,7 @@ public class EditLanguage extends BasePanel {
 				+ "This screen lets you change the language used in the <b>RecordEditor</b><br/>"
 				+ "You will need to <b>exit</b> and <b>restart</b> the Editor for the change to come into effect<br/><br/>"
 				+ "If your language is not supported ???, Why not do the Translation your self ???.<br/>"
-				+ "Have a look at the ReadMe.html in the lanuage directory:")
+				+ "Have a look at the ReadMe.html in the language directory:")
 				+ " " + Parameters.expandVars(
 							Parameters.formatLangDir(
 									Parameters.getString(Parameters.LANG_DIRECTORY)));
@@ -56,7 +57,9 @@ public class EditLanguage extends BasePanel {
 	private String lastLangDir = null,
 		           lastLang ;
 
-	private HashMap<String, FlagComboItem> langItmHash = new HashMap<String, EditLanguage.FlagComboItem>(40);
+	private TreeMap<String, FlagComboItem> langItmHash = new TreeMap<String, EditLanguage.FlagComboItem>();
+	private TreeMap<String, String> langLongName = new TreeMap<String, String>();
+
 
    public EditLanguage(final EditParams params) {
 	   this.params = params;
@@ -67,7 +70,7 @@ public class EditLanguage extends BasePanel {
    }
 
    private void init_100_InitVars() {
-
+	   init_110_InitLang();
 	   lastLang = params.getProperty(Parameters.CURRENT_LANGUAGE);
 //	   languagesCombo.setSelectedItem(params.getProperty(Parameters.CURRENT_LANGUAGE));
 //	   System.out.println("@@ " + languagesCombo.getSelectedItem()
@@ -78,11 +81,30 @@ public class EditLanguage extends BasePanel {
 	   langDirFchooser.setExpandVars(true);
 	   langDirFchooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
-	   if (langItmHash.containsKey(lastLang)) {
+	   if (lastLang != null && langItmHash.containsKey(lastLang)) {
 		   languagesCombo.setSelectedItem(langItmHash.get(lastLang));
 	   } else {
 		   languagesCombo.setSelectedIndex(0);
 	   }
+
+   }
+
+   private void init_110_InitLang() {
+		Locale[] locales = Locale.getAvailableLocales();
+		String s;
+
+
+		for (Locale l : locales) {
+			s = l.getCountry();
+
+			if (s != null && ! "".equals(s)) {
+				langLongName.put(s.toLowerCase(), l.getDisplayLanguage());
+			}
+		}
+
+		for (Locale l : locales) {
+			langLongName.put(l.getLanguage(), l.getDisplayLanguage());
+		}
 
    }
 
@@ -193,18 +215,30 @@ public class EditLanguage extends BasePanel {
 
 
    private class FlagComboItem {
-	   public final ImageIcon icon;
-	   public final String langCode;
+	   private ImageIcon icon;
+	   public final String langCode, longName;
 
 	   public FlagComboItem(String langCode) {
 			super();
+			String s = "";
+			if (langCode != null && langLongName.containsKey(langCode)) {
+				s = langLongName.get(langCode);
+				if (s != null && ! "".equals(s)) {
+					s = " - " + s;
+				}
+			}
 			this.langCode = langCode;
+			this.longName = s;
+
 			if ("".equals(langCode.trim())) {
 				icon = null;
-			} else if ("tst".equals(langCode) || "txt".equals(langCode)) {
+			} else if ("tst".equals(langCode) || "txt".equals(langCode) || langCode.length() > 3) {
 				icon = BLANK_ICON;
 			} else {
 				icon = Common.readIcon(FLAG_DIR + langCode + ".png");
+				if (icon == null) {
+					icon = BLANK_ICON;
+				}
 			}
 			langItmHash.put(langCode, this);
 	   }
@@ -239,11 +273,14 @@ public class EditLanguage extends BasePanel {
 		   //Get the selected index. (The index param isn't
 		   //always valid, so just use the value.)
 
-		   super.setText(value.toString());
+
 		   if (value instanceof FlagComboItem) {
-			   super.setIcon(((FlagComboItem) value).icon);
+			   FlagComboItem ci = (FlagComboItem) value;
+			   super.setIcon(ci.icon);
+			   super.setText(ci.langCode + ci.longName);
 		   } else {
 			   super.setIcon(null);
+			   super.setText(value.toString());
 		   }
 		   if (isSelected) {
 			   setBackground(list.getSelectionBackground());

@@ -1,17 +1,18 @@
 /**
- * 
+ *
  */
 package net.sf.JRecord.Details;
 
 import java.util.List;
 
 import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.RecordRunTimeException;
 
 /**
  * Purpose to provide a Tree Details that does nothing. It will be used
  * instead of Null to ensure there is always a TreeDetails when the user
  * does AbstractLine.getTreeDetails
- * 
+ *
  * @author Bruce Martin
  *
  */
@@ -24,8 +25,8 @@ implements AbstractTreeDetails<FieldDtls, RecordDtls, Layout, LineType> {
 
 //	public static final NullTreeDtls<FieldDetail, RecordDetail, LayoutDetail, AbstractChildDetails<RecordDetail>, AbstractLine<LayoutDetail>, Object>
 //				STANDARD_NULL_DETAILS = new NullTreeDtls<FieldDetail, RecordDetail, LayoutDetail, AbstractChildDetails<RecordDetail>, AbstractLine<LayoutDetail>, Object>();
-//	
-	
+//
+
 	/* (non-Javadoc)
 	 * @see net.sf.JRecord.Common.AbstractChildLines#addChild(net.sf.JRecord.Details.AbstractLine)
 	 */
@@ -107,14 +108,14 @@ implements AbstractTreeDetails<FieldDtls, RecordDtls, Layout, LineType> {
 //	public TreeNode getTreeNode() {
 //		return null;
 //	}
-//	
-//	
+//
+//
 //
 //	/* (non-Javadoc)
 //	 * @see net.sf.JRecord.Common.AbstractTreeDetails#setTreeNode(java.lang.Object)
 //	 */
 //	@Override
-//	public  void setTreeNode(TreeNode node) {	
+//	public  void setTreeNode(TreeNode node) {
 //	}
 
 	/* (non-Javadoc)
@@ -140,7 +141,7 @@ implements AbstractTreeDetails<FieldDtls, RecordDtls, Layout, LineType> {
 	 */
 	@Override
 	public void removeChild(AbstractLine<Layout> child) {
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -181,11 +182,11 @@ implements AbstractTreeDetails<FieldDtls, RecordDtls, Layout, LineType> {
 		return false;
 	}
 
-	
+
 	private void updateTried(Object o) {
 		if (o != null) {
-			throw new RuntimeException("Action not supported by NullTree");
+			throw new RecordRunTimeException("Action not supported by NullTree");
 		}
 	}
-	
+
 }

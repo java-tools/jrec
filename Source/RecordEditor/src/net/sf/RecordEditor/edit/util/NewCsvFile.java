@@ -36,7 +36,7 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
-import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimitierCombo;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimiterCombo;
 
 public class NewCsvFile {
 
@@ -60,7 +60,7 @@ public class NewCsvFile {
 	private JCheckBox  namesChk		 = new JCheckBox();
 	private JCheckBox  unicodeChk	 = new JCheckBox();
 	private JTextField fontTxt		 = new JTextField();
-	private DelimitierCombo fieldSep = DelimitierCombo.NewDelimCombo();
+	private DelimiterCombo fieldSep = DelimiterCombo.NewDelimCombo();
 	private JComboBox  quote		 = new JComboBox(Common.QUOTE_LIST);
    private BmKeyedComboBox parser   = new BmKeyedComboBox(styleModel, false);
 

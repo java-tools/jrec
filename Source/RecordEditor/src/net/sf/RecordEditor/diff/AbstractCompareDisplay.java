@@ -142,7 +142,7 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 			  		final ArrayList<LineCompare> before,    final ArrayList<LineCompare> after,
 			        final ArrayList<LineCompare> chgBefore, final ArrayList<LineCompare> chgAfter,
 	        		final boolean primary,                  final boolean allRows) {
-		super("", name, formType, before);
+		super("", name, "", formType, before);
 		this.setPrimaryView(primary);
 
 		layout = recordLayout;

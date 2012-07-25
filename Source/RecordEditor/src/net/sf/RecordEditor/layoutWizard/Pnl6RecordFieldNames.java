@@ -106,8 +106,9 @@ public class Pnl6RecordFieldNames extends WizardPanel {
 			recdef = detail.recordDtls.get(i);
 			if (! recdef.displayedFieldNames) {
 				recordMgr.recordCombo.setSelectedIndex(i);
-				throw new RecordException("You must define the field Names in all Records, "
-						+ "please update: " + recdef.name);
+				throw new RecordException(
+						"You must define the field Names in all Records, please update: {0}",
+						recdef.name);
 			}
 		}
 

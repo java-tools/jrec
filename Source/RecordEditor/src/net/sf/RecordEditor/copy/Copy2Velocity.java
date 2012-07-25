@@ -5,6 +5,7 @@ package net.sf.RecordEditor.copy;
 
 import javax.swing.JPanel;
 
+import net.sf.JRecord.Common.RecordRunTimeException;
 import net.sf.RecordEditor.jibx.JibxCall;
 import net.sf.RecordEditor.jibx.compare.CopyDefinition;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
@@ -157,7 +158,7 @@ public class Copy2Velocity extends AbstractWizard<CopyDefinition> {
 			values.oldFile.getLayoutDetails().name  = layoutSelection1.getLayoutName();
 			values.velocityTemplate = velocityTemplateFile.getText();
 			if (layoutSelection1.getRecordLayout(getCurrentFileName()) == null) {
-				throw new RuntimeException("Layout Does not exist");
+				throw new RecordRunTimeException("Layout Does not exist");
 			}
 
 			return values;

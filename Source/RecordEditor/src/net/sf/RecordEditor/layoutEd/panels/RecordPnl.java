@@ -72,7 +72,7 @@ import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
 import net.sf.RecordEditor.utils.swing.HelpWindow;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.swing.Combo.ComboObjOption;
-import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimitierCombo;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimiterCombo;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.KeyedComboMdl;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.RecordSepCombo;
 
@@ -122,7 +122,7 @@ public class RecordPnl extends BaseHelpPanel
 	private BmKeyedComboBox sfRecordStyle = new BmKeyedComboBox(styleModel, false);
 	private JCheckBox sfList = new JCheckBox();
 	private JTextField sfCopyBook  = new JTextField();
-	private DelimitierCombo sfDelimiter  = DelimitierCombo.NewDelimCombo();
+	private DelimiterCombo sfDelimiter  = DelimiterCombo.NewDelimCombo();
 	private JTextField sfDelimTxt  = new JTextField(5);
 	private JTextField sfQuote     = new JTextField();
 	private RecordSepCombo sfRecSepList = new RecordSepCombo();
@@ -597,7 +597,7 @@ public class RecordPnl extends BaseHelpPanel
 			} else {
 			    currVal.getValue().setListChar("N");
 			}
-			fld = "CopyBook";
+			fld = "Copybook";
 			field = sfCopyBook;
 			currVal.getValue().setCopyBook(sfCopyBook.getText());
 

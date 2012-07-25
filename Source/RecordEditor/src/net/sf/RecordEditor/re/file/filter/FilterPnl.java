@@ -408,7 +408,7 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
         TableColumnModel tcm;
         TableColumn tc;
         DefaultComboBoxModel operatorMdl = new DefaultComboBoxModel
-                (Compare.OPERATOR_STRING_VALUES);
+                (Compare.OPERATOR_STRING_FOREIGN_VALUES);
         ComboBoxRender operatorRendor = new ComboBoxRender(operatorMdl);
         ComboBoxRender fieldRendor = new ComboBoxRender(
 	  	        filter.getFilterFieldListMdl().getFieldModel());
@@ -439,7 +439,7 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 	  	tc.setCellRenderer(operatorRendor);
 		tc.setCellEditor(
 		    new DefaultCellEditor(
-		        new JComboBox(Compare.OPERATOR_STRING_VALUES)));
+		        new JComboBox(Compare.OPERATOR_STRING_FOREIGN_VALUES)));
 
 		tcm.getColumn(FilterField.FLD_VALUE).setPreferredWidth(VALUE_WIDTH);
 

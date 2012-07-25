@@ -82,8 +82,8 @@ public final class SortFieldSummaryMdl extends AbstractTableModel {
 
 	        if (aValue != null && ! "".equals(aValue)) {
 	        	String s = aValue.toString();
-	        	for (int i = 0; i < FieldSummaryDetails.OPERATOR_NAMES.length; i++) {
-	        		if (FieldSummaryDetails.OPERATOR_NAMES[i].equals(s)) {
+	        	for (int i = 0; i < FieldSummaryDetails.FOREIGN_OPERATOR_NAMES.length; i++) {
+	        		if (FieldSummaryDetails.FOREIGN_OPERATOR_NAMES[i].equals(s)) {
 	        			val = i;
 	        			break;
 	        		}
@@ -126,7 +126,7 @@ public final class SortFieldSummaryMdl extends AbstractTableModel {
             return fieldSummary.getFieldName(rowIndex);
         }
 
-        return FieldSummaryDetails.OPERATOR_NAMES[fieldSummary.getOperator(rowIndex)];
+        return FieldSummaryDetails.FOREIGN_OPERATOR_NAMES[fieldSummary.getOperator(rowIndex)];
     }
 
 
@@ -135,11 +135,9 @@ public final class SortFieldSummaryMdl extends AbstractTableModel {
 	}
 
 
-
 	public int getRecordIndex() {
 		return fieldSummary.getRecordIndex();
 	}
-
 
 
 	public void setRecordIndex(int layoutIndex) {

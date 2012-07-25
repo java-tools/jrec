@@ -17,7 +17,7 @@ public class OptionPnl extends JPanel {
 	public final static int EDIT_PANEL = 2;
 	public final static int TREE_PANEL = 3;
 
-	private static String[] hints =  LangConversion.convert(LangConversion.ST_FIELD_HINT, "FileDisplayBtns", new String[] {
+	private static String[] hints =  LangConversion.convertArray(LangConversion.ST_FIELD_HINT, "FileDisplayBtns", new String[] {
 			"Find", "Filter", "Save", "Save As",
 			"Copy", "Cut", "Paste", "Paste Prior", "New Record",
 			"Set the length based on Current Layout", "Delete", "Help" });

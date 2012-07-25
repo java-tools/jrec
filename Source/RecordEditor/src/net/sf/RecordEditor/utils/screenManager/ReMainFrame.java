@@ -42,8 +42,10 @@ import net.sf.JRecord.Log.ScreenLog;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 
+import net.sf.RecordEditor.utils.lang.BasicTrans;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
+import net.sf.RecordEditor.utils.msg.UtMessages;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.HelpWindow;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
@@ -319,7 +321,7 @@ public class ReMainFrame extends JFrame
 	    	@Override
 	        public void windowClosing(final WindowEvent e) {
 	    		System.out.println("Window Closing");
-	    		LangConversion.flush(LangConversion.FLUSH_PROGRAM);
+	    		BasicTrans.flush(BasicTrans.FLUSH_PROGRAM);
 
 	            quit();
 	            super.windowClosing(e);
@@ -851,19 +853,23 @@ public class ReMainFrame extends JFrame
     public void deleteWindow(ReFrame oldFrame) {
         int i;
         boolean cont = true;
-        JMenu m;
+        JMenu m, sm = null;
         if (oldFrame == null) {
         	return;
         }
         String name = oldFrame.getDocumentName();
         JMenuItem w =  windowActionMap.get(oldFrame);
 
+        if (oldFrame.getDocument() != null && datafileItemMap.containsKey(oldFrame.getDocument())) {
+            sm = datafileItemMap.get(oldFrame.getDocument());
+        }
+
         if (w != null) {
             windowMenu.remove(w);
             for (i = 0; cont && (i < windowList.size()); i++) {
                 m = windowList.get(i);
 
-                if ((m.getText() != null) && m.getText().equals(name)) {
+                if (m == sm || (sm == null && (m.getText() != null) && m.getText().equals(name))) {
                     m.remove(w);
 
                     if (m.getItemCount() == 0) {
@@ -874,6 +880,7 @@ public class ReMainFrame extends JFrame
             }
         }
     }
+
 
     /**
      * Show the URL's

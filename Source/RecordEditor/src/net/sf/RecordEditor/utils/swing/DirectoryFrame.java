@@ -16,10 +16,10 @@ import net.sf.RecordEditor.utils.screenManager.ReFrame;
 @SuppressWarnings("serial")
 public class DirectoryFrame extends ReFrame {
 
-	private static final String[] FILE_ACTIONS = LangConversion.convert(LangConversion.ST_BUTTON, "File Load/Save",
+	private static final String[] FILE_ACTIONS = LangConversion.convertArray(LangConversion.ST_BUTTON, "File Load/Save",
 							new String[]{"Save", "Load"});
 
-	private static final String[] DIR_ACTION = LangConversion.convert(LangConversion.ST_BUTTON, "Directory Load/Save",
+	private static final String[] DIR_ACTION = LangConversion.convertArray(LangConversion.ST_BUTTON, "Directory Load/Save",
 						new String[] {"Save to Directory", "Load From Directory"});
 
 	//public final JButton saveBtn;

@@ -21,7 +21,7 @@ public class ReIOProvider extends StandardLineIOProvider {
     static {
 			int i = 0;
 
-			keys[i] = Constants.IO_UNKOWN_FORMAT;		externalNames[i] = "UNKNOWN_FORMAT";		names[i++] = "Unknow Format (Choose details at run time)";
+			keys[i] = Constants.IO_UNKOWN_FORMAT;		externalNames[i] = "UNKNOWN_FORMAT";		names[i++] = "Unknown Format (Choose details at run time)";
 			keys[i] = Constants.IO_WIZARD;				externalNames[i] = "FILE_WIZARD";			names[i++] = "File Wizard, Generate layout at run time";
 			keys[i] = Constants.IO_GENERIC_CSV;			externalNames[i] = "CSV_GENERIC";			names[i++] = "Generic CSV (Choose details at run time)";
     }

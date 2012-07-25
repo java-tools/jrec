@@ -31,6 +31,7 @@ import net.sf.JRecord.External.RecordEditorCsvLoader;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Types.Type;
+import net.sf.RecordEditor.layoutEd.utils.LeMessages;
 import net.sf.RecordEditor.re.db.Record.ChildRecordsRec;
 import net.sf.RecordEditor.re.db.Record.ExtendedRecordDB;
 import net.sf.RecordEditor.re.db.Record.RecordRec;
@@ -464,7 +465,7 @@ public final class UpgradeDB {
 
      	if (rec != null) {
      		db.delete(rec);
-     		Common.getLogger().logMsg(AbsSSLogger.SHOW, " --> Deleting Layout " + name);
+     		Common.getLogger().logMsg(AbsSSLogger.SHOW, LeMessages.DELETE_LAYOUT.get(name));
      	}
 
         ext = ExternalRecord.getNullRecord(
@@ -478,7 +479,7 @@ public final class UpgradeDB {
 
      	rec = new RecordRec(ext);
      	db.insert(rec);
-     	Common.getLogger().logMsg(AbsSSLogger.SHOW, " --> Adding Layout " + name);
+     	Common.getLogger().logMsg(AbsSSLogger.SHOW, LeMessages.ADD_LAYOUT.get(name));
      	db.close();
     }
 
@@ -638,7 +639,7 @@ public final class UpgradeDB {
             runSQL(con.createStatement(), sql2run, dropSemi);
 
             upgradeVersion(con, dbIdx, version);
-            Common.getLogger().logMsg(AbsSSLogger.SHOW, "Upgrade SQL Run !!!");
+            Common.logMsg(AbsSSLogger.SHOW, "Upgrade SQL Run !!!", null);
 
             ret = true;
         } catch (Exception e) {
@@ -680,9 +681,10 @@ public final class UpgradeDB {
 
                 statement.executeUpdate(sql);
             } catch (Exception e) {
-                Common.getLogger().logMsg(AbsSSLogger.ERROR, "");
-                Common.getLogger().logMsg(AbsSSLogger.ERROR, "    SQL: " + sqlToRun[i]);
-                Common.getLogger().logMsg(AbsSSLogger.ERROR, "Message: " + e.getMessage());
+            	Common.logMsgRaw(LeMessages.SQL_ERROR.get(new Object[] {sqlToRun[i], e.getMessage()}), null);
+                //Common.getLogger().logMsg(AbsSSLogger.ERROR, "");
+                //Common.getLogger().logMsg(AbsSSLogger.ERROR, "    SQL: " + sqlToRun[i]);
+                //Common.getLogger().logMsg(AbsSSLogger.ERROR, "Message: " + e.getMessage());
                 System.out.println();
                 System.out.println("    SQL: " + sqlToRun[i]);
                 System.out.println("Message: " + e.getMessage());
@@ -730,7 +732,7 @@ public final class UpgradeDB {
                     	+ " where " + column + " is null "
                 );
             } catch (Exception e) {
-                String msg = "Error Table: " + table + " " + e.getMessage();
+                String msg = LeMessages.ERROR_UPDATING_TABLE.get() + " " + table + " " + e.getMessage();
 
                 Common.getLogger().logMsg(AbsSSLogger.ERROR, msg);
                 System.out.println(msg);

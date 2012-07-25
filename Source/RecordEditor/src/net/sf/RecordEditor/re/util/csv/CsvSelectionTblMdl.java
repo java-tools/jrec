@@ -5,6 +5,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import net.sf.JRecord.Common.Conversion;
+import net.sf.JRecord.Common.RecordRunTimeException;
 import net.sf.JRecord.CsvParser.AbstractParser;
 import net.sf.JRecord.CsvParser.BasicParser;
 import net.sf.JRecord.CsvParser.BinaryCsvParser;
@@ -14,10 +15,10 @@ import net.sf.JRecord.CsvParser.ParserManager;
 
 @SuppressWarnings("serial")
 public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCsvTblMdl {
-	
+
 	//	private ParserManager parserManager;
 		private int columnCount = 1;
-		private int lines2display = 0;		
+		private int lines2display = 0;
 		private byte[][] lines = null;
 		private String fontname = "";
 		private String seperator = "";
@@ -25,21 +26,21 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 		private String quote = "";
 		private ParserManager parserManager;
 		private int parserType = 0;
-		
+
 		private int lines2hide = 0;
-		
+
 		private String[] columnNames = null;
-		
+
 		private boolean namesOnLine;
 		private int lineNoFieldNames = 1;
-		
+
 		public CsvSelectionTblMdl() {
 			this(ParserManager.getInstance());
 		}
 		/**
-		 * CsvSelection Table model 
+		 * CsvSelection Table model
 		 * @param theParserManager CSV parser manager
-		 */		
+		 */
 		public CsvSelectionTblMdl(ParserManager theParserManager) {
 			super();
 			parserManager = theParserManager;
@@ -57,31 +58,31 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 			}
 			return columnNames[col];
 		}
-		
+
 		/* (non-Javadoc)
 		 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#setupColumnCount()
 		 */
 		@Override
 		public final void setupColumnCount() {
-		
+
 			String sep = seperator;
-						
+
 			columnCount = 1;
 			if (isBinSeperator()) {
 				for (int i = lines2hide; i < lines2display; i++) {
-					columnCount = Math.max(columnCount, 
+					columnCount = Math.max(columnCount,
 							(new BinaryCsvParser(sepByte)).countTokens(lines[i]));
 				}
 			} else {
 				BasicParser parser = new BasicParser(false);
 				for (int i = lines2hide; i < lines2display; i++) {
 					columnCount = Math.max(
-									columnCount, 
+									columnCount,
 									parser.getFieldCount(getLine(i), sep, quote));
 				}
 			}
 		}
-		
+
 		/**
 		 * Get the index of the parser
 		 * @return
@@ -89,8 +90,8 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 		private AbstractParser getParser() {
 			return parserManager.get(parserType);
 		}
-		
-				
+
+
 		/**
          * @see javax.swing.table.TableModel#getColumnCount()
          */
@@ -112,7 +113,7 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
          */
 		@Override
         public Object getValueAt(int rowIndex, int columnIndex) {
-        	
+
             String s = "";
             if ((rowIndex < lines2display - lines2hide)
             && columnIndex < columnCount) {
@@ -157,7 +158,7 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 		public final String getLine(int idx) {
 			return Conversion.toString(lines[idx], fontname);
 		}
-		
+
 		/**
 		 * @return the lines
 		 */
@@ -165,21 +166,21 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 		public byte[][] getLines() {
 			return lines;
 		}
-		
+
 		/* (non-Javadoc)
 		 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#getLinesString()
 		 */
 		@Override
 		public String[] getLinesString() {
-			throw new RuntimeException("Not Implemented");
+			throw new RecordRunTimeException("Not Implemented");
 		}
-		
+
 		/* (non-Javadoc)
 		 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#setLines(java.lang.String[])
 		 */
 		@Override
 		public void setLines(String[] lines) {
-			throw new RuntimeException("Not Implemented");
+			throw new RecordRunTimeException("Not Implemented");
 		}
 		/**
 		 * @param lines the lines to set
@@ -191,7 +192,7 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 			this.lines = lines;
 		}
 
-		
+
 		/* (non-Javadoc)
 		 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#getParserType()
 		 */
@@ -199,7 +200,7 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 		public int getParserType() {
 			return parserType;
 		}
-		
+
 		/* (non-Javadoc)
 		 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#setParserType(int)
 		 */
@@ -216,33 +217,33 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 			this.quote = quote;
 		}
 
-		
+
 		/* (non-Javadoc)
 		 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#setFont(java.lang.String)
 		 */
 		@Override
 		public void setFont(String font) {
 			// TODO Auto-generated method stub
-			
+
 		}
-		
-		
+
+
 		/* (non-Javadoc)
 		 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#setSeperator(java.lang.String)
 		 */
 		@Override
 		public void setSeperator(String newSeperator) {
 			this.seperator = newSeperator;
-			
+
 			if (isBinSeperator()) {
-				try {		
-					sepByte = Conversion.getByteFromHexString(seperator); 
+				try {
+					sepByte = Conversion.getByteFromHexString(seperator);
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
 			}
 		}
-		
+
 
 		/* (non-Javadoc)
 		 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#setHideFirstLine(boolean)
@@ -251,11 +252,11 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 		public void setHideFirstLine(boolean hide) {
 			columnNames = null;
 			namesOnLine = hide;
-			
+
 			setupColumnNames();
 		}
-		
-		
+
+
 
 		/**
 		 * @see net.sf.RecordEditor.re.util.csv.AbstractCsvTblMdl#setFieldLineNo(int)
@@ -265,14 +266,14 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 			lineNoFieldNames = lineNo;
 			setupColumnNames();
 		}
-		
-		
-		
+
+
+
 		private void setupColumnNames() {
 			lines2hide = 0;
 			if (namesOnLine && lines[0].length >= lineNoFieldNames) {
 				int i;
-				
+
 				if (lineNoFieldNames == 1) {
 					lines2hide = 1;
 				}
@@ -290,25 +291,25 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 				}
 			}
 		}
-		
+
 		/* (non-Javadoc)
 		 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#getAnalyser()
 		 */
 		@Override
 		public CsvAnalyser getAnalyser() {
-			
+
 			byte b = sepByte;
-			if (seperator != null 
-			&& seperator.length() > 0 
+			if (seperator != null
+			&& seperator.length() > 0
 			&& ! isBinSeperator()) {
 				b = seperator.getBytes()[0];
 			}
 			return new CsvAnalyser(getLines(), getLines2display(), "", b);
 		}
-		
+
 		private boolean isBinSeperator() {
 			return seperator != null && seperator.toLowerCase().startsWith("x'");
 		}
 
-		
+
 }

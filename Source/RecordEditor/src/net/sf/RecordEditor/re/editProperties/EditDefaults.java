@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package net.sf.RecordEditor.re.editProperties;
 
@@ -8,7 +8,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
@@ -18,6 +17,8 @@ import javax.swing.table.DefaultTableModel;
 
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.Combo.ComboStrOption;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.EnglishStrModel;
 
 /**
  * @author Bruce Martin
@@ -33,16 +34,16 @@ public class EditDefaults extends BasePanel {
     private JTextArea descriptionFld = new JTextArea();
     private JEditorPane tips;
     private JTable optionTbl;
-    
+
     private JComboBox optionCombo = new JComboBox();
-    
-    private ComboBoxModel[] comboModels;
+
+    private EnglishStrModel[] comboModels;
     private int currentRow = -1;
-    
+
     private String[][] data;
- 	
+
     private final static  String[] columnHeadings = {"Field", "Description"};
-    
+
     private AbstractAction action = new AbstractAction() {
 
 		/**
@@ -50,31 +51,31 @@ public class EditDefaults extends BasePanel {
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+
 	    	saveProperty();
 		}
-    	
+
     };
 
-	
+
 	/**
-	 * 
+	 *
 	 */
-	public EditDefaults(final EditParams params, final String description, 
-			final String[][] dataDescription, ComboBoxModel[] comboBoxModels) {
-		
+	public EditDefaults(final EditParams params, final String description,
+			final String[][] dataDescription, EnglishStrModel[] comboBoxModels) {
+
 		editParams = params;
 		data = dataDescription;
 		comboModels = comboBoxModels;
-		
+
         tips = new JEditorPane("text/html", description);
-		
-		
+
+
 		init_100_ScreenFields();
 		init_200_Screen();
 	}
-	
-	
+
+
 	/**
      * Initialise screen fields
      *
@@ -112,7 +113,7 @@ public class EditDefaults extends BasePanel {
 
 		this.done();
     }
-    
+
 
     /**
      * set the fields based on a table column
@@ -123,22 +124,33 @@ public class EditDefaults extends BasePanel {
     	optionCombo.removeActionListener(action);
 
     	saveProperty();
-    	
+
         currentRow = row;
         descriptionFld.setText(data[row][1]);
         optionCombo.setModel(comboModels[row]);
-        optionCombo.setSelectedItem(editParams.properties.get(data[row][0]));
+
+        Object o = editParams.properties.get(data[row][0]);
+        if (o != null) {
+        	String s = o.toString();
+        	for (int i = 0; i < optionCombo.getItemCount(); i++) {
+        		if (s.equals(((ComboStrOption) optionCombo.getItemAt(i)).getEnglish())) {
+        			optionCombo.setSelectedIndex(i);
+        			break;
+        		}
+        	}
+        }
         optionCombo.addActionListener(action);
     }
 
-    
+
     private void saveProperty() {
-    	
-        if (currentRow >= 0 && optionCombo.getSelectedItem() != null) {
-        	editParams.properties.setProperty(data[currentRow][0], optionCombo.getSelectedItem().toString());
+
+        Object selectedItem = optionCombo.getSelectedItem();
+		if (currentRow >= 0 && selectedItem != null && selectedItem instanceof ComboStrOption) {
+        	editParams.properties.setProperty(data[currentRow][0], ((ComboStrOption) selectedItem).getEnglish());
         }
     }
-    
+
 	/**
      * Table model for the Jars being displayed
      *

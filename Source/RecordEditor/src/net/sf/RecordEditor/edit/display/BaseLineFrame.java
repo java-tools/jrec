@@ -46,7 +46,7 @@ implements TableModelListener, TreeModelListener {
 	protected JCheckBox oneLineHex;
 	protected JTextField lineNum = new JTextField();
 	protected JButton[] btn;
-	private String[] moveHints = LangConversion.convert(LangConversion.ST_FIELD_HINT, "RecordBtns", new String[] {
+	private String[] moveHints = LangConversion.convertArray(LangConversion.ST_FIELD_HINT, "RecordBtns", new String[] {
 		        	"Start of File", "Previous Record",
 		        	"Next Record",   "Last Record"});
 	private String[] moveHints6 = {

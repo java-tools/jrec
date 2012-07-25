@@ -60,13 +60,7 @@ public final class FilterField {
         	case FLD_FIELD_NUMBER:	 fieldNumber = Integer.parseInt(newValue.toString());	break;
             case FLD_CASE_SENSITIVE: ignoreCase = (Boolean) newValue;						break;
             case FLD_OPERATOR:
-                operator = Compare.OP_CONTAINS;
-                for (int i = Compare.OP_EQUALS; i < Compare.OPERATOR_STRING_VALUES.length; i++) {
-	                if (Compare.OPERATOR_STRING_VALUES[i].equalsIgnoreCase(newValue.toString())) {
-	                    operator = i;
-	                    break;
-	                }
-                }
+                operator = Compare.getForeignOperator(newValue.toString(), Compare.OP_CONTAINS);
     	    break;
             case FLD_VALUE:
                 value = newValue.toString();
@@ -94,7 +88,7 @@ public final class FilterField {
             case FLD_CASE_SENSITIVE:
                 return ignoreCase;
             case FLD_OPERATOR:
-                return Compare.OPERATOR_STRING_VALUES[operator];
+                return Compare.OPERATOR_STRING_FOREIGN_VALUES[operator];
             case FLD_VALUE:
                 return value;
              default:

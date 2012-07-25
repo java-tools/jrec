@@ -110,8 +110,9 @@ public class Pnl5RecordTable extends WizardPanel {
 			recdef = detail.recordDtls.get(i);
 			if (! recdef.displayedFieldSelection) {
 				recordMgr.recordCombo.setSelectedIndex(i);
-				throw new RecordException("You must define the Fields all Records. Please update - "
-						+ recdef.name);
+				throw new RecordException(
+								"You must define the Fields for all Records. Please update - {0}",
+								recdef.name);
 			}
 		}
 

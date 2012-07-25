@@ -6,7 +6,7 @@ import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.Combo.ComboStrOption;
 
 @SuppressWarnings("serial")
-public final class DelimitierCombo extends EnglishCombo<String> {
+public final class DelimiterCombo extends EnglishCombo<String> {
 
    	private final static String[] FIELD_SEPARATOR_LIST_VALUES;
    	public final static String[] FIELD_SEPARATOR_FOREIGN = Common.FIELD_SEPARATOR_LIST.clone();
@@ -24,7 +24,7 @@ public final class DelimitierCombo extends EnglishCombo<String> {
   	}
 
 
-   	private DelimitierCombo(int start, int end) {
+   	private DelimiterCombo(int start, int end) {
    		super(new ComboStrOption("", "", ""));
    		for (int i = start; i < end; i++) {
    			super.addItem(
@@ -36,17 +36,17 @@ public final class DelimitierCombo extends EnglishCombo<String> {
    		}
    	}
 
-   	public static DelimitierCombo NewDelimComboWithDefault() {
-   		return new DelimitierCombo(0, Common.FIELD_SEPARATOR_LIST.length);
+   	public static DelimiterCombo NewDelimComboWithDefault() {
+   		return new DelimiterCombo(0, Common.FIELD_SEPARATOR_LIST.length);
    	}
 
 
-   	public static DelimitierCombo NewDelimCombo() {
-   		return new DelimitierCombo(1, Common.FIELD_SEPARATOR_LIST.length);
+   	public static DelimiterCombo NewDelimCombo() {
+   		return new DelimiterCombo(1, Common.FIELD_SEPARATOR_LIST.length);
    	}
 
 
-   	public static DelimitierCombo NewTextDelimCombo() {
-   		return new DelimitierCombo(1, Common.FIELD_SEPARATOR_LIST.length - 6);
+   	public static DelimiterCombo NewTextDelimCombo() {
+   		return new DelimiterCombo(1, Common.FIELD_SEPARATOR_LIST.length - 6);
    	}
 }

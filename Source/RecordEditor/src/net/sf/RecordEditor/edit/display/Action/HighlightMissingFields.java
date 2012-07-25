@@ -13,7 +13,7 @@ import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
 
 @SuppressWarnings("serial")
-public class HightlightMissingFields extends JCheckBoxMenuItem {
+public class HighlightMissingFields extends JCheckBoxMenuItem {
 
 	private ReAbstractAction action = new ReAbstractAction("Highlight Missing Fields") {
 
@@ -36,7 +36,7 @@ public class HightlightMissingFields extends JCheckBoxMenuItem {
 			}
 	};
 
-	public HightlightMissingFields() {
+	public HighlightMissingFields() {
 		super();
 		super.setAction(action);
 		setState(Common.OPTIONS.highlightEmpty.isSelected());

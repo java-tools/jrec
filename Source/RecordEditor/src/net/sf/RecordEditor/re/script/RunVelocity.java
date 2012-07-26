@@ -24,6 +24,7 @@ import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.JRecord.IO.LineIOProvider;
+import net.sf.RecordEditor.re.script.extensions.LanguageTrans;
 import net.sf.RecordEditor.utils.TypeNameArray;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
@@ -202,6 +203,8 @@ public class RunVelocity {
 
         if (data.view != null) {
             VelocityContext context   = new VelocityContext();
+
+            LanguageTrans.clear();
 
             context.put("records",    data.selectedLines);
             context.put("file",       data.fileLines);

@@ -45,7 +45,7 @@ public class LanguageTrans {
 			BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "UTF8"));
 			String s, l = BLANK;
 			boolean suppress = false;
-			int key = 0,  pos;
+			int key = 0,  pos, pos2;
 
 
 			for (int i = 0; i < 3000; i++) {
@@ -66,10 +66,11 @@ public class LanguageTrans {
 							}
 						}
 						pos = s.indexOf(":", 2);
+						pos2 =  s.indexOf("：", 2);
 						if (pos < 0) {
-							pos =  s.indexOf("：", 2);
-						} else {
-							pos = Math.min(pos, s.indexOf("：", 2));
+							pos =  pos2;
+						} else if (pos2 >= 0) {
+							pos = Math.min(pos, pos2);
 						}
 						if (pos > 2) {
 							try {

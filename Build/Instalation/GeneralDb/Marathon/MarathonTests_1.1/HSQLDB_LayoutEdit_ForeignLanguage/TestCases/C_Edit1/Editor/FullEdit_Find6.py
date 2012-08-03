@@ -1,0 +1,73 @@
+useFixture(RecordEditor)
+
+def test():
+	from Modules import commonBits
+	java_recorded_version = '1.6.0_03'
+
+	if window('Record Editor'):
+		click(commonBits.fl('Choose File'))
+
+		if window('Open'):
+			select(commonBits.selectPane(), 'Ams_LocDownload_20041228.txt')
+			click('Open')
+		close()
+
+		commonBits.setRecordLayout(select, 'ams Store')
+
+		click(commonBits.fl('Edit') + '1')
+		select('Table', 'cell:1 - 3|Brand Id,2(TAR)')
+		rightclick('Table', '1 - 3|Brand Id,2')
+		select_menu(commonBits.fl('Edit Record'))
+##		select('Table1', 'cell:1 - 3|Brand Id,2(TAR)')
+		click('Find1')
+##		click('MetalInternalFrameTitlePane', 230, 8)
+		select('TextField', 'West')
+		select('TextField1', 'West_')
+		select('ComboBox', commonBits.fl('All Fields'))
+		click(commonBits.fl('Replace'))
+##		select('Table', '')
+		select('Table', 'cell:' + commonBits.fl('Data') + ',4(West_field Shoppingtown)')
+		select('Table', 'cell:' + commonBits.fl('Data') + ',4(West_field Shoppingtown)')
+		assert_p('Table', 'Text', 'West_field Shoppingtown', commonBits.fl('Data') + ',4')
+		select('Table', 'cell:' + commonBits.fl('Data') + ',4(West_field Shoppingtown)')
+##		click('MetalInternalFrameTitlePane', 253, 21)
+		commonBits.findA(click)
+##		click('MetalInternalFrameTitlePane', 80, 17)
+		select('ComboBox', commonBits.fl('All Fields'))
+		commonBits.find(click)
+		assert_p('Table', 'Text', 'Westfield Phoenix Plaza', commonBits.fl('Data') + ',4')
+		commonBits.find(click)
+##		click('MetalInternalFrameTitlePane', 80, 17)
+		select('ComboBox', commonBits.fl('All Fields'))
+		commonBits.find(click)
+##		click(commonBits.fl('Replace'))
+##		select('ComboBox', commonBits.fl('All Fields'))
+		click(commonBits.fl('Replace'))
+		select('Table', 'cell:' + commonBits.fl('Data') + ',4(West_field Phoenix Plaza)')
+		select('Table', 'cell:' + commonBits.fl('Data') + ',4(West_field Phoenix Plaza)')
+##		assert_p('Table', 'Text', 'West_field Phoenix Plaza', commonBits.fl('Data') + ',4')
+		select('Table', 'cell:' + commonBits.fl('Data') + ',4(West_field Phoenix Plaza)')
+		commonBits.find(click)
+##		click('MetalInternalFrameTitlePane', 80, 17)
+		select('ComboBox', commonBits.fl('All Fields'))
+		commonBits.find(click)
+		click(commonBits.fl('Replace'))
+##		select('Table', '')
+		select('Table', 'cell:' + commonBits.fl('Data') + ',4(West_field Shoppingtown Eastgardens)')
+		select('Table', 'cell:' + commonBits.fl('Data') + ',4(West_field Shoppingtown Eastgardens)')
+##		assert_p('Table', 'Text', '152 Bunnerong Road', commonBits.fl('Data') + ',5')
+		select('Table', 'cell:' + commonBits.fl('Data') + ',4(West_field Shoppingtown Eastgardens)')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		select('Table', 'cell:1 - 3|Brand Id,2(TAR)')
+		select('Table', 'cell:1 - 3|Brand Id,2(TAR)')
+
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+		commonBits.closeWindow(click)
+		##click('BasicInternalFrameTitlePane$NoFocusButton2')
+
+#		if window(r'Save Changes to file: ' + commonBits.implementationSampleDir() + 'Ams_LocDownload_20041228.txt'):
+#			click('No')
+#		close()
+	close()

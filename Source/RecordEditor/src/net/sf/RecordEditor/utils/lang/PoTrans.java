@@ -28,14 +28,14 @@ public class PoTrans extends BasicTrans {
 					mode = NORMAL_MODE;
 
 					if (lookup != null && b != null) {
+						b = Conversion.replace(b, "\\n", "\n");
 						trans.put(lookup, b.toString());
 						//System.out.println("~~ " + lookup + " " + b.toString());
 					}
 					b = null;
 					lookup = null;
 				} else if (mode == TRANS_MODE) {
-					b.append("\n")
-					 .append(strip(l));
+					b.append(strip(l));
 				} else {
 					mode = NORMAL_MODE;
 					if (l.startsWith("msgid ")) {

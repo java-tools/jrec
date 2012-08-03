@@ -1,0 +1,46 @@
+useFixture(RecordEditor)
+
+def test():
+	from Modules import commonBits
+	java_recorded_version = '1.6.0_22'
+
+	if window('Record Editor'):
+		select_menu(commonBits.fl('Record Layouts') + '>>' + commonBits.fl('Load Copybook'))
+		select('User Selected Copybook_Txt', commonBits.xmlCopybookDir() + 'wx1File.Xml')
+		click(commonBits.fl('Go'))
+		select('User Selected Copybook_Txt', commonBits.xmlCopybookDir() + 'wx2File.Xml')
+		click(commonBits.fl('Go'))
+		select('User Selected Copybook_Txt', commonBits.xmlCopybookDir() + 'wx2File.Xml')
+		click(commonBits.fl('Go'))
+		select('User Selected Copybook_Txt', commonBits.xmlCopybookDir() + 'wx3File.Xml')
+		click(commonBits.fl('Go'))
+		select('User Selected Copybook_Txt', commonBits.xmlCopybookDir() + 'wx3File.Xml')
+		click(commonBits.fl('Go'))
+		select('User Selected Copybook_Txt', commonBits.xmlCopybookDir() + 'wx4File.Xml')
+		click(commonBits.fl('Go'))
+		select('User Selected Copybook_Txt', commonBits.xmlCopybookDir() + 'wx4File.Xml')
+		click(commonBits.fl('Go'))
+		select('User Selected Copybook_Txt', commonBits.xmlCopybookDir() + 'wx5File.Xml')
+		click(commonBits.fl('Go'))
+		select('User Selected Copybook_Txt', commonBits.xmlCopybookDir() + 'wx5File.Xml')
+		click(commonBits.fl('Go'))
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		select_menu(commonBits.fl('Record Layouts') + '>>' + commonBits.fl('Edit Layout'))
+		select('RecordList.Record Name_Txt', 'wx4File')
+		select('RecordList.Description_Txt', '%%')
+		assert_p('ChildRecordsJTbl', 'Content', '[[, wwProd01, , , , , ], [, wwProd02, , , , , wwProdHead], [, wwProd05, , , , , wwProdHead], [, wwTrailer, , , , , wwHeader], [, wwProdHead, , , , , wwHeader], [, wwHeader, , , , , ], [, wwProd07, , , , , ]]')
+		select('RecordList.Record Name_Txt', 'wx3File')
+		select('RecordList.Description_Txt', '%')
+		assert_p('ChildRecordsJTbl', 'Content', '[[, wwProd01, , RecordType1, P, , ], [, wwProd02, , , , , wwProdHead], [, wwProd05, , , , , wwProdHead], [, wwTrailer, , , , , wwHeader], [, wwProdHead, , , , , wwHeader], [, wwHeader, , , , , ], [, wwProd07, , , , , ]]')
+		select('RecordList.Record Name_Txt', 'wx2File')
+
+		select('RecordList.Description_Txt', '%%')
+
+		assert_p('ChildRecordsJTbl', 'Content', '[[, wwProd01, , , , , ], [, wwProd02, , , , , wwProdHead], [, wwProd05, , , , , wwProdHead], [, wwTrailer, , , , , wwHeader], [, wwProdHead, , , , , wwHeader], [, wwHeader, , , , , ], [, wwProd07, , , , , ]]')
+##		select('ChildRecordsJTbl', '')
+		rightclick('ChildRecordsJTbl', commonBits.fl('Field') + ',2')
+		select_menu(commonBits.fl('View Record Selections Tree'))
+		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , , =, ], [, , And  ,   ,   , RecordType1, =, P], [, ,   ,   , And  , RecordType2, =, 01], [, ,   , Or  ,   , RecordType1, =, P], [, ,   ,   , And  , RecordType2, =, 02], [, ,   , Or  ,   , RecordType1, =, P], [, ,   ,   , And  , RecordType2, =, 05], [, ,   ,   ,   , , =, ], [, ,   ,   ,   , , =, ], [, ,   ,   ,   , , =, ], [, , And  ,   ,   , RecordType1, =, T], [, ,   ,   , And  , RecordType2, =, TR], [, ,   ,   ,   , , =, ], [, , And  ,   ,   , RecordType1, =, P], [, ,   ,   , And  , RecordType2, =, HD], [, ,   ,   ,   , , =, ], [, , And  ,   ,   , RecordType1, =, H], [, ,   ,   , And  , RecordType2, =, HD], [, ,   ,   ,   , , =, ], [, , And  ,   ,   , RecordType1, =, P], [, ,   ,   , And  , RecordType2, =, 07]]')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
+		click('BasicInternalFrameTitlePane$NoFocusButton2')
+	close()

@@ -23,9 +23,7 @@ import javax.swing.text.JTextComponent;
 
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.IO.AbstractLineReader;
-
 import net.sf.RecordEditor.utils.common.Common;
-
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.HexTwoLineRender;
 import net.sf.RecordEditor.utils.swing.SwingUtils;

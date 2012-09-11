@@ -12,12 +12,12 @@ package net.sf.RecordEditor.re.jrecord.types;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.zbluesoftware.java.bm.ZDateField;
-
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Types.ISizeInformation;
 import net.sf.JRecord.Types.Type;
+
+import com.zbluesoftware.java.bm.ZDateField;
 
 /**
  * Provides a DateType as a wrapper around an existing type

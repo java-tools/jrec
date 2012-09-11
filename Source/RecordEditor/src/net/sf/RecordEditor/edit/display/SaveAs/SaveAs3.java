@@ -31,9 +31,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
 
-import javax.swing.JButton;
-
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -44,7 +43,6 @@ import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.openFile.RecentFiles;
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.common.Common;
-
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
@@ -317,7 +315,7 @@ public final class SaveAs3 extends ReFrame
 
     private void init_300_layoutScreen() {
 
-		pnl.addHelpBtn(Common.getHelpButton());
+		pnl.addHelpBtn(SwingUtils.getHelpButton());
 
 		pnl.setHelpURL(Common.formatHelpURL(Common.HELP_SAVE_AS));
         pnl.addLine("File Name", fileNameTxt, fileNameTxt.getChooseFileButton());

@@ -169,6 +169,7 @@ public class EditOptions {
             {Parameters.NAME_FIELDS, "Add names to screen Components", null, EditPropertiesPnl.FLD_BOOLEAN,  "Add names to JComponents for use by testing tools"},
             {Parameters.LOG_TEXT_FIELDS,  "Keep a record of all Text Fields going through the Language section. This can be used to generate the language conversion file (GetText PO)", null, EditPropertiesPnl.FLD_BOOLEAN,  "Record Text Fields",},
             {Parameters.SPECIAL_FIND_BTN_NAME,  "This option adds >> to the search button (on the find search screen) to better identifier it in testing", null, EditPropertiesPnl.FLD_BOOLEAN,  "Rename Search btn",},
+            {Parameters.INCLUDE_TYPE_NAME,  "Include the type name on the record screen", null, EditPropertiesPnl.FLD_BOOLEAN,  "Include Type Name on Record Screen",},
 //            {Parameters.SHOW_ALL_EXPORT_OPTIONS, "Show all export panels", null, EditPropertiesPnl.FLD_BOOLEAN,  "Show all export panels on the export Screen"},
 //            {Parameters.DEL_SELECTED_WITH_DEL_KEY, "Delete Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Delete Selected with delete key"},
 //            {Parameters.WARN_WHEN_USING_DEL_KEY,  "Warn the user before deleteing Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Warn user with delete key"},
@@ -185,19 +186,16 @@ public class EditOptions {
     + "<b>Show all export panels</b>: Wether to show all export options or just the option selected<br/>");
 
     private Object[][] behaviourParams = {
-//        {Parameters.PROPERTY_TEST_MODE, "Weather we are running automated Tests (Marathon ?) or not", null, EditPropertiesPnl.FLD_BOOLEAN, "Test Mode"},
         {Parameters.BRING_LOG_TO_FRONT, "Bring Log to the Front if Data is written to it", null, EditPropertiesPnl.FLD_BOOLEAN, "Bring log to Front"}, // Checked
         {Parameters.ASTERIX_IN_FILE_NAME, "Allow the asterix ('*') character in file Names", null, EditPropertiesPnl.FLD_BOOLEAN, null},
         {Parameters.PREFERED_AS_DEFAULT, "Default to prefered layout", null, EditPropertiesPnl.FLD_BOOLEAN, null},
-//        {Parameters.WARN_BINARY_FIELDS_DEFAULT, "Warn the user if Binary-Fields and Structure=Default", null, EditPropertiesPnl.FLD_BOOLEAN, "Warn on Structure change"}, // CHECK
-//        {Parameters.PROPERTY_LOAD_FILE_BACKGROUND, "Load File in Background thread", null, EditPropertiesPnl.FLD_BOOLEAN, "Load In background"}, // Checked
-//        {Parameters.USE_NEW_TREE_EXPANSION, "Use New Tree Expansion", null, EditPropertiesPnl.FLD_BOOLEAN,  "Use New Tree Expansion"},
-//        {Parameters.SEARCH_ALL_FIELDS, "Search: All Fields", null, EditPropertiesPnl.FLD_BOOLEAN,  "On Search Screen default to \"All Fields\""},
         {Parameters.SHOW_ALL_EXPORT_OPTIONS, "Show all export panels", null, EditPropertiesPnl.FLD_BOOLEAN,  "Show all export panels on the export Screen"},
         {Parameters.DEL_SELECTED_WITH_DEL_KEY, "Delete Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Delete Selected rows with the delete key"},
         {Parameters.WARN_WHEN_USING_DEL_KEY,  "Warn the user before deleteing Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Warn when deleteing rows via delete key"},
         {Parameters.USE_FILE_WIZARD,  "Use File Wizard when no Layout is known for the file", null, EditPropertiesPnl.FLD_BOOLEAN, "Use file Wizard"},
         {Parameters.HIGHLIGHT_MISSING_TRANSLATIONS,  "Highlight text for which there is no translation by adding a # to the start of the text", null, EditPropertiesPnl.FLD_BOOLEAN,  "Highlight missing translations",},
+        {Parameters.SEPERATE_WINDOWS,  "Create views in seperate windows instead of tabs on the file panel", null, EditPropertiesPnl.FLD_BOOLEAN,  "Create Screens in seperate Windows",},
+        {Parameters.SHOW_RECORDEDITOR_TIPS,  "Show RecordEditor Tips on program startup", null, EditPropertiesPnl.FLD_BOOLEAN,  "Show RecordEditor Tips",},
     };
 
     private String fileDescription
@@ -641,6 +639,12 @@ public class EditOptions {
         JPanel topPnl = new JPanel();
         JToolBar toolBar = new JToolBar();
 
+        String[][] defaultDescription = defaultDetails.clone();
+
+        for (int i = 0; i < defaultDescription.length; i++) {
+        	defaultDescription[i][1] = LangConversion.convert(LangConversion.ST_MESSAGE, defaultDescription[i][1]);
+        }
+
         toolBar.add(save);
 
         SwingUtils.addTab(propertiesTabbed, "EditOpts_Properties","Directories", directoryPnl1);
@@ -656,7 +660,7 @@ public class EditOptions {
 
         SwingUtils.addTab(propertiesTabbed, "EditOpts_Properties","Defaults",
                 new EditDefaults(params, optionDescription,
-                        defaultDetails, defaultModels
+                		defaultDescription, defaultModels
         ));
         SwingUtils.addTab(xmlTabbed, "EditOpts_Xml","Xslt Options", xsltPnl);
         SwingUtils.addTab(xmlTabbed, "EditOpts_Xml","Xslt Jars", xsltJarsPnl);

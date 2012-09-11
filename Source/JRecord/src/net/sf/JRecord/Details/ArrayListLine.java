@@ -10,9 +10,9 @@ import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Common.XmlConstants;
 
 public class ArrayListLine<
-								FieldDef extends FieldDetail, 
+								FieldDef extends FieldDetail,
 								RecordDef extends AbstractRecordDetail<FieldDef>,
-								Layout extends AbstractLayoutDetails<FieldDef, RecordDef>> 
+								Layout extends AbstractLayoutDetails<FieldDef, RecordDef>>
 implements AbstractLine<Layout> {
 
 //	private static final AbstractTreeDetails<FieldDetail, RecordDetail, LayoutDetail, ArrayListLine, Object>
@@ -22,24 +22,25 @@ implements AbstractLine<Layout> {
 	protected int preferredLayout = Constants.NULL_INTEGER;
 	protected boolean newRecord;
 	protected boolean rebuildRequired = false;
-	protected AbstractTreeDetails<FieldDef, RecordDef, Layout, ArrayListLine<FieldDef, RecordDef, Layout>> 
+	protected AbstractTreeDetails<FieldDef, RecordDef, Layout, ArrayListLine<FieldDef, RecordDef, Layout>>
 						children; // = NULL_TREE_DETAILS;
 //NullTreeDtls.STANDCopyOfSimpleLineARD_NULL_DETAILS;
 	//children = null;
-	
+
+	@SuppressWarnings("rawtypes")
 	private static HashMap<Class, AbstractTreeDetails> nullTrees = new HashMap<Class, AbstractTreeDetails>(5);
 
    public ArrayListLine(Layout layoutDetails, int recordIdx) {
-	    layout =layoutDetails; 
+	    layout =layoutDetails;
 	    newRecord = recordIdx < 0;
 	    preferredLayout = recordIdx;
-	    
+
 	    fields.add("");
-	    
+
 	    if (newRecord) {
 	    	fields.add("True");
 	    }
-	    
+
 	    if (layout != null && layout.hasChildren()) {
 	    	children = new TreeDetails<FieldDef, RecordDef, Layout, AbstractChildDetails<RecordDef>,
 	    												ArrayListLine<FieldDef, RecordDef, Layout>>();
@@ -51,27 +52,27 @@ implements AbstractLine<Layout> {
 
    private AbstractTreeDetails<FieldDef, RecordDef, Layout, ArrayListLine<FieldDef, RecordDef, Layout>> getNullTree() {
 	   AbstractTreeDetails<FieldDef, RecordDef, Layout, ArrayListLine<FieldDef, RecordDef, Layout>> ret;
-	   
+
 	   if (nullTrees.containsKey(this.getClass())) {
 		   ret = nullTrees.get(this.getClass());
 	   } else {
 		   ret = new NullTreeDtls<FieldDef, RecordDef, Layout, AbstractChildDetails<RecordDef>, ArrayListLine<FieldDef, RecordDef, Layout>>();
 		   nullTrees.put(this.getClass(), ret);
 	   }
-	   
+
 	   return ret;
    }
-	   
+
 	/**
 	 * @see java.lang.Object#clone()
 	 */
 	public Object clone() {
 	        Object ret = null;
-	
+
 	        try { ret = super.clone(); } catch (Exception e) {}
-	
+
 	        if (! (ret instanceof ArrayListLine)) {
-	        	ArrayListLine<FieldDef, RecordDef, Layout> line 
+	        	ArrayListLine<FieldDef, RecordDef, Layout> line
 	        			= new ArrayListLine<FieldDef, RecordDef, Layout>(layout, preferredLayout);
 	        	for (int i = 0; i < fields.size(); i++) {
 	//        		Object o = fields.get(i);
@@ -80,7 +81,7 @@ implements AbstractLine<Layout> {
 	//        		   || o instanceof Boolean
 	//        		   || o instanceof BigInteger
 	//        		   || o instanceof BigDecimal)) {
-	//					   o = o.toString();					
+	//					   o = o.toString();
 	//				}
 	        		try {
 	        			line.setRawField(preferredLayout, i, fields.get(i));
@@ -89,7 +90,7 @@ implements AbstractLine<Layout> {
 	        	}
 	        	ret = line;
 	        }
-	
+
 	        return ret;
 	    }
 
@@ -121,15 +122,15 @@ implements AbstractLine<Layout> {
 	public Object getField(int recordIdx, int fieldIdx) {
 
 		switch (fieldIdx) {
-//		case Constants.FULL_LINE:	return getFullLine();		
-		case Constants.KEY_INDEX:	return null;		
+//		case Constants.FULL_LINE:	return getFullLine();
+		case Constants.KEY_INDEX:	return null;
 		}
 
         return getFieldRaw(recordIdx, fieldIdx);
     }
 
-	private Object getFieldRaw(int recordIdx, int fieldIdx) {
-	
+	protected Object getFieldRaw(int recordIdx, int fieldIdx) {
+
 	    if (fields.size() > fieldIdx && fieldIdx >= 0) {
 	    	//if (newRecord) System.out.println("Get (New) : " + fieldIdx + " " + fields.get(fieldIdx));
 	        return fields.get(fieldIdx);
@@ -185,7 +186,7 @@ implements AbstractLine<Layout> {
 	public String getFieldText(int recordIdx, int fieldIdx) {
 	    String s = "";
 	    Object o;
-	
+
 	    if (fieldIdx < fields.size()
 	    && (o = fields.get(fieldIdx)) != null) {
 	        s = o.toString();
@@ -256,7 +257,7 @@ implements AbstractLine<Layout> {
 
 //	private int getFieldNumber(int recordIdx, int fieldIdx) {
 //	   	int idx = fieldIdx;
-//		
+//
 //	    //   	System.out.print("getField " + recordIdx + " " + fieldIdx);
 //	       	if (useField4Index && recordIdx < layout.getRecordCount()
 //	       	&& fieldIdx < layout.getRecord(recordIdx).getFieldCount()
@@ -273,7 +274,7 @@ implements AbstractLine<Layout> {
             fields.add(null);
         }
 
-        if (val != null || fields.get(fieldIdx) != null) { 
+        if (val != null || fields.get(fieldIdx) != null) {
         	fields.set(fieldIdx, val);
         }
     }
@@ -352,7 +353,7 @@ implements AbstractLine<Layout> {
 	public final AbstractTreeDetails<FieldDef, RecordDef, Layout, ArrayListLine<FieldDef, RecordDef, Layout>> getTreeDetails() {
 		return children;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.sf.JRecord.Common.AbstractChildLines#isRebuildTreeRequired()
 	 */
@@ -368,13 +369,13 @@ implements AbstractLine<Layout> {
 		// TODO Auto-generated method stub
 		return (L) clone();
 	}
-	
+
 	protected final FieldDetail getFieldFromName(String fieldName) {
 		FieldDetail fldDef = null;
 		if (preferredLayout >= 0) {
 			fldDef = layout.getRecord(preferredLayout).getField(fieldName);
 		}
 		return fldDef;
-		
+
 	}
-} 
+}

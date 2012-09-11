@@ -113,7 +113,8 @@ public final class Run implements ExternalReferenceConstants {
 
             urlLoader = new URLClassLoader(urls);
 
-            Class runClass = urlLoader.loadClass(classToRun);
+            @SuppressWarnings("rawtypes")
+			Class runClass = urlLoader.loadClass(classToRun);
             System.out.println("Starting Program !!!");
             //String points[] = new String[] {"0", "0", "3", "4"};
             Object[] arguments = new Object[]{args};

@@ -1,6 +1,7 @@
 package net.sf.RecordEditor.edit.display;
 
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -8,9 +9,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -26,6 +25,7 @@ import net.sf.JRecord.Details.AbstractLine;
 import net.sf.RecordEditor.edit.display.Action.GotoLineAction;
 import net.sf.RecordEditor.edit.display.models.LineModel;
 import net.sf.RecordEditor.edit.display.util.ChooseCellEditor;
+import net.sf.RecordEditor.edit.display.util.MovementBtnPnl;
 import net.sf.RecordEditor.re.file.AbstractLineNode;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.MenuPopupListener;
@@ -35,6 +35,7 @@ import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.HexThreeLineField;
 import net.sf.RecordEditor.utils.swing.HexThreeLineRender;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 @SuppressWarnings("serial")
 public abstract class BaseLineFrame extends BaseLineAsColumn
@@ -45,7 +46,8 @@ implements TableModelListener, TreeModelListener {
 	protected int threeLineHeight;
 	protected JCheckBox oneLineHex;
 	protected JTextField lineNum = new JTextField();
-	protected JButton[] btn;
+	//protected JButton[] btn;
+	protected MovementBtnPnl btnPanel;
 	private String[] moveHints = LangConversion.convertArray(LangConversion.ST_FIELD_HINT, "RecordBtns", new String[] {
 		        	"Start of File", "Previous Record",
 		        	"Next Record",   "Last Record"});
@@ -70,10 +72,8 @@ implements TableModelListener, TreeModelListener {
 
 
 	public BaseLineFrame(String formType, @SuppressWarnings("rawtypes") FileView viewOfFile, boolean primary,
-			boolean fullLine) {
-		super(formType, viewOfFile, primary, fullLine);
-		super.addCloseOnEsc(actualPnl);
-
+			boolean fullLine, final boolean changeRow) {
+		super(formType, viewOfFile, primary, fullLine, changeRow);
 
 		AbstractAction[] actions = {
 	            new ReAbstractAction("Hide Column") {
@@ -107,11 +107,12 @@ implements TableModelListener, TreeModelListener {
 	}
 
 
-	protected void init_200_setupFields(JPanel btnPanel, ImageIcon[] icon, ActionListener btnActions) {
-	    int i, currLayout;
+	protected void init_200_setupFields(ImageIcon[] icon, ActionListener btnActions,
+   		 	final boolean changeRow) {
+	    int currLayout;
 	    listner = btnActions;
 
-		btn = new JButton[icon.length];
+	    btnPanel = new MovementBtnPnl(icon, changeRow, btnActions);
 
 		if (icon.length > 4) {
 			moveHints = moveHints6;
@@ -139,13 +140,20 @@ implements TableModelListener, TreeModelListener {
 
 		actualPnl.setHelpURL(Common.formatHelpURL(Common.HELP_SINGLE_RECORD));
 
-		for (i = 0; i < btn.length; i++) {
-			btn[i] = new JButton("", icon[i]);
-			btnPanel.add(btn[i]);
-			btn[i].addActionListener(listner);
-			btn[i].setToolTipText(moveHints[i]);
-		}
-		setDirectionButtonStatus();
+
+//		if (changeRow) {
+//			for (i = 0; i < btn.length; i++) {
+//				btn[i] = new JButton("", icon[i]);
+//				btnPanel.add(btn[i]);
+//				btn[i].addActionListener(listner);
+//				btn[i].setToolTipText(moveHints[i]);
+//			}
+//			setDirectionButtonStatus();
+//		} else {
+//			for (i = 0; i < btn.length; i++) {
+//				btn[i] = new JButton("", icon[i]);
+//			}
+//		}
 	}
 
 	/**
@@ -162,7 +170,7 @@ implements TableModelListener, TreeModelListener {
 		setRowHeight();
 
 		if (fileMaster.isBinaryFile()) {
-		    TableColumn tc = tblDetails.getColumnModel().getColumn(LineModel.HEX_COLUMN);
+		    TableColumn tc = tblDetails.getColumnModel().getColumn(record.hexColumn);
 
 		    stdCellHeight   = tblDetails.getRowHeight();
 		    threeLineHeight = (stdCellHeight + 3) * 3;
@@ -191,9 +199,7 @@ implements TableModelListener, TreeModelListener {
 	 * Layout the screen
 	 * @param btnPanel panel of buttons
 	 */
-	public void init_300_setupScreen(JPanel btnPanel) {
-		int preferedWidth = java.lang.Math.min(this.screenSize.width - 2,
-		        fileMaster.isBinaryFile() ? 780 : 615);
+	public void init_300_setupScreen(final boolean changeRow) {
 
 		if (! isTree()) {
 			actualPnl.addLine("Record", lineNum);
@@ -216,14 +222,45 @@ implements TableModelListener, TreeModelListener {
 		        BasePanel.FULL, BasePanel.FULL, new JScrollPane(fullLine));
 		}
 
-		actualPnl.addComponent(1, 5, BasePanel.PREFERRED, BasePanel.GAP,
-		        BasePanel.FULL, BasePanel.FULL, btnPanel);
+		if (changeRow) {
+			setDirectionButtonStatus();
+			actualPnl.addComponent(1, 5, BasePanel.PREFERRED, BasePanel.GAP,
+					BasePanel.FULL, BasePanel.FULL, btnPanel);
+		} else {
+			Common.calcColumnWidths(tblDetails, 0);
 
-		addMainComponent(actualPnl);
-
-		setBounds(getY(), getX(), preferedWidth,
-		        Math.min(getHeight(), this.screenSize.height - 5));
+			int w1 =  84 * SwingUtils.CHAR_WIDTH;
+			int w2 = tblDetails.getPreferredSize().width;
+			if (w2 > 0 && w1 > w2) {
+				w1 = w2;
+			}
+			Dimension d = new Dimension(w1 +  6 * SwingUtils.CHAR_WIDTH, actualPnl.getPreferredSize().height);
+			this.actualPnl.setPreferredSize(d);
+//			System.out.println("@@@  >>> " + w1 + " " + w2 + " " + d.width + this.actualPnl.getPreferredSize().width);
+		}
 	}
+
+
+
+	@Override
+	public void setScreenSize(boolean mainframe) {
+
+		if (mainframe) {
+			DisplayFrame parentFrame = getParentFrame();
+			int preferedWidth = java.lang.Math.min(this.screenSize.width - 2,
+			        (fileMaster.isBinaryFile() ? 111 : 88) * SwingUtils.CHAR_WIDTH );
+
+			parentFrame.bldScreen();
+			parentFrame.setBounds(parentFrame.getY(), parentFrame.getX(), preferedWidth,
+			        Math.min(parentFrame.getHeight(), this.screenSize.height - 5));
+			parentFrame.show();
+			parentFrame.setToMaximum(false);
+			parentFrame.addCloseOnEsc(actualPnl);
+		} else {
+			this.actualPnl.done();
+		}
+	}
+
 
 	/**
 	 * Action performed when frame is closed
@@ -248,8 +285,9 @@ implements TableModelListener, TreeModelListener {
 
 		JTable table = getJTable();
 	    if (table != null) {
-	    	setStandardColumnWidths();
-	    	TableColumn tc =  table.getColumnModel().getColumn(3);
+	    	int col = record.firstDataColumn;
+	    	setStandardColumnWidths(col);
+	    	TableColumn tc =  table.getColumnModel().getColumn(col++);
 
 	        if (cellRenders != null) {
 	        	//System.out.println("BaseLineFrame Rendor 3 ~~> 1 ");
@@ -259,11 +297,11 @@ implements TableModelListener, TreeModelListener {
 	            tc.setCellEditor(new ChooseCellEditor(table, cellEditors));
 	        }
 
-	        tc = table.getColumnModel().getColumn(4);
+	        tc = table.getColumnModel().getColumn(col++);
 	        tc.setPreferredWidth(180);
 
 	        if (fileView != null && fileView.isBinaryFile()) {
-	            tc = table.getColumnModel().getColumn(5);
+	            tc = table.getColumnModel().getColumn(col++);
 	            tc.setPreferredWidth(180);
 	        }
 	    }
@@ -275,7 +313,7 @@ implements TableModelListener, TreeModelListener {
 	 */
 	protected void ap_100_setHexFormat() {
 		JTable table = getJTable();
-	    TableColumn tc = table.getColumnModel().getColumn(LineModel.HEX_COLUMN);
+	    TableColumn tc = table.getColumnModel().getColumn(record.hexColumn);
 
 	    record.setOneLineHex(oneLineHex.isSelected());
 	    if (oneLineHex.isSelected()) {
@@ -367,7 +405,8 @@ implements TableModelListener, TreeModelListener {
 		if (o instanceof AbstractLineNode) {
 			AbstractLineNode n = (AbstractLineNode) o;
 			if (n.getLine() == record.getCurrentLine()) {
-				super.doDefaultCloseAction();
+				getParentFrame().close(this);
+
 				return true;
 			}
 		}

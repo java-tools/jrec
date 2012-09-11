@@ -1,10 +1,15 @@
 package net.sf.RecordEditor.edit.display.models;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.swing.table.AbstractTableModel;
 
+import net.sf.JRecord.Common.BasicKeyedField;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
+import net.sf.JRecord.External.ExternalConversion;
 import net.sf.RecordEditor.re.file.FieldMapping;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.file.GetView;
@@ -16,7 +21,10 @@ public abstract class BaseLineModel
 extends AbstractTableModel
 implements GetView {
 
-	public static final int FIRST_DATA_COLUMN = 3;
+	protected static final int FIRST_DATA_COLUMN = 4;
+
+	public final int firstDataColumn;
+	public final int hexColumn;
 
 //	public abstract void setValueAt(Object val, int row, int col);
 
@@ -28,20 +36,44 @@ implements GetView {
 	private int currentLayout;
 	protected String[] columnName = LangConversion.convertColHeading(
 			"Single_Record",
-			new String[] {"Field", "Start", "Len" , "Data", "Text", "Hex" });
+			new String[] {"Field", "Start", "Len" , "Type", "Data", "Text", "Hex" });
 
 	FieldMapping fieldMapping = null;
 
+	private HashMap<Integer, String> typeNames = new HashMap<Integer, String>(400);
+
 
 	public BaseLineModel(@SuppressWarnings("rawtypes") final FileView file) {
+		this(file, Common.OPTIONS.typeOnRecordScreen.isSelected() ? FIRST_DATA_COLUMN : 3);
+	}
+
+
+	public BaseLineModel(@SuppressWarnings("rawtypes") final FileView file, int dataColumn) {
 		super();
 
 	    fileView = file;
+	    firstDataColumn = dataColumn;
+	    hexColumn = dataColumn + 2;
 
         layout  = file.getLayout();
 
 
         fieldMapping = new FieldMapping(getFieldCounts());
+
+
+        try {
+        	ArrayList<BasicKeyedField> types = ExternalConversion.getTypes(Common.getConnectionIndex());
+        	String tblId = Common.getTblLookupKey(Common.TI_FIELD_TYPE);
+
+			for (BasicKeyedField type : types) {
+				if ( type.name != null && !  type.name.equals(Integer.toString(type.key))) {
+					//System.out.println(type.key + "\t" + type.name + "\t" + LangConversion.convertId(LangConversion.ST_FIELD, tblId + type.key, type.name));
+					typeNames.put(type.key, LangConversion.convertId(LangConversion.ST_FIELD, tblId + type.key, type.name));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -79,31 +111,37 @@ implements GetView {
 		    if (idx >= layout.getRecordCount()) {
 		        if (col == 0) {
 		            return LangConversion.convert("Full Line");
-		        } //else if (col < FIRST_DATA_COLUMN) {
-		      //      return null;
-		      //  }
+		        }
 		    } else if (row == layout.getRecord(idx).getFieldCount()) {
 		    	 if (col == 0) {
 		    		 return LangConversion.convert("Key Value");
 		    	 }
-		    } else if (col == 0) {                  // Selection Button
+			} else if (col < firstDataColumn) { //
 			    int column = getRealRow(row);
-			    return layout.getRecord(getFixedCurrentLayout()).getField(column).getName();
-			} else if (col < FIRST_DATA_COLUMN) { //
-				FieldDetail df = fileView.getLayout().getRecord(idx).getField(getRealRow(row));
+				FieldDetail df = fileView.getLayout().getRecord(idx).getField(column);
 
 				if (df == null) {
 					return null;
-				} else if (col == 1) {
-					return Integer.valueOf(df.getPos());
 				} else {
-					int len = df.getLen();
+					switch (col) {
+					case 0:					return df.getName();
+					case 1:					return Integer.valueOf(df.getPos());
+					case 2:
+						int len = df.getLen();
 
-					if (len == Common.NULL_INTEGER) {
-						return "";
+						if (len < 0) {
+							return "";
+						}
+
+						return Integer.valueOf(df.getLen());
+					default:
+						return typeNames.get(df.getType());
+
+//						System.out.println(" Type: " + df.getType() + " " + typeNames.containsKey(df.getType()) + " " + typeNames.get(df.getType()));
+//						if (typeNames.containsKey(df.getType()))
+//							return typeNames.get(df.getType());
+//						else return df.getType();
 					}
-
-					return Integer.valueOf(df.getLen());
 				}
 			}
             return null;
@@ -244,6 +282,9 @@ implements GetView {
 	 */
 	public String getColumnName(int col) {
 
+		if (col >= firstDataColumn) {
+			return columnName[col - firstDataColumn + FIRST_DATA_COLUMN];
+		}
 		return columnName[col];
 	}
 

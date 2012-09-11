@@ -42,7 +42,6 @@ import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.file.filter.Compare;
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.common.Common;
-
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
@@ -80,6 +79,7 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 			"File Search Direction",
 			new String[] {"Forward", "Backward"});
 
+	private BaseHelpPanel pnl = new BaseHelpPanel("Find");
 
 	private JTextField search      = new JTextField();
 	private JTextField replace     = new JTextField();
@@ -95,7 +95,7 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 
 	private JTextField msgTxt      = new JTextField();
 
-	private FilePosition pos = new FilePosition(SILLY_INT, -SILLY_INT, SILLY_INT, SILLY_INT, true);
+	private FilePosition pos;
 
 
 	private AbstractFileDisplay source;
@@ -103,13 +103,14 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	@SuppressWarnings("rawtypes")
 	private FileView file;
 	private boolean firstTimeDisplayed = true;
+
 	//private int layout;
 
     private KeyAdapter listner = new KeyAdapter() {
         /**
-         * @see java.awt.event.KeyAdapter#keyReleased
+         * @see java.awt.event.KeyAdapter#keyPressed
          */
-        public final void keyReleased(KeyEvent event) {
+        public final void keyPressed(KeyEvent event) {
 
         	switch (event.getKeyCode()) {
         	case KeyEvent.VK_ENTER:		ap_100_find();							break;
@@ -128,10 +129,11 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 		super(master.getFileNameNoDirectory(), "Find",
 				master);
 
+		pos = new FilePosition(SILLY_INT, -SILLY_INT, SILLY_INT, SILLY_INT, true, master.getRowCount());
 		//this.getContentPane().setLayout(null);
 		this.setTitle("Search Screen");
 
-		BaseHelpPanel pnl = new BaseHelpPanel("Find");
+
 
 		pnl.addReKeyListener(listner);
 
@@ -203,6 +205,7 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	 */
 	public void startSearch(@SuppressWarnings("rawtypes") final FileView iFile) {
 		file = iFile;
+		pos.setLineCount(iFile.getRowCount());
 
 		loadFieldList();
 		layoutList.setSelectedIndex(Math.min(source.getLayoutIndex(), layoutList.getItemCount() - 1));
@@ -268,6 +271,7 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	    int func = fieldPart.getSelectedIndex();
 	    //boolean nextField = func < 2;
 	    //System.out.print("--0 " + pos.row + " " + pos.col + "   ");
+
 	    ap_910_setPosition();
 
 //      System.out.print("--1 " + pos.row + " " + pos.currentFieldNumber + " " + pos.col);
@@ -275,12 +279,8 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 //	    System.out.println(" --2 " + pos.row + " " + pos.currentFieldNumber + " " + pos.col);
 
 
-	    file.find(
-	            searchFor,
-				pos,
-				ignoreCase.isSelected(),
-	//			(func == 0) || (func == 2),
-				func);
+		ap_930_runFind(searchFor, func);
+
     	source.setCurrRow(pos);
     	if (pos.currentLine == null && pos.row >= 0) {
  	        msgTxt.setText(LINE_MSG
@@ -291,7 +291,6 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 
     	if (super.getActiveFrame() != this) {
     		setActiveFrame(this);
-
     	}
 		//System.out.println("--3 " + pos.row + " " + pos.col);
 	}
@@ -311,7 +310,8 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 				pos,
 				ignoreCase.isSelected(),
 //				(func == 0) || (func == 2),
-				func);
+				func,
+				true);
 	    if (pos.row >= 0) {
 	        source.setCurrRow(pos);
 	    }
@@ -334,7 +334,8 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 				pos,
 				ignoreCase.isSelected(),
 //				(func == 0) || (func == 2),
-				func );
+				func,
+				true);
 	    if (pos.row >= 0) {
 	        source.setCurrRow(pos);
 	        file.fireTableRowsUpdated(pos.row, pos.row);
@@ -364,19 +365,22 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	        pos.setForward(forward);
 		    pos.setFieldId(fieldId);
 		    pos.recordId = layoutList.getSelectedIndex();
+		    pos.setLineCount(file.getRowCount());
 		    //System.out.println(" >> " + pos.row + " " + pos.currentFieldNumber);
 	    } else if (pos.row == row) {
 	        pos.setAll(Math.max(0, row), Math.max(0, pos.col),
 	                layoutList.getSelectedIndex(),
 	                fieldId,
-	                forward);
+	                forward,
+	                file.getRowCount());
 	    } else {
 	        System.out.println();
 	        System.out.println("==== " + "    00".indexOf("00", 1));
 	        pos.setAll(Math.max(0, row), 0,
 	                layoutList.getSelectedIndex(),
 	                fieldId,
-	                forward);
+	                forward,
+	                file.getRowCount());
 	    }
 	}
 
@@ -390,6 +394,27 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 
         msgTxt.setText(message);
         Common.logMsgRaw(FIND_ERROR + " " + message, null);
+	}
+
+
+	private final void ap_930_runFind(String searchFor, int func) {
+
+
+		try {
+			pnl.removeReKeyListener(listner);
+		    file.find(
+		            searchFor,
+					pos,
+					ignoreCase.isSelected(),
+		//			(func == 0) || (func == 2),
+					func,
+					true);
+		} finally {
+		    pnl.addReKeyListener(listner);
+		}
+
+
+
 	}
 
 

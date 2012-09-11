@@ -15,6 +15,7 @@ public class ReMessages {
 
 	public static final ReMsg BEFORE_FIELD = new ReMsg(LangConversion.ST_ACTION, "Before {0}");
 	public static final ReMsg AFTER_FIELD  = new ReMsg(LangConversion.ST_ACTION, "After {0}");
+	public static final ReMsg EMPTY_VIEW   = new ReMsg(LangConversion.ST_ACTION, "Empty View can not add Child Record");
 
 	public static final ReMsgId EXPORT_DATA_DESC = new ReMsgId("ExportDataDesc",
 						"Export data in native format\n\nChange the tab to change Data format");

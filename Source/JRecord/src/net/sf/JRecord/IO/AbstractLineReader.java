@@ -17,7 +17,6 @@ import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Details.DefaultLineProvider;
 import net.sf.JRecord.Details.LineProvider;
-import net.sf.JRecord.External.ExternalRecord;
 
 
 
@@ -37,6 +36,7 @@ import net.sf.JRecord.External.ExternalRecord;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("rawtypes")
 public abstract class AbstractLineReader<Layout extends AbstractLayoutDetails<? extends FieldDetail, ? extends AbstractRecordDetail>> {
 
     public static final String NOT_OPEN_MESSAGE = "File has not been opened";
@@ -49,7 +49,7 @@ public abstract class AbstractLineReader<Layout extends AbstractLayoutDetails<? 
 	 * create Binary Line Reader
 	 */
 	public AbstractLineReader() {
-	    this((LineProvider<Layout>) new DefaultLineProvider());
+	    this(null);
 	}
 
 

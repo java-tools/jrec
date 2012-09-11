@@ -8,13 +8,13 @@ import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
 
 public abstract class FieldSelect extends ExternalFieldSelection implements RecordSel {
 
-	protected final FieldDetail fieldDetail;
+	//protected final FieldDetail fieldDetail;
+	protected IGetValue getValue;
 
 
-
-	public FieldSelect(String name, String value, String op, FieldDetail fieldDef) {
+	public FieldSelect(String name, String value, String op, IGetValue getValue) {
 		super(name, value, op);
-		fieldDetail = fieldDef;
+		this.getValue = getValue;
 	}
 
 
@@ -54,22 +54,25 @@ public abstract class FieldSelect extends ExternalFieldSelection implements Reco
 
 
 
+	public final boolean isSelected(List<AbstractIndexedLine> lines) {
+		return isSelected(getValue.getValue(lines));
+	}
 
 
 	/* (non-Javadoc)
 	 * @see net.sf.JRecord.Details.Selection.RecordSel#isSelected(net.sf.JRecord.Details.AbstractLine)
 	 */
 	@Override
-	public boolean isSelected(AbstractIndexedLine line) {
-		return false;
+	public final boolean isSelected(AbstractIndexedLine line) {
+		return isSelected(getValue.getValue(line));
 	}
 
-
+	public abstract boolean isSelected(Object value);
 
 	public static class Contains extends FieldSelect {
 
-		protected Contains(String name, String value, FieldDetail fieldDef) {
-			super(name, value, "Contains", fieldDef);
+		protected Contains(String name, String value, IGetValue getValue) {
+			super(name, value, "Contains", getValue);
 		}
 
 
@@ -77,9 +80,8 @@ public abstract class FieldSelect extends ExternalFieldSelection implements Reco
 		 * @see net.sf.JRecord.Details.Selection.RecordSelection#isSelected(net.sf.JRecord.Details.AbstractLine)
 		 */
 		@Override
-		public boolean isSelected(AbstractIndexedLine line) {
+		public boolean isSelected(Object o) {
 
-			Object o = line.getField(fieldDetail);
 			if (super.isCaseSensitive() || o == null) {
 				return  o != null
 					&& (o.toString().indexOf(getFieldValue()) >= 0);
@@ -90,7 +92,7 @@ public abstract class FieldSelect extends ExternalFieldSelection implements Reco
 
 	public static class DoesntContain extends FieldSelect {
 
-		protected DoesntContain(String name, String value, FieldDetail fieldDef) {
+		protected DoesntContain(String name, String value, IGetValue fieldDef) {
 			super(name, value, "Doesnt_Contain", fieldDef);
 		}
 
@@ -100,9 +102,8 @@ public abstract class FieldSelect extends ExternalFieldSelection implements Reco
 		 * @see net.sf.JRecord.Details.Selection.RecordSelection#isSelected(net.sf.JRecord.Details.AbstractLine)
 		 */
 		@Override
-		public boolean isSelected(AbstractIndexedLine line) {
+		public boolean isSelected(Object o ) {
 
-			Object o = line.getField(fieldDetail);
 			if (super.isCaseSensitive() || o == null) {
 				return  o == null
 					|| (o.toString().indexOf(getFieldValue()) < 0);
@@ -113,7 +114,7 @@ public abstract class FieldSelect extends ExternalFieldSelection implements Reco
 
 	public static class StartsWith extends FieldSelect {
 
-		protected StartsWith(String name, String value, FieldDetail fieldDef) {
+		protected StartsWith(String name, String value, IGetValue fieldDef) {
 			super(name, value, "Doesnt_Contain", fieldDef);
 		}
 
@@ -123,9 +124,8 @@ public abstract class FieldSelect extends ExternalFieldSelection implements Reco
 		 * @see net.sf.JRecord.Details.Selection.RecordSelection#isSelected(net.sf.JRecord.Details.AbstractLine)
 		 */
 		@Override
-		public boolean isSelected(AbstractIndexedLine line) {
+		public boolean isSelected(Object o) {
 
-			Object o = line.getField(fieldDetail);
 			if (super.isCaseSensitive() || o == null) {
 				return  o != null
 					&& (o.toString().startsWith(getFieldValue()));
@@ -145,7 +145,7 @@ public abstract class FieldSelect extends ExternalFieldSelection implements Reco
 		 * @see net.sf.JRecord.Details.Selection.RecordSelection#isSelected(net.sf.JRecord.Details.AbstractLine)
 		 */
 		@Override
-		public boolean isSelected(AbstractIndexedLine line) {
+		public boolean isSelected(Object o) {
 
 			return true;
 		}
@@ -155,6 +155,9 @@ public abstract class FieldSelect extends ExternalFieldSelection implements Reco
 	 * @return the fieldDetail
 	 */
 	public FieldDetail getFieldDetail() {
-		return fieldDetail;
+		if (getValue instanceof GetValue) {
+			return ((GetValue) getValue).fieldDetail;
+		}
+		return null;
 	}
 }

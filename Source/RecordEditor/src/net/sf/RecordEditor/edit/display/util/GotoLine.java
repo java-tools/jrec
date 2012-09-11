@@ -13,7 +13,6 @@ import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.re.file.FilePosition;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
-
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -89,7 +88,7 @@ public class GotoLine extends ReFrame implements ActionListener {
 					pnl.setMessageTxt("line number must be > 0");
 					return;
 				}
-				FilePosition position = new FilePosition(lineNo-1, 0, source.getLayoutIndex(), 0, true);
+				FilePosition position = new FilePosition(lineNo-1, 0, source.getLayoutIndex(), 0, true, source.getFileView().getRowCount());
 
 				source.setCurrRow(position);
 

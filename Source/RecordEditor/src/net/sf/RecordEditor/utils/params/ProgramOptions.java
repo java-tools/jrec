@@ -43,7 +43,10 @@ public class ProgramOptions {
 		}
 
 	};
+
+	public final BoolOpt showRecordEditorTips = new BoolOpt(Parameters.SHOW_RECORDEDITOR_TIPS, true);
 	public final BoolOpt logToFront = new BoolOpt(Parameters.BRING_LOG_TO_FRONT);
+
 	public final BoolOpt loadInBackgroundThread = new BoolOpt(Parameters.PROPERTY_LOAD_FILE_BACKGROUND);
 	public final BoolOpt asterixInFileName = new BoolOpt(Parameters.ASTERIX_IN_FILE_NAME);
 	public final BoolOpt useBigFixedModel  = new BoolOpt(Parameters.PROPERTY_BIG_FILE_USE_SPECIAL_FIXED_MODEL);
@@ -53,6 +56,8 @@ public class ProgramOptions {
 
 	public final BoolOpt csvSearchFixed = new BoolOpt(Parameters.CSV_LOOK_4_FIXED_WIDTH);
 	public final BoolOpt useFileWizard  = new BoolOpt(Parameters.USE_FILE_WIZARD);
+	public final BoolOpt useSeperateScreens  = new BoolOpt(Parameters.SEPERATE_WINDOWS);
+	public final BoolOpt typeOnRecordScreen  = new BoolOpt(Parameters.INCLUDE_TYPE_NAME, true);
 
 	public final UpdateableBoolOpt highlightEmpty = new UpdateableBoolOpt(Parameters.PROPERTY_HIGHLIGHT_EMPTY);
 	public final InternalBoolOption highlightEmptyActive = new InternalBoolOption(false);
@@ -119,6 +124,13 @@ public class ProgramOptions {
 		public UpdateableBoolOpt(String value) {
 			super("Y".equalsIgnoreCase(Parameters.getString(value)));
 			param = value;
+		}
+
+		public UpdateableBoolOpt(String value, Boolean def) {
+			this(value);
+			if (def) {
+				Parameters.setDefaultTrue(value);
+			}
 		}
 
 		public void set(boolean newVal) {

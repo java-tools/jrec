@@ -18,9 +18,7 @@ package net.sf.RecordEditor.diff;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.util.ArrayList;
-
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -28,14 +26,13 @@ import javax.swing.JTable;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.TableModelEvent;
-
 import javax.swing.table.TableCellRenderer;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
-
+import net.sf.RecordEditor.edit.display.LineFrame;
+import net.sf.RecordEditor.edit.display.LineList;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
-
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;

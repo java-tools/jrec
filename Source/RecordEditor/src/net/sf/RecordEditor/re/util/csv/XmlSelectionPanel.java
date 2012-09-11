@@ -23,7 +23,6 @@ import net.sf.RecordEditor.re.tree.AbstractLineNodeTreeParser;
 import net.sf.RecordEditor.re.tree.LineTreeTabelModel;
 import net.sf.RecordEditor.re.tree.TreeParserXml;
 import net.sf.RecordEditor.utils.common.Common;
-
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;

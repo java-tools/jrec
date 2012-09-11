@@ -5,22 +5,16 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
 
-
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
-
 import javax.swing.event.TableModelEvent;
-
 import javax.swing.tree.TreePath;
-
 
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
-
-//import net.sf.RecordEditor.edit.tree.LineNodeXmlParser;
-
 import net.sf.RecordEditor.re.file.AbstractLineNode;
 import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.re.tree.AbstractLineNodeTreeParser;
 import net.sf.RecordEditor.re.tree.LineNode;
 import net.sf.RecordEditor.re.tree.TreeToXml;
@@ -34,7 +28,7 @@ public class LineTree extends BaseLineTree<LineNode> {
 	private AbstractLineNodeTreeParser parser;
 
 
-	public LineTree(@SuppressWarnings("rawtypes") FileView viewOfFile, AbstractLineNodeTreeParser treeParser,
+	protected LineTree(@SuppressWarnings("rawtypes") FileView viewOfFile, AbstractLineNodeTreeParser treeParser,
 			boolean mainView, final int columnsToSkip) {
 		super(viewOfFile, mainView, false, columnsToSkip, NO_OPTION_PANEL);
 
@@ -634,6 +628,18 @@ public class LineTree extends BaseLineTree<LineNode> {
 		 }
 	 }
 
+
+		/* (non-Javadoc)
+		 * @see net.sf.RecordEditor.edit.display.AbstractRowChangedImplementor#getChildScreen()
+		 */
+		@Override
+		public AbstractFileDisplay createChildScreen(int pos) {
+			LineFrame f = new LineFrame("ChildRecord:", super.fileView, Math.max(0, getCurrRow()), false);
+
+			setChildScreen(f);
+
+			return f;
+		}
 
 	 /*	public static void main(final String[] pgmArgs) {
 		String fn = "/home/knoppix/RecordEdit/HSQLDB/SampleFiles/Xml/IVM0034_Map.XML";

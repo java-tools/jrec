@@ -35,6 +35,8 @@
 	</mapping>
 	<mapping name="layout" class="net.sf.RecordEditor.jibx.compare.Layout">
 		<value style="attribute" name="name" field="name"/>
+		<value style="attribute" name="groupHeader" field="groupHeader" usage="optional"/>
+		<value style="attribute" name="booleanOperator" field="booleanOperator" usage="optional"/>
 		<collection field="records"  usage="optional"/>
 	</mapping>
 	<mapping name="record" class="net.sf.RecordEditor.jibx.compare.Record">

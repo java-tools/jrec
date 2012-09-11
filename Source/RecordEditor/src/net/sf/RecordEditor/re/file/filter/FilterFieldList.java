@@ -33,6 +33,8 @@ import net.sf.RecordEditor.utils.lang.LangConversion;
 @SuppressWarnings("serial")
 public class FilterFieldList extends AbstractTableModel {
 
+	private static FieldSelect TRUE_SELECT = FieldSelectX.getTrueSelection();
+
     private static final String[] FIELD_FILTER_COLUMN_HEADINGS =
     		LangConversion.convertColHeading(
     				"Filter Selecton Field Values",
@@ -104,6 +106,11 @@ public class FilterFieldList extends AbstractTableModel {
     	return recSel[layoutIdx];
     }
 
+    public boolean isSelectionTests(int layoutIdx) {
+    	buildRecordSelections();
+    	return recSel[layoutIdx] != TRUE_SELECT;
+    }
+
     public void setRecordSelection(int layoutIdx, RecordSel rSel) {
 
     	buildRecordSelections();
@@ -114,14 +121,12 @@ public class FilterFieldList extends AbstractTableModel {
     private void buildRecordSelections() {
 
        	if (recSel == null) {
-    		FieldSelect trueSel = FieldSelectX.getTrueSelection();
-    		RecordSel rsel;
     		FilterField ff;
     		RecordSelectionBuilder b;
 
     		recSel = new RecordSel[layout.getRecordCount()];
     		for (int i = 0; i < recSel.length; i++) {
-    			recSel[i] = trueSel;
+    			recSel[i] = TRUE_SELECT;
     			b = null;
     			if (filterFields != null && filterFields[i] != null) {
 	    			for (int j = 0; j < filterFields[i].length; j++) {

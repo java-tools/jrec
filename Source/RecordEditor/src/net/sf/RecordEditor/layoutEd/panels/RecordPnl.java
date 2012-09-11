@@ -61,7 +61,6 @@ import net.sf.RecordEditor.utils.edit.ManagerRowList;
 import net.sf.RecordEditor.utils.jdbc.AbsRecord;
 import net.sf.RecordEditor.utils.jdbc.DBComboModel;
 import net.sf.RecordEditor.utils.jdbc.DBtableModel;
-
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.ReAction;
@@ -143,7 +142,7 @@ public class RecordPnl extends BaseHelpPanel
 	private JPanel optionPnl   = new JPanel();
 
 	private JButton btnRefresh = SwingUtils.newButton("Refresh");
-	private JButton btnHelp    = Common.getHelpButton();
+	private JButton btnHelp    = SwingUtils.getHelpButton();
 
 	private JButton prevBtn;
 	private JButton nextBtn;

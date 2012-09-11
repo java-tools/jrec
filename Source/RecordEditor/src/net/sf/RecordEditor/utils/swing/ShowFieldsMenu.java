@@ -36,7 +36,7 @@ public abstract class ShowFieldsMenu {
     	if ((idx = s.indexOf('|')) >= 0) {
     		s = s.substring(idx + 1);
     	}
-    	System.out.println("Hide: " + s + " " + col + " " + colDefinition.getModelIndex());
+    	//System.out.println("Hide: " + s + " " + col + " " + colDefinition.getModelIndex());
     	new ShowFieldAction(s, colDefinition, col);
     }
 
@@ -53,15 +53,15 @@ public abstract class ShowFieldsMenu {
 
 	public void addjustHiddenColumns(int tblPos, int amount, int origColumn) {
 		for (ShowFieldAction action : hiddenColumns) {
-			System.out.print(" ==> " + action.insertColumn + " " + tblPos
-					+ " ~ " + amount);
+//			System.out.print(" ==> " + action.insertColumn + " " + tblPos
+//					+ " ~ " + amount);
 			if (action.insertColumn > tblPos
 			|| (	action.insertColumn == tblPos
 				&& action.colDef.getModelIndex() > origColumn)) {
 				action.insertColumn += amount;
 			}
-			System.out.println(" ==> " + action.insertColumn + " " + action.colDef.getHeaderValue()
-					+ " %% " + action.colDef.getModelIndex() + " > " + origColumn);
+//			System.out.println(" ==> " + action.insertColumn + " " + action.colDef.getHeaderValue()
+//					+ " %% " + action.colDef.getModelIndex() + " > " + origColumn);
 		}
 	}
 

@@ -78,7 +78,7 @@ public abstract class BasicRecordDetail<FieldDefinition extends FieldDetail,
 	public void setParentRecordIndex(int parentRecordIndex) {
 		parentRecordIdx = parentRecordIndex;
 	}
-	
+
 	public int getChildRecordCount() {
 		if (childRecords == null) {
 			return 0;
@@ -88,5 +88,9 @@ public abstract class BasicRecordDetail<FieldDefinition extends FieldDetail,
 
 	public ChildDtls getChildRecord(int idx) {
 		return childRecords[idx];
+	}
+
+	public int getOption(int option) {
+		return Options.UNKNOWN;
 	}
 }

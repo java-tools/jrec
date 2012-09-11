@@ -87,6 +87,7 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String FORMAT_NUMBER_PREFIX    = "FormatNumber.";
     public static final String FORMAT_NAME_PREFIX      = "FormatName.";
 
+    public static final String SHOW_RECORDEDITOR_TIPS  ="showRecordEditorTips";
     public static final String BRING_LOG_TO_FRONT      = "LogToFront";
     public static final String PREFERED_AS_DEFAULT      = "PreferedAsDefault";
     public static final String WARN_BINARY_FIELDS_DEFAULT      = "WarnBinFieldsAndDefault";
@@ -154,8 +155,10 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String SHOW_ALL_EXPORT_OPTIONS = "AllExportOptions";
     public static final String NAME_FIELDS = "NameFields";
     public static final String SPECIAL_FIND_BTN_NAME = "useAltFindName";
-   public static final String LOG_TEXT_FIELDS = "LogText";
+    public static final String LOG_TEXT_FIELDS = "LogText";
     public static final String HIGHLIGHT_MISSING_TRANSLATIONS = "FlagMissingTranslations";
+    public static final String SEPERATE_WINDOWS  = "SepWindows";
+    public static final String INCLUDE_TYPE_NAME = "IncTypeName";
 
     public static final String DEL_SELECTED_WITH_DEL_KEY = "DeleteSelectedWithDelKey";
     public static final String WARN_WHEN_USING_DEL_KEY   = "WarnWithDelKey";
@@ -287,7 +290,8 @@ public final class Parameters implements ExternalReferenceConstants {
     		systemJarFileDirectory = getLibDirectory();
 
     		if (systemJarFileDirectory == null || "".equals(systemJarFileDirectory)) {
-    			systemJarFileDirectory = "C:\\Program Files\\RecordEdit\\MSaccess\\lib";
+    			systemJarFileDirectory = "C:\\JavaPrograms\\RecordEdit\\HSQL\\lib";
+    			//systemJarFileDirectory = "C:\\Program Files\\RecordEdit\\MSaccess\\lib";
     			//jarListFileDirectory = "/media/sda1/Bruces/Work/RecordEditParams";
     			//jarListFileDirectory = "/home/knoppix/RecordEdit/HSQLDB/lib";
     			//systemJarFileDirectory = "/media/sdc1/RecordEditor/USB/lib";
@@ -498,6 +502,7 @@ public final class Parameters implements ExternalReferenceConstants {
         String ret = name;
         String lcName = name.toLowerCase();
         String reprops = getPropertiesDirectory();
+        String bd;
 
         if (baseDirectory == null) {
             getDirectories();
@@ -506,9 +511,9 @@ public final class Parameters implements ExternalReferenceConstants {
         if (! "".equals(getLibDirectory())
         && lcName.startsWith(getLibDirectory().toLowerCase())) {
             ret = "<lib>"   + name.substring(getLibDirectory().length());
-        } else if ((! "".equals(getBaseDirectory()))
-               && lcName.startsWith(getBaseDirectory().toLowerCase())) {
-            ret = "<install>" + name.substring(getBaseDirectory().length());
+        } else if ((! "".equals((bd = getBaseDirectory())))
+               && lcName.startsWith(bd.toLowerCase())) {
+            ret = "<install>" + name.substring(bd.length());
         } else if ((! "".equals(USER_HOME)) && (USER_HOME != null)
                && lcName.startsWith(USER_HOME)) {
             ret = "<home>" + name.substring(USER_HOME.length());

@@ -50,7 +50,7 @@ public class MenuInternalLayout extends ReFrame
 	private JButton fromFileBtn = new JButton("*");
 	private JButton compare 	= new JButton("*");
 
-	private JButton btnHelp     = Common.getHelpButton();
+	private JButton btnHelp     = SwingUtils.getHelpButton();
 
 	private BaseHelpPanel pnl   = new BaseHelpPanel();
 

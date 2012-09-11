@@ -13,10 +13,10 @@ import javax.swing.JDialog;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
-import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.DelegateReader;
 import net.sf.JRecord.IO.LineIOProvider;

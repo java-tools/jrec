@@ -20,7 +20,6 @@ import java.util.ArrayList;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JCheckBox;
-
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;

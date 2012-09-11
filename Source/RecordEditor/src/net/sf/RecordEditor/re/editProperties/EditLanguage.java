@@ -127,12 +127,14 @@ public class EditLanguage extends BasePanel {
 			 */
 			@Override
 			public void focusLost(FocusEvent e) {
+
 				params.setProperty(
 						Parameters.LANG_DIRECTORY,
-						Parameters.encodeVars(langDirFchooser.getText()));
+						langDirFchooser.getText());
 				params.propertiesChanged = true;
 
-				lastLangDir = langDirFchooser.getText();
+				//lastLangDir = langDirFchooser.getText();
+				System.out.println("Focus Lost ... get Languages");
 				getLanguages();
 			}
 	   });

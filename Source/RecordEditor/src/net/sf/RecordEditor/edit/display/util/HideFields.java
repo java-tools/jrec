@@ -18,10 +18,8 @@ import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.RecordEditor.edit.display.common.AbstractFieldSequencePnl;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
-
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
-
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;

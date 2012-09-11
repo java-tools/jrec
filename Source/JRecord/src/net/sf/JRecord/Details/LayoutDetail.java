@@ -31,30 +31,30 @@ import net.sf.JRecord.Types.TypeManager;
 
 
 /**
- * This class represents a <b>record-layout</b> description. i.e. 
+ * This class represents a <b>record-layout</b> description. i.e.
  * It describes the Structure of both a File and the lines in it.
  * <p>A <b>Layout</b> can have
  * one or more <b>Records</b> (class RecordDetail) which intern
  * holds one or more <b>fields</b> (class FieldDetail).
- * 
+ *
  * <pre>
  *     LayoutDetail  - Describes a file
  *       |
  *       +----- RecordDetail (1 or More) - Describes one record in the file
  *                |
- *                +------  FieldDetail (1 or More)  - Describes one field in the file 
+ *                +------  FieldDetail (1 or More)  - Describes one field in the file
  * </pre>
- * 
+ *
  * <p>There are several ways to load a RecordLayout
  * <pre>
  * <b>Loading an RecordEditor-XML:</b>
  *          LayoutDetail layout = CopybookLoaderFactory.getInstance().getLayoutRecordEditXml(copybookName, null);
- * 
+ *
  * <b>Using the Loader Factory CopybookLoaderFactory:</b>
  *          CopybookLoader loader = CopybookLoaderFactory.getInstance()
  *                  .getLoader(CopybookLoaderFactory.RECORD_EDITOR_XML_LOADER);
  *          LayoutDetail layout = loader.loadCopyBook(copybookName, 0, 0, "", 0, 0, null).asLayoutDetail();
- * 
+ *
  * <b>Creating the loader:</b>
  *          CopybookLoader loader = new RecordEditorXmlLoader();
  *          LayoutDetail layout = loader.loadCopyBook(copybookName, 0, 0, "", 0, 0, null).asLayoutDetail();
@@ -93,13 +93,14 @@ extends BasicLayout<FieldDetail, RecordDetail> {
 	private int fileStructure;
 
 	private int recordCount, lineNumberOfFieldNames = 1;
-	
+
 	private boolean treeStructure = false;
-	
+
 	private boolean allowChildren =false;
 	private boolean fixedLength = true;
 	private boolean useThisLayout = false;
 
+	private Object extraDetails = null;
 
 	/**
 	 * This class holds a one or more records
@@ -186,12 +187,12 @@ extends BasicLayout<FieldDetail, RecordDetail> {
 	    for (j = 0; j < recordCount; j++) {
 	    	if (pRecords[j] != null && pRecords[j].getFieldCount() > 0) {
 	    		if ((lastSize >= 0 && lastSize != pRecords[j].getLength())
-	    		||  (pRecords[j].getField(pRecords[j].getFieldCount() - 1).getType() 
+	    		||  (pRecords[j].getField(pRecords[j].getFieldCount() - 1).getType()
 	    				== Type.ftCharRestOfRecord )){
 	    			fixedLength = false;
 	    		}
 	    		lastSize = pRecords[j].getLength();
-	    		
+
 		    	treeStructure = treeStructure || (pRecords[j].getParentRecordIndex() >= 0);
 		        if ((pRecords[j].getRecordType() == Constants.rtDelimitedAndQuote
 		          || pRecords[j].getRecordType() == Constants.rtDelimited)
@@ -323,7 +324,15 @@ extends BasicLayout<FieldDetail, RecordDetail> {
     }
 
 
-    /* (non-Javadoc)
+    /**
+	 * @param fontName the fontName to set
+	 */
+	public void setFontName(String fontName) {
+		this.fontName = fontName;
+	}
+
+
+	/* (non-Javadoc)
 	 * @see net.sf.JRecord.Details.AbstractLineDetails#getEolString()
 	 */
     public String getEolString() {
@@ -383,34 +392,34 @@ extends BasicLayout<FieldDetail, RecordDetail> {
         if (isBinCSV()) {
         	//System.out.print(" 3 ");
         	String value = (new BinaryCsvParser(delimiter)).getValue(record, field);
-        	
+
         	return formatField(field,  type, value);
-        } else {	        
+        } else {
 	        return formatCsvField(field,  type, Conversion.toString(record, field.getFontName()));
         }
     }
-    
+
     public final Object formatCsvField(FieldDetail field,  int type, String value) {
         AbstractParser parser = ParserManager.getInstance().get(field.getRecord().getRecordStyle());
-        String val = parser.getField(field.getPos() - 1, 
-        		value, 
+        String val = parser.getField(field.getPos() - 1,
+        		value,
         		delimiter, field.getQuote());
-        
+
         return formatField(field,  type, val);
     }
-    
-    
+
+
     private Object formatField(FieldDetail field,  int type, String value) {
-        
+
         //System.out.print(" ~ " + delimiter + " ~ " + new String(record));
 
         if (value != null && ! "".equals(value)) {
-        	byte[] rec = Conversion.getBytes(value, field.getFontName()); 
+        	byte[] rec = Conversion.getBytes(value, field.getFontName());
             FieldDetail fldDef
         		= new FieldDetail(field.getName(), "", type,
         		        		   field.getDecimal(), field.getFontName(),
         		        		   field.getFormat(), field.getParamater());
-   
+
             fldDef.setRecord(field.getRecord());
 
             fldDef.setPosLen(1, rec.length);
@@ -425,7 +434,7 @@ extends BasicLayout<FieldDetail, RecordDetail> {
 					          fldDef);
         }
         //System.out.println();
-        
+
         return "";
     }
 
@@ -479,12 +488,12 @@ extends BasicLayout<FieldDetail, RecordDetail> {
             } else if (value instanceof String) {
             	s = typeVal.formatValueForRecord(field, (String) value);
             } else if (typeVal instanceof ISizeInformation){
-            	byte[] data = new byte[((ISizeInformation) typeVal).getNormalSize()]; 
+            	byte[] data = new byte[((ISizeInformation) typeVal).getNormalSize()];
                 FieldDetail fldDef
             		= new FieldDetail(field.getName(), "", type,
             		        		   field.getDecimal(), field.getFontName(),
             		        		   field.getFormat(), field.getParamater());
-       
+
                 fldDef.setRecord(field.getRecord());
 
                 fldDef.setPosLen(1, data.length);
@@ -498,11 +507,11 @@ extends BasicLayout<FieldDetail, RecordDetail> {
             if  (isBinCSV()) {
              	record = (new BinaryCsvParser(delimiter)).updateValue(record, field, s);
             } else {
-	            String newLine = parser.setField(field.getPos() - 1, 
+	            String newLine = parser.setField(field.getPos() - 1,
 	            		typeVal.getFieldType(),
-	            		Conversion.toString(record, font), 
+	            		Conversion.toString(record, font),
 	            		delimiter, field.getQuote(), s);
-	
+
 	            record = Conversion.getBytes(newLine, font);
             }
         }
@@ -552,7 +561,7 @@ extends BasicLayout<FieldDetail, RecordDetail> {
        	    		records[i].setNumberOfFieldsAdded(0);
       			}
        		}
-    		
+
     	}
 
     	if (fieldNameMap.containsKey(key)) {
@@ -587,7 +596,7 @@ extends BasicLayout<FieldDetail, RecordDetail> {
     	}
         return ret;
     }
-  
+
 
     /**
      * set the delimiter
@@ -634,7 +643,7 @@ extends BasicLayout<FieldDetail, RecordDetail> {
 	    }
 	    return ret;
     }
-    
+
     /* (non-Javadoc)
 	 * @see net.sf.JRecord.Details.AbstractLineDetails#getUnAdjFieldNumber(int, int)
 	 */
@@ -665,7 +674,7 @@ extends BasicLayout<FieldDetail, RecordDetail> {
         return fileStructure == Constants.IO_XML_USE_LAYOUT
             || fileStructure == Constants.IO_XML_BUILD_LAYOUT;
     }
-    
+
     /* (non-Javadoc)
 	 * @see net.sf.JRecord.Details.AbstractLineDetails#isOkToAddAttributes()
 	 */
@@ -688,7 +697,7 @@ extends BasicLayout<FieldDetail, RecordDetail> {
 	public final boolean hasTreeStructure() {
 		return treeStructure;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.sf.JRecord.Details.AbstractLineDetails#isBinCSV()
 	 */
@@ -766,6 +775,22 @@ extends BasicLayout<FieldDetail, RecordDetail> {
 
 
 	/**
+	 * @return the extraDetails
+	 */
+	public Object getExtraDetails() {
+		return extraDetails;
+	}
+
+
+	/**
+	 * @param extraDetails the extraDetails to set
+	 */
+	public void setExtraDetails(Object extraDetails) {
+		this.extraDetails = extraDetails;
+	}
+
+
+	/**
 	 * @return the useThisLayout
 	 */
 	public boolean useThisLayout() {
@@ -779,6 +804,6 @@ extends BasicLayout<FieldDetail, RecordDetail> {
 	public void setUseThisLayout(boolean useThisLayout) {
 		this.useThisLayout = useThisLayout;
 	}
-}	
+}
 
 

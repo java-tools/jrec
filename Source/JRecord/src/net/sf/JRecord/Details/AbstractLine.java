@@ -15,24 +15,24 @@ import net.sf.JRecord.Common.RecordException;
  * Interface to represent one Line in a file. Used through out JRecord / RecordEditor
  *
  * <p>The one important method is getFieldValue
- * 
+ *
  * <p>Creating:
  * <pre>
  *              AbstractLine outLine = <font color="brown"><b>new</b></font> Line(oLayout);
  *     or
  *              AbstractLine outLine = <font color="brown"><b>new</b></font> XmlLine(oLayout, recordIdx);
  * </pre>
- * 
+ *
  * <p>Getting a field value:
  * <pre>
  * 	            <font color="brown"><b>long</b></font> sku = saleRecord.getFieldValue("<font color="blue"><b>KEYCODE-NO</b></font>").asLong();
  * </pre>
- * 
+ *
  * <p>Updating a field:
  * <pre>
  * 	            saleRecord.getFieldValue("<font color="blue"><b>KEYCODE-NO</b></font>").set(1331);
  * </pre>
- * 
+ *
  * @author Bruce Martin
  *
  */
@@ -83,12 +83,6 @@ public interface AbstractLine<Layout extends AbstractLayoutDetails> extends Abst
      */
     public abstract byte[] getFieldBytes(final int recordIdx, final int fieldIdx);
 
-    /**
-     * Get the Preferred Record Layout Index for this record
-     *
-     * @return Index of the Record Layout based on the Values
-     */
-    public abstract int getPreferredLayoutIdx();
 
     /**
      * Get the Preferred Record Layout Index for this record (alternate method)
@@ -96,8 +90,8 @@ public interface AbstractLine<Layout extends AbstractLayoutDetails> extends Abst
      * @return Index of the Record Layout based on the Values
      */
     public abstract int getPreferredLayoutIdxAlt();
-    
-     
+
+
     /**
      * Get the byte value for a specified position and length
      * @param start starting position
@@ -123,8 +117,8 @@ public interface AbstractLine<Layout extends AbstractLayoutDetails> extends Abst
      * @param newVal new value for the line
      */
     public abstract void setData(byte[] newVal);
-    
-    
+
+
    /**
      * @see java.lang.Object#clone()
      */
@@ -190,7 +184,7 @@ public interface AbstractLine<Layout extends AbstractLayoutDetails> extends Abst
      * @param value value to be applied to the field
      *
      * @throws RecordException any conversion error
-    * 
+    *
      * @deprecated use getFieldValue(..).set
      */
     public abstract void setField(String fieldName, Object value)
@@ -199,7 +193,7 @@ public interface AbstractLine<Layout extends AbstractLayoutDetails> extends Abst
     /**
      * Set the field with a Text value - ie update the field
      * without using any formatting
-     * 
+     *
      * @param recordIdx record layout
      * @param fieldIdx field number in the record
      * @param value new value
@@ -217,8 +211,8 @@ public interface AbstractLine<Layout extends AbstractLayoutDetails> extends Abst
      */
     public abstract String setFieldHex(final int recordIdx, final int fieldIdx,
             String val) throws RecordException;
-    
-    
+
+
     /**
      * Get Tree Details. This method should always return something even if it is a Null
      * implementation that does nothing (NullTreeDtls)
@@ -226,9 +220,9 @@ public interface AbstractLine<Layout extends AbstractLayoutDetails> extends Abst
      * @return lines children
      */
     public <X extends AbstractTreeDetails> X getTreeDetails();
- 
+
     public <L extends AbstractLine> L getNewDataLine();
-	
+
     /**
      * Test if Tree rebuild is required
      */

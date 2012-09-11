@@ -33,15 +33,14 @@ import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.text.DefaultEditorKit;
 
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Log.ScreenLog;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
-
 import net.sf.RecordEditor.utils.lang.BasicTrans;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
@@ -144,6 +143,7 @@ public class ReMainFrame extends JFrame
 	= newAction(ReActionHandler.PRINT_SELECTED);
 
 
+
 	private final ReActionActiveScreen copyRecords
 		= newAction(ReActionHandler.COPY_RECORD);
 	private final ReActionActiveScreen cutRecords
@@ -212,8 +212,7 @@ public class ReMainFrame extends JFrame
 	 * @param helpName help file name
 	 */
 	private void init_100_Frame(String helpName) {
-
-		if (Common.OPTIONS.logToFront.isSelected()) {
+			if (Common.OPTIONS.logToFront.isSelected()) {
 			log = new ScreenLog(logFrame) {
 				public void logMsg(int level, String msg) {
 					super.logMsg(level, msg);
@@ -252,7 +251,6 @@ public class ReMainFrame extends JFrame
 	    ReFrame.addFocusChangedListner(this);
 
 	    desktop.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
-
 	}
 
 	/**
@@ -344,6 +342,33 @@ public class ReMainFrame extends JFrame
 	    }
 	}
 
+
+	protected final void runInitClass(String className, String errorMsg) {
+        if (className != null && ! "".equals(className)) {
+            try {
+                @SuppressWarnings("rawtypes")
+				Class c = ClassLoader.getSystemClassLoader().loadClass(className);
+                if (c != null) {
+                	c.newInstance();
+                } else if (errorMsg != null) {
+                    Common.logMsg(
+                    		AbsSSLogger.ERROR,
+                    		errorMsg,
+                            null,
+                            null);
+                }
+            } catch (Exception e) {
+            	 if (errorMsg != null) {
+            		 Common.logMsg(
+            				 AbsSSLogger.ERROR,
+            				 errorMsg,
+            				 e.getMessage(),
+            				 null);
+            	 }
+            }
+        }
+
+	}
 
 
 	/**
@@ -493,10 +518,6 @@ public class ReMainFrame extends JFrame
 		JMenu helpMenu = SwingUtils.newMenu("Help");
 
 		helpMenu.add(helpAction);
-		helpMenu.add(
-				new showURI(
-						"RecordEditor Manual",
-						(new File(Common.formatHelpURL("RecordEdit.htm").substring(5))).toURI()));
 
 		addWebsitesToHelpMenu(helpMenu);
 
@@ -538,6 +559,10 @@ public class ReMainFrame extends JFrame
 	protected void addWebsitesToHelpMenu(JMenu helpMenu) {
 
 		try {
+			helpMenu.add(
+					new showURI(
+							"RecordEditor Manual",
+							(new File(Common.formatHelpURL("RecordEdit.htm").substring(5))).toURI()));
 			helpMenu.addSeparator();
 			helpMenu.add(new showURI("RecordEditor Web Page", new URI("http://record-editor.sourceforge.net/")));
 			helpMenu.add(new showURI("RecordEditor Forum", new URI("https://sourceforge.net/projects/record-editor/forums")));
@@ -620,6 +645,7 @@ public class ReMainFrame extends JFrame
 	    }
 	    //toolbar.add(new JToolBar.Separator());
 	    toolBar.addSeparator(seperatorSize);
+	    toolBar.add(insertRecords);
 	    toolBar.add(copyRecords);
 	    toolBar.add(cutRecords);
 	    toolBar.add(pasteRecords);
@@ -775,11 +801,8 @@ public class ReMainFrame extends JFrame
         String frameId = newFrame.getFrameId();
         //JMenuItem menuItem = newWinAction(frameId, newFrame);
 
-        int itemCount = windowMenu.getItemCount();
-        if (itemCount > 1) {
-        	windowMenu.remove(itemCount - 1);
-        	windowMenu.remove(itemCount - 2);
-        }
+        removeSpecificMenus();
+
         if (isDocument) {
             if (datafileItemMap.containsKey(newFrame.getDocument())) {
                 m = datafileItemMap.get(newFrame.getDocument());
@@ -789,7 +812,6 @@ public class ReMainFrame extends JFrame
         } else {
             for (i = 0; cont && (i < windowList.size()); i++) {
                 m =  windowList.get(i);
-
 
                 if ((m.getText() != null) && m.getText().equals(name)) {
                     cont = false;
@@ -817,8 +839,26 @@ public class ReMainFrame extends JFrame
             }
         }
 
-        windowMenu.addSeparator();
-        windowMenu.add(close);
+        addSpecificWindows(windowMenu, close);
+    }
+
+    protected void removeSpecificMenus() {
+    	removeSpecificMenus(2);
+    }
+
+    protected void removeSpecificMenus(int count) {
+    	int itemCount = windowMenu.getItemCount();
+        if (itemCount > count - 1) {
+        	for (int i = 1; i <= count; i++) {
+        		windowMenu.remove(itemCount - i);
+        	}
+        }
+
+    }
+
+    protected void addSpecificWindows(JMenu winMenu, ReAction closeAction) {
+        winMenu.addSeparator();
+        winMenu.add(closeAction);
     }
 
 

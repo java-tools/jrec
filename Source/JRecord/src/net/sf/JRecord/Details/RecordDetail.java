@@ -8,7 +8,6 @@
  */
 package net.sf.JRecord.Details;
 
-import net.sf.JRecord.Common.AbstractRecord;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Types.TypeManager;
@@ -20,14 +19,14 @@ import net.sf.JRecord.detailsSelection.FieldSelectX;
 /**
  * This class holds a Record Description. A <b>Record</b> consists of
  * one ore more <b>Fields</b> (Class FieldDetail). The class is used by
- * {@link LayoutDetail}. Each LayoutDetail holds one or more RecordDetail's 
- * 
+ * {@link LayoutDetail}. Each LayoutDetail holds one or more RecordDetail's
+ *
  * <pre>
  *     LayoutDetail  - Describes a file
  *       |
  *       +----- RecordDetail (1 or More) - Describes one record in the file
  *                |
- *                +------  FieldDetail (1 or More)  - Describes one field in the file 
+ *                +------  FieldDetail (1 or More)  - Describes one field in the file
  * </pre>
  *
  * @param pRecordName  Record Name
@@ -57,16 +56,16 @@ implements AbstractRecordDetail<FieldDetail> {
 	//private String selectionField;
 	//private String selectionValue;
 	private RecordSelection recordSelection = new RecordSelection(this);
-	
+
 	private String delimiter;
 	private int    length = 0;
 	private String fontName;
 	private String quote;
-	
+
 	private int    recordStyle;
-	
+
 	private int    numberOfFieldsAdded = 0;
-	
+
 	private int    childId=0;
 	//private int editorStatus = STATUS_UNKOWN;
 
@@ -98,7 +97,7 @@ implements AbstractRecordDetail<FieldDetail> {
 			 pQuote, pFontName, pFields, pRecordStyle, childId);
 
 		if (!"".equals(pSelectionField)) {
-			recordSelection.setRecSel(FieldSelectX.get(pSelectionField, pSelectionValue, "=", getField(pSelectionField)));	
+			recordSelection.setRecSel(FieldSelectX.get(pSelectionField, pSelectionValue, "=", -1, getField(pSelectionField)));
 		}
 	}
 
@@ -232,7 +231,7 @@ implements AbstractRecordDetail<FieldDetail> {
 		 return getFieldIndex(recordSelection.getFirstField().getFieldName());
 	}
 
-//	
+//
 //	/**
 //	 * @see net.sf.JRecord.Details.AbstractRecordDetail#getSelectionField()
 //	 */ @Deprecated
@@ -244,13 +243,13 @@ implements AbstractRecordDetail<FieldDetail> {
 //	}
 
 
-	/* (non-Javadoc) 
+	/* (non-Javadoc)
 	 * @see net.sf.JRecord.Details.AbstractRecordDetail#setSelectionField(net.sf.JRecord.Common.FieldDetail)
 	 */ @Deprecated
 	public final void setSelectionField(FieldDetail newSelectionField) {
-		 
-		 recordSelection.setRecSel( 
-				 FieldSelectX.get(newSelectionField.getName(), getSelectionValue(), "=", newSelectionField));
+
+		 recordSelection.setRecSel(
+				 FieldSelectX.get(newSelectionField.getName(), getSelectionValue(), "=", -1, newSelectionField));
 	}
 
 
@@ -368,7 +367,7 @@ implements AbstractRecordDetail<FieldDetail> {
 	protected final void setNumberOfFieldsAdded(int numberOfFieldsAdded) {
 		this.numberOfFieldsAdded = numberOfFieldsAdded;
 	}
-	
+
 	public final static String convertFieldDelim(String pDelim) {
 		String delimiter = pDelim;
 		if ((pDelim == null) || (pDelim.trim().equalsIgnoreCase("<tab>"))) {
@@ -392,5 +391,14 @@ implements AbstractRecordDetail<FieldDetail> {
 	 */
 	public int getChildId() {
 		return childId;
+	}
+
+	@Override
+	public int getOption(int option) {
+		switch (option) {
+		case Options.OPT_SELECTION_PRESENT:
+			return Options.getValue(recordSelection != null);
+		}
+		return Options.UNKNOWN;
 	}
 }

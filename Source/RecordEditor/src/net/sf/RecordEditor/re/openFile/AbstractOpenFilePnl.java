@@ -40,7 +40,6 @@ import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
-
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
@@ -181,7 +180,7 @@ implements FocusListener, StartActionInterface {
 		//BaseHelpPanel pnl = this;
 		addReKeyListener(listner);
 
-		addHelpBtn(Common.getHelpButton());
+		addHelpBtn(SwingUtils.getHelpButton());
 		setHelpURL(Common.formatHelpURL(helpScreen));
 		//G:\RecordEdit_Prj\Docs\hlpRE_RecordMain.htm
 	}

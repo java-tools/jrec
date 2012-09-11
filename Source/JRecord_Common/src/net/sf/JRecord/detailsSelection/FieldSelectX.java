@@ -1,12 +1,12 @@
 package net.sf.JRecord.detailsSelection;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import net.sf.JRecord.Common.AbstractIndexedLine;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
-import net.sf.JRecord.Types.TypeManager;
 
 public abstract class FieldSelectX extends FieldSelect {
 	public static final String STARTS_WITH  = Constants.STARTS_WITH;
@@ -23,20 +23,28 @@ public abstract class FieldSelectX extends FieldSelect {
 	public static final String TEXT_LT = Constants.TEXT_LT;
 	public static final String TEXT_LE = Constants.TEXT_LE;
 
+	public static final int G_FIRST  = GetValue.GT_FIRST;
+	public static final int G_LAST   = GetValue.GT_LAST;
+	public static final int G_MAX    = GetValue.GT_MAX;
+	public static final int G_MIN    = GetValue.GT_MIN;
+	public static final int G_SUM    = GetValue.GT_SUM;
+	public static final int G_ANY_OF = GetValue.GT_MAXIMUM_ID + 1;
+	public static final int G_ALL    = GetValue.GT_MAXIMUM_ID + 2;
+
 	private boolean numeric;
 	protected BigDecimal num;
 
-	public FieldSelectX(String name, String value, String op, FieldDetail fieldDef) {
+	public FieldSelectX(String name, String value, String op, IGetValue fieldDef) {
 		this(	name, value, op,
-				fieldDef != null && TypeManager.getInstance().getType(fieldDef.getType()).isNumeric(),
+				fieldDef.isNumeric(),
 				fieldDef);
 	}
 
-	public FieldSelectX(String name, String value, String op, boolean isNumeric, FieldDetail fieldDef) {
+	public FieldSelectX(String name, String value, String op, boolean isNumeric, IGetValue fieldDef) {
 		super(name, value, op, fieldDef);
 		BigDecimal d = null;
 
-		if (fieldDetail == null) {
+		if (getValue == null) {
 			numeric = false;
 		} else {
 			numeric = isNumeric;
@@ -48,7 +56,7 @@ public abstract class FieldSelectX extends FieldSelect {
 		num = d;
 	}
 	public static FieldSelect get(ExternalFieldSelection fs, FieldDetail fieldDef) {
-		return get(fs.getFieldName(), fs.getFieldValue(), fs.getOperator(), fieldDef);
+		return get(fs.getFieldName(), fs.getFieldValue(), fs.getOperator(), -1, fieldDef);
 	}
 
 //	public static FieldSelect get(String name, String value, String op, FieldDetail fieldDef) {
@@ -70,7 +78,29 @@ public abstract class FieldSelectX extends FieldSelect {
 //		return ret;
 //	}
 
+	public static RecordSel get(String name, String value, String op, int groupId, int recordIdx, FieldDetail fieldDef) {
+		switch (groupId) {
+		case G_ALL:
+		case G_ANY_OF:
+			return new AnyAllOf(get(name, value, op, recordIdx, fieldDef), groupId == G_ANY_OF);
+		default:
+			GetValue g = GetValue.get(groupId, fieldDef, recordIdx);
+			if (g != null) {
+				return get(name, value, op, g);
+			}
+		}
+		throw new RuntimeException("No valid grouping function !!!");
+	}
+
 	public static FieldSelect get(String name, String value, String op, FieldDetail fieldDef) {
+		return get(name, value, op, new GetValue.FieldValue(fieldDef, -1));
+	}
+
+	public static FieldSelect get(String name, String value, String op, int recordIdx, FieldDetail fieldDef) {
+		return get(name, value, op, new GetValue.FieldValue(fieldDef, recordIdx));
+	}
+
+	public static FieldSelect get(String name, String value, String op, IGetValue fieldDef) {
 		FieldSelect ret ;
 		if (op != null) {
 			op = op.trim();
@@ -112,7 +142,11 @@ public abstract class FieldSelectX extends FieldSelect {
 		return new FieldSelect.TrueSelect();
 	}
 
-	private static FieldSelectX getBasic(String name, String value, String op, FieldDetail fieldDef) {
+//	private static FieldSelectX getBasic(String name, String value, String op, int recordIdx, FieldDetail fieldDef) {
+//		return getBasic(name, value, op, new GetValue.FieldGetValue(fieldDef, recordIdx));
+//	}
+
+	private static FieldSelectX getBasic(String name, String value, String op, IGetValue fieldDef) {
 		FieldSelectX ret = null;
 		if ("=".equals(op)) {
 			ret = new FieldSelectX.EqualsSelect(name, value, fieldDef);
@@ -131,9 +165,8 @@ public abstract class FieldSelectX extends FieldSelect {
 		return ret;
 	}
 
-	protected final int compare(AbstractIndexedLine line, int defaultVal) {
+	protected final int compare(Object o, int defaultVal) {
 		int res = defaultVal;
-		Object o = line.getField(fieldDetail);
 		if (o == null) return Constants.NULL_INTEGER;
 		if (numeric) {
 			if (o instanceof BigDecimal) {
@@ -181,7 +214,7 @@ public abstract class FieldSelectX extends FieldSelect {
 
 	public static final class GreaterThan extends FieldSelectX {
 		private int cmpTo = 0;
-		private GreaterThan(String name, String value, String op, FieldDetail fieldDef) {
+		private GreaterThan(String name, String value, String op, IGetValue fieldDef) {
 			super(name, value, op, fieldDef);
 
 			if (">".equals(op)) {
@@ -193,14 +226,14 @@ public abstract class FieldSelectX extends FieldSelect {
 		 * @see net.sf.JRecord.Details.Selection.RecordSelection#isSelected(net.sf.JRecord.Details.AbstractLine)
 		 */
 		@Override
-		public boolean isSelected(AbstractIndexedLine line) {
-			 return compare(line, -2) >= cmpTo;
+		public boolean isSelected(Object value) {
+			 return compare(value, -2) >= cmpTo;
 		}
 	}
 
 	public static final class LessThan extends FieldSelectX {
 		private int cmpTo = 0;
-		private LessThan(String name, String value, String op, FieldDetail fieldDef) {
+		private LessThan(String name, String value, String op, IGetValue fieldDef) {
 			super(name, value, op, fieldDef);
 
 			if ("<".equals(op)) {
@@ -212,8 +245,8 @@ public abstract class FieldSelectX extends FieldSelect {
 		 * @see net.sf.JRecord.Details.Selection.RecordSelection#isSelected(net.sf.JRecord.Details.AbstractLine)
 		 */
 		@Override
-		public boolean isSelected(AbstractIndexedLine line) {
-			int cmp = compare(line, 2);
+		public boolean isSelected(Object value) {
+			int cmp = compare(value, 2);
 			return  cmp <= cmpTo && cmp != Constants.NULL_INTEGER;
 		}
 	}
@@ -221,7 +254,7 @@ public abstract class FieldSelectX extends FieldSelect {
 
 	public static class EqualsSelect extends FieldSelectX {
 
-		protected EqualsSelect(String name, String value, FieldDetail fieldDef) {
+		protected EqualsSelect(String name, String value, IGetValue fieldDef) {
 			super(name, value, "=", fieldDef);
 		}
 
@@ -231,14 +264,14 @@ public abstract class FieldSelectX extends FieldSelect {
 		 * @see net.sf.JRecord.Details.Selection.RecordSelection#isSelected(net.sf.JRecord.Details.AbstractLine)
 		 */
 		@Override
-		public boolean isSelected(AbstractIndexedLine line) {
-			return compare(line, 2) == 0;
+		public boolean isSelected(Object value) {
+			return compare(value, 2) == 0;
 		}
 	}
 
 	public static class NotEqualsSelect extends FieldSelectX {
 
-		protected NotEqualsSelect(String name, String value, FieldDetail fieldDef) {
+		protected NotEqualsSelect(String name, String value, IGetValue fieldDef) {
 			super(name, value, "!=", fieldDef);
 		}
 
@@ -248,9 +281,91 @@ public abstract class FieldSelectX extends FieldSelect {
 		 * @see net.sf.JRecord.Details.Selection.RecordSelection#isSelected(net.sf.JRecord.Details.AbstractLine)
 		 */
 		@Override
-		public boolean isSelected(AbstractIndexedLine line) {
+		public boolean isSelected(Object value) {
 
-			return compare(line, 0) != 0;		}
+			return compare(value, 0) != 0;		}
+	}
+
+	public static abstract class DelagteRecordSel implements RecordSel {
+		private final RecordSel childSel;
+
+
+
+		public DelagteRecordSel(RecordSel childSel) {
+			super();
+			this.childSel = childSel;
+		}
+
+		/* (non-Javadoc)
+		 * @see net.sf.JRecord.ExternalRecordSelection.ExternalSelection#getType()
+		 */
+		@Override
+		public int getType() {
+			return childSel.getType();
+		}
+
+		/* (non-Javadoc)
+		 * @see net.sf.JRecord.ExternalRecordSelection.ExternalSelection#getElementCount()
+		 */
+		@Override
+		public int getElementCount() {
+			return childSel.getElementCount();
+		}
+
+		/* (non-Javadoc)
+		 * @see net.sf.JRecord.detailsSelection.RecordSel#isSelected(net.sf.JRecord.Common.AbstractIndexedLine)
+		 */
+		@Override
+		public boolean isSelected(AbstractIndexedLine line) {
+			return childSel.isSelected(line);
+		}
+
+		/* (non-Javadoc)
+		 * @see net.sf.JRecord.detailsSelection.RecordSel#getFirstField()
+		 */
+		@Override
+		public FieldSelect getFirstField() {
+			return childSel.getFirstField();
+		}
+
+		/* (non-Javadoc)
+		 * @see net.sf.JRecord.detailsSelection.RecordSel#getAllFields(java.util.List)
+		 */
+		@Override
+		public void getAllFields(List<FieldSelect> fields) {
+			childSel.getAllFields(fields);
+		}
+
+		/* (non-Javadoc)
+		 * @see net.sf.JRecord.detailsSelection.RecordSel#getSize()
+		 */
+		@Override
+		public int getSize() {
+			return childSel.getSize();
+		}
+	}
+
+	public static class AnyAllOf extends DelagteRecordSel {
+		private final boolean anyOf;
+		public AnyAllOf(RecordSel childSel, boolean any) {
+			super(childSel);
+
+			anyOf = any;
+		}
+
+		/* (non-Javadoc)
+		 * @see net.sf.JRecord.detailsSelection.RecordSel#isSelected(java.util.List)
+		 */
+		@Override
+		public boolean isSelected(List<AbstractIndexedLine> lines) {
+			for (AbstractIndexedLine l : lines) {
+				if (isSelected(l) == anyOf) {
+					return anyOf;
+				}
+			}
+
+			return ! anyOf;
+		}
 	}
 
 }

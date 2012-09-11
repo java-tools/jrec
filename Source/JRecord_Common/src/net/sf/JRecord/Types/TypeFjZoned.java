@@ -122,7 +122,7 @@ public class TypeFjZoned extends TypeNum {
         String sign = "";
         char lastChar;
 
-        if (numZoned == null || numZoned.equals("") || numZoned.equals("-")) {
+        if (numZoned == null || numZoned.trim().equals("") || numZoned.trim().equals("-")) {
             // throw ...
             return "";
         }

@@ -84,6 +84,8 @@ public class TypeNum extends TypeChar {
         ||  (typeId == Type.ftNumZeroPadded)) {
             padChar = "0";
         }
+
+        couldBeLong = typeId != Type.ftNumLeftJustified;
     }
 
 

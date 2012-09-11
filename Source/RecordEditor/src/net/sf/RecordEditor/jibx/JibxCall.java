@@ -2,7 +2,6 @@ package net.sf.RecordEditor.jibx;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.HashMap;
 
 public class JibxCall<xmlClass> {
 	

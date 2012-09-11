@@ -20,7 +20,6 @@ import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.jdbc.DBComboModel;
 import net.sf.RecordEditor.utils.jdbc.DBtableModel;
 import net.sf.RecordEditor.utils.lang.LangConversion;
-
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.AbsJTable;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;

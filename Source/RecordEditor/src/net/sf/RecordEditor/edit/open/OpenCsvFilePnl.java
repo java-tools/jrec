@@ -7,7 +7,6 @@ import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
-import java.io.FileInputStream;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -32,6 +31,7 @@ import net.sf.RecordEditor.re.util.csv.CsvSelectionPanel;
 import net.sf.RecordEditor.re.util.csv.CsvTabPane;
 import net.sf.RecordEditor.re.util.csv.FilePreview;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -177,7 +177,7 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 
 		go.setIcon(Common.getRecordIcon(Common.ID_OPEN_ICON));
 
-		go.setText("Edit");
+		go.setText(LangConversion.convert(LangConversion.ST_BUTTON, "Edit"));
 		go.addActionListener(goAction);
 	}
 

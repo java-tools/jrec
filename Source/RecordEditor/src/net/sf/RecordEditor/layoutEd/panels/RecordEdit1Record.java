@@ -17,7 +17,6 @@ package net.sf.RecordEditor.layoutEd.panels;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.event.InternalFrameAdapter;
@@ -28,8 +27,8 @@ import net.sf.RecordEditor.re.db.Record.ExtendedRecordDB;
 import net.sf.RecordEditor.re.db.Record.RecordDB;
 import net.sf.RecordEditor.re.db.Record.RecordRec;
 import net.sf.RecordEditor.re.db.Record.SaveRecordAsXml;
-import net.sf.RecordEditor.utils.LayoutConnectionAction;
 import net.sf.RecordEditor.utils.LayoutConnection;
+import net.sf.RecordEditor.utils.LayoutConnectionAction;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.common.ReActionHandlerWithSave;

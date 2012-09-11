@@ -5,12 +5,10 @@ import java.awt.event.ActionEvent;
 import net.sf.RecordEditor.edit.display.util.ChangeLayout;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelectCreator;
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
-import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
-import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
 @SuppressWarnings("serial")
-public class ChangeLayoutAction extends ReAbstractAction implements AbstractActiveScreenAction {
+public class ChangeLayoutAction extends ReSpecificScreenAction implements AbstractActiveScreenAction {
 
 	private AbstractLayoutSelectCreator<?> creator;
 
@@ -29,16 +27,14 @@ public class ChangeLayoutAction extends ReAbstractAction implements AbstractActi
 	 */
 	@Override
 	public void checkActionEnabled() {
-		ReFrame actionHandler = ReFrame.getActiveFrame();
-
-		super.setEnabled(actionHandler != null && actionHandler instanceof AbstractFileDisplay);
+		super.setEnabled(getDisplay(AbstractFileDisplay.class) != null);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		ReFrame actionHandler = ReFrame.getActiveFrame();
-		if (actionHandler instanceof AbstractFileDisplay) {
-			new ChangeLayout(creator.create(), ((AbstractFileDisplay) actionHandler).getFileView());
+		AbstractFileDisplay sourcePnl = getDisplay(AbstractFileDisplay.class);
+		if (sourcePnl != null) {
+			new ChangeLayout(creator.create(), sourcePnl.getFileView());
 		}
 	}
 }

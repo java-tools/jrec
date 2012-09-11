@@ -7,7 +7,6 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
 import net.sf.RecordEditor.utils.jdbc.DBComboModel;
 import net.sf.RecordEditor.utils.jdbc.DBList;
-//import net.sf.RecordEditor.utils.jdbc.AbsRecord;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 
 
@@ -29,7 +28,6 @@ import net.sf.RecordEditor.utils.lang.LangConversion;
 
 public final class TableDB  extends AbsDB<TableRec> {
 
-  private static String[] TABLE_NAMES = {"", "FieldType", "RecordType", "System", "FileStructure", "Format"};
   private static final String[] COLUMN_NAMES = LangConversion.convertColHeading(
 			"DB-Table Columns",
 			new String[] {
@@ -198,7 +196,6 @@ public final class TableDB  extends AbsDB<TableRec> {
   }
 
   public static String getTblLookupKey(int tblId) {
-	  return "Tbl_" + TABLE_NAMES[tblId] + "_";
+	  return Common.getTblLookupKey(tblId);
   }
-
 }

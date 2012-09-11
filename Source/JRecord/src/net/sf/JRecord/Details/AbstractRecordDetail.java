@@ -4,7 +4,7 @@ import net.sf.JRecord.Common.AbstractRecordX;
 import net.sf.JRecord.Common.FieldDetail;
 
 
-public interface AbstractRecordDetail<FieldDefinition extends FieldDetail> 
+public interface AbstractRecordDetail<FieldDefinition extends FieldDetail>
 extends AbstractRecordX<FieldDefinition> {
 
 	/**
@@ -31,14 +31,14 @@ extends AbstractRecordX<FieldDefinition> {
 	 */
 	public abstract void setSelectionField(FieldDefinition newSelectionField);
 
-	/**
-	 * This method returns a value to be compared with the selection field.
-	 * If the Selection field is equals this value, it is assumed that this
-	 * record Layout should be used to display the line
-	 *
-	 * @return Selection Value
-	 */
-	public abstract String getSelectionValue();
+//	/**
+//	 * This method returns a value to be compared with the selection field.
+//	 * If the Selection field is equals this value, it is assumed that this
+//	 * record Layout should be used to display the line
+//	 *
+//	 * @return Selection Value
+//	 */
+//	public abstract String getSelectionValue();
 
 	/**
 	 * Get the Record Type
@@ -71,7 +71,7 @@ extends AbstractRecordX<FieldDefinition> {
 	public abstract boolean isBinary(int fldNum);
 
 //	/**
-//	 * Check if field is numeric 
+//	 * Check if field is numeric
 //	 * @param fldNum field to check
 //	 * @return wether it is numeric or not
 //	 */
@@ -142,17 +142,24 @@ extends AbstractRecordX<FieldDefinition> {
 	 * @return
 	 */
 	public int getChildRecordCount();
-	
+
 	/**
 	 * Get Child Record Definition
 	 * @param idx Child Index
 	 * @return Child record Definition
 	 */
 	public AbstractChildDetails<? extends AbstractRecordDetail<FieldDefinition>> getChildRecord(int idx);
-	
+
+	/**
+	 * Get option value - generic test
+	 * @param option option to test
+	 * @return value of option
+	 */
+	public abstract int getOption(int option);
+
 //	/**
 //	 * @return the sourceIndex
-//	 * 
+//	 *
 //	 *  @see net.sf.JRecord.Common.AbstractRecord#getSourceIndex()
 //	 */
 //	public abstract int getSourceIndex();

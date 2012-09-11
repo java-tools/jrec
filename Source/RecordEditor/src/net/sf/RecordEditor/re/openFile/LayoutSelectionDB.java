@@ -19,7 +19,6 @@ import net.sf.RecordEditor.utils.CopyBookInterface;
 import net.sf.RecordEditor.utils.LayoutItem;
 import net.sf.RecordEditor.utils.SystemItem;
 import net.sf.RecordEditor.utils.common.Common;
-
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;

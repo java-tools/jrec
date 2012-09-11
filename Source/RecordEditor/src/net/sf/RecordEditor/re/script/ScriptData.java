@@ -138,7 +138,7 @@ public class ScriptData {
 			} else if ("m".equalsIgnoreCase(type)) {
 				Conversion.replace(b, "\\", "\\\\");
 				Conversion.replace(b, "\"", "\\\"");
-				Conversion.replace(b, "\n", "\"\n\"");
+				Conversion.replace(b, "\n", "\\n\"\n\"");
 				Conversion.replace(b, "<br>", "<br>\"\n\"");
 				Conversion.replace(b, "<br/>", "<br/>\"\n\"");
 				Conversion.replace(b, "<p>", "\"\n\"<p>");

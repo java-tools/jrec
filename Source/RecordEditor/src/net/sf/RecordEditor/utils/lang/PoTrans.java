@@ -16,11 +16,22 @@ public class PoTrans extends BasicTrans {
 	private HashMap<String, String> trans = new HashMap<String, String>(1500);
 
 	protected PoTrans(File f) throws IOException {
-		BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(f), "UTF8"));
+		PoHeader poh = PoUtil.parsePOHeader(f);
+		BufferedReader r;
 		String l;
 		String lookup = null;
 		StringBuilder b = null;
 		int mode = NORMAL_MODE;
+
+		if (poh.font.equals("")) {
+			 r = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
+		} else {
+			 try {
+				r = new BufferedReader(new InputStreamReader(new FileInputStream(f), poh.font));
+			} catch (Exception e) {
+				r = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
+			}
+		}
 
 		try {
 			while ((l = r.readLine()) != null) {

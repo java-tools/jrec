@@ -15,20 +15,25 @@
  */
 package net.sf.RecordEditor.edit.display;
 
+import java.awt.Component;
+import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.event.InternalFrameAdapter;
-import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.JTableHeader;
@@ -53,6 +58,7 @@ import net.sf.RecordEditor.edit.display.util.GotoLine;
 import net.sf.RecordEditor.edit.display.util.OptionPnl;
 import net.sf.RecordEditor.edit.display.util.Search;
 import net.sf.RecordEditor.edit.display.util.SortFrame;
+import net.sf.RecordEditor.edit.open.DisplayBuilderFactory;
 import net.sf.RecordEditor.edit.util.ReMessages;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
 import net.sf.RecordEditor.re.file.AbstractLineNode;
@@ -63,6 +69,8 @@ import net.sf.RecordEditor.re.file.filter.ExecuteSavedFile;
 import net.sf.RecordEditor.re.file.filter.FilterDetails;
 import net.sf.RecordEditor.re.jrecord.types.RecordFormats;
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
+import net.sf.RecordEditor.re.script.IDisplayBuilder;
+import net.sf.RecordEditor.re.script.IDisplayFrame;
 import net.sf.RecordEditor.re.tree.ChildTreeToXml;
 import net.sf.RecordEditor.re.tree.TreeParserRecord;
 import net.sf.RecordEditor.re.tree.TreeParserXml;
@@ -72,11 +80,11 @@ import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.lang.ReOptionDialog;
 import net.sf.RecordEditor.utils.params.Parameters;
-import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.LayoutCombo;
 import net.sf.RecordEditor.utils.swing.StandardRendor;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 
@@ -97,8 +105,8 @@ import net.sf.RecordEditor.utils.swing.StandardRendor;
  * @version 0.56
  */
 @SuppressWarnings("serial")
-public abstract class BaseDisplay extends ReFrame
-implements AbstractFileDisplay, ILayoutChanged {
+public abstract class BaseDisplay
+implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 
 //	private static ArrayList<Class> classList = new ArrayList<Class>();
 //	private static ArrayList<TableCellRenderer> renderList = new ArrayList<TableCellRenderer>();
@@ -115,7 +123,17 @@ implements AbstractFileDisplay, ILayoutChanged {
 	protected static final int NO_OPTION_PANEL = 1;
 	protected static final int STD_OPTION_PANEL = 2;
 	protected static final int TREE_OPTION_PANEL = 3;
+	protected static final int NO_LAYOUT_LINE = 4;
+
+	protected static final IDisplayBuilder DisplayBldr = DisplayBuilderFactory.getInstance();
+
+	public static final int NO_CHILD_FRAME = 1;
+	public static final int CHILD_FRAME_RIGHT = 2;
+	public static final int CHILD_FRAME_BOTTOM = 2;
 	//private int displayOpt = STD_OPTION_PANEL;
+
+	public final String formType;
+	public final boolean primary;
 
 	private Search searchScreen;
 
@@ -144,6 +162,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 
 	private   int maxHeight = -1;
 	protected int[] widths;
+	private IDisplayChangeListner changeListner = null;
 
 	private RecordFormats[] displayDetails = null;
 	protected TableCellEditor[] cellEditors;
@@ -155,6 +174,9 @@ implements AbstractFileDisplay, ILayoutChanged {
 
 	private boolean copyHiddenFields = false;
 
+	private DisplayFrame parentFrame;
+
+	private MouseListener dockingPopup = null;
 
 	private KeyAdapter listner = new KeyAdapter() {
     	private long lastWhen = -121;
@@ -223,7 +245,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	 * @param masterfile internal representation of a File
 	 * @param primary wether the screen is a primary screen
 	 */
-	public BaseDisplay(final String formType,
+	protected BaseDisplay(final String formType,
 					   final FileView viewOfFile,
 	        		   final boolean primary,
 	        		   final boolean addFullLine,
@@ -231,21 +253,26 @@ implements AbstractFileDisplay, ILayoutChanged {
 	        		   final boolean prefered,
 	        		   final boolean hex,
 	        		   final int option ) {
-		super(viewOfFile.getBaseFile().getFileNameNoDirectory(), formType, viewOfFile.getBaseFile());
-		this.setPrimaryView(primary);
+		//super(viewOfFile.getBaseFile().getFileNameNoDirectory(), formType, viewOfFile.getBaseFile());
+		//this.setPrimaryView(primary);
 
 		fileView   = viewOfFile;
+		this.formType = formType;
+		this.primary = primary;
 		//displayOpt = option;
 
 		init(addFullLine, fullList, prefered, hex);
 		//fullLineIndex = layoutCombo.getFullLineIndex();
 
-		if (option == NO_OPTION_PANEL) {
+		switch (option) {
+		case NO_LAYOUT_LINE:
+			break;
+		case NO_OPTION_PANEL:
 			actualPnl.addLine("Layouts", getLayoutCombo());
-		} else {
+			break;
+		default:
 			int opt = fileView.isBrowse() ? OptionPnl.BROWSE_PANEL
 					 : OptionPnl.EDIT_PANEL;
-
 
 			actualPnl.addComponent3Lines("Layouts", getLayoutCombo(), new OptionPnl(opt, this));
 		}
@@ -277,75 +304,41 @@ implements AbstractFileDisplay, ILayoutChanged {
 		//pnl.setHeight(Math.max(25, iconHeight + 8));
 
 
-		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-
-//		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-	    this.addInternalFrameListener(new InternalFrameAdapter() {
-//	        public void internalFrameClosed(final InternalFrameEvent e) {
-//	            closeWindow();
-//	        }
-            public void internalFrameClosing(InternalFrameEvent e)  {
-                 windowClosingCheck();
-            }
-	    });
+//		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+//
+////		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+//
+//	    this.addInternalFrameListener(new InternalFrameAdapter() {
+////	        public void internalFrameClosed(final InternalFrameEvent e) {
+////	            closeWindow();
+////	        }
+//            public void internalFrameClosing(InternalFrameEvent e)  {
+//                 windowClosingCheck();
+//            }
+//	    });
 
 	    fileView.addTableModelListener(layoutChangeListner);
 
 	}
 
 
-	protected final void initToolTips() {
+	protected final void initToolTips(int colsToSkip) {
 
-        toolTips = new HeaderToolTips(tblDetails.getColumnModel());
+        toolTips = new HeaderToolTips(tblDetails.getColumnModel(), colsToSkip);
         tblDetails.setTableHeader(toolTips);
 	}
 
-	/**
-	 *
-	 * Check if changes to be saved
-	 */
-	public void windowClosingCheck() {
-		boolean doClose = true;
-		if (super.isPrimaryView()) {
-			ReFrame[] allFrames = ReFrame.getAllFrames();
-			//System.out.println("closeWindow " + this.getName());
 
-			for (int i = allFrames.length - 1; i >= 0; i--) {
-				if (allFrames[i].getDocument() == fileMaster
-						&& (allFrames[i] != this)) {
-					allFrames[i].reClose();
-				}
-			}
-
-			if (fileMaster != null && fileMaster.isChanged() && fileMaster.isSaveAvailable()) {
-				int result = JOptionPane.showConfirmDialog(
-						null,
-						ReMessages.SAVE_CHANGES.get(),
-						//LangConversion.convert(LangConversion.ST_MESSAGE, "Save changes"),
-						ReMessages.SAVE_CHANGES_FILE.get(fileMaster.getFileName()),
-						//LangConversion.convert("Save Changes to file: {0}", fileMaster.getFileName()),
-						JOptionPane.YES_NO_OPTION);
-
-				if (result == JOptionPane.YES_OPTION) {
-					doClose = saveFile();
-				}
-			}
-
-			if (fileView != null && doClose && fileMaster.isSaveAvailable()) {
-				fileView.clear();
-			}
+	public void doClose() {
+		AbstractFileDisplay child = getChildScreen();
+		if (child != null) {
+			child.doClose();
 		}
-
-		if (doClose) {
-			if (fileView != null) {
-				fileView.removeTableModelListener(layoutChangeListner);
-			}
-			closeWindow();
-			layoutCombo.removeActionListener(layoutListner);
-			super.dispose();
+		if (fileView != null) {
+			fileView.removeTableModelListener(layoutChangeListner);
 		}
-		//super.windowClosing();
+		closeWindow();
+		layoutCombo.removeActionListener(layoutListner);
 	}
 	/**
 	 * Close a window
@@ -365,21 +358,6 @@ implements AbstractFileDisplay, ILayoutChanged {
 			fileMaster = null;
 		} catch (Exception ex) {
 		}
-	}
-
-	@Override
-	public void reClose() {
-
-		if (fileView != null) {
-			closeWindow();
-
-			if (fileView == fileMaster && super.isPrimaryView()) {
-				fileView.clear();
-			}
-			fileView = null;
-
-		}
-		super.reClose();
 	}
 
 
@@ -447,7 +425,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 		try {
 			switch (action) {
 			case ReActionHandler.FIND:						searchScreen.startSearch(fileView);		break;
-			case ReActionHandler.FILTER:					new FilterFrame(fileView);				break;
+			case ReActionHandler.FILTER:					new FilterFrame(parentFrame, fileView);	break;
 			case ReActionHandler.COMPARE_WITH_DISK:			compareWithDisk();						break;
 			case ReActionHandler.EXECUTE_SAVED_FILTER:		executeSavedFilter();					break;
 			case ReActionHandler.EXECUTE_SAVED_SORT_TREE:	executeSavedSortTree();					break;
@@ -461,6 +439,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 
 				if (selRows != null && selRows.length > 0) {
 					BaseDisplay bd = getNewDisplay(fileView.getView(selRows));
+					DisplayBuilder.addToScreen(parentFrame, bd);
 					copyVisibility(bd);
 					bd.layoutCombo.setSelectedIndex(layoutCombo.getSelectedIndex());
 				}
@@ -471,13 +450,13 @@ implements AbstractFileDisplay, ILayoutChanged {
 			case ReActionHandler.BUILD_LAYOUT_TREE: {
 	        	TreeParserRecord parser = new TreeParserRecord(executeAction_100_getParent());
 
-	            new LineTree(this.fileView, parser, false, 0);
+	        	DisplayBuilderFactory.newLineTree(parentFrame, this.fileView, parser, false, 0);
 			} break;
 			case ReActionHandler.BUILD_LAYOUT_TREE_SELECTED:
 			   if (getSelectedRowCount() > 0) {
 	        	  TreeParserRecord parser = new TreeParserRecord(executeAction_100_getParent());
 
-	              new LineTree(this.fileView.getView(getSelectedRows()), parser, false, 0);
+	        	  DisplayBuilderFactory.newLineTree(parentFrame, this.fileView.getView(getSelectedRows()), parser, false, 0);
 			   }
 			break;
 			case ReActionHandler.BUILD_XML_TREE_SELECTED:	createXmlTreeView();               break;
@@ -558,10 +537,11 @@ implements AbstractFileDisplay, ILayoutChanged {
 
 				if (selRowsP != null && selRowsP.length > 0) {
 					try {
-						BaseDisplay bd = getNewDisplay(fileView.getView(selRowsP));
+						BaseDisplay bdisp = getNewDisplay(fileView.getView(selRowsP));
+						DisplayFrame bd = new DisplayFrame(bdisp);
 						//JTable t = bd.tblDetails;
-						bd.layoutCombo.setSelectedIndex(layoutCombo.getSelectedIndex());
-						copyVisibility(bd);
+						bdisp.layoutCombo.setSelectedIndex(layoutCombo.getSelectedIndex());
+						copyVisibility(bdisp);
 						bd.setVisible(true);
 						bd.setVisible(false);
 						bd.executeAction(ReActionHandler.PRINT);
@@ -605,6 +585,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 
 	}
 
+	@Override
 	public void insertLine(int adj) {
 		if (fileMaster.getTreeTableNotify() == null) {
 			insertLine_100_FlatFile(adj);
@@ -684,7 +665,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 					newLine = insertLine_230_CreateChild(l, children.get(0), -1);
 				} else {
 					AbstractChildDetails resp = (AbstractChildDetails) ReOptionDialog.showInputDialog(
-						this, "Select the Record to Insert", "Record Selection", JOptionPane.QUESTION_MESSAGE, null,
+							parentFrame, "Select the Record to Insert", "Record Selection", JOptionPane.QUESTION_MESSAGE, null,
 						children.toArray(), children.get(0));
 
 					if (resp != null) {
@@ -699,7 +680,9 @@ implements AbstractFileDisplay, ILayoutChanged {
 				}
 			}
 			if (newLine != null) {
-				new LineFrameTree(fileView, newLine);
+				//DisplayBuilder.newLineFrameTree(parentFrame, fileView, newLine);
+				DisplayBldr.newDisplay(
+						IDisplayBuilder.ST_RECORD_TREE, "", parentFrame, fileView.getLayout(), fileView, newLine);
 			}
 		}
 	}
@@ -788,21 +771,20 @@ implements AbstractFileDisplay, ILayoutChanged {
 	private void executeSavedFilter() {
 		AbstractExecute<EditorTask> action = new AbstractExecute<EditorTask>() {
 			public void execute(EditorTask details) {
-				FilterDetails filter = new FilterDetails(layout);
+				FilterDetails filter = new FilterDetails(layout, true);
 
 				filter.updateFromExternalLayout(details.filter);
 		    	FileView view = fileView.getFilteredView(filter);
 		    	if (view == null) {
 		    		Common.logMsg("No records matched the filter", null);
 		    	} else {
-		    		new LineList(layout, view, fileView.getBaseFile());
+		    		DisplayBuilderFactory.newLineList(parentFrame, layout, view, fileView.getBaseFile());
 		    	}
 			}
 
 			public void executeDialog(EditorTask details) {
-				(new FilterFrame(fileView)).getFilter()
+				(new FilterFrame(parentFrame, fileView))
 						.updateFromExternalLayout(details.filter);
-
 			}
 		};
 
@@ -996,7 +978,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 		int[] selRows = getSelectedRows();
 
 		if (selRows != null && selRows.length > 0) {
-		    new LineList(fileView.getLayout(), fileView.getView(selRows),
+			DisplayBuilderFactory.newLineList(this.parentFrame, fileView.getLayout(), fileView.getView(selRows),
 		            fileView.getBaseFile());
 		}
 	}
@@ -1012,7 +994,9 @@ implements AbstractFileDisplay, ILayoutChanged {
 			int[] selRows = getSelectedRows();
 
 			if (selRows != null && selRows.length > 0) {
-			    new LinesAsColumns(fileView.getView(selRows));
+				DisplayBldr.newDisplay(
+						IDisplayBuilder.ST_LINES_AS_COLUMNS, "", parentFrame, fileView.getLayout(), fileView.getView(selRows), 0);
+			    //DisplayBuilder.newLinesAsColumns(parentFrame, fileView.getView(selRows));
 			}
 		}
 	}
@@ -1038,7 +1022,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 		if (errorView == null) {
 				Common.logMsg("No Error Records, nothing to display", null);
 		} else {
-			new LineFrame("Error Records", errorView, 0);
+			newLineDisp("Error Records", errorView, 0);
 		}
 	}
 
@@ -1049,7 +1033,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 		int[] selRows = getSelectedRows();
 
 		if (selRows != null && selRows.length > 0) {
-			new LineTree(fileView.getView(selRows), TreeParserXml.getInstance(), false, 1);
+			DisplayBuilderFactory.newLineTree(parentFrame, fileView.getView(selRows), TreeParserXml.getInstance(), false, 1);
 		}
 	}
 
@@ -1057,7 +1041,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	/**
 	 * Save the file back to disk
 	 */
-	protected final boolean saveFile() {
+	public final boolean saveFile() {
 		boolean ret = true;
 
 		//System.out.println("Save File Called");
@@ -1071,7 +1055,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 
 				if (errorView != null) {
 					saveFileError(LangConversion.convert("File saved, but there where records in error that may not make it on to the file"), null);
-					new LineFrame("Error Records", errorView, 0);
+					newLineDisp("Error Records", errorView, 0);
 					ret = false;
 				}
 
@@ -1086,7 +1070,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 
 	private void saveFileError(String s, Exception ex) {
 
-        JOptionPane.showInternalMessageDialog(this, s);
+        JOptionPane.showInternalMessageDialog(parentFrame, s);
         Common.logMsgRaw(s, ex);
 	}
 
@@ -1111,7 +1095,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 					JOptionPane.YES_NO_OPTION);
 			}
 			if (res == JOptionPane.YES_OPTION) {
-				Common.stopCellEditing(tblDetails);
+				stopCellEditing();
 				deleteLines();
 			}
 		}
@@ -1172,6 +1156,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	 /**
 	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getTreeLine()
 	 */
+	@SuppressWarnings("rawtypes")
 	@Override
 	public AbstractLine getTreeLine() {
 		return null;
@@ -1185,6 +1170,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	public void setCurrRow(FilePosition position) {
 		int idx = setLayoutForPosition(position);
 
+		parentFrame.setToActiveTab(this);
 		setCurrRow((position.row), idx, position.currentFieldNumber);
 	}
 
@@ -1206,7 +1192,8 @@ implements AbstractFileDisplay, ILayoutChanged {
 	/**
 	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#setCurrRow(int, int, int)
 	 */
-	 public abstract void setCurrRow(int newRow, int layoutId, int fieldNum);
+	 @Override
+	public abstract void setCurrRow(int newRow, int layoutId, int fieldNum);
 
 
 
@@ -1304,7 +1291,7 @@ implements AbstractFileDisplay, ILayoutChanged {
 	/**
 	 * Stop editing a cell
 	 */
-	public final void stopCellEditing() {
+	public void stopCellEditing() {
 
 	    Common.stopCellEditing(tblDetails);
 	}
@@ -1505,6 +1492,20 @@ implements AbstractFileDisplay, ILayoutChanged {
 		return layoutCombo;
 	}
 
+	/**
+	 * Get the number of fields for each record
+	 * @return field counts for for each record
+	 */
+	protected final int[] getFieldCounts() {
+       int[] rows = new int[layout.getRecordCount()];
+
+        for (int i = 0; i < layout.getRecordCount(); i++) {
+        	rows[i] = fileView.getLayoutColumnCount(i);
+        }
+
+        return rows;
+	}
+
 //	/**
 //	 * Register a rendor/editor for a class
 //	 *
@@ -1530,6 +1531,15 @@ implements AbstractFileDisplay, ILayoutChanged {
 	}
 
 
+
+	/**
+	 * @return the alternativeTbl
+	 */
+	public JTable getAlternativeTbl() {
+		return alternativeTbl;
+	}
+
+
 	/**
 	 * @param alternativeTbl the alternativeTbl to set
 	 */
@@ -1542,15 +1552,38 @@ implements AbstractFileDisplay, ILayoutChanged {
 	protected void newLineFrame(final FileView viewOfFile, final int cRow) {
 		AbstractFileDisplayWithFieldHide newScreen;
 		if (displayType != NORMAL_DISPLAY && viewOfFile.getLayout().hasChildren()) {
-			newScreen = new LineFrameTree(viewOfFile, cRow);
+//			newScreen = DisplayBuilder.newLineFrameTree(parentFrame, viewOfFile, cRow);
+			newScreen = DisplayBldr.newDisplay(
+					IDisplayBuilder.ST_RECORD_TREE, "", parentFrame, viewOfFile.getLayout(), viewOfFile, cRow);
+
+
 		} else {
-			newScreen = new LineFrame(viewOfFile, cRow);
+			newScreen = newLineDisp(viewOfFile, cRow);
 		}
 
 		if (copyHiddenFields && this instanceof AbstractFileDisplayWithFieldHide) {
 			int idx = getLayoutIndex();
 			newScreen.setFieldVisibility(idx,
 					((AbstractFileDisplayWithFieldHide) this).getFieldVisibility(idx));
+		}
+	}
+
+	protected AbstractFileDisplayWithFieldHide newLineDisp(final FileView viewOfFile, final int cRow) {
+		return newLineDisp("Record:", viewOfFile, cRow);
+		//return DisplayBuilder.newLineDisplay(this.parentFrame, viewOfFile, cRow);
+	}
+
+
+	protected AbstractFileDisplayWithFieldHide newLineDisp(String name, final FileView viewOfFile, final int cRow) {
+		return DisplayBldr.newDisplay(IDisplayBuilder.ST_RECORD_SCREEN, name, parentFrame, viewOfFile.getLayout(), viewOfFile, cRow);
+		//return DisplayBuilder.newLineDisplay(this.parentFrame, name, viewOfFile, cRow);
+	}
+
+	protected static final void addToScreen(IDisplayFrame df, BaseDisplay d) {
+		if (Common.OPTIONS.useSeperateScreens.isSelected()) {
+			new DisplayFrame(d);
+		} else {
+			df.addScreen(d);
 		}
 	}
 
@@ -1590,7 +1623,102 @@ implements AbstractFileDisplay, ILayoutChanged {
 		this.copyHiddenFields = copyHiddenFields;
 	}
 
-	private void copyVisibility(BaseDisplay bd) {
+	/**
+	 * @return the actualPnl
+	 */
+	@Override
+	public BaseHelpPanel getActualPnl() {
+		return actualPnl;
+	}
+
+
+	/**
+	 * @return the dockingPopup
+	 */
+	public MouseListener getDockingPopup() {
+		return dockingPopup;
+	}
+
+
+	/**
+	 * @param dockingPopup the dockingPopup to set
+	 */
+	@Override
+	public void setDockingPopup(MouseListener dockingPopup) {
+		if (this.dockingPopup == null) {
+			this.dockingPopup = dockingPopup;
+			this.actualPnl.addMouseListener(dockingPopup);
+		}
+	}
+
+
+	/**
+	 * @return the parentFrame
+	 */
+	@Override
+	public DisplayFrame getParentFrame() {
+		return parentFrame;
+	}
+
+
+	public AbstractFileDisplay getChildScreen() {
+		return null;
+	}
+
+
+	public int getAvailableChildScreenPostion() {
+		return net.sf.RecordEditor.edit.display.AbstractCreateChildScreen.CS_RIGHT;
+	}
+
+	public int getCurrentChildScreenPostion() {
+		return net.sf.RecordEditor.edit.display.AbstractCreateChildScreen.CS_RIGHT;
+	}
+
+	public void removeChildScreen() {
+	}
+
+	public int getChildFramType() {
+		if (getChildScreen() != null) {
+			return CHILD_FRAME_RIGHT;
+		}
+
+		return NO_CHILD_FRAME;
+	}
+
+	/**
+	 * @param parentFrame the parentFrame to set
+	 */
+	public final void setParentFrame(DisplayFrame parentFrame, boolean mainframe) {
+		this.parentFrame = parentFrame;
+
+		if (mainframe) {
+			setScreenSize(mainframe);
+		}
+
+	}
+
+	protected void setScreenSize(boolean mainframe) {
+
+	}
+
+	/**
+	 * @param changeListner the changeListner to set
+	 */
+	public void setChangeListner(IDisplayChangeListner changeListner) {
+		this.changeListner = changeListner;
+	}
+
+	protected void notifyChangeListners() {
+		if (changeListner != null) {
+			changeListner.displayChanged();
+		}
+	}
+
+	public String getScreenName() {
+		return LangConversion.convert(LangConversion.ST_COLUMN_HEADING, formType);
+	}
+
+	private void copyVisibility(AbstractFileDisplay bd) {
 		if (this instanceof AbstractFileDisplayWithFieldHide) {
 			int count = layoutCombo.getItemCount();
 			AbstractFileDisplayWithFieldHide from = (AbstractFileDisplayWithFieldHide) this;
@@ -1625,15 +1753,16 @@ implements AbstractFileDisplay, ILayoutChanged {
     * This class supplies Column Tips (displayed
     * when the cursor is held over a column).
     */
-   private class HeaderToolTips extends JTableHeader {
+   private static class HeaderToolTips extends JTableHeader {
        private String[] tips;
-
+       private final int colsToSkip;
        /**
         *
         * @param columnModel column model to use
         */
-       public HeaderToolTips(final TableColumnModel columnModel) {
+       public HeaderToolTips(final TableColumnModel columnModel, int colsToSkip) {
            super(columnModel);
+           this.colsToSkip = colsToSkip;
        }
 
        /**
@@ -1650,16 +1779,24 @@ implements AbstractFileDisplay, ILayoutChanged {
         */
        public String getToolTipText(MouseEvent m) {
            String tip = super.getToolTipText(m);
-           int col = tblDetails.columnAtPoint(m.getPoint());
-           if ((tips != null) && ((col < tips.length) && (col >= 0))) {
-               tip = tips[col];
+           //int col = tblDetails.columnAtPoint(m.getPoint());
+           try {
+	           int col = super.getColumnModel().getColumnIndexAtX(m.getPoint().x);
+	           if (col >= 0) {
+		           col = super.getColumnModel().getColumn(col).getModelIndex() - colsToSkip;
+		           if ((tips != null) && ((col < tips.length) && (col >= 0))) {
+		               tip = tips[col];
+		           }
+	           }
+           } catch (Exception e) {
+        	   e.printStackTrace();
            }
 
            return tip;
        }
    }
 
-   protected class DelKeyWatcher extends KeyAdapter {
+   public class DelKeyWatcher extends KeyAdapter {
 	   	private long lastWhen = Long.MIN_VALUE;
         /**
          * @see java.awt.event.KeyAdapter#keyReleased
@@ -1680,4 +1817,99 @@ implements AbstractFileDisplay, ILayoutChanged {
         	lastWhen = when;
         }
    }
+
+
+   /**
+    * Class to sort a table on a header click to a table
+    * @param table to be sorted
+    */
+   public final class HeaderSort extends MouseAdapter {
+
+       private int lastCol = -1;
+
+       /**
+        * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+        */
+       public void mousePressed(MouseEvent e) {
+           if (e.getClickCount() == 2) {
+               JTableHeader header = (JTableHeader) e.getSource();
+               int col = header.columnAtPoint(e.getPoint());
+               int layoutIndex = getLayoutIndex();
+
+               col = fileView.getRealColumn(layoutIndex,
+               		header.getColumnModel().getColumn(col).getModelIndex() - 2);
+
+               if (col >= 0) {
+                   int[] cols = {col};
+                   boolean[] descending = {lastCol == col};
+
+                   fileView.sort(
+                           new net.sf.JRecord.Details.LineCompare(fileView.getLayout(),
+                           		layoutIndex,
+                                   cols,
+                                   descending
+                           ));
+
+                   if (lastCol == col) {
+                       lastCol = -1;
+                   } else {
+                       lastCol = col;
+                   }
+               }
+           }
+       }
+   }
+
+/**
+     *
+     * @author Bruce Martin
+     *
+     * This column formats the Column Headings
+     */
+    public class HeaderRender extends JPanel implements TableCellRenderer {
+
+        /**
+         * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent
+         * 		(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
+         */
+        public Component getTableCellRendererComponent(
+            JTable tbl,
+            Object value,
+            boolean isFldSelected,
+            boolean hasFocus,
+            int row,
+            int column) {
+
+            removeAll();
+            setLayout(new GridLayout(2, 1));
+
+            if (column >= 0 && value != null) {
+
+                String s = (String) value;
+                String first = s;
+                String second = "";
+                int pos = s.indexOf(Common.COLUMN_LINE_SEP);
+                if (pos > 0) {
+                    first = s.substring(pos + 1);
+                    second = s.substring(0, pos);
+                }
+                JLabel label = new JLabel(first);
+                add(label);
+                if ((!second.equals(""))) {
+                    label = new JLabel(second);
+
+  //                  System.out.println("Header Render");
+                    if (getLayoutIndex() >= getLayoutCombo().getFullLineIndex()) {
+                    	label.setFont(SwingUtils.getMonoSpacedFont());
+                    }
+
+                    add(label);
+                }
+            }
+            this.setBorder(BorderFactory.createEtchedBorder());
+
+            return this;
+        }
+    }
 }
+

@@ -16,7 +16,6 @@ import net.sf.JRecord.External.ExternalRecord;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
 import net.sf.RecordEditor.utils.lang.LangConversion;
-//import net.sf.RecordEditor.utils.jdbc.AbsRecord;
 
 /**
  * This class provides DB Access using

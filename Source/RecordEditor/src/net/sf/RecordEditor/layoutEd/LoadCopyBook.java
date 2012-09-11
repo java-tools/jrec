@@ -47,7 +47,6 @@ import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
 import net.sf.RecordEditor.utils.jdbc.DBComboModel;
 import net.sf.RecordEditor.utils.lang.LangConversion;
-
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
@@ -110,7 +109,7 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 	private ComputerOptionCombo
 	                     binaryOptions = new ComputerOptionCombo();
 	private JButton      go            = SwingUtils.newButton("Go");
-	private JButton      helpBtn       = Common.getHelpButton();
+	private JButton      helpBtn       = SwingUtils.getHelpButton();
 	private SplitCombo   splitOptions  = new SplitCombo();
 	private BmKeyedComboBox
 						 fileStructure;

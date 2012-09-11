@@ -10,7 +10,6 @@ import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.BorderFactory;
-
 import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JTable;

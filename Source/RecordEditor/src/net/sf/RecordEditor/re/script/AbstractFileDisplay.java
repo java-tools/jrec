@@ -1,5 +1,6 @@
 package net.sf.RecordEditor.re.script;
 
+import java.awt.event.MouseListener;
 import java.util.List;
 
 import javax.swing.JTable;
@@ -8,8 +9,10 @@ import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.RecordEditor.re.file.FilePosition;
 import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.utils.common.ReActionHandler;
+import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 
-public interface AbstractFileDisplay {
+public interface AbstractFileDisplay extends ReActionHandler {
 
 
 	/**
@@ -18,14 +21,7 @@ public interface AbstractFileDisplay {
 	 */
 	public abstract int getCurrRow();
 
-//	/**
-//	 * Set the current Row
-//	 * @param newRow new Current row
-//	 * @param layoutId layout the field was found on
-//	 * @param fieldNum new field number
-//	 */
-//	public abstract void setCurrRow(int newRow, int layoutId, int fieldNum);
-	
+
 	/**
 	 * Set the position
 	 * @param position
@@ -38,7 +34,7 @@ public interface AbstractFileDisplay {
 	 * @return get the selected rows
 	 */
 	public abstract int[] getSelectedRows();
-	
+
 	/**
 	 * Get  Selected Lines
 	 * @return Selected Lines
@@ -52,7 +48,7 @@ public interface AbstractFileDisplay {
 	 */
 	@SuppressWarnings("rawtypes")
 	public AbstractLine getTreeLine();
-	
+
 	/**
 	 * @return
 	 * @see javax.swing.JComboBox#getSelectedIndex()
@@ -60,7 +56,7 @@ public interface AbstractFileDisplay {
 	public abstract int getLayoutIndex();
 
 	/**
-	 * @param recordIndex new record index 
+	 * @param recordIndex new record index
 	 * @see javax.swing.JComboBox#setSelectedIndex(int)
 	 */
 	public abstract void setLayoutIndex(int recordIndex);
@@ -75,9 +71,9 @@ public interface AbstractFileDisplay {
 	 * Stop editing a cell
 	 */
 	public abstract void stopCellEditing();
-	
+
 	/**
-	 * 
+	 *
 	 * @return the table being displayed
 	 */
 	public abstract  JTable getJTable();
@@ -89,4 +85,18 @@ public interface AbstractFileDisplay {
 	@SuppressWarnings("rawtypes")
 	public void setNewLayout(AbstractLayoutDetails newLayout);
 
+	public abstract IDisplayFrame<? extends AbstractFileDisplay> getParentFrame();
+
+	public abstract BaseHelpPanel getActualPnl();
+
+	public abstract void doClose();
+
+
+	public abstract void setDockingPopup(MouseListener dockingPopup);
+
+
+	public abstract void insertLine(int adj);
+
+
+	public abstract void setCurrRow(int newRow, int layoutId, int fieldNum);
 }

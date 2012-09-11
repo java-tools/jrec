@@ -69,8 +69,9 @@ public interface Type {
 	public static final int ftPositiveBinaryBigEndian = 36;
 	public static final int ftRmComp             = 37;
 	public static final int ftRmCompPositive     = 38;
-	
+
 	public static final int ftFjZonedNumeric     = 41;
+	public static final int ftMultiLineChar      = 51;
 
 	public static final int ftDate               = 71;
 	public static final int ftDateYMD            = 72;
@@ -80,13 +81,14 @@ public interface Type {
 
 	public static final int ftCharRestOfFixedRecord = 80;
 	public static final int ftCharRestOfRecord   = 81;
-	
+
 	public static final int ftProtoField         = 91;
 	public static final int ftAvroField          = 91;
 	public static final int ftArrayField         = 92;
 	public static final int ftComboItemField     = 93;
 	public static final int ftAvroUnionField     = 94;
 
+	public static final int ftCheckBoxY          = 109;
 	public static final int ftCheckBoxTrue       = 110;
 	public static final int ftCheckBoxYN         = 111;
 	public static final int ftCheckBoxTF         = 112;
@@ -156,15 +158,15 @@ public interface Type {
      * @return wether it is binary field
      */
     public abstract boolean isBinary();
-    
+
     /**
      * Is this a Numeric Type
-     *  
+     *
      * @return wether it is a numeric Type
      */
     public abstract boolean isNumeric();
-    
- 
+
+
     /**
      * Get the type of field
      * @return type of field

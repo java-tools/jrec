@@ -1,6 +1,7 @@
 package net.sf.RecordEditor.re.editProperties;
 
 import net.sf.JRecord.Common.AbstractManager;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.Combo.ComboStrOption;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.EnglishStrModel;
 
@@ -45,6 +46,6 @@ public class DefaultOptModel {
 	}
 
 	private static ComboStrOption getItem(String id, int idx, String s) {
-		return new ComboStrOption(s, id + "_" + idx, s);
+		return new ComboStrOption(s, LangConversion.convertId(LangConversion.ST_COMBO, id + "_" + idx, s), s);
 	}
 }

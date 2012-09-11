@@ -14,34 +14,18 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
-import javax.swing.event.InternalFrameAdapter;
-import javax.swing.event.InternalFrameEvent;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
+import javax.swing.text.JTextComponent;
 
 import net.sf.RecordEditor.utils.common.Common;
-
-import net.sf.RecordEditor.utils.lang.LangConversion;
-import net.sf.RecordEditor.utils.screenManager.ReFrame;
-import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.SwingUtils;
-
+import net.sf.RecordEditor.utils.swing.common.UpdatableItem;
 
 import com.zbluesoftware.java.bm.ArrowButton;
 
@@ -52,17 +36,10 @@ import com.zbluesoftware.java.bm.ArrowButton;
  *
  */
 @SuppressWarnings("serial")
-public class ArrayRender extends JPanel implements ActionListener, TableCellRenderer {
-
-	private static String[] ARRAY_COLUMN_NAMES = LangConversion.convertColHeading(
-			"ArrayRender",
-			new String[] {"Index", "Data"});
-	private static String[] MAP_COLUMN_NAMES = LangConversion.convertColHeading(
-			"MapRender",
-			new String[] {"Key", "Data"});
+public class ArrayRender extends JPanel implements ActionListener, TableCellRenderer, UpdatableItem {
 
     private static final int FIELD_WIDTH = 20;
-    private JTextField fld = new JTextField();
+    private JTextComponent fld = new JTextField();
     private JButton btn = new ArrowButton(ArrowButton.SOUTH);
 
 
@@ -78,10 +55,20 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
      * Create Array field
       */
 	public ArrayRender() {
-
         init();
     }
 
+	   /**
+     * Create Array field
+      */
+	public ArrayRender(boolean multiline, boolean editable) {
+
+        if (multiline) {
+        	fld = new JTextArea();
+        }
+        fld.setEditable(editable);
+        init();
+    }
 
     /**
      * Perform initialisation
@@ -123,7 +110,7 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
     }
 
 
-    public Object getValue() {
+    public Object getArrayValue() {
     	if (initialValue.equals(fld.getText())) {
     		return arrayDtls.getReturn();
     	}
@@ -131,6 +118,28 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
     }
 
 
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.swing.common.UpdatableItem#getValue()
+	 */
+	@Override
+	public Object getValue() {
+		fld.setText(arrayDtls.toString());
+		return arrayDtls.getReturn();
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.swing.common.UpdatableItem#setValue(java.lang.Object)
+	 */
+	@Override
+	public void setValue(Object value) {
+		if (value instanceof ArrayInterface) {
+			this.arrayDtls = (ArrayInterface) value;
+			fld.setText(arrayDtls.toString());
+		}
+	}
 
 
 	/**
@@ -191,276 +200,5 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
     				parentTable, parentRow , parentColumn);
     		 Common.stopCellEditing(parentTable);
     	}
-    }
-
-
-    /**
-     * Display array Field in a Popup Table
-     *
-     *
-     * @author Bruce Martin
-     *
-     */
-    public static class JPopupArray extends ReFrame
-    implements ActionListener,  TableModelListener {
-        //private Calendar date = null;
-        private ArrayTableModel model;
-        private JTable table;
-        private JTable parentTbl;
-        private int parentR, parentC;
-        private ArrayInterface arrayDtls;
-
-        private JButton addBtn = SwingUtils.newButton("Add Row Before");
-        private JButton addAfterBtn = SwingUtils.newButton("Add Row After");
-        private JButton deleteBtn = SwingUtils.newButton("Delete Rows");
-        private Object parentDoc;
-        private boolean changed = false;
-
-        public JPopupArray(String documentName, Object document,
-        		ArrayInterface array, JTable parentTable, int parentRow, int parentColumn) {
-            super(  documentName,
-            		"",
-            		LangConversion.convert(LangConversion.ST_FRAME_HEADING, "Array View:")
-            			+ " " + parentRow + ", " + parentColumn,
-            		"",
-            		document);
-
-            arrayDtls = array;
-            parentTbl = parentTable;
-            parentR = parentRow;
-            parentC = parentColumn;
-            parentDoc = document;
-
-        	model = new ArrayTableModel(array);
-        	table = new JTable(model);
-
-            BasePanel pnl = new BasePanel();
-            JPanel p = new JPanel();
-
-            table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
-
-            p.add(addBtn);
-            p.add(addAfterBtn);
-            p.add(deleteBtn);
-      		pnl.addComponent(1, 5, BasePanel.PREFERRED, BasePanel.GAP,
-    		        BasePanel.FULL, BasePanel.FULL, p);
-
-    		pnl.addComponent(1, 5, BasePanel.PREFERRED, BasePanel.GAP,
-    		        BasePanel.FULL, BasePanel.FULL, table);
-
-    		addMainComponent(pnl);
-
-    		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-    		addBtn.addActionListener(this);
-    		addAfterBtn.addActionListener(this);
-    		deleteBtn.addActionListener(this);
-    		setVisible(true);
-
-    		TableCellRenderer render = array.getTableCellRenderer();
-    		if (render != null) {
-    			TableCellEditor editor = array.getTableCellEditor();
-    			int height = array.getFieldHeight();
-    			TableColumn tc =  table.getColumnModel().getColumn(1);
-    			tc.setCellRenderer(render);
-
-    			if (editor != null) {
-    				tc.setCellEditor(editor);
-    			}
-
-    			if (height > 0) {
-    				table.setRowHeight(height);
-    			}
-    			table.addMouseListener(new MouseAdapter() {
-    		 		   /**
-    			     * @see MouseAdapter#mousePressed(java.awt.event.MouseEvent)
-    			     */
-    			    public void mousePressed(MouseEvent e) {
-    			    	super.mousePressed(e);
-
-    		      		int col = table.columnAtPoint(e.getPoint());
-    		            int row = table.rowAtPoint(e.getPoint());
-
-  			       		if (! table.hasFocus()) {
-			       			table.requestFocusInWindow();
-			       		}
-
-     		            if (row >= 0 && row != table.getEditingRow()
-    		        	&&  col >= 0 && col != table.getEditingColumn()) {
-    		            	table.editCellAt(row, col);
-    		            }
-    			    }
-
-    			});
-    		}
-
-
-    		this.addFocusListener(new FocusAdapter() {
-    	    	public void focusLost(FocusEvent e) {
-    	    		notifyParent();
-    	    	}
-    		});
-
-    	    this.addInternalFrameListener(new InternalFrameAdapter() {
-                public void internalFrameClosing(InternalFrameEvent e)  {
-                	notifyParent();
-                }
-    	    });
-
-    	    AbstractTableModel fv;
-    	    TableModel parentMdl = parentTbl.getModel();
-    	    if (parentMdl instanceof AbstractTableModel) {
-    	    	fv = (AbstractTableModel) parentMdl;
-    	    	fv.addTableModelListener(this);
-    	    } else if (parentDoc instanceof AbstractTableModel) {
-    	    	fv = (AbstractTableModel) parentDoc;
-    	    	fv.addTableModelListener(this);
-    	    }
-        }
-
-		private void notifyParent() {
-        	TableModel parentMdl = parentTbl.getModel();
-
-        	Common.stopCellEditing(table);
-        	arrayDtls.flush();
-        	if (parentMdl instanceof AbstractTableModel) {
-        		((AbstractTableModel) parentMdl).fireTableDataChanged();
-        	} else {
-        		parentTbl.setValueAt(parentTbl.getValueAt(parentR, parentC), parentR, parentC);
-        	}
-
-        	if (parentDoc instanceof ArrayNotifyInterface) {
-        		ArrayNotifyInterface doc = (ArrayNotifyInterface) parentDoc;
-
-        		doc.notifyOfChange(arrayDtls.getLine());
-	        	if ((changed || model.changed)) {
-	        		 doc.setChanged(true);
-	        	}
-        	}
-        }
-
-
-		/* (non-Javadoc)
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-		 */
-		@Override
-		public void actionPerformed(ActionEvent event) {
-
-			if (event.getSource() == deleteBtn) {
-				int[] rows = table.getSelectedRows();
-				if (rows != null && rows.length > 0) {
-					//Common.stopCellEditing(table);
-					for (int i = rows.length - 1; i>= 0; i--) {
-						arrayDtls.remove(rows[i]);
-					}
-					model.fireTableDataChanged();
-				}
-			} else {
-				int row = table.getSelectedRow();
-				if (event.getSource() == addAfterBtn) {
-					row += 1;
-				}
-
-				//Common.stopCellEditing(table);
-				if (row >= 0 && row < arrayDtls.size()) {
-					arrayDtls.add(row, null);
-				} else {
-					arrayDtls.add(null);
-				}
-				model.fireTableDataChanged();
-			}
-			changed = true;
-		}
-
-
-		/* (non-Javadoc)
-		 * @see javax.swing.event.TableModelListener#tableChanged(javax.swing.event.TableModelEvent)
-		 */
-		@Override
-		public void tableChanged(TableModelEvent arg0) {
-			//System.out.println("## Table Changed");
-			arrayDtls.retrieveArray();
-			model.fireTableDataChanged();
-		}
-    }
-
-    /**
-     * create a Table Model from a CSV style field
-     *
-     *
-     * @author Bruce Martin
-     *
-     */
-    private static class ArrayTableModel extends AbstractTableModel {
-    	ArrayInterface array;
-    	boolean changed = false;
-    	String[] columnNames = ARRAY_COLUMN_NAMES;
-    	int colAdj = 1;
-
-        /**
-		 * @param array
-		 */
-		public ArrayTableModel(ArrayInterface array) {
-			this.array = array;
-
-			if (array.getColumnCount() == 2) {
-				columnNames = MAP_COLUMN_NAMES;
-				colAdj = 0;
-			}
-		}
-
-
-
-		/**
-		 * @see javax.swing.table.AbstractTableModel#getColumnName(int)
-		 */
-		@Override
-		public String getColumnName(int column) {
-			return columnNames[column];
-		}
-
-
-
-		/**
-         * Wether the cell is editable
-         * @see javax.swing.table.TableModel#isCellEditable(int, int)
-         */
-        public boolean isCellEditable(int row, int column) {
-            return column > 0 || (array.getColumnCount() == 2);
-        }
-
-        /**
-         * @see javax.swing.table.TableModel#setValueAt(java.lang.Object, int, int)
-         */
-		public void setValueAt(Object newValue, int row, int column) {
-            changed |= newValue == null || ! newValue.equals(array.get(row, column - colAdj)) ;
-
-            array.set(row, column - colAdj, newValue);
-        }
-
-        /**
-         * @see javax.swing.table.TableModel#getColumnCount()
-         */
-        public int getColumnCount() {
-            return 2;
-        }
-
-        /**
-         * @see javax.swing.table.TableModel#getRowCount()
-         */
-        public int getRowCount() {
-
-            return array.size();
-        }
-
-        /**
-         * @see javax.swing.table.TableModel#getValueAt(int, int)
-         */
-        public Object getValueAt(int row, int column) {
-
-       		if (column == 0 && array.getColumnCount() == 1) {
-         		return Integer.valueOf(row);
-        	}
-        	return array.get(row, column - colAdj);
-        }
     }
 }

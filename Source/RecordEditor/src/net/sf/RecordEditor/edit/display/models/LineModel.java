@@ -41,16 +41,16 @@ import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 @SuppressWarnings("serial")
 public class LineModel extends BaseLineModel {
 
-	public static final int DATA_COLUMN = 3;
-	public static final int HEX_COLUMN = 5;
-	static final int TEXT_COLUMN = 4;
+	//public static final int DATA_COLUMN = 3;
+	//public static final int HEX_COLUMN = 5;
+	//static final int TEXT_COLUMN = 4;
 
 	private int currentRow;
 
 	private AbstractLine<?> currentLine;
 
 	boolean oneLineHex = true;
-	
+
 	private int columnCount;
 
 
@@ -61,13 +61,22 @@ public class LineModel extends BaseLineModel {
      */
    public LineModel(final FileView<?> file) {
        super(file);
-       
-       columnCount = columnName.length - 1;
+
+       calcColumnCounts();
+   }
+
+   public LineModel(final FileView<?> file, int cols) {
+       super(file, cols);
+
+       calcColumnCounts();
+   }
+
+   private void calcColumnCounts() {
+       columnCount = columnName.length - 1 + super.firstDataColumn - FIRST_DATA_COLUMN;
        if (getFileView().isBinaryFile()) {
     	   columnCount += 1;
        }
    }
-
 
 	/**
 	 * @see javax.swing.table.TableModel#getColumnCount
@@ -77,36 +86,36 @@ public class LineModel extends BaseLineModel {
 		return columnCount;
 	}
 
-	/**
-	 * @param columnCount the columnCount to set
-	 */
-	public void setColumnCount(int columnCount) {
-		this.columnCount = columnCount;
-	}
+//	/**
+//	 * @param columnCount the columnCount to set
+//	 */
+//	public void setColumnCount(int columnCount) {
+//		this.columnCount = columnCount;
+//	}
 
 	/**
 	 * @see javax.swing.table.TableModel#getValueAt(int, int)
 	 */
 	public Object getValueAt(final int row, final int col) {
-	
-		if (col < FIRST_DATA_COLUMN) {
+
+		if (col < firstDataColumn) {
 			return super.getValueAt(row, col);
 		} else if (currentLine == null) {
 		    return null;
 		}
-		
+
 	    int idx = getFixedCurrentLayout();
 	    if (idx >= layout.getRecordCount()) {
-	        if (col == FIRST_DATA_COLUMN) { // Formated Data Column
+	        if (col == firstDataColumn) { // Formated Data Column
 				return  currentLine.getFullLine();
-			} else if (col == TEXT_COLUMN) {						  // Straight Text
+			} else if (col == firstDataColumn + 1) {						  // Straight Text
 				return currentLine.getFullLine();
 			} else if (oneLineHex) {
 				return null; // currentLine.getFieldHex(getFixedCurrentLayout(), row);
 			} else {
 			    return currentLine.getData();
 	        }
-		} else if (col == FIRST_DATA_COLUMN) { // Formated Data Column
+		} else if (col == firstDataColumn) { // Formated Data Column
 			try {
 				return  currentLine.getField(getFixedCurrentLayout(), getRealRowWithKey(row));
 			} catch (Exception e) {
@@ -115,7 +124,7 @@ public class LineModel extends BaseLineModel {
 			}
 		} else if (isKeyRow(row)) {
 			return null;
-		} else if (col == TEXT_COLUMN) {						  // Straight Text
+		} else if (col == firstDataColumn + 1) {						  // Straight Text
 			return currentLine.getFieldText(getFixedCurrentLayout(), getRealRow(row));
 		} else if (oneLineHex) {
 			return currentLine.getFieldHex(getFixedCurrentLayout(), getRealRow(row));
@@ -140,21 +149,21 @@ public class LineModel extends BaseLineModel {
 //	    		+ " " + isKeyRow(row) );
 	    //int column = fileView.getRealColumn(getFixedCurrentLayout(), row);
 
-		if (col == FIRST_DATA_COLUMN) {
+		if (col == firstDataColumn) {
 			getFileView().setValueAt(
 			        ReMainFrame.getMasterFrame(),
 			        getFixedCurrentLayout(), currentLine, currentRow, getRowLocal(row), val);
 		} else if (isKeyRow(row)) {
-			
+
 		} else if (getCurrentLayout() < layout.getRecordCount()
-		       && (col == HEX_COLUMN || col == TEXT_COLUMN)) {
+		       && (col == hexColumn || col == firstDataColumn + 1)) {
 		    int inputType = FileView.SET_USING_HEX;
 		    String value = "";
 		    if (val != null) {
 		        value = val.toString();
 		    }
 
-		    if (col == TEXT_COLUMN) {
+		    if (col == firstDataColumn + 1) {
 		        inputType = FileView.SET_USING_TEXT;
 		    }
 		    getFileView().setHexTextValueAt(
@@ -180,8 +189,8 @@ public class LineModel extends BaseLineModel {
 	 * @see javax.swing.table.TableModel#isCellEditable(int, int)
 	 */
 	public boolean isCellEditable(int row, int col) {
-		return col >= FIRST_DATA_COLUMN
-		    && (oneLineHex || col < HEX_COLUMN)
+		return col >= firstDataColumn
+		    && (oneLineHex || col < hexColumn)
 		    && (getFixedCurrentLayout() < layout.getRecordCount()
 		     || ! getFileView().isBinaryFile());
 	}
@@ -202,7 +211,7 @@ public class LineModel extends BaseLineModel {
     public AbstractLine<?> getCurrentLine() {
         return currentLine;
     }
-    
+
 	/**
 	 * Sets record to display
 	 *
@@ -219,10 +228,10 @@ public class LineModel extends BaseLineModel {
 	        currentLine = getFileView().getLine(newCurrentRow);
 		    newIdx = currentLine.getPreferredLayoutIdx();
 	    }
-	    
+
 	    setIndex(newIdx, defaultLayout);
 	}
-	
+
 	/**
 	 * Set the Current Line
 	 * @param line Current Line
@@ -232,9 +241,9 @@ public class LineModel extends BaseLineModel {
 		currentLine = line;
 		setIndex(currentLine.getPreferredLayoutIdx(), defaultLayout);
 	}
-	
+
 	private void setIndex(int newIdx, int defaultLayout) {
-		
+
 	    if (newIdx == Common.NULL_INTEGER) {
 	        this.fireTableDataChanged();
 	        if (DisplayType.displayType(layout, defaultLayout) == DisplayType.PREFFERED) {
@@ -259,9 +268,9 @@ public class LineModel extends BaseLineModel {
 	@Override
 	protected boolean showKey() {
 		boolean ret = false;
-		
+
 		if (currentLine != null) {
-			if (currentLine.getTreeDetails() != null 
+			if (currentLine.getTreeDetails() != null
 			&& currentLine.getTreeDetails().getChildDefinitionInParent() != null) {
 				ret = currentLine.getTreeDetails().getChildDefinitionInParent().isMap();
 			} else {
@@ -273,8 +282,8 @@ public class LineModel extends BaseLineModel {
 		}
 		return ret;
 	}
-	
-	
+
+
 }
 
 

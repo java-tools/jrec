@@ -1,5 +1,7 @@
 package net.sf.JRecord.zTest.detailsSelection;
 
+import java.util.List;
+
 import net.sf.JRecord.Common.AbstractIndexedLine;
 import net.sf.JRecord.detailsSelection.AndSelection;
 import net.sf.JRecord.detailsSelection.FieldSelect;
@@ -12,8 +14,7 @@ public class TstAndOr extends TestCase {
 	private static final FieldSelect no = new FieldSelect("", "", "", null) {
 
 		@Override
-		public boolean isSelected(AbstractIndexedLine line) {
-
+		public boolean isSelected(Object line) {
 			return false;
 		}
 	};
@@ -76,7 +77,8 @@ public class TstAndOr extends TestCase {
 				and.add(f);
 			}
 
-			assertEquals(andResult[i], and.isSelected(null));
+			assertEquals(andResult[i], and.isSelected((AbstractIndexedLine) null));
+			assertEquals(andResult[i], and.isSelected((List<AbstractIndexedLine>) null));
 		}
 	}
 
@@ -90,7 +92,8 @@ public class TstAndOr extends TestCase {
 				and.add(f);
 			}
 
-			assertEquals(orResult[i], and.isSelected(null));
+			assertEquals(orResult[i], and.isSelected((AbstractIndexedLine) null));
+			assertEquals(orResult[i], and.isSelected((List<AbstractIndexedLine>) null));
 		}
 	}
 }

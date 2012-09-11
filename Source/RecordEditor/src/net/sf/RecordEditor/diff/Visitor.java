@@ -6,7 +6,7 @@ import jlibdiff.Hunk;
 import jlibdiff.HunkAdd;
 import jlibdiff.HunkChange;
 import jlibdiff.HunkDel;
-import jlibdiff.HunkVisitor;;
+import jlibdiff.HunkVisitor;
 
 public class Visitor extends HunkVisitor {
 

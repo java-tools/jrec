@@ -45,6 +45,6 @@ public class ArrayTableEditor extends AbstractCellEditor
      * @see javax.swing.CellEditor#getCellEditorValue()
      */
     public Object getCellEditorValue() {
-        return arrayRendor.getValue();
+        return arrayRendor.getArrayValue();
     }
 }

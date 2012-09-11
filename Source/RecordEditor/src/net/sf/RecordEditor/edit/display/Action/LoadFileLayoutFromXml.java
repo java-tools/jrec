@@ -3,7 +3,6 @@ package net.sf.RecordEditor.edit.display.Action;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
@@ -12,14 +11,12 @@ import net.sf.RecordEditor.edit.display.util.Code;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
-import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.DirectoryFrame;
 
 @SuppressWarnings("serial")
-public class LoadFileLayoutFromXml extends ReAbstractAction implements AbstractActiveScreenAction {
+public class LoadFileLayoutFromXml extends ReSpecificScreenAction implements AbstractActiveScreenAction {
 
 	private static final String MSG = "Load File Description from Xml";
 	/**
@@ -36,14 +33,13 @@ public class LoadFileLayoutFromXml extends ReAbstractAction implements AbstractA
 	 */
 	@Override
 	public void checkActionEnabled() {
-		super.setEnabled(isActive(ReFrame.getActiveFrame()));
+		super.setEnabled(isActive(getDisplay(AbstractFileDisplay.class)));
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		ReFrame actionHandler = ReFrame.getActiveFrame();
-		if (isActive(actionHandler)) {
-			AbstractFileDisplay fileDisplay = (AbstractFileDisplay) actionHandler;
+		AbstractFileDisplay fileDisplay = getDisplay(AbstractFileDisplay.class);
+		if (isActive(fileDisplay)) {
 			String dir = Parameters.getFileName(Parameters.COPYBOOK_DIRECTORY);
 			String s = "";
 			String fn = fileDisplay.getFileView().getBaseFile().getFileNameNoDirectory();
@@ -57,7 +53,7 @@ public class LoadFileLayoutFromXml extends ReAbstractAction implements AbstractA
 		}
 	}
 
-	private boolean isActive(ReFrame activeScreen) {
+	private boolean isActive(AbstractFileDisplay activeScreen) {
 		boolean active = false;
 
 		if (activeScreen instanceof AbstractFileDisplay) {
@@ -115,7 +111,9 @@ public class LoadFileLayoutFromXml extends ReAbstractAction implements AbstractA
 				} else {
 					Code.notifyFramesOfNewLayout(masterView, l);
 				}
-				ReFrame.setActiveFrame((ReFrame) panel);
+
+				panel.getParentFrame().setToActiveFrame();
+				panel.getParentFrame().setToActiveTab(panel);
 				this.setVisible(false);
 			} catch (Exception ex) {
 				ex.printStackTrace();

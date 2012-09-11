@@ -15,6 +15,7 @@ import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.edit.display.models.BaseLineModel;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.MenuPopupListener;
+import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.StandardRendor;
 
@@ -34,8 +35,8 @@ implements AbstractFileDisplayWithFieldHide {
 
 
 	public BaseLineAsColumn(String formType, @SuppressWarnings("rawtypes") FileView viewOfFile,
-			boolean primary, boolean fullLine) {
-		super(formType, viewOfFile, primary, fullLine, false, false);
+			boolean primary, boolean fullLine, final boolean changeRow) {
+		super(formType, viewOfFile, primary, fullLine, false, false, changeRow);
 
 		showFieldMenus = new JMenu[viewOfFile.getLayout().getRecordCount()];
 	}
@@ -88,7 +89,7 @@ implements AbstractFileDisplayWithFieldHide {
 
 
 
-	protected final void setStandardColumnWidths() {
+	protected final void setStandardColumnWidths(int dataCol) {
 
 	//    if (tblDetails != null) {
 		JTable tbl = getJTable();
@@ -98,9 +99,15 @@ implements AbstractFileDisplayWithFieldHide {
         tc.setPreferredWidth(125);
         tc = tbl.getColumnModel().getColumn(1);
         tc.setPreferredWidth(40);
-        tc = tbl.getColumnModel().getColumn(2);
-        tc.setPreferredWidth(40);
-        tc = tbl.getColumnModel().getColumn(3);
+        if (dataCol > 2) {
+	        tc = tbl.getColumnModel().getColumn(2);
+	        tc.setPreferredWidth(40);
+	        if (dataCol > 3) {
+		        tc = tbl.getColumnModel().getColumn(3);
+		        tc.setPreferredWidth(Common.getColumnWidth(tbl, 3, 0, tbl.getRowCount(), 40) + 15);
+	        }
+        }
+        tc = tbl.getColumnModel().getColumn(dataCol);
         tc.setPreferredWidth(180);
 	//    }
 	}
@@ -150,7 +157,7 @@ implements AbstractFileDisplayWithFieldHide {
 			setShowFieldsMenu(recordIndex);
 		}
 
-		setActiveFrame(this);
+		getParentFrame().setToActiveFrame();
 	}
 
 

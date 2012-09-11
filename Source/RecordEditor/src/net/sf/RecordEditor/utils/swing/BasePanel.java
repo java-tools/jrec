@@ -15,6 +15,9 @@
  */
 package net.sf.RecordEditor.utils.swing;
 
+import info.clearthought.layout.TableLayout;
+import info.clearthought.layout.TableLayoutConstraints;
+
 import java.awt.Component;
 import java.awt.Dimension;
 
@@ -35,9 +38,6 @@ import javax.swing.text.JTextComponent;
 import net.sf.RecordEditor.utils.lang.BasicTrans;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.params.Parameters;
-
-import info.clearthought.layout.TableLayout;
-import info.clearthought.layout.TableLayoutConstraints;
 
 
 /**
@@ -495,6 +495,7 @@ public class BasePanel extends JPanel {
 	    addComponent(startCol, endCol,
 				 height, gap,
 				 hPosition, vPosition,
+				 true,
 				 new JScrollPane(table));
 		registerComponent(table);
 

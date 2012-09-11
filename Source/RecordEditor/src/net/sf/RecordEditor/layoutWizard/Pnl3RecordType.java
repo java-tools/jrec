@@ -26,7 +26,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JEditorPane;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 

@@ -14,7 +14,6 @@ import javax.swing.table.TableColumn;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.edit.display.Action.AutofitAction;
-import net.sf.RecordEditor.edit.display.models.BaseLineModel;
 import net.sf.RecordEditor.edit.display.models.Line2ColModel;
 import net.sf.RecordEditor.edit.display.util.ChooseCellEditor;
 import net.sf.RecordEditor.re.file.FieldMapping;
@@ -40,14 +39,15 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 	   private FixedColumnScrollPane tblScrollPane = null;
 	   private int popupCol = 1;
 	   private int popupRow;
+	   private Line2ColModel tblMdl;
 
 	/**
 	 * Display each line as a column in the table with fields going down the screen
 	 *
 	 * @param viewOfFile file view
 	 */
-	public LinesAsColumns(FileView<?> viewOfFile) {
-		super("Column Table", viewOfFile, viewOfFile == viewOfFile.getBaseFile(), true);
+	protected LinesAsColumns(FileView<?> viewOfFile) {
+		super("Column Table", viewOfFile, viewOfFile == viewOfFile.getBaseFile(), true, true);
 
 	    init_100_SetupJtables(viewOfFile);
 
@@ -56,19 +56,29 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 	    actualPnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
 	                         BasePanel.FULL, BasePanel.FULL,
 	                         tblScrollPane);
+	}
 
 
-	    addMainComponent(actualPnl);
 
+	@Override
+	public void setScreenSize(boolean mainframe) {
+		DisplayFrame parentFrame = getParentFrame();
 
-	    setBounds(1, 1,
-	                  screenSize.width  - 1,
-	                  getHeight());
+		parentFrame.bldScreen();
+
+		if (mainframe) {
+			parentFrame.setBounds(1, 1,
+		                  screenSize.width  - 1,
+		                  parentFrame.getHeight());
+		}
 	    setLayoutIdx();
 
-	    setVisible(true);
+	    parentFrame.setVisible(true);
 	    super.actualPnl.addReKeyListener(new DelKeyWatcher());
+
 	}
+
+
 
 	/**
      * Define the JTables etc
@@ -76,17 +86,17 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
      */
     private void init_100_SetupJtables(final FileView<?> viewOfFile) {
 
-    	Line2ColModel mdl = new Line2ColModel(viewOfFile);
+    	tblMdl = new Line2ColModel(viewOfFile);
     	JTable fixedTbl;
 
-		setModel(mdl);
+		setModel(tblMdl);
 
 
   //      ReAction sort = new ReAction(ReActionHandler.SORT, this);
         AbstractAction editRecord = new ReAbstractAction("Edit Record") {
             public void actionPerformed(ActionEvent e) {
             	if (popupCol >= 0) {
-            		new LineFrame(fileView, popupCol);
+            		newLineDisp(fileView, popupCol);
             	}
            }
         };
@@ -113,7 +123,7 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 
         };
 
-        JTable tableDetails = new JTable(mdl);
+        JTable tableDetails = new JTable(tblMdl);
         setJTable(tableDetails);
 
         popupListner = //MenuPopupListener.getEditMenuPopupListner(mainActions);
@@ -157,10 +167,10 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
         tableDetails.setRowSelectionAllowed(true);
 
 
-        initToolTips();
+        //initToolTips(0);
 
-        setStandardColumnWidths();
-        tblScrollPane = new FixedColumnScrollPane(tableDetails, BaseLineModel.FIRST_DATA_COLUMN);
+        setStandardColumnWidths(4);
+        tblScrollPane = new FixedColumnScrollPane(tableDetails, tblMdl.firstDataColumn);
         fixedTbl = tblScrollPane.getFixedTable();
 
 
@@ -205,7 +215,7 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 		setLayoutIdx();
 		//getModel().layoutChanged(newLayout);
 		getModel().fireTableStructureChanged();
-		tblScrollPane.setFixedColumns(BaseLineModel.FIRST_DATA_COLUMN);
+		tblScrollPane.setFixedColumns(tblMdl.firstDataColumn);
 //		getModel().fireTableDataChanged();
 	}
 
@@ -219,9 +229,9 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 		TableColumn tc;
 		JTable tbl = getJTable();
 
-        for (int i =  Math.min(BaseLineModel.FIRST_DATA_COLUMN, tbl.getColumnCount()) - 1; i >= 0; i--) {
+        for (int i =  Math.min(tblMdl.firstDataColumn, tbl.getColumnCount()) - 1; i >= 0; i--) {
         	tc =  tbl.getColumnModel().getColumn(i);
-            if (tc.getModelIndex() < BaseLineModel.FIRST_DATA_COLUMN) {
+            if (tc.getModelIndex() < tblMdl.firstDataColumn) {
         		tbl.getColumnModel().removeColumn(tc);
         	}
         }

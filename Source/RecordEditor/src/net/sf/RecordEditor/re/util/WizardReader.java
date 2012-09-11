@@ -10,14 +10,13 @@ import java.io.InputStream;
 
 import javax.swing.JDialog;
 
+import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.LineProvider;
 import net.sf.JRecord.External.ExternalRecord;
-import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.DelegateReader;
 import net.sf.JRecord.IO.LineIOProvider;
-
 import net.sf.RecordEditor.layoutWizard.Details;
 import net.sf.RecordEditor.layoutWizard.FileStructureAnalyser;
 import net.sf.RecordEditor.layoutWizard.Wizard;

@@ -9,14 +9,13 @@ import net.sf.JRecord.External.ToExternalRecord;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.DirectoryFrame;
 
 @SuppressWarnings("serial")
-public class SaveFileLayout2Xml extends ReAbstractAction implements AbstractActiveScreenAction {
+public class SaveFileLayout2Xml extends ReSpecificScreenAction implements AbstractActiveScreenAction {
 
 	private static final String MSG = "Save File Description as Xml";
 	/**
@@ -33,14 +32,13 @@ public class SaveFileLayout2Xml extends ReAbstractAction implements AbstractActi
 	 */
 	@Override
 	public void checkActionEnabled() {
-		super.setEnabled(isActive(ReFrame.getActiveFrame()));
+		super.setEnabled(isActive(getDisplay(AbstractFileDisplay.class)));
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		ReFrame actionHandler = ReFrame.getActiveFrame();
-		if (isActive(actionHandler)) {
-			AbstractFileDisplay fileDisplay = (AbstractFileDisplay) actionHandler;
+		AbstractFileDisplay fileDisplay = getDisplay(AbstractFileDisplay.class);
+		if (isActive(fileDisplay)) {
 			String dir = Parameters.getFileName(Parameters.COPYBOOK_DIRECTORY);
 			String s = "";
 			String fn = fileDisplay.getFileView().getBaseFile().getFileNameNoDirectory();
@@ -54,10 +52,10 @@ public class SaveFileLayout2Xml extends ReAbstractAction implements AbstractActi
 		}
 	}
 
-	private boolean isActive(ReFrame activeScreen) {
+	private boolean isActive(AbstractFileDisplay activeScreen) {
 		boolean active = false;
 
-		if (activeScreen instanceof AbstractFileDisplay) {
+		if (activeScreen != null) {
 			AbstractFileDisplay source = (AbstractFileDisplay) activeScreen;
 			active =  source.getFileView().isSimpleCsvFile();
 		}

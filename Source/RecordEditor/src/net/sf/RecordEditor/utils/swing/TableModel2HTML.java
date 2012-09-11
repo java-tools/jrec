@@ -7,11 +7,9 @@
 package net.sf.RecordEditor.utils.swing;
 
 import java.io.BufferedWriter;
-//import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 
-//import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import net.sf.RecordEditor.utils.common.TranslateXmlChars;

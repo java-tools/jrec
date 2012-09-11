@@ -20,7 +20,6 @@ import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
 import net.sf.RecordEditor.utils.jdbc.DBComboModel;
 import net.sf.RecordEditor.utils.jdbc.DBtableModel;
-
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;

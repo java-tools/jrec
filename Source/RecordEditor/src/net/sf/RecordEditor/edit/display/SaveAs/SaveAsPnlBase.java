@@ -8,7 +8,6 @@ import javax.management.RuntimeErrorException;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -111,7 +110,8 @@ public abstract class SaveAsPnlBase {
 
     public int rowCount;
 
-    private FileView file;
+    @SuppressWarnings("rawtypes")
+	private FileView file;
 
 
 
@@ -263,7 +263,8 @@ public abstract class SaveAsPnlBase {
     	if (layout == null) {
     		throw new RuntimeErrorException(null, "Can not edit the File: Can not determine the format");
     	} else {
-    		FileView newFile = new FileView(layout,
+    		@SuppressWarnings("rawtypes")
+			FileView newFile = new FileView(layout,
     				ReIOProvider.getInstance(),
         			false);
     		StartEditor startEditor = new StartEditor(newFile, outFile, false, commonSaveAsFields.message ,0);

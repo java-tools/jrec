@@ -2,7 +2,6 @@ package net.sf.RecordEditor.re.script;
 
 import java.awt.event.ActionEvent;
 
-
 import javax.swing.AbstractAction;
 
 import net.sf.JRecord.Log.AbsSSLogger;

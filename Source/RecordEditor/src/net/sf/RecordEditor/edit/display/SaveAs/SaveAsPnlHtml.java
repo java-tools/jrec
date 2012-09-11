@@ -6,7 +6,6 @@ package net.sf.RecordEditor.edit.display.SaveAs;
 
 import java.io.IOException;
 
-
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
@@ -14,7 +13,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import net.sf.JRecord.Log.AbsSSLogger;
-import net.sf.RecordEditor.edit.display.util.SaveAsPnl;
 import net.sf.RecordEditor.re.file.DisplayType;
 import net.sf.RecordEditor.re.fileWriter.HtmlColors;
 import net.sf.RecordEditor.re.fileWriter.HtmlMultiTableWriter;
@@ -99,17 +97,17 @@ public class SaveAsPnlHtml extends SaveAsPnlBase {
 
         try {
 	        switch (getTableOption()) {
-	        case SaveAsPnl.SINGLE_TABLE:
+	        case SaveAsPnlBase.SINGLE_TABLE:
 	        	HtmlWriter w = new HtmlWriter(
 	        			outFile, showBorder.isSelected(),
 	        			colors, "File: " + commonSaveAsFields.file.getFileNameNoDirectory());
 	        	save_writeFile(w, selection);
 	            break;
-	        case SaveAsPnl.TABLE_PER_ROW:
+	        case SaveAsPnlBase.TABLE_PER_ROW:
 	        	multiTable(DisplayType.PREFFERED, outFile, selection, colors);
 	           // multiTableHtml(selection, f);
 	            break;
-	        case SaveAsPnl.TREE_TABLE:
+	        case SaveAsPnlBase.TREE_TABLE:
 	        	multiTable(SaveAsWrite.HTML_TREE_PRINT, outFile, selection, colors);
 //	        	treeTableHtml(selection, f);
 	        }

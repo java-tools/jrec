@@ -14,7 +14,6 @@ package net.sf.RecordEditor.layoutEd;
 import java.awt.Container;
 import java.awt.Dimension;
 
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.event.InternalFrameAdapter;

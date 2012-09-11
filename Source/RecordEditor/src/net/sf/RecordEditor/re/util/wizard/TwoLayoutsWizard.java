@@ -5,7 +5,6 @@ package net.sf.RecordEditor.re.util.wizard;
 
 import net.sf.RecordEditor.jibx.JibxCall;
 import net.sf.RecordEditor.jibx.compare.BaseCopyDif;
-
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;

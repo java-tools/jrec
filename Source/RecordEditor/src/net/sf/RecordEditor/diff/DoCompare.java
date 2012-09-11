@@ -3,19 +3,14 @@ package net.sf.RecordEditor.diff;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
-
+import jlibdiff.Diff;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
-
 import net.sf.RecordEditor.jibx.compare.DiffDefinition;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.utils.common.Common;
-
-
-import jlibdiff.Diff;
 
 
 public class DoCompare  {

@@ -25,11 +25,9 @@ import net.sf.JRecord.ByteIO.FixedLengthByteReader;
 import net.sf.JRecord.ByteIO.TextReader;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.IO.LineIOProvider;
-
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
 import net.sf.RecordEditor.utils.lang.LangConversion;
-
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;

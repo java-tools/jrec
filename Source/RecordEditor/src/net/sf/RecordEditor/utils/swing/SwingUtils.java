@@ -24,6 +24,7 @@ import net.sf.RecordEditor.utils.lang.LangConversion;
 
 public class SwingUtils {
 
+
 	public static final int STANDARD_FONT_HEIGHT, STANDARD_FONT_WIDTH;
 	public static final int TABLE_ROW_HEIGHT = getDefault((new JTable()).getRowHeight(), 16);
 	private static final int HALF_TABLE_ROW_HEIGHT = TABLE_ROW_HEIGHT / 2;
@@ -35,6 +36,7 @@ public class SwingUtils {
 	public static final int BUTTON_HEIGHT = (new JButton("Aa")).getMinimumSize().height;
 	public static final Font MONO_SPACED_FONT;
 	public static final int TIP_HEIGHT;
+	public static final int CHAR_WIDTH, CHAR_HEIGHT;
 
 	private static String[] r = {"Aapj"};
 	static {
@@ -61,13 +63,6 @@ public class SwingUtils {
 //				+ " " + ((new JButton("Aa")).getMinimumSize().height)
 //				);
 
-		System.out.println("### '''''''''''''''''''''''''''''''");
-		System.out.println("###            Font Height " + STANDARD_FONT_HEIGHT);
-		System.out.println("###           Field Height " + NORMAL_FIELD_HEIGHT);
-		System.out.println("###        Checkbox Height " + CHECK_BOX_HEIGHT);
-		System.out.println("###       Table Row Height " + TABLE_ROW_HEIGHT);
-		System.out.println("### Combo Table Row Height " + COMBO_TABLE_ROW_HEIGHT);
-		System.out.println("### ...............................");
 
 		MONO_SPACED_FONT = new Font("Monospaced", Font.PLAIN,  STANDARD_FONT_HEIGHT);
 
@@ -81,6 +76,21 @@ public class SwingUtils {
 		TABLE_BUTTON_WIDTH = ONE_CHAR_TABLE_CELL_WIDTH / 3;
 
 		TIP_HEIGHT = SwingUtils.STANDARD_FONT_HEIGHT * 11;
+
+		String s = "ABCDEFGHIJKLMNOPQRST abcdefghijklmnopqrst@#?&\"";
+
+		JTextField jTextField = new JTextField(s);
+		CHAR_WIDTH  = jTextField.getPreferredSize().width / s.length();
+		CHAR_HEIGHT = jTextField.getPreferredSize().height;
+
+		System.out.println("### '''''''''''''''''''''''''''''''");
+		System.out.println("###            Font Height " + STANDARD_FONT_HEIGHT);
+		System.out.println("###           Field Height " + NORMAL_FIELD_HEIGHT);
+		System.out.println("###        Checkbox Height " + CHECK_BOX_HEIGHT);
+		System.out.println("###       Table Row Height " + TABLE_ROW_HEIGHT);
+		System.out.println("### Combo Table Row Height " + COMBO_TABLE_ROW_HEIGHT);
+		System.out.println("###      1 char Cell width " + CHAR_WIDTH);
+		System.out.println("### ...............................");
 	}
 
 	private static int getDefault(int val, int defaultVal) {
@@ -158,6 +168,15 @@ public class SwingUtils {
 		component.setBackground(background);
 
 	}
+
+   /**
+     * Get Help button
+     *
+     * @return HelpButton;
+     */
+    public static final JButton getHelpButton() {
+        return SwingUtils.newButton("Help", Common.getRecordIcon(Common.ID_HELP_ICON));
+    }
 
 	public static JMenu newMenu(String s) {
 		return new JMenu(LangConversion.convert(LangConversion.ST_MENU, s));

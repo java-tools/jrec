@@ -62,7 +62,7 @@ public final class TableListPnl extends BaseHelpPanel {
   private static final int TABLE_HEIGHT = SwingUtils.TABLE_ROW_HEIGHT * 15 + 5;
 
   private JPanel  btnPanel     = new JPanel();
-  private JButton helpBtn      = Common.getHelpButton();
+  private JButton helpBtn      = SwingUtils.getHelpButton();
   private JTextField sfTBlId   = new JTextField();
   private JTextField sfTblName = new JTextField();
   private JTextArea sfDescription = new JTextArea();

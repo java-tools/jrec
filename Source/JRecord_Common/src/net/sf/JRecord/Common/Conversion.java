@@ -798,6 +798,10 @@ public final class Conversion {
 		return numberFormat;
 	}
 
+	public static boolean isHtml(String s) {
+		return (s.indexOf('<') >= 0 && s.indexOf("/>") > 0) || (s.indexOf("</") >= 0 && s.indexOf('>') > 0);
+	}
+
     /**
      * pad string with zero's to format length
      *

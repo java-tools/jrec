@@ -24,8 +24,6 @@ package net.sf.RecordEditor.edit.display;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 import javax.swing.event.TableModelEvent;
 
 import net.sf.JRecord.Details.AbstractLine;
@@ -47,26 +45,25 @@ import net.sf.RecordEditor.utils.common.ReActionHandler;
  * @author Bruce Martin
  * @version 0.51
  */
-@SuppressWarnings("serial")
-public class LineFrame extends  BaseLineFrame {
+public class LineFrame extends  BaseLineFrame implements ILineDisplay {
 
     private int currRow;
-    private ImageIcon[] icons = Common.getArrowIcons();
+    //private ImageIcon[] icons = Common.getArrowIcons();
 
 	private ActionListener listner = new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 
 				stopCellEditing();
 
-				if (event.getSource() == btn[0]) {
+				if (event.getSource() == btnPanel.buttons[0]) {
 					currRow = 0;
 					rowChanged();
 
-				} else if (event.getSource() == btn[1]) {
+				} else if (event.getSource() == btnPanel.buttons[1]) {
 						changeRow(-1);
-				} else if (event.getSource() == btn[2]) {
+				} else if (event.getSource() == btnPanel.buttons[2]) {
 						changeRow(1);
-				} else if (event.getSource() == btn[3]) {
+				} else if (event.getSource() == btnPanel.buttons[3]) {
 					currRow = getFileView().getRowCount() - 1;
 					rowChanged();
 				} else if (event.getSource() == oneLineHex) {
@@ -75,42 +72,25 @@ public class LineFrame extends  BaseLineFrame {
 			}
 	};
 
-	/**
-	 * Creates a Record Screen
-	 *
-	 * @param group      - Layout Definition of the file
-	 * @param viewOfFile - Current view of the file
-	 * @param masterFile - Internal representation of the file
-	 * @param cRow       - current row
-	 */
-	public LineFrame(final FileView<?> viewOfFile,
-	        		 final int cRow) {
-		this("Record:", viewOfFile, cRow);
-	}
 
 
-	public LineFrame(
+	protected LineFrame(
 			final String screenName,
 			final FileView<?> viewOfFile,
-   		 	final int cRow) {
-		super(screenName, viewOfFile, false, ! viewOfFile.getLayout().isXml());
+   		 	final int cRow,
+   		 	final boolean changeRow) {
+		super(screenName, viewOfFile, false, ! viewOfFile.getLayout().isXml(), changeRow);
 
-		JPanel btnPanel = new JPanel();
-
-		record = new LineModel(fileView);
-		setModel(record);
+		init_101_setRecord(changeRow);
 
 		init_100_setupRow(cRow);
-		init_200_setupFields(btnPanel, icons, listner);
-		init_300_setupScreen(btnPanel);
-
-		show();
-		this.setToMaximum(false);
+		init_200_setupFields(Common.getArrowIcons(), listner, changeRow);
+		init_300_setupScreen(changeRow);
 	}
 
 	/**
 	 * Define the screen fields
-	 * @param cRow current row (row todisplay)
+	 * @param cRow current row (row to display)
 	 * @param btnPanel button panel
 	 */
 	public void init_100_setupRow(int cRow) {
@@ -122,25 +102,28 @@ public class LineFrame extends  BaseLineFrame {
 		currRow = cRow;
 	}
 
-	public LineFrame(final FileView<?> viewOfFile,
-   		 final AbstractLine<?> line) {
-		super("Record: ", viewOfFile, false, ! viewOfFile.getLayout().isXml());
+	protected LineFrame(final FileView<?> viewOfFile,
+   		 final AbstractLine<?> line,
+   		 final boolean changeRow) {
+		super("Record:", viewOfFile, false, ! viewOfFile.getLayout().isXml(), changeRow);
 
-		JPanel btnPanel = new JPanel();
-
-
-		record = new LineModel(fileView);
-		setModel(record);
+		init_101_setRecord(changeRow);
 
 		record.setCurrentLine(line, fileView.getCurrLayoutIdx());
 		currRow = Common.NULL_INTEGER;
-		init_200_setupFields(btnPanel, icons, listner);
-		init_300_setupScreen(btnPanel);
-
-		show();
-		this.setToMaximum(false);
+		init_200_setupFields(Common.getArrowIcons(), listner, changeRow);
+		init_300_setupScreen(changeRow);
 	}
 
+	private void init_101_setRecord(boolean changeRow) {
+
+		if (changeRow) {
+			record = new LineModel(fileView);
+		} else {
+			record = new LineModel(fileView, 2);
+		}
+		setModel(record);
+	}
 
 	/**
 	 * Get the Row being displayed
@@ -153,6 +136,26 @@ public class LineFrame extends  BaseLineFrame {
 
 
 
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.edit.display.ILineDisplay#setLine(net.sf.JRecord.Details.AbstractLine)
+	 */
+	@Override
+	public void setLine(@SuppressWarnings("rawtypes") AbstractLine line) {
+		setCurrRow(fileView.indexOf(line));
+	}
+
+	/**
+	 * Set the current display row
+	 *
+	 * @param newRow new row to be displayed
+	 */
+	public void setCurrRow(int newRow) {
+		if ((newRow >= 0) && (currRow != newRow)) {
+			currRow = newRow;
+			rowChanged();
+		}
+	}
+
 	/**
 	 * Set the row to be displayed
 	 *
@@ -163,16 +166,14 @@ public class LineFrame extends  BaseLineFrame {
 	 * @see net.sf.RecordEditor.edit.BaseLineDisplay.setCurrRow
 	 */
 	public void setCurrRow(int newRow, int layout, int fieldNum) {
-		if ((newRow >= 0) && (currRow != newRow)) {
-			currRow = newRow;
-			rowChanged();
-		}
+
+		setCurrRow(newRow);
 
 		if (fieldNum > 0 && getLayoutIndex() == layout) {
 			int fNo =  FieldMapping.getAdjColumn(getModel().getFieldMapping(), layout, fieldNum);
 		    tblDetails.getSelectionModel().clearSelection();
 		    tblDetails.getSelectionModel().setSelectionInterval(fNo, fNo);
-		    tblDetails.editCellAt(fNo, LineModel.DATA_COLUMN);
+		    tblDetails.editCellAt(fNo, record.firstDataColumn);
 		}
 	}
 
@@ -199,6 +200,7 @@ public class LineFrame extends  BaseLineFrame {
 	/**
 	 * @see javax.swing.event.TableModelListener#tableChanged(javax.swing.event.TableModelEvent)
 	 */
+	@Override
 	public void tableChanged(TableModelEvent event) {
 
 		switch (event.getType()) {
@@ -265,13 +267,14 @@ public class LineFrame extends  BaseLineFrame {
 			}
 		}
 
+
 		lineNum.setText(Integer.toString(currRow + 1));
 
 		record.setCurrentLayout(getLayoutIndex());
 
 		record.setCurrentLine(currRow, getLayoutIndex());
 		if (record.getCurrentLine() == null) {
-			reClose();
+			getParentFrame().close(this);
 		}
 		int newIdx = record.getCurrentLayout();
 
@@ -291,6 +294,7 @@ public class LineFrame extends  BaseLineFrame {
 		}
 
 		setColumnWidths(colWidths);
+		super.notifyChangeListners();
 	}
 
 
@@ -317,10 +321,10 @@ public class LineFrame extends  BaseLineFrame {
 		boolean allowBack = currRow > 0;
 		boolean allowForward = fileView != null && currRow < fileView.getRowCount() - 1;
 
-	    btn[0].setEnabled(allowBack);
-	    btn[1].setEnabled(allowBack);
-	    btn[2].setEnabled(allowForward);
-	    btn[3].setEnabled(allowForward);
+	    btnPanel.buttons[0].setEnabled(allowBack);
+	    btnPanel.buttons[1].setEnabled(allowBack);
+	    btnPanel.buttons[2].setEnabled(allowForward);
+	    btnPanel.buttons[3].setEnabled(allowForward);
 	}
 
 	private void changeRow(int amount) {
@@ -329,11 +333,16 @@ public class LineFrame extends  BaseLineFrame {
 	}
 
 
+	@Override
+	public String getScreenName() {
+		return super.getScreenName() + " " + (currRow + 1);
+	}
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getNewDisplay(net.sf.RecordEditor.edit.file.FileView)
 	 */
 	@Override
 	protected BaseDisplay getNewDisplay(@SuppressWarnings("rawtypes") FileView view) {
-		return new LineFrame(view, 0);
+		return new LineFrame("Record:", view, 0, true);
 	}
 }

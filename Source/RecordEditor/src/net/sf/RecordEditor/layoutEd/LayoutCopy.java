@@ -8,7 +8,6 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -23,7 +22,6 @@ import net.sf.JRecord.External.CopybookWriter;
 import net.sf.JRecord.External.CopybookWriterManager;
 import net.sf.JRecord.External.ExternalConversion;
 import net.sf.JRecord.External.ExternalRecord;
-//import net.sf.RecordEditor.layoutEd.utils.LayoutVelocity;
 import net.sf.RecordEditor.re.db.Record.ExtendedRecordDB;
 import net.sf.RecordEditor.re.db.Record.RecordRec;
 import net.sf.RecordEditor.re.util.CopybookLoaderFactoryDB;
@@ -32,7 +30,6 @@ import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
 import net.sf.RecordEditor.utils.lang.LangConversion;
-
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;

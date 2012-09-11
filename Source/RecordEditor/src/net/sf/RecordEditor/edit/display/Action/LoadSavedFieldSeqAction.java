@@ -8,14 +8,12 @@ import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.file.filter.AbstractExecute;
 import net.sf.RecordEditor.re.file.filter.ExecuteSavedFile;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
-import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
 @SuppressWarnings("serial")
 public class LoadSavedFieldSeqAction
-extends ReAbstractAction
+extends ReSpecificScreenAction
 implements AbstractActiveScreenAction {
 
 	/**
@@ -32,22 +30,19 @@ implements AbstractActiveScreenAction {
 	 */
 	@Override
 	public void checkActionEnabled() {
-		ReFrame actionHandler = ReFrame.getActiveFrame();
-
-		super.setEnabled(actionHandler != null && actionHandler instanceof AbstractFieldSequencePnl);
+		super.setEnabled(getDisplay(AbstractFieldSequencePnl.class) != null);
 	}
 
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		ReFrame actionHandler = ReFrame.getActiveFrame();
-		if (actionHandler instanceof AbstractFieldSequencePnl) {
+		AbstractFieldSequencePnl sourcePnl = getDisplay(AbstractFieldSequencePnl.class);
+		if (sourcePnl != null) {
 			try {
-				AbstractFieldSequencePnl lineList = (AbstractFieldSequencePnl) actionHandler;
 				@SuppressWarnings("rawtypes")
-				FileView fileView = lineList.getFileView();
+				FileView fileView = sourcePnl.getFileView();
 
-				SetFields setFields = new SetFields(lineList);
+				SetFields setFields = new SetFields(sourcePnl);
 				new ExecuteSavedFile<EditorTask>(
 						fileView.getBaseFile().getFileNameNoDirectory(), "Execute Saved Filter", fileView,
 						Parameters.getFileName(Parameters.HIDDEN_FIELDS_SAVE_DIRECTORY),

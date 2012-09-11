@@ -3,7 +3,6 @@ package net.sf.RecordEditor.re.file;
 
 import java.io.IOException;
 
-
 import javax.swing.SwingWorker;
 
 import net.sf.JRecord.Common.RecordException;

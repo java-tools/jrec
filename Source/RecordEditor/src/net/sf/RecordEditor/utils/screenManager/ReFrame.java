@@ -58,13 +58,6 @@ public class ReFrame extends JInternalFrame
     private InternalFrameListener listener = new InternalFrameListener() {
         public void internalFrameActivated(InternalFrameEvent e) {
         	setActiveFrame(ReFrame.this);
-
-//            if (focusChangedListner != null) {
-//            	System.out.println("Setting event status: " + ReFrame.this.getClass().getName());
-//                focusChangedListner.focusChanged(ReFrame.this);
-//            } else {
-//            	System.out.println("Cannot set event status: " + ReFrame.this.getClass().getName());
-//            }
         }
 
         public void internalFrameClosed(InternalFrameEvent e) {
@@ -323,6 +316,24 @@ public class ReFrame extends JInternalFrame
         return ret;
     }
 
+    public static ReFrame getPrimaryFrame(Object doc) {
+    	ReFrame prim=null;
+
+    	for (ReFrame f : allFrames) {
+    		if (f.document == doc) {
+	    		if (f.isPrimaryView()) {
+	    			prim = f;
+	    			break;
+	    		}
+	    		if (prim == null) {
+	    			prim = f;
+	    		}
+    		}
+    	}
+
+    	return prim;
+    }
+
     /**
      * @return Returns the primaryView.
      */
@@ -509,7 +520,7 @@ public class ReFrame extends JInternalFrame
 		return desktopWidth;
 	}
 
-	public final void setToMaximum(boolean max) {
+	public void setToMaximum(boolean max) {
 
         try {
         	this.setMaximum(max);

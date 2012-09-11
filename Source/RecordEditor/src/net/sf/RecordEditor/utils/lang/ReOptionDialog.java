@@ -26,6 +26,15 @@ public class ReOptionDialog {
 				initialSelectionValue);
 	}
 
+
+	public static int showConfirmDialog(Component parentComponent, String message, String title, int optionType) {
+		return JOptionPane.showConfirmDialog(
+					parentComponent,
+					LangConversion.convert(LangConversion.ST_MESSAGE, message),
+					LangConversion.convert(LangConversion.ST_MESSAGE, title),
+					optionType);
+	}
+
 	public static void showMessageDialog(Component parentComponent,
 		        String message) {
 		JOptionPane.showMessageDialog(

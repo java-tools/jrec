@@ -10,9 +10,11 @@ import javax.swing.tree.TreePath;
 
 import net.sf.JRecord.Details.AbstractChildDetails;
 import net.sf.JRecord.Details.AbstractLine;
+import net.sf.RecordEditor.edit.open.DisplayBuilderFactory;
 import net.sf.RecordEditor.re.file.AbstractLineNode;
 import net.sf.RecordEditor.re.file.FilePosition;
 import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.re.tree.LineNode;
 import net.sf.RecordEditor.re.tree.LineNodeChild;
 import net.sf.RecordEditor.utils.common.Common;
@@ -27,7 +29,8 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 //	model.fireTreeStructureChanged(node, node.getPath(),
 	//		childIdx, children);
 	//private static final Object[] rootPath = {};
-	public LineTreeChild(@SuppressWarnings("rawtypes") FileView viewOfFile, AbstractLineNode rootNode,
+	protected LineTreeChild(
+			@SuppressWarnings("rawtypes") FileView viewOfFile, AbstractLineNode rootNode,
 			boolean mainView, final int columnsToSkip) {
 		super(viewOfFile, mainView, true, columnsToSkip, TREE_OPTION_PANEL);
 		super.setDisplayType(TREE_DISPLAY);
@@ -303,7 +306,7 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 		List<AbstractLine> selLines = getSelectedLines();
 
 		if (selLines != null && selLines.size() > 0) {
-		    new LineList(fileView.getLayout(), fileView.getView(selLines),
+			DisplayBuilderFactory.newLineList(getParentFrame(), fileView.getLayout(), fileView.getView(selLines),
 		            fileView.getBaseFile());
 		}
 	}
@@ -331,7 +334,7 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 		List<AbstractLine> selLines = getSelectedLines();
 
 		if (selLines != null && selLines.size() > 0) {
-			new LineFrame(fileView.getView(selLines), 0);
+			newLineDisp(fileView.getView(selLines), 0);
 		}
 	}
 
@@ -366,6 +369,18 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 
 
 	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.edit.display.AbstractRowChangedImplementor#getChildScreen()
+	 */
+	@Override
+	public AbstractFileDisplay createChildScreen(int pos) {
+		LineFrameTree f = new LineFrameTree(fileView, getInsertAfterLine(false), false);
+		setChildScreen(f);
+		return f;
+	}
+
+
+
+	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getNewDisplay(net.sf.RecordEditor.edit.file.FileView)
 	 */
 	@Override
@@ -373,6 +388,8 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 		LineNode ln = new LineNode("root", view, -1);
 		ln.setFirstLeafLine(0);
 		ln.setLastLeafLine(view.getRowCount());
-		return new LineTreeChild(view, ln, false, this.cols2skip);
+		LineTreeChild tc =  new LineTreeChild(view, ln, false, this.cols2skip);
+		//DisplayBuilder.addToScreen(super.getParentFrame(), tc);
+		return tc;
 	}
 }

@@ -47,7 +47,6 @@ import java.text.SimpleDateFormat;
 import java.util.Properties;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
@@ -61,11 +60,9 @@ import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.External.CopybookWriterManager;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Log.TextLog;
-
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.params.ProgramOptions;
-import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
  *
@@ -90,6 +87,10 @@ public final class Common implements Constants {
 
 	public static final int BOOLEAN_OPERATOR_OR  = 0;
     public static final int BOOLEAN_OPERATOR_AND = 1;
+    public static final String BOOLEAN_AND_STRING = "And";
+    public static final String BOOLEAN_OR_STRING = "Or";
+
+    public static final String PO_INIT_CLASS = "net.sf.RecordEditor.po.PoInit";
 
 	public static final ProgramOptions OPTIONS = new ProgramOptions();
 	public static final Object MISSING_VALUE = new StringBuilder("");
@@ -392,6 +393,11 @@ public final class Common implements Constants {
 		"", "\"", "\"", "'", "`"
 	};
 
+    private static String[] TABLE_NAMES = {"", "FieldType", "RecordType", "System", "FileStructure", "Format"};
+
+    public static String getTblLookupKey(int tblId) {
+  	  return "Tbl_" + TABLE_NAMES[tblId] + "_";
+    }
 	private static int connectionIndex = 0;
 	//private static int defaultConnection = -1;
 	//private static int currIdx = 0;
@@ -502,6 +508,30 @@ public final class Common implements Constants {
         reActionNames[ReActionHandler.SHOW_INVALID_ACTIONS] = "Show invalid Records";
         reActionNames[ReActionHandler.AUTOFIT_COLUMNS] = "Recalculate Column widths";
 
+        reActionNames[ReActionHandler.CLOSE_TAB]   = "Close Tab";
+        reActionNames[ReActionHandler.UNDOCK_TAB]  = "Undock tab";
+        reActionNames[ReActionHandler.UNDOCK_ALL_TABS]     = "Undock all Tabs";
+        reActionNames[ReActionHandler.DOCK_TAB]            = "Dock Tab/Screen";
+        reActionNames[ReActionHandler.DOCK_ALL_SCREENS]    = "Dock related screens";
+        reActionNames[ReActionHandler.ADD_CHILD_SCREEN]    = "Show Child Record";
+        reActionNames[ReActionHandler.REMOVE_CHILD_SCREEN] = "Remove Child Record";
+
+        reActionNames[ReActionHandler.ADD_CHILD_SCREEN_RIGHT]  = "Show Child Record (right)";
+        reActionNames[ReActionHandler.ADD_CHILD_SCREEN_BOTTOM] = "Show Child Record (bottom)";
+        reActionNames[ReActionHandler.ADD_CHILD_SCREEN_SWAP]   = "Swap position of Child Record";
+
+
+
+        reActionDesc[ReActionHandler.UNDOCK_TAB]          = "Display Tab in seperate screen";
+        reActionDesc[ReActionHandler.UNDOCK_ALL_TABS]     = "Display all tabs in there own screen";
+        reActionDesc[ReActionHandler.DOCK_TAB]            = "Dock Tab/Screen with the main screen for this document";
+        reActionDesc[ReActionHandler.DOCK_ALL_SCREENS]    = "Dock all screens for this document with the main screen";
+        reActionDesc[ReActionHandler.ADD_CHILD_SCREEN]    = "Add a linked Child Record to the current screen";
+        reActionDesc[ReActionHandler.REMOVE_CHILD_SCREEN] = "Remove the linked Child Record from the current screen";
+
+        reActionNames[ReActionHandler.ADD_CHILD_SCREEN_RIGHT]  = "Show Child Record on the Right hand side of the screen";
+        reActionNames[ReActionHandler.ADD_CHILD_SCREEN_BOTTOM] = "Show Child Record at the bottom of the list";
+        reActionNames[ReActionHandler.ADD_CHILD_SCREEN_SWAP]   = "Swap the position of Child Record Screen between the Bottom and right hand side of the screen";
 
         reActionDesc[ReActionHandler.EXPORT]        = "Export in another format";
         reActionDesc[ReActionHandler.EXPORT_SCRIPT] = "Export using an external Script (Jython, JRuby, JavaScript etc)";
@@ -1305,19 +1335,19 @@ public final class Common implements Constants {
     }
 
 
-    /**
-     * Get Help button
-     *
-     * @return HelpButton;
-     */
-    public static final JButton getHelpButton() {
-
-        if (recIcon[ID_HELP_ICON] == null) {
-            recIcon[ID_HELP_ICON]    = getIcon("Help");
-        }
-
-        return SwingUtils.newButton("Help", recIcon[ID_HELP_ICON]);
-    }
+//    /**
+//     * Get Help button
+//     *
+//     * @return HelpButton;
+//     */
+//    public static final JButton getHelpButton() {
+//
+//        if (recIcon[ID_HELP_ICON] == null) {
+//            recIcon[ID_HELP_ICON]    = getIcon("Help");
+//        }
+//
+//        return SwingUtils.newButton("Help", recIcon[ID_HELP_ICON]);
+//    }
 
     /**
      * Get the Search Icon
@@ -1700,10 +1730,11 @@ public final class Common implements Constants {
     	int screenWidth = table.getVisibleRect().width;
     	//int screenWidth = table.getMaximumSize().width;
     	int maxColWidth = Math.max(screenWidth * 2 / 3, MINIMUM_MAX_COLUMN_WIDTH);
-    	System.out.println("Col Widths: " + screenWidth + " " + maxColWidth);
+    	//System.out.println("Col Widths: " + screenWidth + " " + maxColWidth);
 
     	calcColumnWidths(table, minColumns, maxColWidth);
     }
+
     public static void calcColumnWidths(JTable table, int minColumns, int maxColWidth) {
        JTableHeader header = table.getTableHeader();
 
@@ -1738,8 +1769,6 @@ public final class Common implements Constants {
         for (int i = columns.getColumnCount() - 1; i >= 0; --i) {
             column = columns.getColumn(i);
 
-            int columnIndex = column.getModelIndex();
-
             int width = -1;
 
             TableCellRenderer h = column.getHeaderRenderer();
@@ -1753,22 +1782,21 @@ public final class Common implements Constants {
                         .getHeaderValue(), false, false, -1, i);
 
                 width = c.getPreferredSize().width;
-                //System.out.print(width + " ");
             }
 
-            for (int row = rowCount - 1; row >= firstRow; --row) {
-                TableCellRenderer r = table.getCellRenderer(row, i);
-
-                try {
-	               Component c = r.getTableCellRendererComponent(
-	                		table,
-	                		data.getValueAt(row, columnIndex), false, false, row, i);
-                	width = Math.max(width, c.getPreferredSize().width);
-                } catch (Exception e) {
-                	System.out.println("Error Row,col= " + row + ", " + columnIndex);
-				}
-
-            }
+            width = getColumnWidth(table, i, firstRow, rowCount, width);
+//            for (int row = rowCount - 1; row >= firstRow; --row) {
+//                TableCellRenderer r = table.getCellRenderer(row, i);
+//
+//                try {
+//	               Component c = r.getTableCellRendererComponent(
+//	                		table,
+//	                		data.getValueAt(row, columnIndex), false, false, row, i);
+//                	width = Math.max(width, c.getPreferredSize().width);
+//                } catch (Exception e) {
+//                	System.out.println("Error Row,col= " + row + ", " + columnIndex);
+//				}
+//            }
 
             if (width >= 0) {
                 //System.out.println("### " + columns.getColumnCount() + " " + i + " Width=" + width);
@@ -1787,6 +1815,26 @@ public final class Common implements Constants {
             //totalWidth += column.getPreferredWidth();
         }
     }
+
+    public static int getColumnWidth(JTable table, int idx, int firstRow, int rowCount, int defaultWidth) {
+    	int width= defaultWidth;
+    	int columnIndex = table.getColumnModel().getColumn(idx).getModelIndex();
+    	TableModel data = table.getModel();
+
+        for (int row = rowCount - 1; row >= firstRow; --row) {
+            TableCellRenderer r = table.getCellRenderer(row, idx);
+
+            try {
+               Component c = r.getTableCellRendererComponent(
+                		table,
+                		data.getValueAt(row, columnIndex), false, false, row, idx);
+            	width = Math.max(width, c.getPreferredSize().width);
+            } catch (Exception e) {
+            	System.out.println("Error Row,col= " + row + ", " + columnIndex);
+			}
+        }
+        return width;
+   }
 
 
 

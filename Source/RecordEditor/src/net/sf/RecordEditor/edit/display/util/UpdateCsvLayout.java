@@ -24,7 +24,6 @@ import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
-
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
@@ -141,7 +140,9 @@ public class UpdateCsvLayout implements ActionListener {
 			delimiterCombo = DelimiterCombo.NewDelimCombo();
 		}
 
+		System.out.println(" ~~!!~~ 1 " + delimiterCombo.getSelectedIndex() + " " + delimiterCombo.getItemCount());
 		delimiterIdx = delimiterCombo.getAddEnglish(delim, true);// getIndex(delim, Common.FIELD_SEPARATOR_LIST1_VALUES, delimiterCombo);
+		System.out.println(" ~~!!~~ 2 " + delimiterCombo.getSelectedIndex() + " " + delimiterCombo.getItemCount());
 		quoteIdx =  quoteCombo.getAddEnglish(quote, true);
 				//getIndex(quote, Common.QUOTE_VALUES, quoteCombo);
 
@@ -271,6 +272,8 @@ public class UpdateCsvLayout implements ActionListener {
 		boolean ret = true;
 		FieldDef f;
 
+		System.out.println( " !!! 1 " + delimiterIdx + " " + delimiterCombo.getSelectedIndex());
+		System.out.println( " !!! 2 " + quoteIdx + " " + quoteCombo.getSelectedIndex());
 		if (delimiterIdx != delimiterCombo.getSelectedIndex()
 		||  quoteIdx != quoteCombo.getSelectedIndex()) {
 			ret = false;
@@ -279,12 +282,16 @@ public class UpdateCsvLayout implements ActionListener {
 				f = fields.get(i);
 
 				if ((f.include && (f.originalPos != i))
-				||  ((! f.include) && f.originalPos >= 0)) {
+				||  ((! f.include) && f.originalPos >= 0)
+				||  (  TYPES_TEXT[2].equals(f.type)
+					&& (! f.type.equals(f.originalType) || f.decimal != f.originalDecimal))
+				) {
 					ret = false;
 					break;
 				}
 			}
 		}
+		System.out.println( " !!! 3 " + ret);
 
 		return ret;
 	}
@@ -316,7 +323,7 @@ public class UpdateCsvLayout implements ActionListener {
 	    for (int i = 0; i < fields.size(); i++) {
 	    	f = fields.get(i);
 	    	if (f.include) {
-	            flds[j] = new FieldDetail(f.name, f.name, getType(f), 0,
+	            flds[j] = new FieldDetail(f.name, f.name, getType(f), f.decimal,
 	                        layout.getFontName(), format, "");
 	            flds[j].setPosOnly(j + 1);
 	            if (f.defaultValue != null && ! "".equals(f.defaultValue.trim())) {
@@ -328,7 +335,7 @@ public class UpdateCsvLayout implements ActionListener {
 
         recs[0] = new RecordDetail(
         		rec.getRecordName(), "", "", rec.getRecordType(),
-        		delimiterCombo.getSelectedItem().toString(), quote,
+        		delimiterCombo.getSelectedEnglish(), quote,
         		layout.getFontName(), flds, rec.getRecordStyle(), 0);
 
         return
@@ -366,7 +373,9 @@ public class UpdateCsvLayout implements ActionListener {
 	}
 
 	private static class FieldDef {
-		public int sourceField, originalPos, decimal;
+		public final int originalPos, originalDecimal;
+		public final String originalType;
+		public int sourceField, decimal;
 		public Boolean include = Boolean.TRUE;
 		public String name;
 		public String type;
@@ -375,11 +384,7 @@ public class UpdateCsvLayout implements ActionListener {
 		//public Boolean defaultInEmpty = Boolean.TRUE;
 
 		public FieldDef(int row) {
-			name = Integer.toString(row+1);
-			originalPos = Constants.NULL_INTEGER;
-			sourceField = Constants.NULL_INTEGER;
-			type = TYPES_TEXT[0];
-			decimal = 0;
+			this(Constants.NULL_INTEGER, Integer.toString(row+1), TYPES_TEXT[0], 0, null);
 		}
 
 		public FieldDef(int originalPos, String name,
@@ -389,7 +394,9 @@ public class UpdateCsvLayout implements ActionListener {
 			this.originalPos = originalPos;
 			this.name = name;
 			this.type = type;
+			this.originalType = type;
 			this.decimal = decimal;
+			this.originalDecimal = decimal;
 
 			if (defaultVal != null) {
 				defaultValue = defaultVal.toString();

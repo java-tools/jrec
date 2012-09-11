@@ -18,7 +18,6 @@ import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.event.InternalFrameAdapter;
@@ -62,7 +61,7 @@ public class RecordEdit extends    ReFrame
 
 	private RecordPnl pnlRecord;
 
-	private JSplitPane splitPane;
+	//private JSplitPane splitPane;
 
 	private JTextField message     = new JTextField(" ");
 
@@ -98,7 +97,7 @@ public class RecordEdit extends    ReFrame
 		defLeftPnl();
 		defRightPanel();
 
-		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 								   pnlRecordList,
 								   pnlRecord);
 

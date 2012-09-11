@@ -27,7 +27,6 @@ import java.awt.Rectangle;
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 
-
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.re.openFile.OpenFileInterface;

@@ -10,23 +10,34 @@ import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.edit.display.common.ILayoutChanged;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
+import net.sf.RecordEditor.re.script.IDisplayFrame;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
+
 
 public class Code {
 
 	private static final byte[] NULL_BYTES = {};
+	@SuppressWarnings("rawtypes")
 	public static void notifyFramesOfNewLayout(
-			FileView masterView, 
+			FileView masterView,
 			AbstractLayoutDetails<?,?> layout) {
 		ReFrame[] frames;
-		
+		AbstractFileDisplay p;
+
 		masterView.setLayout(layout);
 		masterView.fireTableStructureChanged();
 
 		frames = ReFrame.getAllFrames();
 		for (int i = 0; i < frames.length; i++) {
 			if (frames[i].getDocument() == masterView) {
-				if (frames[i] instanceof ILayoutChanged) {
+				if (frames[i] instanceof IDisplayFrame) {
+					p = ((IDisplayFrame) frames[i]).getActiveDisplay();
+					if (p instanceof ILayoutChanged) {
+						((ILayoutChanged) p).layoutChanged(layout);
+					} else {
+						((IDisplayFrame) frames[i]).close(((AbstractFileDisplay) p));
+					}
+				} else if (frames[i] instanceof ILayoutChanged) {
 					((ILayoutChanged) frames[i]).layoutChanged(layout);
 				} else {
 					frames[i].doDefaultCloseAction();
@@ -34,28 +45,37 @@ public class Code {
 			}
 		}
 	}
-	
-	
+
+
+	@SuppressWarnings("rawtypes")
 	public static void notifyFramesOfUpdatedLayout(
-			FileView masterView, 
+			FileView masterView,
 			AbstractLayoutDetails<?,?> layout) {
 		ReFrame[] frames;
-		
+
 		masterView.fireTableStructureChanged();
 
 		frames = ReFrame.getAllFrames();
 		for (int i = 0; i < frames.length; i++) {
 			if (frames[i].getDocument() == masterView) {
-				if (frames[i] instanceof AbstractFileDisplay) {
-					((AbstractFileDisplay) frames[i]).setNewLayout(layout);
-				} else if (frames[i] instanceof ILayoutChanged) {
-					((ILayoutChanged) frames[i]).layoutChanged(layout);
+				if (frames[i] instanceof IDisplayFrame) {
+					setLayout(((IDisplayFrame) frames[i]).getActiveDisplay(), layout);
+				} else {
+					setLayout(frames[i], layout);
 				}
 			}
 		}
 	}
-	
-	
+
+	private static void setLayout(Object pnl, AbstractLayoutDetails<?,?> layout) {
+		if (pnl instanceof AbstractFileDisplay) {
+			((AbstractFileDisplay) pnl).setNewLayout(layout);
+		} else if (pnl instanceof ILayoutChanged) {
+			((ILayoutChanged) pnl).layoutChanged(layout);
+		}
+	}
+
+
 	public static void updateFile(FileView<LayoutDetail> masterFile, LayoutDetail newLayout, int[] trans) {
 		AbstractLine<LayoutDetail> newLine, oldLine;
 
@@ -64,7 +84,7 @@ public class Code {
 			oldLine = newLine.getNewDataLine();
 			newLine.setLayout(newLayout);
 			newLine.setData(NULL_BYTES);
-			for (int j = trans.length - 1; j >= 0; j--) {		
+			for (int j = trans.length - 1; j >= 0; j--) {
 				try {
 					if (trans[j] >= 0) {
 						newLine.setField(0, j, oldLine.getField(0, trans[j]));
@@ -84,12 +104,12 @@ public class Code {
 		RecordDetail rec = layout.getRecord(0);
 		FieldDetail[] fields = new FieldDetail[rec.getFieldCount() + 1];
 		int[] trans = new int[fields.length];
-		
+
 		for (int i = 0; i < col; i++) {
 			fields[i] = cloneCsvField(rec.getField(i), i+1);
 			trans[i] = i;
 		}
-		fields[col] = new FieldDetail(s, "", Type.ftChar, 0, rec.getFontName(), 0, ""); 
+		fields[col] = new FieldDetail(s, "", Type.ftChar, 0, rec.getFontName(), 0, "");
 		fields[col].setPosOnly(col+1);
 		trans[col] = source;
 
@@ -97,7 +117,7 @@ public class Code {
 			fields[i] = cloneCsvField(rec.getField(i-1), i+1);
 			trans[i] = i-1;
 		}
-		
+
 		updateFile(masterFile, cloneCsvLayout(layout, fields), trans);
 	}
 
@@ -110,10 +130,10 @@ public class Code {
 		if (d > source) {
 			d -= 1;
 		}
-		
+
 		for (int i = 0; i < fields.length; i++) {
 			if (i == source) {
-				
+
 			} else {
 				if (k == d) {
 					k += 1;
@@ -125,7 +145,7 @@ public class Code {
 		}
 		fields[d] = cloneCsvField(rec.getField(source), d+1);
 		trans[d] = source;
-		
+
 		updateFile(masterFile, cloneCsvLayout(layout, fields), trans);
 	}
 
@@ -133,7 +153,7 @@ public class Code {
 		RecordDetail rec = layout.getRecord(0);
 		FieldDetail[] fields = new FieldDetail[rec.getFieldCount() - 1];
 		int[] trans = new int[fields.length];
-		
+
 		for (int i = 0; i < col; i++) {
 			fields[i] = cloneCsvField(rec.getField(i), i+1);
 			trans[i] = i;
@@ -141,30 +161,30 @@ public class Code {
 
 		for (int i = col; i < fields.length; i++) {
 			fields[i] = cloneCsvField(rec.getField(i + 1), i+1);
-			
+
 			trans[i] = i + 1;
 		}
-		
+
 		updateFile(masterFile, cloneCsvLayout(layout, fields), trans);
 	}
 
 	private static FieldDetail cloneCsvField(FieldDetail f, int pos) {
 		FieldDetail ret = new FieldDetail(
-				f.getName(), f.getDescription(), f.getType(), f.getDecimal(), 
+				f.getName(), f.getDescription(), f.getType(), f.getDecimal(),
 				f.getFontName(), f.getFormat(), f.getParamater());
 		ret.setPosOnly(pos);
 		return ret;
 	}
-	
+
 	private static LayoutDetail cloneCsvLayout(LayoutDetail l, FieldDetail[] fields) {
 		RecordDetail rec = l.getRecord(0);
 		RecordDetail[] recs = new RecordDetail[1];
-		
+
         recs[0] = new RecordDetail(
         		rec.getRecordName(), "", "", rec.getRecordType(),
-        		rec.getDelimiter(), rec.getQuote(), 
+        		rec.getDelimiter(), rec.getQuote(),
         		l.getFontName(), fields, rec.getRecordStyle(), 0);
-        
+
         return
             new LayoutDetail(l.getLayoutName(), recs, "",
                 l.getLayoutType(),

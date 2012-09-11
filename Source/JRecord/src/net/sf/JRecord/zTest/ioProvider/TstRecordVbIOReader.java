@@ -18,7 +18,6 @@ import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.ToLayoutDetail;
 import net.sf.JRecord.IO.AbstractLineReader;
-import net.sf.JRecord.IO.StandardLineReader;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.Numeric.Convert;
 import net.sf.JRecord.zTest.Common.IO;
@@ -41,7 +40,7 @@ public class TstRecordVbIOReader extends TestCase {
 	private CopybookLoader copybookInt = new CobolCopybookLoader();
 
     private static final String TMP_DIRECTORY = TstConstants.TEMP_DIRECTORY;
- 
+
 
 	/**
      * @see TestCase#setUp()
@@ -92,7 +91,7 @@ public class TstRecordVbIOReader extends TestCase {
     	testAfile(dtar107FileName, dtar107CopyBook, dtar107Lines);
     }
 
-    public void testAfile(String fileName, LayoutDetail copyBook, byte[][] lines) 
+    public void testAfile(String fileName, LayoutDetail copyBook, byte[][] lines)
     throws IOException, RecordException {
 
         int i, j;
@@ -111,7 +110,8 @@ public class TstRecordVbIOReader extends TestCase {
         System.out.println(".. end ..");
     }
 
-    private void binReadCheck(String id,  String fileName, LayoutDetail copyBook,
+    @SuppressWarnings("rawtypes")
+	private void binReadCheck(String id,  String fileName, LayoutDetail copyBook,
             byte[][] lines2Test)
     throws IOException, RecordException {
         AbstractLineReader tReader = LineIOProvider.getInstance().getLineReader(Constants.IO_VB);

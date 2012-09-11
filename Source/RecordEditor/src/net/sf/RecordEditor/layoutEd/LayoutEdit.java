@@ -66,6 +66,7 @@ public class LayoutEdit extends ReMainFrame {
 	 */
 	public LayoutEdit() {
 		super("Record Layout Definitions", "", "le");
+		runInitClass(Common.PO_INIT_CLASS, null);
 
 		ReIOProvider.register();
 

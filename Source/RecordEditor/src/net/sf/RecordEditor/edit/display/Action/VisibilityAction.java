@@ -5,12 +5,11 @@ import java.awt.event.ActionEvent;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.edit.display.util.HideFields;
-import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
-import net.sf.RecordEditor.utils.screenManager.ReFrame;
+
 
 @SuppressWarnings("serial")
-public class VisibilityAction extends ReAbstractAction implements AbstractActiveScreenAction {
+public class VisibilityAction extends ReSpecificScreenAction implements AbstractActiveScreenAction {
 
 	/**
 	 * @param creator
@@ -24,16 +23,14 @@ public class VisibilityAction extends ReAbstractAction implements AbstractActive
 	/**
 	 * @see net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction#checkActionEnabled()
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void checkActionEnabled() {
-		ReFrame actionHandler = ReFrame.getActiveFrame();
 		boolean enable = false;
+		AbstractFileDisplayWithFieldHide sourcePnl = getDisplay(AbstractFileDisplayWithFieldHide.class);
 
-		if (actionHandler != null && actionHandler instanceof AbstractFileDisplayWithFieldHide) {
-			AbstractFileDisplayWithFieldHide sourcePnl =(AbstractFileDisplayWithFieldHide) actionHandler;
-
-	    	AbstractLayoutDetails layout = sourcePnl.getFileView().getLayout();
+		if (sourcePnl != null) {
+	    	@SuppressWarnings("rawtypes")
+			AbstractLayoutDetails layout = sourcePnl.getFileView().getLayout();
 	    	int recordIndex = sourcePnl.getLayoutIndex();
 	    	enable =  (recordIndex <= layout.getRecordCount() && recordIndex >= 0);
 
@@ -43,9 +40,27 @@ public class VisibilityAction extends ReAbstractAction implements AbstractActive
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		ReFrame activeScreen = ReFrame.getActiveFrame();
-		if (activeScreen instanceof AbstractFileDisplayWithFieldHide) {
-			new HideFields((AbstractFileDisplayWithFieldHide) activeScreen);
+		AbstractFileDisplayWithFieldHide sourcePnl = getDisplay(AbstractFileDisplayWithFieldHide.class);
+
+		if (sourcePnl != null) {
+			new HideFields(sourcePnl);
 		}
 	}
+//
+//	private AbstractFileDisplayWithFieldHide getDisplay() {
+//		AbstractFileDisplayWithFieldHide ret = null;
+//		ReFrame actionHandler = ReFrame.getActiveFrame();
+//
+//		if (actionHandler == null) {
+//
+//		} else if (actionHandler instanceof AbstractFileDisplayWithFieldHide) {
+//			ret = (AbstractFileDisplayWithFieldHide) actionHandler;
+//		} else if (actionHandler instanceof IDisplayFrame) {
+//			IDisplayFrame fd = (IDisplayFrame) actionHandler;
+//			if (fd.getActiveDisplay() instanceof AbstractFileDisplayWithFieldHide) {
+//				ret = (AbstractFileDisplayWithFieldHide) fd.getActiveDisplay();
+//			}
+//		}
+//		return ret;
+//	}
 }

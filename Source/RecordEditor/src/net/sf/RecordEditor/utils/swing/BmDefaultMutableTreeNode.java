@@ -17,7 +17,6 @@ package net.sf.RecordEditor.utils.swing;
 
 
 import java.util.Enumeration;
-
 import java.util.List;
 import java.util.Vector;
 

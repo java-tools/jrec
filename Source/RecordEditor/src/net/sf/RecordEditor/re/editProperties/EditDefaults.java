@@ -15,6 +15,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.swing.Combo.ComboStrOption;
@@ -42,7 +43,8 @@ public class EditDefaults extends BasePanel {
 
     private String[][] data;
 
-    private final static  String[] columnHeadings = {"Field", "Description"};
+    private final static  String[] columnHeadings = LangConversion.convertArray(LangConversion.ST_COLUMN_HEADING, "editProps_DefaultColHeadings",
+    		new String[] {"Property Variable", "Description"});
 
     private AbstractAction action = new AbstractAction() {
 

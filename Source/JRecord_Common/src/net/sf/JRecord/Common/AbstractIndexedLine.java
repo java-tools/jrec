@@ -18,9 +18,16 @@ public interface AbstractIndexedLine {
 	 * @param field field to retrieve
 	 *
 	 * @return fields Value
-	 * 
+	 *
 	 */
 	public abstract Object getField(FieldDetail field);
+
+	   /**
+     * Get the Preferred Record Layout Index for this record
+     *
+     * @return Index of the Record Layout based on the Values
+     */
+    public abstract int getPreferredLayoutIdx();
 
 	//
 	//    /**
@@ -29,7 +36,7 @@ public interface AbstractIndexedLine {
 	//     * @param fieldName field to retrieve
 	//     *
 	//     * @return fields Value
-	//     * 
+	//     *
 	//     * @deprecated use getFieldValue
 	//     */
 	//    public abstract Object getField(String fieldName);

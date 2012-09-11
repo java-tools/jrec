@@ -45,12 +45,15 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
 	private static HashMap<String, Integer>[] formatConv = new HashMap[Constants.NUMBER_OF_COPYBOOK_SOURCES];
 	private static String[][] typeNames = new String[Constants.NUMBER_OF_COPYBOOK_SOURCES][];
 	private static String[][] formatNames = new String[Constants.NUMBER_OF_COPYBOOK_SOURCES][];
+//	private static ArrayList<BasicKeyedField>[] allTypes = new ArrayList[Constants.NUMBER_OF_COPYBOOK_SOURCES];
+
 	static {
 		for (int i = 0; i < typeConv.length; i++) {
 			typeConv[i]   = null;
 			formatConv[i] = null;
 			typeNames[i]  = null;
 			formatNames[i]= null;
+//			allTypes[i] = null;
 		}
 	}
 
@@ -163,6 +166,17 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
    }
 
 
+
+//	/* (non-Javadoc)
+//	 * @see net.sf.JRecord.External.AbstractConversion#getTypes(int)
+//	 */
+//	@Override
+//	public java.util.List<BasicKeyedField> getTypes(int idx) {
+//		loadTypesFormats(idx);
+//		return allTypes[idx];
+//	}
+
+
 /**
     * Load The Types
     * @param dbIdx database index
@@ -173,9 +187,11 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
    		Integer key;
    		TypeList types = new TypeList(dbIdx, false, false, false);
    		String str;
+   		//BasicKeyedField b;
 
    		typeConv[dbIdx] = new HashMap<String, Integer>();
    		typeNames[dbIdx] = new String[typeMgr.getNumberOfTypes()];
+   		//allTypes[dbIdx] = new ArrayList<BasicKeyedField>(300);
    		types.loadData();
    		for (int i = 0; i < types.getSize(); i++) {
    			key = (Integer) types.getKeyAt(i);
@@ -183,6 +199,11 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
    			typeConv[dbIdx].put(str.toLowerCase(), key);
    			typeConv[dbIdx].put(key.toString(), key);
    			typeNames[dbIdx][typeMgr.getIndex(key.intValue())] = str;
+
+//   			b = new BasicKeyedField();
+//   			b.key = key;
+//   			b.name = str;
+//   			allTypes[dbIdx].add(b);
    		}
 
    		TableList formats =

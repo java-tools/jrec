@@ -70,7 +70,7 @@ public class Menu extends ReFrame
 	private JButton copyLayouts = new JButton("*");
 	private JButton upgrade = new JButton("*");
 
-	private JButton btnHelp    = Common.getHelpButton();
+	private JButton btnHelp    = SwingUtils.getHelpButton();
 
 
 	private BaseHelpPanel pnl = new BaseHelpPanel();

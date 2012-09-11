@@ -26,6 +26,7 @@ import net.sf.RecordEditor.utils.common.Common;
 public final class FilePosition {
     public static final int END_OF_COLUMN = Integer.MAX_VALUE;
     public static final int ALL_FIELDS_IDX = -1;
+    public int lineCount;
     public int row;
     public int col;
     public int recordId;
@@ -53,9 +54,10 @@ public final class FilePosition {
      */
     public FilePosition(final int theRow, final int theCol,
             final int theRecord, final int theField,
-            final boolean forwardDirection) {
+            final boolean forwardDirection,
+            final int numberOfLines) {
         super();
-        setAll(theRow, theCol, theRecord, theField, forwardDirection);
+        setAll(theRow, theCol, theRecord, theField, forwardDirection, numberOfLines);
     }
 
     /**
@@ -68,13 +70,15 @@ public final class FilePosition {
      */
     public void setAll(final int theRow, final int theCol,
             final int theRecord, final int theField,
-            final boolean forwardDirection) {
+            final boolean forwardDirection,
+            final int numberOfLines) {
 
         setForward(forwardDirection);
         setFieldId(theField);
         row = theRow;
         col = theCol;
         recordId = theRecord;
+        lineCount = numberOfLines;
 
     }
 
@@ -150,12 +154,26 @@ public final class FilePosition {
     }
 
     /**
+	 * @param lineCount the lineCount to set
+	 */
+	public void setLineCount(int lineCount) {
+		this.lineCount = lineCount;
+	}
+
+	/**
      * @return Returns the forward.
      */
     public boolean isForward() {
         return forward;
     }
 
+    public void gotoStart() {
+    	if (forward) {
+    		row = -1;
+    	} else {
+    		row = lineCount;
+    	}
+    }
     /**
      * @param pForward The forward to set.
      */

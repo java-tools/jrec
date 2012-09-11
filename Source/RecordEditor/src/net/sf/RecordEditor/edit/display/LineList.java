@@ -27,31 +27,22 @@
  */
 package net.sf.RecordEditor.edit.display;
 
-import java.awt.Component;
-import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
 import javax.swing.AbstractAction;
-import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
-import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
@@ -59,23 +50,21 @@ import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Details.LayoutDetail;
-import net.sf.JRecord.Details.LineCompare;
 import net.sf.RecordEditor.edit.display.Action.AutofitAction;
 import net.sf.RecordEditor.edit.display.Action.CsvUpdateLayoutAction;
 import net.sf.RecordEditor.edit.display.Action.GotoLineAction;
 import net.sf.RecordEditor.edit.display.common.AbstractFieldSequencePnl;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
-import net.sf.RecordEditor.edit.display.common.AbstractRowChanged;
 import net.sf.RecordEditor.edit.display.util.Code;
 import net.sf.RecordEditor.edit.display.util.RowChangeListner;
 import net.sf.RecordEditor.edit.util.ReMessages;
 import net.sf.RecordEditor.jibx.compare.FieldSequence;
 import net.sf.RecordEditor.re.file.FieldMapping;
 import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
-
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.ReAction;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
@@ -86,12 +75,12 @@ import net.sf.RecordEditor.utils.swing.HexGenericRender;
 import net.sf.RecordEditor.utils.swing.HexOneLineRender;
 import net.sf.RecordEditor.utils.swing.HexTableCellEditor;
 import net.sf.RecordEditor.utils.swing.HexThreeLineField;
+import net.sf.RecordEditor.utils.swing.HexThreeLineRender;
 import net.sf.RecordEditor.utils.swing.HexTwoLineField;
 import net.sf.RecordEditor.utils.swing.HexTwoLineFieldAlt;
+import net.sf.RecordEditor.utils.swing.HexTwoLineRender;
 import net.sf.RecordEditor.utils.swing.LayoutCombo;
 import net.sf.RecordEditor.utils.swing.MonoSpacedRender;
-import net.sf.RecordEditor.utils.swing.HexThreeLineRender;
-import net.sf.RecordEditor.utils.swing.HexTwoLineRender;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
@@ -107,7 +96,7 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
  */
 @SuppressWarnings("serial")
 public class LineList extends BaseLineDisplay
-implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChanged, AbstractFieldSequencePnl {
+implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateChildScreen, AbstractFieldSequencePnl {
 
     //private static final int ROW_WIDTH = 40;
     //private static final int CHAR_WIDTH = 8;
@@ -140,11 +129,17 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 
  //   private JMenu showColumnsMenu = new JMenu("Show Column");
     //private ArrayList<TableColumn> hiddenColumns = new ArrayList<TableColumn>();
-    private KeyListener keyListner;
+    private RowChangeListner keyListner;
 
     private FieldMapping fieldMapping = null;
 
+    private LineFrame childFrame;
 
+    protected static LineList newLineList(final AbstractLayoutDetails<?, ?> group,
+            final FileView<?> viewOfFile,
+            final FileView<?> masterFile) {
+    	return new LineList(group, viewOfFile, masterFile);
+    }
 
     /**
      *
@@ -152,11 +147,11 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
      * @param viewOfFile - current file view
      * @param masterFile - Internal Representation of the file
      */
-    public LineList(final AbstractLayoutDetails<?, ?> group,
+    private LineList(final AbstractLayoutDetails<?, ?> group,
                     final FileView<?> viewOfFile,
                     final FileView<?> masterFile) {
         super("Table:", viewOfFile, viewOfFile == masterFile, ! viewOfFile.getLayout().isXml(),
-        		 true, group.isBinary());
+        		 true, group.isBinary(), true);
 
         fieldMapping = new FieldMapping(getFieldCounts());
 
@@ -245,7 +240,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 	      		int col = table.columnAtPoint(e.getPoint());
 	            int row = table.rowAtPoint(e.getPoint());
 
-	            checkRowChange(row);
+	            checkForRowChange(row);
 	            if (row >= 0 && row != table.getEditingRow()
 	        	&&  col >= 0 && col != table.getEditingColumn()
 	        	&& cellEditors != null && col < cellEditors.length && cellEditors[col] != null
@@ -273,7 +268,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 //        tblDetails = new JTable(viewOfFile);
         tableDetails.addMouseListener(mainPopup);
 
-        initToolTips();
+        initToolTips(2);
 
         tableDetails.getTableHeader().addMouseListener(new HeaderSort());
 
@@ -343,14 +338,6 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
                          tblScrollPane);
 
 
-        addMainComponent(actualPnl);
-
-
-        setBounds(1, 1,
-                  screenSize.width  - 1,
-                  screenSize.height - 1);
-
-        setToMaximum(true);
 
         if (layout.getRecordCount() > 1 && Common.usePrefered()) {
         	LayoutCombo combo = getLayoutCombo();
@@ -369,24 +356,28 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 //        	setLayoutIdx();
 //        }
 
-        setVisible(true);
     }
 
 
 
-	/**
-	 * Get the number of fields for each record
-	 * @return field counts for for each record
-	 */
-	private int[] getFieldCounts() {
-       int[] rows = new int[layout.getRecordCount()];
+	@Override
+	public void setScreenSize(boolean mainframe) {
 
-        for (int i = 0; i < layout.getRecordCount(); i++) {
-        	rows[i] = fileView.getLayoutColumnCount(i);
-        }
+		DisplayFrame parentFrame = getParentFrame();
+		parentFrame.bldScreen();
 
-        return rows;
+        parentFrame.setBounds(1, 1,
+                  screenSize.width  - 1,
+                  screenSize.height - 1);
+
+
+        parentFrame.setToMaximum(true);
+		parentFrame.setVisible(true);
+
+		Common.calcColumnWidths(tblDetails, 2);
 	}
+
+
 
 	/*
 	 * (non-Javadoc)
@@ -442,26 +433,64 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
     /* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.display.AbstractRowChanged#checkRowChange(int)
 	 */
-    public final void checkRowChange(int row) {
+    public final void checkForRowChange(int row) {
     	//System.out.println("Check Row: " + isPrefered + "   " + lastRow + " " + row);
-    	if (isPrefered && lastRow != row) {
-    		int recordIdx = fileView.getLine(row).getPreferredLayoutIdx();
-    		if (recordIdx != fileView.getDefaultPreferredIndex()) {
-	    		fileView.setDefaultPreferredIndex(recordIdx);
+    	if (lastRow != row) {
+	    	if (isPrefered && lastRow != row) {
+	    		int recordIdx = fileView.getLine(row).getPreferredLayoutIdx();
+	    		if (recordIdx != fileView.getDefaultPreferredIndex()) {
+		    		fileView.setDefaultPreferredIndex(recordIdx);
 
-	    		TableColumnModel columns = tblDetails.getColumnModel();
-	    		int last = Math.min(fileView.getColumnCount(), columns.getColumnCount());
-	    		for (int i = 0; i < last; i++) {
-	    			//System.out.print("  " + i + " " + fileView.getColumnName(i));
-	    			columns.getColumn(i).setHeaderValue(fileView.getColumnName(columns.getColumn(i).getModelIndex()));
-	    		}
-	    		tblScrollPane.correctFixedSize();
+		    		TableColumnModel columns = tblDetails.getColumnModel();
+		    		int last = Math.min(fileView.getColumnCount(), columns.getColumnCount());
+		    		for (int i = 0; i < last; i++) {
+		    			//System.out.print("  " + i + " " + fileView.getColumnName(i));
+		    			columns.getColumn(i).setHeaderValue(fileView.getColumnName(columns.getColumn(i).getModelIndex()));
+		    		}
+		    		tblScrollPane.correctFixedSize();
+		    	}
 	    	}
-    		lastRow = row;
+
+	    	if (childFrame != null) {
+	    		childFrame.setCurrRow(row);
+	    	}
     	}
+    	lastRow = row;
     }
 
-    /**
+
+	/**
+	 * @see net.sf.RecordEditor.edit.display.AbstractCreateChildScreen#createChildScreen()
+	 */
+	@Override
+	public AbstractFileDisplay createChildScreen(int pos) {
+
+		childFrame = new LineFrame("ChildRecord:", super.fileView, Math.max(0, getCurrRow()), false);
+		setKeylistner(tblDetails);
+		return childFrame;
+	}
+
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getChildFrame()
+	 */
+	@Override
+	public AbstractFileDisplay getChildScreen() {
+		return childFrame;
+	}
+
+
+	@Override
+	public void removeChildScreen() {
+		if (childFrame != null) {
+			childFrame.doClose();
+		}
+		childFrame = null;
+		setKeylistner(tblDetails);
+	}
+
+	/**
      * Changes the record layout used to display the file
      * @see BaseDisplay#fireLayoutIndexChanged()
      */
@@ -524,59 +553,55 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 
         int fullLineIndex = getLayoutCombo().getFullLineIndex();
         isPrefered = layoutIdx == getLayoutCombo().getPreferedIndex();
+
+        setKeylistner(tbl);
         if (isPrefered) {
-        	if (tbl == tblDetails) {
-        		tbl.addKeyListener(keyListner);
-        	}
-        	lastRow = - 1;
-        	checkRowChange(tbl.getSelectedRow());
-        } else {
-        	tbl.removeKeyListener(keyListner);
-        	if (layoutIdx == fullLineIndex) {
-	            if (charRendor == null) {
-	                charRendor = new MonoSpacedRender();
-	                charEditor = new DefaultCellEditor(new MonoSpacedRender());
-	            }
-	            //System.out.println("~~ " + "setting Rendor");
-	            tcm.getColumn(2).setCellRenderer(charRendor);
-	            tcm.getColumn(2).setCellEditor(charEditor);
-	       } else if (layoutIdx == fullLineIndex + 1) {
-	            if (hex1Rendor == null) {
-	                hex1Rendor = new HexOneLineRender();
-	                hex1Editor = new HexTableCellEditor(new HexOneLineRender());
-	            }
 
-	            tcm.getColumn(2).setCellRenderer(hex1Rendor);
-	            tcm.getColumn(2).setCellEditor(hex1Editor);
-	        } else if (layoutIdx == fullLineIndex + 2) {
-	            if (hex2Rendor == null) {
-	                hex2Rendor = new HexTwoLineRender(font);
-	                hex2Editor = new HexTableCellEditor(new HexTwoLineField(font));
-	            }
+        } else if (layoutIdx == fullLineIndex) {
+            if (charRendor == null) {
+                charRendor = new MonoSpacedRender();
+                charEditor = new DefaultCellEditor(new MonoSpacedRender());
+            }
+            //System.out.println("~~ " + "setting Rendor");
+            tcm.getColumn(2).setCellRenderer(charRendor);
+            tcm.getColumn(2).setCellEditor(charEditor);
+       } else if (layoutIdx == fullLineIndex + 1) {
+            if (hex1Rendor == null) {
+                hex1Rendor = new HexOneLineRender();
+                hex1Editor = new HexTableCellEditor(new HexOneLineRender());
+            }
 
-	            tcm.getColumn(2).setCellRenderer(hex2Rendor);
-	            tcm.getColumn(2).setCellEditor(hex2Editor);
-	            lineHeight = scrollPane.TWO_LINE_HEIGHT;
-	        } else if (layoutIdx == fullLineIndex + 3) {
-	            if (hex3Rendor == null) {
-	                hex3Rendor = new HexThreeLineRender(font);
-	                hex3Editor = new HexTableCellEditor(new HexThreeLineField(font));
-	            }
+            tcm.getColumn(2).setCellRenderer(hex1Rendor);
+            tcm.getColumn(2).setCellEditor(hex1Editor);
+        } else if (layoutIdx == fullLineIndex + 2) {
+            if (hex2Rendor == null) {
+                hex2Rendor = new HexTwoLineRender(font);
+                hex2Editor = new HexTableCellEditor(new HexTwoLineField(font));
+            }
 
-	            tcm.getColumn(2).setCellRenderer(hex3Rendor);
-	            tcm.getColumn(2).setCellEditor(hex3Editor);
-	            lineHeight = scrollPane.THREE_LINE_HEIGHT;
-	        } else if (layoutIdx == fullLineIndex + 4) {
-	            if (hex2RendorA == null) {
-	                hex2RendorA = new HexGenericRender(font, new HexTwoLineFieldAlt(font));
-	                hex2EditorA = new HexTableCellEditor(new HexTwoLineFieldAlt(font));
-	            }
+            tcm.getColumn(2).setCellRenderer(hex2Rendor);
+            tcm.getColumn(2).setCellEditor(hex2Editor);
+            lineHeight = scrollPane.TWO_LINE_HEIGHT;
+        } else if (layoutIdx == fullLineIndex + 3) {
+            if (hex3Rendor == null) {
+                hex3Rendor = new HexThreeLineRender(font);
+                hex3Editor = new HexTableCellEditor(new HexThreeLineField(font));
+            }
 
-	            tcm.getColumn(2).setCellRenderer(hex2RendorA);
-	            tcm.getColumn(2).setCellEditor(hex2EditorA);
-	            lineHeight = scrollPane.TWO_LINE_HEIGHT;
-	        }
+            tcm.getColumn(2).setCellRenderer(hex3Rendor);
+            tcm.getColumn(2).setCellEditor(hex3Editor);
+            lineHeight = scrollPane.THREE_LINE_HEIGHT;
+        } else if (layoutIdx == fullLineIndex + 4) {
+            if (hex2RendorA == null) {
+                hex2RendorA = new HexGenericRender(font, new HexTwoLineFieldAlt(font));
+                hex2EditorA = new HexTableCellEditor(new HexTwoLineFieldAlt(font));
+            }
+
+            tcm.getColumn(2).setCellRenderer(hex2RendorA);
+            tcm.getColumn(2).setCellEditor(hex2EditorA);
+            lineHeight = scrollPane.TWO_LINE_HEIGHT;
         }
+
         setRowHeight(lineHeight);
 
         if (scrollPane != null) {
@@ -615,6 +640,19 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
        return tbl;
     }
 
+
+    private void setKeylistner(JTable tbl) {
+
+        if (isPrefered || childFrame != null) {
+        	if (tbl == tblDetails) {
+        		tbl.addKeyListener(keyListner);
+        	}
+        	lastRow = - 1;
+        	checkForRowChange(tbl.getSelectedRow());
+        } else {
+        	tbl.removeKeyListener(keyListner);
+        }
+    }
 
     /**
      * Get the Current Row to display
@@ -667,7 +705,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
     	break;
     	case (ReActionHandler.DELETE_RECORD):
     		super.executeAction(action);
-    		checkRowChange(table.getSelectedRow());
+    		checkForRowChange(table.getSelectedRow());
     	break;
     	case(ReActionHandler.PASTE_TABLE_INSERT):
 			int startRow = table.getSelectedRow();
@@ -704,6 +742,8 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 			|| action == ReActionHandler.AUTOFIT_COLUMNS
 			|| super.isActionAvailable(action);
 	}
+
+
     /**
 	 * @see javax.swing.event.TableModelListener#tableChanged(javax.swing.event.TableModelEvent)
 	 */
@@ -830,10 +870,10 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
     			ret[i] = map.get(name).intValue();
     		}
 
-    		System.out.println(" ==> " + i
-    				+ " " + name + " " + map.containsKey(name)
-    				+ " : " + ret[i]
-    				);
+//    		System.out.println(" ==> " + i
+//    				+ " " + name + " " + map.containsKey(name)
+//    				+ " : " + ret[i]
+//    				);
     		i +=1;
     	}
 
@@ -867,7 +907,10 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 			tblScrollPane.setFieldVisibility(NUMBER_OF_CONTROL_COLUMNS, fieldVisibility);
 		}
 
-		setActiveFrame(this);
+		DisplayFrame parentFrame = getParentFrame();
+		if (parentFrame != null) {
+			parentFrame.setToActiveFrame();
+		}
 	}
 
 
@@ -875,142 +918,51 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 
 
 
-	/**
-     *
-     * @author Bruce Martin
-     *
-     * This column formats the Column Headings
-     */
-    private class HeaderRender extends JPanel implements TableCellRenderer {
-
-        /**
-         * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent
-         * 		(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
-         */
-        public Component getTableCellRendererComponent(
-            JTable tbl,
-            Object value,
-            boolean isFldSelected,
-            boolean hasFocus,
-            int row,
-            int column) {
-
-            removeAll();
-            setLayout(new GridLayout(2, 1));
-
-            if (column >= 0 && value != null) {
-
-                String s = (String) value;
-                String first = s;
-                String second = "";
-                int pos = s.indexOf(Common.COLUMN_LINE_SEP);
-                if (pos > 0) {
-                    first = s.substring(pos + 1);
-                    second = s.substring(0, pos);
-                }
-                JLabel label = new JLabel(first);
-                add(label);
-                if ((!second.equals(""))) {
-                    label = new JLabel(second);
-
-  //                  System.out.println("Header Render");
-                    if (getLayoutIndex() >= getLayoutCombo().getFullLineIndex()) {
-                    	label.setFont(SwingUtils.getMonoSpacedFont());
-                    }
-
-                    add(label);
-                }
-            }
-            this.setBorder(BorderFactory.createEtchedBorder());
-
-            return this;
-        }
-    }
 
 
-//    /**
-//     *
-//     * @author Bruce Martin
-//     *
-//     * This class supplies Column Tips (displayed
-//     * when the cursor is held over a column).
-//     */
-//    private class HeaderToolTips extends JTableHeader {
-//        private String[] tips;
+
+
+
+    //  /**
+//  *
+//  * @author Bruce Martin
+//  *
+//  * This class supplies Column Tips (displayed
+//  * when the cursor is held over a column).
+//  */
+// private class HeaderToolTips extends JTableHeader {
+//     private String[] tips;
 //
-//        /**
-//         *
-//         * @param columnModel column model to use
-//         */
-//        public HeaderToolTips(final TableColumnModel columnModel) {
-//            super(columnModel);
-//        }
+//     /**
+//      *
+//      * @param columnModel column model to use
+//      */
+//     public HeaderToolTips(final TableColumnModel columnModel) {
+//         super(columnModel);
+//     }
 //
-//        /**
-//         * Define the Column Heading Tips
-//         *
-//         * @param strings - List of strings Tips
-//         */
-//        public void setTips(String[] strings) {
-//            tips = strings;
-//        }
+//     /**
+//      * Define the Column Heading Tips
+//      *
+//      * @param strings - List of strings Tips
+//      */
+//     public void setTips(String[] strings) {
+//         tips = strings;
+//     }
 //
-//        /**
-//         * @see javax.swing.table.JTableHeader#getToolTipText
-//         */
-//        public String getToolTipText(MouseEvent m) {
-//            String tip = super.getToolTipText(m);
-//            int col = tblDetails.columnAtPoint(m.getPoint());
-//            if ((tips != null) && ((col - 2 < tips.length) && (col > 1))) {
-//                tip = tips[col - 2];
-//            }
+//     /**
+//      * @see javax.swing.table.JTableHeader#getToolTipText
+//      */
+//     public String getToolTipText(MouseEvent m) {
+//         String tip = super.getToolTipText(m);
+//         int col = tblDetails.columnAtPoint(m.getPoint());
+//         if ((tips != null) && ((col - 2 < tips.length) && (col > 1))) {
+//             tip = tips[col - 2];
+//         }
 //
-//            return tip;
-//        }
-//   }
-
-
-    /**
-     * Class to sort a table on a header click to a table
-     * @param table to be sorted
-     */
-    private class HeaderSort extends MouseAdapter {
-
-        private int lastCol = -1;
-
-        /**
-         * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
-         */
-        public void mousePressed(MouseEvent e) {
-            if (e.getClickCount() == 2) {
-                JTableHeader header = (JTableHeader) e.getSource();
-                int col = header.columnAtPoint(e.getPoint());
-                int layoutIndex = getLayoutIndex();
-
-                col = fileView.getRealColumn(layoutIndex,
-                		header.getColumnModel().getColumn(col).getModelIndex() - 2);
-
-                if (col >= 0) {
-                    int[] cols = {col};
-                    boolean[] descending = {lastCol == col};
-
-                    fileView.sort(
-                            new LineCompare(fileView.getLayout(),
-                            		layoutIndex,
-                                    cols,
-                                    descending
-                            ));
-
-                    if (lastCol == col) {
-                        lastCol = -1;
-                    } else {
-                        lastCol = col;
-                    }
-                }
-            }
-        }
-    }
-
+//         return tip;
+//     }
+//}
 
     private class AddColumn extends ReAbstractAction {
     	private boolean afterDest;
@@ -1037,7 +989,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 					col += 1;
 				}
 
-				Common.stopCellEditing(tblDetails);
+				stopCellEditing();
 				Code.addColumn(fileMaster, (LayoutDetail) layout, col, Constants.NULL_INTEGER);
 
 			} catch (Exception e) {
@@ -1069,7 +1021,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 						- FileView.SPECIAL_FIELDS_AT_START;
 				LayoutDetail l = (LayoutDetail) layout;
 
-				Common.stopCellEditing(tblDetails);
+				stopCellEditing();
 				if (copyFunc) {
 					Code.addColumn(fileMaster, l, dest, col);
 				} else {
@@ -1099,7 +1051,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractRowChan
 				int col = tblDetails.getColumnModel().getColumn(mainPopupCol).getModelIndex()
 						- FileView.SPECIAL_FIELDS_AT_START;
 
-				Common.stopCellEditing(tblDetails);
+				stopCellEditing();
 				Code.deleteColumn(fileMaster, (LayoutDetail) layout, col);
 
 			} catch (Exception e) {

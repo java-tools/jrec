@@ -138,6 +138,8 @@ public final class EditParams {
 	        } else if (typeLC.startsWith("cb2xml")) {
 	        	systemJars.add(type, jar, "This jar converts Cobol Copybooks from XML, "
                     + "its used when importing Cobol copybooks into the record editor");
+	        } else if (typeLC.startsWith("flags")) {
+	            systemJars.add(type, jar, "Holds Country Flags (for use with language selection)");
 	        } else {
 	            systemJars.add(type, jar, "");
 	        }

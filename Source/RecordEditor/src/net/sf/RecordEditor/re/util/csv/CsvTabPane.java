@@ -9,15 +9,11 @@ import java.io.IOException;
 import javax.swing.JTabbedPane;
 import javax.swing.text.JTextComponent;
 
-
 import net.sf.JRecord.ByteIO.ByteTextReader;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Details.LayoutDetail;
-
 import net.sf.RecordEditor.layoutWizard.FileStructureAnalyser;
 import net.sf.RecordEditor.re.openFile.FormatFileName;
-import net.sf.RecordEditor.re.util.csv.CheckEncoding;
-import net.sf.RecordEditor.re.util.csv.CsvSelectionPanel;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.StreamUtil;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;

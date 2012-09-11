@@ -28,7 +28,7 @@ public interface ReActionHandler {
     public static final int EXPORT_HTML_TREE  = 46;
     public static final int EXPORT_AS_CSV     = 51;
     public static final int EXPORT_AS_FIXED   = 52;
- 
+
     public static final int DELETE    = 6;
 
     public static final int FIND      = 7;
@@ -51,10 +51,10 @@ public interface ReActionHandler {
     public static final int BUILD_SORTED_TREE    = 18;
     public static final int BUILD_RECORD_TREE    = 19;
     public static final int BUILD_LAYOUT_TREE    = 20;
-    
+
     public static final int BUILD_XML_TREE_SELECTED    = 21;
     public static final int BUILD_LAYOUT_TREE_SELECTED = 22;
-    
+
     public static final int HELP            = 23;
 
     public static final int COPY_RECORD     = 24;
@@ -79,29 +79,42 @@ public interface ReActionHandler {
     public static final int PRINT           = 36;
     public static final int PRINT_SELECTED  = 54;
     public static final int REBUILD_TREE    = 37;
-        
-   
-    public static final int ADD_ATTRIBUTES        = 38;
-    
-    public static final int FULL_TREE_REBUILD     = 39;
-    public static final int EXECUTE_SAVED_FILTER  = 40;
-    public static final int EXECUTE_SAVED_SORT_TREE   = 41;
-    public static final int EXECUTE_SAVED_RECORD_TREE = 42;
-    public static final int COMPARE_WITH_DISK     = 43;
-    
-    public static final int PASTE_TABLE_OVERWRITE = 47;
-    public static final int PASTE_TABLE_INSERT    = 48;
-    
-    public static final int SHOW_INVALID_ACTIONS  = 49;
-    public static final int AUTOFIT_COLUMNS       = 50;
 
-    public static final int INSERT_RECORD_PRIOR   = 53;
-    public static final int EXPORT_XSLT           = 56;
-    public static final int EXPORT                = 57;
-    public static final int EXPORT_SCRIPT         = 58;
-    public static final int RUN_SCRIPT            = 59;
-    public static final int REFRESH               = 60;
-    public static final int MAX_ACTION      = 61;
+
+    public static final int ADD_ATTRIBUTES          = 38;
+
+    public static final int FULL_TREE_REBUILD       = 39;
+    public static final int EXECUTE_SAVED_FILTER    = 40;
+    public static final int EXECUTE_SAVED_SORT_TREE = 41;
+    public static final int EXECUTE_SAVED_RECORD_TREE = 42;
+    public static final int COMPARE_WITH_DISK       = 43;
+
+    public static final int PASTE_TABLE_OVERWRITE   = 47;
+    public static final int PASTE_TABLE_INSERT      = 48;
+
+    public static final int SHOW_INVALID_ACTIONS    = 49;
+    public static final int AUTOFIT_COLUMNS         = 50;
+
+    public static final int INSERT_RECORD_PRIOR     = 53;
+    public static final int EXPORT_XSLT             = 56;
+    public static final int EXPORT                  = 57;
+    public static final int EXPORT_SCRIPT           = 58;
+    public static final int RUN_SCRIPT              = 59;
+    public static final int REFRESH                 = 60;
+
+    public static final int CLOSE_TAB               = 61;
+    public static final int UNDOCK_TAB              = 62;
+    public static final int UNDOCK_ALL_TABS         = 63;
+    public static final int DOCK_TAB                = 64;
+    public static final int DOCK_ALL_SCREENS        = 65;
+
+    public static final int REMOVE_CHILD_SCREEN     = 66;
+    public static final int ADD_CHILD_SCREEN        = 67;
+    public static final int ADD_CHILD_SCREEN_RIGHT  = 68;
+    public static final int ADD_CHILD_SCREEN_BOTTOM = 69;
+    public static final int ADD_CHILD_SCREEN_SWAP   = 70;
+
+    public static final int MAX_ACTION      = 71;
 
     /**
      * Execute a form action

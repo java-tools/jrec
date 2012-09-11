@@ -42,7 +42,9 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.ParseArgs;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
+import net.sf.RecordEditor.utils.swingx.TipsManager;
 
 /**
  * Extended RecordEditor with basic RecordLayout edit function.
@@ -90,25 +92,13 @@ public class FullEditor extends EditRec {
         	  )
         );
 
-//        try {
-//        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//        } catch (Exception e) {
-//			e.printStackTrace();
-//		}
-
         setupOpenWindow(pInFile, pInitialRow,
           	    pIoProvider,  pInterfaceToCopyBooks);
 
-//        getFileMenu().add(new AbstractAction("Compare Menu") {
-//
-//			/**
-//			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-//			 */
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				CompareDBLayout.newMenu(pInterfaceToCopyBooks);
-//			}
-//        });
+        if (Common.OPTIONS.showRecordEditorTips.isSelected() && TipsManager.tipsModulePresent()) {
+        	TipsManager.startTips(Parameters.getSytemJarFileDirectory() + "/RecordEditor_TipOfTheDay.properties",
+        					  Parameters.SHOW_RECORDEDITOR_TIPS);
+        }
     }
 
 

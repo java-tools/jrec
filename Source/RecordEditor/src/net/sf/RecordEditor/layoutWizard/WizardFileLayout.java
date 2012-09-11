@@ -10,7 +10,6 @@ import net.sf.JRecord.External.CopybookWriterManager;
 import net.sf.JRecord.External.ExternalConversion;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.IO.LineIOProvider;
-
 import net.sf.RecordEditor.utils.BasicLayoutCallback;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
@@ -61,7 +60,7 @@ public class WizardFileLayout extends AbstractWizard<Details> {
 		callbackClass = callback;
 
 	    AbsRowList       typeList = new AbsRowList(0, 1, true, false).loadData(
-	    		ExternalConversion.getTypes()
+	    		ExternalConversion.getTypes(0)
 	    );
 	    AbsRowList  structureList = new ManagerRowList(LineIOProvider.getInstance(), true);
 

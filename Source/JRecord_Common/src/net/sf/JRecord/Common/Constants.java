@@ -75,8 +75,10 @@ public interface Constants {
     public static final int IO_PROTO_SINGLE_MESSAGE = 72;
     public static final int IO_PROTO_SD_DELIMITED   = 73;
     public static final int IO_PROTO_SD_SINGLE_MESSAGE = 74;
-    public static final int IO_THRIFT_FILE = 81;
-    public static final int IO_AVRO_FILE   = 91;
+    public static final int IO_THRIFT_FILE  = 81;
+    public static final int IO_AVRO_FILE    = 91;
+    public static final int IO_GETTEXT_PO   = 101;
+    public static final int IO_TIP          = 102;
 
     /**
      * IO_BIN_NAME_1ST_LINE is for internal use

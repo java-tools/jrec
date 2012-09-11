@@ -4,10 +4,10 @@ import java.awt.Component;
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 
-import com.zbluesoftware.java.bm.AbstractPopup;
-
 import net.sf.JRecord.CsvParser.BasicParser;
 import net.sf.RecordEditor.utils.swing.BasePanel;
+
+import com.zbluesoftware.java.bm.AbstractPopup;
 
 
 /*

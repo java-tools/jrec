@@ -51,7 +51,7 @@ public class Menu extends ReFrame
 	private JButton singleLayout = new JButton("*");
 	private JButton twoLayouts   = new JButton("*");
 
-	private JButton btnHelp      = Common.getHelpButton();
+	private JButton btnHelp      = SwingUtils.getHelpButton();
 
 	private BaseHelpPanel pnl    = new BaseHelpPanel();
 

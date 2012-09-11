@@ -40,7 +40,6 @@ import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.openFile.ComputerOptionCombo;
 import net.sf.RecordEditor.utils.BasicLayoutCallback;
 import net.sf.RecordEditor.utils.common.Common;
-
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;

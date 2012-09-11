@@ -15,13 +15,11 @@ import net.sf.JRecord.External.ToExternalRecord;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Log.ScreenLog;
-
 import net.sf.RecordEditor.re.openFile.ComputerOptionCombo;
 import net.sf.RecordEditor.re.openFile.ReadLayout;
 import net.sf.RecordEditor.re.openFile.SplitCombo;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
-
 import net.sf.RecordEditor.utils.msg.UtMessages;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;

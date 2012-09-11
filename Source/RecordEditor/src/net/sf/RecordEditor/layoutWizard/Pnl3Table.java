@@ -21,7 +21,6 @@ package net.sf.RecordEditor.layoutWizard;
 
 
 import javax.swing.JEditorPane;
-import javax.swing.JScrollPane;
 import javax.swing.text.JTextComponent;
 
 import net.sf.RecordEditor.utils.common.Common;

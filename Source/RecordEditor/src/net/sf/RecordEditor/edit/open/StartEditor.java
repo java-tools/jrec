@@ -2,14 +2,8 @@ package net.sf.RecordEditor.edit.open;
 
 import javax.swing.JTextArea;
 
-import net.sf.JRecord.Details.AbstractLayoutDetails;
-import net.sf.RecordEditor.edit.display.BaseDisplay;
-import net.sf.RecordEditor.edit.display.LineList;
-import net.sf.RecordEditor.edit.display.LineTree;
-import net.sf.RecordEditor.edit.display.LineTreeChild;
 import net.sf.RecordEditor.re.file.FileView;
-import net.sf.RecordEditor.re.tree.LineNodeChild;
-import net.sf.RecordEditor.re.tree.TreeParserXml;
+import net.sf.RecordEditor.re.script.IDisplayBuilder;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.EditingCancelled;
@@ -73,31 +67,14 @@ public class StartEditor {
 	public void done() {
 
 		if (ok) {
-			doOpen(file, initialRow, pBrowse);
+			int opt = IDisplayBuilder.ST_INITIAL_EDIT;
+			if (pBrowse) {
+				opt = IDisplayBuilder.ST_INITIAL_BROWSE;
+			}
+			//DisplayBuilder.doOpen(file, initialRow, pBrowse);
+			DisplayBuilderFactory.getInstance().newDisplay(opt, "", null, file.getLayout(), file, initialRow);
 
 			message.setText(file.getMsg());
-		}
-	}
-
-	public static void doOpen(FileView<?> file, int initialRow, boolean pBrowse) {
-
-		BaseDisplay display = null;
-		AbstractLayoutDetails<?,?> layoutDtls = file.getLayout();
-
-		if (layoutDtls.hasChildren()) {
-			display = new LineTreeChild(file, new LineNodeChild("File", file), true, 0);
-			if (file.getRowCount() == 0 && ! pBrowse) {
-				display.insertLine(0);
-			}
-		} else if (layoutDtls.isXml()) {
-			display = new LineTree(file, TreeParserXml.getInstance(), true, 1);
-		} else {
-			display = new LineList(layoutDtls, file, file);
-			display.setCurrRow(initialRow, -1, -1);
-
-			if (file.getRowCount() == 0 && ! pBrowse) {
-				display.insertLine(0);
-			}
 		}
 	}
 }

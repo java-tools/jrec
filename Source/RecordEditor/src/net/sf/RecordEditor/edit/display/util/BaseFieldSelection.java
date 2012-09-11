@@ -400,6 +400,13 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 	}
 
 	/**
+	 * @return the source
+	 */
+	public AbstractFileDisplay getSource() {
+		return source;
+	}
+
+	/**
 	 * Restore saved details
 	 * @param details being restored
 	 */

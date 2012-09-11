@@ -74,7 +74,7 @@ public class SaveAsPnlCsv extends SaveAsPnlBase {
 
 		if (namesFirstLine.isSelected()) {
      	   ret = genLayout.getCsvLayoutNamesFirstLine(
-     			   			delimiterCombo.getSelectedItem().toString(),
+     			   			delimiterCombo.getSelectedEnglish(),
      			   			getQuote());
      	} else if (commonSaveAsFields.printRecordDetails != null) {
         	List<ExternalField> ef = new ArrayList<ExternalField>(commonSaveAsFields.printRecordDetails.getFieldCount());
@@ -91,7 +91,7 @@ public class SaveAsPnlCsv extends SaveAsPnlBase {
 
 	    	ret = genLayout.getCsvLayout(
 	    							ef,
-	    							delimiterCombo.getSelectedItem().toString(),
+	    							delimiterCombo.getSelectedEnglish(),
 	        			   			getQuote());
     	}
     	return ret;

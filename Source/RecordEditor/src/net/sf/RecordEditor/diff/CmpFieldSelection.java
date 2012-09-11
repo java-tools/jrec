@@ -5,7 +5,6 @@ package net.sf.RecordEditor.diff;
 
 import javax.swing.JComponent;
 
-
 import net.sf.RecordEditor.jibx.compare.DiffDefinition;
 import net.sf.RecordEditor.re.file.filter.FilterPnl;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;

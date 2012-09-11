@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-
 import net.sf.JRecord.Common.Conversion;
 import net.sf.RecordEditor.utils.common.Common;
 

@@ -64,7 +64,7 @@ public class UpgradeDBs extends ReFrame implements ActionListener {
 //	private JButton upgrade67		= new JButton("*");
 	private JButton upgrade69		= new JButton("*");
 	private JButton upgrade80		= new JButton("*");
-	private JButton helpBtn				= Common.getHelpButton();
+	private JButton helpBtn			= SwingUtils.getHelpButton();
 	private JCheckBox splitOnRedefine = new JCheckBox();
 
 	private BaseHelpPanel pnl = new BaseHelpPanel();

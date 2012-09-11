@@ -7,7 +7,6 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JTable;
-
 import javax.swing.table.TableColumn;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
@@ -19,7 +18,6 @@ import net.sf.RecordEditor.layoutEd.layout.tree.SelectionTestNode;
 import net.sf.RecordEditor.layoutEd.layout.tree.SelectionTreeTblMdl;
 import net.sf.RecordEditor.re.db.Record.ChildRecordsRec;
 import net.sf.RecordEditor.utils.common.Common;
-
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;

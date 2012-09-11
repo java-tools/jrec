@@ -17,6 +17,7 @@ package net.sf.RecordEditor.edit.display;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.edit.display.util.BaseFieldSelection;
+import net.sf.RecordEditor.edit.open.DisplayBuilderFactory;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.re.tree.TreeParserField;
@@ -44,7 +45,7 @@ public class CreateFieldTree extends BaseFieldSelection {
 		super.setHelpURL(Common.formatHelpURL(Common.HELP_FIELD_TREE));
     }
 
-    
+
     /**
      * Get sort details
      * @param fieldList field index list
@@ -54,13 +55,13 @@ public class CreateFieldTree extends BaseFieldSelection {
     @SuppressWarnings("rawtypes")
 	protected void doAction(FileView view, int recordIndex, AbstractFileDisplay src,
     		int[] fieldList, boolean[] descending, AbstractLayoutDetails layout) {
-    	
+
     	FileView newView = getNewView();
-     
+
         if (newView != null) {
         	TreeParserField parser = new TreeParserField(recordIndex, fieldList, summaryMdl.getFieldSummary());
-          
-            new LineTree(newView, parser, false, 0);
+
+        	DisplayBuilderFactory.newLineTree(getSource().getParentFrame(), newView, parser, false, 0);
         }
     }
 }

@@ -40,7 +40,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
@@ -51,7 +50,6 @@ import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
 import net.sf.RecordEditor.utils.common.AbstractSaveDetails;
 import net.sf.RecordEditor.utils.common.Common;
-
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
@@ -88,6 +86,9 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 //    	= (FilterFieldList.NUMBER_FIELD_FILTER_ROWS + 2)
 //        * FIELD_VALUE_ROW_HEIGHT;
 
+//    private String showFldBtnText = LangConversion.convert(LangConversion.ST_BUTTON, "Show Field Table");
+//    private String hideFldBtnText = LangConversion.convert(LangConversion.ST_BUTTON, "Hide Field Table");
+
     private BaseHelpPanel pnl2 = new BaseHelpPanel("Filter");
     //private JTabbedPane tabOption    = new JTabbedPane();
     private JPanel recordOptionPanel = new JPanel();
@@ -99,16 +100,19 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
     private AbstractTableModel fieldMdl;
     private FilterFieldList filterFieldMdl;
 
+    //JScrollPane fldPane = new JScrollPane(fieldTbl);
+
    // private DefaultCellEditor includeEditor = new DefaultCellEditor(new JCheckBox());
     private JButton execute
     		  = SwingUtils.newButton("Filter", Common.getRecordIcon(Common.ID_FILTER_ICON));
     private JTextField msgTxt     = new JTextField();
 
-    private JButton checkAllRecords   = SwingUtils.newButton("Check Records");
-    private JButton uncheckAllRecords = SwingUtils.newButton("Uncheck Records");
+    private JButton checkAllRecordsBtn   = SwingUtils.newButton("Check Records");
+    private JButton uncheckAllRecordsBtn = SwingUtils.newButton("Uncheck Records");
 
-    private JButton checkAllFields    = SwingUtils.newButton("Check Fields");
-    private JButton uncheckAllFields  = SwingUtils.newButton("Uncheck Fields");
+    private JButton checkAllFieldsBtn    = SwingUtils.newButton("Check Fields");
+    private JButton uncheckAllFieldsBtn  = SwingUtils.newButton("Uncheck Fields");
+//    private JButton showHideFieldBtn     = new JButton(showFldBtnText);
 
     private FilterDetails filter;
     @SuppressWarnings("rawtypes")
@@ -180,7 +184,7 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
         	int height;
         	int desktopHeight = ReFrame.getDesktopHeight() - 50 - heightOverhead
         	                    - 2 * ((int) BasePanel.GAP1);
-        	JScrollPane scrollPane = new JScrollPane(pnl2);
+        	//JScrollPane scrollPane = new JScrollPane(pnl2);
         	if (! is2ndLayout) {
         		desktopHeight -= SwingUtils.BUTTON_HEIGHT + 6;
 			}
@@ -191,7 +195,7 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
         	this.registerComponent(pnl2);
 
         	pnl2.setBorder(BorderFactory.createEmptyBorder());
-        	scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        	//scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
         	if (this.getClass() != FilterPnl.class
         	|| is2ndLayout
@@ -201,10 +205,10 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
         			maxHeight = desktopHeight / 4;
         		}
 	        	if (is2ndLayout) {
-	        		pnl2.addHelpBtn(Common.getHelpButton());
+	        		pnl2.addHelpBtn(SwingUtils.getHelpButton());
 					height = SwingUtils.calculateComboTableHeight(recordTbl.getRowCount(), maxHeight);
 	        	} else {
-	        		pnl2.addHelpBtn(recordOptionPanel, Common.getHelpButton());
+	        		pnl2.addHelpBtn(recordOptionPanel, SwingUtils.getHelpButton());
 					height = SwingUtils.calculateTableHeight(recordTbl.getRowCount(), maxHeight);
 	        	}
 				pnl2.setHeight(SwingUtils.BUTTON_HEIGHT + 6);
@@ -218,15 +222,17 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 				pnl2.setComponentName(recordTbl, "RecordSelection");
 	        }
 
+//        	showFieldTable = true;
 			if (! is2ndLayout) {
 				pnl2.addLine("", fieldOptionPanel);
 				pnl2.setHeight(SwingUtils.BUTTON_HEIGHT + 6);
+//				showFieldTable = false;
 			}
 
 
 			if (addFieldFilter) {
 				int rows = fieldTbl.getRowCount();
-				for (int i =0; i < recordLayout.getRecordCount(); i++) {
+				for (int i = 0; i < recordLayout.getRecordCount(); i++) {
 					rows = Math.max(rows, recordLayout.getRecord(i).getFieldCount());
 				}
 				height = SwingUtils.calculateTableHeight(rows, desktopHeight / 2);
@@ -234,14 +240,13 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 
 				pnl2.addComponent(1, 5, height, BasePanel.GAP1,
 				         BasePanel.FULL, BasePanel.FULL,
-						 fieldTbl);
-
+				         fieldTbl);
 
 				height = SwingUtils.calculateComboTableHeight(FilterFieldList.NUMBER_FIELD_FILTER_ROWS, desktopHeight * 7 / 10);
 				pnl2.addComponent(1, 5,
 						height, 3,
-			         BasePanel.FULL, BasePanel.FULL,
-					 filterFieldTbl);
+						BasePanel.FULL, BasePanel.FULL,
+						filterFieldTbl);
 				pnl2.setComponentName(filterFieldTbl, "FieldRelationship");
 				filterFieldTbl.addMouseListener(fieldMouseListner);
 			} else {
@@ -250,8 +255,9 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 
 				pnl2.addComponent(1, 5, height, 3,
 				         BasePanel.FULL, BasePanel.FULL,
-						 fieldTbl);
+				         fieldTbl);
 			}
+			//fldPane.setVisible(showFieldTable);
 			pnl2.setComponentName(fieldTbl, "FieldSelection");
 
 			setGap(0);
@@ -295,7 +301,7 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
     		boolean is2ndLayout,
     		@SuppressWarnings("rawtypes") final AbstractLayoutDetails layout2) {
 
-        filter = new FilterDetails(recordLayout); // getFilterDetails(recordLayout);
+        filter = new FilterDetails(recordLayout, true); // getFilterDetails(recordLayout);
         filter.setMessageFld(msgTxt);
         filter.set2Layouts(is2ndLayout);
         if (is2ndLayout) {
@@ -317,11 +323,12 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
         setRecordTableDetails(recordTbl);
         setFieldTableDetails(fieldTbl);
 
-        recordOptionPanel.add(uncheckAllRecords);
-        recordOptionPanel.add(checkAllRecords);
+        recordOptionPanel.add(uncheckAllRecordsBtn);
+        recordOptionPanel.add(checkAllRecordsBtn);
 
-        fieldOptionPanel.add(uncheckAllFields);
-        fieldOptionPanel.add(checkAllFields);
+        fieldOptionPanel.add(uncheckAllFieldsBtn);
+        fieldOptionPanel.add(checkAllFieldsBtn);
+//        fieldOptionPanel.add(showHideFieldBtn);
 
 	    if (toInit) {
 			recordTbl.addMouseListener(new MouseAdapter() {
@@ -341,15 +348,17 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 				}
 			});
 
-			uncheckAllRecords.addActionListener(this);
-			checkAllRecords.addActionListener(this);
-			uncheckAllFields.addActionListener(this);
-			checkAllFields.addActionListener(this);
+			uncheckAllRecordsBtn.addActionListener(this);
+			checkAllRecordsBtn.addActionListener(this);
+			uncheckAllFieldsBtn.addActionListener(this);
+			checkAllFieldsBtn.addActionListener(this);
+//			showHideFieldBtn.addActionListener(this);
 
-			registerComponent(uncheckAllRecords);
-			registerComponent(checkAllRecords);
-			registerComponent(uncheckAllFields);
-			registerComponent(checkAllFields);
+			registerComponent(uncheckAllRecordsBtn);
+			registerComponent(checkAllRecordsBtn);
+			registerComponent(uncheckAllFieldsBtn);
+			registerComponent(checkAllFieldsBtn);
+//			registerComponent(showHideFieldBtn);
 	    } else {
 	    	recordMdl.fireTableDataChanged();
 	    	fieldMdl.fireTableDataChanged();
@@ -454,14 +463,24 @@ public class FilterPnl extends BaseHelpPanel implements ActionListener, Abstract
 
     	stopTblEdit();
 
-        if (event.getSource() == uncheckAllFields) {
+        if (event.getSource() == uncheckAllFieldsBtn) {
             updateIncludeFlag(Boolean.FALSE);
-        } else if (event.getSource() == checkAllFields) {
+        } else if (event.getSource() == checkAllFieldsBtn) {
             updateIncludeFlag(Boolean.TRUE);
-        } else if (event.getSource() == uncheckAllRecords) {
+        } else if (event.getSource() == uncheckAllRecordsBtn) {
         	updateRecordFlag(Boolean.FALSE);
-        } else if (event.getSource() == checkAllRecords) {
+        } else if (event.getSource() == checkAllRecordsBtn) {
         	updateRecordFlag(Boolean.TRUE);
+//        } else if (event.getSource() == showHideFieldBtn) {
+//        	showFieldTable = ! showFieldTable;
+//        	fldPane.setVisible(showFieldTable);
+//
+//        	if (showFieldTable) {
+//        		showHideFieldBtn.setText(hideFldBtnText);
+//        	} else {
+//        		showHideFieldBtn.setText(showFldBtnText);
+//        	}
+//        	this.revalidate();
         }
     }
 

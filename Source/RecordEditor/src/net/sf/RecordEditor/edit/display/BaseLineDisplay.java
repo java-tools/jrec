@@ -43,10 +43,9 @@ import net.sf.RecordEditor.utils.common.ReActionHandler;
  * @author Bruce Martin
  * @version 0.56
  */
-@SuppressWarnings("serial")
 public abstract class BaseLineDisplay extends BaseDisplay {
 
-	
+
 	/**
 	 * base class for editing a file
 	 *
@@ -61,13 +60,10 @@ public abstract class BaseLineDisplay extends BaseDisplay {
 	        			 final boolean primary,
 	        			 final boolean fullLine,
 		        		 final boolean prefered,
-		        		 final boolean hex) {
-		super(formType, viewOfFile, primary, fullLine, true, prefered, hex, STD_OPTION_PANEL);
-		
-//		int opt = fileView.isBrowse() ? OptionPnl.BROWSE_PANEL
-//														 : OptionPnl.EDIT_PANEL;
-
-	//	pnl.addComponent3Lines("Layouts", getLayoutList(), new OptionPnl(opt, this));
+		        		 final boolean hex,
+		        		 final boolean changeRow) {
+		super(formType, viewOfFile, primary, fullLine, true, prefered, hex,
+				changeRow ? STD_OPTION_PANEL: NO_OPTION_PANEL);
 	}
 
 
@@ -112,12 +108,12 @@ public abstract class BaseLineDisplay extends BaseDisplay {
 	 */
 	@Override
 	public boolean isActionAvailable(int action) {
-		
+
 		return action == ReActionHandler.PASTE_TABLE_OVERWRITE
 			|| super.isActionAvailable(action);
 	}
-	
-	
+
+
 	protected final void pasteTable(int startRow, int startCol, String trstring) {
 		String val, rowStr;
 		try {
@@ -133,7 +129,7 @@ public abstract class BaseLineDisplay extends BaseDisplay {
 				StringTokenizer st2 = new StringTokenizer(rowStr, "\t");
 				for (int j = 0; st2.hasMoreTokens() && startCol+ j < colCount ; j++) {
 					val = st2.nextToken();
-	
+
 					tblDetails.setValueAt(val, startRow + i, startCol + j);
 //					System.out.println("Putting " + val + "at row="
 //							+ startRow + i + "column=" + startCol + j);
@@ -145,5 +141,5 @@ public abstract class BaseLineDisplay extends BaseDisplay {
 			super.fileMaster.setDisplayErrorDialog(true);
 		}
 	}
-	
+
 }

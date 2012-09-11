@@ -10,9 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.KeyStroke;
 
-//import net.sf.RecordEditor.jibx.JibxCall;
 import net.sf.RecordEditor.utils.common.Common;
-
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;

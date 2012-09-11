@@ -35,7 +35,7 @@ public class FieldMapping {
 		} else {
 			colLengths = new int[remapColumns.length];
 			for (int i = 0; i < colLengths.length; i++) {
-				colLengths[i] = 0;
+				colLengths[i] = numCols[i];
 				if (columnMapping[i] != null) {
 					colLengths[i] = columnMapping[i].length;
 				}

@@ -55,7 +55,7 @@ public class Menu extends ReFrame
 	private JButton copyToVelocityBtn = new JButton("*");
 	private JButton copyToXmlBtn = new JButton("*");
 
-	private JButton helpBtn      = Common.getHelpButton();
+	private JButton helpBtn      = SwingUtils.getHelpButton();
 
 	private BaseHelpPanel pnl    = new BaseHelpPanel();
 

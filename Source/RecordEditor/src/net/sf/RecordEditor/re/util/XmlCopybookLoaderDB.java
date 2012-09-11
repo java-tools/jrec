@@ -22,7 +22,6 @@
  */
 package net.sf.RecordEditor.re.util;
 
-import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.XmlCopybookLoader;
 import net.sf.RecordEditor.re.db.Record.ExtendedRecordDB;
@@ -30,7 +29,6 @@ import net.sf.RecordEditor.re.db.Record.RecordRec;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
 import net.sf.RecordEditor.utils.jdbc.AbsRecord;
-//import net.sf.RecordEditor.utils.log.TextLog;
 
 
 

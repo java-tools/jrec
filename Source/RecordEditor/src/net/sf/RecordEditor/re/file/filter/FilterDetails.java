@@ -73,6 +73,9 @@ public class FilterDetails {
     private FieldList fieldList;
 
     private boolean twoLayouts = false;
+    private boolean normalFilter;
+
+    private int groupHeader, op;
 
 
     /**
@@ -80,9 +83,10 @@ public class FilterDetails {
      *
      * @param group detail group
      */
-    public FilterDetails(@SuppressWarnings("rawtypes") final AbstractLayoutDetails group) {
+    public FilterDetails(@SuppressWarnings("rawtypes") final AbstractLayoutDetails group, boolean isNormalFilter) {
         super();
         layout = group;
+        normalFilter = isNormalFilter;
 
         init();
     }
@@ -243,6 +247,48 @@ public class FilterDetails {
 
 
     /**
+	 * @return the groupFilter
+	 */
+	public boolean isNormalFilter() {
+		return normalFilter;
+	}
+
+	/**
+	 * @param groupFilter the groupFilter to set
+	 */
+	public void setNormalFilter(boolean isNormalFilter) {
+		this.normalFilter = isNormalFilter;
+	}
+
+	/**
+	 * @return the groupHeader
+	 */
+	public int getGroupHeader() {
+		return groupHeader;
+	}
+
+	/**
+	 * @param groupHeader the groupHeader to set
+	 */
+	public void setGroupHeader(int groupHeader) {
+		this.groupHeader = groupHeader;
+	}
+
+	/**
+	 * @return the op
+	 */
+	public int getOp() {
+		return op;
+	}
+
+	/**
+	 * @param op the op to set
+	 */
+	public void setOp(int op) {
+		this.op = op;
+	}
+
+	/**
      * get include status
      *
      * @param index Layout to check
@@ -277,6 +323,15 @@ public class FilterDetails {
 		int[][] fieldInc = getFieldMap();
 
 		tmpLayoutSelection.name = layout.getLayoutName();
+
+		if (groupHeader >= 0 && groupHeader < layout.getRecordCount()) {
+			tmpLayoutSelection.groupHeader = layout.getRecord(groupHeader).getRecordName();
+		}
+		tmpLayoutSelection.booleanOperator = Common.BOOLEAN_AND_STRING;
+		if (op == Common.BOOLEAN_OPERATOR_OR) {
+			tmpLayoutSelection.booleanOperator = Common.BOOLEAN_OR_STRING;
+		}
+
 		for (int i =0; i < layout.getRecordCount(); i++) {
 			if (isInclude(i)) {
 				rec = new net.sf.RecordEditor.jibx.compare.Record();
@@ -392,6 +447,17 @@ public class FilterDetails {
     public final void updateFromExternalLayout(Layout values) {
     	int i, j, k, idx;
     	Record rec;
+
+
+	    op = Common.BOOLEAN_OPERATOR_AND;
+	    normalFilter = true;
+    	if (values.groupHeader != null && ! "".equals(values.groupHeader)) {
+	    	groupHeader = layout.getRecordIndex(values.groupHeader);
+	    	normalFilter = groupHeader < 0;
+	    	if (values.booleanOperator.equalsIgnoreCase(Common.BOOLEAN_OR_STRING)) {
+	    		op = Common.BOOLEAN_OPERATOR_OR;
+	    	}
+    	}
 
 		if (values.records == null
 		||  values.records.size() == 0) {
@@ -696,10 +762,6 @@ public class FilterDetails {
          */
         public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 
-//        	System.out.println("~~>>> " + rowIndex + " " + aValue + " " + aValue.getClass()
-//        			+ " " + (aValue instanceof Integer));
-
-        	//TODO Set fields 1
            	recordNo[rowIndex] = Constants.NULL_INTEGER;
 
         	if (aValue == null) {

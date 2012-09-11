@@ -105,12 +105,13 @@ implements AbstractActiveScreenAction {
     		k = KeyStroke.getKeyStroke(KeyEvent.VK_INSERT,ActionEvent.CTRL_MASK);
     		break;
     	//case ReActionHandler.DELETE_RECORD: k = KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0);	break;
-      	case ReActionHandler.FIND: k = KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.CTRL_MASK);	break;
-        case ReActionHandler.SAVE: k = KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK);	break;
+      	case ReActionHandler.FIND: 		k = KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.CTRL_MASK);	break;
+        case ReActionHandler.SAVE:		k = KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK);	break;
         case ReActionHandler.SAVE_AS:
         	k = KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK + ActionEvent.ALT_MASK );
         	break;
-    	case ReActionHandler.PRINT: k = KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK);	break;
+    	case ReActionHandler.PRINT: 	k = KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK);	break;
+    	case ReActionHandler.CLOSE_TAB: k = KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK);	break;
    	}
 
     	if ( k != null) {

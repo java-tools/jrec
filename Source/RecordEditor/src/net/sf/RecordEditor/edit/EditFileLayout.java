@@ -31,7 +31,6 @@ import net.sf.RecordEditor.re.openFile.LayoutSelectionFileCreator;
 import net.sf.RecordEditor.re.util.ReIOProvider;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.ParseArgs;
-
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.SwingUtils;

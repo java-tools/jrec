@@ -57,13 +57,13 @@ import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.LineCompare;
-import net.sf.JRecord.IO.AbstractLineReader;
+import net.sf.JRecord.Details.Options;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
+import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.AbstractLineWriter;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.IO.LineReaderWrapper;
 import net.sf.JRecord.Log.AbsSSLogger;
-
 import net.sf.RecordEditor.re.file.filter.Compare;
 import net.sf.RecordEditor.re.file.filter.FilterDetails;
 import net.sf.RecordEditor.re.file.filter.FilterFieldList;
@@ -94,7 +94,7 @@ import net.sf.RecordEditor.utils.swing.treeTable.TreeTableNotify;
  * @version 0.53
  */
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "rawtypes" })
 public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail, ? extends AbstractRecordDetail>>
 						extends 			AbstractTableModel
 						implements 	Iterable<AbstractLine>, TableModelListener, ColumnMappingInterface,
@@ -1383,7 +1383,6 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	 */
 	public final AbstractLine<Layout> repeatLine(int lineNumber) {
 
-	    AbstractLine<Layout> newLine;
 	    if (isView() || this.treeTableNotify == null) {
 	        return stdRepeatLine(lineNumber);
 	    }
@@ -1805,7 +1804,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    pos.row = 0;
 
 	    while (replace(searchFor, replaceWith, pos,
-	            	ignoreCase, operator)) {
+	            	ignoreCase, operator, false)) {
 //	        System.out.print(" > " + pos.row + " " + pos.col);
 	    }
 	}
@@ -1828,13 +1827,15 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		String replaceWith,
 		FilePosition pos,
 		boolean ignoreCase,
-		int operator) throws RecordException {
+		int operator,
+		boolean eofCheck) throws RecordException {
 
 	    find(searchFor,
 	         pos,
 	         ignoreCase,
 	         //anyWhereInTheField, normalSearch
-	         operator);
+	         operator,
+	         eofCheck);
 
 	    if (pos.found) {
 			AbstractLine updateLine;
@@ -1859,7 +1860,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 			updateLine.setField(pos.recordId, col, s);
 			setChanged(true);
 
-			pos.adjustPosition(searchFor.length(), operator);
+			pos.adjustPosition(replaceWith.length(), operator);
 	    }
 	    return pos.found && pos.row >= 0 && pos.row < lines.size();
 	}
@@ -1878,7 +1879,8 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		String searchFor,
 		FilePosition pos,
 		boolean ignoreCase,
-		int operator) {
+		int operator,
+		boolean eofCheck) {
 
 		String icSearchFor = searchFor;
 		pos.found = false;
@@ -1894,7 +1896,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 		}
 
 
-		PositionIncrement inc = PositionIncrement.newIncrement(pos, lines);
+		PositionIncrement inc = PositionIncrement.newIncrement(pos, lines, eofCheck);
 	    if (anyWhereInTheField) {
 	        while (inc.isValidPosition()
 	                && ! contains(ignoreCase, inc.pos, icSearchFor, normalSearch)) {
@@ -2164,8 +2166,9 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 
 	public boolean isTreeViewAvailable() {
 		return lines instanceof DataStoreStd
-			|| lines.size() < Common.OPTIONS.filterLimit.get();
+			|| (lines != null && lines.size() < Common.OPTIONS.filterLimit.get());
 	}
+
 	/**
 	 * @param aFrame The frame to set.
 	 */
@@ -2406,93 +2409,213 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	 * @return filtered file view
 	 */
 	public FileView<Layout> getFilteredView(FilterDetails filter) {
-		DataStoreStd<AbstractLine> selectedLines = new DataStoreStd<AbstractLine>(layout);
+
+		if (! filter.isNormalFilter()) {
+			return getFilteredView(filter, filter.getGroupHeader(), filter.getOp());
+		}
+		ViewDataStore selected = new ViewDataStore(layout, lines instanceof DataStoreStd, frame);
         AbstractLine<Layout> line;
-        boolean ok;
-        int i, k, recordType;
-        int limit = getLineHoldLimit();
+        FilePosition pos = new FilePosition(0, 0, 0, 0, true, this.getRowCount());
+        boolean filterNonPrefered = getFilterNonPref(filter);
 
-        FilePosition pos = new FilePosition(0, 0, 0, 0, true);
-        boolean filterNonPrefered = false;
+        FilterFieldList list = filter.getFilterFieldListMdl();
+        Iterator<? extends AbstractLine> it = getIterator();
 
-        if (layout.getRecordCount() > 1) {
-        	for (k = 0; (!filterNonPrefered) && k < layout.getRecordCount(); k++) {
-        		filterNonPrefered = filter.isInclude(k) && "".equals(layout.getRecord(k).getSelectionValue());
-        	}
+        while (it.hasNext() && selected.continueProcessing()) {
+        	line = it.next();
+    	   	if (check(filterNonPrefered, filter, list, line, false) >= 0) {
+    	   		selected.add(line);
+    	   	}
         }
+//        while (it.hasNext() && selected.continueProcessing()) {
+//    	   	line = it.next();
+//    	   	recordType = line.getPreferredLayoutIdxAlt();
+//    	   	if (filterNonPrefered && recordType == Constants.NULL_INTEGER) {
+//            	for (k = 0; k < layout.getRecordCount(); k++) {
+//            		if (filter.isInclude(k) && layout.getRecord(k).getOption(Options.OPT_SELECTION_PRESENT) == Options.YES) {
+//            			if (getFilteredView_MatchesFilter(i, k, pos, list, false, line)) {
+//            				selected.add(line);
+//            				break;
+//            			}
+//            		}
+//            	}
+//            } else if (filter.isInclude(recordType)) {
+//                if (getFilteredView_MatchesFilter(i, recordType, pos, list, true, line)) {
+//                	selected.add(line);
+//                }
+//            }
+//            i += 1;
+//        }
 
-
-       FilterFieldList list = filter.getFilterFieldListMdl();
-
-       Iterator<? extends AbstractLine> it;
-       if (layout.hasChildren()) {
-    	   it = new TreeIteratorForward(lines, null);
-       } else {
-    	   it = lines.listIterator();
-       }
-//       for (i = 0; i < numRows; i++) {
-//            line = this.getLine(i);
-       i = 0;
-       while (it.hasNext()) {
-    	   	line = it.next();
-    	   	recordType = line.getPreferredLayoutIdxAlt();
-//    	   	if (recordType == 4) {
-//    	   		System.out.println("~~~  " + line.getField(4, 0));
-//    	   	}
-
-    	   	if (filterNonPrefered && recordType == Constants.NULL_INTEGER) {
-               	ok = false;
-            	for (k = 0; (!ok) && k < layout.getRecordCount(); k++) {
-            		if (filter.isInclude(k) && "".equals(layout.getRecord(k).getSelectionValue())) {
-            			ok = getFilteredView_MatchesFilter(i, k, pos, list, false, line);
-            		}
-            	}
-
-                if (ok) {
-                    selectedLines.add(line);
-                }
-            } else if (filter.isInclude(recordType)) {
-                if (getFilteredView_MatchesFilter(i, recordType, pos, list, true, line)) {
-                    selectedLines.add(line);
-                }
-            }
-            i += 1;
-            if (selectedLines.size() >= limit) {
-            	int resp = JOptionPane.showConfirmDialog(
-            		    frame,
-            		    LangConversion.convert(
-            		    		"The Filter limit of {0} has been reached, do you wish to continue?",
-            		    		Integer.toString(limit)),
-            		    "",
-            		    JOptionPane.YES_NO_OPTION);
-            	if (resp == JOptionPane.YES_OPTION) {
-            		limit += getLineHoldLimit();
-            	} else {
-            		Common.logMsgRaw(
-            				LangConversion.convert(
-            						"Filter limit of {0} exceeded; only the first {0} lines in the filtered view",
-            						Integer.toString(limit)),
-            				null);
-            		break;
-            	}
-            }
-
-        }
-
-        if (selectedLines.size() > 0) {
-    		int[] rows = new int[layout.getRecordCount()];
-
-    	    for (i = 0; i < layout.getRecordCount(); i++) {
-    	    	rows[i] = getLayoutColumnCount(i);
-    	    }
-
-            return new FileView<Layout>(selectedLines, baseFile, new FieldMapping(filter.getFieldMap(), rows));
+        if (selected.getSelectedLines().size() > 0) {
+            return new FileView<Layout>(
+            		selected.getSelectedLines(), baseFile,
+            		new FieldMapping(filter.getFieldMap(), getFieldCounts()));
         }
         return null;
 	}
 
-	private boolean getFilteredView_MatchesFilter(int rowNum,  int recordType, FilePosition pos,
-			FilterFieldList list, boolean defaultOk, AbstractLine line) {
+	/**
+	 * Create filtered view of a file
+	 *
+	 * @param filter filter to apply to a file
+	 *
+	 * @return filtered file view
+	 */
+	public FileView<Layout> getFilteredView(FilterDetails filter, int groupHeader, int op) {
+
+		ViewDataStore selected = new ViewDataStore(layout, lines instanceof DataStoreStd, frame);
+        AbstractLine<Layout> line;
+        ArrayList<AbstractLine<Layout>> groupLines = new ArrayList<AbstractLine<Layout>>();
+        int recordType;
+        FilePosition pos = new FilePosition(0, 0, 0, 0, true, this.getRowCount());
+        boolean filterNonPrefered = getFilterNonPref(filter);
+
+        FilterFieldList list = filter.getFilterFieldListMdl();
+        Iterator<? extends AbstractLine> it = getIterator();
+
+        while (it.hasNext()) {
+        	line = it.next();
+        	if (line.getPreferredLayoutIdxAlt() == groupHeader) {
+        		groupLines.add(line);
+        		break;
+        	}
+        }
+        while (it.hasNext() && selected.continueProcessing()) {
+        	line = it.next();
+        	if (line.getPreferredLayoutIdxAlt() == groupHeader) {
+        		processGroup(selected, filterNonPrefered, filter, groupLines, op);
+        	}
+        	groupLines.add(line);
+        }
+        processGroup(selected, filterNonPrefered, filter, groupLines, op);
+
+        if (selected.getSelectedLines().size() > 0) {
+            return new FileView<Layout>(
+            		selected.getSelectedLines(), baseFile,
+            		new FieldMapping(filter.getFieldMap(), getFieldCounts()));
+        }
+        return null;
+	}
+
+	private void processGroup(ViewDataStore selected, boolean filterNonPrefered, FilterDetails filter, ArrayList<AbstractLine<Layout>> groupLines, int op) {
+   		boolean[] recSel = new boolean[layout.getRecordCount()];
+   		FilterFieldList list = filter.getFilterFieldListMdl();
+   		boolean addGroup = false;
+   		int recId;
+
+
+//   		System.out.println();
+//   		System.out.println("Starting group ... " + groupLines.get(0).getFullLine());
+   		for (int i = 0; i < recSel.length; i++) {
+   			recSel[i] = false;
+   		}
+
+	    for (AbstractLine<Layout> l : groupLines) {
+	    	recId = check(filterNonPrefered, filter, list, l, true) ;
+	    	if (recId>= 0) {
+	    		recSel[recId] = true;
+	    		if (op == Common.BOOLEAN_OPERATOR_OR && list.isSelectionTests(recId)) {
+//	    			System.out.println(" Found: " + recId + " " + layout.getRecord(recId).getRecordName()
+//	    					+ " >>> " + l.getField(recId, 1)
+//	    					+ " " + l.getFullLine());
+	    			addGroup = true;
+	    			break;
+	    		}
+	    	}
+	    }
+
+	    if (op == Common.BOOLEAN_OPERATOR_AND) {
+			addGroup = true;
+			System.out.println();
+	    	for (int i = 0; i < recSel.length; i++) {
+	    		System.out.println(" >> " + i + " " + (! filter.isInclude(i)) + " " + (! list.isSelectionTests(i)));
+	   			if (recSel[i] || ((! filter.isInclude(i)) && (! list.isSelectionTests(i)))) {
+	   			} else {
+	   				addGroup = false;
+	   				break;
+	   			}
+	   		}
+	    }
+
+	    if (addGroup) {
+	    	AbstractLine<Layout> l;
+//	   		System.out.println("Adding Group ... ");
+	    	for (int i = 0; i < groupLines.size(); i++) {
+	    		l = groupLines.get(i);
+	    		recId = l.getPreferredLayoutIdx();
+	    		if (recId < 0) {
+	    			recId = check(filterNonPrefered, filter, list, l, true) ;
+	    		}
+
+	    		if (filter.isInclude(recId)) {
+	    			selected.add(l);
+	    		}
+	    	}
+	    }
+
+		groupLines.clear();
+	}
+
+	private int[] getFieldCounts() {
+   		int[] rows = new int[layout.getRecordCount()];
+
+	    for (int i = 0; i < layout.getRecordCount(); i++) {
+	    	rows[i] = getLayoutColumnCount(i);
+	    }
+
+	    return rows;
+	}
+
+	private boolean getFilterNonPref(FilterDetails filter) {
+        boolean filterNonPrefered = false;
+
+        if (layout.getRecordCount() > 1) {
+        	for (int k = 0; (!filterNonPrefered) && k < layout.getRecordCount(); k++) {
+        		filterNonPrefered = filter.isInclude(k)
+        						 && layout.getRecord(k).getOption(Options.OPT_SELECTION_PRESENT) == Options.NO;
+        	}
+        }
+        return filterNonPrefered;
+	}
+
+	private Iterator<? extends AbstractLine> getIterator() {
+		Iterator<? extends AbstractLine> it;
+
+		if (layout.hasChildren()) {
+			it = new TreeIteratorForward(lines, null);
+	    } else {
+	    	it = lines.listIterator();
+	    }
+	    return it;
+	}
+
+	private int check(boolean filterNonPrefered, FilterDetails filter, FilterFieldList list,
+			AbstractLine<Layout> line, boolean allRecs) {
+		int ret = Integer.MIN_VALUE;
+	   	int recordType = line.getPreferredLayoutIdxAlt();
+
+	   	if (filterNonPrefered && recordType == Integer.MIN_VALUE) {
+        	for (int k = 0; k < layout.getRecordCount(); k++) {
+        		if ((allRecs || filter.isInclude(k))
+        		&& layout.getRecord(k).getOption(Options.OPT_SELECTION_PRESENT) == Options.NO) {
+        			if (getFilteredView_MatchesFilter(k, list, line)) {
+        				ret = k;
+        				break;
+        			}
+        		}
+        	}
+        } else if ((allRecs ||filter.isInclude(recordType)) && getFilteredView_MatchesFilter(recordType, list, line)) {
+            ret = recordType;
+        } else {
+        	ret = -1 * recordType - 1;
+        }
+	   	return ret;
+	}
+
+
+	private boolean getFilteredView_MatchesFilter(int recordType,
+			FilterFieldList list, AbstractLine line) {
 		return list.getRecordSelection(recordType).isSelected(line);
 //		boolean ok = defaultOk;
 //		for (int j = 0; j < FilterFieldList.NUMBER_FIELD_FILTER_ROWS; j++) {

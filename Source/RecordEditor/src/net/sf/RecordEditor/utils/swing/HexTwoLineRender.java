@@ -6,7 +6,6 @@
  */
 package net.sf.RecordEditor.utils.swing;
 
-import javax.swing.JLabel;
 
 
 /**

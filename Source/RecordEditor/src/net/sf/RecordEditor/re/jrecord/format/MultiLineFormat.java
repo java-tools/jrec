@@ -10,13 +10,13 @@ package net.sf.RecordEditor.re.jrecord.format;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import com.zbluesoftware.java.bm.AbstractGenericCombo;
-import com.zbluesoftware.java.bm.GenericComboTableRender;
-
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.RecordEditor.utils.swing.MultiLineCombo;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+
+import com.zbluesoftware.java.bm.AbstractGenericCombo;
+import com.zbluesoftware.java.bm.GenericComboTableRender;
 
 
 /**

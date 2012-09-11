@@ -21,12 +21,12 @@ import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.Numeric.ConversionManager;
 import net.sf.JRecord.Numeric.Convert;
 import net.sf.JRecord.Types.Type;
+import net.sf.RecordEditor.edit.open.DisplayBuilderFactory;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.openFile.ComputerOptionCombo;
 import net.sf.RecordEditor.re.tree.TreeParserXml;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.fileStorage.DataStoreStd;
-
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
@@ -126,7 +126,12 @@ public class DisplayCobolCopybook implements ActionListener {
 			lines.setLayout(reader.getLayout());
 
 			if (lines.size() > 1) {
-				new LineTree(new FileView(lines, null, null), TreeParserXml.getInstance(), true, 1).cb2xmlStuff();
+				DisplayBuilderFactory.getInstance().newDisplay(
+						DisplayBuilderFactory.ST_CB2XML_TREE, null, lines.getLayout(),
+						new FileView(lines, null, null),
+						TreeParserXml.getInstance(),
+						true, 1);
+				//DisplayBuilderFactory.newLineTree(null, new FileView(lines, null, null), TreeParserXml.getInstance(), true, 1).cb2xmlStuff();
 			} else {
 				msgTxt.setText(NOTHING_TO_DISPLAY);
 			}

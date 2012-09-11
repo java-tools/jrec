@@ -24,7 +24,6 @@ import net.sf.RecordEditor.re.script.VelocityPopup;
 import net.sf.RecordEditor.re.script.XsltPopup;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
-
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.ReActionActiveScreen;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
@@ -156,7 +155,7 @@ public class MenuPopupListener extends MouseAdapter {
     	addUserActions(userAction);
     }
 
-    private void addUserActions(final Action[] userAction) {
+    protected final void addUserActions(final Action[] userAction) {
 	    if (userAction != null) {
 	        for (int i = 0; i < userAction.length; i++) {
 	            if (userAction[i] == null) {
@@ -200,10 +199,10 @@ public class MenuPopupListener extends MouseAdapter {
         		popupCol = tbl.columnAtPoint(e.getPoint());
              	popupRow = tbl.rowAtPoint(e.getPoint());
         	 }
-
+        	 JPopupMenu popupMenu = getPopup();
         	 if (Common.TEST_MODE) {
         		 try {
-	        		 Dimension d = popup.getPreferredSize();
+	        		 Dimension d = popupMenu.getPreferredSize();
 	        		 int vpHeight = tbl.getParent().getHeight();
 	        		 if ( y + d.height > vpHeight) {
 	        			 y = Math.max(1, vpHeight - d.height);
@@ -212,7 +211,7 @@ public class MenuPopupListener extends MouseAdapter {
 				 }
         	 }
 
-             popup.show(e.getComponent(),
+             popupMenu.show(e.getComponent(),
                        x, y);
         }
     }
@@ -247,6 +246,7 @@ public class MenuPopupListener extends MouseAdapter {
 	public int getPopupCol() {
 		return popupCol;
 	}
+
 
 	/**
 	 * @param table the tbl to set

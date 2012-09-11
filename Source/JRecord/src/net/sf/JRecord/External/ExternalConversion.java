@@ -309,7 +309,7 @@ public final class ExternalConversion {
      * Get all Type Ids / Type Names
      * @return Type Ids / Type Names
      */
-    public final static ArrayList<BasicKeyedField> getTypes() {
+    public final static ArrayList<BasicKeyedField> getTypes(int idx) {
 		TypeManager manager = TypeManager.getInstance();
     	AbstractConversion conv = getStandardConversion();
     	ArrayList<BasicKeyedField> ret = new ArrayList<BasicKeyedField>(manager.getNumberOfTypes());
@@ -319,7 +319,7 @@ public final class ExternalConversion {
 
     	for (int i = 0; i < manager.getNumberOfTypes(); i++) {
     		t = manager.getTypeId(i);
-    		s = conv.getTypeAsString(0, t);
+    		s = conv.getTypeAsString(idx, t);
     		if (s != null && ! "".equals(s)) {
     			fld = new BasicKeyedField();
     			fld.key = t;
@@ -400,6 +400,7 @@ public final class ExternalConversion {
 
 		private String[] typeNames ;
 		private HashMap<String, Integer> typeNumbers;
+		//private ArrayList<BasicKeyedField> allTypes = new ArrayList<BasicKeyedField>(300);
 
 		/**
 		 * Basic Type / Format conversion (for use in JRecord; RecordEditor has
@@ -464,6 +465,12 @@ public final class ExternalConversion {
 		private void setName(int type, String name) {
 			typeNames[TypeManager.getInstance().getIndex(type)] = name;
 			typeNumbers.put(name.toLowerCase(), Integer.valueOf(type));
+
+//			BasicKeyedField b = new BasicKeyedField();
+//   			b.key = type;
+//   			b.name = name;
+//
+//			allTypes.add(b);
 		}
 
 
@@ -486,6 +493,16 @@ public final class ExternalConversion {
 			}
 			return 0;
 		}
+
+
+
+//		/* (non-Javadoc)
+//		 * @see net.sf.JRecord.External.AbstractConversion#getTypes(int)
+//		 */
+//		@Override
+//		public List<BasicKeyedField> getTypes(int idx) {
+//			return allTypes;
+//		}
 
 		@Override
 		public String getTypeAsString(int idx, int type) {

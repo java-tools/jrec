@@ -22,6 +22,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -75,14 +76,16 @@ public class EditJdbcParamsPanel extends BasePanel {
             Parameters.DB_DROP_SEMI
     };
     private String description
-        = "<h1>JDBC Parameters</h1>"
+        = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_JDBC_Params",
+
+          "<h1>JDBC Parameters</h1>"
         + "These parameters Control the Database connection "
         + "that the <b>RecordEditor</b> uses<br>to connect to the "
         + "RecordLayout Database (where all the Record Layouts are stored)."
         + "<br>If you click on a row in the table, the fields at the bottom "
         + "will be updated with the values from the selected row.<br>"
         + "You can update values either using the fields at the bottom "
-        + "of the screen or directly into the table itself.";
+        + "of the screen or directly into the table itself.");
 
     private EditParams pgmParams;
     private JarGroup jdbcJarHolder;

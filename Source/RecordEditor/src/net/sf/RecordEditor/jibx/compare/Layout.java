@@ -6,7 +6,9 @@ public class Layout {
 	public String name = "";
 	public ArrayList<Record> records = null;
 	public String saveFile = "";
-	
+	public String groupHeader = "";
+	public String booleanOperator = "";
+
 	/**
 	 * @return the records
 	 */
@@ -17,20 +19,20 @@ public class Layout {
 		return records;
 	}
 
-	
+
 	/**
 	 * @return the records
 	 */
 	public ArrayList<FilteredRecord> getFilteredRecords() {
 		ArrayList<FilteredRecord> list = new ArrayList<FilteredRecord>(records.size());
 		FilteredRecord fr;
-		
+
 		for (Record rec : getRecords()) {
 			fr = new FilteredRecord();
 			fr.fields = rec.fields;
 			fr.fieldTest = rec.fieldTest;
 			fr.name = rec.name;
-			
+
 			list.add(fr);
 		}
 		return list;

@@ -26,14 +26,14 @@ public class Line2ColModel extends BaseLineModel {
 	 */
 	@Override
 	public int getColumnCount() {
-		return getFileView().getRowCount() + FIRST_DATA_COLUMN;
+		return getFileView().getRowCount() + firstDataColumn;
 	}
 
 	@Override
 	public String getColumnName(int col) {
 
-		if (col >= FIRST_DATA_COLUMN) {
-			return "Row " + (col - FIRST_DATA_COLUMN + 1);
+		if (col >= firstDataColumn) {
+			return "Row " + (col - firstDataColumn + 1);
 		}
 		return super.getColumnName(col);
 	}
@@ -44,10 +44,10 @@ public class Line2ColModel extends BaseLineModel {
 	@Override
 	public Object getValueAt(int row, int col) {
 
-		if (col >= FIRST_DATA_COLUMN) {
+		if (col >= firstDataColumn) {
 			return getFileView().getValueAt1(
 					super.getCurrentLayout(),
-					col - FIRST_DATA_COLUMN,
+					col - firstDataColumn,
 					getRowLocal(row) + 2);
 		}
 		return super.getValueAt(row, col);
@@ -58,7 +58,7 @@ public class Line2ColModel extends BaseLineModel {
 	 */
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
-		return columnIndex >= FIRST_DATA_COLUMN;
+		return columnIndex >= firstDataColumn;
 	}
 
 	/**
@@ -71,8 +71,8 @@ public class Line2ColModel extends BaseLineModel {
 //				+ " " + (col - FIRST_DATA_COLUMN)
 //				+ " " + (getRowLocal(row) + 2));
 
-		if (col >= FIRST_DATA_COLUMN) {
-			getFileView().setValueAt(super.getCurrentLayout(), val, col - FIRST_DATA_COLUMN, getRowLocal(row) + 2);
+		if (col >= firstDataColumn) {
+			getFileView().setValueAt(super.getCurrentLayout(), val, col - firstDataColumn, getRowLocal(row) + 2);
 		}
 	}
 

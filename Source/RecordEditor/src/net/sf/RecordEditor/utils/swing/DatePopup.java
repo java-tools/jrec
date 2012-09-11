@@ -6,15 +6,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-//import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JTextField;
 
-import com.zbluesoftware.java.bm.AbstractPopup;
-
 import net.sf.RecordEditor.utils.common.Common;
+
+import com.zbluesoftware.java.bm.AbstractPopup;
 
 
 

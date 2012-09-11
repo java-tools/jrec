@@ -23,12 +23,11 @@ import net.sf.JRecord.Details.LineProvider;
 import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.Types.Type;
-import net.sf.RecordEditor.edit.open.StartEditor;
+import net.sf.RecordEditor.edit.open.DisplayBuilderFactory;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
 import net.sf.RecordEditor.utils.fileStorage.DataStoreStd;
-
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
@@ -145,6 +144,7 @@ public class NewCsvFile {
 		});
 	}
 
+	@SuppressWarnings("unchecked")
 	private void editFile() {
 		LayoutDetail layout = getLayout();
 		AbstractLine<LayoutDetail> l;
@@ -165,7 +165,8 @@ public class NewCsvFile {
 				null,
 				null,
 				false);
-		StartEditor.doOpen(file, 0, false);
+		DisplayBuilderFactory.getInstance().newDisplay(DisplayBuilderFactory.ST_INITIAL_EDIT, "", null, file.getLayout(), file, 0);
+		//DisplayBuilder.doOpen(file, 0, false);
 
 	}
 

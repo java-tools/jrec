@@ -7,14 +7,12 @@ import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JTabbedPane;
 
-
 import net.sf.JRecord.Details.AbstractLayoutDetails;
-import net.sf.RecordEditor.edit.open.StartEditor;
+import net.sf.RecordEditor.edit.open.DisplayBuilderFactory;
 import net.sf.RecordEditor.edit.util.NewCsvFile;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.utils.fileStorage.DataStoreStd;
-
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -90,7 +88,7 @@ public class NewFile {
 			/* (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 			 */
-			@SuppressWarnings("unchecked")
+			@SuppressWarnings({ "unchecked", "rawtypes" })
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -104,7 +102,8 @@ public class NewFile {
 								null,
 								null,
 								false);
-						StartEditor.doOpen(file, 0, false);
+						DisplayBuilderFactory.getInstance().newDisplay(DisplayBuilderFactory.ST_INITIAL_EDIT, "", null, file.getLayout(), file, 0);
+						//DisplayBuilder.doOpen(file, 0, false);
 
 						frame.setVisible(false);
 						frame.doDefaultCloseAction();

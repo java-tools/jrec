@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.edit.display.util.CreateRecordTreePnl;
-
+import net.sf.RecordEditor.edit.open.DisplayBuilderFactory;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.re.tree.TreeParserRecord;
@@ -134,7 +134,7 @@ public class CreateRecordTree extends ReFrame implements ActionListener  {
 	        	//System.out.println(" <--");
 	        	TreeParserRecord parser = new TreeParserRecord(parentIdxs);
 
-	            new LineTree(newView, parser, false, 0);
+	        	DisplayBuilderFactory.newLineTree(source.getParentFrame(), newView, parser, false, 0);
 	        }
 
 	        this.setClosed(true);

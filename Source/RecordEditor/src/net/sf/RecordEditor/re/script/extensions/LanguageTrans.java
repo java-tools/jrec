@@ -45,6 +45,7 @@ public class LanguageTrans {
 			BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "UTF8"));
 			String s, l = BLANK;
 			boolean suppress = false;
+			boolean suppressNext = false;
 			int key = 0,  pos, pos2;
 
 
@@ -55,10 +56,16 @@ public class LanguageTrans {
 				if ("".equals(s.trim())) {
 
 				} else {
+					suppressNext = false;
 					if (s.startsWith("::") || s.startsWith("：：")) {
 						if (l != BLANK) {
 							try {
-								list.set(key, Conversion.replace(new StringBuilder(l), "</ ", "</").toString());
+								StringBuilder b = new StringBuilder(l);
+								Conversion.replace(b, "</ ", "</");
+								Conversion.replace(b, "\\n</h1", "</h1");
+								Conversion.replace(b, "\\n</h2", "</h2");
+								Conversion.replace(b, "\\n</h3", "</h3");
+								list.set(key, b.toString());
 								l = BLANK;
 								key = 0;
 							} catch (Exception e) {
@@ -86,13 +93,18 @@ public class LanguageTrans {
 						} else {
 							System.out.println(" ## > " + pos + " " + s);
 						}
+						s = r.readLine();
+						if (s == null) {
+							break;
+						}
+						suppressNext = true;
 					} else if (suppress || suppressBefore(s)) {
 						l = l + s;
 					} else {
 						l = l + "\n" + s;
 					}
 
-					suppress = false;
+					suppress = suppressNext;
 					String t = s.toLowerCase();
 					for (String ss : SUPPRESS_AFTER) {
 						if (t.endsWith(ss)) {

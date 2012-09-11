@@ -5,13 +5,11 @@ import java.awt.event.ActionEvent;
 import net.sf.RecordEditor.edit.display.util.UpdateCsvLayout;
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
-import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
 @SuppressWarnings("serial")
 public class CsvUpdateLayoutAction
-extends ReAbstractAction implements AbstractActiveScreenAction {
+extends ReSpecificScreenAction implements AbstractActiveScreenAction {
 
 	/**
 	 * @param creator
@@ -36,27 +34,25 @@ extends ReAbstractAction implements AbstractActiveScreenAction {
 	 */
 	@Override
 	public void checkActionEnabled() {
-		ReFrame activeScreen = ReFrame.getActiveFrame();
-
-		super.setEnabled(isActive(activeScreen));
+		super.setEnabled(getDisplay(AbstractFileDisplay.class) != null);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		ReFrame activeScreen = ReFrame.getActiveFrame();
-		if (isActive(activeScreen)) {
-			new UpdateCsvLayout((AbstractFileDisplay) activeScreen);
+		AbstractFileDisplay sourcePnl = getDisplay(AbstractFileDisplay.class);
+		if (sourcePnl != null) {
+			new UpdateCsvLayout(sourcePnl);
 		}
-	}
-
-	private boolean isActive(ReFrame activeScreen) {
-		boolean active = false;
-
-		if (activeScreen instanceof AbstractFileDisplay) {
-			AbstractFileDisplay source = (AbstractFileDisplay) activeScreen;
-			active =  source.getFileView().isSimpleCsvFile();
-		}
-
-		return active;
 	}
 }
+//	private boolean isActive(ReFrame activeScreen) {
+//		boolean active = false;
+//
+//		if (activeScreen instanceof AbstractFileDisplay) {
+//			AbstractFileDisplay source = (AbstractFileDisplay) activeScreen;
+//			active =  source.getFileView().isSimpleCsvFile();
+//		}
+//
+//		return active;
+//	}
+//}

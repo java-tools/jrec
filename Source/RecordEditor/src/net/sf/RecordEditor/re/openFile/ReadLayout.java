@@ -7,8 +7,8 @@ import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
-import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
+import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.RecordEditor.re.util.ReIOProvider;
 
 /**

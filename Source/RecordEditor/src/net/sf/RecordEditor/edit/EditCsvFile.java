@@ -13,9 +13,14 @@
  */
 package net.sf.RecordEditor.edit;
 
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import javax.swing.JMenu;
+
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
-
 import net.sf.RecordEditor.edit.display.Action.CsvUpdateLayoutAction;
 import net.sf.RecordEditor.edit.display.Action.LoadFileLayoutFromXml;
 import net.sf.RecordEditor.edit.display.Action.NewCsvAction;
@@ -30,8 +35,9 @@ import net.sf.RecordEditor.utils.edit.ParseArgs;
 import net.sf.RecordEditor.utils.params.Parameters;
 
 
+
 /**
- * This class will Edit a file with a File-Layout (instead of using a DB copybook) 
+ * This class will Edit a file with a File-Layout (instead of using a DB copybook)
  *
  * @author Bruce Martin
  *
@@ -74,7 +80,7 @@ public class EditCsvFile extends EditRec {
         OpenFile open = new OpenFile(
         		csvPnl,
         		Constants.NULL_INTEGER);
-        
+
         csvPnl.setParentFrame(open);
 //        long time2 = System.nanoTime();
         super.setOpenFileWindow(open, null, null, false);
@@ -83,11 +89,11 @@ public class EditCsvFile extends EditRec {
 //	    System.out.println("Time 3 (open pnl): " + ((time2 - time1) / 100000000));
 //	    System.out.println("Time 4 (set open): " + ((time3 - time2) / 100000000));
 
-        
-        super.getEditMenu().addSeparator();     
+
+        super.getEditMenu().addSeparator();
         super.getEditMenu().add(addAction(new VisibilityAction()));
-        super.getEditMenu().add(addAction(new SaveFieldSequenceAction()));     
-        super.getEditMenu().addSeparator();     
+        super.getEditMenu().add(addAction(new SaveFieldSequenceAction()));
+        super.getEditMenu().addSeparator();
         super.getEditMenu().add(addAction(new CsvUpdateLayoutAction()));
         super.getEditMenu().add(addAction(new SaveFileLayout2Xml()));
         super.getEditMenu().add(addAction(new LoadFileLayoutFromXml()));
@@ -95,6 +101,25 @@ public class EditCsvFile extends EditRec {
 
 
 
+
+	protected void addWebsitesToHelpMenu(JMenu helpMenu) {
+
+		try {
+			helpMenu.add(
+					new showURI(
+							"ReCsvEditor Documentations",
+							(new File(Common.formatHelpURL("reCsvEdFR.htm").substring(5))).toURI()));
+			helpMenu.add(
+					new showURI(
+							"HowTo Documentations",
+							(new File(Common.formatHelpURL("howTo.htm").substring(5))).toURI()));
+			helpMenu.addSeparator();
+			helpMenu.add(new showURI("ReCsvEditor Web Page", new URI("http://recsveditor.sourceforge.net/")));
+			helpMenu.add(new showURI("ReCsvEditor Forum", new URI("https://sourceforge.net/p/recsveditor/discussion/")));
+		} catch (URISyntaxException e1) {
+			e1.printStackTrace();
+		}
+	}
 
 
 	/* (non-Javadoc)
@@ -107,10 +132,10 @@ public class EditCsvFile extends EditRec {
 			  + "data files. It is built on top of the RecordEditor.<br><br><pre>"
 			  +	"<br> <b>Authors:</b><br> "
 			  + "\t<b>Bruce Martin</b>: Main author<br/><br/>"
-			  + " <b>Websites:</b><br><br> " 
+			  + " <b>Websites:</b><br><br> "
 			  + "\t<b>reCsvEditor:</b> http://recsveditor.sourceforge.net<br>"
 			  + "\t<b>RecordEditor:</b> http://record-editor.sourceforge.net<br>"
-			  
+
 			  + "</pre><br>"
 		);
 	}
@@ -131,7 +156,7 @@ public class EditCsvFile extends EditRec {
 			    new EditCsvFile(args.getDfltFile(), args.getInitialRow(), ReIOProvider.getInstance());
 			        	//new CopyBookDbReader());
 			    long time2 = System.nanoTime();
-			    
+
 			    System.out.println("Time 9: " + ((time2 - time1) / 100000000));
 			}
 		});

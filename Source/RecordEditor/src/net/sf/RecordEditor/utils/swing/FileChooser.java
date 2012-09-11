@@ -112,9 +112,11 @@ public class FileChooser extends JTextField implements ActionListener  {
 
 		if (ret == JFileChooser.APPROVE_OPTION) {
 			String newPath = chooseFile.getSelectedFile().getPath();
+			//System.out.println("!! 1 " + newPath);
 			if (expandVars) {
-				newPath = Parameters.encodeVars(s);
+				newPath = Parameters.encodeVars(newPath);
 			}
+			//System.out.println("!! 2 " + newPath);
 
 		    this.setText(newPath);
 		    for (FocusListener item : listner) {

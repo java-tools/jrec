@@ -20,6 +20,7 @@
 package net.sf.RecordEditor.edit;
 
 import java.awt.event.ActionEvent;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JMenu;
@@ -27,8 +28,9 @@ import javax.swing.JMenuBar;
 
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.JRecord.Log.AbsSSLogger;
-import net.sf.RecordEditor.edit.display.BaseDisplay;
+import net.sf.RecordEditor.edit.display.DisplayBuilderImp;
 import net.sf.RecordEditor.edit.display.DisplayCobolCopybook;
+import net.sf.RecordEditor.edit.display.DisplayFrame;
 import net.sf.RecordEditor.edit.display.Action.LoadSavedFieldSeqAction;
 import net.sf.RecordEditor.edit.display.Action.LoadSavedVisibilityAction;
 import net.sf.RecordEditor.edit.open.OpenFile;
@@ -38,8 +40,9 @@ import net.sf.RecordEditor.re.jrecord.format.CellFormat;
 import net.sf.RecordEditor.re.jrecord.types.ReTypeManger;
 import net.sf.RecordEditor.re.jrecord.types.TypeDateWrapper;
 import net.sf.RecordEditor.re.openFile.LayoutSelectionDB;
-import net.sf.RecordEditor.re.script.RunScriptPopup;
+import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.re.script.ExportScriptPopup;
+import net.sf.RecordEditor.re.script.RunScriptPopup;
 import net.sf.RecordEditor.re.script.ScriptRunFrame;
 import net.sf.RecordEditor.re.script.VelocityPopup;
 import net.sf.RecordEditor.re.script.XsltPopup;
@@ -52,6 +55,8 @@ import net.sf.RecordEditor.utils.edit.ParseArgs;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.params.Parameters;
+import net.sf.RecordEditor.utils.screenManager.ReAction;
+import net.sf.RecordEditor.utils.screenManager.ReActionActiveScreen;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
@@ -82,6 +87,13 @@ public class EditRec extends ReMainFrame  {
 	};
 //    private CopyBookInterface copybookInterface;
 
+	private final ReActionActiveScreen closeTabAction        = newAction(ReActionHandler.CLOSE_TAB);
+	private final ReActionActiveScreen extractTabAction      = newAction(ReActionHandler.UNDOCK_TAB);
+	private final ReActionActiveScreen extractAllAction      = newAction(ReActionHandler.UNDOCK_ALL_TABS);
+	private final ReActionActiveScreen addToMainScreenAction = newAction(ReActionHandler.DOCK_TAB);
+	private final ReActionActiveScreen toOneScreenAction     = newAction(ReActionHandler.DOCK_ALL_SCREENS);
+	private final ReActionActiveScreen addChildRecAction     = newAction(ReActionHandler.ADD_CHILD_SCREEN);
+	private final ReActionActiveScreen removeChildRecAction  = newAction(ReActionHandler.REMOVE_CHILD_SCREEN);
 
     /**
      * Creating the File & record selection screenm
@@ -166,7 +178,7 @@ public class EditRec extends ReMainFrame  {
     	incJdbc = includeJdbc;
     	optionAction.putValue(AbstractAction.SHORT_DESCRIPTION, LangConversion.convert(LangConversion.ST_MESSAGE, "Edit Options"));
 
-
+    	DisplayBuilderImp.register();
 
         ReMainFrame.setMasterFrame(this);
         ReTypeManger.setDateFormat(Common.DATE_FORMAT_STR);
@@ -208,19 +220,26 @@ public class EditRec extends ReMainFrame  {
 
 
 
-        if (Common.USER_INIT_CLASS != null && ! "".equals(Common.USER_INIT_CLASS)) {
-            try {
-                @SuppressWarnings("rawtypes")
-				Class c = ClassLoader.getSystemClassLoader().loadClass(Common.USER_INIT_CLASS);
-                c.newInstance();
-            } catch (Exception e) {
-                Common.logMsg(
-                		AbsSSLogger.ERROR,
-                		"Error running user Initialize:",
-                        e.getMessage(),
-                        null);
-            }
-        }
+        runInitClass(Common.USER_INIT_CLASS, "Error running user Initialize:");
+        runInitClass(Common.PO_INIT_CLASS, null);
+
+        //runInitClass(Common.USER_INIT_CLASS, "Error running user GetText Init");
+
+//        if (Common.USER_INIT_CLASS != null && ! "".equals(Common.USER_INIT_CLASS)) {
+//            try {
+//                @SuppressWarnings("rawtypes")
+//				Class c = ClassLoader.getSystemClassLoader().loadClass(Common.USER_INIT_CLASS);
+//                if (c != null) {
+//                	c.newInstance();
+//                }
+//            } catch (Exception e) {
+//                Common.logMsg(
+//                		AbsSSLogger.ERROR,
+//                		"Error running user Initialize:",
+//                        e.getMessage(),
+//                        null);
+//            }
+//        }
 
         loadUserTypes();
         loadUserFormats();
@@ -237,6 +256,29 @@ public class EditRec extends ReMainFrame  {
 //            }
 //        });
     }
+
+
+	@Override
+    protected void removeSpecificMenus() {
+    	removeSpecificMenus(11);
+    }
+
+	@Override
+    protected void addSpecificWindows(JMenu winMenu, ReAction closeAction) {
+
+        winMenu.addSeparator();
+        winMenu.add(extractTabAction);
+        winMenu.add(extractAllAction);
+        winMenu.add(addToMainScreenAction);
+        winMenu.add(toOneScreenAction);
+        winMenu.addSeparator();
+        winMenu.add(addChildRecAction);
+        winMenu.add(removeChildRecAction);
+        winMenu.addSeparator();
+        winMenu.add(closeTabAction);
+        winMenu.add(closeAction);
+    }
+
 
     /**
      * Build File menu
@@ -504,9 +546,9 @@ public class EditRec extends ReMainFrame  {
     	public void actionPerformed(ActionEvent event) {
 
     	    ReFrame actionHandler = ReFrame.getActiveFrame();
-    	    if (actionHandler != null) {
+    	    if (actionHandler != null && actionHandler instanceof DisplayFrame) {
     	    	try {
-    	    		BaseDisplay display = ((BaseDisplay) actionHandler);
+					AbstractFileDisplay display = ((DisplayFrame) actionHandler).getActiveDisplay();
     	    		extension.execute(param, display.getFileView(), display.getSelectedRows());
     	    	} catch (Exception e) { }
     	    }

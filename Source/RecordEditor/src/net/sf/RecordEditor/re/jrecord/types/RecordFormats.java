@@ -19,10 +19,13 @@ import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.re.jrecord.format.CellFormat;
 import net.sf.RecordEditor.utils.ColumnMappingInterface;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.swing.CheckboxTableRenderStringBased;
 import net.sf.RecordEditor.utils.swing.ComboBoxRenderAdapter;
 import net.sf.RecordEditor.utils.swing.LayoutCombo;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.swing.TableCellEditorWithDefault;
+import net.sf.RecordEditor.utils.swing.TextAreaTableCellEditor;
+import net.sf.RecordEditor.utils.swing.TextAreaTableCellRendor;
 import net.sf.RecordEditor.utils.swing.Combo.ComboItemEditor;
 import net.sf.RecordEditor.utils.swing.Combo.ComboItemRender;
 import net.sf.RecordEditor.utils.swing.Combo.ComboModelSupplier;
@@ -48,7 +51,9 @@ public class RecordFormats {
 	private int maxHeight = Type.NULL_INT;
 
 
+	@SuppressWarnings("rawtypes")
 	private final AbstractRecordDetail recordDescription;
+	@SuppressWarnings("rawtypes")
 	private final AbstractLayoutDetails layout;
 	private final int recordIdx;
 	private final ColumnMappingInterface mapping;
@@ -56,7 +61,9 @@ public class RecordFormats {
     /**
      *
      */
-    public RecordFormats(final ColumnMappingInterface columnMapping, final AbstractLayoutDetails recordLayout, final int recordIndex) {
+    public RecordFormats(final ColumnMappingInterface columnMapping,
+    		@SuppressWarnings("rawtypes") final AbstractLayoutDetails recordLayout,
+    		final int recordIndex) {
         super();
 
 		mapping = columnMapping;
@@ -87,20 +94,26 @@ public class RecordFormats {
                 idx = mapping.getRealColumn(recordIdx, j);
 
                 fieldDef = recordDescription.getField(idx);
-                if (fieldDef.getType() == Type.ftXmlNameTag) {
-                	cellRenders[j] = new ComboBoxRenderAdapter(
-                			new LayoutCombo(layout, false, true));
-                } else if (fieldDef.getType() == Type.ftArrayField) {
-                	cellRenders[j] = new ArrayRender();
-                } else if (fieldDef.getType() == Type.ftComboItemField
-                		&&  fieldDef instanceof ComboModelSupplier) {
-                	cellRenders[j] = new ComboItemRender(((ComboModelSupplier) fieldDef).getComboModel());
-                } else if (idx < fieldFormats.length && fieldFormats[idx] != null) {
-                	try {
-                		cellRenders[j] = fieldFormats[idx]
-                		               .getTableCellRenderer(recordDescription.getField(idx));
-                	} catch (Exception e) {
-                		Common.logMsg(AbsSSLogger.ERROR, "Can not create Rendor for field:", recordDescription.getField(idx).getName(), e);
+                switch (fieldDef.getType()) {
+                case Type.ftXmlNameTag:
+                	cellRenders[j] = new ComboBoxRenderAdapter(new LayoutCombo(layout, false, true));
+                	break;
+                case Type.ftCheckBoxY:
+                	cellRenders[j] = new CheckboxTableRenderStringBased("Y", "", false, false);
+                	break;
+                case Type.ftArrayField:		cellRenders[j] = new ArrayRender();		              	break;
+               case Type.ftMultiLineChar:	cellRenders[j] = new TextAreaTableCellRendor();        	break;
+                default:
+                	if (fieldDef.getType() == Type.ftComboItemField
+                	&& fieldDef instanceof ComboModelSupplier) {
+                		cellRenders[j] = new ComboItemRender(((ComboModelSupplier) fieldDef).getComboModel());
+                	} else if (idx < fieldFormats.length && fieldFormats[idx] != null) {
+	                	try {
+	                		cellRenders[j] = fieldFormats[idx]
+	                		               .getTableCellRenderer(recordDescription.getField(idx));
+	                	} catch (Exception e) {
+	                		Common.logMsg(AbsSSLogger.ERROR, "Can not create Rendor for field:", recordDescription.getField(idx).getName(), e);
+	                	}
                 	}
                 }
 
@@ -149,21 +162,28 @@ public class RecordFormats {
                 //		+ " " + (recordDescription.getField(idx).getType() == Type.ftXmlNameTag));
 
                 fieldDef = recordDescription.getField(idx);
-                if (fieldDef.getType() == Type.ftXmlNameTag) {
+                switch (fieldDef.getType()) {
+                case Type.ftXmlNameTag:
                 	cellEditor[j] = new DefaultCellEditor(
                 			new LayoutCombo(layout, false, true));
-                } else if (fieldDef.getType() == Type.ftArrayField) {
-                	cellEditor[j] = new ArrayTableEditor();
-                } else if (fieldDef.getType() == Type.ftComboItemField
-                		&&  fieldDef instanceof ComboModelSupplier) {
-                	cellEditor[j] = new ComboItemEditor(((ComboModelSupplier) fieldDef).getComboModel());
-                	maxHeight = Math.max(maxHeight, SwingUtils.COMBO_TABLE_ROW_HEIGHT);
-                } else if (idx < fieldFormats.length && fieldFormats[idx] != null) {
-                	try {
-                		cellEditor[j] = fieldFormats[idx]
+                	break;
+                case Type.ftCheckBoxY:
+                	cellEditor[j] = new CheckboxTableRenderStringBased("Y", "", false, false);
+                	break;
+                case Type.ftArrayField:		cellEditor[j] = new ArrayTableEditor();				break;
+                case Type.ftMultiLineChar:	cellEditor[j] = new TextAreaTableCellEditor();		break;
+                default:
+                	if (fieldDef.getType() == Type.ftComboItemField
+                	&&  fieldDef instanceof ComboModelSupplier) {
+                		cellEditor[j] = new ComboItemEditor(((ComboModelSupplier) fieldDef).getComboModel());
+                		maxHeight = Math.max(maxHeight, SwingUtils.COMBO_TABLE_ROW_HEIGHT);
+                	} else if (idx < fieldFormats.length && fieldFormats[idx] != null) {
+                		try {
+                			cellEditor[j] = fieldFormats[idx]
                 		               .getTableCellEditor(recordDescription.getField(idx));
-                		//System.out.print(" found ");
-                	} catch (Exception e) {
+                			//System.out.print(" found ");
+                		} catch (Exception e) {
+                		}
                 	}
                 }
                 if (cellEditor[j] == null && fieldDef.getDefaultValue() != null) {

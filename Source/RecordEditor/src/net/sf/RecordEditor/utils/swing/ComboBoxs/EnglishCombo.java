@@ -35,6 +35,12 @@ public class EnglishCombo<Key extends Object> extends JComboBox {
 
 	public final int getAddEnglish(String englishText, boolean add) {
 		for (int i = 0; i < this.getItemCount(); i++) {
+			if (getOption(i).key.equals(englishText)) {
+				this.setSelectedIndex(i);
+				return i;
+			}
+		}
+		for (int i = 0; i < this.getItemCount(); i++) {
 			if (getOption(i).getEnglish().equals(englishText)) {
 				this.setSelectedIndex(i);
 				return i;

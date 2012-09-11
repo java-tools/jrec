@@ -26,7 +26,6 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 import javax.swing.event.TableModelEvent;
 
 import net.sf.JRecord.Common.Constants;
@@ -52,8 +51,7 @@ import net.sf.RecordEditor.utils.common.ReActionHandler;
  * @author Bruce Martin
  * @version 0.70
  */
-@SuppressWarnings("serial")
-public class LineFrameTree extends  BaseLineFrame {
+public class LineFrameTree extends  BaseLineFrame implements ILineDisplay {
 
 	private static final int IDX_START = 0;
 	private static final int IDX_PREV = 1;
@@ -70,19 +68,19 @@ public class LineFrameTree extends  BaseLineFrame {
 			@SuppressWarnings("rawtypes")
 			public void actionPerformed(ActionEvent event) {
 
-//				System.out.println("Lister start " + (event.getSource() == btn[2]));
+//				System.out.println("Lister start " + (event.getSource() == btnPanel.btn[2]));
 					stopCellEditing();
 
-					if (event.getSource() == btn[IDX_START]) {
+					if (event.getSource() == btnPanel.buttons[IDX_START]) {
 						setCurrentLine(0);
-					} else if (event.getSource() == btn[IDX_PREV]) {
+					} else if (event.getSource() == btnPanel.buttons[IDX_PREV]) {
 						changeRow(-1);
-					} else if (event.getSource() == btn[IDX_PARENT]) {
+					} else if (event.getSource() == btnPanel.buttons[IDX_PARENT]) {
 						AbstractLine l = record.getCurrentLine().getTreeDetails().getParentLine();
 						if (l != null) {
 							setLine(l);
 						}
-					} else if (event.getSource() == btn[IDX_CHILD]) {
+					} else if (event.getSource() == btnPanel.buttons[IDX_CHILD]) {
 						AbstractTreeDetails children =  record.getCurrentLine().getTreeDetails();
 						if (children != null && children.getChildCount() > 0) {
 							List<AbstractLine> list = children.getLines(0);
@@ -90,15 +88,15 @@ public class LineFrameTree extends  BaseLineFrame {
 								setLine(list.get(0));
 							}
 						}
-					} else if (event.getSource() == btn[IDX_NEXT]) {
+					} else if (event.getSource() == btnPanel.buttons[IDX_NEXT]) {
 							changeRow(1);
-					} else if (event.getSource() == btn[IDX_LAST]) {
+					} else if (event.getSource() == btnPanel.buttons[IDX_LAST]) {
 						setCurrentLine(fileView.getRowCount() - 1);
 					} else if (event.getSource() == oneLineHex) {
 					    ap_100_setHexFormat();
 					}
 
-//					System.out.println("Lister End " + (event.getSource() == btn[2]));
+//					System.out.println("Lister End " + (event.getSource() == btnPanel.btn[2]));
 
 			//	}
 			}
@@ -112,11 +110,9 @@ public class LineFrameTree extends  BaseLineFrame {
 	 * @param masterFile - Internal representation of the file
 	 * @param cRow       - current row
 	 */
-	public LineFrameTree(@SuppressWarnings("rawtypes") final FileView viewOfFile,
-	        		 final int cRow) {
-		super("Record: ", viewOfFile, false, ! viewOfFile.getLayout().isXml());
-
-		JPanel btnPanel = new JPanel();
+	protected LineFrameTree(@SuppressWarnings("rawtypes") final FileView viewOfFile,
+	        		 final int cRow, final boolean changeRow) {
+		super("Record: ", viewOfFile, false, ! viewOfFile.getLayout().isXml(), changeRow);
 
 		super.setDisplayType(TREE_DISPLAY);
 
@@ -124,18 +120,15 @@ public class LineFrameTree extends  BaseLineFrame {
 		setModel(record);
 
 		record.setCurrentLine(fileView.getLine(cRow), fileView.getCurrLayoutIdx());
-		init_200_setupFields(btnPanel, icons, listner);
-		init_300_setupScreen(btnPanel);
-
-		show();
-		this.setToMaximum(false);
+		init_200_setupFields(icons, listner, changeRow);
+		init_300_setupScreen(changeRow);
 	}
 
 
 	@SuppressWarnings("rawtypes")
-	public LineFrameTree(final FileView viewOfFile,
-   		 final AbstractLine line) {
-		super("Record:", viewOfFile, false, ! viewOfFile.getLayout().isXml());
+	protected LineFrameTree(final FileView viewOfFile,
+   		 final AbstractLine line, final boolean changeRow) {
+		super("Record:", viewOfFile, false, ! viewOfFile.getLayout().isXml(), changeRow);
 
 
 		if (line == null) {
@@ -144,19 +137,16 @@ public class LineFrameTree extends  BaseLineFrame {
 			return;
 		}
 
-		JPanel btnPanel = new JPanel();
-
 		record = new LineModel(fileView);
 		setModel(record);
 
 		record.setCurrentLine(line, fileView.getCurrLayoutIdx());
 		//currRow = Common.NULL_INTEGER;
-		init_200_setupFields(btnPanel, icons, listner);
-		init_300_setupScreen(btnPanel);
-
-		show();
-
+		init_200_setupFields(icons, listner, changeRow);
+		init_300_setupScreen(changeRow);
 	}
+
+
 
 
 	/**
@@ -195,7 +185,7 @@ public class LineFrameTree extends  BaseLineFrame {
 			int fNo =  FieldMapping.getAdjColumn(getModel().getFieldMapping(), position.layoutIdxUsed, position.col);
 		    tblDetails.getSelectionModel().clearSelection();
 		    tblDetails.getSelectionModel().setSelectionInterval(fNo, fNo);
-		    tblDetails.editCellAt(fNo, LineModel.DATA_COLUMN);
+		    tblDetails.editCellAt(fNo, record.firstDataColumn);
 		}
 	}
 
@@ -216,7 +206,7 @@ public class LineFrameTree extends  BaseLineFrame {
 			int fNo =  FieldMapping.getAdjColumn(getModel().getFieldMapping(), layout, fieldNum);
 		    tblDetails.getSelectionModel().clearSelection();
 		    tblDetails.getSelectionModel().setSelectionInterval(fNo, fNo);
-		    tblDetails.editCellAt(fNo, LineModel.DATA_COLUMN);
+		    tblDetails.editCellAt(fNo, record.firstDataColumn);
 		}
 	}
 
@@ -224,6 +214,7 @@ public class LineFrameTree extends  BaseLineFrame {
 	/**
 	 * Deleting one record
 	 */
+	@SuppressWarnings("rawtypes")
 	public void deleteLines() {
 		AbstractLine line = record.getCurrentLine();
 		getFileView().deleteLine(line);
@@ -313,24 +304,24 @@ public class LineFrameTree extends  BaseLineFrame {
 
 		@SuppressWarnings("rawtypes")
 		AbstractLine l = record.getCurrentLine();
-	    btn[IDX_START].setEnabled(true);
+	    btnPanel.buttons[IDX_START].setEnabled(true);
 		if (l== null) {
-		    btn[IDX_PREV].setEnabled(false);
-		    btn[IDX_PARENT].setEnabled(false);
-		    btn[IDX_CHILD].setEnabled(false);
-		    btn[IDX_NEXT].setEnabled(false);
+		    btnPanel.buttons[IDX_PREV].setEnabled(false);
+		    btnPanel.buttons[IDX_PARENT].setEnabled(false);
+		    btnPanel.buttons[IDX_CHILD].setEnabled(false);
+		    btnPanel.buttons[IDX_NEXT].setEnabled(false);
 		} else {
 			int rowCount = fileView.getRowCount();
 			@SuppressWarnings("rawtypes")
 			AbstractLine parent = l.getTreeDetails().getParentLine();
 			boolean changeParent = (parent == null) && (rowCount > 1);
 
-		    btn[IDX_PREV].setEnabled(l != prevLine(l) || (changeParent && fileView.getLine(0) != l));
-		    btn[IDX_PARENT].setEnabled(parent != null);
-		    btn[IDX_CHILD].setEnabled(l.getTreeDetails().getChildCount() > 0);
-		    btn[IDX_NEXT].setEnabled(l != nextLine(l) || (changeParent && fileView.getLine(rowCount-1) != l));
+		    btnPanel.buttons[IDX_PREV].setEnabled(l != prevLine(l) || (changeParent && fileView.getLine(0) != l));
+		    btnPanel.buttons[IDX_PARENT].setEnabled(parent != null);
+		    btnPanel.buttons[IDX_CHILD].setEnabled(l.getTreeDetails().getChildCount() > 0);
+		    btnPanel.buttons[IDX_NEXT].setEnabled(l != nextLine(l) || (changeParent && fileView.getLine(rowCount-1) != l));
 		}
-	    btn[IDX_LAST].setEnabled(true);
+	    btnPanel.buttons[IDX_LAST].setEnabled(true);
 	}
 
 	private void setCurrentLine(int num) {
@@ -362,7 +353,11 @@ public class LineFrameTree extends  BaseLineFrame {
 		setLine(l);
 	}
 
-	private void setLine(@SuppressWarnings("rawtypes") AbstractLine l) {
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.edit.display.ILineDisplay#setLine(net.sf.JRecord.Details.AbstractLine)
+	 */
+	@Override
+	public final void setLine(@SuppressWarnings("rawtypes") AbstractLine l) {
 
 //		System.out.println("## Set Line ... " + (l != record.getCurrentLine())
 //				+ " LayoutIndex: " + getLayoutIndex());
@@ -429,6 +424,12 @@ public class LineFrameTree extends  BaseLineFrame {
 	}
 
 
+	@Override
+	public String getScreenName() {
+		return super.getScreenName() + " " + getLayoutCombo().getSelectedItem();
+	}
+
+
 	/**
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getInsertAfterLine()
 	 */
@@ -443,14 +444,11 @@ public class LineFrameTree extends  BaseLineFrame {
 	}
 
 
-	/* (non-Javadoc)
+	/**
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getNewDisplay(net.sf.RecordEditor.edit.file.FileView)
 	 */
 	@Override
 	protected BaseDisplay getNewDisplay(@SuppressWarnings("rawtypes") FileView view) {
-		return new LineFrameTree(view, 0);
+		return new LineFrameTree(view, 0, true);
 	}
-
-
-
 }

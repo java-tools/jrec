@@ -35,15 +35,12 @@ import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.JRecord.Log.AbsSSLogger;
-
-
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.re.openFile.AbstractOpenFilePnl;
 import net.sf.RecordEditor.re.openFile.OpenFileInterface;
 import net.sf.RecordEditor.re.openFile.RecentFilesList;
 import net.sf.RecordEditor.utils.common.Common;
-
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;

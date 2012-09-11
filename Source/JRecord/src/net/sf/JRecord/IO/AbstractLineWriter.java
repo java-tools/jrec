@@ -20,10 +20,10 @@ import net.sf.JRecord.Details.AbstractLine;
  *
  * <pre>
  * <b>Usage:</b>
- * 
+ *
  *         CopybookLoader loader = <font color="brown"><b>new</b></font> RecordEditorXmlLoader();
  *         LayoutDetail layout = loader.loadCopyBook(copybookName, 0, 0, "", 0, 0, <font color="brown"><b>null</b></font>).asLayoutDetail();
- *        
+ *
  *         <b>AbstractLineWriter</b> writer = LineIOProvider.getInstance().getLineWriter(layout.getFileStructure());
  * </pre>
  *
@@ -65,7 +65,7 @@ public abstract class AbstractLineWriter {
      *
      * @throws IOException any IOerror
      */
-    public abstract void write(AbstractLine line) throws IOException;
+    public abstract void write(@SuppressWarnings("rawtypes") AbstractLine line) throws IOException;
 
 
     /**
@@ -79,7 +79,7 @@ public abstract class AbstractLineWriter {
      * Set the Record Layout
      * @param layout record layout to set
      */
-    public void setLayout(AbstractLayoutDetails layout) throws IOException {
+    public void setLayout(@SuppressWarnings("rawtypes") AbstractLayoutDetails layout) throws IOException {
 
     }
 }

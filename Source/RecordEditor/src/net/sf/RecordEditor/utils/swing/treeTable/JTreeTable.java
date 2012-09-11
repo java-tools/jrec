@@ -14,6 +14,11 @@
 package net.sf.RecordEditor.utils.swing.treeTable;
 
 
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.util.EventObject;
+
 import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;
 import javax.swing.JTree;
@@ -32,15 +37,6 @@ import javax.swing.tree.TreePath;
 
 import net.sf.RecordEditor.utils.swing.array.ArrayInterface;
 import net.sf.RecordEditor.utils.swing.array.ArrayRender;
-
-
-import java.awt.Component;
-import java.awt.Graphics;
-//import java.awt.Rectangle;
-
-import java.awt.event.MouseEvent;
-
-import java.util.EventObject;
 
 /**
  * This example shows how to create a simple JTreeTable component, by using a

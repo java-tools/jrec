@@ -6,14 +6,12 @@ import java.awt.event.ActionListener;
 import net.sf.RecordEditor.edit.display.common.AbstractFieldSequencePnl;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
-import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.DirectoryFrame;
 
 @SuppressWarnings("serial")
-public class SaveFieldSequenceAction extends ReAbstractAction implements AbstractActiveScreenAction {
+public class SaveFieldSequenceAction extends ReSpecificScreenAction implements AbstractActiveScreenAction {
 
 	/**
 	 * @param creator
@@ -29,20 +27,15 @@ public class SaveFieldSequenceAction extends ReAbstractAction implements Abstrac
 	 */
 	@Override
 	public void checkActionEnabled() {
-		ReFrame actionHandler = ReFrame.getActiveFrame();
-		boolean enable =
-					(actionHandler != null
-				&&	 actionHandler instanceof AbstractFieldSequencePnl);
-
-		super.setEnabled(enable);
+		super.setEnabled(getDisplay(AbstractFieldSequencePnl.class) != null);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		ReFrame actionHandler = ReFrame.getActiveFrame();
-		if (actionHandler instanceof AbstractFieldSequencePnl) {
+		AbstractFieldSequencePnl sourcePnl = getDisplay(AbstractFieldSequencePnl.class);
+		if (sourcePnl != null) {
 			String dir = Parameters.getFileName(Parameters.HIDDEN_FIELDS_SAVE_DIRECTORY);
-			new SaveSequence((AbstractFieldSequencePnl) actionHandler, dir);
+			new SaveSequence(sourcePnl, dir);
 		}
 	}
 

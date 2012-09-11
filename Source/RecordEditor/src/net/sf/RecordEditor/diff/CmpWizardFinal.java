@@ -18,7 +18,6 @@ import net.sf.RecordEditor.jibx.JibxCall;
 import net.sf.RecordEditor.jibx.compare.DiffDefinition;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.utils.common.Common;
-
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;

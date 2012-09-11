@@ -8,7 +8,6 @@ import net.sf.RecordEditor.re.db.Table.TableDB;
 import net.sf.RecordEditor.re.db.Table.TableRec;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.jdbc.DBComboModel;
-
 import net.sf.RecordEditor.utils.swing.AbsJTable;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBoxRender;

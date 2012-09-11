@@ -10,7 +10,6 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.util.StringTokenizer;
 
-
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -29,7 +28,6 @@ import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
-
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -56,8 +54,8 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 //	private int lines2display = 0;
 
 
-	private BmKeyedComboModel styleModel = new BmKeyedComboModel(new ManagerRowList(
-			parserManager, false));
+	private BmKeyedComboModel styleModel = new BmKeyedComboModel(
+												new ManagerRowList(parserManager, false));
     public DelimiterCombo fieldSeparator;
     public JTextField fieldSepTxt = new JTextField(5);
     public QuoteCombo quoteCombo = QuoteCombo.newCombo();

@@ -9,13 +9,12 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-
 import javax.swing.JDialog;
 import javax.swing.JTextField;
 
+import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.LineProvider;
-import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.DelegateReader;
 import net.sf.JRecord.IO.LineIOProvider;

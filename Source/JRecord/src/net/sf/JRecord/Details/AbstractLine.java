@@ -219,7 +219,8 @@ public interface AbstractLine<Layout extends AbstractLayoutDetails> extends Abst
      * @see NullTreeDtls
      * @return lines children
      */
-    public <X extends AbstractTreeDetails> X getTreeDetails();
+    @SuppressWarnings("rawtypes")
+	public  AbstractTreeDetails getTreeDetails();
 
     public <L extends AbstractLine> L getNewDataLine();
 

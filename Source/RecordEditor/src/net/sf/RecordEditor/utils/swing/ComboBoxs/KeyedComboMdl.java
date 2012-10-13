@@ -5,23 +5,23 @@ import java.util.HashMap;
 
 import javax.swing.ComboBoxModel;
 
-import net.sf.RecordEditor.utils.swing.Combo.ComboObjOption;
+import net.sf.RecordEditor.utils.swing.Combo.ComboKeyedOption;
 import net.sf.RecordEditor.utils.swing.Combo.ListListner;
 
 
 public class KeyedComboMdl<Key> extends ListListner implements  ComboBoxModel {
 
-	public final ComboObjOption<Key> nullItem;
+	public final ComboKeyedOption<Key> nullItem;
 
-	public final HashMap<Key, ComboObjOption<Key>> items = new HashMap<Key, ComboObjOption<Key>>();
+	public final HashMap<Key, ComboKeyedOption<Key>> items = new HashMap<Key, ComboKeyedOption<Key>>();
 
 	private int currIdx = 0;
 
-	public final ArrayList<ComboObjOption<Key>> itemList = new ArrayList<ComboObjOption<Key>>();
+	public final ArrayList<ComboKeyedOption<Key>> itemList = new ArrayList<ComboKeyedOption<Key>>();
 
 	public boolean trace = false;
 
-	public KeyedComboMdl(ComboObjOption<Key> nullItem) {
+	public KeyedComboMdl(ComboKeyedOption<Key> nullItem) {
 		super();
 		this.nullItem = nullItem;
 	}
@@ -30,7 +30,7 @@ public class KeyedComboMdl<Key> extends ListListner implements  ComboBoxModel {
 	 * @see javax.swing.ListModel#getElementAt(int)
 	 */
 	@Override
-	public ComboObjOption<Key> getElementAt(int row) {
+	public ComboKeyedOption<Key> getElementAt(int row) {
 		//System.out.println("Get Element: : " + row + " " + getRowCount());
 		if (row < 1 || row > itemList.size()) {
 			return nullItem;
@@ -74,9 +74,9 @@ public class KeyedComboMdl<Key> extends ListListner implements  ComboBoxModel {
 //			}
 //			System.out.println();
 //		}
-		if (item instanceof  ComboObjOption) {
+		if (item instanceof  ComboKeyedOption) {
 			@SuppressWarnings("unchecked")
-			ComboObjOption<Key> parentItem = (ComboObjOption<Key>) item;
+			ComboKeyedOption<Key> parentItem = (ComboKeyedOption<Key>) item;
 			for (int i = 0; i < itemList.size(); i++) {
 				if (itemList.get(i).key != null && itemList.get(i).key.equals(parentItem.key)) {
 					currIdx = i + 1;
@@ -97,11 +97,11 @@ public class KeyedComboMdl<Key> extends ListListner implements  ComboBoxModel {
 	 * @return
 	 * @see java.util.ArrayList#add(java.lang.Object)
 	 */
-	public ComboObjOption<Key> addElement(Key key, String value) {
+	public ComboKeyedOption<Key> addElement(Key key, String value) {
 
-		ComboObjOption<Key> o = items.get(key);
+		ComboKeyedOption<Key> o = items.get(key);
 		if (o == null) {
-			o = new ComboObjOption<Key>(key, value, null);
+			o = new ComboKeyedOption<Key>(key, value, null);
 			items.put(key, o);
 		} else {
 			o.setString(value, null);
@@ -111,7 +111,7 @@ public class KeyedComboMdl<Key> extends ListListner implements  ComboBoxModel {
 		return o;
 	}
 
-	public void addElement(ComboObjOption<Key> o) {
+	public void addElement(ComboKeyedOption<Key> o) {
 		if (! items.containsKey(o.key)) {
 			items.put(o.key, o);
 		}

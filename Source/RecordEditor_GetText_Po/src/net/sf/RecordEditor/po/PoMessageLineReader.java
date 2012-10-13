@@ -131,7 +131,7 @@ public class PoMessageLineReader extends AbstractLineReader<LayoutDetail> {
 			}
 			for (int i = 0; i < ALL_FIELDS.length; i++) {
 				if (ALL_FIELDS[i].isMatch(lc)) {
-					Object o = line.getField(0, ALL_FIELDS[i].fieldIdx);
+					Object o = line.getRawField(0, ALL_FIELDS[i].fieldIdx);
 					if (l.length() >= ALL_FIELDS[i].name.length()) {
 						inputLine = l.substring(ALL_FIELDS[i].name.length());
 					} else {
@@ -152,7 +152,7 @@ public class PoMessageLineReader extends AbstractLineReader<LayoutDetail> {
 				}
 
 			}
-			if (fldIdx > 0 && ! found) {
+			if (fldIdx >= 0 && ! found) {
 				Object o = updateInputLine(fldIdx, l, line.getField(0, ALL_FIELDS[fldIdx].fieldIdx));
 				updateField(line, ALL_FIELDS[fldIdx].fieldIdx, o);
 			}

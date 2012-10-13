@@ -68,8 +68,9 @@ public class PaneDtls {
 	/**
 	 * @param visible the visible to set
 	 */
-	public void setVisible(boolean visible) {
+	public PaneDtls setVisible(boolean visible) {
 		this.visible = visible;
+		return this;
 	}
 
 	public final JComponent getDisplayPane() {

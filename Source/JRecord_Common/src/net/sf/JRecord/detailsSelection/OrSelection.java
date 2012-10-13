@@ -22,19 +22,17 @@ public class OrSelection extends AbsGroup {
 	 * @see net.sf.JRecord.detailsSelection.RecordSel#isSelected(java.util.List)
 	 */
 	@Override
-	public boolean isSelected(List<AbstractIndexedLine> line) {
+	public boolean isSelected(List<? extends AbstractIndexedLine> lines) {
 		if (size() > 0) {
 			RecordSel sel;
 
 			for (int i = 0; i < size(); i++) {
 				sel = get(i);
 
-				if (sel.isSelected(line)) {
-					//System.out.println();
+				if (sel.isSelected(lines)) {
 					return true;
 				}
 			}
-			//System.out.println();
 		} else {
 			return true;
 		}
@@ -68,5 +66,11 @@ public class OrSelection extends AbsGroup {
 	}
 
 
-
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.detailsSelection.RecordSel#isIncluded(net.sf.JRecord.Common.AbstractIndexedLine)
+	 */
+	@Override
+	public boolean isIncluded(AbstractIndexedLine line) {
+		return true;
+	}
 }

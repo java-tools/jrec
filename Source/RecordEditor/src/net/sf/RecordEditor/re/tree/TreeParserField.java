@@ -15,27 +15,27 @@ import net.sf.RecordEditor.re.jrecord.types.ReTypeManger;
 
 /**
  * This class will parse a file into a Tree using specified fields for grouping
- * 
+ *
  * @author Bruce Martin
  *
  */
 public class TreeParserField extends BaseLineNodeTreeParser implements AbstractLineNodeTreeParser {
-	
+
 	private int recordIdx;
 	private int[] fields;
 	private FieldSummaryDetails fldDetails;
-	
+
 	private LineNode[] levels;
 	//private ArrayList<LineNode> existing;
 
-	
+
 	public TreeParserField(int recordIndex, int[] groupingFields, FieldSummaryDetails fieldDetails) {
 		recordIdx = recordIndex;
 		fields    = groupingFields;
 		fldDetails = fieldDetails;
 	}
-	
-	/** 
+
+	/**
 	 * @see net.sf.RecordEditor.re.tree.AbstractLineNodeTreeParser#parseAppend(net.sf.RecordEditor.re.file.FileView, net.sf.RecordEditor.re.tree.LineNode, int, int)
 	 */
 	public void parseAppend(FileView view, LineNode root, int start, int end) {
@@ -46,86 +46,86 @@ public class TreeParserField extends BaseLineNodeTreeParser implements AbstractL
 		AbstractRecordDetail rec = view.getLayout().getRecord(recordIdx);
 		//System.out.println("parse: " + fields.length + " > " + root.getLevel() + " " + root.getFirstLeafLine()
 		//		+ " " + root.getLastLeafLine());
-	
+
 		end = Math.min(end, view.getRowCount() - 1);
-		
+
 		levels = new LineNode[arraySize];
 		//existing = buildExisting(root, start, end);
-		
+
 		String[] currentFields = new String[arraySize];
 		String[] parentFields  = new String[arraySize];
 
-		
+
 		root.removeAllChildren();
-		
+
 		root.setLastLeafLine(end);
 		levels[0] = root;
-		
+
 		parseAppend_200_SetNodeNames(parentFields, view, start, startLevel);
-		
+
 		parseAppend_300_addNode(view,  parentFields, start, 1, start, numberLevels);
 
 		for (i = start + 1; i <= end; i++) {
 			parseAppend_200_SetNodeNames(currentFields, view, i, startLevel);
-			
+
 			diffAtLevel = 0;
-			while (diffAtLevel < numberLevels  
+			while (diffAtLevel < numberLevels
 			   &&  currentFields[diffAtLevel] != null
 			   &&  currentFields[diffAtLevel].equals(parentFields[diffAtLevel]))  {
 				diffAtLevel += 1;
 			}
 //			System.out.println("@@ " + i + " " + currentFields[0] + " ~~ " + parentFields[0] + " " + diffAtLevel);
-			
+
 			parseAppend_100_setLastLine(rec, startLevel, diffAtLevel, i - 1, numberLevels);
-			
+
 			for (j = 0; j < numberLevels; j++) {
 				parentFields[j] = currentFields[j];
 			}
-			parseAppend_300_addNode(view,  parentFields, start, diffAtLevel + 1, i, numberLevels);			
+			parseAppend_300_addNode(view,  parentFields, start, diffAtLevel + 1, i, numberLevels);
 		}
-		
+
 		parseAppend_100_setLastLine(rec, startLevel, 0, end, numberLevels);
 
 		//System.out.println();
-		
+
 		currentFields = null;
 		parentFields  = null;
 	}
-	
-	
+
+
 	/**
 	 * Set the last line number for nodes
 	 * @param diffAtLevel level to start seting the last leaf at
 	 * @param lineNum last leaf line
 	 */
-	private void parseAppend_100_setLastLine(AbstractRecordDetail layout, int startLevel, int diffAtLevel, 
+	private void parseAppend_100_setLastLine(AbstractRecordDetail layout, int startLevel, int diffAtLevel,
 			int lineNum, int numberLevels) {
 		int i, j;
 		String s;
 //		System.out.println("Diff Level --> " + diffAtLevel
 //				+ " " + (numberLevels-1)
 //				+ " " + lineNum + " " +  numberLevels);
-		
+
 		for (j = numberLevels-1; j >= diffAtLevel; j--) {
 			levels[j].setLastLeafLine(lineNum);
 
-			ArrayListLine summaryLine = new ArrayListLine(levels[diffAtLevel].getLayout(), recordIdx);
+			ArrayListLine summaryLine = new ArrayListLine(levels[diffAtLevel].getLayout(), recordIdx, 0);
 			//summaryLine.setUseField4Index(false);
 
 			for (i = 0; i < fldDetails.getFieldCount();i++) {
 				Object o = "";
 				int op = fldDetails.getOperator(i);
 				switch (op) {
-				case FieldSummaryDetails.OP_SUM: 
+				case FieldSummaryDetails.OP_SUM:
 					o = sumFields(levels[j], i);
 					break;
-				case FieldSummaryDetails.OP_MAX: 
+				case FieldSummaryDetails.OP_MAX:
 					o = maxFields(levels[j], i);
 					break;
-				case FieldSummaryDetails.OP_MIN: 
+				case FieldSummaryDetails.OP_MIN:
 					o = minFields(levels[j], i);
 					break;
-				case FieldSummaryDetails.OP_AVE: 
+				case FieldSummaryDetails.OP_AVE:
 					o = average(levels[j], i);
 					break;
 
@@ -137,7 +137,7 @@ public class TreeParserField extends BaseLineNodeTreeParser implements AbstractL
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			}		
+			}
 			s = "";
 			if (j + startLevel == 0) {
 				s = "Root";
@@ -149,15 +149,15 @@ public class TreeParserField extends BaseLineNodeTreeParser implements AbstractL
 			levels[j].setSummaryLine(summaryLine, s);
 		}
 	}
-	
+
 	private BigDecimal sumFields(LineNode node, int idx){
 
 		BigDecimal sum = new BigDecimal(0);
-		AbstractLine line; 
-		
+		AbstractLine line;
+
 		for (int j=0; j < node.getChildCount(); j++) {
 			line = ((AbstractLineNode) node.getChildAt(j)).getLine();
-			
+
 			try {
 				sum = sum.add(line.getFieldValue(recordIdx, idx).asBigDecimal());
 			} catch (Exception e) {
@@ -166,29 +166,29 @@ public class TreeParserField extends BaseLineNodeTreeParser implements AbstractL
 		return sum;
 	}
 
-	
+
 	private Double average(LineNode node, int idx){
 
-		FieldDetail fld = node.getLayout().getField(recordIdx, idx); 
+		FieldDetail fld = node.getLayout().getField(recordIdx, idx);
 		int type = fld.getType();
 
 		double sum = 0;
-		AbstractLine line; 
+		AbstractLine line;
 		FileView view = node.getView();
 		int start = node.getFirstLeafLine();
 		int end   = node.getLastLeafLine();
-		
-		
+
+
 		for (int j=start; j <= end; j++) {
 			line = view.getLine(j);
-			
+
 			try {
 				sum = sum + line.getFieldValue(recordIdx, idx).asDouble();
 			} catch (Exception e) {
 			}
 		}
 		sum = sum / (end - start + 1);
-		
+
 		if (! (type == Type.ftFloat || type == Type.ftDouble)) {
 			double m = Math.pow(10, fld.getDecimal() + 2);
 			sum = Math.round(sum * m) / m;
@@ -196,8 +196,8 @@ public class TreeParserField extends BaseLineNodeTreeParser implements AbstractL
 		return Double.valueOf(sum);
 	}
 
-	
-	
+
+
 	private Object maxFields(LineNode node, int idx){
 		boolean numeric = ReTypeManger.getInstance().getType(
 				node.getLayout().getField(recordIdx, idx).getType()
@@ -205,11 +205,11 @@ public class TreeParserField extends BaseLineNodeTreeParser implements AbstractL
 		if (numeric) {
 			BigDecimal initMax = new BigDecimal(Long.MIN_VALUE);
 			BigDecimal max = initMax;
-			AbstractLine line; 
-			
+			AbstractLine line;
+
 			for (int j=0; j < node.getChildCount(); j++) {
 				line = ((AbstractLineNode) node.getChildAt(j)).getLine();
-				
+
 				try {
 					max = max.max(line.getFieldValue(recordIdx, idx).asBigDecimal());
 				} catch (Exception e) { }
@@ -221,11 +221,11 @@ public class TreeParserField extends BaseLineNodeTreeParser implements AbstractL
 		} else {
 			String max = "";
 			String s;
-			AbstractLine line; 
-			
+			AbstractLine line;
+
 			for (int j=0; j < node.getChildCount(); j++) {
 				line = ((AbstractLineNode) node.getChildAt(j)).getLine();
-				
+
 				try {
 					s = line.getFieldValue(recordIdx, idx).asString();
 					if (max.compareToIgnoreCase(s) < 0) {
@@ -237,7 +237,7 @@ public class TreeParserField extends BaseLineNodeTreeParser implements AbstractL
 		}
 	}
 
-	
+
 	private Object minFields(LineNode node, int idx){
 		boolean numeric = ReTypeManger.getInstance().getType(
 				node.getLayout().getField(recordIdx, idx).getType()
@@ -245,11 +245,11 @@ public class TreeParserField extends BaseLineNodeTreeParser implements AbstractL
 		if (numeric) {
 			BigDecimal initMin = BigDecimal.valueOf(Long.MAX_VALUE);
 			BigDecimal min = initMin;
-			AbstractLine line; 
-			
+			AbstractLine line;
+
 			for (int j=0; j < node.getChildCount(); j++) {
 				line = ((AbstractLineNode) node.getChildAt(j)).getLine();
-				
+
 				try {
 					min = min.min(line.getFieldValue(recordIdx, idx).asBigDecimal());
 				} catch (Exception e) { }
@@ -261,11 +261,11 @@ public class TreeParserField extends BaseLineNodeTreeParser implements AbstractL
 		} else {
 			String min = "ZZZZ";
 			String s;
-			AbstractLine line; 
-			
+			AbstractLine line;
+
 			for (int j=0; j < node.getChildCount(); j++) {
 				line = ((AbstractLineNode) node.getChildAt(j)).getLine();
-				
+
 				try {
 					s = line.getFieldValue(recordIdx, idx).asString();
 					if (min.compareToIgnoreCase(s) > 0) {
@@ -287,13 +287,13 @@ public class TreeParserField extends BaseLineNodeTreeParser implements AbstractL
 	 * @param lineNumber current line number
 	 * @param startLevel starting level
 	 */
-	private void parseAppend_200_SetNodeNames(String[] values, FileView view, 
+	private void parseAppend_200_SetNodeNames(String[] values, FileView view,
 			int lineNumber, int startLevel) {
 		int j;
-		
+
 		if (lineNumber >= 0) {
 			AbstractLine line = view.getLine(lineNumber);
-			
+
 			for (j = 0; j < fields.length - startLevel; j++) {
 				values[j] = toString(line.getField(recordIdx, fields[j + startLevel]));
 			}
@@ -306,7 +306,7 @@ public class TreeParserField extends BaseLineNodeTreeParser implements AbstractL
 	}
 
 	/**
-	 * 
+	 *
 	 * @param view
 	 * @param parentFields
 	 * @param start
@@ -327,9 +327,9 @@ public class TreeParserField extends BaseLineNodeTreeParser implements AbstractL
 //			}
 			levels[j - 1].add(levels[j]);
 		}
-		
+
 /*		if (changeLevel < numberLevels) {
-			System.out.println("Change Level " + (numberLevels - changeLevel) 
+			System.out.println("Change Level " + (numberLevels - changeLevel)
 					+ " " + lineNum);
 		}*/
 		LineNode node = null;
@@ -337,12 +337,12 @@ public class TreeParserField extends BaseLineNodeTreeParser implements AbstractL
 //		if (idx >= 0 && idx < existing.size()) {
 //			existing.get(lineNum - start);
 //		}
-		
+
 //		if (node == null) {
 			node = new LineNode(parentFields[numberLevels - 1], view, lineNum);
 			node.setFirstLeafLine(lineNum);
 //		}
-		
+
 		levels[numberLevels - 1].add(node);
 	}
 }

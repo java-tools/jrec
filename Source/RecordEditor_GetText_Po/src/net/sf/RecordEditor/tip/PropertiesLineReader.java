@@ -60,7 +60,7 @@ public class PropertiesLineReader extends AbstractLineReader<LayoutDetail> {
 		RecordDetail r = l.getRecord(0) ;
 		String s;
 		String v;
-		ArrayListLine<FieldDetail, RecordDetail, LayoutDetail> line = new ArrayListLine<FieldDetail, RecordDetail, LayoutDetail>(l, 0);
+		ArrayListLine<FieldDetail, RecordDetail, LayoutDetail> line = new ArrayListLine<FieldDetail, RecordDetail, LayoutDetail>(l, 0, 1);
 		String key;
 
 		for (int j = 0; j < 5; j++) {

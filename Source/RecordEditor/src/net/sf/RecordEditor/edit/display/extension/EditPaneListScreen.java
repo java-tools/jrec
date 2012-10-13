@@ -37,7 +37,7 @@ public abstract class EditPaneListScreen extends BaseDisplay
 implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWithFieldHide, AbstractCreateChildScreen {
 
 	private static final int NUMBER_OF_CONTROL_COLUMNS = 2;
-	private static final int DEFAULT_ROW_HEIGHT = SwingUtils.TABLE_ROW_HEIGHT * 3;
+	private static final int DEFAULT_ROW_HEIGHT = SwingUtils.TABLE_ROW_HEIGHT * 7 / 2;
 
 	protected int fixedPopupCol = 1;
 	protected int mainPopupCol  = 1;
@@ -47,7 +47,7 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 	private HeaderRender headerRender   = new HeaderRender();
 	private FixedColumnScrollPane tblScrollPane = null;
 	private ButtonTableRendor tableBtn  = new ButtonTableRendor();
-	private RowChangeListner keyListner;
+	private RowChangeListner keyListner, keyListnerFixed;
 	protected FieldMapping fieldMapping = null;
 
 
@@ -136,6 +136,7 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 	        tblScrollPane = new FixedColumnScrollPane(tableDetails);
 
 	        keyListner    = new RowChangeListner(tableDetails, this);
+	        keyListnerFixed = new RowChangeListner(tblScrollPane.getFixedTable(), this);
 
 	        mainPopup = new MenuPopupListener(mainActions, true, tableDetails) {
 
@@ -176,6 +177,7 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 
 	                popupRow = tbl.rowAtPoint(m.getPoint());
 
+	                checkForRowChange(popupRow);
 	                if (col == 0) {
 	                	newLineFrame(fileView, popupRow);
 	                } else {
@@ -347,11 +349,15 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 		} else if (childScreen != null) {
 	    	if (tbl == tblDetails) {
 	    		tbl.addKeyListener(keyListner);
+	    	} else {
+	    		tbl.addKeyListener(keyListnerFixed);
 	    	}
 	    	lastRow = - 1;
 	    	checkForRowChange(tbl.getSelectedRow());
-	    } else {
+	    } else if (tbl == tblDetails) {
 	    	tbl.removeKeyListener(keyListner);
+	    } else {
+	    	tbl.removeKeyListener(keyListnerFixed);
 	    }
 	}
 

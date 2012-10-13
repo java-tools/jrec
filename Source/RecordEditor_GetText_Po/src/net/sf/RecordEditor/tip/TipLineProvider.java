@@ -18,7 +18,7 @@ public class TipLineProvider implements LineProvider<LayoutDetail> {
 
 	@Override
 	public AbstractLine<LayoutDetail> getLine(LayoutDetail recordDescription) {
-		return new ArrayListLine<FieldDetail, RecordDetail, LayoutDetail>(recordDescription, 0);
+		return new ArrayListLine<FieldDetail, RecordDetail, LayoutDetail>(recordDescription, 0, 1);
 	}
 
 	@Override

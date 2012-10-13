@@ -4,10 +4,13 @@ import java.util.ArrayList;
 
 public class Layout {
 	public String name = "";
+	//public ArrayList<FieldTest> groupFieldTests = null;
 	public ArrayList<Record> records = null;
 	public String saveFile = "";
 	public String groupHeader = "";
-	public String booleanOperator = "";
+
+
+//	public String booleanOperator = "";
 
 	/**
 	 * @return the records
@@ -19,6 +22,15 @@ public class Layout {
 		return records;
 	}
 
+//	/**
+//	 * @return the records
+//	 */
+//	public ArrayList<FieldTest> getGroupFieldTests() {
+//		if (groupFieldTests == null) {
+//			groupFieldTests = new ArrayList<FieldTest>();
+//		}
+//		return groupFieldTests;
+//	}
 
 	/**
 	 * @return the records

@@ -5,8 +5,8 @@ package net.sf.RecordEditor.utils.swing.Combo;
  * @author Bruce Martin
  *
  */
-public class ComboObjOption<Key> extends ComboStdOption<Key> {
-	public ComboObjOption(Key idx, String str, String englishString) {
+public class ComboKeyedOption<Key> extends ComboStdOption<Key> {
+	public ComboKeyedOption(Key idx, String str, String englishString) {
 		super(idx, str, englishString);
 	}
 
@@ -16,8 +16,12 @@ public class ComboObjOption<Key> extends ComboStdOption<Key> {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof ComboObjOption && key != null) {
-			return key.equals(((ComboObjOption) obj).key);
+		if (key != null) {
+			if (obj instanceof ComboKeyedOption) {
+				return key.equals(((ComboKeyedOption) obj).key);
+			} else if (key.equals(obj)) {
+				return true;
+			}
 		}
 		return super.equals(obj);
 	}

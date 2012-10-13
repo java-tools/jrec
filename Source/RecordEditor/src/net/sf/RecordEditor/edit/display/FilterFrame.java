@@ -38,6 +38,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.JTabbedPane;
 
 import net.sf.RecordEditor.edit.open.DisplayBuilderFactory;
+import net.sf.RecordEditor.jibx.compare.EditorTask;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.file.filter.FilterDetails;
 import net.sf.RecordEditor.re.file.filter.FilterPnl2;
@@ -45,9 +46,11 @@ import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.re.script.IDisplayFrame;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
+import net.sf.RecordEditor.utils.msg.UtMessages;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.saveRestore.IUpdateDetails;
 
 
 
@@ -60,7 +63,7 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
  * @version 0.56
  */
 @SuppressWarnings("serial")
-public class FilterFrame extends ReFrame {
+public class FilterFrame extends ReFrame implements IUpdateDetails<EditorTask> {
 
 
  //   private static final int FORM_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 81;
@@ -111,7 +114,7 @@ public class FilterFrame extends ReFrame {
         Rectangle screenSize = ReMainFrame.getMasterFrame().getDesktop().getBounds();
 
 		//pnl.done();
-		filter1 = new FilterPnl2(fileTable.getLayout(), true);
+		filter1 = new FilterPnl2(fileTable.getLayout(), FilterDetails.FT_NORMAL, this);
 		filter1.getExecute().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -126,7 +129,7 @@ public class FilterFrame extends ReFrame {
     		this.getContentPane().add(filter1);
     	} else {
     		filterTab = new JTabbedPane();
-	    	filter2 = new FilterPnl2(fileTable.getLayout(), false);
+	    	filter2 = new FilterPnl2(fileTable.getLayout(), FilterDetails.FT_GROUP, this);
 			filter2.getExecute().addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -161,7 +164,7 @@ public class FilterFrame extends ReFrame {
     private void groupFilter() {
 
     	filterRecs(
-    			fileTable.getFilteredView(filter2.getFilter(), filter2.getGroupRecordId(), filter2.getBooleanOp()),
+    			fileTable.getFilteredView(filter2.getFilter(), filter2.getGroupRecordId()),
     			filter2);
     }
 
@@ -194,7 +197,7 @@ public class FilterFrame extends ReFrame {
 
 	/**
 	 * @return
-	 * @see net.sf.RecordEditor.re.file.filter.FilterPnl#getFilter()
+	 * @see net.sf.RecordEditor.re.file.filter.BaseFieldSelection#getFilter()
 	 */
 	public final FilterDetails getFilter() {
 		if (filterTab != null && filterTab.getSelectedIndex() == 1) {
@@ -203,19 +206,23 @@ public class FilterFrame extends ReFrame {
 		return filter1.getFilter();
 	}
 
-
+	public final void update(EditorTask task) {
+		if (task == null || task.filter == null) {
+			Common.logMsg(UtMessages.NOT_A_FILTER.get(), null);
+		} else {
+			updateFromExternalLayout(task.filter);
+		}
+	}
 
 	public final void updateFromExternalLayout(net.sf.RecordEditor.jibx.compare.Layout values) {
 		if (filterTab == null) {
-			filter1.getFilter().updateFromExternalLayout(values);
-			filter1.setBooleanValue();
+			filter1.update(values);
 		} else if (values.groupHeader == null || "".equals(values.groupHeader)) {
-			filter1.setBooleanValue();
-			filter1.getFilter().updateFromExternalLayout(values);
+			filter1.update(values);
 			filterTab.setSelectedIndex(0);
 		} else {
-			filter2.getFilter().updateFromExternalLayout(values);
-			filter2.setBooleanValue();
+			filter2.update(values);
+
 			filterTab.setSelectedIndex(1);
 		}
 	}

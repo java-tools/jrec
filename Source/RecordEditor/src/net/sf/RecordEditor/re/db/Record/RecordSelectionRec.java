@@ -4,6 +4,7 @@ package net.sf.RecordEditor.re.db.Record;
 
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.jdbc.AbsRecord;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 
 /**
@@ -31,8 +32,8 @@ public class RecordSelectionRec extends AbsRecord {
 //	public static final int OPERATOR_OR  = 0;
 //	public static final int OPERATOR_AND = 1;
 
-	private static final String[] OR_LIST  = {"Or", ""};
-	private static final String[] AND_LIST = {"", "And"};
+	private static final String[] OR_LIST  = {LangConversion.convert(LangConversion.ST_MESSAGE, "Or"), ""};
+	private static final String[] AND_LIST = {"", LangConversion.convert(LangConversion.ST_MESSAGE, "And")};
 
 	protected int init_FieldNo;
 	private int recordId,

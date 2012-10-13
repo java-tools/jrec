@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package net.sf.RecordEditor.copy;
 
@@ -7,7 +7,7 @@ import javax.swing.JComponent;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.jibx.compare.CopyDefinition;
-import net.sf.RecordEditor.re.file.filter.FilterPnl;
+import net.sf.RecordEditor.re.file.filter.BaseFieldSelection;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.re.openFile.FormatFileName;
 import net.sf.RecordEditor.utils.common.Common;
@@ -19,24 +19,24 @@ import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
  *
  */
 @SuppressWarnings("serial")
-public class FieldSelection extends FilterPnl implements AbstractWizardPanel<CopyDefinition> {
+public class FieldSelection extends BaseFieldSelection implements AbstractWizardPanel<CopyDefinition> {
 
 	private CopyDefinition values;
 	private String lastLayoutName1 = "";
 
 	private AbstractLayoutSelection<?> selection1;
 
-	
+
 	private static final AbstractLayoutDetails<?, ?> layout2 = null;
-	
+
 	/**
 	 * @param layoutSelection
 	 */
 	public FieldSelection(AbstractLayoutSelection<?> layoutSelection1,
 			FormatFileName layoutSelection2,
 			String helpName) {
-		super(false);
-		
+		super();
+
 		selection1 = layoutSelection1;
 
 		if (helpName != null & ! "".equals(helpName)) {
@@ -44,17 +44,17 @@ public class FieldSelection extends FilterPnl implements AbstractWizardPanel<Cop
 		}
 	}
 
-	
+
 	/**
 	 * @see net.sf.RecordEditor.utils.wizards.AbstractWizardPanel#getValues()
 	 */
 	@Override
 	public CopyDefinition getValues() throws Exception {
 		String sold = values.oldFile.layoutDetails.name;
-		
+
 		values.oldFile.layoutDetails = super.getFilter().getExternalLayout();
 		values.oldFile.layoutDetails.name = sold;
-		
+
 		return values;
 	}
 
@@ -63,9 +63,9 @@ public class FieldSelection extends FilterPnl implements AbstractWizardPanel<Cop
 	 */
 	@Override
 	public void setValues(CopyDefinition detail) throws Exception {
-		
+
 		values = detail;
-		
+
 		if (! lastLayoutName1.equalsIgnoreCase(values.oldFile.getLayoutDetails().name)) {
 			super.setRecordLayout(selection1.getRecordLayout(values.oldFile.getLayoutDetails().name),
 					layout2, false, SwingUtils.COMBO_TABLE_ROW_HEIGHT * 4);
@@ -75,7 +75,7 @@ public class FieldSelection extends FilterPnl implements AbstractWizardPanel<Cop
 		}
 	}
 
-	
+
 	/**
 	 * @see net.sf.RecordEditor.utils.wizards.AbstractWizardPanel#getComponent()
 	 */

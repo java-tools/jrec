@@ -2,7 +2,7 @@ package net.sf.RecordEditor.edit.display.util;
 
 import java.util.ArrayList;
 
-import javax.swing.JButton;
+import javax.swing.JPanel;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
@@ -15,12 +15,13 @@ import net.sf.RecordEditor.jibx.compare.Record;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.file.filter.AbstractExecute;
 import net.sf.RecordEditor.re.file.filter.ExecuteSavedFile;
-import net.sf.RecordEditor.utils.common.AbstractSaveDetails;
 import net.sf.RecordEditor.utils.params.Parameters;
-import net.sf.RecordEditor.utils.swing.SaveButton;
+import net.sf.RecordEditor.utils.screenManager.ReFrame;
+import net.sf.RecordEditor.utils.swing.saveRestore.ISaveUpdateDetails;
+import net.sf.RecordEditor.utils.swing.saveRestore.SaveLoadPnl;
 
 public class SaveRestoreHiddenFields
-implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
+implements ISaveUpdateDetails<EditorTask>, AbstractExecute<EditorTask> {
 
 	private AbstractFileDisplayWithFieldHide display;
 	private HideFields hideFields;
@@ -37,7 +38,7 @@ implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
 
 
 	/**
-	 * @see net.sf.RecordEditor.utils.common.AbstractSaveDetails#getSaveDetails()
+	 * @see net.sf.RecordEditor.utils.swing.saveRestore.ISaveDetails#getSaveDetails()
 	 */
 	@Override
 	public EditorTask getSaveDetails() {
@@ -52,7 +53,18 @@ implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
 		return ret;
 	}
 
-    private Layout getExternalLayout() {
+    /* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.swing.saveRestore.IUpdateDetails#update(java.lang.Object)
+	 */
+	@Override
+	public void update(EditorTask serialisedData) {
+		execute(serialisedData);
+		ReFrame.setActiveFrame(hideFields.frame);
+	}
+
+
+	@SuppressWarnings("rawtypes")
+	private Layout getExternalLayout() {
     	int j, k, count;
 		Layout tmpLayoutSelection = new Layout();
 		Record rec;
@@ -64,7 +76,7 @@ implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
 
 
 		tmpLayoutSelection.name = layout.getLayoutName();
-		for (int i =0; i < layout.getRecordCount(); i++) {
+		for (int i = 0; i < layout.getRecordCount(); i++) {
 //			if (isInclude(i)) {
 			rec = new net.sf.RecordEditor.jibx.compare.Record();
 			if (i == hideFields.getRecordIndex()) {
@@ -96,7 +108,6 @@ implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
 				}
 			}
 
-			FieldTest test;
 			rec.fieldTest = new ArrayList<FieldTest>(0);
 
 			tmpLayoutSelection.getRecords().add(rec);
@@ -112,6 +123,7 @@ implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
 
 
 
+	@SuppressWarnings("rawtypes")
 	public void execute(EditorTask details) {
 
 	   	int idx, fieldIdx, j;
@@ -130,7 +142,7 @@ implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
 				display.setFieldVisibility(i, recordFields);
 			}
 		} else {
-			for (int i =0; i < layout.getRecordCount(); i++) {
+			for (int i = 0; i <  details.filter.records.size(); i++) {
 				rec = details.filter.records.get(i);
 				idx = layout.getRecordIndex(rec.name);
 				if (idx >= 0) {
@@ -147,6 +159,9 @@ implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
 						}
 					}
 					display.setFieldVisibility(idx, recordFields);
+					if (hideFields != null && idx ==  hideFields.getRecordIndex()) {
+						hideFields.updateIncludes(recordFields);
+					}
 				}
 			}
 		}
@@ -171,22 +186,23 @@ implements AbstractSaveDetails<EditorTask>, AbstractExecute<EditorTask> {
 	}
 
 
-	public static JButton getSaveButton(
+	public static JPanel getSaveLoadPnl(
 			AbstractFileDisplayWithFieldHide pnl, HideFields hideFields) {
-		String dir = Parameters.getFileName(Parameters.HIDDEN_FIELDS_SAVE_DIRECTORY);
-		return new SaveButton<EditorTask>(
+		String dir = Parameters.getFileName(Parameters.FIELD_SAVE_DIRECTORY);
+		return (new SaveLoadPnl<EditorTask>(
 				new net.sf.RecordEditor.edit.display.util.SaveRestoreHiddenFields(pnl, hideFields),
-				dir);
+				dir, EditorTask.class)).panel;
 	}
 
 
 	public static void restoreHiddenFields(AbstractFileDisplayWithFieldHide pnl) {
 		SaveRestoreHiddenFields action = new SaveRestoreHiddenFields(pnl, null);
+		@SuppressWarnings("rawtypes")
 		FileView fileView = pnl.getFileView();
 
 		new ExecuteSavedFile<EditorTask>(
 				fileView.getBaseFile().getFileNameNoDirectory(), "Execute Saved Filter", fileView,
-				Parameters.getFileName(Parameters.HIDDEN_FIELDS_SAVE_DIRECTORY),
+				Parameters.getFileName(Parameters.FIELD_SAVE_DIRECTORY),
 				action, EditorTask.class
 		);
 

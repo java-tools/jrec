@@ -35,9 +35,11 @@ import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReAction;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
+import net.sf.RecordEditor.utils.swingx.TipsManager;
 
 
 
@@ -98,6 +100,13 @@ public class LayoutEdit extends ReMainFrame {
 	    int idx = Common.getConnectionIndex();
 	    UpgradeDB.checkForUpdate(idx);
 	    Common.freeConnection(idx);
+
+
+        if (Common.OPTIONS.showRecordEditorTips.isSelected() && TipsManager.tipsModulePresent()) {
+        	TipsManager.startTips(this, Parameters.getSytemJarFileDirectory() + "/LayoutEditor_TipOfTheDay.properties",
+        					  Parameters.SHOW_RECORDEDITOR_TIPS);
+        }
+
 	}
 
 

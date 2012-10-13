@@ -87,7 +87,7 @@ public abstract class AbstractLineReader<Layout extends AbstractLayoutDetails<? 
      * @throws IOException any IOerror
      */
     public void open(String fileName, Layout pLayout) throws IOException, RecordException {
-        open(new FileInputStream(fileName), pLayout);
+        open(new FileInputStream(fileName), fileName, pLayout);
 
         if (layout == null) {
             layout = pLayout;

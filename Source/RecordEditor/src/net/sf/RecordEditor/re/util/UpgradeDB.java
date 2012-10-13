@@ -55,6 +55,7 @@ public final class UpgradeDB {
 	private static String VERSION_700 = "0070000";
 	private static String VERSION_800 = "0080000";
 	private static String VERSION_801 = "0080001";
+	private static String VERSION_90  = "0090000";
 	//private static String LATEST_VERSION = VERSION_670;
 	private static String VERSION_KEY  = "-101";
 
@@ -326,15 +327,57 @@ public final class UpgradeDB {
         			};
 
     private String[] sql8001 = {
+    		deleteTbl + "TBLID = 3 and TBLKEY in (103)",
             insertSQL + "(3, 103, 'System Layouts')",
     };
 
+    private String[] sql90 = {
+        	deleteTbl + "TBLID = 1 and TBLKEY in (" + Type.ftCheckBoxY + ","
+                + Type.ftMultiLineChar + ")",
+
+     //      	insertSQL + "(1," + Type.ftCharRestOfFixedRecord + ",'Char Rest of Fixed Length');",
+          	insertSQL + "(1," + Type.ftCheckBoxY + ",'CheckBox Y/null');",
+           	insertSQL + "(1," + Type.ftMultiLineChar + ",'Char Multi Line');",
+    };
     private String fileWizardXmlLayout = "<?xml version=\"1.0\" ?>\n"
     		+ "<RECORD RECORDNAME=\"FileWizard\" COPYBOOK=\"\" DELIMITER=\"&lt;Tab&gt;\" FILESTRUCTURE=\"FILE_WIZARD\" STYLE=\"0\" RECORDTYPE=\"RecordLayout\" LIST=\"Y\" QUOTE=\"\" RecSep=\"default\" LINE_NO_FIELD_NAMES=\"1\">\n"
     		+ "	<FIELDS><FIELD NAME=\"Dummy\" POSITION=\"1\" LENGTH=\"1\" TYPE=\"Char\"/></FIELDS>\n"
     		+ "</RECORD>";
 
 
+    private String deleteExample =
+    		  "where RECORDID in ("
+    		+ "  in ("
+    		+ "Select r.RECORDID from TBL_R_RECORDS r"
+    		+ " where r.RECORDNAME in ("
+    		+ "'Price', 'SPL', 'Line_Test_Group', 'Mainframe FB80', 'PO Master', "
+    		+ "'DCR0470 S14', 'DCR0470 T31', 'DCR0470 P41', 'DCR0470 I51', 'DCR0470 I52', "
+    		+ "'SAR4180B', 'SAR4180C', 'IVR0075H', 'IVR0075S', 'ams PO Download: Detail', "
+    		+ "'ams PO Download: Header', 'ams PO Download: Allocation', 'ams PO Download', "
+    		+ "'ams Vendor Download', 'ams Rct Upload FH Header', 'ams Rct Upload: RH', "
+    		+ "'ams Rct Upload: RD', 'ams Rct Upload: FT footer', "
+    		+ "'ams Receipt (Taret Fields only)', 'ams shp Upload FH Header', "
+    		+ "'ams shp Upload DH', 'ams shp Upload DO', 'ams shp Upload DS',"
+    		+ "'ams shp Upload AP', 'ams shp Upload AR', 'ams shp Upload DP',"
+    		+ "'ams shp Upload DI', 'ams shp Upload FT', 'ams Shipping Upload', "
+    		+ "'ams Store', 'ams Receipt FH Header', 'ams Receipt RH Receipt Header', "
+    		+ "'ams Receipt RD Recipt Product', 'ams Receipt RS Recipt Store',"
+    		+ "'ams Receipt AS', 'ams Receipt SO', 'ams Receipt SC', 'ams Receipt AP',"
+    		+ "'ams Receipt AR', 'ams Receipt FT File Trailer', 'ams Receipt', 'PO Head',"
+    		+ "'PO Detail', 'DCR0470 S11', 'DCR0470 S12', 'PriceR 8', 'PriceR 9', "
+    		+ "'PriceR 3', 'PriceR 1', 'PriceR F', 'PriceR 5', 'PriceR L', 'SPL End',"
+    		+ "'SPL M', 'SPL 1', 'SPL 8', 'PriceR 2', 'PriceR D', 'SPL HD', 'SPL 3', "
+    		+ "'SPL 4', 'SPL 6', 'PriceR 4', 'PriceR 6', 'SPL N', 'SAR4180A',"
+    		+ "'IVR0075D', 'Line_Test_Record', 'DTAR119', 'DTAR192', "
+    		+ "'Mainframe Text', 'DTAR107', 'DTAR020', 'DCR0470 O21',"
+    		+ "'Mainframe FB80 record', 'DCR0470 S13', 'EDI Sales', 'EDI ASN (DCR0470)', "
+    		+ "'EDI PO', 'DTAR1000 VB', 'XmplEditType1', 'XmplDecider', "
+    		+ "'XMPLDECIDER-Product-Header', 'XMPLDECIDER-Product-Detail-1', "
+    		+ "'XMPLDECIDER-Product-Detail-2', 'DTAR1000 VB Dump', 'Master_Record',"
+    		+ "'Rental_Record', 'Transaction_Record',  'XfeDTAR020', 'XfeDTAR020_reverse',"
+    		+ "'cpyComp5Sync', 'bsCompSync', 'cpyCompPositive',"
+    		+ "'cpyCompSync', 'mfCompPositive', 'mfCompSync', 'Wizard_AmsPo', "
+    		+ "))";
 
     /**
      * Change Record Sep list to default
@@ -452,7 +495,7 @@ public final class UpgradeDB {
     }
 
     private void addLayout(int dbIdx, String name, String txt, String font, int system) {
-    	byte[] bytes = txt.getBytes();
+     	byte[] bytes = txt.getBytes();
     	ByteArrayInputStream in = new ByteArrayInputStream(bytes);
     	ExternalRecord ext;
     	RecordRec rec;
@@ -559,29 +602,72 @@ public final class UpgradeDB {
 		}
     }
 
-    public final void addFileWizardReader(int dbIdx) throws SQLException {
+
+    public void upgrade90(int dbIdx) {
+
+       	try {
+       		genericUpgrade(dbIdx, sql90, null);
+
+       		loadLayout(dbIdx,  Common.GETTEXT_PO_LAYOUT, 103);
+       		loadLayout(dbIdx,  Common.TIP_LAYOUT, 103);
+
+ 			upgradeVersion((new ReConnection(dbIdx)).getConnection(), dbIdx, VERSION_90);
+	        Common.logMsgRaw(AbsSSLogger.SHOW, DATABASE_UPGRADED + VERSION_90, null);
+    	} catch (Exception e) {
+			Common.logMsg("Error updating version flag", e);
+		}
+    }
+
+    public void deleteExamples(int dbIdx) {
+    	String[] tbls = { "TBL_RFS_FIELDSELECTION", "TBL_RF_RECORDFIELDS", "TBL_RS2_SUBRECORDS", "TBL_R_RECORDS" };
+    	String sql = "";
+       	try {
+       		Connection con = (new ReConnection(dbIdx)).getConnection();
+       		Statement statement = con.createStatement();
+       		for (int i = 0; i < tbls.length; i++) {
+       			sql = "Delete from " + tbls[i] + deleteExample;
+       			statement.execute(sql);
+       		}
+    	} catch (Exception e) {
+    		Common.logMsgRaw("Sql: " + sql, e);
+			Common.logMsgRaw("Error deleting Examples", e);
+
+			System.out.println("Sql: " + sql);
+			e.printStackTrace();
+		}
+    }
+   public final void addFileWizardReader(int dbIdx) throws SQLException {
     	Connection connect = Common.getUpdateConnection(dbIdx);
 
     	genericUpgrade(dbIdx, sql8001, null);
 
     	try {
-			ExternalRecord rec = RecordEditorXmlLoader.getExternalRecord(fileWizardXmlLayout, "FileWizard");
-			ExtendedRecordDB db = new ExtendedRecordDB();
-
-			rec.setSystem(103);
-			db.setConnection(new ReConnection(dbIdx));
-
-			db.insert(new RecordRec(rec));
-			db.close();
+    		loadLayout(dbIdx, fileWizardXmlLayout, 103);
 
 			upgradeVersion(connect, dbIdx, VERSION_801);
 	        Common.logMsgRaw(AbsSSLogger.SHOW, DATABASE_UPGRADED + VERSION_801, null);
 			System.out.println("Current Version: " + VERSION_801);
+
+			upgrade90(dbIdx);
 		} catch (Exception e) {
 			Common.logMsg("Could not load FileWizardReader", e);
 			e.printStackTrace();
 		}
+    }
 
+    private void loadLayout(int dbIdx, String xml, int systemId) throws Exception {
+
+		ExternalRecord rec = RecordEditorXmlLoader.getExternalRecord(xml, "FileWizard");
+		ExtendedRecordDB db = new ExtendedRecordDB();
+
+		rec.setSystem(systemId);
+		System.out.println("FileStructure: " + rec.getFileStructure()
+				+ " " + (new RecordRec(rec)).getValue().getFileStructure()
+				+ " " + rec.getRecordStyle());
+		db.setConnection(new ReConnection(dbIdx));
+
+		db.insert(new RecordRec(rec));
+		db.close();
     }
 
     private void insertChildren(int recordId, List<ChildRecordsRec> list, PreparedStatement insertStatement)
@@ -738,6 +824,7 @@ public final class UpgradeDB {
                 System.out.println(msg);
             }
         }
+
     }
 
     public static boolean checkForUpdate(int dbIndex) {
@@ -760,7 +847,9 @@ public final class UpgradeDB {
     				(new UpgradeDB()).upgrade80(dbIndex, "Tbl_RS1_SubRecords");
     			} else if (VERSION_800.equals(version)) {
     				(new UpgradeDB()).addFileWizardReader(dbIndex);
-    			}
+    			} else if (VERSION_801.equals(version)) {
+    				(new UpgradeDB()).upgrade90(dbIndex);
+   			}
 
     			//System.out.print("Already " + LATEST_VERSION);
     		} else {

@@ -1,26 +1,26 @@
-package net.sf.RecordEditor.utils.swing;
+package net.sf.RecordEditor.utils.swing.saveRestore;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-import net.sf.RecordEditor.utils.common.AbstractSaveDetails;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.swing.DirectoryFrame;
 
 
 @SuppressWarnings("serial")
 public class SaveButton<what> extends JButton implements ActionListener {
 
 
-	private AbstractSaveDetails<what> saveCallBack;
+	private ISaveDetails<what> saveCallBack;
 	private String dir;
 
 	private DirectoryFrame saveFrame= null;
 
 
-	public SaveButton(AbstractSaveDetails<what> save, String directory) {
+	public SaveButton(ISaveDetails<what> save, String directory) {
 		super(LangConversion.convert(LangConversion.ST_BUTTON, "Save"), Common.getRecordIcon(Common.ID_SAVE_ICON));
 
 		saveCallBack = save;

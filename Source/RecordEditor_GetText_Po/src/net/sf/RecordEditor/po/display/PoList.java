@@ -17,7 +17,6 @@ public class PoList extends EditPaneListScreen
 implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWithFieldHide, AbstractCreateChildScreen {
 
 	protected static final boolean[] DEFAULT_FIELD_VISIBILITY;
-
     static {
     	boolean[] defaultFieldVisibility;
     	try {
@@ -36,20 +35,13 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 
 
 	public PoList(@SuppressWarnings("rawtypes") FileView viewOfFile, boolean primary) {
-		super("PO List", viewOfFile, primary, false, false, false, false,
-				NO_LAYOUT_LINE);
-//		TableColumnModel mdl = getJTable().getColumnModel();
-//
-//		for (int i = 0; i < mdl.getColumnCount(); i++) {
-//			if (mdl.getColumn(i).getModelIndex() == PoField.msgstrPlural.fieldIdx) {
-//				mdl.getColumn(i).setCellRenderer(new ArrayRender());
-//				mdl.getColumn(i).setCellEditor(new ArrayTableEditor());
-//				break;
-//			}
-//		}
+		this("PO List", viewOfFile, primary);
+	}
+
+
+	public PoList(String name, @SuppressWarnings("rawtypes") FileView viewOfFile, boolean primary) {
+		super(name, viewOfFile, primary, false, false, false, false, NO_LAYOUT_LINE);
 		setFieldVisibility(0, DEFAULT_FIELD_VISIBILITY);
-        //getJTable().setDefaultRenderer(ArrayInterface.class, new ArrayRender());
-        //getAlternativeTbl().setDefaultRenderer(ArrayInterface.class, new ArrayRender());
 	}
 
 
@@ -64,9 +56,9 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 
 		currChildScreenPosition = position;
 		if (position == CS_RIGHT) {
-			childScreen =  PoChildRecordScreen.newRightHandScreen(fileView, Math.max(0, getCurrRow()));
+			childScreen =  PoChildRecordScreen.newRightHandScreen(getJTable(), fileView, Math.max(0, getCurrRow()));
 		} else {
-			childScreen = PoChildRecordScreen.newBottomScreen(fileView, Math.max(0, getCurrRow()));
+			childScreen = PoChildRecordScreen.newBottomScreen(getJTable(), fileView, Math.max(0, getCurrRow()));
 		}
 		setKeylistner(tblDetails);
 		setKeylistner(getAlternativeTbl());

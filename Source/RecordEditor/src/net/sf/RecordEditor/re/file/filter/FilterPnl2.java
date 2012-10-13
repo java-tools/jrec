@@ -45,24 +45,27 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
-import net.sf.RecordEditor.utils.common.AbstractSaveDetails;
+import net.sf.RecordEditor.jibx.compare.Layout;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.msg.UtMessages;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.BooleanBtn;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
 import net.sf.RecordEditor.utils.swing.ComboBoxRender;
 import net.sf.RecordEditor.utils.swing.LayoutCombo;
-import net.sf.RecordEditor.utils.swing.SaveButton;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.saveRestore.ISaveDetails;
+import net.sf.RecordEditor.utils.swing.saveRestore.IUpdateDetails;
+import net.sf.RecordEditor.utils.swing.saveRestore.SaveButton;
+import net.sf.RecordEditor.utils.swing.saveRestore.SaveLoadPnl;
 
 
 /**
@@ -74,7 +77,8 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
  * @version 0.90
  */
 @SuppressWarnings("serial")
-public final class FilterPnl2 extends BaseHelpPanel implements ActionListener, AbstractSaveDetails<EditorTask> {
+public final class FilterPnl2 extends BaseHelpPanel
+implements ActionListener, ISaveDetails<EditorTask> {
 
     private   static final int FIRST_COLUMN_WIDTH     = SwingUtils.STANDARD_FONT_WIDTH * 35;
     private   static final int SECOND_COLUMN_WIDTH    = SwingUtils.STANDARD_FONT_WIDTH * 9;
@@ -99,7 +103,7 @@ public final class FilterPnl2 extends BaseHelpPanel implements ActionListener, A
     //private JTabbedPane tabOption    = new JTabbedPane();
 
     private LayoutCombo groupStartCombo;
-    private BooleanBtn boolBtn = new BooleanBtn();
+   // private BooleanBtn boolBtn = new BooleanBtn();
 
     //private layoutS
     private JPanel recordOptionPanel = new JPanel();
@@ -109,7 +113,7 @@ public final class FilterPnl2 extends BaseHelpPanel implements ActionListener, A
     private JTable filterFieldTbl = new JTable();
     private AbstractTableModel recordMdl;
     private AbstractTableModel fieldMdl;
-    private FilterFieldList filterFieldMdl;
+    private FilterFieldBaseList filterFieldMdl;
 
     private JLabel fieldHeadingLbl = new JLabel();
 
@@ -131,10 +135,14 @@ public final class FilterPnl2 extends BaseHelpPanel implements ActionListener, A
     @SuppressWarnings("rawtypes")
 	private AbstractLayoutDetails recordLayout;
 
+    private final SaveLoadPnl<EditorTask> savePnl;
+
    // private boolean addExecute;
     private boolean toInit = true;
 
-    private boolean addFieldFilter = true;
+
+
+//    private boolean addFieldFilter = true;
 
 	private final MouseAdapter fieldMouseListner = new MouseAdapter() {
 
@@ -177,20 +185,25 @@ public final class FilterPnl2 extends BaseHelpPanel implements ActionListener, A
      *
      * @param fileTbl file to be filtered
      */
-    public FilterPnl2(@SuppressWarnings("rawtypes") final AbstractLayoutDetails layout, boolean normalFilter) {
+    public FilterPnl2(
+    		@SuppressWarnings("rawtypes") final AbstractLayoutDetails layout, int filterType,
+    		IUpdateDetails<EditorTask> updPnl) {
     	super();
-    	//addExecute = pAddExecute;
 
-    	setRecordLayout(layout, 0, normalFilter);
+    	savePnl = new SaveLoadPnl<EditorTask>(
+    			this, updPnl,
+    			Parameters.getFileName(Parameters.FILTER_SAVE_DIRECTORY),
+    			EditorTask.class);
+    	setRecordLayout(layout, 0, filterType);
     }
 
     @SuppressWarnings("rawtypes")
 	public final void setRecordLayout(final AbstractLayoutDetails layout,
-    		 int heightOverhead, boolean normalFilter) {
+    		 int heightOverhead, int filterType) {
     	recordLayout = layout;
 
 
-        setupScreenFields(normalFilter);
+        setupScreenFields(filterType);
 
         if (toInit) {
 			//JPanel pnl4 = new JPanel();
@@ -215,18 +228,18 @@ public final class FilterPnl2 extends BaseHelpPanel implements ActionListener, A
         	//pnl4.setBorder(BorderFactory.createEmptyBorder());
         	//scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
-        	if (! normalFilter) {
+        	if (filterType == FilterDetails.FT_GROUP) {
         		//TODO add field Selection
         		groupStartCombo = new LayoutCombo(recordLayout, false, false);
         		pnl2.addLine("Group Starts with", groupStartCombo);
-        		pnl2.addLine("Boolean Operator", boolBtn);
+        		//pnl2.addLine("Boolean Operator", boolBtn);
         		pnl2.setGap(BasePanel.GAP1);
         	}
         	if (layout.getRecordCount() > 1) {
         		int maxHeight = desktopHeight / 3;
-        		if (addFieldFilter) {
+        		//if (addFieldFilter) {
         			maxHeight = desktopHeight / 4;
-        		}
+        		//}
         		//pnl3.addHelpBtn(Common.getHelpButton());
 
         		//pnl2.addLine("", recordOptionPanel);
@@ -260,7 +273,7 @@ public final class FilterPnl2 extends BaseHelpPanel implements ActionListener, A
 			pnl2.setHeight(SwingUtils.BUTTON_HEIGHT + 6);
 
 
-			if (addFieldFilter) {
+			//if (addFieldFilter) {
 				int rows = fieldTbl.getRowCount();
 				for (int i =0; i < recordLayout.getRecordCount(); i++) {
 					rows = Math.max(rows, recordLayout.getRecord(i).getFieldCount());
@@ -282,14 +295,14 @@ public final class FilterPnl2 extends BaseHelpPanel implements ActionListener, A
 						filterFieldTbl);
 				pnl3.setComponentName(filterFieldTbl, "FieldRelationship");
 				filterFieldTbl.addMouseListener(fieldMouseListner);
-			} else {
-				//height = SwingUtils.calculateComboTableHeight(fieldTbl.getRowCount(), desktopHeight * 8 / 10);
-				height =  desktopHeight  * 4 / 5;
-
-				pnl2.addComponent(1, 3, height, 3,
-				         BasePanel.FULL, BasePanel.FULL,
-				         fieldTbl);
-			}
+//			} else {
+//				//height = SwingUtils.calculateComboTableHeight(fieldTbl.getRowCount(), desktopHeight * 8 / 10);
+//				height =  desktopHeight  * 4 / 5;
+//
+//				pnl2.addComponent(1, 3, height, 3,
+//				         BasePanel.FULL, BasePanel.FULL,
+//				         fieldTbl);
+//			}
 			//fldPane.setVisible(showFieldTable);
 			pnl2.setComponentName(fieldTbl, "FieldSelection");
 
@@ -329,12 +342,10 @@ public final class FilterPnl2 extends BaseHelpPanel implements ActionListener, A
 
 			//if (addExecute) {
 			setGap(BasePanel.GAP0);
-			String dir = Parameters.getFileName(Parameters.FILTER_SAVE_DIRECTORY);
-			JPanel p = new JPanel();
-			SaveButton<EditorTask> btn = new SaveButton<EditorTask>(this, dir);
-			p.add(btn);
-			registerComponent(btn);
-			addLine("", p, execute);
+
+			registerComponent(savePnl.saveBtn);
+			registerComponent(savePnl.updateBtn);
+			addLine("", savePnl.panel, execute);
 			setHeight(BasePanel.GAP1 * 2);
 			setGap(BasePanel.GAP0);
 			//}
@@ -359,9 +370,9 @@ public final class FilterPnl2 extends BaseHelpPanel implements ActionListener, A
 	/**
      * define screen fields
      */
-    private void setupScreenFields(boolean normalFilter) {
+    private void setupScreenFields(int filterType) {
 
-        filter = new FilterDetails(recordLayout, normalFilter); // getFilterDetails(recordLayout);
+        filter = new FilterDetails(recordLayout, filterType); // getFilterDetails(recordLayout);
         filter.setMessageFld(msgTxt);
         filter.set2Layouts(false);
 
@@ -373,10 +384,10 @@ public final class FilterPnl2 extends BaseHelpPanel implements ActionListener, A
     	recordTbl.setModel(recordMdl);
         fieldTbl.setModel(fieldMdl);
 
-        if (addFieldFilter) {
+        //if (addFieldFilter) {
         	filterFieldTbl.setModel(filterFieldMdl);
         	buildFieldFilterTable();
-        }
+        //}
 
         setRecordTableDetails(recordTbl);
         setFieldTableDetails(fieldTbl);
@@ -394,14 +405,14 @@ public final class FilterPnl2 extends BaseHelpPanel implements ActionListener, A
 				    int idx = recordTbl.getSelectedRow();
 
 				    if (idx >= 0 && idx < recordTbl.getRowCount()) {
-				        if (addFieldFilter && idx != filter.getLayoutIndex()) {
+				        //if (addFieldFilter && idx != filter.getLayoutIndex()) {
 				        	Common.stopCellEditing(filterFieldTbl);
-				        }
+				        //}
 				        filter.setLayoutIndex(idx);
 				        fieldMdl.fireTableDataChanged();
-				        if (addFieldFilter) {
+				        //if (addFieldFilter) {
 				        	filterFieldMdl.fireTableDataChanged();
-				        }
+				       // }
 
 				        fieldHeadingLbl.setText(UtMessages.FIELD_SELECTION.get(recordLayout.getRecord(idx).getRecordName()));
 				    }
@@ -423,9 +434,9 @@ public final class FilterPnl2 extends BaseHelpPanel implements ActionListener, A
 	    	recordMdl.fireTableDataChanged();
 	    	fieldMdl.fireTableDataChanged();
 
-	    	if (addFieldFilter) {
+	    	//if (addFieldFilter) {
 	    		filterFieldMdl.fireTableDataChanged();
-	    	}
+	    	//}
 	    }
 		//execute.addActionListener(this);
     }
@@ -453,15 +464,16 @@ public final class FilterPnl2 extends BaseHelpPanel implements ActionListener, A
      * @param tbl table to have attributes set
      */
     private void setTableDetails(JTable tbl) {
-        DefaultCellEditor includeEditor = new DefaultCellEditor(new JCheckBox());
         TableColumn tc;
 
         setTableDetailsCol0(tbl);
 
-		tc = tbl.getColumnModel().getColumn(1);
-	  	tc.setCellRenderer(new CheckBoxTableRender());
-		tc.setCellEditor(includeEditor);
-		tc.setPreferredWidth(SECOND_COLUMN_WIDTH);
+        for (int i = 1; i < tbl.getColumnCount(); i++) {
+			tc = tbl.getColumnModel().getColumn(i);
+		  	tc.setCellRenderer(new CheckBoxTableRender());
+			tc.setCellEditor(new DefaultCellEditor(new JCheckBox()));
+			tc.setPreferredWidth(SECOND_COLUMN_WIDTH);
+        }
     }
 
     protected final void setTableDetailsCol0(JTable tbl) {
@@ -473,15 +485,14 @@ public final class FilterPnl2 extends BaseHelpPanel implements ActionListener, A
     /**
      * build Field Filter Table
      */
-    private void buildFieldFilterTable() {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	private void buildFieldFilterTable() {
         TableColumnModel tcm;
         TableColumn tc;
         DefaultComboBoxModel operatorMdl = new DefaultComboBoxModel
                 (Compare.OPERATOR_STRING_FOREIGN_VALUES);
         ComboBoxRender operatorRendor = new ComboBoxRender(operatorMdl);
-        ComboBoxRender fieldRendor = new ComboBoxRender(
-	  	        filter.getFilterFieldListMdl().getFieldModel());
-
+        TableCellRenderer fieldRendor = filter.getFilterFieldListMdl().getTableCellRender();
 
         filterFieldTbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         filterFieldTbl.setRowHeight(FIELD_VALUE_ROW_HEIGHT);
@@ -495,23 +506,36 @@ public final class FilterPnl2 extends BaseHelpPanel implements ActionListener, A
 		tc = tcm.getColumn(FilterField.FLD_FIELD_NUMBER);
 		tc.setPreferredWidth(FIELD_NAME_WIDTH);
 	  	tc.setCellRenderer(fieldRendor);
-		tc.setCellEditor(new DefaultCellEditor(
-		    new JComboBox(filter.getFilterFieldListMdl().getFieldModel())));
+		tc.setCellEditor(filter.getFilterFieldListMdl().getTableCellEditor());
 
 		tc = tcm.getColumn(FilterField.FLD_CASE_SENSITIVE);
 		tc.setPreferredWidth(CASE_SENSTIVE_WIDTH);
 	  	tc.setCellRenderer(new CheckBoxTableRender());
 		tc.setCellEditor(new DefaultCellEditor(new JCheckBox()));
 
-		tc = tcm.getColumn(FilterField.FLD_OPERATOR);
+
+		int opId = FilterField.FLD_OPERATOR;
+		int valueId = FilterField.FLD_VALUE;
+
+		if (filter.getFilterType() == FilterDetails.FT_GROUP) {
+			opId = FilterField.FLD_GROUP_OPERATOR;
+			valueId = FilterField.FLD_GROUP_VALUE;
+
+			tc = tcm.getColumn(FilterField.FLD_GROUPING);
+			tc.setPreferredWidth(OPERATOR_WIDTH);
+		  	tc.setCellRenderer(new ComboBoxRender(Compare.GROUPING_OPERATORS));
+			tc.setCellEditor(
+			    new DefaultCellEditor(
+			        new JComboBox(Compare.GROUPING_OPERATORS)));
+		}
+		tc = tcm.getColumn(opId);
 		tc.setPreferredWidth(OPERATOR_WIDTH);
 	  	tc.setCellRenderer(operatorRendor);
 		tc.setCellEditor(
 		    new DefaultCellEditor(
 		        new JComboBox(Compare.OPERATOR_STRING_FOREIGN_VALUES)));
 
-		tcm.getColumn(FilterField.FLD_VALUE).setPreferredWidth(VALUE_WIDTH);
-
+		tcm.getColumn(valueId).setPreferredWidth(VALUE_WIDTH);
     }
 
     /**
@@ -547,7 +571,7 @@ public final class FilterPnl2 extends BaseHelpPanel implements ActionListener, A
 
 
     /**
-	 * @see net.sf.RecordEditor.utils.common.AbstractSaveDetails#getSaveDetails()
+	 * @see net.sf.RecordEditor.utils.swing.saveRestore.ISaveDetails#getSaveDetails()
 	 */
 	@Override
 	public EditorTask getSaveDetails() {
@@ -559,6 +583,11 @@ public final class FilterPnl2 extends BaseHelpPanel implements ActionListener, A
 	}
 
 
+
+	public final void update(Layout values) {
+		getFilter().updateFromExternalLayout(values);
+		fireDataChanged();
+	}
 	/**
      * Updates the include flag in the field list table
      *
@@ -588,9 +617,9 @@ public final class FilterPnl2 extends BaseHelpPanel implements ActionListener, A
         fieldMdl.fireTableDataChanged();
     }
 
-    public final void setBooleanValue() {
-    	boolBtn.setValue(filter.getOp());
-    }
+//    public final void setBooleanValue() {
+//    	boolBtn.setValue(filter.getOp());
+//    }
 
 	/**
 	 * @return the messageFld
@@ -608,10 +637,19 @@ public final class FilterPnl2 extends BaseHelpPanel implements ActionListener, A
 
 		if (groupStartCombo != null) {
 			filter.setGroupHeader(getGroupRecordId());
-			filter.setOp(getBooleanOp());
+//			filter.setOp(getBooleanOp());
 		}
 
 		return filter;
+	}
+
+	public final void fireDataChanged() {
+		if (fieldMdl != null) {
+	        fieldMdl.fireTableDataChanged();
+			filterFieldMdl.fireTableDataChanged();
+
+	        recordMdl.fireTableDataChanged();
+		}
 	}
 
 	private void stopTblEdit() {
@@ -620,18 +658,18 @@ public final class FilterPnl2 extends BaseHelpPanel implements ActionListener, A
         Common.stopCellEditing(recordTbl);
         Common.stopCellEditing(fieldTbl);
 
-        if (addFieldFilter) {
+        //if (addFieldFilter) {
         	Common.stopCellEditing(filterFieldTbl);
-        }
+        //}
 	}
 
 
-	public final int getBooleanOp() {
-		if (boolBtn != null) {
-			return boolBtn.getValue();
-		}
-		return Common.BOOLEAN_OPERATOR_AND;
-	}
+//	public final int getBooleanOp() {
+//		if (boolBtn != null) {
+//			return boolBtn.getValue();
+//		}
+//		return Common.BOOLEAN_OPERATOR_AND;
+//	}
 
 
 	public final int getGroupRecordId() {

@@ -446,6 +446,7 @@ public final class ExternalConversion {
 			setName(Type.ftDateDMY  , "Date - DDMMYY");
 			setName(Type.ftDateDMYY  , "Date - DDMMYYYY");
 			setName(Type.ftCheckBoxTrue  , "Check Box True / Space");
+			setName(Type.ftCheckBoxY  , "Checkbox Y/<null>");
 			setName(Type.ftCheckBoxYN  , "Checkbox Y/N");
 			setName(Type.ftCheckBoxTF  , "Checkbox T/F");
 			setName(Type.ftCsvArray  , "CSV array");
@@ -454,6 +455,7 @@ public final class ExternalConversion {
 
 			setName(Type.ftCharRestOfFixedRecord  , "Char Rest of Fixed Length");
 			setName(Type.ftCharRestOfRecord  , "Char Rest of Record");
+			setName(Type.ftMultiLineChar  , "Char (Multi-Line)");
 
 		}
 

@@ -16,6 +16,7 @@ import javax.swing.table.TableCellRenderer;
 
 
 
+
 /**
  * This class will display a combo box in a Table Cell
  *
@@ -73,7 +74,9 @@ public class ComboBoxRender extends JComboBox
 //            setBackground(table.getBackground());
 //        }
 
-		this.setSelectedItem(value);
+
+		SwingUtils.setCombo(this, value);
+
 		SwingUtils.setTableCellBackGround(this, table, row, isSelected);
 
         return this;

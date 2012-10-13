@@ -8,7 +8,7 @@ import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Types.TypeManager;
 
 /**
- * Accumulators These 
+ * Accumulators These
  * @author mum
  *
  */
@@ -20,7 +20,8 @@ public abstract class GetValue  implements IGetValue {
 	public static final int GT_MAX   = 3;
 	public static final int GT_MIN   = 4;
 	public static final int GT_SUM   = 5;
-	public static final int GT_MAXIMUM_ID = 5;
+	public static final int GT_AVE   = 6;
+	public static final int GT_MAXIMUM_ID = 6;
 
 	public static GetValue get(int type, FieldDetail fieldDetail, int recordIdx) {
 
@@ -30,7 +31,8 @@ public abstract class GetValue  implements IGetValue {
 		case GT_LAST : return new Last(fieldDetail, recordIdx);
 		case GT_MIN  : return new Min(fieldDetail, recordIdx);
 		case GT_MAX  : return new Max(fieldDetail, recordIdx);
-		case GT_SUM  : return new First(fieldDetail, recordIdx);
+		case GT_SUM  : return new Sum(fieldDetail, recordIdx, false);
+		case GT_AVE  : return new Sum(fieldDetail, recordIdx, true);
 		}
 		throw new RuntimeException("Invalid Accumulator: " + type);
 	}
@@ -59,43 +61,52 @@ public abstract class GetValue  implements IGetValue {
 
 
 //	private abstract static class Cmp implements IGetValue {
-		protected final FieldDetail fieldDetail;
-		private final int recordIdx;
+	protected final FieldDetail fieldDetail;
+	private final int recordIdx;
 
 
 
-		public GetValue(FieldDetail fieldDetail, int recordIdx) {
-			super();
-			this.fieldDetail = fieldDetail;
-			this.recordIdx = recordIdx;
+	public GetValue(FieldDetail fieldDetail, int recordIdx) {
+		super();
+		this.fieldDetail = fieldDetail;
+		this.recordIdx = recordIdx;
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.detailsSelection.copy.IGetValue#isNumeric()
+	 */
+	@Override
+	public boolean isNumeric() {
+		return fieldDetail != null && TypeManager.getInstance().getType(fieldDetail.getType()).isNumeric();
+	}
+
+
+	/**
+	 * @see net.sf.JRecord.detailsSelection.IGetValue#getValue(net.sf.JRecord.Common.AbstractIndexedLine)
+	 */
+	@Override
+	public Object getValue(AbstractIndexedLine line) {
+		if (fieldDetail != null && (recordIdx < 0 || recordIdx == line.getPreferredLayoutIdx())) {
+			//System.out.print(" >> " + line.getField(fieldDetail) + " " + fieldDetail.getName());
+			return line.getField(fieldDetail);
 		}
+		return null;
+	}
 
-		/* (non-Javadoc)
-		 * @see net.sf.JRecord.detailsSelection.copy.IGetValue#isNumeric()
-		 */
-		@Override
-		public boolean isNumeric() {
-			return fieldDetail != null && TypeManager.getInstance().getType(fieldDetail.getType()).isNumeric();
-		}
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.detailsSelection.IGetValue#isIncluded(net.sf.JRecord.Common.AbstractIndexedLine)
+	 */
+	@Override
+	public boolean isIncluded(AbstractIndexedLine line) {
+		return (recordIdx < 0 || recordIdx == line.getPreferredLayoutIdx());
+	}
 
-
-		/**
-		 * @see net.sf.JRecord.detailsSelection.IGetValue#getValue(net.sf.JRecord.Common.AbstractIndexedLine)
-		 */
-		@Override
-		public Object getValue(AbstractIndexedLine line) {
-			if (recordIdx < 0 || recordIdx == line.getPreferredLayoutIdx()) {
-				return line.getField(fieldDetail);
-			}
-			return null;
-		}
-
-		/**
-		 * @return the fieldDetail
-		 */
-		public FieldDetail getFieldDetail() {
-			return fieldDetail;
-		}
+	/**
+	 * @return the fieldDetail
+	 */
+	public FieldDetail getFieldDetail() {
+		return fieldDetail;
+	}
 
 //	}
 

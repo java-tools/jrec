@@ -20,6 +20,14 @@ public interface IGetValue {
 	public Object getValue(AbstractIndexedLine line);
 
 	/**
+	 * Wether this record should be Tested ???
+	 *
+	 * @param line line to be checked
+	 * @return wether to test it or not
+	 */
+	public boolean isIncluded(AbstractIndexedLine line);
+
+	/**
 	 * get the value from a list of lines
 	 * @param line to extract the value from
 	 * @return requested value

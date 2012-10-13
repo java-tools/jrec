@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
+import net.sf.JRecord.Common.IEmptyTest;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.RecordEditor.po.def.PoLine;
@@ -23,7 +24,7 @@ import net.sf.RecordEditor.utils.swing.array.ArrayInterface;
  * @author mum
  *
  */
-public class MsgstrArray implements ArrayInterface {
+public class MsgstrArray implements ArrayInterface, IEmptyTest {
 
 	private static final int DEFAULT_ROW_HEIGHT = SwingUtils.TABLE_ROW_HEIGHT * 3;
 
@@ -40,6 +41,7 @@ public class MsgstrArray implements ArrayInterface {
 
 		retrieveArray();
 	}
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.swing.array.ArrayInterface#add(int, java.lang.Object)
 	 */
@@ -195,4 +197,13 @@ public class MsgstrArray implements ArrayInterface {
 		}
 		return s;
 	}
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.IEmptyTest#isEmpty()
+	 */
+	@Override
+	public boolean isEmpty() {
+		return msgLines == null || msgLines.size() == 0;
+	}
+
+
 }

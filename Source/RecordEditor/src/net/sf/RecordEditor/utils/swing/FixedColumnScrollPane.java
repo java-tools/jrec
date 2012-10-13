@@ -6,6 +6,11 @@
  */
 package net.sf.RecordEditor.utils.swing;
 
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.JMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -80,8 +85,41 @@ public class FixedColumnScrollPane extends JScrollPane  {
         STD_LINE_HEIGHT = main.getRowHeight();
         TWO_LINE_HEIGHT = (STD_LINE_HEIGHT + 1) * 2;
         THREE_LINE_HEIGHT = (STD_LINE_HEIGHT + 1) * 3;
+
+        fixedTable.addKeyListener(new KeyAdapter() {
+        	//private boolean first = true;
+
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_UP) {
+					addjustViewport();
+				}
+			}
+		});
+
+
+        fixedTable.addFocusListener(new FocusAdapter() {
+
+			/* (non-Javadoc)
+			 * @see java.awt.event.FocusAdapter#focusGained(java.awt.event.FocusEvent)
+			 */
+			@Override
+			public void focusGained(FocusEvent e) {
+				addjustViewport();
+			}
+
+		});
+
+
     }
 
+
+    private void addjustViewport() {
+
+		correctFixedSize();
+		main.scrollRectToVisible(fixedTable.getVisibleRect());
+    }
 
     /**
      * Create a fixed column scroll pane
@@ -207,6 +245,7 @@ public class FixedColumnScrollPane extends JScrollPane  {
         fixedTable.setPreferredScrollableViewportSize(fixedTable.getPreferredSize());
         setRowHeaderView(fixedTable);
         setCorner(JScrollPane.UPPER_LEFT_CORNER, fixedTable.getTableHeader());
+
     }
 
 

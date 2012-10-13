@@ -1,11 +1,10 @@
 package net.sf.RecordEditor.utils.swingx;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
-
-import javax.swing.JComponent;
 
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.params.Parameters;
@@ -15,7 +14,7 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
 public class TipsImpl {
 
 
-	protected static void startTips(JComponent parent, String tipfile, String tipVariable) {
+	protected static void startTips(Component parent, String tipfile, String tipVariable) {
 		try {
 			Properties tipsProperties = new Properties();
 			tipsProperties.load(new FileInputStream(tipfile));

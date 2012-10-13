@@ -123,7 +123,6 @@ public class TypeFjZoned extends TypeNum {
         char lastChar;
 
         if (numZoned == null || numZoned.trim().equals("") || numZoned.trim().equals("-")) {
-            // throw ...
             return "";
         }
 

@@ -860,6 +860,9 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
     }
 
     private int[] getFieldIndex(String[] names, HashMap<String, Integer> map) {
+    	if (names == null) {
+    		return new int[0];
+    	}
     	int[] ret = new int[names.length];
     	int i = 0;
 

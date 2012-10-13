@@ -232,7 +232,8 @@ public final class Run implements ExternalReferenceConstants {
 						}
             		}
             	}
-            	if (s.indexOf("velocity") < 0 && s.indexOf("cb2xml") < 0 && s.indexOf("pict.zip") < 0
+            	if (s.indexOf("velocity")    < 0 && s.indexOf("cb2xml") < 0 && s.indexOf("pict.zip") < 0
+            	&&  s.indexOf("PoEditor_re") < 0 && s.indexOf("swingx-subset-1.6.4") < 0
             	&& (! (new File(s)).exists())) {
             		missingCount += 1;
             		missing.append("\n").append(s);
@@ -252,7 +253,7 @@ public final class Run implements ExternalReferenceConstants {
         			+ "\nthis could mean unpack process in the install failed.\n"
         			+ "\nYou could try running the supplied unpackSubDirectories.jar utility."
         			+ "\nYou can unpack manually using java's unpack200 utility."
-        			+	"\n\nWill try to start the application anyway");
+        			+ "\n\nWill try to start the application anyway");
 
         	JOptionPane.showMessageDialog(null, missingTxt, "Missing Jars", JOptionPane.ERROR_MESSAGE);
         }

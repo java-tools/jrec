@@ -298,6 +298,8 @@ public class RecentFiles {
 		    	return selection.formatLayoutName("XML - Build Layout");
 		    } else if (s.endsWith("csv")) {
 		    	return selection.formatLayoutName("Generic CSV - enter details");
+		    } else if (s.endsWith(".po")) {
+		    	return selection.formatLayoutName("GetText_PO");
 		    } else if (Common.OPTIONS.fileWizardAvailable.isSelected()
 		    	   &&  Common.OPTIONS.useFileWizard.isSelected()) {
 		    	return selection.formatLayoutName("FileWizard");

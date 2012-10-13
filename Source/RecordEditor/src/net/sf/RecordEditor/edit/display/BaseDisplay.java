@@ -82,6 +82,8 @@ import net.sf.RecordEditor.utils.lang.ReOptionDialog;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
+import net.sf.RecordEditor.utils.swing.IExternalTableCellColoring;
+import net.sf.RecordEditor.utils.swing.ITableColoringAgent;
 import net.sf.RecordEditor.utils.swing.LayoutCombo;
 import net.sf.RecordEditor.utils.swing.StandardRendor;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
@@ -169,6 +171,8 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 
 	private HeaderToolTips toolTips;
     //private HeaderRender headerRender = new HeaderRender();
+
+	private ITableColoringAgent tableCellColoringAgent = null;
 
 	private int displayType = NORMAL_DISPLAY;
 
@@ -516,7 +520,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 				deleteLines();
 			break;
 			case ReActionHandler.PASTE_RECORD:
-				fileView.pasteLines(getInsertAfterPosition());		break;
+				fileView.pasteLines(getInsertAfterPosition());				break;
 			case ReActionHandler.PASTE_RECORD_PRIOR:	fileView.pasteLines(getInsertBeforePosition());	break;
 			case ReActionHandler.CORRECT_RECORD_LENGTH:	setRecordLayout();								break;
 			case ReActionHandler.INSERT_RECORDS:		insertLine(0);									break;
@@ -771,7 +775,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 	private void executeSavedFilter() {
 		AbstractExecute<EditorTask> action = new AbstractExecute<EditorTask>() {
 			public void execute(EditorTask details) {
-				FilterDetails filter = new FilterDetails(layout, true);
+				FilterDetails filter = new FilterDetails(layout, FilterDetails.FT_NORMAL);
 
 				filter.updateFromExternalLayout(details.filter);
 		    	FileView view = fileView.getFilteredView(filter);
@@ -1317,6 +1321,8 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 	        if (tblDetails != null && (tblDetails.getRowHeight() > maxHeight)) {
 	        	maxHeight = Math.max(maxHeight, (int) tblDetails.getRowHeight());
 	        }
+
+	        setCellColoring();
 	    }
 	}
 
@@ -1672,6 +1678,45 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 
 	public int getCurrentChildScreenPostion() {
 		return net.sf.RecordEditor.edit.display.AbstractCreateChildScreen.CS_RIGHT;
+	}
+
+	/**
+	 * @param tableCellColoringAgent the tableCellColoringAgent to set
+	 */
+	public void setTableCellColoringAgent(ITableColoringAgent tableCellColoringObj) {
+		this.tableCellColoringAgent = tableCellColoringObj;
+		setCellColoring();
+	}
+
+	private void setCellColoring() {
+
+		if (cellRenders != null && tableCellColoringAgent != null) {
+			for (Object r : cellRenders) {
+				setColoring(r);
+			}
+
+			for (Object e : cellEditors) {
+				setColoring(e);
+			}
+
+			TableColumnModel mdl = getJTable().getColumnModel();
+
+			for (int i = 0; i < mdl.getColumnCount(); i++) {
+				setColoring(mdl.getColumn(i).getCellRenderer());
+			}
+
+
+			fileView.fireTableDataChanged();
+			tblDetails.repaint();
+		}
+	}
+
+
+	private void setColoring(Object o) {
+		if (o instanceof IExternalTableCellColoring) {
+			((IExternalTableCellColoring) o).setTableCellColoring(tableCellColoringAgent);
+		}
+
 	}
 
 	public void removeChildScreen() {

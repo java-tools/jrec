@@ -262,7 +262,6 @@ implements AbstractLine<LayoutDetail> {
 	 */
 	@Override
 	public boolean isError() {
-
 		return false;
 	}
 
@@ -270,7 +269,6 @@ implements AbstractLine<LayoutDetail> {
 
 	@Override
 	public <L extends AbstractLine> L getNewDataLine() {
-		// TODO Auto-generated method stub
 		return (L) clone();
 	}
 

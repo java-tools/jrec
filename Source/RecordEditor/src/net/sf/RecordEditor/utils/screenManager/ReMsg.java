@@ -10,7 +10,7 @@ import net.sf.RecordEditor.utils.lang.LangConversion;
  *
  * License GPL (any version)
  */
-public final class ReMsg {
+public final class ReMsg implements IMessage {
 	private final String msg;
 	private final int msgType;
 
@@ -25,15 +25,27 @@ public final class ReMsg {
 		LangConversion.logMsg(msg);
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.screenManager.IMessage#get()
+	 */
+	@Override
 	public final String get() {
 		return LangConversion.convert(msgType, msg);
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.screenManager.IMessage#get(java.lang.String)
+	 */
+	@Override
 	public final String get(String param) {
 		return LangConversion.convert(msgType, msg, param);
 	}
 
 
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.screenManager.IMessage#get(java.lang.Object[])
+	 */
+	@Override
 	public final String get(Object[] params) {
 		return LangConversion.convert(msgType, msg, params);
 	}

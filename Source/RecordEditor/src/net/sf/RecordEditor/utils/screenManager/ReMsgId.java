@@ -11,7 +11,7 @@ import net.sf.RecordEditor.utils.lang.LangConversion;
  *
  * License GPL (any version)
  */
-public class ReMsgId {
+public class ReMsgId implements IMessage {
 
 	private final String id;
 	private final String message;
@@ -24,15 +24,17 @@ public class ReMsgId {
 		LangConversion.logMsg(id, message);
 	}
 
+	@Override
 	public final String get() {
 		return LangConversion.convertId(LangConversion.ST_MESSAGE, id, message);
 	}
 
+	@Override
 	public final String get(String param) {
 		return LangConversion.convertId(LangConversion.ST_MESSAGE, id, message, new Object[] { param});
 	}
 
-
+	@Override
 	public final String get(Object[] params) {
 		return LangConversion.convertId(LangConversion.ST_MESSAGE, id, message, params);
 	}

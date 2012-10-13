@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package net.sf.RecordEditor.re.util.wizard;
 
@@ -13,7 +13,7 @@ import javax.swing.table.TableColumn;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.jibx.compare.BaseCopyDif;
-import net.sf.RecordEditor.re.file.filter.FilterPnl;
+import net.sf.RecordEditor.re.file.filter.BaseFieldSelection;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.ComboBoxRender;
@@ -25,7 +25,7 @@ import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
  *
  */
 @SuppressWarnings("serial")
-public class FieldChoice<save extends BaseCopyDif> extends FilterPnl 
+public class FieldChoice<save extends BaseCopyDif> extends BaseFieldSelection
 implements AbstractWizardPanel<save> {
 
 	private save values;
@@ -34,17 +34,17 @@ implements AbstractWizardPanel<save> {
 	private AbstractLayoutSelection<?> selection1;
 	private AbstractLayoutSelection<?> selection2;
 	private boolean toInit = true;
-	
+
 	private AbstractLayoutDetails<?, ?> layout2 = null;
-	
+
 	/**
 	 * @param layoutSelection
 	 */
 	public FieldChoice(AbstractLayoutSelection<?> layoutSelection1,
 			AbstractLayoutSelection<AbstractLayoutDetails<?, ?>> layoutSelection2,
 			String helpName) {
-		super(false);
-		
+		super();
+
 		selection1 = layoutSelection1;
 		selection2 = layoutSelection2;
 		if (helpName != null & ! "".equals(helpName)) {
@@ -62,16 +62,16 @@ implements AbstractWizardPanel<save> {
         TableColumn tc;
 
         setTableDetailsCol0(tbl);
-        
+
 		tc = tbl.getColumnModel().getColumn(1);
 	  	tc.setCellRenderer(fieldRendor);
 		tc.setCellEditor(new DefaultCellEditor(
 			    new JComboBox(getFilter().getComboModelLayout2a())));
 		tc.setPreferredWidth(FIELD_NAME_WIDTH);
-		
+
 		tbl.setRowHeight(FIELD_VALUE_ROW_HEIGHT);
     }
-    
+
     /**
      * Set Record Table
      * @param tbl table to update
@@ -93,22 +93,22 @@ implements AbstractWizardPanel<save> {
     	tbl.setRowHeight(FIELD_VALUE_ROW_HEIGHT);
     }
 
-	
+
 	/**
 	 * @see net.sf.RecordEditor.utils.wizards.AbstractWizardPanel#getValues()
 	 */
 	@Override
 	public save getValues() throws Exception {
 		String sold = values.oldFile.layoutDetails.name;
-		
+
 		values.oldFile.layoutDetails = super.getFilter().getExternalLayout();
 		values.oldFile.layoutDetails.name = sold;
 
 		String snew = values.newFile.layoutDetails.name;
-		
+
 		values.newFile.layoutDetails = super.getFilter().getExternalLayout2();
 		values.newFile.layoutDetails.name = snew;
-		
+
 		return values;
 	}
 
@@ -117,7 +117,7 @@ implements AbstractWizardPanel<save> {
 	 */
 	@Override
 	public void setValues(save detail) throws Exception {
-		
+
 		values = detail;
 
 		if (! lastLayoutName2.equalsIgnoreCase(values.newFile.getLayoutDetails().name)) {
@@ -128,7 +128,7 @@ implements AbstractWizardPanel<save> {
 				throw new RecordException("Can not get layout for the New File");
 			}
 		}
-		
+
 		if (! lastLayoutName1.equalsIgnoreCase(values.oldFile.getLayoutDetails().name)) {
 			super.setRecordLayout(selection1.getRecordLayout(values.oldFile.name),
 					layout2, true,
@@ -143,13 +143,13 @@ implements AbstractWizardPanel<save> {
 					layout2,
 					values.oldFile.layoutDetails,
 					values.newFile.layoutDetails);
-			
+
 			setRecordTableDetails(super.recordTbl);
 			toInit = false;
 		}
 	}
 
-	
+
 	/**
 	 * @see net.sf.RecordEditor.utils.wizards.AbstractWizardPanel#getComponent()
 	 */

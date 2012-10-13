@@ -12,6 +12,7 @@ public abstract class FieldSelectX extends FieldSelect {
 	public static final String STARTS_WITH  = Constants.STARTS_WITH;
 	public static final String DOES_NOT_CONTAIN  = Constants.DOES_NOT_CONTAIN;
 	public static final String CONTAINS= Constants.CONTAINS;
+	public static final String EMPTY   = Constants.EMPTY;
 	public static final String NUM_EQ  = Constants.NUM_EQ;
 	public static final String NUM_GT  = Constants.NUM_GT;
 	public static final String NUM_GE  = Constants.NUM_GE;
@@ -28,8 +29,10 @@ public abstract class FieldSelectX extends FieldSelect {
 	public static final int G_MAX    = GetValue.GT_MAX;
 	public static final int G_MIN    = GetValue.GT_MIN;
 	public static final int G_SUM    = GetValue.GT_SUM;
+	public static final int G_AVE    = GetValue.GT_AVE;
 	public static final int G_ANY_OF = GetValue.GT_MAXIMUM_ID + 1;
 	public static final int G_ALL    = GetValue.GT_MAXIMUM_ID + 2;
+	public static final int G_HIGHEST_CODE = GetValue.GT_MAXIMUM_ID + 2;
 
 	private boolean numeric;
 	protected BigDecimal num;
@@ -78,15 +81,19 @@ public abstract class FieldSelectX extends FieldSelect {
 //		return ret;
 //	}
 
-	public static RecordSel get(String name, String value, String op, int groupId, int recordIdx, FieldDetail fieldDef) {
+	public static RecordSel get(String name, String value, String op, int groupId, int recordIdx, FieldDetail fieldDef, boolean caseSensitive) {
 		switch (groupId) {
 		case G_ALL:
 		case G_ANY_OF:
-			return new AnyAllOf(get(name, value, op, recordIdx, fieldDef), groupId == G_ANY_OF);
+			FieldSelect r = get(name, value, op, recordIdx, fieldDef);
+			r.setCaseSensitive(caseSensitive);
+			return new AnyAllOf(r, groupId == G_ANY_OF);
 		default:
 			GetValue g = GetValue.get(groupId, fieldDef, recordIdx);
 			if (g != null) {
-				return get(name, value, op, g);
+				FieldSelect rs = get(name, value, op, g);
+				rs.setCaseSensitive(caseSensitive);
+				return rs;
 			}
 		}
 		throw new RuntimeException("No valid grouping function !!!");
@@ -109,6 +116,8 @@ public abstract class FieldSelectX extends FieldSelect {
 			ret = new FieldSelectX.NotEqualsSelect(name, value, fieldDef);
 		} else if (CONTAINS.equalsIgnoreCase(op)) {
 			ret = new FieldSelect.Contains(name, value, fieldDef);
+		} else if (EMPTY.equalsIgnoreCase(op)) {
+			ret = new FieldSelect.Empty(name, value, fieldDef);
 		} else if (DOES_NOT_CONTAIN.equalsIgnoreCase(op)) {
 			ret = new FieldSelect.DoesntContain(name, value, fieldDef);
 		} else if (STARTS_WITH.equalsIgnoreCase(op)) {
@@ -167,7 +176,7 @@ public abstract class FieldSelectX extends FieldSelect {
 
 	protected final int compare(Object o, int defaultVal) {
 		int res = defaultVal;
-		if (o == null) return Constants.NULL_INTEGER;
+		if (o == null || o.toString() == null) return Constants.NULL_INTEGER;
 		if (numeric) {
 			if (o instanceof BigDecimal) {
 				res = ((BigDecimal) o).compareTo(num);
@@ -321,6 +330,14 @@ public abstract class FieldSelectX extends FieldSelect {
 		}
 
 		/* (non-Javadoc)
+		 * @see net.sf.JRecord.detailsSelection.RecordSel#isIncluded(net.sf.JRecord.Common.AbstractIndexedLine)
+		 */
+		@Override
+		public boolean isIncluded(AbstractIndexedLine line) {
+			return childSel.isIncluded(line);
+		}
+
+		/* (non-Javadoc)
 		 * @see net.sf.JRecord.detailsSelection.RecordSel#getFirstField()
 		 */
 		@Override
@@ -353,13 +370,14 @@ public abstract class FieldSelectX extends FieldSelect {
 			anyOf = any;
 		}
 
-		/* (non-Javadoc)
+		/**
 		 * @see net.sf.JRecord.detailsSelection.RecordSel#isSelected(java.util.List)
 		 */
 		@Override
-		public boolean isSelected(List<AbstractIndexedLine> lines) {
+		public boolean isSelected(List<? extends AbstractIndexedLine> lines) {
+			if (lines == null) return false;
 			for (AbstractIndexedLine l : lines) {
-				if (isSelected(l) == anyOf) {
+				if (isIncluded(l) && (isSelected(l) == anyOf)) {
 					return anyOf;
 				}
 			}

@@ -12,12 +12,12 @@ import net.sf.JRecord.Types.Type;
  * Reference to one field in a line.
  * It allows the user to get / set the field value using either simple types (int, double etc) or
  * as a Object.
- * 
+ *
  * <p>Getting a field value:
  * <pre>
  * 	            long sku = saleRecord.getFieldValue("<font color="blue"><b>KEYCODE-NO</b></font>").asLong();
  * </pre>
- * 
+ *
  * <p>Updating a field:
  * <pre>
  * 	            saleRecord.getFieldValue("<font color="blue"><b>KEYCODE-NO</b></font>").set(1331);
@@ -32,10 +32,10 @@ public final class FieldValue implements AbstractFieldValue {
 	private FieldDetail field;
 	private int recordNum = -1;
 	private int fieldNum;;
-	
+
 	/**
 	 * Create a field value
-	 * 
+	 *
 	 * @param line line the field value belongs to
 	 * @param fieldDetails Field Description
 	 */
@@ -44,10 +44,10 @@ public final class FieldValue implements AbstractFieldValue {
 		field = fieldDetails;
 		recordNum = -1;
 	}
-	
+
 	/**
 	 * Create a field value (using Record / Field Index's)
-	 * 
+	 *
 	 * @param line line the field value belongs to
 	 * @param recordIndex record index of the field
 	 * @param fieldIndex field index of the field
@@ -57,20 +57,20 @@ public final class FieldValue implements AbstractFieldValue {
 		recordNum = recordIndex;
 		fieldNum = fieldIndex;
 	}
-	
+
 	/**
 	 * @see net.sf.JRecord.Common.AbstractFieldValue#asBigDecimal()
 	 */
 	@Override
 	public BigDecimal asBigDecimal() {
 		Object ret = getValue();
-		
+
 		if (ret == null) {
 			return null;
 		} else if (ret instanceof BigDecimal) {
-			return (BigDecimal) ret;	
+			return (BigDecimal) ret;
 		} else {
-			return new BigDecimal(ret.toString());	
+			return new BigDecimal(ret.toString());
 		}
 	}
 
@@ -80,13 +80,13 @@ public final class FieldValue implements AbstractFieldValue {
 	@Override
 	public BigInteger asBigInteger() {
 		Object ret = getValue();
-		
+
 		if (ret == null) {
 			return null;
 		} else if (ret instanceof BigInteger) {
-			return (BigInteger) ret;	
+			return (BigInteger) ret;
 		} else {
-			return new BigInteger(ret.toString());	
+			return new BigInteger(ret.toString());
 		}
 	}
 
@@ -96,13 +96,13 @@ public final class FieldValue implements AbstractFieldValue {
 	@Override
 	public double asDouble() {
 		Object ret = getValue();
-		
+
 		if (ret == null) {
 			return 0;
 		} else if (ret instanceof Number) {
-			return ((Number) ret).doubleValue();	
+			return ((Number) ret).doubleValue();
 		} else {
-			return Double.parseDouble(ret.toString());	
+			return Double.parseDouble(ret.toString());
 		}
 	}
 
@@ -113,13 +113,13 @@ public final class FieldValue implements AbstractFieldValue {
 	@Override
 	public float asFloat() {
 		Object ret = getValue();
-		
+
 		if (ret == null) {
 			return 0;
 		} else if (ret instanceof Number) {
-			return ((Number) ret).floatValue();	
+			return ((Number) ret).floatValue();
 		} else {
-			return Float.parseFloat(ret.toString());	
+			return Float.parseFloat(ret.toString());
 		}
 	}
 
@@ -129,17 +129,17 @@ public final class FieldValue implements AbstractFieldValue {
 	@Override
 	public long asLong() {
 		Object ret = getValue();
-	
+
 		if (ret == null) {
 			return 0;
 		} else if (ret instanceof Number) {
-			return ((Number) ret).longValue();	
+			return ((Number) ret).longValue();
 		} else {
-			return Long.parseLong(ret.toString());	
+			return Long.parseLong(ret.toString());
 		}
 	}
 
-	
+
 	/**
 	 * @see net.sf.JRecord.Common.AbstractFieldValue#asInt()
 	 */
@@ -148,8 +148,8 @@ public final class FieldValue implements AbstractFieldValue {
 		return (int) asLong();
 	}
 
-	
-	
+
+
 	/**
 	 * @see net.sf.JRecord.Common.AbstractFieldValue#asBoolean()
 	 */
@@ -160,9 +160,9 @@ public final class FieldValue implements AbstractFieldValue {
 		if (ret == null) {
 			return false;
 		} else if (ret instanceof Boolean) {
-			return ((Boolean) ret).booleanValue();	
+			return ((Boolean) ret).booleanValue();
 		} else {
-			return Boolean.parseBoolean(ret.toString());	
+			return Boolean.parseBoolean(ret.toString());
 		}
 	}
 
@@ -179,7 +179,7 @@ public final class FieldValue implements AbstractFieldValue {
 	@Override
 	public String asString() {
 		Object ret = getValue();
-		
+
 		if (ret == null) {
 			return "";
 		}
@@ -190,7 +190,6 @@ public final class FieldValue implements AbstractFieldValue {
 	 * Get The fields value
 	 * @return fields value
 	 */
-	@SuppressWarnings("deprecation")
 	private Object getValue() {
 		if (recordNum >= 0) {
 			return theLine.getField(recordNum, fieldNum);
@@ -200,7 +199,7 @@ public final class FieldValue implements AbstractFieldValue {
 		}
 		return theLine.getField(field);
 	}
-	
+
 	/**
 	 * @see net.sf.JRecord.Common.AbstractFieldValue#asHex()
 	 */
@@ -220,7 +219,7 @@ public final class FieldValue implements AbstractFieldValue {
 	 */
 	@Override
 	public void set(boolean value) throws RecordException {
-		set(Boolean.valueOf(value));	
+		set(Boolean.valueOf(value));
 	}
 
 
@@ -229,7 +228,7 @@ public final class FieldValue implements AbstractFieldValue {
 	 */
 	@Override
 	public void set(double value) throws RecordException {
-		set(Double.valueOf(value));	
+		set(Double.valueOf(value));
 	}
 
 	/**
@@ -237,7 +236,7 @@ public final class FieldValue implements AbstractFieldValue {
 	 */
 	@Override
 	public void set(float value) throws RecordException {
-		set(Float.valueOf(value));	
+		set(Float.valueOf(value));
 	}
 
 	/**
@@ -245,7 +244,7 @@ public final class FieldValue implements AbstractFieldValue {
 	 */
 	@Override
 	public void set(long value) throws RecordException {
-		set(Long.valueOf(value));	
+		set(Long.valueOf(value));
 	}
 
 	/**
@@ -256,7 +255,7 @@ public final class FieldValue implements AbstractFieldValue {
 		if (recordNum >= 0) {
 			theLine.setField(recordNum, fieldNum, value);
 		}
-		theLine.setField(field, value);	
+		theLine.setField(field, value);
 	}
 
 }

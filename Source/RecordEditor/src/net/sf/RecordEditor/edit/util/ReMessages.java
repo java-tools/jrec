@@ -7,6 +7,8 @@ import net.sf.RecordEditor.utils.screenManager.ReMsgId;
 public class ReMessages {
 
 	public static final ReMsg EDIT_OPTIONS      = new ReMsg("Edit Options");
+	public static final ReMsg NOT_A_SORT        = new ReMsg("File was not a sort / Sort tree definition");
+	public static final ReMsg NOT_A_RECORD_TREE = new ReMsg("File was not a Record Tree definition");
 	public static final ReMsg LINE_DELETE_CHECK = new ReMsg("Line Delete confirmation");
 	public static final ReMsg LINE_DELETE_MSG   = new ReMsg("Do you want to delete the selected {0} lines ?");
 

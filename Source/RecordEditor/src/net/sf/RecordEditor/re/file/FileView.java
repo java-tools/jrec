@@ -64,9 +64,10 @@ import net.sf.JRecord.IO.AbstractLineWriter;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.IO.LineReaderWrapper;
 import net.sf.JRecord.Log.AbsSSLogger;
+import net.sf.JRecord.detailsSelection.RecordSel;
 import net.sf.RecordEditor.re.file.filter.Compare;
 import net.sf.RecordEditor.re.file.filter.FilterDetails;
-import net.sf.RecordEditor.re.file.filter.FilterFieldList;
+import net.sf.RecordEditor.re.file.filter.FilterFieldBaseList;
 import net.sf.RecordEditor.utils.ColumnMappingInterface;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.fileStorage.DataStore;
@@ -2410,15 +2411,15 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	 */
 	public FileView<Layout> getFilteredView(FilterDetails filter) {
 
-		if (! filter.isNormalFilter()) {
-			return getFilteredView(filter, filter.getGroupHeader(), filter.getOp());
+		if (filter.isNormalFilter() != FilterDetails.FT_NORMAL) {
+			return getFilteredView(filter, filter.getGroupHeader());
 		}
 		ViewDataStore selected = new ViewDataStore(layout, lines instanceof DataStoreStd, frame);
         AbstractLine<Layout> line;
         FilePosition pos = new FilePosition(0, 0, 0, 0, true, this.getRowCount());
         boolean filterNonPrefered = getFilterNonPref(filter);
 
-        FilterFieldList list = filter.getFilterFieldListMdl();
+        FilterFieldBaseList list = filter.getFilterFieldListMdl();
         Iterator<? extends AbstractLine> it = getIterator();
 
         while (it.hasNext() && selected.continueProcessing()) {
@@ -2462,33 +2463,37 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	 *
 	 * @return filtered file view
 	 */
-	public FileView<Layout> getFilteredView(FilterDetails filter, int groupHeader, int op) {
+	public FileView<Layout> getFilteredView(FilterDetails filter, int groupHeader) {
 
 		ViewDataStore selected = new ViewDataStore(layout, lines instanceof DataStoreStd, frame);
-        AbstractLine<Layout> line;
+        AbstractLine line;
         ArrayList<AbstractLine<Layout>> groupLines = new ArrayList<AbstractLine<Layout>>();
-        int recordType;
-        FilePosition pos = new FilePosition(0, 0, 0, 0, true, this.getRowCount());
+
         boolean filterNonPrefered = getFilterNonPref(filter);
 
-        FilterFieldList list = filter.getFilterFieldListMdl();
+        FilterFieldBaseList list = filter.getFilterFieldListMdl();
         Iterator<? extends AbstractLine> it = getIterator();
+        RecordSel groupSelection = list.getGroupRecordSelection();
 
         while (it.hasNext()) {
         	line = it.next();
         	if (line.getPreferredLayoutIdxAlt() == groupHeader) {
-        		groupLines.add(line);
+        		if (filter.isInGroup(line.getPreferredLayoutIdxAlt())) {
+        			groupLines.add(line);
+        		}
         		break;
         	}
         }
         while (it.hasNext() && selected.continueProcessing()) {
         	line = it.next();
         	if (line.getPreferredLayoutIdxAlt() == groupHeader) {
-        		processGroup(selected, filterNonPrefered, filter, groupLines, op);
+        		processGroup(selected, filterNonPrefered, filter, groupSelection, groupLines);
         	}
-        	groupLines.add(line);
+        	if (filter.isInGroup(line.getPreferredLayoutIdxAlt())) {
+        		groupLines.add(line);
+        	}
         }
-        processGroup(selected, filterNonPrefered, filter, groupLines, op);
+        processGroup(selected, filterNonPrefered, filter, groupSelection, groupLines);
 
         if (selected.getSelectedLines().size() > 0) {
             return new FileView<Layout>(
@@ -2498,49 +2503,20 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
         return null;
 	}
 
-	private void processGroup(ViewDataStore selected, boolean filterNonPrefered, FilterDetails filter, ArrayList<AbstractLine<Layout>> groupLines, int op) {
-   		boolean[] recSel = new boolean[layout.getRecordCount()];
-   		FilterFieldList list = filter.getFilterFieldListMdl();
-   		boolean addGroup = false;
+	private void processGroup(
+			ViewDataStore selected,
+			boolean filterNonPrefered,
+			FilterDetails filter,
+			RecordSel groupSelection,
+			ArrayList<AbstractLine<Layout>> groupLines) {
+   		FilterFieldBaseList list = filter.getFilterFieldListMdl();
    		int recId;
 
 
-//   		System.out.println();
-//   		System.out.println("Starting group ... " + groupLines.get(0).getFullLine());
-   		for (int i = 0; i < recSel.length; i++) {
-   			recSel[i] = false;
-   		}
 
-	    for (AbstractLine<Layout> l : groupLines) {
-	    	recId = check(filterNonPrefered, filter, list, l, true) ;
-	    	if (recId>= 0) {
-	    		recSel[recId] = true;
-	    		if (op == Common.BOOLEAN_OPERATOR_OR && list.isSelectionTests(recId)) {
-//	    			System.out.println(" Found: " + recId + " " + layout.getRecord(recId).getRecordName()
-//	    					+ " >>> " + l.getField(recId, 1)
-//	    					+ " " + l.getFullLine());
-	    			addGroup = true;
-	    			break;
-	    		}
-	    	}
-	    }
-
-	    if (op == Common.BOOLEAN_OPERATOR_AND) {
-			addGroup = true;
-			System.out.println();
-	    	for (int i = 0; i < recSel.length; i++) {
-	    		System.out.println(" >> " + i + " " + (! filter.isInclude(i)) + " " + (! list.isSelectionTests(i)));
-	   			if (recSel[i] || ((! filter.isInclude(i)) && (! list.isSelectionTests(i)))) {
-	   			} else {
-	   				addGroup = false;
-	   				break;
-	   			}
-	   		}
-	    }
-
-	    if (addGroup) {
+	    if (groupSelection.isSelected(groupLines)) {
 	    	AbstractLine<Layout> l;
-//	   		System.out.println("Adding Group ... ");
+
 	    	for (int i = 0; i < groupLines.size(); i++) {
 	    		l = groupLines.get(i);
 	    		recId = l.getPreferredLayoutIdx();
@@ -2590,7 +2566,7 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 	    return it;
 	}
 
-	private int check(boolean filterNonPrefered, FilterDetails filter, FilterFieldList list,
+	private int check(boolean filterNonPrefered, FilterDetails filter, FilterFieldBaseList list,
 			AbstractLine<Layout> line, boolean allRecs) {
 		int ret = Integer.MIN_VALUE;
 	   	int recordType = line.getPreferredLayoutIdxAlt();
@@ -2615,33 +2591,8 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 
 
 	private boolean getFilteredView_MatchesFilter(int recordType,
-			FilterFieldList list, AbstractLine line) {
+			FilterFieldBaseList list, AbstractLine line) {
 		return list.getRecordSelection(recordType).isSelected(line);
-//		boolean ok = defaultOk;
-//		for (int j = 0; j < FilterFieldList.NUMBER_FIELD_FILTER_ROWS; j++) {
-//			FilterField filterField = list.getFilterField(recordType, j);
-//			int fldNum = filterField.getFieldNumber();
-//			String val = filterField.getValue();
-//
-//	         if (filterField.getFieldNumber() != FilterField.NULL_FIELD) {
-//	        	boolean ignorecase = filterField.getIgnoreCase().booleanValue();
-//
-//	       		pos.setAll(rowNum, 0, recordType, fldNum, true);
-//	       		pos.currentLine = line;
-//	            int op = filterField.getOperator();
-//
-//	            if ((op == Compare.OP_CONTAINS)
-//	            ||  (op == Compare.OP_DOESNT_CONTAIN)) {
-//	            	ok = contains(ignorecase, pos, val, op == Compare.OP_CONTAINS);
-//	            } else {
-//	            	ok = cmp(ignorecase, pos, val, Compare.getNumericValue(op, val), op);
-//	            }
-//	            if (ok != defaultOk) {
-//	            	return ok;
-//	            }
-//	        }
-//        }
-//		return ok;
 	}
 
 
@@ -2778,11 +2729,11 @@ public class FileView<Layout extends AbstractLayoutDetails<? extends FieldDetail
 				case (TableModelEvent.DELETE):
 					if (lastRow - firstRow + 1 > 0) {
 						int[] recNums = new int[lastRow - firstRow + 1];
-						System.out.println("File View Delete: ");
+						//System.out.println("File View Delete: ");
 
 						for (int i = firstRow; i <= lastRow; i++) {
 							recNums[i - firstRow] =  lines.indexOf(baseFile.getLine(i));
-							System.out.println(">" + i + " " + recNums[i - firstRow]);
+							//System.out.println(">" + i + " " + recNums[i - firstRow]);
 						}
 
 						deleteLinesFromView(recNums);

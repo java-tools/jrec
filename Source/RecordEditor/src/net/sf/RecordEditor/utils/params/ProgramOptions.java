@@ -44,6 +44,9 @@ public class ProgramOptions {
 
 	};
 
+	public final BoolOpt openPoFuzzyWindow = new BoolOpt(Parameters.PO_EDIT_OPEN_FUZZY_VIEW, true);
+	public final StringOpt poChildScreenPosition = new StringOpt(Parameters.PO_EDIT_CHILD_SCREEN_POS, Parameters.CHILD_SCREEN_RIGHT);
+
 	public final BoolOpt showRecordEditorTips = new BoolOpt(Parameters.SHOW_RECORDEDITOR_TIPS, true);
 	public final BoolOpt logToFront = new BoolOpt(Parameters.BRING_LOG_TO_FRONT);
 
@@ -62,8 +65,9 @@ public class ProgramOptions {
 	public final UpdateableBoolOpt highlightEmpty = new UpdateableBoolOpt(Parameters.PROPERTY_HIGHLIGHT_EMPTY);
 	public final InternalBoolOption highlightEmptyActive = new InternalBoolOption(false);
 
-	public final InternalBoolOption xsltAvailable = new InternalBoolOption(true);
+	public final InternalBoolOption xsltAvailable       = new InternalBoolOption(true);
 	public final InternalBoolOption fileWizardAvailable = new InternalBoolOption(false);
+	public final InternalBoolOption getTextPoPresent    = new InternalBoolOption(false);
 
 	public final IntOpt significantCharInFiles1 = new IntOpt("SignificantCharInFiles.1", 6, 1);
 	public final IntOpt significantCharInFiles2 = new IntOpt("SignificantCharInFiles.2", 12, 1);

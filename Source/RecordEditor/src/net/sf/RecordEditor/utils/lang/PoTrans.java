@@ -19,8 +19,9 @@ public class PoTrans extends BasicTrans {
 		PoHeader poh = PoUtil.parsePOHeader(f);
 		BufferedReader r;
 		String l;
-		String lookup = null;
+		String msgid = null;
 		StringBuilder b = null;
+		String msgctxt = null;
 		int mode = NORMAL_MODE;
 
 		if (poh.font.equals("")) {
@@ -38,19 +39,26 @@ public class PoTrans extends BasicTrans {
 				if ("".equals(l.trim())) {
 					mode = NORMAL_MODE;
 
-					if (lookup != null && b != null) {
+					if (b == null) {
+
+					} else if (msgctxt != null) {
 						b = Conversion.replace(b, "\\n", "\n");
-						trans.put(lookup, b.toString());
-						//System.out.println("~~ " + lookup + " " + b.toString());
+						trans.put(msgctxt, b.toString());
+					} else if (msgid != null) {
+						b = Conversion.replace(b, "\\n", "\n");
+						trans.put(msgid, b.toString());
 					}
 					b = null;
-					lookup = null;
+					msgid = null;
+					msgctxt = null;
 				} else if (mode == TRANS_MODE) {
 					b.append(strip(l));
 				} else {
 					mode = NORMAL_MODE;
 					if (l.startsWith("msgid ")) {
-						lookup = strip(l.substring(6));
+						msgid = strip(l.substring(6));
+					} else if (l.startsWith("msgctxt ")) {
+						msgctxt = strip(l.substring(8));
 					} else if (l.startsWith("msgstr ")) {
 						b = new StringBuilder(strip(l.substring(7)));
 						mode = TRANS_MODE;

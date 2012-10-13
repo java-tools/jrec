@@ -20,7 +20,7 @@ public class AndSelection extends AbsGroup {
 	 * @see net.sf.JRecord.detailsSelection.RecordSel#isSelected(java.util.List)
 	 */
 	@Override
-	public boolean isSelected(List<AbstractIndexedLine> line) {
+	public boolean isSelected(List<? extends AbstractIndexedLine> line) {
 		if (size() > 0) {
 			RecordSel sel;
 			for (int i = 0; i < size(); i++) {
@@ -55,6 +55,11 @@ public class AndSelection extends AbsGroup {
 		return false;
 	}
 
-
-
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.detailsSelection.RecordSel#isIncluded(net.sf.JRecord.Common.AbstractIndexedLine)
+	 */
+	@Override
+	public boolean isIncluded(AbstractIndexedLine line) {
+		return true;
+	}
 }

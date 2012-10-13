@@ -19,17 +19,6 @@ import net.sf.RecordEditor.utils.swing.common.UpdatableItem;
 public  class PoRecordScreen extends RecordSelection
 implements AbstractFileDisplayWithFieldHide {
 
-	protected final JTextArea commentTxt     = new JTextArea();
-	protected final JTextArea msgctxtTxt     = new JTextArea();
-	protected final JTextArea msgidTxt       = new JTextArea();
-	protected final JTextArea msgidPluralTxt = new JTextArea();
-	protected final JTextArea msgstrTxt      = new JTextArea();
-	protected final JTextArea commentsTxt    = new JTextArea();
-	protected final JTextArea extractedCommentsTxt   = new JTextArea();
-	protected final JTextArea referenceTxt   = new JTextArea();
-	protected final JTextArea flagsTxt       = new JTextArea();
-	protected JEditorPane htmlEdt = new JEditorPane("text/html",  "");
-
 	private ArrayRender msgstrPlural = new ArrayRender(true, false);
 	private JTable parentTbl;
 
@@ -42,18 +31,21 @@ implements AbstractFileDisplayWithFieldHide {
 		msgstrPlural.setTableDetails(parentTbl, lineNo, PoField.msgstrPlural.fieldIdx, "",
 				viewOfFile.getBaseFile().getFileNameNoDirectory(), viewOfFile.getBaseFile());
 		PaneDtls[] fields = {
-				new PaneDtls("msgctxt", PoField.msgctxt, msgctxtTxt),
-				new PaneDtls("msgid",   PoField.msgid, msgidTxt, 0.2),
-				new PaneDtls("msgstr",  PoField.msgstr, msgstrTxt, 0.2),
-				new PaneDtls("msgid plural", PoField.msgidPlural, msgidPluralTxt),
+				new PaneDtls("msgctxt", PoField.msgctxt, new JTextArea()),
+				new PaneDtls("msgid",   PoField.msgid,   new JTextArea(), 0.2),
+				new PaneDtls("msgstr",  PoField.msgstr,  new JTextArea(), 0.2),
+				new PaneDtls("msgid plural",  PoField.msgidPlural, new JTextArea()),
 				new PaneDtls("msgstr plural", PoField.msgstrPlural, msgstrPlural),
-				new PaneDtls("comments",           PoField.comments, commentsTxt, 1, false, 0.3),
-				new PaneDtls("Extracted Comments", PoField.extractedComments, extractedCommentsTxt, 1),
-				new PaneDtls("reference",          PoField.reference, referenceTxt, 1),
-				new PaneDtls("flags", PoField.flags, flagsTxt, 1),
-				new PaneDtls("fuzzy", PoField.fuzzy, new updateCheckBox("Fuzzy"), 1, false, -1),
-				new PaneDtls("Obsolete", PoField.obsolete, new updateCheckBox("obsolete"), 1, false, -1),
-				new PaneDtls("html", PoField.msgstr, htmlEdt, 0, true, 0.3),
+				new PaneDtls("comments",              PoField.comments, new JTextArea(), 1, false, 0.3),
+				new PaneDtls("Extracted Comments",    PoField.extractedComments,   new JTextArea(), 1),
+				new PaneDtls("reference",             PoField.reference,           new JTextArea(), 1),
+				new PaneDtls("Previous Msgctx",       PoField.previousMsgctx,      new JTextArea(), 1).setVisible(false),
+				new PaneDtls("Previous MsgId",        PoField.previousMsgId,       new JTextArea(), 1).setVisible(false),
+				new PaneDtls("Previous MsgId Plural", PoField.previousMsgidPlural, new JTextArea(), 1).setVisible(false),
+				new PaneDtls("flags",    PoField.flags,    new JTextArea(), 1),
+				new PaneDtls("fuzzy",    PoField.fuzzy,    new updateCheckBox("Fuzzy"),       1, false, -1),
+				new PaneDtls("Obsolete", PoField.obsolete, new updateCheckBox("obsolete"),    1, false, -1),
+				new PaneDtls("html",     PoField.msgstr,   new JEditorPane("text/html",  ""), 0, true, 0.3),
 		};
 
 		splitPane.setFields(fields, new double[] {0.45, 0.45});
@@ -77,9 +69,8 @@ implements AbstractFileDisplayWithFieldHide {
 	}
 
 
+	@SuppressWarnings("serial")
 	public class updateCheckBox extends JCheckBox implements UpdatableItem {
-
-
 
 		public updateCheckBox(String text) {
 			super(text);

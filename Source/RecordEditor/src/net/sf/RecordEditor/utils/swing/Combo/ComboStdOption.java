@@ -1,6 +1,8 @@
 package net.sf.RecordEditor.utils.swing.Combo;
 
-public class ComboStdOption<Key> {
+import net.sf.RecordEditor.utils.params.IHasKey;
+
+public class ComboStdOption<Key> implements IHasKey {
 
 	protected String string;
 	protected String english;
@@ -16,6 +18,20 @@ public class ComboStdOption<Key> {
 
 	public String toString() {
 		return string;
+	}
+
+	/**
+	 * @return the string
+	 */
+	public String getString() {
+		return string;
+	}
+
+	/**
+	 * @return the key
+	 */
+	public Key getKey() {
+		return key;
 	}
 
 	/**

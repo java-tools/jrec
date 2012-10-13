@@ -15,7 +15,7 @@ import net.sf.RecordEditor.re.db.Record.RecordRec;
 import net.sf.RecordEditor.utils.common.AbsConnection;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.jdbc.DBtableModel;
-import net.sf.RecordEditor.utils.swing.Combo.ComboObjOption;
+import net.sf.RecordEditor.utils.swing.Combo.ComboKeyedOption;
 import net.sf.RecordEditor.utils.swing.Combo.ListListner;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.KeyedComboMdl;
 
@@ -140,7 +140,7 @@ public class ChildRecordsTblMdl extends DBtableModel<ChildRecordsRec> {
 		switch (col) {
 		case RECORD_COLUMN:
 			//recordKeys
-			ComboObjOption<Integer> rRet = recordKeys.nullItem;
+			ComboKeyedOption<Integer> rRet = recordKeys.nullItem;
 
 
 			if (ret instanceof Integer && (val = ((Integer) ret).intValue()) >= 0) {
@@ -183,8 +183,8 @@ public class ChildRecordsTblMdl extends DBtableModel<ChildRecordsRec> {
 
 		switch (col) {
 		case RECORD_COLUMN:
-			if (val instanceof ComboObjOption) {
-				val = ((ComboObjOption) val).key;
+			if (val instanceof ComboKeyedOption) {
+				val = ((ComboKeyedOption) val).key;
 			}
 			break;
 		case PARENT_COLUMN:

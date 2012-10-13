@@ -45,7 +45,7 @@ implements AbstractActiveScreenAction {
 				SetFields setFields = new SetFields(sourcePnl);
 				new ExecuteSavedFile<EditorTask>(
 						fileView.getBaseFile().getFileNameNoDirectory(), "Execute Saved Filter", fileView,
-						Parameters.getFileName(Parameters.HIDDEN_FIELDS_SAVE_DIRECTORY),
+						Parameters.getFileName(Parameters.FIELD_SAVE_DIRECTORY),
 						setFields, EditorTask.class);
 			} catch (NoClassDefFoundError e) {
 				Common.logMsg("Unable to load saved definition: jibx not present ???", null);

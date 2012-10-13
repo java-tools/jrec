@@ -60,6 +60,7 @@ import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.External.CopybookWriterManager;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Log.TextLog;
+import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.params.ProgramOptions;
@@ -101,8 +102,8 @@ public final class Common implements Constants {
 
 	public static final String COLUMN_LINE_SEP =  "|";
 
-	public static final String[] COMPARISON_OPERATORS =
-		{"=", "!=", "<>", ">", ">=",  "<", "<=", STARTS_WITH, CONTAINS};
+//	public static final String[] COMPARISON_OPERATORS =
+//		{"=", "!=", "<>", ">", ">=",  "<", "<=", STARTS_WITH, CONTAINS};
 
 	public static final String CSV_PROGRAM_ID = "csv";
 //	public static final boolean LOG_TO_FRONT = ! ("N".equalsIgnoreCase(
@@ -357,6 +358,40 @@ public final class Common implements Constants {
 
 	public static final String USER_INIT_CLASS
 			= Parameters.getString("UserInitilizeClass");
+
+
+	public static final String GETTEXT_PO_LAYOUT =
+			  "<?xml version=\"1.0\" ?>"
+			+ "<RECORD RECORDNAME=\"GetText_PO\" COPYBOOK=\"\" DELIMITER=\"&lt;Tab&gt;\" FILESTRUCTURE=\"" + Constants.IO_GETTEXT_PO + "\" "
+				+ "STYLE=\"0\" RECORDTYPE=\"Delimited\" LIST=\"Y\" QUOTE=\"\" RecSep=\"default\" LINE_NO_FIELD_NAMES=\"1\">"
+			+ "	<FIELDS>"
+			+ "		<FIELD NAME=\"msgctxt\" POSITION=\"1\" TYPE=\"" + Type.ftMultiLineChar + "\"/>"
+			+ "		<FIELD NAME=\"msgid\" POSITION=\"2\" TYPE=\"" + Type.ftMultiLineChar + "\"/>"
+			+ "		<FIELD NAME=\"msgstr\" POSITION=\"3\" TYPE=\"" + Type.ftMultiLineChar + "\"/>"
+			+ "		<FIELD NAME=\"comments\" POSITION=\"4\" TYPE=\"" + Type.ftMultiLineChar + "\"/>"
+			+ "		<FIELD NAME=\"msgidPlural\" POSITION=\"5\" TYPE=\"" + Type.ftMultiLineChar + "\"/>"
+			+ "		<FIELD NAME=\"msgstrPlural\" POSITION=\"6\" TYPE=\"" + Type.ftArrayField + "\"/>"
+			+ "		<FIELD NAME=\"extractedComments\" POSITION=\"7\" TYPE=\"" + Type.ftMultiLineChar + "\"/>"
+			+ "		<FIELD NAME=\"reference\" POSITION=\"8\" TYPE=\"" + Type.ftMultiLineChar + "\"/>"
+			+ "		<FIELD NAME=\"flags\" POSITION=\"9\" TYPE=\"" + Type.ftMultiLineChar + "\"/>"
+			+ "		<FIELD NAME=\"previousMsgctx\" POSITION=\"10\" TYPE=\"" + Type.ftMultiLineChar + "\"/>"
+			+ "		<FIELD NAME=\"previousMsgId\" POSITION=\"11\" TYPE=\"" + Type.ftMultiLineChar + "\"/>"
+			+ "		<FIELD NAME=\"previousMsgidPlural\" POSITION=\"12\" TYPE=\"" + Type.ftMultiLineChar + "\"/>"
+			+ "		<FIELD NAME=\"fuzzy\" POSITION=\"13\" TYPE=\"" + Type.ftCheckBoxY + "\"/>"
+			+ "		<FIELD NAME=\"obsolete\" POSITION=\"14\" TYPE=\"" + Type.ftCheckBoxY + "\"/>"
+			+ "	</FIELDS>"
+			+ "</RECORD>";
+
+	public static final String TIP_LAYOUT =
+			   "<?xml version=\"1.0\" ?>"
+			 + "<RECORD RECORDNAME=\"TipDetails\" COPYBOOK=\"\" DELIMITER=\"&lt;Tab&gt;\" FILESTRUCTURE=\"" + Constants.IO_TIP + "\""
+					  + " STYLE=\"0\" RECORDTYPE=\"Delimited\" "
+					  + " LIST=\"Y\" QUOTE=\"\" RecSep=\"default\" LINE_NO_FIELD_NAMES=\"1\">"
+			 + "	<FIELDS>"
+			 + "		<FIELD NAME=\"name\" POSITION=\"1\" TYPE=\"Char\"/>"
+			 + "		<FIELD NAME=\"description\" POSITION=\"2\" TYPE=\"" + Type.ftMultiLineChar + "\"/>"
+			 + "	</FIELDS>"
+			 + "</RECORD>";
 
 
 	public static final String DEFAULT_STRUCTURE = LangConversion.convert(DEFAULT_STRING);
@@ -736,16 +771,18 @@ public final class Common implements Constants {
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
 	 */
-	private static final void makeConnection(int connectionIdx)
+	private static final int makeConnection(int connectionIdx)
 						throws SQLException, ClassNotFoundException, MalformedURLException, InstantiationException, IllegalAccessException {
 
+		int ret;
 		if (readOnlySource[connectionIdx] == null || "".equals(readOnlySource[connectionIdx])) {
-			makeConnection(dbConnection, connectionIdx, dataSource, 1, readOnly);
+			ret = makeConnection(dbConnection, connectionIdx, dataSource, 1, readOnly);
 			dbUpdate[connectionIdx] = dbConnection[connectionIdx];
 		} else {
-			makeConnection(dbConnection, connectionIdx, readOnlySource, 6, true);
+			ret = makeConnection(dbConnection, connectionIdx, readOnlySource, 6, true);
 		}
 		//yet2Init = false;
+		return ret;
 	}
 
 	/**
@@ -762,13 +799,14 @@ public final class Common implements Constants {
 	 * @throws InstantiationException error that occurred during initialize
 	 * @throws IllegalAccessException
 	 */
-	private static final void makeConnection(Connection[] connectionArray, int connectionIdx, String[] source, int trys, boolean readOnlyOpt)
+	private static final int makeConnection(Connection[] connectionArray, int connectionIdx, String[] source, int trys, boolean readOnlyOpt)
 	throws SQLException, ClassNotFoundException, MalformedURLException, InstantiationException, IllegalAccessException {
 
 		if (connectionArray[connectionIdx] != null && ! connectionArray[connectionIdx].isClosed()) {
-			return;
+			return connectionIdx;
 		}
 
+		int ret = connectionIdx;
 		//System.out.println("Source > " + source[connectionIdx] + " JDBC Names >> " + jdbcJarNames);
 		for (int j = 0; j <= trys; j++) {
 			try {
@@ -858,6 +896,8 @@ public final class Common implements Constants {
 
 		yet2Init = false;
 		jdbcMsg[connectionIdx] = "";
+		
+		return ret;
 	}
 
 	private static void sleep()  {

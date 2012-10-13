@@ -28,7 +28,7 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
  * @author Bruce Martin
  *
  */
-public class ComboItemRender 
+public class ComboItemRender
 						 implements TableCellRenderer {
 
 	private static final int COMBO_HEIGHT = SwingUtils.COMBO_TABLE_ROW_HEIGHT;
@@ -36,7 +36,7 @@ public class ComboItemRender
     private JComboBox combo = new JComboBox();
     private DefaultTableCellRenderer render = new DefaultTableCellRenderer();
     private boolean useCombo;
-     
+
 	/**
 	 * This class will display a combo box in a JTable
 	 *
@@ -55,37 +55,37 @@ public class ComboItemRender
 		this();
 		combo.setModel(model);
 	}
-	
+
 	/**
 	 * @see javax.swing.table.TableCellRender#getTableCellRendererComponent
 	 */
 	public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
-		
+
 		//useCombo = (value instanceof ComboItemInterface) ;
 		useCombo = value != null;
 		if (useCombo) {
 			Color foreground, background;
-			
+
 			//System.out.print("## Combo: Setting :" + value + ": " + (value ==Common.NULL_OBJECT)
 			//		+ " " + combo.getSelectedIndex() + " -> ");
-			
+
 			if (Common.isEmpty(value)) {
 				combo.setSelectedIndex(0);
 			} else {
 				combo.setSelectedItem(value);
 			}
 			//System.out.println(combo.getSelectedIndex());
-			
+
 	       if (isSelected) {
 	            foreground = table.getSelectionForeground();
 	            background = table.getSelectionBackground();
-	        } else {
+	       } else {
 	        	foreground = table.getForeground();
 
 			    if ( row % 2 == 0 ) {
 			    	background = UIManager.getColor("Table.alternateRowColor");
-			    } else { 
+			    } else {
 			    	background = table.getBackground();
 			    }
 
@@ -96,17 +96,17 @@ public class ComboItemRender
 			} else if (value == Common.MISSING_REQUIRED_VALUE) {
 				background = Common.MISSING_COLOR;
 			}
-	 
+
 			combo.setForeground(foreground);
 			combo.setBackground(background);
-	      
+
 	        return combo;
-		} 
-		
+		}
+
 
 		return render.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
     }
-	
+
 	public Object getValue() {
 		if (useCombo) {
 			return combo.getSelectedItem();

@@ -96,7 +96,7 @@ public class FullEditor extends EditRec {
           	    pIoProvider,  pInterfaceToCopyBooks);
 
         if (Common.OPTIONS.showRecordEditorTips.isSelected() && TipsManager.tipsModulePresent()) {
-        	TipsManager.startTips(Parameters.getSytemJarFileDirectory() + "/RecordEditor_TipOfTheDay.properties",
+        	TipsManager.startTips(this, Parameters.getSytemJarFileDirectory() + "/RecordEditor_TipOfTheDay.properties",
         					  Parameters.SHOW_RECORDEDITOR_TIPS);
         }
     }

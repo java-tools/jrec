@@ -12,6 +12,7 @@ import net.sf.RecordEditor.edit.display.extension.SplitPaneRecord;
 import net.sf.RecordEditor.po.def.PoField;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.array.ArrayRender;
 
 
 public class PoChildRecordScreen extends BaseDisplay implements IChildScreen {
@@ -30,6 +31,7 @@ public class PoChildRecordScreen extends BaseDisplay implements IChildScreen {
 	private final static int CODE_PLURAL  = 2;
 	private final static int CODE_COMMENT = 4;
 	private final static int CODE_HTML    = 8;
+	private final static int CODE_MSGSTR  = 16;
 
 	private final static double[] STD_PNL_WEIGHT = {0.3, 0.3, 0.3};
 
@@ -37,10 +39,10 @@ public class PoChildRecordScreen extends BaseDisplay implements IChildScreen {
 //	private final static int CODE_MSG_STR = 52;
 
 	private String[] STR_TRANS = {
-		MSGCTXT_STR,	HTML_STR,	COMMENT_STR, 	MSGSTR_PLURAL_STR, MSGID_PLURAL_STR,
+		MSGCTXT_STR,	HTML_STR,	COMMENT_STR, 	MSGID_PLURAL_STR,	MSGSTR_PLURAL_STR, 	MSGSTR_STR,
 	};
 	private int[] CODE_TRANS = {
-		CODE_MSG_CTX,	CODE_HTML,	CODE_COMMENT,	CODE_PLURAL,		CODE_PLURAL,
+		CODE_MSG_CTX,	CODE_HTML,	CODE_COMMENT,	CODE_PLURAL,		CODE_PLURAL,		CODE_MSGSTR,
 	};
 
 
@@ -54,27 +56,39 @@ public class PoChildRecordScreen extends BaseDisplay implements IChildScreen {
 
 	protected SplitPaneRecord splitRecPane;
 
-	public static PoChildRecordScreen newRightHandScreen(@SuppressWarnings("rawtypes") FileView viewOfFile, int lineNo) {
+	public static PoChildRecordScreen newRightHandScreen(
+			JTable parentTbl, @SuppressWarnings("rawtypes") FileView viewOfFile, int lineNo) {
+
+		ArrayRender msgstrPlural = new ArrayRender(true, false);
+		msgstrPlural.setTableDetails(parentTbl, lineNo, PoField.msgstrPlural.fieldIdx, "",
+				viewOfFile.getBaseFile().getFileNameNoDirectory(), viewOfFile.getBaseFile());
 		PaneDtls[] fields = {
-				new PaneDtls(COMMENT_STR, 		PoField.comments, 	  new JTextArea(), 0.2),
+				new PaneDtls(COMMENT_STR, 		PoField.comments, 	  new JTextArea(), 0.15),
 				new PaneDtls(MSGCTXT_STR, 		PoField.msgctxt,  	  new JTextArea()),
-				new PaneDtls(MSGID_STR,   		PoField.msgid,	      new JTextArea(), 0.2),
-//				new PaneDtls(MSGID_PLURAL_STR,  PoField.msgidPlural,  new JTextArea()),
-				new PaneDtls(MSGSTR_STR,  		PoField.msgstr,   	  new JTextArea(), 0.2),
-//				new PaneDtls(MSGSTR_PLURAL_STR, PoField.msgstrPlural, new JTextArea()),
-				new PaneDtls(HTML_STR,			PoField.msgstr,   	  new JEditorPane("text/html",  ""), 0, true, 0.2),
+				new PaneDtls(MSGID_STR,   		PoField.msgid,	      new JTextArea(), 0.15),
+				new PaneDtls(MSGSTR_STR,  		PoField.msgstr,   	  new JTextArea(), 0.15),
+				new PaneDtls(MSGID_PLURAL_STR,  PoField.msgidPlural,  new JTextArea(), 0.15),
+				new PaneDtls(MSGSTR_PLURAL_STR, PoField.msgstrPlural, msgstrPlural, 0, false,    0.15),
+				new PaneDtls(HTML_STR,			PoField.msgstr,   	  new JEditorPane("text/html",  ""), 0, true, 0.15),
 		};
 
 		return new PoChildRecordScreen(viewOfFile, lineNo, fields, null);
 	}
 
-	public static PoChildRecordScreen newBottomScreen(@SuppressWarnings("rawtypes") FileView viewOfFile, int lineNo) {
+	public static PoChildRecordScreen newBottomScreen(
+			JTable parentTbl, @SuppressWarnings("rawtypes") FileView viewOfFile, int lineNo) {
+
+		ArrayRender msgstrPlural = new ArrayRender(true, false);
+		msgstrPlural.setTableDetails(parentTbl, lineNo, PoField.msgstrPlural.fieldIdx, "",
+				viewOfFile.getBaseFile().getFileNameNoDirectory(), viewOfFile.getBaseFile());
 		PaneDtls[] fields = {
 				new PaneDtls(COMMENT_STR, PoField.comments, new JTextArea(), 0),
 				new PaneDtls(MSGCTXT_STR, PoField.msgctxt,  new JTextArea(), 1),
 				new PaneDtls(MSGID_STR,   PoField.msgid,    new JTextArea(), 1),
 				new PaneDtls(MSGSTR_STR,  PoField.msgstr,   new JTextArea(), 1),
-				new PaneDtls(HTML_STR,    PoField.msgstr,   new JEditorPane("text/html",  ""), 2, true),
+				new PaneDtls(MSGID_PLURAL_STR,  PoField.msgidPlural,  new JTextArea(), 1),
+				new PaneDtls(MSGSTR_PLURAL_STR, PoField.msgstrPlural, msgstrPlural, 2, false,    0.15),
+				new PaneDtls(HTML_STR,    PoField.msgstr,   new JEditorPane("text/html",  ""), 3, true),
 		};
 
 		return new PoChildRecordScreen(viewOfFile, lineNo, fields, STD_PNL_WEIGHT);
@@ -252,9 +266,11 @@ public class PoChildRecordScreen extends BaseDisplay implements IChildScreen {
 			ret += CODE_MSG_CTX;
 		}
 
-		o = line.getField(0, PoField.msgstrPlural.fieldIdx);
+		o = line.getField(0, PoField.msgidPlural.fieldIdx);
 		if (checkPresent(o)) {
 			ret += CODE_PLURAL;
+		} else {
+			ret += CODE_MSGSTR;
 		}
 		o = line.getField(0, PoField.comments.fieldIdx);
 		if (checkPresent(o)) {

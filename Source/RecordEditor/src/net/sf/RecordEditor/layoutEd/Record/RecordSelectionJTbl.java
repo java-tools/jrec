@@ -29,12 +29,14 @@ import net.sf.RecordEditor.re.db.Record.ChildRecordsRec;
 import net.sf.RecordEditor.re.db.Record.RecordFieldsDB;
 import net.sf.RecordEditor.re.db.Record.RecordFieldsRec;
 import net.sf.RecordEditor.re.db.Record.RecordSelectionRec;
-import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.jdbc.DBtableModel;
 import net.sf.RecordEditor.utils.swing.AbsJTable;
 import net.sf.RecordEditor.utils.swing.ComboBoxRender;
+import net.sf.RecordEditor.utils.swing.ComboBoxRenderAdapter;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.EnglishComboEditorAdaptor;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.RecordSelOperatorCombo;
 
 
 
@@ -63,10 +65,9 @@ public class RecordSelectionJTbl extends AbsJTable {
 
 
     //private static final String[] OPERATORS = {"=", "!=", "<>", ">", ">=",  "<", "<=",};
-    private ComboBoxRender operatorRender = new ComboBoxRender(Common.COMPARISON_OPERATORS);
+    private EnglishComboEditorAdaptor operatorRender = new EnglishComboEditorAdaptor(new RecordSelOperatorCombo());
 
-	private DefaultCellEditor operatorEditor = new DefaultCellEditor(
-			new JComboBox(Common.COMPARISON_OPERATORS));
+	private EnglishComboEditorAdaptor operatorEditor = new EnglishComboEditorAdaptor(new RecordSelOperatorCombo());
 	//DBComboBoxRender  recordRendor;
 	private String[] fields;
 

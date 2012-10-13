@@ -34,7 +34,7 @@ public class SaveFieldSequenceAction extends ReSpecificScreenAction implements A
 	public void actionPerformed(ActionEvent arg0) {
 		AbstractFieldSequencePnl sourcePnl = getDisplay(AbstractFieldSequencePnl.class);
 		if (sourcePnl != null) {
-			String dir = Parameters.getFileName(Parameters.HIDDEN_FIELDS_SAVE_DIRECTORY);
+			String dir = Parameters.getFileName(Parameters.FIELD_SAVE_DIRECTORY);
 			new SaveSequence(sourcePnl, dir);
 		}
 	}

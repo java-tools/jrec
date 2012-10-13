@@ -2,7 +2,7 @@ package net.sf.RecordEditor.utils.swing.ComboBoxs;
 
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
-import net.sf.RecordEditor.utils.swing.Combo.ComboObjOption;
+import net.sf.RecordEditor.utils.swing.Combo.ComboKeyedOption;
 
 @SuppressWarnings("serial")
 public final class RecordSepCombo extends EnglishCombo<byte[]> {
@@ -13,13 +13,13 @@ public final class RecordSepCombo extends EnglishCombo<byte[]> {
 			RECORD_SEPERATOR.clone());
 	private static final byte[][] RECORD_SEP_VALS  = {Common.LFCR_BYTES,     Common.LFCR_BYTES,  Common.CR_BYTES,  Common.LF_BYTES};
 
-	private static ComboObjOption<byte[]> EMPTY = new ComboObjOption<byte[]>(new byte[]{}, "", "");
+	private static ComboKeyedOption<byte[]> EMPTY = new ComboKeyedOption<byte[]>(new byte[]{}, "", "");
 
 	public RecordSepCombo() {
 		super(EMPTY);
 
 		for (int i = 0; i < RECORD_SEPERATOR.length; i++) {
-			super.addItem(new ComboObjOption<byte[]>(RECORD_SEP_VALS[i], FOREIGN_NAMES[i], RECORD_SEPERATOR[i]));
+			super.addItem(new ComboKeyedOption<byte[]>(RECORD_SEP_VALS[i], FOREIGN_NAMES[i], RECORD_SEPERATOR[i]));
 		}
 	}
 

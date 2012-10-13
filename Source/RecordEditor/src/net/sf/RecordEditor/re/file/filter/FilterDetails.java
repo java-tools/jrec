@@ -43,15 +43,28 @@ import net.sf.RecordEditor.utils.swing.Combo.ComboOption;
  */
 public class FilterDetails {
 
-    private static final String[] LAYOUT_COLUMN_HEADINGS = LangConversion.convertColHeading(
-			"Filter Record Selection",
-			new String[] {"Record", "Include"});
+	public static int FT_NORMAL       = 1;
+	//public static int FT_SIMPLE_GROUP = 2;
+	public static int FT_GROUP        = 3;
+
+
+    private static final String[] LAYOUT_GROUP_COLUMN_HEADINGS = LangConversion.convertColHeading(
+ 			"Filter Record Selection",
+ 			new String[] {"Record", "In Group", "Include"});
+    private static final String[] LAYOUT_COLUMN_HEADINGS =
+    					 {LAYOUT_GROUP_COLUMN_HEADINGS[0], LAYOUT_GROUP_COLUMN_HEADINGS[2]};
+    private static final String[] TWO_LAYOUT_COLUMN_HEADINGS = {
+    	LAYOUT_GROUP_COLUMN_HEADINGS[0],
+    	LangConversion.convert(LangConversion.ST_COLUMN_HEADING, "Equivalent Record"),
+    };
     private static final String[] FIELD_COLUMN_HEADINGS  = LangConversion.convertColHeading(
 			"Filter Field Selection",
 			new String[] {"Field", "Include"});
 
     private ComboOption[] recordOptions;
     private static final int INCLUDE_INDEX  = 1;
+    private static final int IN_GROUP_INDEX = 1;
+    private static final int GROUP_INCLUDE_INDEX  = 2;
     private static final int SEQUENCE_INDEX = 1;
 
     @SuppressWarnings("rawtypes")
@@ -59,6 +72,7 @@ public class FilterDetails {
     @SuppressWarnings("rawtypes")
 	private AbstractLayoutDetails layout2;
 
+    private boolean[] inGroup;
     private int[] recordNo;
     private int[][] fields;
 
@@ -66,16 +80,16 @@ public class FilterDetails {
 
     private JTextField messageFld = new JTextField();
 
-    private FilterFieldList filterFields;
+    private FilterFieldBaseList filterFields;
 
     private FilterFieldList filterFieldsL2 = null;
     private FilterFieldList filterFieldsL2a;
     private FieldList fieldList;
 
     private boolean twoLayouts = false;
-    private boolean normalFilter;
+    private int filterType;
 
-    private int groupHeader, op;
+    private int groupHeader;
 
 
     /**
@@ -83,10 +97,10 @@ public class FilterDetails {
      *
      * @param group detail group
      */
-    public FilterDetails(@SuppressWarnings("rawtypes") final AbstractLayoutDetails group, boolean isNormalFilter) {
+    public FilterDetails(@SuppressWarnings("rawtypes") final AbstractLayoutDetails group, int filterType) {
         super();
         layout = group;
-        normalFilter = isNormalFilter;
+        this.filterType = filterType;
 
         init();
     }
@@ -96,7 +110,16 @@ public class FilterDetails {
 
         recordNo = new int[count];
         fields = new int[count][];
-        filterFields = new FilterFieldList(layout);
+        if (filterType == FT_NORMAL) {
+        	filterFields = new FilterFieldList(layout);
+        } else {
+        	filterFields = new FilterFieldGroupList(layout);
+
+        	inGroup = new boolean[count];
+        	for (int i = 0; i < count; i++) {
+        		inGroup[i] = true;
+        	}
+        }
 
         for (int i = 0; i < count; i++) {
         	recordNo[i] = 0;
@@ -163,6 +186,11 @@ public class FilterDetails {
      * @return Record Table Model
      */
     public AbstractTableModel getLayoutListMdl() {
+    	if (twoLayouts) {
+    		return new TwoLayoutList();
+    	} else if (filterType == FT_GROUP) {
+    		return new GroupLayoutList();
+    	}
         return new LayoutList();
     }
 
@@ -201,7 +229,7 @@ public class FilterDetails {
      *
      * @return Record Table Model
      */
-    public FilterFieldList getFilterFieldListMdl() {
+    public FilterFieldBaseList getFilterFieldListMdl() {
          return filterFields;
     }
 
@@ -247,17 +275,24 @@ public class FilterDetails {
 
 
     /**
+	 * @return the filterType
+	 */
+	public int getFilterType() {
+		return filterType;
+	}
+
+	/**
 	 * @return the groupFilter
 	 */
-	public boolean isNormalFilter() {
-		return normalFilter;
+	public int isNormalFilter() {
+		return filterType;
 	}
 
 	/**
 	 * @param groupFilter the groupFilter to set
 	 */
-	public void setNormalFilter(boolean isNormalFilter) {
-		this.normalFilter = isNormalFilter;
+	public void setNormalFilter(int isNormalFilter) {
+		this.filterType = isNormalFilter;
 	}
 
 	/**
@@ -274,19 +309,19 @@ public class FilterDetails {
 		this.groupHeader = groupHeader;
 	}
 
-	/**
-	 * @return the op
-	 */
-	public int getOp() {
-		return op;
-	}
+//	/**
+//	 * @return the op
+//	 */
+//	public int getOp() {
+//		return op;
+//	}
 
-	/**
-	 * @param op the op to set
-	 */
-	public void setOp(int op) {
-		this.op = op;
-	}
+//	/**
+//	 * @param op the op to set
+//	 */
+//	public void setOp(int op) {
+//		this.op = op;
+//	}
 
 	/**
      * get include status
@@ -304,6 +339,14 @@ public class FilterDetails {
         return recordNo[index] >= 0;
     }
 
+    public final boolean isInGroup(int index) {
+
+    	if (inGroup == null || index < 0 || index >= inGroup.length) {
+            return false;
+        }
+
+        return inGroup[index];
+    }
 
     /**
      * get the external XML Layout interface
@@ -311,12 +354,15 @@ public class FilterDetails {
      */
     public final Layout getExternalLayout() {
     	int j;
-		Layout tmpLayoutSelection = new net.sf.RecordEditor.jibx.compare.Layout();
-		Record rec;
-		boolean allFields;
+    	net.sf.RecordEditor.jibx.compare.Layout tmpLayoutSelection = new net.sf.RecordEditor.jibx.compare.Layout();
+		net.sf.RecordEditor.jibx.compare.Record rec;
 		boolean allSelected = true;
 		@SuppressWarnings("rawtypes")
 		AbstractRecordDetail recordDetail;
+
+		FilterField filterFld;
+		FieldTest test;
+
 
 //		System.out.println("field Get 1 -Layout Name: " + values.getLayoutDetails().name);
 
@@ -324,79 +370,142 @@ public class FilterDetails {
 
 		tmpLayoutSelection.name = layout.getLayoutName();
 
-		if (groupHeader >= 0 && groupHeader < layout.getRecordCount()) {
-			tmpLayoutSelection.groupHeader = layout.getRecord(groupHeader).getRecordName();
-		}
-		tmpLayoutSelection.booleanOperator = Common.BOOLEAN_AND_STRING;
-		if (op == Common.BOOLEAN_OPERATOR_OR) {
-			tmpLayoutSelection.booleanOperator = Common.BOOLEAN_OR_STRING;
-		}
-
-		for (int i =0; i < layout.getRecordCount(); i++) {
-			if (isInclude(i)) {
-				rec = new net.sf.RecordEditor.jibx.compare.Record();
-
-				recordDetail = layout.getRecord(i);
-				rec.name = recordDetail.getRecordName();
-
-				allFields = ! twoLayouts;
-				if (allFields && fieldInc != null && fieldInc[i] != null) {
-					allFields = fieldInc[i].length == recordDetail.getFieldCount();
-					for (j = 0; j < recordDetail.getFieldCount() && allFields; j++) {
-						if ((fieldInc[i][j] != j)) {
-							allFields = false;
-						}
-					}
-				}
-
-				if (! allFields) {
-					allSelected = false;
-					if (fieldInc != null && i < fieldInc.length && fieldInc[i] != null) {
-						rec.fields = new String[fieldInc[i].length];
-						for (j = 0; j < fieldInc[i].length; j++) {
-							//rec.fields[j]= recordDetail.getField(fieldInc[i][j]).getName();
-							rec.fields[j]= recordDetail.getField(layout.getAdjFieldNumber(i, fieldInc[i][j])).getName();
-						}
-					} else {
-						rec.fields = new String[recordDetail.getFieldCount()];
-						for (j = 0; j < rec.fields.length; j++) {
-							rec.fields[j]= recordDetail.getField(j).getName();
-						}
-					}
-				}
-
-				if (! twoLayouts) {
-					FilterField filterFld;
-					FieldTest test;
-					rec.fieldTest = new ArrayList<FieldTest>(FilterFieldList.NUMBER_FIELD_FILTER_ROWS);
-					for (j = 0; j < FilterFieldList.NUMBER_FIELD_FILTER_ROWS; j++) {
-						filterFld = filterFields.getFilterField(i, j);
-						if (filterFld.getFieldNumber() >= 0) {
-							test = new net.sf.RecordEditor.jibx.compare.FieldTest();
-							if (filterFld.getBooleanOperator() == Common.BOOLEAN_OPERATOR_OR) {
-								test.booleanOperator = "Or";
-							}
-							test.fieldName = recordDetail.getField(filterFld.getFieldNumber()).getName();
-							test.operator  = Compare.getOperatorAsString(filterFld.getOperator());
-							test.value     = filterFld.getValue();
-							rec.fieldTest.add(test);
-							allSelected = false;
-						}
-					}
-				}
-
-				tmpLayoutSelection.getRecords().add(rec);
-			} else {
-				allSelected = false;
+		if (filterType == FT_GROUP) {
+			if (groupHeader >= 0 && groupHeader < layout.getRecordCount()) {
+				tmpLayoutSelection.groupHeader = layout.getRecord(groupHeader).getRecordName();
 			}
-		}
 
+			rec = new net.sf.RecordEditor.jibx.compare.Record();
+			rec.fieldTest = new ArrayList<FieldTest>(FilterFieldList.NUMBER_FIELD_FILTER_ROWS);
+			for (j = 0; j < FilterFieldList.NUMBER_FIELD_FILTER_ROWS; j++) {
+				filterFld = filterFields.getFilterField(0, j);
+				if (filterFld.getFieldNumber() >= 0) {
+					test = new net.sf.RecordEditor.jibx.compare.FieldTest();
+					if (filterFld.getBooleanOperator() == Common.BOOLEAN_OPERATOR_OR) {
+						test.booleanOperator = "Or";
+					}
+					recordDetail = layout.getRecord(filterFld.getRecordNumber());
+					test.recordName = recordDetail.getRecordName();
+					test.fieldName  = recordDetail.getField(filterFld.getRecFieldNumber()).getName();
+					test.operator   = Compare.getOperatorAsString(filterFld.getOperator());
+					test.groupOperator = filterFld.getGrouping();
+					test.value      = filterFld.getValue();
+					rec.fieldTest.add(test);
+					allSelected = false;
+				}
+			}
+			tmpLayoutSelection.getRecords().add(rec);
+			for (int i = 0; i < layout.getRecordCount(); i++) {
+				rec = getExternalRecord(i, layout.getRecord(i), fieldInc);
+				allSelected = allSelected && (rec.fields != null) && isInclude(i);
+				tmpLayoutSelection.getRecords().add(rec);
+			}
+		} else {
+			for (int i = 0; i < layout.getRecordCount(); i++) {
+				if (isInclude(i)) {
+					rec = getExternalRecord(i, layout.getRecord(i), fieldInc);
+					allSelected = allSelected && (rec.fields == null);
+
+					recordDetail = layout.getRecord(i);
+					rec.name = recordDetail.getRecordName();
+
+//					allFields = ! twoLayouts;
+//					if (allFields && fieldInc != null && fieldInc[i] != null) {
+//						allFields = fieldInc[i].length == recordDetail.getFieldCount();
+//						for (j = 0; j < recordDetail.getFieldCount() && allFields; j++) {
+//							if ((fieldInc[i][j] != j)) {
+//								allFields = false;
+//							}
+//						}
+//					}
+//
+//					if (! allFields) {
+//						allSelected = false;
+//						if (fieldInc != null && i < fieldInc.length && fieldInc[i] != null) {
+//							rec.fields = new String[fieldInc[i].length];
+//							for (j = 0; j < fieldInc[i].length; j++) {
+//								//rec.fields[j]= recordDetail.getField(fieldInc[i][j]).getName();
+//								rec.fields[j]= recordDetail.getField(layout.getAdjFieldNumber(i, fieldInc[i][j])).getName();
+//							}
+//						} else {
+//							rec.fields = new String[recordDetail.getFieldCount()];
+//							for (j = 0; j < rec.fields.length; j++) {
+//								rec.fields[j]= recordDetail.getField(j).getName();
+//							}
+//						}
+//					}
+
+					if (! twoLayouts) {
+						rec.fieldTest = new ArrayList<FieldTest>(FilterFieldList.NUMBER_FIELD_FILTER_ROWS);
+						for (j = 0; j < FilterFieldList.NUMBER_FIELD_FILTER_ROWS; j++) {
+							filterFld = filterFields.getFilterField(i, j);
+							if (filterFld.getFieldNumber() >= 0) {
+								test = new net.sf.RecordEditor.jibx.compare.FieldTest();
+								if (filterFld.getBooleanOperator() == Common.BOOLEAN_OPERATOR_OR) {
+									test.booleanOperator = "Or";
+								}
+								test.fieldName = recordDetail.getField(filterFld.getFieldNumber()).getName();
+								test.operator  = Compare.getOperatorAsString(filterFld.getOperator());
+								test.value     = filterFld.getValue();
+								rec.fieldTest.add(test);
+								allSelected = false;
+							}
+						}
+					}
+
+					tmpLayoutSelection.getRecords().add(rec);
+				} else {
+					allSelected = false;
+				}
+			}
+
+
+		}
 
 		if (allSelected) {
 			tmpLayoutSelection.records = null;
 		}
-
 		return tmpLayoutSelection;
+    }
+
+    private net.sf.RecordEditor.jibx.compare.Record getExternalRecord(int idx, @SuppressWarnings("rawtypes") AbstractRecordDetail recordDetail, int[][] fieldInc) {
+    	net.sf.RecordEditor.jibx.compare.Record rec = new net.sf.RecordEditor.jibx.compare.Record();
+    	int j;
+
+		recordDetail = layout.getRecord(idx);
+		rec.name = recordDetail.getRecordName();
+
+		boolean allFields = ! twoLayouts;
+		if (allFields && fieldInc != null && fieldInc[idx] != null) {
+			allFields = fieldInc[idx].length == recordDetail.getFieldCount();
+			for (j = 0; j < recordDetail.getFieldCount() && allFields; j++) {
+				if ((fieldInc[idx][j] != j)) {
+					allFields = false;
+				}
+			}
+		}
+
+		if (! allFields) {
+//			allSelected = false;
+			if (fieldInc != null && idx < fieldInc.length && fieldInc[idx] != null) {
+				rec.fields = new String[fieldInc[idx].length];
+				for (j = 0; j < fieldInc[idx].length; j++) {
+					//rec.fields[j]= recordDetail.getField(fieldInc[i][j]).getName();
+					rec.fields[j]= recordDetail.getField(layout.getAdjFieldNumber(idx, fieldInc[idx][j])).getName();
+				}
+			} else {
+				rec.fields = new String[recordDetail.getFieldCount()];
+				for (j = 0; j < rec.fields.length; j++) {
+					rec.fields[j]= recordDetail.getField(j).getName();
+				}
+			}
+		}
+
+		if (filterType == FT_GROUP) {
+			rec.include = isInclude(idx);
+			rec.inGroup = isInGroup(idx);
+		}
+		return rec;
     }
 
 
@@ -447,15 +556,19 @@ public class FilterDetails {
     public final void updateFromExternalLayout(Layout values) {
     	int i, j, k, idx;
     	Record rec;
+		FilterField filterFld;
+		FieldTest tst;
+		int start = 0 ;
 
 
-	    op = Common.BOOLEAN_OPERATOR_AND;
-	    normalFilter = true;
+//	    op = Common.BOOLEAN_OPERATOR_AND;
+	    filterType = FT_NORMAL;
     	if (values.groupHeader != null && ! "".equals(values.groupHeader)) {
 	    	groupHeader = layout.getRecordIndex(values.groupHeader);
-	    	normalFilter = groupHeader < 0;
-	    	if (values.booleanOperator.equalsIgnoreCase(Common.BOOLEAN_OR_STRING)) {
-	    		op = Common.BOOLEAN_OPERATOR_OR;
+
+	    	if (groupHeader >= 0) {
+	    		filterType = FT_GROUP;
+	    		start = 1;
 	    	}
     	}
 
@@ -466,10 +579,15 @@ public class FilterDetails {
 			for (i = 0; i < recordNo.length; i++) {
 				String s = layout.getRecord(i).getRecordName();
 				recordNo[i] = -1;
-				for (j = 0; j < values.records.size(); j++) {
+				for (j = start; j < values.records.size(); j++) {
 					rec = values.records.get(j);
 					if (rec.name.equalsIgnoreCase(s)) {
-						recordNo[i] = 0;
+						if (rec.include == null || rec.include) {
+							recordNo[i] = 0;
+						}
+						if (inGroup != null) {
+							inGroup[i] = rec.inGroup == null || rec.inGroup;
+						}
 						if (rec.fields == null || rec.fields.length == 0) {
 							fields[i] = null;
 						} else {
@@ -482,13 +600,12 @@ public class FilterDetails {
 						}
 
 						if (rec.fieldTest != null && rec.fieldTest.size() > 0) {
-							FilterField filterFld;
 							@SuppressWarnings("rawtypes")
 							AbstractRecordDetail recDtl = layout.getRecord(i);
-							FieldTest tst;
+
 							for (k = 0; k < rec.fieldTest.size(); k++) {
 								tst = rec.fieldTest.get(k);
-								filterFld = new FilterField();
+								filterFld = new FilterField(filterType == FT_GROUP);
 								filterFld.setFieldNumber(recDtl.getFieldIndex(tst.fieldName));
 								filterFld.setOperator(Compare.getOperator(tst.operator));
 								filterFld.setValue(tst.value);
@@ -505,7 +622,28 @@ public class FilterDetails {
 					}
 				}
 			}
+		}
 
+		if (filterType == FT_GROUP && values.records != null && values.records.size() >= 0
+		&& values.records.get(0).fieldTest != null) {
+			int recNo;
+			for (k = 0; k < values.records.get(0).fieldTest.size(); k++) {
+				tst = values.records.get(0).fieldTest.get(k);
+				recNo = layout.getRecordIndex(tst.recordName);
+				filterFld = FilterField.newGroupFilterFields();
+				if (recNo >= 0) {
+					filterFld.setFieldNumber(recNo, layout.getRecord(recNo).getFieldIndex(tst.fieldName));
+				}
+				filterFld.setOperator(Compare.getOperator(tst.operator));
+				filterFld.setValue(tst.value);
+				filterFld.setGrouping(tst.groupOperator);
+
+				if ("Or".equalsIgnoreCase(tst.booleanOperator)) {
+					filterFld.setBooleanOperator(Common.BOOLEAN_OPERATOR_OR);
+				}
+
+				filterFields.setFilterField(0, k, filterFld);
+			}
 		}
     }
 
@@ -689,7 +827,6 @@ public class FilterDetails {
 		return ret;
 	}
 
-
     /**
      * Table model to display records
      *
@@ -697,63 +834,49 @@ public class FilterDetails {
      *
      */
     @SuppressWarnings("serial")
-	private class LayoutList extends AbstractTableModel {
+	private abstract class BaseLayoutList extends AbstractTableModel {
+
+    	private final String[] layoutColumnHeadings ;
 
 
-        /**
+        public BaseLayoutList(String[] layoutColumnHeadings) {
+			super();
+			this.layoutColumnHeadings = layoutColumnHeadings;
+		}
+
+
+		/**
          * @see javax.swing.table.TableModel#getColumnCount
          */
-        public int getColumnCount() {
-            return LAYOUT_COLUMN_HEADINGS.length;
+        public final int getColumnCount() {
+            return layoutColumnHeadings.length;
         }
 
 
         /**
          * @see javax.swing.table.TableModel#getColumnName
          */
-        public String getColumnName(int columnIndex) {
-        	if (twoLayouts && columnIndex == 1) {
-        		return LangConversion.convert(LangConversion.ST_COLUMN_HEADING, "Equivalent Record");
-        	}
-            return LAYOUT_COLUMN_HEADINGS[columnIndex];
+        public final String getColumnName(int columnIndex) {
+//        	if (twoLayouts && columnIndex == 1) {
+//        		return LangConversion.convert(LangConversion.ST_COLUMN_HEADING, "Equivalent Record");
+//        	}
+            return layoutColumnHeadings[columnIndex];
         }
 
 
         /**
          * @see javax.swing.table.TableModel#getRowCount
          */
-        public int getRowCount() {
+        public final int getRowCount() {
              return layout.getRecordCount();
-        }
-
-
-        /**
-         * @see javax.swing.table.TableModel#getValueAt
-         */
-        public Object getValueAt(int rowIndex, int columnIndex) {
-
-            if (columnIndex == INCLUDE_INDEX) {
-	        	if (twoLayouts) {
-	        		//return Integer.valueOf(recordNo[rowIndex]);
-	        		if (recordNo[rowIndex] < 0) {
-	        			return recordOptions[0];
-	        		} else if (recordNo[rowIndex] + 1 >= recordOptions.length ) {
-	        			return null;
-	        		}
-	        		return recordOptions[recordNo[rowIndex] + 1];
-	        	}
-
-                return Boolean.valueOf(recordNo[rowIndex] >= 0);
-            }
-            return layout.getRecord(rowIndex).getRecordName();
         }
 
 
         /**
          * @see javax.swing.table.TableModel#isCellEditable
          */
-        public boolean isCellEditable(int rowIndex, int columnIndex) {
-            return columnIndex == INCLUDE_INDEX;
+        public final boolean isCellEditable(int rowIndex, int columnIndex) {
+            return columnIndex >= INCLUDE_INDEX;
         }
 
 
@@ -808,7 +931,116 @@ public class FilterDetails {
             	recordNo[rowIndex] = 0;
             }
         }
+
+    }
+
+    /**
+     * Table model to display records
+     *
+     * @author Bruce Martin
+     *
+     */
+    @SuppressWarnings("serial")
+	private class LayoutList extends BaseLayoutList {
+
+        public LayoutList() {
+			super(LAYOUT_COLUMN_HEADINGS);
+		}
+
+
+        /**
+         * @see javax.swing.table.TableModel#getValueAt
+         */
+        public Object getValueAt(int rowIndex, int columnIndex) {
+
+            if (columnIndex == INCLUDE_INDEX) {
+                return Boolean.valueOf(recordNo[rowIndex] >= 0);
+            }
+            return layout.getRecord(rowIndex).getRecordName();
+        }
      }
+
+    /**
+     * Table model to display records whith 2 layouts
+     *
+     * @author Bruce Martin
+     *
+     */
+    @SuppressWarnings("serial")
+	private class TwoLayoutList extends BaseLayoutList {
+
+        public TwoLayoutList() {
+			super(TWO_LAYOUT_COLUMN_HEADINGS);
+		}
+
+
+
+        /**
+         * @see javax.swing.table.TableModel#getValueAt
+         */
+        public Object getValueAt(int rowIndex, int columnIndex) {
+
+            if (columnIndex == INCLUDE_INDEX) {
+        		if (recordNo[rowIndex] < 0) {
+        			return recordOptions[0];
+        		} else if (recordNo[rowIndex] + 1 >= recordOptions.length ) {
+        			return null;
+        		}
+        		return recordOptions[recordNo[rowIndex] + 1];
+            }
+            return layout.getRecord(rowIndex).getRecordName();
+        }
+      }
+
+    /**
+     * Table model to display records whith 2 layouts
+     *
+     * @author Bruce Martin
+     *
+     */
+    @SuppressWarnings("serial")
+	private class GroupLayoutList extends BaseLayoutList {
+
+        public GroupLayoutList() {
+			super(LAYOUT_GROUP_COLUMN_HEADINGS);
+		}
+
+
+
+        /**
+         * @see javax.swing.table.TableModel#getValueAt
+         */
+        public Object getValueAt(int rowIndex, int columnIndex) {
+
+            switch (columnIndex) {
+            case IN_GROUP_INDEX:
+            	return Boolean.valueOf(inGroup[rowIndex]);
+            case GROUP_INCLUDE_INDEX:
+            	return Boolean.valueOf(recordNo[rowIndex] >= 0);
+            }
+            return layout.getRecord(rowIndex).getRecordName();
+        }
+
+
+
+		/* (non-Javadoc)
+		 * @see net.sf.RecordEditor.re.file.filter.FilterDetails.BaseLayoutList#setValueAt(java.lang.Object, int, int)
+		 */
+		@Override
+		public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+			if (columnIndex == IN_GROUP_INDEX) {
+				if (aValue instanceof Boolean) {
+					inGroup[rowIndex] = ((Boolean) aValue).booleanValue();
+				}
+			} else {
+				super.setValueAt(aValue, rowIndex, columnIndex);
+			}
+		}
+
+
+      }
+
+// ---------------------------------------------------------------------------------
 
 
 	private String standardiseName(String name) {

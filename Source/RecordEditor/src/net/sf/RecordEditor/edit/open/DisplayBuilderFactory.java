@@ -86,7 +86,7 @@ public class DisplayBuilderFactory implements IDisplayBuilder {
 		for (i = builders.size() - 1; disp == null && i >= 0; i--) {
 			disp = builders.get(i).newDisplay(screenType, screenName, parentFrame, group, viewOfFile, lineNo);
 		}
-		System.out.println("== getDisplay " + screenType + " " + i);
+		//System.out.println("== getDisplay " + screenType + " " + i);
 
 		return disp;
 	}

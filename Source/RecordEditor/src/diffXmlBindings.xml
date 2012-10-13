@@ -34,13 +34,14 @@
 		<structure field="layoutDetails"  usage="optional"/>
 	</mapping>
 	<mapping name="layout" class="net.sf.RecordEditor.jibx.compare.Layout">
-		<value style="attribute" name="name" field="name"/>
+		<value style="attribute" name="name"        field="name"/>
 		<value style="attribute" name="groupHeader" field="groupHeader" usage="optional"/>
-		<value style="attribute" name="booleanOperator" field="booleanOperator" usage="optional"/>
-		<collection field="records"  usage="optional"/>
+		<collection field="records"            usage="optional"/>
 	</mapping>
 	<mapping name="record" class="net.sf.RecordEditor.jibx.compare.Record">
-		<value style="attribute" name="name" field="name"/>
+		<value style="attribute" name="name" field="name" />
+		<value style="attribute" name="include" field="include"     usage="optional"/>
+		<value style="attribute" name="inGroup" field="inGroup"     usage="optional"/>
 		<collection field="fields"  usage="optional">
 		   <value  name="field"/>
 		</collection>
@@ -56,9 +57,11 @@
 		</collection>
 	</mapping>
 	<mapping name="FieldTest" class="net.sf.RecordEditor.jibx.compare.FieldTest">
-		<value style="attribute" name="fieldName" field="fieldName"/>
-		<value style="attribute" name="operator"  field="operator"/>
-		<value style="attribute" name="value"     field="value"/>
+		<value style="attribute" name="recordName"      field="recordName"       usage="optional"/>
+		<value style="attribute" name="fieldName"       field="fieldName"/>
+		<value style="attribute" name="groupOperator"   field="groupOperator"    usage="optional"/>
+		<value style="attribute" name="operator"        field="operator"/>
+		<value style="attribute" name="value"           field="value"/>
 		<value style="attribute" name="booleanOperator" field="booleanOperator"  usage="optional">
 </value>
 	</mapping>

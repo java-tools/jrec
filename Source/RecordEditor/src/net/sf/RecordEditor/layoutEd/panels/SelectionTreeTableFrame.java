@@ -3,8 +3,6 @@ package net.sf.RecordEditor.layoutEd.panels;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.DefaultCellEditor;
-import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JTable;
 import javax.swing.event.InternalFrameAdapter;
@@ -26,8 +24,9 @@ import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.ButtonTableRendor;
-import net.sf.RecordEditor.utils.swing.ComboBoxRender;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.EnglishComboEditorAdaptor;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.RecordSelOperatorCombo;
 import net.sf.RecordEditor.utils.swing.treeTable.JTreeTable;
 
 @SuppressWarnings("serial")
@@ -124,8 +123,8 @@ public class SelectionTreeTableFrame extends ReFrame {
 		tc = treeTbl.getColumnModel()
 				.getColumn(SelectionTreeTblMdl.SPECIAL_COLUMNS + IntSelectionTest.COLUMN_OPERATOR);
 
-		tc.setCellRenderer(new ComboBoxRender(Common.COMPARISON_OPERATORS));
-		tc.setCellEditor(new DefaultCellEditor(new JComboBox(Common.COMPARISON_OPERATORS)));
+		tc.setCellRenderer(new EnglishComboEditorAdaptor(new RecordSelOperatorCombo()));
+		tc.setCellEditor(new EnglishComboEditorAdaptor(new RecordSelOperatorCombo()));
 
 		this.addInternalFrameListener(new InternalFrameAdapter() {
 

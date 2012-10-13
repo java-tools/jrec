@@ -9,7 +9,6 @@ import javax.swing.JTextArea;
 
 import net.sf.RecordEditor.edit.display.BaseDisplay;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
-import net.sf.RecordEditor.edit.display.extension.IChildScreen;
 import net.sf.RecordEditor.edit.display.extension.PaneDtls;
 import net.sf.RecordEditor.edit.display.extension.RecordSelection;
 import net.sf.RecordEditor.re.file.FileView;
@@ -22,7 +21,6 @@ implements AbstractFileDisplayWithFieldHide {
 
 
 	protected final JTextArea nameTxt     = new JTextArea();
-//	protected final JTextArea descriptionTxt = new JTextArea();
 	protected JEditorPane descriptionTxt = new JEditorPane("text", "");
 	protected JEditorPane htmlEdt = new JEditorPane("text/html", "");
 

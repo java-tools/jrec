@@ -8,29 +8,32 @@ import net.sf.JRecord.Details.AbstractLine;
 
 public interface AbstractLineNode extends MutableTreeNode {
 
-	
+
 	/**
-	 * insert a child 
+	 * insert a child
 	 * @param child child to insert
 	 */
 	public void add(MutableTreeNode child);
-	
+
 	/**
 	 * Get the record definition
 	 * @return record definition
 	 */
+	@SuppressWarnings("rawtypes")
 	public abstract AbstractLayoutDetails getLayout();
 
 	/**
 	 * Get the record (line)
 	 * @return record (line)
 	 */
+	@SuppressWarnings("rawtypes")
 	public abstract AbstractLine getLine();
 
 	/**
 	 * Get the view being displayed
 	 * @return view being displayed
 	 */
+	@SuppressWarnings("rawtypes")
 	public abstract FileView getView();
 
 	/**
@@ -38,7 +41,7 @@ public interface AbstractLineNode extends MutableTreeNode {
 	 * @param summaryLine new summary line
 	 * @param fieldName
 	 */
-	public abstract void setSummaryLine(AbstractLine summaryLine,
+	public abstract void setSummaryLine(@SuppressWarnings("rawtypes") AbstractLine summaryLine,
 			String fieldName);
 
 	/**
@@ -52,47 +55,48 @@ public interface AbstractLineNode extends MutableTreeNode {
 	 * @return
 	 */
 	public abstract TreeNode[] 	getPath();
-	
+
 	/**
 	 * get the default line number
 	 * @return default line number
 	 */
 	public int getDefaultLineNumber();
-	
+
 	/**
-	 * Get the line number 
-	 * @return line number 
+	 * Get the line number
+	 * @return line number
 	 */
 	public int getLineNumber();
-	
+
 	/**
-	 * 
+	 *
 	 * @return SortValue
 	 */
 	public abstract String getSortValue();
-	
+
 	/**
 	 * Remove line from parent
 	 */
 	public void removeFromParent();
-	
+
 	/**
 	 * add a line as a child node to this node
 	 * @param line line to insert
 	 * @param lineNumber line number of the line
 	 * @param pos position to insert at (negative = at the end)
 	 */
-	public <X extends AbstractLineNode> X insert(AbstractLine line, int lineNumber, int pos);
+	public <X extends AbstractLineNode> X insert(
+			@SuppressWarnings("rawtypes") AbstractLine line, int lineNumber, int pos);
 
 	/**
 	 * remove all children from a node
 	 */
 	public void removeAllChildren();
 
-	
+
 	/**
 	 * Create a new node at the specified location and return to the calling program
-	 * 
+	 *
 	 * @param location to insert the new node
 	 * @param nodeName node name
 	 * @param fileView file it pertains to
@@ -101,5 +105,6 @@ public interface AbstractLineNode extends MutableTreeNode {
 	 */
 	public AbstractLineNode insertNode(
 			int location, String nodeName,
-			FileView fileView, AbstractLine theLine);
+			@SuppressWarnings("rawtypes") FileView fileView,
+			@SuppressWarnings("rawtypes") AbstractLine theLine);
 }

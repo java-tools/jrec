@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.sf.JRecord.Common.AbstractIndexedLine;
 import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IEmptyTest;
 import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
 
 public abstract class FieldSelect extends ExternalFieldSelection implements RecordSel {
@@ -15,6 +16,33 @@ public abstract class FieldSelect extends ExternalFieldSelection implements Reco
 	public FieldSelect(String name, String value, String op, IGetValue getValue) {
 		super(name, value, op);
 		this.getValue = getValue;
+		if (getValue == null) {
+			this.getValue = new IGetValue() {
+
+				@Override
+				public boolean isNumeric() {
+					return false;
+				}
+
+				@Override
+				public Object getValue(List<? extends AbstractIndexedLine> lines) {
+					return null;
+				}
+
+				@Override
+				public Object getValue(AbstractIndexedLine line) {
+					return null;
+				}
+
+				/* (non-Javadoc)
+				 * @see net.sf.JRecord.detailsSelection.IGetValue#isIncluded(net.sf.JRecord.Common.AbstractIndexedLine)
+				 */
+				@Override
+				public boolean isIncluded(AbstractIndexedLine line) {
+					return false;
+				}
+			};
+		}
 	}
 
 
@@ -54,9 +82,24 @@ public abstract class FieldSelect extends ExternalFieldSelection implements Reco
 
 
 
-	public final boolean isSelected(List<AbstractIndexedLine> lines) {
+	public final boolean isSelected(List<? extends AbstractIndexedLine> lines) {
 		return isSelected(getValue.getValue(lines));
 	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.detailsSelection.RecordSel#isIncluded(net.sf.JRecord.Common.AbstractIndexedLine)
+	 */
+	@Override
+	public boolean isIncluded(AbstractIndexedLine line) {
+		//if (isIncluded(line)) {
+		return getValue.isIncluded(line);
+		//}
+		//return false;
+	}
+
+
+
 
 
 	/* (non-Javadoc)
@@ -131,6 +174,26 @@ public abstract class FieldSelect extends ExternalFieldSelection implements Reco
 					&& (o.toString().startsWith(getFieldValue()));
 			}
 			return (o.toString().toLowerCase().startsWith(getFieldValue()));
+		}
+	}
+
+	public static class Empty extends FieldSelect {
+
+		protected Empty(String name, String value, IGetValue fieldDef) {
+			super(name, value, "Doesnt_Contain", fieldDef);
+		}
+
+
+
+		/* (non-Javadoc)
+		 * @see net.sf.JRecord.Details.Selection.RecordSelection#isSelected(net.sf.JRecord.Details.AbstractLine)
+		 */
+		@Override
+		public boolean isSelected(Object o) {
+			return o == null
+				|| o.toString() == null
+				|| "".equals(o.toString().trim())
+				|| (o instanceof IEmptyTest && ((IEmptyTest) o).isEmpty());
 		}
 	}
 

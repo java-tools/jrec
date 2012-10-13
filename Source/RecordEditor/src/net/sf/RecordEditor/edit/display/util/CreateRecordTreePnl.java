@@ -8,10 +8,10 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
+import net.sf.RecordEditor.edit.util.ReMessages;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
 import net.sf.RecordEditor.jibx.compare.RecordParent;
 import net.sf.RecordEditor.jibx.compare.RecordTree;
-import net.sf.RecordEditor.utils.common.AbstractSaveDetails;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.RecordList;
 import net.sf.RecordEditor.utils.lang.LangConversion;
@@ -22,10 +22,11 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBoxRender;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
-import net.sf.RecordEditor.utils.swing.SaveButton;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.saveRestore.ISaveUpdateDetails;
+import net.sf.RecordEditor.utils.swing.saveRestore.SaveLoadPnl;
 
-public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
+public class CreateRecordTreePnl  implements ISaveUpdateDetails<EditorTask> {
 
 	private static final int PARENT_INDEX     = 1;
 	public static final Integer BLANK_PARENT = Integer.valueOf(-1);
@@ -123,9 +124,11 @@ public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
 		panel.setComponentName(recordTbl, "Recs");
 
 		if (addSave) {
-			SaveButton<EditorTask> saveBtn = new SaveButton<EditorTask>(this,
-					Parameters.getFileName(Parameters.RECORD_TREE_SAVE_DIRECTORY));
-			panel.addLine("", saveBtn, execute);
+			SaveLoadPnl<EditorTask> saveLoad = new SaveLoadPnl<EditorTask>(
+					this, Parameters.getFileName(Parameters.RECORD_TREE_SAVE_DIRECTORY), EditorTask.class);
+
+
+			panel.addLine("", saveLoad.panel, SwingUtils.getPanelWith(execute));
 		}
 		panel.setGap(BasePanel.GAP2);
 
@@ -141,7 +144,7 @@ public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
 
 
 	/**
-	 * @see net.sf.RecordEditor.utils.common.AbstractSaveDetails#getSaveDetails()
+	 * @see net.sf.RecordEditor.utils.swing.saveRestore.ISaveDetails#getSaveDetails()
 	 */
 	@Override
 	public final EditorTask getSaveDetails() {
@@ -169,6 +172,22 @@ public class CreateRecordTreePnl  implements AbstractSaveDetails<EditorTask> {
 		}
 		return (new EditorTask())
 					.setRecordTree(layout.getLayoutName(), tree);
+	}
+
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.swing.saveRestore.IUpdateDetails#update(java.lang.Object)
+	 */
+	@Override
+	public void update(EditorTask serialisedData) {
+
+		if (serialisedData == null || serialisedData.recordTree == null) {
+			Common.logMsgRaw(ReMessages.NOT_A_RECORD_TREE.get(), null);
+		} else {
+			setFromSavedDetails(serialisedData.recordTree);
+			recordMdl.fireTableDataChanged();
+		}
 	}
 
 	/**

@@ -163,6 +163,7 @@ public class SplitPaneRecord implements TableModelListener {
 	/**
 	 * @return the line
 	 */
+	@SuppressWarnings("rawtypes")
 	public AbstractLine getLine() {
 		return line;
 	}
@@ -286,7 +287,7 @@ public class SplitPaneRecord implements TableModelListener {
 			}
 
 			for (PaneDtls p : fields) {
-				if (p.fieldDef != null && ! p.isHtml) {
+				if (p.fieldDef != null && (! p.isHtml) && p.fieldDef.fieldIdx >= 0) {
 					if (p.isVisible()) {
 						b[p.fieldDef.fieldIdx] = true;
 					}
@@ -301,7 +302,9 @@ public class SplitPaneRecord implements TableModelListener {
 
 		if (recordIndex == 0 && line != null) {
 			for (PaneDtls p : fields) {
-				p.setVisible(fieldVisibility[p.fieldDef.fieldIdx]);
+				if (p.fieldDef.fieldIdx >= 0) {
+					p.setVisible(fieldVisibility[p.fieldDef.fieldIdx]);
+				}
 //				if (p.fieldDef != null && ! p.isHtml) {
 //					MultiSplitLayout.Node n = splitPane.getMultiSplitLayout().getNodeForName(p.name);
 //					if (n != null) {

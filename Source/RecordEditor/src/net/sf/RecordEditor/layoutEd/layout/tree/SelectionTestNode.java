@@ -2,10 +2,12 @@ package net.sf.RecordEditor.layoutEd.layout.tree;
 
 
 import net.sf.RecordEditor.re.db.Record.RecordSelectionRec;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 
 @SuppressWarnings("serial")
 public class SelectionTestNode extends BaseNode {
 
+	private final String AND = LangConversion.convert(LangConversion.ST_MESSAGE, "And");
 	private final RecordSelectionRec selection;
 	private final int index;
 	public SelectionTestNode(int index, RecordSelectionRec selection) {
@@ -25,7 +27,7 @@ public class SelectionTestNode extends BaseNode {
 		String s = "";
 		if (index == 0) {
 			if (idx == 0) {
-				s = "And";
+				s = AND;
 			}
 		} else if (idx > 0) {
 			s = selection.getField(idx - 1).toString();

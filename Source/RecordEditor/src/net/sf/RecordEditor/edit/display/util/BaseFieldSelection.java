@@ -24,12 +24,12 @@ import javax.swing.table.TableColumnModel;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.RecordEditor.edit.display.models.SortFieldMdl;
+import net.sf.RecordEditor.edit.util.ReMessages;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
 import net.sf.RecordEditor.jibx.compare.SortTree;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.re.tree.FieldSummaryDetails;
-import net.sf.RecordEditor.utils.common.AbstractSaveDetails;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.lang.LangConversion;
@@ -41,12 +41,13 @@ import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
 import net.sf.RecordEditor.utils.swing.ComboBoxRender;
-import net.sf.RecordEditor.utils.swing.SaveButton;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.saveRestore.ISaveUpdateDetails;
+import net.sf.RecordEditor.utils.swing.saveRestore.SaveLoadPnl;
 
 @SuppressWarnings("serial")
 public abstract class BaseFieldSelection extends ReFrame
-implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
+implements ListSelectionListener, ISaveUpdateDetails<EditorTask> {
 
 //	protected static final int RECORD_LIST_HEIGHT = SwingConstants.TABLE_ROW_HEIGHT * 18;
 //	protected static final int FIELD_TABLE_HEIGHT = SwingConstants.TABLE_ROW_HEIGHT * 8;
@@ -71,9 +72,11 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 	protected AbstractFileDisplay source;
 	protected SortFieldSummaryMdl summaryMdl;
 
-	private SaveButton<EditorTask> saveBtn
-				= new SaveButton<EditorTask>(this,
-						Parameters.getFileName(Parameters.SORT_TREE_SAVE_DIRECTORY));
+	private SaveLoadPnl<EditorTask> saveLoadPnl = new SaveLoadPnl<EditorTask>(
+			this, Parameters.getFileName(Parameters.SORT_TREE_SAVE_DIRECTORY), EditorTask.class);
+//	private SaveButton<EditorTask> saveBtn
+//				= new SaveButton<EditorTask>(this,
+//						Parameters.getFileName(Parameters.SORT_TREE_SAVE_DIRECTORY));
 
 
 	private KeyAdapter listner = new KeyAdapter() {
@@ -163,7 +166,9 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 		pnlBottom.addLine("Use", whatToSelect);
 		pnlBottom.setGap(BasePanel.GAP0);
 
-		pnlBottom.addLine("", saveBtn, executeBtn);
+		JPanel p = new JPanel();
+		p.add(executeBtn);
+		pnlBottom.addLine("", saveLoadPnl.panel, p);
 		pnlBottom.setGap(3);
 
 		pnl.add(BorderLayout.CENTER, new JScrollPane(pnlTop));
@@ -397,6 +402,23 @@ implements ListSelectionListener, AbstractSaveDetails<EditorTask> {
 					.setSortTree(fileView.getLayout().getLayoutName(),sortTree);
 		}
 		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.swing.saveRestore.IUpdateDetails#update(java.lang.Object)
+	 */
+	@Override
+	public void update(EditorTask serialisedData) {
+
+		if (serialisedData == null || serialisedData.sortTree == null) {
+			Common.logMsgRaw(ReMessages.NOT_A_SORT.get(), null);
+		} else {
+			setFromSavedDetails(serialisedData);
+			model.fireTableDataChanged();
+			if (summaryMdl !=null) {
+				summaryMdl.fireTableDataChanged();
+			}
+		}
 	}
 
 	/**

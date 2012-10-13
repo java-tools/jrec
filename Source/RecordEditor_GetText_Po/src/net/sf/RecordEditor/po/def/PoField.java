@@ -15,8 +15,8 @@ public class PoField extends FieldDef {
 	public static final PoField extractedComments = new PoField("#. ", "extractedComments", false, false, false, false, false);
 	public static final PoField reference	      = new PoField("#: ", "reference", false, false, false, false, false);
 	public static final PoField flags		      = new PoField("#, ", "flags", false, false, false, false, false);
-	public static final PoField previousMsgctx	  = new PoField("#| msgctxt ", "previousMsgctxt");
-	public static final PoField previousMsgId	  = new PoField("#| msgid", "previousMsgId");
+	public static final PoField previousMsgctx	  = new PoField("#| msgctxt ", "previousMsgctx");
+	public static final PoField previousMsgId	  = new PoField("#| msgid",    "previousMsgId");
 	public static final PoField previousMsgidPlural  = new PoField("#| msgid", "previousMsgidPlural", true, false, true, true, true);
 	public static final PoField fuzzy	          = new PoField(FUZZY);
 	public static final PoField obsolete          = new PoField("obsolete");
@@ -45,7 +45,7 @@ public class PoField extends FieldDef {
 	}
 
 	public PoField(String name, String fieldName) {
-		this(name, PoLayoutMgr.getIndexOf(name), false, false, true, false, true);
+		this(name, PoLayoutMgr.getIndexOf(fieldName), false, false, true, false, true);
 	}
 
 	public PoField(String name,  String fieldName, boolean multLine, boolean repeating,

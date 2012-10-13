@@ -46,7 +46,7 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
     private AbstractLayoutDetails<?, ?> layout;
     private int recordIndex;
     private FieldList fieldMdl;
-    private ReFrame frame;
+    public final ReFrame frame;
 
     private TableModelListener listner = new TableModelListener() {
 
@@ -72,6 +72,8 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
        	view = sourcePnl.getFileView();
     	layout = view.getLayout();
     	recordIndex = sourcePnl.getLayoutIndex();
+		frame = new ReFrame(
+				view.getBaseFile().getFileNameNoDirectory(), "Field Visibility", view.getBaseFile());
     	if (recordIndex > layout.getRecordCount() || recordIndex < 0) {
     		return;
     	} else if (recordIndex == layout.getRecordCount()) {
@@ -81,8 +83,6 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
 
     	BaseHelpPanel pnl = new BaseHelpPanel();
     	JPanel fieldOptionPanel  = new JPanel();
-		frame = new ReFrame(
-				view.getBaseFile().getFileNameNoDirectory(), "Field Visibility", view.getBaseFile());
 		frame.addCloseOnEsc(pnl);
 
     	saveColSeq.setSelected(false);
@@ -109,7 +109,7 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
 //		pnl.addComponent("", null, goBtn);
 		JPanel p = new JPanel();
 		try {
-			p.add(net.sf.RecordEditor.edit.display.util.SaveRestoreHiddenFields.getSaveButton(sourcePanel, this));
+			p = net.sf.RecordEditor.edit.display.util.SaveRestoreHiddenFields.getSaveLoadPnl(sourcePanel, this);
 		} catch(NoClassDefFoundError nce) {
 		} catch (Exception e) {
 		}
@@ -146,6 +146,15 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
 		return recordIndex;
 	}
 
+    public void updateIncludes(boolean[] fields) {
+
+		int len = Math.min(fields.length, fieldMdl.include.length);
+    	for (int i = 0; i < len; i++) {
+    		fieldMdl.include[i] = fields[i];
+    	}
+
+    	fieldMdl.fireTableDataChanged();
+    }
 	/**
      * Build filtered view of the data
      *

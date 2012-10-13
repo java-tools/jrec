@@ -153,6 +153,7 @@ public interface Constants {
 	public static final String STARTS_WITH  = "Starts With";
 	public static final String DOES_NOT_CONTAIN  = "Doesn't Contain";
 	public static final String CONTAINS  = "Contains";
+	public static final String EMPTY   = "Is Empty";
 	public static final String NUM_EQ  = "= (Numeric)";
 	public static final String NUM_GT  = "> (Numeric)";
 	public static final String NUM_GE  = ">= (Numeric)";
@@ -171,7 +172,7 @@ public interface Constants {
 		STARTS_WITH,  DOES_NOT_CONTAIN,  CONTAINS,
 		NUM_EQ,   NUM_GT,   NUM_GE,   NUM_LT,   NUM_LE,
 		TEXT_EQ,  TEXT_GT,  TEXT_GE,  TEXT_LT,  TEXT_LE,
-		NUM_NE,   TEXT_NE
+		NUM_NE,   TEXT_NE, EMPTY
 	};
 
 }

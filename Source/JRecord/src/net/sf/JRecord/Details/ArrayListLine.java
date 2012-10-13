@@ -27,13 +27,16 @@ implements AbstractLine<Layout> {
 //NullTreeDtls.STANDCopyOfSimpleLineARD_NULL_DETAILS;
 	//children = null;
 
+	private final int fieldStartingPos;
+
 	@SuppressWarnings("rawtypes")
 	private static HashMap<Class, AbstractTreeDetails> nullTrees = new HashMap<Class, AbstractTreeDetails>(5);
 
-   public ArrayListLine(Layout layoutDetails, int recordIdx) {
+   public ArrayListLine(Layout layoutDetails, int recordIdx, int fieldStartingPosition) {
 	    layout =layoutDetails;
 	    newRecord = recordIdx < 0;
 	    preferredLayout = recordIdx;
+	    fieldStartingPos = fieldStartingPosition;
 
 	    fields.add("");
 
@@ -73,7 +76,7 @@ implements AbstractLine<Layout> {
 
 	        if (! (ret instanceof ArrayListLine)) {
 	        	ArrayListLine<FieldDef, RecordDef, Layout> line
-	        			= new ArrayListLine<FieldDef, RecordDef, Layout>(layout, preferredLayout);
+	        			= new ArrayListLine<FieldDef, RecordDef, Layout>(layout, preferredLayout, fieldStartingPos);
 	        	for (int i = 0; i < fields.size(); i++) {
 	//        		Object o = fields.get(i);
 	//        		if (o != null
@@ -113,7 +116,7 @@ implements AbstractLine<Layout> {
 	 */
 	public Object getField(FieldDetail field) {
 		if (field == null) return null;
-	    return getFieldRaw(preferredLayout, field.getPos());
+	    return getFieldRaw(preferredLayout, field.getPos() - fieldStartingPos);
 	}
 
 	/**
@@ -366,7 +369,6 @@ implements AbstractLine<Layout> {
 
 	@Override
 	public <L extends AbstractLine> L getNewDataLine() {
-		// TODO Auto-generated method stub
 		return (L) clone();
 	}
 

@@ -15,6 +15,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.MissingResourceException;
@@ -55,6 +56,11 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String LAST_SCREEN_HEIGHT  = "lastScreenHeight";
     public static final String SCREEN_START_WIDTH  = "ScreenStartWidth";
     public static final String SCREEN_START_HEIGHT = "ScreenStartHeight";
+
+    public static final String PO_EDIT_OPEN_FUZZY_VIEW  = "PoFuzzyView";
+    public static final String PO_EDIT_CHILD_SCREEN_POS = "PoChildPos";
+    public static final String CHILD_SCREEN_RIGHT = "R";
+    public static final String CHILD_SCREEN_BOTTOM = "B";
 
     public static final String PROPERTY_COPYBOOK_NAME_PREFIX  = "CopybookLoaderName.";
     public static final String PROPERTY_COPYBOOK_CLASS_PREFIX = "CopybookloaderClass.";
@@ -114,7 +120,8 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String COMPARE_SAVE_DIRECTORY  = "CompareSaveDirectory";
     public static final String COMPARE_SAVE_FILE  	   = "CompareSaveFile";
     public static final String FILTER_SAVE_DIRECTORY   = "FilterSaveDirectory";
-    public static final String HIDDEN_FIELDS_SAVE_DIRECTORY   = FILTER_SAVE_DIRECTORY;
+    public static final String FIELD_SAVE_DIRECTORY    = "FieldSaveDirectory";
+//    public static final String HIDDEN_FIELDS_SAVE_DIRECTORY   = FILTER_SAVE_DIRECTORY;
     public static final String SORT_TREE_SAVE_DIRECTORY   = "SortTreeSaveDirectory";
     public static final String RECORD_TREE_SAVE_DIRECTORY = "RecordTreeSaveDirectory";
 
@@ -194,6 +201,8 @@ public final class Parameters implements ExternalReferenceConstants {
 
 	private static ArrayList<AParameterChangeListner> paramChangeListners = new ArrayList<AParameterChangeListner>(3);
 
+	private static final HashMap<String, String> defaultValues = new HashMap<String, String>();
+
 	public static boolean savePropertyChanges = true;
 
 	static {
@@ -218,6 +227,8 @@ public final class Parameters implements ExternalReferenceConstants {
 		for (String s : defTrueKeys) {
 			defaultTrue.add(s);
 		}
+
+		defaultValues.put(FIELD_SAVE_DIRECTORY, "<reproperties>/User/Fields/*");
 	}
 
 
@@ -356,6 +367,11 @@ public final class Parameters implements ExternalReferenceConstants {
 		    if (s == null) {
 		        s = getResourceString(key);
 		    }
+
+		    if (s == null && defaultValues.containsKey(key)) {
+		    	s = defaultValues.get(key);
+		    }
+
 			//System.out.println("Get Variable " + key + " --> " + s);
 			return s;
 		} catch (Exception e) {

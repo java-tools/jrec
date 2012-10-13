@@ -347,23 +347,29 @@ public class ReMainFrame extends JFrame
         if (className != null && ! "".equals(className)) {
             try {
                 @SuppressWarnings("rawtypes")
-				Class c = ClassLoader.getSystemClassLoader().loadClass(className);
+				Class c = ReMainFrame.class.getClassLoader().loadClass(className);
                 if (c != null) {
                 	c.newInstance();
-                } else if (errorMsg != null) {
-                    Common.logMsg(
-                    		AbsSSLogger.ERROR,
-                    		errorMsg,
-                            null,
-                            null);
+                } else {
+                	System.out.println("Could not load: " + className);
+                	if (errorMsg != null) {
+	                    Common.logMsg(
+	                    		AbsSSLogger.ERROR,
+	                    		errorMsg,
+	                            null,
+	                            null);
+	                }
                 }
-            } catch (Exception e) {
+	        } catch (Exception e) {
             	 if (errorMsg != null) {
             		 Common.logMsg(
             				 AbsSSLogger.ERROR,
             				 errorMsg,
             				 e.getMessage(),
             				 null);
+            	 } else {
+            		 System.out.println("Error loading: " + className);
+            		 e.printStackTrace();
             	 }
             }
         }
@@ -563,6 +569,14 @@ public class ReMainFrame extends JFrame
 					new showURI(
 							"RecordEditor Manual",
 							(new File(Common.formatHelpURL("RecordEdit.htm").substring(5))).toURI()));
+			helpMenu.add(
+					new showURI(
+							"RecordEditor How To",
+							(new File(Common.formatHelpURL("HowTo.htm").substring(5))).toURI()));
+			helpMenu.add(
+					new showURI(
+							"RecordEditor Documentation",
+							(new File(Common.formatHelpURL("Documents.htm").substring(5))).toURI()));
 			helpMenu.addSeparator();
 			helpMenu.add(new showURI("RecordEditor Web Page", new URI("http://record-editor.sourceforge.net/")));
 			helpMenu.add(new showURI("RecordEditor Forum", new URI("https://sourceforge.net/projects/record-editor/forums")));

@@ -70,7 +70,7 @@ import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
 import net.sf.RecordEditor.utils.swing.HelpWindow;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
-import net.sf.RecordEditor.utils.swing.Combo.ComboObjOption;
+import net.sf.RecordEditor.utils.swing.Combo.ComboKeyedOption;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimiterCombo;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.KeyedComboMdl;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.RecordSepCombo;
@@ -864,7 +864,7 @@ public class RecordPnl extends BaseHelpPanel
 		dbChildModel = new ChildRecordsTblMdl(
 				dbChildTbl,
 				new KeyedComboMdl<Integer>(
-						new ComboObjOption<Integer>(-1, "", null)));
+						new ComboKeyedOption<Integer>(-1, "", null)));
 		dbChildModel.setEmptyColumns(2);
 
 		dbChildModel.setCellEditable(true);

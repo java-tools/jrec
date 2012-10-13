@@ -13,6 +13,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -20,6 +21,7 @@ import javax.swing.UIManager;
 
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.params.IHasKey;
 
 
 public class SwingUtils {
@@ -169,6 +171,25 @@ public class SwingUtils {
 
 	}
 
+	public static void setCombo(JComboBox combo, Object value) {
+
+		combo.setSelectedItem(value);
+
+		if (value != null && ! value.equals(combo.getSelectedItem())) {
+			Object o;
+			for (int i = 0; i < combo.getItemCount(); i++) {
+				o = combo.getItemAt(i);
+				if (o != null
+				&& (   o.equals(value)
+					|| (   o instanceof IHasKey
+						&& ((IHasKey) o).getKey().equals(value)))) {
+					combo.setSelectedIndex(i);
+					break;
+				}
+			}
+		}
+
+	}
    /**
      * Get Help button
      *
@@ -204,4 +225,12 @@ public class SwingUtils {
 				LangConversion.convertDesc(LangConversion.ST_TAB, name, "Tab: " + tabId),
 				null, tabComponenet, tip, index);
 	}
+
+	public static JPanel getPanelWith(JComponent c) {
+		JPanel p = new JPanel();
+		p.add(c);
+		return p;
+	}
+
+
 }

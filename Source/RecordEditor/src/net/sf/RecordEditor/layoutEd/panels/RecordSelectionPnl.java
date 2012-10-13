@@ -49,7 +49,7 @@ public class RecordSelectionPnl implements IntRecordSelectPnl {
 
 	private final MouseAdapter mouseListner = new MouseAdapter() {
 
-	      /**
+	    /**
          * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
          */
 		public void mousePressed(MouseEvent m) {

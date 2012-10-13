@@ -143,12 +143,13 @@ public class EditOptions {
 
 
     private Object[][] directoryParams2 = {
-            {Parameters.COMPARE_SAVE_DIRECTORY, "Compare Save Directory",null, EditPropertiesPnl.FLD_DIR, null},
-            {Parameters.FILTER_SAVE_DIRECTORY, "Filter Save Directory", null, EditPropertiesPnl.FLD_DIR, null},
-            {Parameters.SORT_TREE_SAVE_DIRECTORY, "Sort Tree Save Directory", null, EditPropertiesPnl.FLD_DIR, null},
-            {Parameters.RECORD_TREE_SAVE_DIRECTORY, "Record Tree Save Directory", null, EditPropertiesPnl.FLD_DIR, null},
-            {Parameters.COPY_SAVE_DIRECTORY, "Copy Save Directory",null, EditPropertiesPnl.FLD_DIR, null},
-            {Parameters.LAYOUT_EXPORT_DIRECTORY, "Layout Velocity Export Directory",null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.COMPARE_SAVE_DIRECTORY,  "Compare Save Directory",     null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.FILTER_SAVE_DIRECTORY,   "Filter Save Directory",      null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.FIELD_SAVE_DIRECTORY,     "Fields used Save Directory",null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.SORT_TREE_SAVE_DIRECTORY, "Sort Tree Save Directory",  null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.RECORD_TREE_SAVE_DIRECTORY, "Record Tree Save Directory",    null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.COPY_SAVE_DIRECTORY,      "Copy Save Directory",             null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.LAYOUT_EXPORT_DIRECTORY,  "Layout Velocity Export Directory",null, EditPropertiesPnl.FLD_DIR, null},
     };
 
     private String testDescription
@@ -311,6 +312,20 @@ public class EditOptions {
     private EditPropertiesPnl csvPnl
         = new EditPropertiesPnl(params, csvDescription, csvParams);
 
+    private String poDescription
+    	= LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_CsvParams",
+    			"<h2>GetText-Po Properties</h2>"
+    		  + "This panels holds GetText-PO editor specific options<br>");
+
+    String[][] poChildPosOptions = {{Parameters.CHILD_SCREEN_RIGHT, "Right"}, {Parameters.CHILD_SCREEN_BOTTOM, "Bottom"},};
+    private Object[][] poParams = {
+            {Parameters.PO_EDIT_CHILD_SCREEN_POS, "Position of Child Screen", null, EditPropertiesPnl.FLD_LIST, null, poChildPosOptions},
+            {Parameters.PO_EDIT_OPEN_FUZZY_VIEW, "Open Fuzzy / Blank View", null, EditPropertiesPnl.FLD_BOOLEAN, "Open a view containing Just the Fuzzy / Blank translations"},
+    };
+
+
+    private EditPropertiesPnl poPnl
+    	= new EditPropertiesPnl(params, poDescription, poParams);
 
     private EditJdbcParamsPanel jdbcParamsPnl = new EditJdbcParamsPanel(params, params.jdbcJars);
 
@@ -689,7 +704,10 @@ public class EditOptions {
         if (Common.CSV_PROGRAM_ID.equals(getApplId())) {
             addMainTab("Csv Options", csvPnl);
         }
-
+        if (Common.OPTIONS.getTextPoPresent.isSelected()) {
+            addMainTab("Special Formats", poPnl);
+        }
+//poPnl
         addMainTab("Xml", xmlTabbed);
         if (includeJDBC) {
             SwingUtils.addTab(jdbcTabbed, "EditOpts_JDBC","JDBC Jars", jdbcPnl);

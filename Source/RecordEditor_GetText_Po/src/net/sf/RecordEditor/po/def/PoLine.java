@@ -10,11 +10,11 @@ import net.sf.RecordEditor.po.display.MsgstrArray;
 public final class PoLine extends ArrayListLine<FieldDetail, RecordDetail, LayoutDetail> {
 
 	public PoLine() {
-		super(PoLayoutMgr.PO_LAYOUT, 0);
+		super(PoLayoutMgr.PO_LAYOUT, 0, 1);
 	}
 
 	public PoLine(LayoutDetail l) {
-		super(l, 0);
+		super(l, 0, 1);
 	}
 
 //	/* (non-Javadoc)
@@ -42,13 +42,17 @@ public final class PoLine extends ArrayListLine<FieldDetail, RecordDetail, Layou
 		return o;
 	}
 
+	public Object getRawField(int recordIdx, int fieldIdx) {
+		return super.getFieldRaw(recordIdx, fieldIdx);
+	}
+
 	/**
 	 * @see net.sf.JRecord.Details.AbstractLine#getField(net.sf.JRecord.Common.FieldDetail)
 	 */
 	@Override
 	public Object getField(FieldDetail field) {
 		if (field == null) return null;
-	    return getField(preferredLayout, field.getPos());
+	    return getField(preferredLayout, field.getPos() - 1);
 	}
 
 

@@ -55,6 +55,13 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
         }
     };
 
+    InternalFrameAdapter closingAction = new InternalFrameAdapter() {
+
+            public void internalFrameClosing(InternalFrameEvent e)  {
+                 windowClosingCheck();
+            }
+        };
+
 
     public DisplayFrame(BaseDisplay d) {
     	super(d.getFileView().getBaseFile().getFileNameNoDirectory(), d.formType, d.getFileView().getBaseFile());
@@ -66,12 +73,7 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
 
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
-        this.addInternalFrameListener(new InternalFrameAdapter() {
-
-            public void internalFrameClosing(InternalFrameEvent e)  {
-                 windowClosingCheck();
-            }
-        });
+        this.addInternalFrameListener(closingAction);
 
     }
 
@@ -128,6 +130,9 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
     @SuppressWarnings("rawtypes")
     public void windowClosingCheck() {
         boolean doClose = true;
+
+       	this.removeInternalFrameListener(closingAction);
+
         if (mainScreens.size() > 0) {
             BaseDisplay main = mainScreens.get(0);
             FileView fileView = main.getFileView();
@@ -512,7 +517,6 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
      */
     @Override
     public void executeAction(int action) {
-
         executeAction(getActiveIdx(), action);
     }
 

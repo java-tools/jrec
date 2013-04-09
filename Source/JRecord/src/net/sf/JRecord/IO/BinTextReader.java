@@ -5,7 +5,6 @@ import java.io.InputStream;
 
 import net.sf.JRecord.ByteIO.ByteTextReader;
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.CsvParser.BinaryCsvParser;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
@@ -17,14 +16,14 @@ import net.sf.JRecord.Types.Type;
 
 /**
  * This class will read and AbstractLine from a standard Windows/*nix Text file. It is similar in function
- * to <b>TextLineReader</b>, the difference being <b>TextLineReader</b> uses Standard BufferedReader 
- * (String based) Class to the reading and can not handle Hex (i.e. x'FF') values correctly, while this class 
+ * to <b>TextLineReader</b>, the difference being <b>TextLineReader</b> uses Standard BufferedReader
+ * (String based) Class to the reading and can not handle Hex (i.e. x'FF') values correctly, while this class
  * uses streams and is able to handle Hex values. This class is based on <b>ByteTextReader</b>.
  * <p>This class was written to support hex field (x'FF') separators in csv (delimited) files.
- * 
+ *
  * @see TextLineReader
  * @see ByteTextReader
- * 
+ *
  * @author Bruce Martin
  * @version 0.68
  *
@@ -33,10 +32,10 @@ public class BinTextReader extends LineReaderWrapper {
 
 	private String defaultQuote  = "'";
 	private boolean readNames;
-	
+
 	public BinTextReader(LineProvider provider, boolean nameOn1stLine) {
 		super(provider, new ByteTextReader());
-		
+
 		readNames = nameOn1stLine;
 	}
 
@@ -52,7 +51,7 @@ public class BinTextReader extends LineReaderWrapper {
 			byte[] b = super.rawRead();
 			if ((layout instanceof LayoutDetail)
 			&& ((LayoutDetail) layout).useThisLayout()) {
-				
+
 			} else {
 				createLayout(b);
 			}
@@ -69,7 +68,7 @@ public class BinTextReader extends LineReaderWrapper {
      */
     protected void createLayout(byte[] line) throws IOException, RecordException {
         LayoutDetail layout;
-	    
+
         AbstractRecordDetail rec = null;
 	    int fieldType = Type.ftChar;
         int decimal   = 0;
@@ -77,7 +76,7 @@ public class BinTextReader extends LineReaderWrapper {
         int parser    = 0;
         int structure = Constants.IO_NAME_1ST_LINE;
         String param  = "";
-        byte[] delim  = {0}; 
+        byte[] delim  = {0};
         String delimStr = "x'00'";
         String quote  = defaultQuote;
         String font   = "";
@@ -101,12 +100,12 @@ public class BinTextReader extends LineReaderWrapper {
 	        font      = getLayout().getFontName();
 	    } catch (Exception e) {
         }
-	    
+
 	    //System.out.println(" Quote  ->" + quote + " " + (getLayout() == null));
 
-	    layout = createLayout(line, rec, 
+	    layout = createLayout(line, rec,
 	    		recordSep, font,  delim, delimStr,
-                parser, fieldType, decimal, format, 
+                parser, fieldType, decimal, format,
                 param, quote, structure);
 	    //System.out.println(" Quote  ->");
 
@@ -146,11 +145,11 @@ public class BinTextReader extends LineReaderWrapper {
 
         if (line != null) {
             //RecordDetail rec = getLayout().getRecord(0);
-        	
+
         	BinaryCsvParser csvPaser = new BinaryCsvParser(delimiter[0]);
             //String fontName = fontname;
             int len = csvPaser.countTokens(line);
-            FieldDetail[] flds = new FieldDetail[len];
+            RecordDetail.FieldDetails[] flds = new RecordDetail.FieldDetails[len];
             RecordDetail[] recs = new RecordDetail[1];
 
             if (fieldType < 0) {
@@ -160,11 +159,11 @@ public class BinTextReader extends LineReaderWrapper {
             for (i = 0; i < len; i++) {
                 s = csvPaser.getValue(line, i+1, fontName);
                 fldType = fieldType;
-                if (rec != null 
+                if (rec != null
                 && (idx = rec.getFieldIndex(s)) >= 0) {
                 	fldType = rec.getField(idx).getType();
                 }
-                flds[i] = new FieldDetail(s, s, fldType, decimal,
+                flds[i] = new RecordDetail.FieldDetails(s, s, fldType, decimal,
                         fontName, format, param);
                 flds[i].setPosOnly(i + 1);
             }

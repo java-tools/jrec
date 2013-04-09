@@ -453,7 +453,7 @@ public class CopybookToLayout {
         recordList.add(
                 	new RecordDetail(
                 	        holdName, "", "", rt, "", "",
-                	        fontName, fields, 0
+                	        fontName, fields, 0, recordList.size()
 				)
         );
 

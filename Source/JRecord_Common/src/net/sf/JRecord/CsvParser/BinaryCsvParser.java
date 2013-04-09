@@ -1,7 +1,7 @@
 package net.sf.JRecord.CsvParser;
 
 import net.sf.JRecord.Common.Conversion;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 
 /**
  * This class is for working with delimited records where the Delimiter is provided as a byte. As such it will  <ul>
@@ -79,7 +79,7 @@ public class BinaryCsvParser {
 	 * @param field field details
 	 * @return requested fields value
 	 */
-	public String getValue(byte[] record, FieldDetail field) {
+	public String getValue(byte[] record, IFieldDetail field) {
 		return getValue(record,  field.getPos(), field.getFontName());
 	}
 	
@@ -108,7 +108,7 @@ public class BinaryCsvParser {
 		return ret; 
 	}
 	
-	public byte[] updateValue(byte[] record, FieldDetail field, String value) {
+	public byte[] updateValue(byte[] record, IFieldDetail field, String value) {
 		byte[] ret = record;
 		byte[] temp;
 		int i;

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.CsvParser.AbstractParser;
 import net.sf.JRecord.CsvParser.BasicParser;
+import net.sf.JRecord.CsvParser.CsvDefinition;
 import net.sf.JRecord.CsvParser.ParserManager;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
@@ -72,13 +73,12 @@ public class TextLineWriter extends AbstractLineWriter {
      */
     public void write(@SuppressWarnings("rawtypes") AbstractLine line) throws IOException  {
 
-    	@SuppressWarnings("rawtypes")
 		AbstractLayoutDetails layout =  line.getLayout();
 	    String sep = Constants.LINE_SEPERATOR;
 	    if (layout != null) {
 	    	sep = layout.getEolString();
 	    }
-	    
+
 	    if (stdWriter == null) {
 	    	if (layout == null || "".equals(layout.getFontName())) {
 	    		stdWriter = new OutputStreamWriter(outStream);
@@ -86,7 +86,7 @@ public class TextLineWriter extends AbstractLineWriter {
 				stdWriter = new OutputStreamWriter(outStream, layout.getFontName());
 			}
 	        writer = new BufferedWriter(stdWriter, BUFFER_SIZE);
-	    	
+
 	        if (writeNames) {
 	            writeLayout(writer, line.getLayout());
 	        }
@@ -105,7 +105,7 @@ public class TextLineWriter extends AbstractLineWriter {
      * Set the Record Layout
      * @param layout record layout to set
      */
-    public void setLayout(@SuppressWarnings("rawtypes") AbstractLayoutDetails layout) {
+    public void setLayout(AbstractLayoutDetails layout) {
         try {
             if (writeNames && writer != null) {
                 writeLayout(writer, layout);
@@ -123,12 +123,11 @@ public class TextLineWriter extends AbstractLineWriter {
      * @throws IOException any error that occurs
      */
     public void writeLayout(BufferedWriter pWriter,
-            				@SuppressWarnings("rawtypes") AbstractLayoutDetails layout)
+            				AbstractLayoutDetails layout)
     throws IOException {
 
         int i;
 
-        @SuppressWarnings("rawtypes")
 		AbstractRecordDetail rec = layout.getRecord(0);
         AbstractParser parser = ParserManager.getInstance().get(layout.getRecord(0).getRecordStyle());
         String delim = layout.getRecord(0).getDelimiter();
@@ -136,18 +135,18 @@ public class TextLineWriter extends AbstractLineWriter {
         String quote = "";
 
         ArrayList<String> colNames = new ArrayList<String>();
-        
+
         if (parser == null) {
         	parser = BasicParser.getInstance();
         } else if (parser.isQuoteInColumnNames()) {
         	quote = layout.getRecord(0).getQuote();
-        }  
+        }
 
         for (i = 0; i < rec.getFieldCount(); i++) {
         	colNames.add(rec.getField(i).getName());
         }
 
-        pWriter.write(parser.getColumnNameLine(colNames, delim, quote)
+        pWriter.write(parser.getColumnNameLine(colNames, new CsvDefinition(delim, quote))
         		+ layout.getEolString());
 
         writeNames = false;

@@ -24,12 +24,12 @@ public class NewFile {
 	private JTabbedPane tab = new JTabbedPane();
 	private JButton    goBtn	     = SwingUtils.newButton("Create");
 	//private JTextField msgTxt	     = new JTextField();
-	private AbstractLayoutSelection<?> layoutSelect;
+	private AbstractLayoutSelection layoutSelect;
 
 	BaseHelpPanel panel = new BaseHelpPanel();
 
 
-	public NewFile(AbstractLayoutSelection<?> layoutSelection) {
+	public NewFile(AbstractLayoutSelection layoutSelection) {
 
 		layoutSelect = layoutSelection;
 
@@ -92,13 +92,13 @@ public class NewFile {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					AbstractLayoutDetails<?, ?> layout = layoutSelect.getRecordLayout("");
+					AbstractLayoutDetails layout = layoutSelect.getRecordLayout("");
 
 					if (layout == null) {
 						panel.setMessageTxt("Error Retrieving Layout");
 					} else {
-						FileView<?> file = new FileView(
-								new DataStoreStd(layout),
+						FileView file = new FileView(
+								DataStoreStd.newStore(layout),
 								null,
 								null,
 								false);

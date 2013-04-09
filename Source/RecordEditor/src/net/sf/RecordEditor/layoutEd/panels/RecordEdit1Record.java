@@ -62,10 +62,10 @@ public class RecordEdit1Record extends ReFrame implements ReActionHandlerWithSav
 
 	private RecordDB dbRecord = new RecordDB();
 
-	private LayoutConnection callback;
+	private final LayoutConnection callback;
 
 	private int recordIdx = 0;
-	private DBtableModel<ChildRecordsRec> editList;
+	private final DBtableModel<ChildRecordsRec> editList;
 //	private DBtableModel<ChildRecordsRec> parentMdl = null;
     /**
      * Edit / Create 1 record
@@ -135,6 +135,39 @@ public class RecordEdit1Record extends ReFrame implements ReActionHandlerWithSav
         dbRecord.setDoFree(free);
     }
 
+    /**
+     * Edit / Create 1 record
+     *
+     * @param dbName db name
+     * @param dbConnectionIdx connection id
+     * @param callbackClass class to be notified of when a layout
+     *        has been created / selected
+     * @param recordIndex index of record to be edited
+     * @param recordList list of records to be editted
+     */
+    public RecordEdit1Record(final String dbName,
+            				 final int dbConnectionIdx,
+            				 final int recordId) {
+        super(dbName, "", "Edit Record Layout", null);
+
+
+        connectionIdx = dbConnectionIdx;
+
+       //recordIdx = recordIndex;
+        editList  = null;
+        callback  = null;
+
+        boolean free = dbRecord.isSetDoFree(false);
+        dbRecord.setConnection(new ReConnection(connectionIdx));
+
+        pnlRecord = new RecordPnl(ReMainFrame.getMasterFrame(),
+				  connectionIdx,
+				  this, false, false);
+
+        init(getRecord(recordId));
+
+        dbRecord.setDoFree(free);
+    }
 
     /**
      * Standard initialisation code
@@ -362,19 +395,33 @@ public class RecordEdit1Record extends ReFrame implements ReActionHandlerWithSav
      * @return requested record
      */
     private RecordRec getRecord() {
+
+
         ChildRecordsRec r = editList.getRecord(recordIdx);
         if (r == null) {
             return RecordRec.getNullRecord("", "");
         }
 
-        dbRecord.resetSearch();
-        dbRecord.setSearchArg("RecordId", AbsDB.opEquals, "" + r.getChildRecordId());
-        dbRecord.open();
-        RecordRec rec = dbRecord.fetch();
-        dbRecord.close();
+        RecordRec ret =  getRecord(r.getChildRecordId());
 
         pnlRecord.setNextEnabledNext(recordIdx < editList.getRowCount() - 1);
         pnlRecord.setPrevEnabled(recordIdx > 0);
+
+        return ret;
+
+    }
+
+    /**
+     * get a record to be editted
+     * @return requested record
+     */
+    private RecordRec getRecord(int recId) {
+
+        dbRecord.resetSearch();
+        dbRecord.setSearchArg("RecordId", AbsDB.opEquals, "" + recId);
+        dbRecord.open();
+        RecordRec rec = dbRecord.fetch();
+        dbRecord.close();
 
         return rec;
     }

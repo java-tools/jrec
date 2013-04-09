@@ -20,7 +20,7 @@ package net.sf.JRecord.Types;
 import java.math.BigInteger;
 
 import net.sf.JRecord.Common.Conversion;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 
 /**
@@ -44,13 +44,16 @@ public class TypePackedDecimal extends TypeNum {
         super(false, true, true, false, true);
     }
 
+    public TypePackedDecimal(boolean positive) {
+        super(false, true, true, positive, true);
+    }
 
     /**
      * @see net.sf.JRecord.Types.Type#getField(byte[], int, net.sf.JRecord.Common.FieldDetail)
      */
     public Object getField(byte[] record,
             final int position,
-			final FieldDetail field) {
+			final IFieldDetail field) {
         int pos = position - 1;
 	    int min = java.lang.Math.min(field.getEnd(), record.length);
 	    int fldLength = min - pos;
@@ -68,7 +71,7 @@ public class TypePackedDecimal extends TypeNum {
      */
     public byte[] setField(byte[] record,
             final int position,
-			final FieldDetail field,
+			final IFieldDetail field,
 			Object value)
     throws RecordException {
 
@@ -86,10 +89,10 @@ public class TypePackedDecimal extends TypeNum {
 	    Conversion.setBigInt(record, pos, len, new BigInteger(val, BASE_16), true);
 //	    } else {
 //	    	int split = val.length() - 16;
-//	    	
-//	    	Conversion.setLong(record, pos, len, Long.parseLong(val.substring(split), BASE_16), true);	    	
+//
+//	    	Conversion.setLong(record, pos, len, Long.parseLong(val.substring(split), BASE_16), true);
 //	    	Conversion.setLong(record, pos, len-8, Long.parseLong(val.substring(0, split), BASE_16), true);
-////	    	System.out.println("Comp3 Error: " + split + " " + val + "  >" + val.substring(0, split) + " " + val.substring(split) 
+////	    	System.out.println("Comp3 Error: " + split + " " + val + "  >" + val.substring(0, split) + " " + val.substring(split)
 ////	    			+ " ~~>> " +  Conversion.getMainframePackedDecimal(record,
 ////							 pos,
 ////							 len));

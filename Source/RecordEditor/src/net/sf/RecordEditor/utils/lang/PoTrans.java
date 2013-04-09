@@ -79,7 +79,7 @@ public class PoTrans extends BasicTrans {
 		if (s.endsWith("\"")) {
 			s = s.substring(0, s.length() - 1);
 		}
-		if (s.indexOf("\"") > 0) {
+		if (s.indexOf("\"") >= 0) {
 			s = Conversion.replace(new StringBuilder(s), "\\\"", "\"").toString();
 		}
 

@@ -2,9 +2,9 @@ package net.sf.JRecord.Details;
 
 import java.util.List;
 
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 
-public interface AbstractLayoutDetails<FieldDtls extends FieldDetail, RecordDtls extends AbstractRecordDetail<FieldDtls>> {
+public interface AbstractLayoutDetails {
 
 	/**
 	 * get a specified field
@@ -13,7 +13,7 @@ public interface AbstractLayoutDetails<FieldDtls extends FieldDetail, RecordDtls
 	 * @param fieldIdx field index required
 	 * @return the required field
 	 */
-	public abstract FieldDtls getField(final int layoutIdx, final int fieldIdx);
+	public abstract IFieldDetail getField(final int layoutIdx, final int fieldIdx);
 
 	/**
 	 * Get the field Description array
@@ -38,11 +38,11 @@ public interface AbstractLayoutDetails<FieldDtls extends FieldDetail, RecordDtls
 	 */
 	public abstract String getLayoutName();
 
-	/**
-	 * Add a record to the layout
-	 * @param record new record
-	 */
-	public abstract void addRecord(RecordDtls record);
+//	/**
+//	 * Add a record to the layout
+//	 * @param record new record
+//	 */
+//	public abstract void addRecord(AbstractRecordDetail record);
 
 	/**
 	 * get a specific field number
@@ -51,7 +51,7 @@ public interface AbstractLayoutDetails<FieldDtls extends FieldDetail, RecordDtls
 	 *
 	 * @return a specific record layout
 	 */
-	public abstract RecordDtls getRecord(int recordNum);
+	public abstract AbstractRecordDetail getRecord(int recordNum);
 
 	/**
 	 * get number of records in the layout
@@ -134,7 +134,7 @@ public interface AbstractLayoutDetails<FieldDtls extends FieldDetail, RecordDtls
 	 *
 	 * @return fields Value
 	 */
-	public abstract Object getField(final byte[] record, int type, FieldDtls field);
+	public abstract Object getField(final byte[] record, int type, IFieldDetail field);
 
 	/**
 	 * Get a field for a supplied field-name
@@ -143,7 +143,7 @@ public interface AbstractLayoutDetails<FieldDtls extends FieldDetail, RecordDtls
 	 *
 	 * @return field definition for the supplied name
 	 */
-	public abstract FieldDtls getFieldFromName(String fieldName);
+	public abstract IFieldDetail getFieldFromName(String fieldName);
 
 	/**
 	 * get the field delimiter
@@ -169,7 +169,7 @@ public interface AbstractLayoutDetails<FieldDtls extends FieldDetail, RecordDtls
 	 * @param fieldIdx field index
 	 * @return requested field
 	 */
-	public abstract FieldDtls getAdjField(int layoutIdx, int fieldIdx);
+	public abstract IFieldDetail getAdjField(int layoutIdx, int fieldIdx);
 
 	/**
 	 * This is a function used by the RecordEditor to recalculate
@@ -216,7 +216,7 @@ public interface AbstractLayoutDetails<FieldDtls extends FieldDetail, RecordDtls
 	 * @return the allowChildren
 	 */
 	public abstract boolean hasChildren();
-	
+
 	/**
 	 * Whether layout has Maps (Key / Data sets);
 	 * @return Whether layout has Maps (Key / Data sets);
@@ -227,11 +227,33 @@ public interface AbstractLayoutDetails<FieldDtls extends FieldDetail, RecordDtls
 	 * @param allowChildren the allowChildren to set
 	 */
 	public abstract void setAllowChildren(boolean allowChildren);
-	
+
 	/**
 	 * Get Filtered Layout
 	 * @param filter layout filter
 	 * @return Filtered (Cut down) Layout
 	 */
-	public AbstractLayoutDetails<FieldDtls, RecordDtls> getFilteredLayout(List<RecordFilter> filter);
+	public AbstractLayoutDetails getFilteredLayout(List<? extends RecordFilter> filter);
+
+	/**
+	 * Get Option value
+	 * @param option
+	 * @return
+	 */
+	public int getOption(int option);
+
+	/**
+	 * Get the value of an attribute
+	 * @param attr attribute to get
+	 * @return requested attribute value
+	 */
+	public Object getAttribute(IAttribute attr);
+
+
+	/**
+	 * Set the value of an attribute
+	 * @param attr to set
+	 * @param value new value for the attribute
+	 */
+	public void setAttribute(IAttribute attr, Object value);
 }

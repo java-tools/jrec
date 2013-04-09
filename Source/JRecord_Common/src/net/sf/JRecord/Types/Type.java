@@ -19,7 +19,7 @@
  */
 package net.sf.JRecord.Types;
 
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 
 /**
@@ -62,10 +62,15 @@ public interface Type {
 	public static final int ftNumAnyDecimal      = 19;
 	public static final int ftPositiveNumAnyDecimal = 20;
 	public static final int ftBit                = 21;
+	public static final int ftAssumedDecimalPositive = 22;
+	public static final int ftBinaryIntPositive  = 23;
 
 	public static final int ftPackedDecimal      = 31;
 	public static final int ftZonedNumeric       = 32;
+	public static final int ftPackedDecimalPostive = 33;
+//	public static final int ftZonedNumericPositive = 34;
 	public static final int ftBinaryBigEndian    = 35;
+	public static final int ftBinaryBigEndianPositive = 39;
 	public static final int ftPositiveBinaryBigEndian = 36;
 	public static final int ftRmComp             = 37;
 	public static final int ftRmCompPositive     = 38;
@@ -113,7 +118,7 @@ public interface Type {
      */
     public abstract Object getField(final byte[] data,
             						final int position,
-            						final FieldDetail currField);
+            						final IFieldDetail currField);
 
 
     /**
@@ -129,7 +134,7 @@ public interface Type {
      */
     public abstract byte[] setField(final byte[] data,
             					  final int position,
-            					  final FieldDetail field,
+            					  final IFieldDetail field,
             					  Object val)
     throws RecordException;
 
@@ -148,7 +153,7 @@ public interface Type {
      * @return value value as it is store in the record
      * @throws RecordException any conversion errors
      */
-    public abstract String formatValueForRecord(FieldDetail field, String val)
+    public abstract String formatValueForRecord(IFieldDetail field, String val)
     throws RecordException;
 
 

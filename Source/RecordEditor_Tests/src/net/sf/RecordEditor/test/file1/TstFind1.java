@@ -4,44 +4,20 @@ package net.sf.RecordEditor.test.file1;
 import java.util.ArrayList;
 
 import junit.framework.TestCase;
-
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.RecordException;
-
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
 import net.sf.JRecord.detailsSelection.FieldSelectX;
-
 import net.sf.RecordEditor.re.file.FilePosition;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.file.filter.Compare;
-
 import net.sf.RecordEditor.test.TstConstants;
 
 
 public class TstFind1 extends TestCase {
 
-	private String[] csvLines = {
-			"KEYCODE-NO	STORE-NO	DATE	DEPT-NO	QTY-SOLD	SALE-PRICE",
-			"63604808	20	40118	170	1	4.87",
-			"69684558	20	40118	280	1	19.00",
-			"69684558	20	40118	280	-1	-19.00",
-			"69694158	20	40118	280	1	5.01",
-			"62684671	20	-40118	685	1	69.99",
-			"62684671	20	40118	685	-1	-69.99",
-			"61664713	59	40118	335	1	17.99",
-			"61664713	59	40118	335	-1	-17.99",
-			"61684613	59	40118	335	1	12.99",
-			"68634752	59	40118	410	1	8.99",
-			"60694698	59	40118	620	1	3.99",
-			"60664659	59	40118	620	1	3.99",
-			"60614487	59	40118	878	1	5.95",
-			"68654655	166	-40118	60	1	5.08",
-			"69624033	166	40118	80	1	18.19",
-			"60604100	166	40118	80	1	13.30",
-			"68674560	166	40118	170	1	5.99",
-	};
 
 	private String[] resultStart60 = {
 			"60694698	59	40118	620	1	3.99",
@@ -203,9 +179,9 @@ public class TstFind1 extends TestCase {
 
 	@SuppressWarnings("rawtypes")
 	private void tstFilter(LayoutDetail layout, String[] result, String value, String op, int fldIdx) throws Exception {
-		FileView f = TstConstants.readFileView(layout, csvLines, Constants.IO_NAME_1ST_LINE);
+		FileView f = TstConstants.readFileView(layout, TstConstants.CSV_SALES_LINES, Constants.IO_NAME_1ST_LINE);
 
-		FilePosition pos = new FilePosition(0, 0, 0, fldIdx, true);
+		FilePosition pos = new FilePosition(0, 0, 0, fldIdx, true, f.getRowCount());
 		int opIndex = -1;
 
 		op = op.trim();
@@ -227,11 +203,11 @@ public class TstFind1 extends TestCase {
 
 
 		ArrayList<String> lines = new ArrayList<String>();
-		f.find(value, pos, true, opIndex);
+		f.find(value, pos, true, opIndex, false);
 		while (pos.row < f.getRowCount()) {
 			lines.add(f.getLine(pos.row).getFullLine());
 			pos.adjustPosition(value.length(), opIndex);
-			f.find(value, pos, true, opIndex);
+			f.find(value, pos, true, opIndex, false);
 		}
 
 		if (result.length != lines.size()) {
@@ -256,7 +232,7 @@ public class TstFind1 extends TestCase {
 		for (int i = 0; i < result.length; i++) {
 			assertEquals("Op: " + op  + " val: " + value + " " + i, result[i], lines.get(i));
 			pos.adjustPosition(value.length(), opIndex);
-			f.find(value, pos, true, opIndex);
+			f.find(value, pos, true, opIndex, false);
 		}
 	}
 

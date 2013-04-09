@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import net.sf.JRecord.Common.AbstractIndexedLine;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Types.TypeManager;
 
 /**
@@ -23,7 +23,7 @@ public abstract class GetValue  implements IGetValue {
 	public static final int GT_AVE   = 6;
 	public static final int GT_MAXIMUM_ID = 6;
 
-	public static GetValue get(int type, FieldDetail fieldDetail, int recordIdx) {
+	public static GetValue get(int type, IFieldDetail fieldDetail, int recordIdx) {
 
 		switch (type) {
 		case GT_FIELD: return new FieldValue(fieldDetail, recordIdx);
@@ -61,12 +61,12 @@ public abstract class GetValue  implements IGetValue {
 
 
 //	private abstract static class Cmp implements IGetValue {
-	protected final FieldDetail fieldDetail;
+	protected final IFieldDetail fieldDetail;
 	private final int recordIdx;
 
 
 
-	public GetValue(FieldDetail fieldDetail, int recordIdx) {
+	public GetValue(IFieldDetail fieldDetail, int recordIdx) {
 		super();
 		this.fieldDetail = fieldDetail;
 		this.recordIdx = recordIdx;
@@ -104,7 +104,7 @@ public abstract class GetValue  implements IGetValue {
 	/**
 	 * @return the fieldDetail
 	 */
-	public FieldDetail getFieldDetail() {
+	public IFieldDetail getFieldDetail() {
 		return fieldDetail;
 	}
 
@@ -112,7 +112,7 @@ public abstract class GetValue  implements IGetValue {
 
 	public static class FieldValue extends GetValue {
 
-		public FieldValue(FieldDetail fieldDetail, int recordIdx) {
+		public FieldValue(IFieldDetail fieldDetail, int recordIdx) {
 			super( fieldDetail, recordIdx);
 		}
 
@@ -127,7 +127,7 @@ public abstract class GetValue  implements IGetValue {
 
 	public static class Max extends GetValue {
 
-		public Max(FieldDetail fieldDetail, int recordIdx) {
+		public Max(IFieldDetail fieldDetail, int recordIdx) {
 			super(fieldDetail, recordIdx);
 		}
 
@@ -164,7 +164,7 @@ public abstract class GetValue  implements IGetValue {
 
 	public static class Min extends GetValue {
 
-		public Min(FieldDetail fieldDetail, int recordIdx) {
+		public Min(IFieldDetail fieldDetail, int recordIdx) {
 			super(fieldDetail, recordIdx);
 		}
 
@@ -201,7 +201,7 @@ public abstract class GetValue  implements IGetValue {
 
 	public static class First extends GetValue {
 
-		public First(FieldDetail fieldDetail, int recordIdx) {
+		public First(IFieldDetail fieldDetail, int recordIdx) {
 			super(fieldDetail, recordIdx);
 		}
 
@@ -225,7 +225,7 @@ public abstract class GetValue  implements IGetValue {
 
 	public static class Last extends GetValue {
 
-		public Last(FieldDetail fieldDetail, int recordIdx) {
+		public Last(IFieldDetail fieldDetail, int recordIdx) {
 			super(fieldDetail, recordIdx);
 		}
 
@@ -248,7 +248,7 @@ public abstract class GetValue  implements IGetValue {
 	public static class Sum extends GetValue {
 
 		boolean calcAverage;
-		public Sum(FieldDetail fieldDetail, int recordIdx, boolean ave) {
+		public Sum(IFieldDetail fieldDetail, int recordIdx, boolean ave) {
 			super(fieldDetail, recordIdx);
 
 			calcAverage = ave;

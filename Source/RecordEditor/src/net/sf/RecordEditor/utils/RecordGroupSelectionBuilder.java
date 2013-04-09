@@ -1,6 +1,6 @@
 package net.sf.RecordEditor.utils;
 
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 
 /**
  * Build Group Record Selection
@@ -9,7 +9,7 @@ import net.sf.JRecord.Common.FieldDetail;
  */
 public class RecordGroupSelectionBuilder extends BaseSelectionBuilder {
 
-    public RecordGroupSelectionBuilder(FieldDetail[][] recFields) {
+    public RecordGroupSelectionBuilder(IFieldDetail[][] recFields) {
         super(null, recFields);
     }
 

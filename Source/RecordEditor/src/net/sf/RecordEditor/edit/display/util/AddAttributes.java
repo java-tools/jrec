@@ -9,9 +9,9 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.XmlConstants;
 import net.sf.JRecord.Details.AbstractRecordDetail;
+import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
@@ -40,7 +40,7 @@ public final class AddAttributes extends ReFrame implements ActionListener  {
 	private JButton addBtn = SwingUtils.newButton("Add");
 
 	//private FileDisplay source;
-	private FileView<?> view;
+	private FileView view;
 
 	private KeyAdapter listner = new KeyAdapter() {
         /**
@@ -120,24 +120,27 @@ public final class AddAttributes extends ReFrame implements ActionListener  {
 	 */
 	private void action_100_add() {
 
-		AbstractRecordDetail record = view.getLayout().getRecord(layoutSelection.getLayoutIndex());
-		FieldDetail field;
+		AbstractRecordDetail rec = view.getLayout().getRecord(layoutSelection.getLayoutIndex());
+		RecordDetail.FieldDetails field;
 		String s;
 
 		Common.stopCellEditing(attributeTbl);
 
-		for (int i = 0; i < model.getRowCount(); i++) {
-			s = model.getValueAt(i, 0).toString();
+		if (rec instanceof RecordDetail) {
+			RecordDetail record = (RecordDetail) rec;
+			for (int i = 0; i < model.getRowCount(); i++) {
+				s = model.getValueAt(i, 0).toString();
 
-			if (s != null && ! "".equals(s)) {
-				if (! s.startsWith(XmlConstants.ATTRIBUTE_PREFIX)) {
-					s = XmlConstants.ATTRIBUTE_PREFIX + s;
+				if (s != null && ! "".equals(s)) {
+					if (! s.startsWith(XmlConstants.ATTRIBUTE_PREFIX)) {
+						s = XmlConstants.ATTRIBUTE_PREFIX + s;
+					}
+					field = new RecordDetail.FieldDetails(s, "", Type.ftChar, 0, "", 0, "");
+					field.setPosOnly(record.getFieldCount());
+
+					//System.out.println("---> " + s);
+					record.addField(field);
 				}
-				field = new FieldDetail(s, "", Type.ftChar, 0, "", 0, "");
-				field.setPosOnly(record.getFieldCount());
-
-				//System.out.println("---> " + s);
-				record.addField(field);
 			}
 		}
 

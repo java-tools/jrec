@@ -22,7 +22,7 @@ public class CompareTwoLayouts extends TwoLayoutsWizard<DiffDefinition> {
 	 * Create Single layout
 	 * @param selection record layout selection class
 	 */
-	public CompareTwoLayouts(AbstractLayoutSelection<?> selection1, AbstractLayoutSelection<?> selection2,
+	public CompareTwoLayouts(AbstractLayoutSelection selection1, AbstractLayoutSelection selection2,
 			String recentFiles) {
 		this(
 			 selection1, 
@@ -38,7 +38,7 @@ public class CompareTwoLayouts extends TwoLayoutsWizard<DiffDefinition> {
 	 * @param definition record filter definition
 	 */
 
-	public CompareTwoLayouts(AbstractLayoutSelection<?> selection1, AbstractLayoutSelection<?> selection2, 
+	public CompareTwoLayouts(AbstractLayoutSelection selection1, AbstractLayoutSelection selection2, 
 			DiffDefinition definition, String recentFiles) {
 		super("Two Layout Compare", definition); 
 		

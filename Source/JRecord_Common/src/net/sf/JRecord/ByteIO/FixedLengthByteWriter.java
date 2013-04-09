@@ -13,7 +13,7 @@ import java.math.BigInteger;
 
 
 /**
- *  writes an Array of bytes as a line in a fixed line length file (i.e. all lines are exactly the same length). 
+ *  writes an Array of bytes as a line in a fixed line length file (i.e. all lines are exactly the same length).
  *
  * @author Bruce Martin
  *
@@ -23,7 +23,7 @@ public class FixedLengthByteWriter extends AbstractByteWriter {
     private boolean addLength = false;
 
     private byte[] rdw = new byte[4];
-    private byte[] eol =null;
+    private byte[] eol = null;
 
     private int rdwAdjust = 4;
 
@@ -48,7 +48,7 @@ public class FixedLengthByteWriter extends AbstractByteWriter {
     public FixedLengthByteWriter(final boolean includeRDW) {
     	this(includeRDW, true, null);
     }
- 
+
     /**
      * create binary line writer
      *
@@ -66,7 +66,7 @@ public class FixedLengthByteWriter extends AbstractByteWriter {
         eol = eolByte;
         rdw[2]    = 0;
         rdw[3]    = 0;
-        
+
         if (! addRdwToLength) {
         	rdwAdjust = 0;
         }
@@ -101,10 +101,10 @@ public class FixedLengthByteWriter extends AbstractByteWriter {
                 rdw[0] = bytes[bytes.length - 2];
             }
             outStream.write(rdw);
-        } 
+        }
 
         outStream.write(rec);
-        
+
         if (eol != null) {
         	outStream.write(eol);
         }

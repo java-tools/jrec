@@ -14,13 +14,12 @@
 package net.sf.JRecord.zExamples;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.LineProvider;
 import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.IO.AbstractLineReader;
-import net.sf.JRecord.IO.StandardLineReader;
 import net.sf.JRecord.IO.AbstractLineWriter;
 import net.sf.JRecord.IO.CobolIoProvider;
 import net.sf.JRecord.Numeric.Convert;
@@ -79,10 +78,10 @@ public final class XmplLineIO3 {
                     new DTAR0020provider()
             );
             int fldNum = 0;
-            FieldDetail keycodeField = reader.getLayout().getField(0, fldNum++);
+            IFieldDetail keycodeField = reader.getLayout().getField(0, fldNum++);
             fldNum = 4;
-            FieldDetail qtyField     = reader.getLayout().getField(0, fldNum++);
-            FieldDetail salesField   = reader.getLayout().getField(0, fldNum++);
+            IFieldDetail qtyField     = reader.getLayout().getField(0, fldNum++);
+            IFieldDetail salesField   = reader.getLayout().getField(0, fldNum++);
 
             AbstractLineWriter writer  = ioProvider.getLineWriter(fileStructure, salesFileOut);
 
@@ -119,26 +118,26 @@ public final class XmplLineIO3 {
      * @author Bruce Martin
      *
      */
-    private class DTAR0020provider implements LineProvider<LayoutDetail> {
+    private class DTAR0020provider implements LineProvider<LayoutDetail, LineDTAR0020> {
 
         /**
          * @see net.sf.JRecord.LineProvider#getLine
          */
-        public AbstractLine getLine(LayoutDetail recordDescription) {
+        public LineDTAR0020 getLine(LayoutDetail recordDescription) {
             return new LineDTAR0020(recordDescription);
         }
 
         /**
          * @see net.sf.JRecord.Details.LineProvider#getLine
          */
-        public AbstractLine getLine(LayoutDetail recordDescription, byte[] lineBytes) {
+        public LineDTAR0020 getLine(LayoutDetail recordDescription, byte[] lineBytes) {
             return new LineDTAR0020(recordDescription, lineBytes);
         }
 
         /**
          * @see net.sf.JRecord.Details.LineProvider#getLine
          */
-        public AbstractLine getLine(LayoutDetail recordDescription, String linesText) {
+        public LineDTAR0020 getLine(LayoutDetail recordDescription, String linesText) {
             return new LineDTAR0020(recordDescription, linesText);
         }
     }

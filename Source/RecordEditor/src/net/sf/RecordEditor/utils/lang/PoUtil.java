@@ -46,7 +46,7 @@ public class PoUtil {
 				}
 			}
 			do {
-				if ("".equals(l.trim())) {
+				if (l == null || "".equals(l.trim())) {
 					break;
 				} else if (mode == TRANS_MODE) {
 					b.append(strip(l));

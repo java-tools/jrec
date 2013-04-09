@@ -10,17 +10,16 @@ import net.sf.RecordEditor.utils.fileStorage.DataStoreStd;
 import net.sf.RecordEditor.utils.msg.UtMessages;
 
 public class ViewDataStore {
-	@SuppressWarnings("rawtypes")
 	private final DataStoreStd<AbstractLine> selectedLines;
 	private int limit;
 	private JFrame frame;
 	private boolean cont = true;
 
-	@SuppressWarnings("rawtypes")
+
 	public ViewDataStore(AbstractLayoutDetails layout, boolean standardDataStore, JFrame currentFrame) {
 		super();
 
-		selectedLines = new DataStoreStd<AbstractLine>(layout);
+		selectedLines = DataStoreStd.newStore(layout);
 		frame = currentFrame;
 
         limit = Integer.MAX_VALUE;
@@ -34,7 +33,6 @@ public class ViewDataStore {
 	 * @return
 	 * @see java.util.ArrayList#add(java.lang.Object)
 	 */
-	@SuppressWarnings("rawtypes")
 	public final void add(AbstractLine line) {
 		selectedLines.add(line);
 
@@ -65,7 +63,6 @@ public class ViewDataStore {
 	/**
 	 * @return the selectedLines
 	 */
-	@SuppressWarnings("rawtypes")
 	public DataStoreStd<AbstractLine> getSelectedLines() {
 		return selectedLines;
 	}

@@ -2,13 +2,13 @@ package net.sf.JRecord.zTest.External;
 
 import java.io.IOException;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.External.CsvNamesFirstLineFileLoader;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.Log.TextLog;
 import net.sf.JRecord.zTest.Common.IO;
 import net.sf.JRecord.zTest.Common.TstConstants;
-import junit.framework.TestCase;
 
 public class TstCsvName1stLineLoader extends TestCase {
 	private String[] names = {"Brand Id","Loc Nbr","Loc Type","Loc Name","Loc Addr Ln1","Loc Addr Ln2",

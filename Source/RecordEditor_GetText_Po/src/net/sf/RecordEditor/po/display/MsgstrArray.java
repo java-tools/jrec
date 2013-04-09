@@ -116,7 +116,7 @@ public class MsgstrArray implements ArrayInterface, IEmptyTest {
 	 * @see net.sf.RecordEditor.utils.swing.array.ArrayInterface#getLine()
 	 */
 	@Override
-	public AbstractLine<?> getLine() {
+	public AbstractLine getLine() {
 		return line;
 	}
 

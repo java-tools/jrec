@@ -56,7 +56,7 @@ public abstract class BaseLineDisplay extends BaseDisplay {
 	 * @param primary wether the screen is a primary screen
 	 */
 	public BaseLineDisplay(final String formType,
-	        			 final FileView<?> viewOfFile,
+	        			 final FileView viewOfFile,
 	        			 final boolean primary,
 	        			 final boolean fullLine,
 		        		 final boolean prefered,

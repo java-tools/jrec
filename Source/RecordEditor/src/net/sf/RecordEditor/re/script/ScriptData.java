@@ -20,10 +20,9 @@ import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
 public class ScriptData {
-	@SuppressWarnings("rawtypes")
 	//public final List<List<AbstractLine>> recordList;
 	public final List<AbstractLine> selectedLines, viewLines, fileLines;
-	@SuppressWarnings("rawtypes")
+
 	public final FileView view;
 	public final Object root;
 	public final List<List<TreeNode>> nodes = new ArrayList<List<TreeNode>>();
@@ -33,7 +32,6 @@ public class ScriptData {
 	public final String inputFile, outputFile;
 	private final String dir;
 
-	@SuppressWarnings("rawtypes")
 	public ScriptData(
 			List<AbstractLine> selectedList,
 			FileView view,
@@ -200,7 +198,21 @@ public class ScriptData {
 		return JOptionPane.showInputDialog(message);
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	/**
+	 * method for scripts to notify the RecordEditor that
+	 * the display has been changed
+	 *
+	 * @param viewChanged wether the view was changed
+	 */
+	public final void fireScreenChanged(boolean viewChanged) {
+		view.fireTableDataChanged();
+
+		if (viewChanged) {
+			view.setChanged(true);
+		}
+	}
+
+	@SuppressWarnings({ "rawtypes" })
 	public static ScriptData getScriptData(ReFrame frame) {
 		ScriptData  data = null;
 		AbstractLineNode root = null;

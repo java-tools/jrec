@@ -15,6 +15,9 @@ import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
+import net.sf.JRecord.Details.LayoutDetail;
+import net.sf.JRecord.External.ExternalRecord;
+import net.sf.JRecord.External.RecordEditorXmlLoader;
 import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.RecordEditor.re.file.FileView;
@@ -194,6 +197,26 @@ public final class TstConstants {
     		"S1504300000001504500000001506900000001507600000001509400000001512800000001515100000001    00000000    00000000    00000000",
     };
 
+	public static final String[] CSV_SALES_LINES = {
+			"KEYCODE-NO	STORE-NO	DATE	DEPT-NO	QTY-SOLD	SALE-PRICE",
+			"63604808	20	40118	170	1	4.87",
+			"69684558	20	40118	280	1	19.00",
+			"69684558	20	40118	280	-1	-19.00",
+			"69694158	20	40118	280	1	5.01",
+			"62684671	20	-40118	685	1	69.99",
+			"62684671	20	40118	685	-1	-69.99",
+			"61664713	59	40118	335	1	17.99",
+			"61664713	59	40118	335	-1	-17.99",
+			"61684613	59	40118	335	1	12.99",
+			"68634752	59	40118	410	1	8.99",
+			"60694698	59	40118	620	1	3.99",
+			"60664659	59	40118	620	1	3.99",
+			"60614487	59	40118	878	1	5.95",
+			"68654655	166	-40118	60	1	5.08",
+			"69624033	166	40118	80	1	18.19",
+			"60604100	166	40118	80	1	13.30",
+			"68674560	166	40118	170	1	5.99",
+	};
 
 
 
@@ -211,7 +234,7 @@ public final class TstConstants {
 		}
 
 		layout = r.getLayout();
-		DataStoreStd<AbstractLine> ds = new DataStoreStd<AbstractLine>(layout, lines);
+		DataStoreStd<AbstractLine> ds = DataStoreStd.newStore(layout, lines);
 		return new FileView("", ds, layout);
     }
 
@@ -225,6 +248,19 @@ public final class TstConstants {
 		}
 
 		return new ByteArrayInputStream(b.toString().getBytes());
+	}
+
+	public static FileView getSalesCsvFile() throws Exception {
+		return readFileView(getTabCsvLayout(), TstConstants.CSV_SALES_LINES, Constants.IO_NAME_1ST_LINE);
+	}
+
+	public static LayoutDetail getTabCsvLayout() throws Exception {
+		return getExternalLayout(TstConstants.TAB_CSV_LAYOUT).asLayoutDetail();
+	}
+
+
+	private static ExternalRecord getExternalLayout(String strLayout) throws Exception {
+		return RecordEditorXmlLoader.getExternalRecord(strLayout, "Csv Layout");
 	}
 
     /**

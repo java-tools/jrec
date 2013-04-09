@@ -1,4 +1,4 @@
-useFixture(default)
+useFixture(RecordEditor)
 
 def test():
 	from Modules import commonBits
@@ -7,10 +7,10 @@ def test():
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'Ams_LocDownload_20041228.txt')
 		commonBits.setRecordLayout(select, 'ams Store')
-		click('Edit1')
+		click(commonBits.fl('Edit') + '1')
 ##		select('Table', 'rows:[2,3,4,5,6,7],columns:[4 - 4|Loc Nbr,8 - 2|Loc Type]')
 		select('Table', 'rows:[2,3,4,5,6,7],columns:[8 - 2|Loc Type]')
-		select_menu('View>>Column View #{Selected Records#}')
+		select_menu(commonBits.fl('View') + '>>' + commonBits.fl('Column View #{Selected Records#}'))
 #		select('Table2', 'rows:[2,3,4,5,6,7],columns:[4 - 4|Loc Nbr,8 - 2|Loc Type]')
 		select('Table', 'cell:Row 1,3(NSW North Sydney Ad Support)')
 		assert_p('Table', 'Text', 'NSW North Sydney Ad Support', 'Row 1,3')

@@ -1,10 +1,10 @@
 package net.sf.JRecord.zTest.detailsSelection;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.detailsSelection.FieldSelect;
 import net.sf.JRecord.detailsSelection.FieldSelectX;
-import junit.framework.TestCase;
 
 public class TstFieldSelectX1 extends TestCase {
 

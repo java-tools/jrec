@@ -46,7 +46,7 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 	 *
 	 * @param viewOfFile file view
 	 */
-	protected LinesAsColumns(FileView<?> viewOfFile) {
+	protected LinesAsColumns(FileView viewOfFile) {
 		super("Column Table", viewOfFile, viewOfFile == viewOfFile.getBaseFile(), true, true);
 
 	    init_100_SetupJtables(viewOfFile);
@@ -84,7 +84,7 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
      * Define the JTables etc
      * @param viewOfFile current file view
      */
-    private void init_100_SetupJtables(final FileView<?> viewOfFile) {
+    private void init_100_SetupJtables(final FileView viewOfFile) {
 
     	tblMdl = new Line2ColModel(viewOfFile);
     	JTable fixedTbl;
@@ -169,7 +169,7 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 
         //initToolTips(0);
 
-        setStandardColumnWidths(4);
+        setStandardColumnWidths(tblMdl.firstDataColumn);
         tblScrollPane = new FixedColumnScrollPane(tableDetails, tblMdl.firstDataColumn);
         fixedTbl = tblScrollPane.getFixedTable();
 
@@ -208,7 +208,6 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 	 * (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.display.BaseLineAsColumn#newLayout(net.sf.JRecord.Details.AbstractLayoutDetails)
 	 */
-	@SuppressWarnings("rawtypes")
 	@Override
 	public void setNewLayout(AbstractLayoutDetails newLayout) {
 		super.setNewLayout(newLayout);
@@ -269,6 +268,14 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 		}
 
 		return pos;
+	}
+
+    /* (non-Javadoc)
+	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getPopupPosition()
+	 */
+	@Override
+	protected int getPopupPosition() {
+		return popupRow;
 	}
 
 	/*
@@ -344,7 +351,6 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getNewDisplay(net.sf.RecordEditor.edit.file.FileView)
 	 */
-	@SuppressWarnings("rawtypes")
 	@Override
 	protected BaseDisplay getNewDisplay(FileView view) {
 		return new LinesAsColumns(view);

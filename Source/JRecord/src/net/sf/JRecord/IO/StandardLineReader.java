@@ -17,20 +17,20 @@ import net.sf.JRecord.Details.LineProvider;
  *
  * <pre>
  * <b>Usage:</b>
- * 
+ *
  *         CopybookLoader loader = <font color="brown"><b>new</b></font> RecordEditorXmlLoader();
  *         LayoutDetail layout = loader.loadCopyBook(copybookName, 0, 0, "", 0, 0, <font color="brown"><b>null</b></font>).asLayoutDetail();
- *        
+ *
  *         <b>AbstractLineReader</b> reader = LineIOProvider.getInstance().getLineReader(layout.getFileStructure());
  * </pre>
- * 
+ *
  * @author Bruce Martin
  *
  */
 public abstract class StandardLineReader extends AbstractLineReader<LayoutDetail> {
 
 	/**
-	 * 
+	 *
 	 */
 	public StandardLineReader() {
 		super();
@@ -40,7 +40,7 @@ public abstract class StandardLineReader extends AbstractLineReader<LayoutDetail
 	/**
 	 * @param provider
 	 */
-	public StandardLineReader(LineProvider<LayoutDetail> provider) {
+	public StandardLineReader(LineProvider provider) {
 		super(provider);
 		// TODO Auto-generated constructor stub
 	}

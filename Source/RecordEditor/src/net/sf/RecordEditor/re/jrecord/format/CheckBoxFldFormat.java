@@ -10,8 +10,9 @@ package net.sf.RecordEditor.re.jrecord.format;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.CsvParser.BasicParser;
+import net.sf.JRecord.CsvParser.CsvDefinition;
 import net.sf.RecordEditor.utils.swing.CheckboxTableRenderStringBased;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
@@ -46,14 +47,16 @@ public class CheckBoxFldFormat implements CellFormat {
     /**
      * @see net.sf.RecordEditor.re.jrecord.format.CellFormat#getTableCellEditor(net.sf.RecordEditor.record.types.FieldDetail)
      */
-    public TableCellEditor getTableCellEditor(FieldDetail fld) {
+    @Override
+    public TableCellEditor getTableCellEditor(IFieldDetail fld) {
         return getCheckbox(fld);
     }
 
     /**
      * @see net.sf.RecordEditor.re.jrecord.format.CellFormat#getTableCellRenderer(net.sf.RecordEditor.record.types.FieldDetail)
      */
-    public TableCellRenderer getTableCellRenderer(FieldDetail fld) {
+    @Override
+    public TableCellRenderer getTableCellRenderer(IFieldDetail fld) {
         if (render == null) {
             render = getCheckbox(fld);
         }
@@ -65,7 +68,7 @@ public class CheckBoxFldFormat implements CellFormat {
      * @param fld field definition
      * @return Swing checkbox
      */
-    private CheckboxTableRenderStringBased getCheckbox(FieldDetail fld) {
+    private CheckboxTableRenderStringBased getCheckbox(IFieldDetail fld) {
         String s = fld.getParamater();
         CheckboxTableRenderStringBased ret = null;
 
@@ -74,14 +77,15 @@ public class CheckBoxFldFormat implements CellFormat {
             	BasicParser parser = BasicParser.getInstance();
             	String line = s.substring(1);
             	String delim = s.substring(0, 1);
-            	
-                String yesStr = parser.getField(0, line, delim, "");
-                String noStr  = parser.getField(1, line, delim, "");
-                String defaultValue  = parser.getField(2, line, delim, "");
+
+            	CsvDefinition csvDef = new CsvDefinition(delim, "");
+                String yesStr = parser.getField(0, line, csvDef);
+                String noStr  = parser.getField(1, line, csvDef);
+                String defaultValue  = parser.getField(2, line, csvDef);
                 //System.out.println("Case Sensitive ~~> " + parser.getField(3, line, delim, ""));
-                boolean caseSensitive = "Y".equalsIgnoreCase(parser.getField(3, line, delim, "")) ;
-               
-                ret = new CheckboxTableRenderStringBased(yesStr, noStr, 
+                boolean caseSensitive = "Y".equalsIgnoreCase(parser.getField(3, line, csvDef)) ;
+
+                ret = new CheckboxTableRenderStringBased(yesStr, noStr,
                 		yesStr.equals(defaultValue), caseSensitive);
             } catch (Exception e) {
                 e.printStackTrace();

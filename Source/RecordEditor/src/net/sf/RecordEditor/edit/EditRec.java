@@ -20,6 +20,7 @@
 package net.sf.RecordEditor.edit;
 
 import java.awt.event.ActionEvent;
+import java.beans.PropertyVetoException;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -31,8 +32,10 @@ import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.edit.display.DisplayBuilderImp;
 import net.sf.RecordEditor.edit.display.DisplayCobolCopybook;
 import net.sf.RecordEditor.edit.display.DisplayFrame;
+import net.sf.RecordEditor.edit.display.Action.ChangeFileStructureAction;
 import net.sf.RecordEditor.edit.display.Action.LoadSavedFieldSeqAction;
 import net.sf.RecordEditor.edit.display.Action.LoadSavedVisibilityAction;
+import net.sf.RecordEditor.edit.display.Action.ShowTextViewAction;
 import net.sf.RecordEditor.edit.open.OpenFile;
 import net.sf.RecordEditor.externalInterface.Plugin;
 import net.sf.RecordEditor.re.editProperties.EditOptions;
@@ -147,6 +150,7 @@ public class EditRec extends ReMainFrame  {
 
     public EditRec(final boolean includeJdbc, final String name, AbstractAction newAction) {
     	super(name, "", "re");
+
     	init(includeJdbc, newAction);
     }
 
@@ -196,18 +200,34 @@ public class EditRec extends ReMainFrame  {
         dataMenu.addSeparator();
         dataMenu.add(newAction(ReActionHandler.FULL_TREE_REBUILD));
 
+        dataMenu.addSeparator();
+        dataMenu.add(addAction(new ChangeFileStructureAction()));
+
         viewMenu.add(newAction(ReActionHandler.BUILD_FIELD_TREE));
         viewMenu.add(newAction(ReActionHandler.BUILD_SORTED_TREE));
         viewMenu.add(newAction(ReActionHandler.BUILD_RECORD_TREE));
         viewMenu.addSeparator();
         viewMenu.add(newAction(ReActionHandler.BUILD_LAYOUT_TREE));
         viewMenu.add(newAction(ReActionHandler.BUILD_LAYOUT_TREE_SELECTED));
+
+        boolean allowTextView = Common.OPTIONS.standardEditor.isSelected()
+        					 && Common.OPTIONS.allowTextEditting.isSelected();
+        //Common.logMsg(" Add Text Display: " + Common.OPTIONS.addTextDisplay.isSelected(), null);
+        if (allowTextView) {
+            viewMenu.addSeparator();
+            viewMenu.add(addAction(ShowTextViewAction.get(false, false)));
+           // viewMenu.add(addAction(ShowTextViewAction.get(false, true)));
+       }
         viewMenu.addSeparator();
         viewMenu.add(newAction(ReActionHandler.TABLE_VIEW_SELECTED));
         viewMenu.add(newAction(ReActionHandler.RECORD_VIEW_SELECTED));
         viewMenu.add(newAction(ReActionHandler.COLUMN_VIEW_SELECTED));
         viewMenu.add(newAction(ReActionHandler.SELECTED_VIEW));
         viewMenu.add(newAction(ReActionHandler.BUILD_XML_TREE_SELECTED));
+        if (allowTextView) {
+             viewMenu.add(addAction(ShowTextViewAction.get(true, false)));
+            // viewMenu.add(addAction(ShowTextViewAction.get(true, true)));
+        }
 
         viewMenu.addSeparator();
         viewMenu.add(newAction(ReActionHandler.EXECUTE_SAVED_FILTER));
@@ -221,7 +241,10 @@ public class EditRec extends ReMainFrame  {
 
 
         runInitClass(Common.USER_INIT_CLASS, "Error running user Initialize:");
-        runInitClass(Common.PO_INIT_CLASS, null);
+
+        if (Common.OPTIONS.loadPoScreens.isSelected()) {
+        	runInitClass(Common.PO_INIT_CLASS, null);
+        }
 
         //runInitClass(Common.USER_INIT_CLASS, "Error running user GetText Init");
 
@@ -479,10 +502,15 @@ public class EditRec extends ReMainFrame  {
         switch (action) {
             case ReActionHandler.OPEN:
                 //System.out.println("--->");
+                open.moveToFront();
                 open.setVisible(true);
                 open.setTheBounds();
-                open.moveToFront();
                 open.requestFocus();
+				try {
+					open.setSelected(true);
+				} catch (PropertyVetoException e) {
+					e.printStackTrace();
+				}
                 break;
             default:
         }

@@ -4,15 +4,16 @@ package net.sf.JRecord.Details;
 import net.sf.JRecord.Common.AbstractFieldValue;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Types.Type;
 
-public abstract class BasicLine<ActualLine extends AbstractLine<LayoutDetail>>
-implements AbstractLine<LayoutDetail> {
+public abstract class BasicLine<ActualLine extends AbstractLine>
+implements AbstractLine, ISetLineProvider<LayoutDetail, ActualLine> {
 
 
 	protected static final byte[] NULL_RECORD = new byte[0];
-	protected LineProvider<LayoutDetail> lineProvider;
+	protected LineProvider<LayoutDetail, ? extends ActualLine> lineProvider;
 	protected LayoutDetail layout;
 	protected int preferredLayoutAlt = Constants.NULL_INTEGER;
 	protected int preferredLayout = Constants.NULL_INTEGER;
@@ -23,7 +24,7 @@ implements AbstractLine<LayoutDetail> {
 							children;
 	//ChildLines<FieldDetail, RecordDetail, LayoutDetail, AbstractChildDetails<RecordDetail>, ActualLine> children = null;
 
-	public BasicLine(LineProvider<LayoutDetail> defaultProvider, LayoutDetail linesLayout,
+	public BasicLine(LineProvider<LayoutDetail, ActualLine> defaultProvider, LayoutDetail linesLayout,
 			AbstractTreeDetails<FieldDetail, RecordDetail, LayoutDetail, ActualLine> defaultTree) {
 		super();
 
@@ -53,7 +54,7 @@ implements AbstractLine<LayoutDetail> {
 	public final String getFieldHex(final int recordIdx, final int fieldIdx) {
 
 		try {
-		    FieldDetail field = layout.getField(recordIdx, fieldIdx);
+			IFieldDetail field = layout.getField(recordIdx, fieldIdx);
 
 			return layout.getField(getData(),
 			        				Type.ftHex,
@@ -68,8 +69,8 @@ implements AbstractLine<LayoutDetail> {
 	/**
 	 * @param pLayout The layouts to set.
 	 */
-	public void setLayout(final LayoutDetail pLayout) {
-		this.layout = pLayout;
+	public void setLayout(final AbstractLayoutDetails pLayout) {
+		this.layout = (LayoutDetail) pLayout;
 		preferredLayoutAlt = Constants.NULL_INTEGER;
 
 		init();
@@ -169,7 +170,7 @@ implements AbstractLine<LayoutDetail> {
 	 * @return fields Value
 	 */
 	public Object getField(String fieldName) {
-	   	FieldDetail fld = layout.getFieldFromName(fieldName);
+		IFieldDetail fld = layout.getFieldFromName(fieldName);
 
 	   	if (fld == null) {
 	   		return null;
@@ -179,7 +180,7 @@ implements AbstractLine<LayoutDetail> {
 	}
 
 	@Override
-	public AbstractFieldValue getFieldValue(FieldDetail field) {
+	public AbstractFieldValue getFieldValue(IFieldDetail field) {
 		return new FieldValue(this, field);
 	}
 
@@ -210,7 +211,7 @@ implements AbstractLine<LayoutDetail> {
 	 * @throws RecordException any conversion error
 	 */
 	public void setField(String fieldName, Object value) throws RecordException {
-	   	FieldDetail fld = layout.getFieldFromName(fieldName);
+		IFieldDetail fld = layout.getFieldFromName(fieldName);
 
 		if (fld != null) {
 			setField(fld, value);
@@ -229,7 +230,7 @@ implements AbstractLine<LayoutDetail> {
 	public void setField(final int recordIdx, final int fieldIdx, Object val)
 			throws RecordException {
 
-	    FieldDetail field = layout.getField(recordIdx, fieldIdx);
+	    IFieldDetail field = layout.getField(recordIdx, fieldIdx);
 
 	    //adjustLengthIfNecessary(field, recordIdx);
 
@@ -241,7 +242,8 @@ implements AbstractLine<LayoutDetail> {
      *
      * @param pLineProvider The lineProvider to set.
      */
-    public void setLineProvider(LineProvider<LayoutDetail> pLineProvider) {
+	@Override
+    public void setLineProvider(LineProvider<LayoutDetail, ? extends ActualLine> pLineProvider) {
         this.lineProvider = pLineProvider;
     }
 

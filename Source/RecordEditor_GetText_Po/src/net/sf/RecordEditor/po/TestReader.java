@@ -25,7 +25,7 @@ public class TestReader {
 		PoMessageLineReader r = new PoMessageLineReader();
 		PoLine l;
 		LayoutDetail layoutDtls = PoLayoutMgr.PO_LAYOUT;
-		DataStore<PoLine> ds = new DataStoreStd<PoLine>(layoutDtls);
+		DataStore<PoLine> ds = DataStoreStd.newStore(layoutDtls);
 
 		DisplayBuilderFactory.register(new PoDisplayBuilder());
 
@@ -37,7 +37,7 @@ public class TestReader {
 
 		r.close();
 
-		FileView<LayoutDetail> v = new FileView<LayoutDetail>("ReMsgs_cn.po", ds, layoutDtls);
+		FileView v = new FileView("ReMsgs_cn.po", ds, layoutDtls);
 
 		//new ReMainFrame("PoEdit", "", "po");
 		new EditRec(true);

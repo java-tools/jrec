@@ -23,7 +23,7 @@ public class DisplayBuilderAdapter implements IDisplayBuilder {
 	public AbstractFileDisplayWithFieldHide newDisplay(int screenType,
 			String screenName,
 			IDisplayFrame<? extends AbstractFileDisplay> parentFrame,
-			AbstractLayoutDetails<?, ?> group, FileView<?> viewOfFile,
+			AbstractLayoutDetails group, FileView viewOfFile,
 			int lineNo) {
 		return null;
 	}
@@ -35,7 +35,7 @@ public class DisplayBuilderAdapter implements IDisplayBuilder {
 	public AbstractFileDisplayWithFieldHide newDisplay(int screenType,
 			String screenName,
 			IDisplayFrame<? extends AbstractFileDisplay> parentFrame,
-			AbstractLayoutDetails<?, ?> group, FileView<?> viewOfFile,
+			AbstractLayoutDetails group, FileView viewOfFile,
 			@SuppressWarnings("rawtypes") AbstractLine line) {
 		return null;
 	}
@@ -46,7 +46,7 @@ public class DisplayBuilderAdapter implements IDisplayBuilder {
 	@Override
 	public AbstractFileDisplayWithFieldHide newDisplay(int screenType,
 			IDisplayFrame<? extends AbstractFileDisplay> parentFrame,
-			AbstractLayoutDetails<?, ?> group, FileView<?> viewOfFile,
+			AbstractLayoutDetails group, FileView viewOfFile,
 			AbstractLineNodeTreeParser treeParser, boolean mainView,
 			int columnsToSkip) {
 		return null;

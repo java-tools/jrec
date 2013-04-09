@@ -1,7 +1,7 @@
 package net.sf.JRecord.Common;
 
 
-public interface AbstractRecordX<FieldDefinition extends FieldDetail> extends AbstractRecord {
+public interface AbstractRecordX<FieldDefinition extends IFieldDetail> extends AbstractRecord {
 
 	/**
 	 * Get a specific field definition
@@ -17,7 +17,7 @@ public interface AbstractRecordX<FieldDefinition extends FieldDetail> extends Ab
 	 */
 	public abstract int getFieldCount();
 
-	
+
 	/**
 	 * Get a specific field definition (using the field name)
 	 *

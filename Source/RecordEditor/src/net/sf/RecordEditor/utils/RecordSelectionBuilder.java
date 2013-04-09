@@ -1,10 +1,10 @@
 package net.sf.RecordEditor.utils;
 
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.detailsSelection.FieldSelect;
 
 public class RecordSelectionBuilder extends BaseSelectionBuilder {
-    public RecordSelectionBuilder(FieldDetail[] fields) {
+    public RecordSelectionBuilder(IFieldDetail[] fields) {
         super(fields, null);
     }
 
@@ -23,7 +23,7 @@ public class RecordSelectionBuilder extends BaseSelectionBuilder {
 		add(fs, booleanOp);
     }
 
-    public final void add(int booleanOp, FieldDetail field, String operator, String value, boolean caseSensitive) {
+    public final void add(int booleanOp, IFieldDetail field, String operator, String value, boolean caseSensitive) {
     	FieldSelect fs = getFieldDef(field, operator,  value);
 	    fs.setCaseSensitive(caseSensitive);
 		add(fs, booleanOp);

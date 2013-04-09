@@ -81,7 +81,7 @@ public class LineDisplay extends AbstractCompareDisplay {
 	 * @param primary
 	 */
 	public LineDisplay(String name,
-			@SuppressWarnings("rawtypes") AbstractLayoutDetails recordLayout,
+			AbstractLayoutDetails recordLayout,
 			ArrayList<LineCompare> before,
 			ArrayList<LineCompare> after, ArrayList<LineCompare> chgBefore,
 			ArrayList<LineCompare> chgAfter, boolean primary, boolean allRows) {

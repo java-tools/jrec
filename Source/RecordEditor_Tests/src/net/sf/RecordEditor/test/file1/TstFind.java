@@ -1,5 +1,6 @@
 package net.sf.RecordEditor.test.file1;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.Line;
@@ -10,7 +11,6 @@ import net.sf.RecordEditor.re.file.filter.Compare;
 import net.sf.RecordEditor.test.TstConstants;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
 import net.sf.RecordEditor.utils.common.Common;
-import junit.framework.TestCase;
 
 public class TstFind extends TestCase {
 	private int dbIdx = TstConstants.DB_INDEX;
@@ -187,9 +187,9 @@ public class TstFind extends TestCase {
 			 "TAR5957DCState Warehouse SA                 Target State Warehouse  (Patricks)      180 Fitzgerald Road                     Laverton                           3028      VICA",
 			 "TAR5958DCState Warehouse  WA                Target State Warehouse (WA) FCL         56 Dowd Street                          Welshpool                          6106      WA A",
 			 "TAR5956DCState Warehouse QLD                Target State Warehouse QLD (RMS)        243 Bradman Street                      Acacia Ridge                       4110      QLDA",
-		 
+
 	 };
-	
+
 	/**
      * @see TestCase#setUp()
      */
@@ -215,95 +215,95 @@ public class TstFind extends TestCase {
      */
     public void testFind1() throws Exception {
     	int recId = 0;
- 
-        FilePosition pos = new FilePosition(0, 0, recId, 1, true);
 
-        storeFile.find("55", pos, true, Compare.OP_TEXT_LE);
+        FilePosition pos = new FilePosition(0, 0, recId, 1, true, storeFile.getRowCount());
+
+        storeFile.find("55", pos, true, Compare.OP_TEXT_LE, false);
         assertTrue("Text LE not found", pos.found);
         assertEquals("Find 1, expecting 4 was " + pos.row, 4, pos.row);
-        
-        storeFile.find("55", pos, true, Compare.OP_TEXT_GE);
+
+        storeFile.find("55", pos, true, Compare.OP_TEXT_GE, false);
         assertTrue("Find 2a", pos.found);
         assertEquals("Find 2b, expecting 142 was " + pos.row, 142, pos.row);
-        
+
         pos.setForward(false);
-        storeFile.find("05080", pos, true, Compare.OP_NUMERIC_EQ);
+        storeFile.find("05080", pos, true, Compare.OP_NUMERIC_EQ, false);
         assertTrue("Find 3a", pos.found);
         assertEquals("Find 3b, expecting 121 was " + pos.row, 121, pos.row);
-        
-        storeFile.find("5080", pos, true, Compare.OP_NUMERIC_GT);
+
+        storeFile.find("5080", pos, true, Compare.OP_NUMERIC_GT, false);
         assertTrue("Find 4a", pos.found);
         assertEquals("Find 4b, expecting 113 was " + pos.row, 113, pos.row);
 
-        storeFile.find("5080", pos, true, Compare.OP_NUMERIC_LT);
+        storeFile.find("5080", pos, true, Compare.OP_NUMERIC_LT, false);
         assertTrue("Find 4a", pos.found);
         assertEquals("Find 4b, expecting 111 was " + pos.row, 111, pos.row);
-        
-        storeFile.find("51", pos, true, Compare.OP_TEXT_GT);
+
+        storeFile.find("51", pos, true, Compare.OP_TEXT_GT, false);
         assertTrue("Find 5a", pos.found);
         assertEquals("Find 5b, expecting 107 was " + pos.row, 107, pos.row);
-        
-        storeFile.find("51", pos, true, Compare.OP_TEXT_LT);
+
+        storeFile.find("51", pos, true, Compare.OP_TEXT_LT, false);
         assertTrue("Find 6a", pos.found);
         assertEquals("Find 6b, expecting 104 was " + pos.row, 104, pos.row);
-        
-        storeFile.find("72", pos, true, Compare.OP_CONTAINS);
+
+        storeFile.find("72", pos, true, Compare.OP_CONTAINS, false);
         assertTrue("Find 7a", pos.found);
         assertEquals("Find 7b, expecting 97 was " + pos.row, 97, pos.row);
-        
-        storeFile.find("5083", pos, true, Compare.OP_EQUALS);
+
+        storeFile.find("5083", pos, true, Compare.OP_EQUALS, false);
         assertTrue("Find 8a", pos.found);
         assertEquals("Find 8b, expecting 89 was " + pos.row, 89, pos.row);
 
-        storeFile.find("50", pos, true, Compare.OP_DOESNT_CONTAIN);
+        storeFile.find("50", pos, true, Compare.OP_DOESNT_CONTAIN, false);
         assertTrue("Find 9a", pos.found);
         assertEquals("Find 8b, expecting 81 was " + pos.row, 81, pos.row);
     }
-    
-    
+
+
     public void testFind2() throws Exception {
     	int recId = 0;
- 
-        FilePosition pos = new FilePosition(0, 0, recId, 1, true);
 
-        storeFile.find("5800", pos, true, Compare.OP_NUMERIC_LT);
+        FilePosition pos = new FilePosition(0, 0, recId, 1, true, storeFile.getRowCount());
+
+        storeFile.find("5800", pos, true, Compare.OP_NUMERIC_LT, false);
         assertTrue("Text 21a", pos.found);
         assertEquals("Find 21b, expecting 4 was " + pos.row, 4, pos.row);
 
-        storeFile.find("5060", pos, true, Compare.OP_NUMERIC_EQ);
+        storeFile.find("5060", pos, true, Compare.OP_NUMERIC_EQ, false);
         assertTrue("Text 22a", pos.found);
         assertEquals("Find 22b, expecting 11 was " + pos.row, 11, pos.row);
 
-        storeFile.find("5081", pos, true, Compare.OP_NUMERIC_GE);
+        storeFile.find("5081", pos, true, Compare.OP_NUMERIC_GE, false);
         assertTrue("Text 23a", pos.found);
         assertEquals("Find 23b, expecting 15 was " + pos.row, 15, pos.row);
 
-        storeFile.find("5100", pos, true, Compare.OP_NUMERIC_GT);
+        storeFile.find("5100", pos, true, Compare.OP_NUMERIC_GT, false);
         assertTrue("Text 24a", pos.found);
         assertEquals("Find 24b, expecting 21 was " + pos.row, 21, pos.row);
 
-        storeFile.find("5303", pos, true, Compare.OP_NUMERIC_GE);
+        storeFile.find("5303", pos, true, Compare.OP_NUMERIC_GE, false);
         assertTrue("Text 25a", pos.found);
         assertEquals("Find 25b, expecting 25 was " + pos.row, 25, pos.row);
 
-        storeFile.find("5100", pos, true, Compare.OP_NUMERIC_LT);
+        storeFile.find("5100", pos, true, Compare.OP_NUMERIC_LT, false);
         assertTrue("Text 26a", pos.found);
         assertEquals("Find 26b, expecting 31 was " + pos.row, 31, pos.row);
 
-        storeFile.find("5011", pos, true, Compare.OP_NUMERIC_LE);
+        storeFile.find("5011", pos, true, Compare.OP_NUMERIC_LE, false);
         assertTrue("Text 27a", pos.found);
         assertEquals("Find 27b, expecting 34 was " + pos.row, 34, pos.row);
 
-        storeFile.find("51", pos, true, Compare.OP_CONTAINS);
+        storeFile.find("51", pos, true, Compare.OP_CONTAINS, false);
         assertTrue("Text 28a", pos.found);
         assertEquals("Find 28b, expecting 37 was " + pos.row, 37, pos.row);
 
         pos.adjustPosition(1, Compare.OP_CONTAINS);
-        storeFile.find("51", pos, true, Compare.OP_CONTAINS);
+        storeFile.find("51", pos, true, Compare.OP_CONTAINS, false);
         assertTrue("Text 29a", pos.found);
         assertEquals("Find 29b, expecting 39 was " + pos.row, 39, pos.row);
 
-        storeFile.find("51", pos, true, Compare.OP_DOESNT_CONTAIN);
+        storeFile.find("51", pos, true, Compare.OP_DOESNT_CONTAIN, false);
         assertTrue("Text 2Aa", pos.found);
         assertEquals("Find 2Ab, expecting 43 was " + pos.row, 43, pos.row);
         System.out.println("==> " +pos.found + " " + pos.row + " " + pos.currentFieldNumber);

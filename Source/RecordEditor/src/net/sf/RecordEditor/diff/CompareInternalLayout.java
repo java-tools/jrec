@@ -32,7 +32,7 @@ public class CompareInternalLayout extends AbstractWizard<DiffDefinition> {
 	 * @param recentFiles Recent files holder file
 	 */
 	public CompareInternalLayout(
-			AbstractLayoutSelection<?> selection1, AbstractLayoutSelection<?> selection2,
+			AbstractLayoutSelection selection1, AbstractLayoutSelection selection2,
 			String recentFiles) {
 		this(selection1,
 			 selection2,
@@ -138,11 +138,11 @@ public class CompareInternalLayout extends AbstractWizard<DiffDefinition> {
 			= new net.sf.RecordEditor.jibx.compare.DiffDefinition();
 //		private JPanel goPanel = new JPanel();
 		private FileChooser newFileName = new FileChooser();
-		private AbstractLayoutSelection<?> layoutSelection1;
-		private AbstractLayoutSelection<?> layoutSelection2;
+		private AbstractLayoutSelection layoutSelection1;
+		private AbstractLayoutSelection layoutSelection2;
 
 
-		public GetFiles(AbstractLayoutSelection<?> selection1, AbstractLayoutSelection<?> selection2, String recentFiles) {
+		public GetFiles(AbstractLayoutSelection selection1, AbstractLayoutSelection selection2, String recentFiles) {
 			super(selection1, recentFiles);
 
 			newFileName.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());

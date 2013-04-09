@@ -11,20 +11,20 @@ import net.sf.RecordEditor.po.def.PoLine;
  * @author Bruce Martin
  *
  */
-public class PoLineProvider implements LineProvider<LayoutDetail> {
+public class PoLineProvider implements LineProvider<LayoutDetail, AbstractLine> {
 
 	@Override
-	public AbstractLine<LayoutDetail> getLine(LayoutDetail recordDescription) {
+	public AbstractLine getLine(LayoutDetail recordDescription) {
 		return new PoLine();
 	}
 
 	@Override
-	public AbstractLine<LayoutDetail> getLine(LayoutDetail recordDescription, String linesText) {
+	public AbstractLine getLine(LayoutDetail recordDescription, String linesText) {
 		throw new RecordRunTimeException("Not Supported");
 	}
 
 	@Override
-	public AbstractLine<LayoutDetail> getLine(LayoutDetail recordDescription, byte[] lineBytes) {
+	public AbstractLine getLine(LayoutDetail recordDescription, byte[] lineBytes) {
 		throw new RecordRunTimeException("Not Supported");
 	}
 

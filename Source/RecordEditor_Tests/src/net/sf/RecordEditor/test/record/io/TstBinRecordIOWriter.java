@@ -9,6 +9,7 @@ package net.sf.RecordEditor.test.record.io;
 import java.io.IOException;
 import java.util.Arrays;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
@@ -17,10 +18,6 @@ import net.sf.JRecord.IO.BinaryLineReader;
 import net.sf.JRecord.IO.BinaryLineWriter;
 import net.sf.RecordEditor.test.TstConstants;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
-
-
-
-import junit.framework.TestCase;
 
 /**
  * Tests BinaryLineReader
@@ -140,7 +137,7 @@ public class TstBinRecordIOWriter extends TestCase {
     }
 
 
-    public void fileTest(String id, byte[][] linesPrice) 
+    public void fileTest(String id, byte[][] linesPrice)
     throws IOException, RecordException  {
         BinaryLineReader tReader = new BinaryLineReader();
         int i = 0;
@@ -194,7 +191,7 @@ public class TstBinRecordIOWriter extends TestCase {
     private void writeAFile(String name, byte[][] bytes, LayoutDetail details)
     throws IOException  {
         int i;
-        BinaryLineWriter writer = new BinaryLineWriter();
+        BinaryLineWriter writer = BinaryLineWriter.newBinaryWriter();
 
         writer.open(name);
 

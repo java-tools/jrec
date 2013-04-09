@@ -47,7 +47,7 @@ public class LineModel extends BaseLineModel {
 
 	private int currentRow;
 
-	private AbstractLine<?> currentLine;
+	private AbstractLine currentLine;
 
 	boolean oneLineHex = true;
 
@@ -59,13 +59,13 @@ public class LineModel extends BaseLineModel {
      *
      * @param file file to display
      */
-   public LineModel(final FileView<?> file) {
+   public LineModel(final FileView file) {
        super(file);
 
        calcColumnCounts();
    }
 
-   public LineModel(final FileView<?> file, int cols) {
+   public LineModel(final FileView file, int cols) {
        super(file, cols);
 
        calcColumnCounts();
@@ -192,7 +192,9 @@ public class LineModel extends BaseLineModel {
 		return col >= firstDataColumn
 		    && (oneLineHex || col < hexColumn)
 		    && (getFixedCurrentLayout() < layout.getRecordCount()
-		     || ! getFileView().isBinaryFile());
+		     ||  (   (! getFileView().isBinaryFile())
+		    	   && Common.OPTIONS.allowTextEditting.isSelected())
+		    	 );
 	}
 
 
@@ -208,7 +210,7 @@ public class LineModel extends BaseLineModel {
      * get the current line
      * @return current line
      */
-    public AbstractLine<?> getCurrentLine() {
+    public AbstractLine getCurrentLine() {
         return currentLine;
     }
 
@@ -237,7 +239,7 @@ public class LineModel extends BaseLineModel {
 	 * @param line Current Line
 	 * @param defaultLayout default record layout
 	 */
-	public void setCurrentLine(AbstractLine<?> line, int defaultLayout) {
+	public void setCurrentLine(AbstractLine line, int defaultLayout) {
 		currentLine = line;
 		setIndex(currentLine.getPreferredLayoutIdx(), defaultLayout);
 	}

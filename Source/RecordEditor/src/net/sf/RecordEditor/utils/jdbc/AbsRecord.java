@@ -19,7 +19,7 @@ package net.sf.RecordEditor.utils.jdbc;
 import javax.swing.JFrame;
 
 import net.sf.JRecord.Common.AbsRow;
-import net.sf.JRecord.External.AbstractUpdatableRecord;
+import net.sf.JRecord.External.Def.AbstractUpdatableRecord;
 
 
 /**

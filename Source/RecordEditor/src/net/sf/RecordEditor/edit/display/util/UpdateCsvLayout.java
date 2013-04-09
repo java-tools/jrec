@@ -64,7 +64,6 @@ public class UpdateCsvLayout implements ActionListener {
 	private ArrayList<FieldDef> fields = new ArrayList<FieldDef>(20);
 	private LayoutDetail layout;
 
-	@SuppressWarnings("rawtypes")
 	private FileView view;
 	private AbstractFileDisplay source;
 
@@ -306,7 +305,7 @@ public class UpdateCsvLayout implements ActionListener {
 			}
 		}
 
-        FieldDetail[] flds = new FieldDetail[newFieldCount];
+		RecordDetail.FieldDetails[] flds = new RecordDetail.FieldDetails[newFieldCount];
         RecordDetail[] recs = new RecordDetail[1];
         int format    = 0;
         FieldDef f;
@@ -323,7 +322,7 @@ public class UpdateCsvLayout implements ActionListener {
 	    for (int i = 0; i < fields.size(); i++) {
 	    	f = fields.get(i);
 	    	if (f.include) {
-	            flds[j] = new FieldDetail(f.name, f.name, getType(f), f.decimal,
+	            flds[j] = new RecordDetail.FieldDetails(f.name, f.name, getType(f), f.decimal,
 	                        layout.getFontName(), format, "");
 	            flds[j].setPosOnly(j + 1);
 	            if (f.defaultValue != null && ! "".equals(f.defaultValue.trim())) {

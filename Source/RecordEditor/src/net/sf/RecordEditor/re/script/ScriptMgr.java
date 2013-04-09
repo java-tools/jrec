@@ -65,7 +65,6 @@ public class ScriptMgr implements ValidExtensionCheck {
 		            eng.put("file",       data.fileLines);
 		            eng.put("view",       data.viewLines);
 		            eng.put("layout",     data.view.getLayout());
-		            //line.getLayout().getRecord(0).getFieldCount()
 		        }
 
 		        eng.put("treeRoot",   data.root);

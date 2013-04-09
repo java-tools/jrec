@@ -2,11 +2,11 @@ package net.sf.RecordEditor.test.recordSelection;
 
 import java.util.List;
 
+import junit.framework.TestCase;
 import net.sf.RecordEditor.re.db.Record.RecordSelectionDB;
 import net.sf.RecordEditor.re.db.Record.RecordSelectionRec;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReConnection;
-import junit.framework.TestCase;
 
 public class TestRecordSelectionDB extends TestCase {
 	TestValues vals = new TestValues();

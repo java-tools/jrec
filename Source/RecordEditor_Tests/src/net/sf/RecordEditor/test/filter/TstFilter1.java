@@ -2,7 +2,6 @@ package net.sf.RecordEditor.test.filter;
 
 
 import junit.framework.TestCase;
-
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
@@ -11,10 +10,8 @@ import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
 import net.sf.JRecord.detailsSelection.FieldSelectX;
 import net.sf.JRecord.detailsSelection.RecordSel;
-
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.file.filter.FilterDetails;
-
 import net.sf.RecordEditor.test.TstConstants;
 
 
@@ -203,7 +200,7 @@ public class TstFilter1 extends TestCase {
 	private void tstFilter(LayoutDetail layout, String[] result, String value, String op, int fldIdx) throws Exception {
 		FileView f = TstConstants.readFileView(layout, csvLines, Constants.IO_NAME_1ST_LINE);
 		AbstractLayoutDetails l = f.getLayout();
-		FilterDetails filter = new FilterDetails(l);
+		FilterDetails filter = new FilterDetails(l, FilterDetails.FT_NORMAL);
 		RecordSel rSel = FieldSelectX.get("", value, op, l.getRecord(0).getField(fldIdx));
 
 		filter.getFilterFieldListMdl().setRecordSelection(0, rSel);

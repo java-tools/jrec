@@ -9,6 +9,7 @@ package net.sf.JRecord.zTest.ioProvider;
 import java.io.IOException;
 import java.util.Arrays;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.ByteIO.FixedLengthByteReader;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
@@ -21,10 +22,6 @@ import net.sf.JRecord.Numeric.Convert;
 import net.sf.JRecord.zTest.Common.IO;
 import net.sf.JRecord.zTest.Common.TstConstants;
 import net.sf.JRecord.zTest.Common.TstData;
-
-
-
-import junit.framework.TestCase;
 
 /**
  *

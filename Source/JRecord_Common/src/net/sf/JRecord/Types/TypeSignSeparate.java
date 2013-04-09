@@ -13,7 +13,7 @@
  */
 package net.sf.JRecord.Types;
 
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 
 /**
@@ -47,7 +47,7 @@ public class TypeSignSeparate extends TypeNum {
      */
     public Object getField(byte[] record,
             final int position,
-			final FieldDetail field) {
+			final IFieldDetail field) {
         return addDecimalPoint(
                 	fromSignSeparate(super.getFieldText(record, position, field)),
                 	field.getDecimal());
@@ -59,7 +59,7 @@ public class TypeSignSeparate extends TypeNum {
      */
     public byte[] setField(byte[] record,
             final int position,
-			final FieldDetail field,
+			final IFieldDetail field,
 			Object value)
     throws RecordException {
 
@@ -81,7 +81,7 @@ public class TypeSignSeparate extends TypeNum {
 	 * conversion
 	 */
 	private String toSignSeparate(String num,
-                                  FieldDetail field)
+                                  IFieldDetail field)
     throws RecordException {
 
 

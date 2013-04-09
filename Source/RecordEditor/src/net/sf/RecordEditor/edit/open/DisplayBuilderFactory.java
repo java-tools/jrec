@@ -50,9 +50,9 @@ public class DisplayBuilderFactory implements IDisplayBuilder {
 
 	public static AbstractFileDisplay newLineList(
 				final IDisplayFrame<? extends AbstractFileDisplay> frame,
-				final AbstractLayoutDetails<?, ?> group,
-				final FileView<?> viewOfFile,
-				final FileView<?> masterFile) {
+				final AbstractLayoutDetails group,
+				final FileView viewOfFile,
+				final FileView masterFile) {
 
 		return instance.newDisplay(ST_LIST_SCREEN, "", frame, group, viewOfFile, 0);
 	}
@@ -78,7 +78,7 @@ public class DisplayBuilderFactory implements IDisplayBuilder {
 	@Override
 	public AbstractFileDisplayWithFieldHide newDisplay(int screenType, String screenName,
 			IDisplayFrame<? extends AbstractFileDisplay> parentFrame,
-			AbstractLayoutDetails<?, ?> group, FileView<?> viewOfFile,
+			AbstractLayoutDetails group, FileView viewOfFile,
 			int lineNo) {
 		AbstractFileDisplayWithFieldHide disp = null;
 		int i;
@@ -94,7 +94,7 @@ public class DisplayBuilderFactory implements IDisplayBuilder {
 	@Override
 	public AbstractFileDisplayWithFieldHide newDisplay(int screenType, String screenName,
 			IDisplayFrame<? extends AbstractFileDisplay> parentFrame,
-			AbstractLayoutDetails<?, ?> group, FileView<?> viewOfFile,
+			AbstractLayoutDetails group, FileView viewOfFile,
 			@SuppressWarnings("rawtypes") AbstractLine line) {
 		AbstractFileDisplayWithFieldHide disp = null;
 
@@ -108,7 +108,7 @@ public class DisplayBuilderFactory implements IDisplayBuilder {
 	@Override
 	public AbstractFileDisplayWithFieldHide newDisplay(int screenType,
 			IDisplayFrame<? extends AbstractFileDisplay> parentFrame,
-			AbstractLayoutDetails<?, ?> group, FileView<?> viewOfFile,
+			AbstractLayoutDetails group, FileView viewOfFile,
 			AbstractLineNodeTreeParser treeParser, boolean mainView,
 			int columnsToSkip) {
 		AbstractFileDisplayWithFieldHide disp = null;

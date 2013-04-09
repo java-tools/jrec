@@ -17,7 +17,7 @@
 package net.sf.JRecord.Types;
 
 import net.sf.JRecord.Common.Conversion;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 
 /**
@@ -51,7 +51,7 @@ public class TypeFloat extends TypeNum {
      */
     public Object getField(byte[] record,
             final int position,
-			final FieldDetail field) {
+			final IFieldDetail field) {
          Object val = "";
 
          int fldLength = field.getLen();
@@ -78,7 +78,7 @@ public class TypeFloat extends TypeNum {
      */
     public byte[] setField(byte[] record,
             final int position,
-			final FieldDetail field,
+			final IFieldDetail field,
 			Object value)
     throws RecordException {
 

@@ -14,7 +14,7 @@ package net.sf.JRecord.Details;
  * @author Bruce Martin
  *
  */
-public class DefaultLineProvider implements LineProvider<LayoutDetail> {
+public class DefaultLineProvider implements LineProvider<LayoutDetail, Line> {
 
 
     /**
@@ -24,7 +24,7 @@ public class DefaultLineProvider implements LineProvider<LayoutDetail> {
      *
      * @return line just created
      */
-    public AbstractLine<LayoutDetail> getLine(LayoutDetail recordDescription) {
+    public Line getLine(LayoutDetail recordDescription) {
         return new Line(recordDescription);
     }
 
@@ -36,7 +36,7 @@ public class DefaultLineProvider implements LineProvider<LayoutDetail> {
      *
      * @return line
      */
-    public AbstractLine<LayoutDetail> getLine(LayoutDetail recordDescription, String linesText) {
+    public Line getLine(LayoutDetail recordDescription, String linesText) {
         return new Line(recordDescription, linesText);
     }
 
@@ -49,7 +49,7 @@ public class DefaultLineProvider implements LineProvider<LayoutDetail> {
      *
      * @return line
      */
-    public AbstractLine<LayoutDetail> getLine(LayoutDetail recordDescription, byte[] lineBytes) {
+    public Line getLine(LayoutDetail recordDescription, byte[] lineBytes) {
         return new Line(recordDescription, lineBytes);
     }
 }

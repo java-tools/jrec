@@ -15,12 +15,11 @@ package net.sf.RecordEditor.layoutWizard;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
-import net.sf.JRecord.External.ExternalField;
 import net.sf.JRecord.External.ExternalRecord;
+import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.Types.Type;
@@ -228,9 +227,9 @@ public class Details {
 
 
         if (fileStructure == Common.IO_FIXED_LENGTH) {
-            FieldDetail[] field = new FieldDetail[1];
+            RecordDetail.FieldDetails[] field = new RecordDetail.FieldDetails[1];
 
-            field[0] = new FieldDetail("", "", Type.ftChar, 0, "",  0, "");
+            field[0] = new RecordDetail.FieldDetails("", "", Type.ftChar, 0, "",  0, "");
             field[0].setPosLen(1, recordLength);
             recs = new RecordDetail[1];
             recs[0] = new RecordDetail(

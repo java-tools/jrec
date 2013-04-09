@@ -4,7 +4,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.External.ExternalConversion;
 import net.sf.RecordEditor.utils.common.TranslateXmlChars;
 
@@ -111,7 +111,7 @@ public class HtmlMultiTableWriter extends BaseWriter {
 	 * @see net.sf.RecordEditor.re.fileWriter.BaseWriter#writeFieldDetails(net.sf.JRecord.Common.FieldDetail, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void writeFieldDetails(FieldDetail fldDetail, String fieldValue,
+	public void writeFieldDetails(IFieldDetail fldDetail, String fieldValue,
 			String textValue, String HexValue) throws IOException {
 		if (newRow) {
 			rowHeading();

@@ -27,7 +27,7 @@ def test():
 		select('JTreeTable', 'cell:Sequence Number,0(45.352)')
 		assert_p('JTreeTable', 'Content', '[[, , H1, 45.352, 5341, 294915, 041013, , 00, , 475, 041231, 050107, P, , , WOMENS SHO, C, FT], [, , H1, 45.349, 6060, 286225, 040909, , 00, , 200, 050102, 050107, , , , LADIES KNI, C, FT], [, , H1, 45.350, 6228, 222227, 040909, , 00, , 200, 050102, 050107, , , , LADIES KNI, C, FT], [, , H1, 45.351, 6228, 222243, 040909, , 00, , 200, 050102, 050107, , , , LADIES KNI, C, FT], [, , H1, 45.352, 5341, 294915, 041013, , 00, , 475, 041231, 050107, P, , , WOMENS SHO, C, FT], [, , H1, 45.353, 5341, 294987, 041013, , 00, , 475, 041231, 050107, P, , , WOMENS SHO, C, FT], [, , H1, 45.354, 5341, 295139, 041013, , 00, , 475, 041231, 050107, P, , , WOMENS SHO, C, FT], [, , H1, 45.355, 5341, 303662, 041110, , 00, , 310, 041231, 050107, P, , , YOUTH SHOE, C, FT], [, , H1, 45.356, 5341, 304100, 041111, , 00, , 310, 041231, 050107, P, , , YOUTH SHOE, C, FT]]')
 		select('JTreeTable', 'cell:Sequence Number,0(45.352)')
-		select_menu('Window>>Ams_PODownload_20041231.txt>>Table: ')
+		select_menu('Window>>Ams_PODownload_20041231.txt>>Table:')
 		select('JTreeTable', 'cell:Sequence Number,0(45.352)')
 		select('Table', 'rows:[0,1,2,3,4],columns:[3 - 4|DC Number 1]')
 		select_menu('View>>Table View #{Selected Records#}')

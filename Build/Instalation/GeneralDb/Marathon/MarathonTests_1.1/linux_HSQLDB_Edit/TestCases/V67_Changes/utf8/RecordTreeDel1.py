@@ -29,7 +29,7 @@ def test():
 		select('JTreeTable', 'cell:PO,3(148320000000)')
 		select_menu('Window>>utf8a_Ams_PODownload_20041231.txt>>Tree View')
 		select('JTreeTable', 'cell:PO,3(148320000000)')
-		select_menu('Window>>utf8a_Ams_PODownload_20041231.txt>>Table: ')
+		select_menu('Window>>utf8a_Ams_PODownload_20041231.txt>>Table:')
 		select('JTreeTable', 'cell:PO,3(148320000000)')
 		select('Table', 'cell:15 - 4|DC Number 2,2(5045)')
 		assert_p('Table', 'RowCount', '68')

@@ -7,11 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
-import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.LineIOProvider;
@@ -31,7 +29,7 @@ public class LineBufferedReader extends BufferedReader {
 
 	public LineBufferedReader(
 			String fileName, 
-			AbstractLayoutDetails<? extends FieldDetail, ? extends AbstractRecordDetail> dtl, 
+			AbstractLayoutDetails dtl, 
 			List<AbstractLine> lineArray,
 			boolean stripTrailingSpaces) 
 	throws IOException, RecordException {
@@ -238,7 +236,7 @@ public class LineBufferedReader extends BufferedReader {
 	/**
 	 * @return the filteredLayout
 	 */
-	public final AbstractLayoutDetails<? extends FieldDetail, ? extends AbstractRecordDetail> getFilteredLayout() {
+	public final AbstractLayoutDetails getFilteredLayout() {
 		return filteredLayout;
 	}
 }

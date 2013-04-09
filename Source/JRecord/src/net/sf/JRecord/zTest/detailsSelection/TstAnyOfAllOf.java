@@ -3,6 +3,7 @@ package net.sf.JRecord.zTest.detailsSelection;
 import java.util.ArrayList;
 import java.util.List;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.Line;
@@ -10,7 +11,6 @@ import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
 import net.sf.JRecord.detailsSelection.FieldSelect;
 import net.sf.JRecord.detailsSelection.FieldSelectX;
-import junit.framework.TestCase;
 
 public class TstAnyOfAllOf extends TestCase {
 
@@ -82,7 +82,8 @@ public class TstAnyOfAllOf extends TestCase {
 
 
     public void testAnyOf() {
-    	assertTrue( "Any Of - yes",   (new FieldSelectX.AnyAllOf(yes,   true)).isSelected(lines));
+    	FieldSelectX.AnyAllOf anyAllOf = new FieldSelectX.AnyAllOf(yes,   true);
+		assertTrue( "Any Of - yes",   anyAllOf.isSelected(lines));
     	assertTrue( "Any Of - odd",   (new FieldSelectX.AnyAllOf(odd,   true)).isSelected(lines));
     	assertTrue( "Any Of - first", (new FieldSelectX.AnyAllOf(first, true)).isSelected(lines));
     	assertFalse("Any Of - no",    (new FieldSelectX.AnyAllOf(no,    true)).isSelected(lines));

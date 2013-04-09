@@ -19,15 +19,14 @@ public class CreateRecordTree extends ReFrame implements ActionListener  {
 
 	public final CreateRecordTreePnl treeDisplay;
 
-	private AbstractLayoutDetails<?, ?> layout;
+	private AbstractLayoutDetails layout;
 
 	private AbstractFileDisplay source;
 
-	@SuppressWarnings("rawtypes")
 	private FileView view;
 
 
-	public CreateRecordTree(AbstractFileDisplay src, @SuppressWarnings("rawtypes") FileView fileView) {
+	public CreateRecordTree(AbstractFileDisplay src, FileView fileView) {
 		super(fileView.getFileNameNoDirectory(), "Create Record Tree",
 				fileView.getBaseFile());
 
@@ -117,7 +116,6 @@ public class CreateRecordTree extends ReFrame implements ActionListener  {
 	     treeDisplay.panel.setMessageRawTxt("");
 
 	     try {
-	     	@SuppressWarnings("rawtypes")
 			FileView newView = getNewView();
 
 	        if (newView == null) {
@@ -144,7 +142,6 @@ public class CreateRecordTree extends ReFrame implements ActionListener  {
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
 	protected final FileView getNewView() {
 
         return source.getFileView().getView();

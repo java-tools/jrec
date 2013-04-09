@@ -10,7 +10,7 @@ package net.sf.RecordEditor.re.jrecord.format;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 
 
 
@@ -44,7 +44,7 @@ public interface CellFormat {
      *
      * @return Table Cell Render to be used to display the field
      */
-    public abstract TableCellRenderer getTableCellRenderer(FieldDetail fld);
+    public abstract TableCellRenderer getTableCellRenderer(IFieldDetail fld);
 
     /**
      * Get Table Cell Editor
@@ -53,7 +53,7 @@ public interface CellFormat {
      *
      * @return Table Cell Editor to be used to edit the field
      */
-    public abstract TableCellEditor getTableCellEditor(FieldDetail fld);
+    public abstract TableCellEditor getTableCellEditor(IFieldDetail fld);
 
 
     /**

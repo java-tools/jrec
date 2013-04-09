@@ -6,11 +6,11 @@
  */
 package net.sf.JRecord.zTest.Types;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.Types.TypeManager;
-import junit.framework.TestCase;
 
 /**
  *

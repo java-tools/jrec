@@ -47,9 +47,9 @@ implements AbstractFileDisplayWithFieldHide {
 	public void setScreenSize(boolean mainframe) {
 
 
-		int stdWidth  = java.lang.Math.min(this.screenSize.width - 2, 160 * SwingUtils.CHAR_WIDTH );
+		int stdWidth  = java.lang.Math.min(this.screenSize.width - 2, 160 * SwingUtils.CHAR_FIELD_WIDTH );
 		int stdHeight = Math.min(
-				25 * SwingUtils.CHAR_HEIGHT,
+				25 * SwingUtils.CHAR_FIELD_HEIGHT,
 				this.screenSize.height - 3 - getParentFrame().getY());
 
 		setScreenSize(mainframe,  stdWidth, Math.max(getParentFrame().getPreferredSize().height, stdHeight ) );
@@ -64,7 +64,7 @@ implements AbstractFileDisplayWithFieldHide {
 	private void setMinSize(JComponent c) {
 		Dimension d = c.getPreferredSize();
 
-		d.height = Math.min(d.height, SwingUtils.CHAR_HEIGHT * 3 + 3);
+		d.height = Math.min(d.height, SwingUtils.CHAR_FIELD_HEIGHT * 3 + 3);
 		c.setPreferredSize(d);
 	}
 }

@@ -70,7 +70,7 @@ public interface ReActionHandler {
 
     public static final int SORT            = 30;
 
-    public static final int REPEAT_RECORD   = 31;
+    public static final int REPEAT_RECORD_POPUP   = 31;
     public static final int NEXT_RECORD     = 32;
     public static final int PREVIOUS_RECORD = 33;
 
@@ -114,7 +114,15 @@ public interface ReActionHandler {
     public static final int ADD_CHILD_SCREEN_BOTTOM = 69;
     public static final int ADD_CHILD_SCREEN_SWAP   = 70;
 
-    public static final int MAX_ACTION      = 71;
+    public static final int INSERT_RECORDS_POPUP      = 71;
+    public static final int INSERT_RECORD_PRIOR_POPUP = 72;
+    public static final int PASTE_RECORD_POPUP        = 73;
+
+    public static final int PASTE_RECORD_PRIOR_POPUP  = 74;
+    public static final int DELETE_RECORD_POPUP       = 75;
+    public static final int DELETE_BUTTON             = 76;
+
+    public static final int MAX_ACTION      = 77;
 
     /**
      * Execute a form action

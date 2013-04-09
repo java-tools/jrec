@@ -3,33 +3,35 @@ package net.sf.JRecord.Details;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.CsvParser.AbstractParser;
+import net.sf.JRecord.CsvParser.ICsvDefinition;
 import net.sf.JRecord.CsvParser.ParserManager;
 import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.Types.TypeManager;
 
 public class CharLine extends BasicLine<CharLine>  {
 
-	private static LineProvider<LayoutDetail> defaultProvider = new CharLineProvider();
+	private static LineProvider<LayoutDetail, CharLine> defaultProvider = new CharLineProvider();
 	private static final AbstractTreeDetails<FieldDetail, RecordDetail, LayoutDetail, CharLine>
 				NULL_TREE_DETAILS = new NullTreeDtls<FieldDetail, RecordDetail, LayoutDetail, AbstractChildDetails<RecordDetail>, CharLine>();
 
 	private String data;
-	
+
 	public CharLine(LayoutDetail layoutDef, String line) {
 		super(defaultProvider, layoutDef, NULL_TREE_DETAILS);
 
-		
+
 		if (line == null) {
 			data = "";
 		} else {
-			data = line;		
+			data = line;
 		}
 		init();
 	}
-	
-	
+
+
 	@Override
 	public byte[] getData(int start, int len) {
 		String tmpData = getLineData();
@@ -43,13 +45,13 @@ public class CharLine extends BasicLine<CharLine>  {
 	    // 		+ " " + tmpData);
 		return Conversion.getBytes(
 				tmpData.substring(
-						start - 1, 
+						start - 1,
 						start + tempLen - 1
-				), 
+				),
 				layout.getFontName());
 	}
 
-	
+
 	@Override
 	public byte[] getData() {
 		return Conversion.getBytes(getLineData(), layout.getFontName());
@@ -58,21 +60,21 @@ public class CharLine extends BasicLine<CharLine>  {
 
 
 	@Override
-	public Object getField(FieldDetail field) {
-		
+	public Object getField(IFieldDetail field) {
+
 		if (field.isFixedFormat()) {
-			if (field.getType() == Type.ftChar 
+			if (field.getType() == Type.ftChar
 			||  field.getType() == Type.ftCharRightJust
 			||  field.getType() == Type.ftCharRestOfRecord) {
 				return getFieldText(field);
 			}
-			
+
 			Type type = TypeManager.getSystemTypeManager().getType(field.getType());
 			byte[] bytes = getData(field.getPos(), field.getLen());
-			FieldDetail tmpField = new FieldDetail(field.getFontName(), field.getDescription(), 
+			FieldDetail tmpField = new FieldDetail(field.getFontName(), field.getDescription(),
 					field.getType(), field.getDecimal() ,field.getFontName(), field.getFormat(), field.getParamater());
 			tmpField.setPosLen(1, bytes.length);
-			
+
 			return type.getField(bytes, 1, field);
 		} else {
 			return layout.formatCsvField(field, field.getType(), getLineData());
@@ -91,9 +93,9 @@ public class CharLine extends BasicLine<CharLine>  {
 	public String getFieldText(int recordIdx, int fieldIdx) {
 		return  getFieldText(layout.getRecord(recordIdx).getField(fieldIdx));
 	}
-	
-	
-	private String getFieldText(FieldDetail fldDef) {
+
+
+	private String getFieldText(IFieldDetail fldDef) {
 		int start = fldDef.getPos() - 1;
 		String tData = getLineData();
 
@@ -113,7 +115,7 @@ public class CharLine extends BasicLine<CharLine>  {
 			}
 			s = s.substring(0, len);
 		}
-		
+
 		return s;
 	}
 
@@ -133,11 +135,11 @@ public class CharLine extends BasicLine<CharLine>  {
 	public int getPreferredLayoutIdx() {
 		int ret = preferredLayout;
 		String d = getLineData();
-		
+
 		if (ret == Constants.NULL_INTEGER) {
 			ret = getPreferredLayoutIdxAlt();
-			
-			if (ret < 0) {				
+
+			if (ret < 0) {
 				for (int i=0; i< layout.getRecordCount(); i++) {
 					if (d.length() == layout.getRecord(i).getLength()) {
 						ret = i;
@@ -147,7 +149,7 @@ public class CharLine extends BasicLine<CharLine>  {
 				}
 			}
 		}
-		
+
 		return ret;
 	}
 
@@ -160,18 +162,18 @@ public class CharLine extends BasicLine<CharLine>  {
 	protected void clearData() {
 		data = "";
 	}
-	
+
 	protected String getLineData() {
 		return data;
 	}
-	
-	
+
+
 	@Override
 	public void setData(String newVal) {
 		data = newVal;
 	}
 
-	
+
 	public void setDataRaw(String newVal) {
 		data = newVal;
 	}
@@ -191,60 +193,61 @@ public class CharLine extends BasicLine<CharLine>  {
 
 
 	@Override
-	public void setField(FieldDetail field, Object value)
+	public void setField(IFieldDetail field, Object value)
 			throws RecordException {
-		
+
 		if (field.isFixedFormat()) {
 			String s = "";
 			Type type = TypeManager.getSystemTypeManager().getType(field.getType());
 			if (value != null) {
 				s = value.toString();
 			}
-			
+
 			s = type.formatValueForRecord(field, s);
-			
+
 			updateData(field.getPos(), field.getLen(), s);
 		} else {
 	        AbstractParser parser = ParserManager.getInstance().get(field.getRecord().getRecordStyle());
 	        Type typeVal = TypeManager.getSystemTypeManager().getType(field.getType());
 	        String s = typeVal.formatValueForRecord(field, value.toString());
-	        
+
             data =
-            		parser.setField(field.getPos() - 1, 
+            		parser.setField(field.getPos() - 1,
             				typeVal.getFieldType(),
-            				data, 
-            				layout.getDelimiter(), field.getQuote(), s);
+            				data,
+            				(ICsvDefinition) field.getRecord(),
+            				s);
 		}
 	}
 
 	@Override
 	public String setFieldHex(int recordIdx, int fieldIdx, String val)
 			throws RecordException {
-		
+
 		return null;
 	}
 
 	@Override
 	public void setFieldText(int recordIdx, int fieldIdx, String value)
 			throws RecordException {
-		FieldDetail fldDef = layout.getRecord(recordIdx).getField(fieldIdx);
-				
+		IFieldDetail fldDef = layout.getRecord(recordIdx).getField(fieldIdx);
+
 		updateData(fldDef.getPos(), fldDef.getLen(), value);
 	}
-	
+
 	private void updateData(int pos, int length, String value) {
 		int i;
 		int start = pos -1;
 		int len = Math.min(value.length(), length);
 		StringBuilder dataBld = new StringBuilder(getLineData());
 		int en = start + Math.max(len, length) - dataBld.length();
-		
+
 		//System.out.print(" --> " + dataBld.length());
 		for (i = 0; i <= en; i++) {
 			dataBld.append(' ');
 		}
-		
-//		System.out.println(" --> " + dataBld.length() 
+
+//		System.out.println(" --> " + dataBld.length()
 //				+ " pos=" + start + " len=" + len
 //				+ " " + en
 //				+ " " + value.length()
@@ -252,7 +255,7 @@ public class CharLine extends BasicLine<CharLine>  {
 		for (i = 0; i < len; i++) {
 			dataBld.setCharAt(start + i, value.charAt(i));
 		}
-		
+
 		for (i = len; i < length; i++) {
 			dataBld.setCharAt(start + i, ' ');
 		}

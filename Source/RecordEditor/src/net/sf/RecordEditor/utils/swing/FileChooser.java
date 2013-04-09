@@ -133,12 +133,11 @@ public class FileChooser extends JTextField implements ActionListener  {
      */
     public synchronized void addFcFocusListener(FocusListener fcListner) {
 
-        super.addFocusListener(fcListner);
-
         if (fcListner == null) {
         	listner.clear();
         } else {
-        	listner.add(fcListner);
+        	super.addFocusListener(fcListner);
+      		listner.add(fcListner);
         }
 
     }

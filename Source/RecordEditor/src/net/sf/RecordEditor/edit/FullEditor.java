@@ -92,6 +92,7 @@ public class FullEditor extends EditRec {
         	  )
         );
 
+
         setupOpenWindow(pInFile, pInitialRow,
           	    pIoProvider,  pInterfaceToCopyBooks);
 
@@ -100,6 +101,7 @@ public class FullEditor extends EditRec {
         					  Parameters.SHOW_RECORDEDITOR_TIPS);
         }
     }
+
 
 
     /**
@@ -196,6 +198,9 @@ public class FullEditor extends EditRec {
 		//System.out.println("Max Memmory: " + Common.MAX_MEMORY);
 
 		Common.OPTIONS.fileWizardAvailable.set(true);
+		Common.OPTIONS.standardEditor.set(true);
+		Common.OPTIONS.addTextDisplay.set(true);
+
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 

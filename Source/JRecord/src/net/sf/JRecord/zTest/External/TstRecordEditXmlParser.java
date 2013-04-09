@@ -6,17 +6,17 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.External.CopybookWriter;
-import net.sf.JRecord.External.ExternalField;
 import net.sf.JRecord.External.ExternalRecord;
-import net.sf.JRecord.External.RecordEditorXmlWriter;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
+import net.sf.JRecord.External.RecordEditorXmlWriter;
+import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Log.TextLog;
 import net.sf.JRecord.zTest.Common.IO;
 import net.sf.JRecord.zTest.Common.TstConstants;
-import junit.framework.TestCase;
 
 /**
  * Testing RecordEditorCSVReader/Writer classes

@@ -22,11 +22,9 @@ import org.jdesktop.swingx.multisplitpane.DefaultSplitPaneModel;
 
 public class SplitPaneRecord implements TableModelListener {
 
-	@SuppressWarnings("rawtypes")
 	private FileView fileView;
 	private int currRow = 0;
 
-	@SuppressWarnings("rawtypes")
 	private AbstractLine line;
 	public final JXMultiSplitPane splitPane = new JXMultiSplitPane();
 
@@ -53,7 +51,7 @@ public class SplitPaneRecord implements TableModelListener {
 	};
 
 
-	public SplitPaneRecord(@SuppressWarnings("rawtypes") FileView viewOfFile, int lineNo) {
+	public SplitPaneRecord(FileView viewOfFile, int lineNo) {
 		fileView = viewOfFile;
 		currRow = lineNo;
 
@@ -163,7 +161,6 @@ public class SplitPaneRecord implements TableModelListener {
 	/**
 	 * @return the line
 	 */
-	@SuppressWarnings("rawtypes")
 	public AbstractLine getLine() {
 		return line;
 	}
@@ -318,17 +315,17 @@ public class SplitPaneRecord implements TableModelListener {
 			splitPane.revalidate();
 		}
 	}
-
-	public final AbstractLine<?> getInsertAfterLine(boolean prev) {
-
-		if (prev) {
-			if (currRow > 0) {
-				return fileView.getLine(currRow - 1);
-			}
-			return null;
-		}
-		return fileView.getLine(currRow);
-	}
+//
+//	public final AbstractLine getInsertAfterLine(boolean prev) {
+//
+//		if (prev) {
+//			if (currRow > 0) {
+//				return fileView.getLine(currRow - 1);
+//			}
+//			return null;
+//		}
+//		return fileView.getLine(currRow);
+//	}
 
 	public final void flush() {
 		for (PaneDtls p : fields) {

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
@@ -22,7 +22,7 @@ public class CmpLineModel extends AbstractTableModel {
 			new String[] {"Field", "Position", "Length", "Old", "New"});
 
 	private ArrayList<LineCompare>[] displayRows;
-	private AbstractLayoutDetails<?, ?> description;
+	private AbstractLayoutDetails description;
 	private int[] changedFields = null;
 
 	private static final int COLUMN_COUNT = 5;
@@ -34,7 +34,7 @@ public class CmpLineModel extends AbstractTableModel {
 
 
 	@SuppressWarnings("unchecked")
-	public CmpLineModel(AbstractLayoutDetails<?, ?> layout,
+	public CmpLineModel(AbstractLayoutDetails layout,
 						  ArrayList<LineCompare> displayBefore, ArrayList<LineCompare> displayAfter) {
 
 		displayRows = new ArrayList[2];
@@ -80,7 +80,7 @@ public class CmpLineModel extends AbstractTableModel {
 					ret = "Key Value";
 				}
 			} else {
-				FieldDetail fld = description.getRecord(recordIdx).getField(id - 1);
+				IFieldDetail fld = description.getRecord(recordIdx).getField(id - 1);
 				if (columnIndex == 0) {
 					ret = fld.getName();
 				} else if (columnIndex == 1) {

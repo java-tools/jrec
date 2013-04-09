@@ -7,7 +7,7 @@
  */
 package net.sf.JRecord.Types;
 
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 
 /**
  * Type for null terminated char String (ie C style string)
@@ -32,7 +32,7 @@ public class TypeCharNullTerminated extends TypeChar {
     /**
      * @see net.sf.JRecord.Types.TypeChar#getFieldEnd(net.sf.RecordEditor.record.types.FieldDetail, byte[])
      */
-    protected int getFieldEnd(FieldDetail currField, byte[] record) {
+    protected int getFieldEnd(IFieldDetail currField, byte[] record) {
         int end = java.lang.Math.min(currField.getEnd(), record.length);
         int ret = currField.getPos() - 1;
 

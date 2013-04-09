@@ -9,6 +9,7 @@ import net.sf.RecordEditor.edit.display.BaseDisplay;
 import net.sf.RecordEditor.edit.display.extension.IChildScreen;
 import net.sf.RecordEditor.edit.display.extension.PaneDtls;
 import net.sf.RecordEditor.edit.display.extension.SplitPaneRecord;
+import net.sf.RecordEditor.edit.display.util.LinePosition;
 import net.sf.RecordEditor.po.def.PoField;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -148,16 +149,16 @@ public class PoChildRecordScreen extends BaseDisplay implements IChildScreen {
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getInsertAfterLine()
 	 */
 	@Override
-	protected AbstractLine<?> getInsertAfterLine(boolean prev) {
-
-		int currRow = splitRecPane.getCurrRow();
-		if (prev) {
-			if (currRow > 0) {
-				return fileView.getLine(currRow - 1);
-			}
-			return null;
-		}
-		return fileView.getLine(currRow);
+	protected LinePosition getInsertAfterLine(boolean prev) {
+		return super.getInsertAfterLine(splitRecPane.getCurrRow(), prev);
+//		int currRow = splitRecPane.getCurrRow();
+//		if (prev) {
+//			if (currRow > 0) {
+//				return fileView.getLine(currRow - 1);
+//			}
+//			return null;
+//		}
+//		return fileView.getLine(currRow);
 	}
 
 	@Override

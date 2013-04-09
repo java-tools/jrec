@@ -5,6 +5,5 @@ import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 
 public interface ILineDisplay extends AbstractFileDisplay {
 
-	public abstract void setLine(@SuppressWarnings("rawtypes") AbstractLine l);
-
+	public abstract void setLine(AbstractLine l);
 }

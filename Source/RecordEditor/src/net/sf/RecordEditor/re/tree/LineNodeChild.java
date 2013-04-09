@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package net.sf.RecordEditor.re.tree;
 
@@ -22,21 +22,21 @@ import net.sf.RecordEditor.utils.swing.BmDefaultMutableTreeNode;
  * @author bm
  *
  */
-public class LineNodeChild 
-extends BmDefaultMutableTreeNode 
+public class LineNodeChild
+extends BmDefaultMutableTreeNode
 implements AbstractLineNode {
 
-	private final static int ROOT_NODE = 1;
-	private final static int LINE_NODE = 2;
-	private final static int CHILD_NODE = 3;
-	
+//	private final static int ROOT_NODE = 1;
+//	private final static int LINE_NODE = 2;
+//	private final static int CHILD_NODE = 3;
+
 //	public final String nodeName;
 	private FileView view;
 	private AbstractLine line = null;
-	
+
 //	private int nodeType = LINE_NODE;
 	private boolean hasChildren = false;
-	
+
 	private AbstractLineNode[] children;
 
 	/**
@@ -48,14 +48,14 @@ implements AbstractLineNode {
 	public LineNodeChild(final String pNodeName,
 					final FileView fileView) {
 		super(pNodeName);
-		
+
 //		nodeName = pNodeName;
 		view = fileView;
 		//nodeType = ROOT_NODE;
-		
+
 		if (view.getRowCount() > 0) {
 			String name;
-			
+
 			for (int i =0; i < view.getRowCount(); i++) {
 				int RecordIdx = view.getLine(i).getPreferredLayoutIdx();
 
@@ -66,7 +66,7 @@ implements AbstractLineNode {
 			hasChildren = true;
 		}
 	}
-	
+
 	/**
 	 * create tree node based on File View
 	 *
@@ -74,6 +74,7 @@ implements AbstractLineNode {
 	 * @param fileView File View (or storage)
 	 * @param theLine line being displayed
 	 */
+	@SuppressWarnings("rawtypes")
 	public LineNodeChild(final String pNodeName,
 					final FileView fileView,
 					final AbstractLine theLine) {
@@ -81,16 +82,16 @@ implements AbstractLineNode {
 //		nodeName = pNodeName;
 		view = fileView;
 		line = theLine;
-		
+
 		view.setNodeForLine(line, this);
-		
+
 		if (line != null) {
 			int recordIdx = line.getPreferredLayoutIdx();
-			
+
 			if (recordIdx >= 0 && getLayout().getRecord(recordIdx) != null) {
 				AbstractRecordDetail recordDef = getLayout().getRecord(recordIdx);
 				hasChildren = recordDef.getChildRecordCount() > 0;
-				
+
 				if (hasChildren) {
 					AbstractChildDetails childDtls;
 					AbstractTreeDetails childLineDtls = theLine.getTreeDetails();
@@ -106,7 +107,7 @@ implements AbstractLineNode {
 						} else {
 							childLines = childLineDtls.getLines(i);
 							children[i] = new LineNodeChild(childLineDtls.getChildName(i), fileView, childLines.get(0));
-							
+
 							add(children[i]);
 						}
 					}
@@ -148,8 +149,8 @@ implements AbstractLineNode {
 		return view;
 	}
 
-	
-	
+
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.swing.BmDefaultMutableTreeNode#remove(int)
 	 */
@@ -168,7 +169,7 @@ implements AbstractLineNode {
 		removeLocal(node);
 	}
 
-	
+
 	private void removeLocal(TreeNode node) {
 		if (children != null) {
 			for (int i = 0; i < children.length; i++) {
@@ -198,7 +199,7 @@ implements AbstractLineNode {
 
 		return -1;
 	}
-	
+
 
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.tree.AbstractLineNode#getDefaultLineNumber()
@@ -215,8 +216,8 @@ implements AbstractLineNode {
 	public String getSortValue() {
 		return null;
 	}
-	
-	
+
+
 
 	/**
 	 * @see net.sf.RecordEditor.re.file.AbstractLineNode#insert(net.sf.JRecord.Details.AbstractLine, int, int)
@@ -234,15 +235,16 @@ implements AbstractLineNode {
 			);
 			super.insert(ret, pos);
 		}
-		
+
 		if (ret != null && view.getBaseFile().getTreeTableNotify() != null) {
 			view.getBaseFile().getTreeTableNotify().fireTreeNodesInserted(ret);
 		}
-		
+
 		return ret;
 	}
-	
-	
+
+
+	@SuppressWarnings("rawtypes")
 	public AbstractLineNode insertStd(AbstractLine newLine, int lineNum, int pos) {
 		AbstractChildDetails childDef = newLine.getTreeDetails().getChildDefinitionInParent();
 		AbstractTreeDetails childLineDtls = line.getTreeDetails();
@@ -255,7 +257,7 @@ implements AbstractLineNode {
 				count += 1;
 			}
 		}
-		
+
 		if (childDef.isRepeated()) {
 			if (children[idx] == null) {
 				//System.out.println(" >>> ### 1 add " + newLine.getFullLine());
@@ -263,8 +265,8 @@ implements AbstractLineNode {
 				super.insert(children[idx], count);
 				view.getTreeTableNotify().fireTreeNodesInserted(children[idx]);
 			} else {
-				//LineNodeChild 
-				
+				//LineNodeChild
+
 				if (children[idx] instanceof LineNodeChildList
 				&& ((LineNodeChildList) children[idx]).isBuilt()) {
 					n = new LineNodeChild(
@@ -294,15 +296,15 @@ implements AbstractLineNode {
 			children[idx] = n;
 			super.insert(n, count);
 		}
-		
-//		
+
+//
 //		if (n != null && view.getBaseFile().getTreeTableNotify() != null) {
 //			view.getBaseFile().getTreeTableNotify().fireTreeNodesInserted(n);
 //		}
-		
+
 		return n;
 	}
-	
+
 	private String getRootName(int idx) {
 		String name = "root";
 		AbstractLayoutDetails layout = getLayout();
@@ -316,7 +318,7 @@ implements AbstractLineNode {
 	public AbstractLineNode getChildbyCode(int code) {
 		return children[code];
 	}
-	
+
 
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.re.file.AbstractLineNode#insertNode(int, java.lang.String, net.sf.RecordEditor.re.file.FileView, net.sf.JRecord.Details.AbstractLine)

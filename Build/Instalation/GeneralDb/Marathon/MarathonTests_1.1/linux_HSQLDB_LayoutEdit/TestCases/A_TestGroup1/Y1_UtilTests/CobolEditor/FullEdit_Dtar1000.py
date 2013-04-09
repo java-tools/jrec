@@ -7,7 +7,7 @@ def test():
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'DTAR1000_Store_file_std.bin')
 		commonBits.setRecordLayoutX(select, 'DTAR1000 VB')
-		click('Edit1')
+		click(commonBits.fl('Edit') + '1')
 		assert_p('Table', 'Text', 'cell:3 - 2|REGION-NO,0(20)')
 		select('Table', 'cell:5 - 50|STORE-NAME,1(Q Coffs Harbour)')
 		assert_p('Table', 'Text', 'Q Coffs Harbour', '5 - 50|STORE-NAME,1')
@@ -17,10 +17,12 @@ def test():
 		select('Table', '201', '3 - 2|REGION-NO,0')
 		select('Table', '401', '3 - 2|REGION-NO,1')
 		select('Table', 'cell:3 - 2|REGION-NO,1(40)')
+##		commonBits.save1(click)
 		click('Save1')
+
 		commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
-		click('Edit1')
+		click(commonBits.fl('Edit') + '1')
 		select('Table', 'cell:3 - 2|REGION-NO,0(201)')
 		assert_p('Table', 'Text', '201', '3 - 2|REGION-NO,0')
 		select('Table', 'cell:3 - 2|REGION-NO,1(401)')
@@ -32,6 +34,8 @@ def test():
 		select('Table', '20', '3 - 2|REGION-NO,0')
 		select('Table', 'cell:3 - 2|REGION-NO,1(40)')
 		click('Save1')
+
+##		commonBits.save1(click)
 		commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 	close()

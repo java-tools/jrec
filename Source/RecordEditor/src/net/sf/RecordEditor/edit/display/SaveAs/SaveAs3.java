@@ -132,7 +132,7 @@ public final class SaveAs3 extends ReFrame
     //private JTextArea msg = new JTextArea();
 
 
-    private FileView<?> file;
+    private FileView file;
 
     private int currentIndex, currentType;
     private String currentExtension = null;
@@ -181,14 +181,14 @@ public final class SaveAs3 extends ReFrame
      * @param recordFrame record frame being displayed
      * @param fileView current file view being displayed
      */
-    public SaveAs3(final AbstractFileDisplay recordFrame, final FileView<?> fileView) {
+    public SaveAs3(final AbstractFileDisplay recordFrame, final FileView fileView) {
     	this(recordFrame, fileView, 0, "");
     }
 
 
 	public SaveAs3(
     		final AbstractFileDisplay recordFrame,
-    		final FileView<?> fileView,
+    		final FileView fileView,
     		int formatIdx, String script) {
         super(fileView.getFileNameNoDirectory(),
         	 ((formatIdx <= 0 || Common.OPTIONS.showAllExportPnls.isSelected()) ? "Export" : "Export1"),
@@ -219,6 +219,7 @@ public final class SaveAs3 extends ReFrame
         		new SaveAsPnlScript(commonSaveFields),
         		new SaveAsPnlXslt(commonSaveFields),
         		new SaveAsPnlVelocity(commonSaveFields) ,
+        		new SaveAsPnlFileStructure(commonSaveFields),
         };
         pnls = p;
 

@@ -52,6 +52,7 @@ import net.sf.cb2xml.sablecc.node.ATrailingLeadingOrTrailing;
 import net.sf.cb2xml.sablecc.node.AValueClause;
 import net.sf.cb2xml.sablecc.node.AValueItem;
 import net.sf.cb2xml.sablecc.node.AVariableOccursFixedOrVariable;
+import net.sf.cb2xml.sablecc.node.PDataNameOrFiller;
 import net.sf.cb2xml.sablecc.node.TAlphanumericLiteral;
 import net.sf.cb2xml.sablecc.node.THighValues;
 import net.sf.cb2xml.sablecc.node.TLowValues;
@@ -234,7 +235,11 @@ public class CopyBookAnalyzer extends DepthFirstAdapter {
 	// enter item, set up Item object
 	public void inAItem(AItem node) {
 		int level = Integer.parseInt(node.getNumberNot88().toString().trim());
-		String name = node.getDataNameOrFiller().toString().trim();
+		PDataNameOrFiller dataName = node.getDataNameOrFiller();
+		String name = "";
+		if (dataName != null) {
+			name = dataName.toString().trim();
+		}
 		curItem = new Item(level, name);
 		if (level <= 77) {
 			if (prevItem == null) {
@@ -425,7 +430,7 @@ public class CopyBookAnalyzer extends DepthFirstAdapter {
     {
         curItem.element.setAttribute("sign-position", "trailing");
     }
-    
+
 	/**
 	 * @see net.sf.cb2xml.sablecc.analysis.DepthFirstAdapter#inABlankWhenZeroClause(net.sf.cb2xml.sablecc.node.ABlankWhenZeroClause)
 	 */
@@ -476,13 +481,13 @@ public class CopyBookAnalyzer extends DepthFirstAdapter {
 		curItem.element.setAttribute("numeric", "true");
 	}
 
-	
+
 	public void inAComp5UsagePhrase(AComp5UsagePhrase node) {
 		curItem.element.setAttribute("usage", "computational-5");
 		curItem.element.setAttribute("numeric", "true");
 	}
 
-	
+
 	public void inAComp6UsagePhrase(AComp6UsagePhrase node) {
 		curItem.element.setAttribute("usage", "computational-6");
 		curItem.element.setAttribute("numeric", "true");
@@ -708,12 +713,12 @@ public class CopyBookAnalyzer extends DepthFirstAdapter {
 	    int storageLength = displayLength;
 
 	    if (element.hasAttribute("usage")) {
-	    	if (numDef != null) { 
+	    	if (numDef != null) {
 		    	String usage = element.getAttribute("usage");
 		    	displayLength = numDef.chkStorageLength(storageLength, usage);
 		        storageLength = numDef.getBinarySize(usage, displayLength, positive, element.hasAttribute("sync"));
 	    	}
-	    } else if (element.hasAttribute("sign-separate") 
+	    } else if (element.hasAttribute("sign-separate")
 	    		&& "true".equalsIgnoreCase(element.getAttribute("sign-separate"))) {
 	    	storageLength += 1;
 	    	displayLength += 1;
@@ -721,7 +726,7 @@ public class CopyBookAnalyzer extends DepthFirstAdapter {
 
 	    element.setAttribute("display-length", displayLength + "");
 	    element.setAttribute("storage-length", storageLength + "");
-	 
+
 	    return storageLength;
 	}
 

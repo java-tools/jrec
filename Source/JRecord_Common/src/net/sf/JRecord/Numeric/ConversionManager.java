@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.sf.JRecord.Common.AbstractManager;
+import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Types.Type;
 
 /**
@@ -43,9 +44,13 @@ public class ConversionManager implements AbstractManager {
         super();
 
         registerConverter(new BasicConvert(Convert.FMT_INTEL, "Intel", Convert.FMT_INTEL, MAINFRAME_BIN_SIZES, false));
-        registerConverter(new BasicConvert(Convert.FMT_MAINFRAME, "Mainframe", Convert.FMT_MAINFRAME, MAINFRAME_BIN_SIZES,
-        		MAINFRAME_SYNC, false, 4, 4));
-        registerConverter(new OpenCobol(Convert.FMT_FUJITSU, "Fujitsu", MAINFRAME_BIN_SIZES, MAINFRAME_SYNC, 4, 8));
+        registerConverter(
+        		(new BasicConvert(
+        				Convert.FMT_MAINFRAME, "Mainframe", Convert.FMT_MAINFRAME, MAINFRAME_BIN_SIZES,
+        				MAINFRAME_SYNC, false, 4, 4)).setDefaultVbFileStructure(Constants.IO_VB));
+        registerConverter((
+        			new OpenCobol(Convert.FMT_FUJITSU, "Fujitsu", MAINFRAME_BIN_SIZES, MAINFRAME_SYNC, 4, 8)
+        		).setDefaultVbFileStructure(Constants.IO_VB_FUJITSU));
         registerConverter(new BasicConvert(Convert.FMT_BIG_ENDIAN, "Big-Endian (Old)", Convert.FMT_BIG_ENDIAN, MAINFRAME_BIN_SIZES, false));
 
         registerConverter(new OpenCobol(Convert.FMT_OPEN_COBOL, "Open Cobol Little Endian (Intel)", BIN_SIZES_1248, BIN_SIZES_1248));
@@ -67,7 +72,6 @@ public class ConversionManager implements AbstractManager {
         		System.out.println("Registering " + conv.getIdentifier() + " " + conv.getName());
         		registerConverter(conv);
         	}
-
         }
 
 //        idx = Convert.FMT_MICRO_FOCUS + 1;
@@ -155,6 +159,7 @@ public class ConversionManager implements AbstractManager {
     private static class OpenCobol extends BasicConvert {
     	public OpenCobol(int id, String name,  int[] binarySizes, int[] syncAt) {
     		super(id,  name, Convert.FMT_BIG_ENDIAN, binarySizes, syncAt, true, 4, 8);
+    		setDefaultVbFileStructure(Constants.IO_VB_OPEN_COBOL);
     	}
 
     	public OpenCobol(int id, String name,  int[] binarySizes, int[] syncAt, int floatSync, int doubleSync) {
@@ -165,8 +170,11 @@ public class ConversionManager implements AbstractManager {
     		int iType;
     		if ( "computational-5".equals(usage)) {
     			iType = Type.ftBinaryInt;
-    			if (super.isPositiveIntAvailable() && ! signed) {
-    				iType = Type.ftPostiveBinaryInt;
+    			if (! signed) {
+        			iType = Type.ftBinaryIntPositive;
+        			if (super.isPositiveIntAvailable()) {
+        				iType = Type.ftPostiveBinaryInt;
+        			}
     			}
     		} else {
     			iType = super.getTypeIdentifier(usage, picture, signed) ;

@@ -72,8 +72,9 @@ public class EditOptions {
     //private JTextArea msgFld = new JTextArea("");
 
     @SuppressWarnings("serial")
-    private AbstractAction save = new ReAbstractAction("Save", Common.getRecordIcon(Common.ID_SAVE_ICON)) {
+    private AbstractAction saveBtn = new ReAbstractAction("Save", Common.getRecordIcon(Common.ID_SAVE_ICON)) {
         public void actionPerformed(ActionEvent e) {
+        	save();
             params.writeProperties();
             params.writeJarFiles();
         }
@@ -197,7 +198,8 @@ public class EditOptions {
         {Parameters.HIGHLIGHT_MISSING_TRANSLATIONS,  "Highlight text for which there is no translation by adding a # to the start of the text", null, EditPropertiesPnl.FLD_BOOLEAN,  "Highlight missing translations",},
         {Parameters.SEPERATE_WINDOWS,  "Create views in seperate windows instead of tabs on the file panel", null, EditPropertiesPnl.FLD_BOOLEAN,  "Create Screens in seperate Windows",},
         {Parameters.SHOW_RECORDEDITOR_TIPS,  "Show RecordEditor Tips on program startup", null, EditPropertiesPnl.FLD_BOOLEAN,  "Show RecordEditor Tips",},
-    };
+        {Parameters.EDIT_RAW_TEXT,  "Allow the user to edit file as Raw Text ??", null, EditPropertiesPnl.FLD_BOOLEAN,  "Allow Editting Raw Text",},
+   };
 
     private String fileDescription
     = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_FileParams",
@@ -593,6 +595,21 @@ public class EditOptions {
         this(terminateOnExit, includeJDBC, includeWizardOptions, true);
     }
 
+
+    private EditPropertiesPnl[] propertiesPnl = {
+    		 directoryPnl1,
+    		 directoryPnl2,
+    		 testPnl,
+    		 behaviourPnl,
+    		 file2Pnl,
+    		 layoutWizardPnl,
+    		 bigModelPnl,
+    		 xsltPnl,
+    		 csvPnl,
+    		 poPnl,
+    		 screenPosPnl,
+    };
+
     /**
      * @param terminateOnExit terminate java on exit
      *
@@ -618,7 +635,7 @@ public class EditOptions {
      */
     private void init_100_ScreenFields(boolean terminateOnExit) {
 
-       save.putValue(AbstractAction.SHORT_DESCRIPTION, LangConversion.convert(LangConversion.ST_MESSAGE, "Save ..."));
+       saveBtn.putValue(AbstractAction.SHORT_DESCRIPTION, LangConversion.convert(LangConversion.ST_MESSAGE, "Save ..."));
 
        programDescription = new JEditorPane("text/html", description);
        xsltJarsPnl.setInitialValues();
@@ -639,6 +656,7 @@ public class EditOptions {
 
        frame.addWindowListener(new WindowAdapter() {
            public void windowClosing(WindowEvent e) {
+        	   save();
                params.writeProperties();
                params.writeJarFiles();
            }
@@ -660,7 +678,7 @@ public class EditOptions {
         	defaultDescription[i][1] = LangConversion.convert(LangConversion.ST_MESSAGE, defaultDescription[i][1]);
         }
 
-        toolBar.add(save);
+        toolBar.add(saveBtn);
 
         SwingUtils.addTab(propertiesTabbed, "EditOpts_Properties","Directories", directoryPnl1);
         SwingUtils.addTab(propertiesTabbed, "EditOpts_Properties","Save Directories", directoryPnl2);
@@ -756,6 +774,12 @@ public class EditOptions {
 //    	}
 //
 //    }
+
+    private void save() {
+    	for (EditPropertiesPnl p : propertiesPnl) {
+    		p.save();
+    	}
+    }
 
     public EditParams getParams() {
         return params;

@@ -109,6 +109,9 @@ public abstract class PositionIncrement {
         	currLine = pos.currentLine;
         }
         int prefIdx = currLine.getPreferredLayoutIdx();
+        if (prefIdx < 0 || prefIdx >= currLine.getLayout().getRecordCount()) {
+        	return -1;
+        }
         int maxField = currLine.getLayout().getRecord(prefIdx).getFieldCount();
 
         pos.recordId = prefIdx;

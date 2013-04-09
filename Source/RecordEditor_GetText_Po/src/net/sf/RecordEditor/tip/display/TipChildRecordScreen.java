@@ -10,6 +10,7 @@ import net.sf.RecordEditor.edit.display.BaseDisplay;
 import net.sf.RecordEditor.edit.display.extension.IChildScreen;
 import net.sf.RecordEditor.edit.display.extension.PaneDtls;
 import net.sf.RecordEditor.edit.display.extension.SplitPaneRecord;
+import net.sf.RecordEditor.edit.display.util.LinePosition;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.tip.def.TipField;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -80,8 +81,8 @@ public class TipChildRecordScreen extends BaseDisplay implements IChildScreen {
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getInsertAfterLine()
 	 */
 	@Override
-	protected AbstractLine<?> getInsertAfterLine(boolean prev) {
-		return splitPane.getInsertAfterLine(prev);
+	protected LinePosition getInsertAfterLine(boolean prev) {
+		return super.getInsertAfterLine(splitPane.getCurrRow(), prev);
 	}
 
 	@Override

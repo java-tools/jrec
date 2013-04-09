@@ -6,8 +6,8 @@
  */
 package net.sf.RecordEditor.test;
 
-import net.sf.JRecord.Common.Conversion;
 import junit.framework.TestCase;
+import net.sf.JRecord.Common.Conversion;
 
 /**
  *

@@ -1,38 +1,45 @@
 useFixture(default)
 
 def test():
+	from Modules import commonBits
 	java_recorded_version = '1.6.0_22'
 
 	if window('Record Layout Definitions'):
-		select_menu('Record Layouts>>Create Layout')
+		select_menu(commonBits.fl('Record Layouts') + '>>' + commonBits.fl('Create Layout'))
 		select('RecordDef.Record Name_Txt', 'xx11xx')
-		select('RecordDef.Record Type_Txt', 'Group of Records')
+		select('RecordDef.Record Type_Txt', commonBits.fl('Group of Records'))
 
-		select('TabbedPane', 'Child Records')
-		click('Insert')
-		click('Insert')
-		select('ChildRecordsJTbl', 'cell:Child Record,0()')
-		select('ChildRecordsJTbl', 'ams PO Download: Allocation', 'Child Record,0')
-		select('ChildRecordsJTbl', 'ams PO Download: Detail', 'Child Record,1')
-		select('ChildRecordsJTbl', 'ams PO Download: Detail', 'Tree Parent,0')
-		select('ChildRecordsJTbl', 'cell:Tree Parent,0(ams PO Download: Detail)')
+		##select('TabbedPane', 'Child Records')
+		click(commonBits.fl('Insert'))
+
+
+		click(commonBits.fl('Insert'))
+
+
+		select('ChildRecordsJTbl', 'cell:' + commonBits.fl('Child Record') + ',0()')
+		select('ChildRecordsJTbl', 'ams PO Download: Allocation', commonBits.fl('Child Record') + ',0')
+		select('ChildRecordsJTbl', 'ams PO Download: Detail', commonBits.fl('Child Record') + ',1')
+		select('ChildRecordsJTbl', 'ams PO Download: Detail', commonBits.fl('Tree Parent') + ',0')
+		select('ChildRecordsJTbl', 'cell:' + commonBits.fl('Tree Parent') + ',0(ams PO Download: Detail)')
 		assert_p('ChildRecordsJTbl', 'Content', '[[, ams PO Download: Allocation, , , , , ams PO Download: Detail], [, ams PO Download: Detail, , , , , ]]')
-		select('ChildRecordsJTbl', 'cell:Tree Parent,0(ams PO Download: Detail)')
-		click('Save As')
+		select('ChildRecordsJTbl', 'cell:' + commonBits.fl('Tree Parent') + ',0(ams PO Download: Detail)')
+		click(commonBits.fl('Save As'))
+
+
 
 		if window('Input'):
 			select('OptionPane.textField', 'xx11xx11')
 			click('OK')
 		close()
 
-		select('TabbedPane', 'Extras')
-		select('TabbedPane', 'Extras')
-		select('TabbedPane', 'Child Records')
+		##select('TabbedPane', 'Extras')
+		##select('TabbedPane', 'Extras')
+		##select('TabbedPane', 'Child Records')
 		assert_p('ChildRecordsJTbl', 'Content', '[[, ams PO Download: Allocation, , , , , ams PO Download: Detail], [, ams PO Download: Detail, , , , , ]]')
-		select('ChildRecordsJTbl', 'cell:Child Record,0(ams PO Download: Allocation)')
-		select('ChildRecordsJTbl', 'cell:Child Record,0(ams PO Download: Allocation)')
-		assert_p('ChildRecordsJTbl', 'Text', 'cell:Child Record,0(ams PO Download: Allocation)')
-		select('ChildRecordsJTbl', 'cell:Child Record,0(ams PO Download: Allocation)')
+		select('ChildRecordsJTbl', 'cell:' + commonBits.fl('Child Record') + ',0(ams PO Download: Allocation)')
+		select('ChildRecordsJTbl', 'cell:' + commonBits.fl('Child Record') + ',0(ams PO Download: Allocation)')
+		assert_p('ChildRecordsJTbl', 'Text', 'cell:' + commonBits.fl('Child Record') + ',0(ams PO Download: Allocation)')
+		select('ChildRecordsJTbl', 'cell:' + commonBits.fl('Child Record') + ',0(ams PO Download: Allocation)')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('*')
 

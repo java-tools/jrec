@@ -21,14 +21,13 @@ public class ChangeLayout implements ActionListener {
 
 	private ReFrame frame;
 
-	@SuppressWarnings("rawtypes")
 	private FileView masterView;
-	private AbstractLayoutSelection<?> layoutReader;
+	private AbstractLayoutSelection layoutReader;
 
 	private JButton goButton = SwingUtils.newButton("Go");
 	private JTextArea msgTxt = new JTextArea();
 
-	public ChangeLayout(AbstractLayoutSelection<?> layoutSelection, FileView<?> file) {
+	public ChangeLayout(AbstractLayoutSelection layoutSelection, FileView file) {
 		BaseHelpPanel pnl = new BaseHelpPanel();
 
 		layoutReader = layoutSelection;
@@ -60,7 +59,7 @@ public class ChangeLayout implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		try {
-			AbstractLayoutDetails<?, ?> layout = layoutReader.getRecordLayout(masterView.getFileName());
+			AbstractLayoutDetails layout = layoutReader.getRecordLayout(masterView.getFileName());
 
 			if (layout != null) {
 				goButton.removeActionListener(this);

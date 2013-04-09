@@ -1,6 +1,7 @@
 useFixture(default)
 
 def test():
+##	from Modules import commonBits
 	import time
 	java_recorded_version = '1.6.0_22'
 
@@ -8,10 +9,10 @@ def test():
 		click('*')
 		select('RecordList.Record Name_Txt', 'zxzxzFLDg1')
 
-		select('TabbedPane', 'Child Records')
+		#select('TabbedPane', 'Child Records')
 		select('RecordList.Description_Txt', '%')
 
-		select('TabbedPane', 'Child Records')
+		##select('TabbedPane', 'Child Records')
 		select('ChildRecordsJTbl', 'cell: ,0(null)')
 		assert_p('RecordFieldsJTbl', 'Content', '[[1, 1, fld 11, , 0, 0, 0, , , ], [2, 5, fld 12, , 0, 0, 0, , , ], [7, 9, fld 13, , 0, 0, 0, , , ]]')
 		assert_p('RecordDef.Record Name_Txt', 'Text', 'zxzxzFLD1')

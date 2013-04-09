@@ -7,7 +7,7 @@
  */
 package net.sf.RecordEditor.examples;
 
-import net.sf.RecordEditor.record.format.DateFormat;
+import net.sf.RecordEditor.re.jrecord.format.DateFormat;
 
 /**
  * US date cell format (MM/DD/YY)

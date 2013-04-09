@@ -16,6 +16,7 @@ import java.math.BigInteger;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Types.Type;
 
@@ -49,7 +50,7 @@ public class Line extends BasicLine<Line> {
 	private static final AbstractTreeDetails<FieldDetail, RecordDetail, LayoutDetail, Line>
 			NULL_TREE_DETAILS = new NullTreeDtls<FieldDetail, RecordDetail, LayoutDetail, AbstractChildDetails<RecordDetail>, Line>();
 
-	private static LineProvider<LayoutDetail> defaultProvider = new DefaultLineProvider();
+	private static LineProvider<LayoutDetail, Line> defaultProvider = new DefaultLineProvider();
 
 
 	private byte[] data;
@@ -157,7 +158,7 @@ public class Line extends BasicLine<Line> {
 				return getFullLine();
 			}
 
-		    FieldDetail field = layout.getField(recordIdx, fieldIdx);
+		    IFieldDetail field = layout.getField(recordIdx, fieldIdx);
 			return layout.getField(getLineData(),
 			        				Type.ftChar,
 			        				field).toString();
@@ -194,7 +195,7 @@ public class Line extends BasicLine<Line> {
 
 
 	public byte[] getFieldBytes(final int recordIdx, final int fieldIdx) {
-	    FieldDetail field = layout.getField(recordIdx, fieldIdx);
+		IFieldDetail field = layout.getField(recordIdx, fieldIdx);
 	    int len = field.getLen();
 	    if (field.getType() == Type.ftCharRestOfRecord) {
 	    	len = getLineData().length - field.getPos();
@@ -271,7 +272,7 @@ public class Line extends BasicLine<Line> {
 	 * @param field field being updated
 	 * @param recordIdx current record layout index
 	 */
-	private void adjustLengthIfNecessary(final FieldDetail field, final int recordIdx) {
+	private void adjustLengthIfNecessary(final IFieldDetail field, final int recordIdx) {
 
 		if (field.getEnd() > getLineData().length) {
 			adjustLength(recordIdx);
@@ -284,7 +285,7 @@ public class Line extends BasicLine<Line> {
 	 *
 	 * @param field field being updated
 	 */
-	private void adjustLengthIfNecessary(final FieldDetail field) {
+	private void adjustLengthIfNecessary(final IFieldDetail field) {
 
 		if (field.getEnd() > data.length) {
 		    newRecord(field.getEnd());
@@ -411,7 +412,7 @@ public class Line extends BasicLine<Line> {
      *
      * @return fields Value
      */
-    public Object getField(FieldDetail field) {
+    public Object getField(IFieldDetail field) {
         return layout.getField(getLineData(), field.getType(), field);
     }
 
@@ -427,7 +428,7 @@ public class Line extends BasicLine<Line> {
      *
      * @throws RecordException any error that occurs
      */
-    public void setField(FieldDetail field, Object value)
+    public void setField(IFieldDetail field, Object value)
     throws RecordException {
 
         adjustLengthIfNecessary(field);
@@ -447,7 +448,7 @@ public class Line extends BasicLine<Line> {
     public void setFieldText(final int recordIdx, final int fieldIdx, String value)
     throws RecordException {
 
-        FieldDetail field = layout.getField(recordIdx, fieldIdx);
+    	IFieldDetail field = layout.getField(recordIdx, fieldIdx);
 
         adjustLengthIfNecessary(field);
         data = layout.setField(data, Type.ftChar, field, value);
@@ -461,7 +462,7 @@ public class Line extends BasicLine<Line> {
      */
 	public String setFieldHex(final int recordIdx, final int fieldIdx,
 	        String val) throws RecordException {
-	    FieldDetail field = layout.getField(recordIdx, fieldIdx);
+		IFieldDetail field = layout.getField(recordIdx, fieldIdx);
 	    String ret = null;
 
         adjustLengthIfNecessary(field, recordIdx);

@@ -60,7 +60,7 @@ def test():
 		select('RecordFieldsJTbl', 'cell:FieldName,1(c10)')
 		click('Save1')
 		click('Save1')
-		click('New1')
+		click('New2')
 		#select('TabbedPane', 'Extras')
 		#select('TabbedPane', 'Child Records')
 		select('TextField', 'ZZ Create g Record 4')

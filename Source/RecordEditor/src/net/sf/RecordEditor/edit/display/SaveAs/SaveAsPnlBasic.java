@@ -54,7 +54,6 @@ public class SaveAsPnlBasic extends SaveAsPnlBase {
 		/* (non-Javadoc)
 		 * @see net.sf.RecordEditor.edit.display.SaveAs.SaveAsPnlBase#getEditLayout()
 		 */
-		@SuppressWarnings("rawtypes")
 		@Override
 		public AbstractLayoutDetails getEditLayout(String ext) {
 

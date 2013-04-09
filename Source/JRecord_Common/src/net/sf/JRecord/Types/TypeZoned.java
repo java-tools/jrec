@@ -13,7 +13,7 @@
 package net.sf.JRecord.Types;
 
 import net.sf.JRecord.Common.Conversion;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 
 /**
@@ -37,13 +37,16 @@ public class TypeZoned extends TypeNum {
         super(false, true, true, false, false);
     }
 
+    public TypeZoned(boolean positive) {
+        super(false, true, true, positive, false);
+    }
 
     /**
      * @see net.sf.JRecord.Types.Type#getField(byte[], int, net.sf.JRecord.Common.FieldDetail)
      */
     public Object getField(byte[] record,
             final int position,
-			final FieldDetail field) {
+			final IFieldDetail field) {
         return addDecimalPoint(
                 	Conversion.fromZoned(super.getFieldText(record, position, field)),
                 	field.getDecimal());
@@ -55,7 +58,7 @@ public class TypeZoned extends TypeNum {
      */
     public byte[] setField(byte[] record,
             final int position,
-			final FieldDetail field,
+			final IFieldDetail field,
 			Object value)
     throws RecordException {
 

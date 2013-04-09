@@ -5,6 +5,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 
 import net.sf.JRecord.CsvParser.BasicParser;
+import net.sf.JRecord.CsvParser.CsvDefinition;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 
 import com.zbluesoftware.java.bm.AbstractPopup;
@@ -27,18 +28,18 @@ import com.zbluesoftware.java.bm.AbstractPopup;
 @SuppressWarnings("serial")
 public class CheckBoxPopup extends AbstractPopup  {
     //private static final int FIELD_WIDTH = 20;
-     
+
     private JTextField trueValue   = new JTextField();
     private JTextField falseValue  = new JTextField();
     private JTextField defaltValue = new JTextField();
     private JCheckBox  caseSensitive = new JCheckBox();
-    
+
     private BasicParser parser = BasicParser.getInstance();
-    
+
     private boolean isPacked = false;
-    
+
     private BasePanel pnl = null;
- 
+
 
     /**
      * created a Date field field with a popup date selector
@@ -46,40 +47,41 @@ public class CheckBoxPopup extends AbstractPopup  {
      */
     public CheckBoxPopup() {
     	super();
-    	
+
     	trueValue.addFocusListener(lostFocus);
     	falseValue.addFocusListener(lostFocus);
     	defaltValue.addFocusListener(lostFocus);
     	caseSensitive.addFocusListener(lostFocus);
     }
-    
+
     public Object getValue() {
     	String cs = "Y";
     	if (! caseSensitive.isSelected()) {
     		cs = "N";
     	}
-    	
-   	    String[] fields = new String[]{trueValue.getText(), falseValue.getText(), 
+
+   	    String[] fields = new String[]{trueValue.getText(), falseValue.getText(),
    	    		defaltValue.getText(), cs};
-    
+
 	    return LayoutCommon.buildCsvField(fields);
    }
-    
+
     /**
-     * Set the Text value 
+     * Set the Text value
      * @param text new text value
      */
 	public void setValue(Object value) {
 		String text = toString(value);
-		
+
 		if (text.length() > 0) {
 			String delim = text.substring(0, 1);
 			String line = text.substring(1);
-		
-			trueValue.setText(parser.getField(0, line, delim, ""));
-			falseValue.setText(parser.getField(1, line, delim, ""));
-			defaltValue.setText(parser.getField(2, line, delim, ""));
-			caseSensitive.setSelected("Y".equalsIgnoreCase(parser.getField(3, line, delim, "")));
+
+			CsvDefinition csvDef = new CsvDefinition(delim, "");
+			trueValue.setText(parser.getField(0, line, csvDef));
+			falseValue.setText(parser.getField(1, line, csvDef));
+			defaltValue.setText(parser.getField(2, line, csvDef));
+			caseSensitive.setSelected("Y".equalsIgnoreCase(parser.getField(3, line, csvDef)));
 		}
 	}
 
@@ -87,10 +89,10 @@ public class CheckBoxPopup extends AbstractPopup  {
 
 
 
-                   
+
         //private Thread packThread;
 
-  
+
          // public methods
         /**
          * show the JPopupCalendar. Consistent with the original behavior of
@@ -122,13 +124,13 @@ public class CheckBoxPopup extends AbstractPopup  {
          */
         public void pack() {
             //datePane.pack();
-        	
+
         	if (pnl == null) {
         		pnl = new BasePanel();
-        		
+
         		pnl.addLine("True Value", trueValue);
         		pnl.addLine("False Value", falseValue);
-        		
+
         		pnl.setGap(BasePanel.GAP1);
         		pnl.addLine("Default Value", defaltValue);
         		pnl.addLine("Case Sensitive", caseSensitive);

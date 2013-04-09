@@ -13,7 +13,7 @@ public class WriteLinesAsXml extends BasicLine2Xml {
 	//private List<AbstractLine> linesToProcess;
 	@SuppressWarnings("rawtypes")
 	private Iterator<? extends AbstractLine> lineIterator;
-	
+
 	/**
 	 * Write some lines to a file as XML
 	 * @param filename file to write
@@ -21,9 +21,9 @@ public class WriteLinesAsXml extends BasicLine2Xml {
 	 */
 	public WriteLinesAsXml(String filename, @SuppressWarnings("rawtypes") List<? extends AbstractLine> lines) {
 		super(filename);
-		
+
 		lineIterator =  lines.listIterator();
-		
+
 		doWork();
 	}
 
@@ -34,24 +34,24 @@ public class WriteLinesAsXml extends BasicLine2Xml {
 	 */
 	public WriteLinesAsXml(String filename, @SuppressWarnings("rawtypes") Iterator<? extends AbstractLine> iterator) {
 		super(filename);
-		
+
 		lineIterator =  iterator;
-		
+
 		doWork();
 	}
 
 
-	
+
 	/**
 	 * @see net.sf.RecordEditor.re.util.BasicLine2Xml#writeDetails()
 	 */
 	@Override
 	protected final void writeDetails() throws XMLStreamException {
-		
+
 		writer.writeStartElement("ExportData");
 
 		if (lineIterator.hasNext()) {
-			AbstractLine<?> line = lineIterator.next();
+			AbstractLine line = lineIterator.next();
 			String name = fixName(line.getLayout().getLayoutName());
 			writer.writeEmptyElement(name);
 			writeAttributes(line);
@@ -64,7 +64,7 @@ public class WriteLinesAsXml extends BasicLine2Xml {
 
 		writer.writeEndElement();
 	}
-	
-	
+
+
 
 }

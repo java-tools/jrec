@@ -135,9 +135,9 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 
     private LineFrame childFrame;
 
-    protected static LineList newLineList(final AbstractLayoutDetails<?, ?> group,
-            final FileView<?> viewOfFile,
-            final FileView<?> masterFile) {
+    protected static LineList newLineList(final AbstractLayoutDetails group,
+            final FileView viewOfFile,
+            final FileView masterFile) {
     	return new LineList(group, viewOfFile, masterFile);
     }
 
@@ -147,9 +147,9 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
      * @param viewOfFile - current file view
      * @param masterFile - Internal Representation of the file
      */
-    private LineList(final AbstractLayoutDetails<?, ?> group,
-                    final FileView<?> viewOfFile,
-                    final FileView<?> masterFile) {
+    private LineList(final AbstractLayoutDetails group,
+                    final FileView viewOfFile,
+                    final FileView masterFile) {
         super("Table:", viewOfFile, viewOfFile == masterFile, ! viewOfFile.getLayout().isXml(),
         		 true, group.isBinary(), true);
 
@@ -166,7 +166,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
      * Setup the JTables etc
      * @param viewOfFile current file view
      */
-    private void init_100_SetupJtables(final FileView<?> viewOfFile) {
+    private void init_100_SetupJtables(final FileView viewOfFile) {
 
         ReAction sort = new ReAction(ReActionHandler.SORT, this);
         AbstractAction editRecord
@@ -240,7 +240,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 	      		int col = table.columnAtPoint(e.getPoint());
 	            int row = table.rowAtPoint(e.getPoint());
 
-	            checkForRowChange(row);
+	            checkForTblRowChange(row);
 	            if (row >= 0 && row != table.getEditingRow()
 	        	&&  col >= 0 && col != table.getEditingColumn()
 	        	&& cellEditors != null && col < cellEditors.length && cellEditors[col] != null
@@ -383,7 +383,6 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 	 * (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#newLayout(net.sf.JRecord.Details.AbstractLayoutDetails)
 	 */
-	@SuppressWarnings({"rawtypes" })
 	@Override
     public void setNewLayout(AbstractLayoutDetails newLayout) {
 		int idx;
@@ -410,7 +409,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 	private void buildDestinationMenus() {
 
 		if (layout.getRecordCount() == 1 && layout.getRecord(0).getFieldCount() > 0) {
-			AbstractRecordDetail<?> rec = layout.getRecord(0);
+			AbstractRecordDetail rec = layout.getRecord(0);
 			String s;
 			copyMenu.removeAll();
 			moveMenu.removeAll();
@@ -433,7 +432,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
     /* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.display.AbstractRowChanged#checkRowChange(int)
 	 */
-    public final void checkForRowChange(int row) {
+    public final void checkForTblRowChange(int row) {
     	//System.out.println("Check Row: " + isPrefered + "   " + lastRow + " " + row);
     	if (lastRow != row) {
 	    	if (isPrefered && lastRow != row) {
@@ -481,6 +480,10 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 	}
 
 
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#removeChildScreen()
+	 */
 	@Override
 	public void removeChildScreen() {
 		if (childFrame != null) {
@@ -528,7 +531,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 
     private JTable defColumns(
     		JTable tbl,
-    		@SuppressWarnings("rawtypes") FileView view,
+    		FileView view,
     		FixedColumnScrollPane scrollPane) {
         TableColumnModel tcm = tbl.getColumnModel();
 
@@ -645,10 +648,11 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 
         if (isPrefered || childFrame != null) {
         	if (tbl == tblDetails) {
+        		tbl.removeKeyListener(keyListner);
         		tbl.addKeyListener(keyListner);
         	}
         	lastRow = - 1;
-        	checkForRowChange(tbl.getSelectedRow());
+        	checkForTblRowChange(tbl.getSelectedRow());
         } else {
         	tbl.removeKeyListener(keyListner);
         }
@@ -668,7 +672,15 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
         return -1;
     }
 
-    /**
+    /* (non-Javadoc)
+	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getPopupPosition()
+	 */
+	@Override
+	protected int getPopupPosition() {
+		return popupRow;
+	}
+
+	/**
      * Set the row to display
      *
      * @param newRow new current Row
@@ -689,6 +701,8 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
                 tblDetails.editCellAt(newRow, FieldMapping.getAdjColumn(fieldMapping, layoutId, fieldNum));
                 //System.out.println("Found " + newRow + " " + fieldNum);
             }
+
+            checkForTblRowChange(newRow);
         }
     }
 
@@ -700,12 +714,14 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
     	JTable table = getJTable();
 
     	switch (action) {
-    	case (ReActionHandler.REPEAT_RECORD):
-            fileView.repeatLine(popupRow);
+    	case (ReActionHandler.REPEAT_RECORD_POPUP):
+           fileView.repeatLine(popupRow);
     	break;
     	case (ReActionHandler.DELETE_RECORD):
+    	case (ReActionHandler.DELETE_BUTTON):
+    	case (ReActionHandler.DELETE_RECORD_POPUP):
     		super.executeAction(action);
-    		checkForRowChange(table.getSelectedRow());
+    		checkForTblRowChange(table.getSelectedRow());
     	break;
     	case(ReActionHandler.PASTE_TABLE_INSERT):
 			int startRow = table.getSelectedRow();
@@ -740,6 +756,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 
 		return action == ReActionHandler.PASTE_TABLE_INSERT
 			|| action == ReActionHandler.AUTOFIT_COLUMNS
+			|| action == ReActionHandler.REPEAT_RECORD_POPUP
 			|| super.isActionAvailable(action);
 	}
 
@@ -753,7 +770,10 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 		if (super.hasTheFormatChanged(event)) {
 			fileView.fireTableStructureChanged();
 			defColumns();
+		} else {
+			checkForResize(event);
 		}
+
 		//System.out.println();
 	}
 
@@ -979,7 +999,6 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 		/**
 		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 		 */
-		@SuppressWarnings("unchecked")
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 
@@ -1015,7 +1034,6 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 		/**
 		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 		 */
-		@SuppressWarnings("unchecked")
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 
@@ -1046,7 +1064,6 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 		/**
 		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 		 */
-		@SuppressWarnings("unchecked")
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 
@@ -1067,7 +1084,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getNewDisplay(net.sf.RecordEditor.edit.file.FileView)
 	 */
 	@Override
-	protected BaseDisplay getNewDisplay(@SuppressWarnings("rawtypes") FileView view) {
+	protected BaseDisplay getNewDisplay(FileView view) {
 
 		return new LineList(view.getLayout(), view, this.fileMaster);
 	}

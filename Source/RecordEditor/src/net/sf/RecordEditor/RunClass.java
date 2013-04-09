@@ -17,7 +17,7 @@ import net.sf.RecordEditor.utils.Run;
  */
 public final class RunClass {
 
-    /**
+    /**                                                                     
      * run the full record editor
      * @param args program arguments
      */

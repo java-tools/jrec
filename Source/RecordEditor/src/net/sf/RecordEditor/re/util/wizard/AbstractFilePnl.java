@@ -12,6 +12,7 @@ import net.sf.RecordEditor.re.openFile.AbstractOpenFilePnl;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 
+@SuppressWarnings("serial")
 public abstract class AbstractFilePnl<save extends BaseCopyDif>
 extends AbstractOpenFilePnl
 implements AbstractWizardPanel<save> {
@@ -39,12 +40,17 @@ implements AbstractWizardPanel<save> {
 		return goPanel;
 	}
 
-	@Override
-	protected void processFile(String filename, 
-			AbstractLayoutDetails fileLayout,
-			AbstractLineIOProvider ioProvider, boolean browse) throws Exception {
 
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.re.openFile.AbstractOpenFilePnl#processFile(java.lang.String, net.sf.JRecord.Details.AbstractLayoutDetails, net.sf.JRecord.IO.AbstractLineIOProvider, boolean)
+	 */
+	@Override
+	protected void processFile(String sFileName, AbstractLayoutDetails layout,
+			AbstractLineIOProvider lineIoProvider, boolean pBrowse)
+			throws Exception {
 	}
+
+
 
 
 	/**

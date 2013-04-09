@@ -39,7 +39,6 @@ implements AbstractActiveScreenAction {
 		AbstractFieldSequencePnl sourcePnl = getDisplay(AbstractFieldSequencePnl.class);
 		if (sourcePnl != null) {
 			try {
-				@SuppressWarnings("rawtypes")
 				FileView fileView = sourcePnl.getFileView();
 
 				SetFields setFields = new SetFields(sourcePnl);

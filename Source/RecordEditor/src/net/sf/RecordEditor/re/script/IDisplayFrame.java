@@ -40,4 +40,6 @@ public interface IDisplayFrame<BD extends AbstractFileDisplay> extends ReActionH
 	public abstract void executeAction(int idx, int action);
 
 	public abstract ReFrame getReFrame();
+
+	public abstract void moveToFront();
 }

@@ -12,7 +12,7 @@
  */
 package net.sf.JRecord.Types;
 
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 
 /**
@@ -43,7 +43,7 @@ public class TypeFjZoned extends TypeNum {
      */
     public Object getField(byte[] record,
             final int position,
-			final FieldDetail field) {
+			final IFieldDetail field) {
         return addDecimalPoint(
                 	fromFjZoned(super.getFieldText(record, position, field)),
                 	field.getDecimal());
@@ -55,7 +55,7 @@ public class TypeFjZoned extends TypeNum {
      */
     public byte[] setField(byte[] record,
             final int position,
-			final FieldDetail field,
+			final IFieldDetail field,
 			Object value)
     throws RecordException {
 
@@ -75,11 +75,12 @@ public class TypeFjZoned extends TypeNum {
 	 */
 	private String toFjZoned(String num) {
 
-		if (num == null || num.equals("") || num.equals("-") || num.equals("+")) {
+		String ret;
+		if (num == null || (ret = num.trim()).equals("") || ret.equals("-") || ret.equals("+")) {
 			// throw ...
 			return "";
 		}
-		String ret = num.trim();
+
 
         char lastChar = ret.substring(ret.length() - 1).charAt(0);
 

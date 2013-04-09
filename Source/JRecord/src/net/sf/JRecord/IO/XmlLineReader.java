@@ -15,13 +15,10 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.XmlConstants;
-import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Details.LayoutDetail;
-//import net.sf.JRecord.Details.LineProvider;
 import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.Details.XmlLine;
 import net.sf.JRecord.Types.Type;
@@ -33,7 +30,7 @@ import net.sf.JRecord.Types.Type;
  *
  */
 public class XmlLineReader extends StandardLineReader {
-	
+
 	private static final int SEARCH_LIMIT = 4000;
 	private static String xlmnsPrefix = "{" + javax.xml.XMLConstants.XMLNS_ATTRIBUTE_NS_URI + "}";
 	//javax.xml.XMLConstants.XMLNS_ATTRIBUTE
@@ -46,7 +43,7 @@ public class XmlLineReader extends StandardLineReader {
 
     /**
      * XML Line reader
-     * @param buildTheLayout weather to build the record layout from scratch or use 
+     * @param buildTheLayout weather to build the record layout from scratch or use
      * supplied layout asis
      */
     public XmlLineReader(boolean buildTheLayout) {
@@ -72,7 +69,7 @@ public class XmlLineReader extends StandardLineReader {
     	XMLInputFactory f;
     	BufferedInputStream iStream = new BufferedInputStream(inputStream);
     	boolean startDocumentPresent;
-    	
+
 
     	try {
     		f = XMLInputFactory.newInstance();
@@ -82,19 +79,19 @@ public class XmlLineReader extends StandardLineReader {
 		}
     	//f.setProperty("javax.xml.stream.isReplacingEntityReferences", Boolean.FALSE);
     	//f.setProperty("javax.xml.stream.isNamespaceAware", Boolean.FALSE);
-    	
+
     	f.setProperty(XMLInputFactory.IS_NAMESPACE_AWARE, Boolean.FALSE);
-    	
+
     	//f.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES, Boolean.FALSE);
     	//f.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
     	// *** f.setProperty(XMLInputFactory.IS_COALESCING, Boolean.TRUE);
     	//f.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
     	//f.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES, Boolean.TRUE);
     	//javax.xml.XMLConstants.XMLNS_ATTRIBUTE_NS_URI;
-    	
+
     	System.out.println("====> " + f.getClass().getName());
 
-    	
+
         if (buildLayout || pLayout == null) {
             try {
             pLayout = new LayoutDetail("XML Document", new RecordDetail[] {null, null, null, null, null},
@@ -107,7 +104,7 @@ public class XmlLineReader extends StandardLineReader {
         }
 
         setLayout(pLayout);
-        
+
         startDocumentPresent = open_CheckStartDocument(iStream);
 
         try {
@@ -124,7 +121,7 @@ public class XmlLineReader extends StandardLineReader {
         }
 //        if (type == XMLStreamConstants.START_DOCUMENT) {
 //        	boolean generatedTag = true;
-//        	
+//
 //        	parser.
 //        	System.out.println("Tag Attributes:");
 //        	for (int i = 0; i < parser.getAttributeCount(); i++) {
@@ -133,28 +130,28 @@ public class XmlLineReader extends StandardLineReader {
 //        		}
 //        		System.out.println("   " + parser.getAttributeLocalName(i) + "  " + parser.isAttributeSpecified(i));
 //        	}
-//        	
+//
 //        	if (generatedTag) {
 //        		type = parser.getEventType();
 //        	}
 //        }
     }
-    
+
     private boolean open_CheckStartDocument(BufferedInputStream iStream) throws IOException {
     	StringBuffer sb = new StringBuffer();
     	byte[] bytes = new byte[100];
     	int p = 0;
-    	
-    	
+
+
     	iStream.mark(SEARCH_LIMIT);
 
     	do  {
     		iStream.read(bytes);
     		sb.append(new String(bytes));
     		p = sb.indexOf("<");
-    	} while ((sb.length() <= (SEARCH_LIMIT - bytes.length)) 
+    	} while ((sb.length() <= (SEARCH_LIMIT - bytes.length))
     		 && (p < 0 || p > sb.length() - 5));
-    	
+
     	iStream.reset();
     	return sb.indexOf("<?xml") >= 0;
     }
@@ -162,7 +159,7 @@ public class XmlLineReader extends StandardLineReader {
     /**
      * @see net.sf.JRecord.IO.StandardLineReader#read()
      */
-    public AbstractLine<LayoutDetail> read() throws IOException {
+    public AbstractLine read() throws IOException {
 
         XmlLine ret = null;
         do {
@@ -217,17 +214,17 @@ public class XmlLineReader extends StandardLineReader {
 
     private XmlLine read_100_StartDocument() throws IOException {
         int idx = g_100_GetRecordIndex(XmlConstants.XML_START_DOCUMENT, 2);
-        AbstractRecordDetail rec = getLayout().getRecord(idx);
+        RecordDetail rec = getLayout().getRecord(idx);
         XmlLine ret = new XmlLine(getLayout(), idx);
         String encoding = parser.getEncoding();
         String version  = parser.getVersion();
         String followingText;
-        
-        
+
+
         //int fieldIndex
         g_400_SetField(ret, idx, XmlConstants.END_INDEX, "");
         g_400_SetField(ret, idx, g_500_GetFieldIndex(rec, XmlConstants.XML_NAME), XmlConstants.XML_START_DOCUMENT);
-        
+
         g_400_SetField(ret, idx, g_500_GetFieldIndex(rec, XmlConstants.ENCODING), encoding);
         g_400_SetField(ret, idx, g_500_GetFieldIndex(rec, XmlConstants.VERSION), version);
         g_400_SetField(ret, idx, g_500_GetFieldIndex(rec, XmlConstants.STANDALONE), Boolean.valueOf(parser.isStandalone()));
@@ -248,11 +245,11 @@ public class XmlLineReader extends StandardLineReader {
 
     private XmlLine read_200_Element() throws IOException {
         String elementName = parser.getName().toString();
-        
+
         //System.out.print(" >" + parser.getNamespaceCount());
-        
+
         int idx = g_100_GetRecordIndex(elementName, parser.getAttributeCount() + 4);
-        AbstractRecordDetail rec = getLayout().getRecord(idx);
+        RecordDetail rec = getLayout().getRecord(idx);
         Object fieldValue;
 
         XmlLine ret = new XmlLine(getLayout(), idx);
@@ -280,7 +277,7 @@ public class XmlLineReader extends StandardLineReader {
     private XmlLine read_300_EndElement() throws IOException {
         String elementName = "/" + parser.getName().toString();
         int idx = g_100_GetRecordIndex(elementName, 0);
-        AbstractRecordDetail rec = getLayout().getRecord(idx);
+        RecordDetail rec = getLayout().getRecord(idx);
         XmlLine ret = new XmlLine(getLayout(), idx);
         //int fieldIndex
 
@@ -295,7 +292,7 @@ public class XmlLineReader extends StandardLineReader {
 
     private XmlLine read_400_Text(String name) throws IOException {
         int idx = g_100_GetRecordIndex(name, 1);
-        AbstractRecordDetail rec = getLayout().getRecord(idx);
+        RecordDetail rec = getLayout().getRecord(idx);
         XmlLine ret = new XmlLine(getLayout(), idx);
         //int fieldIndex
 
@@ -311,12 +308,12 @@ public class XmlLineReader extends StandardLineReader {
     }
 
     private int g_100_GetRecordIndex(String name, int fieldCount) {
-        AbstractLayoutDetails layout = getLayout();
+        LayoutDetail layout = getLayout();
         int ret = layout.getRecordIndex(name);
 
         if (ret < 0) {
             int i;
-            FieldDetail[] fields = new FieldDetail[fieldCount + 3];
+            RecordDetail.FieldDetails[] fields = new RecordDetail.FieldDetails[fieldCount + 3];
             fields[0] = g_700_BuildField(XmlConstants.XML_NAME, Type.ftXmlNameTag);
             fields[1] = g_700_BuildField(XmlConstants.END_ELEMENT, Type.ftCheckBoxTrue);
             fields[FOLLOWING_TEXT_INDEX]
@@ -342,12 +339,12 @@ public class XmlLineReader extends StandardLineReader {
 
 
 
-    private void g_200_LoadAttributes(XmlLine line, AbstractRecordDetail rec, int recordIdx) throws IOException {
+    private void g_200_LoadAttributes(XmlLine line, RecordDetail rec, int recordIdx) throws IOException {
 
 //    	for (int i = 0; i < parser.getNamespaceCount(); i++) {
 //    		System.out.println(" ===> " + parser.getNamespacePrefix(i) + " " + parser.getNamespaceURI(i));
 //    	}
-    	
+
     	String s;
 		for (int i = 0; i < parser.getAttributeCount(); i++) {
 			s = parser.getAttributeName(i).toString();
@@ -399,11 +396,11 @@ public class XmlLineReader extends StandardLineReader {
 
     }
 
-    private int g_500_GetFieldIndex(AbstractRecordDetail rec, String name) {
+    private int g_500_GetFieldIndex(RecordDetail rec, String name) {
         int ret = rec.getFieldIndex(name);
 
         if (ret < 0) {
-            FieldDetail f = new FieldDetail(name, "", Type.ftChar, 0, "", 0, "");
+        	RecordDetail.FieldDetails f = new RecordDetail.FieldDetails(name, "", Type.ftChar, 0, "", 0, "");
             ret = rec.getFieldCount();
             f.setPosOnly(ret);
             rec.addField(f);
@@ -412,9 +409,9 @@ public class XmlLineReader extends StandardLineReader {
         return ret;
     }
 
-    
-    private FieldDetail g_700_BuildField(String name, int typeId) {
-        return new FieldDetail(
+
+    private RecordDetail.FieldDetails g_700_BuildField(String name, int typeId) {
+        return new RecordDetail.FieldDetails(
                 name, "", typeId, 0, "", 0, ""
         );
     }

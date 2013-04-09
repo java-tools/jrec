@@ -9,9 +9,9 @@ package net.sf.RecordEditor.test.record;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import com.zbluesoftware.java.bm.ZDateField;
-
 import junit.framework.TestCase;
+
+import com.zbluesoftware.java.bm.ZDateField;
 
 /**
  *

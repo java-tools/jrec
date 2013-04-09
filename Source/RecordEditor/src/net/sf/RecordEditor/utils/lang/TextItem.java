@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 
 import net.sf.JRecord.CsvParser.BasicParser;
+import net.sf.JRecord.CsvParser.CsvDefinition;
 
 /**
  * Represents the various Text items in the program that will need translating into
@@ -57,7 +58,7 @@ public class TextItem {
 
 	public TextItem(String sepValue) {
 		BasicParser t = new BasicParser(false);
-		String[] flds = t.split(sepValue, DELIM, "", 0);
+		String[] flds = t.split(sepValue, new CsvDefinition(DELIM, ""), 0);
 		String s = flds[0];
 		String s1 = getItem(flds, 3);
 		String dateStr = getItem(flds, 5);
@@ -76,14 +77,15 @@ public class TextItem {
 		}
 
 
-		flds = t.split(s, ":", "", 0);
+		CsvDefinition csvDef = new CsvDefinition(":", "");
+		flds = t.split(s, csvDef, 0);
 		for (String ss : flds) {
 			try {
 				types.add(Integer.parseInt(ss));
 			} catch (Exception e) {
 			}
 		}
-		flds = t.split(s1, ":", "", 0);
+		flds = t.split(s1, csvDef, 0);
 		for (String ss : flds) {
 			addPnl(ss);
 		}
@@ -110,18 +112,20 @@ public class TextItem {
 
 
 	public final String asDelimString(int idx) {
-		String s = "", s1= "", sep = "";
+		String sep = "";
+		StringBuffer b1 = new StringBuffer(""),
+				     b2 = new StringBuffer("");
 		for (int i : types) {
-			s = s + sep + i;
+			b1.append(sep).append(Integer.toString(i));
 			sep = ":";
 		}
 		sep = "";
 		for (String s2 : pnls) {
-			s1 = s1 + sep + s2;
+			b2.append(sep).append(s2);
 			sep = ":";
 		}
 
-		return format(s) + DELIM + format(id)  + DELIM + format(text)  + DELIM + format(s1) + DELIM + desc
+		return format(b1.toString()) + DELIM + format(id)  + DELIM + format(text)  + DELIM + format(b2.toString()) + DELIM + desc
 				+ DELIM + date + DELIM + idx;
 	}
 
@@ -141,7 +145,6 @@ public class TextItem {
 
 
 	public void add(TextItem t) {
-
 
 		types.addAll(t.types);
 		if (types.size() > 1 && types.contains(UNKOWN)) {

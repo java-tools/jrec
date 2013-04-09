@@ -3,7 +3,7 @@ package net.sf.JRecord.Types;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 
 public class TypeRmComp extends TypeNum {
@@ -17,7 +17,7 @@ public class TypeRmComp extends TypeNum {
 
 
 	@Override
-	public Object getField(byte[] record, int position, FieldDetail currField) {
+	public Object getField(byte[] record, int position, IFieldDetail currField) {
 		Object ret;
 		long retL = getRmComp(record, position, currField.getLen() - 1);
 		
@@ -36,7 +36,7 @@ public class TypeRmComp extends TypeNum {
 	}
 	
 	@Override
-	public byte[] setField(byte[] record, int position, FieldDetail field,
+	public byte[] setField(byte[] record, int position, IFieldDetail field,
 			Object value) throws RecordException {
 
 		

@@ -54,14 +54,7 @@ public class LoadFileLayoutFromXml extends ReSpecificScreenAction implements Abs
 	}
 
 	private boolean isActive(AbstractFileDisplay activeScreen) {
-		boolean active = false;
-
-		if (activeScreen instanceof AbstractFileDisplay) {
-			AbstractFileDisplay source = (AbstractFileDisplay) activeScreen;
-			active =  source.getFileView().isSimpleCsvFile();
-		}
-
-		return active;
+		return activeScreen != null && activeScreen.getFileView().isSimpleCsvFile();
 	}
 
 	private static String removeExtension(String s) {
@@ -87,7 +80,7 @@ public class LoadFileLayoutFromXml extends ReSpecificScreenAction implements Abs
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 
-			FileView<?> masterView = panel.getFileView().getBaseFile();
+			FileView masterView = panel.getFileView().getBaseFile();
 			//CopybookLoaderFactory readers = CopybookLoaderFactory.getInstance();
 			//String fname = super.getFileName();
 			//String lname = Common.stripDirectory(fname);

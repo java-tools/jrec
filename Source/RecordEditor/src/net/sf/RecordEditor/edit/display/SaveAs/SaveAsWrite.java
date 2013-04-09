@@ -32,12 +32,11 @@ public abstract class SaveAsWrite {
 	public static final int SAVE_VIEW = 2;
 	public static final int SAVE_SELECTED = 3;
 
-	@SuppressWarnings("rawtypes")
+
 	public static SaveAsWrite getWriter(FileView file, AbstractFileDisplay recFrame) {
 		return getWriter(DisplayType.displayTypePrint(file.getLayout(), recFrame.getLayoutIndex()), file, recFrame);
 	}
 
-	@SuppressWarnings("rawtypes")
 	public static SaveAsWrite getWriter(int type, FileView file, AbstractFileDisplay recFrame) {
 		SaveAsWrite ret;
 		AbstractLayoutDetails layout = file.getLayout();
@@ -67,9 +66,7 @@ public abstract class SaveAsWrite {
 	}
 
 //	public static abstract class BaseWrite {
-		@SuppressWarnings("rawtypes")
 		protected AbstractLayoutDetails layout;
-		@SuppressWarnings("rawtypes")
 		protected FileView file;
 		protected AbstractFileDisplay recFrame;
 		protected int layoutIdx;
@@ -94,7 +91,6 @@ public abstract class SaveAsWrite {
 	   	}
 
 
-	    @SuppressWarnings("rawtypes")
 		public final FileView getViewToSave(int whatToSave) {
 	    	FileView ret = null;
 	    	switch (whatToSave) {
@@ -116,7 +112,7 @@ public abstract class SaveAsWrite {
 
 		protected void writeAFile(
 	    		FieldWriter writer,
-	    		@SuppressWarnings("rawtypes") FileView view,
+	    		FileView view,
 	    		int layoutIdx,
 	    		boolean namesFirstLine) throws IOException {
 			this.writer = writer;
@@ -134,15 +130,15 @@ public abstract class SaveAsWrite {
 		}
 
 
-		protected abstract void writeLine(FieldWriter writer, AbstractLine<?> line)
+		protected abstract void writeLine(FieldWriter writer, AbstractLine line)
 		throws IOException;
 
-		protected void writeLine(FieldWriter writer, AbstractLine<?> line, int count)
+		protected void writeLine(FieldWriter writer, AbstractLine line, int count)
 		throws IOException {
 			writeLine(writer, line);
 		}
 
-		protected final void writeLine(FieldWriter writer, AbstractLine<?> line, int idx, int fieldCount)
+		protected final void writeLine(FieldWriter writer, AbstractLine line, int idx, int fieldCount)
 		throws IOException {
 			if (line != null) {
 	        	for (int j = 0; j < fieldCount; j++) {
@@ -259,7 +255,6 @@ public abstract class SaveAsWrite {
 		private int countLevels(List<Integer> levelSizes, AbstractLineNode node, int lvl) {
 			int ret = lvl + 1;
 			int len;
-			@SuppressWarnings("rawtypes")
 			AbstractLine line = node.getLine();
 
 			if (node == null || node.toString() == null) {
@@ -296,7 +291,6 @@ public abstract class SaveAsWrite {
 		private void printTree(AbstractLineNode node) {
 
 			boolean hasData = false;
-			@SuppressWarnings("rawtypes")
 			AbstractLine line = node.getLine();
 			Object o;
 			int fieldCount = 0,
@@ -362,8 +356,7 @@ public abstract class SaveAsWrite {
 			return levelCount - firstLevel;
 		}
 
-		protected void allocateColumnNames(@SuppressWarnings("rawtypes") FileView fieldMapping, int idx) {
-			@SuppressWarnings("rawtypes")
+		protected void allocateColumnNames(FileView fieldMapping, int idx) {
 			AbstractRecordDetail rec = layout.getRecord(idx);
 			int colCount = rec.getFieldCount();
 			int layoutFieldNo;
@@ -426,7 +419,6 @@ public abstract class SaveAsWrite {
 
 		int colCount;
 
-		@SuppressWarnings("rawtypes")
 		@Override
 		protected void writeAFile(
 	    		FieldWriter writer, FileView view,
@@ -486,12 +478,12 @@ public abstract class SaveAsWrite {
 
 
 
-		protected void writeLine(FieldWriter writer, AbstractLine<?> line)
+		protected void writeLine(FieldWriter writer, AbstractLine line)
 		throws IOException {
 			writeLine(writer, line, layoutIdx, colCount);
 		}
 
-		protected void writeLine(FieldWriter writer, AbstractLine<?> line, int fieldCount)
+		protected void writeLine(FieldWriter writer, AbstractLine line, int fieldCount)
 		throws IOException {
 			writeLine(writer, line, layoutIdx, fieldCount);
 		}
@@ -521,7 +513,7 @@ public abstract class SaveAsWrite {
 		 * @see net.sf.RecordEditor.edit.display.util.SaveAsWrite.BaseWrite#getColumnNames()
 		 */
 		@Override
-		protected void allocateColumnNames(@SuppressWarnings("rawtypes") FileView fieldMapping, int index) {
+		protected void allocateColumnNames(FileView fieldMapping, int index) {
 			int idx=0;
 
 			if (layout.getRecordCount() > 1) {
@@ -544,7 +536,7 @@ public abstract class SaveAsWrite {
 			super.allocateColumnNames(fieldMapping, idx);
 		}
 
-		protected void writeLine(FieldWriter writer, AbstractLine<?> line)
+		protected void writeLine(FieldWriter writer, AbstractLine line)
 		throws IOException {
 
 			if (line == null) {
@@ -555,7 +547,7 @@ public abstract class SaveAsWrite {
 			}
 		}
 
-		protected void writeLine(FieldWriter writer, AbstractLine<?> line, int fieldCount)
+		protected void writeLine(FieldWriter writer, AbstractLine line, int fieldCount)
 		throws IOException {
 
 			if (line == null) {
@@ -588,13 +580,13 @@ public abstract class SaveAsWrite {
 		 * @see net.sf.RecordEditor.edit.display.util.SaveAsWrite.BaseWrite#getColumnNames()
 		 */
 		@Override
-		protected void allocateColumnNames(@SuppressWarnings("rawtypes") FileView fieldMapping, int idx) {
+		protected void allocateColumnNames(FileView fieldMapping, int idx) {
 			columnNames.add(LangConversion.convert("Full Line"));
 		}
 
 
 
-		protected void writeLine(FieldWriter writer, AbstractLine<?> line) throws IOException {
+		protected void writeLine(FieldWriter writer, AbstractLine line) throws IOException {
 			//byte[] bytes= line.getData();
 
 			if (line != null) {
@@ -613,11 +605,11 @@ public abstract class SaveAsWrite {
 		 * @see net.sf.RecordEditor.edit.display.util.SaveAsWrite.BaseWrite#getColumnNames()
 		 */
 		@Override
-		protected void allocateColumnNames(@SuppressWarnings("rawtypes") FileView fieldMapping, int idx) {
+		protected void allocateColumnNames(FileView fieldMapping, int idx) {
 			columnNames.add("Hex");
 		}
 
-		protected void writeLine(FieldWriter writer, AbstractLine<?> line) throws IOException {
+		protected void writeLine(FieldWriter writer, AbstractLine line) throws IOException {
 			byte[] bytes= line.getData();
 			writer.writeField(Conversion.getDecimal(bytes, 0, bytes.length));
 			writer.newLine();
@@ -627,7 +619,7 @@ public abstract class SaveAsWrite {
 
 	private static class WriteTree extends SaveAsWrite {
 		private int lineNo = 1;
-		protected void writeLine(FieldWriter writer, AbstractLine<?> line) throws IOException {
+		protected void writeLine(FieldWriter writer, AbstractLine line) throws IOException {
 			writeTreeLineAsHtml(writer,line, false, (lineNo++) + "");
 		}
 

@@ -209,6 +209,7 @@ public class TableUpdatePnl<record extends AbsRecord> extends javax.swing.JPanel
 
 			switch (action) {
 			case ReActionHandler.INSERT_RECORDS:
+			case ReActionHandler.INSERT_RECORDS_POPUP:
 
 				int i;
 				int inRow = jTable.getSelectedRow() + 1;
@@ -222,7 +223,9 @@ public class TableUpdatePnl<record extends AbsRecord> extends javax.swing.JPanel
 				    dbTableModel.addRow(inRow, (record) blankRecord.clone());
 				}
 				break;
+			case ReActionHandler.DELETE_BUTTON:
 			case ReActionHandler.DELETE_RECORD:
+			case ReActionHandler.DELETE_RECORD_POPUP:
 				dbTableModel.deleteRows(jTable.getSelectedRows());
 				break;
 			case ReActionHandler.COPY_RECORD:
@@ -233,9 +236,11 @@ public class TableUpdatePnl<record extends AbsRecord> extends javax.swing.JPanel
 				dbTableModel.deleteRows(jTable.getSelectedRows());
 				break;
 			case ReActionHandler.PASTE_RECORD:
+			case ReActionHandler.PASTE_RECORD_POPUP:
 				dbTableModel.pasteLines(jTable.getSelectedRow());
 				break;
 			case ReActionHandler.PASTE_RECORD_PRIOR:
+			case ReActionHandler.PASTE_RECORD_PRIOR_POPUP:
 				dbTableModel.pasteLines(jTable.getSelectedRow() - 1);
 				break;
 			default:
@@ -251,11 +256,16 @@ public class TableUpdatePnl<record extends AbsRecord> extends javax.swing.JPanel
      */
     public boolean isActionAvailable(int action) {
         return (action == ReActionHandler.INSERT_RECORDS)
+        	|| (action == ReActionHandler.INSERT_RECORDS_POPUP)
+        	|| (action == ReActionHandler.DELETE_BUTTON)
         	|| (action == ReActionHandler.DELETE_RECORD)
+        	|| (action == ReActionHandler.DELETE_RECORD_POPUP)
 			|| (action == ReActionHandler.COPY_RECORD)
 			|| (action == ReActionHandler.CUT_RECORD)
 			|| (action == ReActionHandler.PASTE_RECORD)
-			|| (action == ReActionHandler.PASTE_RECORD_PRIOR);
+			|| (action == ReActionHandler.PASTE_RECORD_PRIOR)
+			|| (action == ReActionHandler.PASTE_RECORD_POPUP)
+			|| (action == ReActionHandler.PASTE_RECORD_PRIOR_POPUP);
     }
 
     /**

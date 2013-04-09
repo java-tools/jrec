@@ -11,9 +11,9 @@ import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 @SuppressWarnings("serial")
 public class GotoLineAction extends ReAbstractAction {
 	private final AbstractFileDisplay src;
-	private FileView<?> master;
+	private FileView master;
 
-	public GotoLineAction(AbstractFileDisplay src, FileView<?> master) {
+	public GotoLineAction(AbstractFileDisplay src, FileView master) {
 		super("Goto Line",
         	  Common.getRecordIcon(Common.ID_GOTO_ICON));
 		this.src = src;

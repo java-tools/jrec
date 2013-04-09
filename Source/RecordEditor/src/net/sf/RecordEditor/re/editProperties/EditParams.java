@@ -89,20 +89,23 @@ public final class EditParams {
             FileReader inReader
             	= new FileReader(jarFile);
             BufferedReader in = new BufferedReader(inReader);
-            String type, jar;
-            int j;
+            try {
+	            String type, jar;
+	            int j;
 
-            while ((jar = in.readLine()) != null) {
-                if (! jar.trim().startsWith("#")) {
-                    type = "";
-                    if ((j = jar.indexOf('\t')) >= 0) {
-                        type = jar.substring(0, j);
-                        jar = jar.substring(j + 1);
-                    }
-                    init_111_StoreJar(type, jar, system);
-                }
+	            while ((jar = in.readLine()) != null) {
+	                if (! jar.trim().startsWith("#")) {
+	                    type = "";
+	                    if ((j = jar.indexOf('\t')) >= 0) {
+	                        type = jar.substring(0, j);
+	                        jar = jar.substring(j + 1);
+	                    }
+	                    init_111_StoreJar(type, jar, system);
+	                }
+	            }
+            } finally {
+            	in.close();
             }
-            in.close();
         } catch (Exception e) {
         	if (required) {
         		e.printStackTrace();

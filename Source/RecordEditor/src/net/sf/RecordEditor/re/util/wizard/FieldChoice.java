@@ -31,17 +31,17 @@ implements AbstractWizardPanel<save> {
 	private save values;
 	private String lastLayoutName1 = "";
 	private String lastLayoutName2 = "";
-	private AbstractLayoutSelection<?> selection1;
-	private AbstractLayoutSelection<?> selection2;
+	private AbstractLayoutSelection selection1;
+	private AbstractLayoutSelection selection2;
 	private boolean toInit = true;
 
-	private AbstractLayoutDetails<?, ?> layout2 = null;
+	private AbstractLayoutDetails layout2 = null;
 
 	/**
 	 * @param layoutSelection
 	 */
-	public FieldChoice(AbstractLayoutSelection<?> layoutSelection1,
-			AbstractLayoutSelection<AbstractLayoutDetails<?, ?>> layoutSelection2,
+	public FieldChoice(AbstractLayoutSelection layoutSelection1,
+			AbstractLayoutSelection layoutSelection2,
 			String helpName) {
 		super();
 

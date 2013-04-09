@@ -56,6 +56,7 @@ public final class UpgradeDB {
 	private static String VERSION_800 = "0080000";
 	private static String VERSION_801 = "0080001";
 	private static String VERSION_90  = "0090000";
+	private static String VERSION_93  = "0093000";
 	//private static String LATEST_VERSION = VERSION_670;
 	private static String VERSION_KEY  = "-101";
 
@@ -339,6 +340,25 @@ public final class UpgradeDB {
           	insertSQL + "(1," + Type.ftCheckBoxY + ",'CheckBox Y/null');",
            	insertSQL + "(1," + Type.ftMultiLineChar + ",'Char Multi Line');",
     };
+
+
+    private String[] sql93 = {
+        	deleteTbl + "TBLID = 1 and TBLKEY in ("
+        			     + Type.ftBinaryBigEndianPositive  + ","
+        			     + Type.ftAssumedDecimalPositive + ","
+                		 + Type.ftPackedDecimalPostive + ","
+                		 +  Type.ftBinaryIntPositive
+        			     + ")",
+
+     //      	insertSQL + "(1," + Type.ftCharRestOfFixedRecord + ",'Char Rest of Fixed Length');",
+          	insertSQL + "(1," + Type.ftBinaryBigEndianPositive + ",'Binary Integer Big Endian (only +ve )');",
+           	insertSQL + "(1," + Type.ftAssumedDecimalPositive + ",'Num Assumed Decimal (+ve)');",
+          	insertSQL + "(1," + Type.ftPackedDecimalPostive + ",'Mainframe Packed Decimal (+ve)');",
+           	insertSQL + "(1," + Type.ftBinaryIntPositive + ",'Binary Integer (only +ve)');",
+    };
+
+
+
     private String fileWizardXmlLayout = "<?xml version=\"1.0\" ?>\n"
     		+ "<RECORD RECORDNAME=\"FileWizard\" COPYBOOK=\"\" DELIMITER=\"&lt;Tab&gt;\" FILESTRUCTURE=\"FILE_WIZARD\" STYLE=\"0\" RECORDTYPE=\"RecordLayout\" LIST=\"Y\" QUOTE=\"\" RecSep=\"default\" LINE_NO_FIELD_NAMES=\"1\">\n"
     		+ "	<FIELDS><FIELD NAME=\"Dummy\" POSITION=\"1\" LENGTH=\"1\" TYPE=\"Char\"/></FIELDS>\n"
@@ -613,12 +633,27 @@ public final class UpgradeDB {
 
  			upgradeVersion((new ReConnection(dbIdx)).getConnection(), dbIdx, VERSION_90);
 	        Common.logMsgRaw(AbsSSLogger.SHOW, DATABASE_UPGRADED + VERSION_90, null);
+
+	        upgrade93(dbIdx);
     	} catch (Exception e) {
 			Common.logMsg("Error updating version flag", e);
 		}
     }
 
-    public void deleteExamples(int dbIdx) {
+
+    public void upgrade93(int dbIdx) {
+
+       	try {
+       		genericUpgrade(dbIdx, sql93, null);
+
+
+ 			upgradeVersion((new ReConnection(dbIdx)).getConnection(), dbIdx, VERSION_93);
+	        Common.logMsgRaw(AbsSSLogger.SHOW, DATABASE_UPGRADED + VERSION_93, null);
+    	} catch (Exception e) {
+			Common.logMsg("Error updating version flag", e);
+		}
+    }
+   public void deleteExamples(int dbIdx) {
     	String[] tbls = { "TBL_RFS_FIELDSELECTION", "TBL_RF_RECORDFIELDS", "TBL_RS2_SUBRECORDS", "TBL_R_RECORDS" };
     	String sql = "";
        	try {
@@ -849,7 +884,9 @@ public final class UpgradeDB {
     				(new UpgradeDB()).addFileWizardReader(dbIndex);
     			} else if (VERSION_801.equals(version)) {
     				(new UpgradeDB()).upgrade90(dbIndex);
-   			}
+       			} else if (VERSION_90.equals(version)) {
+    				(new UpgradeDB()).upgrade93(dbIndex);
+    			}
 
     			//System.out.print("Already " + LATEST_VERSION);
     		} else {

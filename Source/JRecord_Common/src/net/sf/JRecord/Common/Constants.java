@@ -61,6 +61,13 @@ public interface Constants {
     public static final int IO_NAME_1ST_LINE    = 51;
     public static final int IO_GENERIC_CSV      = 52 /* RecordEditor Format */;
 //    public static final int IO_GENERIC_CSV_UNICODE = 53 /* RecordEditor Format */;
+    /**
+     * IO_BIN_NAME_1ST_LINE is for internal use
+     */
+    public static final int IO_BIN_NAME_1ST_LINE     = 54;
+    public static final int IO_UNICODE_NAME_1ST_LINE = 55;
+
+
     public static final int IO_XML_USE_LAYOUT   = 61;
     public static final int IO_XML_BUILD_LAYOUT = 62;
 
@@ -77,14 +84,10 @@ public interface Constants {
     public static final int IO_PROTO_SD_SINGLE_MESSAGE = 74;
     public static final int IO_THRIFT_FILE  = 81;
     public static final int IO_AVRO_FILE    = 91;
+
     public static final int IO_GETTEXT_PO   = 101;
     public static final int IO_TIP          = 102;
 
-    /**
-     * IO_BIN_NAME_1ST_LINE is for internal use
-     */
-    public static final int IO_BIN_NAME_1ST_LINE     = 54;
-    public static final int IO_UNICODE_NAME_1ST_LINE = 55;
 
     /* Provided for backward compatibility */
     @Deprecated public static final int DEFAULT_IO       = IO_DEFAULT;

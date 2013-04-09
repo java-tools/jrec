@@ -1,7 +1,7 @@
 package net.sf.RecordEditor.utils.fileStorage;
 
 
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Common.RecordRunTimeException;
 import net.sf.JRecord.Details.LayoutDetail;
@@ -26,7 +26,7 @@ public class CharLineTemp extends CharLineBase {
 	}
 
 	@Override
-	public void setField(FieldDetail field, Object value)
+	public void setField(IFieldDetail field, Object value)
 			throws RecordException {
 		throw new RecordException(CAN_NOT_UPDATE_FIELD_IN_TEMPORARY_LINE);
 	}

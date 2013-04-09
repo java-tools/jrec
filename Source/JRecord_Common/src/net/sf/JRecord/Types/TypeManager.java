@@ -19,7 +19,6 @@ package net.sf.JRecord.Types;
 
 import net.sf.JRecord.Common.Messages;
 import net.sf.JRecord.Common.RecordException;
-//import net.sf.RecordEditor.record.format.CellFormat;
 
 /**
  * This class stores / retrieves type definitions and format definitions
@@ -89,9 +88,11 @@ public class TypeManager {
             types[Type.ftNumRightJustified]		= new TypeNum(Type.ftNumRightJustified);
             types[Type.ftNumZeroPadded]			= new TypeNum(Type.ftNumZeroPadded);
             types[Type.ftAssumedDecimal]		= new TypeNum(Type.ftAssumedDecimal);
+            types[Type.ftAssumedDecimalPositive]= new TypeNum(Type.ftAssumedDecimalPositive, true);
             types[Type.ftSignSeparateLead]		= new TypeSignSeparate(Type.ftSignSeparateLead);
             types[Type.ftSignSeparateTrail]		= new TypeSignSeparate(Type.ftSignSeparateTrail);
             types[Type.ftZonedNumeric]			= new TypeZoned();
+
             types[Type.ftNumAnyDecimal]			= new TypeNumAnyDecimal(false);
             types[Type.ftPositiveNumAnyDecimal]	= new TypeNumAnyDecimal(true);
 
@@ -99,13 +100,16 @@ public class TypeManager {
             types[Type.ftDouble]				= new TypeFloat();
 
             types[Type.ftPackedDecimal]			= new TypePackedDecimal();
+            types[Type.ftPackedDecimalPostive]	= new TypePackedDecimal(true);
             types[Type.ftDecimal]				= new TypeDecimalHex(Type.ftDecimal);
             types[Type.ftHex] 					= new TypeDecimalHex(Type.ftHex);
 
+            types[Type.ftBinaryIntPositive]		= new TypeBinLittleEndian(true, false);
             types[Type.ftPostiveBinaryInt]		= new TypeBinLittleEndian(true);
             types[Type.ftBinaryInt]				= new TypeBinLittleEndian(false);
             types[Type.ftBinaryBigEndian]		= new TypeBinBigEndian(false);
-            types[Type.ftPositiveBinaryBigEndian] = new TypeBinBigEndian(true);
+            types[Type.ftBinaryBigEndianPositive]= new TypeBinBigEndian(true, false);
+            types[Type.ftPositiveBinaryBigEndian]= new TypeBinBigEndian(true);
 
             types[Type.ftRmComp]				= new TypeRmComp();
             types[Type.ftRmCompPositive]		= new TypeRmCompPositive();

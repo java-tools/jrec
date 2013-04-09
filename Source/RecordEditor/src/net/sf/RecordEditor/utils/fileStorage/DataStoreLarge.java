@@ -493,7 +493,8 @@ implements DataStore<AbstractLine> {
 
 	@Override
 	public DataStore<AbstractLine> newDataStore() {
-		return new DataStoreStd<AbstractLine>(fileDetails.getLayout(), this);
+		return DataStoreStd.newStore(fileDetails.getLayout(), this);
+				//new DataStoreStd<AbstractLine>(fileDetails.getLayout(), this);
 	}
 
 

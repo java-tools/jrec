@@ -16,7 +16,7 @@
 package net.sf.JRecord.Types;
 
 import net.sf.JRecord.Common.Conversion;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 
 /**
@@ -28,32 +28,47 @@ import net.sf.JRecord.Common.RecordException;
  */
 public class TypeBinBigEndian extends TypeNum {
 
+	private final boolean positiveStorage;
+
     /**
      * Type for Binary Integers - Big Endian (high to low format)
      * <p>This class is the interface between the raw data in the file
      * and what is to be displayed on the screen for Big-Endian
      * binary integers.
      *
-     * @param isPostive wether it is a positive integer
+     * @param isPositive wether it is a positive integer
      */
-    public TypeBinBigEndian(final boolean isPostive) {
-        super(false, true, true, isPostive, true);
+    public TypeBinBigEndian(final boolean isPositive) {
+        super(false, true, true, isPositive, true);
+        positiveStorage = isPositive;
     }
 
+    /**
+     * Type for Binary Integers - Big Endian (high to low format)
+     * <p>This class is the interface between the raw data in the file
+     * and what is to be displayed on the screen for Big-Endian
+     * binary integers.
+     *
+     * @param isPositive wether it is a positive integer
+     */
+    public TypeBinBigEndian(final boolean isPositive, boolean positiveStore) {
+        super(false, true, true, isPositive, true);
+        this.positiveStorage = positiveStore;
+    }
 
     /**
      * @see net.sf.JRecord.Types.Type#getField(byte[], int, net.sf.JRecord.Common.FieldDetail)
      */
     public Object getField(byte[] record,
             			   final int position,
-            			   final FieldDetail field) {
+            			   final IFieldDetail field) {
 	    int pos = position - 1;
 	    int min = java.lang.Math.min(field.getEnd(), record.length);
 
         String s;
         if (pos >= min) {
         	s = "0";
-        } else if (isPositive()) {
+        } else if (positiveStorage) {
         	s = Conversion.getPositiveBigInt(record, pos, min - pos).toString();
         } else {
         	s = Conversion.getBigInt(record, pos, min - pos).toString();
@@ -70,7 +85,7 @@ public class TypeBinBigEndian extends TypeNum {
      */
     public byte[] setField(byte[] record,
             			 final int position,
-            			 final FieldDetail field, Object value)
+            			 final IFieldDetail field, Object value)
             throws RecordException {
 
 		int pos = position - 1;
@@ -80,8 +95,7 @@ public class TypeBinBigEndian extends TypeNum {
         formatValueForRecord(field, val);
 
         Conversion.setBigInt(record, pos, len,
-                		   getBigDecimal(field, val).toBigInteger(), isPositive());
+                		   getBigDecimal(field, val).toBigInteger(), positiveStorage);
         return record;
     }
 }
- 

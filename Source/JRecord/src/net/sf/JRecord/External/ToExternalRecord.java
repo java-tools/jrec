@@ -1,21 +1,22 @@
 package net.sf.JRecord.External;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
+import net.sf.JRecord.External.Def.ExternalField;
 
-/**
+/** 
  * Class to convert a RecordLayout (internal Format) to The Interface format (ExternalRecord)]
- * that can be written to a file / saved in a DB (RecordEditor) 
+ * that can be written to a file / saved in a DB (RecordEditor)
  * @author Bruce Martin
  *
  */
 public final class ToExternalRecord {
 
 	private static ToExternalRecord instance = null;
-	
+
 	/**
 	 * Convert a RecordLayout (internal format) to an ExternalRecord (interface format).
 	 * @param layout
@@ -28,10 +29,10 @@ public final class ToExternalRecord {
 	throws  RecordException {
 		//int rt = Constants.rtGroupOfRecords;
 		//int type = recordDefinition.getLayoutType();
-		
+
 //		System.out.println();
 //		System.out.println("layout type >> " + layout.getFileStructure());
-		
+
 		String fldSep = layout.getDelimiter();
 		String quote = "";
 		if (layout.getRecordCount() > 0) {
@@ -39,58 +40,58 @@ public final class ToExternalRecord {
 			//fldSep = r.getDelimiter();
 			quote = layout.getRecord(0).getQuote();
 		}
-		ExternalRecord rec = new ExternalRecord( 
+		ExternalRecord rec = new ExternalRecord(
 				-1, copybookName, layout.getDescription(),
-				Constants.rtGroupOfRecords, system, "Y", copybookName, 
+				Constants.rtGroupOfRecords, system, "Y", copybookName,
 				getSeperator(fldSep), quote, 0, "default",
-				layout.getRecordSep(), layout.getFontName(), 
+				layout.getRecordSep(), layout.getFontName(),
 				0, fixIOType(layout.getFileStructure())
 		);
 		rec.setNew(true);
-		
+
 		for (int i = 0; i < layout.getRecordCount(); i++) {
 			if (! layout.getRecord(i).getRecordName().startsWith("XML")) {
 				rec.addRecord(convert(i, layout, copybookName, system));
 			}
 		}
-		
+
 		return rec;
 	}
-	
+
 	/**
-	 * Convert a RecordDetail to an External record 
-	 * @param id record index 
+	 * Convert a RecordDetail to an External record
+	 * @param id record index
 	 * @param layout record Description
 	 * @param copybookName Layout Name
 	 * @param system System Id
-	 * 
+	 *
 	 * @return equivalent ExternalRecord
 	 */
 	private ExternalRecord convert(int id, AbstractLayoutDetails layout, String copybookName, int system) {
-		FieldDetail dtl;
+		IFieldDetail dtl;
 		ExternalField field;
-		ExternalRecord rec; 
+		ExternalRecord rec;
 		AbstractRecordDetail record = layout.getRecord(id);
 		String name = record.getRecordName();
-		
-		rec = new ExternalRecord( 
-				id, name, "", record.getRecordType(), 
+
+		rec = new ExternalRecord(
+				id, name, "", record.getRecordType(),
 				system, "N", copybookName + "_" + name, getSeperator(record.getDelimiter()),
-				record.getQuote(), 0, "default", layout.getRecordSep(), record.getFontName(), 
+				record.getQuote(), 0, "default", layout.getRecordSep(), record.getFontName(),
 				record.getRecordStyle(), fixIOType(layout.getFileStructure())
 		);
 		rec.setNew(true);
 		System.out.println("Record >> " + id +  " " + record.getRecordName());
-		
+
 		for (int i = 0; i < record.getFieldCount(); i++) {
 			dtl = record.getField(i);
 			field = new ExternalField(dtl.getPos(), dtl.getLen(),
 							dtl.getName(), dtl.getDescription(),
 							dtl.getType(), dtl.getDecimal(), dtl.getFormat(), dtl.getParamater(),
-							"", "", i					
+							"", "", i
 			);
 
-			if (dtl.getDefaultValue() != null 
+			if (dtl.getDefaultValue() != null
 			&& ! "".equals(dtl.getDefaultValue().toString())) {
 				field.setDefault(dtl.getDefaultValue().toString());
 			}
@@ -98,7 +99,7 @@ public final class ToExternalRecord {
 		}
 		return rec;
 	}
-	
+
 //	/**
 //	 * Correct the length for XML / CSV files
 //	 * @param len length
@@ -111,7 +112,7 @@ public final class ToExternalRecord {
 //		}
 //		return ret;
 //	}
-	
+
 	private int fixIOType(int ioType) {
 		int ret = ioType;
 		if (ret == Constants.IO_XML_BUILD_LAYOUT) {
@@ -120,7 +121,7 @@ public final class ToExternalRecord {
 		return ret;
 	}
 
-	
+
 	private static String getSeperator(String sep) {
 		String s = sep;
 		if ("\t".equals(s)) {
@@ -128,7 +129,7 @@ public final class ToExternalRecord {
 		} else if ("\t".equals(s)) {
 			s = "<tab>";
 		}
-		
+
 		return s;
 	}
 

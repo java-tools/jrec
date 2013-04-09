@@ -492,6 +492,8 @@ public final class Common implements Constants {
         reActionNames[ReActionHandler.CUT_RECORD]    = "Cut Record(s)";
         reActionNames[ReActionHandler.DELETE]        = "Delete";
         reActionNames[ReActionHandler.DELETE_RECORD] = "Delete Record(s)";
+        reActionNames[ReActionHandler.DELETE_BUTTON] = "Delete";
+        reActionNames[ReActionHandler.DELETE_RECORD_POPUP] = reActionNames[ReActionHandler.DELETE_RECORD];
         reActionNames[ReActionHandler.FILTER]        = "Filter";
         reActionNames[ReActionHandler.TABLE_VIEW_SELECTED]  = "Table View (Selected Records)";
         reActionNames[ReActionHandler.RECORD_VIEW_SELECTED] = "Record View (Selected Records)";
@@ -501,12 +503,16 @@ public final class Common implements Constants {
         reActionNames[ReActionHandler.HELP]          = "Help";
         reActionNames[ReActionHandler.INSERT_RECORDS]       = "Insert Record(s)";
         reActionNames[ReActionHandler.INSERT_RECORD_PRIOR]  = "Insert Record Prior";
+        reActionNames[ReActionHandler.INSERT_RECORDS_POPUP]       = reActionNames[ReActionHandler.INSERT_RECORDS];
+        reActionNames[ReActionHandler.INSERT_RECORD_PRIOR_POPUP]  = reActionNames[ReActionHandler.INSERT_RECORD_PRIOR];
         reActionNames[ReActionHandler.NEW]           = "New";
         reActionNames[ReActionHandler.OPEN]          = "Open";
         reActionNames[ReActionHandler.PRINT]         = "Print";
         reActionNames[ReActionHandler.PRINT_SELECTED]= "Print Selected";
         reActionNames[ReActionHandler.PASTE_RECORD]  = "Paste Record(s)";
         reActionNames[ReActionHandler.PASTE_RECORD_PRIOR] = "Paste Record(s) Prior";
+        reActionNames[ReActionHandler.PASTE_RECORD_POPUP]  =  reActionNames[ReActionHandler.PASTE_RECORD];
+        reActionNames[ReActionHandler.PASTE_RECORD_PRIOR_POPUP] =  reActionNames[ReActionHandler.PASTE_RECORD_PRIOR];
         reActionNames[ReActionHandler.PASTE_TABLE_INSERT] = "Paste Table (Insert)";
         reActionNames[ReActionHandler.PASTE_TABLE_OVERWRITE] = "Paste Table Overwrite";
         reActionNames[ReActionHandler.SAVE]         = "Save";
@@ -525,7 +531,7 @@ public final class Common implements Constants {
         reActionNames[ReActionHandler.SAVE_LAYOUT_XML]  = "Save Layout as XML";
 
         reActionNames[ReActionHandler.SORT]          = "Sort";
-        reActionNames[ReActionHandler.REPEAT_RECORD] = "Repeat Record";
+        reActionNames[ReActionHandler.REPEAT_RECORD_POPUP] = "Repeat Record";
         reActionNames[ReActionHandler.REBUILD_TREE]  = "Rebuild Tree";
 
         reActionNames[ReActionHandler.BUILD_SORTED_TREE]   = "Sorted Field Tree";
@@ -581,10 +587,12 @@ public final class Common implements Constants {
         reActionDesc[ReActionHandler.CUT_RECORD]    = "Cut selected records to the RecordEditor Clipboard";
         reActionDesc[ReActionHandler.PASTE_RECORD]  = "Paste records from the RecordEditor Clipboard after the current record";
         reActionDesc[ReActionHandler.PASTE_RECORD_PRIOR] = "Paste records from the RecordEditor Clipboard before the current record";
+        reActionDesc[ReActionHandler.PASTE_RECORD_POPUP]  = "Paste records from the RecordEditor Clipboard after the current record";
+        reActionDesc[ReActionHandler.PASTE_RECORD_PRIOR_POPUP] = "Paste records from the RecordEditor Clipboard before the current record";
         reActionDesc[ReActionHandler.PASTE_TABLE_INSERT]  = "Paste Table after the current line/row";
         reActionDesc[ReActionHandler.PASTE_TABLE_OVERWRITE] = "Paste Table over current data (from current position)";
         reActionDesc[ReActionHandler.DELETE_RECORD] = "Delete Selected records";
-        reActionDesc[ReActionHandler.REPEAT_RECORD] = "Repeat the record under the cursor";
+        reActionDesc[ReActionHandler.REPEAT_RECORD_POPUP] = "Repeat the record under the cursor";
         reActionDesc[ReActionHandler.REBUILD_TREE]  = "Rebuild the Tree Display";
 
         reActionNames[ReActionHandler.ADD_ATTRIBUTES]    = "Add Attributes";
@@ -896,7 +904,7 @@ public final class Common implements Constants {
 
 		yet2Init = false;
 		jdbcMsg[connectionIdx] = "";
-		
+
 		return ret;
 	}
 
@@ -989,7 +997,6 @@ public final class Common implements Constants {
 			    throw new java.sql.SQLException(jdbcMsg[dbIdx]);
 			}
 		}
-
 		return dbConnection[dbIdx];
 	}
 
@@ -1291,16 +1298,21 @@ public final class Common implements Constants {
             reActionRef[ReActionHandler.SAVE_AS_XML]      = ID_SAVEAS_XML_ICON;
             reActionRef[ReActionHandler.SAVE_LAYOUT_XML]  = ID_SAVEAS_XML_ICON;
 
-            reActionRef[ReActionHandler.REPEAT_RECORD] = ID_COPY_ICON;
+            reActionRef[ReActionHandler.REPEAT_RECORD_POPUP] = ID_COPY_ICON;
             reActionRef[ReActionHandler.COPY_RECORD]   = ID_COPY_ICON;
             reActionRef[ReActionHandler.CUT_RECORD]    = ID_CUT_ICON;
 
             reActionRef[ReActionHandler.PASTE_RECORD] = ID_PASTE_ICON;
             reActionRef[ReActionHandler.PASTE_RECORD_PRIOR]
                          						  = ID_PASTE_PRIOR_ICON;
+            reActionRef[ReActionHandler.PASTE_RECORD_POPUP] = ID_PASTE_ICON;
+            reActionRef[ReActionHandler.PASTE_RECORD_PRIOR_POPUP]
+                         						  = ID_PASTE_PRIOR_ICON;
             reActionRef[ReActionHandler.PASTE_TABLE_INSERT] = ID_PASTE_ICON;
             reActionRef[ReActionHandler.INSERT_RECORDS] = ID_NEW_ICON;
             reActionRef[ReActionHandler.INSERT_RECORD_PRIOR] = ID_NEW_UP_ICON;
+            reActionRef[ReActionHandler.INSERT_RECORDS_POPUP] = ID_NEW_ICON;
+            reActionRef[ReActionHandler.INSERT_RECORD_PRIOR_POPUP] = ID_NEW_UP_ICON;
 
             reActionRef[ReActionHandler.NEW]     = ID_NEW_ICON;
             //reActionRef[ReActionHandler.] = ID_SETLENGTH_ICON;
@@ -1308,6 +1320,10 @@ public final class Common implements Constants {
             reActionRef[ReActionHandler.DELETE]  = ID_DELETE_ICON;
             reActionRef[ReActionHandler.DELETE_RECORD]
                          						 = ID_DELETE_ICON;
+            reActionRef[ReActionHandler.DELETE_BUTTON]
+					 = ID_DELETE_ICON;
+            reActionRef[ReActionHandler.DELETE_RECORD_POPUP]
+					 = ID_DELETE_ICON;
             reActionRef[ReActionHandler.OPEN]    = ID_OPEN_ICON;
             reActionRef[ReActionHandler.HELP]    = ID_HELP_ICON;
             reActionRef[ReActionHandler.SORT]    = ID_SORT_ICON;
@@ -1563,7 +1579,7 @@ public final class Common implements Constants {
      *
      * @return Help URL
      */
-    public static final String formatHelpURL(String helpId) {
+    public static final URL formatHelpURL(String helpId) {
 
     	String lang = Parameters.getString(Parameters.CURRENT_LANGUAGE);
     	File f;
@@ -1593,17 +1609,17 @@ public final class Common implements Constants {
         //System.out.println(htmlDir + lang + "/" + helpId + " " + f.exists() + " " + f.isFile());
         if (f.isFile()) {
         	try {
-        		return f.toURI().toURL().toString();
+        		return f.toURI().toURL();
         	} catch (Exception e) {
 			}
         }
 
         try {
-        	return (new File(htmlDir + helpId)).toURI().toURL().toString();
+        	return (new File(htmlDir + helpId)).toURI().toURL();
         } catch (Exception e) {
         	e.printStackTrace();
 		}
-        return "";
+        return null;
     }
     //        String dir = ClassLoader.getSystemResource("edit/EditRec.class").toString();
 

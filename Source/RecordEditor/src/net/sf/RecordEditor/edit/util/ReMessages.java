@@ -19,6 +19,14 @@ public class ReMessages {
 	public static final ReMsg AFTER_FIELD  = new ReMsg(LangConversion.ST_ACTION, "After {0}");
 	public static final ReMsg EMPTY_VIEW   = new ReMsg(LangConversion.ST_ACTION, "Empty View can not add Child Record");
 
+	public static final ReMsg TO_MANY_ROWS   = new ReMsg(LangConversion.ST_ACTION, "To Many Rows Selected ({0} > {1}) for ColumnDisplay");
+
+	public static final ReMsgId EXPORT_FILE_STRUCTURE = new ReMsgId("ExportFSDesc",
+			"This option exports the file with a new File-Structure\nThis option is most use to Cobol Programers"
+		+ "\n\nMainframe VB* - Mainframe VB files        Fujitsu Variable Binary - Fujitsu Cobol VB "
+		+ "\nText IO       - Normal PC/Unix Text file  Fixed Length Binary - Fixed length File (no CR/LF)");
+
+
 	public static final ReMsgId EXPORT_DATA_DESC = new ReMsgId("ExportDataDesc",
 						"Export data in native format\n\nChange the tab to change Data format");
 	public static final ReMsgId EXPORT_XML_DESC = new ReMsgId(
@@ -32,4 +40,13 @@ public class ReMessages {
           + "and download file <b>ru_velocity_1.4*.zip</b>.<br>"
           + "From this zip file and copy the 2 jars files to the <b>&lt;RecordEditor install directory&gt;/lib</b> directory. "
           + "<br><br>Alternately in the <b>HowTo</b> document, there is a discussion on installing velocity.");
+
+	public static final ReMsgId CHANGE_FILE_STRUCTURE = new ReMsgId(
+			"ChgFileStructure",
+            "<h2>Change File Structure</h2>"
+          + "This option is mainly for <b>Cobol</b> Programmers. It allows you to change the<br>"
+          + "File format between <b>Text-IO</b> (standard text file - Line Sequential in Cobol),<br>"
+          + "various <b>VB</b> Formats and <b>Fixed Record Length</b> file format.<br>"
+          + "You will still need to save the file to make the changes permanent.<br>"
+          + "<p>If you do not understand the above, this option is probably not for you");
 }

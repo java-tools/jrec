@@ -10,12 +10,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
-import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Details.DefaultLineProvider;
+import net.sf.JRecord.Details.ISetLineProvider;
 import net.sf.JRecord.Details.LineProvider;
 
 
@@ -37,7 +36,7 @@ import net.sf.JRecord.Details.LineProvider;
  *
  */
 @SuppressWarnings("rawtypes")
-public abstract class AbstractLineReader<Layout extends AbstractLayoutDetails<? extends FieldDetail, ? extends AbstractRecordDetail>> {
+public abstract class AbstractLineReader<Layout extends AbstractLayoutDetails> {
 
     public static final String NOT_OPEN_MESSAGE = "File has not been opened";
 
@@ -59,12 +58,12 @@ public abstract class AbstractLineReader<Layout extends AbstractLayoutDetails<? 
 	 *
 	 * @param provider line provider
 	 */
-	public AbstractLineReader(final LineProvider<Layout> provider) {
+	public AbstractLineReader(final LineProvider provider) {
 	    super();
 	    lineProvider = provider;
 
 	    if (provider == null) {
-	    	lineProvider = new DefaultLineProvider();
+	    	lineProvider =  new DefaultLineProvider();
 	    }
 	}
 
@@ -159,7 +158,7 @@ public abstract class AbstractLineReader<Layout extends AbstractLayoutDetails<? 
      *
      * @throws IOException io error
      */
-    public abstract AbstractLine<Layout> read() throws IOException;
+    public abstract AbstractLine read() throws IOException;
 
 
     /**
@@ -205,10 +204,12 @@ public abstract class AbstractLineReader<Layout extends AbstractLayoutDetails<? 
 	 *
 	 * @return line just created
 	 */
-	protected final AbstractLine<Layout> getLine(byte[] record) {
-	    AbstractLine<Layout> ret = lineProvider.getLine(layout, record);
+	protected final AbstractLine getLine(byte[] record) {
+	    AbstractLine ret = lineProvider.getLine(layout, record);
 
-	    ret.setLineProvider(lineProvider);
+	    if (ret instanceof ISetLineProvider) {
+	    	((ISetLineProvider) ret).setLineProvider(lineProvider);
+	    }
 	    return ret;
 	}
 
@@ -223,7 +224,9 @@ public abstract class AbstractLineReader<Layout extends AbstractLayoutDetails<? 
 	protected final AbstractLine getLine(String record) {
 	    AbstractLine ret = lineProvider.getLine(layout, record);
 
-	    ret.setLineProvider(lineProvider);
+	    if (ret instanceof ISetLineProvider) {
+	    	((ISetLineProvider) ret).setLineProvider(lineProvider);
+	    }
 	    return ret;
 	}
 

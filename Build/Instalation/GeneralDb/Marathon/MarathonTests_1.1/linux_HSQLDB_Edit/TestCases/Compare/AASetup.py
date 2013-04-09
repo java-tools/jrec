@@ -1,4 +1,4 @@
-useFixture(default)
+useFixture(RecordEditor)
 
 def test():
 	from Modules import commonBits
@@ -8,30 +8,39 @@ def test():
 		click('Preferences')
 
 		if window('Record Editor Options Editor'):
-			select('TabbedPane', 'Properties')
+			select('TabbedPane', commonBits.fl('Properties'))
 
 			if commonBits.isVersion81():
-				select('PropertiesTab', 'Test')
+				select('PropertiesTab', commonBits.fl('Test'))
+
 				select('Test Mode_Chk', 'true')
 				select('Warn on Structure change_Chk', 'false')
 				select('Load In background_Chk', 'false')
 				select('Use New Tree Expansion_Chk', 'false')
 				select('On Search Screen default to "All Fields"_Chk', 'false')
 				select('Add names to JComponents for use by testing tools_Chk', 'false')
+				select('Rename Search btn_Chk', 'true')
+
+				select('Include Type Name on Record Screen_Chk', 'false')
 
 				click('Save')
-				select('PropertiesTab', 'Behaviour')
+
+				select('PropertiesTab', commonBits.fl('Behaviour'))
+
 				select('Bring log to Front_Chk', 'false')
 				select('Default to prefered layout_Chk', 'false')
 				select('Show all export panels on the export Screen_Chk', 'true')
 				select('Delete Selected rows with the delete key_Chk', 'false')
 
-				select('PropertiesTab', 'Layout Wizard')
+				select('Create Screens in seperate Windows_Chk', 'true')
+
+				select('PropertiesTab', commonBits.fl('Layout Wizard'))
 				select('Run the field search Automatically_Chk', 'true')
 
 				click('Save')
 
-				select('TabbedPane', 'Looks')
+				select('TabbedPane', commonBits.fl('Looks')
+)
 
 				select('Look and Feel_Txt', 'Default')
 			elif commonBits.isVersion80():

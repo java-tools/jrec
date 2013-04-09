@@ -2,12 +2,11 @@ package net.sf.JRecord.zTest.ByteIO;
 
 import java.io.IOException;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.ByteIO.ByteTextReader;
 import net.sf.JRecord.ByteIO.FixedLengthByteWriter;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.zTest.Common.TstConstants;
-
-import junit.framework.TestCase;
 
 public class TstBinTextWriter  extends TestCase {
 

@@ -75,11 +75,11 @@ public final class TstConstants {
 
 
 
-	public static ArrayList<AbstractLine<LayoutDetail>> getLines(LayoutDetail layout, String[] lines) throws Exception {
-		ArrayList<AbstractLine<LayoutDetail>> ret = new ArrayList<AbstractLine<LayoutDetail>>();
+	public static ArrayList<AbstractLine> getLines(LayoutDetail layout, String[] lines) throws Exception {
+		ArrayList<AbstractLine> ret = new ArrayList<AbstractLine>();
 
 		AbstractLineReader r = LineIOProvider.getInstance().getLineReader(layout.getFileStructure());
-		AbstractLine<LayoutDetail> l;
+		AbstractLine l;
 
 		r.open(getFile(lines), layout);
 

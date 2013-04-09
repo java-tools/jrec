@@ -20,7 +20,7 @@ public interface AbstractIndexedLine {
 	 * @return fields Value
 	 *
 	 */
-	public abstract Object getField(FieldDetail field);
+	public abstract Object getField(IFieldDetail field);
 
 	   /**
      * Get the Preferred Record Layout Index for this record
@@ -61,7 +61,7 @@ public interface AbstractIndexedLine {
 	 *
 	 * @throws RecordException any error that occurs
 	 */
-	public abstract void setField(FieldDetail field, Object value)
+	public abstract void setField(IFieldDetail field, Object value)
 			throws RecordException;
 
 }

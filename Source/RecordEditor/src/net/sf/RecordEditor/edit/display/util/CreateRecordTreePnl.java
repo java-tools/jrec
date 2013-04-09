@@ -47,7 +47,7 @@ public class CreateRecordTreePnl  implements ISaveUpdateDetails<EditorTask> {
 	//private final JTextField msgTxt = new JTextField();
 
 
-	private AbstractLayoutDetails<?, ?> layout;
+	private AbstractLayoutDetails layout;
 	private Integer[] parent;
 
 
@@ -55,7 +55,7 @@ public class CreateRecordTreePnl  implements ISaveUpdateDetails<EditorTask> {
 		init_200_FormatScreen(false, 10);
 	}
 
-	public CreateRecordTreePnl(AbstractLayoutDetails<?, ?> layoutDetails, boolean addSave) {
+	public CreateRecordTreePnl(AbstractLayoutDetails layoutDetails, boolean addSave) {
 		super();
 
 		setLayout(layoutDetails);
@@ -67,7 +67,7 @@ public class CreateRecordTreePnl  implements ISaveUpdateDetails<EditorTask> {
 	 * Set the layout
 	 * @param layoutDetails new layout details
 	 */
-	public final void setLayout(AbstractLayoutDetails<?, ?> layoutDetails) {
+	public final void setLayout(AbstractLayoutDetails layoutDetails) {
 
 		layout = layoutDetails;
 		parent = new Integer[layout.getRecordCount()];
@@ -81,7 +81,7 @@ public class CreateRecordTreePnl  implements ISaveUpdateDetails<EditorTask> {
 	/**
 	 * @return the layout
 	 */
-	public final AbstractLayoutDetails<?, ?> getLayout() {
+	public final AbstractLayoutDetails getLayout() {
 		return layout;
 	}
 

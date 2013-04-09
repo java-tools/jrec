@@ -21,9 +21,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.TableColumnModel;
 
-import net.sf.RecordEditor.edit.file.FileView;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.LayoutDetail;
+import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -127,7 +127,7 @@ public final class XmplEditSpecificFile3 {
 	    }
 
         /**
-         * @see net.sf.RecordEditor.edit.file.FileView#getColumnName(int, int)
+         * @see net.sf.RecordEditor.re.file.FileView#getColumnName(int, int)
          */
         public String getColumnName(int col) {
     		if (col > 1) {

@@ -2,12 +2,12 @@ package net.sf.JRecord.zTest.detailsSelection;
 
 import java.util.List;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.Common.AbstractIndexedLine;
 import net.sf.JRecord.detailsSelection.AndSelection;
 import net.sf.JRecord.detailsSelection.FieldSelect;
 import net.sf.JRecord.detailsSelection.FieldSelectX;
 import net.sf.JRecord.detailsSelection.OrSelection;
-import junit.framework.TestCase;
 
 public class TstAndOr extends TestCase {
 	private static final FieldSelect yes = FieldSelectX.getTrueSelection();

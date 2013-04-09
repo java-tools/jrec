@@ -232,7 +232,7 @@ public class EditLanguage extends BasePanel {
 			this.langCode = langCode;
 			this.longName = s;
 
-			if ("".equals(langCode.trim())) {
+			if (langCode == null || "".equals(langCode.trim())) {
 				icon = null;
 			} else if ("tst".equals(langCode) || "txt".equals(langCode) || langCode.length() > 3) {
 				icon = BLANK_ICON;
@@ -251,7 +251,7 @@ public class EditLanguage extends BasePanel {
    }
 
 
-   private class FlagComboRenderer extends JLabel
+   private static class FlagComboRenderer extends JLabel
    implements ListCellRenderer {
 
 

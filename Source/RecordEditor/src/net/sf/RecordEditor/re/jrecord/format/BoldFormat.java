@@ -8,13 +8,13 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.RecordEditor.utils.swing.StandardRendor;
 
 public class BoldFormat implements CellFormat {
 
 	private StandardRendor boldRendor = new StandardRendor(true);
-	
+
 	@Override
 	public int getFieldHeight() {
 		return Constants.NULL_INTEGER;
@@ -26,7 +26,7 @@ public class BoldFormat implements CellFormat {
 	}
 
 	@Override
-	public TableCellEditor getTableCellEditor(FieldDetail fld) {
+	public TableCellEditor getTableCellEditor(IFieldDetail fld) {
 		JTextField txtFld = new JTextField();
 		Font font = txtFld.getFont();
 		txtFld.setFont(
@@ -36,7 +36,7 @@ public class BoldFormat implements CellFormat {
 	}
 
 	@Override
-	public TableCellRenderer getTableCellRenderer(FieldDetail fld) {
+	public TableCellRenderer getTableCellRenderer(IFieldDetail fld) {
 		return boldRendor;
 	}
 

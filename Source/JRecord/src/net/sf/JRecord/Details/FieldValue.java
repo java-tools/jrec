@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import net.sf.JRecord.Common.AbstractFieldValue;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Types.Type;
 
@@ -29,7 +29,7 @@ import net.sf.JRecord.Types.Type;
 public final class FieldValue implements AbstractFieldValue {
 
 	private AbstractLine theLine;
-	private FieldDetail field;
+	private IFieldDetail field;
 	private int recordNum = -1;
 	private int fieldNum;;
 
@@ -39,7 +39,7 @@ public final class FieldValue implements AbstractFieldValue {
 	 * @param line line the field value belongs to
 	 * @param fieldDetails Field Description
 	 */
-	public FieldValue(AbstractLine line, FieldDetail fieldDetails) {
+	public FieldValue(AbstractLine line, IFieldDetail fieldDetails) {
 		theLine = line;
 		field = fieldDetails;
 		recordNum = -1;
@@ -205,7 +205,7 @@ public final class FieldValue implements AbstractFieldValue {
 	 */
 	@Override
 	public String asHex() {
-		FieldDetail fld = field;
+		IFieldDetail fld = field;
 		if (recordNum >= 0) {
 			fld = theLine.getLayout().getField(recordNum, fieldNum);
 		}

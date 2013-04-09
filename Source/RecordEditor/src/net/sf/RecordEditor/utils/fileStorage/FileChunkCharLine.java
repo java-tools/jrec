@@ -26,15 +26,15 @@ public class FileChunkCharLine extends FileChunkBase<CharLineBase, RecordStoreCh
 	public  void add(int idx, char[] rec) {
 
 		uncompress();
-		
+
 		//synchronized (recordStore) {
-		getRecordStore().add(idx, rec); 
+		getRecordStore().add(idx, rec);
 		count = recordStore.getRecordCount();
-			
+
 		updateLines(idx, 1);
 		//}
 	}
-	
+
 
 
 	public byte[] get(int idx) {
@@ -58,7 +58,6 @@ public class FileChunkCharLine extends FileChunkBase<CharLineBase, RecordStoreCh
 	public void put(int idx, @SuppressWarnings("rawtypes") AbstractLine l) {
 
 		put(idx, ((CharLine) l).getFullLine().toCharArray());
-		
 	}
 
 	public void put(int idx, char[] rec) {
@@ -67,7 +66,7 @@ public class FileChunkCharLine extends FileChunkBase<CharLineBase, RecordStoreCh
 			getRecordStore().put(idx, rec);
 			compressed = null;
 		}
-	} 
+	}
 
 
 	@SuppressWarnings("rawtypes")
@@ -78,7 +77,7 @@ public class FileChunkCharLine extends FileChunkBase<CharLineBase, RecordStoreCh
 		String s = new String(recordStore.getChar(lineNo));
 		AbstractLine l = new CharLine(details.getLayout(), s);
 		remove(lineNo);
-		return l; 
+		return l;
 	}
 
 
@@ -86,7 +85,7 @@ public class FileChunkCharLine extends FileChunkBase<CharLineBase, RecordStoreCh
 	public CharLineBase getLine(int lineNo) {
 		Integer cLine = (lineNo - getFirstLine());
 		CharLineBase ret = null;
-		
+
 		getLines();
 		synchronized (lines) {
 			if (lines.containsKey(cLine)) {
@@ -99,30 +98,30 @@ public class FileChunkCharLine extends FileChunkBase<CharLineBase, RecordStoreCh
 		}
 		return ret;
 	}
-	
-	
+
+
 
 
 	@Override
 	public CharLineBase getTempLine(int lineNo) {
 		return new CharLineTemp(details.getLayout(), this, (lineNo - getFirstLine()));
 	}
-	
-	
-	
+
+
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean hasRoomForMore(AbstractLine l) {
 		int len = l.getData().length;
 		uncompress();
-//		System.out.println(" --> hasRoom " + recordStore.getSize() + " " 
+//		System.out.println(" --> hasRoom " + recordStore.getSize() + " "
 //				+ details.len + " " + recordStore.getStoreSize());
-		
-		return (recordStore != null) 
+
+		return (recordStore != null)
 			&& (recordStore.getSize() + len) < recordStore.getStoreSize();
 	}
 
-	
+
 	private RecordStoreCharLine getRecordStore() {
 		return recordStore;
 	}
@@ -137,5 +136,5 @@ public class FileChunkCharLine extends FileChunkBase<CharLineBase, RecordStoreCh
 	protected int getStorageSize() {
 		return 2;
 	}
-	
+
 }

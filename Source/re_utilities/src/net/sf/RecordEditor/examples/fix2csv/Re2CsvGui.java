@@ -117,7 +117,7 @@ public class Re2CsvGui implements ActionListener	{
 	    }
 
         if ("".equals(inFileName.getText())) {
-            inFileName.setText(Common.DEFAULT_FILE_DIRECTORY);
+            inFileName.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());
         }
 	}
 
@@ -134,16 +134,16 @@ public class Re2CsvGui implements ActionListener	{
         pnl.addHeading("RecordLayout Selection screen");
 
 		pnl.setGap(BasePanel.GAP1);
-		pnl.addComponent("Input File", inFileName, findInFile);
-		pnl.addComponent("Output File", outFileName, findOutFile);
+		pnl.addLine("Input File", inFileName, findInFile);
+		pnl.addLine("Output File", outFileName, findOutFile);
 		pnl.setGap(BasePanel.GAP2);
-	    pnl.addComponent("Field Seperator", sepOptions);
+	    pnl.addLine("Field Seperator", sepOptions);
 		pnl.setGap(BasePanel.GAP2);
 
-		pnl.addComponent("System", systemCombo);
-		pnl.addComponent("Record Layout", layoutCombo, goBtn);
+		pnl.addLine("System", systemCombo);
+		pnl.addLine("Record Layout", layoutCombo, goBtn);
 
-		pnl.addComponent("Description", description);
+		pnl.addLine("Description", description);
 		pnl.setHeight(BasePanel.NORMAL_HEIGHT * 3);
 
 		pnl.setGap(BasePanel.GAP2);

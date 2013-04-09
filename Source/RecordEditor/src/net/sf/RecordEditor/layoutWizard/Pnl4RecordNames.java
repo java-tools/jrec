@@ -147,7 +147,7 @@ public class Pnl4RecordNames extends WizardPanel {
 		} else {
 			HashMap<String, RecordDefinition> keyToRecordMap = new HashMap<String, RecordDefinition>();
 			AbstractLineReader<?> reader = detail.getReader();
-			AbstractLine<?> line;
+			AbstractLine line;
 			String keyStr;
 			boolean keyPresent;
 

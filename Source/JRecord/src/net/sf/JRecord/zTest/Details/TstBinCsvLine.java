@@ -1,12 +1,12 @@
 package net.sf.JRecord.zTest.Details;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.Line;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
 import net.sf.JRecord.Log.TextLog;
 import net.sf.JRecord.zTest.Common.TstConstants;
-import junit.framework.TestCase;
 
 /**
  * This class Tests assigning values to a Binary CSV line

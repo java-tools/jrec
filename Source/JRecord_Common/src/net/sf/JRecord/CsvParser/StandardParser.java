@@ -45,8 +45,8 @@ public class StandardParser extends BaseCsvParser implements AbstractParser {
 	/**
 	 * @see net.sf.JRecord.CsvParser.AbstractParser#getField(int, java.lang.String, java.lang.String, java.lang.String)
 	 */
-	public String getField(int fieldNumber, String line, String delimiter, String quote) {
-		String[] lineVals = split(fieldNumber, line, delimiter, quote);
+	public String getField(int fieldNumber, String line, ICsvDefinition lineDef) {
+		String[] lineVals = split(fieldNumber, line, lineDef);
 		String ret = lineVals[1];
 		if (ret == null) {
 			ret = "";
@@ -57,26 +57,28 @@ public class StandardParser extends BaseCsvParser implements AbstractParser {
 	/**
 	 *
 	 */
-	public String getField2(int fieldNumber, String line, String delimiter, String quote) {
-		String[] lineVals = split(fieldNumber, line, delimiter, quote);
+	public String getField2(int fieldNumber, String line, ICsvDefinition lineDef) {
+		String[] lineVals = split(fieldNumber, line, lineDef);
 		return lineVals[1];
 	}
 
 	/**
 	 * @see net.sf.JRecord.CsvParser.AbstractParser#setField(int, int, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
-	public String setField(int fieldNumber, int fieldType, String line, String delimiter, String quote, String newValue) {
-		String[] lineVals = split(fieldNumber, line, delimiter, quote);
+	public String setField(int fieldNumber, int fieldType, String line, ICsvDefinition lineDef, String newValue) {
+		String[] lineVals = split(fieldNumber, line, lineDef);
 		String s = newValue;
 		if (newValue == null) {
 			s = "";
 		}
+		String delimiter = lineDef.getDelimiter();
+		String quote = lineDef.getQuote();
 
 //		if (textFieldsInQuotes) {
 //			System.out.print("--> " + fieldType + " " + Type.NT_NUMBER + " " + s + " --> ");
 //		}
 		if (s.indexOf(delimiter) >= 0
-		|| (quote != null && s.indexOf(quote) >= 0)
+		|| (quote != null && ! "".equals(quote) && s.indexOf(quote) >= 0)
 		|| (textFieldsInQuotes & (fieldType != Type.NT_NUMBER))) {
 			StringBuffer b = new StringBuffer(s);
 			int pos;
@@ -103,12 +105,11 @@ public class StandardParser extends BaseCsvParser implements AbstractParser {
 	 *
 	 * @param fieldNumber  field to retrieve
 	 * @param line line to parse for fields
-	 * @param delimiter field delimiter
-	 * @param quote quote char
+	 * @param lineDef Csv Definition
 	 * @return Array containg line before the field, The requested field, The line after
 	 * the request field.
 	 */
-	private String[] split(int fieldNumber, String line, String delimiter, String quote) {
+	private String[] split(int fieldNumber, String line, ICsvDefinition lineDef) {
 		String[] ret = new String[]{null, null, ""};
 		StringBuilder pre   = new StringBuilder("");
 		StringBuilder field = null;
@@ -118,6 +119,9 @@ public class StandardParser extends BaseCsvParser implements AbstractParser {
 		boolean lastCharQuote = false;
 		int currFieldNumber = 0;
 		int i = 0;
+		String delimiter = lineDef.getDelimiter();
+		String quote = lineDef.getQuote();
+
 
 		while (i < line.length() && currFieldNumber < fieldNumber) {
 			s = line.substring(i, i + 1);

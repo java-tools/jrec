@@ -17,4 +17,14 @@ public class LeMessages {
 	public final static ReMsgId SQL_ERROR = new ReMsgId("SqlError",
 			  "\n    SQL: {0}"
 			+ "\nMessage: {1}\n");
+
+	public final static ReMsgId RECORD_POS_GREATER_THAN_0 = new ReMsgId(
+			"RecordPnl_Warn_03",
+			"Field: {0}  - Position must be > 0 !!! and not {1}");
+
+	public final static ReMsgId DEFINE_RECORD_SELECTION = new ReMsgId(
+			"DefRecordSelection",
+			"You should define the Record Selections details (Field - Field Value)"
+			+ "and check the File Structure on the Extra sceen");
+
 }

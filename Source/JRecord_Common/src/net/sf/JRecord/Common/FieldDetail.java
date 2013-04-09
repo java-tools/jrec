@@ -10,14 +10,14 @@ package net.sf.JRecord.Common;
 
 /**
  * This class stores the description of one field in a record (or Line).
- * It is used by the {@link RecordDetail} class 
- *  
+ * It is used by the {@link RecordDetail} class
+ *
  * <pre>
  *     LayoutDetail  - Describes a file
  *       |
  *       +----- RecordDetail (1 or More) - Describes one record in the file
  *                |
- *                +------  FieldDetail (1 or More)  - Describes one field in the file 
+ *                +------  FieldDetail (1 or More)  - Describes one field in the file
  * </pre>
  *
  *
@@ -25,8 +25,7 @@ package net.sf.JRecord.Common;
  * @version 0.55
  *
  */
-public class FieldDetail {
-
+public class FieldDetail implements IFieldDetail {
 	private static final AbstractRecord DEFAULT_RECORD = new AbstractRecord() {
 
 		/**
@@ -49,11 +48,11 @@ public class FieldDetail {
 		public int getRecordStyle() {
 			return 0;
 		}
-		
+
 		public int getSourceIndex() {
 			return 0;
 		}
-		
+
 	};
 	private int pos;
 	private int len;
@@ -104,13 +103,15 @@ public class FieldDetail {
 	}
 
 
-	/**
-	 * Sets the position and length
-	 *
-	 * @param pPosition Fields Position
-	 * @param pLength Fields Length
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.AbstractFieldDetails#setPosLen(int, int)
 	 */
-	public final FieldDetail setPosLen(final int pPosition, final int pLength) {
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.IFieldDetail#setPosLen(int, int)
+	 */
+	@Override
+	public final IFieldDetail setPosLen(final int pPosition, final int pLength) {
 		pos = pPosition;
 		len = pLength;
 		end = pos + len - 1;
@@ -119,12 +120,11 @@ public class FieldDetail {
 	}
 
 
-	/**
-	 * Set the position
-	 *
-	 * @param pPosition position
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.IFieldDetail#setPosOnly(int)
 	 */
-	public final FieldDetail setPosOnly(final int pPosition) {
+	@Override
+	public FieldDetail setPosOnly(final int pPosition) {
 		pos = pPosition;
 		len = Constants.NULL_INTEGER;
 		end = Constants.NULL_INTEGER;
@@ -134,154 +134,208 @@ public class FieldDetail {
 
 
 
-	/**
-	 * get the number of places after the decimal point
-	 *
-	 * @return get the decimal position
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.AbstractFieldDetails#getDecimal()
 	 */
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.IFieldDetail#getDecimal()
+	 */
+	@Override
 	public final int getDecimal() {
 		return decimal;
 	}
 
 
-	/**
-	 * get the field length
-	 *
-	 * @return the field length
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.AbstractFieldDetails#getLen()
 	 */
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.IFieldDetail#getLen()
+	 */
+	@Override
 	public int getLen() {
 		return len;
 	}
 
 
-	/**
-	 * get the field name
-	 *
-	 * @return the field name
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.AbstractFieldDetails#getName()
 	 */
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.IFieldDetail#getName()
+	 */
+	@Override
 	public String getName() {
 		return name;
 	}
 
 
-	/**
-	 * get the starting position of the field in the record
-	 *
-	 * @return the position of the field
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.AbstractFieldDetails#getPos()
 	 */
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.IFieldDetail#getPos()
+	 */
+	@Override
 	public int getPos() {
 		return pos;
 	}
 
 
-	/**
-	 * Get the Field Type Identifier
-	 *
-	 * @return the field type
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.IFieldDetail#getType()
 	 */
+	@Override
 	public int getType() {
 		return type;
 	}
 
 
-	/**
-	 * get the Field's Description
-	 *
-	 * @return the description
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.IFieldDetail#getDescription()
 	 */
+	@Override
 	public String getDescription() {
 		return description;
 	}
 
-	/**
-	 * Get the end position of the field in the record
-	 *
-	 * @return field end position
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.IFieldDetail#getEnd()
 	 */
+	@Override
 	public int getEnd() {
 		return end;
 	}
 
 
-	/**
-	 * is it a fixed fixed format record
-	 *
-	 * @return wether it is a fixed format field
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.AbstractFieldDetails#isFixedFormat()
 	 */
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.IFieldDetail#isFixedFormat()
+	 */
+	@Override
 	public boolean isFixedFormat() {
 		return end != Constants.NULL_INTEGER;
 	}
-  
 
-	/**
-	 * Get the fields fontname
-	 *
-     * @return Returns the fontName.
-     */
-    public String getFontName() {
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.AbstractFieldDetails#getFontName()
+	 */
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.IFieldDetail#getFontName()
+	 */
+	@Override
+	public String getFontName() {
         return fontName;
     }
 
-    /**
-     * get the fields format Identifier
-     *
-     * @return field format
-     */
-    public int getFormat() {
+    /* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.AbstractFieldDetails#getFormat()
+	 */
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.IFieldDetail#getFormat()
+	 */
+	@Override
+	public int getFormat() {
 		return format;
 	}
 
-	/**
-	 * get field's user parameter details. This is the parameter
-	 * entered against the field in the RecordLayout definition
-	 *
-	 * @return field parameter details
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.AbstractFieldDetails#getParamater()
 	 */
-    public String getParamater() {
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.IFieldDetail#getParamater()
+	 */
+	@Override
+	public String getParamater() {
 		return paramater;
 	}
 
-    /**
-     * get the Quote character
-     * @return Quote
-     */
-    public String getQuote() {
+    /* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.AbstractFieldDetails#getQuote()
+	 */
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.IFieldDetail#getQuote()
+	 */
+	@Override
+	public String getQuote() {
         return record.getQuote();
     }
 
 
-	/**
-	 * @return the record
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.AbstractFieldDetails#getRecord()
 	 */
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.IFieldDetail#getRecord()
+	 */
+	@Override
 	public AbstractRecord getRecord() {
 		return record;
 	}
 
 
-	/**
-	 * @param record the record to set
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.AbstractFieldDetails#setRecord(net.sf.JRecord.Common.AbstractRecord)
 	 */
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.IFieldDetail#setRecord(net.sf.JRecord.Common.AbstractRecord)
+	 */
+	@Override
 	public void setRecord(AbstractRecord record) {
 		this.record = record;
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.AbstractFieldDetails#setNameType(java.lang.String, int)
+	 */
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.IFieldDetail#setNameType(java.lang.String, int)
+	 */
+	@Override
 	public void setNameType(String newName, int newType) {
 		this.name = newName;
 		this.type = newType;
 	}
 
 
-	/**
-	 * @return the defaultValue
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.AbstractFieldDetails#getDefaultValue()
 	 */
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.IFieldDetail#getDefaultValue()
+	 */
+	@Override
 	public Object getDefaultValue() {
 		return defaultValue;
 	}
 
 
-	/**
-	 * @param defaultValue the defaultValue to set
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.AbstractFieldDetails#setDefaultValue(java.lang.Object)
 	 */
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.IFieldDetail#setDefaultValue(java.lang.Object)
+	 */
+	@Override
 	public void setDefaultValue(Object defaultValue) {
 		this.defaultValue = defaultValue;
 	}

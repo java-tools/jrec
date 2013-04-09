@@ -1,5 +1,6 @@
 package net.sf.RecordEditor.test.recordSelection;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.detailsSelection.RecordSel;
 import net.sf.RecordEditor.re.db.Record.ChildRecordsDB;
 import net.sf.RecordEditor.re.db.Record.ChildRecordsRec;
@@ -9,7 +10,6 @@ import net.sf.RecordEditor.re.db.Record.RecordSelectionRec;
 import net.sf.RecordEditor.utils.ReadRecordSelection;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReConnection;
-import junit.framework.TestCase;
 /**
  * This class tests writing Record Selection records from ExtendedRecordDB
  * It depends on the ReadRecordSelection tests working

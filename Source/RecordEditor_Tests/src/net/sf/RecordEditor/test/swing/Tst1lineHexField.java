@@ -5,9 +5,9 @@ package net.sf.RecordEditor.test.swing;
 
 import java.io.UnsupportedEncodingException;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.RecordEditor.utils.swing.HexOneLineRender;
-import junit.framework.TestCase;
 
 /**
  * @author bm

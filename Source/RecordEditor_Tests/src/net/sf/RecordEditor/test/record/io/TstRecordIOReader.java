@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLine;
@@ -22,10 +23,6 @@ import net.sf.JRecord.zTest.Common.IO;
 import net.sf.RecordEditor.test.TstConstants;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
 import net.sf.RecordEditor.utils.common.Common;
-
-
-
-import junit.framework.TestCase;
 
 /**
  *
@@ -124,7 +121,7 @@ public class TstRecordIOReader extends TestCase {
     }
 
 
-    public void textReadTest(String id, String[] po_Lines) 
+    public void textReadTest(String id, String[] po_Lines)
     throws IOException, RecordException {
         TextLineReader tReader = new TextLineReader();
         AbstractLine line;
@@ -175,7 +172,7 @@ public class TstRecordIOReader extends TestCase {
     private void binReadCheck(String id, byte[][] dtar020Lines2Test)
     throws IOException, RecordException {
         AbstractLineReader tReader = LineIOProvider.getInstance()
-        		.getLineReader(Constants.FIXED_LENGTH_IO);
+        		.getLineReader(Constants.IO_FIXED_LENGTH);
         AbstractLine line;
         int i = 0;
         boolean b;

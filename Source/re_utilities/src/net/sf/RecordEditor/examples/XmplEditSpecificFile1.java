@@ -15,9 +15,13 @@ package net.sf.RecordEditor.examples;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
+import net.sf.RecordEditor.edit.display.BaseDisplay;
+import net.sf.RecordEditor.edit.display.DisplayBuilder;
 import net.sf.RecordEditor.edit.display.LineList;
-import net.sf.RecordEditor.edit.file.FileView;
+import net.sf.RecordEditor.edit.open.DisplayBuilderFactory;
 import net.sf.JRecord.Details.LayoutDetail;
+import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
@@ -28,7 +32,7 @@ import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
  * (without displaying the RecordEditor File selection screen)
  *
  * @author Bruce Martin
- * 
+ *
  */
 public class XmplEditSpecificFile1 {
 
@@ -57,10 +61,10 @@ public class XmplEditSpecificFile1 {
 		                			   fileDescription,
 		                			   false);
 
-		        new ReMainFrame("Specific file", "");
-		        LineList list = new LineList(fileDescription, file, file);
+		        new ReMainFrame("Specific file", "", "X");
+		        AbstractFileDisplay list = DisplayBuilderFactory.newLineList(null, fileDescription, file, file);
 				list.setCurrRow(initialRow, -1, -1);
-				list.addInternalFrameListener(new InternalFrameAdapter() {
+				list.getParentFrame().getReFrame().addInternalFrameListener(new InternalFrameAdapter() {
 					public void internalFrameClosed(final InternalFrameEvent e) {
 						Common.closeConnection();
 

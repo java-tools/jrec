@@ -122,11 +122,11 @@ public class TstFindMultiRecords extends TestCase  {
 		@SuppressWarnings("rawtypes")
 		AbstractLayoutDetails layout = getLayout();
 		FileView f = TstConstants.readFileView(layout, constants.AMS_PO_LINES, layout.getFileStructure());
-		FilePosition pos = new  FilePosition(0, 0, 0, FilePosition.ALL_FIELDS_IDX, true);
+		FilePosition pos = new  FilePosition(0, 0, 0, FilePosition.ALL_FIELDS_IDX, true, f.getRowCount());
 		String s;
 
 		for (int i = 0; i < expected.length; i++) {
-			f.find(searchFor, pos, true, op);
+			f.find(searchFor, pos, true, op, false);
 //			System.out.println(
 //					"{"
 //					+ (pos.row)

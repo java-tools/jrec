@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package net.sf.RecordEditor.edit.display.SaveAs;
 
@@ -19,10 +19,10 @@ import net.sf.RecordEditor.utils.swing.FileChooser;
  *
  */
 public class SaveAsPnlXslt extends SaveAsPnlBase {
-	
+
 	private FileChooser xsltJar1 = new FileChooser(true, "Choose Jar");
 	private FileChooser xsltJar2 = new FileChooser(true, "Choose Jar");
-	
+
 	/**
 	 * @param extension
 	 * @param panelFormat
@@ -31,23 +31,23 @@ public class SaveAsPnlXslt extends SaveAsPnlBase {
 	 */
 	public SaveAsPnlXslt(CommonSaveAsFields commonSaveAsFields) {
 		super(commonSaveAsFields, ".xml", CommonSaveAsFields.FMT_XSLT, RecentFiles.RF_XSLT, new FileChooser(true, "get Xslt"));
-		
+
 		panel.addLine("Xslt Engine (leave blank for default)", xsltTxt);
         panel.addLine("Xslt File", template, template.getChooseFileButton());
 		panel.setGap(BasePanel.GAP1);
-		
+
         panel.addLine("Jars", xsltJar1, xsltJar1.getChooseFileButton());
         panel.addLine("", xsltJar2, xsltJar2.getChooseFileButton());
-		
+
 		xsltTxt.setText(Common.OPTIONS.XSLT_ENGINE.get());
 
 		template.setText(Common.OPTIONS.DEFAULT_XSLT_DIRECTORY.get());
 		xsltJar1.setText(Common.OPTIONS.XSLT_JAR1.get());
 		xsltJar2.setText(Common.OPTIONS.XSLT_JAR2.get());
-		
+
 		template.addFcFocusListener(commonSaveAsFields.templateListner);
      }
-	
+
 	public void save(String selection, String outFile) throws Exception {
     	//TODO Xslt Processing
     	//TODO Xslt Processing
@@ -56,18 +56,17 @@ public class SaveAsPnlXslt extends SaveAsPnlBase {
     	javax.xml.transform.Result result;
     	javax.xml.transform.TransformerFactory transFact;
     	javax.xml.transform.Transformer trans;
-    	
-    	@SuppressWarnings("rawtypes")
-		FileView view = commonSaveAsFields.getViewToSave(selection);
-    	
+
+    	FileView view = commonSaveAsFields.getViewToSave(selection);
+
 
     	File tempFile = File.createTempFile("reXsltInput", ".xml");
     	String xsltFileName = template.getText(),
     	       xsltClass = xsltTxt.getText();
-    	
-    	
+
+
     	view.writeFile(tempFile.getCanonicalPath());
-    	
+
 		xmlSource = new javax.xml.transform.stream.StreamSource(tempFile);
 		xsltSource = new javax.xml.transform.stream.StreamSource(xsltFileName);
 		result = new javax.xml.transform.stream.StreamResult(new File(outFile));
@@ -77,7 +76,7 @@ public class SaveAsPnlXslt extends SaveAsPnlBase {
 		Common.OPTIONS.XSLT_JAR1.set(xsltJar1.getText());
 		Parameters.setSavePropertyChanges(true);
 		Common.OPTIONS.XSLT_JAR2.set(xsltJar2.getText());
-		
+
 		if ("".equals(xsltClass)) {
 			transFact = javax.xml.transform.TransformerFactory.newInstance();
 		} else {
@@ -89,7 +88,7 @@ public class SaveAsPnlXslt extends SaveAsPnlBase {
 			} else if ("xalan".equalsIgnoreCase(xsltClass)) {
 				xsltClass = "org.apache.xalan.processor.TransformerFactoryImpl";
 			}
-			
+
 			if ((! "".equals(jar1)) || (! "".equals(jar2))) {
 				int count = 2;
 				String urlStr[] = {jar1, jar2};
@@ -103,7 +102,7 @@ public class SaveAsPnlXslt extends SaveAsPnlBase {
 						urls[idx++] = (new File(urlStr[i])).toURI().toURL();
 					}
 				}
-				
+
 				classLoader =  new URLClassLoader(urls);
 			}
 			transFact = javax.xml.transform.TransformerFactory
@@ -114,7 +113,7 @@ public class SaveAsPnlXslt extends SaveAsPnlBase {
 
 		trans.transform(xmlSource, result);
 	}
-	
+
 
 	/**
 	 * @see net.sf.RecordEditor.edit.display.SaveAs.SaveAsPnlBase#isActive()

@@ -8,9 +8,10 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.ExternalRecordSelection.ExternalSelection;
+import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
 import net.sf.JRecord.ExternalRecordSelection.ExternalGroupSelection;
+import net.sf.JRecord.ExternalRecordSelection.ExternalSelection;
 import net.sf.JRecord.ExternalRecordSelection.StreamLine;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.detailsSelection.RecordSel;

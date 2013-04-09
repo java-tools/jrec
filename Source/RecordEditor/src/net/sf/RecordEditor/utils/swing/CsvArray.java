@@ -30,6 +30,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import net.sf.JRecord.CsvParser.BasicParser;
+import net.sf.JRecord.CsvParser.CsvDefinition;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.utils.common.Common;
 
@@ -382,7 +383,7 @@ public class CsvArray extends JPanel implements ActionListener, TableCellRendere
                 s = newValue.toString();
             }
 
-             String value = parser.setField(row, Type.NT_TEXT, fld.getText(), delimiter, quoteStr, s);
+            String value = parser.setField(row, Type.NT_TEXT, fld.getText(), new CsvDefinition(delimiter, quoteStr), s);
             fld.setText(value);
             updateTable();
         }
@@ -398,7 +399,7 @@ public class CsvArray extends JPanel implements ActionListener, TableCellRendere
          * @see javax.swing.table.TableModel#getRowCount()
          */
         public int getRowCount() {
-            int i = parser.getFieldCount(fld.getText(), delimiter, quoteStr);
+            int i = parser.getFieldCount(fld.getText(), new CsvDefinition(delimiter, quoteStr));
             //System.out.println("Count " + i);
             return i;
         }
@@ -416,7 +417,7 @@ public class CsvArray extends JPanel implements ActionListener, TableCellRendere
          * @return the value
          */
         public String getRowsValue(int row) {
-            return parser.getField(row, fld.getText(), delimiter, quoteStr);
+            return parser.getField(row, fld.getText(), new CsvDefinition(delimiter, quoteStr));
         }
     }
 
@@ -455,7 +456,7 @@ public class CsvArray extends JPanel implements ActionListener, TableCellRendere
                     //System.out.println("-->" + super.getRowsValue(i) + "< "
                     //       + parser.getFieldCount(super.getRowsValue(i), delimiter2, quoteStr));
                     columnCount = Math.max(columnCount,
-                            parser.getFieldCount(super.getRowsValue(i), delimiter2, quoteStr));
+                            parser.getFieldCount(super.getRowsValue(i), new CsvDefinition(delimiter2, quoteStr)));
                 }
                 //System.out.println("!! " + rowCount + " >" + fld.getText());
             }
@@ -468,7 +469,7 @@ public class CsvArray extends JPanel implements ActionListener, TableCellRendere
          * @see javax.swing.table.TableModel#getValueAt(int, int)
          */
         public Object getValueAt(int row, int column) {
-            return parser.getField(column, getRowsValue(row), delimiter2, quoteStr);
+            return parser.getField(column, getRowsValue(row), new CsvDefinition(delimiter2, quoteStr));
         }
 
         /**
@@ -480,7 +481,7 @@ public class CsvArray extends JPanel implements ActionListener, TableCellRendere
                 s = newValue.toString();
             }
 
-            String value = parser.setField(column, Type.NT_TEXT,  getRowsValue(row), delimiter2, quoteStr, s);
+            String value = parser.setField(column, Type.NT_TEXT,  getRowsValue(row), new CsvDefinition(delimiter2, quoteStr), s);
             super.setValueAt(value, row, 0);
         }
 

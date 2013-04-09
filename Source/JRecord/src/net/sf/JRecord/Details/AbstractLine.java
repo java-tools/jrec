@@ -8,7 +8,7 @@ package net.sf.JRecord.Details;
 
 import net.sf.JRecord.Common.AbstractFieldValue;
 import net.sf.JRecord.Common.AbstractIndexedLine;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 
 /**
@@ -36,7 +36,7 @@ import net.sf.JRecord.Common.RecordException;
  * @author Bruce Martin
  *
  */
-public interface AbstractLine<Layout extends AbstractLayoutDetails> extends AbstractIndexedLine {
+public interface AbstractLine extends AbstractIndexedLine {
     /**
      *   This method completely replaces a lines value. It is used to determine
      * a records prefered record layout
@@ -128,13 +128,13 @@ public interface AbstractLine<Layout extends AbstractLayoutDetails> extends Abst
      * Set the record Layout - Description of the Line
      * @param pLayout The layouts to set.
      */
-    public abstract void setLayout(final Layout pLayout);
+    public abstract void setLayout(final AbstractLayoutDetails pLayout);
 
     /**
      * Get the Layout
      * @return Returns the layouts.
      */
-    public abstract Layout getLayout();
+    public abstract AbstractLayoutDetails getLayout();
 
     /**
      * Set Record Index to be used when writing this line
@@ -142,12 +142,6 @@ public interface AbstractLine<Layout extends AbstractLayoutDetails> extends Abst
      */
     public abstract void setWriteLayout(final int pWriteLayout);
 
-    /**
-     * Set the line provider
-     *
-     * @param pLineProvider The lineProvider to set.
-     */
-    public abstract void setLineProvider(LineProvider<Layout> pLineProvider);
 
     /**
      * Gets a fields value
@@ -166,7 +160,7 @@ public interface AbstractLine<Layout extends AbstractLayoutDetails> extends Abst
      *
      * @return fields Value
      */
-    public abstract AbstractFieldValue getFieldValue(FieldDetail field);
+    public abstract AbstractFieldValue getFieldValue(IFieldDetail field);
 
     /**
      * Get a fields value

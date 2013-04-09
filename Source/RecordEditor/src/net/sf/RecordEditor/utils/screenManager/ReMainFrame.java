@@ -160,7 +160,7 @@ public class ReMainFrame extends JFrame
 	private final ReActionActiveScreen insertRecords
 		= newAction(ReActionHandler.INSERT_RECORDS);
 	private final ReActionActiveScreen deleteRecords
-	= newAction(ReActionHandler.DELETE_RECORD);
+		= newAction(ReActionHandler.DELETE_RECORD);
 
 	private JMenu fileMenu = SwingUtils.newMenu("File");
 	private JMenu editMenu = SwingUtils.newMenu("Edit");
@@ -197,6 +197,8 @@ public class ReMainFrame extends JFrame
 	    super(name);
 	    masterFrame = this;
 	    this.applId = applicationId;
+//        setIcon("C:\\JavaPrograms\\RecordEdit\\HSQLDB\\lib\\RecordEdit.ico");
+
 	    init_100_Frame(helpName);
 	    init_200_SetSizes();
 	    init_300_BuildScreen();
@@ -341,6 +343,18 @@ public class ReMainFrame extends JFrame
 	    	Common.logMsgRaw(msg, null);
 	    }
 	}
+
+
+//	protected final void setIcon(String name) {
+//
+//    	try {
+//			//java.net.URL url = ClassLoader.getSystemResource(name);
+//			java.awt.Toolkit kit = java.awt.Toolkit.getDefaultToolkit();
+//			setIconImage(kit.createImage(name));
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//    }
 
 
 	protected final void runInitClass(String className, String errorMsg) {
@@ -566,20 +580,20 @@ public class ReMainFrame extends JFrame
 
 		try {
 			helpMenu.add(
-					new showURI(
+					new ShowURI(
 							"RecordEditor Manual",
-							(new File(Common.formatHelpURL("RecordEdit.htm").substring(5))).toURI()));
+							Common.formatHelpURL("RecordEdit.htm").toURI()));
 			helpMenu.add(
-					new showURI(
+					new ShowURI(
 							"RecordEditor How To",
-							(new File(Common.formatHelpURL("HowTo.htm").substring(5))).toURI()));
+							Common.formatHelpURL("HowTo.htm").toURI()));
 			helpMenu.add(
-					new showURI(
+					new ShowURI(
 							"RecordEditor Documentation",
-							(new File(Common.formatHelpURL("Documents.htm").substring(5))).toURI()));
+							Common.formatHelpURL("Documents.htm").toURI()));
 			helpMenu.addSeparator();
-			helpMenu.add(new showURI("RecordEditor Web Page", new URI("http://record-editor.sourceforge.net/")));
-			helpMenu.add(new showURI("RecordEditor Forum", new URI("https://sourceforge.net/projects/record-editor/forums")));
+			helpMenu.add(new ShowURI("RecordEditor Web Page", new URI("http://record-editor.sourceforge.net/")));
+			helpMenu.add(new ShowURI("RecordEditor Forum", new URI("https://sourceforge.net/projects/record-editor/forums")));
 		} catch (URISyntaxException e1) {
 			e1.printStackTrace();
 		}
@@ -1096,10 +1110,10 @@ public class ReMainFrame extends JFrame
     }
 
 
-    public static final class showURI extends AbstractAction {
+    public static final class ShowURI extends AbstractAction {
     	private URI uri;
 
-		public showURI(String name, URI uri) {
+		public ShowURI(String name, URI uri) {
 			super(LangConversion.convert(LangConversion.ST_ACTION, name));
 			this.uri = uri;
 		}

@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordRunTimeException;
 
-public abstract class BasicLayout<FieldDescription extends FieldDetail, RecordDescription extends AbstractRecordDetail<FieldDescription>>
-implements AbstractLayoutDetails<FieldDescription, RecordDescription>{
+public abstract class BasicLayout<RecordDescription extends AbstractRecordDetail>
+implements AbstractLayoutDetails {
 
 	protected RecordDescription[] records;
 
@@ -16,7 +15,7 @@ implements AbstractLayoutDetails<FieldDescription, RecordDescription>{
 	/**
 	 * @see net.sf.JRecord.Details.AbstractLineDetails#getField(int, int)
 	 */
-	public  FieldDescription getField(final int layoutIdx, final int fieldIdx) {
+	public  RecordDescription.FieldDetails getField(final int layoutIdx, final int fieldIdx) {
 		return records[layoutIdx].getField(fieldIdx);
 	}
 
@@ -65,10 +64,10 @@ implements AbstractLayoutDetails<FieldDescription, RecordDescription>{
     }
 
 
-	public AbstractLayoutDetails<FieldDescription, RecordDescription> getFilteredLayout(List<RecordFilter> filter) {
-		AbstractLayoutDetails<FieldDescription, RecordDescription> ret ;
+	public AbstractLayoutDetails getFilteredLayout(List<? extends RecordFilter> filter) {
+		AbstractLayoutDetails ret ;
 		ArrayList<RecordDescription> recs = new ArrayList<RecordDescription>(filter.size());
-		ArrayList<FieldDescription>  fields;
+		ArrayList<RecordDescription.FieldDetails>  fields;
 		int recIdx, fldIdx;
 
 		String[] fieldDef;
@@ -87,12 +86,12 @@ implements AbstractLayoutDetails<FieldDescription, RecordDescription>{
 
 			rec = this.getRecord(recIdx);
 			if (fieldDef == null || fieldDef.length == 0) {
-				fields = new ArrayList<FieldDescription>(rec.getFieldCount());
+				fields = new ArrayList<RecordDescription.FieldDetails>(rec.getFieldCount());
 				for (int j = 0; j < rec.getFieldCount(); j++) {
 					fields.add(rec.getField(j));
 				}
 			} else {
-				fields = new ArrayList<FieldDescription>(fieldDef.length);
+				fields = new ArrayList<RecordDescription.FieldDetails>(fieldDef.length);
 				for (int j = 0; j < fieldDef.length; j++) {
 					fldIdx = rec.getFieldIndex(fieldDef[j]);
 					if (fldIdx < 0) {
@@ -130,8 +129,13 @@ implements AbstractLayoutDetails<FieldDescription, RecordDescription>{
 	}
 
 
-	protected abstract AbstractLayoutDetails<FieldDescription, RecordDescription>
-										getNewLayout(ArrayList<RecordDescription> recs);
+	protected abstract AbstractLayoutDetails getNewLayout(ArrayList<RecordDescription> recs);
 
-	protected abstract  RecordDescription  getNewRecord(RecordDescription record, ArrayList<FieldDescription> fields);
+	protected abstract RecordDescription  getNewRecord(RecordDescription record, ArrayList<? extends RecordDescription.FieldDetails> fields);
+
+
+	@Override
+	public int getOption(int option) {
+		return Options.UNKNOWN;
+	}
 }

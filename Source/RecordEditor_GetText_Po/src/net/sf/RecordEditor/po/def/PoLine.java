@@ -1,7 +1,7 @@
 package net.sf.RecordEditor.po.def;
 
 import net.sf.JRecord.Common.FieldDetail;
-
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Details.ArrayListLine;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
@@ -50,7 +50,7 @@ public final class PoLine extends ArrayListLine<FieldDetail, RecordDetail, Layou
 	 * @see net.sf.JRecord.Details.AbstractLine#getField(net.sf.JRecord.Common.FieldDetail)
 	 */
 	@Override
-	public Object getField(FieldDetail field) {
+	public Object getField(IFieldDetail field) {
 		if (field == null) return null;
 	    return getField(preferredLayout, field.getPos() - 1);
 	}

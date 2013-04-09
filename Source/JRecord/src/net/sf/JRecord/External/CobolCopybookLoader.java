@@ -9,20 +9,16 @@ package net.sf.JRecord.External;
 import java.io.File;
 import java.io.InputStream;
 
-import org.w3c.dom.Document;
-
-
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.RecordException;
-import net.sf.JRecord.External.Cb2Xml;
-import net.sf.JRecord.External.CopybookLoader;
-import net.sf.JRecord.External.ExternalRecord;
+import net.sf.JRecord.External.Def.Cb2Xml;
 import net.sf.JRecord.Log.AbsSSLogger;
-//Modified to use the Record-Editor version of class Cb2Xml JFG
 import net.sf.JRecord.Numeric.ConversionManager;
 import net.sf.JRecord.Numeric.Convert;
 import net.sf.cb2xml.CopyBookAnalyzer;
 import net.sf.cb2xml.def.NumericDefinition;
+
+import org.w3c.dom.Document;
 
 /**
  * This class holds routines to load a Cobol Copybook

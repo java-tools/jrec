@@ -799,7 +799,8 @@ public final class Conversion {
 	}
 
 	public static boolean isHtml(String s) {
-		return (s.indexOf('<') >= 0 && s.indexOf("/>") > 0) || (s.indexOf("</") >= 0 && s.indexOf('>') > 0);
+		//return (s.indexOf('<') >= 0 && s.indexOf("/>") > 0) || (s.indexOf("</") >= 0 && s.indexOf('>') > 0);
+		return s != null && s.trim().toLowerCase().startsWith("<html>");
 	}
 
     /**

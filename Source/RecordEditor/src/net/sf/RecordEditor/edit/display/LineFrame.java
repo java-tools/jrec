@@ -28,6 +28,7 @@ import javax.swing.event.TableModelEvent;
 
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.RecordEditor.edit.display.models.LineModel;
+import net.sf.RecordEditor.edit.display.util.LinePosition;
 import net.sf.RecordEditor.re.file.FieldMapping;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
@@ -76,7 +77,7 @@ public class LineFrame extends  BaseLineFrame implements ILineDisplay {
 
 	protected LineFrame(
 			final String screenName,
-			final FileView<?> viewOfFile,
+			final FileView viewOfFile,
    		 	final int cRow,
    		 	final boolean changeRow) {
 		super(screenName, viewOfFile, false, ! viewOfFile.getLayout().isXml(), changeRow);
@@ -102,8 +103,8 @@ public class LineFrame extends  BaseLineFrame implements ILineDisplay {
 		currRow = cRow;
 	}
 
-	protected LineFrame(final FileView<?> viewOfFile,
-   		 final AbstractLine<?> line,
+	protected LineFrame(final FileView viewOfFile,
+   		 final AbstractLine line,
    		 final boolean changeRow) {
 		super("Record:", viewOfFile, false, ! viewOfFile.getLayout().isXml(), changeRow);
 
@@ -140,7 +141,7 @@ public class LineFrame extends  BaseLineFrame implements ILineDisplay {
 	 * @see net.sf.RecordEditor.edit.display.ILineDisplay#setLine(net.sf.JRecord.Details.AbstractLine)
 	 */
 	@Override
-	public void setLine(@SuppressWarnings("rawtypes") AbstractLine line) {
+	public void setLine(AbstractLine line) {
 		setCurrRow(fileView.indexOf(line));
 	}
 
@@ -220,7 +221,7 @@ public class LineFrame extends  BaseLineFrame implements ILineDisplay {
 			break;
 			default:
 			    currRow = record.getActualLineNumber();
-				lineNum.setText(Integer.toString(currRow));
+				lineNum.setText(Integer.toString(currRow + 1));
 			    /*System.out.println("~~>> " + currRow + " | "
 			            + event.getType()
 			            + " ! " + event.getFirstRow()
@@ -242,7 +243,7 @@ public class LineFrame extends  BaseLineFrame implements ILineDisplay {
      */
     public void executeAction(int action) {
 
-        if (action == ReActionHandler.REPEAT_RECORD) {
+        if (action == ReActionHandler.REPEAT_RECORD_POPUP) {
         	getFileView().repeatLine(currRow);
         	changeRow(1);
         } else {
@@ -250,6 +251,17 @@ public class LineFrame extends  BaseLineFrame implements ILineDisplay {
         }
     }
 
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.edit.display.BaseLineDisplay#isActionAvailable(int)
+	 */
+	@Override
+	public boolean isActionAvailable(int action) {
+		if (action == ReActionHandler.REPEAT_RECORD_POPUP) {
+			return true;
+	    }
+		return super.isActionAvailable(action);
+	}
 
 	/**
 	 * This method updates the Screen Display after a change of record.
@@ -302,15 +314,12 @@ public class LineFrame extends  BaseLineFrame implements ILineDisplay {
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getInsertAfterLine()
 	 */
 	@Override
-	protected AbstractLine<?> getInsertAfterLine(boolean prev) {
+	protected LinePosition getInsertAfterLine(boolean prev) {
 
 		if (prev) {
-			if (currRow > 0) {
-				return fileView.getLine(currRow - 1);
-			}
-			return null;
+			return getInsertAfterLine(currRow, prev);
 		}
-		return record.getCurrentLine();
+		return new LinePosition(record.getCurrentLine(), prev);
 	}
 
 	/**
@@ -342,7 +351,7 @@ public class LineFrame extends  BaseLineFrame implements ILineDisplay {
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getNewDisplay(net.sf.RecordEditor.edit.file.FileView)
 	 */
 	@Override
-	protected BaseDisplay getNewDisplay(@SuppressWarnings("rawtypes") FileView view) {
+	protected BaseDisplay getNewDisplay(FileView view) {
 		return new LineFrame("Record:", view, 0, true);
 	}
 }

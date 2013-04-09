@@ -10,9 +10,11 @@ import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.XmlConstants;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
-import net.sf.JRecord.ExternalRecordSelection.ExternalSelection;
+import net.sf.JRecord.External.Def.AbstractConversion;
+import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
 import net.sf.JRecord.ExternalRecordSelection.ExternalGroupSelection;
+import net.sf.JRecord.ExternalRecordSelection.ExternalSelection;
 import net.sf.JRecord.IO.XmlLineReader;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Log.TextLog;
@@ -73,7 +75,7 @@ public class RecordEditorXmlLoader implements CopybookLoader {
 
 	        XmlLineReader r = new XmlLineReader(true);
 			r.open(is, (LayoutDetail) null);
-			insertRecord(new TextLog(), null, rec, r, 0);
+			insertRecord(new TextLog(), null, rec, r, AbstractConversion.USE_DEFAULT_IDX);
 	        r.close();
 
 	        return rec;

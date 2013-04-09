@@ -9,18 +9,13 @@ package net.sf.RecordEditor.test;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
 import net.sf.RecordEditor.utils.LayoutItem;
 import net.sf.RecordEditor.utils.SystemItem;
 import net.sf.RecordEditor.utils.common.Common;
-
-
-
-
-
-import junit.framework.TestCase;
 
 /**
  * @author bymartin

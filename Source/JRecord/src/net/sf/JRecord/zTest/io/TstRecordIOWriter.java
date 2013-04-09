@@ -9,6 +9,7 @@ package net.sf.JRecord.zTest.io;
 import java.io.IOException;
 import java.util.Arrays;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.ByteIO.FixedLengthByteReader;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.External.CobolCopybookLoader;
@@ -19,10 +20,6 @@ import net.sf.JRecord.Numeric.Convert;
 import net.sf.JRecord.zTest.Common.IO;
 import net.sf.JRecord.zTest.Common.TstConstants;
 import net.sf.JRecord.zTest.Common.TstData;
-
-
-
-import junit.framework.TestCase;
 
 /**
  *
@@ -159,7 +156,7 @@ public class TstRecordIOWriter extends TestCase {
     private void writeAFile(String name, byte[][] bytes, LayoutDetail details)
     throws IOException  {
 
-        IO.writeAFile(new BinaryLineWriter(), name, bytes, details);
+        IO.writeAFile(BinaryLineWriter.newFixedLengthWriter(), name, bytes, details);
     }
 
 }

@@ -21,7 +21,6 @@ import javax.swing.text.JTextComponent;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.Conversion;
-import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.CsvParser.ParserManager;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
@@ -482,7 +481,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 	    int fieldType ;
 	    int[] fieldTypes = null;
 
-        FieldDetail[] flds = new FieldDetail[numCols];
+        RecordDetail.FieldDetails[] flds = new RecordDetail.FieldDetails[numCols];
         RecordDetail[] recs = new RecordDetail[1];
 
         if (isByteBased) {
@@ -509,7 +508,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 	    		fieldType = fieldTypes[i];
 	    	}
 		    s = getColumnName(i);
-            flds[i] = new FieldDetail(s, s, fieldType, 0,
+            flds[i] = new RecordDetail.FieldDetails(s, s, fieldType, 0,
                         font, format, param);
             flds[i].setPosOnly(i + 1);
 	    }

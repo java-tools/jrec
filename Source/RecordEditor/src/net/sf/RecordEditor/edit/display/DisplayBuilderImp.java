@@ -24,10 +24,10 @@ import net.sf.RecordEditor.utils.common.Common;
  */
 public class DisplayBuilderImp implements IDisplayBuilder {
 
-	public static AbstractFileDisplayWithFieldHide doOpen(FileView<?> file, int initialRow, boolean pBrowse) {
+	public static AbstractFileDisplayWithFieldHide doOpen(FileView file, int initialRow, boolean pBrowse) {
 
 		AbstractFileDisplayWithFieldHide display = null;
-		AbstractLayoutDetails<?,?> layoutDtls = file.getLayout();
+		AbstractLayoutDetails layoutDtls = file.getLayout();
 
 		if (layoutDtls.hasChildren()) {
 			LineTreeChild displ = new LineTreeChild(file, new LineNodeChild("File", file), true, 0);
@@ -62,7 +62,7 @@ public class DisplayBuilderImp implements IDisplayBuilder {
 	public AbstractFileDisplayWithFieldHide newDisplay(
 			int screenType, String screenName,
 			IDisplayFrame<? extends AbstractFileDisplay> parentFrame,
-			AbstractLayoutDetails<?, ?> group, FileView<?> viewOfFile,
+			AbstractLayoutDetails group, FileView viewOfFile,
 			int lineNo) {
 		switch (screenType) {
 		case ST_INITIAL_BROWSE:
@@ -88,6 +88,12 @@ public class DisplayBuilderImp implements IDisplayBuilder {
 					parentFrame,
 					new LinesAsColumns(viewOfFile)
 				);
+		case ST_COLORED_DOCUMENT:
+		case ST_DOCUMENT:
+			 addToScreen(
+					parentFrame,
+					new DocumentFrame(viewOfFile, screenType == ST_COLORED_DOCUMENT)
+			 );
 		default:
 			break;
 		}
@@ -102,8 +108,8 @@ public class DisplayBuilderImp implements IDisplayBuilder {
 			final int screenType,
 			final String screenName,
 			final IDisplayFrame<? extends AbstractFileDisplay> parentFrame,
-			final AbstractLayoutDetails<?, ?> group, FileView<?> viewOfFile,
-			@SuppressWarnings("rawtypes") final AbstractLine line) {
+			final AbstractLayoutDetails group, FileView viewOfFile,
+			final AbstractLine line) {
 		switch (screenType) {
 		case ST_LIST_SCREEN:
 			return addToScreen(
@@ -138,7 +144,7 @@ public class DisplayBuilderImp implements IDisplayBuilder {
 	public AbstractFileDisplayWithFieldHide newDisplay(
 			int screenType,
 			IDisplayFrame<? extends AbstractFileDisplay> parentFrame,
-			AbstractLayoutDetails<?, ?> group, FileView<?> viewOfFile,
+			AbstractLayoutDetails group, FileView viewOfFile,
 			AbstractLineNodeTreeParser treeParser, boolean mainView, int columnsToSkip) {
 		switch (screenType) {
 		case ST_LIST_SCREEN:
@@ -161,7 +167,7 @@ public class DisplayBuilderImp implements IDisplayBuilder {
 	public  LineTreeChild newLineTreeChildScreen(
 			int screenType,
 			@SuppressWarnings("rawtypes") IDisplayFrame df,
-			@SuppressWarnings("rawtypes") FileView viewOfFile,
+			FileView viewOfFile,
 			AbstractLineNode rootNode,
 			boolean mainView, final int columnsToSkip) {
 		LineTreeChild ret = addToScreen(df, new LineTreeChild(viewOfFile, rootNode, mainView, columnsToSkip));

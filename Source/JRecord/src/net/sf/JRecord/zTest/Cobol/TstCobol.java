@@ -2,6 +2,7 @@ package net.sf.JRecord.zTest.Cobol;
 
 import java.math.BigDecimal;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
@@ -12,7 +13,6 @@ import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.Log.TextLog;
 import net.sf.JRecord.Numeric.Convert;
 import net.sf.JRecord.zTest.Common.TstConstants;
-import junit.framework.TestCase;
 
 /*
  * 

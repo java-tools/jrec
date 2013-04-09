@@ -17,7 +17,7 @@ import javax.swing.table.TableCellRenderer;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Types.TypeChar;
-import net.sf.RecordEditor.record.format.CellFormat;
+import net.sf.RecordEditor.re.jrecord.format.CellFormat;
 
 /**
  * Thic class implements a type that will display a 1 byte field

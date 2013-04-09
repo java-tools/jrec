@@ -33,6 +33,8 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.app.event.EventCartridge;
+import org.apache.velocity.app.event.implement.IncludeRelativePath;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 
@@ -159,6 +161,7 @@ public class RunVelocity {
             context.put("showBorder", Boolean.TRUE);
             context.put("recordIdx",  Integer.valueOf(recordList.get(0).getPreferredLayoutIdx()));
 
+
             genSkel(template, writer, context);
          }
      }
@@ -253,6 +256,16 @@ public class RunVelocity {
         Template template =  null;
 
         try {
+			EventCartridge ec = new EventCartridge();
+
+			ec.addEventHandler(new IncludeRelativePath());
+
+			context.attachEventCartridge(ec);
+		} catch (Exception e1) {
+
+		}
+
+        try {
             VelocityEngine e = new VelocityEngine();
             int idx = templateFile.lastIndexOf(Common.FILE_SEPERATOR);
             if (idx > 0) {
@@ -262,6 +275,7 @@ public class RunVelocity {
                 // System.out.println("}}} " + s1 + "< >" + templateFile);
             }
             e.init();
+
 
             template = e.getTemplate(templateFile, "UTF8");
         } catch (ResourceNotFoundException rnfe) {

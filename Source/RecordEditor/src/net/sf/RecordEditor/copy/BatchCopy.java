@@ -15,7 +15,7 @@ public class BatchCopy {
 	private StringBuilder bld = new StringBuilder();
 	private String sep = "";
 
-	public BatchCopy(AbstractLayoutSelection<?> reader1, AbstractLayoutSelection<?> reader2,  String[] args) {
+	public BatchCopy(AbstractLayoutSelection reader1, AbstractLayoutSelection reader2,  String[] args) {
 		CopyDefinition def = null;
 		JibxCall<CopyDefinition> jibx = new JibxCall<CopyDefinition>(CopyDefinition.class);
 		int i, mode;

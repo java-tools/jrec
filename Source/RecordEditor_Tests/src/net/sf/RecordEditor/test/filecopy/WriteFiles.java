@@ -4,10 +4,12 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 
+import net.sf.JRecord.Common.RecordRunTimeException;
+
 /**
  * This class writes out test Files to a supplied directory
- * 
- * 
+ *
+ *
  * @author bm
  *
  */
@@ -19,12 +21,12 @@ public class WriteFiles {
 	public static final String CopyParms = "CopyParms";
 
 /***************************************************************************************************
-  
+
   Following is the (Regina) Rexx program to generate the datalines
-  
-  
+
+
 			say "	private static final String[][] dataLines = {"
-		
+
 			Call Process "DataIn/x_Customer_cn.csv"
 	     	Call Process "DataIn/x_Customer.csv"
 	     	Call Process "DataIn/x_Customer_Error.xml"
@@ -33,7 +35,7 @@ public class WriteFiles {
 			Call Process "DataIn/CustomerXml_From_Fixed.xml"
 			Call Process "DataIn/CsvDTAR020tabDelim.txt"
 			Call Process "DataIn/xmlDtar020.xml"
-		
+
 	     	Call Process "Copybook/Comma Delimited names on the first line.Xml"
 			Call Process "Copybook/Tab Delimited names on the first line.Xml"
 			Call Process "Copybook/Description_Of_CustomerXmlFile.Xml"
@@ -42,7 +44,7 @@ public class WriteFiles {
 			Call Process "Copybook/x_CustomerCommaCsv.Xml"
 			Call Process "Copybook/XML - Build Layout.Xml"
 			Call Process "Copybook/DTAR020.cbl"
-			
+
 			Call Process "CopyParms/CopyCsv2Fixed1.xml"
 			Call Process "CopyParms/CopyCsv2Fixed.xml"
 			Call Process "CopyParms/CopyCsvN2FixedRel.xml"
@@ -54,24 +56,24 @@ public class WriteFiles {
 			Call Process "CopyParms/CpyDTAR020toTabDelim.xml"
 			Call Process "CopyParms/CpyDTAR020toXml.xml"
 			Call Process "CopyParms/CpyTabDelimToDTAR020.xml"
-		
-			
-			
+
+
+
 			say "	};"
 			say
-		
+
 		return
-		
+
 		Process:
 		parse arg infile
-		
+
 			say '		{ "'infile'",	// File Name, Data follows'
 			say
 			linelimit = 190
 			linelimitM1 = linelimit - 1
-			do while lines(infile,'N') 
+			do while lines(infile,'N')
 			 	line = Linein(infile)
-			 	
+
 			 	line = changestr('\',line,'\\')
 			 	line = changestr('"',line,'\"')
 			 	line = changestr(x2c(00),line,'\000')
@@ -81,7 +83,7 @@ public class WriteFiles {
 			 	   say '			"'line'",'
 				end; else do
 				   pref = " "
-				   do while length(line) >= linelimit 
+				   do while length(line) >= linelimit
 				     parse var line start 190 line
 				     if substr(start,linelimitM1,1) = '\' then do
 				     	start = start || substr(line,1,1)
@@ -95,7 +97,7 @@ public class WriteFiles {
 			end
 			say "		},"
 		return
- 
+
  ***************************************************************************************************/
 
 
@@ -786,7 +788,7 @@ public class WriteFiles {
 	public static void writeFiles(String dir) {
 		BufferedWriter writer;
 		int l;
-		
+
 		if (! (dir.endsWith("/") || dir.endsWith("\\"))) {
 			dir += "/";
 		}
@@ -794,15 +796,15 @@ public class WriteFiles {
 		checkDir(dir + DataOut);
 		checkDir(dir + Copybook);
 		checkDir(dir + CopyParms);
-		
+
 		for (int i = 0; i < dataLines.length; i++) {
 			try {
 				writer = new BufferedWriter(new FileWriter(dir + dataLines[i][0]));
-				
+
 				l = dataLines[i].length - 1;
-				
+
 				System.out.println("Writing File " + dataLines[i][0] + " lines: " + l);
-			
+
 				for (int j = 1; j < l; j++) {
 					writer.write(dataLines[i][j]);
 					writer.newLine();
@@ -814,13 +816,14 @@ public class WriteFiles {
 			}
 		}
 	}
-	
+
 	public static void checkDir(String dir) {
 		File f = new File(dir);
-		
+
 		if (f.exists()) {
 			if (! f.isDirectory())  {
-				throw new RuntimeException("Trying to create directory " + dir + " file already exists of the same name");
+				throw new RecordRunTimeException(
+						"Trying to create directory {0} file already exists of the same name", dir);
 			}
 		} else {
 			f.mkdirs();

@@ -57,7 +57,7 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 
 
 	public EditPaneListScreen(
-			String formType, @SuppressWarnings("rawtypes") FileView viewOfFile,
+			String formType, FileView viewOfFile,
 			boolean primary, boolean addFullLine, boolean fullList,
 			boolean prefered, boolean hex, int option) {
 		super(formType, viewOfFile, primary, addFullLine, fullList, prefered, hex, option);
@@ -74,7 +74,7 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 	 * @param viewOfFile current file view
 	 */
 	@SuppressWarnings("serial")
-	protected void init_100_SetupJtables(final FileView<?> viewOfFile) {
+	protected void init_100_SetupJtables(final FileView viewOfFile) {
 
 	        ReAction sort = new ReAction(ReActionHandler.SORT, this);
 	        AbstractAction editRecord
@@ -150,7 +150,7 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 		      		int col = table.columnAtPoint(e.getPoint());
 		            int row = table.rowAtPoint(e.getPoint());
 
-		            checkForRowChange(row);
+		            checkForTblRowChange(row);
 		            if (row >= 0 && row != table.getEditingRow()
 		        	&&  col >= 0 && col != table.getEditingColumn()
 		        	&& cellEditors != null && col < cellEditors.length && cellEditors[col] != null
@@ -177,7 +177,7 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 
 	                popupRow = tbl.rowAtPoint(m.getPoint());
 
-	                checkForRowChange(popupRow);
+	                checkForTblRowChange(popupRow);
 	                if (col == 0) {
 	                	newLineFrame(fileView, popupRow);
 	                } else {
@@ -272,6 +272,15 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
         return -1;
 	}
 
+
+    /* (non-Javadoc)
+	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getPopupPosition()
+	 */
+	@Override
+	protected int getPopupPosition() {
+		return popupRow;
+	}
+
 	private void hideColumn(int col) {
 	 	tblScrollPane.doHideColumn(col);
 	}
@@ -283,7 +292,7 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 		defColumns(getJTable(), fileView, tblScrollPane);
 	}
 
-	private JTable defColumns(JTable tbl, @SuppressWarnings("rawtypes") FileView view, FixedColumnScrollPane scrollPane) {
+	private JTable defColumns(JTable tbl, FileView view, FixedColumnScrollPane scrollPane) {
 	    TableColumnModel tcm = tbl.getColumnModel();
 
 	    defineColumns(tbl, view.getColumnCount(), 2, 0);
@@ -353,7 +362,7 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 	    		tbl.addKeyListener(keyListnerFixed);
 	    	}
 	    	lastRow = - 1;
-	    	checkForRowChange(tbl.getSelectedRow());
+	    	checkForTblRowChange(tbl.getSelectedRow());
 	    } else if (tbl == tblDetails) {
 	    	tbl.removeKeyListener(keyListner);
 	    } else {
@@ -364,7 +373,7 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 	@Override
 	public void setCurrRow(int newRow, int layoutId, int fieldNum) {
 	    if ((newRow >= 0) && newRow <= fileView.getRowCount()) {
-	    	checkForRowChange(newRow);
+	    	checkForTblRowChange(newRow);
 	        if ((getCurrRow() != newRow)) {
 	            fileView.fireTableDataChanged();
 	            tblDetails.changeSelection(newRow, 1, false, false);
@@ -384,7 +393,7 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 	}
 
 	@Override
-	public void checkForRowChange(int row) {
+	public void checkForTblRowChange(int row) {
 		if (lastRow != row) {
 	    	if (childScreen != null) {
 	    		childScreen.setCurrRow(row);
@@ -451,7 +460,7 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
      */
     public void executeAction(int action) {
 
-        if (action == ReActionHandler.REPEAT_RECORD) {
+        if (action == ReActionHandler.REPEAT_RECORD_POPUP) {
             fileView.repeatLine(popupRow);
             setCurrRow(popupRow+1, 0, 0);
         } else {
@@ -465,7 +474,7 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 	 */
 	@Override
 	public boolean isActionAvailable(int action) {
-       return (action == ReActionHandler.REPEAT_RECORD) || super.isActionAvailable(action);
+       return (action == ReActionHandler.REPEAT_RECORD_POPUP) || super.isActionAvailable(action);
 	}
 
 	@Override

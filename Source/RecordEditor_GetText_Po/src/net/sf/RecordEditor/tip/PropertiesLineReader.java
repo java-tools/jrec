@@ -54,7 +54,7 @@ public class PropertiesLineReader extends AbstractLineReader<LayoutDetail> {
 	 * @see net.sf.JRecord.IO.AbstractLineReader#read()
 	 */
 	@Override
-	public AbstractLine<LayoutDetail> read() throws IOException {
+	public AbstractLine read() throws IOException {
 		boolean found = false;
 		LayoutDetail l = getLayout();
 		RecordDetail r = l.getRecord(0) ;

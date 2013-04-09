@@ -13,7 +13,7 @@ import javax.swing.JCheckBox;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.re.jrecord.format.CellFormat;
@@ -38,7 +38,7 @@ public class TypeCheckBoxYN implements Type, CellFormat {
     /**
      * @see net.sf.JRecord.Types.Type#formatValueForRecord(record.layout.DetailField, java.lang.String)
      */
-    public String formatValueForRecord(FieldDetail field, String val)
+    public String formatValueForRecord(IFieldDetail field, String val)
             throws RecordException {
         return val;
     }
@@ -49,7 +49,7 @@ public class TypeCheckBoxYN implements Type, CellFormat {
      */
     public Object getField(byte[] record,
             final int position,
-			final FieldDetail currField) {
+			final IFieldDetail currField) {
         Boolean b = Boolean.FALSE;
 
         if (record[position - 1] == YES_BYTE) {
@@ -64,7 +64,7 @@ public class TypeCheckBoxYN implements Type, CellFormat {
      */
     public byte[] setField(byte[] record,
             final int position,
-			final FieldDetail field,
+			final IFieldDetail field,
 			Object val)
     throws RecordException {
 
@@ -83,7 +83,8 @@ public class TypeCheckBoxYN implements Type, CellFormat {
      * <b>Note:</b> you should always return a new Editor rather than a
      * the same editor each time
      */
-    public TableCellEditor getTableCellEditor(FieldDetail fld) {
+    @Override
+    public TableCellEditor getTableCellEditor(IFieldDetail fld) {
          return new DefaultCellEditor(new JCheckBox());
     }
 
@@ -91,7 +92,8 @@ public class TypeCheckBoxYN implements Type, CellFormat {
     /**
      * @see net.sf.JRecord.Types.Type#getTableCellRenderer()
      */
-    public TableCellRenderer getTableCellRenderer(FieldDetail fld) {
+    @Override
+    public TableCellRenderer getTableCellRenderer(IFieldDetail fld) {
         return checkBoxRendor;
     }
 
@@ -122,7 +124,7 @@ public class TypeCheckBoxYN implements Type, CellFormat {
     public boolean isBinary() {
         return false;
     }
-    
+
     /**
      * Wether it is a numeric Type or not
      */

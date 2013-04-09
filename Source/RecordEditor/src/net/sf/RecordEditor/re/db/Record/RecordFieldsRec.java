@@ -8,7 +8,7 @@
 
 package net.sf.RecordEditor.re.db.Record;
 
-import net.sf.JRecord.External.ExternalField;
+import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.RecordEditor.utils.jdbc.AbsRecord;
 
 /**

@@ -127,7 +127,6 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
      *
      * Check if changes to be saved
      */
-    @SuppressWarnings("rawtypes")
     public void windowClosingCheck() {
         boolean doClose = true;
 
@@ -300,7 +299,6 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
         }
 
         if (main != null) {
-            @SuppressWarnings("rawtypes")
             FileView fileView = main.getFileView();
             if (super.isPrimaryView()) {
                 if (fileView != null) {
@@ -453,13 +451,17 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
     private int calcSplit(int idx) {
     	if (mainScreens.get(idx).getCurrentChildScreenPostion() == AbstractCreateChildScreen.CS_BOTTOM) {
     		return Math.max(this.getHeight() - mainScreens.get(idx).getChildScreen().getActualPnl().getPreferredSize().height
-                    - (SwingUtils.CHAR_HEIGHT * 3),
+                    - (SwingUtils.CHAR_FIELD_HEIGHT * 3),
                     mainScreens.get(idx).actualPnl.getPreferredSize().height);
     	}
+    	System.out.println("calc split: \n"
+    			 + this.getWidth() + " - " + mainScreens.get(idx).getChildScreen().getActualPnl().getPreferredSize().width
+    			 + " - " + (SwingUtils.CHAR_FIELD_WIDTH * 3) +"\n "
+    			 + mainScreens.get(idx).actualPnl.getPreferredSize().width);
         return Math.max(
                 this.getWidth() - mainScreens.get(idx).getChildScreen().getActualPnl().getPreferredSize().width
-                - SwingUtils.CHAR_WIDTH * 3,
-                mainScreens.get(idx).actualPnl.getPreferredSize().width);
+                - SwingUtils.CHAR_FIELD_WIDTH * 3,
+                mainScreens.get(idx).actualPnl.getPreferredSize().width - SwingUtils.CHAR_FIELD_WIDTH * 30);
     }
 
     /* (non-Javadoc)
@@ -697,7 +699,7 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
      * @see net.sf.RecordEditor.edit.display.common.ILayoutChanged#layoutChanged(net.sf.JRecord.Details.AbstractLayoutDetails)
      */
     @Override
-    public void layoutChanged(AbstractLayoutDetails<?, ?> layout) {
+    public void layoutChanged(AbstractLayoutDetails layout) {
         for (BaseDisplay bd : mainScreens) {
             bd.layoutChanged(layout);
         }

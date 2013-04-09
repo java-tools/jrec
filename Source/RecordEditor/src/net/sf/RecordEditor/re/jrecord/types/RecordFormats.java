@@ -11,7 +11,6 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Log.AbsSSLogger;
@@ -84,7 +83,7 @@ public class RecordFormats {
         TableCellRenderer[] cellRenders = null;
         if (rendorStatus != STATUS_DOES_NOT_EXIST) {
             int j, idx;
-            FieldDetail fieldDef;
+            AbstractRecordDetail.FieldDetails fieldDef;
             boolean foundRendor = false;
 
             cellRenders = new TableCellRenderer[recordDescription.getFieldCount()];
@@ -150,7 +149,7 @@ public class RecordFormats {
         TableCellEditor[] cellEditor = null;
         if (editorStatus != STATUS_DOES_NOT_EXIST) {
             int j, idx;
-            FieldDetail fieldDef;
+            AbstractRecordDetail.FieldDetails fieldDef;
             boolean foundRendor = false;
 
             cellEditor = new TableCellEditor[recordDescription.getFieldCount()];

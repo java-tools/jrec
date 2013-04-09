@@ -68,7 +68,7 @@ public class FilterFrame extends ReFrame implements IUpdateDetails<EditorTask> {
 
  //   private static final int FORM_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 81;
 
-    private FileView<?> fileTable;
+    private FileView fileTable;
 
     private JTabbedPane filterTab = null;
 
@@ -104,7 +104,7 @@ public class FilterFrame extends ReFrame implements IUpdateDetails<EditorTask> {
      *
      * @param fileTbl file to be filtered
      */
-    public FilterFrame(final IDisplayFrame<? extends AbstractFileDisplay> frame, final FileView<?> fileTbl) {
+    public FilterFrame(final IDisplayFrame<? extends AbstractFileDisplay> frame, final FileView fileTbl) {
         super(fileTbl.getFileNameNoDirectory(), "Filter Options",
                 fileTbl.getBaseFile());
 
@@ -168,11 +168,16 @@ public class FilterFrame extends ReFrame implements IUpdateDetails<EditorTask> {
     			filter2);
     }
 
-    private void filterRecs(FileView<?> fileView, FilterPnl2 filterPnl) {
+    private void filterRecs(FileView fileView, FilterPnl2 filterPnl) {
     	if (fileView == null) {
     		filterPnl.getMessageFld().setText("No records matched the filter");
     	} else {
     		AbstractFileDisplay l = DisplayBuilderFactory.newLineList(frame, fileTable.getLayout(), fileView, fileTable.getBaseFile());
+    		if (! Common.OPTIONS.useSeperateScreens.isSelected()) {
+    			this.moveToBack();
+    			l.getParentFrame().moveToFront();
+    			l.getParentFrame().setToActiveFrame();
+   		}
     		l.getParentFrame().setToActiveTab(l);
     	}
     }

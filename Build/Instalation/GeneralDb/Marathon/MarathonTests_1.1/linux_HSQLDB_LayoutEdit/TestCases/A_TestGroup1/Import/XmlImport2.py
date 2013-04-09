@@ -7,14 +7,17 @@ def test():
 	if window('Record Layout Definitions'):
 		click('*7')
 		select('FileChooser', commonBits.cobolDir() + 'CopySAR4180B.xml')
-		select('ComboBox', 'cb2xml XML Copybook (DB)')
-		click('Go')
-		assert_p('TextArea', 'Text', '''
+		select('ManagerCombo', commonBits.fl('cb2xml XML Copybook (DB)'))
 
--->> ''' + commonBits.cobolDir() + '''CopySAR4180B.xml processed
+		click(commonBits.fl('Go'))
 
-      Copybook: CopySAR4180B''')
-		select_menu('Record Layouts>>Edit Layout')
+		assert_p('TextArea', 'Text', commonBits.checkCopybookLoad(commonBits.cobolDir() + 'CopySAR4180B.xml', 'CopySAR4180B'))
+##		assert_p('TextArea', 'Text', '''
+##
+##-->> ''' + commonBits.cobolDir() + '''CopySAR4180B.xml processed
+##
+##      Copybook: CopySAR4180B''')
+		select_menu(commonBits.fl('Record Layouts') + '>>' + commonBits.fl('Edit Layout'))
 		select('TextField', '%CopyS%')
 		#select('TabbedPane', 'Extras')
 		#select('TabbedPane', 'Fields')
@@ -23,17 +26,20 @@ def test():
 		select('TextField1', '%')
 		#select('TabbedPane', 'Extras')
 		#select('TabbedPane', 'Fields')
-		select('RecordFieldsJTbl', 'cell:FieldName,1(R4180B-KEYCODE)')
-		assert_p('RecordFieldsJTbl', 'Text', 'R4180B-KEYCODE', 'FieldName,1')
-		select('RecordFieldsJTbl', 'cell:FieldName,2(R4180B-APN)')
-		assert_p('RecordFieldsJTbl', 'Content', '[[1, 0, R4180B-KEYCODE-DETAIL-ID, , 0, 0, 0, , , R4180B-KEYCODE-DETAIL-ID], [4, 0, R4180B-KEYCODE, , 8, 0, 0, , , R4180B-KEYCODE], [12, 0, R4180B-APN, , 8, 0, 0, , , R4180B-APN], [25, 0, R4180B-UNIT-TYPE, , 0, 0, 0, , , R4180B-UNIT-TYPE]]')
-		select('RecordFieldsJTbl', 'cell:FieldName,0(R4180B-KEYCODE-DETAIL-ID)')
-		assert_p('RecordFieldsJTbl', 'RowCount', '4')
-		select('RecordFieldsJTbl', 'cell:FieldName,0(R4180B-KEYCODE-DETAIL-ID)')
-		assert_p('TextField2', 'Text', 'CopySAR4180B')
-		click('Delete3')
+		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldName') + ',1(R4180B-KEYCODE)')
+		assert_p('RecordFieldsJTbl', 'Text', 'R4180B-KEYCODE', '' + commonBits.fl('FieldName') + ',1')
+		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldName') + ',2(R4180B-APN)')
+##		assert_p('RecordFieldsJTbl', 'Content', '[[1, 0, R4180B-KEYCODE-DETAIL-ID, , 0, 0, 0, , , R4180B-KEYCODE-DETAIL-ID], [4, 0, R4180B-KEYCODE, , 8, 0, 0, , , R4180B-KEYCODE], [12, 0, R4180B-APN, , 8, 0, 0, , , R4180B-APN], [25, 0, R4180B-UNIT-TYPE, , 0, 0, 0, , , R4180B-UNIT-TYPE]]')
+		assert_p('RecordFieldsJTbl', 'Content', '[[1, 0, R4180B-KEYCODE-DETAIL-ID, , 0, 0, 0, , , R4180B-KEYCODE-DETAIL-ID], [4, 0, R4180B-KEYCODE, , 22, 0, 0, , , R4180B-KEYCODE], [12, 0, R4180B-APN, , 22, 0, 0, , , R4180B-APN], [25, 0, R4180B-UNIT-TYPE, , 0, 0, 0, , , R4180B-UNIT-TYPE]]')
 
-		if window('Delete: CopySAR4180B'):
+
+		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldName') + ',0(R4180B-KEYCODE-DETAIL-ID)')
+		assert_p('RecordFieldsJTbl', 'RowCount', '4')
+		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldName') + ',0(R4180B-KEYCODE-DETAIL-ID)')
+		assert_p('TextField2', 'Text', 'CopySAR4180B')
+		commonBits.delete3(click)
+
+		if window(commonBits.fl('Delete: CopySAR4180B')):
 			click('Yes')
 		close()
 
@@ -47,6 +53,6 @@ def test():
 		assert_p('TextField2', 'Text', '')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		click('Close')
-		click('Close')
+		click(commonBits.fl('Close'))
+		click(commonBits.fl('Close'))
 	close()

@@ -166,6 +166,7 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String HIGHLIGHT_MISSING_TRANSLATIONS = "FlagMissingTranslations";
     public static final String SEPERATE_WINDOWS  = "SepWindows";
     public static final String INCLUDE_TYPE_NAME = "IncTypeName";
+    public static final String EDIT_RAW_TEXT = "EditRawText";
 
     public static final String DEL_SELECTED_WITH_DEL_KEY = "DeleteSelectedWithDelKey";
     public static final String WARN_WHEN_USING_DEL_KEY   = "WarnWithDelKey";
@@ -347,38 +348,66 @@ public final class Parameters implements ExternalReferenceConstants {
 	    checkInit();
 		try {
 		    String s = null;
-		    if (useUserParamFile) {
-		    	if (properties != null) {
-		    		s = properties.getProperty(key);
-		    	}
-
-		    	if (s == null && properties2 != null) {
-		    		s = properties2.getProperty(key);
-//		    		System.out.println(" ::: Got 2: " + key + " = " + s);
-		    	}
-
-		        if (s == null && globalProperties != null) {
-		        	s = globalProperties.getProperty(key);
-		        }
+		    if (useUserParamFile && properties != null) {
+		   		s = properties.getProperty(key);
 		    }
-
-            //System.out.print(key + " : " + s);
 
 		    if (s == null) {
-		        s = getResourceString(key);
+		        s = getSecondayStr(key);
 		    }
 
-		    if (s == null && defaultValues.containsKey(key)) {
-		    	s = defaultValues.get(key);
-		    }
-
-			//System.out.println("Get Variable " + key + " --> " + s);
 			return s;
 		} catch (Exception e) {
 			return getResourceString(key);
 		}
 	}
 
+
+	/**
+	 * Get the value of a key from the properties file
+	 * @param key parameter to be retrieved
+	 * @return value of the requested value
+	 */
+	public static String getSecondayString(final String key) {
+	    checkInit();
+		try {
+			return getSecondayStr(key);
+		} catch (Exception e) {
+			return getResourceString(key);
+		}
+	}
+
+	/**
+	 * Get the value of a key from the properties file
+	 * @param key parameter to be retrieved
+	 * @return value of the requested value
+	 */
+	private static String getSecondayStr(final String key) {
+
+	    String s = null;
+	    if (useUserParamFile) {
+	    	if (properties2 != null) {
+	    		s = properties2.getProperty(key);
+	    	}
+
+	        if (s == null && globalProperties != null) {
+	        	s = globalProperties.getProperty(key);
+	        }
+	    }
+
+        //System.out.print(key + " : " + s);
+
+	    if (s == null) {
+	        s = getResourceString(key);
+	    }
+
+	    if (s == null && defaultValues.containsKey(key)) {
+	    	s = defaultValues.get(key);
+	    }
+
+		//System.out.println("Get Variable " + key + " --> " + s);
+		return s;
+	}
 
 	/**
 	 * Get the value of a key from the properties file

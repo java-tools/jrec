@@ -17,6 +17,7 @@ public interface AbsSSLogger {
 
 	public static final int TESTING = 10;
 	public static final int WARNING = 20;
+	public static final int LOG   = 29;
 	public static final int ERROR   = 30;
 	public static final int SHOW    = 30;
 

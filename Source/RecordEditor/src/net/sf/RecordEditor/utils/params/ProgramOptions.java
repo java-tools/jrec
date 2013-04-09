@@ -61,13 +61,17 @@ public class ProgramOptions {
 	public final BoolOpt useFileWizard  = new BoolOpt(Parameters.USE_FILE_WIZARD);
 	public final BoolOpt useSeperateScreens  = new BoolOpt(Parameters.SEPERATE_WINDOWS);
 	public final BoolOpt typeOnRecordScreen  = new BoolOpt(Parameters.INCLUDE_TYPE_NAME, true);
+	public final BoolOpt allowTextEditting   = new BoolOpt(Parameters.EDIT_RAW_TEXT, true);
 
 	public final UpdateableBoolOpt highlightEmpty = new UpdateableBoolOpt(Parameters.PROPERTY_HIGHLIGHT_EMPTY);
 	public final InternalBoolOption highlightEmptyActive = new InternalBoolOption(false);
 
+	public final InternalBoolOption loadPoScreens       = new InternalBoolOption(true);
 	public final InternalBoolOption xsltAvailable       = new InternalBoolOption(true);
 	public final InternalBoolOption fileWizardAvailable = new InternalBoolOption(false);
 	public final InternalBoolOption getTextPoPresent    = new InternalBoolOption(false);
+	public final InternalBoolOption addTextDisplay      = new InternalBoolOption(false);
+	public final InternalBoolOption standardEditor      = new InternalBoolOption(false);
 
 	public final IntOpt significantCharInFiles1 = new IntOpt("SignificantCharInFiles.1", 6, 1);
 	public final IntOpt significantCharInFiles2 = new IntOpt("SignificantCharInFiles.2", 12, 1);

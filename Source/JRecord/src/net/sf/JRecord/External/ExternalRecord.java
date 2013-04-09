@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.LayoutDetail;
-import net.sf.JRecord.ExternalRecordSelection.ExternalSelection;
+import net.sf.JRecord.External.Def.AbstractUpdatableRecord;
+import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
 import net.sf.JRecord.ExternalRecordSelection.ExternalGroupSelection;
+import net.sf.JRecord.ExternalRecordSelection.ExternalSelection;
 import net.sf.JRecord.ExternalRecordSelection.StreamLine;
 
 //import net.sf.RecordEditor.utils.Common;
@@ -38,7 +40,7 @@ import net.sf.JRecord.ExternalRecordSelection.StreamLine;
  *              File_Structure fileStructure
  *       From Tbl_R_Records
  *
- *     </pre>  
+ *     </pre>
  *  </ul>
  *
  * This class also provides both specific field access methods
@@ -72,17 +74,17 @@ public class ExternalRecord extends AbstractUpdatableRecord {
   private int recordStyle;
   private int fileStructure;
   private int lineNumberOfFieldNames = 1;
-  
+
   private ExternalSelection recSelect;
   //private ArrayList<TstField> tstFields = null;
   private boolean defaultRecord = false;
   //private String tstField = "";
   //private String tstFieldValue = "";
-  
-  
-  
+
+
+
   private int parentRecord = -1;
-  
+
   private String parentName = null;
 
 
@@ -642,7 +644,7 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 
 	/**
 	 * Get a copy of all subrecords.
-	 * 
+	 *
 	 * @return Sub records
 	 */
 	public ExternalRecord[] toArray() {
@@ -652,8 +654,8 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	}
 
 	/**
-	 * Add a field definition 
-	 * 
+	 * Add a field definition
+	 *
 	 * @param o Field to add
 	 * @return wether added correctly
 	 */
@@ -674,7 +676,7 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 
 	/**
 	 * Get the number of fields
-	 * 
+	 *
 	 * @return number of fields
 	 */
 	public int getNumberOfRecordFields() {
@@ -714,13 +716,13 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	/**
 	 * Get the Field that should be tested to determine if this is the valid
 	 * Sub-Record for the current line.
-	 * 
+	 *
 	 * @return the tstField
-	 * 
+	 *
 	 * @Deprecated Use getTstFields
-	 */ @Deprecated 
+	 */ @Deprecated
 	public String getTstField() {
-		 
+
 		ExternalFieldSelection f = getFirstSelection(recSelect);
 		if (f == null) {
 			return null;
@@ -732,12 +734,12 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	/**
 	 * Set the Field / value that should be tested to determine if this is the valid
 	 * Sub-Record for the current line.
-	 * 
+	 *
 	 * @param tstField the tstField to set
 	 * @param value Value to compare field to
-	 * 
+	 *
 	 *  @Deprecated  use addTstField
-	 */ @Deprecated 
+	 */ @Deprecated
 	public void setTstField(String tstField, String value) {
 
 		recSelect = new ExternalFieldSelection(tstField, value);
@@ -746,12 +748,12 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	/**
 	 * Add a Field/Value that should be tested to determine if this is the valid
 	 * Sub-Record for the current line.
-	 * 
+	 *
 	 * @param tstField the tstField to set
 	 * @param value Value to compare field to
-	 */ 
+	 */
 	public void addTstField(String tstField, String value) {
-		
+
 		if (recSelect == null) {
 			recSelect = new ExternalGroupSelection<ExternalSelection>(1);
 		}
@@ -768,10 +770,10 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 
 	/**
 	 * Get the value the TestField should be compared to
-	 * 
+	 *
 	 * @return the tstFieldValue
 	 * @Deprecated Use getTstFields
-	 */@Deprecated 
+	 */@Deprecated
 	public String getTstFieldValue() {
 			ExternalFieldSelection f = getFirstSelection(recSelect);
 			if (f == null) {
@@ -781,18 +783,18 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 			}
 	}
 
-	
+
 	 public int getTstFieldCount() {
 		 int ret = 0;
 		 if (recSelect != null) {
 			 ret = recSelect.getElementCount();
 		 }
-		 
+
 		 return ret;
 	 }
-	 
+
 	 private ExternalFieldSelection getFirstSelection(ExternalSelection s) {
-		 
+
 		 if (s == null) {
 			 return null;
 		 } else if (s instanceof ExternalFieldSelection) {
@@ -800,15 +802,15 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 		 } else {
 			 ExternalGroupSelection g = (ExternalGroupSelection) s;
 			 ExternalFieldSelection fs = null;
-			 
+
 			 for (int i = 0; i < g.size() && fs == null; i++) {
 				 fs = getFirstSelection(g.get(i));
 			 }
-			 
+
 			 return fs;
 		 }
 	 }
-	 
+
 //	/**
 //	 * @return the tstFields
 //	 */
@@ -832,7 +834,7 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 
 	/**
 	 * Set the parent record
-	 * 
+	 *
 	 * @param parentRecord the parentRecord to set
 	 */
 	public void setParentRecord(int parentRecord) {
@@ -840,18 +842,18 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	}
 
 	/**
-	 * 
-	 * @see net.sf.JRecord.External.AbstractUpdatableRecord#setNew(boolean)
+	 *
+	 * @see net.sf.JRecord.External.Def.AbstractUpdatableRecord#setNew(boolean)
 	 */
 	@Override
 	public void setNew(boolean isNew) {
 		super.setNew(isNew);
-		
+
 		if (isNew) {
 			setChildrenNew(true);
 		}
 	}
-	
+
 	/**
 	 * Set New status of all Child records
 	 * @param isNew wether they are new records or not
@@ -861,7 +863,7 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 			subRecords.get(i).setNew(isNew);
 		}
 	}
-	
+
 	/**
 	 * This method drops filler fields (apart from the last one). In Cobol
 	 * filler denote an unused block of storage. Filler fields can not be accessed
@@ -873,21 +875,21 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 		int count = 1;
 		int i, endPos;
 		ExternalField fld;
-		
+
 		if (fields != null) {
 			for (i = 0; i < fields.size(); i++) {
 				if (! "filler".equalsIgnoreCase(fields.get(i).getName())) {
 					count += 1;
 				}
-			
+
 				maxPos = Math.max(maxPos, fields.get(i).getPos() + fields.get(i).getLen());
 			}
 			tmpFields = new ArrayList<ExternalField>(count);
-		
+
 			for (i = 0; i < fields.size(); i++) {
 				fld = fields.get(i);
 				endPos = fld.getPos() + fld.getLen();
-	
+
 				if ((endPos == maxPos) || (! "filler".equalsIgnoreCase(fld.getName()))) {
 					tmpFields.add(fld);
 				}
@@ -901,21 +903,21 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 			}
 		}
 	}
-	
+
 	/**
 	 * Set the parent value from the parent name
 	 */
 	public void setParentsFromName() {
 		int i,j;
 		String parent;
-		
+
 		if (subRecords != null) {
 			for (i = 0; i < subRecords.size(); i++) {
 				parent = subRecords.get(i).parentName; // getParentName();
 				if (parent != null && ! "".equalsIgnoreCase(parent)) {
 					for (j = 0; j < subRecords.size(); j++) {
-//						System.out.println("~~>> " + i + ", " + j 
-//								+ " >" + parent + "< >" 
+//						System.out.println("~~>> " + i + ", " + j
+//								+ " >" + parent + "< >"
 //								+ subRecords.get(j).getRecordName() + "<");
 						if (parent.equalsIgnoreCase(subRecords.get(j).getRecordName())) {
 							subRecords.get(i).setParentRecord(j);
@@ -932,14 +934,14 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	/**
 	 * Convert to internal format
 	 * @return the internal LayoutDetail equivalent
-	 * 
+	 *
 	 * @throws RecordException any error that occurs
 	 */
 	public final LayoutDetail asLayoutDetail()
 	throws RecordException {
 		return ToLayoutDetail.getInstance().getLayout(this);
 	}
-	
+
 //	/**
 //	 * For internal use - Get parent record name (may not be set)
 //	 * @return parent name
@@ -998,5 +1000,5 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 		this.recSelect = StreamLine.getExternalStreamLine().streamLine(recSelect);
 	}
 
-	
+
 }

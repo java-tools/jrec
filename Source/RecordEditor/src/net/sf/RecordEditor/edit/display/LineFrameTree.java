@@ -32,6 +32,7 @@ import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractTreeDetails;
 import net.sf.RecordEditor.edit.display.models.LineModel;
+import net.sf.RecordEditor.edit.display.util.LinePosition;
 import net.sf.RecordEditor.re.file.FieldMapping;
 import net.sf.RecordEditor.re.file.FilePosition;
 import net.sf.RecordEditor.re.file.FileView;
@@ -110,7 +111,7 @@ public class LineFrameTree extends  BaseLineFrame implements ILineDisplay {
 	 * @param masterFile - Internal representation of the file
 	 * @param cRow       - current row
 	 */
-	protected LineFrameTree(@SuppressWarnings("rawtypes") final FileView viewOfFile,
+	protected LineFrameTree(final FileView viewOfFile,
 	        		 final int cRow, final boolean changeRow) {
 		super("Record: ", viewOfFile, false, ! viewOfFile.getLayout().isXml(), changeRow);
 
@@ -125,7 +126,6 @@ public class LineFrameTree extends  BaseLineFrame implements ILineDisplay {
 	}
 
 
-	@SuppressWarnings("rawtypes")
 	protected LineFrameTree(final FileView viewOfFile,
    		 final AbstractLine line, final boolean changeRow) {
 		super("Record:", viewOfFile, false, ! viewOfFile.getLayout().isXml(), changeRow);
@@ -156,7 +156,6 @@ public class LineFrameTree extends  BaseLineFrame implements ILineDisplay {
 	 */
 	public int getCurrRow() {
 		int ret = Constants.NULL_INTEGER;
-		@SuppressWarnings("rawtypes")
 		AbstractLine l = record.getCurrentLine();
 
 		if (l != null) {
@@ -169,7 +168,6 @@ public class LineFrameTree extends  BaseLineFrame implements ILineDisplay {
 	 /**
 	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getTreeLine()
 	 */
-	@SuppressWarnings("rawtypes")
 	@Override
 	public AbstractLine getTreeLine() {
 		return record.getCurrentLine();
@@ -214,7 +212,6 @@ public class LineFrameTree extends  BaseLineFrame implements ILineDisplay {
 	/**
 	 * Deleting one record
 	 */
-	@SuppressWarnings("rawtypes")
 	public void deleteLines() {
 		AbstractLine line = record.getCurrentLine();
 		getFileView().deleteLine(line);
@@ -278,17 +275,19 @@ public class LineFrameTree extends  BaseLineFrame implements ILineDisplay {
     public void executeAction(int action) {
 
     	switch (action) {
-    	case(ReActionHandler.REPEAT_RECORD) :
-        	@SuppressWarnings({ "rawtypes", "unchecked" })
+    	case(ReActionHandler.REPEAT_RECORD_POPUP) :
 			AbstractLine l = getFileView().repeatLine(record.getCurrentLine());
         	if (l != null) {
         		record.setCurrentLine(l, getLayoutIndex());
         		setDirectionButtonStatus();
         	}
         break;
-		case(ReActionHandler.PASTE_RECORD):
+		case ReActionHandler.PASTE_RECORD:
+		case ReActionHandler.PASTE_RECORD_POPUP:
 		case ReActionHandler.PASTE_RECORD_PRIOR:
+		case ReActionHandler.PASTE_RECORD_PRIOR_POPUP:
 			executeTreeAction(action);
+			break;
         default:
             super.executeAction(action);
         }
@@ -296,13 +295,23 @@ public class LineFrameTree extends  BaseLineFrame implements ILineDisplay {
 
 
 
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.edit.display.BaseLineDisplay#isActionAvailable(int)
+	 */
+	@Override
+	public boolean isActionAvailable(int action) {
+		if (action == ReActionHandler.REPEAT_RECORD_POPUP) {
+			return true;
+	    }
+		return super.isActionAvailable(action);
+	}
+
 	/**
 	 * Set enabled / disabled status of the direction buttons
 	 */
 	protected void setDirectionButtonStatus() {
 
 
-		@SuppressWarnings("rawtypes")
 		AbstractLine l = record.getCurrentLine();
 	    btnPanel.buttons[IDX_START].setEnabled(true);
 		if (l== null) {
@@ -312,7 +321,6 @@ public class LineFrameTree extends  BaseLineFrame implements ILineDisplay {
 		    btnPanel.buttons[IDX_NEXT].setEnabled(false);
 		} else {
 			int rowCount = fileView.getRowCount();
-			@SuppressWarnings("rawtypes")
 			AbstractLine parent = l.getTreeDetails().getParentLine();
 			boolean changeParent = (parent == null) && (rowCount > 1);
 
@@ -330,7 +338,6 @@ public class LineFrameTree extends  BaseLineFrame implements ILineDisplay {
 
 
 	private void changeRow(int amount) {
-		@SuppressWarnings("rawtypes")
 		AbstractLine l = record.getCurrentLine();
 		//int[] colWidths = getColumnWidths();
 		//int i;
@@ -353,11 +360,12 @@ public class LineFrameTree extends  BaseLineFrame implements ILineDisplay {
 		setLine(l);
 	}
 
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.display.ILineDisplay#setLine(net.sf.JRecord.Details.AbstractLine)
 	 */
 	@Override
-	public final void setLine(@SuppressWarnings("rawtypes") AbstractLine l) {
+	public final void setLine(AbstractLine l) {
 
 //		System.out.println("## Set Line ... " + (l != record.getCurrentLine())
 //				+ " LayoutIndex: " + getLayoutIndex());
@@ -433,14 +441,16 @@ public class LineFrameTree extends  BaseLineFrame implements ILineDisplay {
 	/**
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getInsertAfterLine()
 	 */
-	@SuppressWarnings("rawtypes")
 	@Override
-	protected AbstractLine getInsertAfterLine(boolean prev) {
+	protected LinePosition getInsertAfterLine(boolean prev) {
 
 		if (prev) {
-			return prevLine(record.getCurrentLine());
+			AbstractLine l = prevLine(record.getCurrentLine());
+			if (l != record.getCurrentLine()) {
+				return new LinePosition(l, false);
+			}
 		}
-		return record.getCurrentLine();
+		return new LinePosition(record.getCurrentLine(), prev);
 	}
 
 
@@ -448,7 +458,7 @@ public class LineFrameTree extends  BaseLineFrame implements ILineDisplay {
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getNewDisplay(net.sf.RecordEditor.edit.file.FileView)
 	 */
 	@Override
-	protected BaseDisplay getNewDisplay(@SuppressWarnings("rawtypes") FileView view) {
+	protected BaseDisplay getNewDisplay(FileView view) {
 		return new LineFrameTree(view, 0, true);
 	}
 }

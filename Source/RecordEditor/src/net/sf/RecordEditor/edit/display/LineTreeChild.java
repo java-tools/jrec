@@ -10,15 +10,19 @@ import javax.swing.tree.TreePath;
 
 import net.sf.JRecord.Details.AbstractChildDetails;
 import net.sf.JRecord.Details.AbstractLine;
+import net.sf.RecordEditor.edit.display.util.LinePosition;
 import net.sf.RecordEditor.edit.open.DisplayBuilderFactory;
+import net.sf.RecordEditor.edit.util.ReMessages;
 import net.sf.RecordEditor.re.file.AbstractLineNode;
 import net.sf.RecordEditor.re.file.FilePosition;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
+import net.sf.RecordEditor.re.script.IDisplayBuilder;
 import net.sf.RecordEditor.re.tree.LineNode;
 import net.sf.RecordEditor.re.tree.LineNodeChild;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
+import net.sf.RecordEditor.utils.fileStorage.DataStoreStd;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.ReAction;
 
@@ -30,7 +34,7 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 	//		childIdx, children);
 	//private static final Object[] rootPath = {};
 	protected LineTreeChild(
-			@SuppressWarnings("rawtypes") FileView viewOfFile, AbstractLineNode rootNode,
+			FileView viewOfFile, AbstractLineNode rootNode,
 			boolean mainView, final int columnsToSkip) {
 		super(viewOfFile, mainView, true, columnsToSkip, TREE_OPTION_PANEL);
 		super.setDisplayType(TREE_DISPLAY);
@@ -60,11 +64,21 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 	}
 
 
+	@Override
+	public void setScreenSize(boolean mainframe) {
+
+		DisplayFrame parentFrame = getParentFrame();
+		parentFrame.bldScreen();
+
+        parentFrame.setToMaximum(true);
+		parentFrame.setVisible(true);
+	}
+
+
 
 	/**
 	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getSelectedLines()
 	 */
-	@SuppressWarnings("rawtypes")
 	@Override
 	public List<AbstractLine> getSelectedLines() {
 
@@ -85,27 +99,30 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 
 	@Override
 	public int getCurrRow() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	protected int getInsertAfterPosition() {
-		// TODO Auto-generated method stub
 		return -1;
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
-	protected AbstractLine getInsertAfterLine(boolean prev) {
+	protected LinePosition getInsertAfterLine(boolean prev) {
 		AbstractLine ret = null;
 		int row = getTreeTblRow();
-		if (prev) {
-			row -= 1;
-		}
+//		if (prev) {
+//			row -= 1;
+//		}
 
 		if (row >= 0) {
 			AbstractLineNode node = getNodeForRow(row);
+			if (prev && row > 0) {
+				AbstractLineNode prevNode  = getNodeForRow(row - 1);
+				if (prevNode.getLine() != null && prevNode.getParent() == node.getParent()) {
+					return new LinePosition(prevNode.getLine(), false);
+				}
+			}
 			if (node != null) {
 				ret = node.getLine();
 				while (ret == null
@@ -113,21 +130,21 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 					&& node.getParent() instanceof AbstractLineNode) {
 					node = (AbstractLineNode) node.getParent();
 					ret = node.getLine();
+					prev = false;
 				}
 			}
 		}
 
-		return ret;
+		return new LinePosition(ret, prev);
 	}
 
 
 	 /**
 	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getTreeLine()
 	 */
-	@SuppressWarnings("rawtypes")
 	@Override
 	public AbstractLine getTreeLine() {
-		AbstractLine line = getInsertAfterLine(false);
+		AbstractLine line = getInsertAfterLine(false).line;
 		if (line == null && view.getRowCount() > 0) {
 			line = view.getLine(0);
 		}
@@ -148,8 +165,9 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 	public void setCurrRow(FilePosition position) {
 
 		if (position.currentLine != null) {
-			int idx = setLayoutForPosition(position);
-			int fNo = super.getAdjColumn(idx, position.col) - 1;
+			//int idx =
+			setLayoutForPosition(position);
+			//int fNo = super.getAdjColumn(idx, position.col) - 1;
 			AbstractLineNode node = createNodes(position.currentLine);
 
 			int row = expandNode(node);
@@ -157,6 +175,8 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 
             tblDetails.changeSelection(row, 1, false, false);
 //            treeTable.editCellAt(row, fNo);
+
+            getChildScreen().setLine(node.getLine());
 		}
 	}
 
@@ -200,7 +220,7 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 
 	@Override
 	public void tableChanged(TableModelEvent event) {
-
+		checkForResize(event);
 	}
 
 
@@ -226,6 +246,7 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 					nodes[i].removeFromParent();
 				} else if (nodes[i].getChildCount() > 0) {
 					AbstractLineNode firstChild = (AbstractLineNode) nodes[i].getChildAt(0);
+					@SuppressWarnings("rawtypes")
 					AbstractChildDetails childDef = firstChild.getLine().getTreeDetails().getChildDefinitionInParent();
 					if (childDef != null && ! childDef.isRequired() && parent.getLine() != null) {
 						AbstractLine parentLine = parent.getLine();
@@ -250,7 +271,7 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 	public void executeAction(int action) {
 
 		switch (action) {
-		case(ReActionHandler.REPEAT_RECORD) :
+		case(ReActionHandler.REPEAT_RECORD_POPUP) :
 			getFileView().repeatLine(getNodeForRow(popupRow).getLine());
 		break;
 		case(ReActionHandler.COPY_RECORD):
@@ -260,11 +281,13 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 			execute_100_Copy();
 			deleteLines();
 		break;
-		case(ReActionHandler.PASTE_RECORD):
+		case ReActionHandler.PASTE_RECORD:
+		case ReActionHandler.PASTE_RECORD_POPUP:
 		case ReActionHandler.PASTE_RECORD_PRIOR:
+		case ReActionHandler.PASTE_RECORD_PRIOR_POPUP:
 			executeTreeAction(action);
 		break;
-		case ReActionHandler.TABLE_VIEW_SELECTED: 			createView();					 		   break;
+		case ReActionHandler.TABLE_VIEW_SELECTED: 		createView();			 		   break;
 		case ReActionHandler.RECORD_VIEW_SELECTED:		createRecordView();				   break;
 		case ReActionHandler.COLUMN_VIEW_SELECTED:		createColumnView();				   break;
 		default:
@@ -316,13 +339,20 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 	 */
 	private void createColumnView() {
 
-		if (getSelectedRowCount() > MAXIMUM_NO_COLUMNS) {
-			Common.logMsg("To Many Rows Selected for ColumnDisplay", null);
+		int selectedRowCount = getSelectedRowCount();
+		if (selectedRowCount > MAXIMUM_NO_COLUMNS) {
+			Common.logMsgRaw(ReMessages.TO_MANY_ROWS.get(new Object[] {selectedRowCount, MAXIMUM_NO_COLUMNS}), null);
 		} else {
 			List<AbstractLine> selLines = getSelectedLines();
 
 			if (selLines != null && selLines.size() > 0) {
-			    new LinesAsColumns(fileView.getView(selLines));
+				FileView f = new FileView(
+									new DataStoreStd.DataStoreStdBinary<AbstractLine>(layout, selLines),
+									fileMaster,
+									null);
+				DisplayBldr.newDisplay(
+						IDisplayBuilder.ST_LINES_AS_COLUMNS, "", getParentFrame(), fileView.getLayout(), f, 0);
+//			    new LinesAsColumns(fileView.getView(selLines));
 			}
 		}
 	}
@@ -361,7 +391,7 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 	@Override
 	public boolean isActionAvailable(int action) {
 
-		return action == ReActionHandler.REPEAT_RECORD
+		return action == ReActionHandler.REPEAT_RECORD_POPUP
 		 		|| (  action != ReActionHandler.SELECTED_VIEW
 		 		   && super.isActionAvailable(action));
 	}
@@ -373,7 +403,12 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 	 */
 	@Override
 	public AbstractFileDisplay createChildScreen(int pos) {
-		LineFrameTree f = new LineFrameTree(fileView, getInsertAfterLine(false), false);
+		AbstractLine l = getInsertAfterLine(false).line;
+		if (l == null && fileView.getRowCount() > 0 ) {
+			l = fileView.getLine(0);
+		}
+		LineFrameTree f = new LineFrameTree(fileView, l, false);
+
 		setChildScreen(f);
 		return f;
 	}

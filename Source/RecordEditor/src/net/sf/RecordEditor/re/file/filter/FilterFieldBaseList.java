@@ -5,6 +5,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.detailsSelection.FieldSelect;
@@ -29,7 +30,7 @@ public abstract class FilterFieldBaseList extends AbstractTableModel {
     private final String[] fieldFilterColumnHeadings;
 	protected FilterField[][] filterFields;
 	private RecordSel[] recSel = null;
-	@SuppressWarnings("rawtypes")
+
 	protected AbstractLayoutDetails layout;
 	private int layoutIndex = 0;
 
@@ -126,9 +127,9 @@ public abstract class FilterFieldBaseList extends AbstractTableModel {
 	    			for (int j = 0; j < filterFields[i].length; j++) {
 	    				ff = filterFields[i][j];
 	    				if (ff != null && filterFields[i][j].getFieldNumber() >= 0) {
-							AbstractRecordDetail<FieldDetail> rec = layout.getRecord(i);
+							AbstractRecordDetail rec = layout.getRecord(i);
 	    					if (b == null) {
-	    						FieldDetail[] fields = new FieldDetail[rec.getFieldCount()];
+	    						IFieldDetail[] fields = new IFieldDetail[rec.getFieldCount()];
 	    						for (int k = 0; k < fields.length; k++) {
 	    							fields[k] = rec.getField(k);
 	    						}
@@ -166,9 +167,9 @@ public abstract class FilterFieldBaseList extends AbstractTableModel {
     				ff = filterFields[0][j];
     				if (ff != null && filterFields[0][j].getFieldNumber() >= 0) {
     					if (b == null) {
-    						FieldDetail[][] fields = new FieldDetail[layout.getRecordCount()][];
+    						IFieldDetail[][] fields = new FieldDetail[layout.getRecordCount()][];
     						for (int i = 0; i < fields.length; i++) {
-								AbstractRecordDetail<FieldDetail> rec = layout.getRecord(i);
+								AbstractRecordDetail rec = layout.getRecord(i);
 								fields[i] = new FieldDetail[rec.getFieldCount()];
 	    						for (int k = 0; k < fields[i].length; k++) {
 	    							fields[i][k] = rec.getField(k);

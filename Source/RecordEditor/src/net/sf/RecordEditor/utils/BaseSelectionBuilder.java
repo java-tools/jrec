@@ -1,6 +1,6 @@
 package net.sf.RecordEditor.utils;
 
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.detailsSelection.AbsGroup;
 import net.sf.JRecord.detailsSelection.AndSelection;
 import net.sf.JRecord.detailsSelection.FieldSelect;
@@ -15,11 +15,11 @@ public abstract class BaseSelectionBuilder {
 	private OrSelection orSel = new OrSelection();
 	private AndSelection andSel = new AndSelection();
 	private AbsGroup retGroup = andSel;
-	protected final FieldDetail[] fields;
-	protected final FieldDetail[][] recFields;
+	protected final IFieldDetail[] fields;
+	protected final IFieldDetail[][] recFields;
 	private boolean first = true;
 
-	protected BaseSelectionBuilder(FieldDetail[] fields, FieldDetail[][] recFields) {
+	protected BaseSelectionBuilder(IFieldDetail[] fields, IFieldDetail[][] recFields) {
 		super();
         this.fields = fields;
         this.recFields = recFields;
@@ -56,7 +56,7 @@ public abstract class BaseSelectionBuilder {
 	    return retGroup;
 	}
 
-	protected FieldSelect getFieldDef(FieldDetail field, String operator, String fieldValue) {
+	protected FieldSelect getFieldDef(IFieldDetail field, String operator, String fieldValue) {
 	    return FieldSelectX.get(field.getName(), fieldValue, operator, field);
 	}
 
@@ -64,14 +64,14 @@ public abstract class BaseSelectionBuilder {
 	    return FieldSelectX.get(fieldName, fieldValue, operator, getFieldDef(fieldName));
 	}
 
-	protected RecordSel getFieldDef(int recNo, FieldDetail fd, String operator, int summaryOp, String fieldValue, boolean caseSensitive) {
+	protected RecordSel getFieldDef(int recNo, IFieldDetail fd, String operator, int summaryOp, String fieldValue, boolean caseSensitive) {
 			    return FieldSelectX.get(fd.getName(), fieldValue, operator, summaryOp, recNo, fd, caseSensitive);
 	}
 
-	private FieldDetail getFieldDef(String fieldName) {
-	    FieldDetail fieldDef = null;
+	private IFieldDetail getFieldDef(String fieldName) {
+	    IFieldDetail fieldDef = null;
 	    if (fields != null && fieldName != null) {
-	        for (FieldDetail f : fields) {
+	        for (IFieldDetail f : fields) {
 	            if (fieldName.equalsIgnoreCase(f.getName())) {
 	                fieldDef = f;
 	                break;

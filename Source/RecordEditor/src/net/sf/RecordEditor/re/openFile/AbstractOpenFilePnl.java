@@ -31,14 +31,14 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
-import net.sf.JRecord.Details.AbstractRecordDetail;
+import net.sf.JRecord.Details.Options;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
@@ -55,9 +55,8 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
  * @author  bymartin
  * @version 0.56
  */
-@SuppressWarnings({ "serial", "rawtypes" })
+@SuppressWarnings({ "serial" })
 public abstract class AbstractOpenFilePnl
-						<Layout extends AbstractLayoutDetails<? extends FieldDetail, ? extends AbstractRecordDetail>>
 extends BaseHelpPanel
 implements FocusListener, StartActionInterface {
 
@@ -68,7 +67,7 @@ implements FocusListener, StartActionInterface {
 
 	protected JTextArea   message     = new JTextArea();
 
-	protected Layout fileDescription;
+	protected AbstractLayoutDetails fileDescription;
 //	protected BaseDisplay display = null;
 
 	private final AbstractLineIOProvider ioProvider;
@@ -76,7 +75,7 @@ implements FocusListener, StartActionInterface {
 
 	private Rectangle frameSize;
 	private boolean doListener = true;
-	private AbstractLayoutSelection<Layout> layoutSelection;
+	private AbstractLayoutSelection layoutSelection;
 
 	private JButton lCreate1;
 	private JButton lCreate2;
@@ -112,7 +111,6 @@ implements FocusListener, StartActionInterface {
 	 * @param propertiesFiles properties file holding the recent files
 	 * @param helpScreen help screen to display
 	 */
-	@SuppressWarnings("unchecked")
 	public AbstractOpenFilePnl(final String pInFile,
      	   final AbstractLineIOProvider pIoProvider,
      	   final JButton layoutCreate1,
@@ -252,6 +250,7 @@ implements FocusListener, StartActionInterface {
 			fileDescription = getLayoutSelection().getRecordLayout(sFileName);
 			if (fileDescription != null) {
 			    try {
+			    	fileDescription.getOption(Options.OPT_CHECK_LAYOUT_OK);
 			    	processFile(sFileName,
 			    			fileDescription,
 			    		    ioProvider,
@@ -260,6 +259,16 @@ implements FocusListener, StartActionInterface {
 			    	stdError(ioe);
 			    } catch (RecordException e) {
 			    	stdError(e);
+			    } catch (RuntimeException e) {
+			    	String errorMsg = e.getMessage();
+			    	if (errorMsg == null) {
+			    		Common.logMsgRaw("", e);
+			    	} else {
+			    		JOptionPane.showInternalMessageDialog(this, errorMsg);
+			    		Common.logMsgRaw(errorMsg, null);
+			    	}
+
+					e.printStackTrace();
 			    } catch (Exception e) {
 				    String s = LOAD_ERROR + e.getMessage();
 				    Common.logMsgRaw(s, e);
@@ -271,7 +280,7 @@ implements FocusListener, StartActionInterface {
 	}
 
 	protected abstract 	void processFile(String sFileName,
-			Layout layout,
+			AbstractLayoutDetails layout,
 		    AbstractLineIOProvider lineIoProvider,
 		    boolean pBrowse) throws Exception ;
 
@@ -340,7 +349,6 @@ implements FocusListener, StartActionInterface {
      * @param pFile file to find the layout for
      */
     private void updateLayoutForFile(String pFile) {
-    	File f = new File(pFile);
 	    String recentLayout = recent.getLayoutName(pFile, new File(pFile));
 
 	    if (recentLayout == null || "".equals(recentLayout)) {
@@ -364,7 +372,7 @@ implements FocusListener, StartActionInterface {
     /**
      * @return Returns the layoutSelection.
      */
-    public AbstractLayoutSelection<Layout> getLayoutSelection() {
+    public AbstractLayoutSelection getLayoutSelection() {
     	return layoutSelection;
     }
 

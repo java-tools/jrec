@@ -55,7 +55,8 @@ public abstract class SaveAsPnlBase {
 		"Html",
 		"Script",
 		"XSLT Transform",
-		"Velocity"
+		"Velocity",
+		"File Structure"
 	});
 
 //	public final static String[] XSLT_OPTIONS = {
@@ -103,15 +104,14 @@ public abstract class SaveAsPnlBase {
     protected FldTblMdl fixedModel;
 
 
-    private AbstractRecordDetail<?> record;
+    private AbstractRecordDetail record;
     private int[] fieldLengths, suppliedFieldLengths;
     private boolean[] includeFields;
 
 
     public int rowCount;
 
-    @SuppressWarnings("rawtypes")
-	private FileView file;
+    private FileView file;
 
 
 
@@ -247,7 +247,7 @@ public abstract class SaveAsPnlBase {
    	}
 
     public void edit(String outFile, String ext) {
-    	@SuppressWarnings("rawtypes")
+
 		AbstractLayoutDetails layout = getEditLayout(ext);
     	String lcExt = ext.toLowerCase();
     	StandardLayouts genLayout = StandardLayouts.getInstance();
@@ -263,8 +263,7 @@ public abstract class SaveAsPnlBase {
     	if (layout == null) {
     		throw new RuntimeErrorException(null, "Can not edit the File: Can not determine the format");
     	} else {
-    		@SuppressWarnings("rawtypes")
-			FileView newFile = new FileView(layout,
+    		FileView newFile = new FileView(layout,
     				ReIOProvider.getInstance(),
         			false);
     		StartEditor startEditor = new StartEditor(newFile, outFile, false, commonSaveAsFields.message ,0);
@@ -274,13 +273,11 @@ public abstract class SaveAsPnlBase {
     	}
     }
 
-    @SuppressWarnings("rawtypes")
-	public AbstractLayoutDetails getEditLayout(String ext) {
+    public AbstractLayoutDetails getEditLayout(String ext) {
     	return null;
     }
 
-    @SuppressWarnings("rawtypes")
-	protected final List<AbstractLine> saveFile_getLines(String selection) {
+    protected final List<AbstractLine> saveFile_getLines(String selection) {
     	return commonSaveAsFields.getViewToSave(selection).getLines();
     }
 
@@ -358,7 +355,7 @@ public abstract class SaveAsPnlBase {
 
 
 	protected final void setupPrintDetails(boolean isFixed) {
-		AbstractLayoutDetails<?,?> l = file.getLayout();
+		AbstractLayoutDetails l = file.getLayout();
 		int layoutIdx = file.getCurrLayoutIdx();
 		int[] colLengths = null;
 		commonSaveAsFields.printRecordDetails = null;
@@ -389,9 +386,8 @@ public abstract class SaveAsPnlBase {
 		return true;
 	}
 
-	@SuppressWarnings("rawtypes")
 	private int[] getFieldWidths() {
-		AbstractLayoutDetails<?,?> l = file.getLayout();
+		AbstractLayoutDetails l = file.getLayout();
 		int layoutIdx = file.getCurrLayoutIdx();
 		int[] ret = new int[DisplayType.getFieldCount(l, layoutIdx)];
 		int count = 0;
@@ -408,14 +404,13 @@ public abstract class SaveAsPnlBase {
 	}
 
 
-	@SuppressWarnings("rawtypes")
 	private int[] getFieldWidthsPrefered() {
-		AbstractLayoutDetails<?,?> l = file.getLayout();
+		AbstractLayoutDetails l = file.getLayout();
 		int layoutIdx = DisplayType.getRecordMaxFields(l);
 		int[] ret = new int[l.getRecord(layoutIdx).getFieldCount()];
 		int count = 0;
 		Iterator<AbstractLine> it = file.iterator();
-		AbstractLine<?> line;
+		AbstractLine line;
 
 		while (it.hasNext()) {
 			line = it.next();
@@ -441,8 +436,8 @@ public abstract class SaveAsPnlBase {
 
 
 	private void calcColLengthsForLine(
-			int[] ret, AbstractLine<?> line,
-			AbstractLayoutDetails<?,?> layout, int layoutIdx) {
+			int[] ret, AbstractLine line,
+			AbstractLayoutDetails layout, int layoutIdx) {
 
 		int colCount = layout.getRecord(layoutIdx).getFieldCount();
 		calcLengths(ret, line, layoutIdx, 0, colCount);
@@ -453,7 +448,7 @@ public abstract class SaveAsPnlBase {
 		}
 	}
 
-	private void calcLengths(int[] ret, AbstractLine<?> line,
+	private void calcLengths(int[] ret, AbstractLine line,
 			int layoutIdx,
 			int colStart, int colEnd) {
 		Object o;

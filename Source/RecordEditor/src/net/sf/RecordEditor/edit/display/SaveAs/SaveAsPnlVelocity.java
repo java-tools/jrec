@@ -39,12 +39,13 @@ public class SaveAsPnlVelocity extends SaveAsPnlBase {
 	       RunVelocity velocity = RunVelocity.getInstance();
 
 	       BufferedWriter w = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile), "utf8"));;
-
-
-	        velocity.genSkel(template.getText(),
+	       try {
+	    	   velocity.genSkel(template.getText(),
 	        		getScriptData(selection, outFile),
 	        		w);
-	        w.close();
+	       } finally {
+	    	   w.close();
+	       }
 	}
 
 

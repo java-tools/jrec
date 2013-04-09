@@ -6,6 +6,7 @@
  */
 package net.sf.JRecord.zTest.ByteIO;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.ByteIO.ByteIOProvider;
 import net.sf.JRecord.ByteIO.FixedLengthByteReader;
 import net.sf.JRecord.ByteIO.FixedLengthByteWriter;
@@ -16,7 +17,6 @@ import net.sf.JRecord.ByteIO.VbByteWriter;
 import net.sf.JRecord.ByteIO.VbDumpByteReader;
 import net.sf.JRecord.ByteIO.VbDumpByteWriter;
 import net.sf.JRecord.Common.Constants;
-import junit.framework.TestCase;
 
 /**
  *

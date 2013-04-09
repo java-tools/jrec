@@ -1,4 +1,4 @@
-useFixture(default)
+useFixture(RecordEditor)
 
 def test():
 	from Modules import commonBits
@@ -7,20 +7,21 @@ def test():
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'utf8a_Ams_LocDownload_20041228.txt')
 		commonBits.setRecordLayout(select, 'utf8_ams Store')
-		click('Edit1')
+		click(commonBits.fl('Edit') + '1')
 		click('Filter1')
-		select('Table', 'false', 'Include,0')
-		select('Table', 'false', 'Include,2')
-		select('Table', 'false', 'Include,5')
-		select('Table', 'false', 'Include,6')
-		select('Table', 'false', 'Include,7')
-		#select('Table1', 'cell:Include,7(false)')
-		select('Table1', 'Loc Nbr', 'Field,0')
-		select('Table1', '1', 'Value,0')
-		select('Table1', 'Loc Nbr', 'Field,1')
-		select('Table1', '2', 'Value,1')
-		select('Table1', 'cell:Value,1()')
-		click('Filter1')
+		select('Table', 'false', commonBits.fl('Include') + ',0')
+		select('Table', 'false', commonBits.fl('Include') + ',2')
+		select('Table', 'false', commonBits.fl('Include') + ',5')
+		select('Table', 'false', commonBits.fl('Include') + ',6')
+		select('Table', 'false', commonBits.fl('Include') + ',7')
+		#select('Table1', 'cell:' + commonBits.fl('Include') + ',7(false)')
+		select('Table1', 'Loc Nbr', commonBits.fl('Field') + ',0')
+		select('Table1', '1', commonBits.fl('Value') + ',0')
+		select('Table1', 'Loc Nbr', commonBits.fl('Field') + ',1')
+		select('Table1', '2', commonBits.fl('Value') + ',1')
+		select('Table1', 'cell:' + commonBits.fl('Value') + ',1()')
+		commonBits.filter(click)
+
 		select('Table', 'cell:45 - 40|Loc Addr Ln1,4(Derwent Park)')
 		assert_p('Table', 'Text', 'Derwent Park', '45 - 40|Loc Addr Ln1,4')
 		select('Table', 'cell:45 - 40|Loc Addr Ln1,5(Chermside Shopping Centre, G ie Rd)')
@@ -35,18 +36,18 @@ def test():
 		assert_p('Table', 'RowCount', '12')
 		select('Table', 'cell:10 - 35|Loc Name,2(Ringwood)')
 		rightclick('Table', '10 - 35|Loc Name,2')
-		select_menu('Edit Record')
+		select_menu( commonBits.fl('Edit Record'))
 	##	select('Table1', 'cell:10 - 35|Loc Name,2(Ringwood)')
-		select('Table', 'cell:Data,1(Ringwood)')
+		select('Table', 'cell:' + commonBits.fl('Data') + ',1(Ringwood)')
 
 		if commonBits.isMissingCol():
 			assert_p('Table', 'Content', '[[Loc Nbr, 4, 4, 5012, 5012], [Loc Name, 10, 35, Ringwood, Ringwood], [Loc Addr Ln1, 45, 40, Ringwood, Ringwood], [Loc State, 170, 3, VIC, VIC]]')
 		else:
 			assert_p('Table', 'Content', '[[Loc Nbr, 4, 4, 5012, 5012], [Loc Name, 10, 35, Ringwood, Ringwood], [Loc Addr Ln1, 45, 40, Ringwood, Ringwood], [Loc State, 170, 3, VIC, VIC], [Loc Actv Ind, 173, 1, A, A]]')
 
-		select('Table', 'cell:Data,3(VIC)')
-		assert_p('Table', 'Text', 'VIC', 'Data,3')
-		select('Table', 'cell:Data,2(Ringwood)')
+		select('Table', 'cell:' + commonBits.fl('Data') + ',3(VIC)')
+		assert_p('Table', 'Text', 'VIC', commonBits.fl('Data') + ',3')
+		select('Table', 'cell:' + commonBits.fl('Data') + ',2(Ringwood)')
 
 		if commonBits.isMissingCol():
 			assert_p('Table', 'RowCount', '4')

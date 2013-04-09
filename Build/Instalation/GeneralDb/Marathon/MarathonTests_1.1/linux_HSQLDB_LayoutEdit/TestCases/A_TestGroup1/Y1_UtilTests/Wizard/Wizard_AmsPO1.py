@@ -16,22 +16,51 @@ def test():
 		select('Multiple Records #{fixed length#}', 'true')
 		click('Right')
 		select('TabbedPane', '')
-		assert_p('EditorPane', 'Text', '''<html>
+##		assert_p('EditorPane', 'Text', '''<html>
+##  <head>
+##    
+##  </head>
+##  <body>
+##    This screen will display the first 60 lines of the file.<br>Indicate the <i>start</i> 
+##    of the <b>Record-Type field</b> by clicking on the starting column<br>Then 
+##    click on the start of the Next Field.<br>To remove a position click on it 
+##    again.
+##  </body>
+##</html>
+##''')
+
+##		assert_p('EditorPane', 'Text','''<html>
+##  <head>
+##    
+##  </head>
+##  <body>
+##    ''' + commonBits.fl('''This screen will display the first 60 lines of the file.<br>Indicate the <i>start</i> 
+##    of the <b>Record-Type field</b> by clicking on the starting column<br>Then 
+##    click on the start of the Next Field.<br>To remove a position click on it 
+##    again.
+##''') + '''
+##  </body>
+##</html>
+##''' )
+
+		assert_p('EditorPane', 'Text','''<html>
   <head>
     
   </head>
   <body>
-    This screen will display the first 60 lines of the file.<br>Indicate the <i>start</i> 
+    ''' + commonBits.fl('''This screen will display the first 60 lines of the file.<br>Indicate the <i>start</i> 
     of the <b>Record-Type field</b> by clicking on the starting column<br>Then 
     click on the start of the Next Field.<br>To remove a position click on it 
-    again.
+    again.''') + '''
   </body>
 </html>
-''')
+''' )
+
+
 #		select('TextField1', '01')
 #		select('TextField2', '01')
-		select('Table', '1', 'Start,0')
-		select('Table', '1', 'Length,0')	
+		select('Table', '1', commonBits.fl('Start') + ',0')
+		select('Table', '1', commonBits.fl('Length') + ',0')	
 		if commonBits.isNimbusLook():
 			assert_p('Table', 'Background', 'DerivedColor(color=255,255,255 parent=nimbusLightBackground offsets=0.0,0.0,0.0,0 pColor=255,255,255')
 		else:
@@ -44,21 +73,21 @@ def test():
 			assert_p('Table', 'Content', '[[H, , false, true], [D, , false, true], [S, , false, true]]')
 		else:
 			assert_p('Table', 'Content', '[[H, ], [D, ], [S, ]]')
-		select('Table', 'Header', 'Record Name,0')
-		select('Table', 'cell:Record Name,0()')
-		keystroke('Table', 'Down', 'Record Name,0')
-		select('Table', 'Detail', 'Record Name,1')
-		select('Table', 'cell:Record Name,1()')
-		keystroke('Table', 'Down', 'Record Name,1')
-		select('Table', 'Store', 'Record Name,2')
-		select('Table', 'cell:Record Name,2()')
-		keystroke('Table', 'Up', 'Record Name,2')
-		select('Table', 'cell:Record Name,1(Detail)')
+		select('Table', 'Header', commonBits.fl('Record Name') + ',0')
+		select('Table', 'cell:' + commonBits.fl('Record Name') + ',0()')
+		keystroke('Table', 'Down', commonBits.fl('Record Name') + ',0')
+		select('Table', 'Detail', commonBits.fl('Record Name') + ',1')
+		select('Table', 'cell:' + commonBits.fl('Record Name') + ',1()')
+		keystroke('Table', 'Down', commonBits.fl('Record Name') + ',1')
+		select('Table', 'Store', commonBits.fl('Record Name') + ',2')
+		select('Table', 'cell:' + commonBits.fl('Record Name') + ',2()')
+		keystroke('Table', 'Up', commonBits.fl('Record Name') + ',2')
+		select('Table', 'cell:' + commonBits.fl('Record Name') + ',1(Detail)')
 		if commonBits.isVersion80():
 			assert_p('Table', 'Content', '[[H, Header, false, true], [D, Detail, false, true], [S, Store, false, true]]')
 		else:
 			assert_p('Table', 'Content', '[[H, Header], [D, Detail], [S, Store]]')
-		select('Table', 'cell:Record Name,1(Detail)')
+		select('Table', 'cell:' + commonBits.fl('Record Name') + ',1(Detail)')
 		click('Right')
 		select('TabbedPane', '')
 		if commonBits.isNimbusLook():
@@ -66,7 +95,8 @@ def test():
 		else:
 			assert_p('Table', 'Background', '[r=255,g=255,b=255]')
 		click('Right')
-		assert_p('TextArea', 'Text', 'You must define the Fields all Records. Please update - Detail')
+##		assert_p('TextArea', 'Text', commonBits.fl('You must define the Fields all Records. Please update - Detail'))
+		assert_p('TextArea', 'Text', commonBits.fl('You must define the Fields for all Records. Please update - Detail'))
 		if commonBits.isNimbusLook():
 			assert_p('Table', 'Background', 'DerivedColor(color=255,255,255 parent=nimbusLightBackground offsets=0.0,0.0,0.0,0 pColor=255,255,255')
 		else:
@@ -81,30 +111,30 @@ def test():
 
 		click('Right')
 		select('TabbedPane', '')
-		select('Table', 'f1', 'Field Name,1')
-		select('Table', 'cell:Field Name,1()')
-		keystroke('Table', 'Down', 'Field Name,1')
-		select('Table', 'f2', 'Field Name,2')
-		select('Table', 'cell:Field Name,2()')
-		keystroke('Table', 'Down', 'Field Name,2')
-		select('Table', 'f3', 'Field Name,3')
-		select('Table', 'cell:Field Name,3()')
-		keystroke('Table', 'Down', 'Field Name,3')
-		select('Table', 'h4', 'Field Name,4')
-		select('Table', 'h3', 'Field Name,3')
-		select('Table', 'h2', 'Field Name,2')
-		select('Table', 'h1', 'Field Name,1')
-		select('Table', 'h5', 'Field Name,5')
-		select('Table', 'cell:Field Name,5()')
-		keystroke('Table', 'Down', 'Field Name,5')
-		select('Table', 'h6', 'Field Name,6')
-		select('Table', 'cell:Field Name,6()')
-		keystroke('Table', 'Down', 'Field Name,6')
-		select('Table', 'h7', 'Field Name,7')
-		select('Table', 'cell:Field Name,7()')
-		keystroke('Table', 'Down', 'Field Name,7')
-		select('Table', 'h8', 'Field Name,8')
-		select('Table', 'cell:Field Name,8()')
+		select('Table', 'f1', commonBits.fl('Field Name') + ',1')
+		select('Table', 'cell:' + commonBits.fl('Field Name') + ',1()')
+		keystroke('Table', 'Down', commonBits.fl('Field Name') + ',1')
+		select('Table', 'f2', commonBits.fl('Field Name') + ',2')
+		select('Table', 'cell:' + commonBits.fl('Field Name') + ',2()')
+		keystroke('Table', 'Down', commonBits.fl('Field Name') + ',2')
+		select('Table', 'f3', commonBits.fl('Field Name') + ',3')
+		select('Table', 'cell:' + commonBits.fl('Field Name') + ',3()')
+		keystroke('Table', 'Down', commonBits.fl('Field Name') + ',3')
+		select('Table', 'h4', commonBits.fl('Field Name') + ',4')
+		select('Table', 'h3', commonBits.fl('Field Name') + ',3')
+		select('Table', 'h2', commonBits.fl('Field Name') + ',2')
+		select('Table', 'h1', commonBits.fl('Field Name') + ',1')
+		select('Table', 'h5', commonBits.fl('Field Name') + ',5')
+		select('Table', 'cell:' + commonBits.fl('Field Name') + ',5()')
+		keystroke('Table', 'Down', commonBits.fl('Field Name') + ',5')
+		select('Table', 'h6', commonBits.fl('Field Name') + ',6')
+		select('Table', 'cell:' + commonBits.fl('Field Name') + ',6()')
+		keystroke('Table', 'Down', commonBits.fl('Field Name') + ',6')
+		select('Table', 'h7', commonBits.fl('Field Name') + ',7')
+		select('Table', 'cell:' + commonBits.fl('Field Name') + ',7()')
+		keystroke('Table', 'Down', commonBits.fl('Field Name') + ',7')
+		select('Table', 'h8', commonBits.fl('Field Name') + ',8')
+		select('Table', 'cell:' + commonBits.fl('Field Name') + ',8()')
 		select('Table1', 'cell:h1,1(145358)')
 		if commonBits.isVersion80():
 			assert_p('Table1', 'Content', '[[H, 145357, 4338, 233863, 40929,         , 0,   , 290,  , 5, 1, 3, 5, 1, 75966,         , OPTIONS PLCFT], [H, 145358, 4338, 233872, 40929,         , 0,   , 290,  , 5, 1, 3, 5, 1, 75965,         , OPTIONS PLCFT], [H, 145359, 4468, 255906, 40929,         , 0,   , 290,  , 5, 1, 3, 5, 1, 75966,         , OPTIONS PLCFT], [H, 145360, 4448, 290908, 40929,         , 0,   , 290,  , 5, 1, 3, 5, 1, 75967,         , OPTIONS PLCFT], [H, 145361, 4228, 292210, 40929,         , 0,   , 290,  , 5, 1, 3, 5, 1, 75965,         , OPTIONS PLCFT], [H, 145362, 5220, 211984, 40929,         , 0,   , 200,  , 5, 1, 3, 5, 1, 75965,         , LADIES KNICFT], [H, 145363, 5110, 211985, 40929,         , 0,   , 200,  , 5, 1, 3, 5, 1, 75966,         , LADIES KNICFT], [H, 145364, 5110, 211987, 40929,         , 0,   , 200,  , 5, 1, 3, 5, 1, 65967,         , LADIES KNICFT], [H, 145365, 13112, 211549, 41005,         , 0,   , 220,  , 5, 1, 3, 5, 1, 85966,         , LADIES KNICFT], [H, 145366, 13312, 211555, 41005,         , 0,   , 220,  , 5, 1, 3, 5, 1, 75967,         , LADIES KNICFT], [H, 145367, 12212, 222556, 41005,         , 0,   , 220,  , 5, 1, 3, 5, 1, 75965,         , LADIES KNICFT], [H, 145368, 1312, 211617, 41005,         , 0,   , 220,  , 5, 1, 3, 5, 1, 175966,         , LADIES KNICFT]]')
@@ -112,26 +142,26 @@ def test():
 			assert_p('Table1', 'Content', '[[H, 145357, 4338, 233863, 4, 929,         , 0,   , 290,  , 5, 1, 3, 5, 1, 75966,         , OPTIONS,  PLCFT], [H, 145358, 4338, 233872, 4, 929,         , 0,   , 290,  , 5, 1, 3, 5, 1, 75965,         , OPTIONS,  PLCFT], [H, 145359, 4468, 255906, 4, 929,         , 0,   , 290,  , 5, 1, 3, 5, 1, 75966,         , OPTIONS,  PLCFT], [H, 145360, 4448, 290908, 4, 929,         , 0,   , 290,  , 5, 1, 3, 5, 1, 75967,         , OPTIONS,  PLCFT], [H, 145361, 4228, 292210, 4, 929,         , 0,   , 290,  , 5, 1, 3, 5, 1, 75965,         , OPTIONS,  PLCFT], [H, 145362, 5220, 211984, 4, 929,         , 0,   , 200,  , 5, 1, 3, 5, 1, 75965,         , LADIES , KNICFT], [H, 145363, 5110, 211985, 4, 929,         , 0,   , 200,  , 5, 1, 3, 5, 1, 75966,         , LADIES , KNICFT], [H, 145364, 5110, 211987, 4, 929,         , 0,   , 200,  , 5, 1, 3, 5, 1, 65967,         , LADIES , KNICFT], [H, 145365, 13112, 211549, 4, 1005,         , 0,   , 220,  , 5, 1, 3, 5, 1, 85966,         , LADIES , KNICFT], [H, 145366, 13312, 211555, 4, 1005,         , 0,   , 220,  , 5, 1, 3, 5, 1, 75967,         , LADIES , KNICFT], [H, 145367, 12212, 222556, 4, 1005,         , 0,   , 220,  , 5, 1, 3, 5, 1, 75965,         , LADIES , KNICFT], [H, 145368, 1312, 211617, 4, 1005,         , 0,   , 220,  , 5, 1, 3, 5, 1, 175966,         , LADIES , KNICFT]]')
 		select('Table1', 'cell:h1,1(145358)')
 		select('ComboBox', 'Detail')
-		select('Table', 'd2', 'Field Name,2')
-		select('Table', 'cell:Field Name,2()')
-		keystroke('Table', 'Down', 'Field Name,2')
-		select('Table', 'd3', 'Field Name,3')
-		select('Table', 'cell:Field Name,3()')
-		keystroke('Table', 'Down', 'Field Name,3')
-		select('Table', 'd4', 'Field Name,4')
-		select('Table', 'cell:Field Name,4()')
-		keystroke('Table', 'Down', 'Field Name,4')
-		select('Table', 'd5', 'Field Name,5')
-		select('Table', 'cell:Field Name,5()')
-		keystroke('Table', 'Down', 'Field Name,5')
-		select('Table', 'd6', 'Field Name,6')
-		select('Table', 'cell:Field Name,6()')
-		keystroke('Table', 'Down', 'Field Name,6')
-		select('Table', 'd7', 'Field Name,7')
-		select('Table', 'cell:Field Name,7()')
-		keystroke('Table', 'Down', 'Field Name,7')
-		select('Table', 'd8', 'Field Name,8')
-		select('Table', 'cell:Field Name,8()')
+		select('Table', 'd2', commonBits.fl('Field Name') + ',2')
+		select('Table', 'cell:' + commonBits.fl('Field Name') + ',2()')
+		keystroke('Table', 'Down', commonBits.fl('Field Name') + ',2')
+		select('Table', 'd3', commonBits.fl('Field Name') + ',3')
+		select('Table', 'cell:' + commonBits.fl('Field Name') + ',3()')
+		keystroke('Table', 'Down', commonBits.fl('Field Name') + ',3')
+		select('Table', 'd4', commonBits.fl('Field Name') + ',4')
+		select('Table', 'cell:' + commonBits.fl('Field Name') + ',4()')
+		keystroke('Table', 'Down', commonBits.fl('Field Name') + ',4')
+		select('Table', 'd5', commonBits.fl('Field Name') + ',5')
+		select('Table', 'cell:' + commonBits.fl('Field Name') + ',5()')
+		keystroke('Table', 'Down', commonBits.fl('Field Name') + ',5')
+		select('Table', 'd6', commonBits.fl('Field Name') + ',6')
+		select('Table', 'cell:' + commonBits.fl('Field Name') + ',6()')
+		keystroke('Table', 'Down', commonBits.fl('Field Name') + ',6')
+		select('Table', 'd7', commonBits.fl('Field Name') + ',7')
+		select('Table', 'cell:' + commonBits.fl('Field Name') + ',7()')
+		keystroke('Table', 'Down', commonBits.fl('Field Name') + ',7')
+		select('Table', 'd8', commonBits.fl('Field Name') + ',8')
+		select('Table', 'cell:' + commonBits.fl('Field Name') + ',8()')
 		select('Table1', 'cell:d2,1(14)')
 		if commonBits.isVersion80():
 			assert_p('Table1', 'Content', '[[D, 1, 44, 11840, 0,  , 45872078, 4544, 44,        , 2117093,         , 45872078,        , MTH5033H DUSTY PINK L/S FANCY CREW C\'MERE CARDIGAN], [D, 1, 14, 11984, 0,  , 43372078, 4544, 14,        , 2117152,         , 45872078,        , MTH5033H DUSTY PINK L/S FANCY CREW C\'MERE CARDIGAN], [D, 1, 29, 10120, 0,  , 45874751, 4090, 29,        , 2117337,         , 45872078,        , MTH5030H BLK L/S VLVT RIBBON SCOOP C\'MERE W/BROOCH], [D, 1, 14, 0, 29440800000000,  , 45874751, 4090, 14,        , 2117347,         , 35874751,        , MTH5030H BLK L/S VLVT RIBBON SCOOP C\'MERE W/BROOCH], [D, 1, 12, 10256, 0,  , 35874751, 4090, 12,        , 2117354,         , 35874751,        , MTH5030H BLK L/S VLVT RIBBON SCOOP C\'MERE W/BROOCH], [D, 1, 11, 5848, 0,  , 31191697, 2726, 11,        , 2327928,         , 35891697,        , SKY BLUE SKP02 L/WEIGHT PONCHO                    ], [D, 1, 11, 5848, 0,  , 33391826, 2726, 11,        , 2327931,         , 35891826,        , DUSTY PINK SKP02 L/WEIGHT PONCHO                  ], [D, 1, 28, 3356, 0,  , 31191697, 2726, 28,        , 2327933,         , 35891697,        , SKY BLUE SKP02 L/WEIGHT PONCHO                    ], [D, 1, 28, 3356, 0,  , 31191826, 2726, 28,        , 2327936,         , 35891826,        , DUSTY PINK SKP02 L/WEIGHT PONCHO                  ], [D, 1, 15, 3356, 0,  , 31191697, 2726, 15,        , 2327982,         , 35891697,        , SKY BLUE SKP02 L/WEIGHT PONCHO                    ], [D, 1, 15, 3356, 0,  , 35221826, 2726, 15,        , 2327985,         , 35891826,        , DUSTY PINK SKP02 L/WEIGHT PONCHO                  ], [D, 1, 123, 6723, 0,  , 35116979, 2272, 123,        , 2098136,         , 35926979,        , SA13 CHOC MUSTANG PRT RAGLAN SWEAT                ], [D, 1, 133, 6723, 0,  , 35117204, 2272, 133,        , 2098137,         , 35927204,        , SA13 PALE BLUE MP RAGLEN SWEAT                    ], [D, 1, 81, 6723, 0,  , 31127419, 2272, 81,        , 2098139,         , 35927419,        , SA13 PALE PINK MP PRT RAGLAN SWEAT                ], [D, 1, 49, 6723, 0,  , 35333979, 2272, 49,        , 2098158,         , 35926979,        , SA13 CHOC MUSTANG PRT RAGLAN SWEAT                ], [D, 1, 49, 6723, 0,  , 32227204, 2272, 49,        , 2098159,         , 35927204,        , SA13 PALE BLUE MP RAGLEN SWEAT                    ], [D, 1, 27, 6723, 0,  , 32227419, 2272, 27,        , 2098160,         , 35927419,        , SA13 PALE PINK MP PRT RAGLAN SWEAT                ], [D, 1, 24, 6183, 0,  , 33336979, 2272, 24,        , 2098161,         , 35926979,        , SA13 CHOC MUSTANG PRT RAGLAN SWEAT                ], [D, 1, 24, 6183, 0,  , 30027204, 2272, 24,        , 2098165,         , 35927204,        , SA13 PALE BLUE MP RAGLEN SWEAT                    ], [D, 1, 14, 6183, 0,  , 35007419, 2272, 14,        , 2098167,         , 35927419,        , SA13 PALE PINK MP PRT RAGLAN SWEAT                ], [D, 1, 109, 11106, 0,  , 31129413, 3636, 109,        , 2098293,         , 35929413,        , S4547 PALE BLUE INDIAN PRINT JACKET               ], [D, 1, 97, 11106, 0,  , 31129710, 3636, 97,        , 2098297,         , 35929710,        , S4547 PALE PINK EAGLE PRINT JACKET                ]]')
@@ -139,33 +169,33 @@ def test():
 			assert_p('Table1', 'Content', '[[D, 1, 44, 11840, 0,  , 45872078, 4544, 44,        , 2, 117093,         , 45872078,        , MT, H5, 033H DUSTY , PINK L/S FANCY CREW C\'MERE CARDIGAN], [D, 1, 14, 11984, 0,  , 43372078, 4544, 14,        , 2, 117152,         , 45872078,        , MT, H5, 033H DUSTY , PINK L/S FANCY CREW C\'MERE CARDIGAN], [D, 1, 29, 10120, 0,  , 45874751, 4090, 29,        , 2, 117337,         , 45872078,        , MT, H5, 030H BLK L/, S VLVT RIBBON SCOOP C\'MERE W/BROOCH], [D, 1, 14, 0, 29440800000000,  , 45874751, 4090, 14,        , 2, 117347,         , 35874751,        , MT, H5, 030H BLK L/, S VLVT RIBBON SCOOP C\'MERE W/BROOCH], [D, 1, 12, 10256, 0,  , 35874751, 4090, 12,        , 2, 117354,         , 35874751,        , MT, H5, 030H BLK L/, S VLVT RIBBON SCOOP C\'MERE W/BROOCH], [D, 1, 11, 5848, 0,  , 31191697, 2726, 11,        , 2, 327928,         , 35891697,        , SK, Y, BLUE SKP02 , L/WEIGHT PONCHO                    ], [D, 1, 11, 5848, 0,  , 33391826, 2726, 11,        , 2, 327931,         , 35891826,        , DU, ST, Y PINK SKP0, 2 L/WEIGHT PONCHO                  ], [D, 1, 28, 3356, 0,  , 31191697, 2726, 28,        , 2, 327933,         , 35891697,        , SK, Y, BLUE SKP02 , L/WEIGHT PONCHO                    ], [D, 1, 28, 3356, 0,  , 31191826, 2726, 28,        , 2, 327936,         , 35891826,        , DU, ST, Y PINK SKP0, 2 L/WEIGHT PONCHO                  ], [D, 1, 15, 3356, 0,  , 31191697, 2726, 15,        , 2, 327982,         , 35891697,        , SK, Y, BLUE SKP02 , L/WEIGHT PONCHO                    ], [D, 1, 15, 3356, 0,  , 35221826, 2726, 15,        , 2, 327985,         , 35891826,        , DU, ST, Y PINK SKP0, 2 L/WEIGHT PONCHO                  ], [D, 1, 123, 6723, 0,  , 35116979, 2272, 123,        , 2, 98136,         , 35926979,        , SA, 13,  CHOC MUSTA, NG PRT RAGLAN SWEAT                ], [D, 1, 133, 6723, 0,  , 35117204, 2272, 133,        , 2, 98137,         , 35927204,        , SA, 13,  PALE BLUE , MP RAGLEN SWEAT                    ], [D, 1, 81, 6723, 0,  , 31127419, 2272, 81,        , 2, 98139,         , 35927419,        , SA, 13,  PALE PINK , MP PRT RAGLAN SWEAT                ], [D, 1, 49, 6723, 0,  , 35333979, 2272, 49,        , 2, 98158,         , 35926979,        , SA, 13,  CHOC MUSTA, NG PRT RAGLAN SWEAT                ], [D, 1, 49, 6723, 0,  , 32227204, 2272, 49,        , 2, 98159,         , 35927204,        , SA, 13,  PALE BLUE , MP RAGLEN SWEAT                    ], [D, 1, 27, 6723, 0,  , 32227419, 2272, 27,        , 2, 98160,         , 35927419,        , SA, 13,  PALE PINK , MP PRT RAGLAN SWEAT                ], [D, 1, 24, 6183, 0,  , 33336979, 2272, 24,        , 2, 98161,         , 35926979,        , SA, 13,  CHOC MUSTA, NG PRT RAGLAN SWEAT                ], [D, 1, 24, 6183, 0,  , 30027204, 2272, 24,        , 2, 98165,         , 35927204,        , SA, 13,  PALE BLUE , MP RAGLEN SWEAT                    ], [D, 1, 14, 6183, 0,  , 35007419, 2272, 14,        , 2, 98167,         , 35927419,        , SA, 13,  PALE PINK , MP PRT RAGLAN SWEAT                ], [D, 1, 109, 11106, 0,  , 31129413, 3636, 109,        , 2, 98293,         , 35929413,        , S4, 54, 7 PALE BLUE,  INDIAN PRINT JACKET               ], [D, 1, 97, 11106, 0,  , 31129710, 3636, 97,        , 2, 98297,         , 35929710,        , S4, 54, 7 PALE PINK,  EAGLE PRINT JACKET                ]]')
 		select('Table1', 'cell:d2,1(14)')
 		click('Right')
-		assert_p('TextArea', 'Text', 'You must define the field Names in all Records, please update: Store')
-		select('Table', 's2', 'Field Name,2')
-		select('Table', 'cell:Field Name,2()')
-		keystroke('Table', 'Down', 'Field Name,2')
-		select('Table', 's3', 'Field Name,3')
-		select('Table', 'cell:Field Name,3()')
-		keystroke('Table', 'Down', 'Field Name,3')
-		select('Table', 's4', 'Field Name,4')
-		select('Table', 'cell:Field Name,4()')
-		keystroke('Table', 'Down', 'Field Name,4')
-		select('Table', 's5', 'Field Name,5')
-		select('Table', 'cell:Field Name,5()')
-		keystroke('Table', 'Down', 'Field Name,5')
-		select('Table', 's6', 'Field Name,6')
-		select('Table', 'cell:Field Name,6()')
-		keystroke('Table', 'Down', 'Field Name,6')
-		select('Table', 's7', 'Field Name,7')
-		select('Table', 'cell:Field Name,7()')
-		keystroke('Table', 'Down', 'Field Name,7')
-		select('Table', 's8', 'Field Name,8')
-		select('Table', 'cell:Field Name,8()')
-		keystroke('Table', 'Down', 'Field Name,8')
-		select('Table', 's9', 'Field Name,9')
-		select('Table', 'cell:Field Name,9()')
-		keystroke('Table', 'Down', 'Field Name,9')
-		select('Table', 's10', 'Field Name,10')
-		select('Table', 'cell:Field Name,10()')
+		assert_p('TextArea', 'Text', commonBits.fl('You must define the field Names in all Records, please update: Store'))
+		select('Table', 's2', commonBits.fl('Field Name') + ',2')
+		select('Table', 'cell:' + commonBits.fl('Field Name') + ',2()')
+		keystroke('Table', 'Down', commonBits.fl('Field Name') + ',2')
+		select('Table', 's3', commonBits.fl('Field Name') + ',3')
+		select('Table', 'cell:' + commonBits.fl('Field Name') + ',3()')
+		keystroke('Table', 'Down', commonBits.fl('Field Name') + ',3')
+		select('Table', 's4', commonBits.fl('Field Name') + ',4')
+		select('Table', 'cell:' + commonBits.fl('Field Name') + ',4()')
+		keystroke('Table', 'Down', commonBits.fl('Field Name') + ',4')
+		select('Table', 's5', commonBits.fl('Field Name') + ',5')
+		select('Table', 'cell:' + commonBits.fl('Field Name') + ',5()')
+		keystroke('Table', 'Down', commonBits.fl('Field Name') + ',5')
+		select('Table', 's6', commonBits.fl('Field Name') + ',6')
+		select('Table', 'cell:' + commonBits.fl('Field Name') + ',6()')
+		keystroke('Table', 'Down', commonBits.fl('Field Name') + ',6')
+		select('Table', 's7', commonBits.fl('Field Name') + ',7')
+		select('Table', 'cell:' + commonBits.fl('Field Name') + ',7()')
+		keystroke('Table', 'Down', commonBits.fl('Field Name') + ',7')
+		select('Table', 's8', commonBits.fl('Field Name') + ',8')
+		select('Table', 'cell:' + commonBits.fl('Field Name') + ',8()')
+		keystroke('Table', 'Down', commonBits.fl('Field Name') + ',8')
+		select('Table', 's9', commonBits.fl('Field Name') + ',9')
+		select('Table', 'cell:' + commonBits.fl('Field Name') + ',9()')
+		keystroke('Table', 'Down', commonBits.fl('Field Name') + ',9')
+		select('Table', 's10', commonBits.fl('Field Name') + ',10')
+		select('Table', 'cell:' + commonBits.fl('Field Name') + ',10()')
 		select('Table1', 'cell:B,2(15)')
 		if commonBits.isVersion80():
 			assert_p('Table1', 'Content', '[[S, 15015, 15019, 35033, 13337, 20780001, 5037, 1, 5052, 1, 5055, 1, 5060, 2, 5070, 1, 5074, 1], [S, 15078, 15081, 15085, 15090, 1, 5091, 1, 5093, 1, 5095, 1, 5129, 1, 5144, 1, 5165, 1], [S, 15303, 15169, 15170, 15171, 1, 5177, 1, 5016, 1, 5089, 2, 5136, 1, 5011, 1, 5046, 1], [S, 15145, 15096, 25154, 15162, 1, 5163, 1, 5164, 1, 5192, 1, 5150, 1, 5175, 1,     , 0], [S, 15036, 15043, 15045, 15057, 1, 5065, 1, 5069, 1, 5076, 1, 5079, 1, 5094, 1, 5128, 1], [S, 15151, 15180, 15072, 15173, 1,     , 0,     , 0,     , 0,     , 0,     , 0,     , 0], [S, 15015, 15019, 25037, 23533, 47510001, 5070, 1, 5078, 1, 5093, 1, 5095, 1, 5129, 1, 5144, 1], [S, 15165, 15170, 15171, 15016, 2, 5089, 2, 5136, 1, 5011, 1, 5046, 1, 5096, 1, 5154, 1], [S, 15162, 15163, 15164, 15192, 1, 5175, 1,     , 0,     , 0,     , 0,     , 0,     , 0], [S, 15083, 15133, 15155, 13584, 47510001, 5166, 1, 5167, 1, 5049, 1, 5139, 1, 5002, 1, 5027, 1], [S, 15038, 15140, 15174, 15184, 1,     , 0,     , 0,     , 0,     , 0,     , 0,     , 0], [S, 15036, 15043, 15045, 13533, 47510001, 5069, 1, 5076, 1, 5094, 1, 5128, 1, 5151, 1, 5180, 1], [S, 15072, 15173, 1, 0, 0,     , 0,     , 0,     , 0,     , 0,     , 0,     , 0], [S, 15036, 15043, 15045, 15057, 1, 5065, 1, 5069, 1, 5076, 1, 5094, 1, 5128, 1, 5151, 1], [S, 15180, 1, 0, 0, 0,     , 0,     , 0,     , 0,     , 0,     , 0,     , 0], [S, 15036, 15043, 15045, 15057, 1, 5065, 1, 5069, 1, 5076, 1, 5094, 1, 5128, 1, 5151, 1], [S, 15180, 1, 0, 0, 0,     , 0,     , 0,     , 0,     , 0,     , 0,     , 0], [S, 15015, 15019, 15033, 15037, 1, 5060, 1, 5074, 1, 5078, 1, 5085, 1, 5091, 1, 5093, 1], [S, 15095, 15129, 15144, 15169, 1, 5170, 1, 5171, 1, 5177, 1, 5016, 1, 5089, 1, 5136, 1], [S, 15046, 15145, 15096, 15154, 1, 5162, 1, 5164, 1, 5192, 1, 5175, 1,     , 0,     , 0], [S, 15015, 15019, 15033, 15037, 1, 5060, 1, 5074, 1, 5078, 1, 5085, 1, 5091, 1, 5093, 1], [S, 15095, 15129, 15144, 15169, 1, 5170, 1, 5171, 1, 5177, 1, 5016, 1, 5089, 1, 5136, 1], [S, 15046, 15145, 15096, 15154, 1, 5162, 1, 5164, 1, 5192, 1, 5175, 1,     , 0,     , 0], [S, 15040, 15020, 15083, 15133, 1, 5135, 1, 5155, 1, 5166, 1, 5139, 1, 5002, 1, 5027, 1], [S, 15038, 15126, 15140, 15174, 1, 5184, 1,     , 0,     , 0,     , 0,     , 0,     , 0], [S, 15040, 15020, 15083, 15133, 1, 5135, 1, 5155, 1, 5166, 1, 5139, 1, 5002, 1, 5027, 1], [S, 15038, 15126, 15140, 15174, 1, 5184, 1,     , 0,     , 0,     , 0,     , 0,     , 0], [S, 15015, 25019, 65033, 25035, 2, 5037, 6, 5052, 2, 5055, 2, 5060, 2, 5070, 1, 5074, 6], [S, 15078, 65081, 15085, 45090, 2, 5091, 5, 5093, 3, 5095, 3, 5129, 6, 5144, 3, 5165, 1], [S, 15303, 15169, 45170, 25171, 2, 5177, 5, 5178, 3, 5016, 2, 5089, 3, 5136, 1, 5011, 1], [S, 15046, 35145, 45096, 65154, 5, 5162, 5, 5163, 3, 5164, 2, 5192, 2, 5150, 2, 5175, 2], [S, 15015, 25019, 75033, 25035, 2, 5037, 6, 5052, 2, 5055, 2, 5060, 2, 5070, 2, 5074, 6], [S, 15078, 75081, 25085, 45090, 2, 5091, 6, 5093, 3, 5095, 3, 5129, 6, 5144, 3, 5165, 2], [S, 15303, 25169, 45170, 25171, 2, 5177, 6, 5178, 3, 5016, 2, 5089, 3, 5136, 2, 5011, 2], [S, 15046, 35145, 45096, 65154, 5, 5162, 5, 5163, 3, 5164, 2, 5192, 2, 5150, 2, 5175, 2], [S, 15019, 55037, 55074, 55078, 5, 5085, 4, 5091, 5, 5093, 3, 5095, 3, 5129, 5, 5144, 3], [S, 15169, 35177, 65178, 35089, 3, 5046, 3, 5145, 4, 5096, 5, 5154, 4, 5162, 4, 5163, 3], [S, 15040, 25020, 25059, 15068, 1, 5083, 1, 5084, 2, 5133, 2, 5135, 2, 5155, 2, 5156, 2], [S, 15166, 35167, 25048, 25049, 2, 5139, 2, 5143, 2, 5003, 2, 5002, 2, 5027, 2, 5038, 2], [S, 15073, 25126, 25140, 25174, 3, 5184, 2,     , 0,     , 0,     , 0,     , 0,     , 0], [S, 15040, 25020, 25059, 15068, 1, 5083, 1, 5084, 2, 5133, 2, 5135, 2, 5155, 2, 5156, 2], [S, 15166, 25167, 25048, 15049, 1, 5139, 2, 5143, 2, 5003, 2, 5010, 1, 5062, 1, 5138, 1], [S, 15141, 15002, 25027, 25038, 2, 5073, 2, 5126, 2, 5140, 2, 5174, 2, 5184, 2,     , 0], [S, 15040, 15020, 15068, 15083, 1, 5084, 1, 5133, 1, 5135, 1, 5155, 1, 5156, 1, 5166, 2], [S, 15167, 15048, 15049, 15139, 1, 5143, 1, 5002, 1, 5027, 2, 5038, 2, 5073, 1, 5126, 1], [S, 15140, 15174, 25184, 1, 0,     , 0,     , 0,     , 0,     , 0,     , 0,     , 0], [S, 15036, 25043, 35045, 25057, 1, 5065, 2, 5069, 2, 5076, 2, 5079, 1, 5094, 2, 5128, 2], [S, 15151, 25180, 15072, 15173, 1,     , 0,     , 0,     , 0,     , 0,     , 0,     , 0], [S, 15036, 15043, 25045, 25057, 1, 5065, 2, 5069, 2, 5076, 2, 5079, 1, 5094, 2, 5128, 2], [S, 15151, 25180, 25072, 15173, 2,     , 0,     , 0,     , 0,     , 0,     , 0,     , 0], [S, 15043, 25045, 25065, 15076, 2, 5128, 2, 5151, 2, 5180, 1, 5072, 1, 5173, 1,     , 0], [S, 15015, 25019, 45033, 25035, 2, 5037, 4, 5052, 2, 5055, 2, 5060, 2, 5070, 2, 5074, 3], [S, 15078, 45081, 25085, 35090, 2, 5091, 4, 5093, 3, 5095, 4, 5129, 4, 5144, 4, 5165, 2], [S, 15303, 25169, 25170, 25171, 2, 5177, 4, 5016, 4, 5089, 3, 5136, 2, 5011, 3, 5046, 2], [S, 15145, 35096, 45154, 45162, 4, 5163, 3, 5164, 2, 5192, 2, 5150, 2, 5175, 2,     , 0], [S, 15015, 25019, 55033, 25037, 5, 5060, 2, 5070, 1, 5074, 3, 5078, 5, 5085, 2, 5090, 2], [S, 15091, 55093, 25095, 35129, 6, 5144, 5, 5165, 2, 5169, 2, 5170, 2, 5171, 2, 5177, 5], [S, 15178, 25016, 45089, 25136, 2, 5011, 2, 5046, 2, 5145, 2, 5096, 5, 5154, 3, 5162, 3], [S, 15163, 25164, 25192, 25175, 1,     , 0,     , 0,     , 0,     , 0,     , 0,     , 0]]')

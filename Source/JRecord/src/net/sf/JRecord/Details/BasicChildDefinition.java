@@ -1,9 +1,6 @@
 package net.sf.JRecord.Details;
 
-import net.sf.JRecord.Common.FieldDetail;
-
-
-public class BasicChildDefinition<RecordDtl extends AbstractRecordDetail<? extends FieldDetail>>
+public class BasicChildDefinition<RecordDtl extends AbstractRecordDetail>
 	implements AbstractChildDetails<RecordDtl> {
 
 	private RecordDtl recordDefinition;
@@ -16,7 +13,7 @@ public class BasicChildDefinition<RecordDtl extends AbstractRecordDetail<? exten
 		recordIndex = recordIdx;
 		childIndex= childIdx;
 	}
-	
+
 	/**
 	 * @see net.sf.JRecord.Details.AbstractChildDetails#getChildRecord()
 	 */
@@ -48,7 +45,7 @@ public class BasicChildDefinition<RecordDtl extends AbstractRecordDetail<? exten
 	public boolean isRequired() {
 		return false;
 	}
-	
+
 	/**
 	 * @return the recordIndex
 	 */
@@ -76,5 +73,5 @@ public class BasicChildDefinition<RecordDtl extends AbstractRecordDetail<? exten
 		return false;
 	}
 
-	
+
 }

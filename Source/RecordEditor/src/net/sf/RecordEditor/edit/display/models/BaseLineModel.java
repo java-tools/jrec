@@ -7,8 +7,10 @@ import javax.swing.table.AbstractTableModel;
 
 import net.sf.JRecord.Common.BasicKeyedField;
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
+import net.sf.JRecord.Details.AbstractRecordDetail;
+import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.External.ExternalConversion;
 import net.sf.RecordEditor.re.file.FieldMapping;
 import net.sf.RecordEditor.re.file.FileView;
@@ -30,9 +32,8 @@ implements GetView {
 
 //	public abstract int getColumnCount();
 
-	@SuppressWarnings("rawtypes")
 	private FileView fileView;
-	protected AbstractLayoutDetails<?, ?> layout;
+	protected AbstractLayoutDetails layout;
 	private int currentLayout;
 	protected String[] columnName = LangConversion.convertColHeading(
 			"Single_Record",
@@ -43,12 +44,12 @@ implements GetView {
 	private HashMap<Integer, String> typeNames = new HashMap<Integer, String>(400);
 
 
-	public BaseLineModel(@SuppressWarnings("rawtypes") final FileView file) {
+	public BaseLineModel(final FileView file) {
 		this(file, Common.OPTIONS.typeOnRecordScreen.isSelected() ? FIRST_DATA_COLUMN : 3);
 	}
 
 
-	public BaseLineModel(@SuppressWarnings("rawtypes") final FileView file, int dataColumn) {
+	public BaseLineModel(final FileView file, int dataColumn) {
 		super();
 
 	    fileView = file;
@@ -118,7 +119,8 @@ implements GetView {
 		    	 }
 			} else if (col < firstDataColumn) { //
 			    int column = getRealRow(row);
-				FieldDetail df = fileView.getLayout().getRecord(idx).getField(column);
+				AbstractRecordDetail record = fileView.getLayout().getRecord(idx);
+				IFieldDetail df = record.getField(column);
 
 				if (df == null) {
 					return null;
@@ -135,7 +137,10 @@ implements GetView {
 
 						return Integer.valueOf(df.getLen());
 					default:
-						return typeNames.get(df.getType());
+						if (fileView.getLayout() instanceof LayoutDetail) {
+							return typeNames.get(df.getType());
+						}
+						return record.getFieldTypeName(column);
 
 //						System.out.println(" Type: " + df.getType() + " " + typeNames.containsKey(df.getType()) + " " + typeNames.get(df.getType()));
 //						if (typeNames.containsKey(df.getType()))
@@ -241,7 +246,7 @@ implements GetView {
     }
 
 
-    public final void layoutChanged(AbstractLayoutDetails<?, ?> newLayout) {
+    public final void layoutChanged(AbstractLayoutDetails newLayout) {
 
     	if (layout != newLayout) {
     		layout = newLayout;
@@ -292,7 +297,7 @@ implements GetView {
 	 * Get The file view
 	 * @return  file view
 	 */
-	public final FileView<?> getFileView() {
+	public final FileView getFileView() {
 		return fileView;
 	}
 

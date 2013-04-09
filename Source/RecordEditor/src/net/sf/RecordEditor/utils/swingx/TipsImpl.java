@@ -27,8 +27,8 @@ public class TipsImpl {
 			Dimension d = tips.getPreferredSize();
 
 			if (d.height > 0) {
-				d.height = d.height + SwingUtils.CHAR_HEIGHT * 3;
-				d.width = d.width + SwingUtils.CHAR_WIDTH * 5;
+				d.height = d.height + SwingUtils.CHAR_FIELD_HEIGHT * 3;
+				d.width = d.width + SwingUtils.CHAR_FIELD_WIDTH * 5;
 
 				tips.setPreferredSize(d);
 			}

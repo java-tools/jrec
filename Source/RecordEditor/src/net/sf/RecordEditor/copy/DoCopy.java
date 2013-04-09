@@ -119,7 +119,6 @@ private static final String CAN_NOT_LOCATE_RECORD = "Can not locate record: > {0
 			} else if (input && ret.isBuildLayout() || ret.getFileStructure() == Constants.IO_NAME_1ST_LINE) {
 				AbstractLineIOProvider ioProvider = LineIOProvider.getInstance();
 				AbstractLineReader reader;
-				AbstractLine in;
 
 				reader = ioProvider.getLineReader(ret.getFileStructure());
 				reader.open(fileName, ret);
@@ -521,7 +520,6 @@ private static final String CAN_NOT_LOCATE_RECORD = "Can not locate record: > {0
 	 * @param idx record index
 	 * @throws IOException any IO Error that occurs
 	 */
-	@SuppressWarnings("rawtypes")
 	private void writeCobRecord(AbstractLine in, int idx) throws IOException {
 		AbstractLine out = new Line(dtl2);
 

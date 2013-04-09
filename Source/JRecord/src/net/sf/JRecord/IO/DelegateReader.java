@@ -2,15 +2,12 @@ package net.sf.JRecord.IO;
 
 import java.io.IOException;
 
-import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
-import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Details.LineProvider;
 
 
-@SuppressWarnings("rawtypes")
-public abstract class DelegateReader<Layout extends AbstractLayoutDetails<? extends FieldDetail, ? extends AbstractRecordDetail>>
+public abstract class DelegateReader<Layout extends AbstractLayoutDetails>
 extends AbstractLineReader<Layout> {
 
 	private AbstractLineReader<Layout> reader;
@@ -20,7 +17,7 @@ extends AbstractLineReader<Layout> {
 		super();
 	}
 
-	public DelegateReader(LineProvider<Layout> provider) {
+	public DelegateReader(LineProvider provider) {
 		super(provider);
 	}
 
@@ -29,7 +26,7 @@ extends AbstractLineReader<Layout> {
 	 * @throws IOException
 	 * @see net.sf.JRecord.IO.AbstractLineReader#read()
 	 */
-	public AbstractLine<Layout> read() throws IOException {
+	public AbstractLine read() throws IOException {
 		return reader.read();
 	}
 

@@ -31,7 +31,7 @@ public class LayoutCombo extends JComboBox {
 
 	private boolean addFullLine, fullList, prefered, addHex;
 
-	private AbstractLayoutDetails<?, ?> recordLayout;
+	private AbstractLayoutDetails recordLayout;
 
 	/**
 	 * This class displays the Records in a Layout as a Combobox
@@ -40,7 +40,7 @@ public class LayoutCombo extends JComboBox {
 	 * @param addFullLine if a Full Line option should be added
 	 * @param fullList wether to include all records (only used for XML)
 	 */
-	public LayoutCombo(AbstractLayoutDetails<?, ?> layout, boolean addFullLine, boolean fullList) {
+	public LayoutCombo(AbstractLayoutDetails layout, boolean addFullLine, boolean fullList) {
 		this(layout, addFullLine, fullList, false, false);
 	}
 
@@ -52,7 +52,7 @@ public class LayoutCombo extends JComboBox {
 	 * @param fullList wether to include all records (only used for XML)
 	 * @param prefered wether to add prefered Text
 	 */
-	public LayoutCombo(AbstractLayoutDetails<?, ?> layout,
+	public LayoutCombo(AbstractLayoutDetails layout,
 			boolean addFullLine, boolean fullList, boolean prefered, boolean addHex) {
 
 		this.addFullLine = addFullLine;
@@ -67,7 +67,7 @@ public class LayoutCombo extends JComboBox {
 	 * Update The Layout
 	 * @param layout new record layout
 	 */
-	public void setRecordLayout(AbstractLayoutDetails<?, ?> layout) {
+	public void setRecordLayout(AbstractLayoutDetails layout) {
 		recordLayout = layout;
 
 		int i;

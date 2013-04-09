@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.net.URL;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -127,7 +128,7 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 		boolean filePresent = true;
 		File file;
 		String fname = fileName;
-		String helpname = Common.formatHelpURL(Common.HELP_CSV_EDITOR);
+		URL helpname = Common.formatHelpURL(Common.HELP_CSV_EDITOR);
 		if (fname == null || "".equals(fname)) {
 			fname = Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get();
 			filePresent = false;
@@ -170,7 +171,7 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 		}
 	}
 
-	private void setTab(FilePreview pnl, String helpname) {
+	private void setTab(FilePreview pnl, URL helpname) {
 		JButton go = pnl.getGoButton();
 
 		pnl.getPanel().setHelpURL(helpname);
@@ -205,8 +206,8 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 				LayoutDetail l = csvpnl.getLayout(csvpnl.getFontName(), r.getEol());
 
 				if (l != null) {
-					FileView<LayoutDetail> file
-						= new FileView<LayoutDetail>(
+					FileView file
+						= new FileView(
 									l,
 									ioProvider,
 									false);

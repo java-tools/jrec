@@ -20,7 +20,7 @@ import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 public class CmpFieldSelection extends BaseFieldSelection implements AbstractWizardPanel<DiffDefinition> {
 
 	private DiffDefinition values;
-	private AbstractLayoutSelection<?> selection;
+	private AbstractLayoutSelection selection;
 	private String lastLayoutName = "";
 	private boolean toInit = true;
 
@@ -28,7 +28,7 @@ public class CmpFieldSelection extends BaseFieldSelection implements AbstractWiz
 	 * @param layout
 	 * @param addExecute
 	 */
-	public CmpFieldSelection(AbstractLayoutSelection<?> layoutSelection) {
+	public CmpFieldSelection(AbstractLayoutSelection layoutSelection) {
 		super();
 
 		selection = layoutSelection;

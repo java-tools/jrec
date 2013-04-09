@@ -1,5 +1,6 @@
 package net.sf.JRecord.Numeric;
 
+import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Types.Type;
 
 /**
@@ -10,24 +11,26 @@ import net.sf.JRecord.Types.Type;
  */public class BasicConvert implements Convert {
 
     private int identifier;
-    
+
     private int binId;
     private boolean usePositiveInteger;
-    
-    // Using Object instead of BasicNumericDefinition to avoid dependency on cb2xml. 
+
+    private int defaultVbFileStructure = Constants.IO_DEFAULT;
+
+    // Using Object instead of BasicNumericDefinition to avoid dependency on cb2xml.
     // It allows the class to be used in RecordEditor Edit Properties without cb2xml or with an old
     // cb2xml. Most user's of the RecordEditor probably do not use Cobol so why make the dependancy.
     private Object numericDefinition;
-    
+
     private String name;
 
     public BasicConvert(int id, String name, int binaryId, int[] binarySizes, boolean usePositive) {
     	this(id, name, binaryId, binarySizes, null, usePositive, 4, 8);
     }
-    
-    public BasicConvert(int id, String binName, int binaryId, int[] binarySizes, int[] SynchronizeAt, 
+
+    public BasicConvert(int id, String binName, int binaryId, int[] binarySizes, int[] SynchronizeAt,
     		boolean usePositive, int floatSynchronize, int doubleSynchronize) {
-    	
+
     	name = binName;
     	try {
     		numericDefinition = new net.sf.cb2xml.def.BasicNumericDefinition(
@@ -37,16 +40,16 @@ import net.sf.JRecord.Types.Type;
 			System.out.println("Class Not Found: " + e.getMessage());
  		}
     	identifier = id;
- 
-        
+
+
         binId = binaryId;
 
     }
-    
+
 
 
     /**
-     * This method will convert a Cobol Definition into a JRecord type Id 
+     * This method will convert a Cobol Definition into a JRecord type Id
      * @param usage Cobol usage (i.e. Comp etc)
      * @param picture Cobol picture
      * @param signed wether it is a signed field
@@ -54,6 +57,7 @@ import net.sf.JRecord.Types.Type;
      */
     public int getTypeIdentifier(String usage, String picture, boolean signed) {
     	int lType = -121;
+    	boolean positive = ! (signed || picture.startsWith("S"));
 
         if ("computational".equals(usage)
         || "computational-4".equals(usage)
@@ -64,17 +68,26 @@ import net.sf.JRecord.Types.Type;
            	||  binId == Convert.FMT_FUJITSU
            	||  binId == Convert.FMT_BIG_ENDIAN) {
                  lType = Type.ftBinaryBigEndian;
-                 if (usePositiveInteger && ! signed) {
-                	 lType = Type.ftPositiveBinaryBigEndian;
-            	}
+                 if (positive) {
+                	 lType = Type.ftBinaryBigEndianPositive;
+	                 if (usePositiveInteger) {
+	                	 lType = Type.ftPositiveBinaryBigEndian;
+	            	 }
+                 }
             } else {
                 lType = Type.ftBinaryInt;
-                if (usePositiveInteger && ! signed) {
-                	lType = Type.ftPostiveBinaryInt;
+                if (positive) {
+                    lType = Type.ftBinaryIntPositive;
+                    if (usePositiveInteger) {
+                    	lType = Type.ftPostiveBinaryInt;
+                    }
                 }
             }
         } else if ("computational-3".equals(usage)) {
             lType = Type.ftPackedDecimal;
+            if (positive) {
+            	lType = Type.ftPackedDecimalPostive;
+            }
         } else if ("computational-1".equals(usage)) {
             lType = Type.ftFloat;
         } else if ("computational-2".equals(usage)) {
@@ -84,7 +97,7 @@ import net.sf.JRecord.Types.Type;
                ||  picture.indexOf('+') >= 0
                ||  picture.indexOf('.') >= 0) {
         	lType = Type.ftNumRightJustified;
-        } 
+        }
         return lType;
     }
 
@@ -96,7 +109,7 @@ import net.sf.JRecord.Types.Type;
         return identifier;
     }
 
-    
+
     /**
      * Get the binary id to use
      * @return actual binary Id
@@ -104,7 +117,7 @@ import net.sf.JRecord.Types.Type;
     public int getBinaryIdentifier() {
     	return binId;
     }
-    
+
      /**
       * wether positive numbers should be represented by positive integers
       * @return if positive integers are use
@@ -127,6 +140,23 @@ import net.sf.JRecord.Types.Type;
 	public final String getName() {
 		return name;
 	}
-    
-    
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Numeric.Convert#getFileStructure(boolean, boolean)
+	 */
+	@Override
+	public int getFileStructure(boolean multipleRecordLengths, boolean binary) {
+		if (multipleRecordLengths && binary) {
+			return defaultVbFileStructure;
+		}
+		return Constants.IO_DEFAULT;
+	}
+
+	/**
+	 * @param defaultFileStructure the defaultFileStructure to set
+	 */
+	public Convert setDefaultVbFileStructure(int defaultFileStructure) {
+		this.defaultVbFileStructure = defaultFileStructure;
+		return this;
+	}
 }

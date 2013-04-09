@@ -33,14 +33,14 @@ public interface Convert {
 
     /**
      * Get the Binary Definition details
-     * 
+     *
      * @return Get the Binary Definition details
      */
     public abstract Object getNumericDefinition();
-//  public abstract net.sf.cb2xml.def.NumericDefinition getNumericDefinition();    
-//  using Object instead of net.sf.cb2xml.def.NumericDefinition to avoid dependency on cb2xml when 
+//  public abstract net.sf.cb2xml.def.NumericDefinition getNumericDefinition();
+//  using Object instead of net.sf.cb2xml.def.NumericDefinition to avoid dependency on cb2xml when
 //  it is otherwise not needed
-    
+
     /**
      * This method will convert a
      * @param usage Cobol usage clause i.e. Comp Comp-3 etc
@@ -55,15 +55,25 @@ public interface Convert {
      * @return conversion Identifier
      */
     public abstract int getIdentifier();
-    
+
     /**
      * Get the binary id to use
      * @return actual binary Id
      */
     public abstract int getBinaryIdentifier();
-    
+
     /**
-     * Get the name 
+     * Get the file structure
+     *
+     * @param multipleRecordLengths wether there are multiple records
+     * @param binary wether it is a binary file
+     *
+     * @return File Structure to use.
+     */
+    public abstract int getFileStructure(boolean multipleRecordLengths, boolean binary);
+
+    /**
+     * Get the name
      * @return the Name
      */
     public String getName();

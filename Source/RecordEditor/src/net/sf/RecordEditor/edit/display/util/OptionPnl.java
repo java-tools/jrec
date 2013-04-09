@@ -64,8 +64,8 @@ public class OptionPnl extends JPanel {
 	private JButton defineBtn(Dimension stdSize, int iconIdx,
 			ReActionHandler action) {
 
-		JButton button = new JButton(new ReAction("", "", Common
-				.getRecordIcon(iconIdx), actionIds[iconIdx], action));
+		JButton button = new JButton(new ReAction("", "",
+				Common.getRecordIcon(iconIdx), actionIds[iconIdx], action));
 		button.setPreferredSize(stdSize);
 		this.add(button);
 		button.setToolTipText(hints[iconIdx]);

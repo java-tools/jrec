@@ -35,8 +35,8 @@ public class CmpWizardFinal extends BaseHelpPanel implements AbstractWizardPanel
 	private FileChooser saveFileName = new FileChooser(false);
 	private FileChooser htmlFileName = new FileChooser(false);
 
-	private AbstractLayoutSelection<?> selection;
-	private AbstractLayoutSelection<?> selection2;
+	private AbstractLayoutSelection selection;
+	private AbstractLayoutSelection selection2;
 
 	private JButton saveBtn = SwingUtils.newButton("Save", Common.getRecordIcon(Common.ID_SAVE_ICON));
 	private JButton runBtn  = SwingUtils.newButton("Compare");
@@ -81,8 +81,8 @@ public class CmpWizardFinal extends BaseHelpPanel implements AbstractWizardPanel
 	/**
 	 * Final wizard Screen
 	 */
-	public CmpWizardFinal(AbstractLayoutSelection<?> layoutSelection,
-			AbstractLayoutSelection<?> layoutSelection2) {
+	public CmpWizardFinal(AbstractLayoutSelection layoutSelection,
+			AbstractLayoutSelection layoutSelection2) {
 		super();
 		JPanel pnl = new JPanel(new GridLayout(3,2));
 		//JPanel pnlStrip = new JPanel();

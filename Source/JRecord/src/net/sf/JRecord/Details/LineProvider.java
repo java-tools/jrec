@@ -14,8 +14,7 @@ package net.sf.JRecord.Details;
  * @author Bruce Martin
  *
  */
-@SuppressWarnings("unchecked")
-public interface LineProvider<Layout extends AbstractLayoutDetails> {
+public interface LineProvider<Layout extends AbstractLayoutDetails, L extends AbstractLine> {
 
     /**
      * Create a null line
@@ -24,7 +23,7 @@ public interface LineProvider<Layout extends AbstractLayoutDetails> {
      *
      * @return new line
      */
-    public abstract AbstractLine<Layout> getLine(Layout recordDescription);
+    public abstract L getLine(Layout recordDescription);
 
 
     /**
@@ -35,7 +34,7 @@ public interface LineProvider<Layout extends AbstractLayoutDetails> {
      *
      * @return line
      */
-    public abstract AbstractLine<Layout> getLine(Layout recordDescription, String linesText);
+    public abstract L getLine(Layout recordDescription, String linesText);
 
     /**
      * Build a Line
@@ -45,5 +44,5 @@ public interface LineProvider<Layout extends AbstractLayoutDetails> {
      *
      * @return line
      */
-    public abstract AbstractLine<Layout> getLine(Layout recordDescription, byte[] lineBytes);
+    public abstract L getLine(Layout recordDescription, byte[] lineBytes);
 }

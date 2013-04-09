@@ -13,8 +13,9 @@ public class DefaultOptModel {
 		String s;
 		for (int i = 0; i < manager.getNumberOfEntries(); i++) {
             s = manager.getName(i);
+
             if (s != null && ! "".equals(s)) {
-                mdl.addElement(getItem(id, i, s));
+                mdl.addElement(getItem(id, manager.getKey(i), s));
             }
         }
 		return mdl;

@@ -9,6 +9,7 @@ import net.sf.JRecord.Common.RecordRunTimeException;
 import net.sf.JRecord.CsvParser.AbstractParser;
 import net.sf.JRecord.CsvParser.BasicParser;
 import net.sf.JRecord.CsvParser.BinaryCsvParser;
+import net.sf.JRecord.CsvParser.CsvDefinition;
 import net.sf.JRecord.CsvParser.ParserManager;
 
 
@@ -75,10 +76,11 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 				}
 			} else {
 				BasicParser parser = new BasicParser(false);
+				CsvDefinition csvDef = new CsvDefinition(sep, quote);
 				for (int i = lines2hide; i < lines2display; i++) {
 					columnCount = Math.max(
 									columnCount,
-									parser.getFieldCount(getLine(i), sep, quote));
+									parser.getFieldCount(getLine(i), csvDef));
 				}
 			}
 		}
@@ -121,7 +123,7 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
             		s = (new BinaryCsvParser(seperator)).getValue(lines[rowIndex + lines2hide], columnIndex + 1, fontname);
             	} else {
 	            	//AbstractParser p = getParser();
-	                s = getParser().getField(columnIndex, getLine(rowIndex + lines2hide), seperator, quote);
+	                s = getParser().getField(columnIndex, getLine(rowIndex + lines2hide), new CsvDefinition(seperator, quote));
             	}
             }
 
@@ -285,7 +287,7 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 					}
 				} else {
 					AbstractParser p = parserManager.get(parserType);
-					List<String> colnames = p.getColumnNames(getLine(lineNoFieldNames - 1), seperator, quote);
+					List<String> colnames = p.getColumnNames(getLine(lineNoFieldNames - 1), new CsvDefinition(seperator, quote));
 					columnNames = new String[colnames.size()] ;
 					columnNames = colnames.toArray(columnNames);
 				}

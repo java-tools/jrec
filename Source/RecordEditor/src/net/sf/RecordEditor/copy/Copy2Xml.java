@@ -164,10 +164,10 @@ public class Copy2Xml extends AbstractWizard<CopyDefinition> {
 		private CopyDefinition values = new net.sf.RecordEditor.jibx.compare.CopyDefinition();
 
 		private FileChooser xmlFileName = new FileChooser();
-		private AbstractLayoutSelection<?> layoutSelection;
+		private AbstractLayoutSelection layoutSelection;
 
 
-		public GetFiles(AbstractLayoutSelection<?> selection, String recentFiles) {
+		public GetFiles(AbstractLayoutSelection selection, String recentFiles) {
 			super(selection, recentFiles);
 
 			xmlFileName.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());

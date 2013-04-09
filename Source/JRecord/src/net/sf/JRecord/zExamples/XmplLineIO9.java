@@ -14,7 +14,6 @@ import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
 import net.sf.JRecord.IO.AbstractLineReader;
-import net.sf.JRecord.IO.StandardLineReader;
 import net.sf.JRecord.IO.AbstractLineWriter;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.zTest.Common.TstConstants;
@@ -24,10 +23,10 @@ import net.sf.JRecord.zTest.Common.TstConstants;
  * Example of Generic Copy procedure. This procedure
  * can read any or Binary / Flat / CSV / XML and write out
  * any of Binary / Flat / CSV / XML.
- * 
+ *
  * The program demistrates that reading / writing files
  * is largely independent of the format.
- * 
+ *
  */
 public final class XmplLineIO9 {
 
@@ -36,10 +35,10 @@ public final class XmplLineIO9 {
 	     * Example of Generic Copy procedure (copy To / From Binary / Flat / CSV / XML). This procedure
 	     * can read any of Binary / Flat / CSV / XML and write out
 	     * any of Binary / Flat / CSV / XML.
-	     * 
+	     *
 	     * The program deminstrates that reading / writing files
 	     * is largely independent of the format.
-	     * 
+	     *
 	     */
 	    private XmplLineIO9() {
 	        super();
@@ -50,18 +49,18 @@ public final class XmplLineIO9 {
 		    String salesFile1    = installDir + "DTAR020.bin";
 		    String salesFile2    = installDir + "DTAR020.csv";
 		    String salesFile3    = installDir + "Xml_DTAR020.xml";
-		    
+
 		    String salesFileOut1 = installDir + "DTAR020out9a.bin";
 		    String salesFileOut2 = installDir + "DTAR020out9b.bin";
 		    String salesFileOut3 = installDir + "DTAR020out9c.bin";
-		    
+
 		    String salesFileOut4 = installDir + "xml_DTAR020out9d.xml";
 		    String salesFileOut5 = installDir + "csv_DTAR020out9e.csv";
-	    
-		    
+
+
 		    String stdCopyBook   = xmlDir + "DTAR020.Xml";
 		    String csvCopyBook1  = xmlDir + "Tab Delimited names on the first line.Xml";
-		    
+
 		    String xmlCopybook3  = xmlDir + "XML - Build Layout.Xml";
 		    String xmlCopybook4  = xmlDir + "Xml_DTAR020_Copybook.Xml";
 		    String csvCopybook5  = xmlDir + "csv_DTAR020.Xml";
@@ -75,7 +74,7 @@ public final class XmplLineIO9 {
 	            ExternalRecord layout3 = loader.loadCopyBook(xmlCopybook3, 0, 0, "", 0, 0, null);
 	            ExternalRecord layout4 = loader.loadCopyBook(xmlCopybook4, 0, 0, "", 0, 0, null);
 	            ExternalRecord layout5 = loader.loadCopyBook(csvCopybook5, 0, 0, "", 0, 0, null);
-	            
+
 	            copyFile(layout,  salesFile1, layout,  salesFileOut1); /* Binary to Binary */
 	            copyFile(layout2, salesFile2, layout,  salesFileOut2); /* Csv    to Binary */
 	            copyFile(layout3, salesFile3, layout,  salesFileOut3); /* Xml    to Binary */
@@ -88,12 +87,12 @@ public final class XmplLineIO9 {
 	            e.printStackTrace();
 	        }
 	    }
-	    
+
 	    /**
 	     * Generic File copy. This routine will copy one file to another.
 	     * The 2 files can be of different layouts (could be Binary / Text / CSV or XML).
 	     * The one limitation is there can be only one Data layout
-	     * 
+	     *
 	     * @param inLayout  record layout of the input file
 	     * @param inFile    input file
 	     * @param outLayout record layout of the output file
@@ -101,7 +100,7 @@ public final class XmplLineIO9 {
 	     * @throws IOException any IO error that occurs
 	     * @throws RecordException any JRecord Error
 	     */
-	    public void copyFile(ExternalRecord inLayout,  String inFile, 
+	    public void copyFile(ExternalRecord inLayout,  String inFile,
 	    					 ExternalRecord outLayout, String outFile)
 	    throws IOException, RecordException {
 	    	int i, pref, count, outIdx;
@@ -110,29 +109,29 @@ public final class XmplLineIO9 {
             LayoutDetail oLayout = outLayout.asLayoutDetail();
             AbstractLineReader reader  = LineIOProvider.getInstance().getLineReader(iLayout.getFileStructure());
             AbstractLineWriter writer  = LineIOProvider.getInstance().getLineWriter(oLayout.getFileStructure());
-            
+
             String xmlType = null;
 
             reader.open(inFile, iLayout);
             writer.open(outFile);
-            
-            /* 
-             * Create the output Line 
+
+            /*
+             * Create the output Line
              *  - For XML use XmlLine (and setup XML Constants
-             *  - Otherwise use a Line 
+             *  - Otherwise use a Line
              */
             if (oLayout.isXml()) {
             	int dataIdx = 0;
             	int firstLayout = Integer.MAX_VALUE;
             	for (i = 0; i < oLayout.getRecordCount(); i++) {
-            		if ((!  oLayout.getRecord(i).getRecordName().toUpperCase().startsWith("XML")) 
+            		if ((!  oLayout.getRecord(i).getRecordName().toUpperCase().startsWith("XML"))
             		&&   !  oLayout.getRecord(i).getRecordName().startsWith("/")){
             			firstLayout = Math.min(firstLayout, i);
              			dataIdx = i;
             		}
             	}
-            	
-            	
+
+
             	if (firstLayout != dataIdx && firstLayout < Integer.MAX_VALUE) {
             		xmlType = oLayout.getRecord(firstLayout).getRecordName();
                 	outLine = new XmlLine(oLayout, firstLayout);
@@ -147,21 +146,21 @@ public final class XmplLineIO9 {
             } else {
             	outLine = new Line(oLayout);
             }
-            
+
             iLayout = reader.getLayout(); /* get The layout from the reader           */
             							  /* incase it has been update (ie CSV / XML) */
 
             count = 0;
-            
+
             if (iLayout.isXml()) {
 	            while ((inLine = reader.read()) != null) {
 	            	pref = Math.max(0, inLine.getPreferredLayoutIdx());
 	            	AbstractRecordDetail rec = iLayout.getRecord(pref);
-	            	
+
 	            	outIdx = oLayout.getRecordIndex(rec.getRecordName());
-	            	
+
 	            	/* Check if there is a matching output record */
-	            	if (outIdx >= 0 && pref >= 0)  {                  	
+	            	if (outIdx >= 0 && pref >= 0)  {
 	                   	/* Loop through the fields */
 		            	for (i = 0; i < rec.getFieldCount(); i++) {
 		            		try {
@@ -179,7 +178,7 @@ public final class XmplLineIO9 {
 	            while ((inLine = reader.read()) != null) {
 	            	pref = Math.max(0, inLine.getPreferredLayoutIdx());
 	            	AbstractRecordDetail rec = iLayout.getRecord(pref);
-                   	
+
                    	/* Loop through the fields */
 	            	for (i = 0; i < rec.getFieldCount(); i++) {
 	            		try {
@@ -192,13 +191,13 @@ public final class XmplLineIO9 {
 	                writer.write(outLine);
 	            }
             }
-            
+
             if (xmlType != null) {
             	outLine.getFieldValue(XmlConstants.XML_NAME).set("/" + xmlType);
             	writer.write(outLine);
             }
 
-            System.out.println( count + " records where copied from " + inFile  
+            System.out.println( count + " records where copied from " + inFile
             		+ " " + iLayout.getFileStructure() + " " + inLayout.getFileStructure());
             System.out.println(      "                           to " + outFile
             		+ " " + oLayout.getFileStructure() + " " + outLayout.getFileStructure());

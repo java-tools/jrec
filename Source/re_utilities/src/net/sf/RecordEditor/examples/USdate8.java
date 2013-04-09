@@ -8,7 +8,7 @@
 package net.sf.RecordEditor.examples;
 
 import net.sf.JRecord.Types.TypeChar;
-import net.sf.RecordEditor.record.types.TypeDateWrapper;
+import net.sf.RecordEditor.re.jrecord.types.TypeDateWrapper;
  
 /**
  * provide a US style date (mm/dd/yy)

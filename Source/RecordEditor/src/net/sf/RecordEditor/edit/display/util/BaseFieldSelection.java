@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
@@ -67,7 +68,7 @@ implements ListSelectionListener, ISaveUpdateDetails<EditorTask> {
 	    };
 	protected JComboBox whatToSelect = new JComboBox(WHAT_TO_SORT);
 	protected JButton executeBtn = new JButton();
-	protected FileView<?> fileView;
+	protected FileView fileView;
 	protected int lastSelection = 0;
 	protected AbstractFileDisplay source;
 	protected SortFieldSummaryMdl summaryMdl;
@@ -100,7 +101,7 @@ implements ListSelectionListener, ISaveUpdateDetails<EditorTask> {
 	 * @param fileTbl file to be sorted
 	 * @param id screen identifier
 	 */
-	public BaseFieldSelection(final AbstractFileDisplay src, final FileView<?> fileTbl,
+	public BaseFieldSelection(final AbstractFileDisplay src, final FileView fileTbl,
 			final String id, final int icondId, final String btnText, final int columnCount,
 			final boolean addFieldSummary, final boolean showRecordList) {
 		super(fileTbl.getFileNameNoDirectory(), id,
@@ -191,7 +192,7 @@ implements ListSelectionListener, ISaveUpdateDetails<EditorTask> {
 	    int i;
 	    TableColumnModel tcm;
 	    TableColumn tc;
-	    AbstractLayoutDetails<?, ?> layout = fileView.getLayout();
+	    AbstractLayoutDetails layout = fileView.getLayout();
 	    String[] recordName = new String[layout.getRecordCount()];
 	    JComboBox fieldList;
 	    JComboBox OperatorList = new JComboBox(FieldSummaryDetails.FOREIGN_OPERATOR_NAMES);
@@ -249,7 +250,7 @@ implements ListSelectionListener, ISaveUpdateDetails<EditorTask> {
 	 */
 	protected final void setFieldCombos(int index) {
 	    int i, j;
-	    AbstractRecordDetail<?> rec = fileView.getLayout().getRecord(index);
+	    AbstractRecordDetail rec = fileView.getLayout().getRecord(index);
 
 	    lastSelection = index;
 
@@ -275,10 +276,10 @@ implements ListSelectionListener, ISaveUpdateDetails<EditorTask> {
         if (numSortFields > 0) {
             int[] fieldList = new int[numSortFields];
             boolean[] descending = new boolean[numSortFields];;
-            AbstractLayoutDetails<?, ?> layout = fileView.getLayout();
+            AbstractLayoutDetails layout = fileView.getLayout();
 
             String s;
-            AbstractRecordDetail<?> record = layout.getRecord(lastSelection);
+            AbstractRecordDetail record = layout.getRecord(lastSelection);
             int j = 0;
 
             for (int i = 0; i < FIELD_TABLE_SIZE; i++) {
@@ -308,8 +309,8 @@ implements ListSelectionListener, ISaveUpdateDetails<EditorTask> {
      * @param descending wether to use descending sequence
      * @param layout record layout
      */
-	protected abstract void doAction(FileView<?> view, int recordIndex, AbstractFileDisplay src,
-    		int[] fieldList, boolean[] descending, AbstractLayoutDetails<?, ?> layout);
+	protected abstract void doAction(FileView view, int recordIndex, AbstractFileDisplay src,
+    		int[] fieldList, boolean[] descending, AbstractLayoutDetails layout);
 
 
 
@@ -330,9 +331,9 @@ implements ListSelectionListener, ISaveUpdateDetails<EditorTask> {
 	    return numSortFields;
 	}
 
-	protected FileView<?> getNewView() {
-		FileView<?> view = source.getFileView();
-    	FileView<?> newView = null;
+	protected FileView getNewView() {
+		FileView view = source.getFileView();
+    	FileView newView = null;
 
         if (selectWholeFile()) {
         	newView = view.getView();
@@ -448,7 +449,7 @@ implements ListSelectionListener, ISaveUpdateDetails<EditorTask> {
 	 * @param helpUrl
 	 * @see net.sf.RecordEditor.utils.swing.BaseHelpPanel#setHelpURL(java.lang.String)
 	 */
-	public final void setHelpURL(String helpUrl) {
+	public final void setHelpURL(URL helpUrl) {
 		pnlTop.setHelpURL(helpUrl);
 		pnlBottom.setHelpURL(helpUrl);
 	}

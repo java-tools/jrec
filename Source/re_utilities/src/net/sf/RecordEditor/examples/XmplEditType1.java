@@ -16,7 +16,9 @@
 package net.sf.RecordEditor.examples;
 
 import net.sf.RecordEditor.edit.EditRec;
-import net.sf.RecordEditor.record.types.ReTypeManger;
+import net.sf.RecordEditor.examples2.TypeCheckBoxYN;
+import net.sf.RecordEditor.examples2.TypeComboExample;
+import net.sf.RecordEditor.re.jrecord.types.ReTypeManger;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
 
 

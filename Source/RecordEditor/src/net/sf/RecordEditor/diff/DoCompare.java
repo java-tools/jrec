@@ -4,10 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import jlibdiff.Diff;
-import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
-import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.RecordEditor.jibx.compare.DiffDefinition;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.utils.common.Common;
@@ -58,7 +56,7 @@ public class DoCompare  {
 		Diff diff = new Diff();
 		LineBufferedReader oldReader ;
 		LineBufferedReader newReader;
-		AbstractLayoutDetails<FieldDetail, AbstractRecordDetail<FieldDetail>> dtl1, dtl2;
+		AbstractLayoutDetails dtl1, dtl2;
 		Visitor vis;
 		ArrayList<LineCompare> before, after;
 
@@ -136,7 +134,7 @@ public class DoCompare  {
 	 * @throws RecordException any record-editor exception
 	 */
 	private final void compare1Layout(
-			@SuppressWarnings("rawtypes") AbstractLayoutDetails dtl, DiffDefinition diffDefinition)
+			AbstractLayoutDetails dtl, DiffDefinition diffDefinition)
 	throws IOException, RecordException {
 
 		LineBufferedReader oldReader = new LineBufferedReader(diffDefinition.oldFile.name,

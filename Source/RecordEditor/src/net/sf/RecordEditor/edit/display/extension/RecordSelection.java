@@ -9,6 +9,7 @@ import net.sf.JRecord.Details.AbstractLine;
 import net.sf.RecordEditor.edit.display.BaseDisplay;
 import net.sf.RecordEditor.edit.display.DisplayFrame;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
+import net.sf.RecordEditor.edit.display.util.LinePosition;
 import net.sf.RecordEditor.edit.display.util.MovementBtnPnl;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
@@ -26,7 +27,7 @@ implements AbstractFileDisplayWithFieldHide {
 
 
 	public RecordSelection(
-			String formType, @SuppressWarnings("rawtypes") FileView viewOfFile, int lineNo) {
+			String formType, FileView viewOfFile, int lineNo) {
 		super(formType, viewOfFile, false, false, false, false, false, NO_LAYOUT_LINE);
 
 		splitPane = new SplitPaneRecord(viewOfFile, lineNo);
@@ -110,8 +111,8 @@ implements AbstractFileDisplayWithFieldHide {
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getInsertAfterLine()
 	 */
 	@Override
-	protected AbstractLine<?> getInsertAfterLine(boolean prev) {
-		return splitPane.getInsertAfterLine(prev);
+	protected LinePosition getInsertAfterLine(boolean prev) {
+		return super.getInsertAfterLine(splitPane.getCurrRow(), prev);
 	}
 
 	@Override
@@ -163,7 +164,7 @@ implements AbstractFileDisplayWithFieldHide {
      */
     public void executeAction(int action) {
 
-        if (action == ReActionHandler.REPEAT_RECORD) {
+        if (action == ReActionHandler.REPEAT_RECORD_POPUP) {
         	getFileView().repeatLine(splitPane.getCurrRow());
         	splitPane.setCurrRow(splitPane.getCurrRow() + 1);
         } else {
@@ -176,7 +177,7 @@ implements AbstractFileDisplayWithFieldHide {
 	 */
 	@Override
 	public boolean isActionAvailable(int action) {
-       return (action == ReActionHandler.REPEAT_RECORD) || super.isActionAvailable(action);
+       return (action == ReActionHandler.REPEAT_RECORD_POPUP) || super.isActionAvailable(action);
 	}
 
     public void insertLine(int adj) {

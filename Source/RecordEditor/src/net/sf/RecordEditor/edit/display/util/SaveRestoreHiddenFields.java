@@ -63,7 +63,6 @@ implements ISaveUpdateDetails<EditorTask>, AbstractExecute<EditorTask> {
 	}
 
 
-	@SuppressWarnings("rawtypes")
 	private Layout getExternalLayout() {
     	int j, k, count;
 		Layout tmpLayoutSelection = new Layout();
@@ -123,7 +122,6 @@ implements ISaveUpdateDetails<EditorTask>, AbstractExecute<EditorTask> {
 
 
 
-	@SuppressWarnings("rawtypes")
 	public void execute(EditorTask details) {
 
 	   	int idx, fieldIdx, j;
@@ -197,7 +195,6 @@ implements ISaveUpdateDetails<EditorTask>, AbstractExecute<EditorTask> {
 
 	public static void restoreHiddenFields(AbstractFileDisplayWithFieldHide pnl) {
 		SaveRestoreHiddenFields action = new SaveRestoreHiddenFields(pnl, null);
-		@SuppressWarnings("rawtypes")
 		FileView fileView = pnl.getFileView();
 
 		new ExecuteSavedFile<EditorTask>(

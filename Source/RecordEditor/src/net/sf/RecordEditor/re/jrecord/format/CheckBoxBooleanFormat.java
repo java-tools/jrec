@@ -11,7 +11,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
@@ -27,7 +27,7 @@ public class CheckBoxBooleanFormat implements CellFormat {
     private CheckBoxTableRender render = new CheckBoxTableRender();
 
 
-  
+
 
     /**
      * @see net.sf.RecordEditor.re.jrecord.format.CellFormat#getFieldHeight()
@@ -46,14 +46,16 @@ public class CheckBoxBooleanFormat implements CellFormat {
     /**
      * @see net.sf.RecordEditor.re.jrecord.format.CellFormat#getTableCellEditor(net.sf.RecordEditor.record.types.FieldDetail)
      */
-    public TableCellEditor getTableCellEditor(FieldDetail fld) {
+    @Override
+    public TableCellEditor getTableCellEditor(IFieldDetail fld) {
         return new DefaultCellEditor(new CheckBoxTableRender());
     }
 
     /**
      * @see net.sf.RecordEditor.re.jrecord.format.CellFormat#getTableCellRenderer(net.sf.RecordEditor.record.types.FieldDetail)
      */
-    public TableCellRenderer getTableCellRenderer(FieldDetail fld) {
+    @Override
+    public TableCellRenderer getTableCellRenderer(IFieldDetail fld) {
         return render;
     }
 }

@@ -7,10 +7,10 @@ import net.sf.RecordEditor.utils.screenManager.ReFrame;
 public class DisplayBuilder {
 
 
-//	public static void doOpen(FileView<?> file, int initialRow, boolean pBrowse) {
+//	public static void doOpen(FileView file, int initialRow, boolean pBrowse) {
 //
 //		BaseDisplay display = null;
-//		AbstractLayoutDetails<?,?> layoutDtls = file.getLayout();
+//		AbstractLayoutDetails layoutDtls = file.getLayout();
 //
 //		if (layoutDtls.hasChildren()) {
 //			display = new LineTreeChild(file, new LineNodeChild("File", file), true, 0);
@@ -37,9 +37,9 @@ public class DisplayBuilder {
 
 //	public static AbstractFileDisplay newLineList(
 //			final IDisplayFrame<? extends AbstractFileDisplay> frame,
-//			final AbstractLayoutDetails<?, ?> group,
-//            final FileView<?> viewOfFile,
-//            final FileView<?> masterFile) {
+//			final AbstractLayoutDetails group,
+//            final FileView viewOfFile,
+//            final FileView masterFile) {
 //		LineList pnl = LineList.newLineList(group, viewOfFile, masterFile);
 //		addToScreen(frame, pnl);
 //		return pnl;
@@ -59,7 +59,7 @@ public class DisplayBuilder {
 
 //	public static AbstractFileDisplay newLineFrame(
 //			@SuppressWarnings("rawtypes") IDisplayFrame df,
-//			final FileView<?> viewOfFile,
+//			final FileView viewOfFile,
 //	   		final AbstractLine<?> line) {
 //		LineFrame ret = new LineFrame(viewOfFile, line, true);
 //
@@ -69,7 +69,7 @@ public class DisplayBuilder {
 //
 //	}
 
-//	public static AbstractFileDisplay newLinesAsColumns(IDisplayFrame<BaseDisplay> df, FileView<?> viewOfFile) {
+//	public static AbstractFileDisplay newLinesAsColumns(IDisplayFrame<BaseDisplay> df, FileView viewOfFile) {
 //		LinesAsColumns ret = new LinesAsColumns(viewOfFile);
 //		addToScreen(df, ret);
 //		return ret;

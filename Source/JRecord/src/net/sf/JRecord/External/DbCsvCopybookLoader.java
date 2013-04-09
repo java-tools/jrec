@@ -11,7 +11,9 @@ import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.CsvParser.BasicParser;
+import net.sf.JRecord.CsvParser.CsvDefinition;
 import net.sf.JRecord.CsvParser.ParserManager;
+import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Types.Type;
 
@@ -20,9 +22,9 @@ import org.xml.sax.SAXException;
 /**
  * Class to load DB Table definition extract (in particular DB2). It intended for use
  * with Database CSV Extracts.
- * 
+ *
  * With DB2 UDB you can use the following to create a combined copybook file for each Table:
- * 
+ *
  * <pre>
  *    SELECT 'EXPORT TO "C:\Data\RecordEditor\CsvCopybooks\'  || TabName || '.Csv" OF DEL MESSAGES "C:\export.txt"  '
  *    || 'SELECT ''DB_DVMT_'' || c.TABSCHEMA, c.TABNAME, c.COLNAME, c.COLNO, c.TYPENAME, c.LENGTH, c.SCALE '
@@ -31,7 +33,7 @@ import org.xml.sax.SAXException;
  *    || ' ORDER BY  c.TABNAME ASC, c.COLNO ASC; '
  *    FROM SYSCAT.TABLES where TABSCHEMA = 'ETB';;
  * </pre
- *  
+ *
  * @author Bruce Martin
  *
  */
@@ -46,7 +48,7 @@ public class DbCsvCopybookLoader implements CopybookLoader {
 		typeConv.put("SMALLINT", Integer.valueOf(Type.ftNumLeftJustified));
 		typeConv.put("TIME", Integer.valueOf(Type.ftChar));
 		typeConv.put("TIMESTAMP", Integer.valueOf(Type.ftChar));
-		typeConv.put("VARCHAR", Integer.valueOf(Type.ftChar));		
+		typeConv.put("VARCHAR", Integer.valueOf(Type.ftChar));
 	}
 
 	private final String delimiter = ",";
@@ -66,7 +68,7 @@ public class DbCsvCopybookLoader implements CopybookLoader {
 		//loadTypes(dbIdx);
 
 		insertFields(rec, copyBookFile, dbIdx, font);
-		
+
 		if (rec.getNumberOfRecords() == 1) {
 			rec = rec.getRecord(0);
 		}
@@ -90,7 +92,7 @@ public class DbCsvCopybookLoader implements CopybookLoader {
 		int inputLine = 1;
 		int rt = Constants.rtDelimited;
 		ExternalRecord rec = null;
-		
+
 		lastSystem = null;
 		lastCopybookName = null;
 		BufferedReader r = null;
@@ -100,7 +102,7 @@ public class DbCsvCopybookLoader implements CopybookLoader {
 				if (!s.trim().startsWith("#")) {
 					//t = new StringTokenizer(s, seperator);
 					for (j = 0; j < fields.length; j++) {
-						fields[j] = removeQuotes(t.getField(j, s, delimiter, "\""));
+						fields[j] = removeQuotes(t.getField(j, s, new CsvDefinition(delimiter, "\"")));
 						//System.out.print("\t" + fields[j]);
 					}
 
@@ -114,7 +116,7 @@ public class DbCsvCopybookLoader implements CopybookLoader {
 						typeStr = fields[idx++];
 						//System.out.println(fields[0] + " ! " + fields[1]);
 						len  = Integer.parseInt(fields[idx++]);
-						
+
 						decimal = Integer.parseInt(fields[idx++]);
 
 						type = Type.ftChar;
@@ -130,7 +132,7 @@ public class DbCsvCopybookLoader implements CopybookLoader {
 
 						field = new ExternalField(pos, len, name, "", type,
 								decimal, 0, "", "", "", i);
-						
+
 						if (rec == null || (! system.equals(lastSystem)) || (! CopybookName.equals(lastCopybookName))) {
 //							System.out.println();
 //							System.out.println("~~>" + lastSystem +">  >" + lastCopybookName + "> " + (rec == null)
@@ -176,7 +178,7 @@ public class DbCsvCopybookLoader implements CopybookLoader {
 			}
 		}
 	}
-	
+
 	private static String removeQuotes(String s) {
 		if (s != null && s.startsWith("\"")) {
 			s = s.substring(1, s.length() - 1);

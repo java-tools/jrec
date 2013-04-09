@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
 
+import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Details.AbstractLine;
 
 
@@ -21,16 +22,33 @@ import net.sf.JRecord.Details.AbstractLine;
  */
 public class BinaryLineWriter extends AbstractLineWriter {
     private OutputStream outStream = null;
-    private boolean addLength = false;
+    private boolean addLength = false,  fixedLength;
 
     private byte[] rdw = new byte[4];
 
+    private int recordLength = Integer.MIN_VALUE;
+    private byte fillByte;
+
+
+    public static BinaryLineWriter newFixedLengthWriter() {
+    	return new BinaryLineWriter();
+    }
+
+    public static BinaryLineWriter newVBWriter() {
+    	return new BinaryLineWriter(true);
+    }
+
+
+    public static BinaryLineWriter newBinaryWriter() {
+    	return new BinaryLineWriter(true);
+    }
 
     /**
      * create binary line writer
      */
-    public BinaryLineWriter() {
+    private BinaryLineWriter() {
         super();
+        fixedLength = true;
     }
 
 
@@ -44,9 +62,10 @@ public class BinaryLineWriter extends AbstractLineWriter {
      *   <li>2 bytes (hex zeros)
      * </ul>
      */
-    public BinaryLineWriter(final boolean includeRDW) {
+    private BinaryLineWriter(final boolean includeRDW) {
         super();
         addLength = includeRDW;
+        fixedLength = false;
         rdw[2]    = 0;
         rdw[3]    = 0;
     }
@@ -68,7 +87,10 @@ public class BinaryLineWriter extends AbstractLineWriter {
 
         if (outStream == null) {
             throw new IOException(AbstractLineWriter.NOT_OPEN_MESSAGE);
+        } else if (line == null) {
+        	return;
         }
+
         byte[] rec = line.getData();
 
         if (addLength) {
@@ -80,6 +102,28 @@ public class BinaryLineWriter extends AbstractLineWriter {
                 rdw[0] = bytes[bytes.length - 2];
             }
             outStream.write(rdw);
+        } else if (fixedLength) {
+        	if (recordLength < 0) {
+        		recordLength = line.getLayout().getMaximumRecordLength();
+
+        		fillByte = 0;
+        		if (! line.getLayout().isBinary()) {
+        			fillByte = Conversion.getBytes(" ", line.getLayout().getFontName())[0];
+        		}
+        	}
+        	if (recordLength != rec.length) {
+
+	        	if (rec.length > recordLength) {
+	        		outStream.write(rec, 0, recordLength);
+	        	} else {
+	        		outStream.write(rec);
+
+	        		for (int i = rec.length; i < recordLength; i++) {
+	        			outStream.write(fillByte);
+	        		}
+	        	}
+        	return;
+        	}
         }
 
         outStream.write(rec);

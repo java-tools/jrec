@@ -19,23 +19,23 @@ public abstract class AbstractGenericCombo extends JPanel implements ActionListe
 
 
 	private static final int FIELD_WIDTH = 20;
-	
+
 	private JTextField tFld = new JTextField();
 	private JTextComponent fld = tFld;
 	protected JButton btn = new ArrowButton(ArrowButton.SOUTH);
-	
+
 	private boolean visible = false;
 	private AbstractPopup currentPopup;
 
 	public AbstractGenericCombo() {
-		super(); 
-		
+		super();
+
 		tFld.setOpaque(true);
 		init();
 	}
-	
+
 	protected void init() {
-		
+
 		fld.setMinimumSize(new Dimension(FIELD_WIDTH, fld.getHeight()));
 
 		this.setLayout(new BorderLayout());
@@ -60,7 +60,6 @@ public abstract class AbstractGenericCombo extends JPanel implements ActionListe
      * @param text new text value of date
      */
     public void setText(String text) {
-    	
         fld.setText(text);
     }
 
@@ -68,7 +67,7 @@ public abstract class AbstractGenericCombo extends JPanel implements ActionListe
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e) {
-		
+
         if (visible) {
         	currentPopup.setVisible(false);
         	//setText(toString(currentPopup.getValue()));
@@ -92,19 +91,19 @@ public abstract class AbstractGenericCombo extends JPanel implements ActionListe
 	    }
 	    visible = ! visible;
 	}
-	
-	
+
+
 	protected void preShowPopup() {
 		currentPopup.setValue(fld.getText());
 	}
-	
-	
+
+
 	/**
 	 * Get the combos value
 	 * @return combos value
 	 */
 	public abstract Object getValue();
-	
+
 	/**
 	 * Set the value
 	 * @param value new value
@@ -136,12 +135,12 @@ public abstract class AbstractGenericCombo extends JPanel implements ActionListe
 		}
 		return o.toString();
 	}
-	
+
 
 	public void setupBackground() {
 		super.setBackground(Color.WHITE);
 	}
-	
+
 //	/* (non-Javadoc)
 //	 * @see javax.swing.JComponent#setBackground(java.awt.Color)
 //	 */
@@ -156,7 +155,7 @@ public abstract class AbstractGenericCombo extends JPanel implements ActionListe
 		fld.setBackground(bg);
 		tFld.setBackground(bg);
 	}
-	
+
 	/**
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
@@ -167,7 +166,7 @@ public abstract class AbstractGenericCombo extends JPanel implements ActionListe
 			 this.firePropertyChange(AbstractPopup.POPUP_CHANGED, event.getOldValue(), event.getNewValue());
 		 }
 	}
-	
+
 	/**
 	 * @return the fld
 	 */

@@ -18,9 +18,10 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.CsvParser.AbstractParser;
+import net.sf.JRecord.CsvParser.CsvDefinition;
 import net.sf.JRecord.CsvParser.ParserManager;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
@@ -42,8 +43,8 @@ public class TextLineReader extends StandardLineReader {
 	private InputStreamReader stdReader;
 	protected BufferedReader reader = null;
 	private boolean namesInFile = false;
-	
-    private String defaultDelim  = ","; 
+
+    private String defaultDelim  = ",";
     private String defaultQuote  = "'";
 
 
@@ -127,7 +128,7 @@ public class TextLineReader extends StandardLineReader {
      */
     protected void createLayout(BufferedReader pReader, InputStream inputStream, String font) throws IOException, RecordException {
         LayoutDetail layout;
-	    
+
         RecordDetail rec = null;
 	    int fieldType = Type.ftChar;
         int decimal   = 0;
@@ -135,7 +136,7 @@ public class TextLineReader extends StandardLineReader {
         int parser    = 0;
         int structure = Constants.IO_NAME_1ST_LINE;
         String param  = "";
-        String delim  = defaultDelim; 
+        String delim  = defaultDelim;
         String quote  = defaultQuote;
 
         byte[] recordSep = Constants.SYSTEM_EOL_BYTES;
@@ -150,12 +151,12 @@ public class TextLineReader extends StandardLineReader {
 	        rec = getLayout().getRecord(0);
 	        quote     = rec.getQuote();
 	        parser    = rec.getRecordStyle();
-	        
+
 	        fieldType = Type.ftChar;
 	        decimal   = 0;
 	        format    = 0;
 	        param     = "";
-	        
+
 	        if (rec.getFieldCount() == 1) {
 		        fieldType = rec.getField(0).getType();
 		        decimal   = rec.getField(0).getDecimal();
@@ -166,10 +167,10 @@ public class TextLineReader extends StandardLineReader {
 	        font      = getLayout().getFontName();
 	    } catch (Exception e) {
         }
-	    
+
 	    //System.out.println(" Quote  ->" + quote + " " + (getLayout() == null));
 
-	    layout = createLayout(pReader.readLine(), rec, 
+	    layout = createLayout(pReader.readLine(), rec,
 	    		recordSep, structure, font,  delim,
                 quote, parser, fieldType, decimal, format, param);
 	    //System.out.println(" Quote  ->");
@@ -205,15 +206,15 @@ public class TextLineReader extends StandardLineReader {
         LayoutDetail ret = null;
         String s;
         int decimal; int format; String param;
-        FieldDetail fldDetail;
+        IFieldDetail fldDetail;
 
         if (line != null) {
         	AbstractParser parser = ParserManager.getInstance().get(style);
-        	List<String> colNames = parser.getColumnNames(line, delimiter, quote);
-        	        	
-        	
+        	List<String> colNames = parser.getColumnNames(line, new CsvDefinition(delimiter, quote));
+
+
             int len = colNames.size();
-            FieldDetail[] flds = new FieldDetail[len];
+            RecordDetail.FieldDetails[] flds = new RecordDetail.FieldDetails[len];
             RecordDetail[] recs = new RecordDetail[1];
 
             if (defaultFieldType < 0) {
@@ -226,7 +227,7 @@ public class TextLineReader extends StandardLineReader {
                 decimal = defaultDecimal;
                 format = defaultFormat;
                 param = defaultParam;
-                if (rec != null 
+                if (rec != null
                 && (idx = rec.getFieldIndex(s)) >= 0) {
                 	fldDetail = rec.getField(idx);
                 	fldType = fldDetail.getType();
@@ -234,7 +235,7 @@ public class TextLineReader extends StandardLineReader {
                     format = fldDetail.getFormat();
                     param = fldDetail.getParamater();
                 }
-                flds[i] = new FieldDetail(s, s, fldType, decimal,
+                flds[i] = new RecordDetail.FieldDetails(s, s, fldType, decimal,
                         fontName, format, param);
                 flds[i].setPosOnly(i + 1);
             }

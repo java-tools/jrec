@@ -211,6 +211,18 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
 		return names.get(idx);
 	}
 
+    /* (non-Javadoc)
+	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getStructureName(int)
+	 */
+    public String getInternalStructureName(int fileStructure) {
+    	Integer fs = Integer.valueOf(fileStructure);
+    	for (int i = 0; i < keys.size(); i++) {
+    		if (keys.get(i).equals(fs)) {
+    			return names.get(i);
+    		}
+    	}
+    	return "";
+    }
 
 	/**
 	 * @see net.sf.JRecord.Common.AbstractManager#getNumberOfEntries()

@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
@@ -21,10 +22,6 @@ import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.External.ToLayoutDetail;
 import net.sf.JRecord.Numeric.Convert;
 import net.sf.JRecord.zTest.Common.TstConstants;
-
-
-
-import junit.framework.TestCase;
 
 /**
  *
@@ -248,7 +245,7 @@ public class TstLineBin extends TestCase {
         //assertEquals("20 GetFieldValue - Long ", "100000000000000000", line.getFieldValue(0, 19));
         checkAllNums("23 GetFieldValue - Mainframe Packed ", "1234", 22);
         checkDecimal(line, "24 GetFieldValue - Mainframe Packed with decimal", "123.0", 23);
-     
+
 
         checkAllNums("25 GetFieldValue - Mainframe Zoned ", "-12", 24);
         checkDecimal(line, "26 GetFieldValue - Mainframe Zoned with decimal", "-0.12",  25);
@@ -272,18 +269,18 @@ public class TstLineBin extends TestCase {
         assertEquals("22 GetFieldValue - Mainframe Long  e) ",
         		new BigInteger("100000000000000000"), line1.getFieldValue(0, 21).asBigInteger());
      }
-    
+
     private void checkAllNums(String id, String val, int fld) {
-    	
+
     	checkAllNums(line, id,  val, fld);
     }
 
-    
+
     private void checkAllNums(AbstractLine pLine, String id, String val, int fld) {
-    	
+
     	if (Integer.parseInt(val) != pLine.getFieldValue(0, fld + xmlTotal).asInt()) {
 //        	int i =  line.getFieldValue(0, fld).asInt();
-        	System.out.println(">> " + fld + " " + Integer.parseInt(val) 
+        	System.out.println(">> " + fld + " " + Integer.parseInt(val)
     			+ " " + pLine.getFieldValue(0, fld + xmlTotal).asString()
     			+ " " + pLine.getFieldValue(0, fld + xmlTotal).asInt() + " " + pLine.getFieldValue(0, fld).asBigDecimal());
     	}
@@ -291,17 +288,17 @@ public class TstLineBin extends TestCase {
         checkDecimal(pLine, id, val,  fld);
         assertEquals(id + " e) ", new BigInteger(val), pLine.getFieldValue(0, fld + xmlTotal).asBigInteger());
     }
-    
-    
+
+
     private void checkDecimal(AbstractLine pLine, String id, String val, int fld) {
-    	
+
         assertEquals(id + " b) ", Float.parseFloat(val), pLine.getFieldValue(0, fld + xmlTotal).asFloat(), 0.000001);
         assertEquals(id + " c) ", Double.parseDouble(val), pLine.getFieldValue(0, fld + xmlTotal).asDouble(), 0.000001);
         assertEquals(id + " d) ", new BigDecimal(val), pLine.getFieldValue(0, fld + xmlTotal).asBigDecimal());
     }
-    
- 
-    
+
+
+
     /**
      * Test Line.setField
      *
@@ -355,7 +352,8 @@ public class TstLineBin extends TestCase {
         //checkAssignment(" 5n setField - Float  Field ",    4, "-898.343");
         checkAssignmentText(" 6n setField - Num  Field ",      5, "-7475", "-7475");
         checkAssignmentText(" 7n setField - Num Right Just",   6, "-876", "    -876");
-        checkAssignmentText(" 8n setField - Num Zero Padded Field ", 7, "-876", "-0000876");
+       // checkAssignmentText(" 8n setField - Num Zero Padded Field ", 7, "-876", "-0000876");
+        checkAssignError("Assign negaqtive number to positive field", 7, "-876");
 
         checkAssignmentText("10n setField - Assumed Decimal ", 9, "-67.4500", "00067450}");
         checkAssignmentText("11n setField - Num 2 Decimal ",  10, "-45.67", "    -45.67");
@@ -377,7 +375,8 @@ public class TstLineBin extends TestCase {
         //checkAssignment(" 5n1 setField - Float  Field ",    4, "-898.343");
         checkAssignment(" 6n1 setField - Num  Field ",      5, "-7475");
         checkAssignment(" 7n1 setField - Num Right Just",   6, "-876");
-        checkAssignment(" 8n1 setField - Num Zero Padded Field ", 7, "-876");
+//        checkAssignment(" 8n1 setField - Num Zero Padded Field ", 7, "-876");
+        checkAssignError("Assign negative number to positive field", 7, "-876");
 
         checkAssignmentText("10n1 setField - Assumed Decimal ", 9, "-0.0127", "00000012P");
         checkAssignmentText("11n1 setField - Num 2 Decimal ",  10, "-1.27", "     -1.27");
@@ -653,6 +652,16 @@ public class TstLineBin extends TestCase {
         }
     }
 
+    private void checkAssignError(String msg, int fld2set, String value) {
+        try {
+            line.setField(0, fld2set, value);
+
+        } catch (RecordException e) {
+        	return;
+        } catch (Exception e) {
+        }
+        throw new AssertionError("Check Assign Error: " + msg);
+    }
 
     /**
      * test get record
@@ -708,6 +717,6 @@ public class TstLineBin extends TestCase {
         return new Line(dtar0020,
                 		recDtar020);
     }
-    
- 
+
+
 }

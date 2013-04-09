@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Random;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.Types.TypeManager;
-import junit.framework.TestCase;
 
 public class TstTypesGeneral extends TestCase {
 
@@ -18,11 +18,13 @@ public class TstTypesGeneral extends TestCase {
 	 	Type.ftNumRightJustified,
 	 	Type.ftNumZeroPadded,
 	 	Type.ftAssumedDecimal,
+	 	Type.ftAssumedDecimalPositive,
 	 	Type.ftSignSeparateLead,
 	 	Type.ftSignSeparateTrail,
 	 	Type.ftDecimal,
 	 	Type.ftBinaryInt,
 	 	Type.ftPostiveBinaryInt,
+	 	Type.ftBinaryIntPositive,
 	 	Type.ftFloat,
 	 	Type.ftDouble,
 	 	Type.ftNumAnyDecimal,
@@ -30,8 +32,10 @@ public class TstTypesGeneral extends TestCase {
 	 	Type.ftBit,
 
 	 	Type.ftPackedDecimal,
+	 	Type.ftPackedDecimalPostive,
 	 	Type.ftZonedNumeric,
 	 	Type.ftBinaryBigEndian,
+	 	Type.ftBinaryBigEndianPositive,
 	 	Type.ftPositiveBinaryBigEndian,
 	 	Type.ftRmComp,
 	 	Type.ftRmCompPositive,
@@ -44,18 +48,34 @@ public class TstTypesGeneral extends TestCase {
 		Type.ftDecimal,
 		Type.ftBinaryInt,
 		Type.ftPostiveBinaryInt,
+	 	Type.ftBinaryIntPositive,
+
 		Type.ftFloat,
 		Type.ftDouble,
 
 		Type.ftBit,
 
 	 	Type.ftPackedDecimal,
+	 	Type.ftPackedDecimalPostive,
 	 	Type.ftBinaryBigEndian,
+	 	Type.ftBinaryBigEndianPositive,
 	 	Type.ftPositiveBinaryBigEndian,
 	 	Type.ftRmComp,
 	 	Type.ftRmCompPositive,
 
 		Type.ftCharRestOfRecord
+	};
+
+	public static final int[] POSITIVE_TYPES = {
+		Type.ftPostiveBinaryInt,
+	 	Type.ftBinaryIntPositive,
+
+		Type.ftAssumedDecimalPositive,
+	 	Type.ftPackedDecimalPostive,
+	 	Type.ftPositiveNumAnyDecimal,
+	 	Type.ftBinaryBigEndianPositive,
+	 	Type.ftPositiveBinaryBigEndian,
+	 	Type.ftRmCompPositive,
 	};
 
 	private TypeManager typeManager = new TypeManager();
@@ -133,6 +153,15 @@ public class TstTypesGeneral extends TestCase {
 		assertTrue("Check abends ", ok);
 	}
 
+
+	public void testPositive() {
+		TypeManager m = TypeManager.getInstance();
+
+		for (int typeId : POSITIVE_TYPES) {
+			assertTrue("Positive Type: " + typeId, m.getType(typeId).isNumeric());
+		}
+
+	}
 
 
 	  /**

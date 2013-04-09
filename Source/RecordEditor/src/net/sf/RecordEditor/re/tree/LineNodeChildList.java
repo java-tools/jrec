@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package net.sf.RecordEditor.re.tree;
 
@@ -21,17 +21,17 @@ import net.sf.RecordEditor.utils.swing.BmDefaultMutableTreeNode;
  * @author bm
  *
  */
-public class LineNodeChildList 
-extends BmDefaultMutableTreeNode 
+public class LineNodeChildList
+extends BmDefaultMutableTreeNode
 implements AbstractLineNode {
 
-	
+
 	public final String nodeName;
 	private FileView view;
 	private static final AbstractLine line = null;
-	
+
 	private boolean toBuild = true;
-	
+
 	private AbstractTreeDetails childLineDtls;
 	private int childIdx;
 
@@ -48,7 +48,7 @@ implements AbstractLineNode {
 					final AbstractTreeDetails childLineDetails,
 					final int childIndex) {
 		super(pNodeName);
-		
+
 		nodeName = pNodeName;
 		view = fileView;
 		childLineDtls = childLineDetails;
@@ -96,8 +96,8 @@ implements AbstractLineNode {
 
 	}
 
-	
-	
+
+
 	/**
 	 * @see net.sf.RecordEditor.utils.swing.BmDefaultMutableTreeNode#isLeaf()
 	 */
@@ -116,7 +116,7 @@ implements AbstractLineNode {
 			List<AbstractLine> lines = childLineDtls.getLines(childIdx);
 			int idx;
 			String name;
-			
+
 			for (AbstractLine theLine : lines) {
 				name = nodeName;
 				idx = theLine.getPreferredLayoutIdx();
@@ -130,14 +130,13 @@ implements AbstractLineNode {
 		}
 		return super.getChildren();
 	}
-	
+
 
 	/**
 	 * @see net.sf.RecordEditor.re.file.AbstractLineNode#getDefaultLineNumber()
 	 */
 	@Override
 	public int getDefaultLineNumber() {
-		// TODO Auto-generated method stub
 		return getLineNumber();
 	}
 
@@ -195,11 +194,11 @@ implements AbstractLineNode {
 
 	public void removeAllChildren() {
 	}
-	
+
 	public boolean isBuilt() {
 		return ! toBuild;
 	}
-	
+
 
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.re.file.AbstractLineNode#insertNode(int, java.lang.String, net.sf.RecordEditor.re.file.FileView, net.sf.JRecord.Details.AbstractLine)

@@ -9,15 +9,12 @@ package net.sf.JRecord.zTest.ByteIO;
 import java.io.IOException;
 import java.util.Arrays;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.ByteIO.AbstractByteReader;
 import net.sf.JRecord.ByteIO.VbDumpByteReader;
 import net.sf.JRecord.zTest.Common.IO;
 import net.sf.JRecord.zTest.Common.TstConstants;
 import net.sf.JRecord.zTest.Common.TstData;
-
-
-
-import junit.framework.TestCase;
 
 /**
  *

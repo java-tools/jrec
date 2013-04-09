@@ -8,8 +8,17 @@
  */
 package net.sf.JRecord.Details;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import net.sf.JRecord.Common.BasicKeyedField;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.CsvParser.AbstractParser;
+import net.sf.JRecord.CsvParser.BasicParser;
+import net.sf.JRecord.CsvParser.ICsvDefinition;
+import net.sf.JRecord.CsvParser.ParserManager;
+import net.sf.JRecord.External.ExternalConversion;
 import net.sf.JRecord.Types.TypeManager;
 import net.sf.JRecord.detailsSelection.FieldSelectX;
 
@@ -42,8 +51,8 @@ import net.sf.JRecord.detailsSelection.FieldSelectX;
  * @author Bruce Martin
  * @version 0.55
  */
-public class RecordDetail extends BasicRecordDetail<FieldDetail, RecordDetail, AbstractChildDetails<RecordDetail>>
-implements AbstractRecordDetail<FieldDetail> {
+public class RecordDetail extends BasicRecordDetail<RecordDetail.FieldDetails, RecordDetail, AbstractChildDetails<RecordDetail>>
+implements AbstractRecordDetail,  ICsvDefinition {
 
     //private static final int STATUS_EXISTS         =  1;
 
@@ -57,18 +66,37 @@ implements AbstractRecordDetail<FieldDetail> {
 	//private String selectionValue;
 	private RecordSelection recordSelection = new RecordSelection(this);
 
-	private String delimiter;
-	private int    length = 0;
-	private String fontName;
-	private String quote;
+	private String  delimiter;
+	private int     length = 0;
+	private String  fontName;
+	private String  quote;
 
-	private int    recordStyle;
+	private int     recordStyle;
 
-	private int    numberOfFieldsAdded = 0;
+	private int     numberOfFieldsAdded = 0;
 
-	private int    childId=0;
+	private int     childId=0;
+
+	private int     delimiterOrganisation = ICsvDefinition.NORMAL_SPLIT;
+
 	//private int editorStatus = STATUS_UNKOWN;
 
+	private static final HashMap<Integer, String> typeNames = new HashMap<Integer, String>(400);
+
+	static {
+	       try {
+	        	ArrayList<BasicKeyedField> types = ExternalConversion.getTypes(0);
+
+				for (BasicKeyedField type : types) {
+					if ( type.name != null && !  type.name.equals(Integer.toString(type.key))) {
+						typeNames.put(type.key,  type.name);
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+	}
 
 	/**
 	 * Create a Record
@@ -89,7 +117,7 @@ implements AbstractRecordDetail<FieldDetail> {
 						final String pDelim,
 						final String pQuote,
 						final String pFontName,
-						final FieldDetail[] pFields,
+						final RecordDetail.FieldDetails[] pFields,
 						final int pRecordStyle,
 						final int childId
 						) {
@@ -118,7 +146,7 @@ implements AbstractRecordDetail<FieldDetail> {
 						final String pDelim,
 						final String pQuote,
 						final String pFontName,
-						final FieldDetail[] pFields,
+						final RecordDetail.FieldDetails[] pFields,
 						final int pRecordStyle,
 						final RecordSelection selection,
 						final int childId
@@ -145,7 +173,7 @@ implements AbstractRecordDetail<FieldDetail> {
 						final String pDelim,
 						final String pQuote,
 						final String pFontName,
-						final FieldDetail[] pFields,
+						final RecordDetail.FieldDetails[] pFields,
 						final int pRecordStyle,
 						final int childId
 						) {
@@ -176,6 +204,12 @@ implements AbstractRecordDetail<FieldDetail> {
 		    	length = l;
 		    }
 		}
+
+		AbstractParser parser = ParserManager.getInstance().get(pRecordStyle);
+		if (parser != null && parser instanceof BasicParser) {
+			BasicParser bp = (BasicParser) parser;
+			delimiterOrganisation = bp.delimiterOrganisation;
+		}
 	}
 
 //	/**
@@ -196,11 +230,11 @@ implements AbstractRecordDetail<FieldDetail> {
 	/* (non-Javadoc)
 	 * @see net.sf.JRecord.Details.AbstractRecordDetail#addField(net.sf.JRecord.Common.FieldDetail)
 	 */
-	public void addField(FieldDetail field) {
+	public void addField(RecordDetail.FieldDetails field) {
 
 	    if (fieldCount >= fields.length) {
-	        FieldDetail[] temp = fields;
-	        fields = new FieldDetail[fieldCount + 5];
+	    	FieldDetail[] temp = fields;
+	        fields = new RecordDetail.FieldDetails[fieldCount + 5];
 	        System.arraycopy(temp, 0, fields, 0, temp.length);
 	        fieldCount = temp.length;
 	    }
@@ -308,6 +342,17 @@ implements AbstractRecordDetail<FieldDetail> {
 
 
     /* (non-Javadoc)
+	 * @see net.sf.JRecord.Details.AbstractRecordDetail#getFieldTypeName(int)
+	 */
+	@Override
+	public String getFieldTypeName(int idx) {
+
+		if (idx < 0 || idx >= getFieldCount()) return "";
+
+		return typeNames.get(getField(idx).getType());
+	}
+
+	/* (non-Javadoc)
 	 * @see net.sf.JRecord.Details.AbstractRecordDetail#getFieldsNumericType(int)
 	 */
     public int getFieldsNumericType(int idx) {
@@ -401,4 +446,29 @@ implements AbstractRecordDetail<FieldDetail> {
 		}
 		return Options.UNKNOWN;
 	}
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.CsvParser.ICsvDefinition#getDelimiterOrganisation()
+	 */
+	@Override
+	public int getDelimiterOrganisation() {
+		return delimiterOrganisation;
+	}
+
+
+	public static class FieldDetails extends FieldDetail implements AbstractRecordDetail.FieldDetails {
+
+		public FieldDetails(String pName, String pDescription, int pType,
+				int pDecimal, String pFont, int pFormat, String pParamater) {
+			super(pName, pDescription, pType, pDecimal, pFont, pFormat, pParamater);
+
+		}
+
+		public FieldDetails setPosOnly(final int pPosition) {
+			super.setPosOnly(pPosition);
+
+			return this;
+		}
+	}
+
 }

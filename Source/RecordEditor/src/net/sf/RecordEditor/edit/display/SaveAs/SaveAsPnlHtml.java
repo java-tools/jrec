@@ -147,7 +147,7 @@ public class SaveAsPnlHtml extends SaveAsPnlBase {
 //     *
 //     * @throws IOException any io errors
 //     */
-//    private void multiTableHtml(String selection, FileView<?> currFile)
+//    private void multiTableHtml(String selection, FileView currFile)
 //    				throws IOException {
 //
 //        FileWriter writer = new FileWriter(getHtmlName());

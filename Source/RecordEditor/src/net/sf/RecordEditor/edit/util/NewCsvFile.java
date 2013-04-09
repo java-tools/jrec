@@ -15,10 +15,10 @@ import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.CsvParser.ParserManager;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
+import net.sf.JRecord.Details.Line;
 import net.sf.JRecord.Details.LineProvider;
 import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.IO.LineIOProvider;
@@ -61,7 +61,7 @@ public class NewCsvFile {
 	private JTextField fontTxt		 = new JTextField();
 	private DelimiterCombo fieldSep = DelimiterCombo.NewDelimCombo();
 	private JComboBox  quote		 = new JComboBox(Common.QUOTE_LIST);
-   private BmKeyedComboBox parser   = new BmKeyedComboBox(styleModel, false);
+    private BmKeyedComboBox parser   = new BmKeyedComboBox(styleModel, false);
 
 	//private JLabel     colNamesLbl   = new JLabel("Column Names:");
 	private JTable     colNamesTbl	 = new JTable(colNameMdl);
@@ -147,9 +147,9 @@ public class NewCsvFile {
 	@SuppressWarnings("unchecked")
 	private void editFile() {
 		LayoutDetail layout = getLayout();
-		AbstractLine<LayoutDetail> l;
-		DataStoreStd<AbstractLine<LayoutDetail>> store = new DataStoreStd<AbstractLine<LayoutDetail>>(layout);
-		LineProvider<LayoutDetail> p = LineIOProvider.getInstance()
+		AbstractLine l;
+		DataStoreStd<AbstractLine> store = DataStoreStd.newStore(layout);
+		LineProvider<LayoutDetail, Line> p = LineIOProvider.getInstance()
 										.getLineProvider(layout.getFileStructure());
 		for (int i = 0; i < rowFld.value; i++) {
 			l = p.getLine(layout);
@@ -179,12 +179,12 @@ public class NewCsvFile {
 		String sep = fieldSep.getSelectedEnglish();
 		int structure = STRUCTURES[toInt(unicodeChk.isSelected())]
 		                          [toInt(namesChk.isSelected())];
-		FieldDetail[] flds = new FieldDetail[colFld.value];
+		RecordDetail.FieldDetails[] flds = new RecordDetail.FieldDetails[colFld.value];
 	    RecordDetail[] recs = new RecordDetail[1];
 
 	    for (i = 0; i < colFld.value; i++) {
 		    s = columnNames.get(i);
-            flds[i] = new FieldDetail(s, s, Type.ftChar, 0,
+            flds[i] = new RecordDetail.FieldDetails(s, s, Type.ftChar, 0,
                         font, 0, "");
             flds[i].setPosOnly(i + 1);
 	    }

@@ -26,6 +26,7 @@ public final class CommonSaveAsFields {
 	public final static int FMT_SCRIPT = 5;
 	public final static int FMT_XSLT = 6;
 	public final static int FMT_VELOCITY = 7;
+	public final static int FMT_FILE_STRUCTURE = 8;
 
     public final JComboBox saveWhat   = new JComboBox();
 
@@ -36,14 +37,14 @@ public final class CommonSaveAsFields {
 
     public final JTextArea message = new JTextArea();
 
-    public final FileView<?> file;
+    public final FileView file;
     public final SaveAsWrite flatFileWriter;
     public final FocusListener templateListner;
 
     private final AbstractFileDisplay recordFrame;
     private AbstractTreeFrame treeFrame = null;
 
-    protected AbstractRecordDetail<?> printRecordDetails;
+    protected AbstractRecordDetail printRecordDetails;
 
 
 
@@ -61,7 +62,7 @@ public final class CommonSaveAsFields {
 	 * @param recordFrame the recordFrame to set
 	 */
 	protected CommonSaveAsFields(
-			final AbstractFileDisplay recordFrame, final FileView<?> file, final FocusListener templateListner) {
+			final AbstractFileDisplay recordFrame, final FileView file, final FocusListener templateListner) {
 		this.recordFrame = recordFrame;
 		this.file = file;
 		this.templateListner = templateListner;
@@ -105,13 +106,11 @@ public final class CommonSaveAsFields {
     }
 
 
-    @SuppressWarnings("rawtypes")
 	public final FileView getViewToSave(String selection) {
     	return getViewToSave(getWhatToSave(selection));
     }
 
 
-    @SuppressWarnings("rawtypes")
 	public final FileView getViewToSave(int whatToSave) {
     	FileView ret = null;
     	switch (whatToSave) {

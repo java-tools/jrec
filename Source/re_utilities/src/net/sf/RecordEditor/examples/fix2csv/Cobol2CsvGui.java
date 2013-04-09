@@ -29,7 +29,7 @@ import net.sf.JRecord.Log.TextLog;
 import net.sf.RecordEditor.examples.CopybookToLayout;
 import net.sf.RecordEditor.examples.utils.ParseArguments;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.Parameters;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 
@@ -123,16 +123,16 @@ implements   ActionListener	{
 	    pnl.addHeading("Cobol File to CSV screen");
 	    pnl.setGap(BasePanel.GAP2);
 
-	    pnl.addComponent("Cobol Copybook", cobolFile, cobolFind);
+	    pnl.addLine("Cobol Copybook", cobolFile, cobolFind);
 	    pnl.setGap(BasePanel.GAP1);
-	    pnl.addComponent("Input File",  inputFile, findInput);
-	    pnl.addComponent("Output File", outputFile, findOutput);
+	    pnl.addLine("Input File",  inputFile, findInput);
+	    pnl.addLine("Output File", outputFile, findOutput);
 
 	    pnl.setGap(BasePanel.GAP1);
-	    pnl.addComponent("Font Name", fontName);
-	    pnl.addComponent("Field Seperator", sepOptions);
-	    pnl.addComponent("Binary Format",  binaryOptions);
-	    pnl.addComponent("File Structure", fileStructure, goBtn);
+	    pnl.addLine("Font Name", fontName);
+	    pnl.addLine("Field Seperator", sepOptions);
+	    pnl.addLine("Binary Format",  binaryOptions);
+	    pnl.addLine("File Structure", fileStructure, goBtn);
 
 	    pnl.setGap(BasePanel.GAP3);
 	    pnl.addMessage(new JScrollPane(message));

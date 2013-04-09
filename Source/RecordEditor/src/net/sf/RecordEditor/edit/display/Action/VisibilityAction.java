@@ -29,8 +29,7 @@ public class VisibilityAction extends ReSpecificScreenAction implements Abstract
 		AbstractFileDisplayWithFieldHide sourcePnl = getDisplay(AbstractFileDisplayWithFieldHide.class);
 
 		if (sourcePnl != null) {
-	    	@SuppressWarnings("rawtypes")
-			AbstractLayoutDetails layout = sourcePnl.getFileView().getLayout();
+	    	AbstractLayoutDetails layout = sourcePnl.getFileView().getLayout();
 	    	int recordIndex = sourcePnl.getLayoutIndex();
 	    	enable =  (recordIndex <= layout.getRecordCount() && recordIndex >= 0);
 

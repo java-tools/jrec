@@ -28,7 +28,7 @@ public class RowChangeListner implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
-		notify.checkForRowChange(tbl.getSelectedRow());
+		notify.checkForTblRowChange(tbl.getSelectedRow());
 	}
 
 	@Override

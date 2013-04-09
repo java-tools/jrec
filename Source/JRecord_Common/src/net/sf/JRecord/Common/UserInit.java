@@ -2,16 +2,16 @@ package net.sf.JRecord.Common;
 
 import java.util.Properties;
 
-@SuppressWarnings("unchecked")
 public class UserInit {
 
 	static {
-		
+
 		Properties properties = PropertyManager.getProperties();
 		String init = "init.";
-		
+
 		String var, className;
 		Object o;
+		@SuppressWarnings("rawtypes")
 		Class c;
 
 		if (properties != null) {
@@ -23,7 +23,7 @@ public class UserInit {
 						c = Class.forName(className);
 						if (c != null) {
 							o = c.newInstance();
-							
+
 							if (o instanceof Runnable) {
 								((Runnable) o).run();
 							}
@@ -35,8 +35,8 @@ public class UserInit {
 			}
 		}
 	}
-	
+
 	public static void init() {
-		
+
 	}
 }

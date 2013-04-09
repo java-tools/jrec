@@ -19,6 +19,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -35,12 +36,14 @@ import javax.swing.JTextField;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.CsvParser.ParserManager;
+import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.Types.TypeManager;
 import net.sf.RecordEditor.layoutEd.Record.ChildRecordsJTbl;
 import net.sf.RecordEditor.layoutEd.Record.ChildRecordsTblMdl;
 import net.sf.RecordEditor.layoutEd.Record.RecordFieldsJTbl;
+import net.sf.RecordEditor.layoutEd.utils.LeMessages;
 import net.sf.RecordEditor.re.db.Record.ChildRecordsDB;
 import net.sf.RecordEditor.re.db.Record.ChildRecordsRec;
 import net.sf.RecordEditor.re.db.Record.RecordFieldsDB;
@@ -64,6 +67,7 @@ import net.sf.RecordEditor.utils.jdbc.DBtableModel;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.ReAction;
+import net.sf.RecordEditor.utils.swing.AbsRowList;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
@@ -116,7 +120,7 @@ public class RecordPnl extends BaseHelpPanel
 	private BmKeyedComboBox sfRecordType;
 
 	private BmKeyedComboBox sfSystem;
-	private BmKeyedComboModel styleModel = new BmKeyedComboModel(
+	private BmKeyedComboModel<AbsRowList> styleModel = new BmKeyedComboModel<AbsRowList>(
 			new ManagerRowList(ParserManager.getInstance(), false));
 	private BmKeyedComboBox sfRecordStyle = new BmKeyedComboBox(styleModel, false);
 	private JCheckBox sfList = new JCheckBox();
@@ -129,8 +133,8 @@ public class RecordPnl extends BaseHelpPanel
 	private TableDB structureTable    = new TableDB();
 //	private DBComboModel<TableRec> structureModel = new DBComboModel<TableRec>(structureTable, 0, 1,
 //			true, false);
-	private BmKeyedComboModel structureModel
-					= new BmKeyedComboModel(
+	private BmKeyedComboModel<AbsRowList> structureModel
+					= new BmKeyedComboModel<AbsRowList>(
 								new ManagerRowList(ReIOProvider.getInstance(), false));
 
 	private BmKeyedComboBox sfStructure;
@@ -717,6 +721,8 @@ public class RecordPnl extends BaseHelpPanel
 
 			recFields.setParams(recId);
 			dbRecordModel.updateDB();
+			checkStartPosOk();
+
 
 			checkForBinaryFields();
 			if (binaryStatus == currVal.getBinaryFields()) {
@@ -761,8 +767,28 @@ public class RecordPnl extends BaseHelpPanel
 				this,
 				m);
 
-		Common.logMsgId("RecordPnl_00" + id, 0, m, null);
+		//Common.logMsgId("RecordPnl_0" + id, 0, m, null);
+		Common.logMsgRaw(m, null);
 	}
+
+	private boolean checkStartPosOk() {
+		boolean ok = true;
+
+		List<RecordFieldsRec> flds = dbRecordModel.getRecords();
+		for (RecordFieldsRec f : flds) {
+			ExternalField value = f.getValue();
+			if (value.getPos() < 1) {
+				String m = LeMessages.RECORD_POS_GREATER_THAN_0.get(new Object[] {value.getName(), value.getPos()});
+
+				JOptionPane.showMessageDialog(this, m);
+
+				Common.logMsgRaw(AbsSSLogger.LOG, m, null);
+			}
+		}
+
+		return ok;
+	}
+
 
 	/**
 	 * wether there are binary fields or not

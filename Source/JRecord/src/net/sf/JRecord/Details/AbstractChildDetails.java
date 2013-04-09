@@ -1,18 +1,16 @@
 package net.sf.JRecord.Details;
 
-import net.sf.JRecord.Common.FieldDetail;
-
-public interface AbstractChildDetails<RecordDef extends AbstractRecordDetail<? extends FieldDetail>> {
+public interface AbstractChildDetails<RecordDef extends AbstractRecordDetail> {
 
 	/**
 	 * Get name of Child records
 	 * @return name of Child records
 	 */
 	public String getName();
-	
+
 	/**
-	 * Get Record Definition 
-	 * @return Record Definition 
+	 * Get Record Definition
+	 * @return Record Definition
 	 */
 	public RecordDef getChildRecord();
 
@@ -21,7 +19,7 @@ public interface AbstractChildDetails<RecordDef extends AbstractRecordDetail<? e
 	 * @return  Whether there are multiple records or not
 	 */
 	public boolean isRepeated();
-	
+
 	/**
 	 * Whether the child is required ???
 	 * @return  Whether the child is required ???

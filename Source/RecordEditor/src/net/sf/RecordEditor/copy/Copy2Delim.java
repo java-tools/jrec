@@ -42,7 +42,7 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 	 * Create Single layout
 	 * @param selection record layout selection class
 	 */
-	public Copy2Delim(@SuppressWarnings("rawtypes") AbstractLayoutSelection recordSelection1) {
+	public Copy2Delim(AbstractLayoutSelection recordSelection1) {
 		this(recordSelection1, new net.sf.RecordEditor.jibx.compare.CopyDefinition());
 	}
 
@@ -53,7 +53,7 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 	 * @param definition record filter definition
 	 */
 	public Copy2Delim(
-			@SuppressWarnings("rawtypes") AbstractLayoutSelection recordSelection1 , CopyDefinition definition) {
+			AbstractLayoutSelection recordSelection1 , CopyDefinition definition) {
 		super("Copy to Delimited file", definition);
 
 		AbstractWizardPanel<CopyDefinition>[] pnls = new AbstractWizardPanel[3];
@@ -132,7 +132,6 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 //		private JPanel goPanel = new JPanel();
 		private FileChooser newFileName = new FileChooser();
 
-		@SuppressWarnings("rawtypes")
 		private AbstractLayoutSelection layoutSelection1;
 
 		private DelimiterCombo delimCombo = DelimiterCombo.NewDelimCombo();
@@ -142,7 +141,7 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 		private JTextField fontTxt = new JTextField();
 
 
-		public GetFiles(@SuppressWarnings("rawtypes") AbstractLayoutSelection selection1) {
+		public GetFiles(AbstractLayoutSelection selection1) {
 			super(selection1, "CobolFiles.txt");
 
 			newFileName.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());

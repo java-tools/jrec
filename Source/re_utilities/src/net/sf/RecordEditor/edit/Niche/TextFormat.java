@@ -9,7 +9,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import net.sf.JRecord.Common.FieldDetail;
-import net.sf.RecordEditor.record.format.CellFormat;
+import net.sf.RecordEditor.re.jrecord.format.CellFormat;
 
 public class TextFormat implements CellFormat {
 	public static final int NICHE_POLICY = 1;

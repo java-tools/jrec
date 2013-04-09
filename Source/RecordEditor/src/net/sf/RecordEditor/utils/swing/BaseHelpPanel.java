@@ -13,6 +13,7 @@ package net.sf.RecordEditor.utils.swing;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
@@ -191,7 +192,7 @@ public class BaseHelpPanel extends BasePanel  {
      *
      * @param helpUrl name of the Help URL
      */
-    public final void setHelpURL(String helpUrl) {
+    public final void setHelpURL(URL helpUrl) {
         help.setHelpURL(helpUrl);
         registerOneComponent(this, help);
     }

@@ -38,7 +38,7 @@ public class SwingUtils {
 	public static final int BUTTON_HEIGHT = (new JButton("Aa")).getMinimumSize().height;
 	public static final Font MONO_SPACED_FONT;
 	public static final int TIP_HEIGHT;
-	public static final int CHAR_WIDTH, CHAR_HEIGHT;
+	public static final int CHAR_FIELD_WIDTH, CHAR_FIELD_HEIGHT;
 
 	private static String[] r = {"Aapj"};
 	static {
@@ -82,8 +82,8 @@ public class SwingUtils {
 		String s = "ABCDEFGHIJKLMNOPQRST abcdefghijklmnopqrst@#?&\"";
 
 		JTextField jTextField = new JTextField(s);
-		CHAR_WIDTH  = jTextField.getPreferredSize().width / s.length();
-		CHAR_HEIGHT = jTextField.getPreferredSize().height;
+		CHAR_FIELD_WIDTH  = jTextField.getPreferredSize().width / s.length();
+		CHAR_FIELD_HEIGHT = jTextField.getPreferredSize().height;
 
 		System.out.println("### '''''''''''''''''''''''''''''''");
 		System.out.println("###            Font Height " + STANDARD_FONT_HEIGHT);
@@ -91,7 +91,7 @@ public class SwingUtils {
 		System.out.println("###        Checkbox Height " + CHECK_BOX_HEIGHT);
 		System.out.println("###       Table Row Height " + TABLE_ROW_HEIGHT);
 		System.out.println("### Combo Table Row Height " + COMBO_TABLE_ROW_HEIGHT);
-		System.out.println("###      1 char Cell width " + CHAR_WIDTH);
+		System.out.println("###      1 char Cell width " + CHAR_FIELD_WIDTH);
 		System.out.println("### ...............................");
 	}
 

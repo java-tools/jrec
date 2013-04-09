@@ -1,6 +1,5 @@
 package net.sf.RecordEditor.edit.display.util;
 
-import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
@@ -20,7 +19,7 @@ public class Code {
 	@SuppressWarnings("rawtypes")
 	public static void notifyFramesOfNewLayout(
 			FileView masterView,
-			AbstractLayoutDetails<?,?> layout) {
+			AbstractLayoutDetails layout) {
 		ReFrame[] frames;
 		AbstractFileDisplay p;
 
@@ -50,7 +49,7 @@ public class Code {
 	@SuppressWarnings("rawtypes")
 	public static void notifyFramesOfUpdatedLayout(
 			FileView masterView,
-			AbstractLayoutDetails<?,?> layout) {
+			AbstractLayoutDetails layout) {
 		ReFrame[] frames;
 
 		masterView.fireTableStructureChanged();
@@ -67,7 +66,7 @@ public class Code {
 		}
 	}
 
-	private static void setLayout(Object pnl, AbstractLayoutDetails<?,?> layout) {
+	private static void setLayout(Object pnl, AbstractLayoutDetails layout) {
 		if (pnl instanceof AbstractFileDisplay) {
 			((AbstractFileDisplay) pnl).setNewLayout(layout);
 		} else if (pnl instanceof ILayoutChanged) {
@@ -76,8 +75,8 @@ public class Code {
 	}
 
 
-	public static void updateFile(FileView<LayoutDetail> masterFile, LayoutDetail newLayout, int[] trans) {
-		AbstractLine<LayoutDetail> newLine, oldLine;
+	public static void updateFile(FileView masterFile, LayoutDetail newLayout, int[] trans) {
+		AbstractLine newLine, oldLine;
 
 		for (int i = 0; i < masterFile.getRowCount(); i++) {
 			newLine = masterFile.getLine(i);
@@ -99,17 +98,17 @@ public class Code {
 		notifyFramesOfNewLayout(masterFile, newLayout);
 	}
 
-	public static void addColumn(FileView<LayoutDetail> masterFile, LayoutDetail layout, int col, int source) {
+	public static void addColumn(FileView masterFile, LayoutDetail layout, int col, int source) {
 		String s = Integer.toString(col+1);
 		RecordDetail rec = layout.getRecord(0);
-		FieldDetail[] fields = new FieldDetail[rec.getFieldCount() + 1];
+		RecordDetail.FieldDetails[] fields = new RecordDetail.FieldDetails[rec.getFieldCount() + 1];
 		int[] trans = new int[fields.length];
 
 		for (int i = 0; i < col; i++) {
 			fields[i] = cloneCsvField(rec.getField(i), i+1);
 			trans[i] = i;
 		}
-		fields[col] = new FieldDetail(s, "", Type.ftChar, 0, rec.getFontName(), 0, "");
+		fields[col] = new RecordDetail.FieldDetails(s, "", Type.ftChar, 0, rec.getFontName(), 0, "");
 		fields[col].setPosOnly(col+1);
 		trans[col] = source;
 
@@ -121,9 +120,9 @@ public class Code {
 		updateFile(masterFile, cloneCsvLayout(layout, fields), trans);
 	}
 
-	public static void moveColumn(FileView<LayoutDetail> masterFile, LayoutDetail layout, int dest, int source) {
+	public static void moveColumn(FileView masterFile, LayoutDetail layout, int dest, int source) {
 		RecordDetail rec = layout.getRecord(0);
-		FieldDetail[] fields = new FieldDetail[rec.getFieldCount()];
+		RecordDetail.FieldDetails[] fields = new RecordDetail.FieldDetails[rec.getFieldCount()];
 		int[] trans = new int[fields.length];
 		int k = 0;
 		int d = dest;
@@ -149,9 +148,9 @@ public class Code {
 		updateFile(masterFile, cloneCsvLayout(layout, fields), trans);
 	}
 
-	public static void deleteColumn(FileView<LayoutDetail> masterFile, LayoutDetail layout, int col) {
+	public static void deleteColumn(FileView masterFile, LayoutDetail layout, int col) {
 		RecordDetail rec = layout.getRecord(0);
-		FieldDetail[] fields = new FieldDetail[rec.getFieldCount() - 1];
+		RecordDetail.FieldDetails[] fields = new RecordDetail.FieldDetails[rec.getFieldCount() - 1];
 		int[] trans = new int[fields.length];
 
 		for (int i = 0; i < col; i++) {
@@ -168,15 +167,15 @@ public class Code {
 		updateFile(masterFile, cloneCsvLayout(layout, fields), trans);
 	}
 
-	private static FieldDetail cloneCsvField(FieldDetail f, int pos) {
-		FieldDetail ret = new FieldDetail(
+	private static RecordDetail.FieldDetails cloneCsvField(RecordDetail.FieldDetails f, int pos) {
+		RecordDetail.FieldDetails ret = new RecordDetail.FieldDetails(
 				f.getName(), f.getDescription(), f.getType(), f.getDecimal(),
 				f.getFontName(), f.getFormat(), f.getParamater());
 		ret.setPosOnly(pos);
 		return ret;
 	}
 
-	private static LayoutDetail cloneCsvLayout(LayoutDetail l, FieldDetail[] fields) {
+	private static LayoutDetail cloneCsvLayout(LayoutDetail l, RecordDetail.FieldDetails[] fields) {
 		RecordDetail rec = l.getRecord(0);
 		RecordDetail[] recs = new RecordDetail[1];
 

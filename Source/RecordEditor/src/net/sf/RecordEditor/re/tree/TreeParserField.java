@@ -3,7 +3,7 @@ package net.sf.RecordEditor.re.tree;
 import java.math.BigDecimal;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Details.ArrayListLine;
@@ -169,7 +169,7 @@ public class TreeParserField extends BaseLineNodeTreeParser implements AbstractL
 
 	private Double average(LineNode node, int idx){
 
-		FieldDetail fld = node.getLayout().getField(recordIdx, idx);
+		IFieldDetail fld = node.getLayout().getField(recordIdx, idx);
 		int type = fld.getType();
 
 		double sum = 0;

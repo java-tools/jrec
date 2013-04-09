@@ -15,7 +15,7 @@ def test():
 		select('JTreeTable', 'cell:Record Type,0(H1)')
 		click('Delete1')
 		select_menu('View>>Table View #{Selected Records#}')
-		select_menu('Window>>Ams_PODownload_20041231.txt>>Table: ')
+		select_menu('Window>>Ams_PODownload_20041231.txt>>Table:')
 		select('Table', 'cell:15 - 4|DC Number 2,0(2280)')
 		select('LayoutCombo', 'ams PO Download: Header')
 		select('Table', 'cell:18 - 12|PO,0(222227)')

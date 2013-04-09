@@ -23,7 +23,6 @@ import net.sf.RecordEditor.re.file.AbstractLineNode;
 import net.sf.RecordEditor.re.file.AbstractTreeFrame;
 import net.sf.RecordEditor.re.file.FieldMapping;
 import net.sf.RecordEditor.re.file.FileView;
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.re.script.IDisplayBuilder;
 import net.sf.RecordEditor.re.tree.LineTreeTabelModel;
 import net.sf.RecordEditor.utils.MenuPopupListener;
@@ -50,7 +49,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 	private JScrollPane treeTablePane;
 	protected LineTreeTabelModel model;
 	protected TreeTableModelAdapter tableModel;
-	protected FileView<?> view;
+	protected FileView view;
 	protected LNode root;
 
 	protected ButtonTableRendor buttonRendor = new ButtonTableRendor();
@@ -58,7 +57,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 	private ILineDisplay childScreen = null;
 
 //	protected int firstDisplayColumn = 1;
-	protected int cols2skip, lastRow;
+	protected int cols2skip, lastTblRow, lastLineNum;
 	protected int popupRow, popupCol = 0;
 
 	private boolean isPrefered = false;
@@ -88,7 +87,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 	};
 
 	public BaseLineTree(
-			FileView<?> viewOfFile,
+			FileView viewOfFile,
 			boolean mainView,
 			boolean prefered,
 			final int columnsToSkip,
@@ -117,6 +116,13 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 		treeTable.getTree().setRootVisible(false);
 		treeTable.getTree().setShowsRootHandles(true);
 		keyListner =    new RowChangeListner(treeTable, this);
+		tableModel.addTableModelListener(new TableModelListener() {
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				checkForResize(e);
+			}
+		});
+
 
 		actualPnl.setHelpURL(Common.formatHelpURL(Common.HELP_TREE_VIEW));
 
@@ -168,7 +174,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 
                 popupRow = treeTable.rowAtPoint(m.getPoint());
 
-                checkForRowChange(popupRow);
+                checkForTblRowChange(popupRow);
                 if (treeTable.getColumnModel().getColumn(col).getModelIndex() == 0) {
                 	newLineFrame(getNodeForRow(popupRow));
                 } else {
@@ -261,7 +267,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#newLayout()
 	 */
 	@Override
-	public void setNewLayout(@SuppressWarnings("rawtypes") AbstractLayoutDetails newLayout) {
+	public void setNewLayout(AbstractLayoutDetails newLayout) {
 
 		super.setNewLayout(newLayout);
 		LayoutCombo combo = getLayoutCombo();
@@ -281,9 +287,6 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 	 */
 	@Override
 	public void tableChanged(TableModelEvent event) {
-		// TODO Auto-generated method stub
-		//System.out.println(" ^^^^ 1 " + event.getType() + " " + event.getFirstRow());
-
 
 	}
 
@@ -365,16 +368,24 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 
 			int layoutIdx = getLayoutIndex();
 		    isPrefered = layoutIdx == getLayoutCombo().getPreferedIndex();
-		   	treeTable.removeKeyListener(keyListner);
-		    if (isPrefered) {
-		    	treeTable.addKeyListener(keyListner);
-	        	lastRow = - 1;
-	        	checkForRowChange(treeTable.getSelectedRow());
-		    }
+
+		    setKeylistner();
 		}
 	}
 
 
+
+    private void setKeylistner() {
+
+    	treeTable.removeKeyListener(keyListner);
+        if (isPrefered || childScreen != null) {
+        	treeTable.addKeyListener(keyListner);
+
+        	lastTblRow = - 1;
+        	lastLineNum = -1;
+        	checkForTblRowChange(treeTable.getSelectedRow());
+        }
+    }
 
 	 /**
 	  * Fully expand a node
@@ -407,38 +418,58 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 
 
     public final void checkForRowChange(int row) {
+
+    	if (lastLineNum != row && row >= 0 && row < fileView.getRowCount()) {
+    		setNewLineDtls(fileView.getLine(row));
+    		lastLineNum = row;
+    		lastTblRow = -1;
+    	}
+	}
+
+
+    public final void checkForTblRowChange(int row) {
 //    	System.out.println("Check Row: " + isPrefered + "   " + lastRow + " " + row);
-    	if (lastRow != row) {
+    	if (lastTblRow != row) {
     		LNode node = getNodeForRow(row);
-    		AbstractLine<?> line;
+    		AbstractLine line = null;
+    		lastLineNum = -1;
     		if (node != null && (line = node.getLine()) != null) {
-	        	if (isPrefered) {
-		    		int recordIdx = line.getPreferredLayoutIdx();
-		    		if (recordIdx != model.getDefaultPreferredIndex()) {
-		    			model.setDefaultPreferredIndex(recordIdx);
+    			setNewLineDtls(line);
 
-			    		TableColumnModel columns = tblDetails.getColumnModel();
-			    		int last = Math.min(model.getColumnCount(), columns.getColumnCount());
-			    		for (int i = 0; i < last; i++) {
-			    			//System.out.print("  " + i + " " + fileView.getColumnName(i));
-			    			columns.getColumn(i).setHeaderValue(model.getColumnName(columns.getColumn(i).getModelIndex()));
-			    		}
-
-			    		System.out.println("!!! " + (treeTablePane.getColumnHeader() == null)
-			    				+" " + (treeTablePane.getRowHeader() == null));
-			    		treeTablePane.getColumnHeader().repaint();
-			    	}
-	    		}
-
-	    		if (childScreen != null) {
-	    			childScreen.setLine(line);
-	    		}
+	        	lastLineNum = node.getLineNumber();
+	        	//System.out.println(" ~~~ > " + row + " " + lastTblRow);
         	}
-    		lastRow = row;
+
+    		lastTblRow = row;
     	}
     }
 
 
+    private void setNewLineDtls(AbstractLine line) {
+
+    	if (isPrefered) {
+    		int recordIdx = line.getPreferredLayoutIdx();
+    		if (recordIdx != model.getDefaultPreferredIndex()) {
+    			model.setDefaultPreferredIndex(recordIdx);
+
+	    		TableColumnModel columns = tblDetails.getColumnModel();
+	    		int last = Math.min(model.getColumnCount(), columns.getColumnCount());
+	    		for (int i = 0; i < last; i++) {
+	    			//System.out.print("  " + i + " " + fileView.getColumnName(i));
+	    			columns.getColumn(i).setHeaderValue(model.getColumnName(columns.getColumn(i).getModelIndex()));
+	    		}
+
+	    		System.out.println("!!! " + (treeTablePane.getColumnHeader() == null)
+	    				+" " + (treeTablePane.getRowHeader() == null));
+	    		treeTablePane.getColumnHeader().repaint();
+	    	}
+		}
+
+
+		if (childScreen != null) {
+			childScreen.setLine(line);
+		}
+    }
 
 
 	/* (non-Javadoc)
@@ -454,13 +485,14 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 	 */
 	public void setChildScreen(ILineDisplay childScreen) {
 		this.childScreen = childScreen;
+		setKeylistner();
 	}
 
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getChildFrame()
 	 */
 	@Override
-	public AbstractFileDisplay getChildScreen() {
+	public ILineDisplay getChildScreen() {
 		return childScreen;
 	}
 
@@ -473,20 +505,20 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 		return 0;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#setCurrRow(int, int, int)
-	 */
-	@Override
-	public void setCurrRow(int newRow, int layoutId, int fieldNum) {
-		// TODO Auto-generated method stub
-
-	}
+//	/* (non-Javadoc)
+//	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#setCurrRow(int, int, int)
+//	 */
+//	@Override
+//	public void setCurrRow(int newRow, int layoutId, int fieldNum) {
+//		// TODO Auto-generated method stub
+//
+//	}
 
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getNewDisplay(net.sf.RecordEditor.re.file.FileView)
 	 */
 	@Override
-	protected BaseDisplay getNewDisplay(@SuppressWarnings("rawtypes") FileView view) {
+	protected BaseDisplay getNewDisplay(FileView view) {
 		// TODO Auto-generated method stub
 		return null;
 	}

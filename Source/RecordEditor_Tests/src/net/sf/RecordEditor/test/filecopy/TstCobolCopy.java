@@ -1,9 +1,9 @@
 package net.sf.RecordEditor.test.filecopy;
 
-import net.sf.JRecord.Numeric.ConversionManager;
-import net.sf.JRecord.Numeric.Convert;
 import junit.framework.Assert;
 import junit.framework.TestCase;
+import net.sf.JRecord.Numeric.ConversionManager;
+import net.sf.JRecord.Numeric.Convert;
 
 public class TstCobolCopy extends TestCase {
 

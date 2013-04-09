@@ -1,10 +1,10 @@
 package net.sf.JRecord.Details;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.FieldDetail;
 
-public abstract class BasicRecordDetail<FieldDefinition extends FieldDetail,
-										recordDtls 		extends AbstractRecordDetail<FieldDefinition>,
+
+public abstract class BasicRecordDetail<FieldDefinition extends AbstractRecordDetail.FieldDetails,
+										recordDtls 		extends AbstractRecordDetail,
 										ChildDtls 		extends AbstractChildDetails<recordDtls>> {
 
 	protected int fieldCount;
@@ -27,15 +27,22 @@ public abstract class BasicRecordDetail<FieldDefinition extends FieldDetail,
 	}
 
 
-    /**
+//    /**
+//	 * @see net.sf.JRecord.Details.AbstractRecordDetail#getField(int)
+//	 */
+//    public final IFieldDetail getField(int idx) {
+//        return this.fields[idx];
+//    }
+
+
+    /* (non-Javadoc)
 	 * @see net.sf.JRecord.Details.AbstractRecordDetail#getField(int)
 	 */
-    public final FieldDefinition getField(int idx) {
-        return this.fields[idx];
-    }
+	public FieldDefinition getField(int idx) {
+		return this.fields[idx];
+	}
 
-
-    /**
+	/**
 	 * @see net.sf.JRecord.Details.AbstractRecordDetail#getFieldIndex(java.lang.String)
 	 */
     public final int getFieldIndex(String fieldName) {
@@ -56,8 +63,8 @@ public abstract class BasicRecordDetail<FieldDefinition extends FieldDetail,
     /* (non-Javadoc)
 	 * @see net.sf.JRecord.Details.AbstractRecordDetail#getField(java.lang.String)
 	 */
-    public final FieldDefinition getField(String fieldName) {
-        FieldDefinition ret = null;
+    public final AbstractRecordDetail.FieldDetails getField(String fieldName) {
+    	AbstractRecordDetail.FieldDetails ret = null;
         int idx = getFieldIndex(fieldName);
 
         if (idx >= 0) {

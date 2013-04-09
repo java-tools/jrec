@@ -233,7 +233,7 @@ public class CopyBookDbReader implements CopyBookInterface {
 	    RecordDetail[] ret = null;
 		try {
 		    int subRecordId, recordType, parentId, recordStyle, childId;
-		    FieldDetail[] fields;
+		    RecordDetail.FieldDetails[] fields;
 		    String tstFieldName, tstFieldValue;
 		    String fontName;
 			int i = 0;
@@ -357,17 +357,17 @@ public class CopyBookDbReader implements CopyBookInterface {
 		return getFields(Common.getConnectionIndex(), recordId, recordType, fontName);
 	}
 
-	private final FieldDetail[] getFields(
+	private final RecordDetail.FieldDetails[] getFields(
 			 final int dbIndex,
 			 final int recordId,
 			 final int recordType,
 			 final String fontName) {
-	    FieldDetail[] fields = null;
+		RecordDetail.FieldDetails[] fields = null;
 
 		try {
 			int i;
-			FieldDetail newFld;
-			ArrayList<FieldDetail> fieldList = new ArrayList<FieldDetail>();
+			RecordDetail.FieldDetails newFld;
+			ArrayList<RecordDetail.FieldDetails> fieldList = new ArrayList<RecordDetail.FieldDetails>();
 
 			ResultSet resultset = Common.getDBConnection(dbIndex).createStatement().executeQuery(
 					  "Select FieldPos, FieldLength, FieldName, "
@@ -378,7 +378,7 @@ public class CopyBookDbReader implements CopyBookInterface {
 					+ " order by FieldPos ");
 
 			while (resultset.next()) {
-			    newFld = new FieldDetail(resultset.getString(3).trim(),
+			    newFld = new RecordDetail.FieldDetails(resultset.getString(3).trim(),
 			            				 resultset.getString(6),
 			            				 resultset.getInt(4),
 			            				 resultset.getInt(5),
@@ -398,7 +398,7 @@ public class CopyBookDbReader implements CopyBookInterface {
 			}
 			resultset.close();
 
-			fields = new FieldDetail[fieldList.size()];
+			fields = new RecordDetail.FieldDetails[fieldList.size()];
 
 			for (i = 0; i < fields.length; i++) {
 			    fields[i] = fieldList.get(i);

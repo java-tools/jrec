@@ -31,8 +31,11 @@ public class LayoutVelocity {
 			final String outputFile) throws Exception {
 
 		BufferedWriter w = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), "utf8"));
-		net.sf.RecordEditor.re.script.RunVelocity.getInstance()
-				.genSkel(template, record.getValue(), typeNames, outputFile, w);
-	    w.close();
+		try {
+			net.sf.RecordEditor.re.script.RunVelocity.getInstance()
+				  .genSkel(template, record.getValue(), typeNames, outputFile, w);
+		} finally {
+			w.close();
+		}
 	}
 }

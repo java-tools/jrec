@@ -12,12 +12,12 @@ package net.sf.RecordEditor.re.util;
 import java.util.HashMap;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.External.AbstractConversion;
 import net.sf.JRecord.External.CobolCopybookLoader;
 import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.External.CopybookLoaderFactory;
 import net.sf.JRecord.External.ExternalConversion;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
+import net.sf.JRecord.External.Def.AbstractConversion;
 import net.sf.RecordEditor.re.db.Table.TableList;
 import net.sf.RecordEditor.re.db.Table.TypeList;
 import net.sf.RecordEditor.re.jrecord.types.ReTypeManger;
@@ -133,11 +133,12 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
 
 
    /**
-    * @see net.sf.JRecord.External.AbstractConversion#getFormat(int, java.lang.String)
+    * @see net.sf.JRecord.External.Def.AbstractConversion#getFormat(int, java.lang.String)
     */
    @Override
    public int getFormat(int idx, String format) {
 	   int val = 0;
+	   idx = fixDbIdx(idx);
 	   format = format.toLowerCase();
 
 	   loadTypesFormats(idx);
@@ -150,11 +151,12 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
 
 
    /**
-    * @see net.sf.JRecord.External.AbstractConversion#getType(int, java.lang.String)
+    * @see net.sf.JRecord.External.Def.AbstractConversion#getType(int, java.lang.String)
     */
    @Override
    public int getType(int idx, String type) {
 	   int typeVal = 0;
+	   idx = fixDbIdx(idx);
        type = type.toLowerCase();
 
        loadTypesFormats(idx);
@@ -165,6 +167,14 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
 	   return typeVal;
    }
 
+
+   public static int fixDbIdx(int idx) {
+
+	   if (idx < 0) {
+		   idx = Common.getConnectionIndex();
+	   }
+	   return idx;
+   }
 
 
 //	/* (non-Javadoc)
@@ -230,15 +240,19 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
     @Override
 	public String getFormatAsString(int idx, int format) {
 		ReTypeManger typeMgr = ReTypeManger.getInstance();
+		idx = fixDbIdx(idx);
 		loadTypesFormats(idx);
 
 		return formatNames[idx][typeMgr.getFormatIndex(format)];
 	}
 
 
+    /**
+     * @see net.sf.JRecord.External.Def.AbstractConversion#getTypeAsString(int, int)
+     */
 	@Override
 	public String getTypeAsString(int idx, int type) {
-		int id = idx;
+		int id = fixDbIdx(idx);
 		ReTypeManger typeMgr = ReTypeManger.getInstance();
 
 		if (id == ExternalConversion.USE_DEFAULT_DB) {

@@ -9,6 +9,7 @@ package net.sf.RecordEditor.test.record.io;
 import java.io.IOException;
 import java.util.Arrays;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.ByteIO.AbstractByteReader;
 import net.sf.JRecord.ByteIO.VbByteReader;
 import net.sf.JRecord.Details.LayoutDetail;
@@ -20,10 +21,6 @@ import net.sf.JRecord.Numeric.Convert;
 import net.sf.JRecord.zTest.Common.IO;
 import net.sf.JRecord.zTest.Common.TstConstants;
 import net.sf.JRecord.zTest.Common.TstData;
-
-
-
-import junit.framework.TestCase;
 
 /**
  *
@@ -174,7 +171,7 @@ public class TstRecordVbIOWriter extends TestCase {
      */
     private void writeAFile(String name, byte[][] bytes, LayoutDetail details)
     throws IOException  {
-        IO.writeAFile(new BinaryLineWriter(true), name, bytes, details);
+        IO.writeAFile(BinaryLineWriter.newVBWriter(), name, bytes, details);
     }
 
 }

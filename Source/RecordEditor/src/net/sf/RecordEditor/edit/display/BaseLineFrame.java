@@ -71,7 +71,7 @@ implements TableModelListener, TreeModelListener {
 
 
 
-	public BaseLineFrame(String formType, @SuppressWarnings("rawtypes") FileView viewOfFile, boolean primary,
+	public BaseLineFrame(String formType, FileView viewOfFile, boolean primary,
 			boolean fullLine, final boolean changeRow) {
 		super(formType, viewOfFile, primary, fullLine, changeRow);
 
@@ -216,25 +216,24 @@ implements TableModelListener, TreeModelListener {
 		        tblDetails);
 
 
-
-		if (! this.layout.isXml()) {
-		    actualPnl.addComponent(1, 5, fullLineHeight, BasePanel.GAP,
-		        BasePanel.FULL, BasePanel.FULL, new JScrollPane(fullLine));
-		}
-
 		if (changeRow) {
+			if (! this.layout.isXml()) {
+			    actualPnl.addComponent(1, 5, fullLineHeight, BasePanel.GAP,
+			        BasePanel.FULL, BasePanel.FULL, new JScrollPane(fullLine));
+			}
+
 			setDirectionButtonStatus();
 			actualPnl.addComponent(1, 5, BasePanel.PREFERRED, BasePanel.GAP,
 					BasePanel.FULL, BasePanel.FULL, btnPanel);
 		} else {
 			Common.calcColumnWidths(tblDetails, 0);
 
-			int w1 =  84 * SwingUtils.CHAR_WIDTH;
+			int w1 =  84 * SwingUtils.CHAR_FIELD_WIDTH;
 			int w2 = tblDetails.getPreferredSize().width;
 			if (w2 > 0 && w1 > w2) {
 				w1 = w2;
 			}
-			Dimension d = new Dimension(w1 +  6 * SwingUtils.CHAR_WIDTH, actualPnl.getPreferredSize().height);
+			Dimension d = new Dimension(w1 +  6 * SwingUtils.CHAR_FIELD_WIDTH, actualPnl.getPreferredSize().height);
 			this.actualPnl.setPreferredSize(d);
 //			System.out.println("@@@  >>> " + w1 + " " + w2 + " " + d.width + this.actualPnl.getPreferredSize().width);
 		}
@@ -248,7 +247,7 @@ implements TableModelListener, TreeModelListener {
 		if (mainframe) {
 			DisplayFrame parentFrame = getParentFrame();
 			int preferedWidth = java.lang.Math.min(this.screenSize.width - 2,
-			        (fileMaster.isBinaryFile() ? 111 : 88) * SwingUtils.CHAR_WIDTH );
+			        (fileMaster.isBinaryFile() ? 111 : 88) * SwingUtils.CHAR_FIELD_WIDTH );
 
 			parentFrame.bldScreen();
 			parentFrame.setBounds(parentFrame.getY(), parentFrame.getX(), preferedWidth,
@@ -266,7 +265,6 @@ implements TableModelListener, TreeModelListener {
 	 * Action performed when frame is closed
 	 */
 	public void closeWindow() {
-		@SuppressWarnings("rawtypes")
 		FileView fv;
 
 		if ((fv = getFileView()) != null) {
@@ -335,8 +333,7 @@ implements TableModelListener, TreeModelListener {
 	 */
 	protected void setFullLine() {
 
-	    @SuppressWarnings("rawtypes")
-		AbstractLine l = record.getCurrentLine();
+	    AbstractLine l = record.getCurrentLine();
 	    if (l == null) {
 	    } else if (fileMaster.isBinaryFile() || layout.isBinCSV()) {
 	    	hexLine.setHex(l.getData());

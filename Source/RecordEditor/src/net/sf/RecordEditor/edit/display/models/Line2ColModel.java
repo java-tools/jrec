@@ -4,6 +4,7 @@
 package net.sf.RecordEditor.edit.display.models;
 
 import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.utils.common.Common;
 
 /**
  * @author Bruce Martin
@@ -16,7 +17,7 @@ public class Line2ColModel extends BaseLineModel {
 	/**
 	 * @param file
 	 */
-	public Line2ColModel(@SuppressWarnings("rawtypes") FileView file) {
+	public Line2ColModel(FileView file) {
 		super(file);
 		// TODO Auto-generated constructor stub
 	}
@@ -58,7 +59,12 @@ public class Line2ColModel extends BaseLineModel {
 	 */
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
-		return columnIndex >= firstDataColumn;
+		return columnIndex >= firstDataColumn
+			&& (getFixedCurrentLayout() < layout.getRecordCount()
+			    ||  (   (! getFileView().isBinaryFile())
+			    	 && Common.OPTIONS.allowTextEditting.isSelected())
+				    );
+
 	}
 
 	/**

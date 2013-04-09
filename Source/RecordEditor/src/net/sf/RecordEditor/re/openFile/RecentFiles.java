@@ -205,7 +205,7 @@ public class RecentFiles {
 		String strippedName = correctCase(Common.stripDirectory(filename));
 		if (isExtensionType(type) ) {
 			if (ext.equals(defaultExt)) {
-				if (recentMap.contains(type)) {
+				if (recentMap.get(type).containsKey(strippedName)) {
 					recentMap.get(type).remove(strippedName);
 					save();
 				}
@@ -300,6 +300,8 @@ public class RecentFiles {
 		    	return selection.formatLayoutName("Generic CSV - enter details");
 		    } else if (s.endsWith(".po")) {
 		    	return selection.formatLayoutName("GetText_PO");
+		    } else if (s.endsWith(".properties")) {
+		    	return selection.formatLayoutName("TipDetails");
 		    } else if (Common.OPTIONS.fileWizardAvailable.isSelected()
 		    	   &&  Common.OPTIONS.useFileWizard.isSelected()) {
 		    	return selection.formatLayoutName("FileWizard");

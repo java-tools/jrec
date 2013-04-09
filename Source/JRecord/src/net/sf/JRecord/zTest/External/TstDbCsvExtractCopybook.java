@@ -1,9 +1,9 @@
 package net.sf.JRecord.zTest.External;
 
-import net.sf.JRecord.External.DbCsvCopybookLoader;
-import net.sf.JRecord.External.ExternalField;
-import net.sf.JRecord.External.ExternalRecord;
 import junit.framework.TestCase;
+import net.sf.JRecord.External.DbCsvCopybookLoader;
+import net.sf.JRecord.External.ExternalRecord;
+import net.sf.JRecord.External.Def.ExternalField;
 
 public class TstDbCsvExtractCopybook extends TestCase {
 

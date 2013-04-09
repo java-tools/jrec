@@ -6,7 +6,7 @@ import net.sf.cb2xml.def.BasicNumericDefinition;
 public class MicroFocusCobol extends GenericNumericDefinition {
 
 	private static final int[] BIN_SIZES_1_TO_8 = {1, 2, 3 ,4 ,5 ,6 ,7 , 8};
-	private static final int[] NO_SYNC = {1, 1, 1, 1};
+//	private static final int[] NO_SYNC = {1, 1, 1, 1};
 	private static final int[] BIN_SIZES_1248 = {1, 2, 4, 8};
 	private static final int[] BIN_SIZES_1244 = {1, 2, 4, 4};
 
@@ -16,13 +16,14 @@ public class MicroFocusCobol extends GenericNumericDefinition {
 		Type.ftBinaryBigEndian, Type.ftBinaryInt
 	};
 	private final static int[] POSITIVE_TYPES = {
-		Type.ftFjZonedNumeric,  Type.ftBinaryBigEndian, 
-		Type.ftBinaryBigEndian, Type.ftFloat, Type.ftDouble, Type.ftPackedDecimal,
-		Type.ftBinaryBigEndian, Type.ftBinaryInt
+		Type.ftAssumedDecimalPositive,  Type.ftBinaryBigEndianPositive,
+//		Type.ftFjZonedNumeric,          Type.ftBinaryBigEndianPositive,
+		Type.ftBinaryBigEndianPositive, Type.ftFloat, Type.ftDouble, Type.ftPackedDecimalPostive,
+		Type.ftBinaryBigEndianPositive, Type.ftBinaryIntPositive
 	};
-	
+
 	//private static int[] COMP5_SIZES = {1,2,4,8};
-	
+
 	private static int[] COMP5_DIGITS = {
 		BasicNumericDefinition.MAX_COMP_SIZE[0], BasicNumericDefinition.MAX_COMP_SIZE[1],
 		BasicNumericDefinition.MAX_COMP_SIZE[3], BasicNumericDefinition.MAX_COMP_SIZE[7]
@@ -47,9 +48,9 @@ public class MicroFocusCobol extends GenericNumericDefinition {
 		} else {
 			ret =  super.getBinarySize(usage, numDigits, positive, sync);
 		}
-		
+
 		return ret;
 	}
 
-	
+
 }

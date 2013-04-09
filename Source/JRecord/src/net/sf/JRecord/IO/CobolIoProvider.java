@@ -13,6 +13,7 @@ import net.sf.JRecord.Details.LineProvider;
 import net.sf.JRecord.External.CobolCopybookLoader;
 import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.External.ToLayoutDetail;
+import net.sf.JRecord.External.Def.AbstractConversion;
 import net.sf.JRecord.Numeric.Convert;
 
 
@@ -21,7 +22,7 @@ import net.sf.JRecord.Numeric.Convert;
  *
  * <pre>
  * <b>Usage:</b>
- *   
+ *
  *        CobolIoProvider ioProvider = CobolIoProvider.getInstance();
  *
  *        try {
@@ -30,7 +31,7 @@ import net.sf.JRecord.Numeric.Convert;
  *                 CopybookLoader.SPLIT_NONE, copybookName, vendorFile
  *             );
  * </pre>
- * 
+ *
  * @author Bruce Martin
  *
  */
@@ -42,7 +43,7 @@ public class CobolIoProvider {
 
     /**
      * Creates a line reader for a Cobol file
-     * 
+     *
      * @param fileStructure Structure of the input file
      * @param numericType Numeric Format data (options include mainframe, Fujitu, PC compiler etc)
      * @param splitOption Option to split the copybook up <ul>
@@ -55,7 +56,8 @@ public class CobolIoProvider {
      * @return requested Line Reader
      * @throws Exception
      */
-    public AbstractLineReader getLineReader(int fileStructure,
+    @SuppressWarnings("rawtypes")
+	public AbstractLineReader getLineReader(int fileStructure,
 			   int numericType, int splitOption,
 			   String copybookName, String filename)
     throws Exception {
@@ -67,7 +69,7 @@ public class CobolIoProvider {
 
     /**
      * Creates a line reader for a Cobol file
-     * 
+     *
      * @param fileStructure Structure of the input file
      * @param numericType Numeric Format data (is mainframe, Fujitu PC compiler etc)
      * @param splitOption Option to split the copybook up <ul>
@@ -81,10 +83,11 @@ public class CobolIoProvider {
      * @return requested Line Reader
      * @throws Exception
      */
-    public AbstractLineReader getLineReader(int fileStructure,
+    @SuppressWarnings("rawtypes")
+	public AbstractLineReader getLineReader(int fileStructure,
  			   int numericType, int splitOption,
  			   String copybookName, String filename,
- 			   LineProvider<LayoutDetail> provider)
+ 			   LineProvider provider)
      throws Exception {
     	AbstractLineReader ret;
         String font = "";
@@ -94,7 +97,7 @@ public class CobolIoProvider {
        	LayoutDetail copyBook = ToLayoutDetail.getInstance().getLayout(
        	     copybookInt.loadCopyBook(
                         copybookName,
-                        splitOption, 0, font,
+                        splitOption, AbstractConversion.USE_DEFAULT_IDX, font,
                         numericType, 0, null
                 ));
 
@@ -109,7 +112,7 @@ public class CobolIoProvider {
 
     /**
      * Create a line writer for a Cobol File
-     * 
+     *
      * @param fileStructure structure of the output file
      * @return Line writer for the file
      */
@@ -124,7 +127,7 @@ public class CobolIoProvider {
 
     /**
      * Get a CobolIoProvider
-     * 
+     *
      * @return Returns the instance.
      */
     public static CobolIoProvider getInstance() {

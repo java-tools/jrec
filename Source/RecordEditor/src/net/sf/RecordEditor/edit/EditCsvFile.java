@@ -13,7 +13,6 @@
  */
 package net.sf.RecordEditor.edit;
 
-import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -106,16 +105,16 @@ public class EditCsvFile extends EditRec {
 
 		try {
 			helpMenu.add(
-					new showURI(
+					new ShowURI(
 							"ReCsvEditor Documentations",
-							(new File(Common.formatHelpURL("reCsvEdFR.htm").substring(5))).toURI()));
+							Common.formatHelpURL("reCsvEdFR.htm").toURI()));
 			helpMenu.add(
-					new showURI(
+					new ShowURI(
 							"HowTo Documentations",
-							(new File(Common.formatHelpURL("howTo.htm").substring(5))).toURI()));
+							Common.formatHelpURL("howTo.htm").toURI()));
 			helpMenu.addSeparator();
-			helpMenu.add(new showURI("ReCsvEditor Web Page", new URI("http://recsveditor.sourceforge.net/")));
-			helpMenu.add(new showURI("ReCsvEditor Forum", new URI("https://sourceforge.net/p/recsveditor/discussion/")));
+			helpMenu.add(new ShowURI("ReCsvEditor Web Page", new URI("http://recsveditor.sourceforge.net/")));
+			helpMenu.add(new ShowURI("ReCsvEditor Forum", new URI("https://sourceforge.net/p/recsveditor/discussion/")));
 		} catch (URISyntaxException e1) {
 			e1.printStackTrace();
 		}
@@ -145,6 +144,11 @@ public class EditCsvFile extends EditRec {
 	 * @param pgmArgs program arguments
 	 */
 	public static void main(final String[] pgmArgs) {
+
+		try {
+			Common.OPTIONS.loadPoScreens.set(false);
+		} catch (Exception e) {
+		}
 
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {

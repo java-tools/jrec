@@ -17,10 +17,10 @@ import net.sf.JRecord.Common.RecordRunTimeException;
  *
  */
 public class NullTreeDtls<FieldDtls extends FieldDetail,
-				RecordDtls extends AbstractRecordDetail<FieldDtls>,
-				Layout extends AbstractLayoutDetails<FieldDtls, RecordDtls>,
+				RecordDtls extends AbstractRecordDetail,
+				Layout extends AbstractLayoutDetails,
 				ChildDtls extends AbstractChildDetails<RecordDtls>,
-				LineType extends AbstractLine<Layout>>
+				LineType extends AbstractLine>
 implements AbstractTreeDetails<FieldDtls, RecordDtls, Layout, LineType> {
 
 //	public static final NullTreeDtls<FieldDetail, RecordDetail, LayoutDetail, AbstractChildDetails<RecordDetail>, AbstractLine<LayoutDetail>, Object>
@@ -140,7 +140,7 @@ implements AbstractTreeDetails<FieldDtls, RecordDtls, Layout, LineType> {
 	 * @see net.sf.JRecord.Common.AbstractChildLines#removeChild(net.sf.JRecord.Details.AbstractLine)
 	 */
 	@Override
-	public void removeChild(AbstractLine<Layout> child) {
+	public void removeChild(AbstractLine child) {
 
 	}
 

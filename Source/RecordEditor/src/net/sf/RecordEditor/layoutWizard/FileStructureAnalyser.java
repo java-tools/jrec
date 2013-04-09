@@ -45,6 +45,8 @@ public class FileStructureAnalyser {
 
     private byte[] fData;
 
+    private int linesRead = 0;
+
     public static FileStructureAnalyser getAnaylserNoLengthCheck(byte[] fileData, String lengthStr) {
     	return new FileStructureAnalyser(fileData, lengthStr, true, false);
     }
@@ -56,6 +58,9 @@ public class FileStructureAnalyser {
     public static FileStructureAnalyser getFixedAnalyser(byte[] fileData, String lengthStr) {
     	return new FileStructureAnalyser(fileData, lengthStr, false, true);
     }
+
+
+
 
     private FileStructureAnalyser(byte[] fileData, String lengthStr, boolean searchFileStructures, boolean searchFixedWidthLength) {
 		super();
@@ -77,7 +82,7 @@ public class FileStructureAnalyser {
 				if (fileChecks[i].check(fileData)) {
 					fileStructure = fileChecks[i].getFileStructure();
 					fontName = fileChecks[i].getFontName();
-
+					linesRead = fileChecks[i].getLinesRead();
 					return;
 				}
 			}
@@ -308,6 +313,13 @@ public class FileStructureAnalyser {
 	}
 
 
+	/**
+	 * @return the linesRead
+	 */
+	public int getLinesRead() {
+		return linesRead;
+	}
+
 	private static boolean[] getTextChars(String font) {
 		boolean[] isText = init(new boolean[256], false);
 		try {
@@ -334,11 +346,13 @@ public class FileStructureAnalyser {
     	public boolean check(byte[] data);
     	public int getFileStructure();
     	public String getFontName();
+    	public int getLinesRead();
     }
 
     private static class StandardCheckFile implements checkFile {
     	private int structure;
     	private String font = "";
+    	protected int linesRead = 0;
 
        	/**
 		 * @param fileStructure
@@ -364,6 +378,7 @@ public class FileStructureAnalyser {
        					i < 20 && len < data.length && ((bytes = reader.read()) != null);
        					i++) {
        				len += bytes.length;
+       				linesRead = i;
        			}
        			reader.close();
        		} catch (Exception e) {
@@ -379,6 +394,15 @@ public class FileStructureAnalyser {
     	public String getFontName() {
     		return font;
     	}
+
+		/* (non-Javadoc)
+		 * @see net.sf.RecordEditor.layoutWizard.FileStructureAnalyser.checkFile#getLinesRead()
+		 */
+		@Override
+		public int getLinesRead() {
+			// TODO Auto-generated method stub
+			return linesRead;
+		}
     }
 
     private static class BinTextCheck extends StandardCheckFile {
@@ -429,7 +453,7 @@ public class FileStructureAnalyser {
     			}
        			blockLength = (new BigInteger(bdwLength)).intValue();
        			if (blockLength + 8 < data.length) {
-       				if (data[blockLength + 7] == 0 && data[blockLength + 8] ==0) {
+       				if (data[blockLength + 7] == 0 && data[blockLength + 8] == 0) {
        					ret = super.check(data);
        				}
        			} else {

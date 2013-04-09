@@ -3,6 +3,7 @@ useFixture(default)
 ##  Depends on 31 & 38a running
 ##
 def test():
+	from Modules import commonBits
 	java_recorded_version = '1.6.0_22'
 
 	if window('Record Layout Definitions'):
@@ -13,8 +14,8 @@ def test():
 ##		select('TabbedPane', 'Child Records')
 		assert_p('ChildRecordsJTbl', 'Content', '[[, zxxxzFLD1, , ff, vv1, , zxxxzFLD3], [, zxxxzFLD2, , , , , zxxxzFLD1], [, zxxxzFLD3, , gg, vv2, , ]]')
 ##		select('ChildRecordsJTbl', '')
-		rightclick('ChildRecordsJTbl', 'Field Value,0')
-		select_menu('View Record Selections Tree')
+		rightclick('ChildRecordsJTbl', commonBits.fl('Field Value') + ',0')
+		select_menu(commonBits.fl('View Record Selections Tree'))
 ##		select('TabbedPane1', 'Summary')
 		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , ff, =, vv1], [, , And  ,   ,   , fld 13, =, 1199], [, ,   , Or  ,   , fld 11, =, 1288], [, ,   , Or  ,   , fld 12, =, 1377], [, ,   ,   ,   , , =, ], [, , And  ,   ,   , fld 21, =, 21], [, ,   , Or  ,   , fld 21, =, 12], [, ,   ,   ,   , gg, =, vv2], [, , And  ,   ,   , fld 32, =, 31987]]')
 		select('TabbedPane', 'zxxxzFLD3')

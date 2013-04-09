@@ -33,7 +33,6 @@ import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.jdbc.DBtableModel;
 import net.sf.RecordEditor.utils.swing.AbsJTable;
 import net.sf.RecordEditor.utils.swing.ComboBoxRender;
-import net.sf.RecordEditor.utils.swing.ComboBoxRenderAdapter;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.EnglishComboEditorAdaptor;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.RecordSelOperatorCombo;

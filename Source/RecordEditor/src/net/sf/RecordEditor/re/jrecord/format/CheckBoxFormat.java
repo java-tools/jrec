@@ -10,7 +10,7 @@ package net.sf.RecordEditor.re.jrecord.format;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.RecordEditor.utils.swing.CheckboxTableRenderStringBased;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
@@ -62,14 +62,16 @@ public class CheckBoxFormat implements CellFormat {
     /**
      * @see net.sf.RecordEditor.re.jrecord.format.CellFormat#getTableCellEditor(net.sf.RecordEditor.record.types.FieldDetail)
      */
-    public TableCellEditor getTableCellEditor(FieldDetail fld) {
+    @Override
+    public TableCellEditor getTableCellEditor(IFieldDetail fld) {
         return new CheckboxTableRenderStringBased(yesStr, noStr, defaultVal, false);
     }
 
     /**
      * @see net.sf.RecordEditor.re.jrecord.format.CellFormat#getTableCellRenderer(net.sf.RecordEditor.record.types.FieldDetail)
      */
-    public TableCellRenderer getTableCellRenderer(FieldDetail fld) {
+    @Override
+    public TableCellRenderer getTableCellRenderer(IFieldDetail fld) {
         return render;
     }
 }

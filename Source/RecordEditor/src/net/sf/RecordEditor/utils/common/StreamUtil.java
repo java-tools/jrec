@@ -16,7 +16,9 @@ public class StreamUtil {
 	    }
 	    in.close();
 
-	    if (total < bytesToRead) {
+	    if (total <= 0) {
+	    	data = new byte[0];
+	    } else if (total < bytesToRead) {
 	    	byte[] t = new byte[total];
 	    	System.arraycopy(data, 0, t, 0, total);
 	    	data = t;

@@ -73,7 +73,7 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 	protected Rectangle screenSize ;
 	    //Toolkit.getDefaultToolkit().getScreenSize();
 
-	protected AbstractLayoutDetails<?, ?> layout;
+	protected AbstractLayoutDetails layout;
 
 	protected JTable tblDetails;
 	private JTable alternativeTbl = null;
@@ -135,7 +135,7 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 	 */
 	public AbstractCompareDisplay(final String formType,
 					final String name,
-					final AbstractLayoutDetails<?, ?> recordLayout,
+					final AbstractLayoutDetails recordLayout,
 			  		final ArrayList<LineCompare> before,    final ArrayList<LineCompare> after,
 			        final ArrayList<LineCompare> chgBefore, final ArrayList<LineCompare> chgAfter,
 	        		final boolean primary,                  final boolean allRows) {

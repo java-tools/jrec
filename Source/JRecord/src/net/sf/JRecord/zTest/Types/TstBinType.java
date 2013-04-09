@@ -7,12 +7,11 @@
 package net.sf.JRecord.zTest.Types;
 
 
+import junit.framework.TestCase;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.Types.TypeManager;
-
-import junit.framework.TestCase;
 
 /**
  *
@@ -678,7 +677,7 @@ public class TstBinType extends TestCase {
             setFldValue(fld, value);
 
             System.out.println("::> " + msg + " " + value + " :: " + getFldValue(fld));
-            throw new AssertionError("Size Error: " + msg);
+            throw new AssertionError("Size Error: " + msg + " " + value + " :: " + getFldValue(fld));
         } catch (RecordException e) {
         }
     }

@@ -45,7 +45,7 @@ public class SaveAs4 extends ReFrame {
 	};
 
 	public SaveAs4(final AbstractFileDisplay recordFrame,
-    		final FileView<?> fileView) {
+    		final FileView fileView) {
 		super(fileView.getFileNameNoDirectory(), "Save As",
 	              fileView.getBaseFile());
 

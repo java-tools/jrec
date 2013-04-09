@@ -18,27 +18,29 @@ public interface IDisplayBuilder {
 	public static int ST_LINES_AS_COLUMNS = 7;
 	public static int ST_LINE_TREE_CHILD  = 8;
 	public static int ST_LINE_TREE_CHILD_EXPAND_PROTO  = 9;
+	public static int ST_DOCUMENT         = 10;
+	public static int ST_COLORED_DOCUMENT = 11;
 
 	public AbstractFileDisplayWithFieldHide newDisplay (
 			final int screenType,
 			final String screenName,
 			final IDisplayFrame<? extends AbstractFileDisplay> parentFrame,
-			final AbstractLayoutDetails<?, ?> group,
-            final FileView<?> viewOfFile,
+			final AbstractLayoutDetails group,
+            final FileView viewOfFile,
             final int lineNo);
 
 	public AbstractFileDisplayWithFieldHide newDisplay (
 			final int screenType,
 			final String screenName,
 			final IDisplayFrame<? extends AbstractFileDisplay> parentFrame,
-			final AbstractLayoutDetails<?, ?> group,
-            final FileView<?> viewOfFile,
+			final AbstractLayoutDetails group,
+            final FileView viewOfFile,
             final AbstractLine line);
 
 	public AbstractFileDisplayWithFieldHide newDisplay(
 			int screenType,
 			IDisplayFrame<? extends AbstractFileDisplay> parentFrame,
-			AbstractLayoutDetails<?, ?> group, FileView<?> viewOfFile,
+			AbstractLayoutDetails group, FileView viewOfFile,
 			AbstractLineNodeTreeParser treeParser, boolean mainView, int columnsToSkip);
 
 	public AbstractFileDisplayWithFieldHide newLineTreeChildScreen(

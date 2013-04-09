@@ -3,7 +3,7 @@ package net.sf.JRecord.Types;
 import java.math.BigDecimal;
 
 import net.sf.JRecord.Common.Conversion;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 
 public class TypeNumAnyDecimal extends TypeNum {
@@ -26,7 +26,7 @@ public class TypeNumAnyDecimal extends TypeNum {
 	 * @see net.sf.JRecord.Types.TypeNum#formatValueForRecord(net.sf.JRecord.Common.FieldDetail, java.lang.String)
 	 */
 	@Override
-	public String formatValueForRecord(FieldDetail field, String val)
+	public String formatValueForRecord(IFieldDetail field, String val)
 			throws RecordException {
 
         try {

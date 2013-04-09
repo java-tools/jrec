@@ -13,9 +13,11 @@
  */
 package net.sf.RecordEditor.examples;
 
+import net.sf.RecordEditor.edit.display.DisplayBuilder;
 import net.sf.RecordEditor.edit.display.LineFrame;
-import net.sf.RecordEditor.edit.file.FileView;
+import net.sf.RecordEditor.edit.open.DisplayBuilderFactory;
 import net.sf.JRecord.Details.LayoutDetail;
+import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 
@@ -48,8 +50,10 @@ public class XmplEditSpecificFile2 {
 		                			   fileDescription,
 		                			   false);
 
-		        new ReMainFrame("Specific file", "");
-		        new LineFrame(file, 0);
+		        new ReMainFrame("Specific file", "", "X");
+		        DisplayBuilderFactory.getInstance().newDisplay(
+		        		DisplayBuilderFactory.ST_RECORD_SCREEN, "Record:", null, fileDescription, file, 0);
+		        //DisplayBuilder.newLineDisplay(null, file, 0);
 	/*			lineFrame.addWindowListener(new WindowAdapter() {
 					public void windowClosed(WindowEvent e) {
 						Common.closeConnection();

@@ -5,9 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
-import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 
@@ -27,7 +25,7 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
  * storage).
  *
  */
-public abstract class AbstractLayoutSelection<Layout extends AbstractLayoutDetails<? extends FieldDetail, ? extends AbstractRecordDetail>>
+public abstract class AbstractLayoutSelection
 extends ReadLayout implements FormatFileName {
 
 	private StartActionInterface executeAction = null;
@@ -106,13 +104,13 @@ extends ReadLayout implements FormatFileName {
 	 * retrieve the layout
 	 * @return the layout
 	 */
-	public abstract Layout getRecordLayout(String fileName);
+	public abstract AbstractLayoutDetails getRecordLayout(String fileName);
 
 	/**
 	 * retrieve the layout
 	 * @return the layout
 	 */
-	public abstract Layout getRecordLayout(String name, String fileName);
+	public abstract AbstractLayoutDetails getRecordLayout(String name, String fileName);
 
 	/**
 	 * set the message field

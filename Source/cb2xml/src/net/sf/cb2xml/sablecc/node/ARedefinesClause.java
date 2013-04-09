@@ -18,7 +18,7 @@ public final class ARedefinesClause extends PRedefinesClause
         TRedefines _redefines_,
         TDataName _dataName_)
     {
-       setRedefines(_redefines_);
+        setRedefines(_redefines_);
 
         setDataName(_dataName_);
 

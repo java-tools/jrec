@@ -23,6 +23,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
@@ -32,6 +33,7 @@ import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Log.ScreenLog;
+import net.sf.RecordEditor.layoutEd.panels.RecordEdit1Record;
 import net.sf.RecordEditor.layoutEd.utils.LeMessages;
 import net.sf.RecordEditor.re.db.Record.ExtendedRecordDB;
 import net.sf.RecordEditor.re.db.Table.TableDB;
@@ -234,7 +236,6 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 
 
 	private void init(boolean choseCopyBook) {
-	    int i;
 	    String s;
 
 	    //CopybookLoaderFactory loaders = CopybookLoaderFactoryDB.getInstance();
@@ -335,7 +336,10 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 
 			        //System.out.println("## " + rec.getRecordId() + " " + rec.getRecordName());
 			        db.setConnection(new ReConnection(connectionId));
+
+//			        System.out.print("RecordId: " + rec.getRecordId());
 			        db.checkAndUpdate(rec);
+//			        System.out.println(" !! " + rec.getRecordId());
 
 //			        msgField.logMsg(AbsSSLogger.SHOW, "-->> " + copyBookFile + " processed");
 //			        msgField.logMsg(AbsSSLogger.SHOW, "      Copybook: " + rec.getRecordName());
@@ -347,6 +351,17 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 
 			        if (layoutCallback != null) {
 			        	layoutCallback.setRecordLayout(0, rec.getRecordName(), null);
+			        }
+
+			        if (rec.getNumberOfRecords() > 1
+			        && (   copybookId == CopybookLoaderFactoryDB.COBOL_LOADER
+			            || copybookId == CopybookLoaderFactoryDB.CB2XML_LOADER)) {
+			        	RecordEdit1Record ep = new RecordEdit1Record(
+			        			Common.getSourceId()[connectionId], connectionId,
+			        			rec.getRecordId());
+			        	JOptionPane.showMessageDialog(
+			        			ep,
+			        			LeMessages.DEFINE_RECORD_SELECTION.get());
 			        }
 			    }
 			} catch (Exception ex) {

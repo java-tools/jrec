@@ -2,7 +2,7 @@ package net.sf.RecordEditor.re.fileWriter;
 
 import java.io.IOException;
 
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 
 public interface FieldWriter {
 
@@ -11,7 +11,7 @@ public interface FieldWriter {
 	public abstract void writeFieldHeading(String field) throws IOException;
 
 	public abstract void writeFieldDetails(
-			FieldDetail fldDetail, String fieldValue, String textValue, String HexValue) throws IOException;
+			IFieldDetail fldDetail, String fieldValue, String textValue, String HexValue) throws IOException;
 
 	public abstract void writeField(String field) throws IOException;
 

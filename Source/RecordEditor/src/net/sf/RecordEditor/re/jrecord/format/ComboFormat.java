@@ -14,7 +14,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.RecordEditor.re.db.Combo.ComboDB;
 import net.sf.RecordEditor.re.db.Combo.ComboRec;
 import net.sf.RecordEditor.re.db.Combo.ComboValuesDB;
@@ -38,8 +38,8 @@ public class ComboFormat implements CellFormat {
 
 	//private boolean toInitRender = true;
     //private TableCellRenderer render = null;
-    
-    private static HashMap<String, ComboRec>[] map 
+
+    private static HashMap<String, ComboRec>[] map
     	= new HashMap[Constants.NUMBER_OF_COPYBOOK_SOURCES];
 
 //    static {
@@ -66,16 +66,17 @@ public class ComboFormat implements CellFormat {
     /**
      * @see net.sf.RecordEditor.re.jrecord.format.CellFormat#getTableCellEditor(net.sf.RecordEditor.record.types.FieldDetail)
      */
-    public TableCellEditor getTableCellEditor(FieldDetail fld) {
+    @Override
+    public TableCellEditor getTableCellEditor(IFieldDetail fld) {
     	TableCellEditor ret = null;
-    	
+
     	ComboRec comboDtls = getCombo(fld.getRecord().getSourceIndex(), fld.getParamater());
-    	
+
     	if (comboDtls != null) {
     		//if (comboDtls.getColumnType() == ComboRec.SINGLE_COLUMN) {
 	    		ret = new DefaultCellEditor(new BmKeyedComboBox(comboDtls.getRows(), true));
 	    	//} else {
-	    		
+
 	    	//}
     	}
         return ret;
@@ -84,17 +85,18 @@ public class ComboFormat implements CellFormat {
     /**
      * @see net.sf.RecordEditor.re.jrecord.format.CellFormat#getTableCellRenderer(net.sf.RecordEditor.record.types.FieldDetail)
      */
-    public TableCellRenderer getTableCellRenderer(FieldDetail fld) {
-        
+    @Override
+    public TableCellRenderer getTableCellRenderer(IFieldDetail fld) {
+
     	TableCellRenderer render = null;
     	ComboRec comboDtls = getCombo(fld.getRecord().getSourceIndex(), fld.getParamater());
 
     	if (comboDtls != null) {
     		render = new BmKeyedComboBoxRender(
-    				new BmKeyedComboModel(comboDtls.getRows()), 
+    				new BmKeyedComboModel(comboDtls.getRows()),
     				true);
     	}
-    	
+
     	return render;
     }
 
@@ -104,29 +106,29 @@ public class ComboFormat implements CellFormat {
 	 * @see java.util.HashMap#get(java.lang.Object)
 	 */
 	private ComboRec getCombo(int idx, String name) {
-		
+
 		if (idx < 0 || idx >= map.length || name == null || "".equals(name)) {
 			return null;
 		}
-		
+
 		if (map[idx] == null) {
 			map[idx] = new HashMap<String, ComboRec>();
 		}
 		ComboRec ret = map[idx].get(name);
-		
+
 		if (ret == null) {
 			ReConnection con = new ReConnection(idx);
 			ComboDB db = new ComboDB();
 			db.setConnection(con);
-			
+
 			ret = db.get(name);
-			
+
 			if (ret != null) {
 				ComboValuesDB valuesDB = new ComboValuesDB();
 				AbsRowList rows;
 				valuesDB.setConnection(con);
 				valuesDB.setParams(ret.getComboId());
-				
+
 				if (ret.getColumnType() == ComboRec.SINGLE_COLUMN) {
 					rows = new AbsRowList(0, 0, false, false);
 				} else {
@@ -134,11 +136,11 @@ public class ComboFormat implements CellFormat {
 				}
 				rows.loadData(valuesDB.fetchAll());
 				ret.setRows(rows);
-				
+
 				map[idx].put(name, ret);
 			}
 		}
-				
+
 		return ret;
 	}
 }

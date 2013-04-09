@@ -67,9 +67,7 @@ public class FilterDetails {
     private static final int GROUP_INCLUDE_INDEX  = 2;
     private static final int SEQUENCE_INDEX = 1;
 
-    @SuppressWarnings("rawtypes")
 	private final AbstractLayoutDetails layout;
-    @SuppressWarnings("rawtypes")
 	private AbstractLayoutDetails layout2;
 
     private boolean[] inGroup;
@@ -97,7 +95,7 @@ public class FilterDetails {
      *
      * @param group detail group
      */
-    public FilterDetails(@SuppressWarnings("rawtypes") final AbstractLayoutDetails group, int filterType) {
+    public FilterDetails(final AbstractLayoutDetails group, int filterType) {
         super();
         layout = group;
         this.filterType = filterType;
@@ -357,7 +355,7 @@ public class FilterDetails {
     	net.sf.RecordEditor.jibx.compare.Layout tmpLayoutSelection = new net.sf.RecordEditor.jibx.compare.Layout();
 		net.sf.RecordEditor.jibx.compare.Record rec;
 		boolean allSelected = true;
-		@SuppressWarnings("rawtypes")
+
 		AbstractRecordDetail recordDetail;
 
 		FilterField filterFld;
@@ -396,14 +394,14 @@ public class FilterDetails {
 			}
 			tmpLayoutSelection.getRecords().add(rec);
 			for (int i = 0; i < layout.getRecordCount(); i++) {
-				rec = getExternalRecord(i, layout.getRecord(i), fieldInc);
+				rec = getExternalRecord(i, fieldInc);
 				allSelected = allSelected && (rec.fields != null) && isInclude(i);
 				tmpLayoutSelection.getRecords().add(rec);
 			}
 		} else {
 			for (int i = 0; i < layout.getRecordCount(); i++) {
 				if (isInclude(i)) {
-					rec = getExternalRecord(i, layout.getRecord(i), fieldInc);
+					rec = getExternalRecord(i, fieldInc);
 					allSelected = allSelected && (rec.fields == null);
 
 					recordDetail = layout.getRecord(i);
@@ -468,11 +466,11 @@ public class FilterDetails {
 		return tmpLayoutSelection;
     }
 
-    private net.sf.RecordEditor.jibx.compare.Record getExternalRecord(int idx, @SuppressWarnings("rawtypes") AbstractRecordDetail recordDetail, int[][] fieldInc) {
+    private net.sf.RecordEditor.jibx.compare.Record getExternalRecord(int idx, int[][] fieldInc) {
     	net.sf.RecordEditor.jibx.compare.Record rec = new net.sf.RecordEditor.jibx.compare.Record();
     	int j;
 
-		recordDetail = layout.getRecord(idx);
+    	AbstractRecordDetail recordDetail = layout.getRecord(idx);
 		rec.name = recordDetail.getRecordName();
 
 		boolean allFields = ! twoLayouts;
@@ -600,7 +598,6 @@ public class FilterDetails {
 						}
 
 						if (rec.fieldTest != null && rec.fieldTest.size() > 0) {
-							@SuppressWarnings("rawtypes")
 							AbstractRecordDetail recDtl = layout.getRecord(i);
 
 							for (k = 0; k < rec.fieldTest.size(); k++) {
@@ -671,7 +668,7 @@ public class FilterDetails {
 	 * @param dtl second layout details
 	 * @param values2 external layout selection details
 	 */
-	public final void set2ndLayout(@SuppressWarnings("rawtypes") AbstractLayoutDetails dtl) {
+	public final void set2ndLayout(AbstractLayoutDetails dtl) {
 		this.twoLayouts = true;
 
 		if (layout2 != dtl && dtl != null) {
@@ -776,8 +773,6 @@ public class FilterDetails {
 		}
 	}
 
-	//TODO setUpRecord
-	@SuppressWarnings("rawtypes")
 	private boolean updateRecordsFields(int rowIndex) {
 
 		int i, j, k;

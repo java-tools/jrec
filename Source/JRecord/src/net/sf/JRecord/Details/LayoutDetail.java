@@ -16,12 +16,15 @@ package net.sf.JRecord.Details;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.sf.JRecord.Common.BasicTranslation;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.CsvParser.AbstractParser;
 import net.sf.JRecord.CsvParser.BinaryCsvParser;
+import net.sf.JRecord.CsvParser.ICsvDefinition;
 import net.sf.JRecord.CsvParser.ParserManager;
 import net.sf.JRecord.Types.ISizeInformation;
 import net.sf.JRecord.Types.Type;
@@ -75,7 +78,7 @@ import net.sf.JRecord.Types.TypeManager;
  *
  */
 public class LayoutDetail
-extends BasicLayout<FieldDetail, RecordDetail> {
+extends BasicLayout<RecordDetail> {
 
 	private String layoutName;
 	private String description;
@@ -88,7 +91,7 @@ extends BasicLayout<FieldDetail, RecordDetail> {
 	//private TypeManager typeManager;
 	private RecordDecider decider;
 
-	private HashMap<String, FieldDetail> fieldNameMap = null;
+	private HashMap<String, IFieldDetail> fieldNameMap = null;
 	private String delimiter = "";
 	private int fileStructure;
 
@@ -101,6 +104,7 @@ extends BasicLayout<FieldDetail, RecordDetail> {
 	private boolean useThisLayout = false;
 
 	private Object extraDetails = null;
+
 
 	/**
 	 * This class holds a one or more records
@@ -264,9 +268,7 @@ extends BasicLayout<FieldDetail, RecordDetail> {
 		return records;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sf.JRecord.Details.AbstractLineDetails#addRecord(net.sf.JRecord.Details.RecordDetail)
-	 */
+
 	public void addRecord(RecordDetail record) {
 	    if (recordCount >= records.length) {
 	    	RecordDetail[] temp = records;
@@ -379,9 +381,10 @@ extends BasicLayout<FieldDetail, RecordDetail> {
 
 
     /* (non-Javadoc)
-	 * @see net.sf.JRecord.Details.AbstractLineDetails#getField(byte[], int, net.sf.JRecord.Common.FieldDetail)
+	 * @see net.sf.JRecord.Details.AbstractLayoutDetails#getField(byte[], int, net.sf.JRecord.Common.IFieldDetail)
 	 */
-    public Object getField(final byte[] record, int type, FieldDetail field) {
+	@Override
+	public Object getField(byte[] record, int type, IFieldDetail field) {
 
     	//System.out.print(" ---> getField ~ 1");
         if (field.isFixedFormat()) {
@@ -399,17 +402,20 @@ extends BasicLayout<FieldDetail, RecordDetail> {
         }
     }
 
-    public final Object formatCsvField(FieldDetail field,  int type, String value) {
-        AbstractParser parser = ParserManager.getInstance().get(field.getRecord().getRecordStyle());
-        String val = parser.getField(field.getPos() - 1,
-        		value,
-        		delimiter, field.getQuote());
+    public final Object formatCsvField(IFieldDetail field,  int type, String value) {
+        String val = "";
+        if (field.getRecord() instanceof ICsvDefinition) {
+        	AbstractParser parser = ParserManager.getInstance().get(field.getRecord().getRecordStyle());
+        	val = parser.getField(field.getPos() - 1,
+        			value,
+        			(ICsvDefinition) field.getRecord());
+        }
 
         return formatField(field,  type, val);
     }
 
 
-    private Object formatField(FieldDetail field,  int type, String value) {
+    private Object formatField(IFieldDetail field,  int type, String value) {
 
         //System.out.print(" ~ " + delimiter + " ~ " + new String(record));
 
@@ -450,7 +456,7 @@ extends BasicLayout<FieldDetail, RecordDetail> {
      *
      * @throws RecordException any conversion error
      */
-    public byte[] setField(byte[] record, FieldDetail field, Object value)
+    public byte[] setField(byte[] record, IFieldDetail field, Object value)
     throws RecordException {
         return setField(record, field.getType(), field, value);
     }
@@ -467,7 +473,7 @@ extends BasicLayout<FieldDetail, RecordDetail> {
      *
      * @throws RecordException any conversion error
      */
-    public byte[] setField(byte[] record, int type, FieldDetail field, Object value)
+    public byte[] setField(byte[] record, int type, IFieldDetail field, Object value)
     throws RecordException {
         if (field.isFixedFormat()) {
         	if (value != null && value instanceof String) {
@@ -506,13 +512,13 @@ extends BasicLayout<FieldDetail, RecordDetail> {
             //System.out.println(" ---> setField ~ " + delimiter + " ~ " + s + " ~ " + new String(record));
             if  (isBinCSV()) {
              	record = (new BinaryCsvParser(delimiter)).updateValue(record, field, s);
-            } else {
-	            String newLine = parser.setField(field.getPos() - 1,
+            } else if (field.getRecord() instanceof ICsvDefinition) {
+                String newLine = parser.setField(field.getPos() - 1,
 	            		typeVal.getFieldType(),
 	            		Conversion.toString(record, font),
-	            		delimiter, field.getQuote(), s);
+	            		(ICsvDefinition) field.getRecord(), s);
 
-	            record = Conversion.getBytes(newLine, font);
+                record = Conversion.getBytes(newLine, font);
             }
         }
         //System.out.println(" ---> setField ~ Done");
@@ -523,13 +529,13 @@ extends BasicLayout<FieldDetail, RecordDetail> {
     /* (non-Javadoc)
 	 * @see net.sf.JRecord.Details.AbstractLineDetails#getFieldFromName(java.lang.String)
 	 */
-    public FieldDetail getFieldFromName(String fieldName) {
-    	FieldDetail ret = null;
+    public IFieldDetail getFieldFromName(String fieldName) {
+    	IFieldDetail ret = null;
     	String key = fieldName.toUpperCase();
+		IFieldDetail fld;
 
     	if (fieldNameMap == null) {
     		int i, j, size;
-    		FieldDetail fld;
 
     		size = 0;
     		for (i = 0; i < recordCount; i++) {
@@ -537,7 +543,7 @@ extends BasicLayout<FieldDetail, RecordDetail> {
     		}
     		size = (size * 5) / 4 + 4;
 
-    		fieldNameMap = new HashMap<String, FieldDetail>(size);
+    		fieldNameMap = new HashMap<String, IFieldDetail>(size);
 
     		for (i = 0; i < recordCount; i++) {
     			//FieldDetail[] flds = records[i].getFields();
@@ -549,7 +555,7 @@ extends BasicLayout<FieldDetail, RecordDetail> {
     		}
      	} else if (this.isBuildLayout()) {
      		int j;
-       		FieldDetail fld;
+
        		for (int i = 0; i < recordCount; i++) {
        			if (records[i].getNumberOfFieldsAdded() > 0) {
        				for (j = 1; j <=  records[i].getFieldCount(); j++) {
@@ -616,7 +622,7 @@ extends BasicLayout<FieldDetail, RecordDetail> {
 	/**
 	 * @see net.sf.JRecord.Details.AbstractLineDetails#getAdjField(int, int)
 	 */
-    public FieldDetail getAdjField(int layoutIdx, int fieldIdx) {
+    public IFieldDetail getAdjField(int layoutIdx, int fieldIdx) {
         return getRecord(layoutIdx)
                        .getField(getAdjFieldNumber(layoutIdx, fieldIdx));
     }
@@ -730,7 +736,7 @@ extends BasicLayout<FieldDetail, RecordDetail> {
 	 * @see net.sf.JRecord.Details.BasicLayout#getNewLayout(java.util.ArrayList)
 	 */
 	@Override
-	protected AbstractLayoutDetails<FieldDetail, RecordDetail> getNewLayout(
+	protected LayoutDetail getNewLayout(
 			ArrayList<RecordDetail> recordList) {
 		RecordDetail[] recs = new RecordDetail[recordList.size()];
 		recs = recordList.toArray(recs);
@@ -739,13 +745,18 @@ extends BasicLayout<FieldDetail, RecordDetail> {
 				getFontName(), getDecider(), getFileStructure());
 	}
 
+//	@Override
+//	protected RecordDetail getNewRecord(RecordDetail record, ArrayList<FieldDetails> fields) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	/**
 	 * @see net.sf.JRecord.Details.BasicLayout#getNewRecord(net.sf.JRecord.Details.AbstractRecordDetail, java.util.ArrayList)
 	 */
 	@Override
-	protected RecordDetail getNewRecord(RecordDetail record, ArrayList<FieldDetail> fields) {
-		FieldDetail[] flds = new FieldDetail[fields.size()];
+	protected RecordDetail getNewRecord(RecordDetail record, ArrayList<? extends AbstractRecordDetail.FieldDetails> fields) {
+		RecordDetail.FieldDetails[] flds = new RecordDetail.FieldDetails[fields.size()];
 		RecordDetail ret;
 
 		flds = fields.toArray(flds);
@@ -804,6 +815,80 @@ extends BasicLayout<FieldDetail, RecordDetail> {
 	public void setUseThisLayout(boolean useThisLayout) {
 		this.useThisLayout = useThisLayout;
 	}
+
+
+	public final void checkLayout() {
+		for (RecordDetail r : records) {
+			for (int i = 0; i < r.getFieldCount(); i++) {
+				IFieldDetail field = r.getField(i);
+				if (field.getPos() < 1) {
+					throw new RuntimeException(
+							BasicTranslation.getTrans().convert(
+									BasicTranslation.ST_ERROR,
+									"Invalid field position for Record: {0} {1}, it should be greater than zero and not {2}",
+									new Object[] {r.getRecordName(), field.getName(), field.getPos()}));
+				}
+			}
+		}
+	}
+
+	@Override
+	public int getOption(int option) {
+		switch (option) {
+		case Options.OPT_CHECK_LAYOUT_OK:
+			checkLayout();
+			return Options.YES;
+		case Options.OPT_STORAGE_TYPE:
+			switch (getFileStructure()) {
+	    	case Constants.IO_XML_BUILD_LAYOUT:
+	    	case Constants.IO_XML_USE_LAYOUT:
+	    	case Constants.IO_GETTEXT_PO:
+	    	case Constants.IO_TIP:
+	    	case Constants.IO_FIXED_LENGTH:
+		      	return Options.OTHER_STORAGE;
+	    	case Constants.IO_UNICODE_NAME_1ST_LINE:
+	    	case Constants.IO_UNICODE_TEXT:
+	    		return Options.TEXT_STORAGE;
+			}
+			return Options.BINARY_STORAGE;
+		case Options.OPT_CHECK_4_STANDARD_FILE_STRUCTURES:
+			return Options.getValue( fileStructure == Constants.IO_DEFAULT
+								||	 fileStructure == Constants.IO_VB
+								||	 fileStructure == Constants.IO_VB_DUMP
+								||	 fileStructure == Constants.IO_VB_FUJITSU
+								||	 fileStructure == Constants.IO_VB_OPEN_COBOL
+								);
+		case Options.OPT_CHECK_4_STANDARD_FILE_STRUCTURES2:
+			return Options.getValue( fileStructure == Constants.IO_BIN_TEXT
+								||	 fileStructure == Constants.IO_FIXED_LENGTH);
+		}
+		return Options.UNKNOWN;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Details.AbstractLayoutDetails#getAttribute(net.sf.JRecord.Details.IAttribute)
+	 */
+	@Override
+	public Object getAttribute(IAttribute attr) {
+
+		return null;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Details.AbstractLayoutDetails#setAttribute(net.sf.JRecord.Details.IAttribute, java.lang.Object)
+	 */
+	@Override
+	public void setAttribute(IAttribute attr, Object value) {
+
+		if (attr == Attribute.FILE_STRUCTURE && value instanceof Number) {
+			fileStructure = ((Number) value).intValue();
+		}
+	}
+
+
+
 }
 
 

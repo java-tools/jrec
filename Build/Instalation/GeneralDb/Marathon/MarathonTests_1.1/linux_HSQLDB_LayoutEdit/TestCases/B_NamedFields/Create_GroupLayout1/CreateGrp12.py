@@ -1,6 +1,7 @@
 useFixture(default)
 
 def test():
+	from Modules import commonBits
 	java_recorded_version = '1.6.0_22'
 
 	if window('Record Layout Definitions'):
@@ -11,9 +12,8 @@ def test():
 
 
 		assert_p('ChildRecordsJTbl', 'Content', '[[, ams PO Download: Allocation, , , , , ams PO Download: Detail], [, ams PO Download: Detail, , , , , ]]')
-		click('Delete3')
-
-		if window('Delete: xxzzxx'):
+		commonBits.delete3(click)
+		if window(commonBits.fl('Delete: xxzzxx')):
 			click('Yes')
 		close()
 
@@ -25,9 +25,8 @@ def test():
 
 ##		select('TabbedPane', 'Child Records')
 		assert_p('ChildRecordsJTbl', 'Content', '[[, ams PO Download: Allocation, , , , , ams PO Download: Detail], [, ams PO Download: Detail, , , , , ]]')
-		click('Delete3')
-
-		if window('Delete: xxzzxx11'):
+		commonBits.delete3(click)
+		if window(commonBits.fl('Delete: xxzzxx11')):
 			click('Yes')
 		close()
 

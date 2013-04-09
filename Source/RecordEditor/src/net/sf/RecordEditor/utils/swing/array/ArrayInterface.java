@@ -12,17 +12,17 @@ public interface ArrayInterface {
 	 * @return Text representation
 	 */
 	public abstract String toString();
-	
+
 	/**
 	 * @param index list index
-	 * @param value new value to add 
+	 * @param value new value to add
 	 * @see java.util.List#add(int, java.lang.Object)
 	 */
 	public abstract void add(int index, Object value);
 
 	/**
 	 * @param value
-	 * @return new value to add 
+	 * @return new value to add
 	 * @see java.util.List#add(java.lang.Object)
 	 */
 	public abstract boolean add(Object value);
@@ -56,23 +56,23 @@ public interface ArrayInterface {
 	public int size();
 
 	/**
-	 * Get the column count 
+	 * Get the column count
 	 * @return column Count
 	 */
 	public abstract int getColumnCount();
-	
-	
+
+
 	/**
 	 * Get the source Line
 	 * @return source Line
 	 */
-	public AbstractLine<?> getLine();
+	public AbstractLine getLine();
 
 	/**
 	 * Tell array Object to refresh its array copy;
 	 */
 	public void retrieveArray();
-	
+
 	/**
 	 * flush changes back to source
 	 */

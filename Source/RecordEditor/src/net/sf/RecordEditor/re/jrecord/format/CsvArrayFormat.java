@@ -14,8 +14,9 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.CsvParser.BasicParser;
+import net.sf.JRecord.CsvParser.CsvDefinition;
 import net.sf.RecordEditor.utils.swing.CsvArray;
 import net.sf.RecordEditor.utils.swing.CsvArrayTableEditor;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
@@ -30,10 +31,10 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
 public class CsvArrayFormat implements CellFormat {
 
 
-	private static int HEIGHT = Math.max(SwingUtils.TABLE_ROW_HEIGHT, 
+	private static int HEIGHT = Math.max(SwingUtils.TABLE_ROW_HEIGHT,
 			Math.min(SwingUtils.CHECK_BOX_HEIGHT, SwingUtils.COMBO_TABLE_ROW_HEIGHT));
     private CsvArray render = null;
-   
+
 
 
 
@@ -54,7 +55,8 @@ public class CsvArrayFormat implements CellFormat {
     /**
      * @see net.sf.RecordEditor.re.jrecord.format.CellFormat#getTableCellEditor(net.sf.RecordEditor.record.types.FieldDetail)
      */
-    public TableCellEditor getTableCellEditor(FieldDetail fld) {
+    @Override
+    public TableCellEditor getTableCellEditor(IFieldDetail fld) {
         String[] f = getFields(fld);
         return new CsvArrayTableEditor(f[1], f[2], f[0]);
     }
@@ -62,7 +64,8 @@ public class CsvArrayFormat implements CellFormat {
     /**
      * @see net.sf.RecordEditor.re.jrecord.format.CellFormat#getTableCellRenderer(net.sf.RecordEditor.record.types.FieldDetail)
      */
-    public TableCellRenderer getTableCellRenderer(FieldDetail fld) {
+    @Override
+    public TableCellRenderer getTableCellRenderer(IFieldDetail fld) {
         if (render == null) {
             String[] f = getFields(fld);
             render = new CsvArray(f[1], f[2], f[0]);
@@ -74,7 +77,7 @@ public class CsvArrayFormat implements CellFormat {
      * @see javax.swing.CellEditor#isCellEditable(java.util.EventObject)
      */
     public boolean isCellEditable(EventObject anEvent) {
-        if (anEvent instanceof MouseEvent) { 
+        if (anEvent instanceof MouseEvent) {
     		return ((MouseEvent)anEvent).getClickCount() >= 2;
    	    }
        return true;
@@ -85,11 +88,11 @@ public class CsvArrayFormat implements CellFormat {
      * @param fld field definition
      * @return Swing checkbox
      */
-    private String[] getFields(FieldDetail fld) {
+    private String[] getFields(IFieldDetail fld) {
         String s = fld.getParamater();
         BasicParser p = BasicParser.getInstance();
 
-        return p.split(s.substring(1), s.substring(0, 1), "", 3);
+        return p.split(s.substring(1), new CsvDefinition(s.substring(0, 1), ""), 3);
 
         /*String[] r = p.split(s.substring(1), s.substring(0, 1), "", 3);
 

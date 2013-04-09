@@ -16,7 +16,7 @@ public class CmpTableModel extends AbstractTableModel {
 	public static final int AFTER  = 1;
 
 	private ArrayList<LineCompare>[] displayRows;
-	private AbstractLayoutDetails<?, ?> description;
+	private AbstractLayoutDetails description;
 
 	private int colCount = 0;
 
@@ -29,7 +29,7 @@ public class CmpTableModel extends AbstractTableModel {
 
 
 	@SuppressWarnings("unchecked")
-	public CmpTableModel(@SuppressWarnings("rawtypes") AbstractLayoutDetails layout,
+	public CmpTableModel(AbstractLayoutDetails layout,
 //						  ArrayList<LineCompare> before,    ArrayList<LineCompare> after,
 						  ArrayList<LineCompare> displayBefore, ArrayList<LineCompare> displayAfter) {
 

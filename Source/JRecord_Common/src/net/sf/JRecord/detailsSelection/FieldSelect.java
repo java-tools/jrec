@@ -3,8 +3,8 @@ package net.sf.JRecord.detailsSelection;
 import java.util.List;
 
 import net.sf.JRecord.Common.AbstractIndexedLine;
-import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.IEmptyTest;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
 
 public abstract class FieldSelect extends ExternalFieldSelection implements RecordSel {
@@ -39,7 +39,7 @@ public abstract class FieldSelect extends ExternalFieldSelection implements Reco
 				 */
 				@Override
 				public boolean isIncluded(AbstractIndexedLine line) {
-					return false;
+					return true;
 				}
 			};
 		}
@@ -209,15 +209,16 @@ public abstract class FieldSelect extends ExternalFieldSelection implements Reco
 		 */
 		@Override
 		public boolean isSelected(Object o) {
-
 			return true;
 		}
+
+
 	}
 
 	/**
 	 * @return the fieldDetail
 	 */
-	public FieldDetail getFieldDetail() {
+	public IFieldDetail getFieldDetail() {
 		if (getValue instanceof GetValue) {
 			return ((GetValue) getValue).fieldDetail;
 		}

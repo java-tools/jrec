@@ -15,6 +15,7 @@ import net.sf.JRecord.Details.AbstractLine;
 import net.sf.RecordEditor.edit.display.BaseDisplay;
 import net.sf.RecordEditor.edit.display.DisplayFrame;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
+import net.sf.RecordEditor.edit.display.util.LinePosition;
 import net.sf.RecordEditor.edit.display.util.MovementBtnPnl;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
@@ -154,7 +155,7 @@ implements IChildScreen, AbstractFileDisplayWithFieldHide, TableModelListener {
 		if (mainframe) {
 			DisplayFrame parentFrame = getParentFrame();
 			int preferedWidth = java.lang.Math.min(this.screenSize.width - 2,
-			       80 * SwingUtils.CHAR_WIDTH );
+			       80 * SwingUtils.CHAR_FIELD_WIDTH );
 
 			parentFrame.bldScreen();
 			parentFrame.setBounds(parentFrame.getY(), parentFrame.getX(), preferedWidth,
@@ -192,15 +193,8 @@ implements IChildScreen, AbstractFileDisplayWithFieldHide, TableModelListener {
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getInsertAfterLine()
 	 */
 	@Override
-	protected AbstractLine<?> getInsertAfterLine(boolean prev) {
-
-		if (prev) {
-			if (currRow > 0) {
-				return fileView.getLine(currRow - 1);
-			}
-			return null;
-		}
-		return fileView.getLine(currRow);
+	protected LinePosition getInsertAfterLine(boolean prev) {
+		return super.getInsertAfterLine(currRow, prev);
 	}
 
 	@Override

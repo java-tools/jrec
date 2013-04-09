@@ -10,7 +10,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.XmlConstants;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
@@ -105,7 +104,7 @@ public class DisplayCobolCopybook implements ActionListener {
 			String xml;
 			AbstractLineReader reader = LineIOProvider.getInstance().getLineReader(Constants.IO_XML_USE_LAYOUT);
 			File file = new File(fileName);
-			DataStoreStd<AbstractLine> lines = new DataStoreStd<AbstractLine>(null);
+			DataStoreStd<AbstractLine> lines = DataStoreStd.newStore(null);
 			AbstractLine aLine;
 
 
@@ -148,17 +147,17 @@ public class DisplayCobolCopybook implements ActionListener {
 		//FieldDetail[] fields
 		String recordName = "item";
 		int idx = 0;
-		FieldDetail[] fields =  {
-			new FieldDetail(XmlConstants.XML_NAME, "", Type.ftXmlNameTag, 0, "", 0, "").setPosOnly(idx++),
-			new FieldDetail(XmlConstants.END_ELEMENT, "", Type.ftCheckBoxTrue, 0, "", 0, "").setPosOnly(idx++),
-			new FieldDetail(XmlConstants.FOLLOWING_TEXT, "", Type.ftMultiLineEdit, 0, "", 0, "").setPosOnly(idx++),
-			new FieldDetail(XmlCopybookLoader.ATTR_LEVEL, "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
-			new FieldDetail(XmlCopybookLoader.ATTR_NAME, "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
-			new FieldDetail(XmlCopybookLoader.ATTR_POSITION, "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
-			new FieldDetail(XmlCopybookLoader.ATTR_STORAGE_LENGTH, "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
-			new FieldDetail("display-length", "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
-			new FieldDetail(XmlCopybookLoader.ATTR_PICTURE, "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
-			new FieldDetail(XmlCopybookLoader.ATTR_USAGE, "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
+		RecordDetail.FieldDetails[] fields =  {
+			new RecordDetail.FieldDetails(XmlConstants.XML_NAME, "", Type.ftXmlNameTag, 0, "", 0, "").setPosOnly(idx++),
+			new RecordDetail.FieldDetails(XmlConstants.END_ELEMENT, "", Type.ftCheckBoxTrue, 0, "", 0, "").setPosOnly(idx++),
+			new RecordDetail.FieldDetails(XmlConstants.FOLLOWING_TEXT, "", Type.ftMultiLineEdit, 0, "", 0, "").setPosOnly(idx++),
+			new RecordDetail.FieldDetails(XmlCopybookLoader.ATTR_LEVEL, "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
+			new RecordDetail.FieldDetails(XmlCopybookLoader.ATTR_NAME, "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
+			new RecordDetail.FieldDetails(XmlCopybookLoader.ATTR_POSITION, "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
+			new RecordDetail.FieldDetails(XmlCopybookLoader.ATTR_STORAGE_LENGTH, "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
+			new RecordDetail.FieldDetails("display-length", "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
+			new RecordDetail.FieldDetails(XmlCopybookLoader.ATTR_PICTURE, "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
+			new RecordDetail.FieldDetails(XmlCopybookLoader.ATTR_USAGE, "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
 		};
 		RecordDetail item = new RecordDetail(recordName, XmlConstants.XML_NAME, recordName, Constants.RT_XML,
                 "", "", "",
@@ -169,11 +168,11 @@ public class DisplayCobolCopybook implements ActionListener {
 		if (incComment) {
 			idx = 0;
 			recordName = "XML Comment";
-			FieldDetail[] fields1 =  {
-					new FieldDetail(XmlConstants.XML_NAME, "", Type.ftXmlNameTag, 0, "", 0, "").setPosOnly(idx++),
-					new FieldDetail(XmlConstants.END_ELEMENT, "", Type.ftCheckBoxTrue, 0, "", 0, "").setPosOnly(idx++),
-					new FieldDetail(XmlConstants.FOLLOWING_TEXT, "", Type.ftMultiLineEdit, 0, "", 0, "").setPosOnly(idx++),
-					new FieldDetail("zz:Dummy", "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
+			RecordDetail.FieldDetails[] fields1 =  {
+					new RecordDetail.FieldDetails(XmlConstants.XML_NAME, "", Type.ftXmlNameTag, 0, "", 0, "").setPosOnly(idx++),
+					new RecordDetail.FieldDetails(XmlConstants.END_ELEMENT, "", Type.ftCheckBoxTrue, 0, "", 0, "").setPosOnly(idx++),
+					new RecordDetail.FieldDetails(XmlConstants.FOLLOWING_TEXT, "", Type.ftMultiLineEdit, 0, "", 0, "").setPosOnly(idx++),
+					new RecordDetail.FieldDetails("zz:Dummy", "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
 			};
 			RecordDetail comment = new RecordDetail(recordName, XmlConstants.XML_NAME, recordName, Constants.RT_XML,
 					"", "", "",

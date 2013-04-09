@@ -9,7 +9,7 @@ import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.EditingCancelled;
 
 public class StartEditor {
-	protected FileView<?> file;
+	protected FileView file;
 	protected String fName;
 	private boolean pBrowse;
 
@@ -19,7 +19,7 @@ public class StartEditor {
 	//RecentFilesList recentList;
 
 
-	public StartEditor(FileView<?> file,
+	public StartEditor(FileView file,
 			String name, boolean browse,
 			JTextArea   messageFld,
 			int startRow) {
@@ -35,14 +35,13 @@ public class StartEditor {
 		if (Common.OPTIONS.loadInBackgroundThread.isSelected()) {
 			try {
 				(new net.sf.RecordEditor.edit.open.StartEditorBackGround(this)).execute();
+				return;
 			} catch (NoClassDefFoundError e) {
-				doRead();
-				done();
 			}
-		} else {
-			doRead();
-			done();
 		}
+		doRead();
+		done();
+
 	}
 	public void doRead() {
 		try {

@@ -6,15 +6,15 @@
  */
 package net.sf.RecordEditor.test;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.External.ExternalField;
 import net.sf.JRecord.External.ExternalRecord;
+import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.re.db.Record.RecordFieldsRec;
 import net.sf.RecordEditor.re.db.Record.RecordRec;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.jdbc.AbsRecord;
-import junit.framework.TestCase;
 
 /**
  *

@@ -10,38 +10,38 @@ import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractTreeDetails;
 import net.sf.RecordEditor.re.util.BasicLine2Xml;
 
-public class ChildTreeToXml<Layout extends AbstractLayoutDetails<?, ?>>
+public class ChildTreeToXml<Layout extends AbstractLayoutDetails>
 extends BasicLine2Xml {
-	
-//	private List<AbstractLine<Layout>> list;
-	private Iterator<? extends AbstractLine<Layout>> lineIterator;
-	private Layout layout;
 
-	public ChildTreeToXml(final String fileName, List<? extends AbstractLine<Layout>> lines) {
+//	private List<AbstractLine> list;
+	private Iterator<? extends AbstractLine> lineIterator;
+	private AbstractLayoutDetails layout;
+
+	public ChildTreeToXml(final String fileName, List<? extends AbstractLine> lines) {
 		super(fileName);
 
 		lineIterator = lines.listIterator();
-		
+
 		super.doWork();
  	}
 
-//	public ChildTreeToXml(final String fileName, Iterator<? extends AbstractLine<Layout>> iterator) {
+//	public ChildTreeToXml(final String fileName, Iterator<? extends AbstractLine> iterator) {
 //		super(fileName);
 //
 //		lineIterator = iterator;
-//		
+//
 //		super.doWork();
 // 	}
-	
-	
+
+
 	/**
 	 * @see net.sf.RecordEditor.re.util.BasicLine2Xml#writeDetails()
 	 */
 	@Override
 	protected void writeDetails() throws XMLStreamException {
-		
+
 		if (lineIterator.hasNext()) {
-			AbstractLine<Layout> line = lineIterator.next();
+			AbstractLine line = lineIterator.next();
 			layout = line.getLayout();
 			if (lineIterator.hasNext()) {
 				writer.writeStartElement("File_" + layout.getLayoutName());
@@ -51,35 +51,35 @@ extends BasicLine2Xml {
 				}
 				writer.writeEndElement();
 			} else {
-				writeNode(line);		
+				writeNode(line);
 			}
 		}
 //		switch (list.size()) {
 //		case(0): break;
-//		case(1): 
+//		case(1):
 //			layout = list.get(0).getLayout();
-//			writeNode(list.get(0));		
+//			writeNode(list.get(0));
 //		break;
 //		default:
 //			layout = list.get(0).getLayout();
-//		
+//
 //			writeList("File_" + list.get(0).getLayout().getLayoutName(), list);
 //			writer.writeStartElement("File_" + list.get(0).getLayout().getLayoutName());
-//			for (AbstractLine<Layout> l : list) {
+//			for (AbstractLine l : list) {
 //				writeNode(l);
 //			}
 //			writer.writeEndElement();
 //		}
 	}
 
-	private void writeNode(AbstractLine<Layout> line) throws XMLStreamException {
+	private void writeNode(AbstractLine line) throws XMLStreamException {
 		int i;
 		String name = fixName(
 				layout.getRecord(line.getPreferredLayoutIdx()).getRecordName()
 					.replace(" ", "_")
 		);
 		boolean leaf = true;
-		AbstractTreeDetails children 
+		AbstractTreeDetails children
 				= line.getTreeDetails();
 		if (children != null) {
 			for (i = 0; i < children.getChildCount(); i++) {
@@ -89,16 +89,16 @@ extends BasicLine2Xml {
 				}
 			}
 		}
-		
+
 		if (leaf) {
 			writer.writeEmptyElement(name);
 			writeAttributes(line);
 		} else {
-			List<? extends AbstractLine<Layout>> childLines;
+			List<? extends AbstractLine> childLines;
 			writer.writeStartElement(name);
-		
+
 			writeAttributes(line);
-			
+
 			for (i = 0; i < children.getChildCount(); i++) {
 				childLines = children.getLines(i);
 				if (childLines.size() > 0) {
@@ -114,11 +114,11 @@ extends BasicLine2Xml {
 	}
 
 
-	private void writeList(String name, List<? extends AbstractLine<Layout>> lines2write)
+	private void writeList(String name, List<? extends AbstractLine> lines2write)
 	throws XMLStreamException {
-		
+
 		writer.writeStartElement(name);
-		for (AbstractLine<Layout> l : lines2write) {
+		for (AbstractLine l : lines2write) {
 			writeNode(l);
 		}
 		writer.writeEndElement();

@@ -11,7 +11,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
-import net.sf.JRecord.External.ExternalField;
+import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.edit.util.StandardLayouts;
 import net.sf.RecordEditor.re.fileWriter.FixedWriter;
@@ -72,7 +72,6 @@ public class SaveAsPnlFixed extends SaveAsPnlBase {
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.display.SaveAs.SaveAsPnlBase#getEditLayout()
 	 */
-	@SuppressWarnings("rawtypes")
 	@Override
 	public AbstractLayoutDetails getEditLayout(String ext) {
     	AbstractLayoutDetails ret = null;

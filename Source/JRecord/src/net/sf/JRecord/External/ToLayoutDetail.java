@@ -8,10 +8,10 @@
 package net.sf.JRecord.External;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
+import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.JRecord.detailsSelection.Convert;
 
 
@@ -35,7 +35,7 @@ public class ToLayoutDetail {
 	 */
 	public LayoutDetail getLayout(ExternalRecord recordDefinition)
 	throws  RecordException {
-		
+
 		if (recordDefinition == null) {
 			return null;
 		}
@@ -90,13 +90,13 @@ public class ToLayoutDetail {
 	 * @return the same definition as used in the record editor
 	 */
 	private RecordDetail toRecordDetail(ExternalRecord def, int idx) {
-	    FieldDetail[] fields = new FieldDetail[def.getNumberOfRecordFields()];
+		RecordDetail.FieldDetails[] fields = new RecordDetail.FieldDetails[def.getNumberOfRecordFields()];
 	    ExternalField fieldRec;
 	    int i;
 
 	    for (i = 0; i < fields.length; i++) {
 	        fieldRec = def.getRecordField(i);
-	        fields[i] = new FieldDetail(fieldRec.getName(),
+	        fields[i] = new RecordDetail.FieldDetails(fieldRec.getName(),
 	                fieldRec.getDescription(), fieldRec.getType(),
 	                fieldRec.getDecimal(), def.getFontName(), 0, fieldRec.getParameter());
 
@@ -105,28 +105,28 @@ public class ToLayoutDetail {
 	        } else {
 	        	fields[i].setPosLen(fieldRec.getPos(), fieldRec.getLen());
 	        }
-	        
+
 		    String s = fieldRec.getDefault();
 		    if (s != null && ! "".equals(s)) {
 		    	fields[i].setDefaultValue(s);
 		    }
 	    }
 
-	    
-	    RecordDetail ret = new RecordDetail(def.getRecordName(), 
+
+	    RecordDetail ret = new RecordDetail(def.getRecordName(),
 //	    		def.getTstField(), def.getTstFieldValue(),
 	            def.getRecordType(), def.getDelimiter(), def.getQuote(),
 	            def.getFontName(), fields, def.getRecordStyle(), idx);
 	    ret.setParentRecordIndex(def.getParentRecord());
-	    
+
 	    if (def.getRecordSelection() != null && def.getRecordSelection().getSize() > 0) {
 	    	ret.getRecordSelection().setRecSel((new Convert()).convert(def.getRecordSelection(), ret));
 	    }
-	    
+
 	    if (def.isDefaultRecord()) {
 	    	ret.getRecordSelection().setDefaultRecord(true);
 	    }
-	    
+
 	    return ret;
 	}
 

@@ -12,9 +12,9 @@ import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.zTest.Common.TstConstants;
 
 /**
- * Example of writing a File using a RecordEditor - XML copybook 
+ * Example of writing a File using a RecordEditor - XML copybook
  * definition
- * 
+ *
  * @author Bruce Martin
  *
  */
@@ -28,7 +28,7 @@ public final class XmplLineIO8 {
 	     */
 	    private XmplLineIO8() {
 	        super();
-	
+
 		    String installDir     = TstConstants.SAMPLE_DIRECTORY;
 		    String salesFileOut   = installDir + "DTAR020out8.bin";
 		    String copybookName   = TstConstants.RECORD_EDITOR_XML_DIRECTORY
@@ -39,13 +39,13 @@ public final class XmplLineIO8 {
 	            int fileStructure = Constants.IO_FIXED_LENGTH;
 	            CopybookLoader loader = new RecordEditorXmlLoader();
 	            ExternalRecord extlayout = loader.loadCopyBook(copybookName, 0, 0, "", 0, 0, null);
-	            /* 
+	            /*
 	             * Converting from the interchange (ExternalRecord) format to LayoutDetail
-	             */	         
+	             */
 	            LayoutDetail layout = extlayout.asLayoutDetail();
 	            AbstractLine saleRecord = new Line(layout);
 	            AbstractLineWriter writer  = LineIOProvider.getInstance().getLineWriter(fileStructure);
-	            
+
 	            writer.open(salesFileOut);
 
 	            saleRecord.getFieldValue("KEYCODE-NO").set(1331);
@@ -55,10 +55,10 @@ public final class XmplLineIO8 {
 	            saleRecord.getFieldValue("QTY-SOLD").set(7);
 	            saleRecord.getFieldValue("SALE-PRICE").set(7.00);
 	            writer.write(saleRecord);
-	            
+
 	            saleRecord.getFieldValue("STORE-NO").set(11);
 	            writer.write(saleRecord);
-	            
+
 	            saleRecord.getFieldValue("STORE-NO").set(121);
 	            writer.write(saleRecord);
 

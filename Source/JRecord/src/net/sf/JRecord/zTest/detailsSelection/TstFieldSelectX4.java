@@ -2,9 +2,11 @@ package net.sf.JRecord.zTest.detailsSelection;
 
 import java.util.ArrayList;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
+import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.External.ExternalRecord;
@@ -12,7 +14,6 @@ import net.sf.JRecord.External.RecordEditorXmlLoader;
 import net.sf.JRecord.detailsSelection.FieldSelect;
 import net.sf.JRecord.detailsSelection.FieldSelectX;
 import net.sf.JRecord.zTest.Common.TstConstants;
-import junit.framework.TestCase;
 
 public class TstFieldSelectX4 extends TestCase {
 
@@ -552,13 +553,13 @@ public class TstFieldSelectX4 extends TestCase {
 
 
 	private void doTest(String layoutStr, String[] compare, boolean caseSensitive, String[][][] results) throws Exception {
-		ArrayList<AbstractLine<LayoutDetail>> lines = getLines(layoutStr);
+		ArrayList<AbstractLine> lines = getLines(layoutStr);
 
 		for (int lineNo = 0; lineNo < lines.size(); lineNo++) {
-			AbstractLine<LayoutDetail> l = getLines(layoutStr).get(lineNo);
-			LayoutDetail layout = l.getLayout();
+			AbstractLine l = getLines(layoutStr).get(lineNo);
+			AbstractLayoutDetails layout = l.getLayout();
 
-			FieldDetail fd = layout.getRecord(0).getField(0);
+			IFieldDetail fd = layout.getRecord(0).getField(0);
 			FieldSelect fs ;
 			String s;
 
@@ -580,13 +581,13 @@ public class TstFieldSelectX4 extends TestCase {
 
 	@SuppressWarnings("unused")
 	private void printTest(String layoutStr, String[] compare, boolean caseSensitive) throws Exception {
-		ArrayList<AbstractLine<LayoutDetail>> lines = getLines(layoutStr);
+		ArrayList<AbstractLine> lines = getLines(layoutStr);
 
 		for (int lineNo = 0; lineNo < lines.size(); lineNo++) {
-			AbstractLine<LayoutDetail> l = getLines(layoutStr).get(lineNo);
-			LayoutDetail layout = l.getLayout();
+			AbstractLine l = getLines(layoutStr).get(lineNo);
+			AbstractLayoutDetails layout = l.getLayout();
 
-			FieldDetail fd = layout.getRecord(0).getField(0);
+			IFieldDetail fd = layout.getRecord(0).getField(0);
 			FieldSelect fs ;
 			String s;
 
@@ -623,7 +624,7 @@ public class TstFieldSelectX4 extends TestCase {
 		}
 	}
 
-	private ArrayList<AbstractLine<LayoutDetail>> getLines(String layoutTxt) throws Exception {
+	private ArrayList<AbstractLine> getLines(String layoutTxt) throws Exception {
 		return TstConstants.getLines(getLayout(layoutTxt), lines);
 	}
 

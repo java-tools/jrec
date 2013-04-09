@@ -30,7 +30,7 @@ def test():
 		select('TabbedPane', '')
 		click('Choose File')
 
-		if window('Open'):
+		if window('Save'):
 			select(commonBits.selectPane(), 'Compare')
 			##doubleclick(commonBits.selectPane(), '0')
 			select(commonBits.selectPane(), 'zzTest_asmLocation.Xml')

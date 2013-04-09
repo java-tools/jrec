@@ -5,8 +5,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableColumn;
 
-import org.jdesktop.swingx.JXTipOfTheDay;
-
 import net.sf.RecordEditor.edit.display.AbstractCreateChildScreen;
 import net.sf.RecordEditor.edit.display.BaseDisplay;
 import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
@@ -17,6 +15,8 @@ import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+
+import org.jdesktop.swingx.JXTipOfTheDay;
 
 public class TipList extends EditPaneListScreen
 implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWithFieldHide, AbstractCreateChildScreen {

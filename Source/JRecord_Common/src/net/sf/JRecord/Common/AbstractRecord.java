@@ -1,9 +1,9 @@
 package net.sf.JRecord.Common;
 
 /**
- * Very Basic RecordLayout interface. It is used by the field Definitions to get 
+ * Very Basic RecordLayout interface. It is used by the field Definitions to get
  * Data from the RecordDefinition that it belongs to
- * 
+ *
  * @author Bruce Martin
  *
  */
@@ -29,5 +29,4 @@ public interface AbstractRecord {
 	 * @return the sourceIndex
 	 */
 	public abstract int getSourceIndex();
-
 }

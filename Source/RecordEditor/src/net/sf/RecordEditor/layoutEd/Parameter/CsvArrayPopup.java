@@ -4,6 +4,7 @@ import java.awt.Component;
 import javax.swing.JTextField;
 
 import net.sf.JRecord.CsvParser.BasicParser;
+import net.sf.JRecord.CsvParser.CsvDefinition;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 
 import com.zbluesoftware.java.bm.AbstractPopup;
@@ -26,23 +27,23 @@ import com.zbluesoftware.java.bm.AbstractPopup;
 @SuppressWarnings("serial")
 public class CsvArrayPopup extends AbstractPopup  {
     //private static final int FIELD_WIDTH = 20;
-     
+
     private JTextField quote = new JTextField(5);
     private JTextField separator1 = new JTextField();
     private JTextField separator2 = new JTextField();
-    
+
     private BasicParser parser = BasicParser.getInstance();
-    
+
     private boolean isPacked = false;
-    
+
     private BasePanel pnl = null;
-    
+
 //    FocusAdapter lostFocus = new FocusAdapter() {
 //    	public void focusLost(FocusEvent e) {
 //    		//Object s = getValue();
 //    		//System.out.println("~~~ " + s + " > " + separator1.getText() + " > " + separator2.getText());
 //     	    CsvArrayPopup.this.firePropertyChange(AbstractPopup.POPUP_CHANGED, null, getValue());
-//     	
+//
 //       	}
 //    };
 
@@ -53,13 +54,13 @@ public class CsvArrayPopup extends AbstractPopup  {
      */
     public CsvArrayPopup() {
     	super();
-    	
+
     	quote.addFocusListener(lostFocus);
     	separator1.addFocusListener(lostFocus);
     	separator2.addFocusListener(lostFocus);
     	//this.addP
     }
-    
+
     public Object getValue() {
    	    String[] fields;
 	    String s = separator2.getText();
@@ -69,15 +70,15 @@ public class CsvArrayPopup extends AbstractPopup  {
 	    	fields = new String[3];
 	    	fields[2] = s;
 	    }
-	    
+
 	    fields[0] = quote.getText();
 	    fields[1] = separator1.getText();
-	    
+
 	    return LayoutCommon.buildCsvField(fields);
    }
-    
+
     /**
-     * Set the Text value 
+     * Set the Text value
      * @param text new text value
      */
 	public void setValue(Object value) {
@@ -85,14 +86,15 @@ public class CsvArrayPopup extends AbstractPopup  {
 		if (value != null) {
 			text = value.toString();
 		}
-		
+
 		if (text.length() > 0) {
 			String delim = text.substring(0, 1);
 			String line = text.substring(1);
-		
-			quote.setText(parser.getField(0, line, delim, ""));
-			separator1.setText(parser.getField(1, line, delim, ""));
-			separator2.setText(parser.getField(2, line, delim, ""));
+
+			CsvDefinition csvDef = new CsvDefinition(delim, "");
+			quote.setText(parser.getField(0, line, csvDef));
+			separator1.setText(parser.getField(1, line, csvDef));
+			separator2.setText(parser.getField(2, line, csvDef));
 		}
 	}
 
@@ -100,10 +102,10 @@ public class CsvArrayPopup extends AbstractPopup  {
 
 
 
-                   
+
         //private Thread packThread;
 
-  
+
          // public methods
         /**
          * show the JPopupCalendar. Consistent with the original behavior of
@@ -135,10 +137,10 @@ public class CsvArrayPopup extends AbstractPopup  {
          */
         public void pack() {
             //datePane.pack();
-        	
+
         	if (pnl == null) {
         		pnl = new BasePanel();
-        		
+
         		pnl.addLine("Quote", quote);
         		pnl.setGap(BasePanel.GAP1);
         		pnl.addLine("Seperator 1", separator1);

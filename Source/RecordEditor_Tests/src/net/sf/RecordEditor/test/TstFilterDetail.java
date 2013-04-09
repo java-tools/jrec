@@ -9,14 +9,11 @@ package net.sf.RecordEditor.test;
 
 import javax.swing.table.AbstractTableModel;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.RecordEditor.re.file.filter.FilterDetails;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
 import net.sf.RecordEditor.utils.common.Common;
-
-
-
-import junit.framework.TestCase;
 
 /**
  *
@@ -55,7 +52,7 @@ public class TstFilterDetail extends TestCase {
             poCopyBook = copybookInt.getLayout(poCopybookName);
         }
 
-        filter = new FilterDetails(poCopyBook);
+        filter = new FilterDetails(poCopyBook, FilterDetails.FT_NORMAL);
         fieldList = filter.getFieldListMdl();
         //filterFieldList = filter.getFilterFieldListMdl();
         //layoutList = filter.getLayoutListMdl();

@@ -1,17 +1,24 @@
 package net.sf.JRecord.Details;
 
 import net.sf.JRecord.Common.AbstractRecordX;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 
 
-public interface AbstractRecordDetail<FieldDefinition extends FieldDetail>
-extends AbstractRecordX<FieldDefinition> {
+public interface AbstractRecordDetail
+extends AbstractRecordX<AbstractRecordDetail.FieldDetails> {
 
-	/**
-	 * Add a record to the layout
-	 * @param field new field
-	 */
-	public abstract void addField(FieldDefinition field);
+	interface FieldDetails extends IFieldDetail {
+
+	}
+
+    public String getFieldTypeName(int idx);
+
+    public FieldDetails getField(int idx);
+//	/**
+//	 * Add a record to the layout
+//	 * @param field new field
+//	 */
+//	public abstract void addField(IFieldDetail field);
 
 	/**
 	 * Get the Record Name
@@ -24,12 +31,12 @@ extends AbstractRecordX<FieldDefinition> {
 //	 * Get Selection Field
 //	 * @return Selection field
 //	 */
-//	public abstract FieldDefinition getSelectionField();
+//	public abstract IFieldDetail getSelectionField();
 
-	/**
-	 * @param newSelectionField the selectionFld to set
-	 */
-	public abstract void setSelectionField(FieldDefinition newSelectionField);
+//	/**
+//	 * @param newSelectionField the selectionFld to set
+//	 */
+//	public abstract void setSelectionField(IFieldDetail newSelectionField);
 
 //	/**
 //	 * This method returns a value to be compared with the selection field.
@@ -100,7 +107,7 @@ extends AbstractRecordX<FieldDefinition> {
 	 *
 	 * @return index of the record
 	 */
-	public abstract FieldDefinition getField(String fieldName);
+	public abstract FieldDetails getField(String fieldName);
 
 	/**
 	 * Get the maximum width of the fields (a value < 0 means
@@ -148,7 +155,7 @@ extends AbstractRecordX<FieldDefinition> {
 	 * @param idx Child Index
 	 * @return Child record Definition
 	 */
-	public AbstractChildDetails<? extends AbstractRecordDetail<FieldDefinition>> getChildRecord(int idx);
+	public AbstractChildDetails<? extends AbstractRecordDetail> getChildRecord(int idx);
 
 	/**
 	 * Get option value - generic test

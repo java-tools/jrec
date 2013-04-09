@@ -23,7 +23,7 @@ implements AbstractFileDisplayWithFieldHide {
 	private JTable parentTbl;
 
 
-	public PoRecordScreen(@SuppressWarnings("rawtypes") FileView viewOfFile, int lineNo, JTable parentTbl) {
+	public PoRecordScreen(FileView viewOfFile, int lineNo, JTable parentTbl) {
 		super("Single PO Record", viewOfFile, lineNo);
 
 		this.parentTbl = parentTbl;
@@ -58,7 +58,7 @@ implements AbstractFileDisplayWithFieldHide {
 	public void setScreenSize(boolean mainframe) {
 
 
-		int preferedWidth = java.lang.Math.min(this.screenSize.width - 2, 160 * SwingUtils.CHAR_WIDTH );
+		int preferedWidth = java.lang.Math.min(this.screenSize.width - 2, 160 * SwingUtils.CHAR_FIELD_WIDTH );
 		setScreenSize(mainframe, preferedWidth, this.screenSize.height - 3 - getParentFrame().getY());
 
 	}

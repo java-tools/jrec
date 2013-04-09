@@ -16,6 +16,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
@@ -27,9 +28,6 @@ import net.sf.JRecord.External.ToLayoutDetail;
 import net.sf.JRecord.IO.XmlLineReader;
 import net.sf.JRecord.Numeric.Convert;
 import net.sf.JRecord.zTest.Common.TstConstants;
-
-
-import junit.framework.TestCase;
 
 /**
  *
@@ -162,7 +160,7 @@ public class TstXmlLine extends TestCase {
     }
 
 
- 
+
     public void testGetFieldValueString() throws Exception {
 
         assertEquals(" 1 GetFieldValue - Character Field " + line.getFieldValue(1, xmlTotal + 0).asString(),
@@ -214,7 +212,7 @@ public class TstXmlLine extends TestCase {
 //        assertEquals(" 1 GetFieldValue - Character Field " + line.getFieldValue(0, 0).asString(),
 //                "asdf", line.getFieldValue(0, 0).asString());
 //       assertEquals(" 2 GetFieldValue - Character Field ", "    qwerty", line.getFieldValue(0, 1).asString());
-    	
+
     	System.out.println(">> 1 " + getLineField( 0));
        	System.out.println(">> 2 " + getLineField( 1));
        	System.out.println(">> 3 " + getLineField( 2));
@@ -240,7 +238,7 @@ public class TstXmlLine extends TestCase {
         //assertEquals("20 GetFieldValue - Long ", "100000000000000000", line.getFieldValue(0, 19));
         checkAllNums("23 GetFieldValue - Mainframe Packed ", "1234", 22);
         checkDecimal(line, "24 GetFieldValue - Mainframe Packed with decimal", "123.0", 23);
-     
+
 
         checkAllNums("25 GetFieldValue - Mainframe Zoned ", "-12", 24);
         checkDecimal(line, "26 GetFieldValue - Mainframe Zoned with decimal", "-0.12",  25);
@@ -264,21 +262,21 @@ public class TstXmlLine extends TestCase {
         assertEquals("22 GetFieldValue - Mainframe Long  e) ",
         		new BigInteger("100000000000000000"), line1.getFieldValue(1, 21 + xmlTotal).asBigInteger());
      }
-    
+
     private void checkAllNums(String id, String val, int fld) {
-    	
+
     	checkAllNums(line, id,  val, fld);
     }
 
-    
+
     private void checkAllNums(AbstractLine pLine, String id, String val, int fld) {
-    	
+
     	System.out.print(">>   " + fld + " >" + val
     			+ " >" + pLine.getFieldValue(1, fld + xmlTotal).asString());
        	System.out.println(" " + pLine.getLayout().getRecord(1).getField(fld + xmlTotal).getName());
     	if (Integer.parseInt(val) != pLine.getFieldValue(1, fld + xmlTotal).asInt()) {
 //        	int i =  line.getFieldValue(0, fld).asInt();
-        	System.out.println(">> " + fld + " " + Integer.parseInt(val) 
+        	System.out.println(">> " + fld + " " + Integer.parseInt(val)
     			+ " " + pLine.getFieldValue(1, fld + xmlTotal).asString()
     			+ " " + pLine.getFieldValue(1, fld + xmlTotal).asInt() + " " + pLine.getFieldValue(1, fld).asBigDecimal());
     	}
@@ -286,11 +284,11 @@ public class TstXmlLine extends TestCase {
         checkDecimal(pLine, id, val,  fld);
         assertEquals(id + " e) ", new BigInteger(val), pLine.getFieldValue(1, fld + xmlTotal).asBigInteger());
     }
-    
-    
+
+
     private void checkDecimal(AbstractLine pLine, String id, String val, int fld) {
-    	
-       	System.out.print(">>>> " + fld + " >" + val 
+
+       	System.out.print(">>>> " + fld + " >" + val
     			+ " >" + pLine.getFieldValue(1, fld + xmlTotal).asString()
     			+ " " + pLine.getLayout().getRecord(1).getRecordName());
        	System.out.println(" " + pLine.getLayout().getRecord(1).getField(fld + xmlTotal).getName());
@@ -298,9 +296,9 @@ public class TstXmlLine extends TestCase {
         assertEquals(id + " c) ", Double.parseDouble(val), pLine.getFieldValue(1, fld + xmlTotal).asDouble(), 0.000001);
         assertEquals(id + " d) ", new BigDecimal(val), pLine.getFieldValue(1, fld + xmlTotal).asBigDecimal());
     }
-    
- 
-    
+
+
+
     /**
      * Test Line.setField
      *
@@ -339,7 +337,7 @@ public class TstXmlLine extends TestCase {
         //checkAssignment("12n setField - Decimal ",        11, "-67.67");
 
         checkAssignmentText("14n setField - Num 2 Decimal Digits ", 13, "-43.56", "-43.56");
- 
+
         checkAssignmentText("25n1 setField - Mainframe Zoned ", 24, "-23", "2L");
         checkAssignmentText("26n1 setField - Mainframe Zoned with decimal", 25, "-23.45", "234N");
 
@@ -360,7 +358,7 @@ public class TstXmlLine extends TestCase {
         checkAssignmentText("26n2 setField - Mainframe Zoned with decimal", 25, "-0.45", "004N");
     }
 
- 
+
 
 
     /**
@@ -467,42 +465,42 @@ public class TstXmlLine extends TestCase {
         return new Line(dtar0020,
                 		recDtar020);
     }
-    
-    
-    
+
+
+
     private	XMLStreamWriter writer;
     private final AbstractLine getAsXml(AbstractLine pLine, String id) throws Exception {
 	   	XMLOutputFactory f ;
 	   	String fileName = TstConstants.SAMPLE_DIRECTORY + "TempXml" + id + ".xml";
 
 	   	try {
-	   		f = XMLOutputFactory.newInstance();	
+	   		f = XMLOutputFactory.newInstance();
 	   	} catch (Exception e) {
-	   		Object o =  XMLOutputFactory.newInstance("javax.xml.stream.XMLOutputFactory", 
+	   		Object o =  XMLOutputFactory.newInstance("javax.xml.stream.XMLOutputFactory",
 	   				this.getClass().getClassLoader());
 	   		f = (XMLOutputFactory) o;
 	   	}
-	   	
+
 		writer = f.createXMLStreamWriter(new FileOutputStream(
 				fileName
 		));
 		writer.writeStartDocument();
-		
+
 		writer.writeEmptyElement("Line");
 		writeAttributes(pLine);
- 	       
+
 		writer.writeEndDocument();
 	    writer.close();
-	    
+
 	    XmlLineReader r = new XmlLineReader(true);
-	    
+
 	    r.open(fileName);
 	    r.read();
-	    
+
 	    return r.read();
 	}
-	
-	
+
+
 	protected final void writeAttributes(AbstractLine pLine) throws XMLStreamException {
 		if (pLine != null) {
 			int pref = pLine.getPreferredLayoutIdx();
@@ -510,27 +508,27 @@ public class TstXmlLine extends TestCase {
 			int end = record.getFieldCount();
 			Object value;
 			String name;
-			
+
 			for (int i = 0; i < end; i++) {
 				value = pLine.getField(pref, i);
 				name = fixName(record.getField(i).getName());
-				if (value != null && ! "".equals(value) 
+				if (value != null && ! "".equals(value)
 				&& (name.equals("Filler-4") || ! name.startsWith("Filler"))) {
 					 writer.writeAttribute(name, value.toString());
-//					 System.out.println("<<< " + fixName(rec.getField(i).getName()) 
+//					 System.out.println("<<< " + fixName(rec.getField(i).getName())
 //							 + ": " + value.toString());
-					 
+
 				} else {
 					if (name.startsWith("Filler")) {
 						name = name + i;
 					}
 					writer.writeAttribute(name, " ");
 				}
-				
+
 			}
 		}
 	}
-	
+
 	protected final String fixName(String name) {
 		return name.replace(" ", "_").replace(":","_").replace(".", "_");
 	}

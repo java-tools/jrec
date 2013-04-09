@@ -100,7 +100,6 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 
 	private AbstractFileDisplay source;
 
-	@SuppressWarnings("rawtypes")
 	private FileView file;
 	private boolean firstTimeDisplayed = true;
 
@@ -125,7 +124,7 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	 * @param src Where the search came from (parent frame)
 	 * @param lst Layout List
 	 */
-	public Search(final AbstractFileDisplay src, @SuppressWarnings("rawtypes") FileView master) {
+	public Search(final AbstractFileDisplay src, FileView master) {
 		super(master.getFileNameNoDirectory(), "Find",
 				master);
 
@@ -203,7 +202,7 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	 *
 	 * @param iFile - Internal representation of a File
 	 */
-	public void startSearch(@SuppressWarnings("rawtypes") final FileView iFile) {
+	public void startSearch(final FileView iFile) {
 		file = iFile;
 		pos.setLineCount(iFile.getRowCount());
 

@@ -73,7 +73,7 @@ public class OpenFile extends ReFrame {
 //	        	   final CopyBookInterface pInterfaceToCopyBooks,
 	        	   final JButton layoutCreate1,
 	        	   final JButton layoutCreate2,
-	        	   final AbstractLayoutSelection<?> selection) {
+	        	   final AbstractLayoutSelection selection) {
 	    this(pInFile, pInitialRow, pIoProvider,
     		//pInterfaceToCopyBooks,
 	         layoutCreate1, layoutCreate2,

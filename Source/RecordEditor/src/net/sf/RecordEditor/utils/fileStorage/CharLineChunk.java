@@ -1,6 +1,6 @@
 package net.sf.RecordEditor.utils.fileStorage;
 
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.LayoutDetail;
 
@@ -17,7 +17,7 @@ public class CharLineChunk extends CharLineBase {
 		return chunk.getString(chunkLine);
 	}
 
-	
+
 	@Override
 	protected void clearData() {
 
@@ -35,15 +35,15 @@ public class CharLineChunk extends CharLineBase {
 
 
 	@Override
-	public void setField(FieldDetail field, Object value)
+	public void setField(IFieldDetail field, Object value)
 			throws RecordException {
-		
+
 		synchronized (this) {
 			String b = getLineFromChunk();
 			super.setDataRaw(b);
 			//System.out.print("setField - getFrom storage");
 			//writeByteArray(b);
-			super.setField(field, value); 
+			super.setField(field, value);
 			updateChunk();
 		}
 	}
@@ -54,7 +54,7 @@ public class CharLineChunk extends CharLineBase {
 		super.setDataRaw(getLineFromChunk());
 		String s = super.setFieldHex(recordIdx, fieldIdx, val);
 		updateChunk();
-		
+
 		return s;
 	}
 

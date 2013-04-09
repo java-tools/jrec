@@ -16,9 +16,12 @@ import java.io.IOException;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
+import net.sf.RecordEditor.edit.display.DisplayBuilder;
 import net.sf.RecordEditor.edit.display.LineList;
-import net.sf.RecordEditor.edit.file.FileView;
+import net.sf.RecordEditor.edit.open.DisplayBuilderFactory;
 import net.sf.JRecord.Details.LayoutDetail;
+import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
@@ -91,11 +94,11 @@ public final class XmplEditSuppliedData {
 
 		        setupData(file);
 
-		        new ReMainFrame("", "");
-		        LineList list = new LineList(fileDescription, file, file);
+		        new ReMainFrame("", "", "X");
+		        AbstractFileDisplay list = DisplayBuilderFactory.newLineList(null, fileDescription, file, file);
 				list.setCurrRow(initialRow, -1, -1);
 
-				list.addInternalFrameListener(new InternalFrameAdapter() {
+				list.getParentFrame().getReFrame().addInternalFrameListener(new InternalFrameAdapter() {
 					public void internalFrameClosed(final InternalFrameEvent e) {
 						Common.closeConnection();
 
@@ -164,7 +167,7 @@ public final class XmplEditSuppliedData {
 	    }
 
         /**
-         * @see net.sf.RecordEditor.edit.file.FileView#getColumnName(int, int)
+         * @see net.sf.RecordEditor.re.file.FileView#getColumnName(int, int)
          */
         public String getColumnName(int col) {
     		if (col > 1) {
@@ -177,7 +180,7 @@ public final class XmplEditSuppliedData {
 
 
         /**
-         * @see net.sf.RecordEditor.edit.file.FileView#writeFile()
+         * @see net.sf.RecordEditor.re.file.FileView#writeFile()
          */
         public void writeFile() {
             // TODO Code to save the FileView details goes here

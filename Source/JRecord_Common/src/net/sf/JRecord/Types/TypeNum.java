@@ -26,7 +26,7 @@ import java.math.BigInteger;
 import java.text.NumberFormat;
 
 import net.sf.JRecord.Common.Conversion;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 
 
@@ -43,7 +43,7 @@ public class TypeNum extends TypeChar {
     private static final int BASE_10 = 10;
     private boolean adjustTheDecimal;
     private boolean couldBeLong = true;
-    private boolean positive = false;
+    private final boolean positive;
     private String padChar = " ";
 
     private int typeIdentifier;
@@ -73,14 +73,25 @@ public class TypeNum extends TypeChar {
      * </ul>
      */
     public TypeNum(final int typeId) {
+    	this(typeId, false);
+    }
+
+    /**
+     *
+     * @param typeId
+     * @param isPositive
+     */
+    public TypeNum(final int typeId, final boolean isPositive) {
         super(typeId == Type.ftNumLeftJustified, false, true);
 
         adjustTheDecimal =  (typeId == Type.ftAssumedDecimal);
         setNumeric(true);
+        positive = isPositive;
 
         typeIdentifier = typeId;
 
         if ((typeId == Type.ftAssumedDecimal)
+        ||  (typeId == Type.ftAssumedDecimalPositive)
         ||  (typeId == Type.ftNumZeroPadded)) {
             padChar = "0";
         }
@@ -132,7 +143,7 @@ public class TypeNum extends TypeChar {
 	 */
 	public Object getField(final byte[] record,
 	        final int position,
-			final FieldDetail currField) {
+			final IFieldDetail currField) {
 	    Object ret = super.getField(record, position, currField);
 
 	    ret = addDecimalPoint(ret.toString(), currField.getDecimal());
@@ -194,7 +205,7 @@ public class TypeNum extends TypeChar {
 	 */
 	public byte[] setField(byte[] record,
 	        final int position,
-			final FieldDetail field,
+			final IFieldDetail field,
 			Object value)
 	throws RecordException {
 
@@ -228,7 +239,7 @@ public class TypeNum extends TypeChar {
 	 * @return value value as it is store in the record
 	 * @throws RecordException any conversion errors
 	 */
-	public String formatValueForRecord(FieldDetail field, String val)
+	public String formatValueForRecord(IFieldDetail field, String val)
 	throws RecordException {
 
 	    if (field.getDecimal() == 0 && couldBeLong) {
@@ -278,7 +289,7 @@ public class TypeNum extends TypeChar {
 	 *
 	 * @return valuer as a big integer
 	 */
-	protected BigDecimal getBigDecimal(FieldDetail field, String val) {
+	protected BigDecimal getBigDecimal(IFieldDetail field, String val) {
 
 	    BigDecimal decimalVal = new BigDecimal(Conversion.numTrim(val));
 
@@ -310,7 +321,10 @@ public class TypeNum extends TypeChar {
 
 
     /**
-     * get the positive value
+     * get the positive value. This attribute was originally setup for <b>internal</b> use
+     * (with binary numbers). I will try and fix it for other types, but it might / might not
+     * be set correctly.
+     * Use it at you own risk !!
      * @return Returns the positive.
      */
     public boolean isPositive() {

@@ -64,7 +64,6 @@ import net.sf.RecordEditor.utils.swing.LayoutCombo;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.swing.saveRestore.ISaveDetails;
 import net.sf.RecordEditor.utils.swing.saveRestore.IUpdateDetails;
-import net.sf.RecordEditor.utils.swing.saveRestore.SaveButton;
 import net.sf.RecordEditor.utils.swing.saveRestore.SaveLoadPnl;
 
 

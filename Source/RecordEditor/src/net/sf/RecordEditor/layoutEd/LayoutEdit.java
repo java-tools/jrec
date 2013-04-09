@@ -64,7 +64,7 @@ public class LayoutEdit extends ReMainFrame {
 	        Common.getRecordIcon(Common.ID_NEW_ICON), ReActionHandler.NEW, this);
 
 	/**
-	 * @throws java.awt.HeadlessException
+	 *Edit record layout
 	 */
 	public LayoutEdit() {
 		super("Record Layout Definitions", "", "le");

@@ -1,5 +1,6 @@
 package net.sf.RecordEditor.test.recordSelection;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.detailsSelection.AbsGroup;
 import net.sf.JRecord.detailsSelection.AndSelection;
 import net.sf.JRecord.detailsSelection.FieldSelect;
@@ -10,7 +11,6 @@ import net.sf.RecordEditor.re.db.Record.RecordSelectionRec;
 import net.sf.RecordEditor.test.recordSelection.TestValues.OpTree;
 import net.sf.RecordEditor.utils.ReadRecordSelection;
 import net.sf.RecordEditor.utils.common.Common;
-import junit.framework.TestCase;
 
 public class TestReadRecordSelection extends TestCase {
 

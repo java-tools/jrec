@@ -12,7 +12,7 @@ def test():
 		commonBits.setRecordLayout2(select, 'DTAR020')
 
 		##select('ComboBox2', 'DTAR020')
-		select('ComboBox3', '<Tab>')
+		select('DelimiterCombo', '<Tab>')
 		click('Right')
 		select('TabbedPane', '')
 		click('Right')

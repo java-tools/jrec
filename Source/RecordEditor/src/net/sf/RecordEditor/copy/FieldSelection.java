@@ -24,15 +24,15 @@ public class FieldSelection extends BaseFieldSelection implements AbstractWizard
 	private CopyDefinition values;
 	private String lastLayoutName1 = "";
 
-	private AbstractLayoutSelection<?> selection1;
+	private AbstractLayoutSelection selection1;
 
 
-	private static final AbstractLayoutDetails<?, ?> layout2 = null;
+	private static final AbstractLayoutDetails layout2 = null;
 
 	/**
 	 * @param layoutSelection
 	 */
-	public FieldSelection(AbstractLayoutSelection<?> layoutSelection1,
+	public FieldSelection(AbstractLayoutSelection layoutSelection1,
 			FormatFileName layoutSelection2,
 			String helpName) {
 		super();

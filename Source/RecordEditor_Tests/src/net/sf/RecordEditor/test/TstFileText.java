@@ -14,16 +14,12 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.util.StringTokenizer;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
 import net.sf.RecordEditor.utils.common.Common;
-
-
-
-//import edit.DetailRecord;
-import junit.framework.TestCase;
 
 
 /**

@@ -18,6 +18,8 @@ public class ParserManager extends BasicNamedManager<AbstractParser> {
 	public static final int BASIC_QUOTED_COL_NAME_CSV_PARSER = 3;
 	public static final int STANDARD_QUOTED_COL_NAME_CSV_PARSER = 4;
 	public static final int DB_QUOTED_COL_NAME_CSV_PARSER = 5;
+	public static final int BASIC_ENSURE_CORRECT_NO_FIELDS = 6;
+	public static final int BASIC_ENSURE_CORRECT_NO_FIELDS_P1 = 7;
 
 	private static final int NUMBER_OF_PARSERS = 50;
 	private static ParserManager instance = null;
@@ -40,6 +42,8 @@ public class ParserManager extends BasicNamedManager<AbstractParser> {
 				new StandardParser(false, true));
 		register(DB_QUOTED_COL_NAME_CSV_PARSER, "Parser - Quotes based on field Type, Column names in quotes",
 				new StandardParser(true, true));
+		register(BASIC_ENSURE_CORRECT_NO_FIELDS,    "Basic - Delimiter all fields",     new BasicParser(false, ICsvDefinition.SEP_FOR_EVERY_FIELD));
+		register(BASIC_ENSURE_CORRECT_NO_FIELDS_P1, "Basic - Delimiter all fields + 1", new BasicParser(false, ICsvDefinition.SEP_FOR_EVERY_FIELD_PLUS_END));
 	}
 
 	/**

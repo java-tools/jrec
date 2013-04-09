@@ -20,7 +20,7 @@ public class TipDisplayBuilder extends DisplayBuilderAdapter {
 	public AbstractFileDisplayWithFieldHide newDisplay(int screenType,
 			String screenName,
 			IDisplayFrame<? extends AbstractFileDisplay> parentFrame,
-			AbstractLayoutDetails<?, ?> group, FileView<?> viewOfFile,
+			AbstractLayoutDetails group, FileView viewOfFile,
 			int lineNo) {
 		if (viewOfFile.getLayout().getFileStructure() == Constants.IO_TIP) {
 			switch (screenType) {

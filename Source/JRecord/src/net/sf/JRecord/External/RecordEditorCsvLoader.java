@@ -15,19 +15,18 @@ import java.io.InputStreamReader;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.xml.sax.SAXException;
-
-import net.sf.JRecord.External.CopybookLoader;
-import net.sf.JRecord.External.ExternalField;
-import net.sf.JRecord.External.ExternalRecord;
-import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
-import net.sf.JRecord.Log.AbsSSLogger;
-import net.sf.JRecord.Numeric.Convert;
-import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.CsvParser.BasicParser;
+import net.sf.JRecord.CsvParser.CsvDefinition;
+import net.sf.JRecord.External.Def.ExternalField;
+import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
+import net.sf.JRecord.Log.AbsSSLogger;
+import net.sf.JRecord.Numeric.Convert;
+import net.sf.JRecord.Types.Type;
+
+import org.xml.sax.SAXException;
 
 /**
  * This class reads a Record Layout (Copybook) stored in a  tab delimited file.
@@ -47,21 +46,21 @@ import net.sf.JRecord.CsvParser.BasicParser;
  *        CopybookLoader loader = new RecordEditorCsvLoader(",");
  *        LayoutDetail layout = loader.loadCopyBook(copybookName, 0, 0, "", 0, 0, null).asLayoutDetail();
  * </pre>
- * 
+ *
  * @author Bruce Martin
  *
  */
 public class RecordEditorCsvLoader implements CopybookLoader {
 
     //private static HashMap typeConv = new HashMap();
-    
-     
+
+
     private final String delimiter;
 
     public RecordEditorCsvLoader(String fieldSeperator) {
     	//TypeList
     	delimiter = fieldSeperator;
-    	
+
     }
 
     /**
@@ -82,7 +81,7 @@ public class RecordEditorCsvLoader implements CopybookLoader {
                 rt,
                 font);
         rec.setNew(true);
-        
+
         insertFields(log, rec, copyBookFile, dbIdx);
 
         return rec;
@@ -105,10 +104,10 @@ public class RecordEditorCsvLoader implements CopybookLoader {
             log.logException(AbsSSLogger.SHOW, e);
         }
     }
-    
-    public final void insertFields(AbsSSLogger log, ExternalRecord rec, 
+
+    public final void insertFields(AbsSSLogger log, ExternalRecord rec,
     		InputStreamReader  in, String layoutName, int dbIdx) {
-    
+
         String s, name, typeStr, description, formatStr, param;
         String directory = null;
         BasicParser t = BasicParser.getInstance();
@@ -124,9 +123,9 @@ public class RecordEditorCsvLoader implements CopybookLoader {
             while ((s = r.readLine()) != null) {
                 if (!s.trim().startsWith("#")) {
                     //t = new StringTokenizer(s, seperator);
-                	
+
                 	for (j = 0; j < fields.length; j++) {
-                		fields[j] = t.getField(j, s, delimiter, null);
+                		fields[j] = t.getField(j, s, new CsvDefinition(delimiter, null));
              //   		System.out.print("\t" + fields[j]);
                 		if (fields[j] == null) {
                 			fields[j] = "";
@@ -135,7 +134,7 @@ public class RecordEditorCsvLoader implements CopybookLoader {
                 	}
 
                 	idx = 1;
-                	
+
                     try {
                      	if (Constants.RECORD_NAME.equalsIgnoreCase(fields[0])) {
 	                    	rec.setFileStructure(ExternalConversion.getFileStructure(dbIdx, fields[idx++]));
@@ -152,7 +151,7 @@ public class RecordEditorCsvLoader implements CopybookLoader {
                     			f.setFieldName(fields[idx++]);
                     			f.setFieldValue(fields[idx++]);
 	                    		sr.setRecordSelection(f);
-	                    					
+
 	                       		sr.setParentRecord(Integer.parseInt(fields[idx++]));
 	                    	} catch (Exception e) {
                     			log.logMsg(AbsSSLogger.SHOW, "Error File: " + layoutName
@@ -160,12 +159,12 @@ public class RecordEditorCsvLoader implements CopybookLoader {
     	                                + " : " + e.getMessage());
 							}
                        		rec.addRecord(sr);
-                       		
+
                        		if (directory == null) {
                        			directory = getDirectory(layoutName);
                        			System.out.println("Directory: >" + directory + "<");
                        		}
-                       	    
+
                        		System.out.println("File >" + directory + fields[1] + Constants.TXT_EXTENSION);
                        		insertFields(log, sr, directory + fields[1] + Constants.TXT_EXTENSION, dbIdx);
                        	} else {
@@ -176,7 +175,7 @@ public class RecordEditorCsvLoader implements CopybookLoader {
 	                        name = fields[idx++];
 	                        description = fixDescription(fields[idx++]);
 	                        typeStr = fields[idx++];
-	                        
+
 	                        decimal = 0;
 	                        try {
 	                        	decimal = Integer.parseInt(fields[idx]);
@@ -184,7 +183,7 @@ public class RecordEditorCsvLoader implements CopybookLoader {
 	                        idx += 1;
 	                        formatStr = fields[idx++];
 	                        param     = fields[idx++];
-	 
+
 	                        type = Type.ftChar;
 	                        if (typeStr != null && ! "".equals(typeStr)) {
 	                            typeStr = typeStr.toLowerCase();
@@ -195,10 +194,10 @@ public class RecordEditorCsvLoader implements CopybookLoader {
 	                        	formatStr = formatStr.toLowerCase();
 	                            format =ExternalConversion.getFormat(dbIdx, formatStr);
 	                        }
-	                        
-	                        
+
+
 	                        //System.out.println("\t Type: " + type);
-	
+
 	                        field = new ExternalField(pos, len, name, description, type,
 	                                decimal, format, param, "", "", i);
 	                        rec.addRecordField(field);
@@ -210,7 +209,7 @@ public class RecordEditorCsvLoader implements CopybookLoader {
 	                                + " : " + e.getMessage());
 	                    e.printStackTrace();
 	                }
-                	
+
                     inputLine += 1;
                 }
             }
@@ -230,32 +229,32 @@ public class RecordEditorCsvLoader implements CopybookLoader {
     	int e = Math.max(
     			fileName.lastIndexOf('/'),
     			fileName.lastIndexOf('\\'));
-    	
+
     	if (e > 0) {
     		e += 1;
     	}
     	return fileName.substring(0, e);
     }
-    
-    
+
+
 	/**
 	 * Fix up carriage returns
 	 * @param description input description
 	 * @return description with \n's replaced
 	 */
 	private String fixDescription(String description) {
-		
+
 		if (description == null || description.indexOf('\n') == 0) {
 			return description;
 		}
 		StringBuilder b = new StringBuilder(description);
-		
+
 		Conversion.replace(b,  "\\n", "\n");
 		return b.toString();
 	}
 
-      
-    
+
+
     /**
      * CSV Parser - Tab
      * @author Bruce Martin
@@ -265,8 +264,8 @@ public class RecordEditorCsvLoader implements CopybookLoader {
     		super("\t");
     	}
     }
-    
-    
+
+
     /**
      * CSV Parser - Tab
      * @author Bruce Martin

@@ -1,6 +1,6 @@
 package net.sf.JRecord.Types;
 
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 
 public class TypeCharRestOfRecord extends TypeChar {
@@ -23,7 +23,7 @@ public class TypeCharRestOfRecord extends TypeChar {
 	 * @see net.sf.JRecord.Types.TypeChar#getFieldEnd(net.sf.JRecord.Common.FieldDetail, byte[])
 	 */
 	@Override
-	protected int getFieldEnd(FieldDetail currField, byte[] record) {
+	protected int getFieldEnd(IFieldDetail currField, byte[] record) {
 		return record.length;
 	}
 
@@ -31,7 +31,7 @@ public class TypeCharRestOfRecord extends TypeChar {
 	 * @see net.sf.JRecord.Types.TypeChar#setField(byte[], int, net.sf.JRecord.Common.FieldDetail, java.lang.Object)
 	 */
 	@Override
-	public byte[] setField(byte[] record, int position, FieldDetail field,
+	public byte[] setField(byte[] record, int position, IFieldDetail field,
 			Object value) throws RecordException {
         String val  = value.toString();
 		String font = field.getFontName();

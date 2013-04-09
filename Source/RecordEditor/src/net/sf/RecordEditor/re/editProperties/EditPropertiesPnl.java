@@ -144,6 +144,14 @@ public class EditPropertiesPnl extends BasePanel {
         }
     }
 
+    public final void save() {
+    	for (JComponent c : components) {
+    		if (c instanceof ChooseFileName) {
+    			((ChooseFileName) c).focusLost(null);
+    		}
+    	}
+    }
+
     private void addField(int row, JComponent item, JComponent item2) {
     	Object prompt = tableData[row][PROMPT_COLUMN];
     	if (prompt == null) {
@@ -164,11 +172,18 @@ public class EditPropertiesPnl extends BasePanel {
 		String propertyName = tableData[row][NAME_COLUMN].toString();
         String oldValue = pgmParams.getProperty(propertyName);
 
+
         if (value == null || "".equals(value.trim())) {
-            pgmParams.remove(propertyName);
-            if (oldValue != null && ! oldValue.trim().equals("")) {
+        	String dflt = Parameters.getSecondayString(propertyName);
+        	if (dflt == null || "".equals(dflt.trim())) {
+	            pgmParams.remove(propertyName);
+	            if (oldValue != null && ! oldValue.trim().equals("")) {
+	            	pgmParams.propertiesChanged = true;
+	            }
+        	} else {
+                pgmParams.setProperty(propertyName, "");
                 pgmParams.propertiesChanged = true;
-            }
+        	}
         } else if (oldValue == null || ! oldValue.equals(value)) {
             pgmParams.setProperty(propertyName, value);
             pgmParams.propertiesChanged = true;
@@ -341,7 +356,8 @@ public class EditPropertiesPnl extends BasePanel {
     	   		super.setText(tableData[fieldNo][VALUE_COLUMN].toString());
     		}
 
-    		super.addFocusListener(this);
+    		//super.addFocusListener(this);
+    		super.addFcFocusListener(this);
     	}
 
 
@@ -388,7 +404,6 @@ public class EditPropertiesPnl extends BasePanel {
     		super.setModel(new DefaultComboBoxModel(options));
 
     		super.setSelectedIndex(idx);
-
 
     		super.addFocusListener(this);
     	}

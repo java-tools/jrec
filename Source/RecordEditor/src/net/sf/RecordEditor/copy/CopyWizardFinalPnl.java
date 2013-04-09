@@ -36,8 +36,8 @@ public class CopyWizardFinalPnl extends BaseHelpPanel implements AbstractWizardP
 	private FileChooser fieldErrorFile = new FileChooser(false);
 	private JTextField  maxErrors      = new JTextField();
 
-	private AbstractLayoutSelection<?> selection;
-	private AbstractLayoutSelection<?> selection2;
+	private AbstractLayoutSelection selection;
+	private AbstractLayoutSelection selection2;
 
 	private JButton saveBtn = SwingUtils.newButton("Save", Common.getRecordIcon(Common.ID_SAVE_ICON));
 	private JButton runBtn  = SwingUtils.newButton("Copy");
@@ -75,8 +75,8 @@ public class CopyWizardFinalPnl extends BaseHelpPanel implements AbstractWizardP
 	 * Final wizard Screen
 	 */
 	public CopyWizardFinalPnl(
-			AbstractLayoutSelection<?> layoutSelection,
-			AbstractLayoutSelection<?> layoutSelection2) {
+			AbstractLayoutSelection layoutSelection,
+			AbstractLayoutSelection layoutSelection2) {
 		super();
 		JPanel pnl = new JPanel(new GridLayout(3,2));
 		//JPanel pnlStrip = new JPanel();

@@ -19,7 +19,6 @@ import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.LineProvider;
 import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.IO.AbstractLineReader;
-import net.sf.JRecord.IO.StandardLineReader;
 import net.sf.JRecord.IO.AbstractLineWriter;
 import net.sf.JRecord.IO.CobolIoProvider;
 import net.sf.JRecord.Numeric.Convert;
@@ -86,7 +85,7 @@ public final class XmplLineIO4 {
                     CopybookLoader.SPLIT_NONE, copybookName, salesFile,
                     new DTAR0020provider()
             );
- 
+
             AbstractLineWriter writer  = ioProvider.getLineWriter(fileStructure, salesFileOut);
 
             while ((saleRecord = (LineDTAR0020) reader.read()) != null) {
@@ -122,7 +121,7 @@ public final class XmplLineIO4 {
      * @author Bruce Martin
      *
      */
-    private class DTAR0020provider implements LineProvider<LayoutDetail> {
+    private class DTAR0020provider implements LineProvider<LayoutDetail, AbstractLine> {
 
         /**
          * @see net.sf.JRecord.LineProvider#getLine

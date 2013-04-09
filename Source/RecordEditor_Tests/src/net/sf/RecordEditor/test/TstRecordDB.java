@@ -8,14 +8,13 @@ package net.sf.RecordEditor.test;
 
 import java.util.ArrayList;
 
+import junit.framework.TestCase;
 import net.sf.JRecord.Log.TextLog;
 import net.sf.RecordEditor.re.db.Record.RecordDB;
 import net.sf.RecordEditor.re.db.Record.RecordRec;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
-
-import junit.framework.TestCase;
 
 /**
  * @author bymartin

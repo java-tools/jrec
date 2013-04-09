@@ -1,6 +1,7 @@
 useFixture(default)
 
 def test():
+	from Modules import commonBits
 	java_recorded_version = '1.6.0_22'
 
 	if window('Record Layout Definitions'):
@@ -9,21 +10,29 @@ def test():
 		select('RecordDef.Description_Txt', 'Test Create Layout')
 		select('RecordDef.List_Chk', 'true')
 		select('RecordDef.System_Txt', 'Other')
-		click('Insert')
-		click('Insert')
-		click('Insert')
-		select('RecordFieldsJTbl', '1', 'Position,0')
-		select('RecordFieldsJTbl', '2', 'Length,0')
-		select('RecordFieldsJTbl', 'fld11', 'FieldName,0')
-		select('RecordFieldsJTbl', '3', 'Position,1')
-		select('RecordFieldsJTbl', '4', 'Length,1')
-		select('RecordFieldsJTbl', 'fld12', 'FieldName,1')
-		select('RecordFieldsJTbl', '7', 'Position,2')
-		select('RecordFieldsJTbl', '8', 'Length,2')
-		select('RecordFieldsJTbl', 'fld13', 'FieldName,2')
-		select('RecordFieldsJTbl', 'cell:Description,2()')
-		click('Save1')
-		click('Save As')
+		click(commonBits.fl('Insert'))
+
+
+		click(commonBits.fl('Insert'))
+
+
+		click(commonBits.fl('Insert'))
+
+
+		select('RecordFieldsJTbl', '1', commonBits.fl('Position') + ',0')
+		select('RecordFieldsJTbl', '2', commonBits.fl('Length') + ',0')
+		select('RecordFieldsJTbl', 'fld11', commonBits.fl('FieldName') + ',0')
+		select('RecordFieldsJTbl', '3', commonBits.fl('Position') + ',1')
+		select('RecordFieldsJTbl', '4', commonBits.fl('Length') + ',1')
+		select('RecordFieldsJTbl', 'fld12', commonBits.fl('FieldName') + ',1')
+		select('RecordFieldsJTbl', '7', commonBits.fl('Position') + ',2')
+		select('RecordFieldsJTbl', '8', commonBits.fl('Length') + ',2')
+		select('RecordFieldsJTbl', 'fld13', commonBits.fl('FieldName') + ',2')
+		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('Description') + ',2()')
+		commonBits.save1(click)
+		click(commonBits.fl('Save As'))
+
+
 
 		if window('Input'):
 			select('OptionPane.textField', 'zxzxFL2')
@@ -42,9 +51,9 @@ def test():
 		assert_p('RecordFieldsJTbl', 'Content', '[[1, 2, fld11, , 0, 0, 0, , , ], [3, 4, fld12, , 0, 0, 0, , , ], [7, 8, fld13, , 0, 0, 0, , , ]]')
 		assert_p('RecordDef.Description_Txt', 'Text', 'Test Create Layout')
 		assert_p('RecordDef.Record Name_Txt', 'Text', 'zxzxFL2')
-		click('Delete3')
+		commonBits.delete3(click)
 
-		if window('Delete: zxzxFL2'):
+		if window(commonBits.fl('Delete: zxzxFL2')):
 			click('Yes')
 		close()
 
@@ -52,9 +61,9 @@ def test():
 
 		select('RecordList.Description_Txt', '%')
 
-		click('Delete3')
+		commonBits.delete3(click)
 
-		if window('Delete: zxzxFL1'):
+		if window(commonBits.fl('Delete: zxzxFL1')):
 			click('Yes')
 		close()
 

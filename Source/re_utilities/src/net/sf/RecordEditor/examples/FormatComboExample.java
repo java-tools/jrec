@@ -13,7 +13,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import net.sf.JRecord.Common.FieldDetail;
-import net.sf.RecordEditor.record.format.CellFormat;
+import net.sf.RecordEditor.re.jrecord.format.CellFormat;
 import net.sf.RecordEditor.utils.swing.AbsRowList;
 import net.sf.RecordEditor.utils.swing.AbstractRowList;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;

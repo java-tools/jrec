@@ -29,10 +29,9 @@ public abstract class ReSpecificScreenAction extends ReAbstractAction {
 			ret = (CLASS) actionHandler;
 		} else if (actionHandler instanceof IDisplayFrame) {
 			@SuppressWarnings("rawtypes")
-			IDisplayFrame fd = (IDisplayFrame) actionHandler;
-			Object displ = fd.getActiveDisplay();
+			Object displ = ((IDisplayFrame) actionHandler).getActiveDisplay();
 			if (displ != null && c.isAssignableFrom(displ.getClass())) {
-				ret = (CLASS) fd.getActiveDisplay();
+				ret = (CLASS) displ;
 			}
 		}
 		return ret;

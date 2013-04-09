@@ -20,7 +20,7 @@
 package net.sf.JRecord.Types;
 
 import net.sf.JRecord.Common.Conversion;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 
 /**
@@ -77,7 +77,7 @@ public class TypeChar implements Type {
      * @see net.sf.JRecord.Types.Type#formatValueForRecord
      * (record.layout.DetailField, java.lang.String)
      */
-    public String formatValueForRecord(FieldDetail field, String val)
+    public String formatValueForRecord(IFieldDetail field, String val)
             throws RecordException {
         return val;
     }
@@ -88,7 +88,7 @@ public class TypeChar implements Type {
      */
     public Object getField(final byte[] record,
             			   final int position,
-            			   final FieldDetail currField) {
+            			   final IFieldDetail currField) {
         return getFieldText(record, position, currField);
     }
 
@@ -104,7 +104,7 @@ public class TypeChar implements Type {
 	 */
 	protected String getFieldText(final byte[] record,
 	        					  final int position,
-	        					  final FieldDetail currField) {
+	        					  final IFieldDetail currField) {
 
 			String s;
 
@@ -124,7 +124,7 @@ public class TypeChar implements Type {
 	 *
 	 * @return actual length
 	 */
-	protected int getFieldEnd(final FieldDetail currField, final byte[] record) {
+	protected int getFieldEnd(final IFieldDetail currField, final byte[] record) {
 	        int ret = java.lang.Math.min(currField.getEnd(), record.length);
 	        byte padByte = getPadByte(currField.getFontName());
 
@@ -141,7 +141,7 @@ public class TypeChar implements Type {
      */
     public byte[] setField(byte[] record,
             			 final int position,
-            			 final FieldDetail field,
+            			 final IFieldDetail field,
             			 Object value)
             throws RecordException {
         String val  = value.toString();

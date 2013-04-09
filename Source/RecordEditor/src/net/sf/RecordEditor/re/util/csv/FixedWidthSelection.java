@@ -164,8 +164,8 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 			LineIOProvider iop = LineIOProvider.getInstance();
 			@SuppressWarnings("unchecked")
 			AbstractLineReader<LayoutDetail> r = iop.getLineReader(fileStructure);
-			FileView<LayoutDetail> view = new FileView<LayoutDetail>(layout, iop, false);
-			AbstractLine<LayoutDetail> l;
+			FileView view = new FileView(layout, iop, false);
+			AbstractLine l;
 			int i=0;
 
 			r.open(is, layout);

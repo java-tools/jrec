@@ -152,7 +152,7 @@ public class ConvertLayout extends ReFrame {
 					if (isCsv) {
 						struc = Common.IO_NAME_1ST_LINE;
 					}
-					AbstractLayoutDetails<?, ?> dtl
+					AbstractLayoutDetails dtl
 							= new ReadLayout()
 												.setLoadFromFile(true)
 												.buildLayoutFromSample(

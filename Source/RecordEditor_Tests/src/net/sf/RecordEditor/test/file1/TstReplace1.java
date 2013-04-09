@@ -2,18 +2,15 @@ package net.sf.RecordEditor.test.file1;
 
 
 import junit.framework.TestCase;
-
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
-
 import net.sf.RecordEditor.re.file.FilePosition;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.file.filter.Compare;
-
 import net.sf.RecordEditor.test.TstConstants;
 
 
@@ -113,7 +110,7 @@ public class TstReplace1 extends TestCase {
 		FileView f = TstConstants.readFileView(getLayout(), csvLines, Constants.IO_NAME_1ST_LINE);
 		String s, t;
 
-		FilePosition pos = new  FilePosition(0, 0, 0, fld, true);
+		FilePosition pos = new  FilePosition(0, 0, 0, fld, true, f.getRowCount());
 		f.replaceAll(from1, to1, pos, true, op);
 
 		assertEquals(id + "Check file line count", csvLines.length - 1, f.getRowCount());

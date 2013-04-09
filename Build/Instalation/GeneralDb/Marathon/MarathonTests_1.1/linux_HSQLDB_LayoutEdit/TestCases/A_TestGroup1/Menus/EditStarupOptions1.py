@@ -6,19 +6,20 @@ def test():
 	java_recorded_version = '1.5.0_11'
 
 	if window('Record Layout Definitions'):
-		select_menu('Edit>>Edit Options')
+		select_menu( commonBits.fl('Edit') + '>>' +  commonBits.fl('Edit Options'))
 
 		if window('Record Editor Options Editor'):
 			if commonBits.isVersion80():
-				select('TabbedPane', 'Looks')
-				select('LooksTab', 'Screen Properties')
+				select('TabbedPane',  commonBits.fl('Looks'))
+				select('LooksTab',  commonBits.fl('Screen Properties'))
+
 				##select('Table', 'cell:Parameter Description,1(Space to be left at the bottom of the screen.)')
 				##assert_p('Label74', 'Text', 'Space to be left at the bottom of the screen.')
 				##assert_p('Label75', 'Text', 'Space to be left at the top of the screen.')
 				##select('TabbedPane6', 'Screen Properties')
-				assert_p('Label81', 'Text', 'Size of the program when it opens')
-				assert_p('Label83', 'Text', 'Space to be left at the top of the screen.')
-				assert_p('Label85', 'Text', 'Space to be left at the Right of the screen.')
+				assert_p('Label93', 'Text',  commonBits.fl('Size of the program when it opens'))
+				assert_p('Label95', 'Text',  commonBits.fl('Space to be left at the top of the screen.'))
+				assert_p('Label97', 'Text',  commonBits.fl('Space to be left at the Right of the screen.'))
 			
  ##				assert_p('Label88', 'Text', 'Screen Height')
 				

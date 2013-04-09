@@ -14,7 +14,7 @@ package net.sf.JRecord.Types;
 import java.math.BigInteger;
 
 import net.sf.JRecord.Common.Conversion;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 
 /**
@@ -42,7 +42,7 @@ public class TypeBit extends TypeChar {
      */
     public Object getField(byte[] record,
             final int position,
-			final FieldDetail field) {
+			final IFieldDetail field) {
 	    int pos = position - 1;
 	    int min = java.lang.Math.min(field.getEnd(), record.length);
 
@@ -55,7 +55,7 @@ public class TypeBit extends TypeChar {
      */
     public byte[] setField(byte[] record,
               final int position,
-			  final FieldDetail field,
+			  final IFieldDetail field,
 			  Object value)
             throws RecordException {
 
@@ -73,7 +73,7 @@ public class TypeBit extends TypeChar {
     /**
      * @see net.sf.JRecord.Types.Type#formatValueForRecord(net.sf.JRecord.Common.FieldDetail, java.lang.String)
      */
-    public String formatValueForRecord(FieldDetail field, String val)
+    public String formatValueForRecord(IFieldDetail field, String val)
     throws RecordException {
         try {
             Long.parseLong(val, 2);

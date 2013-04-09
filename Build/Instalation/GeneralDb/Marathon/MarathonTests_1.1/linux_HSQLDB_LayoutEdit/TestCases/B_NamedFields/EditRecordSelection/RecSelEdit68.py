@@ -1,6 +1,7 @@
 useFixture(default)
 
 def test():
+	from Modules import commonBits
 	java_recorded_version = '1.6.0_22'
 
 	if window('Record Layout Definitions'):
@@ -9,9 +10,8 @@ def test():
 
 		select('RecordList.Description_Txt', '%')
 
-		click('Delete3')
-
-		if window('Delete: zx3g3xzFLDg543'):
+		commonBits.delete3(click)
+		if window(commonBits.fl('Delete: zx3g3xzFLDg543')):
 			click('Yes')
 		close()
 
@@ -21,9 +21,8 @@ def test():
 ##		select('RecordDef.Record Name_Txt', 'zx3g3xzFLDg5432%')
 		select('RecordList.Description_Txt', '%%')
 ##		select('RecordDef.Record Name_Txt', 'zx3g3xzFLDg5432')
-		click('Delete3')
-
-		if window('Delete: zx3g3xzFLDg5432'):
+		commonBits.delete3(click)
+		if window(commonBits.fl('Delete: zx3g3xzFLDg5432')):
 			click('Yes')
 		close()
 

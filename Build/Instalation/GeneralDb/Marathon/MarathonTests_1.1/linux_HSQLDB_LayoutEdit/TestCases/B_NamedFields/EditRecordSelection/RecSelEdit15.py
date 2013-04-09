@@ -5,10 +5,11 @@ useFixture(default)
 ##  With  RecSel19 cleaning up
 ##
 def test():
+	from Modules import commonBits
 	java_recorded_version = '1.6.0_22'
 
 	if window('Record Layout Definitions'):
-		select_menu('Record Layouts>>Edit Layout')
+		select_menu(commonBits.fl('Record Layouts') + '>>' + commonBits.fl('Edit Layout'))
 		select('RecordList.Record Name_Txt', 'zxxxzFLDg88')
 ##		select('TabbedPane', 'Extras')
 ##		select('TabbedPane', 'Extras')
@@ -18,21 +19,21 @@ def test():
 ##		select('TabbedPane', 'Extras')
 ##		select('TabbedPane', 'Child Records')
 ##		select('ChildRecordsJTbl', '')
-		rightclick('ChildRecordsJTbl', 'Field,0')
-		select_menu('Edit Record Selections')
+		rightclick('ChildRecordsJTbl', commonBits.fl('Field') + ',0')
+		select_menu( commonBits.fl('Edit Record Selections'))
 		assert_p('RecordSelectionJTbl', 'Content', '[[, , fld 11, =, 11], [, And, fld 12, =, 12], [Or, , fld 11, =, 121]]')
-		select('RecordSelectionJTbl', 'cell:Field Value,1(12)')
-		click('Delete2')
+		select('RecordSelectionJTbl', 'cell:' + commonBits.fl('Field Value') + ',1(12)')
+		commonBits.delete2(click)
 		assert_p('RecordSelectionJTbl', 'Content', '[[, , fld 11, =, 11], [Or, , fld 11, =, 121]]')
-		select('TabbedPane', 'Summary')
+		select('TabbedPane', commonBits.fl('Summary'))
 		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , f1, =, v1], [, , And  ,   ,   , fld 11, =, 11], [, ,   , Or  ,   , fld 11, =, 121], [, ,   ,   ,   , , =, ], [, , And  ,   ,   , fld 21, =, 21], [, ,   , Or  ,   , fld 21, =, 12], [, ,   ,   ,   , , =, ], [, , And  ,   ,   , fld 31, =, 31], [, ,   , Or  ,   , fld 32, =, 32]]')
 		select('TabbedPane', 'zxxxzFLD2')
-		select('RecordSelectionJTbl1', 'cell:Field Value,1(12)')
+		select('RecordSelectionJTbl1', 'cell:' + commonBits.fl('Field Value') + ',1(12)')
 		assert_p('RecordSelectionJTbl1', 'Content', '[[, , fld 21, =, 21], [Or, , fld 21, =, 12]]')
-		select('RecordSelectionJTbl1', 'cell:Field Value,0(21)')
-		click('Delete3')
+		select('RecordSelectionJTbl1', 'cell:' + commonBits.fl('Field Value') + ',0(21)')
+		commonBits.delete3(click)
 		assert_p('RecordSelectionJTbl1', 'Content', '[[, , fld 21, =, 12]]')
-		select('TabbedPane', 'Summary')
+		select('TabbedPane', commonBits.fl('Summary'))
 		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , f1, =, v1], [, , And  ,   ,   , fld 11, =, 11], [, ,   , Or  ,   , fld 11, =, 121], [, ,   ,   ,   , , =, ], [, , And  ,   ,   , fld 21, =, 12], [, ,   ,   ,   , , =, ], [, , And  ,   ,   , fld 31, =, 31], [, ,   , Or  ,   , fld 32, =, 32]]')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 	close()

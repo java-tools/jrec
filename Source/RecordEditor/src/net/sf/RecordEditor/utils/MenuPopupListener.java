@@ -44,11 +44,11 @@ public class MenuPopupListener extends MouseAdapter {
 
     private static final ReActionActiveScreen COPY_RECORDS        = new ReActionActiveScreen(ReActionHandler.COPY_RECORD);
     private static final ReActionActiveScreen CUT_RECORDS         = new ReActionActiveScreen(ReActionHandler.CUT_RECORD);
-    private static final ReActionActiveScreen PASTE_RECORDS       = new ReActionActiveScreen(ReActionHandler.PASTE_RECORD);
-    private static final ReActionActiveScreen PASTE_RECORDS_PRIOR = new ReActionActiveScreen(ReActionHandler.PASTE_RECORD_PRIOR);
-    private static final ReActionActiveScreen DELETE_RECORDS      = new ReActionActiveScreen(ReActionHandler.DELETE_RECORD);
-    private static final ReActionActiveScreen INSERT_RECORDS      = new ReActionActiveScreen(ReActionHandler.INSERT_RECORDS);
-    private static final ReActionActiveScreen INSERT_RECORD_PRIOR = new ReActionActiveScreen(ReActionHandler.INSERT_RECORD_PRIOR);
+    private static final ReActionActiveScreen PASTE_RECORDS       = new ReActionActiveScreen(ReActionHandler.PASTE_RECORD_POPUP);
+    private static final ReActionActiveScreen PASTE_RECORDS_PRIOR = new ReActionActiveScreen(ReActionHandler.PASTE_RECORD_PRIOR_POPUP);
+    private static final ReActionActiveScreen DELETE_RECORDS      = new ReActionActiveScreen(ReActionHandler.DELETE_RECORD_POPUP);
+    private static final ReActionActiveScreen INSERT_RECORDS      = new ReActionActiveScreen(ReActionHandler.INSERT_RECORDS_POPUP);
+    private static final ReActionActiveScreen INSERT_RECORD_PRIOR = new ReActionActiveScreen(ReActionHandler.INSERT_RECORD_PRIOR_POPUP);
 	private static final ReActionActiveScreen FIND_ACTION         = new ReActionActiveScreen(ReActionHandler.FIND);
 	private static final ReActionActiveScreen FILTER_ACTION       = new ReActionActiveScreen(ReActionHandler.FILTER);
 	private static final ReActionActiveScreen SAVE                = new ReActionActiveScreen(ReActionHandler.SAVE);
@@ -61,7 +61,7 @@ public class MenuPopupListener extends MouseAdapter {
 	private static final ReActionActiveScreen SAVE_AS_HTML_TREE   = new ReActionActiveScreen(ReActionHandler.EXPORT_HTML_TREE);
 	private static final ReActionActiveScreen SAVE_AS_VELOCITY    = new ReActionActiveScreen(ReActionHandler.EXPORT_VELOCITY);
 	private static final ReActionActiveScreen EXPORT_VIA_XSLT     = new ReActionActiveScreen(ReActionHandler.EXPORT_XSLT);
-	private static final ReActionActiveScreen REPEAT_RECORD       = new ReActionActiveScreen(ReActionHandler.REPEAT_RECORD);
+	private static final ReActionActiveScreen REPEAT_RECORD       = new ReActionActiveScreen(ReActionHandler.REPEAT_RECORD_POPUP);
 
     /**
      * Create a popup menu listner (with edit options)

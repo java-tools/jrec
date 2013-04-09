@@ -2,7 +2,7 @@ package net.sf.RecordEditor.re.fileWriter;
 
 import java.io.IOException;
 
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 
 
 public abstract class BaseWriter implements FieldWriter {
@@ -18,7 +18,7 @@ public abstract class BaseWriter implements FieldWriter {
 	 * @see net.sf.RecordEditor.re.fileWriter.FieldWriter#writeFieldName(java.lang.String)
 	 */
 	@Override
-	public void writeFieldDetails(FieldDetail fldDetail, String fieldValue, String textValue, String HexValue)
+	public void writeFieldDetails(IFieldDetail fldDetail, String fieldValue, String textValue, String HexValue)
 	throws IOException {
 		writeField(fieldValue);
 	}

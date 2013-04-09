@@ -5,7 +5,7 @@ import java.util.List;
 
 import net.sf.JRecord.Common.AbstractIndexedLine;
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
 
 public abstract class FieldSelectX extends FieldSelect {
@@ -58,7 +58,7 @@ public abstract class FieldSelectX extends FieldSelect {
 		}
 		num = d;
 	}
-	public static FieldSelect get(ExternalFieldSelection fs, FieldDetail fieldDef) {
+	public static FieldSelect get(ExternalFieldSelection fs, IFieldDetail fieldDef) {
 		return get(fs.getFieldName(), fs.getFieldValue(), fs.getOperator(), -1, fieldDef);
 	}
 
@@ -81,7 +81,7 @@ public abstract class FieldSelectX extends FieldSelect {
 //		return ret;
 //	}
 
-	public static RecordSel get(String name, String value, String op, int groupId, int recordIdx, FieldDetail fieldDef, boolean caseSensitive) {
+	public static RecordSel get(String name, String value, String op, int groupId, int recordIdx, IFieldDetail fieldDef, boolean caseSensitive) {
 		switch (groupId) {
 		case G_ALL:
 		case G_ANY_OF:
@@ -99,11 +99,11 @@ public abstract class FieldSelectX extends FieldSelect {
 		throw new RuntimeException("No valid grouping function !!!");
 	}
 
-	public static FieldSelect get(String name, String value, String op, FieldDetail fieldDef) {
+	public static FieldSelect get(String name, String value, String op, IFieldDetail fieldDef) {
 		return get(name, value, op, new GetValue.FieldValue(fieldDef, -1));
 	}
 
-	public static FieldSelect get(String name, String value, String op, int recordIdx, FieldDetail fieldDef) {
+	public static FieldSelect get(String name, String value, String op, int recordIdx, IFieldDetail fieldDef) {
 		return get(name, value, op, new GetValue.FieldValue(fieldDef, recordIdx));
 	}
 

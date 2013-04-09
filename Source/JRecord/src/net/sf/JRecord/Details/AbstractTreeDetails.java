@@ -6,9 +6,9 @@ import net.sf.JRecord.Common.FieldDetail;
 
 public interface AbstractTreeDetails<
 				FieldDtls extends FieldDetail,
-				RecordDtls extends AbstractRecordDetail<FieldDtls>, 
-				Layout extends AbstractLayoutDetails<FieldDtls, RecordDtls>,
-				LineType extends AbstractLine<Layout>> {
+				RecordDtls extends AbstractRecordDetail,
+				Layout extends AbstractLayoutDetails,
+				LineType extends AbstractLine> {
 //				TreeNode> {
 
 	/**
@@ -50,7 +50,7 @@ public interface AbstractTreeDetails<
 	 * @return Child Definition
 	 */
 	public abstract AbstractChildDetails<RecordDtls> getChildDetails(int idx);
-	
+
 	/**
 	 * add a line at a location
 	 * @param newLine line to add
@@ -62,30 +62,30 @@ public interface AbstractTreeDetails<
 	 * Create and Add a child line (based on the child definition
 	 * @param childDef definition of the child to be created
 	 * @param location location in list (repeated fields)
-	 * 
+	 *
 	 * @return line that was created
 	 */
 	public <childDtls extends AbstractChildDetails<RecordDtls>> LineType addChild(childDtls childDef, int location);
-	
+
 
     /**
      * Remove a child line
      * @param child line to be removed
      */
-    public abstract void removeChild(AbstractLine<Layout> child);
-     
+    public abstract void removeChild(AbstractLine child);
+
 //    /**
 //     * Get the tree node  (typically DefaultMutableTreeNode)
 //     * @return tree node  (typically DefaultMutableTreeNode)
 //     */
 //    public TreeNode  getTreeNode();
-//    
+//
 //    /**
 //     * Define the tree node (typically DefaultMutableTreeNode)
 //     * @param node node to set
 //     */
 //    public void  setTreeNode(TreeNode node);
-    
+
     /**
      * Get Child Definition
      * @return Child Definition
@@ -98,7 +98,7 @@ public interface AbstractTreeDetails<
      * @return parent line
      */
     public LineType getParentLine();
-    
+
     /**
      * Set the parent line
      * @param line parent index
@@ -110,14 +110,14 @@ public interface AbstractTreeDetails<
      * Get Tree root
      * @return  Tree root
      */
-    public AbstractLine<Layout> getRootLine();
+    public AbstractLine getRootLine();
 
 
 	/**
 	 * @return the parentIndex
 	 */
 	public int getParentIndex();
-	
+
 	/**
 	 * Set the parent index
 	 * @param index
@@ -128,7 +128,7 @@ public interface AbstractTreeDetails<
 	 * Get The valid child Lines for the current line
 	 * @return list of valid child details
 	 */
-	public List<? extends AbstractChildDetails<? extends AbstractRecordDetail<FieldDtls>>> getInsertRecordOptions();
+	public List<? extends AbstractChildDetails<? extends AbstractRecordDetail>> getInsertRecordOptions();
 
 	/**
 	 * Remove children for a child Definition

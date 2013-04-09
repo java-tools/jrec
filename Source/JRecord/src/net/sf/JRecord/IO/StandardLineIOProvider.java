@@ -208,8 +208,8 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
     public AbstractLineWriter getLineWriter(int fileStructure) {
 
     	switch (fileStructure) {
-    	case(Constants.IO_BINARY):
-    	case(Constants.IO_FIXED_LENGTH):			return new BinaryLineWriter();
+    	case(Constants.IO_BINARY):					return BinaryLineWriter.newBinaryWriter();
+    	case(Constants.IO_FIXED_LENGTH):			return BinaryLineWriter.newFixedLengthWriter();
 
     	case(Constants.IO_XML_BUILD_LAYOUT):
        	case(Constants.IO_XML_USE_LAYOUT):			return new XmlLineWriter();

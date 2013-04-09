@@ -1,7 +1,7 @@
 package net.sf.RecordEditor.examples;
 
-import net.sf.RecordEditor.edit.file.FileView;
-import net.sf.RecordEditor.utils.Plugin;
+import net.sf.RecordEditor.externalInterface.Plugin;
+import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
 
 public class UserTst implements Plugin {

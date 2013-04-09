@@ -3,9 +3,9 @@ package net.sf.RecordEditor.edit.util;
 import java.util.List;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
-import net.sf.JRecord.External.ExternalField;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
+import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.TranslateXmlChars;

@@ -86,7 +86,7 @@ public interface AbstractLineNode extends MutableTreeNode {
 	 * @param pos position to insert at (negative = at the end)
 	 */
 	public <X extends AbstractLineNode> X insert(
-			@SuppressWarnings("rawtypes") AbstractLine line, int lineNumber, int pos);
+			AbstractLine line, int lineNumber, int pos);
 
 	/**
 	 * remove all children from a node

@@ -31,7 +31,7 @@ public abstract class GenericComboTableRender extends AbstractCellEditor
     implements TableCellRenderer, TableCellEditor, PropertyChangeListener /*ActionListener*/ {
 
 	private static boolean isNimbus = false;
-	
+
 
 
 	private static Color BACKGROUND_COLOR_1 = Color.WHITE,
@@ -43,7 +43,7 @@ public abstract class GenericComboTableRender extends AbstractCellEditor
     /**
      * Create a Checkbox table render based on Strings
      * @param useValue wether to return dates or Text to the Table
-     * @param dateFormat format of the date 
+     * @param dateFormat format of the date
      */
     public GenericComboTableRender(final boolean useValue, final AbstractGenericCombo field) {
 
@@ -52,13 +52,11 @@ public abstract class GenericComboTableRender extends AbstractCellEditor
         comboField = field;
         if (comboField != null) {
         	setComboField(comboField);
+	        comboField.setBorder(BorderFactory.createEmptyBorder());
+	        //comboField.fld.setOpaque(true);
+	        comboField.setOpaque(true);
         }
-        
-        comboField.setBorder(BorderFactory.createEmptyBorder());
-        //comboField.fld.setOpaque(true);
-        comboField.setOpaque(true);
-        
-        System.out.println("Laf: " + lafName + " " + lafName.toLowerCase().contains("nimbus"));
+
         if (lafName != null) {
         	setNimbus(lafName.toLowerCase().contains("nimbus"));
         }
@@ -79,7 +77,7 @@ public abstract class GenericComboTableRender extends AbstractCellEditor
 
         setValue(value);
         setColor(isSelected, table, row);
-        
+
         return comboField;
     }
 
@@ -95,7 +93,7 @@ public abstract class GenericComboTableRender extends AbstractCellEditor
         setValue(value);
         setColor(isSelected, table, row);
         comboField.addPropertyChangeListener(new TableNotify(table, row, column));
-        
+
         return comboField;
     }
 
@@ -118,16 +116,16 @@ public abstract class GenericComboTableRender extends AbstractCellEditor
         }
         return comboField.getText();
     }
-    
+
 	/**
 	 * Set the foreground / background colors based on wther the
 	 * cell is selected
-	 * 
+	 *
 	 * @param isSelected wether the cell is selected
 	 * @param tbl table being displayed
-	 */   
+	 */
     private void setColor(final boolean isSelected, final JTable tbl, int row) {
-    	
+
     	Color background;
         if (isSelected) {
         	comboField.getField().setForeground(tbl.getSelectionForeground());
@@ -142,23 +140,23 @@ public abstract class GenericComboTableRender extends AbstractCellEditor
         		}
         	}
         }
-        
+
 //        comboField.fld.setOpaque(true);
         comboField.setBackgroundOfField(background);
         comboField.setBackground(background);
     }
-    
+
     /**
      * @see javax.swing.CellEditor#isCellEditable(java.util.EventObject)
      */
 /*    public boolean isCellEditable(EventObject anEvent) {
-        if (anEvent instanceof MouseEvent) { 
+        if (anEvent instanceof MouseEvent) {
     		return ((MouseEvent)anEvent).getClickCount() >= 2;
    	    }
        return true;
     }
 */
-    
+
     /**
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
@@ -196,9 +194,9 @@ public abstract class GenericComboTableRender extends AbstractCellEditor
 		comboField.setBorder(null);
 	}
 
-	
+
 	protected abstract AbstractGenericCombo getCombo();
-	
+
 	private static class TableNotify implements PropertyChangeListener {
 		private JTable table;
 		private int row, col;
@@ -208,8 +206,8 @@ public abstract class GenericComboTableRender extends AbstractCellEditor
 			this.row = row;
 			this.col = col;
 		}
-		
-		
+
+
 		/* (non-Javadoc)
 		 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 		 */
@@ -224,13 +222,13 @@ public abstract class GenericComboTableRender extends AbstractCellEditor
 			}
 		}
 	}
-	
+
 	/**
 	 * @param isNimbus the isNimbus to set
 	 */
 	public static void setNimbus(boolean isNimbus) {
 		GenericComboTableRender.isNimbus = isNimbus;
-		
+
 		if (isNimbus) {
 			BACKGROUND_COLOR_2 = UIManager.getColor("Table.alternateRowColor");
 		}

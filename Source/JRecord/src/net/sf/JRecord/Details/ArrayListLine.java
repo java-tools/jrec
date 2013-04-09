@@ -6,16 +6,17 @@ import java.util.HashMap;
 import net.sf.JRecord.Common.AbstractFieldValue;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Common.XmlConstants;
 
 public class ArrayListLine<
 								FieldDef extends FieldDetail,
-								RecordDef extends AbstractRecordDetail<FieldDef>,
-								Layout extends AbstractLayoutDetails<FieldDef, RecordDef>>
-implements AbstractLine<Layout> {
+								RecordDef extends AbstractRecordDetail,
+								Layout extends AbstractLayoutDetails>
+implements AbstractLine {
 
-//	private static final AbstractTreeDetails<FieldDetail, RecordDetail, LayoutDetail, ArrayListLine, Object>
+//	private static final AbstractTreeDetails<FieldDetail, Recor dDetail, LayoutDetail, ArrayListLine, Object>
 //				NULL_TREE_DETAILS = new NullTreeDtls<FieldDetail, RecordDetail, LayoutDetail, AbstractChildDetails<RecordDetail>, ArrayListLine, Object>();
 	protected ArrayList<Object> fields = new ArrayList<Object>();
 	protected Layout layout;
@@ -114,7 +115,8 @@ implements AbstractLine<Layout> {
 	/**
 	 * @see net.sf.JRecord.Details.AbstractLine#getField(net.sf.JRecord.Common.FieldDetail)
 	 */
-	public Object getField(FieldDetail field) {
+	public Object getField(IFieldDetail field) {
+
 		if (field == null) return null;
 	    return getFieldRaw(preferredLayout, field.getPos() - fieldStartingPos);
 	}
@@ -155,7 +157,7 @@ implements AbstractLine<Layout> {
 //	}
 
 	@Override
-	public AbstractFieldValue getFieldValue(FieldDetail field) {
+	public AbstractFieldValue getFieldValue(IFieldDetail field) {
 		return new FieldValue(this, field);
 	}
 
@@ -245,7 +247,7 @@ implements AbstractLine<Layout> {
 	/**
 	 * @see net.sf.JRecord.Details.AbstractLine#setField(net.sf.JRecord.Common.FieldDetail, java.lang.Object)
 	 */
-	public void setField(FieldDetail field, Object value) throws RecordException {
+	public void setField(IFieldDetail field, Object value) throws RecordException {
     	if (field == null && (value == null || "".equals(value.toString()))) return;
 		setRawField(preferredLayout, field.getPos(), value);
 	}
@@ -317,29 +319,22 @@ implements AbstractLine<Layout> {
 	/**
 	 * @param pLayout The layouts to set.
 	 */
-	public void setLayout(final Layout pLayout) {
+	public void setLayout(final AbstractLayoutDetails pLayout) {
 	//		System.out.print("set layout >> " + fields.get(0)
 	//				+ " " + layout.getRecord(preferredLayout).getRecordName()
 	//				+ " " + preferredLayout);
 			preferredLayout = pLayout.getRecordIndex(layout.getRecord(preferredLayout).getRecordName());
 	//		System.out.println(" " + preferredLayout + " --> " + pLayout.getRecord(preferredLayout).getRecordName());
-			this.layout = pLayout;
+			this.layout = (Layout) pLayout;
 		}
 
 	/**
 	 * @see net.sf.JRecord.Details.AbstractLine#getLayout()
 	 */
-	public Layout getLayout() {
+	public AbstractLayoutDetails getLayout() {
 	    return layout;
 	}
 
-	/**
-	 * Set the line provider
-	 *
-	 * @param pLineProvider The lineProvider to set.
-	 */
-	public void setLineProvider(LineProvider<Layout> pLineProvider) {
-	}
 
 	/**
 	 * Test if Tree rebuild is required
@@ -372,8 +367,8 @@ implements AbstractLine<Layout> {
 		return (L) clone();
 	}
 
-	protected final FieldDetail getFieldFromName(String fieldName) {
-		FieldDetail fldDef = null;
+	protected final AbstractRecordDetail.FieldDetails getFieldFromName(String fieldName) {
+		AbstractRecordDetail.FieldDetails fldDef = null;
 		if (preferredLayout >= 0) {
 			fldDef = layout.getRecord(preferredLayout).getField(fieldName);
 		}

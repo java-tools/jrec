@@ -86,7 +86,7 @@ public class SaveFileLayout2Xml extends ReSpecificScreenAction implements Abstra
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 
-			FileView<?> view = panel.getFileView().getBaseFile();
+			FileView view = panel.getFileView().getBaseFile();
 			CopybookWriterManager writers = CopybookWriterManager.getInstance();
 			String fname = super.getFileName();
 			String lname = Common.stripDirectory(fname);

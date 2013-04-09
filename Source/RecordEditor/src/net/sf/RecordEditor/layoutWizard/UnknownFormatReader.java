@@ -12,7 +12,6 @@ import java.io.InputStream;
 import javax.swing.JDialog;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.LayoutDetail;
@@ -93,16 +92,16 @@ public class UnknownFormatReader extends DelegateReader {
 			    fileStructure = pnl.getFileStructure();
 			    String font = pnl.fontNameTxt.getText();
 
-	            FieldDetail[] flds = new FieldDetail[1];
+			    RecordDetail.FieldDetails[] flds = new RecordDetail.FieldDetails[1];
 	            RecordDetail[] recs = new RecordDetail[1];
 
 
 	            if (fileStructure == Constants.IO_FIXED_LENGTH) {
-		            flds[0] = new FieldDetail("Data", "", Type.ftChar, 0,
+		            flds[0] = new RecordDetail.FieldDetails("Data", "", Type.ftChar, 0,
 	                        font, format, param);
 		            flds[0].setPosLen(1, pnl.getLength());
 	            } else {
-		            flds[0] = new FieldDetail("Data", "", fieldType, 0,
+		            flds[0] = new RecordDetail.FieldDetails("Data", "", fieldType, 0,
 			                        font, format, param);
 			        flds[0].setPosLen(1, 1);
 	            }

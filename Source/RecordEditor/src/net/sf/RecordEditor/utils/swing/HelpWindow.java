@@ -8,6 +8,7 @@ package net.sf.RecordEditor.utils.swing;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
@@ -30,7 +31,7 @@ public class HelpWindow extends KeyAdapter implements HyperlinkListener {
     private static JEditorPane helpDtls = new JEditorPane();
     private static boolean toInit = true;
 
-    private String helpURL = null;
+    private URL helpURL = null;
 
 
 
@@ -39,7 +40,7 @@ public class HelpWindow extends KeyAdapter implements HyperlinkListener {
      *
      * @param url Help URL
      */
-    public HelpWindow(final String url) {
+    public HelpWindow(final URL url) {
         super();
 
         helpURL = url;
@@ -71,7 +72,7 @@ public class HelpWindow extends KeyAdapter implements HyperlinkListener {
      *
      * @param url url to display
      */
-    public final void showURL(String url) {
+    public final void showURL(URL url) {
 
         if (helpURL != null) {
             if (toInit) {
@@ -96,7 +97,7 @@ public class HelpWindow extends KeyAdapter implements HyperlinkListener {
      *
      * @param helpUrl name of the Help URL
      */
-    public final void setHelpURL(String helpUrl) {
+    public final void setHelpURL(URL helpUrl) {
         this.helpURL = helpUrl;
     }
 
@@ -107,7 +108,7 @@ public class HelpWindow extends KeyAdapter implements HyperlinkListener {
     public final void hyperlinkUpdate(HyperlinkEvent event) {
 
         if (event.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-             showURL(event.getURL().toString());
+             showURL(event.getURL());
         }
     }
 }

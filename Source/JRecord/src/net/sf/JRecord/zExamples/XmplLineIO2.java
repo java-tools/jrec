@@ -14,12 +14,11 @@
 package net.sf.JRecord.zExamples;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.IO.AbstractLineReader;
-import net.sf.JRecord.IO.StandardLineReader;
 import net.sf.JRecord.IO.CobolIoProvider;
 import net.sf.JRecord.Numeric.Convert;
 import net.sf.JRecord.zTest.Common.TstConstants;
@@ -56,8 +55,8 @@ public final class XmplLineIO2 {
                     CopybookLoader.SPLIT_NONE, copybookName, vendorFile
             );
               // using the field (rather than the field name is more efficient
-            FieldDetail vendorField = reader.getLayout().getFieldFromName("Vendor-Number");
-            FieldDetail vendorNameField = reader.getLayout().getFieldFromName("Vendor-Name");
+            IFieldDetail vendorField = reader.getLayout().getFieldFromName("Vendor-Number");
+            IFieldDetail vendorNameField = reader.getLayout().getFieldFromName("Vendor-Name");
 
             System.out.println("  Vendor \t Name");
             System.out.println("  ===========================================");

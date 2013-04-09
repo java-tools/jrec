@@ -2,6 +2,7 @@ package net.sf.RecordEditor.test.recordSelection;
 
 import java.util.ArrayList;
 
+import junit.framework.TestCase;
 import net.sf.RecordEditor.layoutEd.panels.RecordSelectionPnl;
 import net.sf.RecordEditor.layoutEd.panels.TableUpdatePnl;
 import net.sf.RecordEditor.re.db.Record.ChildRecordsRec;
@@ -11,7 +12,6 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.jdbc.DBtableModel;
-import junit.framework.TestCase;
 
 /**
  * This class perform basic tests on the screen RecordSelectionPnl

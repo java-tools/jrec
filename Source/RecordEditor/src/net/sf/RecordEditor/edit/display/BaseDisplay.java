@@ -41,7 +41,6 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
-import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.AbstractChildDetails;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
@@ -55,6 +54,7 @@ import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.edit.display.common.ILayoutChanged;
 import net.sf.RecordEditor.edit.display.util.AddAttributes;
 import net.sf.RecordEditor.edit.display.util.GotoLine;
+import net.sf.RecordEditor.edit.display.util.LinePosition;
 import net.sf.RecordEditor.edit.display.util.OptionPnl;
 import net.sf.RecordEditor.edit.display.util.Search;
 import net.sf.RecordEditor.edit.display.util.SortFrame;
@@ -120,7 +120,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 	//static ImageIcon searchIcon = new ImageIcon(Common.dir + "searchEye.gif");
 
 	private static final int RECORDS_TO_CHECK = 30;
-	public static final int MAXIMUM_NO_COLUMNS = 5000;
+	public static final int MAXIMUM_NO_COLUMNS = 50000;
 
 	protected static final int NO_OPTION_PANEL = 1;
 	protected static final int STD_OPTION_PANEL = 2;
@@ -142,11 +142,8 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 	protected Rectangle screenSize = ReMainFrame.getMasterFrame().getDesktop().getBounds();
 	    //Toolkit.getDefaultToolkit().getScreenSize();
 
-	@SuppressWarnings("rawtypes")
 	protected AbstractLayoutDetails layout;
-	@SuppressWarnings("rawtypes")
 	protected FileView fileView;
-	@SuppressWarnings("rawtypes")
 	protected FileView fileMaster;
 
 	protected JTable tblDetails;
@@ -181,6 +178,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 	private DisplayFrame parentFrame;
 
 	private MouseListener dockingPopup = null;
+	private boolean allowPaste = true;
 
 	private KeyAdapter listner = new KeyAdapter() {
     	private long lastWhen = -121;
@@ -196,7 +194,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
             if (event.getModifiers() == KeyEvent.CTRL_MASK && lastWhen != event.getWhen()) {
                 /*if (event.getKeyCode() == KeyEvent.VK_F) {
                     searchScreen.startSearch(fileView);
-                } else*/ if (event.getKeyCode() == KeyEvent.VK_A) {
+                } else*/ if (event.getKeyCode() == KeyEvent.VK_A && allowPaste) {
                 	tblDetails.selectAll();
 //                } else if (event.getKeyCode() == KeyEvent.VK_S) {
 //                    saveFile();
@@ -204,12 +202,12 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
                 	insertLine(0);
                 } else if (event.getKeyCode() == KeyEvent.VK_C) {
                     copyRecords();
-               } else if (event.getKeyCode() == KeyEvent.VK_V) {
+                } else if (event.getKeyCode() == KeyEvent.VK_V && allowPaste) {
                     fileView.pasteLines(getInsertAfterPosition());
                 } else if (event.getKeyCode() == KeyEvent.VK_L) {
                 	new GotoLine(BaseDisplay.this, fileView);;
-                } else if (event.getKeyCode() == KeyEvent.VK_K) {
-                	System.out.println("Table Class:" + tblDetails.getClass().getName());
+//                } else if (event.getKeyCode() == KeyEvent.VK_K) {
+//                	System.out.println("Table Class:" + tblDetails.getClass().getName());
                }
                lastWhen = event.getWhen();
                 //System.out.print("   !!!");
@@ -512,6 +510,8 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 				}
 			break;
 			case ReActionHandler.SAVE:		    	saveFile();				break;
+			case ReActionHandler.DELETE_BUTTON:
+			case ReActionHandler.DELETE_RECORD_POPUP:
 			case ReActionHandler.DELETE_RECORD:		deleteLines();			break;
 			case ReActionHandler.COPY_RECORD:
 				copyRecords();			break;
@@ -519,11 +519,15 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 				copyRecords();
 				deleteLines();
 			break;
+			case ReActionHandler.PASTE_RECORD_POPUP:
 			case ReActionHandler.PASTE_RECORD:
 				fileView.pasteLines(getInsertAfterPosition());				break;
+			case ReActionHandler.PASTE_RECORD_PRIOR_POPUP:
 			case ReActionHandler.PASTE_RECORD_PRIOR:	fileView.pasteLines(getInsertBeforePosition());	break;
 			case ReActionHandler.CORRECT_RECORD_LENGTH:	setRecordLayout();								break;
+			case ReActionHandler.INSERT_RECORDS_POPUP:
 			case ReActionHandler.INSERT_RECORDS:		insertLine(0);									break;
+			case ReActionHandler.INSERT_RECORD_PRIOR_POPUP:
 			case ReActionHandler.INSERT_RECORD_PRIOR:	insertLine(-1);									break;
 			case ReActionHandler.CLOSE:					closeWindow();									break;
 			case ReActionHandler.SORT:			    	new SortFrame(this, fileView);					break;
@@ -566,15 +570,32 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 		}
 	}
 
+	protected final void checkForResize(TableModelEvent event) {
+		//System.out.println("!! " + event.getType() + " " + event.getFirstRow() + " " + event.getLastRow());
+		if ((event.getType() == TableModelEvent.INSERT || event.getType() == TableModelEvent.UPDATE)
+		&& fileView.getRowCount() == 1
+		&& event.getFirstRow() == 0 && (event.getLastRow() == 0 || event.getLastRow() == Integer.MAX_VALUE)) {
+			Common.calcColumnWidths(getJTable(), 1);
+		}
+
+	}
+
+
 	private final void executeSaveAs(int format, String s) {
 		new SaveAs3(this, this.fileView, format, s);
 	}
+
+
 	protected final void executeTreeAction(int action) {
 
 		switch (action) {
+		case ReActionHandler.PASTE_RECORD:
+		case ReActionHandler.PASTE_RECORD_POPUP:
+			getFileView().pasteTreeLines(getInsertAfterLine(false));
+		break;
 		case ReActionHandler.PASTE_RECORD_PRIOR:
-		case(ReActionHandler.PASTE_RECORD):
-			getFileView().pasteTreeLines(getInsertAfterLine(action == ReActionHandler.PASTE_RECORD_PRIOR));
+		case ReActionHandler.PASTE_RECORD_PRIOR_POPUP:
+			getFileView().pasteTreeLines(getInsertAfterLine(true));
 		break;
 
 //			AbstractLine line = getInsertAfterLine();
@@ -584,23 +605,34 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 //				getFileView().pasteTreeLines(line.getTreeDetails().getParentLine());
 //			}
 		default:
-			executeAction(action);
+//			executeAction(action);
 		}
 
 	}
 
 	@Override
 	public void insertLine(int adj) {
+		insertLine(adj, false);
+	}
+
+
+	public void insertLine(int adj, boolean popup) {
 		if (fileMaster.getTreeTableNotify() == null) {
-			insertLine_100_FlatFile(adj);
+			insertLine_100_FlatFile(adj, popup);
 		} else {
 			insertLine_200_TreeFile(adj);
 		}
 	}
 
-	private void insertLine_100_FlatFile(int adj) {
-		int pos = fileView.newLine(getInsertAfterPosition(), adj);
+	private void insertLine_100_FlatFile(int adj, boolean popup) {
+		int pos = insertLine_101_FlatFile(adj, popup);
 
+		checkLayout();
+		newLineFrame(fileView, pos);
+	}
+
+	protected int insertLine_101_FlatFile(int adj, boolean popup) {
+		int pos = fileView.newLine(getInsertPos(popup), adj);
 
 		if (layout.isXml()) {
 			//System.out.println("Setting Layout index " + layoutList.getLayoutIndex());
@@ -619,15 +651,19 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 				}
 			}
 		}
-
-		checkLayout();
-		newLineFrame(fileView, pos);
+		return pos;
 	}
 
 
 	private void insertLine_200_TreeFile(int adj) {
-		AbstractLine l = getInsertAfterLine(adj < 0);
+		LinePosition lp = getInsertAfterLine(adj < 0);
+		AbstractLine l = lp.line;
 		AbstractLine newLine = null;
+		int adjust = 0;
+
+		if (lp.before) {
+			adjust = -1;
+		}
 
 		if (l == null) {
 			if (fileView.getRowCount() == 0) {
@@ -643,7 +679,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 			List<AbstractChildDetails> children = l.getTreeDetails().getInsertRecordOptions();
 			AbstractChildDetails ldef = l.getTreeDetails().getChildDefinitionInParent();
 			AbstractLine parent = l.getTreeDetails().getParentLine();
-			AbstractChildDetails<AbstractRecordDetail<? extends FieldDetail>> rootDef = null;
+			AbstractChildDetails<AbstractRecordDetail> rootDef = null;
 			if (children == null || children.size() == 0) {
 				if (ldef == null || ! ldef.isRepeated()) {
 					Common.logMsg("Nothing can be inserted at this point", null);
@@ -651,33 +687,39 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 				}
 
 				if (parent == null ) {
-					newLine = insertLine_210_CreateMainRecord(l);
+					newLine = insertLine_210_CreateMainRecord(l, adjust);
 				} else {
-					newLine = insertLine_220_CreateRepeated(parent, l, ldef);
+					newLine = insertLine_220_CreateRepeated(parent, l, ldef, adjust);
 				}
 			} else {
 				if (ldef != null && ldef.isRepeated()) {
 					children.add(ldef);
 				} else if (parent == null) {
 					int idx = l.getPreferredLayoutIdx();
-					rootDef = new BasicChildDefinition<AbstractRecordDetail<? extends FieldDetail>>(
+					rootDef = new BasicChildDefinition<AbstractRecordDetail>(
 												l.getLayout().getRecord(idx), idx ,0);
 					children.add(rootDef);
 				}
 
 				if (children.size() == 1) {
+					//TODO ~~~ Adjust ????
+					//TODO ~~~ Adjust ????
 					newLine = insertLine_230_CreateChild(l, children.get(0), -1);
 				} else {
+					@SuppressWarnings("rawtypes")
 					AbstractChildDetails resp = (AbstractChildDetails) ReOptionDialog.showInputDialog(
 							parentFrame, "Select the Record to Insert", "Record Selection", JOptionPane.QUESTION_MESSAGE, null,
 						children.toArray(), children.get(0));
 
 					if (resp != null) {
 						if (resp == rootDef) {
-							newLine = insertLine_210_CreateMainRecord(l);
+							newLine = insertLine_210_CreateMainRecord(l, adjust);
 						} else if (resp == ldef) {
-							newLine = insertLine_220_CreateRepeated(parent, l, ldef);
+							newLine = insertLine_220_CreateRepeated(parent, l, ldef, adjust);
 						} else {
+							//TODO ~~~ Adjust ????
+							//TODO ~~~ Adjust ????
+							//TODO ~~~ Adjust ????
 							newLine = insertLine_230_CreateChild(l, resp, -1);
 						}
 					}
@@ -691,17 +733,17 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 		}
 	}
 
-	private AbstractLine insertLine_210_CreateMainRecord (AbstractLine line) {
-		return newMainLine(fileView.indexOf(line));
+	private AbstractLine insertLine_210_CreateMainRecord (AbstractLine line, int adj) {
+		return newMainLine(fileView.indexOf(line) + adj);
 	}
 
 	private AbstractLine insertLine_220_CreateRepeated(
-			AbstractLine parent, AbstractLine child, AbstractChildDetails childDef) {
+			AbstractLine parent, AbstractLine child, AbstractChildDetails childDef, int adj) {
 
 		int location = parent.getTreeDetails().getLines(childDef.getChildIndex()).indexOf(child);
 
 		if (location >= 0) {
-			location += 1;
+			location += 1 + adj;
 		}
 
 		return insertLine_230_CreateChild(parent, childDef, location);
@@ -718,6 +760,18 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 		}
 
 		return ret;
+	}
+
+	protected final int getInsertPos(boolean popup) {
+
+		int insPos = -1;
+		if (popup) {
+			insPos= getPopupPosition();
+		}
+		if (insPos < 0 ) {
+			insPos = getInsertAfterPosition();
+		}
+		return insPos;
 	}
 
 	private void checkLayout() {
@@ -897,13 +951,19 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 		    ret =   ret
 			    || (action == ReActionHandler.SAVE)
 			    || (action == ReActionHandler.DELETE_RECORD)
+			    || (action == ReActionHandler.DELETE_RECORD_POPUP)
+			    || (action == ReActionHandler.DELETE_BUTTON)
 				|| (action == ReActionHandler.COPY_RECORD)
 				|| (action == ReActionHandler.CUT_RECORD)
 				|| (action == ReActionHandler.PASTE_RECORD)
 				|| (action == ReActionHandler.PASTE_RECORD_PRIOR)
+				|| (action == ReActionHandler.PASTE_RECORD_POPUP)
+				|| (action == ReActionHandler.PASTE_RECORD_PRIOR_POPUP)
 				|| (action == ReActionHandler.CORRECT_RECORD_LENGTH)
 				|| (action == ReActionHandler.INSERT_RECORDS)
 				|| (action == ReActionHandler.INSERT_RECORD_PRIOR)
+				|| (action == ReActionHandler.INSERT_RECORDS_POPUP)
+				|| (action == ReActionHandler.INSERT_RECORD_PRIOR_POPUP)
 				|| (action == ReActionHandler.SORT)
 				|| (action == ReActionHandler.SHOW_INVALID_ACTIONS);
 	    }
@@ -917,6 +977,10 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 	 */
 	protected abstract int getInsertAfterPosition();
 
+	protected int getPopupPosition() {
+		return getInsertAfterPosition();
+	}
+
 	protected int getInsertBeforePosition() {
 		return getStandardPosition() - 1;
 	}
@@ -925,15 +989,22 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 	 * Get Insertion Point for Tree Display
 	 * @return Insertion Point (line)
 	 */
-	protected AbstractLine getInsertAfterLine(boolean prev) {
-		int idx = getInsertAfterPosition();
-		if (prev) {
-			idx -= 1;
+	protected LinePosition getInsertAfterLine(boolean prev) {
+		return getInsertAfterLine(getInsertAfterPosition(), prev);
+	}
+
+	protected final LinePosition getInsertAfterLine(int idx, boolean prev) {
+		if (idx >= 0) {
+			if (idx == 0 && prev) {
+				return new LinePosition(fileView.getLine(0), true);
+			}
+			if (prev) {
+				idx -= 1;
+			}
+			return new LinePosition(fileView.getLine(idx), false);
 		}
-		if (idx < 0) {
-			return null;
-		}
-		return fileView.getLine(idx);
+
+		return new LinePosition(null, prev);
 	}
 
 	/**
@@ -992,8 +1063,9 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 	 */
 	private void createColumnView() {
 
-		if (getSelectedRowCount() > MAXIMUM_NO_COLUMNS) {
-			Common.logMsg("To Many Rows Selected for ColumnDisplay", null);
+		int rowCount = getSelectedRowCount();
+		if (rowCount > MAXIMUM_NO_COLUMNS) {
+			Common.logMsgRaw(ReMessages.TO_MANY_ROWS.get(new Object[] {rowCount, MAXIMUM_NO_COLUMNS}), null);
 		} else {
 			int[] selRows = getSelectedRows();
 
@@ -1160,7 +1232,6 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 	 /**
 	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getTreeLine()
 	 */
-	@SuppressWarnings("rawtypes")
 	@Override
 	public AbstractLine getTreeLine() {
 		return null;
@@ -1258,9 +1329,9 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 
 
     /**
-     * get the prefered layout for a row. note: this is overriden in LineTree
+     * get the preferred layout for a row. note: this is overridden in LineTree
      * @param row table row to get the layout for
-     * @return rows prefered layout
+     * @return rows preferred layout
      */
     protected int getLayoutIdx_100_getLayout4Row(int row) {
     	return fileView.getTempLine(row).getPreferredLayoutIdx();
@@ -1288,7 +1359,8 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 	@Override
 	public List<AbstractLine> getSelectedLines() {
 
-		return fileView.getLines(tblDetails.getSelectedRows());
+//		return fileView.getLines(tblDetails.getSelectedRows());
+		return fileView.getLines(getSelectedRows());
 	}
 
 
@@ -1718,6 +1790,14 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 		}
 
 	}
+
+	/**
+	 * @param allowPaste the allowPaste to set
+	 */
+	public void setAllowPaste(boolean allowPaste) {
+		this.allowPaste = allowPaste;
+	}
+
 
 	public void removeChildScreen() {
 	}

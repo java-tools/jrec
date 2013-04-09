@@ -197,8 +197,8 @@ public class RunSavedCopy extends ReFrame {
 		}
 	}
 
-	private AbstractLayoutSelection<?> createLayout() {
-		AbstractLayoutSelection<?> ret = layoutCreator.create();
+	private AbstractLayoutSelection createLayout() {
+		AbstractLayoutSelection ret = layoutCreator.create();
 		ret.setDatabaseIdx(dbIdx);
 		return ret;
 	}

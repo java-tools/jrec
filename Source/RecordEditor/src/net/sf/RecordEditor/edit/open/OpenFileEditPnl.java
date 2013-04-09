@@ -30,9 +30,7 @@ import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JPanel;
 
-import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
-import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.re.file.FileView;
@@ -54,8 +52,8 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
  * @version 0.56
  */
 @SuppressWarnings("serial")
-public class OpenFileEditPnl<Layout extends AbstractLayoutDetails<? extends FieldDetail, ? extends AbstractRecordDetail<FieldDetail>>>
-extends AbstractOpenFilePnl<Layout>
+public class OpenFileEditPnl
+extends AbstractOpenFilePnl
 implements ActionListener, OpenFileInterface {
 
 	private int initialRow;
@@ -84,7 +82,7 @@ implements ActionListener, OpenFileInterface {
 	        	   final AbstractLineIOProvider pIoProvider,
 	        	   final JButton layoutCreate1,
 	        	   final JButton layoutCreate2,
-	        	   @SuppressWarnings("rawtypes") final AbstractLayoutSelection newLayoutSelection) {
+	        	   final AbstractLayoutSelection newLayoutSelection) {
 	    this(pInFile, pInitialRow, pIoProvider,
 	         layoutCreate1, layoutCreate2,
 	         Parameters.getApplicationDirectory() + "Files.txt",
@@ -112,7 +110,7 @@ implements ActionListener, OpenFileInterface {
      	   final JButton layoutCreate2,
      	   final String propertiesFiles,
      	   final String helpScreen,
-     	   @SuppressWarnings("rawtypes") final AbstractLayoutSelection newLayoutSelection) {
+     	   final AbstractLayoutSelection newLayoutSelection) {
 		super(	pInFile,
 		     	pIoProvider,
 		     	layoutCreate1,
@@ -134,11 +132,10 @@ implements ActionListener, OpenFileInterface {
 
 	@Override
 	public void processFile(String sFileName,
-			Layout layoutDetails,
+			AbstractLayoutDetails layoutDetails,
 			AbstractLineIOProvider ioProvider,
 			boolean pBrowse) throws Exception {
 
-		@SuppressWarnings({ "rawtypes", "unchecked" })
 		FileView file = new FileView(layoutDetails,
     			ioProvider,
     			pBrowse);
@@ -243,7 +240,7 @@ implements ActionListener, OpenFileInterface {
     public void setRecordLayout(int recordId, String layoutName, String newFileName) {
 
     	super.setDoListener(false);
-        @SuppressWarnings("rawtypes")
+
 		AbstractLayoutSelection selection = getLayoutSelection();
 
         selection.reload();

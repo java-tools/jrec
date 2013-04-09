@@ -31,7 +31,7 @@ implements TreeTableNotify {
     private final int skipColumns;
     private int recordIndex = 0;
 
-    private AbstractLayoutDetails<?, ?> layout;
+    private AbstractLayoutDetails layout;
     private AbstractChangeNotify notify;
 
 
@@ -141,7 +141,7 @@ implements TreeTableNotify {
    		return " ";
     	}
     	int col = adjustColumn(null, column);
-    	AbstractRecordDetail<?> rec = getRecord();
+    	AbstractRecordDetail rec = getRecord();
     	if (col >= rec.getFieldCount()) {
     		return " ";
     	}
@@ -177,7 +177,7 @@ implements TreeTableNotify {
      * @see javax.swing.table.TableModel#getValueAt(int, int)
      */
     public Object getValueAt(Object node, int column) {
-	AbstractLine<?> rec = ((AbstractLineNode) node).getLine();
+	AbstractLine rec = ((AbstractLineNode) node).getLine();
 
 		int col;
 		if (rec == null || column < MAP_SKIP_COLUMN) {
@@ -211,7 +211,7 @@ implements TreeTableNotify {
 	@Override
 	public void setValueAt(Object newValue, Object node, int column) {
 		AbstractLineNode lNode = (AbstractLineNode) node;
-		AbstractLine<?> rec = lNode.getLine();
+		AbstractLine rec = lNode.getLine();
 		int recordIdx = getRecordIndex(rec);
 		int col;
 
@@ -248,7 +248,7 @@ implements TreeTableNotify {
 	}
 
 	private String doFieldUpdate(
-			AbstractLineNode lNode, AbstractLine<?> rec,
+			AbstractLineNode lNode, AbstractLine rec,
 			int recordIdx, int col, Object oldValue, Object newValue) {
 		String ret = null;
 		try {
@@ -270,7 +270,7 @@ implements TreeTableNotify {
      * @param column input column
      * @return adjusted column
      */
-    private int adjustColumn(AbstractLine<?> rec, int column) {
+    private int adjustColumn(AbstractLine rec, int column) {
         return layout.getAdjFieldNumber(getRecordIndex(rec), column - skipColumns + columnShift);
     }
 
@@ -288,7 +288,7 @@ implements TreeTableNotify {
      * Get the current record
      * @return requested record
      */
-    private AbstractRecordDetail<?> getRecord() {
+    private AbstractRecordDetail getRecord() {
     	return layout.getRecord(getRecordIndex(null));
     }
 
@@ -305,7 +305,7 @@ implements TreeTableNotify {
      * Get the current record
      * @return current record id
      */
-	private int getRecordIndex(AbstractLine<?> rec) {
+	private int getRecordIndex(AbstractLine rec) {
 		if (recordIndex < layout.getRecordCount()) {
 			return recordIndex;
 		} else if (rec == null) {

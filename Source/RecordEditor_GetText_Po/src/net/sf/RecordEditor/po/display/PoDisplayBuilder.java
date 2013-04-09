@@ -24,7 +24,7 @@ public class PoDisplayBuilder extends DisplayBuilderAdapter {
 	public AbstractFileDisplayWithFieldHide newDisplay(int screenType,
 			String screenName,
 			IDisplayFrame<? extends AbstractFileDisplay> parentFrame,
-			AbstractLayoutDetails<?, ?> group, FileView<?> viewOfFile,
+			AbstractLayoutDetails group, FileView viewOfFile,
 			int lineNo) {
 		if (viewOfFile.getLayout().getFileStructure() == Constants.IO_GETTEXT_PO) {
 			switch (screenType) {
@@ -54,7 +54,7 @@ public class PoDisplayBuilder extends DisplayBuilderAdapter {
 	}
 
 	private PoList getListScreen(String screenName, IDisplayFrame<? extends AbstractFileDisplay> parentFrame,
-			AbstractLayoutDetails<?, ?> group, FileView<?> viewOfFile,
+			AbstractLayoutDetails group, FileView viewOfFile,
 			boolean primaryScreen, boolean addBlankLine) {
 
 		PoList polist = new PoList(screenName, viewOfFile, primaryScreen);

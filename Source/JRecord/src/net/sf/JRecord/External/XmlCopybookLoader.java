@@ -33,13 +33,12 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.Conversion;
-import net.sf.JRecord.External.ExternalField;
-import net.sf.JRecord.External.ExternalRecord;
+import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Numeric.ConversionManager;
 import net.sf.JRecord.Numeric.Convert;
 import net.sf.JRecord.Types.Type;
-//import net.sf.RecordEditor.utils.log.TextLog;
+import net.sf.JRecord.Types.TypeManager;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -100,7 +99,7 @@ public class XmlCopybookLoader implements CopybookLoader {
     private Convert numTranslator;
     private String fontName = "";
     private int system = 0;
-    
+
     private int redefLevel = Integer.MAX_VALUE;
 
     /**
@@ -199,7 +198,7 @@ public class XmlCopybookLoader implements CopybookLoader {
         Element element = /*(Element)*/ pCopyBookXml.getDocumentElement();
 
         allocDBs(pDbIdx);
-        
+
         switch (pSplitCopybook) {
         case SPLIT_NONE:   /* split copybook on first redefine*/
             createRecord(pCopyBook, pCopyBook, STR_YES);
@@ -208,7 +207,7 @@ public class XmlCopybookLoader implements CopybookLoader {
             break;
         case SPLIT_REDEFINE:
         	scanCopybook4RedefLevel(element);
-        	// Deliberate Fall through 
+        	// Deliberate Fall through
         default:
             insertXMLcopybook(lCopyBookPref, element, 0, "");
 
@@ -228,12 +227,59 @@ public class XmlCopybookLoader implements CopybookLoader {
         	parentLayout = currentLayout;
         }
         parentLayout.dropFiller();
+
+        boolean multipleRecordLengths = false,
+        		binary = false;
+
+        if (parentLayout.getNumberOfRecords() == 0) {
+        	binary = isBinaryRec(parentLayout);
+        } else {
+        	int len = getRecLength(parentLayout.getRecord(0));
+        	binary = binary || isBinaryRec(parentLayout.getRecord(0));
+
+        	for (i = 1; i < parentLayout.getNumberOfRecords(); i++) {
+        		binary = binary || isBinaryRec(parentLayout.getRecord(i));
+        		multipleRecordLengths = multipleRecordLengths
+        							 || (len != getRecLength(parentLayout.getRecord(i)));
+        	}
+        }
+        parentLayout.setFileStructure(numTranslator.getFileStructure(multipleRecordLengths, binary));
         freeDBs(pDbIdx);
 
         return parentLayout;
     }
 
-    protected void allocDBs(int pDbIdx) {
+    private boolean isBinaryRec(ExternalRecord rec) {
+    	boolean ret = false;
+    	TypeManager m = TypeManager.getInstance();
+
+    	try {
+	    	for (int i = 0; i < rec.getNumberOfRecordFields(); i++) {
+	    		ret = ret || m.getType(rec.getRecordField(i).getType()).isBinary();
+	    	}
+    	} catch (Exception e) {
+			System.out.println("Error checking for binary field Types");
+		}
+
+    	return ret;
+    }
+
+    private int getRecLength(ExternalRecord rec) {
+    	int ret = 0;
+    	TypeManager m = TypeManager.getInstance();
+
+    	try {
+	    	for (int i = 0; i < rec.getNumberOfRecordFields(); i++) {
+	    		ExternalField recordField = rec.getRecordField(i);
+				ret = Math.max(ret, recordField.getPos() + recordField.getLen() - 1);
+	    	}
+    	} catch (Exception e) {
+			System.out.println("Error Finding Record Length Types");
+		}
+
+    	return ret;
+    }
+   protected void allocDBs(int pDbIdx) {
 
     }
 
@@ -366,7 +412,7 @@ public class XmlCopybookLoader implements CopybookLoader {
            }
            /*print = ((! "filler".equalsIgnoreCase(lOrigName))
                    &&  element.hasAttribute(ATTR_PICTURE));*/
-           print = element.hasAttribute(ATTR_PICTURE) 
+           print = element.hasAttribute(ATTR_PICTURE)
            			|| "computational-1".equals(usage) || "computational-2".equals(usage);
            opt = OPT_WRITE_ELEMENT;
            switch (splitCopybook) {
@@ -378,10 +424,10 @@ public class XmlCopybookLoader implements CopybookLoader {
           	      } else {
           	          opt = OPT_SAVE;
           	          try {
-	          	          if (redefLevel == getIntAttribute(element, ATTR_LEVEL) 
+	          	          if (redefLevel == getIntAttribute(element, ATTR_LEVEL)
 		          	      &&  getStringAttribute(element, ATTR_REDEFINED).equals("true")) {
 		          	          opt = OPT_REDEFINED;
-	          	          }   
+	          	          }
           	          } catch (Exception e) {
           	          }
            	      }
@@ -490,8 +536,8 @@ public class XmlCopybookLoader implements CopybookLoader {
      * @return the record just inserted
      */
     private ExternalRecord createRecord(String copyBook,
-            							  String recordName,
-            							  String listChar) {
+            							String recordName,
+            							String listChar) {
         int rt = Constants.rtRecordLayout;
         if (binaryFormat == Convert.FMT_MAINFRAME
         ||  binaryFormat == Convert.FMT_BIG_ENDIAN) {
@@ -587,7 +633,7 @@ public class XmlCopybookLoader implements CopybookLoader {
             String signPosition = getStringAttribute(element, ATTR_SIGN_POSITION);
             iType = numTranslator.getTypeIdentifier(usage, picture, "true".equals(signed));
 
-            if (iType >= 0) { 
+            if (iType >= 0) {
             } else if ("true".equals(signed) ||  picture.startsWith("S")) {
                 if ("true".equals(signSeparate)) {
                     if ("leading".equals(signPosition)) {
@@ -603,7 +649,7 @@ public class XmlCopybookLoader implements CopybookLoader {
                     }
                 }
             } else {
-                iType = Type.ftAssumedDecimal;
+                iType = Type.ftAssumedDecimalPositive;
             }
         } else if ("null-padded".equals(usage)) {
             iType = Type.ftCharNullPadded;
@@ -713,7 +759,7 @@ public class XmlCopybookLoader implements CopybookLoader {
 
     /**
      * Get the font name
-     * 
+     *
      * @return Returns the fontName.
      */
     public String getFontName() {

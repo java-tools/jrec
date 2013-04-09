@@ -43,7 +43,7 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
     private JButton goBtn  = SwingUtils.newButton("Go");
 
     private AbstractFileDisplayWithFieldHide sourcePnl;
-    private AbstractLayoutDetails<?, ?> layout;
+    private AbstractLayoutDetails layout;
     private int recordIndex;
     private FieldList fieldMdl;
     public final ReFrame frame;
@@ -63,7 +63,7 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
     };
 
     public HideFields(AbstractFileDisplayWithFieldHide sourcePanel) {
-    	FileView<?> view;
+    	FileView view;
 	    TableColumnModel tcm;
 	    TableColumn tc;
 
@@ -179,8 +179,8 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
 
 @SuppressWarnings("serial")
 private static class FieldList extends AbstractTableModel {
-		private AbstractLayoutDetails<?, ?> layout;
-		private AbstractRecordDetail<?> rec;
+		private AbstractLayoutDetails layout;
+		private AbstractRecordDetail rec;
 		public final boolean[] include;
 		int recordIdx;
 
@@ -189,7 +189,7 @@ private static class FieldList extends AbstractTableModel {
 		 * @param record
 		 * @param showField
 		 */
-		public FieldList(AbstractLayoutDetails<?, ?> layoutDetails, int recordIndex, boolean[] showField) {
+		public FieldList(AbstractLayoutDetails layoutDetails, int recordIndex, boolean[] showField) {
 			this.layout = layoutDetails;
 			recordIdx = recordIndex;
 			this.rec = layout.getRecord(recordIndex);

@@ -15,7 +15,9 @@ public class PoLayoutMgr {
 		LayoutDetail t = null;
 
 		try {
+			long time = System.currentTimeMillis();
 			t = RecordEditorXmlLoader.getExternalRecord(Common.GETTEXT_PO_LAYOUT, "PO Layout").asLayoutDetail();
+			System.out.println("Load layout: " + (((double) (System.currentTimeMillis()-time)) / 1000));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

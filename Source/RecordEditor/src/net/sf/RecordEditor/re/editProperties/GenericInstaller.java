@@ -20,6 +20,7 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Reader;
 import java.sql.Connection;
 import java.sql.Statement;
@@ -562,6 +563,16 @@ public class GenericInstaller implements ActionListener {
 	            CommonCode.renameFile(outputFile);
             } catch (Exception e) {
 				e.printStackTrace();
+
+				try {
+					if (in != null) {
+						in.close();
+					}
+					if (inReader != null) {
+						inReader.close();
+					}
+				} catch (IOException ioe) {
+				}
 			}
             writer = new FileWriter(outputFile);
             w = new BufferedWriter(writer);

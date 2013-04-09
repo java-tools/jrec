@@ -12,7 +12,7 @@ package net.sf.RecordEditor.re.jrecord.types;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Types.ISizeInformation;
 import net.sf.JRecord.Types.Type;
@@ -42,7 +42,7 @@ public class TypeDateWrapper implements Type, ISizeInformation {
         super();
 
         baseType = type;
-        
+
 
         dateFormatStr = dateFormat;
         if (dateFormat == null) {
@@ -69,7 +69,7 @@ public class TypeDateWrapper implements Type, ISizeInformation {
      * @return value value as it is store in the record
      * @throws RecordException any conversion errors
      */
-    public String formatValueForRecord(FieldDetail field, String val)
+    public String formatValueForRecord(IFieldDetail field, String val)
             throws RecordException {
         return val;
     }
@@ -84,7 +84,7 @@ public class TypeDateWrapper implements Type, ISizeInformation {
      *
      * @return the request field (formated)
      */
-    public Object getField(byte[] data, int position, FieldDetail currField) {
+    public Object getField(byte[] data, int position, IFieldDetail currField) {
         Object ret = baseType.getField(data, position, currField);
 
         if (ret != null && ! "".equals(ret.toString())) {
@@ -123,8 +123,8 @@ public class TypeDateWrapper implements Type, ISizeInformation {
     public boolean isBinary() {
         return baseType.isBinary();
     }
-    
-  
+
+
     /**
      * Sets a field to a new value in the supplied data record
      *
@@ -136,7 +136,7 @@ public class TypeDateWrapper implements Type, ISizeInformation {
      * @return updated record
      * @throws RecordException any error that occurs during the save
      */
-    public byte[] setField(byte[] data, int position, FieldDetail field,
+    public byte[] setField(byte[] data, int position, IFieldDetail field,
             Object val) throws RecordException {
 
         Object o = val;
@@ -159,7 +159,7 @@ public class TypeDateWrapper implements Type, ISizeInformation {
      * @param field screen field
      * @return date formater
      */
-    private SimpleDateFormat getDateFormater(FieldDetail field) {
+    private SimpleDateFormat getDateFormater(IFieldDetail field) {
 
         if (df == null) {
             String s = field.getParamater();
@@ -185,6 +185,6 @@ public class TypeDateWrapper implements Type, ISizeInformation {
 	public int getNormalSize() {
 		return defaultSize;
 	}
-	
-	
+
+
 }

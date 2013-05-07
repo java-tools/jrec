@@ -33,7 +33,7 @@ def test():
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Window>>protoStoreSales7.bin>>Column Table')
 		assert_p('Table', 'Content', '[[69684558, 69694158], [[40118, 40118, 40118], [40118, 40118, 40118]], [[1, -1, 1], [1, -1, 1]], [[19000, -19000, 5010], [19000, -19000, 5010]], [[SALE, RETURN, SALE], [SALE, RETURN, SALE]], [[19.0, -19.0, 5.01], [19.0, -19.0, 5.01]], [[19.0, -19.0, 5.01], [19.0, -19.0, 0.04567, 5.0107896]], [[\'\',\' -1\',\' -1 1\'], [\'\',\' -1\',\' -1 1\']]]')
-		click('BaseDisplay$HeaderToolTips', 'Row 2')
+##		click('BaseDisplay$HeaderToolTips', 'Row 2')
 		assert_p('Table', 'Text', '')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('JTreeTable', 'rows:[8,9],columns:[keycode]')

@@ -34,7 +34,7 @@ def test():
 		select('Table', 'cell:Index,3(3)')
 		assert_p('Table', 'Content', '[[0, OTHER], [1, RETURN], [2, OTHER], [3, SALE], [4, RETURN], [5, SALE]]')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		select_menu('Window>>protoFieldTest2.bin>>Record: ')
+		select_menu('Window>>protoFieldTest2.bin>>Record:')
 		assert_p('Table', 'Text', '')
 		assert_p('Table', 'Content', '[[f01, 1, , [10000, 10001], [10000, 10001]], [f02, 2, , [10000, 10001], [10000, 10001]], [f03, 3, , [10000, 10001], [10000, 10001]], [f04, 4, , [10000, 10001], [10000, 10001]], [f05, 5, , [10000, 10001], [10000, 10001]], [f06, 6, , [100000000, 100000001], [100000000, 100000001]], [f07, 7, , [100000000, 100000001], [100000000, 100000001]], [f08, 8, , [100000000, 100000001], [100000000, 100000001]], [f09, 9, , [100000000, 100000001], [100000000, 100000001]], [f10, 10, , [100000000, 100000001], [100000000, 100000001]], [f11, 11, , [10000.0, 10001.0], [10000.0, 10001.0]], [f12, 12, , [1.0E8, 1.00000001E8], [1.0E8, 1.00000001E8]], [f13, 13, , [false, false], [false, false]], [f15, 14, , [\'100000000\',\'100000001\'], [\'100000000\',\'100000001\']], [f17, 15, , [OTHER, RETURN, OTHER, SALE, RETURN, SALE], [OTHER, RETURN, OTHER, SALE, RETURN, SALE]], [f19, 16, , [0000000001, 0000000002], [0000000001, 0000000002]]]')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')

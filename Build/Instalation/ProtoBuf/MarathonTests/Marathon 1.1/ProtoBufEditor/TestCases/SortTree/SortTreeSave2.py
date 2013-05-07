@@ -54,7 +54,7 @@ def test():
 		select_menu('Edit Record')
 		select('JTreeTable', 'cell:Tree,14(null)')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		select_menu('Window>>protoSales.bin>>Table: ')
+		select_menu('Window>>protoSales.bin>>Table:')
 		select_menu('View>>Execute Sort Tree')
 		##select('FileChooser', commonBits.userDir() +  'SortTree'  + commonBits.fileSep() + 'xx2')
 		commonBits.selectFileName(select, commonBits.userDir() +  'SortTree'  + commonBits.fileSep() + 'xx2')

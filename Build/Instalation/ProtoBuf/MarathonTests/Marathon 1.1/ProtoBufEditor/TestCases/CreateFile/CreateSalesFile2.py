@@ -39,7 +39,7 @@ def test():
 		select('Table', 'cell:Data,4(1)')
 		assert_p('Table', 'Content', '[[keycode, 1, , 1212, 1212], [store, 2, , 12, 12], [department, 3, , 12, 12], [saleDate, 4, , 121212, 121212], [quantity, 5, , 1, 1], [price, 6, , 12000, 12000]]')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		select_menu('Window>>zcStore.bin>>Table: ')
+		select_menu('Window>>zcStore.bin>>Table:')
 		assert_p('Table', 'Content', '[[1111, 222, 3333, 445566, 1, 11000], [1212, 12, 12, 121212, 1, 12000]]')
 		click('Save1')
 		

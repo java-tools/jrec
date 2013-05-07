@@ -67,6 +67,6 @@ def test():
 		select_menu('Window>>protoStoreSales3.bin>>Tree View')
 		select_menu('File>>Export')
 		select('FileChooser', commonBits.sampleDir() + 'protoStoreSales3_Compare3.bin')
-		click('save file')
+		click('Save File')
 
 	close()

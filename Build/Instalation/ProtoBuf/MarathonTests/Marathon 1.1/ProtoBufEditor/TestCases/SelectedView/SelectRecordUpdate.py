@@ -44,7 +44,7 @@ def test():
 		select('JTreeTable', '-1', 'quantity,6')
 		select('JTreeTable', '-17990', 'price,6')
 ##		select('JTreeTable', '')
-		select_menu('Window>>protoStoreSales3.bin>>Record: ')
+		select_menu('Window>>protoStoreSales3.bin>>Record:')
 		select('Table', 'cell:Data,1(40118)')
 		assert_p('Table', 'Content', '[[keycode, 1, , 61664713, 61664713], [saleDate, 2, , 40118, 40118], [quantity, 3, , -1, -1], [price, 4, , -17990, -17990]]')
 		select_menu('Utilities>>Compare with Disk')

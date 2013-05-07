@@ -34,7 +34,7 @@ def test():
 		assert_p('Table', 'Content', '[[keycode, 1, , 60664659, 60664659], [saleDate, 2, , 40118, 40118], [quantity, 3, , 1, 1], [price, 4, , 3990, 3990]]')
 ##		click('BaseHelpPanel', 267, 0)
 		click('Find1')
-##		select_menu('Window>>protoStoreSales3im.bin>>Record: ')
+##		select_menu('Window>>protoStoreSales3im.bin>>Record:')
 ##		select_menu('Window>>protoStoreSales3im.bin>>Find')
 		select('ComboBox', 'All Fields')
 		click('Find1')

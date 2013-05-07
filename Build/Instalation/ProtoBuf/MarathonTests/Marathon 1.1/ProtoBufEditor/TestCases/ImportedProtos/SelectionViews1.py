@@ -40,7 +40,7 @@ def test():
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'cell:2|saleDate,1(40118)')
 		select('Table', 'cell:2|saleDate,1(40118)')
-		select_menu('Window>>protoStoreSales3im.bin>>Table: ')
+		select_menu('Window>>protoStoreSales3im.bin>>Table:')
 		select('Table', 'cell:2|saleDate,1(40118)')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Window>>protoStoreSales3im.bin>>Tree View')

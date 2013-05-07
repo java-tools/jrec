@@ -47,7 +47,7 @@ def test():
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'cell:Data,1(Department: 957)')
 		select('Table', 'cell:Data,1(Department: 957)')
-		select_menu('Window>>protoStoreSales3a.bin>>Record: ')
+		select_menu('Window>>protoStoreSales3a.bin>>Record:')
 		select('Table', 'cell:Data,1(Department: 957)')
 		click('Delete2')
 		select_menu('Window>>protoStoreSales3a.bin>>Tree View')

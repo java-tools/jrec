@@ -16,7 +16,7 @@ def test():
 		select('Table', 'cell:2|name,2(Store: 166)')
 		assert_p('Table', 'Content', '[[20, Store: 20], [5911, Store: 59], [166, Store: 166], [184, Store: 184]]')
 		select('Table', 'cell:2|name,2(Store: 166)')
-		select_menu('Window>>protoStoreSales3.bin>>Table: ')
+		select_menu('Window>>protoStoreSales3.bin>>Table:')
 		select('Table', 'cell:2|name,2(Store: 166)')
 		select_menu('Window>>protoStoreSales3.bin>>Tree View')
 		select('Table', 'cell:2|name,2(Store: 166)')

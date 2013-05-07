@@ -8,10 +8,12 @@ def test():
 		select('FileChooser', commonBits.sampleDir() + 'protoStoreSales3a.bin')
 		click('Edit1')
 ##		select('JTreeTable', '')
+
 		rightclick('JTreeTable', 'Tree,0')
 		select_menu('Edit Record')
 		select('Table', 'cell:Data,0(20)')
 		assert_p('Table', 'Content', '[[store, 1, , 20, 20], [name, 2, , Store: 20, Store: 20]]')
+		
 		select('Table', '2011', 'Data,0')
 		select('Table', 'Store: 2011', 'Data,1')
 		select('Table', 'cell:Data,0(2011)')

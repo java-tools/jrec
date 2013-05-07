@@ -48,7 +48,7 @@ def test():
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'cell:2|Loc_Nbr,0(5839)')
 		select('Table', 'cell:2|Loc_Nbr,0(5839)')
-		select_menu('Window>>ams_locdownload_20041228.bin>>Table: ')
+		select_menu('Window>>ams_locdownload_20041228.bin>>Table:')
 		select('Table', 'cell:2|Loc_Nbr,0(5839)')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('Edit1')

@@ -63,7 +63,7 @@ def test():
 
 		assert_p('Table', 'Content', '[[0, ], [1,  0], [2,  0 234 1], [3, 0987 654 321], [4, 123 456 789], [5,  0 1 2]]')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		select_menu('Window>>protoSales11.bin>>Record: ')
+		select_menu('Window>>protoSales11.bin>>Record:')
 		assert_p('Table', 'Content', '[[keycode, 1, , 69694158, 69694158], [store, 2, , 20, 20], [department, 3, , 280, 280], [saleDate, 4, , 40118, 40118], [quantity, 5, , 1, 1], [price, 6, , 19000, 19000], [priceFloat, 7, , 19.0, 19.0], [priceDouble, 8, , 19.0, 19.0], [saleType, 9, , SALE, SALE], [paymentType, 10, , DEBIT_CARD, DEBIT_CARD], [strArray, 11, , [\'\',\' 0\',\' 0 234 1\',\'0987 654 321\',\'123 456 789\',\' 0 1 2\'], [\'\',\' 0\',\' 0 234 1\',\'0987 654 321\',\'123 456 789\',\' 0 1 2\']]]')
 		select('Table', '', 'Data,9')
 		select('Table', 'cell:Data,5(19000)')

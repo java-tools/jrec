@@ -7,8 +7,8 @@ def test():
 	if window('Protocol Buffer Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'protoStoreSales3.bin')
 		click('Edit1')
-		click('LineTreeChild', 1417, 309)
-		click('LineTreeChild', 429, 307)
+##		click('LineTreeChild', 1417, 309)
+##		click('LineTreeChild', 429, 307)
 		select('LayoutCombo', 'Product')
 		click('Find1')
 		click('MetalInternalFrameTitlePane', 193, 16)

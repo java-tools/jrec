@@ -37,7 +37,7 @@ def test():
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'cell:3|Loc_Type,1(ST)')
 		select('Table', 'cell:3|Loc_Type,1(ST)')
-		select_menu('Window>>ams_locdownload_20041228.bin>>Table: ')
+		select_menu('Window>>ams_locdownload_20041228.bin>>Table:')
 		select('Table2', 'cell:3|Loc_Type,1(ST)')
 		select_menu('View>>Execute Saved Filter')
 		#select('FileChooser', commonBits.userDir() + 'Filter'  + commonBits.fileSep() +'xx1')

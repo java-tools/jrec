@@ -32,5 +32,6 @@ def test():
 		#assert_p('Label8', 'Text', 'Velocity Template')
 		assert_p('ComboBox', 'Content', '[[File, Selected Records]]')
 		assert_p('ComboBox', 'Text', 'File')
-		assert_p('ComboBox1', 'Text', '<Tab>')
+##		assert_p('ComboBox1', 'Text', '<Tab>')
+		assert_p('DelimiterCombo', 'Text', '<Tab>')
 	close()

@@ -94,7 +94,7 @@ def test():
 		select('JTreeTable', 'cell:Tree,12(null)')
 		rightclick('JTreeTable', 'Tree,12')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		select_menu('Window>>protoSales.bin>>Table: ')
+		select_menu('Window>>protoSales.bin>>Table:')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 

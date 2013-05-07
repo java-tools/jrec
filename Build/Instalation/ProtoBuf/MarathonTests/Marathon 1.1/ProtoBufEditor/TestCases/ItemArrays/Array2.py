@@ -27,7 +27,7 @@ def test():
 		select('Table', 'cell:2|store,0(20)')
 		select('Table', 'cell:2|store,0(20)')
 
-		select_menu('Window>>protoSales11.bin>>Table: ')
+		select_menu('Window>>protoSales11.bin>>Table:')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 		if window(r'Save Changes to file: ' + commonBits.sampleDir() +  'protoSales11.bin'):

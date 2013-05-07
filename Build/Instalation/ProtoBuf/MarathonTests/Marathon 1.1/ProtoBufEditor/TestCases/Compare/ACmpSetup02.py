@@ -23,7 +23,7 @@ def test():
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('File>>Export')
 		select('FileChooser', commonBits.sampleDir() + 'protoStoreSales3_Compare2.bin')
-		click('save file')
+		click('Save File')
 #		select_menu('Window>>protoStoreSales3.bin>>Tree View')
 #		click('BasicInternalFrameTitlePane$NoFocusButton2')
 	close()

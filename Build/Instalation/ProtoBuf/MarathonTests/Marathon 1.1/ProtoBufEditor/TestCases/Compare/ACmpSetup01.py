@@ -61,7 +61,7 @@ def test():
 
 		select('FileChooser', commonBits.sampleDir() + 'protoStoreSales3_Compare.bin')
 		
-		click('save file')
+		click('Save File')
 		select_menu('Window>>protoStoreSales3.bin>>Tree View')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 

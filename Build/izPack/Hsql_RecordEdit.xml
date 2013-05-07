@@ -17,7 +17,7 @@
     -->
     <info>
         <appname>RecordEdit/HSQLDB</appname>
-        <appversion>0.88</appversion>
+        <appversion>0.94.1</appversion>
         <authors>
             <author name="Bruce Martin" email="bruce_a_martin@sourceforge.net" />
             <!--author name="Hidden Man" email="hidden@hisdomain.com"/-->
@@ -149,6 +149,10 @@
 	    <executable targetfile="$INSTALL_PATH/lib/runEditorFileCopybook.sh"  stage="never"/>
 	    <executable targetfile="$INSTALL_PATH/lib/runVelocityGUI.sh"         stage="never"/>
 	    <executable targetfile="$INSTALL_PATH/lib/runPropertiesEditor.sh"    stage="never"/>
+        </pack>
+        <pack name="lang" required="no" override="true">
+            <description>Foreign Language</description>
+            <file src="../Instalation/GeneralDB/lang"    targetdir="$INSTALL_PATH"/>
         </pack>
 	<pack name="CopyBook" required="yes">
 		<description>CopyBooks</description>

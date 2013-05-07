@@ -43,13 +43,15 @@
      applications="no"
      startMenu="no"
      startup="no"
-     target="$JAVA_HOME/bin/javaw"
-     commandLine="-jar &quot;$INSTALL_PATH\Uninstaller\uninstaller.jar&quot;"
+     target="$INSTALL_PATH/Uninstaller/uninstaller.exe"
+     commandLine=""
      description="IzPack uninstaller">
      
      <createForPack name="Base" />
    </shortcut>
-   
+      <!--  target="$JAVA_HOME/bin/javaw"
+     commandLine="-jar &quot;$INSTALL_PATH\Uninstaller\uninstaller.jar&quot;"" !-->
+
    
    <shortcut
      name="Csv Editor - Documentation"
@@ -61,6 +63,21 @@
      target="$INSTALL_PATH\Docs\reCsvEdFR.htm"
      commandLine=""
      description="Csv Editor Documentation">
+     
+     <createForPack name="Base" />
+   </shortcut>
+
+      
+   <shortcut
+     name="Csv Editor - How To"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     target="$INSTALL_PATH\Docs\howTo.htm"
+     commandLine=""
+     description="How To Documentation">
      
      <createForPack name="Base" />
    </shortcut>

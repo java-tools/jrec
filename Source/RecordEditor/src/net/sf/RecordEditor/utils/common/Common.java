@@ -1877,13 +1877,17 @@ public final class Common implements Constants {
     	int columnIndex = table.getColumnModel().getColumn(idx).getModelIndex();
     	TableModel data = table.getModel();
 
+//    	System.out.println();
+//    	System.out.println(" ~~~ idx = " + idx);
+//    	System.out.println();
         for (int row = rowCount - 1; row >= firstRow; --row) {
             TableCellRenderer r = table.getCellRenderer(row, idx);
 
             try {
-               Component c = r.getTableCellRendererComponent(
+            	Component c = r.getTableCellRendererComponent(
                 		table,
                 		data.getValueAt(row, columnIndex), false, false, row, idx);
+                //System.out.print("  >" + width + " " + c.getPreferredSize().width);
             	width = Math.max(width, c.getPreferredSize().width);
             } catch (Exception e) {
             	System.out.println("Error Row,col= " + row + ", " + columnIndex);

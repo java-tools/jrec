@@ -13,7 +13,7 @@ def test():
 		select_menu('Show Child Record')
 		select('TabbedPane', 'Document View')
 		click('Find')
-		click('MetalInternalFrameTitlePane', 206, 15)
+##		click('MetalInternalFrameTitlePane', 206, 15)
 		select('Find.Search For_Txt', '-1')
 		select('Find.Replace With_Txt', '-12')
 		click('Find >>')

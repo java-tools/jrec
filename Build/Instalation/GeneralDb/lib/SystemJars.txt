@@ -5,4 +5,7 @@ Velocity2	<lib>/velocity-1.7-dep.jar
 jibx	<lib>/jibx-run.jar
 jlibdiff	<lib>/jlibdiff.jar
 chardet	<lib>/chardet.jar
+flags	<lib>/pict.zip
+gettextpo	<lib>/PoEditor_re.jar
+swingx	<lib>/swingx-subset-1.6.4.jar
 

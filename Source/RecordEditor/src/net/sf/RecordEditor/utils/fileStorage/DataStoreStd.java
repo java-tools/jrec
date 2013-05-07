@@ -314,10 +314,13 @@ implements IDataStoreText<L>, TableModelListener {
 	}
 
 	public static <L extends AbstractLine> DataStoreStd<L> newStore(AbstractLayoutDetails layoutDtls) {
-		switch (layoutDtls.getOption(Options.OPT_STORAGE_TYPE)) {
-		case Options.TEXT_STORAGE:		return new DataStoreStdTxt<L>(layoutDtls);
-		case Options.BINARY_STORAGE:
 
+		if (layoutDtls != null) {
+			switch (layoutDtls.getOption(Options.OPT_STORAGE_TYPE)) {
+			case Options.TEXT_STORAGE:		return new DataStoreStdTxt<L>(layoutDtls);
+			case Options.BINARY_STORAGE:
+
+			}
 		}
 		return new DataStoreStdBinary<L>(layoutDtls);
 	}

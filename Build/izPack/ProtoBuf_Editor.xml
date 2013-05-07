@@ -17,7 +17,7 @@
     -->
     <info>
         <appname>RecordEdit/ProtoBuf</appname>
-        <appversion>0.88</appversion>
+        <appversion>0.92</appversion>
         <authors>
             <author name="Bruce Martin" email="bruce_a_martin@sourceforge.net" />
             <!--author name="Hidden Man" email="hidden@hisdomain.com"/-->
@@ -121,11 +121,13 @@
             	<include name="velocity-1.7*.pack"/>
             	<include name="ZCalendar.pack"/>
             	<include name="chardet.pack"/>
-            	<include name="RecordEdit.GIF"/>
+            	<include name="swingx-subset-1.6.4.pack"/>
+           	<include name="RecordEdit.GIF"/>
             	<include name="Utility.GIF"/>
              	<include name="RecordEdit.ico"/>
             	<include name="Utility.ico"/>
           	<include name="icon*.zip"/>
+          	<include name="pict.zip"/>
             </fileset>
 	    <parsable targetfile="$INSTALL_PATH/lib/runEditor.sh"   type="shell"/>
 	    <executable targetfile="$INSTALL_PATH/lib/runEditor.sh" stage="never"/>

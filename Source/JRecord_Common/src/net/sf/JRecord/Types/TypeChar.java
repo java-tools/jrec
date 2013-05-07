@@ -34,8 +34,8 @@ import net.sf.JRecord.Common.RecordException;
  */
 public class TypeChar implements Type {
 
-    private boolean leftJust;
-    private boolean binary = false;
+    private final boolean leftJust;
+    private final boolean binary;
 
     private boolean numeric = false;
 
@@ -53,6 +53,7 @@ public class TypeChar implements Type {
         super();
 
         leftJust = leftJustified;
+        binary = false;
     }
 
 
@@ -270,7 +271,15 @@ public class TypeChar implements Type {
 
 
 
-    protected final void setNumeric(boolean numeric) {
+    /**
+	 * @return the leftJust
+	 */
+	public boolean isLeftJustified() {
+		return leftJust;
+	}
+
+
+	protected final void setNumeric(boolean numeric) {
 		this.numeric = numeric;
 	}
 
@@ -291,4 +300,13 @@ public class TypeChar implements Type {
     public int getFieldType() {
         return Type.NT_TEXT;
     }
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Types.Type#getDecimalCh()
+	 */
+	@Override
+	public char getDecimalChar() {
+		return '.';
+	}
 }

@@ -1,0 +1,33 @@
+/**
+ *  Sales File
+ */
+@namespace("com.example.tutorial")
+
+
+protocol tutorial {
+  enum PhoneType {
+    MOBILE,
+    HOME,
+    WORK
+  }
+
+  record PhoneNumber {
+    string number;
+    union { null,  PhoneType } type;
+  }
+
+  record Person {
+    string name;
+    int id;        
+    union { null, string } email;
+    array<PhoneNumber> phone;
+  }
+
+
+  record AddressBook {
+    array<Person> person;
+  }
+}
+
+// Our address book file is just one of these.
+

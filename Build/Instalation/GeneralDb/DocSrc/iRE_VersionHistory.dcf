@@ -1,3 +1,73 @@
+:h4.Release 0.94.1
+  :ul compact.
+    :li.Support for Records (> 32,0000).
+    :li.Add Tree Combo for field types
+    :li.New Types where the Decimal point is ','.
+    :li.New Cobol Dialects which partially support the Cobol DECIMAL-POINT IS COMMA clause.
+    :li.Several Cobol import fix's.
+    :li.Change file structure option
+    :li.Save with different file structure
+  :eul.
+  
+ :h4.Release 0.94
+  :ul compact.
+    :li.New Text Editor View
+    :li.New positive types added
+    :li.Cobol Changes
+      :ul compact.
+       :li.VB file detection added
+       :li.Positive fields are restricted to positive numbers 
+     :eul.
+    :li.Fix's for Sort Tree, Child Screen position (after find) and Fuji Zoned Type
+    :li.Improved file-structure detection
+
+  :eul.
+ 
+:h4.Release 0.92.1
+  :ul compact.
+   :li.Adding 2 extra Csv parser - Basic - Delimiter all fields 
+and Basic - Delimiter all fields + 1
+   :li.Fix for existing Csv Parser "Parser - Matching Quotes" for when
+no quote is defined.
+ :eul.
+ 
+:h4.Release 0.92
+  :ul compact.
+    :li.All screens for a File are now displayed as Tabs rather than as seperate screens. The tabs can be undocked (and redocked) if required.
+    :li.Added Child screen option to List Screens
+    :li.Added Hints dialogue
+    :li.Enhanced HTML Export, option to open exported file with default programs
+    :li.Highlight change fields in compare
+    :li.Minor GUI changes
+    :li.Enhanced Help menu (can open Manual / Forums etc).
+    :li.Fixed Paste Prior issues
+  :eul.
+ 
+:h4.Release 0.91
+  :ul compact.
+    :li.Rewritten the Group Filter screen
+    :li.Support for editing GetText-PO files
+    :li.Support for editing SwingX JXTipOfTheDay properties files (loaded using TipLoader)
+    :li.Going forward there is support for more specialist format like GetText-PO files and TipOfTheDay properties files
+    :li.More Foreign-Languages changes.
+  :eul.
+
+:h4.Release 0.90
+  :ul compact.
+    :li.New tab interface for files. The various views can be "docked" / "undocked" as required
+    :li.List views can now have a child record screen.
+    :li.Group filter option added
+    :li.Start from the begining/end option in the find dialogue.
+  :eul.
+
+
+:h4.Release 0.89.1 -> 3
+  :ul compact.
+    :li.Foreign Language support (via GetText PO files).
+    :li.Option to use po files directly or after converted to compiled resource bundles.
+    :li.Sample translation files for Spanish, chinese etc created using Google Translate.
+  :eul.
+
 :h4.Release 0.88
   :ul compact.
     :li.Enhanced HTML Export.

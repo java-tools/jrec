@@ -55,10 +55,16 @@ import net.sf.JRecord.Types.Type;
      * @param signed wether it is a signed field
      * @return JRecord type code
      */
-    public int getTypeIdentifier(String usage, String picture, boolean signed) {
+    public int getTypeIdentifier(String usage, String picture, boolean signed,
+			boolean signSeperate, String signPosition) {
     	int lType = -121;
+
+    	picture = picture.toUpperCase();
     	boolean positive = ! (signed || picture.startsWith("S"));
 
+    	if (picture.startsWith("-9(") || picture.startsWith("+++9") || picture.startsWith("+(2)9")) {
+    		lType = -121;
+    	}
         if ("computational".equals(usage)
         || "computational-4".equals(usage)
         || "computational-5".equals(usage)
@@ -92,14 +98,48 @@ import net.sf.JRecord.Types.Type;
             lType = Type.ftFloat;
         } else if ("computational-2".equals(usage)) {
             lType = Type.ftDouble;
-        } else if (picture.indexOf('Z') >= 0
-               ||  picture.indexOf('-') >= 0
-               ||  picture.indexOf('+') >= 0
-               ||  picture.indexOf('.') >= 0) {
-        	lType = Type.ftNumRightJustified;
+        } else if (! CommonCode.checkPictureNumeric(picture, '.')) {
+        	return Type.ftChar;
+        } else if (picture.indexOf('9') >= 0
+//        		&& picture.indexOf('V') < 0
+//        		&& picture.indexOf('Z') < 0
+//        		&& picture.indexOf(',') < 0
+//        		&& (! picture.startsWith("S"))
+        		&& (picture.startsWith("-") || picture.startsWith("+") || picture.startsWith("9"))
+        		&& CommonCode.checkPicture(picture, '9', '.')
+        ) {
+        	if (picture.startsWith("-")) {
+        		lType = Type.ftNumZeroPadded;
+        	} else if (picture.startsWith("9")) {
+        		lType = Type.ftNumZeroPaddedPositive;
+        	} else if (picture.startsWith("+")) {
+        		lType = Type.ftNumZeroPaddedPN;
+        	} else {
+        		lType = chkRest(lType, usage, picture, signed, signSeperate, signPosition);
+        	}
+         } else {
+     		lType = chkRest(lType, usage, picture, signed, signSeperate, signPosition);
         }
         return lType;
     }
+
+    private int chkRest(int lType, String usage, String picture, boolean signed,
+			boolean signSeperate, String signPosition) {
+    	if (picture.startsWith("+") && CommonCode.checkPicture(picture, '+', '.')) {
+    		lType = Type.ftNumRightJustifiedPN;
+    	} else if (picture.indexOf('Z') >= 0
+    			||  picture.indexOf('-') >= 0
+    	    	||  picture.indexOf('+') >= 0
+    			||  picture.indexOf('.') >= 0) {
+    		lType = Type.ftNumRightJustified;
+    	} else {
+    		lType = CommonCode.commonTypeChecks(binId, usage, picture, signed, signSeperate, signPosition);
+    	}
+
+    	return lType;
+    }
+
+
 
     /**
      * Get the conversion Identifier

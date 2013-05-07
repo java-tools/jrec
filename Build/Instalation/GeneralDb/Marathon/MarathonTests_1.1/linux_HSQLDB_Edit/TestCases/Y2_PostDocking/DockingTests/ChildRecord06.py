@@ -13,6 +13,8 @@ def test():
 		select('fieldSummary_JTbl', 'cell:' + commonBits.fl('Function') + ',1()')
 		select('fields_JTbl', 'cell:' + commonBits.fl('Field') + ',0(STORE-NO)')
 		select('fieldSummary_JTbl', commonBits.fl('Maximum'), commonBits.fl('Function') + ',1')
+##
+##
 		select('fieldSummary_JTbl', commonBits.fl('Sum'), commonBits.fl('Function') + ',4')
 		select('fieldSummary_JTbl', commonBits.fl('Sum'), commonBits.fl('Function') + ',5')
 		select('fieldSummary_JTbl', 'cell:' + commonBits.fl('Function') + ',5(' + commonBits.fl('Sum') + ')')

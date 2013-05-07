@@ -43,7 +43,7 @@ public class FilterFieldGroupList extends FilterFieldBaseList {
      *
      * @param recordLayout record Layout
      */
-    public FilterFieldGroupList(@SuppressWarnings("rawtypes") final AbstractLayoutDetails recordLayout) {
+    public FilterFieldGroupList(final AbstractLayoutDetails recordLayout) {
         super(FIELD_FILTER_COLUMN_HEADINGS, true);
         int i;
 
@@ -63,7 +63,7 @@ public class FilterFieldGroupList extends FilterFieldBaseList {
     }
 
 
-    private TreeComboItem getRecordFields(int idx, @SuppressWarnings("rawtypes") AbstractRecordDetail rec) {
+    private TreeComboItem getRecordFields(int idx, AbstractRecordDetail rec) {
     	TreeComboItem[] children = new TreeComboItem[rec.getFieldCount()];
     	int pref = idx * Compare.RECORD_MULTIPLE + 2;
     	for (int i = 0; i < children.length; i++) {

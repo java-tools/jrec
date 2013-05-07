@@ -24,12 +24,14 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import net.sf.RecordEditor.re.util.BuildTypeComboList;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.AbsRowList;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeCombo;
 
 /**
  * 1st panel of the wizard where we get File and
@@ -52,7 +54,8 @@ public class Pnl1File extends WizardPanel  {
 	private BmKeyedComboBox fileStructure;
 
 	private JTextField         fontname = new JTextField();
-	private BmKeyedComboBox defaultType;
+//	private BmKeyedComboBox defaultType;
+	private TreeCombo defaultType;
 
 
     private Details wizardDetail;
@@ -65,8 +68,8 @@ public class Pnl1File extends WizardPanel  {
     public Pnl1File(AbsRowList  structureList, AbsRowList typeList) {
         super();
 
-
-		defaultType = new BmKeyedComboBox(typeList, false);
+//		defaultType = new BmKeyedComboBox(typeList, false);
+		defaultType = new TreeCombo(BuildTypeComboList.getList(typeList));
 
 		fileStructure  = new BmKeyedComboBox(structureList, false);
 
@@ -125,7 +128,8 @@ public class Pnl1File extends WizardPanel  {
         wizardDetail.fileStructure = ((Integer) fileStructure.getSelectedItem()).intValue();
  //       wizardDetail.layoutName = layoutName.getText();
         try {
-            wizardDetail.defaultType = (Integer) defaultType.getSelectedItem();
+//            wizardDetail.defaultType = (Integer) defaultType.getSelectedItem();
+            wizardDetail.defaultType =  defaultType.getSelectedItem().key;
         } catch (Exception e) {
         }
         wizardDetail.fontName   = fontname.getText();
@@ -160,7 +164,7 @@ public class Pnl1File extends WizardPanel  {
         fileStructure.setSelectedItem(Integer.valueOf(detail.fileStructure));
 
         fontname.setText(detail.fontName);
-        defaultType.setSelectedItem(detail.defaultType);
+        defaultType.setSelectedKey(detail.defaultType);
 
     }
 }

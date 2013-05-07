@@ -29,13 +29,15 @@ import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.Types.TypeManager;
+import net.sf.RecordEditor.re.util.BuildTypeComboList;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.swing.AbsRowList;
-import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboItem;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboRendor;
 
 /**
  * 3rd and final wizard panel where the user enters field
@@ -58,9 +60,11 @@ public class ColumnNames {
     public final JTable columnTbl = new JTable();
     public final JTable fileTbl   = new JTable();
 
-    private BmKeyedComboBox typeCombo;
-	private DefaultCellEditor typeEditor;
+//    private BmKeyedComboBox typeCombo;
+//	private DefaultCellEditor typeEditor;
 
+    private TreeComboRendor typeRendor;
+	private TreeComboRendor typeEditor;
 
     private Details currentDetails;
     private RecordDefinition recordDefinition;
@@ -69,14 +73,21 @@ public class ColumnNames {
 
     @SuppressWarnings("serial")
 	public ColumnNames(AbsRowList typeList) {
-		columnTbl.setRowHeight(SwingUtils.COMBO_TABLE_ROW_HEIGHT);
+        TreeComboItem[] typeCombolist = BuildTypeComboList.getList(typeList);
+
+        columnTbl.setRowHeight(SwingUtils.COMBO_TABLE_ROW_HEIGHT);
 		columnTbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         fileTbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        typeCombo = new BmKeyedComboBox(typeList, false);
-	    typeEditor = new DefaultCellEditor(typeCombo);
-	    typeEditor.setClickCountToStart(1);
+        typeRendor =  BuildTypeComboList.getTreeComboRender(typeCombolist);
+ 	    typeEditor = BuildTypeComboList.getTreeComboRender(typeCombolist);
 
+//        typeCombo = new BmKeyedComboBox(typeList, false);
+//	    typeEditor = new DefaultCellEditor(typeCombo);
+//	    typeEditor.setClickCountToStart(1);
+
+ 	  //DefaultCellEditor typeEditor1;
+	  //  typeEditor1.setClickCountToStart(1);
 	    columnTbl.addMouseListener(new MenuPopupListener(new ReAbstractAction("Generate Field Names") {
                     public void actionPerformed(ActionEvent e) {
                     	nameColumns();
@@ -157,7 +168,7 @@ public class ColumnNames {
 
 	    tc = tcm.getColumn(ColumnDetails.TYPE_IDX);
 	    tc.setPreferredWidth(TYPE_WIDTH);
-	    tc.setCellRenderer(typeCombo.getTableCellRenderer());
+	    tc.setCellRenderer(typeRendor);
 	    tc.setCellEditor(typeEditor);
 
 	    tc = tcm.getColumn(ColumnDetails.INCLUDE_IDX);

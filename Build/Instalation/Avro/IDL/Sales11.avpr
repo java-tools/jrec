@@ -1,0 +1,55 @@
+{
+  "protocol" : "sales11",
+  "namespace" : "net.sf.RecordEditor.avro.Test.Sales11",
+  "types" : [ {
+    "type" : "enum",
+    "name" : "SaleType",
+    "symbols" : [ "RETURN", "OTHER", "SALE" ]
+  }, {
+    "type" : "enum",
+    "name" : "PaymentType",
+    "symbols" : [ "CASH", "CREDIT_CARD", "DEBIT_CARD", "CHEQUE" ]
+  }, {
+    "type" : "record",
+    "name" : "sale",
+    "fields" : [ {
+      "name" : "keycode",
+      "type" : "int"
+    }, {
+      "name" : "store",
+      "type" : "int"
+    }, {
+      "name" : "department",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "saleDate",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "quantity",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "price",
+      "type" : [ "null", "long" ]
+    }, {
+      "name" : "priceFloat",
+      "type" : [ "null", "float" ]
+    }, {
+      "name" : "priceDouble",
+      "type" : [ "null", "double" ]
+    }, {
+      "name" : "saleType",
+      "type" : "SaleType"
+    }, {
+      "name" : "paymentType",
+      "type" : [ "null", "PaymentType" ]
+    }, {
+      "name" : "strArray",
+      "type" : {
+        "type" : "array",
+        "items" : "string"
+      }
+    } ]
+  } ],
+  "messages" : {
+  }
+}

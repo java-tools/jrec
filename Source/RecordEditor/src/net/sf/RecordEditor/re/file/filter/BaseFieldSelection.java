@@ -93,7 +93,6 @@ public abstract class BaseFieldSelection extends BaseHelpPanel implements Action
 //    private JButton showHideFieldBtn     = new JButton(showFldBtnText);
 
     private FilterDetails filter;
-    @SuppressWarnings("rawtypes")
 	private AbstractLayoutDetails recordLayout;
 
     private boolean toInit = true;
@@ -129,7 +128,6 @@ public abstract class BaseFieldSelection extends BaseHelpPanel implements Action
 
 
 
-    @SuppressWarnings("rawtypes")
 	public final void setRecordLayout(final AbstractLayoutDetails layout,
     		final AbstractLayoutDetails layout2,
     		boolean is2ndLayout, int heightOverhead) {
@@ -207,7 +205,6 @@ public abstract class BaseFieldSelection extends BaseHelpPanel implements Action
     /**
 	 * @return the recordLayout
 	 */
-	@SuppressWarnings("rawtypes")
 	public final AbstractLayoutDetails getRecordLayout() {
 		return recordLayout;
 	}
@@ -218,7 +215,7 @@ public abstract class BaseFieldSelection extends BaseHelpPanel implements Action
      */
     private void setupScreenFields(
     		boolean is2ndLayout,
-    		@SuppressWarnings("rawtypes") final AbstractLayoutDetails layout2) {
+    		final AbstractLayoutDetails layout2) {
 
         filter = new FilterDetails(recordLayout, FilterDetails.FT_NORMAL); // getFilterDetails(recordLayout);
         filter.setMessageFld(msgTxt);

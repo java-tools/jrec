@@ -1,0 +1,111 @@
+{
+  "protocol" : "tf2",
+  "namespace" : "net.sf.RecordEditor.avro.Test.TestField2",
+  "types" : [ {
+    "type" : "enum",
+    "name" : "SaleType",
+    "symbols" : [ "RETURN", "OTHER", "SALE" ]
+  }, {
+    "type" : "record",
+    "name" : "fields",
+    "fields" : [ {
+      "name" : "f01",
+      "type" : {
+        "type" : "array",
+        "items" : "int"
+      }
+    }, {
+      "name" : "f02",
+      "type" : {
+        "type" : "array",
+        "items" : "int"
+      }
+    }, {
+      "name" : "f03",
+      "type" : {
+        "type" : "array",
+        "items" : "int"
+      }
+    }, {
+      "name" : "f04",
+      "type" : {
+        "type" : "array",
+        "items" : "int"
+      }
+    }, {
+      "name" : "f05",
+      "type" : {
+        "type" : "array",
+        "items" : "int"
+      }
+    }, {
+      "name" : "f06",
+      "type" : {
+        "type" : "array",
+        "items" : "long"
+      }
+    }, {
+      "name" : "f07",
+      "type" : {
+        "type" : "array",
+        "items" : "long"
+      }
+    }, {
+      "name" : "f08",
+      "type" : {
+        "type" : "array",
+        "items" : "long"
+      }
+    }, {
+      "name" : "f09",
+      "type" : {
+        "type" : "array",
+        "items" : "long"
+      }
+    }, {
+      "name" : "f10",
+      "type" : {
+        "type" : "array",
+        "items" : "long"
+      }
+    }, {
+      "name" : "f11",
+      "type" : {
+        "type" : "array",
+        "items" : "float"
+      }
+    }, {
+      "name" : "f12",
+      "type" : {
+        "type" : "array",
+        "items" : "double"
+      }
+    }, {
+      "name" : "f13",
+      "type" : {
+        "type" : "array",
+        "items" : "boolean"
+      }
+    }, {
+      "name" : "f15",
+      "type" : {
+        "type" : "array",
+        "items" : "string"
+      }
+    }, {
+      "name" : "f17",
+      "type" : {
+        "type" : "array",
+        "items" : "SaleType"
+      }
+    }, {
+      "name" : "f19",
+      "type" : {
+        "type" : "array",
+        "items" : "bytes"
+      }
+    } ]
+  } ],
+  "messages" : {
+  }
+}

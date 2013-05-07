@@ -5,4 +5,6 @@ jibx	<lib>/jibx-run.jar
 jlibdiff	<lib>/jlibdiff.jar
 chardet	<lib>/chardet.jar
 cb2xml	<lib>/cb2xml.jar
+flags	<lib>/pict.zip
+
 

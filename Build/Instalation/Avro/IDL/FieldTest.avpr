@@ -1,0 +1,75 @@
+{
+  "protocol" : "tf1",
+  "namespace" : "net.sf.RecordEditor.avro.Test.TestField",
+  "types" : [ {
+    "type" : "enum",
+    "name" : "SaleType",
+    "symbols" : [ "RETURN", "OTHER", "SALE" ]
+  }, {
+    "type" : "record",
+    "name" : "fields",
+    "fields" : [ {
+      "name" : "f01",
+      "type" : "int"
+    }, {
+      "name" : "f02",
+      "type" : "int"
+    }, {
+      "name" : "f03",
+      "type" : "int"
+    }, {
+      "name" : "f04",
+      "type" : "int"
+    }, {
+      "name" : "f05",
+      "type" : "int"
+    }, {
+      "name" : "f06",
+      "type" : "long"
+    }, {
+      "name" : "f07",
+      "type" : "long"
+    }, {
+      "name" : "f08",
+      "type" : "long"
+    }, {
+      "name" : "f09",
+      "type" : "long"
+    }, {
+      "name" : "f10",
+      "type" : "long"
+    }, {
+      "name" : "f11",
+      "type" : "float"
+    }, {
+      "name" : "f12",
+      "type" : "double"
+    }, {
+      "name" : "f13",
+      "type" : "boolean"
+    }, {
+      "name" : "f14",
+      "type" : [ "null", "boolean" ]
+    }, {
+      "name" : "f15",
+      "type" : "string"
+    }, {
+      "name" : "f16",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "f17",
+      "type" : "SaleType"
+    }, {
+      "name" : "f18",
+      "type" : [ "null", "SaleType" ]
+    }, {
+      "name" : "f19",
+      "type" : "bytes"
+    }, {
+      "name" : "f20",
+      "type" : [ "null", "bytes" ]
+    } ]
+  } ],
+  "messages" : {
+  }
+}

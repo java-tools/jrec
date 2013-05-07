@@ -370,12 +370,12 @@ public class CopyBookDbReader implements CopyBookInterface {
 			ArrayList<RecordDetail.FieldDetails> fieldList = new ArrayList<RecordDetail.FieldDetails>();
 
 			ResultSet resultset = Common.getDBConnection(dbIndex).createStatement().executeQuery(
-					  "Select FieldPos, FieldLength, FieldName, "
-			        +        "FieldType, DecimalPos, Description, "
-			        +        "Cell_Format, Parameter"
-			        + "  FROM Tbl_RF_RecordFields "
+					  "Select Field_Pos, Field_Length, Field_Name, "
+			        +        "Field_Type, Decimal_Pos, Field_Description, "
+			        +        "Cell_Format, Field_Parameter"
+			        + "  FROM Tbl_RF1_RecordFields "
 					+ " WHERE (RecordId=" + recordId + ") "
-					+ " order by FieldPos ");
+					+ " order by Field_Pos ");
 
 			while (resultset.next()) {
 			    newFld = new RecordDetail.FieldDetails(resultset.getString(3).trim(),

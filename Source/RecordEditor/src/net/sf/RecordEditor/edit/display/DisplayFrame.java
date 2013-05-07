@@ -454,10 +454,10 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
                     - (SwingUtils.CHAR_FIELD_HEIGHT * 3),
                     mainScreens.get(idx).actualPnl.getPreferredSize().height);
     	}
-    	System.out.println("calc split: \n"
-    			 + this.getWidth() + " - " + mainScreens.get(idx).getChildScreen().getActualPnl().getPreferredSize().width
-    			 + " - " + (SwingUtils.CHAR_FIELD_WIDTH * 3) +"\n "
-    			 + mainScreens.get(idx).actualPnl.getPreferredSize().width);
+//    	System.out.println("calc split: \n"
+//    			 + this.getWidth() + " - " + mainScreens.get(idx).getChildScreen().getActualPnl().getPreferredSize().width
+//    			 + " - " + (SwingUtils.CHAR_FIELD_WIDTH * 3) +"\n "
+//    			 + mainScreens.get(idx).actualPnl.getPreferredSize().width);
         return Math.max(
                 this.getWidth() - mainScreens.get(idx).getChildScreen().getActualPnl().getPreferredSize().width
                 - SwingUtils.CHAR_FIELD_WIDTH * 3,
@@ -752,9 +752,9 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
 
             if (label != null) {
                 label.setBackground(bg);
-                System.out.println("Change Color: " + disp.getScreenName() + " " + bg );
-            } else {
-                System.out.println("...");
+//                System.out.println("Change Color: " + disp.getScreenName() + " " + bg );
+//            } else {
+//                System.out.println("...");
             }
         }
 

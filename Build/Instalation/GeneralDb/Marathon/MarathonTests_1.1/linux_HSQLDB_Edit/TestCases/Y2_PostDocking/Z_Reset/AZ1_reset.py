@@ -27,6 +27,6 @@ def test():
 			select('Create Screens in seperate Windows_Chk', 'true')
 	
 			click('Save')
-			click('Button2')
+##			click('Button2')
 		close()
 	close()

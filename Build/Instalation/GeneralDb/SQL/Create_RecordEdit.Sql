@@ -34,29 +34,55 @@ CREATE TABLE TBL_R_RECORDS
 
 -- ======================================================================
 
-CREATE TABLE TBL_RF_RECORDFIELDS
+CREATE TABLE TBL_RF1_RECORDFIELDS
   (
-    RECORDID           INTEGER,
-    SUBKEY             smallint,
-    FIELDPOS           smallint,
-    FIELDLENGTH        smallint,
-    FIELDNAME          varchar(30),
-    DESCRIPTION        varchar(250),
-    FIELDTYPE          smallint,
-    DECIMALPOS         smallint,
-    DEFAULTVALUE       varchar(15),
-    COBOLNAME          varchar(30),
-    FORMATDESCRIPTION  varchar(250),
-    Cell_Format        smallint,
-    Parameter          varchar(30)
+    RECORDID            INTEGER,
+    SUB_KEY             integer,
+    FIELD_POS           integer,
+    FIELD_LENGTH        integer,
+    FIELD_NAME          varchar(120),
+    FIELD_DESCRIPTION   varchar(350),
+    FIELD_TYPE          integer,
+    DECIMAL_POS         smallint,
+    DEFAULT_VALUE       varchar(120),
+    COBOL_NAME          varchar(30),
+    FORMAT_DESCRIPTION  varchar(250),
+    Cell_Format         integer,
+    Field_Parameter     varchar(120)
     
 --,
 --    primary key(RECORDID,SUBKEY),
-
+--
 --    foreign key(RECORDID) references TBL_R_RECORDS(RECORDID)
   );
 
-  CREATE UNIQUE INDEX TBL_RF_RECORDFIELDS_PK ON TBL_RF_RECORDFIELDS(RECORDID,SUBKEY);
+  CREATE UNIQUE INDEX TBL_RF1_RECORDFIELDS_PK ON TBL_RF1_RECORDFIELDS(RECORDID,SUB_KEY);
+
+  
+  
+--CREATE TABLE TBL_RF_RECORDFIELDS
+--  (
+--    RECORDID           INTEGER,
+--    SUBKEY             smallint,
+--    FIELDPOS           smallint,
+--    FIELDLENGTH        smallint,
+--    FIELDNAME          varchar(30),
+--    DESCRIPTION        varchar(250),
+--    FIELDTYPE          smallint,
+--    DECIMALPOS         smallint,
+--    DEFAULTVALUE       varchar(15),
+--    COBOLNAME          varchar(30),
+--    FORMATDESCRIPTION  varchar(250),
+--    Cell_Format        smallint,
+--    Parameter          varchar(30)
+--    
+----,
+----    primary key(RECORDID,SUBKEY),
+--
+----    foreign key(RECORDID) references TBL_R_RECORDS(RECORDID)
+--  );
+--
+--  CREATE UNIQUE INDEX TBL_RF_RECORDFIELDS_PK ON TBL_RF_RECORDFIELDS(RECORDID,SUBKEY);
 
 -- ======================================================================
 
@@ -84,27 +110,27 @@ CREATE UNIQUE INDEX TBL_RS2_SUBRECORDSPK ON TBL_RS2_SUBRECORDS
 
 
 -- ======================================================================
-
-CREATE TABLE TBL_RFS_FIELDSELECTION
-(
-   RECORDID integer,
-   CHILD_KEY smallint,
-   FIELD_NO smallint,
-   BOOLEAN_OPERATOR smallint,
-   FIELD_NAME varchar(30),
-   OPERATOR varchar(2),
-   FIELD_VALUE varchar(30)
-)
-;
-CREATE UNIQUE INDEX TBL_RFS_FIELDSELECTIONPK ON TBL_RFS_FIELDSELECTION
-(
-  RECORDID,
-  CHILD_KEY,
-  FIELD_NO
-)
-;
-
-
+--
+-- CREATE TABLE TBL_RFS_FIELDSELECTION
+-- (
+--   RECORDID integer,
+--   CHILD_KEY smallint,
+--   FIELD_NO smallint,
+--   BOOLEAN_OPERATOR smallint,
+--   FIELD_NAME varchar(30),
+--   OPERATOR varchar(2),
+--   FIELD_VALUE varchar(30)
+--)
+--;
+--CREATE UNIQUE INDEX TBL_RFS_FIELDSELECTIONPK ON TBL_RFS_FIELDSELECTION
+--(
+--  RECORDID,
+--  CHILD_KEY,
+--  FIELD_NO
+--)
+--;
+--
+--
 -- ======================================================================
 
 CREATE TABLE TBL_T_TABLE

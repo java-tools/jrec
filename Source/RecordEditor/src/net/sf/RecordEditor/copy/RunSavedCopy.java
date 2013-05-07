@@ -207,13 +207,13 @@ public class RunSavedCopy extends ReFrame {
 
 	private CopyDefinition readXml() {
 		CopyDefinition def = null;
-		JibxCall<CopyDefinition> jibx = new JibxCall<CopyDefinition>(CopyDefinition.class);
 		String filename = xmlFileName.getText();
 
 		if (filename == null || "".equals(filename)) {
 			pnl.setMessageTxt("You must Enter a filename");
 		} else {
 			try {
+				JibxCall<CopyDefinition> jibx = new JibxCall<CopyDefinition>(CopyDefinition.class);
 				def = jibx.marshal(filename);
 				def.saveFile = filename;
 			} catch (Exception e) {

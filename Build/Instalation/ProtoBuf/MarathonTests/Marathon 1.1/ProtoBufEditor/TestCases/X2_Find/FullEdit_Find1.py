@@ -47,6 +47,9 @@ def test():
 		#assert_p('Table', 'Content', '[[Brand_Id, 1, , TAR, TAR], [Loc_Nbr, 2, , 5095, 5095], [Loc_Type, 3, , ST, ST], [Loc_Name, 4, , Eastgarden, Eastgarden], [Loc_Addr_Ln1, 5, , Westfield Shoppingtown Eastgardens, Westfield Shoppingtown Eastgardens], [Loc_Addr_Ln2, 6, , 152 Bunnerong Road, 152 Bunnerong Road], [Loc_Addr_Ln3, 7, , Eastgardens, Eastgardens], [Loc_Postcode, 8, , 2036, 2036], [Loc_State, 9, , NSW, NSW], [Loc_Actv_Ind, 10, , A, A]]')
 		select('Table', 'cell:Data,5(152 Bunnerong Road)')
 		click('Find1')
+		if window(''):
+			click('No')
+		close()
 		select('TextField', 'nsw')
 		click('Find1')
 		select('Table', 'cell:Data,3(State  Warehouse NSW)')

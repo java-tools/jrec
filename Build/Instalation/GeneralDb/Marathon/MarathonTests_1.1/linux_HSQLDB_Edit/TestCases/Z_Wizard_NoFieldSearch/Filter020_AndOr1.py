@@ -9,6 +9,7 @@ def test():
 
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'csv2DTAR020_tst1.bin.csv')
+		select('ComboBox2', 'Comma Delimited, names on the first line')
 		click('Edit1')
 		click('Filter1')
 		select('Table1', 'cell:Field,0(null)')

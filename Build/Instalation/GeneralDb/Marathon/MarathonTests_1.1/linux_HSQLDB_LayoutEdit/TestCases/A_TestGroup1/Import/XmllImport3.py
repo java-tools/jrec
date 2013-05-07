@@ -25,7 +25,10 @@ def test():
 		#select('TabbedPane', 'Fields')
 		select('TextField1', '%')
 		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldName') + ',0(R4180C-LOCATION-DETAIL-ID)')
-		assert_p('RecordFieldsJTbl', 'Content', '[[1, 0, R4180C-LOCATION-DETAIL-ID, , 2, 0, 0, , , R4180C-LOCATION-DETAIL-ID], [4, 0, R4180C-LOCATION-NUMBER, , 3, 0, 0, , , R4180C-LOCATION-NUMBER], [8, 0, R4180C-QUANTITY, , 6, 0, 0, , , R4180C-QUANTITY]]')
+##		assert_p('RecordFieldsJTbl', 'Content', '[[1, 0, R4180C-LOCATION-DETAIL-ID, , 2, 0, 0, , , R4180C-LOCATION-DETAIL-ID], [4, 0, R4180C-LOCATION-NUMBER, , 3, 0, 0, , , R4180C-LOCATION-NUMBER], [8, 0, R4180C-QUANTITY, , 6, 0, 0, , , R4180C-QUANTITY]]')
+		assert_p('RecordFieldsJTbl', 'Content', '[[1, 0, R4180C-LOCATION-DETAIL-ID, , 2, 0, 0, , , R4180C-LOCATION-DETAIL-ID], [4, 0, R4180C-LOCATION-NUMBER, , 3, 0, 0, , , R4180C-LOCATION-NUMBER], [8, 0, R4180C-QUANTITY, , 7, 0, 0, , , R4180C-QUANTITY]]')
+
+
 		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldName') + ',2(R4180C-QUANTITY)')
 		assert_p('RecordFieldsJTbl', 'RowCount', '3')
 		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldName') + ',1(R4180C-LOCATION-NUMBER)')

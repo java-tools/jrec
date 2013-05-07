@@ -2,7 +2,7 @@
 	Build Protocol Buffer installer 
 */
 	parse arg vers x
-	if vers = "" then vers = '0.69.2c'
+	if vers = "" then vers = '0.92'
 	
 	if vers <> "" then do
 		vers = '_'vers

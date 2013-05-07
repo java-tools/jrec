@@ -28,7 +28,13 @@ def test():
 		commonBits.save2(click)
 
 ##		click(commonBits.fl('Save') + '1')
-		select('File Name', 'xx4')
+##		select('File name', 'xx4')
+
+		if commonBits.isWindowsLook():
+			select('File name', 'xx4')
+		else:
+			select('File Name', 'xx4')
+
 
 		commonBits.save(click)
 		##click(commonBits.fl('Save'))
@@ -44,7 +50,11 @@ def test():
 			##select(commonBits.selectPane(), 'xx4')
 			##click('Open')
 
-			select('File Name', 'xx4')
+			if commonBits.isWindowsLook():
+				select('File name', 'xx4')
+			else:
+				select('File Name', 'xx4')
+
 			click('Open')
 
 ##			select('FileName', 'xx4')

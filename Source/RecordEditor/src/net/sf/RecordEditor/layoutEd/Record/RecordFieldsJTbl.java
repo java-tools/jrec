@@ -15,20 +15,25 @@
  */
 package net.sf.RecordEditor.layoutEd.Record;
 
+
 import javax.swing.DefaultCellEditor;
 import javax.swing.JTable;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
+
 import net.sf.RecordEditor.layoutEd.Parameter.ParameterTableEditor;
 import net.sf.RecordEditor.re.db.Table.TableList;
 import net.sf.RecordEditor.re.db.Table.TypeList;
+import net.sf.RecordEditor.re.util.BuildTypeComboList;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.AbsJTable;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboItem;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboRendor;
 
 
 
@@ -53,16 +58,18 @@ public class RecordFieldsJTbl extends AbsJTable {
     private static final int FLD_DEFAULT    = 8;
     private static final int FLD_COBOL_NAME = 9;
 
-	private BmKeyedComboModel typeModel;
+	//private BmKeyedComboModel typeModel;
 	private BmKeyedComboModel formatModel;
-	private BmKeyedComboBox locType;
+	//private BmKeyedComboBox locType;
 	private BmKeyedComboBox formatCombo;
 
 	private int connectionIdx;
 
 	//DBComboBoxRender  recordRendor;
-	private DefaultCellEditor typeEditor;
+	//private DefaultCellEditor typeEditor;
 	private DefaultCellEditor formatEditor;
+
+	private TreeComboItem[] types;
 
 
 	/**
@@ -98,21 +105,24 @@ public class RecordFieldsJTbl extends AbsJTable {
 	 */
 	public void commonInit() {
 	    //Connection con = Common.getDBConnectionLogErrors(connectionIdx);
-	    typeModel = new BmKeyedComboModel(new TypeList(connectionIdx, true, false));
+	    //typeModel = new BmKeyedComboModel(new TypeList(connectionIdx, true, false));
 		formatModel = new BmKeyedComboModel(
 		        new TableList(connectionIdx, Common.TI_FORMAT, true, false,
 		                Parameters.FORMAT_NUMBER_PREFIX, Parameters.FORMAT_NAME_PREFIX,
 		                Parameters.NUMBER_OF_FORMATS));
 
-	    locType = new BmKeyedComboBox(typeModel, false);
+	    //locType = new BmKeyedComboBox(typeModel, false);
 	    formatCombo = new BmKeyedComboBox(formatModel, false);
 
-	    typeEditor = new DefaultCellEditor(locType);
-	    typeEditor.setClickCountToStart(1);
+	    //typeEditor = new DefaultCellEditor(locType);
+	    //typeEditor.setClickCountToStart(1);
 	    formatEditor = new DefaultCellEditor(formatCombo);
 	    formatEditor.setClickCountToStart(1);
 
+	    types = BuildTypeComboList.getList(new TypeList(connectionIdx, false, false));
+
 	    setColumnSizes();
+
 	}
 
 
@@ -135,11 +145,13 @@ public class RecordFieldsJTbl extends AbsJTable {
 	  	 tcm.getColumn(FLD_DEFAULT).setPreferredWidth(FW_NAME_WIDTH);
 	  	 tcm.getColumn(FLD_COBOL_NAME).setPreferredWidth(FW_WIDE_WIDTH);
 
-	     tcm.getColumn(FLD_FIELD_TYPE).setCellRenderer(locType.getTableCellRenderer());
-	     tcm.getColumn(FLD_FIELD_TYPE).setCellEditor(typeEditor);
+//	     tcm.getColumn(FLD_FIELD_TYPE).setCellRenderer(locType.getTableCellRenderer());
+//	     tcm.getColumn(FLD_FIELD_TYPE).setCellEditor(typeEditor);
+	     tcm.getColumn(FLD_FIELD_TYPE).setCellRenderer(new TreeComboRendor(types));
+	     tcm.getColumn(FLD_FIELD_TYPE).setCellEditor(new TreeComboRendor(types));
 	     tcm.getColumn(FLD_FORMAT).setCellRenderer(formatCombo.getTableCellRenderer());
 	     tcm.getColumn(FLD_FORMAT).setCellEditor(formatEditor);
-	     
+
 	     tcm.getColumn(FLD_PARAMETER).setCellRenderer(new ParameterTableEditor(connectionIdx));
 	     tcm.getColumn(FLD_PARAMETER).setCellEditor(new ParameterTableEditor(connectionIdx));
 	}

@@ -49,7 +49,7 @@ public class ComputerOptionCombo extends JComboBox {
             tmpOptions[i] = manager.getName(i);
             tmpConversions[i] = manager.getKey(i);
             tmpForeignOptions[i] = LangConversion.convertId(
-            		LangConversion.ST_COMBO, mgrName + "_" + i, tmpOptions[i]);
+            		LangConversion.ST_COMBO, mgrName + "_" + tmpConversions[i], tmpOptions[i]);
         }
 
         COMPUTER_OPTIONS = tmpOptions;

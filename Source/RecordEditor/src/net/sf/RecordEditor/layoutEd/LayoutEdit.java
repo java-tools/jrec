@@ -26,6 +26,7 @@ import javax.swing.JMenuBar;
 import net.sf.JRecord.External.CopybookLoaderFactory;
 import net.sf.RecordEditor.layoutEd.panels.RecordEdit1Record;
 import net.sf.RecordEditor.re.editProperties.EditOptions;
+import net.sf.RecordEditor.re.jrecord.types.ReTypeManger;
 import net.sf.RecordEditor.re.script.VelocityPopup;
 import net.sf.RecordEditor.re.util.CopybookLoaderFactoryDB;
 import net.sf.RecordEditor.re.util.ReIOProvider;
@@ -193,6 +194,11 @@ public class LayoutEdit extends ReMainFrame {
 	 */
 	public static void main(String[] args) {
 
+		try {
+			ReTypeManger.getInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				createAndShowGUI();

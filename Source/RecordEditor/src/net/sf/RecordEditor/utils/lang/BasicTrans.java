@@ -44,7 +44,7 @@ public abstract class BasicTrans implements ITranslation {
 				while ((b = r.read()) != null) {
 					put(new TextItem(new String(b)));
 				}
-				System.out.println(" ~ " + txtItms.size());
+				//System.out.println(" ~ " + txtItms.size());
 				r.close();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -117,7 +117,7 @@ public abstract class BasicTrans implements ITranslation {
 							Set<String> keys = txtItms.keySet();
 							w.open(txtItmFile);
 
-							System.out.print("Flush: ");
+							//System.out.print("Flush: ");
 							for (String key : keys) {
 								w.write(txtItms.get(key).asDelimString(idx++).getBytes());
 								//System.out.print('.');

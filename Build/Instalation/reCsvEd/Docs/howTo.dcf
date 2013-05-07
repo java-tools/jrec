@@ -9,7 +9,7 @@
     :li.Via the :hdref refid=UpdateCols. option
    :eul.
  :eul.
- :li.:hp1.How do I change the field seperator:ehp1.
+ :li.:hp1.How do I change the field separator:ehp1.
    :ul compact.
      :li.Via the :hdref refid=UpdateCols. option.
    :eul.
@@ -20,19 +20,52 @@
 :eol.
  
 :h2 id=UpdateCols.Update Columns Funtions
-:li.This function is available via :hp2.Edit >>> Update Csv Columns:ehp2. or
+:p.This function is available via :hp2.Edit >>> Update Csv Columns:ehp2. or
 :hp2.Right Click >>> CSV Options >>>  Update Csv Columns:ehp2.. It
 is a basic bulk update function. It allows you
 to 
 :ol compact.
 :li.Add, Copy, move and delete multiple columns in the one action.
-:li.Change Field seperator or Quote character.
+:li.Change Field separator or Quote character.
 :li.Change the field type.
-:eul.
+:eol.
 In the one action.
 
 .pict CsvEdit_Update.png
 
 :note.You use the :hp2.Right Click:ehp2. button to add / move columns.
 
+:h2.Installing Extensions
+:p.There are 2 basic extensions available to reCsvEditor available at
+.*B2H html <a href="https://sourceforge.net/projects/recsveditor/files/reCsvEditor/Extensions/">Extensions</a>.
+:ol.
+ :li.:hp2.cb2xml:ehp2. this lets you edit files using a Cobol Copybook. If you 
+going to use the Cobol regularly you should look at the :RecordEditor..
+ :li.:hp2.Velocity:ehp2. This lets you reformat (export) files using :hp2.Velocity Templates:ehp2..
+:eol.
+:p.Once you download the appropriate extension, unzip it and copy the contents of the lib
+directory to you reCsvEditor lib directory.
 
+:h2.Using a Language other than English
+:p.Foreign language Support was added in version 0.90. The package uses 
+:hp2.GetText:ehp2. po files (and java resource bundles generated from the po files) 
+for foreign language support. There are several sample language files
+(French, Spanish, Italian, German, Chinese and Japanese) in the
+:hp2.<install>/lang/Sample/:ehp2. directory created using Google Translate.
+They will all require work !!!. I can provide other sample Language packs if needed.
+
+:p.To work with a foreign language you need to&gml.
+:ol compact.
+ :li.Create a language work Directory
+ :li.Copy the required sample po file from :hp2.<install>/lang/Sample/:ehp2.
+ :li.Get a getText-po file editor i.e.
+.*b2h html <a href="http://www.poedit.net/">po edit</a> 
+:note.The reCsvEditor-po files :hp2.must be:ehp2. :bblue.UTF8:ebblue. so
+any text-editor (i.e. jEdit) that can open a file as :bblue.UTF8:ebblue. could be used.
+ :li.Update ReCsvEditor to use your directory.
+   :ul compact.
+     :li.In ReCsvEditor select :hp2.Edit >>> Edit Options:ehp2. on the primary menu
+     :li.Select the Language Tag
+     :li.Enter you directory in the :hp2.Language Directory:ehp2. and select your language.
+   :eul.
+:eol.

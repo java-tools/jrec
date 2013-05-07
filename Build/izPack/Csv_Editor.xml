@@ -17,7 +17,7 @@
     -->
     <info>
         <appname>RecordEdit/reCsvEd</appname>
-        <appversion>0.69.2c</appversion>
+        <appversion>0.90</appversion>
         <authors>
             <author name="Bruce Martin" email="bruce_a_martin@sourceforge.net" />
             <!--author name="Hidden Man" email="hidden@hisdomain.com"/-->
@@ -49,7 +49,8 @@
         The ids must be these ones if you want to use the LicencePanel and/or the InfoPanel.
     -->
     <resources>
-        <res id="LicencePanel.licence"  src="../License/reCsvEditor/LICENSE.txt"/>
+        <!--res id="LicencePanel.licence"  src="../License/reCsvEditor/LICENSE.txt"/!-->
+        <res id="LicencePanel.licence"  src="../General/LICENSE.txt"/>
         <res id="InfoPanel.info"        src="Csv_Readme.txt"/>
         <res id="HTMLInfoPanel.info"    src="Csv_readme.html"/>
 	<res id="shortcutSpec.xml"      src="Csv_ShortcutSpec.xml"/>
@@ -83,7 +84,8 @@
             <description>The base files</description>
             <file src="Csv_Readme.txt" targetdir="$INSTALL_PATH"/>
             <file src="Csv_readme.html" targetdir="$INSTALL_PATH"/>
-            <fileset dir="../License/reCsvEditor/" includes="LICENSE*.txt" targetdir="$INSTALL_PATH/License"/>
+            <!--fileset dir="../License/reCsvEditor/" includes="LICENSE*.txt" targetdir="$INSTALL_PATH/License"/!-->
+            <fileset dir="../General/" includes="LICENSE*.txt" targetdir="$INSTALL_PATH/License"/>
         </pack>
         <pack name="Documentation" required="yes" override="true">
             <description>Record Editor Docs</description>
@@ -97,12 +99,12 @@
         </pack-->
         <pack name="SampleFiles" required="yes">
             <description>Sample Files</description>
-            <file src="../Instalation/reCsvEd/SampleFiles" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
+            <file src="../Instalation/reCsvEd/SampleFiles" targetdir="$USER_HOME/.RecordEditor/reCsvEd"/> <!-- Reccursive adding -->
         </pack>
-        <pack name="Params" required="yes">
+        <pack name="Params" required="yes" >
             <description>Record Editor Parameters</description>
             <fileset dir="../Instalation/reCsvEd/Parms/" targetdir="$USER_HOME/.RecordEditor/reCsvEd"/> 
-	    <parsable targetfile="$USER_HOME/.RecordEditor/reCsvEd/reCsvEdFiles.txt"/>
+	    <!--parsable targetfile="$USER_HOME/.RecordEditor/reCsvEd/reCsvEdFiles.txt"/!-->
         </pack>
         <pack name="User" required="yes">
             <description>Record Editor Parameters</description>
@@ -112,13 +114,15 @@
             <description>Record Editor Jars</description>
             <file src="../Instalation/reCsvEd/lib" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
             <fileset dir="../Instalation/hsqldb_izpack/lib/" targetdir="$INSTALL_PATH/lib">
-            	<include name="j*.pack"/>
+            	<include name="jibx-run.pack"/>
+            	<include name="jlibdiff.pack"/>
             	<include name="JRecord.pack"/>
             	<include name="RecordEdit.pack"/>
             	<include name="ZCalendar.pack"/>
           	<include name="icon*.zip"/>
           	<include name="chardet.pack"/>
-            </fileset>
+          	<include name="pict.zip"/>
+           </fileset>
 	    <parsable targetfile="$INSTALL_PATH/lib/CsvEditorBigFile.Bat"   type="shell"/>
 	    <parsable targetfile="$INSTALL_PATH/lib/runCsvEditor.sh"   type="shell"/>
 	    <executable targetfile="$INSTALL_PATH/lib/runCsvEditor.sh" stage="never"/>
@@ -127,13 +131,14 @@
 	    <parsable targetfile="$INSTALL_PATH/lib/Uninstall.sh"   type="shell"/>
 	    <executable targetfile="$INSTALL_PATH/lib/Uninstall.sh" stage="never"/>
        </pack>
+       <pack name="lang" required="no" override="true">
+            <description>Foreign Language</description>
+            <file src="../Instalation/GeneralDB/lang"    targetdir="$INSTALL_PATH"/>
+        </pack>
+
 	<pack name="CopyBook" required="yes">
 		<description>CopyBooks</description>
-		<fileset dir="../Instalation/reCsvEd/CopyBook" includes="**" targetdir="$INSTALL_PATH/CopyBook"/>
-	</pack>
-	<pack name="Source" required="no">
-		<description>Source</description>
-		<fileset dir="../Instalation/reCsvEd/Source" includes="**" targetdir="$INSTALL_PATH/Source"/>
+		<fileset dir="../Instalation/reCsvEd/CopyBook" includes="**" targetdir="$USER_HOME/.RecordEditor/reCsvEd/CopyBook"/>
 	</pack>
 	<!--pack name="MarathonTests" required="no">
 		<description>MarathonTests</description>
@@ -141,7 +146,7 @@
 	</pack-->
 	<pack name="Velocity" required="yes">
             <description>Sample Velocity Templates</description>
-            <fileset dir="../Instalation/GeneralDB/SampleVelocityTemplates" includes="*/*.vm" targetdir="$INSTALL_PATH/SampleVelocityTemplates"/> 
+            <fileset dir="../Instalation/GeneralDB/SampleVelocityTemplates" includes="*/*.vm" targetdir="$USER_HOME/.RecordEditor/reCsvEd/SampleVelocityTemplates"/> 
         </pack>
         <pack name="bin" os="unix" required="no" override="true">
             <description>Linux/Unix bin direcory</description>
@@ -158,6 +163,10 @@
 	    <executable targetfile="$USER_HOME/bin/runCsvEditor.sh"    stage="never"/>
  	    <parsable targetfile="$USER_HOME/bin/runCsvEditorBigFile.sh"   type="shell"/>
 	    <executable targetfile="$USER_HOME/bin/runCsvEditorBigFile.sh"    stage="never"/>
+        </pack>
+        <pack name="Uninstall" os="Windows" required="yes" override="true">
+            <description>Record Editor Jars</description>
+            <file src="../Instalation/GeneralDb/Uninstaller" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
         </pack>
     </packs>
     

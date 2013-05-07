@@ -33,7 +33,7 @@ import net.sf.JRecord.Common.RecordException;
  */
 public class TypeManager {
 
- 	public static final int SYSTEM_ENTRIES = 120;
+ 	public static final int SYSTEM_ENTRIES = 150;
 
     public static final int INVALID_INDEX  = SYSTEM_ENTRIES - 1;
 
@@ -86,9 +86,17 @@ public class TypeManager {
 
             types[Type.ftNumLeftJustified]		= new TypeNum(Type.ftNumLeftJustified);
             types[Type.ftNumRightJustified]		= new TypeNum(Type.ftNumRightJustified);
+            types[Type.ftNumRightJustifiedPN]	= new TypeNum(Type.ftNumRightJustifiedPN);
+            types[Type.ftNumRightJustCommaDp]	= new TypeCommaDecimalPoint(Type.ftNumRightJustCommaDp, false);
+            types[Type.ftNumRightJustCommaDpPN]	= new TypeCommaDecimalPoint(Type.ftNumRightJustCommaDpPN, false);
             types[Type.ftNumZeroPadded]			= new TypeNum(Type.ftNumZeroPadded);
+            types[Type.ftNumZeroPaddedPositive]	= new TypeNum(Type.ftNumZeroPaddedPositive, true);
+            types[Type.ftNumZeroPaddedPN]		= new TypeNum(Type.ftNumZeroPaddedPN);
             types[Type.ftAssumedDecimal]		= new TypeNum(Type.ftAssumedDecimal);
             types[Type.ftAssumedDecimalPositive]= new TypeNum(Type.ftAssumedDecimalPositive, true);
+            types[Type.ftNumCommaDecimal]       = new TypeCommaDecimalPoint(Type.ftNumCommaDecimal, false);
+            types[Type.ftNumCommaDecimalPN]     = new TypeCommaDecimalPoint(Type.ftNumCommaDecimalPN, false);
+            types[Type.ftNumCommaDecimalPositive] = new TypeCommaDecimalPoint(Type.ftNumCommaDecimalPositive, true);
             types[Type.ftSignSeparateLead]		= new TypeSignSeparate(Type.ftSignSeparateLead);
             types[Type.ftSignSeparateTrail]		= new TypeSignSeparate(Type.ftSignSeparateTrail);
             types[Type.ftZonedNumeric]			= new TypeZoned();

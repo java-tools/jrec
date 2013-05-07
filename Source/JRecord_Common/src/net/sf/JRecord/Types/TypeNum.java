@@ -44,6 +44,7 @@ public class TypeNum extends TypeChar {
     private boolean adjustTheDecimal;
     private boolean couldBeLong = true;
     private final boolean positive;
+    private boolean usePositiveSign = false;
     private String padChar = " ";
 
     private int typeIdentifier;
@@ -84,15 +85,30 @@ public class TypeNum extends TypeChar {
     public TypeNum(final int typeId, final boolean isPositive) {
         super(typeId == Type.ftNumLeftJustified, false, true);
 
-        adjustTheDecimal =  (typeId == Type.ftAssumedDecimal);
         setNumeric(true);
         positive = isPositive;
 
         typeIdentifier = typeId;
 
-        if ((typeId == Type.ftAssumedDecimal)
-        ||  (typeId == Type.ftAssumedDecimalPositive)
-        ||  (typeId == Type.ftNumZeroPadded)) {
+        switch (typeId) {
+        case Type.ftNumRightJustifiedPN:
+        case Type.ftNumRightJustCommaDpPN:
+        	usePositiveSign = true;
+        	break;
+        case Type.ftNumZeroPaddedPN:
+        case Type.ftNumCommaDecimalPN:
+        	usePositiveSign = true;
+        	padChar = "0";
+        	break;
+        case Type.ftAssumedDecimal:
+        case Type.ftAssumedDecimalPositive:
+        	adjustTheDecimal = true;
+        	padChar = "0";
+        	break;
+        case Type.ftNumCommaDecimal:
+        case Type.ftNumCommaDecimalPositive:
+        case Type.ftNumZeroPadded:
+        case Type.ftNumZeroPaddedPositive:
             padChar = "0";
         }
 
@@ -170,8 +186,10 @@ public class TypeNum extends TypeChar {
 		    if (s.startsWith("-")) {
 		        s = s.substring(1);
 		        sign = "-";
-		    } else if (s.startsWith("+")) {
-		        s = s.substring(1);
+		    } else {
+		    	if (s.startsWith("+")) {
+		    		s = s.substring(1);
+		    	}
 		    }
 
 		    if (s.length() <= decimal) {
@@ -219,6 +237,12 @@ public class TypeNum extends TypeChar {
 	    if (padChar.equals("0") && val.startsWith("-")) {
 	        copyRightJust(record, val.substring(1), pos, len, "0", font);
 	        record[pos] = '-';
+	    } else if (padChar.equals("0") && usePositiveSign) {
+	    	if (val.startsWith("+")) {
+	    		val = val.substring(1);
+	    	}
+	        copyRightJust(record, val, pos, len, "0", font);
+	        record[pos] = '+';
 	    } else if (typeIdentifier == Type.ftNumLeftJustified) {
 			System.arraycopy(getBytes(val, font), 0, record, pos, val.length());
 			padWith(record, pos + val.length(), len - val.length(), " ", font);
@@ -250,7 +274,6 @@ public class TypeNum extends TypeChar {
 	            }
 	            new BigInteger(val);
 	        } catch (final Exception ex) {
-	        	//ex.printStackTrace();
 	            throw new RecordException("Invalid Integer :" + val + ": ~ " + ex.getMessage());
 	        }
 	    } else {
@@ -258,7 +281,7 @@ public class TypeNum extends TypeChar {
 	        	// TODO Introduce localisation !!!!
 	            BigDecimal decimalVal = new BigDecimal(Conversion.numTrim(val));
 
-	            NumberFormat nf = Conversion.getNumberformat();
+	            NumberFormat nf = getNumberFormat();
 	            nf.setGroupingUsed(false);
 	            if ((field.getDecimal() > 0) && adjustTheDecimal) {
 	                decimalVal = decimalVal.multiply(new BigDecimal(
@@ -278,6 +301,10 @@ public class TypeNum extends TypeChar {
 	        throw new RecordException("Only positive numbers are allowed");
 	    }
 	    return val;
+	}
+
+	protected NumberFormat getNumberFormat() {
+		return Conversion.getNumberformat();
 	}
 
 
@@ -332,6 +359,13 @@ public class TypeNum extends TypeChar {
     }
 
     /**
+	 * @return the padChar
+	 */
+	public String getPadChar() {
+		return padChar;
+	}
+
+	/**
      * @see net.sf.JRecord.Types.Type#getFieldType()
      */
     public int getFieldType() {

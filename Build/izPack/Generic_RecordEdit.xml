@@ -17,7 +17,7 @@
     -->
     <info>
         <appname>RecordEdit/Generic</appname>
-        <appversion>0.85</appversion>
+        <appversion>0.91</appversion>
         <authors>
             <author name="Bruce Martin" email="bruce_a_martin@sourceforge.net" />
             <!--author name="Hidden Man" email="hidden@hisdomain.com"/-->
@@ -116,6 +116,8 @@
             <fileset dir="../Instalation/GeneralDB/lib" includes="run*.jar" targetdir="$INSTALL_PATH/lib"/>
             <fileset dir="../Instalation/GeneralDB/lib" includes="*Jars.txt" targetdir="$INSTALL_PATH/lib"/>
             <fileset dir="../Instalation/hsqldb_izpack/lib" includes="*.pack" targetdir="$INSTALL_PATH/lib">
+                <include name="pict.zip"/>
+                <include name="*_TipOfTheDay.properties"/>
             	<exclude name="hsqldbmain.pack"/>
             </fileset>
             <parsable targetfile="$INSTALL_PATH/lib/runLayoutEdit.sh" type="shell"/> <!-- The file will be parsed -->
@@ -148,6 +150,10 @@
 	    <executable targetfile="$INSTALL_PATH/lib/runEditorFileCopybook.sh"  stage="never"/>
 	    <executable targetfile="$INSTALL_PATH/lib/runVelocityGUI.sh"         stage="never"/>
 	    <executable targetfile="$INSTALL_PATH/lib/runPropertiesEditor.sh"    stage="never"/>
+        </pack>
+        <pack name="lang" required="no" override="true">
+            <description>Foreign Language</description>
+            <file src="../Instalation/GeneralDB/lang"    targetdir="$INSTALL_PATH"/>
         </pack>
 	<pack name="CopyBook" required="yes">
 	    <description>CopyBooks</description>

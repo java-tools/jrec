@@ -19,10 +19,10 @@
 	    rename='mv'
 	    q='"'
 	end; else do
-	    say 'Windaows ...'
-	    regina = 'C:\Regina\regina.exe '
-	    instalation = 'E:\tmp\RecordEditor\Build\Instalation\'  /*'E:\Work\RecordEdit\Instalation\'*/
-	    b2h = '"E:\Work\Rexx\B2H\B2H.REXX"'
+	    regina = '"C:\Regina\regina.exe"'
+	    regina = "regina"
+	    instalation = 'C:\Users\mum\Bruce\Work\RecordEditor\Build\Instalation\' /*'E:\Work\RecordEdit\Instalation\'*/
+	    b2h = 'C:\Users\mum\Bruce\Work\Rexx\B2H\B2H.REXX'
 	    sep ='\'
 	    copy='Copy'
 	    del='del'

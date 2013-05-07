@@ -18,20 +18,20 @@ import net.sf.RecordEditor.utils.lang.LangConversion;
  *
  *   <pre>
  *       Select
- *              FieldPos as  Pos,
- *              FieldLength as Len,
- *              FieldName as Name,
- *              Description,
- *              FieldType as Type,
- *              DecimalPos as Decimal,
+ *              Field_Pos as  Pos,
+ *              Field_Length as Len,
+ *              Field_Name as Name,
+ *              Field_Description,
+ *              Field_Type as Type,
+ *              Decimal_Pos as Decimal,
  *              Cell_Format cellFormat,
- *              Parameter parameter,
- *              DefaultValue as Default,
- *              CobolName,
+ *              Field_Parameter parameter,
+ *              Default_Value as Default,
+ *              Cobol_Name,
  *              SubKey
- *       From Tbl_RF_RecordFields
+ *       From Tbl_RF1_RecordFields
  *       where RecordId = ?
- *       order by FieldPos, FieldLength Desc
+ *       order by Field_Pos, Field_Length
  *
  *   </pre>
  * it also provides Insert / Update / Delete routines (depending on the options selected)
@@ -66,43 +66,43 @@ public class RecordFieldsDB  extends AbsDB<RecordFieldsRec> {
 
       resetSearch();
 
-      sSQL = " Select  FieldPos, FieldLength, FieldName, Description, FieldType, DecimalPos, Cell_Format, Parameter, DefaultValue, CobolName, SubKey";
-      sFrom = "  From Tbl_RF_RecordFields";
+      sSQL = " Select  Field_Pos, Field_Length, Field_Name, FIELD_DESCRIPTION, Field_Type, Decimal_Pos, Cell_Format, Field_Parameter, Default_Value, Cobol_Name, Sub_Key";
+      sFrom = "  From Tbl_RF1_RecordFields";
       sWhereSQL = "  where RecordId = ?";
-      sOrderBy = "  order by FieldPos, FieldLength Desc";
-      updateSQL = "Update Tbl_RF_RecordFields  "
-                   +  " Set FieldPos= ? "
-                   +  "   , FieldLength= ? "
-                   +  "   , FieldName= ? "
-                   +  "   , Description= ? "
-                   +  "   , FieldType= ? "
-                   +  "   , DecimalPos= ? "
+      sOrderBy = "  order by Field_Pos, Field_Length Desc";
+      updateSQL = "Update Tbl_RF1_RecordFields  "
+                   +  " Set Field_Pos= ? "
+                   +  "   , Field_Length= ? "
+                   +  "   , Field_Name= ? "
+                   +  "   , FIELD_DESCRIPTION= ? "
+                   +  "   , Field_Type= ? "
+                   +  "   , Decimal_Pos= ? "
                    +  "   , Cell_Format= ? "
-                   +  "   , Parameter= ? "
-                   +  "   , DefaultValue= ? "
-                   +  "   , CobolName= ? "
-                   +  "   , SubKey= ? "
+                   +  "   , Field_Parameter= ? "
+                   +  "   , Default_Value= ? "
+                   +  "   , Cobol_Name= ? "
+                   +  "   , Sub_Key= ? "
                    +  " Where RecordId= ? "
-                   +  "   and SubKey= ? "
+                   +  "   and Sub_Key= ? "
                         ;
 
-      deleteSQL = "Delete From  Tbl_RF_RecordFields  "
+      deleteSQL = "Delete From  Tbl_RF1_RecordFields  "
                    +  " Where RecordId= ? "
-                   +  "   and SubKey= ? "
+                   +  "   and Sub_Key= ? "
                         ;
 
-      insertSQL = "Insert Into  Tbl_RF_RecordFields  ("
-                      + "    FieldPos"
-                      + "  , FieldLength"
-                      + "  , FieldName"
-                      + "  , Description"
-                      + "  , FieldType"
-                      + "  , DecimalPos"
+      insertSQL = "Insert Into  Tbl_RF1_RecordFields  ("
+                      + "    Field_Pos"
+                      + "  , Field_Length"
+                      + "  , Field_Name"
+                      + "  , Field_Description"
+                      + "  , Field_Type"
+                      + "  , Decimal_Pos"
                       + "  , Cell_Format"
-                      + "  , Parameter"
-                      + "  , DefaultValue"
-                      + "  , CobolName"
-                      + "  , SubKey"
+                      + "  , Field_Parameter"
+                      + "  , Default_Value"
+                      + "  , Cobol_Name"
+                      + "  , Sub_Key"
                       + "  , RecordId"
                       + ") Values ("
                       +    "     ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?"
@@ -251,7 +251,7 @@ public class RecordFieldsDB  extends AbsDB<RecordFieldsRec> {
       try {
           if (isPrepareNeeded(delAllRecordFields)) {
               delAllRecordFields = connect.getUpdateConnection().prepareStatement(
-                   "Delete From  Tbl_RF_RecordFields  "
+                   "Delete From  Tbl_RF1_RecordFields  "
                    +  " Where RecordId= ? "
                         );
           }
@@ -273,7 +273,7 @@ public class RecordFieldsDB  extends AbsDB<RecordFieldsRec> {
    * This method gets the next key
    */
   private int getNextKey() {
-      final String sql = "Select max(SubKey) From  Tbl_RF_RecordFields "
+      final String sql = "Select max(Sub_Key) From  Tbl_RF1_RecordFields "
                    +  " Where RecordId= ? "
                  ;
 

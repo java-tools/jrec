@@ -1,0 +1,38 @@
+useFixture(default)
+
+def test():
+	from Modules import commonBits
+	java_recorded_version = '1.6.0_22'
+
+	if window('Protocol Buffer Editor'):
+		select('File_Txt',  commonBits.sampleDir() + 'protoSales.bin')
+		click('Edit1')
+		select_menu('View>>Sorted Field Tree')
+		select('fields_JTbl', 'store', 'Field,0')
+		select('fields_JTbl', 'department', 'Field,1')
+		select('fields_JTbl', 'cell:Field,1(department)')
+		select('fieldSummary_JTbl', 'cell:Function,4()')
+		select('fields_JTbl', 'cell:Field,1(department)')
+		select('fieldSummary_JTbl', 'Sum', 'Function,4')
+		select('fieldSummary_JTbl', 'Sum', 'Function,5')
+		select('fieldSummary_JTbl', 'Maximum', 'Function,2')
+		select('fieldSummary_JTbl', 'Maximum', 'Function,1')
+		select('fieldSummary_JTbl', 'cell:Function,1(Maximum)')
+		click('Build Tree')
+		select('TabbedPane', 'Tree View')
+		assert_p('LineTree.FileDisplay_JTbl', 'Content', '[[, , , 20, 957, , 16, 26060], [, , , 20, 170, , 1, 4870], [, , 63604808, 20, 170, 40118, 1, 4870], [, , , 20, 280, , 2, 10020], [, , 69684558, 20, 280, 40118, 1, 19000], [, , 69684558, 20, 280, 40118, -1, -19000], [, , 69684558, 20, 280, 40118, 1, 5010], [, , 69694158, 20, 280, 40118, 1, 19000], [, , 69694158, 20, 280, 40118, -1, -19000], [, , 69694158, 20, 280, 40118, 1, 5010], [, , , 20, 685, , 0, 0], [, , 62684671, 20, 685, 40118, 1, 69990], [, , 62684671, 20, 685, 40118, -1, -69990], [, , , 20, 929, , 1, 3590], [, , 65674532, 20, 929, 40118, 1, 3590], [, , , 20, 957, , 12, 7580], [, , 64634429, 20, 957, 40118, 1, 3990], [, , 66624458, 20, 957, 40118, 1, 890], [, , 63674861, 20, 957, 40118, 10, 2700], [, , , 59, 957, , 11, 69110], [, , , 59, 335, , 1, 12990], [, , 61664713, 59, 335, 40118, 1, 17990], [, , 61664713, 59, 335, 40118, -1, -17990], [, , 61684613, 59, 335, 40118, 1, 12990], [, , , 59, 410, , 1, 8990], [, , 68634752, 59, 410, 40118, 1, 8990], [, , , 59, 620, , 2, 7980], [, , 60694698, 59, 620, 40118, 1, 3990], [, , 60664659, 59, 620, 40118, 1, 3990], [, , , 59, 878, , 2, 18600], [, , 60614487, 59, 878, 40118, 1, 5950], [, , 63644339, 59, 878, 40118, 1, 12650], [, , , 59, 929, , 1, 3990], [, , 67674686, 59, 929, 40118, 1, 3990], [, , , 59, 957, , 4, 16560], [, , 64614401, 59, 957, 40118, 1, 1990], [, , 64614401, 59, 957, 40118, 1, 1990], [, , 62684217, 59, 957, 40118, 1, 9990], [, , 64624770, 59, 957, 40118, 1, 2590], [, , , 166, 970, , 122, 1591450], [, , , 166, 60, , 5, 28160], [, , , 166, 80, , 2, 31490], [, , , 166, 170, , 1, 5990], [, , , 166, 193, , 6, 101480], [, , , 166, 220, , 1, 15990], [, , , 166, 230, , 1, 9600], [, , , 166, 235, , 2, 28990], [, , , 166, 250, , 1, 29950], [, , , 166, 261, , 8, 116000], [, , , 166, 265, , 3, 57000], [, , , 166, 270, , 4, 41990], [, , , 166, 275, , 1, 24990], [, , , 166, 280, , 2, 48730], [, , , 166, 320, , 4, 46290], [, , , 166, 335, , 1, 7990], [, , , 166, 355, , 3, 48870], [, , , 166, 360, , 5, 18990], [, , , 166, 366, , 1, 14990], [, , , 166, 370, , 5, 59930], [, , , 166, 375, , 2, 25980], [, , , 166, 395, , 2, 40790], [, , , 166, 405, , 1, 20000], [, , , 166, 410, , 4, 15930], [, , , 166, 415, , 2, 79980], [, , , 166, 432, , 4, 32130], [, , , 166, 440, , 1, 14990], [, , , 166, 455, , 1, 25000], [, , , 166, 471, , 1, 24990], [, , , 166, 475, , 1, 14990], [, , , 166, 485, , 1, 29990], [, , , 166, 500, , 2, 17980], [, , , 166, 520, , 1, 29990], [, , , 166, 650, , 1, 9990], [, , , 166, 670, , 2, 60980], [, , , 166, 685, , 2, 8980], [, , , 166, 801, , 5, 135040], [, , , 166, 805, , 1, 5500], [, , , 166, 830, , 1, 19950], [, , , 166, 845, , 2, 9850], [, , , 166, 851, , 2, 32980], [, , , 166, 870, , 2, 22180], [, , , 166, 902, , 2, 15960], [, , , 166, 904, , 2, 26440], [, , , 166, 905, , 5, 68440], [, , , 166, 910, , 1, 10490], [, , , 166, 929, , 6, 8300], [, , , 166, 957, , 8, 21220], [, , , 166, 970, , 1, 24990], [, , , 184, 998, , 73, 1310130]]')
+		select_menu('Window>>Show Child Record')
+		select('TabbedPane', 'Tree View')
+		select('LineTree.FileDisplay_JTbl', 'cell:department,0(957)')
+		assert_p('LineFrame.FileDisplay_JTbl', 'Content', '[[keycode, 1, 63604808, 63604808], [store, 2, 20, 20], [department, 3, 170, 170], [saleDate, 4, 40118, 40118], [quantity, 5, 1, 1], [price, 6, 4870, 4870]]')
+		select('LineTree.FileDisplay_JTbl', 'cell:department,4(280)')
+		assert_p('LineFrame.FileDisplay_JTbl', 'Content', '[[keycode, 1, 69684558, 69684558], [store, 2, 20, 20], [department, 3, 280, 280], [saleDate, 4, 40118, 40118], [quantity, 5, 1, 1], [price, 6, 19000, 19000]]')
+		select('LineTree.FileDisplay_JTbl', 'cell:store,5(20)')
+		assert_p('LineFrame.FileDisplay_JTbl', 'Content', '[[keycode, 1, 69684558, 69684558], [store, 2, 20, 20], [department, 3, 280, 280], [saleDate, 4, 40118, 40118], [quantity, 5, -1, -1], [price, 6, -19000, -19000]]')
+		select('LineTree.FileDisplay_JTbl', 'cell:saleDate,7(40118)')
+		assert_p('LineFrame.FileDisplay_JTbl', 'Content', '[[keycode, 1, 69694158, 69694158], [store, 2, 20, 20], [department, 3, 280, 280], [saleDate, 4, 40118, 40118], [quantity, 5, 1, 1], [price, 6, 19000, 19000]]')
+		select('LineTree.FileDisplay_JTbl', 'cell:department,9(280)')
+		assert_p('LineFrame.FileDisplay_JTbl', 'Content', '[[keycode, 1, 69694158, 69694158], [store, 2, 20, 20], [department, 3, 280, 280], [saleDate, 4, 40118, 40118], [quantity, 5, 1, 1], [price, 6, 5010, 5010]]')
+		select('LineTree.FileDisplay_JTbl', 'cell:saleDate,12(40118)')
+		assert_p('LineFrame.FileDisplay_JTbl', 'Content', '[[keycode, 1, 62684671, 62684671], [store, 2, 20, 20], [department, 3, 685, 685], [saleDate, 4, 40118, 40118], [quantity, 5, -1, -1], [price, 6, -69990, -69990]]')
+	close()

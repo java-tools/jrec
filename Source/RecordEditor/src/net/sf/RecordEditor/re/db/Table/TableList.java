@@ -30,6 +30,7 @@ import net.sf.RecordEditor.utils.swing.AbsRowList;
  */
 public class TableList extends AbsRowList {
 
+	public static final int FOREIGN_LANGUAGE_FIELD_NO = 2;
 	private TableDB tableDb = new TableDB();
 	private String idName;
 	private String name;
@@ -115,7 +116,7 @@ public class TableList extends AbsRowList {
 			String foreignLookUpId = TableDB.getTblLookupKey(tableIdent);
 			for (TableRec rec : list) {
 				rec.setField(
-						2,
+						FOREIGN_LANGUAGE_FIELD_NO,
 						LangConversion.convertId(
 								LangConversion.ST_EXTERNAL,
 								foreignLookUpId + rec.getField(getKeyIdx()),

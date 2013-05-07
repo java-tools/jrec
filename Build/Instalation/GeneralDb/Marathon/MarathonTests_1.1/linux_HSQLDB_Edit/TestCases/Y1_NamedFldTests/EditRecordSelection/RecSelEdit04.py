@@ -51,6 +51,9 @@ def test():
 		select('RecordSelectionJTbl', '11a', 'Field Value,1')
 		select('RecordSelectionJTbl', 'cell:Field Value,1()')
 		rightclick('RecordSelectionJTbl', 'and,1')
+
+###
+
 		select('RecordSelectionJTbl', 'fld 13', 'Field,2')
 		select('RecordSelectionJTbl', '33', 'Field Value,2')
 		select('RecordSelectionJTbl', 'cell:Field Value,1(11a)')

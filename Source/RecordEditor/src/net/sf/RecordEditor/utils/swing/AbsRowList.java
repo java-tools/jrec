@@ -223,6 +223,13 @@ public class AbsRowList implements AbstractRowList {
 	 * @see net.sf.RecordEditor.utils.swing.AbstractRowList#getFieldAt(int)
 	 */
 	public Object getFieldAt(int idx) {
+		return getFieldAt(idx, dtlIdx);
+	}
+
+	/**
+	 * @see net.sf.RecordEditor.utils.swing.AbstractRowList#getFieldAt(int)
+	 */
+	public Object getFieldAt(int idx, int fldNo) {
 		commonInit();
 
 		if (allowNulls) {
@@ -232,7 +239,7 @@ public class AbsRowList implements AbstractRowList {
 			idx -= 1;
 		}
 
-		return rows[idx].getField(dtlIdx);
+		return rows[idx].getField(fldNo);
 	}
 
 	/**

@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import net.sf.RecordEditor.re.file.FilePosition;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.script.AbstractFileDisplay;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -52,7 +53,7 @@ public class GotoLine extends ReFrame implements ActionListener {
 				master);
 		source = src;
 
-		BaseHelpPanel pnl = new BaseHelpPanel();
+		//BaseHelpPanel pnl = new BaseHelpPanel();
 		pnl.addReKeyListener(listner);
 
 		pnl.addLine("Line Number", lineTxt, gotoBtn);
@@ -85,6 +86,9 @@ public class GotoLine extends ReFrame implements ActionListener {
 				int lineNo = Integer.parseInt(s);
 				if (lineNo < 1) {
 					pnl.setMessageTxt("line number must be > 0");
+					return;
+				} else if (lineNo >= source.getFileView().getRowCount()) {
+					pnl.setMessageRawTxt(LangConversion.convert("line number must be <") + " " + source.getFileView().getRowCount());
 					return;
 				}
 				FilePosition position = new FilePosition(lineNo-1, 0, source.getLayoutIndex(), 0, true, source.getFileView().getRowCount());

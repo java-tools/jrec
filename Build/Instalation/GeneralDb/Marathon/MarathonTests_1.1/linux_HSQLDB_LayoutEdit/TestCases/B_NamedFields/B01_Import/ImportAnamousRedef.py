@@ -22,7 +22,7 @@ def test():
 ##		select('TabbedPane', 'Extras')
 ##		select('TabbedPane', 'Fields')
 		assert_p('RecordList.RecordListTbl_JTbl', 'Text', 'Z_AnamousRedf', 'Record Name,0')
-		assert_p('RecordList.RecordListTbl_JTbl', 'Content', '[[Z_AnamousRedf, ]]')
+##		assert_p('RecordList.RecordListTbl_JTbl', 'Content', '[[Z_AnamousRedf, ]]')
 		assert_p('RecordFieldsJTbl', 'Content', '[[1, 2, AB, , 0, 0, 0, , , AB], [1, 1, A, , 0, 0, 0, , , A], [2, 1, B, , 0, 0, 0, , , B]]')
 
 	close()

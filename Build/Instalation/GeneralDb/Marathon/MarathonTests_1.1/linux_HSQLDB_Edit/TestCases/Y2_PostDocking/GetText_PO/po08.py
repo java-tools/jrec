@@ -60,6 +60,10 @@ no-c-format, , , , Y, ], [, New, 3, , test1aaa, , , , , , , , , , , , ], [, Old,
 		click(commonBits.fl('Edit') + '1')
 		select('TabbedPane', 'Fuzzy/Blank')
 		select('TabbedPane', 'Fuzzy/Blank')
+
+##
+
+		commonBits.doSleep()
 		assert_p('PoList.FileDisplay_JTbl1', 'Content', '[[Red Hat Middleware, LLC., , ], [test1aaa, test1, fuzzy then no-c-format on separate lines], [test2, test2, no-c-format then fuzzy on separate lines], [test3aa, test3, fuzzy then no-c-format on same line], [test4, test4, no-c-format then fuzzy on same line], [blank msgstr, , ]]')
 	
 		click(commonBits.fl('PO List'))

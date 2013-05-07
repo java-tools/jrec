@@ -3,8 +3,8 @@
 <TITLE>Record Editor</TITLE>
 <!-- Begin Header Records  ========================================== -->
 <!-- C:\Users\mum\Bruce\Work\RecordEditor\Build\Instalation\GeneralDb -->
-<!-- \DocSrc\reaMan.dcf converted by B2H R4.7 (390) (WINNT) on 15 Apr -->
-<!-- 2012 at 13:55:35                                                 -->
+<!-- \DocSrc\reaMan.dcf converted by B2H R4.7 (390) (WINNT) on 29 Apr -->
+<!-- 2013 at 18:27:12                                                 -->
 <META HTTP-EQUIV="updated" CONTENT="Tue, 28 Feb 2012 14:14:19">
 <META HTTP-EQUIV="review" CONTENT="Thu, 28 Feb 2013 14:14:19">
 <META HTTP-EQUIV="expires" CONTENT="Fri, 28 Feb 2014 14:14:19">
@@ -654,10 +654,80 @@ rows for the Column view.
 <img SRC="Diagram/RecordEdit_View3.png">
 <P>
 <P>
+<HR><H2><A NAME="Header_23">Specialty File Formats</A></H2>
+<P>The specialty formats (po and tip files) where introduced in version 0.91.
+At this stage they still need work. They allow you to use the RecordEditor to edit
+its own GetText-Po and TipOfTheDay files.
+<P>
+<P><H3><A NAME="Header_24">GetText Po files</A></H3>
+<P>The <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> can now edit GetText po files. At this stage the po-editor still needs
+work. It can be used to edit the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> po files. Use the <B>RecordLayout</B> of
+<font color="blue"><b>GetText_PO</b></font>.
+<P>There are many other GetText editors (i.e
+<a href="http://www.poedit.net/">poedit</a>)
+offer a number of functions not offered by the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> (like Translation).
+At this stage the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> should be viewed as an addition to another
+Po-Editor rather than an alternative. The <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> offer's several features of it own&#58;
+<UL COMPACT>
+ <LI>Display of HTML messages
+ <LI>Filters, sorting, multiple views
+ <LI>Record Views
+ <LI>File compare (needs more work).
+</UL>
+<P>At this stage, the <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> is an additional tool for editing po-files rather
+than as a replacement for existing tools like <B>poedit</B>
+<P>
+<P><H4><A NAME="Header_25">Po Main screen</A></H4>
+<P>When opening a file, 2 views are available - Full File and Fuzzy / blank records.
+Each view has a list of translations down the left hand side and on the right the currently selected record
+is displayed.
+<P>
+<img SRC="Diagram/Po_Main.png">
 <P>
 <P>
+<P>If you right click on a tab (or in the top left hand corner if there is no tab), you can move the record display
+to the bottom of the screen, remove / add the selected-record-display.
 <P>
-<HR><H2><A NAME="Header_23">Supplied Sample Files</A></H2>
+<img SRC="Diagram/TipOfTheDay_RightClick1.png">
+<P>
+<P>You can use <B>Edit &gt;&gt;&gt;&gt; Show / Hide Fields</B> option to display other columns like
+msgctxt, fuzzy, obsolete, msgidPlural etc.
+<P>
+<P><H4><A NAME="Header_26">Po properties.</A></H4>
+<P>In the properties editor, you can
+<UL>
+<P><LI>Set wether you want the Selected Record screen displayed on the right or the
+bottom of the screen.
+<P><LI>Wether to display the Fuzzy / empty view.
+</UL>
+<P>
+<img SRC="Diagram/Po_Properties.png">
+<P>
+<P><H3><A NAME="Header_27">SwingX Tip of the day files.</A></H3>
+<P>The <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> can now edit SwingX JXTipOfTheDay properties files. It will
+display the raw Text and also a formatted Html view of the file. You can also view
+the file using the JXTipOfTheDay dialog.
+<P>To view a Tip-Of-The-Day property file, Set the3 <B>Record Layout</B> to <font color="blue"><b>TipDetails</b></font>
+<P>
+<img SRC="Diagram/TipOfTheDay01.png">
+<P>
+<P>All the messages are listed on the left hand side, while the currently
+selected message is displayed on the right. You can click on a message
+to have it displayed on the right hand side
+<P>
+<img SRC="Diagram/TipOfTheDay_Main.png">
+<P>
+<P>If you right click on a tab (or in the top left hand corner if there is no tab), you can move the record display
+to the bottom of the screen, remove / add the selected-record-display.
+<P>
+<img SRC="Diagram/TipOfTheDay_RightClick1.png">
+<P>
+<P>If you right click on the table you can view the tips using Swing tip dialogue.
+<P>
+<img SRC="Diagram/TipOfTheDay_RightClick2.png">
+<P>
+<P>
+<HR><H2><A NAME="Header_28">Supplied Sample Files</A></H2>
 <P>In the $IntallDirectory/SampleFiles there are a number of example files for
 you try out the Editor.
 <P>
@@ -1004,24 +1074,23 @@ value you can change by <font color="blue">clicking</font> on the <B>And / Or</B
           and field7 &gt; field8
              ..........
  
- The system <font color="blue"><b>does not</b></font> support complicated expressions or And before or expressions.
+</PRE><PRE><P>The system only supports simple <font color="blue"><b>Or ~ And</b></font> boolean
+expressions. It <font color="blue"><b>does not</b></font> support complicated expressions or <font color="blue"><b>And ~ Or</b></font> boolean expressions.
  
- 
-</PRE><P>If Field values are entered at the
+<P>If Field values are entered at the
 Group level They will be included as well.
-<P>
-<img SRC="Diagram/LayoutEdit_ExtendedRecordSelect2.png">
-<P>
+ 
+<img SRC="Diagram/LayoutEdit_ExtendedRecordSelect2.png"> 
 <P>The above will be interpreted as
-<P>
-<PRE>       Record Type = S1
+ 
+</PRE><PRE>       Record Type = S1
   and
       (
-          (    f1  = v1
-           and f2  = v2
+          (    Case Pack id  = P
+           and Pack Qty      &gt; 0
           )
-       or (    f3  = v3
-           and f4  = v4
+       or (    Case Pack id  = S
+           and Pack Qty      &lt; 0
           )
       )
  
@@ -1213,7 +1282,7 @@ screens. There are 2 basic groups of Screens:
  See <A HREF="#HDRWIZRECORDTYPE">"Record Type Field"</A>, <A HREF="#HDRWIZRECORDNAMES">"Record Name screen"</A>, <A HREF="#HDRWIZ2M">"Field Position screen"</A> and <A HREF="#HDRWIZ3M">"Field Definition screen"</A>.
 </TD></TR></TABLE>
 <P>
-<P><H3><A NAME="Header_33">Initial Wizard Screen</A></H3>
+<P><H3><A NAME="Header_38">Initial Wizard Screen</A></H3>
 <P>On the file screen you enter file details and the name of
 the <B>record layout</B> being created. The field <B>Record Types</B>
 determines whether you travel down the
@@ -1488,7 +1557,7 @@ while the user sees <font color="blue">PO Header (H1)</font>.
  </TD></TR><TR VALIGN="TOP"><TD><P><B>Table</B></TD><TD><P>Combo Items to be displayed in the Combobox
 </TD></TR></TABLE>
 <P>
-<P><H3><A NAME="Header_53">Defining a Combo Field</A></H3>
+<P><H3><A NAME="Header_58">Defining a Combo Field</A></H3>
 <P>To use your Combo List (Say AmsPoDownloadType) in a Record Layout (Copybook) definition, you must
 <UL>
   <P><LI>Set the <B>Cell Format</B> to Combobox
@@ -1860,9 +1929,9 @@ in this format via the <A HREF="#HDRCPYLAYOUT">"Copy Copybooks"</A>. You can als
 <P>
 <P>
 <P>
-<HR><H1><A NAME="Header_61">Defining Binary Files</A></H1>
+<HR><H1><A NAME="Header_66">Defining Binary Files</A></H1>
 <P>
-<P><H3><A NAME="Header_62">Standard Binary Files</A></H3>
+<P><H3><A NAME="Header_67">Standard Binary Files</A></H3>
 <P>The <B>RecordEditor</B> reads Text files using standard Java Text-Read routines.
 These routines will convert all text fields to Java's Unicode representation. This means
 any binary fields read using standard Java Text-Read routines will be corrupted.
@@ -1879,7 +1948,7 @@ It uses these binary read routines when:
 <B>Group of Binary Records</B>.
 </OL>
 <P>
-<P><H3><A NAME="Header_63">Calculating Record Length</A></H3>
+<P><H3><A NAME="Header_68">Calculating Record Length</A></H3>
 <P>The <B>RecordEditor</B> calculates the record length by
 <OL TYPE=1>
 <P><LI>If all records are the same length (or this is one record), A constant fixed
@@ -1891,7 +1960,7 @@ at all the possible record lengths.
 <P><LI>Searching for the record Separator.
 </OL>
 <P>
-<P><H3><A NAME="Header_64">Mainframe Files</A></H3>
+<P><H3><A NAME="Header_69">Mainframe Files</A></H3>
 <P>The RecordEditor was not specifically written for the mainframe but it can edit
 mainframe cobol files, this means there will be a learning curve for you.
 It does require a full install of Java 5 or greater, some partial installs do not include
@@ -1922,7 +1991,7 @@ import Cobol Copybooks.
 instead of a Database. It offers most of the features of the full editor,
 </UL>
 <P>
-<P><H4><A NAME="Header_65">Importing Cobol Copybooks</A></H4>
+<P><H4><A NAME="Header_70">Importing Cobol Copybooks</A></H4>
 <P>
 <P>The first step in editing a file is to import the Cobol Copybook. To do this
 select <B>Record Layouts &gt;&gt;&gt; Load Cobol Copybook</B> from the main menu
@@ -1952,12 +2021,12 @@ PC files. Needs to be changed for VB files.
 </TD></TR></TABLE>
 <P>
 <P>
-<P><H4><A NAME="Header_66">Downloading FB files.</A></H4>
+<P><H4><A NAME="Header_71">Downloading FB files.</A></H4>
 <P>Fixed Block files can be downloaded as a binary file from the mainframe and edited
 in the record editor. You can set the <B>File Structure</B> to either <B>Default Reader</B>
 or <B>Fixed Length Binary</B>
 <P>
-<P><H4><A NAME="Header_67">Downloading VB files</A></H4>
+<P><H4><A NAME="Header_72">Downloading VB files</A></H4>
 <P>The  <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> can edit VB files provided the RDW (record descriptor word i.e. record length)
 is in the file. Many file transfer protocols will drop RDW. The options for VB files are
 <P>
@@ -1997,7 +2066,7 @@ to <B><I>Mainframe VB Dump&#58; Includes block length</I></B>
 <P>
 <P>
 <P>
-<P><H3><A NAME="Header_68">PC Cobol</A></H3>
+<P><H3><A NAME="Header_73">PC Cobol</A></H3>
 <P>The <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> can edit Cobol Data files in 2 ways
 <OL TYPE=1>
  <P><LI>Via the main Editor. Cobol copybooks need to be imported into its Databases
@@ -2006,7 +2075,7 @@ slightly less capable than the main editor (particular for files with multiple
 record layouts.
 </OL>
 <P>
-<P><H4><A NAME="Header_69">Main Record Editor</A></H4>
+<P><H4><A NAME="Header_74">Main Record Editor</A></H4>
 <P>
 <P><I><B><A NAME="HDRIMPORT">Importing Cobol Copybooks</A>:&nbsp;</B></I>&nbsp;
 <P>
@@ -2096,7 +2165,7 @@ For files with multiple records&#58;
    </B></TD><TD><P>Basically a way of grouping Copybooks together in to logical systems.
 </TD></TR></TABLE>
 <P>
-<P><H4><A NAME="Header_71">Cobol Editor</A></H4>
+<P><H4><A NAME="Header_76">Cobol Editor</A></H4>
 <P>The <B>Cobol Editor</B> (shell script runEditorFileCopybook.sh) started life as
 specifically using Cobol Copybooks. These days its supports Cobol Copbooks, 2 XML layout formats,
 2 csv layout formats. The primary screen looks like&#58;
@@ -2180,7 +2249,7 @@ records for each 01 level).
     <P><B>Note: </B>Same as field as <B>Binary format</B> in the <A HREF="#HDRIMPORT">"Importing Cobol Copybooks"</A> screen.
 </TD></TR></TABLE>
 <P>
-<P><H4><A NAME="Header_72">Options</A></H4>
+<P><H4><A NAME="Header_77">Options</A></H4>
 <P>There are some options that can be set to make the <B>RecordEditor</B> easier to
 use with Cobol Copybooks / files. To make these changes
 <UL>
@@ -2344,7 +2413,7 @@ zd,be,f,d,pd,be,le
 variable. It has exactly the same formats and types as <font color="blue">CnvType</font>.
 <P>
 </TD></TR></TABLE>
-<HR><H1><A NAME="Header_74">Tab/Comma Delimited Fields in Files</A></H1>
+<HR><H1><A NAME="Header_79">Tab/Comma Delimited Fields in Files</A></H1>
 <P>The <B>RecordEditor</B> now supports Files with Comma / Tab / etc
 delimited fields. There are 2 places where field names can be stored&#58;
 <TABLE CELLPADDING="3">
@@ -2354,7 +2423,7 @@ delimited fields. There are 2 places where field names can be stored&#58;
     </B></TD><TD><P>Field names can be read from the first line of a file.
 </TD></TR></TABLE>
 <P>
-<HR><H2><A NAME="Header_75">Defining a Delimited File</A></H2>
+<HR><H2><A NAME="Header_80">Defining a Delimited File</A></H2>
 <P>There are 4 important parts to defining files where fields are separated
 by a certain character&#58;
 <UL COMPACT>
@@ -2374,13 +2443,13 @@ by a certain character&#58;
 <P>
 <img SRC="Diagram/LayoutEdit_Delim.png">
 <P>
-<HR><H2><A NAME="Header_76">Defining a Standard Delimited File</A></H2>
+<HR><H2><A NAME="Header_81">Defining a Standard Delimited File</A></H2>
 <P>Standard Delimited record layouts are defined as below. The position
 holds the field number (rather than starting position).
 <P>
 <img SRC="Diagram/LayoutEdit_DelimDef.png">
 <P>
-<HR><H2><A NAME="Header_77">Names on the first Line</A></H2>
+<HR><H2><A NAME="Header_82">Names on the first Line</A></H2>
 <P>To define files where the first line holds the field names you must
 define a File Structure <font color="blue"><b>Delimted, names on first row</b></font>
 (which causes different file readers to be used).
@@ -2395,7 +2464,7 @@ line.
 </UL>
 <P>
 <P>
-<HR><H2><A NAME="Header_78">Csv Array Description</A></H2>
+<HR><H2><A NAME="Header_83">Csv Array Description</A></H2>
 <P>Version 0.61a has a small extension to support Csv Arrays (or Csv fields with in CSV fields).
 i.e.
 <P>
@@ -2424,7 +2493,7 @@ window
 <P>
 <img SRC="Diagram/Edit_CsvArray1.png">
 <P>
-<HR><H2><A NAME="Header_79">Parameter Field</A></H2>
+<HR><H2><A NAME="Header_84">Parameter Field</A></H2>
 <P>The Parameter field of a CSV array is defined as
 <TABLE CELLPADDING="3">
  <TR VALIGN="TOP"><TD><P><B>One Dimension</B></TD><TD><P>&lt;Separator&gt;Quote&lt;Separator&gt;Field Separator&lt;Separator&gt;
@@ -2439,7 +2508,7 @@ window
 <P>
 <P>
 <P>
-<HR><H1><A NAME="Header_80">Appendix A. Reporting</A></H1>
+<HR><H1><A NAME="Header_85">Appendix A. Reporting</A></H1>
 <P>The old <B>re2jasper</B> addon has been enhanced and rereleased as <a href="http://ffreports.sourceforge.net/" TARGET="ffReports">Flat File Reporting</a>.
 This basically an plugin to <a href="http://ireport.sourceforge.net/" TARGET="iReports">iReports</a> report designer to allow the use of <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a>
 and Cobol files to be used in <a href="http://ireport.sourceforge.net/" TARGET="iReports">iReports</a> and <B>Jasper Reports</B>. The interface is
@@ -2449,7 +2518,7 @@ look at it
 <P>
 <img SRC="Diagram/iReport.png">
 <P>
-<HR><H1><A NAME="Header_81">Appendix B. Help System</A></H1>
+<HR><H1><A NAME="Header_86">Appendix B. Help System</A></H1>
 <P>The <B>RecordEditor</B> includes a basic Form (or Form section) based help system. The
 help system is available via
 <TABLE CELLPADDING="3">
@@ -2467,7 +2536,7 @@ See <A HREF="#HDRPROPERTIES">Appendix H, "JDBC Properties file"</A> fore more de
 "C:\Programs\RecordEditor\HSQL\<B>Docs</B>" for the help files.
 </TD></TR></TABLE>
 <P>
-<HR><H1><A NAME="Header_82">Appendix C. ODBC Definition</A></H1>
+<HR><H1><A NAME="Header_87">Appendix C. ODBC Definition</A></H1>
 <P>
 <P>The Microsoft Access version should install an ODBC connection called
 RecordLayout. But in case it does not, you will get an error message like
@@ -2635,7 +2704,7 @@ Binary Integer. The number of is stored as high to low format i.e. 255 is stored
 <P>
 <P>
 <P>
-<HR><H1><A NAME="Header_84">Appendix E. Record Layout Details</A></H1>
+<HR><H1><A NAME="Header_89">Appendix E. Record Layout Details</A></H1>
 <P>The system use Record-Layout descriptions stored in a Database to format the file. Logically there
 are 2 types of records (each type has both <B>Binary</B> and <B>Text</B> Version)
 <P>
@@ -2675,7 +2744,7 @@ more than one record structure. A typical case when to use would be if a file co
 <img SRC="Diagram/Record_Group.png">
 <BR></TD></TR></TABLE>
 <P>
-<HR><H1><A NAME="Header_85">Appendix F. FAQ</A></H1>
+<HR><H1><A NAME="Header_90">Appendix F. FAQ</A></H1>
 <P>
 <TABLE CELLPADDING="3">
 <TR VALIGN="TOP"><TD><P><B>Question</B></TD><TD><P><I>Can I get help with using the editor</I>
@@ -2700,16 +2769,20 @@ definition. The solution is to update the ODBC Definition
 </TD></TR><TR VALIGN="TOP"><TD><P><B>Answer  </B></TD><TD><P>There are a number of ways.
 <UL COMPACT>
  <LI>If you have a sample file, use the Layout Wizard
+<P>
 <img SRC="Diagram/Edit_WizardButton.png">
  <LI>Use the LayoutEditor (either from the Windows / linux start button) or from the Layout Menu
+<P>
 <img SRC="Diagram/MenuRL_Create.png">
 </UL>
 </TD></TR><TR VALIGN="TOP"><TD><P><B>Question</B></TD><TD><P><I>Why can't I see my layout in the Editor
 </TD></TR><TR VALIGN="TOP"><TD><P><B>Answer  </B></TD><TD><P>There are 2 possible causes&#58;
 <OL COMPACT TYPE=1>
  <LI>Have you reloaded the Database in the editor ???
+<P>
 <img SRC="Diagram/Edit_ReloadButton.png">
  <LI>Have you selected list in the layout Screen ???
+<P>
 <img SRC="Diagram/LayoutWizard_List.png">
 </OL>
 </TD></TR><TR VALIGN="TOP"><TD><P><B>Question</B></TD><TD><P><I>Can I load Cobol Copybooks into the DB in batch</I>
@@ -2753,8 +2826,8 @@ default <B>Edit Options &gt;&gt;&gt;&gt; Properties &gt;&gt;&gt;&gt; Other Optio
 <img SRC="Diagram/PreferedOption.png">
 </TD></TR></TABLE>
 <P>
-<HR><H1><A NAME="Header_86">Appendix G. Tips</A></H1>
-<P><H4><A NAME="Header_87">Moving Columns</A></H4>
+<HR><H1><A NAME="Header_91">Appendix G. Tips</A></H1>
+<P><H4><A NAME="Header_92">Moving Columns</A></H4>
 <P>You can move columns about by clicking on a <B>Column header</B> and dragging the
 column to another Position. e.g. The following table
 <P>
@@ -2901,8 +2974,104 @@ A value of
 ## Help Directory
 <font color="blue"><b>HelpDir=</b></font>File&#58;G&#58;/RecordEdit_Prj/Docs/
  
-</PRE><P><HR><H1><A NAME="Header_90">Appendix I. Changes</A></H1>
-<P><H4><A NAME="Header_91">Release 0.80.6</A></H4>
+</PRE><P><HR><H1><A NAME="Header_95">Appendix I. Changes</A></H1>
+<P><H4><A NAME="Header_96">Release 0.94.1</A></H4>
+  <UL COMPACT>
+    <LI>Support for Records (&gt; 32,0000).
+    <LI>New Types where the Decimal point is ','.
+    <LI>New Cobol Dialects which partially support the Cobol DECIMAL-POINT IS COMMA clause.
+    <LI>Several Cobol import fix's.
+    <LI>Change file structure option
+    <LI>Save with different file structure
+  </UL>
+<P>
+ 
+<P><H4><A NAME="Header_97">Release 0.94</A></H4>
+  <UL COMPACT>
+    <LI>New Text Editor View
+    <LI>New positive types added
+    <LI>Cobol Changes
+      <UL COMPACT>
+       <LI>VB file detection added
+       <LI>Positive fields are restricted to positive numbers
+     </UL>
+    <LI>Fix's for Sort Tree, Child Screen position (after find) and Fuji Zoned Type
+    <LI>Improved file-structure detection
+<P>
+  </UL>
+<P>
+<P><H4><A NAME="Header_98">Release 0.92.1</A></H4>
+  <UL COMPACT>
+   <LI>Adding 2 extra Csv parser - Basic - Delimiter all fields
+and Basic - Delimiter all fields + 1
+   <LI>Fix for existing Csv Parser "Parser - Matching Quotes" for when
+no quote is defined.
+ </UL>
+<P>
+<P><H4><A NAME="Header_99">Release 0.92</A></H4>
+  <UL COMPACT>
+    <LI>All screens for a File are now displayed as Tabs rather than as seperate screens. The tabs can be undocked (and redocked) if required.
+    <LI>Added Child screen option to List Screens
+    <LI>Added Hints dialogue
+    <LI>Enhanced HTML Export, option to open exported file with default programs
+    <LI>Highlight change fields in compare
+    <LI>Minor GUI changes
+    <LI>Enhanced Help menu (can open Manual / Forums etc).
+    <LI>Fixed Paste Prior issues
+  </UL>
+<P>
+<P><H4><A NAME="Header_100">Release 0.91</A></H4>
+  <UL COMPACT>
+    <LI>Rewritten the Group Filter screen
+    <LI>Support for editing GetText-PO files
+    <LI>Support for editing SwingX JXTipOfTheDay properties files (loaded using TipLoader)
+    <LI>Going forward there is support for more specialist format like GetText-PO files and TipOfTheDay properties files
+    <LI>More Foreign-Languages changes.
+  </UL>
+<P>
+<P><H4><A NAME="Header_101">Release 0.90</A></H4>
+  <UL COMPACT>
+    <LI>New tab interface for files. The various views can be "docked" / "undocked" as required
+    <LI>List views can now have a child record screen.
+    <LI>Group filter option added
+    <LI>Start from the begining/end option in the find dialogue.
+  </UL>
+<P>
+<P>
+<P><H4><A NAME="Header_102">Release 0.89.1 -&gt; 3</A></H4>
+  <UL COMPACT>
+    <LI>Foreign Language support (via GetText PO files).
+    <LI>Option to use po files directly or after converted to compiled resource bundles.
+    <LI>Sample translation files for Spanish, chinese etc created using Google Translate.
+  </UL>
+<P>
+<P><H4><A NAME="Header_103">Release 0.88</A></H4>
+  <UL COMPACT>
+    <LI>Enhanced HTML Export.
+    <LI>Option to Open Exported file.
+    <LI>Minor GUI changes.
+    <LI>Highlight changed fields on Compare screen (Feature request 3532674).
+    <LI>Enhanced Help menu (can open Manual / Forums etc).
+    <LI>Minor fix's.
+  </UL>
+<P><H4><A NAME="Header_104">Release 0.86</A></H4>
+  <UL COMPACT>
+    <LI>Enhanced Filter selection - support And / Or operators
+    <LI>Minor changes to Find command
+  </UL>
+<P>
+<P><H4><A NAME="Header_105">Release 0.85</A></H4>
+  <UL COMPACT>
+    <LI>Enhanced Record Selection Edit screen + problem fix's for the Record Selection editor
+    <LI>Minor LayoutEditor changes + some fixes for the LayoutEditor
+    <LI>A large number of minor GUI changes e.g. Implement Ctrl-A (select all),
+Windows and Nimbus LAF changes.
+    <LI>Changes Find function
+    <LI>New <B>FileWizard</B> for use when the file is not recognized.
+    <LI>Problem fixs
+  </UL>
+<P>
+<P><H4><A NAME="Header_106">Release 0.80.6</A></H4>
   <UL COMPACT>
     <LI>Option to Edit saved/exported File (if it is in a supported format: Xml, Csv, Fixed)
     <LI>Option to set the size of the screen when the program starts
@@ -2938,7 +3107,7 @@ The old Tab format is available as an Option (Edit Option&gt;&gt;&gt;&gt;Propert
     <LI>Fixed several issue's on the Layout screen.
   </UL>
 <P>
-<P><H4><A NAME="Header_92">Release 0.80.2</A></H4>
+<P><H4><A NAME="Header_107">Release 0.80.2</A></H4>
 <P>On the SaveAs/Export screen there is
 <UL COMPACT>
  <LI>Option to edit the output file (only if the recordEditor can work out the structure)
@@ -2947,7 +3116,7 @@ The old Tab format is available as an Option (Edit Option&gt;&gt;&gt;&gt;Propert
  <LI>Velocity / Xslt options now remember the extension last used with a particular Template
 </UL>
 <P>
-<P><H4><A NAME="Header_93">Release 0.80.1  Tree (including Xml)</A></H4>
+<P><H4><A NAME="Header_108">Release 0.80.1  Tree (including Xml)</A></H4>
 <UL COMPACT>
  <LI>General Changes
  <UL COMPACT>
@@ -2965,7 +3134,7 @@ The old Tab format is available as an Option (Edit Option&gt;&gt;&gt;&gt;Propert
     <LI>A child record can be used multiple times in a Group record
   </UL>
 </UL>
-<P><H4><A NAME="Header_94">Release 0.69.1</A></H4>
+<P><H4><A NAME="Header_109">Release 0.69.1</A></H4>
 <P>Minor release&#58;
 <UL COMPACT>
     <LI>New Field - Hide / Show function (right click &amp; edit menu).
@@ -2988,7 +3157,7 @@ The old Tab format is available as an Option (Edit Option&gt;&gt;&gt;&gt;Propert
     <LI>Added optional Error-File and error-limits to the online / batch copy utilities.
     <LI>Added new -il/-ol (input/output layout) and -ef (error file) options to the batch utility.
 </UL>
-<P><H4><A NAME="Header_95">Release 0.67</A></H4>
+<P><H4><A NAME="Header_110">Release 0.67</A></H4>
 <P>Minor release&#58;
 <UL COMPACT>
   <LI>Improved Cobol Support (in particalular Open Cobol), it is also easier to extend for other Cobols.
@@ -2996,7 +3165,7 @@ The old Tab format is available as an Option (Edit Option&gt;&gt;&gt;&gt;Propert
   <LI>Minor enhancements (e.g. Recent files option).
   <LI>Several Bug Fixes (e.g. Scaling large numbers; better message for Velocity).
 </UL>
-<P><H4><A NAME="Header_96">Release 0.65</A></H4>
+<P><H4><A NAME="Header_111">Release 0.65</A></H4>
 <P>Changes in this release are primarily a "Clean-up / Minor Enhansements".
 <UL COMPACT>
   <LI>File Compare Utility - This is a field based compare; fields can be ignored or
@@ -3009,7 +3178,7 @@ files from a Java Program.
   <LI>Can Save Filters, Sort Tree's and Record Tree's definitions and execute later.
   <LI>Can Summmarise fields in a Sort Tree.
 </UL>
-<P><H4><A NAME="Header_97">Release 0.62</A></H4>
+<P><H4><A NAME="Header_112">Release 0.62</A></H4>
 <P>This release contains new "Tree" views, Combo boxs etc, See
 <a href="Changes_062.htm">Changes version 0.62</a> for more details.
 <UL COMPACT>
@@ -3029,10 +3198,10 @@ files from a Java Program.
       <LI>Support for different line parsers
     </UL>
 </UL>
-<P><H4><A NAME="Header_98">Release 0.61.2</A></H4>
+<P><H4><A NAME="Header_113">Release 0.61.2</A></H4>
 <P>Cleanup / bug fix, + Enhanced Wizard and XML import functions. See
 <a href="Changes061b.htm">Changes version 0.61b</a> for more details.
-<P><H4><A NAME="Header_99">Release 0.61</A></H4>
+<P><H4><A NAME="Header_114">Release 0.61</A></H4>
 <P>Mainly Look and feel related. See
 <a href="Changes061.htm">Changes version 0.61</a> for more details.
 <UL COMPACT>
@@ -3044,7 +3213,7 @@ Selected View (Data drop down).
  <LI>Bug fixes (Date and CSV files).
 </UL>
 <P>
-<P><H4><A NAME="Header_100">Release 0.60</A></H4>
+<P><H4><A NAME="Header_115">Release 0.60</A></H4>
 <P>Mainly extra functions
 <UL COMPACT>
  <LI>Improved Search/Replace - new Search/Replace on all fields function.
@@ -3064,7 +3233,7 @@ Copybook Information.
  <LI>Extra extension options (in java).
 </UL>
 <P>
-<P><H4><A NAME="Header_101">Release 0.56</A></H4>
+<P><H4><A NAME="Header_116">Release 0.56</A></H4>
 <P>This version is mainly changes to the user Interface to improve ease use.
 Major changes are:
 <UL COMPACT>
@@ -3079,7 +3248,7 @@ the right click menu.
  <LI>Null padded / terminated Strings types added.
 </UL>
 <P>
-<P><H4><A NAME="Header_102">RecordEditor to Jasper</A></H4>
+<P><H4><A NAME="Header_117">RecordEditor to Jasper</A></H4>
 <P>The <a href=re2Jasper.htm TARGET="jasper">RecordEditor ~ Jasper Interface</a> has been released as a separate download. It requires
 <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> and <a href="http://ireport.sourceforge.net/" TARGET="iReports">iReports</a> be installed. This package&#58;
 <OL COMPACT TYPE=1>
@@ -3087,7 +3256,7 @@ the right click menu.
   <LI>Can design and generate reports from Fixed Field Width data files
 which includes Binary, Cobol and Mainframe/Cobol datafiles.
 </OL>
-<P><H4><A NAME="Header_103">Release 0.55</A></H4>
+<P><H4><A NAME="Header_118">Release 0.55</A></H4>
 <P>This version is primary a refactoring of the code with aims of&#58;
 <UL COMPACT>
  <LI>Making it easier to extend the editor
@@ -3119,7 +3288,7 @@ which includes Binary, Cobol and Mainframe/Cobol datafiles.
   </OL>
 </UL>
 <P>
-<P><H4><A NAME="Header_104">Release 0.53</A></H4>
+<P><H4><A NAME="Header_119">Release 0.53</A></H4>
 <P>Changes in this release
 <UL COMPACT>
  <LI>Filtered views of the Data. See <A HREF="#HDRFILTER">"Filter Screen"</A> for more details.
@@ -3135,7 +3304,7 @@ as either a Data file, a single HTML table or a HTML table per record.
  <LI>Code Refactoring and the odd bugs.
 </UL>
 <P>
-<P><H4><A NAME="Header_105">Release 0.52.1 (Linux)</A></H4>
+<P><H4><A NAME="Header_120">Release 0.52.1 (Linux)</A></H4>
 <P>This release basically is to support Linux. Mostly it consists of changes to
 documentation
 <UL COMPACT>
@@ -3146,7 +3315,7 @@ documentation
  <LI>Minor Bug fixes (i.e. better table cell exit handling).
 </UL>
 <P>
-<P><H4><A NAME="Header_106">Release 0.52 (Mainframe)</A></H4>
+<P><H4><A NAME="Header_121">Release 0.52 (Mainframe)</A></H4>
 <P>This change was to support Mainframe Binary files.
 <UL COMPACT>
  <LI>Support for editting native IBM Mainframe files (on a PC etc) using a Cobol Copybook
@@ -3160,18 +3329,18 @@ documentation
 </UL>
 <P>
 <P>
-<P><H4><A NAME="Header_107">Release 0.51</A></H4>
+<P><H4><A NAME="Header_122">Release 0.51</A></H4>
 <P>This version was to support Floating point numbers and bug fixes.
 <P>
 <P>
-<P><I><B><A NAME="Header_108">Release 0.50 Initial Release</A>:&nbsp;</B></I>&nbsp;
+<P><I><B><A NAME="Header_123">Release 0.50 Initial Release</A>:&nbsp;</B></I>&nbsp;
 The initial release of the <B>RecordEditor</B>
 <P>
 <P>
 <P>
 <P>
 <P>
-<HR><H1><A NAME="Header_109">Appendix J. Rexx</A></H1>
+<HR><H1><A NAME="Header_124">Appendix J. Rexx</A></H1>
 <P><B>Rexx</B> is a scripting language, which I use in preference Windows Bat files (or Unix Shell scripts).
 <P>I have converted the simpler Rexx programs to bat files but I have left the original Rexx programs
 in the system. I currently use the <B>Regina 3.3</B> interpreter.
@@ -3180,7 +3349,7 @@ in the system. I currently use the <B>Regina 3.3</B> interpreter.
 or Search IBM's sites for details on <B>Rexx</B>.
 <P>
 <P>
-<HR><H1><A NAME="Header_110">Appendix K. Related Systems / Useful Systems</A></H1>
+<HR><H1><A NAME="Header_125">Appendix K. Related Systems / Useful Systems</A></H1>
 <P>
 <P>The follow packages where used in the <B>RecordEditor</B>
 <UL COMPACT>

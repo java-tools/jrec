@@ -140,4 +140,13 @@ public class TypeCheckBoxYN implements Type, CellFormat {
     public int getFieldType() {
         return Type.NT_TEXT;
     }
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Types.Type#getDecimalChar()
+	 */
+	@Override
+	public char getDecimalChar() {
+		return '.';
+	}
 }

@@ -177,3 +177,65 @@ Cobol or Xml file description.
 .pict CsvEdit_CobolPreview.png
 
 .im iHT_B000_BigFiles.dcf
+
+
+
+:h2.Docking / Undocking
+:p.When you create a new view of a file, by default it is displayed as a tab on the parent screen.
+
+:h3.Screen Changes
+:p.By default the record editor will show child views as separate tags on the
+main screen:
+:p.
+.pict RecordEdit_MultiTab.png
+:p.
+:p.It is possible to have each view be created in a separate Screen (as it
+was prior to version 0.90) by selecting the :hp2.Create separate screens option:ehp2.
+below (note to reach this screen select :hp2.Edit &gt;&gt;&gt; Edit Options:ehp2.)
+:p.
+.pict EditProps_SeperateScreens.png
+:p.
+:p.You can dock / undock screens using the :hp2.widows:ehp2. or :hp2.right click:ehp2. menu's.
+:p.
+.pict RecordEdit_WindowDocking.png
+:p.
+:p.and
+:p.
+.pict RecordEdit_Docking_Menu.png
+:p.
+:p.The options are
+:dl.
+ :dt.Undock Tab     :dd.Move tab to a separate screen
+ :dt.Undock all tabs:dd.Move all tabs into separate screens
+ :dt.Dock Tab/screen:dd.Add the current screen as a tab onto the main screen
+ :dt.Dock related screens:dd.Combine all the screens for the current file as tabs on the one screen.
+ :dt.Show Child Record:dd.Create a "child record screen" that will display the currently selected record
+this is useful in multi-record files and files with a large number of fields.
+See :hdref refid=childscreen. for more details.
+ :dt.Remove Child Record:dd.Remove the child record from the list screen.
+:edl.
+:p.
+:h3 id=childscreen.Child Record Screen
+:p.Record List Screens can now have a "Child Record Screen" which displays the
+record selected in the List screen
+:p.
+.pict RecordEdit_ChildScreen.png
+
+:H2.Features to Learn about
+:p.This sections lists features you should learn to use
+:h3.Filters
+:p.The filter function is related to the find function. While the find will find
+records one at a time using simple search criteria; The filter finds multiple
+records using complicated criteria and displays the records as a new view 
+
+:tdef id=xlight shade='xlight'.
+:table cols='* 2* 2*'.
+:thd refid=xlight.:c.Description:c.Find:c.Filter
+:ethd.
+:row refid=none.:c.Search Criteria:c.Only one search criteria:c.Full boolean expressions using multiple field criteria can be entered.
+:row.:c.Output:c.Each record is displayed (one at a time).:c.All records are found and displayed in a new view.
+:etable.
+
+:p.For Example the following will search for records where name starts with M and pay-Rate > 10
+
+.pict CsvEd_Filter.png

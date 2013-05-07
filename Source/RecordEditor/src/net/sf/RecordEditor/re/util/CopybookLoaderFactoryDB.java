@@ -18,6 +18,7 @@ import net.sf.JRecord.External.CopybookLoaderFactory;
 import net.sf.JRecord.External.ExternalConversion;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
 import net.sf.JRecord.External.Def.AbstractConversion;
+import net.sf.JRecord.Types.TypeManager;
 import net.sf.RecordEditor.re.db.Table.TableList;
 import net.sf.RecordEditor.re.db.Table.TypeList;
 import net.sf.RecordEditor.re.jrecord.types.ReTypeManger;
@@ -70,7 +71,6 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
     */
    public CopybookLoaderFactoryDB() {
        this(NUMBER_OF_LOADERS);
-
    }
 
 
@@ -266,6 +266,14 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
 		return typeNames[id][typeMgr.getIndex(type)];
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.External.Def.AbstractConversion#isValid(int, int)
+	 */
+	@Override
+	public boolean isValid(int idx, int type) {
+		String s = getTypeAsString(idx, type);
+		return s != null && ! "".equals(s);
+	}
 
 	private static String toString(Object o) {
 		String ret = "";

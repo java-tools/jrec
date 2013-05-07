@@ -655,6 +655,18 @@ public final class Conversion {
      * @return trimmed string
      */
     public static final String numTrim(String s) {
+    	return numTrim(s, decimalChar);
+    }
+
+    /**
+     * Trims a number string of leading space's and zeros
+     *
+     * @param s string to be trimmed
+     * @param decimalCharacter decimal char to use
+     * @return trimmed string
+     */
+   public static final String numTrim(String s, char decimalCharacter) {
+
         int i = 0;
         int len;
         int ch;
@@ -681,13 +693,14 @@ public final class Conversion {
 
 
         if (i > 0) {
-            if (s.charAt(i) == decimalChar) {
+        	//System.out.println(" @@@ " + i + " " + s.charAt(i) + " " + decimalCharacter + " !" + s);
+            if (s.charAt(i) == decimalCharacter) {
                 i -= 1;
             }
             s = s.substring(i);
         }
 
-        if (decimalChar != ',' && (s.indexOf(",") > 0)) {
+        if (decimalCharacter != ',' && (s.indexOf(",") > 0)) {
         	StringBuffer b = new StringBuffer(s.length());
         	int e = s.length();
         	char chr;

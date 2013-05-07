@@ -26,14 +26,16 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
+import net.sf.RecordEditor.re.util.BuildTypeComboList;
 import net.sf.RecordEditor.re.util.csv.CsvSelectionTblMdl;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.AbsRowList;
 import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboItem;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboRendor;
 
 /**
  * 3rd and final wizard panel where the user enters field
@@ -61,8 +63,9 @@ public class Pnl4CsvNames extends WizardPanel {
     private JTable columnTbl = new JTable();
     private JTable fileTbl   = new JTable();
 
-	private BmKeyedComboBox typeCombo;
-	private DefaultCellEditor typeEditor;
+//	private BmKeyedComboBox typeCombo;
+	private TreeComboRendor typeRendor;
+	private TreeComboRendor typeEditor;
 
 
     private Details currentDetails;
@@ -78,6 +81,7 @@ public class Pnl4CsvNames extends WizardPanel {
     public Pnl4CsvNames(AbsRowList typeList, boolean alwayShowScreen) {
         super();
 
+        TreeComboItem[] typeCombolist = BuildTypeComboList.getList(typeList);
 		String formDescription
 		    = LangConversion.convertId(LangConversion.ST_MESSAGE, "FileWizard_4_csv",
 		    		"This screen will display the Column Details and allow you to change them. ");
@@ -89,9 +93,9 @@ public class Pnl4CsvNames extends WizardPanel {
 		columnTbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         fileTbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        typeCombo = new BmKeyedComboBox(typeList, false);
-	    typeEditor = new DefaultCellEditor(typeCombo);
-	    typeEditor.setClickCountToStart(1);
+        typeRendor =  BuildTypeComboList.getTreeComboRender(typeCombolist);
+	    typeEditor = BuildTypeComboList.getTreeComboRender(typeCombolist);
+	    //typeEditor.setClickCountToStart(1);
 
 		this.setHelpURL(Common.formatHelpURL(Common.HELP_WIZARD_PNL5));
 		this.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP3,
@@ -162,7 +166,7 @@ public class Pnl4CsvNames extends WizardPanel {
 
 	    tc = tcm.getColumn((ColumnDetails.TYPE_IDX - 1 ));
 	    tc.setPreferredWidth(TYPE_WIDTH);
-	    tc.setCellRenderer(typeCombo.getTableCellRenderer());
+	    tc.setCellRenderer(typeRendor);
 	    tc.setCellEditor(typeEditor);
 
 	    tc = tcm.getColumn((ColumnDetails.INCLUDE_IDX - COL_ADJUST_AMOUNT));

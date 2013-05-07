@@ -30,6 +30,8 @@ public interface Convert {
     public static final int FMT_OPEN_COBOL_MVS_BE = 10;
     public static final int FMT_OC_MICRO_FOCUS_BE = 11;
     public static final int FMT_MICRO_FOCUS = 21;
+    public static final int FMT_MAINFRAME_COMMA_DECIMAL  = 31;
+    public static final int FMT_FUJITSU_COMMA_DECIMAL  = 32;
 
     /**
      * Get the Binary Definition details
@@ -48,7 +50,7 @@ public interface Convert {
      * @param signed - wether it is a signed field
      * @return Jrecord Type Code
      */
-    public abstract int getTypeIdentifier(String usage, String picture, boolean signed);
+    public abstract int getTypeIdentifier(String usage, String picture, boolean signed, boolean signSeperate, String signPosition);
 
     /**
      * Get the conversion Identifier

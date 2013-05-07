@@ -57,6 +57,9 @@ public final class UpgradeDB {
 	private static String VERSION_801 = "0080001";
 	private static String VERSION_90  = "0090000";
 	private static String VERSION_93  = "0093000";
+	private static String VERSION_931 = "0093100";
+	private static String VERSION_932 = "0093200";
+	private static String VERSION_94  = "0094000";
 	//private static String LATEST_VERSION = VERSION_670;
 	private static String VERSION_KEY  = "-101";
 
@@ -347,7 +350,15 @@ public final class UpgradeDB {
         			     + Type.ftBinaryBigEndianPositive  + ","
         			     + Type.ftAssumedDecimalPositive + ","
                 		 + Type.ftPackedDecimalPostive + ","
-                		 +  Type.ftBinaryIntPositive
+                		 + Type.ftBinaryIntPositive + ","
+                		 + Type.ftNumZeroPaddedPN + ","
+                		 + Type.ftNumZeroPaddedPositive + ","
+                		 + Type.ftNumCommaDecimal + ","
+                		 + Type.ftNumCommaDecimalPN + ","
+                		 + Type.ftNumCommaDecimalPositive + ","
+                		 + Type.ftNumRightJustifiedPN + ","
+                		 + Type.ftNumRightJustCommaDp + ","
+                		 + Type.ftNumRightJustCommaDpPN
         			     + ")",
 
      //      	insertSQL + "(1," + Type.ftCharRestOfFixedRecord + ",'Char Rest of Fixed Length');",
@@ -355,9 +366,42 @@ public final class UpgradeDB {
            	insertSQL + "(1," + Type.ftAssumedDecimalPositive + ",'Num Assumed Decimal (+ve)');",
           	insertSQL + "(1," + Type.ftPackedDecimalPostive + ",'Mainframe Packed Decimal (+ve)');",
            	insertSQL + "(1," + Type.ftBinaryIntPositive + ",'Binary Integer (only +ve)');",
+
+     //      	insertSQL + "(1," + Type.ftCharRestOfFixedRecord + ",'Char Rest of Fixed Length');",
+          	insertSQL + "(1," + Type.ftNumZeroPaddedPN + ",'Zero Padded Number with sign=+/-');",
+           	insertSQL + "(1," + Type.ftNumZeroPaddedPositive + ",'Positive Zero Padded Number');",
+          	insertSQL + "(1," + Type.ftNumCommaDecimal + ",'Zero Padded Number decimal=\",\"');",
+           	insertSQL + "(1," + Type.ftNumCommaDecimalPN + ",'Zero Padded Number decimal=\",\" sign=+/-');",
+           	insertSQL + "(1," + Type.ftNumCommaDecimalPositive + ",'Zero Padded Number decimal=\",\" (only +ve)');",
+
+           	insertSQL + "(1," + Type.ftNumRightJustifiedPN + ",'Num (Right Justified space padded) +/- sign');",
+           	insertSQL + "(1," + Type.ftNumRightJustCommaDp + ",'Num (Right Just space padded, \",\" Decimal)');",
+           	insertSQL + "(1," + Type.ftNumRightJustCommaDpPN + ",'Num (Right Just space padded, \",\" Decimal) +/- sig');",
+
     };
 
 
+    private String[] sql94 = {
+    		"Drop Table TBL_RF1_RECORDFIELDS",
+
+    		"CREATE TABLE TBL_RF1_RECORDFIELDS ("
+    				 + "    RECORDID            INTEGER,"
+    				 + "    SUB_KEY             integer,"
+    				 + "    FIELD_POS           integer,"
+    				 + "    FIELD_LENGTH        integer,"
+    				 + "    FIELD_NAME          varchar(120),"
+    				 + "    FIELD_DESCRIPTION   varchar(350),"
+    				 + "    FIELD_TYPE          integer,"
+    				 + "    DECIMAL_POS         smallint,"
+    				 + "    DEFAULT_VALUE       varchar(120),"
+    				 + "    COBOL_NAME          varchar(30),"
+    				 + "    FORMAT_DESCRIPTION  varchar(250),"
+    				 + "    Cell_Format         integer,"
+    				 + "    Field_Parameter     varchar(120)"
+    				 + "  )",
+
+    		"CREATE UNIQUE INDEX TBL_RF1_RECORDFIELDS_PK ON TBL_RF1_RECORDFIELDS(RECORDID, SUB_KEY) ",
+    };
 
     private String fileWizardXmlLayout = "<?xml version=\"1.0\" ?>\n"
     		+ "<RECORD RECORDNAME=\"FileWizard\" COPYBOOK=\"\" DELIMITER=\"&lt;Tab&gt;\" FILESTRUCTURE=\"FILE_WIZARD\" STYLE=\"0\" RECORDTYPE=\"RecordLayout\" LIST=\"Y\" QUOTE=\"\" RecSep=\"default\" LINE_NO_FIELD_NAMES=\"1\">\n"
@@ -647,12 +691,83 @@ public final class UpgradeDB {
        		genericUpgrade(dbIdx, sql93, null);
 
 
- 			upgradeVersion((new ReConnection(dbIdx)).getConnection(), dbIdx, VERSION_93);
-	        Common.logMsgRaw(AbsSSLogger.SHOW, DATABASE_UPGRADED + VERSION_93, null);
+ 			upgradeVersion((new ReConnection(dbIdx)).getConnection(), dbIdx, VERSION_932);
+	        Common.logMsgRaw(AbsSSLogger.SHOW, DATABASE_UPGRADED + VERSION_932, null);
     	} catch (Exception e) {
 			Common.logMsg("Error updating version flag", e);
 		}
+   }
+
+
+    public void upgrade94(int dbIdx) {
+        genericUpgrade(dbIdx, sql94, null);
+
+        String sSQL = " Select  RECORDID, SUBKEY, FIELDPOS, FIELDLENGTH, FIELDNAME, DESCRIPTION,  "
+        			+         " FIELDTYPE, DECIMALPOS, DEFAULTVALUE, COBOLNAME, FORMATDESCRIPTION, "
+        			+         " Cell_Format, Parameter "
+                    + "  from TBL_RF_RECORDFIELDS "
+        		    + " Order by RecordId, SUBKEY";
+        String insertSQL = "Insert Into  TBL_RF1_RECORDFIELDS  ("
+                 + "    RECORDID"
+				 + " ,  SUB_KEY"
+				 + " ,  FIELD_POS"
+				 + " ,  FIELD_LENGTH"
+				 + " ,  FIELD_NAME"
+				 + " ,  FIELD_DESCRIPTION"
+				 + " ,  FIELD_TYPE"
+				 + " ,  DECIMAL_POS"
+				 + " ,  DEFAULT_VALUE"
+				 + " ,  COBOL_NAME"
+				 + " ,  FORMAT_DESCRIPTION"
+				 + " ,  Cell_Format"
+				 + " ,  Field_Parameter"
+				 + ") Values ("
+				 +    "     ?   , ?   , ?   , ?   , ?, ?, ?, ?, ?, ?, ?, ?, ?"
+                 + ")";
+
+
+        int count = 0;
+        int idx;
+        try {
+        	Connection connect = Common.getUpdateConnection(dbIdx);
+			ResultSet resultset = connect.createStatement().executeQuery(sSQL);
+			PreparedStatement insertStatement = connect.prepareStatement(insertSQL);
+
+			while (resultset.next()) {
+
+				idx = 1;
+			    insertStatement.setInt(idx, resultset.getInt(idx++));
+			    insertStatement.setInt(idx, resultset.getInt(idx++));
+			    insertStatement.setInt(idx, resultset.getInt(idx++));
+			    insertStatement.setInt(idx, resultset.getInt(idx++));
+			    insertStatement.setString(idx, resultset.getString(idx++));
+			    insertStatement.setString(idx, resultset.getString(idx++));
+			    insertStatement.setInt(idx, resultset.getInt(idx++));
+			    insertStatement.setInt(idx, resultset.getInt(idx++));
+			    insertStatement.setString(idx, resultset.getString(idx++));
+			    insertStatement.setString(idx, resultset.getString(idx++));
+			    insertStatement.setString(idx, resultset.getString(idx++));
+			    insertStatement.setInt(idx, resultset.getInt(idx++));
+			    insertStatement.setString(idx, resultset.getString(idx++));
+
+			    insertStatement.executeUpdate();
+			    count += 1;
+			}
+			Common.logMsgRaw(AbsSSLogger.SHOW, DATABASE_UPGRADED + VERSION_94 + " , Fields copied " + count, null);
+
+			insertStatement.close();
+
+			upgradeVersion((new ReConnection(dbIdx)).getConnection(), dbIdx, VERSION_94);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			Common.logMsg("Database upgrade failed !!!", null);
+		} finally {
+			Common.freeConnection(dbIdx);
+		}
     }
+
+
+
    public void deleteExamples(int dbIdx) {
     	String[] tbls = { "TBL_RFS_FIELDSELECTION", "TBL_RF_RECORDFIELDS", "TBL_RS2_SUBRECORDS", "TBL_R_RECORDS" };
     	String sql = "";
@@ -876,16 +991,24 @@ public final class UpgradeDB {
     			if (version != null) {
     				version = version.trim();
     			}
+    			UpgradeDB db = (new UpgradeDB());
     			if (VERSION_692B.equals(version)) {
-    				(new UpgradeDB()).upgrade71(dbIndex);
+    				db.upgrade71(dbIndex);
+       				db.upgrade94(dbIndex);
     			} else if (VERSION_700.equals(version)) {
-    				(new UpgradeDB()).upgrade80(dbIndex, "Tbl_RS1_SubRecords");
+    				db.upgrade80(dbIndex, "Tbl_RS1_SubRecords");
+       				db.upgrade94(dbIndex);
     			} else if (VERSION_800.equals(version)) {
-    				(new UpgradeDB()).addFileWizardReader(dbIndex);
+    				db.addFileWizardReader(dbIndex);
+       				db.upgrade94(dbIndex);
     			} else if (VERSION_801.equals(version)) {
-    				(new UpgradeDB()).upgrade90(dbIndex);
-       			} else if (VERSION_90.equals(version)) {
-    				(new UpgradeDB()).upgrade93(dbIndex);
+    				db.upgrade90(dbIndex);
+       				db.upgrade94(dbIndex);
+       			} else if (VERSION_90.equals(version) || VERSION_93.equals(version) || VERSION_931.equals(version)) {
+       				db.upgrade93(dbIndex);
+       				db.upgrade94(dbIndex);
+       			} else if (VERSION_932.equals(version)) {
+       				db.upgrade94(dbIndex);
     			}
 
     			//System.out.print("Already " + LATEST_VERSION);

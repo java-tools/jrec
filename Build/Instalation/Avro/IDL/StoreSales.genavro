@@ -1,0 +1,26 @@
+/**
+ *  Sales File
+ */
+@namespace("net.sf.RecordEditor.avro.Test.Sales2")
+
+protocol sales3 {
+
+  record Product {
+    int keycode;
+    int saleDate;
+    int quantity;
+    long price;
+  } 
+
+  record Deptartment {
+    int department;
+    string name;
+    array<Product> product;
+  }
+
+  record Store {
+    int store ;
+    string name ;
+    array<Deptartment> department;
+  }
+}

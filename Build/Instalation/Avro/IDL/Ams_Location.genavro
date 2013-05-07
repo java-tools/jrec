@@ -1,0 +1,23 @@
+/**
+ *  Location file
+ */
+@namespace("net.sf.RecordEditor.avro.Test.ams")
+
+protocol locationProtocol {
+
+  record Locations {   
+     string Brand_Id;
+     string Loc_Nbr;
+     string Loc_Type;
+     string Loc_Name;
+     string Loc_Addr_Ln1;
+     string Loc_Addr_Ln2;
+     string Loc_Addr_Ln3;
+     string Loc_Postcode;
+     string Loc_State;
+     string Loc_Actv_Ind;
+  }
+}
+
+
+

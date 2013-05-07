@@ -9,8 +9,8 @@
 <h1>${recordLayout.getRecordName()}</h1>
 <p>${recordLayout.getDescription()}</p>
 
-#if ($recCount >= 0)
-  #parse ("LayoutRecordSelectionInc.vm")
+#if ($recCount >= 0) 
+  #parse ("./LayoutRecordSelectionInc.vm")
 
   #foreach( $j in [0 .. ${recCount}])
      #set ($rec =  ${recordLayout.getRecord($j)})

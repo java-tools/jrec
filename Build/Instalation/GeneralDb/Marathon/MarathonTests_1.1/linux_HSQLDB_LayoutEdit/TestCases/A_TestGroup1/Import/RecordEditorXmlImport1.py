@@ -59,13 +59,29 @@ def test():
 		assert_p('RecordFieldsJTbl', 'Text', 'Pack Cost', '' + commonBits.fl('FieldName') + ',2')
 		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldType') + ',1(8)')
 ##		assert_p('RecordFieldsJTbl', 'Text', '8', '' + commonBits.fl('FieldType') + ',1')
-		assert_p('RecordFieldsJTbl', 'Text', commonBits.fl('Num Assumed Decimal (Zero padded)'), '' + commonBits.fl('FieldType') + ',1')
+##		assert_p('RecordFieldsJTbl', 'Text', commonBits.fl('Num Assumed Decimal (Zero padded)'), '' + commonBits.fl('FieldType') + ',1')
+
+		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldType') + ',1(7)')
+		assert_p('TextField8', 'Text', commonBits.fl('Num Assumed Decimal (Zero padded)'))
+
+
+
+
 		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldType') + ',0(0)')
 ##		assert_p('RecordFieldsJTbl', 'Text', '0', '' + commonBits.fl('FieldType') + ',4')
-		assert_p('RecordFieldsJTbl', 'Text', commonBits.fl('Char'), '' + commonBits.fl('FieldType') + ',4')
+##		assert_p('RecordFieldsJTbl', 'Text', commonBits.fl('Char'), '' + commonBits.fl('FieldType') + ',4')
+
+		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldType') + ',4(7)')
+		assert_p('TextField8', 'Text', commonBits.fl('Char'))
+
 		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldType') + ',3(7)')
 ##		assert_p('RecordFieldsJTbl', 'Text', '0', '' + commonBits.fl('FieldType') + ',4')
-		assert_p('RecordFieldsJTbl', 'Text', commonBits.fl('Char'), '' + commonBits.fl('FieldType') + ',4')
+##		assert_p('RecordFieldsJTbl', 'Text', commonBits.fl('Char'), '' + commonBits.fl('FieldType') + ',4')
+
+		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldType') + ',4(7)')
+		assert_p('TextField8', 'Text', commonBits.fl('Char'))
+
+
 		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldName') + ',8(Product Name)')
 		assert_p('RecordFieldsJTbl', 'Text', 'Product Name', '' + commonBits.fl('FieldName') + ',8')
 		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldName') + ',8(Product Name)')
@@ -93,10 +109,20 @@ def test():
 		assert_p('RecordFieldsJTbl', 'Text', 'Department', '' + commonBits.fl('FieldName') + ',8')
 		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldType') + ',1(8)')
 ##		assert_p('RecordFieldsJTbl', 'Text', '8', '' + commonBits.fl('FieldType') + ',1')
-		assert_p('RecordFieldsJTbl', 'Text', commonBits.fl('Num Assumed Decimal (Zero padded)'), commonBits.fl('FieldType') + ',3')
+##		assert_p('RecordFieldsJTbl', 'Text', commonBits.fl('Num Assumed Decimal (Zero padded)'), commonBits.fl('FieldType') + ',3')
+
+		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldType') + ',3(7)')
+		assert_p('TextField8', 'Text', commonBits.fl('Num Assumed Decimal (Zero padded)'))
+
+
 		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldType') + ',3(8)')
 ##		assert_p('RecordFieldsJTbl', 'Text', '8', '' + commonBits.fl('FieldType') + ',3')
-		assert_p('RecordFieldsJTbl', 'Text', commonBits.fl('Num Assumed Decimal (Zero padded)'), '' + commonBits.fl('FieldType') + ',3')
+##		assert_p('RecordFieldsJTbl', 'Text', commonBits.fl('Num Assumed Decimal (Zero padded)'), '' + commonBits.fl('FieldType') + ',3')
+
+		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldType') + ',3(7)')
+		assert_p('TextField8', 'Text', commonBits.fl('Num Assumed Decimal (Zero padded)'))
+
+
 		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldType') + ',3(8)')
 		select('TextField', 'yyAms PO Download: A%')
 		select('TextField1', '%')
@@ -115,8 +141,10 @@ def test():
 		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldType') + ',2(7)')
 		##assert_p('RecordFieldsJTbl', 'Text', '7', '' + commonBits.fl('FieldType') + ',4')
 
-		assert_p('RecordFieldsJTbl', 'Text', commonBits.fl('Num (Right Justified zero padded)'), '' + commonBits.fl('FieldType') + ',4')
+##		assert_p('RecordFieldsJTbl', 'Text', commonBits.fl('Num (Right Justified zero padded)'), '' + commonBits.fl('FieldType') + ',4')
 
+		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldType') + ',4(7)')
+		assert_p('TextField8', 'Text', commonBits.fl('Num (Right Justified zero padded)'))
 
 
 

@@ -273,9 +273,12 @@ public class GenericNumericDefinition implements NumericDefinition, Convert {
 	}
 
 	@Override
-	public int getTypeIdentifier(String usage, String picture, boolean signed) {
+	public int getTypeIdentifier(String usage, String picture, boolean signed,
+			boolean signSeperate, String signPosition) {
 		int code = getBinCode(usage);
 		int ret = 0;
+
+		picture = picture.toUpperCase();
 		if (code >= 0) {
 			ret = getTypeCode(code, ! signed);
 		} else if (picture.indexOf('Z') >= 0
@@ -283,6 +286,8 @@ public class GenericNumericDefinition implements NumericDefinition, Convert {
                ||  picture.indexOf('+') >= 0
                ||  picture.indexOf('.') >= 0) {
         	ret = Type.ftNumRightJustified;
+        } else {
+        	ret = CommonCode.commonTypeChecks(binId, usage, picture, signed, signSeperate, signPosition);
         }
 
 		return ret;

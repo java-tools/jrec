@@ -5,8 +5,8 @@ SetCompressor /SOLID lzma
 SetCompressionLevel 9
 
 !define PRODUCT_NAME "RecordEdit"
-!define PRODUCT_VERSION "0.88"                                                                                
-!define PRODUCT_PUBLISHER "Bruce Martin"                                                                          
+!define PRODUCT_VERSION "0.95"                                                                                  
+!define PRODUCT_PUBLISHER "Bruce Martin"                                                           
 !define PRODUCT_WEB_SITE "http://record-editor.sf.net"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
@@ -51,7 +51,7 @@ var ICONS_GROUP
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-<OutFile default="RecordEdit_Installer_for_MSAccess_0.88.exe">
+<OutFile default="RecordEdit_Installer_for_MSAccess_0.95.exe">
 InstallDir "$PROGRAMFILES\RecordEdit\MSaccess"
 ShowInstDetails show
 ShowUnInstDetails show
@@ -93,18 +93,22 @@ Section "MainSection" SEC01
   <expand overwrite=try outpath="$INSTDIR\lib" inpath="..\Instalation\GeneralDB\lib" name="run*.jar" name2="*Jars.txt"/>
   ;<expand overwrite=try outpath="$INSTDIR\lib" inpath="..\lib" name="run*.jar" name1="JRecord.jar" 
   ;			name2="ZCalendar.jar" name3="RecordEdit.jar" name4="LayoutEdit.jar" name5="cb2xml.jar" name6="StAX.jar"/>
-  <expand  inpath="..\Instalation\GeneralDB\lib" name="icons*.zip" name1="*.ico"/>
-  <expand  inpath="..\Instalation\MsAccess\lib\" name="properties.zip" name1"*.txt"/>
-  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="*Edit.pack" name1="cb2xm*.pack" name4="chardet.pack"  name5="ZCalendar.pack"/>
-  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="j*.pack" name1="JRecord.propertie*"  name2="RunUnpack.exe" name3="velocity-1.7*.pack"  name4="runCobolBatchLoad.bat"/>
-  <psc proc="unix">
-    <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="JRecord.pack">
-  </psc>
+  <expand  inpath="..\Instalation\GeneralDB\lib" name="icons*.zip" name1="*.ico" />
+  <expand  inpath="..\Instalation\MsAccess\lib\" name="properties.zip" name1="*.txt" />
+  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="RecordEditor_TipOfTheDay.properties" name1="LayoutEditor_TipOfTheDay.properties"/>
+  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="*Edit.pack" name1="cb2xml.pack" name2="pict.zip" name4="chardet.pack"  name5="ZCalendar.pack"/>
+  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="jlibdiff.pack"  name1="JRecord.propertie*" name2="RunUnpack.exe" name3="velocity-1.7*.pack" name4="runCobolBatchLoad.bat"/>
+  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="JRecord.pack" name1="jibx-run.pack" name2="PoEditor_re.pack" name3="swingx-subset-1.6.4.pack">
   File "NsisUnpack.jar"
   
   exec '"$JAVA_RUN1" -jar "$INSTDIR\lib\NsisUnpack.jar" $INSTDIR\lib'
+
+ 
+  <expand overwrite="try" outpath="$INSTDIR\lang" name="*.html" name1="*.po"  name2="msgfmt*.*" inpath="..\Instalation\GeneralDB\lang">
+  <expand overwrite="try" outpath="$INSTDIR\lang\Sample"  name="*.po"               inpath="..\Instalation\GeneralDB\lang\Sample">
+  <expand overwrite="try" outpath="$INSTDIR\lang\Diagram" name="*.png"              inpath="..\Instalation\GeneralDB\lang\Diagram">
   
-  <expand overwrite="try" outpath="$INSTDIR\Docs" inpath="..\Instalation\MSaccess\Docs" name="a*.htm" name1="RecordEdit.htm" name2="reaMan*.htm"/>
+  <expand overwrite="try" outpath="$INSTDIR\Docs" inpath="..\Instalation\MSaccess\Docs" name="a*.htm" name1="RecordEdit.htm" name2="reaMan*.htm" name3="Documents.htm"/>
   <expand inpath="..\Instalation\GeneralDB\Docs\" name="Hlp*.htm" name1="CobolEditor.htm" name2="Ex*.htm" name3="syntax.css" name4="HowTo.htm"/>
   <expand inpath="..\Instalation\GeneralDB\Docs\" name="diff1.html" name1="Copy.htm"/>
   <expand outpath="$INSTDIR\Docs\jsTree" inpath="..\Instalation\GeneralDB\Docs\JSTREE\" name="*.gif" name1="*.css" name2="*.js" />
@@ -124,19 +128,22 @@ Section "MainSection" SEC01
   <expand overwrite=try inpath="..\SampleFiles" name="*.txt" name1="*.bin" name2="xmlModDTAR020.bin.xml" DateCheck=yes/>
   <expand overwrite=try inpath="..\SampleFiles" name="*.csv"   DateCheck=yes/>    
   <expand overwrite=try outpath="$PROFILE\RecordEditor_MSaccess\SampleFiles\Xml" inpath="..\Instalation\GeneralDB\SampleFiles\Xml" name="*.xml" DateCheck=yes/>  
-                      
+  <expand overwrite=try outpath="$PROFILE\RecordEditor_MSaccess\SampleFiles\po"  inpath="..\Instalation\GeneralDB\SampleFiles\po"  name="*.*"/>  
+                     
   <expand overwrite=try outpath="$PROFILE\RecordEditor_MSaccess" inpath="..\Instalation\MSaccess\Properties" 
   		name="Params.Properties" name1="*Files.txt" name2="Properties.zip" name3="UserJars.txt"/>  
 	
   <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\Copy"          inpath="..\Instalation\GeneralDB\User\Copy"         name="*.xml" />  
   <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\Compare"       inpath="..\Instalation\GeneralDB\User\Compare"      name="*.xml" />  
   <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\Filter"        inpath="..\Instalation\GeneralDB\User\Filter"       name="*.xml" />  
+  <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\Fields"        inpath="..\Instalation\GeneralDB\User\Fields"       name="*.xml" />  
   <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\LayoutExport"  inpath="..\Instalation\GeneralDB\User\LayoutExport" name="*.xml" />  
   <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\RecordTree"    inpath="..\Instalation\GeneralDB\User\RecordTree"   name="*.xml" />  
   <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\SortTree"      inpath="..\Instalation\GeneralDB\User\SortTree"     name="*.xml" />  
   <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\Xslt"          inpath="..\Instalation\GeneralDB\User\Xslt"         name="*.xsl" />  
   <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\ExportScripts" inpath="..\Instalation\GeneralDB\User\ExportScripts"  name="*.*" />  
   <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\Scripts"       inpath="..\Instalation\GeneralDB\User\Scripts"        name="*.*" />  
+  <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\Icons"         inpath="..\Instalation\GeneralDB\User\Icons"         name="*.*" />  
 
   SetOverwrite off
   SetOutPath "$PROFILE\RecordEditor_MSaccess"
@@ -210,21 +217,34 @@ Section -AdditionalIcons
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP"
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP\Utils"
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP\Documentation"
-  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Full Editor.lnk" "$JAVA_RUN"  "-jar $\"$INSTDIR\${RECORDEDIT_JAR}$\"" "$INSTDIR\lib\RecordEdit.ico"
-  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Record Layout Edit.lnk" "$JAVA_RUN"  "-jar $\"$INSTDIR\lib\runLayouteditor.jar$\"" "$INSTDIR\lib\LayoutEdit.ico"
+  
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Full Editor.lnk" "$JAVA_RUN"  "-jar $\"$INSTDIR\${RECORDEDIT_JAR}$\"" "$PROFILE\RecordEditor_MSaccess\User\Icons\RecordEdit.ico"
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Record Layout Edit.lnk" "$JAVA_RUN"  "-jar $\"$INSTDIR\lib\runLayouteditor.jar$\"" "$PROFILE\RecordEditor_MSaccess\User\Icons\LayoutEdit.ico"
+  
+;  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Full Editor.lnk" "$JAVA_RUN"  "-jar $\"$INSTDIR\${RECORDEDIT_JAR}$\"" "$INSTDIR\lib\RecordEdit.ico"
+;  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Record Layout Edit.lnk" "$JAVA_RUN"  "-jar $\"$INSTDIR\lib\runLayouteditor.jar$\"" "$INSTDIR\lib\LayoutEdit.ico"
 ;  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Documentation\Record Editor Manual.lnk" "$INSTDIR\Docs\aRecordEdit.htm"
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Documentation\Examples.lnk" "$INSTDIR\Docs\ExampleFR.htm"
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Documentation\HowTo.lnk" "$INSTDIR\Docs\HowTo.htm"
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Documentation\FileCopy.lnk" "$INSTDIR\Docs\Copy.htm"
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Documentation\FileCompare.lnk" "$INSTDIR\Docs\diff1.html"
-  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\Editor Big Files.lnk" "$INSTDIR\lib\EditBigFile.Bat"  "" "$INSTDIR\lib\RecordEdit.ico"
+;  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\Editor Big Files.lnk" "$INSTDIR\lib\EditBigFile.Bat"  "" "$INSTDIR\lib\RecordEdit.ico"
+;  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\Edit RecordEditor Startup Properties.lnk" "$JAVA_RUN" "-jar $\"$INSTDIR\lib\run.jar$\" net.sf.RecordEditor.editProperties.EditOptions"
+;  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\Run with Velocity.lnk" "$JAVA_RUN" "-jar $\"$INSTDIR\lib\run.jar$\" net.sf.RecordEditor.edit.util.RunVelocityGui"
+;  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\CobolEditor.lnk" "$JAVA_RUN" "-jar $\"$INSTDIR\lib\run.jar$\" net.sf.RecordEditor.edit.EditFileLayout"
+;  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\CobolEditor Documentation.lnk" "$INSTDIR\Docs\CobolEditor.htm"
+;  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\FileCompare.lnk" "$JAVA_RUN" "-jar $\"$INSTDIR\lib\run.jar$\" net.sf.RecordEditor.diff.CompareDBLayout"  "$INSTDIR\lib\Utility.ico"
+;  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\FileCopy.lnk" "$JAVA_RUN" "-jar $\"$INSTDIR\lib\run.jar$\" net.sf.RecordEditor.copy.CopyDBLayout"  "$INSTDIR\lib\Utility.ico"
+
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\Editor Big Files.lnk" "$INSTDIR\lib\EditBigFile.Bat"  "" "$PROFILE\RecordEditor_MSaccess\User\Icons\RecordEdit.ico"
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\Edit RecordEditor Startup Properties.lnk" "$JAVA_RUN" "-jar $\"$INSTDIR\lib\run.jar$\" net.sf.RecordEditor.editProperties.EditOptions"
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\Run with Velocity.lnk" "$JAVA_RUN" "-jar $\"$INSTDIR\lib\run.jar$\" net.sf.RecordEditor.edit.util.RunVelocityGui"
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\CobolEditor.lnk" "$JAVA_RUN" "-jar $\"$INSTDIR\lib\run.jar$\" net.sf.RecordEditor.edit.EditFileLayout"
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\CobolEditor Documentation.lnk" "$INSTDIR\Docs\CobolEditor.htm"
-  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\FileCompare.lnk" "$JAVA_RUN" "-jar $\"$INSTDIR\lib\run.jar$\" net.sf.RecordEditor.diff.CompareDBLayout"  "$INSTDIR\lib\Utility.ico"
-  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\FileCopy.lnk" "$JAVA_RUN" "-jar $\"$INSTDIR\lib\run.jar$\" net.sf.RecordEditor.copy.CopyDBLayout"  "$INSTDIR\lib\Utility.ico"
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\FileCompare.lnk" "$JAVA_RUN" "-jar $\"$INSTDIR\lib\run.jar$\" net.sf.RecordEditor.diff.CompareDBLayout"  "$PROFILE\RecordEditor_MSaccess\User\Icons\Utility.ico"
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\FileCopy.lnk" "$JAVA_RUN" "-jar $\"$INSTDIR\lib\run.jar$\" net.sf.RecordEditor.copy.CopyDBLayout"  "$PROFILE\RecordEditor_MSaccess\User\Icons\Utility.ico"
+
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\Uninstall.lnk" "$INSTDIR\uninst.exe"
   !insertmacro MUI_STARTMENU_WRITE_END
 SectionEnd
@@ -301,6 +321,8 @@ Section Uninstall
   Delete "$INSTDIR\lib\JRecord.jar"
   Delete "$INSTDIR\lib\velocity-1.7.jar"
   Delete "$INSTDIR\lib\velocity-1.7-dep.jar"
+  Delete "$INSTDIR\lib\PoEditor_re.jar"
+  Delete "$INSTDIR\lib\swingx-subset-1.6.4.jar"
 
   Delete "$INSTDIR\lib\ZCalendar.jar"
   Delete "$INSTDIR\lib\RecordEdit.jar"
@@ -357,6 +379,10 @@ Section Uninstall
   RMDir "$INSTDIR\src"
   RMDir "$INSTDIR\lib\net"
   RMDir "$INSTDIR\lib"
+  RMDir "$INSTDIR\lang\Sample"
+  RMDir "$INSTDIR\lang\Diagram"
+  RMDir "$INSTDIR\lang"
+  
   RMDir "$INSTDIR\Docs\jsTree"
   RMDir "$INSTDIR\Docs\Diagram"
   RMDir "$INSTDIR\Docs"

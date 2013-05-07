@@ -277,6 +277,8 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 			this.setGap(GAP1);
 			this.addMessage(message);
 			this.setHeight(HEIGHT_1P4);
+		} else {
+			super.setMessage(message);
 		}
 
 		popup = new MenuPopupListener();

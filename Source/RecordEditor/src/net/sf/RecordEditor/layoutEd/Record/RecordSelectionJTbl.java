@@ -100,7 +100,7 @@ public class RecordSelectionJTbl extends AbsJTable {
     	  }
       }
       db.setConnection(new ReConnection(dbIdx));
-      db.setOrderBy(" Order By FieldName");
+      db.setOrderBy(" Order By Field_Name");
       db.resetSearch();
       db.setParams(parent.getChildRecordId());
       db.open();

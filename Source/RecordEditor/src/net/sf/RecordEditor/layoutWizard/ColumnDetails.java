@@ -12,6 +12,7 @@
 package net.sf.RecordEditor.layoutWizard;
 
 import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboItem;
 
 /**
  * Column details record
@@ -102,8 +103,10 @@ public class ColumnDetails {
         if (o != null) {
         	if (o instanceof Integer) {
         		i = ((Integer) o).intValue();
+        	} else if (o instanceof TreeComboItem){
+        		i = ((TreeComboItem) o).key;
         	} else {
-        		i = Integer.parseInt(o.toString());
+       		i = Integer.parseInt(o.toString());
         	}
         }
         return i;

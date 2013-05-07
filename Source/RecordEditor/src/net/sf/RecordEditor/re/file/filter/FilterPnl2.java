@@ -131,7 +131,6 @@ implements ActionListener, ISaveDetails<EditorTask> {
 //    private JButton showHideFieldBtn     = new JButton(showFldBtnText);
 
     private FilterDetails filter;
-    @SuppressWarnings("rawtypes")
 	private AbstractLayoutDetails recordLayout;
 
     private final SaveLoadPnl<EditorTask> savePnl;
@@ -185,7 +184,7 @@ implements ActionListener, ISaveDetails<EditorTask> {
      * @param fileTbl file to be filtered
      */
     public FilterPnl2(
-    		@SuppressWarnings("rawtypes") final AbstractLayoutDetails layout, int filterType,
+    		final AbstractLayoutDetails layout, int filterType,
     		IUpdateDetails<EditorTask> updPnl) {
     	super();
 
@@ -196,7 +195,7 @@ implements ActionListener, ISaveDetails<EditorTask> {
     	setRecordLayout(layout, 0, filterType);
     }
 
-    @SuppressWarnings("rawtypes")
+
 	public final void setRecordLayout(final AbstractLayoutDetails layout,
     		 int heightOverhead, int filterType) {
     	recordLayout = layout;
@@ -360,7 +359,6 @@ implements ActionListener, ISaveDetails<EditorTask> {
     /**
 	 * @return the recordLayout
 	 */
-	@SuppressWarnings("rawtypes")
 	public final AbstractLayoutDetails getRecordLayout() {
 		return recordLayout;
 	}

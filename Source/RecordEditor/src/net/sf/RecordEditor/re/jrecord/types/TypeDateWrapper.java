@@ -186,5 +186,12 @@ public class TypeDateWrapper implements Type, ISizeInformation {
 		return defaultSize;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Types.Type#getDecimalChar()
+	 */
+	@Override
+	public char getDecimalChar() {
+		return '.';
+	}
 
 }

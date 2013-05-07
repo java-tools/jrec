@@ -1,6 +1,8 @@
 package net.sf.RecordEditor.utils.swing.treeCombo;
 
 import java.awt.Component;
+import java.awt.event.MouseEvent;
+import java.util.EventObject;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;
@@ -14,6 +16,7 @@ public class TreeComboRendor extends AbstractCellEditor implements
 		TableCellRenderer, TableCellEditor {
 
 	private final TreeCombo combo;
+	private int clickCountToStart = 1;
 
 	public TreeComboRendor(TreeComboItem[] itms) {
 		combo = new TreeCombo(itms);
@@ -42,6 +45,21 @@ public class TreeComboRendor extends AbstractCellEditor implements
 		SwingUtils.setTableCellColors(combo, table, row, isSelected);
 
 		return combo;
+	}
+
+    public boolean isCellEditable(EventObject anEvent) {
+        if (anEvent instanceof MouseEvent) {
+            return ((MouseEvent)anEvent).getClickCount() >= clickCountToStart;
+        }
+        return true;
+    }
+
+
+	/**
+	 * @param clickCountToStart the clickCountToStart to set
+	 */
+	public void setClickCountToStart(int clickCountToStart) {
+		this.clickCountToStart = clickCountToStart;
 	}
 
 	private void setVal(Object value) {

@@ -14,5 +14,5 @@ def test():
 		assert_p('Primary Message_Txt', 'Text', 'sale')
 ##		assert_p('Type of Definition_Txt', 'Text', 'Proto Definition')
 		assert_p('File Structure_Txt', 'Text', 'Delimited Messages')
-		assert_p('Proto Definition_Txt', 'Text', commonBits.stdCopybookDir() + 'DTAR020.protocomp')
+##		assert_p('Proto Definition_Txt', 'Text', commonBits.stdCopybookDir() + 'DTAR020.protocomp')
 	close()

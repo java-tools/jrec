@@ -38,6 +38,21 @@
    </shortcut>   
 
 
+   <shortcut
+     name="Csv and Xml file Editor"
+     programGroup="yes"
+     desktop="no"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     initialState="noShow"
+     iconFile="$INSTALL_PATH\lib\CsvEd.ico"
+     target="$JAVA_HOME/bin/javaw"
+     commandLine="-jar &quot;$INSTALL_PATH\lib\runCsvEditor.jar&quot;"
+     description="Csv Editor (built on on RecordEditor)">
+     <createForPack name="Base" />
+   </shortcut>   
+
    
    <shortcut
      name="Uninstaller"
@@ -46,8 +61,8 @@
      applications="no"
      startMenu="no"
      startup="no"
-     target="$JAVA_HOME/bin/javaw"
-     commandLine="-jar &quot;$INSTALL_PATH\Uninstaller\uninstaller.jar&quot;"
+     target="$INSTALL_PATH/Uninstaller/uninstaller.exe"
+     commandLine=""
      description="IzPack uninstaller">
      
      <createForPack name="Base" />

@@ -10,27 +10,28 @@ package net.sf.RecordEditor.re.db.Record;
 
 import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.RecordEditor.utils.jdbc.AbsRecord;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboItem;
 
 /**
  *   This class holds the fields extracted from a SQL statement:
  *
  *   <pre>
  *       Select
- *              FieldPos as  Pos,
- *              FieldLength as Len,
- *              FieldName as Name,
- *              Description,
- *              FieldType as Type,
- *              DecimalPos as Decimal,
+ *              Field_Pos as  Pos,
+ *              Field_Length as Len,
+ *              Field_Name as Name,
+ *              Field_Description,
+ *              Field_Type as Type,
+ *              Decimal_Pos as Decimal,
  *              Cell_Format cellFormat,
- *              Parameter parameter,
- *              DefaultValue as Default,
- *              CobolName,
+ *              Field_Parameter parameter,
+ *              Default_Value as Default,
+ *              Cobol_Name,
  *              RECORD_STYLE,
- *              SubKey
- *       From Tbl_RF_RecordFields
+ *              Sub_Key
+ *       From Tbl_RF1_RecordFields
  *       where RecordId = ?
- *       order by FieldPos, FieldLength Desc
+ *       order by Field_Pos, Field_Length Desc
  *
  *   </pre>
  * This class also provides both specific field access methods
@@ -237,9 +238,9 @@ public boolean hasTheKeyChanged() {
         break;
         case (1) : value.setLen(((Integer) val).intValue());
         break;
-        case (4) : value.setType(((Integer) val).intValue());
+        case (4) : value.setType(getInt(val));
         break;
-        case (5) : value.setDecimal(((Integer) val).intValue());
+        case (5) : value.setDecimal(getInt(val));
         break;
         case (6) : value.setCellFormat(((Integer) val).intValue());
         break;
@@ -247,6 +248,16 @@ public boolean hasTheKeyChanged() {
         break;
         default  : setFieldWithString(fieldNum, (String) val) ;
       }
+  }
+
+
+  public int getInt(Object val) {
+	  if (val instanceof TreeComboItem) {
+		  return ((TreeComboItem) val).key;
+	  } else if (val instanceof Number) {
+		  return ((Number) val).intValue();
+	  }
+	  return -1;
   }
 
 

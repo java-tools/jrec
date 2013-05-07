@@ -279,7 +279,7 @@ public class XmlCopybookLoader implements CopybookLoader {
 
     	return ret;
     }
-   protected void allocDBs(int pDbIdx) {
+    protected void allocDBs(int pDbIdx) {
 
     }
 
@@ -631,26 +631,27 @@ public class XmlCopybookLoader implements CopybookLoader {
             String signed = getStringAttribute(element, ATTR_SIGNED);
             String signSeparate = getStringAttribute(element, ATTR_SIGN_SEPARATE);
             String signPosition = getStringAttribute(element, ATTR_SIGN_POSITION);
-            iType = numTranslator.getTypeIdentifier(usage, picture, "true".equals(signed));
+            iType = numTranslator.getTypeIdentifier(usage, picture, "true".equals(signed),
+            		"true".equals(signSeparate), signPosition);
 
-            if (iType >= 0) {
-            } else if ("true".equals(signed) ||  picture.startsWith("S")) {
-                if ("true".equals(signSeparate)) {
-                    if ("leading".equals(signPosition)) {
-                        iType = Type.ftSignSeparateLead;
-                    } else {
-                        iType = Type.ftSignSeparateTrail;
-                    }
-                } else {
-                    if (binaryFormat == Convert.FMT_MAINFRAME) {
-                      iType = Type.ftZonedNumeric;
-                    } else {
-                      iType = Type.ftFjZonedNumeric;
-                    }
-                }
-            } else {
-                iType = Type.ftAssumedDecimalPositive;
-            }
+//            if (iType >= 0) {
+//            } else if ("true".equals(signed) ||  picture.startsWith("S")) {
+//                if ("true".equals(signSeparate)) {
+//                    if ("leading".equals(signPosition)) {
+//                        iType = Type.ftSignSeparateLead;
+//                    } else {
+//                        iType = Type.ftSignSeparateTrail;
+//                    }
+//                } else {
+//                    if (binaryFormat == Convert.FMT_MAINFRAME) {
+//                      iType = Type.ftZonedNumeric;
+//                    } else {
+//                      iType = Type.ftFjZonedNumeric;
+//                    }
+//                }
+//            } else {
+//                iType = Type.ftAssumedDecimalPositive;
+//            }
         } else if ("null-padded".equals(usage)) {
             iType = Type.ftCharNullPadded;
         } else if ("null-terminated".equals(usage)) {
@@ -665,7 +666,7 @@ public class XmlCopybookLoader implements CopybookLoader {
         	        name,
         	        "",
         	        iType,
-        	        calculateDecimalSize(getStringAttribute(element, ATTR_PICTURE)),
+        	        calculateDecimalSize(iType, getStringAttribute(element, ATTR_PICTURE)),
         	        Constants.FORMAT_DEFAULT,
         	        "",
         	        "",
@@ -718,19 +719,27 @@ public class XmlCopybookLoader implements CopybookLoader {
      * @param pFormat Cobol Picture
      * @return decimal size
      */
-    private int calculateDecimalSize(String pFormat) {
+    private int calculateDecimalSize(int type, String pFormat) {
         int lRet = 0;
         int lPos, lNum, lBracketOpenPos, lBracketClosePos, decimalPos;
         String lDecimalStr;
         String lNumStr;
         String format = "";
+        char decimalPnt = '.';
+        Type t = TypeManager.getInstance().getType(type);
         if (pFormat != null) {
             format = pFormat.toUpperCase();
         }
+        if (t != null) {
+        	decimalPnt = t.getDecimalChar();
+        }
 
-        decimalPos = format.indexOf(".");
+        decimalPos = format.indexOf(decimalPnt);
+        if (decimalPos != format.lastIndexOf(decimalPnt)) {
+        	decimalPos = -1;
+        }
         lPos = Math.max(format.indexOf("V"), decimalPos);
-        if (lPos >= 0 && (decimalPos == format.lastIndexOf(".") )) {
+        if (lPos >= 0) {
             lDecimalStr      = format.substring(lPos + 1);
             lBracketOpenPos  = lDecimalStr.indexOf("(");
             lBracketClosePos = lDecimalStr.indexOf(")");

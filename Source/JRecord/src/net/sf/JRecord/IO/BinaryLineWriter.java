@@ -40,7 +40,7 @@ public class BinaryLineWriter extends AbstractLineWriter {
 
 
     public static BinaryLineWriter newBinaryWriter() {
-    	return new BinaryLineWriter(true);
+    	return new BinaryLineWriter(false);
     }
 
     /**

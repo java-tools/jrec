@@ -43,14 +43,17 @@ public class ConversionManager implements AbstractManager {
     public ConversionManager() {
         super();
 
-        registerConverter(new BasicConvert(Convert.FMT_INTEL, "Intel", Convert.FMT_INTEL, MAINFRAME_BIN_SIZES, false));
-        registerConverter(
-        		(new BasicConvert(
-        				Convert.FMT_MAINFRAME, "Mainframe", Convert.FMT_MAINFRAME, MAINFRAME_BIN_SIZES,
-        				MAINFRAME_SYNC, false, 4, 4)).setDefaultVbFileStructure(Constants.IO_VB));
-        registerConverter((
+        Convert mainframeConverter = (new BasicConvert(
+				Convert.FMT_MAINFRAME, "Mainframe", Convert.FMT_MAINFRAME, MAINFRAME_BIN_SIZES,
+				MAINFRAME_SYNC, false, 4, 4)).setDefaultVbFileStructure(Constants.IO_VB);
+        Convert fujitsuConverter = (
         			new OpenCobol(Convert.FMT_FUJITSU, "Fujitsu", MAINFRAME_BIN_SIZES, MAINFRAME_SYNC, 4, 8)
-        		).setDefaultVbFileStructure(Constants.IO_VB_FUJITSU));
+        		).setDefaultVbFileStructure(Constants.IO_VB_FUJITSU);
+
+        registerConverter(new BasicConvert(Convert.FMT_INTEL, "Intel", Convert.FMT_INTEL, MAINFRAME_BIN_SIZES, false));
+		registerConverter(
+        		mainframeConverter);
+		registerConverter(fujitsuConverter);
         registerConverter(new BasicConvert(Convert.FMT_BIG_ENDIAN, "Big-Endian (Old)", Convert.FMT_BIG_ENDIAN, MAINFRAME_BIN_SIZES, false));
 
         registerConverter(new OpenCobol(Convert.FMT_OPEN_COBOL, "Open Cobol Little Endian (Intel)", BIN_SIZES_1248, BIN_SIZES_1248));
@@ -62,6 +65,8 @@ public class ConversionManager implements AbstractManager {
         registerConverter(new OpenCobolBE(Convert.FMT_FS2000_BE, "Open Cobol bs2000 Big Endian",  MAINFRAME_BIN_SIZES, FS2000_SYNC));
         registerConverter(new OpenCobolBE(Convert.FMT_OPEN_COBOL_MVS_BE, "Open Cobol MVS Big Endian",  MAINFRAME_BIN_SIZES, FS2000_SYNC));
         registerConverter(new OpenCobolBE(Convert.FMT_OC_MICRO_FOCUS_BE, "Open Cobol Micro Focus Big E",  BIN_SIZES_1_TO_8, NO_SYNC, 1 , 1));
+        registerConverter(new CommaDecimal(Convert.FMT_MAINFRAME_COMMA_DECIMAL, mainframeConverter));
+        registerConverter(new CommaDecimal(Convert.FMT_FUJITSU_COMMA_DECIMAL, fujitsuConverter));
         //registerConverter(new MicroFocusCobol());
 
         LoadConversion loader = new LoadConversion();
@@ -164,20 +169,23 @@ public class ConversionManager implements AbstractManager {
 
     	public OpenCobol(int id, String name,  int[] binarySizes, int[] syncAt, int floatSync, int doubleSync) {
     		super(id,  name, Convert.FMT_BIG_ENDIAN, binarySizes, syncAt, true, floatSync, doubleSync);
+    		setDefaultVbFileStructure(Constants.IO_VB_OPEN_COBOL);
     	}
 
-    	public int getTypeIdentifier(String usage, String picture, boolean signed) {
+    	public int getTypeIdentifier(String usage, String picture, boolean signed,
+    			boolean signSeperate, String signPosition) {
     		int iType;
+    		picture = picture.toUpperCase();
     		if ( "computational-5".equals(usage)) {
     			iType = Type.ftBinaryInt;
-    			if (! signed) {
+    			if ((! signed) && (! picture.startsWith("S"))) {
         			iType = Type.ftBinaryIntPositive;
         			if (super.isPositiveIntAvailable()) {
         				iType = Type.ftPostiveBinaryInt;
         			}
     			}
     		} else {
-    			iType = super.getTypeIdentifier(usage, picture, signed) ;
+    			iType = super.getTypeIdentifier(usage, picture, signed, signSeperate, signPosition) ;
     		}
     		return iType;
     	}
@@ -186,10 +194,12 @@ public class ConversionManager implements AbstractManager {
     private static class OpenCobolBE extends BasicConvert {
     	public OpenCobolBE(int id, String name,  int[] binarySizes, int[] syncAt) {
     		super(id,  name, Convert.FMT_BIG_ENDIAN, binarySizes, syncAt, true, 4, 8);
-    	}
+    		setDefaultVbFileStructure(Constants.IO_VB_OPEN_COBOL);
+   	}
 
-    	public OpenCobolBE(int id, String name,  int[] binarySizes, int[] syncAt, int floatSync, int doubleSync) {
+    public OpenCobolBE(int id, String name,  int[] binarySizes, int[] syncAt, int floatSync, int doubleSync) {
     		super(id,  name, Convert.FMT_BIG_ENDIAN, binarySizes, syncAt, true, floatSync, doubleSync);
+    		setDefaultVbFileStructure(Constants.IO_VB_OPEN_COBOL);
     	}
     }
 }

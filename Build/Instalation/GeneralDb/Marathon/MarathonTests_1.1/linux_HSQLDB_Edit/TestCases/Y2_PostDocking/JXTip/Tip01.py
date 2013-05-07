@@ -85,8 +85,11 @@ to see the structure / field starting poiint of the <b>Cobol Copbook.</b>
 function to load the Cobol Layout into the <b>RecordEditor</b>
 </html>''')
 
+		commonBits.doSleep()
+
 		assert_p('EditorPane1', 'Text', '<html>\n  <head>\n    \n  </head>\n  <body>\n    Do you have a <font color="blue"><b>Cobol copybook</b></font> for a file \n    ???<br>You can use the <b>Record Layouts &gt;&gt;&gt;&gt; Load Cobol Copybook</b> \n    function to load the Cobol Layout into the <b>RecordEditor</b>\n  </body>\n</html>\n')
 
+		commonBits.doSleep()
 		assert_p('EditorPane1', 'Text', '''<html>
   <head>
     
@@ -99,6 +102,7 @@ function to load the Cobol Layout into the <b>RecordEditor</b>
 </html>
 ''')
 		select('Table', 'cell:' + commonBits.fl('Line') + ',2(3)')
+		commonBits.doSleep()
 		assert_p('EditorPane', 'Text', '''<html>Have you tried <font color="blue"><b>Filter</b></font> function ???. 
 <br/>The <font color="blue">filter dialog</font> 
 will display all  records that match the entered criteria.
@@ -124,7 +128,9 @@ find command</p
   </body>
 </html>
 ''')
+
 		select('Table', 'cell:' + commonBits.fl('Line') + ',3(4)')
+		commonBits.doSleep()
 		assert_p('EditorPane', 'Text', '''<html>You can <font color="blue"><b>sort</b></font> a file by any of<ul>
 <li>Double clicking on the column heading</li>
 <li>Click on the sort Button, The editor will display display a <b>sort dialogue</b></li>
@@ -158,6 +164,7 @@ find command</p
 </html>
 ''')
 		select('Table', 'cell:' + commonBits.fl('Line') + ',4(5)')
+		commonBits.doSleep()
 		assert_p('EditorPane', 'Text', '''<html>If you want to view a file in a different sequence 
 without changing the order of records in the file, you can
 <ul>

@@ -1,0 +1,37 @@
+useFixture(default)
+
+def test():
+	from Modules import commonBits
+	java_recorded_version = '1.6.0_22'
+
+	if window('Protocol Buffer Editor'):
+		select('File_Txt',  commonBits.sampleDir() + 'protoSales.bin')
+		click('Edit1')
+		select_menu('Window>>Show Child Record')
+		click('Find1')
+		select('Find.Search For_Txt', '57')
+		click('Find >>')
+		assert_p('TextField', 'Text', 'Found (line, field Num, field position)=10, 2, 1')
+##		click('WindowsInternalFrameTitlePane', 107, 17)
+		assert_p('LineFrame.Record_Txt', 'Text', '10')
+		select_menu('Window>>protoSales.bin>>Find')
+		click('Find >>')
+		assert_p('TextField', 'Text', 'Found (line, field Num, field position)=11, 2, 1')
+		assert_p('LineFrame.Record_Txt', 'Text', '11')
+		assert_p('LineFrame.FileDisplay_JTbl', 'Content', '[[keycode, 1, 66624458, 66624458], [store, 2, 20, 20], [department, 3, 957, 957], [saleDate, 4, 40118, 40118], [quantity, 5, 1, 1], [price, 6, 890, 890]]')
+		select_menu('Window>>protoSales.bin>>Find')
+		click('Find >>')
+		assert_p('TextField', 'Text', 'Found (line, field Num, field position)=12, 2, 1')
+		assert_p('LineFrame.Record_Txt', 'Text', '12')
+		assert_p('LineFrame.FileDisplay_JTbl', 'Content', '[[keycode, 1, 63674861, 63674861], [store, 2, 20, 20], [department, 3, 957, 957], [saleDate, 4, 40118, 40118], [quantity, 5, 10, 10], [price, 6, 2700, 2700]]')
+		select_menu('Window>>protoSales.bin>>Find')
+		click('Find >>')
+		assert_p('LineFrame.Record_Txt', 'Text', '14')
+		assert_p('LineFrame.FileDisplay_JTbl', 'Content', '[[keycode, 1, 64614401, 64614401], [store, 2, 59, 59], [department, 3, 957, 957], [saleDate, 4, 40118, 40118], [quantity, 5, 1, 1], [price, 6, 1990, 1990]]')
+		select_menu('Window>>protoSales.bin>>Find')
+		click('Find >>')
+		assert_p('TextField', 'Text', 'Found (line, field Num, field position)=15, 2, 1')
+		keystroke('Find >>', 'Context Menu')
+		assert_p('LineFrame.Record_Txt', 'Text', '15')
+		assert_p('LineFrame.FileDisplay_JTbl', 'Content', '[[keycode, 1, 64614401, 64614401], [store, 2, 59, 59], [department, 3, 957, 957], [saleDate, 4, 40118, 40118], [quantity, 5, 1, 1], [price, 6, 1990, 1990]]')
+	close()

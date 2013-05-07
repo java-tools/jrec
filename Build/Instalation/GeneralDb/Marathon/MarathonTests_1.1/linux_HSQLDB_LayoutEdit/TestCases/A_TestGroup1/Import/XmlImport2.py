@@ -30,7 +30,8 @@ def test():
 		assert_p('RecordFieldsJTbl', 'Text', 'R4180B-KEYCODE', '' + commonBits.fl('FieldName') + ',1')
 		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldName') + ',2(R4180B-APN)')
 ##		assert_p('RecordFieldsJTbl', 'Content', '[[1, 0, R4180B-KEYCODE-DETAIL-ID, , 0, 0, 0, , , R4180B-KEYCODE-DETAIL-ID], [4, 0, R4180B-KEYCODE, , 8, 0, 0, , , R4180B-KEYCODE], [12, 0, R4180B-APN, , 8, 0, 0, , , R4180B-APN], [25, 0, R4180B-UNIT-TYPE, , 0, 0, 0, , , R4180B-UNIT-TYPE]]')
-		assert_p('RecordFieldsJTbl', 'Content', '[[1, 0, R4180B-KEYCODE-DETAIL-ID, , 0, 0, 0, , , R4180B-KEYCODE-DETAIL-ID], [4, 0, R4180B-KEYCODE, , 22, 0, 0, , , R4180B-KEYCODE], [12, 0, R4180B-APN, , 22, 0, 0, , , R4180B-APN], [25, 0, R4180B-UNIT-TYPE, , 0, 0, 0, , , R4180B-UNIT-TYPE]]')
+##		assert_p('RecordFieldsJTbl', 'Content', '[[1, 0, R4180B-KEYCODE-DETAIL-ID, , 0, 0, 0, , , R4180B-KEYCODE-DETAIL-ID], [4, 0, R4180B-KEYCODE, , 22, 0, 0, , , R4180B-KEYCODE], [12, 0, R4180B-APN, , 22, 0, 0, , , R4180B-APN], [25, 0, R4180B-UNIT-TYPE, , 0, 0, 0, , , R4180B-UNIT-TYPE]]')
+		assert_p('RecordFieldsJTbl', 'Content', '[[1, 0, R4180B-KEYCODE-DETAIL-ID, , 0, 0, 0, , , R4180B-KEYCODE-DETAIL-ID], [4, 0, R4180B-KEYCODE, , 25, 0, 0, , , R4180B-KEYCODE], [12, 0, R4180B-APN, , 25, 0, 0, , , R4180B-APN], [25, 0, R4180B-UNIT-TYPE, , 0, 0, 0, , , R4180B-UNIT-TYPE]]')
 
 
 		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldName') + ',0(R4180B-KEYCODE-DETAIL-ID)')

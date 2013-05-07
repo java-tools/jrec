@@ -50,9 +50,7 @@ public class RecordFormats {
 	private int maxHeight = Type.NULL_INT;
 
 
-	@SuppressWarnings("rawtypes")
 	private final AbstractRecordDetail recordDescription;
-	@SuppressWarnings("rawtypes")
 	private final AbstractLayoutDetails layout;
 	private final int recordIdx;
 	private final ColumnMappingInterface mapping;
@@ -61,7 +59,7 @@ public class RecordFormats {
      *
      */
     public RecordFormats(final ColumnMappingInterface columnMapping,
-    		@SuppressWarnings("rawtypes") final AbstractLayoutDetails recordLayout,
+    		final AbstractLayoutDetails recordLayout,
     		final int recordIndex) {
         super();
 

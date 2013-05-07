@@ -31,7 +31,12 @@ def test():
 		commonBits.save2(click)
 
 ##		click(commonBits.fl('Save') + '1')
-		select('File Name', 'xx5')
+##		select('File Name', 'xx5')
+		if commonBits.isWindowsLook():
+			select('File name', 'xx5')
+		else:
+			select('File Name', 'xx5')
+
 
 		
 		commonBits.save(click)
@@ -85,7 +90,12 @@ def test():
 
 		if window('Open'):
 			##select('FilePane$3', 'xx5')
-			select('File Name', 'xx5')
+			if commonBits.isWindowsLook():
+				select('File name', 'xx5')
+			else:
+				select('File Name', 'xx5')
+
+##			select('File Name', 'xx5')
 			click('Open')
 		close()
 

@@ -1,0 +1,33 @@
+/**
+ *  Sales File
+ */
+@namespace("net.sf.RecordEditor.avro.Test.Sales11")
+
+protocol sales11 {
+
+enum SaleType {
+    RETURN,
+    OTHER,
+    SALE
+  }
+
+enum PaymentType {
+  CASH,
+  CREDIT_CARD,
+  DEBIT_CARD,
+  CHEQUE
+}
+  record sale {
+    int keycode;
+    int store ; 
+    union {null, int} department;
+    union {null, int} saleDate;
+    union {null, int} quantity;
+    union {null, long} price;
+    union {null, float} priceFloat;
+    union {null, double} priceDouble;
+    SaleType saleType;
+    union {null, PaymentType} paymentType;
+    array<string> strArray;
+  } 
+}

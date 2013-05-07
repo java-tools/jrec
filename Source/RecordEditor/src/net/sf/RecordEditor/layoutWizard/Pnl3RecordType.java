@@ -29,12 +29,13 @@ import javax.swing.JEditorPane;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
+import net.sf.RecordEditor.re.util.BuildTypeComboList;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.AbsRowList;
 import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeCombo;
 
 /**
  * 2nd wizard screen where the user selects the starting
@@ -53,7 +54,7 @@ public class Pnl3RecordType extends WizardPanel {
     private JTextField nameTxt = new JTextField();
     private JTextField startTxt = new JTextField();
     private JTextField lengthTxt = new JTextField();
-    private BmKeyedComboBox typeCombo;
+    private TreeCombo typeCombo;
 
 
     private ColumnSelector columnSelector;
@@ -85,7 +86,7 @@ public class Pnl3RecordType extends WizardPanel {
 
         columnSelector = new ColumnSelector(message);
 
-        typeCombo = new BmKeyedComboBox(typeList, false);
+        typeCombo = new TreeCombo(BuildTypeComboList.getList(typeList));
 
 		String formDescription
 		    = LangConversion.convertId(LangConversion.ST_MESSAGE, "FileWizard_3",
@@ -176,7 +177,7 @@ public class Pnl3RecordType extends WizardPanel {
     	k.keyName = nameTxt.getText();
     	k.keyStart = getInteger(startTxt);
     	k.keyLength = getInteger(lengthTxt);
-    	k.keyType = (Integer) typeCombo.getSelectedItem();
+    	k.keyType =  typeCombo.getSelectedItem().key;
 
     	return ret;
     }
@@ -203,6 +204,6 @@ public class Pnl3RecordType extends WizardPanel {
         nameTxt.setText(k.keyName);
         startTxt.setText(Integer.toString(k.keyStart));
         lengthTxt.setText(Integer.toString(k.keyLength));
-        typeCombo.setSelectedItem(k.keyType);
+        typeCombo.setSelectedKey(k.keyType);
     }
 }

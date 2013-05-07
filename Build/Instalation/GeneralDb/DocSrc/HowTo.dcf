@@ -3,6 +3,7 @@
 .im iHt_1000_EditAfile.dcf
 .im iHt_2000_CreateLayout.dcf
 .im iHt_3000_EditLayout.dcf
+.im iHT_C000_Docking.dcf
 .im iHT_4000_DatesEtc.dcf
 .im iHT_8000_UseCombos.dcf
 .im iHT_9000_Trees.dcf

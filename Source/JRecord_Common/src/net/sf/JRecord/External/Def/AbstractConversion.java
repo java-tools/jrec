@@ -40,7 +40,14 @@ public interface AbstractConversion {
 	 */
 	public abstract String getTypeAsString(int idx, int type);
 
-	
+	/**
+	 *
+	 * @param idx db index
+	 * @param type type Id
+	 * @return wether it is valid
+	 */
+	public abstract boolean isValid(int idx, int type);
+
 	/**
 	 * Convert format to a string
 	 * @param idx db index

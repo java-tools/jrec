@@ -20,6 +20,9 @@ import info.clearthought.layout.TableLayoutConstraints;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -35,6 +38,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
+import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.BasicTrans;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.params.Parameters;
@@ -186,6 +190,14 @@ public class BasePanel extends JPanel {
 
 	private JTextComponent messageTxt;
 
+
+
+	private static final boolean  logMissingMsgFields =
+				"y".equalsIgnoreCase(
+							Parameters.getString(Parameters.LOG_TEXT_FIELDS));
+	private static final String txtLogFile = Parameters.getPropertiesDirectoryWithFinalSlash() + "MissingMessageTxt.txt";
+
+//	private static PrintWriter logPrinter = null;
 
 	/**
 	 * @throws java.awt.HeadlessException
@@ -681,19 +693,35 @@ public class BasePanel extends JPanel {
 
 
 	public void setMessageTxt(String msg) {
-		messageTxt.setText(LangConversion.convert(msg));
+		setMessageRawTxt(LangConversion.convert(msg));
 	}
 
 	public void setMessageTxt(String msg, String error) {
-		messageTxt.setText(LangConversion.convert(msg) + " " + error);
+		setMessageRawTxt(LangConversion.convert(msg) + " " + error);
 	}
 
 	public void setMessageRplTxt(String msg, String msg2) {
-		messageTxt.setText(LangConversion.convert(msg, msg2));
+		setMessageRawTxt(LangConversion.convert(msg, msg2));
 	}
 
 	public void setMessageRawTxt(String msg) {
-		messageTxt.setText(msg);
+		if (messageTxt == null) {
+			Common.logMsgRaw(msg, null);
+			if (logMissingMsgFields) {
+				try {
+
+					PrintWriter	logPrinter = new PrintWriter(new FileWriter(txtLogFile, true));
+
+					logPrinter.println("setMsg: " + this.getClass().getName() + " ! " + this.panelId + " ! " + msg);
+					logPrinter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+			}
+		} else {
+			messageTxt.setText(msg);
+		}
 	}
 
 	/**
@@ -712,6 +740,10 @@ public class BasePanel extends JPanel {
 	public final BasePanel addMessage(JTextComponent msg) {
 		messageTxt = msg;
 		return addMessageI(msg);
+	}
+
+	public final void setMessage(JTextComponent msg) {
+		messageTxt = msg;
 	}
 
 	/**
@@ -843,6 +875,26 @@ public class BasePanel extends JPanel {
 		tLayout.setRow(hGap);
 
 		toBeDone = false;
+
+		if (messageTxt == null && logMissingMsgFields) {
+			try {
+				PrintWriter logPrinter = new PrintWriter(new FileWriter(txtLogFile, true));
+
+				logPrinter.println("done: " + this.getClass().getName() + " ! " + this.panelId + " ! ");
+				logPrinter.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+
+//		private static final boolean  logMissingMsgFields =
+//				"y".equalsIgnoreCase(
+//							Parameters.getString(Parameters.LOG_TEXT_FIELDS));
+//	private static final String txtItmFile = Parameters.getPropertiesDirectoryWithFinalSlash() + "MissingMessageTxt.txt";
+//
+//	private static PrintWriter log = null;
+
 	}
 
 

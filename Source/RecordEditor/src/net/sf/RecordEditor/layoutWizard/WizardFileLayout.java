@@ -59,7 +59,7 @@ public class WizardFileLayout extends AbstractWizard<Details> {
 		getWizardDetails().filename = fileName;
 		callbackClass = callback;
 
-	    AbsRowList       typeList = new AbsRowList(0, 1, true, false).loadData(
+	    AbsRowList       typeList = new AbsRowList(0, 1, false, false).loadData(
 	    		ExternalConversion.getTypes(0)
 	    );
 	    AbsRowList  structureList = new ManagerRowList(LineIOProvider.getInstance(), true);

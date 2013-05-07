@@ -325,6 +325,7 @@ public final class ExternalConversion {
     			fld = new BasicKeyedField();
     			fld.key = t;
     			fld.name = s;
+    			fld.valid = Boolean.valueOf(conv.isValid(idx, t));
     			ret.add(fld);
     		}
     	}
@@ -401,7 +402,6 @@ public final class ExternalConversion {
 
 		private String[] typeNames ;
 		private HashMap<String, Integer> typeNumbers;
-		//private ArrayList<BasicKeyedField> allTypes = new ArrayList<BasicKeyedField>(300);
 
 		/**
 		 * Basic Type / Format conversion (for use in JRecord; RecordEditor has
@@ -425,9 +425,19 @@ public final class ExternalConversion {
 			setName(Type.ftHex                , "Hex Field");
 			setName(Type.ftNumLeftJustified   , "Num (Left Justified)");
 			setName(Type.ftNumRightJustified  , "Num (Right Justified space padded)");
+			setName(Type.ftNumRightJustifiedPN, "Num (Right Justified space padded) +/- sign");
+			setName(Type.ftNumRightJustCommaDp, "Num (Right Just space padded, \",\" Decimal)");
+			setName(Type.ftNumRightJustCommaDpPN, "Num (Right Just space padded, \",\" Decimal) +/- sign");
 			setName(Type.ftNumZeroPadded      , "Num (Right Justified zero padded)");
-			setName(Type.ftAssumedDecimal     , "Num Assumed Decimal (Zero padded)");
-			setName(Type.ftAssumedDecimalPositive, "Num Assumed Decimal (+ve)");
+			setName(Type.ftNumZeroPaddedPN    , "Num (Right Justified zero padded +/- sign)");
+			setName(Type.ftAssumedDecimal         , "Num Assumed Decimal (Zero padded)");
+			setName(Type.ftAssumedDecimalPositive , "Num Assumed Decimal (+ve)");
+			setName(Type.ftNumZeroPaddedPositive  , "Num (Right Justified zero padded positive)");
+			setName(Type.ftNumCommaDecimal        , "Zero Padded Number decimal=\",\"");
+			setName(Type.ftNumCommaDecimalPN      , "Zero Padded Number decimal=\",\" sign=+/-");
+			setName(Type.ftNumCommaDecimalPositive, "Num (Right Justified zero padded positive)");
+
+
 			setName(Type.ftSignSeparateLead   , "Num Sign Separate Leading");
 			setName(Type.ftSignSeparateTrail  , "Num Sign Separate Trailing");
 			setName(Type.ftDecimal            , "Decimal");
@@ -445,6 +455,13 @@ public final class ExternalConversion {
 			setName(Type.ftBinaryBigEndianPositive  , "Binary Integer Big Endian (only +ve)");
 			setName(Type.ftPositiveBinaryBigEndian  , "Positive Integer Big Endian");
 			setName(Type.ftFjZonedNumeric  , "Fujitsu Zoned Numeric");
+
+
+			setName(Type.ftRmComp, "Rm Cobol Comp");
+			setName(Type.ftRmCompPositive  , "Rm Cobol Comp (+ve)");
+			setName(Type.ftCheckBoxBoolean , "Check Box (Boolean)");
+
+
 			setName(Type.ftDate  , "Date - Format in Parameter field");
 			setName(Type.ftDateYMD  , "Date - YYMMDD");
 			setName(Type.ftDateYYMD  , "Date - YYYYMMDD");
@@ -461,7 +478,6 @@ public final class ExternalConversion {
 			setName(Type.ftCharRestOfFixedRecord  , "Char Rest of Fixed Length");
 			setName(Type.ftCharRestOfRecord  , "Char Rest of Record");
 			setName(Type.ftMultiLineChar  , "Char (Multi-Line)");
-
 		}
 
 		/**
@@ -519,5 +535,15 @@ public final class ExternalConversion {
 			}
 			return s;
 		}
+
+		/* (non-Javadoc)
+		 * @see net.sf.JRecord.External.Def.AbstractConversion#isValid(int, int)
+		 */
+		@Override
+		public boolean isValid(int idx, int type) {
+			String s = typeNames[TypeManager.getInstance().getIndex(type)];
+			return s != null && ! "".equals(s);
+		}
+
 	}
 }

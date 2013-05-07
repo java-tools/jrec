@@ -20,6 +20,7 @@
 
 .*B2H SYMBOL :TAG.  Green IT=N VAT=N ATT=Y SE=N V='<FONT COLOR=#00ff00>'
 .*B2H SYMBOL :TAG.  EGreen IT=N VAT=N ATT=Y SE=N V='</FONT>'
+.*B2H SYMBOL :tag. csved  IT=N VAT=N ATT=N SE=Y V='<a href="http://recsveditor.sourceforge.net/">reCsvEditor</a>'
 .im iRE_TagDefs.dcf
 
 :table cols='* 3*'.
@@ -101,6 +102,8 @@ Building the :AvroEditor. on top of the :RecordEditor. has both advantages and d
 :thd refid=xlight.:c.Editor:c.Description:ethd.
 :row refid=none.:c.:RecordEditor.:c.Edits Fixed Width, Csv and Xml files (to a lesser extent) using
 Record Descriptions stored in a Database. There is an option to import Cobol Copybooks in to the Database
+:row.:c.:csved.:c.Edits Csv Files. While the :hp2.RecordEditor:ehp2. can edit Csv Files, it is focussed on Fixed Width Files.
+:hp2.reCsvEditor:ehp2. focusses on Basic Csv files.
 :row.:c.CobolEditor:c.Edits Cobol Data files using a Cobol Copybooks. Can also Edit Fixed Width / CSV files
 using a XML description. The CobolEditor comes as part of the :RecordEditor. package.
 :row.:c.:protoBufEditor.:c.Edit Google Protocol Buffers Binary message file using a Prot Description.
@@ -109,7 +112,8 @@ using a XML description. The CobolEditor comes as part of the :RecordEditor. pac
 :table cols='* 4*'.
 :thd refid=xlight.:c.File Format:c.Editor:ethd.
 :row refid=none.:c.Fixed Width:c.:RecordEditor. 
-:row.:c.CSV File:c.reCsvEditor and :RecordEditor. 
+:row.:c.CSV File:c.:csved. and :RecordEditor. (the :hp2.RecordEditor:ehp2. is focused on
+Fixed width files).
 :row.:c.Xml File:c.:RecordEditor., Xml needs more work though.
 :row.:c.Cobol File:c.:RecordEditor., CobolEditor
 :row.:c.Mainframe File:c.:RecordEditor. 
@@ -135,7 +139,23 @@ support for Unions. Other possible changes could include&gml.
 
 
 :h3.Versions
-:ul.
+:ul compact.
+ :li.Version 0.69.2e - change to pickup Avro 1.5.0
+ :li.Version 0.69.2d
+   :ul compact.
+    :li.Picking up Avro 1.4.1
+    :li.Using RecordEditor 0.69.2d, this includes enhanced export / save-as diagalog,
+improved options dialog + other changes.
+    :li.Support for Nimbus Look and Feel (also Nimbus is the default for Linux).
+   :eul.
+ :li.Vesion 0.69h
+ :ul compact.
+   :li.latest Avro (4.0) and RecordEditor (0.69.1). 
+   :li.partial support for Unions.
+   :li.Can save-as (export) a file using a Velocity Template
+   :li.Fix for display code on a insert
+ :eul.
+ :li.Version 0.69f - Fix for insert and a fix for a memory leak.
  :li.Version 0.69e - Initial Release.
 :eul.
 

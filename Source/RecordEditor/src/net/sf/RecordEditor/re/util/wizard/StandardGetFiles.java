@@ -18,11 +18,9 @@ public class StandardGetFiles<Save extends BaseCopyDif> extends  AbstractFilePnl
 
 	private Save values; // = new save();
 //		private JPanel goPanel = new JPanel();
-	@SuppressWarnings("unchecked")
 	private AbstractLayoutSelection layoutSelection;
 	int fileNo;
 
-	@SuppressWarnings("unchecked")
 	public StandardGetFiles(AbstractLayoutSelection selection, int fileNumber, String recentFiles, String help) {
 		super(selection, recentFiles);
 

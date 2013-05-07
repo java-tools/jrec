@@ -67,6 +67,26 @@
    </shortcut>
 
      
+  <shortcut
+     name="How To Documentation"
+     programGroup="yes"
+     desktop="yes"
+     applications="no"
+     startMenu="yes"
+     startup="no"
+     target="konqueror"
+     url="$INSTALL_PATH/Docs/howTo.htm"
+     workingDirectory=""
+     commandLine=""
+     initialState="noShow"
+     iconFile="help"
+     iconIndex="0" 
+     type="Link"
+     encoding="UTF-8"   
+     description="How To Documetation">
+      <createForPack name="Base" />
+   </shortcut>
+
    <shortcut
      name="reCsvEd - Uninstaller"
      programGroup="yes"

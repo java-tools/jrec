@@ -66,6 +66,7 @@ public class UpgradeDBs extends ReFrame implements ActionListener {
 	private JButton upgrade80		= new JButton("*");
 	private JButton upgrade90		= new JButton("*");
 	private JButton upgrade93		= new JButton("*");
+	private JButton upgrade94		= new JButton("*");
 	private JButton deleteExamples	= new JButton("*");
 	private JButton helpBtn			= SwingUtils.getHelpButton();
 	private JCheckBox splitOnRedefine = new JCheckBox();
@@ -153,6 +154,12 @@ public class UpgradeDBs extends ReFrame implements ActionListener {
 						UPGRADE_DB_MSG,
 						new Object[] {"0.90", "0.93"}),
 				upgrade93);
+		pnl.addMenuItemNative(
+				LangConversion.convertId(
+						LangConversion.ST_FIELD, "",
+						UPGRADE_DB_MSG,
+						new Object[] {"0.93", "0.94"}),
+				upgrade94);
 		pnl.setGap(BasePanel.GAP1);
 		pnl.addMenuItem("Delete example Layout's from the DB", deleteExamples);
 
@@ -166,6 +173,7 @@ public class UpgradeDBs extends ReFrame implements ActionListener {
 		upgrade80.addActionListener(this);
 		upgrade90.addActionListener(this);
 		upgrade93.addActionListener(this);
+		upgrade94.addActionListener(this);
 		deleteExamples.addActionListener(this);
 
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -209,6 +217,8 @@ public class UpgradeDBs extends ReFrame implements ActionListener {
 	    	upgrade.upgrade90(connectionId);
 	    } else if (event.getSource() == upgrade93) {
 	    	upgrade.upgrade93(connectionId);
+	    } else if (event.getSource() == upgrade94) {
+	    	upgrade.upgrade94(connectionId);
 	    } else if (event.getSource() == deleteExamples) {
 	    	upgrade.deleteExamples(connectionId);
 	    } else {

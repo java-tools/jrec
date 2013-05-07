@@ -266,7 +266,7 @@ implements ActionListener, OpenFileInterface {
 
 	private class StartEditorExtended extends StartEditor {
 
-		public StartEditorExtended(@SuppressWarnings("rawtypes") FileView file, String name, boolean browse) {
+		public StartEditorExtended(FileView file, String name, boolean browse) {
 			super(file, name, browse, message, initialRow);
 		}
 

@@ -9,11 +9,17 @@ public class TreeComboItem extends ComboStdOption<Integer> {
 
 	private TreeComboItem parentItem = null;
 	private final TreeComboItem[] children;
+	private boolean showParent = false;
 
 
 	public TreeComboItem(Integer idx, String str, String englishString) {
+		this(idx, str, englishString, true);
+	}
+
+	public TreeComboItem(Integer idx, String str, String englishString, boolean showParentName) {
 		super(idx, str, englishString);
 		children = null;
+		showParent = showParentName;
 	}
 
 
@@ -39,8 +45,10 @@ public class TreeComboItem extends ComboStdOption<Integer> {
 	private String getFullName() {
 		if (parentItem == null) {
 			return super.string;
+		} else if (showParent) {
+			return parentItem.getFullName() + "." + super.string;
 		}
-		return parentItem.getFullName() + "." + super.string;
+		return super.string;
 	}
 	/**
 	 * @return the parentItem

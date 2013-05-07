@@ -10,6 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import javax.swing.text.JTextComponent;
 
 import com.zbluesoftware.java.bm.ArrowButton;
@@ -24,6 +26,21 @@ public class ComboLikeObject extends JPanel implements ActionListener {
 
 	protected boolean visible = false;
 	private JPopupMenu currentPopup;
+	private PopupMenuListener popupListner = new PopupMenuListener() {
+
+		@Override
+		public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+		}
+
+		@Override
+		public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+		}
+
+		@Override
+		public void popupMenuCanceled(PopupMenuEvent e) {
+			highlightItem(currentPopup, false);
+		}
+	};
 
 	public ComboLikeObject() {
 		this(new JPopupMenu());
@@ -48,6 +65,8 @@ public class ComboLikeObject extends JPanel implements ActionListener {
 		this.setBorder(valueTxt.getBorder());
 		valueTxt.setBorder(BorderFactory.createEmptyBorder());
 		btn.addActionListener(this);
+
+		currentPopup.addPopupMenuListener(popupListner);
 	}
 
 	/**
@@ -57,8 +76,14 @@ public class ComboLikeObject extends JPanel implements ActionListener {
 
         if (visible) {
         	currentPopup.setVisible(false);
+        	highlightItem(currentPopup, false);
         } else {
-        	currentPopup = getPopup();
+        	JPopupMenu nm = getPopup();
+        	if (nm != currentPopup) {
+        		currentPopup.removePopupMenuListener(popupListner);
+        		nm.addPopupMenuListener(popupListner);
+        		currentPopup = nm;
+        	}
          	if (currentPopup != null) {
         		int xCoord = 0;
         		int yCoord = valueTxt.getHeight();
@@ -67,9 +92,15 @@ public class ComboLikeObject extends JPanel implements ActionListener {
         		if (currentPopup.getWidth() < this.getWidth()) {
         			currentPopup.setPopupSize(new Dimension(this.getWidth(), currentPopup.getHeight()));
         		}
+
+        		highlightItem(currentPopup, true);
          	}
 	    }
 	    visible = ! visible;
+	}
+
+	protected void highlightItem(JPopupMenu currentPopup, boolean visible) {
+
 	}
 
 	/**
@@ -82,6 +113,8 @@ public class ComboLikeObject extends JPanel implements ActionListener {
 	public JPopupMenu getPopup() {
 		return currentPopup;
 	}
+
+
 
 	/**
 	 * @param t

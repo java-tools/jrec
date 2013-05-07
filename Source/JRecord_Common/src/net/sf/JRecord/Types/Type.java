@@ -65,6 +65,14 @@ public interface Type {
 	public static final int ftAssumedDecimalPositive = 22;
 	public static final int ftBinaryIntPositive  = 23;
 
+	public static final int ftNumZeroPaddedPN    = 24;
+	public static final int ftNumZeroPaddedPositive = 25;
+	public static final int ftNumCommaDecimal  = 26;
+	public static final int ftNumCommaDecimalPN  = 27;
+	public static final int ftNumCommaDecimalPositive  = 28;
+
+	public static final int ftNumRightJustifiedPN  = 29;
+
 	public static final int ftPackedDecimal      = 31;
 	public static final int ftZonedNumeric       = 32;
 	public static final int ftPackedDecimalPostive = 33;
@@ -76,6 +84,10 @@ public interface Type {
 	public static final int ftRmCompPositive     = 38;
 
 	public static final int ftFjZonedNumeric     = 41;
+	public static final int ftNumRightJustCommaDp   = 42;
+	public static final int ftNumRightJustCommaDpPN = 43;
+
+
 	public static final int ftMultiLineChar      = 51;
 
 	public static final int ftDate               = 71;
@@ -177,4 +189,10 @@ public interface Type {
      * @return type of field
      */
     public abstract int getFieldType();
+
+    /**
+     * Get the character used for the decimal point
+     * @return
+     */
+    public abstract char getDecimalChar();
 }

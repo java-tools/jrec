@@ -1,0 +1,112 @@
+{
+  "protocol" : "sales5",
+  "namespace" : "net.sf.RecordEditor.avro.Test.Sales5",
+  "types" : [ {
+    "type" : "enum",
+    "name" : "SaleType",
+    "symbols" : [ "RETURN", "OTHER", "SALE" ]
+  }, {
+    "type" : "record",
+    "name" : "Product",
+    "fields" : [ {
+      "name" : "keycode",
+      "type" : "int"
+    }, {
+      "name" : "saleDate",
+      "type" : {
+        "type" : "array",
+        "items" : "int"
+      }
+    }, {
+      "name" : "quantity",
+      "type" : {
+        "type" : "array",
+        "items" : "int"
+      }
+    }, {
+      "name" : "price",
+      "type" : {
+        "type" : "array",
+        "items" : "long"
+      }
+    }, {
+      "name" : "saleType",
+      "type" : {
+        "type" : "array",
+        "items" : "SaleType"
+      }
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "Order",
+    "fields" : [ {
+      "name" : "keycode",
+      "type" : "int"
+    }, {
+      "name" : "quantity",
+      "type" : "int"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "Summary",
+    "fields" : [ {
+      "name" : "quantity",
+      "type" : "int"
+    }, {
+      "name" : "price",
+      "type" : "long"
+    }, {
+      "name" : "count",
+      "type" : "int"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "Deptartment",
+    "fields" : [ {
+      "name" : "department",
+      "type" : "int"
+    }, {
+      "name" : "name",
+      "type" : "string"
+    }, {
+      "name" : "product",
+      "type" : {
+        "type" : "array",
+        "items" : "Product"
+      }
+    }, {
+      "name" : "summary",
+      "type" : [ "null", "Summary" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "Store",
+    "fields" : [ {
+      "name" : "store",
+      "type" : "int"
+    }, {
+      "name" : "name",
+      "type" : "string"
+    }, {
+      "name" : "department",
+      "type" : {
+        "type" : "array",
+        "items" : "Deptartment"
+      }
+    }, {
+      "name" : "order",
+      "type" : {
+        "type" : "array",
+        "items" : "Order"
+      }
+    }, {
+      "name" : "summary",
+      "type" : [ "null", "Summary" ]
+    }, {
+      "name" : "optInt",
+      "type" : [ "null", "int" ]
+    } ]
+  } ],
+  "messages" : {
+  }
+}

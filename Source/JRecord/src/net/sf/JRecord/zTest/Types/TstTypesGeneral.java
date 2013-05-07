@@ -16,7 +16,16 @@ public class TstTypesGeneral extends TestCase {
 
 	 	Type.ftNumLeftJustified,
 	 	Type.ftNumRightJustified,
+	 	Type.ftNumRightJustifiedPN,
+	 	Type.ftNumRightJustCommaDp,
+	 	Type.ftNumRightJustCommaDpPN,
 	 	Type.ftNumZeroPadded,
+	 	Type.ftNumZeroPaddedPN,
+	 	Type.ftNumZeroPaddedPositive,
+	 	Type.ftNumCommaDecimal,
+	 	Type.ftNumCommaDecimalPN,
+	 	Type.ftNumCommaDecimalPositive,
+
 	 	Type.ftAssumedDecimal,
 	 	Type.ftAssumedDecimalPositive,
 	 	Type.ftSignSeparateLead,
@@ -100,7 +109,7 @@ public class TstTypesGeneral extends TestCase {
 
 		for (int i = 0; i < 200; i++) {
 			if (! numTypes.contains(i)) {
-				assertFalse("Char Type: " + i, m.getType(i).isNumeric());
+				assertFalse("Char Type: " + i , m.getType(i).isNumeric());
 			}
 		}
 

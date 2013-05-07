@@ -22,16 +22,20 @@ definition. The solution is to update the ODBC Definition
 :dt.Answer  :dd.There are a number of ways.
 :ul compact.
  :li.If you have a sample file, use the Layout Wizard
+ 
 .pict Edit_WizardButton.png
  :li.Use the LayoutEditor (either from the Windows / linux start button) or from the Layout Menu
+ 
 .pict MenuRL_Create.png
 :eul.
 :dt.Question:dd.:hp1.Why can't I see my layout in the Editor
 :dt.Answer  :dd.There are 2 possible causes&gml.
 :ol compact.
  :li.Have you reloaded the Database in the editor ???
+
 .pict Edit_ReloadButton.png
  :li.Have you selected list in the layout Screen ???
+ 
 .pict LayoutWizard_List.png
 :eol.
 :dt.Question:dd.:hp1.Can I load Cobol Copybooks into the DB in batch:ehp1.

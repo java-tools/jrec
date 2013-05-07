@@ -219,7 +219,7 @@ public class RecordDB  extends AbsDB<RecordRec> {
 //					+ "                             and  rs2.RECORDID = rs3.RECORDID)",
 					  "Delete from  TBL_RS2_SUBRECORDS where CHILD_RECORD = " + val.getRecordId(),
 					  "Delete from  TBL_RFS_FIELDSELECTION where RECORDID = " + val.getRecordId(),
-					  "Delete from  TBL_RF_RECORDFIELDS where RECORDID = " + val.getRecordId(),
+					  "Delete from  TBL_RF1_RECORDFIELDS where RECORDID = " + val.getRecordId(),
 					  "Delete from  TBL_RS2_SUBRECORDS where RECORDID = " + val.getRecordId(),
 		};
 

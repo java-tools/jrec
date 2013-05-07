@@ -53,9 +53,6 @@ public class DirectoryFrame extends ReFrame {
         String[] fileAction = FILE_ACTIONS;
         String[] btnTxt = fileAction;
 
-
-		BasePanel panel = new BaseHelpPanel();
-
 		if (directorySelection) {
 			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			btnTxt = dirAction;

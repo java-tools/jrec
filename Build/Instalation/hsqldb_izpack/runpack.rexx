@@ -2,8 +2,10 @@ parse arg xx
 
 
 /*   call doPack 'a'
-   call doPack 'pb'*/
+   call doPack 'pb'
+   call doPack 'aa' */
    call doPack 
+   
    
    /* call doPack xx */
 return
@@ -14,13 +16,14 @@ parse arg arg x
 	if arg = 'pb' then do
 		/*call pack_ProtoBuf 'ProtoBuffers'*/
 		call pack_ProtoBuf 'ProtoBufEditor'
+		call pack_ProtoBuf 'ProtoBufSummary'
 	end; else if arg = 'a' then do
 		call pack_Avro 'AvroEditor'
-		/*call pack_Avro 'avro-tools-1.6.3'*/
+		/*call pack_Avro 'avro-tools-1.7.4'*/
 	end; else if arg = 'aa' then do
 		call pack_Avro 'AvroEditor'
 		/*call pack_Avro 'avro-1.4.0'*/
-		call pack_Avro 'avro-tools-1.4.0'
+		call pack_Avro 'avro-tools-1.7.4'
 	end; else if arg = 'h2' then do
 		call pack_H2 'h2-1.2.141'
 	end; else if arg = 'v' then do
@@ -44,6 +47,9 @@ parse arg arg x
 		call pack 'JRecord'
 		call pack 'LayoutEdit'
 		call pack 'RecordEdit'
+		/*call pack 'swingx-subset-1.6.4'*/
+		call pack 'PoEditor_re'
+		
 		
 
 		

@@ -17,8 +17,9 @@ package net.sf.RecordEditor.edit.display.util;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.LineCompare;
+import net.sf.RecordEditor.jibx.compare.EditorTask;
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.re.file.FileView;
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.common.Common;
 
 /**
@@ -38,8 +39,6 @@ public final class SortFrame extends BaseFieldSelection {
      */
     public SortFrame(final AbstractFileDisplay src, final FileView fileTbl) {
     	this(src, fileTbl, "Sort Options", Common.ID_SORT_ICON, "Sort");
-    	//super(src, fileTbl, "Sort Options", Common.ID_SORT_ICON, "Sort", 2, false, ! fileTbl.getLayout().hasChildren());
-		//pnl.setHelpURL(Common.formatHelpURL(Common.HELP_SORT));
     }
 
 
@@ -50,20 +49,20 @@ public final class SortFrame extends BaseFieldSelection {
      * @param fileTbl file to be sorted
      * @param id screen identifier
      */
-    protected SortFrame(final AbstractFileDisplay src, final FileView fileTbl, 
+    protected SortFrame(final AbstractFileDisplay src, final FileView fileTbl,
     		final String id, final int icondId, final String btnText) {
-        super(src, fileTbl,  id, icondId, btnText, 2, false, ! fileTbl.getLayout().hasChildren());
+        super(src, fileTbl,  id, icondId, btnText, 2, false, ! fileTbl.getLayout().hasChildren(), EditorTask.TASK_SORT);
 		super.setHelpURL(Common.formatHelpURL(Common.HELP_SORT));
-		
+
 		if (fileTbl.getRowCount() == 0) {
 			super.doDefaultCloseAction();
 			Common.logMsg("Nothing to sort", null);
 			return;
 		}
-		
+
 		if (fileTbl.getLayout().hasChildren()) {
 			int idx = fileTbl.getLine(0).getPreferredLayoutIdx();
-			
+
 			for (int i =1; i < fileTbl.getRowCount(); i++) {
 				if (idx != fileTbl.getLine(0).getPreferredLayoutIdx()) {
 					Common.logMsg("You can only sort when all records are of the same type", null);
@@ -72,20 +71,21 @@ public final class SortFrame extends BaseFieldSelection {
 				}
 			}
 			records.setSelectedIndex(idx);
-			setFieldCombos(idx); 
+			setFieldCombos(idx);
 		}
     }
 
-    
+
     /**
      * Get sort details
      * @param fieldList field index list
      * @param descending wether it is a descending (or ascending sort
      * @param layout Record Layout definition
+     * @return
      */
-    protected void doAction(FileView view, int selection, AbstractFileDisplay src,
+    protected AbstractFileDisplay doAction(FileView view, int selection, AbstractFileDisplay src,
     		int[] fieldList, boolean[] descending, AbstractLayoutDetails layout) {
-    	
+
         if (selectWholeFile()) {
         	view.sort(new LineCompare(layout, selection,
                 fieldList, descending));
@@ -96,5 +96,6 @@ public final class SortFrame extends BaseFieldSelection {
                         fieldList, descending));
         	}
         }
+        return super.source;
     }
 }

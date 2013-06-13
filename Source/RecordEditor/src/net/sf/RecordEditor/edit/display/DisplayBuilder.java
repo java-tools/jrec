@@ -1,6 +1,6 @@
 package net.sf.RecordEditor.edit.display;
 
-import net.sf.RecordEditor.re.script.IDisplayFrame;
+import net.sf.RecordEditor.re.display.IDisplayFrame;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
@@ -130,14 +130,14 @@ public class DisplayBuilder {
 //		return ret;
 //	}
 
-	public static final void addToScreen(@SuppressWarnings("rawtypes") IDisplayFrame df, BaseDisplay d) {
-		if (Common.OPTIONS.useSeperateScreens.isSelected() || df == null) {
-			new DisplayFrame(d);
-		} else {
-			df.addScreen(d);
-			if (df.getActiveDisplay() instanceof ReFrame) {
-				ReFrame.setActiveFrame((ReFrame) df.getActiveDisplay());
-			}
-		}
-	}
+//	public static final void addToScreen(@SuppressWarnings("rawtypes") IDisplayFrame df, BaseDisplay d) {
+//		if (Common.OPTIONS.useSeperateScreens.isSelected() || df == null) {
+//			new DisplayFrame(d);
+//		} else {
+//			df.addScreen(d);
+//			if (df.getActiveDisplay() instanceof ReFrame) {
+//				ReFrame.setActiveFrame((ReFrame) df.getActiveDisplay());
+//			}
+//		}
+//	}
 }

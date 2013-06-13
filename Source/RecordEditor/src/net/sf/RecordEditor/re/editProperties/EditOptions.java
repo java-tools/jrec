@@ -481,11 +481,12 @@ public class EditOptions {
     private String screenLocationDescription
         = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_ScreenLocation",
 
-          "<h2>Screen positioning Properties</h2>"
-        + "The properties on this panel are for setting the amount "
-        + "of space to be left around the edge of the <b>RecordEditor</b>."
-        + "<br>The editor can start using the full screen or any part "
-        + "of the screen that you desire.");
+          "<h2>Program initial Size</h2>"
+        + "This screen controls the program size when it inially opens. "
+        + "The options are <b>Maximised</b>, <b>Last Size</b>,<br/>"
+        + "<b>Space around Edges</b> and <b>Initial Size</b>.<br/>"
+        + "The <b>retrieve screen size</b> button at the bottom of the screen."
+        + "retrieves the current program Size.");
 //    private String[][] screenLocationParams = {
 //            {"spaceAtBottomOfScreen", "Space to be left at the bottom of the screen.", null},
 //            {"spaceAtTopOfScreen", "Space to be left at the top of the screen.", null},
@@ -713,7 +714,7 @@ public class EditOptions {
 
         SwingUtils.addTab(looksTabbed, "EditOpts_User","Look and Feel", new LooksPanel(params));
         SwingUtils.addTab(looksTabbed, "EditOpts_User","Icons", new EditIcons(params));
-        SwingUtils.addTab(looksTabbed, "EditOpts_User","Screen Properties", screenPosPnl);
+        SwingUtils.addTab(looksTabbed, "EditOpts_User","Initial Program Size", screenPosPnl);
 
         addMainTab("Description", init_310_Screen());
         addMainTab("Properties", propertiesTabbed);

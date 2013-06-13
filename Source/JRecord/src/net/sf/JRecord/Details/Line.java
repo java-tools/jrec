@@ -300,7 +300,7 @@ public class Line extends BasicLine<Line> {
 	 */
 	private void adjustLength(final int recordIdx) {
 
-		RecordDetail pref = layout.getRecord(recordIdx);
+		AbstractRecordDetail pref = layout.getRecord(recordIdx);
 		int newSize = pref.getLength(); //field.getEnd();
 
 		if (newSize != getLineData().length) {

@@ -185,6 +185,9 @@ public class FileView	extends 			AbstractTableModel
 
 	private ArrayList<FileWriter> writers = new ArrayList<FileWriter>();
 
+	/**
+	 * Notify File class that background save  has completed
+	 */
 	private PropertyChangeListener saveDoneListner = new PropertyChangeListener() {
 
 		@Override
@@ -1456,7 +1459,7 @@ public class FileView	extends 			AbstractTableModel
 				int childIdx = line.getTreeDetails().getChildDefinitionInParent().getChildIndex();
 				int loc = parent.getTreeDetails().getLines(childIdx).indexOf(line);
 
-				newLine = (AbstractLine) line.clone();
+				newLine = (AbstractLine) line.getNewDataLine();
 				insert(parent, newLine, loc);
 			break;
 			case (FAILED_2ND_ROOT_NOT_ALLOWED):
@@ -1574,7 +1577,7 @@ public class FileView	extends 			AbstractTableModel
 	        int l = baseFile.indexOf(lines.get(lineNumber));
 	        newLine = baseFile.repeatLine(l);
 		}else {
-	        newLine = (AbstractLine)  lines.get(lineNumber).clone();
+	        newLine = lines.get(lineNumber).getNewDataLine();
 	        setChanged(true);
 	    }
 	    if (newLine != null) {
@@ -1757,7 +1760,7 @@ public class FileView	extends 			AbstractTableModel
 
 		AbstractLine ttt;
 		for (int i = 0; i < copySrc.length; i++) {
-        	ttt = (AbstractLine) copySrc[i].clone();
+        	ttt = copySrc[i].getNewDataLine();
         	ttt.setLayout(layout);
         	copySrc[i] = ttt;
 		}
@@ -1806,12 +1809,12 @@ public class FileView	extends 			AbstractTableModel
 	    if (view) {
 	        int basePos = baseFile.newLine(getBasePosition(pos), adj);
 
-	        pos = addLine(pos + adj, baseFile.getLine(basePos));
+	        pos = addLineInternal(pos + adj, baseFile.getLine(basePos));
 	    } else {
 			if (ioProvider == null) {
 				ioProvider = LineIOProvider.getInstance();
 			}
-	        pos = addLine(pos + adj, ioProvider.getLineProvider(layout.getFileStructure()).getLine(layout));
+	        pos = addLineInternal(pos + adj, ioProvider.getLineProvider(layout.getFileStructure()).getLine(layout));
 	        //changed = true;
 	    }
 
@@ -1839,7 +1842,7 @@ public class FileView	extends 			AbstractTableModel
 	    //System.out.println("Insert " + linesToAdd.length + " lines ");
 	    for (int i = 0; i < linesToAdd.length; i++) {
 	    	//System.out.print(pos);
-	    	pos = addLine(pos, linesToAdd[i]);
+	    	pos = addLineInternal(pos, linesToAdd[i]);
 	    }
 	    //System.out.println("Row Count 2: " + getRowCount());
 
@@ -1875,11 +1878,23 @@ public class FileView	extends 			AbstractTableModel
 	 *
 	 * @return position a line was added
 	 */
-	private int addLine(int pos, AbstractLine line) {
+	public final int addLine(int pos, AbstractLine line) {
+		return addLineInternal(pos - 1, line);
+	}
 
-        if (lines.size() == 0) {
+	/**
+	 * Add a line
+	 *
+	 * @param pos position to add a record
+	 * @param line line to insert
+	 *
+	 * @return position a line was added
+	 */
+	private int addLineInternal(int pos, AbstractLine line) {
+
+        if (lines.size() == 0 || pos >= lines.size() - 1) {
+            pos = lines.size();
             lines.add(line);
-            pos = 0;
         } else {
             pos += 1;
             lines.add(pos, line);
@@ -2864,6 +2879,9 @@ public class FileView	extends 			AbstractTableModel
      * @return filename
      */
     public String getFileName() {
+    	if (isView()) {
+    		return baseFile.getFileName();
+    	}
         return fileName;
     }
 
@@ -2874,6 +2892,9 @@ public class FileView	extends 			AbstractTableModel
      * @return filename
      */
     public String getFileNameNoDirectory() {
+    	if (isView()) {
+    		return baseFile.getFileNameNoDirectory();
+    	}
     	if (altName != null) {
     		return altName;
     	}

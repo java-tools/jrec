@@ -2,7 +2,7 @@ package net.sf.RecordEditor.edit.display.Action;
 
 import java.awt.event.ActionEvent;
 
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 

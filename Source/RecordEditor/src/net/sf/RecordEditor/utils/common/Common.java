@@ -30,6 +30,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
+import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.io.File;
@@ -213,6 +214,7 @@ public final class Common implements Constants {
 	public static final String HELP_COPYBOOK       = "HlpLe08.htm";
 	public static final String HELP_COPYBOOK_CHOOSE= "HlpLe09.htm";
 	public static final String HELP_COPY_LAYOUT    = "HlpLe10.htm";
+	public static final String HELP_SCRIPT         = "HlpRe17.htm";
 
 	public static final String FILE_SAVE_FAILED = LangConversion.convert("File Save Failed:");
 
@@ -220,7 +222,7 @@ public final class Common implements Constants {
 //	public static final String DEFAULT_IO_NAME       = fix(Parameters.getString(Parameters.DEFAULT_IO));
 //	public static final String DEFAULT_BIN_NAME  = fix(Parameters.getString(Parameters.DEFAULT_BINARY));
 
-	private static final int DEFAULT_ROOM_AROUND_SCREEN = 32;
+	private static final int DEFAULT_ROOM_AROUND_SCREEN = 34;
 	private static       int spaceAtBottomOfScreen = DEFAULT_ROOM_AROUND_SCREEN;
 	private static       int spaceAtLeftOfScreen   = 1;
 	private static       int spaceAtRightOfScreen  = 1;
@@ -281,9 +283,10 @@ public final class Common implements Constants {
     public static final int ID_FILE_SEARCH_ICON   = 47;
     public static final int ID_DIRECTORY_SEARCH_ICON = 48;
     public static final int ID_EXPORT_SCRIPT_ICON  = 49;
-    public static final int ID_SCRIPT_ICON  = 49;
+    public static final int ID_SCRIPT_ICON  = 50;
+    public static final int ID_MENU_FOLDER  = 51;
 
-    public static final int ID_MAX_ICON       = 51;
+    public static final int ID_MAX_ICON       = 52;
 
     public static final int TI_FIELD_TYPE     = 1;
 	public static final int TI_RECORD_TYPE    = 2;
@@ -1235,8 +1238,9 @@ public final class Common implements Constants {
             recIcon[ID_SAVEAS_HTML_ICON   ] = getIcon("SaveAs_Html");
             recIcon[ID_SAVEAS_XML_ICON    ] = getIcon("SaveAs_xml");
             recIcon[ID_SAVEAS_VELOCITY_ICON]= getIcon("SaveAs_Velocity");
-            recIcon[ID_EXPORT_SCRIPT_ICON]  = getIcon("ScriptExport");
-            recIcon[ID_SCRIPT_ICON]         = getIcon("Script");
+            recIcon[ID_EXPORT_SCRIPT_ICON ] = getIcon("ScriptExport");
+            recIcon[ID_SCRIPT_ICON        ] = getIcon("Script");
+            recIcon[ID_MENU_FOLDER        ] = getIcon("BlueFolder");
             recIcon[ID_SUMMARY_ICON       ] = getIcon("Summary");
             recIcon[ID_SORT_SUM_ICON      ] = getIcon("SortSum");
 
@@ -1641,24 +1645,25 @@ public final class Common implements Constants {
         //case ProgramOptions.SIZE_MAXIMISED:
         case ProgramOptions.SIZE_SPECIFIED:
         	setSizeFromVars(
-      			  frame, screenSize,
+      			  frame, getUsableScreenArea(frame),
       			  id + Parameters.SCREEN_START_WIDTH,
       			  id + Parameters.SCREEN_START_HEIGHT);
 
        		break;
       	default:
-        	setMaximised(frame, screenSize);
+        	setMaximised(frame, getUsableScreenArea(frame));
 	    }
     }
 
+
     private static void setSizeFromVars(JFrame frame, Dimension screenSize, String widthPrm, String heightPrm) {
 	    try {
-			int width = Math.min(
-					screenSize.width,
-					Integer.parseInt(Parameters.getString(widthPrm))),
-				height= Math.min(
-						screenSize.height,
-						Integer.parseInt(Parameters.getString(heightPrm)));
+	    	int width = screenSize.width,
+	    		height = screenSize.height;
+
+			width = setVal(width, Parameters.getString(widthPrm));
+			height = setVal(height, Parameters.getString(heightPrm));
+
 			if (width > 0 && height > 0) {
 				frame.setSize(width, height);
 			} else {
@@ -1669,22 +1674,42 @@ public final class Common implements Constants {
 		}
     }
 
-    private static void setMaximised(JFrame frame, Dimension screenSize) {
-       	setStandardHeight(frame, screenSize);
-    		GraphicsEnvironment e = GraphicsEnvironment
-    				.getLocalGraphicsEnvironment();
-    		frame.setMaximizedBounds(e.getMaximumWindowBounds());
+    private static int setVal(int defaultValue, String val) {
+    	if (val != null && ! "".equals(val)) {
+    		defaultValue = Math.min(defaultValue, Integer.parseInt(val));
+    	}
+    	return defaultValue;
+    }
 
-    		frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+    private static void setMaximised(JFrame frame, Dimension screenSize) {
+
+       	frame.setSize(screenSize);
+    	GraphicsEnvironment e = GraphicsEnvironment
+    				.getLocalGraphicsEnvironment();
+    	frame.setMaximizedBounds(e.getMaximumWindowBounds());
+
+    	frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+    }
+
+    public static Dimension getUsableScreenArea(Component c) {
+    	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+    	//height of the task bar
+    	Insets scnMax = Toolkit.getDefaultToolkit().getScreenInsets(c.getGraphicsConfiguration());
+
+    	return new Dimension(
+    			screenSize.width  - scnMax.left - scnMax.right,
+    			screenSize.height - scnMax.top  - scnMax.bottom);
     }
 
     private static void setStandardHeight(JFrame frame, Dimension screenSize) {
-        frame.setBounds(Common.getSpaceAtRightOfScreen(),
-		          Common.getSpaceAtTopOfScreen(),
-		          screenSize.width  - Common.getSpaceAtRightOfScreen()
-		          		- Common.getSpaceAtLeftOfScreen(),
-		          screenSize.height - Common.getSpaceAtBottomOfScreen()
-		          		- Common.getSpaceAtTopOfScreen());
+        frame.setBounds(
+        		Common.spaceAtLeftOfScreen,
+		        Common.spaceAtTopOfScreen,
+		        screenSize.width  - Common.spaceAtRightOfScreen
+		          		- Common.spaceAtLeftOfScreen,
+		        screenSize.height - Common.spaceAtBottomOfScreen
+		          		- Common.spaceAtTopOfScreen);
     }
 
 //    public static void setBounds2(JFrame frame) {
@@ -1718,13 +1743,13 @@ public final class Common implements Constants {
         return spaceAtBottomOfScreen;
     }
 
-    /**
-     * @return Returns the spaceAtLeftOfScreen.
-     */
-    public static int getSpaceAtLeftOfScreen() {
-        //initVars();
-        return spaceAtLeftOfScreen;
-    }
+//    /**
+//     * @return Returns the spaceAtLeftOfScreen.
+//     */
+//    public static int getSpaceAtLeftOfScreen() {
+//        //initVars();
+//        return spaceAtLeftOfScreen;
+//    }
 
     /**
      * @return Returns the spaceAtRightOfScreen.
@@ -1734,13 +1759,13 @@ public final class Common implements Constants {
         return spaceAtRightOfScreen;
     }
 
-    /**
-     * @return Returns the spaceAtTopOfScreen.
-     */
-    public static int getSpaceAtTopOfScreen() {
-       //initVars();
-       return spaceAtTopOfScreen;
-    }
+//    /**
+//     * @return Returns the spaceAtTopOfScreen.
+//     */
+//    public static int getSpaceAtTopOfScreen() {
+//       //initVars();
+//       return spaceAtTopOfScreen;
+//    }
 
     /**
      * Get the Icon for a specific ReActionHandler action

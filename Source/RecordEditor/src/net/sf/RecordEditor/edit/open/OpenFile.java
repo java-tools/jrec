@@ -21,7 +21,6 @@
 
 package net.sf.RecordEditor.edit.open;
 
-
 import java.awt.Rectangle;
 
 import javax.swing.JButton;
@@ -95,7 +94,6 @@ public class OpenFile extends ReFrame {
 	 * @param propertiesFiles properties file holding the recent files
 	 * @param helpScreen help screen to display
 	 */
-	@SuppressWarnings("rawtypes")
 	public OpenFile(final String pInFile,
      	   final int pInitialRow,
      	   final AbstractLineIOProvider pIoProvider,
@@ -117,10 +115,10 @@ public class OpenFile extends ReFrame {
 	}
 
 	public OpenFile(final OpenFileInterface openFile) {
-		this(openFile, FRAME_WIDTH);
+		this(openFile, FRAME_WIDTH, -1);
 	}
 
-	public OpenFile(final OpenFileInterface openFile, int width) {
+	public OpenFile(final OpenFileInterface openFile, int width, int height) {
 		super("", "Open File", "", null);
 
 //		copyBookInterface = pInterfaceToCopyBooks;
@@ -130,13 +128,29 @@ public class OpenFile extends ReFrame {
 		this.getContentPane().add(openFilePanel.getPanel());
 		this.pack();
 
+		ReMainFrame masterFrame = ReMainFrame.getMasterFrame();
+		if (height < 0) {
+			height = getHeight();
+		}
+
+		height = Math.min(height, masterFrame.getDesktopHeight() - 2);
+
 		if (width > 0) {
-			setBounds(getY(), getX(), width, getHeight());
+			setBounds(1 /*getY()*/,  getX(), width, height);
 		} else {
-			Rectangle screenSize = ReMainFrame.getMasterFrame().getDesktop().getBounds();
-			if (getWidth() > screenSize.width) {
-				setBounds(getY(), getX(), screenSize.width - 1, getHeight());
-			}
+//			JDesktopPane desktop = masterFrame.getDesktop();
+			Rectangle screenSize = masterFrame.getBounds();
+//			Dimension preferredSize1 = desktop.getPreferredSize();
+
+//			System.out.println("*===* " + getY() + " " + getX() + " " + (screenSize.width - 1) + " " + getHeight()
+//					+ " " + screenSize.height + " " + masterFrame.isVisible()
+//				    + " " + masterFrame.getClass().getName()
+//					+ " " + preferredSize1.width + " "  + preferredSize1.height
+//					+ " ~~~ " + desktop.getSize().width + " " + desktop.getHeight());
+
+			//if (getWidth() > screenSize.width) {
+				setBounds(getY(), getX(), screenSize.width  - 7, height);
+			//}
 		}
 		frameSize = this.getBounds();
 

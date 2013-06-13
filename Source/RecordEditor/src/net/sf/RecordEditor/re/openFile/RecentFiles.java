@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.StringTokenizer;
 
+import javax.swing.event.ChangeListener;
+
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.params.Parameters;
 
@@ -73,6 +75,7 @@ public class RecentFiles {
 	//private HashMap  idxLookup = new HashMap(HASH_MAP_SIZE);
 
 	private FormatFileName selection;
+	private ArrayList<ChangeListener> changeListners = new ArrayList<ChangeListener>();
 
 	private static RecentFiles last = null;
 
@@ -248,6 +251,8 @@ public class RecentFiles {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        notifyChgListners();
 	}
 
 
@@ -355,6 +360,7 @@ public class RecentFiles {
     		if (i < 0) {
     			i = FILE_HISTORY - 1;
     		}
+    		//System.out.println(directory[i] + " # " + fileNames[i]  + j + ", " + i + " > " + prevFiles.length);
     		if (directory[i] != null && ! "".equals(directory[i])
     		&& fileNames[i] != null && ! "".equals(fileNames[i])
     		&& ! used.containsKey(fileNames[i])) {
@@ -471,6 +477,16 @@ public class RecentFiles {
     	}
     	return ret;
     }
+
+    private void notifyChgListners() {
+    	for (ChangeListener l : changeListners) {
+    		l.stateChanged(null);
+    	}
+    }
+
+	protected void addChangeListner(ChangeListener l) {
+		changeListners.add(l);
+	}
 
 	/**
 	 * @return the last

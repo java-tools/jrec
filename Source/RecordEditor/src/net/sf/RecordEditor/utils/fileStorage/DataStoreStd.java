@@ -39,7 +39,7 @@ implements IDataStoreText<L>, TableModelListener {
 
 	@Override
 	public L addCopy(int lineNo, L line) {
-		L l = (L) line.clone();
+		L l = (L) line.getNewDataLine();
 
 		l.setLayout(getLayout());
 

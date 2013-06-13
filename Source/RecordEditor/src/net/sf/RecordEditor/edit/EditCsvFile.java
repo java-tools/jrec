@@ -13,12 +13,13 @@
  */
 package net.sf.RecordEditor.edit;
 
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import javax.swing.JMenu;
 
-import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.RecordEditor.edit.display.Action.CsvUpdateLayoutAction;
 import net.sf.RecordEditor.edit.display.Action.LoadFileLayoutFromXml;
@@ -44,6 +45,20 @@ import net.sf.RecordEditor.utils.params.Parameters;
 @SuppressWarnings("serial")
 public class EditCsvFile extends EditRec {
 
+	private final OpenFile open;
+	private ComponentAdapter resizeListner = new ComponentAdapter() {
+
+		/* (non-Javadoc)
+		 * @see java.awt.event.ComponentAdapter#componentResized(java.awt.event.ComponentEvent)
+		 */
+		@Override
+		public void componentResized(ComponentEvent e) {
+			//System.out.println("Resize ... " + EditCsvFile.super.getWidth());
+			EditCsvFile.super.setLogFrameSize();
+			open.setSize(EditCsvFile.super.getLogWidth(), getOpenHeight());
+		}
+	};
+
     /**
 	 * Creating the File & record selection screen
 	 *
@@ -68,17 +83,18 @@ public class EditCsvFile extends EditRec {
     public EditCsvFile(final String pInFile,
      	   final int pInitialRow,
     	   final AbstractLineIOProvider pIoProvider) {
-        super(false, "reCsv Editor", Common.CSV_PROGRAM_ID, new NewCsvAction());
+        super(false, "reCsv Editor", Common.CSV_PROGRAM_ID, new NewCsvAction(), true);
+
 
 //        long time = System.nanoTime();
         OpenCsvFilePnl csvPnl = new OpenCsvFilePnl(
         				pInFile,
         				Parameters.getApplicationDirectory() + "CsvFiles.txt",
-        				pIoProvider);
+        				pIoProvider,
+        				true);
+
 //        long time1 = System.nanoTime();
-        OpenFile open = new OpenFile(
-        		csvPnl,
-        		Constants.NULL_INTEGER);
+		open = new OpenFile(csvPnl, super.getLogWidth(), getOpenHeight());
 
         csvPnl.setParentFrame(open);
 //        long time2 = System.nanoTime();
@@ -96,7 +112,18 @@ public class EditCsvFile extends EditRec {
         super.getEditMenu().add(addAction(new CsvUpdateLayoutAction()));
         super.getEditMenu().add(addAction(new SaveFileLayout2Xml()));
         super.getEditMenu().add(addAction(new LoadFileLayoutFromXml()));
+
+        super.addComponentListener(resizeListner);
     }
+
+	private int getOpenHeight() {
+		int height = -1;
+        int logHeight = getLogHeight();
+        if (logHeight > 20) {
+        	height = getDesktopHeight() - logHeight;// + SwingUtils.STANDARD_FONT_HEIGHT;
+        }
+		return height;
+	}
 
 
 

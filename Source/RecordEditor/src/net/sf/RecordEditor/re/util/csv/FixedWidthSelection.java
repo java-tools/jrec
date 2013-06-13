@@ -89,7 +89,7 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 		pnl.setGap(BasePanel.GAP1);
 		pnl.addLine((String) null, editBtn);
 		pnl.addComponent(
-				1, 5, BasePanel.FILL, BasePanel.GAP1,
+				1, 5, BasePanel.FILL, BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL,
 		        fileTable);
 		layoutFile.addFcFocusListener(new FocusAdapter() {

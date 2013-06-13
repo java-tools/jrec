@@ -105,23 +105,25 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 
 	public CsvSelectionPanel(byte[][] dataLines, String font,
 			boolean showCancel, JTextComponent msg) {
-		this(dataLines, font, showCancel, "", msg);
+		this(dataLines, font, showCancel, "", msg, false);
     };
 
 
 	public CsvSelectionPanel(byte[][] dataLines, String font,
-			boolean showCancel, String heading, JTextComponent msg) {
+			boolean showCancel, String heading, JTextComponent msg,
+			boolean adjustableTblHeight) {
 		fieldSeparator = DelimiterCombo.NewDelimCombo();
 		message = msg;
 		setData(dataLines, font);
 
 		init_100_SetupFields();
-		init_200_LayoutScreen(showCancel, heading);
+		init_200_LayoutScreen(showCancel, heading, adjustableTblHeight);
 	};
 
 
 	public CsvSelectionPanel(byte[] data, String font,
-			boolean showCancel, String heading, JTextComponent msg) {
+			boolean showCancel, String heading, JTextComponent msg,
+			boolean adjustableTblHeight) {
 		message = msg;
 		isByteBased = false;
 		fieldSeparator = DelimiterCombo.NewDelimCombo();
@@ -129,7 +131,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 		setData("", data, true, null);
 
 		init_100_SetupFields();
-		init_200_LayoutScreen(showCancel, heading);
+		init_200_LayoutScreen(showCancel, heading, adjustableTblHeight);
 		valueChanged();
 	};
 
@@ -215,8 +217,8 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 		fieldNamesOnLine.addActionListener(fieldNamesChanged);
 	}
 
-	private void init_200_LayoutScreen(boolean showCancel, String heading) {
-		int fileTblHeight = SwingUtils.TABLE_ROW_HEIGHT * 27 / 2;
+	private void init_200_LayoutScreen(boolean showCancel, String heading, boolean adjustableTblHeight) {
+		double fileTblHeight = SwingUtils.TABLE_ROW_HEIGHT * 27 / 2;
 		JPanel pnl = new JPanel(new BorderLayout());
 		JPanel pnl1 = new JPanel();
 		JLabel orLbl = new JLabel("   or ");
@@ -248,7 +250,9 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 
 		addLine("Quote Character", quoteCombo);
 
-		if (! isByteBased) {
+		if (adjustableTblHeight) {
+			fileTblHeight = BasePanel.FILL;
+		} else if (! isByteBased) {
 			addLine("Font", fontTxt);
 			fileTblHeight -= SwingUtils.TABLE_ROW_HEIGHT * 2;
 		}

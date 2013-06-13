@@ -15,7 +15,9 @@ import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDecider;
 import net.sf.JRecord.Details.RecordDetail;
+import net.sf.JRecord.Details.RecordDetail.FieldDetails;
 import net.sf.JRecord.Log.AbsSSLogger;
+import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.detailsSelection.RecordSel;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
@@ -188,12 +190,20 @@ public class CopyBookDbReader implements CopyBookInterface {
 				      layouts = getGroupOfRecords(dbIndex, recordId);
 				  break;
 				  default:
+					FieldDetails[] fields = getFields(dbIndex, recordId, recordType, fontName);
 					layouts = new RecordDetail[1];
+
+					if (fileStructure == Constants.IO_NAME_1ST_LINE && (fields == null || fields.length == 0)) {
+						fields = new FieldDetails[1];
+						fields[0] = new FieldDetails("a", "", Type.ftChar, 0, "", 0, "");
+						fields[0].setPosOnly(1);
+					}
+
 					layouts[0] = new RecordDetail(pName, "", "",
 									recordType, fix(resultset.getString(4)),
 									fix(resultset.getString(5)),
 									fontName,
-									getFields(dbIndex, recordId, recordType, fontName),
+									fields,
 									recordStyle, 0);
 					layouts[0].setSourceIndex(Common.getConnectionIndex());
 				}

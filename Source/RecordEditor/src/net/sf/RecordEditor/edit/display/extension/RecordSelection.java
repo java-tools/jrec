@@ -5,12 +5,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JTable;
 
-import net.sf.JRecord.Details.AbstractLine;
 import net.sf.RecordEditor.edit.display.BaseDisplay;
 import net.sf.RecordEditor.edit.display.DisplayFrame;
-import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.edit.display.util.LinePosition;
 import net.sf.RecordEditor.edit.display.util.MovementBtnPnl;
+import net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
@@ -131,6 +130,13 @@ implements AbstractFileDisplayWithFieldHide {
 	public int getCurrRow() {
 		return splitPane.getCurrRow();
 	}
+
+	public void checkForTblRowChange(int row) {
+		if (splitPane.getCurrRow() != row) {
+			setCurrRow(row);
+		}
+	}
+
 
 	public void setCurrRow(int newRow) {
 		splitPane.setCurrRow(newRow);

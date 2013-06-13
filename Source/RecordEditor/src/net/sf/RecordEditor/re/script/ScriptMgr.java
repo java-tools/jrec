@@ -2,6 +2,9 @@ package net.sf.RecordEditor.re.script;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +25,7 @@ public class ScriptMgr implements ValidExtensionCheck {
 
     public final void runScript(
     		String script,
-    		ScriptData data) throws FileNotFoundException, ScriptException  {
+    		ScriptData data) throws FileNotFoundException, ScriptException, IOException  {
 
     	String ext = Parameters.getExtensionOnly(script);
     	ScriptEngine eng = scriptManager.getEngineByExtension(ext);
@@ -50,9 +53,51 @@ public class ScriptMgr implements ValidExtensionCheck {
     	runScript(scriptManager.getEngineByName(language), script, data);
     }
 
+    public final void runScript(
+    		String script,
+     		ScriptData data,
+    		String scriptText
+   ) throws FileNotFoundException, ScriptException, IOException  {
+
+    	String ext = Parameters.getExtensionOnly(script);
+    	ScriptEngine eng = scriptManager.getEngineByExtension(ext);
+    	if (eng == null) {
+    		eng = scriptManager.getEngineByExtension("." + ext);
+    	}
+		runScript(eng, script, new StringReader(scriptText), data);
+    }
+
+	/**
+     * Generate a Velocity template with the supplied records
+     * @param language script language
+     * @param script script file to be run
+     * @param data Data to pass to the Velocity template
+ 	 * @throws ScriptException
+	 * @throws FileNotFoundException
+     *
+     * @throws Exception any error that occurs
+     */
+    public final void runScript(
+    		String language,
+    		String script,
+     		ScriptData data,
+     		String scriptText
+    ) throws FileNotFoundException, ScriptException  {
+
+    	runScript(scriptManager.getEngineByName(language), script, new StringReader(scriptText), data);
+    }
+
     private final void runScript(
     		ScriptEngine eng,
     		String script,
+    		ScriptData data) throws FileNotFoundException, ScriptException  {
+    	runScript(eng, script, new FileReader(script), data);
+    }
+
+    private final void runScript(
+    		ScriptEngine eng,
+    		String script,
+    		Reader r,
     		ScriptData data) throws FileNotFoundException, ScriptException  {
 
 
@@ -78,7 +123,15 @@ public class ScriptMgr implements ValidExtensionCheck {
 		        eng.put("RecordEditorData", data);
     		}
 
-	        eng.eval(new FileReader(script));
+    		try {
+    			eng.eval(r);
+    		} finally {
+		        try {
+					r.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+    		}
     	}
     }
 
@@ -132,6 +185,29 @@ public class ScriptMgr implements ValidExtensionCheck {
 			}
 			return languages;
 		}
+	}
+
+
+	/**
+	 * @return the languages
+	 */
+	public static List<String[]> getLanguageExt() {
+
+		List<String[]> ret = new ArrayList<String[]>();
+
+		ScriptEngineManager manager = new ScriptEngineManager(ScriptMgr.class.getClassLoader());
+		List<ScriptEngineFactory> engines = manager.getEngineFactories();
+
+		for (ScriptEngineFactory engine : engines) {
+			List<String> extensions = engine.getExtensions();
+			for (String s : extensions) {
+				String[] r = {s, engine.getLanguageName()};
+				ret.add(r);
+			}
+		}
+
+		return ret;
+
 	}
 
 }

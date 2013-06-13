@@ -3,7 +3,6 @@ package net.sf.JRecord.Details;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import net.sf.JRecord.Common.AbstractFieldValue;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.IFieldDetail;
@@ -14,12 +13,12 @@ public class ArrayListLine<
 								FieldDef extends FieldDetail,
 								RecordDef extends AbstractRecordDetail,
 								Layout extends AbstractLayoutDetails>
+extends BaseLine<Layout>
 implements AbstractLine {
 
 //	private static final AbstractTreeDetails<FieldDetail, Recor dDetail, LayoutDetail, ArrayListLine, Object>
 //				NULL_TREE_DETAILS = new NullTreeDtls<FieldDetail, RecordDetail, LayoutDetail, AbstractChildDetails<RecordDetail>, ArrayListLine, Object>();
 	protected ArrayList<Object> fields = new ArrayList<Object>();
-	protected Layout layout;
 	protected int preferredLayout = Constants.NULL_INTEGER;
 	protected boolean newRecord;
 	protected boolean rebuildRequired = false;
@@ -34,7 +33,9 @@ implements AbstractLine {
 	private static HashMap<Class, AbstractTreeDetails> nullTrees = new HashMap<Class, AbstractTreeDetails>(5);
 
    public ArrayListLine(Layout layoutDetails, int recordIdx, int fieldStartingPosition) {
-	    layout =layoutDetails;
+	   super(layoutDetails);
+
+	    //layout =layoutDetails;
 	    newRecord = recordIdx < 0;
 	    preferredLayout = recordIdx;
 	    fieldStartingPos = fieldStartingPosition;
@@ -156,20 +157,6 @@ implements AbstractLine {
 //		}
 //	}
 
-	@Override
-	public AbstractFieldValue getFieldValue(IFieldDetail field) {
-		return new FieldValue(this, field);
-	}
-
-	@Override
-	public AbstractFieldValue getFieldValue(int recordIdx, int fieldIdx) {
-		return new FieldValue(this, recordIdx, fieldIdx);
-	}
-
-	@Override
-	public AbstractFieldValue getFieldValue(String fieldName) {
-		return  getFieldValue(getFieldFromName(fieldName));
-	}
 
 	/**
 	 * @see net.sf.JRecord.Details.AbstractLine#getFieldBytes(int, int)
@@ -284,12 +271,6 @@ implements AbstractLine {
         }
     }
 
-	/**
-	 * @see net.sf.JRecord.Details.AbstractLine#setField(java.lang.String, java.lang.Object)
-	 */
-	public void setField(String fieldName, Object value) throws RecordException {
-	    setField(getFieldFromName(fieldName), value);
-	}
 
 	/**
 	 * @see net.sf.JRecord.Details.AbstractLine#setFieldHex(int, int, java.lang.String)
@@ -328,12 +309,7 @@ implements AbstractLine {
 			this.layout = (Layout) pLayout;
 		}
 
-	/**
-	 * @see net.sf.JRecord.Details.AbstractLine#getLayout()
-	 */
-	public AbstractLayoutDetails getLayout() {
-	    return layout;
-	}
+
 
 
 	/**
@@ -362,9 +338,10 @@ implements AbstractLine {
 	}
 
 
+	@SuppressWarnings("rawtypes")
 	@Override
-	public <L extends AbstractLine> L getNewDataLine() {
-		return (L) clone();
+	public ArrayListLine getNewDataLine() {
+		return (ArrayListLine) clone();
 	}
 
 	protected final AbstractRecordDetail.FieldDetails getFieldFromName(String fieldName) {

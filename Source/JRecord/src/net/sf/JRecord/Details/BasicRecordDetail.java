@@ -51,11 +51,14 @@ public abstract class BasicRecordDetail<FieldDefinition extends AbstractRecordDe
 
         if (fieldName != null) {
             for (i = 0; i < fieldCount; i++) {
+            	//System.out.print("\t >" + fieldName + "< : >" + fields[i].getName() + "< - " + fieldName.equalsIgnoreCase(fields[i].getName()));
                 if (fieldName.equalsIgnoreCase(fields[i].getName())) {
                     ret = i;
                     break;
                 }
             }
+//            System.out.println();
+//            System.out.println();
         }
         return ret;
     }

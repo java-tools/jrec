@@ -241,6 +241,9 @@ public class LineModel extends BaseLineModel {
 	 */
 	public void setCurrentLine(AbstractLine line, int defaultLayout) {
 		currentLine = line;
+		if (currentLine == null && getFileView().getRowCount() > 0) {
+			currentLine = getFileView().getLine(0);
+		}
 		setIndex(currentLine.getPreferredLayoutIdx(), defaultLayout);
 	}
 

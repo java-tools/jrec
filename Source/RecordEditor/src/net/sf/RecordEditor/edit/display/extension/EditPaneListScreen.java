@@ -16,12 +16,12 @@ import net.sf.RecordEditor.edit.display.BaseDisplay;
 import net.sf.RecordEditor.edit.display.DisplayFrame;
 import net.sf.RecordEditor.edit.display.Action.AutofitAction;
 import net.sf.RecordEditor.edit.display.Action.GotoLineAction;
-import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.edit.display.common.AbstractRowChangedListner;
 import net.sf.RecordEditor.edit.display.util.RowChangeListner;
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
+import net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.re.file.FieldMapping;
 import net.sf.RecordEditor.re.file.FileView;
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
@@ -403,7 +403,7 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 	}
 
 	/**
-	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide#getFieldVisibility(int)
+	 * @see net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide#getFieldVisibility(int)
 	 */
 	@Override
 	public boolean[] getFieldVisibility(int recordIndex) {
@@ -411,7 +411,7 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 	}
 
 	/**
-	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide#setFieldVisibility(int, boolean[])
+	 * @see net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide#setFieldVisibility(int, boolean[])
 	 */
 	@Override
 	public void setFieldVisibility(int recordIndex, boolean[] fieldVisibility) {

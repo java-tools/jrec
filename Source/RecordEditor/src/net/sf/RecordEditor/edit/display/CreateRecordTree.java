@@ -5,9 +5,12 @@ import java.awt.event.ActionListener;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.edit.display.util.CreateRecordTreePnl;
-import net.sf.RecordEditor.edit.open.DisplayBuilderFactory;
+import net.sf.RecordEditor.jibx.compare.EditorTask;
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
+import net.sf.RecordEditor.re.display.DisplayBuilderFactory;
+import net.sf.RecordEditor.re.display.IChildDisplay;
+import net.sf.RecordEditor.re.display.IUpdateExecute;
 import net.sf.RecordEditor.re.file.FileView;
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.re.tree.TreeParserRecord;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
@@ -15,7 +18,7 @@ import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
 
 @SuppressWarnings("serial")
-public class CreateRecordTree extends ReFrame implements ActionListener  {
+public class CreateRecordTree extends ReFrame implements ActionListener, IChildDisplay, IUpdateExecute<EditorTask>  {
 
 	public final CreateRecordTreePnl treeDisplay;
 
@@ -112,10 +115,11 @@ public class CreateRecordTree extends ReFrame implements ActionListener  {
 	/**
 	 * execute action
 	 */
-	public final void doAction() {
-	     treeDisplay.panel.setMessageRawTxt("");
+	public final AbstractFileDisplay doAction() {
+		AbstractFileDisplay ret = null;
+	    treeDisplay.panel.setMessageRawTxt("");
 
-	     try {
+	    try {
 			FileView newView = getNewView();
 
 	        if (newView == null) {
@@ -132,14 +136,16 @@ public class CreateRecordTree extends ReFrame implements ActionListener  {
 	        	//System.out.println(" <--");
 	        	TreeParserRecord parser = new TreeParserRecord(parentIdxs);
 
-	        	DisplayBuilderFactory.newLineTree(source.getParentFrame(), newView, parser, false, 0);
+	        	ret = DisplayBuilderFactory.newLineTree(source.getParentFrame(), newView, parser, false, 0);
 	        }
 
 	        this.setClosed(true);
 	     } catch (Exception e) {
 	    	 treeDisplay.panel.setMessageRawTxt(e.getMessage());
 	    	 e.printStackTrace();
-		}
+		 }
+
+	     return ret;
 	}
 
 	protected final FileView getNewView() {
@@ -175,4 +181,33 @@ public class CreateRecordTree extends ReFrame implements ActionListener  {
 
 
 
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.re.display.IChildDisplay#getSourceDisplay()
+	 */
+	@Override
+	public AbstractFileDisplay getSourceDisplay() {
+		return source;
+	}
+
+
+
+	/**
+	 * @param serialisedData
+	 * @see net.sf.RecordEditor.edit.display.util.CreateRecordTreePnl#update(net.sf.RecordEditor.jibx.compare.EditorTask)
+	 */
+	@Override
+	public void update(EditorTask serialisedData) {
+		treeDisplay.update(serialisedData);
+	}
+
+
+
+	/**
+	 * @param saveDetails
+	 * @see net.sf.RecordEditor.edit.display.util.CreateRecordTreePnl#setFromSavedDetails(net.sf.RecordEditor.jibx.compare.EditorTask)
+	 */
+	@Override
+	public final void setFromSavedDetails(EditorTask saveDetails) {
+		treeDisplay.setFromSavedDetails(saveDetails);
+	}
 }

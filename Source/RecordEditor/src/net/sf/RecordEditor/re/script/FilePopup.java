@@ -2,6 +2,8 @@ package net.sf.RecordEditor.re.script;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import javax.swing.AbstractAction;
 
@@ -11,7 +13,7 @@ import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReActionActiveScreen;
 
 @SuppressWarnings("serial")
-public class FilePopup extends ReMenu {
+public class FilePopup extends ReMenu implements Comparator<File> {
 
 
 
@@ -22,6 +24,12 @@ public class FilePopup extends ReMenu {
 
 	protected final FileItem[] getActions(FileItem[] fileList, String filename, int actionId,
 			String defaultName, ValidExtensionCheck checkExtension) {
+		return getActions(this, fileList, filename, actionId, defaultName, checkExtension);
+	}
+
+
+	private final FileItem[] getActions(FilePopup popup, FileItem[] fileList, String filename, int actionId,
+			String defaultName, ValidExtensionCheck checkExtension) {
 
 
 		try {
@@ -31,17 +39,17 @@ public class FilePopup extends ReMenu {
 			}
 
 			if (defaultName != null) {
-				this.add(new ReActionActiveScreen(defaultName, actionId, filename));
+				popup.add(new ReActionActiveScreen(defaultName, actionId, filename));
 			}
 
 			for (int i = 0; i < fileList.length; i++) {
 				if (fileList[i].action != null) {
-					this.add(fileList[i].action);
+					popup.add(fileList[i].action);
 				} else {
-					FilePopup popup = new FilePopup(fileList[i].filename);
-					popup.getActions(null, fileList[i].filePathName, actionId, null, checkExtension);
-
-					this.add(popup);
+					FilePopup newPopup = new FilePopup(fileList[i].filename);
+					getActions(newPopup, null, fileList[i].filePathName, actionId, null, checkExtension);
+					newPopup.setIcon(Common.getRecordIcon(Common.ID_MENU_FOLDER));
+					popup.add(newPopup);
 				}
 			}
 		} catch (Exception e) {
@@ -54,7 +62,7 @@ public class FilePopup extends ReMenu {
 
 	private FileItem[] readFiles(String dirName, int actionId, ValidExtensionCheck checkExtension) {
 		File dir ;
-		String[] fileList = null;
+		File[] fileList = null;
 		FileItem[] files;
 		boolean ok;
 
@@ -64,7 +72,7 @@ public class FilePopup extends ReMenu {
 
 			dir = new File(dirName);
 
-			fileList = dir.list();
+			fileList = dir.listFiles();
 		}
 
 		if (fileList == null || fileList.length == 0) {
@@ -74,21 +82,26 @@ public class FilePopup extends ReMenu {
 				dirName += Common.FILE_SEPERATOR;
 			}
 			ArrayList<FileItem> items = new ArrayList<FilePopup.FileItem>(fileList.length);
+
+			Arrays.sort(fileList, this);
 	       	for (int i = 0; i < fileList.length; i++) {
-	       		if (fileList[i].endsWith("~") || fileList[i].toLowerCase().endsWith(".bak")) {
+	       		String fileName = fileList[i].getName();
+				if (fileName.endsWith("~") || fileName.toLowerCase().endsWith(".bak")) {
 	       		} else {
 	       			try {
+	       				String filePathName = fileList[i].getCanonicalPath();//dirName + fileList[i];
+	       				boolean isDirectory = fileList[i].isDirectory();
 		       			ok = checkExtension == null
-		       			  || checkExtension.isValidExtension(Parameters.getExtensionOnly(fileList[i]));
+		       			  || isDirectory
+		       			  || checkExtension.isValidExtension(Parameters.getExtensionOnly(fileName));
 
 		       			if (ok) {
-		       				String filePathName = dirName + fileList[i];
 		       				AbstractAction action = null;
-		       				if (! (new File(filePathName)).isDirectory()) {
-		       					action = getAction(actionId, fileList[i], filePathName);
+		       				if (! isDirectory) {
+		       					action = getAction(actionId, fileName, filePathName);
 		       				}
 
-			       			items.add(new FileItem(fileList[i],
+			       			items.add(new FileItem(fileName,
 			       					filePathName,
 				       				action));
 		       			}
@@ -109,6 +122,23 @@ public class FilePopup extends ReMenu {
 						actionId,
 						filePathName);
 	}
+
+
+
+	/* (non-Javadoc)
+	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+	 */
+	@Override
+	public int compare(File o1, File o2) {
+		if (o1.isDirectory() == o2.isDirectory()) {
+			return o1.getName().compareTo(o2.getName());
+		} else if (o1.isDirectory()) {
+			return -1;
+		}
+		return 1;
+	}
+
+
 
 	public final static class FileItem {
 		public final String filename, filePathName;

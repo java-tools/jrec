@@ -1,7 +1,7 @@
 package net.sf.RecordEditor.edit.display;
 
 import net.sf.RecordEditor.edit.display.common.AbstractRowChangedListner;
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 
 public interface AbstractCreateChildScreen extends
 		AbstractRowChangedListner {

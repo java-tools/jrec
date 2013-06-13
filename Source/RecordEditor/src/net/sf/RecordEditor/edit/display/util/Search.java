@@ -37,10 +37,11 @@ import javax.swing.JTextField;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.edit.display.common.ILayoutChanged;
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
+import net.sf.RecordEditor.re.display.IChildDisplay;
 import net.sf.RecordEditor.re.file.FilePosition;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.file.filter.Compare;
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.params.Parameters;
@@ -61,7 +62,7 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
  *
  */
 @SuppressWarnings("serial")
-public final class Search extends ReFrame implements ActionListener, ILayoutChanged {
+public final class Search extends ReFrame implements ActionListener, ILayoutChanged, IChildDisplay {
 
 
 	public static final boolean USE_SPECIAL_NAME_FIND_BTN = "Y".equalsIgnoreCase(
@@ -453,6 +454,14 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 		layoutList.setRecordLayout(layout);
 		loadFieldList();
 		layoutList.addActionListener(this);
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.re.display.IChildDisplay#getSourceDisplay()
+	 */
+	@Override
+	public AbstractFileDisplay getSourceDisplay() {
+		return source;
 	}
 
 

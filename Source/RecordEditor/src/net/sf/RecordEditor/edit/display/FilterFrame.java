@@ -37,13 +37,14 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JTabbedPane;
 
-import net.sf.RecordEditor.edit.open.DisplayBuilderFactory;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
+import net.sf.RecordEditor.re.display.DisplayBuilderFactory;
+import net.sf.RecordEditor.re.display.IChildDisplay;
+import net.sf.RecordEditor.re.display.IDisplayFrame;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.file.filter.FilterDetails;
 import net.sf.RecordEditor.re.file.filter.FilterPnl2;
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
-import net.sf.RecordEditor.re.script.IDisplayFrame;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.msg.UtMessages;
@@ -63,7 +64,7 @@ import net.sf.RecordEditor.utils.swing.saveRestore.IUpdateDetails;
  * @version 0.56
  */
 @SuppressWarnings("serial")
-public class FilterFrame extends ReFrame implements IUpdateDetails<EditorTask> {
+public class FilterFrame extends ReFrame implements IUpdateDetails<EditorTask>, IChildDisplay {
 
 
  //   private static final int FORM_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 81;
@@ -75,6 +76,7 @@ public class FilterFrame extends ReFrame implements IUpdateDetails<EditorTask> {
     private FilterPnl2 filter1, filter2;
 
     private final IDisplayFrame<? extends AbstractFileDisplay> frame;
+    private final AbstractFileDisplay sourceDisplay;
 
 
     private KeyAdapter listner = new KeyAdapter() {
@@ -104,12 +106,13 @@ public class FilterFrame extends ReFrame implements IUpdateDetails<EditorTask> {
      *
      * @param fileTbl file to be filtered
      */
-    public FilterFrame(final IDisplayFrame<? extends AbstractFileDisplay> frame, final FileView fileTbl) {
+    public FilterFrame(AbstractFileDisplay tab, final FileView fileTbl) {
         super(fileTbl.getFileNameNoDirectory(), "Filter Options",
                 fileTbl.getBaseFile());
 
         fileTable = fileTbl;
-        this.frame = frame;
+        this.sourceDisplay = tab;
+        this.frame = tab.getParentFrame();
 
         Rectangle screenSize = ReMainFrame.getMasterFrame().getDesktop().getBounds();
 
@@ -144,8 +147,6 @@ public class FilterFrame extends ReFrame implements IUpdateDetails<EditorTask> {
 	    	SwingUtils.addTab(filterTab, "Filter", "Normal Filter", filter1);
 	    	SwingUtils.addTab(filterTab, "Filter", "Group Filter",  filter2);
 
-
-
 			this.getContentPane().add(filterTab);
     	}
 
@@ -177,7 +178,7 @@ public class FilterFrame extends ReFrame implements IUpdateDetails<EditorTask> {
     			this.moveToBack();
     			l.getParentFrame().moveToFront();
     			l.getParentFrame().setToActiveFrame();
-   		}
+    		}
     		l.getParentFrame().setToActiveTab(l);
     	}
     }
@@ -211,12 +212,21 @@ public class FilterFrame extends ReFrame implements IUpdateDetails<EditorTask> {
 		return filter1.getFilter();
 	}
 
-	public final void update(EditorTask task) {
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.swing.saveRestore.IUpdateDetails#setFromSavedDetails(net.sf.RecordEditor.jibx.compare.EditorTask)
+	 */
+	@Override
+	public void setFromSavedDetails(EditorTask task) {
 		if (task == null || task.filter == null) {
 			Common.logMsg(UtMessages.NOT_A_FILTER.get(), null);
 		} else {
 			updateFromExternalLayout(task.filter);
 		}
+	}
+
+
+	public final void update(EditorTask task) {
+		setFromSavedDetails(task);
 	}
 
 	public final void updateFromExternalLayout(net.sf.RecordEditor.jibx.compare.Layout values) {
@@ -230,5 +240,15 @@ public class FilterFrame extends ReFrame implements IUpdateDetails<EditorTask> {
 
 			filterTab.setSelectedIndex(1);
 		}
+	}
+
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.edit.display.ChildDisplay#getSourceDisplay()
+	 */
+	@Override
+	public AbstractFileDisplay getSourceDisplay() {
+		return sourceDisplay;
 	}
 }

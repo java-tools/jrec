@@ -62,7 +62,7 @@ public class Menu extends ReFrame
 	private String rFiles;
 
 	//private AbstractLayoutSelection selection;
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	private AbstractLayoutSelectCreator layoutCreator;
 
 
@@ -73,8 +73,7 @@ public class Menu extends ReFrame
 	 *
 	 * @param parentFrame parent frame
 	 */
-	@SuppressWarnings("unchecked")
-	public Menu(AbstractLayoutSelectCreator creator, String recentFiles)  {
+	public Menu(@SuppressWarnings("rawtypes") AbstractLayoutSelectCreator creator, String recentFiles)  {
 		super("", "Menu", "Copy Menu", null);
 		String[] dbs;
 

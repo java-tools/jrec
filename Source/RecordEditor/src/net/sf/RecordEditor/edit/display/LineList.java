@@ -54,14 +54,14 @@ import net.sf.RecordEditor.edit.display.Action.AutofitAction;
 import net.sf.RecordEditor.edit.display.Action.CsvUpdateLayoutAction;
 import net.sf.RecordEditor.edit.display.Action.GotoLineAction;
 import net.sf.RecordEditor.edit.display.common.AbstractFieldSequencePnl;
-import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.edit.display.util.Code;
 import net.sf.RecordEditor.edit.display.util.RowChangeListner;
 import net.sf.RecordEditor.edit.util.ReMessages;
 import net.sf.RecordEditor.jibx.compare.FieldSequence;
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
+import net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.re.file.FieldMapping;
 import net.sf.RecordEditor.re.file.FileView;
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
@@ -138,7 +138,20 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
     protected static LineList newLineList(final AbstractLayoutDetails group,
             final FileView viewOfFile,
             final FileView masterFile) {
-    	return new LineList(group, viewOfFile, masterFile);
+    	return new LineList("Table:", group, viewOfFile, masterFile);
+    }
+
+
+    protected static LineList newLineList(
+    		final String screenName,
+    		final AbstractLayoutDetails group,
+            final FileView viewOfFile,
+            final FileView masterFile) {
+
+    	if (screenName == null || "" .equals(screenName)) {
+    		return newLineList(group, viewOfFile, masterFile);
+    	}
+    	return new LineList(screenName, group, viewOfFile, masterFile);
     }
 
     /**
@@ -147,10 +160,12 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
      * @param viewOfFile - current file view
      * @param masterFile - Internal Representation of the file
      */
-    private LineList(final AbstractLayoutDetails group,
+    private LineList(
+    				final String screenName,
+    				final AbstractLayoutDetails group,
                     final FileView viewOfFile,
                     final FileView masterFile) {
-        super("Table:", viewOfFile, viewOfFile == masterFile, ! viewOfFile.getLayout().isXml(),
+        super(screenName, viewOfFile, viewOfFile == masterFile, ! viewOfFile.getLayout().isXml(),
         		 true, group.isBinary(), true);
 
         fieldMapping = new FieldMapping(getFieldCounts());
@@ -905,7 +920,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 
 
 	/**
-	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide#getFieldVisibility(int)
+	 * @see net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide#getFieldVisibility(int)
 	 */
 	@Override
 	public boolean[] getFieldVisibility(int recordIndex) {
@@ -920,7 +935,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 	}
 
 	/**
-	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide#setFieldVisibility(int, boolean[])
+	 * @see net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide#setFieldVisibility(int, boolean[])
 	 */
 	@Override
 	public void setFieldVisibility(int recordIndex, boolean[] fieldVisibility) {
@@ -1086,6 +1101,6 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 	@Override
 	protected BaseDisplay getNewDisplay(FileView view) {
 
-		return new LineList(view.getLayout(), view, this.fileMaster);
+		return new LineList("Table:", view.getLayout(), view, this.fileMaster);
 	}
 }

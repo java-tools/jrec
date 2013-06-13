@@ -48,6 +48,8 @@ public class SaveFieldSequenceAction extends ReSpecificScreenAction implements A
 
 			panel = pnl;
 			setActionListner(this);
+
+			this.setToMaximum(false);
 			this.setVisible(true);
 		}
 

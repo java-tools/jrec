@@ -1,6 +1,6 @@
 package net.sf.RecordEditor.edit.display.extension;
 
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 
 public interface IChildScreen extends AbstractFileDisplay {
 

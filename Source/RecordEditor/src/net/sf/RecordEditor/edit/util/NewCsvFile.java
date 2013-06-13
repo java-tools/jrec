@@ -23,7 +23,7 @@ import net.sf.JRecord.Details.LineProvider;
 import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.Types.Type;
-import net.sf.RecordEditor.edit.open.DisplayBuilderFactory;
+import net.sf.RecordEditor.re.display.DisplayBuilderFactory;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;

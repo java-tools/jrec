@@ -17,9 +17,10 @@ package net.sf.RecordEditor.edit.display;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.edit.display.util.BaseFieldSelection;
-import net.sf.RecordEditor.edit.open.DisplayBuilderFactory;
+import net.sf.RecordEditor.jibx.compare.EditorTask;
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
+import net.sf.RecordEditor.re.display.DisplayBuilderFactory;
 import net.sf.RecordEditor.re.file.FileView;
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.re.tree.TreeParserField;
 import net.sf.RecordEditor.utils.common.Common;
 
@@ -40,7 +41,7 @@ public class CreateFieldTree extends BaseFieldSelection {
      */
     public CreateFieldTree(final AbstractFileDisplay src, final FileView fileTbl) {
     	super(src, fileTbl, "Create Field Tree View", Common.ID_SUMMARY_ICON, "Build Tree",
-    			1, true, true);
+    			1, true, true, EditorTask.TASK_FIELD_TREE);
 		super.setHelpURL(Common.formatHelpURL(Common.HELP_FIELD_TREE));
     }
 
@@ -50,8 +51,9 @@ public class CreateFieldTree extends BaseFieldSelection {
      * @param fieldList field index list
      * @param descending wether it is a descending (or ascending sort
      * @param layout Record Layout definition
+     * @return
      */
-    protected void doAction(FileView view, int recordIndex, AbstractFileDisplay src,
+    protected AbstractFileDisplay doAction(FileView view, int recordIndex, AbstractFileDisplay src,
     		int[] fieldList, boolean[] descending, AbstractLayoutDetails layout) {
 
     	FileView newView = getNewView();
@@ -59,7 +61,8 @@ public class CreateFieldTree extends BaseFieldSelection {
         if (newView != null) {
         	TreeParserField parser = new TreeParserField(recordIndex, fieldList, summaryMdl.getFieldSummary());
 
-        	DisplayBuilderFactory.newLineTree(getSource().getParentFrame(), newView, parser, false, 0);
+        	return DisplayBuilderFactory.newLineTree(getSourceDisplay().getParentFrame(), newView, parser, false, 0);
         }
+        return null;
     }
 }

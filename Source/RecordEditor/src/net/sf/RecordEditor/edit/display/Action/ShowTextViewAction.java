@@ -2,10 +2,10 @@ package net.sf.RecordEditor.edit.display.Action;
 
 import java.awt.event.ActionEvent;
 
-import net.sf.RecordEditor.edit.open.DisplayBuilderFactory;
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
+import net.sf.RecordEditor.re.display.DisplayBuilderFactory;
+import net.sf.RecordEditor.re.display.IDisplayBuilder;
 import net.sf.RecordEditor.re.file.FileView;
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
-import net.sf.RecordEditor.re.script.IDisplayBuilder;
 
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;

@@ -3,8 +3,8 @@ package net.sf.RecordEditor.edit.display.Action;
 import java.awt.event.ActionEvent;
 
 import net.sf.RecordEditor.edit.display.util.ChangeLayout;
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelectCreator;
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
 
 @SuppressWarnings("serial")

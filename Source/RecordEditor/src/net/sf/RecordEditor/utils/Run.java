@@ -73,6 +73,7 @@ public final class Run implements ExternalReferenceConstants {
 
 
         readFile(list, libDir + FILE_SEPERATOR + SYSTEM_JARS_FILENAME, true);
+        readFile(list, libDir + FILE_SEPERATOR + SYSTEM_JDBC_JARS_FILENAME, false);
         addJars(list, null);
 
         buildUrls(list, libDir, false, false);
@@ -101,13 +102,16 @@ public final class Run implements ExternalReferenceConstants {
             URL[] urls;
             URLClassLoader urlLoader;
             String libDir = getDir();
+            String userDir = getUserJars(libDir);
 
-
-            readFile(list, libDir + FILE_SEPERATOR + SYSTEM_JARS_FILENAME, true);
-            readFile(list, libDir + FILE_SEPERATOR + SYSTEM_JDBC_JARS_FILENAME, false);
-            readFile(list, getUserJars(libDir), false);
 
             addJars(list, jars);
+            readFile(list, libDir + FILE_SEPERATOR + SYSTEM_JARS_FILENAME, true);
+            readFile(list, libDir + FILE_SEPERATOR + SYSTEM_JDBC_JARS_FILENAME, false);
+            readFile(list, userDir + FILE_SEPERATOR + USER_JARS_FILENAME, false);
+            reaExtensions(list, libDir);
+            reaExtensions(list, userDir);
+
 
             urls = buildUrls(list, libDir, isWinUac, true);
 
@@ -145,6 +149,7 @@ public final class Run implements ExternalReferenceConstants {
             BufferedReader in = new BufferedReader(inReader);
             while ((s = in.readLine()) != null) {
                 if (s != null && ! s.trim().startsWith("#") && ! "".equals(s.trim())) {
+                	System.out.println(s);
                     list.add(s);
                 }
             }
@@ -157,6 +162,19 @@ public final class Run implements ExternalReferenceConstants {
         	}
         }
 
+	}
+
+	private void reaExtensions(ArrayList<String> list, String libDir) {
+		String pathname = libDir  + FILE_SEPERATOR + "Extensions";
+		File extFileDir = new File(pathname);
+		if (extFileDir.isDirectory()) {
+			String[] fileNames = extFileDir.list();
+			for (String fileName : fileNames) {
+				if (fileName.toLowerCase().endsWith(".jar")) {
+					list.add(pathname + FILE_SEPERATOR + fileName);
+				}
+			}
+		}
 	}
 
 	private URL[] buildUrls(ArrayList<String> list, String libDir, boolean isWinUac, boolean warn) throws MalformedURLException {
@@ -329,7 +347,7 @@ public final class Run implements ExternalReferenceConstants {
 	    } catch (Exception e) {
     		e.printStackTrace();
 		}
-    	return ret + "/" + USER_JARS_FILENAME;
+    	return ret;
     }
 
 

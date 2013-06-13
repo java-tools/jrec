@@ -65,6 +65,8 @@ public class RunScriptPopup extends FilePopup implements Runnable {
 		public RunScript(final String name, final String filePathName) {
 			super(name);
 			this.filePathName = filePathName;
+
+//			System.out.println("~~> " + name + "\t " + filePathName);
 		}
 
 		/* (non-Javadoc)
@@ -73,9 +75,10 @@ public class RunScriptPopup extends FilePopup implements Runnable {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			ScriptData  data = ScriptData.getScriptData( ReFrame.getActiveFrame());
 
 			try {
+				ScriptData  data = ScriptData.getScriptData( ReFrame.getActiveFrame(), filePathName);
+
 				(new net.sf.RecordEditor.re.script.ScriptMgr()).runScript(filePathName, data);
 			} catch (Exception ex) {
 				Common.logMsg(
@@ -83,8 +86,6 @@ public class RunScriptPopup extends FilePopup implements Runnable {
 						"Script execution failed !!!",
 						ex.getClass().getName() + " " + ex.getMessage(),
 						ex);
-				//ex.p
-				// TODO: handle exception
 			}
 		}
 

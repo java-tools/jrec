@@ -41,17 +41,14 @@ public final class StandardLayouts {
 			);
 
 
-	@SuppressWarnings("rawtypes")
 	public final AbstractLayoutDetails getXmlLayout() {
 		return getLayout(xmlExternalRec);
 	}
 
-	@SuppressWarnings("rawtypes")
 	public final AbstractLayoutDetails getGenericCsvLayout() {
 		return getLayout(genericCsvExternalRec);
 	}
 
-	@SuppressWarnings("rawtypes")
 	public final AbstractLayoutDetails getCsvLayoutNamesFirstLine(String delim, String quote) {
 		return  getLayout(
 					getCsvExternal("CSV_NAME_1ST_LINE", delim, quote)
@@ -59,7 +56,6 @@ public final class StandardLayouts {
 	}
 
 
-	@SuppressWarnings("rawtypes")
 	public final AbstractLayoutDetails getCsvLayout(List<ExternalField> fields, String delim, String quote) {
 		ExternalRecord rec = getCsvExternal("Default", delim, quote);
 
@@ -97,7 +93,6 @@ public final class StandardLayouts {
 	}
 
 
-	@SuppressWarnings("rawtypes")
 	public final AbstractLayoutDetails getFixedLayout(List<ExternalField> fields) {
 		ExternalRecord rec;
 		String xml = "<RECORD RECORDNAME=\"Fixed\" COPYBOOK=\"\" STYLE=\"0\""
@@ -125,7 +120,6 @@ public final class StandardLayouts {
 	}
 
 
-	@SuppressWarnings("rawtypes")
 	private AbstractLayoutDetails getLayout(ExternalRecord rec) {
 		AbstractLayoutDetails ret = null;
 		try {

@@ -1,5 +1,7 @@
 package net.sf.RecordEditor.edit.open;
 
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -52,7 +54,9 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 
 	private JTextArea msgTxt = new JTextArea();
 	private AbstractLineIOProvider ioProvider;
-	private CsvTabPane csvTabDtls = new CsvTabPane(msgTxt, true);
+	private final CsvTabPane csvTabDtls; // = new CsvTabPane(msgTxt, true, true);
+	private FileFilter csvFilter;
+
 
 
 	//private File file;
@@ -114,16 +118,18 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 				csvTabDtls.tab.setSelectedIndex(idx);
 				readFilePreview(chooser.getSelectedFile(), false);
 				csvTabDtls.tab.addChangeListener(this);
-		}
+			}
 	};
 
 	public OpenCsvFilePnl(
 			final String fileName,
 			final String propertiesFiles,
-			AbstractLineIOProvider pIoProvider) {
+			AbstractLineIOProvider pIoProvider,
+			boolean fixedTab) {
 		ioProvider = pIoProvider;
 		recent = new RecentFiles(propertiesFiles, this, true);
 		recentList = new RecentFilesList(recent, this);
+		csvTabDtls = new CsvTabPane(msgTxt, fixedTab, true, true);
 
 		boolean filePresent = true;
 		File file;
@@ -138,7 +144,10 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 		setTab(csvTabDtls.csvDetails, helpname);
 		setTab(csvTabDtls.unicodeCsvDetails, helpname);
 		setTab(csvTabDtls.xmlSelectionPanel, helpname);
-		setTab(csvTabDtls.fixedSelectionPanel, helpname);
+
+		if (fixedTab) {
+			setTab(csvTabDtls.fixedSelectionPanel, helpname);
+		}
 
 		registerComponent(chooser);
 		registerComponent(csvTabDtls.tab);
@@ -146,12 +155,35 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 
 		file = new File(fname);
 
-		chooser.setControlButtonsAreShown(false);
+//		chooser.setControlButtonsAreShown(true);
+		//chooser.addActionListener(l)
+
+
+		chooser.addActionListener(new ActionListener() {
+
+				/* (non-Javadoc)
+				 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+				 */
+				@Override
+				public void actionPerformed(ActionEvent evt) {
+
+			        if (JFileChooser.APPROVE_SELECTION.equals(evt.getActionCommand())) {
+			        	openFile();
+			        } else if (JFileChooser.CANCEL_SELECTION.equals(evt.getActionCommand())) {
+
+			        }
+				}
+	        });
+
 
 		try {
 			FileFilter filter = chooser.getFileFilter();
+
+			csvFilter = new javax.swing.filechooser.FileNameExtensionFilter("CSV/XML file", "csv", "tsv", "xml");
 			chooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Text file", "txt"));
 			chooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("CSV file", "csv", "tsv"));
+			chooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("CSV/Text file", "csv", "tsv", "txt"));
+			chooser.addChoosableFileFilter(csvFilter);
 			chooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Xml file", "xml"));
 			chooser.setFileFilter(filter);
 		} catch (NoClassDefFoundError e) {
@@ -286,16 +318,28 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 		return this;
 	}
 
+	public final void selectCsvExt() {
+		if (csvFilter != null) {
+			chooser.setFileFilter(csvFilter);
+		}
+	}
 
 	private void readFilePreview(File f, boolean allowTabSwap) {
 		String layoutDtls = null;
 		try {
-
 			layoutDtls = recent.getLayoutName(f.getCanonicalPath(), f);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+		Rectangle r = this.getBounds();
+		this.setPreferredSize(new Dimension(r.width, r.height));
+//		System.out.println(" !%%! 1 " + this.getPreferredSize().height + " " + this.getBounds().height
+//				+ " " + this.getHeight());
 		csvTabDtls.readFilePreview(f, allowTabSwap, layoutDtls);
+//		this.setBounds(r);
+		super.validate();
+//		System.out.println(" !%%! 2 " + this.getPreferredSize().height + " " + this.getBounds().height
+//				+ " " + this.getHeight());
 	}
 
 	@Override

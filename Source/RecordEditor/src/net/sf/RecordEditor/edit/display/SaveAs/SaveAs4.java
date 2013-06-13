@@ -10,8 +10,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
+import net.sf.RecordEditor.re.display.IChildDisplay;
 import net.sf.RecordEditor.re.file.FileView;
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
@@ -19,8 +20,14 @@ import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
+/**
+ * Class does a SaveAs (in normal format) as opposed to export
+ *
+ * @author Bruce Martin
+ *
+ */
 @SuppressWarnings("serial")
-public class SaveAs4 extends ReFrame {
+public class SaveAs4 extends ReFrame implements IChildDisplay {
 
 	//public final JButton saveBtn;
 	public JFileChooser fileChooser = new JFileChooser();
@@ -123,4 +130,12 @@ public class SaveAs4 extends ReFrame {
 	}
 
 
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.re.display.IChildDisplay#getSourceDisplay()
+	 */
+	@Override
+	public AbstractFileDisplay getSourceDisplay() {
+		return commonSaveFields.getRecordFrame();
+	}
 }

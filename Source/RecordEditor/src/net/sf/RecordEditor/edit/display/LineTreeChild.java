@@ -11,13 +11,13 @@ import javax.swing.tree.TreePath;
 import net.sf.JRecord.Details.AbstractChildDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.RecordEditor.edit.display.util.LinePosition;
-import net.sf.RecordEditor.edit.open.DisplayBuilderFactory;
 import net.sf.RecordEditor.edit.util.ReMessages;
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
+import net.sf.RecordEditor.re.display.DisplayBuilderFactory;
+import net.sf.RecordEditor.re.display.IDisplayBuilder;
 import net.sf.RecordEditor.re.file.AbstractLineNode;
 import net.sf.RecordEditor.re.file.FilePosition;
 import net.sf.RecordEditor.re.file.FileView;
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
-import net.sf.RecordEditor.re.script.IDisplayBuilder;
 import net.sf.RecordEditor.re.tree.LineNode;
 import net.sf.RecordEditor.re.tree.LineNodeChild;
 import net.sf.RecordEditor.utils.common.Common;
@@ -77,7 +77,7 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 
 
 	/**
-	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getSelectedLines()
+	 * @see net.sf.RecordEditor.re.display.AbstractFileDisplay#getSelectedLines()
 	 */
 	@Override
 	public List<AbstractLine> getSelectedLines() {
@@ -140,7 +140,7 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 
 
 	 /**
-	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getTreeLine()
+	 * @see net.sf.RecordEditor.re.display.AbstractFileDisplay#getTreeLine()
 	 */
 	@Override
 	public AbstractLine getTreeLine() {

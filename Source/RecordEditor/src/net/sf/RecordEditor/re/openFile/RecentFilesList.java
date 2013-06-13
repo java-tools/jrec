@@ -5,13 +5,15 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import net.sf.RecordEditor.utils.BasicLayoutCallback;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
 
-public class RecentFilesList {
+public class RecentFilesList implements ChangeListener {
 
 	private JMenu menu = SwingUtils.newMenu("Recent Files");
 	private RecentFiles recentFiles;
@@ -26,10 +28,17 @@ public class RecentFilesList {
 		this.recentFiles = recentfiles;
 		this.connection = callback;
 
-		update();
+		recentFiles.addChangeListner(this);
+
+		stateChanged(null);
 	}
 
-	public void update() {
+
+	/* (non-Javadoc)
+	 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
+	 */
+	@Override
+	public void stateChanged(ChangeEvent e) {
 		String s;
 		for (int i = 0; i < RecentFiles.RECENT_FILE_LIST; i++) {
 			s = recentFiles.getRecentFileName(i);
@@ -43,6 +52,22 @@ public class RecentFilesList {
 			}
 		}
 	}
+
+//
+//	public void update() {
+//		String s;
+//		for (int i = 0; i < RecentFiles.RECENT_FILE_LIST; i++) {
+//			s = recentFiles.getRecentFileName(i);
+//			if (! "".equals(s)) {
+//				if (actions[i] == null) {
+//					actions[i] = new FileAction(i, s);
+//					menu.add(new JMenuItem(actions[i]));
+//				} else {
+//					actions[i].putValue("Name", s);
+//				}
+//			}
+//		}
+//	}
 
 	/**
 	 * @return the menu

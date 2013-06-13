@@ -48,7 +48,6 @@ public class RunSavedCopy extends ReFrame {
 	private String rFiles;
 //	private AbstractLayoutSelection layoutReader, layoutReader2;
 
-	@SuppressWarnings("unchecked")
 	private AbstractLayoutSelectCreator<AbstractLayoutSelection> layoutCreator;
 
 	private ActionListener listner = new ActionListener() {
@@ -68,7 +67,7 @@ public class RunSavedCopy extends ReFrame {
 	 *
 	 */
 	@SuppressWarnings("unchecked")
-	public RunSavedCopy(AbstractLayoutSelectCreator creator, int databaseIdx, String recentFiles) {
+	public RunSavedCopy(@SuppressWarnings("rawtypes") AbstractLayoutSelectCreator creator, int databaseIdx, String recentFiles) {
 		super("", "Run Saved Copy File:", "", null);
 
 		rFiles = recentFiles;

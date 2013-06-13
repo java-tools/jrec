@@ -7,9 +7,9 @@ import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 
 import net.sf.JRecord.Details.AbstractRecordDetail;
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.re.file.AbstractTreeFrame;
 import net.sf.RecordEditor.re.file.FileView;
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 
 public final class CommonSaveAsFields {
@@ -42,7 +42,8 @@ public final class CommonSaveAsFields {
     public final FocusListener templateListner;
 
     private final AbstractFileDisplay recordFrame;
-    private AbstractTreeFrame treeFrame = null;
+    @SuppressWarnings("rawtypes")
+	private AbstractTreeFrame treeFrame = null;
 
     protected AbstractRecordDetail printRecordDetails;
 

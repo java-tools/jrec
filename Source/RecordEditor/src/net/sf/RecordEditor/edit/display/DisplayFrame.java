@@ -1,19 +1,13 @@
 package net.sf.RecordEditor.edit.display;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Insets;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
+
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
@@ -25,14 +19,14 @@ import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.edit.display.common.ILayoutChanged;
 import net.sf.RecordEditor.edit.display.util.DockingPopupListner;
 import net.sf.RecordEditor.edit.util.ReMessages;
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
+import net.sf.RecordEditor.re.display.IDisplayFrame;
 import net.sf.RecordEditor.re.file.FileView;
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
-import net.sf.RecordEditor.re.script.IDisplayFrame;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
-import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.TabWithClosePnl;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 
@@ -119,8 +113,6 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
         mainScreens.add(d);
         //childScreens.add(c);
         splitPanes.add(null);
-
-//        d.getActualPnl().addMouseListener(new DockingPopuplistner(d));
     }
 
     /**
@@ -399,7 +391,7 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
 
     private void addTabs() {
         for (int i = 0; i < mainScreens.size(); i++) {
-            pane.addTab(mainScreens.get(i).formType,  getScreen(i));
+            pane.addTab(mainScreens.get(i).formType, getScreen(i));
         }
         for (int i = 0; i < mainScreens.size(); i++) {
             pane.setTabComponentAt(i, new TabButton(mainScreens.get(i)));
@@ -481,6 +473,14 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
         return Math.max(0, pane.getSelectedIndex());
     }
 
+    public final void setActiveIdx(int newIdx) {
+        if (pane == null || newIdx < 0 || newIdx >= pane.getTabCount()) {
+            return;
+        }
+
+        pane.setSelectedIndex(newIdx);
+    }
+
     /**
      * The number of active screens
      * @return number of active screens
@@ -520,6 +520,14 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
     @Override
     public void executeAction(int action) {
         executeAction(getActiveIdx(), action);
+    }
+
+
+	public void executeAction(AbstractFileDisplay screen, int action) {
+		int idx = mainScreens.indexOf(screen);
+		if (idx >= 0) {
+			executeAction(idx, action);
+		}
     }
 
     @Override
@@ -570,7 +578,7 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
             BaseDisplay bd = mainScreens.get(idx);
             if (bd.getFileView().getRowCount() == 0) {
                 Common.logMsgRaw(ReMessages.EMPTY_VIEW.get(), null);
-            } else {
+            } else if (bd instanceof AbstractCreateChildScreen) {
             	AbstractFileDisplay childDispl = ((AbstractCreateChildScreen) bd).createChildScreen(position);
                 //childScreens.set(idx, childDispl);
                 childDispl.setDockingPopup(bd.getDockingPopup());
@@ -706,59 +714,26 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
     }
 
 
-    private class TabButton extends JPanel implements ActionListener, IDisplayChangeListner {
+    private class TabButton extends TabWithClosePnl implements ActionListener, IDisplayChangeListner {
 
-        private final JLabel label = new JLabel();
         private final BaseDisplay disp;
-        private final JButton closeBtn = new JButton("X");
 
 
         public TabButton(BaseDisplay display) {
-            //DockingPopupListner popup = new DockingPopupListner(display);
-            //super(new FlowLayout());
-            super.setBorder(BorderFactory.createEmptyBorder());
-            String screenName = display.getScreenName();
+        	super(display.getScreenName());
+        	super.setCloseAction(this);
 
-            disp = display;
-            label.setText(screenName);
-            label.setOpaque(true);
-
-            if (BasePanel.NAME_COMPONENTS || Common.TEST_MODE) {
-            	label.setName(screenName);
-            }
-            add(label);
-
-
-            closeBtn.setFont(new Font("Monospaced", Font.PLAIN,  (SwingUtils.STANDARD_FONT_HEIGHT * 2) / 3));
-            closeBtn.setPreferredSize(new Dimension(SwingUtils.STANDARD_FONT_HEIGHT, SwingUtils.STANDARD_FONT_HEIGHT));
-            closeBtn.addActionListener( this );
-
-            closeBtn.setMargin(new Insets(0,0,0,0));
-
-            add(closeBtn);
+        	disp = display;
 
             disp.setChangeListner(this);
 
-            //label.addMouseListener(popup);
-            //button.addMouseListener(popup);
         	this.addMouseListener(disp.getDockingPopup());
-            //if (Common.TEST_MODE) {
+
             label.addMouseListener(disp.getDockingPopup());
-            //}
-        }
-
-        public void setBackground(Color bg) {
-            super.setBackground(bg);
-
-            if (label != null) {
-                label.setBackground(bg);
-//                System.out.println("Change Color: " + disp.getScreenName() + " " + bg );
-//            } else {
-//                System.out.println("...");
-            }
         }
 
 
+        @Override
         public void actionPerformed(ActionEvent ae ){
 
             int idx = pane.indexOfTabComponent( this );
@@ -773,10 +748,7 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
          */
         @Override
         public void displayChanged() {
-
-            label.setText(disp.getScreenName());
-
-            this.revalidate();
+            super.setTabname(disp.getScreenName());
         }
     }
 }

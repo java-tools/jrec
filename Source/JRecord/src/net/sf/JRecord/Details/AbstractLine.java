@@ -119,10 +119,12 @@ public interface AbstractLine extends AbstractIndexedLine {
     public abstract void setData(byte[] newVal);
 
 
-   /**
-     * @see java.lang.Object#clone()
-     */
-    public abstract Object clone();
+//   /**
+//     * @see java.lang.Object#clone()
+//     */
+//    public abstract Object clone();
+//
+//    public abstract Object cloneLine();
 
     /**
      * Set the record Layout - Description of the Line
@@ -216,7 +218,11 @@ public interface AbstractLine extends AbstractIndexedLine {
     @SuppressWarnings("rawtypes")
 	public  AbstractTreeDetails getTreeDetails();
 
-    public <L extends AbstractLine> L getNewDataLine();
+    /**
+     * Get a new Line based on this line
+     * @return new Line based on this line
+     */
+    public AbstractLine getNewDataLine();
 
     /**
      * Test if Tree rebuild is required

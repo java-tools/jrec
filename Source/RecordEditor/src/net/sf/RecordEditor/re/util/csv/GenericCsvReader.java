@@ -36,7 +36,6 @@ public class GenericCsvReader extends DelegateReader {
 	/**
 	 * @param provider
 	 */
-	@SuppressWarnings("unchecked")
 	public GenericCsvReader(final LineProvider provider) {
 		super(provider);
 	}
@@ -99,7 +98,7 @@ public class GenericCsvReader extends DelegateReader {
 		public GetCsvDetails(byte[] data, String font) throws IOException {
 			super(ReMainFrame.getMasterFrame(), true);
 
-			csvTab = new CsvTabPane(msgTxt, false);
+			csvTab = new CsvTabPane(msgTxt, false, false);
 			csvTab.readFilePreview(data, true, "", null);
 			csvTab.readOtherTab("", data);
 

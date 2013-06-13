@@ -38,17 +38,17 @@ import net.sf.RecordEditor.edit.display.Action.LoadSavedVisibilityAction;
 import net.sf.RecordEditor.edit.display.Action.ShowTextViewAction;
 import net.sf.RecordEditor.edit.open.OpenFile;
 import net.sf.RecordEditor.externalInterface.Plugin;
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.re.editProperties.EditOptions;
 import net.sf.RecordEditor.re.jrecord.format.CellFormat;
 import net.sf.RecordEditor.re.jrecord.types.ReTypeManger;
 import net.sf.RecordEditor.re.jrecord.types.TypeDateWrapper;
 import net.sf.RecordEditor.re.openFile.LayoutSelectionDB;
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.re.script.ExportScriptPopup;
 import net.sf.RecordEditor.re.script.RunScriptPopup;
-import net.sf.RecordEditor.re.script.ScriptRunFrame;
 import net.sf.RecordEditor.re.script.VelocityPopup;
 import net.sf.RecordEditor.re.script.XsltPopup;
+import net.sf.RecordEditor.re.script.runScreen.ScriptRunFrame;
 import net.sf.RecordEditor.re.util.ReIOProvider;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
 import net.sf.RecordEditor.utils.CopyBookInterface;
@@ -58,6 +58,7 @@ import net.sf.RecordEditor.utils.edit.ParseArgs;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.params.Parameters;
+import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
 import net.sf.RecordEditor.utils.screenManager.ReAction;
 import net.sf.RecordEditor.utils.screenManager.ReActionActiveScreen;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
@@ -77,7 +78,8 @@ public class EditRec extends ReMainFrame  {
     private JMenu utilityMenu;
     private JMenu dataMenu;
     private JMenu viewMenu;
-    private AbstractAction newFileAction = null;
+    private AbstractAction newFileAction = null,
+    		               open2action = null;
 
     private boolean incJdbc;
     private boolean includeWizardOptions = true;
@@ -97,6 +99,8 @@ public class EditRec extends ReMainFrame  {
 	private final ReActionActiveScreen toOneScreenAction     = newAction(ReActionHandler.DOCK_ALL_SCREENS);
 	private final ReActionActiveScreen addChildRecAction     = newAction(ReActionHandler.ADD_CHILD_SCREEN);
 	private final ReActionActiveScreen removeChildRecAction  = newAction(ReActionHandler.REMOVE_CHILD_SCREEN);
+
+	private Action runScriptAction = addAction(new RunScriptAction());
 
     /**
      * Creating the File & record selection screenm
@@ -134,7 +138,7 @@ public class EditRec extends ReMainFrame  {
                   null, null,
                   new LayoutSelectionDB(pInterfaceToCopyBooks, null, true));
 
-        init(true, null);
+        init(true, null, null);
         setupMenus(null, null);
      }
 
@@ -144,41 +148,48 @@ public class EditRec extends ReMainFrame  {
      *
      */
     public EditRec(final boolean includeJdbc) {
-        this(includeJdbc, "Record Editor", null);
+        this(includeJdbc, "Record Editor", null, null);
     }
 
 
     public EditRec(final boolean includeJdbc, final String name, AbstractAction newAction) {
+    	this(includeJdbc, name, null, newAction);
+    }
+
+
+    public EditRec(final boolean includeJdbc, final String name, AbstractAction open2Action, AbstractAction newAction) {
     	super(name, "", "re");
 
-    	init(includeJdbc, newAction);
+    	init(includeJdbc, open2Action, newAction);
     }
 
 
 
-    public EditRec(final boolean includeJdbc, final String name, String id, AbstractAction newAction) {
-    	super(name, "", id);
-    	init(includeJdbc, newAction);
+    public EditRec(final boolean includeJdbc, final String name, String id, AbstractAction newAction, boolean loadAtBottom) {
+    	super(name, "", id, loadAtBottom);
+    	init(includeJdbc, null, newAction);
     }
 
     /**
      * standard initialize
      *
      */
-	private void init(final boolean includeJdbc, AbstractAction newAction) {
+	private void init(final boolean includeJdbc, AbstractAction open2Action, AbstractAction newAction) {
     	LoadSavedVisibilityAction savedVisibiltyAction = new LoadSavedVisibilityAction();
     	LoadSavedFieldSeqAction fieldSeqAction = new LoadSavedFieldSeqAction();
     	AbstractAction filterAction = newAction(ReActionHandler.FILTER);
     	AbstractAction sortAction = newAction(ReActionHandler.SORT);
-    	AbstractAction[] toolbarActions = {
+    	Action[] toolbarActions = {
     			filterAction,
     			sortAction,
     			newAction(ReActionHandler.AUTOFIT_COLUMNS),
     			null,
+    			runScriptAction,
     			optionAction
     	};
 
     	newFileAction = newAction;
+    	this.open2action = open2Action;
     	incJdbc = includeJdbc;
     	optionAction.putValue(AbstractAction.SHORT_DESCRIPTION, LangConversion.convert(LangConversion.ST_MESSAGE, "Edit Options"));
 
@@ -267,6 +278,8 @@ public class EditRec extends ReMainFrame  {
         loadUserTypes();
         loadUserFormats();
 
+//        init_200_SetSizes(loadAtBottom);
+
 //        this.addWindowListener(new WindowAdapter() {
 //            public void windowClosing(WindowEvent e) {
 //                closeProcessing();
@@ -313,6 +326,7 @@ public class EditRec extends ReMainFrame  {
         buildFileMenu(
         		open.getOpenFilePanel().getRecentFileMenu(),
         		true, false,
+        		open2action,
         		newFileAction);
 
         if (copyAction != null) {
@@ -336,14 +350,7 @@ public class EditRec extends ReMainFrame  {
         }
         utilityMenu.addSeparator();
         utilityMenu.add(RunScriptPopup.getPopup());
-        utilityMenu.add(new ReAbstractAction("Script Test Panel",  Common.getRecordIcon(Common.ID_SCRIPT_ICON)) {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				new ScriptRunFrame();
-			}
-
-        });
+		utilityMenu.add(runScriptAction);
 
         em = getEditMenu();
 	    em.addSeparator();
@@ -502,15 +509,20 @@ public class EditRec extends ReMainFrame  {
         switch (action) {
             case ReActionHandler.OPEN:
                 //System.out.println("--->");
-                open.moveToFront();
-                open.setVisible(true);
-                open.setTheBounds();
-                open.requestFocus();
-				try {
-					open.setSelected(true);
-				} catch (PropertyVetoException e) {
-					e.printStackTrace();
-				}
+            	ReFrame activeFrame = ReFrame.getActiveFrame();
+        		if (activeFrame != null && activeFrame.isActionAvailable(ReActionHandler.OPEN)) {
+        			activeFrame.executeAction(ReActionHandler.OPEN);
+        		} else {
+	                open.moveToFront();
+	                open.setVisible(true);
+	                open.setTheBounds();
+	                open.requestFocus();
+					try {
+						open.setSelected(true);
+					} catch (PropertyVetoException e) {
+						e.printStackTrace();
+					}
+        		}
                 break;
             default:
         }
@@ -552,6 +564,11 @@ public class EditRec extends ReMainFrame  {
 		return viewMenu;
 	}
 
+
+    protected void editProperties(boolean includeJdbc, boolean includeWizardOptions) {
+    	new EditOptions(false, includeJdbc, includeWizardOptions);
+    }
+
 	/**
      * This Class Executes a user written function. It is initiated from
      * the Local Dropdown Menu
@@ -584,9 +601,25 @@ public class EditRec extends ReMainFrame  {
 
     }
 
-    protected void editProperties(boolean includeJdbc, boolean includeWizardOptions) {
-    	new EditOptions(false, includeJdbc, includeWizardOptions);
-    }
+	private static class RunScriptAction extends ReAbstractAction implements AbstractActiveScreenAction {
+		public RunScriptAction() {
+			super("Script Test Panel",  Common.getRecordIcon(Common.ID_SCRIPT_ICON));
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			new ScriptRunFrame();
+		}
+
+		/* (non-Javadoc)
+		 * @see net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction#checkActionEnabled()
+		 */
+		@Override
+		public void checkActionEnabled() {
+			setEnabled(ReFrame.getActiveFrame() instanceof DisplayFrame);
+		}
+	}
+
 
     /**
      * Edit a record oriented file

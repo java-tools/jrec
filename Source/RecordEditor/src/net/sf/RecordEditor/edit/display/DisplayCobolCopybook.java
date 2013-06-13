@@ -20,7 +20,7 @@ import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.Numeric.ConversionManager;
 import net.sf.JRecord.Numeric.Convert;
 import net.sf.JRecord.Types.Type;
-import net.sf.RecordEditor.edit.open.DisplayBuilderFactory;
+import net.sf.RecordEditor.re.display.DisplayBuilderFactory;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.openFile.ComputerOptionCombo;
 import net.sf.RecordEditor.re.tree.TreeParserXml;
@@ -92,7 +92,6 @@ public class DisplayCobolCopybook implements ActionListener {
 				msgTxt.setText(COBOL_COPYBOOK_DOES_NOT_EXIST);
 				copybook.requestFocus();
 			}
-
 		}
 	}
 

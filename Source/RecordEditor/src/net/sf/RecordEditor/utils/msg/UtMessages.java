@@ -20,6 +20,13 @@ public class UtMessages {
 
 	public static final ReMsg FILE_FORMAT_USED      = new ReMsg("File Format of {1} used to read File {0}");
 	public static final ReMsg FILE_FORMAT_CHANGED   = new ReMsg("File Format of File {0} changed to {1}");
+	public static final ReMsg SAVE_FILE             = new ReMsg("Save File");
+	public static final ReMsg SAVE_FILE_NAME        = new ReMsg("Save File: {0} ?");
+
+	public static final ReMsg ERROR_SAVING_FILE     = new ReMsg("\n\n Error saving file: {0}, message: {1}");
+
+	public static final ReMsg LAYOUT_CANT_BE_LOADED = new ReMsg("Record Layout {0} can not be loaded:");
+
 
 	public static final ReMsgId LANGUAGE_WARNING    = new ReMsgId("TranslationStatus", "");
 

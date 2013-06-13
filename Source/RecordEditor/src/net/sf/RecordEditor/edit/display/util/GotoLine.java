@@ -9,9 +9,10 @@ import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JTextField;
 
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
+import net.sf.RecordEditor.re.display.IChildDisplay;
 import net.sf.RecordEditor.re.file.FilePosition;
 import net.sf.RecordEditor.re.file.FileView;
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
@@ -25,7 +26,7 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
  * Released under GPL license
  */
 @SuppressWarnings("serial")
-public class GotoLine extends ReFrame implements ActionListener {
+public class GotoLine extends ReFrame implements ActionListener, IChildDisplay {
 
 	private AbstractFileDisplay source;
 
@@ -102,5 +103,16 @@ public class GotoLine extends ReFrame implements ActionListener {
 			}
 		}
 	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.re.display.IChildDisplay#getSourceDisplay()
+	 */
+	@Override
+	public AbstractFileDisplay getSourceDisplay() {
+		return source;
+	}
+
+
 
 }

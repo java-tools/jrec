@@ -129,6 +129,11 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 		for (int i = 0; i < treeTable.getTree().getRowCount() && treeTable.getTree().getRowCount() < 50; i++) {
 			treeTable.getTree().expandRow(i);
 		}
+
+//		System.out.println(" }}}}-- 1 " + treeTable.getPreferredSize().getHeight()
+//				+ " " + treeTable.getBounds().height
+//				+ " -- " + this.getPreferredSize().getHeight()
+//				+ " " + this.getBounds().height);
 		Common.calcColumnWidths(treeTable, 0);
 		treeTablePane.getViewport().removeAll();
 		treeTablePane.getViewport().add(treeTable);
@@ -139,6 +144,10 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 		TableColumn tc = treeTable.getColumnModel().getColumn(0);
 		tc.setPreferredWidth(Math.max(tc.getPreferredWidth(), MINIMUM_TREE_COLUMN_WIDTH));
 		//layoutScreen();
+//		System.out.println(" }}}}-- 2 " + treeTable.getPreferredSize().getHeight()
+//				+ " " + treeTable.getBounds().height
+//				+ " -- " + this.getPreferredSize().getHeight()
+//				+ " " + this.getBounds().height);
 
 		return true;
 	}
@@ -174,7 +183,7 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 
 
 		this.addComponent(
-				1, 5, BasePanel.FILL, BasePanel.GAP1,
+				1, 5, BasePanel.FILL, BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL,
 		        treeTablePane);
 
@@ -184,6 +193,8 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 			this.setGap(GAP1);
 			this.addMessage(message);
 			this.setHeight(HEIGHT_1P4);
+		} else {
+			super.setMessage(message);
 		}
 	}
 

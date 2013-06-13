@@ -20,7 +20,6 @@ public class Copy2Xml extends AbstractWizard<CopyDefinition> {
 	private CopyWizardFinalPnl finalScreen;
 	private JibxCall<CopyDefinition> jibx = null;
 
-	@SuppressWarnings("unchecked")
 	public Copy2Xml(AbstractLayoutSelection recordSelection1) {
 		this(recordSelection1, new net.sf.RecordEditor.jibx.compare.CopyDefinition(), "");
 	}
@@ -100,13 +99,11 @@ public class Copy2Xml extends AbstractWizard<CopyDefinition> {
 
 		private CreateRecordTreePnl recordTree;
 		private CopyDefinition copydef;
-		@SuppressWarnings("unchecked")
 		private AbstractLayoutSelection recordSelection;
 
 		/**
 		 * @param recordSelection1
 		 */
-		@SuppressWarnings("unchecked")
 		public CreateTree(AbstractLayoutSelection recordSelection1) {
 			this.recordSelection = recordSelection1;
 			recordTree = new CreateRecordTreePnl();
@@ -159,6 +156,7 @@ public class Copy2Xml extends AbstractWizard<CopyDefinition> {
 		}
 	}
 
+	@SuppressWarnings("serial")
 	public static class GetFiles extends  AbstractFilePnl<CopyDefinition> {
 
 		private CopyDefinition values = new net.sf.RecordEditor.jibx.compare.CopyDefinition();

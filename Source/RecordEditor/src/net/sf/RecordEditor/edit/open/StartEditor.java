@@ -2,8 +2,9 @@ package net.sf.RecordEditor.edit.open;
 
 import javax.swing.JTextArea;
 
+import net.sf.RecordEditor.re.display.DisplayBuilderFactory;
+import net.sf.RecordEditor.re.display.IDisplayBuilder;
 import net.sf.RecordEditor.re.file.FileView;
-import net.sf.RecordEditor.re.script.IDisplayBuilder;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.EditingCancelled;
@@ -56,7 +57,7 @@ public class StartEditor {
 		} catch (EditingCancelled e) {
 			message.setText(e.getMessage());
 		} catch (Exception e) {
-			message.setText(LangConversion.convert("Error Reading the File:") + " " + e.getMessage());
+			message.setText(LangConversion.convert("Error Reading the File:") + " " + e.toString());
 			Common.logMsgRaw(e.getMessage(), e);
 			e.printStackTrace();
 		}

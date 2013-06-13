@@ -17,13 +17,13 @@ import javax.swing.tree.TreePath;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.RecordEditor.edit.display.Action.AutofitAction;
-import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.edit.display.util.RowChangeListner;
+import net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide;
+import net.sf.RecordEditor.re.display.IDisplayBuilder;
 import net.sf.RecordEditor.re.file.AbstractLineNode;
 import net.sf.RecordEditor.re.file.AbstractTreeFrame;
 import net.sf.RecordEditor.re.file.FieldMapping;
 import net.sf.RecordEditor.re.file.FileView;
-import net.sf.RecordEditor.re.script.IDisplayBuilder;
 import net.sf.RecordEditor.re.tree.LineTreeTabelModel;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
@@ -524,7 +524,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 	}
 
 	/**
-	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide#getFieldVisibility(int)
+	 * @see net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide#getFieldVisibility(int)
 	 */
 	@Override
 	public boolean[] getFieldVisibility(int recordIndex) {
@@ -536,7 +536,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 	}
 
 	/**
-	 * @see net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide#setFieldVisibility(int, boolean[])
+	 * @see net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide#setFieldVisibility(int, boolean[])
 	 */
 	@Override
 	public void setFieldVisibility(int recordIndex, boolean[] fieldVisibile) {

@@ -1,23 +1,22 @@
 package net.sf.JRecord.Details;
 
 
-import net.sf.JRecord.Common.AbstractFieldValue;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Types.Type;
 
-public abstract class BasicLine<ActualLine extends AbstractLine>
+public abstract class BasicLine<ActualLine extends AbstractLine> extends BaseLine<LayoutDetail>
 implements AbstractLine, ISetLineProvider<LayoutDetail, ActualLine> {
 
 
 	protected static final byte[] NULL_RECORD = new byte[0];
 	protected LineProvider<LayoutDetail, ? extends ActualLine> lineProvider;
-	protected LayoutDetail layout;
 	protected int preferredLayoutAlt = Constants.NULL_INTEGER;
 	protected int preferredLayout = Constants.NULL_INTEGER;
 	protected int writeLayout = Constants.NULL_INTEGER;
+
 
 
 	protected AbstractTreeDetails<FieldDetail, RecordDetail, LayoutDetail, ActualLine>
@@ -26,10 +25,10 @@ implements AbstractLine, ISetLineProvider<LayoutDetail, ActualLine> {
 
 	public BasicLine(LineProvider<LayoutDetail, ActualLine> defaultProvider, LayoutDetail linesLayout,
 			AbstractTreeDetails<FieldDetail, RecordDetail, LayoutDetail, ActualLine> defaultTree) {
-		super();
+		super(linesLayout);
 
 		lineProvider = defaultProvider;
-		layout = linesLayout;
+		//layout = linesLayout;
 		children = defaultTree;
 	}
 
@@ -63,25 +62,6 @@ implements AbstractLine, ISetLineProvider<LayoutDetail, ActualLine> {
 		} catch (final Exception ex) {
 			return "";
 		}
-	}
-
-
-	/**
-	 * @param pLayout The layouts to set.
-	 */
-	public void setLayout(final AbstractLayoutDetails pLayout) {
-		this.layout = (LayoutDetail) pLayout;
-		preferredLayoutAlt = Constants.NULL_INTEGER;
-
-		init();
-	}
-
-	/**
-	 * Get the Layout
-	 * @return Returns the layouts.
-	 */
-	public LayoutDetail getLayout() {
-	    return layout;
 	}
 
 
@@ -163,39 +143,6 @@ implements AbstractLine, ISetLineProvider<LayoutDetail, ActualLine> {
 	}
 
 	/**
-	 * Get a fields value
-	 *
-	 * @param fieldName field to retrieve
-	 *
-	 * @return fields Value
-	 */
-	public Object getField(String fieldName) {
-		IFieldDetail fld = layout.getFieldFromName(fieldName);
-
-	   	if (fld == null) {
-	   		return null;
-	   	}
-
-	   	return getField(fld);
-	}
-
-	@Override
-	public AbstractFieldValue getFieldValue(IFieldDetail field) {
-		return new FieldValue(this, field);
-	}
-
-	@Override
-	public AbstractFieldValue getFieldValue(int recordIdx, int fieldIdx) {
-		return new FieldValue(this, recordIdx, fieldIdx);
-	}
-
-	@Override
-	public AbstractFieldValue getFieldValue(String fieldName) {
-		return  getFieldValue(layout.getFieldFromName(fieldName));
-	}
-
-
-    /**
      * Test if Tree rebuild is required
      */
 	public boolean isRebuildTreeRequired() {
@@ -203,20 +150,15 @@ implements AbstractLine, ISetLineProvider<LayoutDetail, ActualLine> {
 	}
 
 	/**
-	 * Set a field via its name
-	 *
-	 * @param fieldName fieldname to be updated
-	 * @param value value to be applied to the field
-	 *
-	 * @throws RecordException any conversion error
+	 * @param pLayout The layouts to set.
 	 */
-	public void setField(String fieldName, Object value) throws RecordException {
-		IFieldDetail fld = layout.getFieldFromName(fieldName);
+	public void setLayout(final AbstractLayoutDetails pLayout) {
+		super.layout = (LayoutDetail) pLayout;
+		preferredLayoutAlt = Constants.NULL_INTEGER;
 
-		if (fld != null) {
-			setField(fld, value);
-		}
+		init();
 	}
+
 
 	/**
 	 * Sets a field to a new value
@@ -248,9 +190,6 @@ implements AbstractLine, ISetLineProvider<LayoutDetail, ActualLine> {
     }
 
 
-	public abstract Object clone();
-
-
 	/**
 	 * @return the children
 	 */
@@ -270,10 +209,13 @@ implements AbstractLine, ISetLineProvider<LayoutDetail, ActualLine> {
 
 
 	@Override
-	public <L extends AbstractLine> L getNewDataLine() {
-		return (L) clone();
+	public ActualLine getNewDataLine() {
+		try {
+			return (ActualLine) clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
-
-
 
 }

@@ -31,6 +31,7 @@ import net.sf.RecordEditor.re.script.ScriptData;
 import net.sf.RecordEditor.re.util.ReIOProvider;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
@@ -284,10 +285,15 @@ public abstract class SaveAsPnlBase {
 
     protected final ScriptData getScriptData(String selection, String outFile) {
         AbstractLineNode root = null;
+        String templateName = "";
 
         if (commonSaveAsFields.getTreeFrame() != null) {
         	root = commonSaveAsFields.getTreeFrame().getRoot();
-         }
+        }
+
+        if (template != null) {
+        	templateName = template.getText();
+        }
 
 	   	return new ScriptData(
 	   				saveFile_getLines(selection),
@@ -295,7 +301,9 @@ public abstract class SaveAsPnlBase {
 	        		root,
 	        		onlyData.isSelected(), showBorder.isSelected(),
 	        		commonSaveAsFields.getRecordFrame().getLayoutIndex(),
-	        		outFile);
+	        		outFile,
+	        		ReFrame.getActiveFrame(),
+	        		templateName);
     }
 
 

@@ -10,8 +10,8 @@ import javax.swing.JEditorPane;
 import net.sf.JRecord.Details.Attribute;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.edit.util.ReMessages;
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.re.file.FileView;
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.re.util.FileStructureDtls;
 
 import net.sf.RecordEditor.utils.common.Common;

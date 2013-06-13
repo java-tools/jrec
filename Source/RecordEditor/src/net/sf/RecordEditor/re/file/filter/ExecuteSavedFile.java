@@ -25,11 +25,9 @@ public class ExecuteSavedFile<details> extends ReFrame implements ActionListener
 	//private FileChooser file = new FileChooser();
 	private	JButton runBtn = SwingUtils.newButton("Run");
 	private	JButton runDialogBtn = SwingUtils.newButton("Run Dialog");
-	private AbstractExecute<details> action;
 
 
-	@SuppressWarnings("rawtypes")
-	private Class dtlsClass;
+	private final ExecuteSavedFileBatch<details> execSaveBatch;
 
 
 	public final KeyAdapter keyListner = new KeyAdapter() {
@@ -63,8 +61,7 @@ public class ExecuteSavedFile<details> extends ReFrame implements ActionListener
 		super(docName, formName, data);
 		BasePanel pnl = new BaseHelpPanel();
 
-		action    = executeAction;
-		dtlsClass = detailsClass;
+		execSaveBatch = new ExecuteSavedFileBatch<details>(detailsClass, executeAction);
 
 		fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
 		if (dir != null) {
@@ -98,13 +95,13 @@ public class ExecuteSavedFile<details> extends ReFrame implements ActionListener
 
         super.setToMaximum(false);
 
-        fileChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Action Listner ... " + e.getActionCommand());
-			}
-		});
+//        fileChooser.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				System.out.println("Action Listner ... " + e.getActionCommand());
+//			}
+//		});
 	}
 
 	/**
@@ -112,10 +109,6 @@ public class ExecuteSavedFile<details> extends ReFrame implements ActionListener
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
-		//fileChooser.approveSelection();
-		//fileChooser.processEvent(evt);
-		//fileChooser.getActionMap().get(FilePane.ACTION_APPROVE_SELECTION).actionPerformed(null);
 
 		try {
 			fileChooser.approveSelection();
@@ -126,26 +119,15 @@ public class ExecuteSavedFile<details> extends ReFrame implements ActionListener
 		} catch (Exception ex) {
 		//	ex.printStackTrace();
 		}
-		//System.out.println("$$$$$$ " + fileChooser.getSelectedFile().getPath());
+
 		execAction(e.getSource() == runBtn);
 	}
 
 	public void execAction(boolean run) {
-		details saveDetails;
 
 		try {
+			execSaveBatch.execActionRaw(run, fileChooser.getSelectedFile().getPath());
 
-			net.sf.RecordEditor.jibx.JibxCall<details> jibx
-				= new net.sf.RecordEditor.jibx.JibxCall<details>(dtlsClass);
-
-			System.out.println(fileChooser.getSelectedFile().getPath());
-			saveDetails = jibx.marshal(fileChooser.getSelectedFile().getPath());
-
-			if (run) {
-				action.execute(saveDetails);
-			} else {
-				action.executeDialog(saveDetails);
-			}
 			this.setClosed(true);
 		} catch (NoClassDefFoundError e) {
 			e.printStackTrace();

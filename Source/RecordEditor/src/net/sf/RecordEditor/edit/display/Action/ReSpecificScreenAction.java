@@ -2,7 +2,7 @@ package net.sf.RecordEditor.edit.display.Action;
 
 import javax.swing.Icon;
 
-import net.sf.RecordEditor.re.script.IDisplayFrame;
+import net.sf.RecordEditor.re.display.IDisplayFrame;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 

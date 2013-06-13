@@ -35,7 +35,7 @@ import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
  */
 @SuppressWarnings("serial")
 public class ReFrame extends JInternalFrame
-				  implements ReActionHandler  {
+				  implements ReActionHandler {
 
 //    private static ReMainFrame masterFrame = null;
     private static JDesktopPane desktop = null;
@@ -78,6 +78,7 @@ public class ReFrame extends JInternalFrame
 //        	System.out.println("Closing " + ReFrame.this.getClass().getName()
 //        			+ " " + ReFrame.this.getDefaultCloseOperation()
 //        			+ " ~ " + ReFrame.HIDE_ON_CLOSE);
+        	 windowWillBeClosing();
         	if (ReFrame.this.getDefaultCloseOperation() == ReFrame.HIDE_ON_CLOSE) {
         		findNewActiveDisplay();
         	}
@@ -203,8 +204,15 @@ public class ReFrame extends JInternalFrame
 	/**
 	 * Window closing actions
 	 */
+	public void windowWillBeClosing() {
+
+	}
+
+	/**
+	 * Window closing actions
+	 */
 	public void windowClosing() {
-	    //this.dispose();
+
 	}
 
 

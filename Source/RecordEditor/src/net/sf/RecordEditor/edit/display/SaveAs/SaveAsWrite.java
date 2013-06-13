@@ -15,11 +15,11 @@ import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Details.AbstractTreeDetails;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Types.Type;
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.re.file.AbstractLineNode;
 import net.sf.RecordEditor.re.file.DisplayType;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.fileWriter.FieldWriter;
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 

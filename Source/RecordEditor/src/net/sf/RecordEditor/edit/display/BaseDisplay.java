@@ -50,7 +50,6 @@ import net.sf.RecordEditor.diff.DoCompare;
 import net.sf.RecordEditor.diff.LineBufferedReader;
 import net.sf.RecordEditor.edit.display.SaveAs.SaveAs3;
 import net.sf.RecordEditor.edit.display.SaveAs.SaveAs4;
-import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.edit.display.common.ILayoutChanged;
 import net.sf.RecordEditor.edit.display.util.AddAttributes;
 import net.sf.RecordEditor.edit.display.util.GotoLine;
@@ -58,19 +57,19 @@ import net.sf.RecordEditor.edit.display.util.LinePosition;
 import net.sf.RecordEditor.edit.display.util.OptionPnl;
 import net.sf.RecordEditor.edit.display.util.Search;
 import net.sf.RecordEditor.edit.display.util.SortFrame;
-import net.sf.RecordEditor.edit.open.DisplayBuilderFactory;
 import net.sf.RecordEditor.edit.util.ReMessages;
-import net.sf.RecordEditor.jibx.compare.EditorTask;
+
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
+import net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide;
+import net.sf.RecordEditor.re.display.DisplayBuilderFactory;
+import net.sf.RecordEditor.re.display.IDisplayBuilder;
+import net.sf.RecordEditor.re.display.IDisplayFrame;
+import net.sf.RecordEditor.re.display.IExecuteSaveAction;
 import net.sf.RecordEditor.re.file.AbstractLineNode;
 import net.sf.RecordEditor.re.file.FilePosition;
 import net.sf.RecordEditor.re.file.FileView;
-import net.sf.RecordEditor.re.file.filter.AbstractExecute;
-import net.sf.RecordEditor.re.file.filter.ExecuteSavedFile;
-import net.sf.RecordEditor.re.file.filter.FilterDetails;
+
 import net.sf.RecordEditor.re.jrecord.types.RecordFormats;
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
-import net.sf.RecordEditor.re.script.IDisplayBuilder;
-import net.sf.RecordEditor.re.script.IDisplayFrame;
 import net.sf.RecordEditor.re.tree.ChildTreeToXml;
 import net.sf.RecordEditor.re.tree.TreeParserRecord;
 import net.sf.RecordEditor.re.tree.TreeParserXml;
@@ -79,7 +78,6 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.lang.ReOptionDialog;
-import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.IExternalTableCellColoring;
@@ -180,6 +178,8 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 	private MouseListener dockingPopup = null;
 	private boolean allowPaste = true;
 
+	private final ExecuteSavedTasks executeTasks;
+
 	private KeyAdapter listner = new KeyAdapter() {
     	private long lastWhen = -121;
         /**
@@ -261,6 +261,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 		fileView   = viewOfFile;
 		this.formType = formType;
 		this.primary = primary;
+		this.executeTasks = new ExecuteSavedTasks(this, viewOfFile);
 		//displayOpt = option;
 
 		init(addFullLine, fullList, prefered, hex);
@@ -426,29 +427,30 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 
 		try {
 			switch (action) {
-			case ReActionHandler.FIND:						searchScreen.startSearch(fileView);		break;
-			case ReActionHandler.FILTER:					new FilterFrame(parentFrame, fileView);	break;
-			case ReActionHandler.COMPARE_WITH_DISK:			compareWithDisk();						break;
-			case ReActionHandler.EXECUTE_SAVED_FILTER:		executeSavedFilter();					break;
-			case ReActionHandler.EXECUTE_SAVED_SORT_TREE:	executeSavedSortTree();					break;
-			case ReActionHandler.EXECUTE_SAVED_RECORD_TREE: executeSavedRecordTree();				break;
-			case ReActionHandler.SHOW_INVALID_ACTIONS: 		createErrorView();	  					break;
-			case ReActionHandler.TABLE_VIEW_SELECTED: 		createView();							break;
-			case ReActionHandler.RECORD_VIEW_SELECTED:		createRecordView();						break;
-			case ReActionHandler.COLUMN_VIEW_SELECTED:		createColumnView();	                    break;
+			case ReActionHandler.FIND:						searchScreen.startSearch(fileView);			break;
+			case ReActionHandler.FILTER:					new FilterFrame(this, fileView);			break;
+			case ReActionHandler.COMPARE_WITH_DISK:			compareWithDisk();							break;
+			case ReActionHandler.EXECUTE_SAVED_FILTER:		executeTasks.executeSavedFilterDialog();	break;
+			case ReActionHandler.EXECUTE_SAVED_SORT_TREE:	executeTasks.executeSavedSortTreeDialog();	break;
+			case ReActionHandler.EXECUTE_SAVED_RECORD_TREE: executeTasks.executeSavedRecordTreeDialog();break;
+			case ReActionHandler.SHOW_INVALID_ACTIONS: 		createErrorView();	  						break;
+			case ReActionHandler.TABLE_VIEW_SELECTED: 		createView();								break;
+			case ReActionHandler.RECORD_VIEW_SELECTED:		createRecordView();							break;
+			case ReActionHandler.COLUMN_VIEW_SELECTED:		createColumnView();	                    	break;
 			case ReActionHandler.SELECTED_VIEW:
 				int[] selRows = getSelectedRows();
 
 				if (selRows != null && selRows.length > 0) {
 					BaseDisplay bd = getNewDisplay(fileView.getView(selRows));
-					DisplayBuilder.addToScreen(parentFrame, bd);
+					addToScreen(parentFrame, bd);
+
 					copyVisibility(bd);
 					bd.layoutCombo.setSelectedIndex(layoutCombo.getSelectedIndex());
 				}
 				break;
-			case ReActionHandler.BUILD_SORTED_TREE:			new CreateSortedTree(this, fileView);	break;
-			case ReActionHandler.BUILD_FIELD_TREE:			new CreateFieldTree(this, fileView);	break;
-			case ReActionHandler.BUILD_RECORD_TREE:		  	new CreateRecordTree(this, fileView);	break;
+			case ReActionHandler.BUILD_SORTED_TREE:			new CreateSortedTree(this, fileView);		break;
+			case ReActionHandler.BUILD_FIELD_TREE:			new CreateFieldTree(this, fileView);		break;
+			case ReActionHandler.BUILD_RECORD_TREE:		  	new CreateRecordTree(this, fileView);		break;
 			case ReActionHandler.BUILD_LAYOUT_TREE: {
 	        	TreeParserRecord parser = new TreeParserRecord(executeAction_100_getParent());
 
@@ -826,76 +828,76 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 		}
 	}
 
-	private void executeSavedFilter() {
-		AbstractExecute<EditorTask> action = new AbstractExecute<EditorTask>() {
-			public void execute(EditorTask details) {
-				FilterDetails filter = new FilterDetails(layout, FilterDetails.FT_NORMAL);
-
-				filter.updateFromExternalLayout(details.filter);
-		    	FileView view = fileView.getFilteredView(filter);
-		    	if (view == null) {
-		    		Common.logMsg("No records matched the filter", null);
-		    	} else {
-		    		DisplayBuilderFactory.newLineList(parentFrame, layout, view, fileView.getBaseFile());
-		    	}
-			}
-
-			public void executeDialog(EditorTask details) {
-				(new FilterFrame(parentFrame, fileView))
-						.updateFromExternalLayout(details.filter);
-			}
-		};
-
-		new ExecuteSavedFile<EditorTask>(
-				fileView.getBaseFile().getFileNameNoDirectory(), "Execute Saved Filter", fileView,
-				Parameters.getFileName(Parameters.FILTER_SAVE_DIRECTORY),
-				action, EditorTask.class
-		);
-	}
-
-
-	private void executeSavedSortTree() {
-		AbstractExecute<EditorTask> action = new AbstractExecute<EditorTask>() {
-			public void execute(EditorTask details) {
-				CreateSortedTree treePnl = new CreateSortedTree(BaseDisplay.this, fileView);
-				treePnl.setFromSavedDetails(details);
-				treePnl.doAction();
-			}
-
-			public void executeDialog(EditorTask details) {
-				(new CreateSortedTree(BaseDisplay.this, fileView)).setFromSavedDetails(details);
-
-			}
-		};
-
-		new ExecuteSavedFile<EditorTask>(
-				fileView.getBaseFile().getFileNameNoDirectory(), "Execute Saved Sort Tree", fileView,
-				Parameters.getFileName(Parameters.SORT_TREE_SAVE_DIRECTORY),
-				action, EditorTask.class
-		);
-	}
-
-
-	private void executeSavedRecordTree() {
-		AbstractExecute<EditorTask> action = new AbstractExecute<EditorTask>() {
-			public void execute(EditorTask details) {
-				CreateRecordTree treePnl = new CreateRecordTree(BaseDisplay.this, fileView);
-				treePnl.treeDisplay.setFromSavedDetails(details);
-				treePnl.doAction();
-			}
-
-			public void executeDialog(EditorTask details) {
-				(new CreateRecordTree(BaseDisplay.this, fileView)).treeDisplay.setFromSavedDetails(details);
-
-			}
-		};
-
-		new ExecuteSavedFile<EditorTask>(
-				fileView.getBaseFile().getFileNameNoDirectory(), "Execute Saved Sort Tree", fileView,
-				Parameters.getFileName(Parameters.RECORD_TREE_SAVE_DIRECTORY),
-				action, EditorTask.class
-		);
-	}
+//	private void executeSavedFilter() {
+//		AbstractExecute<EditorTask> action = new AbstractExecute<EditorTask>() {
+//			public void execute(EditorTask details) {
+//				FilterDetails filter = new FilterDetails(layout, FilterDetails.FT_NORMAL);
+//
+//				filter.updateFromExternalLayout(details.filter);
+//		    	FileView view = fileView.getFilteredView(filter);
+//		    	if (view == null) {
+//		    		Common.logMsg("No records matched the filter", null);
+//		    	} else {
+//		    		DisplayBuilderFactory.newLineList(parentFrame, layout, view, fileView.getBaseFile());
+//		    	}
+//			}
+//
+//			public void executeDialog(EditorTask details) {
+//				(new FilterFrame(BaseDisplay.this, fileView))
+//						.updateFromExternalLayout(details.filter);
+//			}
+//		};
+//
+//		new ExecuteSavedFile<EditorTask>(
+//				fileView.getBaseFile().getFileNameNoDirectory(), "Execute Saved Filter", fileView,
+//				Parameters.getFileName(Parameters.FILTER_SAVE_DIRECTORY),
+//				action, EditorTask.class
+//		);
+//	}
+//
+//
+//	private void executeSavedSortTree() {
+//		AbstractExecute<EditorTask> action = new AbstractExecute<EditorTask>() {
+//			public void execute(EditorTask details) {
+//				CreateSortedTree treePnl = new CreateSortedTree(BaseDisplay.this, fileView);
+//				treePnl.setFromSavedDetails(details);
+//				treePnl.doAction();
+//			}
+//
+//			public void executeDialog(EditorTask details) {
+//				(new CreateSortedTree(BaseDisplay.this, fileView)).setFromSavedDetails(details);
+//
+//			}
+//		};
+//
+//		new ExecuteSavedFile<EditorTask>(
+//				fileView.getBaseFile().getFileNameNoDirectory(), "Execute Saved Sort Tree", fileView,
+//				Parameters.getFileName(Parameters.SORT_TREE_SAVE_DIRECTORY),
+//				action, EditorTask.class
+//		);
+//	}
+//
+//
+//	private void executeSavedRecordTree() {
+//		AbstractExecute<EditorTask> action = new AbstractExecute<EditorTask>() {
+//			public void execute(EditorTask details) {
+//				CreateRecordTree treePnl = new CreateRecordTree(BaseDisplay.this, fileView);
+//				treePnl.treeDisplay.setFromSavedDetails(details);
+//				treePnl.doAction();
+//			}
+//
+//			public void executeDialog(EditorTask details) {
+//				(new CreateRecordTree(BaseDisplay.this, fileView)).treeDisplay.setFromSavedDetails(details);
+//
+//			}
+//		};
+//
+//		new ExecuteSavedFile<EditorTask>(
+//				fileView.getBaseFile().getFileNameNoDirectory(), "Execute Saved Sort Tree", fileView,
+//				Parameters.getFileName(Parameters.RECORD_TREE_SAVE_DIRECTORY),
+//				action, EditorTask.class
+//		);
+//	}
 
 	/**
 	 * Check if action is available
@@ -1224,13 +1226,13 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 		}
 	 }
 	 /**
-	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getCurrRow()
+	 * @see net.sf.RecordEditor.re.display.AbstractFileDisplay#getCurrRow()
 	 */
 	 public abstract int getCurrRow();
 
 
 	 /**
-	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getTreeLine()
+	 * @see net.sf.RecordEditor.re.display.AbstractFileDisplay#getTreeLine()
 	 */
 	@Override
 	public AbstractLine getTreeLine() {
@@ -1239,7 +1241,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 
 
 	/**
-	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#setCurrRow(net.sf.RecordEditor.re.file.FilePosition)
+	 * @see net.sf.RecordEditor.re.display.AbstractFileDisplay#setCurrRow(net.sf.RecordEditor.re.file.FilePosition)
 	 */
 	@Override
 	public void setCurrRow(FilePosition position) {
@@ -1265,7 +1267,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 	}
 
 	/**
-	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#setCurrRow(int, int, int)
+	 * @see net.sf.RecordEditor.re.display.AbstractFileDisplay#setCurrRow(int, int, int)
 	 */
 	 @Override
 	public abstract void setCurrRow(int newRow, int layoutId, int fieldNum);
@@ -1346,7 +1348,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
     }
 
 	/**
-	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getSelectedRows()
+	 * @see net.sf.RecordEditor.re.display.AbstractFileDisplay#getSelectedRows()
 	 */
 	public int[] getSelectedRows() {
 		return tblDetails.getSelectedRows();
@@ -1354,7 +1356,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 
 
 	/**
-	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getSelectedLines()
+	 * @see net.sf.RecordEditor.re.display.AbstractFileDisplay#getSelectedLines()
 	 */
 	@Override
 	public List<AbstractLine> getSelectedLines() {
@@ -1539,7 +1541,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
     }
 
 	/**
-	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getLayoutIndex()
+	 * @see net.sf.RecordEditor.re.display.AbstractFileDisplay#getLayoutIndex()
 	 */
 	public final int getLayoutIndex() {
 		return layoutCombo.getLayoutIndex();
@@ -1547,7 +1549,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 
 
 	/**
-	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#setLayoutIndex(int)
+	 * @see net.sf.RecordEditor.re.display.AbstractFileDisplay#setLayoutIndex(int)
 	 */
 	public void setLayoutIndex(int recordIndex) {
 //		System.out.println("Set Layout Index " + recordIndex);
@@ -1601,7 +1603,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 
 
 	/**
-	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getFileView()
+	 * @see net.sf.RecordEditor.re.display.AbstractFileDisplay#getFileView()
 	 */
 	@Override
 	public FileView getFileView() {
@@ -1802,13 +1804,22 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 	public void removeChildScreen() {
 	}
 
-	public int getChildFramType() {
+	public int getChildFrameType() {
 		if (getChildScreen() != null) {
 			return CHILD_FRAME_RIGHT;
 		}
 
 		return NO_CHILD_FRAME;
 	}
+
+	/**
+	 * @return the executeTasks execute tasks object
+	 */
+	@Override
+	public IExecuteSaveAction getExecuteTasks() {
+		return executeTasks;
+	}
+
 
 	/**
 	 * @param parentFrame the parentFrame to set

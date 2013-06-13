@@ -166,7 +166,7 @@ public class LineFrameTree extends  BaseLineFrame implements ILineDisplay {
 	}
 
 	 /**
-	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getTreeLine()
+	 * @see net.sf.RecordEditor.re.display.AbstractFileDisplay#getTreeLine()
 	 */
 	@Override
 	public AbstractLine getTreeLine() {

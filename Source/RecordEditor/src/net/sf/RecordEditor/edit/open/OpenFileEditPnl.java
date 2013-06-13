@@ -176,7 +176,6 @@ implements ActionListener, OpenFileInterface {
 //		} catch (Exception e) {
 //		    Common.logMsg("Error Updating recent files" + e.getMessage(), null);
 //		}
-
 	}
 
 	/**
@@ -282,7 +281,7 @@ implements ActionListener, OpenFileInterface {
 						//list.moveToFront();
 
 						recent.putFileLayout(fName, layoutName);
-						recentList.update();
+						//recentList.update();
 					}
 				} catch (Exception e) {
 					Common.logMsg(AbsSSLogger.ERROR, "Error Updating Recent-History file", e.getMessage(), null);

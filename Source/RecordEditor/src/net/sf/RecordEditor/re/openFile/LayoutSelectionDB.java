@@ -20,6 +20,7 @@ import net.sf.RecordEditor.utils.LayoutItem;
 import net.sf.RecordEditor.utils.SystemItem;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.msg.UtMessages;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
@@ -274,8 +275,8 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 		//	}
 			if (lastLayout == null) {
 				message.setText(
-					LangConversion.convert("Record Layout {0} can not be loaded:", layoutName) + "\n "
-					+ copyBookInterface.getMessage());
+						UtMessages.LAYOUT_CANT_BE_LOADED.get(layoutName)
+						+ "\n " + copyBookInterface.getMessage());
 			} else {
 				lastLayoutName = layoutName;
 				lastLayout = getFileBasedLayout(fileName, lastLayout);

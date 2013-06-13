@@ -20,8 +20,9 @@ import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.edit.util.ReMessages;
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
+import net.sf.RecordEditor.re.display.IChildDisplay;
 import net.sf.RecordEditor.re.file.FileView;
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
@@ -34,7 +35,7 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimiterCombo;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.QuoteCombo;
 
-public class UpdateCsvLayout implements ActionListener {
+public class UpdateCsvLayout implements ActionListener, IChildDisplay {
 
 	private static final String[] COL_NAMES = LangConversion.convertColHeading(
 			"Update Csv File Format",
@@ -370,6 +371,18 @@ public class UpdateCsvLayout implements ActionListener {
 		}
 		return type;
 	}
+
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.re.display.IChildDisplay#getSourceDisplay()
+	 */
+	@Override
+	public AbstractFileDisplay getSourceDisplay() {
+		return source;
+	}
+
+
 
 	private static class FieldDef {
 		public final int originalPos, originalDecimal;

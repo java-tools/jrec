@@ -48,7 +48,7 @@ public class CsvTabPane implements FormatFileName {
 
 	private FilePreview[] csvPanels = {null, null, null, null};
 
-	private boolean nonCsvTabs;
+	private final boolean fixedTab, xmlTab;
 
 	private ReFrame parentFrame = null;
 
@@ -58,33 +58,53 @@ public class CsvTabPane implements FormatFileName {
 	 * CSV preview panels.
 	 * @param msgField message field to display error messages on
 	 */
-	public CsvTabPane(JTextComponent msgField, boolean allowNonCsvTabs) {
+	public CsvTabPane(JTextComponent msgField, boolean allowNonCsvTabs, boolean adjustableTblHeight) {
+		this(msgField, allowNonCsvTabs, allowNonCsvTabs, adjustableTblHeight);
+	}
+
+	/**
+	 * Class that holds a JTabbedPane of Normal / Unicode
+	 * CSV preview panels.
+	 * @param msgField message field to display error messages on
+	 */
+	public CsvTabPane(JTextComponent msgField, boolean allowFixed, boolean allowXml, boolean adjustableTblHeight) {
+
 		msgFld = msgField;
-		nonCsvTabs = allowNonCsvTabs;
+		fixedTab = allowFixed;
+		xmlTab = allowXml;
 
 
-		csvDetails = new CsvSelectionPanel(oneBlankLine, "", false, "File Preview", msgField);
-		unicodeCsvDetails = new CsvSelectionPanel(oneBlankLine[0], "", false, "Unicode File Preview", msgField);
+		csvDetails        = new CsvSelectionPanel(oneBlankLine, "", false, "File Preview", msgField, adjustableTblHeight);
+		unicodeCsvDetails = new CsvSelectionPanel(oneBlankLine[0], "", false, "Unicode File Preview", msgField, adjustableTblHeight);
 
 		csvPanels[NORMAL_CSV]  = csvDetails;
 		csvPanels[UNICODE_CSV] = unicodeCsvDetails;
 
 		tab.add("Normal",  csvDetails.getPanel());
 		tab.add("Unicode", unicodeCsvDetails.getPanel());
-		if (allowNonCsvTabs) {
+
+		if (fixedTab) {
 			fixedSelectionPanel = new FixedWidthSelection(msgFld);
-			xmlSelectionPanel = new XmlSelectionPanel("Xml Preview", msgFld);
 			//csvPanels[XML_FILE] = new XmlSelectionPanel("Xml Preview", msgField);
 			//tab.add("Xml", xmlPanel);
 			//csvPanels[XML_FILE].getPanel().setVisible(false);
 
 			csvPanels[FIXED_FILE] = fixedSelectionPanel;
-			csvPanels[XML_FILE] = xmlSelectionPanel;
 			tab.add("Fixed Width", csvPanels[FIXED_FILE].getPanel());
+		} else {
+			fixedSelectionPanel = null;
+		}
+
+		if (xmlTab) {
+			xmlSelectionPanel = new XmlSelectionPanel("Xml Preview", msgFld);
+			//csvPanels[XML_FILE] = new XmlSelectionPanel("Xml Preview", msgField);
+			//tab.add("Xml", xmlPanel);
+			//csvPanels[XML_FILE].getPanel().setVisible(false);
+
+			csvPanels[XML_FILE] = xmlSelectionPanel;
 			tab.add("Xml", csvPanels[XML_FILE].getPanel());
 		} else {
 			xmlSelectionPanel = null;
-			fixedSelectionPanel = null;
 		}
 	}
 
@@ -123,7 +143,7 @@ public class CsvTabPane implements FormatFileName {
 	public void readFilePreview(byte[] data, boolean allowTabSwap, String filename, String layoutId)
 	throws IOException {
 		String charSet = CheckEncoding.determineCharSet(data);
-		boolean couldBeXml = nonCsvTabs && maybeXml(data, charSet);
+		boolean couldBeXml = this.xmlTab && maybeXml(data, charSet);
 
 		if (allowTabSwap) {
 			if (layoutId != null && ! "".equals(layoutId)
@@ -131,18 +151,22 @@ public class CsvTabPane implements FormatFileName {
 				int count = Math.min(csvPanels.length, tab.getTabCount());
 				for (int i = 0; i < count; i++) {
 					if (csvPanels[i] != null && csvPanels[i].isMyLayout(layoutId)) {
+						//Rectangle tabSize =  tab.getBounds();
+						//System.out.println(" !! 1 " + tab.getPreferredSize().height + " " + tab.getHeight());
 						csvPanels[i].setData(filename, data, false, layoutId);
 						tab.setSelectedIndex(i);
+						//tab.setBounds(tabSize);
+						//System.out.println(" !! 2 " + tab.getPreferredSize().height + " " + tab.getHeight());
 						return;
 					}
 				}
 			}
-			if (nonCsvTabs){
+			if (xmlTab){
 				if (couldBeXml) {
 					//csvPanels[XML_FILE].getPanel().setVisible(true);
 					tab.setSelectedIndex(XML_FILE);
 					//System.out.println("Setting Xml Tab ");
-				} else if (tab.getTabCount() >= XML_FILE){
+//				} else if (tab.getTabCount() >= XML_FILE){
 					//csvPanels[XML_FILE].getPanel().setVisible(false);
 				}
 			}
@@ -153,7 +177,7 @@ public class CsvTabPane implements FormatFileName {
 			case UNICODE_CSV:
 			case XML_FILE:
 				if (! couldBeXml
-				&& nonCsvTabs
+				&& xmlTab
 				&& Common.OPTIONS.csvSearchFixed.isSelected()
 				&& FileStructureAnalyser.getTextPct(data, "") < 50
 				&& FileStructureAnalyser.getTextPct(data, charSet) < 50) {

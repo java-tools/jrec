@@ -28,8 +28,10 @@ import net.sf.RecordEditor.edit.display.models.SortFieldMdl;
 import net.sf.RecordEditor.edit.util.ReMessages;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
 import net.sf.RecordEditor.jibx.compare.SortTree;
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
+import net.sf.RecordEditor.re.display.IChildDisplay;
+import net.sf.RecordEditor.re.display.IUpdateExecute;
 import net.sf.RecordEditor.re.file.FileView;
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.re.tree.FieldSummaryDetails;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
@@ -48,7 +50,7 @@ import net.sf.RecordEditor.utils.swing.saveRestore.SaveLoadPnl;
 
 @SuppressWarnings("serial")
 public abstract class BaseFieldSelection extends ReFrame
-implements ListSelectionListener, ISaveUpdateDetails<EditorTask> {
+implements ListSelectionListener, ISaveUpdateDetails<EditorTask>, IUpdateExecute<EditorTask>, IChildDisplay {
 
 //	protected static final int RECORD_LIST_HEIGHT = SwingConstants.TABLE_ROW_HEIGHT * 18;
 //	protected static final int FIELD_TABLE_HEIGHT = SwingConstants.TABLE_ROW_HEIGHT * 8;
@@ -70,7 +72,7 @@ implements ListSelectionListener, ISaveUpdateDetails<EditorTask> {
 	protected JButton executeBtn = new JButton();
 	protected FileView fileView;
 	protected int lastSelection = 0;
-	protected AbstractFileDisplay source;
+	protected final AbstractFileDisplay source;
 	protected SortFieldSummaryMdl summaryMdl;
 
 	private SaveLoadPnl<EditorTask> saveLoadPnl = new SaveLoadPnl<EditorTask>(
@@ -79,6 +81,7 @@ implements ListSelectionListener, ISaveUpdateDetails<EditorTask> {
 //				= new SaveButton<EditorTask>(this,
 //						Parameters.getFileName(Parameters.SORT_TREE_SAVE_DIRECTORY));
 
+	private final String saveId;
 
 	private KeyAdapter listner = new KeyAdapter() {
 	        /**
@@ -103,10 +106,13 @@ implements ListSelectionListener, ISaveUpdateDetails<EditorTask> {
 	 */
 	public BaseFieldSelection(final AbstractFileDisplay src, final FileView fileTbl,
 			final String id, final int icondId, final String btnText, final int columnCount,
-			final boolean addFieldSummary, final boolean showRecordList) {
+			final boolean addFieldSummary, final boolean showRecordList, String saveIdentifier) {
 		super(fileTbl.getFileNameNoDirectory(), id,
 				fileTbl.getBaseFile());
 		Rectangle screenSize = ReMainFrame.getMasterFrame().getDesktop().getBounds();
+		saveId = saveIdentifier;
+
+
 		int recCount, height;
 
 		int desktopHeight = screenSize.height - SwingUtils.COMBO_TABLE_ROW_HEIGHT * 6;
@@ -270,8 +276,9 @@ implements ListSelectionListener, ISaveUpdateDetails<EditorTask> {
      * Sort the file
      *
      */
-    public final void doAction() {
+    public final AbstractFileDisplay doAction() {
         int numSortFields = getNumberOfSortFields();
+        AbstractFileDisplay ret = null;
 
         if (numSortFields > 0) {
             int[] fieldList = new int[numSortFields];
@@ -289,13 +296,15 @@ implements ListSelectionListener, ISaveUpdateDetails<EditorTask> {
                     fieldList[j++] = record.getFieldIndex(model.getFieldName(i));
                 }
             }
-            doAction(fileView, lastSelection, source, fieldList, descending, layout);
+            ret = doAction(fileView, lastSelection, source, fieldList, descending, layout);
         }
 
         try {
             this.setClosed(true);
         } catch (Exception e) {
         }
+
+        return ret;
     }
 
 
@@ -309,7 +318,7 @@ implements ListSelectionListener, ISaveUpdateDetails<EditorTask> {
      * @param descending wether to use descending sequence
      * @param layout record layout
      */
-	protected abstract void doAction(FileView view, int recordIndex, AbstractFileDisplay src,
+	protected abstract AbstractFileDisplay doAction(FileView view, int recordIndex, AbstractFileDisplay src,
     		int[] fieldList, boolean[] descending, AbstractLayoutDetails layout);
 
 
@@ -400,7 +409,7 @@ implements ListSelectionListener, ISaveUpdateDetails<EditorTask> {
 			sortTree.sortFields = model.getSortFields();
 			sortTree.sortSummary = summaryMdl.getFieldSummary().getSummary();
 			return (new EditorTask())
-					.setSortTree(fileView.getLayout().getLayoutName(),sortTree);
+					.setSortTree(saveId, fileView.getLayout().getLayoutName(), sortTree);
 		}
 		return null;
 	}
@@ -423,9 +432,10 @@ implements ListSelectionListener, ISaveUpdateDetails<EditorTask> {
 	}
 
 	/**
+	 * @see net.sf.RecordEditor.re.display.IChildDisplay#getSourceDisplay()
 	 * @return the source
 	 */
-	public AbstractFileDisplay getSource() {
+	public AbstractFileDisplay getSourceDisplay() {
 		return source;
 	}
 
@@ -433,6 +443,7 @@ implements ListSelectionListener, ISaveUpdateDetails<EditorTask> {
 	 * Restore saved details
 	 * @param details being restored
 	 */
+	@Override
 	public void setFromSavedDetails(EditorTask details) {
 		int idx = fileView.getLayout().getRecordIndex(details.sortTree.recordName);
 

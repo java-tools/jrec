@@ -17,7 +17,8 @@ import javax.swing.table.TableColumnModel;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.RecordEditor.edit.display.common.AbstractFieldSequencePnl;
-import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
+import net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide;
+import net.sf.RecordEditor.re.display.ReChildFrame;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
@@ -46,7 +47,7 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
     private AbstractLayoutDetails layout;
     private int recordIndex;
     private FieldList fieldMdl;
-    public final ReFrame frame;
+    public final ReChildFrame frame;
 
     private TableModelListener listner = new TableModelListener() {
 
@@ -72,8 +73,8 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
        	view = sourcePnl.getFileView();
     	layout = view.getLayout();
     	recordIndex = sourcePnl.getLayoutIndex();
-		frame = new ReFrame(
-				view.getBaseFile().getFileNameNoDirectory(), "Field Visibility", view.getBaseFile());
+		frame = new ReChildFrame(sourcePnl, "Field Visibility");
+
     	if (recordIndex > layout.getRecordCount() || recordIndex < 0) {
     		return;
     	} else if (recordIndex == layout.getRecordCount()) {
@@ -169,13 +170,21 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
         } else if (event.getSource() == checkAllFields) {
         	fieldMdl.updateIncludeFlag(true);
         } else if (event.getSource() == goBtn) {
-        	sourcePnl.setFieldVisibility(recordIndex, fieldMdl.include);
-        	frame.setVisible(false);
-        	sourcePnl.getFileView().removeTableModelListener(listner);
-       }
+        	updateSourcePanel();
+        }
     }
 
+    public void updateSourcePanel() {
 
+    	applyFieldVisibilty();
+    	frame.setVisible(false);
+    	sourcePnl.getFileView().removeTableModelListener(listner);
+   }
+
+    public void applyFieldVisibilty() {
+
+     	sourcePnl.setFieldVisibility(recordIndex, fieldMdl.include);
+   }
 
 @SuppressWarnings("serial")
 private static class FieldList extends AbstractTableModel {

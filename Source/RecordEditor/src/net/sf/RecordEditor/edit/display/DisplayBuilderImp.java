@@ -5,13 +5,13 @@ package net.sf.RecordEditor.edit.display;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
-import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
-import net.sf.RecordEditor.edit.open.DisplayBuilderFactory;
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
+import net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide;
+import net.sf.RecordEditor.re.display.DisplayBuilderFactory;
+import net.sf.RecordEditor.re.display.IDisplayBuilder;
+import net.sf.RecordEditor.re.display.IDisplayFrame;
 import net.sf.RecordEditor.re.file.AbstractLineNode;
 import net.sf.RecordEditor.re.file.FileView;
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
-import net.sf.RecordEditor.re.script.IDisplayBuilder;
-import net.sf.RecordEditor.re.script.IDisplayFrame;
 import net.sf.RecordEditor.re.tree.AbstractLineNodeTreeParser;
 import net.sf.RecordEditor.re.tree.LineNodeChild;
 import net.sf.RecordEditor.re.tree.TreeParserXml;
@@ -28,6 +28,7 @@ public class DisplayBuilderImp implements IDisplayBuilder {
 
 		AbstractFileDisplayWithFieldHide display = null;
 		AbstractLayoutDetails layoutDtls = file.getLayout();
+
 
 		if (layoutDtls.hasChildren()) {
 			LineTreeChild displ = new LineTreeChild(file, new LineNodeChild("File", file), true, 0);
@@ -56,7 +57,7 @@ public class DisplayBuilderImp implements IDisplayBuilder {
 	}
 
 	/**
-	 * @see net.sf.RecordEditor.re.script.IDisplayBuilder#newDisplay(int, String, IDisplayFrame, AbstractLayoutDetails, FileView, AbstractLine)
+	 * @see net.sf.RecordEditor.re.display.IDisplayBuilder#newDisplay(int, String, IDisplayFrame, AbstractLayoutDetails, FileView, AbstractLine)
 	 */
 	@Override
 	public AbstractFileDisplayWithFieldHide newDisplay(
@@ -92,7 +93,7 @@ public class DisplayBuilderImp implements IDisplayBuilder {
 		case ST_DOCUMENT:
 			 addToScreen(
 					parentFrame,
-					new DocumentFrame(viewOfFile, screenType == ST_COLORED_DOCUMENT)
+					new DocumentScreen(viewOfFile, screenType == ST_COLORED_DOCUMENT)
 			 );
 		default:
 			break;
@@ -101,7 +102,7 @@ public class DisplayBuilderImp implements IDisplayBuilder {
 	}
 
 	/**
-	 * @see net.sf.RecordEditor.re.script.IDisplayBuilder#newDisplay(int, String, IDisplayFrame, AbstractLayoutDetails, FileView, int)
+	 * @see net.sf.RecordEditor.re.display.IDisplayBuilder#newDisplay(int, String, IDisplayFrame, AbstractLayoutDetails, FileView, int)
 	 */
 	@Override
 	public AbstractFileDisplayWithFieldHide newDisplay(
@@ -114,12 +115,16 @@ public class DisplayBuilderImp implements IDisplayBuilder {
 		case ST_LIST_SCREEN:
 			return addToScreen(
 						parentFrame,
-						LineList.newLineList(group, viewOfFile, viewOfFile.getBaseFile())
+						LineList.newLineList(screenName, group, viewOfFile, viewOfFile.getBaseFile())
 					);
 		case ST_RECORD_SCREEN:
+			String s = screenName;
+			if (screenName == null || "".equals(screenName)) {
+				s = "Record:";
+			}
 			return addToScreen(
 					parentFrame,
-					new LineFrame(viewOfFile, line, true)
+					new LineFrame(s, viewOfFile, line, true)
 				);
 		case ST_RECORD_TREE:
 			return addToScreen(
@@ -127,9 +132,15 @@ public class DisplayBuilderImp implements IDisplayBuilder {
 					new LineFrameTree(viewOfFile, line, true)
 				);
 		case ST_LINES_AS_COLUMNS:
+			LinesAsColumns displ;
+			if (screenName == null || "".equals(screenName)) {
+				displ = new LinesAsColumns(viewOfFile);
+			} else {
+				displ = new LinesAsColumns(screenName, viewOfFile);
+			}
 			return addToScreen(
 					parentFrame,
-					new LinesAsColumns(viewOfFile)
+					displ
 				);
 		default:
 			break;
@@ -138,7 +149,7 @@ public class DisplayBuilderImp implements IDisplayBuilder {
 	}
 
 	/**
-	 * @see net.sf.RecordEditor.re.script.IDisplayBuilder#newDisplay(int, IDisplayFrame, AbstractLayoutDetails, FileView, AbstractLineNodeTreeParser, boolean, int)
+	 * @see net.sf.RecordEditor.re.display.IDisplayBuilder#newDisplay(int, IDisplayFrame, AbstractLayoutDetails, FileView, AbstractLineNodeTreeParser, boolean, int)
 	 */
 	@Override
 	public AbstractFileDisplayWithFieldHide newDisplay(

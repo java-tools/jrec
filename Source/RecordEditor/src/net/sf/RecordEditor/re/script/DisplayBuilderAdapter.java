@@ -5,7 +5,10 @@ package net.sf.RecordEditor.re.script;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
-import net.sf.RecordEditor.edit.display.common.AbstractFileDisplayWithFieldHide;
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
+import net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide;
+import net.sf.RecordEditor.re.display.IDisplayBuilder;
+import net.sf.RecordEditor.re.display.IDisplayFrame;
 import net.sf.RecordEditor.re.file.AbstractLineNode;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.tree.AbstractLineNodeTreeParser;
@@ -36,7 +39,7 @@ public class DisplayBuilderAdapter implements IDisplayBuilder {
 			String screenName,
 			IDisplayFrame<? extends AbstractFileDisplay> parentFrame,
 			AbstractLayoutDetails group, FileView viewOfFile,
-			@SuppressWarnings("rawtypes") AbstractLine line) {
+			AbstractLine line) {
 		return null;
 	}
 

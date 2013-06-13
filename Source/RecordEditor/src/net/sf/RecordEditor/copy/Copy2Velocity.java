@@ -33,7 +33,6 @@ public class Copy2Velocity extends AbstractWizard<CopyDefinition> {
 	 * Create Single layout
 	 * @param selection record layout selection class
 	 */
-	@SuppressWarnings("unchecked")
 	public Copy2Velocity(AbstractLayoutSelection recordSelection1) {
 		this(new net.sf.RecordEditor.jibx.compare.CopyDefinition(), recordSelection1);
 	}
@@ -129,11 +128,11 @@ public class Copy2Velocity extends AbstractWizard<CopyDefinition> {
 //		private JPanel goPanel = new JPanel();
 		private FileChooser newFileName = new FileChooser();
 		private FileChooser velocityTemplateFile = new FileChooser();
-		@SuppressWarnings("unchecked")
+
 		private AbstractLayoutSelection layoutSelection1;
 
 
-		@SuppressWarnings("unchecked")
+
 		public GetFiles(AbstractLayoutSelection selection1) {
 			super(selection1, "CobolFiles.txt");
 

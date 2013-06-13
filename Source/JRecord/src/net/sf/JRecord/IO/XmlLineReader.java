@@ -89,7 +89,7 @@ public class XmlLineReader extends StandardLineReader {
     	//f.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES, Boolean.TRUE);
     	//javax.xml.XMLConstants.XMLNS_ATTRIBUTE_NS_URI;
 
-    	System.out.println("====> " + f.getClass().getName());
+    	//System.out.println("====> " + f.getClass().getName());
 
 
         if (buildLayout || pLayout == null) {
@@ -178,13 +178,13 @@ public class XmlLineReader extends StandardLineReader {
 	                ret = read_400_Text(XmlConstants.XML_COMMENT);
 	            break;
 	            case (XMLStreamConstants.DTD) :
-	                try {
-                        //System.out.print(parser.getNamespaceURI());
-                        System.out.print("==" + parser.getText());
-                        //parser.get
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+//	                try {
+//                        //System.out.print(parser.getNamespaceURI());
+//                        System.out.print("==" + parser.getText());
+//                        //parser.get
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
 	                ret = read_400_Text(XmlConstants.XML_DTD);
 	            break;
 	            case (XMLStreamConstants.ENTITY_REFERENCE) :

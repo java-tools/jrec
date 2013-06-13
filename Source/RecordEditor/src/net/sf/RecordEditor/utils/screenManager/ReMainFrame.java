@@ -76,8 +76,9 @@ public class ReMainFrame extends JFrame
 
     private static final int TOOL_BAR_SEPARATOR_WIDTH = SwingUtils.STANDARD_FONT_WIDTH;
 	private static final int LOG_SCREEN_HEIGHT = SwingUtils.STANDARD_FONT_HEIGHT * 20;
-	private static final int LOG_SCREEN_STARTS_FROM_BOTTOM = SwingUtils.STANDARD_FONT_HEIGHT * 10;
-	private static final int LOG_SCREEN_WIDTH_ADJUSTMENT = SwingUtils.STANDARD_FONT_WIDTH * 2;
+	private static final int LOG_SCREEN_STARTS_FROM_BOTTOM = SwingUtils.STANDARD_FONT_HEIGHT * 5 / 2;
+	//private static final int SCREEN_START_X = 2;
+	//private static final int SCREEN_WIDTH_ADJUSTMENT = SwingUtils.STANDARD_FONT_WIDTH * 2; // SwingUtils.STANDARD_FONT_WIDTH * 2;
 
 
     private JMenuBar menuBar = new JMenuBar();
@@ -170,6 +171,10 @@ public class ReMainFrame extends JFrame
 	private JMenu velocityTemplateList = null;
 	private JMenu xslTransformList = null;
 
+	private int logWidth;
+    private boolean logAtBottom = false;
+
+
 	private final String applId;
 	static {
         int j;
@@ -187,6 +192,7 @@ public class ReMainFrame extends JFrame
 
 
 
+
 	/**
 	 * Standard Frame for the recordEditor / Layout Editor
 	 * @param name frame name
@@ -194,19 +200,40 @@ public class ReMainFrame extends JFrame
 	 * @param applicationId Very short name for the application
 	 */
 	public ReMainFrame(final String name, final String helpName, String applicationId) {
+		this(name, helpName, applicationId, false);
+	}
+
+
+
+
+	/**
+	 * Standard Frame for the recordEditor / Layout Editor
+	 * @param name frame name
+	 * @param helpName help screen name
+	 * @param applicationId Very short name for the application
+	 */
+	public ReMainFrame(final String name, final String helpName, String applicationId, boolean logAtBottom) {
 	    super(name);
 	    masterFrame = this;
 	    this.applId = applicationId;
+	    this.logAtBottom = logAtBottom;
 //        setIcon("C:\\JavaPrograms\\RecordEdit\\HSQLDB\\lib\\RecordEdit.ico");
 
 	    init_100_Frame(helpName);
-	    init_200_SetSizes();
-	    init_300_BuildScreen();
+	    init_200_BuildScreen();
+	    init_300_SetSizes();
 
 	    init_400_AddListners();
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		this.pack();
+//	    Common.setBounds1(this, applId);
+
 		this.setVisible(true);
+
+	    setLogFrameSize();
+	    logFrame.setVisible(true);
+
 	}
 
 	/**
@@ -214,23 +241,20 @@ public class ReMainFrame extends JFrame
 	 * @param helpName help file name
 	 */
 	private void init_100_Frame(String helpName) {
-			if (Common.OPTIONS.logToFront.isSelected()) {
+		if (Common.OPTIONS.logToFront.isSelected()) {
 			log = new ScreenLog(logFrame) {
 				public void logMsg(int level, String msg) {
 					super.logMsg(level, msg);
 					if (level >= AbsSSLogger.ERROR) {
 						logFrame.moveToFront();
 						logFrame.requestFocus();
-				        try {
+						try {
 							logFrame.setIcon(false);
-				        	logFrame.setSelected(true);
-				        } catch (Exception ex) {
-				        }
+							logFrame.setSelected(true);
+						} catch (Exception ex) {
+						}
 					}
-
-			 	}
-
-
+				}
 			};
 		} else {
 			log = new ScreenLog(logFrame);
@@ -255,48 +279,15 @@ public class ReMainFrame extends JFrame
 	    desktop.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
 	}
 
-	/**
-	 * Setup screen size and define log screen
-	 *
-	 */
-	private void init_200_SetSizes() {
-	    int start, height;
-	    Dimension desktopSize;
-
-	    Common.setBounds1(HelpWindow.HELP_FRAME, applId);
-	    Common.setBounds1(this, applId);
-
-	    desktopSize = this.getSize();
-
-	    start = desktopSize.height - LOG_SCREEN_HEIGHT - LOG_SCREEN_STARTS_FROM_BOTTOM;
-	    height  = LOG_SCREEN_HEIGHT;
-	    if (desktopSize.height - 40 < LOG_SCREEN_HEIGHT) {
-	        start = 4;
-	        height  = height - start;
-	    }
-//	    System.out.println();
-//	    System.out.println("Desktop Size: " + desktopSize.height + " " + desktopSize.width);
-//	    System.out.println("    Log Size: " + height + " " + (desktopSize.width - LOG_SCREEN_WIDTH_ADJUSTMENT));
-//	    System.out.println();
-
-	    logFrame.getContentPane().add(log);
-	    logFrame.setBounds(2, start,
-	            desktopSize.width - LOG_SCREEN_WIDTH_ADJUSTMENT, height);
-	    logFrame.setVisible(true);
-
-	    desktop.add(logFrame);
-	}
 
 
 	/**
 	 * Build (or layout) the screen
 	 */
-	private void init_300_BuildScreen() {
+	private void init_200_BuildScreen() {
+
 	    JPanel topPanel = new JPanel();
 	    JPanel fullPanel = new JPanel();
-
-	    //buildMenubar(menuBar);
-	    //buildToolbar(toolBar);
 
 	    topPanel.setLayout(new BorderLayout());
 	    topPanel.add("North", menuBar);
@@ -305,8 +296,36 @@ public class ReMainFrame extends JFrame
 	    fullPanel.setLayout(new BorderLayout());
 	    fullPanel.add("North", topPanel);
 	    fullPanel.add("Center", desktop);
+
+//	    this.getRootPane().setJMenuBar(menuBar);
 	    setContentPane(fullPanel);
     }
+
+
+	/**
+	 * Setup screen size and define log screen
+	 *
+	 */
+	protected final void init_300_SetSizes() {
+
+	    Common.setBounds1(HelpWindow.HELP_FRAME, applId);
+	    Common.setBounds1(this, applId);
+	    initToolMenuBars();
+
+	    logFrame.getContentPane().add(log);
+
+//	    setLogFrameSize();
+//	    logFrame.setVisible(true);
+
+	    desktop.add(logFrame);
+
+//	    System.out.println();
+//	    System.out.println("Desktop Size: " + desktopSize.height + " " + desktopSize.width);
+//	    System.out.println("    Log Size: " + height + " " + (desktopSize.width - LOG_SCREEN_WIDTH_ADJUSTMENT));
+//	    System.out.println();
+	}
+
+
 
 	/**
 	 * add listners
@@ -420,7 +439,7 @@ public class ReMainFrame extends JFrame
 		scriptList = scriptPopup;
 		velocityTemplateList = velocityPopup;
 		xslTransformList = xsltPopup;
-	    menuBar.add(fileMenu);
+//	    menuBar.add(fileMenu);
 	    menuBar.add(buildEditMenu());
 
 	    addProgramSpecificMenus(menuBar);
@@ -435,7 +454,8 @@ public class ReMainFrame extends JFrame
 	 *
 	 * @return file menu
 	 */
-	protected void buildFileMenu( JMenu recentFiles, boolean addSaveAsXml, boolean addSaveLayout, AbstractAction newAction) {
+	protected void buildFileMenu( JMenu recentFiles, boolean addSaveAsXml, boolean addSaveLayout,
+			AbstractAction open2Action, AbstractAction newAction) {
 
 		open.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 	            KeyEvent.VK_O, ActionEvent.CTRL_MASK));
@@ -451,6 +471,11 @@ public class ReMainFrame extends JFrame
 	    fileMenu.add(saveAs);
 	    if (recentFiles != null) {
 	    	fileMenu.add(recentFiles);
+	    }
+
+	    if (open2Action != null) {
+		    fileMenu.addSeparator();
+	    	fileMenu.add(open2Action);
 	    }
 
 	    fileMenu.addSeparator();
@@ -621,6 +646,7 @@ public class ReMainFrame extends JFrame
 			  + "\t<b>jibx<b>:\t\tXml Bindings<br/>"
 			  + "\t<b>TableLayout<b>:\tSwing Layout manager used<br>"
 			  + "\t<b>jlibdif<b>:\tFile Compare<br/>"
+			  + "\t<b>RSyntaxTextArea<b>\tScript Editting Copyright (c) 2012, Robert Futrell"
 		);
 	}
 
@@ -649,15 +675,25 @@ public class ReMainFrame extends JFrame
 		aboutFrame.setVisible(true);
 	}
 
+	/**
+	 * Add a item to the toolbar / menubar to initialise the height
+	 */
+	private void initToolMenuBars() {
+
+	    toolBar.add(open);
+	    menuBar.add(fileMenu);
+
+	}
+
 
 	/**
 	 * Build the Tool Bar
 	 *
 	 * @param toolBar to be built
 	 */
-	protected final void buildToolbar(AbstractAction newAction, AbstractAction[] toolbarActions) {
+	protected final void buildToolbar(Action newAction, Action[] toolbarActions) {
 
-	    toolBar.add(open);
+	    //toolBar.add(open);
 	    if (newAction != null) {
 	    	toolBar.add(newAction);
 	    }
@@ -739,6 +775,71 @@ public class ReMainFrame extends JFrame
         return desktop;
     }
 
+	public final int getDesktopHeight() {
+		return getDesktopHeight(this.getContentPane().getSize());
+    }
+
+	private final int getDesktopHeight(Dimension desktopSize) {
+		int headingHeight = toolBar.getPreferredSize().height + menuBar.getPreferredSize().height;
+
+		return desktopSize.height - headingHeight;
+	}
+
+	/**
+	 * Get The height of the log File
+	 * @return  height of the log File
+	 */
+	public final int getLogHeight() {
+		return logFrame.getHeight();
+	}
+
+	public final void setLogFrameSize() {
+
+	    int start, height;
+	    Dimension frameSize = this.getContentPane().getSize();
+	    int desktopHeight = getDesktopHeight(frameSize);
+
+//	    System.out.println("===> " + frameSize.getHeight() + " " + desktop.getSize().getHeight()
+//	    		+ " " + desktop.getPreferredSize().getHeight() + " !!! "
+//	    		+ " " +  menuBar.getPreferredSize().height + " " + toolBar.getPreferredSize().height
+//	    		+ " ~~~ " + desktop.getSize().width + " " + desktop.getHeight()
+//	    		+ " "
+//	    		+ " " + frameSize.height + " " + frameSize.width
+//
+//	    );
+//
+//	    System.out.println("---> " + fullPanel.getSize().height + " " + fullPanel.getSize().width
+//	    	    + " (---) " + topPanel.getSize().height + "  " + topPanel.getSize().width
+//	    	    + " <---> " + fullPanel.getPreferredSize().height + " " + fullPanel.getPreferredSize().width
+//	    	  //  + " <---> " + fullPanel.getMaximumSize().height + " " + fullPanel.getMaximumSize().width
+//	    	    + " --- " + topPanel.getPreferredSize().height + " " + topPanel.getPreferredSize().width
+//	    	    + " %% " + topPanel.getBounds().height + " " + topPanel.getBounds().width
+//	    	    + " " + topPanel.getBounds().x + " " + topPanel.getBounds().y
+//	    	    + " " + toolBar.getPreferredSize().height
+//	    	    + " || " + this.getGlassPane().getPreferredSize().height
+//	    	    + " " + this.getGlassPane().getSize().height
+//	    	    + " " + this.getGlassPane().getBounds().height
+//	    );
+
+
+
+	    if (logAtBottom) {
+		    height  = Math.min(LOG_SCREEN_HEIGHT, desktopHeight / 4);
+		    start = desktopHeight - height;
+	    } else {
+		    height  = LOG_SCREEN_HEIGHT;
+		    start = desktopHeight - LOG_SCREEN_HEIGHT - LOG_SCREEN_STARTS_FROM_BOTTOM;
+	    }
+
+	    if (desktopHeight < height) {
+	        start = 4;
+	        height  = Math.max(SwingUtils.STANDARD_FONT_HEIGHT * 6, height - start);
+	    }
+
+	    logWidth = frameSize.width;
+		logFrame.setBounds(1, start,
+	            logWidth, height);
+	}
 
     /**
      * @see net.sf.RecordEditor.utils.common.ReActionHandler#executeAction(int)
@@ -975,6 +1076,16 @@ public class ReMainFrame extends JFrame
     }
 
     /**
+	 * @return the logWidth
+	 */
+	public int getLogWidth() {
+		return logWidth;
+	}
+
+
+
+
+	/**
      * Set the Look and Feel
      * @return nothing, allows me to assign to a variable
      */

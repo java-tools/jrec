@@ -66,7 +66,7 @@ public class ProgramOptions {
 	public final UpdateableBoolOpt highlightEmpty = new UpdateableBoolOpt(Parameters.PROPERTY_HIGHLIGHT_EMPTY);
 	public final InternalBoolOption highlightEmptyActive = new InternalBoolOption(false);
 
-	public final InternalBoolOption loadPoScreens       = new InternalBoolOption(true);
+	public final InternalBoolOption loadPoScreens       = new InternalBoolOption(false);
 	public final InternalBoolOption xsltAvailable       = new InternalBoolOption(true);
 	public final InternalBoolOption fileWizardAvailable = new InternalBoolOption(false);
 	public final InternalBoolOption getTextPoPresent    = new InternalBoolOption(false);

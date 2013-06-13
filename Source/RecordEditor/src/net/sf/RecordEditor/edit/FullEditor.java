@@ -24,6 +24,7 @@ import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.RecordEditor.copy.CopyDBLayout;
 import net.sf.RecordEditor.diff.CompareDBLayout;
 import net.sf.RecordEditor.edit.display.Action.ChangeLayoutAction;
+import net.sf.RecordEditor.edit.display.Action.CsvOpenAction;
 import net.sf.RecordEditor.edit.display.Action.CsvUpdateLayoutAction;
 import net.sf.RecordEditor.edit.display.Action.NewFileAction;
 import net.sf.RecordEditor.edit.display.Action.SaveFieldSequenceAction;
@@ -87,6 +88,7 @@ public class FullEditor extends EditRec {
     	   final CopyBookInterface pInterfaceToCopyBooks) {
         super(true,
         	  "Record Editor",
+        	  new CsvOpenAction(Parameters.getApplicationDirectory() + "CsvFiles.txt", pIoProvider),
         	  new NewFileAction(
         			  new LayoutSelectionDBCreator(pInterfaceToCopyBooks)
         	  )
@@ -200,6 +202,7 @@ public class FullEditor extends EditRec {
 		Common.OPTIONS.fileWizardAvailable.set(true);
 		Common.OPTIONS.standardEditor.set(true);
 		Common.OPTIONS.addTextDisplay.set(true);
+		Common.OPTIONS.loadPoScreens.set(true);
 
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {

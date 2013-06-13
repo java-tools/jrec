@@ -8,8 +8,8 @@ import javax.swing.JInternalFrame;
 import javax.swing.JTabbedPane;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
-import net.sf.RecordEditor.edit.open.DisplayBuilderFactory;
 import net.sf.RecordEditor.edit.util.NewCsvFile;
+import net.sf.RecordEditor.re.display.DisplayBuilderFactory;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.utils.fileStorage.DataStoreStd;

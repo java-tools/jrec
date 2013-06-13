@@ -13,9 +13,9 @@ import javax.swing.tree.TreePath;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.re.file.AbstractLineNode;
 import net.sf.RecordEditor.re.file.FileView;
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.re.tree.AbstractLineNodeTreeParser;
 import net.sf.RecordEditor.re.tree.LineNode;
 import net.sf.RecordEditor.re.tree.TreeToXml;

@@ -39,9 +39,10 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
+import net.sf.RecordEditor.re.display.IChildDisplay;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.openFile.RecentFiles;
-import net.sf.RecordEditor.re.script.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
@@ -74,7 +75,7 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 @SuppressWarnings("serial")
 public final class SaveAs3 extends ReFrame
-				 implements ActionListener {
+				 implements ActionListener, IChildDisplay {
 
 	//TODO
 	//TODO Convert to enum !!!!!
@@ -533,4 +534,13 @@ public final class SaveAs3 extends ReFrame
     			pnls[idx].template.getText(),
     			pnls[idx].extension);
     }
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.re.display.IChildDisplay#getSourceDisplay()
+	 */
+	@Override
+	public AbstractFileDisplay getSourceDisplay() {
+		return commonSaveFields.getRecordFrame();
+	}
 }

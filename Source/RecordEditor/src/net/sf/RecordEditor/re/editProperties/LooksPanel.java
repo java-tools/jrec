@@ -43,12 +43,12 @@ public class LooksPanel extends BasePanel implements ActionListener {
     			+ "<br><br>The following 2 sites list a number of <b>Look and Feel</b><ul compact>"
     			+ "<li><b>http://www.java2s.com/Product/Java/Swing/LookAndFeel.htm</b>"
     			+ "<li><b>http://www.java-tips.org/java-libraries/java-look-and-feel/</b>"
-    			+ "</ul>The JGoodies Look-and-Feel (<b>http://www.java2s.com/Product/Java/Swing/LookAndFeel.htm</b>)"
+    			+ "</ul>The JGoodies Look-and-Feel (<b>http://www.jgoodies.com/freeware/libraries/looks/</b>)"
     			+ "is popular");
     private static final String JGOODIES
     	= "JGoodies provide a popular Look and Feel, <br>"
     	+ "You may find the Jar <b>looks-<i>&lt;<i>version<i>&gt;.jar</b> is already on your system.<br>"
-    	+ "If not download it from <b>http://www.jgoodies.com/freeware/looksdemo/index.html</b> ";
+    	+ "If not download it from <b>http://www.jgoodies.com/freeware/libraries/looks/</b> ";
     private static final String COMPIERE
         = "Compiere provide there look and feel at <b>http://www.compiere.org/looks/</b>";
     private static final String TONIC
@@ -289,10 +289,12 @@ public class LooksPanel extends BasePanel implements ActionListener {
         try {
             //Class lnfClass = Class.forName(laf);
             LookAndFeel newLAF = (LookAndFeel) ((Class.forName(laf)).newInstance());
-            return newLAF.isSupportedLookAndFeel();
+            if (newLAF != null) {
+            	return newLAF.isSupportedLookAndFeel();
+            }
         } catch (Exception e) { // If ANYTHING weird happens, return false
-            return false;
         }
+        return false;
     }
 
 }

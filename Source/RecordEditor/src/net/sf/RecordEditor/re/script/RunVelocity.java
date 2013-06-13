@@ -59,7 +59,7 @@ public class RunVelocity {
      *
      * @throws Exception any error that occurs in running velocity
      */
-    public void processFile(@SuppressWarnings("rawtypes") AbstractLayoutDetails layout,
+    public void processFile(AbstractLayoutDetails layout,
 			String inputFile,
 			String template,
 			String outputFile)

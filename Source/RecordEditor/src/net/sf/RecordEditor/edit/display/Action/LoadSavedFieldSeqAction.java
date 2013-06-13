@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 
 import net.sf.RecordEditor.edit.display.common.AbstractFieldSequencePnl;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.file.filter.AbstractExecute;
 import net.sf.RecordEditor.re.file.filter.ExecuteSavedFile;
@@ -65,11 +66,12 @@ implements AbstractActiveScreenAction {
 		}
 
 		@Override
-		public void execute(EditorTask saveDetails) {
+		public AbstractFileDisplay execute(EditorTask saveDetails) {
 
 			if (saveDetails.fieldSequence != null) {
 				lineList.setFieldSequence(saveDetails.fieldSequence);
 			}
+			return lineList;
 		}
 
 		@Override

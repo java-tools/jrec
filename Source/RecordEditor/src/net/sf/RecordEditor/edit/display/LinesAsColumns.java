@@ -47,7 +47,11 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 	 * @param viewOfFile file view
 	 */
 	protected LinesAsColumns(FileView viewOfFile) {
-		super("Column Table", viewOfFile, viewOfFile == viewOfFile.getBaseFile(), true, true);
+		this("Column Table", viewOfFile);
+	}
+
+	protected LinesAsColumns(String screenName, FileView viewOfFile) {
+		super(screenName, viewOfFile, viewOfFile == viewOfFile.getBaseFile(), true, true);
 
 	    init_100_SetupJtables(viewOfFile);
 
@@ -302,7 +306,7 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
     }
 
 	/**
-	 * @see net.sf.RecordEditor.re.script.AbstractFileDisplay#getSelectedRows()
+	 * @see net.sf.RecordEditor.re.display.AbstractFileDisplay#getSelectedRows()
 	 */
 	public int[] getSelectedRows() {
 		return getJTable().getSelectedColumns();

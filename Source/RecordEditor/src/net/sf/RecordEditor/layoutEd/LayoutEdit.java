@@ -86,7 +86,7 @@ public class LayoutEdit extends ReMainFrame {
 		buildMenubar(VelocityPopup.getLayoutPopup(), null, null);
 		buildToolbar(newAction, toolbarActions);
 
-		buildFileMenu(null, false, true, newAction);
+		buildFileMenu(null, false, true, null, newAction);
 		super.addExit();
 
         CopybookLoaderFactory.setInstance(new CopybookLoaderFactoryDB());

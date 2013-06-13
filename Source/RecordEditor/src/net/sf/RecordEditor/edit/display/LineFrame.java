@@ -103,10 +103,12 @@ public class LineFrame extends  BaseLineFrame implements ILineDisplay {
 		currRow = cRow;
 	}
 
-	protected LineFrame(final FileView viewOfFile,
-   		 final AbstractLine line,
-   		 final boolean changeRow) {
-		super("Record:", viewOfFile, false, ! viewOfFile.getLayout().isXml(), changeRow);
+	protected LineFrame(
+			final String screenName,
+			final FileView viewOfFile,
+   		 	final AbstractLine line,
+   		 	final boolean changeRow) {
+		super(screenName, viewOfFile, false, ! viewOfFile.getLayout().isXml(), changeRow);
 
 		init_101_setRecord(changeRow);
 

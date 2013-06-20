@@ -9,9 +9,9 @@ def test():
 
 		if window('Record Editor Options Editor'):
 			select('TabbedPane', commonBits.fl('Properties'))
+			select('Directory where the Editor Starts in #{if no file specified#}_Txt', '<reproperties>/SampleFiles/*')
 
-			select('PropertiesTab', commonBits.fl('Test')
-)
+			select('PropertiesTab', commonBits.fl('Test'))
 #			select('Test Mode', 'true')
 #			select('Warn on Structure change', 'false')
 #			select('Add names to JComponents for use by testing tools', 'false')

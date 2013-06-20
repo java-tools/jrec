@@ -8,7 +8,7 @@ def test():
 		select('FileChooser', commonBits.sampleDir() + 'DTAR020.bin')
 		select('FileChooser1', commonBits.sampleDir() + 'CpyCsvDtar020.Txt')
 		commonBits.setRecordLayout2(select, 'DTAR020')
-		select('DelimitierCombo', commonBits.fl('<Tab>'))
+		select('DelimiterCombo', commonBits.fl('<Tab>'))
 		click('Right')
 		select('TabbedPane', '')
 		select('Table1', 'cell:' + commonBits.fl('Include') + ',3(true)')

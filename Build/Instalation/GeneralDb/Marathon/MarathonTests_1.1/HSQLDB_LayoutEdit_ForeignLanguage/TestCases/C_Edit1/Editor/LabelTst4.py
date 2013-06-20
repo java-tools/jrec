@@ -26,7 +26,7 @@ def test():
 			assert_p(commonBits.fl('Cut'), 'Text', commonBits.fl('Cut'))
 		else:
 			assert_p('Save1', 'Text', commonBits.fl('Save'))
-			assert_p('New1', 'Text', commonBits.fl('New'))
+			assert_p('New2', 'Text', commonBits.fl('New'))
 			assert_p('Delete3', 'Text', 'Delete')
 			assert_p('Delete2', 'Text', 'Delete')
 			assert_p('Copy2', 'Text', 'Copy')

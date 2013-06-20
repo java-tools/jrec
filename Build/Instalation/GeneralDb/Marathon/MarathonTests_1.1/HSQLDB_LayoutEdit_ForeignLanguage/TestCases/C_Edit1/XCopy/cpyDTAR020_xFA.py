@@ -26,6 +26,7 @@ def test():
 		assert_p('TextField1', 'Text', commonBits.fl('Copy Done !!!'))
 		click('Open')
 		select('FileChooser', commonBits.sampleDir() + 'XfaDTAR020.csv')
+		select('ComboBox2', 'Generic CSV - enter details')
 		commonBits.doEdit(click)
 
 		if window(''):

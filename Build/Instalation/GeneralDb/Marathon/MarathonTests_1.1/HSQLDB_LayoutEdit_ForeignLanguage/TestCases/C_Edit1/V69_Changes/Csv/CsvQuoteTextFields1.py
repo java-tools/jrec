@@ -27,7 +27,7 @@ def test():
 		select('Table', commonBits.fl('Number (Fixed Decimal)'), commonBits.fl('Type') + ',1')
 		select('Table', 'cell:' + commonBits.fl('Decimal Places') + ',3(null)')
 		select('Table', 'cell:' + commonBits.fl('Decimal Places') + ',5(null)')
-		select('DelimitierCombo', ':')
+		select('DelimiterCombo', ':')
 		if commonBits.isVersion80():
 			assert_p('Table', 'Content', '[[STORE-NO, true, ' + commonBits.fl('Number (Fixed Decimal)') + ', 0, , ], [REGION-NO, true, ' + commonBits.fl('Number (Fixed Decimal)') + ', 0, , ], [STORE-NAME, true, ' + commonBits.fl('Text') + ', , , ], [NEW-STORE, true, ' + commonBits.fl('Text') + ', , , ], [ACTIVE-STORE, true, ' + commonBits.fl('Text') + ', , , ], [CLOSED-STORE, true, ' + commonBits.fl('Text') + ', , , ], [DC-TYPE, true, ' + commonBits.fl('Text') + ', , , ], [SRC-TYPE, true, ' + commonBits.fl('Text') + ', , , ], [HO-TYPE, true, ' + commonBits.fl('Text') + ', , , ]]')
 		else:

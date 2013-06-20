@@ -15,14 +15,11 @@ def test():
 			select('CheckBox', 'false')
 
 			click(commonBits.fl('Go'))
-			commonBits.doSleep()
 
 			commonBits.doSleep()
 
 
 		close()
-
-		commonBits.doSleep()
 
 		commonBits.doSleep()
 

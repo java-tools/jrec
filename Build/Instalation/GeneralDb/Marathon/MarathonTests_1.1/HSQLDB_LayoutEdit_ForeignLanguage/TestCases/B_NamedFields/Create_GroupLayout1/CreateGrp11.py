@@ -7,9 +7,11 @@ def test():
 	if window('Record Layout Definitions'):
 		click('*1')
 		select('RecordDef.Record Name_Txt', 'xxzzxx')
-		select('RecordDef.Record Type_Txt', commonBits.fl('Group of Records'))
+		select('RecordDef.Record Type_Txt', commonBits.fl('Group of Records')
+)
 
-		select('TabbedPane', commonBits.fl('Child Records'))
+		select('TabbedPane', commonBits.fl('Child Records')
+)
 		click(commonBits.fl('Insert'))
 
 
@@ -48,6 +50,7 @@ def test():
 
 		select('RecordList.Description_Txt', '%')
 
+##		assert_p('ChildRecordsJTbl', 'Content', '[[, ams PO Download: Allocation, , , , , ams PO Download: Detail], [, ams PO Download: Detail, , , , , ]]')
 		assert_p('ChildRecordsJTbl', 'Content', '[[, ams PO Download: Allocation, , , , , ams PO Download: Detail], [, ams PO Download: Detail, , , , , ]]')
 		select('RecordList.Record Name_Txt', 'xxzzxx11')
 

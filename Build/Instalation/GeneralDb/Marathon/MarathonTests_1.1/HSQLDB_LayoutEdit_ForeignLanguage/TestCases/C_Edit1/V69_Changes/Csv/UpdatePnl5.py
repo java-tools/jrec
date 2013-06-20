@@ -23,7 +23,7 @@ def test():
 #		select('Table1', 'cell:2|REGION-NO,0(20)')
 		assert_p('Table', 'Content', '[[STORE-NO, 1, , 6, 6], [REGION-NO, 2, , 20, 20], [STORE-NAME, 3, , V Wodonga, V Wodonga], [NEW-STORE, 4, , N, N], [ACTIVE-STORE, 5, , Y, Y], [CLOSED-STORE, 6, , N, N], [DC-TYPE, 7, , N, N], [SRC-TYPE, 8, , N, N], [HO-TYPE, 9, , N, N]]')
 		select_menu(commonBits.fl('Edit') + '>>' + commonBits.fl('Update Csv Columns'))
-		select('DelimitierCombo', ';')
+		select('DelimiterCombo', ';')
 		select('QuoteCombo', '`')
 		click(commonBits.fl('Apply'))
 		select_menu(commonBits.fl('Window') + '>>csv_DTAR1000_Store_file_std.bin.csv>>' + commonBits.fl('Record:'))
@@ -38,7 +38,7 @@ def test():
 		select('LayoutCombo', 'GeneratedCsvRecord')
 		select_menu(commonBits.fl('Edit') + '>>' + commonBits.fl('Update Csv Columns'))
 		select('QuoteCombo', '\'')
-		select('DelimitierCombo', '~')
+		select('DelimiterCombo', '~')
 		if commonBits.isVersion80():
 			assert_p('Table', 'Content', '[[STORE-NO, true, ' + commonBits.fl('Number') + ', , , ], [REGION-NO, true, ' + commonBits.fl('Number') + ', , , ], [STORE-NAME, true, ' + commonBits.fl('Text') + ', , , ], [NEW-STORE, true, ' + commonBits.fl('Text') + ', , , ], [ACTIVE-STORE, true, ' + commonBits.fl('Text') + ', , , ], [CLOSED-STORE, true, ' + commonBits.fl('Text') + ', , , ], [DC-TYPE, true, ' + commonBits.fl('Text') + ', , , ], [SRC-TYPE, true, ' + commonBits.fl('Text') + ', , , ], [HO-TYPE, true, ' + commonBits.fl('Text') + ', , , ]]')
 		else:

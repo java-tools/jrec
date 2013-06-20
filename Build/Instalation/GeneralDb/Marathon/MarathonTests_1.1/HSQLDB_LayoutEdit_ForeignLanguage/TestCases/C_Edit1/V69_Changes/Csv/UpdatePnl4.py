@@ -28,7 +28,7 @@ def test():
 			assert_p('Table', 'Content', '[[STORE-NO, true, ' + commonBits.fl('Number') + ', , , ], [REGION-NO, true, ' + commonBits.fl('Number') + ', , , ], [STORE-NAME, true, ' + commonBits.fl('Text') + ', , , ], [NEW-STORE, true, ' + commonBits.fl('Text') + ', , , ], [ACTIVE-STORE, true, ' + commonBits.fl('Text') + ', , , ], [CLOSED-STORE, true, ' + commonBits.fl('Text') + ', , , ], [DC-TYPE, true, ' + commonBits.fl('Text') + ', , , ], [SRC-TYPE, true, ' + commonBits.fl('Text') + ', , , ], [HO-TYPE, true, ' + commonBits.fl('Text') + ', , , ]]')
 		else:
 			assert_p('Table', 'Content', '[[STORE-NO, true, ' + commonBits.fl('Number') + ', , ], [REGION-NO, true, ' + commonBits.fl('Number') + ', , ], [STORE-NAME, true, ' + commonBits.fl('Text') + ', , ], [NEW-STORE, true, ' + commonBits.fl('Text') + ', , ], [ACTIVE-STORE, true, ' + commonBits.fl('Text') + ', , ], [CLOSED-STORE, true, ' + commonBits.fl('Text') + ', , ], [DC-TYPE, true, ' + commonBits.fl('Text') + ', , ], [SRC-TYPE, true, ' + commonBits.fl('Text') + ', , ], [HO-TYPE, true, ' + commonBits.fl('Text') + ', , ]]')
-		select('DelimitierCombo', ';')
+		select('DelimiterCombo', ';')
 		select('QuoteCombo', '\'')
 		select('Table', 'STORE NO', commonBits.fl('Field Name') + ',0')
 		select('Table', 'REGION NO', commonBits.fl('Field Name') + ',1')

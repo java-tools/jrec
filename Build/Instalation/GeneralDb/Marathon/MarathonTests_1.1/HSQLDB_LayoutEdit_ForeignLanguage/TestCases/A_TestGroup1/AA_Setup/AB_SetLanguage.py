@@ -11,7 +11,9 @@ def test():
 			if window('Record Editor Options Editor'):
 				select('TabbedPane', 'Language')
 
-				select('ComboBox2', 'tst')
+				select('TabbedPane', 'Language')
+
+				select('ComboBox2', 'Tst')
 
 				click('Save')
 
@@ -19,11 +21,11 @@ def test():
 					click('OK')
 				close()
 
-				click('Button2')
+##				click('Button2')
 			close()
 		else:
 			if window('Record Editor Options Editor'):
-				select('TabbedPane', '`!Language!`')
+				select('TabbedPane', commonBits.fl('Language'))
 
 				select('ComboBox2', ' ')
 				click('Save')

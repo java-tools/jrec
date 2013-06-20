@@ -20,7 +20,7 @@ def test():
 			select('FileChooser', commonBits.sampleDir() + 'csv_DTAR020.bin.csv')
 			select('CheckBox', 'true')
 ##		select('ComboBox1', ',')
-		select('DelimitierCombo', ',')
+		select('DelimiterCombo', ',')
 		select('FileChooser', commonBits.sampleDir() + 'csvB_DTAR020.bin.csv')
 		
 		click(commonBits.fl('Save File'))

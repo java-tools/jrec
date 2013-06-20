@@ -11,12 +11,13 @@ def test():
 
 ##		click('ScrollPane$ScrollBar', 3, 37)
 ##		select('TextField', 'x\'fe\'')
-		select('DelimitierCombo', 'x\'FE\'')
+		select('DelimiterCombo', 'x\'FE\'')
 		click('Right')
 		select('TabbedPane', '')
 		click('Right')
 		select('TabbedPane', '')
-		click(commonBits.fl('Copy'))
+		click(commonBits.fl('Copy')
+)
 		assert_p('TextField1', 'Text', commonBits.fl('Copy Done !!!'))
 		
 		commonBits.closeWindow(click)

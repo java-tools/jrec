@@ -33,7 +33,11 @@ def test():
 		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldName') + ',0(Brand)')
 		assert_p('RecordFieldsJTbl', 'Text', 'cell:' + commonBits.fl('FieldName') + ',0(Brand)')
 		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldName') + ',1(Location-Number)')
-		assert_p('RecordFieldsJTbl', 'Content', '[[1, 3, Brand, , 0, 0, 0, , , Brand], [4, 4, Location-Number, , 8, 0, 0, , , Location-Number], [8, 2, Location-Type, , 0, 0, 0, , , Location-Type], [10, 35, Location-Name, , 0, 0, 0, , , Location-Name], [45, 40, Address-1, , 0, 0, 0, , , Address-1], [85, 40, Address-2, , 0, 0, 0, , , Address-2], [125, 35, Address-3, , 0, 0, 0, , , Address-3], [160, 10, Postcode, , 8, 0, 0, , , Postcode], [170, 3, State, , 0, 0, 0, , , State], [173, 1, Location-Active, , 0, 0, 0, , , Location-Active]]')
+##		assert_p('RecordFieldsJTbl', 'Content', '[[1, 3, Brand, , 0, 0, 0, , , Brand], [4, 4, Location-Number, , 8, 0, 0, , , Location-Number], [8, 2, Location-Type, , 0, 0, 0, , , Location-Type], [10, 35, Location-Name, , 0, 0, 0, , , Location-Name], [45, 40, Address-1, , 0, 0, 0, , , Address-1], [85, 40, Address-2, , 0, 0, 0, , , Address-2], [125, 35, Address-3, , 0, 0, 0, , , Address-3], [160, 10, Postcode, , 8, 0, 0, , , Postcode], [170, 3, State, , 0, 0, 0, , , State], [173, 1, Location-Active, , 0, 0, 0, , , Location-Active]]')
+##		assert_p('RecordFieldsJTbl', 'Content', '[[1, 3, Brand, , 0, 0, 0, , , Brand], [4, 4, Location-Number, , 22, 0, 0, , , Location-Number], [8, 2, Location-Type, , 0, 0, 0, , , Location-Type], [10, 35, Location-Name, , 0, 0, 0, , , Location-Name], [45, 40, Address-1, , 0, 0, 0, , , Address-1], [85, 40, Address-2, , 0, 0, 0, , , Address-2], [125, 35, Address-3, , 0, 0, 0, , , Address-3], [160, 10, Postcode, , 22, 0, 0, , , Postcode], [170, 3, State, , 0, 0, 0, , , State], [173, 1, Location-Active, , 0, 0, 0, , , Location-Active]]')
+		assert_p('RecordFieldsJTbl', 'Content', '[[1, 3, Brand, , 0, 0, 0, , , Brand], [4, 4, Location-Number, , 25, 0, 0, , , Location-Number], [8, 2, Location-Type, , 0, 0, 0, , , Location-Type], [10, 35, Location-Name, , 0, 0, 0, , , Location-Name], [45, 40, Address-1, , 0, 0, 0, , , Address-1], [85, 40, Address-2, , 0, 0, 0, , , Address-2], [125, 35, Address-3, , 0, 0, 0, , , Address-3], [160, 10, Postcode, , 25, 0, 0, , , Postcode], [170, 3, State, , 0, 0, 0, , , State], [173, 1, Location-Active, , 0, 0, 0, , , Location-Active]]')
+
+
 		select('RecordFieldsJTbl', 'cell:' + commonBits.fl('FieldName') + ',2(Location-Type)')
 		assert_p('RecordFieldsJTbl', 'RowCount', '10')
 
@@ -53,8 +57,7 @@ def test():
 		#select('TabbedPane', 'Child Records')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		click(commonBits.fl('Close')
-)
+		click(commonBits.fl('Close'))
 
 ##		select_menu('File>>Exit')
 	close()

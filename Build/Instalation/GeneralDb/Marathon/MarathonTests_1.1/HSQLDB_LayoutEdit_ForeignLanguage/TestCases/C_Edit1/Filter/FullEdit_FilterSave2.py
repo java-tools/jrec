@@ -23,8 +23,7 @@ def test():
 		commonBits.save1(click)
 
 
-		select_menu(commonBits.fl('Window') + '>>Ams_LocDownload_20041228.txt>>' + commonBits.fl('Filter Options')
-)
+		select_menu(commonBits.fl('Window') + '>>Ams_LocDownload_20041228.txt>>' + commonBits.fl('Filter Options'))
 		commonBits.filter(click)
 		select('Table', 'cell:10 - 35|Loc Name,0(Bankstown)')
 		assert_p('Table', 'Text', 'Bankstown', '10 - 35|Loc Name,0')
@@ -46,8 +45,7 @@ def test():
 		select_menu(commonBits.fl('View') + '>>' + commonBits.fl('Execute Saved Filter'))
 		##select('FileChooser', commonBits.userDir() + 'Filter'  + commonBits.fileSep() + 'xx2')
 		commonBits.selectFileName(select, commonBits.userDir() + 'Filter'  + commonBits.fileSep() + 'xx2')
-		click(commonBits.fl('Run Dialog')
-)
+		click(commonBits.fl('Run Dialog'))
 		
 
 		select('Table1', 'cell:' + commonBits.fl('Value') + ',0(st)')
@@ -55,11 +53,18 @@ def test():
 		select('Table1', 'cell:' + commonBits.fl('Value') + ',0(st)')
 		rightclick('Table1', commonBits.fl('Value') + ',0')
 		assert_p('Table1', 'Text', 'st', commonBits.fl('Value') + ',0')
+
 		select('Table1', 'cell:' + commonBits.fl('Value') + ',0(st)')
 ##		assert_p('Table1', 'Content', '[[Loc Type, true, Contains, st], [, true, Contains, ], [, true, Contains, ], [, true, Contains, ]]')
-##		assert_p('Table1', 'Content', '[[, , Loc Type, true, Contains, st], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ], [, And, , true, Contains, ]]');
+##		assert_p('Table1', 'Content', '[[, , Loc Type, true, Contains, st], [, ' + commonBits.fl('And') + ', , true, Contains, ], [, ' + commonBits.fl('And') + ', , true, Contains, ], [, ' + commonBits.fl('And') + ', , true, Contains, ], [, ' + commonBits.fl('And') + ', , true, Contains, ], [, ' + commonBits.fl('And') + ', , true, Contains, ], [, ' + commonBits.fl('And') + ', , true, Contains, ], [, ' + commonBits.fl('And') + ', , true, Contains, ], [, ' + commonBits.fl('And') + ', , true, Contains, ], [, ' + commonBits.fl('And') + ', , true, Contains, ], [, ' + commonBits.fl('And') + ', , true, Contains, ], [, ' + commonBits.fl('And') + ', , true, Contains, ], [, ' + commonBits.fl('And') + ', , true, Contains, ], [, ' + commonBits.fl('And') + ', , true, Contains, ], [, ' + commonBits.fl('And') + ', , true, Contains, ], [, ' + commonBits.fl('And') + ', , true, Contains, ]]');
 
-		assert_p('Table1', 'Content', '[[, , Loc Type, true, ' + commonBits.fl('Contains') + ', st], [, And, , true, ' + commonBits.fl('Contains') + ', ], [, And, , true, ' + commonBits.fl('Contains') + ', ], [, And, , true, ' + commonBits.fl('Contains') + ', ], [, And, , true, ' + commonBits.fl('Contains') + ', ], [, And, , true, ' + commonBits.fl('Contains') + ', ], [, And, , true, ' + commonBits.fl('Contains') + ', ], [, And, , true, ' + commonBits.fl('Contains') + ', ], [, And, , true, ' + commonBits.fl('Contains') + ', ], [, And, , true, ' + commonBits.fl('Contains') + ', ], [, And, , true, ' + commonBits.fl('Contains') + ', ], [, And, , true, ' + commonBits.fl('Contains') + ', ], [, And, , true, ' + commonBits.fl('Contains') + ', ], [, And, , true, ' + commonBits.fl('Contains') + ', ], [, And, , true, ' + commonBits.fl('Contains') + ', ], [, And, , true, ' + commonBits.fl('Contains') + ', ]]');
+		assert_p('Table1', 'Content', '[[, , Loc Type, true, ' + commonBits.fl('Contains') + ', st], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ]]');
+
+		assert_p('Table1', 'Content', '[[, , Loc Type, true, ' + commonBits.fl('Contains') + ', st], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ]]');
+
+
+##		assert_p('Table1', 'Content', '[[, , Loc Type, true, ' + commonBits.fl('Contains') + ', st], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ], [, ' + commonBits.fl('And') + ', , true, ' + commonBits.fl('Contains') + ', ]]');
+
 
 
 		select('Table1', 'cell:' + commonBits.fl('Value') + ',0(st)')

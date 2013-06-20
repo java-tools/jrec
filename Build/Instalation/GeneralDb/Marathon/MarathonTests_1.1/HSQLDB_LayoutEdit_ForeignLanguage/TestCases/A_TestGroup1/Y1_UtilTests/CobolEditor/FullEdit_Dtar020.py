@@ -43,7 +43,8 @@ def test():
 		select('Table', 'cell:' + commonBits.fl('Data') + ',2(40118)')
 		click('RightM')
 		select('Table', 'cell:' + commonBits.fl('Data') + ',2(40118)')
-		assert_p('Table', 'Content', '[[KEYCODE-NO, 1, 8, 69664668, 69664668, f6f9f6f6f4f6f6f8], [STORE-NO, 9, 2, 184, <, 184c], [DATE, 11, 4, 40118, 		select('Table', 'cell:' + commonBits.fl('Data') + ',5(8.95)')
+		assert_p('Table', 'Content', '[[KEYCODE-NO, 1, 8, 69664668, 69664668, f6f9f6f6f4f6f6f8], [STORE-NO, 9, 2, 184, <, 184c], [DATE, 11, 4, 40118,' 
+		select('Table', 'cell:' + commonBits.fl('Data') + ',5(8.95)')
 		assert_p('Table', 'Text', 'cell:' + commonBits.fl('Data') + ',5(8.95)')
 		select('Table', 'cell:' + commonBits.fl('Data') + ',5(8.95)')
 		commonBits.closeWindow(click)
@@ -112,7 +113,8 @@ def test():
 		select('Table', 'cell:' + commonBits.fl('Data') + ',5(13.30)')
 		click('Right')
 		select('Table', 'cell:' + commonBits.fl('Data') + ',5(9.00)')
-		assert_p('Table', 'Content', '''[[KEYCODE-NO, 1, 8, 60604880, 60604880, f6f0f6f0f4f8f8f0], [STORE-NO, 9, 2, 184, <, 184c], [DATE, 11, 4, 40118, , 250c], [QTY-SOLD, 17, 5, 1, 		select('Table', 'cell:' + commonBits.fl('Data') + ',2(40118)')
+		assert_p('Table', 'Content', '''[[KEYCODE-NO, 1, 8, 60604880, 60604880, f6f0f6f0f4f8f8f0], [STORE-NO, 9, 2, 184, <, 184c], [DATE, 11, 4, 40118, , 250c], [QTY-SOLD, 17, 5, 1, 		select('Table', 'cell:Data,2(40118)')
+
 		assert_p('Table', 'Text', '250', commonBits.fl('Data') + ',3')
 		select('Table', 'cell:' + commonBits.fl('Data') + ',2(40118)')
 		click('Right')

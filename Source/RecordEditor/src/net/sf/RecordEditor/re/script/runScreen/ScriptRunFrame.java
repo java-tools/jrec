@@ -82,6 +82,7 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 				new LanguageDetails("py",	"Python",     SyntaxConstants.SYNTAX_STYLE_PYTHON, null),
 				new LanguageDetails("java", "Java",       SyntaxConstants.SYNTAX_STYLE_JAVA,   null),
 				new LanguageDetails("c",	"c",          SyntaxConstants.SYNTAX_STYLE_C,      null),
+				new LanguageDetails("xml",	"xml",        SyntaxConstants.SYNTAX_STYLE_XML,    null),
 		};
 
 		for (LanguageDetails l : stdLang) {
@@ -95,32 +96,37 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 
 		@SuppressWarnings("rawtypes")
 		Set keySet = TokenMakerFactory.getDefaultInstance().keySet();
-		String langKey;
+		String langKey, ext;
 		List<String[]> langDtls = net.sf.RecordEditor.re.script.ScriptMgr.getLanguageExt();
 		for (String[] langDtl : langDtls) {
-			try {
-				langKey = "text/" + langDtl[1];
-				if (extLangMap.containsKey(langDtl[0])) {
-					extLangMap.get(langDtl[0]).scriptLangName = langDtl[1];
-				} else {
-					if (! keySet.contains(langKey)) {
-						langKey = LanguageDetails.DEFAULT_LANGUAGE_DEF.rSyntax;
-					}
+			if (langDtl[0] != null) {
+				ext = langDtl[0].toLowerCase();
+				try {
+					langKey = "text/" + langDtl[1];
+					if (extLangMap.containsKey(ext)) {
+						extLangMap.get(ext).scriptLangName = langDtl[1];
+					} else {
+						if (! keySet.contains(langKey)) {
+							langKey = LanguageDetails.DEFAULT_LANGUAGE_DEF.rSyntax;
+						}
 
-					LanguageDetails ld = new LanguageDetails(langDtl[0], langDtl[1], langKey, langDtl[1]);
-					extLangList.add(ld);
-					extLangMap.put(ld.ext, ld);
+						LanguageDetails ld = new LanguageDetails(ext, langDtl[1], langKey, langDtl[1]);
+						extLangList.add(ld);
+						extLangMap.put(ld.ext, ld);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
 		}
+
 		TreeMap<String, LanguageDetails> map = new TreeMap<String, LanguageDetails>();
 		for (LanguageDetails l : extLangList) {
 			if (! map.containsKey(l.langName)) {
 				map.put(l.langName, l);
 			}
 		}
+
 		Set<String> langkeys = map.keySet();
 		langList.add(LanguageDetails.DEFAULT_LANGUAGE_DEF);
 		for (String key : langkeys) {
@@ -209,7 +215,7 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 
 		@Override
 		public void processFile(File selectedFile) {
-			saveAsFile(selectedFile);
+			setNewFileName(selectedFile);
 		}
 
 		@Override
@@ -217,21 +223,23 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 			return new File(templateFC.getText());
 		}
 	};
+
+
 	private OpenSaveAction saveAsAction = new OpenSaveAction(this, false) {
 
 		@Override
 		public void processFile(File selectedFile) {
-			try {
-				getActivePane().saveAsFile(selectedFile);
-				saveAsFile(selectedFile);
-			} catch (IOException e) {
-				msg.setText(e.toString());
-			}
+			saveAs(selectedFile);
 		}
+
 
 		@Override
 		public File getDefaultFile() {
-			return getActivePane().getScriptFile();
+			File scriptFile = getActivePane().getScriptFile();
+			if (scriptFile == null) {
+				return new File(templateFC.getText());
+			}
+			return scriptFile;
 		}
 	};
 
@@ -350,7 +358,27 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 		fileMenu.add(new ActionOnActiveScreen("Save", Common.ID_SAVE_ICON) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				saveFile();
+				ScriptEditPane activePane = getActivePane();
+				if (activePane == null) {
+
+				} else if (activePane.isEmpty()) {
+					saveAsAction.actionPerformed(null);
+				} else {
+					saveFile();
+				}
+			}
+
+			/* (non-Javadoc)
+			 * @see net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction#checkActionEnabled()
+			 */
+			@Override
+			public void checkActionEnabled() {
+				ScriptEditPane activePane = getActivePane();
+				setEnabled(
+						   activePane != null
+						&& ( (! activePane.isEmpty())
+						  || (! "".equals(activePane.getText())) )
+				);
 			}
 		});
 
@@ -511,18 +539,20 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 
 	private void checkLanguage(String fname) {
     	String ext = Parameters.getExtensionOnly(fname);
-		try {
-			LanguageDetails l = extLangMap.get(ext);
-			if (l == null) {
-				l = LanguageDetails.DEFAULT_LANGUAGE_DEF;
+    	if (ext != null && ! "".equals(ext)) {
+			try {
+				LanguageDetails l = extLangMap.get(ext.toLowerCase());
+				if (l == null) {
+					l = LanguageDetails.DEFAULT_LANGUAGE_DEF;
+				}
+
+	        	panes.get(tab.getSelectedIndex()).setLanguageDetails(l);
+	        	updateMenuStatus();
+
+			} catch (Exception e2) {
+				// do nothing
 			}
-
-        	panes.get(tab.getSelectedIndex()).setLanguageDetails(l);
-        	updateMenuStatus();
-
-		} catch (Exception e2) {
-			// do nothing
-		}
+    	}
 	}
 
 	private void run() {
@@ -591,6 +621,19 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 		setFileName(filename);
 	}
 
+	private void saveAs(File selectedFile) {
+		try {
+			getActivePane().saveAsFile(selectedFile);
+			setNewFileName(selectedFile);
+		} catch (IOException e) {
+			msg.setText(e.toString());
+		}
+	}
+
+	private void setNewFileName(File selectedFile) {
+		setFileName(selectedFile.getPath());
+	}
+
 	private void setFileName(String filename) {
 		templateFC.removeFocusListener(filenameListner);
 		templateFC.setText(filename);
@@ -599,10 +642,6 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 		templateFC.addFocusListener(filenameListner);
 	}
 
-
-	private void saveAsFile(File selectedFile) {
-		setFileName(selectedFile.getPath());
-	}
 
 
 
@@ -676,16 +715,17 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 				int idx = panes.indexOf(editPane);
 
 				if (panes.size() > 0) {
-					editPane.tabWithClose.removeCloseAction(this);
 					editPane.clear();
 
 					if (panes.size() > 1) {
 						panes.remove(idx);
 						tab.remove(idx);
+						editPane.tabWithClose.removeCloseAction(this);
 					}
 				}
 			} catch (IOException e1) {
 				msg.setText(e1.toString());
+				e1.printStackTrace();
 			}
 		}
 	}
@@ -704,17 +744,6 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 			super(name);
 
 			menuActions.add(this);
-			if (this.getClass() == ActionOnActiveScreen.class) {
-				checkActionEnabled();
-			}
-		}
-
-		/* (non-Javadoc)
-		 * @see net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction#checkActionEnabled()
-		 */
-		@Override
-		public void checkActionEnabled() {
-			setEnabled(! getActivePane().isEmpty());
 		}
 	}
 

@@ -1,6 +1,7 @@
 package net.sf.RecordEditor.re.script;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -11,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.tree.TreeNode;
 
 import net.sf.JRecord.Common.Conversion;
+import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.External.ExternalConversion;
@@ -285,6 +287,7 @@ public class ScriptData {
 		return new ArrayList<AbstractLine>();
 	}
 
+
 	/**
 	 * create a new line at the specified position and return the position
 	 * @param position to insert line
@@ -409,7 +412,18 @@ public class ScriptData {
 		}
 	}
 
-
+	/**
+	 * Write supplied lines to the supplied file
+	 *
+	 * @param fileName output file name
+	 * @param list lines to be written
+	 *
+	 * @throws RecordException
+	 * @throws IOException
+	 */
+	public final void write(String fileName, List<AbstractLine> list) throws RecordException, IOException {
+		view.writeLinesToFile(fileName, list);
+	}
 
 	@SuppressWarnings({ "rawtypes" })
 	public static ScriptData getScriptData(ReFrame frame, String scriptFile) {

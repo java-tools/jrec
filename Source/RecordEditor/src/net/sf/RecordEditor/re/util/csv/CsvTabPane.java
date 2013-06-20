@@ -67,7 +67,7 @@ public class CsvTabPane implements FormatFileName {
 	 * CSV preview panels.
 	 * @param msgField message field to display error messages on
 	 */
-	public CsvTabPane(JTextComponent msgField, boolean allowFixed, boolean allowXml, boolean adjustableTblHeight) {
+	private CsvTabPane(JTextComponent msgField, boolean allowFixed, boolean allowXml, boolean adjustableTblHeight) {
 
 		msgFld = msgField;
 		fixedTab = allowFixed;
@@ -289,10 +289,16 @@ public class CsvTabPane implements FormatFileName {
 	}
 
 
-
-
-
-
+//
+//	private int toTabIndex(int idx) {
+//		return Math.max(idx, tab.getTabCount() - 1);
+//	}
+//
+//
+//	private int tabIndexToConst(int idx) {
+//		return Math.min(idx, tab.getTabCount() - 1);
+//	}
+//
 
 
 	public void setRecordLayout(int layoutId, String layoutName) {

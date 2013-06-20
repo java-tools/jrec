@@ -91,7 +91,7 @@ import net.sf.RecordEditor.utils.swing.treeTable.TreeTableNotify;
 
 
 /**
- * This class is the internal representation of a File. It contains
+ * This class is the RecordEditor's internal representation of a File and File-view. It contains
  * routines to <ul compact>
  * <li>methods to read and write a file
  * <li>access and update fields

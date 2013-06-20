@@ -455,7 +455,7 @@ public class ReMainFrame extends JFrame
 	 * @return file menu
 	 */
 	protected void buildFileMenu( JMenu recentFiles, boolean addSaveAsXml, boolean addSaveLayout,
-			AbstractAction open2Action, AbstractAction newAction) {
+			AbstractAction open2Action, AbstractAction newAction, AbstractAction new2Action) {
 
 		open.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 	            KeyEvent.VK_O, ActionEvent.CTRL_MASK));
@@ -473,9 +473,16 @@ public class ReMainFrame extends JFrame
 	    	fileMenu.add(recentFiles);
 	    }
 
-	    if (open2Action != null) {
+	    if (open2Action != null || new2Action != null) {
 		    fileMenu.addSeparator();
-	    	fileMenu.add(open2Action);
+
+	    	if (open2Action != null) {
+	    		fileMenu.add(open2Action);
+	    	}
+
+	    	if (new2Action != null) {
+	    		fileMenu.add(new2Action);
+	    	}
 	    }
 
 	    fileMenu.addSeparator();

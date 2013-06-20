@@ -79,7 +79,8 @@ public class EditRec extends ReMainFrame  {
     private JMenu dataMenu;
     private JMenu viewMenu;
     private AbstractAction newFileAction = null,
-    		               open2action = null;
+    		               open2action = null,
+    		               new2action = null;
 
     private boolean incJdbc;
     private boolean includeWizardOptions = true;
@@ -138,7 +139,7 @@ public class EditRec extends ReMainFrame  {
                   null, null,
                   new LayoutSelectionDB(pInterfaceToCopyBooks, null, true));
 
-        init(true, null, null);
+        init(true, null, null, null);
         setupMenus(null, null);
      }
 
@@ -148,33 +149,37 @@ public class EditRec extends ReMainFrame  {
      *
      */
     public EditRec(final boolean includeJdbc) {
-        this(includeJdbc, "Record Editor", null, null);
+        this(includeJdbc, "Record Editor", null, null, null);
     }
 
 
     public EditRec(final boolean includeJdbc, final String name, AbstractAction newAction) {
-    	this(includeJdbc, name, null, newAction);
+    	this(includeJdbc, name, null, newAction, null);
     }
 
 
-    public EditRec(final boolean includeJdbc, final String name, AbstractAction open2Action, AbstractAction newAction) {
+    public EditRec(final boolean includeJdbc, final String name,
+    		AbstractAction open2Action, AbstractAction newAction, AbstractAction new2Action) {
     	super(name, "", "re");
 
-    	init(includeJdbc, open2Action, newAction);
+    	init(includeJdbc, open2Action, newAction, new2Action);
     }
 
 
 
     public EditRec(final boolean includeJdbc, final String name, String id, AbstractAction newAction, boolean loadAtBottom) {
     	super(name, "", id, loadAtBottom);
-    	init(includeJdbc, null, newAction);
+    	init(includeJdbc, null, newAction, null);
     }
 
     /**
      * standard initialize
      *
      */
-	private void init(final boolean includeJdbc, AbstractAction open2Action, AbstractAction newAction) {
+	private void init(
+			final boolean includeJdbc,
+			AbstractAction open2Action, AbstractAction newAction, AbstractAction new2Action) {
+
     	LoadSavedVisibilityAction savedVisibiltyAction = new LoadSavedVisibilityAction();
     	LoadSavedFieldSeqAction fieldSeqAction = new LoadSavedFieldSeqAction();
     	AbstractAction filterAction = newAction(ReActionHandler.FILTER);
@@ -188,8 +193,9 @@ public class EditRec extends ReMainFrame  {
     			optionAction
     	};
 
-    	newFileAction = newAction;
+    	newFileAction    = newAction;
     	this.open2action = open2Action;
+    	this.new2action  = new2Action;
     	incJdbc = includeJdbc;
     	optionAction.putValue(AbstractAction.SHORT_DESCRIPTION, LangConversion.convert(LangConversion.ST_MESSAGE, "Edit Options"));
 
@@ -327,7 +333,8 @@ public class EditRec extends ReMainFrame  {
         		open.getOpenFilePanel().getRecentFileMenu(),
         		true, false,
         		open2action,
-        		newFileAction);
+        		newFileAction,
+        		new2action);
 
         if (copyAction != null) {
         	utilityMenu.add(new ReAbstractAction("Cobol Copybook Analysis") {

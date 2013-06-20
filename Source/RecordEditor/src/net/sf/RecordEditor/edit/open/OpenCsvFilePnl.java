@@ -60,7 +60,7 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 
 
 	//private File file;
-
+	private boolean execEnter = true;
 
     public final KeyAdapter keyListner = new KeyAdapter() {
         /**
@@ -68,8 +68,9 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
          */
         public final void keyReleased(KeyEvent event) {
 
-        	if (event.getKeyCode() == KeyEvent.VK_ENTER) {
-        		openFile();
+        	if (execEnter && event.getKeyCode() == KeyEvent.VK_ENTER) {
+        		//System.out.println("Key Listner");
+        		openFile(false);
          	}
         }
     };
@@ -80,6 +81,8 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 		@Override
 		public void propertyChange(PropertyChangeEvent e) {
 		    String pname = e.getPropertyName();
+		    //System.out.println("\nProperty Change " + pname
+		    //		+ " " + JFileChooser.SELECTED_FILE_CHANGED_PROPERTY.equals(pname));
 		    if (JFileChooser.SELECTED_FILE_CHANGED_PROPERTY.equals(pname)) {
 		      File f = (File) e.getNewValue();
 
@@ -94,9 +97,27 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 	private ActionListener goAction = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				openFile();
+				//System.out.println("\nGo Action " + arg0.paramString());
+				openFile(true);
 			}
 	};
+
+	private ActionListener chooserListner = new ActionListener() {
+
+		/* (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
+		@Override
+		public void actionPerformed(ActionEvent evt) {
+
+	        if (JFileChooser.APPROVE_SELECTION.equals(evt.getActionCommand())) {
+	        	//System.out.println("\nChooser Listner");
+	        	openFile(false);
+	        } else if (JFileChooser.CANCEL_SELECTION.equals(evt.getActionCommand())) {
+
+	        }
+		}
+    };
 
 	private ChangeListener tabListner = new ChangeListener() {
 
@@ -106,14 +127,14 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 
 				csvTabDtls.tab.removeChangeListener(this);
 				int idx = csvTabDtls.tab.getSelectedIndex();
-
+				//System.out.println("\nTab changed ");
 				try {
-					chooser.getActionForKeyStroke(
-							KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0))
-					   .actionPerformed(null);
+					execEnter = false;
+					execEnter();
 				} catch (Exception ex) {
 					//ex.printStackTrace();
 				}
+				execEnter = true;
 
 				csvTabDtls.tab.setSelectedIndex(idx);
 				readFilePreview(chooser.getSelectedFile(), false);
@@ -125,11 +146,11 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 			final String fileName,
 			final String propertiesFiles,
 			AbstractLineIOProvider pIoProvider,
-			boolean fixedTab) {
+			boolean fixedXmlTabs) {
 		ioProvider = pIoProvider;
 		recent = new RecentFiles(propertiesFiles, this, true);
 		recentList = new RecentFilesList(recent, this);
-		csvTabDtls = new CsvTabPane(msgTxt, fixedTab, true, true);
+		csvTabDtls = new CsvTabPane(msgTxt, fixedXmlTabs, true);
 
 		boolean filePresent = true;
 		File file;
@@ -143,10 +164,10 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 		setHelpURL(helpname);
 		setTab(csvTabDtls.csvDetails, helpname);
 		setTab(csvTabDtls.unicodeCsvDetails, helpname);
-		setTab(csvTabDtls.xmlSelectionPanel, helpname);
 
-		if (fixedTab) {
+		if (fixedXmlTabs) {
 			setTab(csvTabDtls.fixedSelectionPanel, helpname);
+			setTab(csvTabDtls.xmlSelectionPanel, helpname);
 		}
 
 		registerComponent(chooser);
@@ -155,36 +176,20 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 
 		file = new File(fname);
 
-//		chooser.setControlButtonsAreShown(true);
-		//chooser.addActionListener(l)
-
-
-		chooser.addActionListener(new ActionListener() {
-
-				/* (non-Javadoc)
-				 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-				 */
-				@Override
-				public void actionPerformed(ActionEvent evt) {
-
-			        if (JFileChooser.APPROVE_SELECTION.equals(evt.getActionCommand())) {
-			        	openFile();
-			        } else if (JFileChooser.CANCEL_SELECTION.equals(evt.getActionCommand())) {
-
-			        }
-				}
-	        });
-
+		chooser.addActionListener(chooserListner);
 
 		try {
 			FileFilter filter = chooser.getFileFilter();
 
-			csvFilter = new javax.swing.filechooser.FileNameExtensionFilter("CSV/XML file", "csv", "tsv", "xml");
+			csvFilter = new javax.swing.filechooser.FileNameExtensionFilter("CSV file", "csv", "tsv");
 			chooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Text file", "txt"));
-			chooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("CSV file", "csv", "tsv"));
-			chooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("CSV/Text file", "csv", "tsv", "txt"));
 			chooser.addChoosableFileFilter(csvFilter);
-			chooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Xml file", "xml"));
+			chooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("CSV/Text file", "csv", "tsv", "txt"));
+
+			if (fixedXmlTabs) {
+				chooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("CSV/XML file", "csv", "tsv", "xml"));
+				chooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Xml file", "xml"));
+			}
 			chooser.setFileFilter(filter);
 		} catch (NoClassDefFoundError e) {
 
@@ -215,14 +220,13 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 	}
 
 
-
-
-	private void openFile() {
+	private void openFile(boolean executeEnter) {
 		File f = chooser.getSelectedFile();
 		try {
-			chooser.getActionForKeyStroke(
-							KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0))
-					   .actionPerformed(null);
+			//System.out.println("openFile " + executeEnter);
+			if (executeEnter) {
+				execEnter();
+			}
 			File f1 = chooser.getSelectedFile();
 			if (! f1.equals(f)) {
 				f = f1;
@@ -257,6 +261,14 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 		}
 	}
 
+	private void execEnter() {
+
+		chooser.removeActionListener(chooserListner);
+		chooser.getActionForKeyStroke(
+					KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0))
+						.actionPerformed(null);
+		chooser.addActionListener(chooserListner);
+	}
 
 	@Override
 	public void done() {

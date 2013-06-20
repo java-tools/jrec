@@ -20,7 +20,7 @@ public class CsvOpenAction extends ReAbstractAction {
 	private final AbstractLineIOProvider ioProvider;
 
 	public CsvOpenAction(final String fileName, AbstractLineIOProvider pIoProvider) {
-		super("Open basic CSV",
+		super("Open Basic CSV file",
         	  Common.getRecordIcon(Common.ID_OPEN_ICON));
 
 		this.fileName = fileName;

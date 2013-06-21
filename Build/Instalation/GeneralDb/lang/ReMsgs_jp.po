@@ -1,0 +1,7303 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: RecordEditor 0.89\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+# Use: Message 
+#  id: SqlError   Panel:  
+# 
+# English: 
+#     SQL: {0}
+# Message: {1}
+msgid "SqlError"
+msgstr "SQLエラー"
+
+# Use: Message 
+#  id:    Panel:  
+msgid " --> Adding Record Layout: {0}"
+msgstr "  - >レコード·レイアウトの追加：{0}"
+
+# Use: Message 
+#  id:    Panel:  
+msgid " --> Deleting Record Layout: {0}"
+msgstr "  - >レコードレイアウトを削除する：{0}"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- PropsEd_JDBC 4
+msgid " User"
+msgstr " ユーザー"
+
+# Use: Message 
+#  id: CopybookLoaded   Panel:  
+# 
+# English: -->> {0} processed
+# 
+#       Copybook: {1}
+msgid "CopybookLoaded"
+msgstr "- >> {0}処理\n"
+"      コピーブック：{1}"
+
+# Use: Field_Prompt 
+#  id:    Panel: LineFrame 
+msgid "1 line Hex"
+msgstr "1行目のHex"
+
+# Use: Message 
+#  id:    Panel:  
+# Date Format show the user how a date will be formated
+msgid "25.Dec.98 will be formatted as"
+msgstr "25.Dec.98は次のようにフォーマットされます"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "< (Numeric)"
+msgstr "<（数値）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "< (Text)"
+msgstr "<（テキスト）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "<= (Numeric)"
+msgstr "<=（数値）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "<= (Text)"
+msgstr "<=（テキスト）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Layout Selection
+msgid "<All>"
+msgstr "<ALL>"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- CsvDelim_Default Combo- Csv_Quote
+msgid "<Default>"
+msgstr "お買い上げ時"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Csv_Quote
+msgid "<None>"
+msgstr "<None>の"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- CsvDelim_Space
+msgid "<Space>"
+msgstr "スペースバー"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- CsvDelim_Tab
+msgid "<Tab>"
+msgstr "途中で中止"
+
+# Use: Message 
+#  id: EditProps_JarsNote   Panel:  
+# 
+# English: <b>Note:</b>You will also need to add the jar with your class to the <b>User Jars</b> tab.
+msgid "EditProps_JarsNote"
+msgstr "注：また、ユーザージャータブにクラスを指定してjarを追加する必要があります。"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- LayoutEdit_EndOfLine 2
+msgid "<cr>"
+msgstr "<CR>"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- LayoutEdit_EndOfLine 1
+msgid "<crlf>"
+msgstr "<CRLF>"
+
+# Use: Message 
+#  id: CopybookLoad   Panel:  
+# 
+# English: <font COLOR=Blue>This option loads a <b>{0} Copybooks</b> into the <b>Record Edit DB.</b></font>
+# # <p><b>Note:</b> If the <i>Split Copybook on Redefine</i> field is selected,
+# The system will
+# <ol compact>
+# 
+# <li>Insert a Group record for the copybook.
+# 
+# <li>The copybook will be split the copybook on a <b>redefines clause</b> or
+# <b>01 level</b> into seperate Child-Records.
+# </ol>
+# 
+# 
+# # <p><b>Note:</b> Cobol Copybooks are converted to XML copybook by the
+# Open Source project cb2xml (see www.sourceforge.net)
+# 
+# # <p><b>Warning:</b> cb2xml has some bugs at present.
+msgid "CopybookLoad"
+msgstr ""
+"<font COLOR=Blue>このオプションは、録音、編集、DBに{0}コピーブックをロードして下さい</font>\n"
+"<P>\n"
+"注：再定義フィールドのスプリットコピーブックを選択した場合は、\n"
+"システムは、意志\n"
+"<ol compact>\n"
+"<LI>\n"
+"コピーブックのグループレコードを挿入します。\n"
+"<LI>\n"
+"コピーブックは、またはREDEFINES句でブックを分割されます\n"
+"独立した子供連れのレコードに01レベル。\n"
+"</OL>\n"
+"<P>\n"
+"注：COBOLコピーブックをすることによって、XMLコピーブックに変換されます\n"
+"オープンソースプロジェクトcb2xml（www.sourceforge.netを参照してください）\n"
+"<P>\n"
+"警告：cb2xmlは、現時点ではいくつかのバグを持っています。"
+
+# Use: Message 
+#  id: EditProps_JDBC_Params   Panel:  
+# 
+# English: <h1>JDBC Parameters</h1>
+# These parameters Control the Database connection that the <b>RecordEditor</b> uses<br>
+# # to connect to the RecordLayout Database (where all the Record Layouts are stored).<br>
+# # If you click on a row in the table, the fields at the bottom will be updated with the values from the selected row.<br>
+# # You can update values either using the fields at the bottom of the screen or directly into the table itself.
+msgid "EditProps_JDBC_Params"
+msgstr ""
+"<H1>JDBCのパラメータ\n"
+"</H1>\n"
+"これらのパラメータは、RecordEditorが使用するデータベース接続を制御\n"
+"<BR>\n"
+"RecordLayoutデータベース（すべてのレコード·レイアウトが保存されている）に接続します。\n"
+"<BR>\n"
+"あなたがテーブルの行をクリックすると、下部にあるフィールドは、選択した行の値で更新されます。\n"
+"<BR>\n"
+"は、画面の下部にあるフィールドを使用して、または直接テーブル自体にどちらかの値を更新できます。"
+
+# Use: Message 
+#  id: EditProperties_Looks   Panel:  
+# 
+# English: <h1>Look and Feel</h1>
+# In java you can plug in a look-and-feel module to format Screen. This screen lets you choose which Look-and-Feel to use.<br>
+# # <b>Warning:</b> Independent Look-and-Feel modules can slow down response times and cause the <b>RecordEditor</b> to crash.<br>
+# # <br>
+# # The following 2 sites list a number of <b>Look and Feel</b><ul compact>
+# <li><b>http://www.jgoodies.com/freeware/libraries/looks/</b>
+# <li><b>http://www.java-tips.org/java-libraries/java-look-and-feel/</b></ul>
+# The JGoodies Look-and-Feel (<b>http://www.jgoodies.com/freeware/libraries/looks/</b>)is popular
+msgid "EditProperties_Looks"
+msgstr ""
+"<H1>ルックアンドフィール\n"
+"</H1>\n"
+"Javaでは、フォーマット画面へのルック·アンド·フィールのモジュールをプラグインできます。<br>この画面では、その使用するルック＆フィールを選択することができます。\n"
+"<BR>\n"
+"警告：独立したルック＆フィールのモジュールは、応答時間を遅くしてRecordEditorがクラッシュすることがあります。<br>"
+"<BR>\n"
+"<BR>\n"
+"以下の2つのサイトは、ルックの数を一覧表示し、<ul compact>フィール\n"
+"<LI>\n"
+"http://www.jgoodies.com/freeware/libraries/looks/\n"
+"<LI>\n"
+"http://www.java-tips.org/java-libraries/java-look-and-feel/ </UL>\n"
+"JGoodiesのルック·アンド·フィール（http://www.java2s.com/Product/Java/Swing/LookAndFeel."
+"htm）人気です"
+
+# Use: Message 
+#  id: EditProps_Behaviour   Panel:  
+# 
+# English: <h2>Behavior Properties</h2>
+# The options on this screen affect the behavior of the editor.<br/>
+# # <b>Bring Log to the Front</b>: Wether the log file will be brought to the fron when data is written to it.<br/>
+# # <b>Default to prefered</b>: Wether to use the prefered layout by default when editting<br/>
+# # <b>Show all export panels</b>: Wether to show all export options or just the option selected<br/>
+# # 
+msgid "EditProps_Behaviour"
+msgstr ""
+"<H2>動作プロパティ\n"
+"</H2>\n"
+"この画面のオプションは、エディタの動作に影響を与えます。\n"
+"あったら\n"
+"フロントにログイン持ち物：天気予報データが書き込まれるときにログファイルがフロンにもたらされるだろう。\n"
+"あったら\n"
+"好まれたのデフォルト：editting時にデフォルトで好まれたレイアウトを使用することを天気予報\n"
+"あったら\n"
+"すべてのエクスポート·オプションまたは選択したオプションだけを表示する天気予報：すべてのエクスポートパネルを表示\n"
+"あったら"
+
+# Use: Message 
+#  id: EditProps_BigFiles   Panel:  
+# 
+# English: <h2>Big Model Properties</h2>
+# This panels lists parameters for the "Big File" Data Models.
+# You can use these options to optimise the Read Time for very big files
+msgid "EditProps_BigFiles"
+msgstr ""
+"<H2>ビッグモデルのプロパティ\n"
+"</H2>\n"
+"このパネルには、 \"ビッグ·ファイル\"データ·モデルのパラメータを示します。\n"
+"あなたは非常に大きなファイルの読み取り時間を最適化するために、これらのオプションを使用できます。"
+
+# Use: Message 
+#  id: EditProps_CopyBook_Loaders   Panel:  
+# 
+# English: <h2>Copybook Loaders</h2>
+# This tab is for defining user written <b>Copybook Loader's</b> to the <b>RecordEditor</b>.<br>
+# # A <b>Copybook Loader's</b> is a Java Class that can load a copybook from a file into the <b>RecordEditor</b>.<br>
+# # <br>
+# # <b>Copybook Loader's</b> are used in <ul>
+# <li>Load Copybook function in the <b>LayoutEditor</b>
+# <li>Cobol Editor</ul>
+# <br>
+# # 
+msgid "EditProps_CopyBook_Loaders"
+msgstr ""
+"<H2>コピーブックローダー\n"
+"</H2>\n"
+"このタブには、RecordEditorにコピーブックLoaderの書かれたユーザを定義するためのものです。\n"
+"<BR>\n"
+"コピーブックLoaderのRecordEditorにファイルからコピーブックを読み込むことができるJavaクラスです。\n"
+"<BR>\n"
+"<BR>\n"
+"コピーブックLoaderのは<UL>で使用されている\n"
+"<LI>\n"
+"LayoutEditorにおける負荷コピーブック機能\n"
+"<LI>\n"
+"COBOLエディタ</UL>\n"
+"<BR>"
+
+# Use: Message 
+#  id: EditProtoperties_DataTypes   Panel:  
+# 
+# English: <h2>Date Types</h2>
+# This screen lets you define Date Types to the <b>RecordEditor</b><br>
+# # <br>
+# # 
+msgid "EditProtoperties_DataTypes"
+msgstr "<H2>日付型\n"
+"</H2>\n"
+"この画面では、RecordEditorに日付型を定義することができます\n"
+"<BR>\n"
+"<BR>"
+
+# Use: Message 
+#  id: EditProps_DefaultOpts   Panel:  
+# 
+# English: <h2>Default Options</h2>
+# This Tab is for defining the default value for several Combo Box's used by the Package<br/>
+# # <br/>
+# # Click on a row to change the default Value
+msgid "EditProps_DefaultOpts"
+msgstr ""
+"<H2>デフォルトオプション\n"
+"</H2>\n"
+"このタブでは、パッケージで使われているいくつかのコンボボックスのデフォルト値を定義するためのものです\n"
+"あったら\n"
+"あったら\n"
+"デフォルト値を変更する行をクリックして"
+
+# Use: Message 
+#  id: EditProps_Directories   Panel:  
+# 
+# English: <h2>Directories</h2>
+# The properties on this panel are for the various directories used by the <b>RecordEditor</b>
+msgid "EditProps_Directories"
+msgstr "<H2>ディレクトリ\n"
+"</H2>\n"
+"このパネルのプロパティはRecordEditorが使う各種ディレクトリのためのものです"
+
+# Use: Message 
+#  id: EditProps_PnlDescription   Panel:  
+# 
+# English: <h2>Edit RecordEditor Properties Editor</h2>
+# This program lets you edit the <b>RecordEditor</b> properties files and jar files.<br>
+# # There is little validation, so be very careful what changes you make.<br>
+# # Any changes will not take affect until the next timethe <b>RecordEditor</b> / <b>Layout Editor</b> is run again.<br>
+# # <br>
+# # There are 5 basic tab types in the program: <table border="1" cellpadding="3">
+# <tr><TD><b>Properties</b></td><td>Lets you update system properties like <b>Screen Position, Directories, Other Options, Wizard Option and Big File Options</b></td></tr>
+# <tr><TD><b>Properties</b></td><td>Lets you update system properties like <b>Screen Position, Directories, Other Options, Wizard Option and Big File Options</b></td></tr>
+# <tr><td><b>Xml</b></td><td>Xml Xslt properties / jars 
+# <tr><td><b>Jars</b></td><td>These options let you update the various JAR (java libraries) used by the <b>RecordEditor</b>.<br>
+# # The only time you should need to do this is if you are adding your own code to the <b>RecordEditor</b> or installing Velocity.</td></tr>
+# <tr><td><b>Extensions</b></td><td>These option let you define your own Types, formats to the <b>RecordEditor</b>.</td></tr>
+# <tr><td><b>Looks</b></td><td>This option lets you define the look and feel of the RecordEditor</td</tr>
+# <table>
+# <br>
+# # <br>
+# # <b>Files being updated are:</b>
+# <pre><br>
+# # System       Jars File={0}<br>
+# # System JDBC  Jars File={1}<br>
+# #   User       Jars File={2}<br>
+# #        Properties file={3}</pre>
+msgid "EditProps_PnlDescription"
+msgstr ""
+"<H2>編集RecordEditorプロパティエディタ\n"
+"</H2>\n"
+"このプログラムでは、RecordEditorプロパティファイルとjarファイルを編集することができます。\n"
+"<BR>\n"
+"少し検証がありますので、あなたが作るどのような変更を非常に注意してください。\n"
+"<BR>\n"
+"次のtimetheのRecordEditor /レイアウトエディタが再度実行されるまで、すべての変更は有効になりません。\n"
+"<BR>\n"
+"<BR>\n"
+"プログラム内の5つの基本的なタブの種類があります。<table border=\"1\" cellpadding=\"3\">\n"
+"<TR> <TD>プロパティ\n"
+"</"
+"td>の<TD>あなたは画面の位置、ディレクトリ、その他のオプション、ウィザードオプションとビッグファイルのオプションのようなシステムプロパティを更新することができます\n"
+"</TD> </TR>\n"
+"<TR> <TD>プロパティ\n"
+"</"
+"td>の<TD>あなたは画面の位置、ディレクトリ、その他のオプション、ウィザードオプションとビッグファイルのオプションのようなシステムプロパティを更新することができます\n"
+"</TD> </TR>\n"
+"<TR> <TD>xmlの\n"
+"</td>の<TD>XML、XSLTのプロパティ/瓶\n"
+"<TR> <TD>ジャー\n"
+"</"
+"td>の<TD>これらのオプションを使用すると、RecordEditorによって使用される様々なJAR（Javaライブラリ）を更新することができます。\n"
+"<BR>\n"
+"あなたはRecordEditorに独自のコードを追加したり、ベロシティをインストールしている場合は、これを行う必要があるべきであるだけです。\n"
+"</TD> </TR>\n"
+"<TR> <TD>拡張機能\n"
+"</td>の<TD>これらのオプションは、あなた自身のタイプ、RecordEditorにフォーマットを定義してみましょう。\n"
+"</TD> </TR>\n"
+"<TR> <TD>見える\n"
+"</td>の<TD>このオプションでは、外観を定義しRecordEditor </TDのを感じることができます</TR> </TABLE>\n"
+"<BR>\n"
+"<BR>\n"
+"更新されているファイルは、次のとおりです。\n"
+"<PRE>\n"
+"<BR>\n"
+"システムジャーファイル= {0}\n"
+"<BR>\n"
+"システムのJDBCのJarファイル= {1}\n"
+"<BR>\n"
+"  ユーザージャーファイル= {2}\n"
+"<BR>\n"
+"       プロパティファイル= {3}\n"
+"</pre>の"
+
+# Use: Message 
+#  id: EditProps_FileParams   Panel:  
+# 
+# English: <h2>File Propertie 2s</h2>
+# This panels lists various File related parameters.
+msgid "EditProps_FileParams"
+msgstr "<H2>ファイルPropertie 2秒\n"
+"</H2>\n"
+"このパネルには、さまざまなファイルの関連パラメータの一覧を示します。"
+
+# Use: Message 
+#  id: EditProtoperties_Language   Panel:  
+# 
+# English: <h2>Foreign Language</h2>
+# This screen lets you change the language used in the <b>RecordEditor</b><br/>
+# # You will need to <b>exit</b> and <b>restart</b> the Editor for the change to come into effect<br/>
+# # <br/>
+# # If your language is not supported ???, Why not do the Translation your self ???.<br/>
+# # Have a look at the ReadMe.html in the language directory:
+msgid "EditProtoperties_Language"
+msgstr ""
+"<H2>外国語\n"
+"</H2>\n"
+"この画面では、RecordEditorで使用される言語を変更することができます\n"
+"あったら\n"
+"あなたが発効するために変更するためのエディタを終了し、再起動する必要があります\n"
+"あったら\n"
+"あったら\n"
+"場合あなたの言語がサポートされていません？？、翻訳あなたの自己をしないのはなぜですか？？。\n"
+"あったら\n"
+"言語ディレクトリのreadme.htmlを見てみましょう："
+
+# Use: Message 
+#  id: EditProps_Format   Panel:  
+# 
+# English: <h2>Format Definition</h2>
+# This tab for defining user written <b>Format's</b> to the <b>RecordEditor</b>.<br>
+# # <b>Format's</b> define TableCellRenders and TableCellEditors for a field.<br>
+# # <br>
+# # You may want to use Format to edit Dates using a Date Popup
+msgid "EditProps_Format"
+msgstr ""
+"<H2>フォーマット定義\n"
+"</H2>\n"
+"ユーザの記述したフォーマットを定義するためのこのタブには、RecordEditorに乾杯。\n"
+"<BR>\n"
+"形式は、フィールドにTableCellRendersとTableCellEditorsを定義します。\n"
+"<BR>\n"
+"<BR>\n"
+"あなたは、Popup日付を使用して日付を編集する形式を使用する場合があります"
+
+# Use: Message 
+#  id: EditProps_CsvParams   Panel:  
+# 
+# English: <h2>GetText-Po Properties</h2>
+# This panels holds GetText-PO editor specific options<br>
+# # 
+msgid "EditProps_CsvParams"
+msgstr "<H2>のgettext-Poのプロパティ\n"
+"</H2>\n"
+"このパネルは、gettext-POエディタ固有のオプションを保持している\n"
+"<BR>"
+
+# Use: Message 
+#  id: EditProperties_Icons   Panel:  
+# 
+# English: <h2>Icons</h2>
+# This screen lets you choose which icon set to use in the <b>RecordEditor</b>
+msgid "EditProperties_Icons"
+msgstr "<H2>アイコン\n"
+"</H2>\n"
+"この画面では、RecordEditorで使用するように設定されたアイコンを選択することができます"
+
+# Use: Message 
+#  id: EditProps_JdbcJars   Panel:  
+# 
+# English: <h2>JDBC Jars</h2>
+# This panel lets you change the JDBC (Java Database Conectivity) Jars that are needed by the <b>RecordEditor</b>.<br>
+# # <br>
+# # If you click on a row in the table, the fields at the bottom will be updated with the values from the selected row.<br>
+# # You can update values either using the fields at the bottom of the screen or directly into the table itself.
+msgid "EditProps_JdbcJars"
+msgstr ""
+"<H2>JDBCのジャー\n"
+"</H2>\n"
+"このパネルでは、RecordEditorによって必要とされているJDBC（JavaデータベースConectivity）ジャーを変更することができます。\n"
+"<BR>\n"
+"<BR>\n"
+"あなたがテーブルの行をクリックすると、下部にあるフィールドは、選択した行の値で更新されます。\n"
+"<BR>\n"
+"は、画面の下部にあるフィールドを使用して、または直接テーブル自体にどちらかの値を更新できます。"
+
+# Use: Message 
+#  id: EditProps_WizardParams   Panel:  
+# 
+# English: <h2>Layout Wizard Properties</h2>
+# This panels holds various Field Search options used by the Layout Wizard
+msgid "EditProps_WizardParams"
+msgstr ""
+"<H2>レイアウトウィザードのプロパティ\n"
+"</H2>\n"
+"このパネルには、レイアウト·ウィザードで使用されるさまざまなフィールド検索オプションを保持"
+
+# Use: Message 
+#  id: EditProps_OptionalJars   Panel:  
+# 
+# English: <h2>Optional Jars</h2>
+# This panel lets you specify your own jars. <br/>
+# # This could include User code or scripting languages (JRuby.jar, Jython.jar etc).
+msgid "EditProps_OptionalJars"
+msgstr ""
+"<H2>オプションジャー\n"
+"</H2>\n"
+"このパネルでは、独自のjarファイルを指定することができます。\n"
+"あったら\n"
+"これは、ユーザー·コードまたはスクリプト言語（JRuby.jar、Jython.jarなど）を含めることができます。"
+
+# Use: Message 
+#  id: EditProps_Plugin   Panel:  
+# 
+# English: <h2>Plugins</h2>
+# This tab is for defining user written <b>Functions</b> that will listed on the <br/>
+# # <b>Plugin</b> Drop down menu in the   <b>RecordEditor</b>.<br>
+# #  Local Functions must implement the Plugin interface
+msgid "EditProps_Plugin"
+msgstr ""
+"<H2>プラグイン\n"
+"</H2>\n"
+"このタブには、上に記載されますユーザー書かれた関数を定義するためのものです\n"
+"あったら\n"
+"プラグインはRecordEditorでメニューをドロップダウン。\n"
+"<BR>\n"
+" ローカル機能はプラグインインターフェースを実装する必要があります"
+
+# Use: Message 
+#  id: ProtoBuf_ProtoSearch   Panel:  
+# 
+# English: <h2>Proto Search</h2>
+# 
+# # <p>This screen lets you search for a proto definition file that matches<br/>
+# # a Protocol Buffers data file. You can add extra directories to be searched<br/>
+# # (these will be permanently added to the search directories)</p>
+# # <p>Double click on the proto file in the bottom table to select it.</p>
+msgid "ProtoBuf_ProtoSearch"
+msgstr ""
+"<H2>プロト検索\n"
+"</H2>\n"
+"<P>\n"
+"この画面では、一致したプロト定義ファイルを検索できます\n"
+"あったら\n"
+"プロトコルは、データファイルをバッファリングします。検索対象にする追加のディレクトリを追加することができます\n"
+"あったら\n"
+"（これらは恒久的に検索ディレクトリに追加されます）</P>\n"
+"<P>\n"
+"それを選択するために一番下の表のprotoファイルをダブルクリックします</p>"
+
+# Use: Message 
+#  id: EditProps_ScreenLocation   Panel:  
+# 
+# English: <h2>Screen positioning Properties</h2>
+# The properties on this panel are for setting the amount of space to be left around the edge of the <b>RecordEditor</b>.<br>
+# # The editor can start using the full screen or any part of the screen that you desire.
+msgid "EditProps_ScreenLocation"
+msgstr ""
+"<H2>画面上の位置プロパティ\n"
+"</H2>\n"
+"このパネルのプロパティはRecordEditorの縁の周りに残されるスペースの量を設定するためのものです。\n"
+"<BR>\n"
+"エディタをフルスクリーンまたはあなたが望むことを画面の任意の部分を使用して起動することができます。"
+
+# Use: Message 
+#  id: EditProps_Jars   Panel:  
+# 
+# English: <h2>System Jars</h2>
+# This panel lets you change the Jars supplied with the <b>RecordEditor</b> like cb2xml.<br>
+# # These jars are used by the <b>RecordEditor</b> but are written and maintained by other people
+msgid "EditProps_Jars"
+msgstr ""
+"<H2>システムジャー\n"
+"</H2>\n"
+"このパネルには、cb2xmlようRecordEditor付属ジャーを変更できます。\n"
+"<BR>\n"
+"これらのjarファイルはRecordEditorによって使用されているが、他の人々によって書かれ、維持されている"
+
+# Use: Message 
+#  id: EditProps_Test   Panel:  
+# 
+# English: <h2>Test Properties</h2>
+# The options on this screen are used in Testing the Editor.
+msgid "EditProps_Test"
+msgstr "<H2>テストプロパティ\n"
+"</H2>\n"
+"この画面のオプションは、エディタのテストで使用されています。"
+
+# Use: Message 
+#  id: EditProps_TypeDef   Panel: </b>You will also need to add the jar with your class to the <b>User Jars</b> tab.!:!<b>Note 
+# 
+# English: <h2>Type Definition</h2>
+# This tab for defining user written <b>Type's</b> to the <b>RecordEditor</b>.<br>
+# # A <b>Type's</b> is a Java Class that converts a fields between the external representation and the internal Java Representation.<br>
+# # Columns in the Table are <br>
+# # 
+# <table>
+# <tr><td>Type Number</td><td>Unique number used to identify the type. It should be between {0} and {1}</td></tr>
+# <tr><td>Type Name</td><td>Name of the Type</td></tr>
+# <tr><td>Type Class</td><td>Java Type class.</td></tr>
+# <tr><td>Format Class</td><td>Class that implements table cell Formating. Leave blank if there is not one</td></tr>
+# <table>
+# <br>
+# # <b>Note:</b>You will also need to add the jar with your class to the <b>User Jars</b> tab.
+msgid "EditProps_TypeDef"
+msgstr ""
+"<H2>タイプの定義\n"
+"</H2>\n"
+"RecordEditorするために型の書かれたユーザを定義するためにこのタブ。\n"
+"<BR>\n"
+"型の外部表現と内部Java表現間でフィールドを変換するJavaクラスです。\n"
+"<BR>\n"
+"表の列です\n"
+"<BR>\n"
+"<TABLE>\n"
+"<TR> <TD>Number型\n"
+"</td>の<TD>タイプを識別するために使用される一意の番号。これは、{0}と{1}の間でなければなりません\n"
+"</TD> </TR>\n"
+"<TR> <TD>タイプ名\n"
+"</td>の<TD>タイプの名前\n"
+"</TD> </TR>\n"
+"<TR> <TD>タイプクラス\n"
+"</td>の<TD>Javaタイプのクラス。\n"
+"</TD> </TR>\n"
+"<TR> <TD>フォーマットクラス\n"
+"</td>の<TD>表のセルのフォーマッティングを実装するクラスです。 1がない場合は空白のままに\n"
+"</TD> </TR> </TABLE>\n"
+"<BR>\n"
+"注：また、ユーザージャータブにクラスを指定してjarを追加する必要があります。"
+
+# Use: Message 
+#  id: EditProps_UserJars   Panel:  
+# 
+# English: <h2>User Jars</h2>
+# This panel lets you specify your own jars <br>
+# # These jars will be used when the <b>RecordEditor</b starts. <br>
+# # When adding your own jars, <br>
+# # you should also invoke your own initialisation class via the <i>UserInitilizeClass</i> property on the other screen.
+msgid "EditProps_UserJars"
+msgstr ""
+"<H2>ユーザージャー\n"
+"</H2>\n"
+"このパネルでは、独自のjarファイルを指定することができます\n"
+"<BR>\n"
+"RecordEditor </Bが起動したときにこれらのjarファイルが使用されます。\n"
+"<BR>\n"
+"あなた自身のjarファイルを追加するときは、\n"
+"<BR>\n"
+"あなたはまた、他の画面上UserInitilizeClassプロパティを経由して、独自の初期化クラスを呼び出す必要があります。"
+
+# Use: Message 
+#  id: RunVelocityHint   Panel:  
+# 
+# English: <h2>Velocity is not Installed</h2>
+# Velocity has not been installed into the <b>record editor</b>.<br>
+# # The easiest way to install Velocity is to go to the RecordEditor Download page<br>
+# # <b>http://sourceforge.net/project/showfiles.php?group_id=139274</b> and download file <b>ru_velocity_1.4*.zip</b>.<br>
+# # From this zip file and copy the 2 jars files to the <b>&lt;RecordEditor install directory&gt;/lib</b> directory. <br>
+# # <br>
+# # Alternately in the <b>HowTo</b> document, there is a discussion on installing velocity.
+msgid "RunVelocityHint"
+msgstr ""
+"<H2>ベロシティーがインストールされていません\n"
+"</H2>\n"
+"速度は、レコードエディタにインストールされていません。\n"
+"<BR>\n"
+"Velocityをインストールする最も簡単な方法はRecordEditorダウンロードページに行くことです\n"
+"<BR>\n"
+"http://sourceforge.net/project/showfiles.php?group_id="
+"139274およびダウンロードファイルru_velocity_1.4 *ジッパー。\n"
+"<BR>\n"
+"このzipファイルからと<RecordEditorインストールディレクトリ>/ libディレクトリにjarファイル2ファイルをコピーします。\n"
+"<BR>\n"
+"<BR>\n"
+"交互にHOWTO文書に、速度のインストールに関する議論があります。"
+
+# Use: Message 
+#  id: EditProps_XsltJars   Panel:  
+# 
+# English: <h2>Xslt Jars</h2>
+# This panel lets you specify your XSLT jars
+msgid "EditProps_XsltJars"
+msgstr "<H2>XSLTジャー\n"
+"</H2>\n"
+"このパネルでは、XSLTのjarファイルを指定することができます"
+
+# Use: Message 
+#  id: EditProps_Xslt   Panel:  
+# 
+# English: <h2>Xslt Properties</h2>
+# This panels let you specify XSLT related jars and the XSLT transform class<br>
+# # For Saxon or Xalan, you can just enter Saxon or Xalan, Or you can enter
+# <pre>        net.sf.saxon.TransformerFactoryImpl
+#     or  org.apache.xalan.processor.TransformerFactoryImpl</pre>
+msgid "EditProps_Xslt"
+msgstr ""
+"<H2>XSLTプロパティ\n"
+"</H2>\n"
+"このパネルは、XSLT関連のjarおよびXSLT変換クラスを指定することができます\n"
+"<BR>\n"
+"サクソンまたはXalanは、あなただけのSaxonまたはXalanを入力するか、または次のように入力します。\n"
+"<PRE>\n"
+"        net.sf.saxon.TransformerFactoryImpl\n"
+"    またはorg.apache.xalan.processor.TransformerFactoryImpl\n"
+"</pre>の"
+
+# Use: Message 
+#  id: UnknownFileFormatTip   Panel:  
+# 
+# English: <h3>File Structure</h3>
+# 
+# # <p>This screen lets you select the File structure. <br>
+# # For Standard Windows / Unix files use <b>Text IO</b>. <br>
+# # For Fixed width files, You can click on the Start of the second record to set the length.
+msgid "UnknownFileFormatTip"
+msgstr ""
+"<H3>ファイル構造\n"
+"</H3>\n"
+"<P>\n"
+"この画面では、ファイル構造を選択することができます。\n"
+"<BR>\n"
+"標準のWindows / UnixのファイルはテキストIOを使用しています。\n"
+"<BR>\n"
+"固定幅のファイルについては、長さを設定する2番目のレコードの[スタート]をクリックすることができます。"
+
+# Use: Message 
+#  id: LayoutEditor_SelectionTreeTbl   Panel:  
+# 
+# English: <h3>Selection Viewer</h3>
+# <br/>
+# #  <b>Warning:</b> Changes made on this screen will not be reflected on other open screens<br/>
+# # and vice versa.
+msgid "LayoutEditor_SelectionTreeTbl"
+msgstr ""
+"<H3>選択ビューア\n"
+"</H3>\n"
+"あったら\n"
+" 警告：この画面で行った変更は、他の開いている画面には反映されません\n"
+"あったら\n"
+"その逆も同様である。"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- LayoutEdit_EndOfLine 3
+msgid "<lf>"
+msgstr "<LF>"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "= (Numeric)"
+msgstr "=（数値）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "= (Text)"
+msgstr "=（テキスト）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "> (Numeric)"
+msgstr ">（数値）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "> (Text)"
+msgstr ">（テキスト）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid ">= (Numeric)"
+msgstr "> =（数値）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid ">= (Text)"
+msgstr "> =（テキスト）"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "About"
+msgstr "約"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Action not supported by NullTree"
+msgstr "アクションNullTreeによってサポートされていません"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Add"
+msgstr "加える"
+
+# Use: Action : Frame_Heading 
+#  id:    Panel:  
+msgid "Add Attributes"
+msgstr "属性を追加"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Add Attributes
+msgid "Add Attributes to the layout Definition"
+msgstr "レイアウト定義に属性を追加する"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Add Column after"
+msgstr "後に列を追加する"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Add Column before"
+msgstr "前に列を追加する"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Add Field After"
+msgstr "後にフィールドを追加"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Add Field Before"
+msgstr "前にフィールドを追加"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Add Fields"
+msgstr "フィールドの追加"
+
+# Use: Field_Prompt 
+#  id:    Panel: Csv 
+msgid "Add Quote to all Text Fields"
+msgstr "すべてのテキストフ​​ィールドに引用符を追加"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Add Row After"
+msgstr "後の行を追加"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Add Row Before"
+msgstr "前の行を追加"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Show Child Record
+msgid "Add a linked Child Record to the current screen"
+msgstr "現在の画面にリンクしている子レコードの追加"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Add names to JComponents for use by testing tools"
+msgstr "テストツールで使用するためJComponentsに名前を追加する"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Add names to screen Components"
+msgstr "画面コンポーネントに名前を追加する"
+
+# Use: Message : Action 
+#  id:    Panel:  
+msgid "After {0}"
+msgstr "{0}の後に"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Field List
+msgid "All Fields"
+msgstr "すべてのフィールド"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "All Included Lines"
+msgstr "すべての含まれる行"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "All of"
+msgstr "すべての"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Allocated Jars"
+msgstr "割り当てられた瓶"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Allow the asterix ('*') character in file Names"
+msgstr "ファイル名にアスタリスク（ '*'）文字を許可する"
+
+# Use: Error 
+#  id:    Panel:  
+# Protocol Buffers, you can not leave a enum field blank
+msgid "An enum must have a value"
+msgstr "列挙型は値を持つ必要があります"
+
+# Use: Message : Button 
+#  id:    Panel:  
+# BoolOps 0
+msgid "And"
+msgstr "と"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Any of"
+msgstr "のいずれか"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Apply"
+msgstr "適用する"
+
+# Use: Message 
+#  id:    Panel:  
+# ComboEdit - delete confirmation
+msgid "Are you sure you want to delete Combo: {0}"
+msgstr "あなたはコンボを削除してもよろしいです：{0}"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordLayout edit - delete confirmation message
+msgid "Are you sure you want to delete record layout: {0}"
+msgstr "あなたは、レコードレイアウトを削除してもよろしいです：{0}"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Array View:"
+msgstr "配列の表示："
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Sort 1
+msgid "Ascending"
+msgstr "上昇"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- PropsEd_JDBC 9
+msgid "Auto Close Connections"
+msgstr "自動接続を閉じる"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Autofit Columns"
+msgstr "列の自動調整"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Sum Operators 4
+msgid "Average"
+msgstr "平均"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Avro Definition"
+msgstr "アブロ·デフィニション[HD]"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Avro Editor's Forums"
+msgstr "アブロ編集者フォーラム"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Avro Editor's Web Page"
+msgstr "アブロエディタのWebページ"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- File SelectionOptions 1 Combo- File Search Direction 1
+msgid "Backward"
+msgstr "後方"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: EditDateTypes 
+# Tbl- PropEd_DataTypes 1
+msgid "Base Type"
+msgstr "基底型"
+
+# Use: External 
+#  id: Csv_Parsers_0   Panel:  
+# 
+# English: Basic Parser
+msgid "Csv_Parsers_0"
+msgstr "基本的なパーサ"
+
+# Use: External 
+#  id: Csv_Parsers_3   Panel:  
+# 
+# English: Basic Parser Column names in quotes
+msgid "Csv_Parsers_3"
+msgstr "引用符で囲まれた基本的なパーサの列名"
+
+# Use: Message : Action 
+#  id:    Panel:  
+msgid "Before {0}"
+msgstr "前{0}"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Properties
+msgid "Behaviour"
+msgstr "行動"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Big File Percentage"
+msgstr "大きなファイルのパーセンテージ"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Properties
+msgid "Big Model"
+msgstr "ビッグモデル"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_3   Panel:  
+# 
+# English: Big-Endian (Old)
+msgid "BinFormat/Dialect_3"
+msgstr "ビッグエンディアン（旧）"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Big-File Filter/Tree limit (thousands)"
+msgstr "ビッグファイルフィルタ/ツリー限度（千）"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Big-File-Model Memory Chunks (KB) default=1000"
+msgstr "ビッグファイルベースモデルのメモリチャンク（KB）のデフォルト= 1000"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Big-File-Model compress option (Default Read)"
+msgstr "ビッグファイルベースモデルcompressオプション（デフォルトは読み取り専用）"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Binary Format"
+msgstr "バイナリ形式"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_15   Panel:  
+# 
+# English: Binary Integer
+msgid "Tbl_FieldType_15"
+msgstr "2進整数"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_35   Panel:  
+# 
+# English: Binary Integer Big Endian (Mainframe?)
+msgid "Tbl_FieldType_35"
+msgstr "進整数ビッグエンディアン（メイン？）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_21   Panel:  
+# 
+# English: Bit
+msgid "Tbl_FieldType_21"
+msgstr "ビット"
+
+# Use: External 
+#  id: Tbl_Format_21   Panel:  
+# 
+# English: Bold Format
+msgid "Tbl_Format_21"
+msgstr "太字の書式"
+
+# Use: Field_Prompt 
+#  id:    Panel: Filter 
+msgid "Boolean Operator"
+msgstr "ブール演算子"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- LayoutEdit_RecSel 0
+msgid "Boolean op 1"
+msgstr "ブールOP 1"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- LayoutEdit_RecSel 1
+msgid "Boolean op 2"
+msgstr "ブールOP 2"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- LayoutEdit_RecSel 2
+msgid "Boolean op 3"
+msgstr "ブールOP 3"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Bring Log to the Front if Data is written to it"
+msgstr "データが書き込まれている場合フロントにログイン持参"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Bring log to Front"
+msgstr "フロントにログを持って来る"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Browse"
+msgstr "ブラウズ"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Build"
+msgstr "ビルド"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Build Tree"
+msgstr "ツリーを構築"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# ExportTab 1
+msgid "CSV"
+msgstr "CSVファイル"
+
+# Use: Menu : Tab_Heading 
+#  id:    Panel:  
+# Tab: EdProps_MainTab_Csv Options
+msgid "CSV Options"
+msgstr "CSVオプション"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_115   Panel:  
+# 
+# English: CSV array
+msgid "Tbl_FieldType_115"
+msgstr "CSVの配列"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Recalculate Column widths
+msgid "Calculate the column widths based on data in the columns"
+msgstr "列内のデータに基づいて、列の幅を計算する"
+
+# Use: Message 
+#  id:    Panel:  
+# Exception raised when loading Xml layout into DB, Exception message appended to the message
+msgid "Can not Load Xml Layout:"
+msgstr "XMLレイアウトをロードすることはできません："
+
+# Use: Message 
+#  id:    Panel:  
+# For some Big files, the file is randommly as need; Message produced when the random read fails
+msgid "Can not Read block from File at:"
+msgstr "でファイルからブロックを読み取ることができません："
+
+# Use: Message 
+#  id:    Panel:  
+# Big Files - Error reading a block from the spill file
+msgid "Can not Read block from disk at:"
+msgstr "でディスクからブロックを読み取ることができません："
+
+# Use: Error 
+#  id:    Panel:  
+# Internal error, occurs on very large files
+msgid "Can not add Byte Array"
+msgstr "バイト配列を追加することはできません"
+
+# Use: Error 
+#  id:    Panel:  
+# Problems adding RecordSelection test field (System error)
+msgid "Can not add Test Field"
+msgstr "テストフィールドを追加することはできません"
+
+# Use: Message 
+#  id:    Panel:  
+# Trying to create a cellrender for a column in the RecordEditor but there was a failure (class does not exist)
+msgid "Can not create Rendor for field:"
+msgstr "フィールドのRendorを作成することはできません："
+
+# Use: Message 
+#  id:    Panel:  
+# RecordLayout Create/Edit screen - error creating Parameter popup screen
+msgid "Can not create popup:"
+msgstr "ポップアップ作成できません："
+
+# Use: Message 
+#  id:    Panel:  
+# Icon name follows; should not occur ~ means system can not find one of the icons used in buttons menus
+msgid "Can not find icon:"
+msgstr "アイコンを見つけることができません："
+
+# Use: Error 
+#  id:    Panel:  
+# Internal error,
+msgid "Can not get Byte Array"
+msgstr "バイト配列を取得することはできません"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Can not get layout for the New File"
+msgstr "新しいファイルを作成するためのレイアウトを取得することはできません"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Can not load a Group Filter to a simple filter"
+msgstr "単純なフィルタにフィルタグループをロードすることはできません"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Can not locate record: >{0}< in input layout"
+msgstr "レコードを検索できない：> {0} <入力レイアウトで"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Can not locate record: >{0}< in output layout"
+msgstr "レコードを検索できない：> {0} <出力レイアウトに"
+
+# Use: Message 
+#  id:    Panel:  
+# Details & reason follow
+msgid "Can not paste"
+msgstr "貼り付けることはできません"
+
+# Use: Error 
+#  id:    Panel:  
+# Internal error,
+msgid "Can not put Byte Array"
+msgstr "バイト配列を配置することはできません"
+
+# Use: Message 
+#  id:    Panel:  
+# Tried to save "Field Sequence" information as Xml using jibx and the jibx call failed for some reason
+msgid "Can not save Field Sequences"
+msgstr "フィールドの順序を保存することはできません"
+
+# Use: Message 
+#  id:    Panel:  
+# Generic error when the RecordEditor can not save record layout (Record create or child record screen)
+msgid "Can not save, Invalid Record definition"
+msgstr "、無効なレコード定義を保存することはできません"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Can not update field in temporary Line"
+msgstr "一時的な行のフィールドを更新することはできません"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Can not update temporary Line"
+msgstr "一時的なラインを更新することはできません"
+
+# Use: Message 
+#  id:    Panel:  
+# Find screen replace invalid in browse mode
+msgid "Can not use replace in browse mode"
+msgstr "ブラウズモードで置き換えるを使用することはできません"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Cancel"
+msgstr "キャンセル"
+
+# Use: Message 
+#  id:    Panel:  
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "Canonical_Name"
+msgstr "Canonical_Name"
+
+# Use: Message 
+#  id:    Panel:  
+# Error starting a Wizard (File / Copy / Compare wizards); exception details follow
+msgid "Cant start wizard"
+msgstr "カントスタートウィザード"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 6
+msgid "Cell_Format"
+msgstr "Cell_Format"
+
+# Use: Action : Frame_Heading 
+#  id:    Panel:  
+msgid "Change Layout"
+msgstr "レイアウトを変更する"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Changed Lines"
+msgstr "変更された行"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_0   Panel:  
+# 
+# English: Char
+msgid "Tbl_FieldType_0"
+msgstr "チャー"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_1   Panel:  
+# 
+# English: Char (right justified)
+msgid "Tbl_FieldType_1"
+msgstr "CHAR（右詰め）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_51   Panel:  
+# 
+# English: Char Multi Line
+msgid "Tbl_FieldType_51"
+msgstr "シャアマルチライン"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_3   Panel:  
+# 
+# English: Char Null padded
+msgid "Tbl_FieldType_3"
+msgstr "char型のNULLパディング"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_2   Panel:  
+# 
+# English: Char Null terminated
+msgid "Tbl_FieldType_2"
+msgstr "char型のNULLで終了"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_81   Panel:  
+# 
+# English: Char Rest of Record
+msgid "Tbl_FieldType_81"
+msgstr "レコードのCharレスト"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Char to Replace invalid Filename Chars"
+msgstr "無効なファイル名の文字を置換するシャア"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Character Field is to big"
+msgstr "文字フィールドが大きいことです"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Characters that are invalid in a file Name"
+msgstr "ファイル名に無効な文字"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_110   Panel:  
+# 
+# English: Check Box True / Space
+msgid "Tbl_FieldType_110"
+msgstr "ボックス真/容量をチェック"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Check Fields"
+msgstr "フィールドをチェック"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Check Records"
+msgstr "レコードをチェック"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Check for binary Fixed Width"
+msgstr "バイナリ固定幅のチェック"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Check previous used Proto"
+msgstr "以前使用Protoをチェック"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid ""
+"Check to make sure the proto on a similarly named file is the correct proto"
+msgstr "同じような名前のファイルにprotoが正しいプロトタイプであることを確認してください"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_109   Panel:  
+# 
+# English: CheckBox Y/null
+msgid "Tbl_FieldType_109"
+msgstr "チェックボックス（CheckBox）、Y /ヌル"
+
+# Use: External 
+#  id: Tbl_Format_1   Panel:  
+# 
+# English: Checkbox - use Parameter
+msgid "Tbl_Format_1"
+msgstr "チェックボックス - 使用パラメータ"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_112   Panel:  
+# 
+# English: Checkbox T/F
+msgid "Tbl_FieldType_112"
+msgstr "チェックボックスT / F"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_111   Panel:  
+# 
+# English: Checkbox Y/N
+msgid "Tbl_FieldType_111"
+msgstr "チェックボックス（Y / N）"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- PropsEd_JDBC 7
+msgid "Checkpoint"
+msgstr "チェックポイント"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-ChildRecords columns 1
+msgid "Child Name"
+msgstr "子の名前"
+
+# Use: Column_Heading : Field_Hint 
+#  id:    Panel:  
+# Tbl- DB-ChildRecords columns 0
+msgid "Child Record"
+msgstr "子レコード"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: LayoutEdit
+msgid "Child Records"
+msgstr "子レコード"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Choose Directory"
+msgstr "ディレクトリの選択"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Choose File"
+msgstr "ファイルを選択してください"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Choose Jar"
+msgstr "Jarを選択してください"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Choose Layout"
+msgstr "レイアウトを選択してください"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Choose Output File"
+msgstr "出力ファイルを選択してください"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Choose Velocity Template"
+msgstr "Velocityテンプレートを選択してください"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Chunk Size (KB)"
+msgstr "チャンクサイズ（KB）"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Clear Fields"
+msgstr "クリアフィールド"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Clear Value"
+msgstr "明確な価値"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Close"
+msgstr "閉じる"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Close All"
+msgstr "すべてを閉じる"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Close DB's and exit application"
+msgstr "DBのと出口のアプリケーションを閉じます"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Close Tab"
+msgstr "タブを閉じる"
+
+# Use: Frame_Heading : Field_Prompt 
+#  id:    Panel:  
+msgid "Cobol Copy"
+msgstr "COBOLコピー"
+
+# Use: Field_Prompt 
+#  id:    Panel: RcdExtra 
+msgid "Cobol Copybook"
+msgstr "COBOLコピーブック"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_1   Panel:  
+# 
+# English: Cobol Copybook (DB)
+msgid "CopybookLoaderFactory_1"
+msgstr "COBOLコピーブック（DB）"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Cobol Copybook Analysis"
+msgstr "COBOLコピーブック·分析"
+
+# Use: Message 
+#  id:    Panel:  
+# Cobol Copybook analysis - cobol copybook files does not exist
+msgid "Cobol Copybook does not exist"
+msgstr "COBOLコピーブックは存在しません"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Cobol Dialect"
+msgstr "COBOLの方言"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 9
+msgid "Cobol Name"
+msgstr "COBOL名"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Collapse Tree"
+msgstr "ツリーの縮小"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Colorfull Table"
+msgstr "Colorfullの表"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Column Table"
+msgstr "列表"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Column View (Selected Records)"
+msgstr "カラム表示（選択されたレコード）"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB ComboValues 0
+msgid "Combo Code"
+msgstr "コンボコード"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Combo Name"
+msgstr "コンボ名"
+
+# Use: Field_Prompt 
+#  id:    Panel: ComboPnl 
+msgid "Combo Type"
+msgstr "コンボタイプ"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB ComboValues 1
+msgid "Combo Value"
+msgstr "コンボ値"
+
+# Use: External 
+#  id: Tbl_Format_15   Panel:  
+# 
+# English: ComboBox Format, (combo name in parameter)
+msgid "Tbl_Format_15"
+msgstr "ComboBoxのフォーマット、（パラメータのコンボ名）"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: ComboPnl 
+# Tbl- DB-Combo Columns 1
+msgid "Combo_Name"
+msgstr "Combo_Name"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_3   Panel:  
+# 
+# English: Comma CSV (names first line)
+msgid "CopybookLoaderFactory_3"
+msgstr "カンマのCSV（名前の最初の行）"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- PropsEd_JDBC 6
+msgid "Commit"
+msgstr "コミット"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Compare"
+msgstr "比較する"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Compare (HTML)"
+msgstr "比較する（HTML）"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Compare Different Layouts"
+msgstr "異なるレイアウトを比較"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Compare Error- Record {0} from filter was not found in record Layout"
+msgstr "フィルタからのエラー·レコード{0}の比較は、レコードのレイアウト内に見つかりませんでした"
+
+# Use: Error 
+#  id:    Panel:  
+msgid ""
+"Compare Error- Record/Field {0}/{1} from filter was not found in record "
+"Layout"
+msgstr "エラーレコード/フィールド{0} / {1}フィルタからレコードレイアウト内に見つかりませんでしたを比較"
+
+# Use: Action : Frame_Heading 
+#  id:    Panel:  
+msgid "Compare Menu"
+msgstr "メニューを比較"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Compare Save Directory"
+msgstr "ディレクトリを保存し比較"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Compare Single Layout"
+msgstr "単一のレイアウトを比較"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Compare with Disk
+msgid "Compare what is being edited with what is stored on disk"
+msgstr "ディスク上に格納されているものを使用して編集されているかを比較"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Compare with Disk"
+msgstr "ディスクと比較してください"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Complete Rebuild of Tree"
+msgstr "ツリーの再構築を完了"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Complete Rebuild of Tree Description_for_Complete Rebuild of Tree
+msgid "Completely rebuild the Tree from scratch"
+msgstr "完全にゼロからツリーを再構築"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Compress Option"
+msgstr "compressオプションを"
+
+# Use: Message 
+#  id:    Panel:  
+# Internal error, occurs with very large files where the Editor uses Compression to reduce memory usage - generally only occurs in testing
+msgid "Compress Queue Error: Save the file and try again"
+msgstr "キュー·エラーを圧縮するには：ファイルを保存し、再試行してください"
+
+# Use: Message 
+#  id:    Panel:  
+# connection to database failed, DB error will be concenated with message
+msgid "Connection Failed:"
+msgstr "接続に失敗しました："
+
+# Use: Message 
+#  id:    Panel:  
+# Database connection Failed; {0} will be replaced with error message
+msgid "Connection Failed: {0}, can not run SQL"
+msgstr "接続に失敗しました：{0}は、SQLを実行することはできません"
+
+# Use: Message 
+#  id:    Panel:  
+# Database Connection Identifier
+msgid "Connection ID"
+msgstr "接続ID"
+
+# Use: Message 
+#  id:    Panel:  
+# Database Connection index
+msgid "Connection Index"
+msgstr "接続インデックス"
+
+# Use: Message 
+#  id:    Panel:  
+# Succesful connection to DB
+msgid "Connection Ok ~"
+msgstr "Okを接続〜"
+
+# Use: Message 
+#  id:    Panel:  
+# Connected to Datgabase - DB details will follow; from EditParameters - Test Connection screen
+msgid "Connection succesfull to"
+msgstr "へsuccesfullの接続"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Contains"
+msgstr "含まれています"
+
+# Use: Message 
+#  id:    Panel:  
+# Generic Conversion error
+msgid "Conversion Error"
+msgstr "変換誤差"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Convert Layout"
+msgstr "レイアウトの変換"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Save Tree as XML
+msgid "Converts a Tree View to XML"
+msgstr "XMLにツリービューに変換し"
+
+# Use: Action : Button : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 4
+msgid "Copy"
+msgstr "コピー"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Copy Column"
+msgstr "列コピー"
+
+# Use: Message 
+#  id:    Panel:  
+# Copy wizard
+msgid "Copy Done !!!"
+msgstr "コピー完了！"
+
+# Use: Message 
+#  id:    Panel:  
+# Copy wizard
+msgid "Copy Done !!!, check log for errors"
+msgstr "Doneをコピー！、エラーのログチェック"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Copy Failed:"
+msgstr "コピーに失敗しました："
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Copy Layouts"
+msgstr "コピーレイアウト"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Copy Menu"
+msgstr "コピーメニュー"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Copy Record(s)"
+msgstr "レコードコピー（複数可）"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Copy Save Directory"
+msgstr "保存ディレクトリにコピー"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Copy Selections"
+msgstr "コピー選択"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Copy To Delimited File (Csv)"
+msgstr "区切りファイル（CSV）にコピーします。"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Copy To Xml"
+msgstr "XMLへのコピー"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Copy copybooks"
+msgstr "コピーコピーブック"
+
+# Use: Message 
+#  id:    Panel:  
+# Record Editor Copy Error
+msgid "Copy limit of {0} exceeded; only the first {1} lines copied"
+msgstr "のコピー制限は、{0}を超え、最初の{1}行がコピーされた"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Copy Record(s)
+msgid "Copy selected records to the RecordEditor Clipboard"
+msgstr "RecordEditorクリップボードに選択したレコードをコピーします"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Copy the selected record from the table"
+msgstr "テーブルから選択したレコードをコピーします"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Copy to Delimited file"
+msgstr "区切りのファイルにコピーします"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Copy to Xml file"
+msgstr "XMLファイルへのコピー"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Copy using Velocity Template"
+msgstr "Velocityテンプレートを使用したコピー"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordEditor - Catch all error reading Record-fields from the Database
+msgid "CopyBook Error- Reading Fields:"
+msgstr "ありきたりのエラー読書フィールド："
+
+# Use: Message 
+#  id:    Panel:  
+# - RecordEditor - Catch all Error reading RecordLayout from the database
+msgid "CopyBook Error:"
+msgstr "ありきたりのエラー："
+
+# Use: Message : Field_Prompt 
+#  id:    Panel: GetFiles:OpenFileEditPnl 
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "Copybook"
+msgstr "ありきたりの"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Copybook Analysis"
+msgstr "ありきたりの分析"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordEditor - Catch all error reading child records from the DB
+msgid "Copybook Error: Reading Child Records:"
+msgstr "ありきたりのエラー：子レコードの読み取り："
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "Copybook Loaders"
+msgstr "コピーブックローダー"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Copybook Type"
+msgstr "コピーブックタイプ"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Could not load Copybook"
+msgstr "コピーブックを読み込めませんでした。"
+
+# Use: Message 
+#  id:    Panel:  
+# Upgrade message
+msgid "Could not load FileWizardReader"
+msgstr "FileWizardReaderを読み込めませんでした。"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffers Editor - User tried to delete a Required Child message
+msgid "Could not remove child, it is Required:"
+msgstr "子を削除できませんでした、それが必要です。"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffers Editor (Internal Error ??) - should not occur
+msgid "Could not remove child, it is not a Protocol Buffer Line:"
+msgstr "子を削除できませんでした、それはプロトコルバッファのラインではありません："
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffers Editor - user tried to delete a child message that does not exist
+msgid "Could not remove child, it is not present:"
+msgstr "子を削除できませんでした、それは存在しません："
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Create Child"
+msgstr "子の作成"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Create Child Record"
+msgstr "子レコードを作成します。"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Create Combo"
+msgstr "コンボを作成"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Create Combo List"
+msgstr "コンボリストを作成"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Create Field Tree View"
+msgstr "フィールドツリービューを作成する"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Create Layout"
+msgstr "レイアウトの作成"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Create New Child Record"
+msgstr "新しい子レコードを作成"
+
+# Use: Frame_Heading : Field_Prompt 
+#  id:    Panel:  
+msgid "Create Record Layout"
+msgstr "レコードのレイアウトを作成します。"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Create Record Layout Wizard"
+msgstr "レコードレイアウトの作成ウィザード"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Create Record Tree"
+msgstr "レコード·ツリーの作成"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Create Screens in seperate Windows"
+msgstr "別々のWindowsの画面を作成する"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Create Sorted Tree"
+msgstr "分類ツリーの作成"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Record Based Tree
+msgid "Create Tree View based on Record Hierarchy"
+msgstr "レコードの階層に基づいてツリービューを作成します。"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Field Based Tree
+msgid "Create Tree View based on changes in selected fields"
+msgstr "選択したフィールドの変化に基づいてツリービューを作成します。"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Sorted Field Tree
+msgid "Create Tree View by sorting on selected fields"
+msgstr "選択されたフィールドでソートすることにより、ツリービューを作成します。"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_XML Tree (Selected Records)
+msgid "Create XML Tree View from the currently selected records"
+msgstr "現在選択されているレコードからXMLツリービューを作成します。"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Record Layout Tree (Selected Records)
+msgid ""
+"Create XML Tree View using the definition in Record Layout Definition from "
+"the currently selected records"
+msgstr "現在選択されたレコードからレコードレイアウト定義で定義を使用してXMLツリービューを作成します。"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Column View (Selected Records)
+msgid "Create a Column view from the selected records"
+msgstr "選択されたレコードからカラムビューを作成する"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Record View (Selected Records)
+msgid "Create a new Record view from the selected records"
+msgstr "選択したレコードから新しいレコードの表示を作成"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Create a new record layout"
+msgstr "新しいレコードレイアウトを作成"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Table View (Selected Records)
+msgid "Create a new view from the selected records"
+msgstr "選択したレコードから新しいビューを作成します"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Create views in seperate windows instead of tabs on the file panel"
+msgstr "ファイルパネル上の別々のウィンドウタブの代わりにビューを作成"
+
+# Use: External 
+#  id: Line_IO_Names_51   Panel:  
+# 
+# English: Csv Name on 1st line
+msgid "Line_IO_Names_51"
+msgstr "第一ライン上のcsv名"
+
+# Use: Combobox_Entry 
+#  id: Line_IO_Names_13   Panel:  
+# 
+# English: Csv Name on 1st line
+msgid "Line_IO_Names_13"
+msgstr "第一ライン上のcsv名"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- File SelectionOptions
+msgid "Current View"
+msgstr "現在のビュー"
+
+# Use: Action : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 5
+msgid "Cut"
+msgstr "カット"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Cut Record(s)"
+msgstr "カットレコード（s）"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Cut Record(s)
+msgid "Cut selected records to the RecordEditor Clipboard"
+msgstr "RecordEditorクリップボードに選択したレコードをカット"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Cut the selected record from the table"
+msgstr "テーブルから選択したレコードをカット"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_7   Panel:  
+# 
+# English: DB - CSV extract Copybook
+msgid "CopybookLoaderFactory_7"
+msgstr "DB - CSVファイル抽出コピーブック"
+
+# Use: Menu : Column_Heading : Tab_Heading 
+#  id:    Panel:  
+# Tbl- Single_Record 3 ExportTab 0 Tbl- ArrayRender 1 Tbl- MapRender 1 Tbl- Single_Record 4
+msgid "Data"
+msgstr "データ"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pane:StandardGetFiles:GetFiles:OpenFileEditPnl 
+msgid "Data Base"
+msgstr "データベース"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Data Format error: {0}"
+msgstr "データフォーマットエラー：{0}"
+
+# Use: Message 
+#  id:    Panel:  
+# Error Connecting to the Database, details will follow
+msgid "DataBase Connection error:"
+msgstr "データベース接続エラー："
+
+# Use: Message 
+#  id:    Panel:  
+# Database upgrade message
+msgid "Database Upgraded to Version"
+msgstr "バージョンにアップグレードされたデータベース"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Database upgrade failed !!!"
+msgstr "データベースのアップグレードに失敗しました！"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_74   Panel:  
+# 
+# English: Date - DDMMYY
+msgid "Tbl_FieldType_74"
+msgstr "日付 - DDMMYY"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_75   Panel:  
+# 
+# English: Date - DDMMYYYY
+msgid "Tbl_FieldType_75"
+msgstr "日付 - DDMMYYYY"
+
+# Use: External 
+#  id: Tbl_Format_3   Panel:  
+# 
+# English: Date - DDMMYYYY
+msgid "Tbl_Format_3"
+msgstr "日付 - DDMMYYYY"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_71   Panel:  
+# 
+# English: Date - Format in Parameter field
+msgid "Tbl_FieldType_71"
+msgstr "日付 - Parameterフィールドでフォーマット"
+
+# Use: External 
+#  id: Tbl_Format_2   Panel:  
+# 
+# English: Date - Format in Parameter field
+msgid "Tbl_Format_2"
+msgstr "日付 - Parameterフィールドでフォーマット"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_72   Panel:  
+# 
+# English: Date - YYMMDD
+msgid "Tbl_FieldType_72"
+msgstr "日付 - YYMMDD"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_73   Panel:  
+# 
+# English: Date - YYYYMMDD
+msgid "Tbl_FieldType_73"
+msgstr "日付 - YYYYMMDD"
+
+# Use: External 
+#  id: Tbl_Format_4   Panel:  
+# 
+# English: Date - YYYYMMDD
+msgid "Tbl_Format_4"
+msgstr "日付 - YYYYMMDD"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: EditDateTypes:EditPropertiesPnl 
+# Tbl- PropEd_DataTypes 2
+msgid "Date Format"
+msgstr "日付の表示形式"
+
+# Use: Message 
+#  id:    Panel:  
+# Error in the Date format entered by the user; User must use Java date format characters e.g. ddMMyy
+msgid "Date Format Error:"
+msgstr "日付形式のエラーが発生しました："
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid ""
+"Date Format String eg dd/MM/yy or dd.MMM.yy. the field is case sensitive, it "
+"uses Java date Formatting"
+msgstr ""
+"日付形式の文字列例えばDD / MM / YYまたはdd.MMM.yy."
+"フィールドでは、大文字と小文字が区別され、それはJavaの日付書式を使用しています"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "Date Types"
+msgstr "日付型"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_11   Panel:  
+# 
+# English: Decimal
+msgid "Tbl_FieldType_11"
+msgstr "10進数"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- LayoutWizard Field definition 4
+msgid "Decimal"
+msgstr "10進数"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Update Csv File Format 3
+msgid "Decimal Places"
+msgstr "小数点以下の桁"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 5
+msgid "DecimalPos"
+msgstr "DecimalPos"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_0   Panel:  
+# 
+# English: Default
+msgid "Line_IO_Names_0"
+msgstr "デフォルト"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Default Record"
+msgstr "デフォルトのレコード"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl1File 
+msgid "Default Type"
+msgstr "デフォルト·タイプ"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditDefaults 
+msgid "Default Value"
+msgstr "デフォルト値"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Default to prefered layout"
+msgstr "好まれたレイアウトにデフォルト"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 8
+msgid "DefaultValue"
+msgstr "DefaultValueに"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Properties
+msgid "Defaults"
+msgstr "デフォルト"
+
+# Use: Action : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 10
+msgid "Delete"
+msgstr "削除"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Delete Column"
+msgstr "列の削除"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Delete Record(s)"
+msgstr "レコードの削除（秒）"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Delete Rows"
+msgstr "行を削除する"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Delete Selected Rows using the delete key"
+msgstr "Deleteキーを使用して、選択された行を削除"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Delete Record(s)
+msgid "Delete Selected records"
+msgstr "選択したレコードを削除"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Delete Selected rows with the delete key"
+msgstr "Deleteキーで選択した行を削除"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Delete example Layout's from the DB"
+msgstr "例えばレイアウトのDBからの削除"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Delete selected records from the Table below"
+msgstr "下記の表から選択したレコードを削除"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Delete the Current Record"
+msgstr "現在のレコードを削除"
+
+# Use: Message 
+#  id:    Panel:  
+# ComboEdit/LayoutEdit - delete confirmation header
+msgid "Delete: {0}"
+msgstr "削除：{0}"
+
+# Use: External 
+#  id: Tbl_RecordType_2   Panel:  
+# 
+# English: Delimited Fields
+msgid "Tbl_RecordType_2"
+msgstr "デリミタ付きフィールド"
+
+# Use: External 
+#  id: Tbl_RecordType_3   Panel:  
+# 
+# English: Delimited Fields with Quotes
+msgid "Tbl_RecordType_3"
+msgstr "重引用符で区切られたフィールド"
+
+# Use: Message : Field_Prompt 
+#  id:    Panel: RcdExtra:Csv 
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "Delimiter"
+msgstr "デリミタ"
+
+# Use: Message : Column_Heading : Field_Prompt : Tab_Heading 
+#  id:    Panel: EditDefaults:StandardGetFiles:RecordList:GetFiles:OpenFileEditPnl:TableListPnl:RecordDef:EditJarsPanel 
+# Field on RecordLayout Create/Edit screen - used in message Tbl- PropEd_Jars 2 Tab: EdProps_MainTab_Description Tbl- DB-RecordFields Columns 3 Tbl- DB-TableList Columns 2 editProps_DefaultColHeadings 1
+msgid "Description"
+msgstr "説明"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Destination"
+msgstr "デスティネーション"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-Table Columns 1
+msgid "Details"
+msgstr "細部"
+
+# Use: Field_Prompt 
+#  id:    Panel: Find 
+msgid "Direction"
+msgstr "方向"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Properties
+msgid "Directories"
+msgstr "ディレクトリ"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Directory holding the help files"
+msgstr "ヘルプ·ファイルを保持しているディレクトリ"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Directory to read / write file copybooks to"
+msgstr "へのファイルコピーブックを読み込み/書き込みするためのディレクトリ"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Directory where proto files are stored"
+msgstr "プロト·ファイルが格納されるディレクトリ"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Directory where the Editor Starts in"
+msgstr "エディタが起動したディレクトリに"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Directory where the Editor Starts in (if no file specified)"
+msgstr "エディタがない（ファイルが指定されていない場合）で始まるディレクトリ"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Display"
+msgstr "表示"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Undock tab
+msgid "Display Tab in seperate screen"
+msgstr "別々の画面でタブを表示"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Undock all Tabs
+msgid "Display all tabs in there own screen"
+msgstr "そこに独自の画面ですべてのタブを表示"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordEditor Delete confirmation message (For Delete key)
+msgid "Do you want to delete the selected {0} lines ?"
+msgstr "あなたが選択した{0}行を削除してもよろしいですか？"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Dock Tab/Screen"
+msgstr "ドックタブ/画面"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Dock Tab/Screen
+msgid "Dock Tab/Screen with the main screen for this document"
+msgstr "このドキュメントのためのメイン画面とドッキングタブ/画面"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Dock related screens
+msgid "Dock all screens for this document with the main screen"
+msgstr "メイン画面でこのドキュメントのためのすべての画面をドッキング"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Dock related screens"
+msgstr "ドック関連画面"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Doesn't Contain"
+msgstr "含まれていません"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_18   Panel:  
+# 
+# English: Double
+msgid "Tbl_FieldType_18"
+msgstr "ダブル"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: EditJdbcParamsPanel 
+# Tbl- PropsEd_JDBC 1
+msgid "Driver"
+msgstr "ドライバ"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- PropsEd_JDBC 10
+msgid "Drop ; from SQL statements"
+msgstr "ドロップ、SQL文から"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Dull colors"
+msgstr "鈍い色"
+
+# Use: Menu : Button 
+#  id:    Panel:  
+msgid "Edit"
+msgstr "編集"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Edit Child"
+msgstr "子供を編集"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Edit Child Record"
+msgstr "子レコードを編集"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Edit Combo Contents"
+msgstr "コンボの内容を編集"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Edit Combo Lists"
+msgstr "コンボリストの編集"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Edit Combos"
+msgstr "コンボを編集"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Edit Layout"
+msgstr "レイアウトの編集]"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_117   Panel:  
+# 
+# English: Edit Multi Line field
+msgid "Tbl_FieldType_117"
+msgstr "複数行フィールドを編集します"
+
+# Use: Message : Action 
+#  id:    Panel:  
+msgid "Edit Options"
+msgstr "編集オプション"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Edit Output File"
+msgstr "出力ファイルを編集"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Edit Record"
+msgstr "レコードを編集"
+
+# Use: Frame_Heading : Field_Prompt 
+#  id:    Panel:  
+msgid "Edit Record Layout"
+msgstr "レコードのレイアウトを編集"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Edit Record Layout - DB"
+msgstr "DB - レコードのレイアウトを編集"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Edit Record Selections"
+msgstr "レコード選択を編集"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Edit System Table"
+msgstr "システム·テーブルの編集"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Edit Tables"
+msgstr "テーブルを編集する"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Edit Tables DB"
+msgstr "テーブルDBを編集"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Editing canceled"
+msgstr "キャンセル編集"
+
+# Use: Error 
+#  id:    Panel:  
+# Avro Schema
+msgid "Empty Data File, can not read the schema"
+msgstr "空のデータファイルは、スキーマを読み取ることができません"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Empty View can not add Child Record"
+msgstr "空のビューが子レコードを追加することはできません"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Enum type \\\"{0}\\\" has no value named \\\"{1}\\\"."
+msgstr "Enum型\\ \"{0} \\\" \"\\ {1}\" \\という値を持ちません。"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Enum type \\\"{0}\\\" has no value with number {1}."
+msgstr "enum型\\ \"{0} \\\"数{1}の値を持ちません。"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Equivalent Field"
+msgstr "等価のフィールド"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Equivalent Record"
+msgstr "等価なレコード"
+
+# Use: Message 
+#  id:    Panel:  
+# Velocity Template file does not exist; file name will follow
+msgid "Error - cannot find template:"
+msgstr "エラー - テンプレートを見つけることができません："
+
+# Use: Message 
+#  id:    Panel:  
+# Change Layout screen generic error message; exception message added on
+msgid "Error Changing Layout:"
+msgstr "レイアウトの変更エラーが発生しました："
+
+# Use: Message 
+#  id:    Panel:  
+# Export Screen - Error closing the output (export) file. Exception message added
+msgid "Error Closing File:"
+msgstr "閉じる際のエラーファイル："
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffer Editor - Generic error message when compiling / loading a proto definition Protocol Buffer Editor - message from proto "Compile"
+msgid "Error Compiling proto file:"
+msgstr "protoファイルのコンパイルエラーが発生しました："
+
+# Use: Message 
+#  id:    Panel:  
+# Connection Failed  - DB details will follow; from EditParameters - Test Connection screen
+msgid "Error Connecting to the Database:"
+msgstr "データベースへの接続エラーが発生しました："
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error Converting Copybook:"
+msgstr "コピーブックの変換エラーが発生しました："
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Error Converting Hex; Byte-Number={0}  value={1}  Message: {2}"
+msgstr "エラー変換六角;バイト数= {0}の値= {1}メッセージ：{2}"
+
+# Use: Message 
+#  id:    Panel:  
+# Error message when the user enters an invalid hex value in the RecordEditor
+msgid "Error Converting Hex; {0} value={1} Message:"
+msgstr "六角の変換エラー：{0}値= {1}のメッセージ："
+
+# Use: Message 
+#  id:    Panel:  
+# New File screen - generic error message, exception message will be added to it
+msgid "Error Creating File:"
+msgstr "ファイルの作成エラー："
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error Defining Type > {0} class={1} {2}"
+msgstr "エラーの定義タイプ> {0}クラス= {1} {2}"
+
+# Use: Message 
+#  id:    Panel:  
+# Printing
+msgid "Error Executing action:"
+msgstr "アクションを実行するとエラーが発生しました："
+
+# Use: Message 
+#  id:    Panel:  
+# Unknown-Format file reader - Generic error creating RecordLayout; Exception details will follow
+msgid "Error Generating Layout"
+msgstr "エラー発生のレイアウト"
+
+# Use: Message 
+#  id:    Panel:  
+# File Copy Utility
+msgid "Error Line {0} Field Number {1} - {2} : {3}"
+msgstr "エラー行{0}はフィールド番号{1} - {2}：{3}"
+
+# Use: Message 
+#  id:    Panel:  
+# Error reading an array of integer properties from a property file
+msgid "Error Loading Array, Index:"
+msgstr "読み込みエラー配列、インデックス："
+
+# Use: Message 
+#  id:    Panel:  
+# Reporting IO error when reading a file in (for editting).  Csv Editor - Error loading a file for editing, exception message appended to the message
+msgid "Error Loading File:"
+msgstr "読み込みエラーファイル："
+
+# Use: Message 
+#  id:    Panel:  
+# Many screens
+msgid "Error Loading Layout:"
+msgstr "読み込みエラーレイアウト："
+
+# Use: Message 
+#  id:    Panel:  
+# Error loading an Aray of properties from a property file (Used to read Database properties amongst other things)
+msgid "Error Loading Property:"
+msgstr "読み込みエラープロパティ："
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffers Editor - has a summary file of all proto definition which is used to work out which proto definition should be used with a file
+msgid "Error Loading Proto Summary file:"
+msgstr "読み込みエラープロトSummaryファイル："
+
+# Use: Message 
+#  id:    Panel:  
+# Many screens
+msgid "Error Loading Record Layout"
+msgstr "ロード·エラー·レコードのレイアウト"
+
+# Use: Message 
+#  id:    Panel:  
+# No fields defined for a record (applies to recordeditor protobuf and avro editors)
+msgid "Error No Fields defined in the layout !!!"
+msgstr "レイアウトに定義されているがフィールドをエラーなし！"
+
+# Use: Message 
+#  id:    Panel:  
+# Error opening an Xml output file; error message will follow
+msgid "Error Opening XML file:"
+msgstr "XMLファイルを開くとエラーが発生しました："
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffers Editor - has a file holding all the directories with proto file in them; generic error reading & processing this file
+msgid "Error Processing Proto Directory file"
+msgstr "エラー処理プロトディレクトリのファイル"
+
+# Use: Message 
+#  id:    Panel:  
+# Big Files - Error occured in reading or uncompressing data on the Spill files
+msgid "Error Reading & unpacking spill file:"
+msgstr "予備ファイルの読み込み＆解凍エラー："
+
+# Use: Message 
+#  id:    Panel:  
+# Generic message used when there is an IO error on the unknown format screen
+msgid "Error Reading File:"
+msgstr "ファイルの読み込みエラーが発生しました："
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error Reading the File:"
+msgstr "ファイルの読み込みエラーが発生しました："
+
+# Use: Message 
+#  id:    Panel:  
+# Heading
+msgid "Error Records"
+msgstr "エラーレコード"
+
+# Use: Message 
+#  id:    Panel:  
+# New File screen - can not find the specified Record Layout
+msgid "Error Retrieving Layout"
+msgstr "エラー取得レイアウト"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffers Editor - Error retrieving proto definition (Protocol buffers Equivalent of a RecordLayout [schema])
+msgid "Error Retrieving proto definition:"
+msgstr "プロトタイプ定義を取得中にエラーが発生："
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error Running Compare"
+msgstr "比較の実行エラー"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error Running Copy"
+msgstr "エラー実行中のコピー"
+
+# Use: Message 
+#  id:    Panel:  
+# For very big files, the RecordEditor uses a spill file to store parts of the file not being used. This indicates an error occured writing to the spill file
+msgid "Error Saving to Spill file"
+msgstr "ファイルをこぼさないように保存するエラー"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffers Editor - Error creating a message, details follow
+msgid "Error Setting up Messages:"
+msgstr "メッセージの設定エラーが発生しました："
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error Table:"
+msgstr "エラー表："
+
+# Use: Message 
+#  id:    Panel:  
+# File Open - RecordEditor loaded the data file for editting but could not update the RecentHistory file. The RecentHistory file holds recently editted files and File ~ record-layout mapping info
+msgid "Error Updating Recent-History file"
+msgstr "最近、履歴ファイルの更新エラー"
+
+# Use: Message 
+#  id:    Panel:  
+# Export (Csv / Fixed) error writing column headings, exception message will be appended
+msgid "Error Writing Column Headings:"
+msgstr "列見出しを記述するエラーが発生しました："
+
+# Use: Message 
+#  id:    Panel:  
+# Error writing an Xml file; error message will follow
+msgid "Error Writing XML:"
+msgstr "XMLの書き方エラーが発生しました："
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error generating HTML"
+msgstr "エラー発生のHTML"
+
+# Use: Message 
+#  id:    Panel:  
+# File Copy Utility - Param 1 = field name, Param 2 = Error Message, Param 3 = field value
+msgid "Error in Field {0} {1} : {2}"
+msgstr "フィールド{0} {1}でエラーが発生しました：{2}"
+
+# Use: Message 
+#  id:    Panel:  
+# Generic error message when reading (loading) Xml layouts into the DB
+msgid "Error in the layout that was loaded"
+msgstr "ロードされたレイアウトでエラーが発生しました"
+
+# Use: Message 
+#  id:    Panel:  
+# Generic Csv Reader ?? - Generic Read Error
+msgid "Error loading CSV Preview:"
+msgstr "読み込みエラーのCSVプレビュー："
+
+# Use: Message 
+#  id:    Panel:  
+# Initialisation - Error loading a user defined function
+msgid "Error loading Function"
+msgstr "読み込みエラー機能"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordEditor allow user jars to be added (which may include initialisation); relates to user written initialisation
+msgid "Error running user Initialize:"
+msgstr "ユーザ初期化を実行してエラーが発生しました："
+
+# Use: Error 
+#  id:    Panel:  
+# Error when trying to update a field with a hex value
+msgid "Error saving Hex value: {0}"
+msgstr "16進値の保存中にエラー：{0}"
+
+# Use: Message 
+#  id:    Panel:  
+# Export Layout as Xml, Export multiple layouts as Xml generic error message, exception message follows
+msgid "Error saving layout:"
+msgstr "レイアウトを保存するエラーが発生しました："
+
+# Use: Message 
+#  id:    Panel:  
+# Big file (Internal consistency error) - For very big files, The Editor uses compression to reduce memory usage; when it uncompresses a chunk, it checks the uncompressed data is the same size as it was before compression
+msgid "Error uncompressing chunk expected {0} but was {1}"
+msgstr "{1} {0}のエラーだったけど解凍チャンク"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error updating Message in parent (missing required fields ???):"
+msgstr "親（？？必須フィールドが欠落しているもの）へのメッセージの更新エラーが発生しました："
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error:"
+msgstr "エラーが発生しました："
+
+# Use: Message 
+#  id:    Panel:  
+# Cobol Copybook analysis
+msgid "Error: cobol copybook file is a directory"
+msgstr "エラー：COBOLコピーブック·ファイルがディレクトリである"
+
+# Use: Message 
+#  id:    Panel:  
+# The execution of a saved file (Filter, Sort-Tree etc) has failed, exception details will follow
+msgid "Execute Error"
+msgstr "エラーを実行"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Execute Record Tree"
+msgstr "レコードツリーを実行"
+
+# Use: Action : Frame_Heading 
+#  id:    Panel:  
+msgid "Execute Saved Filter"
+msgstr "フィルタの保存実行"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Execute Saved Sort Tree"
+msgstr "保存されたソート·ツリーを実行"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Execute Sort Tree"
+msgstr "並べ替えツリーを実行"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Exit"
+msgstr "終了する"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Expand Tree"
+msgstr "ツリーを展開"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- PropsEd_JDBC 8
+msgid "Expand variables (Y/N)"
+msgstr "（Y / N）は変数を展開"
+
+# Use: External 
+#  id: Line_IO_Names_31   Panel:  
+# 
+# English: Experimental Microfocus Header File
+msgid "Line_IO_Names_31"
+msgstr "実験的なマイクロフォーカスヘッダーファイル"
+
+# Use: Combobox_Entry 
+#  id: Line_IO_Names_10   Panel:  
+# 
+# English: Experimental Microfocus Header File
+msgid "Line_IO_Names_10"
+msgstr "実験的なマイクロフォーカスヘッダーファイル"
+
+# Use: Action : Frame_Heading 
+#  id:    Panel:  
+msgid "Export"
+msgstr "エクスポート"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Export Script directory"
+msgstr "エクスポート·スクリプトのディレクトリ"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Export Tree"
+msgstr "ツリーをエクスポート"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Export as CSV file"
+msgstr "CSVファイルとしてエクスポート"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Export as Fixed Length file"
+msgstr "固定長ファイルとしてエクスポート"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Export as HTML (tree)"
+msgstr "HTML（ツリー）としてエクスポート"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Export as HTML 1 tbl"
+msgstr "HTMLの1 TBLとしてエクスポート"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Export as HTML 1 tbl per Row"
+msgstr "行ごとのHTMLとしてエクスポート1 tblは"
+
+# Use: Message 
+#  id: ExportXmlDesc   Panel:  
+# 
+# English: Export data as an XML file
+msgid "ExportXmlDesc"
+msgstr "XMLファイルとしてデータをエクスポート"
+
+# Use: Message 
+#  id: ExportDataDesc   Panel:  
+# 
+# English: Export data in native format
+# 
+# Change the tab to change Data format
+msgid "ExportDataDesc"
+msgstr "ネイティブ·フォーマットでデータをエクスポートする\n"
+"データ形式を変更するタブを変更"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Export
+msgid "Export in another format"
+msgstr "別の形式でのエクスポート"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Export using Velocity"
+msgstr "Velocityを使用してエクスポート"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Export using Xslt"
+msgstr "XSLTを使用してエクスポート"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Export using a Script"
+msgstr "スクリプトを使用してエクスポート"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Export using a Script
+msgid "Export using an external Script (Jython, JRuby, JavaScript etc)"
+msgstr "外部スクリプト（Jythonは、JRubyは、Javaスクリプトなど）を使用してエクスポート"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Export via Script"
+msgstr "スクリプトを使用したエクスポート"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Export via Velociy Skelton"
+msgstr "Velociyスケルトンを使用したエクスポート"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Export via Xsl Transform"
+msgstr "XSL変換を使用したエクスポート"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Export1"
+msgstr "export1が"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pane 
+msgid "Extension"
+msgstr "延長"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Extension Script directory"
+msgstr "拡張スクリプトのディレクトリ"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EdProps_MainTab_Extensions
+msgid "Extensions"
+msgstr "拡張機能"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: Record_Layout_Edit
+msgid "Extras"
+msgstr "エクストラ"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: Find 
+# Tbl- Single_Record 0 Tbl- Filter Field Selection 0 Tbl- Filter Selecton Field Values 2 Tbl- Sort 0 Tbl- SortSum Field Function 0 Tbl- DB-ChildRecords columns 2 Tbl- DB-RecordSelection Columns 2 Tbl- Show/Hide Fields 0 editProps_DefaultColHeadings 0
+msgid "Field"
+msgstr "フィールド"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Field Based Tree"
+msgstr "フィールドベースのツリー"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Field Delimiter"
+msgstr "フィールド区切り記号"
+
+# Use: Field_Prompt 
+#  id:    Panel: CopyWizardFinalPnl 
+msgid "Field Error File"
+msgstr "フィールドのエラーファイル"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 10
+msgid "Field Id"
+msgstr "フィールドID"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl3RecordType 
+msgid "Field Length"
+msgstr "フィールド長"
+
+# Use: Message 
+#  id:    Panel:  
+# CSV Files, Field names can only be on a positive line number, user has entered 0 or a negaitive number
+msgid "Field Line Number should be one or more and not"
+msgstr "フィールドの行番号は、1つ以上あるといけません"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Export_Field_Selection 0 Tbl- Update Csv File Format 0 Tbl- LayoutWizard Field definition 0 Tbl- LayoutEdit_RecSel 3 Tbl- LayoutWizard Record Selection Fields 0
+msgid "Field Name"
+msgstr "フィールド名"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Field Selection: {0}"
+msgstr "フィールド選択：{0}"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl:CsvSelectionPanel 
+msgid "Field Seperator"
+msgstr "フィールド·セパレータ"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl3RecordType 
+msgid "Field Start"
+msgstr "フィールドの開始"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-ChildRecords columns 3 Tbl- DB-RecordSelection Columns 4
+msgid "Field Value"
+msgstr "フィールド値"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Field Visibility"
+msgstr "フィールドの可視性"
+
+# Use: Error 
+#  id:    Panel:  
+# Supplied field-value is to big to fit in the field (numeric integer fields)
+msgid "Field is to big"
+msgstr "フィールドには、大きなことです"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Field: {0} must be entered"
+msgstr "フィールド：{0}に入力する必要があります"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 2
+msgid "FieldName"
+msgstr "フィールド名"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 4
+msgid "FieldType"
+msgstr "FIELDTYPE"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: LayoutEdit
+msgid "Fields"
+msgstr "フィールズ"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Fields used Save Directory"
+msgstr "ディレクトリを保存するために使用されるフ​​ィールド"
+
+# Use: Menu : Field_Prompt : Combobox_Entry 
+#  id:    Panel: ProtoSearchPnl:OpenFileEditPnl 
+# Combo- File SelectionOptions Combo- Layout Copy
+msgid "File"
+msgstr "ファイル"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "File Copy Menu"
+msgstr "ファイルコピーメニュー"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: Pnl1File 
+# Tbl- ProtoSearch - Matching Proto definition files 1
+msgid "File Name"
+msgstr "ファイル名"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Properties
+msgid "File Options"
+msgstr "ファイルオプション"
+
+# Use: Message 
+#  id:    Panel:  
+# Used All over the place
+msgid "File Save Failed:"
+msgstr "失敗したファイルの保存："
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "File Size to Memory Percent to Start using the Big-File-Model"
+msgstr "ビッグファイルベースモデルの使用を開始するメモリ％のサイズをファイル"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl1File:PnlUnknownFileFormat:Pnl2FileFormat:OpenFileEditPnl:RcdExtra 
+msgid "File Structure"
+msgstr "ファイル構造"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "File Wizard"
+msgstr "ファイルウィザード"
+
+# Use: Combobox_Entry 
+#  id: Line_IO_Names_12   Panel:  
+# 
+# English: File Wizard
+msgid "Line_IO_Names_12"
+msgstr "ファイルウィザード"
+
+# Use: External 
+#  id: Line_IO_Names_22   Panel:  
+# 
+# English: File Wizard, Generate layout at run time
+msgid "Line_IO_Names_22"
+msgstr "ファイル·ウィザードは、実行時にレイアウトを生成"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "File was not a Record Tree definition"
+msgstr "ファイルがレコードツリーの定義はありませんでした"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "File was not a sort / Sort tree definition"
+msgstr "ファイルはソート/ソートツリーの定義はありませんでした"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "File: {0} does not exist"
+msgstr "ファイル：{0}は存在しません"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "File: {0} is a directory, it should be a protocol buffers file"
+msgstr "ファイル：{0}はディレクトリである、それはプロトコルバッファファイルである必要があり"
+
+# Use: Action : Button : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 1
+msgid "Filter"
+msgstr "フィルター"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Filter Options"
+msgstr "フィルタオプション"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Filter Save Directory"
+msgstr "ディレクトリを保存フィルタリング"
+
+# Use: Message 
+#  id:    Panel:  
+msgid ""
+"Filter limit of {0} exceeded; only the first {0} lines in the filtered view"
+msgstr "{0}のフィルタ制限を超え、フィルタリングされたビュー内の唯一の最初の{0}行"
+
+# Use: Action : Frame_Heading : Button : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 0
+msgid "Find"
+msgstr "見つける"
+
+# Use: Message 
+#  id:    Panel:  
+# Find / search screen Error message, specific details will be appended
+msgid "Find error:"
+msgstr "エラーを探す："
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "First"
+msgstr "最初の"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Fix Column"
+msgstr "列を修正"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# ExportTab 2
+msgid "Fixed"
+msgstr "固定した"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_2   Panel:  
+# 
+# English: Fixed Length Binary
+msgid "Line_IO_Names_2"
+msgstr "固定長バイナリ"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_17   Panel:  
+# 
+# English: Float
+msgid "Tbl_FieldType_17"
+msgstr "フロート"
+
+# Use: Field_Prompt 
+#  id:    Panel: CsvSelectionPanel 
+msgid "Font"
+msgstr "フォント"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl1File:PnlUnknownFileFormat:Pnl2FileFormat:GetFiles:RcdExtra 
+msgid "Font Name"
+msgstr "フォント名"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Force Storing chunks on Disk (Used in Testing)"
+msgstr "ディスク上のチャンクを格納フォース（テストで使用）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- File SelectionOptions 0 Combo- File Search Direction 0
+msgid "Forward"
+msgstr "フォワード"
+
+# Use: Message 
+#  id:    Panel:  
+# Find screen - find message: I use it for testing
+msgid "Found (line, field Num, field position)="
+msgstr "=（行、フィールドヌム、フィールドの位置）が見つかりました"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_2   Panel:  
+# 
+# English: Fujitsu
+msgid "BinFormat/Dialect_2"
+msgstr "富士通"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_7   Panel:  
+# 
+# English: Fujitsu Variable Binary
+msgid "Line_IO_Names_7"
+msgstr "富士通可変バイナリ"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_41   Panel:  
+# 
+# English: Fujitsu Zoned Numeric
+msgid "Tbl_FieldType_41"
+msgstr "富士通ゾーン型数値"
+
+# Use: Column_Heading : Combobox_Entry 
+#  id:    Panel:  
+# Record_ColumnHeadings 1 Combo- layout
+msgid "Full Line"
+msgstr "フルライン"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Fully Expand Tree"
+msgstr "完全にツリーを展開"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- SortSum Field Function 1
+msgid "Function"
+msgstr "機能"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Fuzzy/Blank"
+msgstr "ファジィ/ブランク"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Generate Field Names"
+msgstr "フィールド名を生成"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Generate Record Names"
+msgstr "レコード名を生成"
+
+# Use: External 
+#  id: Line_IO_Names_52   Panel:  
+# 
+# English: Generic CSV (Choose details at run time)
+msgid "Line_IO_Names_52"
+msgstr "汎用のCSVファイル（実行時に詳細を選択してください）"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "GetText"
+msgstr "GetTextの"
+
+# Use: External 
+#  id: Line_IO_Names_101   Panel:  
+# 
+# English: GetText PO/POT
+msgid "Line_IO_Names_101"
+msgstr "GetTextのPO / POT"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Go"
+msgstr "行く"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Goto"
+msgstr "後藤"
+
+# Use: Action : Frame_Heading 
+#  id:    Panel:  
+msgid "Goto Line"
+msgstr "後藤ライン"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Goto Next Record"
+msgstr "後藤次のレコード"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Goto Previous Record"
+msgstr "後藤前のレコード"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: Filter
+msgid "Group Filter"
+msgstr "グループフィルタ"
+
+# Use: Field_Prompt 
+#  id:    Panel: Filter 
+msgid "Group Starts with"
+msgstr "グループで始まる"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Filter Selecton Field Values 4
+msgid "Group by function"
+msgstr "機能別グループ"
+
+# Use: External 
+#  id: Tbl_RecordType_10   Panel:  
+# 
+# English: Group of Binary Records
+msgid "Tbl_RecordType_10"
+msgstr "バイナリレコードのグループ"
+
+# Use: External 
+#  id: Tbl_RecordType_9   Panel:  
+# 
+# English: Group of Records
+msgid "Tbl_RecordType_9"
+msgstr "レコードのグループ"
+
+# Use: Field_Prompt 
+#  id:    Panel: CmpWizardFinal 
+msgid "HTML options:"
+msgstr "HTMLオプション："
+
+# Use: Action : Menu : Button : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 11
+msgid "Help"
+msgstr "助ける"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Single_Record 5 Tbl- Single_Record 6
+msgid "Hex"
+msgstr "16進法"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Record_ColumnHeadings 2
+msgid "Hex (1 Line)"
+msgstr "六角（1ライン）"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Record_ColumnHeadings 3
+msgid "Hex (2 Lines)"
+msgstr "六角（2ライン）"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Record_ColumnHeadings 5
+msgid "Hex (Alternative)"
+msgstr "六角（オルタナティブ）"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Record_ColumnHeadings 4
+msgid "Hex (SPF Edit Style)"
+msgstr "六角（SPFスタイルの編集）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- layout
+msgid "Hex 1 Line"
+msgstr "六角1ライン"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- layout
+msgid "Hex 2 Lines (Alternative)"
+msgstr "六角2ライン（オルタナティブ）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- layout
+msgid "Hex 2 Lines (Mainframe Style)"
+msgstr "六角2ライン（メインフレームスタイル）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- layout
+msgid "Hex 3 Lines (ISPF Edit Hex)"
+msgstr "六角3ライン（ISPF編集六角）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_4   Panel:  
+# 
+# English: Hex Field
+msgid "Tbl_FieldType_4"
+msgstr "六角フィールド"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Hide Column"
+msgstr "列の非表示"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Highlight Missing Fields"
+msgstr "存在しないフィールドをハイライト表示"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Highlight missing translations"
+msgstr "行方不明の翻訳をハイライト"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid ""
+"Highlight text for which there is no translation by adding a # to the start "
+"of the text"
+msgstr "テキストの先頭に＃を追加することで、翻訳が用意されていないテキストをハイライト表示"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "HowTo Documentations"
+msgstr "ハウツーマニュアル作成"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# ExportTab 4
+msgid "Html"
+msgstr "HTML"
+
+# Use: Field_Prompt 
+#  id:    Panel: CmpWizardFinal 
+msgid "Html File"
+msgstr "HTMLファイル"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditIcons 
+msgid "Icon Set"
+msgstr "アイコンセット"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "Icons"
+msgstr "アイコン"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: Find 
+# Tbl- Filter Selecton Field Values 3
+msgid "Ignore Case"
+msgstr "大文字小文字を区別しない"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Imbed Directory"
+msgstr "IMBEDディレクトリ"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Filter Record Selection 1
+msgid "In Group"
+msgstr "グループ"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Export_Field_Selection 1 Tbl- Filter Record Selection 1 Tbl- Filter Field Selection 1 Tbl- LayoutWizard RecordNames 2 Tbl- Update Csv File Format 1 Tbl- LayoutWizard Field definition 5 Tbl- Filter Record Selection 2
+msgid "Include"
+msgstr "含める"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Include Comments"
+msgstr "コメントを含める"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Include Type Name on Record Screen"
+msgstr "録音画面上の型名を入れ"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Include the type name on the record screen"
+msgstr "レコード画面上の型名を入れ"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- ArrayRender 0
+msgid "Index"
+msgstr "インデックス"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Input File"
+msgstr "入力ファイル"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Input File Structure"
+msgstr "INPUTファイルの構造"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Input Numeric Format"
+msgstr "入力された数値フォーマット"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Insert"
+msgstr "挿入"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Insert Record Prior"
+msgstr "前のレコードの挿入"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Insert Record(s)"
+msgstr "レコードを挿入します（複数可）"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Insert record(s) after selected records"
+msgstr "選択されたレコードの後に​​レコードを挿入する"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_0   Panel:  
+# 
+# English: Intel
+msgid "BinFormat/Dialect_0"
+msgstr "インテル"
+
+# Use: Message 
+#  id:    Panel:  
+# Error creating RecordLayout from Xml (stored in the Program). These Definitions are used when Editting exported files + other functions
+msgid "Internal Error Creating Layout:"
+msgstr "レイアウトの作成、内部エラーが発生しました："
+
+# Use: Error 
+#  id:    Panel:  
+msgid ""
+"Internal Error in RecordStoreBase can not copy data, so dropping lines ?"
+msgstr "RecordStoreBaseの内部エラー行程度を落として、データをコピーすることはできませんか？"
+
+# Use: Message 
+#  id:    Panel:  
+# Something has gone dreadfully wrong, the data being editted has disapeared so can not be saved
+msgid "Internal Error: lines cleared, save is not possible !!!"
+msgstr "内部エラー：クリアラインは、セーブができません！"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Internal error, should not get here"
+msgstr "内部エラーが発生し、ここに来るべきではありません"
+
+# Use: Error 
+#  id:    Panel:  
+# invalid bit or binary number *not all 0's or ones)
+msgid "Invalid Bit String: {0}"
+msgstr "無効なビット列：{0}"
+
+# Use: Message 
+#  id:    Panel:  
+# Invalid Boolean value (should be true / false)
+msgid "Invalid Boolean"
+msgstr "無効なブール"
+
+# Use: Message 
+#  id:    Panel:  
+# The RecordEditor can connect to multiple Databases, These database connections are stored in an array hence the array index; not relavent to most users as they only have the one DB
+msgid "Invalid Database Index"
+msgstr "無効なデータベースのインデックス"
+
+# Use: Message 
+#  id:    Panel:  
+# Csv Files, user has entered an invalid hex string (for the field delimitier) RecordLayout Create/Edit screens - an invalid hex value entered as a Csv Field Delimitier
+msgid "Invalid Delimiter - Invalid  hex string:"
+msgstr "無効な区切り文字 - 無効な16進文字列："
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Invalid Delimiter - Invalid  hex string: {0}"
+msgstr "無効な区切り文字 - 無効な16進文字列：{0}"
+
+# Use: Message 
+#  id:    Panel:  
+# Only single character field delimitier are supported, user has enterted multiple characters
+msgid "Invalid Delimiter, should be a single character"
+msgstr "無効な区切り文字は、単一の文字でなければなりません"
+
+# Use: Message : Error 
+#  id:    Panel:  
+# invalid CSV field delimitier invalid CSV field delimitier Csv Files, no delimiter specified Invalid Csv Field delimitier, The recordEditor only accepts single character field delimitier (which can be entered as a Character or a Hex value i.e x'01')
+msgid "Invalid Delimiter, should be a single character or a hex character"
+msgstr "無効な区切り文字は、単一の文字または16進文字でなければなりません"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordLayout Create/Edit Generic error, field / error details follow
+msgid "Invalid Field"
+msgstr "無効フィールド"
+
+# Use: Message 
+#  id:    Panel:  
+# CSV Files, invalid (i.e. non numeric) line number entered for Column heading line numbers
+msgid "Invalid Field Line Number:"
+msgstr "無効なフィールドの行番号："
+
+# Use: Message 
+#  id:    Panel:  
+# Generic Csv Reader ?? - Invalid font specified
+msgid "Invalid Font Specified on CSV Preview screen"
+msgstr "CSVファイルのプレビュー画面上で指定された無効なフォント"
+
+# Use: Message 
+#  id:    Panel:  
+# Header for
+msgid "Invalid Hex"
+msgstr "無効な16進"
+
+# Use: Message 
+#  id:    Panel:  
+# Csv file - Invalid field seperator specified (in hex format)
+msgid "Invalid Hex Seperator"
+msgstr "無効な16進SEPERATOR"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Invalid Index Supplied {0} Should be between {1} and {2}"
+msgstr "{0}が見つかり無効なインデックスは{1}と{2}の間でなければなりません"
+
+# Use: Message 
+#  id:    Panel:  
+# Check user has entered a valid integer
+msgid "Invalid Integer"
+msgstr "無効な整数"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Invalid Number: {0}"
+msgstr "無効数：{0}"
+
+# Use: Error 
+#  id:    Panel:  
+msgid ""
+"Invalid field position for Record: {0} {1}, it should be greater than zero "
+"and not {2}"
+msgstr "レコードの無効フィールドの位置：{0} {1}、それはゼロではなく、{2}よりも大きくなければなりません"
+
+# Use: Message 
+#  id:    Panel:  
+# Goto line number screen - invalid integer entered (conversion exception)
+msgid "Invalid line number"
+msgstr "無効な行番号"
+
+# Use: Message 
+#  id:    Panel:  
+# New CSV file screen, the column name line number is invalid (< 1 or non numeric)
+msgid "Invalid number in {0}, msg="
+msgstr "{0}は、msg =の無効な番号"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Invalid type of Copy --> {0}"
+msgstr "コピーの種類が無効です - > {0}"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Is Empty"
+msgstr "Emptyです。"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditJdbcParamsPanel 
+msgid "JDBC JAR"
+msgstr "JDBCのJARファイル"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_JDBC
+msgid "JDBC Jars"
+msgstr "JDBCのジャー"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EdProps_MainTab_JDBC Parameters
+msgid "JDBC Parameters"
+msgstr "JDBCのパラメータ"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_JDBC
+msgid "JDBC Properties"
+msgstr "JDBCプロパティ"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: EditJarsPanel 
+# Tbl- PropEd_Jars 1
+msgid "Jar"
+msgstr "瓶"
+
+# Use: Field_Prompt 
+#  id:    Panel: LooksPanel 
+msgid "Jar File"
+msgstr "Jarファイル"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditJarsPanel 
+msgid "Jar Type"
+msgstr "ジャータイプ"
+
+# Use: Field_Prompt : Tab_Heading 
+#  id:    Panel: SaveAsPnlXslt 
+# Tab: EdProps_MainTab_Jars
+msgid "Jars"
+msgstr "ジャー"
+
+# Use: Message 
+#  id:    Panel:  
+# Call to jibx (jibx reads/writes Xml) failed with class not found - possibly the jibx jar is missing
+msgid "Jibx Call Failed: Class not loaded"
+msgstr "JiBXの呼び出しに失敗しました：クラスロードされていません"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid ""
+"Keep a record of all Text Fields going through the Language section. This "
+"can be used to generate the language conversion file (GetText PO)"
+msgstr ""
+"[言語]セクションを通過するすべてのテキストフ​​ィールドの記録を保管してください。これは、言語変換ファイル（GetTextのPO）を生成するために使用できます"
+
+# Use: Field_Prompt 
+#  id:    Panel: ProtoSearchPnl 
+msgid "Keep open"
+msgstr "開いたままにしておきます"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Keep screen open"
+msgstr "画面を開いたままに"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- MapRender 0
+msgid "Key"
+msgstr "キー"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Combo Options 1
+msgid "Key / Value Combo"
+msgstr "キー/バリューコンボ"
+
+# Use: Unknown 
+#  id:    Panel:  
+msgid "Key Value"
+msgstr "キー値"
+
+# Use: Field_Prompt : Tab_Heading 
+#  id:    Panel: EditLanguage 
+# Tab: EdProps_MainTab_Language
+msgid "Language"
+msgstr "言語"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditLanguage 
+msgid "Language Directory"
+msgstr "言語ディレクトリ"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Last"
+msgstr "最後"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+# RecordBtns 3
+msgid "Last Record"
+msgstr "最後のレコード"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pane 
+msgid "Layout"
+msgstr "レイアウト"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl7SaveDbLayout:Pnl5SaveFileLayout 
+msgid "Layout Description"
+msgstr "レイアウト記述"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Layout Does not exist"
+msgstr "レイアウトが存在しません"
+
+# Use: Message 
+#  id:    Panel:  
+# CsvEditor - Error creating Fixed-Width Record layout
+msgid "Layout Generation Failed:"
+msgstr "レイアウト生成に失敗しました："
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl7SaveDbLayout:Pnl5SaveFileLayout 
+msgid "Layout Name"
+msgstr "レイアウト名"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Layout Record Does not exist !!!"
+msgstr "レイアウトのレコードが存在しません！"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Layout Velocity Export Directory"
+msgstr "レイアウトのVelocityエクスポートディレクトリ"
+
+# Use: Action : Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Properties
+msgid "Layout Wizard"
+msgstr "レイアウトウィザード"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Layout Wizard (For File copybooks)"
+msgstr "レイアウトウィザード（ファイルコピーブック用）"
+
+# Use: Field_Prompt 
+#  id:    Panel: LineFrameTree:LineFrame:LineTreeChild:LinesAsColumns:LineList:LineTree 
+msgid "Layouts"
+msgstr "レイアウト"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Single_Record 2
+msgid "Len"
+msgstr "レン"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: PnlUnknownFileFormat:Pnl2FileFormat 
+# Tbl- Export_Field_Selection 2 Tbl- DB-RecordFields Columns 1 Tbl- LayoutWizard Field definition 2 Tbl- LayoutWizard Record Selection Fields 2
+msgid "Length"
+msgstr "長さ"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Line"
+msgstr "ライン"
+
+# Use: Message 
+#  id:    Panel:  
+# Tree View no line associated with tree item (probably repeated child in protobuf / avro editor)
+msgid "Line Can not be Viewed !!!!"
+msgstr "ラインを表示することはできません！！"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordEditor Delete confirmation message header
+msgid "Line Delete confirmation"
+msgstr "行の削除確認"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Line No"
+msgstr "ラインなし"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Line Number"
+msgstr "行番号"
+
+# Use: Field_Prompt 
+#  id:    Panel: CsvSelectionPanel 
+msgid "Line Number of Names"
+msgstr "名前の行番号"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_3   Panel:  
+# 
+# English: Line based Binary
+msgid "Line_IO_Names_3"
+msgstr "行ベースのバイナリ"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Line not found: {0}"
+msgstr "行が見つかりません：{0}"
+
+# Use: Field_Prompt 
+#  id:    Panel: ComboPnl:TableListPnl:RecordDef 
+msgid "Lines to Insert"
+msgstr "挿入する行"
+
+# Use: Message : Field_Prompt 
+#  id:    Panel: RecordList:RecordDef 
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "List"
+msgstr "リスト"
+
+# Use: Button 
+#  id:    Panel:  
+# File Load/Save 1
+msgid "Load"
+msgstr "ロード"
+
+# Use: Action : Field_Prompt 
+#  id:    Panel:  
+msgid "Load Cobol Copybook"
+msgstr "COBOLコピーブックを読み込む"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Load Cobol Record Layout - DB"
+msgstr "COBOLレコードのレイアウトをロードする - DB"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Load Copybook"
+msgstr "コピーブックを読み込む"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Load Copybooks from Cobol Directory"
+msgstr "cobolディレクトリーからコピーブックを読み込む"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Load Copybooks from Xml"
+msgstr "XMLからロードコピーブック"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Load File Description from Xml"
+msgstr "xmlからファイルの説明を読み込む"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Load File in Background thread"
+msgstr "バックグラウンドスレッドでファイルを読み込む"
+
+# Use: Button 
+#  id:    Panel:  
+# Directory Load/Save 1
+msgid "Load From Directory"
+msgstr "ディレクトリからロード"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Load In background"
+msgstr "バックグラウンドでのロード"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Load Record Layout using selectedLoader"
+msgstr "selectedLoaderを使用してロード·レコードのレイアウト"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Load Saved Field Sequences"
+msgstr "保存されたフィールドのシーケンスを読み込む"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Load Saved Hidden Fields"
+msgstr "保存された隠しフィールドを読み込む"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Execute Record Tree
+msgid "Load and Execute a saved Record Tree"
+msgstr "保存されたレコード·ツリーを読み込み、実行"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Execute Sort Tree
+msgid "Load and Execute a saved Sort Tree"
+msgstr "保存されたソート·ツリーを読み込み、実行"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Execute Saved Filter
+msgid "Load and Execute a saved filter"
+msgstr "保存したフィルタをロードして実行"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Load copybook (choose format)"
+msgstr "ロード·コピーブック（形式を選択してください）"
+
+# Use: Message 
+#  id:    Panel:  
+# (Xml layout, Xml file name appended)
+msgid "Loading"
+msgstr "積載"
+
+# Use: Message 
+#  id:    Panel:  
+# Log message when loading all cobol copybooks in a directory into the DB. Directory information follows
+msgid "Loading:"
+msgstr "ローディング："
+
+# Use: Field_Prompt : Tab_Heading 
+#  id:    Panel: LooksPanel 
+# Tab: EditOpts_User
+msgid "Look and Feel"
+msgstr "ルックアンドフィール"
+
+# Use: Field_Prompt 
+#  id:    Panel: LooksPanel 
+msgid "Look and Feel Class Name"
+msgstr "クラス名のルック·アンド·フィール"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Look for Big Endian Binary"
+msgstr "ビッグエンディアンのバイナリを探してください"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Look for Little Endian Binary"
+msgstr "リトルエンディアンのバイナリを探してください"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Look for Mainframe Zoned numeric fields"
+msgstr "メインゾーン型数値フィールドを探してください"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Look for PC Zoned numeric fields (Cobol PIC 9 fields)"
+msgstr "PCのゾーン型の数値フィールド（COBOL PIC 9フィールド）を探してください"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Look for comp-3 fields"
+msgstr "COMP-3のフィールドを探す"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditIcons 
+msgid "Look for png icons"
+msgstr "pngのアイコンを探してください"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EdProps_MainTab_Looks
+msgid "Looks"
+msgstr "見える"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Main Record"
+msgstr "主な記録"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_1   Panel:  
+# 
+# English: Mainframe
+msgid "BinFormat/Dialect_1"
+msgstr "メインフレーム"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_31   Panel:  
+# 
+# English: Mainframe Packed Decimal (comp-3)
+msgid "Tbl_FieldType_31"
+msgstr "メインフレームパック10進数（COMP-3）"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_4   Panel:  
+# 
+# English: Mainframe VB (rdw based) Binary
+msgid "Line_IO_Names_4"
+msgstr "メインフレーム、VB（RDWベース）バイナリ"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_5   Panel:  
+# 
+# English: Mainframe VB Dump: includes Block length
+msgid "Line_IO_Names_5"
+msgstr "メインフレームのVBダンプ：含むブロック長"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_32   Panel:  
+# 
+# English: Mainframe Zoned Numeric
+msgid "Tbl_FieldType_32"
+msgstr "メインフレームは、数値ゾーン型"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Map Key"
+msgstr "マップキー"
+
+# Use: Field_Prompt 
+#  id:    Panel: CopyWizardFinalPnl 
+msgid "Max Error Limit"
+msgstr "最大誤差限界"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Sum Operators 3
+msgid "Maximum"
+msgstr "最大"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Menu"
+msgstr "メニュー"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- ProtoSearch - Matching Proto definition files 2
+msgid "Message Name"
+msgstr "メッセージ名"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffer Editor - message from proto "Compile"
+msgid "Messages Compiling proto file"
+msgstr "protoファイルのコンパイルメッセージ"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Sum Operators 2
+msgid "Minimum"
+msgstr "最小"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Move ..."
+msgstr "移動..."
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Move Column"
+msgstr "列を移動する"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: Pnl3RecordType 
+# Tbl- PropEd_Jars 0
+msgid "Name"
+msgstr "名前"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Names on 1st Line"
+msgstr "第一ライン上の名前"
+
+# Use: Field_Prompt 
+#  id:    Panel: CsvSelectionPanel 
+msgid "Names on Line"
+msgstr "ライン上の名前"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "New"
+msgstr "新しい"
+
+# Use: Message 
+#  id:    Panel:  
+# Input dialogue, requesting new Combo Name from user (after user does a save-as)
+msgid "New Combo Name"
+msgstr "ニューコンボ名"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "New Csv File"
+msgstr "新しいCSVファイル"
+
+# Use: Action : Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "New File"
+msgstr "新規ファイル"
+
+# Use: Field_Prompt 
+#  id:    Panel: StandardGetFiles 
+msgid "New File Name"
+msgstr "新しいファイル名"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "New Layout"
+msgstr "新しいレイアウト"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 8
+msgid "New Record"
+msgstr "新規レコード"
+
+# Use: Message 
+#  id:    Panel:  
+# Generic error when creating a record layout (or schema)
+msgid "New Record Creation Failed!!"
+msgstr "新規レコードの作成に失敗しました！"
+
+# Use: Message 
+#  id:    Panel:  
+# Input dialog, requesting new Record-Layout-Name, called when user issues a SaveAs (multiple screens)
+msgid "New Record Layout Name"
+msgstr "新規レコードレイアウト名"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+# RecordBtns 2
+msgid "Next Record"
+msgstr "次のレコード"
+
+# Use: Error 
+#  id:    Panel:  
+# No destination when inserting lines
+msgid "No Destination line"
+msgstr "送信先の行ない"
+
+# Use: Message 
+#  id:    Panel:  
+# User requests to see Error Records but there are no errors (Proto Buf Editor)
+msgid "No Error Records, nothing to display"
+msgstr "いいえエラーレコードはなく、表示するもの"
+
+# Use: External 
+#  id: Tbl_Format_0   Panel:  
+# 
+# English: No Format
+msgid "Tbl_Format_0"
+msgstr "ませんフォーマット"
+
+# Use: Message 
+#  id:    Panel:  
+# Occurs when user selects Export-Record-Layout as Xml in the RecordLayout-Editor and there is no valid Record-Layout to export. It could indicate nothing there or there is an error in the RecordLayout definition definition. This a log message, look for other messages
+msgid "No Layout to Export"
+msgstr "エクスポートするためのレイアウトません"
+
+# Use: Message 
+#  id:    Panel:  
+# No physical lines selected - nothing to repeat
+msgid "No Physical Line, so can not repeat the line"
+msgstr "どんな物理的なラインなので、ラインを繰り返すことはできません"
+
+# Use: Message 
+#  id:    Panel:  
+# Tree display
+msgid "No Records Selected"
+msgstr "どのレコードが選択されていません"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "No Records to display"
+msgstr "表示するレコードません"
+
+# Use: Error 
+#  id:    Panel:  
+# Problem retrieving Script (Jython, JRuby etc).
+msgid "No Script Engine found !!!"
+msgstr "スクリプトエンジンが見つかりませんでした！"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Cobol Split options 0
+msgid "No Split"
+msgstr "スプリットん"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffer Editor, Empty file specified, can not check the file
+msgid "No data to check"
+msgstr "チェックするデータはありません"
+
+# Use: Error 
+#  id:    Panel:  
+# Used when there is no file writer defined for a file ~ will not occur in normal use
+msgid "No file writer available"
+msgstr "利用可能なファイルライタん"
+
+# Use: Message 
+#  id:    Panel:  
+# Execute save filter and no records match
+msgid "No records matched the filter"
+msgstr "レコードがありませフィルタと一致していません"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: Filter
+msgid "Normal Filter"
+msgstr "通常のフィルタ"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Not enough memory to do a sort !!!"
+msgstr "しないソートを行うために十分なメモリ！"
+
+# Use: Error 
+#  id:    Panel:  
+# Generally an Internal Error, user should not see it. Needed for debuging
+msgid "Not implemented"
+msgstr "実装されていません"
+
+# Use: Message 
+#  id:    Panel:  
+# Tree insert; based on file definition, nothing can be inserted at this point (Protobufeditor / avro editor)
+msgid "Nothing can be inserted at this point"
+msgstr "何もこの時点では挿入できません"
+
+# Use: Message 
+#  id:    Panel:  
+# Cobol Copybook analysis
+msgid "Nothing to Display"
+msgstr "表示するものがありません"
+
+# Use: Message 
+#  id:    Panel:  
+# Sort screen, can not sort empty file.
+msgid "Nothing to sort"
+msgstr "ソートするものがありません"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_5   Panel:  
+# 
+# English: Num (Left Justified)
+msgid "Tbl_FieldType_5"
+msgstr "NUM（左揃え）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_6   Panel:  
+# 
+# English: Num (Right Justified space padded)
+msgid "Tbl_FieldType_6"
+msgstr "NUM（右詰めスペースが埋められます）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_7   Panel:  
+# 
+# English: Num (Right Justified zero padded)
+msgid "Tbl_FieldType_7"
+msgstr "NUM（右詰めゼロパディング）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_8   Panel:  
+# 
+# English: Num Assumed Decimal (Zero padded)
+msgid "Tbl_FieldType_8"
+msgstr "Numは（ゼロパディング）小数点想定"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_9   Panel:  
+# 
+# English: Num Sign Separate Leading
+msgid "Tbl_FieldType_9"
+msgstr "テンキーサインセパレートリーディング"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_10   Panel:  
+# 
+# English: Num Sign Separate Trailing
+msgid "Tbl_FieldType_10"
+msgstr "後続ヌムサインセパレート"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Csv Field Types 1
+msgid "Number"
+msgstr "数"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_20   Panel:  
+# 
+# English: Number (+ve) any decimal
+msgid "Tbl_FieldType_20"
+msgstr "数（+ VE）は、任意の小数"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Csv Field Types 2
+msgid "Number (Fixed Decimal)"
+msgstr "番号（固定小数点）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_19   Panel:  
+# 
+# English: Number any decimal
+msgid "Tbl_FieldType_19"
+msgstr "数値の小数"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Number of characters to use when looking up record layouts (large)"
+msgstr "レコードレイアウト（大）検索時に使用する文字の数"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Number of characters to use when looking up record layouts (medium)"
+msgstr "レコードレイアウトをルックアップするときに使用する文字数（中）"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Number of characters to use when looking up record layouts (small)"
+msgstr "レコードレイアウト（小）をルックアップする際に使用する文字の数"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Numeric Format"
+msgstr "数値書式"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Old File"
+msgstr "古いファイル"
+
+# Use: Field_Prompt 
+#  id:    Panel: StandardGetFiles 
+msgid "Old File Name"
+msgstr "古いファイル名"
+
+# Use: Message 
+#  id:    Panel:  
+# {0} placeholder for new reord name
+msgid "Old record saved, New Record {0} created"
+msgstr "古いレコードが保存され、新規レコード{0}が作成さ"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Cobol Split options 2
+msgid "On 01 level"
+msgstr "01レベルで"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Cobol Split options 1
+msgid "On Redefine"
+msgstr "再定義で"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "On Search Screen default to \"All Fields\""
+msgstr "\"すべてのフィールド\"の検索画面のデフォルトで"
+
+# Use: Field_Prompt 
+#  id:    Panel: SaveAsPnlScript:SaveAsPnlVelocity 
+msgid "Only Data Column"
+msgstr "唯一のデータ列"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pane 
+msgid "Only Listed"
+msgstr "唯一の上場"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Only export Nodes with Data"
+msgstr "データでエクスポート·ノードのみ"
+
+# Use: Message 
+#  id:    Panel:  
+# Tree view only one child is allowed (Protocol buffers, Avro etc) parameter is child segment name
+msgid "Only one {0} is allowed !!!"
+msgstr "のみ1 {0}は許可されている！"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Only positive numbers are allowed"
+msgstr "正の数値のみが許可されてい"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Open"
+msgstr "開く"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_8   Panel:  
+# 
+# English: Open Cobol Big Endian
+msgid "BinFormat/Dialect_8"
+msgstr "エンディアンオープンコボルビッグ"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_4   Panel:  
+# 
+# English: Open Cobol Little Endian (Intel)
+msgid "BinFormat/Dialect_4"
+msgstr "リトルエンディアンオープンCOBOL（インテル）"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_10   Panel:  
+# 
+# English: Open Cobol MVS Big Endian
+msgid "BinFormat/Dialect_10"
+msgstr "エンディアンオープンコボルMVSビッグ"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_6   Panel:  
+# 
+# English: Open Cobol MVS Little Endian (Intel)
+msgid "BinFormat/Dialect_6"
+msgstr "リトルエンディアンオープンCobolのMVS（インテル）"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_7   Panel:  
+# 
+# English: Open Cobol Micro Focus (Intel)
+msgid "BinFormat/Dialect_7"
+msgstr "オープンコボルのMicro Focus（インテル）"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_11   Panel:  
+# 
+# English: Open Cobol Micro Focus Big E
+msgid "BinFormat/Dialect_11"
+msgstr "オープンコボルMicro FocusのビッグE"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_8   Panel:  
+# 
+# English: Open Cobol VB
+msgid "Line_IO_Names_8"
+msgstr "オープンコボル、VB"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_9   Panel:  
+# 
+# English: Open Cobol bs2000 Big Endian
+msgid "BinFormat/Dialect_9"
+msgstr "エンディアンオープンコボルBS2000ビッグ"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_5   Panel:  
+# 
+# English: Open Cobol bs2000 Little Endian (Intel)
+msgid "BinFormat/Dialect_5"
+msgstr "オープンコボルBS2000リトルエンディアン（インテル）"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Open File"
+msgstr "ファイルを開く"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Open Fuzzy / Blank View"
+msgstr "ブランク/ファジィビューを開きます"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Open Output File"
+msgstr "出力ファイルを開く"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Open a view containing Just the Fuzzy / Blank translations"
+msgstr "ただファジィ/ブランク翻訳を含むビューを開く"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: Find 
+# Tbl- Filter Selecton Field Values 4 Tbl- DB-RecordSelection Columns 3 Tbl- LayoutEdit_RecSel 4 Tbl- Filter Selecton Field Values 5
+msgid "Operator"
+msgstr "オペレータ"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Jars
+msgid "Optional Jars"
+msgstr "オプションジャー"
+
+# Use: Message : Button 
+#  id:    Panel:  
+# BoolOps 1
+msgid "Or"
+msgstr "または"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pane 
+msgid "Output Directory"
+msgstr "出力ディレクトリ"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Output File"
+msgstr "出力ファイル"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Output File Structure"
+msgstr "出力ファイルの構造"
+
+# Use: Message 
+#  id:    Panel:  
+# Script Test Screen - Output file (after running script)
+msgid "Output File:"
+msgstr "出力ファイル："
+
+# Use: Field_Prompt 
+#  id:    Panel: Pane:Pnl5SaveFileLayout 
+msgid "Output Format"
+msgstr "出力フォーマット"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Output Format:"
+msgstr "出力フォーマット："
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Output Numeric Format"
+msgstr "出力の数値書式"
+
+# Use: Column_Heading : Frame_Heading 
+#  id:    Panel:  
+msgid "PO List"
+msgstr "POのリスト"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 7
+msgid "Parameter"
+msgstr "パラメーター"
+
+# Use: Column_Heading : Field_Hint 
+#  id:    Panel:  
+# Tbl- Create_Record_Tree 1
+msgid "Parent Record"
+msgstr "親レコード"
+
+# Use: Field_Prompt 
+#  id:    Panel: RcdExtra:CsvSelectionPanel 
+msgid "Parser"
+msgstr "パーザー"
+
+# Use: External 
+#  id: Csv_Parsers_1   Panel:  
+# 
+# English: Parser - Matching Quotes
+msgid "Csv_Parsers_1"
+msgstr "パーサー - マッチング相場"
+
+# Use: External 
+#  id: Csv_Parsers_4   Panel:  
+# 
+# English: Parser - Matching Quotes Column names in quotes
+msgid "Csv_Parsers_4"
+msgstr "パーサー - 引用符でマッチング相場列名"
+
+# Use: External 
+#  id: Csv_Parsers_2   Panel:  
+# 
+# English: Parser - Quotes based on field Type
+msgid "Csv_Parsers_2"
+msgstr "パーサー - フィールドの種類に基づいて引用"
+
+# Use: External 
+#  id: Csv_Parsers_5   Panel:  
+# 
+# English: Parser - Quotes based on field Type, Column names in quotes
+msgid "Csv_Parsers_5"
+msgstr "パーサー - 引用符で囲まれたフィールドの型、列の名前に基づいて引用"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: EditJdbcParamsPanel 
+# Tbl- PropsEd_JDBC 5
+msgid "Password"
+msgstr "パスワード"
+
+# Use: Action : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 6
+msgid "Paste"
+msgstr "貼り付ける"
+
+# Use: Action : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 7
+msgid "Paste Prior"
+msgstr "前貼り"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Paste Record(s)"
+msgstr "貼り付けのレコード（s）"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Paste Record(s) Prior"
+msgstr "前のレコード（複数可）を貼り付ける"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Paste Table (Insert)"
+msgstr "テーブルの貼り付け（挿入）"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Paste Table Overwrite"
+msgstr "テーブルの貼り付けは上書き"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Paste Table (Insert)
+msgid "Paste Table after the current line/row"
+msgstr "現在の行/列の後に表を貼り付け"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Paste Table Overwrite
+msgid "Paste Table over current data (from current position)"
+msgstr "現在のデータの上に表を貼り付けます（現在位置から）"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Paste Record(s)
+msgid "Paste records from the RecordEditor Clipboard after the current record"
+msgstr "現在のレコードの後RecordEditorクリップボードからレコードを貼り付け"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Paste Record(s) Prior
+msgid ""
+"Paste records from the RecordEditor Clipboard before the current record"
+msgstr "現在のレコードの前RecordEditorクリップボードからレコードを貼り付け"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Paste the record into the table, before the current record"
+msgstr "現在のレコードの前に、テーブルにレコードを貼り付け"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Paste the records into the table"
+msgstr "テーブルにレコードを貼り付け"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Please Enter a file name"
+msgstr "ファイル名を入力してください"
+
+# Use: Message 
+#  id: DateFormatDescription   Panel:  
+# 
+# English: Please remember that Date formats are case sensitive:<ul compact>
+# <li>dd   - is 2 character day (lowercase d for day)</li>
+# <li>MM   - is 2 character month (uppercase M for month)</li>
+# <li>MMM  - is 3 character month (uppercase M for month)</li>
+# <li>yy   - is 2 character year (lowercase y for month)</li>
+# <li>yyyy - is 4 character year (lowercase y for month)</li></ul>
+# <br>
+# # use dd/MM/yy for 25/12/98, dd.MM.yyyy for 25.Dec.1998
+msgid "DateFormatDescription"
+msgstr ""
+"<ul compact>：日付形式は大文字と小文字が区別されることを覚えておいてください\n"
+"<LI>\n"
+"ddは - 2桁の日（その日のために小文字のd）である\n"
+"</LI>\n"
+"<LI>\n"
+"MM - 2桁の月です（月の大文字のM）\n"
+"</LI>\n"
+"<LI>\n"
+"MMM - 3文字の月（月の大文字のM）です\n"
+"</LI>\n"
+"<LI>\n"
+"YY - 2桁の年（月の小文字y）は\n"
+"</LI>\n"
+"<LI>\n"
+"YYYY - 4桁の年（月の小文字y）は\n"
+"する</li> </ul>\n"
+"<BR>\n"
+"25.Dec.1998ためDD.MM.YYYY、25/12/98のためのDD / MM / YYを使用"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "Plugins"
+msgstr "プラグイン"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 0
+msgid "Position"
+msgstr "位置"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Position of Child Screen"
+msgstr "子画面の位置"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_36   Panel:  
+# 
+# English: Positive Integer (Big Endian)
+msgid "Tbl_FieldType_36"
+msgstr "正の整数（ビッグエンディアン）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_16   Panel:  
+# 
+# English: Postive Binary Integer
+msgid "Tbl_FieldType_16"
+msgstr "Postiveの進整数"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- layout
+msgid "Prefered"
+msgstr "好ま"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+# RecordBtns 1
+msgid "Previous Record"
+msgstr "前歴"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Primary Message"
+msgstr "主要なメッセージ"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Print"
+msgstr "印刷"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Print Line Details"
+msgstr "回線の詳細を印刷"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Print Selected"
+msgstr "選択を印刷"
+
+# Use: Message 
+#  id:    Panel:  
+# Printing Printing is only available in Java 5 or latter. Old message, I doubt the RecordEditor would run on java 1.4 any more
+msgid "Printing failed (Printing requires Java 1.5)"
+msgstr "印刷（プリントは、Java 1.5が必要）が失敗しました"
+
+# Use: Message 
+#  id:    Panel:  
+# Error creating RecordLayout from Xml (stored in the Program). The name of the Xml will follow this message
+msgid "Problem Xml:"
+msgstr "問題XML："
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Problem loading Copybook: {0}    Message: {1}"
+msgstr "問題を読み込んでコピーブック：{0}メッセージ：{1}"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Program Initial Size"
+msgstr "プログラムの初期サイズ"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Program Log"
+msgstr "プログラムログ"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Program error: Row < 0  ??"
+msgstr "プログラムエラー：行<0？"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EdProps_MainTab_Properties
+msgid "Properties"
+msgstr "プロパティ"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# editProps_DefaultColHeadings 0
+msgid "Property Variable"
+msgstr "プロパティ変数"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Proto Definition"
+msgstr "プロト定義"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- ProtoSearch - Directories to be searched 0
+msgid "Proto Directory"
+msgstr "プロトディレクトリ"
+
+# Use: Field_Prompt 
+#  id:    Panel: ProtoSearchPnl 
+msgid "Proto Directory 1"
+msgstr "プロトディレクトリ1"
+
+# Use: Field_Prompt 
+#  id:    Panel: ProtoSearchPnl 
+msgid "Proto Directory 2"
+msgstr "プロトディレクトリ2"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Proto File"
+msgstr "protoファイル"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- ProtoSearch - Matching Proto definition files 0
+msgid "Proto Filename"
+msgstr "プロトファイル名"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Proto Import Directory"
+msgstr "プロトインポートディレクトリ"
+
+# Use: Frame_Heading : Button 
+#  id:    Panel:  
+msgid "Proto Search"
+msgstr "プロト検索"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOptions_MainTab
+msgid "ProtoBuf"
+msgstr "ProtoBuf"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "ProtoBuf Editor's Discussions"
+msgstr "ProtoBufエディタの議論"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "ProtoBuf Editor's Web Page"
+msgstr "ProtoBufエディタのWebページ"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "ProtoBuf Introduction"
+msgstr "ProtoBufはじめに"
+
+# Use: Message : Field_Prompt 
+#  id:    Panel: GetFiles:OpenFileEditPnl:RcdExtra:Csv 
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "Quote"
+msgstr "引用"
+
+# Use: Field_Prompt 
+#  id:    Panel: CsvSelectionPanel 
+msgid "Quote Character"
+msgstr "引用文字"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_37   Panel:  
+# 
+# English: RM Cobol Comp
+msgid "Tbl_FieldType_37"
+msgstr "RM COBOL COMP"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_38   Panel:  
+# 
+# English: RM Cobol Positive Comp
+msgid "Tbl_FieldType_38"
+msgstr "RMコボル正コンプ"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "ReCsvEditor Documentations"
+msgstr "ReCsvEditorのマニュアル作成"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "ReCsvEditor Forum"
+msgstr "ReCsvEditorフォーラム"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "ReCsvEditor Web Page"
+msgstr "ReCsvEditor Webページ"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Reached the Start of the file, do you want search from the end ??"
+msgstr "ファイルの先頭に到達すると、末尾から検索をしたいですか？"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Reached the end of the file, do you want search from the start ??"
+msgstr "ファイルの終わりに到達した、あなたは最初から検索をしたいですか？"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- PropsEd_JDBC 3
+msgid "Read Only Source"
+msgstr "ソースのみを読む"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Rebuild Tree"
+msgstr "ツリーを再構築"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Rebuild Tree
+msgid "Rebuild the Tree Display"
+msgstr "ツリー表示を再構築"
+
+# Use: Message 
+#  id:    Panel:  
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "RecSep"
+msgstr "RECSEP"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Recalculate Column widths"
+msgstr "再計算の列幅"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Recent Files"
+msgstr "最近使用したファイル"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: LineFrame:Pnl5RecordTable:Pnl6RecordFieldNames 
+# Tbl- Filter Record Selection 0 Tbl- Create_Record_Tree 0
+msgid "Record"
+msgstr "記録"
+
+# Use: External 
+#  id: Tbl_RecordType_0   Panel:  
+# 
+# English: Record - Binary
+msgid "Tbl_RecordType_0"
+msgstr "レコード - バイナリ"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Record Based Tree"
+msgstr "レコードベースのツリー"
+
+# Use: External 
+#  id: Tbl_RecordType_1   Panel:  
+# 
+# English: Record Layout
+msgid "Tbl_RecordType_1"
+msgstr "レコードのレイアウト"
+
+# Use: Field_Prompt 
+#  id:    Panel: StandardGetFiles:Find:GetFiles:OpenFileEditPnl 
+msgid "Record Layout"
+msgstr "レコードのレイアウト"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl5SaveFileLayout 
+msgid "Record Layout Directory"
+msgstr "レコードレイアウトディレクトリ"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Record Layout Tree"
+msgstr "レコードレイアウトツリー"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Record Layout Tree (Selected Records)"
+msgstr "レコードレイアウトツリー（選択されたレコード）"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Record Layout {0} can not be loaded:"
+msgstr "レコードのレイアウト{0}はロードできません："
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Record Layouts"
+msgstr "レコード·レイアウト"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: RecordList:RecordDef 
+# Tbl- LayoutWizard RecordNames 0
+msgid "Record Name"
+msgstr "レコード名"
+
+# Use: Message 
+#  id:    Panel:  
+# Record Selection / Record Insert header
+msgid "Record Selection"
+msgstr "レコードの選択"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Record Selection:"
+msgstr "レコードの選択："
+
+# Use: Field_Prompt 
+#  id:    Panel: RcdExtra 
+msgid "Record Seperator"
+msgstr "レコード·セパレータ"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Record Text Fields"
+msgstr "レコードのテキストフ​​ィールド"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Record Tree Save Directory"
+msgstr "レコード·ツリーの保存ディレクトリ"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl1File:RecordList:RecordDef 
+msgid "Record Type"
+msgstr "レコード形式"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Record View (Selected Records)"
+msgstr "レコードビュー（選択されたレコード）"
+
+# Use: Message 
+#  id:    Panel:  
+# Record Selection copy
+msgid "Record to Copy From"
+msgstr "からコピーするための記録"
+
+# Use: Column_Heading : Frame_Heading 
+#  id:    Panel:  
+msgid "Record:"
+msgstr "記録："
+
+# Use: Combobox_Entry : External 
+#  id: Copybook_Writers_0   Panel:  
+# 
+# English: RecordEditor (Tab) CSV
+msgid "Copybook_Writers_0"
+msgstr "RecordEditor（タブ）のCSV"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_5   Panel:  
+# 
+# English: RecordEditor Csv Copybook (Comma Seperator)
+msgid "CopybookLoaderFactory_5"
+msgstr "RecordEditorコピーブックCSV（カンマSEPERATOR）"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "RecordEditor Documentation"
+msgstr "RecordEditorドキュメント"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "RecordEditor Forum"
+msgstr "RecordEditorフォーラム"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "RecordEditor How To"
+msgstr "どのようにするにはRecordEditor"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "RecordEditor Manual"
+msgstr "RecordEditorマニュアル"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_6   Panel:  
+# 
+# English: RecordEditor Tab Copybook (Tab Seperator)
+msgid "CopybookLoaderFactory_6"
+msgstr "RecordEditorタブコピーブック（タブSEPERATOR）"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "RecordEditor Web Page"
+msgstr "RecordEditor Webページ"
+
+# Use: Combobox_Entry : External 
+#  id: Copybook_Writers_1   Panel:  
+# 
+# English: RecordEditor XML
+msgid "Copybook_Writers_1"
+msgstr "RecordEditor XML"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_2   Panel:  
+# 
+# English: RecordEditor XML Copybook
+msgid "CopybookLoaderFactory_2"
+msgstr "RecordEditor XMLのお手本"
+
+# Use: Message 
+#  id:    Panel:  
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "RecordName"
+msgstr "RecordNameの"
+
+# Use: Message 
+#  id:    Panel:  
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "RecordStyle"
+msgstr "RecordStyle"
+
+# Use: Message 
+#  id:    Panel:  
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "RecordType"
+msgstr "RECORDTYPE"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Redisplay Tree"
+msgstr "再表示ツリー"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Reformat via Velocity Template"
+msgstr "Velocityテンプレートを経由して再フォーマット"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Refresh"
+msgstr "リフレッシュ"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Reload from DB"
+msgstr "DBからリロード"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Reload values - ie abandon any changes"
+msgstr "値を再ロードする - すなわち、任意の変更を破棄"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Remove Child Record"
+msgstr "子レコードを削除する"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Remove Child Record
+msgid "Remove the linked Child Record from the current screen"
+msgstr "現在の画面からリンクされている子レコードを削除する"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Rename Search btn"
+msgstr "名前の変更検索BTN"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Repeat Record"
+msgstr "レコードを繰り返し"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Repeat Record
+msgid "Repeat the record under the cursor"
+msgstr "カーソルの下のレコードを繰り返し"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Replace"
+msgstr "置き換える"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Replace All"
+msgstr "すべて置換"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Replace Find"
+msgstr "検索、置換"
+
+# Use: Field_Prompt 
+#  id:    Panel: Find 
+msgid "Replace With"
+msgstr "置換後の文字列"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Reset Value"
+msgstr "値をリセット"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Retrieve Screen size"
+msgstr "画面サイズを取得する"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-Table Columns 0
+msgid "Row Key"
+msgstr "行キー"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Run"
+msgstr "実行"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Run Copy"
+msgstr "コピーを実行する"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Run Copy Dialog"
+msgstr "[コピー]ダイアログを実行する"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Run Dialog"
+msgstr "ダイアログを実行"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Run Saved Copy File:"
+msgstr "保存されたファイルのコピーを実行します。"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Run Script"
+msgstr "スクリプトの実行"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Run Stored Compare"
+msgstr "比較ストアド実行"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Run Stored Copy"
+msgstr "格納されたコピーを実行"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Run a Script"
+msgstr "スクリプトの実行"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Run a Script
+msgid "Run an external Script (Jython, JRuby, JavaScript etc)"
+msgstr "（Jythonの、JRubyは、Javaスクリプトなど）が外部にスクリプトを実行"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Run the field search Automatically"
+msgstr "自動フィールド検索を実行"
+
+# Use: Action : Button : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 2 File Load/Save 0
+msgid "Save"
+msgstr "保存"
+
+# Use: Message : Menu 
+#  id:    Panel:  
+msgid "Save ..."
+msgstr "保存..."
+
+# Use: Action : Frame_Heading : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 3
+msgid "Save As"
+msgstr "名前を付けて保存"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordEditor Exit, check if user wants to save the changed file
+msgid "Save Changes to file: {0}"
+msgstr "ファイルへの変更を保存します：{0}"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Save Copybooks as Xml"
+msgstr "xmlとしてコピーブックを保存"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Properties
+msgid "Save Directories"
+msgstr "ディレクトリを保存"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Save Failed:"
+msgstr "保存に失敗しました："
+
+# Use: Message 
+#  id:    Panel:  
+# File save failed in the rename step
+msgid "Save Failed: File Rename Failed"
+msgstr "保存に失敗しました：ファイル名の変更に失敗しました"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Save Field Sequence"
+msgstr "フィールドの順序を保存"
+
+# Use: Field_Prompt : Button 
+#  id:    Panel: CmpWizardFinal:CopyWizardFinalPnl 
+msgid "Save File"
+msgstr "ファイルの保存"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Save File Description as Xml"
+msgstr "XMLとしてファイル内容を保存します"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Save Layout as XML
+msgid "Save Layout as RecordEditor XML"
+msgstr "RecordEditor XMLとしてレイアウトを保存"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Save Layout as XML"
+msgstr "XMLとしてレイアウトを保存"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Save Tree as XML"
+msgstr "XMLとしてツリーを保存"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordEditor Exit, check if user wants to save the changed file
+msgid "Save changes"
+msgstr "変更を保存"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Save the Current record back to the DB (if no errors)"
+msgstr "（エラーがなければ）戻ってDBに現在のレコードを保存する"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Save the current layout under a new name"
+msgstr "新しい名前で、現在のレイアウトを保存"
+
+# Use: Button 
+#  id:    Panel:  
+# Directory Load/Save 0
+msgid "Save to Directory"
+msgstr "ディレクトリに保存する"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Save to Xml"
+msgstr "Xmlに保存"
+
+# Use: Message 
+#  id:    Panel:  
+# (Xml layout, Xml file name appended)
+msgid "Saving"
+msgstr "節約"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Screen Height"
+msgstr "画面の高さ"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "Screen Properties"
+msgstr "画面のプロパティ"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Screen Width"
+msgstr "スクリーン幅"
+
+# Use: Field_Prompt : Tab_Heading 
+#  id:    Panel: SaveAsPnlScript 
+# ExportTab 5
+msgid "Script"
+msgstr "スクリプト"
+
+# Use: Field_Prompt 
+#  id:    Panel: SaveAsPnlScript 
+msgid "Script Language"
+msgstr "スクリプト言語"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Script Test Panel"
+msgstr "スクリプトのテストパネル"
+
+# Use: Message 
+#  id:    Panel:  
+msgid ""
+"Script execution failed !!! Execution of an external script (Javascript, "
+"jython etc failed)"
+msgstr "スクリプトの実行に失敗しました！外部スクリプトの実行（Javaスクリプトは、Jythonなどの障害が発生した）"
+
+# Use: Message 
+#  id:    Panel:  
+# Script Test Screen - Script (Jython / Javascript etc) run
+msgid "Script {0} run  !!!"
+msgstr "スクリプトは{0}は実行！"
+
+# Use: Field_Prompt 
+#  id:    Panel: Find:Pnl5RecordTable:Pnl3Table 
+msgid "Search For"
+msgstr "を検索"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Search: All Fields"
+msgstr "検索：すべてのフィールド"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Select"
+msgstr "選択する"
+
+# Use: Message 
+#  id:    Panel:  
+# Select the Record to Insert in Tree-Table insert (applies to Avro / protobuf / Xml + possible others)
+msgid "Select the Record to Insert"
+msgstr "挿入するレコードを選択"
+
+# Use: Message 
+#  id:    Panel:  
+# Unknown File Format - file structure selected is invalid in the Unknown-Format-Reader
+msgid "Selected File Structue is not supported here"
+msgstr "選択したファイルStructueはここでサポートされていません"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- File SelectionOptions Combo- File SelectionOptions 1
+msgid "Selected Records"
+msgstr "選択されたレコード"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 9
+msgid "Set the length based on Current Layout"
+msgstr "現在のレイアウトに基づいて長さを設定する"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Should the program check for binary Fixed Width Files ???"
+msgstr "プログラムはバイナリ固定幅のファイルをチェックする必要がありますか？？"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Show/Hide Fields 1
+msgid "Show"
+msgstr "見せる"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Show / Hide Fields"
+msgstr "フィールドを表示/非表示"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Show Child Record"
+msgstr "子レコードを表示する"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Show Child Record at the bottom of the list"
+msgstr "リストの一番下に子レコードを表示する"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Show Child Record on the Right hand side of the screen"
+msgstr "画面の右側に子レコードを表示する"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Show Column"
+msgstr "カラムを表示"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl3RecordTypeMF:Pnl5RecordTable:Pnl3Table:Pnl3RecordType 
+msgid "Show Hex"
+msgstr "六角を表示"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Show invalid Records
+msgid "Show Invalid (incomplete) Records (Messages)"
+msgstr "無効（不完全）レコード（メッセージ）を表示する"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Show Proto Definition"
+msgstr "プロトの定義を表示する"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Show RecordEditor Tips"
+msgstr "表示RecordEditorヒント"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Show RecordEditor Tips on program startup"
+msgstr "プログラムの起動時にRecordEditorのヒントを表示する"
+
+# Use: Field_Prompt 
+#  id:    Panel: SaveAsPnlScript:SaveAsPnlVelocity 
+msgid "Show Table Border"
+msgstr "テーブルの枠線を表示する"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Show all export panels"
+msgstr "すべてのエクスポートパネルを表示"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Show all export panels on the export Screen"
+msgstr "エクスポート画面上のすべての輸出パネルを表示"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Show in Hints Dialog"
+msgstr "ヒントダイアログの表示"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Show invalid Records"
+msgstr "無効なレコードを表示"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Show {0} Fields"
+msgstr "表示{0}フィールズ"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Significant chars 1"
+msgstr "重要な文字1"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Significant chars 2"
+msgstr "重要な文字2"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Significant chars 3"
+msgstr "重要な3文字"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Single Layout Compare"
+msgstr "単一のレイアウト比較"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Single PO Record"
+msgstr "単一のPO記録"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Single Table"
+msgstr "単一表"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Size of the program when it opens"
+msgstr "それが開き、プログラムのサイズ"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Sort"
+msgstr "ソート"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Sort Options"
+msgstr "ソートオプション"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Sort Tree Save Directory"
+msgstr "並べ替えツリー保存先フォルダ"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Sorted Field Tree"
+msgstr "ソートフィールドツリー"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: EditJdbcParamsPanel 
+# Tbl- PropsEd_JDBC 2
+msgid "Source"
+msgstr "ソース"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Update Csv File Format 4
+msgid "Source Column"
+msgstr "ソース列"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: EditDateTypes:EditJdbcParamsPanel 
+# Tbl- PropsEd_JDBC 0
+msgid "Source Name"
+msgstr "ソース名"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Space to be left at the Right of the screen."
+msgstr "スペースは、画面の右側のままにしておくことができます。"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Space to be left at the bottom of the screen."
+msgstr "スペースは、画面の一番下におくことができます。"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Space to be left at the left of the screen."
+msgstr "スペースは、画面の左側のままにしておくことができます。"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Space to be left at the top of the screen."
+msgstr "スペースは画面の上部に残されています。"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EdProps_MainTab_Special Formats
+msgid "Special Formats"
+msgstr "特殊フォーマット"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Split Copybook"
+msgstr "スプリットコピーブック"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Standard Colors"
+msgstr "標準色"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Combo Options 0
+msgid "Standard Combo"
+msgstr "標準コンボ"
+
+# Use: Frame_Heading : Field_Prompt 
+#  id:    Panel:  
+msgid "Standard Copy"
+msgstr "標準のコピー"
+
+# Use: Field_Prompt 
+#  id:    Panel: ProtoSearchPnl 
+msgid "Standard Directories:"
+msgstr "標準のディレクトリ："
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Single_Record 1 Tbl- LayoutWizard Field definition 1 Tbl- LayoutWizard Record Selection Fields 1
+msgid "Start"
+msgstr "スタート"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Start Searching the file"
+msgstr "ファイルの検索を開始"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+# RecordBtns 0
+msgid "Start of File"
+msgstr "ファイルの先頭"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Starts With"
+msgstr "で始まる"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Storing chunks on Disk"
+msgstr "ディスク上の保管チャンク"
+
+# Use: Message 
+#  id:    Panel:  
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "Structure"
+msgstr "構造"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Sum Operators 1
+msgid "Sum"
+msgstr "和"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: LayoutEdit_RecordSelection
+msgid "Summary"
+msgstr "要約"
+
+# Use: Action 
+#  id:    Panel:  
+msgid ""
+"Swap the position of Child Record Screen between the Bottom and right hand "
+"side of the screen"
+msgstr "画面の下部と右側の間に子レコード画面の位置を入れ替える"
+
+# Use: Message 
+#  id:    Panel:  
+# Error (probably syntax ?) occured when running a velocity template
+msgid "Syntax error in template"
+msgstr "テンプレートの構文エラー"
+
+# Use: Message : Column_Heading : Field_Prompt 
+#  id:    Panel: Pnl7SaveDbLayout:StandardGetFiles:RecordList:GetFiles:ComboPnl:OpenFileEditPnl:RecordDef 
+# Field on RecordLayout Create/Edit screen - used in message Tbl- DB-Combo Columns 0
+msgid "System"
+msgstr "システム"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Jars
+msgid "System Jars"
+msgstr "システムジャー"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_4   Panel:  
+# 
+# English: Tab CSV (names first line)
+msgid "CopybookLoaderFactory_4"
+msgstr "タブのCSV（名前の最初の行）"
+
+# Use: Message 
+#  id:    Panel:  
+# LayoutEditor - Table details are missing ???
+msgid "Table Details have not been defined"
+msgstr "テーブルの詳細が定義されていない"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Table Display"
+msgstr "テーブル表示"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: TableListPnl 
+# Tbl- DB-TableList Columns 0
+msgid "Table Id"
+msgstr "テーブルID"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: TableListPnl 
+# Tbl- DB-TableList Columns 1
+msgid "Table Name"
+msgstr "テーブル名"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Table Type:"
+msgstr "テーブルタイプ："
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Table View (Selected Records)"
+msgstr "テーブルビュー（選択されたレコード）"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Table per Row"
+msgstr "行ごとのテーブル"
+
+# Use: Column_Heading : Frame_Heading 
+#  id:    Panel:  
+msgid "Table:"
+msgstr "表："
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Template File"
+msgstr "テンプレートファイル"
+
+# Use: Button : Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Properties
+msgid "Test"
+msgstr "テスト"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Test Driver"
+msgstr "テストドライバー"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Test Mode"
+msgstr "テストモード"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- LayoutEdit_RecSel 5
+msgid "Test Value"
+msgstr "試験値"
+
+# Use: Column_Heading : Combobox_Entry 
+#  id:    Panel:  
+# Tbl- Single_Record 4 Combo- Csv Field Types 0 Tbl- Single_Record 5
+msgid "Text"
+msgstr "テキスト"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_1   Panel:  
+# 
+# English: Text IO
+msgid "Line_IO_Names_1"
+msgstr "テキストIO"
+
+# Use: External 
+#  id: Line_IO_Names_90   Panel:  
+# 
+# English: Text IO (Unicode)
+msgid "Line_IO_Names_90"
+msgstr "テキストIO（ユニコード）"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_9   Panel:  
+# 
+# English: Text IO (byte Based)
+msgid "Line_IO_Names_9"
+msgstr "テキストIO（バイトベース）"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "The Directory where Cobol Copybooks are stored."
+msgstr "COBOLコピーブックが保存されるディレクトリ。"
+
+# Use: Message 
+#  id:    Panel:  
+# Dialog box to see if user wish's to continue filtering after limit has been reached
+msgid "The Filter limit of {0} has been reached, do you wish to continue?"
+msgstr "{0}のフィルタの限界に達しました、あなたは続けたいのですか？"
+
+# Use: Message 
+#  id: LangRestart   Panel:  
+# 
+# English: The Language has been changed to {0}, you need to restart the RecordEditor, for the change to come into affect.
+msgid "LangRestart"
+msgstr "言語は{0}に変更されました、あなたは影響を与えに来て変化のため、RecordEditorを再起動する必要があります。"
+
+# Use: Message 
+#  id: TranslationStatus   Panel:  
+# 
+# English: The RecordEditor is currently using text converted from English using Google Translate. This translation is intended to give a Translator a base to work with rather than in the RecordEditor. Automatic translation (like Google Translate) is never great, but in this case it is further complicated by Html tags which causes further problems. If you speak English and have the time, please correct the translation for other people.
+msgid "TranslationStatus"
+msgstr ""
+"RecordEditorは現在、Google翻訳を使って、英語から変換されたテキストを使用しています。\n"
+"この翻訳は、翻訳者にむしろRecordEditorよりで動作するように基盤を与えることを意図します。\n"
+"自動翻訳（Google翻訳など）、偉大なことはありしかし、この場合は、\n"
+"さらにさらに問題を引き起こすHTMLタグによって複雑になる。\n"
+"あなたが英語を話すと時間があれば、他の人のための翻訳を修正してください。"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "The default Binary Encoding"
+msgstr "デフォルトのバイナリエンコーディング"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "The default Database to use"
+msgstr "使用するデフォルトのデータベース"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "The default IO Routine to use"
+msgstr "使用するデフォルトのIOルーチン"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "The default copybook reader"
+msgstr "デフォルトコピーブックリーダー"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "The default copybook writer"
+msgstr "デフォルトのコピーブックのライター"
+
+# Use: Message 
+#  id: UpgradeDbHint   Panel:  
+# 
+# English: The options available on this screen are<ol compact>
+# <li><font COLOR=Blue>Upgrade the DB to <b> the latest version of the Databases</b></font> 
+# # <p>This option should be used <b>only once</b> when using upgrade package
+# <li>Update the Record Seperator to <font COLOR=Blue>default</font>. Again this should only be done once.</ol>
+msgid "UpgradeDbHint"
+msgstr ""
+"この画面で利用できるオプションは、<ol compact>アール\n"
+"<LI>\n"
+"<font COLOR=Blue>は、データベースの最新バージョンへのDBをアップグレード下さい</font>\n"
+"<P>\n"
+"アップグレードパッケージを使用する場合は、このオプションは一度だけ使用されるべきである\n"
+"<LI>\n"
+"<font COLOR=Blue>デフォルトに</"
+"font>にレコードセパレータを更新します。繰り返しになりますが、これは一度だけ実行する必要があります</OL>"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "The specified file was not a filter definition"
+msgstr "指定されたファイルは、フィルタ定義ではありませんでした"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid ""
+"This option adds >> to the search button (on the find search screen) to "
+"better identifier it in testing"
+msgstr "このオプションは、テストで良い識別子それに（検索画面）検索ボタンに追加>>"
+
+# Use: Message 
+#  id: FileWizard_6_RecordNames   Panel:  
+# 
+# English: This screen will display the Column Details (for each Record) and allow you to change them. <br>
+# # The Record controls which Records columns are displayed.
+msgid "FileWizard_6_RecordNames"
+msgstr ""
+"この画面は、[列の詳細を表示します（各レコードの）と、それらを変更することができます。\n"
+"<BR>\n"
+"列が表示されるレコードのレコードを制御します。"
+
+# Use: Message 
+#  id: FileWizard_4_csv   Panel:  
+# 
+# English: This screen will display the Column Details and allow you to change them.
+msgid "FileWizard_4_csv"
+msgstr "この画面は、[列の詳細を表示し、それらを変更することができます。"
+
+# Use: Message 
+#  id: FileWizard_4   Panel:  
+# 
+# English: This screen will display the Column Details and allow you to change them.
+msgid "FileWizard_4"
+msgstr "この画面は、[列の詳細を表示し、それらを変更することができます。"
+
+# Use: Message 
+#  id: FileWizard_3b   Panel:  
+# 
+# English: This screen will display the first 60 lines of the file. <br>
+# # Indicate the <i>start</i> of a <b>field</b> by clicking on the starting column<br>
+# # Each succesive <b>field</b> will have alternating background color
+# # <p>To remove a <b>field</b> click on the starting column again.
+msgid "FileWizard_3b"
+msgstr ""
+"この画面には、ファイルの最初の60行を表示します。\n"
+"<BR>\n"
+"開始列をクリックして、フィールドの開始を示す\n"
+"<BR>\n"
+"それぞれの有効なフィールドは、背景色を交互にしているでしょう\n"
+"<P>\n"
+"再び開始列のフィールドをクリックして削除します。"
+
+# Use: Message 
+#  id: FileWizard_3mf   Panel:  
+# 
+# English: This screen will display the first 60 lines of the file. <br>
+# # Indicate the <i>start</i> of the <b>Record-Type field</b> by clicking on the starting column<br>
+# # Then click on the start of the Next Field.<br>
+# # To remove a position click on it again.
+msgid "FileWizard_3mf"
+msgstr ""
+"この画面には、ファイルの最初の60行を表示します。\n"
+"<BR>\n"
+"開始列をクリックして、レコード·タイプのフィールドの開始を示す\n"
+"<BR>\n"
+"次のフィールドの開始をクリックします。\n"
+"<BR>\n"
+"位置を削除するには、もう一度クリックします。"
+
+# Use: Message 
+#  id: FileWizard_3   Panel:  
+# 
+# English: This screen will display the first 60 lines of the file. <br>
+# # Indicate the <i>start</i> of the <b>Record-Type field</b> by clicking on the starting column<br>
+# # Then click on the start of the Next Field.<br>
+# # To remove a position click on it again.
+msgid "FileWizard_3"
+msgstr ""
+"この画面には、ファイルの最初の60行を表示します。\n"
+"<BR>\n"
+"開始列をクリックして、レコード·タイプのフィールドの開始を示す\n"
+"<BR>\n"
+"次のフィールドの開始をクリックします。\n"
+"<BR>\n"
+"位置を削除するには、もう一度クリックします。"
+
+# Use: Message 
+#  id: FileWizard_1   Panel:  
+# 
+# English: This wizard will build a <b>Record-Layout</b> from a sample file. 
+# # <p> you need to enter a<ol>
+# <li>sample file in the new layout</li>
+# <li>the file structure (use <b>Default Reader</b> for standard windows / Unix files)  for unknown file format use <b>Unknown Format</b></li>
+# <li>the new layout name</li>
+msgid "FileWizard_1"
+msgstr ""
+"このウィザードでは、サンプル·ファイルからのレコード·レイアウトを構築していきます。\n"
+"<P>\n"
+" あなたは<OL>を入力する必要が\n"
+"<LI>\n"
+"新しいレイアウトのサンプルファイル\n"
+"</LI>\n"
+"<LI>\n"
+"未知のファイル形式を使用し未知の形式のファイル構造（標準のWindows / Unixのファイルのデフォルトのリーダーを使用してください）\n"
+"</LI>\n"
+"<LI>\n"
+"新しいレイアウト名\n"
+"</LI>"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Tip List"
+msgstr "ヒントリスト"
+
+# Use: External 
+#  id: Line_IO_Names_102   Panel:  
+# 
+# English: Tip Properties
+msgid "Line_IO_Names_102"
+msgstr "ヒントプロパティ"
+
+# Use: Message 
+#  id:    Panel:  
+# There is a limit on the number of rows that can be displayed in column display (note: in column display, rows become columns)
+msgid "To Many Rows Selected for ColumnDisplay"
+msgstr "ColumnDisplayのために選択された多くの行へ"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Tree"
+msgstr "ツリー"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-ChildRecords columns 4
+msgid "Tree Parent"
+msgstr "ツリーの親"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Tree Table"
+msgstr "ツリー表"
+
+# Use: Column_Heading : Frame_Heading 
+#  id:    Panel:  
+msgid "Tree View"
+msgstr "ツリー表示"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Trying to create directory {0} file already exists of the same name"
+msgstr "{0}ファイルは、同じ名前の既存のディレクトリを作成しようと"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Two Layout Compare"
+msgstr "2つのレイアウトは、比較"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: Pnl3RecordType 
+# Tbl- Update Csv File Format 2 Tbl- LayoutWizard Field definition 3 Tbl- LayoutWizard Record Selection Fields 3 Tbl- Single_Record 3
+msgid "Type"
+msgstr "タイプ"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- PropEd_DataTypes 0
+msgid "Type Name"
+msgstr "タイプ名"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Type of Definition"
+msgstr "定義の型"
+
+# Use: Message 
+#  id:    Panel:  
+# The RecordEditor stores Copy / filter / sort information as Xml using the jibx package; The Editor has tried to read a Xml file with jibx and failed !!!; jibx jar could be missing or there was a jibx internal error
+msgid "Unable to load saved definition: jibx not present ???"
+msgstr "JiBXは存在しません：？保存した定義を読み込むことができません？"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Uncheck Fields"
+msgstr "フィールドのチェックを外し"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Uncheck Records"
+msgstr "レコードのチェックを外し"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Undock all Tabs"
+msgstr "すべてのタブのドッキングを解除"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Undock tab"
+msgstr "タブのドッキングを解除"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Unfix Column"
+msgstr "外すコラム"
+
+# Use: External 
+#  id: Line_IO_Names_55   Panel:  
+# 
+# English: Unicode Name on 1st line
+msgid "Line_IO_Names_55"
+msgstr "第一ライン上でUnicode名"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Union Field:"
+msgstr "ユニオンフィールド："
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_21   Panel:  
+# 
+# English: Unknown Format (Choose details at run time)
+msgid "Line_IO_Names_21"
+msgstr "未知のフォーマット（実行時に詳細を選択してください）"
+
+# Use: Combobox_Entry 
+#  id: Line_IO_Names_19   Panel:  
+# 
+# English: Unknown Format (Choose details at run time)
+msgid "Line_IO_Names_19"
+msgstr "未知のフォーマット（実行時に詳細を選択してください）"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Update Csv Columns"
+msgstr "CSVの列を更新する"
+
+# Use: Message 
+#  id:    Panel:  
+# Generic Database update message, Database update has failed, Exception details are appended / follow
+msgid "Update Failed:"
+msgstr "アップデートに失敗しました："
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Update Screen Columns"
+msgstr "画面の列を更新する"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Upgrade"
+msgstr "アップグレード"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Upgrade Database Tables"
+msgstr "データベース表のアップグレード"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Upgrade from 0.52.1/0.53 to version 0.55"
+msgstr "0.52.1/0.53からバージョン0.55へのアップグレード"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Upgrade the DB from 0.55 - 0.61b to version 0.62"
+msgstr "0.61bバージョン0.62 - 0.55からDBをアップグレード"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Upgrade the DB from 0.62->69* to version 0.69.2c"
+msgstr "バージョン0.69.2cに* 0.62 - > 69からDBをアップグレード"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Upgrade the DB from 0.69* to version 0.80"
+msgstr "* 0.69からバージョン0.80へのDBをアップグレード"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Upgrade the DB from {0} to version {1}"
+msgstr "{0}バージョン{1}からDBをアップグレード"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Use"
+msgstr "使用"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Use Extended Proto Lookup"
+msgstr "拡張プロトルックアップを使用"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Use File Wizard when no Layout is known for the file"
+msgstr "layoutがファイルのために知られていない場合にファイルウィザードを使用"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Use Fixed Length Model"
+msgstr "固定長モデルを使用"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Use Fixed Length Model (Used in Testing)"
+msgstr "固定長モデルを使用します（テストで使用）"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Use Large VB Model"
+msgstr "ラージVBのモデルを使用"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Use Large VB Model (Default Yes)"
+msgstr "ラージVBのモデルを使用します（デフォルト：y）"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Use New Tree Expansion"
+msgstr "新しいツリー拡張を使用して、"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Use file Wizard"
+msgstr "ファイル·ウィザードを使用"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditJdbcParamsPanel 
+msgid "User"
+msgstr "ユーザー"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "User Formats"
+msgstr "ユーザフォーマット"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "User Jars"
+msgstr "ユーザージャー"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "User Selected Copybook"
+msgstr "ユーザーが選択したコピーブック"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "User Types"
+msgstr "ユーザータイプ"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "User supplied protoc option 0"
+msgstr "ユーザーはprotocオプション0を供給"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "User supplied protoc option 1"
+msgstr "ユーザーはprotocオプション1を供給"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "User supplied protoc option 2"
+msgstr "ユーザーはprotocオプション2を供給"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "User supplied protoc option 3"
+msgstr "ユーザーはprotocオプション3を供給"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "User supplied protoc option 4"
+msgstr "ユーザーはprotocオプション4を供給"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "User supplied protoc option 5"
+msgstr "ユーザーはprotocオプション5を供給"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "User supplied protoc option 6"
+msgstr "ユーザーはprotocオプション6を供給"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "User supplied protoc option 7"
+msgstr "ユーザーはprotocオプション7を供給"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Utilities"
+msgstr "公益事業"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel:  
+# Tbl- Filter Selecton Field Values 5 Tbl- Filter Selecton Field Values 6
+msgid "Value"
+msgstr "値"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Value is to big !! {0} > {1}"
+msgstr "値が大きいことです！ {0}> {1}"
+
+# Use: Error 
+#  id:    Panel:  
+# (numeric integer fields)
+msgid "Value is to big for field {0} > {1} {2} ~ {3} {4}"
+msgstr "値は、フィールド{0}> {1} {2}〜{3} {4}のために大きなことです"
+
+# Use: Error 
+#  id:    Panel:  
+# (Cobol Sign seperate field)
+msgid "Value is too large to fit field"
+msgstr "値は、フィールドのサイズが大きすぎます"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# ExportTab 7
+msgid "Velocity"
+msgstr "速度"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Velocity Export Failed:"
+msgstr "Velocityのエクスポートに失敗しました："
+
+# Use: Field_Prompt 
+#  id:    Panel: Pane:SaveAsPnlVelocity:GetFiles 
+msgid "Velocity Template"
+msgstr "Velocityテンプレート"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Velocity Template directory (Copybooks)"
+msgstr "Velocityテンプレートディレクトリ（コピーブック）"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Velocity Template directory (Editor)"
+msgstr "Velocityテンプレートディレクトリ（編集）"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "View"
+msgstr "ビュー"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "View Record Selections Tree"
+msgstr "レコード選択ツリーを見る"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "View Selected Records"
+msgstr "選択したレコードを表示"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Warn on Structure change"
+msgstr "構造変化に警告する"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Warn the user before deleteing Selected Rows using the delete key"
+msgstr "Deleteキーを使用して、選択された行をdeleteing前にユーザーに警告"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Warn the user if Binary-Fields and Structure=Default"
+msgstr "バイナリフィールドと構造=デフォルトとなった場合にユーザに警告"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Warn when deleteing rows via delete key"
+msgstr "削除キーを介して行をdeleteingときに警告"
+
+# Use: Message 
+#  id:    Panel:  
+# Csv Writer, occurs when a field contains the field seperator and no quote character is specified
+msgid "Warning: on line {0} Field {1} Seperator {2} Dropped"
+msgstr "警告：行{0}フィールドに{1} SEPERATOR {2}はアイテムドロップ"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Weather to Run the field search Automatically or not"
+msgstr "自動またはしないフィールド検索を実行するための天気"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Weather we are running automated Tests (Marathon ?) or not"
+msgstr "天候、自動テストを実行して（マラソン？）またはされていません"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "What to Save"
+msgstr "何保存する"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "White Background"
+msgstr "白地"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- File SelectionOptions 0
+msgid "Whole View"
+msgstr "全図"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Window"
+msgstr "ウィンドウ"
+
+# Use: Message 
+#  id:    Panel:  
+# Export Screen - generic write error the exception message will be appended
+msgid "Write Failed"
+msgstr "書き込みに失敗しました"
+
+# Use: Message 
+#  id:    Panel:  
+# Export as Html - failed the exception message will be appended
+msgid "Writing HTML File failed:"
+msgstr "HTMLファイルを書いて失敗しました："
+
+# Use: External 
+#  id: Tbl_RecordType_6   Panel:  
+# 
+# English: XML
+msgid "Tbl_RecordType_6"
+msgstr "XMLの"
+
+# Use: External 
+#  id: Line_IO_Names_62   Panel:  
+# 
+# English: XML - Build Layout
+msgid "Line_IO_Names_62"
+msgstr "XML - レイアウトを構築"
+
+# Use: External 
+#  id: Line_IO_Names_61   Panel:  
+# 
+# English: XML - Existing Layout
+msgid "Line_IO_Names_61"
+msgstr "XML - 既存のレイアウト"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_8   Panel:  
+# 
+# English: XML File
+msgid "CopybookLoaderFactory_8"
+msgstr "XMLファイル"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_116   Panel:  
+# 
+# English: XML Name Tag
+msgid "Tbl_FieldType_116"
+msgstr "XMLの名札"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "XML Tree (Selected Records)"
+msgstr "XMLツリー（選択されたレコード）"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# ExportTab 6
+msgid "XSLT Transform"
+msgstr "XSLT変換"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EdProps_MainTab_Xml ExportTab 3
+msgid "Xml"
+msgstr "xmlの"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Xml output File"
+msgstr "XML出力ファイル"
+
+# Use: Field_Prompt 
+#  id:    Panel: SaveAsPnlXslt 
+msgid "Xslt Engine (leave blank for default)"
+msgstr "XSLTエンジン（デフォルトの場合は空白のまま）"
+
+# Use: Field_Prompt 
+#  id:    Panel: SaveAsPnlXslt 
+msgid "Xslt File"
+msgstr "XSLTファイル"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Xml
+msgid "Xslt Jars"
+msgstr "XSLTジャー"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Xml
+msgid "Xslt Options"
+msgstr "XSLTオプション"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Xslt Template directory (Editor)"
+msgstr "XSLTテンプレートディレクトリ（編集）"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Xslt Transform factory class"
+msgstr "XSLT変換ファクトリクラス"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "You Must enter a Length for fixed Length files"
+msgstr "あなたは、固定長ファイルの長さを入力する必要があります"
+
+# Use: Message 
+#  id:    Panel:  
+# Tree view - only one root segment is allowed (Protocol buffers single message)
+msgid "You can not Repeat the root Segment !!!"
+msgstr "あなたは、ルートセグメントを繰り返すことはできません！"
+
+# Use: Message 
+#  id:    Panel:  
+# Tree view - only one root segment is allowed (Protocol buffers single message)
+msgid "You can not add a second root segment !!!"
+msgstr "は、2番目のルートセグメントを追加することはできません！"
+
+# Use: Message 
+#  id:    Panel:  
+# Sort Screen applies to Proto Buffers / Avro Editors
+msgid "You can only sort when all records are of the same type"
+msgstr "すべてのレコードが同じ型であるときにのみ並べ替えることができます"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "You must Enter a filename"
+msgstr "あなたは、ファイル名を入力しなければなりません"
+
+# Use: Error 
+#  id:    Panel:  
+# Layout Wizard ~ multi record files
+msgid "You must define the Fields for all Records. Please update - {0}"
+msgstr "あなたは、すべてのレコードのフィールドを定義する必要があります。更新してください - {0}"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "You must define the field Names in all Records, please update: {0}"
+msgstr "すべてのレコードのフィールド名を定義する必要があり、更新してください：{0}"
+
+# Use: Message 
+#  id:    Panel:  
+# Cobol Copybook analysis
+msgid "You must enter a Cobol Copybook name"
+msgstr "あなたは、COBOLコピーブックの名前を入力する必要があります"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "You must enter a HTML file"
+msgstr "あなたは、HTMLファイルを入力する必要があります"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "You must enter a LayoutName"
+msgstr "あなたはLayoutNameを入力する必要があります"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffer Editor, user must enter a Proto definition file
+msgid "You must enter a Proto Definition File"
+msgstr "あなたは、プロト定義ファイルを入力する必要があります"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordLayout Create/Edit screens. The Record-Name field must be entered
+msgid "You must enter a Record Name"
+msgstr "あなたは、レコード名を入力する必要があります"
+
+# Use: Message 
+#  id:    Panel:  
+# Velocity Export/Copy screen
+msgid "You must enter a Velocity Template file"
+msgstr "あなたはVelocityテンプレートファイルを入力する必要があります"
+
+# Use: Message 
+#  id:    Panel:  
+# Load Xml layouts from a directory
+msgid "You must enter a directory to load layouts from"
+msgstr "あなたからレイアウトをロードするディレクトリを入力する必要があります"
+
+# Use: Message 
+#  id:    Panel:  
+# Export multiple layouts as Xml
+msgid "You must enter a directory to save the layout"
+msgstr "あなたはレイアウトを保存するディレクトリを入力する必要があります"
+
+# Use: Message 
+#  id:    Panel:  
+# Cobol directory load
+msgid "You must enter a directory where cobol copybooks are located"
+msgstr "あなたは、COBOLコピーブックが置かれているディレクトリを入力する必要があります"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "You must enter a input copybook"
+msgstr "あなたが入力ブックを入力する必要があります"
+
+# Use: Message 
+#  id:    Panel:  
+# Goto line number screen - user must enter a line number
+msgid "You must enter a line number"
+msgstr "あなたは、行番号を入力する必要があります"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "You must enter a sample file"
+msgstr "あなたは、サンプルファイルを入力する必要があります"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffer Editor - Error processing proto file exception message added on
+msgid "You must enter a valid Proto File:"
+msgstr "あなたは、有効protoファイルを入力する必要があります。"
+
+# Use: Message 
+#  id:    Panel:  
+# Export/Copy screen, user must specify an output (Export) file name
+msgid "You must enter an Output file"
+msgstr "出力ファイルを入力する必要があります"
+
+# Use: Message 
+#  id:    Panel:  
+# Velocity Copy screen, user must specify an input file
+msgid "You must enter an input file"
+msgstr "あなたが入力ファイルを入力する必要があります"
+
+# Use: Message 
+#  id:    Panel:  
+# Find screen - user must enter text to search for.
+msgid "You must enter text to search for"
+msgstr "あなたは、検索するテキストを入力する必要があります"
+
+# Use: Message 
+#  id:    Panel:  
+# Find screen - user must specify a field when using replace
+msgid "You must specify a specific field when using replace"
+msgstr "置換を使用するときは、特定のフィールドを指定する必要があります"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditIcons 
+msgid "Zip/Jar File"
+msgstr "ZIP / JARファイル"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_0   Panel:  
+# 
+# English: cb2xml XML Copybook (DB)
+msgid "CopybookLoaderFactory_0"
+msgstr "cb2xml XMLのコピーブック（DB）"
+
+# Use: Column_Heading : Combobox_Entry 
+#  id:    Panel:  
+# Tbl- LayoutWizard RecordNames 1 Tbl- Update Csv File Format 5 Combo- LayoutEdit_EndOfLine 0
+msgid "default"
+msgstr "デフォルト"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "get Script"
+msgstr "スクリプトを取得"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "get Template"
+msgstr "テンプレートを取得"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "get Xslt"
+msgstr "XSLTを取得"
+
+# Use: Message 
+#  id:    Panel:  
+# Filename contains the * character - invalid/undessirable on some systems
+msgid "invalid filename (* present) ~"
+msgstr "無効なファイル名（*現在）〜"
+
+# Use: Message 
+#  id:    Panel:  
+# Call to jibx to write a parameter file as Xml has failed
+msgid "jibx- Save to Xml failed:"
+msgstr "XmlにJiBXは、保存に失敗しました："
+
+# Use: Message 
+#  id:    Panel:  
+# Goto line number screen
+msgid "line number must be > 0"
+msgstr "行番号が> 0でなければなりません"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "must be >= 0"
+msgstr "> = 0でなければなりません"
+
+# Use: Field_Prompt 
+#  id:    Panel: Csv 
+msgid "names on first line"
+msgstr "最初の行に表示される名前"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "protoc command"
+msgstr "protocコマンド"
+
+# Use: Field_Prompt 
+#  id:    Panel: CsvSelectionPanel 
+msgid "set Column Types"
+msgstr "列の型を設定する"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "set as Field Name Row"
+msgstr "フィールド名の行として設定"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "space between fields"
+msgstr "フィールドの間にスペース"
+
+# Use: Message 
+#  id:    Panel:  
+# Cobol and Xml directory load functions - the filename entered is not a directory
+msgid "{0} is not a directory !!!"
+msgstr "{0}はディレクトリではありません！"
+
+# Use: External 
+#  id: Csv_Parsers_6   Panel:  
+# 
+# English: Basic - Delimiter all fields
+msgid "Csv_Parsers_6"
+msgstr ""
+
+# Use: External 
+#  id: Csv_Parsers_7   Panel:  
+# 
+# English: Basic - Delimiter all fields + 1
+msgid "Csv_Parsers_7"
+msgstr ""
+
+# Use: Column_Heading : Frame_Heading 
+#  id:    Panel:  
+msgid "Document View"
+msgstr ""
+
+# Use: Field_Prompt 
+#  id:    Panel: SaveAsPnlFileStructure 
+msgid "new File Structure"
+msgstr ""
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Current Line Highlight"
+msgstr "現在の行ハイライト"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Code Folding"
+msgstr "コー​​ドの折りたたみ"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Save File: {0} ?"
+msgstr "ファイルを保存します：{0}？"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Java"
+msgstr "ジャワ"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Animate Bracket Matching"
+msgstr "マッチングブラケットをアニメーション"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Word Wrap"
+msgstr "ワードラップ"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Change File Structure"
+msgstr "ファイル構造を変更"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Python"
+msgstr "パイソン"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Examples"
+msgstr "例"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Allow the user to edit file as Raw Text ??"
+msgstr "ユーザーが生のテキストとしてファイルを編集できるように？"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Save All ..."
+msgstr "すべてを保存..."
+
+# Use: Message 
+#  id:    Panel:  
+msgid "File Format of File {0} changed to {1}"
+msgstr "ファイルのファイル形式{0} {1}に変更"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Tab Lines"
+msgstr "タブライン"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Text View"
+msgstr "テキストビュー"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Run !!!"
+msgstr "実行！"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Allow Editting Raw Text"
+msgstr "生のテキストを製作中許す"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Eclipse"
+msgstr "日食"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Run Script Screen"
+msgstr "スクリプトを実行して、画面"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Mark Occurrences"
+msgstr "出現箇所のマーク"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "IDEA"
+msgstr "IDEA"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Bookmarks"
+msgstr "ブックマーク"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Default (Alternate)"
+msgstr "デフォルト（代替）"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Bean Shell"
+msgstr "ビーンシェル"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Ruby"
+msgstr "ルビー"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "Initial Program Size"
+msgstr "初期プログラムサイズ"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Line Numbers"
+msgstr "行番号"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Text View (Selected Records)"
+msgstr "テキストビュー（選択したレコード）"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "JavaScript"
+msgstr "JavaScriptの"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Anti-Aliasing"
+msgstr "アンチエイリアス処理"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "To Many Rows Selected ({0} > {1}) for ColumnDisplay"
+msgstr "ColumnDisplayための選択の多くの行の（{0}> {1}）へ"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "\n"
+"\n"
+" Error saving file: {0}, message: {1}"
+msgstr " ファイルを保存するエラー：{0}、メッセージ：{1}"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Visual Studio"
+msgstr "Visual Studioの"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Dark"
+msgstr "ダーク"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "File Format of {1} used to read File {0}"
+msgstr "{1} {0}ファイルを読み込むために使用のファイル形式"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_31   Panel:  
+# 
+# English: Mainframe Decimal_Point=','
+msgid "BinFormat/Dialect_31"
+msgstr "メインフレームdecimal_pointを= '、'"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_32   Panel:  
+# 
+# English: Fujitsu Decimal_Point=','
+msgid "BinFormat/Dialect_32"
+msgstr "富士通decimal_pointを= '、'"
+
+# Use: Message 
+#  id: ChgFileStructure   Panel:  
+# 
+# English: <h2>Change File Structure</h2>
+# This option is mainly for <b>Cobol</b> Programmers. It allows you to change the<br>
+# # File format between <b>Text-IO</b> (standard text file - Line Sequential in Cobol),<br>
+# # various <b>VB</b> Formats and <b>Fixed Record Length</b> file format.<br>
+# # You will still need to save the file to make the changes permanent.<br>
+# # 
+# # <p>If you do not understand the above, this option is probably not for you
+msgid "ChgFileStructure"
+msgstr ""
+"<H2>ファイル構造を変更\n"
+"</H2>\n"
+"このオプションは、主にコボルプログラマのためのものです。それはあなたが変更することができます\n"
+"検索\n"
+"テキスト-IO間のファイル形式（標準のテキストフ​​ァイル - COBOLでシーケンシャルライン）、\n"
+"検索\n"
+"さまざまなVB形式と固定レコード長のファイル形式。\n"
+"検索\n"
+"あなたはまだ変更を永続的にファイルを保存する必要があります。\n"
+"検索\n"
+"<P>\n"
+"あなたは上記を理解していない場合、このオプションはあなたのためにおそらくない"
+
+# Use: Message 
+#  id: ExportFSDesc   Panel:  
+# 
+# English: This option exports the file with a new File-Structure
+# This option is most use to Cobol Programers
+# 
+# Mainframe VB* - Mainframe VB files        Fujitsu Variable Binary - Fujitsu Cobol VB 
+# Text IO       - Normal PC/Unix Text file  Fixed Length Binary - Fixed length File (no CR/LF)
+msgid "ExportFSDesc"
+msgstr ""
+"このオプションでは、新しいファイル構造でファイルをエクスポート\n"
+"このオプションは、ほとんどののCOBOLプログラマーに使用される\n"
+"メインフレームVB * - メインフレームVBファイル富士通可変バイナリ - 富士通コボルVB\n"
+"テキストIO - 通常のPC / Unixのテキストフ​​ァイル固定長バイナリ - 固定長ファイル（CR / LFなし）"
+
+# Use: Message 
+#  id: RecordPnl_Warn_03   Panel:  
+# 
+# English: Field: {0}  - Position must be > 0 !!! and not {1}
+msgid "RecordPnl_Warn_03"
+msgstr "フィールド：{0} - 位置は> 0でなければならない！とではない{1}"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_22   Panel:  
+# 
+# English: Num Assumed Decimal (+ve)
+msgid "Tbl_FieldType_22"
+msgstr "numが（+ VE）進想定"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_23   Panel:  
+# 
+# English: Binary Integer (only +ve)
+msgid "Tbl_FieldType_23"
+msgstr "進整数（のみ+ VE）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_24   Panel:  
+# 
+# English: Zero Padded Number with sign=+/-
+msgid "Tbl_FieldType_24"
+msgstr "符号付きのゼロパッド数= + / -"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_25   Panel:  
+# 
+# English: Positive Zero Padded Number
+msgid "Tbl_FieldType_25"
+msgstr "正のゼロパッド数"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_26   Panel:  
+# 
+# English: Zero Padded Number decimal=","
+msgid "Tbl_FieldType_26"
+msgstr "ゼロパッド数小数= \"、\""
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_27   Panel:  
+# 
+# English: Zero Padded Number decimal="," sign=+/-
+msgid "Tbl_FieldType_27"
+msgstr "ゼロのパッド番号進= \"、\"記号= + / -"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_28   Panel:  
+# 
+# English: Zero Padded Number decimal="," (only +ve)
+msgid "Tbl_FieldType_28"
+msgstr "ゼロのパッド番号進= \"、\"（のみ+ VE）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_29   Panel:  
+# 
+# English: Num (Right Justified space padded) +/- sign
+msgid "Tbl_FieldType_29"
+msgstr "テンキー（右詰めスペースパディング）+ / - 記号"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_33   Panel:  
+# 
+# English: Mainframe Packed Decimal (+ve)
+msgid "Tbl_FieldType_33"
+msgstr "メインフレームパック10進数（+ VE）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_39   Panel:  
+# 
+# English: Binary Integer Big Endian (only +ve )
+msgid "Tbl_FieldType_39"
+msgstr "進整数ビッグエンディアン（のみ+ VE）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_42   Panel:  
+# 
+# English: Num (Right Just space padded, "," Decimal)
+msgid "Tbl_FieldType_42"
+msgstr "テンキー（右ただスペースパディング、 \"、\" 10進数）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_43   Panel:  
+# 
+# English: Num (Right Just space padded, "," Decimal) +/- sig
+msgid "Tbl_FieldType_43"
+msgstr "テンキー（パディング右ただスペース、 \"、\" 10進数）+ / - 記号"
+

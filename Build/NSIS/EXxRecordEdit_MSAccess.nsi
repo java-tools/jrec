@@ -95,6 +95,7 @@ Section "MainSection" SEC01
   File "..\General\license_cb2xml.txt"
   File "..\General\LICENSE_chardet.txt"
   File "..\General\LICENSE_of_includedPackages.txt"
+  File "..\General\RSyntaxTextArea.License.txt"
 
 
   SetOverwrite try
@@ -146,11 +147,21 @@ Section "MainSection" SEC01
 
   File "..\Instalation\hsqldb_izpack\lib\JRecord.pack"
   File "..\Instalation\hsqldb_izpack\lib\jibx-run.pack"
-  File "..\Instalation\hsqldb_izpack\lib\PoEditor_re.pack"
+  File "..\Instalation\hsqldb_izpack\lib\rsyntaxtextarea.pack"
   File "..\Instalation\hsqldb_izpack\lib\swingx-subset-1.6.4.pack"
   File "NsisUnpack.jar"
   
   exec '"$JAVA_RUN1" -jar "$INSTDIR\lib\NsisUnpack.jar" $INSTDIR\lib'
+
+
+  SetOverwrite try
+  SetOutPath "$INSTDIR\lib\Extensions"
+  File "..\Instalation\hsqldb_izpack\lib\Extensions\Notes.txt"
+
+  SetOverwrite try
+  SetOutPath "$PROFILE\RecordEditor_MSaccess\Extensions"
+  File "..\Instalation\hsqldb_izpack\lib\Extensions\Notes.txt"
+
 
  
 
@@ -171,7 +182,7 @@ Section "MainSection" SEC01
   SetOutPath "$INSTDIR\lang\Sample"
   File "..\Instalation\GeneralDB\lang\Sample\ReMsgs_Empty.po"
   File "..\Instalation\GeneralDB\lang\Sample\ReMsgs_English.po"
-  File "..\Instalation\GeneralDB\lang\Sample\ReMsgs_tst.po"
+  File "..\Instalation\GeneralDB\lang\Sample\ReMsgs_Tst.po"
 
   SetOverwrite try
   SetOutPath "$INSTDIR\lang\Diagram"
@@ -218,6 +229,7 @@ Section "MainSection" SEC01
   File "..\Instalation\GeneralDB\Docs\HlpRe14.htm"
   File "..\Instalation\GeneralDB\Docs\HlpRe15.htm"
   File "..\Instalation\GeneralDB\Docs\HlpRe16.htm"
+  File "..\Instalation\GeneralDB\Docs\HlpRe17.htm"
   File "..\Instalation\GeneralDB\Docs\CobolEditor.htm"
   File "..\Instalation\GeneralDB\Docs\Example.htm"
   File "..\Instalation\GeneralDB\Docs\ExampleFR.htm"
@@ -262,6 +274,7 @@ Section "MainSection" SEC01
   File "..\Instalation\GeneralDB\Docs\Diagram\Copy_Xml.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\CsvPopup1.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\DatePopup.png"
+  File "..\Instalation\GeneralDB\Docs\Diagram\EditOptBtn.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\Editor_3lHex.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\Editor_FullLine.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\EditProps_SeperateScreens.png"
@@ -344,10 +357,14 @@ Section "MainSection" SEC01
   File "..\Instalation\GeneralDB\Docs\Diagram\Po_MainBottom.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\Po_Properties.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\PreferedOption.png"
+  File "..\Instalation\GeneralDB\Docs\Diagram\Preferences.png"
+  File "..\Instalation\GeneralDB\Docs\Diagram\Preferences_ScriptJar.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\Propereties_Date.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\Propereties_Velocity1.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\Propereties_Velocity2.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\Properties_DefaultDB.png"
+  File "..\Instalation\GeneralDB\Docs\Diagram\RecEdit_RunScript.png"
+  File "..\Instalation\GeneralDB\Docs\Diagram\RecEdit_ScriptMenu.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\RecordEdit_BrowseButtons.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\RecordEdit_Buttons.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\RecordEdit_Buttons1.png"
@@ -407,6 +424,8 @@ Section "MainSection" SEC01
   File "..\Instalation\GeneralDB\Docs\Diagram\Record_Group.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\Record_Standard.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\RightClick.png"
+  File "..\Instalation\GeneralDB\Docs\Diagram\Script.png"
+  File "..\Instalation\GeneralDB\Docs\Diagram\SetScreenSize.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\Setup_CopybookLoader.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\Setup_EmbeddedDB.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\Setup_Type.png"
@@ -419,6 +438,7 @@ Section "MainSection" SEC01
   File "..\Instalation\GeneralDB\Docs\Diagram\SL_diff4.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\SL_diff5.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\SortedTreeDef.png"
+  File "..\Instalation\GeneralDB\Docs\Diagram\SortSave.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\StandardCopy.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\StartMenu.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\StarupOptions_LayoutWizard.png"
@@ -592,6 +612,7 @@ Section "MainSection" SEC01
   File "..\Instalation\GeneralDB\SampleVelocityTemplates\File\AmsReceiptHtml2.vm"
   File "..\Instalation\GeneralDB\SampleVelocityTemplates\File\SingleTable.vm"
   File "..\Instalation\GeneralDB\SampleVelocityTemplates\File\TablePerRow.vm"
+  File "..\Instalation\GeneralDB\SampleVelocityTemplates\File\TablePerRowExtendedPrefered.vm"
   File "..\Instalation\GeneralDB\SampleVelocityTemplates\File\TablePerRowPreferedLayout.vm"
   File "..\Instalation\GeneralDB\SampleVelocityTemplates\File\toCsv_Comma.vm"
   File "..\Instalation\GeneralDB\SampleVelocityTemplates\File\toCsv_Tab.vm"
@@ -699,6 +720,7 @@ Section "MainSection" SEC01
   File "..\Instalation\GeneralDB\SampleFiles\po\obsolete.po"
   File "..\Instalation\GeneralDB\SampleFiles\po\TipOfTheDay.properties"
   File "..\Instalation\GeneralDB\SampleFiles\po\tst1Fuzzy.po"
+  File "..\Instalation\GeneralDB\SampleFiles\po\TstDupFilter01.po"
                      
 
   SetOverwrite try
@@ -724,7 +746,7 @@ Section "MainSection" SEC01
 
   SetOverwrite off
   SetOutPath "$PROFILE\RecordEditor_MSaccess\User\Fields"
-;;-- Missing ..\Instalation\GeneralDB\User\Fields\*.xml  ---  ZZPATH*.xml
+  File "..\Instalation\GeneralDB\User\Fields\DTAR020_HideDate.xml"
 
   SetOverwrite off
   SetOutPath "$PROFILE\RecordEditor_MSaccess\User\LayoutExport"
@@ -737,6 +759,8 @@ Section "MainSection" SEC01
   SetOverwrite off
   SetOutPath "$PROFILE\RecordEditor_MSaccess\User\SortTree"
   File "..\Instalation\GeneralDB\User\SortTree\DTAR020_a.xml"
+  File "..\Instalation\GeneralDB\User\SortTree\Script_DTAR020_SortTree_1.xml"
+  File "..\Instalation\GeneralDB\User\SortTree\Script_DTAR020_Sort_Sku_Store.xml"
 
   SetOverwrite off
   SetOutPath "$PROFILE\RecordEditor_MSaccess\User\Xslt"
@@ -757,9 +781,23 @@ Section "MainSection" SEC01
   SetOutPath "$PROFILE\RecordEditor_MSaccess\User\Scripts"
   File "..\Instalation\GeneralDB\User\Scripts\AddSepToLineEnd.py"
   File "..\Instalation\GeneralDB\User\Scripts\EnsureCorrectNumberOfFieldSeporators.py"
-  File "..\Instalation\GeneralDB\User\Scripts\Hello.js"
   File "..\Instalation\GeneralDB\User\Scripts\hello.rb"
+  File "..\Instalation\GeneralDB\User\Scripts\HeaderDetailFooterTabs.js"
+  File "..\Instalation\GeneralDB\User\Scripts\Hello.js"
   File "..\Instalation\GeneralDB\User\Scripts\note.txt"
+
+  SetOverwrite off
+  SetOutPath "$PROFILE\RecordEditor_MSaccess\User\Scripts\Examples"
+  File "..\Instalation\GeneralDB\User\Scripts\Examples\DTAR020_ExtractReturns.py"
+  File "..\Instalation\GeneralDB\User\Scripts\Examples\DTAR020_Filter.py"
+  File "..\Instalation\GeneralDB\User\Scripts\Examples\FilterSort_DTAR020.js"
+  File "..\Instalation\GeneralDB\User\Scripts\Examples\First5RowsFilter.py"
+  File "..\Instalation\GeneralDB\User\Scripts\Examples\InsertLines_DTAR020.js"
+  File "..\Instalation\GeneralDB\User\Scripts\Examples\RecordTree_AmsPO.xml"
+  File "..\Instalation\GeneralDB\User\Scripts\Examples\RunRecordTree_AmsPO.js"
+  File "..\Instalation\GeneralDB\User\Scripts\Examples\SortTree_DTAR020.js"
+  File "..\Instalation\GeneralDB\User\Scripts\Examples\tst.bsh"
+  File "..\Instalation\GeneralDB\User\Scripts\Examples\ViewForEachRecordType.js"
 
   SetOverwrite off
   SetOutPath "$PROFILE\RecordEditor_MSaccess\User\Icons"
@@ -941,6 +979,7 @@ Section Uninstall
   Delete "$INSTDIR\License\license_cb2xml.txt"
   Delete "$INSTDIR\License\LICENSE_chardet.txt"
   Delete "$INSTDIR\License\LICENSE_of_includedPackages.txt"
+  Delete "$INSTDIR\License\RSyntaxTextArea.License.txt"
 
   Delete "$INSTDIR\lib\run.jar"
   Delete "$INSTDIR\lib\runCobolEditor.jar"
@@ -987,8 +1026,12 @@ Section Uninstall
 
   Delete "$INSTDIR\lib\JRecord.pack"
   Delete "$INSTDIR\lib\jibx-run.pack"
-  Delete "$INSTDIR\lib\PoEditor_re.pack"
+  Delete "$INSTDIR\lib\rsyntaxtextarea.pack"
   Delete "$INSTDIR\lib\swingx-subset-1.6.4.pack"
+
+  Delete "$INSTDIR\lib\Extensions\Notes.txt"
+
+  Delete "$PROFILE\RecordEditor_MSaccess\Extensions\Notes.txt"
 
   Delete "$INSTDIR\lang\ReadMe.html"
   Delete "$INSTDIR\lang\ReMsgs_cn.po"
@@ -1003,7 +1046,7 @@ Section Uninstall
 
   Delete "$INSTDIR\lang\Sample\ReMsgs_Empty.po"
   Delete "$INSTDIR\lang\Sample\ReMsgs_English.po"
-  Delete "$INSTDIR\lang\Sample\ReMsgs_tst.po"
+  Delete "$INSTDIR\lang\Sample\ReMsgs_Tst.po"
 
   Delete "$INSTDIR\lang\Diagram\EditOpt.png"
   Delete "$INSTDIR\lang\Diagram\RE_LangOption.png"
@@ -1045,6 +1088,7 @@ Section Uninstall
   Delete "$INSTDIR\Docs\HlpRe14.htm"
   Delete "$INSTDIR\Docs\HlpRe15.htm"
   Delete "$INSTDIR\Docs\HlpRe16.htm"
+  Delete "$INSTDIR\Docs\HlpRe17.htm"
   Delete "$INSTDIR\Docs\CobolEditor.htm"
   Delete "$INSTDIR\Docs\Example.htm"
   Delete "$INSTDIR\Docs\ExampleFR.htm"
@@ -1086,6 +1130,7 @@ Section Uninstall
   Delete "$INSTDIR\Docs\Diagram\Copy_Xml.png"
   Delete "$INSTDIR\Docs\Diagram\CsvPopup1.png"
   Delete "$INSTDIR\Docs\Diagram\DatePopup.png"
+  Delete "$INSTDIR\Docs\Diagram\EditOptBtn.png"
   Delete "$INSTDIR\Docs\Diagram\Editor_3lHex.png"
   Delete "$INSTDIR\Docs\Diagram\Editor_FullLine.png"
   Delete "$INSTDIR\Docs\Diagram\EditProps_SeperateScreens.png"
@@ -1168,10 +1213,14 @@ Section Uninstall
   Delete "$INSTDIR\Docs\Diagram\Po_MainBottom.png"
   Delete "$INSTDIR\Docs\Diagram\Po_Properties.png"
   Delete "$INSTDIR\Docs\Diagram\PreferedOption.png"
+  Delete "$INSTDIR\Docs\Diagram\Preferences.png"
+  Delete "$INSTDIR\Docs\Diagram\Preferences_ScriptJar.png"
   Delete "$INSTDIR\Docs\Diagram\Propereties_Date.png"
   Delete "$INSTDIR\Docs\Diagram\Propereties_Velocity1.png"
   Delete "$INSTDIR\Docs\Diagram\Propereties_Velocity2.png"
   Delete "$INSTDIR\Docs\Diagram\Properties_DefaultDB.png"
+  Delete "$INSTDIR\Docs\Diagram\RecEdit_RunScript.png"
+  Delete "$INSTDIR\Docs\Diagram\RecEdit_ScriptMenu.png"
   Delete "$INSTDIR\Docs\Diagram\RecordEdit_BrowseButtons.png"
   Delete "$INSTDIR\Docs\Diagram\RecordEdit_Buttons.png"
   Delete "$INSTDIR\Docs\Diagram\RecordEdit_Buttons1.png"
@@ -1231,6 +1280,8 @@ Section Uninstall
   Delete "$INSTDIR\Docs\Diagram\Record_Group.png"
   Delete "$INSTDIR\Docs\Diagram\Record_Standard.png"
   Delete "$INSTDIR\Docs\Diagram\RightClick.png"
+  Delete "$INSTDIR\Docs\Diagram\Script.png"
+  Delete "$INSTDIR\Docs\Diagram\SetScreenSize.png"
   Delete "$INSTDIR\Docs\Diagram\Setup_CopybookLoader.png"
   Delete "$INSTDIR\Docs\Diagram\Setup_EmbeddedDB.png"
   Delete "$INSTDIR\Docs\Diagram\Setup_Type.png"
@@ -1243,6 +1294,7 @@ Section Uninstall
   Delete "$INSTDIR\Docs\Diagram\SL_diff4.png"
   Delete "$INSTDIR\Docs\Diagram\SL_diff5.png"
   Delete "$INSTDIR\Docs\Diagram\SortedTreeDef.png"
+  Delete "$INSTDIR\Docs\Diagram\SortSave.png"
   Delete "$INSTDIR\Docs\Diagram\StandardCopy.png"
   Delete "$INSTDIR\Docs\Diagram\StartMenu.png"
   Delete "$INSTDIR\Docs\Diagram\StarupOptions_LayoutWizard.png"
@@ -1404,6 +1456,7 @@ Section Uninstall
   Delete "$PROFILE\RecordEditor_MSaccess\SampleVelocityTemplates\File\AmsReceiptHtml2.vm"
   Delete "$PROFILE\RecordEditor_MSaccess\SampleVelocityTemplates\File\SingleTable.vm"
   Delete "$PROFILE\RecordEditor_MSaccess\SampleVelocityTemplates\File\TablePerRow.vm"
+  Delete "$PROFILE\RecordEditor_MSaccess\SampleVelocityTemplates\File\TablePerRowExtendedPrefered.vm"
   Delete "$PROFILE\RecordEditor_MSaccess\SampleVelocityTemplates\File\TablePerRowPreferedLayout.vm"
   Delete "$PROFILE\RecordEditor_MSaccess\SampleVelocityTemplates\File\toCsv_Comma.vm"
   Delete "$PROFILE\RecordEditor_MSaccess\SampleVelocityTemplates\File\toCsv_Tab.vm"
@@ -1505,6 +1558,7 @@ Section Uninstall
   Delete "$PROFILE\RecordEditor_MSaccess\SampleFiles\po\obsolete.po"
   Delete "$PROFILE\RecordEditor_MSaccess\SampleFiles\po\TipOfTheDay.properties"
   Delete "$PROFILE\RecordEditor_MSaccess\SampleFiles\po\tst1Fuzzy.po"
+  Delete "$PROFILE\RecordEditor_MSaccess\SampleFiles\po\TstDupFilter01.po"
 
   Delete "$PROFILE\RecordEditor_MSaccess\Params.Properties"
   Delete "$PROFILE\RecordEditor_MSaccess\CobolFiles.txt"
@@ -1518,11 +1572,14 @@ Section Uninstall
 
   Delete "$PROFILE\RecordEditor_MSaccess\User\Filter\Test_ams_PO.xml"
 
+  Delete "$PROFILE\RecordEditor_MSaccess\User\Fields\DTAR020_HideDate.xml"
 
 
   Delete "$PROFILE\RecordEditor_MSaccess\User\RecordTree\ams_PO_a.xml"
 
   Delete "$PROFILE\RecordEditor_MSaccess\User\SortTree\DTAR020_a.xml"
+  Delete "$PROFILE\RecordEditor_MSaccess\User\SortTree\Script_DTAR020_SortTree_1.xml"
+  Delete "$PROFILE\RecordEditor_MSaccess\User\SortTree\Script_DTAR020_Sort_Sku_Store.xml"
 
   Delete "$PROFILE\RecordEditor_MSaccess\User\Xslt\TestXml_01.xsl"
   Delete "$PROFILE\RecordEditor_MSaccess\User\Xslt\TestXml_01a.xsl"
@@ -1537,16 +1594,33 @@ Section Uninstall
 
   Delete "$PROFILE\RecordEditor_MSaccess\User\Scripts\AddSepToLineEnd.py"
   Delete "$PROFILE\RecordEditor_MSaccess\User\Scripts\EnsureCorrectNumberOfFieldSeporators.py"
-  Delete "$PROFILE\RecordEditor_MSaccess\User\Scripts\Hello.js"
   Delete "$PROFILE\RecordEditor_MSaccess\User\Scripts\hello.rb"
+  Delete "$PROFILE\RecordEditor_MSaccess\User\Scripts\HeaderDetailFooterTabs.js"
+  Delete "$PROFILE\RecordEditor_MSaccess\User\Scripts\Hello.js"
   Delete "$PROFILE\RecordEditor_MSaccess\User\Scripts\note.txt"
+
+  Delete "$PROFILE\RecordEditor_MSaccess\User\Scripts\Examples\DTAR020_ExtractReturns.py"
+  Delete "$PROFILE\RecordEditor_MSaccess\User\Scripts\Examples\DTAR020_Filter.py"
+  Delete "$PROFILE\RecordEditor_MSaccess\User\Scripts\Examples\FilterSort_DTAR020.js"
+  Delete "$PROFILE\RecordEditor_MSaccess\User\Scripts\Examples\First5RowsFilter.py"
+  Delete "$PROFILE\RecordEditor_MSaccess\User\Scripts\Examples\InsertLines_DTAR020.js"
+  Delete "$PROFILE\RecordEditor_MSaccess\User\Scripts\Examples\RecordTree_AmsPO.xml"
+  Delete "$PROFILE\RecordEditor_MSaccess\User\Scripts\Examples\RunRecordTree_AmsPO.js"
+  Delete "$PROFILE\RecordEditor_MSaccess\User\Scripts\Examples\SortTree_DTAR020.js"
+  Delete "$PROFILE\RecordEditor_MSaccess\User\Scripts\Examples\tst.bsh"
+  Delete "$PROFILE\RecordEditor_MSaccess\User\Scripts\Examples\ViewForEachRecordType.js"
 
   Delete "$PROFILE\RecordEditor_MSaccess\User\Icons\Cobol.ico"
   Delete "$PROFILE\RecordEditor_MSaccess\User\Icons\LayoutEdit.ico"
   Delete "$PROFILE\RecordEditor_MSaccess\User\Icons\RecordEdit.ico"
   Delete "$PROFILE\RecordEditor_MSaccess\User\Icons\Utility.ico"
-  
+
   Delete "$PROFILE\RecordEditor_MSaccess\RecordEditor.mdb"
+
+  RMDir "$INSTDIR\lib\Extensions"
+
+  Delete "$INSTDIR\lib\swingx-subset-1.6.4.jar"
+  Delete "$INSTDIR\lib\rsyntaxtextarea.jar"
   Delete "$INSTDIR\lib\JRecord.jar"
   Delete "$INSTDIR\lib\velocity-1.7.jar"
   Delete "$INSTDIR\lib\velocity-1.7-dep.jar"
@@ -1616,6 +1690,8 @@ Section Uninstall
   RMDir "$INSTDIR\Docs\Diagram"
   RMDir "$INSTDIR\Docs"
   RMDir "$INSTDIR\License"
+  
+  RMDir "$PROFILE\RecordEditor_MsAccess\Extensions"
   RMDir "$PROFILE\RecordEditor_MsAccess\SampleVelocityTemplates\Copybook"
   RMDir "$PROFILE\RecordEditor_MsAccess\SampleVelocityTemplates\File"
   RMDir "$PROFILE\RecordEditor_MsAccess\SampleVelocityTemplates"

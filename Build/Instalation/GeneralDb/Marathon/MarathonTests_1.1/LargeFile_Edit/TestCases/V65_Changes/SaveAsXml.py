@@ -17,7 +17,7 @@ def test():
 #		select('ComboBox1', 'XML')
 ##		select('FileChooser', '/C:/Program Files/RecordEdit/HSQLDB/SampleFiles/x1DTAR020.bin.xml')
 		select('FileChooser', commonBits.sampleDir() + 'x1DTAR020.bin.xml')
-		click('save file')
+		click('Save File')
 		click('Open')
 ##		select('FileChooser', '/C:/Program Files/RecordEdit/HSQLDB/SampleFiles/x1DTAR020.bin.xml')
 		select('FileChooser', commonBits.sampleDir() + 'x1DTAR020.bin.xml')

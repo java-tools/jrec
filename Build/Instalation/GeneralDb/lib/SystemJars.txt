@@ -6,6 +6,6 @@ jibx	<lib>/jibx-run.jar
 jlibdiff	<lib>/jlibdiff.jar
 chardet	<lib>/chardet.jar
 flags	<lib>/pict.zip
-gettextpo	<lib>/PoEditor_re.jar
+syntaxEdit	<lib>/rsyntaxtextarea.jar
 swingx	<lib>/swingx-subset-1.6.4.jar
 

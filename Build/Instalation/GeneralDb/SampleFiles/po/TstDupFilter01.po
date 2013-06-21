@@ -1,0 +1,79 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: RecordEditor\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+
+	
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Space duplicate (2)
+# 
+msgid "< (Numeric)"
+msgstr ""
+	
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# 
+#  Duplicate (3)
+msgid "<= (Text)"
+msgstr "`!<= (Text) 1!`"
+	
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Layout Selection
+msgctxt "XX"
+msgid "<All>"
+msgstr "`!<All>!`"
+	
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Csv_Quote
+msgid "<None>"
+msgstr ""
+
+# ---------------------------------------------------------------------------------
+# 
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# 
+msgid "< (Numeric)"
+msgstr "`!< (Numeric)!`"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# 
+msgid "< (Numeric)"
+msgstr ""
+	
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# 
+msgid "<= (Text)"
+msgstr "`!<= (Text)!`"
+	
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Layout Selection
+msgid "<All>"
+msgstr "`!<All>!`"
+	
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Csv_Quote
+msgid "<None>"
+msgstr "`!<None>!`"
+
+# ---------------------------------------------------------------------------------
+# 
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# 
+msgid "<= (Text)"
+msgstr "`!<= (Text)!`"
+
+

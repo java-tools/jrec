@@ -48,7 +48,8 @@ parse arg arg x
 		call pack 'LayoutEdit'
 		call pack 'RecordEdit'
 		/*call pack 'swingx-subset-1.6.4'*/
-		call pack 'PoEditor_re'
+		/* call pack 'PoEditor_re' */
+		/* call pack 'rsyntaxtextarea'*/
 		
 		
 

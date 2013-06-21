@@ -23,7 +23,8 @@ def test():
 		click(commonBits.fl('Apply'))
 		click('Find1')
 		select('Find.Search For_Txt', '19.00')
-		select('Find.Operator_Txt', commonBits.fl('<= (Text)'))
+		select('Find.Operator_Txt', commonBits.fl('<= (Text)')
+)
 ##		click('ScrollPane$ScrollBar', 4, 57)
 ##		click('ScrollPane$ScrollBar', 7, 52)
 		select('Find.Field_Txt', 'SALE-PRICE')
@@ -44,5 +45,10 @@ def test():
 		commonBits.find(click)
 		assert_p('TextField', 'Text',  commonBits.fl('Found (line, field Num, field position)=') + '16, 5, 0')
 		commonBits.find(click)
+
+		if window(''):
+			click('No')
+		close()
+
 		assert_p('TextField', 'Text',  commonBits.fl('Found (line, field Num, field position)=') + '18, 5, 0')
 	close()

@@ -4,37 +4,7 @@ variables + basic logic in a File. Velocity will replace a variable with its
 value creating a generated document. Velocity is good for creating web pages or
 XML documents.
 
-:p.If you install velocity into the :RecordEditor. you can export selected
-lines using :Velocity.
-
-:h2.Installing Velocity from RecordEditor Download
-:p.To install :Velocity. you must
-:ol.
-  :li.download the :hp2.Velocity ZIP:ehp2. file from the :RecordEditor. site.
-  :li.Unzip the file into the RecordEditor lib directory, On Windows this will be
-    :dl.
-      :dt.MsAccess Version:dd.C&gml.\Program Files\RecordEdit\MSaccess\lib
-      :dt.HSQL Version:dd.C&gml.\Program Files\RecordEdit\HSQL\lib
-      :dt.HSQLDB Version:dd.C&gml.\Program Files\RecordEdit\HSQLDB\lib
-      :dt.Generic Version:dd.C&gml.\Program Files\RecordEdit\Generic\lib
-    :edl.
-:eol.
-:p.
-
-:h2.Installing Existing Copy of Velocity
-:p.To install :Velocity. you need to
-:ol.
- :li.Have a version of Velocity on Your PC
- :li.Add the 2 Jar files :hp2.velocity-1.4.jar:ehp2. and :hp2.velocity-dep-1.4.jar:ehp2.
-(where the velocity version is 1.4)
-to the :RecordEditor. using the :PropertiesEditor..
-
-.pict Propereties_Velocity1.png
-
- :li.Set the Velocity Directory in the :PropertiesEditor..
-
-.pict Propereties_Velocity2.png
-:eol.
+.*** im iHT_5100_InstallVelocity
 
 :h2.Writing a Velocity template for use in the RecordEditor
 :p.The :RecordEditor. present all the records selected by the user in a list called

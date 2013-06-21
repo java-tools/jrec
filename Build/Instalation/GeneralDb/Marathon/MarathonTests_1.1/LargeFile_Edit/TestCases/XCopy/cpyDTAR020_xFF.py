@@ -23,11 +23,12 @@ def test():
 		assert_p('TextField1', 'Text', 'Copy Done !!! ')
 		click('Open')
 		select('FileChooser', commonBits.sampleDir() + 'XffDTAR020.csv')
+		select('ComboBox2', 'Generic CSV - enter details')
 		click('Edit1')
 
 		if window(''):
 			select('CheckBox', 'true')
-			assert_p('ComboBox', 'Text', 'x\'FF\'')
+			assert_p('DelimiterCombo', 'Text', 'x\'FF\'')
 			assert_p('Table', 'Text', '69684558', 'KEYCODE-NO,0')
 			select('Table', 'cell:DATE,0(40118)')
 			assert_p('Table', 'Text', '40118', 'DATE,0')
@@ -42,18 +43,13 @@ def test():
 			click('Go')
 			commonBits.doSleep()
 
-			commonBits.doSleep()
-
-
-			commonBits.doSleep()
 
 		close()
 
 		commonBits.doSleep()
 
-		commonBits.doSleep()
 
-		select_menu('Window>>XffDTAR020.csv>>Table: ')
+		select_menu('Window>>XffDTAR020.csv>>Table:')
 
 		select('Table', 'cell:1|KEYCODE-NO,0(69684558)')
 		assert_p('Table', 'Text', '69684558', '1|KEYCODE-NO,1')
@@ -97,7 +93,7 @@ def test():
 ##		assert_p('Table', 'Content', '[[KEYCODE-NO, 1, , 63604808, 63604808], [STORE-NO, 2, , 20, 20], [DATE, 3, , 40118, 40118], [DEPT-NO, 4, , 170, 170], [QTY-SOLD, 5, , 1, 1]]')
 		assert_p('Table', 'Content', '[[KEYCODE-NO, 1, , 63604808, 63604808], [STORE-NO, 2, , 20, 20], [DATE, 3, , 40118, 40118], [DEPT-NO, 4, , 170, 170], [QTY-SOLD, 5, , 1, 1], [SALE-PRICE, 6, , 4.87, 4.87]]')
 		select('Table', 'cell:Data,0(63604808)')
-		select_menu('Window>>XffDTAR020.csv>>Table: ')
+		select_menu('Window>>XffDTAR020.csv>>Table:')
 ##		select('Table2', 'cell:Data,0(63604808)')
 		select('Table', 'cell:1|KEYCODE-NO,2(69684558)')
 		select('Table', 'cell:1|KEYCODE-NO,4(69694158)')

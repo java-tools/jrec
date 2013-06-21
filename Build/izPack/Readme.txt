@@ -5,6 +5,18 @@ It can edit both Text and binary files in PC / Unix / IBM Mainframe formats.
 
 The Record-Layouts are stored in a DB, but they can be imported from a Cobol Copybook
 
+Version 0.94.4
+
+    * Added basic Script-Editor to the Script-Run dialog
+    * Extra Functions / Methods for use in Macro Scripts, More example scripts 
+      and Script-Documentation.
+    * Problem fix's and general cleanup.
+    * New Script HeadefFooterTabs.js that creates seperate header/detail/footer views
+      for Header, Detail, Footer files.
+    * Updates to How to documentation. 
+
+Version 0.94.2
+    * Problem fix when exporting RecordLayouts containing non-ascii characters as Xml. 
 
 Version 0.94.1
     * Support for Records (> 32KB)

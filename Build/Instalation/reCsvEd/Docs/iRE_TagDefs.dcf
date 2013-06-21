@@ -25,6 +25,10 @@
 .*B2H SYMBOL :TAG.  ePnl IT=N VAT=N ATT=Y SE=N V='</pre></font></td></tr></pre></table>'
 
 .*B2H SYMBOL :tag. reCsvEditor   IT=N VAT=N ATT=N SE=N V='<b>reCsvEditor</b>'
+.*B2H SYMBOL :tag. reCsvEditorLink   IT=N VAT=N ATT=N SE=N V='<a href="https://sourceforge.net/projects/recsveditor/files/" TARGET="_top">reCsvEditor</a>'
+.*B2H SYMBOL :tag. packageLink   IT=N VAT=N ATT=N SE=N V='<a href="https://sourceforge.net/projects/recsveditor/files/" TARGET="_top">reCsvEditor</a>'
+.*B2H SYMBOL :tag. packageDownloadLink   IT=N VAT=N ATT=N SE=N V='<a href="https://sourceforge.net/projects/recsveditor/files/reCsvEditor/">reCsvEditor Download</a>'
+.***B2H SYMBOL :tag. packageDownloadLink   IT=N VAT=N ATT=N SE=N V='<a href="https://sourceforge.net/projects/record-editor/files/">RecordEditor Download</a>'
 .*B2H SYMBOL :tag. AvroEditor   IT=N VAT=N ATT=N SE=N V='<a href="http://avroeditor.sourceforge.net//" TARGET="_top">Avro Editor</a>'
 .*B2H SYMBOL :tag. ProtoEditor   IT=N VAT=N ATT=N SE=N V='<a href="http://code.google.com/p/protobufeditor/" TARGET="_top">Protocol Buffers Editor</a>'
 .*B2H SYMBOL :tag. downloadPage   IT=N VAT=N ATT=N SE=N V='<a href="https://sourceforge.net/projects/recsveditor/files/reCsvEditor/" >reCsvEditor Download page</a>'

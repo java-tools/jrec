@@ -54,4 +54,5 @@ create new Record Layouts or edit specific layouts.
 .im iRE_re046_ColumnView.dcf
 .*B2H SPLIT
 .im iRE_re016_CSV.dcf
-
+.*B2H SPLIT
+.im iHT_C000_Script.dcf

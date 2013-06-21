@@ -85,7 +85,7 @@
             <file src="Csv_Readme.txt" targetdir="$INSTALL_PATH"/>
             <file src="Csv_readme.html" targetdir="$INSTALL_PATH"/>
             <!--fileset dir="../License/reCsvEditor/" includes="LICENSE*.txt" targetdir="$INSTALL_PATH/License"/!-->
-            <fileset dir="../General/" includes="LICENSE*.txt" targetdir="$INSTALL_PATH/License"/>
+            <fileset dir="../General/" includes="*.txt" targetdir="$INSTALL_PATH/License"/>
         </pack>
         <pack name="Documentation" required="yes" override="true">
             <description>Record Editor Docs</description>
@@ -109,10 +109,12 @@
         <pack name="User" required="yes">
             <description>Record Editor Parameters</description>
             <file src="../Instalation/GeneralDB/User" targetdir="$USER_HOME/.RecordEditor/reCsvEd"/> 
+            <fileset dir="../Instalation/hsqldb_izpack/lib/Extensions" includes="*.txt" targetdir="$USER_HOME/.RecordEditor/reCsvEd/Extensions"/>
         </pack>
         <pack name="lib" required="yes" override="true">
             <description>Record Editor Jars</description>
             <file src="../Instalation/reCsvEd/lib" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
+            <fileset dir="../Instalation/hsqldb_izpack/lib/Extensions" includes="*.txt" targetdir="$INSTALL_PATH/lib/Extensions"/>
             <fileset dir="../Instalation/hsqldb_izpack/lib/" targetdir="$INSTALL_PATH/lib">
             	<include name="jibx-run.pack"/>
             	<include name="jlibdiff.pack"/>
@@ -121,8 +123,9 @@
             	<include name="ZCalendar.pack"/>
           	<include name="icon*.zip"/>
           	<include name="chardet.pack"/>
+          	<include name="rsyntaxtextarea.pack"/>
           	<include name="pict.zip"/>
-           </fileset>
+            </fileset>
 	    <parsable targetfile="$INSTALL_PATH/lib/CsvEditorBigFile.Bat"   type="shell"/>
 	    <parsable targetfile="$INSTALL_PATH/lib/runCsvEditor.sh"   type="shell"/>
 	    <executable targetfile="$INSTALL_PATH/lib/runCsvEditor.sh" stage="never"/>

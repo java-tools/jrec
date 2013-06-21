@@ -1,0 +1,7351 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: RecordEditor 0.89\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+# Use: Message 
+#  id: SqlError   Panel:  
+# 
+# English: 
+#     SQL: {0}
+# Message: {1}
+msgid "SqlError"
+msgstr "    SQL:{0}\n"
+"消息:{1}"
+
+# Use: Message 
+#  id:    Panel:  
+msgid " --> Adding Record Layout: {0}"
+msgstr "  - >添加記錄的佈局:{0}"
+
+# Use: Message 
+#  id:    Panel:  
+msgid " --> Deleting Record Layout: {0}"
+msgstr "  - >刪除記錄的佈局:{0}"
+
+# Use: Message 
+#  id: CopybookLoaded   Panel:  
+# 
+# English: -->> {0} processed
+# 
+#       Copybook: {1}
+msgid "CopybookLoaded"
+msgstr "- >> {0}處理\n"
+"      字帖:{1}"
+
+# Use: Field_Prompt 
+#  id:    Panel: LineFrame 
+msgid "1 line Hex"
+msgstr "1號線十六進制"
+
+# Use: Message 
+#  id:    Panel:  
+# Date Format show the user how a date will be formated
+msgid "25.Dec.98 will be formatted as"
+msgstr "25.Dec.98將被格式化為"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "< (Text)"
+msgstr "（文字）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "<= (Numeric)"
+msgstr "<=（數值）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- CsvDelim_Default Combo- Csv_Quote
+msgid "<Default>"
+msgstr "“<默認>"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Csv_Quote
+msgid "<None>"
+msgstr "<無>"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- CsvDelim_Space
+msgid "<Space>"
+msgstr "空格鍵"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- CsvDelim_Tab
+msgid "<Tab>"
+msgstr "<Tab>和"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- LayoutEdit_EndOfLine 2
+msgid "<cr>"
+msgstr "<CR>"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- LayoutEdit_EndOfLine 1
+msgid "<crlf>"
+msgstr "<CRLF>"
+
+# Use: Message 
+#  id: EditProps_JDBC_Params   Panel:  
+# 
+# English: <h1>JDBC Parameters</h1>
+# These parameters Control the Database connection that the <b>RecordEditor</b> uses<br>
+# # to connect to the RecordLayout Database (where all the Record Layouts are stored).<br>
+# # If you click on a row in the table, the fields at the bottom will be updated with the values from the selected row.<br>
+# # You can update values either using the fields at the bottom of the screen or directly into the table itself.
+msgid "EditProps_JDBC_Params"
+msgstr ""
+"<H1>JDBC參數\n"
+"</h1>\n"
+"這些參數控制數據庫連接，RecordEditor使用的\n"
+"參考\n"
+"連接的RecordLayout數據庫（其中，所有的記錄佈局的存儲位置）。\n"
+"參考\n"
+"如果你點擊一個表中的行，場底部將選定行中的值更新。\n"
+"參考\n"
+"您可以使用在屏幕底部的或直接到表本身的字段更新值。"
+
+# Use: Message 
+#  id: EditProperties_Looks   Panel:  
+# 
+# English: <h1>Look and Feel</h1>
+# In java you can plug in a look-and-feel module to format Screen. This screen lets you choose which Look-and-Feel to use.<br>
+# # <b>Warning:</b> Independent Look-and-Feel modules can slow down response times and cause the <b>RecordEditor</b> to crash.<br>
+# # <br>
+# # The following 2 sites list a number of <b>Look and Feel</b><ul compact>
+# <li><b>http://www.jgoodies.com/freeware/libraries/looks/</b>
+# <li><b>http://www.java-tips.org/java-libraries/java-look-and-feel/</b></ul>
+# The JGoodies Look-and-Feel (<b>http://www.jgoodies.com/freeware/libraries/looks/</b>)is popular
+msgid "EditProperties_Looks"
+msgstr ""
+"<H1>外觀和感覺\n"
+"</h1>\n"
+"在Java中你可以插入一個外觀和感覺的模塊格式屏幕。這個屏幕讓你選擇它的外觀和感覺使用。"
+"參考<br>"
+"警告:獨立的外觀和手感模塊可以減慢響應時間，並導致崩潰的RecordEditor。<br>"
+"參考<br>"
+"參考<br>"
+"以下的2個網站列出了一些外觀和感覺<ul compact>\n"
+"<LI>\n"
+"http://www.jgoodies.com/freeware/libraries/looks/\n"
+"<LI>\n"
+"http://www.java-tips.org/java-libraries/java-look-and-feel/ </ul>\n"
+"JGoodies數據看和感覺（http://www.jgoodies.com/freeware/libraries/looks/）流行"
+
+# Use: Message 
+#  id: EditProps_Behaviour   Panel:  
+# 
+# English: <h2>Behavior Properties</h2>
+# The options on this screen affect the behavior of the editor.<br/>
+# # <b>Bring Log to the Front</b>: Wether the log file will be brought to the fron when data is written to it.<br/>
+# # <b>Default to prefered</b>: Wether to use the prefered layout by default when editting<br/>
+# # <b>Show all export panels</b>: Wether to show all export options or just the option selected<br/>
+# # 
+msgid "EditProps_Behaviour"
+msgstr ""
+"<H2>行為屬性\n"
+"</h2>\n"
+"在此屏幕上的選項會影響編輯器的行為。\n"
+"<BR/>\n"
+"把登錄前:天氣的日誌文件將被帶到當數據被寫入到它的氟利昂。\n"
+"<BR/>\n"
+"默認的優先考慮:閹使用的首選佈局時，默認情況下，編輯工作\n"
+"<BR/>\n"
+"顯示所有出口板:閹顯示所有的導出選項或只是選擇的選項\n"
+"<BR/>"
+
+# Use: Message 
+#  id: EditProps_BigFiles   Panel:  
+# 
+# English: <h2>Big Model Properties</h2>
+# This panels lists parameters for the "Big File" Data Models.
+# You can use these options to optimise the Read Time for very big files
+msgid "EditProps_BigFiles"
+msgstr "<H2>大模型屬性\n"
+"</h2>\n"
+"本小組列出的“大文件”的數據模型的參數。\n"
+"您可以使用這些選項來優化很大的文件的讀取時間"
+
+# Use: Message 
+#  id: EditProps_CopyBook_Loaders   Panel:  
+# 
+# English: <h2>Copybook Loaders</h2>
+# This tab is for defining user written <b>Copybook Loader's</b> to the <b>RecordEditor</b>.<br>
+# # A <b>Copybook Loader's</b> is a Java Class that can load a copybook from a file into the <b>RecordEditor</b>.<br>
+# # <br>
+# # <b>Copybook Loader's</b> are used in <ul>
+# <li>Load Copybook function in the <b>LayoutEditor</b>
+# <li>Cobol Editor</ul>
+# <br>
+# # 
+msgid "EditProps_CopyBook_Loaders"
+msgstr ""
+"<H2>字帖裝載機\n"
+"</h2>\n"
+"此選項卡是用於定義用戶編寫的字帖裝載機的的RecordEditor的。\n"
+"參考\n"
+"一本抄寫本Loader的是一個Java類，可從文件加載一個字帖到RecordEditor。\n"
+"參考\n"
+"參考\n"
+"字帖裝載機的中使用的<ul>\n"
+"<LI>\n"
+"負載字帖在LayoutEditor功能\n"
+"<LI>\n"
+"Cobol語言編輯器</ul>\n"
+"參考"
+
+# Use: Message 
+#  id: EditProtoperties_DataTypes   Panel:  
+# 
+# English: <h2>Date Types</h2>
+# This screen lets you define Date Types to the <b>RecordEditor</b><br>
+# # <br>
+# # 
+msgid "EditProtoperties_DataTypes"
+msgstr "<H2>日期類型\n"
+"</h2>\n"
+"該屏幕可以讓你定義日期類型的RecordEditor\n"
+"參考\n"
+"參考"
+
+# Use: Message 
+#  id: EditProps_Directories   Panel:  
+# 
+# English: <h2>Directories</h2>
+# The properties on this panel are for the various directories used by the <b>RecordEditor</b>
+msgid "EditProps_Directories"
+msgstr "<H2>目錄\n"
+"</h2>\n"
+"此面板上的屬性是不同的目錄中所使用的RecordEditor"
+
+# Use: Message 
+#  id: EditProps_PnlDescription   Panel:  
+# 
+# English: <h2>Edit RecordEditor Properties Editor</h2>
+# This program lets you edit the <b>RecordEditor</b> properties files and jar files.<br>
+# # There is little validation, so be very careful what changes you make.<br>
+# # Any changes will not take affect until the next timethe <b>RecordEditor</b> / <b>Layout Editor</b> is run again.<br>
+# # <br>
+# # There are 5 basic tab types in the program: <table border="1" cellpadding="3">
+# <tr><TD><b>Properties</b></td><td>Lets you update system properties like <b>Screen Position, Directories, Other Options, Wizard Option and Big File Options</b></td></tr>
+# <tr><TD><b>Properties</b></td><td>Lets you update system properties like <b>Screen Position, Directories, Other Options, Wizard Option and Big File Options</b></td></tr>
+# <tr><td><b>Xml</b></td><td>Xml Xslt properties / jars 
+# <tr><td><b>Jars</b></td><td>These options let you update the various JAR (java libraries) used by the <b>RecordEditor</b>.<br>
+# # The only time you should need to do this is if you are adding your own code to the <b>RecordEditor</b> or installing Velocity.</td></tr>
+# <tr><td><b>Extensions</b></td><td>These option let you define your own Types, formats to the <b>RecordEditor</b>.</td></tr>
+# <tr><td><b>Looks</b></td><td>This option lets you define the look and feel of the RecordEditor</td</tr>
+# <table>
+# <br>
+# # <br>
+# # <b>Files being updated are:</b>
+# <pre><br>
+# # System       Jars File={0}<br>
+# # System JDBC  Jars File={1}<br>
+# #   User       Jars File={2}<br>
+# #        Properties file={3}</pre>
+msgid "EditProps_PnlDescription"
+msgstr ""
+"<H2>編輯RecordEditor屬性編輯器\n"
+"</h2>\n"
+"這個程序可以讓你編輯的RecordEditor的屬性文件和jar文件。\n"
+"參考\n"
+"幾乎沒有驗證，所以必須非常小心，你做什麼樣的變化。\n"
+"參考\n"
+"任何更改將不會影響再次運行，直到下的伊諾RecordEditor /佈局編輯器。\n"
+"參考\n"
+"參考\n"
+"選項卡上有5種基本類型的節目:<table border=\"1\" cellpadding=\"3\">\n"
+"文章快照屬性\n"
+"</TD> <TD>讓您更新系統屬性，如屏幕的位置，目錄，其他選項，嚮導選項和大文件的選項\n"
+"</TD> </TR>\n"
+"文章快照屬性\n"
+"</TD> <TD>讓您更新系統屬性，如屏幕的位置，目錄，其他選項，嚮導選項和大文件的選項\n"
+"</TD> </TR>\n"
+"文章快照\n"
+"的Xml\n"
+"</TD> <TD>XML XSLT屬性/瓶\n"
+"文章快照\n"
+"罐\n"
+"</TD> <TD>這些選項可讓您更新各種JAR（JAVA庫）的RecordEditor使用的。\n"
+"參考\n"
+"你需要做的這是唯一的一次，如果你添加自己的代碼的RecordEditor或安裝速度。\n"
+"</TD> </TR>\n"
+"文章快照\n"
+"擴展\n"
+"</TD> <TD>這些選項讓你定義自己的類型，格式的RecordEditor。\n"
+"</TD> </TR>\n"
+"文章快照\n"
+"樣子\n"
+"</TD> <TD>此選項可讓您定義的外觀和感覺的的RecordEditor </TD </TR> </TABLE>\n"
+"參考\n"
+"參考\n"
+"被更新的文件是:\n"
+"<PRE>\n"
+"參考\n"
+"系統罐文件= {0}\n"
+"參考\n"
+"系統JDBC罐文件= {1}\n"
+"參考\n"
+"  用戶罐文件= {2}\n"
+"參考\n"
+"       屬性文件= {3}\n"
+"</pre>"
+
+# Use: Message 
+#  id: EditProps_FileParams   Panel:  
+# 
+# English: <h2>File Propertie 2s</h2>
+# This panels lists various File related parameters.
+msgid "EditProps_FileParams"
+msgstr "<H2>文件性質的2\n"
+"</h2>\n"
+"本小組列出了各種文件相關的參數。"
+
+# Use: Message 
+#  id: EditProtoperties_Language   Panel:  
+# 
+# English: <h2>Foreign Language</h2>
+# This screen lets you change the language used in the <b>RecordEditor</b><br/>
+# # You will need to <b>exit</b> and <b>restart</b> the Editor for the change to come into effect<br/>
+# # <br/>
+# # If your language is not supported ???, Why not do the Translation your self ???.<br/>
+# # Have a look at the ReadMe.html in the language directory:
+msgid "EditProtoperties_Language"
+msgstr ""
+"<H2>外語\n"
+"</h2>\n"
+"這個屏幕讓你改變所使用的語言，在RecordEditor\n"
+"<BR/>\n"
+"您需要退出並重新啟動編輯器，以使更改生效\n"
+"<BR/>\n"
+"<BR/>\n"
+"如果您的語言不支持？？，為什麼不能做自己的翻譯？？\n"
+"<BR/>\n"
+"有一個看的語言目錄下的readme.html:"
+
+# Use: Message 
+#  id: EditProps_Format   Panel:  
+# 
+# English: <h2>Format Definition</h2>
+# This tab for defining user written <b>Format's</b> to the <b>RecordEditor</b>.<br>
+# # <b>Format's</b> define TableCellRenders and TableCellEditors for a field.<br>
+# # <br>
+# # You may want to use Format to edit Dates using a Date Popup
+msgid "EditProps_Format"
+msgstr ""
+"<H2>格式定義\n"
+"</h2>\n"
+"此選項卡用於定義用戶編寫格式的的RecordEditor。\n"
+"參考\n"
+"格式就是一個字段定義TableCellRenders和TableCellEditors。\n"
+"參考\n"
+"參考\n"
+"您可能要使用的格式，編輯日期，使用日期彈出"
+
+# Use: Message 
+#  id: EditProps_CsvParams   Panel:  
+# 
+# English: <h2>GetText-Po Properties</h2>
+# This panels holds GetText-PO editor specific options<br>
+# # 
+msgid "EditProps_CsvParams"
+msgstr "<H2>gettext的寶地產\n"
+"</h2>\n"
+"本小組認為gettext的PO編輯器特定的選項\n"
+"參考"
+
+# Use: Message 
+#  id: EditProperties_Icons   Panel:  
+# 
+# English: <h2>Icons</h2>
+# This screen lets you choose which icon set to use in the <b>RecordEditor</b>
+msgid "EditProperties_Icons"
+msgstr "<H2>圖標\n"
+"</h2>\n"
+"這個屏幕讓你選擇哪個圖標設置為使用的RecordEditor"
+
+# Use: Message 
+#  id: EditProps_JdbcJars   Panel:  
+# 
+# English: <h2>JDBC Jars</h2>
+# This panel lets you change the JDBC (Java Database Conectivity) Jars that are needed by the <b>RecordEditor</b>.<br>
+# # <br>
+# # If you click on a row in the table, the fields at the bottom will be updated with the values from the selected row.<br>
+# # You can update values either using the fields at the bottom of the screen or directly into the table itself.
+msgid "EditProps_JdbcJars"
+msgstr ""
+"<H2>JDBC罐\n"
+"</h2>\n"
+"此面板可讓您更改JDBC（Java數據庫Conectivity的）罐所需要的RecordEditor的。\n"
+"參考\n"
+"參考\n"
+"如果你點擊一個表中的行，場底部將選定行中的值更新。\n"
+"參考\n"
+"您可以使用在屏幕底部的或直接到表本身的字段更新值。"
+
+# Use: Message 
+#  id: EditProps_WizardParams   Panel:  
+# 
+# English: <h2>Layout Wizard Properties</h2>
+# This panels holds various Field Search options used by the Layout Wizard
+msgid "EditProps_WizardParams"
+msgstr "<H2>佈局嚮導屬性\n"
+"</h2>\n"
+"該板擁有各種現場使用佈局嚮導的搜索選項"
+
+# Use: Message 
+#  id: EditProps_OptionalJars   Panel:  
+# 
+# English: <h2>Optional Jars</h2>
+# This panel lets you specify your own jars. <br/>
+# # This could include User code or scripting languages (JRuby.jar, Jython.jar etc).
+msgid "EditProps_OptionalJars"
+msgstr ""
+"<H2>可選罐\n"
+"</h2>\n"
+"此面板可讓您指定自己的罐子。\n"
+"<BR/>\n"
+"這可能包括用戶代碼或腳本語言（JRuby.jar，的jython.jar等）。"
+
+# Use: Message 
+#  id: EditProps_Plugin   Panel:  
+# 
+# English: <h2>Plugins</h2>
+# This tab is for defining user written <b>Functions</b> that will listed on the <br/>
+# # <b>Plugin</b> Drop down menu in the   <b>RecordEditor</b>.<br>
+# #  Local Functions must implement the Plugin interface
+msgid "EditProps_Plugin"
+msgstr ""
+"<H2>插件\n"
+"</h2>\n"
+"此選項卡用於定義用戶編寫的功能，將上市\n"
+"<BR/>\n"
+"插件下拉菜單中的RecordEditor。\n"
+"參考\n"
+" 局部功能的插件必須實現接口"
+
+# Use: Message 
+#  id: ProtoBuf_ProtoSearch   Panel:  
+# 
+# English: <h2>Proto Search</h2>
+# 
+# # <p>This screen lets you search for a proto definition file that matches<br/>
+# # a Protocol Buffers data file. You can add extra directories to be searched<br/>
+# # (these will be permanently added to the search directories)</p>
+# # <p>Double click on the proto file in the bottom table to select it.</p>
+msgid "ProtoBuf_ProtoSearch"
+msgstr ""
+"<H2>原搜索\n"
+"</h2>\n"
+"<P>\n"
+"這個屏幕讓你尋找一個相匹配的原始定義文件\n"
+"<BR/>\n"
+"一個Protocol Buffers的數據文件。您可以添加額外的目錄搜索\n"
+"<BR/>\n"
+"（這些將被永久添加到搜索目錄）</P>\n"
+"<P>\n"
+"在底部的表，原文件上雙擊來選擇它。</P>"
+
+# Use: Message 
+#  id: EditProps_ScreenLocation   Panel:  
+# 
+# English: <h2>Screen positioning Properties</h2>
+# The properties on this panel are for setting the amount of space to be left around the edge of the <b>RecordEditor</b>.<br>
+# # The editor can start using the full screen or any part of the screen that you desire.
+msgid "EditProps_ScreenLocation"
+msgstr ""
+"<H2>屏幕定位屬性\n"
+"</h2>\n"
+"在此面板上的屬性是用於設置要留下的邊緣周圍的RecordEditor的空間量。\n"
+"參考\n"
+"編輯器就可以開始使用全屏幕或任何部分的屏幕上，你的願望。"
+
+# Use: Message 
+#  id: EditProps_Jars   Panel:  
+# 
+# English: <h2>System Jars</h2>
+# This panel lets you change the Jars supplied with the <b>RecordEditor</b> like cb2xml.<br>
+# # These jars are used by the <b>RecordEditor</b> but are written and maintained by other people
+msgid "EditProps_Jars"
+msgstr ""
+"<H2>系統罐\n"
+"</h2>\n"
+"此面板可讓您改變提供的JAR與cb2xml這樣的RecordEditor。\n"
+"參考\n"
+"這些jar由RecordEditor使用，但由其他人編寫和維護"
+
+# Use: Message 
+#  id: EditProps_Test   Panel:  
+# 
+# English: <h2>Test Properties</h2>
+# The options on this screen are used in Testing the Editor.
+msgid "EditProps_Test"
+msgstr "<H2>測試屬性\n"
+"</h2>\n"
+"在此屏幕上的選項中使用的測試編輯器。"
+
+# Use: Message 
+#  id: EditProps_TypeDef   Panel: </b>You will also need to add the jar with your class to the <b>User Jars</b> tab.!:!<b>Note 
+# 
+# English: <h2>Type Definition</h2>
+# This tab for defining user written <b>Type's</b> to the <b>RecordEditor</b>.<br>
+# # A <b>Type's</b> is a Java Class that converts a fields between the external representation and the internal Java Representation.<br>
+# # Columns in the Table are <br>
+# # 
+# <table>
+# <tr><td>Type Number</td><td>Unique number used to identify the type. It should be between {0} and {1}</td></tr>
+# <tr><td>Type Name</td><td>Name of the Type</td></tr>
+# <tr><td>Type Class</td><td>Java Type class.</td></tr>
+# <tr><td>Format Class</td><td>Class that implements table cell Formating. Leave blank if there is not one</td></tr>
+# <table>
+# <br>
+# # <b>Note:</b>You will also need to add the jar with your class to the <b>User Jars</b> tab.
+msgid "EditProps_TypeDef"
+msgstr ""
+"<H2>類型定義\n"
+"</h2>\n"
+"此選項卡用於定義用戶編寫的類型的的RecordEditor。\n"
+"參考\n"
+"A型是一個Java類，將一個字段之間的外部表徵和內部的Java表示。\n"
+"參考\n"
+"表中的列\n"
+"參考\n"
+"<TABLE>\n"
+"文章快照\n"
+"類型編號\n"
+"</TD> <TD>唯一的編號用於識別的類型。它應該是介於{0}和{1}\n"
+"</TD> </TR>\n"
+"文章快照\n"
+"型號名稱\n"
+"</TD> <TD>名稱類型\n"
+"</TD> </TR>\n"
+"文章快照\n"
+"Type類\n"
+"</TD> <TD>Java類型的類。\n"
+"</TD> </TR>\n"
+"文章快照\n"
+"格式類\n"
+"</TD> <TD>實現表格單元格格式化類。保留為空，如果沒有一個\n"
+"</TD> </TR> </TABLE>\n"
+"參考\n"
+"注意:您還需要添加的jar您的類的用戶罐“選項卡。"
+
+# Use: Message 
+#  id: EditProps_UserJars   Panel:  
+# 
+# English: <h2>User Jars</h2>
+# This panel lets you specify your own jars <br>
+# # These jars will be used when the <b>RecordEditor</b starts. <br>
+# # When adding your own jars, <br>
+# # you should also invoke your own initialisation class via the <i>UserInitilizeClass</i> property on the other screen.
+msgid "EditProps_UserJars"
+msgstr ""
+"<H2>用戶罐\n"
+"</h2>\n"
+"此面板可讓您指定自己的罐子\n"
+"參考\n"
+"這些jar文件時，將使用的RecordEditor </B開始。\n"
+"參考\n"
+"當添加自己的罐子，\n"
+"參考\n"
+"你也應該調用自己的初始化類通過的UserInitilizeClass的財產的其他屏幕上。"
+
+# Use: Message 
+#  id: RunVelocityHint   Panel:  
+# 
+# English: <h2>Velocity is not Installed</h2>
+# Velocity has not been installed into the <b>record editor</b>.<br>
+# # The easiest way to install Velocity is to go to the RecordEditor Download page<br>
+# # <b>http://sourceforge.net/project/showfiles.php?group_id=139274</b> and download file <b>ru_velocity_1.4*.zip</b>.<br>
+# # From this zip file and copy the 2 jars files to the <b>&lt;RecordEditor install directory&gt;/lib</b> directory. <br>
+# # <br>
+# # Alternately in the <b>HowTo</b> document, there is a discussion on installing velocity.
+msgid "RunVelocityHint"
+msgstr ""
+"<H2>速度不安裝\n"
+"</h2>\n"
+"速度並沒有被安裝到記錄編輯器。\n"
+"參考\n"
+"最簡單的方法是安裝速度去到的RecordEditor的下載頁面\n"
+"參考\n"
+"http://sourceforge.net/project/showfiles.php?group_id="
+"139274和下載文件ru_velocity_1.4的。拉鍊。\n"
+"參考\n"
+"從這個zip文件，並複製2安裝目錄>的<RecordEditor / lib目錄下的jar文件的文件。\n"
+"參考\n"
+"參考\n"
+"或者在HOWTO文檔，有一個討論安裝速度。"
+
+# Use: Message 
+#  id: EditProps_XsltJars   Panel:  
+# 
+# English: <h2>Xslt Jars</h2>
+# This panel lets you specify your XSLT jars
+msgid "EditProps_XsltJars"
+msgstr "<H2>XSLT罐\n"
+"</h2>\n"
+"此面板可讓您指定XSLT罐，"
+
+# Use: Message 
+#  id: EditProps_Xslt   Panel:  
+# 
+# English: <h2>Xslt Properties</h2>
+# This panels let you specify XSLT related jars and the XSLT transform class<br>
+# # For Saxon or Xalan, you can just enter Saxon or Xalan, Or you can enter
+# <pre>        net.sf.saxon.TransformerFactoryImpl
+#     or  org.apache.xalan.processor.TransformerFactoryImpl</pre>
+msgid "EditProps_Xslt"
+msgstr ""
+"<H2>XSLT屬性\n"
+"</h2>\n"
+"此面板可讓您指定XSLT相關的jar文件和XSLT轉換類\n"
+"參考\n"
+"撒克遜或Xalan，你也可以只輸入撒克遜人或Xalan，或者你也可以進入\n"
+"<PRE>\n"
+"        net.sf.saxon.TransformerFactoryImpl\n"
+"    或org.apache.xalan.processor.TransformerFactoryImpl\n"
+"</pre>"
+
+# Use: Message 
+#  id: UnknownFileFormatTip   Panel:  
+# 
+# English: <h3>File Structure</h3>
+# 
+# # <p>This screen lets you select the File structure. <br>
+# # For Standard Windows / Unix files use <b>Text IO</b>. <br>
+# # For Fixed width files, You can click on the Start of the second record to set the length.
+msgid "UnknownFileFormatTip"
+msgstr ""
+"<H3>文件結構\n"
+"</H3>\n"
+"<P>\n"
+"這個屏幕讓你選擇文件結構。\n"
+"參考\n"
+"對於標準的Windows / Unix文件使用文本IO。\n"
+"參考\n"
+"對於固定寬度的文件，您可以點擊上開始的第二個記錄集的長度。"
+
+# Use: Message 
+#  id: LayoutEditor_SelectionTreeTbl   Panel:  
+# 
+# English: <h3>Selection Viewer</h3>
+# <br/>
+# #  <b>Warning:</b> Changes made on this screen will not be reflected on other open screens<br/>
+# # and vice versa.
+msgid "LayoutEditor_SelectionTreeTbl"
+msgstr "<H3>選擇瀏覽器\n"
+"</H3>\n"
+"<BR/>\n"
+" 警告:在此屏幕上所做的更改將不會反映在其他打開的窗口\n"
+"<BR/>\n"
+"反之亦然。"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- LayoutEdit_EndOfLine 3
+msgid "<lf>"
+msgstr "<LF>"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "= (Text)"
+msgstr "=（文字）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "> (Numeric)"
+msgstr "（數字）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "> (Text)"
+msgstr ">（文本）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid ">= (Numeric)"
+msgstr "> =（數值）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid ">= (Text)"
+msgstr "> =（文字）"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "About"
+msgstr "關於"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Action not supported by NullTree"
+msgstr "行動不支持NullTree"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Add"
+msgstr "加"
+
+# Use: Action : Frame_Heading 
+#  id:    Panel:  
+msgid "Add Attributes"
+msgstr "添加屬性"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Add Attributes
+msgid "Add Attributes to the layout Definition"
+msgstr "添加屬性的佈局定義"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Add Column after"
+msgstr "後添加列"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Add Column before"
+msgstr "添加列前"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Add Field After"
+msgstr "添加後場"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Add Field Before"
+msgstr "添加前場"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Add Fields"
+msgstr "添加字段"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Add Row After"
+msgstr "添加行後，"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Add Row Before"
+msgstr "添加前行"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Show Child Record
+msgid "Add a linked Child Record to the current screen"
+msgstr "添加鏈接的子記錄當前屏幕"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Add names to JComponents for use by testing tools"
+msgstr "添加姓名JComponents用於測試工具"
+
+# Use: Message : Action 
+#  id:    Panel:  
+msgid "After {0}"
+msgstr "在{0}"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Field List
+msgid "All Fields"
+msgstr "所有字段"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "All Included Lines"
+msgstr "所有包括線"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "All of"
+msgstr "所有"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Allocated Jars"
+msgstr "分配罐"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Allow the asterix ('*') character in file Names"
+msgstr "星號（“*”）允許在文件名中字符"
+
+# Use: Error 
+#  id:    Panel:  
+# Protocol Buffers, you can not leave a enum field blank
+msgid "An enum must have a value"
+msgstr "枚舉必須有一個值"
+
+# Use: Message : Button 
+#  id:    Panel:  
+# BoolOps 0
+msgid "And"
+msgstr "和"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Any of"
+msgstr "任何"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Apply"
+msgstr "申請"
+
+# Use: Message 
+#  id:    Panel:  
+# ComboEdit - delete confirmation
+msgid "Are you sure you want to delete Combo: {0}"
+msgstr "您確定您要刪除的組合:{0}"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordLayout edit - delete confirmation message
+msgid "Are you sure you want to delete record layout: {0}"
+msgstr "您確定您要刪除的記錄佈局:{0}"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Array View:"
+msgstr "陣列查看:"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Sort 1
+msgid "Ascending"
+msgstr "升序"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- PropsEd_JDBC 9
+msgid "Auto Close Connections"
+msgstr "自動關閉連接"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Autofit Columns"
+msgstr "自動調整列"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Sum Operators 4
+msgid "Average"
+msgstr "平均"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Avro Definition"
+msgstr "Avro的定義"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Avro Editor's Forums"
+msgstr "阿夫羅編輯論壇"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Avro Editor's Web Page"
+msgstr "阿夫羅編輯網頁"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- File SelectionOptions 1 Combo- File Search Direction 1
+msgid "Backward"
+msgstr "落後"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: EditDateTypes 
+# Tbl- PropEd_DataTypes 1
+msgid "Base Type"
+msgstr "基本類型"
+
+# Use: External 
+#  id: Csv_Parsers_0   Panel:  
+# 
+# English: Basic Parser
+msgid "Csv_Parsers_0"
+msgstr "基本分析器"
+
+# Use: External 
+#  id: Csv_Parsers_3   Panel:  
+# 
+# English: Basic Parser Column names in quotes
+msgid "Csv_Parsers_3"
+msgstr "報價基本語法分析器中的列名"
+
+# Use: Message : Action 
+#  id:    Panel:  
+msgid "Before {0}"
+msgstr "在{0}"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Properties
+msgid "Behaviour"
+msgstr "行為"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Big File Percentage"
+msgstr "大文件的百分比"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Properties
+msgid "Big Model"
+msgstr "查看大圖型號"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_3   Panel:  
+# 
+# English: Big-Endian (Old)
+msgid "BinFormat/Dialect_3"
+msgstr "Big-Endian的（舊）"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Big-File Filter/Tree limit (thousands)"
+msgstr "大文件過濾器/樹上限（千）"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Big-File-Model Memory Chunks (KB) default=1000"
+msgstr "大文件型內存塊（KB）預設值= 1000"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Big-File-Model compress option (Default Read)"
+msgstr "模型大文件壓縮選項（默認閱讀）"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Binary Format"
+msgstr "二進制格式"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_15   Panel:  
+# 
+# English: Binary Integer
+msgid "Tbl_FieldType_15"
+msgstr "二進制整數"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_35   Panel:  
+# 
+# English: Binary Integer Big Endian (Mainframe?)
+msgid "Tbl_FieldType_35"
+msgstr "二進制整數大端（主機？）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_21   Panel:  
+# 
+# English: Bit
+msgid "Tbl_FieldType_21"
+msgstr "位"
+
+# Use: External 
+#  id: Tbl_Format_21   Panel:  
+# 
+# English: Bold Format
+msgid "Tbl_Format_21"
+msgstr "加粗格式"
+
+# Use: Field_Prompt 
+#  id:    Panel: Filter 
+msgid "Boolean Operator"
+msgstr "布爾運算符"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- LayoutEdit_RecSel 0
+msgid "Boolean op 1"
+msgstr "布爾運算1"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- LayoutEdit_RecSel 1
+msgid "Boolean op 2"
+msgstr "布爾運算2"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- LayoutEdit_RecSel 2
+msgid "Boolean op 3"
+msgstr "布爾運算3"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Bring Log to the Front if Data is written to it"
+msgstr "如果數據被寫入到它，把記錄到前"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Bring log to Front"
+msgstr "把登錄到前"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Browse"
+msgstr "瀏覽"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Build"
+msgstr "建立"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Build Tree"
+msgstr "構建樹"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# ExportTab 1
+msgid "CSV"
+msgstr "CSV"
+
+# Use: Menu : Tab_Heading 
+#  id:    Panel:  
+# Tab: EdProps_MainTab_Csv Options
+msgid "CSV Options"
+msgstr "CSV選項"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_115   Panel:  
+# 
+# English: CSV array
+msgid "Tbl_FieldType_115"
+msgstr "CSV陣列"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Recalculate Column widths
+msgid "Calculate the column widths based on data in the columns"
+msgstr "根據列中的數據計算的列寬"
+
+# Use: Message 
+#  id:    Panel:  
+# Exception raised when loading Xml layout into DB, Exception message appended to the message
+msgid "Can not Load Xml Layout:"
+msgstr "無法加載XML佈局:"
+
+# Use: Message 
+#  id:    Panel:  
+# For some Big files, the file is randommly as need; Message produced when the random read fails
+msgid "Can not Read block from File at:"
+msgstr "無法從文件中讀數據塊:"
+
+# Use: Message 
+#  id:    Panel:  
+# Big Files - Error reading a block from the spill file
+msgid "Can not Read block from disk at:"
+msgstr "無法從磁盤讀數據塊:"
+
+# Use: Error 
+#  id:    Panel:  
+# Internal error, occurs on very large files
+msgid "Can not add Byte Array"
+msgstr "無法添加字節數組"
+
+# Use: Error 
+#  id:    Panel:  
+# Problems adding RecordSelection test field (System error)
+msgid "Can not add Test Field"
+msgstr "無法添加測試現場"
+
+# Use: Message 
+#  id:    Panel:  
+# Trying to create a cellrender for a column in the RecordEditor but there was a failure (class does not exist)
+msgid "Can not create Rendor for field:"
+msgstr "無法創建Rendor領域:"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordLayout Create/Edit screen - error creating Parameter popup screen
+msgid "Can not create popup:"
+msgstr "無法創建彈出:"
+
+# Use: Message 
+#  id:    Panel:  
+# Icon name follows; should not occur ~ means system can not find one of the icons used in buttons menus
+msgid "Can not find icon:"
+msgstr "無法找到圖標:"
+
+# Use: Error 
+#  id:    Panel:  
+# Internal error,
+msgid "Can not get Byte Array"
+msgstr "不能得到的字節數組"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Can not get layout for the New File"
+msgstr "無法獲取新文件的佈局"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Can not load a Group Filter to a simple filter"
+msgstr "一組過濾器無法加載一個簡單的過濾器"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Can not locate record: >{0}< in input layout"
+msgstr "無法找到記錄:{0} <輸入佈局"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Can not locate record: >{0}< in output layout"
+msgstr "無法找到記錄:{0} <輸出佈局"
+
+# Use: Message 
+#  id:    Panel:  
+# Details & reason follow
+msgid "Can not paste"
+msgstr "無法粘貼"
+
+# Use: Error 
+#  id:    Panel:  
+# Internal error,
+msgid "Can not put Byte Array"
+msgstr "不能把字節數組"
+
+# Use: Message 
+#  id:    Panel:  
+# Tried to save "Field Sequence" information as Xml using jibx and the jibx call failed for some reason
+msgid "Can not save Field Sequences"
+msgstr "無法儲存場序列"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Can not update field in temporary Line"
+msgstr "無法更新臨時線"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Can not update temporary Line"
+msgstr "無法更新臨時線路"
+
+# Use: Message 
+#  id:    Panel:  
+# Find screen replace invalid in browse mode
+msgid "Can not use replace in browse mode"
+msgstr "在瀏覽模式下無法使用更換"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Cancel"
+msgstr "取消"
+
+# Use: Message 
+#  id:    Panel:  
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "Canonical_Name"
+msgstr "Canonical_Name"
+
+# Use: Message 
+#  id:    Panel:  
+# Error starting a Wizard (File / Copy / Compare wizards); exception details follow
+msgid "Cant start wizard"
+msgstr "不能啟動嚮導"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 6
+msgid "Cell_Format"
+msgstr "Cell_Format"
+
+# Use: Action : Frame_Heading 
+#  id:    Panel:  
+msgid "Change Layout"
+msgstr "更改佈局"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Changed Lines"
+msgstr "改線"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_0   Panel:  
+# 
+# English: Char
+msgid "Tbl_FieldType_0"
+msgstr "燒焦"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_1   Panel:  
+# 
+# English: Char (right justified)
+msgid "Tbl_FieldType_1"
+msgstr "字符（右對齊）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_51   Panel:  
+# 
+# English: Char Multi Line
+msgid "Tbl_FieldType_51"
+msgstr "字符多行"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_3   Panel:  
+# 
+# English: Char Null padded
+msgid "Tbl_FieldType_3"
+msgstr "字符空棉服"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_2   Panel:  
+# 
+# English: Char Null terminated
+msgid "Tbl_FieldType_2"
+msgstr "終止字符空"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_81   Panel:  
+# 
+# English: Char Rest of Record
+msgid "Tbl_FieldType_81"
+msgstr "字符其餘的記錄"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Char to Replace invalid Filename Chars"
+msgstr "字符替換無效的文件名字符數"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Character Field is to big"
+msgstr "字符字段大"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Characters that are invalid in a file Name"
+msgstr "在文件名中無效的字符"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_110   Panel:  
+# 
+# English: Check Box True / Space
+msgid "Tbl_FieldType_110"
+msgstr "複選框真/空間"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Check Fields"
+msgstr "檢查字段"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Check Records"
+msgstr "檢查記錄"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Check for binary Fixed Width"
+msgstr "檢查二元固定的闊度"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Check previous used Proto"
+msgstr "檢查前面的原"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid ""
+"Check to make sure the proto on a similarly named file is the correct proto"
+msgstr "檢查，以確保類似命名的文件是正確的原原"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_109   Panel:  
+# 
+# English: CheckBox Y/null
+msgid "Tbl_FieldType_109"
+msgstr "CheckBox的Y /空"
+
+# Use: External 
+#  id: Tbl_Format_1   Panel:  
+# 
+# English: Checkbox - use Parameter
+msgid "Tbl_Format_1"
+msgstr "複選框 - 使用參數"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_112   Panel:  
+# 
+# English: Checkbox T/F
+msgid "Tbl_FieldType_112"
+msgstr "複選框T / F"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_111   Panel:  
+# 
+# English: Checkbox Y/N
+msgid "Tbl_FieldType_111"
+msgstr "複選框Y / N"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- PropsEd_JDBC 7
+msgid "Checkpoint"
+msgstr "檢查站"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-ChildRecords columns 1
+msgid "Child Name"
+msgstr "孩子的名字"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: LayoutEdit
+msgid "Child Records"
+msgstr "子記錄"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Choose Directory"
+msgstr "選擇目錄"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Choose File"
+msgstr "選擇“文件”"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Choose Jar"
+msgstr "選擇瓶"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Choose Layout"
+msgstr "選擇佈局"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Choose Output File"
+msgstr "選擇輸出文件"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Choose Velocity Template"
+msgstr "選擇Velocity模板"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Chunk Size (KB)"
+msgstr "塊大小（KB）"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Clear Value"
+msgstr "明確的價值"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Close"
+msgstr "關閉"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Close All"
+msgstr "全部關閉"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Close DB's and exit application"
+msgstr "關閉數據庫，然後退出應用程序"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Close Tab"
+msgstr "關閉標籤頁"
+
+# Use: Frame_Heading : Field_Prompt 
+#  id:    Panel:  
+msgid "Cobol Copy"
+msgstr "Cobol的複製"
+
+# Use: Field_Prompt 
+#  id:    Panel: RcdExtra 
+msgid "Cobol Copybook"
+msgstr "的COBOL Copybook"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_1   Panel:  
+# 
+# English: Cobol Copybook (DB)
+msgid "CopybookLoaderFactory_1"
+msgstr "Cobol的字帖（DB）"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Cobol Copybook Analysis"
+msgstr "Cobol的字帖分析"
+
+# Use: Message 
+#  id:    Panel:  
+# Cobol Copybook analysis - cobol copybook files does not exist
+msgid "Cobol Copybook does not exist"
+msgstr "不存在的COBOL Copybook"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Cobol Dialect"
+msgstr "Cobol語言方言"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 9
+msgid "Cobol Name"
+msgstr "Cobol的名稱"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Collapse Tree"
+msgstr "折疊樹"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Colorfull Table"
+msgstr "創輝表"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Column View (Selected Records)"
+msgstr "列視圖（選定的記錄）"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB ComboValues 1
+msgid "Combo Value"
+msgstr "組合的價值"
+
+# Use: External 
+#  id: Tbl_Format_15   Panel:  
+# 
+# English: ComboBox Format, (combo name in parameter)
+msgid "Tbl_Format_15"
+msgstr "組合框格式，（組合名稱參數）"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: ComboPnl 
+# Tbl- DB-Combo Columns 1
+msgid "Combo_Name"
+msgstr "Combo_Name"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_3   Panel:  
+# 
+# English: Comma CSV (names first line)
+msgid "CopybookLoaderFactory_3"
+msgstr "逗號CSV（名稱第一行）"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Compare Different Layouts"
+msgstr "比較不同的佈局"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Compare Error- Record {0} from filter was not found in record Layout"
+msgstr "比較錯誤記錄{0}從過濾器中未找到記錄佈局"
+
+# Use: Error 
+#  id:    Panel:  
+msgid ""
+"Compare Error- Record/Field {0}/{1} from filter was not found in record "
+"Layout"
+msgstr "比較錯誤記錄/字段{0} / {1}從過濾器中未找到記錄佈局"
+
+# Use: Action : Frame_Heading 
+#  id:    Panel:  
+msgid "Compare Menu"
+msgstr "對比菜單"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Compare Save Directory"
+msgstr "比較保存目錄"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Compare with Disk
+msgid "Compare what is being edited with what is stored on disk"
+msgstr "比較正在編輯與存儲在磁盤上的"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Compare with Disk"
+msgstr "比較磁盤"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Complete Rebuild of Tree"
+msgstr "完成重建的樹"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Compress Option"
+msgstr "壓縮選項"
+
+# Use: Message 
+#  id:    Panel:  
+# Internal error, occurs with very large files where the Editor uses Compression to reduce memory usage - generally only occurs in testing
+msgid "Compress Queue Error: Save the file and try again"
+msgstr "壓縮隊列錯誤:保存文件，然後再試一次"
+
+# Use: Message 
+#  id:    Panel:  
+# connection to database failed, DB error will be concenated with message
+msgid "Connection Failed:"
+msgstr "連接失敗:"
+
+# Use: Message 
+#  id:    Panel:  
+# Database connection Failed; {0} will be replaced with error message
+msgid "Connection Failed: {0}, can not run SQL"
+msgstr "連接失敗:{0}，不能運行SQL"
+
+# Use: Message 
+#  id:    Panel:  
+# Database Connection Identifier
+msgid "Connection ID"
+msgstr "連接ID"
+
+# Use: Message 
+#  id:    Panel:  
+# Database Connection index
+msgid "Connection Index"
+msgstr "連接性指數"
+
+# Use: Message 
+#  id:    Panel:  
+# Succesful connection to DB
+msgid "Connection Ok ~"
+msgstr "連接好了〜"
+
+# Use: Message 
+#  id:    Panel:  
+# Connected to Datgabase - DB details will follow; from EditParameters - Test Connection screen
+msgid "Connection succesfull to"
+msgstr "連接succesfull到"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Contains"
+msgstr "包含"
+
+# Use: Message 
+#  id:    Panel:  
+# Generic Conversion error
+msgid "Conversion Error"
+msgstr "轉換錯誤"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Convert Layout"
+msgstr "轉換佈局"
+
+# Use: Action : Button : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 4
+msgid "Copy"
+msgstr "複製"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Copy Column"
+msgstr "複製列"
+
+# Use: Message 
+#  id:    Panel:  
+# Copy wizard
+msgid "Copy Done !!!"
+msgstr "拷貝完成！"
+
+# Use: Message 
+#  id:    Panel:  
+# Copy wizard
+msgid "Copy Done !!!, check log for errors"
+msgstr "拷貝完成！，檢查日誌中的錯誤"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Copy Failed:"
+msgstr "複製失敗:"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Copy Layouts"
+msgstr "複製佈局"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Copy Menu"
+msgstr "複印菜單"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Copy Record(s)"
+msgstr "複製記錄（S）"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Copy Save Directory"
+msgstr "複製保存目錄"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Copy Selections"
+msgstr "複製選擇"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Copy To Delimited File (Csv)"
+msgstr "複製要帶分隔符的文件（CSV）"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Copy To Xml"
+msgstr "複製到XML"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Copy copybooks"
+msgstr "複製習字"
+
+# Use: Message 
+#  id:    Panel:  
+# Record Editor Copy Error
+msgid "Copy limit of {0} exceeded; only the first {1} lines copied"
+msgstr "複製的限制{0}超標;僅在第{1}行複製"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Copy Record(s)
+msgid "Copy selected records to the RecordEditor Clipboard"
+msgstr "複製選定的記錄的RecordEditor剪貼板"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Copy the selected record from the table"
+msgstr "從表中複製選定的記錄"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Copy to Delimited file"
+msgstr "帶分隔符的文件複製到"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Copy to Xml file"
+msgstr "複製到XML文件"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Copy using Velocity Template"
+msgstr "複製使用Velocity模板"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordEditor - Catch all error reading Record-fields from the Database
+msgid "CopyBook Error- Reading Fields:"
+msgstr "字帖錯誤閱讀領域:"
+
+# Use: Message 
+#  id:    Panel:  
+# - RecordEditor - Catch all Error reading RecordLayout from the database
+msgid "CopyBook Error:"
+msgstr "字帖錯誤:"
+
+# Use: Message : Field_Prompt 
+#  id:    Panel: GetFiles:OpenFileEditPnl 
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "Copybook"
+msgstr "複寫簿"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Copybook Analysis"
+msgstr "字帖分析"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordEditor - Catch all error reading child records from the DB
+msgid "Copybook Error: Reading Child Records:"
+msgstr "字帖錯誤:讀子記錄:"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "Copybook Loaders"
+msgstr "字帖裝載機"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Copybook Type"
+msgstr "字帖類型"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Could not load Copybook"
+msgstr "無法加載字帖"
+
+# Use: Message 
+#  id:    Panel:  
+# Upgrade message
+msgid "Could not load FileWizardReader"
+msgstr "無法加載FileWizardReader的"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffers Editor - User tried to delete a Required Child message
+msgid "Could not remove child, it is Required:"
+msgstr "無法刪除的孩子，這是必需的:"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffers Editor (Internal Error ??) - should not occur
+msgid "Could not remove child, it is not a Protocol Buffer Line:"
+msgstr "無法刪除的孩子，這不是一個協議緩衝區行:"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffers Editor - user tried to delete a child message that does not exist
+msgid "Could not remove child, it is not present:"
+msgstr "無法刪除的孩子，這是不存在的:"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Create Child Record"
+msgstr "創建子記錄"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Create Combo"
+msgstr "創建組合"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Create Combo List"
+msgstr "創建組合列表"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Create Field Tree View"
+msgstr "創建字段樹視圖"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Create Layout"
+msgstr "創建佈局"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Create New Child Record"
+msgstr "創建新的子記錄"
+
+# Use: Frame_Heading : Field_Prompt 
+#  id:    Panel:  
+msgid "Create Record Layout"
+msgstr "創建記錄佈局"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Create Record Layout Wizard"
+msgstr "創建記錄的佈局嚮導"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Create Record Tree"
+msgstr "創建記錄樹"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Create Sorted Tree"
+msgstr "創建排序樹"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Record Based Tree
+msgid "Create Tree View based on Record Hierarchy"
+msgstr "根據記錄層次的樹視圖"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Field Based Tree
+msgid "Create Tree View based on changes in selected fields"
+msgstr "在選定的領域變化的基礎上創建樹視圖"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Sorted Field Tree
+msgid "Create Tree View by sorting on selected fields"
+msgstr "對選定的字段進行排序，創建樹視圖"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_XML Tree (Selected Records)
+msgid "Create XML Tree View from the currently selected records"
+msgstr "從當前選定的記錄創建XML樹視圖"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Record Layout Tree (Selected Records)
+msgid ""
+"Create XML Tree View using the definition in Record Layout Definition from "
+"the currently selected records"
+msgstr "創建XML樹視圖中記錄的佈局定義中使用的定義從當前選擇的記錄"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Column View (Selected Records)
+msgid "Create a Column view from the selected records"
+msgstr "從選定的記錄創建一個列視圖"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Record View (Selected Records)
+msgid "Create a new Record view from the selected records"
+msgstr "從選定的記錄創建一個新的記錄視圖"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Create a new record layout"
+msgstr "創建一個新的記錄佈局"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Table View (Selected Records)
+msgid "Create a new view from the selected records"
+msgstr "從選定的記錄創建一個新的視圖"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Create views in seperate windows instead of tabs on the file panel"
+msgstr "創建視圖在單獨的窗口，而不是標籤上的文件面板"
+
+# Use: External 
+#  id: Line_IO_Names_51   Panel:  
+# 
+# English: Csv Name on 1st line
+msgid "Line_IO_Names_51"
+msgstr "在第一線的CSV名稱"
+
+# Use: Combobox_Entry 
+#  id: Line_IO_Names_13   Panel:  
+# 
+# English: Csv Name on 1st line
+msgid "Line_IO_Names_13"
+msgstr "在第一線的CSV名稱"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- File SelectionOptions
+msgid "Current View"
+msgstr "當前視圖"
+
+# Use: Action : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 5
+msgid "Cut"
+msgstr "切"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Cut Record(s)
+msgid "Cut selected records to the RecordEditor Clipboard"
+msgstr "剪切選定的記錄的RecordEditor剪貼板"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Cut the selected record from the table"
+msgstr "剪切選定的記錄從表中"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_7   Panel:  
+# 
+# English: DB - CSV extract Copybook
+msgid "CopybookLoaderFactory_7"
+msgstr "DB - CSV提取物字帖"
+
+# Use: Menu : Column_Heading : Tab_Heading 
+#  id:    Panel:  
+# Tbl- Single_Record 3 ExportTab 0 Tbl- ArrayRender 1 Tbl- MapRender 1 Tbl- Single_Record 4
+msgid "Data"
+msgstr "數據"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pane:StandardGetFiles:GetFiles:OpenFileEditPnl 
+msgid "Data Base"
+msgstr "數據庫"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Data Format error: {0}"
+msgstr "數據格式錯誤:{0}"
+
+# Use: Message 
+#  id:    Panel:  
+# Error Connecting to the Database, details will follow
+msgid "DataBase Connection error:"
+msgstr "數據庫連接錯誤:"
+
+# Use: Message 
+#  id:    Panel:  
+# Database upgrade message
+msgid "Database Upgraded to Version"
+msgstr "數據庫升級到版本"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Database upgrade failed !!!"
+msgstr "數據庫升級失敗！"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_74   Panel:  
+# 
+# English: Date - DDMMYY
+msgid "Tbl_FieldType_74"
+msgstr "日期 - DDMMYY"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_75   Panel:  
+# 
+# English: Date - DDMMYYYY
+msgid "Tbl_FieldType_75"
+msgstr "日期 - DDMMYYYY"
+
+# Use: External 
+#  id: Tbl_Format_3   Panel:  
+# 
+# English: Date - DDMMYYYY
+msgid "Tbl_Format_3"
+msgstr "日期 - DDMMYYYY"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_71   Panel:  
+# 
+# English: Date - Format in Parameter field
+msgid "Tbl_FieldType_71"
+msgstr "日期 - 在參數字段的格式"
+
+# Use: External 
+#  id: Tbl_Format_2   Panel:  
+# 
+# English: Date - Format in Parameter field
+msgid "Tbl_Format_2"
+msgstr "日期 - 在參數字段的格式"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_72   Panel:  
+# 
+# English: Date - YYMMDD
+msgid "Tbl_FieldType_72"
+msgstr "日期 - YYMMDD"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_73   Panel:  
+# 
+# English: Date - YYYYMMDD
+msgid "Tbl_FieldType_73"
+msgstr "日期 - YYYYMMDD"
+
+# Use: External 
+#  id: Tbl_Format_4   Panel:  
+# 
+# English: Date - YYYYMMDD
+msgid "Tbl_Format_4"
+msgstr "日期 - YYYYMMDD"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: EditDateTypes:EditPropertiesPnl 
+# Tbl- PropEd_DataTypes 2
+msgid "Date Format"
+msgstr "日期格式"
+
+# Use: Message 
+#  id:    Panel:  
+# Error in the Date format entered by the user; User must use Java date format characters e.g. ddMMyy
+msgid "Date Format Error:"
+msgstr "日期格式錯誤:"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid ""
+"Date Format String eg dd/MM/yy or dd.MMM.yy. the field is case sensitive, it "
+"uses Java date Formatting"
+msgstr "日期格式字符串，例如日/ MM / YY或dd.MMM.yy.該字段是大小寫敏感，它使用Java日期格式化"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "Date Types"
+msgstr "日期類型"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_11   Panel:  
+# 
+# English: Decimal
+msgid "Tbl_FieldType_11"
+msgstr "十進制"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- LayoutWizard Field definition 4
+msgid "Decimal"
+msgstr "十進制"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Update Csv File Format 3
+msgid "Decimal Places"
+msgstr "小數位數"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 5
+msgid "DecimalPos"
+msgstr "DecimalPos"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Default to prefered layout"
+msgstr "默認為首選佈局"
+
+# Use: Action : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 10
+msgid "Delete"
+msgstr "刪除"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Delete Column"
+msgstr "刪除列"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Delete Record(s)"
+msgstr "刪除記錄（S）"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Delete Rows"
+msgstr "刪除行"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Delete Selected Rows using the delete key"
+msgstr "使用刪除鍵刪除選定的行"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Delete Record(s)
+msgid "Delete Selected records"
+msgstr "刪除選定的記錄"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Delete Selected rows with the delete key"
+msgstr "刪除鍵刪除選中的行"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Delete example Layout's from the DB"
+msgstr "刪除佈局實例從DB"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Delete selected records from the Table below"
+msgstr "從下面的表中刪除選定的記錄"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Delete the Current Record"
+msgstr "刪除當前記錄"
+
+# Use: Message 
+#  id:    Panel:  
+# ComboEdit/LayoutEdit - delete confirmation header
+msgid "Delete: {0}"
+msgstr "刪除:{0}"
+
+# Use: External 
+#  id: Tbl_RecordType_2   Panel:  
+# 
+# English: Delimited Fields
+msgid "Tbl_RecordType_2"
+msgstr "分隔的字段"
+
+# Use: External 
+#  id: Tbl_RecordType_3   Panel:  
+# 
+# English: Delimited Fields with Quotes
+msgid "Tbl_RecordType_3"
+msgstr "分隔的字段行情"
+
+# Use: Message : Field_Prompt 
+#  id:    Panel: RcdExtra:Csv 
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "Delimiter"
+msgstr "分隔符"
+
+# Use: Message : Column_Heading : Field_Prompt : Tab_Heading 
+#  id:    Panel: EditDefaults:StandardGetFiles:RecordList:GetFiles:OpenFileEditPnl:TableListPnl:RecordDef:EditJarsPanel 
+# Field on RecordLayout Create/Edit screen - used in message Tbl- PropEd_Jars 2 Tab: EdProps_MainTab_Description Tbl- DB-RecordFields Columns 3 Tbl- DB-TableList Columns 2 editProps_DefaultColHeadings 1
+msgid "Description"
+msgstr "描述"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-Table Columns 1
+msgid "Details"
+msgstr "詳細信息"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Properties
+msgid "Directories"
+msgstr "目錄"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Directory holding the help files"
+msgstr "目錄的幫助文件"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Directory to read / write file copybooks to"
+msgstr "讀/寫文件習字的目錄"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Directory where proto files are stored"
+msgstr "其中proto文件的存儲目錄"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Directory where the Editor Starts in"
+msgstr "目錄編輯器啟動"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Directory where the Editor Starts in (if no file specified)"
+msgstr "編輯器啟動（如果沒有指定文件的目錄）"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Display"
+msgstr "顯示"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Undock tab
+msgid "Display Tab in seperate screen"
+msgstr "在單獨的屏幕上顯示選項卡"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Undock all Tabs
+msgid "Display all tabs in there own screen"
+msgstr "顯示所有選項卡中有自己的屏幕"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordEditor Delete confirmation message (For Delete key)
+msgid "Do you want to delete the selected {0} lines ?"
+msgstr "你想刪除選定的{0}行嗎？"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Dock Tab/Screen
+msgid "Dock Tab/Screen with the main screen for this document"
+msgstr "本文檔中的主屏幕底座卡/屏幕"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Dock related screens
+msgid "Dock all screens for this document with the main screen"
+msgstr "此文件停靠的所有屏幕主屏幕"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Dock related screens"
+msgstr "停靠相關的屏幕"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_18   Panel:  
+# 
+# English: Double
+msgid "Tbl_FieldType_18"
+msgstr "雙擊"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: EditJdbcParamsPanel 
+# Tbl- PropsEd_JDBC 1
+msgid "Driver"
+msgstr "司機"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Dull colors"
+msgstr "沉悶的顏色"
+
+# Use: Menu : Button 
+#  id:    Panel:  
+msgid "Edit"
+msgstr "編輯"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Edit Child"
+msgstr "編輯兒童"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Edit Combo Lists"
+msgstr "編輯組合列表"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Edit Layout"
+msgstr "編輯佈局"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_117   Panel:  
+# 
+# English: Edit Multi Line field
+msgid "Tbl_FieldType_117"
+msgstr "編輯多行字段"
+
+# Use: Message : Action 
+#  id:    Panel:  
+msgid "Edit Options"
+msgstr "編輯選項"
+
+# Use: Frame_Heading : Field_Prompt 
+#  id:    Panel:  
+msgid "Edit Record Layout"
+msgstr "編輯記錄的佈局"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Edit Record Layout - DB"
+msgstr "編輯記錄的佈局 - DB"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Edit Record Selections"
+msgstr "編輯選擇"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Edit System Table"
+msgstr "編輯系統表"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Edit Tables"
+msgstr "編輯表格"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Editing canceled"
+msgstr "編輯取消"
+
+# Use: Error 
+#  id:    Panel:  
+# Avro Schema
+msgid "Empty Data File, can not read the schema"
+msgstr "空的數據文件，不能讀取架構"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Empty View can not add Child Record"
+msgstr "空視圖不能添加子記錄"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Enum type \\\"{0}\\\" has no value named \\\"{1}\\\"."
+msgstr "枚舉類型\\“{0} \\”有沒有值，命名為\\“{1} \\”。"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Enum type \\\"{0}\\\" has no value with number {1}."
+msgstr "枚舉類型\\“{0} \\”有沒有價值數{1}。"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Equivalent Field"
+msgstr "等效場"
+
+# Use: Message 
+#  id:    Panel:  
+# Velocity Template file does not exist; file name will follow
+msgid "Error - cannot find template:"
+msgstr "錯誤 - 無法找到模板:"
+
+# Use: Message 
+#  id:    Panel:  
+# Change Layout screen generic error message; exception message added on
+msgid "Error Changing Layout:"
+msgstr "改變錯誤的佈局:"
+
+# Use: Message 
+#  id:    Panel:  
+# Export Screen - Error closing the output (export) file. Exception message added
+msgid "Error Closing File:"
+msgstr "錯誤截止檔案:"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffer Editor - Generic error message when compiling / loading a proto definition Protocol Buffer Editor - message from proto "Compile"
+msgid "Error Compiling proto file:"
+msgstr "編譯原文件時出錯:"
+
+# Use: Message 
+#  id:    Panel:  
+# Connection Failed  - DB details will follow; from EditParameters - Test Connection screen
+msgid "Error Connecting to the Database:"
+msgstr "連接到數據庫時發生錯誤:"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error Converting Copybook:"
+msgstr "錯誤轉換字帖:"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Error Converting Hex; Byte-Number={0}  value={1}  Message: {2}"
+msgstr "錯誤轉換成十六進制字節數= {0} = {2} {1}消息:"
+
+# Use: Message 
+#  id:    Panel:  
+# Error message when the user enters an invalid hex value in the RecordEditor
+msgid "Error Converting Hex; {0} value={1} Message:"
+msgstr "錯誤十六進制轉換; {0} = {1}的消息:"
+
+# Use: Message 
+#  id:    Panel:  
+# New File screen - generic error message, exception message will be added to it
+msgid "Error Creating File:"
+msgstr "創建文件時發生錯誤:"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error Defining Type > {0} class={1} {2}"
+msgstr "錯誤定義類型> {0} = {1} {2}"
+
+# Use: Message 
+#  id:    Panel:  
+# Printing
+msgid "Error Executing action:"
+msgstr "錯誤執行動作:"
+
+# Use: Message 
+#  id:    Panel:  
+# Unknown-Format file reader - Generic error creating RecordLayout; Exception details will follow
+msgid "Error Generating Layout"
+msgstr "錯誤生成佈局"
+
+# Use: Message 
+#  id:    Panel:  
+# File Copy Utility
+msgid "Error Line {0} Field Number {1} - {2} : {3}"
+msgstr "錯誤行{0}字段{1} - {2} {3}"
+
+# Use: Message 
+#  id:    Panel:  
+# Error reading an array of integer properties from a property file
+msgid "Error Loading Array, Index:"
+msgstr "錯誤加載陣列指數:"
+
+# Use: Message 
+#  id:    Panel:  
+# Reporting IO error when reading a file in (for editting).  Csv Editor - Error loading a file for editing, exception message appended to the message
+msgid "Error Loading File:"
+msgstr "錯誤加載文件:"
+
+# Use: Message 
+#  id:    Panel:  
+# Many screens
+msgid "Error Loading Layout:"
+msgstr "錯誤載入中佈局:"
+
+# Use: Message 
+#  id:    Panel:  
+# Error loading an Aray of properties from a property file (Used to read Database properties amongst other things)
+msgid "Error Loading Property:"
+msgstr "錯誤加載性能:"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffers Editor - has a summary file of all proto definition which is used to work out which proto definition should be used with a file
+msgid "Error Loading Proto Summary file:"
+msgstr "錯誤加載原始概要文件:"
+
+# Use: Message 
+#  id:    Panel:  
+# Many screens
+msgid "Error Loading Record Layout"
+msgstr "載入中記錄的佈局錯誤"
+
+# Use: Message 
+#  id:    Panel:  
+# No fields defined for a record (applies to recordeditor protobuf and avro editors)
+msgid "Error No Fields defined in the layout !!!"
+msgstr "錯誤沒有在佈局中定義的字段！"
+
+# Use: Message 
+#  id:    Panel:  
+# Error opening an Xml output file; error message will follow
+msgid "Error Opening XML file:"
+msgstr "打開XML文件時出現錯誤:"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffers Editor - has a file holding all the directories with proto file in them; generic error reading & processing this file
+msgid "Error Processing Proto Directory file"
+msgstr "錯誤處理原目錄文件"
+
+# Use: Message 
+#  id:    Panel:  
+# Big Files - Error occured in reading or uncompressing data on the Spill files
+msgid "Error Reading & unpacking spill file:"
+msgstr "錯誤讀取和拆包溢出文件:"
+
+# Use: Message 
+#  id:    Panel:  
+# Generic message used when there is an IO error on the unknown format screen
+msgid "Error Reading File:"
+msgstr "讀取文件時出錯:"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error Reading the File:"
+msgstr "讀取文件時出錯:"
+
+# Use: Message 
+#  id:    Panel:  
+# Heading
+msgid "Error Records"
+msgstr "錯誤記錄"
+
+# Use: Message 
+#  id:    Panel:  
+# New File screen - can not find the specified Record Layout
+msgid "Error Retrieving Layout"
+msgstr "正在佈局錯誤"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffers Editor - Error retrieving proto definition (Protocol buffers Equivalent of a RecordLayout [schema])
+msgid "Error Retrieving proto definition:"
+msgstr "正在原定義的錯誤:"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error Running Compare"
+msgstr "錯誤運行比較"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error Running Copy"
+msgstr "錯誤運行複製"
+
+# Use: Message 
+#  id:    Panel:  
+# For very big files, the RecordEditor uses a spill file to store parts of the file not being used. This indicates an error occured writing to the spill file
+msgid "Error Saving to Spill file"
+msgstr "保存到溢出文件時出錯"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffers Editor - Error creating a message, details follow
+msgid "Error Setting up Messages:"
+msgstr "設定錯誤消息:"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error Table:"
+msgstr "錯誤表:"
+
+# Use: Message 
+#  id:    Panel:  
+# File Open - RecordEditor loaded the data file for editting but could not update the RecentHistory file. The RecentHistory file holds recently editted files and File ~ record-layout mapping info
+msgid "Error Updating Recent-History file"
+msgstr "更新最近的歷史文件時出錯"
+
+# Use: Message 
+#  id:    Panel:  
+# Export (Csv / Fixed) error writing column headings, exception message will be appended
+msgid "Error Writing Column Headings:"
+msgstr "錯誤寫入列標題:"
+
+# Use: Message 
+#  id:    Panel:  
+# Error writing an Xml file; error message will follow
+msgid "Error Writing XML:"
+msgstr "錯誤寫入XML:"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error generating HTML"
+msgstr "錯誤產生HTML"
+
+# Use: Message 
+#  id:    Panel:  
+# File Copy Utility - Param 1 = field name, Param 2 = Error Message, Param 3 = field value
+msgid "Error in Field {0} {1} : {2}"
+msgstr "錯誤的字段{0} {1} {2}:"
+
+# Use: Message 
+#  id:    Panel:  
+# Generic error message when reading (loading) Xml layouts into the DB
+msgid "Error in the layout that was loaded"
+msgstr "在已加載的佈局錯誤"
+
+# Use: Message 
+#  id:    Panel:  
+# Generic Csv Reader ?? - Generic Read Error
+msgid "Error loading CSV Preview:"
+msgstr "加載錯誤CSV預覽:"
+
+# Use: Message 
+#  id:    Panel:  
+# Initialisation - Error loading a user defined function
+msgid "Error loading Function"
+msgstr "錯誤荷載作用"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordEditor allow user jars to be added (which may include initialisation); relates to user written initialisation
+msgid "Error running user Initialize:"
+msgstr "運行用戶初始化時出錯:"
+
+# Use: Error 
+#  id:    Panel:  
+# Error when trying to update a field with a hex value
+msgid "Error saving Hex value: {0}"
+msgstr "保存的十六進制值時發生錯誤:{0}"
+
+# Use: Message 
+#  id:    Panel:  
+# Export Layout as Xml, Export multiple layouts as Xml generic error message, exception message follows
+msgid "Error saving layout:"
+msgstr "錯誤節能佈局:"
+
+# Use: Message 
+#  id:    Panel:  
+# Big file (Internal consistency error) - For very big files, The Editor uses compression to reduce memory usage; when it uncompresses a chunk, it checks the uncompressed data is the same size as it was before compression
+msgid "Error uncompressing chunk expected {0} but was {1}"
+msgstr "預期的錯誤解壓縮塊{0} {1}"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error updating Message in parent (missing required fields ???):"
+msgstr "在父母的更新消息（缺少必要的字段？？）時出錯:"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error:"
+msgstr "錯誤:"
+
+# Use: Message 
+#  id:    Panel:  
+# Cobol Copybook analysis
+msgid "Error: cobol copybook file is a directory"
+msgstr "錯誤:COBOL的字帖文件是一個目錄"
+
+# Use: Message 
+#  id:    Panel:  
+# The execution of a saved file (Filter, Sort-Tree etc) has failed, exception details will follow
+msgid "Execute Error"
+msgstr "執行錯誤"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Execute Record Tree"
+msgstr "執行記錄樹"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Execute Saved Sort Tree"
+msgstr "執行保存的排序樹"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Expand Tree"
+msgstr "展開樹"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- PropsEd_JDBC 8
+msgid "Expand variables (Y/N)"
+msgstr "展開變量（Y / N）"
+
+# Use: External 
+#  id: Line_IO_Names_31   Panel:  
+# 
+# English: Experimental Microfocus Header File
+msgid "Line_IO_Names_31"
+msgstr "實驗微聚焦頭文件"
+
+# Use: Combobox_Entry 
+#  id: Line_IO_Names_10   Panel:  
+# 
+# English: Experimental Microfocus Header File
+msgid "Line_IO_Names_10"
+msgstr "實驗微聚焦頭文件"
+
+# Use: Action : Frame_Heading 
+#  id:    Panel:  
+msgid "Export"
+msgstr "出口"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Export Script directory"
+msgstr "導出腳本目錄"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Export Tree"
+msgstr "導出樹"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Export as CSV file"
+msgstr "導出為CSV文件"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Export as Fixed Length file"
+msgstr "導出為固定長度的文件"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Export as HTML (tree)"
+msgstr "導出為HTML（樹）"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Export as HTML 1 tbl"
+msgstr "導出為HTML 1 TBL"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Export as HTML 1 tbl per Row"
+msgstr "導出為HTML TBL每行"
+
+# Use: Message 
+#  id: ExportXmlDesc   Panel:  
+# 
+# English: Export data as an XML file
+msgid "ExportXmlDesc"
+msgstr "將數據導出為XML文件"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Export
+msgid "Export in another format"
+msgstr "導出以另一種格式"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Export using Velocity"
+msgstr "輸出速度"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Export using Xslt"
+msgstr "出口使用XSLT"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Export using a Script"
+msgstr "出口使用腳本"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Export using a Script
+msgid "Export using an external Script (Jython, JRuby, JavaScript etc)"
+msgstr "導出使用外部腳本上（Jython，JRuby中，JavaScript等）"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Export via Script"
+msgstr "通過腳本導出“"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Export via Velociy Skelton"
+msgstr "出口通過Velociy斯凱爾頓"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Export via Xsl Transform"
+msgstr "出口通過XSL轉換"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Export1"
+msgstr "EXPORT1"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pane 
+msgid "Extension"
+msgstr "延期"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Extension Script directory"
+msgstr "擴展腳本目錄"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EdProps_MainTab_Extensions
+msgid "Extensions"
+msgstr "擴展"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: Record_Layout_Edit
+msgid "Extras"
+msgstr "附加功能"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: Find 
+# Tbl- Single_Record 0 Tbl- Filter Field Selection 0 Tbl- Filter Selecton Field Values 2 Tbl- Sort 0 Tbl- SortSum Field Function 0 Tbl- DB-ChildRecords columns 2 Tbl- DB-RecordSelection Columns 2 Tbl- Show/Hide Fields 0 editProps_DefaultColHeadings 0
+msgid "Field"
+msgstr "領域"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Field Based Tree"
+msgstr "現場樹"
+
+# Use: Field_Prompt 
+#  id:    Panel: CopyWizardFinalPnl 
+msgid "Field Error File"
+msgstr "字段錯誤文件"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 10
+msgid "Field Id"
+msgstr "字段id"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl3RecordType 
+msgid "Field Length"
+msgstr "字段長度"
+
+# Use: Message 
+#  id:    Panel:  
+# CSV Files, Field names can only be on a positive line number, user has entered 0 or a negaitive number
+msgid "Field Line Number should be one or more and not"
+msgstr "磁力線數應該是一個或多個不"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Export_Field_Selection 0 Tbl- Update Csv File Format 0 Tbl- LayoutWizard Field definition 0 Tbl- LayoutEdit_RecSel 3 Tbl- LayoutWizard Record Selection Fields 0
+msgid "Field Name"
+msgstr "字段名稱"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Field Selection: {0}"
+msgstr "字段選擇:{0}"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl:CsvSelectionPanel 
+msgid "Field Seperator"
+msgstr "現場分離器"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl3RecordType 
+msgid "Field Start"
+msgstr "場開始"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-ChildRecords columns 3 Tbl- DB-RecordSelection Columns 4
+msgid "Field Value"
+msgstr "字段值"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Field Visibility"
+msgstr "字段的可見性"
+
+# Use: Error 
+#  id:    Panel:  
+# Supplied field-value is to big to fit in the field (numeric integer fields)
+msgid "Field is to big"
+msgstr "現場是大"
+
+# Use: Message 
+#  id: RecordPnl_Warn_03   Panel:  
+# 
+# English: Field: {0}  - Position must be > 0 !!! and not {1}
+msgid "RecordPnl_Warn_03"
+msgstr "現場:{0} - 位置必須大於0！！ {1}"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Field: {0} must be entered"
+msgstr "現場:{0}必須輸入"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 4
+msgid "FieldType"
+msgstr "FieldType"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: LayoutEdit
+msgid "Fields"
+msgstr "字段"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Fields used Save Directory"
+msgstr "字段用來保存目錄"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "File Copy Menu"
+msgstr "文件複製菜單"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: Pnl1File 
+# Tbl- ProtoSearch - Matching Proto definition files 1
+msgid "File Name"
+msgstr "文件名"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Properties
+msgid "File Options"
+msgstr "文件選項"
+
+# Use: Message 
+#  id:    Panel:  
+# Used All over the place
+msgid "File Save Failed:"
+msgstr "文件保存失敗:"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "File Size to Memory Percent to Start using the Big-File-Model"
+msgstr "文件的大小，內存的百分比開始使用大文件模型"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "File Wizard"
+msgstr "文件嚮導"
+
+# Use: Combobox_Entry 
+#  id: Line_IO_Names_12   Panel:  
+# 
+# English: File Wizard
+msgid "Line_IO_Names_12"
+msgstr "文件嚮導"
+
+# Use: External 
+#  id: Line_IO_Names_22   Panel:  
+# 
+# English: File Wizard, Generate layout at run time
+msgid "Line_IO_Names_22"
+msgstr "文件嚮導，在運行時生成佈局"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "File was not a Record Tree definition"
+msgstr "記錄的文件不是樹的定義"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "File was not a sort / Sort tree definition"
+msgstr "文件是不是一個排序/排序樹的定義"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "File: {0} does not exist"
+msgstr "文件:{0}不存在"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "File: {0} is a directory, it should be a protocol buffers file"
+msgstr "文件:{0}是一個目錄，它應該是一個Protocol Buffers的文件"
+
+# Use: Action : Button : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 1
+msgid "Filter"
+msgstr "過濾器"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Filter Options"
+msgstr "過濾器選項"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Filter Save Directory"
+msgstr "過濾器保存目錄"
+
+# Use: Message 
+#  id:    Panel:  
+msgid ""
+"Filter limit of {0} exceeded; only the first {0} lines in the filtered view"
+msgstr "過濾器的限制{0}超標;僅在第{0}行的過濾視圖"
+
+# Use: Action : Frame_Heading : Button : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 0
+msgid "Find"
+msgstr "發現"
+
+# Use: Message 
+#  id:    Panel:  
+# Find / search screen Error message, specific details will be appended
+msgid "Find error:"
+msgstr "查找錯誤:"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "First"
+msgstr "第一"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Fix Column"
+msgstr "修復列"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# ExportTab 2
+msgid "Fixed"
+msgstr "修正"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_17   Panel:  
+# 
+# English: Float
+msgid "Tbl_FieldType_17"
+msgstr "浮動"
+
+# Use: Field_Prompt 
+#  id:    Panel: CsvSelectionPanel 
+msgid "Font"
+msgstr "字形"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl1File:PnlUnknownFileFormat:Pnl2FileFormat:GetFiles:RcdExtra 
+msgid "Font Name"
+msgstr "字體名稱"
+
+# Use: Message 
+#  id:    Panel:  
+# Find screen - find message: I use it for testing
+msgid "Found (line, field Num, field position)="
+msgstr "（行，場次數，場位置）"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_2   Panel:  
+# 
+# English: Fujitsu
+msgid "BinFormat/Dialect_2"
+msgstr "富士通"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_7   Panel:  
+# 
+# English: Fujitsu Variable Binary
+msgid "Line_IO_Names_7"
+msgstr "富士通變二進制"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_41   Panel:  
+# 
+# English: Fujitsu Zoned Numeric
+msgid "Tbl_FieldType_41"
+msgstr "富士通已分區數字"
+
+# Use: Column_Heading : Combobox_Entry 
+#  id:    Panel:  
+# Record_ColumnHeadings 1 Combo- layout
+msgid "Full Line"
+msgstr "全系列"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Fully Expand Tree"
+msgstr "完全展開樹"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- SortSum Field Function 1
+msgid "Function"
+msgstr "功能"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Fuzzy/Blank"
+msgstr "模糊/空白"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Generate Field Names"
+msgstr "生成字段名稱"
+
+# Use: External 
+#  id: Line_IO_Names_52   Panel:  
+# 
+# English: Generic CSV (Choose details at run time)
+msgid "Line_IO_Names_52"
+msgstr "通用CSV（在運行時選擇“詳細信息”）"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "GetText"
+msgstr "gettext的"
+
+# Use: External 
+#  id: Line_IO_Names_101   Panel:  
+# 
+# English: GetText PO/POT
+msgid "Line_IO_Names_101"
+msgstr "gettext的PO / POT"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Go"
+msgstr "去"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Goto"
+msgstr "轉到:"
+
+# Use: Action : Frame_Heading 
+#  id:    Panel:  
+msgid "Goto Line"
+msgstr "轉到行"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Goto Next Record"
+msgstr "轉到下一條記錄"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Goto Previous Record"
+msgstr "轉到前一紀錄"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: Filter
+msgid "Group Filter"
+msgstr "組過濾器"
+
+# Use: Field_Prompt 
+#  id:    Panel: Filter 
+msgid "Group Starts with"
+msgstr "本集團開始與"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Filter Selecton Field Values 4
+msgid "Group by function"
+msgstr "本集團按職能"
+
+# Use: External 
+#  id: Tbl_RecordType_10   Panel:  
+# 
+# English: Group of Binary Records
+msgid "Tbl_RecordType_10"
+msgstr "一組二進制記錄"
+
+# Use: External 
+#  id: Tbl_RecordType_9   Panel:  
+# 
+# English: Group of Records
+msgid "Tbl_RecordType_9"
+msgstr "一組記錄"
+
+# Use: Field_Prompt 
+#  id:    Panel: CmpWizardFinal 
+msgid "HTML options:"
+msgstr "HTML選項:"
+
+# Use: Action : Menu : Button : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 11
+msgid "Help"
+msgstr "幫助"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Single_Record 5 Tbl- Single_Record 6
+msgid "Hex"
+msgstr "十六進制"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Record_ColumnHeadings 2
+msgid "Hex (1 Line)"
+msgstr "十六進制（1線）"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Record_ColumnHeadings 3
+msgid "Hex (2 Lines)"
+msgstr "十六進制（2號線）"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Record_ColumnHeadings 5
+msgid "Hex (Alternative)"
+msgstr "十六進制（二選一）"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Record_ColumnHeadings 4
+msgid "Hex (SPF Edit Style)"
+msgstr "十六進制（SPF編輯樣式）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- layout
+msgid "Hex 1 Line"
+msgstr "十六進制1號線"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- layout
+msgid "Hex 2 Lines (Alternative)"
+msgstr "十六進制2線（替代）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- layout
+msgid "Hex 2 Lines (Mainframe Style)"
+msgstr "十六進制2線（大型機樣式）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- layout
+msgid "Hex 3 Lines (ISPF Edit Hex)"
+msgstr "十六進制3線（ISPF編輯十六進制）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_4   Panel:  
+# 
+# English: Hex Field
+msgid "Tbl_FieldType_4"
+msgstr "十六進制場"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Hide Column"
+msgstr "隱藏列"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Highlight Missing Fields"
+msgstr "突出失踪的領域"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Highlight missing translations"
+msgstr "突出顯示缺少的翻譯"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid ""
+"Highlight text for which there is no translation by adding a # to the start "
+"of the text"
+msgstr "高亮顯示其中有沒有通過添加一個＃開始的文字翻譯的文本"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "HowTo Documentations"
+msgstr "方法文檔單證"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# ExportTab 4
+msgid "Html"
+msgstr "HTML"
+
+# Use: Field_Prompt 
+#  id:    Panel: CmpWizardFinal 
+msgid "Html File"
+msgstr "HTML文件"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditIcons 
+msgid "Icon Set"
+msgstr "圖標集"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "Icons"
+msgstr "圖標"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: Find 
+# Tbl- Filter Selecton Field Values 3
+msgid "Ignore Case"
+msgstr "忽略大小寫"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Imbed Directory"
+msgstr "著床目錄"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Filter Record Selection 1
+msgid "In Group"
+msgstr "在組"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Export_Field_Selection 1 Tbl- Filter Record Selection 1 Tbl- Filter Field Selection 1 Tbl- LayoutWizard RecordNames 2 Tbl- Update Csv File Format 1 Tbl- LayoutWizard Field definition 5 Tbl- Filter Record Selection 2
+msgid "Include"
+msgstr "包括"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Include Comments"
+msgstr "包括註釋"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Include Type Name on Record Screen"
+msgstr "包括錄製屏幕上的類型名稱"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Include the type name on the record screen"
+msgstr "在記錄畫面中包含的類型名稱"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- ArrayRender 0
+msgid "Index"
+msgstr "指數"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Input File"
+msgstr "輸入文件"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Insert"
+msgstr "插入"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Insert Record Prior"
+msgstr "插入記錄之前"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Insert Record(s)"
+msgstr "插入記錄（S）"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_0   Panel:  
+# 
+# English: Intel
+msgid "BinFormat/Dialect_0"
+msgstr "英特爾"
+
+# Use: Message 
+#  id:    Panel:  
+# Error creating RecordLayout from Xml (stored in the Program). These Definitions are used when Editting exported files + other functions
+msgid "Internal Error Creating Layout:"
+msgstr "內部錯誤創建佈局:"
+
+# Use: Error 
+#  id:    Panel:  
+msgid ""
+"Internal Error in RecordStoreBase can not copy data, so dropping lines ?"
+msgstr "在RecordStoreBase內部錯誤無法將數據拷貝，因此消除行嗎？"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Internal error, should not get here"
+msgstr "內部錯誤，不應該在這裡"
+
+# Use: Error 
+#  id:    Panel:  
+# invalid bit or binary number *not all 0's or ones)
+msgid "Invalid Bit String: {0}"
+msgstr "無效的位串:{0}"
+
+# Use: Message 
+#  id:    Panel:  
+# Invalid Boolean value (should be true / false)
+msgid "Invalid Boolean"
+msgstr "無效的布爾"
+
+# Use: Message 
+#  id:    Panel:  
+# The RecordEditor can connect to multiple Databases, These database connections are stored in an array hence the array index; not relavent to most users as they only have the one DB
+msgid "Invalid Database Index"
+msgstr "無效的數據庫索引"
+
+# Use: Message 
+#  id:    Panel:  
+# Csv Files, user has entered an invalid hex string (for the field delimitier) RecordLayout Create/Edit screens - an invalid hex value entered as a Csv Field Delimitier
+msgid "Invalid Delimiter - Invalid  hex string:"
+msgstr "無效的分隔符 - 無效的十六進制字符串:"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Invalid Delimiter - Invalid  hex string: {0}"
+msgstr "無效的分隔符 - 無效的十六進制字符串:{0}"
+
+# Use: Message 
+#  id:    Panel:  
+# Only single character field delimitier are supported, user has enterted multiple characters
+msgid "Invalid Delimiter, should be a single character"
+msgstr "無效的分隔符，應該是一個單一的字符"
+
+# Use: Message : Error 
+#  id:    Panel:  
+# invalid CSV field delimitier invalid CSV field delimitier Csv Files, no delimiter specified Invalid Csv Field delimitier, The recordEditor only accepts single character field delimitier (which can be entered as a Character or a Hex value i.e x'01')
+msgid "Invalid Delimiter, should be a single character or a hex character"
+msgstr "無效的分隔符，應該是一個單一的字符或十六進制字符"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordLayout Create/Edit Generic error, field / error details follow
+msgid "Invalid Field"
+msgstr "無效的欄位"
+
+# Use: Message 
+#  id:    Panel:  
+# CSV Files, invalid (i.e. non numeric) line number entered for Column heading line numbers
+msgid "Invalid Field Line Number:"
+msgstr "無效的字段行號:"
+
+# Use: Message 
+#  id:    Panel:  
+# Generic Csv Reader ?? - Invalid font specified
+msgid "Invalid Font Specified on CSV Preview screen"
+msgstr "CSV預覽屏幕上指定的字體無效"
+
+# Use: Message 
+#  id:    Panel:  
+# Header for
+msgid "Invalid Hex"
+msgstr "無效的十六進制"
+
+# Use: Message 
+#  id:    Panel:  
+# Csv file - Invalid field seperator specified (in hex format)
+msgid "Invalid Hex Seperator"
+msgstr "無效的十六進制分離器"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Invalid Index Supplied {0} Should be between {1} and {2}"
+msgstr "應該是無效的索引供給的{0}在{1}和{2}"
+
+# Use: Message 
+#  id:    Panel:  
+# Check user has entered a valid integer
+msgid "Invalid Integer"
+msgstr "無效的整數"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Invalid Number: {0}"
+msgstr "無效:{0}"
+
+# Use: Error 
+#  id:    Panel:  
+msgid ""
+"Invalid field position for Record: {0} {1}, it should be greater than zero "
+"and not {2}"
+msgstr "無效的字段記錄位置為:{0} {1}，它應該是大於零的，而不是{2}"
+
+# Use: Message 
+#  id:    Panel:  
+# Goto line number screen - invalid integer entered (conversion exception)
+msgid "Invalid line number"
+msgstr "無效的行號"
+
+# Use: Message 
+#  id:    Panel:  
+# New CSV file screen, the column name line number is invalid (< 1 or non numeric)
+msgid "Invalid number in {0}, msg="
+msgstr "{0}，味精=無效"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Invalid type of Copy --> {0}"
+msgstr "無效的複製類型 - > {0}"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_JDBC
+msgid "JDBC Jars"
+msgstr "JDBC罐"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EdProps_MainTab_JDBC Parameters
+msgid "JDBC Parameters"
+msgstr "JDBC參數"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_JDBC
+msgid "JDBC Properties"
+msgstr "JDBC屬性。"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: EditJarsPanel 
+# Tbl- PropEd_Jars 1
+msgid "Jar"
+msgstr "罐"
+
+# Use: Field_Prompt 
+#  id:    Panel: LooksPanel 
+msgid "Jar File"
+msgstr "jar文件"
+
+# Use: Field_Prompt : Tab_Heading 
+#  id:    Panel: SaveAsPnlXslt 
+# Tab: EdProps_MainTab_Jars
+msgid "Jars"
+msgstr "罐"
+
+# Use: Message 
+#  id:    Panel:  
+# Call to jibx (jibx reads/writes Xml) failed with class not found - possibly the jibx jar is missing
+msgid "Jibx Call Failed: Class not loaded"
+msgstr "JiBX的調用失敗:沒有加載類"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid ""
+"Keep a record of all Text Fields going through the Language section. This "
+"can be used to generate the language conversion file (GetText PO)"
+msgstr "將所有文本字段，通過“語言”部分的記錄。這可以被用來生成的語言轉換文件（gettext的PO）"
+
+# Use: Field_Prompt 
+#  id:    Panel: ProtoSearchPnl 
+msgid "Keep open"
+msgstr "保持開放"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Keep screen open"
+msgstr "保持屏幕打開時"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- MapRender 0
+msgid "Key"
+msgstr "關鍵"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Combo Options 1
+msgid "Key / Value Combo"
+msgstr "鍵/值組合"
+
+# Use: Unknown 
+#  id:    Panel:  
+msgid "Key Value"
+msgstr "核心價值"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditLanguage 
+msgid "Language Directory"
+msgstr "語言目錄"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Last"
+msgstr "最後"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+# RecordBtns 3
+msgid "Last Record"
+msgstr "最後一個記錄"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Layout Does not exist"
+msgstr "佈局不存在"
+
+# Use: Message 
+#  id:    Panel:  
+# CsvEditor - Error creating Fixed-Width Record layout
+msgid "Layout Generation Failed:"
+msgstr "佈局產生失敗:"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl7SaveDbLayout:Pnl5SaveFileLayout 
+msgid "Layout Name"
+msgstr "佈局名稱"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Layout Record Does not exist !!!"
+msgstr "佈局記錄不存在！"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Layout Velocity Export Directory"
+msgstr "佈局速度導出目錄"
+
+# Use: Action : Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Properties
+msgid "Layout Wizard"
+msgstr "佈局嚮導"
+
+# Use: Field_Prompt 
+#  id:    Panel: LineFrameTree:LineFrame:LineTreeChild:LinesAsColumns:LineList:LineTree 
+msgid "Layouts"
+msgstr "佈局"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Single_Record 2
+msgid "Len"
+msgstr "萊恩"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Line"
+msgstr "線"
+
+# Use: Message 
+#  id:    Panel:  
+# Tree View no line associated with tree item (probably repeated child in protobuf / avro editor)
+msgid "Line Can not be Viewed !!!!"
+msgstr "線不能瀏覽！！"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordEditor Delete confirmation message header
+msgid "Line Delete confirmation"
+msgstr "行刪除確認"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Line No"
+msgstr "行不"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Line Number"
+msgstr "行號"
+
+# Use: Field_Prompt 
+#  id:    Panel: CsvSelectionPanel 
+msgid "Line Number of Names"
+msgstr "行號的名稱"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_3   Panel:  
+# 
+# English: Line based Binary
+msgid "Line_IO_Names_3"
+msgstr "基於行的二進制"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Line not found: {0}"
+msgstr "線沒有找到:{0}"
+
+# Use: Field_Prompt 
+#  id:    Panel: ComboPnl:TableListPnl:RecordDef 
+msgid "Lines to Insert"
+msgstr "要插入的行"
+
+# Use: Action : Field_Prompt 
+#  id:    Panel:  
+msgid "Load Cobol Copybook"
+msgstr "加載的COBOL Copybook"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Load Copybook"
+msgstr "加載字帖"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Load Copybooks from Cobol Directory"
+msgstr "將習字從Cobol目錄"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Load Copybooks from Xml"
+msgstr "從XML負載習字"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Load File Description from Xml"
+msgstr "將文件從XML描述"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Load File in Background thread"
+msgstr "在後台線程加載文件"
+
+# Use: Button 
+#  id:    Panel:  
+# Directory Load/Save 1
+msgid "Load From Directory"
+msgstr "從目錄中加載"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Load In background"
+msgstr "在後台加載"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Load Record Layout using selectedLoader"
+msgstr "負載記錄的佈局selectedLoader"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Execute Sort Tree
+msgid "Load and Execute a saved Sort Tree"
+msgstr "加載並執行保存的排序樹"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Execute Saved Filter
+msgid "Load and Execute a saved filter"
+msgstr "加載並執行保存的過濾器"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Load copybook (choose format)"
+msgstr "負載字帖（選擇格式）"
+
+# Use: Message 
+#  id:    Panel:  
+# (Xml layout, Xml file name appended)
+msgid "Loading"
+msgstr "載入中"
+
+# Use: Message 
+#  id:    Panel:  
+# Log message when loading all cobol copybooks in a directory into the DB. Directory information follows
+msgid "Loading:"
+msgstr "裝載:"
+
+# Use: Field_Prompt : Tab_Heading 
+#  id:    Panel: LooksPanel 
+# Tab: EditOpts_User
+msgid "Look and Feel"
+msgstr "外觀和感覺"
+
+# Use: Field_Prompt 
+#  id:    Panel: LooksPanel 
+msgid "Look and Feel Class Name"
+msgstr "外觀類名稱"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Look for Big Endian Binary"
+msgstr "為大端二進制看"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Look for Little Endian Binary"
+msgstr "為Little Endian的二進制"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Look for PC Zoned numeric fields (Cobol PIC 9 fields)"
+msgstr "尋找PC劃數字領域（COBOL PIC 9個字段）"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Look for comp-3 fields"
+msgstr "看比賽3場"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditIcons 
+msgid "Look for png icons"
+msgstr "尋找PNG圖標"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EdProps_MainTab_Looks
+msgid "Looks"
+msgstr "樣子"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Main Record"
+msgstr "主要記錄"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_1   Panel:  
+# 
+# English: Mainframe
+msgid "BinFormat/Dialect_1"
+msgstr "主機"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_31   Panel:  
+# 
+# English: Mainframe Packed Decimal (comp-3)
+msgid "Tbl_FieldType_31"
+msgstr "主機壓縮十進制（小樣圖3）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_32   Panel:  
+# 
+# English: Mainframe Zoned Numeric
+msgid "Tbl_FieldType_32"
+msgstr "主機分區數字"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Map Key"
+msgstr "地圖的關鍵"
+
+# Use: Field_Prompt 
+#  id:    Panel: CopyWizardFinalPnl 
+msgid "Max Error Limit"
+msgstr "最大誤差限制"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Sum Operators 3
+msgid "Maximum"
+msgstr "最大"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Menu"
+msgstr "菜單"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- ProtoSearch - Matching Proto definition files 2
+msgid "Message Name"
+msgstr "留言姓名"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffer Editor - message from proto "Compile"
+msgid "Messages Compiling proto file"
+msgstr "消息編譯原文件"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Sum Operators 2
+msgid "Minimum"
+msgstr "最低限度"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Move ..."
+msgstr "移動..."
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Move Column"
+msgstr "移動列"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: Pnl3RecordType 
+# Tbl- PropEd_Jars 0
+msgid "Name"
+msgstr "名稱"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Names on 1st Line"
+msgstr "在第一線的名稱"
+
+# Use: Field_Prompt 
+#  id:    Panel: CsvSelectionPanel 
+msgid "Names on Line"
+msgstr "上線的名稱"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "New"
+msgstr "新"
+
+# Use: Message 
+#  id:    Panel:  
+# Input dialogue, requesting new Combo Name from user (after user does a save-as)
+msgid "New Combo Name"
+msgstr "新組合名稱"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "New Csv File"
+msgstr "新的CSV文件"
+
+# Use: Action : Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "New File"
+msgstr "新文件"
+
+# Use: Field_Prompt 
+#  id:    Panel: StandardGetFiles 
+msgid "New File Name"
+msgstr "新文件名"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "New Layout"
+msgstr "新佈局"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 8
+msgid "New Record"
+msgstr "新記錄"
+
+# Use: Message 
+#  id:    Panel:  
+# Generic error when creating a record layout (or schema)
+msgid "New Record Creation Failed!!"
+msgstr "創建新記錄失敗！"
+
+# Use: Message 
+#  id:    Panel:  
+# Input dialog, requesting new Record-Layout-Name, called when user issues a SaveAs (multiple screens)
+msgid "New Record Layout Name"
+msgstr "新記錄的佈局名稱"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+# RecordBtns 2
+msgid "Next Record"
+msgstr "下一條記錄"
+
+# Use: Error 
+#  id:    Panel:  
+# No destination when inserting lines
+msgid "No Destination line"
+msgstr "無目的地線"
+
+# Use: Message 
+#  id:    Panel:  
+# User requests to see Error Records but there are no errors (Proto Buf Editor)
+msgid "No Error Records, nothing to display"
+msgstr "沒有錯誤記錄，沒有東西可以顯示"
+
+# Use: External 
+#  id: Tbl_Format_0   Panel:  
+# 
+# English: No Format
+msgid "Tbl_Format_0"
+msgstr "無格式"
+
+# Use: Message 
+#  id:    Panel:  
+# Occurs when user selects Export-Record-Layout as Xml in the RecordLayout-Editor and there is no valid Record-Layout to export. It could indicate nothing there or there is an error in the RecordLayout definition definition. This a log message, look for other messages
+msgid "No Layout to Export"
+msgstr "沒有要導出的佈局"
+
+# Use: Message 
+#  id:    Panel:  
+# No physical lines selected - nothing to repeat
+msgid "No Physical Line, so can not repeat the line"
+msgstr "沒有物理線路，所以不能重複的行"
+
+# Use: Message 
+#  id:    Panel:  
+# Tree display
+msgid "No Records Selected"
+msgstr "沒有選擇的記錄"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "No Records to display"
+msgstr "沒有記錄顯示"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffer Editor, Empty file specified, can not check the file
+msgid "No data to check"
+msgstr "沒有任何數據檢查"
+
+# Use: Error 
+#  id:    Panel:  
+# Used when there is no file writer defined for a file ~ will not occur in normal use
+msgid "No file writer available"
+msgstr "沒有可用的文件作家"
+
+# Use: Message 
+#  id:    Panel:  
+# Execute save filter and no records match
+msgid "No records matched the filter"
+msgstr "沒有記錄相匹配的過濾器"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: Filter
+msgid "Normal Filter"
+msgstr "正常過濾"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Not enough memory to do a sort !!!"
+msgstr "沒有足夠的內存進行排序的！"
+
+# Use: Error 
+#  id:    Panel:  
+# Generally an Internal Error, user should not see it. Needed for debuging
+msgid "Not implemented"
+msgstr "未實現"
+
+# Use: Message 
+#  id:    Panel:  
+# Tree insert; based on file definition, nothing can be inserted at this point (Protobufeditor / avro editor)
+msgid "Nothing can be inserted at this point"
+msgstr "在這一點上可以插入沒什麼"
+
+# Use: Message 
+#  id:    Panel:  
+# Cobol Copybook analysis
+msgid "Nothing to Display"
+msgstr "不顯示任何內容"
+
+# Use: Message 
+#  id:    Panel:  
+# Sort screen, can not sort empty file.
+msgid "Nothing to sort"
+msgstr "沒有排序"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_5   Panel:  
+# 
+# English: Num (Left Justified)
+msgid "Tbl_FieldType_5"
+msgstr "NUM（左對齊）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_6   Panel:  
+# 
+# English: Num (Right Justified space padded)
+msgid "Tbl_FieldType_6"
+msgstr "NUM（右對齊空間填充）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_7   Panel:  
+# 
+# English: Num (Right Justified zero padded)
+msgid "Tbl_FieldType_7"
+msgstr "NUM（右對齊零填充）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_8   Panel:  
+# 
+# English: Num Assumed Decimal (Zero padded)
+msgid "Tbl_FieldType_8"
+msgstr "編號假設十進制（零填充）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_9   Panel:  
+# 
+# English: Num Sign Separate Leading
+msgid "Tbl_FieldType_9"
+msgstr "序號登錄單獨領先"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_10   Panel:  
+# 
+# English: Num Sign Separate Trailing
+msgid "Tbl_FieldType_10"
+msgstr "數字簽署獨立尾隨"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Csv Field Types 1
+msgid "Number"
+msgstr "數"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_20   Panel:  
+# 
+# English: Number (+ve) any decimal
+msgid "Tbl_FieldType_20"
+msgstr "任何十進制號碼（+ VE）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Csv Field Types 2
+msgid "Number (Fixed Decimal)"
+msgstr "號碼（固定小數）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_19   Panel:  
+# 
+# English: Number any decimal
+msgid "Tbl_FieldType_19"
+msgstr "數任一十進制"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Number of characters to use when looking up record layouts (large)"
+msgstr "要使用的字符數，當你抬頭仰望記錄的佈局（大）"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Number of characters to use when looking up record layouts (small)"
+msgstr "要使用的字符數，當你抬頭仰望記錄的佈局（小）"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Numeric Format"
+msgstr "數字格式"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Old File"
+msgstr "舊文件"
+
+# Use: Field_Prompt 
+#  id:    Panel: StandardGetFiles 
+msgid "Old File Name"
+msgstr "舊文件名"
+
+# Use: Message 
+#  id:    Panel:  
+# {0} placeholder for new reord name
+msgid "Old record saved, New Record {0} created"
+msgstr "保存舊的記錄，新的記錄{0}創建"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Cobol Split options 2
+msgid "On 01 level"
+msgstr "在01層"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Cobol Split options 1
+msgid "On Redefine"
+msgstr "在重新定義"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "On Search Screen default to \"All Fields\""
+msgstr "在搜索屏幕默認為“所有字段”"
+
+# Use: Field_Prompt 
+#  id:    Panel: SaveAsPnlScript:SaveAsPnlVelocity 
+msgid "Only Data Column"
+msgstr "只有數據列"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pane 
+msgid "Only Listed"
+msgstr "唯一的上市"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Only export Nodes with Data"
+msgstr "只有出口數據的節點"
+
+# Use: Message 
+#  id:    Panel:  
+# Tree view only one child is allowed (Protocol buffers, Avro etc) parameter is child segment name
+msgid "Only one {0} is allowed !!!"
+msgstr "只有一個{0}是允許的！"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Only positive numbers are allowed"
+msgstr "只允許正數"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Open"
+msgstr "打開"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_8   Panel:  
+# 
+# English: Open Cobol Big Endian
+msgid "BinFormat/Dialect_8"
+msgstr "打開Cobol的大端"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_4   Panel:  
+# 
+# English: Open Cobol Little Endian (Intel)
+msgid "BinFormat/Dialect_4"
+msgstr "打開Cobol語言的Little Endian英特爾（Intel）"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_10   Panel:  
+# 
+# English: Open Cobol MVS Big Endian
+msgid "BinFormat/Dialect_10"
+msgstr "打開Cobol的MVS大端"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_6   Panel:  
+# 
+# English: Open Cobol MVS Little Endian (Intel)
+msgid "BinFormat/Dialect_6"
+msgstr "打開Cobol的MVS的Little Endian英特爾（Intel）"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_7   Panel:  
+# 
+# English: Open Cobol Micro Focus (Intel)
+msgid "BinFormat/Dialect_7"
+msgstr "開放，Cobol的微焦點（英特爾）"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_11   Panel:  
+# 
+# English: Open Cobol Micro Focus Big E
+msgid "BinFormat/Dialect_11"
+msgstr "打開COBOL微聚焦大E"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_8   Panel:  
+# 
+# English: Open Cobol VB
+msgid "Line_IO_Names_8"
+msgstr "打開Cobol語言VB"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_9   Panel:  
+# 
+# English: Open Cobol bs2000 Big Endian
+msgid "BinFormat/Dialect_9"
+msgstr "打開Cobol的BS2000大端"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_5   Panel:  
+# 
+# English: Open Cobol bs2000 Little Endian (Intel)
+msgid "BinFormat/Dialect_5"
+msgstr "打開Cobol的BS2000的Little Endian英特爾（Intel）"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Open File"
+msgstr "打開文件"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Open Fuzzy / Blank View"
+msgstr "打開模糊/空白視圖"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Open Output File"
+msgstr "打開輸出文件"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Open a view containing Just the Fuzzy / Blank translations"
+msgstr "打開一個只包含模糊/空白的翻譯"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: Find 
+# Tbl- Filter Selecton Field Values 4 Tbl- DB-RecordSelection Columns 3 Tbl- LayoutEdit_RecSel 4 Tbl- Filter Selecton Field Values 5
+msgid "Operator"
+msgstr "操作者"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Jars
+msgid "Optional Jars"
+msgstr "可選罐"
+
+# Use: Message : Button 
+#  id:    Panel:  
+# BoolOps 1
+msgid "Or"
+msgstr "或"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Output File"
+msgstr "輸出文件"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Output File Structure"
+msgstr "輸出文件結構"
+
+# Use: Message 
+#  id:    Panel:  
+# Script Test Screen - Output file (after running script)
+msgid "Output File:"
+msgstr "輸出文件:"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pane:Pnl5SaveFileLayout 
+msgid "Output Format"
+msgstr "輸出格式"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Output Format:"
+msgstr "輸出格式:"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Output Numeric Format"
+msgstr "輸出數字格式"
+
+# Use: Column_Heading : Frame_Heading 
+#  id:    Panel:  
+msgid "PO List"
+msgstr "PO列表"
+
+# Use: Column_Heading : Field_Hint 
+#  id:    Panel:  
+# Tbl- Create_Record_Tree 1
+msgid "Parent Record"
+msgstr "父記錄"
+
+# Use: Field_Prompt 
+#  id:    Panel: RcdExtra:CsvSelectionPanel 
+msgid "Parser"
+msgstr "分析器"
+
+# Use: External 
+#  id: Csv_Parsers_1   Panel:  
+# 
+# English: Parser - Matching Quotes
+msgid "Csv_Parsers_1"
+msgstr "分析器 - 匹配行情"
+
+# Use: External 
+#  id: Csv_Parsers_4   Panel:  
+# 
+# English: Parser - Matching Quotes Column names in quotes
+msgid "Csv_Parsers_4"
+msgstr "的分析器 - 匹配行情中的列名報價"
+
+# Use: External 
+#  id: Csv_Parsers_2   Panel:  
+# 
+# English: Parser - Quotes based on field Type
+msgid "Csv_Parsers_2"
+msgstr "根據字段類型的分析器 - 股票行情新聞"
+
+# Use: External 
+#  id: Csv_Parsers_5   Panel:  
+# 
+# English: Parser - Quotes based on field Type, Column names in quotes
+msgid "Csv_Parsers_5"
+msgstr "根據字段類型，列名在引號中的分析器 - 股票行情新聞"
+
+# Use: Action : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 6
+msgid "Paste"
+msgstr "貼"
+
+# Use: Action : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 7
+msgid "Paste Prior"
+msgstr "粘貼之前"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Paste Record(s)"
+msgstr "粘貼記錄（S）"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Paste Record(s) Prior"
+msgstr "之前粘貼記錄（S）"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Paste Table (Insert)"
+msgstr "粘貼表（插入）"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Paste Table (Insert)
+msgid "Paste Table after the current line/row"
+msgstr "粘貼表格後，當前行/行"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Paste Table Overwrite
+msgid "Paste Table over current data (from current position)"
+msgstr "粘貼在當前數據表（從當前位置）"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Paste Record(s)
+msgid "Paste records from the RecordEditor Clipboard after the current record"
+msgstr "當前的記錄後從RecordEditor剪貼板粘貼記錄"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Paste Record(s) Prior
+msgid ""
+"Paste records from the RecordEditor Clipboard before the current record"
+msgstr "當前的記錄之前，從RecordEditor剪貼板粘貼記錄"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Paste the record into the table, before the current record"
+msgstr "在當前記錄的記錄粘貼到表中，"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Please Enter a file name"
+msgstr "請輸入文件名"
+
+# Use: Message 
+#  id: DateFormatDescription   Panel:  
+# 
+# English: Please remember that Date formats are case sensitive:<ul compact>
+# <li>dd   - is 2 character day (lowercase d for day)</li>
+# <li>MM   - is 2 character month (uppercase M for month)</li>
+# <li>MMM  - is 3 character month (uppercase M for month)</li>
+# <li>yy   - is 2 character year (lowercase y for month)</li>
+# <li>yyyy - is 4 character year (lowercase y for month)</li></ul>
+# <br>
+# # use dd/MM/yy for 25/12/98, dd.MM.yyyy for 25.Dec.1998
+msgid "DateFormatDescription"
+msgstr ""
+"請記住，日期格式是大小寫敏感的:compact> <ul\n"
+"<LI>\n"
+"DD - 2個字符的一天（小寫d日）\n"
+"</P>\n"
+"<LI>\n"
+"MM - 月為2個字符（大寫字母M月）\n"
+"</P>\n"
+"<LI>\n"
+"MMM - 個月為3個字符（大寫字母M月）\n"
+"</P>\n"
+"<LI>\n"
+"YY - 年為2個字符（小寫的y為一個月）\n"
+"</P>\n"
+"<LI>\n"
+"月 - 今年是4個字符（小寫的y為一個月）\n"
+"</li> </ul>\n"
+"參考\n"
+"使用dd / MM / YY 25/12/98，DD.MM.YYYY 25.Dec.1998"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_36   Panel:  
+# 
+# English: Positive Integer (Big Endian)
+msgid "Tbl_FieldType_36"
+msgstr "正整數（大端）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_16   Panel:  
+# 
+# English: Postive Binary Integer
+msgid "Tbl_FieldType_16"
+msgstr "陽性的二進制整數"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- layout
+msgid "Prefered"
+msgstr "首選"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+# RecordBtns 1
+msgid "Previous Record"
+msgstr "上一記錄"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Primary Message"
+msgstr "主要消息"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Print"
+msgstr "打印"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Print Line Details"
+msgstr "打印行詳細信息"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Print Selected"
+msgstr "打印選定"
+
+# Use: Message 
+#  id:    Panel:  
+# Printing Printing is only available in Java 5 or latter. Old message, I doubt the RecordEditor would run on java 1.4 any more
+msgid "Printing failed (Printing requires Java 1.5)"
+msgstr "失敗印刷（印刷需要Java 1.5）"
+
+# Use: Message 
+#  id:    Panel:  
+# Error creating RecordLayout from Xml (stored in the Program). The name of the Xml will follow this message
+msgid "Problem Xml:"
+msgstr "問題XML:"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Problem loading Copybook: {0}    Message: {1}"
+msgstr "問題裝載字帖:{0}的消息:{1}"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Program Initial Size"
+msgstr "初始大小"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Program Log"
+msgstr "程序日誌"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Program error: Row < 0  ??"
+msgstr "程序錯誤:行<0？"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EdProps_MainTab_Properties
+msgid "Properties"
+msgstr "屬性"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# editProps_DefaultColHeadings 0
+msgid "Property Variable"
+msgstr "屬性變量"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Proto Definition"
+msgstr "原始定義"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- ProtoSearch - Directories to be searched 0
+msgid "Proto Directory"
+msgstr "原目錄"
+
+# Use: Field_Prompt 
+#  id:    Panel: ProtoSearchPnl 
+msgid "Proto Directory 1"
+msgstr "原目錄1"
+
+# Use: Field_Prompt 
+#  id:    Panel: ProtoSearchPnl 
+msgid "Proto Directory 2"
+msgstr "原指南"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Proto File"
+msgstr "proto文件"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- ProtoSearch - Matching Proto definition files 0
+msgid "Proto Filename"
+msgstr "原文件名"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Proto Import Directory"
+msgstr "原進口目錄"
+
+# Use: Frame_Heading : Button 
+#  id:    Panel:  
+msgid "Proto Search"
+msgstr "原搜索"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOptions_MainTab
+msgid "ProtoBuf"
+msgstr "ProtoBuf"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "ProtoBuf Editor's Discussions"
+msgstr "ProtoBuf編輯器的討論"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "ProtoBuf Editor's Web Page"
+msgstr "ProtoBuf編輯網頁"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "ProtoBuf Introduction"
+msgstr "ProtoBuf簡介"
+
+# Use: Message : Field_Prompt 
+#  id:    Panel: GetFiles:OpenFileEditPnl:RcdExtra:Csv 
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "Quote"
+msgstr "引用"
+
+# Use: Field_Prompt 
+#  id:    Panel: CsvSelectionPanel 
+msgid "Quote Character"
+msgstr "引用字符"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_37   Panel:  
+# 
+# English: RM Cobol Comp
+msgid "Tbl_FieldType_37"
+msgstr "RM Cobol的比較"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_38   Panel:  
+# 
+# English: RM Cobol Positive Comp
+msgid "Tbl_FieldType_38"
+msgstr "RM Cobol的正面比較"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "ReCsvEditor Documentations"
+msgstr "ReCsvEditor單證"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "ReCsvEditor Forum"
+msgstr "ReCsvEditor論壇"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "ReCsvEditor Web Page"
+msgstr "ReCsvEditor網頁"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Reached the Start of the file, do you want search from the end ??"
+msgstr "開始的文件，你想搜索的結束？"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Reached the end of the file, do you want search from the start ??"
+msgstr "到達終點的文件，你從一開始就希望搜索？"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- PropsEd_JDBC 3
+msgid "Read Only Source"
+msgstr "只讀來源"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Rebuild Tree"
+msgstr "重建樹"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Rebuild Tree
+msgid "Rebuild the Tree Display"
+msgstr "重建的樹顯示"
+
+# Use: Message 
+#  id:    Panel:  
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "RecSep"
+msgstr "RecSep"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Recent Files"
+msgstr "最近使用的文件"
+
+# Use: External 
+#  id: Tbl_RecordType_0   Panel:  
+# 
+# English: Record - Binary
+msgid "Tbl_RecordType_0"
+msgstr "- 二進制紀錄"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Record Based Tree"
+msgstr "基於記錄的樹"
+
+# Use: External 
+#  id: Tbl_RecordType_1   Panel:  
+# 
+# English: Record Layout
+msgid "Tbl_RecordType_1"
+msgstr "記錄的佈局"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl5SaveFileLayout 
+msgid "Record Layout Directory"
+msgstr "記錄佈局“目錄”"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Record Layout Tree"
+msgstr "記錄佈局“樹”"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Record Layout Tree (Selected Records)"
+msgstr "記錄的佈局樹（選定的記錄）"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Record Layout {0} can not be loaded:"
+msgstr "無法加載記錄的佈局{0}:"
+
+# Use: Message 
+#  id:    Panel:  
+# Record Selection / Record Insert header
+msgid "Record Selection"
+msgstr "記錄選擇"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Record Selection:"
+msgstr "記錄選擇:"
+
+# Use: Field_Prompt 
+#  id:    Panel: RcdExtra 
+msgid "Record Seperator"
+msgstr "記錄分離器"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Record Text Fields"
+msgstr "創紀錄的文本字段"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl1File:RecordList:RecordDef 
+msgid "Record Type"
+msgstr "記錄類型"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Record View (Selected Records)"
+msgstr "記錄查看（選定的記錄）"
+
+# Use: Message 
+#  id:    Panel:  
+# Record Selection copy
+msgid "Record to Copy From"
+msgstr "記錄複製"
+
+# Use: Column_Heading : Frame_Heading 
+#  id:    Panel:  
+msgid "Record:"
+msgstr "實錄:"
+
+# Use: Combobox_Entry : External 
+#  id: Copybook_Writers_0   Panel:  
+# 
+# English: RecordEditor (Tab) CSV
+msgid "Copybook_Writers_0"
+msgstr "RecordEditor（TAB）CSV"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_5   Panel:  
+# 
+# English: RecordEditor Csv Copybook (Comma Seperator)
+msgid "CopybookLoaderFactory_5"
+msgstr "RecordEditor CSV字帖（逗號SEPERATOR）"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "RecordEditor Documentation"
+msgstr "RecordEditor文檔"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "RecordEditor How To"
+msgstr "RecordEditor如何"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_6   Panel:  
+# 
+# English: RecordEditor Tab Copybook (Tab Seperator)
+msgid "CopybookLoaderFactory_6"
+msgstr "RecordEditor標籤字帖（TAB SEPERATOR）"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_2   Panel:  
+# 
+# English: RecordEditor XML Copybook
+msgid "CopybookLoaderFactory_2"
+msgstr "RecordEditor XML字帖"
+
+# Use: Message 
+#  id:    Panel:  
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "RecordName"
+msgstr "RecordName"
+
+# Use: Message 
+#  id:    Panel:  
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "RecordStyle"
+msgstr "RecordStyle"
+
+# Use: Message 
+#  id:    Panel:  
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "RecordType"
+msgstr "記錄類型"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Redisplay Tree"
+msgstr "重新顯示樹"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Reformat via Velocity Template"
+msgstr "重新威盛Velocity模板"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Refresh"
+msgstr "刷新"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Reload from DB"
+msgstr "刷新從DB"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Reload values - ie abandon any changes"
+msgstr "重載值 - 即放棄任何變化"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Remove Child Record"
+msgstr "刪除子記錄"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Remove Child Record
+msgid "Remove the linked Child Record from the current screen"
+msgstr "從當前屏幕中刪除鏈接的子記錄"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Rename Search btn"
+msgstr "重命名搜索獎勵btn"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Repeat Record"
+msgstr "重複記錄"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Repeat Record
+msgid "Repeat the record under the cursor"
+msgstr "光標下的重複記錄"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Replace"
+msgstr "更換"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Replace All"
+msgstr "“全部替換”"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Replace Find"
+msgstr "替換查找"
+
+# Use: Field_Prompt 
+#  id:    Panel: Find 
+msgid "Replace With"
+msgstr "替換為"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Reset Value"
+msgstr "復位值"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Retrieve Screen size"
+msgstr "檢索屏幕尺寸"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Run"
+msgstr "運行"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Run Copy"
+msgstr "運行複製"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Run Copy Dialog"
+msgstr "運行複製對話框"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Run Dialog"
+msgstr "運行“對話框"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Run Saved Copy File:"
+msgstr "運行保存的副本文件:"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Run Script"
+msgstr "運行腳本"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Run Stored Compare"
+msgstr "運行存儲比較"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Run Stored Copy"
+msgstr "運行存儲複製"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Run a Script"
+msgstr "運行腳本"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Run a Script
+msgid "Run an external Script (Jython, JRuby, JavaScript etc)"
+msgstr "運行外部腳本上（Jython，JRuby中，JavaScript等）"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Run the field search Automatically"
+msgstr "自動運行字段搜索"
+
+# Use: Message : Menu 
+#  id:    Panel:  
+msgid "Save ..."
+msgstr "保存..."
+
+# Use: Action : Frame_Heading : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 3
+msgid "Save As"
+msgstr "“另存為”"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordEditor Exit, check if user wants to save the changed file
+msgid "Save Changes to file: {0}"
+msgstr "將更改保存到文件:{0}"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Save Copybooks as Xml"
+msgstr "習字保存為XML"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Properties
+msgid "Save Directories"
+msgstr "保存目錄"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Save Failed:"
+msgstr "保存失敗:"
+
+# Use: Message 
+#  id:    Panel:  
+# File save failed in the rename step
+msgid "Save Failed: File Rename Failed"
+msgstr "保存失敗:文件重命名失敗"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Save Field Sequence"
+msgstr "儲存場序列"
+
+# Use: Field_Prompt : Button 
+#  id:    Panel: CmpWizardFinal:CopyWizardFinalPnl 
+msgid "Save File"
+msgstr "保存文件"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Save File Description as Xml"
+msgstr "保存為XML文件描述"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Save Layout as XML
+msgid "Save Layout as RecordEditor XML"
+msgstr "保存佈局RecordEditor XML"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Save Layout as XML"
+msgstr "保存為XML佈局"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Save Tree as XML"
+msgstr "保存為XML樹"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordEditor Exit, check if user wants to save the changed file
+msgid "Save changes"
+msgstr "保存更改"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Save the Current record back to the DB (if no errors)"
+msgstr "保存當前記錄的DB（如果沒有錯誤）"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Save the current layout under a new name"
+msgstr "下一個新的名字保存當前佈局"
+
+# Use: Button 
+#  id:    Panel:  
+# Directory Load/Save 0
+msgid "Save to Directory"
+msgstr "保存到目錄"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Save to Xml"
+msgstr "保存到XML"
+
+# Use: Message 
+#  id:    Panel:  
+# (Xml layout, Xml file name appended)
+msgid "Saving"
+msgstr "節約"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Screen Height"
+msgstr "屏幕高度"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "Screen Properties"
+msgstr "畫面屬性"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Screen Width"
+msgstr "屏幕寬度"
+
+# Use: Field_Prompt : Tab_Heading 
+#  id:    Panel: SaveAsPnlScript 
+# ExportTab 5
+msgid "Script"
+msgstr "腳本"
+
+# Use: Field_Prompt 
+#  id:    Panel: SaveAsPnlScript 
+msgid "Script Language"
+msgstr "腳本語言"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Script Test Panel"
+msgstr "腳本測試面板"
+
+# Use: Message 
+#  id:    Panel:  
+msgid ""
+"Script execution failed !!! Execution of an external script (Javascript, "
+"jython etc failed)"
+msgstr "腳本執行失敗！外部腳本（JavaScript的執行的，Jython等失敗）"
+
+# Use: Message 
+#  id:    Panel:  
+# Script Test Screen - Script (Jython / Javascript etc) run
+msgid "Script {0} run  !!!"
+msgstr "劇本{0}運行！"
+
+# Use: Field_Prompt 
+#  id:    Panel: Find:Pnl5RecordTable:Pnl3Table 
+msgid "Search For"
+msgstr "搜索"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Select"
+msgstr "選擇"
+
+# Use: Message 
+#  id:    Panel:  
+# Select the Record to Insert in Tree-Table insert (applies to Avro / protobuf / Xml + possible others)
+msgid "Select the Record to Insert"
+msgstr "選擇要插入的記錄"
+
+# Use: Message 
+#  id:    Panel:  
+# Unknown File Format - file structure selected is invalid in the Unknown-Format-Reader
+msgid "Selected File Structue is not supported here"
+msgstr "這裡選擇的文件式結構，不支持"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- File SelectionOptions Combo- File SelectionOptions 1
+msgid "Selected Records"
+msgstr "選定的記錄"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 9
+msgid "Set the length based on Current Layout"
+msgstr "根據目前的規劃設定的長度"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Show/Hide Fields 1
+msgid "Show"
+msgstr "顯示"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Show / Hide Fields"
+msgstr "顯示/隱藏域"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Show Child Record"
+msgstr "顯示子記錄"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Show Child Record at the bottom of the list"
+msgstr "在底部的列表中顯示子記錄"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Show Child Record on the Right hand side of the screen"
+msgstr "右手邊的屏幕上顯示子記錄"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Show Column"
+msgstr "顯示列"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl3RecordTypeMF:Pnl5RecordTable:Pnl3Table:Pnl3RecordType 
+msgid "Show Hex"
+msgstr "顯示十六進制"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Show invalid Records
+msgid "Show Invalid (incomplete) Records (Messages)"
+msgstr "顯示無效（不完全統計）記錄（訊息）"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Show Proto Definition"
+msgstr "顯示原始定義"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Show RecordEditor Tips"
+msgstr "顯示RecordEditor提示"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Show RecordEditor Tips on program startup"
+msgstr "顯示RecordEditor在程序啟動時的提示"
+
+# Use: Field_Prompt 
+#  id:    Panel: SaveAsPnlScript:SaveAsPnlVelocity 
+msgid "Show Table Border"
+msgstr "顯示表格邊框"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Show all export panels"
+msgstr "顯示所有出口板"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Show all export panels on the export Screen"
+msgstr "出口屏幕上顯示所有出口板"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Show in Hints Dialog"
+msgstr "在提示對話框中顯示"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Show invalid Records"
+msgstr "無效的記錄"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Show {0} Fields"
+msgstr "顯示{0}字段"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Significant chars 1"
+msgstr "重要字符1"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Significant chars 2"
+msgstr "重要字符2"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Significant chars 3"
+msgstr "重要字符3"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Single Layout Compare"
+msgstr "單佈局比較"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Single PO Record"
+msgstr "單PO記錄"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Single Table"
+msgstr "單表"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Size of the program when it opens"
+msgstr "程序打開時的尺寸"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Sort"
+msgstr "分類"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Sort Options"
+msgstr "排序選項"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Sort Tree Save Directory"
+msgstr "排序樹的保存目錄"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Sorted Field Tree"
+msgstr "排序的字段上樹"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: EditJdbcParamsPanel 
+# Tbl- PropsEd_JDBC 2
+msgid "Source"
+msgstr "源"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Update Csv File Format 4
+msgid "Source Column"
+msgstr "源列"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: EditDateTypes:EditJdbcParamsPanel 
+# Tbl- PropsEd_JDBC 0
+msgid "Source Name"
+msgstr "源名稱"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Space to be left at the left of the screen."
+msgstr "將留在屏幕的左側的空間。"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Space to be left at the top of the screen."
+msgstr "將留在屏幕頂部的空間。"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EdProps_MainTab_Special Formats
+msgid "Special Formats"
+msgstr "特殊格式"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Standard Colors"
+msgstr "“標準顏色”"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Combo Options 0
+msgid "Standard Combo"
+msgstr "標準組合"
+
+# Use: Frame_Heading : Field_Prompt 
+#  id:    Panel:  
+msgid "Standard Copy"
+msgstr "標準複製"
+
+# Use: Field_Prompt 
+#  id:    Panel: ProtoSearchPnl 
+msgid "Standard Directories:"
+msgstr "標準目錄:"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Single_Record 1 Tbl- LayoutWizard Field definition 1 Tbl- LayoutWizard Record Selection Fields 1
+msgid "Start"
+msgstr "開始"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Start Searching the file"
+msgstr "開始搜索文件"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+# RecordBtns 0
+msgid "Start of File"
+msgstr "開始文件"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Starts With"
+msgstr "開始使用"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Storing chunks on Disk"
+msgstr "存儲磁盤上的塊"
+
+# Use: Message 
+#  id:    Panel:  
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "Structure"
+msgstr "結構"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Sum Operators 1
+msgid "Sum"
+msgstr "總和"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: LayoutEdit_RecordSelection
+msgid "Summary"
+msgstr "總結"
+
+# Use: Action 
+#  id:    Panel:  
+msgid ""
+"Swap the position of Child Record Screen between the Bottom and right hand "
+"side of the screen"
+msgstr "在屏幕的底部和右側的子記錄屏幕之間交換位置"
+
+# Use: Message 
+#  id:    Panel:  
+# Error (probably syntax ?) occured when running a velocity template
+msgid "Syntax error in template"
+msgstr "在模板的語法錯誤"
+
+# Use: Message : Column_Heading : Field_Prompt 
+#  id:    Panel: Pnl7SaveDbLayout:StandardGetFiles:RecordList:GetFiles:ComboPnl:OpenFileEditPnl:RecordDef 
+# Field on RecordLayout Create/Edit screen - used in message Tbl- DB-Combo Columns 0
+msgid "System"
+msgstr "系統"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_4   Panel:  
+# 
+# English: Tab CSV (names first line)
+msgid "CopybookLoaderFactory_4"
+msgstr "標籤CSV（名稱第一行）"
+
+# Use: Message 
+#  id:    Panel:  
+# LayoutEditor - Table details are missing ???
+msgid "Table Details have not been defined"
+msgstr "表的細節還沒有被定義"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Table Display"
+msgstr "表顯示"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: TableListPnl 
+# Tbl- DB-TableList Columns 0
+msgid "Table Id"
+msgstr "表中的id"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: TableListPnl 
+# Tbl- DB-TableList Columns 1
+msgid "Table Name"
+msgstr "表名稱"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Table Type:"
+msgstr "表類型:"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Table View (Selected Records)"
+msgstr "表查看（選定的記錄）"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Table per Row"
+msgstr "表每行"
+
+# Use: Column_Heading : Frame_Heading 
+#  id:    Panel:  
+msgid "Table:"
+msgstr "表:"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Template File"
+msgstr "模板文件"
+
+# Use: Button : Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Properties
+msgid "Test"
+msgstr "測試"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Test Driver"
+msgstr "測試驅動程序"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Test Mode"
+msgstr "測試模式"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- LayoutEdit_RecSel 5
+msgid "Test Value"
+msgstr "測試值"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_1   Panel:  
+# 
+# English: Text IO
+msgid "Line_IO_Names_1"
+msgstr "文本IO"
+
+# Use: External 
+#  id: Line_IO_Names_90   Panel:  
+# 
+# English: Text IO (Unicode)
+msgid "Line_IO_Names_90"
+msgstr "文本IO（Unicode）的"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_9   Panel:  
+# 
+# English: Text IO (byte Based)
+msgid "Line_IO_Names_9"
+msgstr "文本IO（基於字節）"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "The Directory where Cobol Copybooks are stored."
+msgstr "，Cobol的習字存儲目錄。"
+
+# Use: Message 
+#  id:    Panel:  
+# Dialog box to see if user wish's to continue filtering after limit has been reached
+msgid "The Filter limit of {0} has been reached, do you wish to continue?"
+msgstr "“過濾器”的限制{0}已經達到了，你要繼續嗎？"
+
+# Use: Message 
+#  id: LangRestart   Panel:  
+# 
+# English: The Language has been changed to {0}, you need to restart the RecordEditor, for the change to come into affect.
+msgid "LangRestart"
+msgstr "語言已更改為{0}，你需要重新啟動RecordEditor的變化來影響。"
+
+# Use: Message 
+#  id: TranslationStatus   Panel:  
+# 
+# English: The RecordEditor is currently using text converted from English using Google Translate. This translation is intended to give a Translator a base to work with rather than in the RecordEditor. Automatic translation (like Google Translate) is never great, but in this case it is further complicated by Html tags which causes further problems. If you speak English and have the time, please correct the translation for other people.
+msgid "TranslationStatus"
+msgstr ""
+"目前正在使用的RecordEditor從英語轉換使用谷歌翻譯的文本。\n"
+"翻譯的目的是給一個翻譯的基礎與而不是在RecordEditor的工作。\n"
+"自動翻譯（如谷歌翻譯）從來都不是很大，但在這種情況下，\n"
+"它被進一步複雜Html標記，這將導致進一步的問題。\n"
+"如果你會講英語，有足夠的時間，正確的翻譯為其他人。"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "The default Binary Encoding"
+msgstr "默認的二進制編碼"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "The default IO Routine to use"
+msgstr "默認的IO日常使用"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "The default copybook reader"
+msgstr "默認的字帖閱讀器"
+
+# Use: Message 
+#  id: UpgradeDbHint   Panel:  
+# 
+# English: The options available on this screen are<ol compact>
+# <li><font COLOR=Blue>Upgrade the DB to <b> the latest version of the Databases</b></font> 
+# # <p>This option should be used <b>only once</b> when using upgrade package
+# <li>Update the Record Seperator to <font COLOR=Blue>default</font>. Again this should only be done once.</ol>
+msgid "UpgradeDbHint"
+msgstr ""
+"可在此屏幕上的選項<ol compact>\n"
+"<LI>\n"
+"<font COLOR=Blue>升級DB的數據庫的最新版本</FONT>\n"
+"<P>\n"
+"使用升級包時，此選項只能使用一次\n"
+"<LI>\n"
+"更新<font COLOR=Blue>默認</font>的記錄分離器。這應該只進行一次。</OL>"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "The specified file was not a filter definition"
+msgstr "指定的文件是不是一個過濾器定義"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid ""
+"This option adds >> to the search button (on the find search screen) to "
+"better identifier it in testing"
+msgstr "該選項可以添加>>更好的識別碼，它在測試中的搜索按鈕（在搜索屏幕）"
+
+# Use: Message 
+#  id: FileWizard_6_RecordNames   Panel:  
+# 
+# English: This screen will display the Column Details (for each Record) and allow you to change them. <br>
+# # The Record controls which Records columns are displayed.
+msgid "FileWizard_6_RecordNames"
+msgstr "此屏幕將顯示列（每個記錄），並允許你改變他們。\n"
+"參考\n"
+"記錄控制記錄顯示的欄目。"
+
+# Use: Message 
+#  id: FileWizard_4_csv   Panel:  
+# 
+# English: This screen will display the Column Details and allow you to change them.
+msgid "FileWizard_4_csv"
+msgstr "屏幕上會顯示列的詳細信息，並允許你改變他們。"
+
+# Use: Message 
+#  id: FileWizard_3b   Panel:  
+# 
+# English: This screen will display the first 60 lines of the file. <br>
+# # Indicate the <i>start</i> of a <b>field</b> by clicking on the starting column<br>
+# # Each succesive <b>field</b> will have alternating background color
+# # <p>To remove a <b>field</b> click on the starting column again.
+msgid "FileWizard_3b"
+msgstr ""
+"該屏幕將顯示第60行的文件。\n"
+"參考\n"
+"指示開始的起始列上通過點擊一個字段\n"
+"參考\n"
+"每個succesive領域將交替背景色\n"
+"<P>\n"
+"再次欄中單擊要刪除的起始列。"
+
+# Use: Message 
+#  id: FileWizard_3mf   Panel:  
+# 
+# English: This screen will display the first 60 lines of the file. <br>
+# # Indicate the <i>start</i> of the <b>Record-Type field</b> by clicking on the starting column<br>
+# # Then click on the start of the Next Field.<br>
+# # To remove a position click on it again.
+msgid "FileWizard_3mf"
+msgstr ""
+"該屏幕將顯示第60行的文件。\n"
+"參考\n"
+"通過點擊的起始列的記錄類型字段指示開始\n"
+"參考\n"
+"然後點擊開始的下一個字段。\n"
+"參考\n"
+"要刪除的位置一下就可以了。"
+
+# Use: Message 
+#  id: FileWizard_3   Panel:  
+# 
+# English: This screen will display the first 60 lines of the file. <br>
+# # Indicate the <i>start</i> of the <b>Record-Type field</b> by clicking on the starting column<br>
+# # Then click on the start of the Next Field.<br>
+# # To remove a position click on it again.
+msgid "FileWizard_3"
+msgstr ""
+"該屏幕將顯示第60行的文件。\n"
+"參考\n"
+"通過點擊的起始列的記錄類型字段指示開始\n"
+"參考\n"
+"然後點擊開始的下一個字段。\n"
+"參考\n"
+"要刪除的位置一下就可以了。"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Tip List"
+msgstr "提示列表"
+
+# Use: External 
+#  id: Line_IO_Names_102   Panel:  
+# 
+# English: Tip Properties
+msgid "Line_IO_Names_102"
+msgstr "提示屬性"
+
+# Use: Message 
+#  id:    Panel:  
+# There is a limit on the number of rows that can be displayed in column display (note: in column display, rows become columns)
+msgid "To Many Rows Selected for ColumnDisplay"
+msgstr "到多行被選定為ColumnDisplay"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Tree"
+msgstr "樹"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-ChildRecords columns 4
+msgid "Tree Parent"
+msgstr "樹的父"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Tree Table"
+msgstr "樹表"
+
+# Use: Column_Heading : Frame_Heading 
+#  id:    Panel:  
+msgid "Tree View"
+msgstr "樹視圖"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Trying to create directory {0} file already exists of the same name"
+msgstr "試圖創建目錄{0}已經存在相同名稱的文件"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Two Layout Compare"
+msgstr "兩種佈局比較"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: Pnl3RecordType 
+# Tbl- Update Csv File Format 2 Tbl- LayoutWizard Field definition 3 Tbl- LayoutWizard Record Selection Fields 3 Tbl- Single_Record 3
+msgid "Type"
+msgstr "類型"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- PropEd_DataTypes 0
+msgid "Type Name"
+msgstr "型號名稱"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Type of Definition"
+msgstr "類型的定義"
+
+# Use: Message 
+#  id:    Panel:  
+# The RecordEditor stores Copy / filter / sort information as Xml using the jibx package; The Editor has tried to read a Xml file with jibx and failed !!!; jibx jar could be missing or there was a jibx internal error
+msgid "Unable to load saved definition: jibx not present ???"
+msgstr "無法加載保存的定義:JiBX的不存在？？"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Uncheck Fields"
+msgstr "取消選中的字段"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Uncheck Records"
+msgstr "取消選中“記錄"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Undock all Tabs"
+msgstr "取消停靠所有標籤"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Undock tab"
+msgstr "取消停靠選項卡"
+
+# Use: External 
+#  id: Line_IO_Names_55   Panel:  
+# 
+# English: Unicode Name on 1st line
+msgid "Line_IO_Names_55"
+msgstr "1號線的Unicode名稱"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Union Field:"
+msgstr "聯盟領域:"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_21   Panel:  
+# 
+# English: Unknown Format (Choose details at run time)
+msgid "Line_IO_Names_21"
+msgstr "未知格式（在運行時選擇“詳細信息”）"
+
+# Use: Combobox_Entry 
+#  id: Line_IO_Names_19   Panel:  
+# 
+# English: Unknown Format (Choose details at run time)
+msgid "Line_IO_Names_19"
+msgstr "未知格式（在運行時選擇“詳細信息”）"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Update Csv Columns"
+msgstr "更新CSV列"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Update Screen Columns"
+msgstr "更新屏幕列"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Upgrade"
+msgstr "升級"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Upgrade Database Tables"
+msgstr "升級數據庫表"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Upgrade from 0.52.1/0.53 to version 0.55"
+msgstr "從0.52.1/0.53升級到版本0.55"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Upgrade the DB from 0.55 - 0.61b to version 0.62"
+msgstr "DB從0.55 - 0.61b升級到版本0.62"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Upgrade the DB from 0.62->69* to version 0.69.2c"
+msgstr "DB從0.62-> 69 *升級版本0.69.2c"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Upgrade the DB from 0.69* to version 0.80"
+msgstr "0.69 * 0.80版本升級DB"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Use"
+msgstr "使用"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Use Extended Proto Lookup"
+msgstr "使用擴展原查詢"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Use File Wizard when no Layout is known for the file"
+msgstr "使用文件嚮導時，沒有佈局的文件"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Use Fixed Length Model"
+msgstr "使用固定長度的模型"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Use Large VB Model"
+msgstr "使用大VB模型"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Use Large VB Model (Default Yes)"
+msgstr "使用大VB模型（默認是）"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Use New Tree Expansion"
+msgstr "使用新的樹擴張"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Use file Wizard"
+msgstr "使用文件嚮導“"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditJdbcParamsPanel 
+msgid "User"
+msgstr "用戶"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "User Formats"
+msgstr "用戶的格式"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "User Selected Copybook"
+msgstr "用戶選擇字帖"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "User Types"
+msgstr "用戶類型"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "User supplied protoc option 0"
+msgstr "用戶提供的協議傳輸選項0"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "User supplied protoc option 1"
+msgstr "用戶提供的協議傳輸選項1"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "User supplied protoc option 2"
+msgstr "用戶提供的協議傳輸選項2"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "User supplied protoc option 3"
+msgstr "用戶提供的協議傳輸選項3"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "User supplied protoc option 4"
+msgstr "用戶提供的協議傳輸選項4"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "User supplied protoc option 5"
+msgstr "用戶提供的協議傳輸選項5"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "User supplied protoc option 6"
+msgstr "用戶提供的協議傳輸選項6"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "User supplied protoc option 7"
+msgstr "用戶提供的協議傳輸選項7"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Utilities"
+msgstr "實用工具"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Value is to big !! {0} > {1}"
+msgstr "價值是大！ {0} {1}"
+
+# Use: Error 
+#  id:    Panel:  
+# (numeric integer fields)
+msgid "Value is to big for field {0} > {1} {2} ~ {3} {4}"
+msgstr "價值是大字段{0} {1} {2} {3} {4}"
+
+# Use: Error 
+#  id:    Panel:  
+# (Cobol Sign seperate field)
+msgid "Value is too large to fit field"
+msgstr "值過大，以適應領域"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Velocity Export Failed:"
+msgstr "速度導出失敗:"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pane:SaveAsPnlVelocity:GetFiles 
+msgid "Velocity Template"
+msgstr "Velocity模板"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "View"
+msgstr "看"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "View Record Selections Tree"
+msgstr "查看記錄選擇樹"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "View Selected Records"
+msgstr "查看選定的記錄"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Warn on Structure change"
+msgstr "警告結構變化"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Warn the user before deleteing Selected Rows using the delete key"
+msgstr "之前向用戶發出警告deleteing選定的行刪除鍵"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Warn the user if Binary-Fields and Structure=Default"
+msgstr "向用戶發出警告，如果二進制字段和結構=默認"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Warn when deleteing rows via delete key"
+msgstr "當delete行通過刪除鍵發出警告"
+
+# Use: Message 
+#  id:    Panel:  
+# Csv Writer, occurs when a field contains the field seperator and no quote character is specified
+msgid "Warning: on line {0} Field {1} Seperator {2} Dropped"
+msgstr "警告:分離器{2} {1}行{0}字段掉落"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Weather to Run the field search Automatically or not"
+msgstr "天氣自動運行字段搜索，或不"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Weather we are running automated Tests (Marathon ?) or not"
+msgstr "天氣我們正在運行自動測試（馬拉松）或不"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "What to Save"
+msgstr "保存"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "White Background"
+msgstr "白色背景"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- File SelectionOptions 0
+msgid "Whole View"
+msgstr "全觀"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Window"
+msgstr "窗口"
+
+# Use: Message 
+#  id:    Panel:  
+# Export Screen - generic write error the exception message will be appended
+msgid "Write Failed"
+msgstr "寫入失敗"
+
+# Use: Message 
+#  id:    Panel:  
+# Export as Html - failed the exception message will be appended
+msgid "Writing HTML File failed:"
+msgstr "編寫HTML文件失敗:"
+
+# Use: External 
+#  id: Tbl_RecordType_6   Panel:  
+# 
+# English: XML
+msgid "Tbl_RecordType_6"
+msgstr "XML"
+
+# Use: External 
+#  id: Line_IO_Names_62   Panel:  
+# 
+# English: XML - Build Layout
+msgid "Line_IO_Names_62"
+msgstr "XML - 生成佈局"
+
+# Use: External 
+#  id: Line_IO_Names_61   Panel:  
+# 
+# English: XML - Existing Layout
+msgid "Line_IO_Names_61"
+msgstr "XML - 現有佈局"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_8   Panel:  
+# 
+# English: XML File
+msgid "CopybookLoaderFactory_8"
+msgstr "XML文件"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_116   Panel:  
+# 
+# English: XML Name Tag
+msgid "Tbl_FieldType_116"
+msgstr "XML名稱標記"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "XML Tree (Selected Records)"
+msgstr "XML樹（選定的記錄）"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# ExportTab 6
+msgid "XSLT Transform"
+msgstr "XSLT變換"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EdProps_MainTab_Xml ExportTab 3
+msgid "Xml"
+msgstr "的Xml"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Xml output File"
+msgstr "XML輸出文件"
+
+# Use: Field_Prompt 
+#  id:    Panel: SaveAsPnlXslt 
+msgid "Xslt Engine (leave blank for default)"
+msgstr "XSLT引擎（留空默認情況下）"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Xml
+msgid "Xslt Jars"
+msgstr "XSLT罐"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Xslt Template directory (Editor)"
+msgstr "XSLT模板目錄（編輯）"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Xslt Transform factory class"
+msgstr "XSLT轉換工廠類"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "You Must enter a Length for fixed Length files"
+msgstr "您必須輸入一個長度為固定長度的文件"
+
+# Use: Message 
+#  id:    Panel:  
+# Tree view - only one root segment is allowed (Protocol buffers single message)
+msgid "You can not Repeat the root Segment !!!"
+msgstr "您可以不重複的根段！"
+
+# Use: Message 
+#  id:    Panel:  
+# Tree view - only one root segment is allowed (Protocol buffers single message)
+msgid "You can not add a second root segment !!!"
+msgstr "您可以不添加第二個根段！"
+
+# Use: Message 
+#  id:    Panel:  
+# Sort Screen applies to Proto Buffers / Avro Editors
+msgid "You can only sort when all records are of the same type"
+msgstr "您只能排序時，所有的記錄是相同的類型的"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "You must Enter a filename"
+msgstr "您必須輸入一個文件名"
+
+# Use: Error 
+#  id:    Panel:  
+# Layout Wizard ~ multi record files
+msgid "You must define the Fields for all Records. Please update - {0}"
+msgstr "你必須定義字段的所有記錄。請更新 - {0}"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "You must define the field Names in all Records, please update: {0}"
+msgstr "你必須定義所有記錄中的字段名稱，請更新:{0}"
+
+# Use: Message 
+#  id:    Panel:  
+# Cobol Copybook analysis
+msgid "You must enter a Cobol Copybook name"
+msgstr "您必須輸入一個COBOL的字帖名"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "You must enter a HTML file"
+msgstr "您必須輸入一個HTML文件"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "You must enter a LayoutName"
+msgstr "您必須輸入一個LayoutName"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffer Editor, user must enter a Proto definition file
+msgid "You must enter a Proto Definition File"
+msgstr "您必須輸入一個原定義文件"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordLayout Create/Edit screens. The Record-Name field must be entered
+msgid "You must enter a Record Name"
+msgstr "您必須輸入一個記錄"
+
+# Use: Message 
+#  id:    Panel:  
+# Velocity Export/Copy screen
+msgid "You must enter a Velocity Template file"
+msgstr "您必須輸入一個Velocity模板文件"
+
+# Use: Message 
+#  id:    Panel:  
+# Load Xml layouts from a directory
+msgid "You must enter a directory to load layouts from"
+msgstr "您必須輸入一個目錄來加載佈局"
+
+# Use: Message 
+#  id:    Panel:  
+# Export multiple layouts as Xml
+msgid "You must enter a directory to save the layout"
+msgstr "保存佈局，您必須輸入一個目錄"
+
+# Use: Message 
+#  id:    Panel:  
+# Cobol directory load
+msgid "You must enter a directory where cobol copybooks are located"
+msgstr "您必須輸入一個目錄的COBOL習字"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "You must enter a input copybook"
+msgstr "您必須輸入一個輸入字帖"
+
+# Use: Message 
+#  id:    Panel:  
+# Goto line number screen - user must enter a line number
+msgid "You must enter a line number"
+msgstr "您必須輸入一個行號"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "You must enter a sample file"
+msgstr "您必須輸入一個樣本文件"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffer Editor - Error processing proto file exception message added on
+msgid "You must enter a valid Proto File:"
+msgstr "您必須輸入一個有效的原始文件:"
+
+# Use: Message 
+#  id:    Panel:  
+# Export/Copy screen, user must specify an output (Export) file name
+msgid "You must enter an Output file"
+msgstr "您必須輸入一個輸出文件"
+
+# Use: Message 
+#  id:    Panel:  
+# Velocity Copy screen, user must specify an input file
+msgid "You must enter an input file"
+msgstr "您必須輸入一個輸入文件"
+
+# Use: Message 
+#  id:    Panel:  
+# Find screen - user must enter text to search for.
+msgid "You must enter text to search for"
+msgstr "您必須輸入要搜索的文本"
+
+# Use: Message 
+#  id:    Panel:  
+# Find screen - user must specify a field when using replace
+msgid "You must specify a specific field when using replace"
+msgstr "使用替換時，您必須指定一個特定的領域"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditIcons 
+msgid "Zip/Jar File"
+msgstr "郵編/ jar文件"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_0   Panel:  
+# 
+# English: cb2xml XML Copybook (DB)
+msgid "CopybookLoaderFactory_0"
+msgstr "cb2xml XML字帖（DB）"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "get Script"
+msgstr "獲取腳本"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "get Xslt"
+msgstr "獲得XSLT"
+
+# Use: Message 
+#  id:    Panel:  
+# Filename contains the * character - invalid/undessirable on some systems
+msgid "invalid filename (* present) ~"
+msgstr "無效的文件名（目前）〜"
+
+# Use: Message 
+#  id:    Panel:  
+# Call to jibx to write a parameter file as Xml has failed
+msgid "jibx- Save to Xml failed:"
+msgstr "JiBX的保存到XML失敗:"
+
+# Use: Message 
+#  id:    Panel:  
+# Goto line number screen
+msgid "line number must be > 0"
+msgstr "行號必須> 0。"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "must be >= 0"
+msgstr "必須> = 0"
+
+# Use: Field_Prompt 
+#  id:    Panel: Csv 
+msgid "names on first line"
+msgstr "在第一行的名字"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "protoc command"
+msgstr "協議傳輸命令"
+
+# Use: Field_Prompt 
+#  id:    Panel: CsvSelectionPanel 
+msgid "set Column Types"
+msgstr "設置列的類型"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "space between fields"
+msgstr "字段之間的空間"
+
+# Use: Message 
+#  id:    Panel:  
+# Cobol and Xml directory load functions - the filename entered is not a directory
+msgid "{0} is not a directory !!!"
+msgstr "{0}不是一個目錄！"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- PropsEd_JDBC 4
+msgid " User"
+msgstr " 用户"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "< (Numeric)"
+msgstr "<（数字）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "<= (Text)"
+msgstr "<=（文字）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Layout Selection
+msgid "<All>"
+msgstr "<ALL>"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "= (Numeric)"
+msgstr "=（数字）"
+
+# Use: Field_Prompt 
+#  id:    Panel: Csv 
+msgid "Add Quote to all Text Fields"
+msgstr "所有文本字段添加报价"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Add names to screen Components"
+msgstr "添加屏幕组件的​​名称"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Allow Editting Raw Text"
+msgstr "允许原始文本编辑工作"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Allow the user to edit file as Raw Text ??"
+msgstr "允许用户编辑文件作为原始文本？"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Binary Numeric Types"
+msgstr "二进制数值类型"
+
+# Use: Unknown 
+#  id:    Panel:  
+msgid "Can not save, Invalid Record definition"
+msgstr "无法保存，无效的记录定义"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Checkbox Types"
+msgstr "复选框类型"
+
+# Use: Column_Heading : Field_Hint 
+#  id:    Panel:  
+# Tbl- DB-ChildRecords columns 0
+msgid "Child Record"
+msgstr "子记录"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Clear Fields"
+msgstr "清除字段"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Column Table"
+msgstr "表列"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB ComboValues 0
+msgid "Combo Code"
+msgstr "组合代码"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Combo Name"
+msgstr "组合名称"
+
+# Use: Field_Prompt 
+#  id:    Panel: ComboPnl 
+msgid "Combo Type"
+msgstr "组合类型"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- PropsEd_JDBC 6
+msgid "Commit"
+msgstr "犯"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Compare"
+msgstr "比较"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Compare (HTML)"
+msgstr "比较（HTML）"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Compare Single Layout"
+msgstr "比较单布局"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Complete Rebuild of Tree
+msgid "Completely rebuild the Tree from scratch"
+msgstr "完全重建树从头开始"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Save Tree as XML
+msgid "Converts a Tree View to XML"
+msgstr "转换到XML树视图"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Create Child"
+msgstr "建立儿童"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Create Screens in seperate Windows"
+msgstr "在单独的窗口中创建屏幕"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Cut Record(s)"
+msgstr "剪切记录（S）"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Default Record"
+msgstr "默认记录"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl1File 
+msgid "Default Type"
+msgstr "默认类型"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditDefaults 
+msgid "Default Value"
+msgstr "默认值"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 8
+msgid "DefaultValue"
+msgstr "默认值"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Properties
+msgid "Defaults"
+msgstr "默认"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Destination"
+msgstr "目的地"
+
+# Use: Field_Prompt 
+#  id:    Panel: Find 
+msgid "Direction"
+msgstr "方向"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Dock Tab/Screen"
+msgstr "码头卡/屏幕"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Document View"
+msgstr "文档视图"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Doesn't Contain"
+msgstr "不包含"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- PropsEd_JDBC 10
+msgid "Drop ; from SQL statements"
+msgstr "掉落;从SQL语句"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Edit Child Record"
+msgstr "编辑子记录"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Edit Combo Contents"
+msgstr "编辑组合内容"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Edit Combos"
+msgstr "编辑连击"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Edit Output File"
+msgstr "编辑输出文件"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Edit Record"
+msgstr "编辑记录"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Edit Tables DB"
+msgstr "编辑表DB"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Equivalent Record"
+msgstr "等效记录"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Execute Saved Filter"
+msgstr "执行保存的过滤器"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Execute Sort Tree"
+msgstr "执行排序树"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Exit"
+msgstr "出口"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Field Delimiter"
+msgstr "字段分隔符"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 2
+msgid "FieldName"
+msgstr "字段名"
+
+# Use: Menu : Field_Prompt : Combobox_Entry 
+#  id:    Panel: OpenFileEditPnl 
+# Combo- File SelectionOptions Combo- Layout Copy
+msgid "File"
+msgstr "文件"
+
+# Use: Field_Prompt : Tab_Heading 
+#  id:    Panel: Pnl1File:Pnl2FileFormat:OpenFileEditPnl:RcdExtra 
+# ExportTab 8
+msgid "File Structure"
+msgstr "文件结构"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Force Storing chunks on Disk (Used in Testing)"
+msgstr "强迫储存磁盘上的块（用于测试）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- File Search Direction 0
+msgid "Forward"
+msgstr "前锋"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Generate Record Names"
+msgstr "生成记录名称"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Input File Structure"
+msgstr "输入文件结构"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Input Numeric Format"
+msgstr "输入数字格式"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Insert record(s) after selected records"
+msgstr "选定的记录后插入记录（S）"
+
+# Use: Unknown 
+#  id:    Panel:  
+msgid "Internal Error: lines cleared, save is not possible !!!"
+msgstr "内部错误：行清除，保存是没有可能的！！"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Is Empty"
+msgstr "是空的"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditJdbcParamsPanel 
+msgid "JDBC JAR"
+msgstr "JDBC JAR"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditJarsPanel 
+msgid "Jar Type"
+msgstr "罐类型"
+
+# Use: Field_Prompt : Tab_Heading 
+#  id:    Panel: EditLanguage 
+# Tab: EdProps_MainTab_Language
+msgid "Language"
+msgstr "语"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pane 
+msgid "Layout"
+msgstr "布局"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl7SaveDbLayout:Pnl5SaveFileLayout 
+msgid "Layout Description"
+msgstr "布局说明"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Layout Wizard (For File copybooks)"
+msgstr "布局向导（文件习字）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Left Justified Numeric Types"
+msgstr "左对齐的数字类型"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: Pnl2FileFormat 
+# Tbl- Export_Field_Selection 2 Tbl- LayoutWizard Field definition 2 Tbl- DB-RecordFields Columns 1 Tbl- LayoutWizard Record Selection Fields 2
+msgid "Length"
+msgstr "长度"
+
+# Use: Field_Prompt 
+#  id:    Panel: RecordList:RecordDef 
+msgid "List"
+msgstr "表"
+
+# Use: Button 
+#  id:    Panel:  
+# File Load/Save 1
+msgid "Load"
+msgstr "加载"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Load Cobol Record Layout - DB"
+msgstr "加载COBOL记录的布局 - DB"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Load Saved Field Sequences"
+msgstr "加载保存的字段序列"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Load Saved Hidden Fields"
+msgstr "加载保存的隐藏字段"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Execute Record Tree
+msgid "Load and Execute a saved Record Tree"
+msgstr "加载并执行保存记录树"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Look for Mainframe Zoned numeric fields"
+msgstr "针对大型机的分区数值字段"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Cobol Split options 0
+msgid "No Split"
+msgstr "没有分割"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Number of characters to use when looking up record layouts (medium)"
+msgstr "记录布局时要使用的字符数（中）"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Numeric Decimal point=','"
+msgstr "数字小数点='，'"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Numeric Types"
+msgstr "数值类型"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pane 
+msgid "Output Directory"
+msgstr "输出目录"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 7
+msgid "Parameter"
+msgstr "参数"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: EditJdbcParamsPanel 
+# Tbl- PropsEd_JDBC 5
+msgid "Password"
+msgstr "密码"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Paste Table Overwrite"
+msgstr "粘贴表覆盖"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Paste the records into the table"
+msgstr "记录粘贴到表中"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "Plugins"
+msgstr "插件"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 0
+msgid "Position"
+msgstr "位置"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Position of Child Screen"
+msgstr "子屏幕的位置"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Recalculate Column widths"
+msgstr "重新计算列宽"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: LineFrame:Pnl5RecordTable:Pnl6RecordFieldNames 
+# Tbl- Filter Record Selection 0
+msgid "Record"
+msgstr "记录"
+
+# Use: Field_Prompt 
+#  id:    Panel: StandardGetFiles:Find:GetFiles:OpenFileEditPnl 
+msgid "Record Layout"
+msgstr "记录布局"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Record Layouts"
+msgstr "记录布局"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: RecordList:RecordDef 
+# Tbl- LayoutWizard RecordNames 0
+msgid "Record Name"
+msgstr "记录名称"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Record Tree Save Directory"
+msgstr "记录保存目录树"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "RecordEditor Forum"
+msgstr "RecordEditor论坛"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "RecordEditor Manual"
+msgstr "RecordEditor手册"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "RecordEditor Web Page"
+msgstr "RecordEditor网页"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Right Justified Space padded Types"
+msgstr "右对齐空间填充类型"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-Table Columns 0
+msgid "Row Key"
+msgstr "行键"
+
+# Use: Action : Button : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 2 File Load/Save 0
+msgid "Save"
+msgstr "节省"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Search: All Fields"
+msgstr "搜索：所有领域"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Should the program check for binary Fixed Width Files ???"
+msgstr "如果程序检查二进制固定宽度的文件？"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Space to be left at the Right of the screen."
+msgstr "留在屏幕右侧的空间。"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Space to be left at the bottom of the screen."
+msgstr "空间被留在屏幕的底部。"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Special Char Types"
+msgstr "特别char类型"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Split Copybook"
+msgstr "斯普利特字帖"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Jars
+msgid "System Jars"
+msgstr "系统罐"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Single_Record 5
+msgid "Text"
+msgstr "文本"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Text View"
+msgstr "文本浏览"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Text View (Selected Records)"
+msgstr "文本视图（选定的记录）"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "The default Database to use"
+msgstr "使用默认的数据库为"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "The default copybook writer"
+msgstr "默认字帖作家"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "To Many Rows Selected ({0} > {1}) for ColumnDisplay"
+msgstr "许多选择的行（{0} {1}）ColumnDisplay"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Unfix Column"
+msgstr "不固定柱"
+
+# Use: Unknown 
+#  id:    Panel:  
+msgid "Update Failed:"
+msgstr "更新失败："
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Upgrade the DB from {0} to version {1}"
+msgstr "升级DB {0}版本{1}"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Use Fixed Length Model (Used in Testing)"
+msgstr "使用固定长度模型（测试中使用）"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "User Jars"
+msgstr "用户罐子"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Filter Selecton Field Values 5
+msgid "Value"
+msgstr "值"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# ExportTab 7
+msgid "Velocity"
+msgstr "速度"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Velocity Template directory (Copybooks)"
+msgstr "Velocity模板目录（习字）"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Velocity Template directory (Editor)"
+msgstr "Velocity模板目录（编辑）"
+
+# Use: Field_Prompt 
+#  id:    Panel: SaveAsPnlXslt 
+msgid "Xslt File"
+msgstr "XSLT文件"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Xml
+msgid "Xslt Options"
+msgstr "XSLT选项"
+
+# Use: Column_Heading : Combobox_Entry 
+#  id:    Panel:  
+# Tbl- LayoutWizard RecordNames 1 Combo- LayoutEdit_EndOfLine 0
+msgid "default"
+msgstr "默认"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "get Template"
+msgstr "获得模板"
+
+# Use: Field_Prompt 
+#  id:    Panel: SaveAsPnlFileStructure 
+msgid "new File Structure"
+msgstr "新的文件结构"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "set as Field Name Row"
+msgstr "设置为字段名行"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_31   Panel:  
+# 
+# English: Mainframe Decimal_Point=','
+msgid "BinFormat/Dialect_31"
+msgstr "大型机Decimal_Point ='，'"
+
+# Use: Message 
+#  id: ChgFileStructure   Panel:  
+# 
+# English: <h2>Change File Structure</h2>
+# This option is mainly for <b>Cobol</b> Programmers. It allows you to change the<br>
+# # File format between <b>Text-IO</b> (standard text file - Line Sequential in Cobol),<br>
+# # various <b>VB</b> Formats and <b>Fixed Record Length</b> file format.<br>
+# # You will still need to save the file to make the changes permanent.<br>
+# # 
+# # <p>If you do not understand the above, this option is probably not for you
+msgid "ChgFileStructure"
+msgstr ""
+"<H2>更改文件结构\n"
+"</H2>\n"
+"这个选项主要是为COBOL程序员。它可以让你改变\n"
+"-\n"
+"文本IO之间的文件格式（标准的文本文件 - 线顺序用Cobol）\n"
+"-\n"
+"各种VB格式和固定记录长度的文件格式。\n"
+"-\n"
+"你仍然需要将文件保存到永久的变化。\n"
+"-\n"
+"<P>\n"
+"如果你不明白，这个选择可能是不适合你"
+
+# Use: Message 
+#  id: CopybookLoad   Panel:  
+# 
+# English: <font COLOR=Blue>This option loads a <b>{0} Copybooks</b> into the <b>Record Edit DB.</b></font>
+# # <p><b>Note:</b> If the <i>Split Copybook on Redefine</i> field is selected,
+# The system will
+# <ol compact>
+# 
+# <li>Insert a Group record for the copybook.
+# 
+# <li>The copybook will be split the copybook on a <b>redefines clause</b> or
+# <b>01 level</b> into seperate Child-Records.
+# </ol>
+# 
+# 
+# # <p><b>Note:</b> Cobol Copybooks are converted to XML copybook by the
+# Open Source project cb2xml (see www.sourceforge.net)
+# 
+# # <p><b>Warning:</b> cb2xml has some bugs at present.
+msgid "CopybookLoad"
+msgstr ""
+"<font COLOR=Blue>的这个选项载入{0}习字记录编辑DB。</FONT>\n"
+"<P>\n"
+"注意：如果被选中，重新定义字段分割字帖\n"
+"该系统将\n"
+"<ol compact>的\n"
+"<LI>\n"
+"插入一组记录的字帖。\n"
+"<LI>\n"
+"将被分割的字帖，字帖的重新定义子句或\n"
+"01级到单独的儿童记录。\n"
+"</OL>\n"
+"<P>\n"
+"注：COBOL习字转换为XML字帖\n"
+"开源项目cb2xml（见www.sourceforge.net）\n"
+"<P>\n"
+"警告：cb2xml在目前存在一些缺陷。"
+
+# Use: Combobox_Entry : External 
+#  id: Copybook_Writers_1   Panel:  
+# 
+# English: RecordEditor XML
+msgid "Copybook_Writers_1"
+msgstr "XML RecordEditor的"
+
+# Use: External 
+#  id: Csv_Parsers_6   Panel:  
+# 
+# English: Basic - Delimiter all fields
+msgid "Csv_Parsers_6"
+msgstr "基本 - 分隔符的各个领域"
+
+# Use: External 
+#  id: Csv_Parsers_7   Panel:  
+# 
+# English: Basic - Delimiter all fields + 1
+msgid "Csv_Parsers_7"
+msgstr "基本 - 分隔符的所有字段+ 1"
+
+# Use: Message 
+#  id: DefRecordSelection   Panel:  
+# 
+# English: You should define the Record Selections details (Field - Field Value)and check the File Structure on the Extra sceen
+msgid "DefRecordSelection"
+msgstr "你应该定义记录选择细节（现场 - 现场值），并检查文件结构额外SCEEN上"
+
+# Use: Message 
+#  id: EditProps_DefaultOpts   Panel:  
+# 
+# English: <h2>Default Options</h2>
+# This Tab is for defining the default value for several Combo Box's used by the Package<br/>
+# # <br/>
+# # Click on a row to change the default Value
+msgid "EditProps_DefaultOpts"
+msgstr "<H2>默认选项\n"
+"</H2>\n"
+"此选项卡中定义默认值几个组合框的包所使用的\n"
+"<BR/>\n"
+"<BR/>\n"
+"点击某一行上更改默认值"
+
+# Use: Message 
+#  id: EditProps_JarsNote   Panel:  
+# 
+# English: <b>Note:</b>You will also need to add the jar with your class to the <b>User Jars</b> tab.
+msgid "EditProps_JarsNote"
+msgstr "注意：您还需要添加JAR类用户罐子标签。"
+
+# Use: Message 
+#  id: ExportDataDesc   Panel:  
+# 
+# English: Export data in native format
+# 
+# Change the tab to change Data format
+msgid "ExportDataDesc"
+msgstr "原生格式的数据导出\n"
+"更改选项来改变数据格式"
+
+# Use: Message 
+#  id: ExportFSDesc   Panel:  
+# 
+# English: This option exports the file with a new File-Structure
+# This option is most use to Cobol Programers
+# 
+# Mainframe VB* - Mainframe VB files        Fujitsu Variable Binary - Fujitsu Cobol VB 
+# Text IO       - Normal PC/Unix Text file  Fixed Length Binary - Fixed length File (no CR/LF)
+msgid "ExportFSDesc"
+msgstr ""
+"此选项导出文件，一个新的文件结构\n"
+"这个选项是最使用的Cobol编程人员\n"
+"大型机VB * - 大型机VB可变二进制文件的富士通 - 富士通COBOL VB\n"
+"文本IO - 普通PC / Unix文本文件的固定长度二进制 - 固定长度的文件（CR / LF）"
+
+# Use: Message 
+#  id: FileWizard_1   Panel:  
+# 
+# English: This wizard will build a <b>Record-Layout</b> from a sample file. 
+# # <p> you need to enter a<ol>
+# <li>sample file in the new layout</li>
+# <li>the file structure (use <b>Default Reader</b> for standard windows / Unix files)  for unknown file format use <b>Unknown Format</b></li>
+# <li>the new layout name</li>
+msgid "FileWizard_1"
+msgstr ""
+"该向导将建立一个记录从一个样本文件的布局。\n"
+"<P>\n"
+" 你需要输入的<ol>\n"
+"<LI>\n"
+"在新的布局示例文件\n"
+"</LI>\n"
+"<LI>\n"
+"未知文件格式使用未知格式的文件结构（使用标准的Windows / Unix文件的默认阅读器）\n"
+"</LI>\n"
+"<LI>\n"
+"新的布局名称\n"
+"</LI>"
+
+# Use: Message 
+#  id: FileWizard_4   Panel:  
+# 
+# English: This screen will display the Column Details and allow you to change them.
+msgid "FileWizard_4"
+msgstr "此屏幕将显示列详细信息，并允许您更改它们。"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_0   Panel:  
+# 
+# English: Default
+msgid "Line_IO_Names_0"
+msgstr "默认"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_2   Panel:  
+# 
+# English: Fixed Length Binary
+msgid "Line_IO_Names_2"
+msgstr "固定长度的二进制"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_4   Panel:  
+# 
+# English: Mainframe VB (rdw based) Binary
+msgid "Line_IO_Names_4"
+msgstr "大型机VB（RDW基于）二进制"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_5   Panel:  
+# 
+# English: Mainframe VB Dump: includes Block length
+msgid "Line_IO_Names_5"
+msgstr "大型机VB转储：包括块长度"
+
+# Use: External 
+#  id: Tbl_FieldType_114   Panel:  
+# 
+# English: Check Box (Boolean)
+msgid "Tbl_FieldType_114"
+msgstr "检查盒（布尔）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_26   Panel:  
+# 
+# English: Zero Padded Number decimal=","
+msgid "Tbl_FieldType_26"
+msgstr "填充了零的小数位=“，”"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_27   Panel:  
+# 
+# English: Zero Padded Number decimal="," sign=+/-
+msgid "Tbl_FieldType_27"
+msgstr "填充了零的号码（十进制）=“，”= + / -"
+
+# Use: External 
+#  id: Tbl_FieldType_80   Panel:  
+# 
+# English: Char Rest of Fixed Length
+msgid "Tbl_FieldType_80"
+msgstr "固定长度的字符休息"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Current Line Highlight"
+msgstr "当前行高亮"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Code Folding"
+msgstr "代码折叠"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Save File: {0} ?"
+msgstr "保存文件：{0}？"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Java"
+msgstr "爪哇"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Animate Bracket Matching"
+msgstr "动画括号匹配"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Word Wrap"
+msgstr "“自动换行”"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Change File Structure"
+msgstr "更改文件结构"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Python"
+msgstr "蟒蛇"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Examples"
+msgstr "示例"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Save All ..."
+msgstr "“全部保存”..."
+
+# Use: Message 
+#  id:    Panel:  
+msgid "File Format of File {0} changed to {1}"
+msgstr "文件格式的文件{0}改为{1}"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Tab Lines"
+msgstr "耳线"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Run !!!"
+msgstr "运行！"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Eclipse"
+msgstr "日食"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Run Script Screen"
+msgstr "运行脚本屏幕"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Mark Occurrences"
+msgstr "马克纪录"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "IDEA"
+msgstr "IDEA"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Bookmarks"
+msgstr "书签"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Default (Alternate)"
+msgstr "默认（备用）"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Bean Shell"
+msgstr "豆壳"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Ruby"
+msgstr "红宝石"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "Initial Program Size"
+msgstr "初始程序大小"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Line Numbers"
+msgstr "行号"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "No Script Engine found !!!"
+msgstr "没有脚本引擎发现！"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "JavaScript"
+msgstr "JAVASCRIPT"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Anti-Aliasing"
+msgstr "抗锯齿"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "\n"
+"\n"
+" Error saving file: {0}, message: {1}"
+msgstr " 保存文件时出错：{0}，消息：{1}"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Visual Studio"
+msgstr "Visual Studio中"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Dark"
+msgstr "暗"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "File Format of {1} used to read File {0}"
+msgstr "{1}的文件格式用于读取文件{0}"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_32   Panel:  
+# 
+# English: Fujitsu Decimal_Point=','
+msgid "BinFormat/Dialect_32"
+msgstr "富士通Decimal_Point ='，'"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_22   Panel:  
+# 
+# English: Num Assumed Decimal (+ve)
+msgid "Tbl_FieldType_22"
+msgstr "假设十进制数（积极）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_23   Panel:  
+# 
+# English: Binary Integer (only +ve)
+msgid "Tbl_FieldType_23"
+msgstr "二进制整数（积极）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_24   Panel:  
+# 
+# English: Zero Padded Number with sign=+/-
+msgid "Tbl_FieldType_24"
+msgstr "填充了零的带符号数= + / -"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_25   Panel:  
+# 
+# English: Positive Zero Padded Number
+msgid "Tbl_FieldType_25"
+msgstr "正零填充数"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_28   Panel:  
+# 
+# English: Zero Padded Number decimal="," (only +ve)
+msgid "Tbl_FieldType_28"
+msgstr "填充了零的号码（十进制）“，”（只有积极）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_29   Panel:  
+# 
+# English: Num (Right Justified space padded) +/- sign
+msgid "Tbl_FieldType_29"
+msgstr "数（右对齐空间棉服）+ / - 符号"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_33   Panel:  
+# 
+# English: Mainframe Packed Decimal (+ve)
+msgid "Tbl_FieldType_33"
+msgstr "主机盒装十进制（积极）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_39   Panel:  
+# 
+# English: Binary Integer Big Endian (only +ve )
+msgid "Tbl_FieldType_39"
+msgstr "二进制整数大端（积极）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_42   Panel:  
+# 
+# English: Num (Right Just space padded, "," Decimal)
+msgid "Tbl_FieldType_42"
+msgstr "数（右只是空间填充“，”十进制）"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_43   Panel:  
+# 
+# English: Num (Right Just space padded, "," Decimal) +/- sig
+msgid "Tbl_FieldType_43"
+msgstr "数（右只是空间填充“，”十进制）+ / - 符号"
+

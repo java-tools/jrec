@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EditorTask type="VisibleFields" layoutName="">
+  <layout name="DTAR020" groupHeader="">
+    <record name="DTAR020">
+      <field>KEYCODE-NO</field>
+      <field>STORE-NO</field>
+      <field>DEPT-NO</field>
+      <field>QTY-SOLD</field>
+      <field>SALE-PRICE</field>
+    </record>
+  </layout>
+  <FieldSequence name="DTAR020">
+    <field>KEYCODE-NO</field>
+    <field>STORE-NO</field>
+    <field>DEPT-NO</field>
+    <field>QTY-SOLD</field>
+    <field>SALE-PRICE</field>
+  </FieldSequence>
+</EditorTask>

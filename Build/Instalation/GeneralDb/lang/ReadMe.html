@@ -1,0 +1,121 @@
+<h1>Foreign Language Translations</h1>
+<p>The RecordEditor now support Foreign Language Translations using the GetText Utilitity
+(see <a href="http://gnuwin32.sourceforge.net/packages/gettext.htm">Windows</a> 
+or <a href="http://www.gnu.org/software/gettext/">Linux</a>). Currently the help screens are all in English,
+I will be looking at that in the future.
+<p>There are number of packages / services for PO files:
+<ol compact="compact">
+  <li><a href="http://yehongmei.narod.ru/home.htm">TM DB</a> is a translation tool that supports po files.</li>
+  <li><a href="http://www.poedit.net/">poedit</a> and <a href="https://sourceforge.net/projects/betterpoeditor/">Better pos editor</a>
+are editors for po files.</li>
+  <li>Eclipse users could try <a href="http://www.gted.org/">GTED (GetText Editor)</a> for editting po files.
+  <li><a href="http://drupal.org/node/11131/">po discussion</a> lists a lot of tools that can be used with po files.</li>
+  <li><a href="http://pepipopum.dixo.net/">pepipopum</a> used to offer automatic translation of po files (using google translate).</li>
+</ol>
+</p>
+<p>In the <a href="Sample">Sample</a> directory there are the following files:</p>
+<table border="1">
+  <tr><td><b>File</b></td><td><b>Description</b></td></tr>
+  <tr><td>ReMsgs_*.po</td><td>Sample Translations source files created using Google Translate.
+These all need updating. The <b>RecordEditor</b> can now has a very basic po file parser (po file must use encoding=utf8) and can use po file 
+directly. Due to limitation with the po parser, the <b>RecordEditor</b> may not display the text correctly, but it should be good enough
+for a translator to work with. If there is both a class and po file, the <b>RecordEditor</b> will use the 
+most recent file.
+<p>Problems with the Google Translation include
+<ul>
+ <li>Mis-Translations, Some words in English (i.e. Record) have multiple meanings and the 
+Google-Translate may pick the wrong meaning
+ <li>Poor translation - A computer does not translate a human language like a person would.
+ <li>Some messages contain HTML tags; these have been completely screwed up by the 
+translation service.
+</ul>
+<p><b>Note:</b> There is now a special message <b>TranslationStatus</b> where you 
+can give status of the Translation. This is displayed when the RecordEditor starts.
+Once you are happy with the translation, set it to "".</p>
+</td></tr>
+
+  <tr><td>msgfmt_GenerateResourceBundle.rexx/bat/sh</td><td>Rexx / bat / shell scripts to convert ReMsgs_*.po
+to ReMsgs_*.class. This step requires a <font color="blue"><b>java compiler !!!</b></font>. The options are:
+<ul>
+ <li>Install the <font color="blue"><b>Java JDK (Java Development Kit)</b></font> or <font color="blue"><b>Java SDK (Software development kit)</b></font>. 
+ A normal java installation does not include the java compiler <b>javac</b>. You will also need to either add the java jdk/sdk tools 
+directory to the program path variable or setup a JAVAC variable that points to the compiler.</li>
+ <li>Look at <a href="https://sourceforge.net/projects/jikes/">Jikes</a> compiler. Again you will need to setup a JAVAC variable.</li>
+ <li>Use the Eclipse Java compiler (ECJ), comes with Eclipse-JDT; I do not know of any standalone downloads. You would need to setup 
+a JAVAC variable.</li>
+</ul>
+
+<p>The gettext msgfmt program will call the <b>Java Compiler (javac - SDK)</b> program to compile the generated "Resource Bundle".
+There are sample rexx/bat/bash scripts to convert the po file into a java class file.
+Basically the scripts do (where <b>tst</b> is the foreign-language being generated and <b>TextItems.tst.po</b> is the input file) :
+<pre>
+
+     msgfmt --java -d . -r ReMsgs -l tst TextItems.tst.po
+     
+</pre>
+  </td></tr>
+</table>
+
+
+<h2>Format of the RecordEditor PO Files</h2>
+<p>Each text translation will consist of: <ol compact="compact">
+<li>One or more comments lines starting with a #. In the RecordEditor po files, the typically comments will be a<ul compact="compact">
+<li>A <b>Use:</b> line this lists how the Text is used; possible values are  "Unknown", "Message", 
+"Action" (Primary / Right click Menu item), "Menu", "Column_Heading",
+"Frame_Heading", "Field_Prompt", "Button", "Tab_Heading",
+"Combobox_Entry", "Field_Hint", "External" (External File / External package / Database).</li>
+<li>A <b>Id: Panel:</b> Lists the lookup id (if not the Exglish text) and the panel used (if known).</li>
+<li>A description line which is mostly blank, But for 
+ <ul>
+   <li><b>Program Message</b> Contains a description of the message</li>
+   <li><b>Combobox items</b> Indication of which combobox it is use in
+   <li><b>Table column heading</b> Indication of the columns
+   <li><b>Tab Box's</b> Indication of which Tabn box
+ </li>
+</ul>
+<li>A <b>English:</b> line, Lists the original English Text (if it is different from the lookup key). This may contain variables
+in the form {0}, {1}, {2} etc, these will be substituted with actual values by the <b>RecordEditor</b>. You should use these 
+same variables in your translated text. Also any text ending with <b>:</b> will probably have some error-message / object / text added to it
+by the <b>RecordEditor</b>.</li>
+</ul></li>
+<li>A <b>msgid</b> line this holds the text the <b>RecordEditor</b> will look for. In most cases it will be the original "English".
+The Exceptions are - Very large Text fields, Actions (Menu entries) and Values coming from external source (Database, Xml, Other packages).
+This field may contain variables in the form {0}, {1}, {2} etc, these will be substituted with actual values by the <b>RecordEditor</b>. 
+You should use these same variables in your translated text. Also any text ending with <b>:</b> will probably have some error-message / object / text added to it
+by the <b>RecordEditor</b>.</li>
+<li>A <b>msgstr</b> where you enter the Translation</li>
+<li>One or more blank lines</li>
+</ol>
+<p>Following are 2 sample Text entries:
+<pre><font color="#000000"><span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">378 </font></span>        
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">379 </font></span><font color="#cc0000"># </font><font color="#cc0000">Use:</font><font color="#cc0000"> </font><font color="#cc0000">Field_Hint</font><font color="#cc0000"> </font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">380 </font></span><font color="#cc0000"># </font><font color="#cc0000"> </font><font color="#cc0000">id:</font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000">Panel:</font><font color="#cc0000"> </font><font color="#cc0000"> </font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">381 </font></span><font color="#cc0000"># </font><font color="#cc0000">RecordBtns</font><font color="#cc0000"> </font><font color="#cc0000">3</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">382 </font></span><font color="#006699"><strong>msgid</strong></font> <font color="#ff00cc">&quot;</font><font color="#ff00cc">Last</font><font color="#ff00cc"> </font><font color="#ff00cc">Record</font><font color="#ff00cc">&quot;</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">383 </font></span><font color="#006699"><strong>msgstr</strong></font> <font color="#ff00cc">&quot;</font><font color="#ff00cc">!</font><font color="#ff00cc">!</font><font color="#ff00cc">Last</font><font color="#ff00cc"> </font><font color="#ff00cc">Record</font><font color="#ff00cc">!</font><font color="#ff00cc">!</font><font color="#ff00cc">&quot;</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">384 </font></span>        
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">385 </font></span><font color="#cc0000"># </font><font color="#cc0000">Use:</font><font color="#cc0000"> </font><font color="#cc0000">External</font><font color="#cc0000"> </font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">386 </font></span><font color="#cc0000"># </font><font color="#cc0000"> </font><font color="#cc0000">id:</font><font color="#cc0000"> </font><font color="#cc0000">Copybook_Writers_0</font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000">Panel:</font><font color="#cc0000"> </font><font color="#cc0000"> </font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">387 </font></span><font color="#cc0000"># </font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">388 </font></span><font color="#cc0000"># </font><font color="#cc0000">English:</font><font color="#cc0000"> </font><font color="#cc0000">RecordEditor</font><font color="#cc0000"> </font><font color="#cc0000">(Tab)</font><font color="#cc0000"> </font><font color="#cc0000">CSV</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">389 </font></span><font color="#006699"><strong>msgid</strong></font> <font color="#ff00cc">&quot;</font><font color="#ff00cc">Copybook_Writers_0</font><font color="#ff00cc">&quot;</font>      
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">390 </font></span><font color="#006699"><strong>msgstr</strong></font> <font color="#ff00cc">&quot;</font><font color="#ff00cc">!</font><font color="#ff00cc">!</font><font color="#ff00cc">RecordEditor</font><font color="#ff00cc"> </font><font color="#ff00cc">(</font><font color="#ff00cc">Tab</font><font color="#ff00cc">)</font><font color="#ff00cc"> </font><font color="#ff00cc">CSV</font><font color="#ff00cc">!</font><font color="#ff00cc">!</font><font color="#ff00cc">&quot;</font>
+</font></pre>
+
+<p>See <a href="http://www.gnu.org/savannah-checkouts/gnu/gettext/manual/html_node/PO-Files.html">GetText po Format</a> for a 
+description of PO files. There are many Text editors that can highlight po files (e.g. jEdit + some unix editors).
+
+<h2>Changing the Language in the RecordEditor</h2>
+<p>To select your new language definition:
+<ul>
+ <li>Select Edit options &nbsp;&nbsp;&nbsp;<img src="Diagram/EditOpt.png"/></li>
+ <li>Select the <b>language</b> tab.
+ <li>On this screen you can change the directory where "language translations" are loaded from and 
+the language to use. The program looks for files starting with <b>ReMsgs_</b> and ending with <b>.class</b>.
+The program is <b>Case sensitive</b> at present. 
+<p>
+<img src="Diagram/RE_LangOption.png">
+</p>
+
+
+

@@ -3,8 +3,8 @@
 <TITLE>Record Editor</TITLE>
 <!-- Begin Header Records  ========================================== -->
 <!-- C:\Users\mum\Bruce\Work\RecordEditor\Build\Instalation\GeneralDb -->
-<!-- \DocSrc\regMan.dcf converted by B2H R4.7 (390) (WINNT) on 29 Apr -->
-<!-- 2013 at 18:27:08                                                 -->
+<!-- \DocSrc\regMan.dcf converted by B2H R4.7 (390) (WINNT) on 8 Jun  -->
+<!-- 2013 at 12:23:13                                                 -->
 <META HTTP-EQUIV="updated" CONTENT="Tue, 28 Feb 2012 14:14:17">
 <META HTTP-EQUIV="review" CONTENT="Thu, 28 Feb 2013 14:14:17">
 <META HTTP-EQUIV="expires" CONTENT="Fri, 28 Feb 2014 14:14:17">
@@ -238,7 +238,7 @@ A value of
 <P>The Record Editor can either be started from
 <UL COMPACT>
 <LI>The start Menu -
-<P>
+:
 <img SRC="Diagram/StartMenu.png">
 <P>
 <LI>From Windows Explorer, you can use the right click button -
@@ -718,6 +718,9 @@ As a (Format determined by the Tab)
   <LI>Or using a Xsl Transform (only Xml).
   <LI>Or using a <a href="http://velocity.apache.org/" TARGET="Velocity">Velocity</a> template (provided <a href="http://velocity.apache.org/" TARGET="Velocity">Velocity</a> is installed, see
 <a href="HowTo.htm#HDRVELOCITY" Target=New>Installing Velocity for details</a>).
+  <LI>Or change change the file structure. This option allows you to export the file
+with a different file structure (i.e. Fixed Length, Various VB formats or Standard Text file.
+This option would be of interest to Cobol programmers.
 </UL>
 <P>Save as Screen:
 <P>
@@ -3144,9 +3147,27 @@ and generic versions, there should be a file
 <P>
 <P>
 <HR><H1><A NAME="Header_103">Appendix K. Changes</A></H1>
-<P><H4><A NAME="Header_104">Release 0.94.1</A></H4>
+<P><H4><A NAME="Header_104">Release 0.94.4</A></H4>
+<P>This version consists of Script changes and a general cleanup getting ready for the next production version
   <UL COMPACT>
-    <LI>Support for Records (&gt; 32,0000).
+    <LI>Added basic Script-Editor to the Script-Run dialog
+    <LI>Extra Functions / Methods  for use in Macro Scripts, More example scripts and Script-Documentation.
+    <LI>Problem fix's and general cleanup.
+    <LI>New Script <B>HeadefFooterTabs.js</B> that creates seperate header/detail/footer views
+for Header, Detail, Footer files.
+    <LI>Updates to How to documentation.
+  </UL>
+<P>
+<P><H4><A NAME="Header_105">Release 0.94.2</A></H4>
+  <UL COMPACT>
+    <LI>Problem fix when exporting RecordLayouts containing non-ascii characters as Xml.
+  </UL>
+<P>
+<P><H4><A NAME="Header_106">Release 0.94.1</A></H4>
+<P>This version contains a lot of Cobol related changes.
+  <UL COMPACT>
+    <LI>Support for Record lengths (&gt; 32K bytes).
+    <LI>Add Tree Combo for field types
     <LI>New Types where the Decimal point is ','.
     <LI>New Cobol Dialects which partially support the Cobol DECIMAL-POINT IS COMMA clause.
     <LI>Several Cobol import fix's.
@@ -3155,7 +3176,7 @@ and generic versions, there should be a file
   </UL>
 <P>
  
-<P><H4><A NAME="Header_105">Release 0.94</A></H4>
+<P><H4><A NAME="Header_107">Release 0.94</A></H4>
   <UL COMPACT>
     <LI>New Text Editor View
     <LI>New positive types added
@@ -3169,7 +3190,7 @@ and generic versions, there should be a file
 <P>
   </UL>
 <P>
-<P><H4><A NAME="Header_106">Release 0.92.1</A></H4>
+<P><H4><A NAME="Header_108">Release 0.92.1</A></H4>
   <UL COMPACT>
    <LI>Adding 2 extra Csv parser - Basic - Delimiter all fields
 and Basic - Delimiter all fields + 1
@@ -3177,7 +3198,7 @@ and Basic - Delimiter all fields + 1
 no quote is defined.
  </UL>
 <P>
-<P><H4><A NAME="Header_107">Release 0.92</A></H4>
+<P><H4><A NAME="Header_109">Release 0.92</A></H4>
   <UL COMPACT>
     <LI>All screens for a File are now displayed as Tabs rather than as seperate screens. The tabs can be undocked (and redocked) if required.
     <LI>Added Child screen option to List Screens
@@ -3189,7 +3210,7 @@ no quote is defined.
     <LI>Fixed Paste Prior issues
   </UL>
 <P>
-<P><H4><A NAME="Header_108">Release 0.91</A></H4>
+<P><H4><A NAME="Header_110">Release 0.91</A></H4>
   <UL COMPACT>
     <LI>Rewritten the Group Filter screen
     <LI>Support for editing GetText-PO files
@@ -3198,7 +3219,7 @@ no quote is defined.
     <LI>More Foreign-Languages changes.
   </UL>
 <P>
-<P><H4><A NAME="Header_109">Release 0.90</A></H4>
+<P><H4><A NAME="Header_111">Release 0.90</A></H4>
   <UL COMPACT>
     <LI>New tab interface for files. The various views can be "docked" / "undocked" as required
     <LI>List views can now have a child record screen.
@@ -3207,14 +3228,14 @@ no quote is defined.
   </UL>
 <P>
 <P>
-<P><H4><A NAME="Header_110">Release 0.89.1 -&gt; 3</A></H4>
+<P><H4><A NAME="Header_112">Release 0.89.1 -&gt; 3</A></H4>
   <UL COMPACT>
     <LI>Foreign Language support (via GetText PO files).
     <LI>Option to use po files directly or after converted to compiled resource bundles.
     <LI>Sample translation files for Spanish, chinese etc created using Google Translate.
   </UL>
 <P>
-<P><H4><A NAME="Header_111">Release 0.88</A></H4>
+<P><H4><A NAME="Header_113">Release 0.88</A></H4>
   <UL COMPACT>
     <LI>Enhanced HTML Export.
     <LI>Option to Open Exported file.
@@ -3223,13 +3244,13 @@ no quote is defined.
     <LI>Enhanced Help menu (can open Manual / Forums etc).
     <LI>Minor fix's.
   </UL>
-<P><H4><A NAME="Header_112">Release 0.86</A></H4>
+<P><H4><A NAME="Header_114">Release 0.86</A></H4>
   <UL COMPACT>
     <LI>Enhanced Filter selection - support And / Or operators
     <LI>Minor changes to Find command
   </UL>
 <P>
-<P><H4><A NAME="Header_113">Release 0.85</A></H4>
+<P><H4><A NAME="Header_115">Release 0.85</A></H4>
   <UL COMPACT>
     <LI>Enhanced Record Selection Edit screen + problem fix's for the Record Selection editor
     <LI>Minor LayoutEditor changes + some fixes for the LayoutEditor
@@ -3240,7 +3261,7 @@ Windows and Nimbus LAF changes.
     <LI>Problem fixs
   </UL>
 <P>
-<P><H4><A NAME="Header_114">Release 0.80.6</A></H4>
+<P><H4><A NAME="Header_116">Release 0.80.6</A></H4>
   <UL COMPACT>
     <LI>Option to Edit saved/exported File (if it is in a supported format: Xml, Csv, Fixed)
     <LI>Option to set the size of the screen when the program starts
@@ -3276,7 +3297,7 @@ The old Tab format is available as an Option (Edit Option&gt;&gt;&gt;&gt;Propert
     <LI>Fixed several issue's on the Layout screen.
   </UL>
 <P>
-<P><H4><A NAME="Header_115">Release 0.80.2</A></H4>
+<P><H4><A NAME="Header_117">Release 0.80.2</A></H4>
 <P>On the SaveAs/Export screen there is
 <UL COMPACT>
  <LI>Option to edit the output file (only if the recordEditor can work out the structure)
@@ -3285,7 +3306,7 @@ The old Tab format is available as an Option (Edit Option&gt;&gt;&gt;&gt;Propert
  <LI>Velocity / Xslt options now remember the extension last used with a particular Template
 </UL>
 <P>
-<P><H4><A NAME="Header_116">Release 0.80.1  Tree (including Xml)</A></H4>
+<P><H4><A NAME="Header_118">Release 0.80.1  Tree (including Xml)</A></H4>
 <UL COMPACT>
  <LI>General Changes
  <UL COMPACT>
@@ -3303,7 +3324,7 @@ The old Tab format is available as an Option (Edit Option&gt;&gt;&gt;&gt;Propert
     <LI>A child record can be used multiple times in a Group record
   </UL>
 </UL>
-<P><H4><A NAME="Header_117">Release 0.69.1</A></H4>
+<P><H4><A NAME="Header_119">Release 0.69.1</A></H4>
 <P>Minor release&#58;
 <UL COMPACT>
     <LI>New Field - Hide / Show function (right click &amp; edit menu).
@@ -3326,7 +3347,7 @@ The old Tab format is available as an Option (Edit Option&gt;&gt;&gt;&gt;Propert
     <LI>Added optional Error-File and error-limits to the online / batch copy utilities.
     <LI>Added new -il/-ol (input/output layout) and -ef (error file) options to the batch utility.
 </UL>
-<P><H4><A NAME="Header_118">Release 0.67</A></H4>
+<P><H4><A NAME="Header_120">Release 0.67</A></H4>
 <P>Minor release&#58;
 <UL COMPACT>
   <LI>Improved Cobol Support (in particalular Open Cobol), it is also easier to extend for other Cobols.
@@ -3334,7 +3355,7 @@ The old Tab format is available as an Option (Edit Option&gt;&gt;&gt;&gt;Propert
   <LI>Minor enhancements (e.g. Recent files option).
   <LI>Several Bug Fixes (e.g. Scaling large numbers; better message for Velocity).
 </UL>
-<P><H4><A NAME="Header_119">Release 0.65</A></H4>
+<P><H4><A NAME="Header_121">Release 0.65</A></H4>
 <P>Changes in this release are primarily a "Clean-up / Minor Enhansements".
 <UL COMPACT>
   <LI>File Compare Utility - This is a field based compare; fields can be ignored or
@@ -3347,7 +3368,7 @@ files from a Java Program.
   <LI>Can Save Filters, Sort Tree's and Record Tree's definitions and execute later.
   <LI>Can Summmarise fields in a Sort Tree.
 </UL>
-<P><H4><A NAME="Header_120">Release 0.62</A></H4>
+<P><H4><A NAME="Header_122">Release 0.62</A></H4>
 <P>This release contains new "Tree" views, Combo boxs etc, See
 <a href="Changes_062.htm">Changes version 0.62</a> for more details.
 <UL COMPACT>
@@ -3367,10 +3388,10 @@ files from a Java Program.
       <LI>Support for different line parsers
     </UL>
 </UL>
-<P><H4><A NAME="Header_121">Release 0.61.2</A></H4>
+<P><H4><A NAME="Header_123">Release 0.61.2</A></H4>
 <P>Cleanup / bug fix, + Enhanced Wizard and XML import functions. See
 <a href="Changes061b.htm">Changes version 0.61b</a> for more details.
-<P><H4><A NAME="Header_122">Release 0.61</A></H4>
+<P><H4><A NAME="Header_124">Release 0.61</A></H4>
 <P>Mainly Look and feel related. See
 <a href="Changes061.htm">Changes version 0.61</a> for more details.
 <UL COMPACT>
@@ -3382,7 +3403,7 @@ Selected View (Data drop down).
  <LI>Bug fixes (Date and CSV files).
 </UL>
 <P>
-<P><H4><A NAME="Header_123">Release 0.60</A></H4>
+<P><H4><A NAME="Header_125">Release 0.60</A></H4>
 <P>Mainly extra functions
 <UL COMPACT>
  <LI>Improved Search/Replace - new Search/Replace on all fields function.
@@ -3402,7 +3423,7 @@ Copybook Information.
  <LI>Extra extension options (in java).
 </UL>
 <P>
-<P><H4><A NAME="Header_124">Release 0.56</A></H4>
+<P><H4><A NAME="Header_126">Release 0.56</A></H4>
 <P>This version is mainly changes to the user Interface to improve ease use.
 Major changes are:
 <UL COMPACT>
@@ -3417,7 +3438,7 @@ the right click menu.
  <LI>Null padded / terminated Strings types added.
 </UL>
 <P>
-<P><H4><A NAME="Header_125">RecordEditor to Jasper</A></H4>
+<P><H4><A NAME="Header_127">RecordEditor to Jasper</A></H4>
 <P>The <a href=re2Jasper.htm TARGET="jasper">RecordEditor ~ Jasper Interface</a> has been released as a separate download. It requires
 <a href="http://record-editor.sourceforge.net" TARGET="_top">RecordEditor</a> and <a href="http://ireport.sourceforge.net/" TARGET="iReports">iReports</a> be installed. This package&#58;
 <OL COMPACT TYPE=1>
@@ -3425,7 +3446,7 @@ the right click menu.
   <LI>Can design and generate reports from Fixed Field Width data files
 which includes Binary, Cobol and Mainframe/Cobol datafiles.
 </OL>
-<P><H4><A NAME="Header_126">Release 0.55</A></H4>
+<P><H4><A NAME="Header_128">Release 0.55</A></H4>
 <P>This version is primary a refactoring of the code with aims of&#58;
 <UL COMPACT>
  <LI>Making it easier to extend the editor
@@ -3457,7 +3478,7 @@ which includes Binary, Cobol and Mainframe/Cobol datafiles.
   </OL>
 </UL>
 <P>
-<P><H4><A NAME="Header_127">Release 0.53</A></H4>
+<P><H4><A NAME="Header_129">Release 0.53</A></H4>
 <P>Changes in this release
 <UL COMPACT>
  <LI>Filtered views of the Data. See <A HREF="#HDRFILTER">"Filter Screen"</A> for more details.
@@ -3473,7 +3494,7 @@ as either a Data file, a single HTML table or a HTML table per record.
  <LI>Code Refactoring and the odd bugs.
 </UL>
 <P>
-<P><H4><A NAME="Header_128">Release 0.52.1 (Linux)</A></H4>
+<P><H4><A NAME="Header_130">Release 0.52.1 (Linux)</A></H4>
 <P>This release basically is to support Linux. Mostly it consists of changes to
 documentation
 <UL COMPACT>
@@ -3484,7 +3505,7 @@ documentation
  <LI>Minor Bug fixes (i.e. better table cell exit handling).
 </UL>
 <P>
-<P><H4><A NAME="Header_129">Release 0.52 (Mainframe)</A></H4>
+<P><H4><A NAME="Header_131">Release 0.52 (Mainframe)</A></H4>
 <P>This change was to support Mainframe Binary files.
 <UL COMPACT>
  <LI>Support for editting native IBM Mainframe files (on a PC etc) using a Cobol Copybook
@@ -3498,11 +3519,11 @@ documentation
 </UL>
 <P>
 <P>
-<P><H4><A NAME="Header_130">Release 0.51</A></H4>
+<P><H4><A NAME="Header_132">Release 0.51</A></H4>
 <P>This version was to support Floating point numbers and bug fixes.
 <P>
 <P>
-<P><I><B><A NAME="Header_131">Release 0.50 Initial Release</A>:&nbsp;</B></I>&nbsp;
+<P><I><B><A NAME="Header_133">Release 0.50 Initial Release</A>:&nbsp;</B></I>&nbsp;
 The initial release of the <B>RecordEditor</B>
 <P>
 <P>
@@ -3510,7 +3531,7 @@ The initial release of the <B>RecordEditor</B>
 <P>
 <P>
 <P>
-<HR><H1><A NAME="Header_132">Appendix L. Rexx</A></H1>
+<HR><H1><A NAME="Header_134">Appendix L. Rexx</A></H1>
 <P><B>Rexx</B> is a scripting language, which I use in preference Windows Bat files (or Unix Shell scripts).
 <P>I have converted the simpler Rexx programs to bat files but I have left the original Rexx programs
 in the system. I currently use the <B>Regina 3.3</B> interpreter.
@@ -3518,7 +3539,7 @@ in the system. I currently use the <B>Regina 3.3</B> interpreter.
 <a href="http://www.rexxla.org/index.html">RexxLA</a>
 or Search IBM's sites for details on <B>Rexx</B>.
 <P>
-<HR><H1><A NAME="Header_133">Appendix M. Related Systems / Useful Systems</A></H1>
+<HR><H1><A NAME="Header_135">Appendix M. Related Systems / Useful Systems</A></H1>
 <P>
 <P>The follow packages where used in the <B>RecordEditor</B>
 <UL COMPACT>

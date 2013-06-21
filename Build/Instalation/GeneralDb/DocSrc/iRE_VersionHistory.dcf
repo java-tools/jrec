@@ -1,6 +1,23 @@
-:h4.Release 0.94.1
+:h4.Release 0.94.4
+:p.This version consists of Script changes and a general cleanup getting ready for the next production version
   :ul compact.
-    :li.Support for Records (> 32,0000).
+    :li.Added basic Script-Editor to the Script-Run dialog
+    :li.Extra Functions / Methods  for use in Macro Scripts, More example scripts and Script-Documentation.
+    :li.Problem fix's and general cleanup.
+    :li.New Script :hp2.HeadefFooterTabs.js:ehp2. that creates seperate header/detail/footer views
+for Header, Detail, Footer files. 
+    :li.Updates to How to documentation.
+  :eul.
+
+:h4.Release 0.94.2
+  :ul compact.
+    :li.Problem fix when exporting RecordLayouts containing non-ascii characters as Xml. 
+  :eul.
+
+:h4.Release 0.94.1
+:p.This version contains a lot of Cobol related changes.
+  :ul compact.
+    :li.Support for Record lengths (> 32K bytes).
     :li.Add Tree Combo for field types
     :li.New Types where the Decimal point is ','.
     :li.New Cobol Dialects which partially support the Cobol DECIMAL-POINT IS COMMA clause.

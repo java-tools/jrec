@@ -1,0 +1,35 @@
+useFixture(reCsvEditor)
+
+def test():
+	from Modules import commonBits
+	java_recorded_version = '1.6.0_22'
+
+	if window('reCsv Editor'):
+		select('FilePane$3', 'XfdDTAR020.csv.xml')
+		select('FilePane$3', 'XfdDTAR020.csv.xml')
+		doubleclick('FilePane$3', '9')
+		click(commonBits.fl('Edit') + '4')
+##		select('TabbedPane', 'Xml')
+		assert_p('JTreeTable', 'Content', '[[, false, , ], [, , , ], [, 69694158, True, ], [, 69694158, True, ], [, 69694158, True, ], [, 63604808, True, ], [, 62684671, True, ], [, 62684671, True, ], [, 64634429, True, ], [, 66624458, True, ], [, 63674861, True, ], [, 65674532, True, ], [, 64614401, True, ], [, 64614401, True, ], [, 61664713, True, ], [, 61664713, True, ], [, 68634752, True, ], [, 60614487, True, ], [, 63644339, True, ], [, 60694698, True, ]]')
+		select('FilePane$3', 'XfdDTAR020.csv.xml')
+		click(commonBits.fl('Edit') + '4')
+		assert_p('LineTree.FileDisplay_JTbl', 'Content', '[[, , UTF-8, 1.0, false, , , , , , , ], [, , , , , , , , , , , ], [, , , , 69694158, 20, 40118, 280, 1, 19.00, True, ], [, , , , 69694158, 20, 40118, 280, -1, -19.00, True, ], [, , , , 69694158, 20, 40118, 280, 1, 5.01, True, ], [, , , , 63604808, 20, 40118, 170, 1, 4.87, True, ], [, , , , 62684671, 20, 40118, 685, 1, 69.99, True, ], [, , , , 62684671, 20, 40118, 685, -1, -69.99, True, ], [, , , , 64634429, 20, 40118, 957, 1, 3.99, True, ], [, , , , 66624458, 20, 40118, 957, 1, 0.89, True, ], [, , , , 63674861, 20, 40118, 957, 10, 2.70, True, ], [, , , , 65674532, 20, 40118, 929, 1, 3.59, True, ], [, , , , 64614401, 59, 40118, 957, 1, 1.99, True, ], [, , , , 64614401, 59, 40118, 957, 1, 1.99, True, ], [, , , , 61664713, 59, 40118, 335, 1, 17.99, True, ], [, , , , 61664713, 59, 40118, 335, -1, -17.99, True, ], [, , , , 68634752, 59, 40118, 410, 1, 8.99, True, ], [, , , , 60614487, 59, 40118, 878, 1, 5.95, True, ], [, , , , 63644339, 59, 40118, 878, 1, 12.65, True, ], [, , , , 60694698, 59, 40118, 620, 1, 3.99, True, ]]')
+##		select('LineTree.FileDisplay_JTbl', '')
+		rightclick('LineTree.FileDisplay_JTbl', 'Xml~Prefix,4')
+		select_menu(commonBits.fl('Edit Record'))
+		select('TabbedPane', 'Record:')
+		select('LineFrame.FileDisplay_JTbl', 'cell:' + commonBits.fl('Type') + ',4(' + commonBits.fl('Char') + ')')
+		assert_p('LineFrame.FileDisplay_JTbl', 'Content', '[[Xml~Name, 0, , ' + commonBits.fl('XML Name Tag') + ', GeneratedCsv, GeneratedCsv], [Xml~Prefix, 3, , ' + commonBits.fl('Char') + ', , ], [Xml~Namespace, 4, , ' + commonBits.fl('Char') + ', , ], [KEYCODE-NO, 5, , ' + commonBits.fl('Char') + ', 69694158, 69694158], [STORE-NO, 6, , ' + commonBits.fl('Char') + ', 20, 20], [DATE, 7, , ' + commonBits.fl('Char') + ', 40118, 40118], [DEPT-NO, 8, , ' + commonBits.fl('Char') + ', 280, 280], [QTY-SOLD, 9, , ' + commonBits.fl('Char') + ', 1, 1], [SALE-PRICE, 10, , ' + commonBits.fl('Char') + ', 5.01, 5.01], [Xml~End, 1, , ' + commonBits.fl('Check Box True / Space') + ', True, True], [Following~Text, 2, , ' + commonBits.fl('Edit Multi Line field') + ', , ]]')
+		select('LineFrame.FileDisplay_JTbl', 'cell:' + commonBits.fl('Type') + ',4(' + commonBits.fl('Char') + ')')
+		click('Right')
+		assert_p('LineFrame.FileDisplay_JTbl', 'Content', '[[Xml~Name, 0, , ' + commonBits.fl('XML Name Tag') + ', GeneratedCsv, GeneratedCsv], [Xml~Prefix, 3, , ' + commonBits.fl('Char') + ', , ], [Xml~Namespace, 4, , ' + commonBits.fl('Char') + ', , ], [KEYCODE-NO, 5, , ' + commonBits.fl('Char') + ', 63604808, 63604808], [STORE-NO, 6, , ' + commonBits.fl('Char') + ', 20, 20], [DATE, 7, , ' + commonBits.fl('Char') + ', 40118, 40118], [DEPT-NO, 8, , ' + commonBits.fl('Char') + ', 170, 170], [QTY-SOLD, 9, , ' + commonBits.fl('Char') + ', 1, 1], [SALE-PRICE, 10, , ' + commonBits.fl('Char') + ', 4.87, 4.87], [Xml~End, 1, , ' + commonBits.fl('Check Box True / Space') + ', True, True], [Following~Text, 2, , ' + commonBits.fl('Edit Multi Line field') + ', , ]]')
+		click('LeftM')
+		select('LineFrame.FileDisplay_JTbl', 'cell:' + commonBits.fl('Type') + ',2(' + commonBits.fl('Char') + ')')
+		assert_p('LineFrame.FileDisplay_JTbl', 'Content', '[[Xml~Name, 0, , ' + commonBits.fl('XML Name Tag') + ', XML Start_Document, XML Start_Document], [Xml~Encoding, 3, , ' + commonBits.fl('Char') + ', UTF-8, UTF-8], [Xml~Version, 4, , ' + commonBits.fl('Char') + ', 1.0, 1.0], [Xml~Standalone, 5, , ' + commonBits.fl('Char') + ', false, false], [Xml~End, 1, , ' + commonBits.fl('Check Box True / Space') + ', , ], [Following~Text, 2, , ' + commonBits.fl('Edit Multi Line field') + ', , ]]')
+		select('LineFrame.FileDisplay_JTbl', 'cell:' + commonBits.fl('Type') + ',2(' + commonBits.fl('Char') + ')')
+		click('Right')
+		assert_p('LineFrame.FileDisplay_JTbl', 'Content', '[[Xml~Name, 0, , ' + commonBits.fl('XML Name Tag') + ', ExportData, ExportData], [Xml~Prefix, 3, , ' + commonBits.fl('Char') + ', , ], [Xml~Namespace, 4, , ' + commonBits.fl('Char') + ', , ], [Xml~End, 1, , ' + commonBits.fl('Check Box True / Space') + ', , ], [Following~Text, 2, , ' + commonBits.fl('Edit Multi Line field') + ', , ]]')
+		click('Right')
+		select('LineFrame.FileDisplay_JTbl', 'cell:' + commonBits.fl('Type') + ',4(' + commonBits.fl('Char') + ')')
+		assert_p('LineFrame.FileDisplay_JTbl', 'Content', '[[Xml~Name, 0, , ' + commonBits.fl('XML Name Tag') + ', GeneratedCsv, GeneratedCsv], [Xml~Prefix, 3, , ' + commonBits.fl('Char') + ', , ], [Xml~Namespace, 4, , ' + commonBits.fl('Char') + ', , ], [KEYCODE-NO, 5, , ' + commonBits.fl('Char') + ', 69694158, 69694158], [STORE-NO, 6, , ' + commonBits.fl('Char') + ', 20, 20], [DATE, 7, , ' + commonBits.fl('Char') + ', 40118, 40118], [DEPT-NO, 8, , ' + commonBits.fl('Char') + ', 280, 280], [QTY-SOLD, 9, , ' + commonBits.fl('Char') + ', 1, 1], [SALE-PRICE, 10, , ' + commonBits.fl('Char') + ', 19.00, 19.00], [Xml~End, 1, , ' + commonBits.fl('Check Box True / Space') + ', True, True], [Following~Text, 2, , ' + commonBits.fl('Edit Multi Line field') + ', , ]]')
+	close()

@@ -6,6 +6,7 @@ def test():
 
 	if window('Record Editor'):
 		select('File_Txt', commonBits.sampleDir() + 'DTAR020_tst1.bin')
+		select('Record Layout_Txt', 'DTAR020')
 		click(commonBits.fl('Edit') + '1')
 		select_menu(commonBits.fl('File') + '>>' + commonBits.fl('Export as CSV file'))
 		select('File Name_Txt', commonBits.sampleDir() + 'csv2DTAR020_tst1.bin.csv')

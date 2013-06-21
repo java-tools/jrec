@@ -1,3 +1,10 @@
+JiBX License:		Bsd License
+BCEL:			Appache License
+XPP3			Indiania University
+swingx			LGPL
+jlibdiff.jar		LGPL
+JRecord			LGPL
+
 ------------
 JiBX License
 ------------
@@ -357,7 +364,7 @@ You should be able to use another StAX library in its place
 
 
 -----------------------------------------------
-cb2xml and jlibdiff.jar (LGPL) License
+swingx, cb2xml and jlibdiff.jar (LGPL) License
 ------------------------------------------------
 
 This covers cb2xml and jlibdiff.jar

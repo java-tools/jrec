@@ -21,7 +21,7 @@ for editing large files
 
 :h3.Large File Model
 :p.I have introduced a new Large-File model to support editing big Files. This 
-Large-File model supports editing veryu large files with reduced program functionality (Filters and Tree views). It
+Large-File model supports editing very large files with reduced program functionality (Filters and Tree views). It
 will allow the editing of files that are much larger than the available memory (it uses GZip compression
 and overflow files).
 This Large-File model is used when file size is greater than 14% of available memory (% can be
@@ -31,7 +31,7 @@ Limitations of Large-File-Model
 :ul compact.
  :li.File Loading will be very slow on old single core computers.
  :li.Not available for Xml files. 
- :li.Record / Sort Trees are nota available (if record count > 75000).
+ :li.Record / Sort Trees are not available (if record count > 75000).
  :li.Only the first 75000 records (can be changed via start-up parameters - :hdref refid=param.)
 are extracted in Filter's.
  :li.Sorting will be very slow.

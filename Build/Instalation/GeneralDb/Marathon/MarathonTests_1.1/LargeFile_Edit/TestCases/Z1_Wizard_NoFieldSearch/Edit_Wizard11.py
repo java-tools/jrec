@@ -9,7 +9,12 @@ def test():
 		click('Layout Wizard')
 		##select('TextField2', 'Wizard - ZZ1')
 ##		select('BmKeyedComboBox1', '2')
-		select('BmKeyedComboBox1', 'Char Null terminated')
+##		select('BmKeyedComboBox1', 'Char Null terminated')
+
+		click('ArrowButton')
+		select_menu('Special Char Types>>Char Null terminated')
+
+
 		click('Right')
 		#select('Table', '')
 		rightclick('Table', 'D,0')

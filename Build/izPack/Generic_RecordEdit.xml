@@ -17,7 +17,7 @@
     -->
     <info>
         <appname>RecordEdit/Generic</appname>
-        <appversion>0.91</appversion>
+        <appversion>0.95</appversion>
         <authors>
             <author name="Bruce Martin" email="bruce_a_martin@sourceforge.net" />
             <!--author name="Hidden Man" email="hidden@hisdomain.com"/-->
@@ -83,7 +83,7 @@
             <description>The base files</description>
             <file src="Readme.txt" targetdir="$INSTALL_PATH"/>
             <file src="readmeG.html" targetdir="$INSTALL_PATH"/>
-            <fileset dir="../General/" includes="LICENSE*.txt" targetdir="$INSTALL_PATH/License"/>
+            <fileset dir="../General/" includes="*.txt" targetdir="$INSTALL_PATH/License"/>
         </pack>
         <pack name="Documentation" required="yes" override="true">
             <description>Record Editor Docs</description>
@@ -104,6 +104,7 @@
         <pack name="Params" required="yes">
             <description>Record Editor Parameters</description>
             <file src="../Instalation/GeneralDB/GenericDB" targetdir="$USER_HOME/.RecordEditor"/> 
+            <fileset dir="../Instalation/hsqldb_izpack/lib/Extensions" includes="*.txt" targetdir="$USER_HOME/.RecordEditor/GenericDB/Extensions"/>
 	    <parsable targetfile="$USER_HOME/.RecordEditor/GenericDB/CobolFiles.txt"/>
         </pack>
         <pack name="User" required="yes">

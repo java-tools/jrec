@@ -11,7 +11,8 @@ def test():
 ##		click('WindowsInternalFrameTitlePane', 139, 9)
 		select('Find.Search For_Txt', '1')
 		select('Find.Field_Txt', 'KEYCODE-NO')
-		select('Find.Operator_Txt',  commonBits.fl('Doesn\'t Contain'))
+		select('Find.Operator_Txt',  commonBits.fl('Doesn\'t Contain')
+)
 		commonBits.find(click)
 		assert_p('TextField', 'Text',  commonBits.fl('Found (line, field Num, field position)=') + '1, 0, -1')
 		commonBits.find(click)
@@ -31,5 +32,11 @@ def test():
 		commonBits.find(click)
 		assert_p('TextField', 'Text',  commonBits.fl('Found (line, field Num, field position)=') + '17, 0, -1')
 		commonBits.find(click)
+
+		if window(''):
+			click('No')
+		close()
+
+
 		assert_p('TextField', 'Text',  commonBits.fl('Found (line, field Num, field position)=') + '18, 0, 0')
 	close()

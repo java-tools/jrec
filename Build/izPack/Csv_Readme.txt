@@ -1,14 +1,29 @@
- Csv Editor 0.90
-*============*
+ Csv Editor 0.95
+*===============*
 
 This program is for editing Csv Files.
 It is built on top of the RecordEditor Project 
 (http://record-editor.sourceforge.net).
 
-The editor requires Java 6 to run
+The editor requires at least Java 6 to run, but java 7 is prefered
 
 
 Changes
+Version 0.95
+
+
+  * Added basic Script-Editor to the Script-Run dialog
+  * Extra Functions / Methods for use in Macro Scripts, More example scripts and Script-Documentation.
+  * Problem fix's and general cleanup.
+  * Updates to How to documentation for Scripts.
+  * New Text Editor View.
+  * New positive binary types (Mainly for Cobol).
+  * Minor updates to Open File to improves looks and make better use of screen space.
+  * Added 2 new CsvParsers:
+    o Basic - Delimiter all fields - ensure there is a delimiter for every field (even when a field is not present)
+    o Basic - Delimiter all fields + 1 - ensure there is a delimiter for every field + an extra delimiter after the last field
+
+
 Version 0.90
   * Related screens are now displayed as tabs on the one screen (default).
     There is still the option to display each view in its own screen.

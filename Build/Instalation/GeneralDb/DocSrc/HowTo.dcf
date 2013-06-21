@@ -1,15 +1,18 @@
 .*b2h option headrec.text='<link rel="stylesheet" type="text/css" href="syntax.css">'
+:h0.How To
 .im iRE_TagDefs.dcf
 .im iHt_1000_EditAfile.dcf
 .im iHt_2000_CreateLayout.dcf
 .im iHt_3000_EditLayout.dcf
-.im iHT_C000_Docking.dcf
+.im iHT_E000_Docking.dcf
 .im iHT_4000_DatesEtc.dcf
 .im iHT_8000_UseCombos.dcf
 .im iHT_9000_Trees.dcf
-.im iHT_5000_Velocity.dcf       
+.im iHT_5000_Velocity.dcf     
+.im iHT_C000_Script.dcf
 .im iHT_6000_Looks.dcf
-.im iHT_7000_Linux.dcf
+.**  im iHT_7000_Linux.dcf
+.im iHT_D000_SreenSize.dcf
 .im iHT_A000_HSQL_Setup.dcf
 .im iHT_B000_BigFiles.dcf
 

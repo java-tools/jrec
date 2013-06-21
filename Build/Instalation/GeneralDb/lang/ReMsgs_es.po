@@ -1,0 +1,7487 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: RecordEditor 0.89\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+# Use: Message 
+#  id: SqlError   Panel:  
+# 
+# English: 
+#     SQL: {0}
+# Message: {1}
+msgid "SqlError"
+msgstr "    SQL: {0}\n"
+"Mensaje: {1}"
+
+# Use: Message 
+#  id:    Panel:  
+msgid " --> Adding Record Layout: {0}"
+msgstr " -> Agregar diseño de registro: {0}"
+
+# Use: Message 
+#  id:    Panel:  
+msgid " --> Deleting Record Layout: {0}"
+msgstr " -> Eliminación de diseño de registro: {0}"
+
+# Use: Message 
+#  id: CopybookLoaded   Panel:  
+# 
+# English: -->> {0} processed
+# 
+#       Copybook: {1}
+msgid "CopybookLoaded"
+msgstr "- >> {0} procesados\n"
+"      Copybook: {1}"
+
+# Use: Field_Prompt 
+#  id:    Panel: LineFrame 
+msgid "1 line Hex"
+msgstr "1 línea Hex"
+
+# Use: Message 
+#  id:    Panel:  
+# Date Format show the user how a date will be formated
+msgid "25.Dec.98 will be formatted as"
+msgstr "25.Dec.98 se indicará como"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "< (Text)"
+msgstr "<(Texto)"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "<= (Numeric)"
+msgstr "<= (Numérico)"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- CsvDelim_Default Combo- Csv_Quote
+msgid "<Default>"
+msgstr "<Predeterminado>"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- CsvDelim_Space
+msgid "<Space>"
+msgstr "<Espacio>"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- CsvDelim_Tab
+msgid "<Tab>"
+msgstr "<Tab>"
+
+# Use: Message 
+#  id: EditProps_JarsNote   Panel:  
+# 
+# English: <b>Note:</b>You will also need to add the jar with your class to the <b>User Jars</b> tab.
+msgid "EditProps_JarsNote"
+msgstr ""
+"Nota: También tendrá que añadir el frasco con su clase a la ficha del "
+"usuario tarros."
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- LayoutEdit_EndOfLine 2
+msgid "<cr>"
+msgstr "<cr>"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- LayoutEdit_EndOfLine 1
+msgid "<crlf>"
+msgstr "<crlf>"
+
+# Use: Message 
+#  id: CopybookLoad   Panel:  
+# 
+# English: <font COLOR=Blue>This option loads a <b>{0} Copybooks</b> into the <b>Record Edit DB.</b></font>
+# # <p><b>Note:</b> If the <i>Split Copybook on Redefine</i> field is selected,
+# The system will
+# <ol compact>
+# 
+# <li>Insert a Group record for the copybook.
+# 
+# <li>The copybook will be split the copybook on a <b>redefines clause</b> or
+# <b>01 level</b> into seperate Child-Records.
+# </ol>
+# 
+# 
+# # <p><b>Note:</b> Cobol Copybooks are converted to XML copybook by the
+# Open Source project cb2xml (see www.sourceforge.net)
+# 
+# # <p><b>Warning:</b> cb2xml has some bugs at present.
+msgid "CopybookLoad"
+msgstr ""
+"<font color=blue> Esta opción carga un {0} cuadernos en el Record Edit DB. </"
+"font>\n"
+"<p>\n"
+"Nota: Si el cuaderno Split, en Redefinir campo está seleccionado,\n"
+"El sistema se\n"
+"<ol compact>\n"
+"<li>\n"
+"Insertar un registro de grupo para el cuaderno.\n"
+"<li>\n"
+"El cuaderno se divide el cuaderno en una cláusula redefine o\n"
+"01 en el nivel separados Familias con niños Records.\n"
+"</Ol>\n"
+"<p>\n"
+"Nota: cuadernos Cobol se convierten a XML copybook por el\n"
+"Open Source proyecto cb2xml (ver www.sourceforge.net)\n"
+"<p>\n"
+"Advertencia: cb2xml tiene algunos errores en la actualidad."
+
+# Use: Message 
+#  id: EditProps_JDBC_Params   Panel:  
+# 
+# English: <h1>JDBC Parameters</h1>
+# These parameters Control the Database connection that the <b>RecordEditor</b> uses<br>
+# # to connect to the RecordLayout Database (where all the Record Layouts are stored).<br>
+# # If you click on a row in the table, the fields at the bottom will be updated with the values from the selected row.<br>
+# # You can update values either using the fields at the bottom of the screen or directly into the table itself.
+msgid "EditProps_JDBC_Params"
+msgstr ""
+"<h1>Parámetros de JDBC\n"
+"</H1>\n"
+"Estos parámetros de control de la conexión de base de datos que utiliza el "
+"RecordEditor\n"
+"MedlinePlus\n"
+"para conectarse a la base de datos RecordLayout (donde todos los diseños de "
+"registro se almacenan).\n"
+"MedlinePlus\n"
+"Si hace clic en una fila en la tabla, los campos de la parte inferior se "
+"actualizarán con los valores de la fila seleccionada.\n"
+"MedlinePlus\n"
+"Puede actualizar los valores ya sea utilizando los campos en la parte "
+"inferior de la pantalla o directamente en la propia tabla."
+
+# Use: Message 
+#  id: EditProperties_Looks   Panel:  
+# 
+# English: <h1>Look and Feel</h1>
+# In java you can plug in a look-and-feel module to format Screen. This screen lets you choose which Look-and-Feel to use.<br>
+# # <b>Warning:</b> Independent Look-and-Feel modules can slow down response times and cause the <b>RecordEditor</b> to crash.<br>
+# # <br>
+# # The following 2 sites list a number of <b>Look and Feel</b><ul compact>
+# <li><b>http://www.jgoodies.com/freeware/libraries/looks/</b>
+# <li><b>http://www.java-tips.org/java-libraries/java-look-and-feel/</b></ul>
+# The JGoodies Look-and-Feel (<b>http://www.jgoodies.com/freeware/libraries/looks/</b>)is popular
+msgid "EditProperties_Looks"
+msgstr ""
+"<h1>Look and Feel\n"
+"</H1>\n"
+"En Java se puede conectar un look-and-feel módulo de pantalla de formato. "
+"Esta pantalla le permite elegir el look-and-feel de usar.\n"
+"MedlinePlus\n"
+"Advertencia: Independiente Look-and-Feel módulos pueden ralentizar los "
+"tiempos de respuesta y hacer que el RecordEditor se bloquee.\n"
+"MedlinePlus\n"
+"MedlinePlus\n"
+"Las siguientes 2 páginas enumeran una serie de Aspecto <ul compact>\n"
+"<li>\n"
+"http://www.jgoodies.com/freeware/libraries/looks/\n"
+"<li>\n"
+"http://www.java-tips.org/java-libraries/java-look-and-feel/ </ul>\n"
+"Los JGoodies Look-and-Feel (http://www.java2s.com/Product/Java/Swing/"
+"LookAndFeel.htm) es popular"
+
+# Use: Message 
+#  id: EditProps_Behaviour   Panel:  
+# 
+# English: <h2>Behavior Properties</h2>
+# The options on this screen affect the behavior of the editor.<br/>
+# # <b>Bring Log to the Front</b>: Wether the log file will be brought to the fron when data is written to it.<br/>
+# # <b>Default to prefered</b>: Wether to use the prefered layout by default when editting<br/>
+# # <b>Show all export panels</b>: Wether to show all export options or just the option selected<br/>
+# # 
+msgid "EditProps_Behaviour"
+msgstr ""
+"<h2>Propiedades de comportamiento\n"
+"</H2>\n"
+"Las opciones de esta pantalla afectan el comportamiento del editor.\n"
+"<br/>\n"
+"Traer al Frente sesión: Ya sea el archivo de registro será llevado a la Fron "
+"cuando se escriben datos en él.\n"
+"<br/>\n"
+"Por defecto para preferida: Ya sea para usar el diseño preferido por defecto "
+"cuando editting\n"
+"<br/>\n"
+"Mostrar todos los paneles de exportación: Ya sea para mostrar todas las "
+"opciones de exportación o simplemente la opción seleccionada\n"
+"<br/>"
+
+# Use: Message 
+#  id: EditProps_BigFiles   Panel:  
+# 
+# English: <h2>Big Model Properties</h2>
+# This panels lists parameters for the "Big File" Data Models.
+# You can use these options to optimise the Read Time for very big files
+msgid "EditProps_BigFiles"
+msgstr ""
+"<h2>Propiedades Grandes Modelo\n"
+"</H2>\n"
+"Estos paneles se enumeran los parámetros de los modelos de \"Big archivos\" "
+"de datos.\n"
+"Puede utilizar estas opciones para optimizar el tiempo de lectura para "
+"archivos muy grandes"
+
+# Use: Message 
+#  id: EditProps_CopyBook_Loaders   Panel:  
+# 
+# English: <h2>Copybook Loaders</h2>
+# This tab is for defining user written <b>Copybook Loader's</b> to the <b>RecordEditor</b>.<br>
+# # A <b>Copybook Loader's</b> is a Java Class that can load a copybook from a file into the <b>RecordEditor</b>.<br>
+# # <br>
+# # <b>Copybook Loader's</b> are used in <ul>
+# <li>Load Copybook function in the <b>LayoutEditor</b>
+# <li>Cobol Editor</ul>
+# <br>
+# # 
+msgid "EditProps_CopyBook_Loaders"
+msgstr ""
+"<h2>Copybook Cargadores\n"
+"</H2>\n"
+"Esta ficha es para definir escrito por el usuario Copybook Loader al "
+"RecordEditor.\n"
+"MedlinePlus\n"
+"Un cuaderno Loader es una clase Java que puede cargar un cuaderno de un "
+"archivo en el RecordEditor.\n"
+"MedlinePlus\n"
+"MedlinePlus\n"
+"Copybook Loader se usan en <ul>\n"
+"<li>\n"
+"Cargar función Copybook en el LayoutEditor\n"
+"<li>\n"
+"Cobol Editor </ul>\n"
+"MedlinePlus"
+
+# Use: Message 
+#  id: EditProtoperties_DataTypes   Panel:  
+# 
+# English: <h2>Date Types</h2>
+# This screen lets you define Date Types to the <b>RecordEditor</b><br>
+# # <br>
+# # 
+msgid "EditProtoperties_DataTypes"
+msgstr ""
+"<h2>Tipos de fecha\n"
+"</H2>\n"
+"Esta pantalla permite definir los tipos de fechas para la RecordEditor\n"
+"MedlinePlus\n"
+"MedlinePlus"
+
+# Use: Message 
+#  id: EditProps_Directories   Panel:  
+# 
+# English: <h2>Directories</h2>
+# The properties on this panel are for the various directories used by the <b>RecordEditor</b>
+msgid "EditProps_Directories"
+msgstr ""
+"<h2>Directorios\n"
+"</H2>\n"
+"Las propiedades de este panel son para los distintos directorios utilizados "
+"por el RecordEditor"
+
+# Use: Message 
+#  id: EditProps_PnlDescription   Panel:  
+# 
+# English: <h2>Edit RecordEditor Properties Editor</h2>
+# This program lets you edit the <b>RecordEditor</b> properties files and jar files.<br>
+# # There is little validation, so be very careful what changes you make.<br>
+# # Any changes will not take affect until the next timethe <b>RecordEditor</b> / <b>Layout Editor</b> is run again.<br>
+# # <br>
+# # There are 5 basic tab types in the program: <table border="1" cellpadding="3">
+# <tr><TD><b>Properties</b></td><td>Lets you update system properties like <b>Screen Position, Directories, Other Options, Wizard Option and Big File Options</b></td></tr>
+# <tr><TD><b>Properties</b></td><td>Lets you update system properties like <b>Screen Position, Directories, Other Options, Wizard Option and Big File Options</b></td></tr>
+# <tr><td><b>Xml</b></td><td>Xml Xslt properties / jars 
+# <tr><td><b>Jars</b></td><td>These options let you update the various JAR (java libraries) used by the <b>RecordEditor</b>.<br>
+# # The only time you should need to do this is if you are adding your own code to the <b>RecordEditor</b> or installing Velocity.</td></tr>
+# <tr><td><b>Extensions</b></td><td>These option let you define your own Types, formats to the <b>RecordEditor</b>.</td></tr>
+# <tr><td><b>Looks</b></td><td>This option lets you define the look and feel of the RecordEditor</td</tr>
+# <table>
+# <br>
+# # <br>
+# # <b>Files being updated are:</b>
+# <pre><br>
+# # System       Jars File={0}<br>
+# # System JDBC  Jars File={1}<br>
+# #   User       Jars File={2}<br>
+# #        Properties file={3}</pre>
+msgid "EditProps_PnlDescription"
+msgstr ""
+"<h2>Editar Propiedades del Editor RecordEditor\n"
+"</H2>\n"
+"Este programa te permite editar las propiedades RecordEditor archivos y los "
+"archivos jar.\n"
+"MedlinePlus\n"
+"No hay validación poco, así que tenga mucho cuidado con lo que los cambios "
+"que realice.\n"
+"MedlinePlus\n"
+"Cualquier cambio no surtirá efecto hasta la próxima timethe RecordEditor / "
+"Layout Editor se ejecuta de nuevo.\n"
+"MedlinePlus\n"
+"MedlinePlus\n"
+"Hay 5 tipos de fichas básicas en el programa: <table border=\"1\" "
+"cellpadding=\"3\">\n"
+"<tr> Propiedades <TD></Td> <td>Le permite actualizar las propiedades del "
+"sistema como la posición de la pantalla, Directorios, otras opciones, la "
+"opción Asistente para archivo y Opciones Grandes\n"
+"</Td> </tr>\n"
+"<tr> Propiedades <TD></Td> <td>Le permite actualizar las propiedades del "
+"sistema como la posición de la pantalla, Directorios, otras opciones, la "
+"opción Asistente para archivo y Opciones Grandes\n"
+"</Td> </tr>\n"
+"<tr> <td>Xml\n"
+"</Td> <td>Xml Xslt propiedades / tarros\n"
+"<tr> <td>Tarros\n"
+"</Td> <td>Estas opciones le permiten actualizar el JAR varios (bibliotecas "
+"de Java) que utiliza el RecordEditor.\n"
+"MedlinePlus\n"
+"La única vez que usted debe necesitar para hacer esto es si va a agregar su "
+"propio código para la RecordEditor o instalar Velocity.\n"
+"</Td> </tr>\n"
+"<tr> <td>Extensiones\n"
+"</Td> <td>Estas opciones le permiten definir sus propios tipos de formatos, "
+"a la RecordEditor.\n"
+"</Td> </tr>\n"
+"<tr> <td>Parece\n"
+"</Td> <td>Esta opción le permite definir el aspecto y el tacto de los "
+"botones <RecordEditor / td </tr> </table>\n"
+"MedlinePlus\n"
+"MedlinePlus\n"
+"Los archivos están actualizados son:\n"
+"<pre>\n"
+"MedlinePlus\n"
+"Sistema Tarros File = {0}\n"
+"MedlinePlus\n"
+"Sistema de JDBC Tarros File = {1}\n"
+"MedlinePlus\n"
+"  Tarros de usuario = El archivo {2}\n"
+"MedlinePlus\n"
+"       Propiedades de archivo = {3}\n"
+"</Pre>"
+
+# Use: Message 
+#  id: EditProtoperties_Language   Panel:  
+# 
+# English: <h2>Foreign Language</h2>
+# This screen lets you change the language used in the <b>RecordEditor</b><br/>
+# # You will need to <b>exit</b> and <b>restart</b> the Editor for the change to come into effect<br/>
+# # <br/>
+# # If your language is not supported ???, Why not do the Translation your self ???.<br/>
+# # Have a look at the ReadMe.html in the language directory:
+msgid "EditProtoperties_Language"
+msgstr ""
+"<h2>Lengua Extranjera\n"
+"</H2>\n"
+"Esta pantalla le permite cambiar el idioma utilizado en el RecordEditor\n"
+"<br/>\n"
+"Tendrá que salir y reiniciar el editor para que los cambios entren en vigor\n"
+"<br/>\n"
+"<br/>\n"
+"Si su idioma no es compatible???, ¿Por qué no hacer la traducción de su "
+"auto???.\n"
+"<br/>\n"
+"Echa un vistazo a la ReadMe.html en el directorio del idioma:"
+
+# Use: Message 
+#  id: EditProps_Format   Panel:  
+# 
+# English: <h2>Format Definition</h2>
+# This tab for defining user written <b>Format's</b> to the <b>RecordEditor</b>.<br>
+# # <b>Format's</b> define TableCellRenders and TableCellEditors for a field.<br>
+# # <br>
+# # You may want to use Format to edit Dates using a Date Popup
+msgid "EditProps_Format"
+msgstr ""
+"<h2>Formato de definición\n"
+"</H2>\n"
+"En esta pestaña para definir Formato escrito por el usuario es el "
+"RecordEditor.\n"
+"MedlinePlus\n"
+"Formato es definir TableCellRenders y TableCellEditors para un campo.\n"
+"MedlinePlus\n"
+"MedlinePlus\n"
+"Es posible que desee utilizar formato para editar las fechas con una Fecha "
+"de ventanas emergentes"
+
+# Use: Message 
+#  id: EditProps_CsvParams   Panel:  
+# 
+# English: <h2>GetText-Po Properties</h2>
+# This panels holds GetText-PO editor specific options<br>
+# # 
+msgid "EditProps_CsvParams"
+msgstr ""
+"<h2>GetText-Po Propiedades\n"
+"</H2>\n"
+"Estos paneles tiene GetText-PO opciones del editor específicas\n"
+"MedlinePlus"
+
+# Use: Message 
+#  id: EditProps_JdbcJars   Panel:  
+# 
+# English: <h2>JDBC Jars</h2>
+# This panel lets you change the JDBC (Java Database Conectivity) Jars that are needed by the <b>RecordEditor</b>.<br>
+# # <br>
+# # If you click on a row in the table, the fields at the bottom will be updated with the values from the selected row.<br>
+# # You can update values either using the fields at the bottom of the screen or directly into the table itself.
+msgid "EditProps_JdbcJars"
+msgstr ""
+"<h2>Tarros JDBC\n"
+"</H2>\n"
+"Este panel le permite cambiar los JDBC (Java Database Conectividad) Tarros "
+"que son necesarios para la RecordEditor.\n"
+"MedlinePlus\n"
+"MedlinePlus\n"
+"Si hace clic en una fila en la tabla, los campos de la parte inferior se "
+"actualizarán con los valores de la fila seleccionada.\n"
+"MedlinePlus\n"
+"Puede actualizar los valores ya sea utilizando los campos en la parte "
+"inferior de la pantalla o directamente en la propia tabla."
+
+# Use: Message 
+#  id: EditProps_WizardParams   Panel:  
+# 
+# English: <h2>Layout Wizard Properties</h2>
+# This panels holds various Field Search options used by the Layout Wizard
+msgid "EditProps_WizardParams"
+msgstr ""
+"<h2>Asistente de diseño Propiedades\n"
+"</H2>\n"
+"Estos paneles tiene varias opciones de búsqueda de campo que utiliza el "
+"Asistente para formato"
+
+# Use: Message 
+#  id: EditProps_OptionalJars   Panel:  
+# 
+# English: <h2>Optional Jars</h2>
+# This panel lets you specify your own jars. <br/>
+# # This could include User code or scripting languages (JRuby.jar, Jython.jar etc).
+msgid "EditProps_OptionalJars"
+msgstr ""
+"<h2>Tarros opcionales\n"
+"</H2>\n"
+"Este panel le permite especificar sus propios botes.\n"
+"<br/>\n"
+"Esto podría incluir el código de usuario o lenguajes de scripting (JRuby."
+"jar, Jython.jar etc)."
+
+# Use: Message 
+#  id: ProtoBuf_ProtoSearch   Panel:  
+# 
+# English: <h2>Proto Search</h2>
+# 
+# # <p>This screen lets you search for a proto definition file that matches<br/>
+# # a Protocol Buffers data file. You can add extra directories to be searched<br/>
+# # (these will be permanently added to the search directories)</p>
+# # <p>Double click on the proto file in the bottom table to select it.</p>
+msgid "ProtoBuf_ProtoSearch"
+msgstr ""
+"<h2>Proto Buscar\n"
+"</H2>\n"
+"<p>\n"
+"Esta pantalla le permite buscar un archivo de definición de proto que "
+"coincide\n"
+"<br/>\n"
+"un Protocolo Buffers archivo de datos. Usted puede agregar directorios "
+"adicionales que desea buscar\n"
+"<br/>\n"
+"(Estas serán de forma permanente en los directorios de búsqueda) </p>\n"
+"<p>\n"
+"Haga doble clic en el archivo proto en la tabla de abajo para seleccionarlo. "
+"</P>"
+
+# Use: Message 
+#  id: EditProps_ScreenLocation   Panel:  
+# 
+# English: <h2>Screen positioning Properties</h2>
+# The properties on this panel are for setting the amount of space to be left around the edge of the <b>RecordEditor</b>.<br>
+# # The editor can start using the full screen or any part of the screen that you desire.
+msgid "EditProps_ScreenLocation"
+msgstr ""
+"<h2>Propiedades de pantalla de posicionamiento\n"
+"</H2>\n"
+"Las propiedades de este panel son para configurar la cantidad de espacio que "
+"debe dejarse alrededor del borde de la RecordEditor.\n"
+"MedlinePlus\n"
+"El editor puede empezar a usar la pantalla completa o cualquier parte de la "
+"pantalla que usted desea."
+
+# Use: Message 
+#  id: EditProps_Jars   Panel:  
+# 
+# English: <h2>System Jars</h2>
+# This panel lets you change the Jars supplied with the <b>RecordEditor</b> like cb2xml.<br>
+# # These jars are used by the <b>RecordEditor</b> but are written and maintained by other people
+msgid "EditProps_Jars"
+msgstr ""
+"<h2>Tarros del sistema\n"
+"</H2>\n"
+"Este panel le permite cambiar los frascos se suministran con el RecordEditor "
+"como cb2xml.\n"
+"MedlinePlus\n"
+"Estos frascos son utilizados por el RecordEditor pero se escriben y "
+"mantenida por otras personas"
+
+# Use: Message 
+#  id: EditProps_Test   Panel:  
+# 
+# English: <h2>Test Properties</h2>
+# The options on this screen are used in Testing the Editor.
+msgid "EditProps_Test"
+msgstr ""
+"<h2>Propiedades de la prueba\n"
+"</H2>\n"
+"Las opciones de esta pantalla se utilizan en las pruebas del Editor."
+
+# Use: Message 
+#  id: EditProps_TypeDef   Panel: </b>You will also need to add the jar with your class to the <b>User Jars</b> tab.!:!<b>Note 
+# 
+# English: <h2>Type Definition</h2>
+# This tab for defining user written <b>Type's</b> to the <b>RecordEditor</b>.<br>
+# # A <b>Type's</b> is a Java Class that converts a fields between the external representation and the internal Java Representation.<br>
+# # Columns in the Table are <br>
+# # 
+# <table>
+# <tr><td>Type Number</td><td>Unique number used to identify the type. It should be between {0} and {1}</td></tr>
+# <tr><td>Type Name</td><td>Name of the Type</td></tr>
+# <tr><td>Type Class</td><td>Java Type class.</td></tr>
+# <tr><td>Format Class</td><td>Class that implements table cell Formating. Leave blank if there is not one</td></tr>
+# <table>
+# <br>
+# # <b>Note:</b>You will also need to add the jar with your class to the <b>User Jars</b> tab.
+msgid "EditProps_TypeDef"
+msgstr ""
+"<h2>Definición del tipo de\n"
+"</H2>\n"
+"En esta pestaña para definir Tipo de usuario escrito es a la RecordEditor.\n"
+"MedlinePlus\n"
+"Un tipo es una clase Java que convierte a los campos entre la representación "
+"exterior y la representación interna de Java.\n"
+"MedlinePlus\n"
+"Las columnas de la tabla son\n"
+"MedlinePlus\n"
+"<table>\n"
+"<tr> <td>Tipo de número\n"
+"</Td> <td>Número único que se utiliza para identificar el tipo. Debe estar "
+"entre {0} y {1}\n"
+"</Td> </tr>\n"
+"<tr> <td>Nombre Tipo\n"
+"</Td> <td>Nombre del tipo de\n"
+"</Td> </tr>\n"
+"<tr> <td>Tipo de clase\n"
+"</Td> <td>Java clase Type.\n"
+"</Td> </tr>\n"
+"<tr> <td>Formato de clase\n"
+"</Td> <td>Clase que implementa Formating celda de tabla. Dejar en blanco si "
+"no hay una\n"
+"</Td> </tr> </table>\n"
+"MedlinePlus\n"
+"Nota: También tendrá que añadir el frasco con su clase a la ficha del "
+"usuario tarros."
+
+# Use: Message 
+#  id: EditProps_UserJars   Panel:  
+# 
+# English: <h2>User Jars</h2>
+# This panel lets you specify your own jars <br>
+# # These jars will be used when the <b>RecordEditor</b starts. <br>
+# # When adding your own jars, <br>
+# # you should also invoke your own initialisation class via the <i>UserInitilizeClass</i> property on the other screen.
+msgid "EditProps_UserJars"
+msgstr ""
+"<h2>Tarros de usuario\n"
+"</H2>\n"
+"Este panel le permite especificar sus propios tarros\n"
+"MedlinePlus\n"
+"Estos frascos se utiliza cuando el RecordEditor </b empieza.\n"
+"MedlinePlus\n"
+"Al añadir tus propios frascos,\n"
+"MedlinePlus\n"
+"también se debe invocar su propia clase de inicialización a través de la "
+"propiedad UserInitilizeClass en la otra pantalla."
+
+# Use: Message 
+#  id: RunVelocityHint   Panel:  
+# 
+# English: <h2>Velocity is not Installed</h2>
+# Velocity has not been installed into the <b>record editor</b>.<br>
+# # The easiest way to install Velocity is to go to the RecordEditor Download page<br>
+# # <b>http://sourceforge.net/project/showfiles.php?group_id=139274</b> and download file <b>ru_velocity_1.4*.zip</b>.<br>
+# # From this zip file and copy the 2 jars files to the <b>&lt;RecordEditor install directory&gt;/lib</b> directory. <br>
+# # <br>
+# # Alternately in the <b>HowTo</b> document, there is a discussion on installing velocity.
+msgid "RunVelocityHint"
+msgstr ""
+"<h2>La velocidad no está instalado\n"
+"</H2>\n"
+"La velocidad no se ha instalado en el editor de registro.\n"
+"MedlinePlus\n"
+"La forma más fácil de instalar Velocity es ir a la página de descargas "
+"RecordEditor\n"
+"MedlinePlus\n"
+"http://sourceforge.net/project/showfiles.php?group_id=139274 y el archivo de "
+"descarga ru_velocity_1.4 *. zip.\n"
+"MedlinePlus\n"
+"A partir de este archivo zip y copie los 2 archivos tarros al directorio> "
+"<RecordEditor install / lib.\n"
+"MedlinePlus\n"
+"MedlinePlus\n"
+"Como alternativa, en el documento HowTo, hay una discusión sobre la "
+"instalación de la velocidad."
+
+# Use: Message 
+#  id: EditProps_XsltJars   Panel:  
+# 
+# English: <h2>Xslt Jars</h2>
+# This panel lets you specify your XSLT jars
+msgid "EditProps_XsltJars"
+msgstr "<h2>Tarros Xslt\n"
+"</H2>\n"
+"Este panel permite especificar sus tarros XSLT"
+
+# Use: Message 
+#  id: UnknownFileFormatTip   Panel:  
+# 
+# English: <h3>File Structure</h3>
+# 
+# # <p>This screen lets you select the File structure. <br>
+# # For Standard Windows / Unix files use <b>Text IO</b>. <br>
+# # For Fixed width files, You can click on the Start of the second record to set the length.
+msgid "UnknownFileFormatTip"
+msgstr ""
+"<h3>Estructura de archivos\n"
+"</H3>\n"
+"<p>\n"
+"Esta pantalla le permite seleccionar la estructura de archivos.\n"
+"MedlinePlus\n"
+"Para el estándar de Windows / Unix archivos utilizan Text IO.\n"
+"MedlinePlus\n"
+"Para los archivos de ancho fijo, puede hacer clic en el Inicio del segundo "
+"registro para establecer la longitud."
+
+# Use: Message 
+#  id: LayoutEditor_SelectionTreeTbl   Panel:  
+# 
+# English: <h3>Selection Viewer</h3>
+# <br/>
+# #  <b>Warning:</b> Changes made on this screen will not be reflected on other open screens<br/>
+# # and vice versa.
+msgid "LayoutEditor_SelectionTreeTbl"
+msgstr ""
+"<h3>Selección Visor\n"
+"</H3>\n"
+"<br/>\n"
+" Advertencia: Los cambios realizados en esta pantalla no se verá reflejado "
+"en otras pantallas abiertas\n"
+"<br/>\n"
+"y viceversa."
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "= (Text)"
+msgstr "= (Texto)"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "> (Text)"
+msgstr "> (Texto)"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid ">= (Numeric)"
+msgstr "> = (Numérico)"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Action not supported by NullTree"
+msgstr "La acción no soportado por NullTree"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Add"
+msgstr "Añadir"
+
+# Use: Action : Frame_Heading 
+#  id:    Panel:  
+msgid "Add Attributes"
+msgstr "Añadir atributos"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Add Attributes
+msgid "Add Attributes to the layout Definition"
+msgstr "Añadir atributos a la definición de diseño"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Add Column before"
+msgstr "Añadir columna antes"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Add Field After"
+msgstr "Agregar campo después"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Add Field Before"
+msgstr "Añadir campo Antes"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Add Fields"
+msgstr "Agregar campos"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Add Row After"
+msgstr "Añadir fila después"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Add Row Before"
+msgstr "Añadir fila antes de"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Show Child Record
+msgid "Add a linked Child Record to the current screen"
+msgstr "Agregar un registro secundario vinculado a la pantalla actual"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Field List
+msgid "All Fields"
+msgstr "Todos los campos"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "All Included Lines"
+msgstr "Todas las líneas incluidas"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "All of"
+msgstr "Todo"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Allocated Jars"
+msgstr "Tarros distribuidos"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Allow the asterix ('*') character in file Names"
+msgstr "Deje que el asterisco ('*') en los nombres de archivos"
+
+# Use: Error 
+#  id:    Panel:  
+# Protocol Buffers, you can not leave a enum field blank
+msgid "An enum must have a value"
+msgstr "Una enumeración debe tener un valor"
+
+# Use: Message : Button 
+#  id:    Panel:  
+# BoolOps 0
+msgid "And"
+msgstr "Y"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Any of"
+msgstr "Cualquiera de"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Apply"
+msgstr "Aplicar"
+
+# Use: Message 
+#  id:    Panel:  
+# ComboEdit - delete confirmation
+msgid "Are you sure you want to delete Combo: {0}"
+msgstr "¿Está seguro que desea eliminar Combo: {0}"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordLayout edit - delete confirmation message
+msgid "Are you sure you want to delete record layout: {0}"
+msgstr "¿Está seguro que desea eliminar diseño de registro: {0}"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Array View:"
+msgstr "Matriz Vista:"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Sort 1
+msgid "Ascending"
+msgstr "Ascendente"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- PropsEd_JDBC 9
+msgid "Auto Close Connections"
+msgstr "Auto cerrar las conexiones"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Autofit Columns"
+msgstr "Autoajustar las columnas"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Sum Operators 4
+msgid "Average"
+msgstr "Promedio"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Avro Definition"
+msgstr "Avro Definición"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Avro Editor's Forums"
+msgstr "Foros Avro Editor"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Avro Editor's Web Page"
+msgstr "Página Avro Editor Web"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- File SelectionOptions 1 Combo- File Search Direction 1
+msgid "Backward"
+msgstr "Hacia atrás"
+
+# Use: External 
+#  id: Csv_Parsers_0   Panel:  
+# 
+# English: Basic Parser
+msgid "Csv_Parsers_0"
+msgstr "Analizador Basic"
+
+# Use: External 
+#  id: Csv_Parsers_3   Panel:  
+# 
+# English: Basic Parser Column names in quotes
+msgid "Csv_Parsers_3"
+msgstr "Básicos del Analizador nombres de columna entre comillas"
+
+# Use: Message : Action 
+#  id:    Panel:  
+msgid "Before {0}"
+msgstr "Antes de {0}"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Big File Percentage"
+msgstr "Porcentaje archivo grande"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Properties
+msgid "Big Model"
+msgstr "Modelo grande"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_3   Panel:  
+# 
+# English: Big-Endian (Old)
+msgid "BinFormat/Dialect_3"
+msgstr "Big-Endian (Antiguo)"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Big-File Filter/Tree limit (thousands)"
+msgstr "Big-Filtro de archivo / Árbol de carrera (miles)"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Big-File-Model Memory Chunks (KB) default=1000"
+msgstr "Big-Modelo File-Trozos de memoria (KB) por defecto = 1000"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Big-File-Model compress option (Default Read)"
+msgstr "Big-archivo-modelo compresa opción (de lectura por defecto)"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Binary Format"
+msgstr "Formato binario"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_15   Panel:  
+# 
+# English: Binary Integer
+msgid "Tbl_FieldType_15"
+msgstr "Binary Integer"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_35   Panel:  
+# 
+# English: Binary Integer Big Endian (Mainframe?)
+msgid "Tbl_FieldType_35"
+msgstr "Binary Integer (Mainframe?) Big Endian"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_21   Panel:  
+# 
+# English: Bit
+msgid "Tbl_FieldType_21"
+msgstr "Poco"
+
+# Use: External 
+#  id: Tbl_Format_21   Panel:  
+# 
+# English: Bold Format
+msgid "Tbl_Format_21"
+msgstr "Bold Formato"
+
+# Use: Field_Prompt 
+#  id:    Panel: Filter 
+msgid "Boolean Operator"
+msgstr "Operador booleano"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- LayoutEdit_RecSel 0
+msgid "Boolean op 1"
+msgstr "Boolean op 1"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- LayoutEdit_RecSel 1
+msgid "Boolean op 2"
+msgstr "Boolean op 2"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- LayoutEdit_RecSel 2
+msgid "Boolean op 3"
+msgstr "Boolean op 3"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Bring Log to the Front if Data is written to it"
+msgstr "Traer al Frente sesión si los datos se escriben en ella"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Bring log to Front"
+msgstr "Traer al frente iniciar"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Build"
+msgstr "Construir"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Build Tree"
+msgstr "Generar árbol"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# ExportTab 1
+msgid "CSV"
+msgstr "CSV"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_115   Panel:  
+# 
+# English: CSV array
+msgid "Tbl_FieldType_115"
+msgstr "CSV array"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Recalculate Column widths
+msgid "Calculate the column widths based on data in the columns"
+msgstr "Calcular los anchos de columna a partir de datos de las columnas"
+
+# Use: Message 
+#  id:    Panel:  
+# Exception raised when loading Xml layout into DB, Exception message appended to the message
+msgid "Can not Load Xml Layout:"
+msgstr "No se puede cargar Layout xml:"
+
+# Use: Message 
+#  id:    Panel:  
+# For some Big files, the file is randommly as need; Message produced when the random read fails
+msgid "Can not Read block from File at:"
+msgstr "No se puede leer bloque de archivo en:"
+
+# Use: Message 
+#  id:    Panel:  
+# Big Files - Error reading a block from the spill file
+msgid "Can not Read block from disk at:"
+msgstr "No se puede leer bloque de disco en:"
+
+# Use: Error 
+#  id:    Panel:  
+# Internal error, occurs on very large files
+msgid "Can not add Byte Array"
+msgstr "No se puede agregar una matriz de bytes"
+
+# Use: Error 
+#  id:    Panel:  
+# Problems adding RecordSelection test field (System error)
+msgid "Can not add Test Field"
+msgstr "No se puede agregar pruebas de campo"
+
+# Use: Message 
+#  id:    Panel:  
+# Trying to create a cellrender for a column in the RecordEditor but there was a failure (class does not exist)
+msgid "Can not create Rendor for field:"
+msgstr "No se puede crear Rendor de campo:"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordLayout Create/Edit screen - error creating Parameter popup screen
+msgid "Can not create popup:"
+msgstr "No se puede crear emergente:"
+
+# Use: Message 
+#  id:    Panel:  
+# Icon name follows; should not occur ~ means system can not find one of the icons used in buttons menus
+msgid "Can not find icon:"
+msgstr "No se puede encontrar el icono:"
+
+# Use: Error 
+#  id:    Panel:  
+# Internal error,
+msgid "Can not get Byte Array"
+msgstr "No se puede obtener una matriz de bytes"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Can not get layout for the New File"
+msgstr "No se puede obtener diseño para el nuevo archivo"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Can not load a Group Filter to a simple filter"
+msgstr "No se puede cargar un filtro de grupo de un filtro simple"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Can not locate record: >{0}< in input layout"
+msgstr "No se puede localizar en detalle:> {0} <en el diseño de entrada"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Can not locate record: >{0}< in output layout"
+msgstr "No se puede encontrar registro:> {0} <en el diseño de producción"
+
+# Use: Message 
+#  id:    Panel:  
+# Details & reason follow
+msgid "Can not paste"
+msgstr "No se puede pegar"
+
+# Use: Error 
+#  id:    Panel:  
+# Internal error,
+msgid "Can not put Byte Array"
+msgstr "No se puede poner una matriz de bytes"
+
+# Use: Message 
+#  id:    Panel:  
+# Tried to save "Field Sequence" information as Xml using jibx and the jibx call failed for some reason
+msgid "Can not save Field Sequences"
+msgstr "No se puede guardar secuencias de campo"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Can not update field in temporary Line"
+msgstr "No se puede actualizar el campo en la línea temporal"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Can not update temporary Line"
+msgstr "No se puede actualizar la línea temporal"
+
+# Use: Message 
+#  id:    Panel:  
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "Canonical_Name"
+msgstr "Canonical_Name"
+
+# Use: Message 
+#  id:    Panel:  
+# Error starting a Wizard (File / Copy / Compare wizards); exception details follow
+msgid "Cant start wizard"
+msgstr "Cant asistente de inicio"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 6
+msgid "Cell_Format"
+msgstr "Cell_Format"
+
+# Use: Action : Frame_Heading 
+#  id:    Panel:  
+msgid "Change Layout"
+msgstr "Cambiar distribución"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_0   Panel:  
+# 
+# English: Char
+msgid "Tbl_FieldType_0"
+msgstr "Char"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_1   Panel:  
+# 
+# English: Char (right justified)
+msgid "Tbl_FieldType_1"
+msgstr "Char (justificado a la derecha)"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_51   Panel:  
+# 
+# English: Char Multi Line
+msgid "Tbl_FieldType_51"
+msgstr "Línea multi Char"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_3   Panel:  
+# 
+# English: Char Null padded
+msgid "Tbl_FieldType_3"
+msgstr "Char acolchado Null"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_2   Panel:  
+# 
+# English: Char Null terminated
+msgid "Tbl_FieldType_2"
+msgstr "Null Char terminado"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_81   Panel:  
+# 
+# English: Char Rest of Record
+msgid "Tbl_FieldType_81"
+msgstr "Resto de Char Record"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Char to Replace invalid Filename Chars"
+msgstr "Char reemplazar Caracteres no válidos Nombre de archivo"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Character Field is to big"
+msgstr "Campo de caracteres es demasiado grande"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Characters that are invalid in a file Name"
+msgstr "Los caracteres que no son válidos en un nombre de archivo"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_110   Panel:  
+# 
+# English: Check Box True / Space
+msgid "Tbl_FieldType_110"
+msgstr "Casilla de verificación Verdadero / Espacio"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Check Fields"
+msgstr "Compruebe Campos"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Check Records"
+msgstr "Compruebe los registros"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Check for binary Fixed Width"
+msgstr "Compruebe ancho fijo binario"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Check previous used Proto"
+msgstr "Compruebe Proto anterior utilizado"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid ""
+"Check to make sure the proto on a similarly named file is the correct proto"
+msgstr ""
+"Asegúrese de que el proto en un archivo de nombre similar es el proto "
+"correcto"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_109   Panel:  
+# 
+# English: CheckBox Y/null
+msgid "Tbl_FieldType_109"
+msgstr "CheckBox Y / null"
+
+# Use: External 
+#  id: Tbl_Format_1   Panel:  
+# 
+# English: Checkbox - use Parameter
+msgid "Tbl_Format_1"
+msgstr "Casilla de verificación - el uso de parámetros"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_112   Panel:  
+# 
+# English: Checkbox T/F
+msgid "Tbl_FieldType_112"
+msgstr "Casilla T / F"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_111   Panel:  
+# 
+# English: Checkbox Y/N
+msgid "Tbl_FieldType_111"
+msgstr "Casilla de verificación S / N"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- PropsEd_JDBC 7
+msgid "Checkpoint"
+msgstr "Control"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-ChildRecords columns 1
+msgid "Child Name"
+msgstr "Nombre del niño"
+
+# Use: Column_Heading : Field_Hint 
+#  id:    Panel:  
+# Tbl- DB-ChildRecords columns 0
+msgid "Child Record"
+msgstr "Child Record"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: LayoutEdit
+msgid "Child Records"
+msgstr "Registros secundarios"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Choose File"
+msgstr "Seleccione Archivo"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Choose Jar"
+msgstr "Elige Jar"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Choose Layout"
+msgstr "Seleccione Diseño"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Choose Output File"
+msgstr "Seleccione Archivo de salida"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Chunk Size (KB)"
+msgstr "Tamaño de bloque (KB)"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Clear Value"
+msgstr "Borrar valor"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Close"
+msgstr "Cerrar"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Close All"
+msgstr "Cerrar todo"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Close DB's and exit application"
+msgstr "Cerca de DB y aplicación de salida"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Close Tab"
+msgstr "Cerrar pestaña"
+
+# Use: Frame_Heading : Field_Prompt 
+#  id:    Panel:  
+msgid "Cobol Copy"
+msgstr "Copia Cobol"
+
+# Use: Field_Prompt 
+#  id:    Panel: RcdExtra 
+msgid "Cobol Copybook"
+msgstr "Cobol Copybook"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_1   Panel:  
+# 
+# English: Cobol Copybook (DB)
+msgid "CopybookLoaderFactory_1"
+msgstr "Cobol Copybook (DB)"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Cobol Copybook Analysis"
+msgstr "Cobol Copybook Análisis"
+
+# Use: Message 
+#  id:    Panel:  
+# Cobol Copybook analysis - cobol copybook files does not exist
+msgid "Cobol Copybook does not exist"
+msgstr "Cobol Copybook no existe"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Cobol Dialect"
+msgstr "Cobol Dialecto"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 9
+msgid "Cobol Name"
+msgstr "Cobol Nombre"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Collapse Tree"
+msgstr "Contraer árbol"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Colorfull Table"
+msgstr "Colorfull Tabla"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Column Table"
+msgstr "Columna de Tabla"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Column View (Selected Records)"
+msgstr "Column View (registros seleccionados)"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB ComboValues 0
+msgid "Combo Code"
+msgstr "Combo Código"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Combo Name"
+msgstr "Combo Nombre"
+
+# Use: Field_Prompt 
+#  id:    Panel: ComboPnl 
+msgid "Combo Type"
+msgstr "Combo Tipo"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB ComboValues 1
+msgid "Combo Value"
+msgstr "Combo Valor"
+
+# Use: External 
+#  id: Tbl_Format_15   Panel:  
+# 
+# English: ComboBox Format, (combo name in parameter)
+msgid "Tbl_Format_15"
+msgstr "Formato ComboBox, (nombre del combo en el parámetro)"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: ComboPnl 
+# Tbl- DB-Combo Columns 1
+msgid "Combo_Name"
+msgstr "Combo_Name"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_3   Panel:  
+# 
+# English: Comma CSV (names first line)
+msgid "CopybookLoaderFactory_3"
+msgstr "Comas CSV (line nombres)"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Compare Different Layouts"
+msgstr "Comparar diferentes diseños"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Compare Error- Record {0} from filter was not found in record Layout"
+msgstr ""
+"Comparar Error-Record {0} de filtro no se encontró en el diseño de registro"
+
+# Use: Error 
+#  id:    Panel:  
+msgid ""
+"Compare Error- Record/Field {0}/{1} from filter was not found in record "
+"Layout"
+msgstr ""
+"Comparación de errores de grabación / El campo {0} / {1} del filtro no se "
+"encontró en el diseño de registro"
+
+# Use: Action : Frame_Heading 
+#  id:    Panel:  
+msgid "Compare Menu"
+msgstr "Menú Comparar"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Compare Save Directory"
+msgstr "Comparar Guardar Directorio"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Compare with Disk
+msgid "Compare what is being edited with what is stored on disk"
+msgstr "Comparar lo que se está editando con lo que se almacena en el disco"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Compare with Disk"
+msgstr "Comparar con Disk"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Complete Rebuild of Tree Description_for_Complete Rebuild of Tree
+msgid "Completely rebuild the Tree from scratch"
+msgstr "Completamente reconstruir el árbol de cero"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Compress Option"
+msgstr "Comprimir Opción"
+
+# Use: Message 
+#  id:    Panel:  
+# Internal error, occurs with very large files where the Editor uses Compression to reduce memory usage - generally only occurs in testing
+msgid "Compress Queue Error: Save the file and try again"
+msgstr "Comprimir Error de cola: Guarde el archivo y vuelva a intentarlo"
+
+# Use: Message 
+#  id:    Panel:  
+# connection to database failed, DB error will be concenated with message
+msgid "Connection Failed:"
+msgstr "Error de conexión:"
+
+# Use: Message 
+#  id:    Panel:  
+# Database connection Failed; {0} will be replaced with error message
+msgid "Connection Failed: {0}, can not run SQL"
+msgstr "Error de conexión: {0}, no se puede ejecutar SQL"
+
+# Use: Message 
+#  id:    Panel:  
+# Database Connection Identifier
+msgid "Connection ID"
+msgstr "ID de conexión"
+
+# Use: Message 
+#  id:    Panel:  
+# Database Connection index
+msgid "Connection Index"
+msgstr "Conexión Índice"
+
+# Use: Message 
+#  id:    Panel:  
+# Succesful connection to DB
+msgid "Connection Ok ~"
+msgstr "Ok conexión ~"
+
+# Use: Message 
+#  id:    Panel:  
+# Connected to Datgabase - DB details will follow; from EditParameters - Test Connection screen
+msgid "Connection succesfull to"
+msgstr "Conexión exitosa a"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Contains"
+msgstr "Contiene"
+
+# Use: Message 
+#  id:    Panel:  
+# Generic Conversion error
+msgid "Conversion Error"
+msgstr "Conversión de error"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Convert Layout"
+msgstr "Convertir Layout"
+
+# Use: Action : Button : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 4
+msgid "Copy"
+msgstr "Copiar"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Copy Column"
+msgstr "Copiar columna"
+
+# Use: Message 
+#  id:    Panel:  
+# Copy wizard
+msgid "Copy Done !!!"
+msgstr "Copiar Hecho!"
+
+# Use: Message 
+#  id:    Panel:  
+# Copy wizard
+msgid "Copy Done !!!, check log for errors"
+msgstr "Copiar Hecho!, Compruebe el registro de errores"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Copy Failed:"
+msgstr "Copia Error:"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Copy Layouts"
+msgstr "Presentaciones de copia"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Copy Record(s)"
+msgstr "Ejemplar original (s)"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Copy Save Directory"
+msgstr "Guardar copia Directorio"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Copy To Xml"
+msgstr "Copiar a XML"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Copy copybooks"
+msgstr "Cuadernos de copia"
+
+# Use: Message 
+#  id:    Panel:  
+# Record Editor Copy Error
+msgid "Copy limit of {0} exceeded; only the first {1} lines copied"
+msgstr "Copia límite de {0} excedió; sólo los primeros {1} líneas copiadas"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Copy Record(s)
+msgid "Copy selected records to the RecordEditor Clipboard"
+msgstr "Copiar los registros seleccionados al Portapapeles RecordEditor"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Copy the selected record from the table"
+msgstr "Copia el registro seleccionado de la tabla"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Copy to Delimited file"
+msgstr "Copiar en archivo delimitado"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Copy to Xml file"
+msgstr "Copiar archivo XML"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Copy using Velocity Template"
+msgstr "Copia mediante plantillas Velocity"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordEditor - Catch all error reading Record-fields from the Database
+msgid "CopyBook Error- Reading Fields:"
+msgstr "Error al leer el cuaderno-Campos:"
+
+# Use: Message 
+#  id:    Panel:  
+# - RecordEditor - Catch all Error reading RecordLayout from the database
+msgid "CopyBook Error:"
+msgstr "Cuaderno de error:"
+
+# Use: Message : Field_Prompt 
+#  id:    Panel: GetFiles:OpenFileEditPnl 
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "Copybook"
+msgstr "Copybook"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Copybook Analysis"
+msgstr "Cuaderno de Análisis"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordEditor - Catch all error reading child records from the DB
+msgid "Copybook Error: Reading Child Records:"
+msgstr "Error Copybook: Lectura de registros secundarios:"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "Copybook Loaders"
+msgstr "Copybook Cargadores"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Copybook Type"
+msgstr "Copybook Tipo"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Could not load Copybook"
+msgstr "No se ha podido cargar Copybook"
+
+# Use: Message 
+#  id:    Panel:  
+# Upgrade message
+msgid "Could not load FileWizardReader"
+msgstr "No se ha podido cargar FileWizardReader"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffers Editor - User tried to delete a Required Child message
+msgid "Could not remove child, it is Required:"
+msgstr "No se pudo eliminar niño, se requiere:"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffers Editor (Internal Error ??) - should not occur
+msgid "Could not remove child, it is not a Protocol Buffer Line:"
+msgstr "No se pudo eliminar niño, no es una línea intermedia Protocolo:"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffers Editor - user tried to delete a child message that does not exist
+msgid "Could not remove child, it is not present:"
+msgstr "No se pudo eliminar niño, no está presente:"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Create Child Record"
+msgstr "Crear registro Niño"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Create Combo"
+msgstr "Crear Combo"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Create Combo List"
+msgstr "Crear lista Combo"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Create Field Tree View"
+msgstr "Crear vista Campo de Árbol"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Create Layout"
+msgstr "Crear disposición"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Create New Child Record"
+msgstr "Crear registro secundario nuevo"
+
+# Use: Frame_Heading : Field_Prompt 
+#  id:    Panel:  
+msgid "Create Record Layout"
+msgstr "Crear disposición Record"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Create Record Layout Wizard"
+msgstr "Asistente para crear Record Layout"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Create Record Tree"
+msgstr "Crear Tree Record"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Create Sorted Tree"
+msgstr "Crear Tree Ordenado"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Record Based Tree
+msgid "Create Tree View based on Record Hierarchy"
+msgstr "Crear vista de árbol basado en la jerarquía Record"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Sorted Field Tree
+msgid "Create Tree View by sorting on selected fields"
+msgstr "Crear vista de árbol de clasificación en campos seleccionados"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_XML Tree (Selected Records)
+msgid "Create XML Tree View from the currently selected records"
+msgstr "Crear vista de árbol XML a partir de los registros seleccionados"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Record Layout Tree (Selected Records)
+msgid ""
+"Create XML Tree View using the definition in Record Layout Definition from "
+"the currently selected records"
+msgstr ""
+"Crear vista de árbol XML utilizando la definición de la definición de "
+"registro de diseño a partir de los registros seleccionados"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Column View (Selected Records)
+msgid "Create a Column view from the selected records"
+msgstr "Crear una vista de columna de los registros seleccionados"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Record View (Selected Records)
+msgid "Create a new Record view from the selected records"
+msgstr "Crear una vista nueva grabación de los registros seleccionados"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Table View (Selected Records)
+msgid "Create a new view from the selected records"
+msgstr "Crear un nuevo punto de vista de los registros seleccionados"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Create views in seperate windows instead of tabs on the file panel"
+msgstr ""
+"Cree vistas en ventanas separadas en lugar de tabuladores en el panel de "
+"archivos"
+
+# Use: External 
+#  id: Line_IO_Names_51   Panel:  
+# 
+# English: Csv Name on 1st line
+msgid "Line_IO_Names_51"
+msgstr "Csv Nombre en la primera línea"
+
+# Use: Combobox_Entry 
+#  id: Line_IO_Names_13   Panel:  
+# 
+# English: Csv Name on 1st line
+msgid "Line_IO_Names_13"
+msgstr "Csv Nombre en la primera línea"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- File SelectionOptions
+msgid "Current View"
+msgstr "Vista actual"
+
+# Use: Action : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 5
+msgid "Cut"
+msgstr "Cortar"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Cut Record(s)
+msgid "Cut selected records to the RecordEditor Clipboard"
+msgstr "Cortar los registros seleccionados al Portapapeles RecordEditor"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_7   Panel:  
+# 
+# English: DB - CSV extract Copybook
+msgid "CopybookLoaderFactory_7"
+msgstr "DB - CSV extracto Copybook"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pane:StandardGetFiles:GetFiles:OpenFileEditPnl 
+msgid "Data Base"
+msgstr "Base de Datos"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Data Format error: {0}"
+msgstr "Data Format error: {0}"
+
+# Use: Message 
+#  id:    Panel:  
+# Error Connecting to the Database, details will follow
+msgid "DataBase Connection error:"
+msgstr "Base de datos de error de conexión:"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Database upgrade failed !!!"
+msgstr "Actualización de la base de datos no!"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_74   Panel:  
+# 
+# English: Date - DDMMYY
+msgid "Tbl_FieldType_74"
+msgstr "Fecha - DDMMAA"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_75   Panel:  
+# 
+# English: Date - DDMMYYYY
+msgid "Tbl_FieldType_75"
+msgstr "Fecha - DDMMAAAA"
+
+# Use: External 
+#  id: Tbl_Format_3   Panel:  
+# 
+# English: Date - DDMMYYYY
+msgid "Tbl_Format_3"
+msgstr "Fecha - DDMMAAAA"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_71   Panel:  
+# 
+# English: Date - Format in Parameter field
+msgid "Tbl_FieldType_71"
+msgstr "Fecha - Formato en el campo Parámetro"
+
+# Use: External 
+#  id: Tbl_Format_2   Panel:  
+# 
+# English: Date - Format in Parameter field
+msgid "Tbl_Format_2"
+msgstr "Fecha - Formato en el campo Parámetro"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_72   Panel:  
+# 
+# English: Date - YYMMDD
+msgid "Tbl_FieldType_72"
+msgstr "Fecha - YYMMDD"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_73   Panel:  
+# 
+# English: Date - YYYYMMDD
+msgid "Tbl_FieldType_73"
+msgstr "Fecha - AAAAMMDD"
+
+# Use: External 
+#  id: Tbl_Format_4   Panel:  
+# 
+# English: Date - YYYYMMDD
+msgid "Tbl_Format_4"
+msgstr "Fecha - AAAAMMDD"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: EditDateTypes:EditPropertiesPnl 
+# Tbl- PropEd_DataTypes 2
+msgid "Date Format"
+msgstr "Formato de fecha"
+
+# Use: Message 
+#  id:    Panel:  
+# Error in the Date format entered by the user; User must use Java date format characters e.g. ddMMyy
+msgid "Date Format Error:"
+msgstr "Date Format Error:"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_11   Panel:  
+# 
+# English: Decimal
+msgid "Tbl_FieldType_11"
+msgstr "Decimal"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- LayoutWizard Field definition 4
+msgid "Decimal"
+msgstr "Decimal"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Update Csv File Format 3
+msgid "Decimal Places"
+msgstr "Decimales"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 5
+msgid "DecimalPos"
+msgstr "DecimalPos"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditDefaults 
+msgid "Default Value"
+msgstr "Valor por omisión"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Default to prefered layout"
+msgstr "Por defecto para diseño preferido"
+
+# Use: Action : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 10
+msgid "Delete"
+msgstr "Borrar"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Delete Record(s)"
+msgstr "Delete Record (s)"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Delete Rows"
+msgstr "Eliminar filas"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Delete Selected Rows using the delete key"
+msgstr "Eliminar filas seleccionadas usando la tecla de borrar"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Delete Selected rows with the delete key"
+msgstr "Eliminar filas seleccionadas con la tecla de borrar"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Delete selected records from the Table below"
+msgstr "Eliminar registros seleccionados de la tabla de abajo"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Delete the Current Record"
+msgstr "Borrar el registro actual"
+
+# Use: External 
+#  id: Tbl_RecordType_2   Panel:  
+# 
+# English: Delimited Fields
+msgid "Tbl_RecordType_2"
+msgstr "Los campos delimitados"
+
+# Use: External 
+#  id: Tbl_RecordType_3   Panel:  
+# 
+# English: Delimited Fields with Quotes
+msgid "Tbl_RecordType_3"
+msgstr "Los campos delimitados con comillas"
+
+# Use: Message : Field_Prompt 
+#  id:    Panel: RcdExtra:Csv 
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "Delimiter"
+msgstr "Delimitador"
+
+# Use: Message : Column_Heading : Field_Prompt : Tab_Heading 
+#  id:    Panel: EditDefaults:StandardGetFiles:RecordList:GetFiles:OpenFileEditPnl:TableListPnl:RecordDef:EditJarsPanel 
+# Field on RecordLayout Create/Edit screen - used in message Tbl- PropEd_Jars 2 Tab: EdProps_MainTab_Description Tbl- DB-RecordFields Columns 3 Tbl- DB-TableList Columns 2 editProps_DefaultColHeadings 1
+msgid "Description"
+msgstr "Descripción"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-Table Columns 1
+msgid "Details"
+msgstr "Detalles"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Directory holding the help files"
+msgstr "Directorio que contiene los archivos de ayuda"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Directory to read / write file copybooks to"
+msgstr "Directorio de leer / escribir archivos para cuadernos"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Directory where proto files are stored"
+msgstr "Directorio donde se almacenan los archivos de proto"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Directory where the Editor Starts in"
+msgstr "Directorio en el que el Editor se inicia en"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Directory where the Editor Starts in (if no file specified)"
+msgstr ""
+"Directorio donde el Editor Inicia sesión (si no hay ningún archivo "
+"especificado)"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Display"
+msgstr "Mostrar"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Undock tab
+msgid "Display Tab in seperate screen"
+msgstr "Ficha Visualización en pantalla independiente"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Undock all Tabs
+msgid "Display all tabs in there own screen"
+msgstr "Mostrar todas las pestañas en sus propias pantalla"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordEditor Delete confirmation message (For Delete key)
+msgid "Do you want to delete the selected {0} lines ?"
+msgstr "¿Desea eliminar los seleccionados {0} líneas?"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Dock Tab/Screen"
+msgstr "Muelle Tab / Pantalla"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Dock Tab/Screen
+msgid "Dock Tab/Screen with the main screen for this document"
+msgstr "Muelle Tab / pantalla con la pantalla principal de este documento"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Dock related screens
+msgid "Dock all screens for this document with the main screen"
+msgstr ""
+"Conecta todas las pantallas de este documento con la pantalla principal"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Dock related screens"
+msgstr "Acople pantallas relacionadas"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_18   Panel:  
+# 
+# English: Double
+msgid "Tbl_FieldType_18"
+msgstr "Doble"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Dull colors"
+msgstr "Colores apagados"
+
+# Use: Menu : Button 
+#  id:    Panel:  
+msgid "Edit"
+msgstr "Editar"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Edit Child"
+msgstr "Editar Niño"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Edit Combo Contents"
+msgstr "Editar contenido Combo"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Edit Combo Lists"
+msgstr "Editar listas Combo"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Edit Layout"
+msgstr "Editar diseño"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_117   Panel:  
+# 
+# English: Edit Multi Line field
+msgid "Tbl_FieldType_117"
+msgstr "Editar campo de múltiples líneas"
+
+# Use: Message : Action 
+#  id:    Panel:  
+msgid "Edit Options"
+msgstr "Editar opciones"
+
+# Use: Frame_Heading : Field_Prompt 
+#  id:    Panel:  
+msgid "Edit Record Layout"
+msgstr "Editar el diseño del Registro"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Edit Record Layout - DB"
+msgstr "Editar diseño Record - DB"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Edit Record Selections"
+msgstr "Editar selecciones de registros"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Edit System Table"
+msgstr "Editar tabla de sistema"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Edit Tables"
+msgstr "Editar tablas"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Editing canceled"
+msgstr "Edición cancelado"
+
+# Use: Error 
+#  id:    Panel:  
+# Avro Schema
+msgid "Empty Data File, can not read the schema"
+msgstr "Archivo de datos vacía, no puede leer el esquema"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Empty View can not add Child Record"
+msgstr "Ver vacía no se puede agregar Record Niño"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Enum type \\\"{0}\\\" has no value named \\\"{1}\\\"."
+msgstr "Enum tipo \\ \"{0} \\\" no tiene ningún valor con nombre \\ \"{1} \\\"."
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Enum type \\\"{0}\\\" has no value with number {1}."
+msgstr "Enum tipo \\ \"{0} \\\" no tiene ningún valor con el número de {1}."
+
+# Use: Message 
+#  id:    Panel:  
+# Velocity Template file does not exist; file name will follow
+msgid "Error - cannot find template:"
+msgstr "Error - No se puede encontrar la plantilla:"
+
+# Use: Message 
+#  id:    Panel:  
+# Change Layout screen generic error message; exception message added on
+msgid "Error Changing Layout:"
+msgstr "Error Cambio de Diseño:"
+
+# Use: Message 
+#  id:    Panel:  
+# Export Screen - Error closing the output (export) file. Exception message added
+msgid "Error Closing File:"
+msgstr "Error al cerrar el archivo:"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffer Editor - Generic error message when compiling / loading a proto definition Protocol Buffer Editor - message from proto "Compile"
+msgid "Error Compiling proto file:"
+msgstr "Error Compilar archivo proto:"
+
+# Use: Message 
+#  id:    Panel:  
+# Connection Failed  - DB details will follow; from EditParameters - Test Connection screen
+msgid "Error Connecting to the Database:"
+msgstr "Error al conectar con la base de datos:"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error Converting Copybook:"
+msgstr "Error al convertir Copybook:"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Error Converting Hex; Byte-Number={0}  value={1}  Message: {2}"
+msgstr "Error al convertir Hex; Byte Número = {0} valor = {1} Mensaje: {2}"
+
+# Use: Message 
+#  id:    Panel:  
+# Error message when the user enters an invalid hex value in the RecordEditor
+msgid "Error Converting Hex; {0} value={1} Message:"
+msgstr "Error al convertir Hex; {0} valor = {1} Mensaje:"
+
+# Use: Message 
+#  id:    Panel:  
+# New File screen - generic error message, exception message will be added to it
+msgid "Error Creating File:"
+msgstr "Error al crear el archivo:"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error Defining Type > {0} class={1} {2}"
+msgstr "Error Definición de Tipo> {0} class = {1} {2}"
+
+# Use: Message 
+#  id:    Panel:  
+# Printing
+msgid "Error Executing action:"
+msgstr "Error al ejecutar la acción:"
+
+# Use: Message 
+#  id:    Panel:  
+# Unknown-Format file reader - Generic error creating RecordLayout; Exception details will follow
+msgid "Error Generating Layout"
+msgstr "Error de diseño Generación"
+
+# Use: Message 
+#  id:    Panel:  
+# File Copy Utility
+msgid "Error Line {0} Field Number {1} - {2} : {3}"
+msgstr "Error de la línea {0} Campo Number {1} - {2}: {3}"
+
+# Use: Message 
+#  id:    Panel:  
+# Error reading an array of integer properties from a property file
+msgid "Error Loading Array, Index:"
+msgstr "Error al cargar el Array, índice:"
+
+# Use: Message 
+#  id:    Panel:  
+# Reporting IO error when reading a file in (for editting).  Csv Editor - Error loading a file for editing, exception message appended to the message
+msgid "Error Loading File:"
+msgstr "Error al cargar el archivo:"
+
+# Use: Message 
+#  id:    Panel:  
+# Many screens
+msgid "Error Loading Layout:"
+msgstr "Error de diseño de carga:"
+
+# Use: Message 
+#  id:    Panel:  
+# Error loading an Aray of properties from a property file (Used to read Database properties amongst other things)
+msgid "Error Loading Property:"
+msgstr "Error Propiedad de carga:"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffers Editor - has a summary file of all proto definition which is used to work out which proto definition should be used with a file
+msgid "Error Loading Proto Summary file:"
+msgstr "Error al cargar el Proto Resumen del archivo:"
+
+# Use: Message 
+#  id:    Panel:  
+# Many screens
+msgid "Error Loading Record Layout"
+msgstr "Error al cargar el Record Layout"
+
+# Use: Message 
+#  id:    Panel:  
+# No fields defined for a record (applies to recordeditor protobuf and avro editors)
+msgid "Error No Fields defined in the layout !!!"
+msgstr "Error No hay campos definidos en el diseño!"
+
+# Use: Message 
+#  id:    Panel:  
+# Error opening an Xml output file; error message will follow
+msgid "Error Opening XML file:"
+msgstr "Error al abrir el archivo XML:"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffers Editor - has a file holding all the directories with proto file in them; generic error reading & processing this file
+msgid "Error Processing Proto Directory file"
+msgstr "Error de procesamiento Proto Directorio de archivos"
+
+# Use: Message 
+#  id:    Panel:  
+# Big Files - Error occured in reading or uncompressing data on the Spill files
+msgid "Error Reading & unpacking spill file:"
+msgstr "Error al leer el archivo y descomprimir derrame:"
+
+# Use: Message 
+#  id:    Panel:  
+# Generic message used when there is an IO error on the unknown format screen
+msgid "Error Reading File:"
+msgstr "Error al leer el archivo:"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error Reading the File:"
+msgstr "Error al leer el archivo:"
+
+# Use: Message 
+#  id:    Panel:  
+# Heading
+msgid "Error Records"
+msgstr "Registros de error"
+
+# Use: Message 
+#  id:    Panel:  
+# New File screen - can not find the specified Record Layout
+msgid "Error Retrieving Layout"
+msgstr "Error al recuperar Layout"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffers Editor - Error retrieving proto definition (Protocol buffers Equivalent of a RecordLayout [schema])
+msgid "Error Retrieving proto definition:"
+msgstr "Error al recuperar proto definición:"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error Running Compare"
+msgstr "Error al ejecutar Compare"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error Running Copy"
+msgstr "Error al ejecutar Copy"
+
+# Use: Message 
+#  id:    Panel:  
+# For very big files, the RecordEditor uses a spill file to store parts of the file not being used. This indicates an error occured writing to the spill file
+msgid "Error Saving to Spill file"
+msgstr "Error al guardar to Spill archivo"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffers Editor - Error creating a message, details follow
+msgid "Error Setting up Messages:"
+msgstr "Error Configuración de Mensajes:"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error Table:"
+msgstr "Error de tabla:"
+
+# Use: Message 
+#  id:    Panel:  
+# File Open - RecordEditor loaded the data file for editting but could not update the RecentHistory file. The RecentHistory file holds recently editted files and File ~ record-layout mapping info
+msgid "Error Updating Recent-History file"
+msgstr "Error al actualizar reciente-Archivo histórico"
+
+# Use: Message 
+#  id:    Panel:  
+# Export (Csv / Fixed) error writing column headings, exception message will be appended
+msgid "Error Writing Column Headings:"
+msgstr "Escritores de error encabezados de columna:"
+
+# Use: Message 
+#  id:    Panel:  
+# Error writing an Xml file; error message will follow
+msgid "Error Writing XML:"
+msgstr "Error de escritura XML:"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error generating HTML"
+msgstr "Error generación de HTML"
+
+# Use: Message 
+#  id:    Panel:  
+# File Copy Utility - Param 1 = field name, Param 2 = Error Message, Param 3 = field value
+msgid "Error in Field {0} {1} : {2}"
+msgstr "Error en el campo {0} {1}: {2}"
+
+# Use: Message 
+#  id:    Panel:  
+# Generic error message when reading (loading) Xml layouts into the DB
+msgid "Error in the layout that was loaded"
+msgstr "Error en el diseño que se cargó"
+
+# Use: Message 
+#  id:    Panel:  
+# Generic Csv Reader ?? - Generic Read Error
+msgid "Error loading CSV Preview:"
+msgstr "Error al cargar CSV Preview:"
+
+# Use: Message 
+#  id:    Panel:  
+# Initialisation - Error loading a user defined function
+msgid "Error loading Function"
+msgstr "Error de función de carga"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordEditor allow user jars to be added (which may include initialisation); relates to user written initialisation
+msgid "Error running user Initialize:"
+msgstr "Error ejecutando usuario Inicializar:"
+
+# Use: Error 
+#  id:    Panel:  
+# Error when trying to update a field with a hex value
+msgid "Error saving Hex value: {0}"
+msgstr "Error al guardar el valor hexadecimal: {0}"
+
+# Use: Message 
+#  id:    Panel:  
+# Export Layout as Xml, Export multiple layouts as Xml generic error message, exception message follows
+msgid "Error saving layout:"
+msgstr "Error diseño ahorro de energía:"
+
+# Use: Message 
+#  id:    Panel:  
+# Big file (Internal consistency error) - For very big files, The Editor uses compression to reduce memory usage; when it uncompresses a chunk, it checks the uncompressed data is the same size as it was before compression
+msgid "Error uncompressing chunk expected {0} but was {1}"
+msgstr "Pedazo Error descomprimiendo esperado {0} pero era {1}"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error updating Message in parent (missing required fields ???):"
+msgstr ""
+"Error al actualizar el mensaje de los padres (faltan campos obligatorios?):"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Error:"
+msgstr "Error:"
+
+# Use: Message 
+#  id:    Panel:  
+# Cobol Copybook analysis
+msgid "Error: cobol copybook file is a directory"
+msgstr "Error: cobol archivo copybook es un directorio"
+
+# Use: Message 
+#  id:    Panel:  
+# The execution of a saved file (Filter, Sort-Tree etc) has failed, exception details will follow
+msgid "Execute Error"
+msgstr "Ejecutar Error"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Execute Record Tree"
+msgstr "Ejecutar Tree Record"
+
+# Use: Action : Frame_Heading 
+#  id:    Panel:  
+msgid "Execute Saved Filter"
+msgstr "Ejecutar filtro guardado"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Execute Saved Sort Tree"
+msgstr "Ejecutar Ordenar Guardado Tree"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Expand Tree"
+msgstr "Expandir árbol"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- PropsEd_JDBC 8
+msgid "Expand variables (Y/N)"
+msgstr "Expandir variables (Y / N)"
+
+# Use: External 
+#  id: Line_IO_Names_31   Panel:  
+# 
+# English: Experimental Microfocus Header File
+msgid "Line_IO_Names_31"
+msgstr "Experimental Microfocus archivo de encabezado"
+
+# Use: Combobox_Entry 
+#  id: Line_IO_Names_10   Panel:  
+# 
+# English: Experimental Microfocus Header File
+msgid "Line_IO_Names_10"
+msgstr "Experimental Microfocus archivo de encabezado"
+
+# Use: Action : Frame_Heading 
+#  id:    Panel:  
+msgid "Export"
+msgstr "Exportar"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Export Script directory"
+msgstr "Exportar directorio de secuencias de comandos"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Export Tree"
+msgstr "Exportar Tree"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Export as CSV file"
+msgstr "Exportar como archivo CSV"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Export as Fixed Length file"
+msgstr "Exportar como archivo de longitud fija"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Export as HTML (tree)"
+msgstr "Exportar como HTML (árbol)"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Export as HTML 1 tbl per Row"
+msgstr "Exportar como HTML 1 TBL por Fila"
+
+# Use: Message 
+#  id: ExportXmlDesc   Panel:  
+# 
+# English: Export data as an XML file
+msgid "ExportXmlDesc"
+msgstr "Exportar datos como un archivo XML"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Export
+msgid "Export in another format"
+msgstr "Exportaciones en otro formato"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Export using Velocity"
+msgstr "Exportar con Velocity"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Export via Script"
+msgstr "Exportar a través de secuencias de comandos"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Export via Velociy Skelton"
+msgstr "Exportar a través de Velociy Skelton"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Export via Xsl Transform"
+msgstr "Exportar a través de transformación XSL"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EdProps_MainTab_Extensions
+msgid "Extensions"
+msgstr "Extensiones"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: Record_Layout_Edit
+msgid "Extras"
+msgstr "Extras"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Field Based Tree"
+msgstr "Campo Based Tree"
+
+# Use: Field_Prompt 
+#  id:    Panel: CopyWizardFinalPnl 
+msgid "Field Error File"
+msgstr "Campo de archivo Error"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 10
+msgid "Field Id"
+msgstr "Campo ID"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl3RecordType 
+msgid "Field Length"
+msgstr "Campo Largo"
+
+# Use: Message 
+#  id:    Panel:  
+# CSV Files, Field names can only be on a positive line number, user has entered 0 or a negaitive number
+msgid "Field Line Number should be one or more and not"
+msgstr "Número de campo de la línea debe ser uno o más y no"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Export_Field_Selection 0 Tbl- Update Csv File Format 0 Tbl- LayoutWizard Field definition 0 Tbl- LayoutEdit_RecSel 3 Tbl- LayoutWizard Record Selection Fields 0
+msgid "Field Name"
+msgstr "Nombre del campo"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Field Selection: {0}"
+msgstr "Selección de campo: {0}"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl:CsvSelectionPanel 
+msgid "Field Seperator"
+msgstr "Campo Seperator"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl3RecordType 
+msgid "Field Start"
+msgstr "Campo Start"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-ChildRecords columns 3 Tbl- DB-RecordSelection Columns 4
+msgid "Field Value"
+msgstr "Campo Valor"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Field Visibility"
+msgstr "Campo de visibilidad"
+
+# Use: Error 
+#  id:    Panel:  
+# Supplied field-value is to big to fit in the field (numeric integer fields)
+msgid "Field is to big"
+msgstr "De campo es demasiado grande"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Field: {0} must be entered"
+msgstr "Campo: {0} debe ser introducido"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 4
+msgid "FieldType"
+msgstr "FieldType"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: LayoutEdit
+msgid "Fields"
+msgstr "Campos"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Fields used Save Directory"
+msgstr "Campos utilizados Guardar Directorio"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "File Copy Menu"
+msgstr "Archivo menú Copiar"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: Pnl1File 
+# Tbl- ProtoSearch - Matching Proto definition files 1
+msgid "File Name"
+msgstr "Nombre de archivo"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Properties
+msgid "File Options"
+msgstr "Opciones de archivo"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "File Size to Memory Percent to Start using the Big-File-Model"
+msgstr ""
+"Tamaño del fichero a porcentaje de memoria para comenzar a usar el Big-"
+"archivo-modelo"
+
+# Use: Combobox_Entry 
+#  id: Line_IO_Names_12   Panel:  
+# 
+# English: File Wizard
+msgid "Line_IO_Names_12"
+msgstr "Asistente para archivo"
+
+# Use: External 
+#  id: Line_IO_Names_22   Panel:  
+# 
+# English: File Wizard, Generate layout at run time
+msgid "Line_IO_Names_22"
+msgstr "Asistente de Archivo, Generar diseño en tiempo de ejecución"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "File was not a Record Tree definition"
+msgstr "El archivo no era una definición Tree Record"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "File was not a sort / Sort tree definition"
+msgstr "El archivo no era una definición árbol de especie / Ordenar"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "File: {0} does not exist"
+msgstr "Archivo: {0} no existe"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "File: {0} is a directory, it should be a protocol buffers file"
+msgstr ""
+"Archivo: {0} no es un directorio, debería ser un protocolo de archivos de "
+"memoria intermedia"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Filter Options"
+msgstr "Opciones de filtro"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Filter Save Directory"
+msgstr "Filtrar Guardar Directorio"
+
+# Use: Message 
+#  id:    Panel:  
+msgid ""
+"Filter limit of {0} exceeded; only the first {0} lines in the filtered view"
+msgstr ""
+"Filtrar límite de {0} excedió; sólo los primeros {0} líneas en la vista "
+"filtrada"
+
+# Use: Message 
+#  id:    Panel:  
+# Find / search screen Error message, specific details will be appended
+msgid "Find error:"
+msgstr "Encontrar errores:"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "First"
+msgstr "Primero"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# ExportTab 2
+msgid "Fixed"
+msgstr "Fijo"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_2   Panel:  
+# 
+# English: Fixed Length Binary
+msgid "Line_IO_Names_2"
+msgstr "Binaria de longitud fija"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_17   Panel:  
+# 
+# English: Float
+msgid "Tbl_FieldType_17"
+msgstr "Flotar"
+
+# Use: Field_Prompt 
+#  id:    Panel: CsvSelectionPanel 
+msgid "Font"
+msgstr "Fuente"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl1File:PnlUnknownFileFormat:Pnl2FileFormat:GetFiles:RcdExtra 
+msgid "Font Name"
+msgstr "Nombre de la fuente"
+
+# Use: Message 
+#  id:    Panel:  
+# Find screen - find message: I use it for testing
+msgid "Found (line, field Num, field position)="
+msgstr "Encontrado (línea, Num campo, posición en el campo) ="
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_2   Panel:  
+# 
+# English: Fujitsu
+msgid "BinFormat/Dialect_2"
+msgstr "Fujitsu"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_41   Panel:  
+# 
+# English: Fujitsu Zoned Numeric
+msgid "Tbl_FieldType_41"
+msgstr "Fujitsu Zoned numérico"
+
+# Use: Column_Heading : Combobox_Entry 
+#  id:    Panel:  
+# Record_ColumnHeadings 1 Combo- layout
+msgid "Full Line"
+msgstr "Línea completa"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- SortSum Field Function 1
+msgid "Function"
+msgstr "Función"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Fuzzy/Blank"
+msgstr "Fuzzy / blanco"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Generate Field Names"
+msgstr "Generar nombres de campo"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Generate Record Names"
+msgstr "Generar nombres de registro"
+
+# Use: External 
+#  id: Line_IO_Names_52   Panel:  
+# 
+# English: Generic CSV (Choose details at run time)
+msgid "Line_IO_Names_52"
+msgstr "Genérico CSV (Elegir detalles en tiempo de ejecución)"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "GetText"
+msgstr "GetText"
+
+# Use: External 
+#  id: Line_IO_Names_101   Panel:  
+# 
+# English: GetText PO/POT
+msgid "Line_IO_Names_101"
+msgstr "GetText PO / POT"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Go"
+msgstr "Ir"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Goto"
+msgstr "Goto"
+
+# Use: Action : Frame_Heading 
+#  id:    Panel:  
+msgid "Goto Line"
+msgstr "Ir a la línea"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Goto Next Record"
+msgstr "Goto Registro siguiente"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Goto Previous Record"
+msgstr "Ir a página Anterior Record"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: Filter
+msgid "Group Filter"
+msgstr "Filtro de grupo"
+
+# Use: Field_Prompt 
+#  id:    Panel: Filter 
+msgid "Group Starts with"
+msgstr "Grupo Empieza con"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Filter Selecton Field Values 4
+msgid "Group by function"
+msgstr "Grupo por la función"
+
+# Use: External 
+#  id: Tbl_RecordType_10   Panel:  
+# 
+# English: Group of Binary Records
+msgid "Tbl_RecordType_10"
+msgstr "Grupo de los registros binarios"
+
+# Use: External 
+#  id: Tbl_RecordType_9   Panel:  
+# 
+# English: Group of Records
+msgid "Tbl_RecordType_9"
+msgstr "Grupo de Registros"
+
+# Use: Field_Prompt 
+#  id:    Panel: CmpWizardFinal 
+msgid "HTML options:"
+msgstr "HTML opciones:"
+
+# Use: Action : Menu : Button : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 11
+msgid "Help"
+msgstr "Ayudar"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Single_Record 5 Tbl- Single_Record 6
+msgid "Hex"
+msgstr "Maleficio"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Record_ColumnHeadings 5
+msgid "Hex (Alternative)"
+msgstr "Hex (Alternativa)"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- layout
+msgid "Hex 1 Line"
+msgstr "Hex 1 Línea"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- layout
+msgid "Hex 2 Lines (Alternative)"
+msgstr "Hex 2 Líneas (Alternativa)"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- layout
+msgid "Hex 2 Lines (Mainframe Style)"
+msgstr "Hex 2 líneas (Estilo Mainframe)"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- layout
+msgid "Hex 3 Lines (ISPF Edit Hex)"
+msgstr "Hexagonal de 3 líneas (Hex ISPF Edit)"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_4   Panel:  
+# 
+# English: Hex Field
+msgid "Tbl_FieldType_4"
+msgstr "Campo Hex"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Hide Column"
+msgstr "Ocultar columna"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Highlight Missing Fields"
+msgstr "Resalte los campos que faltan"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Highlight missing translations"
+msgstr "Resalte las traducciones que faltan"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid ""
+"Highlight text for which there is no translation by adding a # to the start "
+"of the text"
+msgstr ""
+"Selecciona el texto para los que no existe la traducción mediante la adición "
+"de un # al inicio del texto"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "HowTo Documentations"
+msgstr "Documentaciones HowTo"
+
+# Use: Field_Prompt 
+#  id:    Panel: CmpWizardFinal 
+msgid "Html File"
+msgstr "Html Archivo"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditIcons 
+msgid "Icon Set"
+msgstr "Icon Set"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "Icons"
+msgstr "Iconos"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: Find 
+# Tbl- Filter Selecton Field Values 3
+msgid "Ignore Case"
+msgstr "Ignore Case"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Imbed Directory"
+msgstr "Directorio Colocar la"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Filter Record Selection 1
+msgid "In Group"
+msgstr "En el Grupo"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Export_Field_Selection 1 Tbl- Filter Record Selection 1 Tbl- Filter Field Selection 1 Tbl- LayoutWizard RecordNames 2 Tbl- Update Csv File Format 1 Tbl- LayoutWizard Field definition 5 Tbl- Filter Record Selection 2
+msgid "Include"
+msgstr "Incluir"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Include Comments"
+msgstr "Incluir comentarios"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Include Type Name on Record Screen"
+msgstr "Incluir nombre de tipo en la pantalla de grabación"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Include the type name on the record screen"
+msgstr "Incluya el nombre del tipo en la pantalla de registro"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- ArrayRender 0
+msgid "Index"
+msgstr "Índice"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Input File"
+msgstr "Archivo de entrada"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Insert Record Prior"
+msgstr "Insertar registro anterior"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Insert Record(s)"
+msgstr "Insertar registro (s)"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_0   Panel:  
+# 
+# English: Intel
+msgid "BinFormat/Dialect_0"
+msgstr "Intel"
+
+# Use: Message 
+#  id:    Panel:  
+# Error creating RecordLayout from Xml (stored in the Program). These Definitions are used when Editting exported files + other functions
+msgid "Internal Error Creating Layout:"
+msgstr "Error interno creación de diseño:"
+
+# Use: Error 
+#  id:    Panel:  
+msgid ""
+"Internal Error in RecordStoreBase can not copy data, so dropping lines ?"
+msgstr ""
+"Error interno en RecordStoreBase no puede copiar los datos, por lo que dejar "
+"líneas?"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Internal error, should not get here"
+msgstr "Error interno, no debe llegar hasta aquí"
+
+# Use: Error 
+#  id:    Panel:  
+# invalid bit or binary number *not all 0's or ones)
+msgid "Invalid Bit String: {0}"
+msgstr "Bit String no válido: {0}"
+
+# Use: Message 
+#  id:    Panel:  
+# Invalid Boolean value (should be true / false)
+msgid "Invalid Boolean"
+msgstr "Invalid Boolean"
+
+# Use: Message 
+#  id:    Panel:  
+# The RecordEditor can connect to multiple Databases, These database connections are stored in an array hence the array index; not relavent to most users as they only have the one DB
+msgid "Invalid Database Index"
+msgstr "Base de datos Índice no válido"
+
+# Use: Message 
+#  id:    Panel:  
+# Csv Files, user has entered an invalid hex string (for the field delimitier) RecordLayout Create/Edit screens - an invalid hex value entered as a Csv Field Delimitier
+msgid "Invalid Delimiter - Invalid  hex string:"
+msgstr "Delimitador no válido - cadena hexadecimal no válido:"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Invalid Delimiter - Invalid  hex string: {0}"
+msgstr "Delimitador no válido - cadena hexadecimal no válido: {0}"
+
+# Use: Message 
+#  id:    Panel:  
+# Only single character field delimitier are supported, user has enterted multiple characters
+msgid "Invalid Delimiter, should be a single character"
+msgstr "Delimitador no válido, debe ser un único carácter"
+
+# Use: Message : Error 
+#  id:    Panel:  
+# invalid CSV field delimitier invalid CSV field delimitier Csv Files, no delimiter specified Invalid Csv Field delimitier, The recordEditor only accepts single character field delimitier (which can be entered as a Character or a Hex value i.e x'01')
+msgid "Invalid Delimiter, should be a single character or a hex character"
+msgstr ""
+"Delimitador no válido, debe ser un único carácter o un carácter hexadecimal"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordLayout Create/Edit Generic error, field / error details follow
+msgid "Invalid Field"
+msgstr "Campo inválido"
+
+# Use: Message 
+#  id:    Panel:  
+# CSV Files, invalid (i.e. non numeric) line number entered for Column heading line numbers
+msgid "Invalid Field Line Number:"
+msgstr "Campo no válido Número de línea:"
+
+# Use: Message 
+#  id:    Panel:  
+# Generic Csv Reader ?? - Invalid font specified
+msgid "Invalid Font Specified on CSV Preview screen"
+msgstr "Fuente especificado no es válido en la pantalla Vista previa CSV"
+
+# Use: Message 
+#  id:    Panel:  
+# Header for
+msgid "Invalid Hex"
+msgstr "Hex no válido"
+
+# Use: Message 
+#  id:    Panel:  
+# Csv file - Invalid field seperator specified (in hex format)
+msgid "Invalid Hex Seperator"
+msgstr "Invalid Seperator Hex"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Invalid Index Supplied {0} Should be between {1} and {2}"
+msgstr "Invalid índice proporcionado {0} debe estar entre {1} y {2}"
+
+# Use: Message 
+#  id:    Panel:  
+# Check user has entered a valid integer
+msgid "Invalid Integer"
+msgstr "Invalid Integer"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Invalid Number: {0}"
+msgstr "Número no válido: {0}"
+
+# Use: Error 
+#  id:    Panel:  
+msgid ""
+"Invalid field position for Record: {0} {1}, it should be greater than zero "
+"and not {2}"
+msgstr ""
+"Posición en el campo no válido para el registro: {0} {1}, debe ser mayor que "
+"cero y {2}"
+
+# Use: Message 
+#  id:    Panel:  
+# Goto line number screen - invalid integer entered (conversion exception)
+msgid "Invalid line number"
+msgstr "Número de línea no válido"
+
+# Use: Message 
+#  id:    Panel:  
+# New CSV file screen, the column name line number is invalid (< 1 or non numeric)
+msgid "Invalid number in {0}, msg="
+msgstr "Número no válido en {0} =, MSG"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Invalid type of Copy --> {0}"
+msgstr "Invalid tipo de copia -> {0}"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_JDBC
+msgid "JDBC Jars"
+msgstr "Tarros JDBC"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EdProps_MainTab_JDBC Parameters
+msgid "JDBC Parameters"
+msgstr "Parámetros de JDBC"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_JDBC
+msgid "JDBC Properties"
+msgstr "Propiedades de JDBC"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: EditJarsPanel 
+# Tbl- PropEd_Jars 1
+msgid "Jar"
+msgstr "Tarro"
+
+# Use: Field_Prompt 
+#  id:    Panel: LooksPanel 
+msgid "Jar File"
+msgstr "JAR"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditJarsPanel 
+msgid "Jar Type"
+msgstr "Jar Tipo"
+
+# Use: Field_Prompt : Tab_Heading 
+#  id:    Panel: SaveAsPnlXslt 
+# Tab: EdProps_MainTab_Jars
+msgid "Jars"
+msgstr "Tarros"
+
+# Use: Message 
+#  id:    Panel:  
+# Call to jibx (jibx reads/writes Xml) failed with class not found - possibly the jibx jar is missing
+msgid "Jibx Call Failed: Class not loaded"
+msgstr "JiBX Call Error: Clase no cargado"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid ""
+"Keep a record of all Text Fields going through the Language section. This "
+"can be used to generate the language conversion file (GetText PO)"
+msgstr ""
+"Lleve un registro de todos los campos de texto que van a través de la "
+"sección Idioma. Esto puede ser usado para generar el archivo de conversión "
+"de idioma (GetText PO)"
+
+# Use: Field_Prompt 
+#  id:    Panel: ProtoSearchPnl 
+msgid "Keep open"
+msgstr "Mantenga abiertas"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Keep screen open"
+msgstr "Mantenga limpio el filtro abierto"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- MapRender 0
+msgid "Key"
+msgstr "Clave"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Combo Options 1
+msgid "Key / Value Combo"
+msgstr "Clave / Valor Combo"
+
+# Use: Unknown 
+#  id:    Panel:  
+msgid "Key Value"
+msgstr "Clave Valor"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditLanguage 
+msgid "Language Directory"
+msgstr "Idioma Directorio"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Layout Does not exist"
+msgstr "Layout No existe"
+
+# Use: Message 
+#  id:    Panel:  
+# CsvEditor - Error creating Fixed-Width Record layout
+msgid "Layout Generation Failed:"
+msgstr "Generación Distribución Error:"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl7SaveDbLayout:Pnl5SaveFileLayout 
+msgid "Layout Name"
+msgstr "Layout Name"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Layout Record Does not exist !!!"
+msgstr "Record Layout No existe!"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Layout Velocity Export Directory"
+msgstr "La velocidad de diseño Export Directory"
+
+# Use: Action : Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Properties
+msgid "Layout Wizard"
+msgstr "Asistente de diseño"
+
+# Use: Field_Prompt 
+#  id:    Panel: LineFrameTree:LineFrame:LineTreeChild:LinesAsColumns:LineList:LineTree 
+msgid "Layouts"
+msgstr "Presentaciones"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Single_Record 2
+msgid "Len"
+msgstr "Len"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Line"
+msgstr "Línea"
+
+# Use: Message 
+#  id:    Panel:  
+# Tree View no line associated with tree item (probably repeated child in protobuf / avro editor)
+msgid "Line Can not be Viewed !!!!"
+msgstr "La línea no se puede ver!!"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordEditor Delete confirmation message header
+msgid "Line Delete confirmation"
+msgstr "Line Eliminar confirmación"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Line No"
+msgstr "° de línea"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Line Number"
+msgstr "Número de línea"
+
+# Use: Field_Prompt 
+#  id:    Panel: CsvSelectionPanel 
+msgid "Line Number of Names"
+msgstr "Número de línea de los Nombres"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_3   Panel:  
+# 
+# English: Line based Binary
+msgid "Line_IO_Names_3"
+msgstr "Binaria basada en Línea"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Line not found: {0}"
+msgstr "Line no encontrado: {0}"
+
+# Use: Field_Prompt 
+#  id:    Panel: ComboPnl:TableListPnl:RecordDef 
+msgid "Lines to Insert"
+msgstr "Líneas para insertar"
+
+# Use: Action : Field_Prompt 
+#  id:    Panel:  
+msgid "Load Cobol Copybook"
+msgstr "Cargar Cobol Copybook"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Load Cobol Record Layout - DB"
+msgstr "Carga de Diseño Cobol Record - DB"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Load Copybook"
+msgstr "Cargar Copybook"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Load Copybooks from Cobol Directory"
+msgstr "Cargar cuadernos de Directorio Cobol"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Load Copybooks from Xml"
+msgstr "Cuadernos de carga de XML"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Load File Description from Xml"
+msgstr "Cargar Fichero Descripción de Xml"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Load File in Background thread"
+msgstr "Carga de archivos en hilo de fondo"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Load Record Layout using selectedLoader"
+msgstr "Carga diseño de registro utilizando selectedLoader"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Load Saved Field Sequences"
+msgstr "Cargar guardadas Secuencias de campo"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Execute Sort Tree
+msgid "Load and Execute a saved Sort Tree"
+msgstr "Cargar y ejecutar un árbol Ordenar guardado"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Execute Saved Filter
+msgid "Load and Execute a saved filter"
+msgstr "Cargar y ejecutar un filtro guardado"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Load copybook (choose format)"
+msgstr "Cuaderno de carga (elegir formato)"
+
+# Use: Message 
+#  id:    Panel:  
+# (Xml layout, Xml file name appended)
+msgid "Loading"
+msgstr "Carga"
+
+# Use: Message 
+#  id:    Panel:  
+# Log message when loading all cobol copybooks in a directory into the DB. Directory information follows
+msgid "Loading:"
+msgstr "Loading:"
+
+# Use: Field_Prompt : Tab_Heading 
+#  id:    Panel: LooksPanel 
+# Tab: EditOpts_User
+msgid "Look and Feel"
+msgstr "Look and Feel"
+
+# Use: Field_Prompt 
+#  id:    Panel: LooksPanel 
+msgid "Look and Feel Class Name"
+msgstr "Aspecto Nombre de clase"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Look for Little Endian Binary"
+msgstr "Busque Binary Little Endian"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditIcons 
+msgid "Look for png icons"
+msgstr "Buscar iconos png"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Main Record"
+msgstr "Registro Principal"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_1   Panel:  
+# 
+# English: Mainframe
+msgid "BinFormat/Dialect_1"
+msgstr "Ordenador central"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_31   Panel:  
+# 
+# English: Mainframe Packed Decimal (comp-3)
+msgid "Tbl_FieldType_31"
+msgstr "Mainframe Decimal empaquetado (comp-3)"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_5   Panel:  
+# 
+# English: Mainframe VB Dump: includes Block length
+msgid "Line_IO_Names_5"
+msgstr "Mainframe Dump VB: incluye Longitud del bloque"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_32   Panel:  
+# 
+# English: Mainframe Zoned Numeric
+msgid "Tbl_FieldType_32"
+msgstr "Mainframe Zoned numérico"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Map Key"
+msgstr "Mapa de claves"
+
+# Use: Field_Prompt 
+#  id:    Panel: CopyWizardFinalPnl 
+msgid "Max Error Limit"
+msgstr "Límite máximo de error"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Sum Operators 3
+msgid "Maximum"
+msgstr "Máximo"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Menu"
+msgstr "Menú"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- ProtoSearch - Matching Proto definition files 2
+msgid "Message Name"
+msgstr "Nombre Mensaje"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffer Editor - message from proto "Compile"
+msgid "Messages Compiling proto file"
+msgstr "Mensajes Compilar archivo proto"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Sum Operators 2
+msgid "Minimum"
+msgstr "Mínimo"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Move ..."
+msgstr "Mover ..."
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: Pnl3RecordType 
+# Tbl- PropEd_Jars 0
+msgid "Name"
+msgstr "Nombre"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Names on 1st Line"
+msgstr "Los nombres en primera línea"
+
+# Use: Field_Prompt 
+#  id:    Panel: CsvSelectionPanel 
+msgid "Names on Line"
+msgstr "Los nombres en Línea"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "New"
+msgstr "Nuevo"
+
+# Use: Message 
+#  id:    Panel:  
+# Input dialogue, requesting new Combo Name from user (after user does a save-as)
+msgid "New Combo Name"
+msgstr "Nombre Combo Nuevo"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "New Csv File"
+msgstr "Nueva csv"
+
+# Use: Action : Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "New File"
+msgstr "Nuevo archivo"
+
+# Use: Field_Prompt 
+#  id:    Panel: StandardGetFiles 
+msgid "New File Name"
+msgstr "Nuevo nombre del archivo"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "New Layout"
+msgstr "Nueva presentación"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 8
+msgid "New Record"
+msgstr "Nuevo registro"
+
+# Use: Message 
+#  id:    Panel:  
+# Generic error when creating a record layout (or schema)
+msgid "New Record Creation Failed!!"
+msgstr "Creación Nuevo registro Error!"
+
+# Use: Message 
+#  id:    Panel:  
+# Input dialog, requesting new Record-Layout-Name, called when user issues a SaveAs (multiple screens)
+msgid "New Record Layout Name"
+msgstr "Nuevo Registro Nombre de presentación"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+# RecordBtns 2
+msgid "Next Record"
+msgstr "Registro siguiente"
+
+# Use: Error 
+#  id:    Panel:  
+# No destination when inserting lines
+msgid "No Destination line"
+msgstr "Ninguna línea Destino"
+
+# Use: Message 
+#  id:    Panel:  
+# User requests to see Error Records but there are no errors (Proto Buf Editor)
+msgid "No Error Records, nothing to display"
+msgstr "No hay registros de errores, nada que mostrar"
+
+# Use: External 
+#  id: Tbl_Format_0   Panel:  
+# 
+# English: No Format
+msgid "Tbl_Format_0"
+msgstr "No Formato"
+
+# Use: Message 
+#  id:    Panel:  
+# Occurs when user selects Export-Record-Layout as Xml in the RecordLayout-Editor and there is no valid Record-Layout to export. It could indicate nothing there or there is an error in the RecordLayout definition definition. This a log message, look for other messages
+msgid "No Layout to Export"
+msgstr "No Diseño para Exportar"
+
+# Use: Message 
+#  id:    Panel:  
+# No physical lines selected - nothing to repeat
+msgid "No Physical Line, so can not repeat the line"
+msgstr "No hay alineaciones física, por lo que no se puede repetir la línea"
+
+# Use: Message 
+#  id:    Panel:  
+# Tree display
+msgid "No Records Selected"
+msgstr "No hay registros seleccionados:"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "No Records to display"
+msgstr "No hay registros que mostrar"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffer Editor, Empty file specified, can not check the file
+msgid "No data to check"
+msgstr "No hay datos para comprobar la"
+
+# Use: Error 
+#  id:    Panel:  
+# Used when there is no file writer defined for a file ~ will not occur in normal use
+msgid "No file writer available"
+msgstr "Ningún escritor archivo disponible"
+
+# Use: Message 
+#  id:    Panel:  
+# Execute save filter and no records match
+msgid "No records matched the filter"
+msgstr "No hay registros coincidía con el filtro"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: Filter
+msgid "Normal Filter"
+msgstr "Filtro normal"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Not enough memory to do a sort !!!"
+msgstr "No hay memoria suficiente para hacer una suerte!"
+
+# Use: Error 
+#  id:    Panel:  
+# Generally an Internal Error, user should not see it. Needed for debuging
+msgid "Not implemented"
+msgstr "No se ha implementado"
+
+# Use: Message 
+#  id:    Panel:  
+# Tree insert; based on file definition, nothing can be inserted at this point (Protobufeditor / avro editor)
+msgid "Nothing can be inserted at this point"
+msgstr "Nada se puede insertar en este punto"
+
+# Use: Message 
+#  id:    Panel:  
+# Cobol Copybook analysis
+msgid "Nothing to Display"
+msgstr "Nada para mostrar"
+
+# Use: Message 
+#  id:    Panel:  
+# Sort screen, can not sort empty file.
+msgid "Nothing to sort"
+msgstr "No hay nada que ordenar"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_5   Panel:  
+# 
+# English: Num (Left Justified)
+msgid "Tbl_FieldType_5"
+msgstr "Num (justificado a la izquierda)"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_6   Panel:  
+# 
+# English: Num (Right Justified space padded)
+msgid "Tbl_FieldType_6"
+msgstr "Num (espacio Derecha Justificar acolchado)"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_7   Panel:  
+# 
+# English: Num (Right Justified zero padded)
+msgid "Tbl_FieldType_7"
+msgstr "Num (justificado a la derecha cero relleno)"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_8   Panel:  
+# 
+# English: Num Assumed Decimal (Zero padded)
+msgid "Tbl_FieldType_8"
+msgstr "Num asumida Decimal (cero relleno)"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_9   Panel:  
+# 
+# English: Num Sign Separate Leading
+msgid "Tbl_FieldType_9"
+msgstr "Num Entrar independiente líder"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_10   Panel:  
+# 
+# English: Num Sign Separate Trailing
+msgid "Tbl_FieldType_10"
+msgstr "Num Ingresar Separe Trailing"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Csv Field Types 1
+msgid "Number"
+msgstr "Número"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_20   Panel:  
+# 
+# English: Number (+ve) any decimal
+msgid "Tbl_FieldType_20"
+msgstr "Número (ve +) cualquier decimal"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Csv Field Types 2
+msgid "Number (Fixed Decimal)"
+msgstr "Number (Número fijo de decimales)"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_19   Panel:  
+# 
+# English: Number any decimal
+msgid "Tbl_FieldType_19"
+msgstr "Número cualquier decimal"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Number of characters to use when looking up record layouts (small)"
+msgstr ""
+"Número de caracteres para utilizar al buscar diseños de registros (pequeña)"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Old File"
+msgstr "Archivo antiguo"
+
+# Use: Message 
+#  id:    Panel:  
+# {0} placeholder for new reord name
+msgid "Old record saved, New Record {0} created"
+msgstr "Registro del Antiguo salvo, Nuevo Registro creado {0}"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Cobol Split options 2
+msgid "On 01 level"
+msgstr "El 01 de nivel"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "On Search Screen default to \"All Fields\""
+msgstr "Por defecto Pantalla de búsqueda para \"Todos los campos\""
+
+# Use: Field_Prompt 
+#  id:    Panel: SaveAsPnlScript:SaveAsPnlVelocity 
+msgid "Only Data Column"
+msgstr "Datos de columna sólo"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Only export Nodes with Data"
+msgstr "Sólo los nodos de exportación con datos"
+
+# Use: Message 
+#  id:    Panel:  
+# Tree view only one child is allowed (Protocol buffers, Avro etc) parameter is child segment name
+msgid "Only one {0} is allowed !!!"
+msgstr "Sólo un {0} está permitido!"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Only positive numbers are allowed"
+msgstr "Sólo se permiten números positivos"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_8   Panel:  
+# 
+# English: Open Cobol Big Endian
+msgid "BinFormat/Dialect_8"
+msgstr "Abierto Cobol Big Endian"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_4   Panel:  
+# 
+# English: Open Cobol Little Endian (Intel)
+msgid "BinFormat/Dialect_4"
+msgstr "Abierto Little Endian Cobol (Intel)"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_10   Panel:  
+# 
+# English: Open Cobol MVS Big Endian
+msgid "BinFormat/Dialect_10"
+msgstr "Abierto Cobol MVS Big Endian"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_6   Panel:  
+# 
+# English: Open Cobol MVS Little Endian (Intel)
+msgid "BinFormat/Dialect_6"
+msgstr "Abierto Cobol MVS Little Endian (Intel)"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_7   Panel:  
+# 
+# English: Open Cobol Micro Focus (Intel)
+msgid "BinFormat/Dialect_7"
+msgstr "Abierto Cobol de Micro Focus (Intel)"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_11   Panel:  
+# 
+# English: Open Cobol Micro Focus Big E
+msgid "BinFormat/Dialect_11"
+msgstr "Abierto Cobol de Micro Focus Big E"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_8   Panel:  
+# 
+# English: Open Cobol VB
+msgid "Line_IO_Names_8"
+msgstr "Abierto Cobol VB"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_9   Panel:  
+# 
+# English: Open Cobol bs2000 Big Endian
+msgid "BinFormat/Dialect_9"
+msgstr "Abierto Cobol BS2000 Big Endian"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_5   Panel:  
+# 
+# English: Open Cobol bs2000 Little Endian (Intel)
+msgid "BinFormat/Dialect_5"
+msgstr "Abierto Cobol Little Endian BS2000 (Intel)"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Open File"
+msgstr "Abrir archivo"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Open Fuzzy / Blank View"
+msgstr "Abra Fuzzy / Blanco View"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: Find 
+# Tbl- Filter Selecton Field Values 4 Tbl- DB-RecordSelection Columns 3 Tbl- LayoutEdit_RecSel 4 Tbl- Filter Selecton Field Values 5
+msgid "Operator"
+msgstr "Operador"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Jars
+msgid "Optional Jars"
+msgstr "Tarros opcionales"
+
+# Use: Message : Button 
+#  id:    Panel:  
+# BoolOps 1
+msgid "Or"
+msgstr "O"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Output File Structure"
+msgstr "Estructura de archivos de salida"
+
+# Use: Message 
+#  id:    Panel:  
+# Script Test Screen - Output file (after running script)
+msgid "Output File:"
+msgstr "Archivo de salida:"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pane:Pnl5SaveFileLayout 
+msgid "Output Format"
+msgstr "Formato de salida"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Output Format:"
+msgstr "Formato de salida:"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Output Numeric Format"
+msgstr "Salida de formato numérico"
+
+# Use: Column_Heading : Frame_Heading 
+#  id:    Panel:  
+msgid "PO List"
+msgstr "PO lista"
+
+# Use: Column_Heading : Field_Hint 
+#  id:    Panel:  
+# Tbl- Create_Record_Tree 1
+msgid "Parent Record"
+msgstr "Parent Record"
+
+# Use: Field_Prompt 
+#  id:    Panel: RcdExtra:CsvSelectionPanel 
+msgid "Parser"
+msgstr "Analizador"
+
+# Use: External 
+#  id: Csv_Parsers_1   Panel:  
+# 
+# English: Parser - Matching Quotes
+msgid "Csv_Parsers_1"
+msgstr "Analizador - Citas Compartidas"
+
+# Use: External 
+#  id: Csv_Parsers_4   Panel:  
+# 
+# English: Parser - Matching Quotes Column names in quotes
+msgid "Csv_Parsers_4"
+msgstr "Parser - Cotizaciones coincidir los nombres de columna entre comillas"
+
+# Use: External 
+#  id: Csv_Parsers_2   Panel:  
+# 
+# English: Parser - Quotes based on field Type
+msgid "Csv_Parsers_2"
+msgstr "Analizador - Citas basado en el Tipo de campo"
+
+# Use: External 
+#  id: Csv_Parsers_5   Panel:  
+# 
+# English: Parser - Quotes based on field Type, Column names in quotes
+msgid "Csv_Parsers_5"
+msgstr ""
+"Analizador - Citas basado en nombres de campo tipo de columna, entre "
+"comillas"
+
+# Use: Action : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 6
+msgid "Paste"
+msgstr "Pegar"
+
+# Use: Action : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 7
+msgid "Paste Prior"
+msgstr "Antes de pegar"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Paste Record(s)"
+msgstr "Pega Record (s)"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Paste Record(s) Prior"
+msgstr "Pega Record (s) antes"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Paste Table (Insert)
+msgid "Paste Table after the current line/row"
+msgstr "Pegue la tabla después de la línea actual / fila"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Paste Table Overwrite
+msgid "Paste Table over current data (from current position)"
+msgstr "Pegar tabla sobre los datos actuales (a partir de la posición actual)"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Paste Record(s)
+msgid "Paste records from the RecordEditor Clipboard after the current record"
+msgstr ""
+"Pegar archivos desde el Portapapeles RecordEditor después del registro "
+"actual"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Paste Record(s) Prior
+msgid ""
+"Paste records from the RecordEditor Clipboard before the current record"
+msgstr ""
+"Pegar archivos del Portapapeles RecordEditor antes del registro actual"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Paste the record into the table, before the current record"
+msgstr "Pegue el registro en la tabla, antes de que el registro actual"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Please Enter a file name"
+msgstr "Introduce un nombre de archivo"
+
+# Use: Message 
+#  id: DateFormatDescription   Panel:  
+# 
+# English: Please remember that Date formats are case sensitive:<ul compact>
+# <li>dd   - is 2 character day (lowercase d for day)</li>
+# <li>MM   - is 2 character month (uppercase M for month)</li>
+# <li>MMM  - is 3 character month (uppercase M for month)</li>
+# <li>yy   - is 2 character year (lowercase y for month)</li>
+# <li>yyyy - is 4 character year (lowercase y for month)</li></ul>
+# <br>
+# # use dd/MM/yy for 25/12/98, dd.MM.yyyy for 25.Dec.1998
+msgid "DateFormatDescription"
+msgstr ""
+"Por favor, recuerde que los formatos de fecha son mayúsculas y minúsculas: "
+"<ul compact>\n"
+"<li>\n"
+"dd - es 2 días de caracteres (d minúscula por día)\n"
+"</Li>\n"
+"<li>\n"
+"MM - es 2 meses de caracteres (mayúsculas M por mes)\n"
+"</Li>\n"
+"<li>\n"
+"MMM - es de 3 meses de caracteres (mayúsculas M por mes)\n"
+"</Li>\n"
+"<li>\n"
+"yy - 2 años es carácter (y minúsculas para el mes)\n"
+"</Li>\n"
+"<li>\n"
+"aaaa - es 4 años personaje (y minúsculas para el mes)\n"
+"</Li> </ul>\n"
+"MedlinePlus\n"
+"utilizar dd / MM / yy para 25/12/98, DD.MM.AAAA para 25.Dec.1998"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_36   Panel:  
+# 
+# English: Positive Integer (Big Endian)
+msgid "Tbl_FieldType_36"
+msgstr "Entero positivo (Big Endian)"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_16   Panel:  
+# 
+# English: Postive Binary Integer
+msgid "Tbl_FieldType_16"
+msgstr "Entero binario Postive"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- layout
+msgid "Prefered"
+msgstr "Preferido"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+# RecordBtns 1
+msgid "Previous Record"
+msgstr "Registro anterior"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Primary Message"
+msgstr "Mensaje de Primaria"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Print Line Details"
+msgstr "Imprimir detalles de la línea"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Print Selected"
+msgstr "De impresión, seleccione"
+
+# Use: Message 
+#  id:    Panel:  
+# Printing Printing is only available in Java 5 or latter. Old message, I doubt the RecordEditor would run on java 1.4 any more
+msgid "Printing failed (Printing requires Java 1.5)"
+msgstr "Impresión fallado (impresión requiere Java 1.5)"
+
+# Use: Message 
+#  id:    Panel:  
+# Error creating RecordLayout from Xml (stored in the Program). The name of the Xml will follow this message
+msgid "Problem Xml:"
+msgstr "Problema XML:"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Problem loading Copybook: {0}    Message: {1}"
+msgstr "Problema cuaderno de carga: {0} Mensaje: {1}"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Program Initial Size"
+msgstr "Tamaño del programa inicial"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Program error: Row < 0  ??"
+msgstr "Error del programa: Row <0?"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# editProps_DefaultColHeadings 0
+msgid "Property Variable"
+msgstr "Propiedad Variable"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Proto Definition"
+msgstr "Proto Definición"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- ProtoSearch - Directories to be searched 0
+msgid "Proto Directory"
+msgstr "Proto Directorio"
+
+# Use: Field_Prompt 
+#  id:    Panel: ProtoSearchPnl 
+msgid "Proto Directory 1"
+msgstr "Proto Directorio 1"
+
+# Use: Field_Prompt 
+#  id:    Panel: ProtoSearchPnl 
+msgid "Proto Directory 2"
+msgstr "Proto Directorio 2"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Proto File"
+msgstr "Proto Archivo"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- ProtoSearch - Matching Proto definition files 0
+msgid "Proto Filename"
+msgstr "Proto Nombre"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Proto Import Directory"
+msgstr "Proto Directorio de Importación"
+
+# Use: Frame_Heading : Button 
+#  id:    Panel:  
+msgid "Proto Search"
+msgstr "Proto Buscar"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOptions_MainTab
+msgid "ProtoBuf"
+msgstr "Protobuf"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "ProtoBuf Editor's Discussions"
+msgstr "Discusiones protobuf del editor"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "ProtoBuf Editor's Web Page"
+msgstr "Página protobuf Editor Web"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "ProtoBuf Introduction"
+msgstr "Protobuf Introducción"
+
+# Use: Message : Field_Prompt 
+#  id:    Panel: GetFiles:OpenFileEditPnl:RcdExtra:Csv 
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "Quote"
+msgstr "Citar"
+
+# Use: Field_Prompt 
+#  id:    Panel: CsvSelectionPanel 
+msgid "Quote Character"
+msgstr "Cita caracteres"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_37   Panel:  
+# 
+# English: RM Cobol Comp
+msgid "Tbl_FieldType_37"
+msgstr "RM Cobol Comp"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_38   Panel:  
+# 
+# English: RM Cobol Positive Comp
+msgid "Tbl_FieldType_38"
+msgstr "RM Cobol Comp Positivo"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "ReCsvEditor Documentations"
+msgstr "ReCsvEditor Documentaciones"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "ReCsvEditor Forum"
+msgstr "ReCsvEditor Foro"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "ReCsvEditor Web Page"
+msgstr "ReCsvEditor Página Web"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Reached the Start of the file, do you want search from the end ??"
+msgstr ""
+"Llegó al inicio del archivo, es lo que quieres de búsqueda de la final?"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Reached the end of the file, do you want search from the start ??"
+msgstr "Alcanzado el final del archivo, ¿quieres búsqueda desde el principio?"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- PropsEd_JDBC 3
+msgid "Read Only Source"
+msgstr "Lea única fuente"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Rebuild Tree"
+msgstr "Reconstruir árbol"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Rebuild Tree
+msgid "Rebuild the Tree Display"
+msgstr "Reconstruir la presentación del árbol"
+
+# Use: Message 
+#  id:    Panel:  
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "RecSep"
+msgstr "RecSep"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Recent Files"
+msgstr "Archivos recientes"
+
+# Use: External 
+#  id: Tbl_RecordType_0   Panel:  
+# 
+# English: Record - Binary
+msgid "Tbl_RecordType_0"
+msgstr "Record - binario"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Record Based Tree"
+msgstr "Registre Tree Based"
+
+# Use: External 
+#  id: Tbl_RecordType_1   Panel:  
+# 
+# English: Record Layout
+msgid "Tbl_RecordType_1"
+msgstr "Record Layout"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl5SaveFileLayout 
+msgid "Record Layout Directory"
+msgstr "Diseño de registro del directorio"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Record Layout Tree"
+msgstr "Tree Record Layout"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Record Layout Tree (Selected Records)"
+msgstr "Tree Record Layout (Documentos Seleccionados)"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Record Layout {0} can not be loaded:"
+msgstr "Diseño de registro {0} no puede ser cargado:"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: RecordList:RecordDef 
+# Tbl- LayoutWizard RecordNames 0
+msgid "Record Name"
+msgstr "Registro de nombres de"
+
+# Use: Message 
+#  id:    Panel:  
+# Record Selection / Record Insert header
+msgid "Record Selection"
+msgstr "Registro de selección"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Record Selection:"
+msgstr "Registro de selección:"
+
+# Use: Field_Prompt 
+#  id:    Panel: RcdExtra 
+msgid "Record Seperator"
+msgstr "Record Seperator"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Record Text Fields"
+msgstr "Los campos de texto de registro"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl1File:RecordList:RecordDef 
+msgid "Record Type"
+msgstr "Tipo de registro"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Record View (Selected Records)"
+msgstr "View Record (Registros seleccionados)"
+
+# Use: Message 
+#  id:    Panel:  
+# Record Selection copy
+msgid "Record to Copy From"
+msgstr "Registre copiar de"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_5   Panel:  
+# 
+# English: RecordEditor Csv Copybook (Comma Seperator)
+msgid "CopybookLoaderFactory_5"
+msgstr "RecordEditor Csv Copybook (Comma Seperator)"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "RecordEditor Documentation"
+msgstr "RecordEditor Documentación"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "RecordEditor How To"
+msgstr "Cómo RecordEditor"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_6   Panel:  
+# 
+# English: RecordEditor Tab Copybook (Tab Seperator)
+msgid "CopybookLoaderFactory_6"
+msgstr "RecordEditor Tab Copybook (ficha Seperator)"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_2   Panel:  
+# 
+# English: RecordEditor XML Copybook
+msgid "CopybookLoaderFactory_2"
+msgstr "RecordEditor XML Copybook"
+
+# Use: Message 
+#  id:    Panel:  
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "RecordName"
+msgstr "NombreDeRegistro"
+
+# Use: Message 
+#  id:    Panel:  
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "RecordStyle"
+msgstr "RecordStyle"
+
+# Use: Message 
+#  id:    Panel:  
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "RecordType"
+msgstr "RecordType"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Redisplay Tree"
+msgstr "Volver a mostrar el árbol"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Reformat via Velocity Template"
+msgstr "Cambiar el formato a través de plantillas Velocity"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Refresh"
+msgstr "Refrescar"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Reload values - ie abandon any changes"
+msgstr "Actualizar valores - es decir, abandonar los cambios"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Remove Child Record"
+msgstr "Eliminar registro Niño"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Remove Child Record
+msgid "Remove the linked Child Record from the current screen"
+msgstr "Retire el registro secundario vinculado a la pantalla actual"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Rename Search btn"
+msgstr "Renombrar Buscar btn"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Repeat Record"
+msgstr "Repita Record"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Repeat Record
+msgid "Repeat the record under the cursor"
+msgstr "Repita el registro bajo el cursor"
+
+# Use: Field_Prompt 
+#  id:    Panel: Find 
+msgid "Replace With"
+msgstr "Reemplazar con"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Reset Value"
+msgstr "Restablecer Valor"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Retrieve Screen size"
+msgstr "Recuperar Tamaño de la pantalla"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Run"
+msgstr "Ejecutar"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Run Copy"
+msgstr "Ejecutar Copia"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Run Copy Dialog"
+msgstr "Copia de diálogo Ejecutar"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Run Dialog"
+msgstr "De diálogo Ejecutar"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Run Saved Copy File:"
+msgstr "Ejecutar archivo guardado copia:"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Run Stored Compare"
+msgstr "Ejecutar Stored Comparar"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Run Stored Copy"
+msgstr "Ejecutar copia almacenada"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Run a Script"
+msgstr "Ejecutar una secuencia de comandos"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Run the field search Automatically"
+msgstr "Ejecute el campo de búsqueda automática"
+
+# Use: Action : Button : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 2 File Load/Save 0
+msgid "Save"
+msgstr "Guardar"
+
+# Use: Message : Menu 
+#  id:    Panel:  
+msgid "Save ..."
+msgstr "Guardar ..."
+
+# Use: Action : Frame_Heading : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 3
+msgid "Save As"
+msgstr "Guardar como"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordEditor Exit, check if user wants to save the changed file
+msgid "Save Changes to file: {0}"
+msgstr "Guardar cambios en el archivo: {0}"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Save Copybooks as Xml"
+msgstr "Guardar como cuadernos Xml"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Properties
+msgid "Save Directories"
+msgstr "Guardar Directorios"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Save Failed:"
+msgstr "Save Failed:"
+
+# Use: Message 
+#  id:    Panel:  
+# File save failed in the rename step
+msgid "Save Failed: File Rename Failed"
+msgstr "Save Error: File Rename Error"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Save File Description as Xml"
+msgstr "Guardar como Archivo Descripción Xml"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Save Tree as XML"
+msgstr "Guardar como árbol XML"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordEditor Exit, check if user wants to save the changed file
+msgid "Save changes"
+msgstr "Guardar cambios"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Save the Current record back to the DB (if no errors)"
+msgstr ""
+"Guardar el registro actual volver a la base de datos (si no hay errores)"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Save the current layout under a new name"
+msgstr "Guardar la presentación actual con un nuevo nombre"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Save to Xml"
+msgstr "Guardar en XML"
+
+# Use: Message 
+#  id:    Panel:  
+# (Xml layout, Xml file name appended)
+msgid "Saving"
+msgstr "Ahorro"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Screen Height"
+msgstr "Altura de pantalla"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "Screen Properties"
+msgstr "Propiedades de pantalla"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Screen Width"
+msgstr "Anchura de la pantalla"
+
+# Use: Field_Prompt : Tab_Heading 
+#  id:    Panel: SaveAsPnlScript 
+# ExportTab 5
+msgid "Script"
+msgstr "Guión"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Script Test Panel"
+msgstr "Guión Test Panel"
+
+# Use: Message 
+#  id:    Panel:  
+msgid ""
+"Script execution failed !!! Execution of an external script (Javascript, "
+"jython etc failed)"
+msgstr ""
+"Ejecución de secuencias de comandos no! La ejecución de un script externo "
+"(Javascript, etc jython no)"
+
+# Use: Message 
+#  id:    Panel:  
+# Script Test Screen - Script (Jython / Javascript etc) run
+msgid "Script {0} run  !!!"
+msgstr "Guión {0} correr!"
+
+# Use: Field_Prompt 
+#  id:    Panel: Find:Pnl5RecordTable:Pnl3Table 
+msgid "Search For"
+msgstr "Buscar Por"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Select"
+msgstr "Seleccionar"
+
+# Use: Message 
+#  id:    Panel:  
+# Select the Record to Insert in Tree-Table insert (applies to Avro / protobuf / Xml + possible others)
+msgid "Select the Record to Insert"
+msgstr "Seleccionar el Registro de insertar"
+
+# Use: Message 
+#  id:    Panel:  
+# Unknown File Format - file structure selected is invalid in the Unknown-Format-Reader
+msgid "Selected File Structue is not supported here"
+msgstr "Structue archivo seleccionado no se admite aquí"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- File SelectionOptions Combo- File SelectionOptions 1
+msgid "Selected Records"
+msgstr "Registros seleccionados:"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Show/Hide Fields 1
+msgid "Show"
+msgstr "Mostrar"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Show / Hide Fields"
+msgstr "Mostrar / Ocultar campos"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Show Child Record at the bottom of the list"
+msgstr "Mostrar registro hijo en la parte inferior de la lista"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Show invalid Records
+msgid "Show Invalid (incomplete) Records (Messages)"
+msgstr "Mostrar inválidos (incompleta) Registros (Mensajes)"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Show Proto Definition"
+msgstr "Mostrar Definición Proto"
+
+# Use: Field_Prompt 
+#  id:    Panel: SaveAsPnlScript:SaveAsPnlVelocity 
+msgid "Show Table Border"
+msgstr "Mostrar borde de tabla"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Show all export panels"
+msgstr "Mostrar todos los paneles de exportación"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Show all export panels on the export Screen"
+msgstr ""
+"Mostrar todos los paneles de exportación en la pantalla de exportación"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Show in Hints Dialog"
+msgstr "Mostrar en el diálogo Hints"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Show {0} Fields"
+msgstr "Mostrar Campos {0}"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Significant chars 1"
+msgstr "Caracteres significativos 1"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Significant chars 2"
+msgstr "2 chars significativas"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Significant chars 3"
+msgstr "3 caracteres significativos"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Single Layout Compare"
+msgstr "Diseño simple Comparar"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Single PO Record"
+msgstr "Individual Record PO"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Single Table"
+msgstr "Tabla única"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Size of the program when it opens"
+msgstr "Tamaño del programa cuando se abre"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Sort"
+msgstr "Especie"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Sort Options"
+msgstr "Sort Options"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Sorted Field Tree"
+msgstr "Campo Ordenado Tree"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: EditJdbcParamsPanel 
+# Tbl- PropsEd_JDBC 2
+msgid "Source"
+msgstr "Fuente"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Update Csv File Format 4
+msgid "Source Column"
+msgstr "Fuente Columna"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: EditDateTypes:EditJdbcParamsPanel 
+# Tbl- PropsEd_JDBC 0
+msgid "Source Name"
+msgstr "Nombre de la Fuente"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Space to be left at the left of the screen."
+msgstr "Espacio que debe dejarse en el lado izquierdo de la pantalla."
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Space to be left at the top of the screen."
+msgstr "Espacio que debe dejarse en la parte superior de la pantalla."
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EdProps_MainTab_Special Formats
+msgid "Special Formats"
+msgstr "Formatos Especiales"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Standard Colors"
+msgstr "Colores estándar"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Combo Options 0
+msgid "Standard Combo"
+msgstr "Combo estándar"
+
+# Use: Frame_Heading : Field_Prompt 
+#  id:    Panel:  
+msgid "Standard Copy"
+msgstr "Copia Estándar"
+
+# Use: Field_Prompt 
+#  id:    Panel: ProtoSearchPnl 
+msgid "Standard Directories:"
+msgstr "Directorios estándar:"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Single_Record 1 Tbl- LayoutWizard Field definition 1 Tbl- LayoutWizard Record Selection Fields 1
+msgid "Start"
+msgstr "Iniciar"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Start Searching the file"
+msgstr "Iniciar búsqueda en el archivo"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+# RecordBtns 0
+msgid "Start of File"
+msgstr "Comienzo del Archivo"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Starts With"
+msgstr "Comienza con"
+
+# Use: Message 
+#  id:    Panel:  
+# Field on RecordLayout Create/Edit screen - used in message
+msgid "Structure"
+msgstr "Estructura"
+
+# Use: Action 
+#  id:    Panel:  
+msgid ""
+"Swap the position of Child Record Screen between the Bottom and right hand "
+"side of the screen"
+msgstr ""
+"Intercambiar la posición de pantalla secundaria Record entre el lado "
+"inferior y derecha de la pantalla"
+
+# Use: Message 
+#  id:    Panel:  
+# Error (probably syntax ?) occured when running a velocity template
+msgid "Syntax error in template"
+msgstr "Error de sintaxis en la plantilla"
+
+# Use: Message : Column_Heading : Field_Prompt 
+#  id:    Panel: Pnl7SaveDbLayout:StandardGetFiles:RecordList:GetFiles:ComboPnl:OpenFileEditPnl:RecordDef 
+# Field on RecordLayout Create/Edit screen - used in message Tbl- DB-Combo Columns 0
+msgid "System"
+msgstr "Sistema"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_4   Panel:  
+# 
+# English: Tab CSV (names first line)
+msgid "CopybookLoaderFactory_4"
+msgstr "Tab CSV (line nombres)"
+
+# Use: Message 
+#  id:    Panel:  
+# LayoutEditor - Table details are missing ???
+msgid "Table Details have not been defined"
+msgstr "Datos de la tabla no se han definido"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Table Display"
+msgstr "Tabla de la exhibición"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: TableListPnl 
+# Tbl- DB-TableList Columns 0
+msgid "Table Id"
+msgstr "Tabla de identificación del"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: TableListPnl 
+# Tbl- DB-TableList Columns 1
+msgid "Table Name"
+msgstr "Nombre de la tabla"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Table Type:"
+msgstr "Cuadro Tipo:"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Table View (Selected Records)"
+msgstr "Table View (Documentos Seleccionados)"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Table per Row"
+msgstr "Tabla por Fila"
+
+# Use: Column_Heading : Frame_Heading 
+#  id:    Panel:  
+msgid "Table:"
+msgstr "Tabla:"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Template File"
+msgstr "Archivo de plantilla"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Test Driver"
+msgstr "El piloto de pruebas"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Test Mode"
+msgstr "Modo de prueba"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- LayoutEdit_RecSel 5
+msgid "Test Value"
+msgstr "Prueba de Valor"
+
+# Use: External 
+#  id: Line_IO_Names_90   Panel:  
+# 
+# English: Text IO (Unicode)
+msgid "Line_IO_Names_90"
+msgstr "Texto IO (Unicode)"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "The Directory where Cobol Copybooks are stored."
+msgstr "El directorio donde se almacenan los cuadernos Cobol."
+
+# Use: Message 
+#  id:    Panel:  
+# Dialog box to see if user wish's to continue filtering after limit has been reached
+msgid "The Filter limit of {0} has been reached, do you wish to continue?"
+msgstr "El límite de filtro de {0} ha sido alcanzado, ¿desea continuar?"
+
+# Use: Message 
+#  id: LangRestart   Panel:  
+# 
+# English: The Language has been changed to {0}, you need to restart the RecordEditor, for the change to come into affect.
+msgid "LangRestart"
+msgstr ""
+"El lenguaje se ha cambiado a {0}, es necesario reiniciar el RecordEditor, "
+"para que el cambio entre en afectar."
+
+# Use: Message 
+#  id: TranslationStatus   Panel:  
+# 
+# English: The RecordEditor is currently using text converted from English using Google Translate. This translation is intended to give a Translator a base to work with rather than in the RecordEditor. Automatic translation (like Google Translate) is never great, but in this case it is further complicated by Html tags which causes further problems. If you speak English and have the time, please correct the translation for other people.
+msgid "TranslationStatus"
+msgstr ""
+"El RecordEditor está utilizando texto convertido de Inglés a través de\n "
+"Google Translate.Esta traducción se destina a dar un Traductor de una base\n "
+"para trabajar con más bien que en la RecordEditor.La traducción automática\n "
+"(como Google Translate) nunca es genial,pero en este caso se complica aún\n "
+"más por las etiquetas HTML que provoca problemas adicionales.Si usted habla\n "
+"Inglés y tiene tiempo, por favor corregir la traducción a otras personas."
+
+# Use: Message 
+#  id:    Panel:  
+msgid "The default Binary Encoding"
+msgstr "La codificación binaria predeterminada"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "The default IO Routine to use"
+msgstr "El valor predeterminado IO rutina para usar"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "The default copybook reader"
+msgstr "El lector copybook defecto"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "The default copybook writer"
+msgstr "El escritor copybook defecto"
+
+# Use: Message 
+#  id: UpgradeDbHint   Panel:  
+# 
+# English: The options available on this screen are<ol compact>
+# <li><font COLOR=Blue>Upgrade the DB to <b> the latest version of the Databases</b></font> 
+# # <p>This option should be used <b>only once</b> when using upgrade package
+# <li>Update the Record Seperator to <font COLOR=Blue>default</font>. Again this should only be done once.</ol>
+msgid "UpgradeDbHint"
+msgstr ""
+"Las opciones disponibles en esta pantalla son <ol compact>\n"
+"<li>\n"
+"<font color=blue> Actualiza la base de datos a la última versión de las "
+"bases de datos </font>\n"
+"<p>\n"
+"Esta opción debe ser utilizada sólo una vez cuando se usa paquete de "
+"actualización\n"
+"<li>\n"
+"Actualizar el registro a Seperator <font defecto color=blue> </font>. De "
+"nuevo, esto sólo debe hacerse una vez. </Ol>"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "The specified file was not a filter definition"
+msgstr "El archivo especificado no es una definición de filtro"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid ""
+"This option adds >> to the search button (on the find search screen) to "
+"better identifier it in testing"
+msgstr ""
+"Esta opción añade >> para el botón de búsqueda (en la pantalla de búsqueda "
+"de encontrar) para su mejor identificación en las pruebas"
+
+# Use: Message 
+#  id: FileWizard_6_RecordNames   Panel:  
+# 
+# English: This screen will display the Column Details (for each Record) and allow you to change them. <br>
+# # The Record controls which Records columns are displayed.
+msgid "FileWizard_6_RecordNames"
+msgstr ""
+"Esta pantalla mostrará los detalles de la columna (para cada registro) y le "
+"permitirá cambiarlos.\n"
+"MedlinePlus\n"
+"Los controles de registro que se muestran las columnas Records."
+
+# Use: Message 
+#  id: FileWizard_4_csv   Panel:  
+# 
+# English: This screen will display the Column Details and allow you to change them.
+msgid "FileWizard_4_csv"
+msgstr ""
+"Esta pantalla mostrará los detalles de la columna y le permiten cambiarlas."
+
+# Use: Message 
+#  id: FileWizard_4   Panel:  
+# 
+# English: This screen will display the Column Details and allow you to change them.
+msgid "FileWizard_4"
+msgstr ""
+"Esta pantalla mostrará los detalles de la columna y le permiten cambiarlas."
+
+# Use: Message 
+#  id: FileWizard_3b   Panel:  
+# 
+# English: This screen will display the first 60 lines of the file. <br>
+# # Indicate the <i>start</i> of a <b>field</b> by clicking on the starting column<br>
+# # Each succesive <b>field</b> will have alternating background color
+# # <p>To remove a <b>field</b> click on the starting column again.
+msgid "FileWizard_3b"
+msgstr ""
+"Esta pantalla mostrará las primeras 60 líneas del archivo.\n"
+"MedlinePlus\n"
+"Indicar el comienzo de un campo haciendo clic en la columna de comienzo\n"
+"MedlinePlus\n"
+"Cada campo sucesiva se presentan alternancia de color de fondo\n"
+"<p>\n"
+"Para eliminar un campo haga clic en la columna de comenzar de nuevo."
+
+# Use: Message 
+#  id: FileWizard_3mf   Panel:  
+# 
+# English: This screen will display the first 60 lines of the file. <br>
+# # Indicate the <i>start</i> of the <b>Record-Type field</b> by clicking on the starting column<br>
+# # Then click on the start of the Next Field.<br>
+# # To remove a position click on it again.
+msgid "FileWizard_3mf"
+msgstr ""
+"Esta pantalla mostrará las primeras 60 líneas del archivo.\n"
+"MedlinePlus\n"
+"Indicar el comienzo del campo de tipo de registro haciendo clic en la "
+"columna de partida\n"
+"MedlinePlus\n"
+"Luego haga clic en el comienzo del campo siguiente.\n"
+"MedlinePlus\n"
+"Para quitar un clic posición en él de nuevo."
+
+# Use: Message 
+#  id: FileWizard_3   Panel:  
+# 
+# English: This screen will display the first 60 lines of the file. <br>
+# # Indicate the <i>start</i> of the <b>Record-Type field</b> by clicking on the starting column<br>
+# # Then click on the start of the Next Field.<br>
+# # To remove a position click on it again.
+msgid "FileWizard_3"
+msgstr ""
+"Esta pantalla mostrará las primeras 60 líneas del archivo.\n"
+"MedlinePlus\n"
+"Indicar el comienzo del campo de tipo de registro haciendo clic en la "
+"columna de partida\n"
+"MedlinePlus\n"
+"Luego haga clic en el comienzo del campo siguiente.\n"
+"MedlinePlus\n"
+"Para quitar un clic posición en él de nuevo."
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Tip List"
+msgstr "Sugerencia lista"
+
+# Use: External 
+#  id: Line_IO_Names_102   Panel:  
+# 
+# English: Tip Properties
+msgid "Line_IO_Names_102"
+msgstr "Propiedades Punta"
+
+# Use: Message 
+#  id:    Panel:  
+# There is a limit on the number of rows that can be displayed in column display (note: in column display, rows become columns)
+msgid "To Many Rows Selected for ColumnDisplay"
+msgstr "Para muchas filas seleccionadas para ColumnDisplay"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Tree"
+msgstr "Árbol"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-ChildRecords columns 4
+msgid "Tree Parent"
+msgstr "Árbol de Padres"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Trying to create directory {0} file already exists of the same name"
+msgstr ""
+"Tratar de crear el directorio {0} archivo ya existe con el mismo nombre"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Two Layout Compare"
+msgstr "Dos Layout Comparar"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: Pnl3RecordType 
+# Tbl- Update Csv File Format 2 Tbl- LayoutWizard Field definition 3 Tbl- LayoutWizard Record Selection Fields 3 Tbl- Single_Record 3
+msgid "Type"
+msgstr "Tipo"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- PropEd_DataTypes 0
+msgid "Type Name"
+msgstr "Nombre Tipo"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Type of Definition"
+msgstr "Tipo de definición"
+
+# Use: Message 
+#  id:    Panel:  
+# The RecordEditor stores Copy / filter / sort information as Xml using the jibx package; The Editor has tried to read a Xml file with jibx and failed !!!; jibx jar could be missing or there was a jibx internal error
+msgid "Unable to load saved definition: jibx not present ???"
+msgstr "No se puede cargar definición guardada: JiBX no está presente???"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Uncheck Records"
+msgstr "Desmarque Registros"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Undock all Tabs"
+msgstr "Desacoplar todas las pestañas"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Undock tab"
+msgstr "Desacoplar ficha"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Unfix Column"
+msgstr "Unfix columna"
+
+# Use: External 
+#  id: Line_IO_Names_55   Panel:  
+# 
+# English: Unicode Name on 1st line
+msgid "Line_IO_Names_55"
+msgstr "Nombre Unicode en primera línea"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Union Field:"
+msgstr "Unión de campo:"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_21   Panel:  
+# 
+# English: Unknown Format (Choose details at run time)
+msgid "Line_IO_Names_21"
+msgstr "Formato Desconocido (Elegir detalles en tiempo de ejecución)"
+
+# Use: Combobox_Entry 
+#  id: Line_IO_Names_19   Panel:  
+# 
+# English: Unknown Format (Choose details at run time)
+msgid "Line_IO_Names_19"
+msgstr "Formato Desconocido (Elegir detalles en tiempo de ejecución)"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Update Csv Columns"
+msgstr "Actualizar CSV las columnas"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Update Screen Columns"
+msgstr "Actualización de las columnas de la pantalla"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Upgrade"
+msgstr "Mejorar"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Upgrade Database Tables"
+msgstr "Actualiza las tablas de base de datos"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Upgrade from 0.52.1/0.53 to version 0.55"
+msgstr "Actualización desde la versión 0.55 0.52.1/0.53"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Upgrade the DB from 0.55 - 0.61b to version 0.62"
+msgstr "Actualiza la base de datos a partir de 0,55 - 0.61b a la versión 0.62"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Upgrade the DB from 0.62->69* to version 0.69.2c"
+msgstr ""
+"Actualiza la base de datos a partir de 0,62> 69 * para 0.69.2c versión"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Upgrade the DB from 0.69* to version 0.80"
+msgstr "Actualiza la base de datos de 0,69 * a la versión 0.80"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Use"
+msgstr "Utilizar"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Use Extended Proto Lookup"
+msgstr "El uso extendido de búsqueda Proto"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Use File Wizard when no Layout is known for the file"
+msgstr "Usar el asistente de archivos cuando no se conoce Layout del archivo"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Use Fixed Length Model"
+msgstr "El uso del modelo de longitud fija"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Use Fixed Length Model (Used in Testing)"
+msgstr "El uso del modelo de longitud fija (utilizado en pruebas)"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Use Large VB Model"
+msgstr "Use Large Modelo VB"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Use Large VB Model (Default Yes)"
+msgstr "Use Large Modelo VB (valor predeterminado Yes)"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Use New Tree Expansion"
+msgstr "Utilizar la expansión de Nuevo árbol"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Use file Wizard"
+msgstr "Usar el asistente de archivos"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditJdbcParamsPanel 
+msgid "User"
+msgstr "Usuario"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "User Formats"
+msgstr "Formatos de usuarios"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "User Selected Copybook"
+msgstr "Usuario seleccionado Copybook"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "User Types"
+msgstr "Tipos de usuarios"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "User supplied protoc option 0"
+msgstr "Usuario suministrado opción protoc 0"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "User supplied protoc option 1"
+msgstr "Suministrada por el usuario protoc opción 1"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "User supplied protoc option 2"
+msgstr "Suministrada por el usuario protoc opción 2"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "User supplied protoc option 3"
+msgstr "Suministrada por el usuario protoc opción 3"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "User supplied protoc option 4"
+msgstr "Suministrada por el usuario protoc opción 4"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "User supplied protoc option 5"
+msgstr "Usuario suministrado opción protoc 5"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "User supplied protoc option 6"
+msgstr "Usuario suministrado opción protoc 6"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "User supplied protoc option 7"
+msgstr "Usuario suministrado opción protoc 7"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Utilities"
+msgstr "Utilidades"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "Value is to big !! {0} > {1}"
+msgstr "El valor es demasiado grande! {0}> {1}"
+
+# Use: Error 
+#  id:    Panel:  
+# (numeric integer fields)
+msgid "Value is to big for field {0} > {1} {2} ~ {3} {4}"
+msgstr "El valor es demasiado grande para el campo {0}> {1} {2} ~ {3} {4}"
+
+# Use: Error 
+#  id:    Panel:  
+# (Cobol Sign seperate field)
+msgid "Value is too large to fit field"
+msgstr "El valor es demasiado grande para caber campo"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Velocity Export Failed:"
+msgstr "Exportación Velocity Error:"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pane:SaveAsPnlVelocity:GetFiles 
+msgid "Velocity Template"
+msgstr "Velocity Template"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "View"
+msgstr "Ver"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "View Record Selections Tree"
+msgstr "Ver Registro Tree Selecciones"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "View Selected Records"
+msgstr "Ver registros seleccionados:"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Warn on Structure change"
+msgstr "Avisar al cambiar la estructura"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Warn the user if Binary-Fields and Structure=Default"
+msgstr "Avisa al usuario si Binary-Campos y estructura por defecto ="
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Warn when deleteing rows via delete key"
+msgstr "Avisar cuando deleteing filas a través de tecla delete"
+
+# Use: Message 
+#  id:    Panel:  
+# Csv Writer, occurs when a field contains the field seperator and no quote character is specified
+msgid "Warning: on line {0} Field {1} Seperator {2} Dropped"
+msgstr "Advertencia: en la línea {0} {1} Campo Seperator {2} Abandonado"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Weather to Run the field search Automatically or not"
+msgstr "Clima para ejecutar el campo de búsqueda automática o no"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Weather we are running automated Tests (Marathon ?) or not"
+msgstr "El tiempo se nos está acabando pruebas automatizadas (Marathon?) O no"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "What to Save"
+msgstr "Lo que para ahorrar"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "White Background"
+msgstr "Fondo blanco"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- File SelectionOptions 0
+msgid "Whole View"
+msgstr "Vista General"
+
+# Use: Message 
+#  id:    Panel:  
+# Export Screen - generic write error the exception message will be appended
+msgid "Write Failed"
+msgstr "Error en la escritura"
+
+# Use: Message 
+#  id:    Panel:  
+# Export as Html - failed the exception message will be appended
+msgid "Writing HTML File failed:"
+msgstr "Escribiendo archivo HTML fallado:"
+
+# Use: External 
+#  id: Tbl_RecordType_6   Panel:  
+# 
+# English: XML
+msgid "Tbl_RecordType_6"
+msgstr "XML"
+
+# Use: External 
+#  id: Line_IO_Names_62   Panel:  
+# 
+# English: XML - Build Layout
+msgid "Line_IO_Names_62"
+msgstr "XML - Diseño Build"
+
+# Use: External 
+#  id: Line_IO_Names_61   Panel:  
+# 
+# English: XML - Existing Layout
+msgid "Line_IO_Names_61"
+msgstr "XML - diseño existente"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_8   Panel:  
+# 
+# English: XML File
+msgid "CopybookLoaderFactory_8"
+msgstr "Archivo XML"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_116   Panel:  
+# 
+# English: XML Name Tag
+msgid "Tbl_FieldType_116"
+msgstr "Nombre de etiquetas XML"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "XML Tree (Selected Records)"
+msgstr "XML Tree (Documentos Seleccionados)"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# ExportTab 6
+msgid "XSLT Transform"
+msgstr "XSLT Transform"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Xml output File"
+msgstr "Archivo XML de salida"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Xml
+msgid "Xslt Jars"
+msgstr "Tarros Xslt"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Xslt Template directory (Editor)"
+msgstr "Xslt directorio de plantillas (Editor)"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Xslt Transform factory class"
+msgstr "Transformación XSLT clase de fábrica"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "You Must enter a Length for fixed Length files"
+msgstr "Debe introducir una longitud para los archivos de longitud fija"
+
+# Use: Message 
+#  id:    Panel:  
+# Tree view - only one root segment is allowed (Protocol buffers single message)
+msgid "You can not Repeat the root Segment !!!"
+msgstr "No se puede repetir el Segmento de raíz!"
+
+# Use: Message 
+#  id:    Panel:  
+# Tree view - only one root segment is allowed (Protocol buffers single message)
+msgid "You can not add a second root segment !!!"
+msgstr "No se puede agregar un segmento de segunda raíz!"
+
+# Use: Message 
+#  id:    Panel:  
+# Sort Screen applies to Proto Buffers / Avro Editors
+msgid "You can only sort when all records are of the same type"
+msgstr "Sólo se puede ordenar cuando todos los registros son del mismo tipo"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "You must Enter a filename"
+msgstr "Debe introducir un nombre de archivo"
+
+# Use: Error 
+#  id:    Panel:  
+# Layout Wizard ~ multi record files
+msgid "You must define the Fields for all Records. Please update - {0}"
+msgstr ""
+"Debe definir los campos de todos los registros. Por favor, actualice - {0}"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "You must define the field Names in all Records, please update: {0}"
+msgstr ""
+"Debe definir los nombres de campo en todos los registros, por favor, "
+"actualice: {0}"
+
+# Use: Message 
+#  id:    Panel:  
+# Cobol Copybook analysis
+msgid "You must enter a Cobol Copybook name"
+msgstr "Debe introducir un nombre de módulo de copia COBOL"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "You must enter a HTML file"
+msgstr "Debe introducir un archivo HTML"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "You must enter a LayoutName"
+msgstr "Debe introducir un LayoutName"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffer Editor, user must enter a Proto definition file
+msgid "You must enter a Proto Definition File"
+msgstr "Debe introducir un archivo de definición de Proto"
+
+# Use: Message 
+#  id:    Panel:  
+# RecordLayout Create/Edit screens. The Record-Name field must be entered
+msgid "You must enter a Record Name"
+msgstr "Debe introducir un nombre de registro"
+
+# Use: Message 
+#  id:    Panel:  
+# Velocity Export/Copy screen
+msgid "You must enter a Velocity Template file"
+msgstr "Debe introducir un archivo de plantilla Velocity"
+
+# Use: Message 
+#  id:    Panel:  
+# Load Xml layouts from a directory
+msgid "You must enter a directory to load layouts from"
+msgstr "Debe introducir un directorio para cargar diseños de"
+
+# Use: Message 
+#  id:    Panel:  
+# Export multiple layouts as Xml
+msgid "You must enter a directory to save the layout"
+msgstr "Debe introducir un directorio para guardar el diseño"
+
+# Use: Message 
+#  id:    Panel:  
+# Cobol directory load
+msgid "You must enter a directory where cobol copybooks are located"
+msgstr "Debe introducir un directorio donde se encuentran cuadernos cobol"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "You must enter a input copybook"
+msgstr "Debe introducir un cuaderno entrada"
+
+# Use: Message 
+#  id:    Panel:  
+# Goto line number screen - user must enter a line number
+msgid "You must enter a line number"
+msgstr "Debe introducir un número de línea"
+
+# Use: Message 
+#  id:    Panel:  
+# Protocol Buffer Editor - Error processing proto file exception message added on
+msgid "You must enter a valid Proto File:"
+msgstr "Debe introducir un archivo Proto válida:"
+
+# Use: Message 
+#  id:    Panel:  
+# Export/Copy screen, user must specify an output (Export) file name
+msgid "You must enter an Output file"
+msgstr "Debe introducir un archivo de salida"
+
+# Use: Message 
+#  id:    Panel:  
+# Velocity Copy screen, user must specify an input file
+msgid "You must enter an input file"
+msgstr "Debe introducir un archivo de entrada"
+
+# Use: Message 
+#  id:    Panel:  
+# Find screen - user must enter text to search for.
+msgid "You must enter text to search for"
+msgstr "Debe introducir el texto a buscar"
+
+# Use: Message 
+#  id:    Panel:  
+# Find screen - user must specify a field when using replace
+msgid "You must specify a specific field when using replace"
+msgstr "Debe especificar un campo específico al usar reemplazar"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditIcons 
+msgid "Zip/Jar File"
+msgstr "Zip / Jar Archivo"
+
+# Use: Combobox_Entry : External 
+#  id: CopybookLoaderFactory_0   Panel:  
+# 
+# English: cb2xml XML Copybook (DB)
+msgid "CopybookLoaderFactory_0"
+msgstr "cb2xml XML Copybook (DB)"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "get Script"
+msgstr "obtener secuencias de comandos"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "get Xslt"
+msgstr "obtener Xslt"
+
+# Use: Message 
+#  id:    Panel:  
+# Filename contains the * character - invalid/undessirable on some systems
+msgid "invalid filename (* present) ~"
+msgstr "Nombre de archivo no válido (* presente) ~"
+
+# Use: Message 
+#  id:    Panel:  
+# Call to jibx to write a parameter file as Xml has failed
+msgid "jibx- Save to Xml failed:"
+msgstr "JiBX-guardar en XML error:"
+
+# Use: Message 
+#  id:    Panel:  
+# Goto line number screen
+msgid "line number must be > 0"
+msgstr "número de línea debe ser> 0"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "must be >= 0"
+msgstr "debe ser> = 0"
+
+# Use: Field_Prompt 
+#  id:    Panel: Csv 
+msgid "names on first line"
+msgstr "nombres de primera línea"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "protoc command"
+msgstr "protoc comando"
+
+# Use: Field_Prompt 
+#  id:    Panel: CsvSelectionPanel 
+msgid "set Column Types"
+msgstr "establecer tipos de columna"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "space between fields"
+msgstr "espacio entre los campos"
+
+# Use: Message 
+#  id:    Panel:  
+# Cobol and Xml directory load functions - the filename entered is not a directory
+msgid "{0} is not a directory !!!"
+msgstr "{0} no es un directorio!"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- PropsEd_JDBC 4
+msgid " User"
+msgstr " Usuario"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "< (Numeric)"
+msgstr "<(Numérico)"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "<= (Text)"
+msgstr "<= (Texto)"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Layout Selection
+msgid "<All>"
+msgstr "<All>"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Csv_Quote
+msgid "<None>"
+msgstr "<Ninguno>"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- LayoutEdit_EndOfLine 3
+msgid "<lf>"
+msgstr "<lf>"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "= (Numeric)"
+msgstr "= (Numérico)"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "> (Numeric)"
+msgstr "> (Numérico)"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid ">= (Text)"
+msgstr "> = (Texto)"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "About"
+msgstr "Acerca de"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Add Column after"
+msgstr "Añadir columna después de"
+
+# Use: Field_Prompt 
+#  id:    Panel: Csv 
+msgid "Add Quote to all Text Fields"
+msgstr "Agregar a la cotización de todos los campos de texto"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Add names to JComponents for use by testing tools"
+msgstr "Agregar nombres a JComponents para el uso de herramientas de prueba"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Add names to screen Components"
+msgstr "Agregar nombres a los componentes de la pantalla"
+
+# Use: Message : Action 
+#  id:    Panel:  
+msgid "After {0}"
+msgstr "Después de {0}"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: EditDateTypes 
+# Tbl- PropEd_DataTypes 1
+msgid "Base Type"
+msgstr "Tipo de base"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Properties
+msgid "Behaviour"
+msgstr "Comportamiento"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Binary Numeric Types"
+msgstr "Tipos numéricos binarios"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Browse"
+msgstr "Busque"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "CSV Options"
+msgstr "Opciones CSV"
+
+# Use: Unknown 
+#  id:    Panel:  
+msgid "Can not save, Invalid Record definition"
+msgstr "No se puede guardar, definición de registro no válido"
+
+# Use: Unknown 
+#  id:    Panel:  
+msgid "Can not use replace in browse mode"
+msgstr "No se puede usar sustituir en modo de exploración"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Cancel"
+msgstr "Cancelar"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Changed Lines"
+msgstr "Líneas cambiadas"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Checkbox Types"
+msgstr "Tipos Checkbox"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Choose Directory"
+msgstr "Elegir directorio"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Choose Velocity Template"
+msgstr "Elegir plantilla Velocity"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Clear Fields"
+msgstr "Clear Fields"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- PropsEd_JDBC 6
+msgid "Commit"
+msgstr "Cometer"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Compare"
+msgstr "Comparar"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Compare (HTML)"
+msgstr "Comparar (HTML)"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Compare Single Layout"
+msgstr "Comparar diseño único"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Complete Rebuild of Tree"
+msgstr "Reconstrucción completa del árbol"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Save Tree as XML
+msgid "Converts a Tree View to XML"
+msgstr "Convierte una vista de árbol de XML"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Copy Menu"
+msgstr "Menú Copiar"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Copy Selections"
+msgstr "Copiar Selecciones"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Copy To Delimited File (Csv)"
+msgstr "Copiar a archivo delimitado (CSV)"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Create Child"
+msgstr "Crear Niño"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Create Screens in seperate Windows"
+msgstr "Crear pantallas en particular de Windows"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Field Based Tree
+msgid "Create Tree View based on changes in selected fields"
+msgstr ""
+"Crear vista de árbol sobre la base de los cambios en los campos "
+"seleccionados"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Create a new record layout"
+msgstr "Crea un nuevo diseño de registro"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Cut Record(s)"
+msgstr "Cut Record (s)"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Cut the selected record from the table"
+msgstr "Cortar el registro seleccionado de la tabla"
+
+# Use: Menu : Column_Heading : Tab_Heading 
+#  id:    Panel:  
+# ExportTab 0 Tbl- Single_Record 4
+msgid "Data"
+msgstr "Datos"
+
+# Use: Unknown 
+#  id:    Panel:  
+msgid "Database Upgraded to Version"
+msgstr "Base de datos actualizada a la versión"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid ""
+"Date Format String eg dd/MM/yy or dd.MMM.yy. the field is case sensitive, it "
+"uses Java date Formatting"
+msgstr ""
+"Fecha Cadena de formato, por ejemplo dd / mm / aa o dd.MMM.yy. el campo es "
+"sensible a mayúsculas, utiliza Java Fecha de formateo"
+
+# Use: Tab_Heading : Combobox_Entry 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "Date Types"
+msgstr "Conocer los tipos"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Default Record"
+msgstr "Predeterminado Record"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl1File 
+msgid "Default Type"
+msgstr "Tipo predeterminado"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 8
+msgid "DefaultValue"
+msgstr "DefaultValue"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Properties
+msgid "Defaults"
+msgstr "Predeterminados"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Delete Column"
+msgstr "Eliminar columna"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Delete Record(s)
+msgid "Delete Selected records"
+msgstr "Eliminar registros seleccionados"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Delete example Layout's from the DB"
+msgstr "Eliminar Ejemplo de composición del del DB"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Delete: {0}"
+msgstr "Eliminar: {0}"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Destination"
+msgstr "Destino"
+
+# Use: Field_Prompt 
+#  id:    Panel: Find 
+msgid "Direction"
+msgstr "Dirección"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Properties
+msgid "Directories"
+msgstr "Directorios"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Document View"
+msgstr "Vista de documentos"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Doesn't Contain"
+msgstr "No contiene"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: EditJdbcParamsPanel 
+# Tbl- PropsEd_JDBC 1
+msgid "Driver"
+msgstr "Conductor"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- PropsEd_JDBC 10
+msgid "Drop ; from SQL statements"
+msgstr "Gota, de sentencias SQL"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Edit Child Record"
+msgstr "Editar Record Niño"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Edit Combos"
+msgstr "Editar Combos"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Edit Output File"
+msgstr "Editar archivo de salida"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Edit Record"
+msgstr "Editar Record"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Edit Tables DB"
+msgstr "Editar tablas DB"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Equivalent Field"
+msgstr "Campo Equivalente"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+msgid "Equivalent Record"
+msgstr "Equivalente Record"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Execute Sort Tree"
+msgstr "Ejecutar Ordenar Tree"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Exit"
+msgstr "Salida"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Export as HTML 1 tbl"
+msgstr "Exportar como HTML 1 TBL"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Export using Xslt"
+msgstr "Exportación mediante XSLT"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Export using a Script"
+msgstr "Exportación mediante una secuencia de comandos"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Export using a Script
+msgid "Export using an external Script (Jython, JRuby, JavaScript etc)"
+msgstr ""
+"Exportación mediante un script externo (Jython, JRuby, JavaScript, etc)"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Export1"
+msgstr "Export1"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pane 
+msgid "Extension"
+msgstr "Extensión"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Extension Script directory"
+msgstr "Directorio de secuencias de comandos de extensión"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: Find 
+# Tbl- Single_Record 0 Tbl- DB-ChildRecords columns 2 Tbl- Filter Field Selection 0 Tbl- Filter Selecton Field Values 2 Tbl- Sort 0 Tbl- SortSum Field Function 0 Tbl- DB-RecordSelection Columns 2
+msgid "Field"
+msgstr "Campo"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Field Delimiter"
+msgstr "Delimitador de campo"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 2
+msgid "FieldName"
+msgstr "FieldName"
+
+# Use: Menu : Field_Prompt : Combobox_Entry 
+#  id:    Panel: OpenFileEditPnl 
+# Combo- File SelectionOptions Combo- Layout Copy
+msgid "File"
+msgstr "Expediente"
+
+# Use: Unknown 
+#  id:    Panel:  
+msgid "File Save Failed:"
+msgstr "Archivo Guardar Error:"
+
+# Use: Field_Prompt : Tab_Heading 
+#  id:    Panel: Pnl1File:Pnl2FileFormat:OpenFileEditPnl:RcdExtra 
+# ExportTab 8
+msgid "File Structure"
+msgstr "Estructura de archivos"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "File Wizard"
+msgstr "Asistente para archivo"
+
+# Use: Action : Button : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 1
+msgid "Filter"
+msgstr "Filtrar"
+
+# Use: Action : Frame_Heading : Button : Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 0
+msgid "Find"
+msgstr "Encontrar"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Fix Column"
+msgstr "Fijar la columna"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Force Storing chunks on Disk (Used in Testing)"
+msgstr "Forzar trozos Almacenamiento en disco (utilizado en las pruebas)"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- File Search Direction 0
+msgid "Forward"
+msgstr "Adelante"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Fully Expand Tree"
+msgstr "Expandir completamente Tree"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Record_ColumnHeadings 2
+msgid "Hex (1 Line)"
+msgstr "Hex (1 línea)"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Record_ColumnHeadings 3
+msgid "Hex (2 Lines)"
+msgstr "Hex (2 líneas)"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Record_ColumnHeadings 4
+msgid "Hex (SPF Edit Style)"
+msgstr "Hex (SPF Editar estilo)"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# ExportTab 4
+msgid "Html"
+msgstr "Html"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Input File Structure"
+msgstr "Estructura de archivos de entrada"
+
+# Use: Field_Prompt 
+#  id:    Panel: GetFiles 
+msgid "Input Numeric Format"
+msgstr "Entrada de formato numérico"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Insert"
+msgstr "Insertar"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Insert record(s) after selected records"
+msgstr "Insertar registro (s) después de los registros seleccionados"
+
+# Use: Unknown 
+#  id:    Panel:  
+msgid "Internal Error: lines cleared, save is not possible !!!"
+msgstr "Error interno: líneas despejadas, Guardar no es posible!"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Is Empty"
+msgstr "Está vacía"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditJdbcParamsPanel 
+msgid "JDBC JAR"
+msgstr "JAR JDBC"
+
+# Use: Field_Prompt : Tab_Heading 
+#  id:    Panel: EditLanguage 
+# Tab: EdProps_MainTab_Language
+msgid "Language"
+msgstr "Idioma"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Last"
+msgstr "Último"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+# RecordBtns 3
+msgid "Last Record"
+msgstr "Último registro"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pane 
+msgid "Layout"
+msgstr "Disposición"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl7SaveDbLayout:Pnl5SaveFileLayout 
+msgid "Layout Description"
+msgstr "Descripción del diseño"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Layout Wizard (For File copybooks)"
+msgstr "Asistente de diseño (para cuadernos archivo)"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Left Justified Numeric Types"
+msgstr "Izquierda Tipos numéricos Justified"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: Pnl2FileFormat 
+# Tbl- Export_Field_Selection 2 Tbl- LayoutWizard Field definition 2 Tbl- DB-RecordFields Columns 1 Tbl- LayoutWizard Record Selection Fields 2
+msgid "Length"
+msgstr "Longitud"
+
+# Use: Field_Prompt 
+#  id:    Panel: RecordList:RecordDef 
+msgid "List"
+msgstr "Lista"
+
+# Use: Button 
+#  id:    Panel:  
+# File Load/Save 1
+msgid "Load"
+msgstr "Cargar"
+
+# Use: Button 
+#  id:    Panel:  
+# Directory Load/Save 1
+msgid "Load From Directory"
+msgstr "Carga De Directory"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Load In background"
+msgstr "Carga en el fondo"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Load Saved Hidden Fields"
+msgstr "Load Saved campos ocultos"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Execute Record Tree
+msgid "Load and Execute a saved Record Tree"
+msgstr "Cargar y ejecutar un árbol de registro guardado"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Look for Big Endian Binary"
+msgstr "Busque Binario Big Endian"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Look for Mainframe Zoned numeric fields"
+msgstr "Busque Mainframe campos numéricos zonales"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Look for PC Zoned numeric fields (Cobol PIC 9 fields)"
+msgstr "Busque PC campos numéricos zonales (Cobol PIC 9 campos)"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Look for comp-3 fields"
+msgstr "Busque comp-3 campos"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EdProps_MainTab_Looks
+msgid "Looks"
+msgstr "Parece"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Move Column"
+msgstr "Mueva la columna"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Cobol Split options 0
+msgid "No Split"
+msgstr "No Dividir"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Number of characters to use when looking up record layouts (large)"
+msgstr ""
+"Número de caracteres para utilizar al buscar diseños de registro (grande)"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Number of characters to use when looking up record layouts (medium)"
+msgstr ""
+"Número de caracteres para utilizar al buscar diseños de registro (media)"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Numeric Decimal point=','"
+msgstr "Punto decimal numérico = ','"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Numeric Format"
+msgstr "Formato numérico"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Numeric Types"
+msgstr "Tipos numéricos"
+
+# Use: Field_Prompt 
+#  id:    Panel: StandardGetFiles 
+msgid "Old File Name"
+msgstr "Antiguo nombre de archivo"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Cobol Split options 1
+msgid "On Redefine"
+msgstr "En Redefinir"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pane 
+msgid "Only Listed"
+msgstr "Sólo Listado"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Open"
+msgstr "Abierto"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Open Output File"
+msgstr "Archivo de salida abierta"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Open a view containing Just the Fuzzy / Blank translations"
+msgstr "Abra una vista que contenga sólo las traducciones Fuzzy / blanco"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pane 
+msgid "Output Directory"
+msgstr "Directorio de salida"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Output File"
+msgstr "Archivo de salida"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 7
+msgid "Parameter"
+msgstr "Parámetro"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: EditJdbcParamsPanel 
+# Tbl- PropsEd_JDBC 5
+msgid "Password"
+msgstr "Contraseña"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Paste Table (Insert)"
+msgstr "Pega tabla (Insert)"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Paste Table Overwrite"
+msgstr "Pegar tabla Sobrescribir"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Paste the records into the table"
+msgstr "Pegue los registros en la tabla"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "Plugins"
+msgstr "Plugins"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-RecordFields Columns 0
+msgid "Position"
+msgstr "Posición"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Position of Child Screen"
+msgstr "Posición de la pantalla Niño"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Print"
+msgstr "Imprimir"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Program Log"
+msgstr "Programa Conectarse"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EdProps_MainTab_Properties
+msgid "Properties"
+msgstr "Propiedades"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Recalculate Column widths"
+msgstr "Los anchos de columna Recalcular"
+
+# Use: Column_Heading : Field_Prompt 
+#  id:    Panel: LineFrame:Pnl5RecordTable:Pnl6RecordFieldNames 
+# Tbl- Filter Record Selection 0
+msgid "Record"
+msgstr "Registro"
+
+# Use: Field_Prompt 
+#  id:    Panel: StandardGetFiles:Find:GetFiles:OpenFileEditPnl 
+msgid "Record Layout"
+msgstr "Record Layout"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Record Layouts"
+msgstr "Diseños de registro"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Record Tree Save Directory"
+msgstr "Record Tree Save Directory"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Record:"
+msgstr "Registro:"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "RecordEditor Forum"
+msgstr "Foro RecordEditor"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "RecordEditor Manual"
+msgstr "Manual RecordEditor"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "RecordEditor Web Page"
+msgstr "RecordEditor Página Web"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Reload from DB"
+msgstr "Actualizar desde DB"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Replace"
+msgstr "Reemplazar"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Replace All"
+msgstr "Reemplazar todo"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Replace Find"
+msgstr "Reemplace Buscar"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Right Justified Space padded Types"
+msgstr "Derecha Tipos acolchados Space Justified"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- DB-Table Columns 0
+msgid "Row Key"
+msgstr "Clave Row"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Run Script"
+msgstr "Ejecutar script"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Run a Script
+msgid "Run an external Script (Jython, JRuby, JavaScript etc)"
+msgstr "Ejecutar un script externo (Jython, JRuby, JavaScript, etc)"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Save Field Sequence"
+msgstr "Guardar Secuencia Campo"
+
+# Use: Field_Prompt : Button 
+#  id:    Panel: CmpWizardFinal:CopyWizardFinalPnl 
+msgid "Save File"
+msgstr "Guardar archivo"
+
+# Use: Action 
+#  id:    Panel:  
+# Description_for_Save Layout as XML
+msgid "Save Layout as RecordEditor XML"
+msgstr "Guardar diseño como RecordEditor XML"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Save Layout as XML"
+msgstr "Guardar diseño como XML"
+
+# Use: Button 
+#  id:    Panel:  
+# Directory Load/Save 0
+msgid "Save to Directory"
+msgstr "Enviar al Directorio"
+
+# Use: Field_Prompt 
+#  id:    Panel: SaveAsPnlScript 
+msgid "Script Language"
+msgstr "Escritura de la lengua"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Search: All Fields"
+msgstr "Buscar: Todos los campos"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+# FileDisplayBtns 9
+msgid "Set the length based on Current Layout"
+msgstr "Ajuste la longitud de la base de diseño actual"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Should the program check for binary Fixed Width Files ???"
+msgstr ""
+"En caso de comprobar el programa de archivos binarios de ancho fijo???"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Show Child Record"
+msgstr "Mostrar Record Niño"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Show Child Record on the Right hand side of the screen"
+msgstr "Mostrar registro hijo en el lado derecho de la pantalla"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Show Column"
+msgstr "Mostrar columna"
+
+# Use: Field_Prompt 
+#  id:    Panel: Pnl3RecordTypeMF:Pnl5RecordTable:Pnl3Table:Pnl3RecordType 
+msgid "Show Hex"
+msgstr "Mostrar Hex"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Show RecordEditor Tips"
+msgstr "Mostrar RecordEditor Consejos"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Show RecordEditor Tips on program startup"
+msgstr "Mostrar los consejos RecordEditor en el arranque del programa"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Show invalid Records"
+msgstr "Mostrar registros no válidos"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Sort Tree Save Directory"
+msgstr "Ordenar Tree Save Directory"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Space to be left at the Right of the screen."
+msgstr "El espacio que se deja a la derecha de la pantalla."
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Space to be left at the bottom of the screen."
+msgstr "El espacio que se deja en la parte inferior de la pantalla."
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+msgid "Special Char Types"
+msgstr "Tipos Char especiales"
+
+# Use: Field_Prompt 
+#  id:    Panel: OpenFileEditPnl 
+msgid "Split Copybook"
+msgstr "Cuaderno de Split"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Storing chunks on Disk"
+msgstr "Trozos de almacenamiento en disco"
+
+# Use: Combobox_Entry 
+#  id:    Panel:  
+# Combo- Sum Operators 1
+msgid "Sum"
+msgstr "Suma"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: LayoutEdit_RecordSelection
+msgid "Summary"
+msgstr "Resumen"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Jars
+msgid "System Jars"
+msgstr "Tarros del sistema"
+
+# Use: Button : Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Properties
+msgid "Test"
+msgstr "Prueba"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Single_Record 5
+msgid "Text"
+msgstr "Texto"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "The default Database to use"
+msgstr "La base de datos predeterminada que se utilizará"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Tree Table"
+msgstr "Tabla Tree"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Tree View"
+msgstr "Vista de árbol"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Uncheck Fields"
+msgstr "Desmarque campos"
+
+# Use: Unknown 
+#  id:    Panel:  
+msgid "Update Failed:"
+msgstr "Error de actualización:"
+
+# Use: Field_Prompt 
+#  id:    Panel:  
+msgid "Upgrade the DB from {0} to version {1}"
+msgstr "Actualiza la base de datos de {0} a la versión {1}"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "User Jars"
+msgstr "Tarros de usuario"
+
+# Use: Column_Heading 
+#  id:    Panel:  
+# Tbl- Filter Selecton Field Values 5
+msgid "Value"
+msgstr "Valor"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# ExportTab 7
+msgid "Velocity"
+msgstr "Velocidad"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Velocity Template directory (Copybooks)"
+msgstr "Directorio de plantillas Velocity (cuadernos)"
+
+# Use: Field_Prompt : Field_Hint 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Velocity Template directory (Editor)"
+msgstr "Directorio de plantillas Velocity (Editor)"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Warn the user before deleteing Selected Rows using the delete key"
+msgstr ""
+"Avisar al usuario antes de deleteing filas seleccionadas usando la tecla de "
+"borrar"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Window"
+msgstr "Ventana"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# ExportTab 3 Tab: EdProps_MainTab_Xml
+msgid "Xml"
+msgstr "Xml"
+
+# Use: Field_Prompt 
+#  id:    Panel: SaveAsPnlXslt 
+msgid "Xslt Engine (leave blank for default)"
+msgstr "Xslt Engine (dejar en blanco para predeterminado)"
+
+# Use: Field_Prompt 
+#  id:    Panel: SaveAsPnlXslt 
+msgid "Xslt File"
+msgstr "Archivo XSLT"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_Xml
+msgid "Xslt Options"
+msgstr "Opciones Xslt"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "You must enter a sample file"
+msgstr "Debe introducir un archivo de ejemplo"
+
+# Use: Column_Heading : Combobox_Entry 
+#  id:    Panel:  
+# Tbl- LayoutWizard RecordNames 1 Combo- LayoutEdit_EndOfLine 0
+msgid "default"
+msgstr "defecto"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "get Template"
+msgstr "conseguir Plantilla"
+
+# Use: Field_Prompt 
+#  id:    Panel: SaveAsPnlFileStructure 
+msgid "new File Structure"
+msgstr "nueva estructura de archivos"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "set as Field Name Row"
+msgstr "establecer como campo Nombre Row"
+
+# Use: Combobox_Entry : External 
+#  id: Copybook_Writers_0   Panel:  
+# 
+# English: RecordEditor (Tab) CSV
+msgid "Copybook_Writers_0"
+msgstr "RecordEditor (Tab) CSV"
+
+# Use: Combobox_Entry : External 
+#  id: Copybook_Writers_1   Panel:  
+# 
+# English: RecordEditor XML
+msgid "Copybook_Writers_1"
+msgstr "RecordEditor XML"
+
+# Use: External 
+#  id: Csv_Parsers_6   Panel:  
+# 
+# English: Basic - Delimiter all fields
+msgid "Csv_Parsers_6"
+msgstr "Basic - delimitadores todos los campos"
+
+# Use: External 
+#  id: Csv_Parsers_7   Panel:  
+# 
+# English: Basic - Delimiter all fields + 1
+msgid "Csv_Parsers_7"
+msgstr "Basic - delimitadores todos los campos + 1"
+
+# Use: Message 
+#  id: DefRecordSelection   Panel:  
+# 
+# English: You should define the Record Selections details (Field - Field Value)and check the File Structure on the Extra sceen
+msgid "DefRecordSelection"
+msgstr ""
+"Debe definir el registro Selecciones detalles (Field - Campo Valor) y "
+"comprobar la estructura de archivos en el sceen extra"
+
+# Use: Message 
+#  id: EditProperties_Icons   Panel:  
+# 
+# English: <h2>Icons</h2>
+# This screen lets you choose which icon set to use in the <b>RecordEditor</b>
+msgid "EditProperties_Icons"
+msgstr ""
+"<h2>Iconos\n"
+"</H2>\n"
+"Esta pantalla le permite elegir el conjunto de iconos para usar en el "
+"RecordEditor"
+
+# Use: Message 
+#  id: EditProps_DefaultOpts   Panel:  
+# 
+# English: <h2>Default Options</h2>
+# This Tab is for defining the default value for several Combo Box's used by the Package<br/>
+# # <br/>
+# # Click on a row to change the default Value
+msgid "EditProps_DefaultOpts"
+msgstr ""
+"<h2>Opciones predeterminadas\n"
+"</H2>\n"
+"Esta ficha es para definir el valor por defecto para varios cuadros "
+"combinados es utilizado por el paquete\n"
+"<br/>\n"
+"<br/>\n"
+"Haga clic en una fila para cambiar el valor por defecto"
+
+# Use: Message 
+#  id: EditProps_FileParams   Panel:  
+# 
+# English: <h2>File Propertie 2s</h2>
+# This panels lists various File related parameters.
+msgid "EditProps_FileParams"
+msgstr ""
+"<h2>Archivo 2s propertie\n"
+"</H2>\n"
+"Estos paneles se enumeran diversos parámetros relacionados con archivos."
+
+# Use: Message 
+#  id: EditProps_Plugin   Panel:  
+# 
+# English: <h2>Plugins</h2>
+# This tab is for defining user written <b>Functions</b> that will listed on the <br/>
+# # <b>Plugin</b> Drop down menu in the   <b>RecordEditor</b>.<br>
+# #  Local Functions must implement the Plugin interface
+msgid "EditProps_Plugin"
+msgstr ""
+"<h2>Plugins\n"
+"</H2>\n"
+"Esta ficha es para definir funciones de usuario escritas que aparecen en la\n"
+"<br/>\n"
+"Programas del menú desplegable en el RecordEditor.\n"
+"<br>\n"
+" Funciones locales deben implementar la interfaz Programas"
+
+# Use: Message 
+#  id: EditProps_Xslt   Panel:  
+# 
+# English: <h2>Xslt Properties</h2>
+# This panels let you specify XSLT related jars and the XSLT transform class<br>
+# # For Saxon or Xalan, you can just enter Saxon or Xalan, Or you can enter
+# <pre>        net.sf.saxon.TransformerFactoryImpl
+#     or  org.apache.xalan.processor.TransformerFactoryImpl</pre>
+msgid "EditProps_Xslt"
+msgstr ""
+"<h2>Xslt Propiedades\n"
+"</H2>\n"
+"Estos paneles permiten especificar frascos relacionados XSLT y la clase de "
+"transformación XSLT\n"
+"<br>\n"
+"Para Saxon o Xalan, usted puede entrar en Saxon o Xalan, o puede introducir\n"
+"<pre>\n"
+"        net.sf.saxon.TransformerFactoryImpl\n"
+"    o org.apache.xalan.processor.TransformerFactoryImpl\n"
+"</Pre>"
+
+# Use: Message 
+#  id: ExportDataDesc   Panel:  
+# 
+# English: Export data in native format
+# 
+# Change the tab to change Data format
+msgid "ExportDataDesc"
+msgstr ""
+"Exportar datos en formato nativo\n"
+"Cambiar la ficha para cambiar el formato de datos"
+
+# Use: Message 
+#  id: FileWizard_1   Panel:  
+# 
+# English: This wizard will build a <b>Record-Layout</b> from a sample file. 
+# # <p> you need to enter a<ol>
+# <li>sample file in the new layout</li>
+# <li>the file structure (use <b>Default Reader</b> for standard windows / Unix files)  for unknown file format use <b>Unknown Format</b></li>
+# <li>the new layout name</li>
+msgid "FileWizard_1"
+msgstr ""
+"Este asistente creará un Registro-Layout de un archivo de ejemplo.\n"
+"<p>\n"
+" es necesario introducir un <ol>\n"
+"<li>\n"
+"archivo de ejemplo en el nuevo diseño\n"
+"</Li>\n"
+"<li>\n"
+"la estructura de archivos (usar lector por defecto para los archivos "
+"estándar de Windows / Unix) para el formato de archivo desconocido uso "
+"Desconocido Formato\n"
+"</Li>\n"
+"<li>\n"
+"el nuevo nombre de la presentación\n"
+"</Li>"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_0   Panel:  
+# 
+# English: Default
+msgid "Line_IO_Names_0"
+msgstr "Defecto"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_1   Panel:  
+# 
+# English: Text IO
+msgid "Line_IO_Names_1"
+msgstr "Texto IO"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_4   Panel:  
+# 
+# English: Mainframe VB (rdw based) Binary
+msgid "Line_IO_Names_4"
+msgstr "Mainframe VB (rdw based) Binary"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_7   Panel:  
+# 
+# English: Fujitsu Variable Binary
+msgid "Line_IO_Names_7"
+msgstr "Fujitsu Binaria Variable"
+
+# Use: Combobox_Entry : External 
+#  id: Line_IO_Names_9   Panel:  
+# 
+# English: Text IO (byte Based)
+msgid "Line_IO_Names_9"
+msgstr "Texto IO (byte Based)"
+
+# Use: External 
+#  id: Tbl_FieldType_114   Panel:  
+# 
+# English: Check Box (Boolean)
+msgid "Tbl_FieldType_114"
+msgstr "Casilla de verificación (Boolean)"
+
+# Use: External 
+#  id: Tbl_FieldType_80   Panel:  
+# 
+# English: Char Rest of Fixed Length
+msgid "Tbl_FieldType_80"
+msgstr "Resto Char de longitud fija"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Current Line Highlight"
+msgstr "Corriente de línea Highlight"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Code Folding"
+msgstr "Plegado de código"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "Save File: {0} ?"
+msgstr "Guardar archivo: {0}?"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Java"
+msgstr "Java"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Animate Bracket Matching"
+msgstr "Animar Soporte a juego"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Word Wrap"
+msgstr "Ajuste de línea"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Change File Structure"
+msgstr "Cambiar la estructura del archivo"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Python"
+msgstr "Pitón"
+
+# Use: Menu 
+#  id:    Panel:  
+msgid "Examples"
+msgstr "Ejemplos"
+
+# Use: Field_Hint 
+#  id:    Panel:  
+msgid "Allow the user to edit file as Raw Text ??"
+msgstr "Permitir al usuario editar el archivo como texto sin procesar?"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Save All ..."
+msgstr "Guardar todo ..."
+
+# Use: Message 
+#  id:    Panel:  
+msgid "File Format of File {0} changed to {1}"
+msgstr "Formato de archivo del archivo {0} ha cambiado de {1}"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Tab Lines"
+msgstr "Líneas Tab"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Text View"
+msgstr "Vista de texto"
+
+# Use: Button 
+#  id:    Panel:  
+msgid "Run !!!"
+msgstr "Corre!"
+
+# Use: Field_Prompt 
+#  id:    Panel: EditPropertiesPnl 
+msgid "Allow Editting Raw Text"
+msgstr "Permitir Editting Texto Raw"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Eclipse"
+msgstr "Eclipse"
+
+# Use: Frame_Heading 
+#  id:    Panel:  
+msgid "Run Script Screen"
+msgstr "Ejecutar secuencias de comandos de la pantalla"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Mark Occurrences"
+msgstr "Marcar Ocurrencias"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "IDEA"
+msgstr "IDEA"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Bookmarks"
+msgstr "Marcadores"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Default (Alternate)"
+msgstr "Por defecto (Suplente)"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Bean Shell"
+msgstr "Frijol Shell"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Ruby"
+msgstr "Rubí"
+
+# Use: Tab_Heading 
+#  id:    Panel:  
+# Tab: EditOpts_User
+msgid "Initial Program Size"
+msgstr "Tamaño inicial del programa"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Line Numbers"
+msgstr "Números de línea"
+
+# Use: Error 
+#  id:    Panel:  
+msgid "No Script Engine found !!!"
+msgstr "No Script Engine encontrado!"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Text View (Selected Records)"
+msgstr "Ver texto (registros seleccionados)"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "JavaScript"
+msgstr "JavaScript"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Anti-Aliasing"
+msgstr "Anti-Aliasing"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "To Many Rows Selected ({0} > {1}) for ColumnDisplay"
+msgstr "Para muchas filas seleccionadas ({0}> {1}) para ColumnDisplay"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "\n"
+"\n"
+" Error saving file: {0}, message: {1}"
+msgstr " Error al guardar el archivo: {0}, mensaje: {1}"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Visual Studio"
+msgstr "Visual Studio"
+
+# Use: Action 
+#  id:    Panel:  
+msgid "Dark"
+msgstr "Oscuro"
+
+# Use: Message 
+#  id:    Panel:  
+msgid "File Format of {1} used to read File {0}"
+msgstr "Formato de archivo de {1} utiliza para leer el archivo {0}"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_31   Panel:  
+# 
+# English: Mainframe Decimal_Point=','
+msgid "BinFormat/Dialect_31"
+msgstr "Mainframe decimal_point = ','"
+
+# Use: Combobox_Entry 
+#  id: BinFormat/Dialect_32   Panel:  
+# 
+# English: Fujitsu Decimal_Point=','
+msgid "BinFormat/Dialect_32"
+msgstr "Fujitsu decimal_point = ','"
+
+# Use: Message 
+#  id: ChgFileStructure   Panel:  
+# 
+# English: <h2>Change File Structure</h2>
+# This option is mainly for <b>Cobol</b> Programmers. It allows you to change the<br>
+# # File format between <b>Text-IO</b> (standard text file - Line Sequential in Cobol),<br>
+# # various <b>VB</b> Formats and <b>Fixed Record Length</b> file format.<br>
+# # You will still need to save the file to make the changes permanent.<br>
+# # 
+# # <p>If you do not understand the above, this option is probably not for you
+msgid "ChgFileStructure"
+msgstr ""
+"<h2>Cambiar la estructura del archivo\n"
+"</H2>\n"
+"Esta opción es principalmente para los programadores de Cobol. Esto le "
+"permite cambiar el\n"
+"<br>\n"
+"Formato de archivo entre Texto IO (archivo de texto estándar - Line "
+"secuencial en Cobol),\n"
+"<br>\n"
+"diversos formatos de VB y formato de archivo de longitud de registro fija.\n"
+"<br>\n"
+"Usted todavía tendrá que guardar el archivo para que los cambios sean "
+"permanentes.\n"
+"<br>\n"
+"<p>\n"
+"Si usted no entiende lo anterior, esta opción no está probablemente para "
+"usted"
+
+# Use: Message 
+#  id: ExportFSDesc   Panel:  
+# 
+# English: This option exports the file with a new File-Structure
+# This option is most use to Cobol Programers
+# 
+# Mainframe VB* - Mainframe VB files        Fujitsu Variable Binary - Fujitsu Cobol VB 
+# Text IO       - Normal PC/Unix Text file  Fixed Length Binary - Fixed length File (no CR/LF)
+msgid "ExportFSDesc"
+msgstr ""
+"Esta opción exporta el archivo con un nuevo archivo-Estructura\n"
+"Esta opción se utiliza para la mayoría de los programadores de Cobol\n"
+"Mainframe VB * - Mainframe VB archivos Fujitsu binario Variable - Fujitsu "
+"Cobol VB\n"
+"Texto IO - Normal PC / Unix Archivo de texto fijo Binario Longitud - archivo "
+"de longitud fija (sin CR / LF)"
+
+# Use: Message 
+#  id: RecordPnl_Warn_03   Panel:  
+# 
+# English: Field: {0}  - Position must be > 0 !!! and not {1}
+msgid "RecordPnl_Warn_03"
+msgstr "Campo: {0} - La posición debe ser> 0! y no {1}"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_22   Panel:  
+# 
+# English: Num Assumed Decimal (+ve)
+msgid "Tbl_FieldType_22"
+msgstr "Num asumida Decimal (+ ve)"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_23   Panel:  
+# 
+# English: Binary Integer (only +ve)
+msgid "Tbl_FieldType_23"
+msgstr "Binary Integer (sólo + ve)"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_24   Panel:  
+# 
+# English: Zero Padded Number with sign=+/-
+msgid "Tbl_FieldType_24"
+msgstr "Zero acolchado número con signo = + / -"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_25   Panel:  
+# 
+# English: Positive Zero Padded Number
+msgid "Tbl_FieldType_25"
+msgstr "Positivo Número acolchado Zero"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_26   Panel:  
+# 
+# English: Zero Padded Number decimal=","
+msgid "Tbl_FieldType_26"
+msgstr "Zero acolchado decimal Number = \",\""
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_27   Panel:  
+# 
+# English: Zero Padded Number decimal="," sign=+/-
+msgid "Tbl_FieldType_27"
+msgstr "Zero acolchado decimal Number = \",\" signo = + / -"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_28   Panel:  
+# 
+# English: Zero Padded Number decimal="," (only +ve)
+msgid "Tbl_FieldType_28"
+msgstr "Zero acolchado decimal Number = \",\" (sólo + ve)"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_29   Panel:  
+# 
+# English: Num (Right Justified space padded) +/- sign
+msgid "Tbl_FieldType_29"
+msgstr "Num (espacio Justified rellenado por la derecha) signo + / -"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_33   Panel:  
+# 
+# English: Mainframe Packed Decimal (+ve)
+msgid "Tbl_FieldType_33"
+msgstr "Mainframe Decimal empaquetado (+ ve)"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_39   Panel:  
+# 
+# English: Binary Integer Big Endian (only +ve )
+msgid "Tbl_FieldType_39"
+msgstr "Entero Binario Big Endian (sólo + ve)"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_42   Panel:  
+# 
+# English: Num (Right Just space padded, "," Decimal)
+msgid "Tbl_FieldType_42"
+msgstr "Num (Derecho Justo espacio acolchado \",\" Decimal)"
+
+# Use: Field_Prompt : External 
+#  id: Tbl_FieldType_43   Panel:  
+# 
+# English: Num (Right Just space padded, "," Decimal) +/- sig
+msgid "Tbl_FieldType_43"
+msgstr "Num (Derecho Justo espacio acolchado \",\" Decimal) signo + / -"
+

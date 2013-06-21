@@ -1,0 +1,56 @@
+useFixture(RecordEditor)
+
+def test():
+	from Modules import commonBits
+	java_recorded_version = '1.6.0_22'
+
+	if window('Record Editor'):
+		select('File_Txt', commonBits.sampleDir() + 'DTAR020_tst1.bin')
+		click(commonBits.fl('Edit') + '1')
+		select('LineList.FileDisplay_JTbl', 'cell:9 - 2|STORE-NO,0(20)')
+		rightclick('LineList.FileDisplay_JTbl', '1 - 8|KEYCODE-NO,2')
+##		select('LineList.FileDisplay_JTbl', 'cell:9 - 2|STORE-NO,0(20)')
+		select_menu(commonBits.fl('Edit Record'))
+		select('TabbedPane', 'Table:')
+		select('TabbedPane', 'Record:')
+		select('LineFrame.FileDisplay_JTbl', 'cell:' + commonBits.fl('Data') + ',2(40118)')
+
+		select('LineFrame.FileDisplay_JTbl', 'cell:' + commonBits.fl('Data') + ',2(40118)')
+		assert_p('LineFrame.Record_Txt', 'Text', '3')
+		select('LineFrame.FileDisplay_JTbl', 'cell:' + commonBits.fl('Data') + ',2(40118)')
+		assert_p(commonBits.fl('Record:') + ' 3', 'Text', commonBits.fl('Record:') + ' 3')
+		select('LineFrame.FileDisplay_JTbl', 'cell:' + commonBits.fl('Data') + ',2(40118)')
+		assert_p(commonBits.fl('Table:'), 'Text', commonBits.fl('Table:'))
+		select('LineFrame.FileDisplay_JTbl', 'cell:' + commonBits.fl('Data') + ',2(40118)')
+		click(commonBits.fl('Table:'))
+		select('TabbedPane', 'Table:')
+		select('LineList.FileDisplay_JTbl', 'cell:9 - 2|STORE-NO,0(20)')
+		rightclick('LineList.FileDisplay_JTbl', '1 - 8|KEYCODE-NO,6')
+##		select('LineList.FileDisplay_JTbl', 'cell:9 - 2|STORE-NO,0(20)')
+		select_menu(commonBits.fl('Edit Record'))
+		select('TabbedPane', 'Table:')
+		select('TabbedPane', 'Record:')
+		select('LineFrame.FileDisplay_JTbl1', 'cell:' + commonBits.fl('Data') + ',3(335)')
+
+		select('LineFrame.FileDisplay_JTbl1', 'cell:' + commonBits.fl('Data') + ',3(335)')
+		assert_p('LineFrame.Record_Txt1', 'Text', '7')
+		select('LineFrame.FileDisplay_JTbl1', 'cell:' + commonBits.fl('Data') + ',3(335)')
+		assert_p(commonBits.fl('Record:') + ' 7', 'Text', commonBits.fl('Record:') + ' 7')
+		select('LineFrame.FileDisplay_JTbl1', 'cell:' + commonBits.fl('Data') + ',3(335)')
+		click(commonBits.fl('Record:') + ' 3')
+		select('TabbedPane', 'Record:')
+		select_menu(commonBits.fl('Window') + '>>' + commonBits.fl('Undock tab'))
+		select('TabbedPane', 'Record:')
+		assert_p('LineFrame.Record_Txt', 'Text', '3')
+
+		select_menu(commonBits.fl('Window') + '>>DTAR020_tst1.bin>>' + commonBits.fl('Table:'))
+		assert_p('LineFrame.Record_Txt', 'Text', '7')
+
+		select_menu(commonBits.fl('Window') + '>>DTAR020_tst1.bin>>' + commonBits.fl('Record:'))
+		select_menu(commonBits.fl('Window') + '>>' + commonBits.fl('Dock Tab/Screen'))
+		select('TabbedPane', 'Table:')
+		select('TabbedPane', 'Record:')
+		assert_p(commonBits.fl('Record:') + ' 3', 'Text', commonBits.fl('Record:') + ' 3')
+		assert_p(commonBits.fl('Record:') + ' 7', 'Text', commonBits.fl('Record:') + ' 7')
+		assert_p(commonBits.fl('Table:'), 'Text', commonBits.fl('Table:'))
+	close()

@@ -1,5 +1,5 @@
 .im iRE_TagDefs.dcf
-:h1.How To
+:h1.ReCsvEditor How To
 :ol.
  :li.:hp1.How to add / copy / delete columns:ehp1.
  :ul compact.
@@ -69,3 +69,8 @@ any text-editor (i.e. jEdit) that can open a file as :bblue.UTF8:ebblue. could b
      :li.Enter you directory in the :hp2.Language Directory:ehp2. and select your language.
    :eul.
 :eol.
+
+.im iHT_C000_Script.dcf
+.im iHT_D000_SreenSize.dcf
+.im iHT_E000_Docking.dcf
+

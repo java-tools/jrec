@@ -5,7 +5,7 @@ SetCompressor /SOLID lzma
 SetCompressionLevel 9
 
 !define PRODUCT_NAME "RecordEdit_HSQL"                                                             
-!define PRODUCT_VERSION "0.94.1"                                                                                  
+!define PRODUCT_VERSION "0.94.4"                                                                                  
 !define PRODUCT_PUBLISHER "Bruce Martin"                                                           
 !define PRODUCT_WEB_SITE "http://record-editor.sf.net"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
@@ -54,7 +54,7 @@ var ICONS_GROUP
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-<OutFile default="RecordEdit_Installer_for_HSQL_0.94.1.exe"/>
+<OutFile default="RecordEdit_Installer_for_HSQL_0.94.4.exe"/>
 InstallDir "$PROGRAMFILES\RecordEdit\HSQL"
 ShowInstDetails show
 ShowUnInstDetails show
@@ -77,26 +77,34 @@ Section "MainSection" SEC01
   Delete "$INSTDIR\lib\LayoutEdit.jar"
   Delete "$INSTDIR\lib\cb2xml.Jar"
 
-;  Delete "$INSTDIR\lib\StAX.jar"
 
-  <expand overwrite=try outpath="$INSTDIR\License" inpath="..\General" name="LICENSE*.txt">
+  <expand overwrite=try outpath="$INSTDIR\License" inpath="..\General" name="*.txt">
 
   <expand overwrite=try outpath="$INSTDIR\lib" inpath="..\Instalation\GeneralDB\lib" name="run*.jar" name2="SystemJars.txt">
   ;<expand overwrite=try outpath="$INSTDIR\lib" inpath="..\lib" name="run*.jar"
   ;			name2="JRecord.jar" name3="RecordEdit.jar" name4="LayoutEdit.jar" name5="cb2xml.jar" name6="StAX.jar"/>
-  <expand  inpath="..\Instalation\GeneralDB\lib" name="icons*.zip" name1="*.ico" />
+
+  
+  <expand overwrite="try" outpath="$INSTDIR\lib\Extensions" 
+                          inpath="..\Instalation\hsqldb_izpack\lib\Extensions" name="*.txt"/>  
+  <expand overwrite="try" outpath="$PROFILE\RecordEditor_HSQL\Extensions" 
+                          inpath="..\Instalation\hsqldb_izpack\lib\Extensions" name="*.txt"/>  
+
+
+  <expand  outpath="$INSTDIR\lib" inpath="..\Instalation\GeneralDB\lib" name="icons*.zip" name1="*.ico" />
   <expand  inpath="..\Instalation\hsqldb\lib\" name="properties.zip" name1="*.txt" />
   <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="RecordEditor_TipOfTheDay.properties" name1="LayoutEditor_TipOfTheDay.properties"/>
   <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="*Edit.pack" name1="cb2xml.pack" name2="pict.zip" name4="chardet.pack"  name5="ZCalendar.pack"/>
   <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="jlibdiff.pack"  name1="JRecord.propertie*" name2="RunUnpack.exe" name3="velocity-1.7*.pack" name4="runCobolBatchLoad.bat"/>
-  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="JRecord.pack" name1="jibx-run.pack" name2="PoEditor_re.pack" name3="swingx-subset-1.6.4.pack">
+  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="JRecord.pack" name1="jibx-run.pack" name2="rsyntaxtextarea.pack" name3="swingx-subset-1.6.4.pack" >
 
   <psc proc="normal">
     <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="hsqldbmain.pack"/>
   </psc>
   File "NsisUnpack.jar"
 
-   exec '"$JAVA_RUN1" -jar "$INSTDIR\lib\NsisUnpack.jar" $INSTDIR\lib'
+  exec '"$JAVA_RUN1" -jar "$INSTDIR\lib\NsisUnpack.jar" $INSTDIR\lib'
+
 
   <expand overwrite="try" outpath="$INSTDIR\lib\net\sf\RecordEditor\utils" 
                           inpath="..\Instalation\hsqldb\lib\net\sf\RecordEditor\utils\" name="*.properties"/>  
@@ -139,7 +147,8 @@ Section "MainSection" SEC01
   <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\User\SortTree"      inpath="..\Instalation\GeneralDB\User\SortTree"      name="*.xml" />  
   <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\User\Xslt"          inpath="..\Instalation\GeneralDB\User\Xslt"          name="*.xsl" />  
   <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\User\ExportScripts" inpath="..\Instalation\GeneralDB\User\ExportScripts" name="*.*" />  
-  <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\User\Scripts"       inpath="..\Instalation\GeneralDB\User\Scripts"       name="*.*" />  
+  <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\User\Scripts"       inpath="..\Instalation\GeneralDB\User\Scripts"       name="*.py" name1="*.rb" name2="*.js" name3="*.txt"/>  
+  <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\User\Scripts\Examples" inpath="..\Instalation\GeneralDB\User\Scripts\Examples"  name="*.*" />  
   <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\User\Icons"         inpath="..\Instalation\GeneralDB\User\Icons"         name="*.*" />  
 
   <psc proc="normal">
@@ -311,6 +320,14 @@ Section Uninstall
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
 
   <WriteDelete/>
+  
+  RMDir "$INSTDIR\lib\Extensions"
+
+  Delete "$INSTDIR\lib\swingx-subset-1.6.4.jar"
+  Delete "$INSTDIR\lib\rsyntaxtextarea.jar"
+  
+
+  
   Delete "$INSTDIR\lib\JRecord.jar"
   Delete "$INSTDIR\lib\velocity-1.7.jar"
   Delete "$INSTDIR\lib\velocity-1.7-dep.jar"
@@ -421,6 +438,8 @@ Section Uninstall
   RMDir "$INSTDIR\Docs\Diagram"
   RMDir "$INSTDIR\Docs"
   RMDir "$INSTDIR\License"
+  
+  RMDir "$PROFILE\RecordEditor_HSQL\Extensions"
   RMDir "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\Copybook"
   RMDir "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\File"
   RMDir "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates"

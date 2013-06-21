@@ -17,7 +17,7 @@
     -->
     <info>
         <appname>RecordEdit/HSQLDB</appname>
-        <appversion>0.94.1</appversion>
+        <appversion>0.94.4</appversion>
         <authors>
             <author name="Bruce Martin" email="bruce_a_martin@sourceforge.net" />
             <!--author name="Hidden Man" email="hidden@hisdomain.com"/-->
@@ -83,7 +83,7 @@
             <description>The base files</description>
             <file src="Readme.txt" targetdir="$INSTALL_PATH"/>
             <file src="readme.html" targetdir="$INSTALL_PATH"/>
-            <fileset dir="../General/" includes="LICENSE*.txt" targetdir="$INSTALL_PATH/License"/>
+            <fileset dir="../General/" includes="*.txt" targetdir="$INSTALL_PATH/License"/>
         </pack>
         <pack name="Documentation" required="yes" override="true">
             <description>Record Editor Docs</description>
@@ -108,7 +108,8 @@
         <pack name="Params" required="yes" >
             <description>Record Editor Parameters</description>
             <file src="../Instalation/hsqldb_izpack/HSQLDB" targetdir="$USER_HOME/.RecordEditor"/> 
-	    <!--parsable targetfile="$USER_HOME/.RecordEditor/HSQLDB/CobolFiles.txt"/-->
+            <fileset dir="../Instalation/hsqldb_izpack/lib/Extensions" includes="*.txt" targetdir="$USER_HOME/.RecordEditor/HSQLDB/Extensions"/>
+ 	    <!--parsable targetfile="$USER_HOME/.RecordEditor/HSQLDB/CobolFiles.txt"/-->
         </pack>
         <pack name="User" required="yes">
             <description>Record Editor Parameters</description>

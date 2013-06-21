@@ -1,0 +1,244 @@
+
+You must Enter a filename
+Copy Done !!!	Copy wizard
+Copy Done !!!, check log for errors	Copy wizard
+Copy Failed:
+You must Enter a filename
+Error Loading Record Layout	Many screens
+Error Running Copy
+You must enter a HTML file
+Error generating HTML
+Error Running Compare
+
+Please Enter a file name
+Save Failed:
+Error Reading the File:
+
+You must enter an input file	Velocity Copy screen, user must specify an input file
+You must enter a Velocity Template file	Velocity Export/Copy screen
+You must enter an Output file	Export/Copy screen, user must specify an output (Export) file name
+Invalid Field
+Velocity Export Failed:
+Can not save, Invalid Record definition	Generic error when the RecordEditor can not save record layout (Record create or child record screen)
+New Record Creation Failed!!	Generic error when creating a record layout (or schema)
+Program error: Row < 0  ??
+No Records to display
+DataBase Connection error:	Error Connecting to the Database, details will follow
+No Records to display
+You Must enter a Length for fixed Length files
+Selected File Structue is not supported here	Unknown File Format - file structure selected is invalid in the Unknown-Format-Reader
+Error Reading File:	Generic message used when there is an IO error on the unknown format screen
+Invalid Database Index	The RecordEditor can connect to multiple Databases, These database connections are stored in an array hence the array index; not relavent to most users as they only have the one DB
+Connection Failed:	connection to database failed, DB error will be concenated with message
+Connection Ok ~		Succesful connection to DB 
+Connection succesfull to	Connected to Datgabase - DB details will follow; from EditParameters - Test Connection screen
+Error Connecting to the Database:	Connection Failed  - DB details will follow; from EditParameters - Test Connection screen
+invalid filename (* present) ~	Filename contains the * character - invalid/undessirable on some systems
+Error Loading File:	Reporting IO error when reading a file in (for editting). 
+CopyBook Error:	- RecordEditor - Catch all Error reading RecordLayout from the database
+CopyBook Error- Reading Fields:	RecordEditor - Catch all error reading Record-fields from the Database
+Copybook Error: Reading Child Records:	RecordEditor - Catch all error reading child records from the DB
+
+Invalid Delimiter - Invalid  hex string:	Csv Files, user has entered an invalid hex string (for the field delimitier)
+Invalid Delimiter, should be a single character or a hex character	Csv Files, no delimiter specified
+Invalid Delimiter, should be a single character	Only single character field delimitier are supported, user has enterted multiple characters
+Field Line Number should be one or more and not	CSV Files, Field names can only be on a positive line number, user has entered 0 or a negaitive number
+Invalid Field Line Number:	CSV Files, invalid (i.e. non numeric) line number entered for Column heading line numbers
+Invalid Integer	Check user has entered a valid integer
+Invalid Boolean	Invalid Boolean value (should be true / false)
+
+No data to check	Protocol Buffer Editor, Empty file specified, can not check the file
+You must enter a Proto Definition File	Protocol Buffer Editor, user must enter a Proto definition file 
+You must enter a valid Proto File:	Protocol Buffer Editor - Error processing proto file exception message added on 
+Error Compiling proto file:	Protocol Buffer Editor - Generic error message when compiling / loading a proto definition
+Messages Compiling proto file	Protocol Buffer Editor - message from proto "Compile"
+Error Compiling proto file:	Protocol Buffer Editor - message from proto "Compile"
+
+Error Changing Layout:	Change Layout screen generic error message; exception message added on
+
+You must enter a line number	Goto line number screen - user must enter a line number
+line number must be > 0	Goto line number screen
+Invalid line number	Goto line number screen - invalid integer entered (conversion exception)
+Error Retrieving Layout	New File screen - can not find the specified Record Layout
+Error Creating File:	New File screen - generic error message, exception message will be added to it
+
+You must specify a specific field when using replace	Find screen - user must specify a field when using replace
+Can not use replace in browse mode	Find screen replace invalid in browse mode
+You must enter text to search for	Find screen - user must enter text to search for.
+Found (line, field Num, field position)=	Find screen - find message: I use it for testing
+
+No Records Selected	Tree display
+Nothing to Display	Cobol Copybook analysis
+Cobol Copybook does not exist	Cobol Copybook analysis - cobol copybook files does not exist
+You must enter a Cobol Copybook name	Cobol Copybook analysis
+Error: cobol copybook file is a directory	Cobol Copybook analysis
+
+Invalid number in {0}, msg=	New CSV file screen, the column name line number is invalid (< 1 or non numeric)
+
+You must enter a directory where cobol copybooks are located	Cobol directory load	
+${0} is not a directory !!!	Cobol and Xml directory load functions - the filename entered is not a directory
+
+You must enter a directory to load layouts from	Load Xml layouts from a directory
+You must enter a directory to save the layout
+
+You must enter a directory to save the layout	Export multiple layouts as Xml
+
+Error saving layout:	Export Layout as Xml, Export multiple layouts as Xml generic error message, exception message follows
+
+You must enter a directory to save the layout	Export multiple layouts as Xml
+Error Loading Layout:	Many screens
+
+
+
+25.Dec.98 will be formatted as	Date Format show the user how a date will be formated
+Date Format Error:	Error in the Date format entered by the user; User must use Java date format characters e.g. ddMMyy
+
+
+Connection Index	Database Connection index
+Connection ID	Database Connection Identifier
+Can not find icon:	Icon name follows; should not occur ~ means system can not find one of the icons used in buttons menus 
+Error Loading Property:	Error loading an Aray of properties from a property file (Used to read Database properties amongst other things)
+Error Loading Array, Index:	Error reading an array of integer properties from a property file
+Not enough memory to do a sort !!!
+Compress Queue Error: Save the file and try again	Internal error, occurs with very large files where the Editor uses Compression to reduce memory usage - generally only occurs in testing
+Error Saving to Spill file	For very big files, the RecordEditor uses a spill file to store parts of the file not being used. This indicates an error occured writing to the spill file
+Error Reading & unpacking spill file:	Big Files - Error occured in reading or uncompressing data on the Spill files
+Can not Read block from disk at:	Big Files - Error reading a block from the spill file
+Can not Read block from File at:	For some Big files, the file is randommly as need; Message produced when the random read fails
+Save Failed: File Rename Failed	File save failed in the rename step
+Error uncompressing chunk expected {0} but was {1}	Big file (Internal consistency error) - For very big files, The Editor uses compression to reduce memory usage; when it uncompresses a chunk, it checks the uncompressed data is the same size as it was before compression
+
+
+Old record saved, New Record {0} created	{0} placeholder for new reord name
+Connection Failed: {0}, can not run SQL	Database connection Failed; {0} will be replaced with error message
+Record Layout {0} can not be loaded:
+File: {0} does not exist
+File: {0} is a directory, it should be a protocol buffers file
+
+Error in Field {0} {1} : {2}	File Copy Utility - Param 1 = field name, Param 2 = Error Message, Param 3 = field value  
+Error Line {0} Field Number {1} - {2} : {1}	File Copy Utility 
+Error Defining Type > {0} class={1} {2}	 	Initialisation - Error loading user written type
+Copy limit of {0} excedded; only the first {1} lines copied	Record Editor Copy Error
+The Filter limit of {0} has been reached, do you wish to continue?	Dialog box to see if user wish's to continue filtering after limit has been reached
+The Filter limit of {0} has been reached, do you wish to continue?
+Filter limit of {0} excedded; only the first {0} lines in the filtered view
+
+You can not add a second root segment !!!	Tree view - only one root segment is allowed (Protocol buffers single message)
+Only one {0} is allowed !!!	Tree view only one child is allowed (Protocol buffers, Avro etc) parameter is child segment name
+Can not paste	Details & reason follow
+No Physical Line, so can not repeat the line	No physical lines selected - nothing to repeat 
+You can not Repeat the root Segment !!!	Tree view - only one root segment is allowed (Protocol buffers single message)
+Internal Error: lines cleared, save is not possible !!!	Something has gone dreadfully wrong, the data being editted has disapeared so can not be saved
+
+
+Error loading Function	Initialisation - Error loading a user defined function
+
+                                    
+Saving	(Xml layout, Xml file name appended)
+Loading	(Xml layout, Xml file name appended)
+
+File Save Failed:	Used All over the place
+Printing failed (Printing requires Java 1.5)	Printing
+Error Executing action:	Printing
+Error generating HTML
+Layout Record Does not exist !!!
+Error running user Initialize:	RecordEditor allow user jars to be added (which may include initialisation); relates to user written initialisation
+
+Error Records	Heading
+Save Failed:
+Line Can not be Viewed !!!!	Tree View no line associated with tree item (probably repeated child in protobuf / avro editor)
+To Many Rows Selected for ColumnDisplay	There is a limit on the number of rows that can be displayed in column display (note: in column display, rows become columns)
+No Error Records, nothing to display	User requests to see Error Records but there are no errors (Proto Buf Editor)
+Printing failed (Printing requires Java 1.5)	Printing is only available in Java 5 or latter. Old message, I doubt the RecordEditor would run on java 1.4 any more
+Error Executing action:
+No records matched the filter	Execute save filter and no records match
+Nothing can be inserted at this point	Tree insert; based on file definition, nothing can be inserted at this point (Protobufeditor / avro editor)
+Error No Fields defined in the layout !!!	No fields defined for a record (applies to recordeditor protobuf and avro editors)
+Error in the layout that was loaded	Generic error message when reading (loading) Xml layouts into the DB
+Can not Load Xml Layout:	Exception raised when loading Xml layout into DB, Exception message appended to the message
+Unable to load saved definition: jibx not present ???	The RecordEditor stores Copy / filter / sort information as Xml using the jibx package; The Editor has tried to read a Xml file with jibx and failed !!!; jibx jar could be missing or there was a jibx internal error
+Jibx Call Failed: Class not loaded	Call to jibx (jibx reads/writes Xml) failed with class not found - possibly the jibx jar is missing
+jibx- Save to Xml failed:	Call to jibx to write a parameter file as Xml has failed
+Execute Error	The execution of a saved file (Filter, Sort-Tree etc) has failed, exception details will follow
+
+Can not save Field Sequences	Tried to save "Field Sequence" information as Xml using jibx and the jibx call failed for some reason
+Writing HTML File failed:	Export as Html - failed the exception message will be appended
+Write Failed	Export Screen - generic write error the exception message will be appended
+Error Writing Column Headings:	Export (Csv / Fixed) error writing column headings, exception message will be appended
+Error Closing File:	Export Screen - Error closing the output (export) file. Exception message added
+Find error:	Find / search screen Error message, specific details will be appended
+Nothing to sort	Sort screen, can not sort empty file.
+You can only sort when all records are of the same type	Sort Screen applies to Proto Buffers / Avro Editors
+Error Loading File:	Csv Editor - Error loading a file for editing, exception message appended to the message
+Error Updating Recent-History file	File Open - RecordEditor loaded the data file for editting but could not update the RecentHistory file. The RecentHistory file holds recently editted files and File ~ record-layout mapping info
+Internal Error Creating Layout:	Error creating RecordLayout from Xml (stored in the Program). These Definitions are used when Editting exported files + other functions
+Problem Xml:	Error creating RecordLayout from Xml (stored in the Program). The name of the Xml will follow this message
+No Layout to Export	Occurs when user selects Export-Record-Layout as Xml in the RecordLayout-Editor and there is no valid Record-Layout to export. It could indicate nothing there or there is an error in the RecordLayout definition definition. This a log message, look for other messages
+You must enter a Record Name	RecordLayout Create/Edit screens. The Record-Name field must be entered
+Invalid Delimiter - Invalid  hex string:	RecordLayout Create/Edit screens - an invalid hex value entered as a Csv Field Delimitier
+Invalid Delimiter, should be a single character or a hex character	Invalid Csv Field delimitier, The recordEditor only accepts single character field delimitier (which can be entered as a Character or a Hex value i.e x'01')
+Invalid Field	RecordLayout Create/Edit Generic error, field / error details follow
+Invalid Hex Seperator	Csv file - Invalid field seperator specified (in hex format)
+Warning: on line {0} Field {1} Seperator {2} Dropped	Csv Writer, occurs when a field contains the field seperator and no quote character is specified
+Can not create Rendor for field:	Trying to create a cellrender for a column in the RecordEditor but there was a failure (class does not exist) 
+Script {0} run  !!!	Script Test Screen - Script (Jython / Javascript etc) run
+OutputFile:	Script Test Screen - Output file (after running script)
+Error:
+Error Opening XML file:	Error opening an Xml output file; error message will follow
+Error Writing XML:	Error writing an Xml file; error message will follow
+Database Upgraded to Version	Database upgrade message
+Could not load FileWizardReader	Upgrade message
+Database upgrade failed !!!
+Invalid Font Specified on CSV Preview screen	Generic Csv Reader ?? - Invalid font specified  
+Error loading CSV Preview:	Generic Csv Reader ?? - Generic Read Error
+Layout Generation Failed:	CsvEditor - Error creating Fixed-Width Record layout
+
+RecordName	Field on RecordLayout Create/Edit screen - used in message
+Description	Field on RecordLayout Create/Edit screen - used in message
+RecordType	Field on RecordLayout Create/Edit screen - used in message
+List	Field on RecordLayout Create/Edit screen - used in message
+CopyBook	Field on RecordLayout Create/Edit screen - used in message
+Canonical_Name	Field on RecordLayout Create/Edit screen - used in message
+Quote	Field on RecordLayout Create/Edit screen - used in message
+RecordStyle	Field on RecordLayout Create/Edit screen - used in message
+RecSep	Field on RecordLayout Create/Edit screen - used in message
+System	Field on RecordLayout Create/Edit screen - used in message
+Structure	Field on RecordLayout Create/Edit screen - used in message
+Delimiter	Field on RecordLayout Create/Edit screen - used in message
+
+Script execution failed !!! Execution of an external script (Javascript, jython etc failed)
+Error - cannot find template:	Velocity Template file does not exist; file name will follow
+Syntax error in template	Error (probably syntax ?) occured when running a velocity template
+
+Table Details have not been defined	LayoutEditor - Table details are missing ???
+Can not create popup:	RecordLayout Create/Edit screen - error creating Parameter popup screen
+Loading:	Log message when loading all cobol copybooks in a directory into the DB. Directory information follows
+Error Generating Layout	Unknown-Format file reader - Generic error creating RecordLayout; Exception details will follow
+Cant start wizard	Error starting a Wizard (File / Copy / Compare wizards); exception details follow
+Update Failed:	Generic Database update message, Database update has failed, Exception details are appended / follow
+
+
+Could not remove child, it is not present:	Protocol Buffers Editor - user tried to delete a child message that does not exist
+Could not remove child, it is not a Protocol Buffer Line:	Protocol Buffers Editor (Internal Error ??) - should not occur
+Could not remove child, it is Required:	Protocol Buffers Editor - User tried to delete a Required Child message
+Error Setting up Messages:	Protocol Buffers Editor - Error creating a message, details follow
+Error Retrieving proto definition:	Protocol Buffers Editor - Error retrieving proto definition (Protocol buffers Equivalent of a RecordLayout [schema])
+Error Loading Proto Summary file:	Protocol Buffers Editor - has a summary file of all proto definition which is used to work out which proto definition should be used with a file
+Error Processing Proto Directory file	Protocol Buffers Editor - has a file holding all the directories with proto file in them; generic error reading & processing this file
+Show {0} Fields
+Conversion Error	Generic Conversion error
+Do you want to delete the selected {0} lines ?	RecordEditor Delete confirmation message (For Delete key)
+Line Delete confirmation	RecordEditor Delete confirmation message header
+Select the Record to Insert	Select the Record to Insert in Tree-Table insert (applies to Avro / protobuf / Xml + possible others)
+Record to Copy From	Record Selection copy
+Record Selecetion	Record Selection / Record Insert header
+Invalid Hex	Header for 
+Error Converting Hex; {0} value={1} Message:	Error message when the user enters an invalid hex value in the RecordEditor
+Save changes	RecordEditor Exit, check if user wants to save the changed file
+Save Changes to file: {0}	RecordEditor Exit, check if user wants to save the changed file
+
+Are you sure you want to delete Combo: {0}	ComboEdit - delete confirmation
+Delete: {0}	ComboEdit/LayoutEdit - delete confirmation header
+Are you sure you want to delete record layout: {0}	RecordLayout edit - delete confirmation message
+New Record Layout Name	Input dialog, requesting new Record-Layout-Name, called when user issues a SaveAs (multiple screens)
+New Combo Name	Input dialogue, requesting new Combo Name from user (after user does a save-as)

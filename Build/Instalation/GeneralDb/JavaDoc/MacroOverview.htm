@@ -1,0 +1,44 @@
+<html>
+<body>
+<h1>JavaDoc for Macro's (Scripts)</h1>
+<p>This JavaDoc html holds the main classes / interfaces you will use 
+when writing Scripts for the <b>RecordEditor</b> / <b>ReCsvEditor</b></p>
+<p>Major classes include:
+<ul>
+ <li><a href="net/sf/RecordEditor/re/script/ScriptData.html" title="class in net.sf.RecordEditor.re.script">ScriptData</a>
+     This is the main interface between your script and the <b>RecordEditor</b>. It holds
+     methods to get at the Data, Create screens, run saved tasks etc.<p/>
+ <li><a href="net/sf/RecordEditor/re/file/FileView.html" title="class in net.sf.RecordEditor.re.file">FileView</a>
+    is the <b>RecordEditor's</b> internal description of a File and File-Views (created by filters etc).</li>
+ <li><a href="net/sf/JRecord/Details/AbstractLine.html" title="interface in net.sf.JRecord.Details">AbstractLine</a>
+    is the <b>RecordEditor's</b> internal description of a single Line or Record in the File. You can use the getFieldValue(..)
+    to get individual field values. All current
+    Line implementations also extend <a href="net/sf/JRecord/Details/BaseLine.html" title="class in net.sf.JRecord.Details">BaseLine</a>&lt;Layout extends <a href="net/sf/JRecord/Details/AbstractLayoutDetails.html" title="interface in net.sf.JRecord.Details">AbstractLayoutDetails</a>&gt;
+    so you can use the getFieldIterator(...) methods.</li>
+ <li>The <a href="net/sf/JRecord/Common/AbstractFieldValue.html" title="interface in net.sf.JRecord.Common">AbstractFieldValue</a>
+    should be your main interface to indivaiual field values.<p/></li>
+ <li></li><a href="net/sf/JRecord/Details/AbstractLayoutDetails.html" title="interface in net.sf.JRecord.Details">AbstractLayoutDetails</a>
+    is the <b>file description</b> (or schema or Copybook in Cobol). The logical Relationship between
+    the <b>file description</b> (or schema) classes is:
+    
+<pre> 
+
+     <a href="net/sf/JRecord/Details/AbstractLayoutDetails.html" title="interface in net.sf.JRecord.Details">AbstractLayoutDetails</a>  - Describes a file or view     
+         |
+         +----- <a href="net/sf/JRecord/Details/AbstractRecordDetail.html" title="interface in net.sf.JRecord.Details">AbstractRecordDetail</a> (1 or More) - Describes one record in the file   
+                     |
+                     +------  <a href="net/sf/JRecord/Common/IFieldDetail.html" title="interface in net.sf.JRecord.Common">IFieldDetail</a> (1 or More)  - Describes one field in the file 
+
+</pre>
+    
+     
+</ul>
+
+<!--
+file:///C:/Users/mum/Bruce/Work/RecordEditor/net/sf/RecordEditor/re/script/ScriptData.html
+file:///C:/Users/mum/Bruce/Work/RecordEditor/Build/Instalation/GeneralDb/JavaDoc/reScript/net/sf/RecordEditor/re/script/ScriptData.html
+file:///C:/Users/mum/Bruce/Work/RecordEditor/Build/Instalation/GeneralDb/JavaDoc/reScript/JavaDoc/reScript/net/sf/RecordEditor/re/script/ScriptData.html
+-->
+</body>
+</html>
+

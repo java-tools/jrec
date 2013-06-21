@@ -1,0 +1,37 @@
+useFixture(RecordEditor)
+
+def test():
+	from Modules import commonBits
+	java_recorded_version = '1.6.0_22'
+
+	if window('Record Editor'):
+		select('File_Txt', commonBits.sampleDir() + 'Ams_PODownload_20041231.txt')
+		click(commonBits.fl('Edit') + '1')
+		select_menu(commonBits.fl('Window') + '>>' + commonBits.fl('Show Child Record'))
+		assert_p('LineFrame.Record_Txt', 'Text', '1')
+		assert_p('LineFrame.FileDisplay_JTbl', 'Content', '[[Record Type, 1, H1, H1], [Sequence Number, 3, 45.349, 45349], [Vendor, 8, 6060, 0000006060], [PO, 18, 286225, 286225], [Entry Date, 30, 040909, 040909], [Filler, 36, , ], [beg01 code, 44, 00, 00], [beg02 code, 46, , ], [Department, 48, 200, 200], [Expected Reciept Date, 52, 050102, 050102], [Cancel by date, 58, 050107, 050107], [EDI Type, 68, , ], [Add Date, 69, , ], [Filler, 75, , ], [Department Name, 76, LADIES KNI, LADIES KNI], [Prcoess Type, 86, C, C], [Order Type, 87, FT, FT]]')
+		select('LineList.FileDisplay_JTbl', 'cell:19 - 8|Pack Quantity 2,5(48320000)')
+		assert_p('LineFrame.FileDisplay_JTbl', 'Content', '[[Record Type, 1, D1, D1], [Pack Qty, 3, 48.0000, 000480000], [Pack Cost, 12, 148.3200, 0000001483200], [APN, 25, 0, 0000000000000], [Filler, 38, , ], [Product, 39, 55615071, 55615071], [pmg dtl tech key, 72, 2075361, 2075361], [Case Pack id, 87, 55615071, 55615071], [Product Name, 101,  M.ROSE 24-006607 SHWL WRAP CARD,  M.ROSE 24-006607 SHWL WRAP CARD]]')
+		select('LineList.FileDisplay_JTbl', 'cell:19 - 8|Pack Quantity 2,5(48320000)')
+		assert_p('LineFrame.Record_Txt', 'Text', '6')
+		select('LineList.FileDisplay_JTbl', 'cell:19 - 8|Pack Quantity 2,5(48320000)')
+		assert_p('LineFrame.Layouts_Txt', 'Text', 'ams PO Download: Detail')
+		select('LineList.FileDisplay_JTbl', 'cell:39 - 4|DC Number 4,6(3331)')
+		assert_p('LineFrame.FileDisplay_JTbl', 'Content', '[[Record Type, 1, S1, S1], [DC Number 1, 3, 5036, 5036], [Pack Quantity 1, 7, 3, 00000003], [DC Number 2, 15, 5043, 5043], [Pack Quantity 2, 19, 5, 00000005], [DC Number 4, 39, 3331, 3331], [Pack Quantity 4, 43, 50710003, 50710003], [DC Number 5, 51, 5065, 5065], [Pack Quantity 5, 55, 4, 00000004], [DC Number 6, 63, 5069, 5069], [Pack Quantity 6, 67, 4, 00000004], [DC Number 7, 75, 5076, 5076], [Pack Quantity 7, 79, 4, 00000004], [DC Number 8, 87, 5079, 5079], [Pack Quantity 8, 91, 2, 00000002], [DC Number 9, 99, 5094, 5094], [Pack Quantity 9, 103, 4, 00000004], [DC Number 10, 111, 5128, 5128], [Pack Quantity 10, 115, 3, 00000003]]')
+		select('LineList.FileDisplay_JTbl', 'cell:39 - 4|DC Number 4,6(3331)')
+		assert_p('LineFrame.Record_Txt', 'Text', '7')
+		select('LineList.FileDisplay_JTbl', 'cell:39 - 4|DC Number 4,6(3331)')
+		assert_p('LineFrame.Layouts_Txt', 'Text', 'ams PO Download: Allocation')
+		select('LineList.FileDisplay_JTbl', 'cell:19 - 8|Pack Quantity 2,0(86225)')
+		assert_p('LineFrame.Layouts_Txt', 'Text', 'ams PO Download: Header')
+		select('LineList.FileDisplay_JTbl', 'cell:19 - 8|Pack Quantity 2,0(86225)')
+		assert_p('LineFrame.Record_Txt', 'Text', '1')
+		select('LineList.FileDisplay_JTbl', 'cell:19 - 8|Pack Quantity 2,0(86225)')
+		assert_p('LineFrame.FileDisplay_JTbl', 'Content', '[[Record Type, 1, H1, H1], [Sequence Number, 3, 45.349, 45349], [Vendor, 8, 6060, 0000006060], [PO, 18, 286225, 286225], [Entry Date, 30, 040909, 040909], [Filler, 36, , ], [beg01 code, 44, 00, 00], [beg02 code, 46, , ], [Department, 48, 200, 200], [Expected Reciept Date, 52, 050102, 050102], [Cancel by date, 58, 050107, 050107], [EDI Type, 68, , ], [Add Date, 69, , ], [Filler, 75, , ], [Department Name, 76, LADIES KNI, LADIES KNI], [Prcoess Type, 86, C, C], [Order Type, 87, FT, FT]]')
+		select('LineList.FileDisplay_JTbl', 'cell:15 - 4|DC Number 2,25(5021)')
+		assert_p('LineFrame.FileDisplay_JTbl', 'Content', '[[Record Type, 1, S1, S1], [DC Number 1, 3, 5009, 5009], [Pack Quantity 1, 7, 1, 00000001], [DC Number 2, 15, 5021, 5021], [Pack Quantity 2, 19, 1, 00000001], [DC Number 4, 39, 5025, 5025], [Pack Quantity 4, 43, 1, 00000001], [DC Number 5, 51, 5026, 5026], [Pack Quantity 5, 55, 1, 00000001], [DC Number 6, 63, 5127, 5127], [Pack Quantity 6, 67, 1, 00000001], [DC Number 7, 75, , ], [Pack Quantity 7, 79, 0, 00000000], [DC Number 8, 87, , ], [Pack Quantity 8, 91, 0, 00000000], [DC Number 9, 99, , ], [Pack Quantity 9, 103, 0, 00000000], [DC Number 10, 111, , ], [Pack Quantity 10, 115, 0, 00000000]]')
+		select('LineList.FileDisplay_JTbl', 'cell:15 - 4|DC Number 2,25(5021)')
+		assert_p('LineFrame.Record_Txt', 'Text', '26')
+		select('LineList.FileDisplay_JTbl', 'cell:15 - 4|DC Number 2,25(5021)')
+		assert_p('LineFrame.Layouts_Txt', 'Text', 'ams PO Download: Allocation')
+	close()

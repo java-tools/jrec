@@ -5,7 +5,8 @@ def test():
 	java_recorded_version = '1.6.0_22'
 
 	if window('Record Editor'):
-		select_menu(commonBits.fl('Record Layouts') + '>>' + commonBits.fl('Load Copybook'))
+		select_menu(commonBits.fl('Record Layouts') + '>>' + commonBits.fl('Load Copybook')
+)
 		select('User Selected Copybook_Txt', commonBits.xmlCopybookDir() + 'wx1File.Xml')
 		click(commonBits.fl('Go'))
 		select('User Selected Copybook_Txt', commonBits.xmlCopybookDir() + 'wx2File.Xml')
@@ -39,8 +40,9 @@ def test():
 		assert_p('ChildRecordsJTbl', 'Content', '[[, wwProd01, , , , , ], [, wwProd02, , , , , wwProdHead], [, wwProd05, , , , , wwProdHead], [, wwTrailer, , , , , wwHeader], [, wwProdHead, , , , , wwHeader], [, wwHeader, , , , , ], [, wwProd07, , , , , ]]')
 ##		select('ChildRecordsJTbl', '')
 		rightclick('ChildRecordsJTbl', commonBits.fl('Field') + ',2')
-		select_menu(commonBits.fl('View Record Selections Tree'))
-		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , , =, ], [, , And  ,   ,   , RecordType1, =, P], [, ,   ,   , And  , RecordType2, =, 01], [, ,   , Or  ,   , RecordType1, =, P], [, ,   ,   , And  , RecordType2, =, 02], [, ,   , Or  ,   , RecordType1, =, P], [, ,   ,   , And  , RecordType2, =, 05], [, ,   ,   ,   , , =, ], [, ,   ,   ,   , , =, ], [, ,   ,   ,   , , =, ], [, , And  ,   ,   , RecordType1, =, T], [, ,   ,   , And  , RecordType2, =, TR], [, ,   ,   ,   , , =, ], [, , And  ,   ,   , RecordType1, =, P], [, ,   ,   , And  , RecordType2, =, HD], [, ,   ,   ,   , , =, ], [, , And  ,   ,   , RecordType1, =, H], [, ,   ,   , And  , RecordType2, =, HD], [, ,   ,   ,   , , =, ], [, , And  ,   ,   , RecordType1, =, P], [, ,   ,   , And  , RecordType2, =, 07]]')
+		select_menu(commonBits.fl('View Record Selections Tree')
+)
+		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , , =, ], [, , ' + commonBits.fl('And') + '  ,   ,   , RecordType1, =, P], [, ,   ,   , ' + commonBits.fl('And') + '  , RecordType2, =, 01], [, ,   , ' + commonBits.fl('Or') + '  ,   , RecordType1, =, P], [, ,   ,   , ' + commonBits.fl('And') + '  , RecordType2, =, 02], [, ,   , ' + commonBits.fl('Or') + '  ,   , RecordType1, =, P], [, ,   ,   , ' + commonBits.fl('And') + '  , RecordType2, =, 05], [, ,   ,   ,   , , =, ], [, ,   ,   ,   , , =, ], [, ,   ,   ,   , , =, ], [, , ' + commonBits.fl('And') + '  ,   ,   , RecordType1, =, T], [, ,   ,   , ' + commonBits.fl('And') + '  , RecordType2, =, TR], [, ,   ,   ,   , , =, ], [, , ' + commonBits.fl('And') + '  ,   ,   , RecordType1, =, P], [, ,   ,   , ' + commonBits.fl('And') + '  , RecordType2, =, HD], [, ,   ,   ,   , , =, ], [, , ' + commonBits.fl('And') + '  ,   ,   , RecordType1, =, H], [, ,   ,   , ' + commonBits.fl('And') + '  , RecordType2, =, HD], [, ,   ,   ,   , , =, ], [, , ' + commonBits.fl('And') + '  ,   ,   , RecordType1, =, P], [, ,   ,   , ' + commonBits.fl('And') + '  , RecordType2, =, 07]]')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 	close()

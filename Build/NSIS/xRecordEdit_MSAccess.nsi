@@ -88,7 +88,7 @@ Section "MainSection" SEC01
 
 ;  Delete "$INSTDIR\lib\StAX.jar"
 
-  <expand overwrite=try outpath="$INSTDIR\License" inpath="..\General" name="LICENSE*.txt">
+  <expand overwrite=try outpath="$INSTDIR\License" inpath="..\General" name="*.txt">
 
   <expand overwrite=try outpath="$INSTDIR\lib" inpath="..\Instalation\GeneralDB\lib" name="run*.jar" name2="*Jars.txt"/>
   ;<expand overwrite=try outpath="$INSTDIR\lib" inpath="..\lib" name="run*.jar" name1="JRecord.jar" 
@@ -98,10 +98,16 @@ Section "MainSection" SEC01
   <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="RecordEditor_TipOfTheDay.properties" name1="LayoutEditor_TipOfTheDay.properties"/>
   <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="*Edit.pack" name1="cb2xml.pack" name2="pict.zip" name4="chardet.pack"  name5="ZCalendar.pack"/>
   <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="jlibdiff.pack"  name1="JRecord.propertie*" name2="RunUnpack.exe" name3="velocity-1.7*.pack" name4="runCobolBatchLoad.bat"/>
-  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="JRecord.pack" name1="jibx-run.pack" name2="PoEditor_re.pack" name3="swingx-subset-1.6.4.pack">
+  <expand  inpath="..\Instalation\hsqldb_izpack\lib" name="JRecord.pack" name1="jibx-run.pack" name2="rsyntaxtextarea.pack" name3="swingx-subset-1.6.4.pack">
   File "NsisUnpack.jar"
   
   exec '"$JAVA_RUN1" -jar "$INSTDIR\lib\NsisUnpack.jar" $INSTDIR\lib'
+
+  <expand overwrite="try" outpath="$INSTDIR\lib\Extensions" 
+                          inpath="..\Instalation\hsqldb_izpack\lib\Extensions" name="*.txt"/>  
+  <expand overwrite="try" outpath="$PROFILE\RecordEditor_MSaccess\Extensions" 
+                          inpath="..\Instalation\hsqldb_izpack\lib\Extensions" name="*.txt"/>  
+
 
  
   <expand overwrite="try" outpath="$INSTDIR\lang" name="*.html" name1="*.po"  name2="msgfmt*.*" inpath="..\Instalation\GeneralDB\lang">
@@ -133,16 +139,17 @@ Section "MainSection" SEC01
   <expand overwrite=try outpath="$PROFILE\RecordEditor_MSaccess" inpath="..\Instalation\MSaccess\Properties" 
   		name="Params.Properties" name1="*Files.txt" name2="Properties.zip" name3="UserJars.txt"/>  
 	
-  <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\Copy"          inpath="..\Instalation\GeneralDB\User\Copy"         name="*.xml" />  
-  <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\Compare"       inpath="..\Instalation\GeneralDB\User\Compare"      name="*.xml" />  
-  <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\Filter"        inpath="..\Instalation\GeneralDB\User\Filter"       name="*.xml" />  
-  <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\Fields"        inpath="..\Instalation\GeneralDB\User\Fields"       name="*.xml" />  
-  <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\LayoutExport"  inpath="..\Instalation\GeneralDB\User\LayoutExport" name="*.xml" />  
-  <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\RecordTree"    inpath="..\Instalation\GeneralDB\User\RecordTree"   name="*.xml" />  
-  <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\SortTree"      inpath="..\Instalation\GeneralDB\User\SortTree"     name="*.xml" />  
-  <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\Xslt"          inpath="..\Instalation\GeneralDB\User\Xslt"         name="*.xsl" />  
-  <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\ExportScripts" inpath="..\Instalation\GeneralDB\User\ExportScripts"  name="*.*" />  
-  <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\Scripts"       inpath="..\Instalation\GeneralDB\User\Scripts"        name="*.*" />  
+  <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\Copy"          inpath="..\Instalation\GeneralDB\User\Copy"          name="*.xml" />  
+  <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\Compare"       inpath="..\Instalation\GeneralDB\User\Compare"       name="*.xml" />  
+  <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\Filter"        inpath="..\Instalation\GeneralDB\User\Filter"        name="*.xml" />  
+  <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\Fields"        inpath="..\Instalation\GeneralDB\User\Fields"        name="*.xml" />  
+  <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\LayoutExport"  inpath="..\Instalation\GeneralDB\User\LayoutExport"  name="*.xml" />  
+  <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\RecordTree"    inpath="..\Instalation\GeneralDB\User\RecordTree"    name="*.xml" />  
+  <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\SortTree"      inpath="..\Instalation\GeneralDB\User\SortTree"      name="*.xml" />  
+  <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\Xslt"          inpath="..\Instalation\GeneralDB\User\Xslt"          name="*.xsl" />  
+  <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\ExportScripts" inpath="..\Instalation\GeneralDB\User\ExportScripts" name="*.*" />  
+  <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\Scripts"       inpath="..\Instalation\GeneralDB\User\Scripts"       name="*.py" name1="*.rb" name2="*.js" name3="*.txt"/>  
+  <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\Scripts\Examples" inpath="..\Instalation\GeneralDB\User\Scripts\Examples"  name="*.*" />  
   <expand overwrite=off outpath="$PROFILE\RecordEditor_MSaccess\User\Icons"         inpath="..\Instalation\GeneralDB\User\Icons"         name="*.*" />  
 
   SetOverwrite off
@@ -316,8 +323,13 @@ Section Uninstall
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
  
   <WriteDelete/>
-  
+
   Delete "$PROFILE\RecordEditor_MSaccess\RecordEditor.mdb"
+
+  RMDir "$INSTDIR\lib\Extensions"
+
+  Delete "$INSTDIR\lib\swingx-subset-1.6.4.jar"
+  Delete "$INSTDIR\lib\rsyntaxtextarea.jar"
   Delete "$INSTDIR\lib\JRecord.jar"
   Delete "$INSTDIR\lib\velocity-1.7.jar"
   Delete "$INSTDIR\lib\velocity-1.7-dep.jar"
@@ -387,6 +399,8 @@ Section Uninstall
   RMDir "$INSTDIR\Docs\Diagram"
   RMDir "$INSTDIR\Docs"
   RMDir "$INSTDIR\License"
+  
+  RMDir "$PROFILE\RecordEditor_MsAccess\Extensions"
   RMDir "$PROFILE\RecordEditor_MsAccess\SampleVelocityTemplates\Copybook"
   RMDir "$PROFILE\RecordEditor_MsAccess\SampleVelocityTemplates\File"
   RMDir "$PROFILE\RecordEditor_MsAccess\SampleVelocityTemplates"

@@ -27,7 +27,7 @@ def test():
 
 		commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
-		select_menu('Window>>Ams_PODownload_20050101.txt>>Table: ')
+		select_menu('Window>>Ams_PODownload_20050101.txt>>Table:')
 		commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		commonBits.selectOldFilemenu(select_menu, 'Utilities', 'File Copy Menu')
@@ -171,7 +171,7 @@ def test():
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'cell:3 - 4|DC Number 1,4(5303)')
 		select('Table', 'cell:3 - 4|DC Number 1,4(5303)')
-		select_menu('Window>>Ams_PO_fromXmlSave.txt>>Table: ')
+		select_menu('Window>>Ams_PO_fromXmlSave.txt>>Table:')
 		select('Table', 'cell:3 - 4|DC Number 1,4(5303)')
 		commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')

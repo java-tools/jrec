@@ -17,7 +17,7 @@ def test():
 		select_menu(commonBits.fl('File') + '>>' + commonBits.fl('Export as CSV file'))
 ##		select('Table1', 'rows:[2,3,4,5],columns:[9 - 2|STORE-NO]')
 		select('CheckBox', 'true')
-		select('DelimitierCombo', ';')
+		select('DelimiterCombo', ';')
 		select('CheckBox2', 'true')
 		select('CheckBox4', 'true')
 		click(commonBits.fl('Save File'))

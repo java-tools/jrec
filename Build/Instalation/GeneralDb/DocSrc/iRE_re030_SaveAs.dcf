@@ -16,6 +16,9 @@ As a (Format determined by the Tab)
   :li.Or using a Xsl Transform (only Xml).
   :li.Or using a :Velocity. template (provided :Velocity. is installed, see
 .*b2h HTML <a href="HowTo.htm#HDRVELOCITY" Target=New>Installing Velocity for details</a>).
+  :li.Or change change the file structure. This option allows you to export the file
+with a different file structure (i.e. Fixed Length, Various VB formats or Standard Text file.
+This option would be of interest to Cobol programmers.
 :eul.
 :p.Save as Screen:
 :p.

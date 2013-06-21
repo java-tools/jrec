@@ -1,4 +1,4 @@
-useFixture(default)
+useFixture(RecordEditor)
 
 def test():
 	from Modules import commonBits
@@ -11,18 +11,17 @@ def test():
 
 
 		if window(''):
-			commonBits.doSleep()
-			select('CheckBox', 'false')
 
-			click('Go')
-			commonBits.doSleep()
 
-			commonBits.doSleep()
+			select('CheckBox', 'false')
+
+			click(commonBits.fl('Go'))
+
+
 
 
 		close()
 
-		commonBits.doSleep()
 
 		select('Table', 'cell:4|D,0(Loc_Name)')
 		assert_p('Table', 'Text', 'WA Ad Support', '4|D,4')
@@ -33,7 +32,7 @@ def test():
 		select('Table', 'cell:4|D,6(Penrith)')
 		assert_p('Table', 'Text', 'Penrith', '4|D,6')
 		select('Table', 'rows:[0,1,2],columns:[4|D]')
-		select_menu('View>>Column View #{Selected Records#}')
+		select_menu(commonBits.fl('View') + '>>' + commonBits.fl('Column View #{Selected Records#}'))
 ###		select('Table2', 'rows:[0,1,2],columns:[1|A,2|B]')
 		select('Table', 'cell:Row 1,2(Loc_Type)')
 		assert_p('Table', 'Text', 'Altona North', 'Row 2,6')
@@ -48,8 +47,8 @@ def test():
 		select('Table', 'cell:Row 1,7(Loc_Postcode)')
 		assert_p('Table', 'ColumnCount', '3')
 		select('Table', 'cell:Row 1,3(Loc_Name)')
-		select('Table1', 'cell:Field,3(D)')
-		assert_p('Table1', 'Text', 'D', 'Field,3')
-		select('Table1', 'cell:Field,3(D)')
+		select('Table1', 'cell:' + commonBits.fl('Field') + ',3(D)')
+		assert_p('Table1', 'Text', 'D', commonBits.fl('Field') + ',3')
+		select('Table1', 'cell:' + commonBits.fl('Field') + ',3(D)')
 		assert_p('Table1', 'Content', '[[A, 1, ], [B, 2, ], [C, 3, ], [D, 4, ], [E, 5, ], [F, 6, ], [G, 7, ], [H, 8, ], [I, 9, ], [J, 10, ], [K, 11, ]]')
 	close()

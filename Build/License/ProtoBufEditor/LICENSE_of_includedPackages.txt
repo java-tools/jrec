@@ -2,6 +2,7 @@ Protocol Buffers:	Google License
 JiBX License:		Bsd License
 BCEL:			Appache License
 XPP3			Indiania University
+swingx			LGPL
 jlibdiff.jar		LGPL
 JRecord			LGPL
 
@@ -190,10 +191,9 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 -----------------------------------------------
-jlibdiff.jar (LGPL) License
+swingx, cb2xml, jlibdiff.jar (LGPL) License
 ------------------------------------------------
 
-This covers cb2xml and jlibdiff.jar
 
 GNU Lesser General Public License
 

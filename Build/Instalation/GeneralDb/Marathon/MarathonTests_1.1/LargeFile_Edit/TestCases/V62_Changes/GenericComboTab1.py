@@ -1,4 +1,4 @@
-useFixture(default)
+useFixture(RecordEditor)
 
 def test():
 	from Modules import commonBits
@@ -21,7 +21,7 @@ def test():
 			select('Table', 'cell:Loc_Name,6(Blacktown)')
 			commonBits.doSleep()
 
-			click('Go')
+			click(commonBits.fl('Go'))
 			commonBits.doSleep()
 
 			commonBits.doSleep()
@@ -38,7 +38,7 @@ def test():
 		select('Table', 'cell:5|Loc_Addr_Ln1,13(Campbelltown Mall)')
 		assert_p('Table', 'Text', 'Campbelltown Mall', '5|Loc_Addr_Ln1,13')
 		select('Table', 'rows:[5,6,7],columns:[4|Loc_Name]')
-		select_menu('View>>Column View #{Selected Records#}')
+		select_menu(commonBits.fl('View') + '>>' + commonBits.fl('Column View #{Selected Records#}'))
 ##		select('Table2', 'rows:[5,6,7],columns:[4|Loc_Name]')
 		select('Table', 'cell:Row 1,5(58 Leland Street)')
 		assert_p('Table', 'Text', '58 Leland Street', 'Row 1,5')
@@ -51,9 +51,9 @@ def test():
 		select('Table', 'cell:Row 3,6(2-8 Mc Pherson Street)')
 		assert_p('Table', 'RowCount', '11')
 		select('Table', 'cell:Row 3,2(ST)')
-		select('Table1', 'cell:Field,2(Loc_Type)')
+		select('Table1', 'cell:' + commonBits.fl('Field') + ',2(Loc_Type)')
 		assert_p('Table1', 'Content', '[[Brand_Id, 1, ], [Loc_Nbr, 2, ], [Loc_Type, 3, ], [Loc_Name, 4, ], [Loc_Addr_Ln1, 5, ], [Loc_Addr_Ln2, 6, ], [Loc_Addr_Ln3, 7, ], [Loc_Postcode, 8, ], [Loc_State, 9, ], [Loc_Actv_Ind, 10, ], [K, 11, ]]')
-		select('Table1', 'cell:Field,2(Loc_Type)')
+		select('Table1', 'cell:' + commonBits.fl('Field') + ',2(Loc_Type)')
 		commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('Table', 'rows:[5,6,7],columns:[4|Loc_Name]')

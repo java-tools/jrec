@@ -31,5 +31,10 @@ def test():
 		commonBits.find(click)
 		assert_p('TextField', 'Text',  commonBits.fl('Found (line, field Num, field position)=') + '14, 5, 0')
 		commonBits.find(click)
+
+		if window(''):
+			click('No')
+		close()
+
 		assert_p('TextField', 'Text',  commonBits.fl('Found (line, field Num, field position)=') + '18, 5, 0')
 	close()

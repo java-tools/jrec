@@ -23,7 +23,12 @@ def test():
 		select('Table', 'cell:Row 1,0(TAR)')
 		assert_p('Table1', 'Text', '3', 'Len,0')
 		select('Table', 'cell:Row 1,1(5839)')
-		assert_p('Table', 'Content', '[[TAR, TAR, TAR, TAR, TAR, TAR], [5839, 5850, 5853, 5866, 5015, 5019], [DC, DC, DC, DC, ST, ST], [DC - Taras Ave, VIC West Ad Support, NSW North Sydney Ad Support, WA Ad Support, Bankstown, Penrith], [, , , , Bankstown, Penrith], [30-68 Taras Ave, Lot 2 Little Boundary Rd, , , Unit 2, 39-41 Allingham Street, 58 Leland Street], [Altona North, Laverton, , , Condell Park, Penrith], [3025, 3028, , , 2200, 2750], [VIC, VIC, , , NSW, NSW], [A, A, A, A, A, A]]')
+##		assert_p('Table', 'Content', '[[TAR, TAR, TAR, TAR, TAR, TAR], [5839, 5850, 5853, 5866, 5015, 5019], [DC, DC, DC, DC, ST, ST], [DC - Taras Ave, VIC West Ad Support, NSW North Sydney Ad Support, WA Ad Support, Bankstown, Penrith], [, , , , Bankstown, Penrith], [30-68 Taras Ave, Lot 2 Little Boundary Rd, , , Unit 2, 39-41 Allingham Street, 58 Leland Street], [Altona North, Laverton, , , Condell Park, Penrith], [3025, 3028, , , 2200, 2750], [VIC, VIC, , , NSW, NSW], [A, A, A, A, A, A]]')
+		if commonBits.isMissingCol():
+			assert_p('Table', 'Content', '[[TAR, TAR, TAR, TAR, TAR, TAR], [5839, 5850, 5853, 5866, 5015, 5019], [DC, DC, DC, DC, ST, ST], [DC - Taras Ave, VIC West Ad Support, NSW North Sydney Ad Support, WA Ad Support, Bankstown, Penrith], [, , , , Bankstown, Penrith], [30-68 Taras Ave, Lot 2 Little Boundary Rd, , , Unit 2, 39-41 Allingham Street, 58 Leland Street], [Altona North, Laverton, , , Condell Park, Penrith], [3025, 3028, , , 2200, 2750], [VIC, VIC, , , NSW, NSW]]')
+		else:
+			assert_p('Table', 'Content', '[[TAR, TAR, TAR, TAR, TAR, TAR], [5839, 5850, 5853, 5866, 5015, 5019], [DC, DC, DC, DC, ST, ST], [DC - Taras Ave, VIC West Ad Support, NSW North Sydney Ad Support, WA Ad Support, Bankstown, Penrith], [, , , , Bankstown, Penrith], [30-68 Taras Ave, Lot 2 Little Boundary Rd, , , Unit 2, 39-41 Allingham Street, 58 Leland Street], [Altona North, Laverton, , , Condell Park, Penrith], [3025, 3028, , , 2200, 2750], [VIC, VIC, , , NSW, NSW], [A, A, A, A, A, A]]')
+
 		select('Table', 'cell:Row 1,1(5839)')
 		commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')

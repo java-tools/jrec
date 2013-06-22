@@ -71,10 +71,10 @@ public interface Constants {
     public static final int IO_XML_USE_LAYOUT   = 61;
     public static final int IO_XML_BUILD_LAYOUT = 62;
 
-    public static final int IO_EVALUATE_DEFAULT_BINARY    = 80;
-    public static final int IO_EVALUATE_DEFAULT_FIXED     = 81;
-    public static final int IO_EVALUATE_DEFAULT_BIN_TEXT  = 82;
-    public static final int IO_EVALUATE_DEFAULT_TEXT      = 83;
+//    public static final int IO_EVALUATE_DEFAULT_BINARY    = 80;
+//    public static final int IO_EVALUATE_DEFAULT_FIXED     = 81;
+//    public static final int IO_EVALUATE_DEFAULT_BIN_TEXT  = 82;
+//    public static final int IO_EVALUATE_DEFAULT_TEXT      = 83;
 
     public static final int IO_UNICODE_TEXT = 90;
 

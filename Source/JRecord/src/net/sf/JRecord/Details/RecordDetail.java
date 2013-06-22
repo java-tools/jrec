@@ -82,21 +82,8 @@ implements AbstractRecordDetail,  ICsvDefinition {
 	//private int editorStatus = STATUS_UNKOWN;
 
 	private static final HashMap<Integer, String> typeNames = new HashMap<Integer, String>(400);
+	private static boolean toInit = true;
 
-	static {
-	       try {
-	        	ArrayList<BasicKeyedField> types = ExternalConversion.getTypes(0);
-
-				for (BasicKeyedField type : types) {
-					if ( type.name != null && !  type.name.equals(Integer.toString(type.key))) {
-						typeNames.put(type.key,  type.name);
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-	}
 
 	/**
 	 * Create a Record
@@ -349,6 +336,7 @@ implements AbstractRecordDetail,  ICsvDefinition {
 
 		if (idx < 0 || idx >= getFieldCount()) return "";
 
+		doTypeNameInit();
 		return typeNames.get(getField(idx).getType());
 	}
 
@@ -455,6 +443,22 @@ implements AbstractRecordDetail,  ICsvDefinition {
 		return delimiterOrganisation;
 	}
 
+	private static void doTypeNameInit() {
+		if (toInit) {
+			try {
+				ArrayList<BasicKeyedField> types = ExternalConversion.getTypes(ExternalConversion.USE_DEFAULT_DB);
+
+				for (BasicKeyedField type : types) {
+					if ( type.name != null && !  type.name.equals(Integer.toString(type.key))) {
+						typeNames.put(type.key,  type.name);
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			toInit = false;
+		}
+	}
 
 	public static class FieldDetails extends FieldDetail implements AbstractRecordDetail.FieldDetails {
 

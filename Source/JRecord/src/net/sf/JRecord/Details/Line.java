@@ -398,8 +398,7 @@ public class Line extends BasicLine<Line> {
 	/**
 	 * @see java.lang.Object#clone()
 	 */
-	public final Object clone() {
-
+	protected final Object clone() {
 		return lineProvider.getLine(layout, getLineData().clone());
 	}
 

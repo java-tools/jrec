@@ -266,7 +266,7 @@ public class CharLine extends BasicLine<CharLine>  {
     /**
      * @see java.lang.Object#clone()
      */
-    public Object clone() {
+    protected final Object clone() {
     	return lineProvider.getLine(layout, getLineData());
     }
 

@@ -3,6 +3,8 @@
  */
 package net.sf.RecordEditor.re.script.runScreen;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -26,11 +28,14 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.JToolBar;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -55,7 +60,7 @@ import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.FileChooser1;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
@@ -68,6 +73,102 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 	private static String RESOURCE_PATH;
 	private static ArrayList<LanguageDetails> langList = new ArrayList<LanguageDetails>(20);
 	private static HashMap<String, LanguageDetails> extLangMap = new HashMap<String, LanguageDetails>(20) ;
+
+
+//	private JComboBox languageCombo;
+	private FileChooser1 templateFC = new FileChooser1(true);
+	private String lastFile = "";
+	private JButton runBtn = SwingUtils.newButton("Run !!!", Common.getRecordIcon(Common.ID_SCRIPT_ICON));
+	private JTextArea msg = new JTextArea();
+	private JTabbedPane tab = new JTabbedPane();
+
+	private Theme currentTheme = null;
+	private ArrayList<ScriptEditPane> panes = new ArrayList<ScriptEditPane>();
+
+	private ReFrame activeFrame;
+
+	private static FormatFileName formatFileName = new FormatFileName() {
+		@Override
+		public String formatLayoutName(String layoutName) {
+			return layoutName;
+		}
+	};
+	private static RecentFiles	recent = new RecentFiles(
+			Parameters.getApplicationDirectory() + "ScriptFiles.txt",
+			formatFileName,
+			true);
+	private RecentFilesList recentList = new RecentFilesList(recent, this);
+
+
+	private ArrayList<AbstractActiveScreenAction> menuActions = new ArrayList<AbstractActiveScreenAction>(40);
+
+	private FocusAdapter filenameListner = new FocusAdapter() {
+
+		@Override
+		public void focusLost(FocusEvent e) {
+
+			if (! lastFile.equals(templateFC.getText())) {
+				checkFile();
+				lastFile = templateFC.getText();
+			}
+		}
+	};
+
+	private ChangeListener tabChangeListner = new ChangeListener() {
+
+        @Override
+        public void stateChanged(ChangeEvent e) {
+//       	System.out.println("Tab change requests - start");
+        	templateFC.removeFocusListener(filenameListner);
+        	ScriptEditPane activePane = getActivePane();
+			File scriptFile = activePane.getScriptFile();
+        	if (scriptFile != null) {
+        		templateFC.setText(scriptFile.getPath());
+        	}
+//        	activePane.tabComponent.requestFocus();
+//        	activePane.getTextArea().requestFocus();
+        	updateMenuStatus();
+//         	System.out.println("Tab change requests - end");
+           	templateFC.addFocusListener(filenameListner);
+        }
+    };
+
+    private KeyAdapter listner = new KeyAdapter() {
+        /**
+         * @see java.awt.event.KeyAdapter#keyReleased
+         */
+        public final void keyReleased(KeyEvent event) {
+
+        	switch (event.getKeyCode()) {
+        	case KeyEvent.VK_ENTER:		run();    					        		break;
+        	case KeyEvent.VK_ESCAPE:	ScriptRunFrame.this.doDefaultCloseAction();	break;
+        	}
+        }
+    };
+
+	private OpenSaveAction openAction = new OpenSaveAction(this, true) {
+
+		@Override
+		public void processFile(File selectedFile) {
+			setNewFileName(selectedFile);
+		}
+
+		@Override
+		public File getDefaultFile() {
+			return new File(templateFC.getText());
+		}
+	};
+
+	private ReAbstractAction newAction = new ReAbstractAction("New", Common.ID_NEW_ICON) {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			newFile();
+		}
+	};
+	private ActionOnActiveScreen saveAction;
+	private OpenSaveAction saveAsAction;
+	private ReAbstractAction saveAllAction;
+
 
 	static {
 		ArrayList<LanguageDetails> extLangList = new ArrayList<LanguageDetails>(20);
@@ -134,115 +235,6 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 		}
 	}
 
-//	private JComboBox languageCombo;
-	private FileChooser templateFC = new FileChooser();
-	private String lastFile = "";
-	private JButton runBtn = SwingUtils.newButton("Run !!!", Common.getRecordIcon(Common.ID_SCRIPT_ICON));
-	private JTextArea msg = new JTextArea();
-	private JTabbedPane tab = new JTabbedPane();
-
-	private Theme currentTheme = null;
-	private ArrayList<ScriptEditPane> panes = new ArrayList<ScriptEditPane>();
-
-	private ReFrame activeFrame;
-
-	private static FormatFileName formatFileName = new FormatFileName() {
-		@Override
-		public String formatLayoutName(String layoutName) {
-			return layoutName;
-		}
-	};
-	private static RecentFiles	recent = new RecentFiles(
-			Parameters.getApplicationDirectory() + "ScriptFiles.txt",
-			formatFileName,
-			true);
-	private RecentFilesList recentList = new RecentFilesList(recent, this);
-
-
-	private ArrayList<AbstractActiveScreenAction> menuActions = new ArrayList<AbstractActiveScreenAction>(40);
-
-	private FocusAdapter filenameListner = new FocusAdapter() {
-
-		@Override
-		public void focusLost(FocusEvent e) {
-
-//			System.out.print("Focus Lost ... " + (e == null) + " " + lastFile.equals(templateFC.getText())
-//					+ " " + templateFC.getText() + " ~~ " + lastFile);
-//			if (e != null) {
-//				System.out.print("\t" + e + " " + e.getSource().getClass().getName());
-//			}
-//			System.out.println();
-			if (! lastFile.equals(templateFC.getText())) {
-				checkFile();
-				lastFile = templateFC.getText();
-			}
-		}
-	};
-
-	private ChangeListener tabChangeListner = new ChangeListener() {
-
-        @Override
-        public void stateChanged(ChangeEvent e) {
-//       	System.out.println("Tab change requests - start");
-        	templateFC.removeFocusListener(filenameListner);
-        	ScriptEditPane activePane = getActivePane();
-			File scriptFile = activePane.getScriptFile();
-        	if (scriptFile != null) {
-        		templateFC.setText(scriptFile.getPath());
-        	}
-//        	activePane.tabComponent.requestFocus();
-//        	activePane.getTextArea().requestFocus();
-        	updateMenuStatus();
-//         	System.out.println("Tab change requests - end");
-           	templateFC.addFocusListener(filenameListner);
-        }
-    };
-
-    private KeyAdapter listner = new KeyAdapter() {
-        /**
-         * @see java.awt.event.KeyAdapter#keyReleased
-         */
-        public final void keyReleased(KeyEvent event) {
-
-        	switch (event.getKeyCode()) {
-        	case KeyEvent.VK_ENTER:		run();    					        		break;
-        	case KeyEvent.VK_ESCAPE:	ScriptRunFrame.this.doDefaultCloseAction();	break;
-        	}
-        }
-    };
-
-	private OpenSaveAction openAction = new OpenSaveAction(this, true) {
-
-		@Override
-		public void processFile(File selectedFile) {
-			setNewFileName(selectedFile);
-		}
-
-		@Override
-		public File getDefaultFile() {
-			return new File(templateFC.getText());
-		}
-	};
-
-
-	private OpenSaveAction saveAsAction = new OpenSaveAction(this, false) {
-
-		@Override
-		public void processFile(File selectedFile) {
-			saveAs(selectedFile);
-		}
-
-
-		@Override
-		public File getDefaultFile() {
-			File scriptFile = getActivePane().getScriptFile();
-			if (scriptFile == null) {
-				return new File(templateFC.getText());
-			}
-			return scriptFile;
-		}
-	};
-
 	/**
 	 * Display a frame where users can run
 	 */
@@ -255,8 +247,86 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 
 
 		addTab(new ScriptEditPane(tabChangeListner));
+
+		init_100();
 		init_200_layout();
 		init_300_listner();
+	}
+
+	private void init_100() {
+
+		saveAction = new ActionOnActiveScreen("Save", Common.ID_SAVE_ICON) {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ScriptEditPane activePane = getActivePane();
+				if (activePane == null) {
+
+				} else if (activePane.isEmpty()) {
+					saveAsAction.actionPerformed(null);
+				} else {
+					saveFile();
+				}
+			}
+
+			/* (non-Javadoc)
+			 * @see net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction#checkActionEnabled()
+			 */
+			@Override
+			public void checkActionEnabled() {
+				ScriptEditPane activePane = getActivePane();
+				setEnabled(
+						   activePane != null
+						&& ( (! activePane.isEmpty())
+						  || (! "".equals(activePane.getText())) )
+				);
+			}
+		};
+		saveAsAction = new OpenSaveAction(this, false) {
+
+			@Override
+			public void processFile(File selectedFile) {
+				saveAs(selectedFile);
+			}
+
+
+			@Override
+			public File getDefaultFile() {
+				File scriptFile = getActivePane().getScriptFile();
+				if (scriptFile == null) {
+					return new File(templateFC.getText());
+				}
+				return scriptFile;
+			}
+		};
+
+		saveAllAction = new ReAbstractAction("Save All ...", Common.ID_SAVE_ICON) {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				if (panes.size() > 1 || ! panes.get(0).isEmpty()) {
+					StringBuilder msgStr = new StringBuilder();
+
+					for (ScriptEditPane p : panes) {
+						if (p.isChanged()) {
+							try {
+								p.saveFile();
+							} catch (IOException ex) {
+								msgStr.append(UtMessages.ERROR_SAVING_FILE.get(
+										new String[]{p.getScriptFile().getPath(), e.toString()}));
+							}
+						}
+					}
+
+					String m = msgStr.toString();
+					if (! "".equals(m)) {
+						msg.setText(m);
+						Common.logMsgRaw(m, null);
+					}
+				}
+			}
+		};
+
 	}
 
 	private void init_200_layout() {
@@ -274,12 +344,14 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 		templateFC.setText(scriptDir
 				+ " ================================== ");
 
-//		pnl.addLine("Script Language", languageCombo)
+
+//		pnl.addLine("Script", templateFC, templateFC.getChooseFileButton())
 //		   .setGap(BaseHelpPanel.GAP1);
-		pnl.addLine("Script", templateFC, templateFC.getChooseFileButton())
-		   .setGap(BaseHelpPanel.GAP1);
-		pnl.addLine("", null, runBtn)
+//		pnl.addLine("", null, runBtn)
+//		   .setGap(BaseHelpPanel.GAP2);
+		pnl.addLine("Script", templateFC, runBtn)
 		   .setGap(BaseHelpPanel.GAP2);
+
 
 		pnl.addMessage(msgPnl);
 
@@ -294,7 +366,13 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 
 		init_210_BuildMenu();
 
-		this.addMainComponent(pnl);
+	    JPanel fullPanel = new JPanel();
+
+	    fullPanel.setLayout(new BorderLayout());
+	    fullPanel.add("North", init_220_BuildToolBar());
+	    fullPanel.add("Center", pnl);
+
+		this.addMainComponent(fullPanel); //pnl);
 		this.templateFC.setText(scriptDir);
 		this.lastFile = scriptDir;
 		this.setVisible(true);
@@ -334,7 +412,6 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 		menuBar.add(init_214_BuildViewMenu());
 		menuBar.add(init_215_BuildThemeMenu());
 
-
 		JMenu helpMenu = new JMenu("Help");
 		helpMenu.add(new JMenuItem(new AboutAction()));
 		menuBar.add(helpMenu);
@@ -345,73 +422,15 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 	private JMenu init_211_BuildFileMenu() {
 		JMenu fileMenu = new JMenu("File");
 
-		fileMenu.add(new ReAbstractAction("New", Common.getRecordIcon(Common.ID_NEW_ICON)) {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				newFile();
-			}
-		});
-
+		fileMenu.add(newAction);
 
 		fileMenu.add(openAction);
 
-		fileMenu.add(new ActionOnActiveScreen("Save", Common.ID_SAVE_ICON) {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ScriptEditPane activePane = getActivePane();
-				if (activePane == null) {
-
-				} else if (activePane.isEmpty()) {
-					saveAsAction.actionPerformed(null);
-				} else {
-					saveFile();
-				}
-			}
-
-			/* (non-Javadoc)
-			 * @see net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction#checkActionEnabled()
-			 */
-			@Override
-			public void checkActionEnabled() {
-				ScriptEditPane activePane = getActivePane();
-				setEnabled(
-						   activePane != null
-						&& ( (! activePane.isEmpty())
-						  || (! "".equals(activePane.getText())) )
-				);
-			}
-		});
+		fileMenu.add(saveAction);
 
 
 		fileMenu.add(saveAsAction);
-
-		fileMenu.add(new ReAbstractAction("Save All ...", Common.getRecordIcon(Common.ID_SAVE_ICON)) {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				if (panes.size() > 1 || ! panes.get(0).isEmpty()) {
-					StringBuilder msgStr = new StringBuilder();
-
-					for (ScriptEditPane p : panes) {
-						if (p.isChanged()) {
-							try {
-								p.saveFile();
-							} catch (IOException ex) {
-								msgStr.append(UtMessages.ERROR_SAVING_FILE.get(
-										new String[]{p.getScriptFile().getPath(), e.toString()}));
-							}
-						}
-					}
-
-					String m = msgStr.toString();
-					if (! "".equals(m)) {
-						msg.setText(m);
-						Common.logMsgRaw(m, null);
-					}
-				}
-			}
-		});
+		fileMenu.add(saveAllAction);
 
 		fileMenu.add(recentList.getMenu());
 
@@ -474,6 +493,33 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
                 new ThemeAction(name, themeXml));
         bg.add(item);
         menu.add(item);
+	}
+
+	private JToolBar init_220_BuildToolBar() {
+		JToolBar toolBar = new JToolBar();
+
+	    toolBar.add(openAction);
+	    toolBar.add(newAction);
+	    toolBar.add(saveAction);
+	    toolBar.add(saveAsAction);
+	    toolBar.add(saveAllAction);
+
+	    try {
+	        toolBar.add(new JSeparator());
+	    } catch (Exception e) {
+	        toolBar.addSeparator( new Dimension(
+	        				SwingUtils.STANDARD_FONT_WIDTH,
+	        				toolBar.getHeight()));
+        }
+	    toolBar.add(new ReAbstractAction("Run", Common.ID_SCRIPT_ICON) {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				run();
+			}
+		});
+
+	    return toolBar;
     }
 
 
@@ -734,7 +780,7 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 	private abstract class ActionOnActiveScreen extends ReAbstractAction implements AbstractActiveScreenAction {
 
 		public ActionOnActiveScreen(String name, int iconId) {
-			super(name, Common.getRecordIcon(iconId));
+			super(name, iconId);
 
 			menuActions.add(this);
 			checkActionEnabled();
@@ -880,7 +926,6 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 	       	getActivePane().getTextArea().setCodeFoldingEnabled(
         			getActivePane().getTextArea().isCodeFoldingEnabled());
 		}
-
     }
 
 

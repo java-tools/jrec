@@ -54,9 +54,7 @@ public class LayoutMenu extends ReMenu {
 
         databaseDetails = dbDetails;
 
-        ReAbstractAction edit = new ReAbstractAction(
-        		"Edit Layout",
-        		Common.getRecordIcon(Common.ID_LAYOUT_EDIT_ICON)) {
+        ReAbstractAction edit = new ReAbstractAction("Edit Layout", Common.ID_LAYOUT_EDIT_ICON) {
             public void actionPerformed(ActionEvent e) {
                 new RecordEdit(databaseDetails.getCurrentDbName(),
                                databaseDetails.getCurrentDbIdentifier());
@@ -72,9 +70,7 @@ public class LayoutMenu extends ReMenu {
                         SYSTEM_TABLE);
             }
         };
-        ReAbstractAction comboEdit = new ReAbstractAction(
-        		"Edit Combo Lists",
-        		Common.getRecordIcon(Common.ID_COMBO_EDIT_ICON)) {
+        ReAbstractAction comboEdit = new ReAbstractAction("Edit Combo Lists", Common.ID_COMBO_EDIT_ICON) {
             public void actionPerformed(ActionEvent e) {
             	new ComboEdit(
             			databaseDetails.getCurrentDbName(),

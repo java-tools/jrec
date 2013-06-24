@@ -1,5 +1,9 @@
 package net.sf.RecordEditor.utils.params;
 
+import java.io.File;
+
+import net.sf.RecordEditor.utils.common.Common;
+
 public class ProgramOptions {
     public static final char COMPRESS_SPACE = 'S';
     public static final char COMPRESS_READ = 'R';
@@ -59,9 +63,13 @@ public class ProgramOptions {
 
 	public final BoolOpt csvSearchFixed = new BoolOpt(Parameters.CSV_LOOK_4_FIXED_WIDTH);
 	public final BoolOpt useFileWizard  = new BoolOpt(Parameters.USE_FILE_WIZARD);
-	public final BoolOpt useSeperateScreens  = new BoolOpt(Parameters.SEPERATE_WINDOWS);
-	public final BoolOpt typeOnRecordScreen  = new BoolOpt(Parameters.INCLUDE_TYPE_NAME, true);
-	public final BoolOpt allowTextEditting   = new BoolOpt(Parameters.EDIT_RAW_TEXT, true);
+	public final BoolOpt useSeperateScreens = new BoolOpt(Parameters.SEPERATE_WINDOWS);
+	public final BoolOpt typeOnRecordScreen = new BoolOpt(Parameters.INCLUDE_TYPE_NAME, true);
+	public final BoolOpt allowTextEditting  = new BoolOpt(Parameters.EDIT_RAW_TEXT, true);
+	public final BoolOpt showCsvFChooserOptions = new BoolOpt(
+														Parameters.CSV_SHOW_FILECHOOSER_OPTIONS,
+														'\\' == File.pathSeparatorChar
+													&&	(Common.LOOKS_INDEX == 1 || Common.RECORD_EDITOR_LAF));
 
 	public final UpdateableBoolOpt highlightEmpty = new UpdateableBoolOpt(Parameters.PROPERTY_HIGHLIGHT_EMPTY);
 	public final InternalBoolOption highlightEmptyActive = new InternalBoolOption(false);

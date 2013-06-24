@@ -7,6 +7,7 @@
  */
 package net.sf.RecordEditor.re.editProperties;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +21,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import net.sf.RecordEditor.utils.lang.LangConversion;
@@ -106,42 +108,60 @@ public class EditPropertiesPnl extends BasePanel {
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
 
-        for (int i = 0; i < tableData.length; i++) {
+        if (tableData.length < 11) {
+        	addOptions(this, 0, tableData.length);
+        } else {
+         	JPanel p = new JPanel(new BorderLayout());
+
+        	p.add("West", addOptions(new BasePanel(), 0, 10));
+           	p.add("Center", addOptions(new BasePanel(), 10, tableData.length));
+
+            this.addComponent(0, 6, BasePanel.FILL, BasePanel.GAP1,
+    		        BasePanel.FULL, BasePanel.FULL,
+    				p);
+        }
+    }
+
+    private BasePanel addOptions(BasePanel pnl, int st, int en) {
+
+    	pnl.setNameComponents(true);
+        for (int i = st; i < en; i++) {
             tableData[i][VALUE_COLUMN]
                          = Parameters.getString(tableData[i][NAME_COLUMN].toString());
             if (tableData[i][TYPE_COLUMN] instanceof Integer) {
             	int type = ((Integer) tableData[i][TYPE_COLUMN]).intValue();
             	switch (type) {
             	case EMPTY_VAL:
-            		addLine(" ", null);
+            		pnl.addLine(" ", null);
             		break;
             	case STRING_VAL:
-            		addField(i, new TxtFld(i), null);
+            		addField(pnl, i, new TxtFld(i), null);
             		break;
             	case DATE_VAL:
-            		addField(i, new DateFld(i), null);
+            		addField(pnl, i, new DateFld(i), null);
             		break;
             	case INT_VAL:
-            		addField(i, new IntFld(i), null);
+            		addField(pnl, i, new IntFld(i), null);
             		break;
             	case BOOLEAN_VAL:
-            		addField(i, new BoolFld(i), null);
+            		addField(pnl, i, new BoolFld(i), null);
              		break;
             	case LIST_VAL:
-            		addField(i, new Combo(i), null);
+            		addField(pnl, i, new Combo(i), null);
              		break;
             	case DIRECTORY:
             		ChooseFileName fn = new ChooseFileName(i);
-            		addField(i, fn, fn.getChooseFileButton());
+            		addField(pnl, i, fn, fn.getChooseFileButton());
              		break;
             	case RETRIEVE_APPL_SIZE:
             		if (i > 1 && components[i - 1] instanceof TxtFld && components[i - 2] instanceof TxtFld) {
-            			addField(i, new FetchSize((TxtFld) components[i - 2], (TxtFld) components[i - 1]), null);
+            			addField(pnl, i, new FetchSize((TxtFld) components[i - 2], (TxtFld) components[i - 1]), null);
             		}
             		break;
             	}
             }
         }
+        return pnl;
     }
 
     public final void save() {
@@ -152,7 +172,7 @@ public class EditPropertiesPnl extends BasePanel {
     	}
     }
 
-    private void addField(int row, JComponent item, JComponent item2) {
+    private void addField(BasePanel pnl, int row, JComponent item, JComponent item2) {
     	Object prompt = tableData[row][PROMPT_COLUMN];
     	if (prompt == null) {
     		prompt = tableData[row][DESCRPTION_COLUMN];
@@ -162,7 +182,7 @@ public class EditPropertiesPnl extends BasePanel {
 //    		//System.out.println("Set name: " + prompt.toString() + " " + item.getName());
 //    	}
     	item.setToolTipText(LangConversion.convert(LangConversion.ST_FIELD_HINT, tableData[row][DESCRPTION_COLUMN].toString()));
-    	super.addLine(prompt.toString(), item, item2);
+    	pnl.addLine(prompt.toString(), item, item2);
     	components[row] = item;
     }
 

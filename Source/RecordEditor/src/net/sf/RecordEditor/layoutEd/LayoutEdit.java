@@ -73,9 +73,7 @@ public class LayoutEdit extends ReMainFrame {
 
 		ReIOProvider.register();
 
-		AbstractAction optionAction = new ReAbstractAction(
-				"Edit Options",
-				Common.getRecordIcon(Common.ID_PREF_ICON)) {
+		AbstractAction optionAction = new ReAbstractAction(	"Edit Options", Common.ID_PREF_ICON) {
 			public void actionPerformed(ActionEvent e) {
 				 new EditOptions(false, true, true);
 			}

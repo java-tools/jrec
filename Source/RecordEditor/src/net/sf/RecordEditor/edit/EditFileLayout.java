@@ -14,6 +14,8 @@
 package net.sf.RecordEditor.edit;
 
 import java.awt.event.ActionEvent;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -140,6 +142,57 @@ public class EditFileLayout extends EditRec {
 	    super.addProgramSpecificMenus(menubar);
 	}
 
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.screenManager.ReMainFrame#addWebsitesToHelpMenu(javax.swing.JMenu)
+	 */
+	@Override
+	protected void addWebsitesToHelpMenu(JMenu helpMenu) {
+		try {
+			helpMenu.add(
+					new ShowURI(
+							"JRecord Pages",
+							Common.formatHelpURL("index.htm").toURI()));
+			helpMenu.add(
+					new ShowURI(
+							"JRecord Documentation",
+							Common.formatHelpURL("Document.html").toURI()));
+			helpMenu.addSeparator();
+			helpMenu.add(new ShowURI("JRecord Web Page", new URI("http://jrecord.sourceforge.net/")));
+			helpMenu.add(new ShowURI("JRecord Forum", new URI("https://sourceforge.net/projects/jrecord/forums")));
+			helpMenu.add(new ShowURI("RecordEditor Web Page", new URI("http://record-editor.sourceforge.net/")));
+		} catch (URISyntaxException e1) {
+			e1.printStackTrace();
+		}
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.screenManager.ReMainFrame#showAbout()
+	 */
+	@Override
+	protected void showAbout() {
+		// TODO Auto-generated method stub
+		showAbout(
+				"This is the Cobol-Editor, it is part of the <b>RecordEditor</b> project<br/> "
+			  + "It is distributed under a GPL 3 (or later) license<br/><pre>"
+			  +	" <br><b>Authors:</b><br><br> "
+			  + "\t<b>Bruce Martin</b>: Main author<br>"
+			  + "\t<b>Jean-Francois Gagnon</b>: Provided Fujitsu IO / Types<br><br>"
+			  + " <b>Associated:</b><br><br> "
+			  + "\t<b>Peter Thomas</b>: Wrote the <b>cb2xml</b> which provides the cobol interface<br/><br/> &nbsp; "
+			  + " <b>Websites:</b><br><br> "
+			  + "\t<b>RecordEditor:</b> http://record-editor.sourceforge.net<br>"
+			  + "<br><br>"
+			  + "<b>Packages Used:</b><br/>"
+			  + "\t<b>cb2xml<b>:\t\tCobol Copybook Analysis<br/>"
+			  + "\t<b>jibx<b>:\t\tXml Bindings<br/>"
+			  + "\t<b>TableLayout<b>:\tSwing Layout manager used<br>"
+			  + "\t<b>jlibdif<b>:\tFile Compare<br/>"
+			  + "\t<b>RSyntaxTextArea<b>\tScript Editting Copyright (c) 2012, Robert Futrell"
+		);
+	}
 
 
 	/**

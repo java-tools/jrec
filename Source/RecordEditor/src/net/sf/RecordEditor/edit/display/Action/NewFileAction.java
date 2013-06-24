@@ -13,8 +13,7 @@ import net.sf.RecordEditor.utils.screenManager.ReFrame;
 public class NewFileAction extends ReAbstractAction {
 	private AbstractLayoutSelectCreator<?> create;
 	public NewFileAction(AbstractLayoutSelectCreator<?> layoutSelectCreate) {
-		super("New File",
-        	  Common.getRecordIcon(Common.ID_NEW_ICON));
+		super("New File", Common.ID_NEW_ICON);
 		create = layoutSelectCreate;
 	}
 

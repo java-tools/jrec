@@ -86,7 +86,7 @@ public class EditRec extends ReMainFrame  {
     private boolean includeWizardOptions = true;
     private AbstractAction optionAction = new ReAbstractAction(
     				"Edit Options",
-    				Common.getRecordIcon(Common.ID_PREF_ICON)) {
+    				Common.ID_PREF_ICON) {
         public void actionPerformed(ActionEvent e) {
         	editProperties(incJdbc, includeWizardOptions);
         }
@@ -610,7 +610,7 @@ public class EditRec extends ReMainFrame  {
 
 	private static class RunScriptAction extends ReAbstractAction implements AbstractActiveScreenAction {
 		public RunScriptAction() {
-			super("Script Test Panel",  Common.getRecordIcon(Common.ID_SCRIPT_ICON));
+			super("Script Test Panel",  Common.ID_SCRIPT_ICON);
 		}
 
 		@Override

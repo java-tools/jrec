@@ -168,6 +168,8 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String INCLUDE_TYPE_NAME = "IncTypeName";
     public static final String EDIT_RAW_TEXT = "EditRawText";
 
+    public static final String CSV_SHOW_FILECHOOSER_OPTIONS = "ShowFileChooserOptions";
+
     public static final String DEL_SELECTED_WITH_DEL_KEY = "DeleteSelectedWithDelKey";
     public static final String WARN_WHEN_USING_DEL_KEY   = "WarnWithDelKey";
 

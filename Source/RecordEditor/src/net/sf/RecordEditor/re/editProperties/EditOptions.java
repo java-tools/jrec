@@ -72,7 +72,7 @@ public class EditOptions {
     //private JTextArea msgFld = new JTextArea("");
 
     @SuppressWarnings("serial")
-    private AbstractAction saveBtn = new ReAbstractAction("Save", Common.getRecordIcon(Common.ID_SAVE_ICON)) {
+    private AbstractAction saveBtn = new ReAbstractAction("Save", Common.ID_SAVE_ICON) {
         public void actionPerformed(ActionEvent e) {
         	save();
             params.writeProperties();
@@ -199,6 +199,7 @@ public class EditOptions {
         {Parameters.SEPERATE_WINDOWS,  "Create views in seperate windows instead of tabs on the file panel", null, EditPropertiesPnl.FLD_BOOLEAN,  "Create Screens in seperate Windows",},
         {Parameters.SHOW_RECORDEDITOR_TIPS,  "Show RecordEditor Tips on program startup", null, EditPropertiesPnl.FLD_BOOLEAN,  "Show RecordEditor Tips",},
         {Parameters.EDIT_RAW_TEXT,  "Allow the user to edit file as Raw Text ??", null, EditPropertiesPnl.FLD_BOOLEAN,  "Allow Editting Raw Text",},
+        {Parameters.CSV_SHOW_FILECHOOSER_OPTIONS,  "Show File Options on Csv Open Screen", null, EditPropertiesPnl.FLD_BOOLEAN,  "Show File Options on Csv Open",},
    };
 
     private String fileDescription

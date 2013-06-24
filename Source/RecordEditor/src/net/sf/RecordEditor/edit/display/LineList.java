@@ -187,7 +187,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
         AbstractAction editRecord
         	= new ReAbstractAction(
         		"Edit Record",
-        		Common.getRecordIcon(Common.ID_EDIT_RECORD_ICON)) {
+        		Common.ID_EDIT_RECORD_ICON) {
             public void actionPerformed(ActionEvent e) {
             	newLineFrame(fileView, popupRow);
            }
@@ -1006,7 +1006,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
     	private boolean afterDest;
 
 		public AddColumn(String name, boolean after) {
-			super(name, Common.getRecordIcon(Common.ID_COLUMN_INSERT_ICON));
+			super(name, Common.ID_COLUMN_INSERT_ICON);
 			this.afterDest = after;
 
 		}
@@ -1073,7 +1073,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 
 		public DeleteColumn() {
 			super("Delete Column",
-				  Common.getRecordIcon(Common.ID_COLUMN_DELETE_ICON));
+				  Common.ID_COLUMN_DELETE_ICON);
 		}
 
 		/**

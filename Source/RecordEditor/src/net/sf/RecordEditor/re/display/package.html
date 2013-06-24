@@ -1,0 +1,20 @@
+<html>
+<head><title>net.sf.RecordEditor.re.display</title>
+<body>
+
+<p>This package holds Interfaces that describe various Edit Screen's used in the RecordEditor</p>
+
+<p>The important interfaces are<ol compact>
+	<li><b>AbstractFileDisplay</b> Basic File Display Panel implemented by all the display screens.
+    <li><b>AbstractFileDisplayWithFieldHide</b> File Display Panel screens that also allow fields to be hidden.
+    <li><b>IChildDisplay</b> Utility screen (e.g. Search Screen) that is attached to a Dsiplay screen.
+       It allows for the retrieval of the "parent screen".
+    <li><b>IDisplayBuilder</b> Interface for building a requested File Display screen.
+    <li><b>IDisplayFrame&lt;BD extends AbstractFileDisplay&gt;</b> A display frame can have one or more
+Display panels (<b>AbstractFileDisplay</b>) displayed in a tabpane.
+    <li><b>IExecuteSaveAction</b> Interface describing class that executes saved tasks.
+    <li><b>IUpdateExecute&lt;What&gt;</b> Generic task description. It can be saved to disk, restored and executed.
+</ol>
+
+</body>
+</html>

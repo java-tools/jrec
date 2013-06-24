@@ -16,8 +16,7 @@ public class NewCsvAction extends ReAbstractAction {
 	}
 
 	public NewCsvAction(String text) {
-		super(text,
-        	  Common.getRecordIcon(Common.ID_NEW_ICON));
+		super(text, Common.ID_NEW_ICON);
 	}
 
 	public void actionPerformed(ActionEvent e) {

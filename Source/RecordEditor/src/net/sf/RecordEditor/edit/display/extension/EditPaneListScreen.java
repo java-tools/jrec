@@ -78,9 +78,7 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 
 	        ReAction sort = new ReAction(ReActionHandler.SORT, this);
 	        AbstractAction editRecord
-	        	= new ReAbstractAction(
-	        		"Edit Record",
-	        		Common.getRecordIcon(Common.ID_EDIT_RECORD_ICON)) {
+	        	= new ReAbstractAction("Edit Record", Common.ID_EDIT_RECORD_ICON) {
 	            public void actionPerformed(ActionEvent e) {
 	            	newLineFrame(fileView, popupRow);
 	            	//DisplayBuilder.addToScreen(getParentFrame(), new PoSingleRecordScreen(viewOfFile, popupRow));

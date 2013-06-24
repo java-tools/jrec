@@ -242,8 +242,7 @@ implements ListSelectionListener, ISaveUpdateDetails<EditorTask>, IUpdateExecute
 	    setFieldCombos(lastSelection);
 	    records.setSelectedIndex(lastSelection);
 
-	    executeBtn.setAction(new ReAbstractAction(btnText,
-	              					Common.getRecordIcon(icondId)) {
+	    executeBtn.setAction(new ReAbstractAction(btnText, icondId) {
 	        public void actionPerformed(ActionEvent e) {
 	            doAction();
 	        }

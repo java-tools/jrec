@@ -10,19 +10,14 @@
  */
 package net.sf.RecordEditor.utils.swing;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
-import java.io.File;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 
-import net.sf.JRecord.Common.Constants;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.params.Parameters;
+
 
 
 /**
@@ -32,14 +27,16 @@ import net.sf.RecordEditor.utils.params.Parameters;
  *
  */
 @SuppressWarnings("serial")
-public class FileChooser extends JTextField implements ActionListener  {
+public class FileChooser extends JTextField  {
     private JButton chooseFileButton;
-    private JFileChooser chooseFile = null;
-    private ArrayList<FocusListener> listner = new ArrayList<FocusListener>();
-    private int mode = Constants.NULL_INTEGER;
-    private String defaultDirectory = "";
-    private boolean open = true;
-    private boolean expandVars = false;
+//    private JFileChooser chooseFile = null;
+//    private ArrayList<FocusListener> listner = new ArrayList<FocusListener>();
+//    private int mode = Constants.NULL_INTEGER;
+//    private String defaultDirectory = "";
+//    private boolean open = true;
+//    private boolean expandVars = false;
+
+    private final FileChooserHelper fChoose;
 
     /**
      * Create File chooser code
@@ -60,12 +57,12 @@ public class FileChooser extends JTextField implements ActionListener  {
     public FileChooser(final boolean isOpen, final String buttonPrompt) {
         super();
 
+        fChoose = new FileChooserHelper(this, isOpen);
+
         chooseFileButton  = SwingUtils.newButton(
         		buttonPrompt,
         		Common.getRecordIcon(Common.ID_FILE_SEARCH_ICON));
-        chooseFileButton.addActionListener(this);
-
-        open = isOpen;
+        chooseFileButton.addActionListener(fChoose);
     }
 
 
@@ -77,53 +74,6 @@ public class FileChooser extends JTextField implements ActionListener  {
     }
 
 
-	/**
-	 * @see java.awt.Event.actionPerformed
-	 */
-	public void actionPerformed(final ActionEvent event) {
-
-		String s = this.getText();
-		if (chooseFile == null) {
-			chooseFile = new JFileChooser();
-
-			if ( mode != Constants.NULL_INTEGER) {
-				chooseFile.setFileSelectionMode(mode);
-			}
-		}
-
-
-		if ("".equals(s)) {
-			this.setText(defaultDirectory);
-			s = defaultDirectory;
-		}
-
-		if (expandVars) {
-			s = Parameters.expandVars(s);
-		}
-		chooseFile.setSelectedFile(new File(s));
-
-		int ret;
-
-		if (open) {
-			ret = chooseFile.showOpenDialog(null);
-		} else {
-			ret = chooseFile.showSaveDialog(null);
-		}
-
-		if (ret == JFileChooser.APPROVE_OPTION) {
-			String newPath = chooseFile.getSelectedFile().getPath();
-			//System.out.println("!! 1 " + newPath);
-			if (expandVars) {
-				newPath = Parameters.encodeVars(newPath);
-			}
-			//System.out.println("!! 2 " + newPath);
-
-		    this.setText(newPath);
-		    for (FocusListener item : listner) {
-		    	item.focusLost(null);
-		    }
-		}
-	}
 
 
     /**
@@ -133,16 +83,8 @@ public class FileChooser extends JTextField implements ActionListener  {
      */
     public synchronized void addFcFocusListener(FocusListener fcListner) {
 
-//        if (fcListner == null) {
-//        	for (FocusListener fl : listner) {
-//        		super.removeFocusListener(fl);
-//        	}
-//        	listner.clear();
-//        } else {
-        	super.addFocusListener(fcListner);
-      		listner.add(fcListner);
-//        }
-
+       	super.addFocusListener(fcListner);
+       	fChoose.listner.add(fcListner);
     }
 
 
@@ -159,12 +101,9 @@ public class FileChooser extends JTextField implements ActionListener  {
 	 * @see javax.swing.JFileChooser#setFileSelectionMode(int)
 	 */
 	public void setFileSelectionMode(int newMode) {
-		mode = newMode;
-		if (chooseFile != null) {
-			chooseFile.setFileSelectionMode(newMode);
-		}
+		fChoose.setFileSelectionMode(newMode);
 
-		if (mode == JFileChooser.DIRECTORIES_ONLY) {
+		if (newMode == JFileChooser.DIRECTORIES_ONLY) {
 			chooseFileButton.setIcon(Common.getRecordIcon(Common.ID_DIRECTORY_SEARCH_ICON));
 		} else {
 			chooseFileButton.setIcon(Common.getRecordIcon(Common.ID_FILE_SEARCH_ICON));
@@ -175,13 +114,13 @@ public class FileChooser extends JTextField implements ActionListener  {
 	 * @param defaultDirectory the defaultDirectory to set
 	 */
 	public final void setDefaultDirectory(String defaultDirectory) {
-		this.defaultDirectory = defaultDirectory;
+		fChoose.setDefaultDirectory(defaultDirectory);
 	}
 
 	/**
 	 * @param expandVars the expandVars to set
 	 */
 	public void setExpandVars(boolean expandVars) {
-		this.expandVars = expandVars;
+		fChoose.setExpandVars(true);
 	}
 }

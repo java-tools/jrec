@@ -12,7 +12,7 @@ public class AutofitAction extends ReAbstractAction {
 
 	public AutofitAction(AbstractFileDisplay displ) {
 		super("Autofit Columns",
-        	  Common.getRecordIcon(Common.ID_AUTOFIT_ICON));
+        	  Common.ID_AUTOFIT_ICON);
 		this.display = displ;
 	}
 

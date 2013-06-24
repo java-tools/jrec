@@ -14,8 +14,7 @@ public class GotoLineAction extends ReAbstractAction {
 	private FileView master;
 
 	public GotoLineAction(AbstractFileDisplay src, FileView master) {
-		super("Goto Line",
-        	  Common.getRecordIcon(Common.ID_GOTO_ICON));
+		super("Goto Line", Common.ID_GOTO_ICON);
 		this.src = src;
 		this.master = master;
 	}

@@ -657,7 +657,7 @@ public class ReMainFrame extends JFrame
 		);
 	}
 
-	protected void showAbout(String s) {
+	protected final void showAbout(String s) {
 		showHtmlPnl("About", s);
 	}
 

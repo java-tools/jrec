@@ -201,6 +201,9 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 
 		chooser.setSelectedFile(file);
 		chooser.addPropertyChangeListener(chgListner);
+		if (! Common.OPTIONS.showCsvFChooserOptions.isSelected()) {
+			chooser.setControlButtonsAreShown(false);
+		}
 		csvTabDtls.tab.addChangeListener(tabListner);
 
 		if (filePresent) {

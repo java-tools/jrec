@@ -50,11 +50,15 @@ def test():
 		select('TabbedPane', 'zxxxzFLD1')
 		assert_p('RecordSelectionJTbl', 'Content', '[[, , fld 11, =, 11], [' + commonBits.fl('Or') + ', , fld 11, =, 121]]')
 		select('TabbedPane', commonBits.fl('Summary'))
+##		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , , =, ], [, , And  ,   ,   , fld 11, =, 11], [, ,   , Or  ,   , fld 11, =, 121], [, ,   ,   ,   , , =, ], [, , And  ,   ,   , fld 23, =, 23], [, ,   ,   ,   , , =, ]]')
 		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , , =, ], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 11, =, 11], [, ,   , ' + commonBits.fl('Or') + '  ,   , fld 11, =, 121], [, ,   ,   ,   , , =, ], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 23, =, 23], [, ,   ,   ,   , , =, ]]')
+
 		select('JTreeTable', 'fff', commonBits.fl('Field Name') + '    ,0')
 		select('JTreeTable', 'vvv', commonBits.fl('Test Value') + '    ,0')
 		select('JTreeTable', 'cell:' + commonBits.fl('Test Value') + '    ,1(11)')
+##		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , fff, =, vvv], [, , And  ,   ,   , fld 11, =, 11], [, ,   , Or  ,   , fld 11, =, 121], [, ,   ,   ,   , , =, ], [, , And  ,   ,   , fld 23, =, 23], [, ,   ,   ,   , , =, ]]')
 		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , fff, =, vvv], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 11, =, 11], [, ,   , ' + commonBits.fl('Or') + '  ,   , fld 11, =, 121], [, ,   ,   ,   , , =, ], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 23, =, 23], [, ,   ,   ,   , , =, ]]')
+
 		select('JTreeTable', 'cell:' + commonBits.fl('Test Value') + '    ,1(11)')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		assert_p('ChildRecordsJTbl', 'Content', '[[, zxxxzFLD1, , fff, vvv, , ], [, zxxxzFLD2, , , , , ], [, zxxxzFLD2, , , , , ]]')
@@ -77,7 +81,9 @@ def test():
 		select('TabbedPane', 'zxxxzFLD2')
 		assert_p('RecordSelectionJTbl1', 'Content', '[[, , fld 23, =, 23]]')
 		select('TabbedPane', commonBits.fl('Summary'))
+##		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , fff, =, vvv], [, , And  ,   ,   , fld 11, =, 11], [, ,   , Or  ,   , fld 11, =, 121], [, ,   ,   ,   , , =, ], [, , And  ,   ,   , fld 23, =, 23], [, ,   ,   ,   , , =, ]]')
 		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , fff, =, vvv], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 11, =, 11], [, ,   , ' + commonBits.fl('Or') + '  ,   , fld 11, =, 121], [, ,   ,   ,   , , =, ], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 23, =, 23], [, ,   ,   ,   , , =, ]]')
+
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('RecordList.Record Name_Txt', 'zx3g3xzFLDg543')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
@@ -94,7 +100,9 @@ def test():
 		select('TabbedPane', 'zxxxzFLD2')
 		assert_p('RecordSelectionJTbl1', 'Content', '[[, , fld 23, =, 23]]')
 		select('TabbedPane', commonBits.fl('Summary'))
+##		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , fff, =, vvv], [, , And  ,   ,   , fld 11, =, 11], [, ,   , Or  ,   , fld 11, =, 121], [, ,   ,   ,   , , =, ], [, , And  ,   ,   , fld 23, =, 23], [, ,   ,   ,   , , =, ]]')
 		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , fff, =, vvv], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 11, =, 11], [, ,   , ' + commonBits.fl('Or') + '  ,   , fld 11, =, 121], [, ,   ,   ,   , , =, ], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 23, =, 23], [, ,   ,   ,   , , =, ]]')
+
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('RecordList.Record Name_Txt', 'zx3g3xzFLDg5432')
 		select('RecordList.Description_Txt', '%%')
@@ -106,7 +114,9 @@ def test():
 		select('TabbedPane', 'zxxxzFLD2')
 		assert_p('RecordSelectionJTbl1', 'Content', '[[, , fld 23, =, 23]]')
 		select('TabbedPane', commonBits.fl('Summary'))
+##		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , fff, =, vvv], [, , And  ,   ,   , fld 11, =, 11], [, ,   , Or  ,   , fld 11, =, 121], [, ,   ,   ,   , , =, ], [, , And  ,   ,   , fld 23, =, 23], [, ,   ,   ,   , , =, ]]')
 		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , fff, =, vvv], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 11, =, 11], [, ,   , ' + commonBits.fl('Or') + '  ,   , fld 11, =, 121], [, ,   ,   ,   , , =, ], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 23, =, 23], [, ,   ,   ,   , , =, ]]')
+
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 	close()

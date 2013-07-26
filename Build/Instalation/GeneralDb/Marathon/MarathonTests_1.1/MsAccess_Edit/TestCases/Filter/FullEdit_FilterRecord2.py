@@ -1,4 +1,4 @@
-useFixture(default)
+useFixture(RecordEditor)
 
 def test():
 	from Modules import commonBits
@@ -6,18 +6,18 @@ def test():
 
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'Ams_PODownload_20050101.txt')
-		click('Edit1')
+		click(commonBits.fl('Edit') + '1')
 		click('Filter1')
-		select('Table', 'false', 'Include,0')
-		select('Table', 'false', 'Include,2')
-		select('Table', 'cell:Record,1(ams PO Download: Header)')
-		select('Table1', 'false', 'Include,6')
-		select('Table1', 'false', 'Include,7')
-		select('Table1', 'false', 'Include,1')
-		select('Table1', 'false', 'Include,0')
-		select('Table1', 'false', 'Include,5')
-		#select('Table1', 'cell:Include,5(false)')
-		click('Filter1')
+		select('Table', 'false', commonBits.fl('Include') + ',0')
+		select('Table', 'false', commonBits.fl('Include') + ',2')
+		select('Table', 'cell:' + commonBits.fl('Record') + ',1(ams PO Download: Header)')
+		select('Table1', 'false', commonBits.fl('Include') + ',6')
+		select('Table1', 'false', commonBits.fl('Include') + ',7')
+		select('Table1', 'false', commonBits.fl('Include') + ',1')
+		select('Table1', 'false', commonBits.fl('Include') + ',0')
+		select('Table1', 'false', commonBits.fl('Include') + ',5')
+		#select('Table1', 'cell:' + commonBits.fl('Include') + ',5(false)')
+		commonBits.filter(click)
 		select('Table', 'cell:30 - 6|Entry Date,4(040929)')
 		assert_p('Table', 'Text', '040929', '30 - 6|Entry Date,6')
 		select('Table', 'cell:48 - 4|Department,6(200)')
@@ -27,5 +27,5 @@ def test():
 		select('Table', 'cell:52 - 6|Expected Reciept Date,8(050103)')
 		commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
-		select('Table2', 'cell:Field,0(null)')
+		select('Table2', 'cell:' + commonBits.fl('Field') + ',0(null)')
 	close()

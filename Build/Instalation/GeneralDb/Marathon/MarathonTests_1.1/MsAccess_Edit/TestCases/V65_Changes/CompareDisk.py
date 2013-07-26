@@ -1,11 +1,11 @@
-useFixture(default)
+useFixture(RecordEditor)
 
 def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_03'
 
 	if window('Record Editor'):
-		click('Choose File')
+		click(commonBits.fl('Choose File'))
 
 		if window('Open'):
 			select(commonBits.selectPane(), 'Ams_LocDownload_20041228.txt')
@@ -14,7 +14,7 @@ def test():
 
 		commonBits.setRecordLayout(select, 'ams Store')
 
-		click('Edit1')
+		click(commonBits.fl('Edit') + '1')
 		select('Table', '1', '45 - 40|Loc Addr Ln1,0')
 		select('Table', '22', '45 - 40|Loc Addr Ln1,1')
 		select('Table', '33', '85 - 40|Loc Addr Ln2,2')

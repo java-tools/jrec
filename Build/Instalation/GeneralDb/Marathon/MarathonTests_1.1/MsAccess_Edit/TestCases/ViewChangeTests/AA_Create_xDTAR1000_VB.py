@@ -5,7 +5,7 @@ def test():
 
 	if window('Record Editor'):
 		select_menu('Record Layouts>>Edit Layout')
-		click('New1')
+		click('New2')
 		select('TabbedPane', 'Extras')
 		select('TabbedPane', 'Extras')
 		select('TabbedPane', 'Fields')

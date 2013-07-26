@@ -30,7 +30,7 @@ def test():
 		select('TabbedPane', '')
 		click('Choose File')
 
-		if window('Open'):
+		if window('Save'):
 			select(commonBits.selectPane(), 'Compare')
 			##doubleclick(commonBits.selectPane(), '0')
 			select(commonBits.selectPane(), 'zzTest_asmLocation.Xml')
@@ -61,7 +61,7 @@ def test():
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('*')
 		##select('FileChooser', commonBits.userDir() + 'Compare' + commonBits.fileSep() + 'zzTest_asmLocation.Xml')
-		commonBits.selectFileName(select, commonBits.userDir() + 'Compare' + commonBits.fileSep() + 'zzTest_asmLocation.Xml')
+		commonBits.selectFileName(select, keystroke, commonBits.userDir() + 'Compare' + commonBits.fileSep() + 'zzTest_asmLocation.Xml')
 		click('Run Compare')
 		select('Table', 'cell:Loc Name,11(Highpoint City)')
 		assert_p('Table', 'Text', 'Laverton', 'Loc Addr Ln1,11')

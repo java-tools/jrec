@@ -66,7 +66,7 @@ def test():
 		assert_p('RecordSelectionJTbl', 'Content', '[[, , fld 11, =, 11], [, ' + commonBits.fl('And') + ', fld 12, =, 12], [, ' + commonBits.fl('And') + ', fld 11, =, 11a], [, ' + commonBits.fl('And') + ', fld 12, =, 12a], [' + commonBits.fl('Or') + ', , fld 11, =, 11b], [, ' + commonBits.fl('And') + ', fld 12, =, 12b], [' + commonBits.fl('Or') + ', , fld 11, =, 11c], [, ' + commonBits.fl('And') + ', fld 12, =, 12c]]')
 		select('RecordSelectionJTbl', 'cell:' + commonBits.fl('Field Value') + ',6(11c)')
 		rightclick('RecordSelectionJTbl', 'and,2')
-		assert_p('RecordSelectionJTbl', 'Content', '[[, , fld 11, =, 11], [, ' + commonBits.fl('And') + ', fld 12, =, 12], [' + commonBits.fl('Or') + ', , fld 11, =, 11a], [, ' + commonBits.fl('And') + ', fld 12, =, 12a], [' + commonBits.fl('Or') + ', , fld 11, =, 11b], [, ' + commonBits.fl('And') + ', fld 12, =, 12b], [' + commonBits.fl('Or') + ', , fld 11, =, 11c], [, ' + commonBits.fl('And') + ', fld 12, =, 12c]]')
+		assert_p('RecordSelectionJTbl', 'Content', '[[, , fld 11, =, 11], [, And, fld 12, =, 12], [Or, , fld 11, =, 11a], [, And, fld 12, =, 12a], [Or, , fld 11, =, 11b], [, And, fld 12, =, 12b], [Or, , fld 11, =, 11c], [, And, fld 12, =, 12c]]')
 		select('RecordSelectionJTbl', 'cell:' + commonBits.fl('Field Value') + ',6(11c)')
 		rightclick('RecordSelectionJTbl', 'or,2')
 		assert_p('RecordSelectionJTbl', 'Content', '[[, , fld 11, =, 11], [, ' + commonBits.fl('And') + ', fld 12, =, 12], [, ' + commonBits.fl('And') + ', fld 11, =, 11a], [, ' + commonBits.fl('And') + ', fld 12, =, 12a], [' + commonBits.fl('Or') + ', , fld 11, =, 11b], [, ' + commonBits.fl('And') + ', fld 12, =, 12b], [' + commonBits.fl('Or') + ', , fld 11, =, 11c], [, ' + commonBits.fl('And') + ', fld 12, =, 12c]]')

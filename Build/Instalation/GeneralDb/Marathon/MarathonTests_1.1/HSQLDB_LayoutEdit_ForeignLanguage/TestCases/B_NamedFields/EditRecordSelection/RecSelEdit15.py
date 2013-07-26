@@ -34,6 +34,7 @@ def test():
 		commonBits.delete3(click)
 		assert_p('RecordSelectionJTbl1', 'Content', '[[, , fld 21, =, 12]]')
 		select('TabbedPane', commonBits.fl('Summary'))
+##		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , f1, =, v1], [, , And  ,   ,   , fld 11, =, 11], [, ,   , Or  ,   , fld 11, =, 121], [, ,   ,   ,   , , =, ], [, , And  ,   ,   , fld 21, =, 12], [, ,   ,   ,   , , =, ], [, , And  ,   ,   , fld 31, =, 31], [, ,   , Or  ,   , fld 32, =, 32]]')
 		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , f1, =, v1], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 11, =, 11], [, ,   , ' + commonBits.fl('Or') + '  ,   , fld 11, =, 121], [, ,   ,   ,   , , =, ], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 21, =, 12], [, ,   ,   ,   , , =, ], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 31, =, 31], [, ,   , ' + commonBits.fl('Or') + '  ,   , fld 32, =, 32]]')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 	close()

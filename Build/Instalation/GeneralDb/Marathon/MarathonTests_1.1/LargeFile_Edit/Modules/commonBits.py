@@ -47,6 +47,10 @@ def isVersion81():
 
 def isVersion82():
 	return 1
+	
+def isJava7():
+	return version() == 'MsAccess'
+ 
 
 def isMetalLook():
 	return  isWindowsLook() != 1 & isNimbusLook() != 1
@@ -207,7 +211,7 @@ def doSleep():
 		diff = datetime.now() - start
 	return
 
-def selectFileName(select, name):
+def selectFileName(select, keystroke, name): 
 	select('File Name', name)
 ##	select('ComboBox2', recordLayout)
 ##	select('FileChooser', name

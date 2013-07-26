@@ -1,4 +1,4 @@
-useFixture(default)
+useFixture(RecordEditor)
 
 def test():
 	from Modules import commonBits
@@ -16,16 +16,16 @@ def test():
 
 		select('JTreeTable', 'cell:Xml~Text,3(null)')
 		rightclick('JTreeTable', 'Xml~Text,3')
-		select_menu('Expand Tree')
-		select('JTreeTable', 'cell:Tree,5(null)')
-		rightclick('JTreeTable', 'Tree,5')
-		select_menu('Copy Record#{s#}')
-		select('JTreeTable', 'cell:Tree,1(null)')
-		rightclick('JTreeTable', 'Tree,1')
-		select_menu('Paste Record#{s#}')
+		select_menu(commonBits.fl('Expand Tree'))
+		select('JTreeTable', 'cell:' + commonBits.fl('Tree') + ',5(null)')
+		rightclick('JTreeTable', commonBits.fl('Tree') + ',5')
+		select_menu(commonBits.fl('Copy Record#{s#}'))
+		select('JTreeTable', 'cell:' + commonBits.fl('Tree') + ',1(null)')
+		rightclick('JTreeTable', commonBits.fl('Tree') + ',1')
+		select_menu(commonBits.fl('Paste Record#{s#}'))
 		select('JTreeTable', 'cell:Xml~Text,2(null)')
 		rightclick('JTreeTable', 'Xml~Text,2')
-		select_menu('Expand Tree')
+		select_menu(commonBits.fl('Expand Tree'))
 		select('LayoutCombo', 'item')
 		select('JTreeTable', 'cell:name,3(Location-Number)')
 		assert_p('JTreeTable', 'Text', 'Location-Number', 'name,3')
@@ -35,7 +35,7 @@ def test():
 
 		select('JTreeTable', 'cell:name,3(Location-Number)')
 		assert_p('JTreeTable', 'RowCount', '8')
-		select('JTreeTable', 'rows:[3,4],columns:[Tree]')
+		select('JTreeTable', 'rows:[3,4],columns:[' + commonBits.fl('Tree') + ']')
 		click('Delete1')
 		select('JTreeTable', 'cell:name,2(Location-Details)')
 		commonBits.closeWindow(click)
@@ -43,7 +43,7 @@ def test():
 		commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 
-		if window('Save Changes to file: ' + commonBits.sampleDir() + 'Xml' + commonBits.fileSep() + 'AmsLocationTest1.xml'):
+		if window(commonBits.fl('Save Changes to file: ' + commonBits.sampleDir() + 'Xml' + commonBits.fileSep() + 'AmsLocationTest1.xml')):
 			click('No')
 		close()
 	close()

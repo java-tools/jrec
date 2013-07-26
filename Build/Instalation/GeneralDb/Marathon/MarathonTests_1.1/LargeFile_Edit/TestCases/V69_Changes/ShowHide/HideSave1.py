@@ -29,7 +29,7 @@ def test():
 		select_menu(commonBits.fl('Edit') + '>>' + commonBits.fl('Show / Hide Fields'))
 		commonBits.save(click)
 		##select('FileChooser', commonBits.CobolCopybookDir() + 't1Hide.xml')
-		commonBits.selectFileName(select, commonBits.CobolCopybookDir() + 't1Hide.xml')
+		commonBits.selectFileName(select, keystroke, commonBits.CobolCopybookDir() + 't1Hide.xml')
 		commonBits.save1(click)
 ##		select_menu(commonBits.fl('Window') + '>>Menu')
 ##		click('MetalInternalFrameTitlePane', 215, 10)
@@ -44,7 +44,7 @@ def test():
 		select_menu(commonBits.fl('View') + '>>' + commonBits.fl('Load Saved Hidden Fields'))
 		##select('FileChooser', commonBits.CobolCopybookDir() + 't1Hide.xml')
 		
-		commonBits.selectFileName(select, commonBits.CobolCopybookDir() + 't1Hide.xml')
+		commonBits.selectFileName(select, keystroke, commonBits.CobolCopybookDir() + 't1Hide.xml')
 		click(commonBits.fl('Run')
 )
 		select('Table', 'cell:' + commonBits.fl('Data') + ',3(286225)')

@@ -80,6 +80,7 @@ def test():
 		rightclick('ChildRecordsJTbl', commonBits.fl('Child Name') + ',1')
 		select_menu(commonBits.fl('View Record Selections Tree'))
 		select('ChildRecordsJTbl', 'cell:rs,2(null)')
+##		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , , =, ], [, , And  ,   ,   , fld 11, =, 11], [, ,   ,   , And  , fld 12, =, 22], [, ,   ,   , And  , fld 13, =, 33], [, ,   ,   ,   , fff, =, vvvv], [, , And  ,   ,   , fld 21, !=, 21], [, ,   ,   , And  , fld 24, =, 24], [, ,   ,   , And  , fld 23, >, 22], [, ,   ,   ,   , , =, ], [, , And  ,   ,   , fld 32, =, 32]]')
 		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , , =, ], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 11, =, 11], [, ,   ,   , ' + commonBits.fl('And') + '  , fld 12, =, 22], [, ,   ,   , ' + commonBits.fl('And') + '  , fld 13, =, 33], [, ,   ,   ,   , fff, =, vvvv], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 21, !=, 21], [, ,   ,   , ' + commonBits.fl('And') + '  , fld 24, =, 24], [, ,   ,   , ' + commonBits.fl('And') + '  , fld 23, >, 22], [, ,   ,   ,   , , =, ], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 32, =, 32]]')
 
 	close()

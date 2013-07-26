@@ -45,6 +45,7 @@ def test():
 		select('RecordSelectionJTbl', 'fld 12', commonBits.fl('Field') + ',2')
 		select('RecordSelectionJTbl', '12', commonBits.fl('Field Value') + ',2')
 		select('RecordSelectionJTbl', 'cell:' + commonBits.fl('Field Value') + ',1(11a)')
+##		assert_p('RecordSelectionJTbl', 'Content', '[[, , fld 11, =, 11], [Or, , fld 11, =, 11a], [, And, fld 12, =, 12]]')
 		assert_p('RecordSelectionJTbl', 'Content', '[[, , fld 11, =, 11], [' + commonBits.fl('Or') + ', , fld 11, =, 11a], [, ' + commonBits.fl('And') + ', fld 12, =, 12]]')
 
 		
@@ -111,6 +112,7 @@ def test():
 		rightclick('ChildRecordsJTbl', commonBits.fl('Field') + ',1')
 		select_menu(commonBits.fl('View Record Selections Tree'))
 		select('ChildRecordsJTbl', 'cell:' + commonBits.fl('Field') + ',1(ggg)')
+##		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , fff, =, vvv1], [, , And  ,   ,   , fld 11, =, 11], [, ,   , Or  ,   , fld 11, =, 11a], [, ,   ,   , And  , fld 12, =, 12], [, ,   ,   ,   , ggg, =, vv2], [, , And  ,   ,   , fld 21, =, 21], [, ,   ,   , And  , fld 22, =, 22], [, ,   ,   ,   , , =, ], [, , And  ,   ,   , fld 32, =, 32]]')
 		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , fff, =, vvv1], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 11, =, 11], [, ,   , ' + commonBits.fl('Or') + '  ,   , fld 11, =, 11a], [, ,   ,   , ' + commonBits.fl('And') + '  , fld 12, =, 12], [, ,   ,   ,   , ggg, =, vv2], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 21, =, 21], [, ,   ,   , ' + commonBits.fl('And') + '  , fld 22, =, 22], [, ,   ,   ,   , , =, ], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 32, =, 32]]')
 
 		select('JTreeTable', 'cell:' + commonBits.fl('Boolean op 2') + '    ,1(  )')

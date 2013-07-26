@@ -1,5 +1,6 @@
 useFixture(default)
-###
+
+###
 ###  Problem Nimbus ???
 ###
 def test():
@@ -99,7 +100,7 @@ def test():
 		rightclick('JTreeTable', 'Tree,12')
 		commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
-		select_menu('Window>>DTAR020.bin>>Table: ')
+		select_menu('Window>>DTAR020.bin>>Table:')
 		commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 

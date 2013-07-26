@@ -41,14 +41,14 @@ def test():
 
 
 		select('FileChooser', commonBits.userDir() + 'copyDTAR020toCsv1.xml')
-		##commonBits.selectFileName(select, commonBits.userDir() + 'copyDTAR020toCsv1.xml')
+		##commonBits.selectFileName(select, keystroke, commonBits.userDir() + 'copyDTAR020toCsv1.xml')
 		commonBits.save1(click)
 		commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu(commonBits.fl('Window') + '>>' + commonBits.fl('Menu') + '>>' + commonBits.fl('Copy Menu'))
 		click('*')
 		select('FileChooser', commonBits.userDir() + 'copyDTAR020toCsv1.xml')
-		##commonBits.selectFileName(select, commonBits.userDir() + 'copyDTAR020toCsv1.xml')
+		##commonBits.selectFileName(select, keystroke, commonBits.userDir() + 'copyDTAR020toCsv1.xml')
 		click(commonBits.fl('Run Copy Dialog'))
 		assert_p('FileChooser', 'Text', commonBits.sampleDir() + 'DTAR020.bin')
 		if commonBits.isRecordEditor():

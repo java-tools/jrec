@@ -28,7 +28,7 @@ def test():
 		commonBits.save(click)
 		##commonBits.save1(click)
 		##select('FileChooser', commonBits.userDir() +  'SortTree'  + commonBits.fileSep() + 'xx1')
-		commonBits.selectFileName(select, commonBits.userDir() +  'SortTree'  + commonBits.fileSep() + 'xx1')
+		commonBits.selectFileName(select, keystroke, commonBits.userDir() +  'SortTree'  + commonBits.fileSep() + 'xx1')
 		commonBits.save1(click)
 		select_menu(commonBits.fl('Window') + '>>DTAR020.bin>>' + commonBits.fl('Create Sorted Tree'))
 		click(commonBits.fl('Build Tree'))
@@ -59,9 +59,12 @@ def test():
 		select_menu(commonBits.fl('Window') + '>>DTAR020.bin>>' + commonBits.fl('Table:'))
 		select_menu(commonBits.fl('View') + '>>' + commonBits.fl('Execute Sort Tree'))
 		##select('FileChooser', commonBits.userDir() +  'SortTree'  + commonBits.fileSep() + 'xx1')
-		commonBits.selectFileName(select, commonBits.userDir() +  'SortTree'  + commonBits.fileSep() + 'xx1')
-		click(commonBits.fl('Run Dialog')
-)
+		commonBits.selectFileName(select, keystroke, commonBits.userDir() +  'SortTree'  + commonBits.fileSep() + 'xx1')
+		##if commonBits.isJava7():
+		##	keystroke('File Name', 'Enter')
+
+		click(commonBits.fl('Run Dialog'))
+
 #		select('List', 'DTAR020')
 #		select('List', 'DTAR020')
 		select('Table1', 'cell:' + commonBits.fl('Field') + ',1(STORE-NO)')

@@ -1,4 +1,4 @@
-useFixture(default)
+useFixture(RecordEditor)
 
 def test():
 	from Modules import commonBits
@@ -7,14 +7,14 @@ def test():
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'utf8a_Ams_PODownload_20041231.txt')
 		commonBits.setRecordLayout(select, 'utf8_ams PO Download')
-		click('Edit1')
-		select_menu('View>>Record Based Tree')
-		select('Table', 'ams PO Download: Header', 'Parent Record,0')
-		select('Table', 'ams PO Download: Detail', 'Parent Record,2')
-##		select('Table', '1', 'Parent Record,0')
-##		select('Table', '0', 'Parent Record,2')
-		select('Table', 'cell:Parent Record,2(0)')
-		click('Build')
+		click(commonBits.fl('Edit') + '1')
+		select_menu(commonBits.fl('View') + '>>' + commonBits.fl('Record Based Tree'))
+		select('Table', 'ams PO Download: Header', commonBits.fl('Parent Record') + ',0')
+		select('Table', 'ams PO Download: Detail', commonBits.fl('Parent Record') + ',2')
+##		select('Table', '1', commonBits.fl('Parent Record') + ',0')
+##		select('Table', '0', commonBits.fl('Parent Record') + ',2')
+		select('Table', 'cell:' + commonBits.fl('Parent Record') + ',2(0)')
+		click(commonBits.fl('Build'))
 		select('LayoutCombo', 'ams PO Download: Detail')
 		#####
 
@@ -29,7 +29,7 @@ def test():
 		assert_p('JTreeTable', 'RowCount', '8')
 		select('JTreeTable', 'cell:Pack Qty,2(45351.0000)')
 		rightclick('JTreeTable', 'Pack Qty,2')
-		select_menu('Expand Tree')
+		select_menu(commonBits.fl('Expand Tree'))
 		select('JTreeTable', 'cell:Pack Qty,3(6.0000)')
 		assert_p('JTreeTable', 'Text', '6.0000', 'Pack Qty,3')
 		select('JTreeTable', 'cell:Pack Qty,4(3.0000)')
@@ -39,7 +39,7 @@ def test():
 		assert_p('JTreeTable', 'Content', '[[, , H1, 45349.0000, 606028.6225, 40909, , 0,     LADIES KNIC, FT, ], [, , H1, 45350.0000, 6228000.0002, 22227040909, , 0,     LADIES KNIC, FT, ], [, , H1, 45351.0000, 6228000.0002, 22243040909, , 0,     LADIES KNIC, FT, ], [, , D1, 6.0000, 148.3200, 0, , 45614531, 2075352, 45614531,  DONKEY 24-006607 SHWL WRAP CARD], [, , D1, 3.0000, 148.3200, 0, , 45614944, 2075353, 45614944,  MILK 24-006607 SHWL WRAP CARD], [, , D1, 44.0000, 148.3200, 0, , 45615071, 2075354, 45615071,  M.ROSE 24-006607 SHWL WRAP CARD], [, , D1, 3.0000, 148.3200, 0, , 45615156, 2075355, 35615156,  AQUA 24-006607 SHWL WRAP CARD], [, , H1, 45352.0000, 534129.4915, 41013, , 0,     WOMENS SHOC, FT, ], [, , H1, 45353.0000, 534129.4987, 41013, , 0,     WOMENS SHOC, FT, ], [, , H1, 45354.0000, 534129.5139, 41013, , 0,     WOMENS SHOC, FT, ], [, , H1, 45355.0000, 534130.3662, 41110, , 0,     YOUTH SHOEC, FT, ], [, , H1, 45356.0000, 534130.4100, 41111, , 0,     YOUTH SHOEC, FT, ]]')
 		select('JTreeTable', 'cell:Pack Qty,5(44.0000)')
 		rightclick('JTreeTable', 'Pack Qty,5')
-		select_menu('Expand Tree')
+		select_menu(commonBits.fl('Expand Tree'))
 		select('JTreeTable', 'cell:Pack Qty,6(50090.0000)')
 		assert_p('JTreeTable', 'Text', '50440.0000', 'Pack Qty,7')
 	close()

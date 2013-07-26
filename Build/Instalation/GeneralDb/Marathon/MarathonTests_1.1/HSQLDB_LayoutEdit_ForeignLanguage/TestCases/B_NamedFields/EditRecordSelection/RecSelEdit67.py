@@ -18,7 +18,9 @@ def test():
 		select('TabbedPane', 'zxxxzFLD2')
 		assert_p('RecordSelectionJTbl1', 'Content', '[[, , fld 23, =, 23]]')
 		select('TabbedPane', commonBits.fl('Summary'))
+##		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , fff, =, vvv], [, , And  ,   ,   , fld 11, =, 11], [, ,   , Or  ,   , fld 11, =, 121], [, ,   ,   ,   , , =, ], [, , And  ,   ,   , fld 23, =, 23], [, ,   ,   ,   , , =, ]]')
 		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , fff, =, vvv], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 11, =, 11], [, ,   , ' + commonBits.fl('Or') + '  ,   , fld 11, =, 121], [, ,   ,   ,   , , =, ], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 23, =, 23], [, ,   ,   ,   , , =, ]]')
+
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('RecordList.Record Name_Txt', 'zx3g3xzFLDg5432')
 		select('RecordList.Description_Txt', '%%')
@@ -30,7 +32,9 @@ def test():
 		select('TabbedPane', 'zxxxzFLD2')
 		assert_p('RecordSelectionJTbl1', 'Content', '[[, , fld 23, =, 23]]')
 		select('TabbedPane', commonBits.fl('Summary'))
+##		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , fff, =, vvv], [, , And  ,   ,   , fld 11, =, 11], [, ,   , Or  ,   , fld 11, =, 121], [, ,   ,   ,   , , =, ], [, , And  ,   ,   , fld 23, =, 23], [, ,   ,   ,   , , =, ]]')
 		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , fff, =, vvv], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 11, =, 11], [, ,   , ' + commonBits.fl('Or') + '  ,   , fld 11, =, 121], [, ,   ,   ,   , , =, ], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 23, =, 23], [, ,   ,   ,   , , =, ]]')
+
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 	close()

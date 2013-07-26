@@ -1,28 +1,33 @@
-useFixture(default)
+useFixture(RecordEditor)
 
 def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_03'
 
 	if window('Record Editor'):
-		click('Choose File')
+		click(commonBits.fl('Choose File'))
 
 		if window('Open'):
 			select(commonBits.selectPane(), 'Ams_PODownload_20041231.txt')
 			click('Open')
 		close()
 
-		click('Edit1')
-		select_menu('View>>Record Based Tree')
-		select('Table', 'ams PO Download: Header', 'Parent Record,0')
-		select('Table', 'ams PO Download: Detail', 'Parent Record,2')
-		select('Table', 'cell:Parent Record,2(0)')
-		click('Save1')
+		click(commonBits.fl('Edit') + '1')
+		select_menu(commonBits.fl('View') + '>>' + commonBits.fl('Record Based Tree'))
+		select('Table', 'ams PO Download: Header', commonBits.fl('Parent Record') + ',0')
+		select('Table', 'ams PO Download: Detail', commonBits.fl('Parent Record') + ',2')
+		select('Table', 'cell:' + commonBits.fl('Parent Record') + ',2(0)')
+		commonBits.save1(click)
 		##select('FileChooser', commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
-		commonBits.selectFileName(select, commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
+		commonBits.selectFileName(select, keystroke, commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
+
 		click('Save1')
-		select_menu('Window>>Ams_PODownload_20041231.txt>>Create Record Tree')
-		click('Build')
+
+
+
+
+		select_menu(commonBits.fl('Window') + '>>Ams_PODownload_20041231.txt>>' + commonBits.fl('Create Record Tree'))
+		click(commonBits.fl('Build'))
 		select('JTreeTable', 'cell:PO,0(286225)')
 		assert_p('JTreeTable', 'Text', '286225', 'PO,0')
 		select('JTreeTable', 'cell:PO,0(286225)')
@@ -30,16 +35,16 @@ def test():
 		select('JTreeTable', 'cell:PO,0(286225)')
 		commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
-		select_menu('Window>>Ams_PODownload_20041231.txt>>Table: ')
-		select_menu('View>>Execute Record Tree')
+		select_menu(commonBits.fl('Window') + '>>Ams_PODownload_20041231.txt>>' + commonBits.fl('Table:'))
+		select_menu(commonBits.fl('View') + '>>' + commonBits.fl('Execute Record Tree'))
 		##select('FileChooser',  commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
-		commonBits.selectFileName(select, commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
+		commonBits.selectFileName(select, keystroke, commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
 
-		click('Run Dialog')
-		select('Table', 'cell:Record,1(ams PO Download: Header)')
+		click(commonBits.fl('Run Dialog'))
+		select('Table', 'cell:' + commonBits.fl('Record') + ',1(ams PO Download: Header)')
 		assert_p('Table', 'Content', '[[ams PO Download: Detail, 1], [ams PO Download: Header, -1], [ams PO Download: Allocation, 0]]')
-		select('Table', 'cell:Record,1(ams PO Download: Header)')
-		click('Build')
+		select('Table', 'cell:' + commonBits.fl('Record') + ',1(ams PO Download: Header)')
+		click(commonBits.fl('Build'))
 		select('JTreeTable', 'cell:PO,0(286225)')
 		assert_p('JTreeTable', 'Text', '222227', 'PO,1')
 		select('JTreeTable', 'cell:PO,3(294915)')
@@ -50,11 +55,12 @@ def test():
 		select('JTreeTable', 'cell:PO,5(295139)')
 		commonBits.closeWindow(click)
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
-		select_menu('Window>>Ams_PODownload_20041231.txt>>Table: ')
-		select_menu('View>>Execute Record Tree')
+		select_menu(commonBits.fl('Window') + '>>Ams_PODownload_20041231.txt>>' + commonBits.fl('Table:'))
+		select_menu(commonBits.fl('View') + '>>' + commonBits.fl('Execute Record Tree'))
 		##select('FileChooser', commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
-		commonBits.selectFileName(select, commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
-		click('Run')
+		commonBits.selectFileName(select, keystroke, commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
+		click(commonBits.fl('Run')
+)
 		select('JTreeTable', 'cell:Sequence Number,2(45.351)')
 		assert_p('JTreeTable', 'Text', '45.352', 'Sequence Number,3')
 		select('JTreeTable', 'cell:PO,5(295139)')

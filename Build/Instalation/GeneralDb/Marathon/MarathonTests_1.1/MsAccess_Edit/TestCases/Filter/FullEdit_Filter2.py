@@ -1,4 +1,4 @@
-useFixture(default)
+useFixture(RecordEditor)
 
 def test():
 	from Modules import commonBits
@@ -6,14 +6,15 @@ def test():
 	if window('Record Editor'):
 		select('FileChooser', commonBits.sampleDir() + 'Ams_LocDownload_20041228.txt')
 		commonBits.setRecordLayout(select, 'ams Store')
-		click('Edit1')
+		click(commonBits.fl('Edit') + '1')
 		click('Filter1')
-		select('Table1', 'Loc Nbr', 'Field,0')
-		select('Table1', '1', 'Value,0')
-		select('Table1', 'Loc Nbr', 'Field,1')
-		select('Table1', '2', 'Value,1')
-		select('Table1', 'cell:Value,1()')
-		click('Filter1')
+		select('Table1', 'Loc Nbr', commonBits.fl('Field') + ',0')
+		select('Table1', '1', commonBits.fl('Value') + ',0')
+		select('Table1', 'Loc Nbr', commonBits.fl('Field') + ',1')
+		select('Table1', '2', commonBits.fl('Value') + ',1')
+		select('Table1', 'cell:' + commonBits.fl('Value') + ',1()')
+		commonBits.filter(click)
+
 		select('Table', 'cell:10 - 35|Loc Name,5(Strathpine - Not Yet Open)')
 		assert_p('Table', 'Text', 'Strathpine - Not Yet Open', '10 - 35|Loc Name,5')
 		select('Table', 'cell:10 - 35|Loc Name,6(Robina)')

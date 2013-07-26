@@ -19,8 +19,13 @@ def test():
 		select('Table', 'cell:' + commonBits.fl('Parent Record') + ',2(0)')
 		commonBits.save1(click)
 		##select('FileChooser', commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
-		commonBits.selectFileName(select, commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
+		commonBits.selectFileName(select, keystroke, commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
+
 		click('Save1')
+
+
+
+
 		select_menu(commonBits.fl('Window') + '>>Ams_PODownload_20041231.txt>>' + commonBits.fl('Create Record Tree'))
 		click(commonBits.fl('Build'))
 		select('JTreeTable', 'cell:PO,0(286225)')
@@ -33,10 +38,9 @@ def test():
 		select_menu(commonBits.fl('Window') + '>>Ams_PODownload_20041231.txt>>' + commonBits.fl('Table:'))
 		select_menu(commonBits.fl('View') + '>>' + commonBits.fl('Execute Record Tree'))
 		##select('FileChooser',  commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
-		commonBits.selectFileName(select, commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
+		commonBits.selectFileName(select, keystroke, commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
 
-		click(commonBits.fl('Run Dialog')
-)
+		click(commonBits.fl('Run Dialog'))
 		select('Table', 'cell:' + commonBits.fl('Record') + ',1(ams PO Download: Header)')
 		assert_p('Table', 'Content', '[[ams PO Download: Detail, 1], [ams PO Download: Header, -1], [ams PO Download: Allocation, 0]]')
 		select('Table', 'cell:' + commonBits.fl('Record') + ',1(ams PO Download: Header)')
@@ -54,7 +58,7 @@ def test():
 		select_menu(commonBits.fl('Window') + '>>Ams_PODownload_20041231.txt>>' + commonBits.fl('Table:'))
 		select_menu(commonBits.fl('View') + '>>' + commonBits.fl('Execute Record Tree'))
 		##select('FileChooser', commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
-		commonBits.selectFileName(select, commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
+		commonBits.selectFileName(select, keystroke, commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
 		click(commonBits.fl('Run')
 )
 		select('JTreeTable', 'cell:Sequence Number,2(45.351)')

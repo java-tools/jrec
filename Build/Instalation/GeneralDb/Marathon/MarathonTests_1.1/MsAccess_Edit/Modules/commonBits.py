@@ -30,6 +30,10 @@ def isVersion81():
 
 def isVersion82():
 	return 1
+	
+def isJava7():
+	return version() == 'MsAccess'
+ 
 
 def isMetalLook():
 	return  isWindowsLook() != 1 & isNimbusLook() != 1
@@ -40,6 +44,8 @@ def version():
 def isJRecord():
 	return not isRecordEditor()
 
+def isTstLanguage():
+    return 0
 
 def isRecordEditor():
 	return 1
@@ -53,6 +59,12 @@ def fileSep():
 def sampleDir():
 	return utilDir()+ 'SampleFiles' + fileSep()
 
+
+def fl(txt):
+	if isTstLanguage():
+		return '`!' + txt + '!`'
+	else:
+		return txt
 
 def velocityDir():
 	if windows():
@@ -111,6 +123,10 @@ def setCobolLayout2(select, recordLayout, format):
 
 
 
+def scriptExampleDir():
+	sep = fileSep()
+	return userDir() + 'Scripts' + sep + 'Examples' + sep
+
 def userDir():
 	if windows():
 		return paramDir() + 'User\\'
@@ -148,7 +164,7 @@ def closeWindow(click):
 
 
 def doEdit(click):
-	click('Edit1')
+	click(fl('Edit') + '1')
 	time.sleep(0.75)
 	return
 
@@ -172,16 +188,114 @@ def doSleep():
 		diff = datetime.now() - start
 	return
 
-def selectFileName(select, name):
-	select('File Name', name)
+def selectFileName(select, keystroke, name): 
+	if isJava7():
+		select('File Name', name)
+		##keystroke('File Name', 'Enter')
+	else:
+		select('File Name', name)
 ##	select('ComboBox2', recordLayout)
 ##	select('FileChooser', name
 
 
 def selectOldFilemenu(select_menu, menu, text):
 	if isVersion80():
-		select_menu(menu + '>>' + text)
+		if isTstLanguage():
+			select_menu(fl(menu) + '>>' + fl(text))
+		else:
+			select_menu(menu + '>>' + text)
 	else:
 		select_menu('File>>' + text)
 
+def delete3(click):
+	if isTstLanguage():
+		click(fl('Delete') + '1')
+	else:
+		click('Delete3')
 
+def delete2(click):
+	if isTstLanguage():
+		click(fl('Delete'))
+	else:
+		click('Delete2')
+
+def paste2(click):
+	if isTstLanguage():
+		click(fl('Paste'))
+	else:
+		click('Paste2')
+
+def copy2(click):
+	if isTstLanguage():
+		click(fl('Copy'))
+	else:
+		click('Copy2')
+
+def cut2(click):
+	if isTstLanguage():
+		click(fl('Cut'))
+	else:
+		click('Cut2')
+
+def save1(click):
+	if isTstLanguage():
+		click(fl('Save'))
+	else:
+		click('Save1')
+
+
+def new1(click):
+	if isTstLanguage():
+		click(fl('New'))
+	else:
+		click('New1')
+
+
+def find(click):
+	click(fl('Find') + " >>")
+
+#	if isTstLanguage():
+#		click(fl('Find'))
+#	else:
+#		click('Find1')
+
+def findA(click):
+	if isTstLanguage() == 0:
+		click('Find1')
+
+
+def filter(click):
+	if isTstLanguage():
+		click(fl('Filter'))
+	else:
+		click('Filter1')
+
+def filter2(click):
+	if isTstLanguage():
+		click(fl('Filter') + '1')
+	else:
+		click('Filter2')
+
+def sort(click):
+	if isTstLanguage():
+		click(fl('Sort'))
+	else:
+		click('Sort1')
+
+def save(click):
+	if isTstLanguage():
+		click(fl('Save'))
+	else:
+		click('Save1')
+
+def save2(click):
+	if isTstLanguage():
+		click(fl('Save') + 1)
+	else:
+		click('Save2')
+
+def copy(click):
+	if isTstLanguage():
+		click(fl('Copy'))
+	else:
+		click('Copy2')

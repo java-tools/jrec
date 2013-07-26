@@ -104,6 +104,7 @@ def test():
 		rightclick('ChildRecordsJTbl', commonBits.fl('Child Name') + ',1')
 		select_menu(commonBits.fl('View Record Selections Tree'))
 ##		select('ChildRecordsJTbl', 'cell:' + commonBits.fl('Child Name') + ',1()')
+##		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , ff1, =, v11], [, , And  ,   ,   , fld 11, =, 11], [, ,   , Or  ,   , fld 11, =, 11a], [, ,   ,   , And  , fld 13, =, 33], [, ,   ,   ,   , ff2, =, v22], [, , And  ,   ,   , fld 21, =, 21], [, ,   ,   ,   , ff33, =, v333], [, , And  ,   ,   , fld 31, =, 31], [, ,   , Or  ,   , fld 32, =, 32], [, ,   ,   , And  , fld 32, =, 32]]')
 		assert_p('JTreeTable', 'Content', '[[, ,   ,   ,   , ff1, =, v11], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 11, =, 11], [, ,   , ' + commonBits.fl('Or') + '  ,   , fld 11, =, 11a], [, ,   ,   , ' + commonBits.fl('And') + '  , fld 13, =, 33], [, ,   ,   ,   , ff2, =, v22], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 21, =, 21], [, ,   ,   ,   , ff33, =, v333], [, , ' + commonBits.fl('And') + '  ,   ,   , fld 31, =, 31], [, ,   , ' + commonBits.fl('Or') + '  ,   , fld 32, =, 32], [, ,   ,   , ' + commonBits.fl('And') + '  , fld 32, =, 32]]')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('ChildRecordsJTbl', 'cell:' + commonBits.fl('Child Name') + ',1()')

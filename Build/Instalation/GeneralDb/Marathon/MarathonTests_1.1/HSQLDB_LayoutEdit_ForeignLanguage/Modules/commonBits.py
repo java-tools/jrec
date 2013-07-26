@@ -1,3 +1,6 @@
+from datetime import datetime
+import time
+
 def windows():
 	return 01
 ##	return "a" == "a"
@@ -14,6 +17,10 @@ def isVersion81():
 
 def isVersion82():
 	return 1
+	
+def isJava7():
+	return version() == 'MsAccess'
+ 
 
 def Linux():
 	return 'guest'
@@ -21,7 +28,7 @@ def Linux():
 
 
 def isTstLanguage():
-    return 0
+    return 1
 
 def isWindowsLook():
 	return 0
@@ -29,9 +36,14 @@ def isWindowsLook():
 def isNimbusLook():
 	return 0
 
+def fileSep():
+	if windows():
+		return '\\'
+	else:
+		return '/'
 
 def sampleDir():
-	return utilDir() + 'SampleFiles' + separator()
+	return utilDir()+ 'SampleFiles' + fileSep()
 
 
 def fl(txt):
@@ -40,11 +52,14 @@ def fl(txt):
 	else:
 		return txt
 
+def velocityDir():
+	if windows():
+		return utilDir()+ 'SampleVelocityTemplates\\File\\'
+	else: 
+		return utilDir()+ 'SampleVelocityTemplates/File/'
+
 def implementationSampleDir():
 	return  sampleDir()
-##	return '/C:/Program Files/RecordEdit/HSQLDB/SampleFiles/'
-#	return '/home/knoppix/RecordEdit/HSQLDB/SampleFiles/'
-
 
 def cobolTestDir():
 	if windows():
@@ -108,12 +123,22 @@ def closeWindow(click):
 
 def sampleDir():
 	return utilDir()+ 'SampleFiles' + fileSep()
-	
+
+
+def reCsvEditParamDir():
+	if windows():
+##		return 'C:\\Users\\BruceTst2/.RecordEditor/reCsvEd/SampleFiles/'
+		return 'C:\\Users\\BruceTst2\\.RecordEditor\\reCsvEd\\SampleFiles\\'  
+	else:
+		return '/home/bm' + '/.RecordEditor/' + version() + '/'
+
+
 def paramDir():
 	if windows():
 		if isVersion80():
 ##			return 'C:\\Users\\Mum\\RecordEditor_HSQL\\'
 			return 'C:\\Users\\BruceTst2\\.RecordEditor\\HSQLDB\\'
+			return 'C:\\Users\\BruceTst2\\.RecordEditor\\reCsvEd\\SampleFiles\\'  
 		else:
 			return 'C:\\JavaPrograms\\RecordEdit\\'
 
@@ -122,12 +147,6 @@ def paramDir():
 	else: 
 		return '/home/bm' + '/.RecordEditor/' + version() + '/'
 
-
-def fileSep():
-	if windows():
-		return '\\'
-	else:
-		return '/'
 
 
 def selectPane():
@@ -158,8 +177,8 @@ def velocityDir():
 
 def paramDir():
 	if windows():
-##		return 'C:\\Users\\BruceTst2\\.RecordEditor\\HSQLDB\\'
-		return 'C:\\Users\\Mum\\.RecordEditor\\HSQLDB\\'
+		return 'C:\\Users\\BruceTst2\\.RecordEditor\\HSQLDB\\'
+##		return 'C:\\Users\\\\.RecordEditor\\HSQLDB\\'
 	else: 
 		return '/home/bm' + '/.RecordEditor/' + version() + '/'
 
@@ -261,6 +280,13 @@ def filter(click):
 	else:
 		click('Filter1')
 
+def filter2(click):
+	if isTstLanguage():
+		click(fl('Filter') + '1')
+	else:
+		click('Filter2')
+
+
 def sort(click):
 	if isTstLanguage():
 		click(fl('Sort'))
@@ -272,6 +298,12 @@ def save(click):
 		click(fl('Save'))
 	else:
 		click('Save1')
+
+def save2(click):
+	if isTstLanguage():
+		click(fl('Save') + '1')
+	else:
+		click('Save2')
 
 def copy(click):
 	if isTstLanguage():

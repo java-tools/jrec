@@ -23,10 +23,13 @@ def test():
 		click('Find1')
 		#click('MetalInternalFrameTitlePane', 211, 10)
 		select('TextField', 'West_')
-		click('Find1')
+		##click('Find1')
+		commonBits.find(click)
+
 		select('Table', 'cell:Data,4(West_field Shoppingtown)')
 		select('Table', 'cell:Data,4(West_field Shoppingtown)')
 		assert_p('Table', 'Text', 'Cnr. Urunga Pde & The Kingsway', 'Data,5')
+		
 		select('Table', 'cell:Data,4(West_field Shoppingtown)')
 		select('Table', 'cell:Data,5(Cnr. Urunga Pde & The Kingsway)')
 ##		assert_p('Table', 'Content', '[[Brand Id, 1, 3, TAR, TAR], [Loc Nbr, 4, 4, 5037, 5037], [Loc Type, 8, 2, ST, ST], [Loc Name, 10, 35, Miranda, Miranda], [Loc Addr Ln1, 45, 40, West_field Shoppingtown, West_field Shoppingtown], [Loc Addr Ln2, 85, 40, Cnr. Urunga Pde & The Kingsway, Cnr. Urunga Pde & The Kingsway], [Loc Addr Ln3, 125, 35, Miranda, Miranda], [Loc Postcode, 160, 10, 2228, 2228], [Loc State, 170, 3, NSW, NSW], [Loc Actv Ind, 173, 1, A, A]]')
@@ -38,7 +41,9 @@ def test():
 		select('Table', 'cell:Data,5(Cnr. Urunga Pde & The Kingsway)')
 		click('Find1')
 		select('TextField', 'West_')
-		click('Find1')
+		##click('Find1')
+		commonBits.find(click)
+
 		select('Table', 'cell:Data,4(West_field Phoenix Plaza)')
 		assert_p('Table', 'Text', 'Northumberland Street', 'Data,5')
 		select('Table', 'cell:Data,5(Northumberland Street)')
@@ -51,7 +56,9 @@ def test():
 		select('Table', 'cell:Data,5(Northumberland Street)')
 		click('Find1')
 		select('TextField', 'West_')
-		click('Find1')
+		##click('Find1')
+		commonBits.find(click)
+
 		select('Table', 'cell:Data,4(West_field Shoppingtown Eastgardens)')
 		assert_p('Table', 'Text', 'cell:Data,4(West_field Shoppingtown Eastgardens)')
 		select('Table', 'cell:Data,5(152 Bunnerong Road)')
@@ -64,7 +71,9 @@ def test():
 		select('Table', 'cell:Data,5(152 Bunnerong Road)')
 		click('Find1')
 		select('TextField', 'West_')
-		click('Find1')
+		##click('Find1')
+		commonBits.find(click)
+
 		select('Table', 'cell:Data,4(West_field Shopping Centre)')
 		assert_p('Table', 'Text', 'George Street', 'Data,5')
 		select('Table', 'cell:Data,6(Hornsby)')
@@ -77,7 +86,9 @@ def test():
 		select('Table', 'cell:Data,6(Hornsby)')
 		click('Find1')
 		select('TextField', 'West_')
-		click('Find1')
+		##click('Find1')
+		commonBits.find(click)
+
 		select('Table', 'cell:Data,4(West_ Point Shopping Ctr)')
 		assert_p('Table', 'Text', 'cell:Data,4(West_ Point Shopping Ctr)')
 		select('Table', 'cell:Data,5(Balmoral Street)')
@@ -90,7 +101,9 @@ def test():
 		select('Table', 'cell:Data,5(Balmoral Street)')
 		click('Find1')
 		select('TextField', 'West_')
-		click('Find1')
+		##click('Find1')
+		commonBits.find(click)
+
 		select('Table', 'cell:Data,4(West_field Shoppingtown)')
 		assert_p('Table', 'Text', 'cell:Data,4(West_field Shoppingtown)')
 		select('Table', 'cell:Data,5(Matthews Avenue)')
@@ -107,7 +120,9 @@ def test():
 		select('ComboBox2', 'Backward')
 		assert_p('ComboBox2', 'Text', 'Backward')
 
-		click('Find1')
+		##click('Find1')
+		commonBits.find(click)
+
 		select('Table', 'cell:Data,4(West_ Point Shopping Ctr)')
 		assert_p('Table', 'Text', 'cell:Data,4(West_ Point Shopping Ctr)')
 		select('Table', 'cell:Data,5(Balmoral Street)')
@@ -121,7 +136,10 @@ def test():
 		select('Table', 'cell:Data,4(West_ Point Shopping Ctr)')
 		click('Find1')
 		select('TextField', 'West_')
-		click('Find1')
+		##click('Find1')
+		commonBits.find(click)
+
+
 		select('Table', 'cell:Data,4(West_field Shopping Centre)')
 		assert_p('Table', 'Text', 'cell:Data,4(West_field Shopping Centre)')
 		select('Table', 'cell:Data,5(George Street)')

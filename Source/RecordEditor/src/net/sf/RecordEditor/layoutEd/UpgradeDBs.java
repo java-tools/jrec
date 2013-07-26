@@ -224,5 +224,6 @@ public class UpgradeDBs extends ReFrame implements ActionListener {
 	    } else {
 	    	upgrade.updateRecordSepList(connectionId);
 	    }
+	    upgrade.loadHeldLayouts();
 	}
 }

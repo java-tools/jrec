@@ -98,6 +98,14 @@ public class PoLineIOProvider implements AbstractLineIOProvider {
 	 */
 	@Override
 	public AbstractLineWriter getLineWriter(int fileStructure) {
+		return getLineWriter(fileStructure, null);
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineWriter(int, java.lang.String)
+	 */
+	@Override
+	public AbstractLineWriter getLineWriter(int fileStructure, String charset) {
 		switch (fileStructure) {
 		case Constants.IO_TIP:		 			return new PropertiesLineWriter("tip");
 		case Constants.IO_GETTEXT_PO: 			return new PoMessageLineWriter();

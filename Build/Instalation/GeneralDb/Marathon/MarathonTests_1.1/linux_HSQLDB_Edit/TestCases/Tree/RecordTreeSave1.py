@@ -19,7 +19,7 @@ def test():
 		select('Table', 'cell:' + commonBits.fl('Parent Record') + ',2(0)')
 		commonBits.save1(click)
 		##select('FileChooser', commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
-		commonBits.selectFileName(select, commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
+		commonBits.selectFileName(select, keystroke, commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
 
 		click('Save1')
 
@@ -38,7 +38,7 @@ def test():
 		select_menu(commonBits.fl('Window') + '>>Ams_PODownload_20041231.txt>>' + commonBits.fl('Table:'))
 		select_menu(commonBits.fl('View') + '>>' + commonBits.fl('Execute Record Tree'))
 		##select('FileChooser',  commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
-		commonBits.selectFileName(select, commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
+		commonBits.selectFileName(select, keystroke, commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
 
 		click(commonBits.fl('Run Dialog'))
 		select('Table', 'cell:' + commonBits.fl('Record') + ',1(ams PO Download: Header)')
@@ -58,7 +58,7 @@ def test():
 		select_menu(commonBits.fl('Window') + '>>Ams_PODownload_20041231.txt>>' + commonBits.fl('Table:'))
 		select_menu(commonBits.fl('View') + '>>' + commonBits.fl('Execute Record Tree'))
 		##select('FileChooser', commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
-		commonBits.selectFileName(select, commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
+		commonBits.selectFileName(select, keystroke, commonBits.userDir() +  'RecordTree'  + commonBits.fileSep() + 'xx')
 		click(commonBits.fl('Run')
 )
 		select('JTreeTable', 'cell:Sequence Number,2(45.351)')

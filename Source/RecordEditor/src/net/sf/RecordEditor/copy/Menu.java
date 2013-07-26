@@ -152,7 +152,6 @@ public class Menu extends ReFrame
 	/**
 	 * @see java.awt.event.ActionListner#actionPerformed
 	 */
-	@SuppressWarnings("unchecked")
 	public void actionPerformed(ActionEvent e) {
 
 //		String lDBid = dbCombo.getSelectedItem().toString();

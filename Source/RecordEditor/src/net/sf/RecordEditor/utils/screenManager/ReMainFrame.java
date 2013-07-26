@@ -174,6 +174,8 @@ public class ReMainFrame extends JFrame
 	private int logWidth;
     private boolean logAtBottom = false;
 
+    private static boolean usingSystemLaf = false;
+
 
 	private final String applId;
 	static {
@@ -286,18 +288,23 @@ public class ReMainFrame extends JFrame
 	 */
 	private void init_200_BuildScreen() {
 
-	    JPanel topPanel = new JPanel();
+//	    JPanel topPanel = new JPanel();
+//	    JPanel fullPanel = new JPanel();
+//
+//	    topPanel.setLayout(new BorderLayout());
+//	    topPanel.add("North", menuBar);
+//	    topPanel.add("South", toolBar);
+//
+//	    fullPanel.setLayout(new BorderLayout());
+//	    fullPanel.add("North", topPanel);
+
 	    JPanel fullPanel = new JPanel();
 
-	    topPanel.setLayout(new BorderLayout());
-	    topPanel.add("North", menuBar);
-	    topPanel.add("South", toolBar);
-
 	    fullPanel.setLayout(new BorderLayout());
-	    fullPanel.add("North", topPanel);
+	    fullPanel.add("North", toolBar);
 	    fullPanel.add("Center", desktop);
 
-//	    this.getRootPane().setJMenuBar(menuBar);
+	    this.getRootPane().setJMenuBar(menuBar);
 	    setContentPane(fullPanel);
     }
 
@@ -689,7 +696,6 @@ public class ReMainFrame extends JFrame
 
 	    toolBar.add(open);
 	    menuBar.add(fileMenu);
-
 	}
 
 
@@ -787,7 +793,7 @@ public class ReMainFrame extends JFrame
     }
 
 	private final int getDesktopHeight(Dimension desktopSize) {
-		int headingHeight = toolBar.getPreferredSize().height + menuBar.getPreferredSize().height;
+		int headingHeight = toolBar.getPreferredSize().height;// + menuBar.getPreferredSize().height;
 
 		return desktopSize.height - headingHeight;
 	}
@@ -1146,11 +1152,23 @@ public class ReMainFrame extends JFrame
     	if (UIManager.getSystemLookAndFeelClassName().endsWith("GTKLookAndFeel")) {
     		JFrame.setDefaultLookAndFeelDecorated(true);
     	} else {
+    		if (Common.IS_MAC) {
+    			System.setProperty("apple.laf.useScreenMenuBar", "true");
+    		}
+    		usingSystemLaf = true;
     		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
     	}
     }
 
     /**
+	 * @return the usingSystemLaf
+	 */
+	public static boolean isUsingSystemLaf() {
+		return usingSystemLaf;
+	}
+
+
+	/**
      * @return Returns the masterFrame.
      */
     public static ReMainFrame getMasterFrame() {

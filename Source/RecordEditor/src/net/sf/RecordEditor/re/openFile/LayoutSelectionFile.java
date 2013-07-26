@@ -2,6 +2,9 @@ package net.sf.RecordEditor.re.openFile;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.File;
 import java.util.StringTokenizer;
 
@@ -57,11 +60,14 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 
 	private String lastFileName = "";
 	private String lastLayoutDetails = "";
+	private String lastCopybookName = "";
 	private AbstractLayoutDetails lastLayout;
 
 	//private boolean isCob = false;
 
 	private int mode = MODE_NORMAL;
+
+	private FocusListener copybookFocusListner;
 
     public LayoutSelectionFile() {
 		super();
@@ -149,7 +155,17 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 			if (goPanel != null) {
 				pnl.setHeight(Math.max(BasePanel.NORMAL_HEIGHT * 3, goPanel.getPreferredSize().getHeight()));
 			}
+
+			copybookFocusListner = new FocusAdapter() {
+				@Override public void focusLost(FocusEvent e) {
+					checkCopybookType();
+				}
+			};
+
+			copybookFile.addFcFocusListener(copybookFocusListner);
+			checkCopybookType();
 	    }
+
 
 //	    } else {
 //		    pnl.setGap(BasePanel.GAP1);
@@ -202,6 +218,11 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
     	+ SEPERATOR + quote.getSelectedIndex();
 	}
 
+	@Override
+	public void forceLayoutReload() {
+		lastLayoutDetails = null;
+	}
+
 	/**
 	 * Get Layout details
 	 * @return record layout
@@ -223,7 +244,6 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
         			getFontName(), fieldSeparator.getSelectedEnglish(), fileName);
          	lastLayoutDetails = layoutName;
          	lastLayout = ret;
-
         } else if (layoutName == null ||  "".equals(layoutName)) {
             setMessageText("You must enter a Record Layout name ", copybookFile);
         } else {
@@ -394,6 +414,24 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
     	    }
 		}
 	}
+
+	/**
+	 * Set the Copybook-Loader option based on the Copybook File Selected
+	 */
+	private void checkCopybookType() {
+		String fname = copybookFile.getText();
+
+		if (fname != null && ! fname.equals(lastCopybookName)) {
+			int loaderType  = CopybookLoaderFactoryExtended.getLoaderType(fname);
+
+			if (loaderType >= 0) {
+				loaderOptions.setSelectedIndex(loaderType);
+			}
+
+			lastCopybookName = fname;
+		}
+	}
+
 
     /**
      * get the next integer Token

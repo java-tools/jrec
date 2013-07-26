@@ -8,6 +8,7 @@ def test():
 		select('File_Txt', commonBits.sampleDir() + 'Ams_PODownload_20041231.txt')
 		click(commonBits.fl('Edit') + '1')
 		select_menu(commonBits.fl('View') + '>>' + commonBits.fl('Record Based Tree'))
+		commonBits.doSleep()
 		select('Recs_JTbl', 'ams PO Download: Header', commonBits.fl('Parent Record') + ',0')
 		select('Recs_JTbl', 'ams PO Download: Detail', commonBits.fl('Parent Record') + ',2')
 		select('Recs_JTbl', 'cell:' + commonBits.fl('Parent Record') + ',2(0)')

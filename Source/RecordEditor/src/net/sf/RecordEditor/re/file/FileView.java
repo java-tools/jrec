@@ -2451,7 +2451,7 @@ public class FileView	extends 			AbstractTableModel
 	throws IOException, RecordException {
 
 	    boolean isGZip = checkIfGZip(pFileName);
-	    AbstractLineWriter writer = ioProvider.getLineWriter(layout.getFileStructure());
+	    AbstractLineWriter writer = ioProvider.getLineWriter(layout.getFileStructure(), layout.getFontName());
 	    FileWriter fileWriter = new FileWriter(pLines, layout, pFileName, backup, isGZip, writer);
 
 	    dropCompletedWriters();

@@ -175,7 +175,7 @@ private static final String CAN_NOT_LOCATE_RECORD = "Can not locate record: > {0
 		buildTranslations();
 
 		reader = ioProvider.getLineReader(dtl1.getFileStructure());
-		writer = ioProvider.getLineWriter(dtl2.getFileStructure());
+		writer = ioProvider.getLineWriter(dtl2.getFileStructure(), dtl2.getFontName());
 
 		reader.open(cpy.oldFile.name, dtl1);
 		writer.open(cpy.newFile.name);
@@ -489,7 +489,7 @@ private static final String CAN_NOT_LOCATE_RECORD = "Can not locate record: > {0
 		ok = true;
 
 		reader = ioProvider.getLineReader(dtl1.getFileStructure());
-		writer = ioProvider.getLineWriter(dtl2.getFileStructure());
+		writer = ioProvider.getLineWriter(dtl2.getFileStructure(), dtl2.getFontName());
 
 		reader.open(cpy.oldFile.name, dtl1);
 		writer.open(cpy.newFile.name);

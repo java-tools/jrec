@@ -144,7 +144,8 @@ implements AbstractWizardPanel<save> {
 					values.oldFile.layoutDetails,
 					values.newFile.layoutDetails);
 
-			setRecordTableDetails(super.recordTbl);
+			setRecordTableDetails(super.getRecordTbl());
+			setFieldTableDetails(super.getFieldTbl());
 			toInit = false;
 		}
 	}

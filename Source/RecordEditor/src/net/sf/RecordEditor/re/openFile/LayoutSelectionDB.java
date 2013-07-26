@@ -255,6 +255,12 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 		return getRecordLayout((String) layoutCombo.getSelectedItem(), fileName);
 	}
 
+
+	@Override
+	public void forceLayoutReload() {
+		lastLayoutName = "";
+	}
+
 	/**
 	 * Get Layout details
 	 * @param layoutName record layout name

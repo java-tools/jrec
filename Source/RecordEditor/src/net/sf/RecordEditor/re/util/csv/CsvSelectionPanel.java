@@ -49,6 +49,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 
 	private ParserManager parserManager = ParserManager.getInstance();
 	private MenuPopupListener popup;
+	private String lastFont;
 //	private String[] lines = null;
 //	private int lines2display = 0;
 
@@ -75,6 +76,8 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
     private JTextComponent message;
 
     private boolean doAction = true;
+    private byte[][] dataLines = null;
+    private byte[] data;
 
     private ActionListener changed = new ActionListener() {
     	   public void actionPerformed(ActionEvent e) {
@@ -98,7 +101,15 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 
     private FocusAdapter focusHandler = new FocusAdapter() {
     	public void focusLost(FocusEvent e) {
-    		valueChanged();
+
+		   if (e.getSource() == fontTxt && (lastFont == null || ! lastFont.equals(fontTxt.getText()))) {
+			   if (dataLines == null) {
+				   setData("", data, false, "");
+			   } else {
+				   setData(dataLines, fontTxt.getText());
+			   }
+		   }
+		   valueChanged();
     	}
     };
 
@@ -160,6 +171,8 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 		CsvAnalyser anaylyser = new CsvAnalyser(dataLines, -1, "");
 		setUpSeperator(anaylyser);
 
+		this.dataLines = dataLines;
+
 		tblMdl = new CsvSelectionTblMdl(parserManager);
 		tblMdl.setLines(dataLines, font);
 		tblMdl.setFieldLineNo(getFieldLineNo());
@@ -176,6 +189,8 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 		CsvAnalyser anaylyser;
 		CsvSelectionStringTblMdl tableMdl = new CsvSelectionStringTblMdl(parserManager);
 
+		this.lastFont = font;
+		this.data = data;
 		if (checkCharset) {
 			font = CheckEncoding.determineCharSet(data);
 		}
@@ -250,10 +265,12 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 
 		addLine("Quote Character", quoteCombo);
 
+		if (! isByteBased) {
+			addLine("Font", fontTxt);
+		}
 		if (adjustableTblHeight) {
 			fileTblHeight = BasePanel.FILL;
 		} else if (! isByteBased) {
-			addLine("Font", fontTxt);
 			fileTblHeight -= SwingUtils.TABLE_ROW_HEIGHT * 2;
 		}
 		addLine("Parser", parseType);

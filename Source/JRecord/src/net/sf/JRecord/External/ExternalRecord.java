@@ -878,19 +878,20 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 
 		if (fields != null) {
 			for (i = 0; i < fields.size(); i++) {
-				if (! "filler".equalsIgnoreCase(fields.get(i).getName())) {
+				if (! isFiller(fields.get(i).getName())) {
 					count += 1;
 				}
 
 				maxPos = Math.max(maxPos, fields.get(i).getPos() + fields.get(i).getLen());
 			}
+
 			tmpFields = new ArrayList<ExternalField>(count);
 
 			for (i = 0; i < fields.size(); i++) {
 				fld = fields.get(i);
 				endPos = fld.getPos() + fld.getLen();
 
-				if ((endPos == maxPos) || (! "filler".equalsIgnoreCase(fld.getName()))) {
+				if ((endPos == maxPos) || (! isFiller(fld.getName()))) {
 					tmpFields.add(fld);
 				}
 			}
@@ -902,6 +903,10 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 				subRecords.get(i).dropFiller();
 			}
 		}
+	}
+
+	private boolean isFiller(String s) {
+		return s == null || "".equals(s.trim()) || "filler".equalsIgnoreCase(s);
 	}
 
 	/**

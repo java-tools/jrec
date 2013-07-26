@@ -227,7 +227,7 @@ public class EditRec extends ReMainFrame  {
         viewMenu.add(newAction(ReActionHandler.BUILD_LAYOUT_TREE));
         viewMenu.add(newAction(ReActionHandler.BUILD_LAYOUT_TREE_SELECTED));
 
-        boolean allowTextView = Common.OPTIONS.standardEditor.isSelected()
+        boolean allowTextView = Common.OPTIONS.addTextDisplay.isSelected()
         					 && Common.OPTIONS.allowTextEditting.isSelected();
         //Common.logMsg(" Add Text Display: " + Common.OPTIONS.addTextDisplay.isSelected(), null);
         if (allowTextView) {

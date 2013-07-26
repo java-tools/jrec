@@ -27,7 +27,7 @@ def test():
 		commonBits.save(click)
 
 		##select('FileChooser', commonBits.userDir() +  'SortTree'  + commonBits.fileSep() + 'xx2')
-		commonBits.selectFileName(select, commonBits.userDir() +  'SortTree'  + commonBits.fileSep() + 'xx2')
+		commonBits.selectFileName(select, keystroke, commonBits.userDir() +  'SortTree'  + commonBits.fileSep() + 'xx2')
 		commonBits.save1(click)
 		select_menu(commonBits.fl('Window') + '>>DTAR020.bin>>' + commonBits.fl('Create Sorted Tree'))
 		click(commonBits.fl('Build Tree'))
@@ -58,7 +58,7 @@ def test():
 		select_menu(commonBits.fl('Window') + '>>DTAR020.bin>>' + commonBits.fl('Table:'))
 		select_menu(commonBits.fl('View') + '>>' + commonBits.fl('Execute Sort Tree'))
 		##select('FileChooser', commonBits.userDir() +  'SortTree'  + commonBits.fileSep() + 'xx2')
-		commonBits.selectFileName(select, commonBits.userDir() +  'SortTree'  + commonBits.fileSep() + 'xx2')
+		commonBits.selectFileName(select, keystroke, commonBits.userDir() +  'SortTree'  + commonBits.fileSep() + 'xx2')
 		click(commonBits.fl('Run')
 )
 		select('JTreeTable', 'cell:SALE-PRICE,1(166.94)')

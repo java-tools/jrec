@@ -16,7 +16,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
-import javax.swing.KeyStroke;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
@@ -128,12 +127,15 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 				csvTabDtls.tab.removeChangeListener(this);
 				int idx = csvTabDtls.tab.getSelectedIndex();
 				//System.out.println("\nTab changed ");
-				try {
-					execEnter = false;
-					execEnter();
-				} catch (Exception ex) {
-					//ex.printStackTrace();
-				}
+
+				execEnter();
+
+//				try {
+//					execEnter = false;
+//					execEnter();
+//				} catch (Exception ex) {
+//					//ex.printStackTrace();
+//				}
 				execEnter = true;
 
 				csvTabDtls.tab.setSelectedIndex(idx);
@@ -267,9 +269,8 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 	private void execEnter() {
 
 		chooser.removeActionListener(chooserListner);
-		chooser.getActionForKeyStroke(
-					KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0))
-						.actionPerformed(null);
+		SwingUtils.clickOpenBtn(chooser, true);
+
 		chooser.addActionListener(chooserListner);
 	}
 

@@ -39,6 +39,7 @@ public class DirectoryFrame extends ReFrame {
 
 	        	if (event.getKeyCode() == KeyEvent.VK_ENTER
 	        	&&  actionListner != null) {
+	        		SwingUtils.clickOpenBtn(fileChooser, false);
 	        		actionListner.actionPerformed(new ActionEvent(DirectoryFrame.this, 0, "Open"));
 	         	} else if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
 	         		DirectoryFrame.this.doDefaultCloseAction();

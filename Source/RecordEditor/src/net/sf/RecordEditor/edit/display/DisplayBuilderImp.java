@@ -142,6 +142,12 @@ public class DisplayBuilderImp implements IDisplayBuilder {
 					parentFrame,
 					displ
 				);
+		case ST_COLORED_DOCUMENT:
+		case ST_DOCUMENT:
+			 addToScreen(
+					parentFrame,
+					new DocumentScreen(viewOfFile, screenType == ST_COLORED_DOCUMENT)
+			 );
 		default:
 			break;
 		}

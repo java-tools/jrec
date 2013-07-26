@@ -206,6 +206,14 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
 	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineWriter(int)
 	 */
     public AbstractLineWriter getLineWriter(int fileStructure) {
+    	return getLineWriter(fileStructure, null);
+    }
+
+
+    /* (non-Javadoc)
+	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineWriter(int)
+	 */
+    public AbstractLineWriter getLineWriter(int fileStructure, String charset) {
 
     	switch (fileStructure) {
     	case(Constants.IO_BINARY):					return BinaryLineWriter.newBinaryWriter();
@@ -219,7 +227,7 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
        	case(Constants.IO_UNICODE_NAME_1ST_LINE):	return new TextLineWriter(true);
       	case(Constants.IO_MICROFOCUS):				return new MicroFocusLineWriter();
       	default:
-            AbstractByteWriter byteWriter = ByteIOProvider.getInstance().getByteWriter(fileStructure);
+            AbstractByteWriter byteWriter = ByteIOProvider.getInstance().getByteWriter(fileStructure, charset);
 
 	        if (byteWriter != null) {
 	            return new LineWriterWrapper(byteWriter);

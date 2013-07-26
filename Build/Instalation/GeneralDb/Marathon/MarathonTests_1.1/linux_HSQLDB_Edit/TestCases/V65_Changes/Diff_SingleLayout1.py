@@ -61,7 +61,7 @@ def test():
 		##click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('*')
 		##select('FileChooser', commonBits.userDir() + 'Compare' + commonBits.fileSep() + 'zzTest_asmLocation.Xml')
-		commonBits.selectFileName(select, commonBits.userDir() + 'Compare' + commonBits.fileSep() + 'zzTest_asmLocation.Xml')
+		commonBits.selectFileName(select, keystroke, commonBits.userDir() + 'Compare' + commonBits.fileSep() + 'zzTest_asmLocation.Xml')
 		click('Run Compare')
 		select('Table', 'cell:Loc Name,11(Highpoint City)')
 		assert_p('Table', 'Text', 'Laverton', 'Loc Addr Ln1,11')

@@ -14,10 +14,14 @@ def isVersion81():
 
 def isVersion82():
 	return 1
+
 def Linux():
 	return 'guest'
 #	return 'knoppix'
 
+
+def isTstLanguage():
+    return 0
 
 def isWindowsLook():
 	return 0
@@ -30,6 +34,11 @@ def sampleDir():
 	return utilDir() + 'SampleFiles' + separator()
 
 
+def fl(txt):
+	if isTstLanguage():
+		return '`!' + txt + '!`'
+	else:
+		return txt
 
 def implementationSampleDir():
 	return  sampleDir()
@@ -82,11 +91,12 @@ def setRecordLayout2(select, recordLayout):
 
 def setRecordLayoutX(select, recordLayout):
 ##	select('BmKeyedComboBox', '0')
-	select('ComboBox', 'RecordEditor XML Copybook')
+##	select('ComboBox', fl('RecordEditor XML Copybook'))
+	select('ManagerCombo', fl('RecordEditor XML Copybook'))
 	select('FileChooser1', xmlCopybookDir() + recordLayout + '.Xml')
 
 	##select('BmKeyedComboBox', '0')
-	select('BmKeyedComboBox', 'Default')
+	select('BmKeyedComboBox', fl('Default'))
 
 def closeWindow(click):
 	if isNimbusLook():
@@ -123,4 +133,60 @@ def fileSep():
 def selectPane():
 	return 'FilePane$4'
 	#return 'FilePane$3'
+
+
+def checkCopybookLoad(file, copybook):
+	return '\n\n' + fl('-->> ' + file + ' processed\n\n      Copybook: ' + copybook)
+
+def selectOldFilemenu(select_menu, menu, text):
+	if isVersion80():
+		if isTstLanguage():
+			select_menu(fl(menu) + '>>' + fl(text))
+		else:
+			select_menu(menu + '>>' + text)
+	else:
+		select_menu('File>>' + text)
+
+def delete3(click):
+	if isTstLanguage():
+		click(fl('Delete') + '1')
+	else:
+		click('Delete3')
+
+def delete2(click):
+	if isTstLanguage():
+		click(fl('Delete'))
+	else:
+		click('Delete2')
+
+def paste2(click):
+	if isTstLanguage():
+		click(fl('Paste'))
+	else:
+		click('Paste2')
+
+def copy2(click):
+	if isTstLanguage():
+		click(fl('Copy'))
+	else:
+		click('Copy2')
+
+def cut2(click):
+	if isTstLanguage():
+		click(fl('Cut'))
+	else:
+		click('Cut2')
+
+def save1(click):
+	if isTstLanguage():
+		click(fl('Save'))
+	else:
+		click('Save1')
+
+
+def new1(click):
+	if isTstLanguage():
+		click(fl('New'))
+	else:
+		click('New2')
 

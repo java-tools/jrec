@@ -500,12 +500,6 @@ public final class ExternalConversion {
 		private void setName(int type, String name) {
 			typeNames[TypeManager.getInstance().getIndex(type)] = name;
 			typeNumbers.put(name.toLowerCase(), Integer.valueOf(type));
-
-//			BasicKeyedField b = new BasicKeyedField();
-//   			b.key = type;
-//   			b.name = name;
-//
-//			allTypes.add(b);
 		}
 
 
@@ -528,16 +522,6 @@ public final class ExternalConversion {
 			}
 			return 0;
 		}
-
-
-
-//		/* (non-Javadoc)
-//		 * @see net.sf.JRecord.External.AbstractConversion#getTypes(int)
-//		 */
-//		@Override
-//		public List<BasicKeyedField> getTypes(int idx) {
-//			return allTypes;
-//		}
 
 		@Override
 		public String getTypeAsString(int idx, int type) {

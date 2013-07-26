@@ -42,6 +42,7 @@ public class StandardGetFiles<Save extends BaseCopyDif> extends  AbstractFilePnl
 			fileDtl = values.newFile;
 		}
 
+		layoutSelection.forceLayoutReload();
 		fileDtl.name = getCurrentFileName();
 		fileDtl.getLayoutDetails().name = layoutSelection.getLayoutName();
 		if (layoutSelection.getRecordLayout(fileDtl.name) == null) {

@@ -18,7 +18,7 @@ public interface AbstractCsvTblMdl extends TableModel {
 	public abstract String getLine(int idx);
 
 	public abstract String[] getLinesString();
-	
+
 	public abstract byte[][] getLines();
 
 	public abstract int getParserType();
@@ -61,6 +61,6 @@ public interface AbstractCsvTblMdl extends TableModel {
 	public void setLines(String[] lines);
 
 	public void setFont(String font);
-	
+
 	public CsvAnalyser getAnalyser();
 }

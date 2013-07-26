@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -47,7 +48,6 @@ public class NewCsvFile {
 	public final ReFrame frame;
 	public final BaseHelpPanel panel = new BaseHelpPanel();
 
-	@SuppressWarnings("rawtypes")
 	private BmKeyedComboModel styleModel = new BmKeyedComboModel(new ManagerRowList(
 			ParserManager.getInstance(), false));
 
@@ -125,8 +125,7 @@ public class NewCsvFile {
 	private void init_300_Listners() {
 
 		namesChk.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+			@Override public void actionPerformed(ActionEvent e) {
 				boolean visible = namesChk.isSelected();
 
 				colNamesTbl.setVisible(visible);
@@ -134,8 +133,7 @@ public class NewCsvFile {
 		});
 
 		goBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+			@Override public void actionPerformed(ActionEvent e) {
 				Common.stopCellEditing(colNamesTbl);
 				editFile();
 
@@ -174,6 +172,7 @@ public class NewCsvFile {
 		LayoutDetail layout;
 		int i;
 		String s;
+		byte[] eol = Common.SYSTEM_EOL_BYTES;
 		String font = fontTxt.getText();
 		String q   = Common.QUOTE_VALUES[quote.getSelectedIndex()];
 		String sep = fieldSep.getSelectedEnglish();
@@ -193,10 +192,16 @@ public class NewCsvFile {
         		sep, q, font, flds,
         		((Integer)parser.getSelectedItem()).intValue(), 0);
 
+        if (font != null && font.length() > 0) {
+        	try {
+				eol = "\n".getBytes(font);
+			} catch (UnsupportedEncodingException e) {
+			}
+        }
         layout  =
             new LayoutDetail("GeneratedCsv", recs, "",
                 Constants.rtDelimited,
-                Common.SYSTEM_EOL_BYTES, "", font, null,
+                eol, "", font, null,
                 structure
             );
 

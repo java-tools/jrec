@@ -74,7 +74,7 @@ public abstract class BaseFieldSelection extends BaseHelpPanel implements Action
     //private JTabbedPane tabOption    = new JTabbedPane();
     private JPanel recordOptionPanel = new JPanel();
     private JPanel fieldOptionPanel  = new JPanel();
-    protected final JTable recordTbl = new JTable();
+    private final JTable recordTbl = new JTable();
     private JTable fieldTbl  = new JTable();
 
     private AbstractTableModel recordMdl;
@@ -390,6 +390,22 @@ public abstract class BaseFieldSelection extends BaseHelpPanel implements Action
 
 		return filter;
 	}
+
+	/**
+	 * @return the recordTbl
+	 */
+	public final JTable getRecordTbl() {
+		return recordTbl;
+	}
+
+
+	/**
+	 * @return the fieldTbl
+	 */
+	public final JTable getFieldTbl() {
+		return fieldTbl;
+	}
+
 
 	private void stopTblEdit() {
 

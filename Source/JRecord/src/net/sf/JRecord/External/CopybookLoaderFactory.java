@@ -10,7 +10,13 @@
 package net.sf.JRecord.External;
 
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
 import net.sf.JRecord.Common.AbstractManager;
+import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.External.Def.AbstractConversion;
 import net.sf.JRecord.Log.AbsSSLogger;
@@ -52,8 +58,8 @@ public class CopybookLoaderFactory implements AbstractManager {
 		RECORD_EDITOR_XML_LOADER       = idx++;
 		COMMA_NAMES_1ST_LINE_LOADER    = idx++;
 		TAB_NAMES_1ST_LINE_LOADER      = idx++;
-		RECORD_EDITOR_TAB_CSV_LOADER   = idx++;
 		RECORD_EDITOR_COMMA_CSV_LOADER = idx++;
+		RECORD_EDITOR_TAB_CSV_LOADER   = idx++;
 	}
 
 	protected static final int NUMBER_OF_LOADERS = 30;
@@ -231,6 +237,62 @@ public class CopybookLoaderFactory implements AbstractManager {
 		);
 	}
 
+	/**
+	 * Work out the type of copybook file by looking at the file contents
+	 * @param fname copybook to check
+	 * @return Copybook-Type
+	 */
+	public static int getLoaderType(String fname) {
+		int ret = Constants.NULL_INTEGER;
+
+		if (fname != null) {
+			String fnamelc = fname.toLowerCase();
+
+			if (fnamelc.endsWith(".cobol") || fnamelc.endsWith(".cbl")) {
+				ret = COBOL_LOADER;
+			} else {
+				File f = new File(fname);
+
+				if (f.exists() && f.isFile()) {
+					try {
+						FileReader fr = new FileReader(f);
+						BufferedReader r = new BufferedReader(fr);
+
+						String l = r.readLine();
+
+						if (l != null) {
+							String lt = l.trim().toLowerCase();
+							if (lt.startsWith("<?xml")) {
+								ret = RECORD_EDITOR_XML_LOADER;
+							} else if (lt.startsWith("<copybook ")) {
+								ret = CB2XML_LOADER;
+							} else if (lt.startsWith("record,")) {
+								ret = RECORD_EDITOR_COMMA_CSV_LOADER;
+							} else if (lt.startsWith("record\t")) {
+								ret = RECORD_EDITOR_TAB_CSV_LOADER;
+							} else if (lt.contains(" pic ")) {
+								ret = COBOL_LOADER;
+							} else {
+								int i = 0;
+								while (i++ < 15 && (l = r.readLine()) != null) {
+									if (l.toLowerCase().contains(" pic ")) {
+										ret = COBOL_LOADER;
+										break;
+									}
+								}
+							}
+						}
+
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
+				}
+			}
+
+		}
+		return ret;
+	}
 
 	/**
 	 * Get the name of a copybookloader

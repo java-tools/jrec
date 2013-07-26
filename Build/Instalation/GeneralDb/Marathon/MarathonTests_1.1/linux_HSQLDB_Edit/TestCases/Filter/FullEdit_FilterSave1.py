@@ -19,7 +19,7 @@ def test():
 		select('Table1', 'cell:' + commonBits.fl('Field') + ',2(null)')
 		commonBits.save1(click)
 		#select('FileChooser', commonBits.userDir() + 'Filter' + commonBits.fileSep() + 'xx1')
-		commonBits.selectFileName(select, commonBits.userDir() + 'Filter' + commonBits.fileSep() + 'xx1')
+		commonBits.selectFileName(select, keystroke, commonBits.userDir() + 'Filter' + commonBits.fileSep() + 'xx1')
 
 		commonBits.save1(click)
 		select_menu(commonBits.fl('Window') + '>>Ams_LocDownload_20041228.txt>>' + commonBits.fl('Filter Options')
@@ -44,7 +44,7 @@ def test():
 		select('Table2', 'cell:8 - 2|Loc Type,1(ST)')
 		select_menu(commonBits.fl('View') + '>>' + commonBits.fl('Execute Saved Filter'))
 		##select('FileChooser', commonBits.userDir() + 'Filter'  + commonBits.fileSep() +'xx1')
-		commonBits.selectFileName(select, commonBits.userDir() + 'Filter' + commonBits.fileSep() + 'xx1')
+		commonBits.selectFileName(select, keystroke, commonBits.userDir() + 'Filter' + commonBits.fileSep() + 'xx1')
 		click(commonBits.fl('Run')
 )
 		select('Table', 'cell:10 - 35|Loc Name,2(Blacktown)')

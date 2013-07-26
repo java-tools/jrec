@@ -515,7 +515,6 @@ public class FilterDetails {
     	int j, idx;
 		Layout tmpLayoutSelection = new net.sf.RecordEditor.jibx.compare.Layout();
 		Record rec;
-		@SuppressWarnings("rawtypes")
 		AbstractRecordDetail recordDetail;
 
 //		System.out.println("field Get 1 -Layout Name: " + values.getLayoutDetails().name);
@@ -686,7 +685,7 @@ public class FilterDetails {
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
+
 	public final void set2ndLayout(AbstractLayoutDetails dtl, Layout values1, Layout values2) {
 		//TODO 2nd layout
 		set2ndLayout(dtl);
@@ -1087,7 +1086,6 @@ public class FilterDetails {
          * @see javax.swing.table.TableModel#isCellEditable
          */
         public int getRowCount() {
-        	@SuppressWarnings("rawtypes")
 			AbstractRecordDetail rec = layout.getRecord(layoutIndex);
         	if (rec == null) {
         		return 0;

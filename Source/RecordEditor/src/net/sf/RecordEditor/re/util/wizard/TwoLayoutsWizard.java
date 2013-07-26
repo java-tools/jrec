@@ -20,7 +20,6 @@ public abstract class TwoLayoutsWizard<Save extends BaseCopyDif> extends Abstrac
 
 	private JibxCall<Save> jibx = null;
 
-	@SuppressWarnings("rawtypes")
 	private AbstractLayoutSelection[] recordSelection = new AbstractLayoutSelection[2];
 
 
@@ -76,21 +75,21 @@ public abstract class TwoLayoutsWizard<Save extends BaseCopyDif> extends Abstrac
 	 */
 	@Override
 	public void executeAction(int action) {
-	       if (action == ReActionHandler.SAVE) {
-	    	   try {
-	    		   Save diff = super.getActivePanel().getValues();
+		if (action == ReActionHandler.SAVE) {
+			try {
+				Save diff = super.getActivePanel().getValues();
 
-	    		   if (! "".equals(diff.saveFile)) {
-	    			   saveJibx(diff);
-	    			   diff.fileSaved = true;
-	    		   }
-	    	   } catch (Exception e) {
-	    		   e.printStackTrace();
-	    		   Common.logMsgRaw(Common.FILE_SAVE_FAILED, e);
-	    	   }
-	        } else {
-	            super.executeAction(action);
-	        }
+				if (! "".equals(diff.saveFile)) {
+					saveJibx(diff);
+					diff.fileSaved = true;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				Common.logMsgRaw(Common.FILE_SAVE_FAILED, e);
+			}
+		} else {
+			super.executeAction(action);
+		}
 	}
 
 	/**

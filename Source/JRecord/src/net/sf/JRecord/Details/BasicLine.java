@@ -135,7 +135,11 @@ implements AbstractLine, ISetLineProvider<LayoutDetail, ActualLine> {
 			case Constants.KEY_INDEX:	return null;
 			}
 
-			return getField(layout.getField(recordIdx, fieldIdx));
+			Object fieldDef = getField(layout.getField(recordIdx, fieldIdx));
+			if (fieldDef == null) {
+				return "";
+			}
+			return fieldDef;
 		} catch (final Exception ex) {
 			ex.printStackTrace();
 			return "";
@@ -208,6 +212,7 @@ implements AbstractLine, ISetLineProvider<LayoutDetail, ActualLine> {
 
 
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ActualLine getNewDataLine() {
 		try {

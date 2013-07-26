@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package net.sf.RecordEditor.re.openFile;
 
@@ -22,17 +22,17 @@ import net.sf.RecordEditor.re.util.csv.GenericCsvReader;
 public class CopybookLoaderFactoryExtended extends CopybookLoaderFactory {
 
 	private static CopybookLoaderFactory instance = new CopybookLoaderFactoryExtended();
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 */
 	public CopybookLoaderFactoryExtended() {
 
 	}
 
 
-	
+
 	/**
 	 * register copybook loaders
 	 */
@@ -44,34 +44,34 @@ public class CopybookLoaderFactoryExtended extends CopybookLoaderFactory {
 		registerStandardLoaders2();
 		csv1 -= 1;
 	}
-	
+
 	/**
 	 * @return the instance
 	 */
 	public final static CopybookLoaderFactory getInstance() {
 		return instance;
 	}
-	
+
 	/**
 	 * Generic CSV loader
 	 * @author Bruce Martin
 	 *
 	 */
 	public static class GenericCsv implements CopybookLoader   {
-	
+
 		/**
 		 * @see net.sf.JRecord.External.CopybookLoader#loadCopyBook(java.lang.String, int, int, java.lang.String, int, int, net.sf.JRecord.Log.AbsSSLogger)
 		 */
-		public ExternalRecord loadCopyBook(String copyBookFile, int splitCopybookOption, int dbIdx, String font, int binFormat, int systemId, AbsSSLogger log) 
+		public ExternalRecord loadCopyBook(String copyBookFile, int splitCopybookOption, int dbIdx, String font, int binFormat, int systemId, AbsSSLogger log)
 		throws IOException, RecordException {
-			
+
 			GenericCsvReader r = new GenericCsvReader(new DefaultLineProvider());
 			r.open(copyBookFile);
-			
+
 			r.read();
-			
+
 			r.close();
-			
+
 			return ToExternalRecord.getInstance()
 					.getExternalRecord(r.getLayout(), Conversion.getCopyBookId(copyBookFile), systemId);
 		}

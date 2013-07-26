@@ -119,11 +119,20 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
      }
 
 
-    /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineWriter(int)
 	 */
-    public AbstractLineWriter getLineWriter(int fileStructure) {
-    	return getProvider(fileStructure).getLineWriter(fileStructure);
+	@Override
+	public AbstractLineWriter getLineWriter(int fileStructure) {
+		return getLineWriter(fileStructure, null);
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineWriter(int, java.lang.String)
+	 */
+	@Override
+	public AbstractLineWriter getLineWriter(int fileStructure, String charset) {
+    	return getProvider(fileStructure).getLineWriter(fileStructure, charset);
     }
 
 

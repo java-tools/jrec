@@ -46,6 +46,7 @@ import net.sf.RecordEditor.utils.jdbc.AbsDB;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
+import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swingx.TipsManager;
 
 /**
@@ -216,10 +217,13 @@ public class FullEditor extends EditRec {
 
 			   	try {
 				    new FullEditor(args.getDfltFile(),
-				            //"C:\\Program Files\\RecordEdit\\MSaccess\\SampleFiles\\Ams_LocDownload_20041228.txt",
 				            args.getInitialRow(),
 				        	CopyBookDbReader.getInstance());
 					//UpgradeDB.checkForUpdate(idx);
+
+				    if (Common.IS_MAC && ReMainFrame.isUsingSystemLaf()) {
+				    	System.setProperty("com.apple.mrj.application.apple.menu.about.name", "RecordEditor");
+				    }
 			   	} finally {
 			   		Common.setDoFree(free, Common.getConnectionIndex());
 			   	}

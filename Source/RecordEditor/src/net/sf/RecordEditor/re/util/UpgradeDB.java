@@ -63,6 +63,8 @@ public final class UpgradeDB {
 	//private static String LATEST_VERSION = VERSION_670;
 	private static String VERSION_KEY  = "-101";
 
+	private List<LayoutDef> holdLayoutDetails = new ArrayList<UpgradeDB.LayoutDef>();
+
 	private static String  SQL_GET_VERION =
 			"Select DETAILS from TBL_TI_INTTBLS "
 		+	" where   TBLID  = "  + VERSION_KEY
@@ -345,7 +347,12 @@ public final class UpgradeDB {
     };
 
 
+    private String[] sql93a = {
+    		"ALTER TABLE TBL_TI_INTTBLS alter column DETAILS VARCHAR(60);",
+    };
+
     private String[] sql93 = {
+
         	deleteTbl + "TBLID = 1 and TBLKEY in ("
         			     + Type.ftBinaryBigEndianPositive  + ","
         			     + Type.ftAssumedDecimalPositive + ","
@@ -358,8 +365,10 @@ public final class UpgradeDB {
                 		 + Type.ftNumCommaDecimalPositive + ","
                 		 + Type.ftNumRightJustifiedPN + ","
                 		 + Type.ftNumRightJustCommaDp + ","
-                		 + Type.ftNumRightJustCommaDpPN
-        			     + ")",
+                		 + Type.ftNumRightJustCommaDpPN + ","
+                		 + Type.ftNumAnyDecimal  + ","
+                		 + Type.ftPositiveNumAnyDecimal
+        			     + ");",
 
      //      	insertSQL + "(1," + Type.ftCharRestOfFixedRecord + ",'Char Rest of Fixed Length');",
           	insertSQL + "(1," + Type.ftBinaryBigEndianPositive + ",'Binary Integer Big Endian (only +ve )');",
@@ -378,11 +387,14 @@ public final class UpgradeDB {
            	insertSQL + "(1," + Type.ftNumRightJustCommaDp + ",'Num (Right Just space padded, \",\" Decimal)');",
            	insertSQL + "(1," + Type.ftNumRightJustCommaDpPN + ",'Num (Right Just space padded, \",\" Decimal) +/- sig');",
 
+          	insertSQL + "(1," + Type.ftNumAnyDecimal + ",'Number any decimal');",
+          	insertSQL + "(1," + Type.ftPositiveNumAnyDecimal + ",'Number (+ve) any decimal');",
+
     };
 
 
     private String[] sql94 = {
-    		"Drop Table TBL_RF1_RECORDFIELDS",
+    		"Drop Table TBL_RF1_RECORDFIELDS;",
 
     		"CREATE TABLE TBL_RF1_RECORDFIELDS ("
     				 + "    RECORDID            INTEGER,"
@@ -390,7 +402,7 @@ public final class UpgradeDB {
     				 + "    FIELD_POS           integer,"
     				 + "    FIELD_LENGTH        integer,"
     				 + "    FIELD_NAME          varchar(120),"
-    				 + "    FIELD_DESCRIPTION   varchar(350),"
+    				 + "    FIELD_DESCRIPTION   varchar(250),"
     				 + "    FIELD_TYPE          integer,"
     				 + "    DECIMAL_POS         smallint,"
     				 + "    DEFAULT_VALUE       varchar(120),"
@@ -398,10 +410,36 @@ public final class UpgradeDB {
     				 + "    FORMAT_DESCRIPTION  varchar(250),"
     				 + "    Cell_Format         integer,"
     				 + "    Field_Parameter     varchar(120)"
-    				 + "  )",
+    				 + "  );",
 
-    		"CREATE UNIQUE INDEX TBL_RF1_RECORDFIELDS_PK ON TBL_RF1_RECORDFIELDS(RECORDID, SUB_KEY) ",
+    		"CREATE UNIQUE INDEX TBL_RF1_RECORDFIELDS_PK ON TBL_RF1_RECORDFIELDS(RECORDID, SUB_KEY); ",
     };
+
+
+
+//    private String[] sql94 = {
+//    		"Drop Table TBL_RF1_RECORDFIELDS",
+//
+//    		"CREATE TABLE TBL_RF1_RECORDFIELDS ("
+//    				 + "    RECORDID            INTEGER,"
+//    				 + "    SUB_KEY             integer,"
+//    				 + "    FIELD_POS           integer,"
+//    				 + "    FIELD_LENGTH        integer,"
+//    				 + "    FIELD_NAME          varchar(120),"
+//    				 + "    FIELD_DESCRIPTION   varchar(250),"
+//    				 + "    FIELD_TYPE          integer,"
+//    				 + "    DECIMAL_POS         smallint,"
+//    				 + "    DEFAULT_VALUE       varchar(120),"
+//    				 + "    COBOL_NAME          varchar(30),"
+//    				 + "    FORMAT_DESCRIPTION  varchar(250),"
+//    				 + "    Cell_Format         integer,"
+//    				 + "    Field_Parameter     varchar(120),"
+//    				 + " CONSTRAINT TBL_RF1_RECORDFIELDS_PK PRIMARY KEY (RECORDID,SUB_KEY)"
+//    				 + "  )",
+//
+//    		//"CREATE UNIQUE INDEX TBL_RF1_RECORDFIELDS_PK ON TBL_RF1_RECORDFIELDS(RECORDID, SUB_KEY) ",
+//    };
+
 
     private String fileWizardXmlLayout = "<?xml version=\"1.0\" ?>\n"
     		+ "<RECORD RECORDNAME=\"FileWizard\" COPYBOOK=\"\" DELIMITER=\"&lt;Tab&gt;\" FILESTRUCTURE=\"FILE_WIZARD\" STYLE=\"0\" RECORDTYPE=\"RecordLayout\" LIST=\"Y\" QUOTE=\"\" RecSep=\"default\" LINE_NO_FIELD_NAMES=\"1\">\n"
@@ -688,8 +726,10 @@ public final class UpgradeDB {
     public void upgrade93(int dbIdx) {
 
        	try {
+       		if (Common.alterVarChar(dbIdx)) {
+       			genericUpgrade(dbIdx, sql93a, null);
+       		}
        		genericUpgrade(dbIdx, sql93, null);
-
 
  			upgradeVersion((new ReConnection(dbIdx)).getConnection(), dbIdx, VERSION_932);
 	        Common.logMsgRaw(AbsSSLogger.SHOW, DATABASE_UPGRADED + VERSION_932, null);
@@ -724,39 +764,58 @@ public final class UpgradeDB {
 				 + ") Values ("
 				 +    "     ?   , ?   , ?   , ?   , ?, ?, ?, ?, ?, ?, ?, ?, ?"
                  + ")";
+        String copySql = " INSERT INTO TBL_RF1_RECORDFIELDS "
+        		+ "          ( RECORDID, SUB_KEY, FIELD_POS, FIELD_LENGTH, FIELD_NAME, FIELD_DESCRIPTION, "
+        		+ "            FIELD_TYPE, DECIMAL_POS, DEFAULT_VALUE, COBOL_NAME, FORMAT_DESCRIPTION, "
+        		+ "            Cell_Format, Field_Parameter )"
+        		+ " SELECT RecordId, SubKey, FieldPos, FieldLength, FieldName, Description, FieldType, "
+        		+ "       DecimalPos, DefaultValue, CobolName, FormatDescription, Cell_Format, Parameter"
+        		+ " FROM Tbl_RF_RecordFields;";
 
 
         int count = 0;
         int idx;
         try {
         	Connection connect = Common.getUpdateConnection(dbIdx);
-			ResultSet resultset = connect.createStatement().executeQuery(sSQL);
-			PreparedStatement insertStatement = connect.prepareStatement(insertSQL);
 
-			while (resultset.next()) {
+			if (Common.useCopySql(dbIdx)) {
+				PreparedStatement copyStatement = connect.prepareStatement(copySql);
+				copyStatement.executeUpdate();
+				count = copyStatement.getUpdateCount();
+				System.out.println("Copy Done !!!");
+				copyStatement.close();
+			} else {
+				ResultSet resultset = connect.createStatement().executeQuery(sSQL);
+				PreparedStatement insertStatement = connect.prepareStatement(insertSQL);
 
-				idx = 1;
-			    insertStatement.setInt(idx, resultset.getInt(idx++));
-			    insertStatement.setInt(idx, resultset.getInt(idx++));
-			    insertStatement.setInt(idx, resultset.getInt(idx++));
-			    insertStatement.setInt(idx, resultset.getInt(idx++));
-			    insertStatement.setString(idx, resultset.getString(idx++));
-			    insertStatement.setString(idx, resultset.getString(idx++));
-			    insertStatement.setInt(idx, resultset.getInt(idx++));
-			    insertStatement.setInt(idx, resultset.getInt(idx++));
-			    insertStatement.setString(idx, resultset.getString(idx++));
-			    insertStatement.setString(idx, resultset.getString(idx++));
-			    insertStatement.setString(idx, resultset.getString(idx++));
-			    insertStatement.setInt(idx, resultset.getInt(idx++));
-			    insertStatement.setString(idx, resultset.getString(idx++));
+				while (resultset.next()) {
 
-			    insertStatement.executeUpdate();
-			    count += 1;
+					idx = 1;
+				    insertStatement.setInt(idx, resultset.getInt(idx++));
+				    insertStatement.setInt(idx, resultset.getInt(idx++));
+				    insertStatement.setInt(idx, resultset.getInt(idx++));
+				    insertStatement.setInt(idx, resultset.getInt(idx++));
+				    insertStatement.setString(idx, resultset.getString(idx++));
+				    insertStatement.setString(idx, resultset.getString(idx++));
+				    insertStatement.setInt(idx, resultset.getInt(idx++));
+				    insertStatement.setInt(idx, resultset.getInt(idx++));
+				    insertStatement.setString(idx, resultset.getString(idx++));
+				    insertStatement.setString(idx, resultset.getString(idx++));
+				    insertStatement.setString(idx, resultset.getString(idx++));
+				    insertStatement.setInt(idx, resultset.getInt(idx++));
+				    insertStatement.setString(idx, resultset.getString(idx++));
+
+				    insertStatement.executeUpdate();
+				    count += 1;
+
+				}
+
+				insertStatement.close();
+				resultset.close();
 			}
 			Common.logMsgRaw(AbsSSLogger.SHOW, DATABASE_UPGRADED + VERSION_94 + " , Fields copied " + count, null);
 
-			insertStatement.close();
-
+			//System.out.println("Upgrade DB");
 			upgradeVersion((new ReConnection(dbIdx)).getConnection(), dbIdx, VERSION_94);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -786,6 +845,8 @@ public final class UpgradeDB {
 			e.printStackTrace();
 		}
     }
+
+
    public final void addFileWizardReader(int dbIdx) throws SQLException {
     	Connection connect = Common.getUpdateConnection(dbIdx);
 
@@ -805,7 +866,21 @@ public final class UpgradeDB {
 		}
     }
 
-    private void loadLayout(int dbIdx, String xml, int systemId) throws Exception {
+   private void loadLayout(int dbIdx, String xml, int systemId) {
+    	holdLayoutDetails.add( new LayoutDef(dbIdx, xml, systemId));
+    }
+
+    public final void loadHeldLayouts() {
+    	try {
+	    	for (LayoutDef l : holdLayoutDetails) {
+	    		loadALayout(l.dbIdx, l.xml, l.systemId);
+	    	}
+    	} catch (Exception e) {
+    		Common.logMsg("Could not load Layouts: " + e.toString(), e);
+		}
+    }
+
+    private void loadALayout(int dbIdx, String xml, int systemId) throws Exception {
 
 		ExternalRecord rec = RecordEditorXmlLoader.getExternalRecord(xml, "FileWizard");
 		ExtendedRecordDB db = new ExtendedRecordDB();
@@ -890,6 +965,14 @@ public final class UpgradeDB {
 
     private void upgradeVersion(Connection con, int dbIdx, String version) throws SQLException {
         if (version != null) {
+        	String oldVersion = getVersion(dbIdx);
+
+        	try {
+        		if (Integer.parseInt(oldVersion) >= Integer.parseInt(version)) {
+        			return;
+        		}
+        	} catch (Exception e) {
+			}
         	String[] sql = new String[2];
         	sql[0] = updateVersion[0];
         	sql[1] = updateVersion[1] + "'" + version + "');";
@@ -914,8 +997,10 @@ public final class UpgradeDB {
                 	sql = sql.trim();
                 	sql = sql.substring(0,sql.length() - 1);
                 }
+                System.out.println(" ----> " + sql);
 
                 statement.executeUpdate(sql);
+                System.out.println(" ~~ Done ~~");
             } catch (Exception e) {
             	Common.logMsgRaw(LeMessages.SQL_ERROR.get(new Object[] {sqlToRun[i], e.getMessage()}), null);
                 //Common.getLogger().logMsg(AbsSSLogger.ERROR, "");
@@ -982,16 +1067,11 @@ public final class UpgradeDB {
     	//System.out.print("Checking for update ");
     	boolean free = Common.isSetDoFree(false);
     	try {
-    		ResultSet resultset =
-    			Common.getDBConnection(dbIndex)
-    					.createStatement()
-    					.executeQuery(SQL_GET_VERION);
-    		if (resultset.next()) {
-    			String version = resultset.getString(1);
-    			if (version != null) {
-    				version = version.trim();
-    			}
-    			UpgradeDB db = (new UpgradeDB());
+    		String version = getVersion(dbIndex);
+			UpgradeDB db = (new UpgradeDB());
+
+    		if (version != null) {
+    			System.out.print("Upgrade Version: " + version);
     			if (VERSION_692B.equals(version)) {
     				db.upgrade71(dbIndex);
        				db.upgrade94(dbIndex);
@@ -1004,19 +1084,21 @@ public final class UpgradeDB {
     			} else if (VERSION_801.equals(version)) {
     				db.upgrade90(dbIndex);
        				db.upgrade94(dbIndex);
-       			} else if (VERSION_90.equals(version) || VERSION_93.equals(version) || VERSION_931.equals(version)) {
+       			} else if (VERSION_90.equals(version) || VERSION_93.equals(version)
+       				   || VERSION_931.equals(version) || VERSION_932.equals(version)) {
        				db.upgrade93(dbIndex);
-       				db.upgrade94(dbIndex);
-       			} else if (VERSION_932.equals(version)) {
        				db.upgrade94(dbIndex);
     			}
 
+    			db.loadHeldLayouts();
+
     			//System.out.print("Already " + LATEST_VERSION);
     		} else {
-    			//System.out.println("upgrading DB");
-    			UpgradeDB upgrade = new UpgradeDB();
-    			upgrade.upgrade69(dbIndex);
-    			upgrade.upgrade71(dbIndex);
+    			db.upgrade69(dbIndex);
+    			db.upgrade71(dbIndex);
+    			db.upgrade94(dbIndex);
+
+    			db.loadHeldLayouts();
     			Common.logMsgRaw(AbsSSLogger.SHOW, DATABASE_UPGRADED + VERSION_801, null);
     			ret = true;
     		}
@@ -1026,5 +1108,33 @@ public final class UpgradeDB {
 			Common.setDoFree(free, dbIndex);
 		}
     	return ret;
+    }
+
+    private static String getVersion(int dbIndex) throws SQLException {
+    	String version = null;
+		ResultSet resultset =
+    			Common.getDBConnection(dbIndex)
+    					.createStatement()
+    					.executeQuery(SQL_GET_VERION);
+		if (resultset.next()) {
+			version = resultset.getString(1);
+			if (version != null) {
+				version = version.trim();
+			}
+		}
+		return version;
+
+    }
+
+    private static final class LayoutDef {
+    	int dbIdx; String xml; int systemId;
+
+
+		public LayoutDef(int dbIdx, String xml, int systemId) {
+			super();
+			this.dbIdx = dbIdx;
+			this.xml = xml;
+			this.systemId = systemId;
+		}
     }
 }

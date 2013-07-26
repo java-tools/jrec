@@ -142,7 +142,7 @@ public class TstGroupFunctions extends TestCase {
     }
 
     private List<Line> getLines(LayoutDetail l) {
-    	ArrayList<Line> lines = new ArrayList<>(csvLines.length);
+    	ArrayList<Line> lines = new ArrayList<Line>(csvLines.length);
 
     	for (String s : csvLines) {
     		lines.add(new Line(l, s));

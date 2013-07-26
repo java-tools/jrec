@@ -8,7 +8,6 @@ import net.sf.JRecord.Types.TypeCommaDecimalPoint;
 import net.sf.JRecord.Types.TypeManager;
 import net.sf.JRecord.Types.TypeNum;
 
-import net.sf.RecordEditor.re.db.Table.TableDB;
 import net.sf.RecordEditor.re.jrecord.types.TypeDateWrapper;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
@@ -51,7 +50,7 @@ public class BuildTypeComboList {
 
 
 
-		String foreignLookUpId = TableDB.getTblLookupKey(Common.TI_FIELD_TYPE);
+		String foreignLookUpId = Common.getTblLookupKey(Common.TI_FIELD_TYPE);
 //		Type typeChar = m.getType(Type.ftChar);
 
 		for (int i = 0; i < typeList.getSize(); i++) {

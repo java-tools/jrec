@@ -16,6 +16,8 @@ package net.sf.RecordEditor.layoutEd;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.sql.SQLException;
 import java.util.HashMap;
 
@@ -232,6 +234,17 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 
 		setVisible(true);
 		Common.setDoFree(free,pConnectionId);
+
+		if (chooseCopyBook) {
+			copybookFile.addFcFocusListener(
+					new FocusAdapter() { @Override public void focusLost(FocusEvent e) {
+						int loaderType = CopybookLoaderFactory.getLoaderType(copybookFile.getText());
+						if (loaderType >= 0) {
+							loaderOptions.setSelectedIndex(loaderType);
+						}
+					}}
+			);
+		}
 	}
 
 

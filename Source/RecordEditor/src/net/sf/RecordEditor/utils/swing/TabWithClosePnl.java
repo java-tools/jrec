@@ -10,6 +10,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.UIDefaults;
 
 import net.sf.RecordEditor.utils.common.Common;
 
@@ -31,10 +32,18 @@ public class TabWithClosePnl extends JPanel {
         add(label);
 
 
-        closeBtn.setFont(new Font("Monospaced", Font.PLAIN,  (SwingUtils.STANDARD_FONT_HEIGHT * 2) / 3));
-        closeBtn.setPreferredSize(new Dimension(SwingUtils.STANDARD_FONT_HEIGHT, SwingUtils.STANDARD_FONT_HEIGHT));
+        if (Common.NIMBUS_LAF) {
+        	UIDefaults def = new UIDefaults();
+        	def.put("Button.contentMargins", new Insets(0,0,0,0));
+        	closeBtn.putClientProperty("Nimbus.Overrides", def);
 
-
+        	closeBtn.setFont(new Font("Monospaced", Font.PLAIN,  (SwingUtils.STANDARD_FONT_HEIGHT * 3) / 4));
+        	closeBtn.setPreferredSize(new Dimension(SwingUtils.STANDARD_FONT_HEIGHT * 5 / 4,
+        			SwingUtils.STANDARD_FONT_HEIGHT * 3 / 2));
+        } else {
+        	closeBtn.setFont(new Font("Monospaced", Font.PLAIN,  (SwingUtils.STANDARD_FONT_HEIGHT * 2) / 3));
+        	closeBtn.setPreferredSize(new Dimension(SwingUtils.STANDARD_FONT_HEIGHT, SwingUtils.STANDARD_FONT_HEIGHT));
+        }
         closeBtn.setMargin(new Insets(0,0,0,0));
 
         add(closeBtn);

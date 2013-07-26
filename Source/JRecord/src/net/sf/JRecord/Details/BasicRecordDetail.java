@@ -39,7 +39,10 @@ public abstract class BasicRecordDetail<FieldDefinition extends AbstractRecordDe
 	 * @see net.sf.JRecord.Details.AbstractRecordDetail#getField(int)
 	 */
 	public FieldDefinition getField(int idx) {
-		return this.fields[idx];
+		if (idx >= 0 && idx < this.fields.length) {
+			return this.fields[idx];
+		}
+		return null;
 	}
 
 	/**

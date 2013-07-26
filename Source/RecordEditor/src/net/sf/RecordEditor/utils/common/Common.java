@@ -92,6 +92,10 @@ public final class Common implements Constants {
     public static final String BOOLEAN_AND_STRING = "And";
     public static final String BOOLEAN_OR_STRING = "Or";
 
+    public static final int DB_OTHER = 1;
+    public static final int DB_HSQL  = 2;
+    public static final int DB_MSACCESS  = 3;
+
     public static final String PO_INIT_CLASS = "net.sf.RecordEditor.po.PoInit";
 
 	public static final ProgramOptions OPTIONS = new ProgramOptions();
@@ -116,18 +120,23 @@ public final class Common implements Constants {
 	public static final boolean RECORD_EDITOR_LAF
 		  = Parameters.VAL_RECORD_EDITOR_DEFAULT.equalsIgnoreCase(
 			Parameters.getString(Parameters.PROPERTY_LOOKS_CLASS_NAME));
-	public static final boolean NIMBUS_LAF ;
+	public static final boolean NIMBUS_LAF, IS_MAC, IS_NIX, IS_WINDOWS;
 
 	static {
-		boolean w = false;
+		boolean w = false, isNix = false, isMac=false, isWin = false;
 		try {
 			String s = System.getProperty("os.name").toLowerCase();
-			w = (RECORD_EDITOR_LAF && (s.indexOf("nix") >= 0 || s.indexOf("nux") >= 0));
+			isNix = (s.indexOf("nix") >= 0 || s.indexOf("nux") >= 0);
+			isMac = s.indexOf("mac") >= 0;
+			isWin = s.indexOf("win") >= 0;
+			w = (RECORD_EDITOR_LAF && isNix);
 		} catch (Exception e) {
 		}
 
-//		System.out.println(" >>>" + System.getProperty("os.name") + "<<< "
-//				+ w + " " + RECORD_EDITOR_LAF);
+		IS_MAC = isMac;
+		IS_NIX = isNix;
+		IS_WINDOWS = isWin;
+
 		NIMBUS_LAF = w || "Nimbus".equalsIgnoreCase(
 				Parameters.getString(Parameters.PROPERTY_LOOKS_CLASS_NAME));
 	}
@@ -436,6 +445,7 @@ public final class Common implements Constants {
     public static String getTblLookupKey(int tblId) {
   	  return "Tbl_" + TABLE_NAMES[tblId] + "_";
     }
+
 	private static int connectionIndex = 0;
 	//private static int defaultConnection = -1;
 	//private static int currIdx = 0;
@@ -1003,6 +1013,26 @@ public final class Common implements Constants {
 		return dbConnection[dbIdx];
 	}
 
+	public static final boolean useCopySql(final int dbIdx) {
+		return getDbType(dbIdx) == DB_MSACCESS;
+	}
+
+	public static final boolean alterVarChar(final int dbIdx) {
+		return getDbType(dbIdx) != DB_HSQL;
+	}
+
+
+	public static final int getDbType(final int dbIdx) {
+		int ret = DB_OTHER;
+
+		if (driver[dbIdx].contains(".hsqldb.")) {
+			ret = DB_HSQL;
+		} else if ("JDBC:ODBC:RecordLayout".equals(dataSource[dbIdx])) {
+			ret = DB_MSACCESS;
+		}
+		return ret;
+	}
+
 	public static final Connection getUpdateConnection(final int dbIdx) {
 
 		initVars();
@@ -1378,6 +1408,8 @@ public final class Common implements Constants {
         }
     	return new ImageIcon(url);
     }
+
+
 
     public static ImageIcon readIcon(String name) {
     	try {

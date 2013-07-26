@@ -363,7 +363,7 @@ public final class SaveAs3 extends ReFrame
 
         pnl.setGap(BasePanel.GAP1);
         pnl.addLine("Edit Output File", commonSaveFields.editChk);
-        if (java.awt.Desktop.isDesktopSupported()) {
+        if (isDesktopAvailable()) {
         	pnl.addLine("Open Output File", openChk);
         }
         pnl.addLine("Keep screen open", commonSaveFields.keepOpenChk, saveFile);
@@ -447,9 +447,11 @@ public final class SaveAs3 extends ReFrame
         	}
 
         	if (openChk.isSelected()) {
-				java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
+        		if (isDesktopAvailable()) {
+					java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
 
-                desktop.open(new File(outFile));
+	                desktop.open(new File(outFile));
+        		}
         	}
 
             if (! commonSaveFields.keepOpenChk.isSelected()) {
@@ -464,6 +466,17 @@ public final class SaveAs3 extends ReFrame
     }
 
 
+    private boolean isDesktopAvailable() {
+    	boolean ret = false;
+
+    	try {
+    		ret = java.awt.Desktop.isDesktopSupported();
+    	} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+    	return ret;
+    }
 
 
 

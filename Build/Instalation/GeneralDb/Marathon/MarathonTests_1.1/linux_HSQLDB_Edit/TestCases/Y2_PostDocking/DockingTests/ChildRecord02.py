@@ -6,6 +6,12 @@ def test():
 
 	if window('Record Editor'):
 		select('File_Txt', commonBits.sampleDir() + 'csv3DTAR020_tst1.bin.csv')
+
+		if commonBits.version() == 'MsAccess':
+			select('Record Layout_Txt', 'Comma Delimited, names on the first line')
+		else:
+			select('System_Txt', 'CSV')
+
 		click(commonBits.fl('Edit') + '1')
 		select_menu(commonBits.fl('View') + '>>' + commonBits.fl('Sorted Field Tree'))
 		select('fields_JTbl', 'STORE-NO', commonBits.fl('Field') + ',0')

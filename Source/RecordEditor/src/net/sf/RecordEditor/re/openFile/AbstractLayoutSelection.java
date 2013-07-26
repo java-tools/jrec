@@ -120,6 +120,10 @@ extends ReadLayout implements FormatFileName {
 
 	public abstract boolean isFileBasedLayout();
 
+	public void forceLayoutReload() {
+
+	}
+
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.openFile.FormatFileName#formatLayoutName(java.lang.String)
 	 */

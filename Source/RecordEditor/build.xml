@@ -1,9 +1,9 @@
-<!-- 
+<!--
 /*************************************************************
- * This file is part of RecordEditor.  
+ * This file is part of RecordEditor.
  * See the file "LICENSE" for copyright information and the
  * terms and conditions for copying, distribution and
- * modification of RecordEditor. 
+ * modification of RecordEditor.
  *
  *************************************************************
  */
@@ -14,52 +14,62 @@
         <!-- Update the following to point to the jibx install lib -->
 	<!--property name="jibx-lib" location="/home/bm/Programs/jibx/lib/" /-->
         <!-- ========================================================== -->
-	
-	
-	<property name="src.dir" location="src" />
-	<property name="build.dir" location="build" />
-	<property name="lib.dir" location="lib" />
-	<property name="docs.dir" location="docs" />
-	<property name="javadoc.dir" location="${docs.dir}/api" />
-	<property name="RecordEdit.jar" location="${lib.dir}/RecordEdit.jar" />
-	<property name="LayoutEdit.jar" location="${lib.dir}/LayoutEdit.jar" />
-	<property name="runFullEditor.jar" location="${lib.dir}/runFullEditor.jar" />
-	<property name="runLayouteditor.jar" location="${lib.dir}/runLayouteditor.jar" />
-	<property name="runCobolEditor.jar" location="${lib.dir}/runCobolEditor.jar" />
+
+
+	<property name="src.dir"           location="src" />
+	<property name="build.dir"         location="build" />
+	<property name="lib.dir"           location="lib" />
+	<property name="docs.dir"          location="docs" />
+	<property name="javadoc.dir"       location="${docs.dir}/api" />
+	<property name="RecordEdit.jar"    location="${lib.dir}/RecordEdit.jar" />
+	<property name="JRecordEdit.jar"   location="${lib.dir}/JRecordEdit.jar" />
+	<property name="LayoutEdit.jar"    location="${lib.dir}/LayoutEdit.jar" />
+	<property name="runFullEditor.jar"     location="${lib.dir}/runFullEditor.jar" />
+	<property name="runLayouteditor.jar"   location="${lib.dir}/runLayouteditor.jar" />
+	<property name="runCobolEditor.jar"    location="${lib.dir}/runCobolEditor.jar" />
 	<property name="runProtoBufEditor.jar" location="${lib.dir}/runProtoBufEditor.jar" />
-	<property name="runAvroEditor.jar" location="${lib.dir}/runAvroEditor.jar" />
-	<property name="run.jar" location="${lib.dir}/run.jar" />
-	<property name="runPB.jar" location="${lib.dir}/runPB.jar" />
-	<property name="runDiff.jar" location="${lib.dir}/runDiff.jar" />
+	<property name="runAvroEditor.jar"     location="${lib.dir}/runAvroEditor.jar" />
+	<property name="runCsvEditor.jar"      location="${lib.dir}/runCsvEditor.jar" />
+	<property name="run.jar"               location="${lib.dir}/run.jar" />
+	<property name="runJR.jar"             location="${lib.dir}/runJR.jar" />
+	<property name="runPB.jar"             location="${lib.dir}/runPB.jar" />
+	<property name="runDiff.jar"           location="${lib.dir}/runDiff.jar" />
 	<property name="runDiffFileLayout.jar" location="${lib.dir}/runDiffFileLayout.jar" />
-	<property name="work.dir" location="/home/bm/Work/" />
-	<property name="izPack" location="${work.dir}/RecordEditor/Instalation/hsqldb_izpack" />
-	<property name="inputLib.dir" location="C:\Users\mum\Bruce\lib" />
+	<property name="work.dir"              location="/home/bm/Work/" />
+	<property name="izPack"                location="${work.dir}/RecordEditor/Instalation/hsqldb_izpack" />
+	<property name="inputLib.dir"          location="C:\Users\mum\Bruce\lib" />
 
 	<target name="jrecord" description="compile JRecord code" >
 		<ant dir="../JRecord" antfile="build.xml" output="buildout.txt" inheritall="false" />
 	</target>
-	
-	<target name="compile" description="compile code" depends="jrecord">
+
+
+	<target name="compile" description="compile code" depends="JRecord_Common">
 		<mkdir dir="${build.dir}" />
 		<javac srcdir="${src.dir}" destdir="${build.dir}" optimize="true" source="1.6" target="1.6" debug="true">
 			<!--javac srcdir="${src.dir}" destdir="${build.dir}" optimize="true" -->
 			<exclude name="net/sf/RecordEditor/examples/**"/>
 			<exclude name="net/sf/RecordEditor/jibx/**"/>
-			
+			<exclude name="net/sf/RecordEditor/re/install/**"/>
+
 			<classpath>
 				<filelist dir="${inputLib.dir}">
 					<file name="TableLayout.jar"/>
-					<file name="ZCalendar.jar"/>
+					<!--file name="ZCalendar.jar"/-->
 					<!--file name="hsqldbmain.jar"/-->
 					<file name="velocity-1.7.jar"/>
 					<file name="velocity-dep-1.7.jar"/>
 					<!--file name="jibx-run.jar"/-->
 					<file name="jlibdiff.jar"/>
 					<file name="chardet.jar"/>
+					<file name="swingx-all-1.6.4.jar"/>
+					<file name="rsyntaxtextarea.jar"/>
 				</filelist>
 				<filelist dir="../JRecord/lib/">
 					<file name="JRecord.jar"/>
+				</filelist>
+				<filelist dir="../RecordEditor_ZCalendar/lib/">
+					<file name="ZCalendar.jar"/>
 				</filelist>
 				<filelist dir="C:\\Users\\mum\\Bruce\\jibx\\lib/">
 					<file name="jibx-run.jar"/>
@@ -91,23 +101,23 @@
 		    <classpath>
 		      <pathelement path="build"/>
 		    </classpath>
-		</bind--> 
+		</bind-->
 	</target>
 
 	<target name="build" depends="compile" description="build jar">
 		<mkdir dir="${lib.dir}" />
 
 		<jar destfile="${RecordEdit.jar}" filesonly="true">
-			<zipfileset src="${inputLib.dir}/TableLayout.jar"/>			
+			<zipfileset src="${inputLib.dir}/TableLayout.jar"/>
 			<zipfileset src="${inputLib.dir}/RecordEditor_JibxClasses.jar" />
-			<fileset dir="${build.dir}">		
+			<fileset dir="${build.dir}">
 				<exclude  name="net/sf/RecordEditor/Run*.*"/>
 				<exclude  name="net/sf/RecordEditor/edit.Niche/**"/>
-				
+
 				<exclude  name="net/sf/RecordEditor/layoutEd/**"/>
 				<exclude  name="net/sf/RecordEditor/examples/**"/>
 				<exclude  name="net/sf/RecordEditor/jibx/**"/>
-				
+
 				<exclude  name="diffXmlBindings.xml"/>
 			</fileset>
 		</jar>
@@ -115,7 +125,6 @@
 
 		<jar basedir="${build.dir}" destfile="${LayoutEdit.jar}" filesonly="true">
 			<exclude name="net/sf/RecordEditor/Run*.*"/>
-			<exclude name="net/sf/RecordEditor/fileLayout/**"/>
 			<exclude name="net/sf/RecordEditor/copy/**"/>
 			<exclude name="net/sf/RecordEditor/diff/**"/>
 			<exclude name="net/sf/RecordEditor/jibx/**"/>
@@ -124,18 +133,38 @@
 			<exclude name="net/sf/RecordEditor/examples/**"/>
 			<exclude name="net/sf/RecordEditor/layoutWizard/**"/>
 
-			
-			<exclude  name="net/sf/RecordEditor/examples/**"/>
-			<exclude  name="net/sf/RecordEditor/jibx/**"/>
-			<exclude  name="net/sf/RecordEditor/externalInterface/**"/>
-			<exclude  name="net/sf/RecordEditor/re/**"/>
-			<exclude  name="net/sf/RecordEditor/utils/**"/>
+
+			<exclude name="net/sf/RecordEditor/examples/**"/>
+			<exclude name="net/sf/RecordEditor/jibx/**"/>
+			<exclude name="net/sf/RecordEditor/externalInterface/**"/>
+			<exclude name="net/sf/RecordEditor/re/**"/>
+			<exclude name="net/sf/RecordEditor/po/**"/>
+			<exclude name="net/sf/RecordEditor/tip/**"/>
+			<exclude name="net/sf/RecordEditor/utils/**"/>
 			<exclude name="net/sf/RecordEditor/editProperties/**"/>
 			<exclude name="info/**"/>
 
 
 			<exclude name="diffXmlBindings.xml"/>
 		</jar>
+
+		<jar destfile="${JRecordEdit.jar}" filesonly="true">
+			<zipfileset src="${inputLib.dir}/TableLayout.jar"/>
+			<zipfileset src="${inputLib.dir}/RecordEditor_JibxClasses.jar" />
+			<fileset dir="${build.dir}">
+				<exclude  name="net/sf/RecordEditor/Run*.*"/>
+				<exclude  name="net/sf/RecordEditor/layoutEd/**"/>
+				<exclude  name="net/sf/RecordEditor/re/db/**"/>
+				<exclude  name="net/sf/RecordEditor/utils/jdbc/**"/>
+				<exclude  name="net/sf/RecordEditor/editFileLayout/**"/>
+				<exclude  name="net/sf/RecordEditor/utils/Run.class"/>
+				<exclude  name="net/sf/RecordEditor/jibx/**"/>
+				<exclude name="diffXmlBindings.xml"/>
+			</fileset>
+			<fileset dir="../JRecord/build/"/>
+			<fileset dir="../JRecord_Common/build/"/>
+		</jar>
+
 		<jar basedir="${build.dir}" destfile="${runFullEditor.jar}" filesonly="true">
 			<manifest>
 			        <attribute name="Main-Class" value="net.sf.RecordEditor.RunFullEditor"/>
@@ -208,13 +237,21 @@
 			<include  name="net/sf/RecordEditor/utils/Run.class"/>
 			<include  name="net/sf/RecordEditor/utils/common/ExternalReferenceConstants.class"/>
 		</jar>
-		<jar basedir="${build.dir}" destfile="${runPB.jar}" filesonly="true">
+		<jar basedir="${build.dir}" destfile="${runJR.jar}" filesonly="true">
 			<manifest>
-			        <attribute name="Main-Class" value="net.sf.RecordEditor.RunClassPB"/>
+			        <attribute name="Main-Class" value="net.sf.RecordEditor.RunClassJR"/>
 			</manifest>
-			<include  name="net/sf/RecordEditor/RunClassPB.class"/>
+			<include  name="net/sf/RecordEditor/RunClassJR.class"/>
 			<include  name="net/sf/RecordEditor/utils/Run.class"/>
-			<include  name="net.sf.RecordEditor.utils.common/ExternalReferenceConstants.class"/>
+			<include  name="net/sf/RecordEditor/utils/common/ExternalReferenceConstants.class"/>
+		</jar>
+		<jar basedir="${build.dir}" destfile="${runCsvEditor.jar}" filesonly="true">
+			<manifest>
+			        <attribute name="Main-Class" value="net.sf.RecordEditor.RunCsvEditor"/>
+			</manifest>
+			<include  name="net/sf/RecordEditor/RunCsvEditor.class"/>
+			<include  name="net/sf/RecordEditor/utils/Run.class"/>
+			<include  name="net/sf/RecordEditor/utils/common/ExternalReferenceConstants.class"/>
 		</jar>
 
 
@@ -228,12 +265,14 @@
 		<copy todir="${work.dir}/JRecord/lib1/" file="${RecordEdit.jar}"/>
 		-->
 
-	</target>	
+	</target>
 
 	<target name="javadoc" description="javadoc">
 		<mkdir dir="${javadoc.dir}" />
 		<javadoc destdir="${javadoc.dir}">
 			<fileset dir="${src.dir}" />
+			<fileset dir="../JRecord_Common/src/" />
+			<fileset dir="../JRecord/src/" />
 		</javadoc>
 	</target>
 

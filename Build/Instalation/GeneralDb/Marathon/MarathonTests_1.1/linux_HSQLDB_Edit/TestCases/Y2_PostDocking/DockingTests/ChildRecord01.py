@@ -6,7 +6,13 @@ def test():
 
 	if window('Record Editor'):
 		select('File_Txt', commonBits.sampleDir() + 'csv3DTAR020_tst1.bin.csv')
-		select('System_Txt', 'CSV')
+##		select('System_Txt', 'CSV')
+
+		if commonBits.version() == 'MsAccess':
+			select('Record Layout_Txt', 'Comma Delimited, names on the first line')
+		else:
+			select('System_Txt', 'CSV')
+
 		click(commonBits.fl('Edit') + '1')
 		select_menu(commonBits.fl('Window') + '>>' + commonBits.fl('Show Child Record'))
 		assert_p('LineFrame.FileDisplay_JTbl', 'Content', '[[KEYCODE-NO, 1, 63604808, 63604808], [STORE-NO, 2, 20, 20], [DATE, 3, 40118, 40118], [DEPT-NO, 4, 170, 170], [QTY-SOLD, 5, 1, 1], [SALE-PRICE, 6, 4.87, 4.87]]')

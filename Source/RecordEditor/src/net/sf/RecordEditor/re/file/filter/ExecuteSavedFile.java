@@ -37,9 +37,14 @@ public class ExecuteSavedFile<details> extends ReFrame implements ActionListener
 	        public final void keyReleased(KeyEvent event) {
 
 	        	if (event.getKeyCode() == KeyEvent.VK_ENTER) {
+
+	        		SwingUtils.clickOpenBtn(fileChooser, false);
+
 	        		fileChooser.approveSelection();
 
+
 	        		execAction(true);
+
 	         	} else if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
 	         		ExecuteSavedFile.this.doDefaultCloseAction();
 	         	}
@@ -64,6 +69,7 @@ public class ExecuteSavedFile<details> extends ReFrame implements ActionListener
 		execSaveBatch = new ExecuteSavedFileBatch<details>(detailsClass, executeAction);
 
 		fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
+
 		if (dir != null) {
 			if (dir.endsWith("/") || dir.endsWith("\\")) {
 				dir += "*";
@@ -71,7 +77,9 @@ public class ExecuteSavedFile<details> extends ReFrame implements ActionListener
 			fileChooser.setSelectedFile(new File(dir));
 
 		}
+//		if (! Common.TEST_MODE) {
 		fileChooser.setControlButtonsAreShown(false);
+//		}
 
 		pnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP1,
 		         BasePanel.FULL, BasePanel.FULL,
@@ -111,17 +119,19 @@ public class ExecuteSavedFile<details> extends ReFrame implements ActionListener
 	public void actionPerformed(ActionEvent e) {
 
 		try {
+			SwingUtils.clickOpenBtn(fileChooser, true);
 			fileChooser.approveSelection();
 
-			fileChooser.getActionForKeyStroke(
-							KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0))
-					   .actionPerformed(null);
+//			fileChooser.getActionForKeyStroke(
+//							KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0))
+//					   .actionPerformed(null);
 		} catch (Exception ex) {
 		//	ex.printStackTrace();
 		}
 
 		execAction(e.getSource() == runBtn);
 	}
+
 
 	public void execAction(boolean run) {
 

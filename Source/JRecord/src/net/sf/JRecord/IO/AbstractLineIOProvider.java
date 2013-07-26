@@ -4,7 +4,7 @@ import net.sf.JRecord.Common.AbstractManager;
 import net.sf.JRecord.Details.LineProvider;
 
 public interface AbstractLineIOProvider extends AbstractManager {
- 
+
 	/**
 	 * Gets a Record Reader Class that is appropriate for writing the
 	 * supplied file-structure
@@ -38,9 +38,18 @@ public interface AbstractLineIOProvider extends AbstractManager {
 	public abstract AbstractLineWriter getLineWriter(int fileStructure);
 
 	/**
-	 * wether a Copybook file is required 
-	 * 
-	 * @return wether a Copybook file is required 
+	 * Gets a Record Reader Class
+	 *
+	 * @param fileStructure File Structure
+	 *
+	 * @return record reader
+	 */
+	public abstract AbstractLineWriter getLineWriter(int fileStructure, String charset);
+
+	/**
+	 * wether a Copybook file is required
+	 *
+	 * @return wether a Copybook file is required
 	 */
 	public abstract boolean isCopyBookFileRequired(int fileStructure);
 

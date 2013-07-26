@@ -5,18 +5,21 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 
 import net.sf.RecordEditor.utils.common.Common;
@@ -232,5 +235,25 @@ public class SwingUtils {
 		return p;
 	}
 
+	public static void clickOpenBtn(JFileChooser fileChooser, boolean doEnter) {
+		String s = System.getProperty("java.version").substring(0, 4);
+		System.out.println("====> " + s);
+		try {
+			if (s.startsWith("1.5.") || s.startsWith("1.6.")) {
+				if (doEnter) {
+					fileChooser.getActionForKeyStroke(
+							KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0))
+								.actionPerformed(null);
+				}
+			} else {
+				JButton btn = fileChooser.getUI().getDefaultButton(fileChooser);
+				if (btn != null) {
+					btn.doClick();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
+	}
 }

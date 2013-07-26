@@ -33,6 +33,7 @@ import net.sf.RecordEditor.re.util.ReIOProvider;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.ParseArgs;
 import net.sf.RecordEditor.utils.params.Parameters;
+import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 
 
 
@@ -173,11 +174,13 @@ public class EditCsvFile extends EditRec {
 	public static void main(final String[] pgmArgs) {
 
 		try {
-			Common.OPTIONS.loadPoScreens.set(false);
+			Common.OPTIONS.addTextDisplay.set(true);
+		    Common.OPTIONS.loadPoScreens.set(false);
 		} catch (Exception e) {
 		}
 
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+
 			public void run() {
 				//JFrame.setDefaultLookAndFeelDecorated(true);
 
@@ -189,6 +192,10 @@ public class EditCsvFile extends EditRec {
 			    long time2 = System.nanoTime();
 
 			    System.out.println("Time 9: " + ((time2 - time1) / 100000000));
+
+			    if (Common.IS_MAC && ReMainFrame.isUsingSystemLaf()) {
+			    	System.setProperty("com.apple.mrj.application.apple.menu.about.name", "reCsvEditor");
+			    }
 			}
 		});
 	}

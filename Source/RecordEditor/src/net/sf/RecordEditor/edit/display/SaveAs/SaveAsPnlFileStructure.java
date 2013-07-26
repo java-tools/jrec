@@ -24,7 +24,6 @@ import net.sf.RecordEditor.re.openFile.RecentFiles;
 import net.sf.RecordEditor.re.util.FileStructureDtls;
 import net.sf.RecordEditor.re.util.ReIOProvider;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.Combo.ComboOption;
 
@@ -66,7 +65,7 @@ public class SaveAsPnlFileStructure extends SaveAsPnlBase {
 				saveFixed(outFile, view);
 			} else {
 				LineIOProvider p = ReIOProvider.getInstance();
-				AbstractLineWriter w = p.getLineWriter(opt.index);
+				AbstractLineWriter w = p.getLineWriter(opt.index, commonSaveAsFields.file.getLayout().getFontName());
 
 				w.open(outFile);
 

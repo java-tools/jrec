@@ -100,7 +100,7 @@ public class TstAnyOfAllOf extends TestCase {
     private List<Line> getLines() {
     	try {
 	    	LayoutDetail l = getNumLayout();
-	    	ArrayList<Line> lines = new ArrayList<>(csvLines.length);
+	    	ArrayList<Line> lines = new ArrayList<Line>(csvLines.length);
 
 	    	for (String s : csvLines) {
 	    		lines.add(new Line(l, s));

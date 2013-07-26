@@ -341,8 +341,8 @@ implements ActionListener, ISaveDetails<EditorTask> {
 			//if (addExecute) {
 			setGap(BasePanel.GAP0);
 
-			registerComponent(savePnl.saveBtn);
-			registerComponent(savePnl.updateBtn);
+			//registerComponent(savePnl.saveBtn);
+			//registerComponent(savePnl.updateBtn);
 			addLine("", savePnl.panel, execute);
 			setHeight(BasePanel.GAP1 * 2);
 			setGap(BasePanel.GAP0);

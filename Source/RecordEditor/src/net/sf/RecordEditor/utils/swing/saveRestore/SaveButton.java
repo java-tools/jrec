@@ -38,7 +38,7 @@ public class SaveButton<what> extends JButton implements ActionListener {
 
 		if (e.getSource() == this) {
 			ap_InitFrame();
-		} else {
+		} else if (saveFrame != null) {
 			what saveDetails = saveCallBack.getSaveDetails();
 			try {
 				(new net.sf.RecordEditor.jibx.JibxCall<what>(saveDetails.getClass()))

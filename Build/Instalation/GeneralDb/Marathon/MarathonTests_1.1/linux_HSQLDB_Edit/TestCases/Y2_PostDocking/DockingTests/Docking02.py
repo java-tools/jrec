@@ -6,6 +6,10 @@ def test():
 
 	if window('Record Editor'):
 		select('File_Txt', commonBits.sampleDir() + 'csv3DTAR020_tst1.bin.csv')
+		if commonBits.version() == 'MsAccess':
+			select('Record Layout_Txt', 'Comma Delimited, names on the first line')
+		else:
+			select('System_Txt', 'CSV')
 		click(commonBits.fl('Edit') + '1')
 		select('LineList.FileDisplay_JTbl', 'cell:2|STORE-NO,0(20)')
 		rightclick('LineList.FileDisplay_JTbl', '1|KEYCODE-NO,4')

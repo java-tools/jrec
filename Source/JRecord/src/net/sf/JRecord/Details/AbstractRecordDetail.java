@@ -3,10 +3,21 @@ package net.sf.JRecord.Details;
 import net.sf.JRecord.Common.AbstractRecordX;
 import net.sf.JRecord.Common.IFieldDetail;
 
-
+/**
+ * Description of one record-type in the File
+ *
+ * @author Bruce Martin
+ *
+ */
 public interface AbstractRecordDetail
 extends AbstractRecordX<AbstractRecordDetail.FieldDetails> {
 
+	/**
+	 * Description of one field in a record
+	 *
+	 * @author Bruce Martin
+	 *
+	 */
 	interface FieldDetails extends IFieldDetail {
 
 	}

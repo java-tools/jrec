@@ -6,6 +6,14 @@ import net.sf.RecordEditor.re.file.AbstractLineNode;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.tree.AbstractLineNodeTreeParser;
 
+/**
+ * Description of a Class that will create views of a File
+ * (based on a supplied screenType). This class is basically a
+ * Screen-Builder class
+ *
+ * @author Bruce Martin
+ *
+ */
 public interface IDisplayBuilder {
 
 	public static int ST_INITIAL_EDIT     = 1;

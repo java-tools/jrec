@@ -9,6 +9,16 @@ import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Common.XmlConstants;
 
+
+/**
+ * Implementation of a "Line" based on a ArraryList of fields.
+ *
+ * @author Bruce Martin
+ *
+ * @param <FieldDef> Field Definition Class
+ * @param <RecordDef> Record Definition class
+ * @param <Layout> Schema class
+ */
 public class ArrayListLine<
 								FieldDef extends FieldDetail,
 								RecordDef extends AbstractRecordDetail,

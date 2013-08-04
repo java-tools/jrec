@@ -6,6 +6,14 @@ import java.util.List;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.RecordRunTimeException;
 
+/**
+ * Parent class for various Schema (layout) definitions.
+ * It contains common methods used by all the Schema types.
+ *
+ * @author Bruce Martin
+ *
+ * @param <RecordDescription>
+ */
 public abstract class BasicLayout<RecordDescription extends AbstractRecordDetail>
 implements AbstractLayoutDetails {
 

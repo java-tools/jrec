@@ -6,20 +6,27 @@ import java.util.List;
 import net.sf.JRecord.detailsSelection.FieldSelect;
 import net.sf.JRecord.detailsSelection.RecordSel;
 
+
+/**
+ * Used to check if the line is a specific Record.
+ *
+ * @author Bruce Martin
+ *
+ */
 public class RecordSelection {
-	
+
 	private RecordSel recSel;
 
 	//private final RecordDetail parent;
 	private boolean defaultRecord = false;
-	
-	
+
+
 	public RecordSelection(RecordDetail parent) {
 		super();
 		//this.parent = parent;
 	}
-	
-	
+
+
 //	/**
 //	 * @param index
 //	 * @return
@@ -56,70 +63,27 @@ public class RecordSelection {
 	public FieldSelect getFirstField() {
 		return recSel.getFirstField();
 	}
-	
-	
-//	/**
-//	 * Add a Field/Value that should be tested to determine if this is the valid
-//	 * Sub-Record for the current line.
-//	 * 
-//	 * @param tstField the tstField to set
-//	 * @param value Value to compare field to
-//	 */ 
-//	public void addTstField(String tstField, String value) {
-//		if (tstField == null || "".equals(tstField)) {
-//			if ("*".equals(value)) {
-//				defaultRecord = true;
-//			}
-//		} else {
-//			FieldDetail fld = parent.getField(tstField);
-//			
-//			getFields().add( new SelectionField(tstField, fld, value));
-//		}
-//	}
-	
-	/**
-	 * Add a list of TstFields
-	 * @param flds fields to add
-	 */
-//	public void add(List<TstField> flds) {
-//		for (TstField fld : flds) {
-//    		addTstField(fld.fieldName, fld.value);
-//    	}
-//	}
-//	
-//	public void setTstField(int idx, String tstField, FieldDetail fld, String value) {
-//		if (getFields().size() == 0) {
-//			flds.add(null);
-//		}
-//		flds.set(idx, new SelectionField(tstField, fld, value));
-//	}
-	
-	public RecordSelectionResult isSelected(@SuppressWarnings("rawtypes") AbstractLine line) {
+
+
+
+	public RecordSelectionResult isSelected(AbstractLine line) {
 		RecordSelectionResult ret = RecordSelectionResult.NO;
-		
+
 		if (recSel != null) {
-			
+
 			if (recSel.isSelected(line)) {
 				if (defaultRecord) {
 					ret = RecordSelectionResult.DEFAULT;
 				} else {
 					ret = RecordSelectionResult.YES;
 				}
-			} 
+			}
 		}
-		
+
 		return ret;
 	}
 
-//	private ArrayList<SelectionField> getFields() {
-//		
-//		if (flds == null) {
-//			flds = new ArrayList<SelectionField>(5);
-//		}
-//		
-//		return flds;
-//	}
-	
+
 	/**
 	 * @return the defaultRecord
 	 */
@@ -134,21 +98,21 @@ public class RecordSelection {
 	public void setDefaultRecord(boolean defaultRecord) {
 		this.defaultRecord = defaultRecord;
 	}
-	
+
 	/**
 	 * @param recSel the recSel to set
 	 */
 	public void setRecSel(RecordSel recSel) {
 		this.recSel = recSel;
 	}
-	
+
 	public List<FieldSelect> getAllFields() {
 		List<FieldSelect> fields = new ArrayList<FieldSelect>();
-		
+
 		if (recSel != null) {
 			recSel.getAllFields(fields);
 		}
-		
+
 		return fields;
 	}
 

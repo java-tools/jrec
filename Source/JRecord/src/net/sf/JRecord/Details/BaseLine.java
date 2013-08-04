@@ -4,6 +4,14 @@ import net.sf.JRecord.Common.AbstractFieldValue;
 import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 
+/**
+ * Base class for all the "Line" classes to extends. It implements
+ * basic common methods for all the "Line" classes
+ *
+ * @author Bruce Martin
+ *
+ * @param <Layout> Schema Type to be used by this line
+ */
 public abstract class BaseLine<Layout extends AbstractLayoutDetails>  implements AbstractLine {
 
 	protected Layout layout;

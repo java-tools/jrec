@@ -11,7 +11,7 @@ import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Common.XmlConstants;
 
 /**
- * Line for use with XML files.
+ * Line that represent one Xml-Tag in a XML file.
  *
  * <p>The one important method is getFieldValue
  *

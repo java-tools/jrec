@@ -7,6 +7,13 @@ import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Types.Type;
 
+/**
+ * Parent class for lines built aroud an array of (bytes or characters).
+ *
+ * @author Bruce Martin
+ *
+ * @param <ActualLine>
+ */
 public abstract class BasicLine<ActualLine extends AbstractLine> extends BaseLine<LayoutDetail>
 implements AbstractLine, ISetLineProvider<LayoutDetail, ActualLine> {
 

@@ -1,5 +1,13 @@
 package net.sf.JRecord.Details;
 
+/**
+ * Description of the Record Tree Structure (used in Protocol buffers and Avro
+ * File definitions)
+ *
+ * @author Bruce Martin
+ *
+ * @param <RecordDef> Record Definition
+ */
 public interface AbstractChildDetails<RecordDef extends AbstractRecordDetail> {
 
 	/**

@@ -4,7 +4,7 @@ import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
 
 /**
- * Frame that stores the parent display and returns that if neccessary
+ * Frame that stores the parent display and returns that if necessary
  *
  * @author Bruce Martin
  *

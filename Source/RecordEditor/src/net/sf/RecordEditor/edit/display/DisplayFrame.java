@@ -139,7 +139,8 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
                     }
                 }
 
-                if (fileMaster != null && fileMaster.isChanged() && fileMaster.isSaveAvailable()) {
+                if (fileMaster != null && fileMaster.isChanged() && fileMaster.isSaveAvailable()
+                && ! ReFrame.isForcedClose()) {
                     int result = JOptionPane.showConfirmDialog(
                             null,
                             ReMessages.SAVE_CHANGES.get(),

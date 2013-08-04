@@ -875,6 +875,7 @@ public final class UpgradeDB {
 	    	for (LayoutDef l : holdLayoutDetails) {
 	    		loadALayout(l.dbIdx, l.xml, l.systemId);
 	    	}
+	    	holdLayoutDetails.removeAll(holdLayoutDetails);
     	} catch (Exception e) {
     		Common.logMsg("Could not load Layouts: " + e.toString(), e);
 		}

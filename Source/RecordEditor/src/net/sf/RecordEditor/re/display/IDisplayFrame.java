@@ -3,6 +3,15 @@ package net.sf.RecordEditor.re.display;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
+
+/**
+ * Description of a class that will display one or more
+ * File views in a a Tab display.
+ *
+ * @author Bruce Martin
+ *
+ * @param <BD> Base-Screen-View
+ */
 public interface IDisplayFrame<BD extends AbstractFileDisplay> extends ReActionHandler {
 
 	public abstract void addScreen(BD d);

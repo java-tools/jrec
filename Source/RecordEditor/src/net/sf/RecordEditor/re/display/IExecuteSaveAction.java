@@ -1,5 +1,14 @@
 package net.sf.RecordEditor.re.display;
 
+/**
+ * Description (interface) for a class that will execute
+ * saved File-Actions (i.e. Sort Trees).
+ * It allows the Script classes access to the
+ * Saved-Action tasks defined in the Edit packages
+ *
+ * @author Bruce Martin
+ *
+ */
 public interface IExecuteSaveAction {
 
 	/**

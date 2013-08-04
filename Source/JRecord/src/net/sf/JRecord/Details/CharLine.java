@@ -11,6 +11,13 @@ import net.sf.JRecord.CsvParser.ParserManager;
 import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.Types.TypeManager;
 
+
+/**
+ * Line implementation where the line is represented as a String.
+ *
+ * @author Bruce Martin
+ *
+ */
 public class CharLine extends BasicLine<CharLine>  {
 
 	private static LineProvider<LayoutDetail, CharLine> defaultProvider = new CharLineProvider();

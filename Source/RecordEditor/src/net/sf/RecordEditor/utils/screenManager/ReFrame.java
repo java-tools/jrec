@@ -44,7 +44,10 @@ public class ReFrame extends JInternalFrame
     private static ReWindowChanged focusChangedListner;
     private static ArrayList<ReFrame> allFrames = new ArrayList<ReFrame>();
 
-//    private ReFrame me = this;
+    private static boolean forcedClose = false;
+
+
+	//    private ReFrame me = this;
     private String documentName = "";
     private String frameId = "";
     private Object document;
@@ -307,6 +310,7 @@ public class ReFrame extends JInternalFrame
     }
 
     public static void closeAllFrames() {
+    	forcedClose = true;
     	for (int i = 0; i < allFrames.size(); i++) {
             allFrames.get(i).reClose();
         }
@@ -573,4 +577,12 @@ public class ReFrame extends JInternalFrame
 
 		panel.addReKeyListener(escListner);
 	}
+
+	/**
+	 * @return the forcedClose
+	 */
+	public static boolean isForcedClose() {
+		return forcedClose;
+	}
+
 }

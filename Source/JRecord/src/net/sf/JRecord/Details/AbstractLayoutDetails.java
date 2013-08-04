@@ -4,6 +4,12 @@ import java.util.List;
 
 import net.sf.JRecord.Common.IFieldDetail;
 
+/**
+ * Description of a Schema (or file definition)
+ *
+ * @author Bruce Martin
+ *
+ */
 public interface AbstractLayoutDetails {
 
 	/**

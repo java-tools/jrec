@@ -4,7 +4,9 @@
 package net.sf.JRecord.Details;
 
 /**
- * @author mum
+ * Basic attribute class
+ *
+ * @author Bruce Martin
  *
  */
 public class Attribute implements IAttribute {

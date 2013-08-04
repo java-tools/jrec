@@ -8,6 +8,13 @@ import net.sf.RecordEditor.re.file.AbstractLineNode;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.tree.AbstractLineNodeTreeParser;
 
+/**
+ * Display-Builder class. It will create a screen of the desired
+ * Screen-Type for the RecordEditor.
+ *
+ * @author Bruce Martin
+ *
+ */
 public class DisplayBuilderFactory implements IDisplayBuilder {
 
 	private final static DisplayBuilderFactory instance = new DisplayBuilderFactory();

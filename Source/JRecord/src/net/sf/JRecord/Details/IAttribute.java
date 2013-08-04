@@ -1,5 +1,11 @@
 package net.sf.JRecord.Details;
 
+
+/**
+ * Description of a Class that implements Line / Schema Attributes
+ * @author Bruce Martin
+ *
+ */
 public interface IAttribute {
 
 	public final int TYPE_STORE_IN_MAP = 1;

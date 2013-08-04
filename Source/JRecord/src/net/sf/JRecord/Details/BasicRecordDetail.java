@@ -2,7 +2,16 @@ package net.sf.JRecord.Details;
 
 import net.sf.JRecord.Common.Constants;
 
-
+/**
+ * Parent class for Record (or Message) Definitions used
+ * in a Schema Definition
+ *
+ * @author Bruce Martin
+ *
+ * @param <FieldDefinition> Field Definition class
+ * @param <recordDtls> Record (or Message) Definition class
+ * @param <ChildDtls> Child (or Tree) definition class
+ */
 public abstract class BasicRecordDetail<FieldDefinition extends AbstractRecordDetail.FieldDetails,
 										recordDtls 		extends AbstractRecordDetail,
 										ChildDtls 		extends AbstractChildDetails<recordDtls>> {

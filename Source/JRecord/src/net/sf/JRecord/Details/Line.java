@@ -21,8 +21,8 @@ import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Types.Type;
 
 /**
- * This class represents one line (or Record) in the File. It contains
- * methods to Get / update fields (for a specified layouts) get the
+ * This class represents one line (or Record) in the File (represented as an Array of bytes).
+ * It contains  methods to Get / update fields (for a specified layouts) get the
  * preferred layout etc
  *
  * <p>The one important method is getFieldValue

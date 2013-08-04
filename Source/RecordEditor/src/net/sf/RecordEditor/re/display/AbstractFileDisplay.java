@@ -12,6 +12,13 @@ import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 
+/**
+ * Description of a class that will display a view of a file on
+ * the screen
+ *
+ * @author Bruce Martin
+ *
+ */
 public interface AbstractFileDisplay extends ReActionHandler {
 
 

@@ -2,6 +2,13 @@ package net.sf.JRecord.Details;
 
 import net.sf.JRecord.Common.Conversion;
 
+
+/**
+ * Create CharLine's from supplied line (text / bytes)
+ *
+ * @author Bruce Martin
+ *
+ */
 public class CharLineProvider implements LineProvider<LayoutDetail, CharLine> {
 
 	@Override

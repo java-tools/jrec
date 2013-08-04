@@ -34,6 +34,14 @@ import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
+
+/**
+ * Class used by Macros (Scripts) and Velocity templates as an
+ * Interface to the RecordEditor
+ *
+ * @author Bruce Martin
+ *
+ */
 public class ScriptData {
 
 	public final IDisplayBuilder displayConstants = DisplayBuilderFactory.getInstance();
@@ -475,6 +483,19 @@ public class ScriptData {
 		return parentTab;
 	}
 
+	/**
+	 * Directory constants for use in Scripts:
+	 * <pre>
+	 *
+	 *   RecordEditorData.executeSavedTask(
+	 *           RecordEditorData.executeConstansts.sortDir,
+	 *   	    "Script_DTAR020_SortTree_1.xml");
+	 *
+	 * </pre>
+	 *
+	 * @author Bruce Martin
+	 *
+	 */
 	public static class ExecConsts implements IExecDirectoryConstants {
 
 	}

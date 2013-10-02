@@ -2349,6 +2349,14 @@ public final class Common implements Constants {
     }
 
 
+    public static void setDBstatus(boolean dbPresent) {
+    	if (! dbPresent) {
+    		searchActiveDB = false;
+    		connectionIndex = 0;
+    	}
+    }
+
+
 
 //	public static int getChunkSize() {
 //		return getSize(Parameters.PROPERTY_BIG_FILE_CHUNK_SIZE, 1048576);

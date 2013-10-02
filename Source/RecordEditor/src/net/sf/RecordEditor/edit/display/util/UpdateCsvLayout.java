@@ -37,6 +37,7 @@ import net.sf.RecordEditor.utils.swing.ComboBoxs.QuoteCombo;
 
 public class UpdateCsvLayout implements ActionListener, IChildDisplay {
 
+	private static final String NUMBER_FIXED_DECIMAL = "Number (Fixed Decimal)";
 	private static final String[] COL_NAMES = LangConversion.convertColHeading(
 			"Update Csv File Format",
 			new String[] {
@@ -55,11 +56,12 @@ public class UpdateCsvLayout implements ActionListener, IChildDisplay {
 			"Csv Field Types",
 			new String[] {
 		"Text",
+		"Multi Line Text",
 		"Number",
-		"Number (Fixed Decimal)"
+		NUMBER_FIXED_DECIMAL
 	});
 	private static final int[] TYPE = {
-		Type.ftChar, Type.ftNumAnyDecimal, Type.ftNumLeftJustified
+		Type.ftChar, Type.ftMultiLineEdit, Type.ftNumAnyDecimal, Type.ftNumLeftJustified,
 	};
 
 	private ArrayList<FieldDef> fields = new ArrayList<FieldDef>(20);
@@ -283,7 +285,7 @@ public class UpdateCsvLayout implements ActionListener, IChildDisplay {
 
 				if ((f.include && (f.originalPos != i))
 				||  ((! f.include) && f.originalPos >= 0)
-				||  (  TYPES_TEXT[2].equals(f.type)
+				||  (  NUMBER_FIXED_DECIMAL.equals(f.type)
 					&& (! f.type.equals(f.originalType) || f.decimal != f.originalDecimal))
 				) {
 					ret = false;
@@ -441,7 +443,7 @@ public class UpdateCsvLayout implements ActionListener, IChildDisplay {
 
 			FieldDef f = fields.get(row);
 			switch (col) {
-			case DECIMAL_COL:	return TYPES_TEXT[2].equals(f.type);
+			case DECIMAL_COL:	return NUMBER_FIXED_DECIMAL.equals(f.type);
 			case TYPE_COL:		return allowTypeUpdates;
 			}
 
@@ -526,7 +528,7 @@ public class UpdateCsvLayout implements ActionListener, IChildDisplay {
 			case INCLUDE_COL:	ret = f.include;	break;
 			case TYPE_COL:		ret = f.type;		break;
 			case DECIMAL_COL:
-				if (TYPES_TEXT[2].equals(f.type)) {
+				if (NUMBER_FIXED_DECIMAL.equals(f.type)) {
 					ret = Integer.valueOf(f.decimal);
 				}
 				break;
@@ -536,7 +538,7 @@ public class UpdateCsvLayout implements ActionListener, IChildDisplay {
 					ret = layout.getRecord(0).getField(f.sourceField).getName();
 				}
 				break;
-			case DEFAULT_COL:			ret = f.defaultValue;		break;
+			case DEFAULT_COL:	ret = f.defaultValue;		break;
 			//case DEFAULT_IN_EMPTY_COL:	ret = f.defaultInEmpty;		break;
 			}
 

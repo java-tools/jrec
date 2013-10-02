@@ -78,7 +78,7 @@ public class ExternalRecord extends AbstractUpdatableRecord {
   private ExternalSelection recSelect;
   //private ArrayList<TstField> tstFields = null;
   private boolean defaultRecord = false;
-  //private String tstField = "";
+  private boolean embeddedCr    = false;  //private String tstField = "";
   //private String tstFieldValue = "";
 
 
@@ -134,6 +134,7 @@ public class ExternalRecord extends AbstractUpdatableRecord {
                   , final String pFontName
                   , final int precordStyle
                   , final int pfileStructure
+                  , final boolean pEmbeddedCr
                   ) {
       super(false);
 
@@ -152,6 +153,7 @@ public class ExternalRecord extends AbstractUpdatableRecord {
       fontName = pFontName;
       recordStyle = precordStyle;
       fileStructure = pfileStructure;
+      embeddedCr = pEmbeddedCr;
 
       setKeys();
   }
@@ -202,6 +204,7 @@ public class ExternalRecord extends AbstractUpdatableRecord {
                   , fontName
                   , recordStyle
                   , fileStructure
+                  , false
           );
       }
       return ret;
@@ -611,7 +614,7 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	        									final String fontName) {
 
 	    return new ExternalRecord(-1, pRecordName, "", recordType, 0, "N",
-			"", "<Tab>", "", 0, Constants.DEFAULT_STRING, Constants.SYSTEM_EOL_BYTES, fontName, 0, -1);
+			"", "<Tab>", "", 0, Constants.DEFAULT_STRING, Constants.SYSTEM_EOL_BYTES, fontName, 0, -1, false);
 	}
 	/**
 	 * Get the initial record id (before any updates where made.
@@ -648,9 +651,7 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	 * @return Sub records
 	 */
 	public ExternalRecord[] toArray() {
-	    ExternalRecord[] r = new ExternalRecord[subRecords.size()];
-	    subRecords.toArray(r);
-	    return r;
+	    return subRecords.toArray(new ExternalRecord[subRecords.size()]);
 	}
 
 	/**
@@ -1003,6 +1004,20 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	 */
 	public void setRecordSelection(ExternalSelection recSelect) {
 		this.recSelect = StreamLine.getExternalStreamLine().streamLine(recSelect);
+	}
+
+	/**
+	 * @return the embeddedCr
+	 */
+	public boolean isEmbeddedCr() {
+		return embeddedCr;
+	}
+
+	/**
+	 * @param embeddedCr the embeddedCr to set
+	 */
+	public void setEmbeddedCr(boolean embeddedCr) {
+		this.embeddedCr = embeddedCr;
 	}
 
 

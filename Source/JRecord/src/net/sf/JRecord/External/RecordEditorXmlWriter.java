@@ -91,6 +91,9 @@ public class RecordEditorXmlWriter implements CopybookWriter {
        writer.writeAttribute(Constants.RE_XML_RECORDTYPE,
     		   ExternalConversion.getRecordTypeAsString(0, copybook.getRecordType()));
        writer.writeAttribute(Constants.RE_XML_LISTCHAR, copybook.getListChar());
+       if (copybook.isEmbeddedCr()) {
+    	   writer.writeAttribute(Constants.RE_XML_EMBEDDED_CR, "Y");
+       }
 
        if (master != null && copybook.getParentRecord() >= 0) {
     	   try {

@@ -17,6 +17,7 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.Properties;
@@ -56,6 +57,8 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String LAST_SCREEN_HEIGHT  = "lastScreenHeight";
     public static final String SCREEN_START_WIDTH  = "ScreenStartWidth";
     public static final String SCREEN_START_HEIGHT = "ScreenStartHeight";
+
+    public static final String COBOL_DIALECT = "CobolDialect";
 
     public static final String PO_EDIT_OPEN_FUZZY_VIEW  = "PoFuzzyView";
     public static final String PO_EDIT_CHILD_SCREEN_POS = "PoChildPos";
@@ -132,6 +135,8 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String DEFAULT_COPYBOOK_WRITER = "CopyBookWriter";
     public static final String XSLT_ENGINE             = "XsltEngine";
 
+    public static final String COBOL_OPT_FILE      	   = "CobolOpt";
+
     public static final String DEFAULT_DATABASE        = "DefaultDB";
     public static final String DEFAULT_IO       	   = "DefaultIO";
     public static final String DEFAULT_BINARY		   = "DefaultBin";
@@ -172,6 +177,7 @@ public final class Parameters implements ExternalReferenceConstants {
 
     public static final String DEL_SELECTED_WITH_DEL_KEY = "DeleteSelectedWithDelKey";
     public static final String WARN_WHEN_USING_DEL_KEY   = "WarnWithDelKey";
+    public static final String RECENT_COPYBOOK_DIRS      = "RecentCopybookDirs";
 
 	public static String LANG_FILE_PREFIX = "ReMsgs_";
 
@@ -364,6 +370,24 @@ public final class Parameters implements ExternalReferenceConstants {
 		}
 	}
 
+	public static List<String> getStringList(final String key, int max) {
+		String key2 = key + ".";
+		ArrayList<String> ret = new ArrayList<String>(Math.min(25, max+1));
+		String s;
+
+		for (int i = 0; i <= max; i++) {
+			s = getString(key2 + i);
+			if (s != null) {
+				ret.add(s);
+			}
+		}
+
+		return ret;
+	}
+
+	public static void setArrayItem(String key, int idx, String value) {
+		setProperty(key + "." + idx, value);
+	}
 
 	/**
 	 * Get the value of a key from the properties file

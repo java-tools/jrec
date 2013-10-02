@@ -5,9 +5,9 @@ package net.sf.RecordEditor.po;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Details.LineProvider;
-import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.AbstractLineWriter;
+import net.sf.JRecord.IO.BasicIoProvider;
 import net.sf.RecordEditor.tip.PropertiesLineReader;
 import net.sf.RecordEditor.tip.PropertiesLineWriter;
 import net.sf.RecordEditor.tip.TipLineProvider;
@@ -18,7 +18,7 @@ import net.sf.RecordEditor.tip.TipLineProvider;
  * @author Bruce Martin
  *
  */
-public class PoLineIOProvider implements AbstractLineIOProvider {
+public class PoLineIOProvider extends BasicIoProvider {
 
 	private static final String PO_STRUCTURE_NAME  = "GetText PO/POT";
 	private static final String TIP_STRUCTURE_NAME = "Tip Properties";

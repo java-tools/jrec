@@ -2,6 +2,7 @@ package net.sf.RecordEditor.utils.params;
 
 import java.io.File;
 
+import net.sf.JRecord.Numeric.Convert;
 import net.sf.RecordEditor.utils.common.Common;
 
 public class ProgramOptions {
@@ -86,6 +87,8 @@ public class ProgramOptions {
 	public final IntOpt significantCharInFiles3 = new IntOpt("SignificantCharInFiles.3", 18, 1);
 	public final IntOpt launchIfMatch = new IntOpt("LauchEditorIfMatch", 8, 1);
 
+	public final IntOpt cobolDialect = new IntOpt(Parameters.COBOL_DIALECT, Convert.FMT_MAINFRAME, 1);
+
 	public final IntOpt chunkSize = new IntOpt(Parameters.PROPERTY_BIG_FILE_CHUNK_SIZE, 1048576, 1024);
 	public final IntOpt filterLimit = new IntOpt(Parameters.PROPERTY_BIG_FILE_FILTER_LIMIT, 300000, 1000);
 	public final IntOpt bigFilePercent = new IntOpt(Parameters.PROPERTY_BIG_FILE_PERCENT, 14, 1);
@@ -93,6 +96,10 @@ public class ProgramOptions {
 
 	public final MultiValOpt compressOption = new MultiValOpt(Parameters.PROPERTY_BIG_FILE_COMPRESS_OPT, compressOptions, COMPRESS_READ);
 	public final MultiValOpt largeVbOption = new MultiValOpt(Parameters.PROPERTY_BIG_FILE_LARGE_VB, largeOptions, LARGE_VB_YES);
+
+	public final StringOpt cobolOptionFile = new StringOpt(
+			Parameters.COBOL_OPT_FILE,
+			Parameters.getPropertiesDirectoryWithFinalSlash() + "User/CobolOpts/CobolOptions.bin");
 
 	public final StringOpt DEFAULT_IO_NAME = new StringOpt(Parameters.DEFAULT_IO, "");
 	public final StringOpt DEFAULT_BIN_NAME = new StringOpt(Parameters.DEFAULT_BINARY, "");

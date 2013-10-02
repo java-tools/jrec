@@ -118,7 +118,10 @@ public class CsvWriter extends BaseWriter {
 								null);
 						field = b.toString();
 					}
-				} else if (!"".equals(fieldSep) && field.indexOf(fieldSep) >= 0) {
+				} else if ((   (!"".equals(fieldSep))
+							&& 	field.indexOf(fieldSep) >= 0)
+						||	field.indexOf("\n") >= 0
+						||	field.indexOf("\r") >= 0) {
 					StringBuffer b = new StringBuffer(field);
 
 					int pos;

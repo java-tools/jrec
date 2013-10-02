@@ -2,6 +2,7 @@ package net.sf.RecordEditor.re.util.csv;
 
 import javax.swing.JButton;
 
+import net.sf.JRecord.ByteIO.IByteReader;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 
@@ -9,15 +10,15 @@ public interface FilePreview {
 
 	public static final String SEP = "~";
 	public static final String NULL_STR = "Empty";
-	
+
 	public abstract BaseHelpPanel getPanel();
 	public abstract JButton getGoButton();
 
 	public abstract boolean setData(String filename, byte[] data, boolean checkCharset, String layoutId);
 
 	/**
-	 * Get The field seperator 
-	 * @return field seperator 
+	 * Get The field seperator
+	 * @return field seperator
 	 */
 	public abstract String getSeperator();
 
@@ -33,6 +34,7 @@ public interface FilePreview {
 	 */
 	public abstract boolean setLines(byte[][] newLines, String font,
 			int numberOfLines);
+
 
 	/**
 	 * @param newLines the lines to set

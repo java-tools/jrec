@@ -18,80 +18,80 @@ import net.sf.RecordEditor.utils.ExpandLineTree;
 import net.sf.RecordEditor.utils.common.Common;
 
 public class LineBufferedReader extends BufferedReader {
-	
+
 	private int currLine = 0;
-	private List<AbstractLine> lines; 
+	private List<AbstractLine> lines;
 	private AbstractLayoutDetails detail;
-	
+
 	private AbstractLayoutDetails filteredLayout;
 	private final boolean stripSpaces;
 	private ExpandLineTree expand;
 
 	public LineBufferedReader(
-			String fileName, 
-			AbstractLayoutDetails dtl, 
+			String fileName,
+			AbstractLayoutDetails dtl,
 			List<AbstractLine> lineArray,
-			boolean stripTrailingSpaces) 
+			boolean stripTrailingSpaces)
 	throws IOException, RecordException {
-		super(new FileReader(fileName), 4); 
+		super(new FileReader(fileName), 4);
 		super.close();
-		
+
 		filteredLayout = dtl;
 		detail = dtl;
 
 		stripSpaces = stripTrailingSpaces;
-		
+
 		if (dtl.hasChildren()) {
 			lines  = new ArrayList<AbstractLine>(lineArray.size() * 2);
 			expand = ExpandLineTree.newExpandLineTree(lines);
-			
+
 			for (AbstractLine line : lineArray) {
 				expand.expand(line);
 			}
 		} else {
-			lines  = lineArray;	
+			lines  = lineArray;
 		}
 	}
-	
-	
+
+
 	public LineBufferedReader(String fileName, AbstractLayoutDetails dtl, AbstractLayoutDetails newDtl, Layout layoutDef,
-			boolean stripTrailingSpaces) 
+			boolean stripTrailingSpaces)
 	throws IOException, RecordException {
 		super(new FileReader(fileName), 4);
 		super.close();
-		
+
 		boolean noFilter = (layoutDef == null) || layoutDef.records == null || layoutDef.records.size() == 0;
-		
+
 		AbstractLineIOProvider ioProvider = LineIOProvider.getInstance();
-		
-		AbstractLineReader reader = ioProvider.getLineReader(dtl.getFileStructure());
+
+		AbstractLineReader reader = ioProvider.getLineReader(dtl);
 		AbstractLine line;
-		
+
 		filteredLayout = dtl;
 		detail = dtl;
 		stripSpaces = stripTrailingSpaces;
-		
-		
+
+
 		lines  = new ArrayList<AbstractLine>(256);
 		if (detail.hasChildren()) {
 			expand = ExpandLineTree.newExpandLineTree(lines);
 		}
-		
+
 		reader.open(fileName, detail);
-		
+
 		if (noFilter) {
 			while ((line = reader.read()) != null) {
 				addLine(line);
 			}
 		} else {
 			boolean[] include = new boolean[dtl.getRecordCount()];
-			List<AbstractLine> list;			
-				
+			List<AbstractLine> list;
+
 			filteredLayout = newDtl;
 			if (newDtl == null) {
 				filteredLayout = dtl.getFilteredLayout(layoutDef.getFilteredRecords());
 			}
-			
+
 			if (detail.getRecordCount() == 1) {
 				while ((line = reader.read()) != null) {
 					list = ExpandLineTree.expandTree(line);
@@ -105,13 +105,13 @@ public class LineBufferedReader extends BufferedReader {
 				for (j = 0; j < include.length; j++) {
 					include[j] = include.length == layoutDef.records.size();
 				}
-				
+
 				if (include.length != layoutDef.records.size()) {
 					for (j = 0; j < layoutDef.records.size(); j++) {
 						include[dtl.getRecordIndex(layoutDef.records.get(j).name)] = true;
 					}
 				}
-				
+
 
 				//AbstractLine xLine;
 				while ((line = reader.read()) != null) {
@@ -140,11 +140,11 @@ public class LineBufferedReader extends BufferedReader {
 			lines.add(l);
 		}
 	}
-	
-	
+
+
 	@Override
 	public void close() throws IOException {
-	
+
 	}
 
 	@Override
@@ -173,15 +173,15 @@ public class LineBufferedReader extends BufferedReader {
 			AbstractLine line = lines.get(lineNo);
 			StringBuffer buf = new StringBuffer();
 			int pref = line.getPreferredLayoutIdx();
-			
+
 			if (detail.isMapPresent()) {
 				Object o = line.getField(pref, Constants.KEY_INDEX);
-				
+
 				if (o != null) {
 					buf.append(Common.trimRight(o)).append("\t");
 				}
 			}
-			
+
 			if (filteredLayout.getRecord(pref) == null) {
 				Common.logMsg("Layout Record Does not exist !!!", null);
 			} else if (stripSpaces) {
@@ -198,9 +198,9 @@ public class LineBufferedReader extends BufferedReader {
 					buf.append(s).append("\t");
 				}
 			}
-		
+
 //			if (lineNo < 25) {
-//			System.out.println("!! " + lineNo + " "+ buf.toString() + ": " + pref + " " + filteredLayout.getLayoutName() 
+//			System.out.println("!! " + lineNo + " "+ buf.toString() + ": " + pref + " " + filteredLayout.getLayoutName()
 //					+ " " +  filteredLayout.getRecord(pref).getRecordName()
 //					+ " " + filteredLayout.getRecord(pref).getFieldCount());
 //			}
@@ -223,7 +223,7 @@ public class LineBufferedReader extends BufferedReader {
 	public long skip(long n) throws IOException {
 		throw new RuntimeException("skip not supported");
 	}
-	
+
 	public int getCount() {
 		return lines.size();
 	}

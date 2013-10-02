@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import net.sf.JRecord.ByteIO.AbstractByteReader;
+import net.sf.JRecord.ByteIO.IByteReader;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
@@ -66,7 +66,7 @@ public class FileDetails {
 	private boolean isReading       = true;
 	private boolean canDoGC         = true;
 
-	private AbstractByteReader byteReader = null;
+	private IByteReader byteReader = null;
 
 	public FileDetails(LayoutDetail recordLayout, int type, int len) {
 		super();
@@ -438,11 +438,11 @@ public class FileDetails {
 		return ret;
 	}
 
-	public AbstractByteReader getByteReader() {
+	public IByteReader getByteReader() {
 		return byteReader;
 	}
 
-	public void setByteReader(AbstractByteReader byteReader) {
+	public void setByteReader(IByteReader byteReader) {
 		this.byteReader = byteReader;
 	}
 

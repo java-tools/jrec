@@ -4,7 +4,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import net.sf.RecordEditor.utils.common.TranslateXmlChars;
+import net.sf.JRecord.Common.TranslateXmlChars;
 
 public class HtmlWriter extends BaseWriter {
 

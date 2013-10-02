@@ -101,7 +101,8 @@ public class Details {
     				Common.rtRecordLayout, system, "Y", "",
     				"<Tab>", "", 0, Common.DEFAULT_STRING,
     				Common.LFCR_BYTES, fontName,
-    				parserType, fileStructure
+    				parserType, fileStructure,
+    				false
     		);
     		nameFields(rec, standardRecord);
     		addFields(rec, standardRecord);
@@ -114,7 +115,8 @@ public class Details {
     				Common.rtGroupOfRecords, system, "Y", "",
     				"<Tab>", "", 0, Common.DEFAULT_STRING,
     				Common.LFCR_BYTES, fontName,
-    				parserType, fileStructure
+    				parserType, fileStructure,
+    				false
     		);
 	 		String value;
     		for (RecordDefinition child : recordDtls) {
@@ -124,7 +126,8 @@ public class Details {
 	        				Common.rtRecordLayout, system, "N", "",
 	        				"<Tab>", "", 0, Common.DEFAULT_STRING,
 	        				Common.LFCR_BYTES, fontName,
-	        				parserType, fileStructure
+	        				parserType, fileStructure,
+	        				false
 	        		);
 
 	    			nameFields(childRecord, child);
@@ -156,7 +159,8 @@ public class Details {
 	    			delim, actualQuote, 0,
 	    			Common.DEFAULT_STRING,
 	    			Common.LFCR_BYTES, fontName,
-	    			parserType, fileStructure
+	    			parserType, fileStructure,
+	    			false
 	    	);
 	    	nameFields(rec, standardRecord);
 	    	addFields(rec, standardRecord);

@@ -412,7 +412,13 @@ public class Line extends BasicLine<Line> {
      * @return fields Value
      */
     public Object getField(IFieldDetail field) {
-        return layout.getField(getLineData(), field.getType(), field);
+    	if (field == null) {
+    		return null;
+    	}
+        return layout.getField(
+        		getLineData(),
+        		field.getType(),
+        		field);
     }
 
 

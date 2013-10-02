@@ -115,7 +115,7 @@ public class RunVelocity {
                 											 lineProvider);
 
         ioProvider = new LineIOProvider(lineProvider);
-        reader = ioProvider.getLineReader(layout.getFileStructure());
+        reader = ioProvider.getLineReader(layout, null);
 
         recordsToCheck = 0;
         if (records != null) {

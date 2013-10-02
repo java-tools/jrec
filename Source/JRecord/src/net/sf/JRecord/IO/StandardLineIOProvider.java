@@ -18,13 +18,19 @@ package net.sf.JRecord.IO;
 import net.sf.JRecord.ByteIO.AbstractByteReader;
 import net.sf.JRecord.ByteIO.AbstractByteWriter;
 import net.sf.JRecord.ByteIO.ByteIOProvider;
-import net.sf.JRecord.Common.AbstractManager;
+import net.sf.JRecord.ByteIO.ByteTextReader;
+import net.sf.JRecord.ByteIO.CsvByteReader;
+import net.sf.JRecord.ByteIO.IByteReader;
 import net.sf.JRecord.Common.BasicManager;
 import net.sf.JRecord.Common.Constants;
+import net.sf.JRecord.Common.IBasicFileSchema;
 import net.sf.JRecord.Details.CharLineProvider;
 import net.sf.JRecord.Details.DefaultLineProvider;
 import net.sf.JRecord.Details.LineProvider;
 import net.sf.JRecord.Details.XmlLineProvider;
+import net.sf.JRecord.charIO.CsvCharReader;
+import net.sf.JRecord.charIO.ICharReader;
+import net.sf.JRecord.charIO.StandardCharReader;
 
 /**
  * LineIOprovider - This class returns a LineIO class appropriate for
@@ -45,7 +51,7 @@ import net.sf.JRecord.Details.XmlLineProvider;
  * @version 0.55
  *
  */
-public class StandardLineIOProvider implements AbstractManager, AbstractLineIOProvider {
+public class StandardLineIOProvider extends BasicIoProvider {
 
 	public int START_USER_FILE_STRUCTURES = 1000;
     //private static StandardLineIOProvider ioProvider = null;
@@ -152,6 +158,7 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
 		return "StdLine_IO_Names";
 	}
 
+
     /**
      * Gets a Record Reader Class that is appropriate for reading the
      * supplied file-structure
@@ -167,6 +174,60 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
 
 
     /* (non-Javadoc)
+	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineReader(net.sf.JRecord.Common.IBasicFileSchema, net.sf.JRecord.Details.LineProvider)
+	 */
+	@SuppressWarnings("rawtypes")
+	@Override
+	public AbstractLineReader getLineReader(IBasicFileSchema schema,
+			LineProvider lineProvider) {
+			return getLineReader(schema.getFileStructure(), schema, lineProvider);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineReader(int, net.sf.JRecord.Common.IBasicFileSchema, net.sf.JRecord.Details.LineProvider)
+	 */
+	@SuppressWarnings("rawtypes")
+	@Override
+	public AbstractLineReader getLineReader(int fileStructure,
+			IBasicFileSchema schema, LineProvider lineProvider) {
+
+		switch (fileStructure) {
+		case Constants.IO_BIN_TEXT:		return new LineReaderWrapper(new ByteTextReader(schema.getFontName()));
+//       	case Constants.IO_BIN_TEXT:		return new BinTextReader(lLineProvider,  false);
+       	case Constants.IO_BIN_NAME_1ST_LINE:
+       									return new BinTextReader(lineProvider,  true, new ByteTextReader(schema.getFontName()));
+		case Constants.IO_CSV:			return new LineReaderWrapper(getCsvReader(schema));
+		case Constants.IO_UNICODE_CSV:	return new TextLineReader(lineProvider, false, getCsvCharReader(schema));
+		case Constants.IO_BIN_CSV:		return new BinTextReader(lineProvider,  false, getCsvReader(schema));
+
+		case Constants.IO_UNICODE_CSV_NAME_1ST_LINE:
+			return  new TextLineReader(lineProvider, true, getCsvCharReader(schema));
+		case Constants.IO_CSV_NAME_1ST_LINE:
+		case Constants.IO_BIN_CSV_NAME_1ST_LINE:
+			return new BinTextReader(lineProvider,  true, getCsvReader(schema));
+		default:
+			return getLineReader(fileStructure, provider);
+		}
+	}
+
+	private static IByteReader getCsvReader(IBasicFileSchema schema) {
+		String quote = schema.getQuote();
+		if (quote == null || quote.length() == 0) {
+			return new ByteTextReader(schema.getFontName());
+		}
+		return new CsvByteReader(schema.getFontName(), schema.getDelimiter(), quote, quote + quote);
+	}
+
+	private static ICharReader getCsvCharReader(IBasicFileSchema schema) {
+		String quote = schema.getQuote();
+		if (quote == null || quote.length() == 0) {
+			return new StandardCharReader();
+		}
+		return new CsvCharReader(schema.getDelimiter(), quote, quote + quote);
+	}
+
+	/* (non-Javadoc)
 	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineReader(int, net.sf.JRecord.Details.LineProvider)
 	 */
     @SuppressWarnings("rawtypes")
@@ -179,18 +240,18 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
         }
 
        	switch (fileStructure) {
-    	case(Constants.IO_BINARY):					return new BinaryLineReader(lLineProvider);
+    	case Constants.IO_BINARY:					return new BinaryLineReader(lLineProvider);
 
-    	case(Constants.IO_XML_BUILD_LAYOUT):
-       	case(Constants.IO_XML_USE_LAYOUT):			return new XmlLineReader(fileStructure == Constants.IO_XML_BUILD_LAYOUT);
+    	case Constants.IO_XML_BUILD_LAYOUT:
+       	case Constants.IO_XML_USE_LAYOUT:			return new XmlLineReader(fileStructure == Constants.IO_XML_BUILD_LAYOUT);
 
-       	case(Constants.IO_BIN_TEXT):				return new BinTextReader(lLineProvider,  false);
-       	case(Constants.IO_BIN_NAME_1ST_LINE):		return new BinTextReader(lLineProvider,  true);
-       	case(Constants.IO_UNICODE_TEXT):			return new TextLineReader(lLineProvider, false);
-       	case(Constants.IO_UNICODE_NAME_1ST_LINE):	return new TextLineReader(lLineProvider, true);
+       	case Constants.IO_BIN_TEXT:					return new BinTextReader(lLineProvider,  false);
+       	case Constants.IO_BIN_NAME_1ST_LINE:		return new BinTextReader(lLineProvider,  true);
+       	case Constants.IO_UNICODE_TEXT:				return new TextLineReader(lLineProvider, false);
+       	case Constants.IO_UNICODE_NAME_1ST_LINE:	return new TextLineReader(lLineProvider, true);
       	default:
             AbstractByteReader byteReader
-        	= ByteIOProvider.getInstance().getByteReader(fileStructure);
+        			= ByteIOProvider.getInstance().getByteReader(fileStructure);
 
 	        if (byteReader != null) {
 	            return new LineReaderWrapper(lLineProvider, byteReader);
@@ -216,16 +277,23 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
     public AbstractLineWriter getLineWriter(int fileStructure, String charset) {
 
     	switch (fileStructure) {
-    	case(Constants.IO_BINARY):					return BinaryLineWriter.newBinaryWriter();
-    	case(Constants.IO_FIXED_LENGTH):			return BinaryLineWriter.newFixedLengthWriter();
+    	case Constants.IO_BINARY:					return BinaryLineWriter.newBinaryWriter();
+    	case Constants.IO_FIXED_LENGTH:				return BinaryLineWriter.newFixedLengthWriter();
 
-    	case(Constants.IO_XML_BUILD_LAYOUT):
-       	case(Constants.IO_XML_USE_LAYOUT):			return new XmlLineWriter();
+    	case Constants.IO_XML_BUILD_LAYOUT:
+       	case Constants.IO_XML_USE_LAYOUT:			return new XmlLineWriter();
 
-       	case(Constants.IO_BIN_TEXT):				return new BinTextWriter(false);
-       	case(Constants.IO_BIN_NAME_1ST_LINE):		return new BinTextWriter(true);
-       	case(Constants.IO_UNICODE_NAME_1ST_LINE):	return new TextLineWriter(true);
-      	case(Constants.IO_MICROFOCUS):				return new MicroFocusLineWriter();
+       	case Constants.IO_CSV:
+       	case Constants.IO_BIN_CSV:
+       	case Constants.IO_BIN_TEXT:					return new BinTextWriter(false);
+       	case Constants.IO_CSV_NAME_1ST_LINE:
+       	case Constants.IO_BIN_CSV_NAME_1ST_LINE:
+       	case Constants.IO_BIN_NAME_1ST_LINE:		return new BinTextWriter(true);
+       	case Constants.IO_UNICODE_TEXT:
+       	case Constants.IO_UNICODE_CSV:				return new TextLineWriter(false);
+       	case Constants.IO_UNICODE_CSV_NAME_1ST_LINE:
+       	case Constants.IO_UNICODE_NAME_1ST_LINE:	return new TextLineWriter(true);
+      	case Constants.IO_MICROFOCUS:				return new MicroFocusLineWriter();
       	default:
             AbstractByteWriter byteWriter = ByteIOProvider.getInstance().getByteWriter(fileStructure, charset);
 
@@ -245,6 +313,7 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
     	return ! ( fileStructure == Constants.IO_XML_BUILD_LAYOUT
     			|| fileStructure == Constants.IO_GENERIC_CSV
     			|| fileStructure == Constants.IO_NAME_1ST_LINE
+    	    	|| fileStructure == Constants.IO_UNICODE_CSV_NAME_1ST_LINE
     			|| fileStructure == Constants.IO_UNICODE_NAME_1ST_LINE);
     }
 
@@ -276,7 +345,6 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
     public int getStructure(String name) {
     	for (int i = 0; i < keys.length && keys[i] != Constants.NULL_INTEGER; i++) {
     		if (externalNames[i].equalsIgnoreCase(name)) {
-    			//System.out.println(" ~~~ getStructure ~ " +  externalNames[i] + " " + keys[i]);
     			return keys[i];
     		}
     	}
@@ -301,6 +369,8 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
        			xmlProvider = new XmlLineProvider();
        		}
        		return xmlProvider;
+    	case Constants.IO_UNICODE_CSV:
+    	case Constants.IO_UNICODE_CSV_NAME_1ST_LINE:
     	case Constants.IO_UNICODE_NAME_1ST_LINE:
     	case Constants.IO_UNICODE_TEXT:
     		if (charProvider == null) {
@@ -311,7 +381,6 @@ public class StandardLineIOProvider implements AbstractManager, AbstractLineIOPr
        	}
 
         return provider;
-
     }
 
 

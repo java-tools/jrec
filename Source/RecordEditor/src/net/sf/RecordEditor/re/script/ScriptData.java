@@ -13,6 +13,7 @@ import javax.swing.tree.TreeNode;
 
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.RecordException;
+import net.sf.JRecord.Common.TranslateXmlChars;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.External.ExternalConversion;
@@ -28,7 +29,6 @@ import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.script.extensions.LanguageTrans;
 import net.sf.RecordEditor.utils.common.DefaultActionHandler;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
-import net.sf.RecordEditor.utils.common.TranslateXmlChars;
 import net.sf.RecordEditor.utils.fileStorage.DataStoreStd;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.params.Parameters;

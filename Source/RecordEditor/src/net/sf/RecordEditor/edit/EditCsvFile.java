@@ -176,6 +176,7 @@ public class EditCsvFile extends EditRec {
 		try {
 			Common.OPTIONS.addTextDisplay.set(true);
 		    Common.OPTIONS.loadPoScreens.set(false);
+		    Common.setDBstatus(false);
 		} catch (Exception e) {
 		}
 

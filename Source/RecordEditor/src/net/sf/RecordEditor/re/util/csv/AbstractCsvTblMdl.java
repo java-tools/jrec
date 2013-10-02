@@ -4,6 +4,9 @@ import javax.swing.table.TableModel;
 
 public interface AbstractCsvTblMdl extends TableModel {
 
+	public static final int DERIVE_SEPERATOR = 1;
+	public static final int USE_CURRENT_SEPERATOR = 2;
+
 	/**
 	 * Set up the column details
 	 */
@@ -62,5 +65,9 @@ public interface AbstractCsvTblMdl extends TableModel {
 
 	public void setFont(String font);
 
-	public CsvAnalyser getAnalyser();
+	public CsvAnalyser getAnalyser(int opt);
+
+	public abstract void setDataFont(byte[] data, String font, boolean embeddedCr);
+
+	public void setEmbedded(boolean newEmbedded);
 }

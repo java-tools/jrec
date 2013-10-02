@@ -84,6 +84,7 @@ public class ReTypeManger extends TypeManager {
             Type charTypes    = new TypeChar(true);
             TypeNum zeroPaded = new TypeNum(Type.ftNumZeroPadded);
 
+            System.out.println("Defining MultiLine Edit");
             typesFormat[Type.ftCsvArray]      = new CsvArrayFormat();
             typesFormat[Type.ftMultiLineEdit] = new MultiLineFormat();
 

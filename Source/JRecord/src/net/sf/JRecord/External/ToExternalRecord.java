@@ -5,9 +5,10 @@ import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
+import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.External.Def.ExternalField;
 
-/** 
+/**
  * Class to convert a RecordLayout (internal Format) to The Interface format (ExternalRecord)]
  * that can be written to a file / saved in a DB (RecordEditor)
  * @author Bruce Martin
@@ -45,7 +46,7 @@ public final class ToExternalRecord {
 				Constants.rtGroupOfRecords, system, "Y", copybookName,
 				getSeperator(fldSep), quote, 0, "default",
 				layout.getRecordSep(), layout.getFontName(),
-				0, fixIOType(layout.getFileStructure())
+				0, fixIOType(layout.getFileStructure()), false
 		);
 		rec.setNew(true);
 
@@ -73,12 +74,17 @@ public final class ToExternalRecord {
 		ExternalRecord rec;
 		AbstractRecordDetail record = layout.getRecord(id);
 		String name = record.getRecordName();
+		boolean embeddedCr = false;
+		if (record instanceof RecordDetail) {
+			embeddedCr =((RecordDetail) record).isEmbeddedNewLine();
+		}
+
 
 		rec = new ExternalRecord(
 				id, name, "", record.getRecordType(),
 				system, "N", copybookName + "_" + name, getSeperator(record.getDelimiter()),
 				record.getQuote(), 0, "default", layout.getRecordSep(), record.getFontName(),
-				record.getRecordStyle(), fixIOType(layout.getFileStructure())
+				record.getRecordStyle(), fixIOType(layout.getFileStructure()), embeddedCr
 		);
 		rec.setNew(true);
 		System.out.println("Record >> " + id +  " " + record.getRecordName());

@@ -120,7 +120,7 @@ private static final String CAN_NOT_LOCATE_RECORD = "Can not locate record: > {0
 				AbstractLineIOProvider ioProvider = LineIOProvider.getInstance();
 				AbstractLineReader reader;
 
-				reader = ioProvider.getLineReader(ret.getFileStructure());
+				reader = ioProvider.getLineReader(ret);
 				reader.open(fileName, ret);
 				reader.read();
 				if (ret.getFileStructure() == Constants.IO_XML_BUILD_LAYOUT) {
@@ -174,7 +174,7 @@ private static final String CAN_NOT_LOCATE_RECORD = "Can not locate record: > {0
 
 		buildTranslations();
 
-		reader = ioProvider.getLineReader(dtl1.getFileStructure());
+		reader = ioProvider.getLineReader(dtl1);
 		writer = ioProvider.getLineWriter(dtl2.getFileStructure(), dtl2.getFontName());
 
 		reader.open(cpy.oldFile.name, dtl1);
@@ -488,7 +488,7 @@ private static final String CAN_NOT_LOCATE_RECORD = "Can not locate record: > {0
 		AbstractLine in;
 		ok = true;
 
-		reader = ioProvider.getLineReader(dtl1.getFileStructure());
+		reader = ioProvider.getLineReader(dtl1);
 		writer = ioProvider.getLineWriter(dtl2.getFileStructure(), dtl2.getFontName());
 
 		reader.open(cpy.oldFile.name, dtl1);
@@ -565,7 +565,7 @@ private static final String CAN_NOT_LOCATE_RECORD = "Can not locate record: > {0
 		AbstractLine in;
 		//OutputStream fileWriter = new FileOutputStream(cpy.newFile.name);
 		CsvWriter writer = new CsvWriter(cpy.newFile.name, cpy.delimiter, cpy.font, cpy.quote, false, null);
-		reader = ioProvider.getLineReader(dtl1.getFileStructure());
+		reader = ioProvider.getLineReader(dtl1);
 
 		reader.open(cpy.oldFile.name, dtl1);
 

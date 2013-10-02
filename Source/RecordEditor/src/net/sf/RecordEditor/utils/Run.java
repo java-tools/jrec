@@ -109,8 +109,8 @@ public final class Run implements ExternalReferenceConstants {
             readFile(list, libDir + FILE_SEPERATOR + SYSTEM_JARS_FILENAME, true);
             readFile(list, libDir + FILE_SEPERATOR + SYSTEM_JDBC_JARS_FILENAME, false);
             readFile(list, userDir + FILE_SEPERATOR + USER_JARS_FILENAME, false);
-            reaExtensions(list, libDir);
-            reaExtensions(list, userDir);
+            readExtensions(list, libDir);
+            readExtensions(list, userDir);
 
 
             urls = buildUrls(list, libDir, isWinUac, true);
@@ -164,7 +164,7 @@ public final class Run implements ExternalReferenceConstants {
 
 	}
 
-	private void reaExtensions(ArrayList<String> list, String libDir) {
+	private void readExtensions(ArrayList<String> list, String libDir) {
 		String pathname = libDir  + FILE_SEPERATOR + "Extensions";
 		File extFileDir = new File(pathname);
 		if (extFileDir.isDirectory()) {

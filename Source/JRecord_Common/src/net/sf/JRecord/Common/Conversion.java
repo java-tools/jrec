@@ -11,6 +11,7 @@
 package net.sf.JRecord.Common;
 
 import java.math.BigInteger;
+import java.nio.charset.Charset;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Locale;
@@ -771,6 +772,17 @@ public final class Conversion {
     /**
      * Replaces on string with another in a String bugffer
      *
+     * @param in String  to be updated
+     * @param from search string
+     * @param to replacement string
+     */
+    public static final StringBuilder replace(String in, String from, String to) {
+    	return replace(new StringBuilder(in), from, to);
+    }
+
+    /**
+     * Replaces on string with another in a String bugffer
+     *
      * @param in String buffer to be updated
      * @param from search string
      * @param to replacement string
@@ -786,6 +798,37 @@ public final class Conversion {
         }
 
         return in;
+    }
+
+    public static boolean isSingleByte(String fontName) {
+    	return ! isMultiByte(fontName);
+    }
+
+    public static boolean isMultiByte(String fontName) {
+		float f = 2;
+
+		if (fontName == null || "".equals(fontName)) {
+			f = Charset.defaultCharset().newEncoder().maxBytesPerChar() ;
+		} else if (Charset.isSupported(fontName)) {
+			f = Charset.forName(fontName).newEncoder().maxBytesPerChar();
+		}
+
+		return (f > 1.0f);
+
+    }
+
+
+    public static byte[] getCsvDelimBytes(String s, String font) {
+    	byte[] ret = null;
+
+    	if (s != null) {
+			if (s.startsWith("x'")) {
+				ret = new byte[] {Conversion.getByteFromHexString(s)};
+			} else {
+				ret = Conversion.getBytes(s, font);
+			}
+    	}
+		return ret;
     }
 
     public static byte getByteFromHexString(String s) {

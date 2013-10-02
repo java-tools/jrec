@@ -21,6 +21,9 @@ public class ReMessages {
 
 	public static final ReMsg TO_MANY_ROWS   = new ReMsg(LangConversion.ST_ACTION, "To Many Rows Selected ({0} > {1}) for ColumnDisplay");
 
+	public static final ReMsg SELECT_DIRECTORY_DIALOG   = new ReMsg("Select Directory Dialog");
+	public static final ReMsg SELECT_FILE_DIALOG   = new ReMsg("Select Directory Dialog");
+
 	public static final ReMsgId EXPORT_FILE_STRUCTURE = new ReMsgId("ExportFSDesc",
 			"This option exports the file with a new File-Structure\nThis option is most use to Cobol Programers"
 		+ "\n\nMainframe VB* - Mainframe VB files        Fujitsu Variable Binary - Fujitsu Cobol VB "

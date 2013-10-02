@@ -169,6 +169,7 @@ public class RecordDB  extends AbsDB<RecordRec> {
                       , fix(rsCursor.getString(13))
                       , rsCursor.getInt(14)
                       , rsCursor.getInt(15)
+                      , false
                    );
           }
           message = "";

@@ -20,6 +20,7 @@ import java.util.HashMap;
 
 import net.sf.JRecord.Common.AbstractManager;
 import net.sf.JRecord.Common.Constants;
+import net.sf.JRecord.Common.IBasicFileSchema;
 import net.sf.JRecord.Details.LineProvider;
 
 
@@ -110,6 +111,35 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
 
 
     /* (non-Javadoc)
+	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineReader(net.sf.JRecord.Common.IBasicFileSchema)
+	 */
+	@Override
+	public AbstractLineReader getLineReader(IBasicFileSchema schema) {
+		return getProvider(schema.getFileStructure()).getLineReader(schema);
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineReader(net.sf.JRecord.Common.IBasicFileSchema, net.sf.JRecord.Details.LineProvider)
+	 */
+	@SuppressWarnings("rawtypes")
+	@Override
+	public AbstractLineReader getLineReader(IBasicFileSchema schema,
+			LineProvider lineProvider) {
+		return getProvider(schema.getFileStructure()).getLineReader(schema, lineProvider);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineReader(int, net.sf.JRecord.Common.IBasicFileSchema, net.sf.JRecord.Details.LineProvider)
+	 */
+	@SuppressWarnings("rawtypes")
+	@Override
+	public AbstractLineReader getLineReader(int fileStructure,
+			IBasicFileSchema schema, LineProvider lineProvider) {
+		return getProvider(fileStructure).getLineReader(schema, lineProvider);
+	}
+
+	/* (non-Javadoc)
 	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineReader(int, net.sf.JRecord.Details.LineProvider)
 	 */
 	@SuppressWarnings("rawtypes")

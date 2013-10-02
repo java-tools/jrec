@@ -93,12 +93,7 @@ public class SaveAs4 extends ReFrame implements IChildDisplay {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         fileChooser.addActionListener(new ActionListener() {
-
-			/* (non-Javadoc)
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
-			@Override
-			public void actionPerformed(ActionEvent evt) {
+			@Override public void actionPerformed(ActionEvent evt) {
 
 		        if (JFileChooser.APPROVE_SELECTION.equals(evt.getActionCommand())) {
 		        	saveFile();

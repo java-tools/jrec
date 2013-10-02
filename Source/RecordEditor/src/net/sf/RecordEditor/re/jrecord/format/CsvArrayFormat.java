@@ -15,7 +15,7 @@ import javax.swing.table.TableCellRenderer;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.IFieldDetail;
-import net.sf.JRecord.CsvParser.BasicParser;
+import net.sf.JRecord.CsvParser.BasicCsvLineParser;
 import net.sf.JRecord.CsvParser.CsvDefinition;
 import net.sf.RecordEditor.utils.swing.CsvArray;
 import net.sf.RecordEditor.utils.swing.CsvArrayTableEditor;
@@ -73,15 +73,15 @@ public class CsvArrayFormat implements CellFormat {
         return render;
     }
 
-    /**
-     * @see javax.swing.CellEditor#isCellEditable(java.util.EventObject)
-     */
-    public boolean isCellEditable(EventObject anEvent) {
-        if (anEvent instanceof MouseEvent) {
-    		return ((MouseEvent)anEvent).getClickCount() >= 2;
-   	    }
-       return true;
-    }
+//    /**
+//     * @see javax.swing.CellEditor#isCellEditable(java.util.EventObject)
+//     */
+//    public boolean isCellEditable(EventObject anEvent) {
+//        if (anEvent instanceof MouseEvent) {
+//    		return ((MouseEvent)anEvent).getClickCount() >= 2;
+//   	    }
+//       return true;
+//    }
 
     /**
      * Get the Swing checkbox
@@ -90,7 +90,7 @@ public class CsvArrayFormat implements CellFormat {
      */
     private String[] getFields(IFieldDetail fld) {
         String s = fld.getParamater();
-        BasicParser p = BasicParser.getInstance();
+        BasicCsvLineParser p = BasicCsvLineParser.getInstance();
 
         return p.split(s.substring(1), new CsvDefinition(s.substring(0, 1), ""), 3);
 

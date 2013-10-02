@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package net.sf.RecordEditor.re.openFile;
 
@@ -18,16 +18,16 @@ import net.sf.RecordEditor.re.util.ReIOProvider;
 public class ReadLayout {
 
 	protected  boolean loadFromFile = false;
-	
-	
+
+
 	public final AbstractLayoutDetails buildLayoutFromSample(int fileStruc, boolean isCSV,
 			String fontname, String delimiter, String filename) {
-		
+
     	int layoutType = Constants.rtDelimited;
     	if (fileStruc == Constants.IO_XML_BUILD_LAYOUT) {
     		layoutType = Constants.RT_XML;
     	}
-    	
+
     	LayoutDetail ret = new LayoutDetail("", new RecordDetail[0], "",
     					layoutType,
     					null, "", fontname, null,
@@ -38,37 +38,37 @@ public class ReadLayout {
    		}
      	return getFileBasedLayout(filename, ret);
 	}
-	
+
 	/**
 	 * get layout including layouts based on a file content (like XML or CSV
 	 * files with names on the first line)
-	 * 
+	 *
 	 * @param fileName sample data file
 	 * @param layout initial record layout
-	 * 
+	 *
 	 * @return actual layout
 	 */
 	public final AbstractLayoutDetails getFileBasedLayout(String fileName, AbstractLayoutDetails layout) {
 		AbstractLayoutDetails ret = layout;
 
 		AbstractLineIOProvider ioProvider =  ReIOProvider.getInstance();
-		
+
 		System.out.println(" == " + loadFromFile
-				+ " " + ((loadFromFile && fileName != null))	
+				+ " " + ((loadFromFile && fileName != null))
 				+ " " + (! "".equals(fileName))
 				+ " " + (! ioProvider.isCopyBookFileRequired(layout.getFileStructure()))
 				+ " " + layout.getFileStructure()
 				);
 		if (loadFromFile && fileName != null && ! "".equals(fileName)
 		&&  ! ioProvider.isCopyBookFileRequired(layout.getFileStructure())) {
-			AbstractLineReader reader =  ioProvider.getLineReader(layout.getFileStructure());
+			AbstractLineReader reader =  ioProvider.getLineReader(layout, null);
 			try {
 				reader.open(fileName, layout);
 				reader.read();
 				if (layout.isXml()) {
 					int i =0;
 					while (reader.read() != null && i++ < 1000) {
-						
+
 					}
 				}
 				ret = reader.getLayout();

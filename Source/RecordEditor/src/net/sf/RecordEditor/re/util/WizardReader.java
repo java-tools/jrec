@@ -107,7 +107,7 @@ public class WizardReader extends DelegateReader {
 			throw new EditingCancelled();
 		} else {
 			AbstractLayoutDetails l = r.asLayoutDetail();
-			AbstractLineReader reader = LineIOProvider.getInstance().getLineReader(l.getFileStructure());
+			AbstractLineReader reader = LineIOProvider.getInstance().getLineReader(l);
 			reader.open(fileName, l);
 	 		setReader(reader);
 

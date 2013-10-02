@@ -48,7 +48,7 @@ import javax.swing.event.TreeModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.text.Document;
 
-import net.sf.JRecord.ByteIO.AbstractByteReader;
+import net.sf.JRecord.ByteIO.IByteReader;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
@@ -80,8 +80,8 @@ import net.sf.RecordEditor.utils.common.StreamUtil;
 import net.sf.RecordEditor.utils.fileStorage.DataStore;
 import net.sf.RecordEditor.utils.fileStorage.DataStoreLarge;
 import net.sf.RecordEditor.utils.fileStorage.DataStoreStd;
-import net.sf.RecordEditor.utils.fileStorage.IDataStoreText;
 import net.sf.RecordEditor.utils.fileStorage.FileDetails;
+import net.sf.RecordEditor.utils.fileStorage.IDataStoreText;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.msg.UtMessages;
 import net.sf.RecordEditor.utils.params.ProgramOptions;
@@ -441,7 +441,7 @@ public class FileView	extends 			AbstractTableModel
 				}
 
 
-				reader = ioProvider.getLineReader(structure);
+				reader = ioProvider.getLineReader(layout, null);
 
 		        FileInputStream rff = new FileInputStream(pFileName);
 		        if (isGZip) {
@@ -462,7 +462,7 @@ public class FileView	extends 			AbstractTableModel
 	            rff.close();
 		    }
 		} else {
-			reader = ioProvider.getLineReader(layout.getFileStructure());
+			reader = ioProvider.getLineReader(layout);
 			reader.generateLayout(layout);
 			retrieveLayout(reader);
 		    toSave = false;
@@ -3199,7 +3199,7 @@ public class FileView	extends 			AbstractTableModel
 //						"Editing using Big Variable Length memory Model - this will reduce functionality !!!", null);
 
 				int type = FileDetails.VARIABLE_LENGTH;
-				AbstractByteReader r = null;
+				IByteReader r = null;
 
 				char largeOpt = Common.OPTIONS.largeVbOption.get();
 				if (reader != null && reader instanceof LineReaderWrapper

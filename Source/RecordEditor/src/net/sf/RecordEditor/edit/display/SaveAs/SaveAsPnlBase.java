@@ -249,7 +249,7 @@ public abstract class SaveAsPnlBase {
 
     public void edit(String outFile, String ext) {
 
-		AbstractLayoutDetails layout = getEditLayout(ext);
+		AbstractLayoutDetails layout = getEditLayout(ext, file.getLayout());
     	String lcExt = ext.toLowerCase();
     	StandardLayouts genLayout = StandardLayouts.getInstance();
 
@@ -272,6 +272,10 @@ public abstract class SaveAsPnlBase {
     		startEditor.doEdit();
 
     	}
+    }
+
+    public AbstractLayoutDetails getEditLayout(String ext, AbstractLayoutDetails l) {
+    	return getEditLayout(ext);
     }
 
     public AbstractLayoutDetails getEditLayout(String ext) {

@@ -18,6 +18,7 @@ import net.sf.JRecord.detailsSelection.FieldSelectX;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.Combo.ComboStdOption;
+import net.sf.RecordEditor.utils.swing.Combo.IComboOption;
 
 /**
  * This class holds field filter details. These details are
@@ -97,7 +98,7 @@ public final class FilterField {
     @SuppressWarnings("rawtypes")
 	public void setField(int fieldIndex, Object newValue) {
 
-    	if (newValue instanceof ComboStdOption) {
+    	if (newValue instanceof IComboOption) {
     		newValue = ((ComboStdOption) newValue).key;
     	}
     	if (fieldIndex >= 0 && fieldIndex < fieldsUsed.length) {

@@ -9,7 +9,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-import net.sf.JRecord.ByteIO.AbstractByteReader;
+import net.sf.JRecord.ByteIO.IByteReader;
 import net.sf.JRecord.Common.RecordRunTimeException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
@@ -48,7 +48,7 @@ implements DataStore<AbstractLine> {
 	}
 
 	public DataStoreLarge(LayoutDetail recordLayout, int type,
-			int recLength, AbstractByteReader byteReader, String fname) {
+			int recLength, IByteReader byteReader, String fname) {
 		fileDetails = new FileDetails(recordLayout, type, recLength);
 		fileDetails.setByteReader(byteReader);
 		fileDetails.setMainFileName(fname);

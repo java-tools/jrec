@@ -13,9 +13,10 @@ import java.util.HashMap;
 
 import net.sf.JRecord.Common.BasicKeyedField;
 import net.sf.JRecord.Common.Constants;
+import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.FieldDetail;
-import net.sf.JRecord.CsvParser.AbstractParser;
-import net.sf.JRecord.CsvParser.BasicParser;
+import net.sf.JRecord.CsvParser.ICsvLineParser;
+import net.sf.JRecord.CsvParser.BasicCsvLineParser;
 import net.sf.JRecord.CsvParser.ICsvDefinition;
 import net.sf.JRecord.CsvParser.ParserManager;
 import net.sf.JRecord.External.ExternalConversion;
@@ -54,7 +55,10 @@ import net.sf.JRecord.detailsSelection.FieldSelectX;
 public class RecordDetail extends BasicRecordDetail<RecordDetail.FieldDetails, RecordDetail, AbstractChildDetails<RecordDetail>>
 implements AbstractRecordDetail,  ICsvDefinition {
 
-    //private static final int STATUS_EXISTS         =  1;
+	private static final byte UNDEFINED = -121;
+	private static final byte NO = 1;
+	private static final byte YES = 2;
+   //private static final int STATUS_EXISTS         =  1;
 
 	private String recordName;
 
@@ -84,6 +88,8 @@ implements AbstractRecordDetail,  ICsvDefinition {
 	private static final HashMap<Integer, String> typeNames = new HashMap<Integer, String>(400);
 	private static boolean toInit = true;
 
+	private byte singleByteFont = UNDEFINED;
+	private boolean embeddedNewLine = false;
 
 	/**
 	 * Create a Record
@@ -108,8 +114,37 @@ implements AbstractRecordDetail,  ICsvDefinition {
 						final int pRecordStyle,
 						final int childId
 						) {
+		this(pRecordName, pSelectionField, pSelectionValue, pRecordType, pDelim,
+				pQuote, pFontName, pFields, pRecordStyle, childId, false);
+	}
+
+	/**
+	 * Create a Record
+	 *
+	 * @param pRecordName  Record Name
+	 * @param pSelectionField Selection Field
+	 * @param pSelectionValue Selection Value
+	 * @param pRecordType Record Type
+	 * @param pDelim Record Delimiter
+	 * @param pQuote String Quote (for Comma / Tab Delimeted files)
+	 * @param pFontName fontname to be used
+	 * @param pFields Fields belonging to the record
+	 * @param embeddedCr wether there are emmbeded Cr in csv fields
+	 */
+	public RecordDetail(final String pRecordName,
+	        			final String pSelectionField,
+	        			final String pSelectionValue,
+						final int pRecordType,
+						final String pDelim,
+						final String pQuote,
+						final String pFontName,
+						final RecordDetail.FieldDetails[] pFields,
+						final int pRecordStyle,
+						final int childId,
+						final boolean embeddedCr
+						) {
 		this(pRecordName, pRecordType, pDelim,
-			 pQuote, pFontName, pFields, pRecordStyle, childId);
+			 pQuote, pFontName, pFields, pRecordStyle, childId, embeddedCr);
 
 		if (!"".equals(pSelectionField)) {
 			recordSelection.setRecSel(FieldSelectX.get(pSelectionField, pSelectionValue, "=", -1, getField(pSelectionField)));
@@ -139,7 +174,7 @@ implements AbstractRecordDetail,  ICsvDefinition {
 						final int childId
 						) {
 		this(pRecordName, pRecordType, pDelim,
-			 pQuote, pFontName, pFields, pRecordStyle, childId);
+			 pQuote, pFontName, pFields, pRecordStyle, childId, false);
 
 		recordSelection = selection;
 	}
@@ -162,7 +197,8 @@ implements AbstractRecordDetail,  ICsvDefinition {
 						final String pFontName,
 						final RecordDetail.FieldDetails[] pFields,
 						final int pRecordStyle,
-						final int childId
+						final int childId,
+						final boolean embeddedCr
 						) {
 		super();
 
@@ -175,6 +211,7 @@ implements AbstractRecordDetail,  ICsvDefinition {
 		this.fontName = pFontName;
 		this.recordStyle = pRecordStyle;
 		this.childId = childId;
+		this.embeddedNewLine = embeddedCr;
 
 		this.fieldCount = pFields.length;
 		while (fieldCount > 0 && fields[fieldCount - 1] == null) {
@@ -192,11 +229,23 @@ implements AbstractRecordDetail,  ICsvDefinition {
 		    }
 		}
 
-		AbstractParser parser = ParserManager.getInstance().get(pRecordStyle);
-		if (parser != null && parser instanceof BasicParser) {
-			BasicParser bp = (BasicParser) parser;
+		ICsvLineParser parser = ParserManager.getInstance().get(pRecordStyle);
+		if (parser != null && parser instanceof BasicCsvLineParser) {
+			BasicCsvLineParser bp = (BasicCsvLineParser) parser;
 			delimiterOrganisation = bp.delimiterOrganisation;
 		}
+	}
+
+
+	protected ICsvLineParser getCsvParser() {
+		ICsvLineParser parser = null;
+
+		switch (recordType) {
+		case Constants.rtDelimited:
+		case Constants.rtDelimitedAndQuote:
+			parser = ParserManager.getInstance().get(recordStyle);
+		}
+		return parser;
 	}
 
 //	/**
@@ -292,6 +341,10 @@ implements AbstractRecordDetail,  ICsvDefinition {
 		return recordType;
 	}
 
+	public final boolean isDelimited() {
+		return recordType == Constants.rtDelimited
+			|| recordType == Constants.rtDelimitedAndQuote;
+	}
 
 	/* (non-Javadoc)
 	 * @see net.sf.JRecord.Details.AbstractRecordDetail#getLength()
@@ -441,6 +494,31 @@ implements AbstractRecordDetail,  ICsvDefinition {
 	@Override
 	public int getDelimiterOrganisation() {
 		return delimiterOrganisation;
+	}
+
+	/**
+	 * @return the singleByteFont
+	 */
+	public boolean isSingleByteFont() {
+		if (singleByteFont == UNDEFINED) {
+			try {
+				singleByteFont = YES;
+				if (Conversion.isMultiByte(fontName)) {
+					singleByteFont = NO;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return singleByteFont == YES;
+	}
+
+	/**
+	 * @return the embeddedNewLine
+	 */
+	@Override
+	public boolean isEmbeddedNewLine() {
+		return embeddedNewLine;
 	}
 
 	private static void doTypeNameInit() {

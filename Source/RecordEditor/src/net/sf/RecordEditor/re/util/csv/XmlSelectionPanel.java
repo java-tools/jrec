@@ -94,7 +94,7 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 		LayoutDetail layout = getLayout("", null);
 		LineIOProvider ioProvider = LineIOProvider.getInstance();
 		@SuppressWarnings("unchecked")
-		AbstractLineReader<LayoutDetail> reader = ioProvider.getLineReader(layout.getFileStructure());
+		AbstractLineReader<LayoutDetail> reader = ioProvider.getLineReader(layout);
 		AbstractLine l;
 		AbstractLineNodeTreeParser parser = TreeParserXml.getInstance();
 		FileView view = new FileView(layout, ioProvider, false);

@@ -8,6 +8,7 @@
 package net.sf.JRecord.External;
 
 import net.sf.JRecord.Common.Constants;
+import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
@@ -45,15 +46,28 @@ public class ToLayoutDetail {
 	    byte[] recordSep   = recordDefinition.getRecordSep();
 	    String recordSepString = recordDefinition.getRecSepList();
 
-	    if (Constants.CRLF_STRING.equals(recordSepString)) {
-	        recordSep = Constants.LFCR_BYTES;
-	    } else if ( Constants.DEFAULT_STRING.equals(recordSepString)) {
-	    	recordSep = Constants.SYSTEM_EOL_BYTES;
-	    } else if (Constants.CR_STRING.equals(recordSepString)) {
-	        recordSep = Constants.CR_BYTES;
-	    } else if (Constants.LF_STRING.equals(recordSepString)) {
-	        recordSep = Constants.LF_BYTES;
-	    }
+	    String fontName = recordDefinition.getFontName();
+		if (fontName == null || "".equals(fontName)) {
+		    if (Constants.CRLF_STRING.equals(recordSepString)) {
+		        recordSep = Constants.LFCR_BYTES;
+		    } else if ( Constants.DEFAULT_STRING.equals(recordSepString)) {
+		    	recordSep = Constants.SYSTEM_EOL_BYTES;
+		    } else if (Constants.CR_STRING.equals(recordSepString)) {
+		        recordSep = Constants.CR_BYTES;
+		    } else if (Constants.LF_STRING.equals(recordSepString)) {
+		        recordSep = Constants.LF_BYTES;
+		    }
+		} else {
+		    if (Constants.CRLF_STRING.equals(recordSepString)) {
+		        recordSep = Conversion.getBytes("\r\n", fontName);
+		    } else if ( Constants.DEFAULT_STRING.equals(recordSepString)) {
+		    	recordSep = Conversion.getBytes(System.getProperty("line.separator"), fontName);
+		    } else if (Constants.CR_STRING.equals(recordSepString)) {
+		        recordSep = Conversion.getBytes("\n", fontName);
+		    } else if (Constants.LF_STRING.equals(recordSepString)) {
+		        recordSep = Conversion.getBytes("\r", fontName);
+		    }
+		}
 
 	    if (recordDefinition.getNumberOfRecords() == 0) {
 	        layouts = new RecordDetail[1];
@@ -71,7 +85,7 @@ public class ToLayoutDetail {
 	            recordDefinition.getRecordType(),
 	            recordSep,
 	            recordSepString,
-	            recordDefinition.getFontName(),
+	            fontName,
 	            null,
 	            recordDefinition.getFileStructure());
 	    ret.setDelimiter(recordDefinition.getDelimiter());
@@ -116,7 +130,7 @@ public class ToLayoutDetail {
 	    RecordDetail ret = new RecordDetail(def.getRecordName(),
 //	    		def.getTstField(), def.getTstFieldValue(),
 	            def.getRecordType(), def.getDelimiter(), def.getQuote(),
-	            def.getFontName(), fields, def.getRecordStyle(), idx);
+	            def.getFontName(), fields, def.getRecordStyle(), idx, def.isEmbeddedCr());
 	    ret.setParentRecordIndex(def.getParentRecord());
 
 	    if (def.getRecordSelection() != null && def.getRecordSelection().getSize() > 0) {

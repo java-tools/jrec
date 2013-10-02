@@ -3,7 +3,7 @@ package net.sf.RecordEditor.utils.fileStorage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import net.sf.JRecord.ByteIO.AbstractByteReader;
+import net.sf.JRecord.ByteIO.IByteReader;
 import net.sf.JRecord.Common.RecordRunTimeException;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Log.AbsSSLogger;
@@ -23,7 +23,7 @@ public class FileChunkBfVariableLength extends FileChunkLine {
 
 
 	@Override
-	public boolean hasRoomForMore(@SuppressWarnings("rawtypes") AbstractLine l) {
+	public boolean hasRoomForMore(AbstractLine l) {
 		if (isNormalMode()) {
 			return super.hasRoomForMore(l);
 		}
@@ -42,7 +42,7 @@ public class FileChunkBfVariableLength extends FileChunkLine {
 			byte[] bytes;
 			ByteArrayInputStream in = new ByteArrayInputStream(
 					super.details.readFromMainFile(filePostion, length));
-			AbstractByteReader r = details.getByteReader();
+			IByteReader r = details.getByteReader();
 
 			recordStore = (RecordStoreBase) super.details.getRecordStore();
 
@@ -72,7 +72,7 @@ public class FileChunkBfVariableLength extends FileChunkLine {
 
 
 	@Override
-	public void add(int idx, @SuppressWarnings("rawtypes") AbstractLine l) {
+	public void add(int idx, AbstractLine l) {
 
 		if (isNormalMode()) {
 			super.add(idx, l);

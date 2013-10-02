@@ -22,8 +22,8 @@ public class Convert {
 		switch (sel.getType()) {
 		case ExternalSelection.TYPE_ATOM:
 			ExternalFieldSelection f = (ExternalFieldSelection) sel;
-			System.out.println(" Field " + f.getFieldName()
-					+" " + f.getOperator() + " " + f.getFieldValue());
+//			System.out.println(" Field " + f.getFieldName()
+//					+" " + f.getOperator() + " " + f.getFieldValue());
 
 			ret = FieldSelectX.get(f, recDef.getField(f.getFieldName()));
 			break;

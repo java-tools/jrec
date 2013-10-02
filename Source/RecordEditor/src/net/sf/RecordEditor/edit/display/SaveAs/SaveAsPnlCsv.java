@@ -8,6 +8,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
+import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.edit.util.StandardLayouts;
@@ -58,8 +59,6 @@ public class SaveAsPnlCsv extends SaveAsPnlBase {
 
 
 		save_writeFile(writer, selection);
-
-
 	}
 
 
@@ -67,14 +66,20 @@ public class SaveAsPnlCsv extends SaveAsPnlBase {
 	 * @see net.sf.RecordEditor.edit.display.SaveAs.SaveAsPnlBase#getEditLayout()
 	 */
 	@Override
-	public AbstractLayoutDetails getEditLayout(String ext) {
+	public AbstractLayoutDetails getEditLayout(String ext, AbstractLayoutDetails l) {
 		AbstractLayoutDetails ret = null;
 		StandardLayouts genLayout = StandardLayouts.getInstance();
+		boolean EmbeddedCr = false;
+		if (l != null && l.getRecordCount() > 0
+		&& l.getRecord(0) instanceof RecordDetail) {
+			EmbeddedCr = ((RecordDetail) l.getRecord(0)).isEmbeddedNewLine();
+		}
 
 		if (namesFirstLine.isSelected()) {
      	   ret = genLayout.getCsvLayoutNamesFirstLine(
      			   			delimiterCombo.getSelectedEnglish(),
-     			   			getQuote());
+     			   			getQuote(),
+     			   			EmbeddedCr);
      	} else if (commonSaveAsFields.printRecordDetails != null) {
         	List<ExternalField> ef = new ArrayList<ExternalField>(commonSaveAsFields.printRecordDetails.getFieldCount());
         	int pos = 1;
@@ -91,7 +96,8 @@ public class SaveAsPnlCsv extends SaveAsPnlBase {
 	    	ret = genLayout.getCsvLayout(
 	    							ef,
 	    							delimiterCombo.getSelectedEnglish(),
-	        			   			getQuote());
+	        			   			getQuote(),
+	        			   			EmbeddedCr);
     	}
     	return ret;
 	}

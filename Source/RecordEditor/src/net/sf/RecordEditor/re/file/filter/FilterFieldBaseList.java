@@ -15,6 +15,7 @@ import net.sf.RecordEditor.utils.RecordGroupSelectionBuilder;
 import net.sf.RecordEditor.utils.RecordSelectionBuilder;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.Combo.ComboStdOption;
+import net.sf.RecordEditor.utils.swing.Combo.IComboOption;
 
 @SuppressWarnings("serial")
 public abstract class FilterFieldBaseList extends AbstractTableModel {
@@ -37,7 +38,7 @@ public abstract class FilterFieldBaseList extends AbstractTableModel {
 	private final boolean useGroup;
 
 	private final FilterField nullFilterField;
-	private ComboStdOption<Integer>[] groupingOptions;
+	private IComboOption<Integer>[] groupingOptions;
 
 	@SuppressWarnings("unchecked")
 	public FilterFieldBaseList(String[] columnNames, boolean useGroup) {
@@ -49,7 +50,7 @@ public abstract class FilterFieldBaseList extends AbstractTableModel {
 		if (useGroup) {
 			ComboStdOption<Integer>[] ga = Compare.GROUPING_OPERATORS;
 			nullFilterField = NULL_FILTER_FIELD_GROUP;
-			groupingOptions = new ComboStdOption[FieldSelectX.G_HIGHEST_CODE + 6];
+			groupingOptions = new IComboOption[FieldSelectX.G_HIGHEST_CODE + 6];
 
 			for (int i = 0; i < ga.length; i++) {
 				groupingOptions[ga[i].key] = ga[i];

@@ -2,6 +2,7 @@ package net.sf.JRecord.Details;
 
 import java.util.List;
 
+import net.sf.JRecord.Common.IBasicFileSchema;
 import net.sf.JRecord.Common.IFieldDetail;
 
 /**
@@ -10,7 +11,45 @@ import net.sf.JRecord.Common.IFieldDetail;
  * @author Bruce Martin
  *
  */
-public interface AbstractLayoutDetails {
+public interface AbstractLayoutDetails extends IBasicFileSchema {
+
+//	/**
+//	 * wether it is a binary record
+//	 *
+//	 * @return wether it is a binary record
+//	 */
+//	public abstract boolean isBinary();
+//
+//	public abstract boolean isBinCSV();
+//
+//	/**
+//	 * Get the record Seperator bytes
+//	 *
+//	 * @return Record Seperator
+//	 */
+//	public abstract byte[] getRecordSep();
+//
+//
+//	/**
+//	 * Get the Canonical Name (ie Font name)
+//	 *
+//	 * @return Canonical Name (ie Font name)
+//	 */
+//	public abstract String getFontName();
+//
+//	/**
+//	 * get the field delimiter
+//	 * @return the field delimeter
+//	 */
+//	public abstract String getDelimiter();
+//
+//
+//	/**
+//	 * get the field delimiter
+//	 * @return the field delimeter
+//	 */
+//	public abstract byte[] getDelimiterBytes();
+
 
 	/**
 	 * get a specified field
@@ -74,26 +113,6 @@ public interface AbstractLayoutDetails {
 	 */
 	public abstract int getLayoutType();
 
-	/**
-	 * Get the record Seperator bytes
-	 *
-	 * @return Record Seperator
-	 */
-	public abstract byte[] getRecordSep();
-
-	/**
-	 * wether it is a binary record
-	 *
-	 * @return wether it is a binary record
-	 */
-	public abstract boolean isBinary();
-
-	/**
-	 * Get the Canonical Name (ie Font name)
-	 *
-	 * @return Canonical Name (ie Font name)
-	 */
-	public abstract String getFontName();
 
 	/**
 	 * Get the seperator String
@@ -109,12 +128,6 @@ public interface AbstractLayoutDetails {
 	 */
 	public abstract int getMaximumRecordLength();
 
-	/**
-	 * Return the file structure
-	 *
-	 * @return file structure
-	 */
-	public abstract int getFileStructure();
 
 	/**
 	 * Get the Index of a specific record (base on name)
@@ -150,18 +163,6 @@ public interface AbstractLayoutDetails {
 	 * @return field definition for the supplied name
 	 */
 	public abstract IFieldDetail getFieldFromName(String fieldName);
-
-	/**
-	 * get the field delimiter
-	 * @return the field delimeter
-	 */
-	public abstract String getDelimiter();
-
-	/**
-	 * get the field delimiter
-	 * @return the field delimeter
-	 */
-	public abstract byte[] getDelimiterBytes();
 
 	/**
 	 /**
@@ -216,7 +217,6 @@ public interface AbstractLayoutDetails {
 	 */
 	public abstract boolean hasTreeStructure();
 
-	public abstract boolean isBinCSV();
 
 	/**
 	 * @return the allowChildren

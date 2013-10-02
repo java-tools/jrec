@@ -5,8 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import net.sf.JRecord.Common.IFieldDetail;
+import net.sf.JRecord.Common.TranslateXmlChars;
 import net.sf.JRecord.External.ExternalConversion;
-import net.sf.RecordEditor.utils.common.TranslateXmlChars;
 
 public class HtmlMultiTableWriter extends BaseWriter {
 

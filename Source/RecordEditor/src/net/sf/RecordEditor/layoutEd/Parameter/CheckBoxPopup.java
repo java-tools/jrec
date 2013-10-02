@@ -4,7 +4,7 @@ import java.awt.Component;
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 
-import net.sf.JRecord.CsvParser.BasicParser;
+import net.sf.JRecord.CsvParser.BasicCsvLineParser;
 import net.sf.JRecord.CsvParser.CsvDefinition;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 
@@ -34,7 +34,7 @@ public class CheckBoxPopup extends AbstractPopup  {
     private JTextField defaltValue = new JTextField();
     private JCheckBox  caseSensitive = new JCheckBox();
 
-    private BasicParser parser = BasicParser.getInstance();
+    private BasicCsvLineParser parser = BasicCsvLineParser.getInstance();
 
     private boolean isPacked = false;
 

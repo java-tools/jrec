@@ -5,7 +5,7 @@ import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
-import net.sf.JRecord.CsvParser.AbstractParser;
+import net.sf.JRecord.CsvParser.ICsvLineParser;
 import net.sf.JRecord.CsvParser.ICsvDefinition;
 import net.sf.JRecord.CsvParser.ParserManager;
 import net.sf.JRecord.Types.Type;
@@ -214,7 +214,7 @@ public class CharLine extends BasicLine<CharLine>  {
 
 			updateData(field.getPos(), field.getLen(), s);
 		} else {
-	        AbstractParser parser = ParserManager.getInstance().get(field.getRecord().getRecordStyle());
+	        ICsvLineParser parser = ParserManager.getInstance().get(field.getRecord().getRecordStyle());
 	        Type typeVal = TypeManager.getSystemTypeManager().getType(field.getType());
 	        String s = typeVal.formatValueForRecord(field, value.toString());
 

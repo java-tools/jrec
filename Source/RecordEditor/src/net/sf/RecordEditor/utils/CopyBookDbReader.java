@@ -286,7 +286,8 @@ public class CopyBookDbReader implements CopyBookInterface {
 						  fontName,
 						  fields,
 						  recordStyle,
-						  childId);
+						  childId,
+						  false);
 			    recSel = readSel.getRecordSelection(
 			    				dbIndex, recordId, childKey,
 			    				fields, tstFieldName, tstFieldValue);

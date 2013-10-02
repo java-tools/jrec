@@ -11,7 +11,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import net.sf.JRecord.Common.IFieldDetail;
-import net.sf.JRecord.CsvParser.BasicParser;
+import net.sf.JRecord.CsvParser.BasicCsvLineParser;
 import net.sf.JRecord.CsvParser.CsvDefinition;
 import net.sf.RecordEditor.utils.swing.CheckboxTableRenderStringBased;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
@@ -74,7 +74,7 @@ public class CheckBoxFldFormat implements CellFormat {
 
         if (s != null) {
             try {
-            	BasicParser parser = BasicParser.getInstance();
+            	BasicCsvLineParser parser = BasicCsvLineParser.getInstance();
             	String line = s.substring(1);
             	String delim = s.substring(0, 1);
 

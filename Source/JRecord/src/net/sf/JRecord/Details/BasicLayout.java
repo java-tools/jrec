@@ -146,4 +146,15 @@ implements AbstractLayoutDetails {
 	public int getOption(int option) {
 		return Options.UNKNOWN;
 	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Details.IBasicFileSchema#getQuote()
+	 */
+	@Override
+	public String getQuote() {
+		return null;
+	}
+
+
 }

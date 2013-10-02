@@ -79,6 +79,8 @@ public class EditFileLayout extends EditRec {
 
         Common.OPTIONS.standardEditor.set(true);
 		Common.OPTIONS.addTextDisplay.set(true);
+	    Common.setDBstatus(false);
+
         OpenFile open = new OpenFile(pInFile, pInitialRow, pIoProvider,
         		//pInterfaceToCopyBooks,
                 null, null, Parameters.getApplicationDirectory() + "CobolFiles.txt",

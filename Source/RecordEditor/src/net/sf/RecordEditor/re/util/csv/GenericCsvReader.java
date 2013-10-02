@@ -67,7 +67,7 @@ public class GenericCsvReader extends DelegateReader {
 				setLayout(layout);
 			}
 
-			AbstractLineReader reader = LineIOProvider.getInstance().getLineReader(layout.getFileStructure());
+			AbstractLineReader reader = LineIOProvider.getInstance().getLineReader(layout);
 			reader.open(inStream, layout);
 			reader.setLayout(layout);
 			setReader(reader);
@@ -99,7 +99,7 @@ public class GenericCsvReader extends DelegateReader {
 			super(ReMainFrame.getMasterFrame(), true);
 
 			csvTab = new CsvTabPane(msgTxt, false, false);
-			csvTab.readFilePreview(data, true, "", null);
+			csvTab.readCheckPreview(data, true, "", null);
 			csvTab.readOtherTab("", data);
 
 			pnl.setHelpURL(Common.formatHelpURL(Common.HELP_GENERIC_CSV));

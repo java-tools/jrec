@@ -11,16 +11,14 @@
  */
 package net.sf.JRecord.IO;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.List;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
-import net.sf.JRecord.CsvParser.AbstractParser;
+import net.sf.JRecord.CsvParser.ICsvLineParser;
 import net.sf.JRecord.CsvParser.CsvDefinition;
 import net.sf.JRecord.CsvParser.ParserManager;
 import net.sf.JRecord.Details.AbstractLine;
@@ -29,6 +27,8 @@ import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.LineProvider;
 import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.Types.Type;
+import net.sf.JRecord.charIO.ICharReader;
+import net.sf.JRecord.charIO.StandardCharReader;
 
 
 /**
@@ -40,8 +40,9 @@ import net.sf.JRecord.Types.Type;
 public class TextLineReader extends StandardLineReader {
 
     private InputStream inStream;
-	private InputStreamReader stdReader;
-	protected BufferedReader reader = null;
+//	private InputStreamReader stdReader;
+//	protected BufferedReader reader = null;
+    ICharReader reader = null;
 	private boolean namesInFile = false;
 
     private String defaultDelim  = ",";
@@ -65,7 +66,7 @@ public class TextLineReader extends StandardLineReader {
 	 *
 	 * @param provider line provider
 	 */
-	public TextLineReader(final LineProvider provider) {
+	public TextLineReader(@SuppressWarnings("rawtypes") final LineProvider provider) {
 	    super(provider);
 	}
 
@@ -79,11 +80,18 @@ public class TextLineReader extends StandardLineReader {
 	 * @param namesOn1stLine wether names are stored on the first line of
 	 *        a file
 	 */
-	public TextLineReader(final LineProvider provider,
+	public TextLineReader(@SuppressWarnings("rawtypes") final LineProvider provider,
 	        			  final boolean namesOn1stLine) {
-	    super(provider);
+	    this(provider, namesOn1stLine, null);
+	}
 
-	    namesInFile = namesOn1stLine;
+	public TextLineReader(@SuppressWarnings("rawtypes") final LineProvider provider,
+			  final boolean namesOn1stLine,
+			  ICharReader r) {
+		super(provider);
+
+		namesInFile = namesOn1stLine;
+		reader = r;
 	}
 
 
@@ -96,18 +104,13 @@ public class TextLineReader extends StandardLineReader {
         inStream = inputStream;
         setLayout(layout);
 
-		if (layout == null || "".equals(layout.getFontName())) {
-		    stdReader = new InputStreamReader(inputStream);
-		} else {
-		    try {
-		    	font = layout.getFontName();
-		        stdReader = new InputStreamReader(inputStream, font);
-		    } catch (Exception e) {
- 		        stdReader = new InputStreamReader(inputStream);
-		    }
+		if (layout != null) {
+			font = layout.getFontName();
 		}
-
-		reader = new BufferedReader(stdReader);
+		if (reader == null) {
+			reader = new StandardCharReader();
+		}
+		reader.open(inputStream, font);
 
 		if (namesInFile) {
 			if (layout != null && layout.useThisLayout()) {
@@ -126,7 +129,7 @@ public class TextLineReader extends StandardLineReader {
      *
      * @throws IOException sny IO error that occurs
      */
-    protected void createLayout(BufferedReader pReader, InputStream inputStream, String font) throws IOException, RecordException {
+    protected void createLayout(ICharReader pReader, InputStream inputStream, String font) throws IOException, RecordException {
         LayoutDetail layout;
 
         RecordDetail rec = null;
@@ -140,6 +143,7 @@ public class TextLineReader extends StandardLineReader {
         String quote  = defaultQuote;
 
         byte[] recordSep = Constants.SYSTEM_EOL_BYTES;
+        boolean embeddedCr = false;
 
 	    try {
 	    	int ts = getLayout().getFileStructure();
@@ -165,14 +169,18 @@ public class TextLineReader extends StandardLineReader {
 	        }
 	        recordSep = getLayout().getRecordSep();
 	        font      = getLayout().getFontName();
+
+	        if (rec instanceof RecordDetail) {
+	        	embeddedCr = ((RecordDetail) rec).isEmbeddedNewLine();
+	        }
 	    } catch (Exception e) {
         }
 
 	    //System.out.println(" Quote  ->" + quote + " " + (getLayout() == null));
 
-	    layout = createLayout(pReader.readLine(), rec,
+	    layout = createLayout(pReader.read(), rec,
 	    		recordSep, structure, font,  delim,
-                quote, parser, fieldType, decimal, format, param);
+                quote, parser, fieldType, decimal, format, param, embeddedCr);
 	    //System.out.println(" Quote  ->");
 
 	    if (layout != null) {
@@ -199,7 +207,8 @@ public class TextLineReader extends StandardLineReader {
     		byte[] recordSep,
     		int structure,
             String fontName, String delimiter, String quote, int style,
-            int defaultFieldType, int defaultDecimal, int defaultFormat, String defaultParam) throws IOException {
+            int defaultFieldType, int defaultDecimal, int defaultFormat, String defaultParam,
+            boolean embeddedCr) throws IOException {
 
     	int fldType, idx;
         //int i = 0;
@@ -209,7 +218,7 @@ public class TextLineReader extends StandardLineReader {
         IFieldDetail fldDetail;
 
         if (line != null) {
-        	AbstractParser parser = ParserManager.getInstance().get(style);
+        	ICsvLineParser parser = ParserManager.getInstance().get(style);
         	List<String> colNames = parser.getColumnNames(line, new CsvDefinition(delimiter, quote));
 
 
@@ -241,7 +250,7 @@ public class TextLineReader extends StandardLineReader {
             }
 
             recs[0] = new RecordDetail("", "", "", Constants.rtDelimited,
-                    delimiter, quote, fontName, flds, style, 0);
+                    delimiter, quote, fontName, flds, style, 0, embeddedCr);
 
             try {
                 ret =
@@ -267,7 +276,7 @@ public class TextLineReader extends StandardLineReader {
         if (reader == null) {
             throw new IOException(StandardLineReader.NOT_OPEN_MESSAGE);
         }
-        String s = reader.readLine();
+        String s = reader.read();
 
         if (s != null) {
             ret = getLine(s);
@@ -284,12 +293,10 @@ public class TextLineReader extends StandardLineReader {
 
         if (reader != null) {
             reader.close();
-    		stdReader.close();
     		inStream.close();
         }
 
     	reader    = null;
-    	stdReader = null;
     	inStream  = null;
     }
 

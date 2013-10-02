@@ -25,11 +25,12 @@ import net.sf.RecordEditor.utils.lang.LangConversion;
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class ComputerOptionCombo extends JComboBox {
 
     private static final String[] COMPUTER_OPTIONS; //= {"Intel ", "Mainframe ", "Big-Endian", "Fujitsu"};
     private static final String[] COMPUTER_OPTIONS_FOREIGN; //= {"Intel ", "Mainframe ", "Big-Endian", "Fujitsu"};
-   private static final int[] COMPUTER_CONVERSION;
+    private static final int[] COMPUTER_CONVERSION;
 //    = {
 //            XmlCopybookLoaderDB.FMT_INTEL,
 //            XmlCopybookLoaderDB.FMT_MAINFRAME,
@@ -73,6 +74,15 @@ public class ComputerOptionCombo extends JComboBox {
         return COMPUTER_CONVERSION[this.getSelectedIndex()];
     }
 
+    public void setSelectedValue(int value) {
+    	for (int i = 0; i < COMPUTER_OPTIONS.length; i++) {
+    		if (COMPUTER_CONVERSION[i] == value) {
+    			this.setSelectedIndex(i);
+    			return;
+    		}
+    	}
+
+    }
 
 
 	public void setEnglishText(Object itm) {

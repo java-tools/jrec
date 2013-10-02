@@ -22,7 +22,7 @@ import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
-import net.sf.JRecord.CsvParser.AbstractParser;
+import net.sf.JRecord.CsvParser.ICsvLineParser;
 import net.sf.JRecord.CsvParser.BinaryCsvParser;
 import net.sf.JRecord.CsvParser.ICsvDefinition;
 import net.sf.JRecord.CsvParser.ParserManager;
@@ -148,24 +148,29 @@ extends BasicLayout<RecordDetail> {
 		this.fileStructure = pFileStructure;
 		this.recordCount   = pRecords.length;
 
+		if (fontName == null) {
+		    fontName = "";
+		}
+
 		while (recordCount > 0 && pRecords[recordCount - 1] == null) {
 		    recordCount -= 1;
 		}
 
 		if (recordSep == null) {
-		    recordSep = Constants.SYSTEM_EOL_BYTES;;
+			if (fontName == null || "".equals(fontName)) {
+				recordSep = Constants.SYSTEM_EOL_BYTES;
+			} else {
+				recordSep = Conversion.getBytes(System.getProperty("line.separator"), fontName);
+			}
 		}
 
 		if (Constants.DEFAULT_STRING.equals(pEolIndicator)
 		||  pRecordSep == null) {
 		    eolString = System.getProperty("line.separator");
 		} else {
-		    eolString = new String(pRecordSep);
+		    eolString = Conversion.toString(pRecordSep, pFontName);
 		}
 
-		if (fontName == null) {
-		    fontName = "";
-		}
 
 		switch (pLayoutType) {
 			case Constants.rtGroupOfBinaryRecords:
@@ -347,29 +352,59 @@ extends BasicLayout<RecordDetail> {
 	 * @see net.sf.JRecord.Details.AbstractLineDetails#getFileStructure()
 	 */
     public int getFileStructure() {
-        int ret;
+        int ret = fileStructure;
+        boolean namesFirstLine = false;
 
-         if (fileStructure == Constants.IO_NAME_1ST_LINE &&  isBinCSV()) {
+        switch (fileStructure) {
+        case Constants.IO_BIN_NAME_1ST_LINE:
+        case Constants.IO_NAME_1ST_LINE:
+        case Constants.IO_UNICODE_NAME_1ST_LINE:
+        	namesFirstLine = true;
+        case Constants.IO_DEFAULT:
+        case Constants.IO_TEXT_LINE:
+        case Constants.IO_BIN_TEXT:
+        	for (RecordDetail r : records) {
+        		if (r.isDelimited()) {
+        			int rr = r.getCsvParser().getFileStructure(r, namesFirstLine, isBinCSV());
+        			if (rr > 0) {
+        				return rr;
+        			}
+        			break;
+        		}
+        	}
+        }
+
+        if (fileStructure == Constants.IO_NAME_1ST_LINE &&  isBinCSV()) {
         	ret = Constants.IO_BIN_NAME_1ST_LINE;
         } else if (fileStructure > Constants.IO_TEXT_LINE) {
-            ret = fileStructure;
+        } else if (fileStructure == Constants.IO_TEXT_LINE) {
+			ret = checkTextType();
         } else if (getLayoutType() == Constants.rtGroupOfBinaryRecords
                &&  recordCount > 1) {
 		    ret = Constants.IO_BINARY;
 		} else if (isBinary()) {
 		    ret = Constants.IO_FIXED_LENGTH;
-		} else if ( isBinCSV()) {
-			ret = Constants.IO_BIN_TEXT;
-		} else if (fontName != null && ! "".equals(fontName)){
-		    ret = Constants.IO_TEXT_LINE;
 		} else {
-			ret = Constants.IO_BIN_TEXT;
+			ret = checkTextType();
 		}
        //System.out.println(" ~~ getFileStructure " + fileStructure + " " + ret);
 
 		return ret;
     }
 
+
+    private int checkTextType() {
+    	int ret = fileStructure;
+    	if ( isBinCSV()) {
+			ret = Constants.IO_BIN_TEXT;
+		} else if (fontName != null && ! "".equals(fontName)){
+		    ret = Constants.IO_TEXT_LINE;
+		} else {
+			ret = Constants.IO_BIN_TEXT;
+		}
+
+    	return ret;
+    }
 
 
     /* (non-Javadoc)
@@ -405,7 +440,7 @@ extends BasicLayout<RecordDetail> {
     public final Object formatCsvField(IFieldDetail field,  int type, String value) {
         String val = "";
         if (field.getRecord() instanceof ICsvDefinition) {
-        	AbstractParser parser = ParserManager.getInstance().get(field.getRecord().getRecordStyle());
+        	ICsvLineParser parser = ParserManager.getInstance().get(field.getRecord().getRecordStyle());
         	val = parser.getField(field.getPos() - 1,
         			value,
         			(ICsvDefinition) field.getRecord());
@@ -486,7 +521,7 @@ extends BasicLayout<RecordDetail> {
             				    .setField(record, field.getPos(), field, value);
         } else  {
             String font = field.getFontName();
-            AbstractParser parser = ParserManager.getInstance().get(field.getRecord().getRecordStyle());
+            ICsvLineParser parser = ParserManager.getInstance().get(field.getRecord().getRecordStyle());
 
             Type typeVal = TypeManager.getSystemTypeManager().getType(type);
             String s ="";
@@ -885,6 +920,18 @@ extends BasicLayout<RecordDetail> {
 		if (attr == Attribute.FILE_STRUCTURE && value instanceof Number) {
 			fileStructure = ((Number) value).intValue();
 		}
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Details.IBasicFileSchema#getQuote()
+	 */
+	@Override
+	public String getQuote() {
+		if (recordCount > 0) {
+			return getRecord(0).getQuote();
+		}
+		return null;
 	}
 
 

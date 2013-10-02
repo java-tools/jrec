@@ -3,7 +3,7 @@ import java.awt.Component;
 
 import javax.swing.JTextField;
 
-import net.sf.JRecord.CsvParser.BasicParser;
+import net.sf.JRecord.CsvParser.BasicCsvLineParser;
 import net.sf.JRecord.CsvParser.CsvDefinition;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 
@@ -32,7 +32,7 @@ public class CsvArrayPopup extends AbstractPopup  {
     private JTextField separator1 = new JTextField();
     private JTextField separator2 = new JTextField();
 
-    private BasicParser parser = BasicParser.getInstance();
+    private BasicCsvLineParser parser = BasicCsvLineParser.getInstance();
 
     private boolean isPacked = false;
 

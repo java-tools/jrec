@@ -164,8 +164,6 @@ public class NewCsvFile {
 				null,
 				false);
 		DisplayBuilderFactory.getInstance().newDisplay(DisplayBuilderFactory.ST_INITIAL_EDIT, "", null, file.getLayout(), file, 0);
-		//DisplayBuilder.doOpen(file, 0, false);
-
 	}
 
 	private LayoutDetail getLayout() {
@@ -198,6 +196,7 @@ public class NewCsvFile {
 			} catch (UnsupportedEncodingException e) {
 			}
         }
+
         layout  =
             new LayoutDetail("GeneratedCsv", recs, "",
                 Constants.rtDelimited,

@@ -41,11 +41,11 @@ public class XmlLineWriter extends AbstractLineWriter {
     public void open(OutputStream outputStream) throws IOException {
     	os = outputStream;
     }
-    
+
     private void allocateWriter()  throws IOException {
     	XMLOutputFactory f = getFactory();
     	//f.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, true);
-    	
+
         try {
             writer = f.createXMLStreamWriter(os);
         } catch (XMLStreamException e) {
@@ -56,10 +56,10 @@ public class XmlLineWriter extends AbstractLineWriter {
     private XMLOutputFactory getFactory() {
     	XMLOutputFactory f ;
     	try {
-    		f = XMLOutputFactory.newInstance();	
+    		f = XMLOutputFactory.newInstance();
     	} catch (Exception e) {
     		@SuppressWarnings("deprecation")
-			Object o =  XMLOutputFactory.newInstance("javax.xml.stream.XMLOutputFactory", 
+			Object o =  XMLOutputFactory.newInstance("javax.xml.stream.XMLOutputFactory",
     				this.getClass().getClassLoader());
     		f = (XMLOutputFactory) o;
     	}
@@ -69,7 +69,7 @@ public class XmlLineWriter extends AbstractLineWriter {
     /**
      * @see net.sf.JRecord.IO.AbstractLineWriter#write(net.sf.JRecord.Details.AbstractLine)
      */
-    public void write(@SuppressWarnings("rawtypes") AbstractLine line) throws IOException {
+    public void write(AbstractLine line) throws IOException {
         //String name = toString(line.getField(line.getPreferredLayoutIdx(), 0));
         String name = toString(line.getLayout().getRecord(line.getPreferredLayoutIdx()).getRecordName());
 
@@ -105,13 +105,13 @@ public class XmlLineWriter extends AbstractLineWriter {
      * @param line line to be written
      * @throws XMLStreamException any error that occurs
      */
-    private void write_100_StartDocument(@SuppressWarnings("rawtypes") AbstractLine line) throws XMLStreamException {
+    private void write_100_StartDocument(AbstractLine line) throws XMLStreamException {
         String encoding = line.getFieldValue(XmlConstants.ENCODING).asString();
         String version  = line.getFieldValue(XmlConstants.VERSION).asString();
-        
+
     	if (writer == null) {
     		XMLOutputFactory f = getFactory();
-        	
+
             writer = f.createXMLStreamWriter(os, encoding);
     	}
 
@@ -132,7 +132,6 @@ public class XmlLineWriter extends AbstractLineWriter {
      * @param line line to be written
      * @throws XMLStreamException any error that occurs
      */
-    @SuppressWarnings("rawtypes")
 	private void write_200_Element(AbstractLine line) throws XMLStreamException {
         int idx = line.getPreferredLayoutIdx();
         AbstractLayoutDetails layout = line.getLayout();
@@ -194,27 +193,27 @@ public class XmlLineWriter extends AbstractLineWriter {
         }
     }
 
-    
+
     private String fixComment(Object o) {
     	StringBuilder comment = new StringBuilder(toString(o));
     	int l;
-    	
+
     	replace(comment, "--", "==");
-    	
+
     	l = comment.length() - 1;
     	while (" ".equals(comment.substring(l, l + 1))) {
     		l -= 1;
     	}
-//    	System.out.print("fix -- " + comment + "< " + l + " >> >" + (comment.substring(l, l + 1)) 
+//    	System.out.print("fix -- " + comment + "< " + l + " >> >" + (comment.substring(l, l + 1))
 //    			+ "< --> ");
     	if ("-".equals(comment.substring(l, l + 1))) {
     		comment.replace(l, l + 1, "=");
     	}
 //    	System.out.println(comment + "<--");
-    	
+
     	return comment.toString();
     }
-    
+
     /**
      * Replaces on string with another in a String bugffer
      *
@@ -226,7 +225,7 @@ public class XmlLineWriter extends AbstractLineWriter {
         Conversion.replace(in, from, to);
     }
 
-    
+
     /**
      * Convert object to String
      * @param o object to be converted

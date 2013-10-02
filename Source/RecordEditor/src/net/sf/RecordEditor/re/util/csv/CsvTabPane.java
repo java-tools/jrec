@@ -1,7 +1,5 @@
 package net.sf.RecordEditor.re.util.csv;
 
-
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -9,7 +7,6 @@ import java.io.IOException;
 import javax.swing.JTabbedPane;
 import javax.swing.text.JTextComponent;
 
-import net.sf.JRecord.ByteIO.ByteTextReader;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.RecordEditor.layoutWizard.FileStructureAnalyser;
@@ -35,7 +32,7 @@ public class CsvTabPane implements FormatFileName {
 
 	private final static byte[][] oneBlankLine = {{}};
 
-	private	ByteTextReader r = new ByteTextReader();
+	//private	ByteTextReader r = new ByteTextReader();
 
 	public final JTabbedPane tab = new JTabbedPane();
 
@@ -124,7 +121,7 @@ public class CsvTabPane implements FormatFileName {
 		}
 	}
 
-	public void readFilePreview(File f, boolean allowTabSwap, String layoutId) {
+	public void readCheckPreview(File f, boolean allowTabSwap, String layoutId) {
 
 		if ((f != null) && (f.isFile()) ) {
 			String fileName = f.getPath();
@@ -133,16 +130,16 @@ public class CsvTabPane implements FormatFileName {
 			}
 
 			try {
-				readFilePreview(readUnicodeFile(fileName), allowTabSwap, fileName, layoutId);
+				readCheckPreview(readFile(fileName), allowTabSwap, fileName, layoutId);
 			} catch (IOException ex) {
 				Common.logMsg("Error Reading File:", ex);
 			}
 		}
 	}
 
-	public void readFilePreview(byte[] data, boolean allowTabSwap, String filename, String layoutId)
+	public void readCheckPreview(byte[] data, boolean allowTabSwap, String filename, String layoutId)
 	throws IOException {
-		String charSet = CheckEncoding.determineCharSet(data);
+		String charSet = CheckEncoding.determineCharSet(data, false).charset;
 		boolean couldBeXml = this.xmlTab && maybeXml(data, charSet);
 
 		if (allowTabSwap) {
@@ -200,11 +197,10 @@ public class CsvTabPane implements FormatFileName {
 		switch (tab.getSelectedIndex()) {
 		case NORMAL_CSV:
 			if (allowTabSwap && ! "".equals(charSet)) {
-				unicodeCsvDetails.fontTxt.setText(charSet);
+				unicodeCsvDetails.setCharset(charSet);
 				unicodeCsvDetails.setData(filename, data, false, layoutId);
 
 				checkNormalCsv(data);
-
 			} else {
 				setNormalCsv(data);
 			}
@@ -214,7 +210,7 @@ public class CsvTabPane implements FormatFileName {
 				setNormalCsv(data);
 				tab.setSelectedIndex(NORMAL_CSV);
 			} else {
-				unicodeCsvDetails.fontTxt.setText(charSet);
+				unicodeCsvDetails.setCharset(charSet);
 				unicodeCsvDetails.setData(filename, data, false, layoutId);
 
 				if (allowTabSwap) {
@@ -244,6 +240,34 @@ public class CsvTabPane implements FormatFileName {
 		}
 	}
 
+//	private void setData(byte[] data, String filename, String layoutId) {
+//
+//		switch (tab.getSelectedIndex()) {
+//		case NORMAL_CSV:
+//			setNormalCsv(data);
+//			break;
+//		case UNICODE_CSV:
+//			unicodeCsvDetails.setData(filename, data, false, layoutId);
+//
+//			break;
+//		case FIXED_FILE:
+//			//long time1 = System.nanoTime();
+//			csvPanels[FIXED_FILE].setData(filename, data, false, layoutId);
+//			//System.out.println("Time Used: " + (System.nanoTime() - time1) +  " - " + time1);
+//			break;
+//		case XML_FILE:
+//
+//				csvPanels[XML_FILE].setData(filename, data, false, layoutId);
+//
+//				if (parentFrame != null) {
+//					parentFrame.pack();
+//				}
+//
+//			break;
+//		}
+//
+//	}
+
 	private boolean maybeXml(byte[] data, String charSet) {
 		byte[] check = Conversion.getBytes("<", charSet);
 		if (data == null || data.length < check.length) return false;
@@ -267,23 +291,24 @@ public class CsvTabPane implements FormatFileName {
 		tab.setSelectedIndex(UNICODE_CSV);
 	}
 
-	private void setNormalCsv(byte[] data) throws IOException {
-		byte[] line;
-		byte[][] lines = new byte[30][];
-		int i = 0;
-
-		r.open(new ByteArrayInputStream(data));
-		while (i < lines.length && (line = r.read()) != null) {
-			lines[i++] = line;
-		}
-		r.close();
-		csvDetails.setLines(lines, "", lines.length);
+	private void setNormalCsv(byte[] data)  {
+//		byte[] line;
+//		byte[][] lines = new byte[30][];
+//		int i = 0;
+//
+//		r.open(new ByteArrayInputStream(data));
+//		while (i < lines.length && (line = r.read()) != null) {
+//			lines[i++] = line;
+//		}
+//		r.close();
+//		csvDetails.setLines(lines, "", lines.length);
+		csvDetails.setData("", data, false, "");
 	}
 
 
-	private byte[] readUnicodeFile(String fileName)
+	private byte[] readFile(String fileName)
 	throws IOException {
-		byte[] data = StreamUtil.read(new FileInputStream(fileName), 8000); //new byte[8000];
+		byte[] data = StreamUtil.read(new FileInputStream(fileName), 16000); //new byte[8000];
 
 	    return data;
 	}

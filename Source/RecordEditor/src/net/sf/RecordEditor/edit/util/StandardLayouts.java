@@ -2,13 +2,14 @@ package net.sf.RecordEditor.edit.util;
 
 import java.util.List;
 
+import net.sf.JRecord.Common.Constants;
+import net.sf.JRecord.Common.TranslateXmlChars;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
 import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.TranslateXmlChars;
 
 public final class StandardLayouts {
 
@@ -49,15 +50,15 @@ public final class StandardLayouts {
 		return getLayout(genericCsvExternalRec);
 	}
 
-	public final AbstractLayoutDetails getCsvLayoutNamesFirstLine(String delim, String quote) {
+	public final AbstractLayoutDetails getCsvLayoutNamesFirstLine(String delim, String quote, boolean embeddedCr) {
 		return  getLayout(
-					getCsvExternal("CSV_NAME_1ST_LINE", delim, quote)
+					getCsvExternal("CSV_NAME_1ST_LINE", delim, quote, embeddedCr)
 				);
 	}
 
 
-	public final AbstractLayoutDetails getCsvLayout(List<ExternalField> fields, String delim, String quote) {
-		ExternalRecord rec = getCsvExternal("Default", delim, quote);
+	public final AbstractLayoutDetails getCsvLayout(List<ExternalField> fields, String delim, String quote, boolean embeddedCr) {
+		ExternalRecord rec = getCsvExternal("Default", delim, quote, embeddedCr);
 
 		if (rec == null ) return null;
 
@@ -70,17 +71,22 @@ public final class StandardLayouts {
 		return  getLayout(rec);
 	}
 
-	private final ExternalRecord getCsvExternal(String fileStructure, String delim, String quote) {
+	private final ExternalRecord getCsvExternal(String fileStructure, String delim, String quote, boolean embeddedCr) {
 		String xml;
+		String embeddedStr = "";
 
 		if ( "<none>".equals(quote.toLowerCase())) {
 			quote = "";
+		}
+		if (embeddedCr) {
+			embeddedStr = " " + Constants.RE_XML_EMBEDDED_CR + "=\"Y\" ";
 		}
 
 		xml = "<RECORD RECORDNAME=\"Delimited\" COPYBOOK=\"\" STYLE=\"0\""
 			+ "        FILESTRUCTURE=\"" + fileStructure + "\""
 			+ "        DELIMITER=\"" + TranslateXmlChars.replaceXmlCharsStr(delim) + "\""
 			+ "        QUOTE=\"" + TranslateXmlChars.replaceXmlCharsStr(quote) + "\""
+			+          embeddedStr
 			+ "		   DESCRIPTION=\"Delimited\" RECORDTYPE=\"Delimited\" RecSep=\"default\">"
 			+ "	<FIELDS>"
 			+ "		<FIELD NAME=\"Dummy\" DESCRIPTION=\" \" POSITION=\"1\" TYPE=\"Char\"/>"

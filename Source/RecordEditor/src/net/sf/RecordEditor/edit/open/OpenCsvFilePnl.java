@@ -43,23 +43,23 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
 public class OpenCsvFilePnl
 extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 
-	private final static int NORMAL_CSV  = 0,
-							 UNICODE_CSV = 1;
+    private final static int NORMAL_CSV  = 0,
+                             UNICODE_CSV = 1;
 
-	private JFileChooser chooser = new JFileChooser();
-	protected RecentFiles recent;
-	private RecentFilesList recentList;
-	private	ByteTextReader r = new ByteTextReader();
+    private JFileChooser chooser = new JFileChooser();
+    protected RecentFiles recent;
+    private RecentFilesList recentList;
+//    private	ByteTextReader reader = new ByteTextReader();
 
-	private JTextArea msgTxt = new JTextArea();
-	private AbstractLineIOProvider ioProvider;
-	private final CsvTabPane csvTabDtls; // = new CsvTabPane(msgTxt, true, true);
-	private FileFilter csvFilter;
+    private JTextArea msgTxt = new JTextArea();
+    private AbstractLineIOProvider ioProvider;
+    private final CsvTabPane csvTabDtls; // = new CsvTabPane(msgTxt, true, true);
+    private FileFilter csvFilter;
 
 
 
-	//private File file;
-	private boolean execEnter = true;
+    //private File file;
+    private boolean execEnter = true;
 
     public final KeyAdapter keyListner = new KeyAdapter() {
         /**
@@ -67,68 +67,68 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
          */
         public final void keyReleased(KeyEvent event) {
 
-        	if (execEnter && event.getKeyCode() == KeyEvent.VK_ENTER) {
-        		//System.out.println("Key Listner");
-        		openFile(false);
-         	}
+            if (execEnter && event.getKeyCode() == KeyEvent.VK_ENTER) {
+                //System.out.println("Key Listner");
+                openFile(false);
+             }
         }
     };
 
-	private PropertyChangeListener chgListner = new PropertyChangeListener() {
-		private String lastFileName = "";
+    private PropertyChangeListener chgListner = new PropertyChangeListener() {
+        private String lastFileName = "";
 
-		@Override
-		public void propertyChange(PropertyChangeEvent e) {
-		    String pname = e.getPropertyName();
-		    //System.out.println("\nProperty Change " + pname
-		    //		+ " " + JFileChooser.SELECTED_FILE_CHANGED_PROPERTY.equals(pname));
-		    if (JFileChooser.SELECTED_FILE_CHANGED_PROPERTY.equals(pname)) {
-		      File f = (File) e.getNewValue();
+        @Override
+        public void propertyChange(PropertyChangeEvent e) {
+            String pname = e.getPropertyName();
+            //System.out.println("\nProperty Change " + pname
+            //		+ " " + JFileChooser.SELECTED_FILE_CHANGED_PROPERTY.equals(pname));
+            if (JFileChooser.SELECTED_FILE_CHANGED_PROPERTY.equals(pname)) {
+              File f = (File) e.getNewValue();
 
-		      if ((f != null) && (f.isFile()) &&  (! lastFileName.equals(f.getPath()))) {
-		  		lastFileName = f.getPath();
-		  		readFilePreview(f, true);
-		      }
-		    }
-		}
-	};
-
-	private ActionListener goAction = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				//System.out.println("\nGo Action " + arg0.paramString());
-				openFile(true);
-			}
-	};
-
-	private ActionListener chooserListner = new ActionListener() {
-
-		/* (non-Javadoc)
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-		 */
-		@Override
-		public void actionPerformed(ActionEvent evt) {
-
-	        if (JFileChooser.APPROVE_SELECTION.equals(evt.getActionCommand())) {
-	        	//System.out.println("\nChooser Listner");
-	        	openFile(false);
-	        } else if (JFileChooser.CANCEL_SELECTION.equals(evt.getActionCommand())) {
-
-	        }
-		}
+              if ((f != null) && (f.isFile()) &&  (! lastFileName.equals(f.getPath()))) {
+                  lastFileName = f.getPath();
+                  readFilePreview(f, true);
+              }
+            }
+        }
     };
 
-	private ChangeListener tabListner = new ChangeListener() {
+    private ActionListener goAction = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                //System.out.println("\nGo Action " + arg0.paramString());
+                openFile(true);
+            }
+    };
 
-			@Override
-			public void stateChanged(ChangeEvent e) {
-			//chooser.dispatchEvent(null);
+    private ActionListener chooserListner = new ActionListener() {
 
-				csvTabDtls.tab.removeChangeListener(this);
-				int idx = csvTabDtls.tab.getSelectedIndex();
-				//System.out.println("\nTab changed ");
+        /* (non-Javadoc)
+         * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+         */
+        @Override
+        public void actionPerformed(ActionEvent evt) {
 
-				execEnter();
+            if (JFileChooser.APPROVE_SELECTION.equals(evt.getActionCommand())) {
+                //System.out.println("\nChooser Listner");
+                openFile(false);
+            } else if (JFileChooser.CANCEL_SELECTION.equals(evt.getActionCommand())) {
+
+            }
+        }
+    };
+
+    private ChangeListener tabListner = new ChangeListener() {
+
+            @Override
+            public void stateChanged(ChangeEvent e) {
+            //chooser.dispatchEvent(null);
+
+                csvTabDtls.tab.removeChangeListener(this);
+                int idx = csvTabDtls.tab.getSelectedIndex();
+                //System.out.println("\nTab changed ");
+
+                execEnter();
 
 //				try {
 //					execEnter = false;
@@ -136,242 +136,251 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 //				} catch (Exception ex) {
 //					//ex.printStackTrace();
 //				}
-				execEnter = true;
+                execEnter = true;
 
-				csvTabDtls.tab.setSelectedIndex(idx);
-				readFilePreview(chooser.getSelectedFile(), false);
-				csvTabDtls.tab.addChangeListener(this);
-			}
-	};
+                csvTabDtls.tab.setSelectedIndex(idx);
+                readFilePreview(chooser.getSelectedFile(), false);
+                csvTabDtls.tab.addChangeListener(this);
+            }
+    };
 
-	public OpenCsvFilePnl(
-			final String fileName,
-			final String propertiesFiles,
-			AbstractLineIOProvider pIoProvider,
-			boolean fixedXmlTabs) {
-		ioProvider = pIoProvider;
-		recent = new RecentFiles(propertiesFiles, this, true);
-		recentList = new RecentFilesList(recent, this);
-		csvTabDtls = new CsvTabPane(msgTxt, fixedXmlTabs, true);
+    public OpenCsvFilePnl(
+            final String fileName,
+            final String propertiesFiles,
+            AbstractLineIOProvider pIoProvider,
+            boolean fixedXmlTabs) {
+        ioProvider = pIoProvider;
+        recent = new RecentFiles(propertiesFiles, this, true);
+        recentList = new RecentFilesList(recent, this);
+        csvTabDtls = new CsvTabPane(msgTxt, fixedXmlTabs, true);
 
-		boolean filePresent = true;
-		File file;
-		String fname = fileName;
-		URL helpname = Common.formatHelpURL(Common.HELP_CSV_EDITOR);
-		if (fname == null || "".equals(fname)) {
-			fname = Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get();
-			filePresent = false;
-		}
+        boolean filePresent = true;
+        File file;
+        String fname = fileName;
+        URL helpname = Common.formatHelpURL(Common.HELP_CSV_EDITOR);
+        if (fname == null || "".equals(fname)) {
+            fname = Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get();
+            filePresent = false;
+        }
 
-		setHelpURL(helpname);
-		setTab(csvTabDtls.csvDetails, helpname);
-		setTab(csvTabDtls.unicodeCsvDetails, helpname);
+        setHelpURL(helpname);
+        setTab(csvTabDtls.csvDetails, helpname);
+        setTab(csvTabDtls.unicodeCsvDetails, helpname);
 
-		if (fixedXmlTabs) {
-			setTab(csvTabDtls.fixedSelectionPanel, helpname);
-			setTab(csvTabDtls.xmlSelectionPanel, helpname);
-		}
+        if (fixedXmlTabs) {
+            setTab(csvTabDtls.fixedSelectionPanel, helpname);
+            setTab(csvTabDtls.xmlSelectionPanel, helpname);
+        }
 
-		registerComponent(chooser);
-		registerComponent(csvTabDtls.tab);
-
-
-		file = new File(fname);
-
-		chooser.addActionListener(chooserListner);
-
-		try {
-			FileFilter filter = chooser.getFileFilter();
-
-			csvFilter = new javax.swing.filechooser.FileNameExtensionFilter("CSV file", "csv", "tsv");
-			chooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Text file", "txt"));
-			chooser.addChoosableFileFilter(csvFilter);
-			chooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("CSV/Text file", "csv", "tsv", "txt"));
-
-			if (fixedXmlTabs) {
-				chooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("CSV/XML file", "csv", "tsv", "xml"));
-				chooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Xml file", "xml"));
-			}
-			chooser.setFileFilter(filter);
-		} catch (NoClassDefFoundError e) {
-
-		}
+        registerComponent(chooser);
+        registerComponent(csvTabDtls.tab);
 
 
-		SwingUtils.addKeyListnerToContainer(chooser, keyListner);
-		SwingUtils.addKeyListnerToContainer(csvTabDtls.tab, keyListner);
+        file = new File(fname);
 
-		chooser.setSelectedFile(file);
-		chooser.addPropertyChangeListener(chgListner);
-		if (! Common.OPTIONS.showCsvFChooserOptions.isSelected()) {
-			chooser.setControlButtonsAreShown(false);
-		}
-		csvTabDtls.tab.addChangeListener(tabListner);
+        chooser.addActionListener(chooserListner);
 
-		if (filePresent) {
-			readFilePreview(file, true);
-		}
-	}
+        try {
+            FileFilter filter = chooser.getFileFilter();
 
-	private void setTab(FilePreview pnl, URL helpname) {
-		JButton go = pnl.getGoButton();
+            csvFilter = new javax.swing.filechooser.FileNameExtensionFilter("CSV file", "csv", "tsv");
+            chooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Text file", "txt"));
+            chooser.addChoosableFileFilter(csvFilter);
+            chooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("CSV/Text file", "csv", "tsv", "txt"));
 
-		pnl.getPanel().setHelpURL(helpname);
+            if (fixedXmlTabs) {
+                chooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("CSV/XML file", "csv", "tsv", "xml"));
+                chooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Xml file", "xml"));
+            }
+            chooser.setFileFilter(filter);
+        } catch (NoClassDefFoundError e) {
 
-		go.setIcon(Common.getRecordIcon(Common.ID_OPEN_ICON));
-
-		go.setText(LangConversion.convert(LangConversion.ST_BUTTON, "Edit"));
-		go.addActionListener(goAction);
-	}
+        }
 
 
-	private void openFile(boolean executeEnter) {
-		File f = chooser.getSelectedFile();
-		try {
-			//System.out.println("openFile " + executeEnter);
-			if (executeEnter) {
-				execEnter();
-			}
-			File f1 = chooser.getSelectedFile();
-			if (! f1.equals(f)) {
-				f = f1;
-				readFilePreview(f, true);
-			}
-		} catch (Exception ex) {
-			//ex.printStackTrace();
-		}
+        SwingUtils.addKeyListnerToContainer(chooser, keyListner);
+        SwingUtils.addKeyListnerToContainer(csvTabDtls.tab, keyListner);
 
-		FilePreview csvpnl = csvTabDtls.getSelectedCsvDetails();
-		if (f != null && f.getPath() != null) {
-			try {
-				LayoutDetail l = csvpnl.getLayout(csvpnl.getFontName(), r.getEol());
+        chooser.setSelectedFile(file);
+        chooser.addPropertyChangeListener(chgListner);
+        if (! Common.OPTIONS.showCsvFChooserOptions.isSelected()) {
+            chooser.setControlButtonsAreShown(false);
+        }
+        csvTabDtls.tab.addChangeListener(tabListner);
 
-				if (l != null) {
-					FileView file
-						= new FileView(
-									l,
-									ioProvider,
-									false);
-					StartEditor startEditor = new StartEditor(file, f.getPath(), false, msgTxt, 0);
+        if (filePresent) {
+            readFilePreview(file, true);
+        }
+    }
 
-					recent.putFileLayout(f.getPath(), csvpnl.getFileDescription());
+    private void setTab(FilePreview pnl, URL helpname) {
+        JButton go = pnl.getGoButton();
 
-					startEditor.doEdit();
-				}
-			} catch (Exception e) {
-				Common.logMsg(AbsSSLogger.ERROR, "Error Loading File:", e.getMessage(), null);
-				e.printStackTrace();
-			}
+        pnl.getPanel().setHelpURL(helpname);
 
-		}
-	}
+        go.setIcon(Common.getRecordIcon(Common.ID_OPEN_ICON));
 
-	private void execEnter() {
-
-		chooser.removeActionListener(chooserListner);
-		SwingUtils.clickOpenBtn(chooser, true);
-
-		chooser.addActionListener(chooserListner);
-	}
-
-	@Override
-	public void done() {
-		addComponent(0, 5, BasePanel.FILL, BasePanel.GAP,
-		        BasePanel.FULL, BasePanel.FULL,
-		        new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, chooser, csvTabDtls.tab));
-		addMessage(msgTxt);
-		setHeight(BasePanel.NORMAL_HEIGHT * 3);
-
-		super.done();
-	}
+        go.setText(LangConversion.convert(LangConversion.ST_BUTTON, "Edit"));
+        go.addActionListener(goAction);
+    }
 
 
+    private void openFile(boolean executeEnter) {
+        File f = chooser.getSelectedFile();
+        try {
+            //System.out.println("openFile " + executeEnter);
+            if (executeEnter) {
+                execEnter();
+            }
+            File f1 = chooser.getSelectedFile();
+            if (! f1.equals(f)) {
+                f = f1;
+                readFilePreview(f, true);
+            }
+        } catch (Exception ex) {
+            //ex.printStackTrace();
+        }
 
-	@Override
-	public int getCurrentDbIdentifier() {
-		return 0;
-	}
+        FilePreview csvpnl = csvTabDtls.getSelectedCsvDetails();
+        if (f != null && f.getPath() != null) {
+            try {
+                LayoutDetail l = csvpnl.getLayout(csvpnl.getFontName(), null);
+
+                if (l != null) {
+                    FileView file
+                        = new FileView(
+                                    l,
+                                    ioProvider,
+                                    false);
+                    StartEditor startEditor = new StartEditor(file, f.getPath(), false, msgTxt, 0);
+
+                    recent.putFileLayout(f.getPath(), csvpnl.getFileDescription());
+
+                    startEditor.doEdit();
+                }
+            } catch (Exception e) {
+                Common.logMsg(AbsSSLogger.ERROR, "Error Loading File:", e.getMessage(), null);
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    private void execEnter() {
+
+        chooser.removeActionListener(chooserListner);
+        SwingUtils.clickOpenBtn(chooser, true);
+
+        chooser.addActionListener(chooserListner);
+    }
+
+    @Override
+    public void done() {
+        addComponent(0, 5, BasePanel.FILL, BasePanel.GAP,
+                BasePanel.FULL, BasePanel.FULL,
+                new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, chooser, csvTabDtls.tab));
+        addMessage(msgTxt);
+        setHeight(BasePanel.NORMAL_HEIGHT * 3);
+
+        super.done();
+    }
 
 
 
-	@Override
-	public String getCurrentDbName() {
-		return null;
-	}
+    @Override
+    public int getCurrentDbIdentifier() {
+        return 0;
+    }
 
 
 
-	@Override
-	public String getCurrentFileName() {
-		return chooser.getSelectedFile().getPath();
-	}
+    @Override
+    public String getCurrentDbName() {
+        return null;
+    }
 
 
 
-	@Override
-	public void setRecordLayout(int layoutId, String layoutName, String filename) {
-		try {
-			chooser.setSelectedFile(new File(filename));
-
-			if (layoutName != null && ! "".equals(layoutName)) {
-				if (layoutName.startsWith(CsvSelectionPanel.NORMAL_CSV_STRING)) {
-					csvTabDtls.csvDetails.setFileDescription(layoutName);
-					csvTabDtls.tab.setSelectedIndex(NORMAL_CSV);
-				} else {
-					csvTabDtls.unicodeCsvDetails.setFileDescription(layoutName);
-					csvTabDtls.tab.setSelectedIndex(UNICODE_CSV);
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    @Override
+    public String getCurrentFileName() {
+        return chooser.getSelectedFile().getPath();
+    }
 
 
 
-	@Override
-	public BasePanel getPanel() {
-		return this;
-	}
+    @Override
+    public void setRecordLayout(int layoutId, String layoutName, String filename) {
+        if (layoutName != null && ! "".equals(layoutName)) {
+            try {
+            	chooser.removeActionListener(chooserListner);
+            	chooser.removePropertyChangeListener(chgListner);
+            	csvTabDtls.tab.removeChangeListener(tabListner);
 
-	public final void selectCsvExt() {
-		if (csvFilter != null) {
-			chooser.setFileFilter(csvFilter);
-		}
-	}
+                File file = new File(filename);
+				chooser.setSelectedFile(file);
+                if (layoutName.startsWith(CsvSelectionPanel.NORMAL_CSV_STRING)) {
+                    csvTabDtls.csvDetails.setFileDescription(layoutName);
+                    csvTabDtls.tab.setSelectedIndex(NORMAL_CSV);
+                } else {
+                    csvTabDtls.unicodeCsvDetails.setFileDescription(layoutName);
+                    csvTabDtls.tab.setSelectedIndex(UNICODE_CSV);
+                }
+                csvTabDtls.readCheckPreview(file, false, layoutName);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+            	chooser.addActionListener(chooserListner);
+            	chooser.addPropertyChangeListener(chgListner);
+            	csvTabDtls.tab.addChangeListener(tabListner);
+            }
+        }
+    }
 
-	private void readFilePreview(File f, boolean allowTabSwap) {
-		String layoutDtls = null;
-		try {
-			layoutDtls = recent.getLayoutName(f.getCanonicalPath(), f);
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		Rectangle r = this.getBounds();
-		this.setPreferredSize(new Dimension(r.width, r.height));
+
+
+    @Override
+    public BasePanel getPanel() {
+        return this;
+    }
+
+    public final void selectCsvExt() {
+        if (csvFilter != null) {
+            chooser.setFileFilter(csvFilter);
+        }
+    }
+
+    private void readFilePreview(File f, boolean allowTabSwap) {
+        String layoutDtls = null;
+        try {
+            layoutDtls = recent.getLayoutName(f.getCanonicalPath(), f);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        Rectangle r = this.getBounds();
+        this.setPreferredSize(new Dimension(r.width, r.height));
 //		System.out.println(" !%%! 1 " + this.getPreferredSize().height + " " + this.getBounds().height
 //				+ " " + this.getHeight());
-		csvTabDtls.readFilePreview(f, allowTabSwap, layoutDtls);
+        csvTabDtls.readCheckPreview(f, allowTabSwap, layoutDtls);
 //		this.setBounds(r);
-		super.validate();
+        super.validate();
 //		System.out.println(" !%%! 2 " + this.getPreferredSize().height + " " + this.getBounds().height
 //				+ " " + this.getHeight());
-	}
+    }
 
-	@Override
-	public JMenu getRecentFileMenu() {
-		return recentList.getMenu();
-	}
+    @Override
+    public JMenu getRecentFileMenu() {
+        return recentList.getMenu();
+    }
 
-	/* (non-Javadoc)
-	 * @see net.sf.RecordEditor.utils.openFile.FormatFileName#formatLayoutName(java.lang.String)
-	 */
-	@Override
-	public String formatLayoutName(String layoutName) {
-		return layoutName;
-	}
+    /* (non-Javadoc)
+     * @see net.sf.RecordEditor.utils.openFile.FormatFileName#formatLayoutName(java.lang.String)
+     */
+    @Override
+    public String formatLayoutName(String layoutName) {
+        return layoutName;
+    }
 
-	public void setParentFrame(ReFrame parentFrame) {
-		csvTabDtls.setParentFrame(parentFrame);
-	}
+    public void setParentFrame(ReFrame parentFrame) {
+        csvTabDtls.setParentFrame(parentFrame);
+    }
 }

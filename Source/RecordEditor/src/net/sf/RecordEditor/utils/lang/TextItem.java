@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 
-import net.sf.JRecord.CsvParser.BasicParser;
+import net.sf.JRecord.CsvParser.BasicCsvLineParser;
 import net.sf.JRecord.CsvParser.CsvDefinition;
 
 /**
@@ -57,7 +57,7 @@ public class TextItem {
 
 
 	public TextItem(String sepValue) {
-		BasicParser t = new BasicParser(false);
+		BasicCsvLineParser t = new BasicCsvLineParser(false);
 		String[] flds = t.split(sepValue, new CsvDefinition(DELIM, ""), 0);
 		String s = flds[0];
 		String s1 = getItem(flds, 3);

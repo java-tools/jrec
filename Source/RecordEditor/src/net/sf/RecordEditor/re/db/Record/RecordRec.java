@@ -84,6 +84,7 @@ public class RecordRec extends AbsRecord {
                   , final String pFontName
                   , final int precordStyle
                   , final int pfileStructure
+                  , final boolean embeddedCr
                   ) {
       this(new ExternalRecord(
               pRecordId
@@ -100,7 +101,8 @@ public class RecordRec extends AbsRecord {
               , pRecordSep
               , pFontName
               , precordStyle
-              , pfileStructure));
+              , pfileStructure
+              , embeddedCr));
   }
 
   /**
@@ -288,7 +290,7 @@ public class RecordRec extends AbsRecord {
 
 		RecordRec ret = new RecordRec(-1, pRecordName, "", recordType, 0, "Y",
 			"", "<Tab>", "", 0, Common.DEFAULT_STRING, Common.LFCR_BYTES,
-			fontName, 0, Constants.IO_DEFAULT);
+			fontName, 0, Constants.IO_DEFAULT, false);
 		ret.setUpdateStatus(RecordRec.BLANK_RECORD);
 		return ret;
 	}

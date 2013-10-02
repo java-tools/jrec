@@ -78,7 +78,7 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
     * Create a Factory with a specified number of loaders
     * @param maximumNumberOfLoaders maximum number of loaders allowed
     */
-   public CopybookLoaderFactoryDB(final int maximumNumberOfLoaders) {
+   private CopybookLoaderFactoryDB(final int maximumNumberOfLoaders) {
        super(maximumNumberOfLoaders);
 
        ExternalConversion.setStandardConversion(this);

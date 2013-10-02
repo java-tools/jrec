@@ -6,6 +6,7 @@ import java.util.HashSet;
 
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Types.Type;
+import net.sf.JRecord.Types.TypeManager;
 import net.sf.RecordEditor.utils.common.Common;
 
 /**
@@ -42,7 +43,7 @@ public class CsvAnalyser {
 	private int colNamesOnFirstLine = COLUMN_NAMES_MAYBE;
 	private int fieldNameLineNo = 1;
 	private int numberOfColumns = 0;
-	private int[] colTypes;
+	private int[] colTypes, textTypes = null;
 
 	private String font;
 
@@ -50,8 +51,11 @@ public class CsvAnalyser {
 	//public boolean validChars = true;
 	private double ratio;
 
-	public CsvAnalyser(byte[][] lines, int numberOfLines, String fontname) {
+	private boolean embeddedCr = false;
+
+	public CsvAnalyser(byte[][] lines, int numberOfLines, String fontname, boolean embeddedCr) {
 		font = fontname;
+		this.embeddedCr = embeddedCr;
 
 		if (lines != null) {
 			int noLines = lines.length;
@@ -60,7 +64,7 @@ public class CsvAnalyser {
 				noLines = numberOfLines;
 			}
 
-			byte sep = getSeperator(lines, noLines);
+			byte sep = getSeperatorQuote(lines, noLines);
 
 			listOfLines = getList(lines, noLines, sep);
 
@@ -69,8 +73,9 @@ public class CsvAnalyser {
 		}
 	}
 
-	public CsvAnalyser(byte[][] lines, int numberOfLines, String fontname, byte sep) {
+	public CsvAnalyser(byte[][] lines, int numberOfLines, String fontname, byte sep, boolean embeddedCr) {
 		font = fontname;
+		this.embeddedCr = embeddedCr;
 
 		if (lines != null) {
 			int noLines = lines.length;
@@ -85,8 +90,9 @@ public class CsvAnalyser {
 		}
 	}
 
-	public CsvAnalyser(String[] lines, int numberOfLines, String fontname) {
+	public CsvAnalyser(String[] lines, int numberOfLines, String fontname, boolean embeddedCr) {
 		font = fontname;
+		this.embeddedCr = embeddedCr;
 
 		if (lines != null && lines.length > 0 && lines[0] != null) {
 			int noLines = lines.length;
@@ -105,8 +111,9 @@ public class CsvAnalyser {
 		}
 	}
 
-	public CsvAnalyser(String[] lines, int numberOfLines, String fontname, char sep) {
+	public CsvAnalyser(String[] lines, int numberOfLines, String fontname, char sep, boolean embeddedCr) {
 		font = fontname;
+		this.embeddedCr = embeddedCr;
 
 		if (lines != null && lines.length > 0 && lines[0] != null) {
 			int noLines = lines.length;
@@ -212,7 +219,8 @@ public class CsvAnalyser {
 			sepChars[i] = Common.FIELD_SEPARATOR_LIST1_VALUES[i].charAt(0);
 		}
 
-		for (i = Math.max(0, numberOfLines - 45); i < numberOfLines; i++) {
+//		for (i = Math.max(0, numberOfLines - 45); i < numberOfLines; i++) {
+		for (i = 0; i < numberOfLines; i++) {
 			if (lines[i] != null) {
 				s = lines[i];
 				if (s != null) {
@@ -242,7 +250,7 @@ public class CsvAnalyser {
 			quoteChars[i - st] = Common.QUOTE_LIST[i].charAt(0);
 		}
 
-		for (i = 1; i < numberOfLines; i++) {
+		for (i = 0; i < numberOfLines; i++) {
 			if (lines[i] != null) {
 				last = 0;
 				for (j = 0; j < lines[i].length() - 1; j++) {
@@ -264,7 +272,8 @@ public class CsvAnalyser {
 
 		int quoteIdxMax = getMax(quoteCount);
 
-		if (quoteCount[quoteIdxMax] > 7) {
+		if (quoteCount[quoteIdxMax] > 5
+		|| (embeddedCr && quoteCount[quoteIdxMax] > 1)) {
 			quoteIdx = quoteIdxMax + st;
 		}
 
@@ -272,62 +281,26 @@ public class CsvAnalyser {
 
 	}
 
-	private byte getSeperator(byte[][] lines, int numberOfLines) {
 
+	private byte getSeperatorQuote(byte[][] lines, int numberOfLines) {
 		int i,j, k;
-		String s;
-		int[] count = new int[Common.FIELD_SEPARATOR_LIST1_VALUES.length];
-		String[] sep = /*(String[])*/ Common.FIELD_SEPARATOR_LIST1_VALUES.clone();
-		byte[] sepBytes = new byte[sep.length];
-		if (numberOfLines < 0) {
-			numberOfLines = lines.length;
-		}
-		//sep[0] = ",";
-		//sep[1] = "\t";
 
-		for (i = 0; i < count.length; i++) {
-			count[i] = 0;
-		}
-		for (k = 0; k < sep.length; k++) {
-			sepBytes[k] = 0;
-			try {
-				if (sep[k].startsWith("x'")) {
-					sepBytes[k] = Conversion.getByteFromHexString(sep[k]);
-				} else {
-					sepBytes[k] = Conversion.getBytes(sep[k], font)[0];
-				}
-			} catch (Exception e) {
-			}
-		}
-
-		for (i = Math.max(0, numberOfLines - 45); i < numberOfLines; i++) {
-			if (lines[i] != null) {
-				s = new String(lines[i]);
-				for (j = 0; j < s.length(); j++) {
-					for (k = 0; k < sep.length; k++) {
-						if (sep[k].startsWith("x'")) {
-							if (lines[i][j] == sepBytes[k]) {
-								count[k] += 1;
-								break;
-							}
-						} else if (sep[k].equals(s.substring(j, j+1))) {
-							count[k] += 1;
-							break;
-						}
-					}
-				}
-			}
-		}
-
-		seperatorIdx = getMax(count);
-
+//		String[] sep = /*(String[])*/ Common.FIELD_SEPARATOR_LIST1_VALUES.clone();
+		byte[] sepBytes = getSepBytes(font);
+		byte sepByte;
+		String[] sep = /*(String[])*/ Common.FIELD_SEPARATOR_LIST1_VALUES;
 
 		int st = 2;
 		byte[] quoteBytes = new byte[Common.QUOTE_LIST.length - st];
 		int[] quoteCount = new int[Common.QUOTE_LIST.length - st];
 		byte last = 0;
-		byte sepByte = sepBytes[seperatorIdx];
 
+		if (numberOfLines < 0) {
+			numberOfLines = lines.length;
+		}
+
+		seperatorIdx = getSeperatorIndex(lines, numberOfLines, font, sepBytes);
+		sepByte = sepBytes[seperatorIdx];
 		if (sepByte == 0) {
 			try {
 				sepByte = Conversion.getBytes(sep[seperatorIdx], "")[0];
@@ -340,7 +313,8 @@ public class CsvAnalyser {
 			quoteBytes[i - st] = Conversion.getBytes(Common.QUOTE_LIST[i], "")[0];
 		}
 
-		for (i = Math.max(0, numberOfLines - 15); i < numberOfLines; i++) {
+//		for (i = Math.max(0, numberOfLines - 15); i < numberOfLines; i++) {
+		for (i = 0; i < numberOfLines; i++) {
 			if (lines[i] != null) {
 				last = 0;
 				for (j = 0; j < lines[i].length - 1; j++) {
@@ -362,13 +336,71 @@ public class CsvAnalyser {
 
 		int quoteIdxMax = getMax(quoteCount);
 
-		if (quoteCount[quoteIdxMax] > 7) {
+		if (quoteCount[quoteIdxMax] > 5
+		|| (embeddedCr && quoteCount[quoteIdxMax] > 1)) {
 			quoteIdx = quoteIdxMax + st;
 		}
 
 		return sepBytes[seperatorIdx];
 	}
 
+	public static String getSeperator(byte[][] lines, int numberOfLines, String font) {
+
+		byte[] sepBytes = getSepBytes(font);
+		return Common.FIELD_SEPARATOR_LIST1_VALUES[getSeperatorIndex(lines, numberOfLines, font, sepBytes)];
+	}
+
+	private static byte[] getSepBytes(String font) {
+		String[] sep = /*(String[])*/ Common.FIELD_SEPARATOR_LIST1_VALUES;
+		byte[] sepBytes = new byte[sep.length];
+		for (int k = 0; k < sep.length; k++) {
+			sepBytes[k] = 0;
+			try {
+				sepBytes[k] = Conversion.getCsvDelimBytes(sep[k], font)[0];
+			} catch (Exception e) {
+			}
+		}
+		return sepBytes;
+	}
+
+	public static int getSeperatorIndex(byte[][] lines, int numberOfLines, String font, byte[] sepBytes) {
+		int i,j, k;
+		String s;
+		int[] count = new int[Common.FIELD_SEPARATOR_LIST1_VALUES.length];
+		String[] sep = /*(String[])*/ Common.FIELD_SEPARATOR_LIST1_VALUES.clone();
+//		byte[] sepBytes = new byte[sep.length];
+		if (numberOfLines < 0) {
+			numberOfLines = lines.length;
+		}
+		//sep[0] = ",";
+		//sep[1] = "\t";
+
+		for (i = 0; i < count.length; i++) {
+			count[i] = 0;
+		}
+
+
+		for (i = Math.max(0, numberOfLines - 45); i < numberOfLines; i++) {
+			if (lines[i] != null) {
+				s = new String(lines[i]);
+				for (j = 0; j < s.length(); j++) {
+					for (k = 0; k < sep.length; k++) {
+						if (sep[k].startsWith("x'")) {
+							if (lines[i][j] == sepBytes[k]) {
+								count[k] += 1;
+								break;
+							}
+						} else if (sep[k].equals(s.substring(j, j+1))) {
+							count[k] += 1;
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		return getMax(count);
+	}
 
 	/**
 	 * Check if column names exist in the file
@@ -401,8 +433,8 @@ public class CsvAnalyser {
 			}
 		}
 
-		if (colNamesOnFirstLine != COLUMN_NAMES_NO && lines.size() > fieldNameLineNo + 4) {
-			int noNums;
+		if (colNamesOnFirstLine != COLUMN_NAMES_NO) {
+			int noNums, crCount;
 
 			int limit = (lines.size() - fieldNameLineNo) / 3;
 //			System.out.println();
@@ -411,23 +443,54 @@ public class CsvAnalyser {
 			colTypes = new int[numberOfColumns];
 			for (int j = 0; j < numberOfColumns; j++) {
 				noNums = 0;
+				crCount = 0;
 				colTypes[j] = Type.ftChar;
 				for (i = fieldNameLineNo; i < lines.size(); i++) {
 					line = lines.get(i);
+
 					if (j < line.size()) {
+						String fieldValue = line.get(j);
 						try {
-							new BigDecimal(line.get(j));
+							new BigDecimal(fieldValue);
 							noNums += 1;
 						} catch (Exception e) {
+						}
+						if (fieldValue.indexOf('\n') >= 0 || fieldValue.indexOf('\r') >= 0) {
+							//System.out.println(i + " " + j + " ~ " + fieldValue + " " + fieldValue.indexOf('\n'));
+							crCount += 1;
 						}
 					}
 				}
 
-				System.out.print("\t" + noNums);
+				//System.out.print("\t" + noNums);
 				if (noNums > 3 && noNums > limit) {
 					colNamesOnFirstLine = COLUMN_NAMES_YES;
 					colTypes[j] = Type.ftNumAnyDecimal;
+				} else if (crCount > 0) {
+					colTypes[j] = Type.ftMultiLineEdit;
 				}
+			}
+
+			if (colTypes != null) {
+				for (int k = 0; k < colTypes.length && textTypes == null; k++) {
+					switch (colTypes[k]) {
+					case Type.ftMultiLineEdit:
+						textTypes = new int[colTypes.length];
+						TypeManager typeManager = TypeManager.getInstance();
+
+						for (int j = 0; j < textTypes.length; j++) {
+							textTypes[j] = colTypes[j];
+							if (typeManager.getType(textTypes[j]).isNumeric()) {
+								textTypes[j] = Type.ftChar;
+							}
+						}
+
+					}
+				}
+			}
+
+			if (lines.size() <= fieldNameLineNo + 4) {
+				colTypes = null;
 			}
 		}
 
@@ -466,7 +529,7 @@ public class CsvAnalyser {
 
 
 
-	private int getMax(int[] array) {
+	private static int getMax(int[] array) {
 
 		int idxMax = 0;
 		int max = -1;
@@ -520,6 +583,16 @@ public class CsvAnalyser {
 		}
 
 		return ret;
+	}
+
+
+	public int[] getTextTypes() {
+
+		if (textTypes != null) {
+			return textTypes.clone();
+		}
+
+		return null;
 	}
 
 	/**

@@ -1,105 +1,62 @@
 package net.sf.RecordEditor.utils.swing;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.FocusListener;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-import net.sf.RecordEditor.utils.common.Common;
-
-@SuppressWarnings("serial")
-public class FileChooser1 extends JPanel {
-
-	private static final int FIELD_WIDTH = 20;
-
-	private JTextField fileFld = new JTextField();
-	protected JButton openBtn = new JButton(Common.getRecordIcon(Common.ID_OPEN_ICON));
-
-    private final FileChooserHelper chooseHelper;
+import javax.swing.JComboBox;
 
 
 
-	public FileChooser1(boolean isOpen) {
-		super();
 
-		chooseHelper = new FileChooserHelper(fileFld, isOpen);
-		init();
+@SuppressWarnings({ "serial", "rawtypes" })
+public class FileChooserCombo extends FileChooserBtnSelect<JComboBox> implements UpdatableTextValue {
+
+	private final int maxListSize;
+	private final List<String> list;
+
+
+	public FileChooserCombo(boolean isOpen, boolean isDirectory, String[] items, int itemCount) {
+		this(isOpen, isDirectory, items, itemCount, OPEN_FILE_CHOOSER_POSITION);
 	}
 
-	protected void init() {
 
-		fileFld.setOpaque(true);
-		fileFld.setMinimumSize(new Dimension(FIELD_WIDTH, fileFld.getHeight()));
+	@SuppressWarnings("unchecked")
+	public FileChooserCombo(boolean isOpen, boolean isDirectory, String[] items, int itemCount, JButton... btns) {
+		super(new JComboBox(items), isOpen, isDirectory, btns);
 
-		this.setLayout(new BorderLayout());
-		this.add(BorderLayout.CENTER, fileFld);
-		this.add(BorderLayout.EAST, openBtn);
+		this.maxListSize = Math.max(itemCount, items.length);
+		this.list = new ArrayList<String>(maxListSize);
 
-		this.setBorder(fileFld.getBorder());
-		fileFld.setBorder(BorderFactory.createEmptyBorder());
-		openBtn.addActionListener(chooseHelper);
+
+		for (String s : items) {
+			list.add(s);
+		}
 	}
 
-	/**
-	 * Get the Text fields value
-	 * @return text value of field
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.swing.UpdatableTextValue#getText()
 	 */
+	@Override
 	public String getText() {
-	    return fileFld.getText();
+	    return component.getSelectedItem().toString();
 	}
 
-	/**
-     * Set the fields value
-     * @param text new text value of date
-     */
-    public void setText(String text) {
-        fileFld.setText(text);
-    }
-
-
-
-
-	public void setupBackground() {
-		super.setBackground(Color.WHITE);
-	}
-
-
-	public void setBackgroundOfField(Color bg) {
-		fileFld.setBackground(bg);
-	}
-
-
-    /**
-     * Special file chooser Focus listner.
-     * @param fcListner focus listner
-     * @see java.awt.Component#addFocusListener(java.awt.event.FocusListener)
-     */
-    public synchronized void addFcFocusListener(FocusListener fcListner) {
-
-       	fileFld.addFocusListener(fcListner);
-       	chooseHelper.listner.add(fcListner);
-    }
-
-
-	/**
-	 * @return the chooseHelper
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.swing.UpdatableTextValue#setText(java.lang.String)
 	 */
-	public FileChooserHelper getChooseHelper() {
-		return chooseHelper;
-	}
+    @SuppressWarnings("unchecked")
+	@Override
+	public void setText(String text) {
+        component.setSelectedItem(text);
+        list.remove(text);
+        list.add(0, text);
 
-	/**
-	 * @param name
-	 * @see java.awt.Component#setName(java.lang.String)
-	 */
-	public void setName(String name) {
-		fileFld.setName(name + "_Txt");
-		openBtn.setName(name + "_OpenBtn");
-		super.setName(name);
-	}
+        if (list.size() >= maxListSize) {
+        	list.remove(list.size() - 1);
+        }
+
+        component.setModel(new DefaultComboBoxModel(list.toArray()));
+    }
 }

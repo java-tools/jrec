@@ -60,7 +60,7 @@ import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
-import net.sf.RecordEditor.utils.swing.FileChooser1;
+import net.sf.RecordEditor.utils.swing.FileChooserTxt;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
@@ -76,7 +76,7 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 
 
 //	private JComboBox languageCombo;
-	private FileChooser1 templateFC = new FileChooser1(true);
+	private FileChooserTxt templateFC = new FileChooserTxt(true);
 	private String lastFile = "";
 	private JButton runBtn = SwingUtils.newButton("Run !!!", Common.getRecordIcon(Common.ID_SCRIPT_ICON));
 	private JTextArea msg = new JTextArea();

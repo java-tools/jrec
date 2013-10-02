@@ -29,7 +29,7 @@ import javax.swing.event.PopupMenuListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 
-import net.sf.JRecord.CsvParser.BasicParser;
+import net.sf.JRecord.CsvParser.BasicCsvLineParser;
 import net.sf.JRecord.CsvParser.CsvDefinition;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.utils.common.Common;
@@ -346,7 +346,7 @@ public class CsvArray extends JPanel implements ActionListener, TableCellRendere
      *
      */
     private class CsvTableModel extends AbstractTableModel {
-        private BasicParser parser = BasicParser.getInstance();
+        private BasicCsvLineParser parser = BasicCsvLineParser.getInstance();
         //private String value;
 
         private String delimiter;
@@ -429,7 +429,7 @@ public class CsvArray extends JPanel implements ActionListener, TableCellRendere
      *
      */
     private class CsvTableModelMultiColumn extends CsvTableModel {
-        private BasicParser parser = BasicParser.getInstance();
+        private BasicCsvLineParser parser = BasicCsvLineParser.getInstance();
         private String delimiter2, quoteStr;
 
         /**

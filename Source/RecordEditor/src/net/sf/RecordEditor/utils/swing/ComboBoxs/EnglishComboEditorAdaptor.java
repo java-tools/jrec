@@ -11,7 +11,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import net.sf.RecordEditor.utils.swing.SwingUtils;
-import net.sf.RecordEditor.utils.swing.Combo.ComboStdOption;
+import net.sf.RecordEditor.utils.swing.Combo.IComboOption;
 
 /**
  * @author mum
@@ -32,8 +32,8 @@ implements 	TableCellEditor, TableCellRenderer {
 	@Override
 	public Object getCellEditorValue() {
 		Object val = combo.getSelectedItem();
-		if (val != null && val instanceof ComboStdOption) {
-			return ((ComboStdOption) val).key;
+		if (val != null && val instanceof IComboOption) {
+			return ((IComboOption<?>) val).getKey();
 		}
 		return val;
 	}

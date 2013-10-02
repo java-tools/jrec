@@ -277,6 +277,19 @@ public class BasePanel extends JPanel {
 	 * @param component Component to be added to the Panel
 	 */
 	public final BasePanel addLine(String prompt, JComponent component) {
+		return addLine(prompt, component, 3, 3);
+	}
+
+	public final BasePanel addLineFullWidth(String prompt, JComponent component) {
+		return addLine(prompt, component, 3, 5);
+	}
+	/**
+	 * Adds a field to the Panel
+	 *
+	 * @param prompt Fields Prompt
+	 * @param component Component to be added to the Panel
+	 */
+	private final BasePanel addLine(String prompt, JComponent component, int firstCol, int lastCol) {
 		JLabel promptLbl = null;
 
 		if (prompt != null) {
@@ -289,7 +302,7 @@ public class BasePanel extends JPanel {
 				addLine(promptLbl, component);
 			}
 		} else {
-			addLine(promptLbl, component);
+			addLine(promptLbl, component, firstCol, lastCol);
 			setComponentName(component, prompt);
 		}
 
@@ -301,6 +314,14 @@ public class BasePanel extends JPanel {
 	}
 
 	public final BasePanel addLine(JComponent promptLbl, JComponent component) {
+		return addLine(promptLbl, component, 3, 3);
+	}
+
+	public final BasePanel addLine3to5(JComponent promptLbl, JComponent component) {
+		return addLine(promptLbl, component, 3, 5);
+	}
+
+	private final BasePanel addLine(JComponent promptLbl, JComponent component, int firstCol, int lastCol) {
 		incRow();
 
 		if (promptLbl != null) {
@@ -325,14 +346,14 @@ public class BasePanel extends JPanel {
 			}
 		}
 
-		setNumCols(3);
+		setNumCols(Math.max(3, lastCol));
 		if (component == null) {
 			if (promptLbl != null) {
 				lSize[currRow] = Math.max(lSize[currRow], promptLbl.getPreferredSize().getHeight());
 			}
 		} else {
 		    this.add(component,
-		            new TableLayoutConstraints(3, currRow, 3, currRow,
+		            new TableLayoutConstraints(firstCol, currRow, lastCol, currRow,
 		                    fieldLayout[FIELD][0], fieldLayout[FIELD][1]));
 
 		    //setComponentName(component, promptLbl);

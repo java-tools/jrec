@@ -7,11 +7,15 @@ import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
-import javax.swing.text.JTextComponent;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.RecordEditor.utils.params.Parameters;
 
+/**
+ * Class to display File Chooser
+ * @author Bruce Martin
+ *
+ */
 public class FileChooserHelper implements ActionListener {
 
 	protected JFileChooser chooseFile = null;
@@ -19,17 +23,25 @@ public class FileChooserHelper implements ActionListener {
     private int mode = Constants.NULL_INTEGER;
     private String defaultDirectory = "";
     private boolean open = true;
+    private final boolean isDirectory;
     private boolean expandVars = false;
 
-    protected JTextComponent txtC;
+    protected UpdatableTextValue txtC;
 
 
-	public FileChooserHelper(JTextComponent txtC, boolean open) {
-		super();
+	public FileChooserHelper(UpdatableTextValue txtC, boolean open) {
+		this(txtC, open, false);
 		this.txtC = txtC;
 		this.open = open;
 	}
 
+
+	public FileChooserHelper(UpdatableTextValue txtC, boolean open, boolean isDirectory) {
+		super();
+		this.txtC = txtC;
+		this.open = open;
+		this.isDirectory = isDirectory;
+	}
 
 	/**
 	 * @see java.awt.Event.actionPerformed
@@ -39,6 +51,10 @@ public class FileChooserHelper implements ActionListener {
 		String s = txtC.getText();
 		if (chooseFile == null) {
 			chooseFile = new JFileChooser();
+
+			if (isDirectory) {
+				chooseFile.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			}
 
 			if ( mode != Constants.NULL_INTEGER) {
 				chooseFile.setFileSelectionMode(mode);

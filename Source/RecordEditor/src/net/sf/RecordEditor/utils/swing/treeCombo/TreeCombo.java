@@ -1,33 +1,69 @@
 package net.sf.RecordEditor.utils.swing.treeCombo;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.MenuElement;
 import javax.swing.MenuSelectionManager;
 
+import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.common.ComboLikeObject;
 
 
+/**
+ * TreeCombo Swing util
+ *
+ * @author mum
+ *
+ */
 @SuppressWarnings("serial")
 public class TreeCombo extends ComboLikeObject {
 
+	private static final TreeComboItem[] EMPTY_TREE = {};
+
 	private TreeComboItem selectedItem = null;
 	private HashMap<Integer, TreeComboItem> itemMap = new HashMap<Integer, TreeComboItem>();
-	private final TreeComboItem[] items;
+	private TreeComboItem[] items;
 	private JPopupMenu menu;
 	private HashMap<TreeComboItem, JMenu> menuMap = new HashMap<TreeComboItem, JMenu>(15);
 	private HashMap<TreeComboItem, JMenuItem> menuItemMap = new HashMap<TreeComboItem, JMenuItem>(25);
 
+
+
 	public TreeCombo(TreeComboItem[] itms) {
 		super();
-		items = itms;
 
 		generatePopup(getPopup(), itms);
+	}
+
+
+	public TreeCombo(TreeComboItem[] itms, JButton...btns) {
+		super(btns);
+
+		generatePopup(getPopup(), itms);
+	}
+
+
+	public TreeCombo(JPopupMenu popup, TreeComboItem[] itms, JButton...btns) {
+		super(popup, btns);
+
+		generatePopup(getPopup(), itms);
+	}
+
+
+
+	public final void setTree(TreeComboItem[] itms) {
+		JPopupMenu popup = getPopup();
+		popup.removeAll();
+
+		generatePopup(popup, itms);
 	}
 
 
@@ -48,8 +84,13 @@ public class TreeCombo extends ComboLikeObject {
 	}
 
 
-	private JPopupMenu generatePopup(JPopupMenu menu, TreeComboItem[] items) {
+	private JPopupMenu generatePopup(JPopupMenu menu, TreeComboItem[] itms) {
 
+		items = itms;
+		if (items == null) {
+			items = EMPTY_TREE;
+		}
+		itemMap = new HashMap<Integer, TreeComboItem>();
 		menu.add(new ComboAction(TreeComboItem.BLANK_ITEM));
 		for (TreeComboItem item : items) {
 			TreeComboItem[] children = item.getChildren();
@@ -61,13 +102,15 @@ public class TreeCombo extends ComboLikeObject {
 			}
 		}
 
+		super.setPopupHeight(SwingUtils.COMBO_TABLE_ROW_HEIGHT * Math.min(16, items.length + 1));
+
 		this.menu = menu;
 		return menu;
 	}
 
 
 	/**
-	 * @see net.sf.RecordEditor.utils.swing.treeCombo.ComboLikeObject#highlightItem(javax.swing.JPopupMenu, boolean)
+	 * @see net.sf.RecordEditor.utils.swing.common.ComboLikeObject#highlightItem(javax.swing.JPopupMenu, boolean)
 	 */
 	@Override
 	protected void highlightItem(JPopupMenu currentPopup, boolean visible) {
@@ -171,10 +214,10 @@ public class TreeCombo extends ComboLikeObject {
 	 * @param selectedItem the selectedItem to set
 	 */
 	public void setSelectedItem(TreeComboItem selectedItem) {
-		super.visible = false;
+		super.hidePopup();
 		if (selectedItem != null) {
 			this.selectedItem = selectedItem;
-			super.setText(selectedItem.toString());
+			super.setText(selectedItem.getEditString());
 		}
 	}
 

@@ -12,7 +12,7 @@ import java.io.Writer;
 
 import javax.swing.table.TableModel;
 
-import net.sf.RecordEditor.utils.common.TranslateXmlChars;
+import net.sf.JRecord.Common.TranslateXmlChars;
 
 /**
  * This class writes a Table Model as a HTML table

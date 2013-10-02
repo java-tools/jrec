@@ -2,7 +2,6 @@ package net.sf.RecordEditor.utils.swing.treeCombo;
 
 import net.sf.RecordEditor.utils.swing.Combo.ComboStdOption;
 
-@SuppressWarnings("unchecked")
 public class TreeComboItem extends ComboStdOption<Integer> {
 
 	public static final TreeComboItem BLANK_ITEM = new TreeComboItem(Integer.MIN_VALUE+1, "", "");
@@ -10,6 +9,7 @@ public class TreeComboItem extends ComboStdOption<Integer> {
 	private TreeComboItem parentItem = null;
 	private final TreeComboItem[] children;
 	private boolean showParent = false;
+	private boolean required   = false;
 
 
 	public TreeComboItem(Integer idx, String str, String englishString) {
@@ -73,5 +73,29 @@ public class TreeComboItem extends ComboStdOption<Integer> {
 		this.parentItem = parentItem;
 	}
 
+	/**
+	 * @return the required
+	 */
+	public boolean isRequired() {
+		return required;
+	}
 
+	/**
+	 * @param required the required to set
+	 */
+	public void setRequired(boolean required) {
+		this.required = required;
+	}
+
+	public final int getLastKey() {
+		if (children == null && children.length > 0) {
+			return children[children.length - 1].getLastKey();
+		}
+
+		return key;
+	}
+
+	public String getEditString() {
+		return this.toString();
+	}
 }

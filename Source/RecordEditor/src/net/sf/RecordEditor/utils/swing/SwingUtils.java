@@ -237,7 +237,6 @@ public class SwingUtils {
 
 	public static void clickOpenBtn(JFileChooser fileChooser, boolean doEnter) {
 		String s = System.getProperty("java.version").substring(0, 4);
-		System.out.println("====> " + s);
 		try {
 			if (s.startsWith("1.5.") || s.startsWith("1.6.")) {
 				if (doEnter) {

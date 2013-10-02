@@ -2,14 +2,14 @@ package net.sf.RecordEditor.utils.swing.ComboBoxs;
 
 import javax.swing.JComboBox;
 
-import net.sf.RecordEditor.utils.swing.Combo.ComboStdOption;
 import net.sf.RecordEditor.utils.swing.Combo.ComboStrOption;
+import net.sf.RecordEditor.utils.swing.Combo.IComboOption;
 
 @SuppressWarnings("serial")
 public class EnglishCombo<Key extends Object> extends JComboBox {
 
-	private final ComboStdOption<Key> empty;
-	public EnglishCombo(ComboStdOption<Key> emptyVal) {
+	private final IComboOption<Key> empty;
+	public EnglishCombo(IComboOption<Key> emptyVal) {
 		super();
 
 		empty = emptyVal;
@@ -18,11 +18,11 @@ public class EnglishCombo<Key extends Object> extends JComboBox {
 
 
 	public final Key getSelectedKey() {
-		return getSelectedOption().key;
+		return getSelectedOption().getKey();
 	}
 
 	public final Key getKey(int idx) {
-		return getOption(idx).key;
+		return getOption(idx).getKey();
 	}
 
 	public final String getSelectedText() {
@@ -35,7 +35,7 @@ public class EnglishCombo<Key extends Object> extends JComboBox {
 
 	public final int getAddEnglish(String englishText, boolean add) {
 		for (int i = 0; i < this.getItemCount(); i++) {
-			if (getOption(i).key.equals(englishText)) {
+			if (getOption(i).getKey().equals(englishText)) {
 				this.setSelectedIndex(i);
 				return i;
 			}
@@ -67,22 +67,22 @@ public class EnglishCombo<Key extends Object> extends JComboBox {
 
 	public final void setKey(String key) {
 		for (int i = 0; i < this.getItemCount(); i++) {
-			if (getOption(i).key.equals(key)) {
+			if (getOption(i).getKey().equals(key)) {
 				this.setSelectedIndex(i);
 				break;
 			}
 		}
 	}
 
-	private ComboStdOption<Key> getSelectedOption() {
-		return getOption((ComboStdOption<Key>) this.getSelectedItem());
+	private IComboOption<Key> getSelectedOption() {
+		return getOption((IComboOption<Key>) this.getSelectedItem());
 	}
 
-	private ComboStdOption<Key> getOption(int idx) {
-		return getOption((ComboStdOption<Key>) this.getItemAt(idx));
+	private IComboOption<Key> getOption(int idx) {
+		return getOption((IComboOption<Key>) this.getItemAt(idx));
 	}
 
-	private ComboStdOption<Key> getOption(ComboStdOption<Key> ret) {
+	private IComboOption<Key> getOption(IComboOption<Key> ret) {
 		if (ret == null) {
 			ret = empty;
 		}

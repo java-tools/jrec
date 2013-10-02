@@ -27,7 +27,7 @@ import net.sf.RecordEditor.utils.common.Common;
  *
  */
 @SuppressWarnings("serial")
-public class FileChooser extends JTextField  {
+public class FileChooser extends JTextField implements UpdatableTextValue  {
     private JButton chooseFileButton;
 //    private JFileChooser chooseFile = null;
 //    private ArrayList<FocusListener> listner = new ArrayList<FocusListener>();

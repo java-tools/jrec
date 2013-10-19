@@ -480,16 +480,11 @@ public class ReFrame extends JInternalFrame
 	       		newActiveFrame.requestFocus(true);
 		        try {
 		        	newActiveFrame.setSelected(true);
+		        	newActiveFrame.setMaximum(max);
 		        } catch (Exception ex) {
 		        }
 	            activeHistory.remove(newActiveFrame);
 	            activeHistory.add(newActiveFrame);
-
-
-	            try {
-					newActiveFrame.setMaximum(max);
-				} catch (PropertyVetoException e) {
-				}
 
 	            newActiveFrame.addInternalFrameListener(newActiveFrame.listener);
 	       	}

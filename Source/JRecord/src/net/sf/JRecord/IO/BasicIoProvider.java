@@ -34,6 +34,9 @@ public abstract class BasicIoProvider implements AbstractLineIOProvider {
 	@Override
 	public AbstractLineReader getLineReader(int fileStructure,
 			IBasicFileSchema schema, LineProvider lineProvider) {
+		if (lineProvider == null) {
+			lineProvider = getLineProvider(fileStructure);
+		}
 		return getLineReader(schema.getFileStructure(), lineProvider);
 	}
 }

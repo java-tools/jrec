@@ -142,6 +142,24 @@ implements AbstractLayoutDetails {
 	protected abstract RecordDescription  getNewRecord(RecordDescription record, ArrayList<? extends RecordDescription.FieldDetails> fields);
 
 
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Details.AbstractLayoutDetails#getAttribute(net.sf.JRecord.Details.IAttribute)
+	 */
+	@Override
+	public Object getAttribute(IAttribute attr) {
+
+		return null;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Details.AbstractLayoutDetails#setAttribute(net.sf.JRecord.Details.IAttribute, java.lang.Object)
+	 */
+	@Override
+	public void setAttribute(IAttribute attr, Object value) {
+
+	}
+
 	@Override
 	public int getOption(int option) {
 		return Options.UNKNOWN;

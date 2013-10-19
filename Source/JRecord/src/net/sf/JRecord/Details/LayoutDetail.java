@@ -901,14 +901,14 @@ extends BasicLayout<RecordDetail> {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see net.sf.JRecord.Details.AbstractLayoutDetails#getAttribute(net.sf.JRecord.Details.IAttribute)
-	 */
-	@Override
-	public Object getAttribute(IAttribute attr) {
-
-		return null;
-	}
+//	/* (non-Javadoc)
+//	 * @see net.sf.JRecord.Details.AbstractLayoutDetails#getAttribute(net.sf.JRecord.Details.IAttribute)
+//	 */
+//	@Override
+//	public Object getAttribute(IAttribute attr) {
+//
+//		return null;
+//	}
 
 
 	/* (non-Javadoc)

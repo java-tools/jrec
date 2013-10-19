@@ -16,9 +16,9 @@ import net.sf.JRecord.Common.Conversion;
  */
 public abstract class BaseByteTextReader extends AbstractByteReader {
 
-	private byte[] crBytes = Constants.CR_BYTES;
-	private byte[] lfBytes = Constants.LF_BYTES;
-	private byte[] lfcrBytes = Constants.LFCR_BYTES;
+	protected byte[] crBytes = Constants.CR_BYTES;
+	protected byte[] lfBytes = Constants.LF_BYTES;
+	protected byte[] lfcrBytes = Constants.LFCR_BYTES;
 
 	protected byte byteLF = Constants.BYTE_LF;
 	protected byte byteCR = Constants.BYTE_CR;
@@ -71,20 +71,17 @@ public abstract class BaseByteTextReader extends AbstractByteReader {
 		bytesInBuffer = readBuffer(in, buffer);
 		eofPending = bytesInBuffer < buffer.length;
 
-		int size = 0;
 
 		if (eol == null) {
-			while (size < bytesInBuffer && buffer[size] != byteCR && buffer[size] != byteLF) {
-				size += 1;
-			}
+			int eolPos = getEolPosition();
 
-			if (size >= bytesInBuffer) {
+			if (eolPos >= bytesInBuffer) {
 				eol = NO_EOL;
-			} else if (buffer[size] ==  byteCR) {
+			} else if (buffer[eolPos] ==  byteCR) {
 				eol = crBytes;
 				check4lf = true;
 			} else {
-				if (size+1 < bytesInBuffer && buffer[size+1] ==  byteCR) {
+				if (eolPos+1 < bytesInBuffer && buffer[eolPos+1] ==  byteCR) {
 					eol = lfcrBytes;
 				} else {
 					eol = lfBytes;
@@ -97,6 +94,16 @@ public abstract class BaseByteTextReader extends AbstractByteReader {
 
 		findLinesInBuffer(0);
 		lineNo = -1;
+	}
+
+	protected int getEolPosition() {
+
+		int pos = 0;
+		while (pos < bytesInBuffer && buffer[pos] != byteCR && buffer[pos] != byteLF) {
+			pos += 1;
+		}
+
+		return pos;
 	}
 
 	protected void setLineSearch() {
@@ -205,6 +212,29 @@ public abstract class BaseByteTextReader extends AbstractByteReader {
 		return eol;
 	}
 
+
+	protected void setLfCr(String charSet) {
+
+		byte[] b = Conversion.getBytes("\r\n", charSet);
+
+		if (b[0] != byteLF || b[1] != byteCR) {
+			byteLF = b[0];
+			byteCR = b[1];
+
+			crBytes = new byte[] {byteCR};
+			lfBytes = new byte[] {byteLF};
+			lfcrBytes = new byte[] {byteLF, byteCR};
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.ByteIO.AbstractByteReader#getBytesRead()
+	 */
+	@Override
+	public long getBytesRead() {
+		return bytesRead;
+	}
+
 	protected static interface FindLines {
 		public void findLinesInBuffer(int start);
 	}
@@ -229,29 +259,6 @@ public abstract class BaseByteTextReader extends AbstractByteReader {
 				start += 1;
 			}
 		}
-	}
-
-
-	protected void setLfCr(String charSet) {
-
-		byte[] b = Conversion.getBytes("\r\n", charSet);
-
-		if (b[0] != byteLF || b[1] != byteCR) {
-			byteLF = b[0];
-			byteCR = b[1];
-
-			crBytes = new byte[] {byteCR};
-			lfBytes = new byte[] {byteLF};
-			lfcrBytes = new byte[] {byteLF, byteCR};
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see net.sf.JRecord.ByteIO.AbstractByteReader#getBytesRead()
-	 */
-	@Override
-	public long getBytesRead() {
-		return bytesRead;
 	}
 
 

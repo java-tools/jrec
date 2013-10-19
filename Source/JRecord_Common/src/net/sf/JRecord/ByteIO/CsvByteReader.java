@@ -22,21 +22,25 @@ public class CsvByteReader extends BaseByteTextReader {
 	private byte[] quoteEol = EMPTY;
 	private byte[] quoteEol2 = EMPTY;
 
+	private boolean useStdEolCheck;
 
-	public CsvByteReader(String charSet, String fieldSep, String quote, String quoteEsc) {
+
+	public CsvByteReader(String charSet, String fieldSep, String quote, String quoteEsc, boolean useStdEolCheck) {
 		this(	null,
 				Conversion.getCsvDelimBytes(fieldSep, charSet),
 				Conversion.getBytes(quote, charSet),
-				Conversion.getBytes(quoteEsc, charSet));
+				Conversion.getBytes(quoteEsc, charSet),
+				useStdEolCheck);
 
 		setLfCr(charSet);
 	}
 
-	public CsvByteReader(byte[] eol, byte[] fieldSep, byte[] quote, byte[] quoteEsc) {
+	public CsvByteReader(byte[] eol, byte[] fieldSep, byte[] quote, byte[] quoteEsc, boolean useStdEolCheck) {
 		super();
 		super.eol = eol;
 		this.fieldSep = fieldSep;
 		this.quoteEsc = quoteEsc == null ? EMPTY : quoteEsc;
+		this.useStdEolCheck = useStdEolCheck;
 
 		if (quote == null || quote.length == 0) {
 			this.quote = EMPTY;
@@ -65,6 +69,40 @@ public class CsvByteReader extends BaseByteTextReader {
 //		}
 	}
 
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.ByteIO.BaseByteTextReader#getEolPosition()
+	 */
+	@Override
+	protected int getEolPosition() {
+		if (! useStdEolCheck) {
+			byte[] qEol1 = new byte[quote.length + 1];
+			byte[] qEol2 = new byte[quote.length + 1];
+			byte[] qEol3 = new byte[quote.length +  super.lfcrBytes.length];
+
+			SearchDtls searchDtls = new SearchDtls();
+
+			System.arraycopy(quote,           0, qEol1, 0, quote.length);
+			System.arraycopy(super.crBytes,   0, qEol1,    quote.length, super.crBytes.length);
+			System.arraycopy(quote,           0, qEol2, 0, quote.length);
+			System.arraycopy(super.lfBytes,   0, qEol2,    quote.length, super.lfBytes.length);
+			System.arraycopy(quote,           0, qEol3, 0, quote.length);
+			System.arraycopy(super.lfcrBytes, 0, qEol3,    quote.length, super.lfcrBytes.length);
+
+			FindLines eolSearch;
+			if (quoteEsc.length == 0) {
+				eolSearch = new NoQuoteEsc(qEol1, qEol2, qEol3, searchDtls);
+			} else {
+				eolSearch = new QuoteEsc(qEol1, qEol2, qEol3, searchDtls);
+			}
+			eolSearch.findLinesInBuffer(0);
+
+			if (searchDtls.noLines > 0) {
+				return lineArray[0] - 1;
+			}
+		}
+		return super.getEolPosition();
+	}
 
 	/* (non-Javadoc)
 	 * @see net.sf.JRecord.ByteIO.BaseByteTextReader#open(java.io.InputStream)
@@ -193,7 +231,7 @@ public class CsvByteReader extends BaseByteTextReader {
 
 	protected final boolean checkFor(int pos, byte[] search) {
 		//System.out.println("!! " + pos + " " + (search.length - 1) );
-		if (pos < search.length - 1 || search.length == 0) {
+		if (search == null || pos < search.length - 1 || search.length == 0) {
 			return false;
 		}
 
@@ -208,24 +246,55 @@ public class CsvByteReader extends BaseByteTextReader {
 	}
 
 	private class NoQuoteEsc implements FindLines {
+		private final byte[] quoteEol1;
+		private final byte[] quoteEol2 ;
+		private final byte[] quoteEol3;
+
+		private final ILineNoDtls dtls;
+
+
+		public NoQuoteEsc() {
+			this(	CsvByteReader.this.quoteEol, CsvByteReader.this.quoteEol2, EMPTY,
+					new StdLineNoDtls());
+		}
+
+		public NoQuoteEsc(byte[] quoteEol, byte[] quoteEol2, byte[] quoteEol3, ILineNoDtls dtls) {
+			super();
+			this.quoteEol1 = quoteEol;
+			this.quoteEol2 = quoteEol2;
+			this.quoteEol3 = quoteEol3;
+			this.dtls = dtls;
+		}
+
 		public void findLinesInBuffer(int start) {
 			int lineStart = start;
+			int fieldStart = start;
 			boolean inQuote = false;
 
-			while (noLines < lineArray.length && start < bytesInBuffer && start >= 0) {
+
+			while (dtls.getNoLines() < lineArray.length && start < bytesInBuffer && start >= 0) {
 				if (checkFor(start, sepQuote)
 				|| (lineStart == start - quote.length + 1 && checkFor(start, quote))
 				) {
 					inQuote = true;
-				} else if ( checkFor(start, quoteSep)) {
+				} else if ( (  inQuote
+							&& (fieldStart != start - quoteSep.length + 1)
+							&& checkFor(start, quoteSep))
+						|| ((! inQuote) && checkFor(start, fieldSep))) {
+					fieldStart = start + 1;
 					inQuote = false;
-				} else if (  checkFor(start, quoteEol)
-						||   checkFor(start, quoteEol2)
-						|| ((! inQuote) && checkFor(start, eol))) {
+				} else if ((	checkFor(start, quoteEol1) && (fieldStart != start - quoteEol1.length + 1))
+						|| (	checkFor(start, quoteEol2) && (fieldStart != start - quoteEol2.length + 1))
+						|| (	checkFor(start, quoteEol3) && (fieldStart != start - quoteEol3.length + 1))
+						|| ((! inQuote) && dtls.isEol(start))) {
 					lineStart = start+1;
-					lineArray[noLines] = lineStart;
-					noLines += 1;
+					fieldStart = lineStart;
+					lineArray[dtls.getNoLines()] = lineStart;
+					dtls.incNoLines();
 					inQuote = false;
+				} else if (check4cr && buffer[start] == byteCR && lineStart == start) {
+					lineStart += 1;
+					fieldStart = lineStart;
 				}
 
 				start += 1;
@@ -234,6 +303,26 @@ public class CsvByteReader extends BaseByteTextReader {
 	}
 
 	private class QuoteEsc implements FindLines {
+		private final byte[] quoteEol1;
+		private final byte[] quoteEol2 ;
+		private final byte[] quoteEol3;
+
+		private final ILineNoDtls dtls;
+
+
+		public QuoteEsc() {
+			this(	CsvByteReader.this.quoteEol, CsvByteReader.this.quoteEol2, EMPTY,
+					new StdLineNoDtls());
+		}
+
+		public QuoteEsc(byte[] quoteEol, byte[] quoteEol2, byte[] quoteEol3, ILineNoDtls dtls) {
+			super();
+			this.quoteEol1 = quoteEol;
+			this.quoteEol2 = quoteEol2;
+			this.quoteEol3 = quoteEol3;
+			this.dtls = dtls;
+		}
+
 		public void findLinesInBuffer(int start) {
 			int lineStart = start;
 			int fieldStart = start;
@@ -241,78 +330,37 @@ public class CsvByteReader extends BaseByteTextReader {
 			//boolean[] followingQuoteEsc = {false, false, false};
 			int quoteEscPos = -121;
 
-			while (noLines < lineArray.length && start < bytesInBuffer && start >= 0) {
-//				followingQuoteEsc[2] = followingQuoteEsc[1];
-//				followingQuoteEsc[1] = followingQuoteEsc[0];
-//				followingQuoteEsc[0] = false;
-//				bb[0] = buffer[start];
-//				System.out.print(new String(bb));
-//				if ( checkFor(start, eol)) {
-//					System.out.print("\t" + inQuote
-//							+ " " + followingQuoteEsc[1] + "/" + followingQuoteEsc[2]
-//							+ " " + ( (inQuote) && checkFor(start, quoteEsc))
-//							+ " " + ( (! inQuote) && checkFor(start, eol))
-//							+ " " + checkFor(start, quoteEol)
-//							+ " " + buffer[start-1] + " " + buffer[start]
-//							+ " " + quoteEol[0] + " " + quoteEol[1]+ "\t");
-//					checkFor(start, quoteEol);
-//				}
-//				System.out.print("\t~" + start + " " + buffer[start] + " " + ((char) buffer[start])
-//				System.out.print((buffer[start] == 13 ? '\n' :((char) buffer[start])));
-//				if (checkFor(start, quote)) {
-//					System.out.print( " ~~ " + lineStart + " " + start + " - " + quote.length);
-//				}
+			while (dtls.getNoLines() < lineArray.length && start < bytesInBuffer && start >= 0) {
 				if (checkFor(start, sepQuote)
 				|| ((lineStart == start - quote.length + 1) && checkFor(start, quote)) ) {
 					inQuote = true;
-//					System.out.print(" a)");
-//				} else if (eol.length < followingQuoteEsc.length
-//						&& followingQuoteEsc[eol.length]
-//						&& checkFor(start, eol)) {
-////					System.out.print(" b)");
-//				} else if (fieldSep.length < followingQuoteEsc.length
-//						&& followingQuoteEsc[fieldSep.length]
-//						&& checkFor(start, fieldSep)) {
-////					System.out.print(" e)");
-//				} else if (quote.length < followingQuoteEsc.length
-//						&& followingQuoteEsc[quote.length]
-//						&& checkFor(start, quote)) {
-////					System.out.print(" f)");
-				} else if ((	quoteEscPos == start - eol.length
-							&&	checkFor(start, eol))
-						|| (	quoteEscPos == start - fieldSep.length
+				} else if ( dtls.isQuoteEscEol(quoteEscPos, start)
+						|| (	quoteEscPos >= start - fieldSep.length
 							&&	checkFor(start, fieldSep))
-						|| (	quoteEscPos >= start - quote.length
+						|| (	quoteEscPos > start - quoteEsc.length
 							&&	checkFor(start, quote))) {
 
-				} else if ( (inQuote) && checkFor(start, quoteEsc)) {
-//					System.out.print(" c)");
-//					followingQuoteEsc[0] = true;
+				} else if (inQuote
+						&& fieldStart <= start - quoteEsc.length - quote.length + 1
+						&& checkFor(start, quoteEsc)) {
+//					System.out.print("\t>>" + start
+//							+ " " + quoteEscPos + " >= " + start + " - " + quote.length
+//							+ "<<");
 					quoteEscPos = start;
-				} else if ( checkFor(start, quoteSep)
+				} else if ( (inQuote && checkFor(start, quoteSep) && (fieldStart != start - quoteSep.length + 1))
 						|| ((! inQuote) && checkFor(start, fieldSep))) {
-//					System.out.print(" d)");
 					fieldStart = start + 1;
 					inQuote = false;
-				} else if ((	checkFor(start, quoteEol)  && (fieldStart != start - quoteEol.length  + 1))
+				} else if ((	checkFor(start, quoteEol1) && (fieldStart != start - quoteEol1.length + 1))
 						|| (	checkFor(start, quoteEol2) && (fieldStart != start - quoteEol2.length + 1))
-						|| ((! inQuote) && checkFor(start, eol))) {
-//					System.out.println();
-//					System.out.println(" !!! " + fieldStart + " != "
-//							+ start + " - " + quote.length
-//							+ " !!! " + inQuote + " " + checkFor(start, quoteEol)
-//							+ " " + checkFor(start, quoteEol2) + " " + quoteEol.length
-//							+ " / " + quoteEol[1]);
+						|| (	checkFor(start, quoteEol3) && (fieldStart != start - quoteEol3.length + 1))
+						|| ((! inQuote) && dtls.isEol(start))) {
 					lineStart = start+1;
 					fieldStart = lineStart;
-					lineArray[noLines] = lineStart;
-					noLines += 1;
+					lineArray[dtls.getNoLines()] = lineStart;
+					dtls.incNoLines();
 					inQuote = false;
-//					System.out.println();
-//					System.out.println("=========================== " + noLines);
 				} else if (check4cr && buffer[start] == byteCR && lineStart == start) {
-
-//					System.out.print(" *)");
 					lineStart += 1;
 					fieldStart += 1;
 				}
@@ -320,6 +368,96 @@ public class CsvByteReader extends BaseByteTextReader {
 				start += 1;
 			}
 		}
+	}
+
+	private static interface ILineNoDtls {
+
+		public int getNoLines();
+
+		public void incNoLines();
+
+		public boolean isQuoteEscEol(int quoteEscPos, int start);
+
+		boolean isEol(int start);
+	}
+
+	private class StdLineNoDtls implements ILineNoDtls {
+
+		/* (non-Javadoc)
+		 * @see net.sf.JRecord.ByteIO.CsvByteReader.ILineNoDtls#getNoLines()
+		 */
+		@Override
+		public int getNoLines() {
+			return noLines;
+		}
+
+		/* (non-Javadoc)
+		 * @see net.sf.JRecord.ByteIO.CsvByteReader.ILineNoDtls#incNoLines()
+		 */
+		@Override
+		public void incNoLines() {
+			noLines += 1;
+		}
+
+		/* (non-Javadoc)
+		 * @see net.sf.JRecord.ByteIO.CsvByteReader.ILineNoDtls#isQuoteEscEol()
+		 */
+		@Override
+		public boolean isQuoteEscEol(int quoteEscPos, int start) {
+//			if (checkFor(start, eol)) {
+//				System.out.println("--> " + quoteEscPos + " " + start + " " + eol.length
+//						+ " " + eol[0] + " " + checkFor(start, eol) + " " + buffer[start]);
+//			}
+			return quoteEscPos == start - eol.length
+					&&	checkFor(start, eol);
+		}
+
+
+		@Override
+		public boolean isEol(int start) {
+			return checkFor(start, eol);
+		}
+	}
+
+
+	private class SearchDtls implements ILineNoDtls {
+		int noLines = 0;
+
+		/* (non-Javadoc)
+		 * @see net.sf.JRecord.ByteIO.CsvByteReader.ILineNoDtls#getNoLines()
+		 */
+		@Override
+		public int getNoLines() {
+			return noLines;
+		}
+
+		/* (non-Javadoc)
+		 * @see net.sf.JRecord.ByteIO.CsvByteReader.ILineNoDtls#incNoLines()
+		 */
+		@Override
+		public void incNoLines() {
+			noLines += 1;
+		}
+
+		/* (non-Javadoc)
+		 * @see net.sf.JRecord.ByteIO.CsvByteReader.ILineNoDtls#isQuoteEscEol()
+		 */
+		@Override
+		public boolean isQuoteEscEol(int quoteEscPos, int start) {
+			return (quoteEscPos == start - lfBytes.length
+					&&	(checkFor(start, lfBytes) || checkFor(start, crBytes)))
+				|| (quoteEscPos == start - lfcrBytes.length && checkFor(start, lfcrBytes))
+						;
+		}
+
+
+		@Override
+		public boolean isEol(int start) {
+			return checkFor(start, lfBytes)
+				|| checkFor(start, crBytes)
+			;
+		}
+
 	}
 
 }

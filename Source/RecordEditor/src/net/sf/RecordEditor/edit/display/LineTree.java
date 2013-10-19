@@ -74,6 +74,10 @@ public class LineTree extends BaseLineTree<LineNode> {
 		DisplayFrame parentFrame = getParentFrame();
 		parentFrame.bldScreen();
 
+        parentFrame.setBounds(1, 1,
+                screenSize.width  - 1,
+                screenSize.height - 1);
+
         parentFrame.setToMaximum(true);
 		parentFrame.setVisible(true);
 	}

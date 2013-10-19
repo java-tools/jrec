@@ -26,7 +26,8 @@ public class ComboLikeObject extends JPanel implements ActionListener {
 
 	private static final int FIELD_WIDTH = 20;
 
-	protected final JTextComponent valueTxt = new JTextField();
+	private final JTextComponent valueTxt;
+
 	protected final JButton showListBtn = new ArrowButton(ArrowButton.SOUTH);
 
 	private final JButton[] buttons;
@@ -66,13 +67,18 @@ public class ComboLikeObject extends JPanel implements ActionListener {
 
 
 	public ComboLikeObject(JPopupMenu popup, JButton... btns) {
+		this(new JTextField(), popup, btns);
+	}
+
+
+	public ComboLikeObject(JTextComponent txtComponent, JPopupMenu popup, JButton... btns) {
 		super();
 
+		valueTxt = txtComponent;
 		buttons = btns;
 		setCurrentPopup(popup);
 		init(btns);
 	}
-
 
 	protected void init(JButton[] btns) {
 
@@ -212,6 +218,7 @@ public class ComboLikeObject extends JPanel implements ActionListener {
 	public JTextComponent getTextCompenent() {
 		return valueTxt;
 	}
+
 
 
 	/**

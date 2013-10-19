@@ -82,9 +82,10 @@ public class StandardCsvLineParser extends BaseCsvLineParser implements ICsvLine
 //		if (textFieldsInQuotes) {
 //			System.out.print("--> " + fieldType + " " + Type.NT_NUMBER + " " + s + " --> ");
 //		}
-		if (s.indexOf(delimiter) >= 0 || s.indexOf('\n') >= 0 || s.indexOf('\r') >= 0
-		|| (quote != null && ! "".equals(quote) && s.indexOf(quote) >= 0)
-		|| (textFieldsInQuotes & (fieldType != Type.NT_NUMBER))) {
+		if (quote != null && ! "".equals(quote)
+		&& (	s.indexOf(delimiter) >= 0 || s.indexOf('\n') >= 0 || s.indexOf('\r') >= 0
+			||  s.indexOf(quote) >= 0
+			|| (textFieldsInQuotes & (fieldType != Type.NT_NUMBER)))) {
 			StringBuffer b = new StringBuffer(s);
 			int pos;
 			int i = 0;

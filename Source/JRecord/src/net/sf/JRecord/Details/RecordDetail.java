@@ -214,7 +214,7 @@ implements AbstractRecordDetail,  ICsvDefinition {
 		this.embeddedNewLine = embeddedCr;
 
 		this.fieldCount = pFields.length;
-		while (fieldCount > 0 && fields[fieldCount - 1] == null) {
+		while (fieldCount > 0 && pFields[fieldCount - 1] == null) {
 		    fieldCount -= 1;
 		}
 

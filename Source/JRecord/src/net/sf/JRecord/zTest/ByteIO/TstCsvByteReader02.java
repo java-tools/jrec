@@ -62,9 +62,9 @@ public class TstCsvByteReader02 extends TestCase {
 		for (String eol : eols) {
 			k = 0;
 			CsvByteReader[] readers = {
-					new CsvByteReader("", ",", null, null),
-					new CsvByteReader("", ",", "'", null),
-					new CsvByteReader("", ",", "'", "''"),
+					new CsvByteReader("", ",", null, null, true),
+					new CsvByteReader("", ",", "'", null, true),
+					new CsvByteReader("", ",", "'", "''", true),
 			};
 			for (CsvByteReader r : readers) {
 				//System.out.println(eol.getBytes()[0]);
@@ -85,12 +85,12 @@ public class TstCsvByteReader02 extends TestCase {
 
 			CsvByteReader[] readers = {
 					//new CsvByteReader("", ",", "'", null),
-					new CsvByteReader("", ",", "'", "''"),
+					new CsvByteReader("", ",", "'", "''", true),
 			};
 			CsvByteReader[] readers1 = {
 					//new CsvByteReader("", ",", "'", null),
-					new CsvByteReader("", ",", "\"", "\"\""),
-					new CsvByteReader("", ",", "\"", "\\\""),
+					new CsvByteReader("", ",", "\"", "\"\"", true),
+					new CsvByteReader("", ",", "\"", "\\\"", true),
 			};
 
 			System.out.print("== Eol:");

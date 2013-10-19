@@ -1,6 +1,9 @@
 package net.sf.JRecord.Details;
 
+import java.util.List;
+
 import net.sf.JRecord.Common.Constants;
+import net.sf.JRecord.Common.FieldDetail;
 
 /**
  * Parent class for Record (or Message) Definitions used
@@ -20,7 +23,8 @@ public abstract class BasicRecordDetail<FieldDefinition extends AbstractRecordDe
 	protected FieldDefinition[] fields;
 	private int sourceIndex = 0;
 	private int parentRecordIdx =  Constants.NULL_INTEGER;
-	protected ChildDtls[] childRecords = null;
+//	protected ChildDtls[] childRecords = null;
+	protected List<ChildDtls> childRecords = null;
 
 
 	public final int getFieldCount() {
@@ -75,6 +79,7 @@ public abstract class BasicRecordDetail<FieldDefinition extends AbstractRecordDe
         return ret;
     }
 
+
     /* (non-Javadoc)
 	 * @see net.sf.JRecord.Details.AbstractRecordDetail#getField(java.lang.String)
 	 */
@@ -105,11 +110,11 @@ public abstract class BasicRecordDetail<FieldDefinition extends AbstractRecordDe
 		if (childRecords == null) {
 			return 0;
 		}
-		return childRecords.length;
+		return childRecords.size();
 	}
 
 	public ChildDtls getChildRecord(int idx) {
-		return childRecords[idx];
+		return childRecords.get(idx);
 	}
 
 	public int getOption(int option) {

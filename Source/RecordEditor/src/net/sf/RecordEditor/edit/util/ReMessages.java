@@ -12,6 +12,8 @@ public class ReMessages {
 	public static final ReMsg LINE_DELETE_CHECK = new ReMsg("Line Delete confirmation");
 	public static final ReMsg LINE_DELETE_MSG   = new ReMsg("Do you want to delete the selected {0} lines ?");
 
+	public static final ReMsg SAVE			    = new ReMsg(LangConversion.ST_BUTTON, "Save");
+	public static final ReMsg SAVE_MESSAGE		= new ReMsg("Save File !!!");
 	public static final ReMsg SAVE_CHANGES      = new ReMsg("Save changes");
 	public static final ReMsg SAVE_CHANGES_FILE = new ReMsg("Save Changes to file: {0}");
 

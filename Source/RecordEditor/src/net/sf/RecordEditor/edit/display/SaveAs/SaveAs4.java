@@ -10,6 +10,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
+import net.sf.RecordEditor.edit.util.ReMessages;
 import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.re.display.IChildDisplay;
 import net.sf.RecordEditor.re.file.FileView;
@@ -65,7 +66,8 @@ public class SaveAs4 extends ReFrame implements IChildDisplay {
 		saveAsPnl = new SaveAsPnlBasic.Data(commonSaveFields);
 
 
-		fileChooser.setApproveButtonText("Save");
+		fileChooser.setApproveButtonText(ReMessages.SAVE.get());
+		fileChooser.setApproveButtonToolTipText(ReMessages.SAVE_MESSAGE.get());
 
 		if (fname != null) {
 			fileChooser.setSelectedFile(new File(fname + "$"));
@@ -103,8 +105,9 @@ public class SaveAs4 extends ReFrame implements IChildDisplay {
 			}
         });
 
-        this.setToMaximum(false);
+        //this.setToMaximum(false);
         this.setVisible(true);
+        this.setToMaximum(false);
  	}
 
 

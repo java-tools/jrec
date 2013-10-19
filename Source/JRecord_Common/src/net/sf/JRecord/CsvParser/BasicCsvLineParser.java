@@ -23,8 +23,6 @@ public class BasicCsvLineParser extends BaseCsvLineParser implements ICsvLinePar
 	public final int delimiterOrganisation;
 
 
-
-
     public BasicCsvLineParser(boolean quoteInColumnNames) {
     	this(quoteInColumnNames, ICsvDefinition.NORMAL_SPLIT, false);
     }
@@ -119,9 +117,11 @@ public class BasicCsvLineParser extends BaseCsvLineParser implements ICsvLinePar
         		+ "  > " + s.indexOf(delimiter));
         }*/
         if (quote != null && ! "".equals(quote)
-        && ! (s.startsWith(quote) && (s.endsWith(quote)))
-        && (s.indexOf(lineDef.getDelimiter()) >= 0) || s.startsWith(quote)
-        		|| s.indexOf('\n') >= 0 || s.indexOf('\r') >= 0) {
+//        && ! (s.startsWith(quote) && (s.endsWith(quote)))
+        && (   s.indexOf(lineDef.getDelimiter()) >= 0)
+//        	|| s.indexOf(quote) >= 0
+        	|| s.startsWith(quote)
+        	|| s.indexOf('\n') >= 0 || s.indexOf('\r') >= 0) {
             s = quote + s + quote;
         }
 
@@ -235,7 +235,7 @@ public class BasicCsvLineParser extends BaseCsvLineParser implements ICsvLinePar
 		            }
 		            keep = true;
 		        } else if (s.startsWith(quote)
-		        	   && (! s.endsWith(quote) || s.length() == 1)) {
+		        	   && (! s.endsWith(quote) || s.length() == quote.length())) {
 		            buf = new StringBuffer(s);
 		            building = true;
 		        } else {

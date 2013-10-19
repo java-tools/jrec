@@ -441,7 +441,7 @@ public class FileView	extends 			AbstractTableModel
 				}
 
 
-				reader = ioProvider.getLineReader(layout, null);
+				reader = ioProvider.getLineReader(layout);
 
 		        FileInputStream rff = new FileInputStream(pFileName);
 		        if (isGZip) {

@@ -856,7 +856,20 @@ public final class Conversion {
 
 	public static boolean isHtml(String s) {
 		//return (s.indexOf('<') >= 0 && s.indexOf("/>") > 0) || (s.indexOf("</") >= 0 && s.indexOf('>') > 0);
-		return s != null && s.trim().toLowerCase().startsWith("<html>");
+		if (s == null) {
+			return false;
+		}
+		String field2check = s.trim().toLowerCase();
+
+		return  field2check.indexOf('<') >= 0
+			&&	(	field2check.startsWith("<html>")
+				||  field2check.indexOf("<h1>") >= 0
+				||  field2check.indexOf("<h0>") >= 0
+				||  field2check.indexOf("<h2>") >= 0
+				||  field2check.indexOf("<b>") >= 0
+				||  field2check.indexOf("<i>") >= 0
+				||  field2check.indexOf("<em>") >= 0
+				||  field2check.indexOf("<li>") >= 0);
 	}
 
     /**

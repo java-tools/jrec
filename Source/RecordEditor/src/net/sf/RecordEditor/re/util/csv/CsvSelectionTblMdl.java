@@ -207,7 +207,7 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 				byte[] b;
 
 				if (embeddedCr) {
-					r = new CsvByteReader(charset, seperator, quote, quoteEsc);
+					r = new CsvByteReader(charset, seperator, quote, quoteEsc, namesOnLine);
 				} else {
 					r = new ByteTextReader(charset);
 				}

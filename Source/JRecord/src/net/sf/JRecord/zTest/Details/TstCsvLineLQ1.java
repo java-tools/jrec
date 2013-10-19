@@ -106,6 +106,20 @@ public class TstCsvLineLQ1 extends TestCase {
 			"212,'`\n23'`,'`2'`'`\n'`'`n22'`",
 			"312,33,'`\n3'`'`\n3'`'`2'`",
 			"'`\n412'`,'`\n33'`,'`\n4'`'`4\n4'`'`2'`",
+
+			/* Extra */
+			"11,112,13",
+			"'`,11'`,112,13",
+			"11,'`,112'`,13",
+			"11,112,'`,13'`",
+
+			"'`11,'`,112,13",
+			"11,'`112,'`,13",
+			"11,112,'`13,'`",
+
+			"'`,11'`,'`,112'`,'`,13'`",
+			"'`11,'`,'`112,'`,'`13,'`",
+			"'`,11az,'`,'`,112az,'`,'`,13qaz,'`",
 	};
 
 	String[] x2 = {
@@ -152,6 +166,24 @@ public class TstCsvLineLQ1 extends TestCase {
 			"212,'`\n23'`,'`2'`'`\n'`'`n22'`",
 			"312,33,'`\n3'`'`\n3'`'`2'`",
 			"'`\n412'`,'`\n33'`,'`\n4'`'`4\n4'`'`2'`",
+
+			/* Extra */
+			"11,112,13",
+			"'`'`'`,'`'`11'`,112,13",
+			"11,'`'`'`,'`'`112'`,13",
+			"11,112,'`'`'`,'`'`13'`",
+
+			"'`11'`'`,'`,112,13",
+			"11,'`112'`'`,'`,13",
+			"11,112,'`13'`'`,'`",
+
+			"'`11'`'`,'`'`'`,112,13",
+			"11,'`112'`'`,'`'`'`,13",
+			"11,112,'`13'`'`,'`'`'`",
+
+			"'`'`'`,11'`,'`'`'`,112'`,'`'`'`,13'`",
+			"'`11,'`'`'`,'`112,'`'`'`,'`13,'`'`'`",
+			"'`'`'`,'`'`11'`'`,'`'`'`,'`'`'`,112,'`,'`'`'`,'`'`13'`'`,'`'`'`",
 	};
 
 
@@ -165,8 +197,9 @@ public class TstCsvLineLQ1 extends TestCase {
 					int c = 0;
 
 					for (String eol : EOLS) {
-						tstFile("x1 a " + c + " " + i + ", " + j + ", " + k + " : ", x1, d, eol);
-						tstFile2("x1 b " + c + " " + i + ", " + j + ", " + k + " : ", x1, d, eol);
+						String rest = c + " " + i + ", " + j + ", " + CHARSETS[k] + " : ";
+						tstFile("x1 a " + rest, x1, d, eol);
+						tstFile2("x1 b " + rest, x1, d, eol);
 
 						c+= 1;
 					}
@@ -331,12 +364,15 @@ public class TstCsvLineLQ1 extends TestCase {
 			s = l.getFullLine();
 //			System.out.println("-------------------- " + cc);
 //			System.out.println("==* " + Conversion.replace(new StringBuilder(l.getFullLine()), "\n", "\\n"));
+//			if (cc == 25) {
+//				System.out.println();
+//			}
 			fieldList.removeAll(fieldList);
 			for (int i = 0; i < c; i++) {
 //				System.out.print("\t" + i + "\t" + l.getField(0, i) + " ! ");
 				fieldList.add(l.getField(0, i));
 				l.setField(0, i, "" + i);
-//				System.out.print(l.getField(0, i) + " ~ " + l.getFullLine());
+//				System.out.print(l.getField(0, i) + " - " + fieldList.get(i) + " ~ " + l.getFullLine());
 //				System.out.println();
 			}
 //			System.out.println("~~" + stdLine + " " + c);

@@ -524,11 +524,12 @@ public class EditRec extends ReMainFrame  {
 	                open.setVisible(true);
 	                open.setTheBounds();
 	                open.requestFocus();
-					try {
-						open.setSelected(true);
-					} catch (PropertyVetoException e) {
-						e.printStackTrace();
-					}
+//					try {
+//						open.setMaximum(false);
+//						open.setSelected(true);
+//					} catch (PropertyVetoException e) {
+//						e.printStackTrace();
+//					}
         		}
                 break;
             default:

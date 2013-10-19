@@ -21,6 +21,7 @@ import net.sf.RecordEditor.re.jrecord.format.ColorFormat;
 import net.sf.RecordEditor.re.jrecord.format.ComboFormat;
 import net.sf.RecordEditor.re.jrecord.format.CsvArrayFormat;
 import net.sf.RecordEditor.re.jrecord.format.DateFormat;
+import net.sf.RecordEditor.re.jrecord.format.HtmlEditorFormat;
 import net.sf.RecordEditor.re.jrecord.format.MultiLineFormat;
 
 /**
@@ -87,6 +88,7 @@ public class ReTypeManger extends TypeManager {
             System.out.println("Defining MultiLine Edit");
             typesFormat[Type.ftCsvArray]      = new CsvArrayFormat();
             typesFormat[Type.ftMultiLineEdit] = new MultiLineFormat();
+            typesFormat[Type.ftHtmlField]     = new HtmlEditorFormat();
 
             try {
                 super.registerType(Type.ftDate, new TypeDateWrapper(charTypes, null));

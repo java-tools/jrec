@@ -7,6 +7,7 @@ public class Options {
 	public static final int OPT_STORAGE_TYPE   = 3;
 	public static final int OPT_CHECK_4_STANDARD_FILE_STRUCTURES   = 4;
 	public static final int OPT_CHECK_4_STANDARD_FILE_STRUCTURES2  = 5;
+	public static final int OPT_SINGLE_RECORD_FILE  = 6;
 
 	public static final int NO = 0;
 	public static final int UNKNOWN = Integer.MIN_VALUE;

@@ -15,6 +15,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumnModel;
 
 import net.sf.JRecord.Common.Constants;
+
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
@@ -37,7 +38,12 @@ import net.sf.RecordEditor.utils.swing.ComboBoxs.QuoteCombo;
 
 public class UpdateCsvLayout implements ActionListener, IChildDisplay {
 
-	private static final String NUMBER_FIXED_DECIMAL = "Number (Fixed Decimal)";
+	private static final String NUMBER_FIXED_DECIMAL
+			= LangConversion.convertComboItms("Csv Field Types Fixed", "Number (Fixed Decimal)");
+
+	private static final String TEXT_FIELD = LangConversion.convertComboItms("Csv Field Types Text", "Text");
+
+
 	private static final String[] COL_NAMES = LangConversion.convertColHeading(
 			"Update Csv File Format",
 			new String[] {
@@ -55,13 +61,15 @@ public class UpdateCsvLayout implements ActionListener, IChildDisplay {
 	private static final String[] TYPES_TEXT = LangConversion.convertComboItms(
 			"Csv Field Types",
 			new String[] {
-		"Text",
-		"Multi Line Text",
-		"Number",
+		TEXT_FIELD,
+		LangConversion.convertComboItms("Csv Field Types Multi-Line", "Multi Line Text"),
+		LangConversion.convertComboItms("Csv Field Types Html", "Html Field"),
+		LangConversion.convertComboItms("Csv Field Types Num", "Number"),
 		NUMBER_FIXED_DECIMAL
 	});
 	private static final int[] TYPE = {
-		Type.ftChar, Type.ftMultiLineEdit, Type.ftNumAnyDecimal, Type.ftNumLeftJustified,
+		Type.ftChar, Type.ftMultiLineEdit, Type.ftHtmlField,
+		Type.ftNumAnyDecimal, Type.ftNumLeftJustified,
 	};
 
 	private ArrayList<FieldDef> fields = new ArrayList<FieldDef>(20);
@@ -398,7 +406,7 @@ public class UpdateCsvLayout implements ActionListener, IChildDisplay {
 		//public Boolean defaultInEmpty = Boolean.TRUE;
 
 		public FieldDef(int row) {
-			this(Constants.NULL_INTEGER, Integer.toString(row+1), TYPES_TEXT[0], 0, null);
+			this(Constants.NULL_INTEGER, Integer.toString(row+1), TEXT_FIELD, 0, null);
 		}
 
 		public FieldDef(int originalPos, String name,

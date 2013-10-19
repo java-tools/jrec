@@ -434,7 +434,7 @@ public class CsvAnalyser {
 		}
 
 		if (colNamesOnFirstLine != COLUMN_NAMES_NO) {
-			int noNums, crCount;
+			int noNums, crCount, htmlCount;
 
 			int limit = (lines.size() - fieldNameLineNo) / 3;
 //			System.out.println();
@@ -444,6 +444,7 @@ public class CsvAnalyser {
 			for (int j = 0; j < numberOfColumns; j++) {
 				noNums = 0;
 				crCount = 0;
+				htmlCount = 0;
 				colTypes[j] = Type.ftChar;
 				for (i = fieldNameLineNo; i < lines.size(); i++) {
 					line = lines.get(i);
@@ -456,8 +457,10 @@ public class CsvAnalyser {
 						} catch (Exception e) {
 						}
 						if (fieldValue.indexOf('\n') >= 0 || fieldValue.indexOf('\r') >= 0) {
-							//System.out.println(i + " " + j + " ~ " + fieldValue + " " + fieldValue.indexOf('\n'));
 							crCount += 1;
+						}
+						if (Conversion.isHtml(fieldValue)) {
+							htmlCount += 1;
 						}
 					}
 				}
@@ -466,6 +469,8 @@ public class CsvAnalyser {
 				if (noNums > 3 && noNums > limit) {
 					colNamesOnFirstLine = COLUMN_NAMES_YES;
 					colTypes[j] = Type.ftNumAnyDecimal;
+				} else if (htmlCount > limit) {
+					colTypes[j] = Type.ftHtmlField;
 				} else if (crCount > 0) {
 					colTypes[j] = Type.ftMultiLineEdit;
 				}
@@ -475,6 +480,7 @@ public class CsvAnalyser {
 				for (int k = 0; k < colTypes.length && textTypes == null; k++) {
 					switch (colTypes[k]) {
 					case Type.ftMultiLineEdit:
+					case Type.ftHtmlField:
 						textTypes = new int[colTypes.length];
 						TypeManager typeManager = TypeManager.getInstance();
 

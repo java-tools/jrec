@@ -105,6 +105,20 @@ public class TstCsvLine extends TestCase {
 			"212,'\n23','2''\n''n22'",
 			"312,33,'\n3''\n3''2'",
 			"'\n412','\n33','\n4''4\n4''2'",
+
+			/* Extra */
+			"11,112,13",
+			"',11',112,13",
+			"11,',112',13",
+			"11,112,',13'",
+
+			"'11,',112,13",
+			"11,'112,',13",
+			"11,112,'13,'",
+
+			"',11',',112',',13'",
+			"'11,','112,','13,'",
+			"',11az,',',112az,',',13qaz,'",
 	};
 
 	String[] x2 = {
@@ -151,6 +165,24 @@ public class TstCsvLine extends TestCase {
 			"212,'\n23','2''\n''n22'",
 			"312,33,'\n3''\n3''2'",
 			"'\n412','\n33','\n4''4\n4''2'",
+
+			/* Extra */
+			"11,112,13",
+			"''',''11',112,13",
+			"11,''',''112',13",
+			"11,112,''',''13'",
+
+			"'11'',',112,13",
+			"11,'112'',',13",
+			"11,112,'13'','",
+
+			"'11'',''',112,13",
+			"11,'112'',''',13",
+			"11,112,'13'','''",
+
+			"''',11',''',112',''',13'",
+			"'11,''','112,''','13,'''",
+			"''',''11'',''',''',112,',''',''13'','''",
 	};
 
 
@@ -163,8 +195,12 @@ public class TstCsvLine extends TestCase {
 							true, CSV_PARSERS[j]);
 					int c = 0;
 
+
+					if (i== 2) {
+						System.out.println();
+					}
 					for (String eol : EOLS) {
-						tstFile("x1 a " + c + " " + i + ", " + j + ", " + k + " : ", x1, d, eol);
+						tstFile ("x1 a " + c + " " + i + ", " + j + ", " + k + " : ", x1, d, eol);
 						tstFile2("x1 b " + c + " " + i + ", " + j + ", " + k + " : ", x1, d, eol);
 
 						c+= 1;
@@ -347,8 +383,8 @@ public class TstCsvLine extends TestCase {
 //				}
 			for (int i = 0; i < c; i++) {
 				l.setField(0, i, fieldList.get(i));
+				System.out.println("==> " + l.getFullLine() + " <==> " + i + " >" + fieldList.get(i) + "<");
 				assertEquals(id + "Field Check: " + cc + ", " + i, fieldList.get(i).toString(), l.getField(0, i).toString());
-//				System.out.println("==> " + l.getFullLine());
 			}
 			assertEquals(id + "Restore Update " + cc, s, l.getFullLine());
 			lines.add(l);

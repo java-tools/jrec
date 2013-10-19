@@ -235,7 +235,6 @@ public class ReMainFrame extends JFrame
 
 	    setLogFrameSize();
 	    logFrame.setVisible(true);
-
 	}
 
 	/**
@@ -248,11 +247,20 @@ public class ReMainFrame extends JFrame
 				public void logMsg(int level, String msg) {
 					super.logMsg(level, msg);
 					if (level >= AbsSSLogger.ERROR) {
+//						ReFrame activeFrame = ReFrame.getActiveFrame();
+//						boolean lastScreenMax = activeFrame != null && activeFrame.isMaximum();
+
 						logFrame.moveToFront();
-						logFrame.requestFocus();
+						logFrame.requestFocusInWindow();
 						try {
 							logFrame.setIcon(false);
-							logFrame.setSelected(true);
+//							logFrame.setSelected(true);
+							logFrame.setMaximum(false);
+
+//							if (lastScreenMax && ! activeFrame.isMaximum()) {
+//								activeFrame.setMaximum(true);
+//								logFrame.moveToFront();
+//							}
 						} catch (Exception ex) {
 						}
 					}
@@ -325,6 +333,12 @@ public class ReMainFrame extends JFrame
 //	    logFrame.setVisible(true);
 
 	    desktop.add(logFrame);
+//		try {
+//			logFrame.setMaximum(false);
+//		} catch (PropertyVetoException e) {
+//			e.printStackTrace();
+//		}
+
 
 //	    System.out.println();
 //	    System.out.println("Desktop Size: " + desktopSize.height + " " + desktopSize.width);
@@ -812,6 +826,7 @@ public class ReMainFrame extends JFrame
 	    Dimension frameSize = this.getContentPane().getSize();
 	    int desktopHeight = getDesktopHeight(frameSize);
 
+
 //	    System.out.println("===> " + frameSize.getHeight() + " " + desktop.getSize().getHeight()
 //	    		+ " " + desktop.getPreferredSize().getHeight() + " !!! "
 //	    		+ " " +  menuBar.getPreferredSize().height + " " + toolBar.getPreferredSize().height
@@ -1104,48 +1119,48 @@ public class ReMainFrame extends JFrame
      */
 	public final void setLookAndFeel() {
 
-        int idx = Common.LOOKS_INDEX;
+		int idx = Common.LOOKS_INDEX;
 
-        try {
-//        	System.out.println(">>> LAF >>> " + UIManager.getSystemLookAndFeelClassName() + " "
-//        			+ UIManager.getLookAndFeel()
-//        			+ " " + UIManager.getCrossPlatformLookAndFeelClassName());
-             if (idx == 0) {
-                JFrame.setDefaultLookAndFeelDecorated(true);
-            } else if (idx == 1) {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } else {
-                String lafName = Parameters.getString(Parameters.PROPERTY_LOOKS_CLASS_NAME);
+		try {
+			//        	System.out.println(">>> LAF >>> " + UIManager.getSystemLookAndFeelClassName() + " "
+			//        			+ UIManager.getLookAndFeel()
+			//        			+ " " + UIManager.getCrossPlatformLookAndFeelClassName());
+			if (idx == 0) {
+				JFrame.setDefaultLookAndFeelDecorated(true);
+			} else if (idx == 1) {
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			} else {
+				String lafName = Parameters.getString(Parameters.PROPERTY_LOOKS_CLASS_NAME);
 
-                if (Common.NIMBUS_LAF) {
-                	boolean useSysLaf = true;
-                    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                        if ("Nimbus".equals(info.getName())) {
-                            UIManager.setLookAndFeel(info.getClassName());
-                            useSysLaf = false;
-                            break;
-                        }
-                    }
+				if (Common.NIMBUS_LAF) {
+					boolean useSysLaf = true;
+					for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+						if ("Nimbus".equals(info.getName())) {
+							UIManager.setLookAndFeel(info.getClassName());
+							useSysLaf = false;
+							break;
+						}
+					}
 
-                    if (useSysLaf) {
-                    	setSysLAF();
-                    }
-                } else if (Common.RECORD_EDITOR_LAF) {
-                	setSysLAF();
-                } else {
-	                System.out.println("Setting Class loader " + lafName);
-	                UIManager.put("ClassLoader", getClass().getClassLoader());
-	                @SuppressWarnings("rawtypes")
+					if (useSysLaf) {
+						setSysLAF();
+					}
+				} else if (Common.RECORD_EDITOR_LAF) {
+					setSysLAF();
+				} else {
+					System.out.println("Setting Class loader " + lafName);
+					UIManager.put("ClassLoader", getClass().getClassLoader());
+					@SuppressWarnings("rawtypes")
 					Class c = getClass().getClassLoader().loadClass(lafName);
-	                //Class c = Class.forName(lafName);
-	                LookAndFeel laf = (LookAndFeel) c.newInstance();
-	                UIManager.setLookAndFeel(laf);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            JFrame.setDefaultLookAndFeelDecorated(true);
-        }
+					//Class c = Class.forName(lafName);
+					LookAndFeel laf = (LookAndFeel) c.newInstance();
+					UIManager.setLookAndFeel(laf);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			JFrame.setDefaultLookAndFeelDecorated(true);
+		}
     }
 
     private static void setSysLAF() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {

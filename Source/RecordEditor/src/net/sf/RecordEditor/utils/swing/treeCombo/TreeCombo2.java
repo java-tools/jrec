@@ -77,7 +77,7 @@ public class TreeCombo2 extends ComboLikeObject {
 		}
 
 
-		this.valueTxt.addHierarchyBoundsListener(new HierarchyBoundsListener() {
+		this.getTextCompenent().addHierarchyBoundsListener(new HierarchyBoundsListener() {
 			@Override public void ancestorResized(HierarchyEvent e) {
 				hidePopup();
 			}

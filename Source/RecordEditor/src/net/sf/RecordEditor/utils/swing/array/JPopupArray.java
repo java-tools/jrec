@@ -95,6 +95,8 @@ implements ActionListener,  TableModelListener {
 		deleteBtn.addActionListener(this);
 		setVisible(true);
 
+		super.setToMaximum(false);
+
 		TableCellRenderer render = array.getTableCellRenderer();
 		if (render != null) {
 			TableCellEditor editor = array.getTableCellEditor();

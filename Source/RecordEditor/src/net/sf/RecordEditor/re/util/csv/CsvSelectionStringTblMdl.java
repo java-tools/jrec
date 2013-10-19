@@ -290,7 +290,7 @@ public class CsvSelectionStringTblMdl
 				ICharReader r;
 
 				if (embeddedCr) {
-					r = new CsvCharReader(seperator, quote, quoteEsc);
+					r = new CsvCharReader(seperator, quote, quoteEsc, namesOnLine);
 				} else {
 					r = new StandardCharReader();
 				}
@@ -311,7 +311,7 @@ public class CsvSelectionStringTblMdl
 				byte[] b;
 
 				if (embeddedCr) {
-					r = new CsvByteReader(charset, seperator, quote, quoteEsc);
+					r = new CsvByteReader(charset, seperator, quote, quoteEsc, namesOnLine);
 				} else {
 					r = new ByteTextReader(charset);
 				}

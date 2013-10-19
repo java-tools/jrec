@@ -51,7 +51,7 @@ public class TstCsvByteReader01 extends TestCase {
 	private static class CC extends CsvByteReader {
 
 		public CC(String charSet, String fieldSep, String quote, String quoteEsc) {
-			super(charSet, fieldSep, quote, quoteEsc);
+			super(charSet, fieldSep, quote, quoteEsc, true);
 		}
 
 		public void setBuffer(byte[] buf) {

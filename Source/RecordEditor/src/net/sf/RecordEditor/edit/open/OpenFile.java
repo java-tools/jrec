@@ -196,6 +196,7 @@ public class OpenFile extends ReFrame {
 	 */
 	public final void setTheBounds() {
 	    this.setBounds(frameSize);
+	    this.setToMaximum(false);
 	}
 
 

@@ -51,15 +51,15 @@ public class TstBinTextReader3 extends TestCase {
 		doTest(id + " \\r) ", new ByteTextReader(font), fl, font, "\r", "\r");
 		doTest(id + " \\r\\n) ", new ByteTextReader(font), fl, font, "\r\n", "\r\n");
 
-		doTest(id + " \\n) ", new CsvByteReader(font, ",", "", ""), fl, font, "\n", "\n");
-		doTest(id + " \\r) ", new CsvByteReader(font, ",", "", ""), fl, font, "\r", "\r");
-		doTest(id + " \\r\\n) ", new CsvByteReader(font, ",", "", ""), fl, font, "\r\n", "\r\n");
+		doTest(id + " \\n) ", new CsvByteReader(font, ",", "", "", true), fl, font, "\n", "\n");
+		doTest(id + " \\r) ", new CsvByteReader(font, ",", "", "", true), fl, font, "\r", "\r");
+		doTest(id + " \\r\\n) ", new CsvByteReader(font, ",", "", "", true), fl, font, "\r\n", "\r\n");
 
 		doTest(id + " \\r, \\r\\n) ", new ByteTextReader(font), fl, font, "\r", "\r\n");
 		doTest(id + " \\n, \\r\\n) ", new ByteTextReader(font), fl, font, "\r", "\r\n");
 
-		doTest(id + " \\r, \\r\\n) ", new CsvByteReader(font, ",", "", ""), fl, font, "\r", "\r\n");
-		doTest(id + " \\n, \\r\\n) ", new CsvByteReader(font, ",", "", ""), fl, font, "\n", "\r\n");
+		doTest(id + " \\r, \\r\\n) ", new CsvByteReader(font, ",", "", "", true), fl, font, "\r", "\r\n");
+		doTest(id + " \\n, \\r\\n) ", new CsvByteReader(font, ",", "", "", true), fl, font, "\n", "\r\n");
 	}
 
 	private void doCsvFontCrTest(String id, String font) throws IOException {
@@ -67,20 +67,20 @@ public class TstBinTextReader3 extends TestCase {
 		//FormatLine fl = EmbeddedCrFormater();
 
 
-		doTest(id + " \\n) ", new CsvByteReader(font, ",", "\"", "\"\""), new EmbeddedCrFormater("\n"), font, "\n", "\n");
-		doTest(id + " \\r) ", new CsvByteReader(font, ",", "\"", "\"\""),  new EmbeddedCrFormater("\n"), font, "\r", "\r");
-		doTest(id + " \\r\\n) ", new CsvByteReader(font, ",", "\"", "\"\""),  new EmbeddedCrFormater("\n"), font, "\r\n", "\r\n");
+		doTest(id + " \\n) ", new CsvByteReader(font, ",", "\"", "\"\"", true), new EmbeddedCrFormater("\n"), font, "\n", "\n");
+		doTest(id + " \\r) ", new CsvByteReader(font, ",", "\"", "\"\"", true),  new EmbeddedCrFormater("\n"), font, "\r", "\r");
+		doTest(id + " \\r\\n) ", new CsvByteReader(font, ",", "\"", "\"\"", true),  new EmbeddedCrFormater("\n"), font, "\r\n", "\r\n");
 
-		doTest(id + " \\n) ", new CsvByteReader(font, ",", "\"", "\"\""), new EmbeddedCrFormater("\r"), font, "\n", "\n");
-		doTest(id + " \\r) ", new CsvByteReader(font, ",", "\"", "\"\""),  new EmbeddedCrFormater("\r"), font, "\r", "\r");
-		doTest(id + " \\r\\n) ", new CsvByteReader(font, ",", "\"", "\"\""),  new EmbeddedCrFormater("\r"), font, "\r\n", "\r\n");
+		doTest(id + " \\n) ", new CsvByteReader(font, ",", "\"", "\"\"", true), new EmbeddedCrFormater("\r"), font, "\n", "\n");
+		doTest(id + " \\r) ", new CsvByteReader(font, ",", "\"", "\"\"", true),  new EmbeddedCrFormater("\r"), font, "\r", "\r");
+		doTest(id + " \\r\\n) ", new CsvByteReader(font, ",", "\"", "\"\"", true),  new EmbeddedCrFormater("\r"), font, "\r\n", "\r\n");
 
-		doTest(id + " \\n) ", new CsvByteReader(font, ",", "\"", "\"\""), new EmbeddedCrFormater("\r\n"), font, "\n", "\n");
-		doTest(id + " \\r) ", new CsvByteReader(font, ",", "\"", "\"\""),  new EmbeddedCrFormater("\r\n"), font, "\r", "\r");
-		doTest(id + " \\r\\n) ", new CsvByteReader(font, ",", "\"", "\"\""),  new EmbeddedCrFormater("\r\n"), font, "\r\n", "\r\n");
+		doTest(id + " \\n) ", new CsvByteReader(font, ",", "\"", "\"\"", true), new EmbeddedCrFormater("\r\n"), font, "\n", "\n");
+		doTest(id + " \\r) ", new CsvByteReader(font, ",", "\"", "\"\"", true),  new EmbeddedCrFormater("\r\n"), font, "\r", "\r");
+		doTest(id + " \\r\\n) ", new CsvByteReader(font, ",", "\"", "\"\"", true),  new EmbeddedCrFormater("\r\n"), font, "\r\n", "\r\n");
 
-		doTest(id + " \\r, \\r\\n) ", new CsvByteReader(font, ",", "\"", "\"\""), new EmbeddedCrFormater("\r"), font, "\r", "\r\n");
-		doTest(id + " \\n, \\r\\n) ", new CsvByteReader(font, ",", "\"", "\"\""),  new EmbeddedCrFormater("\n"), font, "\n", "\r\n");
+		doTest(id + " \\r, \\r\\n) ", new CsvByteReader(font, ",", "\"", "\"\"", true), new EmbeddedCrFormater("\r"), font, "\r", "\r\n");
+		doTest(id + " \\n, \\r\\n) ", new CsvByteReader(font, ",", "\"", "\"\"", true),  new EmbeddedCrFormater("\n"), font, "\n", "\r\n");
 	}
 
 	private void doTest(String id, AbstractByteReader r, FormatLine fl, String font, String eol1, String eol2)

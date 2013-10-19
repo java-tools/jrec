@@ -197,34 +197,34 @@ public class StandardLineIOProvider extends BasicIoProvider {
 //       	case Constants.IO_BIN_TEXT:		return new BinTextReader(lLineProvider,  false);
        	case Constants.IO_BIN_NAME_1ST_LINE:
        									return new BinTextReader(lineProvider,  true, new ByteTextReader(schema.getFontName()));
-		case Constants.IO_CSV:			return new LineReaderWrapper(getCsvReader(schema));
-		case Constants.IO_UNICODE_CSV:	return new TextLineReader(lineProvider, false, getCsvCharReader(schema));
-		case Constants.IO_BIN_CSV:		return new BinTextReader(lineProvider,  false, getCsvReader(schema));
+		case Constants.IO_CSV:			return new LineReaderWrapper(getCsvReader(schema, false));
+		case Constants.IO_UNICODE_CSV:	return new TextLineReader(lineProvider, false, getCsvCharReader(schema, false));
+		case Constants.IO_BIN_CSV:		return new BinTextReader(lineProvider,  false, getCsvReader(schema, false));
 
 		case Constants.IO_UNICODE_CSV_NAME_1ST_LINE:
-			return  new TextLineReader(lineProvider, true, getCsvCharReader(schema));
+			return  new TextLineReader(lineProvider, true, getCsvCharReader(schema, true));
 		case Constants.IO_CSV_NAME_1ST_LINE:
 		case Constants.IO_BIN_CSV_NAME_1ST_LINE:
-			return new BinTextReader(lineProvider,  true, getCsvReader(schema));
+			return new BinTextReader(lineProvider,  true, getCsvReader(schema, true));
 		default:
 			return getLineReader(fileStructure, provider);
 		}
 	}
 
-	private static IByteReader getCsvReader(IBasicFileSchema schema) {
+	private static IByteReader getCsvReader(IBasicFileSchema schema, boolean namesOnFirstLine) {
 		String quote = schema.getQuote();
 		if (quote == null || quote.length() == 0) {
 			return new ByteTextReader(schema.getFontName());
 		}
-		return new CsvByteReader(schema.getFontName(), schema.getDelimiter(), quote, quote + quote);
+		return new CsvByteReader(schema.getFontName(), schema.getDelimiter(), quote, quote + quote, namesOnFirstLine);
 	}
 
-	private static ICharReader getCsvCharReader(IBasicFileSchema schema) {
+	private static ICharReader getCsvCharReader(IBasicFileSchema schema, boolean namesOnFirstLine) {
 		String quote = schema.getQuote();
 		if (quote == null || quote.length() == 0) {
 			return new StandardCharReader();
 		}
-		return new CsvCharReader(schema.getDelimiter(), quote, quote + quote);
+		return new CsvCharReader(schema.getDelimiter(), quote, quote + quote, namesOnFirstLine);
 	}
 
 	/* (non-Javadoc)

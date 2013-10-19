@@ -60,6 +60,7 @@ public final class UpgradeDB {
 	private static String VERSION_931 = "0093100";
 	private static String VERSION_932 = "0093200";
 	private static String VERSION_94  = "0094000";
+	private static String VERSION_95C  = "0095001";
 	//private static String LATEST_VERSION = VERSION_670;
 	private static String VERSION_KEY  = "-101";
 
@@ -413,6 +414,16 @@ public final class UpgradeDB {
     				 + "  );",
 
     		"CREATE UNIQUE INDEX TBL_RF1_RECORDFIELDS_PK ON TBL_RF1_RECORDFIELDS(RECORDID, SUB_KEY); ",
+    };
+
+
+    private String[] sql95c = {
+        	deleteTbl + "TBLID = 1 and TBLKEY in ("
+   			     + Type.ftHtmlField
+   			     + ");",
+
+//      	insertSQL + "(1," + Type.ftCharRestOfFixedRecord + ",'Char Rest of Fixed Length');",
+     	insertSQL + "(1," + Type.ftHtmlField + ",'Html Field');",
     };
 
 
@@ -817,6 +828,8 @@ public final class UpgradeDB {
 
 			//System.out.println("Upgrade DB");
 			upgradeVersion((new ReConnection(dbIdx)).getConnection(), dbIdx, VERSION_94);
+
+			upgrade95c(dbIdx);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			Common.logMsg("Database upgrade failed !!!", null);
@@ -825,6 +838,10 @@ public final class UpgradeDB {
 		}
     }
 
+
+    public void upgrade95c(int dbIdx) {
+        genericUpgrade(dbIdx, sql95c, VERSION_95C);
+    }
 
 
    public void deleteExamples(int dbIdx) {
@@ -1089,6 +1106,8 @@ public final class UpgradeDB {
        				   || VERSION_931.equals(version) || VERSION_932.equals(version)) {
        				db.upgrade93(dbIndex);
        				db.upgrade94(dbIndex);
+      			} else if (VERSION_94.equals(version)) {
+        				db.upgrade95c(dbIndex);
     			}
 
     			db.loadHeldLayouts();

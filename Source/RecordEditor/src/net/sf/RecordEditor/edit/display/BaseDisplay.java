@@ -46,6 +46,7 @@ import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Details.BasicChildDefinition;
+import net.sf.JRecord.Details.Options;
 import net.sf.RecordEditor.diff.DoCompare;
 import net.sf.RecordEditor.diff.LineBufferedReader;
 import net.sf.RecordEditor.edit.display.SaveAs.SaveAs3;
@@ -627,6 +628,13 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 	}
 
 	private void insertLine_100_FlatFile(int adj, boolean popup) {
+
+		if (layout.getOption(Options.OPT_SINGLE_RECORD_FILE) == Options.YES
+		&&	fileView.getBaseFile().getRowCount() > 0) {
+			Common.logMsg("Only one record allowed in the file", null);
+			return;
+		}
+
 		int pos = insertLine_101_FlatFile(adj, popup);
 
 		checkLayout();
@@ -682,21 +690,29 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 			AbstractChildDetails ldef = l.getTreeDetails().getChildDefinitionInParent();
 			AbstractLine parent = l.getTreeDetails().getParentLine();
 			AbstractChildDetails<AbstractRecordDetail> rootDef = null;
-			if (children == null || children.size() == 0) {
-				if (ldef == null || ! ldef.isRepeated()) {
-					Common.logMsg("Nothing can be inserted at this point", null);
-					return;
-				}
 
+			if (children == null || children.size() == 0) {
 				if (parent == null ) {
+					if (layout.getOption(Options.OPT_SINGLE_RECORD_FILE) == Options.YES
+					&&	fileView.getBaseFile().getRowCount() > 0) {
+						Common.logMsg("Only one record allowed in the file", null);
+						return;
+					}
 					newLine = insertLine_210_CreateMainRecord(l, adjust);
 				} else {
+					if (ldef == null || ! ldef.isRepeated()) {
+						Common.logMsg("Nothing can be inserted at this point", null);
+						return;
+					}
+
 					newLine = insertLine_220_CreateRepeated(parent, l, ldef, adjust);
 				}
 			} else {
 				if (ldef != null && ldef.isRepeated()) {
 					children.add(ldef);
-				} else if (parent == null) {
+				} else  if (parent == null
+						&& (	layout.getOption(Options.OPT_SINGLE_RECORD_FILE) != Options.YES
+							||	fileView.getBaseFile().getRowCount() == 0)) {
 					int idx = l.getPreferredLayoutIdx();
 					rootDef = new BasicChildDefinition<AbstractRecordDetail>(
 												l.getLayout().getRecord(idx), idx ,0);
@@ -715,6 +731,11 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 
 					if (resp != null) {
 						if (resp == rootDef) {
+							if (layout.getOption(Options.OPT_SINGLE_RECORD_FILE) == Options.YES
+							&&	fileView.getBaseFile().getRowCount() > 0) {
+								Common.logMsg("Only one record allowed in the file", null);
+								return;
+							}
 							newLine = insertLine_210_CreateMainRecord(l, adjust);
 						} else if (resp == ldef) {
 							newLine = insertLine_220_CreateRepeated(parent, l, ldef, adjust);

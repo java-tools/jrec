@@ -113,6 +113,7 @@ public interface Type {
 	public static final int ftXmlNameTag         = 116;
 	public static final int ftMultiLineEdit      = 117;
 	public static final int ftMultiLineChar      = 118; /* used in PO / Tip Files */
+	public static final int ftHtmlField          = 119;
 
 
 	public static final int NT_TEXT              = 1;

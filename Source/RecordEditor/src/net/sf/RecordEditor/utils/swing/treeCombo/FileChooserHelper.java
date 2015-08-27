@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.utils.swing;
+package net.sf.RecordEditor.utils.swing.treeCombo;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,8 +8,10 @@ import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 
-import net.sf.JRecord.Common.Constants;
 import net.sf.RecordEditor.utils.params.Parameters;
+import net.sf.RecordEditor.utils.swing.UpdatableTextValue;
+import net.sf.RecordEditor.utils.swing.filechooser.IFileChooserWrapper;
+import net.sf.RecordEditor.utils.swing.filechooser.JRFileChooserWrapper;
 
 /**
  * Class to display File Chooser
@@ -18,30 +20,39 @@ import net.sf.RecordEditor.utils.params.Parameters;
  */
 public class FileChooserHelper implements ActionListener {
 
-	protected JFileChooser chooseFile = null;
-    protected final ArrayList<FocusListener> listner = new ArrayList<FocusListener>();
-    private int mode = Constants.NULL_INTEGER;
+	//private JFileChooser chooseFile = null;
+	private final IFileChooserWrapper chooseFile;
+    public final ArrayList<FocusListener> listner = new ArrayList<FocusListener>();
+ //   private int mode = Constants.NULL_INTEGER;
     private String defaultDirectory = "";
     private boolean open = true;
-    private final boolean isDirectory;
+    public final boolean isDirectory;
     private boolean expandVars = false;
 
     protected UpdatableTextValue txtC;
 
 
-	public FileChooserHelper(UpdatableTextValue txtC, boolean open) {
-		this(txtC, open, false);
-		this.txtC = txtC;
-		this.open = open;
+	public FileChooserHelper(UpdatableTextValue txtC, boolean open, File[] recentFiles) {
+		this(txtC, open, false, recentFiles);
 	}
 
 
-	public FileChooserHelper(UpdatableTextValue txtC, boolean open, boolean isDirectory) {
+	public FileChooserHelper(UpdatableTextValue txtC, boolean open, boolean isDirectory, File[] recentFiles) {
 		super();
 		this.txtC = txtC;
 		this.open = open;
 		this.isDirectory = isDirectory;
+		this.chooseFile = JRFileChooserWrapper.newChooser(null, recentFiles);
 	}
+	
+	public FileChooserHelper(UpdatableTextValue txtC, boolean open, boolean isDirectory, IFileChooserWrapper chooseFile) {
+		super();
+		this.txtC = txtC;
+		this.open = open;
+		this.isDirectory = isDirectory;
+		this.chooseFile = chooseFile;
+	}
+
 
 	/**
 	 * @see java.awt.Event.actionPerformed
@@ -49,39 +60,35 @@ public class FileChooserHelper implements ActionListener {
 	public void actionPerformed(final ActionEvent event) {
 
 		String s = txtC.getText();
-		if (chooseFile == null) {
-			chooseFile = new JFileChooser();
+		JFileChooser fc = getFileChooser();
+		boolean setText = false;
 
-			if (isDirectory) {
-				chooseFile.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			}
-
-			if ( mode != Constants.NULL_INTEGER) {
-				chooseFile.setFileSelectionMode(mode);
-			}
-		}
-
-
-		if ("".equals(s)) {
-			txtC.setText(defaultDirectory);
+		if (s == null || "".equals(s)) {
+			setText = true;
 			s = defaultDirectory;
 		}
 
 		if (expandVars) {
 			s = Parameters.expandVars(s);
 		}
-		chooseFile.setSelectedFile(new File(s));
-
-		int ret;
-
-		if (open) {
-			ret = chooseFile.showOpenDialog(null);
-		} else {
-			ret = chooseFile.showSaveDialog(null);
+		if (s != null) {
+			System.out.println(" == Dir ==> " + s);
+			if (setText) {
+				txtC.setText(defaultDirectory);
+			}
+			fc.setSelectedFile(new File(s));
 		}
+		
+		int mode = JFileChooser.FILES_ONLY;
+		if (isDirectory) {
+			mode = JFileChooser.DIRECTORIES_ONLY;
+		}
+		fc.setFileSelectionMode(mode);
 
+		int ret = chooseFile.showDialog(open, null);
+		
 		if (ret == JFileChooser.APPROVE_OPTION) {
-			String newPath = chooseFile.getSelectedFile().getPath();
+			String newPath = chooseFile.getFileChooser().getSelectedFile().getPath();
 			//System.out.println("!! 1 " + newPath);
 			if (expandVars) {
 				newPath = Parameters.encodeVars(newPath);
@@ -94,16 +101,33 @@ public class FileChooserHelper implements ActionListener {
 		    }
 		}
 	}
+	
+	public final JFileChooser getFileChooser() {
+		
+//		if (chooseFile == null) {
+//			chooseFile = new JFileChooser();
+//
+//			if (isDirectory) {
+//				chooseFile.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+//			}
+//
+//			if ( mode != Constants.NULL_INTEGER) {
+//				chooseFile.setFileSelectionMode(mode);
+//			}
+//		}
+
+		return chooseFile.getFileChooser();
+	}
 
 	/**
 	 * @param mode
 	 * @see javax.swing.JFileChooser#setFileSelectionMode(int)
 	 */
 	public void setFileSelectionMode(int newMode) {
-		mode = newMode;
-		if (chooseFile != null) {
-			chooseFile.setFileSelectionMode(newMode);
-		}
+//		mode = newMode;
+//		if (chooseFile != null) {
+			chooseFile.getFileChooser().setFileSelectionMode(newMode);
+//		}
 	}
 
 	/**

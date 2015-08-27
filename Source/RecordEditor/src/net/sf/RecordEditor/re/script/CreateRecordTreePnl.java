@@ -1,4 +1,4 @@
-package net.sf.RecordEditor.edit.display.util;
+package net.sf.RecordEditor.re.script;
 
 
 import javax.swing.DefaultCellEditor;
@@ -8,14 +8,13 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
-import net.sf.RecordEditor.edit.util.ReMessages;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
 import net.sf.RecordEditor.jibx.compare.RecordParent;
 import net.sf.RecordEditor.jibx.compare.RecordTree;
-import net.sf.RecordEditor.re.display.IUpdateExecute;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.RecordList;
 import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.msg.UtMessages;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
@@ -95,7 +94,7 @@ public class CreateRecordTreePnl  implements ISaveUpdateDetails<EditorTask> {
 		RecordList records = new RecordList(layout, false, true, true);
 		BmKeyedComboBox editor = new BmKeyedComboBox(new BmKeyedComboModel(records), false);
 		//pnl.registerComponent(parentFrame);
-		panel.registerComponent(editor);
+		panel.registerComponentRE(editor);
 
 		tc = recordTbl.getColumnModel().getColumn(1);
 		tc.setCellRenderer(new BmKeyedComboBoxRender(new BmKeyedComboModel(records), false));
@@ -115,9 +114,9 @@ public class CreateRecordTreePnl  implements ISaveUpdateDetails<EditorTask> {
 				recs,
 				ReFrame.getDesktopHeight() / 2);
 
-		panel.setHelpURL(Common.formatHelpURL(Common.HELP_RECORD_TREE));
+		panel.setHelpURLre(Common.formatHelpURL(Common.HELP_RECORD_TREE));
 
-		panel.addComponent(1, 5,
+		panel.addComponentRE(1, 5,
 		         height,
 		         BasePanel.GAP1,
 		         BasePanel.FULL, BasePanel.FULL,
@@ -129,11 +128,11 @@ public class CreateRecordTreePnl  implements ISaveUpdateDetails<EditorTask> {
 					this, Parameters.getFileName(Parameters.RECORD_TREE_SAVE_DIRECTORY), EditorTask.class);
 
 
-			panel.addLine("", saveLoad.panel, SwingUtils.getPanelWith(execute));
+			panel.addLineRE("", saveLoad.panel, SwingUtils.getPanelWith(execute));
 		}
-		panel.setGap(BasePanel.GAP2);
+		panel.setGapRE(BasePanel.GAP2);
 
-		panel.addMessage();
+		panel.addMessageRE();
 
 		panel.done();
 //		if (parentFrame != null) {
@@ -184,7 +183,7 @@ public class CreateRecordTreePnl  implements ISaveUpdateDetails<EditorTask> {
 	public void update(EditorTask serialisedData) {
 
 		if (serialisedData == null || serialisedData.recordTree == null) {
-			Common.logMsgRaw(ReMessages.NOT_A_RECORD_TREE.get(), null);
+			Common.logMsgRaw(UtMessages.NOT_A_RECORD_TREE.get(), null);
 		} else {
 			setFromSavedDetails(serialisedData.recordTree);
 			recordMdl.fireTableDataChanged();

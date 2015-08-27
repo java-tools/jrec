@@ -36,14 +36,14 @@ public class LoadCobolIntoDBScreen  implements ActionListener {
 		String dir = loadFrame.getFileName();
 
 		if (dir == null || "".equals(dir)) {
-			loadFrame.panel.setMessageTxt("You must enter a directory where cobol copybooks are located");
+			loadFrame.panel.setMessageTxtRE("You must enter a directory where cobol copybooks are located");
 			return;
 		}
 
 		File dirFile = new File(stripStar(dir));
 
 		if ((! dirFile.exists()) || ! dirFile.isDirectory()) {
-			loadFrame.panel.setMessageRplTxt("{0} is not a directory !!!", dir);
+			loadFrame.panel.setMessageRplTxtRE("{0} is not a directory !!!", dir);
 			return;
 		}
 

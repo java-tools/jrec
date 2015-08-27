@@ -92,20 +92,20 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
         fieldOptionPanel.add(uncheckAllFields);
         fieldOptionPanel.add(checkAllFields);
 
-		pnl.addLine("", fieldOptionPanel);
-		pnl.setHeight(BasePanel.NORMAL_HEIGHT * 2);
+		pnl.addLineRE("", fieldOptionPanel);
+		pnl.setHeightRE(BasePanel.NORMAL_HEIGHT * 2);
 
-		pnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP1,
+		pnl.addComponentRE(1, 5, BasePanel.FILL, BasePanel.GAP1,
 		         BasePanel.FULL, BasePanel.FULL,
 				 fieldTbl);
 
 		if (sourcePanel instanceof AbstractFieldSequencePnl) {
-			pnl.setGap(BasePanel.GAP0);
+			pnl.setGapRE(BasePanel.GAP0);
 			saveColSeq.setSelected(true);
-			pnl.addLine("", saveColSeq);
+			pnl.addLineRE("", saveColSeq);
 		}
 
-		pnl.setGap(BasePanel.GAP1);
+		pnl.setGapRE(BasePanel.GAP1);
 
 //		pnl.addComponent("", null, goBtn);
 		JPanel p = new JPanel();
@@ -114,8 +114,8 @@ public class HideFields implements ActionListener { //, AbstractSaveDetails<Edit
 		} catch(NoClassDefFoundError nce) {
 		} catch (Exception e) {
 		}
-		pnl.addLine("", p, goBtn);
-		pnl.setHeight(BasePanel.GAP1 * 2);
+		pnl.addLineRE("", p, goBtn);
+		pnl.setHeightRE(BasePanel.GAP1 * 2);
 
 		frame.addMainComponent(pnl);
 		frame.setDefaultCloseOperation(ReFrame.DISPOSE_ON_CLOSE);

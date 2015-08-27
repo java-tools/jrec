@@ -45,11 +45,13 @@ import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.openFile.RecentFiles;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.treeCombo.FileSelectCombo;
+
 
 
 /**
@@ -114,7 +116,9 @@ public final class SaveAs3 extends ReFrame
     //private String[] options;
 
     private BaseHelpPanel pnl = new BaseHelpPanel();
-    private FileChooser fileNameTxt = new FileChooser(false);
+    private FileSelectCombo fileNameTxt = new FileSelectCombo(Parameters.LIST_SAVE_FILES, 16, false, false, true);
+    //= new TreeComboFileSelect(false, false, true, null);
+    	//= new FileChooser(false);
 
     private JButton saveFile
     	= SwingUtils.newButton("Save File",
@@ -317,19 +321,19 @@ public final class SaveAs3 extends ReFrame
 
     private void init_300_layoutScreen() {
 
-		pnl.addHelpBtn(SwingUtils.getHelpButton());
+		pnl.addHelpBtnRE(SwingUtils.getHelpButton());
 
-		pnl.setHelpURL(Common.formatHelpURL(Common.HELP_SAVE_AS));
-        pnl.addLine("File Name", fileNameTxt, fileNameTxt.getChooseFileButton());
-        pnl.addLine("What to Save", commonSaveFields.saveWhat);
+		pnl.setHelpURLre(Common.formatHelpURL(Common.HELP_SAVE_AS));
+        pnl.addLineRE("File Name", fileNameTxt);
+        pnl.addLineRE("What to Save", commonSaveFields.saveWhat);
 
         if (commonSaveFields.getTreeFrame() != null) {
         	commonSaveFields.treeExportChk.setSelected(true);
         	commonSaveFields.nodesWithDataChk.setSelected(false);
 
 
-        	pnl.addLine("Export Tree", commonSaveFields.treeExportChk);
-        	pnl.addLine("Only export Nodes with Data", commonSaveFields.nodesWithDataChk);
+        	pnl.addLineRE("Export Tree", commonSaveFields.treeExportChk);
+        	pnl.addLineRE("Only export Nodes with Data", commonSaveFields.nodesWithDataChk);
 
         	if (commonSaveFields.saveWhat.getItemCount() > 1) {
         		commonSaveFields.saveWhat.addActionListener(new ActionListener() {
@@ -342,15 +346,15 @@ public final class SaveAs3 extends ReFrame
         	}
         }
 
-        pnl.setGap(BasePanel.GAP1);
+        pnl.setGapRE(BasePanel.GAP1);
 
         if (currentIndex < 1 || currentIndex >= pnls.length || Common.OPTIONS.showAllExportPnls.isSelected()) {
-	        pnl.addLine("Output Format:", null);
-	        pnl.addComponent(1, 5,BasePanel.FILL, BasePanel.GAP,
+	        pnl.addLineRE("Output Format:", null);
+	        pnl.addComponentRE(1, 5,BasePanel.FILL, BasePanel.GAP,
 	                BasePanel.FULL, BasePanel.FULL,
 	                formatTab);
         } else {
-	        pnl.addComponent(0, 6, BasePanel.FILL, BasePanel.GAP,
+	        pnl.addComponentRE(0, 6, BasePanel.FILL, BasePanel.GAP,
 	                BasePanel.FULL, BasePanel.FULL,
 	                pnls[currentIndex].panel);
 	        pnls[currentIndex].panel.setBorder(
@@ -361,15 +365,15 @@ public final class SaveAs3 extends ReFrame
 	        usingTab = false;
        }
 
-        pnl.setGap(BasePanel.GAP1);
-        pnl.addLine("Edit Output File", commonSaveFields.editChk);
+        pnl.setGapRE(BasePanel.GAP1);
+        pnl.addLineRE("Edit Output File", commonSaveFields.editChk);
         if (isDesktopAvailable()) {
-        	pnl.addLine("Open Output File", openChk);
+        	pnl.addLineRE("Open Output File", openChk);
         }
-        pnl.addLine("Keep screen open", commonSaveFields.keepOpenChk, saveFile);
-        pnl.setGap(BasePanel.GAP1);
+        pnl.addLineRE("Keep screen open", commonSaveFields.keepOpenChk, saveFile);
+        pnl.setGapRE(BasePanel.GAP1);
         pnl.addMessage(new JScrollPane(commonSaveFields.message));
-        pnl.setHeight(BasePanel.GAP5);
+        pnl.setHeightRE(BasePanel.GAP5);
 
     }
 
@@ -433,7 +437,6 @@ public final class SaveAs3 extends ReFrame
         	int lastDot = outFile.lastIndexOf('.');
         	ext = outFile.substring(lastDot);
         	if (activePnl.extensionType >= 0 && lastDot > 0) {
-
         		RecentFiles.getLast().putFileExtension(
         				activePnl.extensionType,
         				activePnl.template.getText(),

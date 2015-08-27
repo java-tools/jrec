@@ -11,9 +11,13 @@ package net.sf.RecordEditor.utils.params;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLDecoder;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,7 +27,6 @@ import java.util.MissingResourceException;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-import net.sf.RecordEditor.utils.common.ExternalReferenceConstants;
 
 
 //import sun.security.action.GetPropertyAction;
@@ -36,7 +39,9 @@ import net.sf.RecordEditor.utils.common.ExternalReferenceConstants;
  */
 public final class Parameters implements ExternalReferenceConstants {
 
-    public static final int NUMBER_OF_LOADERS = 20;
+    private static final int REHOME_VAR_LENGTH = "<rehome>".length();
+	private static final int REPROPERTIES_VAR_LENGTH = "<reproperties>".length();
+	public static final int NUMBER_OF_LOADERS = 20;
     public static final int NUMBER_OF_USER_FUNCTIONS = 32;
 
 
@@ -48,6 +53,7 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String PROPERTY_BIG_FILE_LARGE_VB = "BigFileLargeVB";
     public static final String PROPERTY_BIG_FILE_FILTER_LIMIT = "BigFileFilterLimit";
     public static final String PROPERTY_BIG_FILE_DISK_FLAG = "BigFileDiskFlag";
+    public static final String PROPERTY_USE_OVERFLOW_FILE = "UseOVerflow";
     public static final String PROPERTY_BIG_FILE_USE_SPECIAL_FIXED_MODEL = "BigFileUseFixedModel";
    //public static final String PROPERTY_BIG_FILE_GZIP_WRITE = "BigFileGZipAnalyseSize";
     public static final String PROPERTY_TEST_MODE  = "TestMode";
@@ -57,9 +63,23 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String LAST_SCREEN_HEIGHT  = "lastScreenHeight";
     public static final String SCREEN_START_WIDTH  = "ScreenStartWidth";
     public static final String SCREEN_START_HEIGHT = "ScreenStartHeight";
+    
+    public static final String PROPERTY_DEFAULT_SINGLE_BYTE_CHARSET = "defaultSingleByteCharset";
+    public static final String PROPERTY_USE_SINGLE_BYTE_CHARSET = "useDefaultSingleByteCharset";
+    public static final String PROPERTY_DEFAULT_EBCDIC_CHARSET      = "defaultEbcidicCharset";
+
+
+    public static final String FIELD_COLORS  = "fieldColors.";
+    public static final String SPECIAL_COLORS  = "specialColors.";
 
     public static final String COBOL_DIALECT = "CobolDialect";
 
+    public static final String FILE_CHOOSER_NORMAL      = "N";
+//    public static final String FILE_CHOOSER_OPTIONAL    = "O";
+    public static final String FILE_CHOOSER_OPT_HIDE    = "V";
+    public static final String FILE_CHOOSER_EXTENDED    = "E";
+    public static final String FILE_CHOOSER_OPTION      = "FileChooserOpt";
+    public static final String FILE_CHOOSER_CSV_EDIT    = "FileChooserCsvEdOpt";
     public static final String PO_EDIT_OPEN_FUZZY_VIEW  = "PoFuzzyView";
     public static final String PO_EDIT_CHILD_SCREEN_POS = "PoChildPos";
     public static final String CHILD_SCREEN_RIGHT = "R";
@@ -80,7 +100,7 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String PROPERTY_DATE_BASE_TYPE    = "DateBaseType.";
     public static final String PROPERTY_DATE_FORMAT       = "DateFormat.";
 
-    public static final String PROPERTY_HIGHLIGHT_EMPTY       = "ShowEmpty.";
+    public static final String PROPERTY_HIGHLIGHT_EMPTY   = "ShowEmpty.";
 
     public static final String PROPERTY_ICON_INDEX   = "IconIndex";
     public static final String PROPERTY_PGN_ICONS    = "usePgnIcons";
@@ -103,6 +123,9 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String COPYBOOK_DIRECTORY      = "CopybookDirectory";
     public static final String VELOCITY_COPYBOOK_DIRECTORY = "VelocityCopybookDirectory";
     public static final String VELOCITY_TEMPLATE_DIRECTORY = "VelocityTemplateDirectory";
+    public static final String DEFAULT_VELOCITY_COPYBOOK_DIRECTORY ="<reproperties>/User/VelocityTemplates/Copybook/*";
+    public static final String DEFAULT_VELOCITY_TEMPLATE_DIRECTORY ="<reproperties>/User/VelocityTemplates/File/*";
+    public static final String VELOCITY_SCRIPT_DIR     = "VelocityScriptDirectory";
     public static final String XSLT_TEMPLATE_DIRECTORY = "XsltTemplateDirectory";
     public static final String EXPORT_SCRIPT_DIRECTORY = "ExportScriptDirectory";
     public static final String SCRIPT_DIRECTORY        = "ScriptDirectory";
@@ -116,19 +139,21 @@ public final class Parameters implements ExternalReferenceConstants {
  //   public static final String DIRECTORY_IN_SOURCE_VAR = "DirVarInSource.";
 
     public static final String COPY_SAVE_DIRECTORY  = "CopySaveDirectory";
-    public static final String COPY_SAVE_FILE  	   = "CopySaveFile";
+    public static final String COPY_SAVE_DIRECTORY_DFLT  = "<reproperties>/User/Copy/*";
+    public static final String COPY_SAVE_FILE  	    = "CopySaveFile";
 
     public static final String LAYOUT_EXPORT_DIRECTORY  = "LayoutExportDirectory";
+    public static final String LAYOUT_EXPORT_DIRECTORY_DFLT  = "<reproperties>/User/LayoutExport/*";
 
     public static final String COMPARE_SAVE_DIRECTORY  = "CompareSaveDirectory";
-    public static final String COMPARE_SAVE_FILE  	   = "CompareSaveFile";
+//    public static final String COMPARE_SAVE_FILE  	   = "CompareSaveFile";
     public static final String FILTER_SAVE_DIRECTORY   = "FilterSaveDirectory";
     public static final String FIELD_SAVE_DIRECTORY    = "FieldSaveDirectory";
 //    public static final String HIDDEN_FIELDS_SAVE_DIRECTORY   = FILTER_SAVE_DIRECTORY;
     public static final String SORT_TREE_SAVE_DIRECTORY   = "SortTreeSaveDirectory";
     public static final String RECORD_TREE_SAVE_DIRECTORY = "RecordTreeSaveDirectory";
 
-    public static final String CSV_LOOK_4_FIXED_WIDTH     = "CsvSearchFixed";
+    public static final String CSV_LOOK_4_FIXED_WIDTH  = "CsvSearchFixed";
     public static final String USE_FILE_WIZARD		   = "UseFileWizard";
 
     public static final String DEFAULT_COPYBOOK_READER = "CopyBookReader";
@@ -136,6 +161,22 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String XSLT_ENGINE             = "XsltEngine";
 
     public static final String COBOL_OPT_FILE      	   = "CobolOpt";
+    
+    public static final String COBOL_COPYBOOK_LIST     = "CobolCpy.";
+    public static final String COBOL_COPYBOOK_DIRS     = "CobolDirs.";
+    public static final String SCHEMA_LIST             = "SchemaFiles.";
+    public static final String SCHEMA_DIRS_LIST        = "SchemaDirs.";
+    public static final String SAVED_COPY_LIST         = "SavedCpy.";
+    public static final String SAVED_DIFF_LIST         = "SavedDiff.";
+    public static final String ERROR_FILES             = "ErrorFiles.";
+    public static final String VELOCITY_SKELS_LIST     = "VelocitySkels.";
+    public static final String VELOCITY_SCHEMA_SKELS_LIST = "VelocitySchemaSkels.";
+    public static final String HTML_OUTPUT_LIST        = "HtmlOut.";
+    public static final String SAVE_SCRIPTS_LIST 	   = "SaveScripts.";
+    public static final String XSLT_LIST 	 		   = "XsltFiles.";
+    public static final String XSLT_JAR_LIST 	 	   = "XsltJars.";
+    public static final String XML_EXPORT_DIRS 	 	   = "XmlExportDirs.";
+    public static final String OUTPUT_SCHEMA_LIST 	   = "OutputSchemas.";
 
     public static final String DEFAULT_DATABASE        = "DefaultDB";
     public static final String DEFAULT_IO       	   = "DefaultIO";
@@ -172,19 +213,29 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String SEPERATE_WINDOWS  = "SepWindows";
     public static final String INCLUDE_TYPE_NAME = "IncTypeName";
     public static final String EDIT_RAW_TEXT = "EditRawText";
+    public static final String ADD_FILE_SEARCH_BTN = "AddFileSearchBtn";
 
     public static final String CSV_SHOW_FILECHOOSER_OPTIONS = "ShowFileChooserOptions";
+    public static final String OPEN_IN_LAST_DIRECTORY = "UseLastDir";
 
     public static final String DEL_SELECTED_WITH_DEL_KEY = "DeleteSelectedWithDelKey";
     public static final String WARN_WHEN_USING_DEL_KEY   = "WarnWithDelKey";
-    public static final String RECENT_COPYBOOK_DIRS      = "RecentCopybookDirs";
+//    public static final String RECENT_COPYBOOK_DIRS      = "RecentCopybookDirs";
+    public static final String RECENT_PROTO_FILES        = "RecentProtoFiles.";
+    public static final String RECENT_AVRO_FILES         = "RecentAvroFiles.";
+    public static final String RECENT_PROTO_DIRS         = "RecentProtoImbedDirs.";
+    
+    public static final String LIST_SAVE_FILES           = "SaveAs.";
 
 	public static String LANG_FILE_PREFIX = "ReMsgs_";
+	
+	public static final boolean IS_MAC, IS_NIX, IS_WINDOWS;
 
     private static final HashSet<String> defaultTrue = new HashSet<String>(10);
 
 	private static  String bundleName = DEFAULT_BUNDLE_NAME;
 	private static final String USER_PARAM_FILE      = "Params.Properties";
+	private static final String USER_PARAM_LIST_FILE = "ParamLists.Properties";
 	private static final int SIZE_OF_FILE_URL_PREFIX = 9;
 
     private static String baseDirectory = null;
@@ -195,18 +246,23 @@ public final class Parameters implements ExternalReferenceConstants {
 	private static Properties properties = null;
 	private static Properties properties2 = null;
 	private static Properties globalProperties = null;
+	private static Properties paramProperties = null;
+	private static Properties propertiesLists = null;
 
 	private static boolean useUserParamFile = ! "N".equals(getResourceString("Allow_User_Params"));
 	private static boolean toInit = true;
 
-    public static final String USER_HOME       = System.getProperty("user.home");
-	private static String reHomeDirectory = USER_HOME;
+    private static String userHome       = System.getProperty("user.home");
+    private static String appData         = userHome;
+	private static String reHomeDirectory = userHome;
 
 	private static String applicationDirectory = null;
-	private static String propertyFileName;
+	private static String propertyFileName, propertyListFileName;
 	private static String globalPropertyFileName = null;
 	private static String systemJarFileDirectory,
-	                      userJarFileDirectory = USER_HOME;
+	                      userJarFileDirectory = userHome;
+	
+	private static String propertiesDir = null;
 
 	private static ArrayList<AParameterChangeListner> paramChangeListners = new ArrayList<AParameterChangeListner>(3);
 
@@ -214,12 +270,71 @@ public final class Parameters implements ExternalReferenceConstants {
 
 	public static boolean savePropertyChanges = true;
 
+	public static boolean windowsLAF = false;
+	
+	public static final float JAVA_VERSION;
+	private static boolean changesToSave = false;
 	static {
+		float f = 1;
+		
+		try {
+			String s = System.getProperty("java.version");
+			f = Float.parseFloat(s.substring(0, s.lastIndexOf('.')));
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		JAVA_VERSION = f;
+
+
+		boolean isNix = false, isMac=false, isWin = false;
+		try {
+			String s = System.getProperty("os.name").toLowerCase();
+			if (s != null) {
+				isNix = (s.indexOf("nix") >= 0 || s.indexOf("nux") >= 0);
+				isMac = s.indexOf("mac") >= 0;
+				isWin = s.indexOf("win") >= 0;
+			}
+		} catch (Exception e) {
+		}
+
+		IS_MAC = isMac;
+		IS_NIX = isNix;
+		IS_WINDOWS = isWin;
+		
+		
+		
 		try {
 			resourceBundle = ResourceBundle.getBundle(bundleName);
 		} catch (Exception e) {
+			System.out.println("---> " + bundleName + " " + e);
+			//e.printStackTrace();
+		}
+		
+		checkInit();
+
+//		propertiesDir = getString(PROPERTIES_DIR_VAR_NAME);
+
+		try {
+			System.out.println();
+			System.out.println(System.getProperty("os.name") + " " + System.getenv("APPDATA"));
+			System.out.println();
+			String aData = System.getenv("APPDATA");
+			if (IS_WINDOWS && aData != null && ! exists(getPropertiesDirectory())) {
+				String s = getString(PROPERTIES_WIN_DIR_VAR_NAME);
+				if (s != null && ! "".equals(s)) {
+//					propertiesDir = s;
+					userHome = aData;
+					appData = aData;
+				}
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		//reHomeDirectory = userHome;
+		//userJarFileDirectory = userHome;
+		
 		String[] defTrueKeys = {
 				PROPERTY_BIG_FILE_USE_SPECIAL_FIXED_MODEL,
 				PROPERTY_LOAD_FILE_BACKGROUND,
@@ -229,8 +344,9 @@ public final class Parameters implements ExternalReferenceConstants {
 				PROPERTY_PGN_ICONS,
 				USE_NEW_TREE_EXPANSION,
 				SEARCH_ALL_FIELDS,
-				DEL_SELECTED_WITH_DEL_KEY,
+//				DEL_SELECTED_WITH_DEL_KEY,
 				WARN_WHEN_USING_DEL_KEY,
+				PROPERTY_USE_OVERFLOW_FILE,
 		};
 
 		for (String s : defTrueKeys) {
@@ -238,6 +354,7 @@ public final class Parameters implements ExternalReferenceConstants {
 		}
 
 		defaultValues.put(FIELD_SAVE_DIRECTORY, "<reproperties>/User/Fields/*");
+
 	}
 
 
@@ -282,6 +399,12 @@ public final class Parameters implements ExternalReferenceConstants {
         initDirectories();
         return propertyFileName;
     }
+    
+    public static String getPropertyListFileName() {
+        initDirectories();
+        return propertyListFileName;
+    }
+
 
     /**
      * initialise the directories
@@ -289,10 +412,24 @@ public final class Parameters implements ExternalReferenceConstants {
      */
     private static void initDirectories() {
     	if (applicationDirectory == null) {
+    		systemJarFileDirectory = getLibDirectory();
+
+    		if (systemJarFileDirectory == null || "".equals(systemJarFileDirectory)) {
+    			systemJarFileDirectory = "G:\\Programs\\RecordEdit\\HSQL\\lib";
+    			//systemJarFileDirectory = "C:\\Program Files\\RecordEdit\\MSaccess\\lib";
+    			//jarListFileDirectory = "/media/sda1/Bruces/Work/RecordEditParams";
+    			//jarListFileDirectory = "/home/knoppix/RecordEdit/HSQLDB/lib";
+    			//systemJarFileDirectory = "/media/sdc1/RecordEditor/USB/lib";
+    		} else {
+    			globalPropertyFileName = systemJarFileDirectory + "/" + GLOBAL_PROPERTIES_FILE_NAME;
+    			
+    			globalProperties = readProperties(globalPropertyFileName);
+    		}
+
     		String s = getPropertiesDirectoryWithFinalSlash();
 
     		if (s == null) {
-    			s = "C:\\Users\\mum\\RecordEditor_HSQL\\";
+    			s = "G:\\Users\\Bruce01\\RecordEditor_HSQL\\";
     		}
     		userJarFileDirectory = s;
     		System.out.println("!! Properties Directory ~~ " + s);
@@ -301,31 +438,46 @@ public final class Parameters implements ExternalReferenceConstants {
 
     		System.out.println("!! Application Directory ~~ " + applicationDirectory);
 
-    		propertyFileName = applicationDirectory + USER_PARAM_FILE;
+    		propertyFileName = new File(applicationDirectory + USER_PARAM_FILE).toString();
+    		propertyListFileName = new File(applicationDirectory + USER_PARAM_LIST_FILE).toString();
 
     		//        s = expandVars(getResourceString("JarListFilesDirectory"));
     		//        if (s == null || s.trim().equals("")) {
     		//            s = APPLICATION_DIRECTORY;
     		//        }
-    		systemJarFileDirectory = getLibDirectory();
-
-    		if (systemJarFileDirectory == null || "".equals(systemJarFileDirectory)) {
-    			systemJarFileDirectory = "C:\\JavaPrograms\\RecordEdit\\HSQL\\lib";
-    			//systemJarFileDirectory = "C:\\Program Files\\RecordEdit\\MSaccess\\lib";
-    			//jarListFileDirectory = "/media/sda1/Bruces/Work/RecordEditParams";
-    			//jarListFileDirectory = "/home/knoppix/RecordEdit/HSQLDB/lib";
-    			//systemJarFileDirectory = "/media/sdc1/RecordEditor/USB/lib";
-    		} else {
-    			globalPropertyFileName = systemJarFileDirectory + "/Params.Properties";
-    		}
     	}
     }
 
     public static String getPropertiesDirectory() {
-		String s = expandVars(getResourceString(PROPERTIES_DIR_VAR_NAME));
+    	if (propertiesDir == null) {
+    		propertiesDir = getString(PROPERTIES_DIR_VAR_NAME);
+    	
+			try {
+				System.out.println();
+				System.out.println(System.getProperty("os.name") + " " + System.getenv("APPDATA") + " " + propertiesDir);
+				System.out.println();
+				String aData = System.getenv("APPDATA");
+				if (IS_WINDOWS && aData != null) {
+					appData = aData;
+					if (propertiesDir != null && ! exists(expandVars(propertiesDir))) {		
+						String s = getString(PROPERTIES_WIN_DIR_VAR_NAME);
+						if (s != null && ! "".equals(s)) {
+							propertiesDir = s;
+	//						userHome = aData;
+						}
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+    	}
+    
+		String s = expandVars(propertiesDir);
+		
 		if (s == null) {
-			s = USER_HOME + File.separator + ".RecordEditor/HSQLDB";
-		}
+			System.out.println(" -----> " + propertiesDir + " " + expandVars(propertiesDir) );
+			s = userHome + File.separator + "RecordEditor_HSQL";
+		} 
 		return s;
     }
 
@@ -353,17 +505,29 @@ public final class Parameters implements ExternalReferenceConstants {
 	 * @return value of the requested value
 	 */
 	public static String getString(final String key) {
-	    checkInit();
+	    //checkInit();
+
 		try {
 		    String s = null;
 		    if (useUserParamFile && properties != null) {
 		   		s = properties.getProperty(key);
 		    }
+		    
+//		    if (key== PROPERTIES_DIR_VAR_NAME) {
+//		    	System.out.println(" == X1 ==> " + s);
+//		    }
+		    
+		    if (paramProperties != null && s == null) {
+		    	s = paramProperties.getProperty(key);
+		    }
 
 		    if (s == null) {
 		        s = getSecondayStr(key);
 		    }
-
+/*		    if (key== PROPERTIES_DIR_VAR_NAME) {
+		    	System.out.println(" == X8 ==> " + s);
+		    }
+*/
 			return s;
 		} catch (Exception e) {
 			return getResourceString(key);
@@ -371,12 +535,13 @@ public final class Parameters implements ExternalReferenceConstants {
 	}
 
 	public static List<String> getStringList(final String key, int max) {
+		//checkInit();
 		String key2 = key + ".";
 		ArrayList<String> ret = new ArrayList<String>(Math.min(25, max+1));
 		String s;
 
 		for (int i = 0; i <= max; i++) {
-			s = getString(key2 + i);
+			s = getStringfl(key2 + i);
 			if (s != null) {
 				ret.add(s);
 			}
@@ -384,9 +549,29 @@ public final class Parameters implements ExternalReferenceConstants {
 
 		return ret;
 	}
+	
+	private static String getStringfl(String key) {
+		if (propertiesLists == null) {
+			propertiesLists = readProperties(getPropertyListFileName());
+			if (propertiesLists == null) {
+				propertiesLists = new Properties();
+			}
+		}
+		
+		return propertiesLists.getProperty(key);
+	}
 
 	public static void setArrayItem(String key, int idx, String value) {
-		setProperty(key + "." + idx, value);
+		//checkInit();
+		if (propertiesLists == null) {
+			propertiesLists = new Properties();
+		}
+
+		propertiesLists.put(key + "." + idx, value);
+	}
+	
+	public static void writeListProperties() {
+		writeProperties(propertiesLists, getPropertyListFileName());
 	}
 
 	/**
@@ -395,7 +580,7 @@ public final class Parameters implements ExternalReferenceConstants {
 	 * @return value of the requested value
 	 */
 	public static String getSecondayString(final String key) {
-	    checkInit();
+	    //checkInit();
 		try {
 			return getSecondayStr(key);
 		} catch (Exception e) {
@@ -415,21 +600,33 @@ public final class Parameters implements ExternalReferenceConstants {
 	    	if (properties2 != null) {
 	    		s = properties2.getProperty(key);
 	    	}
-
-	        if (s == null && globalProperties != null) {
-	        	s = globalProperties.getProperty(key);
-	        }
 	    }
+
+//	    if (key== PROPERTIES_DIR_VAR_NAME) {
+//	    	System.out.println(" == X2 ==> " + s + " " + useUserParamFile + " " + (properties2 != null));
+//	    }
 
         //System.out.print(key + " : " + s);
 
+        if (s == null && globalProperties != null) {
+        	s = globalProperties.getProperty(key);
+        }
+//	    if (key== PROPERTIES_DIR_VAR_NAME) {
+//	    	System.out.println(" == X3 Global ==> " + s + " " +  (globalProperties != null) + " " + globalPropertyFileName);
+//	    }
 	    if (s == null) {
 	        s = getResourceString(key);
 	    }
-
+//	    if (key== PROPERTIES_DIR_VAR_NAME) {
+//	    	System.out.println(" == X4 Resource ==> " + s + " " );
+//	    }
+//
 	    if (s == null && defaultValues.containsKey(key)) {
 	    	s = defaultValues.get(key);
 	    }
+//	    if (key== PROPERTIES_DIR_VAR_NAME) {
+//	    	System.out.println(" == X5 Default ==> " + s + " " +  defaultValues.containsKey(key));
+//	    }
 
 		//System.out.println("Get Variable " + key + " --> " + s);
 		return s;
@@ -452,6 +649,10 @@ public final class Parameters implements ExternalReferenceConstants {
 		return null;
 	}
 
+	public static String getUserhome() {
+		return userHome;
+	}
+
 	/**
 	 * do init if neccesary
 	 *
@@ -462,9 +663,9 @@ public final class Parameters implements ExternalReferenceConstants {
 	        if (useUserParamFile) {
 	            properties = readProperties();
 
-	            if (globalPropertyFileName != null) {
-	            	globalProperties = readProperties(globalPropertyFileName);
-	            }
+//	            if (globalPropertyFileName != null) {
+//	            	globalProperties = readProperties(globalPropertyFileName);
+//	            }
 
 	            useUserParamFile = (properties != null) || (globalProperties != null);
 	        }
@@ -500,7 +701,7 @@ public final class Parameters implements ExternalReferenceConstants {
             try {
                 ret.load(new FileInputStream(f));
             } catch (Exception e) {
-                    ret = null;
+                ret = null;
                 e.printStackTrace();
             }
         }
@@ -545,16 +746,23 @@ public final class Parameters implements ExternalReferenceConstants {
             ret = getBaseDirectory() + name.substring("<install>".length());
             System.out.println("Expand >> " + name + " >> " + ret);
         } else if (lcName.startsWith("<home>")) {
-            ret = USER_HOME + name.substring(6);
+            ret = userHome + name.substring(6);
+        } else if (lcName.startsWith("<appdata>")) {
+            ret = appData + name.substring(9);
         } else if (lcName.startsWith("<rehome>")) {
-            ret = reHomeDirectory + name.substring("<rehome>".length());
-       } else if ((lcName.startsWith("<reproperties>/") || lcName.startsWith("<reproperties>\\"))
+            ret = reHomeDirectory + name.substring(REHOME_VAR_LENGTH);
+        } else if ((lcName.startsWith("<reproperties>/") || lcName.startsWith("<reproperties>\\"))
          	   && applicationDirectory != null
          	   && applicationDirectory.endsWith(File.separator)) {
-             ret = applicationDirectory + name.substring("<reproperties>/".length());
+           ret = applicationDirectory + name.substring(REPROPERTIES_VAR_LENGTH + 1);
         } else if (lcName.startsWith("<reproperties>")) {
-            ret = applicationDirectory + name.substring("<reproperties>".length());
+            ret = applicationDirectory + name.substring(REPROPERTIES_VAR_LENGTH);
         }
+        
+        if (ret != null && ret.length() > 0 
+        && (ret.charAt(0) == '/' || ret.indexOf(':') >= 0)) {
+			ret = new File(ret).toString();
+		}
         //File.separator
         return ret;
     }
@@ -582,25 +790,29 @@ public final class Parameters implements ExternalReferenceConstants {
         if (! "".equals(getLibDirectory())
         && lcName.startsWith(getLibDirectory().toLowerCase())) {
             ret = "<lib>"   + name.substring(getLibDirectory().length());
-        } else if ((! "".equals((bd = getBaseDirectory())))
-               && lcName.startsWith(bd.toLowerCase())) {
+        } else if ( check(lcName, (bd = getBaseDirectory()))) {
             ret = "<install>" + name.substring(bd.length());
-        } else if ((! "".equals(USER_HOME)) && (USER_HOME != null)
-               && lcName.startsWith(USER_HOME)) {
-            ret = "<home>" + name.substring(USER_HOME.length());
-        } else if (reprops != null && (! "".equals(reprops))
-                && lcName.startsWith(reprops.toLowerCase())) {
+        } else if (check(lcName, reprops)) {
             ret = "<reproperties>" + name.substring(reprops.length());
-        } else if ((! "".equals(reHomeDirectory))
-               && lcName.startsWith(reHomeDirectory.toLowerCase())) {
+        } else if (check(lcName, userHome)) {
+            ret = "<home>" + name.substring(userHome.length());
+        } else if (check(lcName, reHomeDirectory)) {
         	ret = "<rehome>" + name.substring(reHomeDirectory.length());
+        } else if (check(lcName, appData)) {
+             ret = "<appdata>" + name.substring(appData.length());
         }
 
         //System.out.println("~~> " + name + " ==> " + ret);
         return ret;
     }
 
+    private static boolean check(String lcName, String var) {
+    	return (var != null) && (! "".equals(var))
+                && lcName.startsWith(var.toLowerCase());
+    }
 
+    
+    
     /**
      * get base directory
      *
@@ -643,7 +855,7 @@ public final class Parameters implements ExternalReferenceConstants {
     private static void getDirectories() {
 
 
-        baseDirectory = "C:\\JavaPrograms\\RecordEdit\\HSQL";
+        baseDirectory = "G:\\Programs\\RecordEdit\\HSQL";
         libDirectory  = "";
         URL o = Parameters.class.getClassLoader().getResource("net/sf/RecordEditor/utils/params/Parameters.class");
 
@@ -657,9 +869,44 @@ public final class Parameters implements ExternalReferenceConstants {
 //                	    new GetPropertyAction("file.encoding")
 //                	);
                 //System.out.println("     dir: " + dir);
-                baseDirectory = dir.substring(SIZE_OF_FILE_URL_PREFIX, pos);
-                pos = baseDirectory.lastIndexOf('/');
-            	libDirectory = URLDecoder.decode(baseDirectory.substring(0, pos));
+                //baseDirectory = new File(dir.substring(SIZE_OF_FILE_URL_PREFIX)).getParent();
+                File baseFile = new File( dir.substring(SIZE_OF_FILE_URL_PREFIX, pos));
+                File libFile = baseFile.getParentFile();
+                String dfltCharset = Charset.defaultCharset().displayName();
+                baseDirectory = baseFile.getPath();
+               
+                System.out.println();
+                System.out.println();
+                System.out.println("1 > " + baseFile.getPath());
+                System.out.println("2 > " + baseFile.getAbsolutePath());
+                try {
+					System.out.println("3 > " + baseFile.getCanonicalPath());
+					System.out.println("4 > " + URLDecoder.decode(baseFile.getPath(), dfltCharset));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+                System.out.println(); 
+                System.out.println();
+                
+ //               pos = baseDirectory.lastIndexOf('/');
+                
+                System.out.println();
+                System.out.println(" !!! BaseDirectory = " + baseDirectory + " >" + o.getFile() + "< ");
+//                System.out.println(" !!! libDirectory 1= " + baseDirectory.substring(0, pos));
+                System.out.println(" !!! libDirectory 2= " + (new File(baseDirectory)).getParent());
+                 
+ //           	libDirectory = URLDecoder.decode(baseDirectory.substring(0, pos));
+            	try {
+					libDirectory = URLDecoder.decode(libFile.getPath(), dfltCharset); //baseFile.getParent();
+					baseDirectory = URLDecoder.decode(libFile.getParent(), dfltCharset);
+				} catch (UnsupportedEncodingException e) {
+					libDirectory = libFile.getPath();
+					baseDirectory = libFile.getParent();
+					e.printStackTrace();
+				}
+            	System.out.println(" !!! libDirectory 3= " + libDirectory);
+                System.out.println();
 
 //                try {
 //                	libDirectory = URLDecoder.decode(baseDirectory.substring(0, pos), dfltEncName);
@@ -668,11 +915,12 @@ public final class Parameters implements ExternalReferenceConstants {
 //                	System.out.println(">>>   Error getting Lib directory - dfltEncodeName Exception   <<<");
 //                	System.out.println();
 //				}
-                baseDirectory = libDirectory;
-                pos = baseDirectory.lastIndexOf('/');
-                if (pos >= 0) {
-                    baseDirectory = baseDirectory.substring(0, pos);
-                }
+//                baseDirectory = libDirectory;
+//                pos = baseDirectory.lastIndexOf('/');
+//                if (pos >= 0) {
+//                    baseDirectory = baseDirectory.substring(0, pos);
+//                }
+                
                 System.out.println("     base dir: " + baseDirectory);
                 System.out.println("     lib  dir: " + libDirectory);
             }
@@ -749,7 +997,7 @@ public final class Parameters implements ExternalReferenceConstants {
 	}
 
 	public static final Properties getInitialisedProperties() {
-		checkInit();
+		//checkInit();
 		if (properties == null) {
 			properties = new Properties();
 		}
@@ -758,6 +1006,7 @@ public final class Parameters implements ExternalReferenceConstants {
 
 	public static final void setProperty(String key, String value) {
 		getInitialisedProperties().setProperty(key, value);
+		changesToSave = true;
 
 		if (savePropertyChanges) {
 			notifyParamChg();
@@ -767,22 +1016,43 @@ public final class Parameters implements ExternalReferenceConstants {
 
 	public static final void setProperties(Properties prop) {
 		properties = prop;
+		changesToSave = true;
+	}
+	
+	public static void loadParamProperties(String propertiesFilename) {
+		if (propertiesFilename != null && propertiesFilename.length() > 0) {
+			paramProperties = readProperties(propertiesFilename);
+		}
+	}
+
+    public static final void writePropertiesIfChanged() {
+    	if (changesToSave) {
+    		writeProperties();
+    	}
 	}
 
     public static final void writeProperties() {
-
+    	writeProperties(properties, getPropertyFileName());
+    }
+    
+    private static final void writeProperties(Properties props, String propertyFileName2) {
         try {
-            renameFile(getPropertyFileName());
-            properties.store(
-                new FileOutputStream(getPropertyFileName()),
+ //           String propertyFileName2 = getPropertyFileName();
+			renameFile(new File(propertyFileName2).toString());
+            props.store(
+                new FileOutputStream(propertyFileName2),
                 "RecordEditor");
+            
+            if (props == properties) {
+            	changesToSave = false;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public static final void renameFile(String fileName) {
-    	renameFile(fileName, fileName + "~");
+    	renameFile(fileName, fileName + "~", true);
     }
 
     /**
@@ -790,18 +1060,71 @@ public final class Parameters implements ExternalReferenceConstants {
      * @param fileName file to be renamed
      */
     public static final void renameFile(String fileName, String newFileName) {
-        File f = new File(fileName);
-        File fNew;
-
-        fNew = new File(newFileName);
-
-        if (fNew.exists()) {
-            fNew.delete();
-        }
-
-        f.renameTo(fNew);
+    	renameFile(fileName, newFileName, false);
     }
 
+    /**
+     * Rename a file
+     * @param fileName file to be renamed
+     */
+    private static final void renameFile(String fileName, String newFileName, boolean keeptrying) {
+ //       File f = new File(fileName);
+       File fNew = null;
+       String newName = newFileName;
+       boolean b = false;
+       
+       if (exists(newName)) {
+    	   b = doDelete(newName);
+    	   if (keeptrying) {  		   
+    		   int i = 1;
+	    	   while((! b) && exists(newName)) {
+	    		   newName = newFileName + i++;
+	    		
+	    		   if (! exists(newName) ) {
+	    			   break;
+	    		   }
+	    		   
+	    		   b = doDelete(newName);
+	    	   };
+    	   }
+       }
+       System.out.println("File Delete: " + newFileName + " " + b);
+
+//        Path oldFile = Paths.get(fileName);
+//        Path dir = oldFile.getParent();        
+//        Path fn = oldFile.getFileSystem().getPath(newFileName);
+//        Path target = (dir == null) ? fn : dir.resolve(fn);        
+//        oldFile.moveTo(target);
+        
+       fNew =  new File(newFileName);
+       
+       new File(fileName).renameTo(fNew);
+    }
+
+    private static boolean doDelete(String newName) {
+    	boolean b = false;
+		try {
+			if (JAVA_VERSION > 1.699) {
+				try {
+					java.nio.file.Path newPath = java.nio.file.Paths.get(newName);
+				    Files.deleteIfExists(newPath);
+				    b = true;
+				   
+				} catch (IOException e) {
+					e.printStackTrace();
+					
+			        b = new File(newName).delete();
+				}
+			} else {
+				b = new File(newName).delete();
+			}
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+
+
+    	return b;
+    }
 
     public static boolean isDefaultTrue(String s) {
     	return defaultTrue.contains(s);
@@ -871,5 +1194,43 @@ public final class Parameters implements ExternalReferenceConstants {
 	public static void removeParameterChangeListner(AParameterChangeListner e) {
 		paramChangeListners.remove(e);
 	}
+	
+	public static String addPathSlash(String dirName) {
+		String ret = dirName;
+		if (dirName == null || dirName.endsWith("/") || dirName.endsWith("\\")) {
+			
+		} else {
+			ret = ret + "/";
+		}
+		
+		return ret;
+	}
+	
+    
+    public static boolean exists(String filename) {
+    	boolean ret;
+    	if (JAVA_VERSION >= 1.699) {
+    		ret = java.nio.file.Files.exists(java.nio.file.Paths.get(filename));
+    	} else {
+    		ret = new File(filename).exists();
+    	}
+    	
+    	return ret;
+    }
 
+    
+    public static final boolean isWindowsLAF() {
+		return windowsLAF;
+	}
+
+    public static final void setWindowsLAF(boolean windowsLAF) {
+		Parameters.windowsLAF = windowsLAF;
+	}
+
+	public static IEnvironmentValues getEnvironmentDefaults() {
+    	if (IS_NIX || IS_MAC) {
+    		return new EnvironmentLinux();
+    	}
+    	return new EnvironmentDefault();
+    }
 }

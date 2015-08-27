@@ -22,6 +22,8 @@ import javax.swing.JComboBox;
 
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelectCreator;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
+import net.sf.RecordEditor.re.openFile.LayoutSelectionCsvCreator;
+import net.sf.RecordEditor.re.openFile.LayoutSelectionPoTipCreator;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
@@ -50,6 +52,10 @@ public class Menu extends ReFrame
 	private JButton fromFileBtn  = new JButton("*");
 	private JButton singleLayout = new JButton("*");
 	private JButton twoLayouts   = new JButton("*");
+	private JButton csvCmp       = new JButton("*");
+	private JButton csvDbCmp     = new JButton("*");
+	private JButton poCmpBtn     = new JButton("*");
+	private JButton tipCmpBtn    = new JButton("*");
 
 	private JButton btnHelp      = SwingUtils.getHelpButton();
 
@@ -58,7 +64,7 @@ public class Menu extends ReFrame
 	private String rFiles;
 
 	//private AbstractLayoutSelection selection;
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	private AbstractLayoutSelectCreator layoutCreator;
 
 
@@ -70,7 +76,7 @@ public class Menu extends ReFrame
 	 * @param parentFrame parent frame
 	 */
 	@SuppressWarnings("unchecked")
-	public Menu(AbstractLayoutSelectCreator creator, String recentFiles)  {
+	public Menu(@SuppressWarnings("rawtypes") AbstractLayoutSelectCreator creator, String recentFiles)  {
 		super("", "Menu", "Compare Menu", null);
 		String[] dbs;
 
@@ -81,34 +87,46 @@ public class Menu extends ReFrame
 
 		pnl.setVerticalGap(BasePanel.VG_GAP2, HELP_GAP);
 
-		pnl.setHelpURL(Common.formatHelpURL(Common.HELP_DIFF));
+		pnl.setHelpURLre(Common.formatHelpURL(Common.HELP_DIFF));
 
 		dbs = selection.getDataBaseNames();
 
-		pnl.setGap(BasePanel.GAP1);
+		pnl.setGapRE(BasePanel.GAP1);
 		if (dbs != null) {
 			for (int i = 0; (i < dbs.length) && (dbs[i] != null) && (!dbs[i].equals("")); i++) {
 				dbCombo.addItem(dbs[i]);
 			}
 			dbCombo.setSelectedIndex(Common.getConnectionIndex());
-			pnl.addLine("Data Base", dbCombo, btnHelp);
+			pnl.addLineRE("Data Base", dbCombo, btnHelp);
 		}
 
-		pnl.setGap(BasePanel.GAP3);
+		pnl.setGapRE(BasePanel.GAP3);
 
-		pnl.addMenuItem("Run Stored Compare", fromFileBtn);
-		pnl.setGap(BasePanel.GAP1);
-		pnl.addMenuItem("Compare Single Layout", singleLayout);
-		pnl.setGap(BasePanel.GAP1);
-
-		pnl.addMenuItem("Compare Different Layouts", twoLayouts);
-		pnl.setGap(BasePanel.GAP3);
+		pnl.addMenuItemRE("Run Stored Compare", fromFileBtn);
+		pnl.setGapRE(BasePanel.GAP1);
+		pnl.addMenuItemRE("Compare Single Layout", singleLayout);
+		pnl.setGapRE(BasePanel.GAP1);
+		pnl.addMenuItemRE("Compare Different Layouts", twoLayouts);
+		pnl.setGapRE(BasePanel.GAP1);
+		pnl.addMenuItemRE("Csv Compare", csvCmp);
+		pnl.setGapRE(BasePanel.GAP1);
+		pnl.addMenuItemRE("Layout to Csv Compare", csvDbCmp);
+		pnl.setGapRE(BasePanel.GAP1);
+		pnl.addMenuItemRE("GetText-Po Compare", poCmpBtn);
+		pnl.setGapRE(BasePanel.GAP1);
+		pnl.addMenuItemRE("SwingX-Tip Compare", tipCmpBtn);
+		
+		pnl.setGapRE(BasePanel.GAP3);
 
 
 		btnHelp.addActionListener(this);
 		fromFileBtn.addActionListener(this);
 		singleLayout.addActionListener(this);
 		twoLayouts.addActionListener(this);
+		csvCmp.addActionListener(this);
+		csvDbCmp.addActionListener(this);
+		tipCmpBtn.addActionListener(this);
+		poCmpBtn.addActionListener(this);
 
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -131,16 +149,30 @@ public class Menu extends ReFrame
 	/**
 	 * @see java.awt.event.ActionListner#actionPerformed
 	 */
-	@SuppressWarnings("unchecked")
 	public void actionPerformed(ActionEvent e) {
 
 //		String lDBid = dbCombo.getSelectedItem().toString();
 		if (e.getSource() == fromFileBtn) {
 			new RunSavedCompare(layoutCreator, dbCombo.getSelectedIndex(), rFiles);
 		} else if (e.getSource() == btnHelp) {
-		    pnl.showHelp();
+		    pnl.showHelpRE();
 		} else if (e.getSource() == dbCombo) {
 		    Common.setConnectionId(dbCombo.getSelectedIndex());
+		} else if (e.getSource() == csvCmp) {
+			LayoutSelectionCsvCreator csvl = new LayoutSelectionCsvCreator();
+			new CompareTwoLayouts(csvl.create(), csvl.create(), rFiles, false);
+		} else if (e.getSource() == csvDbCmp) {
+			LayoutSelectionCsvCreator csvl = new LayoutSelectionCsvCreator();
+			AbstractLayoutSelection selection1 = layoutCreator.create();
+			selection1.setDatabaseIdx(dbCombo.getSelectedIndex());
+
+			new CompareTwoLayouts(selection1, csvl.create(), rFiles, false);
+		} else if (e.getSource() == poCmpBtn) {
+			LayoutSelectionPoTipCreator newPoCreator = LayoutSelectionPoTipCreator.newPoCreator();
+			new CompareSingleLayout("GetText-PO Compare Wizard -", newPoCreator.create(), rFiles);
+		} else if (e.getSource() == tipCmpBtn) {
+			LayoutSelectionPoTipCreator newTipCreator = LayoutSelectionPoTipCreator.newTipCreator();
+			new CompareSingleLayout("SwingX-Tip Compare Wizard -", newTipCreator.create(), rFiles);
 		} else {
 			AbstractLayoutSelection selection = layoutCreator.create();
 			selection.setDatabaseIdx(dbCombo.getSelectedIndex());
@@ -151,7 +183,7 @@ public class Menu extends ReFrame
 				AbstractLayoutSelection selection1 = layoutCreator.create();
 				selection1.setDatabaseIdx(dbCombo.getSelectedIndex());
 
-				new CompareTwoLayouts(selection, selection1, rFiles);
+				new CompareTwoLayouts(selection, selection1, rFiles, true);
 			}
  		}
 		//this.moveToBack();
@@ -164,7 +196,7 @@ public class Menu extends ReFrame
     public void executeAction(int action) {
 
         if (action == ReActionHandler.HELP) {
-            pnl.showHelp();
+            pnl.showHelpRE();
         }
         //super.executeAction(action);
     }

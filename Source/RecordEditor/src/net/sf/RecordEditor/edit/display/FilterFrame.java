@@ -159,14 +159,24 @@ public class FilterFrame extends ReFrame implements IUpdateDetails<EditorTask>, 
 
     private void filter() {
 
-    	filterRecs(fileTable.getFilteredView(filter1.getFilter()), filter1);
+    	Common.runOptionalyInBackground(new Runnable() {
+				@Override public void run() {
+			    	filterRecs(fileTable.getFilteredView(filter1.getFilter()), filter1);
+				}
+		});
+
     }
 
     private void groupFilter() {
 
-    	filterRecs(
-    			fileTable.getFilteredView(filter2.getFilter(), filter2.getGroupRecordId()),
-    			filter2);
+    	
+    	Common.runOptionalyInBackground(new Runnable() {
+			@Override public void run() {
+		    	filterRecs(
+		    			fileTable.getFilteredView(filter2.getFilter(), filter2.getGroupRecordId()),
+		    			filter2);
+			}
+		}); 
     }
 
     private void filterRecs(FileView fileView, FilterPnl2 filterPnl) {
@@ -190,7 +200,7 @@ public class FilterFrame extends ReFrame implements IUpdateDetails<EditorTask>, 
     public void executeAction(int action) {
 
         if (action == ReActionHandler.HELP) {
-            filter1.showHelp();
+            filter1.showHelpRE();
         }
     }
     /**

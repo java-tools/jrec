@@ -81,10 +81,10 @@ implements ActionListener,  TableModelListener {
         p.add(addBtn);
         p.add(addAfterBtn);
         p.add(deleteBtn);
-  		pnl.addComponent(1, 5, BasePanel.PREFERRED, BasePanel.GAP,
+  		pnl.addComponentRE(1, 5, BasePanel.PREFERRED, BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL, p);
 
-		pnl.addComponent(1, 5, BasePanel.PREFERRED, BasePanel.GAP,
+		pnl.addComponentRE(1, 5, BasePanel.PREFERRED, BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL, table);
 
 		addMainComponent(pnl);

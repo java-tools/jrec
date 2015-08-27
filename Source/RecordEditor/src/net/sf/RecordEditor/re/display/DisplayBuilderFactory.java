@@ -7,6 +7,7 @@ import net.sf.JRecord.Details.AbstractLine;
 import net.sf.RecordEditor.re.file.AbstractLineNode;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.tree.AbstractLineNodeTreeParser;
+import net.sf.RecordEditor.utils.fileStorage.DataStoreStd;
 
 /**
  * Display-Builder class. It will create a screen of the desired
@@ -45,6 +46,15 @@ public class DisplayBuilderFactory implements IDisplayBuilder {
 	 */
 	public static IDisplayBuilder getInstance() {
 		return instance;
+	}
+	
+	public static void startEditorNewFile(AbstractLayoutDetails layout) {
+		FileView file = new FileView(
+				DataStoreStd.newStore(layout),
+				null,
+				null,
+				false);
+		instance.newDisplay(DisplayBuilderFactory.ST_INITIAL_EDIT, "", null, file.getLayout(), file, 0);
 	}
 
 	public static void  register(IDisplayBuilder builder) {

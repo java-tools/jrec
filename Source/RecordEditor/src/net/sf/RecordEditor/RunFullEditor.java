@@ -30,7 +30,8 @@ public final class RunFullEditor {
      * @param args program arguments
      */
     public static void main(String[] args) {
-        new Run("SystemJars.txt",
+        new Run(null,
+        		"SystemJars.txt",
                 null,
                 "net.sf.RecordEditor.edit.FullEditor",
                 args);

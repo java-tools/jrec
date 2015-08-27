@@ -37,8 +37,10 @@ import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Numeric.ConversionManager;
 import net.sf.JRecord.Numeric.Convert;
+import net.sf.JRecord.Numeric.ICopybookDialects;
 import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.Types.TypeManager;
+import net.sf.cb2xml.def.Cb2xmlConstants;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -52,7 +54,7 @@ import org.xml.sax.SAXException;
  *
  * @author Bruce Martin
  */
-public class XmlCopybookLoader implements CopybookLoader {
+public class XmlCopybookLoader extends BaseCopybookLoader {
 
     private static final int OPT_WRITE_ELEMENT = 1;
     private static final int OPT_REDEFINES = 2;
@@ -62,21 +64,8 @@ public class XmlCopybookLoader implements CopybookLoader {
     private static final String STR_YES = "Y";
     private static final String STR_NO  = "N";
 
-    public static final String ATTR_NAME      = "name";
-    public static final String ATTR_PICTURE   = "picture";
-    public static final String ATTR_NUMERIC   = "numeric";
-    public static final String ATTR_REDEFINED = "redefined";
-    private static final String ATTR_REDEFINES = "redefines";
-    public static final String ATTR_POSITION  = "position";
-    public static final String ATTR_LEVEL     = "level";
-    private static final String ATTR_OCCURS    = "occurs";
-    public static final String ATTR_USAGE     = "usage";
-    //private static final String attrDisplayLength = "display-length";
-    public static final String ATTR_STORAGE_LENGTH = "storage-length";
-    public static final String ATTR_SIGN_SEPARATE  = "sign-separate";
-    public static final String ATTR_SIGN_POSITION  = "sign-position";
-    public static final String ATTR_SIGNED    = "signed";
-
+    
+    
     private String copybookName;
     private ArrayList<ExternalField> commonDetails;
     private String redefinedField;
@@ -95,12 +84,17 @@ public class XmlCopybookLoader implements CopybookLoader {
     //private static AbsSSLogger logger;
 
 
-    private int binaryFormat = Convert.FMT_INTEL;
+    private int binaryFormat = ICopybookDialects.FMT_INTEL;
     private Convert numTranslator;
     private String fontName = "";
     private int system = 0;
 
     private int redefLevel = Integer.MAX_VALUE;
+
+    private int level;
+    private String splitAtLevel;
+    private int positionAdjustment = 0;
+    private ArrayList<String> groupName;
 
     /**
      * Load a File as a DOM Document
@@ -116,9 +110,11 @@ public class XmlCopybookLoader implements CopybookLoader {
     public Document fileToDom(String fileName)
 	throws IOException, SAXException, ParserConfigurationException {
 
-        DocumentBuilderFactory factory
-           		= DocumentBuilderFactory.newInstance();
-        return factory.newDocumentBuilder().parse(new File(fileName));
+    	synchronized (this) {	
+	        DocumentBuilderFactory factory
+	           		= DocumentBuilderFactory.newInstance();
+	        return factory.newDocumentBuilder().parse(new File(fileName));
+		}
     }
 
 
@@ -175,78 +171,92 @@ public class XmlCopybookLoader implements CopybookLoader {
             							 final String font,
                						     final int binFormat,
                						     final int systemId) {
-        int i;
-        String lCopyBookPref;
-        numTranslator = ConversionManager.getInstance().getConverter4code(binFormat) ;
+    	synchronized (this) {	
+    		int i;
+    		String lCopyBookPref;
+    		numTranslator = ConversionManager.getInstance().getConverter4code(binFormat) ;
 
-        copybookName = pCopyBook;
-        binaryFormat =  numTranslator.getBinaryIdentifier();
-        fontName = font;
-        system   = systemId;
-        parentLayout = null;
+    		copybookName = pCopyBook;
+    		binaryFormat =  numTranslator.getBinaryIdentifier();
+    		fontName = font;
+    		system   = systemId;
+    		parentLayout = null;
 
 
-        lCopyBookPref = pCopyBook.toUpperCase() + "-";
-        this.splitCopybook = pSplitCopybook;
+            lCopyBookPref = pCopyBook.toUpperCase() + "-";
+            this.splitCopybook = pSplitCopybook;
 
-        this.redefinedField = "";
-        this.commonDetails  = new ArrayList<ExternalField>();
-        this.foundRedefine  = false;
-        this.fieldNum       = 0;
-        this.recordNum      = 1;
+            this.redefinedField = "";
+            this.commonDetails  = new ArrayList<ExternalField>();
+            this.foundRedefine  = false;
+            this.fieldNum       = 0;
+            this.recordNum      = 1;
 
-        Element element = /*(Element)*/ pCopyBookXml.getDocumentElement();
+            Element element = /*(Element)*/ pCopyBookXml.getDocumentElement();
 
-        allocDBs(pDbIdx);
-
-        switch (pSplitCopybook) {
-        case SPLIT_NONE:   /* split copybook on first redefine*/
-            createRecord(pCopyBook, pCopyBook, STR_YES);
-
-            insertXMLcopybook(lCopyBookPref, element, 0, "");
-            break;
-        case SPLIT_REDEFINE:
-        	scanCopybook4RedefLevel(element);
-        	// Deliberate Fall through
-        default:
-            insertXMLcopybook(lCopyBookPref, element, 0, "");
-
-            //System.out.println(" ->> " + foundRedefine + " " + commonDetails.size());
-            if ((! foundRedefine) && (commonDetails.size() > 0)) {
+            allocDBs(pDbIdx);
+            
+            splitAtLevel = "1";
+    
+            switch (pSplitCopybook) {
+            case SPLIT_NONE:   /* split copybook on first redefine*/
                 createRecord(pCopyBook, pCopyBook, STR_YES);
 
-                for (i = 1; i < commonDetails.size(); i++) {
-                    insertRecordField(commonDetails.get(i));
+                insertXMLcopybook(lCopyBookPref, element);
+                break;
+            case SPLIT_REDEFINE:
+                scanCopybook4RedefLevel(element);
+                processCopybook(pCopyBook, lCopyBookPref, element);
+                break;
+            case SPLIT_HIGHEST_REPEATING:
+                scanCopybook4Level(element);
+                processCopybook(pCopyBook, lCopyBookPref, element);
+                break;
+            default:
+                processCopybook(pCopyBook, lCopyBookPref, element);
+            }
+
+            commonDetails = null;
+
+            if (parentLayout == null) {
+                parentLayout = currentLayout;
+            }
+            parentLayout.dropFiller();
+
+            boolean multipleRecordLengths = false,
+                    binary = false;
+
+            if (parentLayout.getNumberOfRecords() == 0) {
+                binary = isBinaryRec(parentLayout);
+            } else {
+                int len = getRecLength(parentLayout.getRecord(0));
+                binary = binary || isBinaryRec(parentLayout.getRecord(0));
+
+                for (i = 1; i < parentLayout.getNumberOfRecords(); i++) {
+                    binary = binary || isBinaryRec(parentLayout.getRecord(i));
+                    multipleRecordLengths = multipleRecordLengths
+                                         || (len != getRecLength(parentLayout.getRecord(i)));
                 }
+            }
+            parentLayout.setFileStructure(numTranslator.getFileStructure(multipleRecordLengths, binary));
+            freeDBs(pDbIdx);
+
+            return parentLayout;
+        }
+    }
+    
+    private void processCopybook(String pCopyBook, String lCopyBookPref, Element element) {
+        insertXMLcopybook(lCopyBookPref, element);
+    	
+        //System.out.println(" ->> " + foundRedefine + " " + commonDetails.size());
+        if ((! foundRedefine) && (commonDetails.size() > 0)) {
+            createRecord(pCopyBook, pCopyBook, STR_YES);
+
+            for (int i = 1; i < commonDetails.size(); i++) {
+                insertRecordField(commonDetails.get(i));
             }
         }
 
-        commonDetails = null;
-
-        if (parentLayout == null) {
-        	parentLayout = currentLayout;
-        }
-        parentLayout.dropFiller();
-
-        boolean multipleRecordLengths = false,
-        		binary = false;
-
-        if (parentLayout.getNumberOfRecords() == 0) {
-        	binary = isBinaryRec(parentLayout);
-        } else {
-        	int len = getRecLength(parentLayout.getRecord(0));
-        	binary = binary || isBinaryRec(parentLayout.getRecord(0));
-
-        	for (i = 1; i < parentLayout.getNumberOfRecords(); i++) {
-        		binary = binary || isBinaryRec(parentLayout.getRecord(i));
-        		multipleRecordLengths = multipleRecordLengths
-        							 || (len != getRecLength(parentLayout.getRecord(i)));
-        	}
-        }
-        parentLayout.setFileStructure(numTranslator.getFileStructure(multipleRecordLengths, binary));
-        freeDBs(pDbIdx);
-
-        return parentLayout;
     }
 
     private boolean isBinaryRec(ExternalRecord rec) {
@@ -266,7 +276,6 @@ public class XmlCopybookLoader implements CopybookLoader {
 
     private int getRecLength(ExternalRecord rec) {
     	int ret = 0;
-    	TypeManager m = TypeManager.getInstance();
 
     	try {
 	    	for (int i = 0; i < rec.getNumberOfRecordFields(); i++) {
@@ -302,12 +311,36 @@ public class XmlCopybookLoader implements CopybookLoader {
             org.w3c.dom.Node node = lNodeList.item(i);
             if (node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
                 Element childElement = (Element) node;
-                if (!childElement.getAttribute(ATTR_LEVEL).equals("88")) {
+                if (!childElement.getAttribute(Cb2xmlConstants.LEVEL).equals("88")) {
                 	checkRedef(childElement);
                     scanCopybook4RedefLevel(childElement);
                 }
             }
         }
+    }
+    
+    
+    private void scanCopybook4Level(Element element) {
+        NodeList lNodeList = element.getChildNodes();
+        while (lNodeList.getLength() == 1) {
+        	lNodeList = lNodeList.item(0).getChildNodes();
+        }
+        if (lNodeList != null && lNodeList.getLength() > 0) {
+        	org.w3c.dom.Node node = null;
+        	int i = 0;
+        	
+        	while (i < lNodeList.getLength() 
+        	   && (node = lNodeList.item(i++)).getNodeType() != org.w3c.dom.Node.ELEMENT_NODE) {};
+        	   
+            if (node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+                Element childElement = (Element) node;
+                String attrLevel = childElement.getAttribute(Cb2xmlConstants.LEVEL);
+				if (! attrLevel.equals("88")) {
+					splitAtLevel = Conversion.numTrim(attrLevel);
+                }
+            }
+        }
+   	
     }
 
     /**
@@ -320,18 +353,38 @@ public class XmlCopybookLoader implements CopybookLoader {
      */
     private void checkRedef(Element element) {
 
-       if (element.hasAttribute(ATTR_NAME))  {
+       if (element.hasAttribute(Cb2xmlConstants.NAME))  {
     	   try {
-    		   int level = getIntAttribute(element, ATTR_LEVEL);
-	    	   if (level > 0
-	    	   &&  level < redefLevel
-	    	   &&  getStringAttribute(element, ATTR_REDEFINED).equals("true")) {
-		           redefLevel = level;
+    		   int levelNum = getIntAttribute(element, Cb2xmlConstants.LEVEL);
+	    	   if (levelNum > 0
+	    	   &&  levelNum < redefLevel
+	    	   &&  getStringAttribute(element, Cb2xmlConstants.REDEFINED).equalsIgnoreCase(Cb2xmlConstants.TRUE)) {
+		           redefLevel = levelNum;
 		       }
     	   } catch (Exception e) {
     	   }
        }
     }
+
+
+    /**
+     * Insert XML Copybook into Record Fields
+     *
+     * @param copyBookPref copy book name
+     * @param element XML element source
+     * @param basePosition base position
+     * @param nameSuffix Name suffix
+     */
+    private void insertXMLcopybook(final String copyBookPref,
+    							   final Element element) {
+    	level = 0;
+    	groupName = new ArrayList<String>();
+    	groupName.add(".");
+
+    	insertXMLcopybook(copyBookPref, element, 0, "");
+    }
+
+
     /**
      * Insert XML Copybook into Record Fields
      *
@@ -347,15 +400,16 @@ public class XmlCopybookLoader implements CopybookLoader {
 
         String newSuffix;
         NodeList lNodeList = element.getChildNodes();
+        level += 1;
 
         for (int i = 0; i < lNodeList.getLength(); i++) {
             org.w3c.dom.Node node = lNodeList.item(i);
             if (node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
                 Element childElement = (Element) node;
-                if (!childElement.getAttribute(ATTR_LEVEL).equals("88")) {
-                   if (childElement.hasAttribute(ATTR_OCCURS)) {
-                        int childOccurs = getIntAttribute(childElement, ATTR_OCCURS);
-                        int length = getIntAttribute(childElement, ATTR_STORAGE_LENGTH);
+                if (!childElement.getAttribute(Cb2xmlConstants.LEVEL).equals("88")) {
+                   if (childElement.hasAttribute(Cb2xmlConstants.OCCURS)) {
+                        int childOccurs = getIntAttribute(childElement, Cb2xmlConstants.OCCURS);
+                        int length = getIntAttribute(childElement, Cb2xmlConstants.STORAGE_LENGTH);
 
                         for (int j = 0; j < childOccurs; j++) {
                             if (nameSuffix.equals("")) {
@@ -374,6 +428,8 @@ public class XmlCopybookLoader implements CopybookLoader {
                 }
             }
         }
+
+        level -= 1;
     }
 
     /**
@@ -384,20 +440,20 @@ public class XmlCopybookLoader implements CopybookLoader {
      * @param nameSuffix suffix to be used on field names
      * @param posBase base posisition
      */
-    private void insertElement(Element element,
-            						  String copyBookPref,
-            						  String nameSuffix,
-            						  int posBase) {
+    private void insertElement(	Element element,
+            					 String copyBookPref,
+            					 String nameSuffix,
+            					 	int posBase) {
 
        boolean print;
        int opt;
 
-       if (element.hasAttribute(ATTR_NAME))  {
-           String lName = getStringAttribute(element, ATTR_NAME);
+       if (element.hasAttribute(Cb2xmlConstants.NAME))  {
+           String lName = getStringAttribute(element, Cb2xmlConstants.NAME);
            String lOrigName = lName;
            String usage = "";
 
-           boolean lIsNumeric = getStringAttribute(element, ATTR_NUMERIC).equals("true");
+           boolean lIsNumeric = getStringAttribute(element, Cb2xmlConstants.NUMERIC).equalsIgnoreCase(Cb2xmlConstants.TRUE);
 
            if (! "".equals(nameSuffix)) {
                lName += " (" + nameSuffix + ")";
@@ -407,39 +463,53 @@ public class XmlCopybookLoader implements CopybookLoader {
                lName = lName.substring(copyBookPref.length());
            }
 
-           if (element.hasAttribute(ATTR_USAGE)) {
-        	   usage = element.getAttribute(ATTR_USAGE);
+           if (element.hasAttribute(Cb2xmlConstants.USAGE)) {
+        	   usage = element.getAttribute(Cb2xmlConstants.USAGE);
            }
            /*print = ((! "filler".equalsIgnoreCase(lOrigName))
-                   &&  element.hasAttribute(ATTR_PICTURE));*/
-           print = element.hasAttribute(ATTR_PICTURE)
-           			|| "computational-1".equals(usage) || "computational-2".equals(usage);
+                   &&  element.hasAttribute(Cb2xmlAttributes.PICTURE));*/
+           print = element.hasAttribute(Cb2xmlConstants.PICTURE)
+           			|| Cb2xmlConstants.COMP_1.equals(usage) || Cb2xmlConstants.COMP_2.equals(usage);
            opt = OPT_WRITE_ELEMENT;
            switch (splitCopybook) {
           	  case SPLIT_REDEFINE:
           	      if (foundRedefine) {
-	           	     if (getStringAttribute(element, ATTR_REDEFINES).equals(redefinedField)) {
+	           	     if (getStringAttribute(element, Cb2xmlConstants.REDEFINES).equals(redefinedField)) {
           	            opt = OPT_REDEFINES;
                      }
           	      } else {
           	          opt = OPT_SAVE;
           	          try {
-	          	          if (redefLevel == getIntAttribute(element, ATTR_LEVEL)
-		          	      &&  getStringAttribute(element, ATTR_REDEFINED).equals("true")) {
+	          	          if (redefLevel == getIntAttribute(element, Cb2xmlConstants.LEVEL)
+		          	      &&  getStringAttribute(element, Cb2xmlConstants.REDEFINED).equalsIgnoreCase(Cb2xmlConstants.TRUE)) {
 		          	          opt = OPT_REDEFINED;
 	          	          }
           	          } catch (Exception e) {
           	          }
            	      }
            	  break;
+          	  case SPLIT_HIGHEST_REPEATING:
+          		   if (Conversion.numTrim(getStringAttribute(element, Cb2xmlConstants.LEVEL)).equals(splitAtLevel)) {
+          			  positionAdjustment = getIntAttribute(element, Cb2xmlConstants.POSITION) - 1;
+         	          opt = foundRedefine ? OPT_REDEFINES : OPT_REDEFINED;
+         		  }
+          	  break;
           	  case SPLIT_01_LEVEL:
-          	      if (getStringAttribute(element, ATTR_LEVEL).equals("01")) {
-        	          opt = OPT_REDEFINED;
-          	          if (foundRedefine) {
-          	        	  opt = OPT_REDEFINES;
-          	          }
+          	      if (Conversion.numTrim(getStringAttribute(element, Cb2xmlConstants.LEVEL)).equals(splitAtLevel)) {
+        	          opt = foundRedefine ? OPT_REDEFINES : OPT_REDEFINED;
            	      }
               default:
+           }
+
+           //System.out.println(level + " " + print + " " + lName);
+           if (level > 0 && level <= groupName.size()) {
+        	   String s = groupName.get(level - 1) + lName + ".";
+
+        	   if (groupName.size() > level) {
+        		   groupName.set(level, s);
+        	   } else {
+        		   groupName.add(s);
+        	   }
            }
 
            switch (opt) {
@@ -470,7 +540,7 @@ public class XmlCopybookLoader implements CopybookLoader {
           	  break;
            	  default:
            }
-       }
+        }
     }
 
 
@@ -488,14 +558,16 @@ public class XmlCopybookLoader implements CopybookLoader {
         String name;
         int start = 0;
 
-        if (splitCopybook == SPLIT_01_LEVEL) {
+        switch  (splitCopybook) {
+        case SPLIT_HIGHEST_REPEATING:       
+        case SPLIT_01_LEVEL:       
             start = 1;
         }
 
         if (first) {
             int rt = Constants.rtGroupOfRecords;
-            if (binaryFormat == Convert.FMT_MAINFRAME
-            ||  binaryFormat == Convert.FMT_BIG_ENDIAN) {
+            if (binaryFormat == ICopybookDialects.FMT_MAINFRAME
+            ||  binaryFormat == ICopybookDialects.FMT_BIG_ENDIAN) {
                 rt = Constants.rtGroupOfBinaryRecords;
             }
 
@@ -539,8 +611,8 @@ public class XmlCopybookLoader implements CopybookLoader {
             							String recordName,
             							String listChar) {
         int rt = Constants.rtRecordLayout;
-        if (binaryFormat == Convert.FMT_MAINFRAME
-        ||  binaryFormat == Convert.FMT_BIG_ENDIAN) {
+        if (binaryFormat == ICopybookDialects.FMT_MAINFRAME
+        ||  binaryFormat == ICopybookDialects.FMT_BIG_ENDIAN) {
             rt = Constants.rtBinaryRecord;
         }
 
@@ -624,15 +696,15 @@ public class XmlCopybookLoader implements CopybookLoader {
             								int base,
             								Element element) {
         int iType = Type.ftChar;
-        String usage = getStringAttribute(element, ATTR_USAGE);
+        String usage = getStringAttribute(element, Cb2xmlConstants.USAGE);
 
         if (isNumeric) {
-            String picture = getStringAttribute(element, ATTR_PICTURE).toUpperCase();
-            String signed = getStringAttribute(element, ATTR_SIGNED);
-            String signSeparate = getStringAttribute(element, ATTR_SIGN_SEPARATE);
-            String signPosition = getStringAttribute(element, ATTR_SIGN_POSITION);
-            iType = numTranslator.getTypeIdentifier(usage, picture, "true".equals(signed),
-            		"true".equals(signSeparate), signPosition);
+            String picture = getStringAttribute(element, Cb2xmlConstants.PICTURE).toUpperCase();
+            String signed = getStringAttribute(element, Cb2xmlConstants.SIGNED);
+            String signSeparate = getStringAttribute(element, Cb2xmlConstants.SIGN_SEPARATE);
+            String signPosition = getStringAttribute(element, Cb2xmlConstants.SIGN_POSITION);
+            iType = numTranslator.getTypeIdentifier(usage, picture, Cb2xmlConstants.TRUE.equals(signed),
+            		Cb2xmlConstants.TRUE.equals(signSeparate), signPosition);
 
 //            if (iType >= 0) {
 //            } else if ("true".equals(signed) ||  picture.startsWith("S")) {
@@ -660,19 +732,24 @@ public class XmlCopybookLoader implements CopybookLoader {
             iType = Type.ftCharRightJust;
         }
 
-        return new ExternalField(
-        	        getIntAttribute(element, ATTR_POSITION) + base,
-        	        getIntAttribute(element, ATTR_STORAGE_LENGTH),
+        ExternalField externalField = new ExternalField(
+        	        getIntAttribute(element, Cb2xmlConstants.POSITION) + base - positionAdjustment,
+        	        getIntAttribute(element, Cb2xmlConstants.STORAGE_LENGTH),
         	        name,
         	        "",
         	        iType,
-        	        calculateDecimalSize(iType, getStringAttribute(element, ATTR_PICTURE)),
+        	        calculateDecimalSize(iType, getStringAttribute(element, Cb2xmlConstants.PICTURE)),
         	        Constants.FORMAT_DEFAULT,
         	        "",
         	        "",
-        	        getStringAttribute(element, ATTR_NAME),
+        	        getStringAttribute(element, Cb2xmlConstants.NAME),
         	        fieldNum++
         	  	 );
+
+        if (level > 1) {
+        	externalField.setGroup(groupName.get(level - 1));
+        }
+		return externalField;
     }
 
 

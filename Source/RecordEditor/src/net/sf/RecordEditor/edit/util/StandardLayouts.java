@@ -50,30 +50,39 @@ public final class StandardLayouts {
 		return getLayout(genericCsvExternalRec);
 	}
 
-	public final AbstractLayoutDetails getCsvLayoutNamesFirstLine(String delim, String quote, boolean embeddedCr) {
+	public final AbstractLayoutDetails getCsvLayoutNamesFirstLine(String delim, String charset, String quote, boolean embeddedCr) {
 		return  getLayout(
-					getCsvExternal("CSV_NAME_1ST_LINE", delim, quote, embeddedCr)
+					getCsvExternal("CSV_NAME_1ST_LINE", delim, charset, quote, embeddedCr)
 				);
 	}
 
 
-	public final AbstractLayoutDetails getCsvLayout(List<ExternalField> fields, String delim, String quote, boolean embeddedCr) {
-		ExternalRecord rec = getCsvExternal("Default", delim, quote, embeddedCr);
+//	public final AbstractLayoutDetails getCsvLayout(List<ExternalField> fields, String delim, String quote, boolean embeddedCr) {
+//		return getCsvLayout(fields, "Default", delim, null, quote, embeddedCr);
+//	}
+//
+
+	public final AbstractLayoutDetails getCsvLayout(List<ExternalField> fields, String fileStructure, String delim, String charset, String quote, boolean embeddedCr) {
+		ExternalRecord rec = getCsvExternal(fileStructure, delim, charset, quote, embeddedCr);
 
 		if (rec == null ) return null;
 
-		rec.clearRecordFields();
-
-		for (ExternalField field : fields) {
-			rec.addRecordField(field);
+		if (fields != null && fields.size() > 0) {
+			rec.clearRecordFields();
+	
+			for (ExternalField field : fields) {
+				rec.addRecordField(field);
+			}
 		}
 
 		return  getLayout(rec);
 	}
 
-	private final ExternalRecord getCsvExternal(String fileStructure, String delim, String quote, boolean embeddedCr) {
+
+	private final ExternalRecord getCsvExternal(String fileStructure, String delim, String charset, String quote, boolean embeddedCr) {
 		String xml;
 		String embeddedStr = "";
+		String font = "";
 
 		if ( "<none>".equals(quote.toLowerCase())) {
 			quote = "";
@@ -81,28 +90,42 @@ public final class StandardLayouts {
 		if (embeddedCr) {
 			embeddedStr = " " + Constants.RE_XML_EMBEDDED_CR + "=\"Y\" ";
 		}
+		if ("\t".equals(delim)) {
+			delim = "<tab>";
+		}
+		
+		if (charset != null && ! "".equals(charset)) {
+			font = Constants.RE_XML_FONTNAME + "=\""+ charset + "\"";
+		}
 
 		xml = "<RECORD RECORDNAME=\"Delimited\" COPYBOOK=\"\" STYLE=\"0\""
 			+ "        FILESTRUCTURE=\"" + fileStructure + "\""
 			+ "        DELIMITER=\"" + TranslateXmlChars.replaceXmlCharsStr(delim) + "\""
 			+ "        QUOTE=\"" + TranslateXmlChars.replaceXmlCharsStr(quote) + "\""
-			+          embeddedStr
+			+          embeddedStr + " " + font
 			+ "		   DESCRIPTION=\"Delimited\" RECORDTYPE=\"Delimited\" RecSep=\"default\">"
 			+ "	<FIELDS>"
 			+ "		<FIELD NAME=\"Dummy\" DESCRIPTION=\" \" POSITION=\"1\" TYPE=\"Char\"/>"
 			+ "	</FIELDS>"
 			+ "</RECORD>";
 
-		System.out.println("Generated Xml: " +xml);
+		System.out.println("Generated Xml: " + xml);
 
 		return getExternal(xml, "CsvNamesFirstLine");
 	}
 
 
-	public final AbstractLayoutDetails getFixedLayout(List<ExternalField> fields) {
+	public final AbstractLayoutDetails getFixedLayout(List<ExternalField> fields, String charset) {
 		ExternalRecord rec;
+		String charsetTag = "";
+		
+		if (charset != null && ! "".equals(charset)) {
+			charsetTag = Constants.RE_XML_FONTNAME + "=\""+ charset + "\"";
+		}
+
+		
 		String xml = "<RECORD RECORDNAME=\"Fixed\" COPYBOOK=\"\" STYLE=\"0\""
-			+ "        FILESTRUCTURE=\"RecordLayout\" DELIMITER=\"\""
+			+ "        FILESTRUCTURE=\"RecordLayout\" DELIMITER=\"\" " +  charsetTag
 			+ "		   DESCRIPTION=\"Fixed\" RECORDTYPE=\"Delimited\" RecSep=\"default\">"
 			+ "	<FIELDS>"
 			+ "		<FIELD NAME=\"Dummy\" DESCRIPTION=\" \" POSITION=\"1\" TYPE=\"Char\"/>"

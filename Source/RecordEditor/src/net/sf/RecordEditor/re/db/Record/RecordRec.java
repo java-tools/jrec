@@ -289,7 +289,7 @@ public class RecordRec extends AbsRecord {
 	        									final String fontName) {
 
 		RecordRec ret = new RecordRec(-1, pRecordName, "", recordType, 0, "Y",
-			"", "<Tab>", "", 0, Common.DEFAULT_STRING, Common.LFCR_BYTES,
+			"", "<Tab>", "", 0, Common.DEFAULT_STRING, Common.CRLF_BYTES,
 			fontName, 0, Constants.IO_DEFAULT, false);
 		ret.setUpdateStatus(RecordRec.BLANK_RECORD);
 		return ret;

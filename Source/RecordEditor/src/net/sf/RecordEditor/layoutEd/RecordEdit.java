@@ -29,6 +29,7 @@ import net.sf.RecordEditor.layoutEd.panels.RecordPnl;
 import net.sf.RecordEditor.re.db.Record.ExtendedRecordDB;
 import net.sf.RecordEditor.re.db.Record.RecordRec;
 import net.sf.RecordEditor.re.db.Record.SaveRecordAsXml;
+import net.sf.RecordEditor.utils.BasicLayoutCallback;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.common.ReActionHandlerWithSave;
@@ -54,7 +55,7 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
  */
 @SuppressWarnings("serial")
 public class RecordEdit extends    ReFrame
-						implements SearchArgAction, ReActionHandlerWithSave {
+						implements SearchArgAction, ReActionHandlerWithSave, BasicLayoutCallback {
 
     private static final int MAIN_PANEL_HEIGHT_ADJUSTMET =  SwingUtils.STANDARD_FONT_HEIGHT * 5;
  	private RecordListPnl pnlRecordList;
@@ -115,7 +116,7 @@ public class RecordEdit extends    ReFrame
 
 		this.addInternalFrameListener(new InternalFrameAdapter() {
 			public void internalFrameClosed(final InternalFrameEvent e) {
-				saveRecord();
+				saveRecord(false);
 				Common.checkpoint(connectionIdx);
 			}
 		});
@@ -188,7 +189,7 @@ public class RecordEdit extends    ReFrame
 	public void searchArgChanged() {
 		boolean free = Common.isSetDoFree(false);
 
-		RecordRec rec = saveRecord();
+		RecordRec rec = saveRecord(true);
 
 		if (rec == null || rec.isUpdateSuccessful()) {
 			pnlRecordList.changeSearchArgs();
@@ -204,7 +205,7 @@ public class RecordEdit extends    ReFrame
 	 */
 	@Override
 	public boolean saveOk() {
-		RecordRec rec = saveRecord();
+		RecordRec rec = saveRecord(true);
 		return  rec != null && rec.isUpdateSuccessful();
 	}
 
@@ -213,12 +214,15 @@ public class RecordEdit extends    ReFrame
 	 *
 	 * @return Record Layout just saved
 	 */
-	public RecordRec saveRecord() {
+	public RecordRec saveRecord(boolean requireRecordName) {
 
 		RecordRec rec = pnlRecord.getValues();
 
 		if (rec != null) {
-			if (rec.isUpdateSuccessful()) {
+			if (requireRecordName && "".equals(rec.getValue().getRecordName())) {
+				message.setText("Record Name is required");
+				rec = null;
+			} else if (rec.isUpdateSuccessful()) {
 				message.setText(pnlRecordList.setRecord(currRow, rec));
 
 				pnlRecord.saveRecordDetails();
@@ -258,7 +262,7 @@ public class RecordEdit extends    ReFrame
 				s = o.toString();
 			}
 
-			RecordRec rec1 = saveRecord();
+			RecordRec rec1 = saveRecord(true);
 
 			if (rec1 != null) {
 				new net.sf.RecordEditor.layoutEd.panels.ExportVelocityPnl(
@@ -283,7 +287,7 @@ public class RecordEdit extends    ReFrame
 
 	    switch (action) {
 	    case ReActionHandler.HELP:
-	        pnlRecord.showHelp();
+	        pnlRecord.showHelpRE();
 	        break;
 	    case ReActionHandler.DELETE:
 	        if (pnlRecord.isOkToDelete()) {
@@ -302,12 +306,12 @@ public class RecordEdit extends    ReFrame
 	        }
 	        break;
 	    case ReActionHandler.SAVE:
-	        saveRecord();
+	        saveRecord(true);
 	        break;
 	    case ReActionHandler.NEW:
 	    case ReActionHandler.SAVE_AS:
 
-	        RecordRec rec = saveRecord();
+	        RecordRec rec = saveRecord(false);
 
 	        if (rec != null && rec.isUpdateSuccessful()) {
 	            int tRow;
@@ -339,7 +343,7 @@ public class RecordEdit extends    ReFrame
 	        }
 	        break;
 	    case ReActionHandler.SAVE_LAYOUT_XML:
-	        RecordRec rec1 = saveRecord();
+	        RecordRec rec1 = saveRecord(true);
 
 	        if (rec1 != null && rec1.isUpdateSuccessful()) {
 	        	new SaveRecordAsXml(connectionIdx, rec1.getRecordId());
@@ -370,4 +374,12 @@ public class RecordEdit extends    ReFrame
         }
         return ret;
     }
+
+
+	@Override
+	public void setRecordLayout(int layoutId, String layoutName, String filename) {
+		searchArgChanged();
+	}
+    
+    
 }

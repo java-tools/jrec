@@ -137,11 +137,11 @@ implements ListSelectionListener, ISaveUpdateDetails<EditorTask>, IUpdateExecute
 
 		init(icondId, btnText);
 
-		pnlTop.registerComponent(pnl);
+		pnlTop.registerComponentRE(pnl);
 		if (showRecordList && recCount > 1) {
 			height = SwingUtils.calculateTableHeight(recCount, desktopHeight * 3 / 10);
 			desktopHeight -= height;
-			pnlTop.addComponent(1, 5,
+			pnlTop.addComponentRE(1, 5,
 					height,
 					BasePanel.GAP0,
 					BasePanel.FULL, BasePanel.FULL,
@@ -152,31 +152,31 @@ implements ListSelectionListener, ISaveUpdateDetails<EditorTask>, IUpdateExecute
 		if (addFieldSummary) {
 			height = SwingUtils.calculateComboTableHeight(fldTable.getRowCount(), desktopHeight * 7 / 20);
 			desktopHeight -= height;
-			pnlTop.addComponent(1, 5, height, BasePanel.GAP0,
+			pnlTop.addComponentRE(1, 5, height, BasePanel.GAP0,
 					BasePanel.FULL, BasePanel.FULL,
 					fldTable);
 
 			height = SwingUtils.calculateComboTableHeight(fldSummaryTbl.getRowCount(), desktopHeight * 8 / 10);
-			pnlTop.addComponent(1, 5, height, BasePanel.GAP,
+			pnlTop.addComponentRE(1, 5, height, BasePanel.GAP,
 					BasePanel.FULL, BasePanel.FULL,
 					fldSummaryTbl);
 
 			pnlTop.setComponentName(fldSummaryTbl, "fieldSummary");
 		} else {
 			height = SwingUtils.calculateComboTableHeight(fldTable.getRowCount(), desktopHeight * 4 / 5);
-			pnlTop.addComponent(1, 5, height, BasePanel.GAP,
+			pnlTop.addComponentRE(1, 5, height, BasePanel.GAP,
 					BasePanel.FULL, BasePanel.FULL,
 					fldTable);
 		}
 		pnlTop.setComponentName(fldTable, "fields");
 
-		pnlBottom.addLine("Use", whatToSelect);
-		pnlBottom.setGap(BasePanel.GAP0);
+		pnlBottom.addLineRE("Use", whatToSelect);
+		pnlBottom.setGapRE(BasePanel.GAP0);
 
 		JPanel p = new JPanel();
 		p.add(executeBtn);
-		pnlBottom.addLine("", saveLoadPnl.panel, p);
-		pnlBottom.setGap(3);
+		pnlBottom.addLineRE("", saveLoadPnl.panel, p);
+		pnlBottom.setGapRE(3);
 
 		pnl.add(BorderLayout.CENTER, new JScrollPane(pnlTop));
 		pnl.add(BorderLayout.SOUTH, pnlBottom);
@@ -236,7 +236,7 @@ implements ListSelectionListener, ISaveUpdateDetails<EditorTask>, IUpdateExecute
 		tc.setCellEditor(new DefaultCellEditor(OperatorList));
 
 		//if (helpPresent) {
-		pnlTop.registerComponent(fieldList);
+		pnlTop.registerComponentRE(fieldList);
 		//}
 
 	    setFieldCombos(lastSelection);
@@ -377,7 +377,7 @@ implements ListSelectionListener, ISaveUpdateDetails<EditorTask>, IUpdateExecute
 	 */
 	public void executeAction(int action) {
 		if (action == ReActionHandler.HELP) {
-		    pnlTop.showHelp();
+		    pnlTop.showHelpRE();
 		} else {
 			super.executeAction(action);
 		}
@@ -457,10 +457,10 @@ implements ListSelectionListener, ISaveUpdateDetails<EditorTask>, IUpdateExecute
 
 	/**
 	 * @param helpUrl
-	 * @see net.sf.RecordEditor.utils.swing.BaseHelpPanel#setHelpURL(java.lang.String)
+	 * @see net.sf.RecordEditor.utils.swing.BaseHelpPanel#setHelpURLre(java.lang.String)
 	 */
 	public final void setHelpURL(URL helpUrl) {
-		pnlTop.setHelpURL(helpUrl);
-		pnlBottom.setHelpURL(helpUrl);
+		pnlTop.setHelpURLre(helpUrl);
+		pnlBottom.setHelpURLre(helpUrl);
 	}
 }

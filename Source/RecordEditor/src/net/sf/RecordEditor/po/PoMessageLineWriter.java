@@ -12,6 +12,7 @@ import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.IO.AbstractLineWriter;
 import net.sf.RecordEditor.po.def.PoField;
 import net.sf.RecordEditor.po.def.PoLine;
+import net.sf.RecordEditor.utils.common.Common;
 
 /**
  * Writes a PoLine to the output file. It draws heavily on the PoWriter class
@@ -57,44 +58,49 @@ public class PoMessageLineWriter extends AbstractLineWriter {
 
 	private void write1line(AbstractLine line) throws IOException {
 
-		String fuzzy = fix(line.getField(0, PoField.fuzzy.fieldIdx));
-		Object flags = line.getField(0, PoField.flags.fieldIdx);
-		if (! "".equals(fuzzy)) {
-			if (flags == null || "".equals(flags)) {
-				flags = PoField.FUZZY;
-			} else {
-				flags = flags + ", " + PoField.FUZZY;
+		try {
+			String fuzzy = fix(line.getField(0, PoField.fuzzy.fieldIdx));
+			Object flags = line.getField(0, PoField.flags.fieldIdx);
+			if (! "".equals(fuzzy)) {
+				if (flags == null || "".equals(flags)) {
+					flags = PoField.FUZZY;
+				} else {
+					flags = flags + ", " + PoField.FUZZY;
+				}
 			}
+			writeComment("# " , line.getField(0, PoField.comments.fieldIdx));
+			writeComment("#. ", line.getField(0, PoField.extractedComments.fieldIdx));
+			writeComment("#: ", line.getField(0, PoField.reference.fieldIdx));
+			writeComment("#, ", flags);
+
+			String prefix = "";
+			Object o = line.getField(0, PoField.obsolete.fieldIdx);
+			if (o != null && "Y".equals(o.toString())) {
+				prefix = "#~ ";
+			}
+
+			writeMsgctxt( prefix,  line.getField(0, PoField.msgctxt.fieldIdx) );
+
+			writeMsgid( prefix, line.getField(0, PoField.msgid.fieldIdx) );
+			Object msgIdPlural = line.getField(0, PoField.msgidPlural.fieldIdx);
+			if ( msgIdPlural != null) {
+				List<String> msgstrPlural = null;
+				if (line instanceof PoLine) {
+					Object oo = ((PoLine) line).getMsgstrPlural();
+					if (oo instanceof List) {
+						msgstrPlural = (List<String>) oo;
+					}
+				}
+
+				writeMsgidPlural( prefix, line.getField(0, PoField.msgidPlural.fieldIdx) );
+				writeMsgstrPlurals( prefix, msgstrPlural );
+			} else {
+				writeMsgstr( prefix, line.getField(0, PoField.msgstr.fieldIdx) );
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			Common.logMsg("Error Writing File: " + e, null);
 		}
-		writeComment("# " , line.getField(0, PoField.comments.fieldIdx));
-		writeComment("#. ", line.getField(0, PoField.extractedComments.fieldIdx));
-		writeComment("#: ", line.getField(0, PoField.reference.fieldIdx));
-		writeComment("#, ", flags);
-
-    	String prefix = "";
-    	Object o = line.getField(0, PoField.obsolete.fieldIdx);
-    	if (o != null && "Y".equals(o.toString())) {
-    		prefix = "#~ ";
-    	}
-
-    	writeMsgctxt( prefix,  line.getField(0, PoField.msgctxt.fieldIdx) );
-
-    	writeMsgid( prefix, line.getField(0, PoField.msgid.fieldIdx) );
-    	Object msgIdPlural = line.getField(0, PoField.msgidPlural.fieldIdx);
-    	if ( msgIdPlural != null) {
-    		List<String> msgstrPlural = null;
-    		if (line instanceof PoLine) {
-    			Object oo = ((PoLine) line).getMsgstrPlural();
-    			if (oo instanceof List) {
-    				msgstrPlural = (List<String>) oo;
-    			}
-    		}
-
-    		writeMsgidPlural( prefix, line.getField(0, PoField.msgidPlural.fieldIdx) );
-    		writeMsgstrPlurals( prefix, msgstrPlural );
-    	} else {
-    		writeMsgstr( prefix, line.getField(0, PoField.msgstr.fieldIdx) );
-    	}
 
 		writer.newLine();
     	writer.flush();
@@ -149,11 +155,13 @@ public class PoMessageLineWriter extends AbstractLineWriter {
 
 	protected void writeMsgstrPlurals(String prefix, List<String> msgstrPlurals) throws IOException {
 		int i = 0;
-		for ( String msgstr : msgstrPlurals ) {
-			String msgSpace = "msgstr[" + i + "] ";
-			writer.write( prefix + msgSpace);
-			writeString(prefix, msgstr, msgSpace.length());
-			i++;
+		if (msgstrPlurals != null) {
+			for ( String msgstr : msgstrPlurals ) {
+				String msgSpace = "msgstr[" + i + "] ";
+				writer.write( prefix + msgSpace);
+				writeString(prefix, msgstr, msgSpace.length());
+				i++;
+			}
 		}
 	}
 
@@ -283,8 +291,12 @@ public class PoMessageLineWriter extends AbstractLineWriter {
 
 	@Override
 	public void close() throws IOException {
-		writer.close();
-		stdWriter.close();
+		if (stdWriter != null) {
+			if (writer != null) {
+				writer.close();
+			}
+			stdWriter.close();
+		}
 	}
 
 }

@@ -84,15 +84,15 @@ public class RecordSelectionFrm extends ReFrame {
 
 			tab.addTab(getRecordName(this.dbConnectionIdx, parents.get(i).getChildRecordId()), recSel.panel);
 
-			pnl.registerComponent(recSel.panel);
+			pnl.registerComponentRE(recSel.panel);
 		}
 		pnls[pnls.length - 1] = summary;
 
 		SwingUtils.addTab(tab, "LayoutEdit_RecordSelection", "Summary", summary.panel);
 
-		pnl.registerComponent(summary.panel);
+		pnl.registerComponentRE(summary.panel);
 
-		pnl.addComponent(1, 3, BasePanel.FILL, BasePanel.GAP,
+		pnl.addComponentRE(1, 3, BasePanel.FILL, BasePanel.GAP,
 				BasePanel.FULL, BasePanel.FULL,
 				tab);
 		pnl.addMessage(message);

@@ -4,6 +4,7 @@
 package net.sf.RecordEditor.copy;
 
 import java.awt.BorderLayout;
+import java.nio.charset.Charset;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -16,12 +17,13 @@ import net.sf.RecordEditor.jibx.JibxCall;
 import net.sf.RecordEditor.jibx.compare.CopyDefinition;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.re.util.wizard.AbstractFilePnl;
+import net.sf.RecordEditor.utils.charsets.FontCombo;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimiterCombo;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboFileSelect;
 import net.sf.RecordEditor.utils.wizards.AbstractWizard;
 import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 
@@ -130,7 +132,8 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 
 		private CopyDefinition values = new net.sf.RecordEditor.jibx.compare.CopyDefinition();
 //		private JPanel goPanel = new JPanel();
-		private FileChooser newFileName = new FileChooser();
+//		private FileChooser newFileName = new FileChooser();
+		private TreeComboFileSelect newFileName = new TreeComboFileSelect(true, false, true, getRecentList(), getRecentDirectoryList());
 
 		private AbstractLayoutSelection layoutSelection1;
 
@@ -138,16 +141,16 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 		private JTextField delimTxt = new JTextField(8);
 		private JCheckBox names1stLineChk = new JCheckBox();
 		private JTextField quoteTxt = new JTextField();
-		private JTextField fontTxt = new JTextField();
+		private FontCombo fontCombo = new FontCombo();
 
 
 		public GetFiles(AbstractLayoutSelection selection1) {
 			super(selection1, "CobolFiles.txt");
 
-			newFileName.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());
+			newFileName.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.getWithStar());
 			layoutSelection1 = selection1;
 
-			setHelpURL(Common.formatHelpURL(Common.HELP_DIFF_SL));
+			setHelpURLre(Common.formatHelpURL(Common.HELP_DIFF_SL));
 		}
 
 
@@ -165,8 +168,15 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 			values.delimiter = getDelim();
 			values.namesOnFirstLine = names1stLineChk.isSelected();
 			values.quote = quoteTxt.getText();
-			values.font = fontTxt.getText();
+			values.font = fontCombo.getText();
 
+			if ((! "".equals(values.font) && ! Charset.isSupported(values.font))) {
+				fontCombo.requestFocus();
+				throw new RuntimeException("font (charset) is not supported");
+			} 
+			if (values.delimiter.toLowerCase().startsWith("x'") && Conversion.isMultiByte(values.font)) {
+				throw new RuntimeException("Hex field sperators are only supported for single byte charsets (fonts)");
+			}
 			if (layoutSelection1.getRecordLayout(getCurrentFileName()) == null) {
 				throw new RuntimeException("Layout Does not exist");
 			}
@@ -201,14 +211,15 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 			}
 			names1stLineChk.setSelected(values.namesOnFirstLine);
 			quoteTxt.setText(values.quote);
-			fontTxt.setText(values.font);
+			fontCombo.setText(values.font);
 		}
 
 		@Override
 		protected void addFileName(BaseHelpPanel pnl) {
 
-			pnl.addLine("Old File", fileName, fileName.getChooseFileButton());
-			pnl.addLine("New File", newFileName, newFileName.getChooseFileButton());
+			pnl.addLineRE("Old File", fileName);
+//			pnl.addLine("New File", newFileName, newFileName.getChooseFileButton());
+			pnl.addLineRE("New File", newFileName);
 		}
 
 		@Override
@@ -223,16 +234,16 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 			delimPnl.add(BorderLayout.CENTER, orLabel);
 			delimPnl.add(BorderLayout.EAST, delimTxt);
 
-			this.setGap(GAP3);
-			this.addLine("Field Delimiter", delimPnl);
-			this.setHeight(HEIGHT_1P1);
-			this.setGap(GAP1);
+			this.setGapRE(GAP3);
+			this.addLineRE("Field Delimiter", delimPnl);
+			this.setHeightRE(HEIGHT_1P1);
+			this.setGapRE(GAP1);
 
-			this.addLine("Names on 1st Line", names1stLineChk);
-			this.addLine("Quote", quoteTxt);
-			this.addLine("Font Name", fontTxt);
+			this.addLineRE("Names on 1st Line", names1stLineChk);
+			this.addLineRE("Quote", quoteTxt);
+			this.addLineRE("Font Name", fontCombo);
 
-			this.setGap(GAP3);
+			this.setGapRE(GAP3);
 		}
 
 

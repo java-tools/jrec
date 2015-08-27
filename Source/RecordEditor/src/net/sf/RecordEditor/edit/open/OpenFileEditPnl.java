@@ -36,10 +36,9 @@ import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.re.openFile.AbstractOpenFilePnl;
-import net.sf.RecordEditor.re.openFile.OpenFileInterface;
+import net.sf.RecordEditor.re.openFile.IOpenFileExtended;
 import net.sf.RecordEditor.re.openFile.RecentFilesList;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
@@ -54,7 +53,7 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
 @SuppressWarnings("serial")
 public class OpenFileEditPnl
 extends AbstractOpenFilePnl
-implements ActionListener, OpenFileInterface {
+implements ActionListener, IOpenFileExtended {
 
 	private int initialRow;
 	private JPanel goPanel = null;
@@ -66,29 +65,29 @@ implements ActionListener, OpenFileInterface {
 
 	private RecentFilesList recentList;
 
-	/**
-	 * Creating the File & record selection screenm
-	 *
-	 * @param pInFile File to be read (optional)
-	 * @param pInitialRow initinial Row (optional)
-	 * @param pIoProvider ioProvider to use when creating
-	 *        lines
-	 * @param pInterfaceToCopyBooks interface to copybooks
-	 * @param layoutCreate1 button 1 to create a layout
-	 * @param layoutCreate2 button 2 to create a layout
-	 */
-	public OpenFileEditPnl(final String pInFile,
-	        	   final int pInitialRow,
-	        	   final AbstractLineIOProvider pIoProvider,
-	        	   final JButton layoutCreate1,
-	        	   final JButton layoutCreate2,
-	        	   final AbstractLayoutSelection newLayoutSelection) {
-	    this(pInFile, pInitialRow, pIoProvider,
-	         layoutCreate1, layoutCreate2,
-	         Parameters.getApplicationDirectory() + "Files.txt",
-	         Common.HELP_RECORD_MAIN,
-	         newLayoutSelection);
-	}
+//	/**
+//	 * Creating the File & record selection screenm
+//	 *
+//	 * @param pInFile File to be read (optional)
+//	 * @param pInitialRow initinial Row (optional)
+//	 * @param pIoProvider ioProvider to use when creating
+//	 *        lines
+//	 * @param pInterfaceToCopyBooks interface to copybooks
+//	 * @param layoutCreate1 button 1 to create a layout
+//	 * @param layoutCreate2 button 2 to create a layout
+//	 */
+//	public OpenFileEditPnl(final String pInFile,
+//	        	   final int pInitialRow,
+//	        	   final AbstractLineIOProvider pIoProvider,
+//	        	   final JButton layoutCreate1,
+//	        	   final JButton layoutCreate2,
+//	        	   final AbstractLayoutSelection newLayoutSelection) {
+//	    this(pInFile, pInitialRow, pIoProvider,
+//	         layoutCreate1, layoutCreate2,
+//	         Parameters.getApplicationDirectory() + "Files.txt",
+//	         Common.HELP_RECORD_MAIN,
+//	         newLayoutSelection);
+//	}
 
 	/**
 	 * Creating the File & record selection screenm
@@ -103,7 +102,9 @@ implements ActionListener, OpenFileInterface {
 	 * @param propertiesFiles properties file holding the recent files
 	 * @param helpScreen help screen to display
 	 */
-	public OpenFileEditPnl(final String pInFile,
+	public OpenFileEditPnl(
+		   final int format,
+		   final String pInFile,
      	   final int pInitialRow,
      	   final AbstractLineIOProvider pIoProvider,
      	   final JButton layoutCreate1,
@@ -111,7 +112,8 @@ implements ActionListener, OpenFileInterface {
      	   final String propertiesFiles,
      	   final String helpScreen,
      	   final AbstractLayoutSelection newLayoutSelection) {
-		super(	pInFile,
+		super(	format,
+				pInFile,
 		     	pIoProvider,
 		     	layoutCreate1,
 		     	layoutCreate2,
@@ -262,6 +264,17 @@ implements ActionListener, OpenFileInterface {
 	public final JMenu getRecentFileMenu() {
 		return recentList.getMenu();
 	}
+
+	
+
+
+	@Override
+	public JMenu getRecentDirectoryMenu() {
+		return recentList.getDirectoryMenu();
+	}
+
+
+
 
 	private class StartEditorExtended extends StartEditor {
 

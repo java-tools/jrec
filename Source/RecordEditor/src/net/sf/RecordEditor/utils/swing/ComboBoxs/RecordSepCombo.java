@@ -11,7 +11,7 @@ public final class RecordSepCombo extends EnglishCombo<byte[]> {
 	private static final String[] FOREIGN_NAMES = LangConversion.convertComboItms(
 			"LayoutEdit_EndOfLine",
 			RECORD_SEPERATOR.clone());
-	private static final byte[][] RECORD_SEP_VALS  = {Common.LFCR_BYTES,     Common.LFCR_BYTES,  Common.CR_BYTES,  Common.LF_BYTES};
+	private static final byte[][] RECORD_SEP_VALS  = {Common.CRLF_BYTES,     Common.CRLF_BYTES,  Common.CR_BYTES,  Common.LF_BYTES};
 
 	private static ComboKeyedOption<byte[]> EMPTY = new ComboKeyedOption<byte[]>(new byte[]{}, "", "");
 

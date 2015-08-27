@@ -18,7 +18,7 @@ import net.sf.JRecord.External.CopybookLoaderFactory;
 import net.sf.JRecord.External.ExternalConversion;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
 import net.sf.JRecord.External.Def.AbstractConversion;
-import net.sf.JRecord.Types.TypeManager;
+import net.sf.JRecord.External.Def.BasicConversion;
 import net.sf.RecordEditor.re.db.Table.TableList;
 import net.sf.RecordEditor.re.db.Table.TypeList;
 import net.sf.RecordEditor.re.jrecord.types.ReTypeManger;
@@ -48,6 +48,9 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
 	private static String[][] formatNames = new String[Constants.NUMBER_OF_COPYBOOK_SOURCES][];
 //	private static ArrayList<BasicKeyedField>[] allTypes = new ArrayList[Constants.NUMBER_OF_COPYBOOK_SOURCES];
 
+	private BasicConversion defaultConversion = new BasicConversion();
+	
+	
 	static {
 		for (int i = 0; i < typeConv.length; i++) {
 			typeConv[i]   = null;
@@ -155,13 +158,19 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
     */
    @Override
    public int getType(int idx, String type) {
-	   int typeVal = 0;
-	   idx = fixDbIdx(idx);
+	   int typeVal;
        type = type.toLowerCase();
 
-       loadTypesFormats(idx);
-       if (typeConv[idx].containsKey(type)) {
-           typeVal = (typeConv[idx].get(type)).intValue();
+       if (defaultConversion.isValidTypeName(type)) {
+    	   typeVal = defaultConversion.getType(idx, type);
+       } else {
+    	   idx = fixDbIdx(idx);
+	       loadTypesFormats(idx);
+	       if (typeConv[idx].containsKey(type)) {
+	           typeVal = (typeConv[idx].get(type)).intValue();
+	       } else {
+	    	   typeVal = defaultConversion.getType(idx, type);
+	       }
        }
 
 	   return typeVal;
@@ -252,18 +261,23 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
      */
 	@Override
 	public String getTypeAsString(int idx, int type) {
-		int id = fixDbIdx(idx);
-		ReTypeManger typeMgr = ReTypeManger.getInstance();
-
-		if (id == ExternalConversion.USE_DEFAULT_DB) {
-			id = currentDB;
-			if (id < 0) {
-				id = Common.getConnectionIndex();
+		if (defaultConversion.isValid(idx, type)) {
+			return defaultConversion.getTypeAsString(idx, type);
+		} else {
+			int id = fixDbIdx(idx);
+			
+			ReTypeManger typeMgr = ReTypeManger.getInstance();
+	
+			if (id == ExternalConversion.USE_DEFAULT_DB) {
+				id = currentDB;
+				if (id < 0) {
+					id = Common.getConnectionIndex();
+				}
 			}
+			loadTypesFormats(id);
+	
+			return typeNames[id][typeMgr.getIndex(type)];
 		}
-		loadTypesFormats(id);
-
-		return typeNames[id][typeMgr.getIndex(type)];
 	}
 
 	/* (non-Javadoc)
@@ -274,6 +288,16 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
 		String s = getTypeAsString(idx, type);
 		return s != null && ! "".equals(s);
 	}
+
+	public String getDialectName(int key) {
+		return defaultConversion.getDialectName(key);
+	}
+
+
+	public int getDialect(String name) {
+		return defaultConversion.getDialect(name);
+	}
+
 
 	private static String toString(Object o) {
 		String ret = "";

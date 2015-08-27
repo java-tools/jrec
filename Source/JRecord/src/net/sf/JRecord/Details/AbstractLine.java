@@ -228,5 +228,8 @@ public interface AbstractLine extends AbstractIndexedLine {
      * Test if Tree rebuild is required
      */
     public abstract boolean isError();
+    
+    public abstract int getOption(int optionId);
 
+    public abstract boolean isDefined(int rec, int pos);
 }

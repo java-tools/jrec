@@ -34,6 +34,7 @@ import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
@@ -57,6 +58,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
+import net.sf.JRecord.Common.CommonBits;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.External.CopybookWriterManager;
 import net.sf.JRecord.Log.AbsSSLogger;
@@ -87,6 +89,8 @@ public final class Common implements Constants {
     Dimension size = new Dimension(adv+2, hgt+2);
      */
 
+	public static final String CURRENT_VERSION = "0097";
+	
 	public static final int BOOLEAN_OPERATOR_OR  = 0;
     public static final int BOOLEAN_OPERATOR_AND = 1;
     public static final String BOOLEAN_AND_STRING = "And";
@@ -97,10 +101,12 @@ public final class Common implements Constants {
     public static final int DB_MSACCESS  = 3;
 
     public static final String PO_INIT_CLASS = "net.sf.RecordEditor.po.PoInit";
+    
+    public static final String GENERATED_CSV_SCHEMA_NAME = "GeneratedCsvRecord";
 
 	public static final ProgramOptions OPTIONS = new ProgramOptions();
-	public static final Object MISSING_VALUE = new StringBuilder("");
-	public static final Object MISSING_REQUIRED_VALUE = new StringBuilder("");
+	public static final Object MISSING_VALUE = CommonBits.NULL_VALUE;
+	public static final Object MISSING_REQUIRED_VALUE = new String(new char[0]);
 
 	public static final Color EMPTY_COLOR = new Color(230, 230, 255);
 	public static final Color MISSING_COLOR = new Color(255, 230, 230);
@@ -120,26 +126,19 @@ public final class Common implements Constants {
 	public static final boolean RECORD_EDITOR_LAF
 		  = Parameters.VAL_RECORD_EDITOR_DEFAULT.equalsIgnoreCase(
 			Parameters.getString(Parameters.PROPERTY_LOOKS_CLASS_NAME));
-	public static final boolean NIMBUS_LAF, IS_MAC, IS_NIX, IS_WINDOWS;
+	public static final boolean 
+				NIMBUS_LAF, 
+				//WINDOWS_LAF,
+				IS_MAC = Parameters.IS_MAC, 
+				IS_NIX =  Parameters.IS_NIX, 
+				IS_WINDOWS = Parameters.IS_WINDOWS;
 
+	public static final float JAVA_VERSION = Parameters.JAVA_VERSION;
 	static {
-		boolean w = false, isNix = false, isMac=false, isWin = false;
-		try {
-			String s = System.getProperty("os.name").toLowerCase();
-			isNix = (s.indexOf("nix") >= 0 || s.indexOf("nux") >= 0);
-			isMac = s.indexOf("mac") >= 0;
-			isWin = s.indexOf("win") >= 0;
-			w = (RECORD_EDITOR_LAF && isNix);
-		} catch (Exception e) {
-		}
-
-		IS_MAC = isMac;
-		IS_NIX = isNix;
-		IS_WINDOWS = isWin;
-
-		NIMBUS_LAF = w || "Nimbus".equalsIgnoreCase(
+		NIMBUS_LAF = (RECORD_EDITOR_LAF && IS_NIX) || "Nimbus".equalsIgnoreCase(
 				Parameters.getString(Parameters.PROPERTY_LOOKS_CLASS_NAME));
 	}
+
 
 
 //	public static final boolean LOAD_FILE_BACKGROUND_THREAD = ! "N".equalsIgnoreCase(
@@ -221,6 +220,8 @@ public final class Common implements Constants {
 	//public static final String HELP_COMBO_CREATE   = "HlpLe05.htm#HDRCOMBOPNL";
 	public static final String HELP_TABLE          = "HlpLe07.htm";
 	public static final String HELP_COPYBOOK       = "HlpLe08.htm";
+	//TODO setup help screen
+	public static final String HELP_XML_COPYBOOK   = "HlpLe08aaa.htm";
 	public static final String HELP_COPYBOOK_CHOOSE= "HlpLe09.htm";
 	public static final String HELP_COPY_LAYOUT    = "HlpLe10.htm";
 	public static final String HELP_SCRIPT         = "HlpRe17.htm";
@@ -501,33 +502,39 @@ public final class Common implements Constants {
         reActionNames[ReActionHandler.CLOSE]        = "Close";
         reActionNames[ReActionHandler.CLOSE_ALL]    = "Close All";
         reActionNames[ReActionHandler.COPY_RECORD]  = "Copy Record(s)";
-        //ReActionNames[ReActionHandler.CORRECT_RECORD_LENGTH]     = "Close";
-        reActionNames[ReActionHandler.CUT_RECORD]    = "Cut Record(s)";
-        reActionNames[ReActionHandler.DELETE]        = "Delete";
-        reActionNames[ReActionHandler.DELETE_RECORD] = "Delete Record(s)";
-        reActionNames[ReActionHandler.DELETE_BUTTON] = "Delete";
-        reActionNames[ReActionHandler.DELETE_RECORD_POPUP] = reActionNames[ReActionHandler.DELETE_RECORD];
-        reActionNames[ReActionHandler.FILTER]        = "Filter";
-        reActionNames[ReActionHandler.TABLE_VIEW_SELECTED]  = "Table View (Selected Records)";
-        reActionNames[ReActionHandler.RECORD_VIEW_SELECTED] = "Record View (Selected Records)";
-        reActionNames[ReActionHandler.COLUMN_VIEW_SELECTED] = "Column View (Selected Records)";
-        reActionNames[ReActionHandler.SELECTED_VIEW] = "View Selected Records";
-        reActionNames[ReActionHandler.FIND]          = "Find";
-        reActionNames[ReActionHandler.HELP]          = "Help";
-        reActionNames[ReActionHandler.INSERT_RECORDS]       = "Insert Record(s)";
-        reActionNames[ReActionHandler.INSERT_RECORD_PRIOR]  = "Insert Record Prior";
-        reActionNames[ReActionHandler.INSERT_RECORDS_POPUP]       = reActionNames[ReActionHandler.INSERT_RECORDS];
-        reActionNames[ReActionHandler.INSERT_RECORD_PRIOR_POPUP]  = reActionNames[ReActionHandler.INSERT_RECORD_PRIOR];
-        reActionNames[ReActionHandler.NEW]           = "New";
-        reActionNames[ReActionHandler.OPEN]          = "Open";
-        reActionNames[ReActionHandler.PRINT]         = "Print";
-        reActionNames[ReActionHandler.PRINT_SELECTED]= "Print Selected";
-        reActionNames[ReActionHandler.PASTE_RECORD]  = "Paste Record(s)";
+        reActionNames[ReActionHandler.COPY_SELECTED_CELLS]   = "Copy Cell(s)";
+       //ReActionNames[ReActionHandler.CORRECT_RECORD_LENGTH]     = "Close";
+        reActionNames[ReActionHandler.CUT_RECORD]            = "Cut Record(s)";
+        reActionNames[ReActionHandler.CUT_SELECTED_CELLS]    = "Cut Selected Cells";
+        reActionNames[ReActionHandler.CLEAR_SELECTED_CELLS]  = "Clear Selected Cells";
+        reActionNames[ReActionHandler.DELETE]                = "Delete";
+        reActionNames[ReActionHandler.DELETE_RECORD]         = "Delete Record(s)";
+        reActionNames[ReActionHandler.DELETE_BUTTON]         = "Delete";
+        reActionNames[ReActionHandler.DELETE_SELECTED_CELLS] = "Delete Selected Cells";
+        reActionNames[ReActionHandler.DELETE_RECORD_POPUP]   = reActionNames[ReActionHandler.DELETE_RECORD];
+        reActionNames[ReActionHandler.FILTER]                = "Filter";
+        reActionNames[ReActionHandler.TABLE_VIEW_SELECTED]   = "Table View (Selected Records)";
+        reActionNames[ReActionHandler.RECORD_VIEW_SELECTED]  = "Record View (Selected Records)";
+        reActionNames[ReActionHandler.COLUMN_VIEW_SELECTED]  = "Column View (Selected Records)";
+        reActionNames[ReActionHandler.SELECTED_VIEW]         = "View Selected Records";
+        reActionNames[ReActionHandler.FIND]                  = "Find";
+        reActionNames[ReActionHandler.HELP]                  = "Help";
+        reActionNames[ReActionHandler.INSERT_RECORDS]        = "Insert Record(s)";
+        reActionNames[ReActionHandler.INSERT_RECORD_PRIOR]   = "Insert Record Prior";
+        reActionNames[ReActionHandler.INSERT_RECORDS_POPUP]  = reActionNames[ReActionHandler.INSERT_RECORDS];
+        reActionNames[ReActionHandler.INSERT_RECORD_PRIOR_POPUP] = reActionNames[ReActionHandler.INSERT_RECORD_PRIOR];
+        reActionNames[ReActionHandler.NEW]                = "New";
+        reActionNames[ReActionHandler.OPEN]               = "Open";
+        reActionNames[ReActionHandler.PRINT]              = "Print";
+        reActionNames[ReActionHandler.PRINT_SELECTED]     = "Print Selected";
+        reActionNames[ReActionHandler.PASTE_RECORD]       = "Paste Record(s)";
         reActionNames[ReActionHandler.PASTE_RECORD_PRIOR] = "Paste Record(s) Prior";
-        reActionNames[ReActionHandler.PASTE_RECORD_POPUP]  =  reActionNames[ReActionHandler.PASTE_RECORD];
+        reActionNames[ReActionHandler.PASTE_RECORD_POPUP] =  reActionNames[ReActionHandler.PASTE_RECORD];
         reActionNames[ReActionHandler.PASTE_RECORD_PRIOR_POPUP] =  reActionNames[ReActionHandler.PASTE_RECORD_PRIOR];
         reActionNames[ReActionHandler.PASTE_TABLE_INSERT] = "Paste Table (Insert)";
+        reActionNames[ReActionHandler.PASTE_INSERT_CELLS] = "Paste Cells into the Table";
         reActionNames[ReActionHandler.PASTE_TABLE_OVERWRITE] = "Paste Table Overwrite";
+        reActionNames[ReActionHandler.PASTE_TABLE_OVER_SELECTION] = "Paste Table Over Selected";
         reActionNames[ReActionHandler.SAVE]         = "Save";
         reActionNames[ReActionHandler.SAVE_AS]      = "Save As";
         reActionNames[ReActionHandler.EXPORT]       = "Export";
@@ -596,14 +603,17 @@ public final class Common implements Constants {
         reActionDesc[ReActionHandler.TABLE_VIEW_SELECTED]  = "Create a new view from the selected records";
         reActionDesc[ReActionHandler.RECORD_VIEW_SELECTED] = "Create a new Record view from the selected records";
         reActionDesc[ReActionHandler.COLUMN_VIEW_SELECTED] = "Create a Column view from the selected records";
-        reActionDesc[ReActionHandler.COPY_RECORD]   = "Copy selected records to the RecordEditor Clipboard";
-        reActionDesc[ReActionHandler.CUT_RECORD]    = "Cut selected records to the RecordEditor Clipboard";
-        reActionDesc[ReActionHandler.PASTE_RECORD]  = "Paste records from the RecordEditor Clipboard after the current record";
-        reActionDesc[ReActionHandler.PASTE_RECORD_PRIOR] = "Paste records from the RecordEditor Clipboard before the current record";
-        reActionDesc[ReActionHandler.PASTE_RECORD_POPUP]  = "Paste records from the RecordEditor Clipboard after the current record";
+        reActionDesc[ReActionHandler.COPY_RECORD] 		   = "Copy selected records to the RecordEditor Clipboard";
+        reActionDesc[ReActionHandler.COPY_SELECTED_CELLS]  = "Copy selected records to the RecordEditor Clipboard";
+        reActionDesc[ReActionHandler.CUT_RECORD]		   = "Cut selected records to the RecordEditor Clipboard";
+        reActionDesc[ReActionHandler.PASTE_RECORD]		   = "Paste records from the RecordEditor Clipboard after the current record";
+        reActionDesc[ReActionHandler.PASTE_RECORD_PRIOR]   = "Paste records from the RecordEditor Clipboard before the current record";
+        reActionDesc[ReActionHandler.PASTE_RECORD_POPUP]   = "Paste records from the RecordEditor Clipboard after the current record";
         reActionDesc[ReActionHandler.PASTE_RECORD_PRIOR_POPUP] = "Paste records from the RecordEditor Clipboard before the current record";
         reActionDesc[ReActionHandler.PASTE_TABLE_INSERT]  = "Paste Table after the current line/row";
         reActionDesc[ReActionHandler.PASTE_TABLE_OVERWRITE] = "Paste Table over current data (from current position)";
+        reActionDesc[ReActionHandler.PASTE_TABLE_OVER_SELECTION] = "Paste Table over selected cells";
+        reActionDesc[ReActionHandler.CLEAR_SELECTED_CELLS] = "Clear (set to \"\"/\"0\") Selected Cells";
         reActionDesc[ReActionHandler.DELETE_RECORD] = "Delete Selected records";
         reActionDesc[ReActionHandler.REPEAT_RECORD_POPUP] = "Repeat the record under the cursor";
         reActionDesc[ReActionHandler.REBUILD_TREE]  = "Rebuild the Tree Display";
@@ -734,15 +744,20 @@ public final class Common implements Constants {
 	public static String fixVars(String var) {
 		if (var != null) {
 			var = var.replace("<install>", Parameters.getBaseDirectory());
-			var = var.replace("<home>", Parameters.USER_HOME);
+			var = var.replace("<home>", Parameters.getUserhome());
 	    	if (var.indexOf("<hsqlDB>") >= 0) {
-	    		//TODO get dbDir
-	    		String hsqlDir=Parameters.getBaseDirectory();
-	    		if (isWindows()) {
-	    			hsqlDir = Parameters.getPropertiesDirectory();
+	    		String hsqlDir=Parameters.getBaseDirectory() + FILE_SEPERATOR + "Database";
+	    		if (IS_WINDOWS 
+	    		|| (! exists(hsqlDir + FILE_SEPERATOR + "recordedit.script"))
+	    		|| (! exists(hsqlDir + FILE_SEPERATOR + "recordedit.properties"))
+	    		) {
+	    			hsqlDir = Parameters.getPropertiesDirectory() + FILE_SEPERATOR + "Database";
 	    		}
-	    		hsqlDir += FILE_SEPERATOR + "Database";
+	    		System.out.println();
+	    		System.out.println("HSQL DB  >>" + hsqlDir + "<<");
+	    		System.out.println();
 	    		var = var.replace("<hsqlDB>", hsqlDir);
+	    		
 
 //	    		logMsg("" + var, null);
 //	    		logMsg("Hsql Dir: " + hsqlDir, null);
@@ -754,9 +769,6 @@ public final class Common implements Constants {
     	return var;
 	}
 
-	private static boolean isWindows() {
-		return "\\".equals(FILE_SEPERATOR);
-	}
 
 
 	/**
@@ -833,6 +845,7 @@ public final class Common implements Constants {
 			try {
 				if (jdbcJarNames == null) {
 					Class.forName(driver[connectionIdx]);
+
 					if ((userId[connectionIdx] == null) || ("".equals(userId[connectionIdx]))) {
 						connectionArray[connectionIdx] =
 							DriverManager.getConnection(source[connectionIdx]);
@@ -842,6 +855,7 @@ public final class Common implements Constants {
 									userId[connectionIdx],
 									password[connectionIdx]);
 					}
+					
 					break;
 				} else {
 					URL[] urls = new URL[jdbcJarNames.length];
@@ -1333,8 +1347,10 @@ public final class Common implements Constants {
             reActionRef[ReActionHandler.SAVE_LAYOUT_XML]  = ID_SAVEAS_XML_ICON;
 
             reActionRef[ReActionHandler.REPEAT_RECORD_POPUP] = ID_COPY_ICON;
-            reActionRef[ReActionHandler.COPY_RECORD]   = ID_COPY_ICON;
-            reActionRef[ReActionHandler.CUT_RECORD]    = ID_CUT_ICON;
+            reActionRef[ReActionHandler.COPY_RECORD]		 = ID_COPY_ICON;
+            reActionRef[ReActionHandler.COPY_SELECTED_CELLS] = ID_COPY_ICON;
+            reActionRef[ReActionHandler.CUT_RECORD]			 = ID_CUT_ICON;
+            reActionRef[ReActionHandler.CUT_SELECTED_CELLS]	 = ID_CUT_ICON;
 
             reActionRef[ReActionHandler.PASTE_RECORD] = ID_PASTE_ICON;
             reActionRef[ReActionHandler.PASTE_RECORD_PRIOR]
@@ -1343,6 +1359,8 @@ public final class Common implements Constants {
             reActionRef[ReActionHandler.PASTE_RECORD_PRIOR_POPUP]
                          						  = ID_PASTE_PRIOR_ICON;
             reActionRef[ReActionHandler.PASTE_TABLE_INSERT] = ID_PASTE_ICON;
+            reActionRef[ReActionHandler.PASTE_TABLE_OVER_SELECTION] = ID_PASTE_ICON;
+            reActionRef[ReActionHandler.PASTE_INSERT_CELLS] = ID_PASTE_ICON;
             reActionRef[ReActionHandler.INSERT_RECORDS] = ID_NEW_ICON;
             reActionRef[ReActionHandler.INSERT_RECORD_PRIOR] = ID_NEW_UP_ICON;
             reActionRef[ReActionHandler.INSERT_RECORDS_POPUP] = ID_NEW_ICON;
@@ -1357,6 +1375,8 @@ public final class Common implements Constants {
             reActionRef[ReActionHandler.DELETE_BUTTON]
 					 = ID_DELETE_ICON;
             reActionRef[ReActionHandler.DELETE_RECORD_POPUP]
+					 = ID_DELETE_ICON;
+            reActionRef[ReActionHandler.DELETE_SELECTED_CELLS]
 					 = ID_DELETE_ICON;
             reActionRef[ReActionHandler.OPEN]    = ID_OPEN_ICON;
             reActionRef[ReActionHandler.HELP]    = ID_HELP_ICON;
@@ -1713,7 +1733,7 @@ public final class Common implements Constants {
     	return defaultValue;
     }
 
-    private static void setMaximised(JFrame frame, Dimension screenSize) {
+    public static void setMaximised(JFrame frame, Dimension screenSize) {
 
        	frame.setSize(screenSize);
     	GraphicsEnvironment e = GraphicsEnvironment
@@ -1864,16 +1884,18 @@ public final class Common implements Constants {
         Rectangle visbleRect = table.getVisibleRect();
         int screenWidth = visbleRect.width;
         int screenStart = visbleRect.y;
-        int screenheight = visbleRect.height;
+//        int screenheight = visbleRect.height;
 
         if (screenWidth == 0) {
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
             screenWidth = dim.width - DEFAULT_ROOM_AROUND_SCREEN;
-            screenheight = dim.height - DEFAULT_ROOM_AROUND_SCREEN;
+//            screenheight = dim.height - DEFAULT_ROOM_AROUND_SCREEN;
         }
         int firstRow = Math.max(0, screenStart - TABLE_WINDOW_SIZE_TO_CHECK);
-        int rowCount = Math.min(data.getRowCount(),
-                screenStart + screenheight + TABLE_WINDOW_SIZE_TO_CHECK);
+        int rowCount = Math.min(data.getRowCount(), 2 * TABLE_WINDOW_SIZE_TO_CHECK);
+        
+        //System.out.println("First Row: " + firstRow + "\t\tRow Count: " + rowCount);
+        //System.out.println(screenStart + " " + screenheight);
         //int totalWidth = 0;
         //System.out.println("Column Widths ==> " + visbleRect.width + " " + maxColWidth);
 
@@ -2322,12 +2344,24 @@ public final class Common implements Constants {
 //	}
 
 	/**
+	 * 
+	 * @param runnable task to run
+	 */
+	public static void runOptionalyInBackground(Runnable runnable) {
+		if (Common.OPTIONS.loadInBackgroundThread.isSelected()) {
+	    	(new Thread(runnable)).start();
+		} else {
+			runnable.run();
+		}
+	}
+	/**
 	 * Check to see if the field value is Empty
 	 * @param value value to check
 	 * @return wether it is empty or not ??
 	 */
 	public static boolean isEmpty(Object value) {
 		return 	value == null
+//			||  value == CommonBits.NULL_VALUE
 			||	value == Common.MISSING_VALUE
 			|| 	value == Common.MISSING_REQUIRED_VALUE;
 	}
@@ -2356,6 +2390,32 @@ public final class Common implements Constants {
     	}
     }
 
+    public static String currentVersion() {
+    	return formatVersion(CURRENT_VERSION);
+    }
+    
+    public static String formatVersion(String s) {
+    	s = s.substring(0, 2) + '.' + s.substring(2);
+    	if (s.startsWith("0")) {
+    		s = s.substring(1);
+    	}
+    	return s;
+    }
+
+    public static void createDirectory(File f) throws IOException {
+ 
+    	if (f.exists()) {
+    		
+    	} else if (JAVA_VERSION >= 1.699) {
+    		java.nio.file.Files.createDirectories(f.toPath());
+    	} else {
+			f.mkdirs();
+    	}
+    }
+    
+    public static boolean exists(String filename) {    	
+    	return Parameters.exists(filename);
+    }
 
 
 //	public static int getChunkSize() {

@@ -37,7 +37,7 @@ public class SaveRecordAsXml  implements ActionListener {
 		String dir = saveFrame.getFileName();
 
 		if (dir == null || "".equals(dir)) {
-			saveFrame.panel.setMessageTxt("You must enter a directory to save the layout");
+			saveFrame.panel.setMessageTxtRE("You must enter a directory to save the layout");
 		} else {
 			CopybookLoaderFactoryDB.setCurrentDB(dbIdx);
 			RecordRec r = ExtendedRecordDB.getRecord(dbIdx, recordId);
@@ -50,7 +50,7 @@ public class SaveRecordAsXml  implements ActionListener {
 					saveFrame.setVisible(false);
 					saveFrame = null;
 				} catch (Exception e) {
-					saveFrame.panel.setMessageTxt("Error saving layout:",  e.getMessage());
+					saveFrame.panel.setMessageTxtRE("Error saving layout:",  e.getMessage());
 					e.printStackTrace();
 				}
 			}

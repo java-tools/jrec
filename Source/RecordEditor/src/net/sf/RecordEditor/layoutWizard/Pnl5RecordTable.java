@@ -79,12 +79,12 @@ public class Pnl5RecordTable extends WizardPanel {
 	    	+ "<p>To remove a <b>field</b> click on the starting column again.";
 		tips = new JEditorPane("text/html", formDescription);
 
-		this.setHelpURL(Common.formatHelpURL(Common.HELP_WIZARD_RECORD_FIELD_DEF));
-		this.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP0,
+		this.setHelpURLre(Common.formatHelpURL(Common.HELP_WIZARD_RECORD_FIELD_DEF));
+		this.addComponentRE(1, 5, TIP_HEIGHT, BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
 		//this.setGap(BasePanel.GAP1);
-		this.addLine("Record", recordMgr.recordCombo);
+		this.addLineRE("Record", recordMgr.recordCombo);
 
 		columnSelector.addFields(this, FILE_HEIGHT);
 //		this.addComponent("Show Hex", columnSelector.hexChk);
@@ -93,7 +93,7 @@ public class Pnl5RecordTable extends WizardPanel {
 //		        BasePanel.FULL, BasePanel.FULL,
 //				new JScrollPane(columnSelector.fileTbl));
 
-		this.addMessage();
+		this.addMessageRE();
 
 		columnSelector.addMouseListner();
     }
@@ -125,7 +125,7 @@ public class Pnl5RecordTable extends WizardPanel {
     public final void setValues(Details detail) throws Exception {
 
     	if (detail.recordDtls.size() == 0) {
-    		setMessageTxt("No Records to display");
+    		setMessageTxtRE("No Records to display");
     	} else {
     		RecordDefinition recDef = detail.recordDtls.get(0);
 	        columnSelector.setValues(detail, recDef, true);
@@ -142,11 +142,11 @@ public class Pnl5RecordTable extends WizardPanel {
     	Details detail = columnSelector.getCurrentDetails();
     	try {
     		RecordDefinition recDef = detail.recordDtls.get(recordMgr.recordCombo.getSelectedIndex());
-    		setMessageRawTxt("");
+    		setMessageRawTxtRE("");
     		columnSelector.setValues(detail, recDef, true);
     		recDef.displayedFieldSelection = true;
     	} catch (Exception e) {
-    		setMessageTxt("Error Changing Record: " + e.getMessage());
+    		setMessageTxtRE("Error Changing Record: " + e.getMessage());
     		e.printStackTrace();
 		}
     }

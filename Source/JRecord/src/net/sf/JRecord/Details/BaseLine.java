@@ -121,4 +121,19 @@ public abstract class BaseLine<Layout extends AbstractLayoutDetails>  implements
 		return new FieldIterator(this, recordNumber);
 	}
 
+	@Override
+	public int getOption(int optionId) {
+		switch (optionId) {
+		case Options.OPT_GET_FIELD_COUNT:
+			int preferredLayoutIdx = getPreferredLayoutIdx();
+			if (preferredLayoutIdx >= 0) {
+				return layout.getRecord(preferredLayoutIdx).getFieldCount();
+			}
+			break;
+		}
+		return Options.UNKNOWN;
+	}
+
+	
+	
 }

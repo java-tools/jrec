@@ -35,6 +35,11 @@ public interface AbstractFileDisplay extends ReActionHandler {
 	 */
 	public abstract void setCurrRow(FilePosition position);
 
+	public abstract boolean isOkToUseSelectedRows();
+	
+	
+	public abstract void doClose();
+
 	/**
 	 * get records that are currently selected or highlighted.
 	 *
@@ -92,11 +97,7 @@ public interface AbstractFileDisplay extends ReActionHandler {
 
 	public abstract BaseHelpPanel getActualPnl();
 
-	public abstract void doClose();
-
-
 	public abstract void setDockingPopup(MouseListener dockingPopup);
-
 
 	public abstract void insertLine(int adj);
 

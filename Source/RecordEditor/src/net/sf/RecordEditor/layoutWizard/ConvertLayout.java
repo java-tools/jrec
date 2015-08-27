@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
@@ -17,6 +16,7 @@ import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Log.ScreenLog;
 import net.sf.RecordEditor.re.openFile.ComputerOptionCombo;
 import net.sf.RecordEditor.re.openFile.ReadLayout;
+import net.sf.RecordEditor.re.openFile.RecentFiles;
 import net.sf.RecordEditor.re.openFile.SplitCombo;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
@@ -25,27 +25,29 @@ import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
-import net.sf.RecordEditor.utils.swing.FileChooser;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.ManagerCombo;
+import net.sf.RecordEditor.utils.swing.treeCombo.FileSelectCombo;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboFileSelect;
+
 
 @SuppressWarnings("serial")
 public class ConvertLayout extends ReFrame {
 
 	private ManagerCombo loaderOptions = ManagerCombo.newCopybookLoaderCombo();
-	private FileChooser  copybookFile  = new FileChooser();
-	private SplitCombo   splitOptions  = new SplitCombo();
-	private JTextField   fontName      = new JTextField();
+	private FileSelectCombo  copybookFile  = new FileSelectCombo(Parameters.SCHEMA_LIST, 25, true, false);
+	private SplitCombo   splitOptions      = new SplitCombo();
+	private JTextField   fontName          = new JTextField();
 	private BmKeyedComboBox fileStructure     = new BmKeyedComboBox(
 			new ManagerRowList(LineIOProvider.getInstance(), false), false);
 
 	private ComputerOptionCombo binaryOptions = new ComputerOptionCombo();
-	private FileChooser  sampleFile  = new FileChooser();
+	private TreeComboFileSelect  sampleFile  = new TreeComboFileSelect(true, false, true, RecentFiles.getMainRecentFile());
 	private JTextField   layoutName  = new JTextField();
 
 	private BmKeyedComboBox     writerOptions =  new BmKeyedComboBox(
 			new ManagerRowList(CopybookWriterManager.getInstance(), false), false);
-	private FileChooser     outputCopybookDir = new FileChooser();
+	private FileSelectCombo     outputCopybookDir = new FileSelectCombo(Parameters.OUTPUT_SCHEMA_LIST, 25, false, false, true);
 
 	private JButton goBtn = SwingUtils.newButton("Convert");
 
@@ -92,10 +94,10 @@ public class ConvertLayout extends ReFrame {
 
 		copybookFile.setText(dir);
 		outputCopybookDir.setText(dir);
-		outputCopybookDir.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+//		outputCopybookDir.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		writerOptions.setSelectedIndex(Common.getCopybookWriterIndex());
 
-		sampleFile.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());
+		sampleFile.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.getWithStar());
 
 		sampleFile.setEnabled(false);
 		layoutName.setEnabled(false);
@@ -106,25 +108,25 @@ public class ConvertLayout extends ReFrame {
 
 		msgField = new ScreenLog(pnl);
 
-		pnl.setGap(BasePanel.GAP2);
-		pnl.addLine("Input Copybook", copybookFile, copybookFile.getChooseFileButton());
-		pnl.addLine("Input Copybook Type", loaderOptions);
-		pnl.addLine("Split Copybook", splitOptions);
-		pnl.addLine("File Structure", fileStructure);
-		pnl.addLine("Font Name", fontName);
-		pnl.addLine("Binary Format", binaryOptions);
-		pnl.setGap(BasePanel.GAP1);
-		pnl.addLine("Sample File", sampleFile, sampleFile.getChooseFileButton());
-		pnl.addLine("Layout Name", layoutName);
+		pnl.setGapRE(BasePanel.GAP2);
+		pnl.addLineRE("Input Copybook", copybookFile);
+		pnl.addLineRE("Input Copybook Type", loaderOptions);
+		pnl.addLineRE("Split Copybook", splitOptions);
+		pnl.addLineRE("File Structure", fileStructure);
+		pnl.addLineRE("Font Name", fontName);
+		pnl.addLineRE("Binary Format", binaryOptions);
+		pnl.setGapRE(BasePanel.GAP1);
+		pnl.addLineRE("Sample File", sampleFile);
+		pnl.addLineRE("Layout Name", layoutName);
 
-		pnl.setGap(BasePanel.GAP3);
+		pnl.setGapRE(BasePanel.GAP3);
 
-		pnl.addLine("Output Copybook Directory", outputCopybookDir, outputCopybookDir.getChooseFileButton());
-		pnl.addLine("Output Copybook Type", writerOptions, goBtn);
-		pnl.setGap(BasePanel.GAP3);
+		pnl.addLineRE("Output Copybook Directory", outputCopybookDir);
+		pnl.addLineRE("Output Copybook Type", writerOptions, goBtn);
+		pnl.setGapRE(BasePanel.GAP3);
 
 		pnl.addMessage(msgField);
-		pnl.setHeight(BasePanel.GAP4);
+		pnl.setHeightRE(BasePanel.GAP4);
 
 		this.addMainComponent(pnl);
 		this.setVisible(true);

@@ -40,7 +40,7 @@ public class FieldSelection extends BaseFieldSelection implements AbstractWizard
 		selection1 = layoutSelection1;
 
 		if (helpName != null & ! "".equals(helpName)) {
-			setHelpURL(Common.formatHelpURL(helpName));
+			setHelpURLre(Common.formatHelpURL(helpName));
 		}
 	}
 

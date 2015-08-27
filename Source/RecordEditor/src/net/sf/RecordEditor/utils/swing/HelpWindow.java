@@ -74,7 +74,7 @@ public class HelpWindow extends KeyAdapter implements HyperlinkListener {
      */
     public final void showURL(URL url) {
 
-        if (helpURL != null) {
+        if (url != null) {
             if (toInit) {
                 helpDtls.setEditable(false);
                 HELP_FRAME.getContentPane().add(new JScrollPane(helpDtls));

@@ -44,12 +44,12 @@ public class SaveAsPnlFileStructure extends SaveAsPnlBase {
 
 		JTextArea area = new JTextArea(ReMessages.EXPORT_FILE_STRUCTURE.get());
 
-		panel.addComponent(1, 3,BasePanel.FILL, BasePanel.GAP,
+		panel.addComponentRE(1, 3,BasePanel.FILL, BasePanel.GAP,
                 BasePanel.FULL, BasePanel.FULL,
                 area);
 
-		panel.addLine("new File Structure", fileStructures);
-		panel.setGap(BasePanel.GAP2);
+		panel.addLineRE("new File Structure", fileStructures);
+		panel.setGapRE(BasePanel.GAP2);
 	}
 
 

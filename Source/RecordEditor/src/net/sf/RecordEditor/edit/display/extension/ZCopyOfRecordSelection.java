@@ -51,7 +51,7 @@ implements IChildScreen, AbstractFileDisplayWithFieldHide, TableModelListener {
 					if (e.getComponent() == p.txtFld && p.fieldDef != null) {
 						try {
 							line.setField(0, p.fieldDef.fieldIdx, p.txtFld.getText());
-							fileView.fireRowUpdated(currRow, line);
+							fileView.fireRowUpdated(currRow, null, line);
 						} catch (Exception ex) {
 							ex.printStackTrace();
 						}
@@ -88,10 +88,10 @@ implements IChildScreen, AbstractFileDisplayWithFieldHide, TableModelListener {
 		});
 		layoutFieldPane();
 
-		actualPnl.addComponent(1, 3, BasePanel.FILL, BasePanel.GAP,
+		actualPnl.addComponentRE(1, 3, BasePanel.FILL, BasePanel.GAP,
 	            BasePanel.FULL, BasePanel.FULL, new JScrollPane(splitPane));
 
-		actualPnl.addComponent(1, 5, BasePanel.PREFERRED, BasePanel.GAP,
+		actualPnl.addComponentRE(1, 5, BasePanel.PREFERRED, BasePanel.GAP,
 				BasePanel.FULL, BasePanel.FULL, movementPnl);
 		actualPnl.done();
 	}

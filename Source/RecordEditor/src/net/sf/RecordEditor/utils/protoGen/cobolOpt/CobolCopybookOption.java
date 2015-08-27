@@ -3,16 +3,17 @@ package net.sf.RecordEditor.utils.protoGen.cobolOpt;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.Vector;
+
+import net.jarlehansen.protobuf.javame.AbstractOutputWriter;
+import net.jarlehansen.protobuf.javame.ComputeSizeUtil;
 import net.jarlehansen.protobuf.javame.UninitializedMessageException;
-import net.jarlehansen.protobuf.javame.input.InputReader;
 import net.jarlehansen.protobuf.javame.input.DelimitedInputStream;
 import net.jarlehansen.protobuf.javame.input.DelimitedSizeUtil;
-import net.jarlehansen.protobuf.javame.ComputeSizeUtil;
-import net.jarlehansen.protobuf.javame.output.OutputWriter;
-import net.jarlehansen.protobuf.javame.AbstractOutputWriter;
-import net.jarlehansen.protobuf.javame.input.taghandler.UnknownTagHandler;
+import net.jarlehansen.protobuf.javame.input.InputReader;
 import net.jarlehansen.protobuf.javame.input.taghandler.DefaultUnknownTagHandlerImpl;
+import net.jarlehansen.protobuf.javame.input.taghandler.UnknownTagHandler;
+import net.jarlehansen.protobuf.javame.output.OutputWriter;
 
 public final class CobolCopybookOption extends AbstractOutputWriter {
 	private static UnknownTagHandler unknownTagHandler = DefaultUnknownTagHandlerImpl.newInstance();
@@ -236,6 +237,7 @@ public final class CobolCopybookOption extends AbstractOutputWriter {
 		writer.writeString(fieldNumberCopybookName, copybookName);
 		writer.writeLong(fieldNumberCopybookDateTime, copybookDateTime);
 		writer.writeList(fieldNumberRecordExpressions, net.jarlehansen.protobuf.javame.SupportedDataTypes.DATA_TYPE_CUSTOM, recordExpressions);
+		writer.writeData();
 	}
 
 	static CobolCopybookOption parseFields(final InputReader reader) throws IOException {

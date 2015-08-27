@@ -69,15 +69,15 @@ public class CorrectFieldDialog extends JDialog implements ActionListener {
 		btnPnl.add(stop);
 		message.setText(msg);
 
-		dtls.addLine("Field", field);
-		dtls.setGap(BasePanel.GAP2);
+		dtls.addLineRE("Field", field);
+		dtls.setGapRE(BasePanel.GAP2);
 
-		dtls.addLine("Old Value", oldVal);
-		dtls.addLine("New Value", newVal);
-		dtls.setGap(BasePanel.GAP2);
+		dtls.addLineRE("Old Value", oldVal);
+		dtls.addLineRE("New Value", newVal);
+		dtls.setGapRE(BasePanel.GAP2);
 
 
-		dtls.addComponent(1, 3, BasePanel.PREFERRED, BasePanel.GAP2,
+		dtls.addComponentRE(1, 3, BasePanel.PREFERRED, BasePanel.GAP2,
 		        BasePanel.FULL, BasePanel.FULL, btnPnl);
 
 

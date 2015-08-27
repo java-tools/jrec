@@ -20,6 +20,7 @@ package net.sf.JRecord.Types;
 
 import java.math.BigInteger;
 
+import net.sf.JRecord.Common.CommonBits;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
@@ -49,7 +50,7 @@ public class TypeDecimalHex extends TypeNum {
      * </ol>
      */
     public TypeDecimalHex(final int typeId) {
-        super(false, true, true, true, true);
+        super(false, true, true, true, true, true);
 
         isNumeric = typeId == Type.ftDecimal;
         setNumeric(isNumeric);
@@ -64,8 +65,9 @@ public class TypeDecimalHex extends TypeNum {
 			  final IFieldDetail field) {
         String s; 
         int endOfField = record.length;
-        if (field.getType() != Type.ftCharRestOfRecord && field.getEnd() < endOfField) {
-        	endOfField = field.getEnd();
+        int end = position + field.getLen() - 1;
+		if (field.getType() != Type.ftCharRestOfRecord && end < endOfField) {
+        	endOfField = end;
         }
         
         s = Conversion.getDecimal(record, position - 1, endOfField);
@@ -88,14 +90,16 @@ public class TypeDecimalHex extends TypeNum {
 
 		int pos = position - 1;
 		int len = field.getLen();
-        String val = value.toString();
+        String val = toNumberString(value);
         
         if (field.getType() == Type.ftCharRestOfRecord) {
         	len = record.length - field.getPos();
         }
 
         if (isNumeric) { // ie not a hex field
-            val = formatValueForRecord(field, val);
+            val = checkValue(field, val);
+        } else if (value == CommonBits.NULL_VALUE) {
+        	val = "0";
         }
         Conversion.setBigInt(record, pos, len, new BigInteger(val, BASE_16), true);
 

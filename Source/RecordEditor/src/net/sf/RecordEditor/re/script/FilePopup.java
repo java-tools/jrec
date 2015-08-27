@@ -91,8 +91,26 @@ public class FilePopup extends ReMenu implements Comparator<File> {
 	       			try {
 	       				String filePathName = fileList[i].getCanonicalPath();//dirName + fileList[i];
 	       				boolean isDirectory = fileList[i].isDirectory();
+	       				boolean addDirectory = false;
+	       				
+	       				if (isDirectory && checkExtension != null) {
+		    				File[] dirFiles = fileList[i].listFiles();
+		    				
+		    				
+		    				if (dirFiles != null && dirFiles.length > 0) {
+			    				for (File f : dirFiles) {
+			    					if (f != null && (f.isDirectory() || checkExtension.isValidExtension(Parameters.getExtensionOnly(f.getName())))) {
+			    						addDirectory = true;
+			    						break;
+			    					}
+			    					//System.out.print("\t" + f.getName());
+			    				}
+		    				}
+		    				//System.out.println(" Checked: " + fileList[i].getName() + " " + addDirectory + " " + dirFiles.length);
+	       				}
+
 		       			ok = checkExtension == null
-		       			  || isDirectory
+		       			  || (isDirectory && addDirectory)
 		       			  || checkExtension.isValidExtension(Parameters.getExtensionOnly(fileName));
 
 		       			if (ok) {

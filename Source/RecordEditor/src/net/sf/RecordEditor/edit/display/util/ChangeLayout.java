@@ -40,9 +40,9 @@ public class ChangeLayout implements ActionListener {
 
 		layoutReader.addLayoutSelection(pnl, null, null, null, null);
 
-		pnl.setGap(BasePanel.GAP1);
-		pnl.addLine("", null, goButton);
-		pnl.setGap(BasePanel.GAP2);
+		pnl.setGapRE(BasePanel.GAP1);
+		pnl.addLineRE("", null, goButton);
+		pnl.setGapRE(BasePanel.GAP2);
 
 		pnl.addMessage(msgTxt);
 		goButton.addActionListener(this);

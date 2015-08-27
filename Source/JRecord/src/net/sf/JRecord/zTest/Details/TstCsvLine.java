@@ -8,7 +8,11 @@ import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.CsvParser.ParserManager;
 import net.sf.JRecord.Details.AbstractLine;
+import net.sf.JRecord.Details.BasicLine;
+import net.sf.JRecord.Details.CharLine;
 import net.sf.JRecord.Details.LayoutDetail;
+import net.sf.JRecord.Details.Line;
+import net.sf.JRecord.Details.Options;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.JRecord.IO.AbstractLineReader;
@@ -32,7 +36,7 @@ public class TstCsvLine extends TestCase {
 
 
 	private static final String[] CHARSETS = {
-		"", "CP037", "UTF-8"
+		"", "CP037", "UTF-8", "CP273"
 	};
 
 	private static final int[] FILE_STRUCTURES = {
@@ -185,26 +189,57 @@ public class TstCsvLine extends TestCase {
 			"''',''11'',''',''',112,',''',''13'','''",
 	};
 
+	public static final String[][] INSERT_LINES = {
+		{""},
+		{"1"},
+		{"12"},
+		{"", ""},
+		{"1", ""},
+		{"", "2"},
+		{"1", "2"},
+		{"12", "23"},
+		{"123", "234"},
+		{"", "", ""},
+		{"1", "", ""},
+		{"", "2", ""},
+		{"", "", "3"},
+		{"1", "2", ""},
+		{"1", "", "3"},
+		{"", "2", "3"},
+		{"1", "2", "3"},
+		{"12", "23", "34"},
+		{"123", "234", "345"},
+		{"123", "234", "345", "456"},
+	};
 
 	public void test01() throws Exception {
 
 		for (int i = 0; i < FILE_STRUCTURES.length; i++) {
 			for (int j = 0; j < CSV_PARSERS.length; j++) {
 				for (int k = 0; k < CHARSETS.length; k++) {
+					LayoutDetail ud;
 					LayoutDetail d = TestCommonCode.getCsvLayout(FILE_STRUCTURES[i], CHARSETS[k], ",", "'",
 							true, CSV_PARSERS[j]);
 					int c = 0;
 
 
-					if (i== 2) {
-						System.out.println();
+//					if (i== 2) {
+//						System.out.println();
+//					}
+					String id = c + " " + i + ", " + j + ", " + k + " : ";
+					if (CHARSETS[k].startsWith("CP")) { // EBCDIC - no \r char
+						ud = tstFile ("x1 a " + id, x1, d, "\n");
+						tstFile2("x1 b " + id, x1, d, "\n");
+					} else {
+						ud = null;
+						for (String eol : EOLS) {
+							ud = tstFile ("x1 a " + id, x1, d, eol);
+							tstFile2("x1 b " + id, x1, d, eol);
+	
+							c+= 1;
+						}
 					}
-					for (String eol : EOLS) {
-						tstFile ("x1 a " + c + " " + i + ", " + j + ", " + k + " : ", x1, d, eol);
-						tstFile2("x1 b " + c + " " + i + ", " + j + ", " + k + " : ", x1, d, eol);
-
-						c+= 1;
-					}
+					tstAddDeleteLine("x1 c " + id, x1, ud);
 				}
 			}
 		}
@@ -242,11 +277,16 @@ public class TstCsvLine extends TestCase {
 					LayoutDetail d = r.asLayoutDetail();
 					int c = 0;
 
-					for (String eol : EOLS) {
-						tstFile("x1 c " + c + " " + i + ", " + j + ", " + k + " : ", x1, d, eol);
-						tstFile2("x1 d " + c + " " + i + ", " + j + ", " + k + " : ", x1, d, eol);
-
-						c+= 1;
+					if (CHARSETS[k].startsWith("CP")) { // EBCDIC - no \r char
+						tstFile("x1 c " + c + " " + i + ", " + j + ", " + k + " : ", x1, d, "\n");
+						tstFile2("x1 d " + c + " " + i + ", " + j + ", " + k + " : ", x1, d, "\n");
+					} else {
+						for (String eol : EOLS) {
+							tstFile("x1 c " + c + " " + i + ", " + j + ", " + k + " : ", x1, d, eol);
+							tstFile2("x1 d " + c + " " + i + ", " + j + ", " + k + " : ", x1, d, eol);
+	
+							c+= 1;
+						}
 					}
 				}
 			}
@@ -310,11 +350,16 @@ public class TstCsvLine extends TestCase {
 							true, STANDARD_CSV_PARSERS[j]);
 					int c = 0;
 
-					for (String eol : EOLS) {
-						tstFile("x3 a " + c + " " + i + ", " + j + ", " + k + " : ", x3, d, eol);
-						tstFile2("x3 b " + c + " " + i + ", " + j + ", " + k + " : ", x3, d, eol);
-
-						c+= 1;
+					if (CHARSETS[k].startsWith("CP")) { // EBCDIC - no \r char
+						tstFile("x3 a " + c + " " + i + ", " + j + ", " + k + " : ", x3, d, "\n");
+						tstFile2("x3 b " + c + " " + i + ", " + j + ", " + k + " : ", x3, d, "\n");
+					} else {
+						for (String eol : EOLS) {
+							tstFile("x3 a " + c + " " + i + ", " + j + ", " + k + " : ", x3, d, eol);
+							tstFile2("x3 b " + c + " " + i + ", " + j + ", " + k + " : ", x3, d, eol);
+	
+							c+= 1;
+						}
 					}
 				}
 			}
@@ -335,7 +380,7 @@ public class TstCsvLine extends TestCase {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void tstFile(String id, String[] f, LayoutDetail dd, String eol) throws Exception {
+	private LayoutDetail tstFile(String id, String[] f, LayoutDetail dd, String eol) throws Exception {
 		LineIOProvider  ioP  = LineIOProvider.getInstance();
 		AbstractLineReader r = ioP.getLineReader(dd);
 		AbstractLine l;
@@ -344,7 +389,7 @@ public class TstCsvLine extends TestCase {
 		ArrayList<Object> fieldList = new ArrayList<Object>();
 		int cc = 0;
 
-		System.out.println(dd.getFontName());
+//		System.out.println(dd.getFontName());
 
 		r.open(TestCommonCode.arrayToStream(f, eol, dd.getFontName()), dd);
 		LayoutDetail d = (LayoutDetail) r.getLayout();
@@ -383,7 +428,7 @@ public class TstCsvLine extends TestCase {
 //				}
 			for (int i = 0; i < c; i++) {
 				l.setField(0, i, fieldList.get(i));
-				System.out.println("==> " + l.getFullLine() + " <==> " + i + " >" + fieldList.get(i) + "<");
+//				System.out.println("==> " + l.getFullLine() + " <==> " + i + " >" + fieldList.get(i) + "<");
 				assertEquals(id + "Field Check: " + cc + ", " + i, fieldList.get(i).toString(), l.getField(0, i).toString());
 			}
 			assertEquals(id + "Restore Update " + cc, s, l.getFullLine());
@@ -406,14 +451,17 @@ public class TstCsvLine extends TestCase {
 
 		byte[] bout = os.toByteArray();
 
-		System.out.println();
-		System.out.println("==========================================================");
-		if (TestCommonCode.arrayToString(f, eol).equals(Conversion.toString(bout, dd.getFontName()))) {
-			System.out.println("Success: " + id + " " + lines.size());
+		String expected = TestCommonCode.arrayToString(f, dd.getEolString());
+		String actual = Conversion.toString(bout, dd.getFontName());
+		if (expected.equals(actual)) {
+//			System.out.println("Success: " + id + " " + lines.size());
 		} else {
-			System.out.println("Failure: " + id + " " + lines.size());
+			System.out.println();
+			System.out.println("==========================================================");
+			System.out.println("Failure: " + id + " " + lines.size() + " " + dd.getFontName());
+//			assertEquals(expected, actual);
+			System.out.println("==========================================================");
 		}
-		System.out.println("==========================================================");
 
 		int j = 0;
 		AbstractLineReader r2 = ioP.getLineReader(d);
@@ -427,6 +475,71 @@ public class TstCsvLine extends TestCase {
 		while ((l = r.read()) != null) {
 			assertEquals("WriteRead Tst " + id + " ~ " + j, lines.get(j++).getFullLine(), l.getFullLine());
 		}
+		r.close();
+		return (LayoutDetail) r.getLayout();
 	}
 
+	private void tstAddDeleteLine(String id, String[] f, LayoutDetail dd) {
+		Line line = new Line(dd);
+		Line tstLine = new Line(dd);
+		CharLine charLine = new CharLine(dd, "");
+		for (int i = 0; i < f.length; i++) {
+			testAddToLine(id, charLine, tstLine, f[i], 3);
+			testAddToLine(id, line, tstLine, f[i], 3);
+			
+			tstDeleteFromLine(id, charLine, tstLine, f[i], 3);
+			tstDeleteFromLine(id, line, tstLine, f[i], 3);
+		}
+	}
+	
+	private void tstDeleteFromLine(String id, BasicLine<?> l, BasicLine<?> tl, String val, int colCount) {
+		tl.setData(val);
+		for (int i = 0; i < colCount; i++) {
+			for (int j = i; j < colCount; j++) {
+				int[] cols2del = new int[j - i + 1];
+				for (int k = i; k <= j; k++) {
+					cols2del[k-i] = k;
+				}
+				l.setData(val);
+				l.deleteColumns(cols2del);
+			}
+		}
+	}
+	
+	
+	private void testAddToLine(String id, BasicLine<?> l, BasicLine<?> tl, String val, int colCount) {
+		tl.setData(val);
+		for (String[] s : INSERT_LINES) {
+			ArrayList<String> al = new ArrayList<String>();
+			for (int i = 0; i < s.length; i++) {
+				al.add(s[i]);
+			}
+			String sStr = al.toString();
+			for (int i = 0; i < 7; i++) {
+				String id1 = id + " " + i + " " + sStr + " ";
+				int expectedColCount = Math.max(i, colCount) + s.length;
+				l.setData(val);
+				l.insetColumns(i, s);
+
+				if (i < colCount || s[s.length - 1].length() > 0 ) {
+					assertEquals(id1 + " Check Col Count ",
+							expectedColCount, l.getOption(Options.OPT_GET_FIELD_COUNT));
+				}
+				for (int j = 0; j < Math.min(i, colCount); j++) {
+					assertEquals(id1 + j, tl.getFieldValue(0, j).asString(), l.getFieldValue(0, j).asString());
+				}
+				for (int j = i; j < i + s.length; j++) {
+					assertEquals(id1 + j, s[j - i], l.getFieldValue(0, j).asString());
+				}
+				for (int j = i + s.length; j < colCount + s.length; j++) {
+					assertEquals(id1 + j,
+							tl.getFieldValue(0, j - s.length).asString(), 
+							l.getFieldValue(0, j).asString());
+				}
+				for (int j = colCount; j < i; j++) {
+					assertEquals(id1 + j, "", l.getFieldValue(0, j).asString());
+				}
+			}
+		}
+	}
 }

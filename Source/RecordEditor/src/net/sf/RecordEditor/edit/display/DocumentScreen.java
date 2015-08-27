@@ -4,7 +4,6 @@ import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.util.Enumeration;
 
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -13,18 +12,19 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
-import javax.swing.text.Element;
 import javax.swing.text.Highlighter;
 import javax.swing.text.JTextComponent;
 
-
+import net.sf.JRecord.Details.Options;
 import net.sf.JRecord.Details.AbstractRecordDetail.FieldDetails;
 import net.sf.RecordEditor.edit.display.Action.GotoLineAction;
 import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.re.file.DataStoreContent;
-import net.sf.RecordEditor.re.file.FileDocument3;
-import net.sf.RecordEditor.re.file.FileDocument4;
 import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.file.textDocument.CsvEditorKit;
+import net.sf.RecordEditor.re.file.textDocument.FileDocument3;
+import net.sf.RecordEditor.re.file.textDocument.FileDocument5;
+import net.sf.RecordEditor.re.file.textDocument.FixedEditorKit;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.fileStorage.IDataStorePosition;
@@ -73,24 +73,29 @@ public class DocumentScreen extends BaseDisplay implements DocumentListener, Abs
 		}
 
 		if (colorFields) {
+//			FileDocument5 doc = new FileDocument5(content, colorFields);
 			JTextPane jEditorPane = new JTextPane();
-			FileDocument4 doc = new FileDocument4(content, colorFields);
-			printElements(doc.getRootElements(), 0);
+//			printElements(doc.getRootElements(), 0);
 
 			textDisplay = jEditorPane;
-			jEditorPane.setDocument(doc);
+			if (view.getLayout().getOption(Options.OPT_IS_CSV) == Options.YES) {
+				jEditorPane.setEditorKit(new CsvEditorKit());
+			} else {
+				jEditorPane.setEditorKit(new FixedEditorKit());
+			}
+			jEditorPane.setDocument(new FileDocument5(content, colorFields));
 		} else {
 			textDisplay = new JTextArea();
 			textDisplay.setDocument(new FileDocument3(content, colorFields));
-			textDisplay.setFont(SwingUtils.getMonoSpacedFont());
 			//printElements(textDisplay.getDocument().getRootElements(), 0);
 		}
-
+		textDisplay.setFont(SwingUtils.getMonoSpacedFont());
 		textDisplay.getDocument().addDocumentListener(this);
 
-	    actualPnl.addComponent(1, 3, BasePanel.FILL, BasePanel.GAP,
+	    actualPnl.addComponentRE(1, 3, BasePanel.FILL, BasePanel.GAP,
                 BasePanel.FULL, BasePanel.FULL,
                 TextLineNumber.getTextLineNumber(textDisplay, Math.min(3, (int) Math.log(view.getRowCount() + 1))));
+
 
 	    defPopup();
 
@@ -110,7 +115,7 @@ public class DocumentScreen extends BaseDisplay implements DocumentListener, Abs
 
         		IDataStorePosition p = getPosition(e.getPoint());
         		if (p != null) {
-        			checkForTblRowChange(p.getLineNumber());
+        			checkForTblRowChange(p.getLineNumberRE());
         		}
 				super.mouseReleased(e);
 			}
@@ -121,7 +126,7 @@ public class DocumentScreen extends BaseDisplay implements DocumentListener, Abs
         		popupRow = -1;
         		if (p != null) {
         			//mainPopupCol = tblDetails.columnAtPoint(e.getPoint());
-        			popupRow = p.getLineNumber();
+        			popupRow = p.getLineNumberRE();
         		}
 
         		textDisplay.getHighlighter().removeAllHighlights();
@@ -188,7 +193,7 @@ public class DocumentScreen extends BaseDisplay implements DocumentListener, Abs
 	@Override
 	public void setCurrRow(int newRow, int layoutId, int fieldNum)  {
 		if (newRow >= 0 && newRow < fileView.getRowCount()) {
-			IDataStorePosition p = content.getLinePosition(newRow, false);
+			IDataStorePosition p = content.getPositionByLineNumber(newRow, false);
 			int fpos = 0;
 			int len = 1;
 
@@ -199,11 +204,11 @@ public class DocumentScreen extends BaseDisplay implements DocumentListener, Abs
 				if (field.isFixedFormat()) {
 					fpos = field.getPos() - 1;
 					len = field.getLen();
-				} else if (p.getLine() != null){
+				} else if (p.getLineRE() != null){
 					int next = 0;
 					for (int i = 0; i <= fieldNum; i++) {
 						fpos = next;
-						len = p.getLine().getFieldValue(0, i).asString().length();
+						len = p.getLineRE().getFieldValue(0, i).asString().length();
 						next += len;
 					}
 					fpos += fieldNum;
@@ -268,7 +273,7 @@ public class DocumentScreen extends BaseDisplay implements DocumentListener, Abs
 	private int getLineFromPos(int pos) {
 		try {
 			IDataStorePosition p = content.createPosition(pos);
-			return p.getLineNumber();
+			return p.getLineNumberRE();
 		} catch (Exception e) {
 		}
 		return -1;
@@ -438,34 +443,34 @@ public class DocumentScreen extends BaseDisplay implements DocumentListener, Abs
 	 */
 
 
-	private static void printElements(Element[] el, int id) {
-		for (int i = 0; i < el.length; i++) {
-			System.out.println("-");
-			printElement(el[i], id+1);
-		}
-	}
-
-	private static void printElement(Element el, int id) {
-
-		String ss = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t".substring(0, id+1);
-		System.out.println();
-		System.out.println(ss + el.getName() + " ! " + el.getStartOffset() + " " + el.getEndOffset());
-		System.out.print(ss +". ");
-
-		if (el.getAttributes() != null) {
-			Enumeration<?> ee = el.getAttributes().getAttributeNames();
-
-			while (ee.hasMoreElements()) {
-				Object nextElement = ee.nextElement();
-				System.out.print(" " + nextElement + "~" + el.getAttributes().getAttribute(nextElement)
-						//+ '/' + el.getAttributes().getAttribute(nextElement).getClass().getName()
-						);
-			}
-		}
-
-		for (int i = 0; i < el.getElementCount(); i++) {
-			printElement(el.getElement(i), id+1);
-		}
-	}
+//	private static void printElements(Element[] el, int id) {
+//		for (int i = 0; i < el.length; i++) {
+//			System.out.println("-");
+//			printElement(el[i], id+1);
+//		}
+//	}
+//
+//	private static void printElement(Element el, int id) {
+//
+//		String ss = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t".substring(0, id+1);
+//		System.out.println();
+//		System.out.println(ss + el.getName() + " ! " + el.getStartOffset() + " " + el.getEndOffset());
+//		System.out.print(ss +". ");
+//
+//		if (el.getAttributes() != null) {
+//			Enumeration<?> ee = el.getAttributes().getAttributeNames();
+//
+//			while (ee.hasMoreElements()) {
+//				Object nextElement = ee.nextElement();
+//				System.out.print(" " + nextElement + "~" + el.getAttributes().getAttribute(nextElement)
+//						//+ '/' + el.getAttributes().getAttribute(nextElement).getClass().getName()
+//						);
+//			}
+//		}
+//
+//		for (int i = 0; i < el.getElementCount(); i++) {
+//			printElement(el.getElement(i), id+1);
+//		}
+//	}
 
 }

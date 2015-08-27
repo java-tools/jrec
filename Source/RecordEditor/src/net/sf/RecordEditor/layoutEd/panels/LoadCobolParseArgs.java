@@ -15,7 +15,7 @@ import java.io.File;
 
 import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.Numeric.ConversionManager;
-import net.sf.JRecord.Numeric.Convert;
+import net.sf.JRecord.Numeric.ICopybookDialects;
 
 /**
  * Parse program arguments
@@ -48,7 +48,7 @@ public class LoadCobolParseArgs {
     	String systemName = "CobolBatchLoad";
     	String regExp = "";
     	String font = "";
-    	int split = CopybookLoader.SPLIT_NONE, compiler = Convert.FMT_MAINFRAME;
+    	int split = CopybookLoader.SPLIT_NONE, compiler = ICopybookDialects.FMT_MAINFRAME;
 
 		int i;
 		int cat = IS_A_FILE;
@@ -83,6 +83,8 @@ public class LoadCobolParseArgs {
 							split = CopybookLoader.SPLIT_01_LEVEL;
 						} else if (s.toLowerCase().equals("redefine")) {
 							split = CopybookLoader.SPLIT_REDEFINE;
+						} else if (s.toLowerCase().equals("repeating")) {
+							split = CopybookLoader.SPLIT_HIGHEST_REPEATING;
 						}
 						break;
 					case IS_A_COMPILER:

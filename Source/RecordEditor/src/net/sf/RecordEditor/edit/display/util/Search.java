@@ -26,6 +26,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyVetoException;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -138,17 +139,17 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 		pnl.addReKeyListener(listner);
 
 		layoutList = new LayoutCombo(master.getLayout(), false, true);
-		pnl.setHelpURL(Common.formatHelpURL(Common.HELP_SEARCH));
+		pnl.setHelpURLre(Common.formatHelpURL(Common.HELP_SEARCH));
 		ignoreCase.setSelected(true);
 
-		pnl.addLine("Search For", search);
-		pnl.addLine("Replace With", replace);
-		pnl.addLine("Record Layout", layoutList);
-		pnl.addLine("Field", fieldList);
-		pnl.addLine("Operator", fieldPart);
-		pnl.addLine("Direction", direction);
-		pnl.addLine("Ignore Case", ignoreCase);
-		pnl.setGap(BasePanel.GAP1);
+		pnl.addLineRE("Search For", search);
+		pnl.addLineRE("Replace With", replace);
+		pnl.addLineRE("Record Layout", layoutList);
+		pnl.addLineRE("Field", fieldList);
+		pnl.addLineRE("Operator", fieldPart);
+		pnl.addLineRE("Direction", direction);
+		pnl.addLineRE("Ignore Case", ignoreCase);
+		pnl.setGapRE(BasePanel.GAP1);
 
 		//searchBtn = pnl.addIconButton(true, 2, Common.getRecordIcon(Common.ID_SEARCH_ICON));
 
@@ -161,7 +162,7 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 
 
 		if (master.isBrowse()) {
-			pnl.addLine("", searchBtn);
+			pnl.addLineRE("", searchBtn);
 		} else {
 		    JPanel p = new JPanel();
 			p.setLayout(new GridLayout(2, 2));
@@ -170,13 +171,13 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 			p.add(replaceFindBtn);
 			p.add(replaceAllBtn);
 
-			pnl.addLine("", p);
-			pnl.setHeight(BasePanel.NORMAL_HEIGHT * 2);
+			pnl.addLineRE("", p);
+			pnl.setHeightRE(BasePanel.NORMAL_HEIGHT * 2);
 			replaceBtn.addActionListener(this);
 			replaceFindBtn.addActionListener(this);
 			replaceAllBtn.addActionListener(this);
 		}
-		pnl.setGap(BasePanel.GAP1);
+		pnl.setGapRE(BasePanel.GAP1);
 		pnl.addMessage(msgTxt);
 		//pnl.addComponent("", replaceAllBtn);
 
@@ -261,6 +262,12 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	}
 
 
+	@Override
+	public void setClosed(boolean b) throws PropertyVetoException {
+		source = null;
+		super.setClosed(b);
+	}
+
 	/**
 	 * Execute find (note ap is short for actionPerformed)
 	 *
@@ -275,19 +282,12 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	    ap_910_setPosition();
 
 //      System.out.print("--1 " + pos.row + " " + pos.currentFieldNumber + " " + pos.col);
-		pos.adjustPosition(searchFor.length(), func);
+//		pos.adjustPosition(searchFor.length(), func);
 //	    System.out.println(" --2 " + pos.row + " " + pos.currentFieldNumber + " " + pos.col);
 
 
 		ap_930_runFind(searchFor, func);
 
-    	source.setCurrRow(pos);
-    	if (pos.currentLine == null && pos.row >= 0) {
- 	        msgTxt.setText(LINE_MSG
-				    	+ (pos.row+1)
-				    	+ ", " + pos.currentFieldNumber
-				    	+ ", " + pos.col);
-	    }
 
     	if (super.getActiveFrame() != this) {
     		setActiveFrame(this);
@@ -304,17 +304,23 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	private final void ap_200_ReplaceFind() throws RecordException {
 
 		int func = fieldPart.getSelectedIndex();
+		String searchFor = search.getText();
 	    ap_300_replace();
-	    file.find(
-	            search.getText(),
-				pos,
-				ignoreCase.isSelected(),
-//				(func == 0) || (func == 2),
-				func,
-				true);
-	    if (pos.row >= 0) {
-	        source.setCurrRow(pos);
-	    }
+	    pos.adjustPosition(searchFor.length(), func);
+//	    System.out.println(" --2 " + pos.row + " " + pos.currentFieldNumber + " " + pos.col);
+
+
+		ap_930_runFind(searchFor, func);
+//	    file.find(
+//	            search.getText(),
+//				pos,
+//				ignoreCase.isSelected(),
+////				(func == 0) || (func == 2),
+//				func,
+//				true);
+//	    if (pos.row >= 0) {
+//	        source.setCurrRow(pos);
+//	    }
 	}
 
 
@@ -398,6 +404,24 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 
 
 	private final void ap_930_runFind(String searchFor, int func) {
+		
+		pos.adjustPosition(searchFor.length(), func);
+		ap_935_runFind(searchFor, func);
+		
+		if (pos.row >= 0) {
+	    	source.setCurrRow(pos);
+	    	if (pos.currentLine == null) {
+	 	        msgTxt.setText(LINE_MSG
+					    	+ (pos.row+1)
+					    	+ ", " + pos.currentFieldNumber
+					    	+ ", " + pos.col);
+		    }
+		}
+
+	}
+
+
+	private final void ap_935_runFind(String searchFor, int func) {
 
 
 		try {

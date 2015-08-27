@@ -1,16 +1,16 @@
 package net.sf.RecordEditor.utils.fileStorage;
 
-public class FileChunkBfFixedLength extends FileChunkLine {
-	private int initialFirstLine;
 
-	public FileChunkBfFixedLength(FileDetails details, int theFirstLine, int recordCount) {
-		super(details, theFirstLine);
+public class FileChunkBfFixedLength extends FileChunkLine {
+	private long initialFirstLine;
+
+	public FileChunkBfFixedLength(FileDetails details, int theFirstLine, long textPos, int recordCount) {
+		super(details, theFirstLine, textPos);
 		super.count = recordCount;
 		initialFirstLine = theFirstLine;
 	}
 
 
-	@SuppressWarnings("rawtypes")
 	@Override
 	protected void uncompress() {
 		
@@ -19,9 +19,10 @@ public class FileChunkBfFixedLength extends FileChunkLine {
 		} else if (super.getDiskAddress() < 0 && compressed == null) {
 			int rl = super.details.getLayout().getMaximumRecordLength();
 			int len =  super.count * rl;
+			long pos = ((long) initialFirstLine) * rl;
 			recordStore = (RecordStoreBase) super.details.getEmptyRecordStore();
 			recordStore.setBytes(
-					super.details.readFromMainFile(initialFirstLine * rl, len), len, count
+					super.details.readFromMainFile(pos, len), len, count
 			);
 		} else {
 			super.uncompress();

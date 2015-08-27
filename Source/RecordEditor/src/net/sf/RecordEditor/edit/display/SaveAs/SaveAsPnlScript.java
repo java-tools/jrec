@@ -3,19 +3,16 @@
  */
 package net.sf.RecordEditor.edit.display.SaveAs;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-
 import javax.swing.JComboBox;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import net.sf.RecordEditor.re.openFile.RecentFiles;
 import net.sf.RecordEditor.re.script.ScriptMgr;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.treeCombo.FileSelectCombo;
 
 /**
  * @author Bruce Martin
@@ -34,32 +31,24 @@ public class SaveAsPnlScript extends SaveAsPnlBase {
 	 * @param commonSaveAsFields common screen fields
 	 */
 	public SaveAsPnlScript(CommonSaveAsFields commonSaveAsFields) {
-		super(commonSaveAsFields, ".txt", CommonSaveAsFields.FMT_SCRIPT, RecentFiles.RF_SCRIPT, new FileChooser(true, "get Script"));
+		super(commonSaveAsFields, ".txt", CommonSaveAsFields.FMT_SCRIPT, RecentFiles.RF_SCRIPT, 
+			  new FileSelectCombo(Parameters.SAVE_SCRIPTS_LIST, 25, true, false));
+//				new FileChooser(true, "get Script"));
 
         template.setText(Common.OPTIONS.DEFAULT_SCRIPT_EXPORT_DIRECTORY.get());
 
-        panel.addLine("Script Language", languageCombo)
-             .setGap(BasePanel.GAP2);
-        panel.addLine("Script", template, template.getChooseFileButton())
-        	 .setGap(BasePanel.GAP2);
+        panel.addLineRE("Script Language", languageCombo)
+             .setGapRE(BasePanel.GAP2);
+        panel.addLineRE("Script", template)
+        	 .setGapRE(BasePanel.GAP2);
 
  		addHtmlFields(panel);
 
-        template.addFcFocusListener(new FocusAdapter() {
-
-			@Override
-			public void focusLost(FocusEvent e) {
-
+ 		template.addTextChangeListner(new ChangeListener() {		
+			@Override public void stateChanged(ChangeEvent e) {
 				checkLanguage();
-				SaveAsPnlScript.this.commonSaveAsFields.templateListner.focusLost(e);
-			}
-		});
-
-        template.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				checkLanguage();
+				
+				SaveAsPnlScript.this.commonSaveAsFields.templateListner.focusLost(null);
 			}
 		});
     }

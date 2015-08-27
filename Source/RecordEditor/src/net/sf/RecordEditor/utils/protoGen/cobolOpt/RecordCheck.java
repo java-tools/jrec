@@ -3,16 +3,17 @@ package net.sf.RecordEditor.utils.protoGen.cobolOpt;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.Vector;
+
+import net.jarlehansen.protobuf.javame.AbstractOutputWriter;
+import net.jarlehansen.protobuf.javame.ComputeSizeUtil;
 import net.jarlehansen.protobuf.javame.UninitializedMessageException;
-import net.jarlehansen.protobuf.javame.input.InputReader;
 import net.jarlehansen.protobuf.javame.input.DelimitedInputStream;
 import net.jarlehansen.protobuf.javame.input.DelimitedSizeUtil;
-import net.jarlehansen.protobuf.javame.ComputeSizeUtil;
-import net.jarlehansen.protobuf.javame.output.OutputWriter;
-import net.jarlehansen.protobuf.javame.AbstractOutputWriter;
-import net.jarlehansen.protobuf.javame.input.taghandler.UnknownTagHandler;
+import net.jarlehansen.protobuf.javame.input.InputReader;
 import net.jarlehansen.protobuf.javame.input.taghandler.DefaultUnknownTagHandlerImpl;
+import net.jarlehansen.protobuf.javame.input.taghandler.UnknownTagHandler;
+import net.jarlehansen.protobuf.javame.output.OutputWriter;
 
 public final class RecordCheck extends AbstractOutputWriter {
 	private static UnknownTagHandler unknownTagHandler = DefaultUnknownTagHandlerImpl.newInstance();

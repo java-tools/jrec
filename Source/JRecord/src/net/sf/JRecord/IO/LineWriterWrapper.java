@@ -58,6 +58,7 @@ public class LineWriterWrapper extends AbstractLineWriter {
     public void close() throws IOException {
     	if (writer != null) {
     		writer.close();
+    		writer = null;
     	}
     }
 

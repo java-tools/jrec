@@ -4,11 +4,13 @@ import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.Line;
 
 public abstract class LineBase extends Line 
-implements AbstractChunkLine<FileChunkLine> {
+implements IChunkLine<FileChunkLine> {
 
 
 	protected FileChunkLine chunk;
 	protected int chunkLine;
+	private boolean live = true;
+
 
 	public LineBase(LayoutDetail group, FileChunkLine fileChunk, int line) {
 		super(group);
@@ -19,7 +21,7 @@ implements AbstractChunkLine<FileChunkLine> {
 
 
 	/* (non-Javadoc)
-	 * @see net.sf.RecordEditor.edit.file.storage.AbstractChunkLine#getChunkLine()
+	 * @see net.sf.RecordEditor.utils.fileStorage.AbstractChunkLine#getChunkLine()
 	 */
 	public int getChunkLine() {
 		return chunkLine;
@@ -27,28 +29,28 @@ implements AbstractChunkLine<FileChunkLine> {
 
 
 	/* (non-Javadoc)
-	 * @see net.sf.RecordEditor.edit.file.storage.AbstractChunkLine#getActualLine()
+	 * @see net.sf.RecordEditor.utils.fileStorage.AbstractChunkLine#getActualLine()
 	 */
 	public int getActualLine() {
 		return chunkLine + chunk.getFirstLine();
 	} 
 
 	/* (non-Javadoc)
-	 * @see net.sf.RecordEditor.edit.file.storage.AbstractChunkLine#setChunkLine(int)
+	 * @see net.sf.RecordEditor.utils.fileStorage.AbstractChunkLine#setChunkLine(int)
 	 */
 	public void setChunkLine(int chunkLine) {
 		this.chunkLine = chunkLine;
 	}
 
 	/* (non-Javadoc)
-	 * @see net.sf.RecordEditor.edit.file.storage.AbstractChunkLine#getChunk()
+	 * @see net.sf.RecordEditor.utils.fileStorage.AbstractChunkLine#getChunk()
 	 */
 	public FileChunkLine getChunk() {
 		return chunk;
 	}
 
 	/* (non-Javadoc)
-	 * @see net.sf.RecordEditor.edit.file.storage.AbstractChunkLine#setChunk(net.sf.RecordEditor.edit.file.storage.FileChunk)
+	 * @see net.sf.RecordEditor.utils.fileStorage.AbstractChunkLine#setChunk(net.sf.RecordEditor.edit.file.storage.FileChunk)
 	 */
 	public void setChunk(FileChunkLine chunk) {
 		this.chunk = chunk;
@@ -57,7 +59,7 @@ implements AbstractChunkLine<FileChunkLine> {
 
 	protected final void updateChunk() {
 		byte[] b = super.getLineData();
-		chunk.put(chunkLine, b);
+		chunk.putFromLine(chunkLine, b);
 		//System.out.print("Update Chunk with");
 		super.clearData();
 	}
@@ -78,12 +80,36 @@ implements AbstractChunkLine<FileChunkLine> {
 		}
 	}
 
+	@Override
+	public void setData(String s) {
+		super.setData(s);
+		setData(super.getLineData());
+	}
 	
 	@Override
 	protected byte[] getLineData() {
 		synchronized (this) {
 			return chunk.get(chunkLine);
 		}
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.fileStorage.IChunkLine#setDead()
+	 */
+	@Override
+	public void setDead() {
+		live = false;
+	}
+
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.fileStorage.IChunkLine#isLive()
+	 */
+	@Override
+	public boolean isLive() {
+		return live;
 	}
 
 

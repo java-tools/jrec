@@ -17,6 +17,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -40,8 +41,8 @@ import javax.swing.JTextField;
 
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.treeCombo.JarFileSelect;
 
 /**
  * This program will<ol compact>
@@ -87,7 +88,7 @@ public class GenericInstaller implements ActionListener {
     private JTextField  checkpoint  = new JTextField();
     private JTextField  createExt   = new JTextField();
     private JTextField  dbIndex     = new JTextField("0");
-    private FileChooser jdbcJar     = new FileChooser();
+    private JarFileSelect jdbcJar   = new JarFileSelect(true, null);
 
     private JCheckBox dropSemiChk = new JCheckBox();
 
@@ -191,7 +192,7 @@ public class GenericInstaller implements ActionListener {
 
         if (properties == null) {
             properties = new Properties();
-//            System.out.println("No properties");
+            System.out.println("No properties");
         } else {
             driver.setText(properties.getProperty("Driver.0"));
             source.setText(properties.getProperty("Source.0"));
@@ -238,13 +239,13 @@ public class GenericInstaller implements ActionListener {
     	SwingUtils.addTab(tabbedPane, "GenericInstaller", "DB Definition", new JScrollPane(init_210_buildDbDefPanel()));
         secondPanel = init_220_RunSqlPanel();
 
-        pnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
+        pnl.addComponentRE(1, 5, BasePanel.FILL, BasePanel.GAP,
                 BasePanel.FULL, BasePanel.FULL,
                 tabbedPane);
 
 
-        pnl.addMessage();
-        pnl.setHeight(BasePanel.GAP3);
+        pnl.addMessageRE();
+        pnl.setHeightRE(BasePanel.GAP3);
         //pnl.done();
 
         frame.getContentPane().add(pnl);
@@ -263,26 +264,26 @@ public class GenericInstaller implements ActionListener {
 
         dropSemiChk.setSelected(false);
 
-        pnl.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP0,
+        pnl.addComponentRE(1, 5, TIP_HEIGHT, BasePanel.GAP0,
                 BasePanel.FULL, BasePanel.FULL,
                 tips);
 
         //pnl.addComponent("Source Name", sourceName);
-        pnl.addLine("Database Index (0->15)", dbIndex);
-        pnl.addLine("Database", database);
-        pnl.addLine("Drop ; from SQL", dropSemiChk);
-        pnl.setGap(BasePanel.GAP0);
-        pnl.addLine("Driver", driver);
-        pnl.addLine("Source", source);
-        pnl.addLine("DB Create Extension", createExt);
-        pnl.setGap(BasePanel.GAP0);
-        pnl.addLine("User", user);
-        pnl.addLine("Password", password);
-        pnl.setGap(BasePanel.GAP0);
-        pnl.addLine("JDBC Jar", jdbcJar, jdbcJar.getChooseFileButton());
-        pnl.addLine("Save Properties in Lib Dir", saveInLibDir, test);
-        pnl.setGap(BasePanel.GAP0);
-        pnl.addLine("Also ", null, sqlScreen);
+        pnl.addLineRE("Database Index (0->15)", dbIndex);
+        pnl.addLineRE("Database", database);
+        pnl.addLineRE("Drop ; from SQL", dropSemiChk);
+        pnl.setGapRE(BasePanel.GAP0);
+        pnl.addLineRE("Driver", driver);
+        pnl.addLineRE("Source", source);
+        pnl.addLineRE("DB Create Extension", createExt);
+        pnl.setGapRE(BasePanel.GAP0);
+        pnl.addLineRE("User", user);
+        pnl.addLineRE("Password", password);
+        pnl.setGapRE(BasePanel.GAP0);
+        pnl.addLineRE("JDBC Jar", jdbcJar);
+        pnl.addLineRE("Save Properties in Lib Dir", saveInLibDir, test);
+        pnl.setGapRE(BasePanel.GAP0);
+        pnl.addLineRE("Also ", null, sqlScreen);
         //pnl.setGap(BasePanel.GAP2);
 
         //pnl.done();
@@ -297,20 +298,20 @@ public class GenericInstaller implements ActionListener {
     private JPanel init_220_RunSqlPanel() {
         BasePanel pnl = new BasePanel();
 
-        pnl.addComponent(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP2,
+        pnl.addComponentRE(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP2,
                 BasePanel.FULL, BasePanel.FULL,
                 new JScrollPane(tipsRunSql));
 
-        pnl.addMenuItem("Build Everything", bldAllTables);
-        pnl.setGap(BasePanel.GAP0);
-        pnl.addLine("    or", null);
-        pnl.setGap(BasePanel.GAP0);
-        pnl.addMenuItem("Create Tables in DB", bldCreateTables);
-        pnl.addMenuItem("Load Common Tables",  bldtblTables);
-        pnl.addMenuItem("Load Record Layouts", bldRecordTables);
-        pnl.setGap(BasePanel.GAP2);
+        pnl.addMenuItemRE("Build Everything", bldAllTables);
+        pnl.setGapRE(BasePanel.GAP0);
+        pnl.addLineRE("    or", null);
+        pnl.setGapRE(BasePanel.GAP0);
+        pnl.addMenuItemRE("Create Tables in DB", bldCreateTables);
+        pnl.addMenuItemRE("Load Common Tables",  bldtblTables);
+        pnl.addMenuItemRE("Load Record Layouts", bldRecordTables);
+        pnl.setGapRE(BasePanel.GAP2);
 
-        pnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
+        pnl.addComponentRE(1, 5, BasePanel.FILL, BasePanel.GAP,
                 BasePanel.FULL, BasePanel.FULL,
                 new JScrollPane(sqlOutput));
 
@@ -363,7 +364,7 @@ public class GenericInstaller implements ActionListener {
          try {
         	 getConnection();
         } catch (Exception e) {
-            pnl.setMessageTxt("Connection Failed:", e.getMessage());
+            pnl.setMessageTxtRE("Connection Failed:", e.getMessage());
             e.printStackTrace();
         }
     }
@@ -380,7 +381,7 @@ public class GenericInstaller implements ActionListener {
 		}
 
     	if (idx < 0 || idx > 15) {
-    		pnl.setMessageTxt("Invalid Database Index");
+    		pnl.setMessageTxtRE("Invalid Database Index");
     		dbIndex.requestFocus();
     	} else {
 	        ap_310_SaveProperties();
@@ -392,7 +393,7 @@ public class GenericInstaller implements ActionListener {
 	            tabbedPane.removeTabAt(0);
 	            SwingUtils.addTab(tabbedPane, "GenericInstaller", "Run SQL", secondPanel);
 	        } catch (Exception e) {
-	            pnl.setMessageRplTxt("Connection Failed: {0}, can not run SQL", e.getMessage());
+	            pnl.setMessageRplTxtRE("Connection Failed: {0}, can not run SQL", e.getMessage());
 	            //e.printStackTrace();
 	        }
     	}
@@ -418,7 +419,7 @@ public class GenericInstaller implements ActionListener {
 	        		currUser, currPassword, currJarName);
 
 	        createExt.setText("");
-	        pnl.setMessageTxt("Connection Ok ~", connection.getClass().getName());
+	        pnl.setMessageTxtRE("Connection Ok ~", connection.getClass().getName());
 	    }
 	    return connection;
     }
@@ -471,9 +472,10 @@ public class GenericInstaller implements ActionListener {
         }
 
         try {
-            CommonCode.renameFile(Parameters.getPropertyFileName());
+            String propertyFileName = Parameters.getPropertyFileName();
+			CommonCode.renameFile(propertyFileName);
             properties.store(
-                new FileOutputStream(Parameters.getPropertyFileName()),
+                new FileOutputStream(propertyFileName),
                 "RecordEditor");
         } catch (Exception e) {
             e.printStackTrace();
@@ -531,6 +533,13 @@ public class GenericInstaller implements ActionListener {
         BufferedReader in = null;
         FileReader inReader = null;
         int i, j;
+        
+        try {
+        	File f = new File(outputFile);
+        	f.getParentFile().mkdirs();
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
 
         try {
             int jdbcCount = 0;
@@ -557,13 +566,11 @@ public class GenericInstaller implements ActionListener {
 	                }
 	                jarList.add(jar);
 	            }
-	            in.close();
-	            inReader.close();
 
 	            CommonCode.renameFile(outputFile);
             } catch (Exception e) {
 				e.printStackTrace();
-
+            } finally {
 				try {
 					if (in != null) {
 						in.close();
@@ -651,7 +658,7 @@ public class GenericInstaller implements ActionListener {
             //c.close();
 
         } catch (Exception e) {
-            pnl.setMessageRplTxt("Connection Failed: {0}, can not run SQL",  e.getMessage());
+            pnl.setMessageRplTxtRE("Connection Failed: {0}, can not run SQL",  e.getMessage());
         }
     }
 

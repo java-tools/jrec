@@ -23,18 +23,19 @@ package net.sf.RecordEditor.re.openFile;
 
 
 import java.awt.Rectangle;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
@@ -44,9 +45,10 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
 import net.sf.RecordEditor.utils.swing.HelpWindow;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.treeCombo.FileTreeComboItem;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboFileSelect;
 
 
 /**
@@ -58,9 +60,13 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
 @SuppressWarnings({ "serial" })
 public abstract class AbstractOpenFilePnl
 extends BaseHelpPanel
-implements FocusListener, StartActionInterface {
+implements ChangeListener, StartActionInterface {
 
-	protected FileChooser fileName = new FileChooser();
+	public final static int OLD_FORMAT = 1;
+	public final static int NEW_FILE_FORMAT = 2;
+
+	//protected FileChooser fileName = new FileChooser();
+	protected final TreeComboFileSelect fileName;
 	protected RecentFiles recent;
 
     private static final int FRAME_WIDTH  = SwingUtils.STANDARD_FONT_WIDTH * 73;
@@ -79,9 +85,13 @@ implements FocusListener, StartActionInterface {
 
 	private JButton lCreate1;
 	private JButton lCreate2;
+
+	private final int format;
     //private final String recentFileName;
 
 	private static String LOAD_ERROR = LangConversion.convert("Error Loading File:") + " ";
+	
+	private boolean lookupRecentLayouts = true;
 
 
 	private KeyAdapter listner = new KeyAdapter() {
@@ -111,26 +121,41 @@ implements FocusListener, StartActionInterface {
 	 * @param propertiesFiles properties file holding the recent files
 	 * @param helpScreen help screen to display
 	 */
-	public AbstractOpenFilePnl(final String pInFile,
-     	   final AbstractLineIOProvider pIoProvider,
-     	   final JButton layoutCreate1,
-     	   final JButton layoutCreate2,
-     	   final String propertiesFiles,
-     	   final String helpScreen,
-     	   final AbstractLayoutSelection newLayoutSelection) {
+	public AbstractOpenFilePnl(
+			final int pFormat,
+			final String pInFile,
+			final AbstractLineIOProvider pIoProvider,
+			final JButton layoutCreate1,
+			final JButton layoutCreate2,
+			final String propertiesFiles,
+			final String helpScreen,
+			final AbstractLayoutSelection newLayoutSelection) {
 		super();
 
+		format = pFormat;
 		ioProvider = pIoProvider;
-		recent = new RecentFiles(propertiesFiles, newLayoutSelection, newLayoutSelection.isFileBasedLayout());
+		recent = new RecentFiles(
+				propertiesFiles, newLayoutSelection, newLayoutSelection.isFileBasedLayout(), 
+				Common.OPTIONS.DEFAULT_FILE_DIRECTORY.getNoStar());
 		layoutSelection = newLayoutSelection;
 		lCreate1 = layoutCreate1;
 		lCreate2 = layoutCreate2;
+
+		fileName = new TreeComboFileSelect(true, false, true, getRecentList(), recent.getDirectoryList());
 
 		layoutSelection.setMessage(message);
 
 		init_100_RecentFiles(pInFile);
 		init_200_ScreenFields();
 		init_300_BldScreen(helpScreen);
+	}
+
+	protected final List<FileTreeComboItem> getRecentList() {
+		return recent.getFileComboList();
+	}
+	
+	protected List<File> getRecentDirectoryList() {
+		return recent.getDirectoryList();
 	}
 
 	/**
@@ -142,7 +167,7 @@ implements FocusListener, StartActionInterface {
 
 		if (pInFile == null || "".equals(pInFile)) {
 			//System.out.println("!! ~~ " + Common.DEFAULT_FILE_DIRECTORY);
-		    fileName.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());
+		    fileName.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.getWithStar());
 		} else {
 		    fileName.setText(pInFile);
 		    updateLayoutForFile(pInFile);
@@ -164,7 +189,8 @@ implements FocusListener, StartActionInterface {
 //		          screenSize.height - Common.getSpaceAtBottomOfScreen()
 //		          		- Common.getSpaceAtTopOfScreen());
 
-		fileName.addFcFocusListener(this);
+		fileName.addTextChangeListner(this);
+		//addFcFocusListener(this);
 	}
 
 	/**
@@ -178,8 +204,10 @@ implements FocusListener, StartActionInterface {
 		//BaseHelpPanel pnl = this;
 		addReKeyListener(listner);
 
-		addHelpBtn(SwingUtils.getHelpButton());
-		setHelpURL(Common.formatHelpURL(helpScreen));
+		if (format == OLD_FORMAT) {
+			addHelpBtnRE(SwingUtils.getHelpButton());
+		}
+		setHelpURLre(Common.formatHelpURL(helpScreen));
 		//G:\RecordEdit_Prj\Docs\hlpRE_RecordMain.htm
 	}
 
@@ -188,14 +216,14 @@ implements FocusListener, StartActionInterface {
 	 */
 	public void done() {
 
-		setGap(BasePanel.GAP1);
+		setGapRE(BasePanel.GAP1);
 		addFileName(this);
-		setGap(BasePanel.GAP2);
+		setGapRE(BasePanel.GAP2);
 
 		addLayoutSelection();
 
 		addMessage(new JScrollPane(message));
-		setHeight(BasePanel.NORMAL_HEIGHT * 4);
+		setHeightRE(BasePanel.NORMAL_HEIGHT * 4);
 
 
 		//editOptCombo.addActionListener(this);
@@ -209,13 +237,19 @@ implements FocusListener, StartActionInterface {
 
 	protected void addFileName(BaseHelpPanel pnl) {
 
-		pnl.addLine("File", fileName, fileName.getChooseFileButton());
+		if (format == NEW_FILE_FORMAT) {
+			pnl.addLine3to5("File", fileName);
+		} else if (Common.OPTIONS.addFileSearchBtn.isSelected()){
+			pnl.addLineRE("File", fileName);
+		} else {
+			pnl.addLineRE("File", fileName);
+		}
 	}
 
 	protected void addLayoutSelection() {
 
 	    getLayoutSelection().addLayoutSelection(this, fileName, getGoPanel(), lCreate1, lCreate2);
-		setGap(BasePanel.GAP2);
+		setGapRE(BasePanel.GAP2);
 	}
 
 	/**
@@ -247,33 +281,41 @@ implements FocusListener, StartActionInterface {
 			Common.logMsgRaw(s, null);
 			message.setText(s);
 		} else {
-			fileDescription = getLayoutSelection().getRecordLayout(sFileName);
-			if (fileDescription != null) {
-			    try {
-			    	fileDescription.getOption(Options.OPT_CHECK_LAYOUT_OK);
-			    	processFile(sFileName,
-			    			fileDescription,
-			    		    ioProvider,
-			    		    pBrowse);
-			    } catch (IOException ioe) {
-			    	stdError(ioe);
-			    } catch (RecordException e) {
-			    	stdError(e);
-			    } catch (RuntimeException e) {
-			    	String errorMsg = e.getMessage();
-			    	if (errorMsg == null) {
-			    		Common.logMsgRaw("", e);
-			    	} else {
-			    		JOptionPane.showInternalMessageDialog(this, errorMsg);
-			    		Common.logMsgRaw(errorMsg, null);
-			    	}
 
-					e.printStackTrace();
-			    } catch (Exception e) {
-				    String s = LOAD_ERROR + e.getMessage();
-				    Common.logMsgRaw(s, e);
-   					message.setText(s);
-   					e.printStackTrace();
+			File f = new File(sFileName).getParentFile();
+			if (! f.exists()) {
+			    String s = LangConversion.convert("Directory Does not exist:") + " " + f.getPath();
+				Common.logMsgRaw(s, null);
+				message.setText(s);
+			} else {
+				fileDescription = getLayoutSelection().getRecordLayout(sFileName);
+				if (fileDescription != null) {
+				    try {
+				    	fileDescription.getOption(Options.OPT_CHECK_LAYOUT_OK);
+				    	processFile(sFileName,
+				    			fileDescription,
+				    		    ioProvider,
+				    		    pBrowse);
+				    } catch (IOException ioe) {
+				    	stdError(ioe);
+				    } catch (RecordException e) {
+				    	stdError(e);
+				    } catch (RuntimeException e) {
+				    	String errorMsg = e.getMessage();
+				    	if (errorMsg == null) {
+				    		Common.logMsgRaw("", e);
+				    	} else {
+				    		JOptionPane.showInternalMessageDialog(this, errorMsg);
+				    		Common.logMsgRaw(errorMsg, null);
+				    	}
+	
+						e.printStackTrace();
+				    } catch (Exception e) {
+					    String s = LOAD_ERROR + e.getMessage();
+					    Common.logMsgRaw(s, e);
+	   					message.setText(s);
+	   					e.printStackTrace();
+					}
 				}
 			}
 		}
@@ -325,33 +367,43 @@ implements FocusListener, StartActionInterface {
     protected abstract JPanel getGoPanel();
 
 
-    /**
-     * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
-     */
-    public void focusGained(FocusEvent e) {
- //   	System.out.println("Filename - gained focus");
-    }
+//    /**
+//     * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
+//     */ @Override
+//    public void focusGained(FocusEvent e) {
+// //   	System.out.println("Filename - gained focus");
+//    }
+//
+//
+//    /**
+//     * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
+//     */ @Override
+//    public void focusLost(FocusEvent e) {
+//    	//System.out.println("Filename - lost focus: " + e.isTemporary() + " " + e.paramString() + " " + e.getID());
+//    	if (doListener && (e == null || ! e.isTemporary())) {
+//    		updateLayoutForFile(fileName.getText());
+//    	}
+//    }
 
 
-    /**
-     * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
-     */
-    public void focusLost(FocusEvent e) {
-    	//System.out.println("Filename - lost focus: " + e.isTemporary() + " " + e.paramString() + " " + e.getID());
-    	if (doListener && (e == null || ! e.isTemporary())) {
+    /* (non-Javadoc)
+	 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
+	 */
+	@Override
+	public void stateChanged(ChangeEvent e) {
+    	if (doListener && (e == null)) {
     		updateLayoutForFile(fileName.getText());
     	}
-    }
+	}
 
-
-    /**
+	/**
      * Get the layoutname for the file
      * @param pFile file to find the layout for
      */
     private void updateLayoutForFile(String pFile) {
 	    String recentLayout = recent.getLayoutName(pFile, new File(pFile));
 
-	    if (recentLayout == null || "".equals(recentLayout)) {
+	    if ((! lookupRecentLayouts) ||recentLayout == null || "".equals(recentLayout)) {
 	    	getLayoutSelection().notifyFileNameChanged(pFile);
 	    } else {
 	    	setLayout(recentLayout);
@@ -381,6 +433,13 @@ implements FocusListener, StartActionInterface {
 	 */
 	public final void setDoListener(boolean doListener) {
 		this.doListener = doListener;
+	}
+
+	/**
+	 * @param lookupRecentLayouts the lookupRecentLayouts to set
+	 */
+	public final void setLookupRecentLayouts(boolean lookupRecentLayouts) {
+		this.lookupRecentLayouts = lookupRecentLayouts;
 	}
 
 	/**

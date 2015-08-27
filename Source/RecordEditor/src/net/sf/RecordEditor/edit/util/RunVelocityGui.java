@@ -19,12 +19,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import net.sf.RecordEditor.re.openFile.LayoutSelectionDB;
+import net.sf.RecordEditor.re.openFile.RecentFiles;
 import net.sf.RecordEditor.re.script.RunVelocity;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.treeCombo.FileSelectCombo;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboFileSelect;
 /**
  * Gui program to run velocity on a Record Based File
  *
@@ -34,13 +37,16 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
 public class RunVelocityGui implements ActionListener {
 
     private static final int NOT_INSTALLED_MSG_HEIGHT = SwingUtils.STANDARD_FONT_HEIGHT * 25;
+    
     private JFrame  frame = new JFrame();
     private BasePanel pnl = new BasePanel();
 
     private JPanel runPanel = new JPanel();
-    private FileChooser inputFile = new FileChooser();
-    private FileChooser templateFile = new FileChooser(true, "Choose Velocity Template");
-    private FileChooser outputFile = new FileChooser(false, "Choose Output File");
+    private TreeComboFileSelect inputFile = new TreeComboFileSelect(true, false, true, RecentFiles.getMainRecentFile());
+    private FileSelectCombo templateFile = new FileSelectCombo(Parameters.VELOCITY_SKELS_LIST, 35, true, false);
+    		//= new FileChooser(true, "Choose Velocity Template");
+    private TreeComboFileSelect outputFile  = new TreeComboFileSelect(false, false, true, inputFile);
+    		// = new FileChooser(false, "Choose Output File");
     private JButton runBtn = SwingUtils.newButton("Run");
     private JTextArea message = new JTextArea();
 
@@ -75,7 +81,7 @@ public class RunVelocityGui implements ActionListener {
     private void init_100_SetupScreenFields() {
 
        	layoutSelection = new LayoutSelectionDB(copybookReader, message, false);
-        inputFile.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());
+        inputFile.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.getWithStar());
         templateFile.setText(Common.OPTIONS.DEFAULT_VELOCITY_DIRECTORY.get());
 
         runBtn.addActionListener(this);
@@ -93,21 +99,21 @@ public class RunVelocityGui implements ActionListener {
      */
     private void init_200_BuildScreen() {
 
-        pnl.addLine("Input File", inputFile, inputFile.getChooseFileButton());
-        pnl.addLine("Template File", templateFile, templateFile.getChooseFileButton());
-        pnl.setGap(BasePanel.GAP1);
+        pnl.addLineRE("Input File", inputFile);
+        pnl.addLineRE("Template File", templateFile);
+        pnl.setGapRE(BasePanel.GAP1);
 
         layoutSelection.addLayoutSelection(pnl, inputFile, runPanel, null, null);
-        pnl.setGap(BasePanel.GAP1);
+        pnl.setGapRE(BasePanel.GAP1);
 
-        pnl.addLine("Output File", outputFile, outputFile.getChooseFileButton());
-        pnl.setGap(BasePanel.GAP2);
+        pnl.addLineRE("Output File", outputFile);
+        pnl.setGapRE(BasePanel.GAP2);
 
-        pnl.addLine("", null, runBtn);
-        pnl.setGap(BasePanel.GAP2);
+        pnl.addLineRE("", null, runBtn);
+        pnl.setGapRE(BasePanel.GAP2);
 
         pnl.addMessage(message);
-        pnl.setHeight(BasePanel.GAP2);
+        pnl.setHeightRE(BasePanel.GAP2);
     }
 
 
@@ -130,7 +136,7 @@ public class RunVelocityGui implements ActionListener {
 //	              + "<br><br>Alternately in the <b>HowTo</b> document, there is a discussion on installing velocity.")
         );
 
-		pnl.addComponent(1, 5, NOT_INSTALLED_MSG_HEIGHT, BasePanel.GAP0,
+		pnl.addComponentRE(1, 5, NOT_INSTALLED_MSG_HEIGHT, BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
 				description);
     }
@@ -144,13 +150,13 @@ public class RunVelocityGui implements ActionListener {
         message.setText("");
         if (e.getSource() == runBtn) {
             if ("".equals(inputFile.getText().trim())) {
-                pnl.setMessageTxt("You must enter an input file");
+                pnl.setMessageTxtRE("You must enter an input file");
                 inputFile.requestFocus();
             } else  if ("".equals(templateFile.getText().trim())) {
-            	pnl.setMessageTxt("You must enter a Velocity Template file");
+            	pnl.setMessageTxtRE("You must enter a Velocity Template file");
                 templateFile.requestFocus();
             } else  if ("".equals(outputFile.getText().trim())) {
-            	pnl.setMessageTxt("You must enter an Output file");
+            	pnl.setMessageTxtRE("You must enter an Output file");
                 outputFile.requestFocus();
             } else {
                 RunVelocity velocity = RunVelocity.getInstance();

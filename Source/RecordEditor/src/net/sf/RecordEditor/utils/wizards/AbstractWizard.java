@@ -292,7 +292,7 @@ public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements Act
     public void executeAction(int action) {
 
         if (action == ReActionHandler.HELP) {
-            pnls[panelNumber].showHelp();
+            pnls[panelNumber].showHelpRE();
         } else if (displayFrame instanceof ReFrame) {
         	((ReFrame) displayFrame).executeAction(action);
         }

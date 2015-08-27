@@ -18,6 +18,9 @@ package net.sf.RecordEditor.edit.display;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -41,6 +44,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
+import net.sf.JRecord.Common.CommonBits;
 import net.sf.JRecord.Details.AbstractChildDetails;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
@@ -59,17 +63,16 @@ import net.sf.RecordEditor.edit.display.util.OptionPnl;
 import net.sf.RecordEditor.edit.display.util.Search;
 import net.sf.RecordEditor.edit.display.util.SortFrame;
 import net.sf.RecordEditor.edit.util.ReMessages;
-
 import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.re.display.DisplayBuilderFactory;
+import net.sf.RecordEditor.re.display.IClosablePanel;
 import net.sf.RecordEditor.re.display.IDisplayBuilder;
 import net.sf.RecordEditor.re.display.IDisplayFrame;
 import net.sf.RecordEditor.re.display.IExecuteSaveAction;
 import net.sf.RecordEditor.re.file.AbstractLineNode;
 import net.sf.RecordEditor.re.file.FilePosition;
 import net.sf.RecordEditor.re.file.FileView;
-
 import net.sf.RecordEditor.re.jrecord.types.RecordFormats;
 import net.sf.RecordEditor.re.tree.ChildTreeToXml;
 import net.sf.RecordEditor.re.tree.TreeParserRecord;
@@ -116,6 +119,11 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 	private static final String PRINTING_REQUIRES_JAVA_5 = "Printing failed (Printing requires Java 1.5)";
 	protected static final int NORMAL_DISPLAY = 3;
 	protected static final int TREE_DISPLAY = 5;
+	protected static IClosablePanel NO_CLOSE_ACTION_PNL = new IClosablePanel() {
+		
+		@Override public void closePanel() {
+		}
+	};
 	//static ImageIcon searchIcon = new ImageIcon(Common.dir + "searchEye.gif");
 
 	private static final int RECORDS_TO_CHECK = 30;
@@ -192,7 +200,9 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
         			+ " modifiers " + event.getModifiers() + " " + event.getModifiersEx()
         			+ " when " + event.getWhen() + " " + lastWhen);*/
         	//Common.logMsg("Key Released ", null);
-            if (event.getModifiers() == KeyEvent.CTRL_MASK && lastWhen != event.getWhen()) {
+        	if (lastWhen == event.getWhen()) {
+        		// Do nothing
+        	} else if (event.getModifiers() == KeyEvent.CTRL_MASK) {
                 /*if (event.getKeyCode() == KeyEvent.VK_F) {
                     searchScreen.startSearch(fileView);
                 } else*/ if (event.getKeyCode() == KeyEvent.VK_A && allowPaste) {
@@ -201,28 +211,32 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 //                    saveFile();
                 } else if (event.getKeyCode() == KeyEvent.VK_INSERT) {
                 	insertLine(0);
-                } else if (event.getKeyCode() == KeyEvent.VK_C) {
-                    copyRecords();
-                } else if (event.getKeyCode() == KeyEvent.VK_V && allowPaste) {
-                    fileView.pasteLines(getInsertAfterPosition());
+//                } else if (event.getKeyCode() == KeyEvent.VK_C) {
+//                    copyRecords();
+//                } else if (event.getKeyCode() == KeyEvent.VK_V && allowPaste) {
+//                    fileView.pasteLines(getInsertAfterPosition());
                 } else if (event.getKeyCode() == KeyEvent.VK_L) {
                 	new GotoLine(BaseDisplay.this, fileView);;
-//                } else if (event.getKeyCode() == KeyEvent.VK_K) {
-//                	System.out.println("Table Class:" + tblDetails.getClass().getName());
-               }
+              }
                lastWhen = event.getWhen();
                 //System.out.print("   !!!");
-            }
+//            }  else if (event.getModifiers() == KeyEvent.ALT_MASK) {
+//            	if (event.getKeyCode() == KeyEvent.VK_C) {
+//                    copyRecords();
+//                } else if (event.getKeyCode() == KeyEvent.VK_V && allowPaste) {
+//                    fileView.pasteLines(getInsertAfterPosition());
+//                }
+//                lastWhen = event.getWhen();
+           }
         }
     };
+    
+    
+    private KeyAdapter ctrlVlistner; 
+        
 
     private TableModelListener layoutChangeListner = new TableModelListener() {
-
-		/**
-		 * @see javax.swing.event.TableModelListener#tableChanged(javax.swing.event.TableModelEvent)
-		 */
-		@Override
-		public void tableChanged(TableModelEvent arg0) {
+		@Override public void tableChanged(TableModelEvent arg0) {
 			layoutChangedInternal(fileMaster.getLayout());
 		}
     };
@@ -272,7 +286,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 		case NO_LAYOUT_LINE:
 			break;
 		case NO_OPTION_PANEL:
-			actualPnl.addLine("Layouts", getLayoutCombo());
+			actualPnl.addLineRE("Layouts", getLayoutCombo());
 			break;
 		default:
 			int opt = fileView.isBrowse() ? OptionPnl.BROWSE_PANEL
@@ -332,6 +346,13 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
         tblDetails.setTableHeader(toolTips);
 	}
 
+	
+
+	
+	public final void closePanel() {
+		parentFrame.close(this);
+	}
+
 
 	public void doClose() {
 		AbstractFileDisplay child = getChildScreen();
@@ -344,6 +365,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 		closeWindow();
 		layoutCombo.removeActionListener(layoutListner);
 	}
+	
 	/**
 	 * Close a window
 	 *
@@ -360,6 +382,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 			fileView.removeTableModelListener(layoutChangeListner);
 			stopCellEditing();
 			fileMaster = null;
+			fileView = null;
 		} catch (Exception ex) {
 		}
 	}
@@ -369,7 +392,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 	 * @see net.sf.RecordEditor.edit.display.common.ILayoutChanged#layoutChanged(net.sf.JRecord.Details.AbstractLayoutDetails)
 	 */
 	@Override
-	public final void layoutChanged(AbstractLayoutDetails newLayout) {
+	public void layoutChanged(AbstractLayoutDetails newLayout) {
 	}
 
 	private void layoutChangedInternal(AbstractLayoutDetails newLayout) {
@@ -381,10 +404,10 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 			layoutCombo.setRecordLayout(newLayout);
 //			layoutCombo.addActionListener(layoutListner);
 
-			setupDisplayDetails(newLayout);
+			setupDisplayDetails(newLayout);		// Could be duplicate of setNewLayout
 
 			setTableFormatDetails(getLayoutIndex());
-			setNewLayout(newLayout);
+			setNewLayout(newLayout);			// Could be duplicate of setupDisplayDetails
 //			searchScreen.setRecordLayout(newLayout);
 		}
 	}
@@ -501,7 +524,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 
 					if (ret == JFileChooser.APPROVE_OPTION) {
 						if (layout.hasChildren()) {
-							new ChildTreeToXml(chooseFile.getSelectedFile().getPath(),  fileView.getLines());
+							new ChildTreeToXml(chooseFile.getSelectedFile().getPath(), fileView.getLines());
 						} else {
 				        	TreeParserRecord parser = new TreeParserRecord(executeAction_100_getParent());
 
@@ -512,16 +535,19 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 					}
 				}
 			break;
-			case ReActionHandler.SAVE:		    	saveFile();				break;
+			case ReActionHandler.SAVE:		    				saveFile();				break;
 			case ReActionHandler.DELETE_BUTTON:
 			case ReActionHandler.DELETE_RECORD_POPUP:
-			case ReActionHandler.DELETE_RECORD:		deleteLines();			break;
-			case ReActionHandler.COPY_RECORD:
-				copyRecords();			break;
+			case ReActionHandler.DELETE_RECORD:					deleteLines();			break;
+			case ReActionHandler.COPY_RECORD:					copyRecords();			break;
 			case ReActionHandler.CUT_RECORD:
 				copyRecords();
 				deleteLines();
 			break;
+			case ReActionHandler.CLEAR_SELECTED_CELLS:			clearSelectedCells();	break;
+			case ReActionHandler.COPY_SELECTED_CELLS:			copySelectedCells();	break;
+			case ReActionHandler.PASTE_TABLE_OVERWRITE:			pasteOverTbl();			break;
+			case ReActionHandler.PASTE_TABLE_OVER_SELECTION:	pasteStandard();		break;
 			case ReActionHandler.PASTE_RECORD_POPUP:
 			case ReActionHandler.PASTE_RECORD:
 				fileView.pasteLines(getInsertAfterPosition());				break;
@@ -534,7 +560,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 			case ReActionHandler.INSERT_RECORD_PRIOR:	insertLine(-1);									break;
 			case ReActionHandler.CLOSE:					closeWindow();									break;
 			case ReActionHandler.SORT:			    	new SortFrame(this, fileView);					break;
-			case ReActionHandler.HELP:		    		actualPnl.showHelp();									break;
+			case ReActionHandler.HELP:		    		actualPnl.showHelpRE();									break;
 			case ReActionHandler.ADD_ATTRIBUTES:	new AddAttributes(fileView, layoutCombo.getLayoutIndex());  break;
 			case ReActionHandler.PRINT:
 			    try {
@@ -576,11 +602,10 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 	protected final void checkForResize(TableModelEvent event) {
 		//System.out.println("!! " + event.getType() + " " + event.getFirstRow() + " " + event.getLastRow());
 		if ((event.getType() == TableModelEvent.INSERT || event.getType() == TableModelEvent.UPDATE)
-		&& fileView.getRowCount() == 1
+		&& fileView != null && fileView.getRowCount() == 1
 		&& event.getFirstRow() == 0 && (event.getLastRow() == 0 || event.getLastRow() == Integer.MAX_VALUE)) {
 			Common.calcColumnWidths(getJTable(), 1);
 		}
-
 	}
 
 
@@ -748,8 +773,9 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 					}
 				}
 			}
-			if (newLine != null) {
+			if (newLine != null && fileView != null) {
 				//DisplayBuilder.newLineFrameTree(parentFrame, fileView, newLine);
+				//System.out.println( "===> " + (DisplayBldr == null) + " " + (fileView == null));
 				DisplayBldr.newDisplay(
 						IDisplayBuilder.ST_RECORD_TREE, "", parentFrame, fileView.getLayout(), fileView, newLine);
 			}
@@ -780,6 +806,13 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 		if (ret != null && pn != null /*&& o instanceof AbstractLineNode */) {
 			//System.out.println(" >>> >>> Insert Node: " + ret.getFullLine());
 			pn.insert(ret, -1, location);
+			
+			
+			AbstractLine line = pn.getLine();
+			if (line != null
+			&& line.getOption(Options.OPT_MULTIPLE_LINES_UPDATED) == Options.MULTIPLE_LINES_UPDATED) {
+				fileView.fireRowUpdated(-1, null, line);
+			}
 		}
 
 		return ret;
@@ -929,69 +962,138 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 	 */
 	public boolean isActionAvailable(final int action) {
 
-	    boolean ret =
-	       (action == ReActionHandler.FIND)
-    	|| (action == ReActionHandler.FILTER)
-    	|| (action == ReActionHandler.TABLE_VIEW_SELECTED)
-    	|| (action == ReActionHandler.RECORD_VIEW_SELECTED)
-    	|| (action == ReActionHandler.COLUMN_VIEW_SELECTED)
-    	|| (action == ReActionHandler.SELECTED_VIEW)
-    	|| (action == ReActionHandler.SAVE_AS)
-    	|| (action == ReActionHandler.EXPORT)
-     	|| (action == ReActionHandler.EXPORT_AS_CSV)
-     	|| (action == ReActionHandler.EXPORT_AS_FIXED)
-     	|| (action == ReActionHandler.EXPORT_AS_HTML)
-    	|| (action == ReActionHandler.EXPORT_AS_HTML_TBL_PER_ROW)
-    	|| (action == ReActionHandler.EXPORT_HTML_TREE && layout.hasChildren())
-    	|| (action == ReActionHandler.EXPORT_VELOCITY)
-    	|| (action == ReActionHandler.EXPORT_XSLT)
-    	|| (action == ReActionHandler.EXPORT_SCRIPT)
-		|| (action == ReActionHandler.COPY_RECORD)
-		|| (action == ReActionHandler.CLOSE)
-        || (action == ReActionHandler.HELP)
-        || (action == ReActionHandler.PRINT)
-        || (action == ReActionHandler.PRINT_SELECTED)
-        || ( (! layout.hasChildren())
-	        && (  	    action == ReActionHandler.BUILD_SORTED_TREE
-	        		||  action == ReActionHandler.BUILD_FIELD_TREE
-	        		||  action == ReActionHandler.BUILD_RECORD_TREE
-	        		|| (action == ReActionHandler.EXECUTE_SAVED_SORT_TREE)
-			        || (action == ReActionHandler.EXECUTE_SAVED_RECORD_TREE)
-			    )
-			&& fileView.isTreeViewAvailable()
-	        )
-        || (action == ReActionHandler.BUILD_LAYOUT_TREE && layout.hasTreeStructure())
-        || (action == ReActionHandler.BUILD_LAYOUT_TREE_SELECTED && layout.hasTreeStructure())
-        || (action == ReActionHandler.SAVE_AS_XML && (layout.hasTreeStructure() || layout.hasChildren()))
-        || (action == ReActionHandler.BUILD_XML_TREE_SELECTED && layout.isXml())
-        || (action == ReActionHandler.ADD_ATTRIBUTES && layout.isOkToAddAttributes()
-        || (action == ReActionHandler.EXECUTE_SAVED_FILTER)
-        || (action == ReActionHandler.COMPARE_WITH_DISK)
-        );
+		boolean ret = false;
+		switch (action) {
+		case  ReActionHandler.FIND:
+    	case  ReActionHandler.FILTER:
+    	case  ReActionHandler.TABLE_VIEW_SELECTED:
+    	case  ReActionHandler.RECORD_VIEW_SELECTED:
+    	case  ReActionHandler.COLUMN_VIEW_SELECTED:
+    	case  ReActionHandler.SELECTED_VIEW:
+    	case  ReActionHandler.SAVE_AS:
+    	case  ReActionHandler.EXPORT:
+     	case  ReActionHandler.EXPORT_AS_CSV:
+     	case  ReActionHandler.EXPORT_AS_FIXED:
+     	case  ReActionHandler.EXPORT_AS_HTML:
+    	case  ReActionHandler.EXPORT_AS_HTML_TBL_PER_ROW:
+     	case  ReActionHandler.EXPORT_VELOCITY:
+    	case  ReActionHandler.EXPORT_XSLT:
+    	case  ReActionHandler.EXPORT_SCRIPT:
+    	case  ReActionHandler.COPY_RECORD:
+    	case  ReActionHandler.COPY_SELECTED_CELLS:
+    	case  ReActionHandler.CLOSE:
+        case  ReActionHandler.HELP:
+        case  ReActionHandler.PRINT:
+        case  ReActionHandler.PRINT_SELECTED:
+        case  ReActionHandler.EXECUTE_SAVED_FILTER:
+        case  ReActionHandler.COMPARE_WITH_DISK:
+        	return true;
+       	case  ReActionHandler.EXPORT_HTML_TREE: 			ret = layout.hasChildren();			break;
+       	case  ReActionHandler.BUILD_LAYOUT_TREE:			
+        case  ReActionHandler.BUILD_LAYOUT_TREE_SELECTED:	ret = layout.hasTreeStructure();	break;
+        case  ReActionHandler.SAVE_AS_XML: 					ret = layout.hasTreeStructure() || layout.hasChildren();	break;
+        case  ReActionHandler.BUILD_XML_TREE_SELECTED:		ret = layout.isXml();				break;
+        case  ReActionHandler.ADD_ATTRIBUTES:				ret = layout.isOkToAddAttributes();	break;
 
-
-	    if (! this.fileView.isBrowse()) {
-		    ret =   ret
-			    || (action == ReActionHandler.SAVE)
-			    || (action == ReActionHandler.DELETE_RECORD)
-			    || (action == ReActionHandler.DELETE_RECORD_POPUP)
-			    || (action == ReActionHandler.DELETE_BUTTON)
-				|| (action == ReActionHandler.COPY_RECORD)
-				|| (action == ReActionHandler.CUT_RECORD)
-				|| (action == ReActionHandler.PASTE_RECORD)
-				|| (action == ReActionHandler.PASTE_RECORD_PRIOR)
-				|| (action == ReActionHandler.PASTE_RECORD_POPUP)
-				|| (action == ReActionHandler.PASTE_RECORD_PRIOR_POPUP)
-				|| (action == ReActionHandler.CORRECT_RECORD_LENGTH)
-				|| (action == ReActionHandler.INSERT_RECORDS)
-				|| (action == ReActionHandler.INSERT_RECORD_PRIOR)
-				|| (action == ReActionHandler.INSERT_RECORDS_POPUP)
-				|| (action == ReActionHandler.INSERT_RECORD_PRIOR_POPUP)
-				|| (action == ReActionHandler.SORT)
-				|| (action == ReActionHandler.SHOW_INVALID_ACTIONS);
-	    }
-
+        case  ReActionHandler.BUILD_SORTED_TREE:
+		case  ReActionHandler.BUILD_FIELD_TREE:
+		case  ReActionHandler.BUILD_RECORD_TREE:
+		case  ReActionHandler.EXECUTE_SAVED_SORT_TREE:
+        case  ReActionHandler.EXECUTE_SAVED_RECORD_TREE:
+        	ret =  (! layout.hasChildren())
+				&& fileView.isTreeViewAvailable();
+        	break;
+        	
+    	case  ReActionHandler.SAVE:
+		case  ReActionHandler.DELETE_RECORD:
+		case  ReActionHandler.DELETE_RECORD_POPUP:
+		case  ReActionHandler.DELETE_BUTTON:
+		case  ReActionHandler.CUT_RECORD:
+		case  ReActionHandler.PASTE_RECORD:
+		case  ReActionHandler.PASTE_RECORD_PRIOR:
+		case  ReActionHandler.PASTE_RECORD_POPUP:
+		case  ReActionHandler.PASTE_RECORD_PRIOR_POPUP:
+		case  ReActionHandler.PASTE_TABLE_OVERWRITE:
+		case  ReActionHandler.PASTE_TABLE_OVER_SELECTION:
+		case  ReActionHandler.CORRECT_RECORD_LENGTH:
+		case  ReActionHandler.INSERT_RECORDS:
+		case  ReActionHandler.INSERT_RECORD_PRIOR:
+		case  ReActionHandler.INSERT_RECORDS_POPUP:
+		case  ReActionHandler.INSERT_RECORD_PRIOR_POPUP:
+		case  ReActionHandler.SORT:
+		case  ReActionHandler.SHOW_INVALID_ACTIONS:
+			ret = ! this.fileView.isBrowse();
+			break;
+ 		}
 		return ret;
+		
+		
+//	    boolean ret =
+//	       (action == ReActionHandler.FIND)
+//    	|| (action == ReActionHandler.FILTER)
+//    	|| (action == ReActionHandler.TABLE_VIEW_SELECTED)
+//    	|| (action == ReActionHandler.RECORD_VIEW_SELECTED)
+//    	|| (action == ReActionHandler.COLUMN_VIEW_SELECTED)
+//    	|| (action == ReActionHandler.SELECTED_VIEW)
+//    	|| (action == ReActionHandler.SAVE_AS)
+//    	|| (action == ReActionHandler.EXPORT)
+//     	|| (action == ReActionHandler.EXPORT_AS_CSV)
+//     	|| (action == ReActionHandler.EXPORT_AS_FIXED)
+//     	|| (action == ReActionHandler.EXPORT_AS_HTML)
+//    	|| (action == ReActionHandler.EXPORT_AS_HTML_TBL_PER_ROW)
+//    	|| (action == ReActionHandler.EXPORT_HTML_TREE && layout.hasChildren())
+//    	|| (action == ReActionHandler.EXPORT_VELOCITY)
+//    	|| (action == ReActionHandler.EXPORT_XSLT)
+//    	|| (action == ReActionHandler.EXPORT_SCRIPT)
+//		|| (action == ReActionHandler.COPY_RECORD)
+//		|| (action == ReActionHandler.COPY_SELECTED_CELLS)
+//		|| (action == ReActionHandler.CLOSE)
+//        || (action == ReActionHandler.HELP)
+//        || (action == ReActionHandler.PRINT)
+//        || (action == ReActionHandler.PRINT_SELECTED)
+//        || ( (! layout.hasChildren())
+//	        && (  	    action == ReActionHandler.BUILD_SORTED_TREE
+//	        		||  action == ReActionHandler.BUILD_FIELD_TREE
+//	        		||  action == ReActionHandler.BUILD_RECORD_TREE
+//	        		|| (action == ReActionHandler.EXECUTE_SAVED_SORT_TREE)
+//			        || (action == ReActionHandler.EXECUTE_SAVED_RECORD_TREE)
+//			    )
+//			&& fileView.isTreeViewAvailable()
+//	        )
+//        || (action == ReActionHandler.BUILD_LAYOUT_TREE && layout.hasTreeStructure())
+//        || (action == ReActionHandler.BUILD_LAYOUT_TREE_SELECTED && layout.hasTreeStructure())
+//        || (action == ReActionHandler.SAVE_AS_XML && (layout.hasTreeStructure() || layout.hasChildren()))
+//        || (action == ReActionHandler.BUILD_XML_TREE_SELECTED && layout.isXml())
+//        || (action == ReActionHandler.ADD_ATTRIBUTES && layout.isOkToAddAttributes()
+//        || (action == ReActionHandler.EXECUTE_SAVED_FILTER)
+//        || (action == ReActionHandler.COMPARE_WITH_DISK)
+//        );
+//
+//
+//	    if (! this.fileView.isBrowse()) {
+//		    ret =   ret
+//			    || (action == ReActionHandler.SAVE)
+//			    || (action == ReActionHandler.DELETE_RECORD)
+//			    || (action == ReActionHandler.DELETE_RECORD_POPUP)
+//			    || (action == ReActionHandler.DELETE_BUTTON)
+//				|| (action == ReActionHandler.COPY_RECORD)
+//				|| (action == ReActionHandler.CUT_RECORD)
+//				|| (action == ReActionHandler.PASTE_RECORD)
+//				|| (action == ReActionHandler.PASTE_RECORD_PRIOR)
+//				|| (action == ReActionHandler.PASTE_RECORD_POPUP)
+//				|| (action == ReActionHandler.PASTE_RECORD_PRIOR_POPUP)
+//				|| (action == ReActionHandler.PASTE_TABLE_OVERWRITE)
+//				|| (action == ReActionHandler.PASTE_TABLE_OVER_SELECTION)
+//				|| (action == ReActionHandler.CORRECT_RECORD_LENGTH)
+//				|| (action == ReActionHandler.INSERT_RECORDS)
+//				|| (action == ReActionHandler.INSERT_RECORD_PRIOR)
+//				|| (action == ReActionHandler.INSERT_RECORDS_POPUP)
+//				|| (action == ReActionHandler.INSERT_RECORD_PRIOR_POPUP)
+//				|| (action == ReActionHandler.SORT)
+//				|| (action == ReActionHandler.SHOW_INVALID_ACTIONS);
+//	    }
+//
+//		return ret;
 	}
 
 	/**
@@ -1065,6 +1167,29 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 
 		if (Common.OPTIONS.highlightEmptyActive.isSelected()) {
 			tblDetails.setDefaultRenderer(Object.class, new StandardRendor());
+		}
+		
+		if (isActionAvailable(ReActionHandler.PASTE_TABLE_OVERWRITE)
+		&& Common.OPTIONS.useRowColSelection.isSelected()) {
+	        tableDetails.setColumnSelectionAllowed(true);
+	        tableDetails.setRowSelectionAllowed(true);
+	        
+	        ctrlVlistner= new KeyAdapter() {
+	        	private long lastWhen = -121;
+
+	            @Override public final void keyReleased(KeyEvent event) {
+	            	if (lastWhen == event.getWhen()) {
+	            		// Do nothing
+	            	} else if (event.getModifiers() == KeyEvent.CTRL_MASK) {
+	            		if (event.getKeyCode() == KeyEvent.VK_V
+	            		&&  tblDetails.getSelectedRow() >= 0
+	            		&&  tblDetails.hasFocus()) {
+		            		pasteStandard();
+	            		}
+	            	}
+	            }
+	        };
+	        tableDetails.addKeyListener(ctrlVlistner);
 		}
 	}
 
@@ -1145,7 +1270,8 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 
 		//System.out.println("Save File Called");
 		if ("".equals(fileMaster.getFileName())) {
-			new SaveAs3(this, fileMaster);
+			//new SaveAs3(this, fileMaster);
+			new SaveAs4(this, this.fileView);
 		} else {
 		    try {
 		        fileMaster.writeFile();
@@ -1218,11 +1344,15 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 	 */
 	 public final void copyRecords() {
 
-		int[] selRows = getSelectedRows();
+		 Common.runOptionalyInBackground(new Runnable() {
+			@Override public void run() {
+				int[] selRows = getSelectedRows();
 
-		if (selRows != null && selRows.length > 0) {
-			fileView.copyLines(selRows);
-		}
+				if (selRows != null && selRows.length > 0) {
+					fileView.copyLines(selRows);
+				}
+			}
+		});
 	 }
 
 
@@ -1367,6 +1497,13 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
     public int getSelectedRowCount() {
     	return tblDetails.getSelectedRowCount();
     }
+    
+
+	@Override
+	public boolean isOkToUseSelectedRows() {
+		return true;
+	}
+
 
 	/**
 	 * @see net.sf.RecordEditor.re.display.AbstractFileDisplay#getSelectedRows()
@@ -1447,8 +1584,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 	protected final boolean hasTheFormatChanged(TableModelEvent event) {
 		boolean changed = false ;
 
-		if (event.getType() == TableModelEvent.UPDATE
-		&& event.getFirstRow() < 0 && event.getLastRow() < 0) {
+		if (hasTheTableStructureChanged(event)) {
 			for (int i = 0; i < displayDetails.length && ! changed; i++) {
 				if (displayDetails[i] != null) {
 					changed = changed || displayDetails[i].hasTheFormatChanged();
@@ -1462,6 +1598,11 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 		}
 
 		return  changed ;
+	}
+	
+	protected boolean hasTheTableStructureChanged(TableModelEvent event) {
+		return event.getType() == TableModelEvent.UPDATE
+				&& event.getFirstRow() < 0 && event.getLastRow() < 0;
 	}
 
 //	private void layoutChanged() {
@@ -1506,11 +1647,12 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
     }
 
     protected final void defineColumns(JTable tblDtls, int numCols, int blankColumns, int columnsToSkip) {
-        int i, idx, count;
+        int i, idx;
         tblDtls.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
         TableColumnModel tcm = tblDtls.getColumnModel();
 
+        numCols = Math.min(numCols, tcm.getColumnCount());
         for (i = blankColumns; i < numCols; i++) {
             if (widths != null && (i - blankColumns) < widths.length  && widths[i - blankColumns] > 0) {
                 tcm.getColumn(i).setPreferredWidth(widths[i - blankColumns]);
@@ -1523,10 +1665,12 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
             toolTips.setTips(layout.getFieldDescriptions(idx, 0));
 
             try {
+            	int c;
+            	int count =  Math.min(this.fileView.getLayoutColumnCount(idx), tcm.getColumnCount() - blankColumns + columnsToSkip);
 	            //System.out.print(" > cell Rendor " + (cellRenders == null));
 	            if (cellRenders != null) {
-	            	count =  Math.min(this.fileView.getLayoutColumnCount(idx), cellRenders.length);
-	                for (i = columnsToSkip; i < count ; i++) {
+	            	c =  Math.min(count, cellRenders.length);
+	                for (i = columnsToSkip; i < c ; i++) {
 	                    if (cellRenders[i] != null) {
 //	                    	System.out.println("Rendor ~~> 1 " + i
 //	                    			+ ", " + (i + blankColumns - columnsToSkip)
@@ -1538,8 +1682,8 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 	            }
 
 	            if (cellEditors != null) {
-	            	count =  Math.min(this.fileView.getLayoutColumnCount(idx), cellEditors.length);
-	                for (i = columnsToSkip; i < count; i++) {
+	            	c =  Math.min(count, cellEditors.length);
+	                for (i = columnsToSkip; i < c; i++) {
 	                    if (cellEditors[i] != null) {
 	                        tcm.getColumn(i + blankColumns - columnsToSkip).setCellEditor(cellEditors[i]);
 	                    }
@@ -1901,6 +2045,124 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 		}
 	}
 
+	private void pasteStandard() {
+		if (tblDetails.getSelectedRowCount() > 1 || tblDetails.getSelectedColumnCount() > 1) {
+			pasteOverSelected();
+		} else {
+			pasteOverTbl();
+		}
+	}
+
+	private void clearSelectedCells() {
+		JTable tbl = getJTable();
+		int[] selectedRows = tbl.getSelectedRows();
+		int[] selectedColumns = tbl.getSelectedColumns();
+		if (selectedRows != null && selectedColumns != null) {
+			for (int row : selectedRows) {
+				for (int col : selectedColumns) {
+					tbl.setValueAt(Common.MISSING_VALUE, row, col);
+				}
+			}
+		}
+	}
+	
+	private void copySelectedCells() {
+		SwingUtils.copySelectedCells(getJTable());
+	}
+	
+	
+	protected final void pasteOverTbl() {
+		JTable tblDtls = getJTable();
+		
+		pasteOver(this, tblDtls.getSelectedRow(), tblDtls.getSelectedColumn(), Integer.MAX_VALUE, Integer.MAX_VALUE);
+//		if (startRow >= 0) {
+//			Clipboard system = Toolkit.getDefaultToolkit().getSystemClipboard();
+//			try {
+//				pasteTable(startRow, startCol,
+//						Integer.MAX_VALUE, Integer.MAX_VALUE,
+//						(String) (system.getContents(this)
+//								.getTransferData(DataFlavor.stringFlavor)));
+//			} catch (Exception e) {
+//			}
+//		}
+	}
+
+	private final void pasteOverSelected() {
+		JTable dtlTbl = getJTable();
+		
+		pasteOver(
+				this,
+				dtlTbl.getSelectedRow(), dtlTbl.getSelectedColumn(), 
+				dtlTbl.getSelectedRowCount(), dtlTbl.getSelectedColumnCount());
+//		if (startRow >= 0) {
+//			Clipboard system = Toolkit.getDefaultToolkit().getSystemClipboard();
+//			try {
+//				pasteTable(startRow, startCol,
+//						dtlTbl.getSelectedRowCount(), dtlTbl.getSelectedColumnCount(),
+//						(String) (system.getContents(this)
+//								.getTransferData(DataFlavor.stringFlavor)));
+//
+//			} catch (Exception e) {
+//			}
+//		}
+	}
+	
+	private void pasteOver(Object requestor, int startRow, int startCol, int numRows, int numCols) {
+		if (startRow >= 0) {
+			Clipboard system = Toolkit.getDefaultToolkit().getSystemClipboard();
+			try {
+				pasteTable(startRow, startCol,
+						numRows, numCols,
+						(String) (system.getContents(this)
+								.getTransferData(DataFlavor.stringFlavor)));
+
+			} catch (Exception e) {
+			}
+		}
+	}
+
+	protected final void pasteTable(int startRow, int startCol, String trstring) {
+		pasteTable(startRow, startCol, Integer.MAX_VALUE, Integer.MAX_VALUE, trstring);
+	}
+
+
+	private final void pasteTable(int startRow, int startCol, int rowCount, int colCount, String trstring) {
+		try {
+			fileMaster.setDisplayErrorDialog(false);
+			SwingUtils.pasteTable( getJTable(), startRow, startCol, rowCount, colCount, trstring);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			fileMaster.setDisplayErrorDialog(true);
+		}
+	}
+
+	
+	private final void deleteSelectedCells() {
+		try {
+			JTable tblDetails = getJTable();
+			int startRow = tblDetails.getSelectedRow();
+			int startCol = tblDetails.getSelectedColumn();
+			int rowCount = tblDetails.getSelectedRowCount();
+			int colCount = tblDetails.getSelectedColumnCount();
+			fileMaster.setDisplayErrorDialog(false);
+			stopCellEditing();
+
+			for (int i = 0; i < rowCount ; i++) {
+				for (int j = 0; j < colCount ; j++) {
+					if (tblDetails.isCellEditable(startRow + i, startCol + j)) {	
+						tblDetails.setValueAt(CommonBits.NULL_VALUE, startRow + i, startCol + j);
+					}
+//					System.out.println("Putting " + val + "at row="
+//							+ startRow + i + "column=" + startCol + j);
+				}
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			fileMaster.setDisplayErrorDialog(true);
+		}
+	}
 
 
     /**
@@ -1965,9 +2227,16 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
         	if (when != lastWhen
         	&& (event.getModifiers() & KeyEvent.CTRL_MASK) == 0
         	&& (event.getModifiers() & KeyEvent.SHIFT_MASK) == 0
-        	&& Common.OPTIONS.deleteSelectedWithDelKey.isSelected()) {
+        	&& tblDetails.getSelectedRow() >= 0) {
+        	
 	        	switch (event.getKeyCode()) {
-	        	case KeyEvent.VK_DELETE: check4Delete();	break;
+	        	case KeyEvent.VK_DELETE: 
+	        		if (Common.OPTIONS.deleteSelectedWithDelKey.isSelected()) {
+	        			check4Delete();	
+	        		} else {
+	        			deleteSelectedCells();
+	        		}
+	        	break;
 	        	}
 	        }
 

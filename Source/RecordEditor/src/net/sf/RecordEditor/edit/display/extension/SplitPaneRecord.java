@@ -11,6 +11,7 @@ import javax.swing.event.TableModelListener;
 
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Details.AbstractLine;
+import net.sf.RecordEditor.re.display.IClosablePanel;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.swing.common.UpdatableItem;
 
@@ -24,6 +25,7 @@ public class SplitPaneRecord implements TableModelListener {
 
 	private FileView fileView;
 	private int currRow = 0;
+	private final IClosablePanel parent;
 
 	private AbstractLine line;
 	public final JXMultiSplitPane splitPane = new JXMultiSplitPane();
@@ -51,7 +53,8 @@ public class SplitPaneRecord implements TableModelListener {
 	};
 
 
-	public SplitPaneRecord(FileView viewOfFile, int lineNo) {
+	public SplitPaneRecord(IClosablePanel parentPnl, FileView viewOfFile, int lineNo) {
+		parent = parentPnl;
 		fileView = viewOfFile;
 		currRow = lineNo;
 
@@ -180,10 +183,10 @@ public class SplitPaneRecord implements TableModelListener {
 		if ((newRow >= 0)) {
 			if (line != null && fields != null) {
 				for (PaneDtls p : fields) {
-					if (p.txtFld != null && p.txtFld.hasFocus() && p.fieldDef != null && ! p.isHtml) {
+					if (p.txtFld != null && p.txtFld.hasFocus() && p.fieldDef != null && ! p.isHtml()) {
 						try {
 							line.setField(0, p.fieldDef.fieldIdx, p.txtFld.getText());
-							fileView.fireRowUpdated(currRow, line);
+							fileView.fireRowUpdated(currRow, 0,  p.fieldDef.fieldIdx, line);
 						} catch (Exception ex) {
 							ex.printStackTrace();
 						}
@@ -208,6 +211,12 @@ public class SplitPaneRecord implements TableModelListener {
 
 
 	private void rowChanged() {
+		
+		if (fileView.getRowCount() <= 0 ) {
+			parent.closePanel();
+			return;
+		}
+		
 		if (currRow < 0) {
 			currRow = 0;
 		} else if (currRow >= fileView.getRowCount()) {
@@ -215,6 +224,7 @@ public class SplitPaneRecord implements TableModelListener {
 		}
 
 		line = fileView.getLine(currRow);
+
 
 		setTxtFields();
 		//this.splitPane.repaint();
@@ -230,7 +240,8 @@ public class SplitPaneRecord implements TableModelListener {
 		for (int i = 0; i < fields.length; i++) {
 			if (fields[i].txtFld != null && fields[i].fieldDef != null) {
 				s = getFieldVal(fields[i].fieldDef);
-				if (fields[i].isHtml && ! Conversion.isHtml(s)) {
+				if ((fields[i].htmlType == PaneDtls.HTML_IF_HTML_TAG && s != null && (! s.toLowerCase().startsWith("<html>")))
+				||  ((fields[i].htmlType == PaneDtls.IS_HTML && ! Conversion.isHtml(s)))) {
 					s = "";
 				}
 				fields[i].txtFld.setText(s);
@@ -248,7 +259,7 @@ public class SplitPaneRecord implements TableModelListener {
 	public void setFields(PaneDtls[] newFields, double[] newWeight) {
 		if (fields != null) {
 			for (PaneDtls p : fields) {
-				if (p.fld != null && p.fieldDef != null  && ! p.isHtml) {
+				if (p.fld != null && p.fieldDef != null  && ! p.isHtml()) {
 					p.fld.removeFocusListener(this.focusListner);
 				}
 			}
@@ -258,7 +269,7 @@ public class SplitPaneRecord implements TableModelListener {
 		this.weight = newWeight;
 
 		for (PaneDtls p : newFields) {
-			if (p.fld != null && p.fieldDef != null && ! p.isHtml) {
+			if (p.fld != null && p.fieldDef != null && ! p.isHtml()) {
 				p.fld.addFocusListener(this.focusListner);
 			}
 		}
@@ -284,7 +295,7 @@ public class SplitPaneRecord implements TableModelListener {
 			}
 
 			for (PaneDtls p : fields) {
-				if (p.fieldDef != null && (! p.isHtml) && p.fieldDef.fieldIdx >= 0) {
+				if (p.fieldDef != null && (! p.isHtml()) && p.fieldDef.fieldIdx >= 0) {
 					if (p.isVisible()) {
 						b[p.fieldDef.fieldIdx] = true;
 					}
@@ -339,7 +350,7 @@ public class SplitPaneRecord implements TableModelListener {
 		try {
 			Object val;
 			Object oldVal = line.getField(0, p.fieldDef.fieldIdx);
-			if (component == p.txtFld && p.fieldDef != null && ! p.isHtml) {
+			if (component == p.txtFld && p.fieldDef != null && ! p.isHtml()) {
 				val = p.txtFld.getText();
 			} else if (p.fld instanceof UpdatableItem) {
 				val = ((UpdatableItem) p.fld).getValue();
@@ -352,7 +363,7 @@ public class SplitPaneRecord implements TableModelListener {
 			} else {
 				line.setField(0, p.fieldDef.fieldIdx, val);
 				fileView.setChanged(true);
-				fileView.fireRowUpdated(currRow, line);
+				fileView.fireRowUpdated(currRow, 0, p.fieldDef.fieldIdx, line);
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();

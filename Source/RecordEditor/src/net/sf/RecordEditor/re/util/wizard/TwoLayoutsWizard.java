@@ -39,7 +39,7 @@ public abstract class TwoLayoutsWizard<Save extends BaseCopyDif> extends Abstrac
 	@SuppressWarnings("rawtypes")
 	protected void setUpPanels(AbstractLayoutSelection selection1, AbstractLayoutSelection selection2,
 			String recentFiles, AbstractWizardPanel<Save> finalScreen,
-			String help) {
+			String help, boolean secondFileRequired, boolean lookupRecentLayout) {
 		AbstractWizardPanel<Save>[] pnls = new AbstractWizardPanel[4];
 
 		int oldIdx = StandardGetFiles.OLD;
@@ -47,9 +47,15 @@ public abstract class TwoLayoutsWizard<Save extends BaseCopyDif> extends Abstrac
 
 		recordSelection[oldIdx] = selection1;
 		recordSelection[newIdx] = selection2;
+		
+		StandardGetFiles firstPnl = new StandardGetFiles(recordSelection[oldIdx], oldIdx, recentFiles, help, true);
+		StandardGetFiles secondPnl = new StandardGetFiles(recordSelection[newIdx], newIdx, recentFiles, help, secondFileRequired);
 
-		pnls[0] = new StandardGetFiles(recordSelection[oldIdx], oldIdx, recentFiles, help);
-		pnls[1] = new StandardGetFiles(recordSelection[newIdx], newIdx, recentFiles, help);
+		firstPnl.setLookupRecentLayouts(lookupRecentLayout);
+		secondPnl.setLookupRecentLayouts(lookupRecentLayout);
+		
+		pnls[0] = firstPnl;
+		pnls[1] = secondPnl;
 		pnls[2] = new FieldChoice<Save>(selection1, selection2, help);
 		pnls[3] = finalScreen;
 

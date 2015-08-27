@@ -2,9 +2,6 @@ package net.sf.RecordEditor.re.openFile;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.io.File;
 import java.util.StringTokenizer;
 
@@ -12,7 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
@@ -21,17 +19,19 @@ import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.External.CopybookLoaderFactory;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.IO.LineIOProvider;
-import net.sf.JRecord.Numeric.Convert;
+import net.sf.JRecord.Numeric.ICopybookDialects;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
 import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimiterCombo;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.ManagerCombo;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.QuoteCombo;
+import net.sf.RecordEditor.utils.swing.treeCombo.FileSelectCombo;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboFileSelect;
 
 public class LayoutSelectionFile extends AbstractLayoutSelection  {
 
@@ -46,7 +46,8 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
     private static final int TAB_CSV_IDX = 8;
 
    	private ManagerCombo loaderOptions = null;
-	private FileChooser  copybookFile;
+//	private FileChooser  copybookFile;
+	private FileSelectCombo  copybookFile;
 	private BmKeyedComboBox   fileStructure;
 	private BmKeyedComboModel structureModel = new BmKeyedComboModel(new ManagerRowList(
 			LineIOProvider.getInstance(), false));
@@ -67,7 +68,9 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 
 	private int mode = MODE_NORMAL;
 
-	private FocusListener copybookFocusListner;
+	private ChangeListener copybookFocusListner;
+	
+	private String fileParamKey = Parameters.SCHEMA_LIST;
 
     public LayoutSelectionFile() {
 		super();
@@ -79,12 +82,16 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 
 		if (isCobol) {
 			mode = MODE_1ST_COBOL;
+			fileParamKey = Parameters.COBOL_COPYBOOK_LIST;
 		}
     }
 
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.re.openFile.AbstractLayoutSelection#addLayoutSelection(net.sf.RecordEditor.utils.swing.BasePanel, net.sf.RecordEditor.utils.swing.treeCombo.TreeComboFileSelect, javax.swing.JPanel, javax.swing.JButton, javax.swing.JButton)
+	 */
 	@Override
-	public void addLayoutSelection(BasePanel pnl, JTextField file, JPanel goPanel,
-			JButton layoutCreate1, JButton layoutCreate2) {
+	public void addLayoutSelection(BasePanel pnl, TreeComboFileSelect file,
+			JPanel goPanel, JButton layoutCreate1, JButton layoutCreate2) {
 		addLayoutSelection(pnl, goPanel, layoutCreate1, layoutCreate2, null);
 	}
 
@@ -94,7 +101,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 	 * @param goPanel go panel to use
 	 * @param layoutFile layout file
 	 */
-	public void addLayoutSelection(BasePanel pnl, JPanel goPanel, 	FileChooser layoutFile) {
+	public void addLayoutSelection(BasePanel pnl, JPanel goPanel, 	FileSelectCombo layoutFile) {
 
 		addLayoutSelection(pnl, goPanel, null, null, layoutFile);
 	}
@@ -108,10 +115,12 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 	 * @param layoutFile layout file
 	 */
 	private void addLayoutSelection(BasePanel pnl, JPanel goPanel,
-			JButton layoutCreate1, JButton layoutCreate2, FileChooser layoutFile) {
+			JButton layoutCreate1, JButton layoutCreate2, FileSelectCombo layoutFile) {
   	    setupFields();
 
- 	    copybookFile.setText(Common.OPTIONS.DEFAULT_COPYBOOK_DIRECTORY.get());
+  	    if ("".equals(copybookFile.getText())) {
+  	    	copybookFile.setText(Common.OPTIONS.DEFAULT_COPYBOOK_DIRECTORY.get());
+  	    }
 
 	    fileStructure.addActionListener(new ActionListener() {
 			@Override
@@ -125,44 +134,44 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 	    	loaderOptions.setSelectedIndex(CopybookLoaderFactoryExtended.COBOL_LOADER);
 	    	copybookFile = layoutFile;
 
-		    pnl.addLine("Output File Structure", fileStructure);
-		    pnl.addLine("Output Numeric Format", numericFormat);
+		    pnl.addLineRE("Output File Structure", fileStructure);
+		    pnl.addLineRE("Output Numeric Format", numericFormat);
 		    mode = MODE_2ND_COBOL;
 	    } else if (mode == MODE_1ST_COBOL) {
 	    	loaderOptions.setSelectedIndex(CopybookLoaderFactoryExtended.COBOL_LOADER);
 
-			pnl.addLine("Copybook", copybookFile, copybookFile.getChooseFileButton());
+			pnl.addLineRE("Copybook", copybookFile);
 
-		    pnl.addLine("Input File Structure", fileStructure);
-		    pnl.addLine("Input Numeric Format", numericFormat);
+		    pnl.addLineRE("Input File Structure", fileStructure);
+		    pnl.addLineRE("Input Numeric Format", numericFormat);
 	    } else {
-		    pnl.addLine("File Structure", fileStructure);
+		    pnl.addLineRE("File Structure", fileStructure);
 
 		    loaderOptions.setEnglish(Common.OPTIONS.COPYBOOK_READER.get());
-	    	pnl.addLine("Copybook Type", loaderOptions);
-	    	pnl.addLine("Split Copybook", splitOption);
+	    	pnl.addLineRE("Copybook Type", loaderOptions);
+	    	pnl.addLineRE("Split Copybook", splitOption);
 
-	    	pnl.setGap(BasePanel.GAP0);
-			pnl.addLine("Copybook", copybookFile, copybookFile.getChooseFileButton());
-		    pnl.setGap(BasePanel.GAP0);
+	    	pnl.setGapRE(BasePanel.GAP0);
+			pnl.addLineRE("Copybook", copybookFile);
+		    pnl.setGapRE(BasePanel.GAP0);
 
-		    pnl.addLine("Numeric Format", numericFormat);
+		    pnl.addLineRE("Numeric Format", numericFormat);
 
-		    pnl.addLine("Field Seperator", fieldSeparator);
-		    pnl.addLine("Quote", quote);
-		    pnl.setGap(BasePanel.GAP1);
-			pnl.addLine("", null, goPanel);
+		    pnl.addLineRE("Field Seperator", fieldSeparator);
+		    pnl.addLineRE("Quote", quote);
+		    pnl.setGapRE(BasePanel.GAP1);
+			pnl.addLineRE("", null, goPanel);
 			if (goPanel != null) {
-				pnl.setHeight(Math.max(BasePanel.NORMAL_HEIGHT * 3, goPanel.getPreferredSize().getHeight()));
+				pnl.setHeightRE(Math.max(BasePanel.NORMAL_HEIGHT * 3, goPanel.getPreferredSize().getHeight()));
 			}
 
-			copybookFocusListner = new FocusAdapter() {
-				@Override public void focusLost(FocusEvent e) {
-					checkCopybookType();
+			copybookFocusListner = new ChangeListener() {		
+				@Override public void stateChanged(ChangeEvent e) {
+					checkCopybookType();					
 				}
-			};
+			};	
 
-			copybookFile.addFcFocusListener(copybookFocusListner);
+			copybookFile.addTextChangeListner(copybookFocusListner);
 			checkCopybookType();
 	    }
 
@@ -341,7 +350,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
     private String getFontName() {
     	int numFormat = numericFormat.getSelectedValue();
         String font = "";
-        if (numFormat == Convert.FMT_MAINFRAME) {
+        if (numFormat == ICopybookDialects.FMT_MAINFRAME) {
             font = "cp037";
         }
         return font;
@@ -367,7 +376,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
         	int loader,split;
         	setupFields();
             copybookFile.setText(t.nextToken());
-
+ 
             loader = getIntToken(t);
             fileStructure.setSelectedIndex(getIntToken(t));
             split = getIntToken(t);
@@ -395,7 +404,8 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 			String s;
 
 	 	    loaderOptions  = ManagerCombo.newCopybookLoaderCombo();
-			copybookFile   = new FileChooser(true, "Choose Layout");
+			copybookFile   = new FileSelectCombo(fileParamKey, 25, true, false);
+					//new FileChooser(true, "Choose Layout");
     		fileStructure  = new BmKeyedComboBox(structureModel, false);
     		splitOption    = new SplitCombo();
     		numericFormat  = new ComputerOptionCombo();
@@ -507,7 +517,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 //			     + name.substring(name.indexOf(','));
 //		}
 
-		return Common.OPTIONS.DEFAULT_COPYBOOK_DIRECTORY.get() + name + ".Xml"
+		return Common.OPTIONS.DEFAULT_COPYBOOK_DIRECTORY.getNoStar() + name + ".Xml"
 			 + SEPERATOR + "2" + SEPERATOR + "0"
 			 + SEPERATOR + "0" + SEPERATOR + "0" + SEPERATOR + "0" + SEPERATOR + "0";
 	}
@@ -530,7 +540,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 	/**
 	 * @return the copybookFile
 	 */
-	public final FileChooser getCopybookFile() {
+	public final FileSelectCombo getCopybookFile() {
 		return copybookFile;
 	}
 

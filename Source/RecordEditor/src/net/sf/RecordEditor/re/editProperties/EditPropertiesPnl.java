@@ -13,6 +13,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.File;
+import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -20,19 +24,26 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JEditorPane;
-import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import net.sf.JRecord.Common.Conversion;
 import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.lang.ReOptionDialog;
+import net.sf.RecordEditor.utils.msg.UtMessages;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BasicGenericPopup;
 import net.sf.RecordEditor.utils.swing.DatePopup;
-import net.sf.RecordEditor.utils.swing.FileChooser;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.swing.Combo.ComboStrOption;
+import net.sf.RecordEditor.utils.swing.filechooser.IFileChooserWrapper;
+import net.sf.RecordEditor.utils.swing.filechooser.JRFileChooserExtendedWrapper;
+import net.sf.RecordEditor.utils.swing.filechooser.JRFileChooserWrapper;
+import net.sf.RecordEditor.utils.swing.filechooser.JRFileChooserWrapperBase;
+import net.sf.RecordEditor.utils.swing.treeCombo.FileTreeComboItem;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboFileSelect;
 
 /**
  * edit a group of related properties
@@ -51,9 +62,13 @@ public class EditPropertiesPnl extends BasePanel {
 	private static final int DIRECTORY   = 6;
 	private static final int DATE_VAL    = 7;
 	private static final int RETRIEVE_APPL_SIZE    = 8;
+	private static final int CHARSET_VAL  = 9;
+	private static final int SINGLE_BYTE_CHARSET_VAL  = 10;
 
 	public static final Integer FLD_EMPTY   = Integer.valueOf(EMPTY_VAL);
 	public static final Integer FLD_TEXT    = Integer.valueOf(STRING_VAL);
+	public static final Integer FLD_CHARSET = Integer.valueOf(CHARSET_VAL);
+	public static final Integer FLD_SINGLE_BYTE_CHARSET = Integer.valueOf(SINGLE_BYTE_CHARSET_VAL);
 	public static final Integer FLD_INT     = Integer.valueOf(INT_VAL);
 	public static final Integer FLD_BOOLEAN = Integer.valueOf(BOOLEAN_VAL);
 	public static final Integer FLD_LIST    = Integer.valueOf(LIST_VAL);
@@ -75,7 +90,7 @@ public class EditPropertiesPnl extends BasePanel {
     private final JComponent[] components;
     private EditParams pgmParams;
 
-
+    
     /**
      * Edit Properties panel. this panel lets the user edit a group of related
      * properties
@@ -84,6 +99,17 @@ public class EditPropertiesPnl extends BasePanel {
      * @param tblData properties details
      */
     public EditPropertiesPnl(final EditParams params, final String description, final Object[][] tblData) {
+    	this(params, description, -1, -1, tblData);
+    }
+
+    /**
+     * Edit Properties panel. this panel lets the user edit a group of related
+     * properties
+     * @param params general program params
+     * @param description description of theproperties to be displayed
+     * @param tblData properties details
+     */
+    public EditPropertiesPnl(final EditParams params, final String description, int splitAt1, int splitAt2, final Object[][] tblData) {
         super();
 
         pgmParams = params;
@@ -92,7 +118,7 @@ public class EditPropertiesPnl extends BasePanel {
         //System.out.println(description);
         tips = new JEditorPane("text/html", description);
 
-        init_100_Fields();
+        init_100_Fields(splitAt1, splitAt2);
 
     }
 
@@ -100,23 +126,38 @@ public class EditPropertiesPnl extends BasePanel {
      * Initialise Fields
      *
      */
-    private void init_100_Fields() {
+    private void init_100_Fields(int splitAt1, int splitAt2) {
 
     	this.setNameComponents(true);
 
-        this.addComponent(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP1,
+        this.addComponentRE(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
+        
+        if (splitAt1 < 0) {
+        	if (tableData.length > 9) {
+        		splitAt1 = 10;
+        	} else if (splitAt2 > 0) {
+        		splitAt1 = splitAt2;
+        		splitAt2 = -1;
+        	}
+        }
 
-        if (tableData.length < 11) {
+        if (splitAt1 < 0) {
         	addOptions(this, 0, tableData.length);
         } else {
          	JPanel p = new JPanel(new BorderLayout());
 
-        	p.add("West", addOptions(new BasePanel(), 0, 10));
-           	p.add("Center", addOptions(new BasePanel(), 10, tableData.length));
-
-            this.addComponent(0, 6, BasePanel.FILL, BasePanel.GAP1,
+        	p.add("West", addOptions(new BasePanel(), 0, splitAt1));
+        	
+        	if (splitAt2 < 0) {
+        		p.add("Center", addOptions(new BasePanel(), splitAt1, tableData.length));
+        	} else {
+        		p.add("Center", addOptions(new BasePanel(), splitAt1, splitAt2));
+        		p.add("East", addOptions(new BasePanel(), splitAt2, tableData.length));
+        	}
+        	
+            this.addComponentRE(0, 6, BasePanel.FILL, BasePanel.GAP1,
     		        BasePanel.FULL, BasePanel.FULL,
     				p);
         }
@@ -126,16 +167,22 @@ public class EditPropertiesPnl extends BasePanel {
 
     	pnl.setNameComponents(true);
         for (int i = st; i < en; i++) {
-            tableData[i][VALUE_COLUMN]
-                         = Parameters.getString(tableData[i][NAME_COLUMN].toString());
+            String s = Parameters.getString(tableData[i][NAME_COLUMN].toString());
+            if (s != null) {
+            	tableData[i][VALUE_COLUMN] = s;
+            }
             if (tableData[i][TYPE_COLUMN] instanceof Integer) {
             	int type = ((Integer) tableData[i][TYPE_COLUMN]).intValue();
             	switch (type) {
             	case EMPTY_VAL:
-            		pnl.addLine(" ", null);
+            		pnl.addLineRE(" ", null);
             		break;
             	case STRING_VAL:
             		addField(pnl, i, new TxtFld(i), null);
+            		break;
+            	case CHARSET_VAL:
+               	case SINGLE_BYTE_CHARSET_VAL:
+           		addField(pnl, i, new CharsetFld(i, type == SINGLE_BYTE_CHARSET_VAL), null);
             		break;
             	case DATE_VAL:
             		addField(pnl, i, new DateFld(i), null);
@@ -151,7 +198,7 @@ public class EditPropertiesPnl extends BasePanel {
              		break;
             	case DIRECTORY:
             		ChooseFileName fn = new ChooseFileName(i);
-            		addField(pnl, i, fn, fn.getChooseFileButton());
+            		addField(pnl, i, fn, null);
              		break;
             	case RETRIEVE_APPL_SIZE:
             		if (i > 1 && components[i - 1] instanceof TxtFld && components[i - 2] instanceof TxtFld) {
@@ -182,7 +229,12 @@ public class EditPropertiesPnl extends BasePanel {
 //    		//System.out.println("Set name: " + prompt.toString() + " " + item.getName());
 //    	}
     	item.setToolTipText(LangConversion.convert(LangConversion.ST_FIELD_HINT, tableData[row][DESCRPTION_COLUMN].toString()));
-    	pnl.addLine(prompt.toString(), item, item2);
+    	
+    	if (item2 == null) {
+    		pnl.addLineRE(prompt.toString(), item);
+    	} else {
+    		pnl.addLineRE(prompt.toString(), item, item2);
+    	}
     	components[row] = item;
     }
 
@@ -243,6 +295,30 @@ public class EditPropertiesPnl extends BasePanel {
 		public void focusGained(FocusEvent arg0) {
 		}
     }
+	
+	private class CharsetFld extends TxtFld  {
+		final boolean singleByte;
+		private CharsetFld(int fldNo, boolean singleByte) {
+			super(fldNo);
+			this.singleByte = singleByte;
+		}
+
+		@Override
+		public void focusLost(FocusEvent arg0) {
+			String charset = super.getText();
+			if (Charset.isSupported(charset)) {
+				if (singleByte && Conversion.isMultiByte(charset)) {
+					ReOptionDialog.showMessageDialog(this, UtMessages.SINGLE_BYTE_FONT.get(charset));
+				} else {
+					super.focusLost(arg0);
+				}
+			} else {
+				ReOptionDialog.showMessageDialog(this, UtMessages.INVALID_FONT.get(charset));
+			}
+		}
+		
+		
+	}
 
 
 	private class DateFld extends BasicGenericPopup implements FocusListener {
@@ -361,13 +437,22 @@ public class EditPropertiesPnl extends BasePanel {
 		}
     }
 
-	private class ChooseFileName extends FileChooser implements FocusListener {
+	private static File[] standardFiles = {
+			new File(Parameters.expandVars("<reproperties>")),
+			new File(Parameters.expandVars("<reproperties>.User"))
+	};
+	private static final IFileChooserWrapper cw = JRFileChooserWrapper.newChooser(null, standardFiles) ;
+	private class ChooseFileName extends TreeComboFileSelect implements FocusListener {
 
 		private int fieldNo;
 		public ChooseFileName(int fldNo) {
-			super(true, "Choose Directory");
+			super(true, true, ((List<FileTreeComboItem>) null), cw, Arrays.asList(standardFiles));
+			//super(true, ((List<FileTreeComboItem>) null), cw, ((List<File>) null));
+			
+			//(true, true, true, null, null);
+			//super(true, "Choose Directory");
 
-			super.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+			//super.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 			super.setExpandVars(true);
     		fieldNo = fldNo;
     		if (tableData[fieldNo][VALUE_COLUMN] == null) {
@@ -397,6 +482,7 @@ public class EditPropertiesPnl extends BasePanel {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	private class Combo extends JComboBox implements FocusListener {
 
 		private int fieldNo;

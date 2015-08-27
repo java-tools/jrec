@@ -139,6 +139,22 @@ public class TstBasicParser extends TestCase {
 			}
 		}
 	}
+	
+	public void testGetFieldList() {
+		BasicCsvLineParser p = BasicCsvLineParser.getInstance();
+		CommonCsvTests.tstGetFieldList("0: ", lines0, p, LINES0_CSV_DEF, 3);
+		CommonCsvTests.tstGetFieldList("1: ", lines1, p, LINES1_CSV_DEF, 3);
+		CommonCsvTests.tstGetFieldList("2: ", lines2, p, LINES2_CSV_DEF, 3);
+		CommonCsvTests.tstGetFieldList("3: ", lines3, p, LINES3_CSV_DEF, 3);
+	}
+	
+	public void testSetFieldList() {
+		BasicCsvLineParser p = BasicCsvLineParser.getInstance();
+		CommonCsvTests.tstSetFieldList("0: ", lines0, p, LINES0_CSV_DEF, 3);
+		CommonCsvTests.tstSetFieldList("1: ", lines1, p, LINES1_CSV_DEF, 3);
+		CommonCsvTests.tstSetFieldList("2: ", lines2, p, LINES2_CSV_DEF, 3);
+		CommonCsvTests.tstSetFieldList("3: ", lines3, p, LINES3_CSV_DEF, 3);
+	}
 
 //	public void testSplit() {
 //		fail("Not yet implemented");

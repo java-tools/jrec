@@ -23,7 +23,7 @@ import net.sf.JRecord.CsvParser.CsvDefinition;
 import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
 import net.sf.JRecord.Log.AbsSSLogger;
-import net.sf.JRecord.Numeric.Convert;
+import net.sf.JRecord.Numeric.ICopybookDialects;
 import net.sf.JRecord.Types.Type;
 
 import org.xml.sax.SAXException;
@@ -50,7 +50,7 @@ import org.xml.sax.SAXException;
  * @author Bruce Martin
  *
  */
-public class RecordEditorCsvLoader implements CopybookLoader {
+public class RecordEditorCsvLoader extends BaseCopybookLoader {
 
     //private static HashMap typeConv = new HashMap();
 
@@ -72,7 +72,7 @@ public class RecordEditorCsvLoader implements CopybookLoader {
             ParserConfigurationException, RecordException {
 
         int rt = Constants.rtRecordLayout;
-        if (binFormat == Convert.FMT_MAINFRAME) {
+        if (binFormat == ICopybookDialects.FMT_MAINFRAME) {
             rt = Constants.rtBinaryRecord;
         }
 

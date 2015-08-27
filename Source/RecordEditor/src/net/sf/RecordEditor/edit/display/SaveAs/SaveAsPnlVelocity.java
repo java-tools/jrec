@@ -10,7 +10,8 @@ import java.io.OutputStreamWriter;
 import net.sf.RecordEditor.re.openFile.RecentFiles;
 import net.sf.RecordEditor.re.script.RunVelocity;
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.params.Parameters;
+import net.sf.RecordEditor.utils.swing.treeCombo.FileSelectCombo;
 
 /**
  * @author Bruce Martin
@@ -23,15 +24,23 @@ public class SaveAsPnlVelocity extends SaveAsPnlBase {
 	 * @param commonSaveAsFields common screen fields
 	 */
 	public SaveAsPnlVelocity(CommonSaveAsFields commonSaveAsFields) {
-		super(commonSaveAsFields, ".html", CommonSaveAsFields.FMT_VELOCITY, RecentFiles.RF_VELOCITY, new FileChooser(true, "get Template"));
+		super(commonSaveAsFields, ".html", CommonSaveAsFields.FMT_VELOCITY, RecentFiles.RF_VELOCITY,
+				new FileSelectCombo(Parameters.VELOCITY_SKELS_LIST, 25, true, false));
+//				new FileChooser(true, "get Template"));
 
-		addHtmlFields(panel);
+		addHtmlFields(panel); 
 
 
         template.setText(Common.OPTIONS.DEFAULT_VELOCITY_DIRECTORY.get());
-        panel.addLine("Velocity Template", template, template.getChooseFileButton());
+        panel.addLineRE("Velocity Template", template);
 
         template.addFcFocusListener(commonSaveAsFields.templateListner);
+//        template.addTextChangeListner(new ChangeListener() {
+//			@Override public void stateChanged(ChangeEvent e) {
+//				SaveAsPnlVelocity.this.commonSaveAsFields.templateListner.focusLost(null);
+//			}
+//		});
+        		//commonSaveAsFields.templateListner);
     }
 
 

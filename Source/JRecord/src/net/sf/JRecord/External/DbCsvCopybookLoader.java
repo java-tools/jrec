@@ -37,7 +37,7 @@ import org.xml.sax.SAXException;
  * @author Bruce Martin
  *
  */
-public class DbCsvCopybookLoader implements CopybookLoader {
+public class DbCsvCopybookLoader extends BaseCopybookLoader {
 
 	private static HashMap<String, Integer> typeConv = new HashMap<String, Integer>();
 	static {

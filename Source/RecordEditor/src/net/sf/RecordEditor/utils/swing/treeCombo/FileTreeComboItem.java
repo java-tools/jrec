@@ -4,7 +4,8 @@ import java.io.File;
 
 
 public class FileTreeComboItem extends TreeComboItem {
-	private String fullname;
+	private final String fullname;
+	public final File theFile;
 
 
 	public FileTreeComboItem(Integer idx, File masterFile, File parentFile, File f) {
@@ -19,6 +20,7 @@ public class FileTreeComboItem extends TreeComboItem {
 		super(idx, s, s);
 
 		fullname = f.getPath();
+		theFile = f;
 	}
 
 	/**
@@ -36,6 +38,7 @@ public class FileTreeComboItem extends TreeComboItem {
 
 		while ( f != null && ! f.equals(parentFile)
 				&& (parentName = f.getName()) != null
+				&&  s.length() + parentName.length() < 45
 				&&  ! "".equals(parentName))  {
 			s.insert(0, parentName + "/");
 			f = f.getParentFile();
@@ -51,8 +54,8 @@ public class FileTreeComboItem extends TreeComboItem {
 		String parentName = null;
 
 		while ( f != null
-			&&  s.length() < 45
 			&& (parentName = f.getName()) != null
+			&&  s.length() + parentName.length() < 45
 			&&  ! "".equals(parentName))  {
 			s.insert(0, parentName + "/");
 			f = f.getParentFile();

@@ -16,13 +16,13 @@ public abstract class BasicLine2Xml {
 	public BasicLine2Xml(String fileName) {
 	   	XMLOutputFactory f ;
 
-    	try {
+//    	try {
     		 f = XMLOutputFactory.newInstance();
-    	} catch (Exception e) {
-    		 Object o =  XMLOutputFactory.newInstance("javax.xml.stream.XMLOutputFactory",
-					  this.getClass().getClassLoader());
-    		 f = (XMLOutputFactory) o;
-		}
+//    	} catch (Exception e) {
+//    		 Object o =  XMLOutputFactory.newInstance("javax.xml.stream.XMLOutputFactory",
+//					  this.getClass().getClassLoader());
+//    		 f = (XMLOutputFactory) o;
+//		}
 
     	try {
     		writer = f.createXMLStreamWriter(new FileOutputStream(fileName));
@@ -52,18 +52,20 @@ public abstract class BasicLine2Xml {
 		if (line != null) {
 			int pref = line.getPreferredLayoutIdx();
 			AbstractRecordDetail rec = line.getLayout().getRecord(pref);
-			int end = rec.getFieldCount();
-			Object value;
-
-			for (int i = 0; i < end; i++) {
-				value = line.getField(pref, i);
-				if (value != null && ! "".equals(value)) {
-					 writer.writeAttribute(fixName(rec.getField(i).getName()), value.toString());
-//					 System.out.println("<<< " + fixName(rec.getField(i).getName())
-//							 + ": " + value.toString());
-
+			if (rec != null) {
+				int end = rec.getFieldCount();
+				Object value;
+	
+				for (int i = 0; i < end; i++) {
+					value = line.getField(pref, i);
+					if (value != null && ! "".equals(value)) {
+						 writer.writeAttribute(fixName(rec.getField(i).getName()), value.toString());
+	//					 System.out.println("<<< " + fixName(rec.getField(i).getName())
+	//							 + ": " + value.toString());
+	
+					}
+	
 				}
-
 			}
 		}
 	}

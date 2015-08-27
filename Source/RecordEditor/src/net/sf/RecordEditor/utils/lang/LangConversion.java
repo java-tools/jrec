@@ -115,7 +115,7 @@ public class LangConversion {
 		return conv.convert(id, s);
 	}
 
-	public static String convertId(int type, String id, String s, Object[] params) {
+	public static String convertId(int type, String id, String s, Object... params) {
 		//put(new TextItem(type, id, s, ""));
 		return MessageFormat.format(convertId(type, id, s), params);
 	}

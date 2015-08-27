@@ -60,7 +60,7 @@ public class ComboSearch extends BaseHelpPanel implements ActionListener, FocusL
 	private void init_100_setupFields(int connectionIdx, boolean showSystem) {
 		ReConnection con = new ReConnection(connectionIdx);
 
-		this.setHelpURL(Common.formatHelpURL(Common.HELP_COMBO_SEARCH));
+		this.setHelpURLre(Common.formatHelpURL(Common.HELP_COMBO_SEARCH));
 
 		if (showSystem) {
 			TableDB tableDb = new TableDB();
@@ -95,17 +95,17 @@ public class ComboSearch extends BaseHelpPanel implements ActionListener, FocusL
 
 	private void init_200_setupScreen(boolean showSystem) {
 
-		addLine("Combo Name", sfName);
+		addLineRE("Combo Name", sfName);
 
 		if (showSystem) {
-			addLine("System", sfSystem);
+			addLineRE("System", sfSystem);
 		} else {
-			addLine("", search);
+			addLineRE("", search);
 		}
 
-		setGap(BasePanel.GAP0);
+		setGapRE(BasePanel.GAP0);
 
-		addComponent(1, 3, BasePanel.FILL, BasePanel.GAP, BasePanel.FULL,
+		addComponentRE(1, 3, BasePanel.FILL, BasePanel.GAP, BasePanel.FULL,
 		        BasePanel.FULL, tblComboList);
 
 	}

@@ -66,7 +66,7 @@ public class TreeParserXml extends BaseLineNodeTreeParser implements AbstractLin
 //							+ line.getFieldValue(XmlConstants.END_ELEMENT).asString());
 					current.add(node);
 					if (! (name.startsWith("XML ") 
-					|| "True".equals(line.getFieldValue(XmlConstants.END_ELEMENT).asString()))) {
+					|| "True".equalsIgnoreCase(line.getFieldValue(XmlConstants.END_ELEMENT).asString()))) {
 						level += 1;
 						node.removeAllChildren();
 						if (level < levels.size()) { 

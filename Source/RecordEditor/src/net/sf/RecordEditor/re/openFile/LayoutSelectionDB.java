@@ -12,7 +12,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.utils.CopyBookInterface;
@@ -23,6 +22,7 @@ import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.msg.UtMessages;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboFileSelect;
 
 
 /**
@@ -77,7 +77,9 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 
 
 		loadDBs();
-		dbCombo.setSelectedIndex(con);
+		if (con < dbCombo.getItemCount()) {
+			dbCombo.setSelectedIndex(con);
+		}
 
 		loadSystems();
 		copyBookInterface.loadLayouts(layouts);
@@ -100,21 +102,21 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 
 
 	/* (non-Javadoc)
-	 * @see net.sf.RecordEditor.utils.layoutSelection.AbstractLayoutSelection#addLayoutSelection(net.sf.RecordEditor.utils.swing.BasePanel, javax.swing.JPanel, javax.swing.JButton, javax.swing.JButton)
+	 * @see net.sf.RecordEditor.re.openFile.AbstractLayoutSelection#addLayoutSelection(net.sf.RecordEditor.utils.swing.BasePanel, net.sf.RecordEditor.utils.swing.treeCombo.TreeComboFileSelect, javax.swing.JPanel, javax.swing.JButton, javax.swing.JButton)
 	 */
 	@Override
-	public void addLayoutSelection(BasePanel pnl, JTextField file, JPanel goPanel, final JButton layoutCreate1,
-     	   final JButton layoutCreate2) {
+	public void addLayoutSelection(BasePanel pnl, TreeComboFileSelect file,
+			JPanel goPanel, JButton layoutCreate1, JButton layoutCreate2) {
 
 		JButton tmpBtn = new JButton("XX");
-		pnl.addLine("Data Base", dbCombo, reload);
-		pnl.addLine("System", systemCombo,tmpBtn);
-		pnl.addLine("Record Layout", layoutCombo, layoutCreate1);
+		pnl.addLineRE("Data Base", dbCombo, reload);
+		pnl.addLineRE("System", systemCombo,tmpBtn);
+		pnl.addLineRE("Record Layout", layoutCombo, layoutCreate1);
 		if (layoutCreate2 != null) {
-		    pnl.addLine("", null, layoutCreate2);
+		    pnl.addLineRE("", null, layoutCreate2);
 		}
-		pnl.setGap(BasePanel.GAP1);
-		pnl.addLine("Description", description, goPanel);
+		pnl.setGapRE(BasePanel.GAP1);
+		pnl.addLineRE("Description", description, goPanel);
 
 		double size = 0;
 		if (goPanel != null) {
@@ -123,7 +125,7 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 			} catch (Exception e) {
 			}
 		}
-		pnl.setHeight(Math.max(BasePanel.NORMAL_HEIGHT * 3 + 3, size));
+		pnl.setHeightRE(Math.max(BasePanel.NORMAL_HEIGHT * 3 + 3, size));
 
 		tmpBtn.setVisible(false);
 	}
@@ -383,6 +385,13 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 	 */
 	@Override
 	public void setDatabaseIdx(int idx) {
+		if (dbCombo != null) {
+			try {
+				dbCombo.setSelectedIndex(idx);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		Common.setConnectionId(idx);
 	}
 

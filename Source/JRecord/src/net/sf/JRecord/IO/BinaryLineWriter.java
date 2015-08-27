@@ -6,9 +6,9 @@
  */
 package net.sf.JRecord.IO;
 
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.math.BigInteger;
 
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Details.AbstractLine;
@@ -22,9 +22,9 @@ import net.sf.JRecord.Details.AbstractLine;
  */
 public class BinaryLineWriter extends AbstractLineWriter {
     private OutputStream outStream = null;
-    private boolean addLength = false,  fixedLength;
+    private boolean  fixedLength;
 
-    private byte[] rdw = new byte[4];
+//    private byte[] rdw = new byte[4];
 
     private int recordLength = Integer.MIN_VALUE;
     private byte fillByte;
@@ -34,12 +34,12 @@ public class BinaryLineWriter extends AbstractLineWriter {
     	return new BinaryLineWriter();
     }
 
-    public static BinaryLineWriter newVBWriter() {
-    	return new BinaryLineWriter(true);
-    }
+//    public static BinaryLineWriter newVBWriter() {
+//    	return new BinaryLineWriter(true);
+//    }
 
 
-    public static BinaryLineWriter newBinaryWriter() {
+    public static BinaryLineWriter newBinary4680Writer() {
     	return new BinaryLineWriter(false);
     }
 
@@ -64,10 +64,10 @@ public class BinaryLineWriter extends AbstractLineWriter {
      */
     private BinaryLineWriter(final boolean includeRDW) {
         super();
-        addLength = includeRDW;
+ //       addLength = includeRDW;
         fixedLength = false;
-        rdw[2]    = 0;
-        rdw[3]    = 0;
+ //       rdw[2]    = 0;
+ //       rdw[3]    = 0;
     }
 
 
@@ -77,7 +77,10 @@ public class BinaryLineWriter extends AbstractLineWriter {
     public void open(OutputStream outputStream) throws IOException {
 
         outStream = outputStream;
-    }
+        if (! (outStream instanceof BufferedOutputStream)) {
+        	outStream = new BufferedOutputStream(outStream);
+        }
+   }
 
 
     /**
@@ -93,7 +96,7 @@ public class BinaryLineWriter extends AbstractLineWriter {
 
         byte[] rec = line.getData();
 
-        if (addLength) {
+/*        if (addLength) {
             byte[] bytes = (BigInteger.valueOf(rec.length + 4)).toByteArray();
 
             rdw[1] = bytes[bytes.length - 1];
@@ -102,7 +105,9 @@ public class BinaryLineWriter extends AbstractLineWriter {
                 rdw[0] = bytes[bytes.length - 2];
             }
             outStream.write(rdw);
-        } else if (fixedLength) {
+        } else */
+        
+        if (fixedLength) {
         	if (recordLength < 0) {
         		recordLength = line.getLayout().getMaximumRecordLength();
 
@@ -112,7 +117,6 @@ public class BinaryLineWriter extends AbstractLineWriter {
         		}
         	}
         	if (recordLength != rec.length) {
-
 	        	if (rec.length > recordLength) {
 	        		outStream.write(rec, 0, recordLength);
 	        	} else {
@@ -122,7 +126,7 @@ public class BinaryLineWriter extends AbstractLineWriter {
 	        			outStream.write(fillByte);
 	        		}
 	        	}
-        	return;
+	        	return;
         	}
         }
 

@@ -458,7 +458,7 @@ public abstract class AbsDB<record extends AbsRecord> {
      * @param operator operator being applied
      * @param val value being checked for
      */
-    protected void setSearchArg(String field, String operator, int val) {
+    public void setSearchArg(String field, String operator, int val) {
 
         sWhere = sWhere + sep + field + operator + val;
         sep = " and ";

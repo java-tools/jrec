@@ -117,12 +117,10 @@ public abstract class BasicTrans implements ITranslation {
 							Set<String> keys = txtItms.keySet();
 							w.open(txtItmFile);
 
-							//System.out.print("Flush: ");
 							for (String key : keys) {
 								w.write(txtItms.get(key).asDelimString(idx++).getBytes());
-								//System.out.print('.');
 							}
-							//System.out.println();
+
 							w.close();
 						} catch (Exception e) {
 							e.printStackTrace();

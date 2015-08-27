@@ -5,6 +5,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +21,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import javax.swing.text.JTextComponent;
+
+import net.sf.RecordEditor.utils.common.Common;
 
 import com.zbluesoftware.java.bm.ArrowButton;
 
@@ -34,6 +39,10 @@ public class ComboLikeObject extends JPanel implements ActionListener {
 
 	private int popupHeight = -1;
 	//protected boolean visible = false;
+	
+	private boolean notifyOfAllUpdates = false;
+	private long popupBecameInvisibleAt = 0;
+	
 	private JPopupMenu currentPopup = null;
 	private PopupMenuListener popupListner = new PopupMenuListener() {
 
@@ -43,6 +52,7 @@ public class ComboLikeObject extends JPanel implements ActionListener {
 
 		@Override
 		public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+			popupBecameInvisibleAt = System.currentTimeMillis();
 		}
 
 		@Override
@@ -50,33 +60,40 @@ public class ComboLikeObject extends JPanel implements ActionListener {
 			highlightItem(currentPopup, false);
 		}
 	};
+	
 
 	private List<ChangeListener> chgListners = new ArrayList<ChangeListener>(5);
+
+	private String lastVal = null;
 
 	public ComboLikeObject() {
 		this(new JPopupMenu());
 	}
 
-	public ComboLikeObject(JButton... btns) {
-		this(new JPopupMenu(), btns);
+	public ComboLikeObject(String txtFldName, JButton... btns) {
+		this(txtFldName, new JPopupMenu(), btns);
 	}
 
 	public ComboLikeObject(JPopupMenu popup) {
-		this(popup, (JButton[]) null);
+		this(null, popup, (JButton[]) null);
 	}
 
 
-	public ComboLikeObject(JPopupMenu popup, JButton... btns) {
-		this(new JTextField(), popup, btns);
+	public ComboLikeObject(String txtFldName, JPopupMenu popup, JButton... btns) {
+		this(new JTextField(), txtFldName, popup, btns);
 	}
 
 
-	public ComboLikeObject(JTextComponent txtComponent, JPopupMenu popup, JButton... btns) {
+	public ComboLikeObject(JTextComponent txtComponent, String fieldName, JPopupMenu popup, JButton... btns) {
 		super();
 
 		valueTxt = txtComponent;
 		buttons = btns;
 		setCurrentPopup(popup);
+		
+		if (fieldName != null) {
+			valueTxt.setName(fieldName);
+		}
 		init(btns);
 	}
 
@@ -100,12 +117,19 @@ public class ComboLikeObject extends JPanel implements ActionListener {
 			p.add(showListBtn);
 
 			//this.add(BorderLayout.EAST, showListBtn);
+//			System.out.println();
+//			System.out.print("==!!==>\t" + showListBtn.getPreferredSize().width);
 			for (JButton btn : btns) {
 				p.add(btn);
-				btn.setBorder(BorderFactory.createEmptyBorder());
+				//if (btn.getPreferredSize().width < showListBtn.getPreferredSize().width) {
+					btn.setPreferredSize(showListBtn.getPreferredSize());
+				//}
+				//btn.setBorder(BorderFactory.createEmptyBorder());
+//				System.out.print("\t" + btn.getPreferredSize().width);
 //				height = Math.max(height, btn.getPreferredSize().height);
 			}
 			this.add(BorderLayout.EAST, p);
+//			System.out.println("~~!!~~>> " + p.getPreferredSize().width);
 //			p.setPreferredSize(new Dimension(p.getPreferredSize().width, height));
 //			System.out.println(" +_+_+_+ " + height + " " + valueTxt.getPreferredSize().height);
 ////			this.setPreferredSize(new Dimension(this.getPreferredSize().width, height));
@@ -114,9 +138,17 @@ public class ComboLikeObject extends JPanel implements ActionListener {
 //					+ " ~ " + p.getPreferredSize().height + " " + p.getPreferredSize().height);
 		}
 
-		this.setBorder(valueTxt.getBorder());
+		if (! Common.NIMBUS_LAF) {
+			this.setBorder(valueTxt.getBorder());
+		}
 		valueTxt.setBorder(BorderFactory.createEmptyBorder());
 		showListBtn.addActionListener(this);
+
+		valueTxt.addFocusListener(new FocusAdapter() {
+			@Override public void focusLost(FocusEvent e) {
+				fireValueChangeListner(null);
+			}
+		});
 	}
 
 	/**
@@ -126,9 +158,10 @@ public class ComboLikeObject extends JPanel implements ActionListener {
 
     	JPopupMenu nm = getPopup();
 
-    	setCurrentPopup(nm);
+        long timeDiff = System.currentTimeMillis() - popupBecameInvisibleAt;
+        setCurrentPopup(nm);
 
-        if (currentPopup.isVisible()) {
+ 		if (currentPopup.isVisible() || (timeDiff > 0 && timeDiff < 650) ) {
         	currentPopup.setVisible(false);
         	highlightItem(currentPopup, false);
         } else {
@@ -189,7 +222,7 @@ public class ComboLikeObject extends JPanel implements ActionListener {
     		}
     		newPopup.addPopupMenuListener(popupListner);
     		this.currentPopup = newPopup;
-    	}
+     	}
 	}
 
 	public JPopupMenu getPopup() {
@@ -234,11 +267,11 @@ public class ComboLikeObject extends JPanel implements ActionListener {
 		}
 	}
 
-	public final void addFileChangeListner(ChangeListener cl) {
+	public final void addTextChangeListner(ChangeListener cl) {
 		chgListners.add(cl);
 	}
 
-	public final void removeFileChangeListner(ChangeListener cl) {
+	public final void removeTextChangeListner(ChangeListener cl) {
 		chgListners.remove(cl);
 	}
 
@@ -259,10 +292,27 @@ public class ComboLikeObject extends JPanel implements ActionListener {
 
 		super.setName(name);
 	}
+
+
 	protected void fireValueChangeListner(ChangeEvent e) {
 
-		for (ChangeListener cl : chgListners) {
-			cl.stateChanged(e);
+		String textVal = valueTxt.getText();
+		if ((lastVal == null || notifyOfAllUpdates || ! lastVal.equals(textVal))) {
+			try {
+				for (int i = 0; i < chgListners.size(); i++) {
+					chgListners.get(i).stateChanged(e);
+				}
+				lastVal = textVal;
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		}
+	}
+
+	/**
+	 * @param notifyOfAllUpdates the notifyOfAllUpdates to set
+	 */
+	public final void setNotifyOfAllUpdates(boolean notifyOfAllUpdates) {
+		this.notifyOfAllUpdates = notifyOfAllUpdates;
 	}
 }

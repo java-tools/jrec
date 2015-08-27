@@ -1,59 +1,65 @@
 package net.sf.RecordEditor.utils.fileStorage;
 
-import java.math.BigInteger;
+import net.sf.RecordEditor.utils.common.Common;
 
 
-public class RecordStoreVariableLength 
-extends RecordStoreBase<RecordStoreVariableLength> {
+public class RecordStoreVariableLength extends RecordStoreBase implements ISimpleRecStore, IDocumentRecordStore {
+	
+//	private static final int INDEX_RECORD = 8;
 
-	private static final int INDEX_RECORD = 16;
 	private int maxLen;
-	private int[] recIndex = null;
+/*	private int[] recIndex = null;
+	private int recIndexValidTo = -1;
+	private int lastLookUpPosition = -11;
+	private int lastLookUpBlockIndex = -1;*/
 	
-	
-	public RecordStoreVariableLength(int length, int recLen, int recs) {
-		super(recs, calcBytes(recLen));
+	protected final RecordIndexMgr ri;
+
+
+	public RecordStoreVariableLength(int length, int recLen, int recordOverhead, int recs) {
+		super(recs, recordOverhead);
 		
+		ri = new RecordIndexMgr(this, recLen, recordOverhead, true);
 		if (length >= 0) {
 			this.store = new byte[length];
 		}
 
 		this.maxLen = Math.max(1, recLen);
 	}
-	
-	private static int calcBytes(int len) {
-		int ret = 1;
-		
-		if (len > 65025) {
-			ret = 3;
-		} else if (len > 255) {
-			ret = 2;
-		}
-		
-		return ret;
-	}
 
 
 	@Override
 	public void add(int idx, byte[] rec) {
-		super.add(idx, rec);
-		size += rec.length + super.lengthSize;
+		byte[] tRec = rec;
+		if (rec.length > ri.maxRecordLength) {
+			tRec = new byte[ri.maxRecordLength]; 
+			System.arraycopy(rec, 0, tRec, 0, ri.maxRecordLength);
+		}
+		super.add(idx, tRec);
+		size += rec.length + super.recordOverhead;
 //		System.out.println("       Add: " + this.hashCode()
 //				+ " > " + idx + " " + super.recordCount
 //				+ " > " + rec.length + " " + size);
-		if (recIndex != null
-		&& ( idx < recordCount - 1
-		 ||  idx % INDEX_RECORD == INDEX_RECORD - 1)) {
-			buildIndex();
-		}
+		ri.checkRecordIndex(idx);
 	}
+	
+	
+
+
+	@Override
+	public void add(int idx, IRecordStore rStore) {
+		
+		super.add(idx, rStore);
+		ri.checkRecordIndex(idx);
+	}
+	
 
 
 	@Override
 	public byte[] getCompressed() {
 		byte[] b = super.getCompressed();
 		if (store == null) {
-			recIndex = null;
+			ri.clear();
 		}
 		return b;
 	}
@@ -63,7 +69,7 @@ extends RecordStoreBase<RecordStoreVariableLength> {
 	public int remove(int idx) {
 		int len = super.remove(idx);
 		size -= len ;
-		buildIndex();
+		ri.resetIndex(idx);
 		
 		return len;
 	}
@@ -71,32 +77,29 @@ extends RecordStoreBase<RecordStoreVariableLength> {
 
 	@Override
 	public void put(int idx, byte[] rec) {
-		LineDtls p = getPosLen(idx, rec.length);
+		LineDtls p = getLinePositionLength(idx, rec.length);
+		int len = Math.min(rec.length, ri.maxRecordLength);
+	
 		
 		if (idx >= recordCount) {
-			size += rec.length + super.lengthSize;
-		} else if (rec.length != p.len) {
-			super.moveData(p.pos + p.len, p.pos + rec.length);
+			size += len + super.recordOverhead;
+//			System.out.print(" +" + idx);
+		} else if (len != p.len) {
+			super.moveData(p.pos + p.len, p.pos + len);
 			
-			if (recIndex != null) {
-				synchronized (recIndex) {
-					int index = idx / INDEX_RECORD;
-					int diff = rec.length - p.len;
-//					System.out.println("Update Index: " + idx + " " 
-//							+ diff + " " + p.len + ">");
-					for (int i = Math.max(0, index); i < recordCount / INDEX_RECORD; i++) {
-						//System.out.print("\t" + i + ": " + recIndex[i]);
-						recIndex[i] += diff;
-					}
-				}
-			}
-			size += rec.length - p.len;
+			ri.adjRecordIndex(idx, len - p.len);
+			
+			size += len - p.len;
 		} 
 //		System.out.println(" put " + this.hashCode() + " " + size + " " 
 //				+ rec.length);
 		
-		put(p, rec);
+		put(p, len, rec);
 	}
+	
+	
+
+	
 //
 //	@Override
 //	public void add(byte[] rec) {
@@ -110,31 +113,42 @@ extends RecordStoreBase<RecordStoreVariableLength> {
 //	}
 	
 	@Override
-	protected void put(LineDtls p, byte[] rec) {
+	protected void put(LineDtls p, byte[] rec) { 
+		put(p, rec.length, rec);
+	}
+	protected void put(LineDtls p, int len, byte[] rec) { 
 //		System.out.println("^^ " + p.index + " -- " + p.pos + " " + p.len + " " + b.length
 //				+ " " + store.length + " " + rec.length);
-		System.arraycopy(rec, 0, store, p.pos, rec.length);
-		addLength(p.pos, rec.length);
+		System.arraycopy(rec, 0, store, p.pos, len);
+		addLength(p.pos, len);
 	}
 	
 	private void addLength(int pos, int length) {
-		byte[] b = BigInteger.valueOf(length).toByteArray();
-	
-		//System.out.println("^^ " + p.index + " -- " + p.pos + " " + p.len + " " + b.length);
-		store[pos-1] = b[b.length - 1];
 		
-		switch (super.lengthSize) {
-		case 3:
-			store[pos-3] = 0;
-			if (b.length > 2) {
-				store[pos-3] = b[b.length - 3];
-			}	
-		case 2:
-			store[pos-2] = 0;
-			if (b.length > 1) {
-				store[pos-2] = b[b.length - 2];
-			}
-		}	
+		
+		switch (super.recordOverhead) {
+		case 4: store[pos-4] = (byte) ((length >>>  24) & 0xFF);
+		case 3: store[pos-3] = (byte) ((length >>>  16) & 0xFF);
+		case 2: store[pos-2] = (byte) ((length >>>  8) & 0xFF);
+		case 1: store[pos-1] = (byte) ((length >>>  0) & 0xFF);
+		}
+//		byte[] b = BigInteger.valueOf(length).toByteArray();
+//	
+//		//System.out.println("^^ " + p.index + " -- " + p.pos + " " + p.len + " " + b.length);
+//		store[pos-1] = b[b.length - 1];
+//		
+//		switch (super.lengthSize) {
+//		case 3:
+//			store[pos-3] = 0;
+//			if (b.length > 2) {
+//				store[pos-3] = b[b.length - 3];
+//			}	
+//		case 2:
+//			store[pos-2] = 0;
+//			if (b.length > 1) {
+//				store[pos-2] = b[b.length - 2];
+//			}
+//		}	
 	}
 
 	
@@ -145,130 +159,111 @@ extends RecordStoreBase<RecordStoreVariableLength> {
 	}
 
 	@Override
-	protected LineDtls getPosLen(int idx, int newLen) {
-		
-		int lastP;
-		int l = super.lengthSize;
-		if (idx >= super.recordCount) {
-			lastP = size;
-			l = 0;
-		} else {
-			int p = 0;
-			int index = idx / INDEX_RECORD - 1;
-			int count = idx % INDEX_RECORD;
-			
-			if (index >= 0) {
-				if (recIndex == null) {
-					buildIndex();
-				}
-			
-				p = recIndex[index];
-			}
-			lastP = p;
-			//System.out.print(" . " + count);
-			for (int i = 0; i <= count; i++) {
-				lastP = p;
-				l = getLength(p);
-				p += l + super.lengthSize;
-			}
-		}
-		
-		return new LineDtls(lastP + super.lengthSize, l, newLen, idx);
+	public LineDtls getLinePositionLength(int idx, int newLen) {
+		return ri.getLinePositionLength(idx, newLen, size);
 	}
 	
-	
-	protected void buildIndex() {
-		if (recordCount < INDEX_RECORD) {
-			return;
-		}
-		int i, l;
-		int j = 0;
-		int k = 0;
-		int p = 0;
-
-		if (recIndex == null || recIndex.length < super.recordCount / INDEX_RECORD) {
-			//System.out.println("Index ");
-			recIndex = new int[Math.max(super.getRecordCount(), store.length / maxLen) / INDEX_RECORD + 10];
-		}
-		
-		synchronized (recIndex) {
-			for (i = 0; i < super.recordCount; i++) {
-				l = getLength(p);
-				p += l + super.lengthSize;
-				
-				//System.out.println(" --> " + j + "\t" + p + "\t" + l);
-				
-				j += 1;
-				if (j >= INDEX_RECORD) {
-					j = 0;
-					if (k < recIndex.length) {
-						recIndex[k++] = p;
-					}
-				}
-			}
-			//System.out.print("$");
-			size = p;
-//			System.out.println(" ==> Size Check: " + this.hashCode()
-//					+ " > "+ p + " " + size + " " + super.getRecordCount());
-			
-//			System.out.print("Rebuilt Index count=" + recordCount + " " + k + " : ");
-//			for (i = 0; i < k; i++) {
-//				System.out.print(i + ": " + recIndex[i] + "\t");
-//			}
-//			System.out.println();
-		}
-
+	@Override
+	public final LineDtls getTextPosition(final int textPos) {
+		return ri.getTextPosition(textPos, size);
 	}
+
 	
-	private int getLength(int p) {
-		byte[] b = {0,0,0,0};
-		
-		if (p+super.lengthSize  > store.length) {
+	public final int getLength(int p) {
+		if (p+super.recordOverhead  > store.length) {
 			return 0;
 		}
-
-		b[4-super.lengthSize] = store[p];
-		if (super.lengthSize == 2) {
-			b[3] = store[p+1];
+		int r = (store[p]) & 0xFF;
+		if (recordOverhead >= 2) {
+			r = (r << 8) + ((store[p+1]) & 0xFF);
+			if (recordOverhead > 2) {
+				r = (r << 8) + ((store[p+2]) & 0xFF);
+			}
 		}
-		if (super.lengthSize > 2) {
-			b[2] = store[p+1];
-			b[3] = store[p+2];
-		}
-		return (new BigInteger(b)).intValue();
+		return r;
+		
+//		byte[] b = {0,0,0,0};
+//		
+//		if (p+super.lengthSize  > store.length) {
+//			return 0;
+//		}
+//
+//		b[4-super.lengthSize] = store[p];
+//		if (super.lengthSize == 2) {
+//			b[3] = store[p+1];
+//		}
+//		if (super.lengthSize > 2) {
+//			b[2] = store[p+1];
+//			b[3] = store[p+2];
+//		}
+//		return (new BigInteger(b)).intValue();
 	}
 
 	@Override
 	public RecordStoreVariableLength[] split(int blockSize) {
-		buildIndex();
-		RecordStoreVariableLength[] ret = new RecordStoreVariableLength[(size -1)  / blockSize + 1];
+		ri.buildIndex();
+		RecordStoreVariableLength[] ret = new RecordStoreVariableLength[ ((size -1)) / (blockSize) + 1];
 		int used = 0;
 		int last = -1;
 		int j = 0;
-		for (int i = 0; i < recordCount / INDEX_RECORD; i++) {
-			if (recIndex[i] - used > blockSize) {
-				ret[j] = new RecordStoreVariableLength(recIndex[i] - used, maxLen, (i - last) * INDEX_RECORD);
-//				System.out.println(" --> " + i + " pos: "+ recIndex[i]
-//				                  + " used: " + used
-//				                  + " Records: " + ((i - last) * INDEX_RECORD)
-//				                  + " From: " + (used - super.lengthSize)
-//				                  + " Length: " + (recIndex[i] - used)
-//				                  + " From Size: " + store.length
-//				                  + " To Size: " + ret[j].store.length);
-				System.arraycopy(store, used, ret[j].store, 0, recIndex[i] - used);
-				ret[j].size = recIndex[i] - used;
-				used = recIndex[i];
+		int max = recordCount / RecordIndexMgr.INDEX_RECORD;
+		for (int i = 0; i < max; i++) {
+			if (ri.get(i) - used > blockSize) {
+				ret[j] = allocateStore(ri.get(i) - used, used, (i - last) * RecordIndexMgr.INDEX_RECORD, ri.get(i) - used);
+//				ret[j] = new RecordStoreVariableLength(recIndex[i] - used, maxLen, (i - last) * INDEX_RECORD);
+////				System.out.println(" --> " + i + " pos: "+ recIndex[i]
+////				                  + " used: " + used
+////				                  + " Records: " + ((i - last) * INDEX_RECORD)
+////				                  + " From: " + (used - super.lengthSize)
+////				                  + " Length: " + (recIndex[i] - used)
+////				                  + " From Size: " + store.length
+////				                  + " To Size: " + ret[j].store.length);
+//				System.arraycopy(store, used, ret[j].store, 0, recIndex[i] - used);
+//				ret[j].size = recIndex[i] - used;
+				used = ri.get(i);
+			
 				last = i;
 				j += 1;
 			}
 		}
 		
+		ri.resetIndex();
+
+		
 		if (used != size) {
 			int l = size - used; 
-			ret[j] = new RecordStoreVariableLength(l, maxLen, recordCount - (last + 1) * INDEX_RECORD);
-			System.arraycopy(store, used, ret[j].store, 0, l);
-			ret[j].size = l;
+			ret[j] = allocateStore(l, used, recordCount - (last + 1) * RecordIndexMgr.INDEX_RECORD, l);
+//			ret[j] = new RecordStoreVariableLength(l, maxLen, recordCount - (last + 1) * INDEX_RECORD);
+//			System.arraycopy(store, used, ret[j].store, 0, l);
+//			ret[j].size = l;
 		}
+		return ret;
+	}
+	
+	public RecordStoreVariableLength[] splitAt(int recNumber) {
+		RecordStoreVariableLength[] ret = new RecordStoreVariableLength[2];
+		LineDtls posLen = getLinePositionLength(recNumber, 0);
+		int cpyLen0 = posLen.pos - super.recordOverhead;
+		int cpyLen1 = size - cpyLen0;
+		int defaultBlkSize = Common.OPTIONS.chunkSize.get();
+		
+		ret[0] = allocateStore(Math.max(defaultBlkSize, cpyLen0), 0,       recNumber,               cpyLen0);
+		ret[1] = allocateStore(Math.max(defaultBlkSize, cpyLen1), cpyLen0, recordCount - recNumber, cpyLen1);
+		
+		return ret;
+	} 
+
+	
+	private RecordStoreVariableLength allocateStore(int bsize, int start, int recCount, int cpyLen) {
+
+		RecordStoreVariableLength ret = new RecordStoreVariableLength(bsize, maxLen, recordOverhead, recCount);
+		                             // new RecordStoreVariableLength(recIndex[i] - used, maxLen, (i - last) * INDEX_RECORD);
+
+		if (cpyLen >= 0) {
+			System.arraycopy(store, start, ret.store, 0, cpyLen);
+		}
+		ret.size = cpyLen;
+		
 		return ret;
 	}
 }

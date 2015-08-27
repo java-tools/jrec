@@ -28,12 +28,16 @@ public class ExportScriptPopup extends FilePopup implements Runnable {
 	 */
 	@Override
 	public void run() {
-		fileList = getActions(
-						fileList, 
-						dir, 
-						ReActionHandler.EXPORT_SCRIPT,
-						"(Run Script)",
-						new net.sf.RecordEditor.re.script.ScriptMgr());
+		try {
+			fileList = getActions(
+							fileList, 
+							dir, 
+							ReActionHandler.EXPORT_SCRIPT,
+							"(Run Script)",
+							new net.sf.RecordEditor.re.script.ScriptMgr());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 

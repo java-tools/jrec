@@ -1,7 +1,12 @@
 package net.sf.JRecord.Common;
 
-
-public interface AbstractRecordX<FieldDefinition extends IFieldDetail> extends AbstractRecord {
+/**
+ * Extended Abstract Record (Record-Schema)  where you can get the Field Definition and Field Count
+ * @author Bruce Martin
+ *
+ * @param <FieldDefinition>
+ */
+public interface AbstractRecordX<FieldDefinition extends IFieldDetail> extends AbstractRecord, IGetFieldByName {
 
 	/**
 	 * Get a specific field definition
@@ -26,5 +31,12 @@ public interface AbstractRecordX<FieldDefinition extends IFieldDetail> extends A
 	 * @return index of the record
 	 */
 	public abstract FieldDefinition getField(String fieldName);
+
+	/**
+	 * Get a field (by group names / field name
+	 * @param fieldNames
+	 * @return
+	 */
+	public abstract IFieldDetail getGroupField(String... fieldNames);
 
 }

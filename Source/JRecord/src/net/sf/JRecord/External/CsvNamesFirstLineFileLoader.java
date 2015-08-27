@@ -15,7 +15,7 @@ import net.sf.JRecord.Log.AbsSSLogger;
  * @author Bruce Martin
  *
  */
-public class CsvNamesFirstLineFileLoader implements CopybookLoader {
+public class CsvNamesFirstLineFileLoader extends BaseCopybookLoader {
 
 	private String fieldSeperator = ",";
 	

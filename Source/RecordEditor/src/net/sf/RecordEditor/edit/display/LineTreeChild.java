@@ -22,6 +22,7 @@ import net.sf.RecordEditor.re.tree.LineNode;
 import net.sf.RecordEditor.re.tree.LineNodeChild;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
+import net.sf.RecordEditor.utils.fileStorage.IDataStore;
 import net.sf.RecordEditor.utils.fileStorage.DataStoreStd;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.ReAction;
@@ -78,6 +79,12 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 		parentFrame.setVisible(true);
 	}
 
+
+
+	@Override
+	public boolean isOkToUseSelectedRows() {
+		return false;
+	}
 
 
 	/**
@@ -300,29 +307,30 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 	}
 
 	private void execute_100_Copy() {
-		int[] selRows = treeTable.getSelectedRows();
-		if (selRows != null && selRows.length > 0) {
-			TreePath treePath;
-			int i, j;
 
-			AbstractLine[] lines = new AbstractLine[selRows.length];
-			j = 0;
-			for (i = 0; i < selRows.length; i++) {
-				treePath = treeTable.getPathForRow(selRows[i]);
-				lines[j] = ((AbstractLineNode) treePath.getLastPathComponent()).getLine();
-				if (lines[j] != null) {
-					j += 1;
+		 new Thread(new Runnable() {
+			@Override public void run() {
+				int[] selRows = treeTable.getSelectedRows();
+				if (selRows != null && selRows.length > 0) {
+					TreePath treePath;
+					int i;
+		
+					IDataStore<AbstractLine> lines = view.newDataStore(selRows.length > 2000, selRows.length, 1, null, null);
+					
+					AbstractLine l;
+		
+					for (i = 0; i < selRows.length; i++) {
+						treePath = treeTable.getPathForRow(selRows[i]);
+						l = ((AbstractLineNode) treePath.getLastPathComponent()).getLine();
+						if (l != null) {
+							lines.add(l.getNewDataLine());
+						}
+					}
+		
+					FileView.setCopyRecords(lines);
 				}
 			}
-
-			if (j != lines.length) {
-				AbstractLine[] temp = lines;
-				lines = new AbstractLine[j];
-				System.arraycopy(temp, 0, lines, 0, j);
-			}
-
-			FileView.setCopyRecords(lines);
-		}
+		 }).start();
 	}
 
 

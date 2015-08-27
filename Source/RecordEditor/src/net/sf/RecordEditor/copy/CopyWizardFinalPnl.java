@@ -21,8 +21,8 @@ import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.treeCombo.FileSelectCombo;
 import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 
 /**
@@ -32,8 +32,11 @@ import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 @SuppressWarnings("serial")
 public class CopyWizardFinalPnl extends BaseHelpPanel implements AbstractWizardPanel<CopyDefinition> {
 
-	private FileChooser saveFileName   = new FileChooser(false);
-	private FileChooser fieldErrorFile = new FileChooser(false);
+//	private static final ArrayList<FileTreeComboItem> ERROR_FILE_LIST = new ArrayList<FileTreeComboItem>();
+
+	private FileSelectCombo saveFileName   = new FileSelectCombo(Parameters.SAVED_COPY_LIST, 25, true, false, true);
+	private FileSelectCombo fieldErrorFile = new FileSelectCombo(Parameters.ERROR_FILES, 8, false, false, true);
+			//new TreeComboFileSelect(false, false, true, ERROR_FILE_LIST);
 	private JTextField  maxErrors      = new JTextField();
 
 	private AbstractLayoutSelection selection;
@@ -85,28 +88,29 @@ public class CopyWizardFinalPnl extends BaseHelpPanel implements AbstractWizardP
 		selection = layoutSelection ;
 		selection2 = layoutSelection2;
 
-		saveFileName.setDefaultDirectory(Parameters.getFileName(Parameters.COMPARE_SAVE_DIRECTORY));
+		saveFileName.setText(Parameters.getFileName(Parameters.COPY_SAVE_DIRECTORY));
+		saveFileName.setDefaultDirectory(Parameters.getFileName(Parameters.COPY_SAVE_DIRECTORY));
 
 		saveBtn.addActionListener(btnAction);
 		runBtn.addActionListener(btnAction);
 
-		super.setHelpURL(Common.formatHelpURL(Common.HELP_DIFF_SL));
+		super.setHelpURLre(Common.formatHelpURL(Common.HELP_DIFF_SL));
 
-		super.addLine("Save File", saveFileName, saveFileName.getChooseFileButton());
-		super.setGap(BasePanel.GAP1);
-		super.addLine("Field Error File", fieldErrorFile, fieldErrorFile.getChooseFileButton());
-		super.addLine("Max Error Limit", maxErrors);
-		super.setGap(BasePanel.GAP1);
-		super.addLine("", stripTrailingSpaces);
-		super.addLine("", pnl);
-		super.setHeight(BasePanel.GAP5);
+		super.addLineRE("Save File", saveFileName);
+		super.setGapRE(BasePanel.GAP1);
+		super.addLineRE("Field Error File", fieldErrorFile);
+		super.addLineRE("Max Error Limit", maxErrors);
+		super.setGapRE(BasePanel.GAP1);
+		super.addLineRE("", stripTrailingSpaces);
+		super.addLineRE("", pnl);
+		super.setHeightRE(BasePanel.GAP5);
 
-		super.addLine("", null, saveBtn);
-		super.setGap(BasePanel.GAP0);
-		super.addLine("", null, runBtn);
-		super.setGap(BasePanel.GAP2);
-		super.addMessage();
-		super.setHeight(BasePanel.HEIGHT_1P6);
+		super.addLineRE("", null, saveBtn);
+		super.setGapRE(BasePanel.GAP0);
+		super.addLineRE("", null, runBtn);
+		super.setGapRE(BasePanel.GAP2);
+		super.addMessageRE();
+		super.setHeightRE(BasePanel.HEIGHT_1P6);
 	}
 
 
@@ -141,7 +145,7 @@ public class CopyWizardFinalPnl extends BaseHelpPanel implements AbstractWizardP
 			} catch (Exception e) {
 				String em = LangConversion.convert("Invalid max errors value: ") + e.getMessage();
 
-				super.setMessageRawTxt(em);
+				super.setMessageRawTxtRE(em);
 				copyDetail.maxErrors = -1;
 				throw new RuntimeException(em, e);
 			}
@@ -197,14 +201,14 @@ public class CopyWizardFinalPnl extends BaseHelpPanel implements AbstractWizardP
 
 			toRun = false;
 			if (ok) {
-				setMessageTxt("Copy Done !!!");
+				setMessageTxtRE("Copy Done !!!");
 			} else {
-				setMessageTxt("Copy Done !!!, check log for errors");
+				setMessageTxtRE("Copy Done !!!, check log for errors");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			Common.logMsg("Copy Failed:", e);
-			setMessageTxt("Copy Failed:", e.getMessage());
+			setMessageTxtRE("Copy Failed:", e.getMessage());
 		}
 	}
 

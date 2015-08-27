@@ -83,41 +83,60 @@ public class Menu extends ReFrame
 	 * @param parentFrame parent frame
 	 */
 	public Menu(final JFrame parentFrame)  {
+		this(parentFrame, null);
+	}
+	
+
+	/**
+	 * display a menu of actions to the user
+	 *
+	 * @param parentFrame parent frame
+	 */
+	public Menu(final JFrame parentFrame, String dbName)  {
+
 		super("Menu");
 
 		this.parent = parentFrame;
 
 		loadDBs();
 		dbCombo.setSelectedIndex(Common.getConnectionIndex());
+		if (dbName != null && dbName.length() > 0) {
+			for (int i = 0; i < dbCombo.getItemCount(); i++) {
+				if (dbName.equalsIgnoreCase(dbCombo.getItemAt(i).toString())) {
+					dbCombo.setSelectedIndex(i);
+					break;
+				}
+			}
+		}
 
 		pnl.setVerticalGap(BasePanel.VG_GAP2, HELP_GAP);
 
-		pnl.setHelpURL(Common.formatHelpURL(Common.HELP_MENU));
-		pnl.addLine("Data Base", dbCombo, btnHelp);
-		pnl.setGap(BasePanel.GAP2);
+		pnl.setHelpURLre(Common.formatHelpURL(Common.HELP_MENU));
+		pnl.addLineRE("Data Base", dbCombo, btnHelp);
+		pnl.setGapRE(BasePanel.GAP2);
 
-		pnl.addMenuItem("Edit Record Layout", editRecLayout);
-		pnl.addMenuItem("Create Record Layout", createRecLayout);
-		pnl.addMenuItem("Create Record Layout Wizard", createWizard);
-		pnl.setGap(BasePanel.GAP1);
+		pnl.addMenuItemRE("Edit Record Layout", editRecLayout);
+		pnl.addMenuItemRE("Create Record Layout", createRecLayout);
+		pnl.addMenuItemRE("Create Record Layout Wizard", createWizard);
+		pnl.setGapRE(BasePanel.GAP1);
 
-		pnl.addMenuItem("Edit Tables", tables);
+		pnl.addMenuItemRE("Edit Tables", tables);
 
-		pnl.setGap(BasePanel.GAP1);
-		pnl.addMenuItem("Edit Combos", comboEdit);
-		pnl.addMenuItem("Create Combo", comboCreate);
+		pnl.setGapRE(BasePanel.GAP1);
+		pnl.addMenuItemRE("Edit Combos", comboEdit);
+		pnl.addMenuItemRE("Create Combo", comboCreate);
 
-		pnl.setGap(BasePanel.GAP1);
+		pnl.setGapRE(BasePanel.GAP1);
 		if (CobolCopybookLoader.isAvailable()) {
-		    pnl.addMenuItem("Load Cobol Copybook", cobolCopyBook);
+		    pnl.addMenuItemRE("Load Cobol Copybook", cobolCopyBook);
 		    cobolCopyBook.addActionListener(this);
 		}
-		pnl.addMenuItem("Load copybook (choose format)", xmlCopyBook);
-		pnl.addMenuItem("Copy copybooks", copyLayouts);
+		pnl.addMenuItemRE("Load copybook (choose format)", xmlCopyBook);
+		pnl.addMenuItemRE("Copy copybooks", copyLayouts);
 
-		pnl.setGap(BasePanel.GAP2);
-		pnl.addMenuItem("Upgrade Database Tables", upgrade);
-		pnl.setGap(BasePanel.GAP2);
+		pnl.setGapRE(BasePanel.GAP2);
+		pnl.addMenuItemRE("Upgrade Database Tables", upgrade);
+		pnl.setGapRE(BasePanel.GAP2);
 
 		btnHelp.addActionListener(this);
 		editRecLayout.addActionListener(this);
@@ -160,7 +179,7 @@ public class Menu extends ReFrame
 		} else if (e.getSource() == createWizard) {
             new Wizard(dbCombo.getSelectedIndex(), "", null);
 		} else if (e.getSource() == btnHelp) {
-		    pnl.showHelp();
+		    pnl.showHelpRE();
 		} else if (e.getSource() == tables) {
 			new TblEdit(lDBid, parent, dbCombo.getSelectedIndex());
 		} else if (e.getSource() == comboEdit) {
@@ -202,7 +221,7 @@ public class Menu extends ReFrame
     public void executeAction(int action) {
 
         if (action == ReActionHandler.HELP) {
-            pnl.showHelp();
+            pnl.showHelpRE();
         }
         //super.executeAction(action);
     }

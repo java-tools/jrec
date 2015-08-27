@@ -12,9 +12,10 @@ import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.LineProvider;
 import net.sf.JRecord.External.CobolCopybookLoader;
 import net.sf.JRecord.External.CopybookLoader;
+import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.ToLayoutDetail;
 import net.sf.JRecord.External.Def.AbstractConversion;
-import net.sf.JRecord.Numeric.Convert;
+import net.sf.JRecord.Numeric.ICopybookDialects;
 
 
 /**
@@ -64,7 +65,7 @@ public class CobolIoProvider {
         return getLineReader(fileStructure,
  			   numericType, splitOption,
 			   copybookName, filename,
-			   LineIOProvider.getInstance().getLineProvider(fileStructure));
+			   null);
     }
 
     /**
@@ -91,18 +92,22 @@ public class CobolIoProvider {
      throws Exception {
     	AbstractLineReader ret;
         String font = "";
-        if (numericType == Convert.FMT_MAINFRAME) {
+        if (numericType == ICopybookDialects.FMT_MAINFRAME) {
             font = "cp037";
         }
-       	LayoutDetail copyBook = ToLayoutDetail.getInstance().getLayout(
-       	     copybookInt.loadCopyBook(
-                        copybookName,
-                        splitOption, AbstractConversion.USE_DEFAULT_IDX, font,
-                        numericType, 0, null
-                ));
+       	ExternalRecord schemaBldr = copybookInt.loadCopyBook(
+		            copybookName,
+		            splitOption, AbstractConversion.USE_DEFAULT_IDX, font,
+		            numericType, 0, null
+		    );
+       	schemaBldr.setFileStructure(fileStructure);
+		LayoutDetail copyBook = ToLayoutDetail.getInstance().getLayout(schemaBldr);
 
+       	if (provider == null) {
+       		provider = LineIOProvider.getInstance().getLineProvider(copyBook);
+       	}
        	ret = LineIOProvider.getInstance()
-       				.getLineReader(fileStructure, provider);
+       				.getLineReader(copyBook, provider);
        	ret.open(filename, copyBook);
 
        	return ret;

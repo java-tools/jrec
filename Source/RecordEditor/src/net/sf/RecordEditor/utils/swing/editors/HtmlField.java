@@ -19,7 +19,7 @@ public class HtmlField extends ComboLikeObject implements TextRender {
 	private int lastRow, lastCol;
 
 	public HtmlField() {
-		super(new JTextArea(), new JPopupMenu(), (JButton[]) null);
+		super(new JTextArea(), null, new JPopupMenu(), (JButton[]) null);
 	}
 
 

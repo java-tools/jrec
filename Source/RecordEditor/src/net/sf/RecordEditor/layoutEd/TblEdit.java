@@ -181,7 +181,7 @@ public class TblEdit extends ReFrame {
 										dbTblListModel.getRecord(0),
 										connectionId);
 
-		pnlTableList.registerComponent(tblTableList);
+		pnlTableList.registerComponentRE(tblTableList);
 		pnlTableList.setMinimumSize(new Dimension(400, 50));
 	}
 
@@ -237,7 +237,7 @@ public class TblEdit extends ReFrame {
     public void executeAction(int action) {
 
         if (action == ReActionHandler.HELP) {
-            pnlTableList.showHelp();
+            pnlTableList.showHelpRE();
         } else {
             pnlTableList.getLinesActionHandler().executeAction(action);
         }

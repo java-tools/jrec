@@ -12,8 +12,10 @@ import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.re.util.wizard.AbstractFilePnl;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.treeCombo.FileSelectCombo;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboFileSelect;
 import net.sf.RecordEditor.utils.wizards.AbstractWizard;
 import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 
@@ -126,8 +128,10 @@ public class Copy2Velocity extends AbstractWizard<CopyDefinition> {
 
 		private CopyDefinition values = new net.sf.RecordEditor.jibx.compare.CopyDefinition();
 //		private JPanel goPanel = new JPanel();
-		private FileChooser newFileName = new FileChooser();
-		private FileChooser velocityTemplateFile = new FileChooser();
+//		private FileChooser newFileName = new FileChooser();
+		private TreeComboFileSelect newFileName = new TreeComboFileSelect(true, false, true, getRecentList(), getRecentDirectoryList());
+		private FileSelectCombo velocityTemplateFile 
+					= new FileSelectCombo(Parameters.VELOCITY_SKELS_LIST, 25, true, false);
 
 		private AbstractLayoutSelection layoutSelection1;
 
@@ -137,11 +141,12 @@ public class Copy2Velocity extends AbstractWizard<CopyDefinition> {
 			super(selection1, "CobolFiles.txt");
 
 			layoutSelection1 = selection1;
-			newFileName.setDefaultDirectory(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());
-			velocityTemplateFile.setDefaultDirectory(Common.OPTIONS.DEFAULT_VELOCITY_DIRECTORY.get());
+			newFileName.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.getWithStar());
+//			newFileName.setDefaultDirectory(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());
+			velocityTemplateFile.setText(Common.OPTIONS.DEFAULT_VELOCITY_DIRECTORY.get());
 
 
-			setHelpURL(Common.formatHelpURL(Common.HELP_DIFF_SL));
+			setHelpURLre(Common.formatHelpURL(Common.HELP_DIFF_SL));
 		}
 
 
@@ -191,17 +196,18 @@ public class Copy2Velocity extends AbstractWizard<CopyDefinition> {
 		@Override
 		protected void addFileName(BaseHelpPanel pnl) {
 
-			pnl.addLine("Old File", fileName, fileName.getChooseFileButton());
-			pnl.addLine("New File", newFileName, newFileName.getChooseFileButton());
+			pnl.addLineRE("Old File", fileName);
+//			pnl.addLine("New File", newFileName, newFileName.getChooseFileButton());
+			pnl.addLineRE("New File", newFileName);
 		}
 
 		@Override
 		protected void addLayoutSelection() {
 
 			layoutSelection1.addLayoutSelection(this, fileName, new JPanel(), null, null);
-			this.setGap(GAP3);
-			this.addLine("Velocity Template", velocityTemplateFile, velocityTemplateFile.getChooseFileButton());
-			this.setGap(GAP3);
+			this.setGapRE(GAP3);
+			this.addLineRE("Velocity Template", velocityTemplateFile);
+			this.setGapRE(GAP3);
 		}
 	}
 

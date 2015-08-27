@@ -11,7 +11,7 @@ import net.sf.JRecord.Log.AbsSSLogger;
 
 import org.xml.sax.SAXException;
 
-public class XmlFileLoader implements CopybookLoader {
+public class XmlFileLoader extends BaseCopybookLoader {
 
 	/**
 	 * @see net.sf.JRecord.External.CopybookLoader#loadCopyBook(java.lang.String, int, int, java.lang.String, int, int, net.sf.JRecord.Log.AbsSSLogger)

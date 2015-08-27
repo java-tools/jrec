@@ -314,7 +314,7 @@ public class LineFrameTree extends  BaseLineFrame implements ILineDisplay {
 
 		AbstractLine l = record.getCurrentLine();
 	    btnPanel.buttons[IDX_START].setEnabled(true);
-		if (l== null) {
+		if (l== null || fileView == null) {
 		    btnPanel.buttons[IDX_PREV].setEnabled(false);
 		    btnPanel.buttons[IDX_PARENT].setEnabled(false);
 		    btnPanel.buttons[IDX_CHILD].setEnabled(false);
@@ -328,6 +328,7 @@ public class LineFrameTree extends  BaseLineFrame implements ILineDisplay {
 		    btnPanel.buttons[IDX_PARENT].setEnabled(parent != null);
 		    btnPanel.buttons[IDX_CHILD].setEnabled(l.getTreeDetails().getChildCount() > 0);
 		    btnPanel.buttons[IDX_NEXT].setEnabled(l != nextLine(l) || (changeParent && fileView.getLine(rowCount-1) != l));
+			
 		}
 	    btnPanel.buttons[IDX_LAST].setEnabled(true);
 	}
@@ -392,10 +393,10 @@ public class LineFrameTree extends  BaseLineFrame implements ILineDisplay {
 		AbstractLine prev = l;
 		AbstractLine parent =  l.getTreeDetails().getParentLine();
 		if (parent != null) {
-			AbstractTreeDetails children =parent.getTreeDetails();
+			AbstractTreeDetails children = parent.getTreeDetails();
 
 			for (int i = 0; i < children.getChildCount(); i++) {
-				List<AbstractLine> list = children.getLines(i);
+				List<? extends AbstractLine> list = children.getLines(i);
 				for (AbstractLine line : list) {
 					if (line == l) {
 						return prev;

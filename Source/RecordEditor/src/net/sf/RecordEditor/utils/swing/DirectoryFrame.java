@@ -72,7 +72,7 @@ public class DirectoryFrame extends ReFrame {
 		}
 		//fileChooser.setControlButtonsAreShown(false);
 
-		panel.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP1,
+		panel.addComponentRE(1, 5, BasePanel.FILL, BasePanel.GAP1,
 		         BasePanel.FULL, BasePanel.FULL,
 		         fileChooser);
 
@@ -82,7 +82,7 @@ public class DirectoryFrame extends ReFrame {
 
         if (displayMsg) {
         	JTextArea msgTxt = new JTextArea();
-        	panel.setGap(BasePanel.GAP1);
+        	panel.setGapRE(BasePanel.GAP1);
         	panel.addMessage(msgTxt);
 
         	SwingUtils.addKeyListnerToContainer(msgTxt, keyListner);

@@ -179,20 +179,20 @@ public class EditDateTypes extends BasePanel {
     */
    private void init_200_Screen() {
 
-		this.addComponent(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP2,
+		this.addComponentRE(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP2,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
 
-		this.addComponent(1, 5, TABLE_HEIGHT, BasePanel.GAP0,
+		this.addComponentRE(1, 5, TABLE_HEIGHT, BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(typeTbl));
 
-		this.addLine("Source Name", name);
-		this.addLine("Base Type", typeName);
-		this.addLine("Date Format", dateFormat);
+		this.addLineRE("Source Name", name);
+		this.addLineRE("Base Type", typeName);
+		this.addLineRE("Date Format", dateFormat);
 
-		this.setGap(BasePanel.GAP2);
-		this.addMessage();
+		this.setGapRE(BasePanel.GAP2);
+		this.addMessageRE();
    }
 
    /**
@@ -242,9 +242,9 @@ public class EditDateTypes extends BasePanel {
            try {
 //               System.out.println("~~ " + format);
                SimpleDateFormat sd = new SimpleDateFormat(format);
-               setMessageTxt("25.Dec.98 will be formatted as " + sd.format(xmas));
+               setMessageTxtRE("25.Dec.98 will be formatted as " + sd.format(xmas));
            } catch (Exception e) {
-        	   setMessageTxt("Date Format Error: " + e.getMessage());
+        	   setMessageTxtRE("Date Format Error: " + e.getMessage());
            }
        }
    }

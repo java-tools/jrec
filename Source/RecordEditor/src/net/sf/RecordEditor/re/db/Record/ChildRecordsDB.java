@@ -1,7 +1,10 @@
 package net.sf.RecordEditor.re.db.Record;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.utils.common.Common;
@@ -41,7 +44,10 @@ public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 		, "Tree Parent"
 	});
 
-
+	private static final String selectParentSql
+			= "Select RecordId from " + DB_NAME 
+			+ " where Child_Record=";
+			
 	private PreparedStatement delAllChildRecords = null;
 
 	private int paramRecordId;
@@ -275,18 +281,24 @@ public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 	 */
 	public void deleteAll() {
 
-		try {
-			if (isPrepareNeeded(delAllChildRecords)) {
-				delAllChildRecords = connect.getUpdateConnection().prepareStatement(
-						"Delete From  " + DB_NAME
-						+  " Where RecordId= ? "
-						);
-			}
-
-			delAllChildRecords.setInt(1, paramRecordId);
-
-			delAllChildRecords.executeUpdate();
-			message = "";
+		try {	
+			open();
+	    	boolean doDelete = fetch() != null;
+	    	close();
+	    	
+	    	if (doDelete) {
+				if (isPrepareNeeded(delAllChildRecords)) {
+					delAllChildRecords = connect.getUpdateConnection().prepareStatement(
+							"Delete From  " + DB_NAME
+							+  " Where RecordId= ? "
+							);
+				}
+	
+				delAllChildRecords.setInt(1, paramRecordId);
+	
+				delAllChildRecords.executeUpdate();
+				message = "";
+	    	}
 		} catch (Exception ex) {
 			setMessage(ex.getMessage(), ex);
 		} finally {
@@ -338,4 +350,36 @@ public class ChildRecordsDB  extends AbsDB<ChildRecordsRec> {
 
 	}
 
+	
+	public List<Integer> getRecordsThatUse(int childRecordId) {
+		String selectSql  = selectParentSql + childRecordId;
+		ArrayList<Integer> ret = new ArrayList<Integer>();
+		PreparedStatement cursor = null;
+		ResultSet rs = null;
+
+		try {
+			cursor = connect.getConnection().prepareStatement(selectSql);
+			rs = cursor.executeQuery();
+			while (rs.next()) {
+				ret.add(rs.getInt(1));
+			}
+		} catch (Exception e) {
+			Common.logMsg(selectSql, null);
+			Common.logMsg(AbsSSLogger.ERROR, "Read Failed:", e.getClass().getName() + " " + e.getMessage(), e);
+			e.printStackTrace();
+		} finally {
+			if (cursor != null) {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					cursor.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return ret;
+	}
 }

@@ -18,7 +18,7 @@ import javax.swing.JEditorPane;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.treeCombo.JarFileSelect;
 
 /**
  *
@@ -70,7 +70,7 @@ public class EditIcons extends BasePanel implements ActionListener {
 
     private JComboBox looks  = new JComboBox(ICON_NAMES);
     private JCheckBox usePng = new JCheckBox();
-    private FileChooser jarName  = new FileChooser();
+    private JarFileSelect jarName  = new JarFileSelect(true, null);
 
     private EditParams pgmParams;
 
@@ -126,16 +126,16 @@ public class EditIcons extends BasePanel implements ActionListener {
      */
     private void init_200_ScreenBuild() {
 
-		this.addComponent(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP2,
+		this.addComponentRE(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP2,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
 
-        this.addLine("Icon Set", looks);
-        this.setGap(BasePanel.GAP1);
-		this.addLine("Look for png icons", usePng);
-        this.setGap(BasePanel.GAP1);
+        this.addLineRE("Icon Set", looks);
+        this.setGapRE(BasePanel.GAP1);
+		this.addLineRE("Look for png icons", usePng);
+        this.setGapRE(BasePanel.GAP1);
 
-        this.addLine("Zip/Jar File", jarName, jarName.getChooseFileButton());
+        this.addLineRE("Zip/Jar File", jarName); 
     }
 
     /**

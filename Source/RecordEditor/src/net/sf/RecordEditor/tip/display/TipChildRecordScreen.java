@@ -36,7 +36,7 @@ public class TipChildRecordScreen extends BaseDisplay implements IChildScreen {
 		super("Single PO Record", viewOfFile, false, false, false, false, false,
 				NO_LAYOUT_LINE);
 
-		splitPane = new SplitPaneRecord(viewOfFile, lineNo);
+		splitPane = new SplitPaneRecord(NO_CLOSE_ACTION_PNL, viewOfFile, lineNo);
 
 		if (position == AbstractCreateChildScreen.CS_BOTTOM) {
 			splitPane.setFields(new PaneDtls[] {
@@ -48,20 +48,19 @@ public class TipChildRecordScreen extends BaseDisplay implements IChildScreen {
 			splitPane.setFields(new PaneDtls[] {
 					new PaneDtls(NAME_STR, TipField.name, nameTxt),
 					new PaneDtls(DESCRIPTION_STR, TipField.description, descriptionTxt, 0.25),
-					new PaneDtls(HTML_STR, TipField.description, htmlEdt, 0, true, 0.25),
+					new PaneDtls(HTML_STR, TipField.description, htmlEdt, 0, PaneDtls.IS_HTML, 0.25),
 				}, null);
 		}
 		setJTable(new JTable());
 
 		init_200_layoutScreen();
-
 	}
 
 	private void init_200_layoutScreen() {
 
 		splitPane.layoutFieldPane();
 
-		actualPnl.addComponent(1, 3, BasePanel.FILL, BasePanel.GAP,
+		actualPnl.addComponentRE(1, 3, BasePanel.FILL, BasePanel.GAP,
                 BasePanel.FULL, BasePanel.FULL, splitPane.splitPane);
 		actualPnl.done();
 
@@ -130,8 +129,4 @@ public class TipChildRecordScreen extends BaseDisplay implements IChildScreen {
 	protected BaseDisplay getNewDisplay(FileView view) {
 		return null; //new TipSingleRecordScreen(view, 0, AbstractCreateChildScreen.CS_RIGHT);
 	}
-
-
-
-
 }

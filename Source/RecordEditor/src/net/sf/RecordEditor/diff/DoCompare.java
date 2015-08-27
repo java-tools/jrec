@@ -7,7 +7,7 @@ import jlibdiff.Diff;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.jibx.compare.DiffDefinition;
-import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
+import net.sf.RecordEditor.re.openFile.ISchemaProvider;
 import net.sf.RecordEditor.utils.common.Common;
 
 
@@ -25,8 +25,8 @@ public class DoCompare  {
 	 *
 	 * @throws Exception any error
 	 */
-	public final void compare(AbstractLayoutSelection layoutReader,
-			AbstractLayoutSelection layoutReader2, DiffDefinition def)
+	public final void compare(ISchemaProvider layoutReader,
+			ISchemaProvider layoutReader2, DiffDefinition def)
 	throws Exception {
 
 		if (DiffDefinition.TYPE_SINGLE_LAYOUT.equals(def.type)) {
@@ -49,14 +49,14 @@ public class DoCompare  {
 	 *
 	 * @throws Exception any error
 	 */
-	public final void writeHtml(AbstractLayoutSelection layoutReader,
-			AbstractLayoutSelection layoutReader2, DiffDefinition def)
+	public final void writeHtml(ISchemaProvider layoutReader,
+			ISchemaProvider layoutReader2, DiffDefinition def)
 	throws Exception {
 
 		Diff diff = new Diff();
 		LineBufferedReader oldReader ;
 		LineBufferedReader newReader;
-		AbstractLayoutDetails dtl1, dtl2;
+		AbstractLayoutDetails dtl1, dtl2, dtl3;
 		Visitor vis;
 		ArrayList<LineCompare> before, after;
 
@@ -91,13 +91,17 @@ public class DoCompare  {
 			after  = vis.getNewChanged();
 		}
 
+		dtl3 = oldReader.getFilteredLayout();
+		if (dtl3 == null) {
+			dtl3 = dtl1;
+		}
 		WriteHtml writeHtml = WriteHtml.getInstance();
 		if (def.singleTable) {
-			writeHtml.writeSingleTbl(def, dtl1, before, after);
+			writeHtml.writeSingleTbl(def, dtl3, before, after);
 		} else if (def.allFields) {
-			writeHtml.writeTblAllFields(def, dtl1, before, after);
+			writeHtml.writeTblAllFields(def, dtl3, before, after);
 		} else {
-			writeHtml.writeTblChgFields(def, dtl1, before, after);
+			writeHtml.writeTblChgFields(def, dtl3, before, after);
 		}
 	}
 
@@ -112,7 +116,7 @@ public class DoCompare  {
 	 * @return requested layout
 	 * @throws Exception any error
 	 */
-	private AbstractLayoutDetails getLayout(AbstractLayoutSelection layoutReader,
+	private AbstractLayoutDetails getLayout(ISchemaProvider layoutReader,
 			String name, String fileName) throws Exception {
 
 		try {

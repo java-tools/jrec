@@ -1,7 +1,9 @@
 package net.sf.RecordEditor.re.file;
 
+import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.zip.GZIPOutputStream;
 
@@ -9,10 +11,17 @@ import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.IO.AbstractLineWriter;
-import net.sf.RecordEditor.utils.fileStorage.DataStore;
+import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.fileStorage.IDataStore;
 import net.sf.RecordEditor.utils.fileStorage.DataStoreLarge;
 import net.sf.RecordEditor.utils.params.Parameters;
 
+
+/**
+ * Write (and backup a file
+ * @author Bruce Martin
+ *
+ */
 public class FileWriter {
 	private static final long INTERVAL = 1500000000l;
 	
@@ -47,29 +56,80 @@ public class FileWriter {
 	}
 	
 	
+	@SuppressWarnings("rawtypes")
 	public void doWrite() throws IOException {
 		String oFname = fileName + ".~tmp~";
+		int defaultBufSize = 256 * 256;
+		long totalSize = ((long) lines.size()) * (layout.getMaximumRecordLength()>0?layout.getMaximumRecordLength():20);
+		int bufSize = calcBufferSize(defaultBufSize, totalSize);
+		
+		if (Common.OPTIONS.overWriteOutputFile.isSelected()) {
+			if (backup && Parameters.JAVA_VERSION > 6.9999) {
+				copyFile(fileName, fileName + "~");
+			}
+
+			write(fileName, defaultBufSize, bufSize);
+			return;
+		}
+		
+		write(oFname, defaultBufSize, bufSize);
+	   	    
+	    try {
+			if (lines instanceof DataStoreLarge) {
+				((DataStoreLarge) lines).rename(fileName, fileName + "~");
+			} else if (backup) {
+				Parameters.renameFile(fileName);		    
+			}
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		}
+
+	    lines = null;
+
+	   
+    	try {
+			Parameters.renameFile(oFname, fileName);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Common.logMsg("Error renaming new file to old file, file not saved:\n" + e,  null);
+			
+			copyFile(oFname, fileName);
+		}
+	    
+	    
+	   // firePropertyChange("Finished", null, null);
+	}
+
+
+	/**
+	 * @param oFname
+	 */
+	private void copyFile(String oFname, String newName) {
+		if (Parameters.JAVA_VERSION > 6.9999) {
+			try {
+				java.nio.file.Files.copy(java.nio.file.Paths.get(oFname), java.nio.file.Paths.get(newName), StandardCopyOption.REPLACE_EXISTING);
+			} catch (Throwable e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+	
+	private void write(String oFname, int defaultBufSize, int bufSize) throws IOException {
 	    if (isGZip) {
 	        FileOutputStream fs = new FileOutputStream(oFname);
-	        writer.open(new GZIPOutputStream(fs));
+	        writer.open(new GZIPOutputStream(fs, bufSize));
 
 	        writeToFile(writer, lines);
 	        fs.close();
-	    } else {
+	    } else if (defaultBufSize == bufSize) {    	
 	        writer.open(oFname);
 	        writeToFile(writer, lines);
-	    }
-	    
-	    if (lines instanceof DataStoreLarge) {
-	    	((DataStoreLarge) lines).rename(fileName, fileName + "~");
-	    } else if (backup) {
-	    	Parameters.renameFile(fileName, fileName + "~");		    
+	    } else {
+	    	FileOutputStream fs = new FileOutputStream(oFname);
+	    	writer.open(new BufferedOutputStream(fs, bufSize));
+	    	writeToFile(writer, lines);
 	    }
 
-
-    	Parameters.renameFile(oFname, fileName);
-	    
-	   // firePropertyChange("Finished", null, null);
 	}
 	
 	
@@ -83,39 +143,42 @@ public class FileWriter {
 	private void writeToFile(AbstractLineWriter writer, List<AbstractLine> pLines)
 	throws IOException {
 	    int i, numLines;
-	    int k = 0;
-	    double pct;
+
 	    ProgressDisplay progress = null;
 	    
 	    lastTime = System.nanoTime();
 	    numLines = pLines.size();
-    	if (numLines > 30000) {
-    		progress = new ProgressDisplay("Writing", fileName);
-    	}
-
-	    writer.setLayout(layout);
 	    
-	    if (pLines instanceof DataStore) {
-	    	DataStore ds = (DataStore) pLines;
+	    try {
+	    	if (numLines > 30000) {
+	    		progress = new ProgressDisplay("Writing", fileName);
+	    	}
 	
-		    for (i = 0; i < pLines.size(); i++) {
-		        writer.write(ds.getTempLine(i));
-		        check(progress, i, numLines);
-		    }	
-	    } else {
-		    for (i = 0; i < pLines.size(); i++) {
-		        writer.write(pLines.get(i));
-		        check(progress, i, numLines);
-		    }  	
+		    writer.setLayout(layout);
+		    
+		    if (pLines instanceof IDataStore) {
+		    	@SuppressWarnings("rawtypes")
+				IDataStore ds = (IDataStore) pLines;
+		
+			    for (i = 0; i < pLines.size(); i++) {
+			        writer.write(ds.getTempLineRE(i));
+			        check(progress, i, numLines);
+			    }	
+		    } else {
+			    for (i = 0; i < pLines.size(); i++) {
+			        writer.write(pLines.get(i));
+			        check(progress, i, numLines);
+			    }  	
+		    }
+	    } finally {
+		    writer.close();
+		    
+		    if (progress != null) {
+		    	progress.done();
+		    }
+		    
+		    done = true;
 	    }
-
-	    writer.close();
-	    
-	    if (progress != null) {
-	    	progress.done();
-	    }
-	    
-	    done = true;
 	}
 
 	
@@ -144,6 +207,22 @@ public class FileWriter {
 	 */
 	public boolean isDone() {
 		return done;
+	}
+
+	/**
+	 * @param bufSize
+	 * @param fileLength
+	 * @return
+	 */
+	public static int calcBufferSize(int bufSize, long fileLength) {
+		if (fileLength > 600000000) {
+			bufSize = 256 * 256 * 64;
+		} else if (fileLength > 30000000) {
+			bufSize = 256 * 256 * 16;
+		} else if (fileLength > 5000000) {
+			bufSize = 256 * 256 * 4;
+		}
+		return bufSize;
 	}
 
 }

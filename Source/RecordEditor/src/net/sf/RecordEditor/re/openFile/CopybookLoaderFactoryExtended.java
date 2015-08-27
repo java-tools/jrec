@@ -8,7 +8,7 @@ import java.io.IOException;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.DefaultLineProvider;
-import net.sf.JRecord.External.CopybookLoader;
+import net.sf.JRecord.External.BaseCopybookLoader;
 import net.sf.JRecord.External.CopybookLoaderFactory;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.ToExternalRecord;
@@ -57,7 +57,7 @@ public class CopybookLoaderFactoryExtended extends CopybookLoaderFactory {
 	 * @author Bruce Martin
 	 *
 	 */
-	public static class GenericCsv implements CopybookLoader   {
+	public static class GenericCsv extends BaseCopybookLoader   {
 
 		/**
 		 * @see net.sf.JRecord.External.CopybookLoader#loadCopyBook(java.lang.String, int, int, java.lang.String, int, int, net.sf.JRecord.Log.AbsSSLogger)

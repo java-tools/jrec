@@ -5,7 +5,6 @@ package net.sf.RecordEditor.re.install;
 
 import java.io.File;
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.TreeSet;
 
@@ -65,23 +64,23 @@ public class InstallPnl1GetDataSource extends BasicWizardPnl implements IInstall
 
 		versions = init_210_layoutScreen();
 
-		panel.addComponent(1, 3, CommonCode.TIP_HEIGHT, BasePanel.GAP1,
+		panel.addComponentRE(1, 3, CommonCode.TIP_HEIGHT, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
 
-		panel.addLine("Source of Record Definitions:", null);
+		panel.addLineRE("Source of Record Definitions:", null);
 
 		for (List<String> im : versions) {
 			init_220_addOption(grp, "RecordEditor version - " + im.get(0));
 		}
 
 		if (existingInstall) {
-			panel.setGap(BaseHelpPanel.GAP0);
+			panel.setGapRE(BaseHelpPanel.GAP0);
 			init_220_addOption(grp, "Use Existing Record-Definitions");
 			versionBtns.get(versionBtns.size() -1).setSelected(true);
 		}
 
-		panel.setGap(BaseHelpPanel.GAP0);
+		panel.setGapRE(BaseHelpPanel.GAP0);
 		init_220_addOption(grp, "Create New Record-Definitions");
 	}
 
@@ -134,7 +133,7 @@ public class InstallPnl1GetDataSource extends BasicWizardPnl implements IInstall
 		JRadioButton btn = new JRadioButton(name);
 
     	grp.add(btn);
-    	panel.addLine((String) null, btn);
+    	panel.addLineRE((String) null, btn);
 
     	if (versionBtns.size() == 0) {
     		btn.setSelected(true);

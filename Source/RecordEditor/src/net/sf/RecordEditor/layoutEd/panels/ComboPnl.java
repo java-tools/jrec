@@ -64,13 +64,13 @@ public class ComboPnl extends BaseHelpPanel implements ActionListener {
 		setValues(value);
 
 		//addComponent("Combo_Id", sfCombo_Id);
-		addLine("System", sfSystem);
-		addLine("Combo_Name", sfComboName);
-		addLine("Combo Type", sfColumnType);
-		setGap(BasePanel.GAP0);
+		addLineRE("System", sfSystem);
+		addLineRE("Combo_Name", sfComboName);
+		addLineRE("Combo Type", sfColumnType);
+		setGapRE(BasePanel.GAP0);
 		updateOptions = new TableUpdatePnl<ComboValuesRec>(this, null);
 
-		addComponent(1, 3, BasePanel.FILL, BasePanel.GAP,
+		addComponentRE(1, 3, BasePanel.FILL, BasePanel.GAP,
 				BasePanel.FULL, BasePanel.FULL,
 				comboDetails);
 
@@ -82,7 +82,7 @@ public class ComboPnl extends BaseHelpPanel implements ActionListener {
 	private void init_100_setupScreenFields() {
 		ReConnection con = new ReConnection(connectionIdx);
 
-		this.setHelpURL(Common.formatHelpURL(Common.HELP_COMBO_EDIT));
+		this.setHelpURLre(Common.formatHelpURL(Common.HELP_COMBO_EDIT));
 
 		systemTable.setConnection(con);
 		systemTable.setParams(3);

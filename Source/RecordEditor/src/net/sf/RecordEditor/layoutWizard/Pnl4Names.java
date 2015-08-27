@@ -55,15 +55,15 @@ public class Pnl4Names extends WizardPanel {
 		columnNames = new ColumnNames(typeList);
 
 
-		this.setHelpURL(Common.formatHelpURL(Common.HELP_WIZARD_PNL3));
-		this.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP3,
+		this.setHelpURLre(Common.formatHelpURL(Common.HELP_WIZARD_PNL3));
+		this.addComponentRE(1, 5, TIP_HEIGHT, BasePanel.GAP3,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
-		this.setGap(BasePanel.GAP1);
-		this.addComponent(1, 5, COLUMN_HEIGHT, BasePanel.GAP1,
+		this.setGapRE(BasePanel.GAP1);
+		this.addComponentRE(1, 5, COLUMN_HEIGHT, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(columnNames.columnTbl));
-		this.addComponent(1, 5, FILE_HEIGHT, BasePanel.GAP0,
+		this.addComponentRE(1, 5, FILE_HEIGHT, BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(columnNames.fileTbl));
     }

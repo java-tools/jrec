@@ -27,6 +27,7 @@ public class PropertiesLineWriter extends AbstractLineWriter {
 	@Override
 	public void open(OutputStream outputStream) throws IOException {
 		outStream = outputStream;
+		props = new Properties();
 	}
 
 	@Override
@@ -41,9 +42,9 @@ public class PropertiesLineWriter extends AbstractLineWriter {
 				}
 			}
 
-			if (props == null) {
-				props = new Properties();
-			}
+//			if (props == null) {
+//				props = new Properties();
+//			}
 		}
 
 		AbstractRecordDetail r = layout.getRecord(0);
@@ -61,8 +62,11 @@ public class PropertiesLineWriter extends AbstractLineWriter {
 
 	@Override
 	public void close() throws IOException {
-		props.store(outStream, "Updated by RecordEditor - TipWriter");
-		outStream.close();
+		if (props != null) {
+			props.store(outStream, "Updated by RecordEditor - TipWriter");
+			outStream.close();
+			props = null;
+		}
 	}
 
 }

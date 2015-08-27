@@ -48,7 +48,7 @@ implements AbstractWizardPanel<save> {
 		selection1 = layoutSelection1;
 		selection2 = layoutSelection2;
 		if (helpName != null & ! "".equals(helpName)) {
-			setHelpURL(Common.formatHelpURL(helpName));
+			setHelpURLre(Common.formatHelpURL(helpName));
 		}
 	}
 
@@ -70,6 +70,7 @@ implements AbstractWizardPanel<save> {
 		tc.setPreferredWidth(FIELD_NAME_WIDTH);
 
 		tbl.setRowHeight(FIELD_VALUE_ROW_HEIGHT);
+		
     }
 
     /**
@@ -120,7 +121,9 @@ implements AbstractWizardPanel<save> {
 
 		values = detail;
 
-		if (! lastLayoutName2.equalsIgnoreCase(values.newFile.getLayoutDetails().name)) {
+		String newLayoutName = values.newFile.getLayoutDetails().name;
+		if (newLayoutName.startsWith("CsvSchema~") 
+		|| ! lastLayoutName2.equalsIgnoreCase(newLayoutName)) {
 			lastLayoutName2 = values.newFile.layoutDetails.name;
 			layout2 = selection2.getRecordLayout(values.newFile.name);
 			toInit = true;
@@ -129,7 +132,9 @@ implements AbstractWizardPanel<save> {
 			}
 		}
 
-		if (! lastLayoutName1.equalsIgnoreCase(values.oldFile.getLayoutDetails().name)) {
+		String oldLayoutName = values.oldFile.getLayoutDetails().name;
+		if (oldLayoutName.startsWith("CsvSchema~")
+		|| ! lastLayoutName1.equalsIgnoreCase(oldLayoutName)) {
 			super.setRecordLayout(selection1.getRecordLayout(values.oldFile.name),
 					layout2, true,
 					SwingUtils.NORMAL_FIELD_HEIGHT * 4);

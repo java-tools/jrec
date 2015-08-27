@@ -545,12 +545,18 @@ public class ExternalRecord extends AbstractUpdatableRecord {
    *
    * @param val value to be assigned to RecordStyle
    */
-  public void setRecordStyle(int val) {
+  public ExternalRecord setRecordStyle(int val) {
 
       if ((val != recordStyle) || (updateStatus == NULL_INT_VALUE)) {
            recordStyle = val;
            updateStatus = UPDATED;
       }
+      if (subRecords != null && subRecords.size() > 0) {
+    	  for (ExternalRecord r : subRecords) {
+    		  r.setRecordStyle(val);
+    	  }
+      }
+      return this;
   }
 
   /**
@@ -567,12 +573,14 @@ public class ExternalRecord extends AbstractUpdatableRecord {
    *
    * @param val value to be assigned to FileStructure
    */
-  public void setFileStructure(int val) {
+  public ExternalRecord setFileStructure(int val) {
 
       if ((val != fileStructure) || (updateStatus == NULL_INT_VALUE)) {
            fileStructure = val;
            updateStatus = UPDATED;
       }
+      
+      return this;
   }
 
 

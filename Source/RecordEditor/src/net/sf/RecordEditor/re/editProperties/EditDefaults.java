@@ -99,19 +99,19 @@ public class EditDefaults extends BasePanel {
      */
     private void init_200_Screen() {
 
-		this.addComponent(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP1,
+		this.addComponentRE(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
 
-		this.addComponent(1, 5, TABLE_HEIGHT, BasePanel.GAP2,
+		this.addComponentRE(1, 5, TABLE_HEIGHT, BasePanel.GAP2,
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(optionTbl));
 
-		this.addLine("Description", descriptionFld);
-		this.setHeight(BasePanel.GAP3);
-		this.setGap(BasePanel.GAP2);
-		this.addLine("Default Value", optionCombo);
-		this.setGap(BasePanel.GAP1);
+		this.addLineRE("Description", descriptionFld);
+		this.setHeightRE(BasePanel.GAP3);
+		this.setGapRE(BasePanel.GAP2);
+		this.addLineRE("Default Value", optionCombo);
+		this.setGapRE(BasePanel.GAP1);
 
 		this.done();
     }

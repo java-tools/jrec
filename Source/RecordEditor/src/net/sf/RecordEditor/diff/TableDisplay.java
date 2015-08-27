@@ -17,8 +17,11 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
+import net.sf.JRecord.Details.AbstractLine;
+import net.sf.JRecord.Details.Options;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
  * @author Bruce Martin
@@ -67,16 +70,16 @@ public class TableDisplay extends AbstractCompareDisplay {
         		doc.insertString( doc.getLength(), "Files are Identical !!!", bold );
         		//msgTxt.setAlignmentX(CENTER_ALIGNMENT);
 
-		         pnl.addLine("", msgTxt);
-		         pnl.setGap(BasePanel.GAP0);
+		         pnl.addLineRE("", msgTxt);
+		         pnl.setGapRE(BasePanel.GAP0);
         	} catch (Exception e) {
 			}
         } else if (Common.TEST_MODE) {
-	         pnl.addLine("", msgTxt);
+	         pnl.addLineRE("", msgTxt);
        }
 
 
-        pnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
+        pnl.addComponentRE(1, 5, BasePanel.FILL, BasePanel.GAP,
                          BasePanel.FULL, BasePanel.FULL,
                          new JScrollPane(tblDetails));
 
@@ -96,12 +99,28 @@ public class TableDisplay extends AbstractCompareDisplay {
 	}
 
 	private void init_100_SetupJtables() {
+		AbstractLayoutDetails l = super.layout;
 		render.setList(displayBefore, displayAfter);
 		model = new CmpTableModel(layout, displayBefore, displayAfter);
 
 		setDisplay(USE_CHANGE_LIST);
 		tblDetails = new JTable(model);
 		tblDetails.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		int tblHeight = l.getOption(Options.OPT_TABLE_ROW_HEIGHT);
+		
+		if (tblHeight <= 1 && displayAfter.size() > 0) {
+			AbstractLine line = null;
+			int i = 0;
+			while (i < displayAfter.size() && (displayAfter.get(i) == null || (line = displayAfter.get(i).line) == null)) {
+				i += 1;
+			}
+			if (line != null) {
+				tblHeight = line.getLayout().getOption(Options.OPT_TABLE_ROW_HEIGHT);
+			}
+		}
+		if (tblHeight > 1) {
+			tblDetails.setRowHeight(tblHeight * SwingUtils.TABLE_ROW_HEIGHT);
+		} 
 
 		//tblDetails.setC
 //		Common.calcColumnWidths(tblDetails, 1);

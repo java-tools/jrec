@@ -55,23 +55,23 @@ public class SaveAsPnlHtml extends SaveAsPnlBase {
 		BasePanel pnl1 = new BasePanel();
 
 
-		pnl1.addLine("Table Type:", singleTable);
-		pnl1.addLine("", tablePerRow);
-		pnl1.addLine("", treeTable);
-		pnl1.setGap(BasePanel.GAP0);
+		pnl1.addLineRE("Table Type:", singleTable);
+		pnl1.addLineRE("", tablePerRow);
+		pnl1.addLineRE("", treeTable);
+		pnl1.setGapRE(BasePanel.GAP0);
 		addHtmlFields(pnl1);
 
-		htmlColorPnl.addLine("", whiteHtmlBtn);
-		htmlColorPnl.addLine("", standardBtn);
-		htmlColorPnl.addLine("", dullBtn);
-		htmlColorPnl.addLine("", colorfulHtmlBtn);
+		htmlColorPnl.addLineRE("", whiteHtmlBtn);
+		htmlColorPnl.addLineRE("", standardBtn);
+		htmlColorPnl.addLineRE("", dullBtn);
+		htmlColorPnl.addLineRE("", colorfulHtmlBtn);
 		colorfulHtmlBtn.setSelected(true);
 
 		pnl1.setBorder(BorderFactory.createLoweredBevelBorder());
 		htmlColorPnl.setBorder(BorderFactory.createLoweredBevelBorder());
 
-		panel.addComponent(1, 1, BasePanel.FILL, 0, BasePanel.FULL, BasePanel.FULL, pnl1);
-		panel.addComponent(3, 3, BasePanel.FILL, 0, BasePanel.FULL, BasePanel.FULL, false, htmlColorPnl);
+		panel.addComponentRE(1, 1, BasePanel.FILL, 0, BasePanel.FULL, BasePanel.FULL, pnl1);
+		panel.addComponentRE(3, 3, BasePanel.FILL, 0, BasePanel.FULL, BasePanel.FULL, false, htmlColorPnl);
 		//panel.addComponent(5, 5, BasePanel.FILL, 0, BasePanel.FULL, BasePanel.FULL, false, new JPanel());
 
 		namesFirstLine.setSelected(true);

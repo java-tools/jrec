@@ -7,14 +7,19 @@ public class StreamUtil {
 
 	public static byte[] read(InputStream in, int bytesToRead) throws IOException{
 		byte[] data = new byte[bytesToRead];
-	    int num = in.read(data);
-	    int total = num;
-
-	    while (num >= 0 && total < bytesToRead) {
-	        num = in.read(data, total, bytesToRead - total);
-	        total += Math.max(0, num);
-	    }
-	    in.close();
+		int total = 0;
+		
+		try {
+		    int num = in.read(data);
+		    total = num;
+	
+		    while (num >= 0 && total < bytesToRead) {
+		        num = in.read(data, total, bytesToRead - total);
+		        total += Math.max(0, num);
+		    }
+		} finally {
+			in.close();
+		}
 
 	    if (total <= 0) {
 	    	data = new byte[0];

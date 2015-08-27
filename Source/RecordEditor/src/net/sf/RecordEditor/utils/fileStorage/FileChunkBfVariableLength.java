@@ -15,8 +15,8 @@ public class FileChunkBfVariableLength extends FileChunkLine {
 	private int length = 0;
 	private boolean blockRead = false;
 
-	public FileChunkBfVariableLength(FileDetails details, int theFirstLine, long filePos) {
-		super(details, theFirstLine);
+	public FileChunkBfVariableLength(FileDetails details, int theFirstLine, long textPos, long filePos) {
+		super(details, theFirstLine, textPos);
 
 		filePostion = filePos;
 	}
@@ -32,7 +32,6 @@ public class FileChunkBfVariableLength extends FileChunkLine {
 	}
 
 
-	@SuppressWarnings("rawtypes")
 	@Override
 	protected void uncompress() {
 
@@ -44,7 +43,7 @@ public class FileChunkBfVariableLength extends FileChunkLine {
 					super.details.readFromMainFile(filePostion, length));
 			IByteReader r = details.getByteReader();
 
-			recordStore = (RecordStoreBase) super.details.getRecordStore();
+			recordStore = (RecordStoreBase) super.details.newRecordStore();
 
 			try {
 				int i = 0;

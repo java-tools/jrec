@@ -33,7 +33,7 @@ public class CmpFieldSelection extends BaseFieldSelection implements AbstractWiz
 
 		selection = layoutSelection;
 		//super.done();
-		setHelpURL(Common.formatHelpURL(Common.HELP_DIFF_SL));
+		setHelpURLre(Common.formatHelpURL(Common.HELP_DIFF_SL));
 	}
 
 	/**

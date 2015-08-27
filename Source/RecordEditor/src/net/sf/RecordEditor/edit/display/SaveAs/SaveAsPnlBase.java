@@ -1,6 +1,7 @@
 package net.sf.RecordEditor.edit.display.SaveAs;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumnModel;
 
 import net.sf.JRecord.Common.Constants;
+import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
@@ -29,15 +31,16 @@ import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.fileWriter.FieldWriter;
 import net.sf.RecordEditor.re.script.ScriptData;
 import net.sf.RecordEditor.re.util.ReIOProvider;
+import net.sf.RecordEditor.utils.charsets.FontCombo;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
-import net.sf.RecordEditor.utils.swing.FileChooser;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimiterCombo;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.QuoteCombo;
+import net.sf.RecordEditor.utils.swing.treeCombo.FileSelectCombo;
 
 public abstract class SaveAsPnlBase {
 
@@ -86,9 +89,11 @@ public abstract class SaveAsPnlBase {
     public final DelimiterCombo delimiterCombo  = DelimiterCombo.NewDelimCombo();
     public final QuoteCombo quoteCombo = QuoteCombo.newCombo();
     public final JCheckBox quoteAllTextFields = new JCheckBox();
+//    public final JTextField charsetTxt  = new JTextField();
     public final JTextField xsltTxt  = new JTextField();
 
-    public final JTextField font = new JTextField();
+//    public final JTextField charsetTxt = new JTextField();
+    public final FontCombo charsetCombo = new FontCombo(); 
 
     private   final ButtonGroup tableTypeGrp = new ButtonGroup();
     protected final JRadioButton singleTable = genTableTypeBtn("Single Table");
@@ -99,7 +104,7 @@ public abstract class SaveAsPnlBase {
     public final JCheckBox showBorder = new JCheckBox();
     public final JCheckBox namesFirstLine = new JCheckBox();
     public final JCheckBox spaceBetweenFields = new JCheckBox();
-    public final FileChooser template;
+    public final FileSelectCombo template;
 
     protected JTable fieldTbl;
     protected FldTblMdl fixedModel;
@@ -117,7 +122,7 @@ public abstract class SaveAsPnlBase {
 
 
     public SaveAsPnlBase(CommonSaveAsFields commonSaveAsFields, String extension, int panelFormat, int extensionType,
-			FileChooser template) {
+    		FileSelectCombo template) {
 		super();
 
 		this.commonSaveAsFields = commonSaveAsFields;
@@ -129,7 +134,7 @@ public abstract class SaveAsPnlBase {
 
         String f = file.getLayout().getFontName();
 		if (f != null && f.toLowerCase().startsWith("utf")) {
-   			font.setText(f);
+   			charsetCombo.setText(f);
    		}
 	}
 
@@ -137,14 +142,14 @@ public abstract class SaveAsPnlBase {
     protected final void addDescription(String s) {
 		JTextArea area = new JTextArea(s);
 
-		panel.addComponent(1, 5,BasePanel.FILL, BasePanel.GAP,
+		panel.addComponentRE(1, 5,BasePanel.FILL, BasePanel.GAP,
                 BasePanel.FULL, BasePanel.FULL,
                 area);
 	}
 
     protected final void addHtmlFields(BasePanel pnl) {
-    	pnl.addLine("Only Data Column", onlyData);
-    	pnl.addLine("Show Table Border", showBorder);
+    	pnl.addLineRE("Only Data Column", onlyData);
+    	pnl.addLineRE("Show Table Border", showBorder);
     }
 
 
@@ -195,6 +200,15 @@ public abstract class SaveAsPnlBase {
 		return ret;
 	}
 
+	public String getCharset() throws RecordException {
+		String charset = charsetCombo.getText();
+		
+		if (!("".equals(charset) || Charset.isSupported(charset))) {
+			throw new RecordException("Charset is not supported by this Java implementation");
+		}
+		
+		return charset;
+	}
 
 	/**
 	 * @return the fieldLengths
@@ -250,10 +264,11 @@ public abstract class SaveAsPnlBase {
     public void edit(String outFile, String ext) {
 
 		AbstractLayoutDetails layout = getEditLayout(ext, file.getLayout());
-    	String lcExt = ext.toLowerCase();
-    	StandardLayouts genLayout = StandardLayouts.getInstance();
-
+ 
     	if (layout == null) {
+    		String lcExt = ext.toLowerCase();
+    		StandardLayouts genLayout = StandardLayouts.getInstance();
+    		System.out.println(" --> getExtensionFor: >" + ext + "< " + lcExt + " " + ".csv".equals(lcExt));
 	    	if (".xml".equals(lcExt) || ".xsl".equals(lcExt)) {
 	    		layout = genLayout.getXmlLayout();
 	    	} else if (".csv".equals(lcExt)) {
@@ -264,6 +279,7 @@ public abstract class SaveAsPnlBase {
     	if (layout == null) {
     		throw new RuntimeErrorException(null, "Can not edit the File: Can not determine the format");
     	} else {
+    		//System.out.print(layout.getOption(Options.OPT_IS_TEXT_EDITTING_POSSIBLE));
     		FileView newFile = new FileView(layout,
     				ReIOProvider.getInstance(),
         			false);

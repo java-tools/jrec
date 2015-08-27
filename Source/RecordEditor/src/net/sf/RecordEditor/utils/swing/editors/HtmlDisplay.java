@@ -13,16 +13,16 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
-import org.fife.ui.rtextarea.Gutter;
-import org.fife.ui.rtextarea.RTextScrollPane;
-
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rtextarea.Gutter;
+import org.fife.ui.rtextarea.RTextScrollPane;
 
 @SuppressWarnings("serial")
 public class HtmlDisplay extends ReFrame {
@@ -87,7 +87,7 @@ public class HtmlDisplay extends ReFrame {
 	private void init_200_layoutScreen() {
 
 
-		pnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP0,
+		pnl.addComponentRE(1, 5, BasePanel.FILL, BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
 				splitPane);
 

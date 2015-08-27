@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 
+import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.JRecord.Types.Type;
@@ -35,26 +36,29 @@ public class SaveAsPnlFixed extends SaveAsPnlBase {
 
 		BasePanel pnl1 = new BasePanel();
 		BasePanel pnl2 = new BasePanel();
+//		charsetTxt.setMaximumSize(new Dimension(15 * SwingUtils.CHAR_FIELD_WIDTH, charsetTxt.getMinimumSize().height));
+//		charsetCombo.setPreferredSize(new Dimension(6 * SwingUtils.CHAR_FIELD_WIDTH, charsetCombo.getPreferredSize().height));
 
-		pnl1.addLine("names on first line", namesFirstLine);
-		pnl1.addLine("space between fields", spaceBetweenFields);
+		pnl1.addLineRE("names on first line", namesFirstLine);
+		pnl1.addLineRE("space between fields", spaceBetweenFields);
+		pnl1.addLineRE("Charset", charsetCombo);
 
 		fieldTbl = new JTable();
-		pnl2.addComponent(1, 5, 130, BasePanel.GAP,
+		pnl2.addComponentRE(1, 5, 130, BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL, fieldTbl);
 		pnl2.setComponentName(fieldTbl, "FixedColNames");
 
 
-		panel.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
+		panel.addComponentRE(1, 5, BasePanel.FILL, BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL,
 		        new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, pnl1, pnl2));
 
 		setupPrintDetails(true);
 	}
 
-	public void save(String selection, String outFile) throws IOException {
+	public void save(String selection, String outFile) throws IOException, RecordException {
         String fieldSeperator = "";
-        String fontname = font.getText();
+        String fontname = getCharset();
 
         if (spaceBetweenFields.isSelected()) {
         	fieldSeperator = " ";
@@ -66,7 +70,6 @@ public class SaveAsPnlFixed extends SaveAsPnlBase {
         					getIncludeFields());
 
         save_writeFile(writer, selection);
-
 	}
 
 	/* (non-Javadoc)
@@ -109,7 +112,7 @@ public class SaveAsPnlFixed extends SaveAsPnlBase {
 //	    		}
 	    	}
 
-	    	ret = StandardLayouts.getInstance().getFixedLayout(ef);
+	    	ret = StandardLayouts.getInstance().getFixedLayout(ef, charsetCombo.getText());
     	}
     	return ret;
     }

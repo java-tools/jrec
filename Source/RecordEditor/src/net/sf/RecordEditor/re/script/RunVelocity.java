@@ -111,8 +111,7 @@ public class RunVelocity {
 
         VelocityContext context   = new VelocityContext();
         AbstractLineIOProvider ioProvider = LineIOProvider.getInstance();
-        AbstractLineReader      reader = ioProvider.getLineReader(layout.getFileStructure(),
-                											 lineProvider);
+        AbstractLineReader      reader = ioProvider.getLineReader(layout, lineProvider);
 
         ioProvider = new LineIOProvider(lineProvider);
         reader = ioProvider.getLineReader(layout, null);
@@ -190,6 +189,33 @@ public class RunVelocity {
         genSkel(template, writer,   context);
     }
 
+    /**
+     * Generate  Velocity template with the supplied
+     * 
+     * @param template Template name
+     * @param layout recordLayout or schema being used
+     * @param name name of supplied data
+     * @param data data to be used by the Template
+     * @param outputFile output file name
+     * @param writer writer (to write the output file).
+     * 
+     * @throws Exception any exception that was thrown
+     */
+    public final void genSkel(String template,
+            AbstractLayoutDetails layout,
+            String name,
+            Object data,
+            String outputFile,
+            Writer writer)
+    throws Exception {
+    	VelocityContext context   = new VelocityContext();
+
+        context.put("outputFile",   outputFile);
+        context.put(name,			data);
+        context.put("recordLayout", layout);
+
+        genSkel(template, writer,   context);
+    }
 
     /**
      * Generate a Velocity template with the supplied records

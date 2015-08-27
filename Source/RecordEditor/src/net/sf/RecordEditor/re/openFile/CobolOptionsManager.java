@@ -109,6 +109,7 @@ public class CobolOptionsManager {
 		}
 
 		try {
+			//System.out.println("Writing ... " + f.getPath());
 			OutputStream os = new BufferedOutputStream(new FileOutputStream(f));
 			for (Map.Entry<String, List<CobolCopybookOption>> e : cobolOpts.entrySet()) {
 				for (CobolCopybookOption co : e.getValue()) {
@@ -120,11 +121,13 @@ public class CobolOptionsManager {
 			File bk = new File(s + ".bak");
 			File of = new File(s);
 
-			if (bk.exists()) {
-				bk.delete();
-			}
+			if (of.exists()) {
+				if (bk.exists()) {
+					bk.delete();
+				}
 
-			of.renameTo(bk);
+				of.renameTo(bk);
+			}
 			f.renameTo(of);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

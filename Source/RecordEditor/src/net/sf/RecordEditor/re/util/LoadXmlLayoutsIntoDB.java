@@ -40,14 +40,14 @@ public class LoadXmlLayoutsIntoDB  implements ActionListener {
 		String dir = loadFrame.getFileName();
 
 		if (dir == null || "".equals(dir)) {
-			loadFrame.panel.setMessageTxt("You must enter a directory to load layouts from");
+			loadFrame.panel.setMessageTxtRE("You must enter a directory to load layouts from");
 			return;
 		}
 
 		File dirFile = new File(stripStar(dir));
 
 		if ((! dirFile.exists()) || ! dirFile.isDirectory()) {
-			loadFrame.panel.setMessageRplTxt("{0} is not a directory !!!", dir);
+			loadFrame.panel.setMessageRplTxtRE("{0} is not a directory !!!", dir);
 			return;
 		}
 
@@ -64,7 +64,6 @@ public class LoadXmlLayoutsIntoDB  implements ActionListener {
 
 				@Override
 				public boolean accept(File dir, String name) {
-					// TODO Auto-generated method stub
 					return name.toLowerCase().endsWith(".xml");
 				}
 			};

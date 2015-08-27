@@ -12,16 +12,16 @@ import net.sf.RecordEditor.re.util.wizard.AbstractFilePnl;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboFileSelect;
 import net.sf.RecordEditor.utils.wizards.AbstractWizard;
 import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 
 /**
+ * Copy a file from one Cobol-Format to a new Cobol-Format
  * @author Bruce Martin
  *
  */
 public class CobolCopy extends AbstractWizard<CopyDefinition> {
-
 
 	private CopyWizardFinalPnl finalScreen;
 	private JibxCall<CopyDefinition> jibx = null;
@@ -126,15 +126,16 @@ public class CobolCopy extends AbstractWizard<CopyDefinition> {
 
 		private CopyDefinition values = new net.sf.RecordEditor.jibx.compare.CopyDefinition();
 //		private JPanel goPanel = new JPanel();
-		private FileChooser newFileName = new FileChooser();
+//		private FileChooser newFileName = new FileChooser();
+		private TreeComboFileSelect newFileName = new TreeComboFileSelect(true, false, true, recent);
 		private LayoutSelectionFile layoutSelection1;
 		private LayoutSelectionFile layoutSelection2;
 
 		public GetFiles(LayoutSelectionFile selection1, LayoutSelectionFile selection2) {
 			super(selection1, "CobolFiles.txt");
 
-			String s = Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get();
-			newFileName.setDefaultDirectory(s);
+			String s = Common.OPTIONS.DEFAULT_FILE_DIRECTORY.getWithStar();
+//			newFileName.setDefaultDirectory(s);
 			newFileName.setText(s);
 			layoutSelection1 = selection1;
 			layoutSelection2 = selection2;
@@ -195,17 +196,18 @@ public class CobolCopy extends AbstractWizard<CopyDefinition> {
 		@Override
 		protected void addFileName(BaseHelpPanel pnl) {
 
-			pnl.addLine("Old File", fileName, fileName.getChooseFileButton());
-			pnl.addLine("New File", newFileName, newFileName.getChooseFileButton());
+			pnl.addLineRE("Old File", fileName);
+//			pnl.addLine("New File", newFileName, newFileName.getChooseFileButton());
+			pnl.addLineRE("New File", newFileName);
 		}
 
 		@Override
 		protected void addLayoutSelection() {
 
 			layoutSelection1.addLayoutSelection(this, fileName, new JPanel(), null, null);
-			this.setGap(GAP3);
+			this.setGapRE(GAP3);
 			layoutSelection2.addLayoutSelection(this, getGoPanel(), layoutSelection1.getCopybookFile());
-			this.setGap(GAP3);
+			this.setGapRE(GAP3);
 		}
 	}
 

@@ -20,7 +20,7 @@ import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.CobolIoProvider;
-import net.sf.JRecord.Numeric.Convert;
+import net.sf.JRecord.Numeric.ICopybookDialects;
 import net.sf.JRecord.zTest.Common.TstConstants;
 
 /**
@@ -51,7 +51,7 @@ public final class XmplLineIO2 {
 
         try {
         	AbstractLineReader<LayoutDetail> reader  = ioProvider.getLineReader(
-                    Constants.IO_TEXT_LINE, Convert.FMT_INTEL,
+                    Constants.IO_TEXT_LINE, ICopybookDialects.FMT_INTEL,
                     CopybookLoader.SPLIT_NONE, copybookName, vendorFile
             );
               // using the field (rather than the field name is more efficient

@@ -30,6 +30,8 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
 @SuppressWarnings("serial")
 public class SaveAs4 extends ReFrame implements IChildDisplay {
 
+	
+
 	//public final JButton saveBtn;
 	public JFileChooser fileChooser = new JFileChooser();
 
@@ -78,13 +80,13 @@ public class SaveAs4 extends ReFrame implements IChildDisplay {
 
 		this.addKeyListener(keyListner);
 
-        pnl.addLine("What to Save", commonSaveFields.saveWhat);
+        pnl.addLineRE("What to Save", commonSaveFields.saveWhat);
 
-		pnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP2,
+		pnl.addComponentRE(1, 5, BasePanel.FILL, BasePanel.GAP2,
 		         BasePanel.FULL, BasePanel.FULL,
 		         fileChooser);
 
-    	pnl.setGap(BasePanel.GAP2);
+    	pnl.setGapRE(BasePanel.GAP2);
     	pnl.addMessage(commonSaveFields.message);
 
 		pnl.done();
@@ -121,7 +123,7 @@ public class SaveAs4 extends ReFrame implements IChildDisplay {
 
 			this.doDefaultCloseAction();
 		} catch (Exception e) {
-			String s = LangConversion.convert("Save Failed:") + " " + e.getClass().getName() + ": " + e.getMessage();
+			String s = LangConversion.convert("Save Failed:") + " " + e;
 			commonSaveFields.message.setText(s);
 			Common.logMsgRaw(s, e);
 		}

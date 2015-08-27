@@ -206,8 +206,8 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 
 	        this.setAlternativeTbl(tblScrollPane.getFixedTable());
 
-	        actualPnl.registerComponent(tableDetails);
-	        actualPnl.registerComponent(tblScrollPane.getFixedTable());
+	        actualPnl.registerComponentRE(tableDetails);
+	        actualPnl.registerComponentRE(tblScrollPane.getFixedTable());
 	        defColumns();
 
 	        tblScrollPane.getFixedTable().getTableHeader().addMouseListener(new HeaderSort());
@@ -226,7 +226,7 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 		this.actualPnl.addReKeyListener(new DelKeyWatcher());
 	    //actualPnl.setHelpURL(Common.formatHelpURL(Common.HELP_RECORD_TABLE));
 
-	    actualPnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
+	    actualPnl.addComponentRE(1, 5, BasePanel.FILL, BasePanel.GAP,
 	                     BasePanel.FULL, BasePanel.FULL,
 	                     tblScrollPane);
 

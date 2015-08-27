@@ -1,8 +1,5 @@
 package net.sf.RecordEditor.edit.display;
 
-import net.sf.RecordEditor.re.display.IDisplayFrame;
-import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
 public class DisplayBuilder {
 

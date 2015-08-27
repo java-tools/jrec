@@ -7,12 +7,15 @@ import java.util.List;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 
+import net.sf.JRecord.Common.Conversion;
+import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.edit.util.StandardLayouts;
-import net.sf.RecordEditor.re.fileWriter.CsvWriter;
+import net.sf.RecordEditor.re.fileWriter.FieldWriter;
+import net.sf.RecordEditor.re.fileWriter.WriterBuilder;
 import net.sf.RecordEditor.re.openFile.RecentFiles;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -29,18 +32,19 @@ public class SaveAsPnlCsv extends SaveAsPnlBase {
 		BasePanel pnl2 = new BasePanel();
 
 		pnl1.setFieldNamePrefix("Csv");
-		pnl1.addLine("Delimiter", delimiterCombo);
-		pnl1.addLine("Quote", quoteCombo);
-		pnl1.addLine("names on first line", namesFirstLine);
-		pnl1.addLine("Add Quote to all Text Fields", quoteAllTextFields);
+		pnl1.addLineRE("Delimiter", delimiterCombo);
+		pnl1.addLineRE("Quote", quoteCombo);
+		pnl1.addLineRE("Charset", charsetCombo);
+		pnl1.addLineRE("names on first line", namesFirstLine);
+		pnl1.addLineRE("Add Quote to all Text Fields", quoteAllTextFields);
 
 		fieldTbl = new JTable();
-		pnl2.addComponent(1, 5, 130, BasePanel.GAP,
-		        BasePanel.FULL, BasePanel.FULL,fieldTbl);
+		pnl2.addComponentRE(1, 5, 130, BasePanel.GAP,
+		        BasePanel.FULL, BasePanel.FULL, fieldTbl);
 		pnl2.setComponentName(fieldTbl, "CsvColNames");
 
 
-		panel.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
+		panel.addComponentRE(1, 5, BasePanel.FILL, BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL,
 		        new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, pnl1, pnl2));
 
@@ -48,12 +52,16 @@ public class SaveAsPnlCsv extends SaveAsPnlBase {
 	}
 
 
-	public void save(String selection, String outFile) throws IOException {
+	public void save(String selection, String outFile) throws IOException, RecordException {
 		String fieldSeperator = delimiterCombo.getSelectedEnglish();
-		String fontname = font.getText();
+		String fontname = getCharset();
+
+		if (fieldSeperator != null && fieldSeperator.toLowerCase().startsWith("x'") && Conversion.isMultiByte(fontname)) {
+			throw new RecordException("Hex seperators can not be used with a multibyte charset");
+		}
 
 
-		CsvWriter writer = new CsvWriter(outFile, fieldSeperator, fontname,
+		FieldWriter writer = WriterBuilder.newCsvWriter(outFile, fieldSeperator, fontname,
 									getQuote(), quoteAllTextFields.isSelected(),
 									getIncludeFields());
 
@@ -78,6 +86,7 @@ public class SaveAsPnlCsv extends SaveAsPnlBase {
 		if (namesFirstLine.isSelected()) {
      	   ret = genLayout.getCsvLayoutNamesFirstLine(
      			   			delimiterCombo.getSelectedEnglish(),
+     			   			charsetCombo.getText(),
      			   			getQuote(),
      			   			EmbeddedCr);
      	} else if (commonSaveAsFields.printRecordDetails != null) {
@@ -93,9 +102,11 @@ public class SaveAsPnlCsv extends SaveAsPnlBase {
 	    	}
 
 
-	    	ret = genLayout.getCsvLayout(
+	    	ret = genLayout.getCsvLayout( 
 	    							ef,
+	    							"Default", 
 	    							delimiterCombo.getSelectedEnglish(),
+	    							charsetCombo.getText(),
 	        			   			getQuote(),
 	        			   			EmbeddedCr);
     	}

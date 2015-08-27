@@ -18,11 +18,12 @@ package net.sf.RecordEditor.layoutEd;
 
 import java.awt.event.ActionEvent;
 
-import net.sf.RecordEditor.layoutEd.Record.SaveLayoutsDBAsXml;
+
 import net.sf.RecordEditor.layoutEd.panels.LoadCobolIntoDBScreen;
 import net.sf.RecordEditor.layoutEd.panels.RecordEdit1Record;
+import net.sf.RecordEditor.layoutEd.schema.ImportExport.ExportLayouts;
+import net.sf.RecordEditor.layoutEd.schema.ImportExport.ImportXmlLayouts;
 import net.sf.RecordEditor.layoutWizard.Wizard;
-import net.sf.RecordEditor.re.util.LoadXmlLayoutsIntoDB;
 import net.sf.RecordEditor.utils.LayoutConnection;
 import net.sf.RecordEditor.utils.LayoutConnectionAction;
 import net.sf.RecordEditor.utils.common.Common;
@@ -54,12 +55,7 @@ public class LayoutMenu extends ReMenu {
 
         databaseDetails = dbDetails;
 
-        ReAbstractAction edit = new ReAbstractAction("Edit Layout", Common.ID_LAYOUT_EDIT_ICON) {
-            public void actionPerformed(ActionEvent e) {
-                new RecordEdit(databaseDetails.getCurrentDbName(),
-                               databaseDetails.getCurrentDbIdentifier());
-            }
-        };
+        ReAbstractAction edit = getStartSchemaAction();
         createWizard = Wizard.getAction(databaseDetails);
         ReAbstractAction editSystemTable = new ReAbstractAction(
         		"Edit System Table") {
@@ -88,6 +84,13 @@ public class LayoutMenu extends ReMenu {
         				databaseDetails);
             }
         };
+        ReAbstractAction loadXml = new ReAbstractAction("Load Xml Copybook") {
+            public void actionPerformed(ActionEvent e) {
+		        new LoadXmlCopyBook(
+        				databaseDetails.getCurrentDbIdentifier(),
+        				databaseDetails);
+            }
+        };
         ReAbstractAction loadCopybook = new ReAbstractAction("Load Copybook") {
             public void actionPerformed(ActionEvent e) {
 		        new LoadCopyBook(
@@ -98,22 +101,32 @@ public class LayoutMenu extends ReMenu {
         				databaseDetails);
             }
         };
-        ReAbstractAction saveCopybooksAsXml = new ReAbstractAction("Save Copybooks as Xml") {
-            public void actionPerformed(ActionEvent e) {
-		        new SaveLayoutsDBAsXml(databaseDetails.getCurrentDbIdentifier());
-            }
-        };
-        ReAbstractAction loadCopybooksFromXml = new ReAbstractAction("Load Copybooks from Xml") {
-            public void actionPerformed(ActionEvent e) {
-		        new LoadXmlLayoutsIntoDB(databaseDetails.getCurrentDbIdentifier());
-            }
-        };
-        ReAbstractAction loadCopybooksFromCobol = new ReAbstractAction("Load Copybooks from Cobol Directory") {
+//        ReAbstractAction saveCopybooksAsXml = new ReAbstractAction("Save Copybooks as Xml") {
+//            public void actionPerformed(ActionEvent e) {
+//		        new SaveLayoutsDBAsXml(databaseDetails.getCurrentDbIdentifier());
+//            }
+//        };
+//        ReAbstractAction loadCopybooksFromXml = new ReAbstractAction("Load Copybooks from Xml") {
+//            public void actionPerformed(ActionEvent e) {
+//		        new LoadXmlLayoutsIntoDB(databaseDetails.getCurrentDbIdentifier());
+//            }
+//        };
+        ReAbstractAction loadCopybooksFromCobol = new ReAbstractAction("Load Cobol Copybooks from Directory") {
             public void actionPerformed(ActionEvent e) {
 		        new LoadCobolIntoDBScreen(databaseDetails.getCurrentDbIdentifier());
             }
         };
 
+        ReAbstractAction exportSchemaAsXml = new ReAbstractAction("Export Schemas as Xml") {
+            public void actionPerformed(ActionEvent e) {
+		        new ExportLayouts(databaseDetails.getCurrentDbIdentifier());
+            }
+        };
+        ReAbstractAction importSchemaFromXml = new ReAbstractAction("Import Schemas from Xml") {
+            public void actionPerformed(ActionEvent e) {
+		        new ImportXmlLayouts(databaseDetails.getCurrentDbIdentifier());
+            }
+        };
 
         create = RecordEdit1Record.getAction(databaseDetails);
 
@@ -128,10 +141,14 @@ public class LayoutMenu extends ReMenu {
         addSeperator();
 
         this.add(loadCobol);
+        this.add(loadXml);
         this.add(loadCopybook);
-        this.add(saveCopybooksAsXml);
-        this.add(loadCopybooksFromXml);
+        //this.add(saveCopybooksAsXml);
+        //this.add(loadCopybooksFromXml);
         this.add(loadCopybooksFromCobol);
+        addSeperator();
+        this.add(exportSchemaAsXml);
+        this.add(importSchemaFromXml);
 
         addSeperator();
 
@@ -155,5 +172,19 @@ public class LayoutMenu extends ReMenu {
         this.databaseDetails = dbDetails;
         create.setCallback(dbDetails);
         createWizard.setCallback(dbDetails);
+    }
+    
+    public void startSchemaEditor() {
+    	new RecordEdit(databaseDetails.getCurrentDbName(),
+                databaseDetails.getCurrentDbIdentifier());
+    }
+    
+    public ReAbstractAction getStartSchemaAction() {
+    	return  new ReAbstractAction("Edit Layout", Common.ID_LAYOUT_EDIT_ICON) {
+            public void actionPerformed(ActionEvent e) {
+                new RecordEdit(databaseDetails.getCurrentDbName(),
+                               databaseDetails.getCurrentDbIdentifier());
+            }
+        };
     }
 }

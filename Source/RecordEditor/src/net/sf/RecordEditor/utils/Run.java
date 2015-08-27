@@ -19,6 +19,7 @@ package net.sf.RecordEditor.utils;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -31,6 +32,7 @@ import java.net.URLClassLoader;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Pack200;
@@ -38,7 +40,8 @@ import java.util.jar.Pack200;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
-import net.sf.RecordEditor.utils.common.ExternalReferenceConstants;
+import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.params.ExternalReferenceConstants;
 
 /**
  * This class will
@@ -55,7 +58,7 @@ public final class Run implements ExternalReferenceConstants {
 	public static final String FILE_SEPERATOR  =  System.getProperty("file.separator");
     private static final int FILENAME_POS = 9;
     private String libDirectory = null;
-;
+    private boolean win = false;
 
 
 
@@ -63,7 +66,7 @@ public final class Run implements ExternalReferenceConstants {
         "<lib>/JRecord.jar",
         "<lib>/LayoutEdit.jar",
         "<lib>/RecordEdit.jar",
-        "<lib>/properties.zip"
+        /*"<lib>/properties.zip"*/
     };
 
 
@@ -88,14 +91,15 @@ public final class Run implements ExternalReferenceConstants {
      * @param args program arguments
      */
 	@SuppressWarnings("unchecked")
-	public Run(final String filename, String[] jars,
+	public Run(String jarDir, final String filename, String[] jars,
             final String classToRun, final String[] args) {
-        try {
+		libDirectory = jarDir;
+        try { 
     		String os = System.getProperty("os.name");
     		String version = System.getProperty("os.name");
-    		boolean isWinUac = (os != null
-    						&& os.toLowerCase().indexOf("win") >= 0
-    						&& !"5.1".equals(version));
+    		win = os != null
+					&& os.toLowerCase().indexOf("win") >= 0;
+    		boolean isWinUac = (win && !"5.1".equals(version));
 
             ArrayList<String> list = new ArrayList<String>();
 
@@ -124,6 +128,11 @@ public final class Run implements ExternalReferenceConstants {
             Object[] arguments = new Object[]{args};
             Method mainMethod = runClass.getMethod("main", new Class[] {args.getClass()});
             mainMethod.invoke(null, arguments);
+            
+//            String v = System.getProperty("java.version");
+//            if (! (v.startsWith("1.6") || v.startsWith("1.5"))) {
+//            	urlLoader.close();
+//            }
           } catch (Exception e) {
             e.printStackTrace();
           }
@@ -327,34 +336,115 @@ public final class Run implements ExternalReferenceConstants {
     	String ret = libDirectory;
 
     	try {
-    		URL[] urls = {new File(libDirectory + "/properties.zip" ).toURI().toURL()};
-
-	   	 	ResourceBundle rb = ResourceBundle.getBundle(DEFAULT_BUNDLE_NAME,
-	   	 			Locale.getDefault(),
-	   	 			new URLClassLoader(urls));
-	   	 	ret = rb.getString(PROPERTIES_DIR_VAR_NAME);
-
-	        String lcName = ret.toLowerCase();
-
-	        if (lcName.startsWith("<lib>")) {
-	            ret = libDirectory  + ret.substring(5);
-	        } else if (lcName.startsWith("<install>")) {
-	            ret = libDirectory.substring(0, libDirectory.length()-4)
-	            	+ ret.substring("<install>".length());
-	        } else if (lcName.startsWith("<home>")) {
-	            ret = System.getProperty("user.home") + ret.substring(6);
-	        }
+    		String stdDir = null;
+    		String winDir = null;
+   		
+    		try {
+    			Properties p = new Properties();
+                p.load(new FileInputStream(libDirectory + "/" + GLOBAL_PROPERTIES_FILE_NAME));
+                stdDir = p.getProperty(PROPERTIES_DIR_VAR_NAME);
+                winDir = p.getProperty(PROPERTIES_WIN_DIR_VAR_NAME);
+            } catch (Exception e) {
+                //e.printStackTrace();
+            	System.out.println(e);
+            }
+    		
+    		File propertiesFile = new File(libDirectory + "/properties.zip" );
+    		if (propertiesFile.exists() && (stdDir == null || (win && winDir == null))) {
+    			try {
+					URL[] urls = {propertiesFile.toURI().toURL()};
+		
+			   	 	ResourceBundle rb = ResourceBundle.getBundle(DEFAULT_BUNDLE_NAME,
+			   	 			Locale.getDefault(),
+			   	 			new URLClassLoader(urls));
+			   	 	stdDir = getVar(rb, PROPERTIES_DIR_VAR_NAME, stdDir);
+			   	 	winDir = getVar(rb, PROPERTIES_WIN_DIR_VAR_NAME, winDir);
+	    		} catch (Exception e) {	}
+    		}
+	   	 	ret = stdDir;
+	   	 	
+	   	 	if (win && winDir != null && ! Common.exists(stdDir)) {
+	   	 		ret = winDir;
+	   	 	}
+    		
 	    } catch (Exception e) {
     		e.printStackTrace();
 		}
     	return ret;
     }
+    
+    private String getVar(ResourceBundle rb, String var, String defaultValue) {
+    	 String val = defaultValue;
+    			 
+    	 if (rb != null) {
+	    	 try {
+				 String s = rb.getString(var);
+				 if (s != null || "".equals(s)) {
+					 val = s;
+				 }
+			} catch (Exception e) {
+			}
+    	 }
+    	 
+    	 return expandVar(val);
+    }
 
+    private String expandVar(String stdDir) {
+    	if (stdDir == null) return null;
+    	
+    	String ret = stdDir;
+        String lcName = stdDir.toLowerCase();
 
+        if (lcName.startsWith("<lib>")) {
+            ret = libDirectory  + ret.substring(5);
+        } else if (lcName.startsWith("<install>")) {
+            ret = libDirectory.substring(0, libDirectory.length()-4)
+            	+ ret.substring("<install>".length());
+        } else {
+			String userHome = System.getProperty("user.home");
+			if (lcName.startsWith("<home>")) {
+			    ret = userHome + ret.substring(6);
+			} else if (lcName.startsWith("<appdata>")) {
+				String d = userHome;
+				try {
+					if (win) {
+						String ss = System.getenv("APPDATA");
+						if (ss != null && ! "".equals(ss)) {
+							d = ss;
+						}
+					}
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+						
+						
+			    ret = d + ret.substring(9);
+			}
+		}
+        return ret;
+    }
+
+    public static String[] getArgs(String[] args) {
+    
+    	String[] args1 = args;
+    	if (args.length < 2) {
+     		args1 = new String[0];
+     	} else {
+    // 		int i = 0;
+     		args1 = new String[args.length - 1];
+     		
+     		for (int i = 0; i < args.length - 1; i++) {
+     			args1[i] = args[i+1];
+     		}
+     	}
+    	return args1; 
+    }
+    
     public static void main(String[] args) throws MalformedURLException {
-    	System.out.println("\t Upack program");
+ //   	System.out.println("\t Upack program");
     	new Run();
     }
 
 
+    
 }

@@ -5,10 +5,13 @@ import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
+import net.sf.JRecord.CsvParser.CsvDefinition;
 import net.sf.JRecord.CsvParser.ICsvLineParser;
 import net.sf.JRecord.CsvParser.ICsvDefinition;
 import net.sf.JRecord.CsvParser.ParserManager;
+import net.sf.JRecord.Details.RecordDetail.FieldDetails;
 import net.sf.JRecord.Types.Type;
+import net.sf.JRecord.Types.TypeChar;
 import net.sf.JRecord.Types.TypeManager;
 
 
@@ -72,7 +75,8 @@ public class CharLine extends BasicLine<CharLine>  {
 		if (field.isFixedFormat()) {
 			if (field.getType() == Type.ftChar
 			||  field.getType() == Type.ftCharRightJust
-			||  field.getType() == Type.ftCharRestOfRecord) {
+			||  field.getType() == Type.ftCharRestOfRecord 
+			||  TypeManager.getInstance().getType(field.getType()) == TypeManager.getInstance().getType(Type.ftChar)) {
 				return getFieldText(field);
 			}
 
@@ -82,7 +86,7 @@ public class CharLine extends BasicLine<CharLine>  {
 					field.getType(), field.getDecimal() ,field.getFontName(), field.getFormat(), field.getParamater());
 			tmpField.setPosLen(1, bytes.length);
 
-			return type.getField(bytes, 1, field);
+			return type.getField(bytes, 1, tmpField);
 		} else {
 			return layout.formatCsvField(field, field.getType(), getLineData());
 		}
@@ -191,11 +195,7 @@ public class CharLine extends BasicLine<CharLine>  {
 	 */
 	@Override
 	public void setData(byte[] newVal) {
-		if (newVal == null || newVal.length == 0) {
-			data = "";
-		} else {
-			data = Conversion.toString(newVal, layout.getFontName());
-		}
+		data = toStr(newVal, layout.getFontName());
 	}
 
 
@@ -212,17 +212,27 @@ public class CharLine extends BasicLine<CharLine>  {
 
 			s = type.formatValueForRecord(field, s);
 
+			if (s.length() < field.getLen()
+			&&	type instanceof TypeChar && ! ((TypeChar) type).isLeftJustified()) {
+				s = Conversion.padFront(s, field.getLen() - s.length(), ' ');
+			} 
 			updateData(field.getPos(), field.getLen(), s);
 		} else {
 	        ICsvLineParser parser = ParserManager.getInstance().get(field.getRecord().getRecordStyle());
 	        Type typeVal = TypeManager.getSystemTypeManager().getType(field.getType());
 	        String s = typeVal.formatValueForRecord(field, value.toString());
+	    	ICsvDefinition csvDef;
+	    	if (field.getRecord() instanceof ICsvDefinition) {
+	    		csvDef = (ICsvDefinition) field.getRecord();
+	    	} else {
+	    		csvDef = new CsvDefinition(layout.getDelimiter(), field.getQuote());
+	    	}
 
             data =
             		parser.setField(field.getPos() - 1,
             				typeVal.getFieldType(),
             				data,
-            				(ICsvDefinition) field.getRecord(),
+            				csvDef,
             				s);
 		}
 	}
@@ -240,6 +250,17 @@ public class CharLine extends BasicLine<CharLine>  {
 		IFieldDetail fldDef = layout.getRecord(recordIdx).getField(fieldIdx);
 
 		updateData(fldDef.getPos(), fldDef.getLen(), value);
+	}
+	
+	protected static String toStr(byte[] b, String charset) {
+		String str;
+		if (b == null || b.length == 0) {
+			str = "";
+		} else {
+			str = Conversion.toString(b, charset);
+		}
+		
+		return str;
 	}
 
 	private void updateData(int pos, int length, String value) {
@@ -277,4 +298,28 @@ public class CharLine extends BasicLine<CharLine>  {
     	return lineProvider.getLine(layout, getLineData());
     }
 
+
+	@Override
+	public boolean isDefined(int rec, int fldNum) {
+		FieldDetails field = layout.getRecord(rec).getField(fldNum);
+		if (this.data == null || data.length() <= field.getPos()) {
+			return false;
+		}
+
+		if (TypeManager.isNumeric(field.getType())) {
+			int e = Math.min(field.getPos() + field.getLen(), data.length());
+			for (int i = field.getPos() - 1; i < e; i++) {
+				switch (data.charAt(i)) {
+				case ' ':
+				case 0:
+					break;
+				default:
+					return true;
+				}
+			}
+			return false;
+		}
+		return true;
+		
+	}
 }

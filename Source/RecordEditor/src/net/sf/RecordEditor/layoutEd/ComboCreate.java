@@ -153,7 +153,7 @@ public class ComboCreate extends ReFrame {
     	ComboRec rec;
 
         if (action == ReActionHandler.HELP) {
-            pnlCombo.showHelp();
+            pnlCombo.showHelpRE();
 //        } else if (action == ReActionHandler.NEW) {
 //        	if (saveRecord().isUpdateSuccessful()) {
 //        		pnlCombo.setValues(null);

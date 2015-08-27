@@ -12,7 +12,6 @@ package net.sf.RecordEditor.utils.screenManager;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.beans.PropertyVetoException;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
@@ -24,6 +23,7 @@ import javax.swing.event.InternalFrameListener;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
  * This class forms the basis of all record editor frames
@@ -70,11 +70,13 @@ public class ReFrame extends JInternalFrame
         	} catch (Exception ee) {
 			}
             allFrames.remove(ReFrame.this);
+            desktop.remove(ReFrame.this);
 
             findNewActiveDisplay();
 
             activeHistory.remove(ReFrame.this);
             windowClosing();
+            document = null;
         }
 
         public void internalFrameClosing(InternalFrameEvent e) {
@@ -436,8 +438,8 @@ public class ReFrame extends JInternalFrame
 		pack();
 		setResizable (true);
 
-		panel.registerOneComponent(this);
-		panel.registerOneComponent(getContentPane());
+		panel.registerOneComponentRE(this);
+		panel.registerOneComponentRE(getContentPane());
     }
 
 
@@ -472,19 +474,9 @@ public class ReFrame extends JInternalFrame
 	    	}
 
 	       	if (newActiveFrame != null) {
-	       		boolean max = newActiveFrame.isMaximum();
-	       		//System.out.println(" !! Getting Focus " + newActiveFrame.getClass().getName() + " " + max);
 	       		newActiveFrame.removeInternalFrameListener(newActiveFrame.listener);
-
-	       		newActiveFrame.moveToFront();
-	       		newActiveFrame.requestFocus(true);
-		        try {
-		        	newActiveFrame.setSelected(true);
-		        	newActiveFrame.setMaximum(max);
-		        } catch (Exception ex) {
-		        }
-	            activeHistory.remove(newActiveFrame);
-	            activeHistory.add(newActiveFrame);
+	       		
+	       		moveFrameToFront(newActiveFrame);
 
 	            newActiveFrame.addInternalFrameListener(newActiveFrame.listener);
 	       	}
@@ -495,6 +487,21 @@ public class ReFrame extends JInternalFrame
     	}
     }
 
+    
+    public static void moveFrameToFront(ReFrame newActiveFrame) {
+    	
+   		boolean max = newActiveFrame.isMaximum();
+
+   		newActiveFrame.moveToFront();
+   		newActiveFrame.requestFocus(true);
+        try {
+        	newActiveFrame.setSelected(true);
+        	newActiveFrame.setMaximum(max);
+        } catch (Exception ex) {
+        }
+        activeHistory.remove(newActiveFrame);
+        activeHistory.add(newActiveFrame);
+   }
 
     /**
      * Set the desktop being used to display the ReFrames
@@ -580,4 +587,8 @@ public class ReFrame extends JInternalFrame
 		return forcedClose;
 	}
 
+	public static boolean isWideDesktop() {
+		return desktop.getWidth() / SwingUtils.CHAR_FIELD_WIDTH > 70;
+	}
+	
 }

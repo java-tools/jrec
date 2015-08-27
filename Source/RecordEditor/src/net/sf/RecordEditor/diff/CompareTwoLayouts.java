@@ -23,12 +23,13 @@ public class CompareTwoLayouts extends TwoLayoutsWizard<DiffDefinition> {
 	 * @param selection record layout selection class
 	 */
 	public CompareTwoLayouts(AbstractLayoutSelection selection1, AbstractLayoutSelection selection2,
-			String recentFiles) {
+			String recentFiles, boolean lookupRecentLayouts) {
 		this(
 			 selection1, 
 			 selection2, 
 			 new net.sf.RecordEditor.jibx.compare.DiffDefinition(), 
-			 recentFiles);
+			 recentFiles,
+			 lookupRecentLayouts);
 	}
 	
 	
@@ -39,14 +40,14 @@ public class CompareTwoLayouts extends TwoLayoutsWizard<DiffDefinition> {
 	 */
 
 	public CompareTwoLayouts(AbstractLayoutSelection selection1, AbstractLayoutSelection selection2, 
-			DiffDefinition definition, String recentFiles) {
+			DiffDefinition definition, String recentFiles, boolean lookupRecentLayouts) {
 		super("Two Layout Compare", definition); 
 		
 		definition.type = DiffDefinition.TYPE_TWO_LAYOUTS;
 		
-		finalScreen = new CmpWizardFinal(selection1, selection2);
+		finalScreen = new CmpWizardFinal(selection1, selection2, lookupRecentLayouts);
 		
-		super.setUpPanels(selection1, selection2, recentFiles, finalScreen, Common.HELP_DIFF_TL);
+		super.setUpPanels(selection1, selection2, recentFiles, finalScreen, Common.HELP_DIFF_TL, true, lookupRecentLayouts);
 	}
 
 

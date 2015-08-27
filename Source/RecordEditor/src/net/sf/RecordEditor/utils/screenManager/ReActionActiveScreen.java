@@ -102,17 +102,24 @@ implements AbstractActiveScreenAction {
 
     	switch (actionId) {
     	case ReActionHandler.INSERT_RECORDS:
-    		k = KeyStroke.getKeyStroke(KeyEvent.VK_INSERT,ActionEvent.CTRL_MASK);
+    		k = KeyStroke.getKeyStroke(KeyEvent.VK_INSERT, ActionEvent.ALT_MASK);
+    		break;
+    	case ReActionHandler.DELETE_RECORD:
+    		k = KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, ActionEvent.ALT_MASK);
     		break;
     	//case ReActionHandler.DELETE_RECORD: k = KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0);	break;
-      	case ReActionHandler.FIND: 		k = KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.CTRL_MASK);	break;
-        case ReActionHandler.SAVE:		k = KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK);	break;
+      	case ReActionHandler.COPY_RECORD: 	k = KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.ALT_MASK);	break;
+      	case ReActionHandler.CUT_RECORD: 	k = KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.ALT_MASK);	break;
+     	case ReActionHandler.PASTE_RECORD: 	k = KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.ALT_MASK);	break;
+     	
+      	case ReActionHandler.FIND: 			k = KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.CTRL_MASK);	break;
+        case ReActionHandler.SAVE:			k = KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK);	break;
         case ReActionHandler.SAVE_AS:
         	k = KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK + ActionEvent.ALT_MASK );
         	break;
-    	case ReActionHandler.PRINT: 	k = KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK);	break;
-    	case ReActionHandler.CLOSE_TAB: k = KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK);	break;
-   	}
+    	case ReActionHandler.PRINT: 		k = KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK);	break;
+    	case ReActionHandler.CLOSE_TAB: 	k = KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK);	break;
+    	}
 
     	if ( k != null) {
     		this.putValue(Action.ACCELERATOR_KEY, k);

@@ -33,4 +33,6 @@ public interface FieldWriter {
 	public abstract void endLevel();
 
 	public abstract boolean printAllFields();
+
+	public abstract void writeField(String field, boolean isNumeric) throws IOException;
 }

@@ -95,12 +95,12 @@ public final class AddAttributes extends ReFrame implements ActionListener  {
 	 */
 	public void init_200_LayoutScreen() {
 
-		pnl.addLine("Layout", layoutSelection);
-		pnl.addComponent(1, 5, FIELD_TABLE_HEIGHT, BasePanel.GAP2,
+		pnl.addLineRE("Layout", layoutSelection);
+		pnl.addComponentRE(1, 5, FIELD_TABLE_HEIGHT, BasePanel.GAP2,
 				BasePanel.FULL, BasePanel.FULL,
 				attributeTbl);
 
-		pnl.addLine("", null,  addBtn);
+		pnl.addLineRE("", null,  addBtn);
 
 		this.addMainComponent(pnl);
 		this.setVisible(true);

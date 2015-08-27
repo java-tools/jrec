@@ -1,0 +1,39 @@
+IBM00858	Cp858	Variant of Cp850 with Euro character
+IBM437	Cp437	MS-DOS United States, Australia, New Zealand, South Africa
+IBM775	Cp775	PC Baltic
+IBM850	Cp850	MS-DOS Latin-1
+IBM852	Cp852	MS-DOS Latin-2
+IBM855	Cp855	IBM Cyrillic
+IBM857	Cp857	IBM Turkish
+IBM862	Cp862	PC Hebrew
+IBM866	Cp866	MS-DOS Russian
+ISO-8859-1	ISO8859_1	ISO-8859-1, Latin Alphabet No. 1
+ISO-8859-2	ISO8859_2	Latin Alphabet No. 2
+ISO-8859-4	ISO8859_4	Latin Alphabet No. 4
+ISO-8859-5	ISO8859_5	Latin/Cyrillic Alphabet
+ISO-8859-7	ISO8859_7	Latin/Greek Alphabet (ISO-8859-7:2003)
+ISO-8859-9	ISO8859_9	Latin Alphabet No. 5
+ISO-8859-13	ISO8859_13	Latin Alphabet No. 7
+ISO-8859-15	ISO8859_15	Latin Alphabet No. 9
+KOI8-R	KOI8_R	KOI8-R, Russian
+KOI8-U	KOI8_U	KOI8-U, Ukrainian
+US-ASCII	ASCII	American Standard Code for Information Interchange
+UTF-8	UTF8	Eight-bit Unicode (or UCS) Transformation Format
+UTF-16	UTF-16	Sixteen-bit Unicode (or UCS) Transformation Format, byte orderidentified by an optional byte-order mark
+UTF-16BE	UnicodeBigUnmarked	Sixteen-bit Unicode (or UCS) Transformation Format, big-endianbyte order
+UTF-16LE	UnicodeLittleUnmarked	Sixteen-bit Unicode (or UCS) Transformation Format,little-endian byte order
+UTF-32	UTF_32	32-bit Unicode (or UCS) Transformation Format, byte orderidentified by an optional byte-order mark
+UTF-32BE	UTF_32BE	32-bit Unicode (or UCS) Transformation Format, big-endian byteorder
+UTF-32LE	UTF_32LE	32-bit Unicode (or UCS) Transformation Format, little-endianbyte order
+x-UTF-32BE-BOM	UTF_32BE_BOM	32-bit Unicode (or UCS) Transformation Format, big-endian byteorder, with byte-order mark
+x-UTF-32LE-BOM	UTF_32LE_BOM	32-bit Unicode (or UCS) Transformation Format, little-endianbyte order, with byte-order mark
+windows-1250	Cp1250	Windows Eastern European
+windows-1251	Cp1251	Windows Cyrillic
+windows-1252	Cp1252	Windows Latin-1
+windows-1253	Cp1253	Windows Greek
+windows-1254	Cp1254	Windows Turkish
+windows-1257	Cp1257	Windows Baltic
+Not available	UnicodeBig	Sixteen-bit Unicode (or UCS) Transformation Format, big-endianbyte order, with byte-order mark
+x-IBM737	Cp737	PC Greek
+x-IBM874	Cp874	IBM Thai
+x-UTF-16LE-BOM	UnicodeLittle	Sixteen-bit Unicode (or UCS) Transformation Format,little-endian byte order, with byte-order mark

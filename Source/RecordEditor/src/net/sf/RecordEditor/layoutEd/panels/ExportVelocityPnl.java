@@ -14,19 +14,25 @@ import net.sf.RecordEditor.layoutEd.utils.LayoutVelocity;
 import net.sf.RecordEditor.re.db.Record.RecordRec;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.treeCombo.FileSelectCombo;
+
 
 @SuppressWarnings("serial")
 public class ExportVelocityPnl extends ReFrame {
 
+
 	private BaseHelpPanel pnl = new BaseHelpPanel();
 
-    private FileChooser fileNameFC = new FileChooser(false);
-    private FileChooser templateFC = new FileChooser(false);
+    private FileSelectCombo fileNameFC = new FileSelectCombo(Parameters.LIST_SAVE_FILES, 16, false, false, true);
+    	//= new TreeComboFileSelect(false, false, true, INPUT_FILES);
+    		//new FileChooser(false);
+    private FileSelectCombo templateFC = new FileSelectCombo(Parameters.VELOCITY_SCHEMA_SKELS_LIST, 9, false, false);
+    		//new FileChooser(false);
 
     private final JCheckBox keepOpenChk = new JCheckBox();
     private JButton saveFileBtn = SwingUtils.newButton(
@@ -73,16 +79,16 @@ public class ExportVelocityPnl extends ReFrame {
 	//	pnl.setHelpURL(Common.formatHelpURL(Common.HELP_SAVE_AS));
     	pnl.addReKeyListener(listner);
 
-    	pnl.setGap(BaseHelpPanel.GAP2);
-        pnl.addLine("Export File Name", fileNameFC, fileNameFC.getChooseFileButton())
-           .setGap(BasePanel.GAP2);
-        pnl.addLine("Velocity Template", templateFC, templateFC.getChooseFileButton())
-           .setGap(BaseHelpPanel.GAP2);
+    	pnl.setGapRE(BaseHelpPanel.GAP2);
+        pnl.addLineRE("Export File Name", fileNameFC)
+           .setGapRE(BasePanel.GAP2);
+        pnl.addLineRE("Velocity Template", templateFC)
+           .setGapRE(BaseHelpPanel.GAP2);
 
-        pnl.addLine("Keep screen open", keepOpenChk, saveFileBtn);
-        pnl.setGap(BasePanel.GAP3);
+        pnl.addLineRE("Keep screen open", keepOpenChk, saveFileBtn);
+        pnl.setGapRE(BasePanel.GAP3);
         pnl.addMessage(new JScrollPane(message));
-        pnl.setHeight(BasePanel.GAP5 * 2);
+        pnl.setHeightRE(BasePanel.GAP5 * 2);
     }
 
 

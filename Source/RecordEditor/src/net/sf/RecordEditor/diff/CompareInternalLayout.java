@@ -11,7 +11,7 @@ import net.sf.RecordEditor.re.util.wizard.FieldChoice;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboFileSelect;
 import net.sf.RecordEditor.utils.wizards.AbstractWizard;
 import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 
@@ -60,7 +60,7 @@ public class CompareInternalLayout extends AbstractWizard<DiffDefinition> {
 
 		definition.type = DiffDefinition.TYPE_TWO_LAYOUTS;
 
-		finalScreen = new CmpWizardFinal(selection1, selection2);
+		finalScreen = new CmpWizardFinal(selection1, selection2, true);
 		pnls[0] = new GetFiles(selection1, selection2, recentFiles);
 		pnls[1] = new FieldChoice<DiffDefinition>(selection1, selection2, "");
 		pnls[2] = finalScreen;
@@ -137,7 +137,7 @@ public class CompareInternalLayout extends AbstractWizard<DiffDefinition> {
 		private DiffDefinition values
 			= new net.sf.RecordEditor.jibx.compare.DiffDefinition();
 //		private JPanel goPanel = new JPanel();
-		private FileChooser newFileName = new FileChooser();
+		private TreeComboFileSelect newFileName = new TreeComboFileSelect(true, false, true, getRecentList(), getRecentDirectoryList());
 		private AbstractLayoutSelection layoutSelection1;
 		private AbstractLayoutSelection layoutSelection2;
 
@@ -152,7 +152,7 @@ public class CompareInternalLayout extends AbstractWizard<DiffDefinition> {
 			layoutSelection1.setFileNameField(fileName);
 			layoutSelection2.setFileNameField(newFileName);
 
-			setHelpURL(Common.formatHelpURL(Common.HELP_DIFF_SL));
+			setHelpURLre(Common.formatHelpURL(Common.HELP_DIFF_SL));
 		}
 
 
@@ -197,8 +197,9 @@ public class CompareInternalLayout extends AbstractWizard<DiffDefinition> {
 		@Override
 		protected void addFileName(BaseHelpPanel pnl) {
 
-			pnl.addLine("Old File", fileName, fileName.getChooseFileButton());
-			pnl.addLine("New File", newFileName, newFileName.getChooseFileButton());
+//			pnl.addLine("Old File", fileName, fileName.getChooseFileButton());
+			pnl.addLineRE("Old File", fileName);
+			pnl.addLineRE("New File", newFileName);
 		}
 	}
 

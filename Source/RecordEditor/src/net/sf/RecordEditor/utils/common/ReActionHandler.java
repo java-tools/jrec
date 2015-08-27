@@ -23,7 +23,7 @@ public interface ReActionHandler {
     public static final int EXPORT_AS_HTML    = 3;
     public static final int EXPORT_AS_HTML_TBL_PER_ROW = 4;
     public static final int EXPORT_VELOCITY   = 5;
-    public static final int SAVE_AS_XML     = 44;
+    public static final int SAVE_AS_XML       = 44;
     public static final int SAVE_LAYOUT_XML   = 45;
     public static final int EXPORT_HTML_TREE  = 46;
     public static final int EXPORT_AS_CSV     = 51;
@@ -55,18 +55,34 @@ public interface ReActionHandler {
     public static final int BUILD_XML_TREE_SELECTED    = 21;
     public static final int BUILD_LAYOUT_TREE_SELECTED = 22;
 
-    public static final int HELP            = 23;
+    public static final int HELP                = 23;
 
-    public static final int COPY_RECORD     = 24;
+    public static final int COPY_SELECTED_CELLS = 76;
+    public static final int COPY_RECORD         = 24;
 
-    public static final int CUT_RECORD      = 25;
+    public static final int CUT_RECORD          = 25;
+    public static final int CUT_SELECTED_CELLS	= 81;
+    public static final int CLEAR_SELECTED_CELLS= 82;
 
-    public static final int PASTE_RECORD    = 26;
+    public static final int PASTE_RECORD              = 26;
 
-    public static final int PASTE_RECORD_PRIOR = 27;
+    public static final int PASTE_RECORD_PRIOR        = 27;
+    
+    public static final int PASTE_RECORD_POPUP        = 73;
+
+    public static final int PASTE_RECORD_PRIOR_POPUP  = 74;
+    public static final int PASTE_TABLE_OVER_SELECTION= 75;
+    public static final int PASTE_TABLE_OVERWRITE     = 47;
+    public static final int PASTE_TABLE_INSERT        = 48;
+    public static final int PASTE_INSERT_CELLS		  = 79;
+    
+    
+    
     public static final int INSERT_RECORDS  = 28;
 
     public static final int DELETE_RECORD   = 29;
+
+    public static final int DELETE_SELECTED_CELLS = 80;
 
     public static final int SORT            = 30;
 
@@ -89,8 +105,6 @@ public interface ReActionHandler {
     public static final int EXECUTE_SAVED_RECORD_TREE = 42;
     public static final int COMPARE_WITH_DISK       = 43;
 
-    public static final int PASTE_TABLE_OVERWRITE   = 47;
-    public static final int PASTE_TABLE_INSERT      = 48;
 
     public static final int SHOW_INVALID_ACTIONS    = 49;
     public static final int AUTOFIT_COLUMNS         = 50;
@@ -116,13 +130,11 @@ public interface ReActionHandler {
 
     public static final int INSERT_RECORDS_POPUP      = 71;
     public static final int INSERT_RECORD_PRIOR_POPUP = 72;
-    public static final int PASTE_RECORD_POPUP        = 73;
+    public static final int DELETE_RECORD_POPUP       = 77;
+    public static final int DELETE_BUTTON             = 78;
 
-    public static final int PASTE_RECORD_PRIOR_POPUP  = 74;
-    public static final int DELETE_RECORD_POPUP       = 75;
-    public static final int DELETE_BUTTON             = 76;
 
-    public static final int MAX_ACTION      = 77;
+    public static final int MAX_ACTION      = 83;
 
     /**
      * Execute a form action

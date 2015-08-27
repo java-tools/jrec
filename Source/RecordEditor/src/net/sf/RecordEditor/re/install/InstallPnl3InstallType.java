@@ -51,11 +51,11 @@ public class InstallPnl3InstallType extends BasicWizardPnl implements IInstaller
 	private void init_200_layoutScreen() {
 		ButtonGroup grp = new ButtonGroup();
 
-		panel.addComponent(1, 3, CommonCode.TIP_HEIGHT, BasePanel.GAP1,
+		panel.addComponentRE(1, 3, CommonCode.TIP_HEIGHT, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
 
-		panel.addLine("Type of H2 DB connection:", null);
+		panel.addLineRE("Type of H2 DB connection:", null);
 
 		init_220_addOption(grp, mixedModeBtn);
 		init_220_addOption(grp, ServerBtn);
@@ -67,7 +67,7 @@ public class InstallPnl3InstallType extends BasicWizardPnl implements IInstaller
 	private void init_220_addOption(ButtonGroup grp, JRadioButton btn) {
 
     	grp.add(btn);
-    	panel.addLine((String) null, btn);
+    	panel.addLineRE((String) null, btn);
 	}
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.re.install.BasicWizardPnl#skip()

@@ -38,6 +38,6 @@ public interface AbstractWizardPanel<Details> {
     /**
      * Show Help Screen ???
      */
-    public abstract void showHelp();
+    public abstract void showHelpRE();
     
 }

@@ -21,7 +21,6 @@ import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.CsvParser.ICsvLineParser;
 import net.sf.JRecord.CsvParser.CsvDefinition;
 import net.sf.JRecord.CsvParser.ParserManager;
-import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.LineProvider;
@@ -37,16 +36,14 @@ import net.sf.JRecord.charIO.StandardCharReader;
  * @author Bruce Martin
  *
  */
-public class TextLineReader extends StandardLineReader {
+public class TextLineReader extends BasicTextLineReader {
 
-    private InputStream inStream;
-//	private InputStreamReader stdReader;
-//	protected BufferedReader reader = null;
-    ICharReader reader = null;
-	private boolean namesInFile = false;
+	private static boolean DEFAULT_NAMES_IN_FILE = false;
+	private final boolean namesInFile;
 
     private String defaultDelim  = ",";
     private String defaultQuote  = "'";
+    private final ICharReader reader ;
 
 
 
@@ -54,7 +51,7 @@ public class TextLineReader extends StandardLineReader {
 	 * This class provides record oriented reading of a Text files
 	 */
 	public TextLineReader() {
-	    super();
+	    this(null, DEFAULT_NAMES_IN_FILE, new StandardCharReader());
 	}
 
 
@@ -67,7 +64,7 @@ public class TextLineReader extends StandardLineReader {
 	 * @param provider line provider
 	 */
 	public TextLineReader(@SuppressWarnings("rawtypes") final LineProvider provider) {
-	    super(provider);
+	    this(provider, DEFAULT_NAMES_IN_FILE, new StandardCharReader());
 	}
 
 	/**
@@ -82,16 +79,23 @@ public class TextLineReader extends StandardLineReader {
 	 */
 	public TextLineReader(@SuppressWarnings("rawtypes") final LineProvider provider,
 	        			  final boolean namesOn1stLine) {
-	    this(provider, namesOn1stLine, null);
+	    this(provider, namesOn1stLine, new StandardCharReader());
 	}
 
+	/**
+	 * Get Text-Line-Reader for a supplied CharReader 
+	 * @param provider Line provider
+	 * @param namesOn1stLine wether the file has names on the first line
+	 * @param r reader
+	 */
 	public TextLineReader(@SuppressWarnings("rawtypes") final LineProvider provider,
 			  final boolean namesOn1stLine,
 			  ICharReader r) {
 		super(provider);
-
-		namesInFile = namesOn1stLine;
+		
 		reader = r;
+		namesInFile = namesOn1stLine;
+
 	}
 
 
@@ -101,22 +105,17 @@ public class TextLineReader extends StandardLineReader {
     public void open(InputStream inputStream, LayoutDetail layout)
     throws IOException, RecordException {
     	String font = "";
-        inStream = inputStream;
-        setLayout(layout);
-
 		if (layout != null) {
 			font = layout.getFontName();
 		}
-		if (reader == null) {
-			reader = new StandardCharReader();
-		}
-		reader.open(inputStream, font);
+    	
+    	super.open(reader, inputStream, layout, font);
 
 		if (namesInFile) {
 			if (layout != null && layout.useThisLayout()) {
 				read();
 			} else {
-				createLayout(reader, inputStream, font);
+				createLayout(getReader(), inputStream, font);
 			}
 		}
     }
@@ -264,40 +263,6 @@ public class TextLineReader extends StandardLineReader {
             }
         }
         return ret;
-    }
-
-
-    /**
-     * @see net.sf.JRecord.IO.StandardLineReader#read()
-     */
-    public AbstractLine read()  throws IOException {
-        AbstractLine ret = null;
-
-        if (reader == null) {
-            throw new IOException(StandardLineReader.NOT_OPEN_MESSAGE);
-        }
-        String s = reader.read();
-
-        if (s != null) {
-            ret = getLine(s);
-        }
-
-        return ret;
-    }
-
-
-    /**
-     * @see net.sf.JRecord.IO.StandardLineReader#close()
-     */
-    public void close() throws IOException {
-
-        if (reader != null) {
-            reader.close();
-    		inStream.close();
-        }
-
-    	reader    = null;
-    	inStream  = null;
     }
 
 

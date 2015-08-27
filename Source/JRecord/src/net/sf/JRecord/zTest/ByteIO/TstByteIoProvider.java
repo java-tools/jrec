@@ -9,7 +9,7 @@ package net.sf.JRecord.zTest.ByteIO;
 import junit.framework.TestCase;
 import net.sf.JRecord.ByteIO.ByteIOProvider;
 import net.sf.JRecord.ByteIO.FixedLengthByteReader;
-import net.sf.JRecord.ByteIO.FixedLengthByteWriter;
+import net.sf.JRecord.ByteIO.BinaryByteWriter;
 import net.sf.JRecord.ByteIO.FujitsuVbByteReader;
 import net.sf.JRecord.ByteIO.FujitsuVbByteWriter;
 import net.sf.JRecord.ByteIO.VbByteReader;
@@ -42,7 +42,7 @@ public class TstByteIoProvider extends TestCase {
 
     @SuppressWarnings("unchecked")
 	private Class[] classWriters = {
-            FixedLengthByteWriter.class,
+            BinaryByteWriter.class,
             VbByteWriter.class,
             VbDumpByteWriter.class,
             FujitsuVbByteWriter.class

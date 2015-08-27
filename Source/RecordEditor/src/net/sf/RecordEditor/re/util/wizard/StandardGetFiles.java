@@ -5,6 +5,7 @@ import net.sf.RecordEditor.jibx.compare.BaseCopyDif;
 import net.sf.RecordEditor.jibx.compare.File;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.msg.UtMessages;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 
 
@@ -20,14 +21,16 @@ public class StandardGetFiles<Save extends BaseCopyDif> extends  AbstractFilePnl
 //		private JPanel goPanel = new JPanel();
 	private AbstractLayoutSelection layoutSelection;
 	int fileNo;
+	private final boolean fileMustExist;
 
-	public StandardGetFiles(AbstractLayoutSelection selection, int fileNumber, String recentFiles, String help) {
+	public StandardGetFiles(AbstractLayoutSelection selection, int fileNumber, String recentFiles, String help, boolean fileMustExist) {
 		super(selection, recentFiles);
 
-		layoutSelection = selection;
-		fileNo =  fileNumber;
+		this.layoutSelection = selection;
+		this.fileNo =  fileNumber;
+		this.fileMustExist = fileMustExist;
 
-		setHelpURL(Common.formatHelpURL(help /*Common.HELP_DIFF_TL*/));
+		setHelpURLre(Common.formatHelpURL(help /*Common.HELP_DIFF_TL*/));
 	}
 
 
@@ -47,6 +50,12 @@ public class StandardGetFiles<Save extends BaseCopyDif> extends  AbstractFilePnl
 		fileDtl.getLayoutDetails().name = layoutSelection.getLayoutName();
 		if (layoutSelection.getRecordLayout(fileDtl.name) == null) {
 			throw new RecordRunTimeException("Layout Does not exist");
+		}
+		if (fileMustExist) {
+			checkFile(fileDtl.name, fileName);
+		} else if ((new java.io.File(fileDtl.name)).isDirectory()) {
+			fileName.requestFocus();
+			throw new RuntimeException(UtMessages.DIRECTORY_NOT_ALLOWED.get(fileDtl.name));
 		}
 
 		return values;
@@ -72,9 +81,9 @@ public class StandardGetFiles<Save extends BaseCopyDif> extends  AbstractFilePnl
 			fileName.setText(fileDtl.name);
 		}
 
-		if (! "".equals(fileDtl.name)) {
-			fileName.setText(fileDtl.name);
-		}
+//		if (! "".equals(fileDtl.name)) {
+//			fileName.setText(fileDtl.name);
+//		}
 
 		layoutName = fileDtl.getLayoutDetails().name;
 		if (! "".equals(layoutName)) {
@@ -89,6 +98,6 @@ public class StandardGetFiles<Save extends BaseCopyDif> extends  AbstractFilePnl
 	@Override
 	protected void addFileName(BaseHelpPanel pnl) {
 
-		pnl.addLine(FILE_PROMPT[fileNo], fileName, fileName.getChooseFileButton());
+		pnl.addLineRE(FILE_PROMPT[fileNo], fileName);
 	}
 }

@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
@@ -38,7 +37,7 @@ public class TipsImpl {
 			}
 			tips.showDialog(parent, new StartupHandler(tipVariable));
 		} catch (IOException ioe) {
-			Common.logMsgRaw("IO Error Loading Tips", ioe);
+//			Common.logMsgRaw("IO Error Loading Tips", ioe);
 			ioe.printStackTrace();
 		}
 	}

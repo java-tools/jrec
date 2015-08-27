@@ -1,5 +1,6 @@
 package net.sf.RecordEditor.re.display;
 
+import net.sf.RecordEditor.edit.display.common.ILayoutChanged;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
@@ -12,7 +13,7 @@ import net.sf.RecordEditor.utils.screenManager.ReFrame;
  *
  * @param <BD> Base-Screen-View
  */
-public interface IDisplayFrame<BD extends AbstractFileDisplay> extends ReActionHandler {
+public interface IDisplayFrame<BD extends AbstractFileDisplay> extends ReActionHandler, ILayoutChanged {
 
 	public abstract void addScreen(BD d);
 

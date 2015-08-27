@@ -97,19 +97,19 @@ public class Pnl4CsvNames extends WizardPanel {
 	    typeEditor = BuildTypeComboList.getTreeComboRender(typeCombolist);
 	    //typeEditor.setClickCountToStart(1);
 
-		this.setHelpURL(Common.formatHelpURL(Common.HELP_WIZARD_PNL5));
-		this.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP3,
+		this.setHelpURLre(Common.formatHelpURL(Common.HELP_WIZARD_PNL5));
+		this.addComponentRE(1, 5, TIP_HEIGHT, BasePanel.GAP3,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
-		this.setGap(BasePanel.GAP1);
-		this.addComponent(1, 5, COLUMN_HEIGHT, BasePanel.GAP3,
+		this.setGapRE(BasePanel.GAP1);
+		this.addComponentRE(1, 5, COLUMN_HEIGHT, BasePanel.GAP3,
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(columnTbl));
-		this.setGap(BasePanel.GAP1);
-		this.addComponent(1, 5, FILE_HEIGHT, BasePanel.GAP3,
+		this.setGapRE(BasePanel.GAP1);
+		this.addComponentRE(1, 5, FILE_HEIGHT, BasePanel.GAP3,
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(fileTbl));
-		this.setGap(BasePanel.GAP1);
+		this.setGapRE(BasePanel.GAP1);
     }
 
     /**

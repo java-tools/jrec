@@ -38,7 +38,7 @@ public class ExecuteSavedFileBatch<details> {
 		net.sf.RecordEditor.jibx.JibxCall<details> jibx
 			= new net.sf.RecordEditor.jibx.JibxCall<details>(dtlsClass);
 
-		System.out.println(fileName);
+		//System.out.println(fileName);
 		saveDetails = jibx.marshal(fileName);
 
 		if (run) {

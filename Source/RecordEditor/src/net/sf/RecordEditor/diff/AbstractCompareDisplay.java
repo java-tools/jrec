@@ -197,10 +197,10 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 			pnl.addComponent3Lines("Layouts", getLayoutList(), btnPnl);
 		} else {
 			pnl.addComponent3Lines("Layouts", getLayoutList(), null);
-			pnl.addLine("", btnPnl);
+			pnl.addLineRE("", btnPnl);
 		}
 
-		pnl.setHeight(BasePanel.NORMAL_HEIGHT * 2);
+		pnl.setHeightRE(BasePanel.NORMAL_HEIGHT * 2);
 //		setBtnSize(fullListBtn, chgListBtn);
 
 		//pnl.setHeight(Math.max(25, iconHeight + 8));
@@ -303,7 +303,7 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 		try {
 		switch (action) {
 		case ReActionHandler.HELP:
-			pnl.showHelp();
+			pnl.showHelpRE();
 		break;
 		case ReActionHandler.PRINT:
 		    try {

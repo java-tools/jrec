@@ -18,7 +18,7 @@ import net.sf.RecordEditor.re.display.IDisplayBuilder;
 import net.sf.RecordEditor.re.display.IDisplayFrame;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
-import net.sf.RecordEditor.utils.fileStorage.DataStore;
+import net.sf.RecordEditor.utils.fileStorage.IDataStore;
 import net.sf.RecordEditor.utils.fileStorage.DataStoreStd;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
@@ -58,15 +58,15 @@ public class DuplicateFilter implements ActionListener {
 
 	private void init_200_LayoutScreen() {
 
-		panel.addLine("Remove if (msgctx, msgid*, msgstr*) the same", removeDuplicateChk);
+		panel.addLineRE("Remove if (msgctx, msgid*, msgstr*) the same", removeDuplicateChk);
 //		panel.addLine("Keep/Merge to MsgId", keepMsgIdChk);
-		panel.addLine("Remove Blank Duplicate Transalations", removeBlankDuplicateChk)
-	         .setGap(BaseHelpPanel.GAP2);
+		panel.addLineRE("Remove Blank Duplicate Transalations", removeBlankDuplicateChk)
+	         .setGapRE(BaseHelpPanel.GAP2);
 
-		panel.addLine("", runBtn)
-		     .setGap(BaseHelpPanel.GAP2);
+		panel.addLineRE("", runBtn)
+		     .setGapRE(BaseHelpPanel.GAP2);
 
-		panel.addMessage();
+		panel.addMessageRE();
 	}
 
 	private void init_300_Finalize() {
@@ -85,7 +85,7 @@ public class DuplicateFilter implements ActionListener {
 	 */
 	@Override
 	public final void actionPerformed(ActionEvent arg0) {
-		DataStore<AbstractLine> ds = getDuplicates();
+		IDataStore<AbstractLine> ds = getDuplicates();
 
 		if (ds != null && ds.size() > 0) {
 			FileView newView = new FileView(ds, view.getBaseFile(), null);
@@ -99,7 +99,7 @@ public class DuplicateFilter implements ActionListener {
 			l.getParentFrame().executeAction(ReActionHandler.ADD_CHILD_SCREEN_RIGHT);
 			l.getParentFrame().moveToFront();
 		} else {
-			panel.setMessageTxt("No Duplicates found !!!");
+			panel.setMessageTxtRE("No Duplicates found !!!");
 		}
 	}
 
@@ -107,7 +107,7 @@ public class DuplicateFilter implements ActionListener {
 	 *
 	 * @return Duplicate set
 	 */
-	public final DataStore<AbstractLine> getDuplicates() {
+	public final IDataStore<AbstractLine> getDuplicates() {
 
 		int en = view.getRowCount();
 		HashMap<String, AbstractLine> lineMap = new HashMap<String, AbstractLine>(en * 13 / 10);
@@ -141,8 +141,8 @@ public class DuplicateFilter implements ActionListener {
 		}
 
 		if (lineSet.size() > 0) {
-			DataStore<AbstractLine> ds = DataStoreStd.newStore(view.getLayout(), lineSet);
-			ds.sort(new Cmp());
+			IDataStore<AbstractLine> ds = DataStoreStd.newStore(view.getLayout(), lineSet);
+			ds.sortRE(new Cmp());
 
 			for (int i = ds.size()-2; i >= 0; i--) {
 				if (checkEqivalent(ds.get(i+1), ds.get(i))) {

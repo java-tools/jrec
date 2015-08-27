@@ -24,7 +24,8 @@ public final class RunDiffFileLayout {
      * @param args program arguments
      */
     public static void main(String[] args) {
-        new Run(Run.SYSTEM_JARS_FILENAME,
+        new Run(null,
+        		Run.SYSTEM_JARS_FILENAME,
                 null,
                 "net.sf.RecordEditor.diff.CompareFileLayout",
                 args);

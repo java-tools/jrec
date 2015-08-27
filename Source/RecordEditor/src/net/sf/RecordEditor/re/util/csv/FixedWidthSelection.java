@@ -4,8 +4,6 @@ import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -19,6 +17,8 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -34,7 +34,7 @@ import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.layoutWizard.Details;
-import net.sf.RecordEditor.layoutWizard.FileStructureAnalyser;
+import net.sf.RecordEditor.layoutWizard.FileAnalyser;
 import net.sf.RecordEditor.layoutWizard.WizardFileLayout;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.openFile.ComputerOptionCombo;
@@ -44,15 +44,15 @@ import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.treeCombo.FileSelectCombo;
 
 public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 
 	private static final String FIXED_ID = "FIXED";
 	private BaseHelpPanel pnl = new BaseHelpPanel();
 
-	private FileChooser layoutFile = new FileChooser();
+	private FileSelectCombo layoutFile = new FileSelectCombo(Parameters.SCHEMA_LIST, 25, true, false);
 	private final JLabel dialectLbl = new JLabel("Cobol Dialect");
 	private final ComputerOptionCombo dialectCombo = new ComputerOptionCombo();
 
@@ -79,34 +79,51 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 
 		fileTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-		layoutFile.setDefaultDirectory(Parameters.getFileName(Parameters.COPYBOOK_DIRECTORY));
+		layoutFile.setText(Parameters.getFileName(Parameters.COPYBOOK_DIRECTORY));
 
-		pnl.oneColumn();
-		pnl.addComponent(1, 3, SwingUtils.TABLE_ROW_HEIGHT, BasePanel.GAP, BasePanel.FULL, BasePanel.FULL, layoutLbl);
-		pnl.addLine(layoutFile, layoutFile.getChooseFileButton());
-		pnl.addComponent(1, 3, SwingUtils.TABLE_ROW_HEIGHT, BasePanel.GAP, BasePanel.FULL, BasePanel.FULL, dialectLbl);
-		pnl.addLine(dialectCombo);
-		pnl.setGap(BasePanel.GAP1);
-		pnl.addLine((String) null, editBtn);
-		pnl.addComponent(
-				1, 5, BasePanel.FILL, BasePanel.GAP,
+//		pnl.oneColumn();
+//		pnl.addComponent(1, 3, SwingUtils.TABLE_ROW_HEIGHT, BasePanel.GAP, BasePanel.FULL, BasePanel.FULL, layoutLbl);
+//		pnl.addLine(layoutFile, layoutFile.getChooseFileButton());
+//		pnl.addComponent(1, 3, SwingUtils.TABLE_ROW_HEIGHT, BasePanel.GAP, BasePanel.FULL, BasePanel.FULL, dialectLbl);
+//		pnl.addLine(dialectCombo);
+//		pnl.setGap(BasePanel.GAP1);
+//		pnl.addLine((String) null, editBtn);
+		
+		
+		pnl.addLine1to3(layoutLbl)
+		   .addLine1to3(layoutFile)
+		   .addLine1to3(dialectLbl)
+		   .addLine1to3(dialectCombo)
+		      .setGapRE(BasePanel.GAP1)
+		   .addComponentRE(
+				1, BasePanel.LAST_USED_COLUMN, BasePanel.PREFERRED, BasePanel.GAP,
+				 BasePanel.RIGHT, BasePanel.FULL,
+		        editBtn);
+		
+		pnl.addComponentRE(
+				1,  BasePanel.LAST_USED_COLUMN, BasePanel.FILL, BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL,
 		        fileTable);
-		layoutFile.addFcFocusListener(new FocusAdapter() {
-
-			@Override
-			public void focusLost(FocusEvent e) {
+		
+		layoutFile.addTextChangeListner(new ChangeListener() {
+			@Override public void stateChanged(ChangeEvent e) {
 				if (lastLayoutFile == null || ! lastLayoutFile.equals(layoutFile.getText())) {
 					buildFileLayout(lastData);
 				}
 				setCobolVisible();
 			}
 		});
+//		layoutFile.addFcFocusListener(new FocusAdapter() {
+//			@Override public void focusLost(FocusEvent e) {
+//				if (lastLayoutFile == null || ! lastLayoutFile.equals(layoutFile.getText())) {
+//					buildFileLayout(lastData);
+//				}
+//				setCobolVisible();
+//			}
+//		});
 
 		dialectCombo.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
+			@Override public void actionPerformed(ActionEvent e) {
 				buildFileLayout(lastData);
 
 				setCobolVisible();
@@ -148,8 +165,8 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 
 			lastLayoutFile = layoutFile.getText();
 
-			if (layout == null) {
-				FileStructureAnalyser analyser = FileStructureAnalyser.getAnaylser(data, "");
+			if (layout == null && data != null) {
+				FileAnalyser analyser = FileAnalyser.getAnaylser(data, "");
 				layout = analyser.getLayoutDetails(true).asLayoutDetail();
 			}
 			if (layout == null) {
@@ -175,6 +192,9 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 				}
 			} catch (Exception e) {
 				// TODO: handle exception
+			} finally {
+				r.close();
+				is.close();
 			}
 
 			fileTable.setModel(view);
@@ -201,6 +221,7 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 		lastData = data;
 		return true;
 	}
+
 
 	@Override
 	public String getSeperator() {
@@ -295,8 +316,13 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 	 * @see net.sf.RecordEditor.re.util.csv.FilePreview#isMyLayout(java.lang.String)
 	 */
 	@Override
-	public boolean isMyLayout(String layout) {
-		return layout != null && layout.startsWith(FIXED_ID);
+	public boolean isMyLayout(String layoutId, String filename, byte[] data) {
+		boolean ret = layoutId != null && layoutId.startsWith(FIXED_ID);
+		if (ret) {
+			setData(filename, data, false, layoutId);
+		}
+		
+		return ret;
 	}
 
 
@@ -322,7 +348,7 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 					if (isCobol() && CobolCopybookLoader.isAvailable()) {
 						loader = new CobolCopybookLoader();
 						if (font == null) {
-							FileStructureAnalyser analyser = FileStructureAnalyser.getAnaylserNoLengthCheck(lastData, "");
+							FileAnalyser analyser = FileAnalyser.getAnaylserNoLengthCheck(lastData, "");
 							font = analyser.getFontName();
 							fileStructure = analyser.getFileStructure();
 						}
@@ -359,9 +385,16 @@ public class FixedWidthSelection implements FilePreview, BasicLayoutCallback {
 			File f = new File(layoutFileName);
 			if (f.exists() && ! f.isDirectory()) {
 				try {
-					BufferedReader r = new BufferedReader(new FileReader(f));
-					String s = r.readLine();
-					r.close();
+					BufferedReader r = null;
+					String s;
+					try {
+						r = new BufferedReader(new FileReader(f));
+						s = r.readLine();
+					} finally {
+						if (r != null) {
+							r.close();
+						}
+					}
 					ret = s != null && ! s.trim().startsWith("<");
 				} catch (IOException e) {
 				}

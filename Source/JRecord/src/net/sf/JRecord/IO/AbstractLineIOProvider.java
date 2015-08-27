@@ -91,6 +91,12 @@ public interface AbstractLineIOProvider extends AbstractManager {
 	 * Get line provider appropriate to the file Structure
 	 * @return Returns the provider.
 	 */
-	public  abstract LineProvider getLineProvider(int fileStructure);
+	public  abstract LineProvider getLineProvider(IBasicFileSchema schema);
+
+	/**
+	 * Get line provider appropriate to the file Structure
+	 * @return Returns the provider.
+	 */
+	public  abstract LineProvider getLineProvider(int fileStructure, String charset);
 
 }

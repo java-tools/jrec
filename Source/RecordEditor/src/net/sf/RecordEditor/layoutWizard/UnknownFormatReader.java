@@ -78,7 +78,7 @@ public class UnknownFormatReader extends DelegateReader {
 	        int format    = 0;
 
 	        String param  = "";
-	        byte[] recordSep = Constants.LFCR_BYTES;
+	        byte[] recordSep = Constants.CRLF_BYTES;
 
 
 	        GetFileDetails getDetails = new GetFileDetails(inStream);
@@ -90,7 +90,7 @@ public class UnknownFormatReader extends DelegateReader {
 		    if (getDetails.ok) {
 			    PnlUnknownFileFormat pnl = getDetails.pnl;
 			    fileStructure = pnl.getFileStructure();
-			    String font = pnl.fontNameTxt.getText();
+			    String font = pnl.fontNameCombo.getText();
 
 			    RecordDetail.FieldDetails[] flds = new RecordDetail.FieldDetails[1];
 	            RecordDetail[] recs = new RecordDetail[1];

@@ -55,6 +55,7 @@ import net.sf.JRecord.detailsSelection.FieldSelectX;
 public class RecordDetail extends BasicRecordDetail<RecordDetail.FieldDetails, RecordDetail, AbstractChildDetails<RecordDetail>>
 implements AbstractRecordDetail,  ICsvDefinition {
 
+
 	private static final byte UNDEFINED = -121;
 	private static final byte NO = 1;
 	private static final byte YES = 2;
@@ -147,7 +148,7 @@ implements AbstractRecordDetail,  ICsvDefinition {
 			 pQuote, pFontName, pFields, pRecordStyle, childId, embeddedCr);
 
 		if (!"".equals(pSelectionField)) {
-			recordSelection.setRecSel(FieldSelectX.get(pSelectionField, pSelectionValue, "=", -1, getField(pSelectionField)));
+			recordSelection.setRecSel(FieldSelectX.get(pSelectionField, pSelectionValue, "=", -1, getField(pSelectionField), false));
 		}
 	}
 
@@ -292,7 +293,7 @@ implements AbstractRecordDetail,  ICsvDefinition {
 
 	/**
 	 * @see net.sf.JRecord.Details.AbstractRecordDetail#getSelectionFieldIdx()
-	 * @deprecated use getSelectionField
+	 * @deprecated use {@link #getRecordSelection()}
 	 */
 	public int getSelectionFieldIdx() {
 		 if (recordSelection.getElementCount() <= 0) {
@@ -313,19 +314,21 @@ implements AbstractRecordDetail,  ICsvDefinition {
 //	}
 
 
-	/* (non-Javadoc)
+	/**
 	 * @see net.sf.JRecord.Details.AbstractRecordDetail#setSelectionField(net.sf.JRecord.Common.FieldDetail)
-	 */ @Deprecated
+	 * @deprecated use {@link #getRecordSelection()}
+	 */ 
 	public final void setSelectionField(FieldDetail newSelectionField) {
 
 		 recordSelection.setRecSel(
-				 FieldSelectX.get(newSelectionField.getName(), getSelectionValue(), "=", -1, newSelectionField));
+				 FieldSelectX.get(newSelectionField.getName(), getSelectionValue(), "=", -1, newSelectionField, false));
 	}
 
 
-	/* (non-Javadoc)
+	/**
 	 * @see net.sf.JRecord.Details.AbstractRecordDetail#getSelectionValue()
-	 */ @Deprecated
+	 * @deprecated use {@link #getRecordSelection()}
+	 */ 
 	public String getSelectionValue() {
 		 if (recordSelection.size() <= 0) {
 			 return null;
@@ -520,6 +523,7 @@ implements AbstractRecordDetail,  ICsvDefinition {
 	public boolean isEmbeddedNewLine() {
 		return embeddedNewLine;
 	}
+	
 
 	private static void doTypeNameInit() {
 		if (toInit) {

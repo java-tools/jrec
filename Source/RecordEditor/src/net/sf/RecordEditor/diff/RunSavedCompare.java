@@ -21,19 +21,20 @@ import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.treeCombo.FileSelectCombo;
 
 /**
  * @author Bruce Martin
  *
  */
+@SuppressWarnings("serial")
 public class RunSavedCompare extends ReFrame {
 
     private static final int WIDTH_INCREASE  = 175;
     private static final int HEIGHT_INCREASE = 7;
 
-	private FileChooser xmlFileName = new FileChooser();
+	private FileSelectCombo xmlFileName = new FileSelectCombo(Parameters.SAVED_DIFF_LIST, 25, true, false);
 	private BaseHelpPanel pnl = new BaseHelpPanel();
 
 	private JButton runCompareDialogBtn = SwingUtils.newButton("Run Compare Dialog");
@@ -66,7 +67,7 @@ public class RunSavedCompare extends ReFrame {
 	 *
 	 */
 	@SuppressWarnings("unchecked")
-	public RunSavedCompare(AbstractLayoutSelectCreator creator, int databaseIdx, String recentFiles) {
+	public RunSavedCompare(@SuppressWarnings("rawtypes") AbstractLayoutSelectCreator creator, int databaseIdx, String recentFiles) {
 		super("", "Run Saved Compare File:", "", null);
 
 		rFiles = recentFiles;
@@ -75,7 +76,7 @@ public class RunSavedCompare extends ReFrame {
 		int height = frame.getDesktop().getHeight() - 1;
 		int width  = frame.getDesktop().getWidth() - 1;
 
-		String fname =  Parameters.getFileName(Parameters.COMPARE_SAVE_FILE);
+		String fname =  Parameters.getFileName(Parameters.COMPARE_SAVE_DIRECTORY);
 
 		layoutCreator = creator;
 		dbIdx = databaseIdx;
@@ -84,21 +85,18 @@ public class RunSavedCompare extends ReFrame {
 		runCompareBtn.addActionListener(listner);
 		runHtmlCompareBtn.addActionListener(listner);
 
-		if (fname == null || "".equals(fname)) {
-			fname = Parameters.getFileName(Parameters.COMPARE_SAVE_DIRECTORY);
-		}
 		xmlFileName.setText(fname);
 
-		pnl.setGap(BasePanel.GAP3);
-		pnl.addLine("New File", xmlFileName, xmlFileName.getChooseFileButton());
-		pnl.setGap(BasePanel.GAP5);
+		pnl.setGapRE(BasePanel.GAP3);
+		pnl.addLineRE("New File", xmlFileName);
+		pnl.setGapRE(BasePanel.GAP5);
 
-		pnl.addLine("", null, runCompareDialogBtn);
-		pnl.setGap(BasePanel.GAP1);
-		pnl.addLine("", null, runCompareBtn);
-		pnl.setGap(BasePanel.GAP1);
-		pnl.addLine("", null, runHtmlCompareBtn);
-		pnl.setGap(BasePanel.GAP5);
+		pnl.addLineRE("", null, runCompareDialogBtn);
+		pnl.setGapRE(BasePanel.GAP1);
+		pnl.addLineRE("", null, runCompareBtn);
+		pnl.setGapRE(BasePanel.GAP1);
+		pnl.addLineRE("", null, runHtmlCompareBtn);
+		pnl.setGapRE(BasePanel.GAP5);
 
 		pnl.addMessage(message);
 
@@ -124,8 +122,8 @@ public class RunSavedCompare extends ReFrame {
 			try {
 				Properties p = Parameters.getProperties();
 
-				if (! s.equals(p.getProperty(Parameters.COMPARE_SAVE_FILE))) {
-					p.setProperty(Parameters.COMPARE_SAVE_FILE, s);
+				if (! s.equals(p.getProperty(Parameters.COMPARE_SAVE_DIRECTORY))) {
+					p.setProperty(Parameters.COMPARE_SAVE_DIRECTORY, s);
 
 		            p.store(
 		                    new FileOutputStream(Parameters.getPropertyFileName()),
@@ -159,7 +157,7 @@ public class RunSavedCompare extends ReFrame {
 			if (DiffDefinition.TYPE_SINGLE_LAYOUT.equals(def.type)) {
 				new CompareSingleLayout(createLayout(), def, rFiles);
 			} else {
-				new CompareTwoLayouts(createLayout(), createLayout(), def, rFiles);
+				new CompareTwoLayouts(createLayout(), createLayout(), def, rFiles, true);
 			}
 		}
 	}
@@ -210,7 +208,7 @@ public class RunSavedCompare extends ReFrame {
 		String filename = xmlFileName.getText();
 
 		if (filename == null || "".equals(filename)) {
-			pnl.setMessageTxt("You must Enter a filename");
+			pnl.setMessageTxtRE("You must Enter a filename");
 		} else {
 			try {
 				def = jibx.marshal(filename);
@@ -218,7 +216,7 @@ public class RunSavedCompare extends ReFrame {
 			} catch (Exception e) {
 				String s = "Error Loading Record Layout";
 				e.printStackTrace();
-				pnl.setMessageTxt(s);
+				pnl.setMessageTxtRE(s);
 				Common.logMsg(s, e);
 			}
 		}

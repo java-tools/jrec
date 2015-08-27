@@ -4,7 +4,9 @@ import net.sf.JRecord.Common.Constants;
 
 public class ExternalFieldSelection implements ExternalSelection {
 
-	private String fieldName, fieldValue, operator="=", booleanOp="";
+	public static final String EQUALS_OPERATOR = "=";
+	
+	private String fieldName, fieldValue, operator=EQUALS_OPERATOR, booleanOp="";
 	private boolean caseSensitive = true;
 	private static final String[] VALID_OPS = Constants.VALID_COMPARISON_OPERATORS;
 
@@ -51,7 +53,7 @@ public class ExternalFieldSelection implements ExternalSelection {
 	}
 
 	public String getFieldValue() {
-		if (isCaseSensitive() || fieldValue == null) {
+		if (isCaseSensitive() /*|| EQUALS_OPERATOR.equals(getOperator()) */ || fieldValue == null) {
 			return fieldValue;
 		}
 		return fieldValue.toLowerCase();
@@ -117,8 +119,9 @@ public class ExternalFieldSelection implements ExternalSelection {
 	/**
 	 * @param caseSensitive the caseSensitive to set
 	 */
-	public void setCaseSensitive(boolean caseSensitive) {
+	public ExternalFieldSelection setCaseSensitive(boolean caseSensitive) {
 		this.caseSensitive = caseSensitive;
+		return this;
 	}
 
 

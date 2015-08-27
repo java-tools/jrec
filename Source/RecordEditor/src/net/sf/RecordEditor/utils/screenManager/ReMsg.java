@@ -46,7 +46,7 @@ public final class ReMsg implements IMessage {
 	 * @see net.sf.RecordEditor.utils.screenManager.IMessage#get(java.lang.Object[])
 	 */
 	@Override
-	public final String get(Object[] params) {
+	public final String get(Object... params) {
 		return LangConversion.convert(msgType, msg, params);
 	}
 

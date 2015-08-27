@@ -10,13 +10,14 @@ import net.sf.RecordEditor.edit.display.DisplayFrame;
 import net.sf.RecordEditor.edit.display.util.LinePosition;
 import net.sf.RecordEditor.edit.display.util.MovementBtnPnl;
 import net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide;
+import net.sf.RecordEditor.re.display.IClosablePanel;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 
 public abstract class RecordSelection extends BaseDisplay
-implements AbstractFileDisplayWithFieldHide {
+implements AbstractFileDisplayWithFieldHide, IClosablePanel {
 
 
 	private MovementBtnPnl movementPnl;
@@ -29,7 +30,7 @@ implements AbstractFileDisplayWithFieldHide {
 			String formType, FileView viewOfFile, int lineNo) {
 		super(formType, viewOfFile, false, false, false, false, false, NO_LAYOUT_LINE);
 
-		splitPane = new SplitPaneRecord(viewOfFile, lineNo);
+		splitPane = new SplitPaneRecord(this, viewOfFile, lineNo);
 
 		setJTable(new JTable());
 	}
@@ -46,10 +47,10 @@ implements AbstractFileDisplayWithFieldHide {
 
 		splitPane.layoutFieldPane();
 
-		actualPnl.addComponent(1, 3, BasePanel.FILL, BasePanel.GAP,
+		actualPnl.addComponentRE(1, 3, BasePanel.FILL, BasePanel.GAP,
 	            BasePanel.FULL, BasePanel.FULL, splitPane.splitPane);
 
-		actualPnl.addComponent(1, 5, BasePanel.PREFERRED, BasePanel.GAP,
+		actualPnl.addComponentRE(1, 5, BasePanel.PREFERRED, BasePanel.GAP,
 				BasePanel.FULL, BasePanel.FULL, movementPnl);
 		actualPnl.done();
 		setDirectionButtonStatus();

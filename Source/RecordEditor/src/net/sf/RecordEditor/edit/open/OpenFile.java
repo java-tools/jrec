@@ -46,7 +46,9 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
 public class OpenFile extends ReFrame {
 
 	private OpenFileInterface openFilePanel;
-    private static final int FRAME_WIDTH  = SwingUtils.STANDARD_FONT_WIDTH * 72;
+    private static final int FRAME_WIDTH  
+    		= SwingUtils.STANDARD_FONT_WIDTH 
+    		* (Common.IS_NIX ? 78 : 74);
 
 //	private BaseDisplay display = null;
 
@@ -73,7 +75,8 @@ public class OpenFile extends ReFrame {
 	        	   final JButton layoutCreate1,
 	        	   final JButton layoutCreate2,
 	        	   final AbstractLayoutSelection selection) {
-	    this(pInFile, pInitialRow, pIoProvider,
+	    this(OpenFileEditPnl.OLD_FORMAT,
+	    	 pInFile, pInitialRow, pIoProvider,
     		//pInterfaceToCopyBooks,
 	         layoutCreate1, layoutCreate2,
 	         Parameters.getApplicationDirectory() + "Files.txt",
@@ -94,16 +97,20 @@ public class OpenFile extends ReFrame {
 	 * @param propertiesFiles properties file holding the recent files
 	 * @param helpScreen help screen to display
 	 */
-	public OpenFile(final String pInFile,
-     	   final int pInitialRow,
-     	   final AbstractLineIOProvider pIoProvider,
+	public OpenFile(
+			final int pFormat,
+			final String pInFile,
+			final int pInitialRow,
+			final AbstractLineIOProvider pIoProvider,
 //     	   final CopyBookInterface pInterfaceToCopyBooks,
-     	   final JButton layoutCreate1,
-     	   final JButton layoutCreate2,
-     	   final String propertiesFiles,
-     	   final String helpScreen,
-     	   final AbstractLayoutSelection selection) {
-		this(	new OpenFileEditPnl(pInFile,
+			final JButton layoutCreate1,
+			final JButton layoutCreate2,
+			final String propertiesFiles,
+			final String helpScreen,
+			final AbstractLayoutSelection selection) {
+		this(	new OpenFileEditPnl(
+						pFormat,
+						pInFile,
 						pInitialRow,
 						pIoProvider,
 						layoutCreate1,
@@ -134,6 +141,7 @@ public class OpenFile extends ReFrame {
 		}
 
 		height = Math.min(height, masterFrame.getDesktopHeight() - 2);
+		width = Math.min(width, masterFrame.getDesktopWidth() - 2);
 
 		if (width > 0) {
 			setBounds(1 /*getY()*/,  getX(), width, height);
@@ -185,7 +193,17 @@ public class OpenFile extends ReFrame {
 //					}
 //				}
 //			);
+		
+/*		this.addFocusListener(new FocusAdapter() {
 
+			@Override
+			public void focusGained(FocusEvent e) {
+				System.out.println("Gained Focus: " + OpenFile.this.isMaximum() + " " + OpenFile.this.isMaximumSizeSet());
+			}
+			
+		});
+*/
+		
 	}
 
 

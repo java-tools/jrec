@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
@@ -20,14 +19,15 @@ import net.sf.RecordEditor.edit.display.common.ILayoutChanged;
 import net.sf.RecordEditor.edit.display.util.DockingPopupListner;
 import net.sf.RecordEditor.edit.util.ReMessages;
 import net.sf.RecordEditor.re.display.AbstractFileDisplay;
+import net.sf.RecordEditor.re.display.DisplayDetails;
 import net.sf.RecordEditor.re.display.IDisplayFrame;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
-import net.sf.RecordEditor.utils.swing.TabWithClosePnl;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.TabWithClosePnl;
 
 
 @SuppressWarnings("serial")
@@ -154,13 +154,27 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
                     }
                 }
 
-                if (fileView != null && doClose && fileMaster.isSaveAvailable()) {
-                    fileView.clear();
+
+                if (doClose) {
+	                if (fileView != null && fileMaster.isSaveAvailable()) {
+	                    fileView.clear();
+	                }
                 }
             }
 
             if (doClose) {
+            	ArrayList<FileView> views = new ArrayList<FileView>();
+             	for (int i = mainScreens.size() - 1; i > 0; i-- ) {
+             		views.add(mainScreens.get(i).getFileView());
+             		mainScreens.get(i).closeWindow();
+             	}
+             	
                 main.doClose();
+                
+                mainScreens.clear();
+             	for (FileView f : views) {
+             		checkTheViewIsUsed(f);
+             	}
                 super.dispose();
             }
         } else {
@@ -183,15 +197,51 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
             }
         }
 
+        if ( mainScreens.size() == 0) {
+        	super.dispose();
+        }
     }
 
     public final void close(int idx) {
 
+    	FileView fileView = mainScreens.get(idx).getFileView();
+
         mainScreens.get(idx).doClose();
         removeIdx(idx);
+        
+//      if (mainScreens.size() == 0) {
+//      reClose();
+//  }
+        
+        checkTheViewIsUsed(fileView);
+        
+    }
+    
+    private void checkTheViewIsUsed(FileView fileView) {
+    	if (fileView == null) return;
+        ReFrame[] frames = ReFrame.getAllFrames();
+        boolean notUsed = true;
 
-        if (mainScreens.size() == 0) {
-            reClose();
+        for (int i = 0; i < frames.length && notUsed; i++) {
+			if (frames[i] instanceof DisplayFrame 
+			&&  frames[i].getDocument() != null
+			&& ((DisplayFrame) frames[i]).getDocument() == fileView.getBaseFile()) {
+				ArrayList<BaseDisplay> ms = ((DisplayFrame) frames[i]).mainScreens;
+				for (BaseDisplay baseDisplay : ms) {
+					if (baseDisplay.getFileView() == fileView) {
+						notUsed = false;
+						break;
+					}
+					
+				}
+			} else {
+				AbstractFileDisplay displayDetails = DisplayDetails.getDisplayDetails(frames[i]);
+				notUsed = displayDetails == null || displayDetails.getFileView() != fileView;
+			}
+		}
+        
+        if (notUsed) {
+        	fileView.clear();
         }
     }
 
@@ -300,10 +350,10 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
                     if (fileView == fileView.getBaseFile() && super.isPrimaryView()) {
                         fileView.clear();
                     }
-                    fileView = null;
-
                 }
              }
+            
+            checkTheViewIsUsed(fileView);
         }
         super.reClose();
     }
@@ -395,7 +445,7 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
             pane.addTab(mainScreens.get(i).formType, getScreen(i));
         }
         for (int i = 0; i < mainScreens.size(); i++) {
-            pane.setTabComponentAt(i, new TabButton(mainScreens.get(i)));
+            pane.setTabComponentAt(i, new TabButton(mainScreens.get(i), i > 0));
         }
     }
 
@@ -536,7 +586,7 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
 
         if (idx >= 0) {
 
-			switch (action) {
+			switch (action) { 
             case ReActionHandler.CLOSE_TAB:					close(idx);					break;
             case ReActionHandler.UNDOCK_TAB:				moveToSeperateScreen(idx);	break;
             case ReActionHandler.UNDOCK_ALL_TABS:			moveToSeperateScreen();		break;
@@ -720,8 +770,8 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
         private final BaseDisplay disp;
 
 
-        public TabButton(BaseDisplay display) {
-        	super(display.getScreenName());
+        public TabButton(BaseDisplay display, boolean addCloseBtn) {
+        	super(display.getScreenName(), addCloseBtn);
         	super.setCloseAction(this);
 
         	disp = display;

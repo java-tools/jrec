@@ -159,24 +159,24 @@ public class EditJdbcParamsPanel extends BasePanel {
      */
     private void init_200_Screen() {
 
-		this.addComponent(1, 5, TABLE_HEIGHT, BasePanel.GAP0,
+		this.addComponentRE(1, 5, TABLE_HEIGHT, BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
 		//this.setGap(BasePanel.GAP1);
-		this.addComponent(1, 5, TABLE_HEIGHT, BasePanel.GAP0,
+		this.addComponentRE(1, 5, TABLE_HEIGHT, BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(paramTbl));
 
-		this.addLine("Source Name", sourceName);
-		this.addLine("Driver", driver);
-		this.addLine("Source", source);
+		this.addLineRE("Source Name", sourceName);
+		this.addLineRE("Driver", driver);
+		this.addLineRE("Source", source);
 		//this.addLine("Read Only Source Name", readOnly);
 		//this.setGap(BasePanel.GAP0);
-		this.addLine("User", user);
-		this.addLine("Password", password);
+		this.addLineRE("User", user);
+		this.addLineRE("Password", password);
 		//this.setGap(BasePanel.GAP0);
-		this.addLine("JDBC JAR", jdbcJarsCombo, new JButton(startAction));
-		this.setGap(BasePanel.GAP0);
+		this.addLineRE("JDBC JAR", jdbcJarsCombo, new JButton(startAction));
+		this.setGapRE(BasePanel.GAP0);
 		//this.addComponent("Commit", commit    );
 		//this.addComponent("Checkpoint", checkpoint);
 

@@ -1,10 +1,15 @@
 package net.sf.JRecord.Details;
 
 
+import java.util.List;
+
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
+import net.sf.JRecord.CsvParser.BinaryCsvParser;
+import net.sf.JRecord.CsvParser.ICsvDefinition;
+import net.sf.JRecord.CsvParser.ICsvLineParser;
 import net.sf.JRecord.Types.Type;
 
 /**
@@ -15,7 +20,7 @@ import net.sf.JRecord.Types.Type;
  * @param <ActualLine>
  */
 public abstract class BasicLine<ActualLine extends AbstractLine> extends BaseLine<LayoutDetail>
-implements AbstractLine, ISetLineProvider<LayoutDetail, ActualLine> {
+implements AbstractLine, ISetLineProvider<LayoutDetail, ActualLine>, IColumnInsertDelete {
 
 
 	protected static final byte[] NULL_RECORD = new byte[0];
@@ -105,6 +110,8 @@ implements AbstractLine, ISetLineProvider<LayoutDetail, ActualLine> {
 				case YES:
 					preferredLayoutAlt = i;
 					break;
+					
+				case NO:
 				}
 
 				i += 1;
@@ -118,9 +125,8 @@ implements AbstractLine, ISetLineProvider<LayoutDetail, ActualLine> {
 	}
 
 
-
 	/**
-	 * @param pWriteLayout The writeLayout to set.
+	 * @param pWriteLayout The recordIndex to be used calculate size (when writing the record)
 	 */
 	public void setWriteLayout(final int pWriteLayout) {
 		this.preferredLayoutAlt = pWriteLayout;
@@ -148,6 +154,7 @@ implements AbstractLine, ISetLineProvider<LayoutDetail, ActualLine> {
 			}
 			return fieldDef;
 		} catch (final Exception ex) {
+			System.out.println("Field Index: " + fieldIdx);
 			ex.printStackTrace();
 			return "";
 		}
@@ -229,5 +236,104 @@ implements AbstractLine, ISetLineProvider<LayoutDetail, ActualLine> {
 		}
 		return null;
 	}
+	
+	@Override
+	public int getOption(int optionId) {
+		switch (optionId) {
+		case Options.OPT_GET_FIELD_COUNT:
+			if (layout.getOption(Options.OPT_IS_CSV) == Options.YES) {
+				return layout.getCsvFieldCount(getPreferredLayoutIdx(), getFullLine());
+			}
 
+			break;
+		}
+		return super.getOption(optionId);
+	}
+
+
+
+	@Override
+	public void deleteColumns(int[] cols) {
+		int idx = getPreferredLayoutIdx();
+		if (layout.getOption(Options.OPT_IS_CSV) == Options.YES && idx >= 0) {
+			if (layout.isBinCSV()) {
+				BinaryCsvParser cp = new BinaryCsvParser(layout.getDelimiter());
+				String font = layout.getFontName();
+				setData(cp.formatFieldList(removeCols(cp.getFieldList(getData(), font), cols), font));
+			} else {
+				RecordDetail record = layout.getRecord(idx);
+				ICsvLineParser csvParser = record.getCsvParser();
+				if (csvParser != null) {
+					ICsvDefinition csvDef = layout.getCsvDef(record, layout.getQuote());
+					List<String> fieldList = removeCols(csvParser.getFieldList(getFullLine(), csvDef), cols);
+					setData(csvParser.formatFieldList(fieldList, csvDef, getFieldsType(record)));
+				}
+			}
+		}
+	}
+
+	private List<String> removeCols(List<String> fieldList, int[] cols) {
+		for (int i = cols.length - 1; i>= 0; i--) {
+			fieldList.remove(cols[i]);
+		}
+		return fieldList;
+	}
+
+	@Override
+	public int insetColumns(int column, String[] colValues) {
+		int idx = getPreferredLayoutIdx();
+		int maxColCount = 0;
+		if (layout.getOption(Options.OPT_IS_CSV) == Options.YES && idx >= 0) {
+			RecordDetail record = layout.getRecord(idx);
+			if (layout.isBinCSV()) {
+				BinaryCsvParser cp = new BinaryCsvParser(layout.getDelimiter());
+				String font = layout.getFontName();
+				List<String> fieldList = addCols(cp.getFieldList(getData(), font), column, colValues);;
+				setData(cp.formatFieldList(fieldList, font));
+				maxColCount = Math.max(maxColCount, fieldList.size());
+			} else {
+				ICsvLineParser csvParser = record.getCsvParser();
+				if (csvParser != null) {
+					ICsvDefinition csvDef = layout.getCsvDef(record, layout.getQuote());
+					List<String> fieldList = addCols(csvParser.getFieldList(getFullLine(), csvDef), column, colValues);;
+					setData(csvParser.formatFieldList(fieldList, csvDef, getFieldsType(record)));
+					maxColCount = Math.max(maxColCount, fieldList.size());
+				}
+			}
+			for (int i = record.getFieldCount() + 1; i <= maxColCount; i++) {
+				RecordDetail.FieldDetails f = new RecordDetail.FieldDetails("Column_" + i, "", Type.ftChar, 0, layout.getFontName(), 0, "");
+				f.setPosOnly(i);
+				f.setRecord(record);
+				record.addField(f);
+			}
+		}
+		return maxColCount;
+	}
+	
+	private List<String> addCols(List<String> fieldList, int column, String[] colValues) {
+		if (column >= fieldList.size()) {			
+			for (int i = fieldList.size(); i < column; i++) {
+				fieldList.add("");
+			}
+			for (int i = 0; i < colValues.length; i++) {
+				fieldList.add(colValues[i]);
+			}
+		} else {
+			for (int i = 0; i < colValues.length; i++) {
+				fieldList.add(column + i, colValues[i]);
+			}
+		}
+		
+		return fieldList;
+	}
+	
+	private int[] getFieldsType(RecordDetail record) {
+		int[] types = new int[record.getFieldCount()];
+		
+		for (int i = 0; i < types.length; i++) {
+			types[i] = record.getFieldsNumericType(i);
+		}
+		
+		return types;
+	}
 }

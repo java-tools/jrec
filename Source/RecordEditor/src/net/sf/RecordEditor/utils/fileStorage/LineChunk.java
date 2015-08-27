@@ -28,7 +28,7 @@ public class LineChunk extends LineBase {
 
 	@Override
 	public void setData(byte[] newVal) {
-		chunk.put(chunkLine, newVal);
+		chunk.putFromLine(chunkLine, newVal);
 	}
 
 	@Override

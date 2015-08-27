@@ -149,7 +149,7 @@ public class ComboEdit extends ReFrame {
 
 		pnlCombo.setMinimumSize(new Dimension(400, 50));
 
-		pnlCombo.registerComponent(comboSearch.getComboList());
+		pnlCombo.registerComponentRE(comboSearch.getComboList());
 
 		pnlCombo.setValues(firstRecord);
 	}
@@ -230,7 +230,7 @@ public class ComboEdit extends ReFrame {
     	ComboRec rec;
 
         if (action == ReActionHandler.HELP) {
-            pnlCombo.showHelp();
+            pnlCombo.showHelpRE();
 //        } else if (action == ReActionHandler.NEW) {
 //        	if (saveRecord().isUpdateSuccessful()) {
 //        		pnlCombo.setValues(null);

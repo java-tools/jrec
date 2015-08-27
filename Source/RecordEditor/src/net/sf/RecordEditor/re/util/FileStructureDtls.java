@@ -12,7 +12,7 @@ public class FileStructureDtls {
 
 	static {
 		int [] structures = {Constants.IO_VB, Constants.IO_VB_DUMP, Constants.IO_VB_FUJITSU, Constants.IO_VB_OPEN_COBOL,
-				Constants.IO_FIXED_LENGTH, Constants.IO_BIN_TEXT};
+				Constants.IO_FIXED_LENGTH, Constants.IO_BIN_TEXT, Constants.IO_CONTINOUS_NO_LINE_MARKER};
 		LineIOProvider p = ReIOProvider.getInstance();
 		int idx = 0;
 

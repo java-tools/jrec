@@ -11,24 +11,26 @@ import javax.swing.text.Segment;
 import javax.swing.undo.UndoableEdit;
 
 import net.sf.JRecord.Details.AbstractLine;
-
 import net.sf.RecordEditor.utils.fileStorage.DataStorePosition;
-import net.sf.RecordEditor.utils.fileStorage.IDataStoreText;
+import net.sf.RecordEditor.utils.fileStorage.IDataStore;
 import net.sf.RecordEditor.utils.fileStorage.IDataStorePosition;
+import net.sf.RecordEditor.utils.fileStorage.ITextInterface;
 
 
 public class DataStoreContent1 implements AbstractDocument.Content, TableModelListener {
 
 	private final FileView file;
-	private final IDataStoreText<? extends AbstractLine> datastore;
+	private final IDataStore<? extends AbstractLine> datastore;
+    private final ITextInterface ti;
 
 	private final ArrayList<WeakReference<DataStorePosition>> positions
 						= new ArrayList<WeakReference<DataStorePosition>>(50);
 
 //	private final AbstractDocument.BranchElement lineElements = new AbstractDocument.BranchElement(null, null);
 
-	public DataStoreContent1(FileView file, IDataStoreText<? extends AbstractLine> ds) {
-		this.datastore = ds;
+	public DataStoreContent1(FileView file, ITextInterface ti) {
+		this.datastore = ti.getDataStore();
+		this.ti = ti; 
 		this.file = file;
 		file.addTableModelListener(this);
 	}
@@ -42,7 +44,7 @@ public class DataStoreContent1 implements AbstractDocument.Content, TableModelLi
 		if (pos != null) {
 			return pos;
 		}
-		return register(datastore.getPosition(offset));
+		return register(ti.getTextPosition(offset));
 	}
 
 	private DataStorePosition register(DataStorePosition pos) {
@@ -110,7 +112,7 @@ public class DataStoreContent1 implements AbstractDocument.Content, TableModelLi
 			for (int i = 0; i < positions.size(); i++) {
 				pp = positions.get(i).get();
 				if (pp != null) {
-					System.out.println("\t" + pp.lineNumber + "\t" + pp.getLineStart() + "\t" + pp.positionInLine  + "\t" + pp.getOffset());
+					System.out.println("\t" + pp.lineNumber + "\t" + pp.getLineStartRE() + "\t" + pp.positionInLine  + "\t" + pp.getOffset());
 				}
 			}
 			System.out.println();
@@ -168,20 +170,20 @@ public class DataStoreContent1 implements AbstractDocument.Content, TableModelLi
 		if (pos != null) {
 			return pos;
 		}
-		return datastore.getPosition(offset);
+		return ti.getTextPosition(offset);
 	}
 
 	/**
 	 * @param lineNo
 	 * @return
-	 * @see net.sf.RecordEditor.utils.fileStorage.IDataStoreText#getLinePosition(int)
+	 * @see net.sf.RecordEditor.utils.fileStorage.ITextInterface#getPositionByLineNumber(int)
 	 */
 	public IDataStorePosition getLinePosition(int lineNo) {
 		IDataStorePosition pos = findPosition(lineNo, false);
 		if (pos != null) {
 			return pos;
 		}
-		return register(datastore.getLinePosition(lineNo));
+		return register(ti.getPositionByLineNumber(lineNo));
 	}
 
 
@@ -193,7 +195,7 @@ public class DataStoreContent1 implements AbstractDocument.Content, TableModelLi
 			||  ((! offset) && chk.lineNumber == searchValue) && chk.positionInLine == 0 ) {
 				if (chk.line == datastore.get(chk.lineNumber)) {
 					try {
-						datastore.updatePosition(chk);
+						chk.updatePositionRE();
 						ret = chk;
 					} catch (Exception e) {
 						positions.remove(key);
@@ -326,7 +328,7 @@ public class DataStoreContent1 implements AbstractDocument.Content, TableModelLi
 	 */
 	@Override
 	public int length() {
-		return datastore.length();
+		return (int) ti.length();
 	}
 
 
@@ -340,7 +342,7 @@ public class DataStoreContent1 implements AbstractDocument.Content, TableModelLi
 	@Override
 	public UndoableEdit insertString(int where, String str)
 			throws BadLocationException {
-		DataStorePosition start = datastore.getPosition(where);
+		DataStorePosition start = ti.getTextPosition(where);
 		String lines[] = str.split("\n");
 		AbstractLine line1 = datastore.get(start.lineNumber);
 		String s1 = line1.getFullLine();
@@ -386,7 +388,7 @@ public class DataStoreContent1 implements AbstractDocument.Content, TableModelLi
 				for (DataStorePosition pp : list) {
 					pp.line = l;
 					pp.lineNumber = idx;
-					pp.setLookupRequired();
+					pp.setLookupRequiredRE();
 					pp.positionInLine += shift;
 				}
 			}
@@ -411,8 +413,8 @@ public class DataStoreContent1 implements AbstractDocument.Content, TableModelLi
 	public UndoableEdit remove(int where, int nitems)
 			throws BadLocationException {
 		DataStorePosition
-				start = datastore.getPosition(where),
-				fin   = datastore.getPosition(where + nitems);
+				start = ti.getTextPosition(where),
+				fin   = ti.getTextPosition(where + nitems);
 
 		AbstractLine line1 = datastore.get(start.lineNumber);
 		AbstractLine line2 = datastore.get(fin.lineNumber);
@@ -474,7 +476,7 @@ public class DataStoreContent1 implements AbstractDocument.Content, TableModelLi
 				p.line = line;
 				p.lineNumber = lineNo;
 				p.positionInLine = newOffset;
-				p.setLookupRequired();
+				p.setLookupRequiredRE();
 			}
 		}
 		file.fireTableRowsUpdated(lineNo, lineNo);
@@ -483,7 +485,7 @@ public class DataStoreContent1 implements AbstractDocument.Content, TableModelLi
 	private void updatePositions(int where, int nitems, int shift) {
 		int key = findPosByKey(where + nitems, true);
 		DataStorePosition p;
-		DataStorePosition pos = datastore.getPosition(where + nitems);
+		DataStorePosition pos = ti.getTextPosition(where + nitems);
 
 		for (int i = key; i < positions.size(); i++) {
 			p = getValidPosition(i);
@@ -493,7 +495,7 @@ public class DataStoreContent1 implements AbstractDocument.Content, TableModelLi
 				break;
 			} else if (p.positionInLine >= pos.positionInLine) {
 				p.positionInLine += shift;
-				p.setLookupRequired();
+				p.setLookupRequiredRE();
 			}
 		}
 	}
@@ -516,8 +518,8 @@ public class DataStoreContent1 implements AbstractDocument.Content, TableModelLi
 			throws BadLocationException {
 
 		DataStorePosition
-		start = datastore.getPosition(where),
-		fin   = datastore.getPosition(where + len);
+		start = ti.getTextPosition(where),
+		fin   = ti.getTextPosition(where + len);
 
 		AbstractLine line1 = datastore.get(start.lineNumber);
 		String s1 = line1.getFullLine() + "\n";
@@ -597,7 +599,7 @@ public class DataStoreContent1 implements AbstractDocument.Content, TableModelLi
 			for (int i = en; i >= 0; i--) {
 				p = getStorePositionByIndex(i);
 				if (p != null) {
-					System.out.println("\t" + i + " " + p.lineNumber + " " + p.getLineStart() + " " + p.positionInLine);
+					System.out.println("\t" + i + " " + p.lineNumber + " " + p.getLineStartRE() + " " + p.positionInLine);
 					if (p.lineNumber >= event.getFirstRow()) {
 						positions.remove(i);
 					} else {
@@ -626,7 +628,7 @@ public class DataStoreContent1 implements AbstractDocument.Content, TableModelLi
 				}
 				System.out.println("\t" + p.lineNumber + "\t" + (Math.max(p.lineNumber + amount, firstLine)));
 				p.lineNumber = Math.max(p.lineNumber + amount, firstLine);
-				p.setLookupRequired();
+				p.setLookupRequiredRE();
 			}
 		}
 

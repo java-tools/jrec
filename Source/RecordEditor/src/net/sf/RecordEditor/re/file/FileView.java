@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,7 +47,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.text.Document;
+import javax.swing.tree.TreeNode;
 
 import net.sf.JRecord.ByteIO.IByteReader;
 import net.sf.JRecord.Common.Constants;
@@ -57,6 +58,7 @@ import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Details.Attribute;
+import net.sf.JRecord.Details.IColumnInsertDelete;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.LineCompare;
 import net.sf.JRecord.Details.Options;
@@ -69,24 +71,33 @@ import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Types.TypeManager;
 import net.sf.JRecord.detailsSelection.RecordSel;
 import net.sf.RecordEditor.edit.display.util.LinePosition;
-import net.sf.RecordEditor.layoutWizard.FileStructureAnalyser;
+import net.sf.RecordEditor.layoutWizard.FileAnalyser;
 import net.sf.RecordEditor.re.file.filter.Compare;
 import net.sf.RecordEditor.re.file.filter.FilterDetails;
 import net.sf.RecordEditor.re.file.filter.FilterFieldBaseList;
 import net.sf.RecordEditor.re.util.FileStructureDtls;
 import net.sf.RecordEditor.utils.ColumnMappingInterface;
+import net.sf.RecordEditor.utils.basicStuff.IRetrieveTable;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.common.GcManager;
 import net.sf.RecordEditor.utils.common.StreamUtil;
-import net.sf.RecordEditor.utils.fileStorage.DataStore;
+import net.sf.RecordEditor.utils.fileStorage.DataStoreIterator;
+import net.sf.RecordEditor.utils.fileStorage.DataStoreLargeView;
+import net.sf.RecordEditor.utils.fileStorage.DataStoreRange;
+import net.sf.RecordEditor.utils.fileStorage.IDataStore;
 import net.sf.RecordEditor.utils.fileStorage.DataStoreLarge;
 import net.sf.RecordEditor.utils.fileStorage.DataStoreStd;
 import net.sf.RecordEditor.utils.fileStorage.FileDetails;
-import net.sf.RecordEditor.utils.fileStorage.IDataStoreText;
+import net.sf.RecordEditor.utils.fileStorage.IDataStoreIterator;
+import net.sf.RecordEditor.utils.fileStorage.IDataStoreView;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.msg.UtMessages;
 import net.sf.RecordEditor.utils.params.ProgramOptions;
+import net.sf.RecordEditor.utils.screenManager.ReMsg;
 import net.sf.RecordEditor.utils.swing.DelayedFieldValue;
 import net.sf.RecordEditor.utils.swing.array.ArrayNotifyInterface;
+import net.sf.RecordEditor.utils.swing.common.EmptyProgressDisplay;
+import net.sf.RecordEditor.utils.swing.common.IProgressDisplay;
 import net.sf.RecordEditor.utils.swing.treeTable.TreeTableNotify;
 
 
@@ -106,7 +117,7 @@ import net.sf.RecordEditor.utils.swing.treeTable.TreeTableNotify;
 @SuppressWarnings({ "serial", "rawtypes" })
 public class FileView	extends 			AbstractTableModel
 						implements 	Iterable<AbstractLine>, TableModelListener, ColumnMappingInterface,
-									TreeModelListener, AbstractChangeNotify, GetView, ArrayNotifyInterface {
+									TreeModelListener, AbstractChangeNotify, IGetView, ArrayNotifyInterface {
 
 	private static final String INTERNAL_ERROR_LINES_CLEARED_SAVE_IS_NOT_POSSIBLE
 			= LangConversion.convert("Internal Error: lines cleared, save is not possible !!!");
@@ -132,6 +143,10 @@ public class FileView	extends 			AbstractTableModel
     private static final byte BEING_SAVED = 2;
     private static final byte CHANGED     = 3;
 
+    private static final EmptyProgressDisplay EMPTY_PROGRESS = new EmptyProgressDisplay();
+    private static final CheckStore NO_CHECK = new CheckStore() {
+		@Override public void checkDatasStore(int numLines) {}
+	};
 
 
     private static final FieldMapping NULL_MAPPING =  new FieldMapping(new int[0]);
@@ -149,8 +164,8 @@ public class FileView	extends 			AbstractTableModel
 
     public boolean saveAvailable = true;
 
-	private static AbstractLine[] copySrc = null;
-
+	//private static AbstractLine[] copySrc = null;
+	private static IDataStore<AbstractLine> copySrc = null;
 
 	private String fileName;
 	private String altName = null;
@@ -166,7 +181,7 @@ public class FileView	extends 			AbstractTableModel
 	private boolean view    = false;
 
 	//private List<AbstractLine> lines;
-	private DataStore<AbstractLine> lines;
+	private IDataStore<AbstractLine> lines;
 	private AbstractLayoutDetails layout;
 
 	private boolean browse;
@@ -183,7 +198,13 @@ public class FileView	extends 			AbstractTableModel
 	private TreeTableNotify treeTableNotify = null;
 	private WeakHashMap<AbstractLine, AbstractLineNode> nodes = null;
 
-	private ArrayList<FileWriter> writers = new ArrayList<FileWriter>();
+
+	private ArrayList<WeakReference<FileWriter>> writers = new ArrayList<WeakReference<FileWriter>>();
+	
+	private long memoryCompare = Common.getMemoryCompare();
+
+	private boolean textFile;
+	
 
 	/**
 	 * Notify File class that background save  has completed
@@ -213,12 +234,13 @@ public class FileView	extends 			AbstractTableModel
      	   final boolean pBrowse) {
 		super();
 
-		this.lines = getDataStore(INITIAL_FILE_SIZE, Constants.NULL_INTEGER, null, "");
+		newLines(INITIAL_FILE_SIZE, Constants.NULL_INTEGER, null, "");
 		this.fileName   = null;
 		this.layout     = pFd;
 		this.ioProvider = pIoProvider;
 		this.browse     = pBrowse;
 		this.baseFile   = this;
+		checkIfTextFile();
 
 		if (ioProvider == null) {
 			ioProvider = LineIOProvider.getInstance();
@@ -262,22 +284,23 @@ public class FileView	extends 			AbstractTableModel
 		this.ioProvider = pIoProvider;
 		this.browse     = pBrowse;
 		this.baseFile   = this;
+		checkIfTextFile();
 
 		readFile(pFileName);
 	}
 
 
 	/**
-	 * Create a view of a file
+	 * Create a view of a file from a data-store
 	 *
 	 * @param pLines    lines to display
 	 * @param pBaseFile the basefile
 	 * @param pRemapColumns column remapping
 	 */
-	public FileView(final DataStore<? extends AbstractLine> pLines,
-	        		final FileView pBaseFile,
+	public FileView(final IDataStore<? extends AbstractLine> pLines,
+	        		final FileView pBaseFile, 
 	        		final FieldMapping colMapping) {
-		this(pLines, pBaseFile, pLines.get(0).getLayout(), colMapping, pBaseFile == null);
+		this(pLines, pBaseFile, pLines.getLayoutRE(), colMapping, pBaseFile == null);
 	}
 
 	/**
@@ -287,15 +310,15 @@ public class FileView	extends 			AbstractTableModel
 	 * @param pBaseFile the basefile
 	 * @param pRemapColumns column remapping
 	 */
-	public FileView(final DataStore<? extends AbstractLine> pLines,
+	public FileView(final IDataStore<? extends AbstractLine> pLines,
 	        		final FileView pBaseFile,
 	        		final FieldMapping colMapping,
 	        		boolean pBrowse) {
-		this(pLines, pBaseFile, pLines.getLayout(), colMapping, pBrowse);
+		this(pLines, pBaseFile, pLines.getLayoutRE(), colMapping, pBrowse);
 	}
 
 
-	public FileView(String name, final DataStore pLines,
+	public FileView(String name, final IDataStore pLines,
     		final AbstractLayoutDetails layoutDtls) {
 		this(pLines, null, layoutDtls, null, false);
 
@@ -303,7 +326,7 @@ public class FileView	extends 			AbstractTableModel
 		saveAvailable = false;
 	}
 
-	private FileView(final DataStore pLines,
+	private FileView(final IDataStore pLines,
     		final FileView pBaseFile,
     		final AbstractLayoutDetails layoutDtls,
     		final FieldMapping colMapping,
@@ -327,7 +350,7 @@ public class FileView	extends 			AbstractTableModel
 			browse = pBrowse;
 			ioProvider = LineIOProvider.getInstance();
 		} else {
-			this.baseFile		= pBaseFile;
+			this.baseFile	= pBaseFile;
 			this.fileName	= baseFile.getFileName();
 			this.layout		= baseFile.getLayout();
 			this.browse		= baseFile.isBrowse();
@@ -336,6 +359,7 @@ public class FileView	extends 			AbstractTableModel
 		}
 
 	    initLineCols();
+	    checkIfTextFile();
 	}
 
 
@@ -380,28 +404,37 @@ public class FileView	extends 			AbstractTableModel
 
 		if (writers.size() > 0) {
 			clearWaiting = true;
+			if (! view) {
+				doCompress(0);
+			}
 		} else {
 			doClear();
 		}
+		nodes = null;
 	}
 
 	public final void doClear() {
 		if (lines != null) {
 			lines.clear();
 		}
-		copySrc = null;
+		if (baseFile != null) {
+			baseFile.removeTableModelListener(this);
+		}
+
 		lines = null;
-		nodes = null;
-		System.gc();
+		
+		GcManager.doGcIfNeccessary(0.50);
 	}
 
 	public void readFile(String pFileName)
 	throws IOException, RecordException {
 		AbstractLineReader reader;
 		File file;
+		
 
 		this.fileName   = pFileName;
 		file = new File(pFileName);
+		
 
 		if (file.exists()) {
 		    if (file.isDirectory()) {
@@ -415,6 +448,9 @@ public class FileView	extends 			AbstractTableModel
 				if (ioProvider == null) {
 					ioProvider = LineIOProvider.getInstance();
 				}
+				
+				long fileLength = file.length();
+				int bufSize = FileWriter.calcBufferSize(BUFFER_SIZE, fileLength);
 
 				boolean checkFileStructureStd = layout.getOption(Options.OPT_CHECK_4_STANDARD_FILE_STRUCTURES) == Options.YES;
 				boolean checkFileStructureX = layout.getOption(Options.OPT_CHECK_4_STANDARD_FILE_STRUCTURES2) == Options.YES;
@@ -422,7 +458,7 @@ public class FileView	extends 			AbstractTableModel
 					byte[] data = StreamUtil.read(new FileInputStream(fileName), 16000);
 
 					if (data != null && data.length > 0) {
-						FileStructureAnalyser fileAnaylser = FileStructureAnalyser.getAnaylserNoLengthCheck(data, "");
+						FileAnalyser fileAnaylser = FileAnalyser.getAnaylserNoLengthCheck(data, "");
 						int fd = fileAnaylser.getFileStructure();
 						if (fd > 0 && fd != Constants.IO_BIN_TEXT
 						&&  (    fileAnaylser.getLinesRead() > 6
@@ -445,15 +481,15 @@ public class FileView	extends 			AbstractTableModel
 
 		        FileInputStream rff = new FileInputStream(pFileName);
 		        if (isGZip) {
-		            reader.open(new GZIPInputStream(rff, BUFFER_SIZE), layout);
+		            reader.open(new GZIPInputStream(rff, bufSize), layout);
 
 		            readFile(reader, file, isGZip, rff, pFileName);
 		        } else if (Common.OPTIONS.useBigFixedModel.isSelected()
 		        	   &&  structure == Constants.IO_FIXED_LENGTH
-		        	   &&  useBigFileModel(file.length())) {
+		        	   &&  useBigFileModel(fileLength)) {
 		        	lines = DataStoreLarge.getFixedLengthRecordStore((LayoutDetail)layout, pFileName);
 		        } else {
-		        	BufferedInputStream rf = new BufferedInputStream(rff, BUFFER_SIZE);
+		        	BufferedInputStream rf = new BufferedInputStream(rff, bufSize);
 
 		            reader.open(rf, pFileName, layout);
 		            browse |= (! reader.canWrite());
@@ -466,11 +502,14 @@ public class FileView	extends 			AbstractTableModel
 			reader.generateLayout(layout);
 			retrieveLayout(reader);
 		    toSave = false;
-		    this.lines      = getDataStore(INITIAL_FILE_SIZE, Constants.NULL_INTEGER, null, "");
+		    
+			newLines(INITIAL_FILE_SIZE, Constants.NULL_INTEGER, null, "");
 		}
 
 		initLineCols();
 	}
+
+
 
 	/**
 	 * Reads a file
@@ -488,7 +527,7 @@ public class FileView	extends 			AbstractTableModel
 	throws IOException {
 	    AbstractLine line;
 	    int count = 0;
-	    long interval = 1500000000l;
+	    long interval = 1000000000l;
 	    long t, t1, t2, tt1, tt2;
 	    long time = System.nanoTime();
 	    long lastTime = time;
@@ -497,31 +536,32 @@ public class FileView	extends 			AbstractTableModel
 
 	    double total = file.length();
 	    double ratio;
+	    long len = file.length();
+	    CheckStore checkStore = NO_CHECK;
 
 	    retrieveLayout(reader);
-	    allocateLines(file, isGZip, reader, fname);
-
-
-    	if (isGZip) {
-    		total *= 6;
-    	}
-
-
+//	    allocateLines(file, isGZip, len, reader, fname);
+	    
 	    t1 = time;
 	    tt1 = 0;
 	    tt2 = 0;
 
-	    if ((line = reader.read()) == null) {
-	    	retrieveLayout(reader);
-	    	allocateLines(file, isGZip, reader, fname);
-	    } else {
-	    	retrieveLayout(reader);
-	    	allocateLines(file, isGZip, reader, fname);
+	    line = reader.read();
+	    retrieveLayout(reader);
+	    allocateLines(file, isGZip, len, reader, fname);
+	    
+	    if (layout != null && layout.getOption(Options.OPT_SUPPORTS_BLOCK_STORAGE) == Options.YES
+	    && lines instanceof ArrayList
+	    && (isGZip || useBigFileModel(len * 10) )){
+	    	checkStore = new ChkStore();
+	    }
+
+	    if (line != null) {
     		lines.add(line);
 	    }
 
 	    if (Common.OPTIONS.loadInBackgroundThread.isSelected()) {
-	    	ProgressDisplay readProgress = new ProgressDisplay(file.getName());
+	    	ProgressDisplay readProgress = new ProgressDisplay("Reading", file.getName());
 	    	try {
 			    while ((line = reader.read()) != null) {
 			       tt1 += System.nanoTime() - t1;
@@ -529,20 +569,23 @@ public class FileView	extends 			AbstractTableModel
 			       lines.add(line);
 			       tt2 += System.nanoTime() - t2;
 			       if (count++ > 2000) {
+				       checkStore.checkDatasStore(count);
+
 			    	   count = 0;
 			    	   t = System.nanoTime();
 			    	   if (t - lastTime > interval) {
 			    		   if (isVeryBigFile) {
-			    			   ratio = ((double)lines.getSpace()) / total;
+			    			   ratio = ((double)lines.getSpaceRE()) / total;
 			    		   } else {
 			    			   ratio = 1 - ((double)getAvailable(rf)) / total;
 			    		   }
 			    		   readProgress.updateDisplay(
-			    				   lines.getSizeDisplay(),
+			    				   lines.getSizeDisplayRE(),
 			    				   (int) (100 * ratio));
 			    		   lastTime = t;
 			    	   }
 			       }
+
 			       t1 = System.nanoTime();
 			    }
 	    	} finally {
@@ -551,10 +594,11 @@ public class FileView	extends 			AbstractTableModel
 	    } else {
 		    while ((line = reader.read()) != null) {
 		       lines.add(line);
+		       checkStore.checkDatasStore(1);
 		    }
 	    }
 	    retrieveLayout(reader);
-	    lines.setLayout(layout);
+	    lines.setLayoutRE(layout);
 
 	    reader.close();
 
@@ -564,8 +608,7 @@ public class FileView	extends 			AbstractTableModel
 //	    Common.logMsg(1,
 //	    		lines.getSizeDisplay() + "\n  Load Time : " + ttime,
 //	    		null);
-	    System.out.println(
-	    		lines.getSizeDisplay());
+	    System.out.println(lines.getSizeDisplayRE());
 	    System.out.println("File Read Time: "  + ttime);
 
 	    System.out.println("Read Total: " + (tt1 / 100000000));
@@ -591,12 +634,15 @@ public class FileView	extends 			AbstractTableModel
 	    }
 	}
 
-	private void allocateLines(File file, boolean isGZip, AbstractLineReader<AbstractLayoutDetails> reader, String fname) {
+	private void allocateLines(File file, boolean isGZip, long len, AbstractLineReader<AbstractLayoutDetails> reader, String fname) {
     	int numLines = INITIAL_FILE_SIZE ;
     	int maxLength = layout.getMaximumRecordLength();
     	AbstractLineReader<AbstractLayoutDetails> r = reader;
+    	
+		if (lines != null && lines instanceof TableModelListener) {
+			this.removeTableModelListener((TableModelListener) lines);
+		}
     	try {
-    		long len = file.length();
     		if (maxLength > 0) {
     			numLines = ((int) ((len / maxLength) * 11 / 10)) ;
     			if (isGZip) {
@@ -606,12 +652,12 @@ public class FileView	extends 			AbstractTableModel
     			numLines = Math.max(MINIMUM_FILE_SIZE, numLines);
     		}
 			if (isGZip) {
-				len *= 9;
+				len *= 14;
 				r = null;
 			}
-    		this.lines      = getDataStore(numLines, len, r, fname);
+    		newLines(numLines, len, r, fname);
     	} catch (Exception e) {
-    		this.lines      = getDataStore(INITIAL_FILE_SIZE, Constants.NULL_INTEGER, null, fname);
+    		newLines(INITIAL_FILE_SIZE, Constants.NULL_INTEGER, null, fname);
     	}
 
 	}
@@ -632,6 +678,8 @@ public class FileView	extends 			AbstractTableModel
 
 		return getLayoutColumnCount(currLayoutIdx) + SPECIAL_FIELDS_AT_START;
 	}
+	
+	
 
 	/**
 	 * @see javax.swing.table.TableModel#getRowCount()
@@ -892,7 +940,7 @@ public class FileView	extends 			AbstractTableModel
 				return null;
 			}
 
-			return lines.getTempLine(row).getField(layoutIdx, tmpCol);
+			return lines.getTempLineRE(row).getField(layoutIdx, tmpCol);
 		} catch (Exception e) {
 			return null;
 		}
@@ -992,6 +1040,7 @@ public class FileView	extends 			AbstractTableModel
 
 			if (val == null
 			|| (   layoutIdx <= layout.getRecordCount()
+			    && currLine.isDefined(layoutIdx, col)
 				&& val.equals(currLine.getField(layoutIdx, col)))) { return; }
 
 		    if ((layoutIdx >= layout.getRecordCount())) {
@@ -1002,7 +1051,7 @@ public class FileView	extends 			AbstractTableModel
 		                s = val.toString();
 		            //}
 		            currLine.setData(s);
-		            fireRowUpdated(row, currLine);
+		            fireRowUpdated(row, null, currLine);
 		        default:
 		        	if (val instanceof byte[]) {
 		        		currLine.setData((byte[]) val);
@@ -1017,7 +1066,7 @@ public class FileView	extends 			AbstractTableModel
 			        currLine.setField(layoutIdx, col, val);
 			        setChangedValue(o, currLine.getField(layoutIdx, col));
 
-		            fireRowUpdated(row, currLine);
+		            fireRowUpdated(row, layoutIdx, col,currLine);
 			    } catch (Exception e) {
 			        e.printStackTrace();
                 }
@@ -1125,7 +1174,7 @@ public class FileView	extends 			AbstractTableModel
 
 		    setChangedValue(o, currLine.getField(layoutIdx, col));
 
-			fireRowUpdated(row, currLine);
+			fireRowUpdated(row, layoutIdx, col, currLine);
 
 			return null;
 		} catch (RecordException cex) {
@@ -1159,19 +1208,61 @@ public class FileView	extends 			AbstractTableModel
 	 * @param row row
 	 * @param currLine the actual line
 	 */
-	public void fireRowUpdated(int row, AbstractLine currLine) {
+	public void fireRowUpdated(int row, int recordIdx, int fieldIdx, AbstractLine currLine) {
+		fireRowUpdated(row, layout.getField(recordIdx, fieldIdx), currLine);
+	}
+
+	/**
+	 * Tell the world that the row has been updated
+	 * @param row row
+	 * @param currLine the actual line
+	 */
+	public void fireRowUpdated(int row, IFieldDetail fld, AbstractLine currLine) {
 
 		if (baseFile.treeTableNotify == null) {
 			tblFireRowUpdated(row, currLine);
 		} else if (isView()) {
-			baseFile.fireRowUpdated(row, currLine);
+			baseFile.fireRowUpdated(row, fld, currLine);
 		} else {
 			AbstractLineNode node = getTreeNode(currLine);
 
 			if (node == null) {
 				tblFireRowUpdated(row, currLine);
 			} else {
+				checkForTreeDelete(node, currLine);
 				baseFile.treeTableNotify.fireTreeNodesChanged(node, node.getPath(), null, null);
+			}
+		}
+	}
+	
+	private final void checkForTreeDelete(AbstractLineNode node, AbstractLine currLine) {
+		int option = currLine.getOption(Options.OPT_MULTIPLE_LINES_UPDATED);
+		boolean updated = false;
+		if ((option >= Options.YES)
+		/*&& (fld != null)*/) {
+			AbstractLine l;
+			for (int i = node.getChildCount() - 1; i >= 0; i--) {
+				TreeNode child = node.getChildAt(i);
+				
+				if (child instanceof AbstractLineNode && (l = ((AbstractLineNode) child).getLine()) != null) { 
+					if (l.getOption(Options.OPT_LINE_DELETED) == Options.YES) {
+						this.deleteOneLine(l);
+						updated = true;
+					}
+				} else if (child != null) {
+					for (int j = child.getChildCount() - 1; j >= 0; j--) {
+						TreeNode c = child.getChildAt(j);
+				
+						if (c instanceof AbstractLineNode && (l =((AbstractLineNode) c).getLine()) != null 
+						&& l.getOption(Options.OPT_LINE_DELETED) == Options.YES) {
+							this.deleteOneLine(l);
+							updated = true;
+						}
+					}
+				}
+			}
+			if (updated) {
+				super.fireTableDataChanged();
 			}
 		}
 	}
@@ -1244,6 +1335,48 @@ public class FileView	extends 			AbstractTableModel
 //	}
 
 
+	public boolean insertCells(int recordIdx, int row, int column, IRetrieveTable tbl) {
+		List<String> colsToInsert;
+		AbstractLine line;
+		column = getRealColumn(recordIdx, column - SPECIAL_FIELDS_AT_START);
+		boolean changed = false;
+		while (row < lines.size() && tbl.hasMoreRows()) {
+			line = getLine(row++);
+			colsToInsert = tbl.nextRowAsList();
+			if (line instanceof IColumnInsertDelete) {
+				((IColumnInsertDelete) line)
+						.insetColumns(
+								column, 
+								colsToInsert.toArray(new String[colsToInsert.size()]));
+				changed = true;
+			}
+		}
+		if (changed) {
+//			baseFile.fireTableStructureChanged();
+			setChanged(true);			
+		}
+		return changed;
+	}
+
+	public void deleteCells(int recordIdx, int[] recNums, int[] colNums) {
+		
+		if (layout.getOption(Options.OPT_CAN_ADD_DELETE_FIELD_VAlUES) == Options.YES
+		&& recordIdx >= 0 && recordIdx < layout.getRecordCount()) {
+			for (int i = 0; i < colNums.length; i++) {
+				colNums[i] = getRealColumn(recordIdx, colNums[i] - SPECIAL_FIELDS_AT_START);
+			}
+			Arrays.sort(colNums);
+			for (int row : recNums) {
+				AbstractLine line = getLine(row);
+				if (line instanceof IColumnInsertDelete) {
+					((IColumnInsertDelete) line).deleteColumns(colNums);
+				}
+			}
+			baseFile.fireTableDataChanged();
+			setChanged(true);
+		}
+	}
+	
 	/**
 	 * Delete a record from the file
 	 *
@@ -1284,7 +1417,7 @@ public class FileView	extends 			AbstractTableModel
 			    }
 
 			    deleteLinesFromView(recNums);
-			    baseFile.deleteLinesFromView(baseRecNums);
+			   	baseFile.deleteLinesFromView(baseRecNums);
 			} else {
 				AbstractLine l;
 			    deleteLinesFromView(recNums);
@@ -1303,7 +1436,7 @@ public class FileView	extends 			AbstractTableModel
 	 * delete lines from view
 	 * @param recNums reords to be deleted
 	 */
-	protected final void deleteLinesFromView(int[] recNums) {
+	private final void deleteLinesFromView(int[] recNums) {
 
 		if (recNums != null && recNums.length > 0) {
 			int start, end, i;
@@ -1316,25 +1449,29 @@ public class FileView	extends 			AbstractTableModel
 			for (i = recNums.length - 2; i >= 0 && recNums[i] >= 0; i--) {
 				if (start - 1 == recNums[i]) {
 					start -= 1;
-				} else {
+				} else if (start != recNums[i]) {
 					fireTableRowsDeleted(start, end);
-					System.out.println(" ++ delete range " + start + " " + end);
+					//System.out.println(" ++ delete range " + start + " " + end);
 					start = recNums[i];
 					end   = recNums[i];
 				}
 //				System.out.print(" " + recNums[i]);
 			}
 			if (end >= 0) {
-				System.out.println(" << delete range " + start + " " + end);
+				//System.out.println(" << delete range " + start + " " + end);
 				fireTableRowsDeleted(start, end);
 			}
 
 //			System.out.println(" << starting delete  " + start + " " + end);
+			int last = -1331;
 			for (i = recNums.length - 1; i >= 0; i--) {
 				//System.out.println("Deleting: " + i + " ~ " + recNums[i]);
-				if (recNums[i] >= 0 && recNums[i] < lines.size()) {
-					deleteNode(lines.get(recNums[i]));
+				if (recNums[i] >= 0 && recNums[i] < lines.size() && recNums[i] != last) {
+					if (nodes != null) {
+						deleteNode(lines.get(recNums[i]));
+					}
 					lines.remove(recNums[i]);
+					last = recNums[i];
 				}
 			}
 //			System.out.println(" << end delete  " + start + " " + end);
@@ -1372,7 +1509,11 @@ public class FileView	extends 			AbstractTableModel
 		} else {
 			int num = lines.indexOf(line);
 			if (num >= 0) {
-				fireTableRowsDeleted(num, num);
+				try {
+					fireTableRowsDeleted(num, num);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				//System.out.println(" >> delete " + recNum + " " + recNum);
 	        	lines.remove(num);
 			}
@@ -1392,12 +1533,21 @@ public class FileView	extends 			AbstractTableModel
 			node.removeFromParent();
 		}
 	}
+	
+	public void removeLineFromView(int lineNumber) {
+		if (view) {
+			lines.remove(lineNumber);
+		} else {
+			deleteLine(lineNumber);
+		}
+	}
 
 	public final AbstractLineNode getTreeNode(AbstractLine line) {
 		AbstractLineNode ret = null;
 		if (nodes != null) {
 			ret = nodes.get(line);
 		}
+
 		return ret;
 	}
 
@@ -1608,11 +1758,24 @@ public class FileView	extends 			AbstractTableModel
 					null);
 		}
 
-		copySrc = new AbstractLine[num];
+		copySrc = newDataStore((num > 5000) || ((num > 50) && (! (baseFile.lines instanceof ArrayList))), num, 1, null, null);
 
-		for (i = 0; i < num; i++) {
-			copySrc[i] = lines.getTempLine(recNums[i]).getNewDataLine();
-		}
+		IProgressDisplay pd = newProgressDisplay(recNums.length < 50000 || SwingUtilities.isEventDispatchThread(), 
+				"Copying " + this.getFileNameNoDirectory(), UtMessages.COPIED, recNums.length, 50000);
+		try {
+			
+			lines.extractLinesRE(copySrc, recNums, pd);
+//			for (i = 0; i < num; i++) {
+//				copySrc.add(lines.getTempLine(recNums[i]).getNewDataLine());
+//				pd.updateProgress(i);
+//			}
+		} finally {
+    		pd.done();
+    	}
+	
+    	doCompress(recNums[0]);
+		
+		GcManager.doGcIfNeccessary(0.50);
 	}
 
 
@@ -1620,7 +1783,7 @@ public class FileView	extends 			AbstractTableModel
 	/**
 	 * @param copySrc the copySrc to set
 	 */
-	public static final void setCopyRecords(AbstractLine[] copySrc) {
+	public static final void setCopyRecords(IDataStore<AbstractLine> copySrc) {
 		FileView.copySrc = copySrc;
 	}
 
@@ -1629,18 +1792,34 @@ public class FileView	extends 			AbstractTableModel
 	 *
 	 * @param pos position to paste records
 	 */
-	public final void pasteLines(int pos) {
+	public final void pasteLines(final int pos) {
+		if (copySrc != null) {
+			if (copySrc.size() < 50000) {
+				pasteLinesI(pos);
+			} else {
+				Common.runOptionalyInBackground(
+						 new Runnable() {
+							 @Override public void run() {
+								 pasteLinesI(pos);
+							 }
+				});
+			}
+		}
+	}
+
+	public final void pasteLinesI(int pos) {
 		AbstractLine l = null;
+		
 		if (pos >=0 && pos < lines.size()) {
 			l = getLine(pos);
 		}
 		pasteLines(pos, l);
 	}
 
-	public final AbstractLine[] pasteLines(int pos, AbstractLine line) {
+	private final  IDataStore<AbstractLine> pasteLines(int pos, AbstractLine line) {
 
-		AbstractLine[] ret = copySrc;
-		if (copySrc != null && copySrc.length > 0) {
+		IDataStore<AbstractLine> ret = copySrc;
+		if (copySrc != null && copySrc.size() > 0) {
 			if (treeTableNotify == null || pos < 0
 			|| getLine(pos).getTreeDetails().getParentLine() == null) {
 				ret = pasteTableLines(pos);
@@ -1651,32 +1830,43 @@ public class FileView	extends 			AbstractTableModel
 		return ret;
 	}
 
-	private final  AbstractLine[] pasteTableLines(int pos) {
-		AbstractLine[] cpy;
+	private final IDataStore<AbstractLine> pasteTableLines(int pos) {
+		IDataStore<AbstractLine> cpy;
 
 	    if (view) {
-	    	AbstractLine line = lines.get(Math.max(0, pos));
-	    	int baseRecordNumber = baseFile.indexOf(line);
+	    	int lineNum = Math.max(0, pos);
+			AbstractLine line = null;
+			int baseRecordNumber = baseFile.getRowCount();
+			
+			if (lineNum < lines.size()) {
+				line = lines.get(lineNum);
+				baseRecordNumber = baseFile.indexOf(line);
+			} 
 
-	        cpy = baseFile.pasteLines(baseRecordNumber, line);
+			if (pos < 0) {
+				cpy = baseFile.pasteLines(baseRecordNumber - 1, null);
+			} else {
+				cpy = baseFile.pasteLines(baseRecordNumber, line);
+			}
 	    } else {
 			cpy = copySrc;
 	    }
 
-	   return performPaste(pos, cpy);
+	   return doPaste(pos, cpy);
 	}
 
 
-	public final  AbstractLine[] pasteTreeLines(LinePosition pos) {
+	public final  IDataStore<AbstractLine> pasteTreeLines(LinePosition pos) {
 		return pasteTreeLines(pos.line, pos.before);
 	}
 
 
-	private final  AbstractLine[] pasteTreeLines(AbstractLine pos, boolean prev) {
-		AbstractLine[] ret = null;
-		if (copySrc != null && copySrc.length > 0
-		&& copySrc[0].getLayout() == layout ) {
-			cloneCopyLines();
+	private final  IDataStore<AbstractLine> pasteTreeLines(AbstractLine pos, boolean prev) {
+		IDataStore<AbstractLine> ret = null;
+		if (copySrc != null && copySrc.size() > 0
+		&& copySrc.get(0).getLayout() == layout ) {
+			copySrc.setLayoutRE(layout);
+
 			ret = pasteTreeLines(pos, copySrc, prev);
 			this.setChanged(true);
 		}
@@ -1688,63 +1878,65 @@ public class FileView	extends 			AbstractTableModel
 	//TODO ~~~ implement prev !!!
 	//TODO ~~~ implement prev !!!
 	//TODO ~~~ implement prev !!!
-	private final AbstractLine[]  pasteTreeLines(AbstractLine pos, AbstractLine[] copySource, boolean prev) {
+	private final IDataStore<AbstractLine>  pasteTreeLines(AbstractLine pos, IDataStore<AbstractLine> copySource, boolean prev) {
 
 		AbstractLine parent = null;
 		AbstractChildDetails childDef;
 
-		AbstractLine[] ret = copySource;
-		ArrayList<AbstractLine> accepted = new ArrayList<AbstractLine>(copySource.length);
-
-		int arrayPos = -1;
-
-		if (pos != null) {
-			parent = pos.getTreeDetails().getParentLine();
-			arrayPos = pos.getTreeDetails().getParentIndex()+1;
-			if (prev && arrayPos > 0) {
-				arrayPos -= 1;
+		IDataStore<AbstractLine> ret = copySource;
+		
+		if (copySource.size() > 0) {
+			IDataStore<AbstractLine> accepted = DataStoreStd.newStore(copySource.get(0).getLayout(), copySource.size());
+	
+			int arrayPos = -1;
+	
+			if (pos != null) {
+				parent = pos.getTreeDetails().getParentLine();
+				arrayPos = pos.getTreeDetails().getParentIndex()+1;
+				if (prev && arrayPos > 0) {
+					arrayPos -= 1;
+				}
 			}
-		}
-
-		int p = -1;
-		if (pos == null || prev) {
-			p = 0;
-		}
-		int idx = lines.indexOf(pos);
-		if (idx >= 0 && ! prev) {
-			idx += 1;
-		}
-		for (int i = 0; i < copySource.length; i++ ) {
-			childDef = copySource[i].getTreeDetails().getChildDefinitionInParent();
-			if (checkInsertOk(pos, childDef) == CAN_INSERT) {
-				accepted.add(copySource[i]);
-				insert(pos, copySource[i], p++);
-				p = inc(p);
-			} else if (checkInsertOk(parent, childDef) == CAN_INSERT) {
-				if (parent == null) {
-					accepted.add(copySource[i]);
-					insert(null, copySource[i], idx);
-					idx = inc(idx);
-				} else {
-					int id = -1;
-					if (pos.getTreeDetails().getChildDefinitionInParent() == childDef) {
-						id = arrayPos++;
+	
+			int p = -1;
+			if (pos == null || prev) {
+				p = 0;
+			}
+			int idx = lines.indexOf(pos);
+			if (idx >= 0 && ! prev) {
+				idx += 1;
+			}
+			for (int i = 0; i < copySource.size(); i++ ) {
+				childDef = copySource.get(i).getTreeDetails().getChildDefinitionInParent();
+				if (checkInsertOk(pos, childDef) == CAN_INSERT) {
+					accepted.add(copySource.get(i));
+					insert(pos, copySource.get(i), p++);
+					p = inc(p);
+				} else if (checkInsertOk(parent, childDef) == CAN_INSERT) {
+					if (parent == null) {
+						accepted.add(copySource.get(i));
+						insert(null, copySource.get(i), idx);
+						idx = inc(idx);
+					} else {
+						int id = -1;
+						if (pos.getTreeDetails().getChildDefinitionInParent() == childDef) {
+							id = arrayPos++;
+						}
+						accepted.add(copySource.get(i));
+						insert(parent, copySource.get(i), id);
 					}
-					accepted.add(copySource[i]);
-					insert(parent, copySource[i], id);
+				} else {
+					String name = "";
+					try {
+						name = layout.getRecord(copySource.get(i).getPreferredLayoutIdx()).getRecordName();
+					} catch (Exception e) {
+					}
+					Common.logMsg(AbsSSLogger.ERROR, "Can not paste", name + ":  " + copySource.get(i).getFullLine(), null);
 				}
-			} else {
-				String name = "";
-				try {
-					name = layout.getRecord(copySource[i].getPreferredLayoutIdx()).getRecordName();
-				} catch (Exception e) {
-				}
-				Common.logMsg(AbsSSLogger.ERROR, "Can not paste", name + ":  " + copySource[i].getFullLine(), null);
 			}
-		}
-		if (accepted.size() < ret.length) {
-			ret = new AbstractLine[accepted.size()];
-			ret = accepted.toArray(ret);
+
+			ret = accepted;
+		
 		}
 		return ret;
 	}
@@ -1756,15 +1948,7 @@ public class FileView	extends 			AbstractTableModel
 		return val;
 	}
 
-	private void cloneCopyLines() {
 
-		AbstractLine ttt;
-		for (int i = 0; i < copySrc.length; i++) {
-        	ttt = copySrc[i].getNewDataLine();
-        	ttt.setLayout(layout);
-        	copySrc[i] = ttt;
-		}
-	}
 
 	/**
 	 * paste a series of records
@@ -1772,26 +1956,69 @@ public class FileView	extends 			AbstractTableModel
 	 * @param pos position to copy the lines
 	 * @param newLines new lines to be copied
 	 */
-	private AbstractLine[] performPaste(int pos, AbstractLine[] newLines) {
+	private  IDataStore<AbstractLine> doPaste(int pos,  IDataStore<AbstractLine> newLines) {
 	    int i;
-	    AbstractLine[] ret= newLines;
-	    if (lines instanceof ArrayList) {
-	    	((ArrayList)lines).ensureCapacity(lines.size() + newLines.length);
-	    }
+	    IDataStore<AbstractLine> ret= newLines;
+	    int cpySize = newLines.size();
+//		if (lines instanceof ArrayList) {
+//	    	((ArrayList)lines).ensureCapacity(lines.size() + cpySize);
+//	    }
 
 	    if (isView()) {
-	        for (i = 0; i < newLines.length; i++) {
-				lines.add(pos + i + 1, newLines[i]);
-			}
-	    } else {
-	    	ret = new AbstractLine[newLines.length];
-	        for (i = 0; i < newLines.length; i++) {
-	        	ret[i] = lines.addCopy(pos + i + 1, newLines[i]);
-			}
+	    	lines.addAll(Math.min(pos+1, lines.size()), newLines);
+//	        for (i = 0; i < newLines.size(); i++) {
+//				lines.add(pos + i + 1, newLines.get(i));
+//			}
+	    } else if (cpySize > 0){
+//	    	int j = 0;
+//	    	int[] lineNums = new int[cpySize];
+	    	
+	    	//TODO uncomment after test cases built !!!	   
+	    	//TODO uncomment after test cases built !!!	 
+	    	pos = Math.min(pos, lines.size() - 1);
+	    	IProgressDisplay pd = newProgressDisplay(SwingUtilities.isEventDispatchThread(), "Pasting", UtMessages.PASTE, newLines.size(), 50000);
+	    	try {
+	    		lines.addCopyRE(pos+1, newLines, pd);
+	    	} finally {
+	    		pd.done();
+	    	}
+	    	
+	    	doCompress(pos);
+//	    	System.out.println();
+//	    	System.out.println(newLines.getSizeDisplay());
+//	    	System.out.println();
+//	    	System.out.println(lines.getSizeDisplay());
+	    	
+	    	
+//	    	//TODO comment after test cases built !!!	  
+//	    	//TODO comment after test cases built !!!	  
+//	    	AbstractLine tempLine;
+//	    	
+//	    	pos = Math.min(pos, lines.size() - 1);
+//	        for (i = 0; i < cpySize; i++) {
+////	        	if (i % 250000 == 0) {
+////	        		System.out.println();
+////	        		System.out.println("------------------ Summary at " + (i / 1000) + " thousand ----------------" );
+////	        		System.out.println(" File:");
+////	        		System.out.println(lines.getSizeDisplay());
+////	        		System.out.println(" CopySource:");
+////	        		System.out.println(newLines.getSizeDisplay());
+////	        		System.out.println();
+////	        	}
+////      	
+////	        	lineNums[i] = pos + i + 1;
+//	        	
+//	        	tempLine = newLines.getNewLine(i);
+//	        	tempLine.setLayout(getLayout());
+//				lines.add(pos + i + 1, tempLine);
+////	        	ret.add(lines.addCopy(pos + i + 1, newLines.getTempLine(i)));
+//			}
+	    	ret = new DataStoreRange(lines, pos + 1, cpySize); 
 	    }
 
         setChanged(true);
-        fireTableRowsInsertedLocal(pos + 1, pos + newLines.length);
+        fireTableRowsInsertedLocal(pos + 1, pos + cpySize);
+        GcManager.doGcIfNeccessary(0.50);
 
         return ret;
 	}
@@ -1814,7 +2041,7 @@ public class FileView	extends 			AbstractTableModel
 			if (ioProvider == null) {
 				ioProvider = LineIOProvider.getInstance();
 			}
-	        pos = addLineInternal(pos + adj, ioProvider.getLineProvider(layout.getFileStructure()).getLine(layout));
+	        pos = addLineInternal(pos + adj, ioProvider.getLineProvider(layout).getLine(layout));
 	        //changed = true;
 	    }
 
@@ -1824,6 +2051,35 @@ public class FileView	extends 			AbstractTableModel
 	}
 
 	/**
+	 * Adds a line (& fires Table row notification)
+	 * This method was added to test large views
+	 * 
+	 * @param pos position to insert
+	 * @param line line to insert
+	 * 
+	 * @return line that was added.
+	 */
+	public final int addLine(int pos, AbstractLine line) {
+		// return addLines(pos+1, -1, line);
+		int ret;
+		if (view) {
+			int p = baseFile.getRowCount();
+			if (pos >= 0 && pos < lines.size()) {
+				p = baseFile.indexOf(lines.get(pos));
+				if (pos < 0) {
+					p = baseFile.getRowCount();
+				}
+			}
+			
+			p = baseFile.addLine(p, line);
+			line = baseFile.getLine(p);
+		}
+		ret = addLineInternal(pos - 1, line);
+		fireTableRowsInsertedLocal(ret, ret);
+		return ret;
+	}
+	
+	/**
 	 * add a new record
 	 *
 	 * @param pos suggested position to place the new record
@@ -1832,24 +2088,34 @@ public class FileView	extends 			AbstractTableModel
 	 */
 	public final int addLines(int pos, int adj, AbstractLine[] linesToAdd) {
 
+
 		int initialPos = pos + adj;
-	    if (view) {
-	        baseFile.addLines(getBasePosition(pos), adj, linesToAdd);
-	    }
+		pos += adj;
+		if (view) {
+			linesToAdd = linesToAdd.clone();
+			baseFile.addLines(getBasePosition(pos - adj), adj, linesToAdd);
+			for (int i = 0; i < linesToAdd.length; i++) {
+				pos = addLineInternal(pos, linesToAdd[i]);
+				if (i == 0) {
+					initialPos = pos;
+				}
+			}
+		} else {
 
-	    //System.out.println("Row Count 1: " + getRowCount());
-	    pos += adj;
-	    //System.out.println("Insert " + linesToAdd.length + " lines ");
-	    for (int i = 0; i < linesToAdd.length; i++) {
-	    	//System.out.print(pos);
-	    	pos = addLineInternal(pos, linesToAdd[i]);
-	    }
-	    //System.out.println("Row Count 2: " + getRowCount());
-
-	    fireTableRowsInsertedLocal(initialPos, initialPos + linesToAdd.length - 1);
-	    //System.out.println("Row Count 3: " + getRowCount());
-
+			for (int i = 0; i < linesToAdd.length; i++) {
+				pos = addLineInternal(pos, linesToAdd[i]);
+				linesToAdd[i] = lines.get(pos);
+				if (i == 0) {
+					initialPos = pos;
+				}
+			}
+		}
+		//System.out.println("Row Count 2: " + getRowCount());
+		fireTableRowsInsertedLocal(initialPos, initialPos
+				+ linesToAdd.length - 1);
+		//System.out.println("Row Count 3: " + getRowCount());
 		return pos;
+
 	}
 
 	private int getBasePosition(int pos) {
@@ -1863,24 +2129,28 @@ public class FileView	extends 			AbstractTableModel
 	public final AbstractLine[] createLines(int count) {
 		AbstractLine[] ret = new AbstractLine[count];
 
+		if (baseFile.ioProvider == null) {
+			baseFile.ioProvider = LineIOProvider.getInstance();
+		}
+
 		for (int i = 0; i < count; i++) {
-			ret[i] = ioProvider.getLineProvider(layout.getFileStructure()).getLine(layout);
+			ret[i] = baseFile.ioProvider.getLineProvider(layout).getLine(layout);
 		}
 
 		return ret;
 	}
-
-	/**
-	 * Add a line
-	 *
-	 * @param pos position to add a record
-	 * @param line line to insert
-	 *
-	 * @return position a line was added
-	 */
-	public final int addLine(int pos, AbstractLine line) {
-		return addLineInternal(pos - 1, line);
-	}
+//
+//	/**
+//	 * Add a line
+//	 *
+//	 * @param pos position to add a record
+//	 * @param line line to insert
+//	 *
+//	 * @return position a line was added
+//	 */
+//	public final int addLine(int pos, AbstractLine line) {
+//		return addLineInternal(pos - 1, line);
+//	}
 
 	/**
 	 * Add a line
@@ -2193,7 +2463,7 @@ public class FileView	extends 			AbstractTableModel
 		AbstractLine l = pos.currentLine;
 		String s= "";
 		if (l == null && pos.row >= 0 && pos.row < lines.size()) {
-			 l = lines.getTempLine(pos.row);
+			 l = lines.getTempLineRE(pos.row);
 		}
 
 		pos.layoutIdxUsed = Common.NULL_INTEGER;
@@ -2239,11 +2509,16 @@ public class FileView	extends 			AbstractTableModel
 	}
 
 	public final void setLine(final int lineNum, AbstractLine l) {
-		lines.set(lineNum,l);
+		boolean changed = lineNum < 0 || lineNum >= lines.size() || lines.get(lineNum) != l;
+						
+		lines.set(lineNum, l);
+		setChanged(changed);
+		tblFireRowUpdated(lineNum, lines.get(lineNum));
 	}
 
+
 	public final AbstractLine getTempLine(final int lineNum) {
-		return lines.getTempLine(lineNum);
+		return lines.getTempLineRE(lineNum);
 	}
 
 	/**
@@ -2312,7 +2587,7 @@ public class FileView	extends 			AbstractTableModel
 	 * Get File Description
 	 * @return File Description
 	 */
-    public final AbstractLayoutDetails getLayout() {
+	public final AbstractLayoutDetails getLayout() {
         return layout;
     }
 
@@ -2322,7 +2597,8 @@ public class FileView	extends 			AbstractTableModel
 	 */
 	public final void setLayout(AbstractLayoutDetails layout) {
 		this.layout = layout;
-		lines.setLayout(layout);
+		checkIfTextFile();
+		lines.setLayoutRE(layout);
 
 		maxNumColumns = -1;
 		columnMapping = NULL_MAPPING;
@@ -2340,8 +2616,8 @@ public class FileView	extends 			AbstractTableModel
 	        baseFile.writeFile();
 	    } else if (lines == null) {
 	    	Common.logMsgRaw(INTERNAL_ERROR_LINES_CLEARED_SAVE_IS_NOT_POSSIBLE, null);
-	    	Common.logMsgRaw(INTERNAL_ERROR_LINES_CLEARED_SAVE_IS_NOT_POSSIBLE, null);
-	    	Common.logMsgRaw(INTERNAL_ERROR_LINES_CLEARED_SAVE_IS_NOT_POSSIBLE, null);
+//	    	Common.logMsgRaw(INTERNAL_ERROR_LINES_CLEARED_SAVE_IS_NOT_POSSIBLE, null);
+//	    	Common.logMsgRaw(INTERNAL_ERROR_LINES_CLEARED_SAVE_IS_NOT_POSSIBLE, null);
 	    } else {
 	    	changeStatus = BEING_SAVED;
 	        saveFile(lines, fileName, toSave,
@@ -2352,6 +2628,7 @@ public class FileView	extends 			AbstractTableModel
 							if (changeStatus == BEING_SAVED) {
 								toSave = false;
 					            changeStatus = NO_CHANGE;
+					            dropCompletedWriters();
 							}
 						}
 	        		}
@@ -2456,7 +2733,7 @@ public class FileView	extends 			AbstractTableModel
 
 	    dropCompletedWriters();
 
-	    if (pLines.size() < 30000) {
+	    if (pLines.size() < 50000) {
 	    	fileWriter.doWrite();
 	    	if (chgListner != null) {
 	    		chgListner.propertyChange(null);
@@ -2468,7 +2745,7 @@ public class FileView	extends 			AbstractTableModel
 				if (chgListner != null) {
 					fw.addPropertyChangeListener(chgListner);
 				}
-				writers.add(fileWriter);
+				writers.add(new WeakReference<FileWriter>(fileWriter));
 				fw.addPropertyChangeListener(saveDoneListner);
 				fw.execute();
 			} catch (NoClassDefFoundError e) {
@@ -2478,8 +2755,8 @@ public class FileView	extends 			AbstractTableModel
 	}
 
 	private void dropCompletedWriters() {
-	    for (int i = writers.size() - 1; i>=0; i--) {
-	    	if (writers.get(i).isDone()) {
+	    for (int i = writers.size() - 1; i >= 0; i--) {
+	    	if (writers.get(i).get() == null || writers.get(i).get().isDone()) {
 	    		writers.remove(i);
 	    	}
 	    }
@@ -2536,20 +2813,44 @@ public class FileView	extends 			AbstractTableModel
 		if (filter.isNormalFilter() != FilterDetails.FT_NORMAL) {
 			return getFilteredView(filter, filter.getGroupHeader());
 		}
-		ViewDataStore selected = new ViewDataStore(layout, lines instanceof DataStoreStd, frame);
+		ViewDataStore selected = new ViewDataStore(layout, lines instanceof DataStoreStd, frame, this.baseFile.lines);
         AbstractLine line;
-        FilePosition pos = new FilePosition(0, 0, 0, 0, true, this.getRowCount());
+//        FilePosition pos = new FilePosition(0, 0, 0, 0, true, this.getRowCount());
         boolean filterNonPrefered = getFilterNonPref(filter);
 
         FilterFieldBaseList list = filter.getFilterFieldListMdl();
-        Iterator<? extends AbstractLine> it = getIterator();
+        IDataStoreIterator it = getIterator();
 
-        while (it.hasNext() && selected.continueProcessing()) {
-        	line = it.next();
-    	   	if (check(filterNonPrefered, filter, list, line, false) >= 0) {
-    	   		selected.add(line);
-    	   	}
-        }
+
+    	IProgressDisplay pd = newProgressDisplay(
+    			lines.size() < 50000 || SwingUtilities.isEventDispatchThread(), "Filtering " + this.getFileNameNoDirectory(), 
+    			UtMessages.FILTER, lines.size(), 50000);
+    	try {
+        	int count = 0, sel = 0;
+	        while (it.hasNext() && selected.continueProcessing()) {
+	        	line = it.nextTempRE();
+	    	   	if (check(filterNonPrefered, filter, list, line, false) >= 0) {
+	    	   		selected.add(it.currentLineRE());
+	    	   		sel+=1;
+	    	   	}
+	    	   	if (! pd.updateProgress(count++, sel)) {
+	    	   		break;
+	    	   	}
+//	    	   	if (count % 250000 == 0) {
+//    	   			System.out.println();
+//	    	   		System.out.println(lines.getSizeDisplay());
+//	    	   	}
+	        }
+	        
+//	    	System.out.println();
+//	    	System.out.println(lines.getSizeDisplay());
+
+        } finally {
+    		pd.done();
+    	}
+       
+        
+        doCompress(0);
 //        while (it.hasNext() && selected.continueProcessing()) {
 //    	   	line = it.next();
 //    	   	recordType = line.getPreferredLayoutIdxAlt();
@@ -2587,18 +2888,20 @@ public class FileView	extends 			AbstractTableModel
 	 */
 	public FileView getFilteredView(FilterDetails filter, int groupHeader) {
 
-		ViewDataStore selected = new ViewDataStore(layout, lines instanceof DataStoreStd, frame);
+		ViewDataStore selected = new ViewDataStore(layout, lines instanceof DataStoreStd, frame, this.baseFile.lines);
         AbstractLine line;
         ArrayList<AbstractLine> groupLines = new ArrayList<AbstractLine>();
 
         boolean filterNonPrefered = getFilterNonPref(filter);
 
         FilterFieldBaseList list = filter.getFilterFieldListMdl();
-        Iterator<? extends AbstractLine> it = getIterator();
+        IDataStoreIterator it = getIterator();
         RecordSel groupSelection = list.getGroupRecordSelection();
-
+        int count = 0;
+        
         while (it.hasNext()) {
         	line = it.next();
+        	count += 1;
         	if (line.getPreferredLayoutIdxAlt() == groupHeader) {
         		if (filter.isInGroup(line.getPreferredLayoutIdxAlt())) {
         			groupLines.add(line);
@@ -2606,17 +2909,32 @@ public class FileView	extends 			AbstractTableModel
         		break;
         	}
         }
-        while (it.hasNext() && selected.continueProcessing()) {
-        	line = it.next();
-        	if (line.getPreferredLayoutIdxAlt() == groupHeader) {
-        		processGroup(selected, filterNonPrefered, filter, groupSelection, groupLines);
-        	}
-        	if (filter.isInGroup(line.getPreferredLayoutIdxAlt())) {
-        		groupLines.add(line);
-        	}
-        }
-        processGroup(selected, filterNonPrefered, filter, groupSelection, groupLines);
+        
 
+
+    	IProgressDisplay pd = newProgressDisplay(lines.size() < 50000 || SwingUtilities.isEventDispatchThread(), "Filtering " + this.getFileNameNoDirectory(), UtMessages.FILTER, lines.size(), 50000);
+       	try {
+	        while (it.hasNext() && selected.continueProcessing()) {
+	        	line = it.nextTempRE();
+	        	if (line.getPreferredLayoutIdxAlt() == groupHeader) {
+	        		processGroup(selected, filterNonPrefered, filter, groupSelection, groupLines);
+	        	}
+	        	if (filter.isInGroup(line.getPreferredLayoutIdxAlt())) {
+	        		groupLines.add(it.currentLineRE());
+	        	}
+	        	
+	    	   	if (! pd.updateProgress(count++, selected.size())) {
+	    	   		break;
+	    	   	}
+	        }
+       	} finally {
+    		pd.done();
+    	}
+        
+        
+        processGroup(selected, filterNonPrefered, filter, groupSelection, groupLines);
+        doCompress(0);
+        
         if (selected.getSelectedLines().size() > 0) {
             return new FileView(
             		selected.getSelectedLines(), baseFile,
@@ -2677,13 +2995,13 @@ public class FileView	extends 			AbstractTableModel
         return filterNonPrefered;
 	}
 
-	private Iterator<? extends AbstractLine> getIterator() {
-		Iterator<? extends AbstractLine> it;
+	private IDataStoreIterator getIterator() {
+		IDataStoreIterator it;
 
 		if (layout.hasChildren()) {
 			it = new TreeIteratorForward(lines, null);
 	    } else {
-	    	it = lines.listIterator();
+	    	it = new DataStoreIterator(lines);
 	    }
 	    return it;
 	}
@@ -2724,7 +3042,7 @@ public class FileView	extends 			AbstractTableModel
 	 */
 	public FileView getView() {
 
-        return new FileView(lines.newDataStore(), baseFile, columnMapping);
+        return new FileView(lines.newDataStoreRE(), baseFile, columnMapping);
 	}
 
 
@@ -2738,16 +3056,8 @@ public class FileView	extends 			AbstractTableModel
 	    if (rows == null || rows.length == 0) {
 	        return null;
 	    }
-	    DataStoreStd<AbstractLine> selectedLines
-	    		= DataStoreStd.newStore(layout, rows.length);
 
-	    for (int i = 0; i < rows.length; i++) {
-	    	if (rows[i] >= 0) {
-	    		selectedLines.add(this.getLine(rows[i]));
-	    	}
-	    }
-
-        return new FileView(selectedLines, baseFile, columnMapping);
+        return new FileView(lines.newDataStoreRE(rows), baseFile, columnMapping);
 	}
 
 
@@ -2788,9 +3098,17 @@ public class FileView	extends 			AbstractTableModel
 	    if (list == null || list.size() == 0) {
 	        return null;
 	    }
+	    
+	    IDataStore<AbstractLine> ds; // = lines.newDataStore();
+		if (lines instanceof DataStoreLarge)  {
+			ds = new DataStoreLargeView(lines);
+			ds.addAll(list);
+		} else {
+			ds = DataStoreStd.newStore(layout, list);
+		}
 
         return new FileView(
-        		DataStoreStd.newStore(layout, list),
+        		ds,
         		baseFile,
         		columnMapping);
 	}
@@ -2830,7 +3148,7 @@ public class FileView	extends 			AbstractTableModel
 	 *
 	 * @return line-number of a line
 	 */
-    public int indexOf(Object line) {
+	public int indexOf(Object line) {
         return lines.indexOf(line);
     }
 
@@ -2840,6 +3158,10 @@ public class FileView	extends 			AbstractTableModel
      */
     public void tableChanged(TableModelEvent event) {
 
+    	if (lines == null) {
+    		baseFile.removeTableModelListener(this);
+    		return;
+    	}
         if (view) {
             int lastRow  = event.getLastRow();
             int firstRow =  Math.max(0, event.getFirstRow());
@@ -2862,12 +3184,16 @@ public class FileView	extends 			AbstractTableModel
 					}
 				break;
 				default:
-					if (layout != baseFile.getLayout()) {
+					if (layout != baseFile.getLayout() || event.getFirstRow() < 0) {
 						setLayout(baseFile.getLayout());
 						this.fireTableStructureChanged();
 					} else {
 						this.fireTableDataChanged();
 					}
+			}
+			
+			if (lines instanceof IDataStoreView) {
+				((IDataStoreView) lines).tableChangedUpdateRE(event);
 			}
         }
     }
@@ -2949,9 +3275,11 @@ public class FileView	extends 			AbstractTableModel
      * @param compare compare to use in the sort
      */
     public void sort(LineCompare compare) {
-        lines.sort(compare);
+        lines.sortRE(compare);
 
         sortNotify();
+        
+        doCompress(0);
     }
 
     /**
@@ -2959,8 +3287,17 @@ public class FileView	extends 			AbstractTableModel
      * @param compare compare to use in the sort
      */
     public void sort(int[] rows, LineCompare compare) {
+    	lines.sortRE(rows, compare);
+    	sortNotify();
+    	
+    	if (rows.length > 20000) {
+    		doCompress(rows[rows.length - 1]);
+    	}
+    }
+    
+    public void oldSort(int[] rows, LineCompare compare) {
     	int i;
-    	AbstractLine[] rowsToSort = new AbstractLine[rows.length];
+       	AbstractLine[] rowsToSort = new AbstractLine[rows.length];
 
     	for (i = 0; i < rows.length; i++) {
     		rowsToSort[i] = lines.get(rows[i]);
@@ -2968,6 +3305,8 @@ public class FileView	extends 			AbstractTableModel
 
         Arrays.sort(rowsToSort, compare);
 
+        //TODO    update DataStore
+        //TODO    update DataStore
     	for (i = 0; i < rows.length; i++) {
     		lines.set(rows[i], rowsToSort[i]);
     	}
@@ -3029,7 +3368,9 @@ public class FileView	extends 			AbstractTableModel
 	    int i;
 
 	    for (i = 0; i < lineNumbers.length; i++) {
-	        returnLines.add(lines.get(lineNumbers[i]));
+	    	if (lineNumbers[i] >= 0 && lineNumbers[i] < lines.size()) {
+	    		returnLines.add(lines.get(lineNumbers[i]));
+	    	}
 	    }
 	    return returnLines;
 	}
@@ -3134,7 +3475,7 @@ public class FileView	extends 			AbstractTableModel
 		if (baseFile.treeTableNotify == null) {
 			invokeLaterDataChanged();
 		} else {
-			baseFile.fireRowUpdated(0, line);
+			baseFile.fireRowUpdated(0, null, line);
 		}
 	}
 
@@ -3152,19 +3493,31 @@ public class FileView	extends 			AbstractTableModel
 		});
 	}
 
-	private DataStore checkDataStore4ModeListner(DataStore s) {
+	private IDataStore checkDataStore4ModeListner(IDataStore s) {
 		if (s instanceof TableModelListener) {
 			this.addTableModelListener((TableModelListener) s);
 		}
 		return s;
 	}
 
-	private DataStore<AbstractLine> getDataStore(int noLines, long bytes, AbstractLineReader<AbstractLayoutDetails> reader, String fname) {
-		if (useBigFileModel(bytes)) {
-			LayoutDetail l = (LayoutDetail) layout;
-			if (l.isXml()) {
-			} else 	if (l.getFileStructure() == Constants.IO_UNICODE_TEXT
-					||  l.getFileStructure() == Constants.IO_UNICODE_NAME_1ST_LINE) {
+
+	private void newLines(int noLines, long bytes, AbstractLineReader<AbstractLayoutDetails> reader, String fname) {
+		if (lines != null && lines instanceof TableModelListener) {
+			this.removeTableModelListener((TableModelListener) lines);
+		}
+		lines = newDataStore(useBigFileModel(bytes), noLines, bytes, reader, fname);
+	}
+
+
+	public final IDataStore<AbstractLine> newDataStore(boolean useBigFileMdl, int noLines, long bytes, AbstractLineReader<AbstractLayoutDetails> reader, String fname) {
+		if (layout == null) {
+			return new DataStoreStd.DataStoreStdBinary<AbstractLine>(layout, noLines);
+		}
+		if (useBigFileMdl && layout.getOption(Options.OPT_SUPPORTS_BLOCK_STORAGE) == Options.YES) {
+			AbstractLayoutDetails l = (LayoutDetail) layout;
+//			if (l.getOption(Options.OPT_SUPPORTS_BLOCK_STORAGE) == Options.YES) {
+		 	int fileStructure = l.getFileStructure();
+			if (l.getOption(Options.OPT_STORAGE_TYPE) == Options.TEXT_STORAGE) {
 				System.out.println("Editing using Char-Line Big memory Model - this will reduce functionality !!!");
 				//Common.logMsg(AbsSSLogger.WARNING,
 				//		"\nEditing using Char-Line Big memory Model - this will reduce functionality !!!", null);
@@ -3172,11 +3525,11 @@ public class FileView	extends 			AbstractTableModel
 						(LayoutDetail) layout,
 						FileDetails.CHAR_LINE,
 						100000);
-			} else 	if (l.getFileStructure() == Constants.IO_UNKOWN_FORMAT
-					||  l.getFileStructure() == Constants.IO_WIZARD
+			} else 	if (fileStructure == Constants.IO_UNKOWN_FORMAT
+					||  fileStructure == Constants.IO_WIZARD
 					||  l.getLayoutType()    == Constants.rtDelimited
-					||  l.getFileStructure() == Constants.IO_NAME_1ST_LINE
-					||  l.getFileStructure() == Constants.IO_GENERIC_CSV) {
+					||  fileStructure == Constants.IO_NAME_1ST_LINE
+					||  fileStructure == Constants.IO_GENERIC_CSV) {
 				System.out.println("\nEditing using Big Variable Length memory Model - this will reduce functionality !!!");
 //				Common.logMsg(AbsSSLogger.WARNING,
 //						"\nEditing using Big Variable Length memory Model - this will reduce functionality !!!", null);
@@ -3184,7 +3537,7 @@ public class FileView	extends 			AbstractTableModel
 						(LayoutDetail) layout,
 						FileDetails.VARIABLE_LENGTH,
 						100000);
-			} else 	if (l.isFixedLength()) {
+			} else 	if (l.getOption(Options.OPT_IS_FIXED_LENGTH) == Options.YES) {
 				System.out.println("Editing using Big Fixed Length memory Model - this will reduce functionality !!!");
 //				Common.logMsg(AbsSSLogger.WARNING,
 //						"\nEditing using Big Fixed Length memory Model - this will reduce functionality !!!", null);
@@ -3203,7 +3556,7 @@ public class FileView	extends 			AbstractTableModel
 
 				char largeOpt = Common.OPTIONS.largeVbOption.get();
 				if (reader != null && reader instanceof LineReaderWrapper
-				&& l.getFileStructure() != Constants.IO_VB_DUMP
+				&& fileStructure != Constants.IO_VB_DUMP
 				&& (   ( largeOpt == ProgramOptions.LARGE_VB_TEST)
 					|| ( largeOpt == ProgramOptions.LARGE_VB_YES
 					  && bytes > Runtime.getRuntime().totalMemory())
@@ -3220,20 +3573,29 @@ public class FileView	extends 			AbstractTableModel
 						fname);
 			}
 		}
-		if (layout == null) {
-			return new DataStoreStd.DataStoreStdBinary<AbstractLine>(layout, noLines);
-		}
-		if (lines != null && lines instanceof TableModelListener) {
-			this.removeTableModelListener((TableModelListener) lines);
-		}
+//		}
+		
+		//System.out.println("Use Default Big model !!!");
 		return checkDataStore4ModeListner(DataStoreStd.newStore(layout, noLines));
 	}
+	
+	private static IProgressDisplay newProgressDisplay(boolean useEmpty, String heading, ReMsg msg,  int total, int checkCountAt) {
+		if (useEmpty) {
+			return EMPTY_PROGRESS;
+		} 
+		
+		return new ProgressDialog(heading, msg, total, checkCountAt);
+	}
 
-	public boolean useBigFileModel(long bytes) {
-//		System.out.println(
-//				(layout instanceof LayoutDetail)
-//			  + " && " + bytes + " > " + Common.getMemoryCompare());
-		return layout instanceof LayoutDetail && bytes > Common.getMemoryCompare();
+	public final boolean useBigFileModel(long bytes) {
+
+		if (layout != null && layout.getOption(Options.OPT_SUPPORTS_BLOCK_STORAGE) == Options.YES) {
+			if (layout.getOption(Options.OPT_STORAGE_TYPE) == Options.TEXT_STORAGE) {
+				bytes *= 2;
+			}
+			return bytes > memoryCompare;
+		}
+		return false;
 	}
 
 	/**
@@ -3252,6 +3614,24 @@ public class FileView	extends 			AbstractTableModel
 			|| layout.getRecord(0).getRecordType() == Constants.rtDelimitedAndQuote);
 	}
 
+	private void doCompress(final int pos) {
+		if ((lines instanceof DataStoreLarge && ((DataStoreLarge) lines).getFileDetails().isOkToCompress(FileDetails.AGGRESSIVE_CHECK))
+		|| copySrc instanceof DataStoreLarge && ((DataStoreLarge) copySrc).getFileDetails().isOkToCompress(FileDetails.AGGRESSIVE_CHECK)) {
+			new Thread(
+				new Runnable() {
+					
+					@Override
+					public void run() {
+						if (copySrc instanceof DataStoreLarge) {
+							((DataStoreLarge) copySrc).doCompress(1, -1);
+						}
+						if (lines instanceof DataStoreLarge) {
+							((DataStoreLarge) lines).doCompress(4, pos);
+						}
+					}
+				}).start();;
+		}
+	}
 
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.file.GetView#getFileView()
@@ -3261,40 +3641,89 @@ public class FileView	extends 			AbstractTableModel
 		return this;
 	}
 
-	public boolean isDocumentViewAvailable() {
-		return lines instanceof IDataStoreText
-			&& (  layout.getOption(Options.OPT_STORAGE_TYPE) == Options.TEXT_STORAGE
-			   || layout.getOption(Options.OPT_STORAGE_TYPE) == Options.BINARY_STORAGE)
-			&& isTextFile();
+	public boolean isDocumentViewAvailable(boolean colorView) {
+		return lines.isTextViewPossibleRE()
+			&& (layout.getOption(Options.OPT_IS_TEXT_EDITTING_POSSIBLE) == Options.YES)
+			&& textFile;
 	}
 
-	private boolean isTextFile() {
+	
+	private void checkIfTextFile() {
 		for (int i = 0; i < layout.getRecordCount(); i++) {
 			AbstractRecordDetail record = layout.getRecord(i);
 			for (int j = 0; j < record.getFieldCount(); j++) {
 				if (TypeManager.getInstance().getType(record.getField(j).getType()).isBinary()) {
-					return false;
+					textFile = false;
+					return;
 				}
 			}
 		}
-		return true;
+		textFile = true;
 	}
-	public Document asDocument() {
-
-		if (lines instanceof IDataStoreText) {
-			return new FileDocument3(this, (IDataStoreText) this.lines);
-		}
-		return null;
-	}
-
-
+	
+//	public Document asDocument() {
+//
+//		if (lines.isTextViewPossible()) {
+//			return new FileDocument3(this, this.lines.getTextInterface());
+//		}
+//		return null;
+//	}
+//
+//
 
 	public DataStoreContent asDocumentContent() {
 
-		if (lines instanceof IDataStoreText) {
-			return new DataStoreContent(this, (IDataStoreText) this.lines);
+		if (lines.isTextViewPossibleRE()) {
+			return new DataStoreContent(this, this.lines.getTextInterfaceRE());
 		}
 		return null;
 	}
 
+	private class ChkStore implements CheckStore {
+		long checkRecsAt, checkAdj, count = 0;
+		
+		private ChkStore() {
+			int len = layout.getMaximumRecordLength();
+			
+			checkRecsAt  = calcAdj(len);
+			checkAdj = checkRecsAt;
+		}
+		
+		private long calcAdj(long len) {
+			if (len == 0) {
+				len = 50;
+			}
+//			System.out.println("==> " + count + " / " + memoryCompare 
+//			+ " "  + ((memoryCompare / (len * 10)) * 11) + " ~> " + (((memoryCompare / (len * 10)) * 11) / 5));
+			return Math.max(10000, ((memoryCompare / (len * 10)) * 11) / 5);
+		}
+		
+		/* (non-Javadoc)
+		 * @see net.sf.RecordEditor.re.file.CheckStore#checkDatasStore(int numLines)
+		 */
+		@Override
+		public void checkDatasStore(int numLines) {
+			count += numLines;
+			if (count > checkRecsAt) {
+				long bytes = lines.getSpaceRE();
+				int size = lines.size();
+				
+				if (useBigFileModel(bytes)) {
+					IDataStore<AbstractLine> newDataStore = newDataStore(true, lines.size(), bytes, null, "");
+					for (int i = 0; i < size; i++) {
+						newDataStore.add(lines.get(i));
+						lines.set(i, null);
+					}
+					lines = newDataStore;
+					checkRecsAt = Integer.MAX_VALUE - 1;
+					count = 0;
+				} else {
+					checkAdj = calcAdj(bytes / size);
+					
+					checkRecsAt += checkAdj;
+				}
+			}
+		}
+		
+	}
 }

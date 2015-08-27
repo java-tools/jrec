@@ -29,6 +29,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 
+import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.External.CopybookWriterManager;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.Numeric.ConversionManager;
@@ -64,6 +65,8 @@ public class EditOptions {
 
     private JTabbedPane mainTabbed = new JTabbedPane();
     private JTabbedPane propertiesTabbed = new JTabbedPane();
+    private JTabbedPane otherTabbed = new JTabbedPane();
+    private JTabbedPane textTabbed  = new JTabbedPane();
     private JTabbedPane xmlTabbed   = new JTabbedPane();
     private JTabbedPane jdbcTabbed  = new JTabbedPane();
     private JTabbedPane jarsTabbed  = new JTabbedPane();
@@ -83,20 +86,17 @@ public class EditOptions {
     private String description
         = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_PnlDescription",
 
-          "<h2>Edit RecordEditor Properties Editor</h2>"
-        + "This program lets you edit the <b>RecordEditor</b> properties files "
+          "<h2>RecordEditor (" + Common.currentVersion() + ") Properties Editor</h2>"
+        + "This program lets you edit the <b>RecordEditor (" + Common.currentVersion() + ") </b> properties files "
         + "and jar files."
         + "<br>There is little validation, so be very careful what changes you make."
-        + "<br>Any changes will not take affect until the next time"
+        + "<br>Many changes will not take affect until the next time"
         + "the <b>RecordEditor</b> / <b>Layout Editor</b> is run again."
         + "<br><br>There are 5 basic tab types in the program: "
         + "<table border=\"1\" cellpadding=\"3\">"
         + "<tr><TD><b>Properties</b></td>"
            +  "<td>Lets you update system properties like "
            +  "<b>Screen Position, Directories, Other Options, Wizard Option and Big File Options</b></td></tr>"
-        + "<tr><TD><b>Properties</b></td>"
-               +  "<td>Lets you update system properties like "
-               +  "<b>Screen Position, Directories, Other Options, Wizard Option and Big File Options</b></td></tr>"
         + "<tr><td><b>Xml</b></td><td>Xml Xslt properties / jars "
         + "<tr><td><b>Jars</b></td><td>These options let you update "
             + "the various JAR (java libraries) used by the <b>RecordEditor</b>."
@@ -106,8 +106,8 @@ public class EditOptions {
            + "the <b>RecordEditor</b>.</td></tr>"
         + "<tr><td><b>Looks</b></td><td>This option lets you define the look and feel of the RecordEditor</td</tr>"
         + "</table>"
-        + "<br><br><b>Files being updated are:</b><pre>"
-        + "<br>System       Jars File={0}"
+        + "<br/><b>Files being updated are:</b><br/><pre>"
+        + "System       Jars File={0}"
         + "<br>System JDBC  Jars File={1}"
         + "<br>  User       Jars File={2}"
        //+ "<br>Editor Jars File=" + CommonCode.EDITOR_JAR_FILE
@@ -134,23 +134,23 @@ public class EditOptions {
             {"HelpDir",	"Directory holding the help files", null, EditPropertiesPnl.FLD_DIR, null},
             {"DefaultFileDirectory",	"Directory where the Editor Starts in (if no file specified)", null, EditPropertiesPnl.FLD_DIR, null},
             {"DefaultCobolDirectory", "The Directory where Cobol Copybooks are stored.", null, EditPropertiesPnl.FLD_DIR, null},
-            {Parameters.VELOCITY_TEMPLATE_DIRECTORY, "Velocity Template directory (Editor)", null, EditPropertiesPnl.FLD_DIR, null},
-            {Parameters.VELOCITY_COPYBOOK_DIRECTORY, "Velocity Template directory (Copybooks)", null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.VELOCITY_TEMPLATE_DIRECTORY, "Velocity Template directory (Editor)", Parameters.DEFAULT_VELOCITY_TEMPLATE_DIRECTORY, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.VELOCITY_COPYBOOK_DIRECTORY, "Velocity Template directory (Copybooks)", Parameters.DEFAULT_VELOCITY_COPYBOOK_DIRECTORY, EditPropertiesPnl.FLD_DIR, null},
             {Parameters.COPYBOOK_DIRECTORY, "Directory to read / write file copybooks to", null, EditPropertiesPnl.FLD_DIR, null},
-            {Parameters.XSLT_TEMPLATE_DIRECTORY, "Xslt Template directory (Editor)", null, EditPropertiesPnl.FLD_DIR, null},
-            {Parameters.EXPORT_SCRIPT_DIRECTORY, "Export Script directory", null, EditPropertiesPnl.FLD_DIR, null},
-            {Parameters.SCRIPT_DIRECTORY, "Extension Script directory", null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.XSLT_TEMPLATE_DIRECTORY, "Xslt Template directory (Editor)", Parameters.encodeVars(Common.OPTIONS.DEFAULT_XSLT_DIRECTORY.get()), EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.EXPORT_SCRIPT_DIRECTORY, "Export Script directory", Parameters.encodeVars(Common.OPTIONS.DEFAULT_SCRIPT_EXPORT_DIRECTORY.defaultValue), EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.SCRIPT_DIRECTORY, "Extension Script directory", Parameters.encodeVars(Common.OPTIONS.DEFAULT_SCRIPT_DIRECTORY.get()), EditPropertiesPnl.FLD_DIR, null},
     };
 
 
     private Object[][] directoryParams2 = {
-            {Parameters.COMPARE_SAVE_DIRECTORY,  "Compare Save Directory",     null, EditPropertiesPnl.FLD_DIR, null},
-            {Parameters.FILTER_SAVE_DIRECTORY,   "Filter Save Directory",      null, EditPropertiesPnl.FLD_DIR, null},
-            {Parameters.FIELD_SAVE_DIRECTORY,     "Fields used Save Directory",null, EditPropertiesPnl.FLD_DIR, null},
-            {Parameters.SORT_TREE_SAVE_DIRECTORY, "Sort Tree Save Directory",  null, EditPropertiesPnl.FLD_DIR, null},
-            {Parameters.RECORD_TREE_SAVE_DIRECTORY, "Record Tree Save Directory",    null, EditPropertiesPnl.FLD_DIR, null},
-            {Parameters.COPY_SAVE_DIRECTORY,      "Copy Save Directory",             null, EditPropertiesPnl.FLD_DIR, null},
-            {Parameters.LAYOUT_EXPORT_DIRECTORY,  "Layout Velocity Export Directory",null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.COMPARE_SAVE_DIRECTORY,  "Compare Save Directory",         null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.FILTER_SAVE_DIRECTORY,   "Filter Save Directory",          null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.FIELD_SAVE_DIRECTORY,     "Fields used Save Directory",    null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.SORT_TREE_SAVE_DIRECTORY, "Sort Tree Save Directory",      null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.RECORD_TREE_SAVE_DIRECTORY, "Record Tree Save Directory",  null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.COPY_SAVE_DIRECTORY,      "Copy Save Directory",        Parameters.COPY_SAVE_DIRECTORY_DFLT, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.LAYOUT_EXPORT_DIRECTORY,  "Layout Velocity Export Directory", Parameters.LAYOUT_EXPORT_DIRECTORY_DFLT, EditPropertiesPnl.FLD_DIR, null},
     };
 
     private String testDescription
@@ -172,6 +172,7 @@ public class EditOptions {
             {Parameters.LOG_TEXT_FIELDS,  "Keep a record of all Text Fields going through the Language section. This can be used to generate the language conversion file (GetText PO)", null, EditPropertiesPnl.FLD_BOOLEAN,  "Record Text Fields",},
             {Parameters.SPECIAL_FIND_BTN_NAME,  "This option adds >> to the search button (on the find search screen) to better identifier it in testing", null, EditPropertiesPnl.FLD_BOOLEAN,  "Rename Search btn",},
             {Parameters.INCLUDE_TYPE_NAME,  "Include the type name on the record screen", null, EditPropertiesPnl.FLD_BOOLEAN,  "Include Type Name on Record Screen",},
+            {Parameters.ADD_FILE_SEARCH_BTN,  "Add file search button to Open Screen", null, EditPropertiesPnl.FLD_BOOLEAN,  "Add file search button to Open Screen",},
 //            {Parameters.SHOW_ALL_EXPORT_OPTIONS, "Show all export panels", null, EditPropertiesPnl.FLD_BOOLEAN,  "Show all export panels on the export Screen"},
 //            {Parameters.DEL_SELECTED_WITH_DEL_KEY, "Delete Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Delete Selected with delete key"},
 //            {Parameters.WARN_WHEN_USING_DEL_KEY,  "Warn the user before deleteing Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Warn user with delete key"},
@@ -187,20 +188,33 @@ public class EditOptions {
     + "<b>Default to prefered</b>: Wether to use the prefered layout by default when editting<br/>"
     + "<b>Show all export panels</b>: Wether to show all export options or just the option selected<br/>");
 
+    
+    private String[][] EXTENDED_FILE_CHOOSER = {
+    		{Parameters.FILE_CHOOSER_NORMAL,   "Standard FileChooser"}, 
+ //   		{Parameters.FILE_CHOOSER_OPTIONAL,   "FileChoose Based on LAF"},
+    		{Parameters.FILE_CHOOSER_OPT_HIDE, "Recent Pane visible Based on LAF"},
+    		{Parameters.FILE_CHOOSER_EXTENDED, "Extended FileChooser"}};
+
     private Object[][] behaviourParams = {
-        {Parameters.BRING_LOG_TO_FRONT, "Bring Log to the Front if Data is written to it", null, EditPropertiesPnl.FLD_BOOLEAN, "Bring log to Front"}, // Checked
-        {Parameters.ASTERIX_IN_FILE_NAME, "Allow the asterix ('*') character in file Names", null, EditPropertiesPnl.FLD_BOOLEAN, null},
-        {Parameters.PREFERED_AS_DEFAULT, "Default to prefered layout", null, EditPropertiesPnl.FLD_BOOLEAN, null},
-        {Parameters.SHOW_ALL_EXPORT_OPTIONS, "Show all export panels", null, EditPropertiesPnl.FLD_BOOLEAN,  "Show all export panels on the export Screen"},
-        {Parameters.DEL_SELECTED_WITH_DEL_KEY, "Delete Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Delete Selected rows with the delete key"},
+        {Parameters.BRING_LOG_TO_FRONT,       "Bring Log to the Front if Data is written to it", null, EditPropertiesPnl.FLD_BOOLEAN, "Bring log to Front"}, // Checked
+        {Parameters.ASTERIX_IN_FILE_NAME,     "Allow the asterix ('*') character in file Names", null, EditPropertiesPnl.FLD_BOOLEAN, null},
+        {Parameters.PREFERED_AS_DEFAULT,      "Default to prefered layout", null, EditPropertiesPnl.FLD_BOOLEAN, null},
+        {Parameters.SHOW_ALL_EXPORT_OPTIONS,  "Show all export panels", null, EditPropertiesPnl.FLD_BOOLEAN,  "Show all export panels on the export Screen"},
+        {Parameters.DEL_SELECTED_WITH_DEL_KEY,"Delete Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Delete Selected rows with the delete key"},
         {Parameters.WARN_WHEN_USING_DEL_KEY,  "Warn the user before deleteing Selected Rows using the delete key", null, EditPropertiesPnl.FLD_BOOLEAN,  "Warn when deleteing rows via delete key"},
-        {Parameters.USE_FILE_WIZARD,  "Use File Wizard when no Layout is known for the file", null, EditPropertiesPnl.FLD_BOOLEAN, "Use file Wizard"},
+        {Parameters.USE_FILE_WIZARD,          "Use File Wizard when no Layout is known for the file", null, EditPropertiesPnl.FLD_BOOLEAN, "Use file Wizard"},
         {Parameters.HIGHLIGHT_MISSING_TRANSLATIONS,  "Highlight text for which there is no translation by adding a # to the start of the text", null, EditPropertiesPnl.FLD_BOOLEAN,  "Highlight missing translations",},
         {Parameters.SEPERATE_WINDOWS,  "Create views in seperate windows instead of tabs on the file panel", null, EditPropertiesPnl.FLD_BOOLEAN,  "Create Screens in seperate Windows",},
         {Parameters.SHOW_RECORDEDITOR_TIPS,  "Show RecordEditor Tips on program startup", null, EditPropertiesPnl.FLD_BOOLEAN,  "Show RecordEditor Tips",},
         {Parameters.EDIT_RAW_TEXT,  "Allow the user to edit file as Raw Text ??", null, EditPropertiesPnl.FLD_BOOLEAN,  "Allow Editting Raw Text",},
         {Parameters.CSV_SHOW_FILECHOOSER_OPTIONS,  "Show File Options on Csv Open Screen", null, EditPropertiesPnl.FLD_BOOLEAN,  "Show File Options on Csv Open",},
-   };
+        {Parameters.OPEN_IN_LAST_DIRECTORY,  "Open program using Last used Directory (instead of the default Directory)", null, EditPropertiesPnl.FLD_BOOLEAN,  "Open in Last Directory",},
+
+        {"", "", null, EditPropertiesPnl.FLD_EMPTY, null},
+        {Parameters.FILE_CHOOSER_OPTION, "Type of FileCooser to use: Normal, Extended, or choose based on Look and feel", null, EditPropertiesPnl.FLD_LIST, "File Chooser Type", EXTENDED_FILE_CHOOSER},
+        {Parameters.FILE_CHOOSER_CSV_EDIT, "Type of FileCooser to use: Normal, Extended, or choose based on Look and feel / screen size", null, EditPropertiesPnl.FLD_LIST, "File Chooser Type (Csv Editor)", EXTENDED_FILE_CHOOSER},
+   		
+    };
 
     private String fileDescription
     = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_FileParams",
@@ -237,7 +251,7 @@ public class EditOptions {
         = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_BigFiles",
 
           "<h2>Big Model Properties</h2>"
-        + "This panels lists parameters for the \"Big File\" Data Models.\n"
+        + "This panels lists parameters for the \"Big File\" Data Models.<br\\>"
         + "You can use these options to optimise the Read Time for very big files");
 
 //    private String[][] bigModelParams = {
@@ -253,12 +267,14 @@ public class EditOptions {
 
     private String[][] COMPRESS_OPTION = {{"N", "No"}, {"R", "Read"}, {"F", "Read (fast cpu)"}, {"S", "Space"}, {"Y", "Yes"}};
     private String[][] YNT_OPTION = {{"Y", "Yes"}, {"N", "No"}, {"T", "Test"}};
+    private String[][] YNT_OPTION2 = {{"Y", "Mock"}, {"N", "No"}, {"T", "Yes"}};
     private Object[][] bigModelParams = {
             {Parameters.PROPERTY_BIG_FILE_PERCENT, "File Size to Memory Percent to Start using the Big-File-Model", null, EditPropertiesPnl.FLD_INT, "Big File Percentage"},
             {Parameters.PROPERTY_BIG_FILE_CHUNK_SIZE, "Big-File-Model Memory Chunks (KB) default=1000", null, EditPropertiesPnl.FLD_INT, "Chunk Size (KB)"},
             {Parameters.PROPERTY_BIG_FILE_COMPRESS_OPT, "Big-File-Model compress option (Default Read)", null, EditPropertiesPnl.FLD_LIST, "Compress Option", COMPRESS_OPTION},
             {Parameters.PROPERTY_BIG_FILE_FILTER_LIMIT, "Big-File Filter/Tree limit (thousands)", null, EditPropertiesPnl.FLD_INT, null},
-            {Parameters.PROPERTY_BIG_FILE_DISK_FLAG, "Force Storing chunks on Disk (Used in Testing)", null, EditPropertiesPnl.FLD_BOOLEAN, "Storing chunks on Disk"},
+            {Parameters.PROPERTY_BIG_FILE_DISK_FLAG, "Force Storing chunks on Disk (Used in Testing)", null, EditPropertiesPnl.FLD_LIST, "Storing chunks on Disk", YNT_OPTION2},
+            {Parameters.PROPERTY_USE_OVERFLOW_FILE, "When space is tight, Try to store data in an overflow file ", null, EditPropertiesPnl.FLD_BOOLEAN, "Use Overflow file"},
             {Parameters.PROPERTY_BIG_FILE_USE_SPECIAL_FIXED_MODEL, "Use Fixed Length Model (Used in Testing)", null, EditPropertiesPnl.FLD_BOOLEAN, "Use Fixed Length Model"}, // Checked
             {Parameters.PROPERTY_BIG_FILE_LARGE_VB, "Use Large VB Model (Default Yes)", null, EditPropertiesPnl.FLD_LIST, "Use Large VB Model", YNT_OPTION}, // Checked
             {Parameters.PROPERTY_LOAD_FILE_BACKGROUND, "Load File in Background thread", null, EditPropertiesPnl.FLD_BOOLEAN, "Load In background"}, // Checked
@@ -278,6 +294,33 @@ public class EditOptions {
         = new EditPropertiesPnl(params, layoutWizardParamsDescription, layoutWizardParams);
     private EditPropertiesPnl bigModelPnl
         = new EditPropertiesPnl(params, bigModelDescription, bigModelParams);
+    
+    private String specialCharsetDescription
+    = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_BigFiles",
+
+		      "<h2>Special Character Sets</h2>"
+		    + "There are several character sets that the <b>RecordEditor</b> needs to know:<ul>"
+		    + "<li>Binary fields only work correctly in single byte character-sets,<br/>"
+		    +  "So if the default character-set is multi-byte (say utf-8);<br/>"
+		    +  "The <b>RecordEditor</b> needs to know what character-set to use<br/>"
+		    +  "CP1252 is often a good choice."
+		    +  "<li>If you transfer files from the mainframe to a PC/*nix machine<br>"
+		    +  "the <b>RecordEditor</b> needs to know the original mainframe character-set<br>"
+		    +  "to correctly translate Zoned decimal (Cobol s999 fields)."
+		    + "</ul"
+    
+    );
+
+    private Object[][] specialCharsetParams = {
+            {Parameters.PROPERTY_DEFAULT_SINGLE_BYTE_CHARSET, "Single byte charater-set to be used for binary files when no character set is suppplied", null, EditPropertiesPnl.FLD_SINGLE_BYTE_CHARSET, "Default Single byte character set"},
+            {Parameters.PROPERTY_USE_SINGLE_BYTE_CHARSET,     "Controls wether default Characterset (above) is used when font=\"\" for all Layout's or only binary layouts", null, EditPropertiesPnl.FLD_BOOLEAN, "Alway use above charset when font=\"\""},
+            {Parameters.PROPERTY_DEFAULT_EBCDIC_CHARSET, "Default EBCDIC characterset",null, EditPropertiesPnl.FLD_CHARSET, "Default Ebcdic Character set"}
+    };
+    private Object[][] specialCharsetParams1 = {specialCharsetParams[2]};
+   
+//    private EditPropertiesPnl specialCharsetPnl
+//    	= new EditPropertiesPnl(params, specialCharsetDescription, specialCharsetParams);
+//
 
     private String xsltDescription
         = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_Xslt",
@@ -508,9 +551,9 @@ public class EditOptions {
     private Object[][] screenLocationParams = {
             {Parameters.SCREEN_SIZE_OPTION, "Program Initial Size", null, EditPropertiesPnl.FLD_LIST,  "Size of the program when it opens", SIZE_OPTION},
             {"spaceAtBottomOfScreen", "Space to be left at the bottom of the screen.", null, EditPropertiesPnl.FLD_INT, null},
-            {"spaceAtTopOfScreen", "Space to be left at the top of the screen.", null, EditPropertiesPnl.FLD_INT, null},
-            {"spaceAtLeftOfScreen", "Space to be left at the left of the screen.", null, EditPropertiesPnl.FLD_INT, null},
-            {"spaceAtRightOfScreen", "Space to be left at the Right of the screen.", null, EditPropertiesPnl.FLD_INT, null},
+            {"spaceAtTopOfScreen",    "Space to be left at the top of the screen.",    null, EditPropertiesPnl.FLD_INT, null},
+            {"spaceAtLeftOfScreen",   "Space to be left at the left of the screen.",   null, EditPropertiesPnl.FLD_INT, null},
+            {"spaceAtRightOfScreen",  "Space to be left at the Right of the screen.",  null, EditPropertiesPnl.FLD_INT, null},
             {"", "", null, EditPropertiesPnl.FLD_EMPTY, null},
             {applId + Parameters.SCREEN_START_HEIGHT, "Screen Height", null, EditPropertiesPnl.FLD_INT, null},
             {applId + Parameters.SCREEN_START_WIDTH,  "Screen Width",  null, EditPropertiesPnl.FLD_INT, null},
@@ -691,18 +734,27 @@ public class EditOptions {
         if (includeWizardOptions) {
             SwingUtils.addTab(propertiesTabbed, "EditOpts_Properties","Layout Wizard", layoutWizardPnl);
         }
-           SwingUtils.addTab(propertiesTabbed, "EditOpts_Properties","Big Model", bigModelPnl);
+        SwingUtils.addTab(propertiesTabbed, "EditOpts_Properties","Big Model", bigModelPnl);
 
         SwingUtils.addTab(propertiesTabbed, "EditOpts_Properties","Defaults",
                 new EditDefaults(params, optionDescription,
                 		defaultDescription, defaultModels
         ));
+        
+        Object[][] scParams = specialCharsetParams1;
+        if (Conversion.DEFAULT_CHARSET_DETAILS.isMultiByte) {
+        	scParams = specialCharsetParams;
+        }
+        SwingUtils.addTab(otherTabbed, "Special_Chars", "Special Fonts", new EditPropertiesPnl(params, specialCharsetDescription, scParams));
+        
+        SwingUtils.addTab(textTabbed, "EditOpts_EditColors", "Field Colors", EditColors.getFieldColorEditor(frame, params));
+        SwingUtils.addTab(textTabbed, "EditOpts_EditColors", "Special Colors", EditColors.getSpecialColorEditor(frame, params));
+      
         SwingUtils.addTab(xmlTabbed, "EditOpts_Xml","Xslt Options", xsltPnl);
         SwingUtils.addTab(xmlTabbed, "EditOpts_Xml","Xslt Jars", xsltJarsPnl);
 
         SwingUtils.addTab(jarsTabbed, "EditOpts_Jars","System Jars", systemPnl);
         SwingUtils.addTab(jarsTabbed, "EditOpts_Jars","Optional Jars", optionalPnl);
-
 
         SwingUtils.addTab(userTabbed, "EditOpts_User","User Jars", userPnl);
         SwingUtils.addTab(userTabbed, "EditOpts_User","Copybook Loaders", loadersPnl);
@@ -728,6 +780,9 @@ public class EditOptions {
             addMainTab("Special Formats", poPnl);
         }
 //poPnl
+        addMainTab("Other", otherTabbed);
+        addMainTab("Text", textTabbed);
+        
         addMainTab("Xml", xmlTabbed);
         if (includeJDBC) {
             SwingUtils.addTab(jdbcTabbed, "EditOpts_JDBC","JDBC Jars", jdbcPnl);
@@ -819,7 +874,7 @@ public class EditOptions {
     private BasePanel init_310_Screen() {
         BasePanel pnl = new BasePanel();
 
-        pnl.addComponent(1, 5, PROGRAM_DESCRIPTION_HEIGHT, BasePanel.GAP1,
+        pnl.addComponentRE(1, 5, PROGRAM_DESCRIPTION_HEIGHT, BasePanel.GAP1,
                 BasePanel.FULL, BasePanel.FULL,
                 new JScrollPane(programDescription));
 

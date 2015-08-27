@@ -23,11 +23,12 @@ public class SplitCombo extends JComboBox {
 
     private static final String[] SPLIT_OPTIONS = LangConversion.convertComboItms(
 			"Cobol Split options",
-			new String[] {"No Split", "On Redefine", "On 01 level"});
+			new String[] {"No Split", "On Redefine", "On 01 level", "At highest repeating Level"});
     private static final int[] SPLIT_CONVERSION = {
             CopybookLoader.SPLIT_NONE,
             CopybookLoader.SPLIT_REDEFINE,
-            CopybookLoader.SPLIT_01_LEVEL
+            CopybookLoader.SPLIT_01_LEVEL,
+            CopybookLoader.SPLIT_HIGHEST_REPEATING,
     };
 
     /**

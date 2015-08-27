@@ -107,7 +107,7 @@ public class SaveFileLayout2Xml extends ReSpecificScreenAction implements Abstra
 							rec,
 							Common.getLogger());
 				this.setVisible(false);
-				ReFrame.setActiveFrame((ReFrame) panel);
+				ReFrame.setActiveFrame((ReFrame) panel.getParentFrame());
 			} catch (Exception ex) {
 				Common.logMsg("Can not save Field Sequences", ex);
 			}

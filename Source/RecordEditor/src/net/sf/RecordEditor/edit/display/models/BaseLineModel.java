@@ -14,14 +14,14 @@ import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.External.ExternalConversion;
 import net.sf.RecordEditor.re.file.FieldMapping;
 import net.sf.RecordEditor.re.file.FileView;
-import net.sf.RecordEditor.re.file.GetView;
+import net.sf.RecordEditor.re.file.IGetView;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 
 @SuppressWarnings("serial")
 public abstract class BaseLineModel
 extends AbstractTableModel
-implements GetView {
+implements IGetView {
 
 	protected static final int FIRST_DATA_COLUMN = 4;
 
@@ -39,7 +39,8 @@ implements GetView {
 			"Single_Record",
 			new String[] {"Field", "Start", "Len" , "Type", "Data", "Text", "Hex" });
 
-	FieldMapping fieldMapping = null;
+	private FieldMapping fieldMapping = null;
+	private int[]  lastFieldCounts;
 
 	private HashMap<Integer, String> typeNames = new HashMap<Integer, String>(400);
 
@@ -58,8 +59,8 @@ implements GetView {
 
         layout  = file.getLayout();
 
-
-        fieldMapping = new FieldMapping(getFieldCounts());
+        lastFieldCounts = getFieldCounts();
+        fieldMapping = new FieldMapping(lastFieldCounts.clone());
 
 
         try {
@@ -254,6 +255,14 @@ implements GetView {
     	    fieldMapping.resetMapping(getFieldCounts());
 
     		super.fireTableStructureChanged();
+    	} else {
+    		int[] tfc = getFieldCounts();
+    		for (int i = 0 ; i < tfc.length; i++) {
+    			if (tfc[i] != lastFieldCounts[i]) {
+    				lastFieldCounts = tfc;
+    	    		fieldMapping.resetMapping(lastFieldCounts.clone());
+    			}
+    		}
     	}
     }
 

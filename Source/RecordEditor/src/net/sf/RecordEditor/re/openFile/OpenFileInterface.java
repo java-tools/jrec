@@ -10,4 +10,6 @@ public interface OpenFileInterface extends LayoutConnection {
 	public BasePanel getPanel();
 
 	public JMenu getRecentFileMenu();
+
+	public JMenu getRecentDirectoryMenu();
 }

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.JRecord.Common.Constants;
+import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
@@ -186,16 +187,11 @@ public class LineBufferedReader extends BufferedReader {
 				Common.logMsg("Layout Record Does not exist !!!", null);
 			} else if (stripSpaces) {
 				for (int i = 0; i < filteredLayout.getRecord(pref).getFieldCount(); i++) {
-					buf.append(Common.trimRight(line.getField(pref,i))).append("\t");
+					buf.append(Common.trimRight(getField(line, pref, i))).append("\t");
 				}
 			} else {
-				Object s;
 				for (int i = 0; i < filteredLayout.getRecord(pref).getFieldCount(); i++) {
-					s = line.getField(pref,i);
-					if (s == null) {
-						s = "";
-					}
-					buf.append(s).append("\t");
+					buf.append(getField(line, pref, i)).append("\t");
 				}
 			}
 
@@ -207,6 +203,22 @@ public class LineBufferedReader extends BufferedReader {
 			return buf.toString();
 		}
 		return null;
+	}
+	
+	private String getField(AbstractLine line, int recordNo, int fldNo) {
+		Object obj = line.getField(recordNo, fldNo);
+		if (obj == null) {
+			obj = "";
+		}
+		String s = obj.toString();
+		if (s.indexOf('\t') >= 0 || s.indexOf('\n') >= 0) {
+			StringBuilder b = Conversion.replace(new StringBuilder(s), "\\", "\\\\");
+			Conversion.replace(b, "\n", "\\n");
+			Conversion.replace(b, "\t", "\\t");
+			s = b.toString();
+		}
+		
+		return s;
 	}
 
 	@Override

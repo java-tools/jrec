@@ -30,7 +30,8 @@ private static final String[] JARS = {
      * @param args program arguments
      */
     public static void main(String[] args) {
-        new Run(Run.SYSTEM_JARS_FILENAME,
+        new Run(null,
+        		Run.SYSTEM_JARS_FILENAME,
         		JARS,
                 "net.sf.RecordEditor.Avro.AvroEditor",
                 args);

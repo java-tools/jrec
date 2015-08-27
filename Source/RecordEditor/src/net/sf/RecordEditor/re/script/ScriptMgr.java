@@ -5,8 +5,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
@@ -14,11 +18,13 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 import net.sf.JRecord.Common.RecordRunTimeException;
+import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.params.Parameters;
 
 public class ScriptMgr implements ValidExtensionCheck {
 
 	private  final static  List<String> languages = new ArrayList<String>();
+	private        static  Map<String, String> languageExtension = null;
 
 
 	private ScriptEngineManager scriptManager = new ScriptEngineManager(this.getClass().getClassLoader());
@@ -56,7 +62,8 @@ public class ScriptMgr implements ValidExtensionCheck {
     public final void runScript(
     		String script,
      		ScriptData data,
-    		String scriptText
+    		String scriptText,
+    		Writer writer
    ) throws FileNotFoundException, ScriptException, IOException  {
 
     	String ext = Parameters.getExtensionOnly(script);
@@ -64,7 +71,7 @@ public class ScriptMgr implements ValidExtensionCheck {
     	if (eng == null) {
     		eng = scriptManager.getEngineByExtension("." + ext);
     	}
-		runScript(eng, script, new StringReader(scriptText), data);
+		runScript(eng, script, new StringReader(scriptText), data, writer);
     }
 
 	/**
@@ -81,24 +88,32 @@ public class ScriptMgr implements ValidExtensionCheck {
     		String language,
     		String script,
      		ScriptData data,
-     		String scriptText
+     		String scriptText,
+    		Writer writer
     ) throws FileNotFoundException, ScriptException  {
-
-    	runScript(scriptManager.getEngineByName(language), script, new StringReader(scriptText), data);
+    	runScript(scriptManager.getEngineByName(language), script, new StringReader(scriptText), data, writer);
     }
 
     private final void runScript(
     		ScriptEngine eng,
     		String script,
     		ScriptData data) throws FileNotFoundException, ScriptException  {
-    	runScript(eng, script, new FileReader(script), data);
+    	
+    	StringWriter w = new StringWriter();
+    	runScript(eng, script, new FileReader(script), data, w);
+    	
+    	if (w.getBuffer().length() > 0) {
+    		Common.logMsg("Script: " + script + " output:\n", null);
+    		Common.logMsg(w.toString(), null);
+    	}
     }
 
     private final void runScript(
     		ScriptEngine eng,
     		String script,
     		Reader r,
-    		ScriptData data) throws FileNotFoundException, ScriptException  {
+    		ScriptData data,
+    		Writer writer) throws FileNotFoundException, ScriptException  {
 
 
        	if (eng == null) {
@@ -112,6 +127,7 @@ public class ScriptMgr implements ValidExtensionCheck {
 		            eng.put("layout",     data.view.getLayout());
 		        }
 
+		      
 		        eng.put("treeRoot",   data.root);
 		        eng.put("treeNodes",  data.nodes);
 		        eng.put("treeDepth",  data.treeDepth);
@@ -123,14 +139,23 @@ public class ScriptMgr implements ValidExtensionCheck {
 		        eng.put("RecordEditorData", data);
     		}
 
+    		Writer w = eng.getContext().getWriter();
     		try {
-    			eng.eval(r);
-    		} finally {
+    			if (writer == null) {
+    				eng.eval(r);
+      			} else {
+    				eng.getContext().setWriter(writer);
+    				eng.eval(r);
+    			}
+	   			eng.eval(r);
+   		   } finally {
 		        try {
 					r.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+		        eng.getContext().setWriter(w);
+		        data.fireScreenChanged(false);
     		}
     	}
     }
@@ -165,7 +190,8 @@ public class ScriptMgr implements ValidExtensionCheck {
 	@Override
 	public boolean isValidExtension(String extension) {
 
-		return scriptManager.getEngineByExtension(extension) != null;
+		return extension != null
+			&& (  scriptManager.getEngineByExtension(extension) != null);
 	}
 
 
@@ -174,19 +200,49 @@ public class ScriptMgr implements ValidExtensionCheck {
 	 */
 	public static List<String> getLanguages() {
 
-		synchronized (languages) {
-			if (languages.size() == 0) {
-				ScriptEngineManager manager = new ScriptEngineManager(ScriptMgr.class.getClassLoader());
-				List<ScriptEngineFactory> engines = manager.getEngineFactories();
+		loadLanguages();
+		return languages;
+	}
 
-				for (ScriptEngineFactory engine : engines) {
-					languages.add(engine.getLanguageName());
+	public static String getExtension(String lang) {
+		
+		loadLanguages();
+		String ret = languageExtension.get(lang.toLowerCase());
+//		System.out.println("--> " + lang.toLowerCase() + ", " + ret);
+		if (ret == null) {
+			ret = "";
+		} else if (ret.length() > 0 && ! ret.startsWith(".")) {
+			ret = "." + ret;
+		}
+		return ret;
+	}
+
+	private static void loadLanguages() {
+		if (languageExtension == null) {
+			synchronized (languages) {
+				if (languageExtension == null) {
+					ScriptEngineManager manager = new ScriptEngineManager(ScriptMgr.class.getClassLoader());
+					List<ScriptEngineFactory> engines = manager.getEngineFactories();
+	
+					languageExtension = new HashMap<String, String>();
+					languageExtension.put("javascript", "js");
+					languageExtension.put("python", "py");
+					languageExtension.put("jython", "py");
+					languageExtension.put("jruby", "rb");
+					languageExtension.put("ruby", "rb");
+					for (ScriptEngineFactory engine : engines) {
+						languages.add(engine.getLanguageName());
+						List<String> extensions = engine.getExtensions();
+						if (extensions != null && extensions.size() > 0) {
+							languageExtension.put(engine.getLanguageName().toLowerCase(), extensions.get(0));
+						}
+					}
 				}
 			}
-			return languages;
 		}
 	}
 
+	
 
 	/**
 	 * @return the languages

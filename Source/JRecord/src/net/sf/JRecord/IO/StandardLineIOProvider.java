@@ -20,14 +20,16 @@ import net.sf.JRecord.ByteIO.AbstractByteWriter;
 import net.sf.JRecord.ByteIO.ByteIOProvider;
 import net.sf.JRecord.ByteIO.ByteTextReader;
 import net.sf.JRecord.ByteIO.CsvByteReader;
+import net.sf.JRecord.ByteIO.FixedLengthByteReader;
 import net.sf.JRecord.ByteIO.IByteReader;
-import net.sf.JRecord.Common.BasicManager;
 import net.sf.JRecord.Common.Constants;
+import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.IBasicFileSchema;
 import net.sf.JRecord.Details.CharLineProvider;
 import net.sf.JRecord.Details.DefaultLineProvider;
 import net.sf.JRecord.Details.LineProvider;
 import net.sf.JRecord.Details.XmlLineProvider;
+import net.sf.JRecord.External.Def.BasicConversion;
 import net.sf.JRecord.charIO.CsvCharReader;
 import net.sf.JRecord.charIO.ICharReader;
 import net.sf.JRecord.charIO.StandardCharReader;
@@ -60,14 +62,14 @@ public class StandardLineIOProvider extends BasicIoProvider {
     private XmlLineProvider xmlProvider = null;
     private CharLineProvider charProvider = null;
 
-    private static final int numberOfEntries;
-    private static String[] names = new String [20] ;
-    private static String[] externalNames = new String [20] ;
-    private static int[] keys = new int[20];
+//    private static final int numberOfEntries;
+//    private static String[] names = new String [50] ;
+//    private static String[] externalNames = new String [50] ;
+//    private static int[] keys = new int[50];
 
-    @SuppressWarnings("rawtypes")
-	private BasicManager<LineProvider> lineProviderManager =
-    	new BasicManager<LineProvider>(100, START_USER_FILE_STRUCTURES, new LineProvider[200]) ;
+//	@SuppressWarnings("rawtypes")
+//	private BasicManager<LineProvider> lineProviderManager =
+//    	new BasicManager<LineProvider>(100, START_USER_FILE_STRUCTURES, new LineProvider[200]) ;
 
 //    public static final int[] FILE_STRUCTURE_ID = {
 //    	Constants.IO_DEFAULT,
@@ -88,64 +90,30 @@ public class StandardLineIOProvider extends BasicIoProvider {
 //	keys[i] = Constants.IO_XML_BUILD_LAYOUT;		externalNames[i] = "XML_Build_Layout";      names[i++] = "XML - Build Layout";
 //	keys[i] = Constants.NULL_INTEGER;					externalNames[i] = null;                    			names[i++] = null;
 
-   static {
-	   String rdDefault = "Default";
-	   String rdFixed = "Fixed Length Binary";
-	   String rdLineBin = "Line based Binary";
-	   String rdVb = "Mainframe VB (rdw based) Binary";
-	   String rdVbDump = "Mainframe VB Dump: includes Block length";
-	   String rdOcVb = "Open Cobol VB";
-
-
-	   int i = 0;
-
-	   keys[i] = Constants.IO_DEFAULT;				externalNames[i] = "Default";               names[i++] = rdDefault;
-	   keys[i] = Constants.IO_TEXT_LINE;			externalNames[i] = "Text";                  names[i++] = "Text IO";
-	   keys[i] = Constants.IO_BIN_TEXT;				externalNames[i] = "Byte_Text";             names[i++] = "Text IO (byte Based)";
-	   keys[i] = Constants.IO_UNICODE_TEXT;			externalNames[i] = "Text_Unicode";          names[i++] = "Text IO (Unicode)";
-	   keys[i] = Constants.IO_FIXED_LENGTH;			externalNames[i] = "Fixed_Length";          names[i++] = rdFixed;
-	   keys[i] = Constants.IO_BINARY; 				externalNames[i] = "Binary";                names[i++] = rdLineBin;
-	   keys[i] = Constants.IO_VB;					externalNames[i] = "Mainframe_VB";          names[i++] = rdVb;
-	   keys[i] = Constants.IO_VB_DUMP;				externalNames[i] = "Mainframe_VB_As_RECFMU";names[i++] = rdVbDump;
-	   keys[i] = Constants.IO_VB_FUJITSU;			externalNames[i] = "FUJITSU_VB";            names[i++] = "Fujitsu Variable Binary";
-	   keys[i] = Constants.IO_VB_OPEN_COBOL;		externalNames[i] = "Open_Cobol_VB";      	names[i++] = rdOcVb;
-	   keys[i] = Constants.IO_MICROFOCUS;			externalNames[i] = "Microfocus_Format";    	names[i++] = "Experimental Microfocus Header File";
-	   keys[i] = Constants.IO_UNKOWN_FORMAT;		externalNames[i] = "UNKOWN_FORMAT";      	names[i++] = "Unknown File Format";
-	   keys[i] = Constants.IO_WIZARD;		        externalNames[i] = "FILE_WIZARD";		  	names[i++] = "File Wizard";
-	   keys[i] = Constants.IO_NAME_1ST_LINE;		externalNames[i] = "CSV_NAME_1ST_LINE";  	names[i++] = "Csv Name on 1st line";
-	   keys[i] = Constants.IO_UNICODE_NAME_1ST_LINE;externalNames[i] = "CSV_NAME_1ST_LINE";  	names[i++] = "Unicode Name on 1st line";
-	   //		keys[i] = Constants.IO_GENERIC_CSV;			externalNames[i] = "CSV_GENERIC";			names[i++] = "Generic CSV (Choose details at run time)";
-	   keys[i] = Constants.IO_XML_USE_LAYOUT;		externalNames[i] = "XML_Use_Layout";       	names[i++] = "XML - Existing Layout";
-	   keys[i] = Constants.IO_XML_BUILD_LAYOUT;		externalNames[i] = "XML_Build_Layout";      names[i++] = "XML - Build Layout";
-	   keys[i] = Constants.NULL_INTEGER;			externalNames[i] = null;               		names[i] = null;
-
-	   numberOfEntries = i;
-    }
-
-
-
-    /**
-     * create LineIOprovider class - This class returns IO-Routines
-     * appropriate for the Supplied File Structure with a LineProvider
-     *
-     * @param lineProvider lineProvider to use. Line providers
-     * create Lines.
-     */
-    public StandardLineIOProvider(@SuppressWarnings("rawtypes") final LineProvider lineProvider) {
-        super();
-
-        provider = lineProvider;
-        if (lineProvider == null) {
-            provider = new DefaultLineProvider();
-        }
-    }
-
+ 
+//
+//    /**
+//     * create LineIOprovider class - This class returns IO-Routines
+//     * appropriate for the Supplied File Structure with a LineProvider
+//     *
+//     * @param lineProvider lineProvider to use. Line providers
+//     * create Lines.
+//     */
+//    public StandardLineIOProvider(@SuppressWarnings("rawtypes") final LineProvider lineProvider) {
+//        super();
+//
+//        provider = lineProvider;
+//        if (lineProvider == null) {
+//            provider = new DefaultLineProvider();
+//        }
+//    }
+//
 
     /**
      * create LineIOprovider class - This class returns IO-Routines
      * appropriate for the Supplied File Structure.
      */
-    protected StandardLineIOProvider() {
+    public StandardLineIOProvider() {
         super();
         provider = new DefaultLineProvider();
     }
@@ -169,7 +137,7 @@ public class StandardLineIOProvider extends BasicIoProvider {
      */
     @SuppressWarnings("rawtypes")
 	public AbstractLineReader getLineReader(int fileStructure) {
-        return getLineReader(fileStructure, provider);
+        return getLineReader(fileStructure, getLineProvider(fileStructure, null));
     }
 
 
@@ -206,8 +174,16 @@ public class StandardLineIOProvider extends BasicIoProvider {
 		case Constants.IO_CSV_NAME_1ST_LINE:
 		case Constants.IO_BIN_CSV_NAME_1ST_LINE:
 			return new BinTextReader(lineProvider,  true, getCsvReader(schema, true));
+		case Constants.IO_FIXED_LENGTH: new LineReaderWrapper(new FixedLengthByteReader(schema.getMaximumRecordLength()));
 		default:
-			return getLineReader(fileStructure, provider);
+			AbstractByteReader byteReader
+				= ByteIOProvider.getInstance().getByteReader(schema);
+
+			if (byteReader != null) {
+				return new LineReaderWrapper(lineProvider, byteReader);
+			}
+
+			return getLineReader(fileStructure, lineProvider);
 		}
 	}
 
@@ -240,17 +216,24 @@ public class StandardLineIOProvider extends BasicIoProvider {
         }
 
        	switch (fileStructure) {
-    	case Constants.IO_BINARY:					return new BinaryLineReader(lLineProvider);
+    	case Constants.IO_CONTINOUS_NO_LINE_MARKER:	return new ContinuousLineReader(lLineProvider);
+    	case Constants.IO_BINARY_IBM_4680:			return new Binary4680LineReader(lLineProvider);
+
+		case Constants.IO_FIXED_LENGTH_CHAR:		return new FixedLengthTextReader(lLineProvider);
 
     	case Constants.IO_XML_BUILD_LAYOUT:
        	case Constants.IO_XML_USE_LAYOUT:			return new XmlLineReader(fileStructure == Constants.IO_XML_BUILD_LAYOUT);
 
-       	case Constants.IO_BIN_TEXT:					return new BinTextReader(lLineProvider,  false);
-       	case Constants.IO_BIN_NAME_1ST_LINE:		return new BinTextReader(lLineProvider,  true);
-       	case Constants.IO_UNICODE_TEXT:				return new TextLineReader(lLineProvider, false);
-       	case Constants.IO_UNICODE_NAME_1ST_LINE:	return new TextLineReader(lLineProvider, true);
+       	case Constants.IO_BIN_TEXT:					return new BinTextReader(lLineProvider, false);
+       	case Constants.IO_BIN_NAME_1ST_LINE:		return new BinTextReader(lLineProvider, true);
+       	
+       	case Constants.IO_NAME_1ST_LINE:
+       	case Constants.IO_CSV_NAME_1ST_LINE:
+      	case Constants.IO_UNICODE_NAME_1ST_LINE:	return new TextLineReader(lLineProvider, true);
+      	case Constants.IO_UNICODE_TEXT:				return new TextLineReader(lLineProvider, false);
       	default:
-            AbstractByteReader byteReader
+            @SuppressWarnings("deprecation")
+			AbstractByteReader byteReader
         			= ByteIOProvider.getInstance().getByteReader(fileStructure);
 
 	        if (byteReader != null) {
@@ -258,8 +241,7 @@ public class StandardLineIOProvider extends BasicIoProvider {
 	        }
 	 	}
 
-        return new TextLineReader(lLineProvider,
-                				  fileStructure == Constants.IO_NAME_1ST_LINE);
+        return new TextLineReader(lLineProvider, false);
     }
 
 
@@ -277,9 +259,11 @@ public class StandardLineIOProvider extends BasicIoProvider {
     public AbstractLineWriter getLineWriter(int fileStructure, String charset) {
 
     	switch (fileStructure) {
-    	case Constants.IO_BINARY:					return BinaryLineWriter.newBinaryWriter();
-    	case Constants.IO_FIXED_LENGTH:				return BinaryLineWriter.newFixedLengthWriter();
+    	case Constants.IO_CONTINOUS_NO_LINE_MARKER:	return new ContinuousLineWriter();
+    	case Constants.IO_BINARY_IBM_4680:			return BinaryLineWriter.newBinary4680Writer();
+    	case Constants.IO_FIXED_LENGTH:				return new FixedLengthLineWriter();
 
+      	case Constants.IO_FIXED_LENGTH_CHAR:		return new LineWriterWrapperChar(fileStructure);
     	case Constants.IO_XML_BUILD_LAYOUT:
        	case Constants.IO_XML_USE_LAYOUT:			return new XmlLineWriter();
 
@@ -291,9 +275,11 @@ public class StandardLineIOProvider extends BasicIoProvider {
        	case Constants.IO_BIN_NAME_1ST_LINE:		return new BinTextWriter(true);
        	case Constants.IO_UNICODE_TEXT:
        	case Constants.IO_UNICODE_CSV:				return new TextLineWriter(false);
+       	case Constants.IO_NAME_1ST_LINE:
        	case Constants.IO_UNICODE_CSV_NAME_1ST_LINE:
        	case Constants.IO_UNICODE_NAME_1ST_LINE:	return new TextLineWriter(true);
       	case Constants.IO_MICROFOCUS:				return new MicroFocusLineWriter();
+
       	default:
             AbstractByteWriter byteWriter = ByteIOProvider.getInstance().getByteWriter(fileStructure, charset);
 
@@ -314,7 +300,8 @@ public class StandardLineIOProvider extends BasicIoProvider {
     			|| fileStructure == Constants.IO_GENERIC_CSV
     			|| fileStructure == Constants.IO_NAME_1ST_LINE
     	    	|| fileStructure == Constants.IO_UNICODE_CSV_NAME_1ST_LINE
-    			|| fileStructure == Constants.IO_UNICODE_NAME_1ST_LINE);
+    			|| fileStructure == Constants.IO_UNICODE_NAME_1ST_LINE
+    			|| fileStructure == Constants.IO_CSV_NAME_1ST_LINE);
     }
 
 
@@ -322,18 +309,13 @@ public class StandardLineIOProvider extends BasicIoProvider {
 	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getStructureName(int)
 	 */ @Override
     public String getStructureName(int fileStructure) {
-    	for (int i = 0; i < keys.length && keys[i] != Constants.NULL_INTEGER; i++) {
-    		if (keys[i] == fileStructure) {
-    			return externalNames[i];
-    		}
-    	}
-    	return "";
+		 return BasicConversion.getStructureName(fileStructure);
     }
 
 
     @Override
 	public String getStructureNameForIndex(int index) {
-		return externalNames[index];
+		return BasicConversion.getStructureNameForIndex(index);
 	}
 
 
@@ -343,25 +325,27 @@ public class StandardLineIOProvider extends BasicIoProvider {
      * @return The file Structure
      */
     public int getStructure(String name) {
-    	for (int i = 0; i < keys.length && keys[i] != Constants.NULL_INTEGER; i++) {
-    		if (externalNames[i].equalsIgnoreCase(name)) {
-    			return keys[i];
-    		}
-    	}
-    	return Constants.NULL_INTEGER;
+    	return BasicConversion.getStructure(name);
     }
 
 
     /* (non-Javadoc)
-	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineProvider(int)
+	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineProvider(int,String)
 	 */
-    @SuppressWarnings("rawtypes")
-	public LineProvider getLineProvider(int fileStructure) {
+    @Override @SuppressWarnings("rawtypes")
+	public LineProvider getLineProvider(int fileStructure, String charset) {
+       	return getLineProvider(fileStructure, charset, false);
+    }
+        
+    @Override @SuppressWarnings("rawtypes")
+    protected LineProvider getLineProvider(int fileStructure, String charset, boolean binary) {
 
-    	LineProvider temp = lineProviderManager.get(fileStructure);
-    	if (temp != null) {
-    		return temp;
-    	}
+//    	LineProvider temp = lineProviderManager.get(fileStructure);
+//    	if (temp != null) {
+//    		return temp;
+//    	}
+    	
+//    	System.out.print("Get Line provider " + fileStructure + " " + charset + " " + binary + " " + Conversion.isMultiByte(charset));
     	switch (fileStructure) {
     	case Constants.IO_XML_BUILD_LAYOUT:
     	case Constants.IO_XML_USE_LAYOUT:
@@ -369,27 +353,40 @@ public class StandardLineIOProvider extends BasicIoProvider {
        			xmlProvider = new XmlLineProvider();
        		}
        		return xmlProvider;
+    	case Constants.IO_FIXED_LENGTH_CHAR:
     	case Constants.IO_UNICODE_CSV:
     	case Constants.IO_UNICODE_CSV_NAME_1ST_LINE:
     	case Constants.IO_UNICODE_NAME_1ST_LINE:
     	case Constants.IO_UNICODE_TEXT:
-    		if (charProvider == null) {
-       			charProvider = new CharLineProvider();
-       		}
-
-    		return charProvider;
+//    		System.out.println(" Char provider 1");
+    		return getCharProvider();
        	}
+    	
+    	if (charset != null && (! binary) && Conversion.isMultiByte(charset)) {
+//    		System.out.println(" Char provider 2");
+    		return getCharProvider();
+    	}
 
+//    	System.out.println(" normal provider");
         return provider;
     }
 
+    @SuppressWarnings("rawtypes")
+	private LineProvider getCharProvider() {
+   		if (charProvider == null) {
+   			charProvider = new CharLineProvider();
+   		}
+
+		return charProvider;
+ 	
+    }
 
     /* (non-Javadoc)
 	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getKey(int)
 	 */
 	@Override
 	public int getKey(int idx) {
-		return keys[idx];
+		return BasicConversion.getFileStructureForIndex(idx);
 	}
 
 
@@ -398,7 +395,7 @@ public class StandardLineIOProvider extends BasicIoProvider {
 	 */
 	@Override
 	public String getName(int idx) {
-		return names[idx];
+		return BasicConversion.getFileStructureNameForIndex(idx);
 	}
 
 
@@ -407,6 +404,6 @@ public class StandardLineIOProvider extends BasicIoProvider {
 	 */
 	@Override
 	public int getNumberOfEntries() {
-		return numberOfEntries;
+		return BasicConversion.getNumberOfFileStructures();
 	}
 }

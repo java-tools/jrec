@@ -133,10 +133,8 @@ public class WizardFileLayout extends AbstractWizard<Details> {
 
 		        String dir = details.layoutDirectory;
 
-		        if (! "".equals(dir)) {
-					if (dir != null && (! "".equals(dir)) && (! dir.endsWith("/")) && (! dir.endsWith("\\"))) {
-						dir = dir + Common.FILE_SEPERATOR;
-					}
+		        if (dir != null && dir.length() > 0) {
+		        	dir = fixDirectory(dir);
 
 					copybookFile = w.writeCopyBook(dir, externalRecord, Common.getLogger());
 
@@ -157,6 +155,18 @@ public class WizardFileLayout extends AbstractWizard<Details> {
 				}
 	        }
 		}
+	}
+
+	private final static String fixDirectory(String dir) {
+		if (dir != null && dir.length() > 0) {
+			while (dir.endsWith("*")) {
+				dir = dir.substring(0, dir.length() - 1);
+			}
+			if ((! dir.endsWith("/")) && (! dir.endsWith("\\"))) {
+				dir = dir + Common.FILE_SEPERATOR;
+			}
+		}
+		return dir;
 	}
 
 	public ExternalRecord getExternalRecord() {

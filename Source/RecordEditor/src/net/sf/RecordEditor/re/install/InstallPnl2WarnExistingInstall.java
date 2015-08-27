@@ -43,7 +43,7 @@ public class InstallPnl2WarnExistingInstall extends BasicWizardPnl implements II
 
 	private void init_200_layoutScreen() {
 
-		panel.addComponent(1, 3, BasePanel.FILL, BasePanel.GAP1,
+		panel.addComponentRE(1, 3, BasePanel.FILL, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
 	}

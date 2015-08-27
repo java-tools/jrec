@@ -99,6 +99,7 @@ public class RecordFormats {
                 	cellRenders[j] = new CheckboxTableRenderStringBased("Y", "", false, false);
                 	break;
                 case Type.ftArrayField:		cellRenders[j] = new ArrayRender();		              	break;
+                case Type.ftCharMultiLine:	
                 case Type.ftMultiLineChar:	cellRenders[j] = new TextAreaTableCellRendor();        	break;
                 default:
                 	if (fieldDef.getType() == Type.ftComboItemField
@@ -168,8 +169,9 @@ public class RecordFormats {
                 	cellEditor[j] = new CheckboxTableRenderStringBased("Y", "", false, false);
                 	break;
                 case Type.ftArrayField:		cellEditor[j] = new ArrayTableEditor();				break;
+                case Type.ftCharMultiLine:	
                 case Type.ftMultiLineChar:	cellEditor[j] = new TextAreaTableCellEditor();		break;
-                default:
+               default:
                 	if (fieldDef.getType() == Type.ftComboItemField
                 	&&  fieldDef instanceof ComboModelSupplier) {
                 		cellEditor[j] = new ComboItemEditor(((ComboModelSupplier) fieldDef).getComboModel());

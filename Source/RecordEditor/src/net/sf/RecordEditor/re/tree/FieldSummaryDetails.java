@@ -26,13 +26,11 @@ public class FieldSummaryDetails {
 		LangConversion.convertComboItms("Sum Operators", FOREIGN_OPERATOR_NAMES);
 	};
 
-
-	@SuppressWarnings("rawtypes")
 	private AbstractLayoutDetails layout;
 	private int recordIndex = 0;
 	private int[] operator;
 
-	public FieldSummaryDetails(@SuppressWarnings("rawtypes") AbstractLayoutDetails recordLayout) {
+	public FieldSummaryDetails(AbstractLayoutDetails recordLayout) {
 		int max = 1;
 		layout = recordLayout;
 		for (int i = 0; i < layout.getRecordCount(); i++) {
@@ -67,7 +65,10 @@ public class FieldSummaryDetails {
 	 * @return
 	 */
 	public final int getOperator(int idx) {
-		return operator[idx];
+		if (idx < operator.length) {
+			return operator[idx];
+		}
+		return OP_NONE;
 	}
 
 	public final void setOperator(int idx, int newOption) {

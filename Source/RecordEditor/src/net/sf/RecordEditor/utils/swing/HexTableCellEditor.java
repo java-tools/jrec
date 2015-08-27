@@ -97,7 +97,7 @@ extends AbstractCellEditor implements TableCellEditor {
 				int num;
 				JPanel tp = new JPanel(new BorderLayout());
 				pnl = new BasePanel();
-				pnl.setGap(BasePanel.GAP1);
+				pnl.setGapRE(BasePanel.GAP1);
 
 				tp.add(BorderLayout.CENTER, hexDisplay.getComponent());
 				if (hexDisplay instanceof JTextComponent) {
@@ -129,12 +129,12 @@ extends AbstractCellEditor implements TableCellEditor {
 				}
 
 
-				pnl.addLine("Hex Value in error", new JScrollPane(tp));
-				pnl.setHeight(BasePanel.HEIGHT_1P1 * 4);
-				pnl.setGap(BasePanel.GAP1);
-				pnl.addLine("", null, goBtn);
-				pnl.addLine("", null, exitBtn);
-				pnl.setGap(BasePanel.GAP2);
+				pnl.addLineRE("Hex Value in error", new JScrollPane(tp));
+				pnl.setHeightRE(BasePanel.HEIGHT_1P1 * 4);
+				pnl.setGapRE(BasePanel.GAP1);
+				pnl.addLineRE("", null, goBtn);
+				pnl.addLineRE("", null, exitBtn);
+				pnl.setGapRE(BasePanel.GAP2);
 				pnl.addMessage(msgTxt);
 
 				dialog = new JDialog(parentFrame, true);

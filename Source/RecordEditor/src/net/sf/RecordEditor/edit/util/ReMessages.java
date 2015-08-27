@@ -8,7 +8,6 @@ public class ReMessages {
 
 	public static final ReMsg EDIT_OPTIONS      = new ReMsg("Edit Options");
 	public static final ReMsg NOT_A_SORT        = new ReMsg("File was not a sort / Sort tree definition");
-	public static final ReMsg NOT_A_RECORD_TREE = new ReMsg("File was not a Record Tree definition");
 	public static final ReMsg LINE_DELETE_CHECK = new ReMsg("Line Delete confirmation");
 	public static final ReMsg LINE_DELETE_MSG   = new ReMsg("Do you want to delete the selected {0} lines ?");
 
@@ -24,7 +23,7 @@ public class ReMessages {
 	public static final ReMsg TO_MANY_ROWS   = new ReMsg(LangConversion.ST_ACTION, "To Many Rows Selected ({0} > {1}) for ColumnDisplay");
 
 	public static final ReMsg SELECT_DIRECTORY_DIALOG   = new ReMsg("Select Directory Dialog");
-	public static final ReMsg SELECT_FILE_DIALOG   = new ReMsg("Select Directory Dialog");
+	public static final ReMsg SELECT_FILE_DIALOG  		= new ReMsg("Select File Dialog");
 
 	public static final ReMsgId EXPORT_FILE_STRUCTURE = new ReMsgId("ExportFSDesc",
 			"This option exports the file with a new File-Structure\nThis option is most use to Cobol Programers"

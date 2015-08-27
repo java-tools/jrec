@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import net.sf.JRecord.Common.CommonBits;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.RecordEditor.utils.common.Common;
 
@@ -33,7 +34,8 @@ public class FixedWriter extends BaseWriter {
 				new FileOutputStream(fileName), 4096);
 
 		
-		eolBytes = Conversion.getBytes(System.getProperty("line.separator"), font);
+		eolBytes = CommonBits.getEolBytes(null, "", font);
+				//Conversion.getBytes(System.getProperty("line.separator"), font);
 		fieldSepByte = Conversion.getBytes(delimiter, font);
 
 		if ("<tab>".equalsIgnoreCase(delimiter)) {

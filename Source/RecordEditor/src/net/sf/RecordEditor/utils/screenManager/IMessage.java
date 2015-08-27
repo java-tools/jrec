@@ -20,6 +20,6 @@ public interface IMessage {
 	 * @param params parameter to use in the translated string
 	 * @return translated value
 	 */
-	public abstract String get(Object[] params);
+	public abstract String get(Object... params);
 
 }

@@ -50,7 +50,7 @@ import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 public class RecordListPnl extends BaseHelpPanel
 						implements ActionListener, FocusListener {
 
-	private String[] listOptions = {"", "Yes", "No"};
+	private static final String[] listOptions = {"", "Yes", "No"};
 
 	private TableDB recTypeTbl = new TableDB();
 	private DBComboModel<TableRec> recordTypeMdl
@@ -110,13 +110,13 @@ public class RecordListPnl extends BaseHelpPanel
 		setFieldNamePrefix("RecordList");
 		initScreenFields(frame, connectionIdx);
 
-	    addLine("Record Name", sfRecordName);
-	    addLine("Description", sfDescription);
-	    addLine("Record Type", sfRecordType);
-	    addLine("System", sfSystem);
-	    addLine("List", sfList);
+	    addLineRE("Record Name", sfRecordName);
+	    addLineRE("Description", sfDescription);
+	    addLineRE("Record Type", sfRecordType);
+	    addLineRE("System", sfSystem);
+	    addLineRE("List", sfList);
 
-	  	addComponent(1, 3, BasePanel.FILL, BasePanel.GAP,
+	  	addComponentRE(1, 3, BasePanel.FILL, BasePanel.GAP,
 	  	         BasePanel.FULL, BasePanel.FULL,
 				 scrollrecordList);
 
@@ -161,7 +161,7 @@ public class RecordListPnl extends BaseHelpPanel
 		setColumnDetails();
 
 		scrollrecordList = new JScrollPane(tbRecord);
-		this.registerComponent(tbRecord);
+		this.registerComponentRE(tbRecord);
 		setComponentName(tbRecord, "RecordListTbl");
 
 		scrollrecordList.setPreferredSize(new Dimension(150, 100));
@@ -174,7 +174,7 @@ public class RecordListPnl extends BaseHelpPanel
 		sfSystem.addActionListener(this);
 		sfList.addActionListener(this);
 
-		this.setHelpURL(Common.formatHelpURL(Common.HELP_LAYOUT_LIST));
+		this.setHelpURLre(Common.formatHelpURL(Common.HELP_LAYOUT_LIST));
 	}
 
 

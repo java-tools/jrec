@@ -124,7 +124,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 		});
 
 
-		actualPnl.setHelpURL(Common.formatHelpURL(Common.HELP_TREE_VIEW));
+		actualPnl.setHelpURLre(Common.formatHelpURL(Common.HELP_TREE_VIEW));
 
 
 		initToolTips(2);
@@ -226,9 +226,9 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 
 
 //		pnl.addComponent("Layouts", getLayoutList());
-		actualPnl.setGap(BasePanel.GAP1);
+		actualPnl.setGapRE(BasePanel.GAP1);
 
-	    actualPnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
+	    actualPnl.addComponentRE(1, 5, BasePanel.FILL, BasePanel.GAP,
                    BasePanel.FULL, BasePanel.FULL,
                    treeTablePane);
 

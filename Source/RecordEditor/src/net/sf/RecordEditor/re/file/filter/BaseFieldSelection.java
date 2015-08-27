@@ -145,7 +145,7 @@ public abstract class BaseFieldSelection extends BaseHelpPanel implements Action
         		desktopHeight -= SwingUtils.BUTTON_HEIGHT + 6;
 			}
 
-        	this.registerComponent(pnl2);
+        	this.registerComponentRE(pnl2);
 
         	pnl2.setBorder(BorderFactory.createEmptyBorder());
         	//scrollPane.setBorder(BorderFactory.createEmptyBorder());
@@ -156,16 +156,16 @@ public abstract class BaseFieldSelection extends BaseHelpPanel implements Action
         		int maxHeight = desktopHeight / 3;
 
 	        	if (is2ndLayout) {
-	        		pnl2.addHelpBtn(SwingUtils.getHelpButton());
+	        		pnl2.addHelpBtnRE(SwingUtils.getHelpButton());
 					height = SwingUtils.calculateComboTableHeight(recordTbl.getRowCount(), maxHeight);
 	        	} else {
-	        		pnl2.addHelpBtn(recordOptionPanel, SwingUtils.getHelpButton());
+	        		pnl2.addHelpBtnRE(recordOptionPanel, SwingUtils.getHelpButton());
 					height = SwingUtils.calculateTableHeight(recordTbl.getRowCount(), maxHeight);
 	        	}
-				pnl2.setHeight(SwingUtils.BUTTON_HEIGHT + 6);
+				pnl2.setHeightRE(SwingUtils.BUTTON_HEIGHT + 6);
 
 				desktopHeight -= height + SwingUtils.BUTTON_HEIGHT + 6;
-				pnl2.addComponent(1, 5,
+				pnl2.addComponentRE(1, 5,
 						 height,
 				         BasePanel.GAP1,
 				         BasePanel.FULL, BasePanel.FULL,
@@ -175,24 +175,24 @@ public abstract class BaseFieldSelection extends BaseHelpPanel implements Action
 
 //        	showFieldTable = true;
 			if (! is2ndLayout) {
-				pnl2.addLine("", fieldOptionPanel);
-				pnl2.setHeight(SwingUtils.BUTTON_HEIGHT + 6);
+				pnl2.addLineRE("", fieldOptionPanel);
+				pnl2.setHeightRE(SwingUtils.BUTTON_HEIGHT + 6);
 //				showFieldTable = false;
 			}
 
 
 			height =  desktopHeight  * 4 / 5;
 
-			pnl2.addComponent(1, 5, height, 3,
+			pnl2.addComponentRE(1, 5, height, 3,
 			         BasePanel.FULL, BasePanel.FULL,
 			         fieldTbl);
 
 			//fldPane.setVisible(showFieldTable);
 			pnl2.setComponentName(fieldTbl, "FieldSelection");
 
-			setGap(0);
-			setHelpURL(Common.formatHelpURL(Common.HELP_FILTER));
-			addComponent(0, 6, BasePanel.FILL, BasePanel.GAP, BasePanel.FULL,
+			setGapRE(0);
+			setHelpURLre(Common.formatHelpURL(Common.HELP_FILTER));
+			addComponentRE(0, 6, BasePanel.FILL, BasePanel.GAP, BasePanel.FULL,
 			        BasePanel.FULL, new JScrollPane(pnl2));
 
 			addMessage(msgTxt);
@@ -259,10 +259,10 @@ public abstract class BaseFieldSelection extends BaseHelpPanel implements Action
 			checkAllFieldsBtn.addActionListener(this);
 //			showHideFieldBtn.addActionListener(this);
 
-			registerComponent(uncheckAllRecordsBtn);
-			registerComponent(checkAllRecordsBtn);
-			registerComponent(uncheckAllFieldsBtn);
-			registerComponent(checkAllFieldsBtn);
+			registerComponentRE(uncheckAllRecordsBtn);
+			registerComponentRE(checkAllRecordsBtn);
+			registerComponentRE(uncheckAllFieldsBtn);
+			registerComponentRE(checkAllFieldsBtn);
 //			registerComponent(showHideFieldBtn);
 	    } else {
 	    	recordMdl.fireTableDataChanged();

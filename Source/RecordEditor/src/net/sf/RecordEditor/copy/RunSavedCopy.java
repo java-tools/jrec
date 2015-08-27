@@ -21,8 +21,8 @@ import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.treeCombo.FileSelectCombo;
 
 /**
  * @author Bruce Martin
@@ -34,7 +34,7 @@ public class RunSavedCopy extends ReFrame {
     private static final int WIDTH_INCREASE  = 175;
     private static final int HEIGHT_INCREASE = 7;
 
-	private FileChooser xmlFileName = new FileChooser();
+	private FileSelectCombo xmlFileName = new FileSelectCombo(Parameters.SAVED_COPY_LIST, 25, false, false);
 	private BaseHelpPanel pnl = new BaseHelpPanel();
 
 	private JButton runCompareDialogBtn = SwingUtils.newButton("Run Copy Dialog");
@@ -81,21 +81,21 @@ public class RunSavedCopy extends ReFrame {
 		layoutCreator = creator;
 		dbIdx = databaseIdx;
 
-		xmlFileName.setDefaultDirectory(Parameters.getFileName(Parameters.COMPARE_SAVE_DIRECTORY));
+		xmlFileName.setText(Parameters.getFileName(Parameters.COPY_SAVE_DIRECTORY));
 
 		if (fname == null || "".equals(fname)) {
 			fname = Parameters.getFileName(Parameters.COPY_SAVE_DIRECTORY);
 		}
 		xmlFileName.setText(fname);
 
-		pnl.setGap(BasePanel.GAP3);
-		pnl.addLine("New File", xmlFileName, xmlFileName.getChooseFileButton());
-		pnl.setGap(BasePanel.GAP5);
+		pnl.setGapRE(BasePanel.GAP3);
+		pnl.addLineRE("New File", xmlFileName);
+		pnl.setGapRE(BasePanel.GAP5);
 
-		pnl.addLine("", null, runCompareDialogBtn);
-		pnl.setGap(BasePanel.GAP1);
-		pnl.addLine("", null, runCompareBtn);
-		pnl.setGap(BasePanel.GAP5);
+		pnl.addLineRE("", null, runCompareDialogBtn);
+		pnl.setGapRE(BasePanel.GAP1);
+		pnl.addLineRE("", null, runCompareBtn);
+		pnl.setGapRE(BasePanel.GAP5);
 
 		pnl.addMessage(new JTextArea());
 
@@ -188,7 +188,7 @@ public class RunSavedCopy extends ReFrame {
 				} catch (Exception e) {
 					String s = "Error Running Copy";
 					e.printStackTrace();
-					pnl.setMessageTxt(s);
+					pnl.setMessageTxtRE(s);
 					Common.logMsg(s, e);
 					return;
 				}
@@ -209,7 +209,7 @@ public class RunSavedCopy extends ReFrame {
 		String filename = xmlFileName.getText();
 
 		if (filename == null || "".equals(filename)) {
-			pnl.setMessageTxt("You must Enter a filename");
+			pnl.setMessageTxtRE("You must Enter a filename");
 		} else {
 			try {
 				JibxCall<CopyDefinition> jibx = new JibxCall<CopyDefinition>(CopyDefinition.class);
@@ -218,7 +218,7 @@ public class RunSavedCopy extends ReFrame {
 			} catch (Exception e) {
 				String s = "Error Loading Record Layout";
 				e.printStackTrace();
-				pnl.setMessageTxt(s);
+				pnl.setMessageTxtRE(s);
 				Common.logMsg(s, e);
 			}
 		}

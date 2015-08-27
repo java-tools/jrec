@@ -108,67 +108,67 @@ public class UpgradeDBs extends ReFrame implements ActionListener {
 
 		//tips.setCaretPosition(1);
 
-		pnl.setHelpURL(Common.formatHelpURL(Common.HELP_UPGRADE));
+		pnl.setHelpURLre(Common.formatHelpURL(Common.HELP_UPGRADE));
 
-		pnl.addLine("", null, helpBtn);
-		pnl.setGap(BasePanel.GAP1);
+		pnl.addLineRE("", null, helpBtn);
+		pnl.setGapRE(BasePanel.GAP1);
 
-		pnl.addComponent(1, 5, TIPS_HEIGHT, BasePanel.GAP3,
+		pnl.addComponentRE(1, 5, TIPS_HEIGHT, BasePanel.GAP3,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
-		pnl.setGap(BasePanel.GAP2);
+		pnl.setGapRE(BasePanel.GAP2);
 
 		//pnl.addMenuItem("Upgrade from 0.52.1/0.53 to version 0.55", upgrade55);
 		//pnl.addMenuItem("Upgrade the Tables from 0.55 to 0.56", upgrade56);
 		//pnl.addMenuItem("Upgrade the Tables from 0.56 to 0.60", upgrade60);
 
 
-		pnl.addMenuItemNative(
+		pnl.addMenuItemNativeRE(
 				LangConversion.convertId(
 						LangConversion.ST_FIELD, "",
 						UPGRADE_DB_MSG,
 						new Object[] {"0.55 - 0.61b", "62"}),
 				upgrade61b);
 		//pnl.addMenuItem("Upgrade the Tables from 0.62 to version 0.67", upgrade67);
-		pnl.addMenuItemNative(
+		pnl.addMenuItemNativeRE(
 				LangConversion.convertId(
 						LangConversion.ST_FIELD, "",
 						UPGRADE_DB_MSG,
 						new Object[] {"0.62->69*", "0.69.2c"}),
 				upgrade69);
-		pnl.addMenuItemNative(
+		pnl.addMenuItemNativeRE(
 				LangConversion.convertId(
 						LangConversion.ST_FIELD, "",
 						UPGRADE_DB_MSG,
 						new Object[] {"0.69*", "0.80"}),
 				upgrade80);
 
-		pnl.addMenuItemNative(
+		pnl.addMenuItemNativeRE(
 				LangConversion.convertId(
 						LangConversion.ST_FIELD, "",
 						UPGRADE_DB_MSG,
 						new Object[] {"0.80*", "0.93"}),
 				upgrade90);
-		pnl.addMenuItemNative(
+		pnl.addMenuItemNativeRE(
 				LangConversion.convertId(
 						LangConversion.ST_FIELD, "",
 						UPGRADE_DB_MSG,
 						new Object[] {"0.90", "0.93"}),
 				upgrade93);
-		pnl.addMenuItemNative(
+		pnl.addMenuItemNativeRE(
 				LangConversion.convertId(
 						LangConversion.ST_FIELD, "",
 						UPGRADE_DB_MSG,
-						new Object[] {"0.93", "0.95c"}),
+						new Object[] {"0.93", "0.96h"}),
 				upgrade94);
-		pnl.addMenuItemNative(
+		pnl.addMenuItemNativeRE(
 				LangConversion.convertId(
 						LangConversion.ST_FIELD, "",
 						UPGRADE_DB_MSG,
-						new Object[] {"0.94", "0.95c"}),
+						new Object[] {"0.94", "0.96h"}),
 				upgrade95c);
-		pnl.setGap(BasePanel.GAP1);
-		pnl.addMenuItem("Delete example Layout's from the DB", deleteExamples);
+		pnl.setGapRE(BasePanel.GAP1);
+		pnl.addMenuItemRE("Delete example Layout's from the DB", deleteExamples);
 
 		helpBtn.addActionListener(this);
 		upgrade55.addActionListener(this);
@@ -206,7 +206,7 @@ public class UpgradeDBs extends ReFrame implements ActionListener {
 		UpgradeDB upgrade = new UpgradeDB();
 
 	    if (event.getSource() == helpBtn) {
-	        pnl.showHelp();
+	        pnl.showHelpRE();
 	    } else if (event.getSource() == upgrade55) {
 	    	upgrade.upgrade55(connectionId);
 //	    } else if (event.getSource() == upgrade56) {
@@ -228,7 +228,7 @@ public class UpgradeDBs extends ReFrame implements ActionListener {
 	    } else if (event.getSource() == upgrade94) {
 	    	upgrade.upgrade94(connectionId);
 	    } else if (event.getSource() == upgrade95c) {
-	    	upgrade.upgrade95c(connectionId);
+	    	upgrade.upgrade96(connectionId);
 	    } else if (event.getSource() == deleteExamples) {
 	    	upgrade.deleteExamples(connectionId);
 	    } else {

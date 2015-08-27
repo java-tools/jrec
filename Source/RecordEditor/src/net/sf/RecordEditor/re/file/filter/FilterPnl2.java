@@ -218,7 +218,7 @@ implements ActionListener, ISaveDetails<EditorTask> {
         	desktopHeight -= SwingUtils.BUTTON_HEIGHT * 3;
         	//}
 
-        	this.registerComponent(pnl2);
+        	this.registerComponentRE(pnl2);
         	//this.registerComponent(pnl3);
 
         	pnl2.setBorder(BorderFactory.createEmptyBorder());
@@ -229,9 +229,9 @@ implements ActionListener, ISaveDetails<EditorTask> {
         	if (filterType == FilterDetails.FT_GROUP) {
         		//TODO add field Selection
         		groupStartCombo = new LayoutCombo(recordLayout, false, false);
-        		pnl2.addLine("Group Starts with", groupStartCombo);
+        		pnl2.addLineRE("Group Starts with", groupStartCombo);
         		//pnl2.addLine("Boolean Operator", boolBtn);
-        		pnl2.setGap(BasePanel.GAP1);
+        		pnl2.setGapRE(BasePanel.GAP1);
         	}
         	if (layout.getRecordCount() > 1) {
         		int maxHeight = desktopHeight / 3;
@@ -241,17 +241,17 @@ implements ActionListener, ISaveDetails<EditorTask> {
         		//pnl3.addHelpBtn(Common.getHelpButton());
 
         		//pnl2.addLine("", recordOptionPanel);
-        		pnl2.addComponent(1, 3,
+        		pnl2.addComponentRE(1, 3,
         				 recordOptionPanel.getPreferredSize().getHeight(),
 				         BasePanel.GAP,
 				         BasePanel.FULL, BasePanel.FULL,
 				         recordOptionPanel);
 				height = SwingUtils.calculateTableHeight(recordTbl.getRowCount(), maxHeight);
-				pnl2.setHeight(SwingUtils.BUTTON_HEIGHT + 6);
+				pnl2.setHeightRE(SwingUtils.BUTTON_HEIGHT + 6);
 
 
 				desktopHeight -= height + SwingUtils.BUTTON_HEIGHT + 6;
-				pnl2.addComponent(1, 3,
+				pnl2.addComponentRE(1, 3,
 						 height,
 				         BasePanel.GAP1,
 				         BasePanel.FULL, BasePanel.FULL,
@@ -262,13 +262,13 @@ implements ActionListener, ISaveDetails<EditorTask> {
 
 
 
-    		pnl2.addComponent(1, 3,
+    		pnl2.addComponentRE(1, 3,
     				fieldOptionPanel.getPreferredSize().getHeight(),
 			        BasePanel.GAP,
 			        BasePanel.FULL, BasePanel.FULL,
 			        fieldOptionPanel);
 			//pnl2.addLine("", fieldOptionPanel);
-			pnl2.setHeight(SwingUtils.BUTTON_HEIGHT + 6);
+			pnl2.setHeightRE(SwingUtils.BUTTON_HEIGHT + 6);
 
 
 			//if (addFieldFilter) {
@@ -279,15 +279,15 @@ implements ActionListener, ISaveDetails<EditorTask> {
 				height = SwingUtils.calculateTableHeight(rows, desktopHeight / 2);
 				desktopHeight -= height;
 
-				pnl2.addComponent(1, 3, height, BasePanel.GAP1,
+				pnl2.addComponentRE(1, 3, height, BasePanel.GAP1,
 				         BasePanel.FULL, BasePanel.FULL,
 				         fieldTbl);
 
 				//height = SwingUtils.calculateComboTableHeight(FilterFieldList.NUMBER_FIELD_FILTER_ROWS, desktopHeight * 7 / 10);
-				pnl3.addHeadingComponent(fieldHeadingLbl);
-				pnl3.setGap(BasePanel.GAP1);
+				pnl3.addHeadingComponentRE(fieldHeadingLbl);
+				pnl3.setGapRE(BasePanel.GAP1);
 
-				pnl3.addComponent(1, 5,
+				pnl3.addComponentRE(1, 5,
 						BasePanel.FILL, 3,
 						BasePanel.FULL, BasePanel.FULL,
 						filterFieldTbl);
@@ -332,20 +332,20 @@ implements ActionListener, ISaveDetails<EditorTask> {
 			//pnl4.add(new JScrollPane(filterFieldTbl));
 			//pnl4.add(sp);
 
-			setGap(0);
-			setHelpURL(Common.formatHelpURL(Common.HELP_FILTER));
-			addComponent(0, 6, BasePanel.FILL, BasePanel.GAP, BasePanel.FULL,
+			setGapRE(0);
+			setHelpURLre(Common.formatHelpURL(Common.HELP_FILTER));
+			addComponentRE(0, 6, BasePanel.FILL, BasePanel.GAP, BasePanel.FULL,
 			        BasePanel.FULL, sp);
 
 
 			//if (addExecute) {
-			setGap(BasePanel.GAP0);
+			setGapRE(BasePanel.GAP0);
 
 			//registerComponent(savePnl.saveBtn);
 			//registerComponent(savePnl.updateBtn);
-			addLine("", savePnl.panel, execute);
-			setHeight(BasePanel.GAP1 * 2);
-			setGap(BasePanel.GAP0);
+			addLineRE("", savePnl.panel, execute);
+			setHeightRE(BasePanel.GAP1 * 2);
+			setGapRE(BasePanel.GAP0);
 			//}
 
 			addMessage(msgTxt);
@@ -422,10 +422,10 @@ implements ActionListener, ISaveDetails<EditorTask> {
 			checkAllFieldsBtn.addActionListener(this);
 //			showHideFieldBtn.addActionListener(this);
 
-			registerComponent(uncheckAllRecordsBtn);
-			registerComponent(checkAllRecordsBtn);
-			registerComponent(uncheckAllFieldsBtn);
-			registerComponent(checkAllFieldsBtn);
+			registerComponentRE(uncheckAllRecordsBtn);
+			registerComponentRE(checkAllRecordsBtn);
+			registerComponentRE(uncheckAllFieldsBtn);
+			registerComponentRE(checkAllFieldsBtn);
 //			registerComponent(showHideFieldBtn);
 	    } else {
 	    	recordMdl.fireTableDataChanged();

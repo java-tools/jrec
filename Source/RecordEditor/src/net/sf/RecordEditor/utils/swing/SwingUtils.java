@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -16,12 +20,14 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 
+import net.sf.RecordEditor.utils.basicStuff.BasicTable;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.params.IHasKey;
@@ -57,7 +63,6 @@ public class SwingUtils {
 		COMBO_TABLE_ROW_HEIGHT = getDefault((int) ((new JComboBox(r)).getMinimumSize().getHeight()) - sub, 20);
 		CHECK_BOX_HEIGHT = chk.getMinimumSize().height;
 		CHECK_BOX_WIDTH = chk.getMinimumSize().width;
-
 
 		if (d <= 0) {
 			d = 19;
@@ -213,6 +218,20 @@ public class SwingUtils {
 	public static JButton newButton(String s) {
 		return new JButton(LangConversion.convert(LangConversion.ST_BUTTON, s));
 	}
+	
+	public static JRadioButton newRadioButton(String s) {
+		return new JRadioButton(LangConversion.convert(LangConversion.ST_BUTTON, s));
+	}
+
+	public static JCheckBox newCheckBox(String s) {
+		return new JCheckBox(LangConversion.convert(LangConversion.ST_BUTTON, s));
+	}
+
+	public static JFlipBtn newFlipButton(String text, String altText) {
+		return new JFlipBtn(LangConversion.convert(LangConversion.ST_BUTTON, text),
+							LangConversion.convert(LangConversion.ST_BUTTON, altText));
+	}
+
 
 	public static JButton newButton(String s, Icon icon) {
 		return new JButton(LangConversion.convert(LangConversion.ST_BUTTON, s), icon);
@@ -253,6 +272,73 @@ public class SwingUtils {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
+	
+	public static void copySelectedCells(JTable dtlTbl) {
+		int startRow = dtlTbl.getSelectedRow();
+		int startCol = dtlTbl.getSelectedColumn();
+		int endRow = startRow + dtlTbl.getSelectedRowCount();
+		int endCol = startCol + dtlTbl.getSelectedColumnCount();
+		StringBuilder b = new StringBuilder();
+		String fldSep = ""; 
+		String lineSep = "";
+		Object val;
+		
+		if (endRow >= startRow && endCol >= startCol) {
+			for (int i = startRow; i < endRow; i++) {
+				b.append(lineSep);
+				lineSep = "\n";
+				for (int j = startCol; j < endCol; j++) {
+					b.append(fldSep);
+					fldSep = "\t";
+					val = dtlTbl.getValueAt(i, j);
+					if (val != null) {
+						b.append(val.toString());
+					}
+				}
+			}
+			Clipboard system = Toolkit.getDefaultToolkit().getSystemClipboard();
+			system.setContents(new StringSelection(b.toString()), null);
+		}
+	}
+
+	
+	public static void pasteOver(Object requestor, JTable tblDetails, int startRow, int startCol, int numRows, int numCols) {
+		if (startRow >= 0) {
+			Clipboard system = Toolkit.getDefaultToolkit().getSystemClipboard();
+			try {
+				pasteTable(tblDetails, 
+						startRow, startCol,
+						numRows, numCols,
+						(String) (system.getContents(requestor)
+								.getTransferData(DataFlavor.stringFlavor)));
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+
+
+	public static final void pasteTable(JTable tblDetails, int startRow, int startCol, int rowCount, int colCount, String trstring) {
+		String val;
+		BasicTable tbl = new BasicTable(trstring);
+
+		rowCount = Math.min(rowCount, tblDetails.getRowCount() - startRow);
+		colCount = Math.min(colCount, tblDetails.getColumnCount() - startCol);
+
+		Common.stopCellEditing(tblDetails);
+
+		for (int i = 0; tbl.hasMoreRows() && i < rowCount ; i++) {
+			tbl.nextRow();
+			for (int j = 0; tbl.hasMoreColumns() && j < colCount ; j++) {
+				val = tbl.nextColumn();
+				if (tblDetails.isCellEditable(startRow + i, startCol + j)) {	
+					tblDetails.setValueAt(val, startRow + i, startCol + j);
+				}
+			}
+		}
+	}
+
 }

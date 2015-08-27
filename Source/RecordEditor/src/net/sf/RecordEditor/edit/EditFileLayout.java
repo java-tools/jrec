@@ -27,6 +27,7 @@ import net.sf.RecordEditor.edit.display.Action.NewFileAction;
 import net.sf.RecordEditor.edit.display.Action.SaveFieldSequenceAction;
 import net.sf.RecordEditor.edit.display.Action.VisibilityAction;
 import net.sf.RecordEditor.edit.open.OpenFile;
+import net.sf.RecordEditor.edit.open.OpenFileEditPnl;
 import net.sf.RecordEditor.layoutWizard.WizardFileLayout;
 import net.sf.RecordEditor.re.openFile.LayoutSelectionFile;
 import net.sf.RecordEditor.re.openFile.LayoutSelectionFileCreator;
@@ -34,6 +35,7 @@ import net.sf.RecordEditor.re.util.ReIOProvider;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.ParseArgs;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
+import net.sf.RecordEditor.utils.params.CheckUserData;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
@@ -81,7 +83,9 @@ public class EditFileLayout extends EditRec {
 		Common.OPTIONS.addTextDisplay.set(true);
 	    Common.setDBstatus(false);
 
-        OpenFile open = new OpenFile(pInFile, pInitialRow, pIoProvider,
+        OpenFile open = new OpenFile(
+        		OpenFileEditPnl.OLD_FORMAT,
+        		pInFile, pInitialRow, pIoProvider,
         		//pInterfaceToCopyBooks,
                 null, null, Parameters.getApplicationDirectory() + "CobolFiles.txt",
                 Common.HELP_COBOL_EDITOR, new LayoutSelectionFile());
@@ -107,6 +111,7 @@ public class EditFileLayout extends EditRec {
 						CompareFileLayout.newMenu();
 					}
 				},
+				null,
 				true
 		);
 
@@ -125,6 +130,7 @@ public class EditFileLayout extends EditRec {
         super.getEditMenu().addSeparator();
         super.getEditMenu().add(addAction(new VisibilityAction()));
         super.getEditMenu().add(addAction(new SaveFieldSequenceAction()));
+        EditCommon.doStandardInit();
     }
 
 
@@ -176,7 +182,6 @@ public class EditFileLayout extends EditRec {
 	 */
 	@Override
 	protected void showAbout() {
-		// TODO Auto-generated method stub
 		showAbout(
 				"This is the Cobol-Editor, it is part of the <b>RecordEditor</b> project<br/> "
 			  + "It is distributed under a GPL 3 (or later) license<br/><pre>"
@@ -204,7 +209,16 @@ public class EditFileLayout extends EditRec {
 	 */
 	public static void main(final String[] pgmArgs) {
 
+		
+		try {
+			CheckUserData.checkAndCreate();
+			CheckUserData.setUseCsvLine();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			
 			public void run() {
 				//JFrame.setDefaultLookAndFeelDecorated(true);
 			    ParseArgs args = new ParseArgs(pgmArgs);

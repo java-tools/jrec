@@ -2,6 +2,7 @@ package net.sf.RecordEditor.utils.fileStorage;
 
 import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
+import net.sf.JRecord.Details.CharLine;
 import net.sf.JRecord.Details.LayoutDetail;
 
 public class CharLineChunk extends CharLineBase {
@@ -29,8 +30,14 @@ public class CharLineChunk extends CharLineBase {
 
 
 	@Override
+	public void setData(byte[] newVal) {
+		chunk.putFromLine(chunkLine, CharLine.toStr(newVal, layout.getFontName()).toCharArray());  
+	}
+
+
+	@Override
 	public void setData(String newVal) {
-		chunk.put(chunkLine, newVal.toCharArray());
+		chunk.putFromLine(chunkLine, newVal.toCharArray());
 	}
 
 

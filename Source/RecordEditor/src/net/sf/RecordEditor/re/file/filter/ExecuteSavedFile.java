@@ -8,7 +8,7 @@ import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
@@ -81,17 +81,17 @@ public class ExecuteSavedFile<details> extends ReFrame implements ActionListener
 		fileChooser.setControlButtonsAreShown(false);
 //		}
 
-		pnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP1,
+		pnl.addComponentRE(1, 5, BasePanel.FILL, BasePanel.GAP1,
 		         BasePanel.FULL, BasePanel.FULL,
 		         fileChooser);
 
 		SwingUtils.addKeyListnerToContainer(pnl, keyListner);
 
-		pnl.setGap(BasePanel.GAP3);
-		pnl.addLine("", null, runDialogBtn);
-		pnl.setGap(BasePanel.GAP1);
-		pnl.addLine("", null, runBtn);
-		pnl.setGap(BasePanel.GAP2);
+		pnl.setGapRE(BasePanel.GAP3);
+		pnl.addLineRE("", null, runDialogBtn);
+		pnl.setGapRE(BasePanel.GAP1);
+		pnl.addLineRE("", null, runBtn);
+		pnl.setGapRE(BasePanel.GAP2);
 
 		getContentPane().add(pnl);
 		pack();
@@ -133,8 +133,18 @@ public class ExecuteSavedFile<details> extends ReFrame implements ActionListener
 	}
 
 
-	public void execAction(boolean run) {
-
+	public void execAction(final boolean run) {
+		if (run && SwingUtilities.isEventDispatchThread()) {
+			Common.runOptionalyInBackground(new Runnable() {
+				@Override public void run() {
+					executeAction(run);
+				}
+			});
+		} else {
+			executeAction(run);
+		}
+	}
+	public void executeAction(boolean run) {
 		try {
 			execSaveBatch.execActionRaw(run, fileChooser.getSelectedFile().getPath());
 

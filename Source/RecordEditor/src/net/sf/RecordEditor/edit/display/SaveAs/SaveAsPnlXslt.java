@@ -12,7 +12,7 @@ import net.sf.RecordEditor.re.openFile.RecentFiles;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.treeCombo.FileSelectCombo;
 
 /**
  * @author Bruce Martin
@@ -20,8 +20,9 @@ import net.sf.RecordEditor.utils.swing.FileChooser;
  */
 public class SaveAsPnlXslt extends SaveAsPnlBase {
 
-	private FileChooser xsltJar1 = new FileChooser(true, "Choose Jar");
-	private FileChooser xsltJar2 = new FileChooser(true, "Choose Jar");
+	private FileSelectCombo xsltJar1 = new FileSelectCombo(Parameters.XSLT_JAR_LIST, 15, true, false);
+			//new FileChooser(true, "Choose Jar");
+	private FileSelectCombo xsltJar2 = new FileSelectCombo(Parameters.XSLT_JAR_LIST, 15, true, false);
 
 	/**
 	 * @param extension
@@ -30,14 +31,16 @@ public class SaveAsPnlXslt extends SaveAsPnlBase {
 	 * @param template
 	 */
 	public SaveAsPnlXslt(CommonSaveAsFields commonSaveAsFields) {
-		super(commonSaveAsFields, ".xml", CommonSaveAsFields.FMT_XSLT, RecentFiles.RF_XSLT, new FileChooser(true, "get Xslt"));
+		super(commonSaveAsFields, ".xml", CommonSaveAsFields.FMT_XSLT, RecentFiles.RF_XSLT, 
+				new FileSelectCombo(Parameters.XSLT_LIST, 25, true, false));
+		//new FileChooser(true, "get Xslt"));
 
-		panel.addLine("Xslt Engine (leave blank for default)", xsltTxt);
-        panel.addLine("Xslt File", template, template.getChooseFileButton());
-		panel.setGap(BasePanel.GAP1);
+		panel.addLineRE("Xslt Engine (leave blank for default)", xsltTxt);
+        panel.addLineRE("Xslt File", template);
+		panel.setGapRE(BasePanel.GAP1);
 
-        panel.addLine("Jars", xsltJar1, xsltJar1.getChooseFileButton());
-        panel.addLine("", xsltJar2, xsltJar2.getChooseFileButton());
+        panel.addLineRE("Jars", xsltJar1);
+        panel.addLineRE("", xsltJar2);
 
 		xsltTxt.setText(Common.OPTIONS.XSLT_ENGINE.get());
 

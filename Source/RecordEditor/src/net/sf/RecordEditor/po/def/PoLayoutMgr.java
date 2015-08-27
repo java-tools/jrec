@@ -16,12 +16,12 @@ public class PoLayoutMgr {
 		LayoutDetail t = null;
 
 		try {
-			long time = System.currentTimeMillis();
+//			long time = System.currentTimeMillis();
 			if (poLayout == null) {
 				poLayout = RecordEditorXmlLoader.getExternalRecord(Common.GETTEXT_PO_LAYOUT, "PO Layout");
 			}
 			t = poLayout.asLayoutDetail();
-			System.out.println("Load layout: " + (((double) (System.currentTimeMillis()-time)) / 1000));
+//			System.out.println("Load layout: " + (((double) (System.currentTimeMillis()-time)) / 1000));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

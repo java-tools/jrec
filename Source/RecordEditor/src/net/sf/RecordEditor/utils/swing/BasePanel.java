@@ -23,6 +23,7 @@ import java.awt.Dimension;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -42,6 +43,8 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.BasicTrans;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.params.Parameters;
+import net.sf.RecordEditor.utils.swing.extraColumn.IExtraComponent;
+import net.sf.RecordEditor.utils.swing.extraColumn.IHasExtraComponent;
 
 
 /**
@@ -55,6 +58,9 @@ import net.sf.RecordEditor.utils.params.Parameters;
 @SuppressWarnings("serial")
 public class BasePanel extends JPanel {
 
+	private static final int WIDTH_PREFERNCE_IDX = 0;
+	private static final int HEIGHT_PREFERNCE_IDX = 1;
+	
 	public static final boolean NAME_COMPONENTS = "Y".equalsIgnoreCase(
 			Parameters.getString(Parameters.NAME_FIELDS));
 
@@ -74,6 +80,8 @@ public class BasePanel extends JPanel {
 
     /** Indicates that the component is right justified in its cell */
     public static final int RIGHT = TableLayout.RIGHT;
+    
+  
 
     /**
      * Indicates that the component is leading justified in its cell. Leading
@@ -142,9 +150,11 @@ public class BasePanel extends JPanel {
 	public static final int VG_PROMPT = 1;
 	public static final int VG_GAP1   = 2;
 	public static final int VG_FIELD1 = 3;
-	public static final int VG_GAP2   = 4;
-	public static final int VG_FIELD2 = 5;
+	public static final int VG_GAP2   = 6;
+	public static final int VG_FIELD2 = 7;
 
+	public static final int LAST_USED_COLUMN = -99;
+	public static final int MAXIMUM_COLUMN = -97;
 
 
 	public static final int BORDER = 10;
@@ -159,13 +169,13 @@ public class BasePanel extends JPanel {
 	private int numCols = 1;
 
 
-	private int[][] fieldLayout =  {{TableLayout.RIGHT, TableLayout.TOP},
-							{TableLayout.FULL, TableLayout.FULL},
-							{TableLayout.FULL, TableLayout.TOP}};
+	private int[][] fieldLayout =  {{TableLayout.RIGHT, TableLayout.CENTER},
+							{TableLayout.FULL, TableLayout.CENTER},
+							{TableLayout.FULL, TableLayout.CENTER}};
 
 	private double[] vGaps = {BORDER, TableLayout.PREFERRED,
 					   5, TableLayout.FILL,
-					   FIELD_SEPERATION_WIDTH, TableLayout.PREFERRED,
+					   1, 1, FIELD_SEPERATION_WIDTH - 2, TableLayout.PREFERRED,
 					   BORDER};
 
 	private double[] hGaps = {BORDER, NORMAL_HEIGHT, 5};
@@ -181,7 +191,8 @@ public class BasePanel extends JPanel {
 	private String heading = null;
 	private JComponent headingComponent = null;
 
-	private boolean toBeDone = true, singleColumn = false;
+	private boolean toBeDone = true;
+//	private boolean	singleColumn = false;
 
 	private String fieldNamePrefix = "";
 	private String panelId = "";
@@ -196,7 +207,15 @@ public class BasePanel extends JPanel {
 				"y".equalsIgnoreCase(
 							Parameters.getString(Parameters.LOG_TEXT_FIELDS));
 	private static final String txtLogFile = Parameters.getPropertiesDirectoryWithFinalSlash() + "MissingMessageTxt.txt";
+	
+	private int colOf3rdComponent = 7;
+//	private int colInc = 0;
+//	private ArrayList<IExtraComponent> extraComponents = null;
+//	private boolean onlySingleItems = true;
+//	private ArrayList<TableLayoutConstraints> rightItems = new ArrayList<TableLayoutConstraints>();
+	private ArrayList<ComponentToAdd> toAdd = new ArrayList<BasePanel.ComponentToAdd>();
 
+	private boolean addFillToEnd = false;
 //	private static PrintWriter logPrinter = null;
 
 	/**
@@ -218,16 +237,16 @@ public class BasePanel extends JPanel {
 			panelId = className;
 		}
 	}
-
-	public final void oneColumn() {
-		fieldLayout[0][0] = TableLayout.FULL;
-		fieldLayout[0][1] = TableLayout.FULL;
-
-		vGaps[1] = TableLayout.FILL;
-		vGaps[3] = TableLayout.PREFERRED;
-
-		singleColumn = true;
-	}
+//
+//	public final void oneColumn() {
+//		fieldLayout[0][0] = TableLayout.FULL;
+//		fieldLayout[0][1] = TableLayout.FULL;
+//
+//		vGaps[1] = TableLayout.FILL;
+//		vGaps[3] = TableLayout.PREFERRED;
+//
+//		singleColumn = true;
+//	}
 
 
 	/**
@@ -235,9 +254,9 @@ public class BasePanel extends JPanel {
 	 *
 	 * @param headingText Heading Text
 	 */
-	public final void addHeading(String headingText) {
+	public final void addHeadingRE(String headingText) {
 
-		headingInc(HEADING_HEIGHT, HEADING_GAP);
+		headingIncRE(HEADING_HEIGHT, HEADING_GAP);
 
 		heading = headingText;
 	}
@@ -248,9 +267,9 @@ public class BasePanel extends JPanel {
 	 *
 	 * @param pnlHeading Heading component
 	 */
-	public final void addHeadingComponent(JComponent pnlHeading) {
+	public final void addHeadingComponentRE(JComponent pnlHeading) {
 
-		headingInc(BasePanel.PREFERRED, GAP);
+		headingIncRE(BasePanel.PREFERRED, GAP);
 
 		this.headingComponent = pnlHeading;
 	}
@@ -262,7 +281,7 @@ public class BasePanel extends JPanel {
 	 * @param height Heading Height
 	 * @param gap Horizontal gap to the first field
 	 */
-	private final void headingInc(double height, double gap) {
+	private final void headingIncRE(double height, double gap) {
 
 		currRow += 1;
 
@@ -276,12 +295,59 @@ public class BasePanel extends JPanel {
 	 * @param prompt Fields Prompt
 	 * @param component Component to be added to the Panel
 	 */
-	public final BasePanel addLine(String prompt, JComponent component) {
-		return addLine(prompt, component, 3, 3);
+	public final BasePanel addLineRE(String prompt, JComponent component) {
+		addLineRE(prompt, component, 3, 3);
+		
+		checkForExtraComponenetRE(component);
+		return this;
 	}
 
-	public final BasePanel addLineFullWidth(String prompt, JComponent component) {
-		return addLine(prompt, component, 3, 5);
+//	/**
+//	 * Adds a field to the Panel
+//	 *
+//	 * @param prompt Fields Prompt
+//	 * @param component Component to be added to the Panel
+//	 */
+//	public final BasePanel addLineWithWidth(String prompt, JComponent component, int width) {
+//		//TODO
+//		
+//		int save = fieldLayout[FIELD][WIDTH_PREFERNCE_IDX];
+//		try {
+//			fieldLayout[FIELD][WIDTH_PREFERNCE_IDX] = width;
+//			addLine(prompt, component, 3, 3);
+//			
+//			checkForExtraComponenet(component);
+//		} finally {
+//			fieldLayout[FIELD][WIDTH_PREFERNCE_IDX] = save;
+//		}
+//		return this;
+//	}
+
+	//TODO check
+	private void checkForExtraComponenetRE(JComponent component) {
+		if (component instanceof IHasExtraComponent) {
+			IExtraComponent c = ((IHasExtraComponent) component).getExtraComponentDetails();
+			
+			this.add(c.getComponent(), 
+					 new TableLayoutConstraints(5, currRow, 5, currRow, TableLayout.LEFT, TableLayout.CENTER));
+			
+			vGaps[4] = 5;
+			vGaps[5] = TableLayout.MINIMUM;
+			vGaps[6] = 6;
+			setNumCols(5);
+		}
+	}
+
+	private final BasePanel addLineInternal(String prompt, JComponent component) {
+		addLineRE(prompt, component, 3, 3);
+		
+		checkForExtraComponenetRE(component);
+		return this;
+
+	}
+
+	public final BasePanel addLineFullWidthRE(String prompt, JComponent component) {
+		return addLineRE(prompt, component, 3, colOf3rdComponent);
 	}
 	/**
 	 * Adds a field to the Panel
@@ -289,47 +355,69 @@ public class BasePanel extends JPanel {
 	 * @param prompt Fields Prompt
 	 * @param component Component to be added to the Panel
 	 */
-	private final BasePanel addLine(String prompt, JComponent component, int firstCol, int lastCol) {
-		JLabel promptLbl = null;
-
-		if (prompt != null) {
-			 promptLbl = new JLabel(LangConversion.convertFld(panelId, prompt));
-			 promptLbl.setHorizontalAlignment(JLabel.RIGHT);
-		}
+	private final BasePanel addLineRE(String prompt, JComponent component, int firstCol, int lastCol) {
+		JLabel promptLbl = getLabelRE(prompt);
 
 		if (component == null) {
 			if (promptLbl != null) {
-				addLine(promptLbl, component);
+				addLineRE(promptLbl, component);
 			}
 		} else {
-			addLine(promptLbl, component, firstCol, lastCol);
+			addLineRE(promptLbl, component, firstCol, lastCol);
 			setComponentName(component, prompt);
 		}
 
 		return this;
 	}
 
-	public final BasePanel addLine(JComponent promptLbl) {
-		return addLine(promptLbl, (JComponent) null);
+//	public final BasePanel addLine(JComponent promptLbl) {
+//		return addLine(promptLbl, (JComponent) null);
+//	}
+//
+	public final BasePanel addLineRE(JComponent promptLbl, JComponent component) {
+		
+		addLineRE(promptLbl, component, 3, 3);
+		checkForExtraComponenetRE(component);
+		return this;
 	}
 
-	public final BasePanel addLine(JComponent promptLbl, JComponent component) {
-		return addLine(promptLbl, component, 3, 3);
+
+	public final BasePanel addLine1to3(JComponent component) {
+		
+		addLineRE((JLabel) null, component, 1, 3);
+		checkForExtraComponenetRE(component);
+		return this;
+	}
+	
+	public final BasePanel addLine3to5(String prompt, JComponent component) {
+		return addLine3to5(getLabelRE(prompt), component);
+	}
+
+	private JLabel getLabelRE(String prompt) {
+		JLabel promptLbl = null;
+
+		if (prompt != null) {
+			 promptLbl = new JLabel(LangConversion.convertFld(panelId, prompt));
+			 promptLbl.setHorizontalAlignment(JLabel.RIGHT);
+		}
+		return promptLbl;
 	}
 
 	public final BasePanel addLine3to5(JComponent promptLbl, JComponent component) {
-		return addLine(promptLbl, component, 3, 5);
+		return addLineRE(promptLbl, component, 3, colOf3rdComponent);
 	}
 
-	private final BasePanel addLine(JComponent promptLbl, JComponent component, int firstCol, int lastCol) {
+	private final BasePanel addLineRE(JComponent promptLbl, JComponent component, int firstCol, int lastCol) {
 		incRow();
 
+		lastCol = fixColRE(lastCol);
 		if (promptLbl != null) {
 			this.add(promptLbl,
 				new TableLayoutConstraints(1, currRow, 1, currRow,
-						fieldLayout[PROMPT][0], fieldLayout[PROMPT][1]));
+						fieldLayout[PROMPT][WIDTH_PREFERNCE_IDX],
+						fieldLayout[PROMPT][HEIGHT_PREFERNCE_IDX]));
 			if (component != null
-			&& ! singleColumn
+//			&& ! singleColumn
 			&& promptLbl.getPreferredSize().height <= component.getPreferredSize().height
 			&& component.getPreferredSize().height <= FIELD_COMPARE2) {
 				Dimension d = promptLbl.getPreferredSize();
@@ -352,14 +440,15 @@ public class BasePanel extends JPanel {
 				lSize[currRow] = Math.max(lSize[currRow], promptLbl.getPreferredSize().getHeight());
 			}
 		} else {
-		    this.add(component,
-		            new TableLayoutConstraints(firstCol, currRow, lastCol, currRow,
-		                    fieldLayout[FIELD][0], fieldLayout[FIELD][1]));
+		    addRightItem(component,
+		            		firstCol, currRow, lastCol, currRow,
+		                    fieldLayout[FIELD][WIDTH_PREFERNCE_IDX], 
+		                    fieldLayout[FIELD][HEIGHT_PREFERNCE_IDX]);
 
 		    //setComponentName(component, promptLbl);
 
 			lSize[currRow] = Math.max(lSize[currRow], component.getPreferredSize().getHeight());
-		    registerComponent(component);
+		    registerComponentRE(component);
 		}
 		return this;
 	}
@@ -372,10 +461,10 @@ public class BasePanel extends JPanel {
 	 * @param component Primary Component
 	 * @param component2 Seconday component
 	 */
-	public final BasePanel addLine(String prompt, JComponent component, JComponent component2) {
+	public final BasePanel addLineRE(String prompt, JComponent component, JComponent component2) {
 
 		if (component2 == null) {
-			addLine(prompt, component);
+			addLineInternal(prompt, component);
 		} else {
 			int h = component2.getPreferredSize().height;
 			if (component != null
@@ -396,15 +485,21 @@ public class BasePanel extends JPanel {
 			if (component == null) {
 				incRow();
 			} else {
-				addLine(prompt, component);
+				addLineInternal(prompt, component);
 			}
 
 
-			setNumCols(5);
-			this.add(component2,
-				 new TableLayoutConstraints(5, currRow, 5, currRow,
-						fieldLayout[LAST][0], fieldLayout[LAST][1]));
-			registerComponent(component2);
+			setNumCols(colOf3rdComponent);
+			//TODO add
+			
+			addRightItem(component2,
+						colOf3rdComponent, currRow, colOf3rdComponent, currRow,
+						fieldLayout[LAST][WIDTH_PREFERNCE_IDX], 
+						fieldLayout[LAST][HEIGHT_PREFERNCE_IDX]);
+//			this.add(component2,
+//				 new TableLayoutConstraints(colOf3rdComponent, currRow, colOf3rdComponent, currRow,
+//						fieldLayout[LAST][0], fieldLayout[LAST][1]));
+			registerComponentRE(component2);
 
 
 			setComponent2Name(component2, prompt +"_fld2");
@@ -416,6 +511,29 @@ public class BasePanel extends JPanel {
 		}
 		return this;
 	}
+	
+	private void addHeldComponents() {
+		for (ComponentToAdd c : toAdd) {
+			this.add(c.component, c.getConstraint());
+		}
+		toAdd.clear();
+	}
+
+	private void addRightItem(JComponent component2,
+			int startCol, int startRow,
+			int endCol, int endRow, 
+			int widthConstraint,
+			int heightConstraint) {
+			//TableLayoutConstraints constraint) {
+//		this.add(component2, constraint);
+		
+		toAdd.add(new ComponentToAdd(
+				component2, 
+				startCol, startRow, endCol, endRow, widthConstraint, 
+				heightConstraint));
+//		rightItems.add(constraint);
+
+	}
 
 	/**
 	 * Adds 2 components to Panel on the Same Line
@@ -425,37 +543,39 @@ public class BasePanel extends JPanel {
 	 * @param component2 Seconday component
 	 * @param component3 third component
 	 */
-	public final BasePanel addLine(String prompt, JComponent component, JComponent component2, JComponent component3) {
+	public final BasePanel addLineRE(String prompt, JComponent component, JComponent component2, JComponent component3) {
 		JLabel promptLbl = null;
 
 //		if (promptLbl != null) {
 			 promptLbl = new JLabel(LangConversion.convertFld(fieldNamePrefix, prompt));
 			 promptLbl.setHorizontalAlignment(JLabel.RIGHT);
 //		}
-		return addLine(promptLbl, component, component2, component3);
+		return addLineRE(promptLbl, component, component2, component3);
 	}
 
-	public final BasePanel addLine(JComponent prompt, JComponent component, JComponent component2, JComponent component3) {
+	public final BasePanel addLineRE(JComponent prompt, JComponent component, JComponent component2, JComponent component3) {
 
-		addLine(prompt, component);
+		addLineRE(prompt, component);
 
 		if (component2 != null) {
-			this.add(component2,
-				 new TableLayoutConstraints(5, currRow, 5, currRow,
-						 fieldLayout[FIELD][0], fieldLayout[FIELD][1]));
-			registerComponent(component2);
+			addRightItem(component2,
+				 		 colOf3rdComponent, currRow, colOf3rdComponent, currRow,
+						 fieldLayout[FIELD][WIDTH_PREFERNCE_IDX],
+						 fieldLayout[FIELD][HEIGHT_PREFERNCE_IDX]);
+			registerComponentRE(component2);
 			lSize[currRow] = Math.max(lSize[currRow], component2.getPreferredSize().getHeight());
-			setNumCols(5);
+			setNumCols(colOf3rdComponent);
 		}
 
 		if (component3 != null) {
-			this.add(component3,
-				 new TableLayoutConstraints(7, currRow, 7, currRow,
-						fieldLayout[LAST][0], fieldLayout[LAST][1]));
-			registerComponent(component3);
+			addRightItem(component3,
+						colOf3rdComponent + 2, currRow, colOf3rdComponent + 2, currRow,
+						fieldLayout[LAST][WIDTH_PREFERNCE_IDX], 
+						fieldLayout[LAST][HEIGHT_PREFERNCE_IDX]);
+			registerComponentRE(component3);
 
 			lSize[currRow] = Math.max(lSize[currRow], component3.getPreferredSize().getHeight());
-			setNumCols(7);
+			setNumCols(colOf3rdComponent + 2);
 		}
 
 		return this;
@@ -475,20 +595,21 @@ public class BasePanel extends JPanel {
 	    }
 
 	    if (height < hGaps[FIELD_HEIGHT_INDEX]) {
-	        addLine(prompt,  component,  component2);
+	        addLineRE(prompt,  component,  component2);
 	    } else {
 	        double pad = (height - hGaps[FIELD_HEIGHT_INDEX]) / 2;
 
 	        currRow += 1;
             lSize[currRow + 1]     = pad;
 
-	        addLine(prompt, component);
+	        addLineRE(prompt, component);
 
-	        setNumCols(5);
-	        this.add(component2,
-	                new TableLayoutConstraints(5, currRow - 1, 5, currRow + 1,
-	                        fieldLayout[LAST][0], fieldLayout[LAST][1]));
-	        registerComponent(component2);
+	        setNumCols(colOf3rdComponent);
+	        addRightItem(component2,
+	                		colOf3rdComponent, currRow - 1, colOf3rdComponent, currRow + 1,
+	                        fieldLayout[LAST][WIDTH_PREFERNCE_IDX],
+	                        fieldLayout[LAST][HEIGHT_PREFERNCE_IDX]);
+	        registerComponentRE(component2);
 
 	        currRow += 1;
 
@@ -503,7 +624,7 @@ public class BasePanel extends JPanel {
 	 *
 	 * @param component compoent being registered
 	 */
-	public void registerComponent(JComponent component) {
+	public void registerComponentRE(JComponent component) {
 
        // System.out.println("==}} " + component.getName() + " " + component.getClass().getName());
 	}
@@ -520,17 +641,17 @@ public class BasePanel extends JPanel {
 	 * @param vPosition  Vertial Position
 	 * @param table      Table to be added to the Panel
 	 */
-	public final BasePanel addComponent(int startCol, int endCol,
+	public final BasePanel addComponentRE(int startCol, int endCol,
 							 double height, double gap,
 							 int hPosition, int vPosition,
 							 JTable table) {
 
-	    addComponent(startCol, endCol,
+	    addComponentRE(startCol, endCol,
 				 height, gap,
 				 hPosition, vPosition,
 				 true,
 				 new JScrollPane(table));
-		registerComponent(table);
+		registerComponentRE(table);
 
 		return this;
 	}
@@ -547,11 +668,11 @@ public class BasePanel extends JPanel {
 	 * @param vPosition  Vertial Position
 	 * @param component  Component to be added to the Panel
 	 */
-	public final BasePanel addComponent(int startCol, int endCol,
+	public final BasePanel addComponentRE(int startCol, int endCol,
 							 double height, double gap,
 							 int hPosition, int vPosition,
 							 JComponent component) {
-		return addComponent(startCol, endCol, height, gap, hPosition, vPosition, true, component);
+		return addComponentRE(startCol, endCol, height, gap, hPosition, vPosition, true, component);
 	}
 
 
@@ -566,11 +687,11 @@ public class BasePanel extends JPanel {
 	 * @param vPosition  Vertial Position
 	 * @param component  Component to be added to the Panel
 	 */
-	public final BasePanel addComponent(int startCol, int endCol,
+	public final BasePanel addComponentRE(int startCol, int endCol,
 							 double height, double gap,
 							 int hPosition, int vPosition,
 							 JEditorPane component) {
-		return addComponent(startCol, endCol, height, gap, hPosition, vPosition, true, new JScrollPane(component));
+		return addComponentRE(startCol, endCol, height, gap, hPosition, vPosition, true, new JScrollPane(component));
 	}
 
 	/**
@@ -584,11 +705,17 @@ public class BasePanel extends JPanel {
 	 * @param vPosition  Vertial Position
 	 * @param component  Component to be added to the Panel
 	 */
-	public final BasePanel addComponent(int startCol, int endCol,
+	public final BasePanel addComponentRE(int startCol, int endCol,
 							 double height, double gap,
 							 int hPosition, int vPosition,
 							 boolean incRow,
 							 JComponent component) {
+		
+		if (endCol >= 0) {
+			startCol = fixColRE(startCol);
+		}
+		endCol = fixColRE(endCol);
+		
 		setNumCols(endCol);
 
 		if (incRow) {
@@ -597,11 +724,23 @@ public class BasePanel extends JPanel {
 		add(component, new TableLayoutConstraints(startCol, currRow,
 												  endCol, currRow,
 												  hPosition, vPosition));
-		registerComponent(component);
+		registerComponentRE(component);
 
 		return this;
 	}
 
+	private int fixColRE(int endCol) {
+		if (endCol == LAST_USED_COLUMN) {
+			endCol = numCols;
+		} else if (endCol == MAXIMUM_COLUMN) {
+			endCol = numCols + 1;
+//		} else if (endCol == 3) {
+//			endCol = 4;
+		} else if (endCol >= 5) {
+			endCol += 2;
+		}
+		return endCol;
+	}
 
 	/**
 	 * Adds a Menu item to the panel; the prompt is in English
@@ -609,8 +748,8 @@ public class BasePanel extends JPanel {
 	 * @param prompt Menu Prompt
 	 * @param btn    Menu Button to be added to the panel
 	 */
-	public final BasePanel addMenuItem(String prompt, JButton btn) {
-		return addMenuItemNative(LangConversion.convertFld(fieldNamePrefix, prompt), btn);
+	public final BasePanel addMenuItemRE(String prompt, JButton btn) {
+		return addMenuItemNativeRE(LangConversion.convertFld(fieldNamePrefix, prompt), btn);
 	}
 
 	/**
@@ -619,21 +758,22 @@ public class BasePanel extends JPanel {
 	 * @param prompt Menu Prompt
 	 * @param btn    Menu Button to be added to the panel
 	 */
-	public final BasePanel addMenuItemNative(String prompt, JButton btn) {
-
+	public final BasePanel addMenuItemNativeRE(String prompt, JButton btn) {
+		
 		incRow();
 
 		add(btn, new TableLayoutConstraints(1, currRow, 1, currRow,
 		        BasePanel.RIGHT, BasePanel.TOP));
-		registerComponent(btn);
+		registerComponentRE(btn);
 
 		JLabel promptLbl = new JLabel(prompt);
 		//promptLbl.setHorizontalAlignment(JLabel.RIGHT);
 
-		setNumCols(3);
+		setNumCols(5);
 		this.add(promptLbl,
-			new TableLayoutConstraints(3, currRow, 3, currRow,
-					fieldLayout[FIELD][0], fieldLayout[FIELD][1]));
+			new TableLayoutConstraints(3, currRow, 5, currRow,
+					fieldLayout[FIELD][WIDTH_PREFERNCE_IDX], 
+					fieldLayout[FIELD][1]));
 
 		setComponentName(btn, prompt);
 		return this;
@@ -647,11 +787,19 @@ public class BasePanel extends JPanel {
 	 * @param height height of the Button
 	 * @param btn    Button to Add
 	 */
-	public final BasePanel addButton(boolean incRow, int col, int height, JButton btn) {
+	public final BasePanel addButtonRE(boolean incRow, int col, int height, JButton btn) {
 
 
 		if (col < 4) {
 			int c = col * 2 - 1;
+			int endC = c;
+			if (col == 3) {
+				endC += 2;
+				
+			} else if (col > 3) {
+				c += 2;
+				endC = c;
+			}
 
 			if (incRow) {
 				incRow(height, hGaps[GAP_HEIGHT_INDEX]);
@@ -659,14 +807,14 @@ public class BasePanel extends JPanel {
 				lSize[currRow] = height;
 			}
 
-			setNumCols(col * 2 - 1);
+			setNumCols(endC);
 
 //			System.out.println("Add Btn >> " + col + " " + oneField + "  "
 //					+  c + " " + currRow);
 
-			add(btn, new TableLayoutConstraints(c, currRow, c, currRow,
+			add(btn, new TableLayoutConstraints(c, currRow, endC, currRow,
 			        BasePanel.RIGHT, BasePanel.TOP));
-			registerComponent(btn);
+			registerComponentRE(btn);
 		}
 
 		return this;
@@ -682,9 +830,9 @@ public class BasePanel extends JPanel {
 	 *
 	 * @return  Button that was added to the panel
 	 */
-	public final JButton addIconButton(boolean incRow, int col, ImageIcon icon) {
+	public final JButton addIconButtonRE(boolean incRow, int col, ImageIcon icon) {
 		JButton btn = new JButton("", icon);
-		addButton(incRow, col, icon.getIconHeight() + 5, btn);
+		addButtonRE(incRow, col, icon.getIconHeight() + 5, btn);
 
 		return btn;
 	}
@@ -696,7 +844,7 @@ public class BasePanel extends JPanel {
 	 *
 	 * @param gap Line gap
 	 */
-	public final BasePanel setGap(double gap) {
+	public final BasePanel setGapRE(double gap) {
 		lSize[currRow + 1] = gap;
 		return this;
 	}
@@ -707,25 +855,33 @@ public class BasePanel extends JPanel {
 	 *
 	 * @param height Required Height
 	 */
-	public final BasePanel setHeight(double height) {
+	public final BasePanel setHeightRE(double height) {
+		if (toAdd.size() > 0) {
+			toAdd.get(0).heightConstraint = FULL;
+		}
 		lSize[currRow] = height;
 		return this;
 	}
 
-
-	public void setMessageTxt(String msg) {
-		setMessageRawTxt(LangConversion.convert(msg));
+	public final void setWidthConstraintRE(int val) {
+		if (toAdd.size() > 0) {
+			toAdd.get(0).widthConstraint = val;
+		}
 	}
 
-	public void setMessageTxt(String msg, String error) {
-		setMessageRawTxt(LangConversion.convert(msg) + " " + error);
+	public void setMessageTxtRE(String msg) {
+		setMessageRawTxtRE(LangConversion.convert(msg));
 	}
 
-	public void setMessageRplTxt(String msg, String msg2) {
-		setMessageRawTxt(LangConversion.convert(msg, msg2));
+	public void setMessageTxtRE(String msg, String error) {
+		setMessageRawTxtRE(LangConversion.convert(msg) + " " + error);
 	}
 
-	public void setMessageRawTxt(String msg) {
+	public void setMessageRplTxtRE(String msg, String msg2) {
+		setMessageRawTxtRE(LangConversion.convert(msg, msg2));
+	}
+
+	public void setMessageRawTxtRE(String msg) {
 		if (messageTxt == null) {
 			Common.logMsgRaw(msg, null);
 			if (logMissingMsgFields) {
@@ -748,7 +904,7 @@ public class BasePanel extends JPanel {
 	/**
 	 * Add a message Field to the panel
 	 */
-	public final BasePanel addMessage() {
+	public final BasePanel addMessageRE() {
 		return addMessage(new JTextField());
 	}
 
@@ -763,7 +919,7 @@ public class BasePanel extends JPanel {
 		return addMessageI(msg);
 	}
 
-	public final void setMessage(JTextComponent msg) {
+	public final void setMessageRE(JTextComponent msg) {
 		messageTxt = msg;
 	}
 
@@ -788,10 +944,10 @@ public class BasePanel extends JPanel {
 
 		add(msg, new TableLayoutConstraints(1, currRow, numCols, currRow,
 		        BasePanel.FULL, BasePanel.FULL));
-		registerComponent(msg);
+		registerComponentRE(msg);
 
 		if (msg.getMinimumSize().height < HEIGHT_1P6) {
-			setHeight(HEIGHT_1P6);
+			setHeightRE(HEIGHT_1P6);
 		}
 
 		return this;
@@ -803,6 +959,7 @@ public class BasePanel extends JPanel {
 	 *
 	 */
 	public final void incRow() {
+
 		incRow(hGaps[FIELD_HEIGHT_INDEX], hGaps[GAP_HEIGHT_INDEX]);
 	}
 
@@ -815,7 +972,8 @@ public class BasePanel extends JPanel {
 	 * @param gap    Gap that will follow the field
 	 */
 	public final void incRow(double height, double gap) {
-
+		addHeldComponents();
+		
 		currRow += 2;
 
 		lSize[currRow]     = height;
@@ -861,6 +1019,8 @@ public class BasePanel extends JPanel {
 		double[] hGap = new double[currRow + 2];
 
 		System.arraycopy(lSize, 0, hGap, 0, currRow + 2);
+		
+		addHeldComponents();
 
 		//System.out.print("done " + headingComponent==null);
 		if (headingComponent != null) {
@@ -876,23 +1036,60 @@ public class BasePanel extends JPanel {
 		}
 		BasicTrans.flush(BasicTrans.FLUSH_PNL);
 
-		if (numCols == 1) {
-			double[] vG = {vGaps[0], vGaps[1], vGaps[vGaps.length - 1]};
-
-			tLayout.setColumn(vG);
-		} else if (numCols == 3) {
-			double[] vG = {vGaps[0], vGaps[1], vGaps[2], vGaps[3], vGaps[vGaps.length - 1]};
-
-			tLayout.setColumn(vG);
-		} else if (numCols == 7) {
-			double[] vG = {vGaps[0], vGaps[1], vGaps[2], vGaps[3],
-					5, TableLayout.PREFERRED,
-					vGaps[4], vGaps[5], vGaps[vGaps.length - 1]};
-
-			tLayout.setColumn(vG);
-		} else {
-			tLayout.setColumn(vGaps);
+		//TODO
+		//TODO position of extra-column code
+		double[] vG = vGaps;
+		switch (numCols) {
+		case 1:
+		case 3:
+		case 5:
+			vG = new double[numCols + 2];
+			System.arraycopy(vGaps, 0, vG, 0, vG.length - 1);
+			vG[vG.length - 1] = vGaps[vGaps.length - 1];
+			break;
+		case 8:
+			if (addFillToEnd) {
+				vG = new double[numCols + 2];
+				System.arraycopy(vGaps, 0, vG, 0, vGaps.length - 1);
+	//			System.arraycopy(vGaps, vGaps.length - 3, vG, vG.length - 3, 3);
+				vG[vG.length - 2] = TableLayout.FILL;
+				vG[vG.length - 1] = vGaps[vGaps.length - 1];
+			}
+			break;
+		case 9:
+			vG = new double[numCols * 2 - 1];
+			System.arraycopy(vGaps, 0, vG, 0, vGaps.length - 3);
+			System.arraycopy(vGaps, vGaps.length - 3, vG, vG.length - 3, 3);
+			vG[vG.length - 5] = 5;
+			vG[vG.length - 4] = TableLayout.PREFERRED;
+			break;
 		}
+//		if (numCols == 1) {
+//			vG = new double[] {vGaps[0], vGaps[1], vGaps[vGaps.length - 1]};
+//		} else if (numCols == 3) {
+//			vG = new double[] {vGaps[0], vGaps[1], vGaps[2], vGaps[3], vGaps[vGaps.length - 1]};
+//		} else if (numCols == 9) {
+//			vG = new double[] {vGaps[0], vGaps[1], vGaps[2], vGaps[3],
+//					5, TableLayout.PREFERRED,
+//					vGaps[6], vGaps[7], vGaps[vGaps.length - 1]};
+//		}
+//		
+//		if (! onlySingleItems) {
+//			if (vG.length > 4) {
+//				double[] vGtemp = vG;
+//				vG = new double[vG.length + 2];
+//				System.arraycopy(vGtemp, 0, vG, 0, 4);
+//				System.arraycopy(vGtemp, 4, vG, 6, vGtemp.length - 4);
+//				vG[4] = 3;
+//				vG[5] = TableLayout.MINIMUM;
+//			
+//				if (vG.length > 7) {
+//					vG[6] = 6;
+//				}
+//			}
+//		}
+		
+		tLayout.setColumn(vG);
 		tLayout.setRow(hGap);
 
 		toBeDone = false;
@@ -916,6 +1113,11 @@ public class BasePanel extends JPanel {
 //
 //	private static PrintWriter log = null;
 
+	}
+
+
+	public final int getNumberOfCols() {
+		return numCols;
 	}
 
 
@@ -956,9 +1158,18 @@ public class BasePanel extends JPanel {
 		vGaps[gapId] = gapWidth;
 		if (gapId == VG_BORDER) {
 			vGaps[vGaps.length - 1] = gapWidth;
+		} else if (gapId == VG_GAP2) {
+			vGaps[gapId] = gapWidth - 2;
 		}
 	}
 
+	public final void setFieldToActualSize() {
+		fieldLayout[FIELD][WIDTH_PREFERNCE_IDX] = LEFT;
+	}
+
+	public final void setFieldSize(int fieldId, int widthHeight, int newValue) {
+		fieldLayout[fieldId][widthHeight] = newValue;
+	}
 
 //	public final BasePanel setComponentName(Component component, Component name) {
 //
@@ -1020,5 +1231,46 @@ public class BasePanel extends JPanel {
 	public void setPanelId(String panelId) {
 		this.panelId = panelId;
 	}
+	
+	public static void setToCommonWidth(int adj, int minWidth, JComponent... components) {
+		int size = 0;
+		for (JComponent c : components) {
+			size = Math.max(size, c.getPreferredSize().width);
+		}
+		size = Math.max(size + SwingUtils.CHAR_FIELD_WIDTH * adj, SwingUtils.CHAR_FIELD_WIDTH * minWidth);
+		for (JComponent c : components) {
+			c.setPreferredSize(new Dimension(size, c.getPreferredSize().height));
+		}
+	}
+	
+	private static class ComponentToAdd {
+		
+		final JComponent component;
+		
+		final int startCol, startRow, endCol, endRow;
+		int widthConstraint, heightConstraint;
 
+		public ComponentToAdd(JComponent component, int startCol, int startRow,
+				int endCol, int endRow, int widthConstraint,
+				int heightConstraint) {
+			super();
+			this.component = component;
+			this.startCol = startCol;
+			this.startRow = startRow;
+			this.endCol = endCol;
+			this.endRow = endRow;
+			this.widthConstraint = widthConstraint;
+			this.heightConstraint = heightConstraint;
+		}
+		
+		TableLayoutConstraints getConstraint() {
+			return new TableLayoutConstraints(
+							startCol, startRow, endCol, endRow, 
+							widthConstraint, heightConstraint);
+		}
+	}
+
+	public void setAddFillToEnd(boolean addFillToEnd) {
+		this.addFillToEnd = addFillToEnd;
+	}
 }

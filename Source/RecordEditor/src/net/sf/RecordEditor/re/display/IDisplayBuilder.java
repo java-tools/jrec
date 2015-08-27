@@ -16,6 +16,10 @@ import net.sf.RecordEditor.re.tree.AbstractLineNodeTreeParser;
  */
 public interface IDisplayBuilder {
 
+	/**
+	 * <b>Warning:</b> if extra constants added update
+	 * <b>ScriptData.DisplConstants</b> class to reflect the changes !!!
+	 */
 	public static int ST_INITIAL_EDIT     = 1;
 	public static int ST_INITIAL_BROWSE   = 2;
 	public static int ST_LIST_SCREEN      = 3;

@@ -17,6 +17,7 @@
 package net.sf.RecordEditor.re.db.Record;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
@@ -24,6 +25,9 @@ import net.sf.JRecord.ExternalRecordSelection.ExternalGroupSelection;
 import net.sf.JRecord.ExternalRecordSelection.ExternalSelection;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.detailsSelection.RecordSel;
+import net.sf.RecordEditor.re.db.Table.TableDB;
+import net.sf.RecordEditor.re.db.Table.TableRec;
+import net.sf.RecordEditor.trove.map.hash.TIntObjectHashMap;
 import net.sf.RecordEditor.utils.ReadRecordSelection;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReConnection;
@@ -42,7 +46,11 @@ public class ExtendedRecordDB extends RecordDB {
 	private ChildRecordsDB childDb = null;
     private RecordFieldsDB fieldDb = null;
     private boolean recSelWarn;
-
+    
+    private TIntObjectHashMap<String> systemNamesMap = null;
+    private HashMap<String, Integer> tableId = null;
+    private int maxTblKey = 0;
+    
     public ExternalRecord fetchExternal() {
     	RecordRec rec = fetch();
     	if (rec == null) {
@@ -63,6 +71,7 @@ public class ExtendedRecordDB extends RecordDB {
 		if (rec == null) {
 			closeChildDbs();
 		} else {
+			getSystemName(rec);
 			defineChildDbs();
 
 			fetch_Records(rec.getValue());
@@ -99,6 +108,7 @@ public class ExtendedRecordDB extends RecordDB {
 				r = recDb.fetch();
 				//System.out.print(" ~~ " + child.getChildKey() + " " + child.getChildRecord() + " " + (r == null));
 				if (r != null) {
+					getSystemName(r);
 					childRecord = r.getValue();
 					//System.out.print(" " + r.getRecordName());
 
@@ -474,9 +484,9 @@ public class ExtendedRecordDB extends RecordDB {
     	fieldDb.deleteAll();
 
     	try {
-			connect.getUpdateConnection().createStatement().executeQuery(deleteSQL);
+			connect.getUpdateConnection().createStatement().executeUpdate(deleteSQL);
 		} catch (SQLException ex) {
-			setMessage(deleteSQL, ex.getMessage(), ex);
+			setMessage(deleteSQL, "Error Deleting: " + rec.getRecordName() + "\n" + ex.toString(), ex);
 		}
 
     	super.delete(rec);
@@ -505,6 +515,30 @@ public class ExtendedRecordDB extends RecordDB {
 		}
 		fieldDb = null;
     }
+    
+    private void getSystemName(RecordRec rec) {
+    	int system = rec.getSystem();
+    	if (systemNamesMap == null) {
+    		TIntObjectHashMap<String> sysNamesMap = new TIntObjectHashMap<String>(30);
+    		TableRec tblDtl;
+    		TableDB tblsDB = new TableDB();
+    		tblsDB.setConnection(super.getConnect());
+    		tblsDB.resetSearch();
+			tblsDB.setParams(Common.TI_SYSTEMS);
+			tblsDB.open();
+			while ((tblDtl = tblsDB.fetch()) != null) {
+				sysNamesMap.put(tblDtl.getTblKey(), tblDtl.getDetails());				
+			}
+			systemNamesMap = sysNamesMap;
+			tblsDB.close();
+    	}
+    	
+    	String s = "";
+    	if (systemNamesMap.contains(system)) {
+    		s = systemNamesMap.get(system);
+    	}
+    	rec.getValue().setSystemName(s);
+    }
 
     public static RecordRec getRecord(int dbIdx, int recordId) {
 
@@ -524,4 +558,62 @@ public class ExtendedRecordDB extends RecordDB {
 
 		return r;
     }
+    
+    
+	/**
+	 * Set the System Id based on the System Name
+	 *
+	 */
+	public final void updateSystemCode(ExternalRecord rec) throws SQLException {
+
+		int i, ckey;
+		String s;
+		TableRec aTbl;
+
+		for (i = 0; i < rec.getNumberOfRecords(); i++) {
+			updateSystemCode(rec.getRecord(i));
+		}
+
+		s =  rec.getSystemName();
+		if (s != null) {
+			TableDB tblsDB = new TableDB();
+			if (tableId == null) {
+				tableId = new HashMap<String, Integer>();
+				maxTblKey = 0;
+
+				tblsDB.setConnection(this.getConnect());
+				tblsDB.resetSearch();
+				tblsDB.setParams(Common.TI_SYSTEMS);
+				tblsDB.open();
+				while ((aTbl = tblsDB.fetch()) != null) {
+					ckey = aTbl.getTblKey();
+					tableId.put(aTbl.getDetails(), Integer.valueOf(ckey));
+					if (maxTblKey < ckey) {
+						maxTblKey = ckey;
+					}
+				}
+				tblsDB.close();
+			}
+
+
+			if (tableId.containsKey(s)) {
+				Integer tblKey = tableId.get(s);
+				rec.setSystem(tblKey.intValue());
+			} else {
+				maxTblKey += 1;
+				aTbl = new TableRec(maxTblKey, s);
+				i = 0;
+				while ((i++ < 15) && (! tblsDB.tryToInsert(aTbl))) {
+					maxTblKey += 1;
+					aTbl.setTblKey(maxTblKey);
+			    }
+				tableId.put(s, Integer.valueOf(maxTblKey));
+				
+				if (systemNamesMap != null) {
+					systemNamesMap.put(maxTblKey, s);
+				}
+			}
+		}
+	}
+
 }

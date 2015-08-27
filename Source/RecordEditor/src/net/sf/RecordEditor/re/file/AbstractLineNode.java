@@ -19,21 +19,18 @@ public interface AbstractLineNode extends MutableTreeNode {
 	 * Get the record definition
 	 * @return record definition
 	 */
-	@SuppressWarnings("rawtypes")
 	public abstract AbstractLayoutDetails getLayout();
 
 	/**
 	 * Get the record (line)
 	 * @return record (line)
 	 */
-	@SuppressWarnings("rawtypes")
 	public abstract AbstractLine getLine();
 
 	/**
 	 * Get the view being displayed
 	 * @return view being displayed
 	 */
-	@SuppressWarnings("rawtypes")
 	public abstract FileView getView();
 
 	/**
@@ -41,7 +38,7 @@ public interface AbstractLineNode extends MutableTreeNode {
 	 * @param summaryLine new summary line
 	 * @param fieldName
 	 */
-	public abstract void setSummaryLine(@SuppressWarnings("rawtypes") AbstractLine summaryLine,
+	public abstract void setSummaryLine(AbstractLine summaryLine,
 			String fieldName);
 
 	/**
@@ -105,6 +102,6 @@ public interface AbstractLineNode extends MutableTreeNode {
 	 */
 	public AbstractLineNode insertNode(
 			int location, String nodeName,
-			@SuppressWarnings("rawtypes") FileView fileView,
-			@SuppressWarnings("rawtypes") AbstractLine theLine);
+			FileView fileView,
+			AbstractLine theLine);
 }

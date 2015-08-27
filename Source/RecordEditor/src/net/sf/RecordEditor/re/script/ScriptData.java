@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.tree.TreeNode;
 
@@ -16,19 +17,22 @@ import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Common.TranslateXmlChars;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
+import net.sf.JRecord.Details.LayoutDetail;
+import net.sf.JRecord.Details.LineCompare;
+import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.External.ExternalConversion;
 import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.re.display.DisplayBuilderFactory;
-import net.sf.RecordEditor.re.display.IChildDisplay;
+import net.sf.RecordEditor.re.display.DisplayDetails;
 import net.sf.RecordEditor.re.display.IDisplayBuilder;
 import net.sf.RecordEditor.re.display.IDisplayFrame;
 import net.sf.RecordEditor.re.file.AbstractLineNode;
 import net.sf.RecordEditor.re.file.AbstractTreeFrame;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.script.extensions.LanguageTrans;
-import net.sf.RecordEditor.utils.common.DefaultActionHandler;
-import net.sf.RecordEditor.utils.common.ReActionHandler;
+import net.sf.RecordEditor.trove.TIntArrayList;
+import net.sf.RecordEditor.utils.common.ActionConstants;
 import net.sf.RecordEditor.utils.fileStorage.DataStoreStd;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.params.Parameters;
@@ -43,31 +47,42 @@ import net.sf.RecordEditor.utils.screenManager.ReFrame;
  *
  */
 public class ScriptData {
+	private static final int[] EMPTY_ARRAY = {};
+	
+    public static final int SELECTION_ONLY         = 1;
+    public static final int SELECTION_AND_UPDATE   = 2;
+    private static final String sortDescending = "Descending Constant";
 
-	public final IDisplayBuilder displayConstants = DisplayBuilderFactory.getInstance();
-	public final IExecDirectoryConstants executeConstansts = new ExecConsts();
-	public final ReActionHandler actionConstants = new DefaultActionHandler();
+    public final float JAVA_VERSION = Parameters.JAVA_VERSION ;
+    
+	public final DisplConstants displayConstants          = new DisplConstants();
+	public final ExecDirectoryConstants executeConstansts = new ExecDirectoryConstants();
+	public final ActionConstants actionConstants          = new ActionConstants();
 
+	
 	public final List<AbstractLine> selectedLines, viewLines, fileLines;
 
-	public final FileView view;
+	public final FileView view, file, selectedView;
 	public final Object root;
 	public final List<List<TreeNode>> nodes = new ArrayList<List<TreeNode>>();
 	public final int treeDepth;
 	public final boolean onlyData, showBorder;
 	public final int recordIdx;
-	public final String inputFile, outputFile;
+	public final String inputFile;
+	public       String outputFile;
 	private final String dir, script;
 	private final ReFrame initialActiveFrame;
 	@SuppressWarnings("rawtypes")
 	public final IDisplayFrame initialDataFrame;
 	public final AbstractFileDisplay initialTab;
+	
+	public final String descending = sortDescending;
 
 	@SuppressWarnings("rawtypes")
 	public ScriptData(
 			List<AbstractLine> selectedList,
 			FileView view,
-			AbstractLineNode root,
+			AbstractLineNode r,
 			boolean onlyData, boolean showBorder,
 			int recordIdx, String outputFile,
 			ReFrame frame,
@@ -78,11 +93,14 @@ public class ScriptData {
 		this.script = scriptFile;
 
 		this.initialActiveFrame = frame;
+		
+		FileView tmpSelected = null;
+		
 		if (frame instanceof IDisplayFrame) {
 			initialDataFrame = (IDisplayFrame) frame;
 			initialTab = initialDataFrame.getActiveDisplay();
 		} else {
-			initialTab = getFileDisplay(frame);
+			initialTab = DisplayDetails.getDisplayDetails(frame);
 
 			if (initialTab == null) {
 				initialDataFrame = null;
@@ -90,19 +108,33 @@ public class ScriptData {
 				initialDataFrame = initialTab.getParentFrame();
 			}
 		}
-
+		
 		if (view == null) {
 			this.viewLines = null;
 			this.fileLines = null;
 			this.inputFile = null;
+			this.file = null;
 		} else {
+			this.file      = view.getBaseFile(); 
 			this.viewLines = Collections.unmodifiableList(view.getLines());
-			this.fileLines = Collections.unmodifiableList(view.getBaseFile().getLines());
+			this.fileLines = Collections.unmodifiableList(this.file.getLines());
 			this.inputFile = view.getFileNameNoDirectory();
+			
+			if (selectedList == null || selectedList.size() == 0) {
+				tmpSelected = view.getView(EMPTY_ARRAY);
+			} else {
+				tmpSelected = view.getView(selectedList);
+			}
 		}
 		this.view = view;
-		this.root = root;
-		this.treeDepth = buildNodeList(this.nodes, root, 0);
+		this.selectedView = tmpSelected;
+		
+//		file.getLine(0).getFieldValue(0, 0).asBigInteger();
+		if (r == null && initialTab != null && initialTab instanceof AbstractTreeFrame) {
+			r = ((AbstractTreeFrame) initialTab).getRoot();
+		}
+		this.root = r;
+		this.treeDepth = buildNodeList(this.nodes, r, 0);
 		this.onlyData = onlyData;
 		this.showBorder = showBorder;
 		this.recordIdx = recordIdx;
@@ -261,7 +293,7 @@ public class ScriptData {
 	public AbstractFileDisplay getCurrentEditTab() {
 		ReFrame f = ReFrame.getActiveFrame();
 
-		return getFileDisplay(f);
+		return DisplayDetails.getDisplayDetails(f);
 	}
 
 	/**
@@ -283,6 +315,20 @@ public class ScriptData {
 		return JOptionPane.showInputDialog(initialActiveFrame, message);
 	}
 
+	public int confirmYNC(String message) {
+		return JOptionPane.showConfirmDialog(initialActiveFrame, message);
+	}
+	
+	public boolean confirmYN(String title, String message) {
+		return JOptionPane.showConfirmDialog(initialActiveFrame, message, title, JOptionPane.YES_NO_OPTION) 
+			== JOptionPane.YES_OPTION;
+	}
+	
+	public boolean confirmOC(String title, String message) {
+		return JOptionPane.showConfirmDialog(initialActiveFrame, message, title, JOptionPane.OK_CANCEL_OPTION) 
+			== JOptionPane.OK_OPTION;
+	}
+	
 	public void showMessage(String message) {
 		JOptionPane.showMessageDialog(initialActiveFrame, message);
 	}
@@ -313,7 +359,7 @@ public class ScriptData {
 	public AbstractLine newLine() {
 		AbstractLayoutDetails layout = view.getLayout();
 
-		return view.getIoProvider().getLineProvider(layout.getFileStructure()).getLine(layout);
+		return view.getIoProvider().getLineProvider(layout).getLine(layout);
 	}
 
 	/**
@@ -325,7 +371,7 @@ public class ScriptData {
 	@SuppressWarnings("unchecked")
 	public AbstractLine newLine(String data) {
 		AbstractLayoutDetails layout = view.getLayout();
-		return view.getIoProvider().getLineProvider(layout.getFileStructure()).getLine(layout, data);
+		return view.getIoProvider().getLineProvider(layout).getLine(layout, data);
 	}
 
 
@@ -338,7 +384,12 @@ public class ScriptData {
 	 */
 	public final AbstractFileDisplayWithFieldHide displayList(int displayType, String tabName, List<AbstractLine> lineList) {
 		AbstractLayoutDetails layout = view.getLayout();
-		FileView v = new FileView(DataStoreStd.newStore(layout, lineList), view, null, false);
+		FileView v;
+		if (lineList instanceof FileView) {
+			v = (FileView) lineList;
+		} else {
+			v = new FileView(DataStoreStd.newStore(layout, lineList), view, null, false);
+		}
 
 		return displayView(displayType, tabName, v);
 	}
@@ -357,7 +408,7 @@ public class ScriptData {
 		if (newView != null && newView.getRowCount() > 0) {
 			l = newView.getLine(0);
 		}
-		return displayConstants.newDisplay(displayType, screenName, initialDataFrame, newView.getLayout(), newView, l);
+		return DisplayBuilderFactory.getInstance().newDisplay(displayType, screenName, initialDataFrame, newView.getLayout(), newView, l);
 	}
 
 
@@ -380,7 +431,6 @@ public class ScriptData {
 	 * @param location location of the Saved task definition (Xml File)
 	 * @param name Task to execute
 	 */
-	@SuppressWarnings("static-access")
 	public final AbstractFileDisplay executeSavedTask(AbstractFileDisplay display, String location, String name) {
 
 		if (display == null) {
@@ -436,12 +486,11 @@ public class ScriptData {
 	@SuppressWarnings({ "rawtypes" })
 	public static ScriptData getScriptData(ReFrame frame, String scriptFile) {
 		ScriptData  data = null;
-		AbstractLineNode root = null;
 		FileView file = null;
 		int recordIdx = 0;
 
 		if (frame != null) {
-			AbstractFileDisplay disp = getFileDisplay(frame);
+			AbstractFileDisplay disp = DisplayDetails.getDisplayDetails(frame);
 			if (disp != null) {
 				file = disp.getFileView();
 				recordIdx = disp.getLayoutIndex();
@@ -450,15 +499,22 @@ public class ScriptData {
 			}
 		}
 
-		if (frame instanceof AbstractTreeFrame) {
-			root = ((AbstractTreeFrame) frame).getRoot();
-		}
-
 		if (file != null) {
+			AbstractFileDisplay initialTab;
+			List<AbstractLine> selected = file.getLines();
+			if (frame instanceof IDisplayFrame) {
+				initialTab = ((IDisplayFrame) frame).getActiveDisplay();
+			} else {
+				initialTab = DisplayDetails.getDisplayDetails(frame);
+			}
+			
+			if (initialTab != null) {
+				selected = initialTab.getSelectedLines();
+			}
 			data = new ScriptData(
-							file.getLines(),
+							selected,
 			   				file,
-			        		root,
+			        		null,
 			        		false, true,
 			        		recordIdx,
 			        		file.getFileName() + ".xxx",
@@ -469,20 +525,108 @@ public class ScriptData {
 		return data;
 	}
 
-	@SuppressWarnings("rawtypes")
-	private static AbstractFileDisplay getFileDisplay(ReFrame frame) {
-
-		AbstractFileDisplay parentTab = null;
-		if (frame instanceof AbstractFileDisplay) {
-			parentTab = (AbstractFileDisplay) frame;
-		} else if (frame instanceof IChildDisplay) {
-			parentTab = ((IChildDisplay) frame).getSourceDisplay();
-		} else if (frame instanceof IDisplayFrame) {
-			parentTab = ((IDisplayFrame) frame).getActiveDisplay();
+	/**
+	 * Get LineCompare for use in sorting / comparing lines
+	 * 
+	 * @param layout schema of the lines
+	 * @param recordIndex recordIndex of the lines being compared
+	 * 
+	 * @return requested line-compare
+	 */
+	public LineCompare getLineCompareAllFields(LayoutDetail layout, int recordIndex) {
+		RecordDetail record = layout.getRecord(recordIndex);
+		int[] flds = new int[record.getFieldCount()];
+		boolean[] descending = new boolean[flds.length];
+		
+		for (int i = 0; i < flds.length; i++) {
+			flds[i] = i;
 		}
-		return parentTab;
+		Arrays.fill(descending, false);
+		
+		return new LineCompare(layout, recordIndex, flds, descending);
+	}
+	
+	/**
+	 * Get LineCompare that compares specified fields for use in sorting / comparing lines
+	 * 
+	 * @param layout schema of the records
+	 * @param recordIndex record index of the lines
+	 * @param fields fields to be compared
+	 * 
+	 * @return requested line-compare
+	 */
+	public LineCompare getLineCompare(LayoutDetail layout, int recordIndex, String... fields) {
+		
+		if (fields == null || fields.length == 0) {
+			return getLineCompareAllFields(layout, recordIndex);
+		}
+		int yes = 1, no = 2;
+		int idx, d;
+		TIntArrayList flds = new TIntArrayList(fields.length);
+		TIntArrayList desc = new TIntArrayList(fields.length);
+		RecordDetail record = layout.getRecord(recordIndex);
+
+		for (int i = 0; i < fields.length; i++) {
+			if (fields[i] != sortDescending
+			&& (idx = record.getFieldIndex(fields[i]))>= 0) {
+				d = no;
+				if (i < fields.length-1 && fields[i+1] == sortDescending) {
+					d = yes;
+				}
+				flds.add(idx);
+				desc.add(d);
+			}
+		}
+		
+		boolean[] descending = new boolean[desc.size()];
+		for (int i = 0; i < descending.length; i++) {
+			descending[i] = desc.get(i) == yes;
+		}
+		
+		return new LineCompare(layout, recordIndex, flds.toArray(), descending);
 	}
 
+	/**
+	 * Ask for a file name
+	 * 
+	 * @param initialFileName initial or default filename
+	 * @param open wether to show open or save dialogs
+	 * 
+	 * @return filename
+	 */
+	public String askForFileName(String initialFileName, boolean open) {
+		JFileChooser fc = new JFileChooser();
+		String ret = "";
+		int result;
+		
+		fc.setSelectedFile(new File(initialFileName));
+		if (open) {
+			result = fc.showOpenDialog(null);
+		} else {
+			result = fc.showSaveDialog(null);
+		}
+
+		if (result == JFileChooser.APPROVE_OPTION) {
+			ret = fc.getSelectedFile().getPath();
+		}
+		return ret;
+	}
+	
+	/**
+	 * Ask the user to explain the Record Hierarchy
+	 * 
+	 * @return Record Hierarchy
+	 */
+	public Integer[] getRecordHierarchy() {
+		CreateRecordTree rt = new CreateRecordTree(view);
+		
+		if (rt.isOk()) {
+			return rt.treeDisplay.getParent();
+		}
+		return null;
+	}
+	
+	
 	/**
 	 * Directory constants for use in Scripts:
 	 * <pre>
@@ -496,7 +640,19 @@ public class ScriptData {
 	 * @author Bruce Martin
 	 *
 	 */
-	public static class ExecConsts implements IExecDirectoryConstants {
-
+	
+	public static class DisplConstants {
+		public int ST_INITIAL_EDIT     = IDisplayBuilder.ST_INITIAL_EDIT    ;
+		public int ST_INITIAL_BROWSE   = IDisplayBuilder.ST_INITIAL_BROWSE  ;
+		public int ST_LIST_SCREEN      = IDisplayBuilder.ST_LIST_SCREEN     ;
+		public int ST_RECORD_SCREEN    = IDisplayBuilder.ST_RECORD_SCREEN   ;
+		public int ST_RECORD_TREE      = IDisplayBuilder.ST_RECORD_TREE     ;
+		public int ST_CB2XML_TREE      = IDisplayBuilder.ST_CB2XML_TREE     ;
+		public int ST_LINES_AS_COLUMNS = IDisplayBuilder.ST_LINES_AS_COLUMNS;
+		public int ST_LINE_TREE_CHILD  = IDisplayBuilder.ST_LINE_TREE_CHILD ;
+		public int ST_DOCUMENT         = IDisplayBuilder.ST_DOCUMENT        ;
+		public int ST_COLORED_DOCUMENT = IDisplayBuilder.ST_COLORED_DOCUMENT;
+		
+		public int ST_LINE_TREE_CHILD_EXPAND_PROTO  = IDisplayBuilder.ST_LINE_TREE_CHILD_EXPAND_PROTO;
 	}
 }

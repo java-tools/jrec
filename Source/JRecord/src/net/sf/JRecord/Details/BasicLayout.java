@@ -32,7 +32,7 @@ implements AbstractLayoutDetails {
 	 * @see net.sf.JRecord.Details.AbstractLineDetails#getRecord(int)
 	 */
 	public  RecordDescription getRecord(int recordNum) {
-	    if (recordNum < 0 || records.length == 0) {
+	    if (recordNum < 0 || recordNum >= records.length) {
 	        return null;
 	    }
 		return records[recordNum];

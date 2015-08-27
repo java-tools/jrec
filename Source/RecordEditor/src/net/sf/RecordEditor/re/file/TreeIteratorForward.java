@@ -1,19 +1,19 @@
 package net.sf.RecordEditor.re.file;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.RecordEditor.utils.ExpandLineTree;
+import net.sf.RecordEditor.utils.fileStorage.IDataStoreIterator;
 
-@SuppressWarnings("rawtypes")
-public class TreeIteratorForward implements Iterator<AbstractLine> {
+public class TreeIteratorForward implements IDataStoreIterator {
 
 	private List<? extends AbstractLine> list;
 	private ArrayList<AbstractLine> expandedLine = null;
 	private int currentLine = 0;
 	private int currentChild = 0;
+	private AbstractLine last;
 	
 	/**
 	 * @param lines
@@ -39,6 +39,18 @@ public class TreeIteratorForward implements Iterator<AbstractLine> {
 		return expandedLine != null && list != null
 			&& (currentLine < list.size() - 1 || currentChild < expandedLine.size());
 	}
+	
+	
+
+	@Override
+	public AbstractLine nextTempRE() {
+		return next();
+	}
+
+	@Override
+	public AbstractLine currentLineRE() {
+		return last;
+	}
 
 	/**
 	 * @see java.util.Iterator#next()
@@ -49,7 +61,8 @@ public class TreeIteratorForward implements Iterator<AbstractLine> {
 			expandedLine = ExpandLineTree.expandTree(list.get(++currentLine));
 			currentChild = 0;
 		}
-		return expandedLine.get(currentChild++);
+		last =  expandedLine.get(currentChild++);
+		return last;
 	}
 
 	/**

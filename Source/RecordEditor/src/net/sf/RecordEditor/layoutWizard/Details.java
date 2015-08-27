@@ -100,7 +100,7 @@ public class Details {
     				layoutDescription,
     				Common.rtRecordLayout, system, "Y", "",
     				"<Tab>", "", 0, Common.DEFAULT_STRING,
-    				Common.LFCR_BYTES, fontName,
+    				Common.CRLF_BYTES, fontName,
     				parserType, fileStructure,
     				false
     		);
@@ -114,7 +114,7 @@ public class Details {
     				layoutDescription,
     				Common.rtGroupOfRecords, system, "Y", "",
     				"<Tab>", "", 0, Common.DEFAULT_STRING,
-    				Common.LFCR_BYTES, fontName,
+    				Common.CRLF_BYTES, fontName,
     				parserType, fileStructure,
     				false
     		);
@@ -125,7 +125,7 @@ public class Details {
 	        				"",
 	        				Common.rtRecordLayout, system, "N", "",
 	        				"<Tab>", "", 0, Common.DEFAULT_STRING,
-	        				Common.LFCR_BYTES, fontName,
+	        				Common.CRLF_BYTES, fontName,
 	        				parserType, fileStructure,
 	        				false
 	        		);
@@ -158,7 +158,7 @@ public class Details {
 	    			Common.rtDelimited, system, "Y", "",
 	    			delim, actualQuote, 0,
 	    			Common.DEFAULT_STRING,
-	    			Common.LFCR_BYTES, fontName,
+	    			Common.CRLF_BYTES, fontName,
 	    			parserType, fileStructure,
 	    			false
 	    	);

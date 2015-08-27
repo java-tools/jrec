@@ -19,11 +19,11 @@ public class WizardFileMenu implements ActionListener {
 		ReFrame frame = new ReFrame("Menu");
 		BasePanel pnl = new BasePanel();
 
-		pnl.setGap(BasePanel.GAP3);
-		pnl.addMenuItem("Layout Wizard (For File copybooks) ", wizBtn);
-		pnl.setGap(BasePanel.GAP1);
-		pnl.addMenuItem("Convert Layout ", copyBtn);
-		pnl.setGap(BasePanel.GAP3);
+		pnl.setGapRE(BasePanel.GAP3);
+		pnl.addMenuItemRE("Layout Wizard (For File copybooks) ", wizBtn);
+		pnl.setGapRE(BasePanel.GAP1);
+		pnl.addMenuItemRE("Convert Layout ", copyBtn);
+		pnl.setGapRE(BasePanel.GAP3);
 
 		frame.addMainComponent(pnl);
 

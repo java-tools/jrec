@@ -218,9 +218,9 @@ public abstract class PositionIncrement {
 					int row = lines.indexOf(ExpandLineTree.getRootLine(pos.currentLine));
 					//System.out.println("~~ row: " + row);
 					if (row >= 0) {
-						if (row == 89) {
-							System.out.println("~~ row: " + row);
-						}
+//						if (row == 89) {
+//							System.out.println("~~ row: " + row);
+//						}
 						pos.row = row;
 					}
 //				} else {

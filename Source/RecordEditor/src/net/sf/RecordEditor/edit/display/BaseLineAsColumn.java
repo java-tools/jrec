@@ -1,14 +1,15 @@
 package net.sf.RecordEditor.edit.display;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JTable;
+import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.edit.display.models.BaseLineModel;
@@ -17,14 +18,13 @@ import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
-import net.sf.RecordEditor.utils.swing.StandardRendor;
 
 @SuppressWarnings("serial")
 public abstract class BaseLineAsColumn
 extends BaseLineDisplay
 implements AbstractFileDisplayWithFieldHide {
 
-	protected ChooseRender render = new ChooseRender();
+//	protected ChooseRender render = new ChooseRender();
 	protected MenuPopupListener popupListner;
 
 	private BaseLineModel model;
@@ -222,56 +222,56 @@ implements AbstractFileDisplayWithFieldHide {
 
     protected abstract void setColWidths();
 
-	/**
-	 * This class will choose the rendor
-	 *
-	 * @author Bruce Martin
-	 *
-	 */
-    class ChooseRender implements TableCellRenderer {
-
-        //private JTextField fld     = new JTextField();
-    	StandardRendor stdRender = new StandardRendor();
-
-        /**
-    	 * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent
-    	 * (javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
-    	 */
-    	public Component getTableCellRendererComponent(
-    		JTable tbl,
-    		Object value,
-    		boolean isFldSelected,
-    		boolean hasFocus,
-    		int row,
-    		int column) {
-
-    		TableCellRenderer render;
-    		int calcRow = model.getFieldMapping().getRealColumn(
-    									getLayoutIndex(),
-    									row);
-
-//    		System.out.print("Choose Render: " + row + ", " + column
-//    			+ " " + model.getFieldMapping().getRealColumn(getLayoutIndex(), row)
-//    			+ " " + calcRow
-//    			+ " " + layout.getUnAdjFieldNumber(getLayoutIndex(),row));
-    		if (cellRenders.length <= row || calcRow >= cellRenders.length || cellRenders[calcRow] == null) {
-    	        render = stdRender;
-    	        //System.out.println(" Std");
-    	    } else {
-     	    	render = cellRenders[calcRow];
-     	    	//System.out.println(" render " + render.getClass().getName());
-    	    }
-
-    	    return render.getTableCellRendererComponent(
-				    	        		tbl,
-				    	        		value,
-				    	        		isFldSelected,
-				    	        		hasFocus,
-				    	        		row,
-				    	        		column);
-
-    	}
-    }
+//	/**
+//	 * This class will choose the rendor
+//	 *
+//	 * @author Bruce Martin
+//	 *
+//	 */
+//    class ChooseRender implements TableCellRenderer {
+//
+//        //private JTextField fld     = new JTextField();
+//    	StandardRendor stdRender = new StandardRendor();
+//
+//        /**
+//    	 * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent
+//    	 * (javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
+//    	 */
+//    	public Component getTableCellRendererComponent(
+//    		JTable tbl,
+//    		Object value,
+//    		boolean isFldSelected,
+//    		boolean hasFocus,
+//    		int row,
+//    		int column) {
+//
+//    		TableCellRenderer render;
+//    		int calcRow = model.getFieldMapping().getRealColumn(
+//    									getLayoutIndex(),
+//    									row);
+//
+////    		System.out.print("Choose Render: " + row + ", " + column
+////    			+ " " + model.getFieldMapping().getRealColumn(getLayoutIndex(), row)
+////    			+ " " + calcRow
+////    			+ " " + layout.getUnAdjFieldNumber(getLayoutIndex(),row));
+//    		if (cellRenders.length <= row || calcRow >= cellRenders.length || cellRenders[calcRow] == null) {
+//    	        render = stdRender;
+//    	        //System.out.println(" Std");
+//    	    } else {
+//     	    	render = cellRenders[calcRow];
+//     	    	//System.out.println(" render " + render.getClass().getName());
+//    	    }
+//
+//    	    return render.getTableCellRendererComponent(
+//				    	        		tbl,
+//				    	        		value,
+//				    	        		isFldSelected,
+//				    	        		hasFocus,
+//				    	        		row,
+//				    	        		column);
+//
+//    	}
+//    }
 
     private class ShowFieldAction extends JMenuItem implements ActionListener {
     	final int theRow, idx;
@@ -295,5 +295,49 @@ implements AbstractFileDisplayWithFieldHide {
 				setShowFieldsMenu(getLayoutIndex());
 			}
 		}
-     }
+    }
+    
+    protected class LineAsColTbl extends JTable {
+
+    	private final int firstDataCol;
+    	private final boolean singleDataCol;
+//		public LineAsColTbl() {
+//			super();
+//			// TODO Auto-generated constructor stub
+//		}
+
+		public LineAsColTbl(TableModel dm, int firstDataColumn, boolean singleDataColumn) {
+			super(dm);
+			this.firstDataCol = firstDataColumn;
+			this.singleDataCol = singleDataColumn;
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public TableCellRenderer getCellRenderer(int row, int column) {
+			int calcRow = model.getFieldMapping().getRealColumn(
+					getLayoutIndex(),
+					row);
+			if (noCellEditor(column, calcRow, cellRenders)) {
+				return super.getCellRenderer(row, column);
+    	    } 
+			return cellRenders[calcRow];
+		}
+
+		@Override
+		public TableCellEditor getCellEditor(int row, int column) {
+			int calcRow = model.getFieldMapping().getRealColumn(
+					getLayoutIndex(),
+					row);
+			if (noCellEditor(column, calcRow, cellEditors)) {
+				return super.getCellEditor(row, column);
+    	    } 
+			return cellEditors[calcRow];
+		}
+    	
+		private boolean noCellEditor(int column, int calcRow, Object[]  cellEditors) {
+			return column < firstDataCol || (singleDataCol && column > firstDataCol)
+				|| cellEditors == null || calcRow >= cellEditors.length || cellEditors[calcRow] == null;
+		}
+    }
 }

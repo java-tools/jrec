@@ -21,7 +21,7 @@ public class SaveAsPnlBasic extends SaveAsPnlBase {
 		super(commonSaveAsFields, extension, panelFormat, RecentFiles.RF_NONE, null);
 		JTextArea area = new JTextArea(description);
 
-		panel.addComponent(1, 5,BasePanel.FILL, BasePanel.GAP,
+		panel.addComponentRE(1, 5,BasePanel.FILL, BasePanel.GAP,
                 BasePanel.FULL, BasePanel.FULL,
                 area);	}
 

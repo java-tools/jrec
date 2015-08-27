@@ -72,7 +72,11 @@ public abstract class OpenSaveAction extends ReAbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		setFileName(getDefaultFile());
+		askUser(getDefaultFile());
+	}
+	
+	public void askUser(File defaultFile) {
+		setFileName(defaultFile);
 
 		JFileChooser fc = getFileChooser();
 		int ret;
@@ -87,6 +91,7 @@ public abstract class OpenSaveAction extends ReAbstractAction {
 			processFile(fc.getSelectedFile());
 		}
 	}
+	
 
 	/**
 	 * process the file selected by the user

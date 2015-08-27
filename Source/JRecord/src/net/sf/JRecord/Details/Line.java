@@ -12,13 +12,18 @@
 package net.sf.JRecord.Details;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
+import net.sf.JRecord.Details.RecordDetail.FieldDetails;
 import net.sf.JRecord.Types.Type;
+import net.sf.JRecord.Types.TypeChar;
+import net.sf.JRecord.Types.TypeManager;
+import net.sf.JRecord.Types.TypeNum;
 
 /**
  * This class represents one line (or Record) in the File (represented as an Array of bytes).
@@ -137,6 +142,7 @@ public class Line extends BasicLine<Line> {
 		System.arraycopy(rec, start, data, 0,
 					java.lang.Math.min(len, data.length));
 		preferredLayoutAlt = Constants.NULL_INTEGER;
+		preferredLayout = Constants.NULL_INTEGER;
 	}
 
 
@@ -287,7 +293,7 @@ public class Line extends BasicLine<Line> {
 	 */
 	private void adjustLengthIfNecessary(final IFieldDetail field) {
 
-		if (field.getEnd() > data.length) {
+		if (field != null && field.getEnd() > data.length) {
 		    newRecord(field.getEnd());
 		}
 	}
@@ -326,9 +332,16 @@ public class Line extends BasicLine<Line> {
 		//byte[] d = getLineData();
 
 		System.arraycopy(data, 0, rec, 0, data.length);
+		if (layout != null && ! layout.isBinary()) {
+			byte[] spaceBytes = Conversion.getBytes(" ", layout.getFontName());
+			if (spaceBytes != null && spaceBytes.length == 1) {
+				Arrays.fill(rec, data.length, rec.length - 1, spaceBytes[0]);
+			}
+		}
 
 		if ((layout.getLayoutType() == Constants.rtGroupOfBinaryRecords)
-				&& sep != null && sep.length > 0) {
+				&& layout.getFileStructure() == Constants.IO_BINARY_IBM_4680
+				&& sep != null && sep.length > 0 && newSize >= sep.length) {
 			System.arraycopy(sep, 0, rec, newSize - sep.length, sep.length);
 		}
 
@@ -370,8 +383,8 @@ public class Line extends BasicLine<Line> {
 		data = NULL_RECORD;
 	}
 
-	public final void setData(String newVal) {
-	    data = Conversion.getBytes(newVal, layout.getFontName());
+	public void setData(String newVal) {
+		setDataRaw( Conversion.getBytes(newVal, layout.getFontName()));
 	}
 
 	/**
@@ -387,10 +400,15 @@ public class Line extends BasicLine<Line> {
 		} else {
 			data = newVal;
 		}
+		preferredLayoutAlt = Constants.NULL_INTEGER;
+		preferredLayout = Constants.NULL_INTEGER;
+
 	}
 
 	protected void setDataRaw(byte[] newVal) {
 		data = newVal;
+		preferredLayoutAlt = Constants.NULL_INTEGER;
+		preferredLayout = Constants.NULL_INTEGER;
 	}
 
 
@@ -489,5 +507,22 @@ public class Line extends BasicLine<Line> {
             throw new RecordException("Error saving Hex value: {0}", e.getMessage());
         }
         return ret;
+	}
+	
+
+	@Override
+	public boolean isDefined(int rec, int pos) {
+		FieldDetails field = layout.getRecord(rec).getField(pos);
+		if (this.data == null || data.length <= field.getPos()) {
+			return false;
+		}
+		boolean ret = false;
+		Type t = TypeManager.getInstance().getType(field.getType());
+		if (t instanceof TypeNum) {
+			ret = ((TypeNum) t).isDefined(this, data, field);
+		} else {
+			ret = ! TypeChar.isHexZero(data, field.getPos(), field.getLen());
+		}
+		return ret;
 	}
 }

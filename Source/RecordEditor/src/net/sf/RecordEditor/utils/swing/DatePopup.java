@@ -93,10 +93,10 @@ public class DatePopup extends AbstractPopup implements ActionListener {
 			try {
 //				System.out.println("~~ " + format);
 				SimpleDateFormat sd = new SimpleDateFormat(format);
-				pnl.setMessageTxt("25.Dec.98 will be formatted as", sd.format(xmas));
+				pnl.setMessageTxtRE("25.Dec.98 will be formatted as", sd.format(xmas));
 				this.firePropertyChange(AbstractPopup.POPUP_CHANGED, null, format);
 			} catch (Exception e) {
-				pnl.setMessageTxt("Date Format Error: " + e.getMessage());
+				pnl.setMessageTxtRE("Date Format Error: " + e.getMessage());
 			}
 		}
 	}
@@ -136,14 +136,14 @@ public class DatePopup extends AbstractPopup implements ActionListener {
 		if (pnl == null) {
 			pnl = new BasePanel();
 
-			pnl.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP2,
+			pnl.addComponentRE(1, 5, TIP_HEIGHT, BasePanel.GAP2,
 					BasePanel.FULL, BasePanel.FULL,
 					tips);
 
 
-			pnl.addLine("Date Format", dateFormat, test);
-			pnl.setGap(BasePanel.GAP2);
-			pnl.addMessage();
+			pnl.addLineRE("Date Format", dateFormat, test);
+			pnl.setGapRE(BasePanel.GAP2);
+			pnl.addMessageRE();
 		}
 		add(pnl);
 		super.pack();

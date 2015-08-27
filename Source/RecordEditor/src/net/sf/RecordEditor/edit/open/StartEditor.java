@@ -6,6 +6,7 @@ import net.sf.RecordEditor.re.display.DisplayBuilderFactory;
 import net.sf.RecordEditor.re.display.IDisplayBuilder;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.common.GcManager;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.EditingCancelled;
 
@@ -35,6 +36,7 @@ public class StartEditor {
 	public void doEdit() {
 		if (Common.OPTIONS.loadInBackgroundThread.isSelected()) {
 			try {
+				GcManager.doGcIfNeccessary(0.5);
 				(new net.sf.RecordEditor.edit.open.StartEditorBackGround(this)).execute();
 				return;
 			} catch (NoClassDefFoundError e) {

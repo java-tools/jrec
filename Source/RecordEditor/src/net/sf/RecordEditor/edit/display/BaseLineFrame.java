@@ -24,7 +24,6 @@ import javax.swing.table.TableColumn;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.RecordEditor.edit.display.Action.GotoLineAction;
 import net.sf.RecordEditor.edit.display.models.LineModel;
-import net.sf.RecordEditor.edit.display.util.ChooseCellEditor;
 import net.sf.RecordEditor.edit.display.util.MovementBtnPnl;
 import net.sf.RecordEditor.re.file.AbstractLineNode;
 import net.sf.RecordEditor.re.file.FileView;
@@ -138,7 +137,7 @@ implements TableModelListener, TreeModelListener {
 		fileView.addTreeModelListener(this);
 		setColWidths();
 
-		actualPnl.setHelpURL(Common.formatHelpURL(Common.HELP_SINGLE_RECORD));
+		actualPnl.setHelpURLre(Common.formatHelpURL(Common.HELP_SINGLE_RECORD));
 
 
 //		if (changeRow) {
@@ -162,7 +161,7 @@ implements TableModelListener, TreeModelListener {
 	protected void init_210_setupTable() {
 
 
-		setJTable(new JTable(record));
+		setJTable(new LineAsColTbl(record, record.firstDataColumn, true));
 
 
 		tblDetails.addMouseListener(popupListner);
@@ -202,15 +201,15 @@ implements TableModelListener, TreeModelListener {
 	public void init_300_setupScreen(final boolean changeRow) {
 
 		if (! isTree()) {
-			actualPnl.addLine("Record", lineNum);
+			actualPnl.addLineRE("Record", lineNum);
 		}
 
 		if (fileMaster.isBinaryFile()) {
-		    actualPnl.addLine("1 line Hex", oneLineHex);
+		    actualPnl.addLineRE("1 line Hex", oneLineHex);
 		}
 		//pnl.setGap(BasePanel.GAP1);
 
-		actualPnl.addComponent(1, 5, BasePanel.FILL,
+		actualPnl.addComponentRE(1, 5, BasePanel.FILL,
 		        BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL,
 		        tblDetails);
@@ -218,12 +217,12 @@ implements TableModelListener, TreeModelListener {
 
 		if (changeRow) {
 			if (! this.layout.isXml()) {
-			    actualPnl.addComponent(1, 5, fullLineHeight, BasePanel.GAP,
+			    actualPnl.addComponentRE(1, 5, fullLineHeight, BasePanel.GAP,
 			        BasePanel.FULL, BasePanel.FULL, new JScrollPane(fullLine));
 			}
 
 			setDirectionButtonStatus();
-			actualPnl.addComponent(1, 5, BasePanel.PREFERRED, BasePanel.GAP,
+			actualPnl.addComponentRE(1, 5, BasePanel.PREFERRED, BasePanel.GAP,
 					BasePanel.FULL, BasePanel.FULL, btnPanel);
 		} else {
 			Common.calcColumnWidths(tblDetails, 0);
@@ -287,13 +286,13 @@ implements TableModelListener, TreeModelListener {
 	    	setStandardColumnWidths(col);
 	    	TableColumn tc =  table.getColumnModel().getColumn(col++);
 
-	        if (cellRenders != null) {
-	        	//System.out.println("BaseLineFrame Rendor 3 ~~> 1 ");
-	            tc.setCellRenderer(render);
-	        }
-	        if (cellEditors != null) {
-	            tc.setCellEditor(new ChooseCellEditor(table, cellEditors));
-	        }
+//	        if (cellRenders != null) {
+//	        	//System.out.println("BaseLineFrame Rendor 3 ~~> 1 ");
+//	            tc.setCellRenderer(render);
+//	        }
+//	        if (cellEditors != null) {
+//	            tc.setCellEditor(new ChooseCellEditor(table, cellEditors));
+//	        }
 
 	        tc = table.getColumnModel().getColumn(col++);
 	        tc.setPreferredWidth(180);
@@ -383,10 +382,11 @@ implements TableModelListener, TreeModelListener {
 	 * @see javax.swing.event.TreeModelListener#treeNodesRemoved(javax.swing.event.TreeModelEvent)
 	 */
 	@Override
-	public void treeNodesRemoved(TreeModelEvent event) {
-		if (isThisLineDeleted(event.getSource())) {
-			return;
-		}
+	public final void treeNodesRemoved(TreeModelEvent event) {
+
+//		if (isThisLineDeleted(event.getSource())) {
+//			return;
+//		}
 		Object[] c = event.getChildren();
 		for (int i =0; i < c.length; i++) {
 			if (isThisLineDeleted(c[i])) {

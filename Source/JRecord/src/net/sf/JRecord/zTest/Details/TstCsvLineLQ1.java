@@ -33,7 +33,7 @@ public class TstCsvLineLQ1 extends TestCase {
 
 
 	private static final String[] CHARSETS = {
-		"", "CP037", "UTF-8"
+		"", "CP037", "UTF-8", "CP273"
 	};
 
 	private static final int[] FILE_STRUCTURES = {
@@ -196,12 +196,18 @@ public class TstCsvLineLQ1 extends TestCase {
 							true, CSV_PARSERS[j]);
 					int c = 0;
 
-					for (String eol : EOLS) {
+					if (CHARSETS[k].startsWith("CP")) { // EBCDIC - no \r char
 						String rest = c + " " + i + ", " + j + ", " + CHARSETS[k] + " : ";
-						tstFile("x1 a " + rest, x1, d, eol);
-						tstFile2("x1 b " + rest, x1, d, eol);
-
-						c+= 1;
+						tstFile("x1 a " + rest, x1, d, "\n");
+						tstFile2("x1 b " + rest, x1, d, "\n");
+					} else {
+						for (String eol : EOLS) {
+							String rest = c + " " + i + ", " + j + ", " + CHARSETS[k] + " : ";
+							tstFile("x1 a " + rest, x1, d, eol);
+							tstFile2("x1 b " + rest, x1, d, eol);
+	
+							c+= 1;
+						}
 					}
 				}
 			}
@@ -240,11 +246,16 @@ public class TstCsvLineLQ1 extends TestCase {
 					LayoutDetail d = r.asLayoutDetail();
 					int c = 0;
 
-					for (String eol : EOLS) {
-						tstFile("x1 c " + c + " " + i + ", " + j + ", " + k + " : ", x1, d, eol);
-						tstFile2("x1 d " + c + " " + i + ", " + j + ", " + k + " : ", x1, d, eol);
-
-						c+= 1;
+					if (CHARSETS[k].startsWith("CP")) { // EBCDIC - no \r char
+						tstFile("x1 c " + c + " " + i + ", " + j + ", " + k + " : ", x1, d, "\n");
+						tstFile2("x1 d " + c + " " + i + ", " + j + ", " + k + " : ", x1, d, "\n");
+					} else {
+						for (String eol : EOLS) {
+							tstFile("x1 c " + c + " " + i + ", " + j + ", " + k + " : ", x1, d, eol);
+							tstFile2("x1 d " + c + " " + i + ", " + j + ", " + k + " : ", x1, d, eol);
+	
+							c+= 1;
+						}
 					}
 				}
 			}
@@ -308,11 +319,16 @@ public class TstCsvLineLQ1 extends TestCase {
 							true, STANDARD_CSV_PARSERS[j]);
 					int c = 0;
 
-					for (String eol : EOLS) {
-						tstFile("x3 a " + c + " " + i + ", " + j + ", " + k + " : ", x3, d, eol);
-						tstFile2("x3 b " + c + " " + i + ", " + j + ", " + k + " : ", x3, d, eol);
-
-						c+= 1;
+					if (CHARSETS[k].startsWith("CP")) { // EBCDIC - no \r char
+						tstFile("x3 a " + c + " " + i + ", " + j + ", " + k + " : ", x3, d, "\n");
+						tstFile2("x3 b " + c + " " + i + ", " + j + ", " + k + " : ", x3, d, "\n");
+					} else {
+						for (String eol : EOLS) {
+							tstFile("x3 a " + c + " " + i + ", " + j + ", " + k + " : ", x3, d, eol);
+							tstFile2("x3 b " + c + " " + i + ", " + j + ", " + k + " : ", x3, d, eol);
+	
+							c+= 1;
+						}
 					}
 				}
 			}

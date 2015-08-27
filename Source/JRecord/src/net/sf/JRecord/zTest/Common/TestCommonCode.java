@@ -4,10 +4,13 @@ import java.io.ByteArrayInputStream;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.Conversion;
+import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Common.TranslateXmlChars;
 import net.sf.JRecord.Details.LayoutDetail;
+import net.sf.JRecord.External.CobolCopybookLoader;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
+import net.sf.JRecord.Log.TextLog;
 
 
 
@@ -92,11 +95,31 @@ public class TestCommonCode {
 			+ "	</FIELDS>"
 			+ "</RECORD>";
 
-		System.out.println("Generated Xml: " +xml);
+//		System.out.println("Generated Xml: " +xml);
 
 		return RecordEditorXmlLoader.getExternalRecord(xml, "CsvNamesFirstLine");
 	}
 
 
+	public static LayoutDetail getLayoutFromCobolStr(
+			String cobolCopybookString,
+			String copyBookName,
+		  	int splitCopybook,
+		  	final String font,
+			final int binaryFormat) throws RecordException {
+		return getExternalRecordFromCobolStr(cobolCopybookString, copyBookName, splitCopybook, font, binaryFormat)
+				.asLayoutDetail();
+	}
 
+	public static ExternalRecord getExternalRecordFromCobolStr(
+			String cobolCopybookString,
+			String copyBookName,
+		  	int splitCopybook,
+		  	final String font,
+			final int binaryFormat) throws RecordException {
+		ByteArrayInputStream in = new ByteArrayInputStream(cobolCopybookString.getBytes());
+		CobolCopybookLoader conv = new CobolCopybookLoader();
+
+		return conv.loadCopyBook(in, copyBookName, splitCopybook, 0, font, binaryFormat, 0, new TextLog());
+	}
 }

@@ -43,7 +43,7 @@ public class CopyTwoLayouts extends TwoLayoutsWizard<CopyDefinition> {
 
 		definition.type = CopyDefinition.STANDARD_COPY;
 
-		super.setUpPanels(selection1, selection2, recentFiles, finalScreen, "");
+		super.setUpPanels(selection1, selection2, recentFiles, finalScreen, "", false, true);
 	}
 
 

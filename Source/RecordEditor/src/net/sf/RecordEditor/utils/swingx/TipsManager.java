@@ -22,7 +22,7 @@ public class TipsManager {
 		try {
 			return Class.forName("org.jdesktop.swingx.JXTipOfTheDay") != null;
 		} catch (ClassNotFoundException e) {
-			Common.logMsgRaw("Tip class not found", e);
+			//Common.logMsgRaw("Tip class not found", e);
 			e.printStackTrace();
 		}
 		return false;

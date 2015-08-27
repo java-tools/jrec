@@ -99,7 +99,7 @@ public class XmlLineReader extends StandardLineReader {
                       );
             } catch (Exception e) {
                 e.printStackTrace();
-                throw new IOException("Error Creating Layout:" + e.getMessage());
+                throw new IOException("Error Creating Layout:" + e.getMessage(), e);
             }
         }
 

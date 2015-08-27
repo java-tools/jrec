@@ -18,7 +18,7 @@ import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.DelegateReader;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.RecordEditor.layoutWizard.Details;
-import net.sf.RecordEditor.layoutWizard.FileStructureAnalyser;
+import net.sf.RecordEditor.layoutWizard.FileAnalyser;
 import net.sf.RecordEditor.layoutWizard.Wizard;
 import net.sf.RecordEditor.re.openFile.RecentFiles;
 import net.sf.RecordEditor.utils.LayoutConnection;
@@ -40,7 +40,6 @@ public class WizardReader extends DelegateReader {
 	/**
 	 * @param provider
 	 */
-	@SuppressWarnings("unchecked")
 	public WizardReader(final LineProvider provider) {
 		super(provider);
 	}
@@ -82,12 +81,12 @@ public class WizardReader extends DelegateReader {
 
 		Details details = wiz.getWizardDetails();
 
-		FileStructureAnalyser analyser;
+		FileAnalyser analyser;
 
 		byte[] data = StreamUtil.read(new FileInputStream(fileName), 8000);
 
 		System.out.println("Bytes Read: " + data.length);
-		analyser = FileStructureAnalyser.getAnaylser(data, "");
+		analyser = FileAnalyser.getAnaylser(data, "");
 
 
 		details.fileStructure = analyser.getFileStructure();

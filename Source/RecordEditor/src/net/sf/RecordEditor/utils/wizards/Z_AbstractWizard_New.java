@@ -139,10 +139,10 @@ public abstract class Z_AbstractWizard_New<Details> /*extends ReFrame*/ implemen
         	//scrollTabbed.setBorder(BorderFactory.createEmptyBorder());
         	BaseHelpPanel pnl = new BaseHelpPanel();
 
-        	pnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
+        	pnl.addComponentRE(1, 5, BasePanel.FILL, BasePanel.GAP,
                     BasePanel.FULL, BasePanel.FULL,
                     tabbed);
-        	pnl.addComponent(1, 5, BasePanel.PREFERRED, BasePanel.GAP,
+        	pnl.addComponentRE(1, 5, BasePanel.PREFERRED, BasePanel.GAP,
                     BasePanel.FULL, BasePanel.FULL,
                     getBottomSection());
 
@@ -337,7 +337,7 @@ public abstract class Z_AbstractWizard_New<Details> /*extends ReFrame*/ implemen
     public void executeAction(int action) {
 
         if (action == ReActionHandler.HELP) {
-            pnls[panelNumber].showHelp();
+            pnls[panelNumber].showHelpRE();
         } else if (displayFrame instanceof ReFrame) {
         	((ReFrame) displayFrame).executeAction(action);
         }

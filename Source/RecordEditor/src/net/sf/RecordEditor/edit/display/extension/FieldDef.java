@@ -1,6 +1,8 @@
 package net.sf.RecordEditor.edit.display.extension;
 
-public class FieldDef {
+import net.sf.RecordEditor.utils.StringMatch;
+
+public class FieldDef implements StringMatch  {
 
 	public final String name;
 	public final int fieldIdx;
@@ -23,6 +25,7 @@ public class FieldDef {
 		this.stripQuote = stripQuote;
 	}
 
+	@Override
 	public boolean isMatch(String s) {
 		boolean ret = false;
 		if (s.startsWith(name)) {

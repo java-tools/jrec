@@ -46,7 +46,7 @@ public class Code {
 	}
 
 
-	@SuppressWarnings("rawtypes")
+
 	public static void notifyFramesOfUpdatedLayout(
 			FileView masterView,
 			AbstractLayoutDetails layout) {
@@ -57,11 +57,11 @@ public class Code {
 		frames = ReFrame.getAllFrames();
 		for (int i = 0; i < frames.length; i++) {
 			if (frames[i].getDocument() == masterView) {
-				if (frames[i] instanceof IDisplayFrame) {
-					setLayout(((IDisplayFrame) frames[i]).getActiveDisplay(), layout);
-				} else {
-					setLayout(frames[i], layout);
-				}
+//				if (frames[i] instanceof IDisplayFrame) {
+//					setLayout(((IDisplayFrame) frames[i]).getActiveDisplay(), layout);
+//				} else {
+				setLayout(frames[i], layout);
+//				}
 			}
 		}
 	}
@@ -108,7 +108,7 @@ public class Code {
 			fields[i] = cloneCsvField(rec.getField(i), i+1);
 			trans[i] = i;
 		}
-		fields[col] = new RecordDetail.FieldDetails(s, "", Type.ftChar, 0, rec.getFontName(), 0, "");
+		fields[col] = new RecordDetail.FieldDetails("Column_" + s, "", Type.ftChar, 0, rec.getFontName(), 0, "");
 		fields[col].setPosOnly(col+1);
 		trans[col] = source;
 

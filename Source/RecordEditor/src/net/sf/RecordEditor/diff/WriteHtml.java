@@ -38,13 +38,15 @@ public class WriteHtml {
 		LineCompare old, newL;
 
 		htmlStart(writer, diff);
-		writer.write(HTML_SINGLE_TBL_START); 		writer.newLine();
+		writer.write(HTML_SINGLE_TBL_START); 		
+		writer.newLine();
 
 		rec = recordLayout.getRecord(0);
 		for (i = 0; i < rec.getFieldCount(); i++) {
 			writer.write("<td><b>" + rec.getField(i).getName() + "</b></td>");
 		}
-		writer.write("</TR>");		writer.newLine();
+		writer.write("</TR>");		
+		writer.newLine();
 
 		for (i = 0; i < before.size(); i++) {
 			old = before.get(i);

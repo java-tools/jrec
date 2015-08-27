@@ -7,13 +7,13 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,15 +39,16 @@ import javax.swing.JToolBar;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
-import org.fife.ui.rsyntaxtextarea.Theme;
-import org.fife.ui.rsyntaxtextarea.TokenMakerFactory;
-
+import net.sf.RecordEditor.re.display.AbstractFileDisplay;
+import net.sf.RecordEditor.re.display.DisplayDetails;
+import net.sf.RecordEditor.re.display.IChildDisplay;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.openFile.FormatFileName;
 import net.sf.RecordEditor.re.openFile.RecentFiles;
 import net.sf.RecordEditor.re.openFile.RecentFilesList;
+import net.sf.RecordEditor.re.script.IEditor;
 import net.sf.RecordEditor.re.script.ScriptData;
+import net.sf.RecordEditor.re.script.bld.RunScriptSkelPopup;
 import net.sf.RecordEditor.utils.BasicLayoutCallback;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
@@ -56,19 +57,24 @@ import net.sf.RecordEditor.utils.lang.OpenSaveAction;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.msg.UtMessages;
 import net.sf.RecordEditor.utils.params.Parameters;
-
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
-import net.sf.RecordEditor.utils.swing.FileChooserTxt;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.treeCombo.FileTreeComboItem;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboFileSelect;
+
+import org.fife.ui.rsyntaxtextarea.AbstractTokenMakerFactory;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rsyntaxtextarea.Theme;
+import org.fife.ui.rsyntaxtextarea.TokenMakerFactory;
 
 /**
  * @author Bruce Martin
  *
  */
 @SuppressWarnings("serial")
-public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
+public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback, IEditor, IChildDisplay, ChangeListener {
 
 	private static String RESOURCE_PATH;
 	private static ArrayList<LanguageDetails> langList = new ArrayList<LanguageDetails>(20);
@@ -76,16 +82,19 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 
 
 //	private JComboBox languageCombo;
-	private FileChooserTxt templateFC = new FileChooserTxt(true);
-	private String lastFile = "";
+//	private FileChooserTxt templateFC = new FileChooserTxt(true);
+	private final TreeComboFileSelect templateFC;// = new TreeComboFileSelect(true);
+//	private String lastFile = "";
 	private JButton runBtn = SwingUtils.newButton("Run !!!", Common.getRecordIcon(Common.ID_SCRIPT_ICON));
 	private JTextArea msg = new JTextArea();
 	private JTabbedPane tab = new JTabbedPane();
+	private JTextArea outputTxt = new JTextArea();
 
 	private Theme currentTheme = null;
 	private ArrayList<ScriptEditPane> panes = new ArrayList<ScriptEditPane>();
 
 	private ReFrame activeFrame;
+	private final boolean runScript;
 
 	private static FormatFileName formatFileName = new FormatFileName() {
 		@Override
@@ -96,41 +105,47 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 	private static RecentFiles	recent = new RecentFiles(
 			Parameters.getApplicationDirectory() + "ScriptFiles.txt",
 			formatFileName,
-			true);
+			true, null);
 	private RecentFilesList recentList = new RecentFilesList(recent, this);
 
 
 	private ArrayList<AbstractActiveScreenAction> menuActions = new ArrayList<AbstractActiveScreenAction>(40);
 
-	private FocusAdapter filenameListner = new FocusAdapter() {
-
-		@Override
-		public void focusLost(FocusEvent e) {
-
-			if (! lastFile.equals(templateFC.getText())) {
-				checkFile();
-				lastFile = templateFC.getText();
-			}
-		}
-	};
+//	private FocusAdapter filenameListner = new FocusAdapter() {
+//
+//		@Override
+//		public void focusLost(FocusEvent e) {
+//
+//			if (! lastFile.equals(templateFC.getText())) {
+//				checkFile(false);
+//				lastFile = templateFC.getText();
+//			}
+//		}
+//	};
 
 	private ChangeListener tabChangeListner = new ChangeListener() {
 
         @Override
         public void stateChanged(ChangeEvent e) {
 //       	System.out.println("Tab change requests - start");
-        	templateFC.removeFocusListener(filenameListner);
-        	ScriptEditPane activePane = getActivePane();
-			File scriptFile = activePane.getScriptFile();
-        	if (scriptFile != null) {
-        		templateFC.setText(scriptFile.getPath());
+//        	templateFC.removeFocusListener(filenameListner);
+        	
+        	if (isScriptTab()) {
+	        	templateFC.removeTextChangeListner(this);
+	        	ScriptEditPane activePane = getActivePane();
+				File scriptFile = activePane.getScriptFile();
+	        	if (scriptFile != null) {
+	        		templateFC.setText(scriptFile.getPath());
+	        	}
+	//        	activePane.tabComponent.requestFocus();
+	//        	activePane.getTextArea().requestFocus();
+	        	updateMenuStatus();
+	//         	System.out.println("Tab change requests - end");
+	//           	templateFC.addFocusListener(filenameListner);
+	    		templateFC.addTextChangeListner(this);
+	    		templateFC.setNotifyOfAllUpdates(true);
         	}
-//        	activePane.tabComponent.requestFocus();
-//        	activePane.getTextArea().requestFocus();
-        	updateMenuStatus();
-//         	System.out.println("Tab change requests - end");
-           	templateFC.addFocusListener(filenameListner);
-        }
+       }
     };
 
     private KeyAdapter listner = new KeyAdapter() {
@@ -208,7 +223,24 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 						extLangMap.get(ext).scriptLangName = langDtl[1];
 					} else {
 						if (! keySet.contains(langKey)) {
-							langKey = LanguageDetails.DEFAULT_LANGUAGE_DEF.rSyntax;
+
+							TokenMakerFactory f = TokenMakerFactory.getDefaultInstance();
+
+							if (f == null) {
+								langKey = LanguageDetails.DEFAULT_LANGUAGE_DEF.rSyntax;
+							} else if (f.keySet().contains(langKey)) {
+								
+							} else {
+								String className = "org/fife/ui/rsyntaxtextarea/modes/" + langDtl[1] + "TokenMaker.class";
+						
+								URL resource = ScriptRunFrame.class.getClassLoader().getResource(className);
+								if (f instanceof AbstractTokenMakerFactory && resource != null) {
+									className = "org.fife.ui.rsyntaxtextarea.modes." + langDtl[1] + "TokenMaker";
+									((AbstractTokenMakerFactory) f).putMapping(langKey, className);
+								} else {
+									langKey = LanguageDetails.DEFAULT_LANGUAGE_DEF.rSyntax;
+								}
+							}
 						}
 
 						LanguageDetails ld = new LanguageDetails(ext, langDtl[1], langKey, langDtl[1]);
@@ -239,22 +271,41 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 	 * Display a frame where users can run
 	 */
 	public ScriptRunFrame() {
-		super("", "Run Script Screen", null);
-		activeFrame = ReFrame.getActiveFrame();
+		this(ReFrame.getActiveFrame());
+	}
+
+	/**
+	 * Display a frame where users can run
+	 */
+	public ScriptRunFrame(ReFrame activeFrame) {
+		this(activeFrame, true);
+	}
+	
+	public ScriptRunFrame(ReFrame activeFrame, boolean visible) {
+		this(activeFrame, "Run Script Screen", visible, true);
+	}
+	
+	public ScriptRunFrame(ReFrame activeFrame, String title, boolean visible, boolean runScript) {
+		super("", title, null);
+		this.activeFrame = activeFrame;
+		this.runScript = runScript;
 		if (activeFrame == null || ! (activeFrame.getDocument() instanceof FileView)) {
 			msg.setText(" >>> Warning  >>>  can not retrive File details, this could affect the script !!!");
 		}
-
-
-		addTab(new ScriptEditPane(tabChangeListner));
+		templateFC = new TreeComboFileSelect(true, false, true, recent.getFileComboList(), recent.getDirectoryList());
 
 		init_100();
-		init_200_layout();
+		init_200_layout(visible);
 		init_300_listner();
 	}
 
 	private void init_100() {
 
+//		LanguageDetails languageDetails;
+		ScriptEditPane editPane = new ScriptEditPane(tabChangeListner);
+		tab.add("Output", new JScrollPane(outputTxt));
+		addTab(editPane);
+	
 		saveAction = new ActionOnActiveScreen("Save", Common.ID_SAVE_ICON) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -291,9 +342,13 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 
 			@Override
 			public File getDefaultFile() {
-				File scriptFile = getActivePane().getScriptFile();
-				if (scriptFile == null) {
-					return new File(templateFC.getText());
+				File scriptFile = null;
+				ScriptEditPane activePane = getActivePane();
+				if (activePane != null) {
+					scriptFile = activePane.getScriptFile();
+					if (scriptFile == null) {
+						return new File(templateFC.getText());
+					}
 				}
 				return scriptFile;
 			}
@@ -304,18 +359,33 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				if (panes.size() > 1 || ! panes.get(0).isEmpty()) {
+				if (panes.size() > 0 /*|| ! panes.get(0).isEmpty()*/) {
 					StringBuilder msgStr = new StringBuilder();
+					int idx = tab.getSelectedIndex();
+					File dir = getDefaultdir();
+					
+					tab.removeChangeListener(tabChangeListner);
 
-					for (ScriptEditPane p : panes) {
-						if (p.isChanged()) {
-							try {
-								p.saveFile();
-							} catch (IOException ex) {
-								msgStr.append(UtMessages.ERROR_SAVING_FILE.get(
-										new String[]{p.getScriptFile().getPath(), e.toString()}));
+					try {
+						for (ScriptEditPane p : panes) {
+							if (p.isChanged()) {
+								try {
+									if (p.isEmpty()) {
+										tab.setSelectedComponent(p.tabComponent);
+										saveAsAction.askUser(dir);
+									} else {
+										p.saveFile();
+									}
+									
+								} catch (IOException ex) {
+									msgStr.append(UtMessages.ERROR_SAVING_FILE.get(
+											p.getScriptFile().getPath(), e.toString()));
+								}
 							}
 						}
+					} finally {
+						tab.addChangeListener(tabChangeListner);
+						tab.setSelectedIndex(idx);
 					}
 
 					String m = msgStr.toString();
@@ -329,40 +399,39 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 
 	}
 
-	private void init_200_layout() {
+	private void init_200_layout(boolean visible) {
 		BaseHelpPanel pnl = new BaseHelpPanel();
 //		List<String>  langs = net.sf.RecordEditor.re.script.ScriptMgr.getLanguages();
 //
 //		languageCombo = new JComboBox(
 //				langs.toArray(new String[langs.size()])
 //		);
-		String scriptDir = Common.OPTIONS.DEFAULT_SCRIPT_DIRECTORY.get();
+		String scriptDir = Common.OPTIONS.DEFAULT_SCRIPT_DIRECTORY.getWithStar();
 		int screenHeight = ReFrame.getDesktopHeight() - 2;
+		int desktopWidth = ReFrame.getDesktopWidth();
 		JSplitPane msgPnl = new JSplitPane(JSplitPane.VERTICAL_SPLIT, tab,  new JScrollPane(msg));
 
 
 		templateFC.setText(scriptDir
 				+ " ================================== ");
 
-
 //		pnl.addLine("Script", templateFC, templateFC.getChooseFileButton())
 //		   .setGap(BaseHelpPanel.GAP1);
 //		pnl.addLine("", null, runBtn)
 //		   .setGap(BaseHelpPanel.GAP2);
-		pnl.addLine("Script", templateFC, runBtn)
-		   .setGap(BaseHelpPanel.GAP2);
+		
+		if (runScript) {
+			pnl.addLineRE("Script", templateFC, runBtn)
+			   .setGapRE(BaseHelpPanel.GAP2);
+		}
 
 
 		pnl.addMessage(msgPnl);
 
-		pnl.setHeight(BaseHelpPanel.FILL);
+		pnl.setHeightRE(BaseHelpPanel.FILL);
 
 		pnl.addReKeyListener(listner);
-		pnl.setHelpURL(Common.formatHelpURL(Common.HELP_SCRIPT));
-
-		if (! scriptDir.endsWith("*")) {
-			scriptDir = scriptDir + "*";
-		}
+		pnl.setHelpURLre(Common.formatHelpURL(Common.HELP_SCRIPT));
 
 		init_210_BuildMenu();
 
@@ -374,11 +443,12 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 
 		this.addMainComponent(fullPanel); //pnl);
 		this.templateFC.setText(scriptDir);
-		this.lastFile = scriptDir;
-		this.setVisible(true);
+//		this.lastFile = scriptDir;
+		this.setVisible(visible);
 		this.setToMaximum(false);
-		this.setSize(this.getWidth(), screenHeight
-				/*ReMainFrame.getMasterFrame().getDesktopHeight() - 4*/);
+		//this.setSize(this.getWidth(), screenHeight);
+		this.setBounds(desktopWidth - this.getWidth() - 1, this.getY(), this.getWidth(), screenHeight);
+				
 		msgPnl.setDividerLocation(msgPnl.getHeight() - SwingUtils.STANDARD_FONT_HEIGHT * 7);
 	}
 
@@ -389,14 +459,21 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 	@Override
 	public void windowWillBeClosing() {
 
+		File dir = getDefaultdir();
+		
+		tab.removeChangeListener(tabChangeListner);
 		for (ScriptEditPane p : panes) {
 			if (p.isChanged()) {
 				try {
-					p.checkSave();
+					if (p.isEmpty()) {
+						tab.setSelectedComponent(p.tabComponent);
+						saveAsAction.askUser(dir);
+					} else {
+						p.checkSave();
+					}
 				} catch (IOException ex) {
 					Common.logMsgRaw(
-							UtMessages.ERROR_SAVING_FILE.get(
-									new String[]{p.getScriptFile().getPath(), ex.toString()}),
+							UtMessages.ERROR_SAVING_FILE.get(p.getScriptFile().getPath(), ex.toString()),
 							null);
 				}
 			}
@@ -411,6 +488,13 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 		menuBar.add(init_212_BuildLanguage());
 		menuBar.add(init_214_BuildViewMenu());
 		menuBar.add(init_215_BuildThemeMenu());
+		
+		if (activeFrame != null && DisplayDetails.getDisplayDetails(activeFrame) != null) {
+			JMenu bldMenu = RunScriptSkelPopup.buildScriptMenu(this, "Build");
+			if (bldMenu != null) {
+				menuBar.add(bldMenu);
+			}
+		}
 
 		JMenu helpMenu = new JMenu("Help");
 		helpMenu.add(new JMenuItem(new AboutAction()));
@@ -504,40 +588,48 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 	    toolBar.add(saveAsAction);
 	    toolBar.add(saveAllAction);
 
-	    try {
-	        toolBar.add(new JSeparator());
-	    } catch (Exception e) {
-	        toolBar.addSeparator( new Dimension(
-	        				SwingUtils.STANDARD_FONT_WIDTH,
-	        				toolBar.getHeight()));
-        }
-	    toolBar.add(new ReAbstractAction("Run", Common.ID_SCRIPT_ICON) {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				run();
-			}
-		});
+	    if (runScript) {
+		    try {
+		        toolBar.add(new JSeparator());
+		    } catch (Exception e) {
+		        toolBar.addSeparator( new Dimension(
+		        				SwingUtils.STANDARD_FONT_WIDTH,
+		        				toolBar.getHeight()));
+	        }
+		    toolBar.add(new ReAbstractAction("Run", Common.ID_SCRIPT_ICON) {
+	
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					run();
+				}
+			});
+	    }
 
 	    return toolBar;
     }
 
 
 	private void init_300_listner() {
-		runBtn.addActionListener(new ActionListener() {
+		if (runScript) {
+			runBtn.addActionListener(new ActionListener() {
+	
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					run();
+				}
+			});
+		}
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				run();
-			}
-		});
-
-		templateFC.addFcFocusListener(filenameListner);
+//		templateFC.addFcFocusListener(filenameListner);
+		List<FileTreeComboItem> recentComboList = recent.getFileComboList();
+		templateFC.setTree(recentComboList.toArray(new FileTreeComboItem[recentComboList.size()]));
+		templateFC.addTextChangeListner(this);
+		
 
 		tab.addChangeListener(tabChangeListner);
 	}
 
-	private void checkFile() {
+	private void checkFile(boolean reload) {
 //      	System.out.println("check File - start");
 
 		String fname = templateFC.getText();
@@ -547,6 +639,9 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 			if (f.exists() && f.isFile()) {
 				for (int i = 0; i < panes.size(); i++) {
 					if ((! panes.get(i).isEmpty()) && f.equals(panes.get(i).getScriptFile())) {
+						if (reload) {
+							panes.get(i).readFile(f);
+						}
 						tab.setSelectedIndex(i);
 						checkLanguage(fname);
 						return;
@@ -558,7 +653,7 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 					updateMenuStatus();
 				} else {
 					addTab(new ScriptEditPane(tabChangeListner, f));
-					tab.setSelectedIndex(tab.getTabCount() - 1);
+					tab.setSelectedIndex(tab.getTabCount() - 2);
 				}
 
 				recent.putFileLayout(fname, "?");
@@ -574,64 +669,82 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 
 	private void addTab(ScriptEditPane p) {
 		panes.add(p);
-		tab.addTab("", p.tabComponent);
-		tab.setTabComponentAt(panes.size() - 1, p.tabWithClose);
+		//tab.addTab("", p.tabComponent);
+		tab.insertTab("", null, p.tabComponent, "", tab.getTabCount() - 1);
+		int newTabIdx = panes.size() - 1;
+		tab.setTabComponentAt(newTabIdx, p.tabWithClose);
 		new TabCloseListner(p);
 
 		if (currentTheme != null) {
-			currentTheme.apply(panes.get(panes.size() - 1).getTextArea());
+			currentTheme.apply(panes.get(newTabIdx).getTextArea());
 		}
+		tab.setSelectedIndex(newTabIdx);
 	}
 
 	private void checkLanguage(String fname) {
     	String ext = Parameters.getExtensionOnly(fname);
     	if (ext != null && ! "".equals(ext)) {
+			setLanguage(ext);
+    	}
+	}
+
+
+	public final void setLanguage(String ext) {
+		if (isScriptTab()) {
 			try {
 				LanguageDetails l = extLangMap.get(ext.toLowerCase());
 				if (l == null) {
 					l = LanguageDetails.DEFAULT_LANGUAGE_DEF;
 				}
-
+	
 	        	panes.get(tab.getSelectedIndex()).setLanguageDetails(l);
 	        	updateMenuStatus();
-
+	
 			} catch (Exception e2) {
 				// do nothing
 			}
-    	}
+		}
 	}
 
 	private void run() {
 
-		try {
-			ScriptEditPane scriptEditPane = panes.get(tab.getSelectedIndex());
-			String scriptName = scriptEditPane.getScriptFile().getPath();
-			String script = scriptEditPane.getText();
-			ScriptData data =  ScriptData.getScriptData( activeFrame, scriptName);
-			String s = "";
-			String lang = scriptEditPane.getLanguageDetails().scriptLangName;
-//			if (languageCombo.getSelectedItem() != null) {
-//				lang = languageCombo.getSelectedItem().toString();
-//			}
+		if (runScript && isScriptTab()) {
+			try {
+				ScriptEditPane scriptEditPane = panes.get(tab.getSelectedIndex());
+				String scriptName = scriptEditPane.getScriptFile().getPath();
+				String script = scriptEditPane.getText();
+				ScriptData data =  ScriptData.getScriptData( activeFrame, scriptName);
+				String s = "";
+				String lang = scriptEditPane.getLanguageDetails().scriptLangName;
+	//			if (languageCombo.getSelectedItem() != null) {
+	//				lang = languageCombo.getSelectedItem().toString();
+	//			}
+	
+				if ("".equals(script)) {
+					msg.setText(LangConversion.convert("No Script to Run !!!"));
+				} else {
 
-			if ("".equals(script)) {
-				msg.setText(LangConversion.convert("No Script to Run !!!"));
-			} else if (lang == null) {
-				(new net.sf.RecordEditor.re.script.ScriptMgr())
-					.runScript(scriptName, data, script);
-			} else {
-				(new net.sf.RecordEditor.re.script.ScriptMgr())
-					.runScript(lang, scriptName, data, script);
+					updateOutput out = new updateOutput();
+					new Thread(out).start();
+					if (lang == null) {
+						(new net.sf.RecordEditor.re.script.ScriptMgr())
+							.runScript(scriptName, data, script, out.w);
+					} else {
+						(new net.sf.RecordEditor.re.script.ScriptMgr())
+							.runScript(lang, scriptName, data, script, out.w);
+					}
+					out.cont = false;
+				}
+	
+				if (data != null && ! "".equals(data.outputFile)) {
+					s = "\n " +  LangConversion.convert("Output File:") + " " + data.outputFile;
+				}
+				msg.setText(LangConversion.convert("Script {0} run  !!!", scriptName) + s);
+			} catch (Exception e) {
+				String s = LangConversion.convert("Error:") + " " + e.getClass().getName() + " " + e.getMessage();
+				msg.setText(s);
+				Common.logMsgRaw(s, e);
 			}
-
-			if (data != null && ! "".equals(data.outputFile)) {
-				s = "\n " +  LangConversion.convert("Output File:") + " " + data.outputFile;
-			}
-			msg.setText(LangConversion.convert("Script {0} run  !!!", scriptName) + s);
-		} catch (Exception e) {
-			String s = LangConversion.convert("Error:") + " " + e.getClass().getName() + " " + e.getMessage();
-			msg.setText(s);
-			Common.logMsgRaw(s, e);
 		}
 	}
 
@@ -645,7 +758,11 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 	}
 
 	private ScriptEditPane getActivePane() {
-		return panes.get(tab.getSelectedIndex());
+
+		if (isScriptTab()) {
+			return panes.get(tab.getSelectedIndex());
+		}
+		return null;
 	}
 
 
@@ -655,7 +772,7 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 
 		} else {
 			addTab(new ScriptEditPane(tabChangeListner));
-			tab.setSelectedIndex(tab.getTabCount() - 1);
+			tab.setSelectedIndex(tab.getTabCount() - 2);
 		}
 	}
 
@@ -668,11 +785,13 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 	}
 
 	private void saveAs(File selectedFile) {
-		try {
-			getActivePane().saveAsFile(selectedFile);
-			setNewFileName(selectedFile);
-		} catch (IOException e) {
-			msg.setText(e.toString());
+		if (isScriptTab()) {
+			try {
+				getActivePane().saveAsFile(selectedFile);
+				setNewFileName(selectedFile);
+			} catch (IOException e) {
+				msg.setText(e.toString());
+			}
 		}
 	}
 
@@ -680,22 +799,37 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 		setFileName(selectedFile.getPath());
 	}
 
-	private void setFileName(String filename) {
-		templateFC.removeFocusListener(filenameListner);
+
+	public final void setFileName(String filename) {
+		setFileNameInt(filename, false);
+	}
+	
+	
+	@Override
+	public final void loadFileName(String filename) {
+		setFileNameInt(filename, true);
+	}
+
+	private  void setFileNameInt(String filename, boolean reload) {
+//		templateFC.removeFocusListener(filenameListner);
+    	templateFC.removeTextChangeListner(this);
 		templateFC.setText(filename);
-		lastFile = filename;
-		checkFile();
-		templateFC.addFocusListener(filenameListner);
+//		lastFile = filename;
+		checkFile(reload);
+//		templateFC.addFocusListener(filenameListner);
+		templateFC.addTextChangeListner(this);
 	}
 
 
 
 
 	private void saveFile() {
-		try {
-			getActivePane().saveFile();
-		} catch (IOException ex) {
-			msg.setText(ex.toString());
+		if (isScriptTab()) {
+			try {
+				getActivePane().saveFile();
+			} catch (IOException ex) {
+				msg.setText(ex.toString());
+			}
 		}
 	}
 
@@ -738,6 +872,54 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 
 
 
+
+	@Override
+	public AbstractFileDisplay getSourceDisplay() {
+		return DisplayDetails.getDisplayDetails(activeFrame);
+	}
+
+
+	private File getDefaultdir() {
+		File ret;
+		String filename = templateFC.getText();
+		String defaultDirName = Common.OPTIONS.DEFAULT_SCRIPT_DIRECTORY.getWithStar();
+		if (filename == null || filename.length() == 0) {
+			ret = new File(defaultDirName);
+		} else {
+//			if (filename.endsWith("*")) {
+//				filename = filename.substring(0, filename.length() - 1);
+//			}
+			if (filename.equals(defaultDirName)) {
+				String t = filename.substring(0, filename.length() - 1) + "UserScripts" + Common.FILE_SEPERATOR ;
+				if ((new File(t)).isDirectory()) {
+					filename = t + "*";
+				}
+			}
+			ret = new File(filename);
+//			if (! ret.isDirectory()) {
+//				ret = ret.getParentFile();
+//			}
+		}
+		return ret;
+	}
+
+
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+//		String filename = templateFC.getText();
+		
+		checkFile(false);
+//		lastFile = filename;
+	}
+	
+	private boolean isScriptTab() {
+		return isScriptTab(tab.getSelectedIndex()); 
+	}
+
+	private boolean isScriptTab(int idx) {
+		return idx < tab.getTabCount() - 1;
+	}
 
 	private class TabCloseListner implements ActionListener {
 		private final ScriptEditPane editPane;
@@ -838,7 +1020,9 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
         }
 
         public void actionPerformed(ActionEvent e) {
-        	getActivePane().setLanguageDetails(langDef);
+        	if (isScriptTab()) {
+        		getActivePane().setLanguageDetails(langDef);
+        	}
         }
 
 		/* (non-Javadoc)
@@ -849,6 +1033,8 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 			//super.checkActionEnabled();
 
 			menuItem.setSelected(
+					isScriptTab()
+				&&
 					langDef.equals(
 							getActivePane()
 								.getLanguageDetails()));
@@ -886,9 +1072,10 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 
         public void actionPerformed(ActionEvent e) {
 			//super.checkActionEnabled();
-
-        	getActivePane().getScrollPane().setIconRowHeaderEnabled(
+        	if (isScriptTab()) {
+        		getActivePane().getScrollPane().setIconRowHeaderEnabled(
                             !getActivePane().getScrollPane().isIconRowHeaderEnabled());
+        	}
         }
 
 		/* (non-Javadoc)
@@ -898,8 +1085,10 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 		public void checkActionEnabled() {
 			//super.checkActionEnabled();
 
-        	getActivePane().getScrollPane().setIconRowHeaderEnabled(
+			if (isScriptTab()) {
+				getActivePane().getScrollPane().setIconRowHeaderEnabled(
                     getActivePane().getScrollPane().isIconRowHeaderEnabled());
+			}
 		}
 
     }
@@ -912,8 +1101,10 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
         }
 
         public void actionPerformed(ActionEvent e) {
-        	getActivePane().getTextArea().setCodeFoldingEnabled(
-        			!getActivePane().getTextArea().isCodeFoldingEnabled());
+        	if (isScriptTab()) {
+        		getActivePane().getTextArea().setCodeFoldingEnabled(
+        				!getActivePane().getTextArea().isCodeFoldingEnabled());
+        	}
         }
 
 		/* (non-Javadoc)
@@ -923,8 +1114,10 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 		public void checkActionEnabled() {
 			//super.checkActionEnabled();
 
-	       	getActivePane().getTextArea().setCodeFoldingEnabled(
-        			getActivePane().getTextArea().isCodeFoldingEnabled());
+			if (isScriptTab()) {
+				getActivePane().getTextArea().setCodeFoldingEnabled(
+						getActivePane().getTextArea().isCodeFoldingEnabled());
+			}
 		}
     }
 
@@ -936,8 +1129,10 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
         }
 
         public void actionPerformed(ActionEvent e) {
-        	getActivePane().getTextArea().setMarkOccurrences(
-        			!getActivePane().getTextArea().getMarkOccurrences());
+        	if (isScriptTab()) {
+        		getActivePane().getTextArea().setMarkOccurrences(
+        				!getActivePane().getTextArea().getMarkOccurrences());
+        	}
         }
 
 		/* (non-Javadoc)
@@ -947,8 +1142,10 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 		public void checkActionEnabled() {
 			//super.checkActionEnabled();
 
-        	getActivePane().getTextArea().setMarkOccurrences(
-        			getActivePane().getTextArea().getMarkOccurrences());
+			if (isScriptTab()) {
+				getActivePane().getTextArea().setMarkOccurrences(
+						getActivePane().getTextArea().getMarkOccurrences());
+			}
 		}
 
     }
@@ -962,8 +1159,10 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 
         public void actionPerformed(ActionEvent e) {
 
-        	getActivePane().getTextArea().setPaintTabLines(
-        			!getActivePane().getTextArea().getPaintTabLines());
+        	if (isScriptTab()) {
+        		getActivePane().getTextArea().setPaintTabLines(
+        				!getActivePane().getTextArea().getPaintTabLines());
+        	}
         }
 
 		/* (non-Javadoc)
@@ -973,8 +1172,10 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 		public void checkActionEnabled() {
 			//super.checkActionEnabled();
 
-			getActivePane().getTextArea().setPaintTabLines(
-        			getActivePane().getTextArea().getPaintTabLines());
+			if (isScriptTab()) {
+				getActivePane().getTextArea().setPaintTabLines(
+						getActivePane().getTextArea().getPaintTabLines());
+			}
 		}
 
     }
@@ -991,8 +1192,10 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
         public void actionPerformed(ActionEvent e) {
 			//super.checkActionEnabled();
 
-            getActivePane().getTextArea().setAntiAliasingEnabled(
-            		!getActivePane().getTextArea().getAntiAliasingEnabled());
+        	if (isScriptTab()) {
+        		getActivePane().getTextArea().setAntiAliasingEnabled(
+        				!getActivePane().getTextArea().getAntiAliasingEnabled());
+        	}
         }
 
 		/* (non-Javadoc)
@@ -1001,9 +1204,11 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 		@Override
 		public void checkActionEnabled() {
 			//super.checkActionEnabled();
-
-            getActivePane().getTextArea().setAntiAliasingEnabled(
-            		getActivePane().getTextArea().getAntiAliasingEnabled());
+			
+			if (isScriptTab()) {
+				getActivePane().getTextArea().setAntiAliasingEnabled(
+						getActivePane().getTextArea().getAntiAliasingEnabled());
+			}
 		}
 
     }
@@ -1016,8 +1221,10 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
         }
 
         public void actionPerformed(ActionEvent e) {
-            getActivePane().getTextArea().setHighlightCurrentLine(
-                    !getActivePane().getTextArea().getHighlightCurrentLine());
+        	if (isScriptTab()) {
+        		getActivePane().getTextArea().setHighlightCurrentLine(
+        				!getActivePane().getTextArea().getHighlightCurrentLine());
+        	}
         }
 
 		/* (non-Javadoc)
@@ -1027,8 +1234,10 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 		public void checkActionEnabled() {
 			//super.checkActionEnabled();
 
-	        getActivePane().getTextArea().setHighlightCurrentLine(
-	                    getActivePane().getTextArea().getHighlightCurrentLine());
+			if (isScriptTab()) {
+				getActivePane().getTextArea().setHighlightCurrentLine(
+						getActivePane().getTextArea().getHighlightCurrentLine());
+			}
 		}
 
     }
@@ -1041,8 +1250,10 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
         }
 
         public void actionPerformed(ActionEvent e) {
-            getActivePane().getScrollPane().setLineNumbersEnabled(
-                    !getActivePane().getScrollPane().getLineNumbersEnabled());
+        	if (isScriptTab()) {
+        		getActivePane().getScrollPane().setLineNumbersEnabled(
+        				!getActivePane().getScrollPane().getLineNumbersEnabled());
+        	}
         }
 
 		/* (non-Javadoc)
@@ -1052,8 +1263,10 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 		public void checkActionEnabled() {
 			//super.checkActionEnabled();
 
-            getActivePane().getScrollPane().setLineNumbersEnabled(
-                    getActivePane().getScrollPane().getLineNumbersEnabled());
+			if (isScriptTab()) {
+				getActivePane().getScrollPane().setLineNumbersEnabled(
+						getActivePane().getScrollPane().getLineNumbersEnabled());
+			}
 		}
 
     }
@@ -1066,7 +1279,9 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
         }
 
         public void actionPerformed(ActionEvent e) {
-            getActivePane().getTextArea().setLineWrap(!getActivePane().getTextArea().getLineWrap());
+        	if (isScriptTab()) {
+        		getActivePane().getTextArea().setLineWrap(!getActivePane().getTextArea().getLineWrap());
+        	}
         }
 
 		/* (non-Javadoc)
@@ -1076,7 +1291,9 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 		public void checkActionEnabled() {
 			//super.checkActionEnabled();
 
-			getActivePane().getTextArea().setLineWrap(getActivePane().getTextArea().getLineWrap());
+			if (isScriptTab()) {
+				getActivePane().getTextArea().setLineWrap(getActivePane().getTextArea().getLineWrap());
+			}
 		}
     }
 
@@ -1088,8 +1305,10 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
         }
 
         public void actionPerformed(ActionEvent e) {
-        	getActivePane().getTextArea().setAnimateBracketMatching(
+        	if (isScriptTab()) {
+        		getActivePane().getTextArea().setAnimateBracketMatching(
                         !getActivePane().getTextArea().getAnimateBracketMatching());
+        	}
         }
 
 		/* (non-Javadoc)
@@ -1099,10 +1318,58 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback {
 		public void checkActionEnabled() {
 			//super.checkActionEnabled();
 
-	       	getActivePane().getTextArea().setAnimateBracketMatching(
+			if (isScriptTab()) {
+				getActivePane().getTextArea().setAnimateBracketMatching(
                     getActivePane().getTextArea().getAnimateBracketMatching());
+			}
 		}
     }
 
+
+	public static final RecentFiles getRecent() {
+		return recent;
+	}
+	
+	
+	private class updateOutput implements Runnable {
+		
+		boolean cont = true;
+		StringWriter w = null;
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
+		@Override
+		public void run() {
+			w = new StringWriter();
+			int size = 0;
+			while (cont) {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+				size = writeOutput(size);
+			}
+			writeOutput(size);
+			
+			w = null;
+		}
+		
+		
+		private int writeOutput(int size) {
+			if (w.getBuffer().length() != size) {
+				String s = w.toString();
+				outputTxt.setText(s);
+				size = s.length();
+				
+				if (isScriptTab()) {
+					tab.setSelectedIndex(tab.getTabCount() - 1);
+				}
+			}
+			return size;
+		}
+		
+	}
 
 }

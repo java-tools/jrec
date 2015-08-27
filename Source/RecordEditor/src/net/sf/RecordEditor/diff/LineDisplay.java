@@ -17,9 +17,12 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
+import net.sf.JRecord.Details.AbstractLine;
+import net.sf.JRecord.Details.Options;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
  * @author Bruce Martin
@@ -100,11 +103,11 @@ public class LineDisplay extends AbstractCompareDisplay {
 
         init_100_SetupJtables();
 
-        pnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
+        pnl.addComponentRE(1, 5, BasePanel.FILL, BasePanel.GAP,
                          BasePanel.FULL, BasePanel.FULL,
                          tblDetails);
 
-        pnl.addComponent(1, 5, BasePanel.PREFERRED, BasePanel.GAP,
+        pnl.addComponentRE(1, 5, BasePanel.PREFERRED, BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL,
                 btnPanel);
 
@@ -138,6 +141,23 @@ public class LineDisplay extends AbstractCompareDisplay {
 
 		tblDetails.getColumnModel().getColumn(3).setCellRenderer(cellRenderer);
 		tblDetails.getColumnModel().getColumn(4).setCellRenderer(cellRenderer);
+		
+		int tblHeight = super.layout.getOption(Options.OPT_TABLE_ROW_HEIGHT);
+		
+		if (tblHeight <= 1 && displayAfter.size() > 0) {
+			AbstractLine line;
+			int i = 0;
+			while ((line = displayAfter.get(i).line) == null) {
+				i += 1;
+			}
+			if (line != null) {
+				tblHeight = line.getLayout().getOption(Options.OPT_TABLE_ROW_HEIGHT);
+			}
+		}
+		if (tblHeight > 1) {
+			tblDetails.setRowHeight(tblHeight * SwingUtils.TABLE_ROW_HEIGHT);
+		} 
+
 	}
 
 

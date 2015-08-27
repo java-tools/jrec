@@ -13,6 +13,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.StringTokenizer;
 
@@ -20,6 +22,8 @@ import javax.swing.event.ChangeListener;
 
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.params.Parameters;
+import net.sf.RecordEditor.utils.swing.treeCombo.FileTreeComboItem;
+import net.sf.RecordEditor.utils.swing.treeCombo.IFileLists;
 
 /**
  * This class manages the Recent Files and there corresponding
@@ -28,19 +32,22 @@ import net.sf.RecordEditor.utils.params.Parameters;
  * @author Bruce Martin
  *
  */
-public class RecentFiles {
+public class RecentFiles implements IFileLists {
 
     public static final int RECENT_FILE_LIST  = 25;
+    public static final int DIRECTORY_LIST_SIZE  = 14;
 	public static final int RF_NONE = -1;
 	public static final int RF_VELOCITY = 4;
 	public static final int RF_XSLT = 5;
 	public static final int RF_SCRIPT = 6;
 
 	private static final int RF_FILE_MODE = -2;
+	private static final int RF_DIRECTORY_MODE = -3;
 
 	private static final int FILE_HISTORY  = 800;
     private static final int HASH_MAP_SIZE = 1200;
     private static final int LAUNCH_EDITOR_MATCH_NUMBER = 5 - Common.OPTIONS.launchIfMatch.get();
+    private static final String DIRECTORY_STRING   = "<directories>";
     private static final String EXTENSION_STRING   = "<extensions>";
     private static final String EXTENSION_VELOCITY = "<velocity>";
     private static final String EXTENSION_XSLT     = "<xslt>";
@@ -56,6 +63,8 @@ public class RecentFiles {
 	//private Properties recentProp;
 
 	private int fileNum = 0;
+	
+	private boolean checkDirs = true;
 	//private String[] recentFiles   = new String[FILE_HISTORY];
 	//private String[] recentLayouts = new String[FILE_HISTORY];
 
@@ -72,19 +81,28 @@ public class RecentFiles {
 	private String[] layouts   = new String[FILE_HISTORY];
 	private String[] directory = new String[FILE_HISTORY];
 	private int[] prevFiles = new int[RECENT_FILE_LIST];
+	private ArrayList<String> directories = new ArrayList<String>(DIRECTORY_LIST_SIZE + 2);
 	//private HashMap  idxLookup = new HashMap(HASH_MAP_SIZE);
 
 	private FormatFileName selection;
 	private ArrayList<ChangeListener> changeListners = new ArrayList<ChangeListener>();
 
+	private static RecentFiles mainRecentFile = null;
+
 	private static RecentFiles last = null;
+	
+	private final boolean layoutHasFileVars;
+	
+	private final String defaultDirectory;
 
     /**
      * Store recently used files and there layouts
      * @param fileName filename of recent files file
      */
-    public RecentFiles(final String fileName, FormatFileName layoutSelection, boolean hasFileVars) {
+    public RecentFiles(final String fileName, FormatFileName layoutSelection, boolean hasFileVars, String defaultDirectory) {
         super();
+        this.layoutHasFileVars = hasFileVars;
+        this.defaultDirectory = defaultDirectory;
 
         int i;
         String l;
@@ -103,6 +121,9 @@ public class RecentFiles {
         fileNum = 0;
 
         last = this;
+        if (mainRecentFile == null) {
+        	mainRecentFile = this;
+        }
 
         try {
             //Common.logMsg("Recent File: " + recentFileName, null);
@@ -117,6 +138,8 @@ public class RecentFiles {
                 	recentFile = correctCase(recentFileNormal);
 
                 	if (recentFile == null || "".equals(recentFile)) {
+                	} else if (recentFile.toLowerCase().equals(DIRECTORY_STRING)) {
+                		mode = RF_DIRECTORY_MODE;
                 	} else if (recentFile.toLowerCase().equals(EXTENSION_STRING)) {
                 		String s = t.nextToken();
 
@@ -130,11 +153,17 @@ public class RecentFiles {
                 		extensionMap = recentMap.get(mode);
                 	} else {
                 		switch (mode) {
+                		case RF_DIRECTORY_MODE:
+                			if (directories.size() < DIRECTORY_LIST_SIZE && l !=null && (l = l.trim()).length() > 0) {
+                				directories.add(Parameters.expandVars(l));
+                			}
+                			break;
                 		case RF_FILE_MODE:
                 			if (t.hasMoreElements()) {
                 				recentLayout = t.nextToken();
 
                 				if (hasFileVars && recentLayout != null) {
+                					//System.out.println("Expand: " + recentLayout + " >> " + Parameters.expandVars(recentLayout));
                 					recentLayout = Parameters.expandVars(recentLayout);
                 				}
                 				dir = "";
@@ -165,7 +194,6 @@ public class RecentFiles {
                 }
             }
 
-
             r.close();
             br.close();
             buildRecentList();
@@ -174,7 +202,7 @@ public class RecentFiles {
                 fileNames[i] = null;
                 directory[i] = null;
             }
-             e.printStackTrace();
+            e.printStackTrace();
        }
 
 
@@ -198,6 +226,23 @@ public class RecentFiles {
 	        } else {
 	            storeFile(dir, strippedName, layoutName);
 	            buildRecentList();
+	        }
+	        
+	        if (dir != null && dir.length() > 0 && directories.size() >= 0) {
+	        	if (Common.IS_WINDOWS) {
+	        		for (int i = directories.size() - 1; i >= 0; i--) {
+	        			if (dir.equalsIgnoreCase(directories.get(i))) {
+	        				directories.remove(i);
+	        			}
+	        		}
+	        	} else {
+	        		directories.remove(dir);
+	        	}
+	        	directories.add(0, dir);
+	        	
+	        	while (directories.size() > DIRECTORY_LIST_SIZE) {
+	        		directories.remove(directories.size() - 1);
+	        	}
 	        }
 	        save();
 	    }
@@ -231,17 +276,18 @@ public class RecentFiles {
 
             for (i = fileNum; i < FILE_HISTORY; i++) {
                 if (fileNames[i] != null) {
-                    w.write(fileNames[i] + SEPERATOR + layouts[i] + SEPERATOR + directory[i]);
+                    w.write(fileNames[i] + SEPERATOR + getLayout(i) + SEPERATOR + getDirectory(i));
                     w.newLine();
                 }
 		    }
-		    for (i = 0; i < fileNum; i++) {
+		    for (i = 0; i <= fileNum; i++) {
                 if (fileNames[i] != null) {
-                    w.write(fileNames[i] + SEPERATOR + layouts[i] + SEPERATOR + directory[i]);
+                    w.write(fileNames[i] + SEPERATOR + getLayout(i) + SEPERATOR + getDirectory(i));
                     w.newLine();
                 }
 		    }
 
+		    saveDirectories(w);
 		    saveExtensions(w, RF_VELOCITY);
 		    saveExtensions(w, RF_XSLT);
 		    saveExtensions(w, RF_SCRIPT);
@@ -255,6 +301,34 @@ public class RecentFiles {
         notifyChgListners();
 	}
 
+	private String getLayout(int i) {
+		String r = layouts[i];
+		if (layoutHasFileVars && r !=null) {
+			r = Parameters.encodeVars(r);
+		}
+		return r;
+	}
+	private String getDirectory(int i) {
+		String r = directory[i];
+		if (r !=null) {
+			r = Parameters.encodeVars(r);
+		}
+		return r;
+	}
+
+	private void saveDirectories(BufferedWriter w) throws IOException {
+		if (directories.size() > 0) {
+			w.write(DIRECTORY_STRING);
+			w.write(SEPERATOR);
+			w.write("");
+			w.newLine();
+	
+			for (String s : directories) {
+				w.write(Parameters.encodeVars(s));
+				w.newLine();
+			}
+		}
+	}
 
 	private void saveExtensions(BufferedWriter w, int mode) throws IOException {
 		w.write(EXTENSION_STRING);
@@ -314,6 +388,7 @@ public class RecentFiles {
 	    }
 	    return "";
     }
+
 
 	public String getFileExtension(int type, String filename, String defaultExt) {
 		String strippedName = correctCase(Common.stripDirectory(filename));
@@ -460,6 +535,19 @@ public class RecentFiles {
     	}
     	return ret;
     }
+    
+    private String getRecentDirectory(int idx) {
+    	String ret = "";
+    	if (idx >= 0 && idx < prevFiles.length && prevFiles[idx] >= 0) {
+    		String s = directory[prevFiles[idx]] ;
+    		if (s != null) {
+    			ret = s;
+     		}
+
+    	}
+    	return ret;
+    }
+
 
     /**
      * Get a recent layout by index
@@ -495,4 +583,84 @@ public class RecentFiles {
 		return last;
 	}
 
+	
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.re.openFile.IFileLists#getFileComboList()
+	 */
+	@Override
+	public final List<FileTreeComboItem> getFileComboList() {
+		int len = Math.min(RecentFiles.RECENT_FILE_LIST, 15);
+		List<FileTreeComboItem> list = new ArrayList<FileTreeComboItem>(len);
+		String s;
+		File f;
+
+		for (int i = 0; i < len; i++) {
+			s = this.getRecentFullFileName(i);
+			if (! "".equals(s) && (f = new File(s)).exists()) {
+				list.add(new FileTreeComboItem(i, f));
+			}
+		}
+
+		return list;
+	}
+	
+	public final String getLastDirectory() {
+		List<File> l = getDirectoryList();
+		String s = null;
+		if (l.size() > 0 && l.get(0) != null) {
+			s = l.get(0).getPath();
+			if (! s.endsWith("*")) {
+				s += "*";
+			}
+		}
+		return s;
+	}
+	
+	
+	@Override
+	public final List<File> getDirectoryList() {
+		
+		if (checkDirs && directories.size() < DIRECTORY_LIST_SIZE) {
+			int size = 10;
+			HashSet<String> used = new HashSet<String>(size * 2);
+			String s, last="";
+			
+			for (String d : directories) {
+				used.add(d);
+			}
+			
+			for (int i = 0; i < RecentFiles.RECENT_FILE_LIST; i++) {
+				s = this.getRecentDirectory(i);
+				if (s != null && s.length() > 0 && ! s.equals(last)) {				
+					if (! used.contains(s)) {
+						used.add(s);
+						directories.add(s);
+						
+						if (directories.size() >= DIRECTORY_LIST_SIZE - 1) {
+							break;
+						}
+					}
+				}
+			}
+		}
+		
+		checkDirs = false;
+		
+		ArrayList<File> ret = new ArrayList<File>(directories.size());
+		for (String d : directories) {
+			ret.add(new File(d));
+		}
+		
+		File f;
+		if (ret.size() == 0 && defaultDirectory != null && defaultDirectory.length() > 0
+		&& (f = new File(defaultDirectory)).isDirectory() && f.exists())  {
+			ret.add(f);
+		}
+		return ret;
+	}
+
+	public static final RecentFiles getMainRecentFile() {
+		return mainRecentFile;
+	}
 }

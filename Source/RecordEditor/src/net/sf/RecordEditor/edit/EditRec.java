@@ -20,12 +20,13 @@
 package net.sf.RecordEditor.edit;
 
 import java.awt.event.ActionEvent;
-import java.beans.PropertyVetoException;
+import java.io.File;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.JRecord.Log.AbsSSLogger;
@@ -48,6 +49,7 @@ import net.sf.RecordEditor.re.script.ExportScriptPopup;
 import net.sf.RecordEditor.re.script.RunScriptPopup;
 import net.sf.RecordEditor.re.script.VelocityPopup;
 import net.sf.RecordEditor.re.script.XsltPopup;
+import net.sf.RecordEditor.re.script.bld.RunScriptSkelPopup;
 import net.sf.RecordEditor.re.script.runScreen.ScriptRunFrame;
 import net.sf.RecordEditor.re.util.ReIOProvider;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
@@ -132,6 +134,7 @@ public class EditRec extends ReMainFrame  {
                    final CopyBookInterface pInterfaceToCopyBooks) {
        super("Record Editor", "", "re");
 
+       checkVelocityScriptDir();
  //      copybookInterface = pInterfaceToCopyBooks;
        open = new OpenFile(pInFile,
                   pInitialRow,
@@ -139,8 +142,9 @@ public class EditRec extends ReMainFrame  {
                   null, null,
                   new LayoutSelectionDB(pInterfaceToCopyBooks, null, true));
 
-        init(true, null, null, null);
-        setupMenus(null, null);
+        initMenusToolBars(true, null, null, null, null);
+        setupMenus(null, null, null, null);
+        EditCommon.doStandardInit();
      }
 
 
@@ -158,40 +162,59 @@ public class EditRec extends ReMainFrame  {
     }
 
 
-    public EditRec(final boolean includeJdbc, final String name,
+    private EditRec(final boolean includeJdbc, final String name,
     		AbstractAction open2Action, AbstractAction newAction, AbstractAction new2Action) {
     	super(name, "", "re");
+    	checkVelocityScriptDir();
 
-    	init(includeJdbc, open2Action, newAction, new2Action);
+    	initMenusToolBars(includeJdbc, open2Action, newAction, new2Action, null);
+    	EditCommon.doStandardInit();
     }
 
+    public EditRec(final String name) {
+    	super(name, "", "re");
+    	checkVelocityScriptDir();
+    	EditCommon.doStandardInit();
+    }
 
 
     public EditRec(final boolean includeJdbc, final String name, String id, AbstractAction newAction, boolean loadAtBottom) {
     	super(name, "", id, loadAtBottom);
-    	init(includeJdbc, null, newAction, null);
+    	initMenusToolBars(includeJdbc, null, newAction, null, null);
+    	EditCommon.doStandardInit();
     }
+    
+
 
     /**
      * standard initialize
      *
      */
-	private void init(
+	protected final void initMenusToolBars(
 			final boolean includeJdbc,
-			AbstractAction open2Action, AbstractAction newAction, AbstractAction new2Action) {
+			AbstractAction open2Action, AbstractAction newAction, AbstractAction new2Action, AbstractAction schemaEdit) {
 
     	LoadSavedVisibilityAction savedVisibiltyAction = new LoadSavedVisibilityAction();
     	LoadSavedFieldSeqAction fieldSeqAction = new LoadSavedFieldSeqAction();
     	AbstractAction filterAction = newAction(ReActionHandler.FILTER);
     	AbstractAction sortAction = newAction(ReActionHandler.SORT);
-    	Action[] toolbarActions = {
-    			filterAction,
-    			sortAction,
-    			newAction(ReActionHandler.AUTOFIT_COLUMNS),
+    	ReActionActiveScreen autofitAction = newAction(ReActionHandler.AUTOFIT_COLUMNS);
+    	Action[] toolbarActions = {	filterAction, sortAction,
+    			autofitAction,
     			null,
     			runScriptAction,
     			optionAction
     	};
+    	if (schemaEdit != null) {
+    		Action[] tbAction = {filterAction, sortAction, filterAction, autofitAction,
+    				null, 
+    				schemaEdit,
+    				null,
+        			runScriptAction,
+        			optionAction
+    		};
+    		toolbarActions = tbAction;
+    	}
 
     	newFileAction    = newAction;
     	this.open2action = open2Action;
@@ -233,7 +256,7 @@ public class EditRec extends ReMainFrame  {
         if (allowTextView) {
             viewMenu.addSeparator();
             viewMenu.add(addAction(ShowTextViewAction.get(false, false)));
-           // viewMenu.add(addAction(ShowTextViewAction.get(false, true)));
+            viewMenu.add(addAction(ShowTextViewAction.get(false, true)));
        }
         viewMenu.addSeparator();
         viewMenu.add(newAction(ReActionHandler.TABLE_VIEW_SELECTED));
@@ -243,7 +266,7 @@ public class EditRec extends ReMainFrame  {
         viewMenu.add(newAction(ReActionHandler.BUILD_XML_TREE_SELECTED));
         if (allowTextView) {
              viewMenu.add(addAction(ShowTextViewAction.get(true, false)));
-            // viewMenu.add(addAction(ShowTextViewAction.get(true, true)));
+             viewMenu.add(addAction(ShowTextViewAction.get(true, true)));
         }
 
         viewMenu.addSeparator();
@@ -326,12 +349,14 @@ public class EditRec extends ReMainFrame  {
      * Build File menu
      * @param compareAction compare action
      */
-    private void setupMenus(Action copyAction, Action compareAction) {
+    private void setupMenus(Action copyAction, Action compareAction, JMenuItem compareMenu, JMenuItem newMenuItem) {
     	JMenu  em;
 
         buildFileMenu(
         		open.getOpenFilePanel().getRecentFileMenu(),
+        		open.getOpenFilePanel().getRecentDirectoryMenu(),
         		true, false,
+        		newMenuItem,
         		open2action,
         		newFileAction,
         		new2action);
@@ -355,7 +380,15 @@ public class EditRec extends ReMainFrame  {
         if (compareAction != null) {
         	utilityMenu.add(compareAction);
         }
-        utilityMenu.addSeparator();
+        if (compareMenu != null) {
+        	utilityMenu.add(compareMenu);
+        }
+       utilityMenu.addSeparator();
+
+        JMenu bldMenu = RunScriptSkelPopup.buildScriptMenu(null, "Script Build");
+		if (bldMenu != null) {
+			utilityMenu.add(bldMenu);
+		}
         utilityMenu.add(RunScriptPopup.getPopup());
 		utilityMenu.add(runScriptAction);
 
@@ -520,10 +553,12 @@ public class EditRec extends ReMainFrame  {
         		if (activeFrame != null && activeFrame.isActionAvailable(ReActionHandler.OPEN)) {
         			activeFrame.executeAction(ReActionHandler.OPEN);
         		} else {
-	                open.moveToFront();
-	                open.setVisible(true);
-	                open.setTheBounds();
-	                open.requestFocus();
+        			ReFrame.moveFrameToFront(open);
+
+//	                open.moveToFront();
+//	                open.setVisible(true);
+//	                open.setTheBounds();
+//	                open.requestFocus();
 //					try {
 //						open.setMaximum(false);
 //						open.setSelected(true);
@@ -558,14 +593,28 @@ public class EditRec extends ReMainFrame  {
     protected void setOpenFileWindow(OpenFile openWindow,
     		Action copyAction,
     		Action compareAction,
+    		JMenuItem newMenuItem,
     		boolean incWizard) {
         this.open = openWindow;
 
         includeWizardOptions = incWizard;
-        setupMenus(copyAction, compareAction);
+        setupMenus(copyAction, compareAction, null, newMenuItem);
     }
 
     /**
+     * @param openWindow The open to set.
+     */
+    protected void setOpenFileWindow(OpenFile openWindow,
+    		Action copyAction,
+    		JMenuItem compareMenu,
+    		JMenuItem newMenuItem,
+    		boolean incWizard) {
+        this.open = openWindow;
+
+        includeWizardOptions = incWizard;
+        setupMenus(copyAction, null, compareMenu, newMenuItem);
+    }
+   /**
 	 * @return the viewMenu
 	 */
 	public final JMenu getViewMenu() {
@@ -628,7 +677,37 @@ public class EditRec extends ReMainFrame  {
 		}
 	}
 
-
+	 protected static void checkVelocityScriptDir() {
+		 File f = new File(Common.OPTIONS.velocityScriptDir.get());
+		 File zip = new File(Parameters.getSytemJarFileDirectory() + "/VelocityScript.zip");
+		 System.out.println("--}}} " + f.getPath() + " " + zip.getPath()
+				 + " " + f.exists() + " " + zip.exists());
+		 if (! f.exists() && zip.exists()) {
+			 new Thread(new Runnable() {
+				@Override public void run() {
+					 try {
+						String destDir = Common.OPTIONS.velocityScriptDir.get();
+			
+						File f = new File(destDir);
+						File destParent = f.getParentFile();
+						
+						Common.createDirectory(destParent);
+						if (! destParent.exists()) {
+							destParent.createNewFile();
+							//Files.createDirectories(destParent.toPath());
+						}
+						// Fully qualifying so the whole class is not dependent on
+						// net.lingala.zip4j.core.ZipFile
+						net.lingala.zip4j.core.ZipFile zipFile = new net.lingala.zip4j.core.ZipFile(
+								Parameters.getSytemJarFileDirectory() + "/VelocityScript.zip");
+						zipFile.extractAll(destDir);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}).start();
+		 }
+	 }
     /**
      * Edit a record oriented file
      * @param pgmArgs program arguments

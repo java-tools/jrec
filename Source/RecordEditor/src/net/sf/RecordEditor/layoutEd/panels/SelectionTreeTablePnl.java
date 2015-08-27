@@ -96,11 +96,11 @@ public class SelectionTreeTablePnl implements IntRecordSelectPnl {
 
 	private void init_200_LayoutPnl() {
 
-		panel.addComponent(1, 5, SwingUtils.TIP_HEIGHT, BasePanel.GAP1,
+		panel.addComponentRE(1, 5, SwingUtils.TIP_HEIGHT, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
 
-		panel.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP1,
+		panel.addComponentRE(1, 5, BasePanel.FILL, BasePanel.GAP1,
                 BasePanel.FULL, BasePanel.FULL,
                 treeTbl);
 	}

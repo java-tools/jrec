@@ -46,12 +46,12 @@ implements TreeTableNotify {
     public LineTreeTabelModel(
     		final AbstractChangeNotify changeNotify, final AbstractLineNode rootNode,
     		final int columnsToSkip, boolean showKey) {
-        super(null);
-        root   = rootNode;
+        super(rootNode);
+        //root   = rootNode;
         columnShift = columnsToSkip;
         notify = changeNotify;
 
-        layout = ((AbstractLineNode) root).getLayout();
+        layout = rootNode.getLayout();
 
          if (showKey) {
         	skipColumns = MAP_SKIP_COLUMNS;
@@ -256,7 +256,7 @@ implements TreeTableNotify {
 			if (oldValue == null || ! oldValue.equals(rec.getField(recordIdx, col))) {
 				notify.setChanged(true);
 			}
-			lNode.getView().fireRowUpdated(lNode.getLineNumber(), rec);
+			lNode.getView().fireRowUpdated(lNode.getLineNumber(), recordIdx, col, rec);
 		} catch (Exception e) {
 			ret = e.getMessage();
 		}

@@ -8,10 +8,10 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JTextField;
 
 import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.IO.LineIOProvider;
+import net.sf.RecordEditor.utils.charsets.FontCombo;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
 import net.sf.RecordEditor.utils.lang.LangConversion;
@@ -30,13 +30,14 @@ public class CobolOptionPnl {
 	private BmKeyedComboBox   fileStructure;
 	private final BmKeyedComboModel structureModel = new BmKeyedComboModel(new ManagerRowList(
 			LineIOProvider.getInstance(), false));
-	private final JTextField fontTxt = new JTextField();
-	private final JRadioButton noneChk, redefChk, levelChk;
+	private final FontCombo fontTxt = new FontCombo();
+	private final JRadioButton noneChk, redefChk, levelChk, repeatingLevelChk;
 	{
 		ButtonGroup grp = new ButtonGroup();
 		noneChk = generateRadioButton(grp, "No Split");
 		redefChk = generateRadioButton(grp, "Split on redefin");
 		levelChk = generateRadioButton(grp, "Split on 01");
+		repeatingLevelChk = generateRadioButton(grp, "Highest Repeating Level");
 
 		noneChk.setSelected(true);
 	}
@@ -84,17 +85,18 @@ public class CobolOptionPnl {
 		p.add(noneChk);
 		p.add(levelChk);
 		p.add(redefChk);
+		p.add(repeatingLevelChk);
 
 
-		pnl.addLineFullWidth("Cobol Dialect", numericFormat);
-		pnl.addLineFullWidth("File Structure", fileStructure);
-		pnl.addLineFullWidth("Font", fontTxt)
-			.setGap(BasePanel.GAP0);
-		pnl.addLineFullWidth("Split", p)
-			.setGap(BasePanel.GAP1);
-		pnl.addLine("", null, goBtn)
-			.setGap(BasePanel.GAP0);
-		pnl.addLine("", null, cancelBtn);
+		pnl.addLineFullWidthRE("Cobol Dialect", numericFormat);
+		pnl.addLineFullWidthRE("File Structure", fileStructure);
+		pnl.addLineFullWidthRE("Font", fontTxt)
+			.setGapRE(BasePanel.GAP0);
+		pnl.addLineFullWidthRE("Split", p)
+			.setGapRE(BasePanel.GAP1);
+		pnl.addLineRE("", null, goBtn)
+			.setGapRE(BasePanel.GAP0);
+		pnl.addLineRE("", null, cancelBtn);
 
 		ActionListener actionListner = new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
@@ -122,6 +124,7 @@ public class CobolOptionPnl {
 			case CopybookLoader.SPLIT_NONE:			noneChk.setSelected(true);		break;
 			case CopybookLoader.SPLIT_01_LEVEL:		levelChk.setSelected(true);		break;
 			case CopybookLoader.SPLIT_REDEFINE:		redefChk.setSelected(true);		break;
+			case CopybookLoader.SPLIT_HIGHEST_REPEATING:		repeatingLevelChk.setSelected(true);		break;
 			}
 			cobolOpt = cobOpt;
 		}
@@ -132,9 +135,10 @@ public class CobolOptionPnl {
 		int split = CopybookLoader.SPLIT_NONE;
 		if (levelChk.isSelected()) {
 			split = CopybookLoader.SPLIT_01_LEVEL;
-		}
-		if (redefChk.isSelected()) {
+		} else if (redefChk.isSelected()) {
 			split = CopybookLoader.SPLIT_REDEFINE;
+		} else if (repeatingLevelChk.isSelected()) {
+			split = CopybookLoader.SPLIT_HIGHEST_REPEATING;
 		}
 
 		return CobolCopybookOption.newBuilder()

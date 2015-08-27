@@ -17,6 +17,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.Action;
 import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 
@@ -42,35 +43,58 @@ public class MenuPopupListener extends MouseAdapter {
 
     private int popupCol, popupRow;
 
-    private static final ReActionActiveScreen COPY_RECORDS        = new ReActionActiveScreen(ReActionHandler.COPY_RECORD);
-    private static final ReActionActiveScreen CUT_RECORDS         = new ReActionActiveScreen(ReActionHandler.CUT_RECORD);
-    private static final ReActionActiveScreen PASTE_RECORDS       = new ReActionActiveScreen(ReActionHandler.PASTE_RECORD_POPUP);
-    private static final ReActionActiveScreen PASTE_RECORDS_PRIOR = new ReActionActiveScreen(ReActionHandler.PASTE_RECORD_PRIOR_POPUP);
-    private static final ReActionActiveScreen DELETE_RECORDS      = new ReActionActiveScreen(ReActionHandler.DELETE_RECORD_POPUP);
-    private static final ReActionActiveScreen INSERT_RECORDS      = new ReActionActiveScreen(ReActionHandler.INSERT_RECORDS_POPUP);
-    private static final ReActionActiveScreen INSERT_RECORD_PRIOR = new ReActionActiveScreen(ReActionHandler.INSERT_RECORD_PRIOR_POPUP);
-	private static final ReActionActiveScreen FIND_ACTION         = new ReActionActiveScreen(ReActionHandler.FIND);
-	private static final ReActionActiveScreen FILTER_ACTION       = new ReActionActiveScreen(ReActionHandler.FILTER);
-	private static final ReActionActiveScreen SAVE                = new ReActionActiveScreen(ReActionHandler.SAVE);
-	private static final ReActionActiveScreen SAVE_AS             = new ReActionActiveScreen(ReActionHandler.SAVE_AS);
-	private static final ReActionActiveScreen EXPORT              = new ReActionActiveScreen(ReActionHandler.EXPORT);
-	private static final ReActionActiveScreen SAVE_AS_CSV         = new ReActionActiveScreen(ReActionHandler.EXPORT_AS_CSV);
-	private static final ReActionActiveScreen SAVE_AS_FIXED       = new ReActionActiveScreen(ReActionHandler.EXPORT_AS_FIXED);
-	private static final ReActionActiveScreen SAVE_AS_HTML        = new ReActionActiveScreen(ReActionHandler.EXPORT_AS_HTML);
-	private static final ReActionActiveScreen SAVE_AS_HTML_TBLS   = new ReActionActiveScreen(ReActionHandler.EXPORT_AS_HTML_TBL_PER_ROW);
-	private static final ReActionActiveScreen SAVE_AS_HTML_TREE   = new ReActionActiveScreen(ReActionHandler.EXPORT_HTML_TREE);
-	private static final ReActionActiveScreen SAVE_AS_VELOCITY    = new ReActionActiveScreen(ReActionHandler.EXPORT_VELOCITY);
-	private static final ReActionActiveScreen EXPORT_VIA_XSLT     = new ReActionActiveScreen(ReActionHandler.EXPORT_XSLT);
-	private static final ReActionActiveScreen REPEAT_RECORD       = new ReActionActiveScreen(ReActionHandler.REPEAT_RECORD_POPUP);
+    private static final ReActionActiveScreen COPY_RECORDS    		= new ReActionActiveScreen(ReActionHandler.COPY_RECORD);
+    private static final ReActionActiveScreen CUT_RECORDS     		= new ReActionActiveScreen(ReActionHandler.CUT_RECORD);
+    private static final ReActionActiveScreen PASTE_RECORDS   		= new ReActionActiveScreen(ReActionHandler.PASTE_RECORD_POPUP);
+    private static final ReActionActiveScreen PASTE_RECORDS_PRIOR	= new ReActionActiveScreen(ReActionHandler.PASTE_RECORD_PRIOR_POPUP);
+    private static final ReActionActiveScreen DELETE_RECORDS  		= new ReActionActiveScreen(ReActionHandler.DELETE_RECORD_POPUP);
+    private static final ReActionActiveScreen INSERT_RECORDS  		= new ReActionActiveScreen(ReActionHandler.INSERT_RECORDS_POPUP);
+    private static final ReActionActiveScreen INSERT_RECORD_PRIOR	= new ReActionActiveScreen(ReActionHandler.INSERT_RECORD_PRIOR_POPUP);
+	private static final ReActionActiveScreen FIND_ACTION			= new ReActionActiveScreen(ReActionHandler.FIND);
+	private static final ReActionActiveScreen FILTER_ACTION         = new ReActionActiveScreen(ReActionHandler.FILTER);
+	private static final ReActionActiveScreen SAVE                  = new ReActionActiveScreen(ReActionHandler.SAVE);
+	private static final ReActionActiveScreen SAVE_AS               = new ReActionActiveScreen(ReActionHandler.SAVE_AS);
+	private static final ReActionActiveScreen EXPORT                = new ReActionActiveScreen(ReActionHandler.EXPORT);
+	private static final ReActionActiveScreen SAVE_AS_CSV           = new ReActionActiveScreen(ReActionHandler.EXPORT_AS_CSV);
+	private static final ReActionActiveScreen SAVE_AS_FIXED         = new ReActionActiveScreen(ReActionHandler.EXPORT_AS_FIXED);
+	private static final ReActionActiveScreen SAVE_AS_HTML          = new ReActionActiveScreen(ReActionHandler.EXPORT_AS_HTML);
+	private static final ReActionActiveScreen SAVE_AS_HTML_TBLS     = new ReActionActiveScreen(ReActionHandler.EXPORT_AS_HTML_TBL_PER_ROW);
+	private static final ReActionActiveScreen SAVE_AS_HTML_TREE     = new ReActionActiveScreen(ReActionHandler.EXPORT_HTML_TREE);
+	private static final ReActionActiveScreen SAVE_AS_VELOCITY      = new ReActionActiveScreen(ReActionHandler.EXPORT_VELOCITY);
+	private static final ReActionActiveScreen EXPORT_VIA_XSLT       = new ReActionActiveScreen(ReActionHandler.EXPORT_XSLT);
+	private static final ReActionActiveScreen REPEAT_RECORD         = new ReActionActiveScreen(ReActionHandler.REPEAT_RECORD_POPUP);
+	private static final ReActionActiveScreen COPY_CELLS		    = new ReActionActiveScreen(ReActionHandler.COPY_SELECTED_CELLS);
+	private static final ReActionActiveScreen PASTE_OVER			= new ReActionActiveScreen(ReActionHandler.PASTE_TABLE_OVER_SELECTION);
+	private static final ReActionActiveScreen PASTE_INSERT_CELLS 	= new ReActionActiveScreen(ReActionHandler.PASTE_INSERT_CELLS);
+	private static final ReActionActiveScreen DELETE_SELECTED_CELLS = new ReActionActiveScreen(ReActionHandler.DELETE_SELECTED_CELLS);
+	private static final ReActionActiveScreen CUT_SELECTED_CELLS 	= new ReActionActiveScreen(ReActionHandler.CUT_SELECTED_CELLS);
+	private static final ReActionActiveScreen CLEAR_SELECTED_CELLS 	= new ReActionActiveScreen(ReActionHandler.CLEAR_SELECTED_CELLS);
 
+	
     /**
      * Create a popup menu listner (with edit options)
      *
      * @param userAction any user actions
      * @param isFileEdit wether to add file editing actions action
+     * @param table table being acted on
+     */
+	public MenuPopupListener(final Action[] userAction, final boolean isFileEdit, final JTable table) {
+		this(userAction, isFileEdit, table, null, false);
+	}
+
+		
+    /**
+     * Create a popup menu listner (with edit options)
+     *
+     * @param userAction any user actions
+     * @param isFileEdit wether to add file editing actions action
+     * @param table table being acted on
+     * @param addCellActions add cell actions
      */
     @SuppressWarnings("serial")
-	public MenuPopupListener(final Action[] userAction, final boolean isFileEdit, final JTable table) {
+	public MenuPopupListener(
+			final Action[] userAction, final boolean isFileEdit, final JTable table,
+			JMenuItem extraAction, boolean addCellActions) {
         super();
 
         tbl = table;
@@ -84,23 +108,54 @@ public class MenuPopupListener extends MouseAdapter {
 
 	    if (isFileEdit) {
 	    	JMenu saveMenu = SwingUtils.newMenu("Save ...");
+	    	JMenu selectedCellsMenu = SwingUtils.newMenu("Cell Actions");
 
 	        popup.add(REPEAT_RECORD);
 
-	        if (Common.OPTIONS.highlightEmpty.isSelected()) {
+//	        if (Common.OPTIONS.highlightEmpty.isSelected()) {
 		        popup.add(new ReAbstractAction("Clear Field") {
-
-					/* (non-Javadoc)
-					 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-					 */
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
+					@Override public void actionPerformed(ActionEvent arg0) {
 						if (popupRow >= 0) {
 							tbl.setValueAt(Common.MISSING_VALUE, popupRow, popupCol);
 						}
 					}
 		        });
-	        }
+//		        selectedCellsMenu.add(new ReAbstractAction("Copy Selected Cells") {
+//					@Override public void actionPerformed(ActionEvent arg0) {
+//						SwingUtils.copySelectedCells(tbl);
+//					}
+//		        });
+		        selectedCellsMenu.add(COPY_CELLS);
+		        selectedCellsMenu.add(PASTE_OVER);
+//		        ReAbstractAction clearSelectedAction = new ReAbstractAction("Clear Selected Cells") {
+//					@Override public void actionPerformed(ActionEvent arg0) {
+//						int[] selectedRows = tbl.getSelectedRows();
+//						int[] selectedColumns = tbl.getSelectedColumns();
+//						if (selectedRows != null && selectedColumns != null) {
+//							for (int row : selectedRows) {
+//								for (int col : selectedColumns) {
+//									tbl.setValueAt(Common.MISSING_VALUE, row, col);
+//								}
+//							}
+//						}
+//					}
+//		        };
+		        if (addCellActions) {
+		        	selectedCellsMenu.add(PASTE_INSERT_CELLS);
+		        	//selectedCellsMenu.add(clearSelectedAction);
+		        	selectedCellsMenu.add(CUT_SELECTED_CELLS);
+		        	selectedCellsMenu.add(DELETE_SELECTED_CELLS);
+		        //} else {
+		        }
+	        	selectedCellsMenu.add(CLEAR_SELECTED_CELLS);
+
+		        popup.add(selectedCellsMenu);
+		        
+		        if (extraAction != null) {
+		        	popup.add(extraAction);
+		        }
+//	        }
+		        
 
 	        popup.addSeparator();
 	        popup.add(FIND_ACTION);

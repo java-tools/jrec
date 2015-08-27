@@ -86,41 +86,41 @@ public class Menu extends ReFrame
 
 		pnl.setVerticalGap(BasePanel.VG_GAP2, HELP_GAP);
 
-		pnl.setHelpURL(Common.formatHelpURL(Common.HELP_DIFF));
+		pnl.setHelpURLre(Common.formatHelpURL(Common.HELP_DIFF));
 
 		dbs = selection.getDataBaseNames();
 
-		pnl.setGap(BasePanel.GAP1);
+		pnl.setGapRE(BasePanel.GAP1);
 		if (dbs != null) {
 			for (int i = 0; (i < dbs.length) && (dbs[i] != null) && (!dbs[i].equals("")); i++) {
 				dbCombo.addItem(dbs[i]);
 			}
 			dbCombo.setSelectedIndex(Common.getConnectionIndex());
-			pnl.addLine("Data Base", dbCombo, helpBtn);
+			pnl.addLineRE("Data Base", dbCombo, helpBtn);
 		}
 
-		pnl.setGap(BasePanel.GAP3);
+		pnl.setGapRE(BasePanel.GAP3);
 
-		pnl.addMenuItem("Run Stored Copy", fromFileBtn);
-		pnl.setGap(BasePanel.GAP1);
+		pnl.addMenuItemRE("Run Stored Copy", fromFileBtn);
+		pnl.setGapRE(BasePanel.GAP1);
 
-		pnl.addMenuItem("Standard Copy", copyBtn);
-		pnl.setGap(BasePanel.GAP1);
+		pnl.addMenuItemRE("Standard Copy", copyBtn);
+		pnl.setGapRE(BasePanel.GAP1);
 
-		pnl.addMenuItem("Cobol Copy", cobolCopyBtn);
-		pnl.setGap(BasePanel.GAP1);
+		pnl.addMenuItemRE("Cobol Copy", cobolCopyBtn);
+		pnl.setGapRE(BasePanel.GAP1);
 
-		pnl.addMenuItem("Copy To Delimited File (Csv)", copyToDelimBtn);
-		pnl.setGap(BasePanel.GAP1);
+		pnl.addMenuItemRE("Copy To Delimited File (Csv)", copyToDelimBtn);
+		pnl.setGapRE(BasePanel.GAP1);
 
-		pnl.addMenuItem("Copy To Xml", copyToXmlBtn);
+		pnl.addMenuItemRE("Copy To Xml", copyToXmlBtn);
 
 		if (Common.isVelocityAvailable()) {
-			pnl.setGap(BasePanel.GAP1);
+			pnl.setGapRE(BasePanel.GAP1);
 
-			pnl.addMenuItem("Copy using Velocity Template", copyToVelocityBtn);
+			pnl.addMenuItemRE("Copy using Velocity Template", copyToVelocityBtn);
 		}
-		pnl.setGap(BasePanel.GAP3);
+		pnl.setGapRE(BasePanel.GAP3);
 
 
 		helpBtn.addActionListener(this);
@@ -158,7 +158,7 @@ public class Menu extends ReFrame
 		if (e.getSource() == fromFileBtn) {
 			new RunSavedCopy(layoutCreator, dbCombo.getSelectedIndex(), rFiles);
 		} else if (e.getSource() == helpBtn) {
-		    pnl.showHelp();
+		    pnl.showHelpRE();
 		} else if (e.getSource() == cobolCopyBtn) {
 			new CobolCopy();
 		} else if (e.getSource() == copyToDelimBtn) {
@@ -198,7 +198,7 @@ public class Menu extends ReFrame
     public void executeAction(int action) {
 
         if (action == ReActionHandler.HELP) {
-            pnl.showHelp();
+            pnl.showHelpRE();
         }
         //super.executeAction(action);
     }

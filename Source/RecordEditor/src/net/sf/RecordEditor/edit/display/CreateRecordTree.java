@@ -4,13 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
-import net.sf.RecordEditor.edit.display.util.CreateRecordTreePnl;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
 import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.re.display.DisplayBuilderFactory;
 import net.sf.RecordEditor.re.display.IChildDisplay;
 import net.sf.RecordEditor.re.display.IUpdateExecute;
 import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.script.CreateRecordTreePnl;
 import net.sf.RecordEditor.re.tree.TreeParserRecord;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
@@ -117,13 +117,13 @@ public class CreateRecordTree extends ReFrame implements ActionListener, IChildD
 	 */
 	public final AbstractFileDisplay doAction() {
 		AbstractFileDisplay ret = null;
-	    treeDisplay.panel.setMessageRawTxt("");
+	    treeDisplay.panel.setMessageRawTxtRE("");
 
 	    try {
 			FileView newView = getNewView();
 
 	        if (newView == null) {
-	        	treeDisplay.panel.setMessageTxt("No Records Selected");
+	        	treeDisplay.panel.setMessageTxtRE("No Records Selected");
 	        } else {
 	        	Integer[] parent = treeDisplay.getParent();
 	        	int[] parentIdxs = new int[parent.length];
@@ -141,7 +141,7 @@ public class CreateRecordTree extends ReFrame implements ActionListener, IChildD
 
 	        this.setClosed(true);
 	     } catch (Exception e) {
-	    	 treeDisplay.panel.setMessageRawTxt(e.getMessage());
+	    	 treeDisplay.panel.setMessageRawTxtRE(e.getMessage());
 	    	 e.printStackTrace();
 		 }
 
@@ -161,7 +161,7 @@ public class CreateRecordTree extends ReFrame implements ActionListener, IChildD
 	 */
 	public void executeAction(int action) {
 		if (action == ReActionHandler.HELP) {
-		    treeDisplay.getPanel().showHelp();
+		    treeDisplay.getPanel().showHelpRE();
 		} else {
 			super.executeAction(action);
 		}
@@ -193,7 +193,7 @@ public class CreateRecordTree extends ReFrame implements ActionListener, IChildD
 
 	/**
 	 * @param serialisedData
-	 * @see net.sf.RecordEditor.edit.display.util.CreateRecordTreePnl#update(net.sf.RecordEditor.jibx.compare.EditorTask)
+	 * @see net.sf.RecordEditor.re.script.CreateRecordTreePnl#update(net.sf.RecordEditor.jibx.compare.EditorTask)
 	 */
 	@Override
 	public void update(EditorTask serialisedData) {
@@ -204,7 +204,7 @@ public class CreateRecordTree extends ReFrame implements ActionListener, IChildD
 
 	/**
 	 * @param saveDetails
-	 * @see net.sf.RecordEditor.edit.display.util.CreateRecordTreePnl#setFromSavedDetails(net.sf.RecordEditor.jibx.compare.EditorTask)
+	 * @see net.sf.RecordEditor.re.script.CreateRecordTreePnl#setFromSavedDetails(net.sf.RecordEditor.jibx.compare.EditorTask)
 	 */
 	@Override
 	public final void setFromSavedDetails(EditorTask saveDetails) {

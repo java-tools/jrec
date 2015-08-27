@@ -33,7 +33,7 @@ public final class FieldValue implements AbstractFieldValue {
 	private AbstractLine theLine;
 	private IFieldDetail field;
 	private int recordNum = -1;
-	private int fieldNum;;
+	private int fieldNum;
 
 	/**
 	 * Create a field value
@@ -217,6 +217,15 @@ public final class FieldValue implements AbstractFieldValue {
 				fld).toString();
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.AbstractFieldValue#set(net.sf.JRecord.Common.AbstractFieldValue)
+	 */
+	@Override
+	public void set(AbstractFieldValue value) throws RecordException {
+		set(value.asString());
+	}
+
 	/**
 	 * @see net.sf.JRecord.Common.AbstractFieldValue#set(boolean)
 	 */
@@ -257,8 +266,9 @@ public final class FieldValue implements AbstractFieldValue {
 	public void set(Object value) throws RecordException {
 		if (recordNum >= 0) {
 			theLine.setField(recordNum, fieldNum, value);
+		} else {
+			theLine.setField(field, value);
 		}
-		theLine.setField(field, value);
 	}
 
 	/**

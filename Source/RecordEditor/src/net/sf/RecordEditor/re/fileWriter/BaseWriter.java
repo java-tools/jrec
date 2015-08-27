@@ -39,8 +39,10 @@ public abstract class BaseWriter implements FieldWriter {
 
 	}
 
-
-
+	@Override
+	public void writeField(String field, boolean isNumeric) throws IOException {
+		writeField(field);
+	}
 
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.re.fileWriter.FieldWriter#printAllFields()

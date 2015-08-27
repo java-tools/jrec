@@ -73,11 +73,11 @@ public class EditPropertiesTblPanel extends BasePanel {
      */
     private void init_200_Screen() {
 
-		this.addComponent(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP1,
+		this.addComponentRE(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
 
-		this.addComponent(1, 5, TABLE_HEIGHT, BasePanel.GAP2,
+		this.addComponentRE(1, 5, TABLE_HEIGHT, BasePanel.GAP2,
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(propertiesTbl));
 

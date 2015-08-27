@@ -34,7 +34,7 @@ public class ReIOProvider extends StandardLineIOProvider {
     	LineProvider lLineProvider = lineProvider;
 
         if (lLineProvider == null) {
-            lLineProvider = super.getLineProvider(fileStructure);
+            lLineProvider = super.getLineProvider(fileStructure, "");
         }
 
 		//System.out.println(" ~~ ReIOProvider ~ " + fileStructure + " --> " + Constants.IO_GENERIC_CSV);

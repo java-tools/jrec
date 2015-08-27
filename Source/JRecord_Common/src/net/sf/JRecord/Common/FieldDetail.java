@@ -5,6 +5,12 @@
  */
 package net.sf.JRecord.Common;
 
+import net.sf.JRecord.External.Def.DependingOnDtls;
+import net.sf.JRecord.Option.IOptionResult;
+import net.sf.JRecord.Option.IOptionType;
+import net.sf.JRecord.Option.OptionResult;
+import net.sf.JRecord.Option.OptionType;
+
 //import net.sf.JRecord.Details.RecordDetail;
 
 
@@ -53,11 +59,20 @@ public class FieldDetail implements IFieldDetail {
 			return 0;
 		}
 
+		/* (non-Javadoc)
+		 * @see net.sf.JRecord.Common.AbstractRecord#calculateActualPosition(net.sf.JRecord.Common.AbstractIndexedLine, int)
+		 */
+		@Override
+		public int calculateActualPosition(AbstractIndexedLine line, DependingOnDtls dependingOnDtls, int pos) {
+			return pos;
+		}
+		
+		
 	};
 	private int pos;
 	private int len;
 	private int end;
-	private String name;
+	private String name, lookupName;
 	private final String description;
 	private int type;
 	private final int decimal;
@@ -67,6 +82,9 @@ public class FieldDetail implements IFieldDetail {
 	//private String quote;
 	private AbstractRecord record = DEFAULT_RECORD;
 	private Object defaultValue = null;
+	private String groupName = "";
+	private boolean occursDependingOnValue = false;
+	private DependingOnDtls dependingOnDtls = null;
 
 
 	/**
@@ -89,6 +107,7 @@ public class FieldDetail implements IFieldDetail {
 					   final String pParamater) {
 
 		name        = pName;
+		lookupName  = pName;
 		type        = pType;
 		decimal     = pDecimal;
 		fontName    = pFont;
@@ -177,6 +196,22 @@ public class FieldDetail implements IFieldDetail {
 	 * @see net.sf.JRecord.Common.AbstractFieldDetails#getPos()
 	 */
 
+	/**
+	 * @return the lookupName
+	 */
+	public final String getLookupName() {
+		return lookupName;
+	}
+
+
+	/**
+	 * @param lookupName the lookupName to set
+	 */
+	public final void setLookupName(String lookupName) {
+		this.lookupName = lookupName;
+	}
+
+
 	/* (non-Javadoc)
 	 * @see net.sf.JRecord.Common.IFieldDetail#getPos()
 	 */
@@ -185,6 +220,27 @@ public class FieldDetail implements IFieldDetail {
 		return pos;
 	}
 
+
+	/**
+	 * Calculate actual position in the line using data in the line
+	 * @param line 
+	 * @return actual position adjusted for any occurs depending
+	 */
+	@Override
+	public int calculateActualPosition(AbstractIndexedLine line) {
+		return record.calculateActualPosition(line, dependingOnDtls, pos);
+	}
+
+
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.IFieldDetail#calculateActualEnd(net.sf.JRecord.Common.AbstractIndexedLine)
+	 */
+	@Override
+	public int calculateActualEnd(AbstractIndexedLine line) {
+		return calculateActualPosition(line) + len - 1;
+	}
 
 
 	/* (non-Javadoc)
@@ -339,4 +395,55 @@ public class FieldDetail implements IFieldDetail {
 	public void setDefaultValue(Object defaultValue) {
 		this.defaultValue = defaultValue;
 	}
+
+
+	/**
+	 * @return the groupName
+	 */
+	public final String getGroupName() {
+		return groupName;
+	}
+
+
+	/**
+	 * @param groupName the groupName to set
+	 */
+	public final void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
+
+
+	/**
+	 * @return the occursDependingOnValue
+	 */
+	public final boolean isOccursDependingOnValue() {
+		return occursDependingOnValue;
+	}
+
+
+	/**
+	 * @param occursDependingOnValue the occursDependingOnValue to set
+	 */
+	public final void setOccursDependingOnValue(boolean occursDependingOnValue) {
+		this.occursDependingOnValue = occursDependingOnValue;
+	}
+
+
+	/**
+	 * @param dependingOnDtls the dependingOnDtls to set
+	 */
+	public final void setDependingOnDtls(DependingOnDtls dependingOnDtls) {
+		this.dependingOnDtls = dependingOnDtls;
+	}
+
+
+	@Override
+	public IOptionResult getOption(IOptionType type) {
+		if (type == OptionType.REQUIRED) {
+			return OptionResult.YES;
+		}
+		return OptionResult.UNKOWN;
+	}
+	
+	
  }

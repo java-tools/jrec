@@ -57,9 +57,9 @@ public class GotoLine extends ReFrame implements ActionListener, IChildDisplay {
 		//BaseHelpPanel pnl = new BaseHelpPanel();
 		pnl.addReKeyListener(listner);
 
-		pnl.addLine("Line Number", lineTxt, gotoBtn);
-		pnl.setGap(BasePanel.GAP1);
-		pnl.addMessage();
+		pnl.addLineRE("Line Number", lineTxt, gotoBtn);
+		pnl.setGapRE(BasePanel.GAP1);
+		pnl.addMessageRE();
 
 		gotoBtn.addActionListener(this);
 		pnl.addReKeyListener(listner);
@@ -81,15 +81,15 @@ public class GotoLine extends ReFrame implements ActionListener, IChildDisplay {
 	private void doGoto() {
 		String s = lineTxt.getText();
 		if ("".equals(s)) {
-			pnl.setMessageTxt("You must enter a line number");
+			pnl.setMessageTxtRE("You must enter a line number");
 		} else {
 			try {
 				int lineNo = Integer.parseInt(s);
 				if (lineNo < 1) {
-					pnl.setMessageTxt("line number must be > 0");
+					pnl.setMessageTxtRE("line number must be > 0");
 					return;
 				} else if (lineNo >= source.getFileView().getRowCount()) {
-					pnl.setMessageRawTxt(LangConversion.convert("line number must be <") + " " + source.getFileView().getRowCount());
+					pnl.setMessageRawTxtRE(LangConversion.convert("line number must be <") + " " + source.getFileView().getRowCount());
 					return;
 				}
 				FilePosition position = new FilePosition(lineNo-1, 0, source.getLayoutIndex(), 0, true, source.getFileView().getRowCount());
@@ -99,7 +99,7 @@ public class GotoLine extends ReFrame implements ActionListener, IChildDisplay {
 				super.setVisible(false);
 				super.doDefaultCloseAction();
 			} catch (Exception e) {
-				pnl.setMessageTxt("Invalid line number");
+				pnl.setMessageTxtRE("Invalid line number");
 			}
 		}
 	}

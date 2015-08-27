@@ -1,5 +1,7 @@
 package net.sf.RecordEditor.re.util.wizard;
 
+import java.io.File;
+
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
@@ -9,6 +11,7 @@ import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.RecordEditor.jibx.compare.BaseCopyDif;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.re.openFile.AbstractOpenFilePnl;
+import net.sf.RecordEditor.utils.msg.UtMessages;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 
@@ -22,7 +25,7 @@ implements AbstractWizardPanel<save> {
 	private JPanel goPanel = new JPanel();
 
 	public AbstractFilePnl(AbstractLayoutSelection selection, String recentFiles) {
-		super("", LineIOProvider.getInstance(), null, null,
+		super(OLD_FORMAT, "", LineIOProvider.getInstance(), null, null,
 				Parameters.getApplicationDirectory() + recentFiles,
 		        "", selection);
 	}
@@ -51,7 +54,16 @@ implements AbstractWizardPanel<save> {
 	}
 
 
-
+	protected final void checkFile(String name, JComponent comp) {
+		File f = new File(name);
+		if (! f.exists()) {
+			comp.requestFocus();
+			throw new RuntimeException(UtMessages.FILE_DOES_NOT_EXIST.get(name));
+		} else if (f.isDirectory()) {
+			comp.requestFocus();
+			throw new RuntimeException(UtMessages.DIRECTORY_NOT_ALLOWED.get(name));
+		}
+	}
 
 	/**
 	 * @see net.sf.RecordEditor.utils.wizards.AbstractWizardPanel#isMore()

@@ -53,12 +53,12 @@ public class Pnl4RecordNames extends WizardPanel {
 	    	+ "<p>To remove a <b>field</b> click on the starting column again.";
 		tips = new JEditorPane("text/html", formDescription);
 
-		this.setHelpURL(Common.formatHelpURL(Common.HELP_WIZARD_RECORD_NAMES));
-		this.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP1,
+		this.setHelpURLre(Common.formatHelpURL(Common.HELP_WIZARD_RECORD_NAMES));
+		this.addComponentRE(1, 5, TIP_HEIGHT, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
 		//this.setGap(BasePanel.GAP1);
-		this.addComponent(1, 5,
+		this.addComponentRE(1, 5,
 				height,
 				BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,

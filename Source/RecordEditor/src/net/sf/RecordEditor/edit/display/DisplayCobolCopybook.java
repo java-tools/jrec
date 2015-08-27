@@ -14,7 +14,6 @@ import net.sf.JRecord.Common.XmlConstants;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
-import net.sf.JRecord.External.XmlCopybookLoader;
 import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.Numeric.ConversionManager;
@@ -27,13 +26,15 @@ import net.sf.RecordEditor.re.tree.TreeParserXml;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.fileStorage.DataStoreStd;
 import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
-import net.sf.cb2xml.Cb2Xml;
+import net.sf.RecordEditor.utils.swing.treeCombo.FileSelectCombo;
+import net.sf.cb2xml.Cb2Xml2;
 import net.sf.cb2xml.CopyBookAnalyzer;
+import net.sf.cb2xml.def.Cb2xmlConstants;
 import net.sf.cb2xml.def.NumericDefinition;
 
 
@@ -44,7 +45,7 @@ public class DisplayCobolCopybook implements ActionListener {
 	private static final String COBOL_COPYBOOK_DOES_NOT_EXIST = LangConversion.convert("Cobol Copybook does not exist");
 	private static final String COBOL_COPYBOOK_NAME_MSG = LangConversion.convert("You must enter a Cobol Copybook name");
 
-	private FileChooser copybook = new FileChooser();
+	private FileSelectCombo copybook = new FileSelectCombo(Parameters.COBOL_COPYBOOK_LIST, 25, true, false, true);
 	private ComputerOptionCombo cobolDialect = new ComputerOptionCombo();
 	private JButton displayBtn = SwingUtils.newButton("Display");
 	private JCheckBox showComments = new JCheckBox();
@@ -58,13 +59,13 @@ public class DisplayCobolCopybook implements ActionListener {
 		copybook.setText(Common.OPTIONS.DEFAULT_COBOL_DIRECTORY.get());
 		showComments.setSelected(false);
 
-		p.setGap(BasePanel.GAP3);
-		p.addLine("Copybook", copybook, copybook.getChooseFileButton());
-		p.setGap(BasePanel.GAP1);
-		p.addLine("Cobol Dialect", cobolDialect);
-		p.setGap(BasePanel.GAP1);
-		p.addLine("Include Comments", showComments, displayBtn);
-		p.setGap(BasePanel.GAP3);
+		p.setGapRE(BasePanel.GAP3);
+		p.addLineRE("Copybook", copybook);
+		p.setGapRE(BasePanel.GAP1);
+		p.addLineRE("Cobol Dialect", cobolDialect);
+		p.setGapRE(BasePanel.GAP1);
+		p.addLineRE("Include Comments", showComments, displayBtn);
+		p.setGapRE(BasePanel.GAP3);
 		p.addMessage(msgTxt);
 
 		frame.addMainComponent(p);
@@ -109,23 +110,20 @@ public class DisplayCobolCopybook implements ActionListener {
 
 
 			CopyBookAnalyzer.setNumericDetails((NumericDefinition) conv.getNumericDefinition());
-			xml = Cb2Xml.convertToXMLString(file);
+			xml = Cb2Xml2.convertToXMLString( Cb2Xml2.convertToXMLDOM(file));
 
 			reader.open(new ByteArrayInputStream(xml.getBytes()), getXmlLayout(incComments));  //(LayoutDetail) null);
 
 			while ((aLine = reader.read()) != null) {
-//				System.out.println(">" + aLine.getFieldValue(XmlConstants.XML_NAME).asString() + "< >"
-//						+ "XML Comment "
-//						+ incComments + " " + ("XML Comment".equals(aLine.getFieldValue(XmlConstants.XML_NAME))));
 				if (incComments || ! "XML Comment".equals(aLine.getFieldValue(XmlConstants.XML_NAME).asString())) {
 					lines.add(aLine);
 				}
 			}
-			lines.setLayout(reader.getLayout());
+			lines.setLayoutRE(reader.getLayout());
 
 			if (lines.size() > 1) {
 				DisplayBuilderFactory.getInstance().newDisplay(
-						DisplayBuilderFactory.ST_CB2XML_TREE, null, lines.getLayout(),
+						DisplayBuilderFactory.ST_CB2XML_TREE, null, lines.getLayoutRE(),
 						new FileView(lines, null, null),
 						TreeParserXml.getInstance(),
 						true, 1);
@@ -150,13 +148,13 @@ public class DisplayCobolCopybook implements ActionListener {
 			new RecordDetail.FieldDetails(XmlConstants.XML_NAME, "", Type.ftXmlNameTag, 0, "", 0, "").setPosOnly(idx++),
 			new RecordDetail.FieldDetails(XmlConstants.END_ELEMENT, "", Type.ftCheckBoxTrue, 0, "", 0, "").setPosOnly(idx++),
 			new RecordDetail.FieldDetails(XmlConstants.FOLLOWING_TEXT, "", Type.ftMultiLineEdit, 0, "", 0, "").setPosOnly(idx++),
-			new RecordDetail.FieldDetails(XmlCopybookLoader.ATTR_LEVEL, "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
-			new RecordDetail.FieldDetails(XmlCopybookLoader.ATTR_NAME, "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
-			new RecordDetail.FieldDetails(XmlCopybookLoader.ATTR_POSITION, "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
-			new RecordDetail.FieldDetails(XmlCopybookLoader.ATTR_STORAGE_LENGTH, "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
+			new RecordDetail.FieldDetails(Cb2xmlConstants.LEVEL, "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
+			new RecordDetail.FieldDetails(Cb2xmlConstants.NAME, "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
+			new RecordDetail.FieldDetails(Cb2xmlConstants.POSITION, "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
+			new RecordDetail.FieldDetails(Cb2xmlConstants.STORAGE_LENGTH, "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
 			new RecordDetail.FieldDetails("display-length", "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
-			new RecordDetail.FieldDetails(XmlCopybookLoader.ATTR_PICTURE, "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
-			new RecordDetail.FieldDetails(XmlCopybookLoader.ATTR_USAGE, "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
+			new RecordDetail.FieldDetails(Cb2xmlConstants.PICTURE, "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
+			new RecordDetail.FieldDetails(Cb2xmlConstants.USAGE, "", Type.ftChar, 0, "", 0, "").setPosOnly(idx++),
 		};
 		RecordDetail item = new RecordDetail(recordName, XmlConstants.XML_NAME, recordName, Constants.RT_XML,
                 "", "", "",

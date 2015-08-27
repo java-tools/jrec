@@ -2,19 +2,20 @@ package net.sf.RecordEditor.utils.params;
 
 import java.io.File;
 
-import net.sf.JRecord.Numeric.Convert;
-import net.sf.RecordEditor.utils.common.Common;
+import net.sf.JRecord.Numeric.ICopybookDialects;
 
 public class ProgramOptions {
+	public static final String FILE_SEPERATOR  =  System.getProperty("file.separator");
+	
     public static final char COMPRESS_SPACE = 'S';
-    public static final char COMPRESS_READ = 'R';
+    public static final char COMPRESS_READ  = 'R';
     public static final char COMPRESS_READ_FAST_CPU = 'F';
-    public static final char COMPRESS_NO = 'N';
-    public static final char COMPRESS_YES = 'Y';
+    public static final char COMPRESS_NO    = 'N';
+    public static final char COMPRESS_YES   = 'Y';
 
-    public static final char LARGE_VB_YES  = 'Y';
-    public static final char LARGE_VB_NO   = 'N';
-    public static final char LARGE_VB_TEST = 'T';
+    public static final char LARGE_VB_YES   = 'Y';
+    public static final char LARGE_VB_NO    = 'N';
+    public static final char LARGE_VB_TEST  = 'T';
 
     public static final char SIZE_MAXIMISED = 'M';
     public static final char SIZE_LAST      = 'L';
@@ -56,21 +57,21 @@ public class ProgramOptions {
 	public final BoolOpt logToFront = new BoolOpt(Parameters.BRING_LOG_TO_FRONT);
 
 	public final BoolOpt loadInBackgroundThread = new BoolOpt(Parameters.PROPERTY_LOAD_FILE_BACKGROUND);
-	public final BoolOpt asterixInFileName = new BoolOpt(Parameters.ASTERIX_IN_FILE_NAME);
-	public final BoolOpt useBigFixedModel  = new BoolOpt(Parameters.PROPERTY_BIG_FILE_USE_SPECIAL_FIXED_MODEL);
-	public final BoolOpt showAllExportPnls = new BoolOpt(Parameters.SHOW_ALL_EXPORT_OPTIONS);
+	public final BoolOpt asterixInFileName  = new BoolOpt(Parameters.ASTERIX_IN_FILE_NAME);
+	public final BoolOpt useBigFixedModel   = new BoolOpt(Parameters.PROPERTY_BIG_FILE_USE_SPECIAL_FIXED_MODEL);
+	public final BoolOpt showAllExportPnls  = new BoolOpt(Parameters.SHOW_ALL_EXPORT_OPTIONS);
 	public final BoolOpt deleteSelectedWithDelKey = new BoolOpt(Parameters.DEL_SELECTED_WITH_DEL_KEY);
-	public final BoolOpt warnWhenUsingDelKey = new BoolOpt(Parameters.WARN_WHEN_USING_DEL_KEY);
+	public final BoolOpt warnWhenUsingDelKey= new BoolOpt(Parameters.WARN_WHEN_USING_DEL_KEY);
 
-	public final BoolOpt csvSearchFixed = new BoolOpt(Parameters.CSV_LOOK_4_FIXED_WIDTH);
-	public final BoolOpt useFileWizard  = new BoolOpt(Parameters.USE_FILE_WIZARD);
+	public final BoolOpt csvSearchFixed     = new BoolOpt(Parameters.CSV_LOOK_4_FIXED_WIDTH);
+	public final BoolOpt useFileWizard      = new BoolOpt(Parameters.USE_FILE_WIZARD);
 	public final BoolOpt useSeperateScreens = new BoolOpt(Parameters.SEPERATE_WINDOWS);
 	public final BoolOpt typeOnRecordScreen = new BoolOpt(Parameters.INCLUDE_TYPE_NAME, true);
 	public final BoolOpt allowTextEditting  = new BoolOpt(Parameters.EDIT_RAW_TEXT, true);
-	public final BoolOpt showCsvFChooserOptions = new BoolOpt(
-														Parameters.CSV_SHOW_FILECHOOSER_OPTIONS,
-														'\\' == File.pathSeparatorChar
-													&&	(Common.LOOKS_INDEX == 1 || Common.RECORD_EDITOR_LAF));
+//	public final BoolOpt showCsvFChooserOptions = new BoolOpt(
+//														Parameters.CSV_SHOW_FILECHOOSER_OPTIONS,
+//														Parameters.isWindowsLAF());
+	public final BoolOpt addFileSearchBtn   = new BoolOpt(Parameters.ADD_FILE_SEARCH_BTN, false);
 
 	public final UpdateableBoolOpt highlightEmpty = new UpdateableBoolOpt(Parameters.PROPERTY_HIGHLIGHT_EMPTY);
 	public final InternalBoolOption highlightEmptyActive = new InternalBoolOption(false);
@@ -81,16 +82,21 @@ public class ProgramOptions {
 	public final InternalBoolOption getTextPoPresent    = new InternalBoolOption(false);
 	public final InternalBoolOption addTextDisplay      = new InternalBoolOption(false);
 	public final InternalBoolOption standardEditor      = new InternalBoolOption(false);
+	public final InternalBoolOption useRowColSelection  = new InternalBoolOption(true);
+	
+	public final InternalBoolOption agressiveCompress   = new InternalBoolOption(true);
+	public final InternalBoolOption doCompress          = new InternalBoolOption(true);
+	public final InternalBoolOption overWriteOutputFile = new InternalBoolOption(false);
 
 	public final IntOpt significantCharInFiles1 = new IntOpt("SignificantCharInFiles.1", 6, 1);
 	public final IntOpt significantCharInFiles2 = new IntOpt("SignificantCharInFiles.2", 12, 1);
 	public final IntOpt significantCharInFiles3 = new IntOpt("SignificantCharInFiles.3", 18, 1);
 	public final IntOpt launchIfMatch = new IntOpt("LauchEditorIfMatch", 8, 1);
 
-	public final IntOpt cobolDialect = new IntOpt(Parameters.COBOL_DIALECT, Convert.FMT_MAINFRAME, 1);
+	public final IntOpt cobolDialect = new IntOpt(Parameters.COBOL_DIALECT, ICopybookDialects.FMT_MAINFRAME, 1);
 
 	public final IntOpt chunkSize = new IntOpt(Parameters.PROPERTY_BIG_FILE_CHUNK_SIZE, 1048576, 1024);
-	public final IntOpt filterLimit = new IntOpt(Parameters.PROPERTY_BIG_FILE_FILTER_LIMIT, 300000, 1000);
+	public final IntOpt filterLimit = new IntOpt(Parameters.PROPERTY_BIG_FILE_FILTER_LIMIT, 10000000, 1000);
 	public final IntOpt bigFilePercent = new IntOpt(Parameters.PROPERTY_BIG_FILE_PERCENT, 14, 1);
 
 
@@ -110,14 +116,21 @@ public class ProgramOptions {
 	public final FileNameOpt DEFAULT_FILE_DIRECTORY = new FileNameOpt("DefaultFileDirectory");
 	public final FileNameOpt DEFAULT_COBOL_DIRECTORY = new FileNameOpt("DefaultCobolDirectory");
 	public final FileNameOpt DEFAULT_COPYBOOK_DIRECTORY = new FileNameOpt(Parameters.COPYBOOK_DIRECTORY);
-	public final FileNameOpt DEFAULT_VELOCITY_DIRECTORY = new FileNameOpt(Parameters.VELOCITY_TEMPLATE_DIRECTORY);
-	public final FileNameOpt copybookVelocityDirectory = new FileNameOpt(Parameters.VELOCITY_COPYBOOK_DIRECTORY);
-	public final FileNameOpt layoutExportDirectory = new FileNameOpt(Parameters.LAYOUT_EXPORT_DIRECTORY);
+	public final FileNameOptWithDefault DEFAULT_VELOCITY_DIRECTORY = new FileNameOptWithDefault(Parameters.VELOCITY_TEMPLATE_DIRECTORY, Parameters.DEFAULT_VELOCITY_TEMPLATE_DIRECTORY);
+	public final FileNameOptWithDefault copybookVelocityDirectory  = new FileNameOptWithDefault(Parameters.VELOCITY_COPYBOOK_DIRECTORY, Parameters.DEFAULT_VELOCITY_COPYBOOK_DIRECTORY);
+	public final FileNameOptWithDefault velocityScriptDir = new FileNameOptWithDefault(
+			Parameters.VELOCITY_SCRIPT_DIR,
+			Parameters.getPropertiesDirectoryWithFinalSlash() + "User/VelocityTemplates/Script/");
+	public final FileNameOptWithDefault layoutExportDirectory = new FileNameOptWithDefault(Parameters.LAYOUT_EXPORT_DIRECTORY, Parameters.LAYOUT_EXPORT_DIRECTORY_DFLT);
 	public final FileNameOptWithDefault DEFAULT_XSLT_DIRECTORY = new FileNameOptWithDefault(Parameters.XSLT_TEMPLATE_DIRECTORY, "<reproperties>/User/Xslt/");
 	public final FileNameOptWithDefault DEFAULT_SCRIPT_EXPORT_DIRECTORY = new FileNameOptWithDefault(Parameters.EXPORT_SCRIPT_DIRECTORY, "<reproperties>/User/ExportScripts/");
 	public final FileNameOptWithDefault DEFAULT_SCRIPT_DIRECTORY = new FileNameOptWithDefault(Parameters.SCRIPT_DIRECTORY, "<reproperties>/User/Scripts/");
 	public final FileNameOpt XSLT_JAR1 = new FileNameOpt(Parameters.XSLT_JAR1);
 	public final FileNameOpt XSLT_JAR2 = new FileNameOpt(Parameters.XSLT_JAR2);
+	
+	public final RelativeFileNameOpt schemaBuDir = new RelativeFileNameOpt(Parameters.COPYBOOK_DIRECTORY, "SchemaBu");
+	
+	public BoolOpt useLastDir = new BoolOpt(Parameters.OPEN_IN_LAST_DIRECTORY, true);
 
 
 
@@ -221,10 +234,10 @@ public class ProgramOptions {
 	}
 
 
-	public static class FileNameOpt {
-		private String param;
+	public static class BasicFileNameOpt {
+		protected String param;
 
-		public FileNameOpt(String value) {
+		public BasicFileNameOpt(String value) {
 			param = value;
 		}
 
@@ -234,17 +247,61 @@ public class ProgramOptions {
 		public String getNoStar() {
 			return  Parameters.dropStar(get());
 		}
+		public String getWithStar() {
+			String s = get();
+			if (s != null) {
+				if (s.endsWith("/") || s.endsWith("\\")) {
+					s = s + "*";
+				} else if (! s.endsWith("*")) {
+					s = s + FILE_SEPERATOR + "*";
+				}
+			}
+			return s;
+		}
+	}
+	
+
+	public static class FileNameOpt extends BasicFileNameOpt {
+
+		public FileNameOpt(String value) {
+			super(value);
+		}
+
 
 		public void set(String newVal) {
 			Parameters.setProperty(param, newVal);
 		}
 	}
+	
+	public static class RelativeFileNameOpt extends BasicFileNameOpt {
+		final String fileName;
+		private RelativeFileNameOpt(String varName, String fileName) {
+			super(varName);
+			
+			this.fileName = fileName;
+		}
+		
+		/* (non-Javadoc)
+		 * @see net.sf.RecordEditor.utils.params.ProgramOptions.FileNameOpt#get()
+		 */
+		@Override
+		public String get() {
+			String filename = Parameters.dropStar(super.get());
+			String s = "G:\\Users\\BruceTst01\\RecordEditor_HSQL\\CopyBook\\";;
+			if (filename != null) {
+				s = new File(filename).getParentFile().toString();
+			}
+			
+			return s + File.separatorChar + fileName + File.separatorChar;
+		}
+	}
 
-	public static final class FileNameOptWithDefault {
-		private String param;
-		private String defaultValue;
+	public static final class FileNameOptWithDefault extends BasicFileNameOpt{
+	//	private String param;
+		public final String defaultValue;
+		
 		public FileNameOptWithDefault(String value, String defaultValue) {
-			param = value;
+			super(value); // = value;
 
 			this.defaultValue = defaultValue;
 		}
@@ -254,10 +311,34 @@ public class ProgramOptions {
 
 			if (s == null || "".equals(s)) {
 				s = Parameters.expandVars(defaultValue);
-				Parameters.setProperty(param, defaultValue);
+//				try {
+//					Parameters.setSavePropertyChanges(false);
+//					Parameters.setProperty(param, defaultValue);
+//				} finally {
+//					Parameters.setSavePropertyChanges(true);
+//				}
+			} else {
+				
 			}
 			return s;
 		}
+		
+	
+		
+		public String getSlashNoStar() {
+			String s = get();
+			
+			if (s != null) {
+				if (s.endsWith("*")) {
+					s = s.substring(0, s.length() - 1);
+				}
+				if ( ! (s.endsWith("/") || s.endsWith("\\"))) {
+					s = s + FILE_SEPERATOR;
+				}
+			}
+			return s;
+		}
+
 	}
 
 	public static final class MultiValOpt {

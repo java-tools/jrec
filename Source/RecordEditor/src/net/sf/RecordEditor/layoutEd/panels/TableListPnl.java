@@ -104,23 +104,23 @@ public final class TableListPnl extends BaseHelpPanel {
       currVal   = val;
       connectionId = connectionIdx;
 
-      this.setHelpURL(Common.formatHelpURL(Common.HELP_TABLE));
+      this.setHelpURLre(Common.formatHelpURL(Common.HELP_TABLE));
 
       btnPanel.setLayout(new BorderLayout());
       btnPanel.add(BorderLayout.EAST, helpBtn);
 
-      addLine("", btnPanel);
-      addLine("Table Id", sfTBlId);
-      addLine("Table Name", sfTblName);
-      addLine("Description", sfDescription);
-      setHeight(DESCRIPTION_HEIGHT);
-      setGap(BasePanel.GAP0);
+      addLineRE("", btnPanel);
+      addLineRE("Table Id", sfTBlId);
+      addLineRE("Table Name", sfTblName);
+      addLineRE("Description", sfDescription);
+      setHeightRE(DESCRIPTION_HEIGHT);
+      setGapRE(BasePanel.GAP0);
 
       updateOptions = new TableUpdatePnl<TableRec>(this, null);
-      setGap(BasePanel.GAP0);
+      setGapRE(BasePanel.GAP0);
 
       defTable();
-      addComponent(1, 3, BasePanel.FILL, BasePanel.GAP,
+      addComponentRE(1, 3, BasePanel.FILL, BasePanel.GAP,
              BasePanel.FULL, BasePanel.FULL,
 			 tblPane);
 
@@ -128,7 +128,7 @@ public final class TableListPnl extends BaseHelpPanel {
 
       helpBtn.addActionListener(new AbstractAction() {
           public void actionPerformed(ActionEvent e) {
-              showHelp();
+              showHelpRE();
           }
       }
       );
@@ -241,7 +241,7 @@ public final class TableListPnl extends BaseHelpPanel {
 
 		tblPane = new JScrollPane(tblTable);
 		tblPane.setPreferredSize(new Dimension(TABLE_WIDTH, TABLE_HEIGHT));
-		this.registerComponent(tblTable);
+		this.registerComponentRE(tblTable);
 		tblTable.addMouseListener(MenuPopupListener.getEditMenuPopupListner(null, false, null));
 	}
 

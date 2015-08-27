@@ -25,6 +25,7 @@ import net.sf.JRecord.ByteIO.FixedLengthByteReader;
 import net.sf.JRecord.ByteIO.TextReader;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.IO.LineIOProvider;
+import net.sf.RecordEditor.utils.charsets.FontCombo;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
 import net.sf.RecordEditor.utils.lang.LangConversion;
@@ -60,7 +61,7 @@ public class PnlUnknownFileFormat extends BaseHelpPanel {
     public final JButton goBtn = SwingUtils.newButton("Go");
 
     public final JTextField lengthTxt = new JTextField();
-    public final JTextField fontNameTxt = new JTextField();
+    public final FontCombo fontNameCombo = new FontCombo();
     private JTable fileTbl = new JTable();
 
     //public final JTextArea message = new JTextArea();
@@ -74,11 +75,11 @@ public class PnlUnknownFileFormat extends BaseHelpPanel {
     private ActionListener changed = new ActionListener() {
  	   public void actionPerformed(ActionEvent e) {
  		   if (getFileStructure() == Constants.IO_FIXED_LENGTH) {
- 			 FileStructureAnalyser fa = FileStructureAnalyser.getFixedAnalyser(fileData, lengthTxt.getText());
+ 			 FileAnalyser fa = FileAnalyser.getFixedAnalyser(fileData, lengthTxt.getText());
 
  			 lengthTxt.setText(Integer.toString(fa.getRecordLength()));
  	    	 if (! "".equals(fa.getFontName())) {
- 				fontNameTxt.setText(fa.getFontName());
+ 				fontNameCombo.setText(fa.getFontName());
  			 }
  		   }
  		  readFile();
@@ -127,29 +128,29 @@ public class PnlUnknownFileFormat extends BaseHelpPanel {
     				+ "<p>This screen lets you select the File structure. <br>For Standard Windows / Unix files "
     				+ "use <b>Text IO</b>. <br>For Fixed width files, You can click on the Start of the second record "
     				+ "to set the length."));
-		this.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP3,
+		this.addComponentRE(1, 5, TIP_HEIGHT, BasePanel.GAP3,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
-		this.setGap(BasePanel.GAP1);
+		this.setGapRE(BasePanel.GAP1);
 
-    	this.addLine("File Structure", structureCombo);
-    	this.addLine("Length", lengthTxt);
-       	this.addLine("Font Name", fontNameTxt);
-		this.setGap(GAP1);
-		this.addComponent(1, 5, FILE_HEIGHT, BasePanel.GAP1,
+    	this.addLineRE("File Structure", structureCombo);
+    	this.addLineRE("Length", lengthTxt);
+       	this.addLineRE("Font Name", fontNameCombo);
+		this.setGapRE(GAP1);
+		this.addComponentRE(1, 5, FILE_HEIGHT, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
 				fileTbl);
 
 		if (showGoBtn) {
-			this.setGap(GAP2);
-			this.addLine("", null, goBtn);
+			this.setGapRE(GAP2);
+			this.addLineRE("", null, goBtn);
 		}
-		this.setGap(GAP1);
+		this.setGapRE(GAP1);
 		this.addMessage(new JTextArea());
 
 		//lengthTxt.setText("100");
 		lengthTxt.addFocusListener(focusHandler);
-		fontNameTxt.addFocusListener(focusHandler);
+		fontNameCombo.addFocusListener(focusHandler);
 		structureCombo.addActionListener(changed);
 
 		fileTbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -196,10 +197,10 @@ public class PnlUnknownFileFormat extends BaseHelpPanel {
     	in.reset();
 
 
-    	FileStructureAnalyser fa = FileStructureAnalyser.getAnaylser(fileData, lengthTxt.getText());
+    	FileAnalyser fa = FileAnalyser.getAnaylser(fileData, lengthTxt.getText());
 
     	if (! "".equals(fa.getFontName())) {
-			fontNameTxt.setText(fa.getFontName());
+			fontNameCombo.setText(fa.getFontName());
 		}
 		structureCombo.removeActionListener(changed);
 		structureCombo.setSelectedItem(Integer.valueOf(fa.getFileStructure()));
@@ -227,7 +228,7 @@ public class PnlUnknownFileFormat extends BaseHelpPanel {
     		switch (structure) {
     		case (Constants.IO_FIXED_LENGTH):
     			if ("".equals(lengthTxt.getText())) {
-    				setMessageTxt("You Must enter a Length for fixed Length files");
+    				setMessageTxtRE("You Must enter a Length for fixed Length files");
     				lengthTxt.requestFocus();
     				return;
     			}
@@ -238,21 +239,21 @@ public class PnlUnknownFileFormat extends BaseHelpPanel {
        		case (Constants.IO_NAME_1ST_LINE):
        		case (Constants.IO_XML_USE_LAYOUT):
        		case (Constants.IO_XML_BUILD_LAYOUT):
-       			reader = new TextReader(fontNameTxt.getText());
+       			reader = new TextReader(fontNameCombo.getText());
        			break;
     		default:
     			reader = ByteIOProvider.getInstance().getByteReader(structure);
     		}
 
     		if (reader == null) {
-    			setMessageTxt("Selected File Structue is not supported here");
+    			setMessageTxtRE("Selected File Structue is not supported here");
     		} else {
 	    		reader.open(new ByteArrayInputStream(fileData));
 		    	while (count < lines.length && (lines[count++] = reader.read()) != null) {
 		    	}
 		    	reader.close();
 
-		    	fileMdl = new LineArrayModel(lines, fontNameTxt.getText(), count - 1);
+		    	fileMdl = new LineArrayModel(lines, fontNameCombo.getText(), count - 1);
 
 		    	fileTbl.setModel(fileMdl);
 
@@ -274,7 +275,7 @@ public class PnlUnknownFileFormat extends BaseHelpPanel {
 		    	fileMdl.fireTableDataChanged();
     		}
 	   	} catch (Exception e) {
-	   		setMessageTxt("Error Reading File:", e.getMessage());
+	   		setMessageTxtRE("Error Reading File:", e.getMessage());
 			e.printStackTrace();
 		}
 

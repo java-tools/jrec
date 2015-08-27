@@ -360,6 +360,13 @@ implements AbstractLine {
 			fldDef = layout.getRecord(preferredLayout).getField(fieldName);
 		}
 		return fldDef;
-
 	}
+
+	@Override
+	public boolean isDefined(int rec, int pos) {
+
+		return fields != null && pos < fields.size() && fields.get(pos) != null;
+	}
+	
+	
 }

@@ -3,13 +3,13 @@ package net.sf.RecordEditor.re.util.csv;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.zip.GZIPInputStream;
 
 import javax.swing.JTabbedPane;
 import javax.swing.text.JTextComponent;
 
 import net.sf.JRecord.Common.Conversion;
-import net.sf.JRecord.Details.LayoutDetail;
-import net.sf.RecordEditor.layoutWizard.FileStructureAnalyser;
+import net.sf.RecordEditor.layoutWizard.FileAnalyser;
 import net.sf.RecordEditor.re.openFile.FormatFileName;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.StreamUtil;
@@ -25,10 +25,13 @@ import net.sf.RecordEditor.utils.screenManager.ReFrame;
  */
 
 public class CsvTabPane implements FormatFileName {
+	private static final int PREVIEW_SIZE = 0x80000;
+
 	public final static int NORMAL_CSV  = 0,
 							UNICODE_CSV = 1,
 							FIXED_FILE = 2,
-							XML_FILE = 3;
+							XML_FILE = 3,
+							OTHER_FILE = 4;
 
 	private final static byte[][] oneBlankLine = {{}};
 
@@ -40,10 +43,11 @@ public class CsvTabPane implements FormatFileName {
 	public final CsvSelectionPanel unicodeCsvDetails;
 	public final XmlSelectionPanel xmlSelectionPanel;
 	public final FixedWidthSelection fixedSelectionPanel;
+	public final OtherSelection otherSelectionPanel;
 
 	private JTextComponent msgFld;
 
-	private FilePreview[] csvPanels = {null, null, null, null};
+	private FilePreview[] csvPanels = {null, null, null, null, null};
 
 	private final boolean fixedTab, xmlTab;
 
@@ -64,7 +68,7 @@ public class CsvTabPane implements FormatFileName {
 	 * CSV preview panels.
 	 * @param msgField message field to display error messages on
 	 */
-	private CsvTabPane(JTextComponent msgField, boolean allowFixed, boolean allowXml, boolean adjustableTblHeight) {
+	public CsvTabPane(JTextComponent msgField, boolean allowFixed, boolean allowXml, boolean adjustableTblHeight) {
 
 		msgFld = msgField;
 		fixedTab = allowFixed;
@@ -94,14 +98,18 @@ public class CsvTabPane implements FormatFileName {
 
 		if (xmlTab) {
 			xmlSelectionPanel = new XmlSelectionPanel("Xml Preview", msgFld);
+			otherSelectionPanel = new OtherSelection(msgFld);
 			//csvPanels[XML_FILE] = new XmlSelectionPanel("Xml Preview", msgField);
 			//tab.add("Xml", xmlPanel);
 			//csvPanels[XML_FILE].getPanel().setVisible(false);
 
 			csvPanels[XML_FILE] = xmlSelectionPanel;
 			tab.add("Xml", csvPanels[XML_FILE].getPanel());
+			csvPanels[OTHER_FILE] = otherSelectionPanel;
+			tab.add("Other", csvPanels[OTHER_FILE].getPanel());
 		} else {
 			xmlSelectionPanel = null;
+			otherSelectionPanel = null;
 		}
 	}
 
@@ -143,14 +151,14 @@ public class CsvTabPane implements FormatFileName {
 		boolean couldBeXml = this.xmlTab && maybeXml(data, charSet);
 
 		if (allowTabSwap) {
-			if (layoutId != null && ! "".equals(layoutId)
+			if (layoutId != null // && ! "".equals(layoutId)
 			&& filename != null && ! filename.toLowerCase().endsWith(".csv")) {
 				int count = Math.min(csvPanels.length, tab.getTabCount());
 				for (int i = 0; i < count; i++) {
-					if (csvPanels[i] != null && csvPanels[i].isMyLayout(layoutId)) {
+					if (csvPanels[i] != null && csvPanels[i].isMyLayout(layoutId, filename, data)) {
 						//Rectangle tabSize =  tab.getBounds();
 						//System.out.println(" !! 1 " + tab.getPreferredSize().height + " " + tab.getHeight());
-						csvPanels[i].setData(filename, data, false, layoutId);
+						//csvPanels[i].setData(filename, data, false, layoutId);
 						tab.setSelectedIndex(i);
 						//tab.setBounds(tabSize);
 						//System.out.println(" !! 2 " + tab.getPreferredSize().height + " " + tab.getHeight());
@@ -165,6 +173,8 @@ public class CsvTabPane implements FormatFileName {
 					//System.out.println("Setting Xml Tab ");
 //				} else if (tab.getTabCount() >= XML_FILE){
 					//csvPanels[XML_FILE].getPanel().setVisible(false);
+				} else if (tab.getSelectedIndex() >= XML_FILE) {
+					tab.setSelectedIndex(NORMAL_CSV);
 				}
 			}
 
@@ -176,14 +186,14 @@ public class CsvTabPane implements FormatFileName {
 				if (! couldBeXml
 				&& xmlTab
 				&& Common.OPTIONS.csvSearchFixed.isSelected()
-				&& FileStructureAnalyser.getTextPct(data, "") < 50
-				&& FileStructureAnalyser.getTextPct(data, charSet) < 50) {
+				&& FileAnalyser.getTextPct(data, "") < 50
+				&& FileAnalyser.getTextPct(data, charSet) < 50) {
 					tab.setSelectedIndex(FIXED_FILE);
 				}
 				break;
 			case FIXED_FILE:
-				if (FileStructureAnalyser.getTextPct(data, "") >= 50
-				&& FileStructureAnalyser.getTextPct(data, charSet) >= 50) {
+				if (FileAnalyser.getTextPct(data, "") >= 50
+				&& FileAnalyser.getTextPct(data, charSet) >= 50) {
 					int idx = UNICODE_CSV;
 					if ("".equals(charSet)) {
 						idx = NORMAL_CSV;
@@ -236,6 +246,9 @@ public class CsvTabPane implements FormatFileName {
 				setNormalCsv(data);
 				checkNormalCsv(data);
 			}
+			break;
+		case OTHER_FILE:
+			otherSelectionPanel.setData(filename, data, false, layoutId);
 			break;
 		}
 	}
@@ -308,7 +321,23 @@ public class CsvTabPane implements FormatFileName {
 
 	private byte[] readFile(String fileName)
 	throws IOException {
-		byte[] data = StreamUtil.read(new FileInputStream(fileName), 16000); //new byte[8000];
+		byte[] data;
+		FileInputStream in = null;
+		
+		try {
+			in = new FileInputStream(fileName);
+			if (fileName.toLowerCase().endsWith(".gz")) {
+				GZIPInputStream inGZip = new GZIPInputStream(in);
+				data = StreamUtil.read(inGZip, 16000);
+				inGZip.close();
+			} else {
+				data = StreamUtil.read(in, PREVIEW_SIZE); //new byte[8000];
+			}
+		} finally {
+			if (in != null) {
+				in.close();
+			}
+		}
 
 	    return data;
 	}
@@ -359,8 +388,13 @@ public class CsvTabPane implements FormatFileName {
 	public void setParentFrame(ReFrame parentFrame) {
 		this.parentFrame = parentFrame;
 	}
-
-	public LayoutDetail getLayout(String font, byte[] recordSep) {
-		return getSelectedCsvDetails().getLayout(font, recordSep);
+	
+	public final void setGoVisible(boolean visible) {
+		csvDetails.go.setVisible(visible);
+		unicodeCsvDetails.go.setVisible(visible);
 	}
+//
+//	public LayoutDetail getLayout(String font, byte[] recordSep) {
+//		return getSelectedCsvDetails().getLayout(font, recordSep);
+//	}
 }

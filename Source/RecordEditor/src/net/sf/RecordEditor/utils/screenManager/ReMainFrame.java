@@ -35,7 +35,6 @@ import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.text.DefaultEditorKit;
 
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Log.ScreenLog;
@@ -89,11 +88,11 @@ public class ReMainFrame extends JFrame
     private HashMap<ReFrame,JMenuItem> windowActionMap = new HashMap<ReFrame,JMenuItem>();
     private HashMap<Object, JMenu> datafileItemMap = new HashMap<Object, JMenu>();
 
-    private static final String[] SYSTEM_ACTION_NAMES = {
-            DefaultEditorKit.copyAction,
-            DefaultEditorKit.cutAction,
-            DefaultEditorKit.pasteAction};
-    private static Action[] systemActions = null;
+//    private static final String[] SYSTEM_ACTION_NAMES = {
+//            DefaultEditorKit.copyAction,
+//  //          DefaultEditorKit.cutAction,
+//            DefaultEditorKit.pasteAction};
+//    private static Action[] systemActions = null;
 
     private ReActionHandler closeAction = new ReActionHandler() {
         public void executeAction(int action) {
@@ -144,6 +143,18 @@ public class ReMainFrame extends JFrame
 	= newAction(ReActionHandler.PRINT_SELECTED);
 
 
+	private final ReActionActiveScreen copyCells
+		= newAction(ReActionHandler.COPY_SELECTED_CELLS);
+	private final ReActionActiveScreen pasteCells
+		= newAction(ReActionHandler.PASTE_TABLE_OVER_SELECTION);
+	private final ReActionActiveScreen clearCells
+		= newAction(ReActionHandler.CLEAR_SELECTED_CELLS);
+	private final ReActionActiveScreen cutCells
+	= newAction(ReActionHandler.CUT_SELECTED_CELLS);
+	private final ReActionActiveScreen deleteCells
+		= newAction(ReActionHandler.DELETE_SELECTED_CELLS);
+	private final ReActionActiveScreen pasteInsertCells
+		= newAction(ReActionHandler.PASTE_INSERT_CELLS);
 
 	private final ReActionActiveScreen copyRecords
 		= newAction(ReActionHandler.COPY_RECORD);
@@ -154,7 +165,9 @@ public class ReMainFrame extends JFrame
 	private final ReActionActiveScreen pasteRecordsPrior
 		= newAction(ReActionHandler.PASTE_RECORD_PRIOR);
 	private final ReActionActiveScreen pasteTableOver
-	= newAction(ReActionHandler.PASTE_TABLE_OVERWRITE);
+		= newAction(ReActionHandler.PASTE_TABLE_OVERWRITE);
+//	private final ReActionActiveScreen pasteTableSelection
+//		= newAction(ReActionHandler.PASTE_TABLE_OVER_SELECTION);
 	private final ReActionActiveScreen pasteTableInsert
 	= newAction(ReActionHandler.PASTE_TABLE_INSERT);
 
@@ -178,19 +191,19 @@ public class ReMainFrame extends JFrame
 
 
 	private final String applId;
-	static {
-        int j;
-        systemActions = new Action[SYSTEM_ACTION_NAMES.length];
-
-        systemActions[0] = new DefaultEditorKit.CopyAction();
-        systemActions[1] = new DefaultEditorKit.CutAction();
-        systemActions[2] = new DefaultEditorKit.PasteAction();
-        for (j = 0; j < SYSTEM_ACTION_NAMES.length; j++) {
-            systemActions[j].putValue(AbstractAction.SHORT_DESCRIPTION,
-                    SYSTEM_ACTION_NAMES[j]);
-        }
-
-	}
+//	static {
+//        int j;
+//        systemActions = new Action[SYSTEM_ACTION_NAMES.length];
+//
+//        systemActions[0] = new DefaultEditorKit.CopyAction();
+//        systemActions[1] = new DefaultEditorKit.PasteAction();
+////        systemActions[1] = new DefaultEditorKit.CutAction();
+////        systemActions[2] = new DefaultEditorKit.PasteAction();
+//        for (j = 0; j < SYSTEM_ACTION_NAMES.length; j++) {
+//            systemActions[j].putValue(AbstractAction.SHORT_DESCRIPTION,
+//                    SYSTEM_ACTION_NAMES[j]);
+//        }
+//	}
 
 
 
@@ -220,7 +233,7 @@ public class ReMainFrame extends JFrame
 	    this.applId = applicationId;
 	    this.logAtBottom = logAtBottom;
 //        setIcon("C:\\JavaPrograms\\RecordEdit\\HSQLDB\\lib\\RecordEdit.ico");
-
+	    
 	    init_100_Frame(helpName);
 	    init_200_BuildScreen();
 	    init_300_SetSizes();
@@ -251,10 +264,14 @@ public class ReMainFrame extends JFrame
 //						boolean lastScreenMax = activeFrame != null && activeFrame.isMaximum();
 
 						logFrame.moveToFront();
-						logFrame.requestFocusInWindow();
+						logFrame.requestFocus();
 						try {
 							logFrame.setIcon(false);
+						} catch (Exception ex) {
+						}
 //							logFrame.setSelected(true);
+						try {
+							logFrame.setSelected(true);
 							logFrame.setMaximum(false);
 
 //							if (lastScreenMax && ! activeFrame.isMaximum()) {
@@ -270,12 +287,12 @@ public class ReMainFrame extends JFrame
 			log = new ScreenLog(logFrame);
 		}
 	    //setLookAndFeel();
-	    systemActions[0].putValue(AbstractAction.SMALL_ICON,
-	            Common.getRecordIcon(Common.ID_COPY_ICON));
-	    systemActions[1].putValue(AbstractAction.SMALL_ICON,
-	            Common.getRecordIcon(Common.ID_CUT_ICON));
-	    systemActions[2].putValue(AbstractAction.SMALL_ICON,
-	            Common.getRecordIcon(Common.ID_PASTE_ICON));
+//	    systemActions[0].putValue(AbstractAction.SMALL_ICON,
+//	            Common.getRecordIcon(Common.ID_COPY_ICON));
+//	    systemActions[1].putValue(AbstractAction.SMALL_ICON,
+//	            Common.getRecordIcon(Common.ID_CUT_ICON));
+//	    systemActions[2].putValue(AbstractAction.SMALL_ICON,
+//	            Common.getRecordIcon(Common.ID_PASTE_ICON));
 
 	    ReFrame.setDesktop(desktop);
 	    Common.setCurrClass(this);
@@ -361,6 +378,7 @@ public class ReMainFrame extends JFrame
 	    	@Override
 	        public void windowClosing(final WindowEvent e) {
 	    		System.out.println("Window Closing");
+	    		Parameters.writePropertiesIfChanged();
 	    		BasicTrans.flush(BasicTrans.FLUSH_PROGRAM);
 
 	            quit();
@@ -475,7 +493,8 @@ public class ReMainFrame extends JFrame
 	 *
 	 * @return file menu
 	 */
-	protected void buildFileMenu( JMenu recentFiles, boolean addSaveAsXml, boolean addSaveLayout,
+	protected final void buildFileMenu( JMenu recentFiles, JMenu recentDirectories, boolean addSaveAsXml, boolean addSaveLayout,
+			JMenuItem newMenu,
 			AbstractAction open2Action, AbstractAction newAction, AbstractAction new2Action) {
 
 		open.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(
@@ -486,12 +505,18 @@ public class ReMainFrame extends JFrame
 		            KeyEvent.VK_N, ActionEvent.CTRL_MASK));
 	    	fileMenu.add(newAction);
 	    }
+	    if (newMenu != null) {
+	    	fileMenu.add(newMenu);
+	    }
 	    //save.putValue(Action.MNEMONIC_KEY /*ACCELERATOR_KEY*/, Integer.valueOf(KeyEvent.VK_S));
 
 	    fileMenu.add(save);
 	    fileMenu.add(saveAs);
 	    if (recentFiles != null) {
 	    	fileMenu.add(recentFiles);
+	    }
+	    if (recentDirectories != null) {
+	    	fileMenu.add(recentDirectories);
 	    }
 
 	    if (open2Action != null || new2Action != null) {
@@ -554,18 +579,30 @@ public class ReMainFrame extends JFrame
 	 */
 	private JMenu buildEditMenu() {
 
-	    for (int i = 0; i < systemActions.length; i++) {
+/*	    for (int i = 0; i < systemActions.length; i++) {
 	        editMenu.add(systemActions[i]);
 	    }
-	    editMenu.addSeparator();
+*/
+		JMenu cellMenu = new JMenu("Cell Actions");
+		cellMenu.add(copyCells);
+		cellMenu.add(pasteCells);
+		cellMenu.add(pasteInsertCells);
+		cellMenu.add(cutCells);
+		cellMenu.add(deleteCells);
+		cellMenu.add(clearCells);
+//	    editMenu.add(copyCells);
+//	    editMenu.add(pasteCells);
+//		editMenu.addSeparator();
 	    editMenu.add(copyRecords);
 	    editMenu.add(cutRecords);
 	    editMenu.add(pasteRecords);
 	    editMenu.add(pasteRecordsPrior);
 	    editMenu.add(pasteTableInsert);
 	    editMenu.add(pasteTableOver);
+//	    editMenu.add(pasteTableSelection);
 	    editMenu.add(insertRecords);
 	    editMenu.add(deleteRecords);
+	    editMenu.add(cellMenu);
 
 	    editMenu.addSeparator();
 	    editMenu.add(findAction);
@@ -658,18 +695,18 @@ public class ReMainFrame extends JFrame
 	 */
 	protected void showAbout() {
 		showAbout(
-				"The <b>RecordEditor</b> is an editor for Cobol / Fixed Field Width / CSV "
-			  + "data files.<br><br>"
-			  + "It is distributed under a GPL 3 (or later) license<br/><pre>"
-			  +	" <br><b>Authors:</b><br><br> "
+				"  The <b>RecordEditor</b> (" + Common.currentVersion() + ") is an editor for "
+			  + "Cobol / Fixed Field Width / CSV data files.<br>"
+			  + "  It is distributed under a GPL 3 (or later) license<br/><pre>"
+			  +	" <br><b>Authors:</b><br> "
 			  + "\t<b>Bruce Martin</b>: Main author<br>"
 			  + "\t<b>Jean-Francois Gagnon</b>: Provided Fujitsu IO / Types<br><br>"
-			  + " <b>Associated:</b><br><br> "
-			  + "\t<b>Peter Thomas</b>: Wrote the <b>cb2xml</b> which provides the cobol interface<br/><br/> &nbsp; "
-			  + " <b>Websites:</b><br><br> "
-			  + "\t<b>RecordEditor:</b> http://record-editor.sourceforge.net<br>"
+			  + "<b>Associated:</b><br> "
+			  + "\t<b>Peter Thomas</b>: Wrote the <b>cb2xml</b> which provides the cobol interface<br/><br/>"
+			  + "<b>Websites:</b><br> "
+			  + "\t<b>RecordEditor:</b> http://record-editor.sourceforge.net"
 			  + "<br><br>"
-			  + "<b>Packages Used:</b><br/>"
+			  + "<b>Packages Used (include):</b><br/>"
 			  + "\t<b>cb2xml<b>:\t\tCobol Copybook Analysis<br/>"
 			  + "\t<b>jibx<b>:\t\tXml Bindings<br/>"
 			  + "\t<b>TableLayout<b>:\tSwing Layout manager used<br>"
@@ -731,9 +768,14 @@ public class ReMainFrame extends JFrame
 	    Dimension seperatorSize = new Dimension(TOOL_BAR_SEPARATOR_WIDTH,
 	            							    toolBar.getHeight());
 	    toolBar.addSeparator(seperatorSize);
-	    for (int i = 0; i < systemActions.length; i++) {
-	        toolBar.add(systemActions[i]);
-	    }
+//	    for (int i = 0; i < systemActions.length; i++) {
+//	        toolBar.add(systemActions[i]);
+//	    }
+
+	    toolBar.add(copyCells);
+	    toolBar.add(pasteCells);
+
+	    
 	    //toolbar.add(new JToolBar.Separator());
 	    toolBar.addSeparator(seperatorSize);
 	    toolBar.add(insertRecords);
@@ -804,6 +846,9 @@ public class ReMainFrame extends JFrame
 
 	public final int getDesktopHeight() {
 		return getDesktopHeight(this.getContentPane().getSize());
+    }
+	public final int getDesktopWidth() {
+		return this.getContentPane().getSize().width;
     }
 
 	private final int getDesktopHeight(Dimension desktopSize) {
@@ -1125,10 +1170,14 @@ public class ReMainFrame extends JFrame
 			//        	System.out.println(">>> LAF >>> " + UIManager.getSystemLookAndFeelClassName() + " "
 			//        			+ UIManager.getLookAndFeel()
 			//        			+ " " + UIManager.getCrossPlatformLookAndFeelClassName());
+//			System.out.println("Setting Windows-LAF: false");
+			Parameters.setWindowsLAF(false);
 			if (idx == 0) {
 				JFrame.setDefaultLookAndFeelDecorated(true);
 			} else if (idx == 1) {
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//				System.out.println("Setting Windows-LAF 1: " + Parameters.IS_WINDOWS);
+				Parameters.setWindowsLAF(Parameters.IS_WINDOWS);
 			} else {
 				String lafName = Parameters.getString(Parameters.PROPERTY_LOOKS_CLASS_NAME);
 
@@ -1172,6 +1221,8 @@ public class ReMainFrame extends JFrame
     		}
     		usingSystemLaf = true;
     		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//    		System.out.println("Setting Windows-LAF 1: " + Parameters.IS_WINDOWS);
+    		Parameters.setWindowsLAF(Parameters.IS_WINDOWS);
     	}
     }
 

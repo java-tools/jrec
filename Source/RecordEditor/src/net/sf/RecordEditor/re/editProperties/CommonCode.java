@@ -15,7 +15,7 @@ import java.sql.DriverManager;
 import java.util.Properties;
 
 import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.common.ExternalReferenceConstants;
+import net.sf.RecordEditor.utils.params.ExternalReferenceConstants;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
@@ -34,7 +34,6 @@ public final class CommonCode {
 			+ Common.FILE_SEPERATOR
 			+ ExternalReferenceConstants.SYSTEM_JDBC_JARS_FILENAME;
     public static final String USER_JAR_FILE = Parameters.getUserJarFileDirectory()
-							+ Common.FILE_SEPERATOR
 							+ ExternalReferenceConstants.USER_JARS_FILENAME;
 //    public static final String      EDITOR_JAR_FILE = Parameters.getJarListFileDirectory()
 //													+ Common.FILE_SEPERATOR

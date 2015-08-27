@@ -3,16 +3,16 @@
  */
 package net.sf.RecordEditor.layoutWizard;
 
-import javax.swing.JFileChooser;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import net.sf.JRecord.External.CopybookWriterManager;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
-import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.treeCombo.FileSelectCombo;
 
 /**
  * @author Bruce Martin
@@ -22,7 +22,8 @@ import net.sf.RecordEditor.utils.swing.FileChooser;
 public class Pnl5SaveFileLayout extends WizardPanel {
 
 	private Details wizardDetails;
-    private FileChooser     saveDirectoryFC   = new FileChooser(false);
+    private FileSelectCombo     saveDirectoryFC   = new FileSelectCombo(Parameters.SCHEMA_DIRS_LIST, 15, false, true);
+    		//new FileChooser(false);
     private BmKeyedComboBox outputFormatCombo = new BmKeyedComboBox(
     		new ManagerRowList(CopybookWriterManager.getInstance(), false), 
     		false);
@@ -36,18 +37,18 @@ public class Pnl5SaveFileLayout extends WizardPanel {
 	 */
 	public Pnl5SaveFileLayout() {
 
-		saveDirectoryFC.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+//		saveDirectoryFC.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
-		this.setGap(BasePanel.GAP2);
+		this.setGapRE(BasePanel.GAP2);
 
-		this.addLine("Layout Name", layoutName);
-		this.addLine("Layout Description", layoutDescription);
-		this.setHeight(BasePanel.GAP3);
-		this.setGap(BasePanel.GAP1);
-		this.addLine("Record Layout Directory", saveDirectoryFC, saveDirectoryFC.getChooseFileButton());
-		this.setGap(BasePanel.GAP1);
-		this.addLine("Output Format", outputFormatCombo);
-		this.setGap(BasePanel.GAP3);
+		this.addLineRE("Layout Name", layoutName);
+		this.addLineRE("Layout Description", layoutDescription);
+		this.setHeightRE(BasePanel.GAP3);
+		this.setGapRE(BasePanel.GAP1);
+		this.addLineRE("Record Layout Directory", saveDirectoryFC);
+		this.setGapRE(BasePanel.GAP1);
+		this.addLineRE("Output Format", outputFormatCombo);
+		this.setGapRE(BasePanel.GAP3);
 	}
 
 	/**

@@ -46,7 +46,7 @@ public class TableUpdatePnl<record extends AbsRecord> extends javax.swing.JPanel
 	private AbsJTable jTable;
 
 
-	private JTextField insLines  = new JTextField();
+	private JTextField insLines  = new JTextField(7);
 
 	private JButton btnIns   = getActionButton("Insert", "Insert record(s) after selected records", ReActionHandler.INSERT_RECORDS);
 	private JButton btnDel   = getActionButton("Delete", "Delete selected records from the Table below", ReActionHandler.DELETE_RECORD);
@@ -88,10 +88,10 @@ public class TableUpdatePnl<record extends AbsRecord> extends javax.swing.JPanel
 	  	}
 
 
-	  	bPanel.addLine("Lines to Insert", insLines);
+	  	bPanel.addLineRE("Lines to Insert", insLines);
 	   // bPanel.setGap(BasePanel.GAP0);
 
-		bPanel.addComponent(1, 3, BasePanel.PREFERRED, 2,
+		bPanel.addComponentRE(1, 3, BasePanel.PREFERRED, 2,
 		        BasePanel.FULL, BasePanel.FULL, this);
 	}
 

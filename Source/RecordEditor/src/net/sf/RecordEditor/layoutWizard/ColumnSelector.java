@@ -143,14 +143,14 @@ public class ColumnSelector {
 		btnPnl.add(clearFieldsBtn);
 		btnPnl.add(addFieldsBtn);
 
-		pnl.addLine("Show Hex", hexChk)
-		   .setGap(BasePanel.GAP);
-		pnl.addLine("Search For", optionPnl)
-		   .setHeight(BasePanel.PREFERRED)
-		   .setGap(BasePanel.GAP1);
-		pnl.addLine("", btnPnl)
-		   .setHeight(BasePanel.PREFERRED);
-		pnl.addComponent(1, 5, tblHeight, 2,
+		pnl.addLineRE("Show Hex", hexChk)
+		   .setGapRE(BasePanel.GAP);
+		pnl.addLineRE("Search For", optionPnl)
+		   .setHeightRE(BasePanel.PREFERRED)
+		   .setGapRE(BasePanel.GAP1);
+		pnl.addLineRE("", btnPnl)
+		   .setHeightRE(BasePanel.PREFERRED);
+		pnl.addComponentRE(1, 5, tblHeight, 2,
 		        BasePanel.FULL, BasePanel.FULL,
 				fileTbl);
 	}

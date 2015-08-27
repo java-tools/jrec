@@ -128,7 +128,7 @@ public class RecordFieldsDB  extends AbsDB<RecordFieldsRec> {
    */
   public void open() {
 
-      prepareCursor();
+     prepareCursor();
 
       try {
           sqlCursor.setInt(1, paramRecordId);
@@ -248,18 +248,24 @@ public class RecordFieldsDB  extends AbsDB<RecordFieldsRec> {
    */
   public void deleteAll() {
 
+	  
       try {
-          if (isPrepareNeeded(delAllRecordFields)) {
-              delAllRecordFields = connect.getUpdateConnection().prepareStatement(
-                   "Delete From  Tbl_RF1_RecordFields  "
-                   +  " Where RecordId= ? "
-                        );
-          }
-
-          delAllRecordFields.setInt(1, paramRecordId);
-
-          delAllRecordFields.executeUpdate();
-          message = "";
+    	  open();
+    	  boolean doDelete = fetch() != null;
+    	  close();
+    	  if (doDelete) {
+	          if (isPrepareNeeded(delAllRecordFields)) {
+	              delAllRecordFields = connect.getUpdateConnection().prepareStatement(
+	                   "Delete From  Tbl_RF1_RecordFields  "
+	                   +  " Where RecordId= ? "
+	                        );
+	          }
+	
+	          delAllRecordFields.setInt(1, paramRecordId);
+	
+	          delAllRecordFields.executeUpdate();
+	          message = "";
+    	  }
       } catch (Exception ex) {
            setMessage(ex.getMessage(), ex);
       } finally {

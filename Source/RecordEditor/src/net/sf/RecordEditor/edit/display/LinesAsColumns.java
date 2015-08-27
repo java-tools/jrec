@@ -15,7 +15,6 @@ import javax.swing.table.TableColumn;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.edit.display.Action.AutofitAction;
 import net.sf.RecordEditor.edit.display.models.Line2ColModel;
-import net.sf.RecordEditor.edit.display.util.ChooseCellEditor;
 import net.sf.RecordEditor.re.file.FieldMapping;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.MenuPopupListener;
@@ -55,9 +54,9 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 
 	    init_100_SetupJtables(viewOfFile);
 
-	    actualPnl.setHelpURL(Common.formatHelpURL(Common.HELP_COLUMN_VIEW));
+	    actualPnl.setHelpURLre(Common.formatHelpURL(Common.HELP_COLUMN_VIEW));
 
-	    actualPnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
+	    actualPnl.addComponentRE(1, 5, BasePanel.FILL, BasePanel.GAP,
 	                         BasePanel.FULL, BasePanel.FULL,
 	                         tblScrollPane);
 	}
@@ -127,7 +126,8 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 
         };
 
-        JTable tableDetails = new JTable(tblMdl);
+ //       JTable tableDetails = new JTable(tblMdl);
+        JTable tableDetails = new LineAsColTbl(tblMdl, 0, false);
         setJTable(tableDetails);
 
         popupListner = //MenuPopupListener.getEditMenuPopupListner(mainActions);
@@ -178,8 +178,8 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
         fixedTbl = tblScrollPane.getFixedTable();
 
 
-        actualPnl.registerComponent(tableDetails);
-        actualPnl.registerComponent(fixedTbl);
+        actualPnl.registerComponentRE(tableDetails);
+        actualPnl.registerComponentRE(fixedTbl);
         super.setAlternativeTbl(fixedTbl);
         setColWidths();
 
@@ -239,18 +239,18 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
         	}
         }
 
-        if (cellRenders != null || cellEditors != null) {
-         	for (int i =  0;  i < tbl.getColumnCount(); i++) {
-	        	tc =  tbl.getColumnModel().getColumn(i);
-	            if (cellRenders != null) {
-	            	tc.setCellRenderer(render);
-	            	//System.out.println("Lineascolumn Render: ");
-	        	}
-	            if (cellEditors != null) {
-	            	tc.setCellEditor(new ChooseCellEditor(tbl, cellEditors));
-	            }
-        	}
-        }
+//        if (cellRenders != null || cellEditors != null) {
+//         	for (int i =  0;  i < tbl.getColumnCount(); i++) {
+//	        	tc =  tbl.getColumnModel().getColumn(i);
+//	            if (cellRenders != null) {
+//	            	tc.setCellRenderer(render);
+//	            	//System.out.println("Lineascolumn Render: ");
+//	        	}
+//	            if (cellEditors != null) {
+//	            	tc.setCellEditor(new ChooseCellEditor(tbl, cellEditors));
+//	            }
+//        	}
+//        }
 
         if (tblScrollPane != null) {
         	 Common.calcColumnWidths(tbl, 1);

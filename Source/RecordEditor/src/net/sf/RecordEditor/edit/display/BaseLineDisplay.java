@@ -15,12 +15,6 @@
  */
 package net.sf.RecordEditor.edit.display;
 
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.DataFlavor;
-import java.util.StringTokenizer;
-
-import javax.swing.JTable;
 
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
@@ -83,24 +77,11 @@ public abstract class BaseLineDisplay extends BaseDisplay {
 	@Override
 	public void executeAction(int action) {
 		if (action == ReActionHandler.PASTE_TABLE_OVERWRITE) {
-
-			int startRow = getJTable().getSelectedRow();
-			int startCol = getJTable().getSelectedColumn();
-			//System.out.println("))) " + startRow + " " + startCol);
-			if (startRow >= 0) {
-				Clipboard system = Toolkit.getDefaultToolkit().getSystemClipboard();
-				try {
-					pasteTable(startRow, startCol,
-							(String) (system.getContents(this)
-									.getTransferData(DataFlavor.stringFlavor)));
-				} catch (Exception e) {
-				}
-			}
+			pasteOverTbl();
 		} else {
 			super.executeAction(action);
 		}
 	}
-
 
 
 	/**
@@ -112,34 +93,4 @@ public abstract class BaseLineDisplay extends BaseDisplay {
 		return action == ReActionHandler.PASTE_TABLE_OVERWRITE
 			|| super.isActionAvailable(action);
 	}
-
-
-	protected final void pasteTable(int startRow, int startCol, String trstring) {
-		String val, rowStr;
-		try {
-			JTable tblDetails = getJTable();
-			int rowCount = tblDetails.getRowCount();
-			int colCount = tblDetails.getColumnCount();
-			super.fileMaster.setDisplayErrorDialog(false);
-
-			System.out.println("String is:" + trstring);
-			StringTokenizer st1 = new StringTokenizer(trstring, "\n");
-			for (int i = 0; st1.hasMoreTokens() && startRow + i < rowCount ; i++) {
-				rowStr = st1.nextToken();
-				StringTokenizer st2 = new StringTokenizer(rowStr, "\t");
-				for (int j = 0; st2.hasMoreTokens() && startCol+ j < colCount ; j++) {
-					val = st2.nextToken();
-
-					tblDetails.setValueAt(val, startRow + i, startCol + j);
-//					System.out.println("Putting " + val + "at row="
-//							+ startRow + i + "column=" + startCol + j);
-				}
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		} finally {
-			super.fileMaster.setDisplayErrorDialog(true);
-		}
-	}
-
 }

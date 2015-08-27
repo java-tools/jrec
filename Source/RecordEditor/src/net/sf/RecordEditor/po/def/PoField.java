@@ -67,7 +67,7 @@ public class PoField extends FieldDef {
 		return allFields.clone();
 	}
 
-
+	@Override
 	public boolean isMatch(String s) {
 		boolean ret = super.isMatch(s);
 		if (s.startsWith(name) && repeating) {

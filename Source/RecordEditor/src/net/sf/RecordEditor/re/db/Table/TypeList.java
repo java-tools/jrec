@@ -8,6 +8,7 @@ package net.sf.RecordEditor.re.db.Table;
 
 import java.util.ArrayList;
 
+import net.sf.JRecord.External.Def.BasicConversion;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.params.Parameters;
 
@@ -41,6 +42,21 @@ public class TypeList extends TableList {
         super(connectionId, Common.TI_FIELD_TYPE, sort, nullFirstRow,
               Parameters.TYPE_NUMBER_PREFIX, Parameters.TYPE_NAME_PREFIX,
 	          Parameters.NUMBER_OF_TYPES, foriegnTranslation);
+        
+//
+//  Code to compare types in BasicConversion with those in the DB
+//
+//        BasicConversion b = new BasicConversion();
+//        for (int i = 0; i < super.getSize(); i++) {
+//        	try {
+//				int key = Integer.parseInt(super.getKeyAt(i).toString());
+//				System.out.println(i + "\t" + key + "\t" + super.getFieldAt(i, 1) + "\t - \t" + b.getTypeAsString(0, key));
+//			} catch (NumberFormatException e) {
+//				System.out.println(i + "\t" + super.getKeyAt(i) + "\t" +  super.getFieldAt(i, 1));
+//				e.printStackTrace();
+//			}
+//        	
+//        }
     }
 
 	/**

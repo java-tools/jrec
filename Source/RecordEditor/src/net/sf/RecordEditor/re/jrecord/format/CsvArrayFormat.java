@@ -7,9 +7,6 @@
  */
 package net.sf.RecordEditor.re.jrecord.format;
 
-import java.awt.event.MouseEvent;
-import java.util.EventObject;
-
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 

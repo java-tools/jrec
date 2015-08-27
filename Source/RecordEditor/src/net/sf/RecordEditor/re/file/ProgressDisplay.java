@@ -7,58 +7,72 @@ import javax.swing.JTextArea;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
-public class ProgressDisplay {
-	private JFrame frame;
-	private boolean toInit = true;
+/**
+ * This class displays a tasks pregress on the screen
+ * 
+ * @author Bruce Martin
+ *
+ */
+public class ProgressDisplay  {
+	private JFrame frame = null;
+//	private boolean toInit = true;
 	private JTextArea area = new JTextArea();
 	private JProgressBar progressBar;
-	
-	public ProgressDisplay(String name) {
-		this("Reading", name);
-	}
+	private final String frameName;
+
+
+
 	
 	
 	public ProgressDisplay(String action, String name) {
-		frame = new JFrame(action + " " + name);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frameName = action + " " + name;
 	}
 	
 	public void updateDisplay(String msg, int progress) {
 		area.setText(msg + "          ");
 		init();
 		progressBar.setValue(progress);
-		System.out.print(" " + progress);
 	}
 	
+
 	public void done() {
-		if (frame.isVisible() || ! toInit) {
+		if (frame != null && frame.isVisible()) {
 			frame.setVisible(false);
 		}
 	}
 	
 	private void init() {
-		if (toInit) {
-			BasePanel pnl = new BasePanel();
-			progressBar = new JProgressBar(0, 100);
-			progressBar.setValue(0);
-			//area = new JTextArea();
-			area.setFont(SwingUtils.getMonoSpacedFont());
-			
-			pnl.addComponent(1, 5,
-			         BasePanel.PREFERRED,
-			         BasePanel.GAP1,
-			         BasePanel.FULL, BasePanel.FULL, progressBar);
+		if (frame == null) {
+			synchronized (area) {
+				if (frame == null) {
+					frame = new JFrame(frameName);
+					BasePanel pnl = new BasePanel();
+					
+					frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+					progressBar = new JProgressBar(0, 100);
+					progressBar.setValue(0);
+					//area = new JTextArea();
+		
+					pnl.addComponentRE(1, 5,
+					         BasePanel.PREFERRED,
+					         BasePanel.GAP1,
+					         BasePanel.FULL, BasePanel.FULL, progressBar);
+		
 
-			pnl.addComponent(1, 5,
-			         BasePanel.PREFERRED,
-			         BasePanel.GAP1,
-			         BasePanel.FULL, BasePanel.FULL, area);
-			
-			frame.getContentPane().add(pnl);
-			frame.pack();
-			//frame.setSize(250, frame.getHeight()+25);
-			toInit = false;
-			frame.setVisible(true);
+					area.setFont(SwingUtils.getMonoSpacedFont());
+					pnl.addComponentRE(1, 5,
+					         BasePanel.PREFERRED,
+					         BasePanel.GAP1,
+					         BasePanel.FULL, BasePanel.FULL, area);
+					
+					frame.getContentPane().add(pnl);
+					frame.pack();
+					//frame.setSize(250, frame.getHeight()+25);
+		
+					frame.setVisible(true);
+				}
+			}
 		}
 	}
 }

@@ -16,10 +16,7 @@ package net.sf.RecordEditor.layoutEd;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.sql.SQLException;
-import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -28,6 +25,8 @@ import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.External.CopybookLoaderFactory;
@@ -45,23 +44,27 @@ import net.sf.RecordEditor.re.openFile.SplitCombo;
 import net.sf.RecordEditor.re.util.CopybookLoaderFactoryDB;
 import net.sf.RecordEditor.utils.BasicLayoutCallback;
 import net.sf.RecordEditor.utils.ReadFile;
+import net.sf.RecordEditor.utils.charsets.FontCombo;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
 import net.sf.RecordEditor.utils.jdbc.DBComboModel;
 import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.Combo.ComboStdOption;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimiterCombo;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.ManagerCombo;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.QuoteCombo;
+import net.sf.RecordEditor.utils.swing.treeCombo.FileSelectCombo;
+import net.sf.cb2xml.def.Cb2xmlConstants;
 
 
 
@@ -100,7 +103,7 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 	private DBComboModel<TableRec>    systemModel
 			= new DBComboModel<TableRec>(systemTable, 0, 1, true, false);
 
-
+	
 
 		/* screen fields */
 	private JEditorPane tips;
@@ -108,12 +111,13 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 	private String copybookPrompt;
 
 	private ManagerCombo loaderOptions = ManagerCombo.newCopybookLoaderCombo();
-	private FileChooser  copybookFile  = new FileChooser();
-	private JTextField   fontName      = new JTextField();
+	private FileSelectCombo  copybookFile; // = new FileChooser(); 
+	private FontCombo    fontNameCombo      = new FontCombo();
 	private ComputerOptionCombo
 	                     binaryOptions = new ComputerOptionCombo();
 	private JButton      go            = SwingUtils.newButton("Go");
 	private JButton      helpBtn       = SwingUtils.getHelpButton();
+	private JComboBox    copybookFormatCombo;
 	private SplitCombo   splitOptions  = new SplitCombo();
 	private BmKeyedComboBox
 						 fileStructure;
@@ -132,8 +136,8 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 	private int connectionId;
 	private boolean copybookChoice;
 
-	private HashMap<String, Integer> tableId = null;
-	private int maxKey;
+//	private HashMap<String, Integer> tableId = null;
+//	private int maxKey;
 	TableDB tblsDB = null;
 
 	private BasicLayoutCallback layoutCallback;
@@ -158,22 +162,18 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 		this.connectionId = pConnectionId;
 		this.copybookChoice = chooseCopyBook;
 		layoutCallback = callback;
-		init(chooseCopyBook);
+
 
 		BaseHelpPanel innerPnl = new BaseHelpPanel();
 		JScrollPane innerScroll;
 		ReMainFrame frame = ReMainFrame.getMasterFrame();
 		int height = frame.getDesktop().getHeight() - 1;
 
+		init(chooseCopyBook);
 
-		if (chooseCopyBook) {
-			pnl.setHelpURL(Common.formatHelpURL(Common.HELP_COPYBOOK_CHOOSE));
-		} else {
-			pnl.setHelpURL(Common.formatHelpURL(Common.HELP_COPYBOOK));
-		}
 		//pnl.addComponent("", null, helpBtn);
 		//pnl.setGap(BasePanel.GAP1);
-		pnl.addComponent(1, 5, SwingUtils.STANDARD_FONT_HEIGHT * 16,
+		pnl.addComponentRE(1, 5, SwingUtils.STANDARD_FONT_HEIGHT * 16,
 				BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
@@ -184,36 +184,37 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 			if (loaderOptions.getSelectedIndex() < 0) {
 				loaderOptions.setSelectedIndex(0);
 			}
-			innerPnl.setGap(BasePanel.GAP);
-			innerPnl.addLine("Copybook Type", loaderOptions);
-			innerPnl.setGap(BasePanel.GAP);
+			innerPnl.setGapRE(BasePanel.GAP);
+			innerPnl.addLineRE("Copybook Type", loaderOptions);
+			innerPnl.setGapRE(BasePanel.GAP);
 		}
 
-		innerPnl.addLine(copybookPrompt, copybookFile, copybookFile.getChooseFileButton());
-		innerPnl.setGap(BasePanel.GAP0);
-		innerPnl.addLine("Split Copybook", splitOptions);
-		innerPnl.addLine("Font Name", fontName);
-		innerPnl.addLine("Binary Format", binaryOptions, go);
+		innerPnl.addLineRE(copybookPrompt, copybookFile);
+		innerPnl.setGapRE(BasePanel.GAP0);
+		innerPnl.addLineRE("Copybook Line format", copybookFormatCombo);
+		innerPnl.addLineRE("Split Copybook", splitOptions);
+		innerPnl.addLineRE("Font Name", fontNameCombo);
+		innerPnl.addLineRE("Binary Format", binaryOptions, go);
 
-		innerPnl.addLine("File Structure", fileStructure);
-		innerPnl.addLine("System", system);
+		innerPnl.addLineRE("File Structure", fileStructure);
+		innerPnl.addLineRE("System", system);
 
 		if (chooseCopyBook) {
-			innerPnl.addLine("Field Seperator", fieldSeparator);
-			innerPnl.addLine("Quote", quote);
+			innerPnl.addLineRE("Field Seperator", fieldSeparator);
+			innerPnl.addLineRE("Quote", quote);
 		}
 
 		innerScroll = new JScrollPane(innerPnl);
 		innerScroll.setBorder(BorderFactory.createEmptyBorder());
 
-		pnl.addComponent(0, 6, BasePanel.FILL, 0,
+		pnl.addComponentRE(0, 6, BasePanel.FILL, 0,
 		        BasePanel.FULL, BasePanel.FULL,
 		        innerScroll);
 
 
-		pnl.setGap(BasePanel.GAP1);
+		pnl.setGapRE(BasePanel.GAP1);
 
-		pnl.addComponent(1, 5, 90 , 1,
+		pnl.addComponentRE(1, 5, 90 , 1,
 		        BasePanel.FULL, BasePanel.FULL,
 				msgField);
 		//pnl.setGap(BasePanel.GAP1);
@@ -236,25 +237,46 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 		Common.setDoFree(free,pConnectionId);
 
 		if (chooseCopyBook) {
-			copybookFile.addFcFocusListener(
-					new FocusAdapter() { @Override public void focusLost(FocusEvent e) {
-						int loaderType = CopybookLoaderFactory.getLoaderType(copybookFile.getText());
-						if (loaderType >= 0) {
-							loaderOptions.setSelectedIndex(loaderType);
+			copybookFile.addTextChangeListner(
+					new ChangeListener() {
+						@Override public void stateChanged(ChangeEvent e) {
+							int loaderType = CopybookLoaderFactory.getLoaderType(copybookFile.getText());
+							if (loaderType >= 0) {
+								loaderOptions.setSelectedIndex(loaderType);
+							}
 						}
-					}}
-			);
+					});
+	
+//			copybookFile.addFcFocusListener(
+//					new FocusAdapter() { @Override public void focusLost(FocusEvent e) {
+//						int loaderType = CopybookLoaderFactory.getLoaderType(copybookFile.getText());
+//						if (loaderType >= 0) {
+//							loaderOptions.setSelectedIndex(loaderType);
+//						}
+//					}}
+//			);
 		}
 	}
 
 
-	private void init(boolean choseCopyBook) {
+	private void init(boolean chooseCopyBook) {
 	    String s;
 
 	    //CopybookLoaderFactory loaders = CopybookLoaderFactoryDB.getInstance();
 
-		String typeOfCopybook = choseCopyBook ? "User Selected"
-				  : "Cobol";
+		String typeOfCopybook = "Cobol";
+		String dir = Common.OPTIONS.DEFAULT_COBOL_DIRECTORY.getWithStar();
+
+		if (chooseCopyBook) {
+			pnl.setHelpURLre(Common.formatHelpURL(Common.HELP_COPYBOOK_CHOOSE));
+			copybookFile = new FileSelectCombo(Parameters.SCHEMA_LIST, 25, true, false, true);
+			typeOfCopybook = "User Selected";
+			dir = Common.OPTIONS.DEFAULT_COPYBOOK_DIRECTORY.getWithStar();
+		} else {
+			pnl.setHelpURLre(Common.formatHelpURL(Common.HELP_COPYBOOK));
+			copybookFile = new FileSelectCombo(Parameters.COBOL_COPYBOOK_LIST, 25, true, false, true);
+		}
+
 
 		copybookPrompt = typeOfCopybook + " Copybook";
 	    formDescription = LangConversion.convertId(
@@ -266,7 +288,10 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 
 	    tips = new JEditorPane("text/html", formDescription);
 	    tips.setEditable(false);
-	    copybookFile.setText(Common.OPTIONS.DEFAULT_COBOL_DIRECTORY.get());
+	    
+	    if (dir != null) {
+	    	copybookFile.setText(dir);
+	    }
 
 	    splitOptions.setSelectedIndex(0);
 
@@ -295,8 +320,19 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 	    	binaryOptions.setEnglishText(s);
 	    }
 
+
+	    copybookFormatCombo = new JComboBox();
+	    copybookFormatCombo.addItem(getItem(Cb2xmlConstants.USE_STANDARD_COLUMNS, "Use Standard Cobol Columns (6-72)"));
+	    copybookFormatCombo.addItem(getItem(Cb2xmlConstants.USE_COLS_6_TO_80, "Cobol Columns (6-80)"));
+	    copybookFormatCombo.addItem(getItem(Cb2xmlConstants.USE_LONG_LINE, "Use Very long line"));
+	    copybookFormatCombo.addItem(getItem(Cb2xmlConstants.FREE_FORMAT, "Free format (start column 2)"));
+	    copybookFormatCombo.setSelectedIndex(0);
+	    
 	}
 
+	private ComboStdOption<Integer> getItem(int key, String s) {
+		return new ComboStdOption<Integer>(key, s, LangConversion.convertComboItms("CobolLineFmt", s));
+	}
 
 
 	/**
@@ -305,12 +341,13 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 	public void actionPerformed(final ActionEvent event) {
 
 	    if (event.getSource() == helpBtn) {
-	        pnl.showHelp();
+	        pnl.showHelpRE();
 		} else {
 			boolean free = Common.isSetDoFree(false);
 			String copyBookFile = copybookFile.getText();
 			int binaryFormat = binaryOptions.getSelectedValue();
 			int split = splitOptions.getSelectedValue();
+			int cpybookFormat = ((ComboStdOption<Integer>)copybookFormatCombo.getSelectedItem()).key;
 
 			try {
 			    if (copyBookFile != null && !"".equals(copyBookFile)) {
@@ -331,58 +368,61 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 			        rec = loaders.getLoader(copybookId).loadCopyBook(copyBookFile,
 			                split,
 			                connectionId,
-			                fontName.getText(),
+			                fontNameCombo.getText(),
+			                cpybookFormat,
 			                binaryFormat,
 			                systemId,
 			                msgField);
 
 			        if (rec == null) {
-			        	msgField.logMsg(AbsSSLogger.ERROR, LeMessages.ERROR_LOADING_COPYBOOK.get());
-			        }
+//			        	msgField.logMsg(AbsSSLogger.ERROR, LeMessages.ERROR_LOADING_COPYBOOK.get());
+			        } else {
 
-			        if (fstructure != Constants.IO_DEFAULT
-			        && rec.getFileStructure() <= Constants.IO_DEFAULT) {
-			        	rec.setFileStructure(fstructure);
-			        }
-
-			        ap100_updateSystem(rec);
-
-			        //System.out.println("## " + rec.getRecordId() + " " + rec.getRecordName());
-			        db.setConnection(new ReConnection(connectionId));
-
-//			        System.out.print("RecordId: " + rec.getRecordId());
-			        db.checkAndUpdate(rec);
-//			        System.out.println(" !! " + rec.getRecordId());
-
-//			        msgField.logMsg(AbsSSLogger.SHOW, "-->> " + copyBookFile + " processed");
-//			        msgField.logMsg(AbsSSLogger.SHOW, "      Copybook: " + rec.getRecordName());
-			        msgField.logMsg(
-			        		AbsSSLogger.SHOW,
-			        		LeMessages.COPYBOOK_LOADED.get(new Object[] {copyBookFile, rec.getRecordName()}));
-			        System.out.println(LeMessages.COPYBOOK_LOADED.get(new Object[] {copyBookFile, rec.getRecordName()}));
-			        db.close();
-
-			        if (layoutCallback != null) {
-			        	layoutCallback.setRecordLayout(0, rec.getRecordName(), null);
-			        }
-
-			        if (rec.getNumberOfRecords() > 1
-			        && (   copybookId == CopybookLoaderFactoryDB.COBOL_LOADER
-			            || copybookId == CopybookLoaderFactoryDB.CB2XML_LOADER)) {
-			        	RecordEdit1Record ep = new RecordEdit1Record(
-			        			Common.getSourceId()[connectionId], connectionId,
-			        			rec.getRecordId());
-			        	JOptionPane.showMessageDialog(
-			        			ep,
-			        			LeMessages.DEFINE_RECORD_SELECTION.get());
-			        }
+				        if (fstructure != Constants.IO_DEFAULT
+				        && rec.getFileStructure() <= Constants.IO_DEFAULT) {
+				        	rec.setFileStructure(fstructure);
+				        }
+	
+				        db.setConnection(new ReConnection(connectionId));
+	
+				        ap100_updateSystemDelimQuote(db, rec);
+	
+				        //System.out.println("## " + rec.getRecordId() + " " + rec.getRecordName());
+	
+	//			        System.out.print("RecordId: " + rec.getRecordId());
+				        db.checkAndUpdate(rec);
+	//			        System.out.println(" !! " + rec.getRecordId());
+	
+	//			        msgField.logMsg(AbsSSLogger.SHOW, "-->> " + copyBookFile + " processed");
+	//			        msgField.logMsg(AbsSSLogger.SHOW, "      Copybook: " + rec.getRecordName());
+				        msgField.logMsg(
+				        		AbsSSLogger.SHOW,
+				        		LeMessages.COPYBOOK_LOADED.get(new Object[] {copyBookFile, rec.getRecordName()}));
+				        System.out.println(LeMessages.COPYBOOK_LOADED.get(new Object[] {copyBookFile, rec.getRecordName()}));
+				        db.close();
+	
+				        if (layoutCallback != null) {
+				        	layoutCallback.setRecordLayout(0, rec.getRecordName(), null);
+				        }
+	
+				        if (rec.getNumberOfRecords() > 1
+				        && (   copybookId == CopybookLoaderFactoryDB.COBOL_LOADER
+				            || copybookId == CopybookLoaderFactoryDB.CB2XML_LOADER)) {
+				        	RecordEdit1Record ep = new RecordEdit1Record(
+				        			Common.getSourceId()[connectionId], connectionId,
+				        			rec.getRecordId());
+				        	JOptionPane.showMessageDialog(
+				        			ep,
+				        			LeMessages.DEFINE_RECORD_SELECTION.get());
+				        }
+				    }
 			    }
 			} catch (Exception ex) {
-			    msgField.logMsg(AbsSSLogger.ERROR, ex.getMessage());
+			    msgField.logMsg(AbsSSLogger.ERROR, ex.getMessage() + '\n');
 			    ex.printStackTrace();
             } finally {
             	Common.setDoFree(free, connectionId);
-		        tableId = null;
+//		        tableId = null;
 		        tblsDB  = null;
 	        }
 
@@ -394,54 +434,21 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 	 * Set the System Id based on the System Name
 	 *
 	 */
-	private void ap100_updateSystem(ExternalRecord rec) throws SQLException {
+	private void ap100_updateSystemDelimQuote(ExtendedRecordDB db, ExternalRecord rec) throws SQLException {
 
-		int i, ckey;
-		String s;
-		TableRec aTbl;
+		db.updateSystemCode(rec);
+
         int fieldSeparatorIdx = fieldSeparator.getSelectedIndex();
         int quoteIdx = quote.getSelectedIndex();
 
-		for (i = 0; i < rec.getNumberOfRecords(); i++) {
-			ap100_updateSystem(rec.getRecord(i));
+		for (int i = 0; i < rec.getNumberOfRecords(); i++) {
+			ap110_UpdateDelimQuote( rec.getRecord(i), fieldSeparatorIdx, quoteIdx);
 		}
-
-		s =  rec.getSystemName();
-		if (s != null) {
-			if (tableId == null) {
-				tableId = new HashMap<String, Integer>();
-				maxKey = 0;
-				tblsDB = new TableDB();
-
-				tblsDB.setConnection(new ReConnection(connectionId));
-				tblsDB.resetSearch();
-				tblsDB.setParams(Common.TI_SYSTEMS);
-				tblsDB.open();
-				while ((aTbl = tblsDB.fetch()) != null) {
-					ckey = aTbl.getTblKey();
-					tableId.put(aTbl.getDetails(), Integer.valueOf(ckey));
-					if (maxKey < ckey) {
-						maxKey = ckey;
-					}
-				}
-				tblsDB.close();
-			}
-
-
-			if (tableId.containsKey(s)) {
-				Integer tblKey = tableId.get(s);
-				rec.setSystem(tblKey.intValue());
-			} else {
-				maxKey += 1;
-				aTbl = new TableRec(maxKey, s);
-				i = 0;
-				while ((i++ < 15) && (! tblsDB.tryToInsert(aTbl))) {
-					maxKey += 1;
-					aTbl.setTblKey(maxKey);
-			    }
-				tableId.put(s, Integer.valueOf(maxKey));
-			}
-		}
+		
+		ap110_UpdateDelimQuote( rec, fieldSeparatorIdx, quoteIdx);
+	}
+	
+	private void ap110_UpdateDelimQuote(ExternalRecord rec, int fieldSeparatorIdx, int quoteIdx) {
 
         if (fieldSeparatorIdx > 0) {
         	rec.setDelimiter(fieldSeparator.getSelectedEnglish());
@@ -458,7 +465,7 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
     public void executeAction(int action) {
 
         if (action == ReActionHandler.HELP) {
-            pnl.showHelp();
+            pnl.showHelpRE();
         }
 
     }

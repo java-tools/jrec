@@ -2,6 +2,8 @@ package net.sf.RecordEditor.re.util.csv;
 
 import java.nio.charset.Charset;
 
+import net.sf.JRecord.Common.Conversion;
+
 import org.mozilla.intl.chardet.nsDetector;
 
 public class CheckEncoding {
@@ -9,7 +11,7 @@ public class CheckEncoding {
 	/**
 	 *
 	 * @param bytes Data to check
-	 * @param returnLikelyCharsets wether to retur a list of likely charsets
+	 * @param returnLikelyCharsets whether to return a list of likely charsets
 	 *
 	 * @return charset Details
 	 */
@@ -17,9 +19,10 @@ public class CheckEncoding {
 		String s = "";
 		nsDetector det = new nsDetector();
 		boolean possibleUtf16 = utf16Check(bytes);
+		boolean possibleEBCDIC = bytes != null && bytes.length > 50 && BasicCharsetChecker.getValidCharsRatio(Conversion.toString(bytes, "cp037")) > 0.80;
 		String[] charSets = null;
 
-		if (returnLikelyCharsets || utfCheck(bytes) || possibleUtf16 || ! det.isAscii(bytes, bytes.length)) {
+		if (returnLikelyCharsets || possibleUtf16 || possibleEBCDIC || utfCheck(bytes) || ! det.isAscii(bytes, bytes.length)) {
 			String t;
 			det.DoIt(bytes, bytes.length, false);
 			det.DataEnd();
@@ -38,7 +41,7 @@ public class CheckEncoding {
 				  || (t.startsWith("utf") && utfCheck(bytes)) )) {
 					s = charSets[1];
 				} else {
-					if (possibleUtf16) {
+					if (possibleUtf16 && ! possibleEBCDIC) {
 						int check = Math.min(5, charSets.length);
 						for (int i = 0; i < check; i++) {
 							if (charSets[i].toLowerCase().startsWith("utf-16")) {
@@ -48,9 +51,19 @@ public class CheckEncoding {
 						}
 					}
 				}
+				if (possibleEBCDIC) {
+					String[] tmp = new String[charSets.length + 1];
+					s = "cp037";
+					tmp[0] = s;
+					System.arraycopy(charSets, 0, tmp, 1, charSets.length);
+					charSets = tmp;
+				}
+			} else if (possibleEBCDIC) {
+				s = "cp037";
+				charSets = new String[] {s, ""};
 			}
-		} else {
-			System.out.println("is ascii " + Charset.defaultCharset().displayName() + "windows-1252");
+//		} else {
+//			System.out.println("is ascii " + Charset.defaultCharset().displayName() + "windows-1252");
 		}
 
 		return new CharsetDetails(s, charSets);

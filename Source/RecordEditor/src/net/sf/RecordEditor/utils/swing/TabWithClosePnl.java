@@ -20,7 +20,7 @@ public class TabWithClosePnl extends JPanel {
     private   final JButton closeBtn = new JButton("X");
 
 
-    public TabWithClosePnl(String screenName) {
+    public TabWithClosePnl(String screenName, boolean addCloseBtn) {
 
         super.setBorder(BorderFactory.createEmptyBorder());
         label.setText(screenName);
@@ -30,7 +30,6 @@ public class TabWithClosePnl extends JPanel {
         	label.setName(screenName);
         }
         add(label);
-
 
         if (Common.NIMBUS_LAF) {
         	UIDefaults def = new UIDefaults();
@@ -44,9 +43,11 @@ public class TabWithClosePnl extends JPanel {
         	closeBtn.setFont(new Font("Monospaced", Font.PLAIN,  (SwingUtils.STANDARD_FONT_HEIGHT * 2) / 3));
         	closeBtn.setPreferredSize(new Dimension(SwingUtils.STANDARD_FONT_HEIGHT, SwingUtils.STANDARD_FONT_HEIGHT));
         }
-        closeBtn.setMargin(new Insets(0,0,0,0));
-
-        add(closeBtn);
+        if (addCloseBtn) {
+	        closeBtn.setMargin(new Insets(0,0,0,0));
+	
+	        add(closeBtn);
+        }
     }
 
     public final void setCloseAction(ActionListener closeAction) {

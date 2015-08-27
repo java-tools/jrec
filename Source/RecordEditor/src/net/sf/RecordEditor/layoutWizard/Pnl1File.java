@@ -22,16 +22,17 @@ import javax.swing.ButtonGroup;
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JTextField;
 
+import net.sf.RecordEditor.re.openFile.RecentFiles;
 import net.sf.RecordEditor.re.util.BuildTypeComboList;
+import net.sf.RecordEditor.utils.charsets.FontCombo;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.AbsRowList;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
-import net.sf.RecordEditor.utils.swing.FileChooser;
 import net.sf.RecordEditor.utils.swing.treeCombo.TreeCombo;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboFileSelect;
 
 /**
  * 1st panel of the wizard where we get File and
@@ -42,9 +43,9 @@ import net.sf.RecordEditor.utils.swing.treeCombo.TreeCombo;
  */
 @SuppressWarnings("serial")
 public class Pnl1File extends WizardPanel  {
-
+	
     private JEditorPane tips;
-    private FileChooser filenameFld = new FileChooser();
+    private TreeComboFileSelect filenameFld = new TreeComboFileSelect(true, false, true, RecentFiles.getMainRecentFile());
 
 
 	private JRadioButton fixedLengthBtn 	= new JRadioButton("Fixed Length Fields");
@@ -53,7 +54,7 @@ public class Pnl1File extends WizardPanel  {
 
 	private BmKeyedComboBox fileStructure;
 
-	private JTextField         fontname = new JTextField();
+	private FontCombo         fontname = new FontCombo();
 //	private BmKeyedComboBox defaultType;
 	private TreeCombo defaultType;
 
@@ -93,22 +94,22 @@ public class Pnl1File extends WizardPanel  {
 		fixedLengthBtn.setSelected(true);
 
 
-		this.setHelpURL(Common.formatHelpURL(Common.HELP_WIZARD));
-		this.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP3,
+		this.setHelpURLre(Common.formatHelpURL(Common.HELP_WIZARD));
+		this.addComponentRE(1, 5, TIP_HEIGHT, BasePanel.GAP3,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
-		this.setGap(BasePanel.GAP1);
+		this.setGapRE(BasePanel.GAP1);
 
-		this.addLine("File Name", filenameFld, filenameFld.getChooseFileButton());
-		this.addLine("File Structure", fileStructure);
-		this.setGap(BasePanel.GAP0);
-		this.addLine("Record Type", recordTypePnl);
-		this.setHeight(PREFERRED);
-		this.setGap(BasePanel.GAP0);
+		this.addLineRE("File Name", filenameFld);
+		this.addLineRE("File Structure", fileStructure);
+		this.setGapRE(BasePanel.GAP0);
+		this.addLineRE("Record Type", recordTypePnl);
+		this.setHeightRE(PREFERRED);
+		this.setGapRE(BasePanel.GAP0);
 
-		this.addLine("Font Name", fontname);
-		this.addLine("Default Type", defaultType);
-		this.setGap(BasePanel.GAP1);
+		this.addLineRE("Font Name", fontname);
+		this.addLineRE("Default Type", defaultType);
+		this.setGapRE(BasePanel.GAP1);
 		//this.done();
     }
 

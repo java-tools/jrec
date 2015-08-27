@@ -35,7 +35,7 @@ public class ReMsgId implements IMessage {
 	}
 
 	@Override
-	public final String get(Object[] params) {
+	public final String get(Object... params) {
 		return LangConversion.convertId(LangConversion.ST_MESSAGE, id, message, params);
 	}
 

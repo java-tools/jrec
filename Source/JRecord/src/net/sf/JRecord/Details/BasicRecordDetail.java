@@ -2,8 +2,10 @@ package net.sf.JRecord.Details;
 
 import java.util.List;
 
+import net.sf.JRecord.Common.AbstractIndexedLine;
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.IFieldDetail;
+import net.sf.JRecord.External.Def.DependingOnDtls;
 
 /**
  * Parent class for Record (or Message) Definitions used
@@ -120,4 +122,21 @@ public abstract class BasicRecordDetail<FieldDefinition extends AbstractRecordDe
 	public int getOption(int option) {
 		return Options.UNKNOWN;
 	}
+	
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.AbstractRecordX#getGroupField(java.lang.String[])
+	 */
+	public IFieldDetail getGroupField(String... fieldNames) {
+		throw new RuntimeException("only implemented in JRecord");
+	}
+	
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.AbstractRecord#calculateActualPosition(int)
+	 */
+	public final int calculateActualPosition(AbstractIndexedLine line, DependingOnDtls dependingOnDtls, int pos) {
+		return pos;
+	}
+
+
 }

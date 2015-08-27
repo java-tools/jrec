@@ -101,16 +101,16 @@ public class RecordSelectionPnl implements IntRecordSelectPnl {
 	private void init_200_LayoutScreen() {
 
 
-		panel.setHelpURL(Common.formatHelpURL(Common.HELP_LAYOUT_RECSEL));
+		panel.setHelpURLre(Common.formatHelpURL(Common.HELP_LAYOUT_RECSEL));
 
-		panel.addLine("Default Record", defaultSelectionChk, copyFromBtn)
-		   .setGap(BasePanel.GAP1);
+		panel.addLineRE("Default Record", defaultSelectionChk, copyFromBtn)
+		   .setGapRE(BasePanel.GAP1);
 
 		updatePnl = new TableUpdatePnl<RecordSelectionRec>(panel, null);
 
-		panel.addComponent(1, 5, BasePanel.PREFERRED, BasePanel.GAP, BasePanel.FULL, BasePanel.FULL, updatePnl);
+		panel.addComponentRE(1, 5, BasePanel.PREFERRED, BasePanel.GAP, BasePanel.FULL, BasePanel.FULL, updatePnl);
 
-		panel.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
+		panel.addComponentRE(1, 5, BasePanel.FILL, BasePanel.GAP,
 				BasePanel.FULL, BasePanel.FULL,
 				recordSelectionTbl);
 

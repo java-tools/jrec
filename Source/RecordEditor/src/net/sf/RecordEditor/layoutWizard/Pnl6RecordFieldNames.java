@@ -74,22 +74,22 @@ public class Pnl6RecordFieldNames extends WizardPanel {
 		columnNames = new ColumnNames(typeList);
 
 
-		this.setHelpURL(Common.formatHelpURL(Common.HELP_WIZARD_RECORD_FIELD_NAMES));
-		this.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP0,
+		this.setHelpURLre(Common.formatHelpURL(Common.HELP_WIZARD_RECORD_FIELD_NAMES));
+		this.addComponentRE(1, 5, TIP_HEIGHT, BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
 //		this.setGap(BasePanel.GAP1);
-		this.addLine("Record", recordMgr.recordCombo);
-		this.setGap(BasePanel.GAP0);
+		this.addLineRE("Record", recordMgr.recordCombo);
+		this.setGapRE(BasePanel.GAP0);
 
-		this.addComponent(1, 5, COLUMN_HEIGHT, BasePanel.GAP0,
+		this.addComponentRE(1, 5, COLUMN_HEIGHT, BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(columnNames.columnTbl));
-		this.addComponent(1, 5, FILE_HEIGHT, BasePanel.GAP0,
+		this.addComponentRE(1, 5, FILE_HEIGHT, BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(columnNames.fileTbl));
 
-		this.addMessage();
+		this.addMessageRE();
     }
 
 
@@ -128,14 +128,14 @@ public class Pnl6RecordFieldNames extends WizardPanel {
      }
 
     private void changeRecord() {
-		setMessageRawTxt("");
+		setMessageRawTxtRE("");
 		try {
 			Details detail = columnNames.getValues();
 			RecordDefinition recDef = detail.recordDtls.get(recordMgr.recordCombo.getSelectedIndex());
 			columnNames.setValues(detail, recDef);
 			recDef.displayedFieldNames = true;
 		} catch (Exception e) {
-			setMessageTxt("Error Changing Record:", e.getMessage());
+			setMessageTxtRE("Error Changing Record:", e.getMessage());
     		e.printStackTrace();
 		}
 

@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.sf.JRecord.Common.CommonBits;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.LayoutDetail;
@@ -174,14 +175,8 @@ public class CopyBookDbReader implements CopyBookInterface {
 				int recordStyle    = resultset.getInt(10);
 				RecordDecider decider  = deciderMap.get(fix(pName).toUpperCase());
 
-				if (Common.CRLF_STRING.equals(recordSepString)
-				||  Common.DEFAULT_STRING.equals(recordSepString)) {
-					recordSep = Common.LFCR_BYTES;
-				} else if (Common.CR_STRING.equals(recordSepString)) {
-					recordSep = Common.CR_BYTES;
-				} else if (Common.LF_STRING.equals(recordSepString)) {
-					recordSep = Common.LF_BYTES;
-				}
+			    recordSep = CommonBits.getEolBytes(recordSep, recordSepString, fontName);
+
 
 				switch (recordType) {
 				  case Common.rtGroupOfRecords:
@@ -277,6 +272,10 @@ public class CopyBookDbReader implements CopyBookInterface {
 			    childKey      = resultset.getInt(12);
 			    childId       = resultset.getInt(14);
 			    fields        = getFields(dbIndex, subRecordId, recordType, fontName);
+
+			    if (tstFieldValue == null) {
+			    	tstFieldValue = "";
+			    }
 			    rec = new RecordDetail(resultset.getString(2),
 //			    		  tstFieldName,
 //			    		  tstFieldValue,

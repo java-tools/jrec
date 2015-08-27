@@ -44,7 +44,7 @@ public final class XmplLineIO7 {
 	            /* with XML copybooks, get the file structure from layout */
 	            int fileStructure = layout.getFileStructure();
 	            
-	            AbstractLineReader reader  = LineIOProvider.getInstance().getLineReader(fileStructure);
+	            AbstractLineReader reader  = LineIOProvider.getInstance().getLineReader(layout);
 	            AbstractLineWriter writer  = LineIOProvider.getInstance().getLineWriter(fileStructure);
 	            
 	            reader.open(salesFile, layout);

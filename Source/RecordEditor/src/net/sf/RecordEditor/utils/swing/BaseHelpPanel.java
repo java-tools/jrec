@@ -20,6 +20,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
+
 /**
  * Standard Panel with builtin help functionality.
  *
@@ -33,7 +34,6 @@ public class BaseHelpPanel extends BasePanel  {
 
     private ArrayList<KeyAdapter> list = new ArrayList<KeyAdapter>();
     private ArrayList<Component> componentList = new ArrayList<Component>(15);
-
 
 
 
@@ -53,8 +53,8 @@ public class BaseHelpPanel extends BasePanel  {
      *
      * @see net.sf.RecordEditor.utils.swing.BasePanel#registerComponent
      */
-    public final void registerComponent(JComponent component) {
-    	registerComponent(component, 0, help);
+    public final void registerComponentRE(JComponent component) {
+    	registerComponentRE(component, 0, help);
     	componentList.add(component);
 //        int i;
 //        registerOneComponent(component);
@@ -64,8 +64,8 @@ public class BaseHelpPanel extends BasePanel  {
 //        }
     }
 
-    public final void registerListner(KeyAdapter keyListner) {
-    	registerComponent(this, -2, keyListner);
+    public final void registerListnerRE(KeyAdapter keyListner) {
+    	registerComponentRE(this, -2, keyListner);
     }
 
 
@@ -73,8 +73,8 @@ public class BaseHelpPanel extends BasePanel  {
      * register one component
      * @param component component to be registered
      */
-    public final void registerOneComponent(Component component) {
-    	registerOneComponent(component, help);
+    public final void registerOneComponentRE(Component component) {
+    	registerOneComponentRE(component, help);
     	componentList.add(component);
     }
 
@@ -84,19 +84,19 @@ public class BaseHelpPanel extends BasePanel  {
      * @param component component to register
      * @param depth current recursion depth
      */
-    private void registerComponent(JComponent component, int depth, KeyAdapter keyListner) {
+    private void registerComponentRE(JComponent component, int depth, KeyAdapter keyListner) {
         int i;
         Component c;
-        registerOneComponent(component, keyListner);
+        registerOneComponentRE(component, keyListner);
 
         for (i = 0; i < component.getComponentCount(); i++) {
         	c = component.getComponent(i);
         	//registerOneComponent(c);
 
         	if (depth < 4 && c instanceof JComponent) {
-        		registerComponent((JComponent) c, depth + 1, keyListner);
+        		registerComponentRE((JComponent) c, depth + 1, keyListner);
         	} else {
-        		registerOneComponent(c, keyListner);
+        		registerOneComponentRE(c, keyListner);
         	}
         }
     }
@@ -106,7 +106,7 @@ public class BaseHelpPanel extends BasePanel  {
      * @param component component to be registered
      * @param listner to register
      */
-    private void registerOneComponent(Component component, KeyAdapter keyListner) {
+    private void registerOneComponentRE(Component component, KeyAdapter keyListner) {
 
 
         component.addKeyListener(keyListner);
@@ -155,9 +155,9 @@ public class BaseHelpPanel extends BasePanel  {
      *
      * @param btn help button
      */
-    public final void addHelpBtn(JButton btn) {
+    public final void addHelpBtnRE(JButton btn) {
 
-    	addHelpBtn(null, btn);
+    	addHelpBtnRE(null, btn);
      }
 
     /**
@@ -165,15 +165,15 @@ public class BaseHelpPanel extends BasePanel  {
      *
      * @param btn help button
      */
-	public final void addHelpBtn(JComponent component, JButton btn) {
+	public final void addHelpBtnRE(JComponent component, JButton btn) {
 
-        addLine("", component, btn);
+        addLineRE("", component, btn);
         btn.addActionListener(new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 help.showHelp();
             }
         });
-        registerOneComponent(btn);
+        registerOneComponentRE(btn);
     }
 
 
@@ -181,7 +181,7 @@ public class BaseHelpPanel extends BasePanel  {
      * Shows the help screen
      *
      */
-    public final void showHelp() {
+    public final void showHelpRE() {
 
         help.showHelp();
     }
@@ -192,8 +192,8 @@ public class BaseHelpPanel extends BasePanel  {
      *
      * @param helpUrl name of the Help URL
      */
-    public final void setHelpURL(URL helpUrl) {
+    public final void setHelpURLre(URL helpUrl) {
         help.setHelpURL(helpUrl);
-        registerOneComponent(this, help);
+        registerOneComponentRE(this, help);
     }
 }

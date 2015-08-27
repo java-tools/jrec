@@ -1,10 +1,10 @@
 package net.sf.RecordEditor.utils.swing.treeCombo;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JMenu;
@@ -44,26 +44,42 @@ public class TreeCombo extends ComboLikeObject {
 	}
 
 
-	public TreeCombo(TreeComboItem[] itms, JButton...btns) {
-		super(btns);
+	public TreeCombo(String txtFldName, TreeComboItem[] itms, JButton...btns) {
+		super(txtFldName, btns);
 
 		generatePopup(getPopup(), itms);
 	}
 
 
 	public TreeCombo(JPopupMenu popup, TreeComboItem[] itms, JButton...btns) {
-		super(popup, btns);
+		super(null, popup, btns);
 
 		generatePopup(getPopup(), itms);
 	}
 
+	protected static TreeComboItem[] list2Array(List<? extends TreeComboItem> list) {
+		if (list == null) {
+			return null; // new TreeComboItem[0];
+		}
+
+		return list.toArray(new FileTreeComboItem[list.size()]);
+	}
 
 
 	public final void setTree(TreeComboItem[] itms) {
+		setTree(itms, false);
+	}
+
+
+	public final void setTree(TreeComboItem[] itms, boolean setSize) {
 		JPopupMenu popup = getPopup();
 		popup.removeAll();
 
 		generatePopup(popup, itms);
+		
+		if (setSize) {
+			popup.setFont(getTextCompenent().getFont());
+		}
 	}
 
 
@@ -93,12 +109,14 @@ public class TreeCombo extends ComboLikeObject {
 		itemMap = new HashMap<Integer, TreeComboItem>();
 		menu.add(new ComboAction(TreeComboItem.BLANK_ITEM));
 		for (TreeComboItem item : items) {
-			TreeComboItem[] children = item.getChildren();
-			itemMap.put(item.key, item);
-			if (children == null) {
-				menu.add(new ComboAction(item));
-			} else {
-				menu.add(generatePopup(item, new JMenu(item.toString()), children));
+			if (item != null) {
+				TreeComboItem[] children = item.getChildren();
+				itemMap.put(item.key, item);
+				if (children == null) {
+					menu.add(new ComboAction(item));
+				} else {
+					menu.add(generatePopup(item, new JMenu(item.toString()), children));
+				}
 			}
 		}
 
@@ -139,37 +157,39 @@ public class TreeCombo extends ComboLikeObject {
 
 		for (int i = 0; i < children.length; i++) {
 			TreeComboItem child = children[i];
-			JMenu m;
-
-			if (child.equals(selectedItem)) {
-				MenuElement[] me = new MenuElement[parents.size() * 2 + 2];
-
-				me[0] = menu;
-				for (int j = 0; j < parents.size(); j++) {
-					m =  menuMap.get(parents.get(j));
-					me[j*2+1] = m;
-					me[j*2+2] = m.getPopupMenu();
-				}
-				me[me.length - 1] = menuItemMap.get(child);
-
-				MenuSelectionManager.defaultManager().setSelectedPath(me);
-//				for (TreeComboItem p : parents) {
-//					m = menuMap.get(p);
-//					if (m != null) {
-//						m.setSelected(true);
-//						m.setPopupMenuVisible(true);
-//					}
-//				}
-//
-//				JMenuItem mi = menuItemMap.get(child);
-//				if (mi != null) {
-//					mi.setArmed(true);
-//				}
-
-				return true;
-			} else if (child.getChildren() != null && child.getChildren().length > 0) {
-				if (searchItem(parents, child)) {
+			if (child != null) {
+				JMenu m;
+	
+				if (child.equals(selectedItem)) {
+					MenuElement[] me = new MenuElement[parents.size() * 2 + 2];
+	
+					me[0] = menu;
+					for (int j = 0; j < parents.size(); j++) {
+						m =  menuMap.get(parents.get(j));
+						me[j*2+1] = m;
+						me[j*2+2] = m.getPopupMenu();
+					}
+					me[me.length - 1] = menuItemMap.get(child);
+	
+					MenuSelectionManager.defaultManager().setSelectedPath(me);
+	//				for (TreeComboItem p : parents) {
+	//					m = menuMap.get(p);
+	//					if (m != null) {
+	//						m.setSelected(true);
+	//						m.setPopupMenuVisible(true);
+	//					}
+	//				}
+	//
+	//				JMenuItem mi = menuItemMap.get(child);
+	//				if (mi != null) {
+	//					mi.setArmed(true);
+	//				}
+	
 					return true;
+				} else if (child.getChildren() != null && child.getChildren().length > 0) {
+					if (searchItem(parents, child)) {
+						return true;
+					}
 				}
 			}
 		}
@@ -182,20 +202,22 @@ public class TreeCombo extends ComboLikeObject {
 
 		for (int i = 0; i < menuItems.length; i++) {
 			TreeComboItem child = menuItems[i];
-			TreeComboItem[] children = child.getChildren();
-			JMenu m;
-
-			if (children != null && children.length > 0) {
-				unhighlightChildren(children);
-				m = menuMap.get(child);
-				if (m != null) {
-					m.setSelected(false);
-					m.setPopupMenuVisible(false);
-				}
-			} else {
-				JMenuItem mi = menuItemMap.get(child);
-				if (mi != null && mi.isArmed()) {
-					mi.setArmed(false);
+			if (child != null) {
+				TreeComboItem[] children = child.getChildren();
+				JMenu m;
+	
+				if (children != null && children.length > 0) {
+					unhighlightChildren(children);
+					m = menuMap.get(child);
+					if (m != null) {
+						m.setSelected(false);
+						m.setPopupMenuVisible(false);
+					}
+				} else {
+					JMenuItem mi = menuItemMap.get(child);
+					if (mi != null && mi.isArmed()) {
+						mi.setArmed(false);
+					}
 				}
 			}
 		}
@@ -229,7 +251,23 @@ public class TreeCombo extends ComboLikeObject {
 		setSelectedItem(item);
 	}
 
-
+	
+	public final TreeComboItem getFirstItem() {
+		
+		if (items == null || items.length == 0) {
+			
+		} else {
+			for (int i = 0; i < items.length; i++) {
+				if (items[i] != null) {
+					return items[i];
+				}
+			}
+		} 
+		
+		return null;
+	}
+	
+	
 	private class ComboAction extends JMenuItem implements ActionListener {
 		private final TreeComboItem itm;
 
@@ -248,6 +286,6 @@ public class TreeCombo extends ComboLikeObject {
 		public void actionPerformed(ActionEvent e) {
 			setSelectedItem(itm);
 		}
-
 	}
+
 }

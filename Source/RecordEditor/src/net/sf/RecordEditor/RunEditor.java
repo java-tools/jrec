@@ -35,7 +35,8 @@ public final class RunEditor {
      * @param args program arguments
      */
     public static void main(String[] args) {
-        new Run("SmallEditorFiles.txt",
+        new Run(null,
+        		"SmallEditorFiles.txt",
                 JARS,
                 "net.sf.RecordEditor.edit.EditRec",
                 args);

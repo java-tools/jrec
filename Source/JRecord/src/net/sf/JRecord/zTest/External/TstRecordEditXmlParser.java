@@ -40,9 +40,9 @@ public class TstRecordEditXmlParser extends TestCase {
 	private String eol    = "\n";
 	private String [] poDetailLines = {
 			"<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
-			"<RECORD RECORDNAME=\"ams PO Download\" COPYBOOK=\"\" DELIMITER=\"&lt;Tab&gt;\" FILESTRUCTURE=\"Default\" STYLE=\"0\" RECORDTYPE=\"GroupOfRecords\" LIST=\"Y\" QUOTE=\"\" RecSep=\"default\" TESTFIELD=\"Record Type\" TESTVALUE=\"H1\" LINE_NO_FIELD_NAMES=\"1\">",
+			"<RECORD RECORDNAME=\"ams PO Download\" COPYBOOK=\"\" DELIMITER=\"&lt;Tab&gt;\" FILESTRUCTURE=\"Default\" STYLE=\"0\" RECORDTYPE=\"GroupOfRecords\" LIST=\"Y\" QUOTE=\"\" RecSep=\"default\" TESTFIELD=\"Record Type\" TESTVALUE=\"H1\">",
 			"	<RECORDS>",
-			"		<RECORD RECORDNAME=\"ams PO Download: Header\" COPYBOOK=\"\" DELIMITER=\"&lt;Tab&gt;\" DESCRIPTION=\"PO Download: Header\" FILESTRUCTURE=\"Default\" STYLE=\"0\" RECORDTYPE=\"RecordLayout\" LIST=\"N\" QUOTE=\"\" RecSep=\"default\" LINE_NO_FIELD_NAMES=\"1\">",
+			"		<RECORD RECORDNAME=\"ams PO Download: Header\" COPYBOOK=\"\" DELIMITER=\"&lt;Tab&gt;\" DESCRIPTION=\"PO Download: Header\" FILESTRUCTURE=\"Default\" STYLE=\"0\" RECORDTYPE=\"RecordLayout\" LIST=\"N\" QUOTE=\"\" RecSep=\"default\">",
 	//		"			<TSTFIELDS>",
 	//		"				<TSTFIELD NAME=\"Record Type\" VALUE=\"H1\"/>",
 	//		"			</TSTFIELDS>",
@@ -66,7 +66,7 @@ public class TstRecordEditXmlParser extends TestCase {
 			"				<FIELD NAME=\"Order Type\" POSITION=\"87\" LENGTH=\"2\" TYPE=\"Char\"/>",
 			"			</FIELDS>",
 			"		</RECORD>" ,
-			"		<RECORD RECORDNAME=\"ams PO Download: Detail\" COPYBOOK=\"\" DELIMITER=\"&lt;Tab&gt;\" DESCRIPTION=\"PO Download: Detail\" FILESTRUCTURE=\"Default\" STYLE=\"0\" RECORDTYPE=\"RecordLayout\" LIST=\"N\" PARENT=\"ams PO Download: Header\" QUOTE=\"\" RecSep=\"default\" TESTFIELD=\"Record Type\" TESTVALUE=\"D1\" LINE_NO_FIELD_NAMES=\"1\">",
+			"		<RECORD RECORDNAME=\"ams PO Download: Detail\" COPYBOOK=\"\" DELIMITER=\"&lt;Tab&gt;\" DESCRIPTION=\"PO Download: Detail\" FILESTRUCTURE=\"Default\" STYLE=\"0\" RECORDTYPE=\"RecordLayout\" LIST=\"N\" PARENT=\"ams PO Download: Header\" QUOTE=\"\" RecSep=\"default\" TESTFIELD=\"Record Type\" TESTVALUE=\"D1\">",
 		//	"			<TSTFIELDS>",
 		//	"				<TSTFIELD NAME=\"Record Type\" VALUE=\"D1\"/>",
 		//	"			</TSTFIELDS>",

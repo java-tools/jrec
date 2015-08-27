@@ -82,7 +82,12 @@ public interface AbstractFieldValue {
 	 */
 	public String asHex();
 	
-	
+	/**
+	 * Set the fields value
+	 * @param value new value
+	 */
+	public void set(AbstractFieldValue value) throws RecordException;
+
 	/**
 	 * Set the fields value
 	 * @param value new value
@@ -114,12 +119,27 @@ public interface AbstractFieldValue {
 	 */
 	public void set(boolean value) throws RecordException;
 
+	/**
+	 * Get Field Definition
+	 * @return Field Definition
+	 */
 	public abstract IFieldDetail getFieldDetail();
 
+	/**
+	 * Whether it is a binary field
+	 * @return binary field ?
+	 */
 	public abstract boolean isBinary();
 
+	/**
+	 * check if it is a numeric field
+	 * @return numeric field ?
+	 */
 	public abstract boolean isNumeric();
 
+	/**
+	 * Get the Type name
+	 * @return Type Name
+	 */
 	public abstract String getTypeName();
-
 }

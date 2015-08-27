@@ -129,7 +129,11 @@ public class BmDefaultMutableTreeNode implements MutableTreeNode {
 	}
 
 	public TreeNode getChildAt(int index) {
-		return getChildren().get(index);
+		Vector<MutableTreeNode> children2 = getChildren();
+		if (index < 0 || index >= children2.size()) {
+			return null;
+		}
+		return children2.get(index);
 	}
 
 	public int getChildCount() {

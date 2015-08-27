@@ -6,7 +6,6 @@ import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.re.display.DisplayBuilderFactory;
 import net.sf.RecordEditor.re.display.IDisplayBuilder;
 import net.sf.RecordEditor.re.file.FileView;
-
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
 
@@ -14,7 +13,7 @@ import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
 @SuppressWarnings("serial")
 public class ShowTextViewAction extends ReSpecificScreenAction implements AbstractActiveScreenAction {
 
-	private final boolean selectedRecords;
+	private final boolean selectedRecords, coloredFields;
 	private final int screenType;
 
 	public static ShowTextViewAction get(boolean selectedRecords, boolean coloredFields) {
@@ -31,14 +30,15 @@ public class ShowTextViewAction extends ReSpecificScreenAction implements Abstra
 			}
 		}
 
-		return new ShowTextViewAction(selectedRecords, s, stype);
+		return new ShowTextViewAction(selectedRecords, s, stype, coloredFields);
 	}
 	/**
 	 * @param creator
 	 */
-	private ShowTextViewAction(boolean selectedRecords, String msg, int sType) {
+	private ShowTextViewAction(boolean selectedRecords, String msg, int sType, boolean coloredFields) {
 		super(msg);
 		this.selectedRecords = selectedRecords;
+		this.coloredFields = coloredFields;
 		this.screenType = sType;
 
 		checkActionEnabled();
@@ -61,7 +61,11 @@ public class ShowTextViewAction extends ReSpecificScreenAction implements Abstra
 			FileView f = fileDisplay.getFileView();
 
 			if (selectedRecords) {
-				f = f.getView(fileDisplay.getSelectedLines());
+				if (fileDisplay.isOkToUseSelectedRows()) {
+					f = f.getView(fileDisplay.getSelectedRows());
+				} else {
+					f = f.getView(fileDisplay.getSelectedLines());
+				}
 			}
 
 			if (f != null) {
@@ -76,7 +80,7 @@ public class ShowTextViewAction extends ReSpecificScreenAction implements Abstra
 
 		if (activeScreen != null) {
 			AbstractFileDisplay source = (AbstractFileDisplay) activeScreen;
-			active =  source.getFileView().isDocumentViewAvailable();
+			active =  source.getFileView().isDocumentViewAvailable(coloredFields);
 		}
 
 		return active;

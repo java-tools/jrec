@@ -5,6 +5,8 @@ package net.sf.RecordEditor.re.util.csv;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,6 +34,7 @@ import net.sf.RecordEditor.utils.swing.EditingCancelled;
 public class GenericCsvReader extends DelegateReader {
 
 	//AbstractLineReader reader = null;
+	
 
 	/**
 	 * @param provider
@@ -49,18 +52,30 @@ public class GenericCsvReader extends DelegateReader {
 			throws IOException, RecordException {
 		BufferedInputStream inStream = new BufferedInputStream(inputStream);
 
-	 	byte[] fileData = new byte[Math.min(16000, inStream.available())];
-	 	byte[] recordSep = Common.SYSTEM_EOL_BYTES;
+	 	int bytesAvailable = inStream.available();
+	 	int len;
+		byte[] fileData;
+//	 	byte[] recordSep = Common.SYSTEM_EOL_BYTES;
 
+	 	if (bytesAvailable < 2) {
+	 		bytesAvailable = 0x16000;
+	 	}
+	 	fileData = new byte[Math.min(0x16000, bytesAvailable)];
 	 	inStream.mark(fileData.length);
-	 	inStream.read(fileData);
+	 	len = inStream.read(fileData);
 	 	inStream.reset();
+	 	
+	 	if (fileData.length > len) {
+	 		byte[] t = new byte[len];
+	 		System.arraycopy(fileData, 0, t, 0, len);
+	 		fileData = t;
+	 	}
 
 	 	GetCsvDetails getDetails = new GetCsvDetails(fileData, layout.getFontName());
 
 	 	if (getDetails.ok) {
 	 		FilePreview csv = getDetails.csvTab.getSelectedCsvDetails();
-			layout  = csv.getLayout(csv.getFontName(), recordSep);
+			layout  = csv.getLayout(csv.getFontName(), null);
 
 
 			if (layout != null) {
@@ -90,6 +105,19 @@ public class GenericCsvReader extends DelegateReader {
 	@SuppressWarnings("serial")
 	private static class GetCsvDetails extends JDialog implements ActionListener {
 
+
+		public final KeyAdapter keyListner = new KeyAdapter() {
+		        /**
+		         * @see java.awt.event.KeyAdapter#keyReleased
+		         */
+		        public final void keyReleased(KeyEvent event) {
+
+		        	if (event.getKeyCode() == KeyEvent.VK_ENTER) {
+		        		finnished(true);
+		         	}
+		        }
+		};
+
 		public final BaseHelpPanel pnl = new BaseHelpPanel();
 		public final CsvTabPane csvTab;
 		public final JTextField msgTxt = new JTextField();
@@ -97,19 +125,21 @@ public class GenericCsvReader extends DelegateReader {
 
 		public GetCsvDetails(byte[] data, String font) throws IOException {
 			super(ReMainFrame.getMasterFrame(), true);
+			
+			pnl.addReKeyListener(keyListner);
 
 			csvTab = new CsvTabPane(msgTxt, false, false);
 			csvTab.readCheckPreview(data, true, "", null);
 			csvTab.readOtherTab("", data);
 
-			pnl.setHelpURL(Common.formatHelpURL(Common.HELP_GENERIC_CSV));
+			pnl.setHelpURLre(Common.formatHelpURL(Common.HELP_GENERIC_CSV));
 
 			csvTab.csvDetails.go.addActionListener(this);
 			csvTab.csvDetails.cancel.addActionListener(this);
 			csvTab.unicodeCsvDetails.go.addActionListener(this);
 			csvTab.unicodeCsvDetails.cancel.addActionListener(this);
 
-			pnl.addComponent(
+			pnl.addComponentRE(
 					1, 5, BasePanel.PREFERRED, BasePanel.GAP1,
 			        BasePanel.FULL, BasePanel.FULL,
 			        csvTab.tab);
@@ -120,20 +150,28 @@ public class GenericCsvReader extends DelegateReader {
 			setResizable (true);
 			pack();
 			this.setVisible(true);
+			csvTab.csvDetails.addReKeyListener(keyListner);
+			csvTab.unicodeCsvDetails.addReKeyListener(keyListner);
+
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e)   {
 
+			finnished(e.getSource() == csvTab.csvDetails.go
+			  || e.getSource() == csvTab.unicodeCsvDetails.go);
+
+		}
+		
+
+		private void finnished(boolean isOk) {
 			csvTab.csvDetails.go.removeActionListener(this);
 			csvTab.csvDetails.cancel.removeActionListener(this);
 			csvTab.unicodeCsvDetails.go.removeActionListener(this);
 			csvTab.unicodeCsvDetails.cancel.removeActionListener(this);
-			ok = e.getSource() == csvTab.csvDetails.go
-			  || e.getSource() == csvTab.unicodeCsvDetails.go;
+			ok = isOk;
 
-			this.setVisible(false);
+			this.setVisible(false); 
 		}
 	}
-
 }

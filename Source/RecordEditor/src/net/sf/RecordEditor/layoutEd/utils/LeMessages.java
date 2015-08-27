@@ -27,4 +27,35 @@ public class LeMessages {
 			"You should define the Record Selections details (Field - Field Value)"
 			+ "and check the File Structure on the Extra sceen");
 
+	public final static ReMsgId SCHEMA_EXPORT_TIP = new ReMsgId(
+			"SchemaExportTip",
+			  "<h1>File Schema Export</h1>"
+			+ "This program will let you export one or more File-Schema<br/>(Record-Layouts) as Xml files"
+		    + "to a specified directory." 
+			+ "<br/>These Xml-File-Schema's can then be imported into another<br/>RecordEditor instance."
+		    + "<p>You can use % as a wild card in the Schema (or Record Name)"
+	);
+	
+	public final static ReMsgId SCHEMA_EXPORT_MSG = new ReMsgId(
+			"SchemaExportMsg",
+			"\n\nExported: {0}; Failed: {1}"
+	);
+
+	public final static ReMsg SCHEMA_EXPORT_FAILURE = new ReMsg(
+			"Failed: "
+	);
+	
+	public final static ReMsgId SCHEMA_IMPORT_TIP = new ReMsgId(
+			"SchemaImportTip",
+			  "<h1>File Schema Import</h1>"
+			+ "This program will let you import one or more Xml File-Schema<br/>(Record-Layouts) "
+		    + "from a specified directory."
+			+ "<br>You can use java Regular Expressions in the filename filter"
+	);
+
+	public final static ReMsgId SCHEMA_IMPORT_MSG = new ReMsgId(
+			"SchemaImportMsg",
+			"\n\nImported: {0}; Failed: {1}"
+	);
+
 }

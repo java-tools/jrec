@@ -12,12 +12,12 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import net.sf.RecordEditor.utils.msg.UtMessages;
+import net.sf.RecordEditor.utils.swing.TabWithClosePnl;
+
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.Gutter;
 import org.fife.ui.rtextarea.RTextScrollPane;
-
-import net.sf.RecordEditor.utils.msg.UtMessages;
-import net.sf.RecordEditor.utils.swing.TabWithClosePnl;
 
 public final class ScriptEditPane {
 
@@ -55,7 +55,7 @@ public final class ScriptEditPane {
 
 	public ScriptEditPane(ChangeListener tabChangeListner) {
 
-		this.tabWithClose = new TabWithClosePnl("    ");
+		this.tabWithClose = new TabWithClosePnl("    ", true);
 		this.tabChangeListner = tabChangeListner;
 		init();
 		setChanged(false);
@@ -70,7 +70,7 @@ public final class ScriptEditPane {
 		super();
 
 		setScriptFile(scriptFile);
-		this.tabWithClose = new TabWithClosePnl(scriptFile.getName());
+		this.tabWithClose = new TabWithClosePnl(scriptFile.getName(), true);
 		this.tabChangeListner = tabChangeListner;
 		init();
 
@@ -142,7 +142,7 @@ public final class ScriptEditPane {
 		tabWithClose.setTabname("");
 		setScriptFile(null);
 		tabChangeListner.stateChanged(null);
-		changed = false;
+		setChanged(false);
 	}
 
 	public final boolean isEmpty() {
@@ -230,11 +230,13 @@ public final class ScriptEditPane {
 		if (newFile != null) {
 			FileWriter w = new FileWriter(newFile);
 			try {
-				w.write(getText());
+				String text = getText();
+				w.write(text);
 
 				setScriptFile(newFile);
 				tabWithClose.setTabname(scriptFile.getName());
-			} catch (Exception e) {
+			} finally {
+				w.flush();
 				w.close();
 			}
 		}
@@ -251,13 +253,13 @@ public final class ScriptEditPane {
 	private void setChanged(boolean b) {
 		changed = b;
 
-		if (scriptFile != null) {
+//		if (scriptFile != null) {
 			textArea.getDocument().removeDocumentListener(docListner);
 
 			if (! changed) {
 				textArea.getDocument().addDocumentListener(docListner);
 			}
-		}
+//		}
 	}
 
 	/**
@@ -279,7 +281,16 @@ public final class ScriptEditPane {
 //			styleKey = SyntaxConstants.SYNTAX_STYLE_ACTIONSCRIPT;
 //		}
 
+//		TokenMakerFactory f = TokenMakerFactory.getDefaultInstance();
+//		if (f != null && ! f.keySet().contains(langDetails.rSyntax)) {
+//			String className = "org.fife.ui.rsyntaxtextarea.modes." + langDetails.langName + "TokenMaker";
+//	
+//			if (f instanceof AbstractTokenMakerFactory && this.getClass().getClassLoader().getResource(className) != null) {
+//				((AbstractTokenMakerFactory) f).putMapping(langDetails.rSyntax, className);
+//			}
+//		}
 		textArea.getDocument().removeDocumentListener(docListner);
+		
 		textArea.setSyntaxEditingStyle(langDetails.rSyntax);
 		setChanged(changed);
 		this.languageDetails = langDetails;

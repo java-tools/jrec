@@ -10,13 +10,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.RecordEditor.re.db.Table.TableDB;
 import net.sf.RecordEditor.re.db.Table.TableRec;
 import net.sf.RecordEditor.re.openFile.ComputerOptionCombo;
 import net.sf.RecordEditor.re.openFile.SplitCombo;
+import net.sf.RecordEditor.utils.charsets.FontCombo;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
@@ -36,14 +36,13 @@ public class CobolDirectoryFrame extends ReFrame {
 
 	public final SplitCombo  splitOptions  = new SplitCombo();
 	public BmKeyedComboBox fileStructure;
-	public final JTextField  fontName      = new JTextField();
+	public final FontCombo  fontName      = new FontCombo();
 	public final ComputerOptionCombo
 	                    binaryOptions = new ComputerOptionCombo();
     public BmKeyedComboBox      system;
 
 	//public JTextArea msgTxt;
 	public BasePanel panel = new BaseHelpPanel();
-
 
 	private ActionListener actionListner = null;
 
@@ -86,7 +85,7 @@ public class CobolDirectoryFrame extends ReFrame {
 		}
 		//fileChooser.setControlButtonsAreShown(false);
 
-		panel.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP1,
+		panel.addComponentRE(1, 5, BasePanel.FILL, BasePanel.GAP1,
 		         BasePanel.FULL, BasePanel.FULL,
 		         fileChooser);
 
@@ -94,16 +93,16 @@ public class CobolDirectoryFrame extends ReFrame {
 		//pnl.setGap(BasePanel.GAP1);
 		//pnl.addLine("", null, saveBtn);
 
-		panel.addLine("Split Copybook", splitOptions);
-		panel.addLine("Font Name", fontName);
-		panel.addLine("Binary Format", binaryOptions);
+		panel.addLineRE("Split Copybook", splitOptions);
+		panel.addLineRE("Font Name", fontName);
+		panel.addLineRE("Binary Format", binaryOptions);
 
-		panel.addLine("File Structure", fileStructure);
-		panel.addLine("System", system);
+		panel.addLineRE("File Structure", fileStructure);
+		panel.addLineRE("System", system);
 
         //if (displayMsg) {
 		JTextArea msgTxt = new JTextArea();
-    	panel.setGap(BasePanel.GAP1);
+    	panel.setGapRE(BasePanel.GAP1);
     	panel.addMessage(msgTxt);
 
     	SwingUtils.addKeyListnerToContainer(msgTxt, keyListner);

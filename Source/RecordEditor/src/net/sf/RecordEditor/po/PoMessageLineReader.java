@@ -1,17 +1,19 @@
 package net.sf.RecordEditor.po;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.Closeable;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.RecordException;
-import net.sf.JRecord.Common.RecordRunTimeException;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.RecordEditor.edit.display.extension.FieldDef;
@@ -32,7 +34,12 @@ public class PoMessageLineReader extends AbstractLineReader<LayoutDetail> {
 	private static final FieldDef[] ALL_FIELDS = PoField.getAllfields();
 
 	private BufferedReader r;
+	
+	private String font;
 
+	private PoLine holdLine = null;
+	
+	private ArrayList<Closeable> itmsToClose = new ArrayList<Closeable>();
 
 	/* (non-Javadoc)
 	 * @see net.sf.JRecord.IO.AbstractLineReader#open(java.io.InputStream, net.sf.JRecord.Details.AbstractLayoutDetails)
@@ -40,27 +47,135 @@ public class PoMessageLineReader extends AbstractLineReader<LayoutDetail> {
 	@Override
 	public void open(InputStream inputStream, LayoutDetail pLayout)
 			throws IOException, RecordException {
-		throw new RecordRunTimeException("Not Supported");
+		
+		BufferedInputStream is = new BufferedInputStream(inputStream, BUFFER_SIZE * 4);
+		is.mark(BUFFER_SIZE * 4);
+		font = "";
+		
+		InputStreamReader reader = new InputStreamReader(is);
+		itmsToClose.add(inputStream);
+		getPoDetails(pLayout, reader);
+		
+		if (! "".equals(font)) {
+			is.reset();
+			try {
+				InputStreamReader in = new InputStreamReader(is, font);
+				r = new BufferedReader(in);
+				itmsToClose.add(in);
+			} catch (Exception e) {
+				r = new BufferedReader(reader);
+			}
+			read(); 
+		}
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sf.JRecord.IO.AbstractLineReader#open(java.io.InputStream, java.lang.String, net.sf.JRecord.Details.AbstractLayoutDetails)
-	 */
+//	/* (non-Javadoc)
+//	 * @see net.sf.JRecord.IO.AbstractLineReader#open(java.io.InputStream, java.lang.String, net.sf.JRecord.Details.AbstractLayoutDetails)
+//	 */
+//	@Override
+//	public void open(InputStream inputStream, String fileName,
+//			LayoutDetail pLayout) throws IOException, RecordException {
+//		r = new BufferedReader(new FileReader(fileName), BUFFER_SIZE);
+//		pLayout = PoLayoutMgr.getPoLayout();
+//		super.setLayout(pLayout);
+//
+//
+//		font = "";
+//		PoLine l = read();
+//		if (l != null) {
+//			Object o = l.getField(0, PoField.msgstr.fieldIdx);
+//			Object o2 = l.getField(0, PoField.msgid.fieldIdx);
+//
+//			r.close();
+//
+//			if (o != null && o2 != null && "".equals(o2.toString())) {
+//				String s = o.toString().toLowerCase();
+//				int pos = s.indexOf("charset=");
+//
+//				if (pos >= 0) {
+//					s = s.substring(pos+8);
+//
+//					int	pos1 = s.indexOf(' ');
+//					int pos2 = s.indexOf("\\n");
+//					int pos3 = s.indexOf(';');
+//					int pos4 = s.indexOf('\n');
+//					pos = pos1;
+//					if (pos < 0 || pos2>=0 && pos2 < pos) {
+//						pos = pos2;
+//					}
+//					if (pos < 0 || pos3>=0 && pos3 < pos) {
+//						pos = pos3;
+//					}
+//					if (pos < 0 || pos4>=0 && pos4 < pos) {
+//						pos = pos4;
+//					}
+//
+//					if (pos > 0) {
+//						font = s.substring(0, pos);
+//						pLayout.setFontName(font);
+//					}
+//				}
+//
+//				pLayout.setExtraDetails(l);
+//				if (font.equals("")) {
+//					 r = new BufferedReader(new FileReader(fileName), BUFFER_SIZE);
+//				} else {
+//					 try {
+//						r = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), font), BUFFER_SIZE);
+//					 } catch (Exception e) {
+//						r = new BufferedReader(new FileReader(fileName), BUFFER_SIZE);
+//					 }
+//				}
+//
+//				read();
+//
+//			} else {
+//				r = new BufferedReader(new FileReader(fileName), BUFFER_SIZE);
+//			}
+//		}
+//	}
+	
 	@Override
 	public void open(InputStream inputStream, String fileName,
-			LayoutDetail pLayout) throws IOException, RecordException {
-		r = new BufferedReader(new FileReader(fileName), BUFFER_SIZE);
+			LayoutDetail pLayout) throws IOException, RecordException { 
+
+		font = "";
+		getPoDetails(pLayout, new FileReader(fileName));
+		
+		if (! "".equals(font)) {
+			r.close(); 
+			try {
+				FileInputStream in = new FileInputStream(fileName);
+				itmsToClose.add(in);
+				InputStreamReader in2 = new InputStreamReader(in, font);
+				itmsToClose.add(in2);
+				r = new BufferedReader(in2, BUFFER_SIZE);
+			} catch (Exception e) {
+				Reader reader = new FileReader(fileName);
+				itmsToClose.add(reader);
+				r = new BufferedReader(new FileReader(fileName), BUFFER_SIZE);
+			}
+			read(); 
+			//holdLine = null;
+		}
+	}
+	
+	private void getPoDetails(LayoutDetail pLayout, Reader reader) throws IOException {
+		r = new BufferedReader(reader, BUFFER_SIZE);
 		pLayout = PoLayoutMgr.getPoLayout();
 		super.setLayout(pLayout);
+		
+		itmsToClose.add(reader);
 
 
-		String font = "";
+
+		font = "";
 		PoLine l = read();
 		if (l != null) {
 			Object o = l.getField(0, PoField.msgstr.fieldIdx);
 			Object o2 = l.getField(0, PoField.msgid.fieldIdx);
 
-			r.close();
+			//r.close();
 
 			if (o != null && o2 != null && "".equals(o2.toString())) {
 				String s = o.toString().toLowerCase();
@@ -89,27 +204,22 @@ public class PoMessageLineReader extends AbstractLineReader<LayoutDetail> {
 						pLayout.setFontName(font);
 					}
 				}
-
+				
 				pLayout.setExtraDetails(l);
-				if (font.equals("")) {
-					 r = new BufferedReader(new FileReader(fileName), BUFFER_SIZE);
-				} else {
-					 try {
-						r = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), font), BUFFER_SIZE);
-					 } catch (Exception e) {
-						r = new BufferedReader(new FileReader(fileName), BUFFER_SIZE);
-					 }
-				}
-
-				read();
-
 			} else {
-				r = new BufferedReader(new FileReader(fileName), BUFFER_SIZE);
+				holdLine = l;
 			}
 		}
 	}
 
 	public final PoLine read() throws IOException {
+		PoLine line;
+		if (holdLine != null) {
+			line = holdLine;
+			holdLine = null;
+			return line;
+		}
+		
 		String l, inputLine;
 
 		int fldIdx = -1;
@@ -120,7 +230,7 @@ public class PoMessageLineReader extends AbstractLineReader<LayoutDetail> {
 			}
 		} while ("".equals(l.trim()));
 
-		PoLine line = new PoLine(getLayout());
+		line = new PoLine(getLayout());
 		do {
 			String lc = l.toLowerCase();
 			boolean found = false;
@@ -248,6 +358,13 @@ public class PoMessageLineReader extends AbstractLineReader<LayoutDetail> {
 	 * @see java.io.BufferedReader#close()
 	 */
 	public void close() throws IOException {
+		for (Closeable c : this.itmsToClose) {
+			try {
+				c.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		r.close();
 	}
 
@@ -289,7 +406,7 @@ public class PoMessageLineReader extends AbstractLineReader<LayoutDetail> {
         while (start >= 0 && start+1 < in.length()) {
         	switch (in.charAt(start+1)) {
         	case 'n':	to = "\n";		break;
-        	case 'r':	to = "\r";		break;
+//        	case 'r':	to = "\r";		break;
         	case 't':	to = "\t";		break;
         	case '\"':	to = "\"";		break;
         	case '\\':	to = "\\";		break;

@@ -7,7 +7,6 @@ import net.sf.JRecord.Types.TypeChar;
 import net.sf.JRecord.Types.TypeCommaDecimalPoint;
 import net.sf.JRecord.Types.TypeManager;
 import net.sf.JRecord.Types.TypeNum;
-
 import net.sf.RecordEditor.re.jrecord.types.TypeDateWrapper;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
@@ -91,7 +90,9 @@ public class BuildTypeComboList {
 					case Type.ftCharNullPadded:
 					case Type.ftCharNullTerminated:
 					case Type.ftCharRestOfRecord:
+	                case Type.ftCharMultiLine:	
 					case Type.ftMultiLineChar:
+					case Type.ftArrayField:
 						specialTypes.add(tc);
 						break;
 					case Type.ftFjZonedNumeric:

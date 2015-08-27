@@ -142,11 +142,11 @@ public class PoLineIOProvider extends BasicIoProvider {
 	}
 
 	/* (non-Javadoc)
-	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineProvider(int)
+	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineProvider(int, String)
 	 */
 	@SuppressWarnings("rawtypes")
 	@Override
-	public LineProvider getLineProvider(int fileStructure) {
+	public LineProvider getLineProvider(int fileStructure, String charset) {
 		switch (fileStructure) {
 		case Constants.IO_GETTEXT_PO: 	return provider;
 		case Constants.IO_TIP:			return tipProvider;

@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -21,8 +22,9 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.HtmlWindow;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.treeCombo.FileSelectCombo;
 import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 
 /**
@@ -32,8 +34,8 @@ import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 @SuppressWarnings("serial")
 public class CmpWizardFinal extends BaseHelpPanel implements AbstractWizardPanel<DiffDefinition> {
 
-	private FileChooser saveFileName = new FileChooser(false);
-	private FileChooser htmlFileName = new FileChooser(false);
+	private FileSelectCombo saveFileName = new FileSelectCombo(Parameters.SAVED_DIFF_LIST, 15, false, false, true);
+	private FileSelectCombo htmlFileName = new FileSelectCombo(Parameters.HTML_OUTPUT_LIST, 15, false, false, true);
 
 	private AbstractLayoutSelection selection;
 	private AbstractLayoutSelection selection2;
@@ -42,15 +44,17 @@ public class CmpWizardFinal extends BaseHelpPanel implements AbstractWizardPanel
 	private JButton runBtn  = SwingUtils.newButton("Compare");
 	private JButton htmlBtn = SwingUtils.newButton("Compare (HTML)");
 
-	private JRadioButton stripTrailingSpaces = new JRadioButton("Strip Trailing Spaces");
-	private JRadioButton singleTblBtn    = new JRadioButton("Single Table");
-	private JRadioButton multipleTblsBtn = new JRadioButton("Table per row");
+	private JRadioButton stripTrailingSpaces = SwingUtils.newRadioButton("Strip Trailing Spaces");
+	private JRadioButton singleTblBtn    = SwingUtils.newRadioButton("Single Table");
+	private JRadioButton multipleTblsBtn = SwingUtils.newRadioButton("Table per row");
 
-	private JRadioButton allRows = new JRadioButton("All Rows");
-	private JRadioButton chgRows = new JRadioButton("Only Changed Rows");
+	private JRadioButton allRows = SwingUtils.newRadioButton("All Rows");
+	private JRadioButton chgRows = SwingUtils.newRadioButton("Only Changed Rows");
 
-	private JRadioButton allFieldsBtn = new JRadioButton("All Fields");
-	private JRadioButton chgFieldsBtn = new JRadioButton("Only Changed Fields");
+	private JRadioButton allFieldsBtn = SwingUtils.newRadioButton("All Fields");
+	private JRadioButton chgFieldsBtn = SwingUtils.newRadioButton("Only Changed Fields");
+
+	private JCheckBox showHtmlCheckBox = SwingUtils.newCheckBox("Show Html");
 
 	private JTextField message        = new JTextField();
 
@@ -82,46 +86,51 @@ public class CmpWizardFinal extends BaseHelpPanel implements AbstractWizardPanel
 	 * Final wizard Screen
 	 */
 	public CmpWizardFinal(AbstractLayoutSelection layoutSelection,
-			AbstractLayoutSelection layoutSelection2) {
+			AbstractLayoutSelection layoutSelection2, boolean offerSaveOption) {
 		super();
 		JPanel pnl = new JPanel(new GridLayout(3,2));
 		//JPanel pnlStrip = new JPanel();
+		saveFileName.setDefaultDirectory(Parameters.getFileName(Parameters.COMPARE_SAVE_DIRECTORY));
 
 
 		selection = layoutSelection ;
 		selection2 = layoutSelection2;
 
-		saveFileName.setDefaultDirectory(Parameters.getFileName(Parameters.COMPARE_SAVE_DIRECTORY));
+		saveFileName.setText(Parameters.getFileName(Parameters.COMPARE_SAVE_DIRECTORY));
 
+		showHtmlCheckBox.setSelected(true);
+		
 		saveBtn.addActionListener(btnAction);
 		runBtn.addActionListener(btnAction);
 		htmlBtn.addActionListener(btnAction);
 
-		super.setHelpURL(Common.formatHelpURL(Common.HELP_DIFF_SL));
+		super.setHelpURLre(Common.formatHelpURL(Common.HELP_DIFF_SL));
 
-		super.addLine("Save File", saveFileName, saveFileName.getChooseFileButton());
-		super.setGap(BasePanel.GAP1);
-		super.addLine("Html File", htmlFileName, htmlFileName.getChooseFileButton());
-		super.setGap(BasePanel.GAP1);
-		super.addLine("", stripTrailingSpaces);
-		super.setGap(BasePanel.GAP1);
-		super.addLine("HTML options:", null);
+		if (offerSaveOption) {
+			super.addLineRE("Save File", saveFileName);
+			super.setGapRE(BasePanel.GAP1);
+		}
+		super.addLineRE("Html File", htmlFileName);
+		super.setGapRE(BasePanel.GAP1);
+		super.addLineRE("", stripTrailingSpaces);
+		super.setGapRE(BasePanel.GAP1);
+		super.addLineRE("HTML options:", null);
 
 		addRadioGrp(pnl, singleTblBtn, multipleTblsBtn);
 		addRadioGrp(pnl, allRows, chgRows);
 		addRadioGrp(pnl, allFieldsBtn, chgFieldsBtn);
 
-		super.addLine("", pnl);
-		super.setHeight(BasePanel.GAP5);
+		super.addLineRE("", pnl);
+		super.setHeightRE(BasePanel.GAP5);
 
-		super.addLine("", null, saveBtn);
-		super.setGap(BasePanel.GAP0);
-		super.addLine("", null, runBtn);
-		super.setGap(BasePanel.GAP0);
-		super.addLine("", null, htmlBtn);
-		super.setGap(BasePanel.GAP2);
+		super.addLineRE("", null, saveBtn);
+		super.setGapRE(BasePanel.GAP0);
+		super.addLineRE("", null, runBtn);
+		super.setGapRE(BasePanel.GAP0);
+		super.addLineRE("", showHtmlCheckBox, htmlBtn);
+		super.setGapRE(BasePanel.GAP2);
 		super.addMessage(message);
-		super.setHeight(BasePanel.HEIGHT_1P6);
+		super.setHeightRE(BasePanel.HEIGHT_1P6);
 	}
 
 	private void addRadioGrp(JPanel pnl, JRadioButton btn1, JRadioButton btn2) {
@@ -197,6 +206,7 @@ public class CmpWizardFinal extends BaseHelpPanel implements AbstractWizardPanel
 	public final void run() {
 
 		try {
+			message.setText("");
 			diffDetail = getValues();
 
 			DoCompare.getInstance().compare(selection, selection2, diffDetail);
@@ -212,14 +222,18 @@ public class CmpWizardFinal extends BaseHelpPanel implements AbstractWizardPanel
 	public final void runHtml() {
 
 		if ("".equals(htmlFileName.getText())) {
-			setMessageTxt("You must enter a HTML file");
+			setMessageTxtRE("You must enter a HTML file");
 			htmlFileName.requestFocus();
 		} else {
 			try {
+				message.setText("");
 				diffDetail = getValues();
 
 				DoCompare.getInstance().writeHtml(selection, selection2, diffDetail);
 
+				if (showHtmlCheckBox.isSelected()) {
+					new HtmlWindow(diffDetail.htmlFile, "Generated Html");
+				}
 				toRun = false;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -236,10 +250,10 @@ public class CmpWizardFinal extends BaseHelpPanel implements AbstractWizardPanel
 		try {
 			diffDetail = getValues();
 
-			   if (jibx == null) {
-				   jibx = new JibxCall<DiffDefinition>(DiffDefinition.class);
-			   }
-			   jibx.unmarshal(diffDetail.saveFile, diffDetail);
+			if (jibx == null) {
+				jibx = new JibxCall<DiffDefinition>(DiffDefinition.class);
+			}
+			jibx.unmarshal(diffDetail.saveFile, diffDetail);
 			diffDetail.fileSaved = true;
 		} catch (Exception e) {
  		   e.printStackTrace();

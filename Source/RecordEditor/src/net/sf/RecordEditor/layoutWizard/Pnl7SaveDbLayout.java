@@ -35,20 +35,20 @@ public class Pnl7SaveDbLayout extends WizardPanel {
 	public Pnl7SaveDbLayout(AbsRowList systemList) {
 
 
-		this.setHelpURL(Common.formatHelpURL(Common.HELP_WIZARD_SAVE));
+		this.setHelpURLre(Common.formatHelpURL(Common.HELP_WIZARD_SAVE));
 
-		this.setGap(BasePanel.GAP2);
+		this.setGapRE(BasePanel.GAP2);
 
-		this.addLine("Layout Name", layoutName);
-		this.addLine("Layout Description", layoutDescription);
-		this.setHeight(BasePanel.GAP3);
-		this.setGap(BasePanel.GAP1);
+		this.addLineRE("Layout Name", layoutName);
+		this.addLineRE("Layout Description", layoutDescription);
+		this.setHeightRE(BasePanel.GAP3);
+		this.setGapRE(BasePanel.GAP1);
 		
 		system         = new BmKeyedComboBox(systemList, false);
-		this.addLine("System", system);
+		this.addLineRE("System", system);
 
 
-		this.setGap(BasePanel.GAP3);
+		this.setGapRE(BasePanel.GAP3);
 	}
 
 	/**

@@ -2,7 +2,6 @@ package net.sf.JRecord.Details;
 
 import java.util.List;
 
-import net.sf.JRecord.Common.IBasicFileSchema;
 import net.sf.JRecord.Common.IFieldDetail;
 
 /**
@@ -11,7 +10,7 @@ import net.sf.JRecord.Common.IFieldDetail;
  * @author Bruce Martin
  *
  */
-public interface AbstractLayoutDetails extends IBasicFileSchema {
+public interface AbstractLayoutDetails extends IBasicLayout {
 
 //	/**
 //	 * wether it is a binary record
@@ -121,12 +120,14 @@ public interface AbstractLayoutDetails extends IBasicFileSchema {
 	 */
 	public abstract String getEolString();
 
-	/**
-	 * Get the maximum length of the Layout
-	 *
-	 * @return the maximum length
-	 */
-	public abstract int getMaximumRecordLength();
+//  Moved to IBasicFileSchema
+//
+//	/**
+//	 * Get the maximum length of the Layout
+//	 *
+//	 * @return the maximum length
+//	 */
+//	public abstract int getMaximumRecordLength();
 
 
 	/**

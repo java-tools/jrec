@@ -11,7 +11,6 @@ import java.util.TreeSet;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
@@ -20,7 +19,7 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboFileSelect;
 
 /**
  * Purpose: Change the foreign language used in the RecordEditor
@@ -48,7 +47,7 @@ public class EditLanguage extends BasePanel {
 
 	private JEditorPane tips = new JEditorPane("text/html", DESCRIPTION);
 
-	private FileChooser langDirFchooser = new FileChooser();
+	private TreeComboFileSelect langDirFchooser = new TreeComboFileSelect(true, false, true, null, null);
 
 	private JComboBox languagesCombo = new JComboBox();
 
@@ -79,7 +78,7 @@ public class EditLanguage extends BasePanel {
 
 	   langDirFchooser.setText(getLangDir());
 	   langDirFchooser.setExpandVars(true);
-	   langDirFchooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+//	   langDirFchooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
 	   if (lastLang != null && langItmHash.containsKey(lastLang)) {
 		   languagesCombo.setSelectedItem(langItmHash.get(lastLang));
@@ -110,11 +109,11 @@ public class EditLanguage extends BasePanel {
 
    private void init_200_LayoutScreen() {
 
-	   this.addComponent(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP2,
+	   this.addComponentRE(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP2,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
-	   this.addLine("Language Directory", langDirFchooser, langDirFchooser.getChooseFileButton());
-	   this.addLine("Language", languagesCombo);
+	   this.addLineRE("Language Directory", langDirFchooser);
+	   this.addLineRE("Language", languagesCombo);
    }
 
    private void init_300_FinaliseScreen() {

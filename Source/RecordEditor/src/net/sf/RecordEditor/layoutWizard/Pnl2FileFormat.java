@@ -20,7 +20,7 @@ implements AbstractWizardPanel<Details> {
 	public Pnl2FileFormat() {
 		super();
 		
-		this.setHelpURL(Common.formatHelpURL(Common.HELP_WIZARD_FILE_STRUCTURE));
+		this.setHelpURLre(Common.formatHelpURL(Common.HELP_WIZARD_FILE_STRUCTURE));
 	}
 
 	@Override
@@ -32,7 +32,7 @@ implements AbstractWizardPanel<Details> {
 	public Details getValues() throws Exception {
 
 		wizardDetails.fileStructure = super.getFileStructure();
-		wizardDetails.fontName = super.fontNameTxt.getText();
+		wizardDetails.fontName = super.fontNameCombo.getText();
 		wizardDetails.textPct = textPct;
 
         int len;
@@ -72,7 +72,7 @@ implements AbstractWizardPanel<Details> {
 	public void setValues(Details detail) throws Exception {
 		wizardDetails = detail;
 		
-		super.fontNameTxt.setText(detail.fontName);
+		super.fontNameCombo.setText(detail.fontName);
 
 		initFormat = detail.fileStructure;
 		initRecLength = wizardDetails.recordLength;

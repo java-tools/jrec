@@ -30,9 +30,11 @@ package net.sf.RecordEditor.edit.display;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
@@ -50,6 +52,7 @@ import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Details.LayoutDetail;
+import net.sf.JRecord.Details.Options;
 import net.sf.RecordEditor.edit.display.Action.AutofitAction;
 import net.sf.RecordEditor.edit.display.Action.CsvUpdateLayoutAction;
 import net.sf.RecordEditor.edit.display.Action.GotoLineAction;
@@ -63,6 +66,7 @@ import net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.re.file.FieldMapping;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.MenuPopupListener;
+import net.sf.RecordEditor.utils.basicStuff.BasicTable;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
@@ -237,14 +241,19 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
         };
 
         JTable tableDetails = new JTable(viewOfFile);
+        JMenu csvMenu = null;
 
         super.setJTable(tableDetails);
         tblScrollPane = new FixedColumnScrollPane(tableDetails);
 
         keyListner =    new RowChangeListner(tableDetails, this);
 
+        if (fileMaster.isSimpleCsvFile()) {
+        	csvMenu = init_110_GetCsvMenu();
+        }
+
         mainPopup = //MenuPopupListener.getEditMenuPopupListner(mainActions);
-        new MenuPopupListener(mainActions, true, tableDetails) {
+        new MenuPopupListener(mainActions, true, tableDetails, csvMenu, true) {
  		   /**
 		     * @see MouseAdapter#mousePressed(java.awt.event.MouseEvent)
 		     */
@@ -274,9 +283,9 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
             }
         };
         mainPopup.getPopup().add(tblScrollPane.getShowFieldsMenu());
-        if (fileMaster.isSimpleCsvFile()) {
-        	mainPopup.getPopup().add(init_110_GetCsvMenu());
-        }
+//        if (fileMaster.isSimpleCsvFile()) {
+//        	mainPopup.getPopup().add(init_110_GetCsvMenu());
+//        }
 
         viewOfFile.setFrame(ReMainFrame.getMasterFrame());
 
@@ -289,8 +298,8 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 
         super.setAlternativeTbl(tblScrollPane.getFixedTable());
 
-        actualPnl.registerComponent(tableDetails);
-        actualPnl.registerComponent(tblScrollPane.getFixedTable());
+        actualPnl.registerComponentRE(tableDetails);
+        actualPnl.registerComponentRE(tblScrollPane.getFixedTable());
         defColumns();
 
         tblScrollPane.getFixedTable().getTableHeader().addMouseListener(new HeaderSort());
@@ -346,9 +355,9 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
     private void init_200_LayoutScreen() {
 
     	super.actualPnl.addReKeyListener(new DelKeyWatcher());
-        actualPnl.setHelpURL(Common.formatHelpURL(Common.HELP_RECORD_TABLE));
+        actualPnl.setHelpURLre(Common.formatHelpURL(Common.HELP_RECORD_TABLE));
 
-        actualPnl.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
+        actualPnl.addComponentRE(1, 5, BasePanel.FILL, BasePanel.GAP,
                          BasePanel.FULL, BasePanel.FULL,
                          tblScrollPane);
 
@@ -573,7 +582,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
         isPrefered = layoutIdx == getLayoutCombo().getPreferedIndex();
 
         setKeylistner(tbl);
-        if (isPrefered) {
+        if (isPrefered || tcm.getColumnCount() < 3) {
 
         } else if (layoutIdx == fullLineIndex) {
             if (charRendor == null) {
@@ -624,8 +633,8 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 
         if (scrollPane != null) {
     	   int rowCount = view.getRowCount();
-    	   int width = 5;
-    	   //System.out.println("Setup fixed columns ... ");
+    	   int width = SwingUtils.CHAR_FIELD_WIDTH;
+    	   System.out.println("Setup fixed columns ... " + width);
            scrollPane.setFixedColumns(NUMBER_OF_CONTROL_COLUMNS);
            TableColumn tc = scrollPane.getFixedTable().getColumnModel().getColumn(0);
            tc.setCellRenderer(tableBtn);
@@ -727,8 +736,10 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
      */
     public void executeAction(int action) {
     	JTable table = getJTable();
+    	TableColumnModel columnModel;
 
-    	switch (action) {
+    	int selectedRow = table.getSelectedRow();
+		switch (action) {
     	case (ReActionHandler.REPEAT_RECORD_POPUP):
            fileView.repeatLine(popupRow);
     	break;
@@ -736,10 +747,45 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
     	case (ReActionHandler.DELETE_BUTTON):
     	case (ReActionHandler.DELETE_RECORD_POPUP):
     		super.executeAction(action);
-    		checkForTblRowChange(table.getSelectedRow());
+    		checkForTblRowChange(selectedRow);
     	break;
-    	case(ReActionHandler.PASTE_TABLE_INSERT):
-			int startRow = table.getSelectedRow();
+    	case ReActionHandler.PASTE_INSERT_CELLS:
+     		if (selectedRow >= 0) {
+    			Clipboard system = Toolkit.getDefaultToolkit().getSystemClipboard();
+    			try {
+					String ss = (String) (system.getContents(this)
+												.getTransferData(DataFlavor.stringFlavor));
+			   		columnModel = table.getColumnModel();
+					boolean changed = fileView.insertCells(
+							getLayoutIndex(), 
+							selectedRow, 
+							columnModel.getColumn(table.getSelectedColumn()).getModelIndex(),
+							new BasicTable(ss));
+					if (changed) {
+						Code.notifyFramesOfUpdatedLayout(fileMaster, layout);
+						//defColumns();
+					}
+//					fileView.fireTableDataChanged();
+				} catch (UnsupportedFlavorException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+    		}
+    		break;
+    	case ReActionHandler.CUT_SELECTED_CELLS:
+    		SwingUtils.copySelectedCells(getJTable());
+    		// Deliberate fall through to Delete Selected cells
+    	case ReActionHandler.DELETE_SELECTED_CELLS:
+    		int[] selectedColumns = table.getSelectedColumns();
+    		columnModel = table.getColumnModel();
+			for (int i = 0; i < selectedColumns.length; i++) {
+				selectedColumns[i] = columnModel.getColumn(selectedColumns[i]).getModelIndex();
+			}
+			fileView.deleteCells(getLayoutIndex(), table.getSelectedRows(), selectedColumns);
+    		break;
+    	case ReActionHandler.PASTE_TABLE_INSERT:
+			int startRow = selectedRow;
 			int startCol = table.getSelectedColumn();
 			if (startRow >= 0) {
 				Clipboard system = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -751,7 +797,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 						fileView.newLine(startRow, 0);
 					}
 
-					pasteTable(startRow + 1, startCol, pasteStr	);
+					pasteTable(startRow + 1, startCol, pasteStr	); 
 				} catch (Exception e) {
 				}
 			}
@@ -768,12 +814,22 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 	 */
 	@Override
 	public boolean isActionAvailable(int action) {
+		
+	
 
-		return action == ReActionHandler.PASTE_TABLE_INSERT
-			|| action == ReActionHandler.AUTOFIT_COLUMNS
-			|| action == ReActionHandler.REPEAT_RECORD_POPUP
-			|| super.isActionAvailable(action);
+		switch (action) {
+		case ReActionHandler.PASTE_TABLE_INSERT:
+		case ReActionHandler.AUTOFIT_COLUMNS:
+		case ReActionHandler.REPEAT_RECORD_POPUP:
+			return true;
+		case ReActionHandler.PASTE_INSERT_CELLS :
+		case ReActionHandler.CUT_SELECTED_CELLS:
+		case ReActionHandler.DELETE_SELECTED_CELLS:
+			return layout.getOption(Options.OPT_CAN_ADD_DELETE_FIELD_VAlUES) == Options.YES;
+		}
+		return super.isActionAvailable(action);
 	}
+		
 
 
     /**
@@ -782,14 +838,16 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 	public void tableChanged(TableModelEvent event) {
 
 		//System.out.print("LineList: Table Changed: " + event.getType() + " " + TableModelEvent.ALL_COLUMNS);
-		if (super.hasTheFormatChanged(event)) {
+	
+		/*if (super.hasTheFormatChanged(event)) {
 			fileView.fireTableStructureChanged();
+			defColumns();
+		} else*/ if (hasTheTableStructureChanged(event)) {
+			super.hasTheFormatChanged(event);
 			defColumns();
 		} else {
 			checkForResize(event);
 		}
-
-		//System.out.println();
 	}
 
 
@@ -954,6 +1012,13 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 
 
 
+	/**
+	 * @see net.sf.RecordEditor.edit.display.common.ILayoutChanged#layoutChanged(net.sf.JRecord.Details.AbstractLayoutDetails)
+	 */
+	@Override
+	public void layoutChanged(AbstractLayoutDetails newLayout) {
+		defColumns();
+	}
 
 
 

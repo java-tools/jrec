@@ -25,10 +25,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.RecordEditorCsvLoader;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
+import net.sf.JRecord.External.Def.BasicConversion;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.layoutEd.utils.LeMessages;
@@ -39,6 +42,8 @@ import net.sf.RecordEditor.re.jrecord.format.CellFormat;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.msg.UtMessages;
+import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 
 
 /**
@@ -60,8 +65,13 @@ public final class UpgradeDB {
 	private static String VERSION_931 = "0093100";
 	private static String VERSION_932 = "0093200";
 	private static String VERSION_94  = "0094000";
-	private static String VERSION_95C  = "0095001";
-	//private static String LATEST_VERSION = VERSION_670;
+	private static String VERSION_95C = "0095001";
+	private static String VERSION_95D = "0095002";
+	private static String VERSION_95E = "0095003";
+	private static String VERSION_96Ha = "0096001";
+	private static String VERSION_96H = "0096002";
+
+	private static String LATEST_VERSION = VERSION_96H;
 	private static String VERSION_KEY  = "-101";
 
 	private List<LayoutDef> holdLayoutDetails = new ArrayList<UpgradeDB.LayoutDef>();
@@ -373,23 +383,23 @@ public final class UpgradeDB {
 
      //      	insertSQL + "(1," + Type.ftCharRestOfFixedRecord + ",'Char Rest of Fixed Length');",
           	insertSQL + "(1," + Type.ftBinaryBigEndianPositive + ",'Binary Integer Big Endian (only +ve )');",
-           	insertSQL + "(1," + Type.ftAssumedDecimalPositive + ",'Num Assumed Decimal (+ve)');",
-          	insertSQL + "(1," + Type.ftPackedDecimalPostive + ",'Mainframe Packed Decimal (+ve)');",
-           	insertSQL + "(1," + Type.ftBinaryIntPositive + ",'Binary Integer (only +ve)');",
+           	insertSQL + "(1," + Type.ftAssumedDecimalPositive  + ",'Num Assumed Decimal (+ve)');",
+          	insertSQL + "(1," + Type.ftPackedDecimalPostive    + ",'Mainframe Packed Decimal (+ve)');",
+           	insertSQL + "(1," + Type.ftBinaryIntPositive       + ",'Binary Integer (only +ve)');",
 
      //      	insertSQL + "(1," + Type.ftCharRestOfFixedRecord + ",'Char Rest of Fixed Length');",
-          	insertSQL + "(1," + Type.ftNumZeroPaddedPN + ",'Zero Padded Number with sign=+/-');",
-           	insertSQL + "(1," + Type.ftNumZeroPaddedPositive + ",'Positive Zero Padded Number');",
-          	insertSQL + "(1," + Type.ftNumCommaDecimal + ",'Zero Padded Number decimal=\",\"');",
-           	insertSQL + "(1," + Type.ftNumCommaDecimalPN + ",'Zero Padded Number decimal=\",\" sign=+/-');",
+          	insertSQL + "(1," + Type.ftNumZeroPaddedPN         + ",'Zero Padded Number with sign=+/-');",
+           	insertSQL + "(1," + Type.ftNumZeroPaddedPositive   + ",'Positive Zero Padded Number');",
+          	insertSQL + "(1," + Type.ftNumCommaDecimal         + ",'Zero Padded Number decimal=\",\"');",
+           	insertSQL + "(1," + Type.ftNumCommaDecimalPN       + ",'Zero Padded Number decimal=\",\" sign=+/-');",
            	insertSQL + "(1," + Type.ftNumCommaDecimalPositive + ",'Zero Padded Number decimal=\",\" (only +ve)');",
 
-           	insertSQL + "(1," + Type.ftNumRightJustifiedPN + ",'Num (Right Justified space padded) +/- sign');",
-           	insertSQL + "(1," + Type.ftNumRightJustCommaDp + ",'Num (Right Just space padded, \",\" Decimal)');",
-           	insertSQL + "(1," + Type.ftNumRightJustCommaDpPN + ",'Num (Right Just space padded, \",\" Decimal) +/- sig');",
+           	insertSQL + "(1," + Type.ftNumRightJustifiedPN     + ",'Num (Right Justified space padded) +/-');",
+           	insertSQL + "(1," + Type.ftNumRightJustCommaDp     + ",'Num (Right Just space padded, \",\" Decimal)');",
+           	insertSQL + "(1," + Type.ftNumRightJustCommaDpPN   + ",'Num (Right Just space padded, \",\" Decimal) +/-');",
 
-          	insertSQL + "(1," + Type.ftNumAnyDecimal + ",'Number any decimal');",
-          	insertSQL + "(1," + Type.ftPositiveNumAnyDecimal + ",'Number (+ve) any decimal');",
+          	insertSQL + "(1," + Type.ftNumAnyDecimal           + ",'Number any decimal');",
+          	insertSQL + "(1," + Type.ftPositiveNumAnyDecimal   + ",'Number (+ve) any decimal');",
 
     };
 
@@ -417,16 +427,97 @@ public final class UpgradeDB {
     };
 
 
-    private String[] sql95c = {
-        	deleteTbl + "TBLID = 1 and TBLKEY in ("
-   			     + Type.ftHtmlField
-   			     + ");",
+    @SuppressWarnings("deprecation")
+	private String[] sql95c = {
+
+        	deleteTbl + " TBLID = 1 and TBLKEY in ("
+   			     + Type.ftHtmlField + ", "
+   			     + Type.ftArrayField + ", "
+	             + Type.ftCharMultiLine + ", "
+	             + Type.ftMultiLineChar
+	             + ");",
+
+   		     //      	insertSQL + "(1," + Type.ftCharRestOfFixedRecord + ",'Char Rest of Fixed Length');",
+   		insertSQL + "(1," + Type.ftMultiLineChar + ",'Char Multi Line');",
 
 //      	insertSQL + "(1," + Type.ftCharRestOfFixedRecord + ",'Char Rest of Fixed Length');",
-     	insertSQL + "(1," + Type.ftHtmlField + ",'Html Field');",
+     	insertSQL + "(1," + Type.ftHtmlField  + ",'Html Field');",
+     	insertSQL + "(1," + Type.ftArrayField + ",'Array Field');",
+    };
+
+    private String[] sql96h_1= {
+    		"ALTER TABLE TBL_TI_INTTBLS alter column DETAILS VARCHAR(75);",
+    };
+
+   @SuppressWarnings("deprecation")
+   private String[] sql96h_2= {
+    		deleteTbl   + " TBLID = 1 and TBLKEY in ("
+    					+ Type.ftCharMultiLine
+    					+ ");",
     };
 
 
+    private int[] types96h = {
+    		Type.ftChar  , 
+    		Type.ftNumAnyDecimal  , 
+    		Type.ftPositiveNumAnyDecimal  , 
+    		Type.ftCharRightJust      ,     
+    		Type.ftCharNullTerminated , 
+    		Type.ftCharNullPadded     , 
+    		Type.ftHex                , 
+    		Type.ftNumLeftJustified   , 
+    		Type.ftNumRightJustified  , 
+    		Type.ftNumRightJustifiedPN, 
+    		Type.ftNumRightJustCommaDp, 
+    		Type.ftNumRightJustCommaDpPN, 
+    		Type.ftNumZeroPadded        , 
+    		Type.ftNumZeroPaddedPN      , 
+    		Type.ftAssumedDecimal         , 
+    		Type.ftAssumedDecimalPositive , 
+    		Type.ftNumZeroPaddedPositive  , 
+    		Type.ftNumCommaDecimal        , 
+    		Type.ftNumCommaDecimalPN      , 
+    		Type.ftNumCommaDecimalPositive, 
+    	  	Type.ftSignSeparateLead   , 
+    		Type.ftSignSeparateTrail  , 
+    		Type.ftDecimal            , 
+    		Type.ftBinaryInt          , 
+    		Type.ftBinaryIntPositive  , 
+    		Type.ftPostiveBinaryInt   , 
+    		Type.ftFloat              , 
+    		Type.ftDouble             , 
+    		Type.ftBit  ,
+    		Type.ftPackedDecimal         , 
+    		Type.ftPackedDecimalPostive  , 
+    		Type.ftZonedNumeric          , 
+    		Type.ftBinaryBigEndian       , 
+    		Type.ftBinaryBigEndianPositive  , 
+    		Type.ftPositiveBinaryBigEndian  , 
+    		Type.ftFjZonedNumeric  , 
+    		Type.ftRmComp, 
+    		Type.ftRmCompPositive  , 
+    		Type.ftCheckBoxBoolean , 
+    		Type.ftDate     , 
+    		Type.ftDateYMD  , 
+    		Type.ftDateYYMD  ,
+    		Type.ftDateDMY  , 
+    		Type.ftDateDMYY  ,
+    		Type.ftCheckBoxTrue  , 
+    		Type.ftCheckBoxY  , 
+    		Type.ftCheckBoxYN  ,
+    		Type.ftCheckBoxTF  ,
+    		Type.ftCsvArray    ,
+    		Type.ftXmlNameTag  ,
+    		Type.ftMultiLineEdit  , 
+    		Type.ftCharRestOfFixedRecord  , 
+    		Type.ftCharRestOfRecord  , 
+    		Type.ftMultiLineChar  , 
+    		Type.ftHtmlField  , 
+
+    		Type.ftArrayField,
+
+
+    };
 
 //    private String[] sql94 = {
 //    		"Drop Table TBL_RF1_RECORDFIELDS",
@@ -459,7 +550,7 @@ public final class UpgradeDB {
 
 
     private String deleteExample =
-    		  "where RECORDID in ("
+    		  " where RECORDID "
     		+ "  in ("
     		+ "Select r.RECORDID from TBL_R_RECORDS r"
     		+ " where r.RECORDNAME in ("
@@ -489,7 +580,7 @@ public final class UpgradeDB {
     		+ "'XMPLDECIDER-Product-Detail-2', 'DTAR1000 VB Dump', 'Master_Record',"
     		+ "'Rental_Record', 'Transaction_Record',  'XfeDTAR020', 'XfeDTAR020_reverse',"
     		+ "'cpyComp5Sync', 'bsCompSync', 'cpyCompPositive',"
-    		+ "'cpyCompSync', 'mfCompPositive', 'mfCompSync', 'Wizard_AmsPo', "
+    		+ "'cpyCompSync', 'mfCompPositive', 'mfCompSync', 'Wizard_AmsPo' "
     		+ "))";
 
     /**
@@ -547,7 +638,6 @@ public final class UpgradeDB {
             addColumnToDB(con, "TBL_R_RECORDS", "File_Structure", "Int", "0");
             addColumnToDB(con, "Tbl_RF_RecordFields", "Cell_Format", "Int", "0");
             addColumnToDB(con, "Tbl_RF_RecordFields", "Parameter", "Varchar(80)", "''");
-
         } catch (Exception e) {
             Common.getLogger().logException(AbsSSLogger.ERROR, e);
             e.printStackTrace();
@@ -721,8 +811,8 @@ public final class UpgradeDB {
        	try {
        		genericUpgrade(dbIdx, sql90, null);
 
-       		loadLayout(dbIdx,  Common.GETTEXT_PO_LAYOUT, 103);
-       		loadLayout(dbIdx,  Common.TIP_LAYOUT, 103);
+       		loadLayout(dbIdx,  Common.GETTEXT_PO_LAYOUT, 103, false);
+       		loadLayout(dbIdx,  Common.TIP_LAYOUT, 103, false);
 
  			upgradeVersion((new ReConnection(dbIdx)).getConnection(), dbIdx, VERSION_90);
 	        Common.logMsgRaw(AbsSSLogger.SHOW, DATABASE_UPGRADED + VERSION_90, null);
@@ -829,7 +919,7 @@ public final class UpgradeDB {
 			//System.out.println("Upgrade DB");
 			upgradeVersion((new ReConnection(dbIdx)).getConnection(), dbIdx, VERSION_94);
 
-			upgrade95c(dbIdx);
+			upgrade96(dbIdx);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			Common.logMsg("Database upgrade failed !!!", null);
@@ -839,13 +929,78 @@ public final class UpgradeDB {
     }
 
 
-    public void upgrade95c(int dbIdx) {
-        genericUpgrade(dbIdx, sql95c, VERSION_95C);
+//    public void upgrade95d(int dbIdx) {
+//  		loadLayout(dbIdx,  Common.GETTEXT_PO_LAYOUT, 103, true);
+//   		loadLayout(dbIdx,  Common.TIP_LAYOUT, 103, true);
+//
+//   		genericUpgrade(dbIdx, sql95c, VERSION_95E);
+//     }
+
+    
+    public void upgrade96(int dbIdx) {
+
+       	try {
+       		if (Common.alterVarChar(dbIdx)) {
+       			genericUpgrade(dbIdx, sql96h_1, VERSION_96Ha);
+       		}
+       		upgrade96a(dbIdx);
+       	} catch (Exception e) {
+			Common.logMsg("Error updating version flag", e);
+		}
     }
+    public void upgrade96a(int dbIdx) {
+
+    	genericUpgrade(dbIdx, sql95c, null);
+ 		loadLayout(dbIdx,  Common.GETTEXT_PO_LAYOUT, 103, true);
+   		loadLayout(dbIdx,  Common.TIP_LAYOUT, 103, true);
+
+   		updateTypeNames(dbIdx, types96h);
+   		genericUpgrade(dbIdx, sql96h_2, VERSION_96H);
+
+   }
+
+
+    public void updateTypeNames(int dbIdx, int[] types) {
+    	BasicConversion b = new BasicConversion();
+     	String sql = "";
+        	try {
+        		int n;
+        		Connection con = (new ReConnection(dbIdx)).getConnection();
+        		Statement statement = con.createStatement();
+        		for (int i = 0; i < types.length; i++) {
+        			String typeName = b.getTypeAsString(dbIdx, types[i]);
+        			n = 0;
+					sql = "update TBL_TI_INTTBLS set DETAILS = '" + typeName 
+        					+ "' where  TBLID = 1 and TBLKEY = " + types[i] + ";";
+        			try {
+        				//System.out.print(types[i] + " - " + typeName);
+						n = statement.executeUpdate(sql);
+						//System.out.print("\t" + n);
+					} catch (Exception e) {
+					}
+        			//System.out.println();
+        			if (n == 0) {
+ 	        			try {
+	        				sql = insertSQL + "(1," + types[i] + ",'" + typeName + "');";
+	        				System.out.println("Insert Sql: " + sql);
+							statement.executeUpdate(sql);
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}    				
+        			}
+        		}
+     	} catch (Exception e) {
+     		Common.logMsgRaw("Sql: " + sql, e);
+ 			Common.logMsgRaw("Error deleting Examples", e);
+
+ 			System.out.println("Sql: " + sql);
+ 			e.printStackTrace();
+ 		}
+     }
 
 
    public void deleteExamples(int dbIdx) {
-    	String[] tbls = { "TBL_RFS_FIELDSELECTION", "TBL_RF_RECORDFIELDS", "TBL_RS2_SUBRECORDS", "TBL_R_RECORDS" };
+    	String[] tbls = { "TBL_RFS_FIELDSELECTION", "TBL_RF1_RECORDFIELDS", "TBL_RS2_SUBRECORDS", "TBL_R_RECORDS" };
     	String sql = "";
        	try {
        		Connection con = (new ReConnection(dbIdx)).getConnection();
@@ -870,7 +1025,7 @@ public final class UpgradeDB {
     	genericUpgrade(dbIdx, sql8001, null);
 
     	try {
-    		loadLayout(dbIdx, fileWizardXmlLayout, 103);
+    		loadLayout(dbIdx, fileWizardXmlLayout, 103, false);
 
 			upgradeVersion(connect, dbIdx, VERSION_801);
 	        Common.logMsgRaw(AbsSSLogger.SHOW, DATABASE_UPGRADED + VERSION_801, null);
@@ -883,14 +1038,14 @@ public final class UpgradeDB {
 		}
     }
 
-   private void loadLayout(int dbIdx, String xml, int systemId) {
-    	holdLayoutDetails.add( new LayoutDef(dbIdx, xml, systemId));
+   private void loadLayout(int dbIdx, String xml, int systemId, boolean doDelete) {
+    	holdLayoutDetails.add( new LayoutDef(dbIdx, xml, systemId, doDelete));
     }
 
     public final void loadHeldLayouts() {
     	try {
 	    	for (LayoutDef l : holdLayoutDetails) {
-	    		loadALayout(l.dbIdx, l.xml, l.systemId);
+	    		loadALayout(l);
 	    	}
 	    	holdLayoutDetails.removeAll(holdLayoutDetails);
     	} catch (Exception e) {
@@ -898,17 +1053,30 @@ public final class UpgradeDB {
 		}
     }
 
-    private void loadALayout(int dbIdx, String xml, int systemId) throws Exception {
+    private void loadALayout(LayoutDef l) throws Exception {
 
-		ExternalRecord rec = RecordEditorXmlLoader.getExternalRecord(xml, "FileWizard");
+		ExternalRecord rec = RecordEditorXmlLoader.getExternalRecord(l.xml, "FileWizard");
 		ExtendedRecordDB db = new ExtendedRecordDB();
 
-		rec.setSystem(systemId);
+		rec.setSystem(l.systemId);
 		System.out.println("FileStructure: " + rec.getFileStructure()
 				+ " " + (new RecordRec(rec)).getValue().getFileStructure()
 				+ " " + rec.getRecordStyle());
-		db.setConnection(new ReConnection(dbIdx));
+		db.setConnection(new ReConnection(l.dbIdx));
 
+		if (l.doDelete) {
+			try {
+				db.resetSearch();
+				db.setSearchRecordName(ExtendedRecordDB.opEquals, rec.getRecordName());
+				db.open();
+				RecordRec rec1 = db.fetch();
+				if (rec1 != null) {
+					db.delete(rec1);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		db.insert(new RecordRec(rec));
 		db.close();
     }
@@ -1106,8 +1274,15 @@ public final class UpgradeDB {
        				   || VERSION_931.equals(version) || VERSION_932.equals(version)) {
        				db.upgrade93(dbIndex);
        				db.upgrade94(dbIndex);
-      			} else if (VERSION_94.equals(version)) {
-        				db.upgrade95c(dbIndex);
+      			} else if (VERSION_94.equals(version) || VERSION_95C.equals(version) || VERSION_95D.equals(version) || VERSION_95E.equals(version)) {
+        			db.upgrade96(dbIndex);
+    			} else if (VERSION_96Ha.equals(version)) {
+        			db.upgrade96a(dbIndex);
+    			} else if (version.compareTo(LATEST_VERSION) > 0) {
+    				String message = UtMessages.NEWER_DB.get(Common.formatVersion(version), Common.currentVersion());
+    				
+    				JOptionPane.showMessageDialog(ReMainFrame.getMasterFrame(), message); 
+					Common.logMsg(message, null);
     			}
 
     			db.loadHeldLayouts();
@@ -1147,14 +1322,16 @@ public final class UpgradeDB {
     }
 
     private static final class LayoutDef {
-    	int dbIdx; String xml; int systemId;
+    	int dbIdx; String xml; int systemId; boolean doDelete;
+    	
 
 
-		public LayoutDef(int dbIdx, String xml, int systemId) {
+		public LayoutDef(int dbIdx, String xml, int systemId, boolean delete) {
 			super();
 			this.dbIdx = dbIdx;
 			this.xml = xml;
 			this.systemId = systemId;
+			this.doDelete = delete;
 		}
     }
 }

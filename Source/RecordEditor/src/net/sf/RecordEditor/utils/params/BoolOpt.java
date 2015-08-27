@@ -7,7 +7,7 @@ public class BoolOpt {
 		param = value;
 	}
 
-	public BoolOpt(String value, Boolean def) {
+	public BoolOpt(String value, boolean def) {
 		this(value);
 		if (def) {
 			Parameters.setDefaultTrue(value);

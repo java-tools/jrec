@@ -65,25 +65,25 @@ public class InstallPnl4RunSql extends BasicWizardPnl implements IInstallerPnl, 
 
 	private void init_200_layoutScreen() {
 
-		panel.addComponent(1, 3, BasePanel.FILL, BasePanel.GAP1,
+		panel.addComponentRE(1, 3, BasePanel.FILL, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
 
-		panel.addComponent(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP2,
+		panel.addComponentRE(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP2,
 	                BasePanel.FULL, BasePanel.FULL,
 	                new JScrollPane(tips));
 
-		panel.addMenuItem("Build Everything", bldAllTables);
-		panel.setGap(BasePanel.GAP0);
-		panel.addLine("    or", null);
-		panel.setGap(BasePanel.GAP0);
-		panel.addMenuItem(        "Drop Tables", dropTbls);
-		panel.addMenuItem("Create Tables in DB", bldCreateTables);
-		panel.addMenuItem( "Load Common Tables", bldtblTables);
-		panel.addMenuItem("Load Record Layouts", bldRecordTables);
-		panel.setGap(BasePanel.GAP2);
+		panel.addMenuItemRE("Build Everything", bldAllTables);
+		panel.setGapRE(BasePanel.GAP0);
+		panel.addLineRE("    or", null);
+		panel.setGapRE(BasePanel.GAP0);
+		panel.addMenuItemRE(        "Drop Tables", dropTbls);
+		panel.addMenuItemRE("Create Tables in DB", bldCreateTables);
+		panel.addMenuItemRE( "Load Common Tables", bldtblTables);
+		panel.addMenuItemRE("Load Record Layouts", bldRecordTables);
+		panel.setGapRE(BasePanel.GAP2);
 
-		panel.addComponent(1, 5, BasePanel.FILL, BasePanel.GAP,
+		panel.addComponentRE(1, 5, BasePanel.FILL, BasePanel.GAP,
 	                BasePanel.FULL, BasePanel.FULL,
 	                new JScrollPane(sqlOutput));
 	}
@@ -171,7 +171,7 @@ public class InstallPnl4RunSql extends BasicWizardPnl implements IInstallerPnl, 
             //c.close();
 
         } catch (Exception e) {
-            panel.setMessageRplTxt("Connection Failed: {0}, can not run SQL",  e.getMessage());
+            panel.setMessageRplTxtRE("Connection Failed: {0}, can not run SQL",  e.getMessage());
             e.printStackTrace();
         }
     }
@@ -184,7 +184,7 @@ public class InstallPnl4RunSql extends BasicWizardPnl implements IInstallerPnl, 
 	        		details.driver, details.source + details.createExtension,
 	        		details.user, details.password, details.jarName);
 
-	        panel.setMessageTxt("Connection Ok ~", connection.getClass().getName());
+	        panel.setMessageTxtRE("Connection Ok ~", connection.getClass().getName());
 	    }
 	    return connection;
     }

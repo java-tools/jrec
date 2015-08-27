@@ -15,7 +15,6 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumnModel;
 
 import net.sf.JRecord.Common.Constants;
-
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
@@ -150,25 +149,25 @@ public class UpdateCsvLayout implements ActionListener, IChildDisplay {
 			delimiterCombo = DelimiterCombo.NewDelimCombo();
 		}
 
-		System.out.println(" ~~!!~~ 1 " + delimiterCombo.getSelectedIndex() + " " + delimiterCombo.getItemCount());
+//		System.out.println(" ~~!!~~ 1 " + delimiterCombo.getSelectedIndex() + " " + delimiterCombo.getItemCount());
 		delimiterIdx = delimiterCombo.getAddEnglish(delim, true);// getIndex(delim, Common.FIELD_SEPARATOR_LIST1_VALUES, delimiterCombo);
-		System.out.println(" ~~!!~~ 2 " + delimiterCombo.getSelectedIndex() + " " + delimiterCombo.getItemCount());
+//		System.out.println(" ~~!!~~ 2 " + delimiterCombo.getSelectedIndex() + " " + delimiterCombo.getItemCount());
 		quoteIdx =  quoteCombo.getAddEnglish(quote, true);
 				//getIndex(quote, Common.QUOTE_VALUES, quoteCombo);
 
 
 		setupTable();
 
-		pnl.addComponent(1, 5, 300, BasePanel.GAP,
+		pnl.addComponentRE(1, 5, 300, BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL,
 		        fieldTbl);
 		pnl.setComponentName(fieldTbl, "FieldChange");
 
-		pnl.setGap(BasePanel.GAP2);
-		pnl.addLine("Field Delimiter", delimiterCombo);
-		pnl.addLine("Quote", quoteCombo);
+		pnl.setGapRE(BasePanel.GAP2);
+		pnl.addLineRE("Field Delimiter", delimiterCombo);
+		pnl.addLineRE("Quote", quoteCombo);
 
-		pnl.addLine(null, null, this.goBtn);
+		pnl.addLineRE(null, null, this.goBtn);
 
 		frame = new ReFrame(
 						view.getFileNameNoDirectory(),

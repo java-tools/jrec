@@ -31,7 +31,7 @@ implements AbstractFileDisplayWithFieldHide {
 		PaneDtls[] fields = {
 				new PaneDtls("name", TipField.name, nameTxt),
 				new PaneDtls("description",   TipField.description, descriptionTxt, 0.3),
-				new PaneDtls("Html",  TipField.description, htmlEdt, 0, true, 0.3),
+				new PaneDtls("Html",  TipField.description, htmlEdt, 0, PaneDtls.HTML_IF_HTML_TAG, 0.3),
 		};
 
 		setMinSize(descriptionTxt);

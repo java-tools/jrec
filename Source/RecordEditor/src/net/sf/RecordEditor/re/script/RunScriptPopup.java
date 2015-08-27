@@ -56,7 +56,7 @@ public class RunScriptPopup extends FilePopup implements Runnable {
 
 
 	public static final RunScriptPopup getPopup() {
-		return new RunScriptPopup(Common.OPTIONS.DEFAULT_SCRIPT_DIRECTORY.get());
+		return new RunScriptPopup(Common.OPTIONS.DEFAULT_SCRIPT_DIRECTORY.getNoStar());
 	}
 
 	private static class RunScript extends AbstractAction {

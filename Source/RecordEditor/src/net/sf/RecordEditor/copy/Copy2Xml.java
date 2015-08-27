@@ -3,15 +3,15 @@ package net.sf.RecordEditor.copy;
 import javax.swing.JComponent;
 
 import net.sf.JRecord.Common.RecordRunTimeException;
-import net.sf.RecordEditor.edit.display.util.CreateRecordTreePnl;
 import net.sf.RecordEditor.jibx.JibxCall;
 import net.sf.RecordEditor.jibx.compare.CopyDefinition;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
+import net.sf.RecordEditor.re.script.CreateRecordTreePnl;
 import net.sf.RecordEditor.re.util.wizard.AbstractFilePnl;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboFileSelect;
 import net.sf.RecordEditor.utils.wizards.AbstractWizard;
 import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 
@@ -143,8 +143,8 @@ public class Copy2Xml extends AbstractWizard<CopyDefinition> {
 		 * @see net.sf.RecordEditor.utils.wizards.AbstractWizardPanel#showHelp()
 		 */
 		@Override
-		public void showHelp() {
-			recordTree.getPanel().showHelp();
+		public void showHelpRE() {
+			recordTree.getPanel().showHelpRE();
 		}
 
 		/* (non-Javadoc)
@@ -161,14 +161,16 @@ public class Copy2Xml extends AbstractWizard<CopyDefinition> {
 
 		private CopyDefinition values = new net.sf.RecordEditor.jibx.compare.CopyDefinition();
 
-		private FileChooser xmlFileName = new FileChooser();
+//		private FileChooser xx ;
+		private TreeComboFileSelect xmlFileName;
 		private AbstractLayoutSelection layoutSelection;
 
 
 		public GetFiles(AbstractLayoutSelection selection, String recentFiles) {
 			super(selection, recentFiles);
 
-			xmlFileName.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get());
+			xmlFileName = new TreeComboFileSelect(true, false, true, getRecentList(), getRecentDirectoryList());
+			xmlFileName.setText(Common.OPTIONS.DEFAULT_FILE_DIRECTORY.getWithStar());
 			layoutSelection = selection;
 
 			//setHelpURL(Common.formatHelpURL(Common.HELP_DIFF_SL));
@@ -217,9 +219,8 @@ public class Copy2Xml extends AbstractWizard<CopyDefinition> {
 		@Override
 		protected void addFileName(BaseHelpPanel pnl) {
 
-			pnl.addLine("Input File", fileName, fileName.getChooseFileButton());
-			pnl.addLine("Xml output File", xmlFileName, xmlFileName.getChooseFileButton());
+			pnl.addLineRE("Input File", fileName);
+			pnl.addLineRE("Xml output File", xmlFileName);
 		}
 	}
-
 }

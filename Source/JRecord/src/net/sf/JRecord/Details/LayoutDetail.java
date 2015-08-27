@@ -16,12 +16,15 @@ package net.sf.JRecord.Details;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.sf.JRecord.Common.AbstractRecord;
 import net.sf.JRecord.Common.BasicTranslation;
+import net.sf.JRecord.Common.CommonBits;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
+import net.sf.JRecord.CsvParser.CsvDefinition;
 import net.sf.JRecord.CsvParser.ICsvLineParser;
 import net.sf.JRecord.CsvParser.BinaryCsvParser;
 import net.sf.JRecord.CsvParser.ICsvDefinition;
@@ -80,6 +83,7 @@ import net.sf.JRecord.Types.TypeManager;
 public class LayoutDetail
 extends BasicLayout<RecordDetail> {
 
+	
 	private String layoutName;
 	private String description;
 	private byte[] recordSep;
@@ -93,7 +97,7 @@ extends BasicLayout<RecordDetail> {
 
 	private HashMap<String, IFieldDetail> fieldNameMap = null;
 	private String delimiter = "";
-	private int fileStructure;
+	private int fileStructure, recordFileStructure = -1;
 
 	private int recordCount, lineNumberOfFieldNames = 1;
 
@@ -104,6 +108,9 @@ extends BasicLayout<RecordDetail> {
 	private boolean useThisLayout = false;
 
 	private Object extraDetails = null;
+	private boolean multiLineField = false;
+	private boolean multiByteCharset;
+	private final boolean isCsv;
 
 
 	/**
@@ -160,18 +167,25 @@ extends BasicLayout<RecordDetail> {
 			if (fontName == null || "".equals(fontName)) {
 				recordSep = Constants.SYSTEM_EOL_BYTES;
 			} else {
-				recordSep = Conversion.getBytes(System.getProperty("line.separator"), fontName);
+				recordSep = CommonBits.getEolBytes(null, "", fontName);
+						//Conversion.getBytes(System.getProperty("line.separator"), fontName);
 			}
+			
+			recordSep = CommonBits.getEolBytes(recordSep, pEolIndicator, fontName);
 		}
 
 		if (Constants.DEFAULT_STRING.equals(pEolIndicator)
 		||  pRecordSep == null) {
 		    eolString = System.getProperty("line.separator");
+		    if (recordSep != null && recordSep.length < eolString.length()) {
+		    	eolString = Conversion.toString(recordSep, pFontName);
+		    }
 		} else {
-		    eolString = Conversion.toString(pRecordSep, pFontName);
+		    eolString = Conversion.toString(recordSep, pFontName);
 		}
 
 
+		RecordDetail recordDetail;
 		switch (pLayoutType) {
 			case Constants.rtGroupOfBinaryRecords:
 			case Constants.rtFixedLengthRecords:
@@ -183,45 +197,87 @@ extends BasicLayout<RecordDetail> {
 			    if (recordCount >= 1) {
 			        int numFields;
 			        for (j = 0; (! binary) && j < recordCount; j++) {
-			            numFields =  pRecords[j].getFieldCount();
+			        	recordDetail = pRecords[j];
+			            numFields =  recordDetail.getFieldCount();
 			            for (i = 0; (! binary) && i < numFields; i++) {
-			                binary = pRecords[j].isBinary(i);
+			                binary = recordDetail.isBinary(i);
 			            }
 			        }
 			    }
 			break;
 			default:
 		}
+		
+		
+        boolean namesFirstLine = false;
 
+        switch (fileStructure) {
+        case Constants.IO_BIN_NAME_1ST_LINE:
+        case Constants.IO_NAME_1ST_LINE:
+        case Constants.IO_UNICODE_NAME_1ST_LINE:
+        	namesFirstLine = true;
+        }
+
+        
+        boolean tmpCsv = false;
 	    for (j = 0; j < recordCount; j++) {
-	    	if (pRecords[j] != null && pRecords[j].getFieldCount() > 0) {
-	    		if ((lastSize >= 0 && lastSize != pRecords[j].getLength())
-	    		||  (pRecords[j].getField(pRecords[j].getFieldCount() - 1).getType()
-	    				== Type.ftCharRestOfRecord )){
-	    			fixedLength = false;
+	    	recordDetail = pRecords[j];
+	    	if (recordDetail != null) {
+	    		if (recordDetail != null && recordDetail.isDelimited()) {
+					tmpCsv = true;				
+				}
+	    		if (recordDetail.getFieldCount() > 0) {
+		    		if ((lastSize >= 0 && lastSize != recordDetail.getLength())
+		    		||  (recordDetail.getField(recordDetail.getFieldCount() - 1).getType()
+		    				== Type.ftCharRestOfRecord )){
+		    			fixedLength = false;
+		    		}
+		    		lastSize = recordDetail.getLength();
+	
+			    	treeStructure = treeStructure || (recordDetail.getParentRecordIndex() >= 0);
+			        if (recordDetail.isDelimited()) {
+			        	fixedLength = false;
+			            if (first) {
+			                delimiter = recordDetail.getDelimiter();
+			                first = false;
+			            } else if (! delimiter.equals(recordDetail.getDelimiter())) {
+			                throw new RuntimeException(
+			                        	"only one field delimiter may be used in a Detail-Group "
+			                        +   "you have used \'" + delimiter
+			                        +   "\' and \'"
+			                        +  recordDetail.getDelimiter() + "\'"
+			                );
+			            }
+			            if (recordFileStructure < 0) {
+			       			recordFileStructure = recordDetail.getCsvParser().getFileStructure(recordDetail, namesFirstLine, isBinCSV());
+			    		}
+			        }
+			        
+			        if (! multiLineField) {
+			        	for (int k = 0; (! multiLineField) && k < recordDetail.getFieldCount(); k++) {
+			        		int type = recordDetail.getField(k).getType();
+							switch (type) {
+							case  Type.ftHtmlField:
+							case  Type.ftMultiLineChar:
+							case  Type.ftMultiLineEdit:
+							case  Type.ftCharMultiLine:
+			        			multiLineField = true;
+			        			break;
+			        		}
+			        	}
+			        }
 	    		}
-	    		lastSize = pRecords[j].getLength();
-
-		    	treeStructure = treeStructure || (pRecords[j].getParentRecordIndex() >= 0);
-		        if ((pRecords[j].getRecordType() == Constants.rtDelimitedAndQuote
-		          || pRecords[j].getRecordType() == Constants.rtDelimited)
-		        &&  (!delimiter.equals(pRecords[j].getDelimiter()))) {
-		        	fixedLength = false;
-		            if (first) {
-		                delimiter = pRecords[j].getDelimiter();
-		                first = false;
-		            } else {
-		                throw new RuntimeException(
-		                        	"only one field delimiter may be used in a Detail-Group "
-		                        +   "you have used \'" + delimiter
-		                        +   "\' and \'"
-		                        +  pRecords[j].getDelimiter() + "\'"
-		                );
-		            }
-		        }
 	    	}
 	    }
+		isCsv = tmpCsv;
 
+		System.out.print("Font >" + fontName + "<" +  " || " + Conversion.isAlwaysUseDefaultSingByteCharset());
+		if ((binary || Conversion.isAlwaysUseDefaultSingByteCharset())
+		&& fontName.length() == 0 && Conversion.DEFAULT_CHARSET_DETAILS.isMultiByte) {
+			fontName = Conversion.getDefaultSingleByteCharacterset();
+		}
+		this.multiByteCharset = Conversion.isMultiByte(fontName);
+		System.out.println(" >" + fontName + "< " + multiByteCharset);
 	}
 
 
@@ -273,7 +329,10 @@ extends BasicLayout<RecordDetail> {
 		return records;
 	}
 
-
+	/**
+	 * Add a record to the layout
+	 * @param record new record
+	 */
 	public void addRecord(RecordDetail record) {
 	    if (recordCount >= records.length) {
 	    	RecordDetail[] temp = records;
@@ -336,6 +395,9 @@ extends BasicLayout<RecordDetail> {
 	 */
 	public void setFontName(String fontName) {
 		this.fontName = fontName;
+		System.out.println("New Font= " + fontName);
+		this.multiByteCharset = Conversion.isMultiByte(fontName);
+		System.out.println("New Font= " + fontName + " " + multiByteCharset);
 	}
 
 
@@ -347,30 +409,21 @@ extends BasicLayout<RecordDetail> {
     }
 
 
-
     /* (non-Javadoc)
 	 * @see net.sf.JRecord.Details.AbstractLineDetails#getFileStructure()
 	 */
     public int getFileStructure() {
         int ret = fileStructure;
-        boolean namesFirstLine = false;
-
+ 
         switch (fileStructure) {
+        case Constants.IO_TEXT_LINE:
         case Constants.IO_BIN_NAME_1ST_LINE:
         case Constants.IO_NAME_1ST_LINE:
         case Constants.IO_UNICODE_NAME_1ST_LINE:
-        	namesFirstLine = true;
         case Constants.IO_DEFAULT:
-        case Constants.IO_TEXT_LINE:
         case Constants.IO_BIN_TEXT:
-        	for (RecordDetail r : records) {
-        		if (r.isDelimited()) {
-        			int rr = r.getCsvParser().getFileStructure(r, namesFirstLine, isBinCSV());
-        			if (rr > 0) {
-        				return rr;
-        			}
-        			break;
-        		}
+        	if (recordFileStructure > 0) {
+        		return recordFileStructure;
         	}
         }
 
@@ -381,7 +434,7 @@ extends BasicLayout<RecordDetail> {
 			ret = checkTextType();
         } else if (getLayoutType() == Constants.rtGroupOfBinaryRecords
                &&  recordCount > 1) {
-		    ret = Constants.IO_BINARY;
+		    ret = Constants.IO_BINARY_IBM_4680;
 		} else if (isBinary()) {
 		    ret = Constants.IO_FIXED_LENGTH;
 		} else {
@@ -397,11 +450,16 @@ extends BasicLayout<RecordDetail> {
     	int ret = fileStructure;
     	if ( isBinCSV()) {
 			ret = Constants.IO_BIN_TEXT;
-		} else if (fontName != null && ! "".equals(fontName)){
+		} else if (multiByteCharset) {
+    		return Constants.IO_UNICODE_TEXT;
+		} else if (fontName != null && ! "".equals(fontName) && ! fontName.equals(Conversion.getDefaultSingleByteCharacterset())){
 		    ret = Constants.IO_TEXT_LINE;
 		} else {
 			ret = Constants.IO_BIN_TEXT;
 		}
+    	
+//    	System.out.println("Get File Structure: " + ret + " " + isBinCSV() + " " + multiByteCharset + " " + fontName 
+//    			+ " " + Conversion.getDefaultSingleByteCharacterset());
 
     	return ret;
     }
@@ -439,12 +497,8 @@ extends BasicLayout<RecordDetail> {
 
     public final Object formatCsvField(IFieldDetail field,  int type, String value) {
         String val = "";
-        if (field.getRecord() instanceof ICsvDefinition) {
-        	ICsvLineParser parser = ParserManager.getInstance().get(field.getRecord().getRecordStyle());
-        	val = parser.getField(field.getPos() - 1,
-        			value,
-        			(ICsvDefinition) field.getRecord());
-        }
+    	ICsvLineParser parser = ParserManager.getInstance().get(field.getRecord().getRecordStyle());
+    	val = parser.getField(field.getPos() - 1, value, getCsvDef(field));
 
         return formatField(field,  type, val);
     }
@@ -524,8 +578,11 @@ extends BasicLayout<RecordDetail> {
             ICsvLineParser parser = ParserManager.getInstance().get(field.getRecord().getRecordStyle());
 
             Type typeVal = TypeManager.getSystemTypeManager().getType(type);
-            String s ="";
-            if (value == null) {
+            String s = "";
+            if ((value == null || value == CommonBits.NULL_VALUE)) {
+            	if (TypeManager.isNumeric(field.getType())) {
+            		s = typeVal.formatValueForRecord(field, "0");
+            	}
             } else if (value instanceof String) {
             	s = typeVal.formatValueForRecord(field, (String) value);
             } else if (typeVal instanceof ISizeInformation){
@@ -547,17 +604,52 @@ extends BasicLayout<RecordDetail> {
             //System.out.println(" ---> setField ~ " + delimiter + " ~ " + s + " ~ " + new String(record));
             if  (isBinCSV()) {
              	record = (new BinaryCsvParser(delimiter)).updateValue(record, field, s);
-            } else if (field.getRecord() instanceof ICsvDefinition) {
-                String newLine = parser.setField(field.getPos() - 1,
+            } else {
+            	String newLine = parser.setField(field.getPos() - 1,
 	            		typeVal.getFieldType(),
 	            		Conversion.toString(record, font),
-	            		(ICsvDefinition) field.getRecord(), s);
+	            		getCsvDef(field), s);
 
                 record = Conversion.getBytes(newLine, font);
             }
         }
         //System.out.println(" ---> setField ~ Done");
         return record;
+    }
+    
+    /**
+     * Get the number of fields in a Csv line
+     * @param idx record index
+     * @param line line to analyze 
+     * @return number of Csv fields
+     */
+    public final int getCsvFieldCount(int idx, String line) {
+    	int ret = 0;
+    	if (idx >= 0 && idx < getRecordCount()) {
+    		RecordDetail record = getRecord(idx);
+    		
+    		ret = record.getFieldCount();
+    		if (record.isDelimited()) {
+    			ICsvLineParser parser = ParserManager.getInstance().get(record.getRecordStyle());
+
+    			ret = parser.getFieldList(line, getCsvDef(record, record.getQuote())).size();
+    		}
+    	}
+    	return ret;
+    }
+    
+    private ICsvDefinition getCsvDef(IFieldDetail field) {
+    	return getCsvDef(field.getRecord(), field.getQuote());
+    }
+    
+    public final ICsvDefinition getCsvDef(AbstractRecord rec, String quote) {
+    	ICsvDefinition csvDef;
+    	if (rec instanceof ICsvDefinition) {
+    		csvDef = (ICsvDefinition) rec;
+    	} else {
+    		csvDef = new CsvDefinition(delimiter, quote);
+    	}
+    	return csvDef;
     }
 
 
@@ -567,10 +659,21 @@ extends BasicLayout<RecordDetail> {
     public IFieldDetail getFieldFromName(String fieldName) {
     	IFieldDetail ret = null;
     	String key = fieldName.toUpperCase();
-		IFieldDetail fld;
+	
+		buildFieldNameMap();
+		
+    	if (fieldNameMap.containsKey(key)) {
+    		ret = fieldNameMap.get(key);
+    	}
 
+    	return ret;
+    }
+
+    private void buildFieldNameMap() {
+    	IFieldDetail fld;
     	if (fieldNameMap == null) {
-    		int i, j, size;
+    		int i, j, k, size;
+			String name, nameTmp;
 
     		size = 0;
     		for (i = 0; i < recordCount; i++) {
@@ -584,7 +687,15 @@ extends BasicLayout<RecordDetail> {
     			//FieldDetail[] flds = records[i].getFields();
     			for (j = 0; j < records[i].getFieldCount(); j++) {
     			    fld = records[i].getField(j);
-    				fieldNameMap.put(fld.getName().toUpperCase(), fld);
+    			    nameTmp = fld.getName();
+    			    name = nameTmp;
+    			    nameTmp = nameTmp + "~";
+    			    k = 1;
+    			    while (fieldNameMap.containsKey(name.toUpperCase())) {
+    			    	name = nameTmp + k++;
+    			    }
+    			    fld.setLookupName(name);
+					fieldNameMap.put(name.toUpperCase(), fld);
     			}
     			records[i].setNumberOfFieldsAdded(0);
     		}
@@ -604,12 +715,6 @@ extends BasicLayout<RecordDetail> {
        		}
 
     	}
-
-    	if (fieldNameMap.containsKey(key)) {
-    		ret = fieldNameMap.get(key);
-    	}
-
-    	return ret;
     }
 
 
@@ -646,7 +751,7 @@ extends BasicLayout<RecordDetail> {
     public void setDelimiter(String delimiter) {
     	String delim = RecordDetail.convertFieldDelim(delimiter);
     	if (this.records != null) {
-    		for (int i=0; i < records.length; i++) {
+    		for (int i = 0; i < records.length; i++) {
     			records[i].setDelimiter(delim);
     		}
     	}
@@ -877,13 +982,19 @@ extends BasicLayout<RecordDetail> {
 			switch (getFileStructure()) {
 	    	case Constants.IO_XML_BUILD_LAYOUT:
 	    	case Constants.IO_XML_USE_LAYOUT:
+		      	return Options.OTHER_STORAGE;
 	    	case Constants.IO_GETTEXT_PO:
 	    	case Constants.IO_TIP:
-	    	case Constants.IO_FIXED_LENGTH:
+//	    	case Constants.IO_FIXED_LENGTH:
 		      	return Options.OTHER_STORAGE;
 	    	case Constants.IO_UNICODE_NAME_1ST_LINE:
 	    	case Constants.IO_UNICODE_TEXT:
+	    	case Constants.IO_UNICODE_CSV:
 	    		return Options.TEXT_STORAGE;
+	    	case Constants.IO_TEXT_LINE:
+	    		if (multiByteCharset && ! binary) {
+	    			return Options.TEXT_STORAGE;
+	    		}
 			}
 			return Options.BINARY_STORAGE;
 		case Options.OPT_CHECK_4_STANDARD_FILE_STRUCTURES:
@@ -896,6 +1007,95 @@ extends BasicLayout<RecordDetail> {
 		case Options.OPT_CHECK_4_STANDARD_FILE_STRUCTURES2:
 			return Options.getValue( fileStructure == Constants.IO_BIN_TEXT
 								||	 fileStructure == Constants.IO_FIXED_LENGTH);
+		case Options.OPT_SUPPORTS_BLOCK_STORAGE:
+//			if (! isXml()) {
+				switch (fileStructure) {
+				case Constants.IO_BIN_CSV:
+				case Constants.IO_BIN_CSV_NAME_1ST_LINE:
+				case Constants.IO_BIN_NAME_1ST_LINE:
+				case Constants.IO_BIN_TEXT:
+				case Constants.IO_BINARY_IBM_4680:
+				case Constants.IO_CSV:
+				case Constants.IO_CSV_NAME_1ST_LINE:
+				case Constants.IO_FIXED_LENGTH:
+				case Constants.IO_DEFAULT:
+				case Constants.IO_GENERIC_CSV:
+				case Constants.IO_NAME_1ST_LINE:
+				case Constants.IO_TEXT_LINE:
+				case Constants.IO_UNICODE_CSV:
+				case Constants.IO_UNICODE_CSV_NAME_1ST_LINE:
+				case Constants.IO_UNICODE_NAME_1ST_LINE:
+				case Constants.IO_UNICODE_TEXT:
+				case Constants.IO_VB:
+				case Constants.IO_VB_DUMP:
+				case Constants.IO_VB_FUJITSU:
+				case Constants.IO_VB_OPEN_COBOL:
+				case Constants.IO_WIZARD:
+					return Options.YES;
+				}
+//			}
+			return Options.NO;
+		case Options.OPT_IS_FIXED_LENGTH:
+			return Options.getValue(isFixedLength());
+		case Options.OPT_CAN_ADD_DELETE_FIELD_VAlUES:
+		case Options.OPT_IS_CSV:
+			return Options.getValue(isCsv);
+		case Options.OPT_IS_TEXT_EDITTING_POSSIBLE:
+			int fs = getFileStructure();
+			if (isBinary() || isBinCSV() || multiLineField) {
+				return Options.NO;
+			}
+			switch (fs) {
+			case Constants.IO_GETTEXT_PO:
+			case Constants.IO_TIP:
+			case Constants.IO_CSV:
+			case Constants.IO_UNICODE_CSV:
+			case Constants.IO_BIN_CSV:
+			case Constants.IO_BIN_CSV_NAME_1ST_LINE:
+			case Constants.IO_CSV_NAME_1ST_LINE:
+			case Constants.IO_UNICODE_CSV_NAME_1ST_LINE:
+				return Options.NO;
+			}
+			return Options.YES;
+		case Options.OPT_TABLE_ROW_HEIGHT:
+			if (multiLineField) {
+				return 3;
+			}
+//			for (RecordDetail r : records) {
+//				for (int i = 0; i < r.getFieldCount(); i++) {
+//					int type = r.getField(i).getType();
+//					switch (type) {
+//					case  Type.ftHtmlField:
+//					case  Type.ftMultiLineChar:
+//					case  Type.ftMultiLineEdit:
+//					case  Type.ftCharMultiLine:
+//						return 3;
+//					}
+//				}
+//			}
+			return 1;
+
+//			switch (fs) {
+//			case Constants.IO_FIXED_LENGTH:
+//			case Constants.IO_DEFAULT:
+////			case Constants.IO_GENERIC_CSV:
+//			case Constants.IO_NAME_1ST_LINE:
+//			case Constants.IO_TEXT_LINE:
+//			case Constants.IO_BIN_TEXT:
+//			case Constants.IO_BIN_NAME_1ST_LINE:
+//			case Constants.IO_UNICODE_NAME_1ST_LINE:
+//			case Constants.IO_UNICODE_TEXT:
+//			case Constants.IO_VB:
+//			case Constants.IO_VB_DUMP:
+//			case Constants.IO_VB_FUJITSU:
+//			case Constants.IO_VB_OPEN_COBOL:
+//			case Constants.IO_WIZARD:
+//				if (! isBinary()) {
+//					return Options.YES;
+//				}
+//			}
+//			return Options.NO;
+		
 		}
 		return Options.UNKNOWN;
 	}
@@ -933,9 +1133,6 @@ extends BasicLayout<RecordDetail> {
 		}
 		return null;
 	}
-
-
-
 }
 
 

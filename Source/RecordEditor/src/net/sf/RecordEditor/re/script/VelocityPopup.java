@@ -6,21 +6,36 @@ import net.sf.RecordEditor.utils.common.ReActionHandler;
 
 
 @SuppressWarnings("serial")
-public class VelocityPopup extends FilePopup {
+public class VelocityPopup extends FilePopup implements Runnable {
 
 	private static FileItem[] fileList = null;
 //	private static boolean doLayout = true;
+	private final String velocityDir;
 	
-	public VelocityPopup(String dir) {
+	public VelocityPopup(String velocityDirectory) {
 		super("Export via Velociy Skelton");
 		this.setIcon(Common.getReActionIcon(ReActionHandler.EXPORT_VELOCITY));
-		
-		fileList = getActions(
-						fileList, 
-						dir, 
-						ReActionHandler.EXPORT_VELOCITY,
-						"(Velocity)",
-						null);
+		this.velocityDir = velocityDirectory;
+		javax.swing.SwingUtilities.invokeLater(this);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
+	@Override
+	public void run() {
+	
+		try {
+			fileList = getActions(
+							fileList, 
+							velocityDir, 
+							ReActionHandler.EXPORT_VELOCITY,
+							"(Velocity)",
+							null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 

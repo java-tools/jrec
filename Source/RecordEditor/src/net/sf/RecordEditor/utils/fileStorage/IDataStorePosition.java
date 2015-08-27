@@ -9,12 +9,13 @@ public interface IDataStorePosition extends Position {
 	/**
 	 * @see javax.swing.text.Position#getOffset()
 	 */
+	@Override
 	public abstract int getOffset();
 
 	/**
 	 * @return the lineStart
 	 */
-	public abstract int getLineStart();
+	public abstract long getLineStartRE();
 
 //	/**
 //	 * @param lineStart the lineStart to set
@@ -24,10 +25,10 @@ public interface IDataStorePosition extends Position {
 	/**
 	 * @return the positionInLine
 	 */
-	public abstract int getPositionInLine();
+	public abstract int getPositionInLineRE();
 
-	public abstract int getLineNumber();
+	public abstract int getLineNumberRE();
 
-	public abstract AbstractLine getLine();
+	public abstract AbstractLine getLineRE();
 
 }

@@ -13,6 +13,7 @@ import net.sf.RecordEditor.edit.display.extension.PaneDtls;
 import net.sf.RecordEditor.edit.display.extension.SplitPaneRecord;
 import net.sf.RecordEditor.edit.display.util.LinePosition;
 import net.sf.RecordEditor.po.def.PoField;
+import net.sf.RecordEditor.re.display.IClosablePanel;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
@@ -72,8 +73,8 @@ public class PoChildRecordScreen extends BaseDisplay implements IChildScreen {
 				new PaneDtls(MSGID_STR,   		PoField.msgid,	      new JTextArea(), 0.15),
 				new PaneDtls(MSGSTR_STR,  		PoField.msgstr,   	  new JTextArea(), 0.15),
 				new PaneDtls(MSGID_PLURAL_STR,  PoField.msgidPlural,  new JTextArea(), 0.15),
-				new PaneDtls(MSGSTR_PLURAL_STR, PoField.msgstrPlural, msgstrPlural, 0, false,    0.15),
-				new PaneDtls(HTML_STR,			PoField.msgstr,   	  new JEditorPane("text/html",  ""), 0, true, 0.15),
+				new PaneDtls(MSGSTR_PLURAL_STR, PoField.msgstrPlural, msgstrPlural, 0, PaneDtls.NOT_HTML,    0.15),
+				new PaneDtls(HTML_STR,			PoField.msgstr,   	  new JEditorPane("text/html",  ""), 0, PaneDtls.IS_HTML, 0.15),
 		};
 
 		return new PoChildRecordScreen(viewOfFile, lineNo, fields, null);
@@ -91,7 +92,7 @@ public class PoChildRecordScreen extends BaseDisplay implements IChildScreen {
 				new PaneDtls(MSGID_STR,   PoField.msgid,    new JTextArea(), 1),
 				new PaneDtls(MSGSTR_STR,  PoField.msgstr,   new JTextArea(), 1),
 				new PaneDtls(MSGID_PLURAL_STR,  PoField.msgidPlural,  new JTextArea(), 1),
-				new PaneDtls(MSGSTR_PLURAL_STR, PoField.msgstrPlural, msgstrPlural, 2, false,    0.15),
+				new PaneDtls(MSGSTR_PLURAL_STR, PoField.msgstrPlural, msgstrPlural, 2, PaneDtls.NOT_HTML,    0.15),
 				new PaneDtls(HTML_STR,    PoField.msgstr,   new JEditorPane("text/html",  ""), 3, true),
 		};
 
@@ -107,7 +108,7 @@ public class PoChildRecordScreen extends BaseDisplay implements IChildScreen {
 
 
 		setJTable(new JTable());
-		splitRecPane = new SplitPaneRecord(viewOfFile, lineNo);
+		splitRecPane = new SplitPaneRecord(NO_CLOSE_ACTION_PNL, viewOfFile, lineNo);
 		splitRecPane.setFields(newFields, newWeight);
 
 		init_100_Init(newFields);
@@ -130,7 +131,7 @@ public class PoChildRecordScreen extends BaseDisplay implements IChildScreen {
 		layoutFieldPane(getFieldsUsed());
 		splitRecPane.layoutFieldPane();
 
-		actualPnl.addComponent(1, 3, BasePanel.FILL, BasePanel.GAP,
+		actualPnl.addComponentRE(1, 3, BasePanel.FILL, BasePanel.GAP,
                 BasePanel.FULL, BasePanel.FULL, splitRecPane.splitPane);
 
 		actualPnl.done();
@@ -224,6 +225,7 @@ public class PoChildRecordScreen extends BaseDisplay implements IChildScreen {
 			this.actualPnl.repaint();
 		}
 	}
+
 
 	private void layoutFieldPane(int code) {
 

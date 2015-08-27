@@ -11,10 +11,10 @@ import javax.swing.text.Segment;
 import javax.swing.undo.UndoableEdit;
 
 import net.sf.JRecord.Details.AbstractLine;
-
 import net.sf.RecordEditor.utils.fileStorage.DataStorePosition;
-import net.sf.RecordEditor.utils.fileStorage.IDataStoreText;
+import net.sf.RecordEditor.utils.fileStorage.IDataStore;
 import net.sf.RecordEditor.utils.fileStorage.IDataStorePosition;
+import net.sf.RecordEditor.utils.fileStorage.ITextInterface;
 
 /**
  * Implement a Document-Content class from a DataStoreTextContent class.
@@ -26,13 +26,13 @@ import net.sf.RecordEditor.utils.fileStorage.IDataStorePosition;
  * License:  GPL 3 or latter
  */
 public class DataStoreContent implements AbstractDocument.Content, TableModelListener {
-
 	public static final int INSERT = 121;
 	public static final int UPDATE = 122;
 	public static final int DELETE = 123;
 
 	private final FileView fileView;
-	private final IDataStoreText<? extends AbstractLine> datastore;
+	private final IDataStore<? extends AbstractLine> datastore;
+	private final ITextInterface ti;
 
 	private final ArrayList<RefDataStore> positions
 						= new ArrayList<RefDataStore>(150);
@@ -46,8 +46,9 @@ public class DataStoreContent implements AbstractDocument.Content, TableModelLis
 
 //	private final AbstractDocument.BranchElement lineElements = new AbstractDocument.BranchElement(null, null);
 
-	public DataStoreContent(FileView file, IDataStoreText<? extends AbstractLine> ds) {
-		this.datastore = ds;
+	public DataStoreContent(FileView file, ITextInterface ti) {
+		this.datastore = ti.getDataStore();
+		this.ti = ti;
 		this.fileView = file;
 		file.addTableModelListener(this);
 	}
@@ -61,7 +62,7 @@ public class DataStoreContent implements AbstractDocument.Content, TableModelLis
 //		if (pos != null) {
 //			return pos;
 //		}
-		return register(datastore.getPosition(offset));
+		return register(ti.getTextPosition(offset));
 	}
 
 	private IDataStorePosition register(DataStorePosition pos) {
@@ -177,25 +178,32 @@ public class DataStoreContent implements AbstractDocument.Content, TableModelLis
 		if (pos != null) {
 			return pos;
 		}
-		return datastore.getPosition(offset);
+		return ti.getTextPosition(offset);
 	}
 
-	public IDataStorePosition getLinePosition(int lineNo) {
-		return getLinePosition(lineNo, true);
+	public IDataStorePosition getPositionByLineNumber(int lineNo) {
+		return getPositionByLineNumber(lineNo, true);
 	}
 	/**
 	 * @param lineNo
 	 * @param register wether to register the position
 	 * @return
-	 * @see net.sf.RecordEditor.utils.fileStorage.IDataStoreText#getLinePosition(int)
+	 * @see net.sf.RecordEditor.utils.fileStorage.ITextInterface#getPositionByLineNumber(int)
 	 */
-	public IDataStorePosition getLinePosition(int lineNo, boolean register) {
-		DataStorePosition linePosition = datastore.getLinePosition(lineNo);
+	public IDataStorePosition getPositionByLineNumber(int lineNo, boolean register) {
+		DataStorePosition linePosition = ti.getPositionByLineNumber(lineNo);
 		IDataStorePosition ret = linePosition;
 		if (register) {
 			ret = register(linePosition);
 		}
 		return ret;
+	}
+
+	public IDataStorePosition getLinePositionByOffset(long offset) {
+		DataStorePosition linePosition = ti.getTextPosition(offset);
+		linePosition.positionInLine = 0;
+		
+		return register(linePosition);
 	}
 
 
@@ -208,10 +216,10 @@ public class DataStoreContent implements AbstractDocument.Content, TableModelLis
 
 			chk = positions.get(key).pos;
 			if ((offset     && chk.getOffset() == searchValue)
-			||  ((! offset) && chk.getLineNumber() == searchValue) && chk.getPositionInLine() == 0 ) {
-				if (chk.getLine() == datastore.get(chk.getLineNumber())) {
+			||  ((! offset) && chk.getLineNumberRE() == searchValue) && chk.getPositionInLineRE() == 0 ) {
+				if (chk.getLineRE() == datastore.get(chk.getLineNumberRE())) {
 					try {
-						datastore.updatePosition(chk);
+						chk.updatePositionRE();
 						ret = chk1;
 					} catch (Exception e) {
 						positions.remove(key);
@@ -320,8 +328,8 @@ public class DataStoreContent implements AbstractDocument.Content, TableModelLis
 		if (positions.size() == 0) return;
 
 		if (System.nanoTime() - lastClearedTime > 300000000
-		|| (! positions.get(0).pos.isValidPosition())
-		|| (! positions.get(positions.size() - 1).pos.isValidPosition())) {
+		|| (! positions.get(0).pos.isValidPositionRE())
+		|| (! positions.get(positions.size() - 1).pos.isValidPositionRE())) {
 			//System.out.println("%% " + System.nanoTime() + " %%");
 			clearUnusedPositions();
 			return;
@@ -373,7 +381,7 @@ public class DataStoreContent implements AbstractDocument.Content, TableModelLis
 	public final void clearUnusedPositions() {
 
 		for (int i =  positions.size() - 1; i >= 0; i--) {
-			if (positions.get(i).get() == null || ! positions.get(i).pos.isValidPosition()) {
+			if (positions.get(i).get() == null || ! positions.get(i).pos.isValidPositionRE()) {
 				positions.remove(i);
 			}
 		}
@@ -400,7 +408,7 @@ public class DataStoreContent implements AbstractDocument.Content, TableModelLis
 	 */
 	@Override
 	public int length() {
-		return datastore.length();
+		return (int) Math.min(ti.length(), Integer.MAX_VALUE - 10000);
 	}
 
 
@@ -417,7 +425,7 @@ public class DataStoreContent implements AbstractDocument.Content, TableModelLis
 
 		printLines();
 		try {
-			DataStorePosition start = datastore.getPosition(where);
+			DataStorePosition start = ti.getTextPosition(where);
 			//String lines[];  = str.split("\n");
 			String tmpStr = str;
 			int idx;
@@ -449,7 +457,8 @@ public class DataStoreContent implements AbstractDocument.Content, TableModelLis
 			notifyDocument = false;
 
 			if (lines.size() == 1) {
-				updatePositions(updateFrom, 0, start.lineNumber, line1, str.length());
+//				updatePositions(updateFrom, 0, start.lineNumber, line1, str.length());
+				updateRemovedPositions(updateFrom, 0, line1, 0, start.lineNumber, str.length(), false);
 				line1.setData(s1 + str + s2);
 			} else {
 				//TODO x
@@ -479,13 +488,16 @@ public class DataStoreContent implements AbstractDocument.Content, TableModelLis
 				idx = fileView.addLines(start.lineNumber+1, -1, newLines);
 				//notifyDocument = true;
 
-				if (idx >= 0) {
-					AbstractLine l = fileView.getLine(idx);
+				if (idx >= 0 && list.size() > 0) {
+					//idx = Math.min(fileView.getRowCount(), idx + newLines.length) - 1;
+					AbstractLine l;
+					l = fileView.getLine(idx);
+//					idx = fileView.indexOf(l);
 					int shift = lines.get(lines.size() - 1).length() - start.positionInLine;
 					for (DataStorePosition pp : list) {
 						pp.line = l;
 						pp.lineNumber = idx;
-						pp.setLookupRequired();
+						pp.setLookupRequiredRE();
 						pp.positionInLine += shift;
 					}
 				}
@@ -522,8 +534,8 @@ public class DataStoreContent implements AbstractDocument.Content, TableModelLis
 	public UndoableEdit remove(int where, int nitems)
 			throws BadLocationException {
 		DataStorePosition
-				start = datastore.getPosition(where),
-				fin   = datastore.getPosition(where + nitems);
+				start = ti.getTextPosition(where),
+				fin   = ti.getTextPosition(where + nitems);
 
 		AbstractLine line1 = datastore.get(start.lineNumber);
 		AbstractLine line2 = datastore.get(fin.lineNumber);
@@ -543,8 +555,8 @@ public class DataStoreContent implements AbstractDocument.Content, TableModelLis
 			en = fin.lineNumber - 1;
 
 			//printPositions(0);
-			updateRemovedPositions(where, nitems, line2, 0, fin.lineNumber);
-			updatePositions(where, nitems, fin.lineNumber, line2,  -fin.positionInLine);
+			updateRemovedPositions(where, nitems, line2, 0, fin.lineNumber,  -fin.positionInLine, true);
+//			updatePositions(where, nitems, fin.lineNumber, line2,  -fin.positionInLine);
 			//printPositions(0);
 			line2.setData(s2.substring(fin.positionInLine));
 			fileView.fireTableRowsUpdated(fin.lineNumber, fin.lineNumber);
@@ -559,8 +571,8 @@ public class DataStoreContent implements AbstractDocument.Content, TableModelLis
 			en = fin.lineNumber;
 
 			//printPositions(121);
-			updateRemovedPositions(where, nitems, line1, start.positionInLine, start.lineNumber);
-			updatePositions(where, nitems, start.lineNumber, line1, start.positionInLine - fin.positionInLine);
+			updateRemovedPositions(where, nitems, line1, start.positionInLine, start.lineNumber, start.positionInLine - fin.positionInLine, true);
+//			updatePositions(where, nitems, start.lineNumber, line1, start.positionInLine - fin.positionInLine);
 			//printPositions(121);
 			line1.setData(s1.substring(0, start.positionInLine) + s2);
 			fileView.fireTableRowsUpdated(st, st);
@@ -581,49 +593,103 @@ public class DataStoreContent implements AbstractDocument.Content, TableModelLis
 	}
 
 
-	private void updateRemovedPositions(int where, int nitems, AbstractLine line, int newOffset, int lineNo) {
-		int key = Math.min(findPosByKey(where + nitems, true), positions.size() - 1);
-		DataStorePosition p;
-
-		for (int i = key; i >= 0; i--) {
-
-			if (positions.get(i).get() == null) {
-				positions.remove(i);
-			} else {
-				p = positions.get(i).pos;
-				if (p.getOffset() < where) {
-					break;
-				}
-//				System.out.println("+ " + i + ")\t" + p.lineNumber + ",\t" + p.positionInLine + "\t ~~ \t "
-//						+ lineNo + "; " + (newOffset));
-				p.line = line;
-				p.lineNumber = lineNo;
-				p.positionInLine = newOffset;
-				p.setLookupRequired();
-			}
-		}
-		fileView.fireTableRowsUpdated(lineNo, lineNo);
-	}
-
-	private void updatePositions(int where, int nitems, int lineNum, AbstractLine line, int shift) {
+	private void updateRemovedPositions(int where, int nitems, AbstractLine line, int newOffset, int lineNo, int shift, boolean doPrev) {
 		int key = findPosByKey(where + nitems, true);
-		DataStorePosition p;
-		DataStorePosition pos = datastore.getPosition(where + nitems);
-
-		for (int i = key; i < positions.size(); i++) {
-			p = positions.get(i).pos;
-			if (p.lineNumber > pos.lineNumber) {
-				break;
-			} else if (p.positionInLine >= pos.positionInLine) {
-//				System.out.println("= " + i + ")\t" + p.lineNumber + ",\t" + p.positionInLine + "\t ~~ \t "
-//						+ lineNum + "; " + (p.positionInLine + shift));
-				p.lineNumber = lineNum;
-				p.line = line;
-				p.positionInLine += shift;
-				p.setLookupRequired();
+		if ( key >= 0 ) {
+			int start = key;
+			DataStorePosition p;
+	
+			DataStorePosition pos = ti.getTextPosition(where + nitems);
+			
+			if (doPrev && key < positions.size() && positions.get(key).pos.getOffset() >= where) {
+				start += 1;
 			}
+	
+			for (int i = start; i < positions.size(); i++) {
+				p = positions.get(i).pos;
+				if (p.lineNumber > pos.lineNumber) {
+					break;
+				} else if (p.positionInLine >= pos.positionInLine) {
+	//				System.out.println("= " + i + ")\t" + p.lineNumber + ",\t" + p.positionInLine + "\t ~~ \t "
+	//						+ lineNum + "; " + (p.positionInLine + shift));
+					p.lineNumber = lineNo;
+					p.line = line;
+					p.positionInLine += shift;
+					p.setLookupRequiredRE();
+				}
+			}
+	
+			if (doPrev) {
+				key = Math.min(key, positions.size() - 1);
+				for (int i = key; i >= 0; i--) {
+		
+					if (positions.get(i).get() == null) {
+						positions.remove(i);
+					} else {
+						p = positions.get(i).pos;
+						if (p.getOffset() < where) {
+							break;
+						}
+		//				System.out.println("+ " + i + ")\t" + p.lineNumber + ",\t" + p.positionInLine + "\t ~~ \t "
+		//						+ lineNo + "; " + (newOffset));
+						p.line = line;
+						p.lineNumber = lineNo;
+						p.positionInLine = newOffset;
+						p.setLookupRequiredRE();
+					}
+				}
+			}
+	
+			fileView.fireTableRowsUpdated(lineNo, lineNo);
 		}
 	}
+	
+	
+
+//	private void updateRemovedPositions(int where, int nitems, AbstractLine line, int newOffset, int lineNo) {
+//		int key = Math.min(findPosByKey(where + nitems, true), positions.size() - 1);
+//		DataStorePosition p;
+//
+//		for (int i = key; i >= 0; i--) {
+//
+//			if (positions.get(i).get() == null) {
+//				positions.remove(i);
+//			} else {
+//				p = positions.get(i).pos;
+//				if (p.getOffset() < where) {
+//					break;
+//				}
+////				System.out.println("+ " + i + ")\t" + p.lineNumber + ",\t" + p.positionInLine + "\t ~~ \t "
+////						+ lineNo + "; " + (newOffset));
+//				p.line = line;
+//				p.lineNumber = lineNo;
+//				p.positionInLine = newOffset;
+//				p.setLookupRequired();
+//			}
+//		}
+//		fileView.fireTableRowsUpdated(lineNo, lineNo);
+//	}
+//
+//	private void updatePositions(int where, int nitems, int lineNum, AbstractLine line, int shift) {
+//		int key = findPosByKey(where + nitems, true);
+//		DataStorePosition p;
+//		DataStorePosition pos = ti.getTextPosition(where + nitems);
+//
+//		for (int i = key; i < positions.size(); i++) {
+//			p = positions.get(i).pos;
+//			if (p.lineNumber > pos.lineNumber) {
+//				break;
+//			} else if (p.positionInLine >= pos.positionInLine) {
+////				System.out.println("= " + i + ")\t" + p.lineNumber + ",\t" + p.positionInLine + "\t ~~ \t "
+////						+ lineNum + "; " + (p.positionInLine + shift));
+//				p.lineNumber = lineNum;
+//				p.line = line;
+//				p.positionInLine += shift;
+//				p.setLookupRequired();
+//			}
+//		}
+//	}
+
 
 	/* (non-Javadoc)
 	 * @see javax.swing.text.AbstractDocument.Content#getString(int, int)
@@ -632,7 +698,7 @@ public class DataStoreContent implements AbstractDocument.Content, TableModelLis
 	public String getString(int where, int len) throws BadLocationException {
         Segment s = new Segment();
         getChars(where, len, s);
-        return new String(s.array, s.offset, s.count);
+        return s.toString();
 	}
 
 	/* (non-Javadoc)
@@ -642,9 +708,13 @@ public class DataStoreContent implements AbstractDocument.Content, TableModelLis
 	public void getChars(int where, int len, Segment txt)
 			throws BadLocationException {
 
+		if (len <= 0) {
+			txt.array = null;
+			return;
+		}
 		DataStorePosition
-		start = datastore.getPosition(where),
-		fin   = datastore.getPosition(where + len);
+		start = ti.getTextPosition(where),
+		fin   = ti.getTextPosition(where + len);
 
 		AbstractLine line1 = datastore.get(start.lineNumber);
 		String s1 = line1.getFullLine() + "\n";
@@ -653,8 +723,10 @@ public class DataStoreContent implements AbstractDocument.Content, TableModelLis
 			txt.array = new char[0];
 			txt.count = 0;
 			txt.offset = 0;
+			txt.offset = 0;
 			return;
 		}
+		
 
 //		System.out.println("## " + start.lineNumber + " "+ s1.length() + " "
 //				+ " ~~ " + start.offset
@@ -677,7 +749,7 @@ public class DataStoreContent implements AbstractDocument.Content, TableModelLis
 		}
 
 		AbstractLine line2 = datastore.get(fin.lineNumber);
-		String s2 = line2.getFullLine();
+		String s2 = line2.getFullLine() + '\n';
 		if (start.positionInLine >= s1.length()) {
 			s1 = "";
 		} else if (start.positionInLine > 0) {
@@ -688,6 +760,8 @@ public class DataStoreContent implements AbstractDocument.Content, TableModelLis
 			s2 = "";
 		} else if (fin.positionInLine < s2.length()) {
 			s2 = s2.substring(0, fin.positionInLine);
+//		} else if (fin.positionInLine > s2.length()) {
+//			s2 += '\n';
 		}
 
 		StringBuffer b = new StringBuffer(s1);
@@ -752,7 +826,7 @@ public class DataStoreContent implements AbstractDocument.Content, TableModelLis
 					if (p.lineNumber <= event.getLastRow()) {
 						p.lineNumber = newRow;
 						p.positionInLine = posInLine;
-						p.setLookupRequired();
+						p.setLookupRequiredRE();
 						p.line = l;
 					}
 				} else {
@@ -776,15 +850,19 @@ public class DataStoreContent implements AbstractDocument.Content, TableModelLis
 //		System.out.println("Adjust Lines: " + firstLine + "\t " + amount);
 //		System.out.println();
 		for (int i=positions.size() - 1; i>= 0; i--) {
-			p = positions.get(i).pos;
-
-			if (p.lineNumber < firstLine) {
-				return i;
+			if (positions.get(i).get() == null) {
+				positions.remove(i);
+			} else {
+				p = positions.get(i).pos;
+	
+				if (p.lineNumber < firstLine) {
+					return i;
+				}
+	//			System.out.println("\t" + i + "}\t" + p.lineNumber + "\t" + p.positionInLine
+	//					+ "\t~~\t" + (Math.max(p.lineNumber + amount, 0)));
+				p.lineNumber = Math.max(p.lineNumber + amount, 0);
+				p.setLookupRequiredRE();
 			}
-//			System.out.println("\t" + i + "}\t" + p.lineNumber + "\t" + p.positionInLine
-//					+ "\t~~\t" + (Math.max(p.lineNumber + amount, 0)));
-			p.lineNumber = Math.max(p.lineNumber + amount, 0);
-			p.setLookupRequired();
 		}
 
 		return -1;
@@ -793,16 +871,32 @@ public class DataStoreContent implements AbstractDocument.Content, TableModelLis
 
 	public final boolean checkPositionSequence(String s)  {
 		int last = -1;
-		DataStorePosition p;
+		DataStorePosition p, lastP = null;
+//		System.out.println();
+//		System.out.println(positions.size() + " ** " );
 		for (int i = 0; i < positions.size(); i++) {
 			p = positions.get(i).pos;
-			if (last > p.lineNumber * 1000 + p.positionInLine) {
-				System.out.println(" ------   Error at: " + i + " Line Number: " + p.lineNumber + " " + p.positionInLine);
-				System.out.println(" ------ " + s);
-				printPositions(-999);
-				return false;
+			
+			if (p.isValidPositionRE()) {
+//				System.out.print(p.lineNumber + " " + p.positionInLine +  "\t");
+				
+				if (last > p.lineNumber * 1000 + p.positionInLine) {
+					System.out.println();
+					System.out.println();
+					System.out.println(" ------   Error at: " + i + "\t Line Number: " + p.lineNumber + " " + p.positionInLine + " ~ " + last
+							+ " > " + (p.lineNumber * 1000 + p.positionInLine));
+					if (lastP != null) {
+						System.out.println(" ------             \t Line Number: " + lastP.lineNumber + " " + lastP.positionInLine + " ~ " + last);
+						
+					}
+					System.out.println(" ------ " + s);
+					System.out.println();
+					printPositions((int)p.lineStart - 50, (int)p.lineStart + 200);
+					return false;
+				}
+				lastP = p;
+				last = p.lineNumber * 1000 + p.positionInLine;
 			}
-			last = p.lineNumber * 1000 + p.positionInLine;
 		}
 		return true;
 	}
@@ -835,6 +929,39 @@ public class DataStoreContent implements AbstractDocument.Content, TableModelLis
 		}
 	}
 
+	
+
+	public void printPositions(int start, int end) {
+		if ( positions.size() > 0) {
+			int last = -1;
+			boolean error = false;
+			DataStorePosition p;
+
+			System.out.println("***** Positions: " + start);
+			for (int i = 0; i < positions.size(); i++) {
+				String s = " ";
+				p = positions.get(i).pos;
+				if (p.lineStart + p.positionInLine >= start && p.lineStart < end) {
+					if (positions.get(i).get() == null) {
+						s = "^";
+					}
+					System.out.print("\t" + p.lineNumber + '~' + p.positionInLine  /* + " " + p.getOffset()*/ + s);
+					if (last > p.lineNumber * 1000 + p.positionInLine) {
+						System.out.print(" ");
+						error = true;
+					}
+					if (i % 25 == 0) System.out.println();
+				}
+				last = p.lineNumber * 1000 + p.positionInLine;
+			}
+			System.out.println();
+			if (error) {
+				System.out.println(" ============== Error" );
+				System.out.println();
+			}
+		}
+	}
+
 	/**
 	 * @param document the document to set
 	 */
@@ -851,6 +978,7 @@ public class DataStoreContent implements AbstractDocument.Content, TableModelLis
 
 	private static class RefDataStore extends WeakReference<IDataStorePosition> {
 		private final DataStorePosition pos;
+		//public RefDataStore next = null;
 		public RefDataStore(DataStorePosition referent) {
 			this(new DelegateDSPosition(referent));
 		}
@@ -878,36 +1006,34 @@ public class DataStoreContent implements AbstractDocument.Content, TableModelLis
 
 		/**
 		 * @return
-		 * @see net.sf.RecordEditor.utils.fileStorage.IDataStorePosition#getLineStart()
+		 * @see net.sf.RecordEditor.utils.fileStorage.IDataStorePosition#getLineStartRE()
 		 */
-		public int getLineStart() {
-			return pos.getLineStart();
+		public long getLineStartRE() {
+			return pos.getLineStartRE();
 		}
 
 		/**
 		 * @return
-		 * @see net.sf.RecordEditor.utils.fileStorage.IDataStorePosition#getPositionInLine()
+		 * @see net.sf.RecordEditor.utils.fileStorage.IDataStorePosition#getPositionInLineRE()
 		 */
-		public int getPositionInLine() {
-			return pos.getPositionInLine();
+		public int getPositionInLineRE() {
+			return pos.getPositionInLineRE();
 		}
 
 		/**
 		 * @return
-		 * @see net.sf.RecordEditor.utils.fileStorage.IDataStorePosition#getLineNumber()
+		 * @see net.sf.RecordEditor.utils.fileStorage.IDataStorePosition#getLineNumberRE()
 		 */
-		public int getLineNumber() {
-			return pos.getLineNumber();
+		public int getLineNumberRE() {
+			return pos.getLineNumberRE();
 		}
 
 		/**
 		 * @return
-		 * @see net.sf.RecordEditor.utils.fileStorage.IDataStorePosition#getLine()
+		 * @see net.sf.RecordEditor.utils.fileStorage.IDataStorePosition#getLineRE()
 		 */
-		public AbstractLine getLine() {
-			return pos.getLine();
+		public AbstractLine getLineRE() {
+			return pos.getLineRE();
 		}
-
-
 	}
 }

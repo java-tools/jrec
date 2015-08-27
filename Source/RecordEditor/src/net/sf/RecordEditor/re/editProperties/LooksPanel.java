@@ -21,7 +21,7 @@ import javax.swing.UIManager;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
+import net.sf.RecordEditor.utils.swing.treeCombo.JarFileSelect;
 
 /**
  *
@@ -137,7 +137,7 @@ public class LooksPanel extends BasePanel implements ActionListener {
 
     private JComboBox looks = new JComboBox();
     private JTextField className = new JTextField();
-    private FileChooser jarName  = new FileChooser();
+    private JarFileSelect jarName  = new JarFileSelect(true, null);
     private JEditorPane description = new JEditorPane("text/html", "");
 
     private EditParams pgmParams;
@@ -218,18 +218,18 @@ public class LooksPanel extends BasePanel implements ActionListener {
 
     	this.setNameComponents(true);
 
-		this.addComponent(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP2,
+		this.addComponentRE(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP2,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
 
-        this.addLine("Look and Feel", looks);
-        this.setGap(BasePanel.GAP1);
+        this.addLineRE("Look and Feel", looks);
+        this.setGapRE(BasePanel.GAP1);
 
-        this.addLine("Look and Feel Class Name", className);
-        this.addLine("Jar File", jarName, jarName.getChooseFileButton());
-        this.setGap(BasePanel.GAP3);
+        this.addLineRE("Look and Feel Class Name", className);
+        this.addLineRE("Jar File", jarName);
+        this.setGapRE(BasePanel.GAP3);
 
-		this.addComponent(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP1,
+		this.addComponentRE(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
 				new JScrollPane(description));
 

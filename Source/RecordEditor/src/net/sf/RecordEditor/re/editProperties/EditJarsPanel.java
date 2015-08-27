@@ -22,8 +22,8 @@ import javax.swing.table.DefaultTableModel;
 
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.FileChooser;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.treeCombo.JarFileSelect;
 
 /**
  * This class will display a list of Jars to be used
@@ -41,7 +41,7 @@ public class EditJarsPanel extends BasePanel {
     private JarTblModel jarMdl;
     private JTable jarsTbl;
     private JTextField typeFld = new JTextField();
-    private FileChooser jarFld = new FileChooser();
+    private JarFileSelect jarFld = new JarFileSelect(true, null);
     private JTextArea descriptionFld = new JTextArea();
 
     private JarGroup jarsList;
@@ -116,19 +116,19 @@ public class EditJarsPanel extends BasePanel {
      */
     private void init_200_Screen() {
 
-		this.addComponent(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP1,
+		this.addComponentRE(1, 5, CommonCode.TIP_HEIGHT, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
 
-		this.addComponent(1, 5, TABLE_HEIGHT, BasePanel.GAP2,
+		this.addComponentRE(1, 5, TABLE_HEIGHT, BasePanel.GAP2,
 		        BasePanel.FULL, BasePanel.FULL,
-				new JScrollPane(jarsTbl));
+				jarsTbl);
 
-		this.addLine("Jar Type", typeFld);
-		this.addLine("Jar", jarFld, jarFld.getChooseFileButton());
-		this.addLine("Description", descriptionFld);
-		this.setHeight(BasePanel.GAP3);
-		this.setGap(BasePanel.GAP2);
+		this.addLineRE("Jar Type", typeFld);
+		this.addLineRE("Jar", jarFld);
+		this.addLineRE("Description", descriptionFld);
+		this.setHeightRE(BasePanel.GAP3);
+		this.setGapRE(BasePanel.GAP2);
 
 		//this.done();
     }

@@ -48,6 +48,7 @@ public class PropertiesLineReader extends AbstractLineReader<LayoutDetail> {
 
 		props.load(inputStream);
 		pLayout.setExtraDetails(props);
+		inputStream.close();
 	}
 
 	/* (non-Javadoc)

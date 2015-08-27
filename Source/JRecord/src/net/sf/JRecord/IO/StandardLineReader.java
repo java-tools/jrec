@@ -34,7 +34,6 @@ public abstract class StandardLineReader extends AbstractLineReader<LayoutDetail
 	 */
 	public StandardLineReader() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -42,7 +41,6 @@ public abstract class StandardLineReader extends AbstractLineReader<LayoutDetail
 	 */
 	public StandardLineReader(LineProvider provider) {
 		super(provider);
-		// TODO Auto-generated constructor stub
 	}
 
 }

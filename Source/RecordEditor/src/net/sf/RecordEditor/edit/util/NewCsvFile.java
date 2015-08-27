@@ -26,6 +26,7 @@ import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.re.display.DisplayBuilderFactory;
 import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.utils.charsets.FontCombo;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
 import net.sf.RecordEditor.utils.fileStorage.DataStoreStd;
@@ -58,7 +59,7 @@ public class NewCsvFile {
 
 	private JCheckBox  namesChk		 = new JCheckBox();
 	private JCheckBox  unicodeChk	 = new JCheckBox();
-	private JTextField fontTxt		 = new JTextField();
+	private FontCombo  fontCombo		 = new FontCombo();
 	private DelimiterCombo fieldSep = DelimiterCombo.NewDelimCombo();
 	private JComboBox  quote		 = new JComboBox(Common.QUOTE_LIST);
     private BmKeyedComboBox parser   = new BmKeyedComboBox(styleModel, false);
@@ -92,29 +93,29 @@ public class NewCsvFile {
 
 	private void init_200_LayoutScreen() {
 
-		panel.setGap(BasePanel.GAP2);
-		panel.addLine("Rows", rowFld.field);
-		panel.addLine("Cols", colFld.field);
-		panel.addLine("Names on First Line", namesChk);
-		panel.addLine("Unicode", unicodeChk);
-		panel.addLine("Font", fontTxt);
-		panel.addLine("Field Seperator", fieldSep);
-		panel.addLine("Quote", quote);
-		panel.addLine("Parser", parser);
-		panel.setGap(BasePanel.GAP1);
+		panel.setGapRE(BasePanel.GAP2);
+		panel.addLineRE("Rows", rowFld.field);
+		panel.addLineRE("Cols", colFld.field);
+		panel.addLineRE("Names on First Line", namesChk);
+		panel.addLineRE("Unicode", unicodeChk);
+		panel.addLineRE("Font", fontCombo);
+		panel.addLineRE("Field Seperator", fieldSep);
+		panel.addLineRE("Quote", quote);
+		panel.addLineRE("Parser", parser);
+		panel.setGapRE(BasePanel.GAP1);
 
 		//panel.addLine(colNamesLbl, null);
 
-		panel.addComponent(1, 3, SwingUtils.TABLE_ROW_HEIGHT * 10,
+		panel.addComponentRE(1, 3, SwingUtils.TABLE_ROW_HEIGHT * 10,
 		        BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL,
 		        colNamesTbl);
 
 		//panel.setGap(BasePanel.GAP1);
-		panel.addLine(null, null, goBtn);
-		panel.setGap(BasePanel.GAP1);
+		panel.addLineRE(null, null, goBtn);
+		panel.setGapRE(BasePanel.GAP1);
 		panel.addMessage(msgTxt);
-		panel.setHeight(BasePanel.HEIGHT_1P6);
+		panel.setHeightRE(BasePanel.HEIGHT_1P6);
 
 		frame.addMainComponent(panel);
 		frame.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
@@ -148,7 +149,7 @@ public class NewCsvFile {
 		AbstractLine l;
 		DataStoreStd<AbstractLine> store = DataStoreStd.newStore(layout);
 		LineProvider<LayoutDetail, Line> p = LineIOProvider.getInstance()
-										.getLineProvider(layout.getFileStructure());
+										.getLineProvider(layout);
 		for (int i = 0; i < rowFld.value; i++) {
 			l = p.getLine(layout);
 			try {
@@ -171,7 +172,7 @@ public class NewCsvFile {
 		int i;
 		String s;
 		byte[] eol = Common.SYSTEM_EOL_BYTES;
-		String font = fontTxt.getText();
+		String font = fontCombo.getText();
 		String q   = Common.QUOTE_VALUES[quote.getSelectedIndex()];
 		String sep = fieldSep.getSelectedEnglish();
 		int structure = STRUCTURES[toInt(unicodeChk.isSelected())]
@@ -186,7 +187,7 @@ public class NewCsvFile {
             flds[i].setPosOnly(i + 1);
 	    }
 
-        recs[0] = new RecordDetail("GeneratedCsvRecord", "", "", Constants.rtDelimited,
+        recs[0] = new RecordDetail(Common.GENERATED_CSV_SCHEMA_NAME, "", "", Constants.rtDelimited,
         		sep, q, font, flds,
         		((Integer)parser.getSelectedItem()).intValue(), 0);
 

@@ -4,6 +4,7 @@ package net.sf.RecordEditor.re.util.csv;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -106,6 +107,12 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 			}
 		} catch (Exception e) {
 
+		} finally {
+			try {
+				reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		view.setLayout(reader.getLayout());
 
@@ -172,17 +179,17 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 			headingLabel.setOpaque(true);
 			headingLabel.setFont(new Font(font.getFamily(), Font.BOLD, font.getSize() +2));
 
-			this.addHeadingComponent(headingLabel);
-			this.setGap(GAP0);
+			this.addHeadingComponentRE(headingLabel);
+			this.setGapRE(GAP0);
 		}
 
 
 
 
-		addLine("", null, go);
+		addLineRE("", null, go);
 
 
-		this.addComponent(
+		this.addComponentRE(
 				1, 5, BasePanel.FILL, BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL,
 		        treeTablePane);
@@ -190,13 +197,14 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 		if (message == null) {
 			message = new JTextField();
 
-			this.setGap(GAP1);
+			this.setGapRE(GAP1);
 			this.addMessage(message);
-			this.setHeight(HEIGHT_1P4);
+			this.setHeightRE(HEIGHT_1P4);
 		} else {
-			super.setMessage(message);
+			super.setMessageRE(message);
 		}
 	}
+
 
 
 	/* (non-Javadoc)
@@ -269,7 +277,6 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 
 	@Override
 	public String getColumnName(int idx) {
-		// TODO Auto-generated method stub
 		return "";
 	}
 
@@ -337,8 +344,13 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 	 * @see net.sf.RecordEditor.re.util.csv.FilePreview#isMyLayout(java.lang.String)
 	 */
 	@Override
-	public boolean isMyLayout(String layout) {
-		return layout != null && layout.startsWith(XML_ID);
+	public boolean isMyLayout(String layoutId, String filename, byte[] data) {
+		boolean ret =  layoutId != null && layoutId.startsWith(XML_ID);
+		if (ret) {
+			setData(filename, data, false, layoutId);
+		}
+		
+		return ret;
 	}
 
 //	private String getStr(String s) {

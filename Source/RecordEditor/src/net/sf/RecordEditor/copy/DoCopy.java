@@ -8,6 +8,7 @@ import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Common.RecordRunTimeException;
 import net.sf.JRecord.Common.XmlConstants;
+import net.sf.JRecord.CsvParser.BaseCsvLineParser;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
@@ -24,7 +25,10 @@ import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.jibx.compare.CopyDefinition;
 import net.sf.RecordEditor.jibx.compare.Record;
-import net.sf.RecordEditor.re.fileWriter.CsvWriter;
+import net.sf.RecordEditor.re.fileWriter.BaseWriter;
+import net.sf.RecordEditor.re.fileWriter.CsvWriterSingleByteCharset;
+import net.sf.RecordEditor.re.fileWriter.FieldWriter;
+import net.sf.RecordEditor.re.fileWriter.WriterBuilder;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.re.openFile.LayoutSelectionFile;
 import net.sf.RecordEditor.utils.common.Common;
@@ -249,7 +253,7 @@ private static final String CAN_NOT_LOCATE_RECORD = "Can not locate record: > {0
 						first = false;
 					}
 				} else {
-					out = LineIOProvider.getInstance().getLineProvider(dtl2.getFileStructure()).getLine(dtl2);
+					out = LineIOProvider.getInstance().getLineProvider(dtl2).getLine(dtl2);
 
 					try {
 						RecordSelection sel = dtl2.getRecord(i2).getRecordSelection();
@@ -564,7 +568,7 @@ private static final String CAN_NOT_LOCATE_RECORD = "Can not locate record: > {0
 		AbstractLineReader reader;
 		AbstractLine in;
 		//OutputStream fileWriter = new FileOutputStream(cpy.newFile.name);
-		CsvWriter writer = new CsvWriter(cpy.newFile.name, cpy.delimiter, cpy.font, cpy.quote, false, null);
+		FieldWriter writer = WriterBuilder.newCsvWriter(cpy.newFile.name, cpy.delimiter, cpy.font, cpy.quote, false, null);
 		reader = ioProvider.getLineReader(dtl1);
 
 		reader.open(cpy.oldFile.name, dtl1);
@@ -601,7 +605,7 @@ private static final String CAN_NOT_LOCATE_RECORD = "Can not locate record: > {0
 	}
 
 
-	private void writeBinCsvLine(CsvWriter writer, AbstractLine in,  int lineNo, int idx) throws IOException {
+	private void writeBinCsvLine(FieldWriter writer, AbstractLine in,  int lineNo, int idx) throws IOException {
 		int i1 = fromIdx[idx];
 
 		if (i1 >= 0) {

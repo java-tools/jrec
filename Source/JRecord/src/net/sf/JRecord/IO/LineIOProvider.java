@@ -106,7 +106,7 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
      */
     @SuppressWarnings( "rawtypes" )
 	public AbstractLineReader getLineReader(int fileStructure) {
-        return getLineReader(fileStructure, getLineProvider(fileStructure));
+        return getLineReader(fileStructure, getLineProvider(fileStructure, ""));
     }
 
 
@@ -225,13 +225,17 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
 
 
     /* (non-Javadoc)
-	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineProvider(int)
+	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getLineProvider(IBasicFileSchema)
 	 */
-	@SuppressWarnings("rawtypes")
-	public LineProvider getLineProvider(int fileStructure) {
-    	return getProvider(fileStructure).getLineProvider(fileStructure);
+	@Override @SuppressWarnings("rawtypes")
+	public LineProvider getLineProvider(IBasicFileSchema schema) {
+    	return getProvider(schema.getFileStructure()).getLineProvider(schema);
     }
 
+	@Override @SuppressWarnings("rawtypes")
+	public LineProvider getLineProvider(int fileStructure, String charset) {
+    	return getProvider(fileStructure).getLineProvider(fileStructure, charset);
+    }
 
     /* (non-Javadoc)
 	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getKey(int)

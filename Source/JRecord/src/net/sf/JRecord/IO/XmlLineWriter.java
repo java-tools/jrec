@@ -58,10 +58,8 @@ public class XmlLineWriter extends AbstractLineWriter {
     	try {
     		f = XMLOutputFactory.newInstance();
     	} catch (Exception e) {
-    		@SuppressWarnings("deprecation")
-			Object o =  XMLOutputFactory.newInstance("javax.xml.stream.XMLOutputFactory",
+    		f = XMLOutputFactory.newFactory("javax.xml.stream.XMLOutputFactory",
     				this.getClass().getClassLoader());
-    		f = (XMLOutputFactory) o;
     	}
     	return f;
     }
@@ -116,11 +114,14 @@ public class XmlLineWriter extends AbstractLineWriter {
     	}
 
 
-        if ("".equals(encoding) && "".equals(version)) {
+        if ("".equals(encoding) && ("".equals(version) || version == null)) {
             writer.writeStartDocument();
         } else if ("".equals(encoding)) {
             writer.writeStartDocument(version);
         } else {
+        	if ("".equals(version) || version == null) {
+        		version = "1.0";
+        	}
             writer.writeStartDocument(encoding, version);
         }
 
@@ -141,7 +142,7 @@ public class XmlLineWriter extends AbstractLineWriter {
         String name = toString(line.getLayout().getRecord(line.getPreferredLayoutIdx()).getRecordName());
         String prefix = line.getFieldValue(XmlConstants.PREFIX).asString();
         String namespace = line.getFieldValue(XmlConstants.NAMESPACE).asString();
-        boolean end = "true".equals(line.getFieldValue(XmlConstants.END_ELEMENT).asString().toLowerCase());
+        boolean end = "true".equalsIgnoreCase(line.getFieldValue(XmlConstants.END_ELEMENT).asString().toLowerCase());
         String attrName;
         Object value;
 

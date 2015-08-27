@@ -65,8 +65,8 @@ public class Pnl3Table extends WizardPanel {
 		    		+ "<p>To remove a <b>field</b> click on the starting column again.");
 		tips = new JEditorPane("text/html", formDescription);
 
-		this.setHelpURL(Common.formatHelpURL(Common.HELP_WIZARD_PNL2));
-		this.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP0,
+		this.setHelpURLre(Common.formatHelpURL(Common.HELP_WIZARD_PNL2));
+		this.addComponentRE(1, 5, TIP_HEIGHT, BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
 

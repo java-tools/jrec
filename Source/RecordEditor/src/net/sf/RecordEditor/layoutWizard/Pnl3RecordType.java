@@ -96,21 +96,21 @@ public class Pnl3RecordType extends WizardPanel {
 		    		+ "<br>To remove a position click on it again.");
 		tips = new JEditorPane("text/html", formDescription);
 
-		this.setHelpURL(Common.formatHelpURL(Common.HELP_WIZARD_RECORD_TYPE));
+		this.setHelpURLre(Common.formatHelpURL(Common.HELP_WIZARD_RECORD_TYPE));
 
-		this.addComponent(1, 5, TIP_HEIGHT, BasePanel.GAP0,
+		this.addComponentRE(1, 5, TIP_HEIGHT, BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
 		//this.setGap(BasePanel.GAP1);
-		this.addLine("Name", nameTxt);
-		this.addLine("Field Start", startTxt);
-		this.addLine("Field Length", lengthTxt);
-		this.addLine("Type", typeCombo);
-		this.setGap(BasePanel.GAP0);
+		this.addLineRE("Name", nameTxt);
+		this.addLineRE("Field Start", startTxt);
+		this.addLineRE("Field Length", lengthTxt);
+		this.addLineRE("Type", typeCombo);
+		this.setGapRE(BasePanel.GAP0);
 
-		this.addLine("Show Hex", columnSelector.hexChk);
-		this.setGap(BasePanel.GAP0);
-		this.addComponent(1, 5, FILE_HEIGHT, BasePanel.GAP1,
+		this.addLineRE("Show Hex", columnSelector.hexChk);
+		this.setGapRE(BasePanel.GAP0);
+		this.addComponentRE(1, 5, FILE_HEIGHT, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
 				columnSelector.fileTbl);
 

@@ -175,7 +175,7 @@ public class FixedColumnScrollPane extends JScrollPane  {
 //        System.out.println();
 
         fixedTable.setModel(main.getModel());
-        numCols = main.getModel().getColumnCount();
+        numCols = Math.min(columnModel.getColumnCount(), fixedModel.getColumnCount()) ;
         mainColumnModels  = new TableColumn[numCols];
         fixedColumnModels = new TableColumn[numCols];
 

@@ -206,18 +206,19 @@ public class LineFrame extends  BaseLineFrame implements ILineDisplay {
 	@Override
 	public void tableChanged(TableModelEvent event) {
 
+		int firstRow = event.getFirstRow();
 		switch (event.getType()) {
 			case (TableModelEvent.INSERT):
-				if (event.getFirstRow() <= currRow) {
-					changeRow(event.getLastRow() 	-  event.getFirstRow() + 1);
+				if (firstRow <= currRow) {
+					changeRow(event.getLastRow() 	-  firstRow + 1);
 				}
 			break;
 			case (TableModelEvent.DELETE):
 				if (currRow > event.getLastRow()) {
-					currRow -= event.getLastRow() - event.getFirstRow() + 1;
+					currRow -= event.getLastRow() - firstRow + 1;
 					rowChanged();
-				} else if (currRow > event.getFirstRow()) {
-					currRow -= Math.min(fileView.getRowCount(), event.getFirstRow());
+				} else if (currRow > firstRow) {
+					currRow -= Math.min(fileView.getRowCount(), firstRow);
 					rowChanged();
 				}
 			break;
@@ -229,10 +230,12 @@ public class LineFrame extends  BaseLineFrame implements ILineDisplay {
 			            + " ! " + event.getFirstRow()
 			            + " # " + event.getLastRow());*/
 				//System.out.println("LineFrame Table changed: " + event.getType() + " " + TableModelEvent.UPDATE);
-				if (super.hasTheFormatChanged(event)
-				|| (event.getFirstRow() <= currRow
+				if (super.hasTheFormatChanged(event) || firstRow < 0) {
+					record.fireTableDataChanged();
+					record.layoutChanged(layout);
+				} else if (firstRow <= currRow
 				&&  event.getLastRow() >= currRow
-				&&  currRow >= 0 )) {
+				&&  currRow >= 0 ) {		// Table Structure changed
 					record.fireTableDataChanged();
 				}
 		}
@@ -271,44 +274,50 @@ public class LineFrame extends  BaseLineFrame implements ILineDisplay {
 	 */
 	private void rowChanged() {
 		int[] colWidths = getColumnWidths();
-	    stopCellEditing();
+		try {
+			fileView.removeTableModelListener(this);
 
-		if (currRow >= getFileView().getRowCount()) {
-			if (currRow == 0) {
-				this.closeWindow();
-			} else {
-				currRow -= 1;
+		    stopCellEditing();
+	
+			if (currRow >= getFileView().getRowCount()) {
+				if (currRow == 0) {
+					this.closeWindow();
+				} else {
+					currRow -= 1;
+				}
 			}
+	
+	
+			lineNum.setText(Integer.toString(currRow + 1));
+	
+			record.setCurrentLayout(getLayoutIndex());
+	
+			record.setCurrentLine(currRow, getLayoutIndex());
+			if (record.getCurrentLine() == null) {
+				getParentFrame().close(this);
+			}
+			int newIdx = record.getCurrentLayout();
+	
+			if ((newIdx != Common.NULL_INTEGER)
+			&&  (newIdx != getLayoutIndex())) {
+		    	   setLayoutIndex(newIdx);
+	
+		    	   fireLayoutIndexChanged();
+		    	   setColWidths();
+		    	   setDirectionButtonStatus();
+		    	   setFullLine();
+			} else {
+	//			System.out.println("::Setting up display ");
+				setColWidths();
+				setDirectionButtonStatus();
+				setFullLine();
+			}
+	
+			setColumnWidths(colWidths);
+			super.notifyChangeListners();
+		} finally {
+			fileView.addTableModelListener(this);
 		}
-
-
-		lineNum.setText(Integer.toString(currRow + 1));
-
-		record.setCurrentLayout(getLayoutIndex());
-
-		record.setCurrentLine(currRow, getLayoutIndex());
-		if (record.getCurrentLine() == null) {
-			getParentFrame().close(this);
-		}
-		int newIdx = record.getCurrentLayout();
-
-		if ((newIdx != Common.NULL_INTEGER)
-		&&  (newIdx != getLayoutIndex())) {
-	    	   setLayoutIndex(newIdx);
-
-	    	   fireLayoutIndexChanged();
-	    	   setColWidths();
-	    	   setDirectionButtonStatus();
-	    	   setFullLine();
-		} else {
-//			System.out.println("::Setting up display ");
-			setColWidths();
-			setDirectionButtonStatus();
-			setFullLine();
-		}
-
-		setColumnWidths(colWidths);
-		super.notifyChangeListners();
 	}
 
 

@@ -46,8 +46,8 @@ public abstract class BasicWizardPnl /*implements AbstractWizardPanel<InstallDet
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.wizards.AbstractWizardPanel#showHelp()
 	 */
-	public final void showHelp() {
-		panel.showHelp();
+	public final void showHelpRE() {
+		panel.showHelpRE();
 	}
 
 }

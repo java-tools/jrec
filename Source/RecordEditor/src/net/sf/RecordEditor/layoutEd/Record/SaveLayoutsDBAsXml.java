@@ -39,7 +39,7 @@ public class SaveLayoutsDBAsXml  implements ActionListener {
 		String dir = saveFrame.getFileName();
 
 		if (dir == null || "".equals(dir)) {
-			saveFrame.panel.setMessageTxt("You must enter a directory to save the layout");
+			saveFrame.panel.setMessageTxtRE("You must enter a directory to save the layout");
 		} else {
 			RecordRec r;
 			CopybookWriter writer = CopybookWriterManager.getInstance()
@@ -65,7 +65,7 @@ public class SaveLayoutsDBAsXml  implements ActionListener {
 
 						Common.logMsg(AbsSSLogger.SHOW, "Saving", r.getValue().getRecordName(), null);
 					} catch (Exception e) {
-						saveFrame.panel.setMessageTxt("Error saving layout:", e.getMessage());
+						saveFrame.panel.setMessageTxtRE("Error saving layout:", e.getMessage());
 						Common.logMsg(AbsSSLogger.SHOW,
 								"Error saving layout: " + e.getMessage()
 								+ ": " +  r.getValue().getRecordName(), null);

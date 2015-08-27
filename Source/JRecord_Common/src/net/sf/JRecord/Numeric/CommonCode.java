@@ -8,7 +8,7 @@ public class CommonCode {
 			int binaryFormat, String usage, String picture, boolean signed, boolean signSeperate,
 			String signPosition) {
 		int iType = 0;
-		if ("true".equals(signed) ||  picture.startsWith("S")) {
+		if (signed ||  picture.startsWith("S")) {
 			if (signSeperate) {
 				if ("leading".equals(signPosition)) {
 					iType = Type.ftSignSeparateLead;
@@ -16,7 +16,7 @@ public class CommonCode {
 					iType = Type.ftSignSeparateTrail;
 				}
 			} else {
-				if (binaryFormat == Convert.FMT_MAINFRAME) {
+				if (binaryFormat == ICopybookDialects.FMT_MAINFRAME) {
 					iType = Type.ftZonedNumeric;
 				} else {
 					iType = Type.ftFjZonedNumeric;
@@ -88,6 +88,9 @@ public class CommonCode {
 				} else {
 					switch (ch) {
 					case '9': lastCh9 = true;			break;
+					case '+':
+					case '-':
+						if (i == pict.length() - 1) break;
 					default : return false;
 					}
 				}
@@ -97,12 +100,12 @@ public class CommonCode {
 		return true;
 	}
 
-
 	public static final boolean checkPictureNumeric(String pict, char decimalChar) {
 		boolean foundDot = false;
 		boolean check = false;
 		boolean minusAllowed = pict.charAt(0) == '-';
 		boolean plusAllowed = pict.charAt(0) == '+';
+        boolean leadingSign = minusAllowed || plusAllowed;
 		char ch;
 		pict = pict.toUpperCase();
 
@@ -129,9 +132,11 @@ public class CommonCode {
 					case 'V':
 						break;
 					case '+':
+                                		if (! leadingSign && i == pict.length() - 1) break;
 						if (! plusAllowed) return false;
 						break;
 					case '-':
+                            			if (! leadingSign && i == pict.length() - 1) break;
 						if (! minusAllowed) return false;
 						break;
 					case 'S':

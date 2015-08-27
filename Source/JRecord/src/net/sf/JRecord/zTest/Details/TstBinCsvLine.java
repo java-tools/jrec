@@ -34,7 +34,6 @@ public class TstBinCsvLine extends TestCase {
 		Object o;
 		String[] ss = new String[5];
 		int i, j, k;
-		@SuppressWarnings("rawtypes")
 		AbstractLine line;
 
 		for (i = 1; i < 10; i++) {
@@ -592,7 +591,6 @@ public class TstBinCsvLine extends TestCase {
 	 * @return the requested line
 	 * @throws Exception
 	 */
-	@SuppressWarnings("rawtypes")
 	public AbstractLine buildLine() throws Exception {
 		if (layout == null) {
 			layout = (new RecordEditorXmlLoader())

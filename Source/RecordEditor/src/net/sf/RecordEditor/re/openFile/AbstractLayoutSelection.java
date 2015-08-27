@@ -3,11 +3,11 @@ package net.sf.RecordEditor.re.openFile;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboFileSelect;
 
 /**
  *
@@ -26,7 +26,7 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
  *
  */
 public abstract class AbstractLayoutSelection
-extends ReadLayout implements FormatFileName {
+extends ReadLayout implements FormatFileName, ISchemaProvider {
 
 	private StartActionInterface executeAction = null;
 
@@ -39,10 +39,10 @@ extends ReadLayout implements FormatFileName {
 	 * @param layoutCreate1 layout create button 1
 	 * @param layoutCreate2 layout create button 2
 	 */
-	public abstract void addLayoutSelection(BasePanel pnl, JTextField file, JPanel goPanel,
+	public abstract void addLayoutSelection(BasePanel pnl, TreeComboFileSelect file, JPanel goPanel,
 			final JButton layoutCreate1, final JButton layoutCreate2);
 
-	public void setFileNameField(JTextField fileNameField) {
+	public void setFileNameField(TreeComboFileSelect fileNameField) {
 
 	}
 
@@ -106,10 +106,10 @@ extends ReadLayout implements FormatFileName {
 	 */
 	public abstract AbstractLayoutDetails getRecordLayout(String fileName);
 
-	/**
-	 * retrieve the layout
-	 * @return the layout
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.re.openFile.ISchemaProvider#getRecordLayout(java.lang.String, java.lang.String)
 	 */
+	@Override
 	public abstract AbstractLayoutDetails getRecordLayout(String name, String fileName);
 
 	/**

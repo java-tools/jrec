@@ -10,9 +10,7 @@ import javax.swing.JTabbedPane;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.edit.util.NewCsvFile;
 import net.sf.RecordEditor.re.display.DisplayBuilderFactory;
-import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
-import net.sf.RecordEditor.utils.fileStorage.DataStoreStd;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -51,21 +49,21 @@ public class NewFile {
 
 		NewCsvFile csvFile = new NewCsvFile(frame);
 
-		panel.setGap(BasePanel.GAP2);
+		panel.setGapRE(BasePanel.GAP2);
 
 		layoutSelect.addLayoutSelection(panel, null, null, null, null);
 
-		panel.setGap(BasePanel.GAP1);
-		panel.addLine(null, null, goBtn);
-		panel.setGap(BasePanel.GAP4);
-		panel.addMessage();
-		panel.setHeight(BasePanel.HEIGHT_1P6);
+		panel.setGapRE(BasePanel.GAP1);
+		panel.addLineRE(null, null, goBtn);
+		panel.setGapRE(BasePanel.GAP4);
+		panel.addMessageRE();
+		panel.setHeightRE(BasePanel.HEIGHT_1P6);
 
 		SwingUtils.addTab(tab, "NewFileTab", "Normal File", panel);
 		SwingUtils.addTab(tab, "NewFileTab", "Csv File", csvFile.panel);
 
-		pnl.setGap(2);
-		pnl.addComponent(0, 6, BasePanel.FILL,
+		pnl.setGapRE(2);
+		pnl.addComponentRE(0, 6, BasePanel.FILL,
 		        2,
 		        BasePanel.FULL, BasePanel.FULL,
 		        tab);
@@ -88,28 +86,28 @@ public class NewFile {
 			/* (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 			 */
-			@SuppressWarnings({ "unchecked", "rawtypes" })
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 					AbstractLayoutDetails layout = layoutSelect.getRecordLayout("");
 
 					if (layout == null) {
-						panel.setMessageTxt("Error Retrieving Layout");
+						panel.setMessageTxtRE("Error Retrieving Layout");
 					} else {
-						FileView file = new FileView(
-								DataStoreStd.newStore(layout),
-								null,
-								null,
-								false);
-						DisplayBuilderFactory.getInstance().newDisplay(DisplayBuilderFactory.ST_INITIAL_EDIT, "", null, file.getLayout(), file, 0);
+						DisplayBuilderFactory.startEditorNewFile(layout);
+//						FileView file = new FileView(
+//								DataStoreStd.newStore(layout),
+//								null,
+//								null,
+//								false);
+//						DisplayBuilderFactory.getInstance().newDisplay(DisplayBuilderFactory.ST_INITIAL_EDIT, "", null, file.getLayout(), file, 0);
 						//DisplayBuilder.doOpen(file, 0, false);
 
 						frame.setVisible(false);
 						frame.doDefaultCloseAction();
 					}
 				} catch (Exception ex) {
-					panel.setMessageTxt("Error Creating File: ", ex.getMessage());
+					panel.setMessageTxtRE("Error Creating File: ", ex.getMessage());
 				}
 			}
 		});

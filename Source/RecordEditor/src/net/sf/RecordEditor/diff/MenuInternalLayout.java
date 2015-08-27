@@ -80,26 +80,26 @@ public class MenuInternalLayout extends ReFrame
 
 		pnl.setVerticalGap(BasePanel.VG_GAP2, HELP_GAP);
 
-		pnl.setHelpURL(Common.formatHelpURL(Common.HELP_DIFF));
+		pnl.setHelpURLre(Common.formatHelpURL(Common.HELP_DIFF));
 
 		dbs = selection.getDataBaseNames();
 
-		pnl.setGap(BasePanel.GAP1);
+		pnl.setGapRE(BasePanel.GAP1);
 		if (dbs != null) {
 			for (int i = 0; (i < dbs.length) && (dbs[i] != null) && (!dbs[i].equals("")); i++) {
 				dbCombo.addItem(dbs[i]);
 			}
 			dbCombo.setSelectedIndex(Common.getConnectionIndex());
-			pnl.addLine("Data Base", dbCombo, btnHelp);
+			pnl.addLineRE("Data Base", dbCombo, btnHelp);
 		}
 
-		pnl.setGap(BasePanel.GAP3);
+		pnl.setGapRE(BasePanel.GAP3);
 
-		pnl.addMenuItem("Run Stored Compare", fromFileBtn);
-		pnl.setGap(BasePanel.GAP1);
-		pnl.addMenuItem("Compare 2 Files", compare);
+		pnl.addMenuItemRE("Run Stored Compare", fromFileBtn);
+		pnl.setGapRE(BasePanel.GAP1);
+		pnl.addMenuItemRE("Compare 2 Files", compare);
 
-		pnl.setGap(BasePanel.GAP3);
+		pnl.setGapRE(BasePanel.GAP3);
 
 
 		btnHelp.addActionListener(this);
@@ -134,7 +134,7 @@ public class MenuInternalLayout extends ReFrame
 		if (e.getSource() == fromFileBtn) {
 			new RunSavedCompare(layoutCreator, dbCombo.getSelectedIndex(), rFiles);
 		} else if (e.getSource() == btnHelp) {
-		    pnl.showHelp();
+		    pnl.showHelpRE();
 		} else if (e.getSource() == dbCombo) {
 		    Common.setConnectionId(dbCombo.getSelectedIndex());
 		} else {
@@ -157,7 +157,7 @@ public class MenuInternalLayout extends ReFrame
     public void executeAction(int action) {
 
         if (action == ReActionHandler.HELP) {
-            pnl.showHelp();
+            pnl.showHelpRE();
         }
     }
 

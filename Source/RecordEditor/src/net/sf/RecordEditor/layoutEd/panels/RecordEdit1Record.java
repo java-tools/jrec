@@ -282,7 +282,7 @@ public class RecordEdit1Record extends ReFrame implements ReActionHandlerWithSav
 	public void executeAction(int action) {
 
 		switch (action) {
-		case ReActionHandler.HELP: 					pnlRecord.showHelp();		   	break;
+		case ReActionHandler.HELP: 					pnlRecord.showHelpRE();		   	break;
 		case ReActionHandler.SAVE:					saveRecord();					break;
 		case ReActionHandler.NEXT_RECORD:			changeRecord(1);				break;
 		case ReActionHandler.PREVIOUS_RECORD:		changeRecord(-1);				break;

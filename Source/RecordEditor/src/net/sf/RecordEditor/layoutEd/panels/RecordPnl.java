@@ -18,7 +18,10 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.MouseEvent;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -40,9 +43,11 @@ import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.Types.TypeManager;
+import net.sf.RecordEditor.layoutEd.LoadXmlCopyBook;
 import net.sf.RecordEditor.layoutEd.Record.ChildRecordsJTbl;
 import net.sf.RecordEditor.layoutEd.Record.ChildRecordsTblMdl;
 import net.sf.RecordEditor.layoutEd.Record.RecordFieldsJTbl;
+import net.sf.RecordEditor.layoutEd.schema.ImportExport.SchemaBackup;
 import net.sf.RecordEditor.layoutEd.utils.LeMessages;
 import net.sf.RecordEditor.re.db.Record.ChildRecordsDB;
 import net.sf.RecordEditor.re.db.Record.ChildRecordsRec;
@@ -54,8 +59,10 @@ import net.sf.RecordEditor.re.db.Record.RecordSelectionRec;
 import net.sf.RecordEditor.re.db.Table.TableDB;
 import net.sf.RecordEditor.re.db.Table.TableRec;
 import net.sf.RecordEditor.re.util.ReIOProvider;
+import net.sf.RecordEditor.utils.BasicLayoutCallback;
 import net.sf.RecordEditor.utils.LayoutConnection;
 import net.sf.RecordEditor.utils.MenuPopupListener;
+import net.sf.RecordEditor.utils.charsets.FontCombo;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.common.ReActionHandlerWithSave;
@@ -66,6 +73,8 @@ import net.sf.RecordEditor.utils.jdbc.DBComboModel;
 import net.sf.RecordEditor.utils.jdbc.DBtableModel;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
+import net.sf.RecordEditor.utils.lang.ReOptionDialog;
+import net.sf.RecordEditor.utils.msg.UtMessages;
 import net.sf.RecordEditor.utils.screenManager.ReAction;
 import net.sf.RecordEditor.utils.swing.AbsRowList;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
@@ -114,7 +123,7 @@ public class RecordPnl extends BaseHelpPanel
 	private DBComboModel<TableRec> systemModel = new DBComboModel<TableRec>(systemTable, 0, 1,
 			true, false);
 
-	private JTextField sfRecordName  = new JTextField();
+	private JTextField sfRecordName  = new JTextField(60);
 	private JTextArea sfDescription  = new JTextArea();
 
 	private BmKeyedComboBox sfRecordType;
@@ -124,7 +133,7 @@ public class RecordPnl extends BaseHelpPanel
 			new ManagerRowList(ParserManager.getInstance(), false));
 	private BmKeyedComboBox sfRecordStyle = new BmKeyedComboBox(styleModel, false);
 	private JCheckBox sfList = new JCheckBox();
-	private JTextField sfCopyBook  = new JTextField();
+	private JTextField sfCopyBook  = new JTextField(60);
 	private DelimiterCombo sfDelimiter  = DelimiterCombo.NewDelimCombo();
 	private JTextField sfDelimTxt  = new JTextField(5);
 	private JTextField sfQuote     = new JTextField();
@@ -139,14 +148,16 @@ public class RecordPnl extends BaseHelpPanel
 
 	private BmKeyedComboBox sfStructure;
 
-	private JTextField sfCanonicalName = new JTextField();
+	private FontCombo sfCharsetName = new FontCombo();
 
 	private JPanel headerPnl;
 
 	private JPanel optionPnl   = new JPanel();
 
 	private JButton btnRefresh = SwingUtils.newButton("Refresh");
-	private JButton btnHelp    = SwingUtils.getHelpButton();
+//	private JButton btnHelp    = SwingUtils.getHelpButton();
+//	private JButton btnSaveXml = SwingUtils.newButton("Save as Xml");
+	private JButton btnLoadXml = SwingUtils.newButton("Load from Xml");
 
 	private JButton prevBtn;
 	private JButton nextBtn;
@@ -212,24 +223,26 @@ public class RecordPnl extends BaseHelpPanel
 		init_100_ScreenFields(actionHandler, isRtEditable, showArrows);
 		sfRecordType.setEditable(isRtEditable);
 
-
+		this.setFieldToActualSize();
 		if (showArrows) {
-		    this.addComponent(1, 5, BasePanel.PREFERRED, BasePanel.GAP1,
+		    this.addComponentRE(1, 5, BasePanel.PREFERRED, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
 				headerPnl);
 		} else {
-		    addHeadingComponent(optionPnl);
+		    addHeadingComponentRE(optionPnl);
 		}
 
+		BasePanel.setToCommonWidth(2, 10, sfRecordType, sfSystem);
+		addLineRE("Record Name", sfRecordName);
+		addLineRE("Description", sfDescription);
+		setHeightRE(DESCRIPTION_HEIGHT);
+		setWidthConstraintRE(FULL);
+	
+		addLineRE("Record Type", sfRecordType);
+		addLineRE("System",      sfSystem);
+		addLineRE("List",        sfList);
 
-		addLine("Record Name", sfRecordName);
-		addLine("Description", sfDescription);
-		setHeight(DESCRIPTION_HEIGHT);
-		addLine("Record Type", sfRecordType);
-		addLine("System",      sfSystem);
-		addLine("List",        sfList);
-
-		setGap(BasePanel.GAP0);
+		setGapRE(BasePanel.GAP0);
 
 		updateOptions = new TableUpdatePnl<AbsRecord>(this, this);
 
@@ -255,7 +268,7 @@ public class RecordPnl extends BaseHelpPanel
 	private void init_100_ScreenFields(final ReActionHandler btnAction,
 	        final boolean isRtEditable, final boolean showArrows) {
 	    ReConnection con = new ReConnection(connectionIdx);
-	    setHelpURL(Common.formatHelpURL(Common.HELP_LAYOUT_DETAILS));
+	    setHelpURLre(Common.formatHelpURL(Common.HELP_LAYOUT_DETAILS));
 
 		recTypeTbl.setConnection(con);
 		systemTable.setConnection(con);
@@ -280,7 +293,18 @@ public class RecordPnl extends BaseHelpPanel
 		optionPnl.add(buildButton(ReActionHandler.DELETE, btnAction, "Delete",
 		        "Delete the Current Record"));
 		optionPnl.add(btnRefresh);
-		optionPnl.add(btnHelp);
+		
+		if (parentActionHandler.isActionAvailable(ReActionHandler.SAVE_LAYOUT_XML)) {
+//			optionPnl.add(btnSaveXml);
+			optionPnl.add(buildButton(ReActionHandler.SAVE_LAYOUT_XML, btnAction, "Save as Xml",
+			        "Save the current layout as a Xml file, This layout can be loaded in by another user"));
+			
+//			btnSaveXml.setToolTipText(
+//					LangConversion.convert(LangConversion.ST_FIELD_HINT, "Save layout as Xml file which can be loaded in by another user"));
+//			btnSaveXml.addActionListener(this);
+		}
+		optionPnl.add(btnLoadXml);
+		//optionPnl.add(btnHelp);
 
 		if (showArrows) {
 		    headerPnl = new JPanel(new BorderLayout());
@@ -297,11 +321,20 @@ public class RecordPnl extends BaseHelpPanel
 				LangConversion.convert(LangConversion.ST_FIELD_HINT, "Reload values - ie abandon any changes"));
 
 		btnRefresh.addActionListener(this);
-		btnHelp.addActionListener(this);
+//		btnHelp.addActionListener(this);
+		btnLoadXml.addActionListener(this);
 
 		sfRecordType.addActionListener(this);
 		sfSystem.addActionListener(this);
-
+		
+		sfCharsetName.addFocusListener(new FocusAdapter() {
+			@Override public void focusLost(FocusEvent e) {
+				String charset = sfCharsetName.getText();
+				if (! Charset.isSupported(charset)) {
+					ReOptionDialog.showMessageDialog(sfCharsetName, UtMessages.INVALID_FONT.get(charset));
+				}
+			}	
+		});
 	}
 
 
@@ -408,7 +441,7 @@ public class RecordPnl extends BaseHelpPanel
 			//sfRecordSep.setText(val.getRecordSep());
 			sfStructure.setSelectedItem(Integer.valueOf(val.getValue().getFileStructure()));
 
-			sfCanonicalName.setText(val.getValue().getFontName());
+			sfCharsetName.setText(val.getValue().getFontName());
 
 			fixSeperator();
 
@@ -605,8 +638,8 @@ public class RecordPnl extends BaseHelpPanel
 			currVal.getValue().setCopyBook(sfCopyBook.getText());
 
 			fld = "Canonical_Name";
-			field = sfCanonicalName;
-			currVal.getValue().setFontName(sfCanonicalName.getText());
+			field = sfCharsetName;
+			currVal.getValue().setFontName(sfCharsetName.getText());
 
 			//String s = (String) sfDelimiter.getSelectedItem();
 
@@ -730,7 +763,6 @@ public class RecordPnl extends BaseHelpPanel
 			} else if (structure == Constants.IO_DEFAULT) {
 				if (Common.OPTIONS.warnBinaryFieldsAndStructureDefault.isSelected()) {
 					if (currVal.getBinaryFields() == RecordRec.BF_BINARY_FIELDS) {
-						//TODO create multi-line external messages
 						warnUser('1',
 								  "You have binary fields with a default FileStructure."
 								+ "\nThis will also change the File reader from a Text File Reader "
@@ -756,6 +788,7 @@ public class RecordPnl extends BaseHelpPanel
 			}
 		}
 
+		SchemaBackup.backupSchema(connectionIdx, recId);
 		Common.commit(connectionIdx);
 		Common.setDoFree(free, connectionIdx);
 	}
@@ -853,7 +886,7 @@ public class RecordPnl extends BaseHelpPanel
 		defTabChild();
 		defTabExtra();
 
-		addComponent(1, 3, BasePanel.FILL, BasePanel.GAP, BasePanel.FULL,
+		addComponentRE(1, 3, BasePanel.FILL, BasePanel.GAP, BasePanel.FULL,
 		        BasePanel.FULL, tabbed);
 
 		Common.setDoFree(free, connectionIdx);
@@ -914,30 +947,37 @@ public class RecordPnl extends BaseHelpPanel
 	 */
 	private void defTabExtra() {
 
-		JPanel delimPnl = new JPanel(new BorderLayout());
-		JPanel p1 = new JPanel();
+//		JPanel delimPnl = new JPanel(new BorderLayout());
+		JPanel delimiterPnl = new JPanel();
 		BaseHelpPanel pnl = new BaseHelpPanel();
+		
+		BasePanel.setToCommonWidth(2, 7, sfCharsetName, sfQuote, sfRecSepList);
+		BasePanel.setToCommonWidth(2, 10, sfRecordStyle, sfStructure);
 
-		p1.add(sfDelimiter);
-		p1.add(new JLabel("  or  "));
-		p1.add(sfDelimTxt);
-		delimPnl.add(BorderLayout.WEST, p1);
-		delimPnl.setMinimumSize(new Dimension(delimPnl.getPreferredSize().width, SwingUtils.TABLE_ROW_HEIGHT));
+		delimiterPnl.add(sfDelimiter);
+		delimiterPnl.add(new JLabel("  or  "));
+		delimiterPnl.add(sfDelimTxt);
+		delimiterPnl.setBorder(null);
+		
+//		delimPnl.add(BorderLayout.WEST, delimiterPnl);
+//		delimPnl.setMinimumSize(new Dimension(delimPnl.getPreferredSize().width, SwingUtils.TABLE_ROW_HEIGHT));
+//		delimPnl.setBorder(null);
 
-		pnl.setHelpURL(Common.formatHelpURL(Common.HELP_LAYOUT_EXTRA));
+		pnl.setFieldToActualSize();
+		pnl.setHelpURLre(Common.formatHelpURL(Common.HELP_LAYOUT_EXTRA));
 
 		pnl.setFieldNamePrefix("RcdExtra");
 
-		pnl.addLine("Cobol Copybook"  , sfCopyBook)        .setGap(BasePanel.GAP0);
+		pnl.addLineRE("Cobol Copybook"  , sfCopyBook)        .setGapRE(BasePanel.GAP0);
 
-		pnl.addLine("Font Name"       , sfCanonicalName)   .setGap(BasePanel.GAP0);
+		pnl.addLineRE("Font Name"       , sfCharsetName)     .setGapRE(BasePanel.GAP0);
 
-		pnl.addLine("Delimiter"       , delimPnl);
-		pnl.addLine("Parser"          , sfRecordStyle);
-		pnl.addLine("Quote"           , sfQuote);
-		pnl.addLine("Record Seperator", sfRecSepList);
+		pnl.addLineRE("Delimiter"       , delimiterPnl);
+		pnl.addLineRE("Parser"          , sfRecordStyle);
+		pnl.addLineRE("Quote"           , sfQuote);
+		pnl.addLineRE("Record Seperator", sfRecSepList);
 
-		pnl.addLine("File Structure", sfStructure);
+		pnl.addLineRE("File Structure", sfStructure);
 
 		//pnl.done();
 
@@ -1019,11 +1059,20 @@ public class RecordPnl extends BaseHelpPanel
 		    // do nothing
 		} else if (arg0.getSource() == btnRefresh) {
 			setValues(currVal);
+//		} else if (arg0.getSource() == btnSaveXml) {
+//			parentActionHandler.executeAction(ReActionHandler.SAVE_LAYOUT_XML);
+		} else if (arg0.getSource() == btnLoadXml) {
+			BasicLayoutCallback callback = null;
+			
+			if (parentActionHandler instanceof BasicLayoutCallback) {
+				callback = (BasicLayoutCallback) parentActionHandler;
+			}
+			new LoadXmlCopyBook(connectionIdx, callback);
 		} else if (arg0.getSource() == sfSystem) {
 			getValues();
 			updateSystemDtls();
-		} else if (arg0.getSource() == btnHelp) {
-		    this.showHelp();
+//		} else if (arg0.getSource() == btnHelp) {
+//		    this.showHelp();
 		}
 	}
 

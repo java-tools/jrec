@@ -174,14 +174,14 @@ public class EditRec extends ReMainFrame  {
     public EditRec(final String name) {
     	super(name, "", "re");
     	checkVelocityScriptDir();
-    	EditCommon.doStandardInit();
+       	EditCommon.doStandardInit();
     }
 
 
     public EditRec(final boolean includeJdbc, final String name, String id, AbstractAction newAction, boolean loadAtBottom) {
     	super(name, "", id, loadAtBottom);
     	initMenusToolBars(includeJdbc, null, newAction, null, null);
-    	EditCommon.doStandardInit();
+     	EditCommon.doStandardInit();
     }
     
 
@@ -194,6 +194,41 @@ public class EditRec extends ReMainFrame  {
 			final boolean includeJdbc,
 			AbstractAction open2Action, AbstractAction newAction, AbstractAction new2Action, AbstractAction schemaEdit) {
 
+    	newFileAction    = newAction;
+    	this.open2action = open2Action;
+    	this.new2action  = new2Action;
+    	incJdbc = includeJdbc;
+
+        updateMenus(newAction, schemaEdit);
+
+        loadUserTypes();
+        loadUserFormats();
+ //       init_300_SetSizes();
+
+//        init_200_SetSizes(loadAtBottom);
+
+//        this.addWindowListener(new WindowAdapter() {
+//            public void windowClosing(WindowEvent e) {
+//                closeProcessing();
+//            }
+//
+//            public void windowClosed(WindowEvent e) {
+//                Common.closeConnection();
+//
+//                System.exit(0);
+//            }
+//        });
+    }
+
+
+	/**
+	 * @param savedVisibiltyAction
+	 * @param fieldSeqAction
+	 * @param filterAction
+	 * @param sortAction
+	 */
+	private void updateMenus( AbstractAction newAction, AbstractAction schemaEdit) {
+		
     	LoadSavedVisibilityAction savedVisibiltyAction = new LoadSavedVisibilityAction();
     	LoadSavedFieldSeqAction fieldSeqAction = new LoadSavedFieldSeqAction();
     	AbstractAction filterAction = newAction(ReActionHandler.FILTER);
@@ -216,10 +251,6 @@ public class EditRec extends ReMainFrame  {
     		toolbarActions = tbAction;
     	}
 
-    	newFileAction    = newAction;
-    	this.open2action = open2Action;
-    	this.new2action  = new2Action;
-    	incJdbc = includeJdbc;
     	optionAction.putValue(AbstractAction.SHORT_DESCRIPTION, LangConversion.convert(LangConversion.ST_MESSAGE, "Edit Options"));
 
     	DisplayBuilderImp.register();
@@ -229,9 +260,8 @@ public class EditRec extends ReMainFrame  {
 
         buildMenubar(VelocityPopup.getPopup(), XsltPopup.getPopup(), ExportScriptPopup.getPopup());
         buildToolbar(newAction, toolbarActions);
-
-
-        dataMenu.add(filterAction);
+        
+		dataMenu.add(filterAction);
         dataMenu.add(newAction(ReActionHandler.TABLE_VIEW_SELECTED));
         dataMenu.add(sortAction);
         dataMenu.add(newAction(ReActionHandler.REBUILD_TREE));
@@ -303,24 +333,7 @@ public class EditRec extends ReMainFrame  {
 //                        null);
 //            }
 //        }
-
-        loadUserTypes();
-        loadUserFormats();
-
-//        init_200_SetSizes(loadAtBottom);
-
-//        this.addWindowListener(new WindowAdapter() {
-//            public void windowClosing(WindowEvent e) {
-//                closeProcessing();
-//            }
-//
-//            public void windowClosed(WindowEvent e) {
-//                Common.closeConnection();
-//
-//                System.exit(0);
-//            }
-//        });
-    }
+	}
 
 
 	@Override
@@ -383,7 +396,7 @@ public class EditRec extends ReMainFrame  {
         if (compareMenu != null) {
         	utilityMenu.add(compareMenu);
         }
-       utilityMenu.addSeparator();
+        utilityMenu.addSeparator();
 
         JMenu bldMenu = RunScriptSkelPopup.buildScriptMenu(null, "Script Build");
 		if (bldMenu != null) {
@@ -395,6 +408,8 @@ public class EditRec extends ReMainFrame  {
         em = getEditMenu();
 	    em.addSeparator();
 	    em.add(optionAction);
+	    
+	    //resizeFrame();
 
         super.addExit();
    }

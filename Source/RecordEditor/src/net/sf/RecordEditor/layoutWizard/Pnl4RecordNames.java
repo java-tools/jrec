@@ -17,6 +17,8 @@ import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
+import net.sf.RecordEditor.utils.lang.ReOptionDialog;
+import net.sf.RecordEditor.utils.screenManager.ReAction;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
@@ -98,9 +100,11 @@ public class Pnl4RecordNames extends WizardPanel {
 		});
 		popup.getPopup().add(new ReAbstractAction("Generate Record Names") {
 			public void actionPerformed(ActionEvent e) {
+				String pref = ReOptionDialog.showInputDialog(popup.getPopup(), "Record Name Prefix:", "");
+				
 				for (RecordDefinition rec : currentDetails.recordDtlsFull) {
 					if ("".equals(rec.name)) {
-						rec.name = rec.getStringKey("");
+						rec.name = pref + rec.getStringKey("");
 					}
 				}
 				recordNamesMdl.fireTableDataChanged();

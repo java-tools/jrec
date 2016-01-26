@@ -6,7 +6,7 @@ package net.sf.JRecord.External;
 import net.sf.JRecord.Log.AbsSSLogger;
 
 /**
- * @author Bruce01
+ * @author Bruce Martin
  *
  */
 public abstract class BaseCopybookLoader implements CopybookLoader {

@@ -24,10 +24,11 @@ import net.sf.RecordEditor.utils.swing.common.ComboLikeObject;
  *
  */
 @SuppressWarnings("serial")
-public class TreeCombo extends ComboLikeObject {
+public class TreeCombo extends ComboLikeObject {// implements IGetSetObj {
 
 	private static final TreeComboItem[] EMPTY_TREE = {};
-
+	private static final TreeComboItem[] EMPTY_ITEM_LIST = {};
+	
 	private TreeComboItem selectedItem = null;
 	private HashMap<Integer, TreeComboItem> itemMap = new HashMap<Integer, TreeComboItem>();
 	private TreeComboItem[] items;
@@ -36,7 +37,10 @@ public class TreeCombo extends ComboLikeObject {
 	private HashMap<TreeComboItem, JMenuItem> menuItemMap = new HashMap<TreeComboItem, JMenuItem>(25);
 
 
-
+	public TreeCombo() {
+		this(EMPTY_ITEM_LIST);
+	}
+	
 	public TreeCombo(TreeComboItem[] itms) {
 		super();
 
@@ -268,6 +272,39 @@ public class TreeCombo extends ComboLikeObject {
 	}
 	
 	
+//	/* (non-Javadoc)
+//	 * @see net.sf.RecordEditor.utils.swing.table.IGetSetObj#getComponent()
+//	 */
+//	@Override
+//	public JComponent getComponent() {
+//		return this;
+//	}
+//	
+//	/* (non-Javadoc)
+//	 * @see net.sf.RecordEditor.utils.swing.table.IGetSetObj#setObject(java.lang.Object)
+//	 */
+//	@Override
+//	public void setObject(Object value) {
+//		if (value == null) {
+//			this.setSelectedItem(TreeComboItem.BLANK_ITEM);
+//		} else if (value instanceof TreeComboItem) {
+//			this.setSelectedItem((TreeComboItem) value);
+//		} else if (value instanceof Integer) {
+//			this.setSelectedKey((Integer) value);
+//		} else {
+//			this.setSelectedItem(TreeComboItem.BLANK_ITEM);
+//		}
+//	}
+//	
+//	/* (non-Javadoc)
+//	 * @see net.sf.RecordEditor.utils.swing.table.IGetSetObj#getObject()
+//	 */
+//	@Override
+//	public Object getObject() {
+//		return this.getSelectedItem();
+//	}
+
+
 	private class ComboAction extends JMenuItem implements ActionListener {
 		private final TreeComboItem itm;
 

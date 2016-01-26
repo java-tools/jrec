@@ -8,8 +8,6 @@
 package net.sf.JRecord.External;
 
 import net.sf.JRecord.Common.CommonBits;
-import net.sf.JRecord.Common.IFieldDetail;
-import net.sf.JRecord.Common.IGetFieldByName;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
@@ -70,7 +68,7 @@ public class ToLayoutDetail {
 			    ExternalSelection recordSelection = recordDefinition.getRecord(i).getRecordSelection();
 			    if (recordSelection != null && recordSelection.getSize() > 0) {
 			    	layouts[i].getRecordSelection().setRecSel(
-			    			(new Convert()).convert(recordSelection, new GetField(ret,  layouts[i])));
+			    			(new Convert()).convert(recordSelection, new LayoutGetFieldByName(ret,  layouts[i])));
 			    }
 		    }
 	    }
@@ -154,34 +152,6 @@ public class ToLayoutDetail {
 
 	    return ret;
 	}
-
-
-     
-    
-    private static class GetField implements IGetFieldByName {
-    	final LayoutDetail layout;
-    	final RecordDetail rec;
-
-		protected GetField(LayoutDetail l, RecordDetail rec) {
-			super();
-			this.rec = rec;
-			this.layout = l;
-		}
-		/* (non-Javadoc)
-		 * @see net.sf.JRecord.Common.IGetFieldByName#getField(java.lang.String)
-		 */
-		@Override
-		public IFieldDetail getField(String fieldName) {
-			IFieldDetail ret = rec.getField(fieldName);
-			if (ret == null) {
-				ret = layout.getFieldFromName(fieldName);
-			}
-			return ret;
-		}
-    	
-    	
-    }
-
 
 
 

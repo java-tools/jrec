@@ -19,6 +19,13 @@ package net.sf.RecordEditor.layoutEd;
 import java.awt.event.ActionEvent;
 
 
+
+
+
+
+import net.sf.RecordEditor.layoutEd.load.CblLoadCopybook;
+import net.sf.RecordEditor.layoutEd.load.LoadCopyBook;
+import net.sf.RecordEditor.layoutEd.load.LoadXmlCopyBook;
 import net.sf.RecordEditor.layoutEd.panels.LoadCobolIntoDBScreen;
 import net.sf.RecordEditor.layoutEd.panels.RecordEdit1Record;
 import net.sf.RecordEditor.layoutEd.schema.ImportExport.ExportLayouts;
@@ -66,6 +73,13 @@ public class LayoutMenu extends ReMenu {
                         SYSTEM_TABLE);
             }
         };
+        ReAbstractAction comboNew = new ReAbstractAction("Create Combo") {
+            public void actionPerformed(ActionEvent e) {
+            	new ComboCreate(
+            			databaseDetails.getCurrentDbName(),
+        				databaseDetails.getCurrentDbIdentifier());
+            }
+        };
         ReAbstractAction comboEdit = new ReAbstractAction("Edit Combo Lists", Common.ID_COMBO_EDIT_ICON) {
             public void actionPerformed(ActionEvent e) {
             	new ComboEdit(
@@ -74,7 +88,14 @@ public class LayoutMenu extends ReMenu {
             }
         };
 
-        ReAbstractAction loadCobol = new ReAbstractAction("Load Cobol Copybook") {
+        ReAbstractAction nLoadCobol = new ReAbstractAction("Load Cobol Copybook") {
+        	public void actionPerformed(ActionEvent e) {
+		        new CblLoadCopybook(databaseDetails.getCurrentDbName(),
+        				databaseDetails.getCurrentDbIdentifier(),
+        				databaseDetails);
+        	}
+        };
+        ReAbstractAction oldLoadCobol = new ReAbstractAction("Old Load Cobol Copybook") {
             public void actionPerformed(ActionEvent e) {
 		        new LoadCopyBook(
         				false,
@@ -137,15 +158,18 @@ public class LayoutMenu extends ReMenu {
         addSeperator();
 
         this.add(comboEdit);
+        this.add(comboNew);
 
         addSeperator();
 
-        this.add(loadCobol);
+        this.add(nLoadCobol);
         this.add(loadXml);
         this.add(loadCopybook);
         //this.add(saveCopybooksAsXml);
         //this.add(loadCopybooksFromXml);
         this.add(loadCopybooksFromCobol);
+        addSeperator();
+        this.add(oldLoadCobol);
         addSeperator();
         this.add(exportSchemaAsXml);
         this.add(importSchemaFromXml);

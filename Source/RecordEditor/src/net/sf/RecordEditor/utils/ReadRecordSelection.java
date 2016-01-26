@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.ExternalRecordSelection.ExternalGroupSelection;
 import net.sf.JRecord.detailsSelection.AbsGroup;
 import net.sf.JRecord.detailsSelection.AndSelection;
 import net.sf.JRecord.detailsSelection.FieldSelect;
@@ -66,7 +67,7 @@ public class ReadRecordSelection {
 
 			while (resultset.next()) {
 				recSelBuilder.add(resultset.getInt(1), resultset.getString(2), resultset.getString(3),
-						resultset.getString(4), true);
+						resultset.getString(4), false);
 			}
 
 			ret = recSelBuilder.build();
@@ -89,7 +90,9 @@ public class ReadRecordSelection {
 				retSel.add(ret);
 				ret = retSel;
 			}
-		}
+		} else if (ret instanceof ExternalGroupSelection && ((ExternalGroupSelection) ret).getSize() == 0) {
+	    	ret = null;
+	    }
 
 		return ret;
 	}

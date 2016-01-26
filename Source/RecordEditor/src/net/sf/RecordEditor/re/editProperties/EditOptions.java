@@ -544,9 +544,16 @@ public class EditOptions {
     private static final String[][] SIZE_OPTION = {
             {String.valueOf(ProgramOptions.SIZE_MAXIMISED), "Maximized"},
             {String.valueOf(ProgramOptions.SIZE_LAST), "Last Screen Size"},
+            {String.valueOf(ProgramOptions.SIZE_LAST_FORCED), "Last Screen Size (force)"},
             {String.valueOf(ProgramOptions.SIZE_SPACE_AROUND), "Use Space around parameters"},
             {String.valueOf(ProgramOptions.SIZE_SPECIFIED), "Height, Width Below"},
-    };
+            {String.valueOf(ProgramOptions.SIZE_SPECIFIED_FORCED), "Height, Width Below (force)"},
+            {String.valueOf(ProgramOptions.SIZE_NO_RESIZE), "No Resize, whatever java chooses"},
+            {String.valueOf(ProgramOptions.SIZE_SCREEN_1), "Screen 1"},
+            {String.valueOf(ProgramOptions.SIZE_SCREEN_2), "Screen 2"},
+            {String.valueOf(ProgramOptions.SIZE_SCREEN_3), "Screen 3"},
+ //           {String.valueOf(ProgramOptions.SIZE_SCREEN_1_MAX), "Screen 1 (maximized)"},
+   };
 
     private Object[][] screenLocationParams = {
             {Parameters.SCREEN_SIZE_OPTION, "Program Initial Size", null, EditPropertiesPnl.FLD_LIST,  "Size of the program when it opens", SIZE_OPTION},

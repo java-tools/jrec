@@ -56,6 +56,7 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
   		};
 
 		init_100_setupScreenFields(extraActions);
+//		treeTable.setTableCellAdapter(new TblCellAdapter(this, 2));
 
 		init_200_LayoutScreen();
 

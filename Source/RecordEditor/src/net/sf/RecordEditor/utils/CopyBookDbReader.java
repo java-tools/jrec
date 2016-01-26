@@ -17,8 +17,10 @@ import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDecider;
 import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.Details.RecordDetail.FieldDetails;
+import net.sf.JRecord.External.LayoutGetFieldByName;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Types.Type;
+import net.sf.JRecord.detailsSelection.Convert;
 import net.sf.JRecord.detailsSelection.RecordSel;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
@@ -174,15 +176,16 @@ public class CopyBookDbReader implements CopyBookInterface {
 				int fileStructure  = resultset.getInt(9);
 				int recordStyle    = resultset.getInt(10);
 				RecordDecider decider  = deciderMap.get(fix(pName).toUpperCase());
+				RecordDtls recdtls = null;
 
 			    recordSep = CommonBits.getEolBytes(recordSep, recordSepString, fontName);
-
 
 				switch (recordType) {
 				  case Common.rtGroupOfRecords:
 				  case Common.rtFixedLengthRecords:
 				  case Common.rtGroupOfBinaryRecords:
-				      layouts = getGroupOfRecords(dbIndex, recordId);
+					  recdtls = getGroupOfRecords(dbIndex, recordId);
+				      layouts = recdtls.getRecords();
 				  break;
 				  default:
 					FieldDetails[] fields = getFields(dbIndex, recordId, recordType, fontName);
@@ -212,6 +215,16 @@ public class CopyBookDbReader implements CopyBookInterface {
 				        			  fontName,
 				        			  decider,
 				        			  fileStructure);
+				if (recdtls != null) {
+					for (int i = 0; i < recdtls.records.size(); i++)  {
+					    RecordSel recordSel = recdtls.selections.get(i);
+						if (recordSel != null && recdtls.selections.get(i).getSize() > 0) {
+					    	layouts[i].getRecordSelection().setRecSel(
+					    			(new Convert()).convert(recdtls.selections.get(i), new LayoutGetFieldByName(ret,  layouts[i])));
+					    }
+
+					}
+				}
 			}
 			resultset.close();
 
@@ -234,8 +247,8 @@ public class CopyBookDbReader implements CopyBookInterface {
 	 *
 	 * @return Record List
 	 */
-	private RecordDetail[] getGroupOfRecords(final int dbIndex, final int recordId) {
-	    RecordDetail[] ret = null;
+	private RecordDtls getGroupOfRecords(final int dbIndex, final int recordId) {
+		RecordDtls ret = new RecordDtls();
 		try {
 		    int subRecordId, recordType, parentId, recordStyle, childId;
 		    RecordDetail.FieldDetails[] fields;
@@ -248,7 +261,8 @@ public class CopyBookDbReader implements CopyBookInterface {
 			RecordSel recSel;
 			//DetailRecord tmpLayouts[] = new DetailRecord[250];
 			RecordDetail rec;
-			ArrayList<RecordDetail> list = new ArrayList<RecordDetail>();
+			//ArrayList<RecordDetail> list = new ArrayList<RecordDetail>();
+			
 			HashMap<Integer, Integer> id2idx = new HashMap<Integer, Integer>();
 
 
@@ -287,18 +301,19 @@ public class CopyBookDbReader implements CopyBookInterface {
 						  recordStyle,
 						  childId,
 						  false);
+			    
 			    recSel = readSel.getRecordSelection(
 			    				dbIndex, recordId, childKey,
 			    				fields, tstFieldName, tstFieldValue);
-
-			    if (recSel != null) {
-			    	rec.getRecordSelection().setRecSel(recSel);
+			    ret.selections.add(recSel);
+//			    if (recSel != null) {		    	
+//			    	rec.getRecordSelection().setRecSel(recSel);
 			    	rec.getRecordSelection().setDefaultRecord(
-			    				"Y".equals(resultset.getString(13))
+			    				"Y".equalsIgnoreCase(resultset.getString(13))
 			    			||	(  "".equals(tstFieldName)
 			    				&& "*".equals(tstFieldValue))
 			    	);
-			    }
+//			    }
 
 
 			    rec.setSourceIndex(Common.getConnectionIndex());
@@ -309,7 +324,7 @@ public class CopyBookDbReader implements CopyBookInterface {
 			    	hasTreeDef = true;
 			    }
 
-				list.add(rec);
+				ret.records.add(rec);
 				id2idx.put(Integer.valueOf(childId), Integer.valueOf(i));
 
 				i += 1;
@@ -318,8 +333,8 @@ public class CopyBookDbReader implements CopyBookInterface {
 
 			if (hasTreeDef) {
 				Integer parentIdx;
-				for (i = 0; i < list.size(); i++) {
-					rec =  list.get(i);
+				for (i = 0; i < ret.records.size(); i++) {
+					rec =  ret.records.get(i);
 			    	//System.out.print("setting ==> " + i + " " + rec.getParentRecordIndex());
 					if (rec.getParentRecordIndex() >= 0) {
 						parentIdx = id2idx.get(Integer.valueOf(rec.getParentRecordIndex()));
@@ -334,8 +349,8 @@ public class CopyBookDbReader implements CopyBookInterface {
 			}
 
 
-			ret = new RecordDetail[i];
-			list.toArray(ret);
+			//ret = new RecordDetail[i];
+			//list.toArray(ret);
 			//for (i = 0; i < list.size(); i++) {
 			//    ret[i] = (RecordDetail) list.get(i);
 			//}
@@ -441,6 +456,16 @@ public class CopyBookDbReader implements CopyBookInterface {
 		 return s.trim();
 	 }
 
+	 //TODO update
+	 private static class RecordDtls {
+		 ArrayList<RecordDetail> records = new ArrayList<RecordDetail>();
+		 ArrayList<RecordSel> selections  = new ArrayList<RecordSel>();
+		 
+		 private RecordDetail[] getRecords() {
+			 return records.toArray(new RecordDetail[records.size()]);
+		 }
+	 }
+	 
 	 /**
 	  * get instance of CopyBookDbReader
 	  * @return instance of CopyBookDbReader

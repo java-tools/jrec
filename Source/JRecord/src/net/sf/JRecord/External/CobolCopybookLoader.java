@@ -87,7 +87,6 @@ public class CobolCopybookLoader implements CopybookLoader {
      * @param log log where any messages should be written
      *
      * @return return the record that has been read in
-     * @throws RecordException General Error
      */
     public final ExternalRecord loadCopyBook(String copyBookFile, //Document copyBookXml,
             						  		int splitCopybook,
@@ -96,21 +95,20 @@ public class CobolCopybookLoader implements CopybookLoader {
                   						  final int copybookFormat,
                 						  final int binFormat,
                 						  final int systemId,
-                						  final AbsSSLogger log)
-    				throws RecordException {
+                						  final AbsSSLogger log) {
 
         ExternalRecord ret = null;
         //System.out.println("load Copybook (Cobol)");
         try {
         	synchronized (PROBLEM_LOADING_COPYBOOK) {	
-	            Document xml = Cb2Xml.convertToXMLDOM(new File(copyBookFile), binFormat, false, copybookFormat, log);
+	            Document xml = net.sf.JRecord.External.Def.Cb2Xml.convertToXMLDOM(new File(copyBookFile), binFormat, false, copybookFormat, log);
 	            String copyBook = Conversion.getCopyBookId(copyBookFile);
 	
 	            if (xml != null) {
 		            ret = xmlLoader.loadDOMCopyBook(xml, copyBook,
 		                    splitCopybook, dbIdx,
 						    font, binFormat, systemId);
-		        } else {
+		        } else if (log != null) {
 	            	log.logMsg(AbsSSLogger.ERROR, "Error parsing Cobol File ???");
 	            }
         	}
@@ -139,7 +137,6 @@ public class CobolCopybookLoader implements CopybookLoader {
      * @param log log where any messages should be written
      *
      * @return return the record that has been read in
-     * @throws RecordException General Error
      */
     public final ExternalRecord loadCopyBook(InputStream inputStream, //Document copyBookXml,
     		                             String copyBookName,
@@ -149,7 +146,7 @@ public class CobolCopybookLoader implements CopybookLoader {
                 						  final int binaryFormat,
                 						  final int systemId,
                 						  final AbsSSLogger log)
-    				throws RecordException {
+    				{
         ExternalRecord ret = null;
         //System.out.println("load Copybook (Cobol)");
 //        Convert conv = ConversionManager.getInstance().getConverter4code(binaryFormat) ;
@@ -164,7 +161,7 @@ public class CobolCopybookLoader implements CopybookLoader {
 		            ret = xmlLoader.loadDOMCopyBook(xml, copyBookName,
 		                    splitCopybook, dbIdx,
 						    font, binaryFormat, systemId);
-		        } else {
+		        } else if (log != null) {
 	            	log.logMsg(AbsSSLogger.ERROR, "Error parsing Cobol File ???");
 	            }
         	}

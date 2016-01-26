@@ -215,7 +215,7 @@ implements TreeTableNotify {
 		int recordIdx = getRecordIndex(rec);
 		int col;
 
-		if (rec == null || column < MAP_SKIP_COLUMN) {
+		if (rec == null || column < MAP_SKIP_COLUMN || ! lNode.isDataNode()) {
 		    return;
 		} else if (skipColumns == MAP_SKIP_COLUMNS && column == MAP_SKIP_COLUMN) {
 			col = Constants.KEY_INDEX;

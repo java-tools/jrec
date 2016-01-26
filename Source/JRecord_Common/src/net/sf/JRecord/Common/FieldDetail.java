@@ -11,12 +11,10 @@ import net.sf.JRecord.Option.IOptionType;
 import net.sf.JRecord.Option.OptionResult;
 import net.sf.JRecord.Option.OptionType;
 
-//import net.sf.JRecord.Details.RecordDetail;
-
 
 /**
  * This class stores the description of one field in a record (or Line).
- * It is used by the {@link RecordDetail} class
+ * It is used by the <b>RecordDetail</b> class
  *
  * <pre>
  *     LayoutDetail  - Describes a file
@@ -430,6 +428,14 @@ public class FieldDetail implements IFieldDetail {
 
 
 	/**
+	 * @return the dependingOnDtls
+	 */
+	public final DependingOnDtls getDependingOnDtls() {
+		return dependingOnDtls;
+	}
+
+
+	/**
 	 * @param dependingOnDtls the dependingOnDtls to set
 	 */
 	public final void setDependingOnDtls(DependingOnDtls dependingOnDtls) {
@@ -445,5 +451,29 @@ public class FieldDetail implements IFieldDetail {
 		return OptionResult.UNKOWN;
 	}
 	
+	public static final FieldDetail newFixedWidthField(
+					   final String pName,
+	        		   final int pType,
+	        		   final int pos,
+					   final int len,
+	        		   final int pDecimal,
+	        		   final String pFont) {
+		FieldDetail r = new FieldDetail(pName, "", pType, pDecimal, pFont, 0, "" /* pFormat, pParamater*/);
+		
+		r.setPosLen(pos, len);
+		
+		return r;
+	}
 	
+	public static final FieldDetail newCsvField(
+			   final String pName,
+			   final int pType,
+			   final int pos,
+			   final int pDecimal,
+			   final String pFont) {
+	FieldDetail r = new FieldDetail(pName, "", pType, pDecimal, pFont, 0, "" /* pFormat, pParamater*/);
+	
+	r.setPosOnly(pos);
+	return r;
+}
  }

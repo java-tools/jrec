@@ -163,6 +163,7 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String COBOL_OPT_FILE      	   = "CobolOpt";
     
     public static final String COBOL_COPYBOOK_LIST     = "CobolCpy.";
+    public static final String SAMPLE_FILE_LIST        = "SampleFiles.";
     public static final String COBOL_COPYBOOK_DIRS     = "CobolDirs.";
     public static final String SCHEMA_LIST             = "SchemaFiles.";
     public static final String SCHEMA_DIRS_LIST        = "SchemaDirs.";
@@ -272,18 +273,20 @@ public final class Parameters implements ExternalReferenceConstants {
 
 	public static boolean windowsLAF = false;
 	
+	public static final String JAVA_VERSION_STRING; 
 	public static final float JAVA_VERSION;
 	private static boolean changesToSave = false;
 	static {
 		float f = 1;
+		String vs = "";
 		
 		try {
-			String s = System.getProperty("java.version");
-			f = Float.parseFloat(s.substring(0, s.lastIndexOf('.')));
+			vs = System.getProperty("java.version");
+			f = Float.parseFloat(vs.substring(0, vs.lastIndexOf('.')));
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
+		JAVA_VERSION_STRING = vs;
 		JAVA_VERSION = f;
 
 
@@ -953,6 +956,15 @@ public final class Parameters implements ExternalReferenceConstants {
         	 ResourceBundle rb = ResourceBundle.getBundle(bundleName,
         			 Locale.getDefault(),
         			 new URLClassLoader(urls));
+        	 
+        	 if (rb == null) {
+        		 try {
+        			 rb = ResourceBundle.getBundle(bundleName,
+        					 Locale.getDefault(),
+        					 ClassLoader.getSystemClassLoader());
+        		 } catch (Exception e) {
+        		 }
+        	 }
 
              if (rb != null) {
         		resourceBundle = rb;
@@ -964,7 +976,7 @@ public final class Parameters implements ExternalReferenceConstants {
          } catch (Exception e) {
         	  System.out.println("Error: " + e.getMessage());
 			e.printStackTrace();
-		}  finally {
+//		}  finally {
 //          		System.out.println("ClassLoader 2  " + ClassLoader.getSystemClassLoader().getClass().getName());
 //          		System.out.println("ClassLoader 2  " + Parameters.class.getClassLoader().getClass().getName());
 
@@ -975,12 +987,12 @@ public final class Parameters implements ExternalReferenceConstants {
 //	                System.out.println("url " + i + " = " + urls[i].getFile());
 //	            }
 			// Going back to system class loader
-          		try {
-          			ResourceBundle.getBundle(bundleName,
-              			 Locale.getDefault(),
-               			 ClassLoader.getSystemClassLoader());
-          		} catch (Exception e) {
-				}
+//          		try {
+//          			ResourceBundle.getBundle(bundleName,
+//              			 Locale.getDefault(),
+//               			 ClassLoader.getSystemClassLoader());
+//          		} catch (Exception e) {
+//				}
           		}
     }
 

@@ -1462,8 +1462,8 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
             }
 
             for (i = 0; i < recordsToCheck; i++) {
-                l = getLayoutIdx_100_getLayout4Row(i);
-                if (l > 0) {
+                l = getRecordIdxForRow(i);
+                if (l >= 0) {
                     layoutCounts[l] += 1;
                 }
             }
@@ -1481,14 +1481,14 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
     }
 
 
-    /**
-     * get the preferred layout for a row. note: this is overridden in LineTree
-     * @param row table row to get the layout for
-     * @return rows preferred layout
-     */
-    protected int getLayoutIdx_100_getLayout4Row(int row) {
-    	return fileView.getTempLine(row).getPreferredLayoutIdx();
-    }
+//    /**
+//     * get the preferred layout for a row. note: this is overridden in LineTree
+//     * @param row table row to get the layout for
+//     * @return rows preferred layout
+//     */
+//    protected final int getLayoutIdx_100_getLayout4Row(int row) {
+//    	return fileView.getTempLine(row).getPreferredLayoutIdx(); 
+//    }
 
     /**
      * get the selected Row count
@@ -1664,8 +1664,47 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
         if (idx < layoutCombo.getFullLineIndex()) {
             toolTips.setTips(layout.getFieldDescriptions(idx, 0));
 
+//            try {
+//            	int c;
+//            	int count =  Math.min(this.fileView.getLayoutColumnCount(idx), tcm.getColumnCount() - blankColumns + columnsToSkip);
+//	            //System.out.print(" > cell Rendor " + (cellRenders == null));
+//	            if (cellRenders != null) {
+//	            	c =  Math.min(count, cellRenders.length);
+//	                for (i = columnsToSkip; i < c ; i++) {
+//	                    if (cellRenders[i] != null) {
+////	                    	System.out.println("Rendor ~~> 1 " + i
+////	                    			+ ", " + (i + blankColumns - columnsToSkip)
+////	                    			+ "  idx  " + idx
+////	                    			+ ", " + fileView.getRealColumn(idx, i));
+//	                        tcm.getColumn(i + blankColumns - columnsToSkip).setCellRenderer(cellRenders[i]);
+//	                    }
+//	                }
+//	            }
+//
+//	            if (cellEditors != null) {
+//	            	c =  Math.min(count, cellEditors.length);
+//	                for (i = columnsToSkip; i < c; i++) {
+//	                    if (cellEditors[i] != null) {
+//	                        tcm.getColumn(i + blankColumns - columnsToSkip).setCellEditor(cellEditors[i]);
+//	                    }
+//	                }
+//	            }
+//            } catch (Exception e) {
+//				e.printStackTrace();
+//			}
+        }
+
+        Common.calcColumnWidths(tblDtls, blankColumns + 1);
+        setRowHeight();
+    }
+    
+    protected void defineCellRenders(TableColumnModel tcm, int blankColumns, int columnsToSkip) {
+    	int idx = getLayoutIndex();
+    
+        if (idx < layoutCombo.getFullLineIndex()) {
+ 
             try {
-            	int c;
+            	int i, c;
             	int count =  Math.min(this.fileView.getLayoutColumnCount(idx), tcm.getColumnCount() - blankColumns + columnsToSkip);
 	            //System.out.print(" > cell Rendor " + (cellRenders == null));
 	            if (cellRenders != null) {
@@ -1693,9 +1732,6 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 				e.printStackTrace();
 			}
         }
-
-        Common.calcColumnWidths(tblDtls, blankColumns + 1);
-        setRowHeight();
     }
 
 
@@ -2166,6 +2202,20 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 
 
     /**
+	 * @param layoutIdx
+	 * @return
+	 */
+	protected boolean isPreferedIdx() {
+//		System.out.print("\t" + layoutCombo.getPreferedIndex() + " == " + layoutCombo.getLayoutIndex());
+		return layoutCombo.getPreferedIndex() > 0 && layoutCombo.getLayoutIndex() == layoutCombo.getPreferedIndex();
+	}
+
+	protected int getRecordIdxForRow(int row) {
+		if (row < 0 || row >= fileView.getRowCount()) {return -1;}
+		return fileView.getTempLine(row).getPreferredLayoutIdxAlt();
+	}
+
+	/**
     *
     * @author Bruce Martin
     *

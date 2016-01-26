@@ -10,12 +10,14 @@ import junit.framework.TestCase;
 import net.sf.JRecord.ByteIO.ByteIOProvider;
 import net.sf.JRecord.ByteIO.FixedLengthByteReader;
 import net.sf.JRecord.ByteIO.BinaryByteWriter;
+import net.sf.JRecord.ByteIO.FixedLengthByteWriter;
 import net.sf.JRecord.ByteIO.FujitsuVbByteReader;
 import net.sf.JRecord.ByteIO.FujitsuVbByteWriter;
 import net.sf.JRecord.ByteIO.VbByteReader;
 import net.sf.JRecord.ByteIO.VbByteWriter;
 import net.sf.JRecord.ByteIO.VbDumpByteReader;
 import net.sf.JRecord.ByteIO.VbDumpByteWriter;
+import net.sf.JRecord.Common.BasicFileSchema;
 import net.sf.JRecord.Common.Constants;
 
 /**
@@ -32,7 +34,8 @@ public class TstByteIoProvider extends TestCase {
             Constants.IO_VB_DUMP,
             Constants.IO_VB_FUJITSU,
     };
-    @SuppressWarnings("unchecked")
+
+	@SuppressWarnings("rawtypes")
 	private Class[] classReaders = {
             FixedLengthByteReader.class,
             VbByteReader.class,
@@ -40,15 +43,16 @@ public class TstByteIoProvider extends TestCase {
             FujitsuVbByteReader.class
     };
 
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	private Class[] classWriters = {
-            BinaryByteWriter.class,
+            FixedLengthByteWriter.class,
             VbByteWriter.class,
             VbDumpByteWriter.class,
             FujitsuVbByteWriter.class
     };
 
-    public void testIoProviderReaders() {
+    @SuppressWarnings("deprecation")
+	public void testIoProviderReaders() {
 
         for (int i = 0; i < ioIds.length; i++) {
             System.out.println("--> " + i + " " + ioIds[i]  + " " + classReaders[i].getName());
@@ -62,11 +66,27 @@ public class TstByteIoProvider extends TestCase {
     public void testIoProviderWriters() {
 
         System.out.println();
+        for (int i = 1; i < ioIds.length; i++) {
+            System.out.println("--> " + i + " " + ioIds[i] + " " + classWriters[i].getName());
+            assertEquals("Error Writer " + ioIds[i],
+                    classWriters[i],
+                    ByteIOProvider.getInstance()
+                    	.getByteWriter(ioIds[i])
+                    		.getClass());
+        }
+    }
+
+
+    public void testIoProviderWriters1() {
+
+        System.out.println();
         for (int i = 0; i < ioIds.length; i++) {
             System.out.println("--> " + i + " " + ioIds[i] + " " + classWriters[i].getName());
             assertEquals("Error Writer " + ioIds[i],
                     classWriters[i],
-                    ByteIOProvider.getInstance().getByteWriter(ioIds[i]).getClass());
+                    ByteIOProvider.getInstance()
+                    	.getByteWriter(BasicFileSchema.newFixedSchema(ioIds[i], false, 40, ""))
+                    		.getClass());
         }
     }
 

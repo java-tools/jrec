@@ -41,4 +41,13 @@ public class ReOptionDialog {
 				 	parentComponent,
 				 	LangConversion.convert(LangConversion.ST_MESSAGE, message));
 	}
+	
+
+	public static void showMessageDialog(Component parentComponent,
+		        String message, Object...params) {
+		JOptionPane.showMessageDialog(
+				 	parentComponent,
+				 	LangConversion.convert(LangConversion.ST_MESSAGE, message, params));
+	}
+
 }

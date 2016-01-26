@@ -96,6 +96,9 @@ public class RecordEditorXmlWriter implements CopybookWriter {
        if (copybook.isEmbeddedCr()) {
     	   writer.writeAttribute(Constants.RE_XML_EMBEDDED_CR, "Y");
        }
+       if (copybook.isInitToSpaces()) {
+    	   writer.writeAttribute(Constants.RE_XML_INIT_SPACES, "Y");
+       }
 
        if (master != null && copybook.getParentRecord() >= 0) {
     	   try {
@@ -122,7 +125,7 @@ public class RecordEditorXmlWriter implements CopybookWriter {
     	   ExternalFieldSelection eFld = (ExternalFieldSelection) xSel;
     	   if ("=".equals(eFld.getOperator()) || "eq".equalsIgnoreCase(eFld.getOperator())) {
 	    	   writeAttr(writer, Constants.RE_XML_TESTFIELD, eFld.getFieldName());
-	    	   writeAttr(writer, Constants.RE_XML_TESTVALUE, eFld.getFieldValue());
+	    	   writeAttr(writer, Constants.RE_XML_TESTVALUE, eFld.getRawFieldValue());
 	    	   toPrint = false;
     	   }
        } else if (xSel instanceof ExternalGroupSelection) {
@@ -179,15 +182,15 @@ public class RecordEditorXmlWriter implements CopybookWriter {
     	   writeTstField(writer, (ExternalFieldSelection) sel);
     	   break;
        case RecordSel.TYPE_AND:
-    	   writeGroup(writer, (ExternalGroupSelection) sel, Constants.RE_XML_AND_FIELDS);
+    	   writeSelectionGroup(writer, (ExternalGroupSelection) sel, Constants.RE_XML_AND_FIELDS);
     	   break;
        case RecordSel.TYPE_OR:
-    	   writeGroup(writer, (ExternalGroupSelection) sel, Constants.RE_XML_OR_FIELDS);
+    	   writeSelectionGroup(writer, (ExternalGroupSelection) sel, Constants.RE_XML_OR_FIELDS);
     	   break;
        }
 	}
 
-	private void writeGroup(XMLStreamWriter writer, ExternalGroupSelection g, String s)
+	private void writeSelectionGroup(XMLStreamWriter writer, ExternalGroupSelection g, String s)
 			throws XMLStreamException {
 
 		writer.writeStartElement(s);
@@ -232,7 +235,7 @@ public class RecordEditorXmlWriter implements CopybookWriter {
 	throws XMLStreamException {
 		writer.writeEmptyElement(Constants.RE_XML_TST_FIELD);
 		writeAttr(writer, Constants.RE_XML_NAME, fld.getFieldName());
-	    writeAttr(writer, Constants.RE_XML_VALUE, fld.getFieldValue());
+	    writeAttr(writer, Constants.RE_XML_VALUE, fld.getRawFieldValue());
 	}
 
 	private void writeAttr(XMLStreamWriter writer, String attr, String value)

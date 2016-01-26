@@ -14,7 +14,7 @@ import junit.framework.TestCase;
  * This will check there are no obvious errors in the
  * record read objects
  * 
- * @author Bruce01
+ * @author Bruce Martin
  *
  */
 public class TstRead4680 extends TestCase {

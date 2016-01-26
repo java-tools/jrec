@@ -104,20 +104,20 @@ public class FixedDocView extends PlainView {
         	idx += 1;
         }
     
-        System.out.println();
-        System.out.println("Screen: ");
+ //       System.out.println();
+//        System.out.println("Screen: ");
         while (idx < start[recId].length && (p1 - lineStart > start[recId][idx])) {
-        	if (t1 < start[recId][idx] ) {
+        	if (t1 - p0 < start[recId][idx] ) {
         		g.setColor(Color.BLACK);
         		segment.offset = initialOffset + t1 - p0;
         		segment.count = start[recId][idx] - t1;
         		
         		x = Utilities.drawTabbedText(segment, x, y, g, this, t1);
-        		System.out.print("##... ");
+        		//System.out.print("##... ");
         		t1 = start[recId][idx];
         	}
         	
-        	System.out.print("\t" + idx);
+        	//System.out.print("\t" + idx);
         	int colorIdx = idx % colorGrp.size();
 			Color backgroundColor = colorGrp.getBackgroundColor(colorIdx);
 
@@ -154,7 +154,7 @@ public class FixedDocView extends PlainView {
         	//System.out.print("- " + t1 + " " + p1);
     		segment.count = p1 - t1;
     		g.setColor(Color.RED);
-    		System.out.println("##--- " + t1 + " " + p1 + (segment.charAt(0) == '\n') + " " + (segment.charAt(0) == '\r') );
+    		//System.out.println("##--- " + t1 + " " + p1 + (segment.charAt(0) == '\n') + " " + (segment.charAt(0) == '\r') );
     		x = Utilities.drawTabbedText(segment, x, y, g, this, t1);
     	}
 //        System.out.println(" " + start[recId].length);

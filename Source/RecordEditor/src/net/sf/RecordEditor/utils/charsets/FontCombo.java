@@ -36,11 +36,11 @@ public class FontCombo extends ComboLikeObject {
      * supplied fonts in a combo-box and has a font search button
 	 */
 	public FontCombo(String[] fonts) {
-		this(fonts, new JButton(""));
+		this(lookupDescription(fonts), new JButton(""));
 	}
 	
 	
-	private FontCombo(String[] fonts, JButton btn) {
+	private FontCombo(String[][] fonts, JButton btn) {
 		super("fontTxt", btn);
 		
 		setFontList(fonts);
@@ -61,12 +61,32 @@ public class FontCombo extends ComboLikeObject {
 	 * @param fonts
 	 */
 	public void setFontList(String[] fonts) {
+		setFontList(lookupDescription(fonts));
+	}
+	
+	private static String[][] lookupDescription(String[] fonts) {
+		String[][] ret = new String[fonts.length][];
+		
+		for (int i =0; i < fonts.length; i++) {
+			ret[i] = new String[2];
+			ret[i][0] = fonts[i];
+			ret[i][1] = CharsetMgr.getDescription(fonts[i]);
+		}
+		
+		return ret;
+	}
+	
+	/**
+	 * Set the drop down combo to a list fonts
+	 * @param fonts
+	 */
+	public void setFontList(String[][] fonts) {
 		
 		if (fonts != null) {
 			JPopupMenu menu = new JPopupMenu();
 			
-			for (String s : fonts) {
-				menu.add(new FontAction(s, CharsetMgr.getDescription(s)));
+			for (String[] s : fonts) {
+				menu.add(new FontAction(s[0], s[1]));
 			}
 		
 			super.setCurrentPopup(menu);

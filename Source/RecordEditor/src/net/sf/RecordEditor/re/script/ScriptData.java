@@ -324,7 +324,7 @@ public class ScriptData {
 			== JOptionPane.YES_OPTION;
 	}
 	
-	public boolean confirmOC(String title, String message) {
+	public boolean confirmOK(String title, String message) {
 		return JOptionPane.showConfirmDialog(initialActiveFrame, message, title, JOptionPane.OK_CANCEL_OPTION) 
 			== JOptionPane.OK_OPTION;
 	}

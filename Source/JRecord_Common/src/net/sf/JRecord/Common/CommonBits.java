@@ -27,9 +27,9 @@ public class CommonBits {
 	/**
 	 * Get the eol chars for a file based on the eol-description and charset
 	 * @param defaultEolBytes
-	 * @param eolDesc
-	 * @param charset
-	 * @return
+	 * @param eolDesc "String" name of eol e.g. "<lf>"
+	 * @param charset character-set
+	 * @return byte array containing the end-of-line bytes
 	 */
 	public static byte[] getEolBytes(byte[] defaultEolBytes, String eolDesc, String charset) {
 		byte[] recordSep = defaultEolBytes;

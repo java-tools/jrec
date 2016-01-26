@@ -195,7 +195,7 @@ public class EditCsvFile extends EditRec {
         					  Parameters.SHOW_RECORDEDITOR_TIPS);
         }
         
-        EditCommon.doStandardInit();
+        //EditCommon.doStandardInit();
     }
 
 	private int getOpenHeight() {

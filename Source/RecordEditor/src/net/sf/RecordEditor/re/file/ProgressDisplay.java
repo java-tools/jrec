@@ -30,6 +30,7 @@ public class ProgressDisplay  {
 	
 	public void updateDisplay(String msg, int progress) {
 		area.setText(msg + "          ");
+		System.out.println(msg);
 		init();
 		progressBar.setValue(progress);
 	}

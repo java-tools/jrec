@@ -14,6 +14,8 @@ import java.awt.event.KeyEvent;
 import javax.swing.JMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
@@ -36,6 +38,7 @@ public class FixedColumnScrollPane extends JScrollPane  {
 	public final static int FIXED_INDEX = 0;
 	public final static int MAIN_INDEX = 1;
 
+	private ButtonTableRendor tableBtn = new ButtonTableRendor();
     private JTable fixedTable = null;
     private JTable main;
     private int fixedColumns;
@@ -77,10 +80,19 @@ public class FixedColumnScrollPane extends JScrollPane  {
      * @param tbl main table to be displayed
      */
     public FixedColumnScrollPane(final JTable tbl) {
+    	this(tbl, new JTable(tbl.getModel()));
+    }
+    
+    /**
+     * Fixed table (suplying both the main and Fixed Table.
+     * @param tbl
+     * @param fixedTbl
+     */
+    public FixedColumnScrollPane(final JTable tbl, JTable fixedTbl) {
         super(tbl);
 
         main = tbl;
-        fixedTable = new JTable(main.getModel());
+        fixedTable = fixedTbl;
 
         STD_LINE_HEIGHT = main.getRowHeight();
         TWO_LINE_HEIGHT = (STD_LINE_HEIGHT + 1) * 2;
@@ -143,6 +155,7 @@ public class FixedColumnScrollPane extends JScrollPane  {
         //  the DataModel and ListSelectionModel
 
         fixedTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+       
         fixedTable.setRowHeight(main.getRowHeight());
         //fixedTable.setFocusable(false);
         fixedTable.setSelectionModel(main.getSelectionModel());
@@ -162,11 +175,18 @@ public class FixedColumnScrollPane extends JScrollPane  {
     private void setColumnsToDisplay() {
         int i;
         int numCols;
+ 
+//        checkColumnModel(main, mainColumnModels, true);
+//        checkColumnModel(fixedTable, fixedColumnModels, false);
+        main.setColumnModel(new DefaultTableColumnModel());
+        main.createDefaultColumnsFromModel();
+
+        fixedTable.setModel(main.getModel());
+        fixedTable.setColumnModel(new DefaultTableColumnModel());
+        fixedTable.createDefaultColumnsFromModel();
+      
         TableColumnModel columnModel = main.getColumnModel();
         TableColumnModel fixedModel  = fixedTable.getColumnModel();
-
-        checkColumnModel(main, mainColumnModels);
-        checkColumnModel(fixedTable, fixedColumnModels);
 
 //        System.out.print(">> Starting Columns to display:  ");
 //        if (mainColumnModels != null) {
@@ -174,7 +194,7 @@ public class FixedColumnScrollPane extends JScrollPane  {
 //        }
 //        System.out.println();
 
-        fixedTable.setModel(main.getModel());
+//        fixedTable.setModel(main.getModel());
         numCols = Math.min(columnModel.getColumnCount(), fixedModel.getColumnCount()) ;
         mainColumnModels  = new TableColumn[numCols];
         fixedColumnModels = new TableColumn[numCols];
@@ -211,30 +231,41 @@ public class FixedColumnScrollPane extends JScrollPane  {
 //        System.out.println("<< End of Columns to display");
     }
 
-    private void checkColumnModel(
-    		JTable table,
-    		TableColumn[] columnArray) {
-
-    	TableColumnModel columnModel = table.getColumnModel();
-
-        if (columnModel != null
-        && columnArray != null
-        && table.getModel().getColumnCount()  == columnArray.length
-        && columnModel.getColumnCount() != columnArray.length) {
-//        	System.out.println("-- Different number of columns 1 ??? " + columnModel.getColumnCount()
-//        			+ " ~~ " + columnArray.length
-//        			+ " ~~ " + table.getModel().getColumnCount());
-        	for (int i = 0; i < columnArray.length; i++) {
-        		columnModel.removeColumn(columnArray[i]);
-        		columnModel.addColumn(columnArray[i]);
-        	}
-//           	System.out.println("-- Different number of columns 2 ??? " + columnModel.getColumnCount()
-//           			+ " ~~ " + columnArray.length
-//        			+ " ~~ " + table.getModel().getColumnCount());
-
-        }
-
-    }
+//    private void checkColumnModel(
+//    		JTable table,
+//    		TableColumn[] columnArray,
+//    		boolean add) {
+//
+//    	TableColumnModel columnModel = table.getColumnModel();
+//
+//    	//table.setColumnModel(new DefaultTableColumnModel());
+//    	table.setAutoCreateColumnsFromModel(true);
+////        if (columnModel != null
+////        && columnArray != null
+////        && table.getModel().getColumnCount()  == columnArray.length
+////        && columnModel.getColumnCount() != columnArray.length) {
+////        	System.out.println("-- Different number of columns 1 ??? " + columnModel.getColumnCount()
+////        			+ " ~~ " + columnArray.length
+////        			+ " ~~ " + table.getModel().getColumnCount());
+////        	table.setColumnModel(new DefaultTableColumnModel());
+////        	System.out.println("-- Different number of columns 1 ??? " + columnModel.getColumnCount()
+////        			+ " ~~ " + columnArray.length
+////        			+ " ~~ " + table.getModel().getColumnCount());
+////
+////        	for (int i = 0; i < columnArray.length && columnModel.getColumnCount() > 0; i++) {
+////        		columnModel.removeColumn(columnArray[i]);
+////        		
+////        		if (add) {
+////        			columnModel.addColumn(columnArray[i]);
+////        		}
+////        	}
+////           	System.out.println("-- Different number of columns 2 ??? " + columnModel.getColumnCount()
+////           			+ " ~~ " + columnArray.length
+////        			+ " ~~ " + table.getModel().getColumnCount());
+////
+////        }
+//
+//    }
 
     /**
      * fix the view sizes for the two tables
@@ -266,6 +297,7 @@ public class FixedColumnScrollPane extends JScrollPane  {
         fixedColumnModels[actualCol].setPreferredWidth(mainColumn.getPreferredWidth());
         fixedColumnModels[actualCol].setCellEditor(mainColumn.getCellEditor());
         fixedColumnModels[actualCol].setCellRenderer(mainColumn.getCellRenderer());
+        fixedColumnModels[actualCol].setHeaderRenderer(mainColumn.getHeaderRenderer());
         colMdl.addColumn(fixedColumnModels[actualCol]);
         main.getColumnModel().removeColumn(mainColumn);
         correctFixedSize();
@@ -426,6 +458,39 @@ public class FixedColumnScrollPane extends JScrollPane  {
 		for (i = 0; i < fields.length; i++) {
 			mdl.addColumn(columns[fields[i]]);
 		}
+	}
+	
+	public void setupLineFields(int rowCount, int numControlColumns, TableCellRenderer headerRender) {
+
+		int width = SwingUtils.CHAR_FIELD_WIDTH;
+		//System.out.println("Setup fixed columns ... " + width);
+		setFixedColumns(numControlColumns);
+		TableColumn tc = fixedTable.getColumnModel().getColumn(0);
+		tc.setCellRenderer(tableBtn);
+		tc.setPreferredWidth(5);
+		if ( fixedTable.getColumnModel().getColumnCount() <= 1) {
+			Common.logMsg("Error No Fields defined in the layout !!!", null);
+		} else {
+			tc = fixedTable.getColumnModel().getColumn(1);
+			if (rowCount > 10000000) {
+				width = 8;
+			} else if (rowCount > 1000000) {
+				width = 7;
+			} else if (rowCount > 100000) {
+				width = 6;
+			}
+			tc.setPreferredWidth(SwingUtils.STANDARD_FONT_WIDTH * width);
+			tc.setResizable(false);
+
+			correctFixedSize();
+		}
+
+		TableColumnModel tcm = main.getColumnModel();
+
+		for (int i = 0; i < tcm.getColumnCount(); i++) {
+			tcm.getColumn(i).setHeaderRenderer(headerRender);
+		}
+
 	}
 
     /**

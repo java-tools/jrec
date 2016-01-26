@@ -33,10 +33,9 @@ import net.sf.JRecord.Common.RecordException;
  */
 public class TypeManager {
 
- 	public static final int SYSTEM_ENTRIES = 150;
+ 	public static final int SYSTEM_ENTRIES = Type.LAST_SYSTEM_TYPE;
 
     public static final int INVALID_INDEX  = SYSTEM_ENTRIES - 1;
-
 
     private Type[] types;
 
@@ -45,7 +44,8 @@ public class TypeManager {
     private int userSize;
 
     private static TypeManager systemTypeManager = null;
-
+    
+ 
 
     /**
      * This class stores / retrieves types definitions
@@ -116,8 +116,8 @@ public class TypeManager {
             types[Type.ftPostiveBinaryInt]		= new TypeBinLittleEndian(true);
             types[Type.ftBinaryInt]				= new TypeBinLittleEndian(false);
             types[Type.ftBinaryBigEndian]		= new TypeBinBigEndian(false);
-            types[Type.ftBinaryBigEndianPositive]= new TypeBinBigEndian(true, false);
-            types[Type.ftPositiveBinaryBigEndian]= new TypeBinBigEndian(true);
+            types[Type.ftBinaryBigEndianPositive]= new TypeBinBigEndian(true, false); // Signed integer but only positive numbers allowed for 2 bytes 0->32k
+            types[Type.ftPositiveBinaryBigEndian]= new TypeBinBigEndian(true);        // C uint - unsigned integer for 2 bytes 0->64k
 
             types[Type.ftRmComp]				= new TypeRmComp();
             types[Type.ftRmCompPositive]		= new TypeRmCompPositive();
@@ -139,10 +139,8 @@ public class TypeManager {
      * @param typeId type identifier of the type being top
      * @param typeDef type being registered
      *
-     * @throws RecordException any error that occurs
      */
-    public void registerType(int typeId, Type typeDef)
-    throws RecordException {
+    public void registerType(int typeId, Type typeDef) {
         int idx = getIndex(typeId);
 
         if (idx == INVALID_INDEX) {
@@ -232,6 +230,11 @@ public class TypeManager {
 		return getInstance().getType(typeId).isNumeric();
 	}
 
+	public static boolean isBinary(int typeId) {
+		Type type = getInstance().getType(typeId);
+		return type.isNumeric() && (type instanceof TypeNum) && ((TypeNum) type).isBinary();
+	}
+
 	/**
 	 * return whether the type has a floating decimal.
 	 * @param typeId type to check
@@ -264,4 +267,5 @@ public class TypeManager {
 	public final int getUserSize() {
 		return userSize;
 	}
+	
 }

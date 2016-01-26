@@ -3,7 +3,6 @@ package net.sf.JRecord.External;
 import java.util.ArrayList;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.External.Def.AbstractUpdatableRecord;
 import net.sf.JRecord.External.Def.ExternalField;
@@ -79,6 +78,7 @@ public class ExternalRecord extends AbstractUpdatableRecord {
   //private ArrayList<TstField> tstFields = null;
   private boolean defaultRecord = false;
   private boolean embeddedCr    = false;  //private String tstField = "";
+  private boolean initToSpaces  = false;  // for backward compatibility
   //private String tstFieldValue = "";
 
 
@@ -894,7 +894,7 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 				maxPos = Math.max(maxPos, fields.get(i).getPos() + fields.get(i).getLen());
 			}
 
-			tmpFields = new ArrayList<ExternalField>(count);
+			tmpFields = new ArrayList<ExternalField>(count + 1);
 
 			for (i = 0; i < fields.size(); i++) {
 				fld = fields.get(i);
@@ -915,7 +915,9 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	}
 
 	private boolean isFiller(String s) {
-		return s == null || "".equals(s.trim()) || "filler".equalsIgnoreCase(s);
+		return s == null || "".equals(s.trim()) 
+			  || "filler".equalsIgnoreCase(s)
+			  || s.toLowerCase().startsWith("filler (");
 	}
 
 	/**
@@ -949,10 +951,8 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	 * Convert to internal format
 	 * @return the internal LayoutDetail equivalent
 	 *
-	 * @throws RecordException any error that occurs
 	 */
-	public final LayoutDetail asLayoutDetail()
-	throws RecordException {
+	public final LayoutDetail asLayoutDetail() {
 		return ToLayoutDetail.getInstance().getLayout(this);
 	}
 
@@ -993,6 +993,7 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 		return defaultRecord;
 	}
 
+	
 	/**
 	 * @param defaultRecord the defaultRecord to set
 	 */
@@ -1029,4 +1030,17 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	}
 
 
+	/**
+	 * @return the initToSpaces
+	 */
+	public final boolean isInitToSpaces() {
+		return initToSpaces;
+	}
+
+	/**
+	 * @param initToSpaces the initToSpaces to set
+	 */
+	public final void setInitToSpaces(boolean initToSpaces) {
+		this.initToSpaces = initToSpaces;
+	}
 }

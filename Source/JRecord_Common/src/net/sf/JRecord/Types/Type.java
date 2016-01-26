@@ -20,7 +20,6 @@
 package net.sf.JRecord.Types;
 
 import net.sf.JRecord.Common.IFieldDetail;
-import net.sf.JRecord.Common.RecordException;
 
 /**
  * A "Type" is the interface between the raw data in the file
@@ -39,6 +38,7 @@ public interface Type {
 
     public  static final int USER_RANGE_START    = 1000;
     public  static final int DEFAULT_USER_RANGE_SIZE = 75;
+    public  static final int LAST_SYSTEM_TYPE    = 150;
 
 	public static final int NULL_INT             = -121;
 
@@ -148,13 +148,11 @@ public interface Type {
      * @param val new value
      *
      * @return updated record
-     * @throws RecordException any error that occurs during the save
      */
     public abstract byte[] setField(final byte[] data,
             					  final int position,
             					  final IFieldDetail field,
-            					  Object val)
-    throws RecordException;
+            					  Object val);
 
     /**
      * Format a value for storing in the record, it
@@ -169,23 +167,21 @@ public interface Type {
      * @param val value to be formated
      *
      * @return value value as it is store in the record
-     * @throws RecordException any conversion errors
-     */
-    public abstract String formatValueForRecord(IFieldDetail field, String val)
-    throws RecordException;
+      */
+    public abstract String formatValueForRecord(IFieldDetail field, String val);
 
 
     /**
-     * wether it is a binary field
+     * whether it is a binary field
      *
-     * @return wether it is binary field
+     * @return whether it is binary field
      */
     public abstract boolean isBinary();
 
     /**
      * Is this a Numeric Type
      *
-     * @return wether it is a numeric Type
+     * @return whether it is a numeric Type
      */
     public abstract boolean isNumeric();
 
@@ -198,7 +194,8 @@ public interface Type {
 
     /**
      * Get the character used for the decimal point
-     * @return
+     * @return the character that marks the decimal point (normally '.' but can be ','
+     * for our German user's
      */
     public abstract char getDecimalChar();
 }

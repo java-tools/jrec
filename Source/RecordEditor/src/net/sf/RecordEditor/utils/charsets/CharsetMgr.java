@@ -30,68 +30,85 @@ public class CharsetMgr {
 
 	private static final List<CharsetDtls> charsets = new ArrayList<CharsetDtls>(80);
 	private static Map<String, String> charsetDescriptionMap = new HashMap<String, String>(400);
-	private static String[] commonCharsets;
+	private static String[][] commonCharsets = {
+		{"", ""},
+		{"ISO-8859-19", "5: Latin alphabet No. 9"},
+		{"US-ASCII", "American Standard Code for Information Interchange"},
+		{"UTF-16", "Sixteen-bit Unicode (or UCS) Transformation Format, byte orderidentified by an optional byte-order mark"},
+		{"UTF-32", "32-bit Unicode (or UCS) Transformation Format, byte orderidentified by an optional byte-order mark"},
+		{"UTF-8", "Eight-bit Unicode (or UCS) Transformation Format"},
+		{"windows-1252", "Windows Latin-1"},
+	};
+	private static  boolean toInit = true;
 	
-	static {
-		try {
-			Map<String, String> charsetDtls = new TreeMap<String, String>();
-			String key, desc, id;
-			
-			updateFromFile(charsetDtls, "Charsets1.txt");
-			updateFromFile(charsetDtls, "Charsets2.txt");
-			ArrayList<Charset> charsetList = new ArrayList<Charset>(Charset.availableCharsets().values());
-
-			Set<String> commonCharsetsSet = new TreeSet<String>(
-					Arrays.asList(
-							"US-ASCII",
-							"ISO-8859-1",
-							"ISO-8859-19",
-							"UTF-8",
-							"UTF-16",
-							"UTF-32",
-							"windows-1252"
-					));
-			commonCharsetsSet.add(Charset.defaultCharset().displayName());
-			commonCharsets = commonCharsetsSet.toArray(new String[commonCharsetsSet.size()]);
-			
-			for (String s : commonCharsetsSet) {
-				key = s.toLowerCase();
-				desc = "";
-				if (charsetDtls.containsKey(key)) {
-					desc = charsetDtls.get(key);
-				}
-				charsets.add(new CharsetDtls(s, desc, null));
-			}
-			 
-			Collections.sort(charsetList, new CaseInsensitiveCharsetComparitor());
-			for (Charset c : charsetList) {
-				desc = "";
-				id = c.displayName();
-				key = id.toLowerCase();
-
-				if (charsetDtls.containsKey(key)) {
-					desc = charsetDtls.get(key);
-				} else {
-					Iterator<String> it = c.aliases().iterator();
-					while (it.hasNext()) {
-						key = it.next().toLowerCase();
+	
+	private static void doInit() {
+		if (toInit) {
+			try {
+				Map<String, String> charsetDtls = new TreeMap<String, String>();
+				String key, desc, id;
+				
+				updateFromFile(charsetDtls, "Charsets1.txt");
+				updateFromFile(charsetDtls, "Charsets2.txt");
+				ArrayList<Charset> charsetList = new ArrayList<Charset>(Charset.availableCharsets().values());
+	
+				Set<String> commonCharsetsSet = new TreeSet<String>(
+						Arrays.asList(
+								"US-ASCII",
+								"ISO-8859-1",
+								"ISO-8859-19",
+								"UTF-8",
+								"UTF-16",
+								"UTF-32",
+								"windows-1252"
+						));
+				commonCharsetsSet.add(Charset.defaultCharset().displayName());
+				
+				for (String[] ss : commonCharsets) {
+					if (! "".equals(ss[0])) {
+						key = ss[0].toLowerCase();
+						desc = ss[1];
 						if (charsetDtls.containsKey(key)) {
 							desc = charsetDtls.get(key);
-							break;
+						}
+						//System.out.println("\t{\"" + s + "\", \"" + desc + "\"},");
+						charsets.add(new CharsetDtls(ss[0], desc, null));
+					}
+				}
+				 
+				Collections.sort(charsetList, new CaseInsensitiveCharsetComparitor());
+				for (Charset c : charsetList) {
+					desc = "";
+					id = c.displayName();
+					key = id.toLowerCase();
+	
+					if (charsetDtls.containsKey(key)) {
+						desc = charsetDtls.get(key);
+					} else {
+						Iterator<String> it = c.aliases().iterator();
+						while (it.hasNext()) {
+							key = it.next().toLowerCase();
+							if (charsetDtls.containsKey(key)) {
+								desc = charsetDtls.get(key);
+								break;
+							}
 						}
 					}
-				}
-				if (desc.length() > 0) {
-					charsetDescriptionMap.put(key, desc);
-					Iterator<String> it = c.aliases().iterator();
-					while (it.hasNext()) {
-						charsetDescriptionMap.put(it.next(), desc);
+					if (desc.length() > 0) {
+						charsetDescriptionMap.put(key, desc);
+						Iterator<String> it = c.aliases().iterator();
+						while (it.hasNext()) {
+							charsetDescriptionMap.put(it.next(), desc);
+						}
 					}
+					charsets.add(new CharsetDtls(id, desc, c));
 				}
-				charsets.add(new CharsetDtls(id, desc, c));
+				
+			} catch (Throwable e) {
+				e.printStackTrace();
 			}
-		} catch (Throwable e) {
-			e.printStackTrace();
+			
+			toInit= false;
 		}
 	}
 	
@@ -99,18 +116,21 @@ public class CharsetMgr {
 	 * @return the charsets
 	 */
 	public static final List<CharsetDtls> getCharsets() {
+		doInit();
 		return charsets;
 	}
 
 	/**
 	 * @return the commonCharsets
 	 */
-	public static final String[] getCommonCharsets() {
+	public static final String[][] getCommonCharsets() {
 		return commonCharsets;
 	}
 
 	public static String getDescription(String s) {
 		String ret = "";
+		
+		doInit();
 		if (s != null) {
 			ret = charsetDescriptionMap.get(s.toLowerCase());
 			if (ret == null) {

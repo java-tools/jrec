@@ -33,7 +33,7 @@ public class ArrayTableModel extends AbstractTableModel {
 	public ArrayTableModel(ArrayInterface array) {
 		this.array = array;
 
-		if (array.getColumnCount() == 2) {
+		if (array != null && array.getColumnCount() == 2) {
 			columnNames = MAP_COLUMN_NAMES;
 			colAdj = 0;
 		}

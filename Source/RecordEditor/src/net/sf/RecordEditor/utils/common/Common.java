@@ -29,6 +29,7 @@ package net.sf.RecordEditor.utils.common;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Insets;
 import java.awt.Rectangle;
@@ -89,7 +90,7 @@ public final class Common implements Constants {
     Dimension size = new Dimension(adv+2, hgt+2);
      */
 
-	public static final String CURRENT_VERSION = "0097";
+	public static final String CURRENT_VERSION = "0097k";
 	
 	public static final int BOOLEAN_OPERATOR_OR  = 0;
     public static final int BOOLEAN_OPERATOR_AND = 1;
@@ -1062,7 +1063,7 @@ public final class Common implements Constants {
 						dbUpdate[dbIdx] = null;
 						closeHSQL();
 					}
-					makeConnection(dbUpdate, dbIdx, dataSource, 7, false);
+					makeConnection(dbUpdate, dbIdx, dataSource, 5, false);
 
 					dbConnection[dbIdx] = dbUpdate[dbIdx];
 				}
@@ -1538,6 +1539,9 @@ public final class Common implements Constants {
 	            ex.printStackTrace();
 	        }
 	    } else {
+	    	if (ex != null) {
+	    		logger.logMsg(level, "Java Version: " + Parameters.JAVA_VERSION_STRING);
+	    	}
 	        logger.logMsg(level, message);
 	        logger.logException(level, ex);
 	    }
@@ -1682,41 +1686,60 @@ public final class Common implements Constants {
 
     public static void setBounds1(JFrame frame, String id) {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		if (screenSize.width < 200 || screenSize.height < 200) {
+			screenSize = new Dimension(Math.max(200, screenSize.width), Math.max(200, screenSize.height));
+		}
 
-        switch (OPTIONS.screenStartSizeOpt.get()) {
-          case ProgramOptions.SIZE_LAST:
+        char screenOpt = OPTIONS.screenStartSizeOpt.get();
+		switch (screenOpt) {
+        case ProgramOptions.SIZE_LAST_FORCED:
+        case ProgramOptions.SIZE_LAST:
         	setSizeFromVars(
         			  frame, screenSize,
         			  id + Parameters.LAST_SCREEN_WIDTH,
-        			  id + Parameters.LAST_SCREEN_HEIGHT);
+        			  id + Parameters.LAST_SCREEN_HEIGHT,
+        			  screenOpt == ProgramOptions.SIZE_LAST_FORCED);
 
         	break;
         case ProgramOptions.SIZE_SPACE_AROUND:
        		setStandardHeight(frame, screenSize);
        		break;
         //case ProgramOptions.SIZE_MAXIMISED:
+        case ProgramOptions.SIZE_SPECIFIED_FORCED:  	
         case ProgramOptions.SIZE_SPECIFIED:
         	setSizeFromVars(
       			  frame, getUsableScreenArea(frame),
       			  id + Parameters.SCREEN_START_WIDTH,
-      			  id + Parameters.SCREEN_START_HEIGHT);
+      			  id + Parameters.SCREEN_START_HEIGHT,
+      			  screenOpt == ProgramOptions.SIZE_SPECIFIED_FORCED);
 
        		break;
+        case ProgramOptions.SIZE_SCREEN_1: 
+        case ProgramOptions.SIZE_SCREEN_2: 
+        case ProgramOptions.SIZE_SCREEN_3: 
+        	setScreen(frame, screenSize, screenOpt - ProgramOptions.SIZE_SCREEN_1);
+        	break;
+//        case ProgramOptions.SIZE_SCREEN_1_MAX: 
+//        	setScreen(frame, screenSize, 0);
+//       	break;
+
+        case ProgramOptions.SIZE_NO_RESIZE: 
+        	break;
       	default:
         	setMaximised(frame, getUsableScreenArea(frame));
 	    }
     }
 
 
-    private static void setSizeFromVars(JFrame frame, Dimension screenSize, String widthPrm, String heightPrm) {
+    private static void setSizeFromVars(JFrame frame, Dimension screenSize, String widthPrm, String heightPrm, boolean force) {
 	    try {
-	    	int width = screenSize.width,
+	    	int width  = screenSize.width,
 	    		height = screenSize.height;
 
-			width = setVal(width, Parameters.getString(widthPrm));
-			height = setVal(height, Parameters.getString(heightPrm));
+			width = setVal(width, Parameters.getString(widthPrm), force);
+			height = setVal(height, Parameters.getString(heightPrm), force);
 
-			if (width > 0 && height > 0) {
+			if (force || (width > 200 && height > 200)) {
 				frame.setSize(width, height);
 			} else {
 				setMaximised(frame, screenSize);
@@ -1726,22 +1749,52 @@ public final class Common implements Constants {
 		}
     }
 
-    private static int setVal(int defaultValue, String val) {
+    private static int setVal(int defaultValue, String val, boolean force) {
     	if (val != null && ! "".equals(val)) {
-    		defaultValue = Math.min(defaultValue, Integer.parseInt(val));
+			try {
+				int v = Integer.parseInt(val);
+				if (force) {
+					defaultValue = v;
+				} else {
+					defaultValue = Math.min(defaultValue, v);
+				}
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			}
     	}
-    	return defaultValue;
+    	return Math.max(200, defaultValue);
     }
 
     public static void setMaximised(JFrame frame, Dimension screenSize) {
 
-       	frame.setSize(screenSize);
-    	GraphicsEnvironment e = GraphicsEnvironment
-    				.getLocalGraphicsEnvironment();
-    	frame.setMaximizedBounds(e.getMaximumWindowBounds());
-
-    	frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+		frame.setSize(screenSize);
+		frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
     }
+
+    public static void setScreen(JFrame frame, Dimension screenSize, int screen) {
+
+    	try {
+			GraphicsEnvironment ge = GraphicsEnvironment
+			        .getLocalGraphicsEnvironment();
+			GraphicsDevice[] gd = ge.getScreenDevices();
+			if (screen < 0 || screen >= gd.length) {
+				screen = 0;
+			} 
+			Rectangle bounds = gd[screen].getDefaultConfiguration().getBounds();
+			frame.setLocation(bounds.x, frame.getY());
+			Rectangle maxBounds = ge.getMaximumWindowBounds();		
+			if (maxBounds !=null && maxBounds.width > 200 && maxBounds.height > 200) {
+				frame.setBounds(maxBounds);
+			}
+			frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+
+		} catch (Throwable e) {
+			e.printStackTrace();
+			setMaximised(frame, screenSize);
+		}
+    }
+
+
 
     public static Dimension getUsableScreenArea(Component c) {
     	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -1750,8 +1803,8 @@ public final class Common implements Constants {
     	Insets scnMax = Toolkit.getDefaultToolkit().getScreenInsets(c.getGraphicsConfiguration());
 
     	return new Dimension(
-    			screenSize.width  - scnMax.left - scnMax.right,
-    			screenSize.height - scnMax.top  - scnMax.bottom);
+    			Math.max(500, screenSize.width  - scnMax.left - scnMax.right),
+    			Math.max(300, screenSize.height - scnMax.top  - scnMax.bottom));
     }
 
     private static void setStandardHeight(JFrame frame, Dimension screenSize) {
@@ -1764,28 +1817,6 @@ public final class Common implements Constants {
 		          		- Common.spaceAtTopOfScreen);
     }
 
-//    public static void setBounds2(JFrame frame) {
-//		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-//        frame.pack();
-//        if (OPTIONS.MAXIMISE_SCREEN.isSelected()) {
-//    		GraphicsEnvironment e = GraphicsEnvironment
-//    				.getLocalGraphicsEnvironment();
-//    		frame.setMaximizedBounds(e.getMaximumWindowBounds());
-//
-//    		frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-//        } else {
-//	        frame.setBounds(
-//	        		frame.getY(), frame.getX(),
-//	        		Math.min(frame.getWidth(),
-//	        				 screenSize.width  - Common.getSpaceAtRightOfScreen()
-//	        				 				   - frame.getY()),
-//	        		Math.min(frame.getHeight(),
-//	        				 screenSize.height - Common.getSpaceAtBottomOfScreen()
-//	        				   - SwingUtils.NORMAL_FIELD_HEIGHT * 2
-//			 				   - frame.getX()));
-//	        }
-//        frame.setVisible(true);
-//    }
 
     /**
      * @return Returns the spaceAtBottomOfScreen.
@@ -1860,16 +1891,19 @@ public final class Common implements Constants {
      * @param minColumns minumum number of columns in table (
      */
     public static void calcColumnWidths(JTable table, int minColumns) {
-    	int screenWidth = table.getVisibleRect().width;
-    	//int screenWidth = table.getMaximumSize().width;
-    	int maxColWidth = Math.max(screenWidth * 2 / 3, MINIMUM_MAX_COLUMN_WIDTH);
-    	//System.out.println("Col Widths: " + screenWidth + " " + maxColWidth);
-
-    	calcColumnWidths(table, minColumns, maxColWidth);
+    	calcColumnWidths(table, minColumns, -1, 0);
     }
 
     public static void calcColumnWidths(JTable table, int minColumns, int maxColWidth) {
-       JTableHeader header = table.getTableHeader();
+    	calcColumnWidths(table, minColumns, maxColWidth, 0);
+    }
+
+    public static void calcColumnWidths(JTable table, int minColumns, int maxColWidth, int fieldWidthAddition) {
+    	if (maxColWidth < 0) {
+    		int screenWidth = table.getVisibleRect().width;
+        	maxColWidth = Math.max(screenWidth * 2 / 3, MINIMUM_MAX_COLUMN_WIDTH);
+     	}
+        JTableHeader header = table.getTableHeader();
 
         TableCellRenderer defaultHeaderRenderer = null;
 
@@ -1919,7 +1953,7 @@ public final class Common implements Constants {
                 width = c.getPreferredSize().width;
             }
 
-            width = getColumnWidth(table, i, firstRow, rowCount, width);
+            width = getColumnWidth(table, i, firstRow, rowCount, width, fieldWidthAddition);
 //            for (int row = rowCount - 1; row >= firstRow; --row) {
 //                TableCellRenderer r = table.getCellRenderer(row, i);
 //
@@ -1952,7 +1986,11 @@ public final class Common implements Constants {
     }
 
     public static int getColumnWidth(JTable table, int idx, int firstRow, int rowCount, int defaultWidth) {
-    	int width= defaultWidth;
+    	return getColumnWidth(table, idx, firstRow, rowCount, defaultWidth, 0);
+    }
+
+    public static int getColumnWidth(JTable table, int idx, int firstRow, int rowCount, int defaultWidth, int incBy) {
+   	int width= defaultWidth;
     	int columnIndex = table.getColumnModel().getColumn(idx).getModelIndex();
     	TableModel data = table.getModel();
 
@@ -1967,7 +2005,7 @@ public final class Common implements Constants {
                 		table,
                 		data.getValueAt(row, columnIndex), false, false, row, idx);
                 //System.out.print("  >" + width + " " + c.getPreferredSize().width);
-            	width = Math.max(width, c.getPreferredSize().width);
+            	width = Math.max(width, c.getPreferredSize().width + incBy);
             } catch (Exception e) {
             	System.out.println("Error Row,col= " + row + ", " + columnIndex);
 			}

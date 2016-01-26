@@ -54,6 +54,10 @@ public class RecordFormats {
 	private final AbstractLayoutDetails layout;
 	private final int recordIdx;
 	private final ColumnMappingInterface mapping;
+	
+	private TableCellRenderer[] cellRenders = null;
+	private TableCellEditor[] cellEditor = null;
+
 
     /**
      *
@@ -76,10 +80,10 @@ public class RecordFormats {
      *
      * @return Returns the cellRender.
      */
-    public TableCellRenderer[] getCellRenders() {
+    @SuppressWarnings("deprecation")
+	public TableCellRenderer[] getCellRenders() {
 
-        TableCellRenderer[] cellRenders = null;
-        if (rendorStatus != STATUS_DOES_NOT_EXIST) {
+        if (cellRenders == null && rendorStatus != STATUS_DOES_NOT_EXIST) {
             int j, idx;
             AbstractRecordDetail.FieldDetails fieldDef;
             boolean foundRendor = false;
@@ -144,9 +148,10 @@ public class RecordFormats {
      * return all editors
      * @return Returns the cellEditors.
      */
-    public TableCellEditor[] getCellEditors() {
-        TableCellEditor[] cellEditor = null;
-        if (editorStatus != STATUS_DOES_NOT_EXIST) {
+    @SuppressWarnings("deprecation")
+	public TableCellEditor[] getCellEditors() {
+ 
+    	if (cellEditor == null && editorStatus != STATUS_DOES_NOT_EXIST) {
             int j, idx;
             AbstractRecordDetail.FieldDetails fieldDef;
             boolean foundRendor = false;
@@ -171,7 +176,7 @@ public class RecordFormats {
                 case Type.ftArrayField:		cellEditor[j] = new ArrayTableEditor();				break;
                 case Type.ftCharMultiLine:	
                 case Type.ftMultiLineChar:	cellEditor[j] = new TextAreaTableCellEditor();		break;
-               default:
+                default:
                 	if (fieldDef.getType() == Type.ftComboItemField
                 	&&  fieldDef instanceof ComboModelSupplier) {
                 		cellEditor[j] = new ComboItemEditor(((ComboModelSupplier) fieldDef).getComboModel());

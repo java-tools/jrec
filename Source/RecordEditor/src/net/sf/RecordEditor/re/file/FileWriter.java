@@ -63,7 +63,7 @@ public class FileWriter {
 		long totalSize = ((long) lines.size()) * (layout.getMaximumRecordLength()>0?layout.getMaximumRecordLength():20);
 		int bufSize = calcBufferSize(defaultBufSize, totalSize);
 		
-		if (Common.OPTIONS.overWriteOutputFile.isSelected()) {
+		if (Common.OPTIONS.overWriteOutputFile.isSelected() || (! backup) ) {
 			if (backup && Parameters.JAVA_VERSION > 6.9999) {
 				copyFile(fileName, fileName + "~");
 			}
@@ -91,7 +91,7 @@ public class FileWriter {
 			Parameters.renameFile(oFname, fileName);
 		} catch (Exception e) {
 			e.printStackTrace();
-			Common.logMsg("Error renaming new file to old file, file not saved:\n" + e,  null);
+			Common.logMsg("Error renaming new file to old file, file not saved:\n" + e,  e);
 			
 			copyFile(oFname, fileName);
 		}
@@ -142,7 +142,9 @@ public class FileWriter {
 	 */
 	private void writeToFile(AbstractLineWriter writer, List<AbstractLine> pLines)
 	throws IOException {
-	    int i, numLines;
+	    int i = 0, numLines;
+	    
+	    System.out.println("Starting to write the file !!!");
 
 	    ProgressDisplay progress = null;
 	    
@@ -152,6 +154,7 @@ public class FileWriter {
 	    try {
 	    	if (numLines > 30000) {
 	    		progress = new ProgressDisplay("Writing", fileName);
+	    		System.out.println("  -- Adding Progress !!!");
 	    	}
 	
 		    writer.setLayout(layout);
@@ -159,17 +162,28 @@ public class FileWriter {
 		    if (pLines instanceof IDataStore) {
 		    	@SuppressWarnings("rawtypes")
 				IDataStore ds = (IDataStore) pLines;
+		    	System.out.println("  -- Is a datastore");
 		
 			    for (i = 0; i < pLines.size(); i++) {
 			        writer.write(ds.getTempLineRE(i));
 			        check(progress, i, numLines);
 			    }	
 		    } else {
+		    	System.out.println("  -- Is a List");
 			    for (i = 0; i < pLines.size(); i++) {
 			        writer.write(pLines.get(i));
 			        check(progress, i, numLines);
 			    }  	
 		    }
+		    System.out.println("  -- File Written");
+	    } catch (IOException e) {
+	    	System.out.println();
+	    	System.out.println("    **** Line:" + i + "IOError: " + e);
+	    	System.out.println();
+	    } catch (RuntimeException e) {
+	    	System.out.println();
+	    	System.out.println("    **** Line: " + i + "RunTime Error: " + e);
+	    	System.out.println();
 	    } finally {
 		    writer.close();
 		    

@@ -69,8 +69,11 @@ public class RecordSelection {
 	public RecordSelectionResult isSelected(AbstractLine line) {
 		RecordSelectionResult ret = RecordSelectionResult.NO;
 
-		if (recSel != null) {
-
+		if (recSel == null) {
+			if (defaultRecord) {
+				ret = RecordSelectionResult.DEFAULT;
+			} 
+		} else {
 			if (recSel.isSelected(line)) {
 				if (defaultRecord) {
 					ret = RecordSelectionResult.DEFAULT;

@@ -31,7 +31,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -76,7 +75,6 @@ import net.sf.RecordEditor.re.file.filter.Compare;
 import net.sf.RecordEditor.re.file.filter.FilterDetails;
 import net.sf.RecordEditor.re.file.filter.FilterFieldBaseList;
 import net.sf.RecordEditor.re.util.FileStructureDtls;
-import net.sf.RecordEditor.utils.ColumnMappingInterface;
 import net.sf.RecordEditor.utils.basicStuff.IRetrieveTable;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.GcManager;
@@ -91,6 +89,7 @@ import net.sf.RecordEditor.utils.fileStorage.FileDetails;
 import net.sf.RecordEditor.utils.fileStorage.IDataStoreIterator;
 import net.sf.RecordEditor.utils.fileStorage.IDataStoreView;
 import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.lang.ReOptionDialog;
 import net.sf.RecordEditor.utils.msg.UtMessages;
 import net.sf.RecordEditor.utils.params.ProgramOptions;
 import net.sf.RecordEditor.utils.screenManager.ReMsg;
@@ -116,7 +115,7 @@ import net.sf.RecordEditor.utils.swing.treeTable.TreeTableNotify;
  */
 @SuppressWarnings({ "serial", "rawtypes" })
 public class FileView	extends 			AbstractTableModel
-						implements 	Iterable<AbstractLine>, TableModelListener, ColumnMappingInterface,
+						implements 	Iterable<AbstractLine>, TableModelListener, IFileAccess,
 									TreeModelListener, AbstractChangeNotify, IGetView, ArrayNotifyInterface {
 
 	private static final String INTERNAL_ERROR_LINES_CLEARED_SAVE_IS_NOT_POSSIBLE
@@ -730,10 +729,9 @@ public class FileView	extends 			AbstractTableModel
 	/**
 	 * @see javax.swing.table#setValueAt
 	 */
+	@Override
 	public void setValueAt(Object val, int row, int col) {
-
 		setValueAt(currLayoutIdx, val, row, col);
-
 	}
 
 	/**
@@ -1627,7 +1625,7 @@ public class FileView	extends 			AbstractTableModel
 		 return newLine;
 	}
 
-
+ 
 	public void insert(
 			AbstractLine parent,
 			AbstractLine newLine,
@@ -1745,7 +1743,6 @@ public class FileView	extends 			AbstractTableModel
 	 */
 	public final void copyLines(int[] recNums) {
 
-		int i;
 		int num = recNums.length;
 		int limit = getLineHoldLimit();
 
@@ -1957,7 +1954,7 @@ public class FileView	extends 			AbstractTableModel
 	 * @param newLines new lines to be copied
 	 */
 	private  IDataStore<AbstractLine> doPaste(int pos,  IDataStore<AbstractLine> newLines) {
-	    int i;
+
 	    IDataStore<AbstractLine> ret= newLines;
 	    int cpySize = newLines.size();
 //		if (lines instanceof ArrayList) {
@@ -2195,13 +2192,17 @@ public class FileView	extends 			AbstractTableModel
 			//boolean normalSearch
 			int operator) throws RecordException {
 
+		int num = 0;
 	    pos.col = 0;
 	    pos.row = 0;
 
 	    while (replace(searchFor, replaceWith, pos,
 	            	ignoreCase, operator, false)) {
 //	        System.out.print(" > " + pos.row + " " + pos.col);
+	    	num += 1;
 	    }
+	    
+	    JOptionPane.showMessageDialog(frame, UtMessages.REPLACE_ALL.get(num, searchFor));
 	}
 
 	/**
@@ -2277,229 +2278,56 @@ public class FileView	extends 			AbstractTableModel
 		int operator,
 		boolean eofCheck) {
 
-		String icSearchFor = searchFor;
-		pos.found = false;
-		//int numRows = getRowCount();
-		BigDecimal testNumber = Compare.getNumericValue(operator, searchFor);
-		boolean anyWhereInTheField = (operator == Compare.OP_CONTAINS)
-								  || (operator == Compare.OP_DOESNT_CONTAIN);
-		boolean normalSearch = (operator == Compare.OP_CONTAINS);
-		//int  inc, initCol;
-
-		if (ignoreCase) {
-			icSearchFor = searchFor.toUpperCase();
-		}
-
-
-		PositionIncrement inc = PositionIncrement.newIncrement(pos, lines, eofCheck);
-	    if (anyWhereInTheField) {
-	        while (inc.isValidPosition()
-	                && ! contains(ignoreCase, inc.pos, icSearchFor, normalSearch)) {
-	            inc.nextPosition();
-	        }
-	    } else {
-	        while (inc.isValidPosition()
-	                && ! cmp(ignoreCase, inc.pos, icSearchFor, testNumber, operator)) {
-	            inc.nextPosition();
-	        }
-	    }
-	}
-
-
-
-	/**
-	 * Compare the test value with a field
-	 * @param ignoreCase wether to ignore the case of the string
-	 * @param pos file position
-	 * @param testValue value the field against
-	 * @param testNumber value as a bigDecimal
-	 * @param operator operator to use in the comparison
-	 * @return
-	 */
-	private boolean cmp(
-			boolean ignoreCase,
-			FilePosition pos,
-			String testValue,
-			BigDecimal testNumber,
-			int operator) {
-		int col = getRealColumn(pos.recordId, pos.currentFieldNumber);
-		String s = getFieldValue(pos, col);
-		boolean normalSearch = false;
-
-		//System.out.println("==> " + pos.currentFieldNumber + " " + pos.row + " >" + s + "< " + testValue + " ~~ " + operator);
-
-		if (pos.col > 0 && pos.col != FilePosition.END_OF_COLUMN) {
-			return false;
-		}
-
-		switch (operator){
-			case (Compare.OP_EQUALS): normalSearch = true;
-			case (Compare.OP_NOT_EQUALS):
-				if (ignoreCase) {
-					pos.found = s.equalsIgnoreCase(testValue) == normalSearch;
-				} else {
-					pos.found = s.equals(testValue) == normalSearch;
+		int size = lines.size();
+		if (eofCheck 
+		&& (size < 5000 || (lines instanceof DataStoreStd && lines.size() < 50000))) {
+			FileSearch fs = FileSearch	.newFileSearch(this, searchFor, pos, ignoreCase, operator, false);
+			fs.doSearch();
+			
+			if (! pos.found) {
+				FilePosition startPos = pos.clone();
+				startPos.gotoStart();
+				FileSearch	.newFileSearch(this, searchFor, startPos, ignoreCase, operator, false)
+							.doSearch();
+				if (startPos.found) {
+					fs.doEofSearch();
+				} else { 
+					ReOptionDialog.showMessageDialog(frame, "{0} was not found in the view", searchFor);
 				}
-			break;
-			case (Compare.OP_STARTS_WITH):
-				pos.found = s != null && s.startsWith(testValue);
-				break;
-			case (Compare.OP_NUMERIC_EQ):
-			case (Compare.OP_NUMERIC_GE):
-			case (Compare.OP_NUMERIC_GT):
-			case (Compare.OP_NUMERIC_LE):
-			case (Compare.OP_NUMERIC_LT):
-				pos.found = cmpToNum(s, testNumber,
-						Compare.OPERATOR_COMPARATOR_VALUES[operator - Compare.OP_NUMERIC_GT]);
-			break;
-			case (Compare.OP_TEXT_GE):
-			case (Compare.OP_TEXT_GT):
-			case (Compare.OP_TEXT_LE):
-			case (Compare.OP_TEXT_LT):
-				int[] vals = Compare.OPERATOR_COMPARATOR_VALUES[operator - Compare.OP_TEXT_GT];
-				int v;
-				if (ignoreCase) {
-					v = s.compareToIgnoreCase(testValue);
-				} else {
-					v = s.compareTo(testValue);
-				}
-				if (v > 0) {
-					v = 1;
-				} else if (v < 0) {
-					v = -1;
-				}
-				//System.out.println("Compare Details -> " + s + " < >" + testValue +  "<   -->" + v +" ~ " + vals[0] + " ~ " + vals[1]);
-				pos.found = v == vals[0] || v == vals[1];
-			break;
-		}
-
-		if (pos.found) {
-			pos.col = 0;
-		}
-		return pos.found;
-	}
-
-	private boolean cmpToNum(String s, BigDecimal testValue, int[] vals) {
-		int v = Compare.cNULL;
-		BigDecimal fldValue = null;
-
-		try {
-			fldValue = new BigDecimal(s);
-		} catch (Exception e) { }
-
-		if (fldValue == null && testValue == null) {
-			v = 0;
-		} else if (fldValue == null) {
-			return false;
-		} else if (testValue == null) {
-			v = -1;
-		} else {
-			v = fldValue.compareTo(testValue);
-		}
-
-//		System.out.println("Compare Details -> " + testValue + " < >" + fldValue + "< >" + s + "<   -->" + v
-//				+" ~ " + vals[0] + " ~ " + vals[1]);
-
-		return v == vals[0] || v == vals[1];
-	}
-
-
-
-	/**
-	 *
-	 * @param ignoreCase  wether to ignore Character case in the compare
-	 * @param pos position in the file
-	 * @param testValue Value to test the field against
-	 * @param normalSearch wether to use equals or not equals
-	 *
-	 * @return wether the field contains testValue
-	 */
-	private boolean contains(
-		boolean ignoreCase,
-		FilePosition pos,
-//		boolean forward,
-		String testValue,
-		boolean normalSearch) {
-
-	    //System.out.println("~~ " + pos.currentFieldNumber + " ");
-	    int col = getRealColumn(pos.recordId, pos.currentFieldNumber);
-		String s = getFieldValue(pos, col);
-
-		int fromIndex = Integer.MAX_VALUE;
-
-		//System.out.println("==> " + pos.currentFieldNumber + " " + pos.row + " >" + s + "< " + testValue);
-		if (pos.isForward()) {
-		    fromIndex = 0;
-		}
-
-		if (pos.col > 0 && pos.col != FilePosition.END_OF_COLUMN) {
-	        fromIndex = pos.col;
-		}
-
-		if (pos.isForward()) {
-		    if (ignoreCase) {
-		        pos.col = s.toUpperCase().indexOf(testValue.toUpperCase(), fromIndex);
-		    } else {
-		        pos.col = s.indexOf(testValue, fromIndex);
-		    }
-		} else {
-		    if (ignoreCase) {
-		        pos.col = s.toUpperCase().lastIndexOf(testValue.toUpperCase(), fromIndex);
-		    } else {
-		        pos.col = s.lastIndexOf(testValue, fromIndex);
-		    }
-		}
-		pos.found = (pos.col >= 0) == normalSearch;
-
-//		if (pos.found) {
-//			System.out.println("Contains " + pos.found + " row: " + pos.row
-//		        + " " + pos.recordId + " " + pos.currentFieldNumber
-//		        + " >" + s + "< " + testValue);
-//		}
-		return pos.found;
-	}
-
-	private String getFieldValue(FilePosition pos, int col) {
-		AbstractLine l = pos.currentLine;
-		String s= "";
-		if (l == null && pos.row >= 0 && pos.row < lines.size()) {
-			 l = lines.getTempLineRE(pos.row);
-		}
-
-		pos.layoutIdxUsed = Common.NULL_INTEGER;
-		if (l != null) {
-			try {
-				if (pos.getFieldId() == Common.FULL_LINE) {
-					s = toStr(l.getFullLine());
-				} else if (pos.currentLine != null && pos.getFieldId() == Common.ALL_FIELDS) {
-					pos.layoutIdxUsed = l.getPreferredLayoutIdx();
-					s = toStr(l.getField(l.getPreferredLayoutIdx(), col));
-					//System.out.println("All Fields, layout: " + l.getPreferredLayoutIdx() + " Col: " + col + " > " + s);
-				} else{
-					pos.layoutIdxUsed = pos.recordId;
-					s = toStr(l.getField(pos.recordId, col));
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
+		} else {
+			FileSearch	.newFileSearch(this, searchFor, pos, ignoreCase, operator, eofCheck)
+						.doSearch();
 		}
-
-
-		return s;
+//		String icSearchFor = searchFor;
+//		boolean anyWhereInTheField = (operator == Compare.OP_CONTAINS)
+//								  || (operator == Compare.OP_DOESNT_CONTAIN);
+//
+//		if (ignoreCase) {
+//			icSearchFor = searchFor.toUpperCase();
+//		}
+//		pos.found = false;
+//
+//		PositionIncrement inc = PositionIncrement.newIncrement(pos, lines, eofCheck);
+//	    if (anyWhereInTheField) {
+//	        while (inc.isValidPosition()
+//	                && ! contains(ignoreCase, inc.pos, icSearchFor, (operator == Compare.OP_CONTAINS))) {
+//	            inc.nextPosition();
+//	        }
+//	    } else {
+//			BigDecimal testNumber = Compare.getNumericValue(operator, searchFor);
+//	        while (inc.isValidPosition()
+//	                && ! cmp(ignoreCase, inc.pos, icSearchFor, testNumber, operator)) {
+//	            inc.nextPosition();
+//	        }
+//	    }
 	}
 
-	private String toStr(Object o) {
-	    String s = "";
-	    if (o != null) {
-	        s = o.toString();
-	    }
-	    return s;
-	}
 
 
 	/**
 	 * Return a requested line
-	 *
+	 * 
 	 * @param lineNum Line Number
 	 *
 	 * @return requested line
@@ -2516,7 +2344,7 @@ public class FileView	extends 			AbstractTableModel
 		tblFireRowUpdated(lineNum, lines.get(lineNum));
 	}
 
-
+	@Override
 	public final AbstractLine getTempLine(final int lineNum) {
 		return lines.getTempLineRE(lineNum);
 	}
@@ -2685,7 +2513,7 @@ public class FileView	extends 			AbstractTableModel
 	    boolean sameName = outFile.equals(fileName);
 	    PropertyChangeListener chg = null;
 
-	    if (! sameName && "\\".equals(Common.FILE_SEPERATOR)) {
+	    if ((! sameName) && "\\".equals(Common.FILE_SEPERATOR)) {
 	        sameName = outFile.equalsIgnoreCase(fileName);
 	    }
 
@@ -3359,6 +3187,7 @@ public class FileView	extends 			AbstractTableModel
 	/**
 	 * @return the lines
 	 */
+    @Override
 	public final List<AbstractLine> getLines() {
 		return lines;
 	}

@@ -91,6 +91,8 @@ public interface AbstractLineNode extends MutableTreeNode {
 	public void removeAllChildren();
 
 
+	public boolean isDataNode();
+	
 	/**
 	 * Create a new node at the specified location and return to the calling program
 	 *

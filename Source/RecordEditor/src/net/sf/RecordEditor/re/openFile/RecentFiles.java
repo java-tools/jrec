@@ -273,19 +273,40 @@ public class RecentFiles implements IFileLists {
             int i;
             FileWriter wr = new FileWriter(recentFileName);
             BufferedWriter w = new BufferedWriter(wr);
-
-            for (i = fileNum; i < FILE_HISTORY; i++) {
-                if (fileNames[i] != null) {
-                    w.write(fileNames[i] + SEPERATOR + getLayout(i) + SEPERATOR + getDirectory(i));
-                    w.newLine();
-                }
-		    }
-		    for (i = 0; i <= fileNum; i++) {
-                if (fileNames[i] != null) {
-                    w.write(fileNames[i] + SEPERATOR + getLayout(i) + SEPERATOR + getDirectory(i));
-                    w.newLine();
-                }
-		    }
+            String[] lines= new String[fileNames.length];
+            HashSet<String> used = new HashSet<String>(fileNames.length * 3 / 2);
+            int size = 0;
+            String s;
+            
+            for (i = fileNum - 1; i >= 0; i--) {
+            	if (fileNames[i] != null && ! used.contains((s = format(i)))) {
+            		lines[size++] = s;
+            		used.add(s);
+            	}
+            }
+            for (i = fileNames.length - 1; i >= fileNum; i--) {
+               	if (fileNames[i] != null && ! used.contains((s = format(i)))) {
+               		lines[size++] = s;
+            		used.add(s);
+            	}           	
+            }
+            
+            for (i = size - 1; i >= 0; i--) {
+            	w.write(lines[i]);
+            	w.newLine();
+            }
+//            for (i = fileNum; i < FILE_HISTORY; i++) {
+//                if (fileNames[i] != null) {
+//                    w.write(fileNames[i] + SEPERATOR + getLayout(i) + SEPERATOR + getDirectory(i));
+//                    w.newLine();
+//                }
+//		    }
+//		    for (i = 0; i <= fileNum; i++) {
+//                if (fileNames[i] != null) {
+//                    w.write(fileNames[i] + SEPERATOR + getLayout(i) + SEPERATOR + getDirectory(i));
+//                    w.newLine();
+//                }
+//		    }
 
 		    saveDirectories(w);
 		    saveExtensions(w, RF_VELOCITY);
@@ -299,6 +320,10 @@ public class RecentFiles implements IFileLists {
         }
 
         notifyChgListners();
+	}
+	
+	private String format(int idx) {
+		return fileNames[idx] + SEPERATOR + getLayout(idx) + SEPERATOR + getDirectory(idx);
 	}
 
 	private String getLayout(int i) {

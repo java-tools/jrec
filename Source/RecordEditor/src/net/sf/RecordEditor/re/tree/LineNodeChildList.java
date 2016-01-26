@@ -151,6 +151,14 @@ implements AbstractLineNode {
 		return -1;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.re.file.AbstractLineNode#isDataNode()
+	 */
+	@Override
+	public boolean isDataNode() {
+		return true;
+	}
+
 	/**
 	 * @see net.sf.RecordEditor.re.file.AbstractLineNode#getSortValue()
 	 */

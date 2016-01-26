@@ -23,7 +23,7 @@ import net.sf.RecordEditor.utils.common.Common;
  * @author Bruce Martin
  *
  */
-public final class FilePosition {
+public final class FilePosition implements Cloneable {
     public static final int END_OF_COLUMN = Integer.MAX_VALUE;
     public static final int ALL_FIELDS_IDX = -1;
     public int lineCount;
@@ -35,7 +35,6 @@ public final class FilePosition {
     public int currentFieldNumber;
     public int layoutIdxUsed = Common.NULL_INTEGER;
 
-    @SuppressWarnings("rawtypes")
 	public AbstractLine currentLine = null;
 
     private boolean forward;
@@ -82,7 +81,20 @@ public final class FilePosition {
 
     }
 
-    /**
+    /* (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	protected FilePosition clone()  {
+		
+		try {
+			return (FilePosition) super.clone();
+		} catch (CloneNotSupportedException e) {
+			return new FilePosition(this.row, this.col, this.recordId, this.fieldId, this.forward, lineCount);
+		}
+	}
+
+	/**
      * Adjust the position by a supplied length
      *
      * @param length length of search text

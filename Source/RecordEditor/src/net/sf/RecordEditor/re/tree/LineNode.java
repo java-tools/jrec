@@ -71,6 +71,16 @@ public final class LineNode extends DefaultMutableTreeNode implements AbstractLi
 //	}
 
 
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.re.file.AbstractLineNode#isDataNode()
+	 */
+	@Override
+	public boolean isDataNode() {
+		return lineNumber >= 0;
+	}
+
+
+
 	/**
 	 * Set Linenumber + leaf numbers
 	 * @param lineNumber new linenumber

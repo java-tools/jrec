@@ -2,6 +2,13 @@ package net.sf.JRecord.Numeric;
 
 import net.sf.JRecord.Types.Type;
 
+
+/**
+ * This class converts an existing @see {@link Convert} into an equivalent {@link Convert} 
+ * but with  comma's used instead of decimal points. 
+ * @author Bruce Martin
+ *
+ */
 public class CommaDecimal implements Convert {
 
 	private final Convert baseConversion;
@@ -9,6 +16,13 @@ public class CommaDecimal implements Convert {
 
 
 
+	/**
+	 * This class converts an existing @see {@link Convert} into an equivalent {@link Convert} 
+	 * but with  comma's used instead of decimal points
+	 * 
+	 * @param identifier conversion identifier
+	 * @param baseConversion conversion on which this conversion is based.
+	 */
 	public CommaDecimal(int identifier, Convert baseConversion) {
 		super();
 		this.id = identifier;
@@ -16,7 +30,7 @@ public class CommaDecimal implements Convert {
 	}
 
 	/**
-	 * @return
+	 * @return the "Convert" this class is based on
 	 * @see net.sf.JRecord.Numeric.Convert#getNumericDefinition()
 	 */
 	@Override
@@ -60,7 +74,6 @@ public class CommaDecimal implements Convert {
 	}
 
 	/**
-	 * @return
 	 * @see net.sf.JRecord.Numeric.Convert#getIdentifier()
 	 */
 	@Override
@@ -69,7 +82,7 @@ public class CommaDecimal implements Convert {
 	}
 
 	/**
-	 * @return
+	 * @return binary indentifier
 	 * @see net.sf.JRecord.Numeric.Convert#getBinaryIdentifier()
 	 */ @Override
 	public int getBinaryIdentifier() {
@@ -79,7 +92,7 @@ public class CommaDecimal implements Convert {
 	/**
 	 * @param multipleRecordLengths
 	 * @param binary
-	 * @return
+	 * @return calculate the file structure (file organisation)
 	 * @see net.sf.JRecord.Numeric.Convert#getFileStructure(boolean, boolean)
 	 */ @Override
 	public int getFileStructure(boolean multipleRecordLengths, boolean binary) {
@@ -87,7 +100,7 @@ public class CommaDecimal implements Convert {
 	}
 
 	/**
-	 * @return
+	 * @return get the conversion name
 	 * @see net.sf.JRecord.Numeric.Convert#getName()
 	 */ @Override
 	public String getName() {

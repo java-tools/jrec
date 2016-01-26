@@ -14,7 +14,7 @@ public class RecordDefinition {
 					  include    = Boolean.TRUE;
 	public String name = "";
 	public     int numRecords = 0;
-	public byte[][] records = new byte[60][];
+	public byte[][] records = new byte[600][];
 	public ArrayList<ColumnDetails> columnDtls = new ArrayList<ColumnDetails>();
 
 	public final void addKeyField(Details detail, boolean addRest) {

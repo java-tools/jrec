@@ -39,7 +39,7 @@ public class TypeBit extends TypeChar {
 
 
     /**
-     * @see net.sf.JRecord.Types.Type#getField(byte[], int, net.sf.JRecord.Common.FieldDetail)
+     * @see net.sf.JRecord.Types.Type#getField(byte[], int, IFieldDetail)
      */
     public Object getField(byte[] record,
             final int position,
@@ -53,13 +53,12 @@ public class TypeBit extends TypeChar {
 
 
     /**
-     * @see net.sf.JRecord.Types.Type#setField(byte[], int, net.sf.JRecord.Common.FieldDetail, java.lang.Object)
+     * @see net.sf.JRecord.Types.Type#setField(byte[], int, IFieldDetail, Object)
      */
     public byte[] setField(byte[] record,
               final int position,
 			  final IFieldDetail field,
-			  Object value)
-            throws RecordException {
+			  Object value) {
 
 		int pos = position - 1;
 		int len = field.getLen();
@@ -77,10 +76,9 @@ public class TypeBit extends TypeChar {
 
 
     /**
-     * @see net.sf.JRecord.Types.Type#formatValueForRecord(net.sf.JRecord.Common.FieldDetail, java.lang.String)
+     * @see net.sf.JRecord.Types.Type#formatValueForRecord(IFieldDetail, String)
      */
-    public String formatValueForRecord(IFieldDetail field, String val)
-    throws RecordException {
+    public String formatValueForRecord(IFieldDetail field, String val) {
         try {
         	new BigInteger(val, 2);
         } catch (final Exception ex) {

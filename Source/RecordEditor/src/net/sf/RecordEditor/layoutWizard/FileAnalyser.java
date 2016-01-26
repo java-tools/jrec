@@ -6,8 +6,11 @@ import java.math.BigInteger;
 
 import net.sf.JRecord.ByteIO.AbstractByteReader;
 import net.sf.JRecord.ByteIO.ByteIOProvider;
+import net.sf.JRecord.Common.BasicFileSchema;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.External.ExternalRecord;
+import net.sf.RecordEditor.re.util.csv.CharsetDetails;
+import net.sf.RecordEditor.re.util.csv.CheckEncoding;
 import net.sf.RecordEditor.utils.common.Common;
 
 
@@ -42,6 +45,7 @@ public class FileAnalyser {
     private int recordLength=100;
     private int fileStructure=Constants.NULL_INTEGER;
     private String fontName="";
+    private CharsetDetails charsetDetails;
 
     private byte[] fData;
 
@@ -61,7 +65,14 @@ public class FileAnalyser {
 
 
 
-
+    /**
+     * Analyze file and try and determine its structure
+     * 
+     * @param fileData sample file-data
+     * @param lengthStr length (in string format)
+     * @param searchFileStructures wether to search the file structures
+     * @param searchFixedWidthLength search for fixed length file
+     */
     private FileAnalyser(byte[] fileData, String lengthStr, boolean searchFileStructures, boolean searchFixedWidthLength) {
 		super();
 
@@ -76,6 +87,15 @@ public class FileAnalyser {
     		textPerc = 100 * Math.max(ebcdicCount, asciiCount) / fileData.length;
     	}
     	textPct = textPerc;
+    	charsetDetails = CheckEncoding.determineCharSet(fileData, true);
+
+    	ebcdicFile = (ebcdicCount - asciiCount) * 20 / fileData.length > 3
+    			|| (ebcdicCount > asciiCount && ebcdicRun > 2 && ebcdicRun > asciiRun);
+    	if (ebcdicFile) {
+    		fontName = "cp037";
+    	} else {
+    		fontName = charsetDetails.charset;
+    	}
 
     	if (searchFileStructures) {
 	    	for (int i = 0; i < fileChecks.length; i++) {
@@ -88,16 +108,9 @@ public class FileAnalyser {
 			}
     	}
 
-    	ebcdicFile = (ebcdicCount - asciiCount) * 20 / fileData.length > 3
-    			|| (ebcdicCount > asciiCount && ebcdicRun > 2 && ebcdicRun > asciiRun);
 
-    	if (ebcdicFile) {
-    		fontName = "cp037";
-    	} else {
-    		fontName = "";
-    	}
-    	System.out.println("Ebcidic Counts " + ebcdicCount + " " + asciiCount
-    			+ " -- " + ebcdicRun + " " + asciiRun);
+//    	System.out.println("Ebcidic Counts " + ebcdicCount + " " + asciiCount
+//    			+ " -- " + ebcdicRun + " " + asciiRun);
     	fileStructure = Constants.IO_FIXED_LENGTH;
 
     	if (searchFixedWidthLength) {
@@ -193,7 +206,8 @@ public class FileAnalyser {
 
 		   byte[] l;
 		   int i = 0;
-		   AbstractByteReader r = ByteIOProvider.getInstance().getByteReader(fileStructure);
+		   AbstractByteReader r = ByteIOProvider.getInstance()
+		   			.getByteReader(BasicFileSchema.newFixedSchema(fileStructure, true, recordLength, fontName));
 
 		   r.setLineLength(recordLength);
 		   r.open(is);
@@ -320,6 +334,13 @@ public class FileAnalyser {
 		return linesRead;
 	}
 
+	/**
+	 * @return the charsetDetails
+	 */
+	public final CharsetDetails getCharsetDetails() {
+		return charsetDetails;
+	}
+
 	private static boolean[] getTextChars(String font) {
 		boolean[] isText = init(new boolean[256], false);
 		try {
@@ -371,7 +392,8 @@ public class FileAnalyser {
        		try {
        			int len = 0;
        			byte[] bytes;
-       			AbstractByteReader reader = ByteIOProvider.getInstance().getByteReader(structure);
+       			@SuppressWarnings("deprecation")
+				AbstractByteReader reader = ByteIOProvider.getInstance().getByteReader(structure);
        			reader.open(new ByteArrayInputStream(data));
 
        			for (int i = 0;

@@ -7,8 +7,6 @@ import java.util.List;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import net.sf.RecordEditor.utils.params.Parameters;
-
 /**
  * This class creates a File Selection field and uses the parameter
  * file to store / retrieve the last used files

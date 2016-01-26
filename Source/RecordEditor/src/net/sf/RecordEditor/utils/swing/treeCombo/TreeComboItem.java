@@ -1,5 +1,7 @@
 package net.sf.RecordEditor.utils.swing.treeCombo;
 
+import java.util.List;
+
 import net.sf.RecordEditor.utils.swing.Combo.ComboStdOption;
 
 public class TreeComboItem extends ComboStdOption<Integer> {
@@ -97,5 +99,22 @@ public class TreeComboItem extends ComboStdOption<Integer> {
 
 	public String getEditString() {
 		return this.toString();
+	}
+	
+	public static TreeComboItem[] toTreeItemArray(List<String> items) {
+		return toTreeItemArray(items.toArray(new String[items.size()]));
+	}
+	
+	public static TreeComboItem[] toTreeItemArray(String[] items) {
+		TreeComboItem[] ret = new TreeComboItem[items.length];
+		
+		for (int i = 0; i < items.length; i++) {
+			if (items[i] == null || items[i].length() == 0) {
+				ret[i] = BLANK_ITEM;
+			} else {
+				ret[i] = new TreeComboItem(i, items[i], items[i]);
+			}
+		}
+		return ret;
 	}
 }

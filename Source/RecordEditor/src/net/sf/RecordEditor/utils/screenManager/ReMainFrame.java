@@ -363,6 +363,9 @@ public class ReMainFrame extends JFrame
 //	    System.out.println();
 	}
 
+//	protected final void resizeFrame() {
+//		Common.setBounds1(this, applId);
+//	}
 
 
 	/**

@@ -56,7 +56,7 @@ public class DbCsvCopybookLoader extends BaseCopybookLoader {
 	public ExternalRecord loadCopyBook(String copyBookFile,
 			int splitCopybookOption, int dbIdx, String font, int binFormat,
 			int systemId, AbsSSLogger log) throws IOException, SAXException,
-			ParserConfigurationException, RecordException {
+			ParserConfigurationException {
 		int rt = Constants.rtGroupOfRecords;
 
 		ExternalRecord rec = ExternalRecord.getNullRecord(

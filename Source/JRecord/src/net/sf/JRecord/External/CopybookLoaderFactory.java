@@ -254,9 +254,9 @@ public class CopybookLoaderFactory implements AbstractManager {
 				File f = new File(fname);
 
 				if (f.exists() && f.isFile()) {
+					BufferedReader r = null;
 					try {
-						FileReader fr = new FileReader(f);
-						BufferedReader r = new BufferedReader(fr);
+						r = new BufferedReader(new FileReader(f));
 
 						String l = r.readLine();
 
@@ -285,6 +285,14 @@ public class CopybookLoaderFactory implements AbstractManager {
 
 					} catch (IOException e) {
 						e.printStackTrace();
+					} finally {
+						if (r != null) {
+							try {
+								r.close();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
 					}
 
 				}

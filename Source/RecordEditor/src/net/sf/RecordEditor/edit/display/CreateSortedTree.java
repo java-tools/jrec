@@ -45,8 +45,8 @@ public class CreateSortedTree extends BaseFieldSelection {
         if (newView != null) {
         	TreeParserField parser = new TreeParserField(recordIndex, fieldList, summaryMdl.getFieldSummary());
 
-            newView.sort(new LineCompare(layout, recordIndex,
-                    fieldList, descending));
+            newView.sort(
+            		new LineCompare(layout, recordIndex, fieldList, descending));
 
             return DisplayBuilderFactory.newLineTree(getSourceDisplay().getParentFrame(), newView, parser, false, 0);
         }

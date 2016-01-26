@@ -109,12 +109,16 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 		model = new LineTreeTabelModel(view, root, cols2skip, view.getLayout().isMapPresent());
 		treeTable = new JTreeTable(model);
 		treeTablePane = new JScrollPane(treeTable);
+		
+//		System.out.println("== Cols2Skip: " + cols2skip);
+		treeTable.setTableCellAdapter(new TblCellAdapter(this, 2 - cols2skip, 2));
 		tableModel = treeTable.getTableModel();
 		treeTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		setJTable(treeTable);
 		treeTable.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 		treeTable.getTree().setRootVisible(false);
 		treeTable.getTree().setShowsRootHandles(true);
+
 		keyListner =    new RowChangeListner(treeTable, this);
 		tableModel.addTableModelListener(new TableModelListener() {
 			@Override
@@ -325,6 +329,19 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 		}
 	}
 
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#getRecordIdxForRow(int)
+	 */
+	@Override
+	protected int getRecordIdxForRow(int row) {
+		LNode node = getNodeForRow(row);
+		int idx = -1;
+		if (node != null && node.getLine() != null) {
+			idx = node.getLine().getPreferredLayoutIdxAlt();
+		}
+		return idx;
+	}
 
 	/**
 	 * Get the node at a specified TreeTable Row

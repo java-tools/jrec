@@ -113,12 +113,19 @@ public class ExtendedRecordDB extends RecordDB {
 					//System.out.print(" " + r.getRecordName());
 
 					//childRecord.addTstField(child.getField(), child.getFieldValue());
+					String field = child.getField();
+					String fieldValue = child.getFieldValue();
 					recSel = readSel.getRecordSelection(
 									connect, rec.getRecordId(), child.getChildKey(), null,
-									child.getField(), child.getFieldValue());
+									field, fieldValue);
 					if (recSel != null) {
 						childRecord.setRecordSelection(recSel);
+					} 
+					
+					if ((field == null || field.length() == 0) && ("*".equals(fieldValue))) {
+						childRecord.setDefaultRecord(true);
 					}
+					
 					childRecord.setParentRecord(child.getParentRecord());
 
 					fetch_Fields(childRecord);

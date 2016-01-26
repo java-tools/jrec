@@ -19,12 +19,21 @@ public class ProgramOptions {
 
     public static final char SIZE_MAXIMISED = 'M';
     public static final char SIZE_LAST      = 'L';
+    public static final char SIZE_LAST_FORCED = 'F';
     public static final char SIZE_SPACE_AROUND = 'S';
+    public static final char SIZE_NO_RESIZE = 'N';
     public static final char SIZE_SPECIFIED = 'D';
+    public static final char SIZE_SPECIFIED_FORCED = 'E';
+    public static final char SIZE_SCREEN_1 = '1';
+    public static final char SIZE_SCREEN_2 = '2';
+    public static final char SIZE_SCREEN_3 = '3';
+//    public static final char SIZE_SCREEN_1_MAX = 'Z';
 
     private static final char[] compressOptions = {COMPRESS_SPACE, COMPRESS_READ, COMPRESS_READ_FAST_CPU, COMPRESS_NO, COMPRESS_YES};
     private static final char[] largeOptions = {LARGE_VB_NO, LARGE_VB_YES, LARGE_VB_TEST};
-    private static final char[] startSize = {SIZE_MAXIMISED, SIZE_LAST, SIZE_SPACE_AROUND, SIZE_SPECIFIED};
+    private static final char[] startSize = {SIZE_MAXIMISED, SIZE_LAST, SIZE_LAST_FORCED, SIZE_SPACE_AROUND, 
+    	SIZE_SPECIFIED, SIZE_SPECIFIED_FORCED, SIZE_NO_RESIZE,
+    	SIZE_SCREEN_1, SIZE_SCREEN_2, SIZE_SCREEN_3};
 
 	public final BoolOpt searchAllFields = new BoolOpt(Parameters.SEARCH_ALL_FIELDS);
 	public final MultiValOpt screenStartSizeOpt  = new MultiValOpt(Parameters.SCREEN_SIZE_OPTION, startSize, SIZE_MAXIMISED);

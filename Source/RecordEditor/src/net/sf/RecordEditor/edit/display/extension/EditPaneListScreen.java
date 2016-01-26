@@ -8,12 +8,13 @@ import javax.swing.AbstractAction;
 import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 import net.sf.RecordEditor.edit.display.AbstractCreateChildScreen;
 import net.sf.RecordEditor.edit.display.BaseDisplay;
 import net.sf.RecordEditor.edit.display.DisplayFrame;
+import net.sf.RecordEditor.edit.display.LinesTbl;
+import net.sf.RecordEditor.edit.display.TblCellAdapter;
 import net.sf.RecordEditor.edit.display.Action.AutofitAction;
 import net.sf.RecordEditor.edit.display.Action.GotoLineAction;
 import net.sf.RecordEditor.edit.display.common.AbstractRowChangedListner;
@@ -29,7 +30,6 @@ import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.ReAction;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.ButtonTableRendor;
 import net.sf.RecordEditor.utils.swing.FixedColumnScrollPane;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
@@ -46,7 +46,6 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 	protected int currChildScreenPosition;
 	private HeaderRender headerRender   = new HeaderRender();
 	private FixedColumnScrollPane tblScrollPane = null;
-	private ButtonTableRendor tableBtn  = new ButtonTableRendor();
 	private RowChangeListner keyListner, keyListnerFixed;
 	protected FieldMapping fieldMapping = null;
 
@@ -128,10 +127,11 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 	                }
 	        };
 
-	        JTable tableDetails = new JTable(viewOfFile);
+	        TblCellAdapter tableCellAdapter = new TblCellAdapter(this, 2, 2);
+			JTable tableDetails = new LinesTbl(viewOfFile, tableCellAdapter);
 
 	        this.setJTable(tableDetails);
-	        tblScrollPane = new FixedColumnScrollPane(tableDetails);
+	        tblScrollPane = new FixedColumnScrollPane(tableDetails, new LinesTbl(viewOfFile, tableCellAdapter));
 
 	        keyListner    = new RowChangeListner(tableDetails, this);
 	        keyListnerFixed = new RowChangeListner(tblScrollPane.getFixedTable(), this);
@@ -287,52 +287,26 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 	 * This method defines the Column Headings
 	 */
 	private void defColumns() {
-		defColumns(getJTable(), fileView, tblScrollPane);
-	}
-
-	private JTable defColumns(JTable tbl, FileView view, FixedColumnScrollPane scrollPane) {
+		JTable tbl = getJTable();
 	    TableColumnModel tcm = tbl.getColumnModel();
 
-	    defineColumns(tbl, view.getColumnCount(), 2, 0);
+	    defineColumns(tbl, fileView.getColumnCount(), 2, 0);
+	    defineCellRenders(tcm, 2, 0);
 
-	    for (int i = 2; i < tcm.getColumnCount(); i++) {
-	        tcm.getColumn(i).setHeaderRenderer(headerRender);
-	    }
+//	    for (int i = 2; i < tcm.getColumnCount(); i++) {
+//	        tcm.getColumn(i).setHeaderRenderer(headerRender);
+//	    }
 
 
 	    setKeylistner(tbl);
 
-	    if (scrollPane != null) {
-		   int rowCount = view.getRowCount();
-		   int width = 5;
-		   //System.out.println("Setup fixed columns ... ");
-	       scrollPane.setFixedColumns(NUMBER_OF_CONTROL_COLUMNS);
-	       TableColumn tc = scrollPane.getFixedTable().getColumnModel().getColumn(0);
-	       tc.setCellRenderer(tableBtn);
-	       tc.setPreferredWidth(5);
-	       if ( scrollPane.getFixedTable().getColumnModel().getColumnCount() <= 1) {
-	    	   Common.logMsg("Error No Fields defined in the layout !!!", null);
-	       } else {
-	           tc = scrollPane.getFixedTable().getColumnModel().getColumn(1);
-	           if (rowCount > 10000000) {
-	        	   width = 8;
-	           } else if (rowCount > 1000000) {
-	        	   width = 7;
-	           } else if (rowCount > 100000) {
-	        	   width = 6;
-	           }
-	           tc.setPreferredWidth(SwingUtils.STANDARD_FONT_WIDTH * width);
-	           tc.setResizable(false);
-
-	           scrollPane.correctFixedSize();
-	       }
-	       setKeylistner(scrollPane.getFixedTable());
+	    if (tblScrollPane != null) {
+	       tblScrollPane.setupLineFields(fileView.getRowCount(), NUMBER_OF_CONTROL_COLUMNS, headerRender);
+	       setKeylistner(tblScrollPane.getFixedTable());
 	    }
 
 	  	this.setRowHeight(DEFAULT_ROW_HEIGHT);
 	    setCellEditorRendor(tbl);
-
-	    return tbl;
 	}
 
 	private void setCellEditorRendor(JTable tbl) {

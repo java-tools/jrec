@@ -183,7 +183,7 @@ public class XmlCopybookLoader extends BaseCopybookLoader {
     		parentLayout = null;
 
 
-            lCopyBookPref = pCopyBook.toUpperCase() + "-";
+            lCopyBookPref = pCopyBook + "-";
             this.splitCopybook = pSplitCopybook;
 
             this.redefinedField = "";

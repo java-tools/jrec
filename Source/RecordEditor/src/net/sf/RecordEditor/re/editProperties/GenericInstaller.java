@@ -58,7 +58,7 @@ public class GenericInstaller implements ActionListener {
 
     public  static final int TIP_HEIGHT = SwingUtils.STANDARD_FONT_HEIGHT * 17;
     private static final int HSQL_IDX   = 2;
-    private static final int SQLITE_IDX = 11;
+//    private static final int SQLITE_IDX = 11;
 
     private Properties properties = Parameters.readProperties();
 
@@ -467,8 +467,8 @@ public class GenericInstaller implements ActionListener {
         if (database.getSelectedIndex() == HSQL_IDX || database.getSelectedIndex() == HSQL_IDX + 1) {
             ap_311_SetProperty(Parameters.DB_COMMIT + id, "Y");
             ap_311_SetProperty(Parameters.DB_CHECKPOINT + id, "Y");
-        } else if (database.getSelectedIndex() == SQLITE_IDX) {
-            ap_311_SetProperty(Parameters.DB_COMMIT + id, "Y");
+//        } else if (database.getSelectedIndex() == SQLITE_IDX) {
+//            ap_311_SetProperty(Parameters.DB_COMMIT + id, "Y");
         }
 
         try {

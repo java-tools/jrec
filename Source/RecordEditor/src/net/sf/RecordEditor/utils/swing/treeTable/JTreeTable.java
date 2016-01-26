@@ -56,6 +56,7 @@ import javax.swing.tree.TreePath;
 
 import net.sf.RecordEditor.utils.swing.array.ArrayInterface;
 import net.sf.RecordEditor.utils.swing.array.ArrayRender;
+import net.sf.RecordEditor.utils.swing.interfaces.ITableCellAdapter;
 
 /**
  * This example shows how to create a simple JTreeTable component, by using a
@@ -73,6 +74,8 @@ public class JTreeTable extends JTable {
     protected TreeTableCellRenderer tree;
     
     private TreeTableModelAdapter modelAdapter;
+    
+    private ITableCellAdapter tableCellAdapter = null;
 
     public JTreeTable(TreeTableModel treeTableModel) {
         super();
@@ -149,7 +152,40 @@ public class JTreeTable extends JTable {
     }
 
     
-    /**
+    /* (non-Javadoc)
+	 * @see javax.swing.JTable#getCellRenderer(int, int)
+	 */
+	@Override
+	public TableCellRenderer getCellRenderer(int row, int column) {
+		TableCellRenderer r;
+		if (tableCellAdapter == null || (r = tableCellAdapter.getCellRenderer(row, column)) == null) {
+			r = super.getCellRenderer(row, column);
+		}
+		return r;
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.JTable#getCellEditor(int, int)
+	 */
+	@Override
+	public TableCellEditor getCellEditor(int row, int column) {
+		TableCellEditor e;
+		if (tableCellAdapter == null || (e = tableCellAdapter.getCellEditor(row, column)) == null) {
+			e = super.getCellEditor(row, column);
+		}
+		return e;
+	}
+
+
+	/**
+	 * @param tableCellAdapter the tableCellAdapter to set
+	 */
+	public final void setTableCellAdapter(ITableCellAdapter tableCellAdapter) {
+		this.tableCellAdapter = tableCellAdapter;
+	}
+
+
+	/**
      * A TreeCellRenderer that displays a JTree.
      */
     public class TreeTableCellRenderer extends JTree implements

@@ -84,7 +84,7 @@ public class LineFrameTree extends  BaseLineFrame implements ILineDisplay {
 					} else if (event.getSource() == btnPanel.buttons[IDX_CHILD]) {
 						AbstractTreeDetails children =  record.getCurrentLine().getTreeDetails();
 						if (children != null && children.getChildCount() > 0) {
-							List<AbstractLine> list = children.getLines(0);
+							List<? extends AbstractLine> list = children.getLines(0);
 							if (list.size() > 0) {
 								setLine(list.get(0));
 							}

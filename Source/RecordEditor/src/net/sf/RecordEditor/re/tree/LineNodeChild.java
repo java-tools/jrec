@@ -202,6 +202,14 @@ implements AbstractLineNode {
 
 
 	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.re.file.AbstractLineNode#isDataNode()
+	 */
+	@Override
+	public boolean isDataNode() {
+		return true;
+	}
+
+	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.edit.tree.AbstractLineNode#getDefaultLineNumber()
 	 */
 	@Override

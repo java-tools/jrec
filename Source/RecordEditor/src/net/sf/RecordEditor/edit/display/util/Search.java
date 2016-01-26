@@ -408,7 +408,7 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 		pos.adjustPosition(searchFor.length(), func);
 		ap_935_runFind(searchFor, func);
 		
-		if (pos.row >= 0) {
+		if (pos.found && pos.row >= 0) {
 	    	source.setCurrRow(pos);
 	    	if (pos.currentLine == null) {
 	 	        msgTxt.setText(LINE_MSG

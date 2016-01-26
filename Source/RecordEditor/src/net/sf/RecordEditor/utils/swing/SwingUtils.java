@@ -35,7 +35,7 @@ import net.sf.RecordEditor.utils.params.IHasKey;
 
 public class SwingUtils {
 
-
+	private static final Color ALTERNATE_ROW_COLOR ;
 	public static final int STANDARD_FONT_HEIGHT, STANDARD_FONT_WIDTH;
 	public static final int TABLE_ROW_HEIGHT = getDefault((new JTable()).getRowHeight(), 16);
 	private static final int HALF_TABLE_ROW_HEIGHT = TABLE_ROW_HEIGHT / 2;
@@ -58,6 +58,9 @@ public class SwingUtils {
 		if (Common.LOOKS_INDEX == 0 || Common.LOOKS_INDEX == 2) {
 			sub = 4;
 		}
+		Color c = null;
+		try { c = UIManager.getColor("Table.alternateRowColor"); } catch (Exception e) {}
+		ALTERNATE_ROW_COLOR = c;
 		STANDARD_FONT_HEIGHT = getDefault(fld.getFont().getSize(), 12);
 		STANDARD_FONT_WIDTH  = STANDARD_FONT_HEIGHT * 3 / 4;
 		COMBO_TABLE_ROW_HEIGHT = getDefault((int) ((new JComboBox(r)).getMinimumSize().getHeight()) - sub, 20);
@@ -167,11 +170,8 @@ public class SwingUtils {
 			background = table.getBackground();
 			if (Common.NIMBUS_LAF) {
 			   	background = Color.WHITE;
-			    if ( row % 2 != 0 ) {
-			    	Color c = UIManager.getColor("Table.alternateRowColor");
-			    	if (c != null) {
-			    		background = c;
-			    	}
+			    if ( row % 2 != 0 && ALTERNATE_ROW_COLOR != null) {
+			    	background = ALTERNATE_ROW_COLOR;
 			    }
 			}
 		}

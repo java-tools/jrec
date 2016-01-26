@@ -46,4 +46,17 @@ public class SplitCombo extends JComboBox {
     public int getSelectedValue() {
         return SPLIT_CONVERSION[this.getSelectedIndex()];
     }
+    
+    /**
+     * Set the Split option
+     * @param id Split Id
+     */
+    public void setSplitId(int id) {
+    	for (int i = 0; i < SPLIT_CONVERSION.length; i++) {
+    		if (id == SPLIT_CONVERSION[i]) {
+    			this.setSelectedIndex(i);
+    			break;
+    		}
+    	}
+    }
 }

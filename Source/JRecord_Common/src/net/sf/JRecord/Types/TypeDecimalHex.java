@@ -23,7 +23,6 @@ import java.math.BigInteger;
 import net.sf.JRecord.Common.CommonBits;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.IFieldDetail;
-import net.sf.JRecord.Common.RecordException;
 
 /**
  * Define a Decimal or Hex Type
@@ -58,7 +57,7 @@ public class TypeDecimalHex extends TypeNum {
 
 
     /**
-     * @see net.sf.JRecord.Types.Type#getField(byte[], int, net.sf.JRecord.Common.FieldDetail)
+     * @see net.sf.JRecord.Types.Type#getField(byte[], int, IFieldDetail)
      */
     public Object getField(byte[] record,
               final int position,
@@ -80,13 +79,12 @@ public class TypeDecimalHex extends TypeNum {
 
 
     /**
-     * @see net.sf.JRecord.Types.Type#setField(byte[], int, net.sf.JRecord.Common.FieldDetail, java.lang.Object)
+     * @see net.sf.JRecord.Types.Type#setField(byte[], int, IFieldDetail, Object)
      */
     public byte[] setField(byte[] record,
             final int position,
 			final IFieldDetail field,
-			final Object value)
-    throws RecordException {
+			final Object value) {
 
 		int pos = position - 1;
 		int len = field.getLen();

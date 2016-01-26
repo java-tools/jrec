@@ -43,7 +43,7 @@ public class TypeSignSeparate extends TypeNum {
 
 
     /**
-     * @see net.sf.JRecord.Types.Type#getField(byte[], int, net.sf.JRecord.Common.FieldDetail)
+     * @see net.sf.JRecord.Types.Type#getField(byte[], int, IFieldDetail)
      */
     public Object getField(byte[] record,
             final int position,
@@ -55,13 +55,12 @@ public class TypeSignSeparate extends TypeNum {
 
 
     /**
-     * @see net.sf.JRecord.Types.Type#setField(byte[], int, net.sf.JRecord.Common.FieldDetail, java.lang.Object)
+     * @see net.sf.JRecord.Types.Type#setField(byte[], int, IFieldDetail, Object)
      */
     public byte[] setField(byte[] record,
             final int position,
 			final IFieldDetail field,
-			Object value)
-    throws RecordException {
+			Object value) {
 
         String val = checkValue(field, toNumberString(value));
         copyRightJust(record, toSignSeparate(val, field),
@@ -71,8 +70,7 @@ public class TypeSignSeparate extends TypeNum {
     }
 
 	@Override
-	public String formatValueForRecord(IFieldDetail field, String value)
-			throws RecordException {
+	public String formatValueForRecord(IFieldDetail field, String value) {
 		return toSignSeparate(checkValue(field, toNumberString(value)), field);
 	}
 
@@ -84,12 +82,10 @@ public class TypeSignSeparate extends TypeNum {
 	 * @param field  Field Detail
 	 *
 	 * @return number-string
-	 * @throws RecordException any errors generated in the
-	 * conversion
+	 * 
 	 */
 	private String toSignSeparate(String num,
-                                  IFieldDetail field)
-    throws RecordException {
+                                  IFieldDetail field) {
 
 
 		if (num == null || num.length() == 0 || num.equals("-") || num.equals("+")) {

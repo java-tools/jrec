@@ -64,13 +64,14 @@ public class TreeComboRendor extends AbstractCellEditor implements
 
 	private void setVal(Object value) {
 
-		//System.out.println("!!! " + value + " " + (value instanceof TreeComboItem) + " " + (value instanceof Integer));
 		if (value == null) {
 			combo.setSelectedItem(TreeComboItem.BLANK_ITEM);
 		} else if (value instanceof TreeComboItem) {
 			combo.setSelectedItem((TreeComboItem) value);
 		} else if (value instanceof Integer) {
 			combo.setSelectedKey((Integer) value);
+		} else if (value instanceof String) {
+			combo.setText((String) value);
 		} else {
 			combo.setSelectedItem(TreeComboItem.BLANK_ITEM);
 		}

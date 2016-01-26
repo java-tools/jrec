@@ -115,7 +115,9 @@ public class DisplayCobolCopybook implements ActionListener {
 			reader.open(new ByteArrayInputStream(xml.getBytes()), getXmlLayout(incComments));  //(LayoutDetail) null);
 
 			while ((aLine = reader.read()) != null) {
-				if (incComments || ! "XML Comment".equals(aLine.getFieldValue(XmlConstants.XML_NAME).asString())) {
+				String recName = aLine.getFieldValue(XmlConstants.XML_NAME).asString();
+				if ("XML Start_Document".equalsIgnoreCase(recName)) {
+				} else if (incComments || ! "XML Comment".equals(recName)) {
 					lines.add(aLine);
 				}
 			}

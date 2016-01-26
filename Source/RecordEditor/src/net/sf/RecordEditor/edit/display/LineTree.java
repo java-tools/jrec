@@ -13,7 +13,6 @@ import javax.swing.tree.TreePath;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.RecordEditor.re.display.AbstractFileDisplay;
-import net.sf.RecordEditor.re.file.AbstractLineNode;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.tree.AbstractLineNodeTreeParser;
 import net.sf.RecordEditor.re.tree.LineNode;
@@ -47,7 +46,7 @@ public class LineTree extends BaseLineTree<LineNode> {
                     	int[] selected = treeTable.getSelectedRows();
 
                     	//System.out.println();
-                    	for (int i =0; i < selected.length; i++) {
+                    	for (int i = 0; i < selected.length; i++) {
                     		getNodeForRow(selected[i]);
 //                    		if (node != null) {
 //                    			System.out.println(">> Line Details "
@@ -61,6 +60,7 @@ public class LineTree extends BaseLineTree<LineNode> {
 		};
 
 		init_100_setupScreenFields(extraActions);
+	//	treeTable.setTableCellAdapter(new TblCellAdapter(this, 2));
 
 		init_200_LayoutScreen();
 	}
@@ -138,21 +138,22 @@ public class LineTree extends BaseLineTree<LineNode> {
 
 
 
-   /**
-     * get the prefered layout for a row. note: this is overriden in LineTree
-     * @param row table row to get the layout for
-     * @return rows prefered layout
-     */
-    protected int getLayoutIdx_100_getLayout4Row(int row) {
-    	int ret = -1;
-    	AbstractLineNode node = getNodeForRow(row);
-
-    	if (node != null && node.getLine() != null) {
-    		ret = node.getLine().getPreferredLayoutIdx();
-    	}
-
-    	return ret;
-    }
+//   /**
+//     * get the prefered layout for a row. note: this is overriden in LineTree
+//     * @param row table row to get the layout for
+//     * @return rows prefered layout
+//     */
+//	@Override
+//    protected int getLayoutIdx_100_getLayout4Row(int row) {
+//    	int ret = -1;
+//    	AbstractLineNode node = getNodeForRow(row);
+//
+//    	if (node != null && node.getLine() != null) {
+//    		ret = node.getLine().getPreferredLayoutIdx();
+//    	}
+//
+//    	return ret;
+//    }
 
 
 	/**

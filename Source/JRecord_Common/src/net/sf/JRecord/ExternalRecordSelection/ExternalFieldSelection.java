@@ -6,7 +6,8 @@ public class ExternalFieldSelection implements ExternalSelection {
 
 	public static final String EQUALS_OPERATOR = "=";
 	
-	private String fieldName, fieldValue, operator=EQUALS_OPERATOR, booleanOp="";
+	private String fieldName, fieldValue, booleanOp="",
+			operator=EQUALS_OPERATOR;
 	private boolean caseSensitive = true;
 	private static final String[] VALID_OPS = Constants.VALID_COMPARISON_OPERATORS;
 
@@ -50,6 +51,10 @@ public class ExternalFieldSelection implements ExternalSelection {
 
 	public void setFieldName(String fieldName) {
 		this.fieldName = fieldName;
+	}
+	
+	public String getRawFieldValue() {
+		return fieldValue;
 	}
 
 	public String getFieldValue() {

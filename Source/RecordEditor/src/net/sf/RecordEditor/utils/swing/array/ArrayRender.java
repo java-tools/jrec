@@ -111,7 +111,8 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
 
 
     public Object getArrayValue() {
-    	if (initialValue.equals(fld.getText())) {
+
+    	if (arrayDtls != null && initialValue.equals(fld.getText())) {
     		return arrayDtls.getReturn();
     	}
     	return fld.getText();
@@ -194,7 +195,7 @@ public class ArrayRender extends JPanel implements ActionListener, TableCellRend
      */
     public void actionPerformed(ActionEvent e) {
 
-    	if (e.getSource() == btn) {
+    	if (e.getSource() == btn && arrayDtls != null) {
     		 new JPopupArray(docName, doc,
     				arrayDtls,
     				parentTable, parentRow , parentColumn);

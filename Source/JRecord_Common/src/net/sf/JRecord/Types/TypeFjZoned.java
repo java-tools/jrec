@@ -14,7 +14,6 @@ package net.sf.JRecord.Types;
 
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.IFieldDetail;
-import net.sf.JRecord.Common.RecordException;
 
 /**
  * Fujitsu Type Zoned Decimal type.
@@ -40,7 +39,7 @@ public class TypeFjZoned extends TypeNum {
 
 
     /**
-     * @see net.sf.JRecord.Types.Type#getField(byte[], int, net.sf.JRecord.Common.FieldDetail)
+     * @see net.sf.JRecord.Types.Type#getField(byte[], int, IFieldDetail)
      */
     public Object getField(byte[] record,
             final int position,
@@ -52,13 +51,12 @@ public class TypeFjZoned extends TypeNum {
 
 
     /**
-     * @see net.sf.JRecord.Types.Type#setField(byte[], int, net.sf.JRecord.Common.FieldDetail, java.lang.Object)
+     * @see net.sf.JRecord.Types.Type#setField(byte[], int, IFieldDetail, Object)
      */
     public byte[] setField(byte[] record,
             final int position,
 			final IFieldDetail field,
-			Object value)
-    throws RecordException {
+			Object value) {
 
 	    copyRightJust(record, formatValueForRecord(field, toNumberString(value)),
 	            position - 1, field.getLen(),
@@ -68,8 +66,7 @@ public class TypeFjZoned extends TypeNum {
 
     
 	@Override
-	public String formatValueForRecord(IFieldDetail field, String value)
-			throws RecordException {
+	public String formatValueForRecord(IFieldDetail field, String value) {
 		String val = toFjZoned(checkValue(field, toNumberString(value)));
 		if (field.isFixedFormat()) {
 			return Conversion.padFront(val, field.getLen() - val.length(), '0');

@@ -73,7 +73,6 @@ import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.ReAction;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
-import net.sf.RecordEditor.utils.swing.ButtonTableRendor;
 import net.sf.RecordEditor.utils.swing.FixedColumnScrollPane;
 import net.sf.RecordEditor.utils.swing.HexGenericRender;
 import net.sf.RecordEditor.utils.swing.HexOneLineRender;
@@ -108,7 +107,6 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 
     private HeaderRender headerRender = new HeaderRender();
 
-    private ButtonTableRendor tableBtn = new ButtonTableRendor();
     private FixedColumnScrollPane tblScrollPane = null;
 
     private JMenu copyMenu = SwingUtils.newMenu("Copy Column");
@@ -240,11 +238,12 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
                 }
         };
 
-        JTable tableDetails = new JTable(viewOfFile);
+        TblCellAdapter tableCellAdapter = new TblCellAdapter(this, 2, 2);
+		JTable tableDetails = new LinesTbl(viewOfFile, tableCellAdapter);
         JMenu csvMenu = null;
 
         super.setJTable(tableDetails);
-        tblScrollPane = new FixedColumnScrollPane(tableDetails);
+        tblScrollPane = new FixedColumnScrollPane(tableDetails, new LinesTbl(viewOfFile, tableCellAdapter));
 
         keyListner =    new RowChangeListner(tableDetails, this);
 
@@ -319,8 +318,8 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 
             protected boolean isOkToShowPopup(MouseEvent e) {
                 JTable tbl = tblScrollPane.getFixedTable();
-                 fixedPopupCol = tbl.columnAtPoint(e.getPoint());
-                 popupRow = tbl.rowAtPoint(e.getPoint());
+                fixedPopupCol = tbl.columnAtPoint(e.getPoint());
+                popupRow = tbl.rowAtPoint(e.getPoint());
 
                 return fixedPopupCol > 0;
             }
@@ -557,118 +556,107 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
     		JTable tbl,
     		FileView view,
     		FixedColumnScrollPane scrollPane) {
-        TableColumnModel tcm = tbl.getColumnModel();
+    	
+       if (view == null) return tbl;
 
-        defineColumns(tbl, view.getColumnCount(), 2, 0);
+       defineColumns(tbl, view.getColumnCount(), 2, 0);
 
-        for (int i = 2; i < tcm.getColumnCount(); i++) {
-            tcm.getColumn(i).setHeaderRenderer(headerRender);
-        }
+//        for (int i = 2; i < tcm.getColumnCount(); i++) {
+//            tcm.getColumn(i).setHeaderRenderer(headerRender);
+//        }
   //       System.out.println("Full Line Test " + getLayoutIndex()
  //       		+ " >= " + fullLineIndex);
 
-        int layoutIdx = getLayoutIndex();
-        int lineHeight =  tbl.getRowHeight();
-        String font = layout.getFontName();
+       int layoutIdx = getLayoutIndex();
+       int lineHeight =  tbl.getRowHeight();
+       String font = layout.getFontName();
 
-        if (scrollPane != null && scrollPane.STD_LINE_HEIGHT > lineHeight) {
+       if (scrollPane != null && scrollPane.STD_LINE_HEIGHT > lineHeight) {
         	lineHeight = scrollPane.STD_LINE_HEIGHT;
-        }
+       }
         //System.out.println(" ~~> LayoutIdx ~~> " + layoutIdx + " " + fullLineIndex + " " + (fullLineIndex + 2));
 
         //System.out.println("check prefered:  " + layoutIdx + " " + getLayoutCombo().getPreferedIndex());
 
-        int fullLineIndex = getLayoutCombo().getFullLineIndex();
-        isPrefered = layoutIdx == getLayoutCombo().getPreferedIndex();
+       int fullLineIndex = getLayoutCombo().getFullLineIndex();
+       isPrefered = isPreferedIdx();
 
-        setKeylistner(tbl);
-        if (isPrefered || tcm.getColumnCount() < 3) {
+       setKeylistner(tbl);
+        
+       if (scrollPane != null) {
+    	   scrollPane.setupLineFields(view.getRowCount(), NUMBER_OF_CONTROL_COLUMNS, headerRender);
+       }
+        
+       TableColumnModel tcm = tbl.getColumnModel();
+//
+//       for (int i = 0; i < tcm.getColumnCount(); i++) {
+//           tcm.getColumn(i).setHeaderRenderer(headerRender);
+//       }
 
-        } else if (layoutIdx == fullLineIndex) {
-            if (charRendor == null) {
-                charRendor = new MonoSpacedRender();
-                charEditor = new DefaultCellEditor(new MonoSpacedRender());
-            }
-            //System.out.println("~~ " + "setting Rendor");
-            tcm.getColumn(2).setCellRenderer(charRendor);
-            tcm.getColumn(2).setCellEditor(charEditor);
-       } else if (layoutIdx == fullLineIndex + 1) {
-            if (hex1Rendor == null) {
-                hex1Rendor = new HexOneLineRender();
-                hex1Editor = new HexTableCellEditor(new HexOneLineRender());
-            }
+       if (isPrefered || tcm.getColumnCount() < 1 || layoutIdx < fullLineIndex) {
 
-            tcm.getColumn(2).setCellRenderer(hex1Rendor);
-            tcm.getColumn(2).setCellEditor(hex1Editor);
-        } else if (layoutIdx == fullLineIndex + 2) {
-            if (hex2Rendor == null) {
-                hex2Rendor = new HexTwoLineRender(font);
-                hex2Editor = new HexTableCellEditor(new HexTwoLineField(font));
-            }
+       } else {
+			TableColumn col0 = tcm.getColumn(0);
+			if (layoutIdx == fullLineIndex) {
+			    if (charRendor == null) {
+			        charRendor = new MonoSpacedRender();
+			        charEditor = new DefaultCellEditor(new MonoSpacedRender());
+			    }
+			    //System.out.println("~~ " + "setting Rendor");
+			    col0.setCellRenderer(charRendor);
+			    col0.setCellEditor(charEditor);
+			} else if (layoutIdx == fullLineIndex + 1) {
+			    if (hex1Rendor == null) {
+			        hex1Rendor = new HexOneLineRender();
+			        hex1Editor = new HexTableCellEditor(new HexOneLineRender());
+			    }
 
-            tcm.getColumn(2).setCellRenderer(hex2Rendor);
-            tcm.getColumn(2).setCellEditor(hex2Editor);
-            lineHeight = scrollPane.TWO_LINE_HEIGHT;
-        } else if (layoutIdx == fullLineIndex + 3) {
-            if (hex3Rendor == null) {
-                hex3Rendor = new HexThreeLineRender(font);
-                hex3Editor = new HexTableCellEditor(new HexThreeLineField(font));
-            }
+			    col0.setCellRenderer(hex1Rendor);
+			    col0.setCellEditor(hex1Editor);
+			} else if (layoutIdx == fullLineIndex + 2) {
+			    if (hex2Rendor == null) {
+			        hex2Rendor = new HexTwoLineRender(font);
+			        hex2Editor = new HexTableCellEditor(new HexTwoLineField(font));
+			    }
 
-            tcm.getColumn(2).setCellRenderer(hex3Rendor);
-            tcm.getColumn(2).setCellEditor(hex3Editor);
-            lineHeight = scrollPane.THREE_LINE_HEIGHT;
-        } else if (layoutIdx == fullLineIndex + 4) {
-            if (hex2RendorA == null) {
-                hex2RendorA = new HexGenericRender(font, new HexTwoLineFieldAlt(font));
-                hex2EditorA = new HexTableCellEditor(new HexTwoLineFieldAlt(font));
-            }
+			    col0.setCellRenderer(hex2Rendor);
+			    col0.setCellEditor(hex2Editor);
+			    lineHeight = scrollPane.TWO_LINE_HEIGHT;
+			} else if (layoutIdx == fullLineIndex + 3) {
+			    if (hex3Rendor == null) {
+			        hex3Rendor = new HexThreeLineRender(font);
+			        hex3Editor = new HexTableCellEditor(new HexThreeLineField(font));
+			    }
 
-            tcm.getColumn(2).setCellRenderer(hex2RendorA);
-            tcm.getColumn(2).setCellEditor(hex2EditorA);
-            lineHeight = scrollPane.TWO_LINE_HEIGHT;
-        }
+			    col0.setCellRenderer(hex3Rendor);
+			    col0.setCellEditor(hex3Editor);
+			    lineHeight = scrollPane.THREE_LINE_HEIGHT;
+			} else if (layoutIdx == fullLineIndex + 4) {
+			    if (hex2RendorA == null) {
+			        hex2RendorA = new HexGenericRender(font, new HexTwoLineFieldAlt(font));
+			        hex2EditorA = new HexTableCellEditor(new HexTwoLineFieldAlt(font));
+			    }
+
+			    col0.setCellRenderer(hex2RendorA);
+			    col0.setCellEditor(hex2EditorA);
+			    lineHeight = scrollPane.TWO_LINE_HEIGHT;
+			}
+		}
 
         setRowHeight(lineHeight);
 
-        if (scrollPane != null) {
-    	   int rowCount = view.getRowCount();
-    	   int width = SwingUtils.CHAR_FIELD_WIDTH;
-    	   System.out.println("Setup fixed columns ... " + width);
-           scrollPane.setFixedColumns(NUMBER_OF_CONTROL_COLUMNS);
-           TableColumn tc = scrollPane.getFixedTable().getColumnModel().getColumn(0);
-           tc.setCellRenderer(tableBtn);
-           tc.setPreferredWidth(5);
-           if ( scrollPane.getFixedTable().getColumnModel().getColumnCount() <= 1) {
-        	   Common.logMsg("Error No Fields defined in the layout !!!", null);
-           } else {
-	           tc = scrollPane.getFixedTable().getColumnModel().getColumn(1);
-	           if (rowCount > 10000000) {
-	        	   width = 8;
-	           } else if (rowCount > 1000000) {
-	        	   width = 7;
-	           } else if (rowCount > 100000) {
-	        	   width = 6;
-	           }
-	           tc.setPreferredWidth(SwingUtils.STANDARD_FONT_WIDTH * width);
-	           tc.setResizable(false);
-
-	           scrollPane.correctFixedSize();
-           }
-        }
-
-       if (layoutIdx >= fullLineIndex) {
+        if (layoutIdx >= fullLineIndex) {
     	   Common.calcColumnWidths(tbl, 1);
     	   copyMenu.removeAll();
     	   moveMenu.removeAll();
-       } else {
+        } else {
     	   buildDestinationMenus();
-       }
-       return tbl;
+        }
+        return tbl;
     }
 
 
-    private void setKeylistner(JTable tbl) {
+	private void setKeylistner(JTable tbl) {
 
         if (isPrefered || childFrame != null) {
         	if (tbl == tblDetails) {
@@ -844,7 +832,12 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 			defColumns();
 		} else*/ if (hasTheTableStructureChanged(event)) {
 			super.hasTheFormatChanged(event);
-			defColumns();
+			javax.swing.SwingUtilities.invokeLater(new Runnable() {
+				@Override public void run() {
+					defColumns();
+				}
+			});
+			
 		} else {
 			checkForResize(event);
 		}
@@ -1168,4 +1161,47 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 
 		return new LineList("Table:", view.getLayout(), view, this.fileMaster);
 	}
+	
+//	private static class LinesTbl extends JTable {
+//
+//		private final ITableCellAdapter tableCellAdapter;
+//
+//		/**
+//		 * A JTable that selects the appropriate CellRender / CellEditor
+//		 * @param parent parent Display
+//		 * @param dm Table model
+//		 * @param firstDataColumn first column holding data
+//		 */
+//		public LinesTbl(TableModel dm, ITableCellAdapter tableCellAdapter) {
+//			super(dm);
+//			
+//			this.tableCellAdapter = tableCellAdapter;
+//		}
+//		
+//		  
+//	    /* (non-Javadoc)
+//		 * @see javax.swing.JTable#getCellRenderer(int, int)
+//		 */
+//		@Override
+//		public TableCellRenderer getCellRenderer(int row, int column) {
+//			TableCellRenderer r;
+//			if (tableCellAdapter == null || (r = tableCellAdapter.getCellRenderer(row, column)) == null) {
+//				r = super.getCellRenderer(row, column);
+//			}
+//			return r;
+//		}
+//
+//		/* (non-Javadoc)
+//		 * @see javax.swing.JTable#getCellEditor(int, int)
+//		 */
+//		@Override
+//		public TableCellEditor getCellEditor(int row, int column) {
+//			TableCellEditor e;
+//			if (tableCellAdapter == null || (e = tableCellAdapter.getCellEditor(row, column)) == null) {
+//				e = super.getCellEditor(row, column);
+//			}
+//			return e;
+//		}
+//
+//	}
 }

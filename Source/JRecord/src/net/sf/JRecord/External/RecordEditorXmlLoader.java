@@ -100,6 +100,7 @@ public class RecordEditorXmlLoader extends BaseCopybookLoader {
 
 		AbstractLine line = reader.read();
 		String name, s;
+			log = TextLog.getLog(log);
 
 		if (line == null || (name= line.getFieldValue(XmlConstants.XML_NAME).asString()).startsWith("/")) {
 			//System.out.println("Exit Found " + name);
@@ -132,6 +133,9 @@ public class RecordEditorXmlLoader extends BaseCopybookLoader {
 			childRec.setEmbeddedCr(
 					"Y".equalsIgnoreCase(
 							line.getFieldValue(Constants.RE_XML_EMBEDDED_CR).asString()));
+				childRec.setInitToSpaces(
+						"Y".equalsIgnoreCase(
+								line.getFieldValue(Constants.RE_XML_INIT_SPACES).asString()));
 			
 			s = line.getFieldValue(Constants.RE_XML_RECORDSEP).asString();
 			if (s != null && ! "".equals(s)) {

@@ -8,6 +8,7 @@
 package net.sf.JRecord.External;
 
 import net.sf.JRecord.Log.AbsSSLogger;
+import net.sf.JRecord.Option.ICobolSplitOptions;
 
 
 
@@ -18,17 +19,17 @@ import net.sf.JRecord.Log.AbsSSLogger;
  * @author Bruce Martin
  *
  */
-public interface CopybookLoader {
+public interface CopybookLoader extends ICobolSplitOptions {
 
 //    public static final int FMT_INTEL      = 0;
 //    public static final int FMT_MAINFRAME  = 1;
 //    public static final int FMT_FUJITSU    = 2;
 //    public static final int FMT_BIG_ENDIAN = 3;
 
-    public static final int SPLIT_NONE     = 0;
-    public static final int SPLIT_REDEFINE = 1;
-    public static final int SPLIT_01_LEVEL = 2;
-    public static final int SPLIT_HIGHEST_REPEATING = 3;
+//    public static final int SPLIT_NONE     = 0;
+//    public static final int SPLIT_REDEFINE = 1;
+//    public static final int SPLIT_01_LEVEL = 2;
+//    public static final int SPLIT_HIGHEST_REPEATING = 3;
 
     /**
      * Read an Copybook from a file into the internal exchange format (ExternalRecord)

@@ -51,10 +51,12 @@ public  class HexGenericRender implements TableCellRenderer  {
 		int column) {
 		JComponent control = val.getComponent();
 
-	    try {
-	        val.setHex((byte[]) value);
-	    } catch (Exception e) {
-        }
+		if (val == null || value instanceof byte[]) {
+		    try {
+		        val.setHex((byte[]) value);
+		    } catch (Exception e) {
+	        }
+		}
 
 	    SwingUtils.setTableCellColors(control, tbl, row, isSelected);
 //        if (isSelected) {

@@ -34,6 +34,7 @@ public class UtMessages {
 	public static final ReMsg COPIED                = new ReMsg("Copied: {0} of {1}");
 	public static final ReMsg PASTE                 = new ReMsg("Paste: {0} of {1} done");
 	public static final ReMsg FILTER                = new ReMsg("    Found: {2}\nProcessed: {0} of {1}");
+	public static final ReMsg REPLACE_ALL           = new ReMsg("Replaced {0} occurences of {1}");
 
 	public static final ReMsg FILE_DOES_NOT_EXIST   = new ReMsg("File: {0} does not exist");
 	public static final ReMsg DIRECTORY_NOT_ALLOWED = new ReMsg("Directory: {0} is not allowed");

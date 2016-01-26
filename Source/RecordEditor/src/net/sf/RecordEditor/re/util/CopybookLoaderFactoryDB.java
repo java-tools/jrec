@@ -145,8 +145,8 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
 	   format = format.toLowerCase();
 
 	   loadTypesFormats(idx);
-       if (typeConv[idx].containsKey(format)) {
-           val = (typeConv[idx].get(format)).intValue();
+       if (formatConv[idx].containsKey(format)) {
+           val = (formatConv[idx].get(format)).intValue();
        }
 
 	   return val;

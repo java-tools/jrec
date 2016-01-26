@@ -32,6 +32,7 @@ public final class Conversion {
 	private static boolean alwaysUseDefaultSingByteCharset = false;
 
 	private static HoldEbcidicFlag holdEbcidicFlag = DEFAULT_CHARSET_DETAILS;
+	public static String DEFAULT_ASCII_CHARSET ;
 	public static final boolean IS_DEFAULT_CHARSET_SINGLE_BYTE_EBCIDIC = DEFAULT_CHARSET_DETAILS.isSingleByteEbcidic;// isSingleByteEbcidicI("");
     private static final String VALUE_IS_TO_BIG_FOR_FIELD = "Value is to big for field {0} > {1} {2} ~ {3} {4}";
 	private static final byte BYTE_NO_BIT_SET   =  0;
@@ -50,9 +51,19 @@ public final class Conversion {
 	static {
 		try {
 			if (DEFAULT_CHARSET_DETAILS != null && DEFAULT_CHARSET_DETAILS.isEbcdic) {
-				defaultSingleByteCharacterset = "CP037";
+				DEFAULT_ASCII_CHARSET = "cp1252";
+				defaultSingleByteCharacterset = DEFAULT_CHARSET_DETAILS.charset;
+				if (DEFAULT_CHARSET_DETAILS.isMultiByte) {
+					defaultSingleByteCharacterset = "CP037";
+				}
 			} else {
-				setDefaultSingleByteCharacterset("cp1252");
+				if (DEFAULT_CHARSET_DETAILS == null || DEFAULT_CHARSET_DETAILS.isMultiByte) {
+					DEFAULT_ASCII_CHARSET = "cp1252";
+					setDefaultSingleByteCharacterset("cp1252");
+				} else {
+					DEFAULT_ASCII_CHARSET = "";
+					defaultSingleByteCharacterset = "";
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -272,7 +283,7 @@ public final class Conversion {
 	 * @param start Field start
 	 * @param fin Field End
 	 *
-	 * @return Postive Integer Field
+	 * @return Positive Integer Field
 	 */
 	public static String getPostiveBinary(final byte[] record, final int start, final int fin) {
 		int i;
@@ -524,10 +535,8 @@ public final class Conversion {
 	 * @param val   new value
 	 * @param isPositive wether the field represents only positive integers
 	 *
-	 * @throws RecordException can through field to big
 	 */
-	public static void setLong(final byte[] record, int pos, int len, long val, boolean isPositive)
-	throws RecordException {
+	public static void setLong(final byte[] record, int pos, int len, long val, boolean isPositive) {
 		int i;
 		long b;
 
@@ -544,8 +553,7 @@ public final class Conversion {
 		}
 	}
 
-	public static void setBigInt(final byte[] record, int pos, int len, BigInteger val, boolean isPositive)
-	throws RecordException {
+	public static void setBigInt(final byte[] record, int pos, int len, BigInteger val, boolean isPositive) {
 		byte[] bytes = val.toByteArray();
 		int i;
 		byte sb = BYTE_NO_BIT_SET;
@@ -576,8 +584,7 @@ public final class Conversion {
 	}
 
 
-	public static void setBigIntLE(final byte[] record, int pos, int len, BigInteger val, boolean isPositive)
-	throws RecordException {
+	public static void setBigIntLE(final byte[] record, int pos, int len, BigInteger val, boolean isPositive) {
 		byte[] bytes = val.toByteArray();
 		int i;
 
@@ -617,13 +624,11 @@ public final class Conversion {
 	 * @param val value to move to the record
 	 * @param isPositive wethear the field represents only positive integers
 	 *
-	 * @throws RecordException error converting to long (ie 2 big for the field)
 	 */
 	public static void setLongLow2High(byte[] record,
 	        						   int pos, int len,
 	        						   long val,
-	        						   boolean isPositive)
-	throws RecordException {
+	        						   boolean isPositive) {
 		byte[] bytes = BigInteger.valueOf(val).toByteArray();
 		int i;
 
@@ -655,10 +660,8 @@ public final class Conversion {
 	 * @param val value to check
 	 * @param length length of the destination field
 	 *
-	 * @throws RecordException field to long error
 	 */
-	public static void checkLength(long val, int length, boolean isPositive)
-				throws RecordException {
+	public static void checkLength(long val, int length, boolean isPositive) {
 		long t = val;
 		int i;
 		for (i = 1; i < length; i++) {
@@ -748,19 +751,25 @@ public final class Conversion {
      * Checks if a string is a valid integer
      *
      * @param s possibleInteger
-     * @return wether it is a integer
+     * @return whether it is a integer
      */
     public static final boolean isInt(String s) {
         boolean ret = false;
-
-        try {
             String ss = s.trim();
-            if (!ss.equals("")) {
-            	new BigInteger(ss);
-                //Long.parseLong(ss);
-                ret = true;
+        int len = ss.length();
+        int firstIndex = 0;
+
+        if (len > 0) {
+            char first = ss.charAt(firstIndex);
+            if (first  == '+' || first == '-') {
+                if (len == 1) return false;
+                firstIndex++;
             }
-        } catch (Exception ex) {
+            for (int i = firstIndex; i < len; i++) {
+                if (!Character.isDigit(ss.charAt(i)))
+                    return false;
+            }
+            ret = true;
         }
         return ret;
     }
@@ -901,7 +910,7 @@ public final class Conversion {
 
 
 	public static final void setDefaultSingleByteCharacterset(
-			String defaultSingleByteCharacterset) {
+		String defaultSingleByteCharacterset) {
 
 		if (Charset.isSupported(defaultSingleByteCharacterset)
 		&& (! (new HoldEbcidicFlag(defaultSingleByteCharacterset)).isMultiByte)) {
@@ -958,14 +967,14 @@ public final class Conversion {
     }
     
     
-    /**
-     * pad string with zero's to format length
-     *
-     * @param dateFormatStr date format string
-     * @param s string to be padded
-     *
-     * @return padded string
-     */
+//    /**
+//     * pad string with zero's to format length
+//     *
+//     * @param dateFormatStr date format string
+//     * @param s string to be padded
+//     *
+//     * @return padded string
+//     */
 //    public static String padZeros(String dateFormatStr, String s) {
 //
 //        String ret = s;
@@ -978,6 +987,12 @@ public final class Conversion {
 //        return ret;
 //    }
 	
+    /**
+     * Class to hold character-set details
+     * 
+     * @author Bruce Martin
+     *
+     */
 	public static final class HoldEbcidicFlag {
 		public final String charset;
 		public final boolean isSingleByteEbcidic, isMultiByte, isEbcdic;

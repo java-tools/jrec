@@ -22,6 +22,8 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 
 import net.sf.JRecord.External.CobolCopybookLoader;
+import net.sf.RecordEditor.layoutEd.load.CblLoadCopybook;
+import net.sf.RecordEditor.layoutEd.load.LoadCopyBook;
 import net.sf.RecordEditor.layoutEd.panels.RecordEdit1Record;
 import net.sf.RecordEditor.layoutWizard.Wizard;
 import net.sf.RecordEditor.utils.LayoutConnection;
@@ -190,10 +192,12 @@ public class Menu extends ReFrame
 			new LayoutCopy();
 		} else if (e.getSource() == upgrade) {
 		    new UpgradeDBs(lDBid, dbCombo.getSelectedIndex());
+		} else if (e.getSource() == cobolCopyBook) {
+			 new CblLoadCopybook(lDBid, dbCombo.getSelectedIndex(), null);
 		} else {
 
 		        new LoadCopyBook(
-		            				e.getSource() == xmlCopyBook,
+		            				true, //e.getSource() == xmlCopyBook,
 		            						/* choosing between Cobol and other Copybooks */
 		            				lDBid, dbCombo.getSelectedIndex(),
 		            				null);

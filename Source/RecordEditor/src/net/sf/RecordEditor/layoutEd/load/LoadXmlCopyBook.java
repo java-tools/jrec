@@ -11,7 +11,7 @@
  * # Version 0.61b Bruce Martin 2007/05/07
  *   - Fixed bug in XML load
  */
-package net.sf.RecordEditor.layoutEd;
+package net.sf.RecordEditor.layoutEd.load;
 
 
 import java.awt.event.ActionEvent;
@@ -148,7 +148,7 @@ public class LoadXmlCopyBook extends ReFrame implements ActionListener {
 
 		pnl.setHelpURLre(Common.formatHelpURL(Common.HELP_XML_COPYBOOK));
 		
-		pnl.addComponentRE(1, 5, SwingUtils.STANDARD_FONT_HEIGHT * 16,
+		pnl.addComponentRE(1, 5, SwingUtils.STANDARD_FONT_HEIGHT * 14,
 				BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);

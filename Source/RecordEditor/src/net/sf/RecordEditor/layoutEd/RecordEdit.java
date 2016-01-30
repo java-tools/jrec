@@ -306,7 +306,9 @@ public class RecordEdit extends    ReFrame
 	        }
 	        break;
 	    case ReActionHandler.SAVE:
-	        saveRecord(true);
+	        if (saveRecord(true) == null) {
+	        	return;
+	        }
 	        break;
 	    case ReActionHandler.NEW:
 	    case ReActionHandler.SAVE_AS:

@@ -21,6 +21,7 @@
 	<property name="lib.dir"           location="lib" />
 	<property name="docs.dir"          location="docs" />
 	<property name="javadoc.dir"       location="${docs.dir}/api" />
+	<property name="ScriptJavadoc.dir"       location="${docs.dir}/script" />
 	<property name="RecordEdit.jar"    location="${lib.dir}/RecordEdit.jar" />
 	<property name="JRecordEdit.jar"   location="${lib.dir}/JRecordEdit.jar" />
 	<property name="LayoutEdit.jar"    location="${lib.dir}/LayoutEdit.jar" />
@@ -31,26 +32,34 @@
 	<property name="runAvroEditor.jar"     location="${lib.dir}/runAvroEditor.jar" />
 	<property name="runCsvEditor.jar"      location="${lib.dir}/runCsvEditor.jar" />
 	<property name="run.jar"               location="${lib.dir}/run.jar" />
+	<property name="runCsv.jar"            location="${lib.dir}/runCsv.jar" />
 	<property name="runJR.jar"             location="${lib.dir}/runJR.jar" />
 	<property name="runPB.jar"             location="${lib.dir}/runPB.jar" />
 	<property name="runDiff.jar"           location="${lib.dir}/runDiff.jar" />
 	<property name="runDiffFileLayout.jar" location="${lib.dir}/runDiffFileLayout.jar" />
 	<property name="work.dir"              location="/home/bm/Work/" />
 	<property name="izPack"                location="${work.dir}/RecordEditor/Instalation/hsqldb_izpack" />
-	<property name="inputLib.dir"          location="C:\Users\mum\Bruce\lib" />
+	<property name="inputLib.dir"          location="F:\Work\RecordEditor\lib" />
 
-	<target name="jrecord" description="compile JRecord code" >
+	<target name="JRecord" description="compile JRecord code" >
 		<ant dir="../JRecord" antfile="build.xml" output="buildout.txt" inheritall="false" />
 	</target>
 
 
-	<target name="compile" description="compile code" depends="JRecord_Common">
+	<target name="compile" description="compile code" depends="JRecord">
 		<mkdir dir="${build.dir}" />
 		<javac srcdir="${src.dir}" destdir="${build.dir}" optimize="true" source="1.6" target="1.6" debug="true">
 			<!--javac srcdir="${src.dir}" destdir="${build.dir}" optimize="true" -->
 			<exclude name="net/sf/RecordEditor/examples/**"/>
 			<exclude name="net/sf/RecordEditor/jibx/**"/>
 			<exclude name="net/sf/RecordEditor/re/install/**"/>
+
+			<exclude name="net/sf/RecordEditor/re/openFile/LayoutSelectionCobol*"/>
+			<exclude name="net/sf/RecordEditor/re/openFile/CobolOption**"/>
+			<exclude name="net/sf/RecordEditor/utils/protoGen/cobolOpt/**"/>
+			<exclude name="net/sf/RecordEditor/edit/EditCobolLayout**"/>
+			<exclude name="net/sf/RecordEditor/re/openFile/CobolOptionsManager.java"/>
+			<exclude name="net/sf/RecordEditor/re/openFile/Z**.java"/>
 
 			<classpath>
 				<filelist dir="${inputLib.dir}">
@@ -59,20 +68,19 @@
 					<!--file name="hsqldbmain.jar"/-->
 					<file name="velocity-1.7.jar"/>
 					<file name="velocity-dep-1.7.jar"/>
-					<!--file name="jibx-run.jar"/-->
+					<file name="jibx-run.jar"/>
 					<file name="jlibdiff.jar"/>
 					<file name="chardet.jar"/>
-					<file name="swingx-all-1.6.4.jar"/>
+					<!--file name="swingx-all-1.6.4.jar"/-->
+					<file name="swingx-subset-1.6.4.jar"/>
 					<file name="rsyntaxtextarea.jar"/>
+					<file name="zip4j_1.3.2.jar"/>
 				</filelist>
 				<filelist dir="../JRecord/lib/">
 					<file name="JRecord.jar"/>
 				</filelist>
 				<filelist dir="../RecordEditor_ZCalendar/lib/">
 					<file name="ZCalendar.jar"/>
-				</filelist>
-				<filelist dir="C:\\Users\\mum\\Bruce\\jibx\\lib/">
-					<file name="jibx-run.jar"/>
 				</filelist>
 				<filelist  files="${inputLib.dir}/RecordEditor_JibxClasses.jar"/>
 				<filelist dir="../cb2xml/lib/">
@@ -85,6 +93,11 @@
 				<include name="*.gif"/>
 				<include name="*.png"/>
 				<include name="*.html"/>
+			</fileset>
+		</copy>
+		<copy todir="${build.dir}/net/sf/RecordEditor/utils/charsets/">
+			<fileset dir="${src.dir}/net/sf/RecordEditor/utils/charsets/">
+				<include name="*.txt"/>
 			</fileset>
 		</copy>
 		<copy todir="${build.dir}">
@@ -132,6 +145,7 @@
 			<exclude name="net/sf/RecordEditor/editFileLayout/**"/>
 			<exclude name="net/sf/RecordEditor/examples/**"/>
 			<exclude name="net/sf/RecordEditor/layoutWizard/**"/>
+			<exclude name="net/sf/RecordEditor/trove/**"/>
 
 
 			<exclude name="net/sf/RecordEditor/examples/**"/>
@@ -171,7 +185,7 @@
 			</manifest>
 			<include  name="net/sf/RecordEditor/RunFullEditor.class"/>
 			<include  name="net/sf/RecordEditor/utils/Run.class"/>
-			<include  name="net/sf/RecordEditor/utils/common/ExternalReferenceConstants.class"/>
+			<include  name="net/sf/RecordEditor/utils/params/ExternalReferenceConstants.class"/>
 		</jar>
 		<jar basedir="${build.dir}" destfile="${runLayouteditor.jar}" filesonly="true">
 			<manifest>
@@ -179,7 +193,7 @@
 			</manifest>
 			<include  name="net/sf/RecordEditor/RunLayout.class"/>
 			<include  name="net/sf/RecordEditor/utils/Run.class"/>
-			<include  name="net/sf/RecordEditor/utils/common/ExternalReferenceConstants.class"/>
+			<include  name="net/sf/RecordEditor/utils/params/ExternalReferenceConstants.class"/>
 		</jar>
 		<jar basedir="${build.dir}" destfile="${runCobolEditor.jar}" filesonly="true" >
 			<manifest>
@@ -187,7 +201,7 @@
 			</manifest>
 			<include  name="net/sf/RecordEditor/runCobolEditor.class"/>
 			<include  name="net/sf/RecordEditor/utils/Run.class"/>
-			<include  name="net/sf/RecordEditor/utils/common/ExternalReferenceConstants.class"/>
+			<include  name="net/sf/RecordEditor/utils/params/ExternalReferenceConstants.class"/>
 		</jar>
 		<jar basedir="${build.dir}" destfile="${runCobolEditor.jar}" filesonly="true">
 			<manifest>
@@ -195,7 +209,7 @@
 			</manifest>
 			<include  name="net/sf/RecordEditor/RunCobolEditor.class"/>
 			<include  name="net/sf/RecordEditor/utils/Run.class"/>
-			<include  name="net/sf/RecordEditor/utils/common/ExternalReferenceConstants.class"/>
+			<include  name="net/sf/RecordEditor/utils/params/ExternalReferenceConstants.class"/>
 		</jar>
 		<jar basedir="${build.dir}" destfile="${runDiff.jar}" filesonly="true">
 			<manifest>
@@ -203,7 +217,7 @@
 			</manifest>
 			<include  name="net/sf/RecordEditor/RunDiff.class"/>
 			<include  name="net/sf/RecordEditor/utils/Run.class"/>
-			<include  name="net/sf/RecordEditor/utils/common/ExternalReferenceConstants.class"/>
+			<include  name="net/sf/RecordEditor/utils/params/ExternalReferenceConstants.class"/>
 		</jar>
 		<jar basedir="${build.dir}" destfile="${runDiffFileLayout.jar}" filesonly="true">
 			<manifest>
@@ -211,7 +225,7 @@
 			</manifest>
 			<include  name="net/sf/RecordEditor/RunDiffFileLayout.class"/>
 			<include  name="net/sf/RecordEditor/utils/Run.class"/>
-			<include  name="net/sf/RecordEditor/utils/common/ExternalReferenceConstants.class"/>
+			<include  name="net/sf/RecordEditor/utils/params/ExternalReferenceConstants.class"/>
 		</jar>
 		<jar basedir="${build.dir}" destfile="${runProtoBufEditor.jar}" filesonly="true">
 			<manifest>
@@ -219,7 +233,7 @@
 			</manifest>
 			<include  name="net/sf/RecordEditor/RunProtoBufferEditor.class"/>
 			<include  name="net/sf/RecordEditor/utils/Run.class"/>
-			<include  name="net/sf/RecordEditor/utils/common/ExternalReferenceConstants.class"/>
+			<include  name="net/sf/RecordEditor/utils/params/ExternalReferenceConstants.class"/>
 		</jar>
 		<jar basedir="${build.dir}" destfile="${runAvroEditor.jar}" filesonly="true">
 			<manifest>
@@ -227,7 +241,7 @@
 			</manifest>
 			<include  name="net/sf/RecordEditor/RunAvroEditor.class"/>
 			<include  name="net/sf/RecordEditor/utils/Run.class"/>
-			<include  name="net/sf/RecordEditor/utils/common/ExternalReferenceConstants.class"/>
+			<include  name="net/sf/RecordEditor/utils/params/ExternalReferenceConstants.class"/>
 		</jar>
 		<jar basedir="${build.dir}" destfile="${run.jar}" filesonly="true">
 			<manifest>
@@ -235,7 +249,15 @@
 			</manifest>
 			<include  name="net/sf/RecordEditor/RunClass.class"/>
 			<include  name="net/sf/RecordEditor/utils/Run.class"/>
-			<include  name="net/sf/RecordEditor/utils/common/ExternalReferenceConstants.class"/>
+			<include  name="net/sf/RecordEditor/utils/params/ExternalReferenceConstants.class"/>
+		</jar>
+		<jar basedir="${build.dir}" destfile="${runCsv.jar}" filesonly="true">
+			<manifest>
+			        <attribute name="Main-Class" value="net.sf.RecordEditor.RunClassCsv"/>
+			</manifest>
+			<include  name="net/sf/RecordEditor/RunClassCsv.class"/>
+			<include  name="net/sf/RecordEditor/utils/Run.class"/>
+			<include  name="net/sf/RecordEditor/utils/params/ExternalReferenceConstants.class"/>
 		</jar>
 		<jar basedir="${build.dir}" destfile="${runJR.jar}" filesonly="true">
 			<manifest>
@@ -243,7 +265,7 @@
 			</manifest>
 			<include  name="net/sf/RecordEditor/RunClassJR.class"/>
 			<include  name="net/sf/RecordEditor/utils/Run.class"/>
-			<include  name="net/sf/RecordEditor/utils/common/ExternalReferenceConstants.class"/>
+			<include  name="net/sf/RecordEditor/utils/params/ExternalReferenceConstants.class"/>
 		</jar>
 		<jar basedir="${build.dir}" destfile="${runCsvEditor.jar}" filesonly="true">
 			<manifest>
@@ -251,7 +273,7 @@
 			</manifest>
 			<include  name="net/sf/RecordEditor/RunCsvEditor.class"/>
 			<include  name="net/sf/RecordEditor/utils/Run.class"/>
-			<include  name="net/sf/RecordEditor/utils/common/ExternalReferenceConstants.class"/>
+			<include  name="net/sf/RecordEditor/utils/params/ExternalReferenceConstants.class"/>
 		</jar>
 
 
@@ -270,9 +292,38 @@
 	<target name="javadoc" description="javadoc">
 		<mkdir dir="${javadoc.dir}" />
 		<javadoc destdir="${javadoc.dir}">
-			<fileset dir="${src.dir}" />
-			<fileset dir="../JRecord_Common/src/" />
-			<fileset dir="../JRecord/src/" />
+			<packageset dir="${src.dir}" />
+			<packageset dir="../JRecord_Common/src/" />
+			<packageset dir="../JRecord/src/" >
+				<exclude name="net/sf/JRecord/z*/**"/>	
+			</packageset>
+			<!--fileset dir="${src.dir}" /!-->
+			<!--fileset dir="../JRecord_Common/src/" /!-->
+			<!--fileset dir="../JRecord/src/" /!-->
+		</javadoc>
+	</target>
+
+
+	<target name="ScriptJavadoc" description="javadoc for scripts" >
+		<mkdir dir="${ScriptJavadoc.dir}" />
+		<javadoc destdir="${ScriptJavadoc.dir}" overview="docs/overview/scriptOverview.html" >
+			<fileset dir="${src.dir}" >
+				<include name="net/sf/RecordEditor/re/script/ScriptDat*"/>
+				<include name="net/sf/RecordEditor/re/display/Abstract*"/>
+				<include name="net/sf/RecordEditor/re/file/I*.*"/>
+			</fileset>
+			<fileset dir="../JRecord_Common/src/" >
+				<include name="net/sf/JRecord/Common/Constants.*"/>
+				<include name="net/sf/JRecord/Common/I*.*"/>
+			</fileset>
+			<fileset dir="../JRecord/src/" > 
+				<include name="net/sf/JRecord/Details/*Line**"/>	
+				<include name="net/sf/JRecord/Details/*Layout**"/>	
+				<include name="net/sf/JRecord/Details/*Record**"/>	
+			</fileset>
+			<!--fileset dir="${src.dir}" /!-->
+			<!--fileset dir="../JRecord_Common/src/" /!-->
+			<!--fileset dir="../JRecord/src/" /!-->
 		</javadoc>
 	</target>
 

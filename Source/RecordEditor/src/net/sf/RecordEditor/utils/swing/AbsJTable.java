@@ -30,6 +30,7 @@ public class AbsJTable extends JTable {
 	 */
 	public AbsJTable(final TableModel mdl) {
 		super(mdl);
+		super.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 	}
 
 //	public abstract void commonInit();

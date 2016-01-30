@@ -1,11 +1,11 @@
-<!-- 
+<!--
 /*************************************************************
- * This file is part of RecordEditor.  
+ * This file is part of RecordEditor.
  * See the file "LICENSE" for copyright information and the
  * terms and conditions for copying, distribution and
  * modification of RecordEditor.
  *
- * Authors Eclipse Ant task. It moves the compuiles and moves 
+ * Authors Eclipse Ant task. It moves the compuiles and moves
  * jars to build directory
  *************************************************************
  */
@@ -27,7 +27,7 @@
 	<property name="RunProtoBufEditor.jar" location="${lib.dir}/RunProtoBufEditor.jar" />
 	<property name="RunAvroEditor.jar" location="${lib.dir}/RunAvroEditor.jar" />
 	<property name="RecordEditorJibxClass.jar" location="${lib.dir}/RecordEditor_JibxClasses.jar" />
-	
+
 	<property name="Run.jar" location="${lib.dir}/run.jar" />
 	<property name="RunPB.jar" location="${lib.dir}/RunPB.jar" />
 	<property name="RunDiff.jar" location="${lib.dir}/RunDiff.jar" />
@@ -48,7 +48,7 @@
 				<filelist dir="/home/bm/Work/RecordEditor/lib/">
 					<file name="TableLayout.jar"/>
 				</filelist>
-				<filelist dir="/home/bm/workspace/JRecord_070/lib/">
+				<filelist dir="/home/bm/workspace/JRecord_097/lib/">
 					<file name="JRecord.jar"/>
 				</filelist>
 				<filelist dir="/home/bm/workspace/RecordEditor_Calendar/lib/">
@@ -101,7 +101,7 @@
 		      <pathelement path="build"/>
 		      <!--pathelement location="${jibx-lib}jibx-run.jar"/-->
 		    </classpath>
-		</bind> 
+		</bind>
 	</target>
 
 	<target name="build" depends="compile" description="build jar">
@@ -153,7 +153,7 @@
 				<exclude  name="net/sf/RecordEditor/utils/Run.class"/>
 				<exclude name="diffXmlBindings.xml"/>
 			</fileset>
-			<fileset dir="/home/bm/workspace/JRecord_070/build/">
+			<fileset dir="/home/bm/workspace/JRecord_097/build/">
 			</fileset>
 		</jar>
 
@@ -233,7 +233,7 @@
 		<copy todir="${izPack}" file="${LayoutEdit.jar}"/>
 		<!--copy todir="${work.dir}/JRecord/lib1/" file="${RecordEdit.jar}"/-->
 
-	</target>	
+	</target>
 
 	<target name="javadoc" description="javadoc">
 		<mkdir dir="${javadoc.dir}" />

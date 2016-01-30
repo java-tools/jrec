@@ -1,6 +1,6 @@
-<!-- 
+<!--
 /*************************************************************
- * This file is part of RecordEditor.  
+ * This file is part of RecordEditor.
  * See the file "LICENSE" for copyright information and the
  * terms and conditions for copying, distribution and
  * modification of RecordEditor.
@@ -8,7 +8,7 @@
  */
 -->
 
-<project name="JRecord" default="build">
+<project name="JRecord_Common_097" default="build">
 
 	<property name="src.dir" location="src" />
 	<property name="build.dir" location="build" />
@@ -17,45 +17,25 @@
 	<property name="javadoc.dir" location="${docs.dir}/api" />
 	<property name="JRecord.jar" location="${outputLib.dir}/JRecord.jar" />
 	<property name="inputLib.dir" location="../../lib" />
-	<property name="JRecordCommon.dir" location="../JRecord_Common/build" />
-	<property name="cb2xmlLib.dir" location="../cb2xml/lib" />
 
-	<target name="JRecord_Common" description="compile JRecord code" >
-		<ant dir="../JRecord_Common" antfile="build.xml" output="buildout.txt" inheritall="false" />
+	<target name="cb2xml" description="compile JRecord code" >
+		<ant dir="../cb2xml" antfile="build.xml" output="buildout.txt" inheritall="false" />
 	</target>
 
-	
-	<target name="compile" description="compile code" depends="JRecord_Common">
+
+	<target name="build" description="compile code" depends="cb2xml">
 	<!--echo file="${inputLib.dir}/SmallEditorFiles.txt"/-->
 
 		<mkdir dir="${build.dir}" />
 		<javac srcdir="${src.dir}" destdir="${build.dir}" optimize="false" target="1.5" debug="true">
-			<exclude name="net/sf/JRecord/zExamples/**"/>
-			<exclude name="net/sf/JRecord/zTest/**"/>
 			<classpath>
 				<filelist dir="../cb2xml/lib">
 					<file name="cb2xml.jar"/>
 				</filelist>
-				<pathelement path="${JRecordCommon.dir}"/>
 			</classpath>
 		</javac>
 	</target>
 
-	<target name="build" depends="compile" description="build jar">
-		<mkdir dir="${outputLib.dir}" />
-		<jar destfile="${JRecord.jar}" filesonly="true">
-			<fileset dir="${build.dir}"/>
-			<fileset dir="${JRecordCommon.dir}"/>
-			<zipfileset src="${cb2xmlLib.dir}/cb2xml_definitions.jar" />
-		</jar>
-	</target>	
-
-	<target name="javadoc" description="javadoc">
-		<mkdir dir="${javadoc.dir}" />
-		<javadoc destdir="${javadoc.dir}">
-			<fileset dir="${src.dir}" />
-		</javadoc>
-	</target>
 
 	<target name="clean" description="clean">
 		<delete file="${JRecord.jar}" />

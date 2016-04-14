@@ -4,9 +4,10 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_22'
 
-	if window('Protocol Buffer Editor'):
+	if window(commonBits.applicationName()):
 		select('File_Txt', commonBits.sampleDir() + 'protoStoreSales7.bin')
 		click('Edit1')
+		select('LineTreeChild.Layouts_Txt', 'Store')
 		select('LineTreeChild.FileDisplay_JTbl', 'cell:Tree,0(null)')
 		rightclick('LineTreeChild.FileDisplay_JTbl', 'Tree,0')
 		select_menu('Collapse Tree')

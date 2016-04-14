@@ -4,8 +4,8 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_22'
 
-	if window('Protocol Buffer Editor'):
-		select('FileChooser',  commonBits.sampleDir() + 'Ams_LocDownload_20041228.bin')
+	if window(commonBits.applicationName()):
+		select('FileNameTxtFld',  commonBits.sampleDir() + 'Ams_LocDownload_20041228.bin')
 		click('Proto Search')
 		assert_p('Table1', 'Content', r'[[' + commonBits.stdCopybookDir() + 'Ams_Location.proto, Ams_Location.proto, Locations], [' + commonBits.stdCopybookDir() + 'Ams_Location.protocomp, Ams_Location.proto, Locations]]')
 		assert_p('TextField', 'Text', commonBits.sampleDir() + 'Ams_LocDownload_20041228.bin')

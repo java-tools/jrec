@@ -4,10 +4,16 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_03'
 
-	if window('Protocol Buffer Editor'):
+	if window(commonBits.applicationName()):
 
-		select('FileChooser',  commonBits.sampleDir() + 'protoStoreSales3.bin')
-		select('FileChooser1',  commonBits.stdCopybookDir() + 'StoreSales3.protocomp')
+		xxxx
+
+		###
+		### Script replaced by ACmpSetup01a !!!!
+		###
+
+		select('FileNameTxtFld',  commonBits.sampleDir() + 'protoStoreSales3.bin')
+		select('FileNameTxtFld1',  commonBits.stdCopybookDir() + 'StoreSales3.protocomp')
 		
 		click('Edit1')
 ##		select('JTreeTable', '')
@@ -59,7 +65,7 @@ def test():
 		else:
 			click('SaveAs')
 
-		select('FileChooser', commonBits.sampleDir() + 'protoStoreSales3_Compare.bin')
+		select('FileNameTxtFld', commonBits.sampleDir() + 'protoStoreSales3_Compare.bin')
 		
 		click('Save File')
 		select_menu('Window>>protoStoreSales3.bin>>Tree View')
@@ -69,7 +75,7 @@ def test():
 			click('No')
 		close()
 
-		select('FileChooser', commonBits.sampleDir() + 'protoStoreSales3_Compare.bin')
+		select('FileNameTxtFld', commonBits.sampleDir() + 'protoStoreSales3_Compare.bin')
 		click('Edit1')
 ##		select('JTreeTable', '')
 		rightclick('JTreeTable', 'Tree,0')

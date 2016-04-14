@@ -6,17 +6,17 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_03'
 
-	if window('Protocol Buffer Editor'):
+	if window(commonBits.applicationName()):
 		select_menu('Utilities>>Compare Menu')
 		click('*1')
-		click('Choose File')
-
+		click('FileSearch')
 		if window('Open'):
 			select(commonBits.selectPaneFn(), 'Ams_LocDownload_20041228_Extract.bin')
+
 			click('Open')
 		close()
 
-		click('Choose File1')
+		click('FileSearch1')
 
 		if window('Open'):
 			select(commonBits.selectPaneFn(), 'Ams_LocDownload_20041228_Extract2.bin')
@@ -30,8 +30,7 @@ def test():
 		select('TabbedPane', '')
 		click('Right')
 		select('TabbedPane', '')
-		click('Choose File')
-
+		click('FileSearch')
 		if window('Save'):
 ##			select(commonBits.selectPane(), 'Compare')
 ##			doubleclick(commonBits.selectPane(), '0')
@@ -40,6 +39,7 @@ def test():
 			else:
 				select('File Name', 'zzTest_asmLocation.Xml')
 			click('Save')
+
 		close()
 
 		click('Save1')
@@ -56,7 +56,7 @@ def test():
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('*')
-		select('FileChooser', commonBits.userDir() + 'Compare' + commonBits.fileSep() + 'zzTest_asmLocation.Xml')
+		select('FileNameTxtFld', commonBits.userDir() + 'Compare' + commonBits.fileSep() + 'zzTest_asmLocation.Xml')
 		click('Run Compare')
 		select('Table', 'cell:Loc_Name,11(Highpoint City)')
 		assert_p('Table', 'Text', 'Laverton', 'Loc_Addr_Ln1,11')

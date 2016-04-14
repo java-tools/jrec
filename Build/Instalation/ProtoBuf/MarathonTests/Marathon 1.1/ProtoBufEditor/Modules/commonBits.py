@@ -1,3 +1,9 @@
+from datetime import datetime
+import time
+
+def applicationName():
+	return 'Protocol Buffer Editor'
+
 def windows():
 	return 1
 ##	return "a" == "a"
@@ -153,10 +159,6 @@ def setCobolLayout2(select, recordLayout, format):
 def userDir():
 	if windows():
 		return paramDir() + 'User\\'
-
-		##return 'C:\\Users\\mum\\RecordEditor_HSQL\\User\\'
-		##return 'C:\\Users\\bm\\.RecordEditor\\' + version() + '\\User\\'
-
 	else: 
 		return paramDir() + '/User/'
 
@@ -166,22 +168,15 @@ def utilDir():
 	
 def paramDir():
 	if windows():
-		if isVersion80():
-##			return 'C:\\Users\\Mum\\.RecordEditor\\ProtoBuf\\'
-			return 'C:\\Users\\BruceTst\\.RecordEditor\\ProtoBuf\\'
-		else:
-			return 'C:\\JavaPrograms\\RecordEdit\\'
-
-		##return 'C:\\Users\\mum\\RecordEditor_HSQL\\User\\'
-		##return 'C:\\Users\\bm\\.RecordEditor\\' + version() + '\\User\\'
+		return 'G:\\Users\\BruceTst01\\.RecordEditor\\ProtoBuf\\'
 	else: 
-		return '/home/bm' + '/.RecordEditor/ProtoBuf' 
+		return '/home/bruce' + '/.RecordEditor/ProtoBuf/' 
 
 
 def selectPane():
 #	return 'File Name'
-#	return 'FilePane$4'
-	return 'FilePane$3'
+#	return 'FilePane$3'
+	return 'FilePane$4'
 
 def selectPaneFn():
 	return 'File Name'
@@ -195,6 +190,18 @@ def selectOldFilemenu(select_menu, menu, text):
 	else:
 		select_menu('File>>' + text)
 
+
+def fl(str):
+	return str
+
+def doSleep():
+	start = datetime.now()
+
+	diff = datetime.now() - start
+	while diff.seconds < 0.3:
+		time.sleep(0.3 - diff.seconds)
+		diff = datetime.now() - start
+	return
 
 def firstField():
 ##	return 'store'

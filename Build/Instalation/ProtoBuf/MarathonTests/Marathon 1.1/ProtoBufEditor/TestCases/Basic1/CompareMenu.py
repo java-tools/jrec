@@ -4,18 +4,17 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_03'
 
-	if window('Protocol Buffer Editor'):
+	if window(commonBits.applicationName()):
 		select_menu('Utilities>>Compare Menu')
 		click('*1')
-		click('Choose File')
-
+		click('FileSearch')
 		if window('Open'):
 			select(commonBits.selectPaneFn(), 'Ams_LocDownload_20041228_Extract.bin')
 			click('Open')
 		close()
 		#commonBits.setRecordLayout2(select, 'ams Store')
 
-		click('Choose File1')
+		click('FileSearch1')
 
 		if window('Open'):
 			select(commonBits.selectPane(), 'Ams_LocDownload_20041228_Extract2.bin')

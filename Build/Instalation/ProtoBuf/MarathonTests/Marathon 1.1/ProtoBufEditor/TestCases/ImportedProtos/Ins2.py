@@ -4,8 +4,8 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_17'
 
-	if window('Protocol Buffer Editor'):
-		select('FileChooser', commonBits.sampleDir() + 'protoStoreSales3im.bin')
+	if window(commonBits.applicationName()):
+		select('FileNameTxtFld', commonBits.sampleDir() + 'protoStoreSales3im.bin')
 		click('Edit1')
 ##		select('JTreeTable', '')
 		rightclick('JTreeTable', 'Tree,1')
@@ -36,19 +36,19 @@ def test():
 			click('OK')
 		close()
 
-		select('Table', '345', 'Data,0')
-		select('Table', '678', 'Data,1')
-		select('Table', '89', 'Data,2')
-		select('Table', '11234', 'Data,3')
-		select('Table', 'cell:Data,2(89)')
-		assert_p('Table', 'Content', '[[keycode, 1, , 345, 345], [saleDate, 2, , 678, 678], [quantity, 3, , 89, 89], [price, 4, , 11234, 11234]]')
+		select('BaseLineAsColumn$LineAsColTbl', '345', 'Data,0')
+		select('BaseLineAsColumn$LineAsColTbl', '678', 'Data,1')
+		select('BaseLineAsColumn$LineAsColTbl', '89', 'Data,2')
+		select('BaseLineAsColumn$LineAsColTbl', '11234', 'Data,3')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,2(89)')
+		assert_p('BaseLineAsColumn$LineAsColTbl', 'Content', '[[keycode, 1, , 345, 345], [saleDate, 2, , 678, 678], [quantity, 3, , 89, 89], [price, 4, , 11234, 11234]]')
 		click('New')
-		select('Table', '987', 'Data,0')
-		select('Table', '876', 'Data,1')
-		select('Table', '654', 'Data,2')
-		select('Table', '4321', 'Data,3')
-		select('Table', 'cell:Data,2(654)')
-		assert_p('Table', 'Content', '[[keycode, 1, , 987, 987], [saleDate, 2, , 876, 876], [quantity, 3, , 654, 654], [price, 4, , 4321, 4321]]')
+		select('BaseLineAsColumn$LineAsColTbl', '987', 'Data,0')
+		select('BaseLineAsColumn$LineAsColTbl', '876', 'Data,1')
+		select('BaseLineAsColumn$LineAsColTbl', '654', 'Data,2')
+		select('BaseLineAsColumn$LineAsColTbl', '4321', 'Data,3')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,2(654)')
+		assert_p('BaseLineAsColumn$LineAsColTbl', 'Content', '[[keycode, 1, , 987, 987], [saleDate, 2, , 876, 876], [quantity, 3, , 654, 654], [price, 4, , 4321, 4321]]')
 		select_menu('Utilities>>Compare with Disk')
 		select('Table', 'cell:Line No,1()')
 		select('Table', 'cell:Line No,1()')

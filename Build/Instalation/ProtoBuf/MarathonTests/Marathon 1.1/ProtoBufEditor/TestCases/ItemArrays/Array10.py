@@ -4,8 +4,8 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_17'
 
-	if window('Protocol Buffer Editor'):
-		select('FileChooser', commonBits.sampleDir() +  'protoStoreSales7.bin')
+	if window(commonBits.applicationName()):
+		select('FileNameTxtFld', commonBits.sampleDir() +  'protoStoreSales7.bin')
 		click('Edit1')
 ##		select('JTreeTable', '')
 		rightclick('JTreeTable', 'Tree,0')
@@ -21,8 +21,8 @@ def test():
 
 		
 ##		select('JTreeTable', 'cell:keycode,8(69684558)')
-		select('Table', 'cell:Row 1,3([19000, -19000, 5010])')
-		select('Table', 'cell:Row 1,3([19000, -19000, 5010])')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Row 1,3([19000, -19000, 5010])')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Row 1,3([19000, -19000, 5010])')
 		click('ArrowButton')
 		
 		select('Table', 'cell:Data,1(-19000)')
@@ -32,8 +32,8 @@ def test():
 		select('Table', 'cell:Data,1(-19000123)')
 		select_menu('Window>>protoStoreSales7.bin>>Column Table')
 ##		select('Table2', 'cell:Data,1(-19000123)')
-		assert_p('Table', 'Text', '')
-		assert_p('Table', 'Content', '[[69684558], [[40118, 40118, 40118]], [[1, -1, 1]], [[1900045, -19000123, 5010]], [[SALE, RETURN, SALE]], [[19.0, -19.0, 5.01]], [[19.0, -19.0, 5.01]], [[\'\',\' -1\',\' -1 1\']]]')
+		assert_p('BaseLineAsColumn$LineAsColTbl', 'Text', '')
+		assert_p('BaseLineAsColumn$LineAsColTbl', 'Content', '[[69684558], [[40118, 40118, 40118]], [[1, -1, 1]], [[1900045, -19000123, 5010]], [[SALE, RETURN, SALE]], [[19.0, -19.0, 5.01]], [[19.0, -19.0, 5.01]], [[\'\',\' -1\',\' -1 1\']]]')
 ###		select_menu('Window>>protoStoreSales7.bin>>Array View: 8, 5')
 		select_menu('Window>>protoStoreSales7.bin>>Array View: 3, 0')
 		assert_p('Table', 'Content', '[[0, 1900045], [1, -19000123], [2, 5010]]')

@@ -4,7 +4,7 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_22'
 
-	if window('Protocol Buffer Editor'):
+	if window(commonBits.applicationName()):
 		select('File_Txt', commonBits.sampleDir() + 'protoStoreSales7.bin')
 		click('Edit1')
 		select('LineTreeChild.FileDisplay_JTbl', 'cell:Tree,0(null)')
@@ -13,6 +13,7 @@ def test():
 		select('LineTreeChild.FileDisplay_JTbl', 'cell:Tree,1(null)')
 		rightclick('LineTreeChild.FileDisplay_JTbl', 'Tree,1')
 		select_menu('Collapse Tree')
+		select('LineTreeChild.Layouts_Txt', 'Store')
 		assert_p('LineTreeChild.FileDisplay_JTbl', 'Content', '[[, , 20, Store: 20], [, , 59, Store: 59], [, , 166, Store: 166], [, , 184, Store: 184]]')
 		select('LineTreeChild.FileDisplay_JTbl', 'rows:[1,2],columns:[Tree]')
 		rightclick('LineTreeChild.FileDisplay_JTbl', 'Tree,2')

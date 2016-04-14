@@ -4,8 +4,8 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_17'
 
-	if window('Protocol Buffer Editor'):
-		select('FileChooser', commonBits.sampleDir() +  'protoStoreSales6.bin')
+	if window(commonBits.applicationName()):
+		select('FileNameTxtFld', commonBits.sampleDir() +  'protoStoreSales6.bin')
 		click('Edit1')
 		##select('JTreeTable', '')
 		rightclick('JTreeTable', 'Tree,0')
@@ -18,7 +18,7 @@ def test():
 		##select('JTreeTable', '')
 		rightclick('JTreeTable', 'quantity,8')
 		select_menu('Edit Record')
-		assert_p('Table', 'Content', '[[keycode, 1, , 69684558, 69684558], [saleDate, 2, , 40118, 40118], [quantity, 3, , 1, 1], [price, 4, , 19000, 19000], [saleType, 5, , OTHER, OTHER], [paymentType, 6, , CHEQUE, CHEQUE]]')
+		assert_p('BaseLineAsColumn$LineAsColTbl', 'Content', '[[keycode, 1, , 69684558, 69684558], [saleDate, 2, , 40118, 40118], [quantity, 3, , 1, 1], [price, 4, , 19000, 19000], [saleType, 5, , OTHER, OTHER], [paymentType, 6, , CHEQUE, CHEQUE]]')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Window>>protoStoreSales6.bin>>Tree View')
 		select('JTreeTable', 'SALE', 'saleType,8')

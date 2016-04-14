@@ -4,14 +4,14 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_17'
 
-	if window('Protocol Buffer Editor'):
+	if window(commonBits.applicationName()):
 		select_menu('Utilities>>Compare Menu')
 		click('*2')
-		select('FileChooser', commonBits.sampleDir() + 'protoStoreSales3_Compare.bin')
+		select('FileNameTxtFld', commonBits.sampleDir() + 'protoStoreSales3_Compare.bin')
 		click('Right')
 		select('TabbedPane', '')
-		select('FileChooser', commonBits.sampleDir() + 'protoStoreSales.bin')
-		select('FileChooser1', commonBits.stdCopybookDir() + 'StoreSales.protocomp')
+		select('FileNameTxtFld', commonBits.sampleDir() + 'protoStoreSales.bin')
+		select('FileNameTxtFld1', commonBits.stdCopybookDir() + 'StoreSales.protocomp')
 		click('Right')
 		select('TabbedPane', '')
 ##		assert_p('Table', 'Content', '[[Product, 0], [Order, -1], [Summary, -1], [Deptartment, 1], [Store, 2]]')
@@ -28,6 +28,7 @@ def test():
 		select('TabbedPane', '')
 		click('Compare')
 ##		assert_p('Table', 'Content', '[[, , , , , , ], [, Inserted, 7, 69684558, 40118, 1, 5010], [, , , , , , ], [, Inserted, 9, 69694158, 40118, -1, -19000], [, , , , , , ], [, Inserted, 14, 929, Department: 929, , ], [, , , , , , ], [, Inserted, 15, 65674532, 40118, 1, 3590], [, , , , , , ], [, Inserted, 50, 170, Department: 170, , ], [, , , , , , ], [, Inserted, 51, 68674560, 40118, 1, 5990], [, , , , , , ], [, Inserted, 55, 62694843, 40118, 1, 13590], [, , , , , , ], [, Inserted, 58, 69644164, 40118, 1, 21590]]')
+		assert_p('Table', 'Content', '[[, , , , , , ], [, Inserted, 7, 69684558, 40118, 1, 5010], [, , , , , , ], [, Inserted, 9, 69694158, 40118, -1, -19000], [, , , , , , ], [, Inserted, 14, 929, Department: 929, , ], [, , , , , , ], [, Inserted, 15, 65674532, 40118, 1, 3590], [, , , , , , ], [, Inserted, 50, 170, Department: 170, , ], [, , , , , , ], [, Inserted, 51, 68674560, 40118, 1, 5990], [, , , , , , ], [, Inserted, 55, 62694843, 40118, 1, 13590], [, , , , , , ], [, Inserted, 58, 69644164, 40118, 1, 21590]]')
 		assert_p('Table', 'Content', '[[, , , , , , ], [, Inserted, 7, 69684558, 40118, 1, 5010], [, , , , , , ], [, Inserted, 9, 69694158, 40118, -1, -19000], [, , , , , , ], [, Inserted, 14, 929, Department: 929, , ], [, , , , , , ], [, Inserted, 15, 65674532, 40118, 1, 3590], [, , , , , , ], [, Inserted, 50, 170, Department: 170, , ], [, , , , , , ], [, Inserted, 51, 68674560, 40118, 1, 5990], [, , , , , , ], [, Inserted, 55, 62694843, 40118, 1, 13590], [, , , , , , ], [, Inserted, 58, 69644164, 40118, 1, 21590]]')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 	close()

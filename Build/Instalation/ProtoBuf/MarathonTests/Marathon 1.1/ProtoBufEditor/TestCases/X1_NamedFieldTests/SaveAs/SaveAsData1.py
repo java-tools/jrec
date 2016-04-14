@@ -4,7 +4,7 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_22'
 
-	if window('Protocol Buffer Editor'):
+	if window(commonBits.applicationName()):
 		select('File_Txt', commonBits.sampleDir() + 'DTAR020_tst1.bin')
 		click('Edit1')
 		select('LineList.FileDisplay_JTbl', 'rows:[3,4,5,6,7,8,9,10],columns:[1|Keycode_no]')

@@ -5,9 +5,10 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_17'
 
-	if window('Protocol Buffer Editor'):
-		select('FileChooser', commonBits.sampleDir() + 'protoStoreSales3a.bin')
-		click('Edit1') 
+	if window(commonBits.applicationName()):
+		select('FileNameTxtFld', commonBits.sampleDir() + 'protoStoreSales3a.bin')
+		click('Edit1')
+ 
 		select('JTreeTable', 'cell:Tree,3(null)')
 		select_menu('Edit>>Copy Record#{s#}')
 		select('JTreeTable', 'cell:Tree,0(null)')
@@ -33,11 +34,12 @@ def test():
 		select('JTreeTable', 'cell:Tree,0(null)')
 		rightclick('JTreeTable', 'Tree,0')
 		select_menu('Edit Record')
-		select('JTreeTable', 'cell:Tree,0(null)')
-		select('Table', 'cell:Data,0(184)')
-		assert_p('Table', 'Content', '[[store, 1, , 184, 184], [name, 2, , Store: 184, Store: 184]]')
+##		select('JTreeTable', 'cell:Tree,0(null)')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,0(184)')
+		assert_p('BaseLineAsColumn$LineAsColTbl', 'Content', '[[store, 1, , 184, 184], [name, 2, , Store: 184, Store: 184]]')
 		click('Delete2')
-##		click('Delete') 
+##		click('Delete')
+ 
 		select_menu('Window>>protoStoreSales3a.bin>>Tree View')
 		select('JTreeTable', 'cell:Tree,0(null)')
 		assert_p('JTreeTable', 'Content', '[[, , 20, Store: 20], [, , 59, Store: 59], [, , 166, Store: 166], [, , 184, Store: 184]]')

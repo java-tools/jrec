@@ -5,22 +5,21 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_03'
 
-	if window('Protocol Buffer Editor'):
-		click('Choose File')
-
+	if window(commonBits.applicationName()):
+		click('FileSearch')
 		if window('Open'):
 ##			select(commonBits.selectPane(), 'Ams_LocDownload_20041228.bin')
-			select(commonBits.selectPaneFn(), 'ams_locdownload_20041228.bin')
+			select(commonBits.selectPaneFn(), 'Ams_LocDownload_20041228.bin')
 			click('Open')
 		close()
 
 		#commonBits.setRecordLayout(select, 'ams Store')
 
 		click('Edit1')
-		select('Table', '1', '5|Loc_Addr_Ln1,0')
-		select('Table', '22', '5|Loc_Addr_Ln1,1')
-		select('Table', '33', '6|Loc_Addr_Ln2,2')
-		select('Table', 'cell:7|Loc_Addr_Ln3,2()')
+		select('LinesTbl', '1', '5|Loc_Addr_Ln1,0')
+		select('LinesTbl', '22', '5|Loc_Addr_Ln1,1')
+		select('LinesTbl', '33', '6|Loc_Addr_Ln2,2')
+		select('LinesTbl', 'cell:7|Loc_Addr_Ln3,2()')
 		select_menu('Utilities>>Compare with Disk')
 ##		select('Table1', 'cell:7|Loc_Addr_Ln3,2()')
 		select('Table', 'cell:Loc_Name,0(DC - Taras Ave)')
@@ -32,8 +31,8 @@ def test():
 ##		zzzzzz
 		select('Table', 'cell:Loc_Name,0(DC - Taras Ave)')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		select('Table', 'cell:7|Loc_Addr_Ln3,2()')
-		select('Table', 'cell:7|Loc_Addr_Ln3,2()')
+		select('LinesTbl', 'cell:7|Loc_Addr_Ln3,2()')
+		select('LinesTbl', 'cell:7|Loc_Addr_Ln3,2()')
 
 ##		if window(r'Save Changes to file: C:\Program Files\RecordEdit\HSQLDB\SampleFiles\Ams_LocDownload_20041228.bin'):
 ##			click('No')

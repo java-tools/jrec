@@ -4,8 +4,8 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.5.0_11'
 
-	if window('Protocol Buffer Editor'):
-		select('FileChooser', commonBits.sampleDir() + 'protoSales.bin')
+	if window(commonBits.applicationName()):
+		select('FileNameTxtFld', commonBits.sampleDir() + 'protoSales.bin')
 		click('Edit1')
 		select_menu('View>>Sorted Field Tree')
 		##select('List', 'sale')
@@ -55,8 +55,8 @@ def test():
 		select('JTreeTable', 'rows:[58,59,60,61,62,63],columns:[Tree]')
 		select_menu('View>>Table View #{Selected Records#}')
 		select('JTreeTable', 'rows:[58,59,60,61,62,63],columns:[Tree]')
-		select('Table', 'cell:1|keycode,3(69684558)')
-		assert_p('Table', 'Content', '[[60694909, 184, 998, 40118, 1, 2000], [63604808, 20, 170, 40118, 1, 4870], [69684558, 20, 280, 40118, 1, 19000], [69684558, 20, 280, 40118, -1, -19000], [69684558, 20, 280, 40118, 1, 5010], [69694158, 20, 280, 40118, 1, 19000], [69694158, 20, 280, 40118, -1, -19000], [69694158, 20, 280, 40118, 1, 5010]]')
+		select('LinesTbl', 'cell:1|keycode,3(69684558)')
+		assert_p('LinesTbl', 'Content', '[[60694909, 184, 998, 40118, 1, 2000], [63604808, 20, 170, 40118, 1, 4870], [69684558, 20, 280, 40118, 1, 19000], [69684558, 20, 280, 40118, -1, -19000], [69684558, 20, 280, 40118, 1, 5010], [69694158, 20, 280, 40118, 1, 19000], [69694158, 20, 280, 40118, -1, -19000], [69694158, 20, 280, 40118, 1, 5010]]')
 
 
 		#if window('Save Changes to file: ' + commonBits.sampleDir() + 'protoSales.bin'):

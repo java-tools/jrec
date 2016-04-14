@@ -5,15 +5,15 @@ def test():
 	import os
 	java_recorded_version = '1.6.0_17'
 
-	if window('Protocol Buffer Editor'):
-		select('FileChooser', commonBits.sampleDir() + 'zXzCreateSales3.bin')
-		select('FileChooser1', commonBits.stdCopybookDir() + 'StoreSales3.proto')
+	if window(commonBits.applicationName()):
+		select('FileNameTxtFld', commonBits.sampleDir() + 'zXzCreateSales3.bin')
+		select('FileNameTxtFld1', commonBits.stdCopybookDir() + 'StoreSales3.proto')
 		select('ComboBox1', 'Proto Definition')
 		click('Edit1')
-		assert_p('Table', 'Content', '[[store, 1, , 0, 0], [name, 2, , , ]]')
-		select('Table', '11', 'Data,0')
-		select('Table', 'name 11', 'Data,1')
-		select('Table', 'cell:Data,0(11)')
+		assert_p('BaseLineAsColumn$LineAsColTbl', 'Content', '[[store, 1, , 0, 0], [name, 2, , , ]]')
+		select('BaseLineAsColumn$LineAsColTbl', '11', 'Data,0')
+		select('BaseLineAsColumn$LineAsColTbl', 'name 11', 'Data,1')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,0(11)')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Window>>zXzCreateSales3.bin>>Tree View')
 		select('LayoutCombo', 'Store')
@@ -25,10 +25,10 @@ def test():
 			click('OK')
 		close()
 
-		select('Table', '121', 'Data,0')
-		select('Table', 'name 121', 'Data,1')
-		select('Table', 'cell:Data,0(121)')
-		assert_p('Table', 'Content', '[[department, 1, , 121, 121], [name, 2, , name 121, name 121]]')
+		select('BaseLineAsColumn$LineAsColTbl', '121', 'Data,0')
+		select('BaseLineAsColumn$LineAsColTbl', 'name 121', 'Data,1')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,0(121)')
+		assert_p('BaseLineAsColumn$LineAsColTbl', 'Content', '[[department, 1, , 121, 121], [name, 2, , name 121, name 121]]')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Window>>zXzCreateSales3.bin>>Tree View')
 		select('LayoutCombo', 'Prefered')
@@ -57,7 +57,7 @@ def test():
 		close()
 
 		click('Edit1')
-		assert_p('Table', 'Content', '[[store, 1, , 0, 0], [name, 2, , , ]]')
+		assert_p('BaseLineAsColumn$LineAsColTbl', 'Content', '[[store, 1, , 0, 0], [name, 2, , , ]]')
 		click('Delete2')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 

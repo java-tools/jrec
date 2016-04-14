@@ -4,10 +4,12 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_22'
 
-	if window('Protocol Buffer Editor'):
+	if window(commonBits.applicationName()):
 		select('File_Txt', commonBits.sampleDir() + 'protoStoreSales7.bin')
 		click('Edit1')
 		select_menu('Window>>Show Child Record')
+		select('LineTreeChild.Layouts_Txt', 'Store')
+		assert_p('LineTreeChild.FileDisplay_JTbl', 'Content', '[[, , 20, Store: 20], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , 59, Store: 59], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , 166, Store: 166], [, , 184, Store: 184]]')
 		assert_p('LineTreeChild.FileDisplay_JTbl', 'Content', '[[, , 20, Store: 20], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , 59, Store: 59], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , , ], [, , 166, Store: 166], [, , 184, Store: 184]]')
 		assert_p('LineFrameTree.FileDisplay_JTbl', 'Content', '[[store, 1, , INT32, 20, 20], [name, 2, , STRING, Store: 20, Store: 20]]')
 		select('LineTreeChild.FileDisplay_JTbl', 'cell:Tree,2(null)')

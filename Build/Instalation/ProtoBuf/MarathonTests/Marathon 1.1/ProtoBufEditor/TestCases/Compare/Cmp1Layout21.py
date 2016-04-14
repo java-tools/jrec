@@ -4,11 +4,11 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_0'
 
-	if window('Protocol Buffer Editor'):
+	if window(commonBits.applicationName()):
 		select_menu('Utilities>>Compare Menu')
 		click('*1')
-		select('FileChooser', commonBits.sampleDir() + 'protoStoreSales3_Compare3.bin')
-		select('FileChooser1', commonBits.sampleDir() + 'protoStoreSales3.bin')
+		select('FileNameTxtFld', commonBits.sampleDir() + 'protoStoreSales3_Compare3.bin')
+		select('FileNameTxtFld1', commonBits.sampleDir() + 'protoStoreSales3.bin')
 		click('Right')
 		select('TabbedPane', '')
 		click('Right')

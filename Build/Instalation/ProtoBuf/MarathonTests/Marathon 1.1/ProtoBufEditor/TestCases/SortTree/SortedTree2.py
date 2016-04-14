@@ -4,8 +4,8 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.5.0_11'
 
-	if window('Protocol Buffer Editor'):
-		select('FileChooser', commonBits.sampleDir() + 'protoSales.bin')
+	if window(commonBits.applicationName()):
+		select('FileNameTxtFld', commonBits.sampleDir() + 'protoSales.bin')
 		##commonBits.setRecordLayout(select, 'DTAR020')
 
 		click('Edit1')
@@ -72,9 +72,9 @@ def test():
 		select('JTreeTable', 'cell:keycode,9(66624458)')
 		rightclick('JTreeTable', 'keycode,9')
 		select_menu('Edit Record')
-		select('JTreeTable', 'cell:keycode,9(66624458)')
-		select('Table', 'cell:Data,0(66624458)')
-		assert_p('Table', 'Text', '20', 'Data,1')
-		select('Table', 'cell:Data,0(66624458)')
+##		select('JTreeTable', 'cell:keycode,9(66624458)')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,0(66624458)')
+		assert_p('BaseLineAsColumn$LineAsColTbl', 'Text', '20', 'Data,1')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,0(66624458)')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 	close()

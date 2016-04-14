@@ -4,14 +4,14 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_0'
 
-	if window('Protocol Buffer Editor'):
+	if window(commonBits.applicationName()):
 		select_menu('Utilities>>Compare Menu')
 		click('*2')
-		select('FileChooser', commonBits.sampleDir() + 'protoStoreSales3_Compare.bin')
+		select('FileNameTxtFld', commonBits.sampleDir() + 'protoStoreSales3_Compare.bin')
 		click('Right')
 		select('TabbedPane', '')
-		select('FileChooser', commonBits.sampleDir() + 'protoStoreSales.bin')
-		select('FileChooser1', commonBits.stdCopybookDir() + 'StoreSales.protocomp')
+		select('FileNameTxtFld', commonBits.sampleDir() + 'protoStoreSales.bin')
+		select('FileNameTxtFld1', commonBits.stdCopybookDir() + 'StoreSales.protocomp')
 		click('Right')
 		select('TabbedPane', '')
 		assert_p('Table', 'Content', '[[Product, Product], [Order,  ], [Summary,  ], [Deptartment, Deptartment], [Store, Store]]')
@@ -24,5 +24,6 @@ def test():
 		click('Right')
 		select('TabbedPane', '')
 		click('Compare')
+		assert_p('Table', 'Content', '[[, , , , ], [, Inserted, 5, 929, Department: 929], [, , , , ], [, Inserted, 17, 170, Department: 170]]')
 		assert_p('Table', 'Content', '[[, , , , ], [, Inserted, 5, 929, Department: 929], [, , , , ], [, Inserted, 17, 170, Department: 170]]')
 	close()

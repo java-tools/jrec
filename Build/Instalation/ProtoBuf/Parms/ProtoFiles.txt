@@ -1,30 +1,31 @@
-ProtoTest_Address1.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/addressbook.protocomp,,1,,0,,0,,1,,AddressBook		$USER_HOME/.RecordEditor/ProtoBuf/SampleFiles
-ProtoTest_Address3.bin		$USER_HOME/.RecordEditor/ProtoBuf//CopyBook/addressbook.protocomp,,1,,1,,0,,0,,Person		$USER_HOME/.RecordEditor/ProtoBuf//SampleFiles
-protoSales.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/sales.protocomp,,1,,1,,0,,0,,sale		$USER_HOME/.RecordEditor/ProtoBuf/SampleFiles
-protoSales11.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/Sales11.protocomp,,1,,1,,0,,0,,sale		$USER_HOME/.RecordEditor/ProtoBuf/SampleFiles
-protoStoreSales3.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		$USER_HOME/.RecordEditor/ProtoBuf/SampleFiles
-protoStoreSales3a.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		$USER_HOME/.RecordEditor/ProtoBuf/SampleFiles
-protoStoreSales3b.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		$USER_HOME/.RecordEditor/ProtoBuf/SampleFiles
-protoStoreSales3c.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		$USER_HOME/.RecordEditor/ProtoBuf/SampleFiles
-protoStoreSales3a.bin$		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		$USER_HOME/.RecordEditor/ProtoBuf/SampleFiles
-protoStoreSales5.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/StoreSales5.protocomp,,1,,1,,0,,4,,Store		$USER_HOME/.RecordEditor/ProtoBuf/SampleFiles
-protoStoreSales6.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/StoreSales6.protocomp,,1,,1,,0,,4,,Store		$USER_HOME/.RecordEditor/ProtoBuf/SampleFiles
-protoStoreSales7.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/StoreSales7.protocomp,,1,,1,,0,,4,,Store		$USER_HOME/.RecordEditor/ProtoBuf/SampleFiles
-protoFieldTest.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/FieldTest.protocomp,,1,,1,,0,,4,,Store		$USER_HOME/.RecordEditor/ProtoBuf/SampleFiles
-protoFieldTest2.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/FieldTest2.protocomp,,1,,1,,0,,4,,Store		$USER_HOME/.RecordEditor/ProtoBuf/SampleFiles
-Ams_LocDownload_20041228.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/Ams_Location.protocomp,,1,,1,,0,,0,,Locations		$USER_HOME/.RecordEditor/ProtoBuf/SampleFiles
-protoStoreSales3SD.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/StoreSales3.protocomp,,1,,3,,0,,4,,Store		$USER_HOME/.RecordEditor/ProtoBuf/SampleFiles
-protoStoreSales5im.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/StoreSales5SD.protocomp,,1,,1,,4,,0,,Store		$USER_HOME/.RecordEditor/ProtoBuf/SampleFiles
-protoStoreSales5SD.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/StoreSales5SD.protocomp,,1,,3,,0,,0,,Store		$USER_HOME/.RecordEditor/ProtoBuf/SampleFiles
-protoStoreSales3SDim.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/StoreSales3im.proto,,0,,3,,0,,4,,Store		$USER_HOME/.RecordEditor/ProtoBuf/SampleFiles
-protoStoreSales3im.bin		$USER_HOME/.RecordEditor/ProtoBuf/CopyBook/StoreSales3im.proto,,0,,1,,3,,0,,Store		$USER_HOME/.RecordEditor/ProtoBuf/SampleFiles
+ProtoTest_Address1.bin		<reproperties>/CopyBook/addressbook.protocomp,,1,,0,,0,,1,,AddressBook		<reproperties>/SampleFiles
+ProtoTest_Address3.bin		<reproperties>/CopyBook/addressbook.protocomp,,1,,1,,0,,0,,Person		<reproperties>/SampleFiles
+protoSales.bin		<reproperties>/CopyBook/sales.protocomp,,1,,1,,0,,0,,sale		<reproperties>/SampleFiles
+protoSales11.bin		<reproperties>/CopyBook/Sales11.protocomp,,1,,1,,0,,0,,sale		<reproperties>/SampleFiles
+protoStoreSales3.bin		<reproperties>/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		<reproperties>/SampleFiles
+protoStoreSales3a.bin		<reproperties>/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		<reproperties>/SampleFiles
+protoStoreSales3b.bin		<reproperties>/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		<reproperties>/SampleFiles
+protoStoreSales3c.bin		<reproperties>/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		<reproperties>/SampleFiles
+protoStoreSales3a.bin$		<reproperties>/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		<reproperties>/SampleFiles
+protoStoreSales5.bin		<reproperties>/CopyBook/StoreSales5.protocomp,,1,,1,,0,,4,,Store		<reproperties>/SampleFiles
+protoStoreSales6.bin		<reproperties>/CopyBook/StoreSales6.protocomp,,1,,1,,0,,4,,Store		<reproperties>/SampleFiles
+protoStoreSales7.bin		<reproperties>/CopyBook/StoreSales7.protocomp,,1,,1,,0,,4,,Store		<reproperties>/SampleFiles
+protoFieldTest.bin		<reproperties>/CopyBook/FieldTest.protocomp,,1,,1,,0,,4,,Store		<reproperties>/SampleFiles
+protoFieldTest2.bin		<reproperties>/CopyBook/FieldTest2.protocomp,,1,,1,,0,,4,,Store		<reproperties>/SampleFiles
+Ams_LocDownload_20041228.bin		<reproperties>/CopyBook/Ams_Location.protocomp,,1,,1,,0,,0,,Locations		<reproperties>/SampleFiles
+protoStoreSales3SD.bin		<reproperties>/CopyBook/StoreSales3.protocomp,,1,,3,,0,,4,,Store		<reproperties>/SampleFiles
+protoStoreSales5im.bin		<reproperties>/CopyBook/StoreSales5SD.protocomp,,1,,1,,4,,0,,Store		<reproperties>/SampleFiles
+protoStoreSales5SD.bin		<reproperties>/CopyBook/StoreSales5SD.protocomp,,1,,3,,0,,0,,Store		<reproperties>/SampleFiles
+protoStoreSales3SDim.bin		<reproperties>/CopyBook/StoreSales3im.proto,,0,,3,,0,,4,,Store		<reproperties>/SampleFiles
+protoStoreSales3im.bin		<reproperties>/CopyBook/StoreSales3im.proto,,0,,1,,3,,0,,Store		<reproperties>/SampleFiles
+Ams_LocDownload_20041228.bin		<reproperties>/CopyBook/Ams_Location.protocomp,,1,,1,,0,,0,,Locations		<reproperties>/SampleFiles
+protoStoreSales7.bin		<reproperties>/CopyBook/StoreSales7.protocomp,,1,,1,,0,,4,,Store		<reproperties>/SampleFiles
 <extensions>		<velocity>
-tocsv_tab		.csv
-tocsv_comma.vm		.csv
-zxmlstylesheet1.vm		.csv
+toCsv_Tab		.csv
+toCsv_Comma.vm		.csv
 zxmlstylesheet2.vm		.csv
+zxmlstylesheet1.vm		.csv
 <extensions>		<xslt>
 testxml_01a.xsl		.txt
 testxml_01b.xsl		.html
-
-
+<extensions>		<script>

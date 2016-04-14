@@ -4,8 +4,8 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_17'
 
-	if window('Protocol Buffer Editor'):
-		select('FileChooser', commonBits.sampleDir() + 'protoStoreSales3a.bin')
+	if window(commonBits.applicationName()):
+		select('FileNameTxtFld', commonBits.sampleDir() + 'protoStoreSales3a.bin')
 		click('Edit1')
 		select('JTreeTable', 'cell:Tree,1(null)')
 		assert_p('JTreeTable', 'Content', '[[, , 20, Store: 20], [, , 59, Store: 59], [, , 166, Store: 166], [, , 184, Store: 184]]')
@@ -31,22 +31,23 @@ def test():
 ##		click('BaseHelpPanel', 1021, 37)
 		select('LayoutCombo', 'Product')
 		select('JTreeTable', 'cell:saleDate,8(40118)')
-		assert_p('JTreeTable', 'Content', '[[, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , 69684558, 40118, 1, 19000], [, , 69684558, 40118, -1, -19000], [, , 69684558, 40118, 1, 5010], [, , 69694158, 40118, 1, 19000], [, , 69694158, 40118, -1, -19000], [, , 69694158, 40118, 1, 5010], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ]]')
+		assert_p('JTreeTable', 'Content', '[[, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , 69684558, 40118, 1, 19000], [, , 69684558, 40118, -1, -19000], [, , 69684558, 40118, 1, 5010], [, , 69694158, 40118, 1, 19000], [, , 69694158, 40118, -1, -19000], [, , 69694158, 40118, 1, 5010], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ]]')
+
 ##		select('JTreeTable', '')
 		rightclick('JTreeTable', 'Tree,7')
 		select_menu('Edit Record')
-		select('Table', 'cell:Data,1(40118)')
-		assert_p('Table', 'Content', '[[keycode, 1, , 69684558, 69684558], [saleDate, 2, , 40118, 40118], [quantity, 3, , 1, 1], [price, 4, , 19000, 19000]]')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,1(40118)')
+		assert_p('BaseLineAsColumn$LineAsColTbl', 'Content', '[[keycode, 1, , 69684558, 69684558], [saleDate, 2, , 40118, 40118], [quantity, 3, , 1, 1], [price, 4, , 19000, 19000]]')
 
 ################################
 		click('New')
 ###############################
-		select('Table', '11', 'Data,0')
-		select('Table', '22', 'Data,1')
-		select('Table', '33', 'Data,2')
-		select('Table', '44', 'Data,3')
-		select('Table', 'cell:Data,2(33)')
-		assert_p('Table', 'Content', '[[keycode, 1, , 11, 11], [saleDate, 2, , 22, 22], [quantity, 3, , 33, 33], [price, 4, , 44, 44]]')
+		select('BaseLineAsColumn$LineAsColTbl', '11', 'Data,0')
+		select('BaseLineAsColumn$LineAsColTbl', '22', 'Data,1')
+		select('BaseLineAsColumn$LineAsColTbl', '33', 'Data,2')
+		select('BaseLineAsColumn$LineAsColTbl', '44', 'Data,3')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,2(33)')
+		assert_p('BaseLineAsColumn$LineAsColTbl', 'Content', '[[keycode, 1, , 11, 11], [saleDate, 2, , 22, 22], [quantity, 3, , 33, 33], [price, 4, , 44, 44]]')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Window>>protoStoreSales3a.bin>>Tree View')
 		select('JTreeTable', 'cell:saleDate,9(40118)')

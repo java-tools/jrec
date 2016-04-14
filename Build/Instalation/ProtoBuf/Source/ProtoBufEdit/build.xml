@@ -1,6 +1,6 @@
-<!-- 
+<!--
 /*************************************************************
- * This file is part of RecordEditor.  
+ * This file is part of RecordEditor.
  * See the file "LICENSE" for copyright information and the
  * terms and conditions for copying, distribution and
  * modification of RecordEditor.
@@ -16,10 +16,11 @@
 	<property name="docs.dir" location="docs" />
 	<property name="javadoc.dir" location="${docs.dir}/api" />
 	<property name="ProtoBufEditor.jar" location="${lib.dir}/ProtoBufEditor.jar" />
-	<property name="workspace.dir" location="/home/bm/workspace" />
+	<property name="ProtoBufSummary.jar" location="${lib.dir}/ProtoBufSummary.jar" />
+	<!--property name="workspace.dir" location="/home/bm/workspace" /!-->
 	<property name="work.dir" location="/home/bm/Work/" />
 	<property name="reProtoBufEditor" location="${work.dir}RecordEditor/Instalation/hsqldb_izpack/ProtoBufEditor" />
-	<property name="inputLib.dir" location="/home/knoppix/RecordEdit/ProtoBuf/lib" />
+	<property name="inputLib.dir" location="G:\Program Files\RecordEdit\ProtoBuf\lib" />
 
 	<target name="clean" description="clean">
 		<delete file="${ProtoBufEditor.jar}" />
@@ -30,16 +31,16 @@
 
 	<target name="compile" description="compile code">
 		<mkdir dir="${build.dir}" />
-		<javac srcdir="${src.dir}" destdir="${build.dir}" optimize="true" target="1.5" debug="true" >
+		<javac srcdir="${src.dir}" destdir="${build.dir}" optimize="true" target="1.6" debug="true" >
 			<exclude name="net/sf/RecordEditor/ProtoBuf/re/Test/**"/>
 			<exclude name="net/sf/RecordEditor/zProtoBuf/zTest/**"/>
 			<exclude name="com/**"/>
 			<exclude name="jrecord/**"/>
 			<classpath>
-				<filelist dir="${inputLib.dir}">
+				<filelist dir="../RecordEditor/lib/">
 					<file name="RecordEdit.jar"/>
 				</filelist>
-				<filelist dir="${inputLib.dir}">
+				<filelist dir="../JRecord_097/lib/">
 					<file name="JRecord.jar"/>
 				</filelist>
 				<filelist dir="${inputLib.dir}">
@@ -56,7 +57,18 @@
 
 	<target name="build" depends="compile" description="build jar">
 		<mkdir dir="${lib.dir}" />
-		<jar basedir="${build.dir}" destfile="${ProtoBufEditor.jar}" filesonly="true"/>
+		<jar destfile="${ProtoBufEditor.jar}" filesonly="true">
+			<fileset dir="${build.dir}">
+				<exclude  name="net/sf/RecordEditor/ProtoBuf/summary/ProtoSummary.class"/>
+				<exclude  name="net/sf/RecordEditor/ProtoBuf/summary/ProtoSummary$*.class"/>
+			</fileset>
+		</jar>
+		<jar destfile="${ProtoBufSummary.jar}" filesonly="true">
+			<fileset dir="${build.dir}">
+				<include  name="net/sf/RecordEditor/ProtoBuf/summary/ProtoSummary.class"/>
+				<include  name="net/sf/RecordEditor/ProtoBuf/summary/ProtoSummary$*.class"/>
+			</fileset>
+		</jar>
 
 		<!--delete file="${reProtoBufEditor}.jar" />
 		<delete file="${reProtoBufEditor}.pack" />
@@ -69,7 +81,7 @@
 			<fileset dir="${src.dir}/com"/>
 		</copy>
     	<copy todir="${work.dir}/RecordEditor/Instalation/ProtoBuf/Source/ProtoBufEdit" file="build.xml"/!-->
-	</target>	
+	</target>
 
 	<target name="javadoc" description="javadoc">
 		<mkdir dir="${javadoc.dir}" />
@@ -82,7 +94,7 @@
 		<delete file="${reProtoBufEditor}.jar" />
 		<delete file="${reProtoBufEditor}.pack" />
 		<delete dir="${work.dir}/RecordEditor/Instalation/ProtoBuf/Source/src/" />
- 
+
 		<copy todir="${work.dir}/RecordEditor/Instalation/hsqldb_izpack" file="${ProtoBufEditor.jar}"/>
 		<mkdir dir="${work.dir}/RecordEditor/Instalation/ProtoBuf/Source/src" />
     	<copy todir="${work.dir}/RecordEditor/Instalation/ProtoBuf/Source/ProtoBufEdit/src/net">

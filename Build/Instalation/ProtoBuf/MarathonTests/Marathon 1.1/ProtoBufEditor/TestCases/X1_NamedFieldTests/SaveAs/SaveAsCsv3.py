@@ -4,14 +4,16 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_22'
 
-	if window('Protocol Buffer Editor'):
+	if window(commonBits.applicationName()):
 		select('File_Txt', commonBits.sampleDir() + 'DTAR020_tst1.bin')
 		click('Edit1')
 		select('LineList.FileDisplay_JTbl', 'rows:[2,3,4,5,6,7,8,9,10,11,12,13,14],columns:[1|Keycode_no]')
 		select_menu('View>>Table View #{Selected Records#}')
 ##		select('LineList.FileDisplay_JTbl1', 'rows:[2,3,4,5,6,7,8,9,10,11,12,13,14],columns:[1|Keycode_no]')
 		assert_p('LineList.FileDisplay_JTbl', 'Content', '[[69684558, 20, 40118, 280, -1, -19000], [69694158, 20, 40118, 280, 1, 5010], [62684671, 20, 40118, 685, 1, 69990], [62684671, 20, 40118, 685, -1, -69990], [61664713, 59, 40118, 335, 1, 17990], [61664713, 59, 40118, 335, -1, -17990], [61684613, 59, 40118, 335, 1, 12990], [68634752, 59, 40118, 410, 1, 8990], [60694698, 59, 40118, 620, 1, 3990], [60664659, 59, 40118, 620, 1, 3990], [60614487, 59, 40118, 878, 1, 5950], [68654655, 166, 40118, 60, 1, 5080], [69624033, 166, 40118, 80, 1, 18190]]')
-		select('LineList.FileDisplay_JTbl', 'rows:[1,2,3,4,5,6,7,8],columns:[1|Keycode_no,2|Store_No]')
+		select('LineList.FileDisplay_JTbl', 'rows:[1,2,3,12],columns:[1|Keycode_no,2|Store_No]')
+		select('LineList.FileDisplay_JTbl', 'rows:[2,3,4,5,6,7,8],columns:[1|Keycode_no]')
+
 		select_menu('File>>Export as CSV file')
 ##		select('LineList.FileDisplay_JTbl', 'rows:[2,3,4,5,6,7,8],columns:[1|Keycode_no,2|Store_No]')
 		select('Csv.Delimiter_Txt', '|')
@@ -37,6 +39,7 @@ def test():
 		click('Save File')
 		assert_p('LineList.FileDisplay_JTbl', 'Content', '[[62684671, 20, 40118, 685, 1, 69990], [62684671, 20, 40118, 685, -1, -69990], [61664713, 59, 40118, 335, 1, 17990], [61664713, 59, 40118, 335, -1, -17990], [61684613, 59, 40118, 335, 1, 12990], [68634752, 59, 40118, 410, 1, 8990], [60694698, 59, 40118, 620, 1, 3990]]')
 		assert_p('LineList.FileDisplay_JTbl', 'Content', '[[62684671, 20, 40118, 685, 1, 69990], [62684671, 20, 40118, 685, -1, -69990], [61664713, 59, 40118, 335, 1, 17990], [61664713, 59, 40118, 335, -1, -17990], [61684613, 59, 40118, 335, 1, 12990], [68634752, 59, 40118, 410, 1, 8990], [60694698, 59, 40118, 620, 1, 3990]]')
+		
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select('What to Save_Txt', 'Current View')
 		click('Save File')

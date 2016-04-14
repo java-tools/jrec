@@ -4,9 +4,9 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_03'
 
-	if window('Protocol Buffer Editor'):
+	if window(commonBits.applicationName()):
 
-		select('FileChooser', commonBits.sampleDir() + 'protoStoreSales3.bin')
+		select('FileNameTxtFld', commonBits.sampleDir() + 'protoStoreSales3.bin')
 		click('Edit1')
 ##		select('JTreeTable', '')
 		rightclick('JTreeTable', 'Tree,0')
@@ -22,7 +22,7 @@ def test():
 		assert_p('Table', 'Content', '[[, Old, 6, 69684558, 40118, 1, 19000], [, New, 6, , , 1333, ], [, Old, 8, 69684558, 40118, 1, 5010], [, New, 8, 69694158, , , 19123], [, Deleted, 9, 69694158, 40118, 1, 19000], [, , , , , , ], [, Deleted, 10, 69694158, 40118, -1, -19000], [, , , , , , ]]')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('File>>Export')
-		select('FileChooser', commonBits.sampleDir() + 'protoStoreSales3_Compare2.bin')
+		select('FileNameTxtFld', commonBits.sampleDir() + 'protoStoreSales3_Compare2.bin')
 		click('Save File')
 #		select_menu('Window>>protoStoreSales3.bin>>Tree View')
 #		click('BasicInternalFrameTitlePane$NoFocusButton2')

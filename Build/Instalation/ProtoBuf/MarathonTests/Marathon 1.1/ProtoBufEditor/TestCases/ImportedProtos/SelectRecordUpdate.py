@@ -4,8 +4,8 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_17'
 
-	if window('Protocol Buffer Editor'):
-		select('FileChooser', commonBits.sampleDir() + 'protoStoreSales3im.bin')
+	if window(commonBits.applicationName()):
+		select('FileNameTxtFld', commonBits.sampleDir() + 'protoStoreSales3im.bin')
 		click('Edit1')
 ##		select('JTreeTable', '')
 		rightclick('JTreeTable', 'Tree,1')
@@ -22,15 +22,15 @@ def test():
 		select('JTreeTable', 'rows:[5,6,7],columns:[saleDate]')
 		select_menu('View>>Record View #{Selected Records#}')
 ##		select('JTreeTable', 'rows:[5,6,7],columns:[saleDate]')
-		select('Table', 'cell:Data,1(40118)')
-		assert_p('Table', 'Content', '[[keycode, 1, , 61664713, 61664713], [saleDate, 2, , 40118, 40118], [quantity, 3, , 1, 1], [price, 4, , 17990, 17990]]')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,1(40118)')
+		assert_p('BaseLineAsColumn$LineAsColTbl', 'Content', '[[keycode, 1, , 61664713, 61664713], [saleDate, 2, , 40118, 40118], [quantity, 3, , 1, 1], [price, 4, , 17990, 17990]]')
 		click('Right')
-		select('Table', 'cell:Data,1(40118)')
-		assert_p('Table', 'Content', '[[keycode, 1, , 61664713, 61664713], [saleDate, 2, , 40118, 40118], [quantity, 3, , -1, -1], [price, 4, , -17990, -17990]]')
-		select('Table', '-11', 'Data,2')
-		select('Table', '-1117990', 'Data,3')
-		select('Table', 'cell:Data,2(-11)')
-		assert_p('Table', 'Content', '[[keycode, 1, , 61664713, 61664713], [saleDate, 2, , 40118, 40118], [quantity, 3, , -11, -11], [price, 4, , -1117990, -1117990]]')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,1(40118)')
+		assert_p('BaseLineAsColumn$LineAsColTbl', 'Content', '[[keycode, 1, , 61664713, 61664713], [saleDate, 2, , 40118, 40118], [quantity, 3, , -1, -1], [price, 4, , -17990, -17990]]')
+		select('BaseLineAsColumn$LineAsColTbl', '-11', 'Data,2')
+		select('BaseLineAsColumn$LineAsColTbl', '-1117990', 'Data,3')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,2(-11)')
+		assert_p('BaseLineAsColumn$LineAsColTbl', 'Content', '[[keycode, 1, , 61664713, 61664713], [saleDate, 2, , 40118, 40118], [quantity, 3, , -11, -11], [price, 4, , -1117990, -1117990]]')
 		select_menu('Window>>protoStoreSales3im.bin>>Tree View')
 		select('JTreeTable', 'cell:saleDate,5(40118)')
 		assert_p('JTreeTable', 'Content', '[[, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , 61664713, 40118, 1, 17990], [, , 61664713, 40118, -11, -1117990], [, , 61684613, 40118, 1, 12990], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ], [, , , , , ]]')
@@ -44,8 +44,8 @@ def test():
 		select('JTreeTable', '-17990', 'price,6')
 ##		select('JTreeTable', '')
 		select_menu('Window>>protoStoreSales3im.bin>>Record:')
-		select('Table', 'cell:Data,1(40118)')
-		assert_p('Table', 'Content', '[[keycode, 1, , 61664713, 61664713], [saleDate, 2, , 40118, 40118], [quantity, 3, , -1, -1], [price, 4, , -17990, -17990]]')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,1(40118)')
+		assert_p('BaseLineAsColumn$LineAsColTbl', 'Content', '[[keycode, 1, , 61664713, 61664713], [saleDate, 2, , 40118, 40118], [quantity, 3, , -1, -1], [price, 4, , -17990, -17990]]')
 		select_menu('Utilities>>Compare with Disk')
 		assert_p('TextPane', 'Text', 'Files are Identical !!!')
 

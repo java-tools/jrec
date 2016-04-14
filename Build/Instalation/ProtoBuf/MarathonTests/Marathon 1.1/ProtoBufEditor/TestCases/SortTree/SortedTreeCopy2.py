@@ -4,8 +4,8 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.5.0_11'
 
-	if window('Protocol Buffer Editor'):
-		select('FileChooser', commonBits.sampleDir() + 'protoSales.bin')
+	if window(commonBits.applicationName()):
+		select('FileNameTxtFld', commonBits.sampleDir() + 'protoSales.bin')
 		click('Edit1')
 		select_menu('View>>Sorted Field Tree')
 		##select('List', 'sale')
@@ -58,14 +58,14 @@ def test():
 		assert_p('JTreeTable', 'RowCount', '22')
 		select('JTreeTable', 'rows:[7,8,9,10,11,12,13,14,15],columns:[Tree]')
 		select_menu('View>>Table View #{Selected Records#}')
-		select('JTreeTable', 'rows:[7,8,9,10,11,12,13,14,15],columns:[Tree]')
-		select('Table', 'cell:1|keycode,4(63604808)')
-		assert_p('Table', 'Content', '[[64614401, 59, 957, 40118, 1, 1990], [64614401, 59, 957, 40118, 1, 1990], [62684217, 59, 957, 40118, 1, 9990], [64624770, 59, 957, 40118, 1, 2590], [63604808, 20, 170, 40118, 1, 4870], [69684558, 20, 280, 40118, 1, 19000], [69684558, 20, 280, 40118, -1, -19000], [69684558, 20, 280, 40118, 1, 5010], [69694158, 20, 280, 40118, 1, 19000], [69694158, 20, 280, 40118, -1, -19000], [69694158, 20, 280, 40118, 1, 5010], [62684671, 20, 685, 40118, 1, 69990], [62684671, 20, 685, 40118, -1, -69990], [65674532, 20, 929, 40118, 1, 3590]]')
-		select('Table', 'cell:1|keycode,7(69684558)')
-		assert_p('Table', 'Text', '69684558', '1|keycode,7')
-		select('Table', 'cell:1|keycode,1(64614401)')
-		assert_p('Table', 'Text', '62684217', '1|keycode,2')
-		select('Table', 'cell:1|keycode,1(64614401)')
+##		select('JTreeTable', 'rows:[7,8,9,10,11,12,13,14,15],columns:[Tree]')
+		select('LinesTbl', 'cell:1|keycode,4(63604808)')
+		assert_p('LinesTbl', 'Content', '[[64614401, 59, 957, 40118, 1, 1990], [64614401, 59, 957, 40118, 1, 1990], [62684217, 59, 957, 40118, 1, 9990], [64624770, 59, 957, 40118, 1, 2590], [63604808, 20, 170, 40118, 1, 4870], [69684558, 20, 280, 40118, 1, 19000], [69684558, 20, 280, 40118, -1, -19000], [69684558, 20, 280, 40118, 1, 5010], [69694158, 20, 280, 40118, 1, 19000], [69694158, 20, 280, 40118, -1, -19000], [69694158, 20, 280, 40118, 1, 5010], [62684671, 20, 685, 40118, 1, 69990], [62684671, 20, 685, 40118, -1, -69990], [65674532, 20, 929, 40118, 1, 3590]]')
+		select('LinesTbl', 'cell:1|keycode,7(69684558)')
+		assert_p('LinesTbl', 'Text', '69684558', '1|keycode,7')
+		select('LinesTbl', 'cell:1|keycode,1(64614401)')
+		assert_p('LinesTbl', 'Text', '62684217', '1|keycode,2')
+		select('LinesTbl', 'cell:1|keycode,1(64614401)')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')

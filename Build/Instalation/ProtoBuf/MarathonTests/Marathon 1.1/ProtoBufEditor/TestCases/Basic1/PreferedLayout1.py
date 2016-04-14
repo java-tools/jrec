@@ -4,12 +4,12 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_17'
 
-	if window('Protocol Buffer Editor'):
-		select('FileChooser', commonBits.sampleDir() + 'protostoresales3.bin')
+	if window(commonBits.applicationName()):
+		select('FileNameTxtFld', commonBits.sampleDir() + 'protoStoreSales3.bin')
 		click('Edit1')
 ##		select('JTreeTable', '')
 
-		select_menu('File>>Recent Files>>protostoresales3.bin')
+		select_menu('File>>Recent Files>>protoStoreSales3.bin')
 		select('JTreeTable', 'cell:Tree,0(null)')
 		rightclick('JTreeTable', 'Tree,0')
 		select_menu('Expand Tree')

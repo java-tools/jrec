@@ -4,8 +4,8 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_17'
 
-	if window('Protocol Buffer Editor'):
-		select('FileChooser', commonBits.sampleDir() + 'protoStoreSales3a.bin')
+	if window(commonBits.applicationName()):
+		select('FileNameTxtFld', commonBits.sampleDir() + 'protoStoreSales3a.bin')
 		click('Edit1')
 		select('JTreeTable', 'cell:Tree,1(null)')
 		rightclick('JTreeTable', 'Tree,1')
@@ -97,8 +97,8 @@ def test():
 ##		select('JTreeTable', '')
 		rightclick('JTreeTable', 'Tree,4')
 		select_menu('Edit Record')
-		select('Table', 'cell:Data,0(80)')
-		assert_p('Table', 'Content', '[[department, 1, , 80, 80], [name, 2, , Department: 80, Department: 80]]')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,0(80)')
+		assert_p('BaseLineAsColumn$LineAsColTbl', 'Content', '[[department, 1, , 80, 80], [name, 2, , Department: 80, Department: 80]]')
 		click('Delete2')
 		select_menu('Window>>protoStoreSales3a.bin>>Tree View')
 		select('JTreeTable', 'cell:department,4(410)')

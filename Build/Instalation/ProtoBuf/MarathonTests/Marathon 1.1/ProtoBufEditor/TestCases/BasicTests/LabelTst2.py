@@ -4,8 +4,8 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.5.0_11'
 
-	if window('Protocol Buffer Editor'):
-		select('FileChooser', commonBits.sampleDir() + 'Ams_LocDownload_20041228.bin')
+	if window(commonBits.applicationName()):
+		select('FileNameTxtFld', commonBits.sampleDir() + 'Ams_LocDownload_20041228.bin')
 		click('Edit1')
 		click('Find1')
 		assert_p('Label', 'Text', 'Search For')

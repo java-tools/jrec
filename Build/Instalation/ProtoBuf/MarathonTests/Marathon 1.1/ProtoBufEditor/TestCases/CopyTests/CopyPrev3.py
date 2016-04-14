@@ -4,8 +4,8 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_17'
 
-	if window('Protocol Buffer Editor'):
-		select('FileChooser', commonBits.sampleDir() + 'protoStoreSales3a.bin')
+	if window(commonBits.applicationName()):
+		select('FileNameTxtFld', commonBits.sampleDir() + 'protoStoreSales3a.bin')
 		click('Edit1')
 ##		select('JTreeTable', '')
 		rightclick('JTreeTable', 'Tree,1')
@@ -36,19 +36,19 @@ def test():
 		select('JTreeTable', 'cell:department,5(410)')
 		rightclick('JTreeTable', 'department,4')
 		select_menu('Edit Record')
-		select('JTreeTable', 'cell:department,5(410)')
-		select('Table', 'cell:Data,0(957)')
-		select('Table', 'cell:Data,1(Department: 957)')
-		assert_p('Table', 'Content', '[[department, 1, , 957, 957], [name, 2, , Department: 957, Department: 957]]')
-		select('Table', 'cell:Data,1(Department: 957)')
+##		select('JTreeTable', 'cell:department,5(410)')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,0(957)')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,1(Department: 957)')
+		assert_p('BaseLineAsColumn$LineAsColTbl', 'Content', '[[department, 1, , 957, 957], [name, 2, , Department: 957, Department: 957]]')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,1(Department: 957)')
 		click('Save')
 		select_menu('Utilities>>Compare with Disk')
 		assert_p('TextPane', 'Text', 'Files are Identical !!!')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
-		select('Table', 'cell:Data,1(Department: 957)')
-		select('Table', 'cell:Data,1(Department: 957)')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,1(Department: 957)')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,1(Department: 957)')
 		select_menu('Window>>protoStoreSales3a.bin>>Record:')
-		select('Table', 'cell:Data,1(Department: 957)')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,1(Department: 957)')
 		click('Delete2')
 		select_menu('Window>>protoStoreSales3a.bin>>Tree View')
 		select('JTreeTable', 'cell:Tree,4(null)')

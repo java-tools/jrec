@@ -4,8 +4,8 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_03'
 
-	if window('Protocol Buffer Editor'):
-		select('FileChooser', commonBits.sampleDir() + 'protoSales.bin')
+	if window(commonBits.applicationName()):
+		select('FileNameTxtFld', commonBits.sampleDir() + 'protoSales.bin')
 
 		click('Edit1')
 		select_menu('View>>Sorted Field Tree')
@@ -24,7 +24,7 @@ def test():
 		select('Table1', 'Sum', 'Function,5')
 		select('Table1', 'cell:Function,5(Sum)')
 		click('Save1')
-		##select('FileChooser', commonBits.userDir() +  'SortTree'  + commonBits.fileSep() + 'xx2')
+		##select('FileNameTxtFld', commonBits.userDir() +  'SortTree'  + commonBits.fileSep() + 'xx2')
 		commonBits.selectFileName(select, commonBits.userDir() +  'SortTree'  + commonBits.fileSep() + 'xx2')
 
 
@@ -56,7 +56,7 @@ def test():
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Window>>protoSales.bin>>Table:')
 		select_menu('View>>Execute Sort Tree')
-		##select('FileChooser', commonBits.userDir() +  'SortTree'  + commonBits.fileSep() + 'xx2')
+		##select('FileNameTxtFld', commonBits.userDir() +  'SortTree'  + commonBits.fileSep() + 'xx2')
 		commonBits.selectFileName(select, commonBits.userDir() +  'SortTree'  + commonBits.fileSep() + 'xx2')
 
 		click('Run')

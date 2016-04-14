@@ -4,7 +4,7 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_22'
 
-	if window('Protocol Buffer Editor'):
+	if window(commonBits.applicationName()):
 		select('File_Txt', commonBits.sampleDir() + 'DTAR020_tst1.bin')
 		click('Proto Search')
 		assert_p('Table1', 'Content', r'[[' + commonBits.stdCopybookDir() + 'DTAR020.proto, DTAR020.proto, sale], [' + commonBits.stdCopybookDir() + 'DTAR020.protocomp, DTAR020.proto, sale], [' + commonBits.stdCopybookDir() + 'Sales.proto, Sales.proto, sale], [' + commonBits.stdCopybookDir() + 'sales.protocomp, sales.proto, sale]]')

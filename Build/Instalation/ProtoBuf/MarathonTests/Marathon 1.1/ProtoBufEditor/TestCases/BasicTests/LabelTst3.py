@@ -4,8 +4,8 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.5.0_11'
 
-	if window('Protocol Buffer Editor'):
-		select('FileChooser', commonBits.sampleDir() + 'Ams_LocDownload_20041228.bin')
+	if window(commonBits.applicationName()):
+		select('FileNameTxtFld', commonBits.sampleDir() + 'Ams_LocDownload_20041228.bin')
 		click('Edit1')
 
 		if commonBits.isVersion80():
@@ -21,7 +21,8 @@ def test():
 			#assert_p('Label4', 'Text', 'Only Data Column')
 			assert_p('Label4', 'Text', 'Quote')
 			assert_p('Label3', 'Text', 'Delimiter')
-			assert_p('Label6', 'Text', 'Add Quote to all Text Fields')
+			assert_p('Label6', 'Text', 'names on first line')
+			assert_p('Label7', 'Text', 'Add Quote to all Text Fields')
 		else:
 			assert_p('Label3', 'Text', 'Output Format:')
 			#assert_p('Label4', 'Text', 'Only Data Column')

@@ -4,12 +4,12 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_0'
 
-	if window('Protocol Buffer Editor'):
+	if window(commonBits.applicationName()):
 ##		click('PopupMenu$Separator5', 73, 0)
 		select_menu('Utilities>>Compare Menu')
 		click('*1')
-		select('FileChooser', commonBits.sampleDir() + 'protoStoreSales3.bin')
-		select('FileChooser1', commonBits.sampleDir() + 'protoStoreSales3_Compare2.bin')
+		select('FileNameTxtFld', commonBits.sampleDir() + 'protoStoreSales3.bin')
+		select('FileNameTxtFld1', commonBits.sampleDir() + 'protoStoreSales3_Compare2.bin')
 		click('Right')
 		select('TabbedPane', '')
 		assert_p('Table', 'Content', '[[Product, true], [Order, true], [Summary, true], [Deptartment, true], [Store, true]]')

@@ -4,11 +4,10 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_03'
 
-	if window('Protocol Buffer Editor'):
+	if window(commonBits.applicationName()):
 		select_menu('Utilities>>Compare Menu')
 		click('*2')
-		click('Choose File')
-
+		click('FileSearch')
 		if window('Open'):
 			select(commonBits.selectPane(), 'Ams_LocDownload_20041228_Extract.bin')
 			click('Open')
@@ -19,8 +18,7 @@ def test():
 
 		click('Right')
 		select('TabbedPane', '')
-		click('Choose File')
-
+		click('FileSearch')
 		if window('Open'):
 			select(commonBits.selectPane(), 'Ams_LocDownload_20041228_Extract2.bin')
 			click('Open')

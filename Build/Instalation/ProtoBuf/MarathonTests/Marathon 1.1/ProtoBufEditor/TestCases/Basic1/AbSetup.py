@@ -4,7 +4,7 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_17'
 
-	if window('Protocol Buffer Editor'):
+	if window(commonBits.applicationName()):
 		click('Preferences')
 
 		if window('Record Editor Options Editor'):

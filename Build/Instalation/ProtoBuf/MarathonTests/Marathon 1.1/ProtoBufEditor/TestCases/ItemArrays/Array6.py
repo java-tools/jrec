@@ -4,8 +4,8 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_17'
 
-	if window('Protocol Buffer Editor'):
-		select('FileChooser', commonBits.sampleDir() + 'protoStoreSales7.bin')
+	if window(commonBits.applicationName()):
+		select('FileNameTxtFld', commonBits.sampleDir() + 'protoStoreSales7.bin')
 
 		click('Edit1')
 		##select('JTreeTable', '')
@@ -17,9 +17,9 @@ def test():
 
 		select('JTreeTable', 'rows:[8,9],columns:[keycode]')
 		select_menu('View>>Column View #{Selected Records#}')
-		assert_p('Table', 'Content', '[[69684558, 69694158], [[40118, 40118, 40118], [40118, 40118, 40118]], [[1, -1, 1], [1, -1, 1]], [[19000, -19000, 5010], [19000, -19000, 5010]], [[SALE, RETURN, SALE], [SALE, RETURN, SALE]], [[19.0, -19.0, 5.01], [19.0, -19.0, 5.01]], [[19.0, -19.0, 5.01], [19.0, -19.0, 5.01]], [[\'\',\' -1\',\' -1 1\'], [\'\',\' -1\',\' -1 1\']]]')
-		select('Table', 'cell:Row 1,5([19.0, -19.0, 5.01])')
-		select('Table', 'cell:Row 1,5([19.0, -19.0, 5.01])')
+		assert_p('BaseLineAsColumn$LineAsColTbl', 'Content', '[[69684558, 69694158], [[40118, 40118, 40118], [40118, 40118, 40118]], [[1, -1, 1], [1, -1, 1]], [[19000, -19000, 5010], [19000, -19000, 5010]], [[SALE, RETURN, SALE], [SALE, RETURN, SALE]], [[19.0, -19.0, 5.01], [19.0, -19.0, 5.01]], [[19.0, -19.0, 5.01], [19.0, -19.0, 5.01]], [[\'\',\' -1\',\' -1 1\'], [\'\',\' -1\',\' -1 1\']]]')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Row 1,5([19.0, -19.0, 5.01])')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Row 1,5([19.0, -19.0, 5.01])')
 		click('ArrowButton')
 		assert_p('Table', 'Content', '[[0, 19.0], [1, -19.0], [2, 5.01]]')
 		select('Table', 'cell:Data,1(-19.0)')
@@ -34,7 +34,7 @@ def test():
 		assert_p('Table', 'Content', '[[0, 19.0], [1, -19.0123], [2, 0.0456], [3, 5.01]]')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		##assert_p('Table', 'Text', '')
-		assert_p('Table', 'Content', '[[69684558, 69694158], [[40118, 40118, 40118], [40118, 40118, 40118]], [[1, -1, 1], [1, -1, 1]], [[19000, -19000, 5010], [19000, -19000, 5010]], [[SALE, RETURN, SALE], [SALE, RETURN, SALE]], [[19.0, -19.0123, 0.0456, 5.01], [19.0, -19.0, 5.01]], [[19.0, -19.0, 5.01], [19.0, -19.0, 5.01]], [[\'\',\' -1\',\' -1 1\'], [\'\',\' -1\',\' -1 1\']]]')
+		assert_p('BaseLineAsColumn$LineAsColTbl', 'Content', '[[69684558, 69694158], [[40118, 40118, 40118], [40118, 40118, 40118]], [[1, -1, 1], [1, -1, 1]], [[19000, -19000, 5010], [19000, -19000, 5010]], [[SALE, RETURN, SALE], [SALE, RETURN, SALE]], [[19.0, -19.0123, 0.0456, 5.01], [19.0, -19.0, 5.01]], [[19.0, -19.0, 5.01], [19.0, -19.0, 5.01]], [[\'\',\' -1\',\' -1 1\'], [\'\',\' -1\',\' -1 1\']]]')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 		select_menu('Window>>protoStoreSales7.bin>>Tree View')
 		##assert_p('JTreeTable', 'Text', '')

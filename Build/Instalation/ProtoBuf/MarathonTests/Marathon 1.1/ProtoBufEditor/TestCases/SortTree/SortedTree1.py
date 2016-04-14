@@ -4,8 +4,8 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.5.0_11'
 
-	if window('Protocol Buffer Editor'):
-		select('FileChooser', commonBits.sampleDir() + 'protoSales.bin')
+	if window(commonBits.applicationName()):
+		select('FileNameTxtFld', commonBits.sampleDir() + 'protoSales.bin')
 		##commonBits.setRecordLayout(select, 'DTAR020')
 		click('Edit1')
 		select_menu('View>>Sorted Field Tree')

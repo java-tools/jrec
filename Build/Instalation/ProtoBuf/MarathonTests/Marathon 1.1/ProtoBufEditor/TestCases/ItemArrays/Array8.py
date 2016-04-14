@@ -4,8 +4,8 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_17'
 
-	if window('Protocol Buffer Editor'):
-		select('FileChooser', commonBits.sampleDir() +  'protoStoreSales7.bin')
+	if window(commonBits.applicationName()):
+		select('FileNameTxtFld', commonBits.sampleDir() +  'protoStoreSales7.bin')
 		click('Edit1')
 		##select('JTreeTable', '')
 		rightclick('JTreeTable', 'Tree,0')

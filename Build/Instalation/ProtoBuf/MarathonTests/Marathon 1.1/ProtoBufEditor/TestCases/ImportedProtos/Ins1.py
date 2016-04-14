@@ -4,8 +4,8 @@ def test():
 	from Modules import commonBits
 	java_recorded_version = '1.6.0_17'
 
-	if window('Protocol Buffer Editor'):
-		select('FileChooser', commonBits.sampleDir() + 'protoStoreSales3im.bin')
+	if window(commonBits.applicationName()):
+		select('FileNameTxtFld', commonBits.sampleDir() + 'protoStoreSales3im.bin')
 		click('Edit1')
 		rightclick('JTreeTable', 'Tree,1')
 		select_menu('Expand Tree')
@@ -19,9 +19,9 @@ def test():
 ##		select('JTreeTable', '')
 		rightclick('JTreeTable', 'Tree,3')
 		select_menu('Edit Record')
-		select('Table', 'cell:Data,0(335)')
-		select('Table', 'cell:Data,0(335)')
-		assert_p('Table', 'Content', '[[department, 1, , 335, 335], [name, 2, , Department: 335, Department: 335]]')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,0(335)')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,0(335)')
+		assert_p('BaseLineAsColumn$LineAsColTbl', 'Content', '[[department, 1, , 335, 335], [name, 2, , Department: 335, Department: 335]]')
 		
 		click('New')
 
@@ -31,18 +31,18 @@ def test():
 			click('OK')
 		close()
 
-		select('Table', '0123', 'Data,0')
-		select('Table', 'cell:Data,0(123)')
+		select('BaseLineAsColumn$LineAsColTbl', '0123', 'Data,0')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,0(123)')
 
-		select('Table', '0456', 'Data,1')
-		select('Table', 'cell:Data,1(456)')
+		select('BaseLineAsColumn$LineAsColTbl', '0456', 'Data,1')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,1(456)')
 
-		select('Table', '0789', 'Data,2')
-		select('Table', 'cell:Data,2(789)')
+		select('BaseLineAsColumn$LineAsColTbl', '0789', 'Data,2')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,2(789)')
 
-		select('Table', '6780', 'Data,3')
-		select('Table', 'cell:Data,2(789)')
-		assert_p('Table', 'Content', '[[keycode, 1, , 123, 123], [saleDate, 2, , 456, 456], [quantity, 3, , 789, 789], [price, 4, , 6780, 6780]]')
+		select('BaseLineAsColumn$LineAsColTbl', '6780', 'Data,3')
+		select('BaseLineAsColumn$LineAsColTbl', 'cell:Data,2(789)')
+		assert_p('BaseLineAsColumn$LineAsColTbl', 'Content', '[[keycode, 1, , 123, 123], [saleDate, 2, , 456, 456], [quantity, 3, , 789, 789], [price, 4, , 6780, 6780]]')
 		click('BasicInternalFrameTitlePane$NoFocusButton2')
 
 ##		if window('Save Changes to file: ' + commonBits.sampleDir() + 'protoStoreSales3im.bin'):

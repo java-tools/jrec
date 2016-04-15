@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RECORD RECORDNAME="zz_TestZoned_Cp273" COPYBOOK="" DELIMITER="&lt;Tab&gt;" FONTNAME="cp273" FILESTRUCTURE="Fixed_Length" STYLE="0" RECORDTYPE="RecordLayout" LIST="Y" QUOTE="" RecSep="default" SYSTEMNAME="Other" LINE_NO_FIELD_NAMES="1">
+	<FIELDS>
+		<FIELD NAME="f1" POSITION="1" LENGTH="4" TYPE="Mainframe Zoned Numeric"/>
+		<FIELD NAME="f2" POSITION="5" LENGTH="4" TYPE="Mainframe Zoned Numeric"/>
+		<FIELD NAME="f3" POSITION="9" LENGTH="4" TYPE="Mainframe Zoned Numeric"/>
+		<FIELD NAME="f4" POSITION="13" LENGTH="4" TYPE="Mainframe Zoned Numeric"/>
+		<FIELD NAME="f5-comp" POSITION="17" LENGTH="4" TYPE="Mainframe Packed Decimal (comp-3)"/>
+	</FIELDS>
+</RECORD>

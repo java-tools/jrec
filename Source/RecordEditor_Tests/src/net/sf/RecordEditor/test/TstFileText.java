@@ -40,7 +40,7 @@ public class TstFileText extends TestCase {
 	private String sqlSet2Mac      = sqlUpdateRecordSep + Common.LF_STRING + "'";
     private String firstRecordType = "H1";
 
-    private String windowsEol = new String(Common.LFCR_BYTES);
+    private String windowsEol = new String(Common.CRLF_BYTES);
     private String macEol     = new String(Common.LF_BYTES);
     private String unixEol    = new String(Common.CR_BYTES);
 

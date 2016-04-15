@@ -26,6 +26,7 @@ import javax.swing.event.InternalFrameEvent;
 import net.sf.RecordEditor.layoutEd.Record.SearchArgAction;
 import net.sf.RecordEditor.layoutEd.panels.RecordListPnl;
 import net.sf.RecordEditor.layoutEd.panels.RecordPnl;
+import net.sf.RecordEditor.layoutEd.utils.LeMessages;
 import net.sf.RecordEditor.re.db.Record.ExtendedRecordDB;
 import net.sf.RecordEditor.re.db.Record.RecordRec;
 import net.sf.RecordEditor.re.db.Record.SaveRecordAsXml;
@@ -102,7 +103,7 @@ public class RecordEdit extends    ReFrame
 								   pnlRecordList,
 								   pnlRecord);
 
-		message.setEnabled(false);
+		message.setEditable(false);
 		message.setText(Common.getJdbcMsg(dbConnectionIdx));
 
 		cont.add(BorderLayout.NORTH, splitPane);
@@ -116,7 +117,7 @@ public class RecordEdit extends    ReFrame
 
 		this.addInternalFrameListener(new InternalFrameAdapter() {
 			public void internalFrameClosed(final InternalFrameEvent e) {
-				saveRecord(false);
+				saveRecord(! Common.TEST_MODE);
 				Common.checkpoint(connectionIdx);
 			}
 		});
@@ -171,7 +172,9 @@ public class RecordEdit extends    ReFrame
 			boolean free = Common.isSetDoFree(false);
 			RecordRec rec = pnlRecord.getValues();
 
-			if (rec != null && rec.isUpdateSuccessful()) {
+			if (rec.getRecordName() == null || rec.getRecordName().length() == 0) {
+				message.setText(LeMessages.NO_RECORD_NAME.get());
+			} else 	if (rec != null && rec.isUpdateSuccessful()) {
 				pnlRecordList.setRecord(currRow, rec);
 				pnlRecord.saveRecordDetails();
 

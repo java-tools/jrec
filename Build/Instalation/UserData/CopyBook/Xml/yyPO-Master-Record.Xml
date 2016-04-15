@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RECORD RECORDNAME="yyPO-Master-Record" COPYBOOK="PO" DELIMITER="&lt;Tab&gt;" FILESTRUCTURE="Default" STYLE="0" RECORDTYPE="GroupOfRecords" LIST="Y" QUOTE="" RecSep="default" SYSTEMNAME="Other">
+	<RECORDS>
+		<RECORD RECORDNAME="yyPO-Record" COPYBOOK="PO-1" DELIMITER="&lt;Tab&gt;" FILESTRUCTURE="Default" STYLE="0" RECORDTYPE="BinaryRecord" LIST="N" QUOTE="" RecSep="default" SYSTEMNAME="Other" TESTFIELD="Record-Type" TESTVALUE="PO">
+			<FIELDS>
+				<FIELD NAME="Record-Type" POSITION="1" LENGTH="3" TYPE="Char" CELLFORMAT="ComboBox Format, (combo name in parameter)" PARAMETER="PO-Record-Type" COBOLNAME="Record-Type"/>
+				<FIELD NAME="Id" POSITION="4" LENGTH="14" TYPE="Char" COBOLNAME="PO-Id"/>
+				<FIELD NAME="Total-Cost" POSITION="18" LENGTH="11" DECIMAL="2" TYPE="Mainframe Zoned Numeric" COBOLNAME="Total-Cost"/>
+				<FIELD NAME="Status" POSITION="29" LENGTH="2" TYPE="Num (Right Justified zero padded positive)" CELLFORMAT="ComboBox Format, (combo name in parameter)" PARAMETER="PoStatus" COBOLNAME="Po-Status"/>
+			</FIELDS>
+		</RECORD>
+		<RECORD RECORDNAME="yyPO-Product-Record" COPYBOOK="PO-2" DELIMITER="&lt;Tab&gt;" FILESTRUCTURE="Default" STYLE="0" RECORDTYPE="BinaryRecord" LIST="N" PARENT="yyPO-Record" QUOTE="" RecSep="default" SYSTEMNAME="Other" TESTFIELD="Record-Type" TESTVALUE="PRD">
+			<FIELDS>
+				<FIELD NAME="Record-Type" POSITION="1" LENGTH="3" TYPE="Char" CELLFORMAT="ComboBox Format, (combo name in parameter)" PARAMETER="PO-Record-Type" COBOLNAME="Record-Type"/>
+				<FIELD NAME="Product-Code" POSITION="4" LENGTH="8" TYPE="Num (Right Justified zero padded positive)" COBOLNAME="Product-Code"/>
+				<FIELD NAME="Product-Name" POSITION="12" LENGTH="20" TYPE="Char" COBOLNAME="Product-Name"/>
+				<FIELD NAME="Product-Type" POSITION="32" LENGTH="1" TYPE="Char" CELLFORMAT="ComboBox Format, (combo name in parameter)" PARAMETER="ProductType" COBOLNAME="Product-Type"/>
+				<FIELD NAME="Product-Cost" POSITION="33" LENGTH="7" DECIMAL="2" TYPE="Mainframe Zoned Numeric" COBOLNAME="Product-Cost"/>
+			</FIELDS>
+		</RECORD>
+		<RECORD RECORDNAME="yyPO-Location-Record" COPYBOOK="PO-3" DELIMITER="&lt;Tab&gt;" FILESTRUCTURE="Default" STYLE="0" RECORDTYPE="BinaryRecord" LIST="N" PARENT="yyPO-Product-Record" QUOTE="" RecSep="default" SYSTEMNAME="Other" TESTFIELD="Record-Type" TESTVALUE="STR">
+			<FIELDS>
+				<FIELD NAME="Record-Type" POSITION="1" LENGTH="3" TYPE="Char" CELLFORMAT="ComboBox Format, (combo name in parameter)" PARAMETER="PO-Record-Type" COBOLNAME="Record-Type"/>
+				<FIELD NAME="Location" POSITION="4" LENGTH="4" TYPE="Char" COBOLNAME="Location"/>
+				<FIELD NAME="Location-type" POSITION="8" LENGTH="1" TYPE="Char" CELLFORMAT="ComboBox Format, (combo name in parameter)" PARAMETER="LocationType" COBOLNAME="Location-type"/>
+				<FIELD NAME="Location-Name" POSITION="9" LENGTH="30" TYPE="Char" COBOLNAME="Location-Name"/>
+				<FIELD NAME="Quantity" POSITION="39" LENGTH="5" TYPE="Mainframe Zoned Numeric" COBOLNAME="Quantity"/>
+			</FIELDS>
+		</RECORD>
+	</RECORDS>
+</RECORD>

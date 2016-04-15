@@ -3,31 +3,31 @@ package net.sf.RecordEditor.test.copy;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import net.sf.JRecord.Numeric.ConversionManager;
-import net.sf.JRecord.Numeric.Convert;
+import net.sf.JRecord.Numeric.ICopybookDialects;
 
 public class TstCobolCopy extends TestCase {
 
-	private int[] dialect = {Convert.FMT_MAINFRAME,  Convert.FMT_OPEN_COBOL, Convert.FMT_OC_MICRO_FOCUS, Convert.FMT_FUJITSU};
+	private int[] dialect = {ICopybookDialects.FMT_MAINFRAME,  ICopybookDialects.FMT_OPEN_COBOL, ICopybookDialects.FMT_OC_MICRO_FOCUS, ICopybookDialects.FMT_FUJITSU};
 	private String[] fonts = {"Cp037", "", "", ""};
 	private String[] copybooks = {"cpyComp.cbl", "cpyComp3.cbl", "cpyComp5.cbl"};
 	
 	 public void testMainframeCopy()  {
-		 tstDialect(Convert.FMT_MAINFRAME, "cp037");
+		 tstDialect(ICopybookDialects.FMT_MAINFRAME, "cp037");
 	 }
 	 
 		
 	 public void testOCCopy()  {
-		 tstDialect(Convert.FMT_OPEN_COBOL, "");
+		 tstDialect(ICopybookDialects.FMT_OPEN_COBOL, "");
 	 }
 
 		
 	 public void testMFCopy()  {
-		 tstDialect(Convert.FMT_OC_MICRO_FOCUS, "");
+		 tstDialect(ICopybookDialects.FMT_OC_MICRO_FOCUS, "");
 	 }
 
 		
 	 public void testFjCopy()  {
-		 tstDialect(Convert.FMT_FUJITSU, "");
+		 tstDialect(ICopybookDialects.FMT_FUJITSU, "");
 	 }
 
 	 private void tstDialect(int binFormat, String font)  {

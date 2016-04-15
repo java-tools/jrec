@@ -1,0 +1,34 @@
+        line = ${ds}.getLine(i);
+#if (${scriptSchema.records.size()} == 1) 
+#* *##foreach( $rec in ${scriptSchema.getRecords()} )
+#*      *##set ($sep = "if (")
+#*      *##set ($sepChange = "||  ")
+#*      *##parse( "fieldSelect.pvm" )
+#*      *##if ($sep == "||  ")
+        ) {
+            $action 
+        }
+#*      *##else
+        $action 
+#*      *##end	
+#* *##end
+#else
+	     var recordType = line.getPreferredLayoutIdx()
+#*  *##set ($sep1 = "if (")
+#*  *##foreach( $rec in ${scriptSchema.getRecords()} )
+#*        *##if (${rec.isIncluded()})
+	     ${sep1} recordType == ${rec.recordNumber}
+#*             *##set ($sep1 = "} else if (")
+#*             *##set ($sep = "&& (")
+#*             *##set ($sepChange = "  ||  ")
+#*             *##parse( "fieldSelect.pvm" )
+#*             *##if ($sep == "  ||  ")
+        )) {
+#*             *##else
+        ) {
+#*             *##end
+            $action 
+#*        *##end
+#* *##end
+        }
+#end

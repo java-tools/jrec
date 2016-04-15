@@ -17,7 +17,7 @@
     -->
     <info>
         <appname>RecordEdit/ProtoBuf</appname>
-        <appversion>0.92</appversion>
+        <appversion>0.97l</appversion>
         <authors>
             <author name="Bruce Martin" email="bruce_a_martin@sourceforge.net" />
             <!--author name="Hidden Man" email="hidden@hisdomain.com"/-->
@@ -96,9 +96,14 @@
             	<exclude name="*LayoutWizard.png"/>
             </fileset>
         </pack>
-        <pack name="SampleFiles" required="yes">
+        <pack name="UserData" required="yes" override="true">
+            <description>User Data DB</description>
+            <fileset dir="../Instalation/UserData/" includes="UserData1.zip" targetdir="$INSTALL_PATH/UserData"/>
+            <fileset dir="../Instalation/ProtoBuf/Parms/" includes="UserData*.zip" targetdir="$INSTALL_PATH/UserData"/> 
+        </pack>
+        <!--pack name="SampleFiles" required="yes">
             <description>Sample Files</description>
-            <file src="../Instalation/ProtoBuf/SampleFiles" targetdir="$USER_HOME/.RecordEditor/ProtoBuf"/> <!-- Recursive adding -->
+            <file src="../Instalation/ProtoBuf/SampleFiles" targetdir="$USER_HOME/.RecordEditor/ProtoBuf"/>
         </pack>
         <pack name="Params" required="yes">
             <description>Record Editor Parameters</description>
@@ -108,26 +113,30 @@
         <pack name="User" required="yes">
             <description>Record Editor Parameters</description>
             <file src="../Instalation/GeneralDB/User" targetdir="$USER_HOME/.RecordEditor/ProtoBuf"/> 
-        </pack>
+        </pack!-->
         <pack name="lib" required="yes" override="true">
             <description>Record Editor Jars</description>
             <file src="../Instalation/ProtoBuf/lib" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
             <fileset dir="../Instalation/hsqldb_izpack/lib/" targetdir="$INSTALL_PATH/lib">
              	<include name="jibx-run.pack"/>
             	<include name="jlibdiff.pack"/>
-            	<include name="JRecord.pack"/>
-           	<include name="cb2xml.pack"/>
-            	<include name="RecordEdit.pack"/>
             	<include name="velocity-1.7*.pack"/>
-            	<include name="ZCalendar.pack"/>
             	<include name="chardet.pack"/>
-            	<include name="swingx-subset-1.6.4.pack"/>
-           	<include name="RecordEdit.GIF"/>
+            	<include name="zip4j_1.3.2.pack"/>
+           	<include name="rsyntaxtextarea.pack"/>
+          	<!--include name="cb2xml.pack"/-->
             	<include name="Utility.GIF"/>
              	<include name="RecordEdit.ico"/>
             	<include name="Utility.ico"/>
-          	<include name="icon*.zip"/>
+          	<!--include name="icon*.zip"/!-->
           	<include name="pict.zip"/>
+           	<include name="RecordEdit.GIF"/>
+           	<include name="RecordEdit.PNG"/>
+          	
+           	<include name="JRecord.pack"/>
+            	<include name="RecordEdit.pack"/>
+             	<include name="ZCalendar.pack"/>
+             	<include name="swingx-subset-1.6.4.pack"/>
             </fileset>
 	    <parsable targetfile="$INSTALL_PATH/lib/runEditor.sh"   type="shell"/>
 	    <executable targetfile="$INSTALL_PATH/lib/runEditor.sh" stage="never"/>
@@ -138,10 +147,10 @@
 	    <parsable targetfile="$INSTALL_PATH/lib/runCsvEditor.sh"   type="shell"/>
 	    <executable targetfile="$INSTALL_PATH/lib/runCsvEditor.sh" stage="never"/>
        </pack>
-	<pack name="CopyBook" required="yes">
+	<!--pack name="CopyBook" required="yes">
 		<description>CopyBooks</description>
 		<fileset dir="../Instalation/ProtoBuf/CopyBook" includes="*.*" targetdir="$USER_HOME/.RecordEditor/ProtoBuf/CopyBook"/>
-	</pack>
+	</pack-->
 	<pack name="Source" required="no">
 		<description>Source</description>
 		<fileset dir="../Instalation/ProtoBuf/Source" includes="**" targetdir="$INSTALL_PATH/Source"/>
@@ -150,10 +159,10 @@
 		<description>MarathonTests</description>
 		<fileset dir="../Instalation/ProtoBuf/MarathonTests" includes="**" targetdir="$INSTALL_PATH/MarathonTests"/>
 	</pack>
-	<pack name="Velocity" required="yes">
+	<!--pack name="Velocity" required="yes">
             <description>Sample Velocity Templates</description>
             <fileset dir="../Instalation/GeneralDB/SampleVelocityTemplates" includes="*/*.vm" targetdir="$USER_HOME/.RecordEditor/ProtoBuf/SampleVelocityTemplates"/> 
-        </pack>
+        </pack-->
         <pack name="bin" os="unix" required="no" override="true">
             <description>Linux/Unix bin direcory</description>
             <fileset dir="../Instalation/ProtoBuf/lib" includes="*.sh" targetdir="$INSTALL_PATH/bin"/> <!-- Reccursive adding -->
@@ -167,13 +176,13 @@
 	    <executable targetfile="$USER_HOME/bin/runEditor.sh"    stage="never"/>
         </pack>
         <pack name="Uninstall" os="Windows" required="yes" override="true">
-            <description>Record Editor Jars</description>
+            <description>Uninstall Pgm</description>
             <file src="../Instalation/GeneralDb/Uninstaller" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
         </pack>
     </packs>
     
 
-    <native type="izpack" name="ShellLink.dll"/> 
+    <native type="izpack" name="ShellLink.dll"/>
+    <native type="izpack" name="ShellLink_x64.dll"/>
 
-   
 </installation>

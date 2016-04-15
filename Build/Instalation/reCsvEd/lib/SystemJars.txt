@@ -5,7 +5,9 @@ jibx	<lib>/jibx-run.jar
 jlibdiff	<lib>/jlibdiff.jar
 chardet	<lib>/chardet.jar
 cb2xml	<lib>/cb2xml.jar
-syntaxEdit	<lib>/rsyntaxtextarea.jar
 flags	<lib>/pict.zip
-
+syntaxEdit	<lib>/rsyntaxtextarea.jar
+swingx	<lib>/swingx-subset-1.6.4.jar
+zip	<lib>/zip4j_1.3.2.jar
+propertiesZip	<lib>/properties.zip
 

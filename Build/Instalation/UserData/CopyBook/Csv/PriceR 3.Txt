@@ -1,0 +1,7 @@
+Record	0	1	<Tab>	0	
+1	1	Rec Type		0	0	0	
+2	6	Event Id		0	0	0	
+8	30	Description		0	0	0	
+38	5	Date Time Due		11	0	0	
+43	1	Option		0	0	0	
+44	2	Eor		0	0	0	

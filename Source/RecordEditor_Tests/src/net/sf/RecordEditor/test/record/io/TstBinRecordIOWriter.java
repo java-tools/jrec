@@ -14,7 +14,7 @@ import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.Line;
-import net.sf.JRecord.IO.BinaryLineReader;
+import net.sf.JRecord.IO.Binary4680LineReader;
 import net.sf.JRecord.IO.BinaryLineWriter;
 import net.sf.RecordEditor.test.TstConstants;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
@@ -139,7 +139,7 @@ public class TstBinRecordIOWriter extends TestCase {
 
     public void fileTest(String id, byte[][] linesPrice)
     throws IOException, RecordException  {
-        BinaryLineReader tReader = new BinaryLineReader();
+        Binary4680LineReader tReader = new Binary4680LineReader();
         int i = 0;
         boolean b;
         AbstractLine line;
@@ -191,7 +191,7 @@ public class TstBinRecordIOWriter extends TestCase {
     private void writeAFile(String name, byte[][] bytes, LayoutDetail details)
     throws IOException  {
         int i;
-        BinaryLineWriter writer = BinaryLineWriter.newBinaryWriter();
+        BinaryLineWriter writer = BinaryLineWriter.newBinary4680Writer();
 
         writer.open(name);
 

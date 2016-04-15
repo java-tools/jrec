@@ -52,7 +52,7 @@ public class CommaDecimal implements Convert {
 
 		} else if (picture.indexOf('9') >= 0
         		&& (picture.startsWith("-") || picture.startsWith("+") || picture.startsWith("9"))
-                && CommonCode.checkPicture(picture, '9', ',')
+                && CommonCode.checkPicture(picture, '9', ',', ',')
         ) {
         	if (picture.startsWith("-")) {
         		return Type.ftNumCommaDecimal;
@@ -61,12 +61,12 @@ public class CommaDecimal implements Convert {
         	} else if (picture.startsWith("+")) {
         		return Type.ftNumCommaDecimalPN;
         	}
-		} else if (  (picture.startsWith("-") && CommonCode.checkPicture(picture, '-', ','))
-				  || (picture.startsWith("Z") && CommonCode.checkPicture(picture, 'Z', ','))
+		} else if (  (picture.startsWith("-") && CommonCode.checkPicture(picture, '-', ',', ','))
+				  || (picture.startsWith("Z") && CommonCode.checkPicture(picture, 'Z', ',', ','))
 		) {
 				return Type.ftNumRightJustCommaDp;
 		} else if (picture.startsWith("+")
-				&& CommonCode.checkPicture(picture, '+', ',')
+				&& CommonCode.checkPicture(picture, '+', ',', ',')
 		) {
 				return Type.ftNumRightJustCommaDpPN;
 		}

@@ -5,199 +5,137 @@ It can edit both Text and binary files in PC / Unix / IBM Mainframe formats.
 
 The Record-Layouts are stored in a DB, but they can be imported from a Cobol Copybook
 
-Version 0.94.4
 
-    * Added basic Script-Editor to the Script-Run dialog
-    * Extra Functions / Methods for use in Macro Scripts, More example scripts 
-      and Script-Documentation.
-    * Problem fix's and general cleanup.
-    * New Script HeadefFooterTabs.js that creates seperate header/detail/footer views
-      for Header, Detail, Footer files.
-    * Updates to How to documentation. 
+### Changes 0.97m
 
-Version 0.94.2
-    * Problem fix when exporting RecordLayouts containing non-ascii characters as Xml. 
-
-Version 0.94.1
-    * Support for Records (> 32KB)
-    * Add Tree Combo for field types
-    * New Types where the Decimal point is ','
-    * New Cobol Dialects which partially support the Cobol DECIMAL-POINT IS COMMA clause.
-    * Several Cobol related fix's
-    * Change file structure option
-    * Save with different file structure
-
-Version 0.94
-    * New Text Editor View
-    * New positive types added
-    * Cobol Changes
-      - VB file detection added
-      - Positive fields are restricted to positive numbers 
-    * Fix's for Sort Tree, Child Screen position (after find) and Fuji Zoned Type
- 
- 
-Version 0.92.1
- 
-   * Adding 2 extra Csv parser - Basic - Delimiter all fields and Basic - Delimiter all fields + 1
-   * Fix for existing Csv Parser "Parser - Matching Quotes" for when no quote is defined.
-
- 
-Version 0.92
-
-    * All screens for a File are now displayed as Tabs rather than as seperate screens. The tabs can be undocked (and redocked) if required.
-    * Added Child screen option to List Screens
-    * Added Hints dialogue
-    * Enhanced HTML Export, option to open exported file with default programs
-    * Highlight change fields in compare
-    * Minor GUI changes
-    * Enhanced Help menu (can open Manual / Forums etc).
-    * Fixed Paste Prior issues
+* Tidy-up of Cobol-Import screens
+* Added option to generate JRecord IOBuilder code to the Cobol Import screen
+* New cb2xml.jar (95.6) - Cobol import
 
 
-Version 0.91.1
-    * Minor fix's / changes to installers
+### Changes 0.97k
 
-Version 0.91.0
-    * Improved (rewritten) Group Filters
-    * Support for editting GetText-po files
-    * Support for editting SwingX tip of the day properties files
-    * Load (from saved Xml) option added to a filter, Sort, Sort Tree and Record-Tree screens
-    * Daily Tips added to startup
-    * various minor enhancements / fix's
+* Fix problems introduced in 0.97j (xml / PO / Tip file)
+* Fix issue with importing Xml Schema's (for formats).
+* Added support for using combo's in "prefered" layout in Sort Tree's
+* Fix problem on Cobol-Copybook import where Record-Details are not copied to the DB.
+* Added Create Combo to Record Layout drop down menu
+* Added Generate Record Names right click menu in Layout Wizard
 
-Version 0.90.0
-    * Related screens are now displayed as tabs on the one screen (default).
-      There is still the option to display each view in its own screen.
-    * Different views can be docked / undocked with each other
-    * List screens can now have a Record Screen where the current record is displayed.
-    * Find - option to start from the start (when the end is reached).
-    * Filter - Group filters are now supported
+Changes 0.97j
 
-Version 0.89.3
-    * Problem fix's mainly related to Foreign Languages in Combo box's
-    * Improved Html handling in supplied sample translations
-    * About 100 extra text fields
+* Update to find (when not found)
+* Update to ReplaceAll message
+* New Improved Cobol Import 
 
+Changes 0.97h/i
 
-Version 0.89.2
-    * The RecordEditor can now has a very basic po file parser (po file must use encoding=utf8) 
-      and can use po file directly.
-    * Action / Action-Descriptions are now text rather than using a lookup key. This is to allow Automatic translation
-    * Minor improvements in the language selection screen
-    * The Help system will look for html files in <HelpDir>/<2-char-language-code>/, followed by <HelpDir>/.
-      This would allow for localised help files. 
-    * There are now sample po files in several languages (German, French, Spanish, Italian, Chinese, Japanese)
-      created using Google-Translate. They all need a human translator to work on them. 
-      If some ones a Google Translate for a different version, let me know.
-  
-Version 0.89.1
-    * Support for foreign languages via gettext po files --> gettext generated resource
-      bundles.
-    * New language tab on the options screen where the "foreign~language" can be selected.
-    * In Utilities editor, directory variables are now decoded/encoded via the directory
-      search buttons.
-      
-Changes Release 0.88
-    * Minor Gui changes
-    * Enhanced HTML Export
-    * Option to Open Exported file
-    * Highlight changed fields on Compare screen (Feature request 3532674).
-    * Enhanced Help menu (can open Manual / Forums etc)
-    * Minor fix's
+* support usage supported a group level (Cobol)
+* Fix for use with multiple screens
+* Option to select the screen (if multiple displays).
+* Record Selection fix
+* Fix for Exporting layouts as Xml
 
-Changes Release 0.86
-    * Filter - added And / Or operators, added Starts With operator
-    * Find - fix's + new Start-With operator
-
-Changes Release 0.85
-    * Enhanced Record Selection Edit screen + problem fix's
-    * Minor layout editor changes + problem fix's
-    * Many minor GUI changes mostly related to Windows and Nimbus Laf
-    * Updated Find function
-    * New FileWizard for use when the file is not recognized.
-
-Changes Release 0.80.6
-    * Change the Initialisation process
-    * Can enter Jars in the Export as Xslt option
-    * Created seperate SaveAs function.
-    * Reorganised menu's
-    * Utility (but not main screens) close with esc key.
-    * Seperate SaveAs and Export Screens
-    * Added Option to export via Script (Jython, JRuby etc)
-    * Extended Record Selection option in the Layout Editor
-    * Fixed several bugs in the Layout Editor.
-    * Can include a child-layout multiple times in a Group-Layout
-    * Extended Record Selection (layout editor). You can now use extended expresions
-    
-Changes Release 0.80.2
-    * On the SaveAs/Export screen there is
-      - Option to edit the output file (only if the recordEditor can work out the structure)
-      - Option to keep the screen open
-      - New Xsl transform option. You can use an external tool (e.g. saxon) but it must 
-        be allocated at RecordEditor Startup. 
-    * Velocity / Xslt opotions now remember theextension last used with a particular
-      Template  
-    
-Changes Release 0.80.1  
-  * Tree (including Xml)
-    - New Tree Csv-Export
-    - 2 Tree Variables (root & nodeList) provided to Velocity templates
-    - 2 new Velocity Templates (zXmlStyleSheet1.vm & zXmlStyleSheet2.vm)
-  
-  * Cobol Changes
-    - New option to import all Cobol Copybooks in a directory
-    - Reintroduced Batch load of cobol copybooks (see runCobolBatchLoad.Bat). This tool
-      allows single files to be loaded or whole directories
-    
-  * LayoutEditor
-    - A child record can be used multiple times in a Group record
-
-    
-Changes Release 0.69.1
-    * New Field - Hide / Show function.
-    * New Unknown layouts for use with unknown files
-    * New Prefered Layout option in the Main Display
-    * New Hex displays  (1 / 2 / 3 line) in the Main display.
-    * Fix for Cobol Sign Seperate fields
-    * Enhanced Layout Wizard:
-      - Support for multi-record files
-      - Field Search added
-      - Improved Binary Files support 
-      - File Format detection added
-    * New Layout Import From Xml Files in a Directory / Export Layouts To Xml Files in a directory
-    * New CSV Styles to support "Column Names" in Quotes (Record Styles 3->5) + some CSV fixes.
-    * New Option to change layout after the files has been loaded
-    * Internal changes to support "Object Data Stores" like Protocol Buffers and Avro
-      See Protocol Buffer Editor and Avro Editor's
-    * Support for H2 Database's Mixed Mode
-    * Added optional Error-File and error-limits to the online / batch copy utilities
-    * Added new -il/-ol (input/output layout) and -ef (error file) options to the batch utility
-
-Changes Release 0.67/0.68
-    * improved PC Cobol support (particularly Open Cobol)
-
-Changes Release 0.65
-    * File Compare Utility - This is a field based compare; fields can be ignored or data in files of different formats can be compared.
-    * Option to Save / Import Record-Layouts (Descriptions of a file) as a XML file. These XML-Layouts can be used in the Sister Product JRecord to Read / Write files from a Java Program.
-    * Options to save files as XML.
-    * Minor enhancements to File and View Menu's.
-    * Can Save Filters, Sort Tree's and Record Tree's definitions and execute later.
-    * Can Summmarise fields in a Sort Tree. 
+### Changes 0.97g
+* prepare "installers"
+* Add extra trace and problem reporting
+* Add a new Character-set (font) component that will list available character-sets
+* fix for Csv files where there is a large number of columns
+* Fix for filtering / saving large files
+* Added support for combo-box's in "preferred" mode
 
 
-Changes Release 0.62
-    * 3 new Tree views added to editor.
-    * New Column view (where rows are displayed as columns going across the page).
-    * New Parameter field editors in the Layout Editor
-    * Can Import / Export Record-Layouts (copybooks) in a Csv Format
-    * New Option to copy copybooks between DB's
-    * Very limited Support for editing XML files (viewing / limited changes to 
-      existing XML files).
+### Changes 0.97
+* Java 8 / OpenJDK fixes.
+* Line size option on Cobol-Import screen
+* Some cobol fixes
+* Using the latest version of cb2xml
+* Recent Directory pane of file search screens & more right click menu options 
+  on file search screens
 
-Changes Release 0.61
-    * Improved Options Editor.
-    * Can now choose the Look and Feel / Icons.
-    * Improved date support.
-    * Full line display mode
-    * Can update via Text & Hex 
-    * Bug fixes (Date and CSV files). 
+
+### Changes 0.96h
+* Updated Csv-Parsers
+* More Cell operations (Right click and Edit menus)
+* Added Recent Directory option to File Menu
+* New JavaScript macros (Delete-Duplicates and Show Duplicates)
+* New Jython / Groovy macros to save files as JSon. These require Jython / Groovy interpreter's to be downloaded separately from there Project sites
+* New Delete-Duplicate / Sort Macro-Build functions
+* Removed Java-7 dependencies that had crept in, Should run in Java 6 again.
+* Improved major error reporting
+* Fixed issue with spaces in filename (when used as a Startup parameter for RecordEditor)
+* Allign Type names with JRecord / Cobol-Editor to make it easier to transfer Xml-Schemas between the programs
+* Allign File-Structure names with JRecord / Cobol-Editor
+
+
+### Changes 0.96f
+* For unsigned comp-3 fields, the unsigned nyble will be used instead of the positive sign nyble (User Request)
+* New Layout to Csv Compare option on the Csv compare screen. (Note: Saving this compare will no work yet.
+* Resolved a few differences between JRecord's processing of Schema-Xml and RecordEditor's processing of Schema-Xml.
+* New Fixed-Width-Char option. This is specifically for Multi-Byte Character-set (UTF-8, UTF-16 etc) fixed width files.
+* Minor improvements/fix to the Macro-Ediors Save-All button.
+* New Example Java-Script Macros (Script directory in the zip file) to delete duplicate Records and to show duplicate records in a seperate view
+* New Example Jython and Groovy Macros (Script directory in the zip file) to write a RecordEditor-view as JSON. 
+
+
+### Changes 0.96e
+* Zoned-Decimal in Ebcdic-German + several other European language versions of Ebcdic
+* Several fix's for Fixed Width 16 bit charsets (e.g. UTF-16 etc)
+* Fix's / enhancements for Unicode Csv files 
+
+### Changes 0.96d
+* New Text view where fields are highlighted
+* Allow block cell selections and added block cell coping/pasteing
+* Major changes to Installers -  Better Windows UAC handling, can install in Windows"User" account, Better handling of 
+multiple user's on PC.
+* Can specify Charset on Csv and Fixed width export
+* New Csv compare function
+* Added file charset detection for Ebcdic files
+* Added Edit-Layout button to tool bar
+* Key assignment changes, Record-Copy Record-Cut, Record-Paste, Record-Insert and Record-Delete are now assigned to keys Alt-C, Alt-X, Alt-V, Alt-Insert and Alt-Delete. Control-C and Control-V are now for cell copying and pasting.
+* Automatic backup of File Layouts (Schema's) as Xml files (to directory &lt;RecordEditorUserDirectory&gt;Copybook/SchemaBu).
+* Fixed problem in copying to Ebcdic Files (that use a new-line character) on Windows machines. 
+* Fix problem new Xml export function
+* Fix System and record-seperator problems in Xml export
+
+### Changes 0.96c
+
+* New Script build function. This function will build sample Scripts (Macro's) for the current file. It will make it easier to start writing scripts.
+* Improvements in loading lage gzip files
+* Problem Fix (see https://sourceforge.net/p/record-editor/bugs/5/)
+* several improvements (see https://sourceforge.net/p/record-editor/support-requests/3/) added file checking + cleared MSG field.
+* Added option to view HTML to HTML compare function.
+
+
+### Changes 0.96b
+
+* Improvements in handling big files (Filtering, copying, pasteing).
+
+### Changes 0.96a
+
+* File name Fields are now combo box's (with most recent files with a file search button straight after the Field.
+* Updated XML-Layout import / export functions
+* New Load XML-Layout option (to load a single XML-Layout
+* Several Big-File related changes including filter improvements.
+
+### Changes 0.95d
+
+Changes include
+
+* Extra -layout (specify a layout for a file) option when running the fulleditor
+* New Java method for starting the RecordEditor with a file/record-layout
+* New experimental file-fields that have  both a last-used combo option + a file search button 
+
+
+### Changes 0.95c
+
+* Fixing several problems with the Csv code
+* Adding HTML type for Csv fields containing HTML.
+
+### Changes 0.95b
+
+* The XML **CobolName** tag for fields is now imported into the RecordEditor
+* For **Generic-Csv** and **Basic Csv** dialogue's, Embedded **<new-Line>** character in fields
+are now supported. Also field quotes can now be any individual character (or multiple characters).
+
+

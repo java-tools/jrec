@@ -94,6 +94,27 @@ public class ColumnDetails {
     }
 
     /**
+	 * @return the start
+	 */
+	public final int getStart() {
+		return start;
+	}
+
+	/**
+	 * @return the length
+	 */
+	public final int getLength() {
+		return length;
+	}
+
+	/**
+	 * @return the type
+	 */
+	public final int getType() {
+		return type;
+	}
+
+	/**
      * conver object to int
      * @param o object to convert
      * @return int value

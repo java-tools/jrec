@@ -96,7 +96,7 @@ public class FixedDocView extends PlainView {
 //        g.setFont(FIXED_SIZED_FONT);
         
         if (start.length > 1) {
-        	recId  = line.getPreferredLayoutIdx();
+        	recId  = Math.max(0, line.getPreferredLayoutIdx());
         }
         
 //		System.out.println("--> " + t1 + " " + p1 + " " + lineStart + " " + recId + " " + pos.getLineNumber() + " " + p0 + " " + p1);
@@ -122,6 +122,7 @@ public class FixedDocView extends PlainView {
 			Color backgroundColor = colorGrp.getBackgroundColor(colorIdx);
 
 			segment.offset = initialOffset + t1 - p0;
+			if (segment.offset < 0) {break;}
     		segment.count = Math.min(p1 - t1, len[recId][idx]);
     		
     		x = writeText(g, x, y, t1, segment, colorGrp.getForegroundColor(colorIdx), backgroundColor);
@@ -150,7 +151,7 @@ public class FixedDocView extends PlainView {
         }
         
 		segment.offset = initialOffset + t1 - p0;
-        if (t1 < p1 && (p1 - t1 > 1 || segment.charAt(0) != '\n') ) {
+        if (segment.offset >= 0 && t1 < p1 && (p1 - t1 > 1 || segment.charAt(0) != '\n') ) {
         	//System.out.print("- " + t1 + " " + p1);
     		segment.count = p1 - t1;
     		g.setColor(Color.RED);
@@ -183,6 +184,8 @@ public class FixedDocView extends PlainView {
 	
 	private int  writeText(Graphics g, int x, int y, int t1, Segment segment, Color foreground, Color backgroundColor) {
 
+		if (segment.offset < 0 ) {return x;}
+		
 		if (backgroundColor != null/* && dh != null*/) {
 			g.setColor(backgroundColor);
 			FontMetrics fontMetrics = g.getFontMetrics();
@@ -198,6 +201,8 @@ public class FixedDocView extends PlainView {
 		} else {
 			g.setColor(foreground);
 		}
+		System.out.println("+++ " + (segment.array == null) + " " + (segment.array != null?segment.array.length:"null" ) + " " + segment.length()
+				+ " " + t1 + " " + segment.offset + " " + segment.count);
 		x = Utilities.drawTabbedText(segment, x, y, g, this, t1);
 		return x;
 	}

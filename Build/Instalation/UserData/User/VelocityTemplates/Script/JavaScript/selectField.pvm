@@ -1,0 +1,12 @@
+##
+##    This velocity template is parsed by other templates and inserts an if test
+##
+#*                 *##if (${fld.isNumeric()})
+#*                           *##if (${fld.isDecimal()})
+        ${sep}line.getFieldValue("${fld.lookupName}").asBigDecimal() == 0
+#*                           *##else
+        ${sep}line.getFieldValue("${fld.lookupName}").asBigInteger() == 0 
+#*                          *##end
+#*                 *##else
+        ${sep}line.getFieldValue("${fld.lookupName}").asString().trim() == "" 
+#*                 *##end

@@ -10,7 +10,8 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import net.sf.RecordEditor.utils.swing.SwingUtils;
-import net.sf.RecordEditor.utils.swing.treeCombo.TreeCombo;
+import net.sf.RecordEditor.utils.swing.common.ComboLikeObject;
+
 
 @SuppressWarnings("serial")
 public class TblFieldCombo extends AbstractCellEditor implements
@@ -32,7 +33,7 @@ public class TblFieldCombo extends AbstractCellEditor implements
 		if (last  == dfltField) {
 			s = dfltField.getText();
 		} else {
-			s = ((TreeCombo) last).getText();
+			s = ((ComboLikeObject) last).getText();
 		}
 		
 		return s;
@@ -56,7 +57,7 @@ public class TblFieldCombo extends AbstractCellEditor implements
 	private JComponent getComponent(int recordIdx, Object value) {
 		String val = value==null?"":value.toString();
 		JComponent ret;
-		TreeCombo jc = data.getFieldCombo(recordIdx);
+		ComboLikeObject jc = data.getFieldCombo(recordIdx);
 		if (jc == null) {
 			dfltField.setText(val);
 			ret = dfltField;

@@ -196,7 +196,7 @@ public class TstFilter1 extends TestCase {
 	}
 
 
-	@SuppressWarnings("rawtypes")
+
 	private void tstFilter(LayoutDetail layout, String[] result, String value, String op, int fldIdx) throws Exception {
 		FileView f = TstConstants.readFileView(layout, csvLines, Constants.IO_NAME_1ST_LINE);
 		AbstractLayoutDetails l = f.getLayout();

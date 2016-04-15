@@ -1,0 +1,552 @@
+<?xml version="1.0"?>
+<!-- Komodo Preferences File - DO NOT EDIT -->
+<!-- This is a direct transcription of prefdefs.py
+      there are some redundant and obsolete definitions
+      that should be deleted from here.
+-->
+<preference-set id="default">
+  <long id="tabWidth">8</long>
+  <long id="indentWidth">4</long>
+  <boolean id="useTabs">0</boolean>
+  <boolean id="useSmartTabs">1</boolean>
+  <boolean id="showWhitespace">0</boolean>
+  <boolean id="showEOL">0</boolean>
+  <string id="endOfLine">CRLF</string>
+  <boolean id="showIndentationGuides">1</boolean>
+  <boolean id="showLineNumbers">0</boolean>
+  <boolean id="kombo-menubar-collapsed-stopped">0</boolean>
+  <boolean id="kombo-menubar-collapsed-break">0</boolean>
+  <boolean id="editorToolbar-collapsed-stopped">0</boolean>
+  <boolean id="editorToolbar-collapsed-break">0</boolean>
+  <boolean id="redirect-splitter-collapsed">1</boolean>
+  <boolean id="projectviewer-splitter-collapsed">1</boolean>
+  <long id="screenX">100</long>
+  <long id="screenY">100</long>
+  <long id="outerHeight">680</long>
+  <long id="outerWidth">820</long>
+  <boolean id="showStartupDialog">1</boolean>
+  <long id="upperBoxHeight">100</long>
+  <long id="lowerBoxHeight">100</long>
+
+  <boolean id="showTextButtons">1</boolean>
+  <boolean id="showStandardToolbar">1</boolean>
+  <boolean id="showDebugToolbar">1</boolean>
+  <boolean id="uiRxSeparateWindow">0</boolean>
+
+  <string id="rx-default-regex">(.*)(\d+)</string>
+  <string id="rx-default-teststring">testing123</string>
+
+  <long id="mruProjectSize">5</long>
+  <long id="mruFileSize">10</long>
+  <string id="mruDirectory">.</string>
+
+  <boolean id="editUseLinting">1</boolean>
+  <boolean id="editUseAutoComplete">1</boolean>
+  <boolean id="editUseCallTips">1</boolean>
+  <boolean id="editUseFixedFont">0</boolean>
+
+  <boolean id="debuggerSpecifyCommandLineParams">1</boolean>
+  <boolean id="debuggerRunInConsole">0</boolean>
+  <long id="remoteDebuggerListenPort">9000</long>
+  <string id="debuggerLastFile"/>
+  <string id="debuggerLastArgs"/>
+  <string id="debuggerLastCwd"/>
+  <string id="XSLTDebuggerLastSourceFile"/>
+  <string id="userEnvironment"/>
+  <string id="userCGIEnvironment"/>
+  <string id="debuggerEnvironment" 
+  ><![CDATA[AUTH_PASSWORD=
+AUTH_TYPE=
+AUTH_USER=
+CONTENT_TYPE=text/html;
+GATEWAY_INTERFACE=CGI/1.1
+HTTP_ACCEPT=*/* 
+HTTP_ACCEPT_LANGUAGE=en-us 
+HTTP_CONNECTION=Keep-Alive 
+HTTP_HOST=localhost
+HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 5.5; Windows NT 5.0) 
+HTTP_ACCEPT_ENCODING=
+HTTPS=off
+LOCAL_ADDR=127.0.0.1
+REMOTE_ADDR=127.0.0.1
+REMOTE_HOST=localhost
+REMOTE_USER=
+SERVER_NAME=localhost
+SERVER_PORT=80
+SERVER_PORT_SECURE=0
+SERVER_PROTOCOL=HTTP/1.0
+SERVER_SOFTWARE=Komodo/CGI Simulator
+CERT_COOKIE=
+CERT_FLAGS=
+CERT_ISSUER=
+CERT_KEYSIZE=
+CERT_SECRETKEYSIZE=
+CERT_SERIALNUMBER=
+CERT_SERVER_ISSUER=
+CERT_SERVER_SUBJECT=
+CERT_SUBJECT=
+HTTPS_KEYSIZE=
+HTTPS_SECRETKEYSIZE=
+HTTPS_SERVER_ISSUER=
+HTTPS_SERVER_SUBJECT=
+SERVER_PORT_SECURE=
+SSL_CLIENT_CN=
+SSL_CLIENT_EMAIL=
+SSL_CLIENT_OU=
+SSL_CLIENT_O=
+SSL_CLIENT_L=
+SSL_CLIENT_ST=
+SSL_CLIENT_C=
+SSL_CLIENT_I_CN=
+SSL_CLIENT_I_EMAIL=
+SSL_CLIENT_I_OU=
+SSL_CLIENT_I_O=
+SSL_CLIENT_I_L=
+SSL_CLIENT_I_ST=
+SSL_CLIENT_I_C=
+]]></string>
+  
+  <ordered-preference id="deploymentServerList"/>
+
+  <string id="perlDefaultInterpreter"/>
+  <string id="pythonDefaultInterpreter"/>
+  <string id="tclshDefaultInterpreter"/>
+  <string id="wishDefaultInterpreter"/>
+  <string id="xsltDefaultInterpreter"/>
+  <string id="phpDefaultInterpreter"/>
+  <string id="phpConfigFile"/>
+  
+  <ordered-preference id="fileAssociations">
+    <ordered-preference>
+      <string>*.py</string>
+      <string>Python</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.pyw</string>
+      <string>Python</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.pl</string>
+      <string>Perl</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.pm</string>
+      <string>Perl</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.t</string>
+      <string>Perl</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.plx</string>
+      <string>Perl</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.plex</string>
+      <string>Perl</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.cgi</string>
+      <string>Perl</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>Conscript</string>
+      <string>Perl</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>Construct</string>
+      <string>Perl</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.js</string>
+      <string>JavaScript</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.xml</string>
+      <string>XML</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.xul</string>
+      <string>XML</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.kpf</string>
+      <string>XML</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.htm</string>
+      <string>HTML</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.html</string>
+      <string>HTML</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.xsl</string>
+      <string>XSLT</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.xslt</string>
+      <string>XSLT</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.txt</string>
+      <string>Text</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.c</string>
+      <string>C++</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.h</string>
+      <string>C++</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.cpp</string>
+      <string>C++</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.cxx</string>
+      <string>C++</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.c++</string>
+      <string>C++</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.hpp</string>
+      <string>C++</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.hxx</string>
+      <string>C++</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.h++</string>
+      <string>C++</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.inc</string>
+      <string>Pascal</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.pas</string>
+      <string>Pascal</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.php</string>
+      <string>PHP</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.java</string>
+      <string>Java</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.cs</string>
+      <string>C#</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.lua</string>
+      <string>Lua</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.mak</string>
+      <string>Makefile</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>Makefile</string>
+      <string>Makefile</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>makefile</string>
+      <string>Makefile</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>makefile.*</string>
+      <string>Makefile</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>Makefile.*</string>
+      <string>Makefile</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.idl</string>
+      <string>IDL</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.diff</string>
+      <string>Diff</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.patch</string>
+      <string>Diff</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.bat</string>
+      <string>Batch</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.tex</string>
+      <string>LaTeX</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.ltx</string>
+      <string>LaTeX</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.sty</string>
+      <string>LaTeX</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.cls</string>
+      <string>LaTeX</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.aux</string>
+      <string>LaTeX</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.toc</string>
+      <string>LaTeX</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.lof</string>
+      <string>LaTeX</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.lot</string>
+      <string>LaTeX</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.bbl</string>
+      <string>LaTeX</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.tcl</string>
+      <string>Tcl</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.lis</string>
+      <string>Lisp</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.el</string>
+      <string>Lisp</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.ada</string>
+      <string>Ada</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.rb</string>
+      <string>Ruby</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.sql</string>
+      <string>SQL</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.vb</string>
+      <string>VisualBasic</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.vbs</string>
+      <string>VisualBasic</string>
+    </ordered-preference>
+    <ordered-preference>
+      <string>*.e</string>
+      <string>Eiffel</string>
+    </ordered-preference>
+  </ordered-preference>
+
+  <string id="fileDefaultNew">Text</string>
+  <string id="defaultSelectedPref">editorItem</string>
+  <string id="openEncoding">Auto-Detect</string>
+  
+  <boolean id="find-ignoreHiddenText">0</boolean>
+  <long id="find-patternType">0</long>
+  <long id="find-caseSensitivity">0</long>
+  <long id="find-preferredContextType">0</long> <!-- 0 == current document -->
+  <boolean id="find-matchWord">0</boolean>
+  <boolean id="find-searchBackward">0</boolean>
+
+  <string id="XSLT-new-file-template"
+><![CDATA[<?xml version="1.0"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+ 
+</xsl:stylesheet>
+]]></string>
+
+  <string id="XML-new-file-template"
+><![CDATA[<?xml version="1.0"?>
+]]></string>
+
+  <string id="HTML-new-file-template"
+><![CDATA[<html>
+<head>
+<title><!-- your title here--></title>
+</head>
+<body>
+<!-- document content here -->
+</body>
+</html>
+]]></string>
+
+  <string id="f4"/>
+  <string id="f6"/>
+  <string id="f7"/>
+  <string id="f8"/>
+
+  <boolean id="editUseAutoWrap">1</boolean>
+  <boolean id="editUseEdge">0</boolean>
+  <long id="editAutoWrapColumn">72</long>
+  <long id="editEdgeIndicatorColor">12639424</long>
+  <long id="autoSaveMinutes">10</long>
+  <boolean id="checkDiskFile">1</boolean>
+
+  <string id="PerlExHost">demo3.activestate.com</string>
+  <long id="PerlExPort">8080</long>
+
+  <!-- PerlApp Preferences -->
+  <preference-set id="PerlApp">
+    <string id="scriptname"></string>
+    <string id="pdkType">app</string>
+    <string id="targetname"></string>
+    <string id="dependancies">freestanding</string>
+    <boolean id="verbose">1</boolean>
+    <boolean id="failedUses">0</boolean>
+    <boolean id="hideConsole">0</boolean>
+    <boolean id="clean">0</boolean>
+    <boolean id="buildDCOM">0</boolean>
+    <string id="debugging">none</string>
+    <string id="hostname">localhost</string>
+    <string id="port">9000</string>
+
+    <ordered-preference id="extraModules"/>    
+    <ordered-preference id="dataFiles"/>
+    <preference-set id="versionInfo"/>
+  </preference-set>
+  
+  <!-- Language Preferences -->
+  <preference-set id="languages">
+    <!-- NOTE: the parent pref set for each langauge is the main global set
+           When getting/setting, ensure the names correspond -->
+    <preference-set id="languages/Ada">
+      <string id="Ada/newEncoding">ascii</string>
+      <boolean id="Ada/newBOM">0</boolean>
+    </preference-set>
+    <preference-set id="languages/Batch">
+      <string id="Batch/newEncoding">ascii</string>
+      <boolean id="Batch/newBOM">0</boolean>
+    </preference-set>
+    <preference-set id="languages/C#">
+      <string id="C#/newEncoding">ascii</string>
+      <boolean id="C#/newBOM">0</boolean>
+    </preference-set>
+    <preference-set id="languages/C++">
+      <string id="C++/newEncoding">ascii</string>
+      <boolean id="C++/newBOM">0</boolean>
+    </preference-set>
+    <preference-set id="languages/Diff">
+      <string id="Diff/newEncoding">ascii</string>
+      <boolean id="Diff/newBOM">0</boolean>
+    </preference-set>
+    <preference-set id="languages/Eiffel">
+      <string id="Eiffel/newEncoding">ascii</string>
+      <boolean id="Eiffel/newBOM">0</boolean>
+    </preference-set>
+    <preference-set id="languages/HTML">
+      <string id="HTML/newEncoding">ascii</string>
+      <boolean id="HTML/newBOM">0</boolean>
+    </preference-set>
+    <preference-set id="languages/IDL">
+      <string id="IDL/newEncoding">ascii</string>
+      <boolean id="IDL/newBOM">0</boolean>
+    </preference-set>
+    <preference-set id="languages/Java">
+      <string id="Java/newEncoding">ascii</string>
+      <boolean id="Java/newBOM">0</boolean>
+    </preference-set>
+    <preference-set id="languages/JavaScript">
+      <string id="JavaScript/newEncoding">ascii</string>
+      <boolean id="JavaScript/newBOM">0</boolean>
+    </preference-set>
+    <preference-set id="languages/Latex">
+      <string id="Latex/newEncoding">ascii</string>
+      <boolean id="Latex/newBOM">0</boolean>
+    </preference-set>
+    <preference-set id="languages/Lisp">
+      <string id="Lisp/newEncoding">ascii</string>
+      <boolean id="Lisp/newBOM">0</boolean>
+    </preference-set>
+    <preference-set id="languages/Lua">
+      <string id="Lua/newEncoding">ascii</string>
+      <boolean id="Lua/newBOM">0</boolean>
+    </preference-set>
+    <preference-set id="languages/Makefile">
+      <string id="Makefile/newEncoding">ascii</string>
+      <boolean id="Makefile/newBOM">0</boolean>
+    </preference-set>
+    <preference-set id="languages/PHP">
+      <string id="PHP/newEncoding">ascii</string>
+      <boolean id="PHP/newBOM">0</boolean>
+    </preference-set>
+    <preference-set id="languages/Pascal">
+      <string id="Pascal/newEncoding">ascii</string>
+      <boolean id="Pascal/newBOM">0</boolean>
+    </preference-set>
+    <preference-set id="languages/Perl">
+      <string id="Perl/newEncoding">ascii</string>
+      <boolean id="Perl/newBOM">0</boolean>
+    </preference-set>
+    <preference-set id="languages/Python">
+      <string id="Python/newEncoding">ascii</string>
+      <boolean id="Python/newBOM">0</boolean>
+    </preference-set>
+    <preference-set id="languages/Ruby">
+      <string id="Ruby/newEncoding">ascii</string>
+      <boolean id="Ruby/newBOM">0</boolean>
+    </preference-set>
+    <preference-set id="languages/SQL">
+      <string id="SQL/newEncoding">ascii</string>
+      <boolean id="SQL/newBOM">0</boolean>
+    </preference-set>
+    <preference-set id="languages/Tcl">
+      <string id="Tcl/newEncoding">ascii</string>
+      <boolean id="Tcl/newBOM">0</boolean>
+    </preference-set>
+    <preference-set id="languages/Text">
+      <string id="Text/newEncoding">ascii</string>
+      <boolean id="Text/newBOM">0</boolean>
+    </preference-set>
+    <preference-set id="languages/VisualBasic">
+      <string id="VisualBasic/newEncoding">utf-8</string>
+      <boolean id="VisualBasic/newBOM">0</boolean>
+    </preference-set>
+    <preference-set id="languages/XML">
+      <string id="XML/newEncoding">utf-8</string>
+      <boolean id="XML/newBOM">0</boolean>
+    </preference-set>
+    <preference-set id="languages/XSLT">
+      <string id="XSLT/newEncoding">utf-8</string>
+      <boolean id="XSLT/newBOM">0</boolean>
+    </preference-set>
+  </preference-set>
+  
+  <boolean id="encodingXMLDec">1</boolean>
+  <boolean id="langCharacteristics">1</boolean>
+
+  <!-- look for insertion of WSDL URLs and process specially -->
+  <boolean id="useWSDLDetection">1</boolean>
+  <string id="perlWSModule">WebService</string>
+  
+  <string id="defaultTemplatesFolder"/>
+  <string id="defaultTemplatesFile"/>
+
+  <!-- One shot indicators if a language's WS Setup Wizard has been run.
+       XXX That full functionality not implemented yet, just showing a warning
+           for now. -->
+  <boolean id="ranWebServicesSetupWizard_ForPerl">0</boolean>
+  <boolean id="ranWebServicesSetupWizard_ForPython">0</boolean>
+  <boolean id="ranWebServicesSetupWizard_ForPHP">0</boolean>
+</preference-set>

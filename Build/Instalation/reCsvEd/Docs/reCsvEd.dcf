@@ -75,7 +75,7 @@ left of the row on the :hdref refid=main. screen.
 
 :h2.Updating Columns
 :p.There are 2 ways to update the columns details
-:ol compact
+:ol compact.
  :li.Via the :hp2.right click >>> Csv Options:ehp2. menu you can do basic column actions (copy, move, add and delete).
  :li.The :hp2.Update Csv Columns:ehp2. dialog (:hp2.Edit:ehp2. and :hp2.right click >>> Csv Options:ehp2. menu's)
 allows you change column names and types as well as copy, move, add and delete columns.
@@ -105,7 +105,18 @@ the Xml view useful.
 :p.:hp2.Xml Preview:ehp2.
 .pict CsvEdit_XmlPreview.png
 
-:h2.Fixed Width Files
+
+
+:h1.Other File Formats
+:p.While the focus of ReCsvEditor is editing Csv Files, it also has viewers for&gml.
+:ul.
+  :li.:hdref refid=FixedW.
+  :li.:hp2.Xml:ehp2. Files
+  :li.:hdref refid=PO.
+  :li.:hdref refid=Tip.
+:eul  
+
+:h2 id=FixedW.Fixed Width Files
 :p.:reCsvEditor. has support for simple fixed width files. The editor can not 
 handle more complicated Fixed width files, you will be better off with the :RecordEditor.
 :reCsvEditor. will 
@@ -176,6 +187,109 @@ Cobol or Xml file description.
 
 .pict CsvEdit_CobolPreview.png
 
+
+:h3 id=PO.GetText PO
+:p.There is a new :hp1.experimental:ehp1. viewer/editor for
+.*b2h html <a href="http://en.wikipedia.org/wiki/Gettext">GetText-PO</a> files.
+:p.When you select a GetText-PO file, ReCsvEditor should display the preview in the :hp1.Other:ehp1. tab:
+:p.
+.pict ReCsvEd_PO_01.png
+:p.
+:p.By default the Record Screen is on the right hand side of the Screen:
+:p.
+.pict ReCsvEd_PO_02.png
+:p.
+:p.You can change the Child-Record view to the bottom of the screen by:
+:ul.
+ :li.By selecting Bottom of the screen as the Default :hp2.Edit &gt;&gt;&gt; Edit Options:ehp2. and select the :hp2.Special formats:ehp2. tab. There is a child screen option.
+ :li.Right clicking at the top of the screen outside the table:
+  :p.
+.pict ReCsvEd_PO_03.png
+  
+ 
+:eul.
+
+:p.There is also a record view which has a HTML view:
+:p.
+.pict ReCsvEd_PO_04.png
+:p.
+:p.Finally all the normal sorting, filtering functions are available.
+:p.
+
+:h3 id=tip.SwingX-Tip files
+:p.The ReCsvEditor can now display/edit <a href="http://www.javalobby.org/java/forums/t55436.html">SwingX-Tip</a> properties files.
+as well as the text, there is also Html display:
+:p.
+.pict ReCsvEd_Tip_01.png
+
+:p.
+
+
+:h1.Recent Pane
+:p.The Recent-Pane was introduced in :hp2.ReCsvEditor 0.97:ehp2.. You can display / hide
+the pane from the :hp2.Right Click:ehp2. menu&gml.
+:p.
+
+.pict CsvEdRCM.png
+
+:p.By default the Recent-pane is hidden for windows-Look and feel but displayed for other look and feels.
+:p.You can control wether the recent pane is displayed via the :hp2.Edit >>> Edit Properties >>> Properties >>> Behaviour:ehp2.
+
+.pict EdProperties_recentOpt.png
+
+:h1.Starting directory
+:p.With version 0.97, When ReCsvEditor starts, it will (by default) display the last directory used.
+
+On the properties panel you can  properties panel  :hp2.Edit >>> Edit Properties >>> Properties >>> Behaviour:ehp2.
+
+:p.
+
+.pict EdProperties_OpenLastDir.png
+
+:p.Alternatively :hp2.ReCsvEditor:ehp2. can open the directory specified:
+
+.pict EdProperties_DefaultDir.png
+
+:h2.Menu's
+:p.ReCsvEditor accepts a direcory (or file) as a parameter. You can use this feature
+to setup shell-scripts or menu's. You can start ReCsvEditor like:
+.fo off
+
+    java -jar runCsvEditor.jar initial.directory
+    
+.fo on
+:p.In Windows / Linux you can setup menu items and add the initial directory as a parameter
+
+
+.pict CsvEd_Menus.png
+
+:h1.Utilities
+
+:h3.Csv Compare
+:p.There is a new :hp1.Csv Compare Wizard:ehp1. on the :hp2.Utilities:ehp2. Menu&gml.
+:p.
+.pict ReCsvEd_Cmp_01.png
+:p.
+:p.The first 2 screens let you select the Csv files and there attributes&gml.
+:p.
+.pict ReCsvEd_Cmp_02.png
+:p.
+
+:p.The 3rd screen let you select the fields to compare. The Csv files can have quite different formats&gml.
+:p.
+.pict ReCsvEd_Cmp_03.png
+:p.
+
+:p.Finally file differences are displayed&gml.
+:p.
+.pict ReCsvEd_Cmp_04.png
+:p.
+
+
+:p.You can also view single records&gml.
+:p.
+.pict ReCsvEd_Cmp_05.png
+:p.
 .im iHT_B000_BigFiles.dcf
 
 
@@ -239,3 +353,4 @@ records using complicated criteria and displays the records as a new view
 :p.For Example the following will search for records where name starts with M and pay-Rate > 10
 
 .pict CsvEd_Filter.png
+

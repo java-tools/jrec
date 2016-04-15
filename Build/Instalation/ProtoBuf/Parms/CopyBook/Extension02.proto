@@ -1,0 +1,29 @@
+message Message {
+    extensions 100 to max;
+
+    required uint64 A = 1;
+    required string name = 2;
+}
+
+message Event {
+    extend Message { optional Event ext = 101; repeated Note notes = 103; }
+
+    extensions 100 to max;
+    
+    required uint64 B = 1;
+    required string eventName = 2;
+    
+/* 		assert_p('LineFrameTree.FileDisplay_JTbl', 'Content', '[[A, 1, , UINT64, 123, 123], [name, 1, , STRING, aa, aa]]') */
+}
+
+message Note {
+	required string text = 1;
+}
+
+extend Event { 
+
+   repeated string qtab = 102;
+   optional Note note = 103;
+}
+
+

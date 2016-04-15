@@ -1,8 +1,8 @@
 /*
-	Build HSQLDB installer 
+	Build Generic installer 
 */
 	parse arg vers x
-	if vers = "" then vers = '0.95'                     
+	if vers = "" then vers = '0.97'                     
 	
 	if vers <> "" then do
 		vers = '_'vers

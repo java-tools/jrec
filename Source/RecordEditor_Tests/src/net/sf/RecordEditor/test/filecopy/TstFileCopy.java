@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import junit.framework.TestCase;
-
 import net.sf.JRecord.ByteIO.FixedLengthByteReader;
 import net.sf.JRecord.zTest.Common.TstConstants;
 import net.sf.RecordEditor.copy.BatchCopy;
@@ -18,7 +17,7 @@ public class TstFileCopy extends TestCase {
 	
 	/* JRecord / RecordEditor Install directory */
 	//private static String InstallDir = "/home/bm/Programs/RecordEdit/HSQLDB/";
-	private static String InstallDir = "C:\\Users\\mum\\RecordEditor_HSQL\\";
+	private static String InstallDir = "G:\\Users\\Bruce01\\RecordEditor_HSQL\\";
 	
 	public static final String DataIn    = testDir + WriteFiles.DataIn + "/";
 	public static final String DataOut   = testDir + WriteFiles.DataOut + "/";
@@ -40,8 +39,13 @@ public class TstFileCopy extends TestCase {
 	}
 	
 	private static void checkDir(String s) {
-		File f = new File(s);
+		makeDir(new File(s));
+
+	}
+	
+	private static void makeDir(File f) {
 		if (! f.exists()) {
+			makeDir(f.getParentFile());
 			f.mkdir();
 		}
 	}

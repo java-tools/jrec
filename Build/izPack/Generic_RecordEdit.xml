@@ -17,7 +17,7 @@
     -->
     <info>
         <appname>RecordEdit/Generic</appname>
-        <appversion>0.95</appversion>
+        <appversion>0.97</appversion>
         <authors>
             <author name="Bruce Martin" email="bruce_a_martin@sourceforge.net" />
             <!--author name="Hidden Man" email="hidden@hisdomain.com"/-->
@@ -53,8 +53,8 @@
         <res id="InfoPanel.info"        src="Readme.txt"/>
     	<res id="shortcutSpec.xml"      src="Generic_ShortcutSpec.xml"/>
         <res id="HTMLInfoPanel.info"    src="Generic_readme.html"/>
-	<res id="Unix_shortcutSpec.xml" src="Generic_Unix_shortcutSpec.xml"/>
-	<res id="ProcessPanel.Spec.xml" src="Generic_ProcessPanel.Spec.xml"/>
+		<res id="Unix_shortcutSpec.xml" src="Generic_Unix_shortcutSpec.xml"/>
+		<res id="ProcessPanel.Spec.xml" src="Generic_ProcessPanel.Spec.xml"/>
     </resources>
     
     <!-- 
@@ -93,28 +93,36 @@
             <description>Record Editor Diagrams</description>
             <fileset dir="../Instalation/GeneralDB/Docs/Diagram/" targetdir="$INSTALL_PATH/Docs/Diagram"/>
         </pack>
+        <pack name="UserData" required="yes" override="true">
+            <description>User Data DB</description>
+            <fileset dir="../Instalation/UserData/" includes="*.zip" targetdir="$INSTALL_PATH/UserData"/>
+            <!--fileset dir="../Instalation/hsqldb/UserData/" includes="*.zip" targetdir="$INSTALL_PATH/UserData"/-->
+        </pack>
         <!--pack name="Database" required="yes" override="false">
             <description>Record Editor Database</description>
             <fileset src="../Instalation/hsqldb/Database" targetdir="$USER_HOME/.RecordEditor/GenericDB/HsqlDatabase"/>
         </pack-->
-        <pack name="SampleFiles" required="yes">
+        <!--pack name="SampleFiles" required="yes">
             <description>Sample Files</description>
-            <file src="../SampleFiles" targetdir="$USER_HOME/.RecordEditor/GenericDB"/> <!-- Reccursive adding -->
-        </pack>
-        <pack name="Params" required="yes">
+            <file src="../SampleFiles" targetdir="$USER_HOME/.RecordEditor/GenericDB"/> 
+        </pack!-->
+        <!--pack name="Params" required="yes">
             <description>Record Editor Parameters</description>
             <file src="../Instalation/GeneralDB/GenericDB" targetdir="$USER_HOME/.RecordEditor"/> 
             <fileset dir="../Instalation/hsqldb_izpack/lib/Extensions" includes="*.txt" targetdir="$USER_HOME/.RecordEditor/GenericDB/Extensions"/>
 	    <parsable targetfile="$USER_HOME/.RecordEditor/GenericDB/CobolFiles.txt"/>
-        </pack>
-        <pack name="User" required="yes">
+        </pack!-->
+        <!--pack name="User" required="yes">
             <description>Record Editor Parameters</description>
             <file src="../Instalation/GeneralDB/User" targetdir="$USER_HOME/.RecordEditor/GenericDB"/> 
-        </pack>
+        </pack!-->
         <pack name="lib" required="yes" override="true">
             <description>Record Editor Jars</description>
             <file src="../Instalation/GeneralDBL/lib" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
-            <fileset dir="../Instalation/GeneralDB/lib" includes="run*.jar" targetdir="$INSTALL_PATH/lib"/>
+            <fileset dir="../Instalation/GeneralDB/lib"  targetdir="$INSTALL_PATH/lib">
+               <include name="run*.jar"/> 
+               <include name="Run*.jar"/> 
+            </fileset>
             <fileset dir="../Instalation/GeneralDB/lib" includes="*Jars.txt" targetdir="$INSTALL_PATH/lib"/>
             <fileset dir="../Instalation/hsqldb_izpack/lib" includes="*.pack" targetdir="$INSTALL_PATH/lib">
                 <include name="pict.zip"/>
@@ -137,8 +145,8 @@
 	    <parsable targetfile="$INSTALL_PATH/lib/runEditorFileCopybook.sh" type="shell"/>
 	    <parsable targetfile="$INSTALL_PATH/lib/runVelocityGUI.sh"        type="shell"/>
 	    <parsable targetfile="$INSTALL_PATH/lib/runPropertiesEditor.sh"   type="shell"/>
-	    <parsable targetfile="$INSTALL_PATH/lib/Uninstall.sh"   type="shell"/>
-	    <executable targetfile="$INSTALL_PATH/lib/Uninstall.sh" stage="never"/>
+	    <parsable targetfile="$INSTALL_PATH/lib/Uninstall.sh"             type="shell"/>
+	    <executable targetfile="$INSTALL_PATH/lib/Uninstall.sh"         stage="never"/>
 	    <executable targetfile="$INSTALL_PATH/lib/StopServer.sh"        stage="never"/>
 	    <executable targetfile="$INSTALL_PATH/lib/runGenericInstall.sh" stage="never"/>
 	    <executable targetfile="$INSTALL_PATH/lib/runLayoutEdit.sh"     stage="never"/>
@@ -156,21 +164,21 @@
             <description>Foreign Language</description>
             <file src="../Instalation/GeneralDB/lang"    targetdir="$INSTALL_PATH"/>
         </pack>
-	<pack name="CopyBook" required="yes">
+	<!--pack name="CopyBook" required="yes">
 	    <description>CopyBooks</description>
 	    <fileset dir="../Instalation/GeneralDB/CopyBook" includes="Cobol/*.cbl" targetdir="$USER_HOME/.RecordEditor/GenericDB/CopyBook"/>
 	    <fileset dir="../Instalation/GeneralDB/CopyBook" includes="*/*.xml" targetdir="$USER_HOME/.RecordEditor/GenericDB/CopyBook"/>
 	    <fileset dir="../Instalation/GeneralDB/CopyBook" includes="*/*.Txt" targetdir="$USER_HOME/.RecordEditor/GenericDB/CopyBook"/>
 	    <fileset dir="../Instalation/GeneralDB/CopyBook" includes="*/*.Xml" targetdir="$USER_HOME/.RecordEditor/GenericDB/CopyBook"/>
-        </pack>
+    </pack!-->
 	<pack name="SQL" required="yes" override="true">
             <description>SQL</description>
             <fileset dir="../Instalation/GeneralDB/SQL" includes="*.Sql" targetdir="$INSTALL_PATH/SQL"/> 
         </pack>
-	<pack name="Velocity" required="yes">
+	<!--pack name="Velocity" required="yes">
             <description>Sample Velocity Templates</description>
             <fileset dir="../Instalation/GeneralDB/SampleVelocityTemplates" includes="*/*.vm" targetdir="$USER_HOME/.RecordEditor/GenericDB/SampleVelocityTemplates"/> 
-        </pack>
+        </pack-->
         <pack name="bin" os="unix" required="no" override="true">
             <description>Linux/Unix bin direcory</description>
             <fileset dir="../Instalation/GeneralDBL/lib" includes="*.sh" targetdir="$INSTALL_PATH/bin"/>
@@ -230,6 +238,7 @@
     
 
     <native type="izpack" name="ShellLink.dll"/> 
+    <native type="izpack" name="ShellLink_x64.dll"/>
 
    
 </installation>

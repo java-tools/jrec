@@ -1,0 +1,73 @@
+<MapSet id="MAM0045"  TYPE="MAP" LANG="COBOL" MODE="INOUT" STORAGE="AUTO" SUFFIX="">
+<Map id="MAM0045"  SIZE="(24,80)" CTRL="(HONEOM,FREEKB,FRSET)" COLUMN="1" LINE="1" DATA="FIELD" TIOAPFX="YES" JUSTIFY="(LEFT)" OBFMT="NO   ">
+<Field   Row="1" Col="1" LENGTH="7" INITIAL="MAC0045" ATTRB="(PROT,NORM)" />
+<Field   Row="1" Col="15" LENGTH="52" INITIAL="MERCHANDISE PACKING CONTROL - PURCHASE ORDER ENQUIRY" ATTRB="(PROT,NORM)" />
+<Field   Row="1" Col="73" LENGTH="7" INITIAL="MAM0045" ATTRB="(PROT,NORM)" />
+<Field   Row="3" Col="1" LENGTH="10" INITIAL="PO NUMBER:" ATTRB="(PROT,NORM)" />
+<Field id="M_PO" Type="Fld"  Row="3" Col="12" LENGTH="12" ATTRB="(PROT,NORM)" PICIN="X(12)" PICOUT="X(12)" />
+<Field   Row="3" Col="25" LENGTH="9" INITIAL=" DEPT NO:" ATTRB="(ASKIP,NORM)" />
+<Field id="M_DEPT" Type="Fld"  Row="3" Col="35" LENGTH="4" ATTRB="(ASKIP,NORM)" PICIN="X(4)" PICOUT="9(4) " />
+<Field  Row="3" Col="40" LENGTH="10" INITIAL=" SUPPLIER:" ATTRB="(ASKIP,NORM)" />
+<Field id="M_SUP" Type="Fld"  Row="3" Col="51" LENGTH="8" ATTRB="(ASKIP,NORM)" PICIN="X(8)" PICOUT="9(8) " />
+<Field id="N_SUP" Type="Fld"  Row="3" Col="60" LENGTH="20" ATTRB="(ASKIP,NORM)" PICIN="X(20)" PICOUT="X(20)" />
+<Field   Row="4" Col="1" LENGTH="10" INITIAL="CONTRACT :" ATTRB="(ASKIP,NORM)" />
+<Field id="M_CONT" Type="Fld"  Row="4" Col="12" LENGTH="8" ATTRB="(ASKIP,NORM)" PICIN="X(8)" PICOUT="X(8) " />
+<Field  Row="4" Col="21" LENGTH="11" INITIAL=" SUPP COST:" ATTRB="(ASKIP,NORM)" />
+<Field id="A_COST_NET" Type="Fld"  Row="4" Col="33" LENGTH="10" ATTRB="(ASKIP,NORM)" PICIN="X(10)" PICOUT="Z(7).99" />
+<Field   Row="4" Col="44" LENGTH="9" INITIAL=" ORD QTY:" ATTRB="(ASKIP,NORM)" />
+<Field id="Q_UNIT_ORD_HD" Type="Fld"  Row="4" Col="54" LENGTH="7" ATTRB="(ASKIP,NORM)" PICIN="X(7)" PICOUT="Z(7) " />
+<Field   Row="4" Col="62" LENGTH="9" INITIAL=" REC QTY:" ATTRB="(ASKIP,NORM)" />
+<Field id="Q_UNIT_DELHD" Type="Fld"  Row="4" Col="72" LENGTH="7" ATTRB="(ASKIP,NORM)" PICIN="X(7)" PICOUT="Z(7) " />
+<Field   Row="4" Col="80" LENGTH="0" ATTRB="(PROT,NORM)" />
+<Field   Row="6" Col="1" LENGTH="20" INITIAL="PACK CONTROL NUMBER:" ATTRB="(PROT,NORM)" />
+<Field id="M_PO_PACK" Type="Fld"  Row="6" Col="22" LENGTH="2" ATTRB="(PROT,NORM)" PICIN="X(2)" PICOUT="Z(2) " />
+<Field   Row="6" Col="25" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="7" Col="1" LENGTH="20" INITIAL="STANDARD PACK (Y/N):" ATTRB="(ASKIP,NORM)" />
+<Field id="C_PACK_STANDARD" Type="Fld"  Row="7" Col="22" LENGTH="1" ATTRB="(ASKIP,NORM)" PICIN="X" PICOUT="X" />
+<Field   Row="7" Col="24" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="9" Col="40" LENGTH="8" INITIAL="EXPECTED" ATTRB="(ASKIP,NORM)" />
+<Field   Row="9" Col="55" LENGTH="20" INITIAL="ORDERED     RECEIVED" ATTRB="(ASKIP,NORM)" />
+<Field   Row="10" Col="1" LENGTH="13" INITIAL="SUPPLIER COST" ATTRB="(ASKIP,NORM)" />
+<Field   Row="10" Col="36" LENGTH="1" INITIAL=":" ATTRB="(ASKIP,NORM)" />
+<Field id="A_TRF_COST_ENT" Type="Fld"  Row="10" Col="38" LENGTH="10" ATTRB="(ASKIP,NORM)" PICIN="X(10)" PICOUT="Z(7).ZZ" />
+<Field   Row="10" Col="49" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="A_TRF_COST_CALC" Type="Fld"  Row="10" Col="52" LENGTH="10" ATTRB="(PROT,NORM)" PICIN="X(10)" PICOUT="Z(7).ZZ" />
+<Field   Row="10" Col="63" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="11" Col="1" LENGTH="36" INITIAL="TOTAL QUANTITY TO BE ALLOCATED     :" ATTRB="(PROT,NORM)" />
+<Field id="Q_TOT_PACK_ENT" Type="Fld"  Row="11" Col="41" LENGTH="7" ATTRB="(PROT,NORM)" PICIN="X(7)" PICOUT="Z(7) " />
+<Field  Row="11" Col="49" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="Q_TOT_PACK_CALC" Type="Fld"  Row="11" Col="55" LENGTH="7" ATTRB="(PROT,NORM)" PICIN="X(7)" PICOUT="Z(7) " />
+<Field   Row="11" Col="63" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="Q_UNIT_DEL_PC" Type="Fld"  Row="11" Col="67" LENGTH="7" ATTRB="(PROT,NORM)" PICIN="X(7)" PICOUT="Z(7) " />
+<Field   Row="11" Col="75" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="12" Col="1" LENGTH="15" INITIAL="NUMBER OF PACKS" ATTRB="(PROT,NORM)" />
+<Field   Row="12" Col="36" LENGTH="1" INITIAL=":" ATTRB="(PROT,NORM)" />
+<Field id="Q_PACK_ENT" Type="Fld"  Row="12" Col="42" LENGTH="6" ATTRB="(PROT,NORM)" PICIN="X(6)" PICOUT="Z(6) " />
+<Field   Row="12" Col="49" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="Q_PACK_CALC" Type="Fld"  Row="12" Col="57" LENGTH="5" ATTRB="(PROT,NORM)" PICIN="X(5)" PICOUT="Z(5) " />
+<Field   Row="12" Col="63" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="Q_PACK_REC" Type="Fld"  Row="12" Col="67" LENGTH="7" ATTRB="(PROT,NORM)" PICIN="X(7)" PICOUT="Z(7) " />
+<Field   Row="12" Col="75" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="13" Col="1" LENGTH="36" INITIAL="QUANTITY ORDERER PER PACK / RE-PACK:" ATTRB="(PROT,NORM)" />
+<Field id="Q_ORD_PACK_ENT" Type="Fld"  Row="13" Col="41" LENGTH="7" ATTRB="(PROT,NORM)" PICIN="X(7)" PICOUT="Z(7) " />
+<Field   Row="13" Col="49" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="Q_ORD_PACK_CALC" Type="Fld"  Row="13" Col="55" LENGTH="7" ATTRB="(PROT,NORM)" PICIN="X(7)" PICOUT="Z(7) " />
+<Field   Row="13" Col="63" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="14" Col="1" LENGTH="15" INITIAL="PACKS PER OUTER" ATTRB="(PROT,NORM)" />
+<Field   Row="14" Col="36" LENGTH="1" INITIAL=":" ATTRB="(PROT,NORM)" />
+<Field id="Q_PACK_CART" Type="Fld"  Row="14" Col="45" LENGTH="3" ATTRB="(PROT,NORM)" PICIN="XXX" PICOUT="ZZZ" />
+<Field   Row="14" Col="49" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="M_ALCN_PACK" Type="Fld"  Row="15" Col="1" LENGTH="36" INITIAL="ALLOCATION BY PACKS OR UNITS  (P/U):" ATTRB="(UNPROT,BRT)" PICIN="X(36)" PICOUT="X(36) " />
+<Field   Row="15" Col="38" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field id="C_ALCN_PACK" Type="Fld"  Row="15" Col="47" LENGTH="1" ATTRB="(UNPROT,NORM)" PICIN="X" PICOUT="X" />
+<Field   Row="15" Col="49" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="21" Col="1" LENGTH="5" INITIAL="PACK:" ATTRB="(ASKIP,BRT)" />
+<Field id="M_PACK_SEL" Type="Fld"  Row="21" Col="7" LENGTH="2" ATTRB="(UNPROT,NORM,IC)" />
+<Field   Row="21" Col="10" LENGTH="13" INITIAL=" OR  KEYCODE:" ATTRB="(ASKIP,BRT)" />
+<Field id="M_KEYCODE_SEL" Type="Fld"  Row="21" Col="24" LENGTH="8" ATTRB="(UNPROT,NORM)" />
+<Field   Row="21" Col="33" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="22" Col="1" LENGTH="75" INITIAL="VALID KEYS - ENTER, PF6, PF7, PF8, PF10, PF11,PF12, PA1, PA2, CLEAR (HELP)" ATTRB="(ASKIP,BRT)" />
+<Field id="T_MSG_APP" Type="Fld"  Row="23" Col="1" LENGTH="79" ATTRB="(ASKIP,BRT)" PICIN="X(79)" PICOUT="X(79)" />
+<Field   Row="24" Col="1" LENGTH="1" ATTRB="(PROT,NORM)" />
+</Map>
+</MapSet>

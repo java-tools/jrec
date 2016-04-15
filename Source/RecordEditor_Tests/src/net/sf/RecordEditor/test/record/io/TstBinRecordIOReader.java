@@ -15,7 +15,7 @@ import junit.framework.TestCase;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
-import net.sf.JRecord.IO.BinaryLineReader;
+import net.sf.JRecord.IO.Binary4680LineReader;
 import net.sf.RecordEditor.test.TstConstants;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
 
@@ -134,7 +134,7 @@ public class TstBinRecordIOReader extends TestCase {
 
     @SuppressWarnings("unchecked")
 	public void fileTest(String id, byte[][] linesPrice) throws IOException, RecordException  {
-        BinaryLineReader tReader = new BinaryLineReader();
+        Binary4680LineReader tReader = new Binary4680LineReader();
         int i = 0;
         boolean b;
         AbstractLine line;

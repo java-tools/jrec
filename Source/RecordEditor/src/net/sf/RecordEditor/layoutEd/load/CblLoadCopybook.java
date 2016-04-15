@@ -89,6 +89,7 @@ public class CblLoadCopybook extends ReFrame implements ActionListener {
 	private JTabbedPane cblDtlsTab = new JTabbedPane();
 	private CblRecordPnl recordTab = null;
 	private CblFilePnl filePnl = null;
+	private CblGenJRecord genPnl = null;
 	
 	private final CblLoadData cblDtls; 
 
@@ -175,11 +176,11 @@ public class CblLoadCopybook extends ReFrame implements ActionListener {
 
 		Dimension preferredSize = cblDetails.cblPnl.getPreferredSize();
 		
-		System.out.println("***> " + (pnlWidth * 11 / 20) + ", " + (preferredSize.width + SwingUtils.STANDARD_FONT_WIDTH * 20));
+		//System.out.println("***> " + (pnlWidth * 11 / 20) + ", " + (preferredSize.width + SwingUtils.STANDARD_FONT_WIDTH * 20));
 		cblDetails.cblPnl.setPreferredSize(new Dimension(
 				Math.min(pnlWidth * 11 / 20, preferredSize.width + SwingUtils.STANDARD_FONT_WIDTH * 20), 
 				preferredSize.height));
-		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, cblDetails.scrollPane, cblDtlsTab);
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, cblDetails.cblPnl, cblDtlsTab);
 		//splitPane.setDividerLocation(0.6);
 		pnl.addComponentRE(0, 6, BasePanel.FILL, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
@@ -216,6 +217,7 @@ public class CblLoadCopybook extends ReFrame implements ActionListener {
 		cblTA.setFont(SwingUtils.getMonoSpacedFont());
 	
 		cblDtls.helpBtn.addActionListener(this); 
+		cblDtls.genJRecord.addActionListener(this);
 		cblDtls.go.addActionListener(this);
 
 		cblDtls.copybookFileCombo.addTextChangeListner(new ChangeListener() {
@@ -285,7 +287,8 @@ public class CblLoadCopybook extends ReFrame implements ActionListener {
 			if (! recordTabUsed) {
 				cblDtlsTab.addTab("Records", recordTab.recordPnl);
 				recordTabUsed = true;
-				recordTab.recordPnl.requestFocus();
+				//recordTab.recordPnl.requestFocus();
+				cblDtlsTab.setSelectedComponent(recordTab.recordPnl);
 			}
 		} else if (recordTab != null) {
 			cblDtlsTab.remove(recordTab.recordPnl);
@@ -349,7 +352,14 @@ public class CblLoadCopybook extends ReFrame implements ActionListener {
 
 	    if (event.getSource() == cblDtls.helpBtn) {
 	        pnl.showHelpRE();
-
+		} else if (event.getSource() == cblDtls.genJRecord) {
+		   if (genPnl == null) {
+			   genPnl = new CblGenJRecord(cblDtls);
+			   cblDtlsTab.addTab("Generated Code", genPnl.pane);
+		   }
+		   genPnl.generate();
+		   //genPnl.scrollPane.requestFocus();
+		   cblDtlsTab.setSelectedComponent(genPnl.pane);
 		} else {
 			boolean free = Common.isSetDoFree(false);
 			String copyBookFile = cblDtls.copybookFileCombo.getText();

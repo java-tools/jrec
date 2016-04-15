@@ -1,0 +1,5 @@
+print("Hello");
+
+    RecordEditorData.executeSavedTask( 
+    	                              RecordEditorData.executeConstansts.fieldDir  /*"FieldDir"*/,
+    	                              "DTAR020_HideDate.xml");    /* Hide Date Column  */

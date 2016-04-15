@@ -8,7 +8,7 @@ public class CommonBits {
 	public static int LT_TEXT = 2;
 	public static int LT_BYTE = 3;
 			
-	private static final String LINE_SEPARATOR = System.getProperty("line.separator");
+	public  static final String LINE_SEPARATOR = System.getProperty("line.separator");
 	private static final char[] EMPTY_CHAR_ARRAY = {};
 	public  static final String NULL_STRING = new String(EMPTY_CHAR_ARRAY, 0, 0); 
 	public  static final Object NULL_VALUE = NULL_STRING;

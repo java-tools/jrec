@@ -1,0 +1,10 @@
+Record	0	1	<Tab>	0		N	ams PO Download: Detail\n\nline 3
+1	2	Record Type		0	0	0	
+3	9	Pack Qty		8	4	0	
+12	13	Pack Cost		8	4	0	
+25	13	APN		7	0	0	
+38	1	Filler		0	0	0	
+39	8	Product		7	0	0	
+72	15	pmg dtl tech key		0	0	0	
+87	15	Case Pack id		0	0	0	
+101	50	Product Name		0	0	0	

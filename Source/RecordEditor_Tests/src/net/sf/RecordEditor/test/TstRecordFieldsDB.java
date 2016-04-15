@@ -125,7 +125,7 @@ public class TstRecordFieldsDB extends TestCase {
 	public void testInsert() {
 		RecordFieldsRec rec = insRecord(1, 3, typeChar);
 		db.resetSearch();
-		db.setSearchArg("SubKey", AbsDB.opEquals, Integer.toString(rec.getValue().getSubKey()));
+		db.setSearchArg("Sub_Key", AbsDB.opEquals, Integer.toString(rec.getValue().getSubKey()));
 		RecordFieldsRec gotRecord = getRecord();
 
 		assertNotNull("Insert: record is null", gotRecord);
@@ -161,7 +161,7 @@ public class TstRecordFieldsDB extends TestCase {
 		rec.getValue().setName("Updated - " + rec.getValue().getName());
 		db.update(rec);
 		db.resetSearch();
-		db.setSearchArg("SubKey", AbsDB.opEquals, Integer.toString(rec.getValue().getSubKey()));
+		db.setSearchArg("Sub_Key", AbsDB.opEquals, Integer.toString(rec.getValue().getSubKey()));
 		RecordFieldsRec gotRecord = getRecord();
 
 		assertNotNull("Update: record is null", gotRecord);

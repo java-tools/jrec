@@ -9,15 +9,20 @@ package net.sf.RecordEditor.test.record.io;
 import java.io.IOException;
 import java.util.Arrays;
 
+import javax.swing.plaf.basic.BasicScrollBarUI;
+
 import junit.framework.TestCase;
 import net.sf.JRecord.ByteIO.AbstractByteReader;
 import net.sf.JRecord.ByteIO.VbByteReader;
+import net.sf.JRecord.Common.BasicFileSchema;
+import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.External.CobolCopybookLoader;
 import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.External.ToLayoutDetail;
-import net.sf.JRecord.IO.BinaryLineWriter;
-import net.sf.JRecord.Numeric.Convert;
+import net.sf.JRecord.IO.AbstractLineWriter;
+import net.sf.JRecord.IO.StandardLineIOProvider;
+import net.sf.JRecord.Numeric.ICopybookDialects;
 import net.sf.JRecord.zTest.Common.IO;
 import net.sf.JRecord.zTest.Common.TstConstants;
 import net.sf.JRecord.zTest.Common.TstData;
@@ -80,7 +85,7 @@ public class TstRecordVbIOWriter extends TestCase {
                 copybookInt.loadCopyBook(
                         TstConstants.COBOL_DIRECTORY + dtar020CopybookName + ".cbl",
                         CopybookLoader.SPLIT_NONE, 0, "cp037",
-                        Convert.FMT_MAINFRAME, 0, null
+                        ICopybookDialects.FMT_MAINFRAME, 0, null
                 ));
 
         tst1file(dtar020Lines, copyBook);
@@ -92,7 +97,7 @@ public class TstRecordVbIOWriter extends TestCase {
                 copybookInt.loadCopyBook(
                         TstConstants.COBOL_DIRECTORY + dtar107CopybookName + ".cbl",
                         CopybookLoader.SPLIT_NONE, 0, "cp037",
-                        Convert.FMT_MAINFRAME, 0, null
+                        ICopybookDialects.FMT_MAINFRAME, 0, null
                 ));
 
         tst1file(TstData.DTAR107_LINES, copyBook);
@@ -103,7 +108,7 @@ public class TstRecordVbIOWriter extends TestCase {
                 copybookInt.loadCopyBook(
                         TstConstants.COBOL_DIRECTORY + futjitsuCopybookName + ".cbl",
                         CopybookLoader.SPLIT_NONE, 0, "",
-                        Convert.FMT_INTEL, 0, null
+                        ICopybookDialects.FMT_INTEL, 0, null
                 ));
 
         tst1file(TstData.FUTJISU_LINES, copyBook);
@@ -171,7 +176,9 @@ public class TstRecordVbIOWriter extends TestCase {
      */
     private void writeAFile(String name, byte[][] bytes, LayoutDetail details)
     throws IOException  {
-        IO.writeAFile(BinaryLineWriter.newVBWriter(), name, bytes, details);
+    	AbstractLineWriter lineWriter = (new StandardLineIOProvider())
+    			.getLineWriter(Constants.IO_VB, "");
+        IO.writeAFile(lineWriter, name, bytes, details);
     }
 
 }

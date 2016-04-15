@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.JRecord.Common.CommonBits;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.External.Def.ExternalField;
@@ -70,6 +71,7 @@ public class XmlCopybookLoader extends BaseCopybookLoader {
     private ArrayList<ExternalField> commonDetails;
     private String redefinedField;
     private boolean foundRedefine;
+    private boolean saveCb2xml = false;
     private int splitCopybook;
 
     private int fieldNum;
@@ -96,6 +98,10 @@ public class XmlCopybookLoader extends BaseCopybookLoader {
     private int positionAdjustment = 0;
     private ArrayList<String> groupName;
 
+    boolean dropCopybookFromFieldNames = CommonBits.isDropCopybookFromFieldNames();
+    boolean useJRecordNaming = false;
+
+
     /**
      * Load a File as a DOM Document
      *
@@ -117,6 +123,14 @@ public class XmlCopybookLoader extends BaseCopybookLoader {
 		}
     }
 
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.External.ISetDropCopybookName#setSaveCb2xmlDocument(boolean)
+	 */
+	public void setSaveCb2xmlDocument(boolean saveCb2xml) {
+		this.saveCb2xml = saveCb2xml;
+	}
 
     /**
      * Convert a XML Dom Copybook into the ExternalRecord
@@ -181,6 +195,7 @@ public class XmlCopybookLoader extends BaseCopybookLoader {
     		fontName = font;
     		system   = systemId;
     		parentLayout = null;
+    		currentLayout = generateXRec();
 
 
             lCopyBookPref = pCopyBook + "-";
@@ -240,6 +255,10 @@ public class XmlCopybookLoader extends BaseCopybookLoader {
             }
             parentLayout.setFileStructure(numTranslator.getFileStructure(multipleRecordLengths, binary));
             freeDBs(pDbIdx);
+
+            if (saveCb2xml) {
+            	parentLayout.addCb2xmlDocument(new Cb2xmlDocument(pSplitCopybook, splitAtLevel, pCopyBookXml));
+            }
 
             return parentLayout;
         }
@@ -459,15 +478,14 @@ public class XmlCopybookLoader extends BaseCopybookLoader {
                lName += " (" + nameSuffix + ")";
            }
 
-           if (lName.toUpperCase().startsWith(copyBookPref)) {
+           if (dropCopybookFromFieldNames && lName.toUpperCase().startsWith(copyBookPref)) {
                lName = lName.substring(copyBookPref.length());
+               lOrigName = lOrigName.substring(copyBookPref.length());
            }
 
            if (element.hasAttribute(Cb2xmlConstants.USAGE)) {
         	   usage = element.getAttribute(Cb2xmlConstants.USAGE);
            }
-           /*print = ((! "filler".equalsIgnoreCase(lOrigName))
-                   &&  element.hasAttribute(Cb2xmlAttributes.PICTURE));*/
            print = element.hasAttribute(Cb2xmlConstants.PICTURE)
            			|| Cb2xmlConstants.COMP_1.equals(usage) || Cb2xmlConstants.COMP_2.equals(usage);
            opt = OPT_WRITE_ELEMENT;
@@ -503,7 +521,7 @@ public class XmlCopybookLoader extends BaseCopybookLoader {
 
            //System.out.println(level + " " + print + " " + lName);
            if (level > 0 && level <= groupName.size()) {
-        	   String s = groupName.get(level - 1) + lName + ".";
+        	   String s = groupName.get(level - 1) + lOrigName + ".";
 
         	   if (groupName.size() > level) {
         		   groupName.set(level, s);
@@ -565,15 +583,7 @@ public class XmlCopybookLoader extends BaseCopybookLoader {
         }
 
         if (first) {
-            int rt = Constants.rtGroupOfRecords;
-            if (binaryFormat == ICopybookDialects.FMT_MAINFRAME
-            ||  binaryFormat == ICopybookDialects.FMT_BIG_ENDIAN) {
-                rt = Constants.rtGroupOfBinaryRecords;
-            }
-
-            groupRecord = ExternalRecord.getNullRecord(copybookName,
-                    								 rt,
-                    								 fontName);
+        	groupRecord = generateXRec();
 
             groupRecord.setListChar(STR_YES);
             groupRecord = getUpdatedRecord(copybookName, groupRecord, false);
@@ -581,7 +591,11 @@ public class XmlCopybookLoader extends BaseCopybookLoader {
         }
 
 
-        name = copyBookPref.trim() + recordName.trim();
+		if (useJRecordNaming) {
+			name = recordName.trim();
+    	} else {
+     	   name = copyBookPref.trim() + recordName.trim();
+		}
         if (!copyBookPref.endsWith("-") && !copyBookPref.endsWith("_")) {
             name = copyBookPref + " " + recordName;
         }
@@ -596,6 +610,23 @@ public class XmlCopybookLoader extends BaseCopybookLoader {
 
         fieldNum = commonDetails.size() + 1;
     }
+
+
+
+	/**
+	 * 
+	 */
+	private ExternalRecord generateXRec() {
+		int rt = Constants.rtGroupOfRecords;
+		if (binaryFormat == ICopybookDialects.FMT_MAINFRAME
+		||  binaryFormat == ICopybookDialects.FMT_BIG_ENDIAN) {
+		    rt = Constants.rtGroupOfBinaryRecords;
+		}
+
+		return ExternalRecord.getNullRecord(copybookName,
+		        								 rt,
+		        								 fontName);
+	}
 
 
     /**
@@ -715,7 +746,7 @@ public class XmlCopybookLoader extends BaseCopybookLoader {
 //                        iType = Type.ftSignSeparateTrail;
 //                    }
 //                } else {
-//                    if (binaryFormat == Convert.FMT_MAINFRAME) {
+//                    if (binaryFormat == ICopybookDialects.FMT_MAINFRAME) {
 //                      iType = Type.ftZonedNumeric;
 //                    } else {
 //                      iType = Type.ftFjZonedNumeric;
@@ -835,6 +866,10 @@ public class XmlCopybookLoader extends BaseCopybookLoader {
             } else {
                 lRet = lDecimalStr.length();
             }
+            
+            if (lRet > 0 && (type == Type.ftSignSeparateTrail || type == Type.ftSignSepTrailActualDecimal)) {
+            	lRet -= 1;
+            }
         }
 
         //System.out.println("===> " + format + "\t" + lRet);
@@ -871,4 +906,21 @@ public class XmlCopybookLoader extends BaseCopybookLoader {
     public void setBinaryFormat(int pMachine) {
         binaryFormat = pMachine;
     }
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.External.ISetDropCopybookName#setDropCopybookFromFieldNames(boolean)
+	 */
+	public final void setDropCopybookFromFieldNames(
+			boolean dropCopybookFromFieldNames) {
+		this.dropCopybookFromFieldNames = dropCopybookFromFieldNames;
+	}
+
+
+
+	/**
+	 * @param useJRecordNaming the useJRecordNaming to set
+	 */
+	public final void setUseJRecordNaming(boolean useJRecordNaming) {
+		this.useJRecordNaming = useJRecordNaming;
+	}
 }

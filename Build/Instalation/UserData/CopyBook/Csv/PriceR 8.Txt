@@ -1,0 +1,12 @@
+Record	0	1	<Tab>	0	
+1	1	Record Type		0	0	0	
+2	11	Product		11	0	0	
+13	30	Description		0	0	0	
+43	1	Price Type		0	0	0	
+44	5	Price		11	2	0	
+49	1	Quantity		11	0	0	
+50	1	Group		11	0	0	
+51	1	Method Type		11	0	0	
+52	3	Markdown		11	0	0	
+55	8	User		0	0	0	
+63	2	EOR		0	0	0	

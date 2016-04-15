@@ -3,7 +3,6 @@ package net.sf.RecordEditor.test.db;
 import java.sql.ResultSet;
 
 import junit.framework.TestCase;
-
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
 import net.sf.RecordEditor.re.db.Record.ChildRecordsDB;
@@ -107,17 +106,17 @@ public class TestRecordDelete extends TestCase {
 		"		</RECORD>",
 		"	</RECORDS>",
 		"</RECORD>",
-		
+
 
 	};
 	String sqlp1 = "select Count(*) from ";
 	String[] tbls = {
 		"TBL_R_RECORDS",
-		"TBL_RF_RECORDFIELDS",
+		"TBL_RF1_RECORDFIELDS",
 		"TBL_RS2_SUBRECORDS",
 		"TBL_RFS_FIELDSELECTION"
 	};
-	
+
 	ExtendedRecordDB db;
 
 	/**
@@ -127,15 +126,15 @@ public class TestRecordDelete extends TestCase {
 	public void testGroupRecDel() throws Exception {
 		RecordRec rRec = loadRecord();
 		int[] rCounts = {1,	0,	6,	12,};
-		
+
 		String sqlp2 = " where recordId = " + rRec.getRecordId();
 		String sql;
 		ReConnection con = ReConnection.getConnection(Common.getConnectionIndex());
 		int i = 0;
-		
+
 		for (String tbl : tbls) {
 			sql = sqlp1 + tbl + sqlp2;
-			
+
 			ResultSet resultset =
 					con.getConnection().createStatement().executeQuery(sql);
 			if (resultset.next()) {
@@ -144,16 +143,16 @@ public class TestRecordDelete extends TestCase {
 				assertTrue("Nothing returned from db 1 !!!", false);
 			}
 		}
-		
+
 		for (i = 0; i < rRec.getValue().getNumberOfRecords(); i++) {
 			System.out.print("\t" +  rRec.getValue().getRecord(i).getRecordId());
 		}
 		db.delete(rRec);
 		db.close();
-		
+
 		for (String tbl : tbls) {
 			sql = sqlp1 + tbl + sqlp2;
-		
+
 			ResultSet resultset =
 					con.getConnection().createStatement().executeQuery(sql);
 			if (resultset.next()) {
@@ -164,8 +163,8 @@ public class TestRecordDelete extends TestCase {
 
 		}
 	}
-	
-	
+
+
 	/**
 	 * Checking fields get deleted with parent record
 	 * @throws Exception
@@ -182,21 +181,21 @@ public class TestRecordDelete extends TestCase {
 		};
 		String[] tbls = {
 				"TBL_R_RECORDS",
-				"TBL_RF_RECORDFIELDS"
+				"TBL_RF1_RECORDFIELDS"
 		};
-		
+
 		String sql;
 		ReConnection con = ReConnection.getConnection(Common.getConnectionIndex());
 		int i = 0;
-		
-		
+
+
 		for (i = 0; i < xRec.getNumberOfRecords(); i++) {
 			String sqlp2 = " where recordId = " + xRec.getRecord(i).getRecordId();
 			int j = 0;
-			
+
 			for (String tbl : tbls) {
 				sql = sqlp1 + tbl + sqlp2;
-				
+
 				ResultSet resultset =
 						con.getConnection().createStatement().executeQuery(sql);
 				if (resultset.next()) {
@@ -206,13 +205,13 @@ public class TestRecordDelete extends TestCase {
 					assertTrue("Nothing returned from db 1 !!!", false);
 				}
 			}
-			
-			
+
+
 			db.delete(new RecordRec(xRec.getRecord(i)));
-			
+
 			for (String tbl : tbls) {
 				sql = sqlp1 + tbl + sqlp2;
-			
+
 				ResultSet resultset =
 						con.getConnection().createStatement().executeQuery(sql);
 				if (resultset.next()) {
@@ -226,8 +225,8 @@ public class TestRecordDelete extends TestCase {
 		db.delete(rRec);
 		db.close();
 	}
-	
-	
+
+
 	/**
 	 * Check Record Selection record get deleted with Child Records
 	 * @throws Exception
@@ -235,28 +234,28 @@ public class TestRecordDelete extends TestCase {
 	public void testChildRecDel() throws Exception {
 		RecordRec rRec = loadRecord();
 		//ExternalRecord xRec = rRec.getValue();
-		
+
 		ResultSet resultset;
 		AbsConnection con = db.getConnect();
-		
+
 		ChildRecordsRec childRec;
-		ChildRecordsDB childDb = new ChildRecordsDB(); 
-		
-		
+		ChildRecordsDB childDb = new ChildRecordsDB();
+
+
 		childDb.setConnection(con);
 		childDb.setParams(rRec.getRecordId());
 //		childDb.resetSearch();
 //		childDb.setSearchArg("RecordId", ChildRecordsDB.opEquals, rRec.getRecordId() + "");
 		childDb.open();
 
-		
-		
+
+
 		System.out.println("Checking child DB's");
 		while ((childRec = childDb.fetch()) != null) {
 			String sql = sqlp1 + " TBL_RFS_FIELDSELECTION "
 		        + " where recordId  = " + rRec.getRecordId()
 		        + "   and child_key = " + childRec.getChildKey();
-			
+
 			resultset = con.getConnection().createStatement().executeQuery(sql);
 			if (resultset.next()) {
 				assertEquals("Checking 1 " , 2, resultset.getInt(1));
@@ -264,9 +263,9 @@ public class TestRecordDelete extends TestCase {
 			} else {
 				assertTrue("Nothing returned from db 1 !!!", false);
 			}
-			
+
 			childDb.delete(childRec);
-			
+
 			resultset = con.getConnection().createStatement().executeQuery(sql);
 			if (resultset.next()) {
 				assertEquals("Checking 2 " , 0, resultset.getInt(1));
@@ -275,33 +274,33 @@ public class TestRecordDelete extends TestCase {
 				assertTrue("Nothing returned from db 1 !!!", false);
 			}
 		}
-		
+
 		db.delete(rRec);
 		db.close();
 	}
-	
-	
-	
+
+
+
 	private RecordRec loadRecord() throws Exception {
-		
+
 		ExternalRecord xRec = getExternalLayout();
 		RecordRec rRec = new RecordRec(xRec);
-		
+
 		db = new ExtendedRecordDB();
 		db.setConnection(ReConnection.getConnection(Common.getConnectionIndex()));
-		
+
 		db.insert(rRec);
 		return rRec;
 	}
-	
-	
+
+
 	private ExternalRecord getExternalLayout() throws Exception {
 		StringBuilder b = new StringBuilder();
-		
+
 		for (int i = 0; i < XML_LAYOUT.length; i++) {
 			b.append(XML_LAYOUT[i]);
 		}
-		
+
 		return RecordEditorXmlLoader.getExternalRecord(b.toString(), "Csv Layout");
 	}
 }

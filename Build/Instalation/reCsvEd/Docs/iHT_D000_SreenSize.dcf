@@ -1,0 +1,45 @@
+:h2.Setting Program Screen Size
+:p.By default ReCsvEditor / RecordEditor starts full screened, but this can be changed,
+to do so
+:ol.
+ :li.Select :hp2.Edit >>> Edit Options:ehp2. or the Edit Options button
+.br
+.pict EditOptBtn.png
+
+ :li.Select Tab :hp2.Looks:ehp2. (left hand Side).
+ 
+ :li.Select tab :hp2.Screen Options:ehp2. (Top)
+:p.
+.pict SetScreenSize.png
+:eol.
+
+:p.On the Screen Options Screen you set the initial screen size for ReCsvEditor / RecordEditor.
+The options available for :hp2.Size of the screen when it opens:ehp2. are
+:dl.
+ :dt.maximised                   :dd.Program opens in a maximised state.
+ :dt.Last Size                   :dd.Program opens with the same size as last used.
+ :dt.Use Space around Parameters :dd.This option lets you specify to be space
+around the edges of ReCsvEditor/RecordEditor. These are the 4 fields immediately
+under the :hp2.Size of the screen when it opens:ehp2. Combo.
+:note.Currently the left/right space are around the wrong way.
+:note.Sizes are calculated using the Full screen size, you need to allow space for 
+any OS Toolbars (e.g. at the bottom for windows).
+  :dt.Height Width below         :dd.You specify exact the exact size ReCsvEditor/RecordEditor
+should open with. It uses the :hp2.Screen Height:ehp2. and :hp2.Screen Width:ehp2.
+fields at the bottom of the screen above the :hp2.Retrieve Screen Size:ehp2. button.
+:note.You can use the :hp2.Retrieve Screen Size:ehp2. button to get the current
+size of the ReCsvEditor.
+:edl.
+
+:p.This screen has been changed many times over the years, the name tips etc have gotten
+out of date. I will be fixing it up for the next release 0.95.
+
+:h2.Setting the initial size of ReCsvEditor / RecordEditor
+:p.One of the simplest ways to set the initial size of the ReCsvEditor is
+:ol.
+ :li.Resize ReCsvEditor to the Desired size.
+ :li.Go to the :hp2.Screen Options:ehp2.screen
+ :li.Hit the :hp2.Retrieve Screen Size:ehp2. button.
+ :li.Change the :hp2.Size of the screen when it opens:ehp2. combo
+to :hp2.Height Width below:ehp2. 
+:eol.

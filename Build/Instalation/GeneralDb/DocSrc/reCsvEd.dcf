@@ -89,4 +89,43 @@ allows you change column names and types as well as copy, move, add and delete c
 :note.You can save and restore the CSV definition via the :hp2.Edit >>>> Save File Description as Xml:ehp2.
 and :hp2.Edit >>>> Load File Description from Xml:ehp2. options.
 
+:h1.Utilities
+
+:h3.Csv Compare
+:p.There is a new <i>Csv Compare Wizard</i> on the <b>Utilities</b> Menu&gml.
+:p.
+.pict Diagram/ReCsvEd_Cmp_01.png
+:p.
+:p.The first 2 screens let you select the Csv files and there attributes&gml.
+:p.
+.pict Diagram/ReCsvEd_Cmp_02.png
+:p.
+
+:p.The 3rd screen let you select the fields to compare. The Csv files can have quite different formats&gml.
+:p.
+.pict Diagram/ReCsvEd_Cmp_03.png
+:p.
+
+:p.Finally file differences are displayed&gml.
+:p.
+.pict Diagram/ReCsvEd_Cmp_04.png
+:p.
+
+
+:p.You can also view single records&gml.
+:p.
+.pict Diagram/ReCsvEd_Cmp_05.png
+:p.
+
+:h1.Other File Formats
+:p.While the focus of ReCsvEditor is editing Csv Files, it also has viewers for&gml.
+:ul.
+  :li.:hp2.Fixed Width:ehp2. files
+  :li.:hp2.Xml:ehp2. Files
+  :li.:hp2.Other:ehp2. menu option lets you view/edit existing :hp1.GNU Get Text:ehp1. and :hp1.SwingX Tip:ehp1. files.
+:eul  
+ 
 .im iHT_B000_BigFiles.dcf
+
+.im iHT_C000_Script.dcf
+.im iHT_F000_ScriptBld.dcf

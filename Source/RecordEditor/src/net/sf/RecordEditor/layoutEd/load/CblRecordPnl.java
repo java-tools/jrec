@@ -31,16 +31,17 @@ import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboRendor;
 
 public final class CblRecordPnl {
 	
+	private final static int DEFAULT_COLUMN = 5; 
 //	private String[] EMPTY_FIELDS = {"", ""};
 	private static String[] COLUMN_HEADINS = {
-		"Record Name", "Selection Field", "Value", "Default ?"
+		"Record Name", "Selection Field", "Value 1", "Value 2", "Value 3", "Default ?"
 	};
 	private final CblLoadData cblDtls;
 	//private JTabbedPane cblDtlsTab = new JTabbedPane();
 	public final BaseHelpPanel recordPnl = new BaseHelpPanel("CblRec");
 	
 	//private TreeCombo fields = new TreeCombo();
-	private recordTblMdl recordMdl = new recordTblMdl();
+	private RecordTblMdl recordMdl = new RecordTblMdl();
 	private JTable recordTbl;
 	
 	private CheckBoxTableRender checkBoxRender = new CheckBoxTableRender();
@@ -99,12 +100,12 @@ public final class CblRecordPnl {
 	
 	private void setupDefaultRenders() {
 		TableColumn col1 = recordTbl.getColumnModel().getColumn(1);
-		TableColumn col3 = recordTbl.getColumnModel().getColumn(3);
+		TableColumn defaultCol = recordTbl.getColumnModel().getColumn(DEFAULT_COLUMN);
 		
 		col1.setCellRenderer(fieldRender);
 		col1.setCellEditor(fieldEditor);
-		col3.setCellRenderer(checkBoxRender);
-		col3.setCellEditor(checkBoxEditor);
+		defaultCol.setCellRenderer(checkBoxRender);
+		defaultCol.setCellEditor(checkBoxEditor);
 	}
 	
 	public final void notifyOfUpdate(ExternalRecord xRecord) {
@@ -153,7 +154,7 @@ public final class CblRecordPnl {
 		ExternalField selField = null;
 		for (Entry<String, Integer> e : entrySet) {
 			if (e.getValue().intValue() > 1) {
-					items.add(new TreeComboItem(items.size(), e.getKey(), e.getKey()));
+				items.add(new TreeComboItem(items.size(), e.getKey(), e.getKey()));
 			}
 		}
 		
@@ -190,7 +191,7 @@ public final class CblRecordPnl {
 					}
 				}
 				
-				cblDtls.updateTestValues();
+				cblDtls.updateTestValues(false);
 			}
 		}
 		
@@ -208,7 +209,6 @@ public final class CblRecordPnl {
 		byte[] bytes = cblDtls.getFileBytes();
 
 		recordMdl.fireTableStructureChanged();
-		TableColumn col2 = recordTbl.getColumnModel().getColumn(2);
 		//col2.setCellRenderer(dfltRender);
 		//col2.setCellEditor(dfltEditor);
 		setupDefaultRenders();
@@ -239,9 +239,15 @@ public final class CblRecordPnl {
 		}
 		
 		
-		TreeComboItem[] tcValues = TreeComboItem.toTreeItemArray(vals.toArray(new String[vals.size()]));
-		col2.setCellRenderer(new TreeComboRendor(tcValues));
-		col2.setCellEditor(new TreeComboRendor(tcValues));
+//		TreeComboItem[] tcValues;// = TreeComboItem.toTreeItemArray(vals.toArray(new String[vals.size()]));
+		String[] valArray = vals.toArray(new String[vals.size()]);
+		
+		for (int c = 2; c < DEFAULT_COLUMN; c++) {
+			TableColumn col = recordTbl.getColumnModel().getColumn(c);
+			
+			col.setCellRenderer(new TreeComboRendor(valArray));
+			col.setCellEditor(new TreeComboRendor(valArray));
+		}
 		recordMdl.fireTableDataChanged();
 		
 		Common.calcColumnWidths(recordTbl, 0, -1, SwingUtils.STANDARD_FONT_WIDTH * 4);
@@ -257,7 +263,7 @@ public final class CblRecordPnl {
 	}
 	
 	@SuppressWarnings("serial")
-	private class recordTblMdl extends AbstractTableModel {
+	private class RecordTblMdl extends AbstractTableModel {
 
 		/* (non-Javadoc)
 		 * @see javax.swing.table.TableModel#getRowCount()
@@ -287,9 +293,10 @@ public final class CblRecordPnl {
 			Object s = "";
 			switch (columnIndex) {
 			case 0: s = cblDtls.getXRecord().getRecord(rowIndex).getRecordName();			break;
-			case 3: s = rowIndex == cblDtls.getDefaultRow();								break;
+			case DEFAULT_COLUMN: s = rowIndex == cblDtls.getDefaultRow();					break;
 			default:
 					s = cblDtls.getRecordSelection(rowIndex, columnIndex - 1);
+					System.out.println(rowIndex + ", " + columnIndex + ": " + s);
 			}
 			return s;
 		}
@@ -316,7 +323,7 @@ public final class CblRecordPnl {
 		@Override
 		public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 			switch (columnIndex) {			
-			case 3:
+			case DEFAULT_COLUMN:
 				if (cblDtls.getDefaultRow() == rowIndex) {
 					cblDtls.setDefaultRow(-1);
 				} else {
@@ -325,7 +332,7 @@ public final class CblRecordPnl {
 				}
 				break;
 			default:
-				cblDtls.setRecordSelection(rowIndex,columnIndex -1, fix(aValue), true);
+				cblDtls.setRecordSelection(rowIndex, columnIndex -1, fix(aValue), true);
 			}	
 		}
 		

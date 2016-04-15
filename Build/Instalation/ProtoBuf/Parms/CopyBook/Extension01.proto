@@ -1,0 +1,18 @@
+syntax = "proto2";
+message Message {
+    extensions 100 to max;
+
+    required uint64 A = 1;
+    required string name = 2;
+}
+
+message Event {
+    extend Message { optional Event ext = 101; }
+
+    extensions 100 to max;
+    
+    required uint64 B = 1;
+/* 		assert_p('LineFrameTree.FileDisplay_JTbl', 'Content', '[[A, 1, , UINT64, 123, 123], [name, 1, , STRING, aa, aa]]') */
+}
+
+

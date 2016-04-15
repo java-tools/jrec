@@ -1,0 +1,387 @@
+:h1.Script Support
+
+ :h2.Introduction to Scripting
+ 
+:p.In the :packageLink.. Scripts can be used to&gml.
+:ul compact.
+  :li.Update the file being edited.
+  :li.Export Data to a file.
+  :li.Run various :packageLink. Actions / services (with some control logic).
+:eul.
+:p.By default the :packageLink. will support :hp2.EMCA Script:ehp2. (Javascript). 
+Other Scripting languages like Jython, JRuby, NetRexx can be used.
+.*B2H html See <a href="https://en.wikipedia.org/wiki/List_of_JVM_languages">JVM Languages</a>
+for a list of JVM languages.
+
+:p.If you want to do a lot of scripting, you should get the Latest Script/JavaDoc download 
+from :packageDownloadLink..
+
+:Note.Most of the example scripts where written for the :RecordEditor. and may
+hold code specific for the :RecordEditor. (in particular layout.getRecord(0).getRecordName() == "DTAR020").
+This could be an issue when running in :RecsvEditor..
+
+
+
+:h2.Adding another scripting Language
+:p.
+:p.There are two ways of adding jar files to the :packageLink., either way you 
+need to make sure your classes do not clash with existing classes. Methods
+of adding jars:
+:ol.
+ :li.Add the jar to either :hp2.<:packageLink. install directory>/lib/Extensions:ehp2. directory
+or :hp2.<:packageLink. User directory>/Extensions:ehp2. directory.
+ :li.Define the jar to the record editor via the screens&gml.
+
+:ul.
+ :li.Start :hp2.Edit Options:ehp2. dialog
+.pict Preferences.png
+ :li.Select :hp2.Jars &gt;&gt;&gt; Optional Jars:ehp2. and enter the relevant jar file:
+.br
+.pict Preferences_ScriptJar.png
+  :li.Restart the :packageLink.
+:eul.
+:eol.
+
+:p.:hp2.Note::ehp2. Adding a scripting language will slow down the :packageLink.
+start-up (Particularly Jython).
+
+
+:h2.Running Macro's (scripts)
+:p.At program start-up, the :packageLink. builds a menu of all the Script in the 
+defined script menu on the Utility Menu&gml.
+:p.
+.pict RecEdit_ScriptMenu.png
+
+:p.You can also run (and edit) scripts using the :hp2.Run Script Dialog:ehp2.
+(via :hp2.Utilities >>> Script Test Panel:ehp2. menu item or the 
+.pict script.png
+toolbar button)&gml. 
+:p.
+.pict RecEdit_RunScript.png
+
+:h2.Variables / Functions available to scripts
+:p.The most important variable supplied to scripts is :hp2.RecordEditorData:ehp2..
+It provides access to
+:ul compact.
+ :li.Current screen (:hp2.RecordEditorData.initialTab:ehp2.), view, file (:hp2.RecordEditorData.view.getBaseFile():ehp2.).
+ :li.Displaying new Screens (:hp2.RecordEditorData.displayList(...):ehp2. and :hp2.RecordEditorData.displayView(...):ehp2.)
+ :li.Executing saved tasks (Sort's, SortTree, Record Tree)&gml. :hp2.RecordEditorData.executeSavedTask(...):ehp2.) 
+:eul.
+
+:p.Variables available in velocity templates / scripts include
+Variables available in velocity templates / scripts include
+.br
+:tdef id=xlight shade='xlight'.
+:table cols='3* 7*'.
+:thd refid=xlight.:c.Variable:c.Command:ethd.
+:row refid=none.:c.layout:c.:packageLink. File Description (or layout). 
+
+:p.layout.getFileDesc()                                                  
+:row.:c.records:c.List of  :hp2.RecordEditor Lines:ehp2. for single message files
+there will be one element, for delimited files multiple. 
+
+:row.:c.treeRoot:c.This Tree display root (A java MutableTreeNode). This will be :hp1.File:ehp1. element
+with no data associated with it.
+
+:row.:c.treeNodes:c.This is list of list of Tree Nodes. The example :hp2.zXmlStyleSheet1.vm:ehp2.
+uses this variable, it reformats Xsl Transforms.
+
+:row.:c.RecordEditorData:c.RecordEditor Data, Fields include:
+:ul compact.
+ :li.:hp2.RecordEditorData.view:ehp2. gets the current file view. This field implements Iterable, so you can loop through all lines.
+ :li.:hp2.RecordEditorData.view.getBaseFile():ehp2. gets the current file. This field implements Iterable, so you can loop through all lines.
+ :li.:hp2.RecordEditorData.view.htmlCharsToVars(someString):ehp2. This method will return a String with HTML control characters (&lt;, &gt; etc) replaced by the appropriate
+ :li.:hp2.RecordEditorData.currentTab:ehp2. Current tab being displayed.
+variables.
+:eul.
+:p.Major methods include&gml.
+:ul compact.
+ :li.:hp2.RecordEditorData.displayList:ehp2. Display a list of lines on the selected screen.
+ :li.:hp2.RecordEditorData.executeSavedTask:ehp2. Execute a saved action (Task) such as sort, sortTree, recordTree.
+:eul.
+:etable.
+:p.
+:h2.Creating new display
+:p.To create a new view the important Methods of :hp2.RecordEditorData:ehp2. are:
+:ul compact.
+ :li.:hp2.getNewLineList:ehp2. Get empty line list
+ :li.:hp2.displayList:ehp2. Display the list on the screen. Parameters are&gml.
+  :ul.
+    :li.:hp2.displayType:ehp2., use one of :hp2.RecordEditorData.displayConstants.ST_LIST_SCREEN:ehp2.,
+:hp2.RecordEditorData.displayConstants.ST_RECORD_SCREEN:ehp2. 
+or :hp2.RecordEditorData.displayConstants.ST_LINES_AS_COLUMNS:ehp2..
+    :li.:hp2.tabName:ehp2. Name of the Tab where the list will be displayed.
+    :li.:hp2.lineList:ehp2. List of lines to display
+  :eul.
+:eul.
+
+:p.Following is a Jython macro to create a View containing only Record's where the Quantity is &lt; 0 (Filter_DTAR020.py)&gml.
+:p.
+.*b2h html <pre><font color="#000000"><span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">10 </font></span><font color="#006699"><strong>print</strong></font> layout.<font color="#9966ff">getRecord</font><font color="#000000"><strong>(</strong></font><font color="#ff0000">0</font><font color="#000000"><strong>)</strong></font>.<font color="#9966ff">getRecordName</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">11 </font></span>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">12 </font></span><font color="#006699"><strong>if</strong></font> layout.<font color="#9966ff">getRecord</font><font color="#000000"><strong>(</strong></font><font color="#ff0000">0</font><font color="#000000"><strong>)</strong></font>.<font color="#9966ff">getRecordName</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>=</strong></font><font color="#000000"><strong>=</strong></font> <font color="#ff00cc">"</font><font color="#ff00cc">DTAR020</font><font color="#ff00cc">"</font><font color="#006699"><strong>:</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">13 </font></span>    <font color="#009966"><strong>list</strong></font> <font color="#000000"><strong>=</strong></font> RecordEditorData.<font color="#9966ff">getNewLineList</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">14 </font></span>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">15 </font></span>    <font color="#006699"><strong>for</strong></font> line <font color="#006699"><strong>in</strong></font> <font color="#009966"><strong>file</strong></font><font color="#006699"><strong>:</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">16 </font></span>        <font color="#006699"><strong>if</strong></font> line.<font color="#9966ff">getFieldValue</font><font color="#000000"><strong>(</strong></font><font color="#ff00cc">"</font><font color="#ff00cc">QTY</font><font color="#ff00cc">-</font><font color="#ff00cc">SOLD</font><font color="#ff00cc">"</font><font color="#000000"><strong>)</strong></font>.<font color="#9966ff">asLong</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>&lt;</strong></font> <font color="#ff0000">0</font><font color="#006699"><strong>:</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">17 </font></span>            <font color="#009966"><strong>list</strong></font>.<font color="#9966ff">add</font><font color="#000000"><strong>(</strong></font>line<font color="#000000"><strong>)</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">18 </font></span>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">19 </font></span>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">20 </font></span>    displayType <font color="#000000"><strong>=</strong></font> RecordEditorData.displayConstants.ST_LINES_AS_COLUMNS
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">21 </font></span>    RecordEditorData.<font color="#9966ff">displayList</font><font color="#000000"><strong>(</strong></font>displayType, <font color="#ff00cc">"</font><font color="#ff00cc">Qty</font><font color="#ff00cc"> </font><font color="#ff00cc">&lt;</font><font color="#ff00cc"> </font><font color="#ff00cc">0</font><font color="#ff00cc">,</font><font color="#ff00cc"> </font><font color="#ff00cc">Column</font><font color="#ff00cc"> </font><font color="#ff00cc">Display</font><font color="#ff00cc">"</font>, <font color="#009966"><strong>list</strong></font><font color="#000000"><strong>)</strong></font>;
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">22 </font></span><font color="#006699"><strong>else</strong></font><font color="#006699"><strong>:</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">23 </font></span>    RecordEditorData.<font color="#9966ff">showMessage</font><font color="#000000"><strong>(</strong></font><font color="#ff00cc">"</font><font color="#ff00cc">Script</font><font color="#ff00cc"> </font><font color="#ff00cc">only</font><font color="#ff00cc"> </font><font color="#ff00cc">works</font><font color="#ff00cc"> </font><font color="#ff00cc">on</font><font color="#ff00cc"> </font><font color="#ff00cc">DTAR020</font><font color="#ff00cc"> </font><font color="#ff00cc">files</font><font color="#ff00cc"> </font><font color="#ff00cc">and</font><font color="#ff00cc"> </font><font color="#ff00cc">not</font><font color="#ff00cc"> </font><font color="#ff00cc">"</font> <font color="#000000"><strong>+</strong></font> layout.<font color="#9966ff">getRecord</font><font color="#000000"><strong>(</strong></font><font color="#ff0000">0</font><font color="#000000"><strong>)</strong></font>.<font color="#9966ff">getRecordName</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>)</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">24 </font></span>
+.*b2h html </font></pre>   
+:p.The following javascript macro will create seperate views for each Record-Type in the
+file (ViewForEachRecordType.js)&gml.
+:p.
+.*b2h html <pre><font color="#000000"><span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 9 </font></span>    <font color="#006699"><strong>if</strong></font> <font color="#000000"><strong>(</strong></font>layout<font color="#000000"><strong>.</strong></font><font color="#9966ff">getRecordCount</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>&lt;</strong></font> <font color="#ff0000">2</font><font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>{</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">10 </font></span>        RecordEditorData<font color="#000000"><strong>.</strong></font><font color="#9966ff">showMessage</font><font color="#000000"><strong>(</strong></font><font color="#ff00cc">"</font><font color="#ff00cc">This</font><font color="#ff00cc"> </font><font color="#ff00cc">macro</font><font color="#ff00cc"> </font><font color="#ff00cc">only</font><font color="#ff00cc"> </font><font color="#ff00cc">makes</font><font color="#ff00cc"> </font><font color="#ff00cc">sense</font><font color="#ff00cc"> </font><font color="#ff00cc">when</font><font color="#ff00cc"> </font><font color="#ff00cc">there</font><font color="#ff00cc"> </font><font color="#ff00cc">are</font><font color="#ff00cc"> </font><font color="#ff00cc">&gt;</font><font color="#ff00cc"> </font><font color="#ff00cc">1</font><font color="#ff00cc"> </font><font color="#ff00cc">Record</font><font color="#ff00cc"> </font><font color="#ff00cc">Type</font><font color="#ff00cc">"</font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>;</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">11 </font></span>    <font color="#000000"><strong>}</strong></font> <font color="#006699"><strong>else</strong></font> <font color="#006699"><strong>if</strong></font> <font color="#000000"><strong>(</strong></font>RecordEditorData<font color="#000000"><strong>.</strong></font>view<font color="#000000"><strong>.</strong></font><font color="#9966ff">getRowCount</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>&lt;</strong></font> <font color="#ff0000">2</font><font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>{</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">12 </font></span>        RecordEditorData<font color="#000000"><strong>.</strong></font><font color="#9966ff">showMessage</font><font color="#000000"><strong>(</strong></font><font color="#ff00cc">"</font><font color="#ff00cc">This</font><font color="#ff00cc"> </font><font color="#ff00cc">macro</font><font color="#ff00cc"> </font><font color="#ff00cc">only</font><font color="#ff00cc"> </font><font color="#ff00cc">makes</font><font color="#ff00cc"> </font><font color="#ff00cc">sense</font><font color="#ff00cc"> </font><font color="#ff00cc">when</font><font color="#ff00cc"> </font><font color="#ff00cc">there</font><font color="#ff00cc"> </font><font color="#ff00cc">are</font><font color="#ff00cc"> </font><font color="#ff00cc">&gt;</font><font color="#ff00cc"> </font><font color="#ff00cc">1</font><font color="#ff00cc"> </font><font color="#ff00cc">line</font><font color="#ff00cc"> </font><font color="#ff00cc">in</font><font color="#ff00cc"> </font><font color="#ff00cc">the</font><font color="#ff00cc"> </font><font color="#ff00cc">View</font><font color="#ff00cc">"</font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>;</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">13 </font></span>    <font color="#000000"><strong>}</strong></font> <font color="#006699"><strong>else</strong></font><font color="#000000"><strong>{</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">14 </font></span>        <font color="#006699"><strong>var</strong></font> recordArray <font color="#000000"><strong>=</strong></font> <font color="#006699"><strong>new</strong></font> <font color="#0099ff"><strong>Array</strong></font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>;</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">15 </font></span>        <font color="#006699"><strong>for</strong></font> <font color="#000000"><strong>(</strong></font>i <font color="#000000"><strong>=</strong></font> <font color="#ff0000">0</font><font color="#000000"><strong>;</strong></font> i <font color="#000000"><strong>&lt;</strong></font> layout<font color="#000000"><strong>.</strong></font><font color="#9966ff">getRecordCount</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>;</strong></font> i<font color="#000000"><strong>+</strong></font><font color="#000000"><strong>+</strong></font><font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>{</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">16 </font></span>            recordArray<font color="#000000"><strong>[</strong></font>i<font color="#000000"><strong>]</strong></font> <font color="#000000"><strong>=</strong></font> RecordEditorData<font color="#000000"><strong>.</strong></font><font color="#9966ff">getNewLineList</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>;</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">17 </font></span>        <font color="#000000"><strong>}</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">18 </font></span>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">19 </font></span>        <font color="#006699"><strong>for</strong></font> <font color="#000000"><strong>(</strong></font>i <font color="#000000"><strong>=</strong></font> <font color="#ff0000">0</font><font color="#000000"><strong>;</strong></font> i <font color="#000000"><strong>&lt;</strong></font> RecordEditorData<font color="#000000"><strong>.</strong></font>view<font color="#000000"><strong>.</strong></font><font color="#9966ff">getRowCount</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>;</strong></font> i<font color="#000000"><strong>+</strong></font><font color="#000000"><strong>+</strong></font><font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>{</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">20 </font></span>            line <font color="#000000"><strong>=</strong></font> RecordEditorData<font color="#000000"><strong>.</strong></font>view<font color="#000000"><strong>.</strong></font><font color="#9966ff">getLine</font><font color="#000000"><strong>(</strong></font>i<font color="#000000"><strong>)</strong></font><font color="#000000"><strong>;</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">21 </font></span>            recordArray<font color="#000000"><strong>[</strong></font>line<font color="#000000"><strong>.</strong></font><font color="#9966ff">getPreferredLayoutIdx</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>]</strong></font><font color="#000000"><strong>.</strong></font><font color="#9966ff">add</font><font color="#000000"><strong>(</strong></font>line<font color="#000000"><strong>)</strong></font><font color="#000000"><strong>;</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">22 </font></span>        <font color="#000000"><strong>}</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">23 </font></span>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">24 </font></span>        <font color="#006699"><strong>var</strong></font> displayType <font color="#000000"><strong>=</strong></font> RecordEditorData<font color="#000000"><strong>.</strong></font>displayConstants<font color="#000000"><strong>.</strong></font>ST_LIST_SCREEN<font color="#000000"><strong>;</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">25 </font></span>        <font color="#006699"><strong>for</strong></font> <font color="#000000"><strong>(</strong></font>i <font color="#000000"><strong>=</strong></font> <font color="#ff0000">0</font><font color="#000000"><strong>;</strong></font> i <font color="#000000"><strong>&lt;</strong></font> layout<font color="#000000"><strong>.</strong></font><font color="#9966ff">getRecordCount</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>;</strong></font> i<font color="#000000"><strong>+</strong></font><font color="#000000"><strong>+</strong></font><font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>{</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">26 </font></span>            <font color="#006699"><strong>if</strong></font> <font color="#000000"><strong>(</strong></font>recordArray<font color="#000000"><strong>[</strong></font>i<font color="#000000"><strong>]</strong></font><font color="#000000"><strong>.</strong></font><font color="#9966ff">size</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>&gt;</strong></font> <font color="#ff0000">0</font><font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>{</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">27 </font></span>                <font color="#006699"><strong>var</strong></font> screen <font color="#000000"><strong>=</strong></font> RecordEditorData<font color="#000000"><strong>.</strong></font><font color="#9966ff">displayList</font><font color="#000000"><strong>(</strong></font>displayType<font color="#000000"><strong>,</strong></font> layout<font color="#000000"><strong>.</strong></font><font color="#9966ff">getRecord</font><font color="#000000"><strong>(</strong></font>i<font color="#000000"><strong>)</strong></font><font color="#000000"><strong>.</strong></font><font color="#9966ff">getRecordName</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>,</strong></font> recordArray<font color="#000000"><strong>[</strong></font>i<font color="#000000"><strong>]</strong></font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>;</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">28 </font></span>            <font color="#000000"><strong>}</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">29 </font></span>        <font color="#000000"><strong>}</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">30 </font></span>    <font color="#000000"><strong>}</strong></font>
+.*b2h html </font></pre>
+
+:p.
+:h2 id=savetask.Executing Saved Tasks
+:p.You can execute save function (Sort, Sort-Tree, Record-Tree, Filter and Hide-Fields, see :hdref refid=savefunc.)
+using the :hp2.RecordEditorData.executeSavedTask:ehp2. method. There are two signatures for
+this method&gml.
+:p. 
+.*b2h html <pre><font color="#000000"><span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">   1 </font></span>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">   2 </font></span>    <font color="#6600cc">/**</font><font color="#6600cc">*</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">   3 </font></span><font color="#6600cc"> </font><font color="#6600cc"> </font><font color="#6600cc"> </font><font color="#6600cc"> </font><font color="#6600cc"> </font><font color="#6600cc"> </font><font color="#6600cc">*</font><font color="#6600cc"> </font><font color="#6600cc"> </font><font color="#6600cc">Execute</font><font color="#6600cc"> </font><font color="#6600cc">the</font><font color="#6600cc"> </font><font color="#6600cc">saved</font><font color="#6600cc"> </font><font color="#6600cc">Function</font><font color="#6600cc"> </font><font color="#6600cc">on</font><font color="#6600cc"> </font><font color="#6600cc">the</font><font color="#6600cc"> </font><font color="#6600cc">tab that was</font><font color="#6600cc"> </font><font color="#6600cc">active tab when the script started</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">   4 </font></span><font color="#6600cc"> </font><font color="#6600cc"> </font><font color="#6600cc"> </font><font color="#6600cc"> </font><font color="#6600cc"> </font><font color="#6600cc"> </font><font color="#6600cc">*/</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">   5 </font></span>    <font color="#006699"><strong>public</strong></font> <font color="#006699"><strong>final</strong></font> AbstractFileDisplay <font color="#9966ff">executeSavedTask</font><font color="#000000"><strong>(</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">   6 </font></span>                                              String location,
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">   7 </font></span>                                              String name<font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>{</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">   8 </font></span>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">   9 </font></span>   <font color="#6600cc">/**</font><font color="#6600cc">*</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">  10 </font></span><font color="#6600cc"> </font><font color="#6600cc"> </font><font color="#6600cc"> </font><font color="#6600cc"> </font><font color="#6600cc"> </font><font color="#6600cc"> </font><font color="#6600cc">*</font><font color="#6600cc"> </font><font color="#6600cc"> </font><font color="#6600cc">Execute</font><font color="#6600cc"> </font><font color="#6600cc">the</font><font color="#6600cc"> </font><font color="#6600cc">saved</font><font color="#6600cc"> </font><font color="#6600cc">Function</font><font color="#6600cc"> </font><font color="#6600cc">on</font><font color="#6600cc"> </font><font color="#6600cc">the</font><font color="#6600cc"> </font><font color="#6600cc">supplied</font><font color="#6600cc"> </font><font color="#6600cc">display</font><font color="#6600cc"> </font><font color="#6600cc">(</font><font color="#6600cc">Tab</font><font color="#6600cc">)</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">  11 </font></span><font color="#6600cc"> </font><font color="#6600cc"> </font><font color="#6600cc"> </font><font color="#6600cc"> </font><font color="#6600cc"> </font><font color="#6600cc"> </font><font color="#6600cc">*/</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">  12 </font></span>    <font color="#006699"><strong>public</strong></font> <font color="#006699"><strong>final</strong></font> AbstractFileDisplay <font color="#9966ff">executeSavedTask</font><font color="#000000"><strong>(</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">  13 </font></span>                                              AbstractFileDisplay display,
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">  14 </font></span>                                              String location,
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">  15 </font></span>                                              String name<font color="#000000"><strong>)</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">  16 </font></span>
+.*b2h html </font></pre>
+
+
+:p.The parameters are:
+:table cols='* 3*'.
+ :row refid=xlight. :c.Parameter:c.Description
+ :row refid=none.:c.display   :c.Display/tab to execute the saved task against
+ :row.:c.location:c.Location of the xml file. Possible values include&gml.
+  :ul compact.
+   :li.:hp2.RecordEditorData.executeConstansts.scriptDir:ehp2. - Same directory
+as the scripts being executed resides in.
+   :li.:hp2.RecordEditorData.executeConstansts.sortDir:ehp2. - Standard directory
+where Sort/Sort-Tree tasks are saved.
+   :li.:hp2.RecordEditorData.executeConstansts.sortTreeDir:ehp2. - Standard directory
+where Sort/Sort-Tree tasks are saved.
+   :li.:hp2.RecordEditorData.executeConstansts.fieldDir:ehp2. - Standard directory
+where Field-Hide tasks are saved.
+   :li.:hp2.RecordEditorData.executeConstansts.filterDir:ehp2. - Standard directory
+where Filter tasks are saved.
+   :li.:hp2.RecordEditorData.executeConstansts.absolute:ehp2. - No directory, The
+name contains the directory information.
+  :eul.
+ :row.:c.name    :c.Name of the script to be executed
+:etable.
+:p.The parameters are:
+:dl.
+ :dt.display   :dd.Display/tab to execute the saved task against
+ :dt.location  :dd.Location of the xml file. Possible values include&gml.
+:ul compact.
+  :li.:hp2.RecordEditorData.executeConstansts.scriptDir:ehp2. - Same directory
+as the scripts being executed resides in.
+  :li.:hp2.RecordEditorData.executeConstansts.sortDir:ehp2. - Standard directory
+where Sort/Sort-Tree tasks are saved.
+  :li.:hp2.RecordEditorData.executeConstansts.sortTreeDir:ehp2. - Standard directory
+where Sort/Sort-Tree tasks are saved.
+  :li.:hp2.RecordEditorData.executeConstansts.fieldDir:ehp2. - Standard directory
+where Field-Hide tasks are saved.
+  :li.:hp2.RecordEditorData.executeConstansts.filterDir:ehp2. - Standard directory
+where Filter tasks are saved.
+  :li.:hp2.RecordEditorData.executeConstansts.absolute:ehp2. - No directory, The 
+name contains the directory information.
+:eul.
+:dt.name    :dd.Name of the script to be executed
+:edl.
+:p.
+:p.The following extract from :hp2.FilterSort_DTAR020.js:ehp2., it creates a new 
+display-tab, sort the data displayed on the tab using a saved sort, then hides the
+date column using saved Hide-Fields tasks.
+:p.
+.*b2h html <pre><font color="#000000"><span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">23 </font></span>    <font color="#006699"><strong>var</strong></font> screen <font color="#000000"><strong>=</strong></font> RecordEditorData<font color="#000000"><strong>.</strong></font><font color="#9966ff">displayList</font><font color="#000000"><strong>(</strong></font>displayType<font color="#000000"><strong>,</strong></font> <font color="#ff00cc">"</font><font color="#ff00cc">Qty</font><font color="#ff00cc"> </font><font color="#ff00cc">&lt;</font><font color="#ff00cc"> </font><font color="#ff00cc">0</font><font color="#ff00cc">"</font><font color="#000000"><strong>,</strong></font> list<font color="#000000"><strong>)</strong></font><font color="#000000"><strong>;</strong></font> <font color="#cc0000">/*</font><font color="#cc0000"> </font><font color="#cc0000">create</font><font color="#cc0000"> </font><font color="#cc0000">new</font><font color="#cc0000"> </font><font color="#cc0000">display</font><font color="#cc0000"> </font><font color="#cc0000">from</font><font color="#cc0000"> </font><font color="#cc0000">the</font><font color="#cc0000"> </font><font color="#cc0000">list</font><font color="#cc0000"> </font><font color="#cc0000">that</font><font color="#cc0000"> </font><font color="#cc0000">has</font><font color="#cc0000"> </font><font color="#cc0000">been</font><font color="#cc0000"> </font><font color="#cc0000">createrd.</font><font color="#cc0000">*/</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">24 </font></span>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">25 </font></span>    RecordEditorData<font color="#000000"><strong>.</strong></font><font color="#9966ff">executeSavedTask</font><font color="#000000"><strong>(</strong></font>screen<font color="#000000"><strong>,</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">26 </font></span>                                      RecordEditorData<font color="#000000"><strong>.</strong></font>executeConstansts<font color="#000000"><strong>.</strong></font>sortDir <font color="#cc0000">/*</font><font color="#cc0000">"SortDir"</font><font color="#cc0000">*/</font><font color="#000000"><strong>,</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">27 </font></span>                                      <font color="#ff00cc">"</font><font color="#ff00cc">Script_DTAR020_Sort_Sku_Store.xml</font><font color="#ff00cc">"</font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>;</strong></font> <font color="#cc0000">/*</font><font color="#cc0000"> </font><font color="#cc0000">sort</font><font color="#cc0000"> </font><font color="#cc0000">the</font><font color="#cc0000"> </font><font color="#cc0000">data</font><font color="#cc0000"> </font><font color="#cc0000">on</font><font color="#cc0000"> </font><font color="#cc0000">the</font><font color="#cc0000"> </font><font color="#cc0000">newly</font><font color="#cc0000"> </font><font color="#cc0000">created</font><font color="#cc0000"> </font><font color="#cc0000">screen</font><font color="#cc0000"> </font><font color="#cc0000">*/</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">28 </font></span>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">29 </font></span>    RecordEditorData<font color="#000000"><strong>.</strong></font><font color="#9966ff">executeSavedTask</font><font color="#000000"><strong>(</strong></font>screen<font color="#000000"><strong>,</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">30 </font></span>                                      RecordEditorData<font color="#000000"><strong>.</strong></font>executeConstansts<font color="#000000"><strong>.</strong></font>fieldDir  <font color="#cc0000">/*</font><font color="#cc0000">"FieldDir"</font><font color="#cc0000">*/</font><font color="#000000"><strong>,</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">31 </font></span>                                      <font color="#ff00cc">"</font><font color="#ff00cc">DTAR020_HideDate.xml</font><font color="#ff00cc">"</font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>;</strong></font>    <font color="#cc0000">/*</font><font color="#cc0000"> </font><font color="#cc0000">Hide</font><font color="#cc0000"> </font><font color="#cc0000">Date</font><font color="#cc0000"> </font><font color="#cc0000">Column</font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000">*/</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">32 </font></span>
+.*b2h html </font></pre>
+
+:p.
+:h2.Update Scripts
+:p.To update the file the important fields and methods are:
+:dl.
+  :dt.File:dd.Represents the whole file being edited, main methods include
+:hp2.getRowCount(), getLine(), insertLine(..), deleteLine(..),:ehp2. etc.
+  :dt.View:dd.Represents Data in the current view, has the same methods as File.
+  :dt.RecordEditorData:dd.Main interface to the :packageLink.. The most important method
+when updating data is :hp2.RecordEditorData.fireScreenChanged(boolean):ehp2.
+  :dt.AbstractLine interface:dd.Represents one Record in the file. Some important methods are
+:ul.
+  :li.getFieldValue(..) - Get a fields value, has methods like asString, asBigDefimal etc plus set (to update the field).
+  :li.setField(..) - Updates a fields value.
+  :li.setData(..) - parameter either a string or array of bytes.
+:eul.
+:note.getFieldValue and setField can take as parameters either a :hp1.Field-Name:ehp1. or :hp1.Record-Number,Field-Number:ehp1. or :hp1.Field-Definition:ehp1..
+:edl.
+
+:p.In the following code was taken from :hp2.InsertLines_DTAR020.js:ehp2., 2 lines are created
+then updated using setField method of line and finally inserted back into the view.
+:p. 
+.*b2h html <pre><font color="#000000"><span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">11 </font></span>        <font color="#cc0000">/*</font><font color="#cc0000"> </font><font color="#cc0000">Setting</font><font color="#cc0000"> </font><font color="#cc0000">up</font><font color="#cc0000"> </font><font color="#cc0000">a</font><font color="#cc0000"> </font><font color="#cc0000">line</font><font color="#cc0000"> </font><font color="#cc0000">using</font><font color="#cc0000"> </font><font color="#cc0000">field</font><font color="#cc0000"> </font><font color="#cc0000">names</font><font color="#cc0000"> </font><font color="#cc0000">*/</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">12 </font></span>    <font color="#006699"><strong>var</strong></font> line <font color="#000000"><strong>=</strong></font> RecordEditorData<font color="#000000"><strong>.</strong></font><font color="#9966ff">newLine</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">13 </font></span>    line<font color="#000000"><strong>.</strong></font><font color="#9966ff">setField</font><font color="#000000"><strong>(</strong></font><font color="#ff00cc">"</font><font color="#ff00cc">KEYCODE-NO</font><font color="#ff00cc">"</font><font color="#000000"><strong>,</strong></font> <font color="#ff00cc">"</font><font color="#ff00cc">00000000</font><font color="#ff00cc">"</font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>;</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">14 </font></span>    line<font color="#000000"><strong>.</strong></font><font color="#9966ff">setField</font><font color="#000000"><strong>(</strong></font><font color="#ff00cc">"</font><font color="#ff00cc">STORE-NO</font><font color="#ff00cc">"</font><font color="#000000"><strong>,</strong></font>   <font color="#ff00cc">"</font><font color="#ff00cc">0</font><font color="#ff00cc">"</font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>;</strong></font>  <font color="#cc0000">/*</font><font color="#cc0000"> </font><font color="#cc0000">you</font><font color="#cc0000"> </font><font color="#cc0000">are</font><font color="#cc0000"> </font><font color="#cc0000">best</font><font color="#cc0000"> </font><font color="#cc0000">using</font><font color="#cc0000"> </font><font color="#cc0000">Strings</font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000">*/</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">15 </font></span>    line<font color="#000000"><strong>.</strong></font><font color="#9966ff">setField</font><font color="#000000"><strong>(</strong></font><font color="#ff00cc">"</font><font color="#ff00cc">DATE</font><font color="#ff00cc">"</font><font color="#000000"><strong>,</strong></font>       <font color="#ff00cc">"</font><font color="#ff00cc">0</font><font color="#ff00cc">"</font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>;</strong></font>  <font color="#cc0000">/*</font><font color="#cc0000"> </font><font color="#cc0000">and</font><font color="#cc0000"> </font><font color="#cc0000">letting</font><font color="#cc0000"> </font><font color="#cc0000">the</font><font color="#cc0000"> </font><font color="#cc0000">RecordEditor</font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000">*/</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">16 </font></span>    line<font color="#000000"><strong>.</strong></font><font color="#9966ff">setField</font><font color="#000000"><strong>(</strong></font><font color="#ff00cc">"</font><font color="#ff00cc">DEPT-NO</font><font color="#ff00cc">"</font><font color="#000000"><strong>,</strong></font>    <font color="#ff00cc">"</font><font color="#ff00cc">0</font><font color="#ff00cc">"</font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>;</strong></font>  <font color="#cc0000">/*</font><font color="#cc0000"> </font><font color="#cc0000">do</font><font color="#cc0000"> </font><font color="#cc0000">the</font><font color="#cc0000"> </font><font color="#cc0000">Conversion</font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000">*/</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">17 </font></span>    line<font color="#000000"><strong>.</strong></font><font color="#9966ff">setField</font><font color="#000000"><strong>(</strong></font><font color="#ff00cc">"</font><font color="#ff00cc">QTY-SOLD</font><font color="#ff00cc">"</font><font color="#000000"><strong>,</strong></font>   <font color="#ff00cc">"</font><font color="#ff00cc">0</font><font color="#ff00cc">"</font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>;</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">18 </font></span>    line<font color="#000000"><strong>.</strong></font><font color="#9966ff">setField</font><font color="#000000"><strong>(</strong></font><font color="#ff00cc">"</font><font color="#ff00cc">SALE-PRICE</font><font color="#ff00cc">"</font><font color="#000000"><strong>,</strong></font> <font color="#ff00cc">"</font><font color="#ff00cc">0.0</font><font color="#ff00cc">"</font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>;</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">19 </font></span>    RecordEditorData<font color="#000000"><strong>.</strong></font>view<font color="#000000"><strong>.</strong></font><font color="#9966ff">addLine</font><font color="#000000"><strong>(</strong></font><font color="#ff0000">0</font><font color="#000000"><strong>,</strong></font> line<font color="#000000"><strong>)</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">20 </font></span>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">21 </font></span>        <font color="#cc0000">/*</font><font color="#cc0000"> </font><font color="#cc0000">You</font><font color="#cc0000"> </font><font color="#cc0000">can</font><font color="#cc0000"> </font><font color="#cc0000">also</font><font color="#cc0000"> </font><font color="#cc0000">use</font><font color="#cc0000"> </font><font color="#cc0000">Record-Number,</font><font color="#cc0000"> </font><font color="#cc0000">Field-Number</font><font color="#cc0000"> </font><font color="#cc0000">*/</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">22 </font></span>    <font color="#006699"><strong>var</strong></font> line <font color="#000000"><strong>=</strong></font> RecordEditorData<font color="#000000"><strong>.</strong></font><font color="#9966ff">newLine</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">23 </font></span>    line<font color="#000000"><strong>.</strong></font><font color="#9966ff">setField</font><font color="#000000"><strong>(</strong></font><font color="#ff0000">0</font><font color="#000000"><strong>,</strong></font> <font color="#ff0000">0</font><font color="#000000"><strong>,</strong></font> <font color="#ff00cc">"</font><font color="#ff00cc">33333333</font><font color="#ff00cc">"</font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>;</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">24 </font></span>    line<font color="#000000"><strong>.</strong></font><font color="#9966ff">setField</font><font color="#000000"><strong>(</strong></font><font color="#ff0000">0</font><font color="#000000"><strong>,</strong></font> <font color="#ff0000">1</font><font color="#000000"><strong>,</strong></font> <font color="#ff00cc">"</font><font color="#ff00cc">333</font><font color="#ff00cc">"</font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>;</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">25 </font></span>    line<font color="#000000"><strong>.</strong></font><font color="#9966ff">setField</font><font color="#000000"><strong>(</strong></font><font color="#ff0000">0</font><font color="#000000"><strong>,</strong></font> <font color="#ff0000">2</font><font color="#000000"><strong>,</strong></font> <font color="#ff00cc">"</font><font color="#ff00cc">330133</font><font color="#ff00cc">"</font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>;</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">26 </font></span>    line<font color="#000000"><strong>.</strong></font><font color="#9966ff">setField</font><font color="#000000"><strong>(</strong></font><font color="#ff0000">0</font><font color="#000000"><strong>,</strong></font> <font color="#ff0000">3</font><font color="#000000"><strong>,</strong></font> <font color="#ff00cc">"</font><font color="#ff00cc">333</font><font color="#ff00cc">"</font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>;</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">27 </font></span>    line<font color="#000000"><strong>.</strong></font><font color="#9966ff">setField</font><font color="#000000"><strong>(</strong></font><font color="#ff0000">0</font><font color="#000000"><strong>,</strong></font> <font color="#ff0000">4</font><font color="#000000"><strong>,</strong></font> <font color="#ff00cc">"</font><font color="#ff00cc">33</font><font color="#ff00cc">"</font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>;</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">28 </font></span>    line<font color="#000000"><strong>.</strong></font><font color="#9966ff">setField</font><font color="#000000"><strong>(</strong></font><font color="#ff0000">0</font><font color="#000000"><strong>,</strong></font> <font color="#ff0000">5</font><font color="#000000"><strong>,</strong></font> <font color="#ff00cc">"</font><font color="#ff00cc">33.33</font><font color="#ff00cc">"</font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>;</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">29 </font></span>    RecordEditorData<font color="#000000"><strong>.</strong></font>view<font color="#000000"><strong>.</strong></font><font color="#9966ff">addLine</font><font color="#000000"><strong>(</strong></font><font color="#ff0000">3</font><font color="#000000"><strong>,</strong></font> line<font color="#000000"><strong>)</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">30 </font></span>
+.*b2h html </font></pre>
+
+:p.In the following code was taken from :hp2.EnsureCorrectNumberOfFieldSeporators.py:ehp2.,
+it updates existing lines using the setData method. You could use the setField method
+to update existing lines as well.
+:p.
+.*b2h html <pre><font color="#000000"><span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 9 </font></span><font color="#cc0000">#</font><font color="#cc0000">##</font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000">Function:</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">10 </font></span><font color="#cc0000">#</font><font color="#cc0000">##</font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000">The</font><font color="#cc0000"> </font><font color="#cc0000">program</font><font color="#cc0000"> </font><font color="#cc0000">will</font><font color="#cc0000"> </font><font color="#cc0000">loop</font><font color="#cc0000"> </font><font color="#cc0000">through</font><font color="#cc0000"> </font><font color="#cc0000">all</font><font color="#cc0000"> </font><font color="#cc0000">lines</font><font color="#cc0000"> </font><font color="#cc0000">in</font><font color="#cc0000"> </font><font color="#cc0000">the</font><font color="#cc0000"> </font><font color="#cc0000">file</font><font color="#cc0000"> </font><font color="#cc0000">and</font><font color="#cc0000"> </font><font color="#cc0000">make</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">11 </font></span><font color="#cc0000">#</font><font color="#cc0000">##</font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000">sure</font><font color="#cc0000"> </font><font color="#cc0000">each</font><font color="#cc0000"> </font><font color="#cc0000">line</font><font color="#cc0000"> </font><font color="#cc0000">has</font><font color="#cc0000"> </font><font color="#cc0000">at</font><font color="#cc0000"> </font><font color="#cc0000">least</font><font color="#cc0000"> </font><font color="#cc0000">the</font><font color="#cc0000"> </font><font color="#cc0000">correct</font><font color="#cc0000"> </font><font color="#cc0000">number</font><font color="#cc0000"> </font><font color="#cc0000">of</font><font color="#cc0000"> </font><font color="#cc0000">field</font><font color="#cc0000"> </font><font color="#cc0000">seperators.</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">12 </font></span><font color="#cc0000">#</font><font color="#cc0000">##</font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000">note:</font><font color="#cc0000"> </font><font color="#cc0000">The</font><font color="#cc0000"> </font><font color="#cc0000">macro</font><font color="#cc0000"> </font><font color="#cc0000">assumes</font><font color="#cc0000"> </font><font color="#cc0000">there</font><font color="#cc0000"> </font><font color="#cc0000">are</font><font color="#cc0000"> </font><font color="#cc0000">no</font><font color="#cc0000"> </font><font color="#cc0000">seperators</font><font color="#cc0000"> </font><font color="#cc0000">embbeded</font><font color="#cc0000"> </font><font color="#cc0000">in</font><font color="#cc0000"> </font><font color="#cc0000">a</font><font color="#cc0000"> </font><font color="#cc0000">line</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">13 </font></span><font color="#cc0000">#</font><font color="#cc0000">##</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">14 </font></span>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">15 </font></span>changed <font color="#000000"><strong>=</strong></font> <font color="#ff0000">0</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">16 </font></span>sep <font color="#000000"><strong>=</strong></font> layout.<font color="#9966ff">getDelimiter</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>                     <font color="#cc0000">#</font><font color="#cc0000">##</font><font color="#cc0000"> </font><font color="#cc0000">Get</font><font color="#cc0000"> </font><font color="#cc0000">Field</font><font color="#cc0000"> </font><font color="#cc0000">Delimiter</font><font color="#cc0000"> </font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">17 </font></span>fieldCount <font color="#000000"><strong>=</strong></font> layout.<font color="#9966ff">getRecord</font><font color="#000000"><strong>(</strong></font><font color="#ff0000">0</font><font color="#000000"><strong>)</strong></font>.<font color="#9966ff">getFieldCount</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">18 </font></span><font color="#006699"><strong>for</strong></font> line <font color="#006699"><strong>in</strong></font> <font color="#009966"><strong>file</strong></font><font color="#006699"><strong>:</strong></font>                               <font color="#cc0000">#</font><font color="#cc0000">##</font><font color="#cc0000"> </font><font color="#cc0000">Loop</font><font color="#cc0000"> </font><font color="#cc0000">through</font><font color="#cc0000"> </font><font color="#cc0000">the</font><font color="#cc0000"> </font><font color="#cc0000">lines</font><font color="#cc0000"> </font><font color="#cc0000">in</font><font color="#cc0000"> </font><font color="#cc0000">the</font><font color="#cc0000"> </font><font color="#cc0000">file</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">19 </font></span>        text <font color="#000000"><strong>=</strong></font> line.<font color="#9966ff">getFullLine</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>               <font color="#cc0000">#</font><font color="#cc0000">##</font><font color="#cc0000"> </font><font color="#cc0000">Get</font><font color="#cc0000"> </font><font color="#cc0000">the</font><font color="#cc0000"> </font><font color="#cc0000">line</font><font color="#cc0000"> </font><font color="#cc0000">as</font><font color="#cc0000"> </font><font color="#cc0000">Unicode</font><font color="#cc0000"> </font><font color="#cc0000">Text</font><font color="#cc0000"> </font><font color="#cc0000">field</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">20 </font></span>        pos <font color="#000000"><strong>=</strong></font> <font color="#ff0000">0</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">21 </font></span>        count <font color="#000000"><strong>=</strong></font> <font color="#ff0000">1</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">22 </font></span>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">23 </font></span>        <font color="#006699"><strong>while</strong></font> <font color="#009966"><strong>unicode</strong></font>.<font color="#9966ff">find</font><font color="#000000"><strong>(</strong></font>text, sep, pos<font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>&gt;</strong></font> <font color="#ff0000">0</font><font color="#006699"><strong>:</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">24 </font></span>                pos <font color="#000000"><strong>=</strong></font> <font color="#009966"><strong>unicode</strong></font>.<font color="#9966ff">find</font><font color="#000000"><strong>(</strong></font>text, sep, pos<font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>+</strong></font> <font color="#ff0000">1</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">25 </font></span>                count <font color="#000000"><strong>=</strong></font> count <font color="#000000"><strong>+</strong></font> <font color="#ff0000">1</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">26 </font></span>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">27 </font></span>        <font color="#006699"><strong>if</strong></font> count <font color="#000000"><strong>&lt;</strong></font> fieldCount<font color="#006699"><strong>:</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">28 </font></span>                <font color="#006699"><strong>while</strong></font> count <font color="#000000"><strong>&lt;</strong></font> fieldCount<font color="#006699"><strong>:</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">29 </font></span>                        text <font color="#000000"><strong>=</strong></font> text <font color="#000000"><strong>+</strong></font> sep
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">30 </font></span>                        count <font color="#000000"><strong>=</strong></font> count <font color="#000000"><strong>+</strong></font> <font color="#ff0000">1</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">31 </font></span>                line.<font color="#9966ff">setData</font><font color="#000000"><strong>(</strong></font>text<font color="#000000"><strong>)</strong></font>              <font color="#cc0000">#</font><font color="#cc0000">##</font><font color="#cc0000"> </font><font color="#cc0000">Setting</font><font color="#cc0000"> </font><font color="#cc0000">the</font><font color="#cc0000"> </font><font color="#cc0000">data</font><font color="#cc0000"> </font><font color="#cc0000">in</font><font color="#cc0000"> </font><font color="#cc0000">the</font><font color="#cc0000"> </font><font color="#cc0000">line,</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">32 </font></span>                                                <font color="#cc0000">#</font><font color="#cc0000">##</font><font color="#cc0000"> </font><font color="#cc0000">This</font><font color="#cc0000"> </font><font color="#cc0000">only</font><font color="#cc0000"> </font><font color="#cc0000">works</font><font color="#cc0000"> </font><font color="#cc0000">for</font><font color="#cc0000"> </font><font color="#cc0000">Text</font><font color="#cc0000"> </font><font color="#cc0000">files.</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">33 </font></span>                changed <font color="#000000"><strong>=</strong></font> <font color="#ff0000">1</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">34 </font></span>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">35 </font></span>RecordEditorData.<font color="#9966ff">fireScreenChanged</font><font color="#000000"><strong>(</strong></font>changed<font color="#000000"><strong>)</strong></font>;    <font color="#cc0000">#</font><font color="#cc0000">##</font><font color="#cc0000"> </font><font color="#cc0000">Update</font><font color="#cc0000"> </font><font color="#cc0000">the</font><font color="#cc0000"> </font><font color="#cc0000">display</font><font color="#cc0000"> </font><font color="#cc0000">and</font><font color="#cc0000"> </font><font color="#cc0000">set</font><font color="#cc0000"> </font><font color="#cc0000">file</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">36 </font></span>                                                <font color="#cc0000">#</font><font color="#cc0000">##</font><font color="#cc0000"> </font><font color="#cc0000">status</font><font color="#cc0000"> </font><font color="#cc0000">to</font><font color="#cc0000"> </font><font color="#cc0000">changed</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">37 </font></span>
+.*b2h html </font></pre>
+
+:p.
+:h2.Other Example Scripts
+:p.Following is a Jython Script to export the Current file as a Comma Delimited file&gml.
+
+.*b2h html <pre><font color="#000000"><span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 1 </font></span><font color="#cc0000">#</font><font color="#cc0000">##</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 2 </font></span><font color="#cc0000">#</font><font color="#cc0000">##</font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000">This</font><font color="#cc0000"> </font><font color="#cc0000">will</font><font color="#cc0000"> </font><font color="#cc0000">loop</font><font color="#cc0000"> </font><font color="#cc0000">through</font><font color="#cc0000"> </font><font color="#cc0000">all</font><font color="#cc0000"> </font><font color="#cc0000">the</font><font color="#cc0000"> </font><font color="#cc0000">selected</font><font color="#cc0000"> </font><font color="#cc0000">Records.</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 3 </font></span><font color="#cc0000">#</font><font color="#cc0000">##</font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000">For</font><font color="#cc0000"> </font><font color="#cc0000">protocol</font><font color="#cc0000"> </font><font color="#cc0000">buffers</font><font color="#cc0000"> </font><font color="#cc0000">/</font><font color="#cc0000"> </font><font color="#cc0000">Avro</font><font color="#cc0000"> </font><font color="#cc0000">Editors,</font><font color="#cc0000"> </font><font color="#cc0000">child</font><font color="#cc0000"> </font><font color="#cc0000">records</font><font color="#cc0000"> </font><font color="#cc0000">will</font><font color="#cc0000"> </font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 4 </font></span><font color="#cc0000">#</font><font color="#cc0000">##</font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000">not</font><font color="#cc0000"> </font><font color="#cc0000">be</font><font color="#cc0000"> </font><font color="#cc0000">included</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066"> 5 </font></span><font color="#cc0000">#</font><font color="#cc0000">##</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 6 </font></span>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 7 </font></span><font color="#006699"><strong>print</strong></font> <font color="#ff00cc">'</font><font color="#ff00cc">hello</font><font color="#ff00cc"> </font><font color="#ff00cc">from</font><font color="#ff00cc"> </font><font color="#ff00cc">python</font><font color="#ff00cc">'</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 8 </font></span><font color="#006699"><strong>print</strong></font> outputFile
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 9 </font></span>my_file <font color="#000000"><strong>=</strong></font> <font color="#009966"><strong>open</strong></font><font color="#000000"><strong>(</strong></font>outputFile,<font color="#ff00cc">'</font><font color="#ff00cc">w</font><font color="#ff00cc">'</font><font color="#000000"><strong>)</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">10 </font></span>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">11 </font></span><font color="#006699"><strong>for</strong></font> line <font color="#006699"><strong>in</strong></font> records<font color="#006699"><strong>:</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">12 </font></span>        idx <font color="#000000"><strong>=</strong></font> line.<font color="#9966ff">getPreferredLayoutIdx</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">13 </font></span>        count <font color="#000000"><strong>=</strong></font> layout.<font color="#9966ff">getRecord</font><font color="#000000"><strong>(</strong></font>idx<font color="#000000"><strong>)</strong></font>.<font color="#9966ff">getFieldCount</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">14 </font></span>        i <font color="#000000"><strong>=</strong></font> <font color="#ff0000">0</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">15 </font></span>        sep <font color="#000000"><strong>=</strong></font> <font color="#ff00cc">'</font><font color="#ff00cc">'</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">16 </font></span>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">17 </font></span>        <font color="#006699"><strong>while</strong></font> i <font color="#000000"><strong>&lt;</strong></font> count<font color="#006699"><strong>:</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">18 </font></span>                my_file.<font color="#9966ff">write</font><font color="#000000"><strong>(</strong></font>sep<font color="#000000"><strong>)</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">19 </font></span>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">20 </font></span>                v <font color="#000000"><strong>=</strong></font> line.<font color="#9966ff">getField</font><font color="#000000"><strong>(</strong></font>idx, i<font color="#000000"><strong>)</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">21 </font></span>                <font color="#006699"><strong>if</strong></font> <font color="#000000"><strong>(</strong></font>v <font color="#006699"><strong>is</strong></font> <font color="#0099ff"><strong>None</strong></font><font color="#000000"><strong>)</strong></font><font color="#006699"><strong>:</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">22 </font></span>                        v <font color="#000000"><strong>=</strong></font> <font color="#ff00cc">"</font><font color="#ff00cc">"</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">23 </font></span>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">24 </font></span>                my_file.<font color="#9966ff">write</font><font color="#000000"><strong>(</strong></font><font color="#009966"><strong>str</strong></font><font color="#000000"><strong>(</strong></font>v<font color="#000000"><strong>)</strong></font><font color="#000000"><strong>)</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">25 </font></span>                sep <font color="#000000"><strong>=</strong></font> <font color="#ff00cc">'</font><font color="#ff00cc">,</font><font color="#ff00cc">'</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">26 </font></span>                i <font color="#000000"><strong>=</strong></font> i <font color="#000000"><strong>+</strong></font> <font color="#ff0000">1</font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">27 </font></span>        my_file.<font color="#9966ff">write</font><font color="#000000"><strong>(</strong></font><font color="#ff00cc">'</font><font color="#ff00cc">\n</font><font color="#ff00cc">'</font><font color="#000000"><strong>)</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">28 </font></span>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">29 </font></span>my_file.<font color="#9966ff">close</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>
+.*b2h html <span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">30 </font></span>
+.*b2h html </font></pre>
+:p.
+:h2 id=savefunc.Saving a Function in the ReCsvEditor
+:p.Many of the functions (e.g. Filters, Record-Tree, Sort-Tree's etc) in the :hp2.ReCsvEditor:ehp2.
+can be saved as Xml and either loaded back in later or run
+from Script macros (see :hdref refid=savetask.).
+
+.pict SortSave.png
+
+The :hp2.save:ehp2. Button at the bottom of the screen, will save the Sort definition as a Xml file,
+the :hp2.load:ehp2. Button will reload previously saved sort definitions.
+
+:h2.Adding other Scripting Languages
+:p.You can add other Scripting languages like Jython, JRuby, Groovy etc to ReCsvEditor.
+To add one of these languages&gml.
+:ul compact.
+  :li.Download the Standalone Jar from the 
+.*b2h html <a href="http://www.jython.org/">Jython</a>, <a href="http://jruby.org/">JRuby</a>, <a href="http://groovy.codehaus.org/">Groovy</a>, ...
+  :li.Add the jar to the :hp2.Recsveditor /lib/Extensions/:ehp2. directory.
+On Windows this will be something like
+
+  C&gml.\Program Files (x86)\RecordEdit\reCsvEditor\lib\Extensions
+
+Linux
+
+  <home>RecordEdit\reCsvEd\lib\Extensions
+  
+  :li.ReCsvEditor pick up any jar in this directory.
+  :li.There are Jyhton and Groovy example scripts (e.g. write view as JSon) 
+:eul.

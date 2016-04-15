@@ -22,8 +22,9 @@ parse arg zType
 		say 'Update' zType '<' substr(zType' ',1,1) '<'
 	end; else do
 		Call main "-i xRecordEdit_HSQL.nsi"
-		Call main "-i xRecordEdit_MSAccess.nsi "
 		Call main "-i xRecordEdit_CsvEd.nsi"
+		/*Call main "-i xRecordEdit_MSAccess.nsi "
+		Call main "-i xRecordEdit_CsvEd.nsi"*/
 		/*Call main "-i xRecordEdit_H2.nsi"*/
 		say 'Normal'
 	end
@@ -66,13 +67,14 @@ A100_InitVars:
 		linux = yes
 		deleteCommand = 'rm'
 		dirsep ='/'
-    end; else do
+        end; else do
 	   linux = no
 	   deleteCommand = 'del'
 	   dirsep ='\'
 	end;
 
 	MoreData = yes
+	SkipAdd = no
    
 	!Overwrite   = "OVERWRITE"
 	!Outpath     = "OUTPATH"
@@ -136,6 +138,11 @@ B000_Process:
 			
 			Select
 				when (Command = "EXPAND")      then Call B200_ProcessExpand
+				when (Command = "EXPAND4DEL")      then do
+				                                        SkipAdd = yes
+				                                        Call B200_ProcessExpand
+				                                        SkipAdd = no
+				                                    end 
 				when (Command = "WRITEDELETE") then Call B300_ProcessDeletes
 				when (Command = "OUTFILE")     then Call B400_ProcessOutfile
 				when (Command = "PSC")         then Call B500_ProcessPsc
@@ -204,17 +211,20 @@ Return
 /* Process Expand Tag - ie write all files that match a directory tag*/ 
 B200_ProcessExpand:
 
-    Queue ""
+	Queue ""
 	Call G100_AddFile ""
 	
 	opath = Attributes.!Outpath
 	
 	if opath <> "" then do
 		outputPath = opath
-		if Attributes.!overwrite <> "" then do
+		say SkipAdd yes outputPath
+		if SkipAdd <> yes then do
+		    if Attributes.!overwrite <> "" then do
 			Queue "  SetOverwrite" Attributes.!overwrite
+		    end
+		    Queue '  SetOutPath "'outputPath'"'
 		end
-		Queue '  SetOutPath "'outputPath'"'
 	end
 	
 	Call B210_Expand "NAME"
@@ -279,8 +289,8 @@ B210_Expand:
 			end; else say '!!!~~~' file
 		end
 		
-		if found = no then do
-			say 'No file found for' zzPath || Name
+		if found = no & SkipAdd = no then do
+			say 'No file found for' Path || Name
 			Queue ';;-- Missing' strip(path || Name) ' --- ' zzPath || Name
 		end
 	end
@@ -288,18 +298,19 @@ Return
 
 B211_FileOk:
 
-
-    if DateCheck = no then do       
-		Return yes
-	end; else if MinDate <> "" then do
-		fdate = FileDate
-		if linux <> yes then do
-			fdate = substr(FileDate, 7)substr(FileDate, 4, 2)substr(FileDate, 1, 2)
-		end
-		/*say FileDate ":" FDate ">=" MinDate ":" (FDate >= MinDate)*/
-		
-		return FDate >= MinDate
+    if SkipAdd = yes then do  
+    	Return no
+    end; else if DateCheck = no then do       
+	Return yes
+    end; else if MinDate <> "" then do
+	fdate = FileDate
+	if linux <> yes then do
+		fdate = substr(FileDate, 7)substr(FileDate, 4, 2)substr(FileDate, 1, 2)
 	end
+	/*say FileDate ":" FDate ">=" MinDate ":" (FDate >= MinDate)*/
+		
+	return FDate >= MinDate
+    end
 
 Return yes
 
@@ -363,7 +374,7 @@ Return
 
 
 G100_AddFile:
-parse arg zFile x
+parse arg zFile 
 
 	numFiles = numFiles + 1
 	dfiles.numFiles = zFile

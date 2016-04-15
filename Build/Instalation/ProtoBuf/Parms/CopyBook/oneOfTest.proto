@@ -1,0 +1,44 @@
+package net.sf.RecordEditor.ProtoBuf.re.Test.OneOf;
+
+//
+//       Pupose create a file with all the field types (Except Enum
+//       which are tested else where
+
+
+option optimize_for = SPEED;
+
+enum SaleType {
+    RETURN = -1;
+    OTHER = 0;
+    SALE = 1;
+}
+
+message SaleMsg {
+	required string item = 1;
+	required SaleType type = 2;
+	required int32  qty = 3;
+	required double value =4;
+}
+
+message TestOneOf {
+    required string name = 1;
+    
+    oneof oneofTestField {
+    	int32  intFld = 2;
+    	string strFld = 3;
+        double doubleFld = 4;
+        bool   boolFld = 5;
+        SaleType typeOfSale = 6;
+        SaleMsg saleDtls = 7;
+    }
+	
+    oneof altOneofField {
+    	int32  intFld2 = 12;
+    	string strFld2 = 13;
+        double doubleFld2 = 14;
+        bool   boolFld2 = 15;
+        SaleType typeOfSale2 = 16;
+        SaleMsg saleDtls2 = 17;
+    }
+
+}

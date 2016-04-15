@@ -1,0 +1,26 @@
+Directory for Extension Scripts (JRuby, Jython etc).
+Supplied useful scripts include
+
+* CreateDuplicateRecordView.js - creates a view containg dupliccate records
+* DeleteDuplicateRecords.js    - Delete all but one duplicate record
+* HeaderDetailFooter           - Create Views for every Record Type. If there is only one record of a particular type, 
+                                 it will be displayed in a single record view
+* ViewForEachRecordType.js     - Create a seperate view for each record type
+
+The Csv directory holds usefull Csv Macros 
+The Examples Directory holds various example scripts
+The Jython directory holds some more Jython 2.7 scripts, You need to dowload and 
+Jython from http://www.jython.org/downloads.html (suggest 2.7 or later)
+and install in lib/Extensions directory
+                                     
+
+
+
+
+
+
+
+
+
+
+

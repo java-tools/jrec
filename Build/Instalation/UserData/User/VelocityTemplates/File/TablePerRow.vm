@@ -1,0 +1,41 @@
+##
+##  Generate HTML 1 - table per row using current record id
+##
+
+
+
+&nbsp;&nbsp;
+<table CELLPADDING="3">
+  <TR><TH BGCOLOR=blue><font color=white><b>&nbsp;&nbsp;$fileName&nbsp;&nbsp;</b></font></TH></TR>
+</table>
+&nbsp;
+
+#set ( $fldCount = ${layout.getRecord(${recordIdx}).getFieldCount()} - 1)
+#set ($border = "")
+#if ($showBorder == true)
+   #set ($border = 'border="1"')
+#end
+
+### Details ${recordIdx}    $fldCount
+
+#set ($j = 0 )
+
+#foreach( $rec in $records )
+ #set ($j = ${j} + 1)
+ <P>&nbsp;</P><p><b>Record ${j}</b></p>
+ <table ${border}>
+ #foreach( $i in [0 .. ${fldCount}])
+   #set ($fldDef = ${layout.getField(${recordIdx},${i})})
+  <tr>
+    <td>${fldDef.getName()}&nbsp;&nbsp;</td>
+    <td>${fldDef.getPos()}&nbsp;</td>
+    <td>${fldDef.getLen()}&nbsp;</td>
+    <td>${rec.getField(${recordIdx},${i})}&nbsp;</td>
+   #if (${onlyData} == false )
+    <td>${rec.getFieldHex(${recordIdx},${i})}</td>
+   #end
+ </tr>
+ #end
+</table>
+#end
+<p>&nbsp;<p>

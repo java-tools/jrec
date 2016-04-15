@@ -95,6 +95,7 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback, IEdi
 
 	private ReFrame activeFrame;
 	private final boolean runScript;
+	private final int extraScreenCount;
 
 	private static FormatFileName formatFileName = new FormatFileName() {
 		@Override
@@ -282,10 +283,10 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback, IEdi
 	}
 	
 	public ScriptRunFrame(ReFrame activeFrame, boolean visible) {
-		this(activeFrame, "Run Script Screen", visible, true);
+		this(activeFrame, "Run Script Screen", visible, true, true);
 	}
 	
-	public ScriptRunFrame(ReFrame activeFrame, String title, boolean visible, boolean runScript) {
+	public ScriptRunFrame(ReFrame activeFrame, String title, boolean visible, boolean runScript, boolean addOutput) {
 		super("", title, null);
 		this.activeFrame = activeFrame;
 		this.runScript = runScript;
@@ -293,17 +294,20 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback, IEdi
 			msg.setText(" >>> Warning  >>>  can not retrive File details, this could affect the script !!!");
 		}
 		templateFC = new TreeComboFileSelect(true, false, true, recent.getFileComboList(), recent.getDirectoryList());
+		extraScreenCount = addOutput? 1 : 0;
 
-		init_100();
+		init_100(addOutput);
 		init_200_layout(visible);
 		init_300_listner();
 	}
 
-	private void init_100() {
+	private void init_100(boolean addOutput) {
 
 //		LanguageDetails languageDetails;
 		ScriptEditPane editPane = new ScriptEditPane(tabChangeListner);
-		tab.add("Output", new JScrollPane(outputTxt));
+		if (addOutput) {
+			tab.add("Output", new JScrollPane(outputTxt));
+		}
 		addTab(editPane);
 	
 		saveAction = new ActionOnActiveScreen("Save", Common.ID_SAVE_ICON) {
@@ -653,7 +657,7 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback, IEdi
 					updateMenuStatus();
 				} else {
 					addTab(new ScriptEditPane(tabChangeListner, f));
-					tab.setSelectedIndex(tab.getTabCount() - 2);
+					tab.setSelectedIndex(tab.getTabCount() - 1 - extraScreenCount);
 				}
 
 				recent.putFileLayout(fname, "?");
@@ -670,7 +674,11 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback, IEdi
 	private void addTab(ScriptEditPane p) {
 		panes.add(p);
 		//tab.addTab("", p.tabComponent);
-		tab.insertTab("", null, p.tabComponent, "", tab.getTabCount() - 1);
+		if (tab.getTabCount() == 0) {
+			tab.addTab("", p.tabComponent);
+		} else {
+			tab.insertTab("", null, p.tabComponent, "", tab.getTabCount() - extraScreenCount);
+		}
 		int newTabIdx = panes.size() - 1;
 		tab.setTabComponentAt(newTabIdx, p.tabWithClose);
 		new TabCloseListner(p);
@@ -772,7 +780,7 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback, IEdi
 
 		} else {
 			addTab(new ScriptEditPane(tabChangeListner));
-			tab.setSelectedIndex(tab.getTabCount() - 2);
+			tab.setSelectedIndex(tab.getTabCount() - 1 - extraScreenCount);
 		}
 	}
 
@@ -918,7 +926,7 @@ public class ScriptRunFrame extends ReFrame implements BasicLayoutCallback, IEdi
 	}
 
 	private boolean isScriptTab(int idx) {
-		return idx < tab.getTabCount() - 1;
+		return idx < tab.getTabCount() - extraScreenCount;
 	}
 
 	private class TabCloseListner implements ActionListener {

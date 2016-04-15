@@ -6,11 +6,11 @@ import java.util.List;
 import net.sf.JRecord.Common.FieldDetail;
 
 
-public class TreeDetails<FieldDtls extends FieldDetail,
-									 RecordDtls extends AbstractRecordDetail,
-									 Layout extends AbstractLayoutDetails,
-									 ChildDtls extends AbstractChildDetails<RecordDtls>,
-                                     LineType extends AbstractLine
+public class TreeDetails<	FieldDtls extends FieldDetail,
+							RecordDtls extends AbstractRecordDetail,
+							Layout extends AbstractLayoutDetails,
+							ChildDtls extends AbstractChildDetails<RecordDtls>,
+                            LineType extends AbstractLine
                                      >
 implements AbstractTreeDetails<FieldDtls, RecordDtls, Layout, LineType> {
 

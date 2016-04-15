@@ -44,6 +44,8 @@ public class TstTypesGeneral extends TestCase {
 	 	Type.ftAssumedDecimalPositive,
 	 	Type.ftSignSeparateLead,
 	 	Type.ftSignSeparateTrail,
+	 	Type.ftSignSepLeadActualDecimal,
+	 	Type.ftSignSepTrailActualDecimal,
 	 	Type.ftDecimal,
 	 	Type.ftBinaryInt,
 	 	Type.ftPostiveBinaryInt,

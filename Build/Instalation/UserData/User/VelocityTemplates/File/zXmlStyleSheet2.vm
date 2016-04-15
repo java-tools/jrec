@@ -1,0 +1,37 @@
+Template,@match,/
+XML-Path,XML Attribute,Value,Function,Function Attribute,Xpath / Value
+#foreach( $nodeList in $treeNodes )
+#*  *##set( $lastElement = $nodeList.size() - 1)
+#*  *##set ( $rec = $nodeList.get(${lastElement}).getLine())
+#*  *##if ( $rec )
+#*      *##set ( $recordIdx = ${rec.getPreferredLayoutIdx()})
+#*      *##set ( $fldCount = ${layout.getRecord(${recordIdx}).getFieldCount()} - 1)
+##        ${nodeList.get(${lastElement}).toString().toLowerCase()} $fldCount ${nodeList.get(${lastElement}).toString().toLowerCase().startsWith("xsl:")}
+#*      *##if ($fldCount > 4)
+#*         *##if (${nodeList.get(${lastElement}).toString().toLowerCase().startsWith("xsl:")})
+#*             *##set ( $func = ${nodeList.get(${lastElement}).toString().substring(4)})
+#*             *##set ( $other = false)
+#*             *##set ( $xmlPath = "" )
+#*             *##set ( $xPath = "" )
+#*             *##set ( $sep1 = "")                           
+#*             *##set ( $sep2 = "")                                    
+#*             *##foreach ($j in [1 ..${lastElement}])
+#*                 *##if (${nodeList.get($j).toString().indexOf(":")} >= 0)
+#*                     *##set ( $other = true) 
+#*                     *##if (${j} < ${lastElement})           
+#*                         *##set ( $xPath = "${xPath}${sep1}${nodeList.get($j).toString().trim()}" )
+#*                         *##set ( $sep1 = "/")    
+#*                     *##end
+#*                 *##else
+#*                     *##set ( $xmlPath = "${xmlPath}${sep2}${nodeList.get($j).toString().trim()}" )
+#*                     *##set ( $sep2 = "/")
+#*                 *##end
+#*             *##end
+#*             *##set ( $n = ${layout.getField(${recordIdx},5).getName()})
+#*             *##set ( $f = ${rec.getField(${recordIdx},5)})
+#*             *##set ( $attr = "@${n},${f}")
+#*             *#${xmlPath},,,${func},${attr}
+#*          *##end
+#*      *##end
+#*  *##end
+#end

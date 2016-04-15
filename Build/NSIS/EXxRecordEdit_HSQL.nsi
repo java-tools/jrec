@@ -5,7 +5,7 @@ SetCompressor /SOLID lzma
 SetCompressionLevel 9
 
 !define PRODUCT_NAME "RecordEdit_HSQL"                                                             
-!define PRODUCT_VERSION "0.94.4"                                                                                  
+!define PRODUCT_VERSION "0.97"                                                                                  
 !define PRODUCT_PUBLISHER "Bruce Martin"                                                           
 !define PRODUCT_WEB_SITE "http://record-editor.sf.net"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
@@ -54,7 +54,7 @@ var ICONS_GROUP
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "RecordEdit_Installer_for_HSQL_0.94.4.exe"
+OutFile "RecordEdit_Installer_for_HSQL_0.97.exe"
 InstallDir "$PROGRAMFILES\RecordEdit\HSQL"
 ShowInstDetails show
 ShowUnInstDetails show
@@ -71,65 +71,78 @@ Section "MainSection" SEC01
   StrCpy $JAVA_RUN1 "$JAVA_DIR\java.exe"
  
 
-  Delete "$INSTDIR\lib\JRecord.jar"
+;  Delete "$INSTDIR\lib\JRecord.jar"
 
-  Delete "$INSTDIR\lib\RecordEdit.jar"
-  Delete "$INSTDIR\lib\LayoutEdit.jar"
-  Delete "$INSTDIR\lib\cb2xml.Jar"
+;  Delete "$INSTDIR\lib\RecordEdit.jar"
+;  Delete "$INSTDIR\lib\LayoutEdit.jar"
+;  Delete "$INSTDIR\lib\cb2xml.Jar"
+
 
 
 
   SetOverwrite try
   SetOutPath "$INSTDIR\License"
+  File "..\General\JTreeTable_License.txt"
   File "..\General\LICENSE.txt"
   File "..\General\license_cb2xml.txt"
   File "..\General\LICENSE_chardet.txt"
   File "..\General\LICENSE_of_includedPackages.txt"
   File "..\General\RSyntaxTextArea.License.txt"
-
-
-  SetOverwrite try
-  SetOutPath "$INSTDIR\lib"
-  File "..\Instalation\GeneralDB\lib\run.jar"
-  File "..\Instalation\GeneralDB\lib\runCobolEditor.jar"
-  File "..\Instalation\GeneralDB\lib\runCsvEditor.jar"
-  File "..\Instalation\GeneralDB\lib\runDiff.jar"
-  File "..\Instalation\GeneralDB\lib\runDiffFileLayout.jar"
-  File "..\Instalation\GeneralDB\lib\runFullEditor.jar"
-  File "..\Instalation\GeneralDB\lib\runLayouteditor.jar"
-  File "..\Instalation\GeneralDB\lib\SystemJars.txt"
-  ;<expand overwrite=try outpath="$INSTDIR\lib" inpath="..\lib" name="run*.jar"
-  ;			name2="JRecord.jar" name3="RecordEdit.jar" name4="LayoutEdit.jar" name5="cb2xml.jar" name6="StAX.jar"/>
+;;-- Missing ..\General\*.html  ---  ZZPATH*.html
 
   
 
   SetOverwrite try
-  SetOutPath "$INSTDIR\lib\Extensions"
-  File "..\Instalation\hsqldb_izpack\lib\Extensions\Notes.txt"
+  SetOutPath "$INSTDIR\UserData"
+  File "..\Instalation\UserData\UserData.zip"
+  File "..\Instalation\UserData\UserData1.zip"
+  File "..\Instalation\UserData\UserData2.zip"
 
-  SetOverwrite try
-  SetOutPath "$PROFILE\RecordEditor_HSQL\Extensions"
-  File "..\Instalation\hsqldb_izpack\lib\Extensions\Notes.txt"
+  File "..\Instalation\hsqldb\Database.zip"
 
-
+  SetOverwrite off
 
   SetOutPath "$INSTDIR\lib"
-  File "..\Instalation\GeneralDB\lib\iconsAqua.zip"
-  File "..\Instalation\GeneralDB\lib\iconsEclipse.zip"
-  File "..\Instalation\GeneralDB\lib\iconsGnome.zip"
-  File "..\Instalation\GeneralDB\lib\iconsOffice2003.zip"
-  File "..\Instalation\GeneralDB\lib\iconsOfficeXP.zip"
-  File "..\Instalation\GeneralDB\lib\iconsTango.zip"
-  File "..\Instalation\GeneralDB\lib\Cobol.ico"
-  File "..\Instalation\GeneralDB\lib\LayoutEdit.ico"
-  File "..\Instalation\GeneralDB\lib\RecordEdit.ico"
-  File "..\Instalation\GeneralDB\lib\Utility.ico"
+  File "..\Instalation\hsqldb\lib\Params.Properties"
+
+  SetOverwrite try
+  SetOutPath "$INSTDIR\lib"
+  File "..\Instalation\hsqldb\lib\StartServer.bat"
+  File "..\Instalation\hsqldb\lib\StopServer4Upgrade.bat"
+  exec  '"$INSTDIR\lib\StopServer4Upgrade.bat" "$JAVA_RUN1"'
+
+  SetOverwrite try
+  SetOutPath "$INSTDIR\lib"
+  File "..\Instalation\GeneralDB\lib\run.jar"
+  File "..\Instalation\GeneralDB\lib\RunCobolEditor.jar"
+  File "..\Instalation\GeneralDB\lib\runCsvEditor.jar"
+  File "..\Instalation\GeneralDB\lib\RunDiff.jar"
+  File "..\Instalation\GeneralDB\lib\RunDiffFileLayout.jar"
+  File "..\Instalation\GeneralDB\lib\runFullEditor.jar"
+  File "..\Instalation\GeneralDB\lib\runLayouteditor.jar"
+  File "..\Instalation\GeneralDB\lib\SystemJars.txt"
+  ; expand overwrite=try outpath="$INSTDIR\lib" inpath="..\lib" name="run*.jar"
+  ;			name2="JRecord.jar" name3="RecordEdit.jar" name4="LayoutEdit.jar" name5="cb2xml.jar"
+ 
+  ;<expand  inpath="..\Instalation\GeneralDB\lib" name="icons*.zip" name1="*.ico" />
 
   File "..\Instalation\hsqldb\lib\properties.zip"
+  File "..\Instalation\hsqldb\lib\FullEditorFiles.txt"
+  File "..\Instalation\hsqldb\lib\SmallEditorFiles.txt"
   File "..\Instalation\hsqldb\lib\SystemJdbcJars.txt"
+  File "..\Instalation\hsqldb\lib\InstallHelper.bat"
 
-  File "..\Instalation\hsqldb_izpack\lib\RecordEditor_TipOfTheDay.properties"
+  File "..\Instalation\hsqldb_izpack\lib\JRecord.properties"
+  File "..\Instalation\hsqldb_izpack\lib\JRecord.properties.html"
   File "..\Instalation\hsqldb_izpack\lib\LayoutEditor_TipOfTheDay.properties"
+  File "..\Instalation\hsqldb_izpack\lib\RecordEditor_TipOfTheDay.properties"
+
+  File "..\Instalation\hsqldb_izpack\lib\Cobol.ico"
+  File "..\Instalation\hsqldb_izpack\lib\LayoutEdit.ico"
+  File "..\Instalation\hsqldb_izpack\lib\RecordEdit.ico"
+  File "..\Instalation\hsqldb_izpack\lib\Utility.ico"
+  File "..\Instalation\hsqldb_izpack\lib\RecordEdit.PNG"
+  File "..\Instalation\hsqldb_izpack\lib\RecordLayout.PNG"
 
   File "..\Instalation\hsqldb_izpack\lib\LayoutEdit.pack"
   File "..\Instalation\hsqldb_izpack\lib\RecordEdit.pack"
@@ -139,29 +152,39 @@ Section "MainSection" SEC01
   File "..\Instalation\hsqldb_izpack\lib\ZCalendar.pack"
 
   File "..\Instalation\hsqldb_izpack\lib\jlibdiff.pack"
-  File "..\Instalation\hsqldb_izpack\lib\JRecord.properties"
-  File "..\Instalation\hsqldb_izpack\lib\JRecord.properties.html"
   File "..\Instalation\hsqldb_izpack\lib\RunUnpack.exe"
   File "..\Instalation\hsqldb_izpack\lib\velocity-1.7-dep.pack"
   File "..\Instalation\hsqldb_izpack\lib\velocity-1.7.pack"
   File "..\Instalation\hsqldb_izpack\lib\runCobolBatchLoad.bat"
+  File "..\Instalation\hsqldb_izpack\lib\startserverX.exe"
 
   File "..\Instalation\hsqldb_izpack\lib\JRecord.pack"
   File "..\Instalation\hsqldb_izpack\lib\jibx-run.pack"
   File "..\Instalation\hsqldb_izpack\lib\rsyntaxtextarea.pack"
   File "..\Instalation\hsqldb_izpack\lib\swingx-subset-1.6.4.pack"
+  File "..\Instalation\hsqldb_izpack\lib\zip4j_1.3.2.pack"
 
 
   File "..\Instalation\hsqldb_izpack\lib\hsqldbmain.pack"
   File "NsisUnpack.jar"
-
-  exec '"$JAVA_RUN1" -jar "$INSTDIR\lib\NsisUnpack.jar" $INSTDIR\lib'
-
-
+  
+;  exec 'InstallHelper.bat "$JAVA_RUN1" > InstallBat.txt'
+;  exec '"$JAVA_RUN1" -jar "$INSTDIR\lib\NsisUnpack.jar" $INSTDIR\lib'
+;  exec  '"$JAVA_RUN1" -jar "$INSTDIR\lib\run.jar" net.sf.RecordEditor.edit.XCreateData'
+  execwait '"$JAVA_RUN1" -jar "$INSTDIR\lib\NsisUnpack.jar" $INSTDIR\lib'
+;  exec  '"$JAVA_RUN" -jar "$INSTDIR\lib\run.jar" net.sf.RecordEditor.layoutEd.ShutdownHSQLDB'
+  exec  '"$JAVA_RUN1" -jar "$INSTDIR\lib\run.jar" net.sf.RecordEditor.edit.XCreateData n $PROFILE\RecordEditor_HSQL\Database'
+  
 
   SetOverwrite try
-  SetOutPath "$INSTDIR\lib\net\sf\RecordEditor\utils"
-  File "..\Instalation\hsqldb\lib\net\sf\RecordEditor\utils\RecEdit.properties"
+  SetOutPath "$INSTDIR\lib\Extensions"
+  File "..\Instalation\hsqldb_izpack\lib\Extensions\Notes.txt"
+;  <expand overwrite="try" outpath="$PROFILE\RecordEditor_HSQL\Extensions" 
+;                          inpath="..\Instalation\hsqldb_izpack\lib\Extensions" name="*.txt"/>  
+
+
+;  <expand overwrite="try" outpath="$INSTDIR\lib\net\sf\RecordEditor\utils" 
+;                          inpath="..\Instalation\hsqldb\lib\net\sf\RecordEditor\utils\" name="*.properties"/>  
   
 
   SetOverwrite try
@@ -187,7 +210,10 @@ Section "MainSection" SEC01
   SetOutPath "$INSTDIR\lang\Diagram"
   File "..\Instalation\GeneralDB\lang\Diagram\EditOpt.png"
   File "..\Instalation\GeneralDB\lang\Diagram\RE_LangOption.png"
+;  exec '"$JAVA_RUN1" -jar "$INSTDIR\lib\run.jar" net.sf.RecordEditor.edit.XCreateData'
+; Just in case do another uninstall
 
+   
 
   SetOverwrite try
   SetOutPath "$INSTDIR\Docs"
@@ -221,7 +247,6 @@ Section "MainSection" SEC01
   File "..\Instalation\hsqldb\Docs\HlpRe14.htm"
   File "..\Instalation\hsqldb\Docs\HlpRe15.htm"
   File "..\Instalation\hsqldb\Docs\HlpRe16.htm"
-  File "..\Instalation\hsqldb\Docs\HlpRe17.htm"
   File "..\Instalation\hsqldb\Docs\HowTo.htm"
   File "..\Instalation\hsqldb\Docs\hRecordEdit.htm"
   File "..\Instalation\hsqldb\Docs\hWelcome.htm"
@@ -260,7 +285,6 @@ Section "MainSection" SEC01
   File "..\Instalation\GeneralDB\Docs\HlpRe14.htm"
   File "..\Instalation\GeneralDB\Docs\HlpRe15.htm"
   File "..\Instalation\GeneralDB\Docs\HlpRe16.htm"
-  File "..\Instalation\GeneralDB\Docs\HlpRe17.htm"
   File "..\Instalation\GeneralDB\Docs\CobolEditor.htm"
   File "..\Instalation\GeneralDB\Docs\Example.htm"
   File "..\Instalation\GeneralDB\Docs\ExampleFR.htm"
@@ -303,6 +327,16 @@ Section "MainSection" SEC01
   File "..\Instalation\GeneralDB\Docs\Diagram\CopyFinal.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\CopyMain.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\Copy_Xml.png"
+  File "..\Instalation\GeneralDB\Docs\Diagram\CsvEdit.png"
+  File "..\Instalation\GeneralDB\Docs\Diagram\CsvEdit1.png"
+  File "..\Instalation\GeneralDB\Docs\Diagram\CsvEdit_CobolPreview.png"
+  File "..\Instalation\GeneralDB\Docs\Diagram\CsvEdit_FixedPreview.png"
+  File "..\Instalation\GeneralDB\Docs\Diagram\CsvEdit_Update.png"
+  File "..\Instalation\GeneralDB\Docs\Diagram\CsvEdit_XmlPreview.png"
+  File "..\Instalation\GeneralDB\Docs\Diagram\CsvEd_ColEdit.png"
+  File "..\Instalation\GeneralDB\Docs\Diagram\CsvEd_ColOptions.png"
+  File "..\Instalation\GeneralDB\Docs\Diagram\CsvEd_Filter.png"
+  File "..\Instalation\GeneralDB\Docs\Diagram\CsvEd_RightClick.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\CsvPopup1.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\DatePopup.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\EditOptBtn.png"
@@ -354,6 +388,8 @@ Section "MainSection" SEC01
   File "..\Instalation\GeneralDB\Docs\Diagram\LayoutEdit_TableList.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\LayoutEdit_TableRows.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\LayoutEdit_VB_File.png"
+  File "..\Instalation\GeneralDB\Docs\Diagram\LayoutMenu_XmlTransfer095.png"
+  File "..\Instalation\GeneralDB\Docs\Diagram\LayoutMenu_XmlTransfer096.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\LayoutRecordTree.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\LayoutWizard_List.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\Layout_Child.png"
@@ -384,9 +420,6 @@ Section "MainSection" SEC01
   File "..\Instalation\GeneralDB\Docs\Diagram\Option_Icons.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\Option_Looks.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\Option_ScreenPos.png"
-  File "..\Instalation\GeneralDB\Docs\Diagram\Po_Main.png"
-  File "..\Instalation\GeneralDB\Docs\Diagram\Po_MainBottom.png"
-  File "..\Instalation\GeneralDB\Docs\Diagram\Po_Properties.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\PreferedOption.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\Preferences.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\Preferences_ScriptJar.png"
@@ -422,6 +455,7 @@ Section "MainSection" SEC01
   File "..\Instalation\GeneralDB\Docs\Diagram\RecordEdit_MainXml.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\RecordEdit_MouseOver.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\RecordEdit_Movement.png"
+  File "..\Instalation\GeneralDB\Docs\Diagram\RecordEdit_MultiTab - Copy.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\RecordEdit_MultiTab.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\RecordEdit_Popup.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\RecordEdit_RecCombo.png"
@@ -454,8 +488,11 @@ Section "MainSection" SEC01
   File "..\Instalation\GeneralDB\Docs\Diagram\RecordTreeDef.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\Record_Group.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\Record_Standard.png"
+  File "..\Instalation\GeneralDB\Docs\Diagram\RE_LangOption.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\RightClick.png"
-  File "..\Instalation\GeneralDB\Docs\Diagram\Script.png"
+  File "..\Instalation\GeneralDB\Docs\Diagram\ScriptBldMenu.png"
+  File "..\Instalation\GeneralDB\Docs\Diagram\ScriptBldScreen.png"
+  File "..\Instalation\GeneralDB\Docs\Diagram\ScriptEdit.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\SetScreenSize.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\Setup_CopybookLoader.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\Setup_EmbeddedDB.png"
@@ -473,10 +510,6 @@ Section "MainSection" SEC01
   File "..\Instalation\GeneralDB\Docs\Diagram\StandardCopy.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\StartMenu.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\StarupOptions_LayoutWizard.png"
-  File "..\Instalation\GeneralDB\Docs\Diagram\TipOfTheDay01.png"
-  File "..\Instalation\GeneralDB\Docs\Diagram\TipOfTheDay_Main.png"
-  File "..\Instalation\GeneralDB\Docs\Diagram\TipOfTheDay_RightClick1.png"
-  File "..\Instalation\GeneralDB\Docs\Diagram\TipOfTheDay_RightClick2.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\TL_Diff1.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\TL_Diff3.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\Tree2.png"
@@ -486,377 +519,76 @@ Section "MainSection" SEC01
   File "..\Instalation\GeneralDB\Docs\Diagram\Wizard_Change1.png"
   File "..\Instalation\GeneralDB\Docs\Diagram\Wizard_Change2.png"
  
-
-  SetOutPath "$PROFILE\RecordEditor_HSQL\CopyBook\Cobol"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\AmsLocation.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\AmsProductAPN.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\AmsReceipt.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\AmsShpUpload.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\AmsVendor.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\Cbl_Line_Test_Record.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\CopyDTAR020.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\CopyDTAR020.xml"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\CopyDTAR119.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\CopyDTAR192.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\CopySAR4180A.xml"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\CopySAR4180B.xml"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\CopySAR4180C.xml"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\d.rexx"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\d.txt"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\DTAR020.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\DTAR1000.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\DTAR1000_recfmU.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\DTAR107.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\DTAR119.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\DTAR192.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\EQRD451.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\Line_Test_Record.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\Master_Record.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\RBIFCopy.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\RBIVCopy.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\Rental_Record.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\SalesRecord.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\Transaction_Record.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\XmplDecider.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\XmplEditType1.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\XTAR1000_020.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\ZC_AmsPoDownloadComma.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\ZC_AmsPoDownloadTab.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\ZRedefTst01.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\ZZ_Tst1.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\ZZ_Tst2.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\ZZ_Tst3.cbl"
-  File "..\Instalation\GeneralDB\CopyBook\Cobol\Z_AnamousRedf.cbl"
-
-  SetOutPath "$PROFILE\RecordEditor_HSQL\CopyBook\cb2xml"
-  File "..\Instalation\GeneralDB\CopyBook\cb2xml\AMSLOCATION.xml"
-  File "..\Instalation\GeneralDB\CopyBook\cb2xml\AMSLOCATIONTEST1.xml"
-  File "..\Instalation\GeneralDB\CopyBook\cb2xml\AMSPRODUCTAPN.xml"
-  File "..\Instalation\GeneralDB\CopyBook\cb2xml\AMSRECEIPT.xml"
-  File "..\Instalation\GeneralDB\CopyBook\cb2xml\AMSSHPUPLOAD.xml"
-  File "..\Instalation\GeneralDB\CopyBook\cb2xml\AMSVENDOR.xml"
-  File "..\Instalation\GeneralDB\CopyBook\cb2xml\CBL_LINE_TEST_RECORD.xml"
-  File "..\Instalation\GeneralDB\CopyBook\cb2xml\DTAR020.xml"
-  File "..\Instalation\GeneralDB\CopyBook\cb2xml\DTAR1000.xml"
-  File "..\Instalation\GeneralDB\CopyBook\cb2xml\DTAR1000_RECFMU.xml"
-  File "..\Instalation\GeneralDB\CopyBook\cb2xml\DTAR107.xml"
-  File "..\Instalation\GeneralDB\CopyBook\cb2xml\DTAR119.xml"
-  File "..\Instalation\GeneralDB\CopyBook\cb2xml\DTAR192.xml"
-  File "..\Instalation\GeneralDB\CopyBook\cb2xml\EQRD451.xml"
-  File "..\Instalation\GeneralDB\CopyBook\cb2xml\LINE_TEST_RECORD.xml"
-  File "..\Instalation\GeneralDB\CopyBook\cb2xml\MASTER_RECORD.xml"
-  File "..\Instalation\GeneralDB\CopyBook\cb2xml\RBIFCOPY.xml"
-  File "..\Instalation\GeneralDB\CopyBook\cb2xml\RBIVCOPY.xml"
-  File "..\Instalation\GeneralDB\CopyBook\cb2xml\RENTAL_RECORD.xml"
-  File "..\Instalation\GeneralDB\CopyBook\cb2xml\SALESRECORD.xml"
-  File "..\Instalation\GeneralDB\CopyBook\cb2xml\TRANSACTION_RECORD.xml"
-  File "..\Instalation\GeneralDB\CopyBook\cb2xml\TSTDASH.xml"
-  File "..\Instalation\GeneralDB\CopyBook\cb2xml\XMPLDECIDER.xml"
-  File "..\Instalation\GeneralDB\CopyBook\cb2xml\XMPLEDITTYPE1.xml"
-
-  SetOutPath "$PROFILE\RecordEditor_HSQL\CopyBook\Csv"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\ams PO Download.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\ams PO Download_ Allocation.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\ams PO Download_ Detail.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\ams PO Download_ Header.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\ams@PO@Download.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\ams@PO@Download@@Allocation.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\ams@PO@Download@@Detail.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\ams@PO@Download@@Header.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\GenericCSV.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\Price.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\PriceR 1.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\PriceR 2.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\PriceR 3.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\PriceR 4.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\PriceR 5.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\PriceR 6.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\PriceR 8.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\PriceR 9.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\PriceR D.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\PriceR F.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\PriceR L.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\RecordEditor CSV Comma - Fields.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\RecordEditor CSV Comma - Group.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\RecordEditor CSV Comma - Header.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\RecordEditor CSV Comma - SubRecord.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\RecordEditor CSV Comma.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\RecordEditor CSV Tab - Fields.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\RecordEditor CSV Tab - Group.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\RecordEditor CSV Tab - Header.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\RecordEditor CSV Tab - SubRecord.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\RecordEditor CSV Tab.Txt"
-  File "..\Instalation\GeneralDB\CopyBook\Csv\tstFormats.Txt"
-
-  SetOutPath "$PROFILE\RecordEditor_HSQL\CopyBook\Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\ams PO Download.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\ams Receipt (Taret Fields only).Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\ams Receipt.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\ams Shipping Upload.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\ams Store.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\ams Vendor Download.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\Comma Delimited names on the first line, Quote=d.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\Comma Delimited names on the first line, Quote=s.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\Comma Delimited names on the first line.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\DTAR020.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\DTAR1000 VB Dump.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\DTAR1000 VB.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\DTAR107.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\DTAR119.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\DTAR192.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\Generic CSV - enter details.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\GetText_PO.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\MicrofocusHeader.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\RE_Text.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\Tab Delimited names on the first line, quote=d.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\Tab Delimited names on the first line, quote=s.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\Tab Delimited names on the first line.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\TipDetails.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\Tip_of_The_Day_Properties.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\wwFile.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\wx1File.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\wx2File.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\wx3File.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\wx4File.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\wx5File.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\xDTAR1000 VB.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\yyAms PO Download.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\zFixedWidth_ams_Store.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\zzAms PO Download.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\zzCsv1.Xml"
-  File "..\Instalation\GeneralDB\CopyBook\Xml\zzCsv2.Xml"
-;;  <expand outpath="$INSTDIR\Copybook" inpath="..\Instalation\GeneralDB\Copybook" name="*.txt" DateCheck=yes/>
-
-  SetOverwrite try
-  SetOutPath "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\Copybook"
-  File "..\Instalation\GeneralDB\SampleVelocityTemplates\Copybook\Layout2Html.vm"
-  File "..\Instalation\GeneralDB\SampleVelocityTemplates\Copybook\LayoutRecordSelection.vm"
-  File "..\Instalation\GeneralDB\SampleVelocityTemplates\Copybook\LayoutRecordSelectionInc.vm"
-
-  SetOverwrite try
-  SetOutPath "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\File"
-  File "..\Instalation\GeneralDB\SampleVelocityTemplates\File\AmsReceiptHtml.vm"
-  File "..\Instalation\GeneralDB\SampleVelocityTemplates\File\AmsReceiptHtml2.vm"
-  File "..\Instalation\GeneralDB\SampleVelocityTemplates\File\SingleTable.vm"
-  File "..\Instalation\GeneralDB\SampleVelocityTemplates\File\TablePerRow.vm"
-  File "..\Instalation\GeneralDB\SampleVelocityTemplates\File\TablePerRowExtendedPrefered.vm"
-  File "..\Instalation\GeneralDB\SampleVelocityTemplates\File\TablePerRowPreferedLayout.vm"
-  File "..\Instalation\GeneralDB\SampleVelocityTemplates\File\toCsv_Comma.vm"
-  File "..\Instalation\GeneralDB\SampleVelocityTemplates\File\toCsv_Tab.vm"
-  File "..\Instalation\GeneralDB\SampleVelocityTemplates\File\zXmlStyleSheet1.vm"
-  File "..\Instalation\GeneralDB\SampleVelocityTemplates\File\zXmlStyleSheet2.vm"
-
-  SetOverwrite try
-  SetOutPath "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\File\GetText"
-  File "..\Instalation\GeneralDB\SampleVelocityTemplates\File\GetText\toGetTextPo.vm"
-  File "..\Instalation\GeneralDB\SampleVelocityTemplates\File\GetText\toGetTextPo1.vm"
-  File "..\Instalation\GeneralDB\SampleVelocityTemplates\File\GetText\toGetTextPo_Lookup.vm"
-  File "..\Instalation\GeneralDB\SampleVelocityTemplates\File\GetText\toGetText_EnglishPo.vm"
-  File "..\Instalation\GeneralDB\SampleVelocityTemplates\File\GetText\toGetText_TstPo.vm"
-  File "..\Instalation\GeneralDB\SampleVelocityTemplates\File\GetText\toGoogleTrans.vm"
-  File "..\Instalation\GeneralDB\SampleVelocityTemplates\File\GetText\toGoogleTransHtml.vm"
-
-  SetOverwrite try
-  SetOutPath "$PROFILE\RecordEditor_HSQL\SampleFiles"
-  File "..\Instalation\GeneralDB\SampleFiles\Ams_LocDownload_20041228_Extract.txt"
-  File "..\Instalation\GeneralDB\SampleFiles\Ams_LocDownload_20041228_Extract2.txt"
-
-  File "..\SampleFiles\Ams_LocDownload_20041228.txt"
-  File "..\SampleFiles\Ams_LocDownload_20041228_Extract.txt"
-  File "..\SampleFiles\Ams_LocDownload_20041228_Extract2.txt"
-  File "..\SampleFiles\Ams_PODownload_20041231.txt"
-  File "..\SampleFiles\Ams_PODownload_20041231_Compare1.txt"
-  File "..\SampleFiles\Ams_PODownload_20050101.txt"
-  File "..\SampleFiles\Ams_Receipt.txt"
-  File "..\SampleFiles\Ams_Receipt_05AUG08190103.txt"
-  File "..\SampleFiles\Ams_Shipping_04DEC01190125.txt"
-  File "..\SampleFiles\Ams_Shipping_04DEC02190132.txt"
-  File "..\SampleFiles\Ams_Shipping_04DEC03190126.txt"
-  File "..\SampleFiles\Ams_VendorDownload_20041229.txt"
-  File "..\SampleFiles\text_test.txt"
-  File "..\SampleFiles\Text_utf16_Test.txt"
-  File "..\SampleFiles\Text_utf8_Test.txt"
-  File "..\SampleFiles\tstFile1.txt"
-  File "..\SampleFiles\Unknown_Ams_LocDownload_20041228.txt"
-  File "..\SampleFiles\utf8a_Ams_LocDownload_20041228.txt"
-  File "..\SampleFiles\utf8a_Ams_PODownload_20041231.txt"
-  File "..\SampleFiles\wx1File.txt"
-  File "..\SampleFiles\wx2File.txt"
-  File "..\SampleFiles\XmplDecider.txt"
-  File "..\SampleFiles\zzAms_PODownload_20041231.txt"
-  File "..\SampleFiles\DTAR010_Chart.bin"
-  File "..\SampleFiles\DTAR020.bin"
-  File "..\SampleFiles\DTAR020_Extract.bin"
-  File "..\SampleFiles\DTAR020_Sorted.bin"
-  File "..\SampleFiles\DTAR020_tst1.bin"
-  File "..\SampleFiles\DTAR1000_Store_file_large_Recfm_U.bin"
-  File "..\SampleFiles\DTAR1000_Store_file_std.bin"
-  File "..\SampleFiles\DTAR1000_Store_file_std_recfm_U.bin"
-  File "..\SampleFiles\DTAR107.bin"
-  File "..\SampleFiles\DTAR119_keyode.bin"
-  File "..\SampleFiles\DTAR192.bin"
-  File "..\SampleFiles\Fixed_Test.bin"
-  File "..\SampleFiles\FJ_VB_Test.bin"
-  File "..\SampleFiles\MF_VBdump_Test.bin"
-  File "..\SampleFiles\MF_VB_Test.bin"
-  File "..\SampleFiles\OC_VB_Test.bin"
-  File "..\SampleFiles\Pos_Price_1.bin"
-  File "..\SampleFiles\Pos_Price_2.bin"
-  File "..\SampleFiles\Pos_Spl_1.bin"
-  File "..\SampleFiles\Pos_Spl_2.bin"
-  File "..\SampleFiles\sampleEbcidicNew.bin"
-  File "..\SampleFiles\TextItems.bin"
-  File "..\SampleFiles\tmpPrice.bin"
-  File "..\SampleFiles\tstFile.bin"
-  File "..\SampleFiles\tstFile1.bin"
-  File "..\SampleFiles\xmlModDTAR020.bin.xml"
-
-  File "..\SampleFiles\DTAR020.csv"
-  File "..\SampleFiles\zAms_LocDownload_20041228.csv"
-  File "..\SampleFiles\zzAms_LocDownload_20041228.csv"
-  File "..\SampleFiles\zzAms_LocDownload_tab.csv"
-  File "..\SampleFiles\zzComma_Ams_LocDownload_20041228.csv"
-  File "..\SampleFiles\zzTab_Ams_LocDownload_20041228.csv"
-  File "..\SampleFiles\zzzCsvTest3.csv"
-  File "..\SampleFiles\zzzCsvTest4.csv"
-  File "..\SampleFiles\zzzCsvTest5.csv"
-
-  SetOverwrite try
-  SetOutPath "$PROFILE\RecordEditor_HSQL\SampleFiles\Xml"
-  File "..\Instalation\GeneralDB\SampleFiles\Xml\7zip_pad.xml"
-  File "..\Instalation\GeneralDB\SampleFiles\Xml\AmsLocationTest1.xml"
-  File "..\Instalation\GeneralDB\SampleFiles\Xml\AmsLocationTest2.xml"
-  File "..\Instalation\GeneralDB\SampleFiles\Xml\default-prefs.xml"
-  File "..\Instalation\GeneralDB\SampleFiles\Xml\IVM0034_Map.XML"
-  File "..\Instalation\GeneralDB\SampleFiles\Xml\MAM0042_Map.XML"
-  File "..\Instalation\GeneralDB\SampleFiles\Xml\MAM0045_Map.XML"
-  File "..\Instalation\GeneralDB\SampleFiles\Xml\MAM00AP_Map - Copy.XML"
-  File "..\Instalation\GeneralDB\SampleFiles\Xml\MAM00AP_Map.XML"
-  File "..\Instalation\GeneralDB\SampleFiles\Xml\MAM5027_Map.XML"
-  File "..\Instalation\GeneralDB\SampleFiles\Xml\plugin.xml"
-  File "..\Instalation\GeneralDB\SampleFiles\Xml\recent.xml"
-  File "..\Instalation\GeneralDB\SampleFiles\Xml\recentFiles.xml"
-  File "..\Instalation\GeneralDB\SampleFiles\Xml\SAR4180A.xml"
-  File "..\Instalation\GeneralDB\SampleFiles\Xml\SAR4180B.xml"
-  File "..\Instalation\GeneralDB\SampleFiles\Xml\SAR4180Ba.xml"
-  File "..\Instalation\GeneralDB\SampleFiles\Xml\SAR4180C.xml"
-  File "..\Instalation\GeneralDB\SampleFiles\Xml\TestXml_01.xml"
-
-  SetOverwrite try
-  SetOutPath "$PROFILE\RecordEditor_HSQL\SampleFiles\po"
-  File "..\Instalation\GeneralDB\SampleFiles\po\content_end_with_eol.po"
-  File "..\Instalation\GeneralDB\SampleFiles\po\escapes_comment_fuzzy.po"
-  File "..\Instalation\GeneralDB\SampleFiles\po\escapes_cr_in_msgid_and_msgstr.po"
-  File "..\Instalation\GeneralDB\SampleFiles\po\flags.po"
-  File "..\Instalation\GeneralDB\SampleFiles\po\malformed_obsoleteunits.po"
-  File "..\Instalation\GeneralDB\SampleFiles\po\malformed_units.po"
-  File "..\Instalation\GeneralDB\SampleFiles\po\mixed_up_obsolete.po"
-  File "..\Instalation\GeneralDB\SampleFiles\po\msgid_wordwrap.po"
-  File "..\Instalation\GeneralDB\SampleFiles\po\multiline_context.po"
-  File "..\Instalation\GeneralDB\SampleFiles\po\nonascii_header.po"
-  File "..\Instalation\GeneralDB\SampleFiles\po\obsolete.po"
-  File "..\Instalation\GeneralDB\SampleFiles\po\TipOfTheDay.properties"
-  File "..\Instalation\GeneralDB\SampleFiles\po\tst1Fuzzy.po"
-  File "..\Instalation\GeneralDB\SampleFiles\po\TstDupFilter01.po"
+;  <expand outpath="$PROFILE\RecordEditor_HSQL\CopyBook\Cobol" inpath="..\Instalation\GeneralDB\CopyBook\Cobol" name="*.*" DateCheck=yes/>
+;  <expand outpath="$PROFILE\RecordEditor_HSQL\CopyBook\cb2xml" inpath="..\Instalation\GeneralDB\CopyBook\cb2xml" name="*.xml" DateCheck=yes/>
+;  <expand outpath="$PROFILE\RecordEditor_HSQL\CopyBook\Csv" inpath="..\Instalation\GeneralDB\CopyBook\Csv" name1="*.Txt" DateCheck=yes/>
+;  <expand outpath="$PROFILE\RecordEditor_HSQL\CopyBook\Xml" inpath="..\Instalation\GeneralDB\CopyBook\Xml" name1="*.Xml" DateCheck=yes/>
+;;;  <expand outpath="$INSTDIR\Copybook" inpath="..\Instalation\GeneralDB\Copybook" name="*.txt" DateCheck=yes/>
+;  <expand overwrite=try outpath="$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\Copybook" inpath="..\Instalation\GeneralDB\SampleVelocityTemplates\Copybook" name="*.vm"/>
+;  <expand overwrite=try outpath="$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\File" inpath="..\Instalation\GeneralDB\SampleVelocityTemplates\File" name="*.vm"/>
+;  <expand overwrite=try outpath="$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\File\GetText" inpath="..\Instalation\GeneralDB\SampleVelocityTemplates\File\GetText" name="*.vm"/>
+;  <expand overwrite=try outpath="$PROFILE\RecordEditor_HSQL\SampleFiles" 
+;                        inpath="..\Instalation\GeneralDB\SampleFiles\" name="Ams_LocDownload_20041228_Extract*.txt"/>  
+;  <expand overwrite=try inpath="..\SampleFiles" name="*.txt" name1="*.bin" name2="xmlModDTAR020.bin.xml" DateCheck=yes/>  
+;  <expand overwrite=try inpath="..\SampleFiles" name="*.csv"  DateCheck=yes/>
+;  <expand overwrite=try outpath="$PROFILE\RecordEditor_HSQL\SampleFiles\Xml" inpath="..\Instalation\GeneralDB\SampleFiles\Xml" name="*.xml"/>  
+;  <expand overwrite=try outpath="$PROFILE\RecordEditor_HSQL\SampleFiles\po"  inpath="..\Instalation\GeneralDB\SampleFiles\po"  name="*.*"/>  
+;
+;  <expand overwrite=try outpath="$PROFILE\RecordEditor_HSQL" inpath="..\Instalation\hsqldb_izpack\HSQLDB\" 
+;  			  name1="Files.txt" name="CobolFiles.txt"  name3="UserJars.txt"/>  
+;  <expand overwrite=off inpath="..\Instalation\hsqldb\RecordEditor_HSQL_nsis\"  name1="Params.Properties" name2="Properties.zip">  
+;	
+;  <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\User\Copy"          inpath="..\Instalation\GeneralDB\User\Copy"          name="*.xml" />  
+;  <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\User\Compare"       inpath="..\Instalation\GeneralDB\User\Compare"       name="*.xml" />  
+;  <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\User\Filter"        inpath="..\Instalation\GeneralDB\User\Filter"        name="*.xml" />  
+;  <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\User\Fields"        inpath="..\Instalation\GeneralDB\User\Fields"        name="*.xml" />  
+;  <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\User\LayoutExport"  inpath="..\Instalation\GeneralDB\User\LayoutExport"  name="*.xml" />  
+;  <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\User\RecordTree"    inpath="..\Instalation\GeneralDB\User\RecordTree"    name="*.xml" />  
+;  <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\User\SortTree"      inpath="..\Instalation\GeneralDB\User\SortTree"      name="*.xml" />  
+;  <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\User\Xslt"          inpath="..\Instalation\GeneralDB\User\Xslt"          name="*.xsl" />  
+;  <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\User\ExportScripts" inpath="..\Instalation\GeneralDB\User\ExportScripts" name="*.*" />  
+;  <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\User\Scripts"       inpath="..\Instalation\GeneralDB\User\Scripts"       name="*.py" name1="*.rb" name2="*.js" name3="*.txt"/>  
+;  <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\User\Scripts\Examples" inpath="..\Instalation\GeneralDB\User\Scripts\Examples"  name="*.*" />  
+;  <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\User\Icons"         inpath="..\Instalation\GeneralDB\User\Icons"         name="*.*" />  
+;
+;  <psc proc="normal">
+;    <expand overwrite=off outpath="$PROFILE\RecordEditor_HSQL\Database" inpath="..\Instalation\hsqldb\Database" name="*"/>
+;  </psc>
 
 
-  SetOverwrite try
-  SetOutPath "$PROFILE\RecordEditor_HSQL"
-  File "..\Instalation\hsqldb_izpack\HSQLDB\CobolFiles.txt"
-  File "..\Instalation\hsqldb_izpack\HSQLDB\Files.txt"
-  File "..\Instalation\hsqldb_izpack\HSQLDB\UserJars.txt"
 
-  File "..\Instalation\hsqldb\RecordEditor_HSQL_nsis\Params.Properties"
-  File "..\Instalation\hsqldb\RecordEditor_HSQL_nsis\Properties.zip"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 
-  SetOverwrite off
-  SetOutPath "$PROFILE\RecordEditor_HSQL\User\Copy"
-  File "..\Instalation\GeneralDB\User\Copy\dummy.xml"
-
-  SetOverwrite off
-  SetOutPath "$PROFILE\RecordEditor_HSQL\User\Compare"
-  File "..\Instalation\GeneralDB\User\Compare\DB_Compare_DTAR020_To_Xml.xml"
-
-  SetOverwrite off
-  SetOutPath "$PROFILE\RecordEditor_HSQL\User\Filter"
-  File "..\Instalation\GeneralDB\User\Filter\Test_ams_PO.xml"
-
-  SetOverwrite off
-  SetOutPath "$PROFILE\RecordEditor_HSQL\User\Fields"
-  File "..\Instalation\GeneralDB\User\Fields\DTAR020_HideDate.xml"
-
-  SetOverwrite off
-  SetOutPath "$PROFILE\RecordEditor_HSQL\User\LayoutExport"
-;;-- Missing ..\Instalation\GeneralDB\User\LayoutExport\*.xml  ---  ZZPATH*.xml
-
-  SetOverwrite off
-  SetOutPath "$PROFILE\RecordEditor_HSQL\User\RecordTree"
-  File "..\Instalation\GeneralDB\User\RecordTree\ams_PO_a.xml"
-
-  SetOverwrite off
-  SetOutPath "$PROFILE\RecordEditor_HSQL\User\SortTree"
-  File "..\Instalation\GeneralDB\User\SortTree\DTAR020_a.xml"
-  File "..\Instalation\GeneralDB\User\SortTree\Script_DTAR020_SortTree_1.xml"
-  File "..\Instalation\GeneralDB\User\SortTree\Script_DTAR020_Sort_Sku_Store.xml"
-
-  SetOverwrite off
-  SetOutPath "$PROFILE\RecordEditor_HSQL\User\Xslt"
-  File "..\Instalation\GeneralDB\User\Xslt\TestXml_01.xsl"
-  File "..\Instalation\GeneralDB\User\Xslt\TestXml_01a.xsl"
-  File "..\Instalation\GeneralDB\User\Xslt\TestXml_01b.xsl"
-  File "..\Instalation\GeneralDB\User\Xslt\TextXml_01_trans1.Xsl"
-
-  SetOverwrite off
-  SetOutPath "$PROFILE\RecordEditor_HSQL\User\ExportScripts"
-  File "..\Instalation\GeneralDB\User\ExportScripts\Hello.js"
-  File "..\Instalation\GeneralDB\User\ExportScripts\hello.rb"
-  File "..\Instalation\GeneralDB\User\ExportScripts\note.txt"
-  File "..\Instalation\GeneralDB\User\ExportScripts\toCsvComma.py"
-  File "..\Instalation\GeneralDB\User\ExportScripts\toCsvComma1.py"
-
-  SetOverwrite off
-  SetOutPath "$PROFILE\RecordEditor_HSQL\User\Scripts"
-  File "..\Instalation\GeneralDB\User\Scripts\AddSepToLineEnd.py"
-  File "..\Instalation\GeneralDB\User\Scripts\EnsureCorrectNumberOfFieldSeporators.py"
-  File "..\Instalation\GeneralDB\User\Scripts\hello.rb"
-  File "..\Instalation\GeneralDB\User\Scripts\HeaderDetailFooterTabs.js"
-  File "..\Instalation\GeneralDB\User\Scripts\Hello.js"
-  File "..\Instalation\GeneralDB\User\Scripts\note.txt"
-
-  SetOverwrite off
-  SetOutPath "$PROFILE\RecordEditor_HSQL\User\Scripts\Examples"
-  File "..\Instalation\GeneralDB\User\Scripts\Examples\DTAR020_ExtractReturns.py"
-  File "..\Instalation\GeneralDB\User\Scripts\Examples\DTAR020_Filter.py"
-  File "..\Instalation\GeneralDB\User\Scripts\Examples\FilterSort_DTAR020.js"
-  File "..\Instalation\GeneralDB\User\Scripts\Examples\First5RowsFilter.py"
-  File "..\Instalation\GeneralDB\User\Scripts\Examples\InsertLines_DTAR020.js"
-  File "..\Instalation\GeneralDB\User\Scripts\Examples\RecordTree_AmsPO.xml"
-  File "..\Instalation\GeneralDB\User\Scripts\Examples\RunRecordTree_AmsPO.js"
-  File "..\Instalation\GeneralDB\User\Scripts\Examples\SortTree_DTAR020.js"
-  File "..\Instalation\GeneralDB\User\Scripts\Examples\tst.bsh"
-  File "..\Instalation\GeneralDB\User\Scripts\Examples\ViewForEachRecordType.js"
-
-  SetOverwrite off
-  SetOutPath "$PROFILE\RecordEditor_HSQL\User\Icons"
-  File "..\Instalation\GeneralDB\User\Icons\Cobol.ico"
-  File "..\Instalation\GeneralDB\User\Icons\LayoutEdit.ico"
-  File "..\Instalation\GeneralDB\User\Icons\RecordEdit.ico"
-  File "..\Instalation\GeneralDB\User\Icons\Utility.ico"
 
 
-  SetOverwrite off
-  SetOutPath "$PROFILE\RecordEditor_HSQL\Database"
-  File "..\Instalation\hsqldb\Database\recordedit.properties"
-  File "..\Instalation\hsqldb\Database\recordedit.script"
-  File "..\Instalation\hsqldb\Database\recordedit_bu.script"
-  File "..\Instalation\hsqldb\Database\recordedit_bu1.script"
-  File "..\Instalation\hsqldb\Database\recordedit_bu2.script"
-  File "..\Instalation\hsqldb\Database\RunDBManager.Rexx"
-  File "..\Instalation\hsqldb\Database\RunDBManagerInquiry.Rexx"
-  File "..\Instalation\hsqldb\Database\runServer.rexx"
-  File "..\Instalation\hsqldb\Database\RunUtil.rexx"
-  File "..\Instalation\hsqldb\Database\server.properties"
+
+
+
+
+
+
+
+
+
+
 
     
   SetOverwrite on
@@ -877,7 +609,7 @@ Section "MainSection" SEC01
   ClearErrors
   FileOpen $0 $INSTDIR\lib\EditBigFile.Bat w
   IfErrors done
-  FileWrite $0 "start /b  javaw  -Xmx700m -jar $\"$INSTDIR\${RECORDEDIT_JAR}$\""
+  FileWrite $0 "start /b  javaw  -Xmx1400m -jar $\"$INSTDIR\${RECORDEDIT_JAR}$\""
   FileClose $0
   
   FileOpen $0 $INSTDIR\lib\BatchCopy.Bat w
@@ -911,8 +643,8 @@ Section -AdditionalIcons
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP"
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP\Utils"
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP\Documentation"
-  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Full Editor.lnk" "$JAVA_RUN"  "-jar $\"$INSTDIR\${RECORDEDIT_JAR}$\"" "$PROFILE\RecordEditor_HSQL\User\Icons\RecordEdit.ico"
-  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Record Layout Edit.lnk" "$JAVA_RUN"  "-jar $\"$INSTDIR\lib\runLayouteditor.jar$\"" "$PROFILE\RecordEditor_HSQL\User\Icons\LayoutEdit.ico"
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Full Editor.lnk" "$JAVA_RUN"  "-jar $\"$INSTDIR\${RECORDEDIT_JAR}$\"" "$INSTDIR\lib\RecordEdit.ico"
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Record Layout Edit.lnk" "$JAVA_RUN"  "-jar $\"$INSTDIR\lib\runLayouteditor.jar$\"" "$INSTDIR\lib\LayoutEdit.ico"
 ;  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Full Editor.lnk" "$JAVA_RUN"  "-jar $\"$INSTDIR\${RECORDEDIT_JAR}$\"" "$INSTDIR\lib\RecordEdit.ico"
 ;  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Record Layout Edit.lnk" "$JAVA_RUN"  "-jar $\"$INSTDIR\lib\runLayouteditor.jar$\"" "$INSTDIR\lib\LayoutEdit.ico"
 ;  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
@@ -931,12 +663,12 @@ Section -AdditionalIcons
 ;  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\FileCopy.lnk" "$JAVA_RUN" "-jar $\"$INSTDIR\lib\run.jar$\" net.sf.RecordEditor.copy.CopyDBLayout"  "$INSTDIR\lib\Utility.ico"
 
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\Editor Big Files.lnk" "$INSTDIR\lib\EditBigFile.Bat"  "" "$PROFILE\RecordEditor_HSQL\User\RecordEdit.ico"
-  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\Edit RecordEditor Startup Properties.lnk" "$JAVA_RUN" "-jar $\"$INSTDIR\lib\run.jar$\" net.sf.RecordEditor.editProperties.EditOptions" "$PROFILE\RecordEditor_HSQL\User\Icons\Utility.ico"
-  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\Run with Velocity.lnk" "$JAVA_RUN" "-jar $\"$INSTDIR\lib\run.jar$\" net.sf.RecordEditor.edit.util.RunVelocityGui"  "$PROFILE\RecordEditor_HSQL\User\Icons\Utility.ico"
-  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\CobolEditor.lnk" "$JAVA_RUN" "-jar $\"$INSTDIR\lib\run.jar$\" net.sf.RecordEditor.editFileLayout.Edit"  "$PROFILE\RecordEditor_HSQL\User\Icons\Cobol.ico"
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\Edit RecordEditor Startup Properties.lnk" "$JAVA_RUN" "-jar $\"$INSTDIR\lib\run.jar$\" net.sf.RecordEditor.editProperties.EditOptions" "$INSTDIR\lib\Utility.ico"
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\Run with Velocity.lnk" "$JAVA_RUN" "-jar $\"$INSTDIR\lib\run.jar$\" net.sf.RecordEditor.edit.util.RunVelocityGui"  "$INSTDIR\lib\Utility.ico"
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\CobolEditor.lnk" "$JAVA_RUN" "-jar $\"$INSTDIR\lib\run.jar$\" net.sf.RecordEditor.editFileLayout.Edit"  "$INSTDIR\lib\Cobol.ico"
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\CobolEditor Documentation.lnk" "$INSTDIR\Docs\CobolEditor.htm"
-  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\FileCompare.lnk" "$JAVA_RUN" "-jar $\"$INSTDIR\lib\run.jar$\" net.sf.RecordEditor.diff.CompareDBLayout"  "$PROFILE\RecordEditor_HSQL\User\Icons\Utility.ico"
-  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\FileCopy.lnk" "$JAVA_RUN" "-jar $\"$INSTDIR\lib\run.jar$\" net.sf.RecordEditor.copy.CopyDBLayout"  "$PROFILE\RecordEditor_HSQL\User\Icons\Utility.ico"
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\FileCompare.lnk" "$JAVA_RUN" "-jar $\"$INSTDIR\lib\run.jar$\" net.sf.RecordEditor.diff.CompareDBLayout"  "$INSTDIR\lib\Utility.ico"
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\FileCopy.lnk" "$JAVA_RUN" "-jar $\"$INSTDIR\lib\run.jar$\" net.sf.RecordEditor.copy.CopyDBLayout"  "$INSTDIR\lib\Utility.ico"
 
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Utils\Uninstall.lnk" "$INSTDIR\uninst.exe"
 
@@ -944,12 +676,15 @@ Section -AdditionalIcons
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Stop Server.lnk" "$JAVA_RUN" "-jar $\"$INSTDIR\lib\run.jar$\" net.sf.RecordEditor.layoutEd.ShutdownHSQLDB"  
  ;CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Stop Server.lnk" "$JAVA_RUN"  "-cp $\"$INSTDIR\lib\LayoutEdit.jar;$INSTDIR\lib\hsqldbmain.jar;$INSTDIR\lib\RecordEdit.jar$\" net.sf.RecordEditor.layoutEd.ShutdownHSQLDB" 
 
-  SetOutPath "$PROFILE\RecordEditor_HSQL\Database"
-  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Start Server.lnk" "$JAVA_RUN"  "-cp $\"$INSTDIR\lib\hsqldbmain.jar$\" org.hsqldb.Server" 
-  CreateShortCut "$SMSTARTUP\Start HSQL Server.lnk" "$JAVA_RUN"  "-cp $\"$INSTDIR\lib\hsqldbmain.jar$\" org.hsqldb.Server" 
+;  SetOutPath "$PROFILE\RecordEditor_HSQL\Database"
+;  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Start Server.lnk" "$JAVA_RUN"  "-cp $\"$INSTDIR\lib\hsqldbmain.jar$\" org.hsqldb.Server" 
+ ; CreateShortCut "$SMSTARTUP\Start HSQL Server.lnk" "$JAVA_RUN"  "-cp $\"$INSTDIR\lib\hsqldbmain.jar$\" org.hsqldb.Server" 
+
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Start Server.lnk" "$\"$INSTDIR\lib\StartServer.bat$\"" "$\"$JAVA_RUN$\""   
+  CreateShortCut "$SMSTARTUP\Start HSQL Server.lnk" "$\"$INSTDIR\lib\StartServer.bat$\"" "$\"$JAVA_RUN$\""
 
 
-;  WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
+  WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
 ;  CreateDirectory "$SMPROGRAMS\RecordEdit_HSQL"
 ;  CreateShortCut "$SMPROGRAMS\RecordEdit_HSQL\Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
 ;  CreateShortCut "$SMPROGRAMS\RecordEdit_HSQL\Uninstall.lnk" "$INSTDIR\uninst.exe"
@@ -968,11 +703,12 @@ SectionEnd
 
 Function un.onUninstSuccess
   HideWindow
+  IfSilent +2
   MessageBox MB_ICONINFORMATION|MB_OK "$(^Name) was successfully removed from your computer."
 FunctionEnd
 
 Function un.onInit
-  MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Are you sure you want to completely remove $(^Name) and all of its components?" IDYES +2
+  MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Are you sure you want to completely remove $(^Name) and all of its components?" /SD IDYES IDYES +2
   Abort
 FunctionEnd
 
@@ -1023,41 +759,50 @@ Section Uninstall
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
 
 
+  Delete "$INSTDIR\License\JTreeTable_License.txt"
   Delete "$INSTDIR\License\LICENSE.txt"
   Delete "$INSTDIR\License\license_cb2xml.txt"
   Delete "$INSTDIR\License\LICENSE_chardet.txt"
   Delete "$INSTDIR\License\LICENSE_of_includedPackages.txt"
   Delete "$INSTDIR\License\RSyntaxTextArea.License.txt"
 
+  Delete "$INSTDIR\UserData\UserData.zip"
+  Delete "$INSTDIR\UserData\UserData1.zip"
+  Delete "$INSTDIR\UserData\UserData2.zip"
+
+  Delete "$INSTDIR\UserData\Database.zip"
+
+  Delete "$INSTDIR\lib\Params.Properties"
+
+  Delete "$INSTDIR\lib\StartServer.bat"
+  Delete "$INSTDIR\lib\StopServer4Upgrade.bat"
+
   Delete "$INSTDIR\lib\run.jar"
-  Delete "$INSTDIR\lib\runCobolEditor.jar"
+  Delete "$INSTDIR\lib\RunCobolEditor.jar"
   Delete "$INSTDIR\lib\runCsvEditor.jar"
-  Delete "$INSTDIR\lib\runDiff.jar"
-  Delete "$INSTDIR\lib\runDiffFileLayout.jar"
+  Delete "$INSTDIR\lib\RunDiff.jar"
+  Delete "$INSTDIR\lib\RunDiffFileLayout.jar"
   Delete "$INSTDIR\lib\runFullEditor.jar"
   Delete "$INSTDIR\lib\runLayouteditor.jar"
   Delete "$INSTDIR\lib\SystemJars.txt"
 
-  Delete "$INSTDIR\lib\Extensions\Notes.txt"
+  Delete "$INSTDIR\lib\properties.zip"
+  Delete "$INSTDIR\lib\FullEditorFiles.txt"
+  Delete "$INSTDIR\lib\SmallEditorFiles.txt"
+  Delete "$INSTDIR\lib\SystemJdbcJars.txt"
+  Delete "$INSTDIR\lib\InstallHelper.bat"
 
-  Delete "$PROFILE\RecordEditor_HSQL\Extensions\Notes.txt"
+  Delete "$INSTDIR\lib\JRecord.properties"
+  Delete "$INSTDIR\lib\JRecord.properties.html"
+  Delete "$INSTDIR\lib\LayoutEditor_TipOfTheDay.properties"
+  Delete "$INSTDIR\lib\RecordEditor_TipOfTheDay.properties"
 
-  Delete "$INSTDIR\lib\iconsAqua.zip"
-  Delete "$INSTDIR\lib\iconsEclipse.zip"
-  Delete "$INSTDIR\lib\iconsGnome.zip"
-  Delete "$INSTDIR\lib\iconsOffice2003.zip"
-  Delete "$INSTDIR\lib\iconsOfficeXP.zip"
-  Delete "$INSTDIR\lib\iconsTango.zip"
   Delete "$INSTDIR\lib\Cobol.ico"
   Delete "$INSTDIR\lib\LayoutEdit.ico"
   Delete "$INSTDIR\lib\RecordEdit.ico"
   Delete "$INSTDIR\lib\Utility.ico"
-
-  Delete "$INSTDIR\lib\properties.zip"
-  Delete "$INSTDIR\lib\SystemJdbcJars.txt"
-
-  Delete "$INSTDIR\lib\RecordEditor_TipOfTheDay.properties"
-  Delete "$INSTDIR\lib\LayoutEditor_TipOfTheDay.properties"
+  Delete "$INSTDIR\lib\RecordEdit.PNG"
+  Delete "$INSTDIR\lib\RecordLayout.PNG"
 
   Delete "$INSTDIR\lib\LayoutEdit.pack"
   Delete "$INSTDIR\lib\RecordEdit.pack"
@@ -1067,21 +812,21 @@ Section Uninstall
   Delete "$INSTDIR\lib\ZCalendar.pack"
 
   Delete "$INSTDIR\lib\jlibdiff.pack"
-  Delete "$INSTDIR\lib\JRecord.properties"
-  Delete "$INSTDIR\lib\JRecord.properties.html"
   Delete "$INSTDIR\lib\RunUnpack.exe"
   Delete "$INSTDIR\lib\velocity-1.7-dep.pack"
   Delete "$INSTDIR\lib\velocity-1.7.pack"
   Delete "$INSTDIR\lib\runCobolBatchLoad.bat"
+  Delete "$INSTDIR\lib\startserverX.exe"
 
   Delete "$INSTDIR\lib\JRecord.pack"
   Delete "$INSTDIR\lib\jibx-run.pack"
   Delete "$INSTDIR\lib\rsyntaxtextarea.pack"
   Delete "$INSTDIR\lib\swingx-subset-1.6.4.pack"
+  Delete "$INSTDIR\lib\zip4j_1.3.2.pack"
 
   Delete "$INSTDIR\lib\hsqldbmain.pack"
 
-  Delete "$INSTDIR\lib\net\sf\RecordEditor\utils\RecEdit.properties"
+  Delete "$INSTDIR\lib\Extensions\Notes.txt"
 
   Delete "$INSTDIR\lang\ReadMe.html"
   Delete "$INSTDIR\lang\ReMsgs_cn.po"
@@ -1131,7 +876,6 @@ Section Uninstall
   Delete "$INSTDIR\Docs\HlpRe14.htm"
   Delete "$INSTDIR\Docs\HlpRe15.htm"
   Delete "$INSTDIR\Docs\HlpRe16.htm"
-  Delete "$INSTDIR\Docs\HlpRe17.htm"
   Delete "$INSTDIR\Docs\HowTo.htm"
   Delete "$INSTDIR\Docs\hRecordEdit.htm"
   Delete "$INSTDIR\Docs\hWelcome.htm"
@@ -1170,7 +914,6 @@ Section Uninstall
   Delete "$INSTDIR\Docs\HlpRe14.htm"
   Delete "$INSTDIR\Docs\HlpRe15.htm"
   Delete "$INSTDIR\Docs\HlpRe16.htm"
-  Delete "$INSTDIR\Docs\HlpRe17.htm"
   Delete "$INSTDIR\Docs\CobolEditor.htm"
   Delete "$INSTDIR\Docs\Example.htm"
   Delete "$INSTDIR\Docs\ExampleFR.htm"
@@ -1210,6 +953,16 @@ Section Uninstall
   Delete "$INSTDIR\Docs\Diagram\CopyFinal.png"
   Delete "$INSTDIR\Docs\Diagram\CopyMain.png"
   Delete "$INSTDIR\Docs\Diagram\Copy_Xml.png"
+  Delete "$INSTDIR\Docs\Diagram\CsvEdit.png"
+  Delete "$INSTDIR\Docs\Diagram\CsvEdit1.png"
+  Delete "$INSTDIR\Docs\Diagram\CsvEdit_CobolPreview.png"
+  Delete "$INSTDIR\Docs\Diagram\CsvEdit_FixedPreview.png"
+  Delete "$INSTDIR\Docs\Diagram\CsvEdit_Update.png"
+  Delete "$INSTDIR\Docs\Diagram\CsvEdit_XmlPreview.png"
+  Delete "$INSTDIR\Docs\Diagram\CsvEd_ColEdit.png"
+  Delete "$INSTDIR\Docs\Diagram\CsvEd_ColOptions.png"
+  Delete "$INSTDIR\Docs\Diagram\CsvEd_Filter.png"
+  Delete "$INSTDIR\Docs\Diagram\CsvEd_RightClick.png"
   Delete "$INSTDIR\Docs\Diagram\CsvPopup1.png"
   Delete "$INSTDIR\Docs\Diagram\DatePopup.png"
   Delete "$INSTDIR\Docs\Diagram\EditOptBtn.png"
@@ -1261,6 +1014,8 @@ Section Uninstall
   Delete "$INSTDIR\Docs\Diagram\LayoutEdit_TableList.png"
   Delete "$INSTDIR\Docs\Diagram\LayoutEdit_TableRows.png"
   Delete "$INSTDIR\Docs\Diagram\LayoutEdit_VB_File.png"
+  Delete "$INSTDIR\Docs\Diagram\LayoutMenu_XmlTransfer095.png"
+  Delete "$INSTDIR\Docs\Diagram\LayoutMenu_XmlTransfer096.png"
   Delete "$INSTDIR\Docs\Diagram\LayoutRecordTree.png"
   Delete "$INSTDIR\Docs\Diagram\LayoutWizard_List.png"
   Delete "$INSTDIR\Docs\Diagram\Layout_Child.png"
@@ -1291,9 +1046,6 @@ Section Uninstall
   Delete "$INSTDIR\Docs\Diagram\Option_Icons.png"
   Delete "$INSTDIR\Docs\Diagram\Option_Looks.png"
   Delete "$INSTDIR\Docs\Diagram\Option_ScreenPos.png"
-  Delete "$INSTDIR\Docs\Diagram\Po_Main.png"
-  Delete "$INSTDIR\Docs\Diagram\Po_MainBottom.png"
-  Delete "$INSTDIR\Docs\Diagram\Po_Properties.png"
   Delete "$INSTDIR\Docs\Diagram\PreferedOption.png"
   Delete "$INSTDIR\Docs\Diagram\Preferences.png"
   Delete "$INSTDIR\Docs\Diagram\Preferences_ScriptJar.png"
@@ -1329,6 +1081,7 @@ Section Uninstall
   Delete "$INSTDIR\Docs\Diagram\RecordEdit_MainXml.png"
   Delete "$INSTDIR\Docs\Diagram\RecordEdit_MouseOver.png"
   Delete "$INSTDIR\Docs\Diagram\RecordEdit_Movement.png"
+  Delete "$INSTDIR\Docs\Diagram\RecordEdit_MultiTab - Copy.png"
   Delete "$INSTDIR\Docs\Diagram\RecordEdit_MultiTab.png"
   Delete "$INSTDIR\Docs\Diagram\RecordEdit_Popup.png"
   Delete "$INSTDIR\Docs\Diagram\RecordEdit_RecCombo.png"
@@ -1361,8 +1114,11 @@ Section Uninstall
   Delete "$INSTDIR\Docs\Diagram\RecordTreeDef.png"
   Delete "$INSTDIR\Docs\Diagram\Record_Group.png"
   Delete "$INSTDIR\Docs\Diagram\Record_Standard.png"
+  Delete "$INSTDIR\Docs\Diagram\RE_LangOption.png"
   Delete "$INSTDIR\Docs\Diagram\RightClick.png"
-  Delete "$INSTDIR\Docs\Diagram\Script.png"
+  Delete "$INSTDIR\Docs\Diagram\ScriptBldMenu.png"
+  Delete "$INSTDIR\Docs\Diagram\ScriptBldScreen.png"
+  Delete "$INSTDIR\Docs\Diagram\ScriptEdit.png"
   Delete "$INSTDIR\Docs\Diagram\SetScreenSize.png"
   Delete "$INSTDIR\Docs\Diagram\Setup_CopybookLoader.png"
   Delete "$INSTDIR\Docs\Diagram\Setup_EmbeddedDB.png"
@@ -1380,10 +1136,6 @@ Section Uninstall
   Delete "$INSTDIR\Docs\Diagram\StandardCopy.png"
   Delete "$INSTDIR\Docs\Diagram\StartMenu.png"
   Delete "$INSTDIR\Docs\Diagram\StarupOptions_LayoutWizard.png"
-  Delete "$INSTDIR\Docs\Diagram\TipOfTheDay01.png"
-  Delete "$INSTDIR\Docs\Diagram\TipOfTheDay_Main.png"
-  Delete "$INSTDIR\Docs\Diagram\TipOfTheDay_RightClick1.png"
-  Delete "$INSTDIR\Docs\Diagram\TipOfTheDay_RightClick2.png"
   Delete "$INSTDIR\Docs\Diagram\TL_Diff1.png"
   Delete "$INSTDIR\Docs\Diagram\TL_Diff3.png"
   Delete "$INSTDIR\Docs\Diagram\Tree2.png"
@@ -1392,6 +1144,21 @@ Section Uninstall
   Delete "$INSTDIR\Docs\Diagram\Tree8.png"
   Delete "$INSTDIR\Docs\Diagram\Wizard_Change1.png"
   Delete "$INSTDIR\Docs\Diagram\Wizard_Change2.png"
+
+  Delete "$PROFILE\RecordEditor_HSQL\\CobolFiles.txt"
+  Delete "$PROFILE\RecordEditor_HSQL\\CopyBook"
+  Delete "$PROFILE\RecordEditor_HSQL\\CsvFiles.txt"
+  Delete "$PROFILE\RecordEditor_HSQL\\Extensions"
+  Delete "$PROFILE\RecordEditor_HSQL\\Files.txt"
+  Delete "$PROFILE\RecordEditor_HSQL\\Params.Properties"
+  Delete "$PROFILE\RecordEditor_HSQL\\RecordEditorMessages.txt"
+  Delete "$PROFILE\RecordEditor_HSQL\\SampleFiles"
+  Delete "$PROFILE\RecordEditor_HSQL\\ScriptFiles.txt"
+  Delete "$PROFILE\RecordEditor_HSQL\\User"
+  Delete "$PROFILE\RecordEditor_HSQL\\UserData.zip"
+  Delete "$PROFILE\RecordEditor_HSQL\\UserData1.zip"
+  Delete "$PROFILE\RecordEditor_HSQL\\UserData2.zip"
+  Delete "$PROFILE\RecordEditor_HSQL\\UserJars.txt"
 
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Cobol\AmsLocation.cbl"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Cobol\AmsProductAPN.cbl"
@@ -1431,6 +1198,8 @@ Section Uninstall
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Cobol\ZZ_Tst1.cbl"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Cobol\ZZ_Tst2.cbl"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Cobol\ZZ_Tst3.cbl"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Cobol\ZZ_Tst4.cbl"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Cobol\ZZ_Tst5.cbl"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Cobol\Z_AnamousRedf.cbl"
 
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\cb2xml\AMSLOCATION.xml"
@@ -1458,98 +1227,108 @@ Section Uninstall
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\cb2xml\XMPLDECIDER.xml"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\cb2xml\XMPLEDITTYPE1.xml"
 
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\ams"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\ams"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\ams"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\ams"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\ams PO Download.Txt"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\ams PO Download_ Allocation.Txt"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\ams PO Download_ Detail.Txt"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\ams PO Download_ Header.Txt"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\ams@PO@Download.Txt"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\ams@PO@Download@@Allocation.Txt"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\ams@PO@Download@@Detail.Txt"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\ams@PO@Download@@Header.Txt"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\GenericCSV.Txt"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\Price.Txt"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\PriceR"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\PriceR"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\PriceR"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\PriceR"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\PriceR"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\PriceR"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\PriceR"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\PriceR"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\PriceR"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\PriceR"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\PriceR"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\RecordEditor"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\RecordEditor"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\RecordEditor"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\RecordEditor"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\RecordEditor"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\RecordEditor"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\RecordEditor"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\RecordEditor"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\RecordEditor"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\RecordEditor"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\PriceR 1.Txt"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\PriceR 2.Txt"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\PriceR 3.Txt"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\PriceR 4.Txt"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\PriceR 5.Txt"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\PriceR 6.Txt"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\PriceR 8.Txt"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\PriceR 9.Txt"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\PriceR D.Txt"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\PriceR F.Txt"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\PriceR L.Txt"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\RecordEditor CSV Comma - Fields.Txt"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\RecordEditor CSV Comma - Group.Txt"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\RecordEditor CSV Comma - Header.Txt"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\RecordEditor CSV Comma - SubRecord.Txt"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\RecordEditor CSV Comma.Txt"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\RecordEditor CSV Tab - Fields.Txt"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\RecordEditor CSV Tab - Group.Txt"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\RecordEditor CSV Tab - Header.Txt"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\RecordEditor CSV Tab - SubRecord.Txt"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\RecordEditor CSV Tab.Txt"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Csv\tstFormats.Txt"
 
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\ams"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\ams"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\ams"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\ams"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\ams"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\ams"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\Comma"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\Comma"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\Comma"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\ams PO Download.Xml"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\ams Receipt (Taret Fields only).Xml"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\ams Receipt.Xml"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\ams Shipping Upload.Xml"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\ams Store.Xml"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\ams Vendor Download.Xml"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\Comma Delimited names on the first line, Quote=d.Xml"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\Comma Delimited names on the first line, Quote=s.Xml"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\Comma Delimited names on the first line.Xml"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\DTAR020.Xml"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\DTAR1000"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\DTAR1000"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\DTAR1000 VB Dump.Xml"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\DTAR1000 VB.Xml"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\DTAR107.Xml"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\DTAR119.Xml"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\DTAR192.Xml"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\Generic"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\Generic CSV - enter details.Xml"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\GetText_PO.Xml"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\MicrofocusHeader.Xml"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\RE_Text.Xml"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\Tab"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\Tab"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\Tab"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\Tab Delimited names on the first line, quote=d.Xml"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\Tab Delimited names on the first line, quote=s.Xml"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\Tab Delimited names on the first line.Xml"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\TipDetails.Xml"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\Tip_of_The_Day_Properties.Xml"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\txtDTAR020.Xml"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\wwFile.Xml"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\wx1File.Xml"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\wx2File.Xml"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\wx3File.Xml"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\wx4File.Xml"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\wx5File.Xml"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\xDTAR1000"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\yyAms"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\xDTAR1000 VB.Xml"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\yyAms PO Download.Xml"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\zFixedWidth_ams_Store.Xml"
-  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\zzAms"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\zzAms PO Download.Xml"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\zzBinCsv.Xml"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\zzCsv1.Xml"
   Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\zzCsv2.Xml"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\zz_TestBinNumerics_Std.Xml"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\zz_TestChar_Std.Xml"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\zz_TestZoned_Cp273.Xml"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\zz_TextNumericD1_Std.Xml"
+  Delete "$PROFILE\RecordEditor_HSQL\CopyBook\Xml\zz_TextNumeric_Std.Xml"
 
-  Delete "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\Copybook\Layout2Html.vm"
-  Delete "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\Copybook\LayoutRecordSelection.vm"
-  Delete "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\Copybook\LayoutRecordSelectionInc.vm"
+  Delete "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates\Copybook\Layout2Html.vm"
+  Delete "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates\Copybook\LayoutRecordSelection.vm"
+  Delete "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates\Copybook\LayoutRecordSelectionInc.vm"
 
-  Delete "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\File\AmsReceiptHtml.vm"
-  Delete "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\File\AmsReceiptHtml2.vm"
-  Delete "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\File\SingleTable.vm"
-  Delete "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\File\TablePerRow.vm"
-  Delete "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\File\TablePerRowExtendedPrefered.vm"
-  Delete "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\File\TablePerRowPreferedLayout.vm"
-  Delete "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\File\toCsv_Comma.vm"
-  Delete "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\File\toCsv_Tab.vm"
-  Delete "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\File\zXmlStyleSheet1.vm"
-  Delete "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\File\zXmlStyleSheet2.vm"
+  Delete "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates\File\AmsReceiptHtml.vm"
+  Delete "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates\File\AmsReceiptHtml2.vm"
+  Delete "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates\File\SingleTable.vm"
+  Delete "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates\File\TablePerRow.vm"
+  Delete "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates\File\TablePerRowPreferedLayout.vm"
+  Delete "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates\File\toCsv_Comma.vm"
+  Delete "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates\File\toCsv_Tab.vm"
+  Delete "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates\File\zXmlStyleSheet1.vm"
+  Delete "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates\File\zXmlStyleSheet2.vm"
 
-  Delete "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\File\GetText\toGetTextPo.vm"
-  Delete "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\File\GetText\toGetTextPo1.vm"
-  Delete "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\File\GetText\toGetTextPo_Lookup.vm"
-  Delete "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\File\GetText\toGetText_EnglishPo.vm"
-  Delete "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\File\GetText\toGetText_TstPo.vm"
-  Delete "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\File\GetText\toGoogleTrans.vm"
-  Delete "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\File\GetText\toGoogleTransHtml.vm"
+
+  Delete "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates\Script\DeleteDuplicatesScript.vm"
+  Delete "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates\Script\DeleteScript.vm"
+  Delete "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates\Script\FilterScript.vm"
+  Delete "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates\Script\ShowDuplicatesScript.vm"
+  Delete "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates\Script\SortedViewScript.vm"
+  Delete "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates\Script\SortScript.vm"
+  Delete "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates\Script\UpdateScript.vm"
+
+  Delete "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates\Script\JavaScript"
+  Delete "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates\Script\scripts.csv"
 
   Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\Ams_LocDownload_20041228_Extract.txt"
   Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\Ams_LocDownload_20041228_Extract2.txt"
@@ -1602,10 +1381,15 @@ Section Uninstall
   Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\tmpPrice.bin"
   Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\tstFile.bin"
   Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\tstFile1.bin"
+  Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\AmsLocationTest1.xml"
+  Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\xmlAms_PODownload_20041231.txt.xml"
+  Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\xmlCopyDTAR020.xml"
   Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\xmlModDTAR020.bin.xml"
+  Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\Xml_DTAR020.xml"
 
   Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\DTAR020.csv"
   Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\zAms_LocDownload_20041228.csv"
+  Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\zCorrect.Csv"
   Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\zzAms_LocDownload_20041228.csv"
   Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\zzAms_LocDownload_tab.csv"
   Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\zzComma_Ams_LocDownload_20041228.csv"
@@ -1621,7 +1405,7 @@ Section Uninstall
   Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\Xml\IVM0034_Map.XML"
   Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\Xml\MAM0042_Map.XML"
   Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\Xml\MAM0045_Map.XML"
-  Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\Xml\MAM00AP_Map"
+  Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\Xml\MAM00AP_Map - Copy.XML"
   Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\Xml\MAM00AP_Map.XML"
   Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\Xml\MAM5027_Map.XML"
   Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\Xml\plugin.xml"
@@ -1647,6 +1431,17 @@ Section Uninstall
   Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\po\TipOfTheDay.properties"
   Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\po\tst1Fuzzy.po"
   Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\po\TstDupFilter01.po"
+
+  Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\Csv\cp037_x02_DTAR020_tst1.bin"
+  Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\Csv\zEmbeddedCr.csv"
+
+  Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\Fujitsu\Copy of FujitsuFixedWidthFile.seq"
+  Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\Fujitsu\Copy of FujitsuVariableWidthFile.seq"
+  Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\Fujitsu\FujitsuFixedWidthFile.seq"
+  Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\Fujitsu\FujitsuVariableWidthFile.seq"
+  Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\Fujitsu\RBIFCopy.cbl"
+  Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\Fujitsu\RBIVCopy.cbl"
+  Delete "$PROFILE\RecordEditor_HSQL\SampleFiles\Fujitsu\README.txt"
 
   Delete "$PROFILE\RecordEditor_HSQL\CobolFiles.txt"
   Delete "$PROFILE\RecordEditor_HSQL\Files.txt"
@@ -1681,34 +1476,37 @@ Section Uninstall
   Delete "$PROFILE\RecordEditor_HSQL\User\ExportScripts\toCsvComma.py"
   Delete "$PROFILE\RecordEditor_HSQL\User\ExportScripts\toCsvComma1.py"
 
-  Delete "$PROFILE\RecordEditor_HSQL\User\Scripts\AddSepToLineEnd.py"
-  Delete "$PROFILE\RecordEditor_HSQL\User\Scripts\EnsureCorrectNumberOfFieldSeporators.py"
-  Delete "$PROFILE\RecordEditor_HSQL\User\Scripts\hello.rb"
+  Delete "$PROFILE\RecordEditor_HSQL\User\Scripts\CreateDuplicateRecordView.js"
+  Delete "$PROFILE\RecordEditor_HSQL\User\Scripts\DeleteDuplicateRecords.js"
   Delete "$PROFILE\RecordEditor_HSQL\User\Scripts\HeaderDetailFooterTabs.js"
-  Delete "$PROFILE\RecordEditor_HSQL\User\Scripts\Hello.js"
+  Delete "$PROFILE\RecordEditor_HSQL\User\Scripts\ViewForEachRecordType.js"
   Delete "$PROFILE\RecordEditor_HSQL\User\Scripts\note.txt"
 
   Delete "$PROFILE\RecordEditor_HSQL\User\Scripts\Examples\DTAR020_ExtractReturns.py"
   Delete "$PROFILE\RecordEditor_HSQL\User\Scripts\Examples\DTAR020_Filter.py"
   Delete "$PROFILE\RecordEditor_HSQL\User\Scripts\Examples\FilterSort_DTAR020.js"
   Delete "$PROFILE\RecordEditor_HSQL\User\Scripts\Examples\First5RowsFilter.py"
+  Delete "$PROFILE\RecordEditor_HSQL\User\Scripts\Examples\GenerateData.js"
+  Delete "$PROFILE\RecordEditor_HSQL\User\Scripts\Examples\Hello.js"
+  Delete "$PROFILE\RecordEditor_HSQL\User\Scripts\Examples\hello.rb"
   Delete "$PROFILE\RecordEditor_HSQL\User\Scripts\Examples\InsertLines_DTAR020.js"
   Delete "$PROFILE\RecordEditor_HSQL\User\Scripts\Examples\RecordTree_AmsPO.xml"
   Delete "$PROFILE\RecordEditor_HSQL\User\Scripts\Examples\RunRecordTree_AmsPO.js"
   Delete "$PROFILE\RecordEditor_HSQL\User\Scripts\Examples\SortTree_DTAR020.js"
+  Delete "$PROFILE\RecordEditor_HSQL\User\Scripts\Examples\SumSelectedCells.js"
   Delete "$PROFILE\RecordEditor_HSQL\User\Scripts\Examples\tst.bsh"
-  Delete "$PROFILE\RecordEditor_HSQL\User\Scripts\Examples\ViewForEachRecordType.js"
 
   Delete "$PROFILE\RecordEditor_HSQL\User\Icons\Cobol.ico"
   Delete "$PROFILE\RecordEditor_HSQL\User\Icons\LayoutEdit.ico"
   Delete "$PROFILE\RecordEditor_HSQL\User\Icons\RecordEdit.ico"
   Delete "$PROFILE\RecordEditor_HSQL\User\Icons\Utility.ico"
 
+  Delete "$PROFILE\RecordEditor_HSQL\Database\Database.zip"
+  Delete "$PROFILE\RecordEditor_HSQL\Database\Old2_recordedit.script"
+  Delete "$PROFILE\RecordEditor_HSQL\Database\Old_recordedit .script"
+  Delete "$PROFILE\RecordEditor_HSQL\Database\Old_recordedit.script"
   Delete "$PROFILE\RecordEditor_HSQL\Database\recordedit.properties"
   Delete "$PROFILE\RecordEditor_HSQL\Database\recordedit.script"
-  Delete "$PROFILE\RecordEditor_HSQL\Database\recordedit_bu.script"
-  Delete "$PROFILE\RecordEditor_HSQL\Database\recordedit_bu1.script"
-  Delete "$PROFILE\RecordEditor_HSQL\Database\recordedit_bu2.script"
   Delete "$PROFILE\RecordEditor_HSQL\Database\RunDBManager.Rexx"
   Delete "$PROFILE\RecordEditor_HSQL\Database\RunDBManagerInquiry.Rexx"
   Delete "$PROFILE\RecordEditor_HSQL\Database\runServer.rexx"
@@ -1716,6 +1514,9 @@ Section Uninstall
   Delete "$PROFILE\RecordEditor_HSQL\Database\server.properties"
   
   RMDir "$INSTDIR\lib\Extensions"
+
+  Delete "$INSTDIR\lib\BatchCopy.Bat"
+  Delete "$INSTDIR\lib\InstallBat.txt"
 
   Delete "$INSTDIR\lib\swingx-subset-1.6.4.jar"
   Delete "$INSTDIR\lib\rsyntaxtextarea.jar"
@@ -1727,6 +1528,12 @@ Section Uninstall
   Delete "$INSTDIR\lib\velocity-1.7-dep.jar"
   Delete "$INSTDIR\lib\PoEditor_re.jar"
   Delete "$INSTDIR\lib\swingx-subset-1.6.4.jar"
+  Delete "$INSTDIR\lib\zip4j_1.3.2.jar"
+  Delete "$INSTDIR\lib\hsqldbmain.jar"
+  Delete "$INSTDIR\lib\zip4j_1.3.2.jar"
+  Delete "$INSTDIR\lib\properties.zip"
+  Delete "$INSTDIR\lib\BatchCopy.bat"
+  Delete "$INSTDIR\lib\BatchCopy.bat"
 
   Delete "$INSTDIR\lib\ZCalendar.jar"
   Delete "$INSTDIR\lib\RecordEdit.jar"
@@ -1739,7 +1546,16 @@ Section Uninstall
   Delete "$INSTDIR\lib\chardet.jar"
   Delete "$INSTDIR\lib\jibx-run.jar"
   Delete "$INSTDIR\lib\jlibdiff.jar"
+  Delete "$INSTDIR\lib\EditBigFile.Bat"
 
+  Delete "$PROFILE\RecordEditor_HSQL\Database\DBcreatedSuccessFully"
+  Delete "$PROFILE\RecordEditor_HSQL\Extensions\Notes.txt"
+  Delete "$PROFILE\RecordEditor_HSQL\User\LayoutExport\Notes.txt"
+  Delete "$PROFILE\RecordEditor_HSQL\User\LayoutExport\Notes.txt"
+  Delete "$PROFILE\RecordEditor_HSQL\User\LayoutExport\Notes.txt"
+  Delete "$PROFILE\RecordEditor_HSQL\User\RecordTree\RecordTree_amsPO"
+ 
+  
   Delete "$SMPROGRAMS\RecordEdit_HSQL\Uninstall.lnk"
   Delete "$SMPROGRAMS\RecordEdit_HSQL\Website.lnk"
 
@@ -1813,13 +1629,18 @@ Section Uninstall
   RMDir "$INSTDIR\Copybook\Xml"
   RMDir "$INSTDIR\Copybook"
 
+  
   RMDir "$INSTDIR\lib\utils"
   RMDir "$INSTDIR\lib\edit"
+  RMDir "$INSTDIR\lib"
+  RMDir "$INSTDIR\lib"
+  RMDir "$INSTDIR\UserData"
   RMDir "$PROFILE\RecordEditor_HSQL\Copybook\cb2xml"
   RMDir "$PROFILE\RecordEditor_HSQL\Copybook\Cobol"
   RMDir "$PROFILE\RecordEditor_HSQL\Copybook\Csv"
   RMDir "$PROFILE\RecordEditor_HSQL\Copybook\Xml"
   RMDir "$PROFILE\RecordEditor_HSQL\Copybook"
+  RMDir "$PROFILE\RecordEditor_HSQL\Extensions"
 
   RMDir "$INSTDIR\src"
   RMDir "$INSTDIR\lib\net"
@@ -1837,9 +1658,20 @@ Section Uninstall
   RMDir "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\Copybook"
   RMDir "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates\File"
   RMDir "$PROFILE\RecordEditor_HSQL\SampleVelocityTemplates"
-  RMDir "$PROFILE\RecordEditor_HSQL\SampleFiles\xml"
+  RMDir "$PROFILE\RecordEditor_HSQL\SampleFiles\Csv"
+  RMDir "$PROFILE\RecordEditor_HSQL\SampleFiles\Fujitsu"
+  RMDir "$PROFILE\RecordEditor_HSQL\SampleFiles\po"
+  RMDir "$PROFILE\RecordEditor_HSQL\SampleFiles\Xml"
   RMDir "$PROFILE\RecordEditor_HSQL\SampleFiles"
   RMDir "$PROFILE\RecordEditor_HSQL\Database"
+  RMDir "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates\Copybook"
+  RMDir "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates\File"
+  RMDir "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates\Script\JavaScript"
+  RMDir "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates\Script"
+  RMDir "$PROFILE\RecordEditor_HSQL\User\VelocityTemplates"
+  RMDir "$PROFILE\RecordEditor_HSQL\User\Fields"
+  RMDir "$PROFILE\RecordEditor_HSQL\User\Icons"
+  RMDir "$PROFILE\RecordEditor_HSQL\User\LayoutExport"
   RMDir "$PROFILE\RecordEditor_HSQL\User\Copy"
   RMDir "$PROFILE\RecordEditor_HSQL\User\Compare"
   RMDir "$PROFILE\RecordEditor_HSQL\User\Filter"
@@ -1847,6 +1679,7 @@ Section Uninstall
   RMDir "$PROFILE\RecordEditor_HSQL\User\SortTree"
   RMDir "$PROFILE\RecordEditor_HSQL\User\Xslt"
   RMDir "$PROFILE\RecordEditor_HSQL\User\ExportScripts" 
+  RMDir "$PROFILE\RecordEditor_HSQL\User\Scripts\Examples"       
   RMDir "$PROFILE\RecordEditor_HSQL\User\Scripts"       
   RMDir "$PROFILE\RecordEditor_HSQL\User"
   RMDir "$INSTDIR"         

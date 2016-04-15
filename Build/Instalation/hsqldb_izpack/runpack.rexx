@@ -5,6 +5,7 @@ parse arg xx
    call doPack 'pb'
    call doPack 'aa' */
    call doPack 
+/*   call doPack 'pb'*/
    
    
    /* call doPack xx */
@@ -39,17 +40,19 @@ parse arg arg x
 		call pack 'velocity-1.7'
 		call pack 'velocity-1.7-dep'
 		call pack 'hsqldbmain'
-		call pack 'chardet'*/
+		call pack 'chardet'
+		call pack 'zip4j_1.3.2'*/
 		
 		/*call pack 'ZCalendar'
+
 		call pack 'cb2xml'*/
-		
+
+		call pack 'cb2xml'
 		call pack 'JRecord'
 		call pack 'LayoutEdit'
 		call pack 'RecordEdit'
-		/*call pack 'swingx-subset-1.6.4'*/
-		/* call pack 'PoEditor_re' */
-		/* call pack 'rsyntaxtextarea'*/
+		/*call pack 'swingx-subset-1.6.4'	
+		call pack 'rsyntaxtextarea'*/
 		
 		
 
@@ -145,7 +148,7 @@ pack_only:
 	if isUnix() then do
 	   '"/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0/bin/pack200" --no-gzip 'name'.pack 'name'.jar'
 	end; else do
-	   '"C:\Program Files\java\jre6\bin\pack200" --no-gzip 'name'.pack 'name'.jar'
+	   '"C:\Program Files\Java\jre7\bin\pack200" --no-gzip 'name'.pack 'name'.jar'
 	end
 return
 	

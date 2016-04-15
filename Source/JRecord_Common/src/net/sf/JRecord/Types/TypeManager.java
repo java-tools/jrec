@@ -99,6 +99,8 @@ public class TypeManager {
             types[Type.ftNumCommaDecimalPositive] = new TypeCommaDecimalPoint(Type.ftNumCommaDecimalPositive, true);
             types[Type.ftSignSeparateLead]		= new TypeSignSeparate(Type.ftSignSeparateLead);
             types[Type.ftSignSeparateTrail]		= new TypeSignSeparate(Type.ftSignSeparateTrail);
+            types[Type.ftSignSepLeadActualDecimal]	= new TypeSignSeparate(Type.ftSignSepLeadActualDecimal);
+            types[Type.ftSignSepTrailActualDecimal]= new TypeSignSeparate(Type.ftSignSepTrailActualDecimal);
             types[Type.ftZonedNumeric]			= new TypeZoned();
 
             types[Type.ftNumAnyDecimal]			= new TypeNumAnyDecimal(false);

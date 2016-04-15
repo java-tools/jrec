@@ -10,11 +10,13 @@
 .im iHT_9000_Trees.dcf
 .im iHT_5000_Velocity.dcf     
 .im iHT_C000_Script.dcf
+.im iHT_F000_ScriptBld.dcf
 .im iHT_6000_Looks.dcf
 .**  im iHT_7000_Linux.dcf
 .im iHT_D000_SreenSize.dcf
 .im iHT_A000_HSQL_Setup.dcf
 .im iHT_B000_BigFiles.dcf
+.im iHT_D000_TransferSchemas.dcf
 
 
 :h1.Define a New Field Type

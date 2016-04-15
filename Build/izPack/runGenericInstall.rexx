@@ -1,1 +1,1 @@
-"java -jar RecordEdit_Installer_for_GenericDB_0.80.4.jar"
+"java -jar RecordEdit_Installer_for_GenericDB_0.96h.jar"

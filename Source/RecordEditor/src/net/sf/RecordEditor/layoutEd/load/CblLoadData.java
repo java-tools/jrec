@@ -19,6 +19,8 @@ import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
+import net.sf.JRecord.ExternalRecordSelection.ExternalGroupSelection;
+import net.sf.JRecord.ExternalRecordSelection.ExternalSelection;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Log.ScreenLog;
@@ -43,8 +45,8 @@ import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.swing.Combo.ComboStdOption;
 import net.sf.RecordEditor.utils.swing.treeCombo.FileSelectCombo;
+import net.sf.RecordEditor.utils.swing.treeCombo.NormalCombo;
 import net.sf.RecordEditor.utils.swing.treeCombo.TreeCombo;
-import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboItem;
 import net.sf.RecordEditor.utils.swing2.helpers.EventDetails;
 import net.sf.RecordEditor.utils.swing2.helpers.FocusActionListnerAdapter;
 import net.sf.cb2xml.Cb2Xml2;
@@ -58,7 +60,7 @@ import org.w3c.dom.NodeList;
 
 public class CblLoadData {
 	
-	private String[] EMPTY_FIELDS = {"", ""};
+	private final static String[] EMPTY_FIELDS = {"", "", "", "", ""};
 
 	private TableDB         systemTable = new TableDB();
 	private BmKeyedComboModel structureModel = new BmKeyedComboModel(new ManagerRowList(
@@ -71,7 +73,8 @@ public class CblLoadData {
 	public final FontCombo    fontNameCombo = new FontCombo();
 	private final ComputerOptionCombo
 	                          dialectCombo = new ComputerOptionCombo();
-	public final JButton      go            = SwingUtils.newButton("Go");
+	public final JButton      genJRecord    = SwingUtils.newButton("Generate JRecord Code");
+	public final JButton      go            = SwingUtils.newButton("Load Cobol");
 	public final JButton      helpBtn       = SwingUtils.getHelpButton();
 	private final JComboBox   copybookFormatCombo 
 	                                        = new JComboBox();
@@ -89,6 +92,7 @@ public class CblLoadData {
 	private Document document = null;
 
 	private XmlCopybookLoaderDB loader = new XmlCopybookLoaderDB();
+	private XmlCopybookLoaderDB jRecLoader = null; //new XmlCopybookLoaderDB();
 	private ExternalRecord xRecord = null;
 	private final int connectionId;
 
@@ -109,7 +113,7 @@ public class CblLoadData {
 	
 	private ArrayList<AbstractLine>[] dataLines = null;
 	
-	private ArrayList<TreeCombo> fieldCombos = new ArrayList<TreeCombo>();
+	private ArrayList<NormalCombo> fieldCombos = new ArrayList<NormalCombo>();
 
 	
 	
@@ -265,6 +269,7 @@ public class CblLoadData {
 	 */
 	private boolean readCobol(String s) {
 		StringReader r = new StringReader(s);
+		boolean checkMultiRecords = cobolCopybook != null && (! cobolCopybook.equals(s));
 		copybookChanged = true;
 		xRecord = null;
 		cobolCopybook = s;
@@ -273,7 +278,10 @@ public class CblLoadData {
 			CopyBookAnalyzer.setNumericDetails((NumericDefinition) conv.getNumericDefinition());
 
 			document = Cb2Xml2.convert(r, "", false, getCopybookFormat());
-			checkFor01s();
+			
+			if (checkMultiRecords) {
+				checkForMultipleRecords();
+			}
 //				checkRecords();
 			return true;
 		} catch (Exception e) {
@@ -285,13 +293,15 @@ public class CblLoadData {
 	
 
 	/**
-	 * Check if there are multiple 01's in the copybook
+	 * Check if there are multiple Records (01's or Redefines) in the copybook
 	 */
-	private void checkFor01s() {
+	private void checkForMultipleRecords() {
 		
 		NodeList childNodes = document.getChildNodes();
 		int count01 = 0;
-		for (int i = childNodes.getLength() - 1; i >= 0; i--) {
+		
+		int lastNodeIdx = childNodes.getLength() - 1;
+		for (int i = lastNodeIdx; i >= 0; i--) {
 			org.w3c.dom.Node node = childNodes.item(i);
 			if (node != null && node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
 		       Element childElement = (Element) node;
@@ -302,18 +312,88 @@ public class CblLoadData {
 			           Element ce = (Element) n;
 			           if (ce.getAttribute(Cb2xmlConstants.LEVEL).equals("01")) {
 			        	   if (count01++ > 0) {
-			        		   try {
-			        			   doSplitChanged = false;
-			        			   splitOptionsCombo.setSplitId(CopybookLoader.SPLIT_01_LEVEL);
-			        		   } finally {
-			        			   doSplitChanged = true;
-			        		   }
+			        		   setSplitInternal(CopybookLoader.SPLIT_01_LEVEL);
 			        		   return;
 			        	   }
 			           }
 					}
 		       }
 			}
+		}
+		
+		if (childNodes.getLength() == 0) {return;};
+		boolean isRedefine = false;
+		
+		org.w3c.dom.Node node = childNodes.item(lastNodeIdx);
+		while (node != null) {
+			if (node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+			    Element childElement = (Element) node;
+			    if ((childElement.hasAttribute(Cb2xmlConstants.REDEFINES))) {
+			    	String sLength = childElement.getAttribute(Cb2xmlConstants.STORAGE_LENGTH);
+			    	if (sLength != null && sLength.length() > 0) {
+				    	try {
+				    		isRedefine = Integer.parseInt(sLength) > 10;
+				    	}	catch (Exception e) { 	}
+			    	}
+			    	break;
+			    }
+			}
+		    NodeList cn = node.getChildNodes();
+		    node = cn == null || cn.getLength() == 0
+		    			? null
+		    			: cn.item(cn.getLength() - 1);
+		}
+		
+		if (isRedefine ) {
+			int i = 0;
+			NodeList childNodes2 = childNodes.item(0).getChildNodes();
+			int lastNode = childNodes2.getLength();
+			do {
+				node = childNodes2.item(i++);
+			} while (i < lastNode 
+				&&   (! nodeHasChildren(node))
+				&&   (! hasPicture(node))
+				    ); 
+			while (node != null && nodeHasChildren(node) && (! hasPicture(node))) {
+				node = node.getChildNodes().item(0);
+			}
+			
+			if (node != null && hasPicture(node)) {
+				String n = ((Element) node).getAttribute(Cb2xmlConstants.NAME);
+				if (n != null && n.toLowerCase().endsWith("-type") ) {
+					setSplitInternal(CopybookLoader.SPLIT_REDEFINE);
+				}
+			}
+		}
+	}
+
+	/**
+	 * @param node
+	 * @return
+	 */
+	private boolean hasPicture(org.w3c.dom.Node node) {
+		return node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE
+		    && ((Element) node).hasAttribute(Cb2xmlConstants.PICTURE);
+	}
+
+	/**
+	 * @param node
+	 * @return
+	 */
+	private boolean nodeHasChildren(org.w3c.dom.Node node) {
+		return node.getChildNodes() != null && node.getChildNodes().getLength() > 0;
+	}
+
+
+	/**
+	 * 
+	 */
+	private void setSplitInternal(int split) {
+		try {
+		   doSplitChanged = false;
+		   splitOptionsCombo.setSplitId(split);
+		} finally {
+		   doSplitChanged = true;
 		}
 	}
 
@@ -329,9 +409,28 @@ public class CblLoadData {
 	 * @return the xRec
 	 */
 	public final ExternalRecord getXRecord() {
-		
+		xRecord = getXRecord(loader, xRecord);
+		return xRecord;
+	}
+
+
+	/**
+	 * @return the xRec
+	 */
+	public final ExternalRecord getXRecordJR() {
+		if (jRecLoader == null) {
+			jRecLoader = new XmlCopybookLoaderDB();
+			jRecLoader.setDropCopybookFromFieldNames(false);
+			jRecLoader.setUseJRecordNaming(true);
+		}
+		return getXRecord(jRecLoader, null);
+	}
+	/**
+	 * @return the xRec
+	 */
+	private final ExternalRecord getXRecord(XmlCopybookLoaderDB xmlLoader, ExternalRecord xRec ) {
 		readCobol();
-		if (document != null && xRecord == null) {
+		if (document != null && xRec == null) {
 			int split = splitOptionsCombo.getSelectedValue();
 			String s = "";
 			try {
@@ -343,23 +442,40 @@ public class CblLoadData {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			xRecord = loader.loadDOMCopyBook(document, s, split, 
+			xRec = xmlLoader.loadDOMCopyBook(document, s, split, 
 					connectionId, fontNameCombo.getText(), 
 					dialectCombo.getSelectedValue(),
 					((Integer) system.getSelectedItem()).intValue());
 		}
 		
-		if (xRecord != null) {
-			int num = Math.min(xRecord.getNumberOfRecords(), recordSelect.size());
+		if (xRec != null) {
+			int num = Math.min(xRec.getNumberOfRecords(), recordSelect.size());
 			int fileStructure = getFileStructure();
 			
 			if (fileStructure != Constants.IO_DEFAULT) {
-				xRecord.setFileStructure(fileStructure);
+				xRec.setFileStructure(fileStructure);
 			}
 			for (int i = 0; i < num; i++) {
-				ExternalRecord rec = xRecord.getRecord(i);
+				ExternalRecord rec = xRec.getRecord(i);
 				if (getRecordSelection(i, 0).length() > 0) {
-					ExternalFieldSelection fs = new ExternalFieldSelection(getRecordSelection(i, 0), getRecordSelection(i, 1));
+					ExternalSelection fs = null;
+					//ExternalFieldSelection fs = new ExternalFieldSelection(getRecordSelection(i, 0), getRecordSelection(i, 1));
+					ArrayList<ExternalFieldSelection> fl = new ArrayList<ExternalFieldSelection>(EMPTY_FIELDS.length - 1);
+					for (int j = 1; j < EMPTY_FIELDS.length; j++) {
+						if (getRecordSelection(i, j).length() > 0) {
+							fl.add(new ExternalFieldSelection(getRecordSelection(i, 0), getRecordSelection(i, j)));
+						}
+					}
+
+					switch (fl.size()) {
+					case 0:
+						break;
+					case 1:
+						fs = fl.get(0);
+						break;
+					default:
+						fs = ExternalGroupSelection.newOr(fl.toArray(new ExternalFieldSelection[fl.size()]));
+					}
 					rec.setRecordSelection(fs);
 				}
 				if (fileStructure != Constants.IO_DEFAULT) {
@@ -368,11 +484,22 @@ public class CblLoadData {
 				rec.setDefaultRecord(false);
 			}
 
-			if (defaultRow >= 0 && defaultRow < xRecord.getNumberOfRecords()) {
-				xRecord.getRecord(defaultRow).setDefaultRecord(true);
+			if (defaultRow >= 0 && defaultRow < xRec.getNumberOfRecords()) {
+				xRec.getRecord(defaultRow).setDefaultRecord(true);
 			}
 		}
-		return xRecord;
+		return xRec;
+	}
+	
+	private int numberOfCriteria(int idx) {
+		int num = 0;
+		for (int i = 1; i < EMPTY_FIELDS.length; i++) {
+			if (getRecordSelection(idx, 1).length() > 0) {
+				num += 1;
+			}
+		}
+		
+		return num;
 	}
 
 	public void checkDataFile() {
@@ -391,7 +518,8 @@ public class CblLoadData {
 			fontNameCombo.setText(font);
 			
 			fontNameCombo.setFontList(analyser.getCharsetDetails().getLikelyCharsets(Conversion.getDefaultSingleByteCharacterset(), 10));
-			fileStructureCombo.setSelectedItem(analyser.getFileStructure());
+			int fileStructure = analyser.getFileStructure();
+			fileStructureCombo.setSelectedItem(fileStructure);
 			xRecord = null;
 		} finally {
 			doAttrChanged = true;
@@ -425,13 +553,19 @@ public class CblLoadData {
 	/**
 	 * @param dataLines the dataLines to set
 	 */
-	public final void setDataLines(ArrayList<AbstractLine>[] dataLines) {
+	public final void setDataLines(ArrayList<AbstractLine>[] dataLines, boolean update, boolean updateDone) {
 		this.dataLines = dataLines;
-		updateTestValues();
+		if (update) {
+			updateTestValues(updateDone);
+		}
 	}
 	
-	public final void updateTestValues() {
-		if (dataLines != null && dataLines.length > 1
+	public final void updateTestValues(boolean updateDone) {
+		if (updateDone) {
+			if (recordMdl != null) {
+				recordMdl.fireTableDataChanged();
+			}
+		} else if (dataLines != null && dataLines.length > 1
 		&& recordSelect != null && recordSelect.size() == dataLines.length) {
 			boolean found = false;
 			
@@ -497,9 +631,7 @@ public class CblLoadData {
 	
 	
 	public void setRecordSelection(int recordIdx, int fieldIdx, String value, boolean check) {
-		while (recordIdx >= recordSelect.size()) {
-			recordSelect.add(EMPTY_FIELDS.clone());
-		}
+		initRecordSelect(recordIdx);
 
 		if (recordSelect.get(recordIdx)[fieldIdx] != value) {
 			copybookChanged = true;
@@ -508,6 +640,32 @@ public class CblLoadData {
 			if (check) {
 				checkIfAllSelectionsDefined();
 			}
+		}
+	}
+
+	public void addRecordSelection(int recordIdx, String value, boolean check) {
+		initRecordSelect(recordIdx);
+
+		String[] currValues = recordSelect.get(recordIdx);
+		for (int i = 1; i < currValues.length; i++) {
+			if ( currValues[i].equalsIgnoreCase(value)) {
+				return;
+			}
+		}
+		for (int i = 1; i < currValues.length; i++) {
+			if ( currValues[i].length() == 0) {
+				currValues[i] = value;
+				break;
+			}
+		}
+	}
+
+	/**
+	 * @param recordIdx
+	 */
+	private void initRecordSelect(int recordIdx) {
+		while (recordIdx >= recordSelect.size()) {
+			recordSelect.add(EMPTY_FIELDS.clone());
 		}
 	}
 
@@ -530,7 +688,7 @@ public class CblLoadData {
 	/**
 	 * @return the fieldCombos
 	 */
-	public final TreeCombo getFieldCombo(int recordIdx) {
+	public final NormalCombo getFieldCombo(int recordIdx) {
 		if (xRecord == null || recordIdx > xRecord.getNumberOfRecords()) { return null;}
 		
 		for (int i = fieldCombos.size(); i <= recordIdx; i++) {
@@ -550,7 +708,7 @@ public class CblLoadData {
 					fl.add(fld.getName());
 				}
 			}
-			fieldCombos.set(recordIdx, new TreeCombo(TreeComboItem.toTreeItemArray(fl)));
+			fieldCombos.set(recordIdx, new NormalCombo(fl.toArray(new String[fl.size()])));
 		}
 		return fieldCombos.get(recordIdx);
 	}

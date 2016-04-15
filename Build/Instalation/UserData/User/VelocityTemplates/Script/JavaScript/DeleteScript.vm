@@ -1,0 +1,10 @@
+/*
+ * Delete all records that match criteria:
+ */
+#parse( "setDataSource.pvm" )
+#set ($action = "${ds}.deleteLine(i);")
+if ( ${ds} != null ) {
+    for (i = ${ds}.getRowCount()-1; i >= 0; i--) {
+#parse( "process1Line.pvm" )
+    }
+}

@@ -1,0 +1,12 @@
+##
+##   This velocity template setup the data source 
+##    0 - Whole file
+##    1 - Current view (probably the same as the File).
+##    2 - Selected records
+##
+#set ($ds = "RecordEditorData.view")
+#if (${scriptSchema.dataSource} == 0)
+	#set ($ds = "RecordEditorData.file")
+#elseif (${scriptSchema.dataSource} == 2)
+	#set ($ds = "RecordEditorData.selectedView")
+#end

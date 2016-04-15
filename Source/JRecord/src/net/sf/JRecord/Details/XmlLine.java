@@ -44,25 +44,25 @@ public class XmlLine extends ArrayListLine<FieldDetail, RecordDetail, LayoutDeta
 	/**
 	 * @see net.sf.JRecord.Details.AbstractLine#getField(int, int)
 	 */
-	public Object getField(int recordIdx, int fieldIdx) {
-	    	int idx = getFieldNumber(recordIdx, fieldIdx);
+    public Object getField(int recordIdx, int fieldIdx) {
+    	int idx = getFieldNumber(recordIdx, fieldIdx);
 
-	        if (fields.size() > idx && idx >= 0) {
-	            return fields.get(idx);
-	        }
+    	if (fields.size() > idx && idx >= 0) {
+    		return fields.get(idx);
+    	}
 
-	        return null;
-	    }
+    	return null;
+    }
 
-	  /**
-	  * Get a fields value
-	  *
-	  * @param fieldName field to retrieve
-	  *
-	  * @return fields Value
-	  *
-	  * @deprecated use getFieldValue
-	  */
+    /**
+     * Get a fields value
+     *
+     * @param fieldName field to retrieve
+     *
+     * @return fields Value
+     *
+     * @deprecated use getFieldValue
+     */
 	public Object getField(String fieldName) {
 	    try {
 	    	return getField(preferredLayout,
@@ -92,14 +92,14 @@ public class XmlLine extends ArrayListLine<FieldDetail, RecordDetail, LayoutDeta
 	private int getFieldNumber(int recordIdx, int fieldIdx) {
 	   	int idx = fieldIdx;
 
-	    //   	System.out.print("getField " + recordIdx + " " + fieldIdx);
-	    if (useField4Index && recordIdx < layout.getRecordCount()
+		if (useField4Index && recordIdx < layout.getRecordCount()
        	&& fieldIdx < layout.getRecord(recordIdx).getFieldCount()
        	&& fieldIdx >= 0
        	&& layout.getRecord(recordIdx).getField(fieldIdx).getPos() >= 0) {
        		idx = layout.getRecord(recordIdx).getField(fieldIdx).getPos();
        	}
-       	return idx;
+//	     	System.out.println("getField " + recordIdx + " " + fieldIdx + " " + idx);
+   	return idx;
 	}
 
 	/**

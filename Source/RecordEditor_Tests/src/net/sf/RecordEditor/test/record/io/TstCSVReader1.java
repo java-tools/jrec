@@ -28,7 +28,7 @@ import net.sf.RecordEditor.utils.common.Common;
  */
 public class TstCSVReader1 extends TestCase {
 
-    private String windowsEol = new String(Common.LFCR_BYTES);
+    private String windowsEol = new String(Common.CRLF_BYTES);
 
     private String[] text = {
             "fld1,fld2,fld3,fld4,fld5",
@@ -38,10 +38,10 @@ public class TstCSVReader1 extends TestCase {
             "value 1,value 2,value 3 ,'value 4 , another comma',value 5",
             "value 1,value 2,value 3 ,value 4,'value 22 5 ,'",
             "value 1,value 2,value 3 ,'value 4 , another 1 comma','value 5 ,'",
-            "',,',''a quote',field 3,''Quote at start and end'',field 5",
+            "',,',''a quote',field 3,'''Quote at start and end''',field 5",
             "'field 1 ,',', field 2 comma at the start','field 3 , in the middle',', multiple commas , at end ,',last field",
-            "',,,,',',,__,,',''a quote',''a quote '',field 5",
-            "''','''',''''','''''','''''''",
+            "',,,,',',,__,,',''a quote','''a quote ''',field 5",
+            "'''','''''','''''''','''''''''','''''''''''",
             "',, ,,',',, ,,',',, ,,',',, ,,',',, ,,'"
     };
     private String[][] data = {
@@ -99,7 +99,9 @@ public class TstCSVReader1 extends TestCase {
                         System.out.println("Line = " + new String(line.getData()));
                         System.out.println(s);
 
-                        assertTrue(s, ok);
+                        assertEquals(s, data[i][j], line.getField(0, j).toString());
+                        
+                        //assertTrue(s, ok);
                     }
                 }
                 i += 1;

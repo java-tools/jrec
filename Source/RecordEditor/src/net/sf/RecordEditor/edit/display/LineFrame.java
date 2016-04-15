@@ -274,49 +274,51 @@ public class LineFrame extends  BaseLineFrame implements ILineDisplay {
 	 */
 	private void rowChanged() {
 		int[] colWidths = getColumnWidths();
-		try {
-			fileView.removeTableModelListener(this);
-
-		    stopCellEditing();
+		if (fileView != null) {
+			try {
+				fileView.removeTableModelListener(this);
 	
-			if (currRow >= getFileView().getRowCount()) {
-				if (currRow == 0) {
-					this.closeWindow();
-				} else {
-					currRow -= 1;
+			    stopCellEditing();
+		
+				if (currRow >= getFileView().getRowCount()) {
+					if (currRow == 0) {
+						this.closeWindow();
+					} else {
+						currRow -= 1;
+					}
 				}
+		
+		
+				lineNum.setText(Integer.toString(currRow + 1));
+		
+				record.setCurrentLayout(getLayoutIndex());
+		
+				record.setCurrentLine(currRow, getLayoutIndex());
+				if (record.getCurrentLine() == null) {
+					getParentFrame().close(this);
+				}
+				int newIdx = record.getCurrentLayout();
+		
+				if ((newIdx != Common.NULL_INTEGER)
+				&&  (newIdx != getLayoutIndex())) {
+			    	   setLayoutIndex(newIdx);
+		
+			    	   fireLayoutIndexChanged();
+			    	   setColWidths();
+			    	   setDirectionButtonStatus();
+			    	   setFullLine();
+				} else {
+		//			System.out.println("::Setting up display ");
+					setColWidths();
+					setDirectionButtonStatus();
+					setFullLine();
+				}
+		
+				setColumnWidths(colWidths);
+				super.notifyChangeListners();
+			} finally {
+				fileView.addTableModelListener(this);
 			}
-	
-	
-			lineNum.setText(Integer.toString(currRow + 1));
-	
-			record.setCurrentLayout(getLayoutIndex());
-	
-			record.setCurrentLine(currRow, getLayoutIndex());
-			if (record.getCurrentLine() == null) {
-				getParentFrame().close(this);
-			}
-			int newIdx = record.getCurrentLayout();
-	
-			if ((newIdx != Common.NULL_INTEGER)
-			&&  (newIdx != getLayoutIndex())) {
-		    	   setLayoutIndex(newIdx);
-	
-		    	   fireLayoutIndexChanged();
-		    	   setColWidths();
-		    	   setDirectionButtonStatus();
-		    	   setFullLine();
-			} else {
-	//			System.out.println("::Setting up display ");
-				setColWidths();
-				setDirectionButtonStatus();
-				setFullLine();
-			}
-	
-			setColumnWidths(colWidths);
-			super.notifyChangeListners();
-		} finally {
-			fileView.addTableModelListener(this);
 		}
 	}
 

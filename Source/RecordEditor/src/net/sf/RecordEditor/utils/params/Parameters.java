@@ -1017,7 +1017,22 @@ public final class Parameters implements ExternalReferenceConstants {
 	}
 
 	public static final void setProperty(String key, String value) {
-		getInitialisedProperties().setProperty(key, value);
+		if (value == null) {
+			if (properties != null && key != null) {
+				properties.remove(key);
+				notifyOfPropertyChange();
+			}
+		} else {		
+			getInitialisedProperties()
+				.setProperty(key, value);
+			notifyOfPropertyChange();
+		}
+	}
+
+	/**
+	 * 
+	 */
+	public static void notifyOfPropertyChange() {
 		changesToSave = true;
 
 		if (savePropertyChanges) {

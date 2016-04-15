@@ -1,0 +1,14 @@
+#*      *##foreach( $fld in ${rec.getFields()} )
+#*           *##if (${fld.isSelectOn()})
+#*                 *##if (${fld.isNumeric()})
+#*                           *##if (${fld.isDecimal()})
+        ${sep}line.getFieldValue("${fld.lookupName}").asBigDecimal() == 0
+#*                           *##else
+        ${sep}line.getFieldValue("${fld.lookupName}").asBigInteger() == 0 
+#*                          *##end
+#*                 *##else
+        ${sep}line.getFieldValue("${fld.lookupName}").asString() == "" 
+#*                 *##end
+#*                 *##set ($sep = ${sepChange})
+#*           *##end
+#*      *##end

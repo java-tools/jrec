@@ -186,11 +186,12 @@ public class ExtendedRecordDB extends RecordDB {
 //                + " " + rec.isNew()
 //                + " " + rec.getUpdateStatus());
 
-		if (rec.isNew()) {
+		String recordName = rec.getRecordName();
+		if (rec.isNew() && recordName != null && recordName.length() > 0) {
 		    //System.out.println("~~~> inserting ");
 			RecordRec old;
 			super.resetSearch();
-			super.setSearchRecordName(AbsDB.opEquals, rec.getRecordName());
+			super.setSearchRecordName(AbsDB.opEquals, recordName);
 			super.open();
 			old = super.fetch();
 			super.close();

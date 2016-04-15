@@ -1,0 +1,4 @@
+Record	0	1	null	0	
+1	1	Record Type		0	0	0	
+2	6	Event Id		0	0	0	
+8	2	EOR		0	0	0	

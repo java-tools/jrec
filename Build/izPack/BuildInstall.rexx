@@ -2,7 +2,7 @@
 	Build HSQLDB installer 
 */
 	parse arg vers x
-	if vers = "" then vers = '0.94.4'
+	if vers = "" then vers = '0.97m'
 	
 	if vers <> "" then do
 		vers = '_'vers

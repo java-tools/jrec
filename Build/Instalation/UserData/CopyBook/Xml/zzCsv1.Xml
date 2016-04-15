@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<RECORD RECORDNAME="zzCsv1" COPYBOOK="" DELIMITER="&lt;Tab&gt;" FILESTRUCTURE="Default" STYLE="0" RECORDTYPE="Delimited" LIST="Y" QUOTE="" RecSep="default" LINE_NO_FIELD_NAMES="1">
+	<FIELDS>
+		<FIELD NAME="ddmmyy" POSITION="1" TYPE="Date - DDMMYY"/>
+		<FIELD NAME="yymmdd" POSITION="2" TYPE="Date - YYMMDD"/>
+		<FIELD NAME="ddmmyyyy" POSITION="3" TYPE="Date - DDMMYYYY"/>
+		<FIELD NAME="dd-MMM-yyyy" POSITION="4" TYPE="Date - Format in Parameter field" PARAMETER="dd-MMM-yyyy"/>
+	</FIELDS>
+</RECORD>

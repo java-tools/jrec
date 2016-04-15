@@ -36,12 +36,16 @@ In the one action.
 :note.You use the :hp2.Right Click:ehp2. button to add / move columns.
 
 :h2.Installing Extensions
-:p.There are 2 basic extensions available to reCsvEditor available at
-.*B2H html <a href="https://sourceforge.net/projects/recsveditor/files/reCsvEditor/Extensions/">Extensions</a>.
+:p.There are 2 basic extensions types available &gml;
 :ol.
  :li.:hp2.cb2xml:ehp2. this lets you edit files using a Cobol Copybook. If you 
-going to use the Cobol regularly you should look at the :RecordEditor..
- :li.:hp2.Velocity:ehp2. This lets you reformat (export) files using :hp2.Velocity Templates:ehp2..
+going to use the Cobol regularly you should look at the :RecordEditor.. This is available from
+.br
+.*B2H html <a href="https://sourceforge.net/projects/recsveditor/files/reCsvEditor/Extensions/">Extensions</a>.
+
+ :li.:hp2.Script:ehp2. languages like Jython, Groovey, JRuby. Just download the appropriate
+Standalone jar (from there project pages) and add the jar to the :hp2.<ReCsvEditor>:ehp2./lib/extensions/ directory.
+ReCsvEditor should pick it up from there.
 :eol.
 :p.Once you download the appropriate extension, unzip it and copy the contents of the lib
 directory to you reCsvEditor lib directory.
@@ -71,6 +75,8 @@ any text-editor (i.e. jEdit) that can open a file as :bblue.UTF8:ebblue. could b
 :eol.
 
 .im iHT_C000_Script.dcf
+.im iHT_F000_ScriptBld.dcf
+:h1.Setting Screen Size
 .im iHT_D000_SreenSize.dcf
 .im iHT_E000_Docking.dcf
 

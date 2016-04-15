@@ -1,0 +1,236 @@
+<MapSet id="MAM00AP"  TYPE="MAP" LANG="COBOL" MODE="INOUT" STORAGE="AUTO" SUFFIX="">
+<Map id="MAM00AP"  SIZE="(24,80)" CTRL="(HONEOM,FREEKB,FRSET)" COLUMN="1" LINE="1" DATA="FIELD" TIOAPFX="YES" JUSTIFY="(LEFT)" OBFMT="NO   ">
+<Field   Row="1" Col="1" LENGTH="7" INITIAL="MAC00AP" ATTRB="(PROT,BRT)" />
+<Field id="C_MDT" Type="Fld"  Row="1" Col="9" LENGTH="1" ATTRB="(ASKIP,DRK)" />
+<Field   Row="1" Col="11" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="1" Col="26" LENGTH="28" INITIAL="RECEIPT TRANSACTIONS ENQUIRY" ATTRB="(ASKIP,BRT)" />
+<Field   Row="1" Col="73" LENGTH="7" INITIAL="MAM00AP" ATTRB="(ASKIP,BRT)" />
+<Field   Row="2" Col="58" LENGTH="10" INITIAL="$RECEIPT :" ATTRB="(ASKIP,NORM)" />
+<Field id="A_RCPT_TOT" Type="Fld"  Row="2" Col="69" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field   Row="3" Col="1" LENGTH="12" INITIAL="RECEIPT NO :" ATTRB="(ASKIP,NORM)" />
+<Field id="M_RCPT" Type="Fld"  Row="3" Col="14" LENGTH="7" ATTRB="(ASKIP,NORM)" />
+<Field id="T_RCPT_STAT" Type="Fld"  Row="3" Col="22" LENGTH="12" ATTRB="(ASKIP,NORM)" />
+<Field   Row="3" Col="35" LENGTH="10" INITIAL="$INVOICES:" ATTRB="(ASKIP,NORM)" />
+<Field id="A_INV_TOT" Type="Fld"  Row="3" Col="46" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field   Row="3" Col="58" LENGTH="10" INITIAL="$EXPENSES:" ATTRB="(ASKIP,NORM)" />
+<Field id="A_EXP_TOT" Type="Fld"  Row="3" Col="69" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field   Row="4" Col="1" LENGTH="12" INITIAL="P.O. NUMBER:" ATTRB="(ASKIP,NORM)" />
+<Field id="M_PO" Type="Fld"  Row="4" Col="14" LENGTH="12" ATTRB="(ASKIP,NORM)" />
+<Field   Row="4" Col="27" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="4" Col="35" LENGTH="10" INITIAL="$PROFORMA:" ATTRB="(ASKIP,NORM)" />
+<Field id="A_PFMA_TOT" Type="Fld"  Row="4" Col="46" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field   Row="4" Col="58" LENGTH="10" INITIAL="$CLAIMS  :" ATTRB="(ASKIP,NORM)" />
+<Field id="A_CLM_TOT" Type="Fld"  Row="4" Col="69" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field   Row="5" Col="1" LENGTH="12" INITIAL="SUPPLIER   :" ATTRB="(ASKIP,NORM)" />
+<Field id="M_SUP" Type="Fld"  Row="5" Col="14" LENGTH="8" ATTRB="(ASKIP,NORM)" />
+<Field id="N_SUP" Type="Fld"  Row="5" Col="23" LENGTH="34" ATTRB="(ASKIP,NORM)" />
+<Field   Row="5" Col="58" LENGTH="10" INITIAL="$VARIANCE:" ATTRB="(ASKIP,NORM)" />
+<Field id="A_RCPT_VAR" Type="Fld"  Row="5" Col="69" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field   Row="6" Col="1" LENGTH="3" INITIAL="ERS" ATTRB="(ASKIP,NORM)" />
+<Field   Row="6" Col="12" LENGTH="1" INITIAL=":" ATTRB="(ASKIP,NORM)" />
+<Field id="C_ERS_FLAG" Type="Fld"  Row="6" Col="14" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field   Row="6" Col="18" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="6" Col="58" LENGTH="10" INITIAL="$GST VAR :" ATTRB="(ASKIP,NORM)" />
+<Field id="A_GST_VAR" Type="Fld"  Row="6" Col="69" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field  Row="7" Col="1" LENGTH="78" INITIAL="&lt;------------------------- T R A N S A C T I O N S --------------------------&gt;" ATTRB="(ASKIP,BRT)" />
+<Field  Row="8" Col="1" LENGTH="79" INITIAL="S TYP SEQ  DATE   $GST/AMT   $TRANSACT    $UNALLOC  REF/NUM   ABN PY/DT PST PRT" ATTRB="(ASKIP,NORM)" />
+<Field id="C_SEL01" Type="Fld"  Row="9" Col="1" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field id="C_TRAN_TYPE01" Type="Fld"  Row="9" Col="3" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="M_TRAN_SEQ01" Type="Fld"  Row="9" Col="7" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="D_TRAN01" Type="Fld"  Row="9" Col="11" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="A_TRAN_GST01" Type="Fld"  Row="9" Col="18" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="A_TRAN_TOT01" Type="Fld"  Row="9" Col="29" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="A_TRAN_VAR01" Type="Fld"  Row="9" Col="41" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="M_TRAN_XREF01" Type="Fld"  Row="9" Col="53" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="A_TRAN_ABN01" Type="Fld"  Row="9" Col="64" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="9" Col="66" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="D_SUP_INV01" Type="Fld"  Row="9" Col="67" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="C_TRAN_POST01" Type="Fld"  Row="9" Col="74" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="9" Col="76" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field id="C_TRAN_PRT01" Type="Fld"  Row="9" Col="78" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="9" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP892" Type="Fld"  Row="10" Col="1" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field id="MAAP893" Type="Fld"  Row="10" Col="3" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP894" Type="Fld"  Row="10" Col="7" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP895" Type="Fld"  Row="10" Col="11" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP896" Type="Fld"  Row="10" Col="18" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP896A" Type="Fld"  Row="10" Col="29" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP897" Type="Fld"  Row="10" Col="41" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP898" Type="Fld"  Row="10" Col="53" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP898A" Type="Fld"  Row="10" Col="64" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="10" Col="66" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP899" Type="Fld"  Row="10" Col="67" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP900" Type="Fld"  Row="10" Col="74" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field  Row="10" Col="76" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP901" Type="Fld"  Row="10" Col="78" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="10" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP902" Type="Fld"  Row="11" Col="1" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field id="MAAP903" Type="Fld"  Row="11" Col="3" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP904" Type="Fld"  Row="11" Col="7" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP905" Type="Fld"  Row="11" Col="11" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP906" Type="Fld"  Row="11" Col="18" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP906A" Type="Fld"  Row="11" Col="29" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP907" Type="Fld"  Row="11" Col="41" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP908" Type="Fld"  Row="11" Col="53" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP908A" Type="Fld"  Row="11" Col="64" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="11" Col="66" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP909" Type="Fld"  Row="11" Col="67" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP910" Type="Fld"  Row="11" Col="74" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="11" Col="76" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP911" Type="Fld"  Row="11" Col="78" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="11" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP912" Type="Fld"  Row="12" Col="1" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field id="MAAP913" Type="Fld"  Row="12" Col="3" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP914" Type="Fld"  Row="12" Col="7" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP915" Type="Fld"  Row="12" Col="11" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP916" Type="Fld"  Row="12" Col="18" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP916A" Type="Fld"  Row="12" Col="29" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP917" Type="Fld"  Row="12" Col="41" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP918" Type="Fld"  Row="12" Col="53" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP918A" Type="Fld"  Row="12" Col="64" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="12" Col="66" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP919" Type="Fld"  Row="12" Col="67" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP920" Type="Fld"  Row="12" Col="74" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="12" Col="76" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP921" Type="Fld"  Row="12" Col="78" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="12" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP922" Type="Fld"  Row="13" Col="1" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field id="MAAP923" Type="Fld"  Row="13" Col="3" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP924" Type="Fld"  Row="13" Col="7" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP925" Type="Fld"  Row="13" Col="11" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP926" Type="Fld"  Row="13" Col="18" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP926A" Type="Fld"  Row="13" Col="29" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP927" Type="Fld"  Row="13" Col="41" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP928" Type="Fld"  Row="13" Col="53" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP928A" Type="Fld"  Row="13" Col="64" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="13" Col="66" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP929" Type="Fld"  Row="13" Col="67" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP930" Type="Fld"  Row="13" Col="74" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="13" Col="76" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP931" Type="Fld"  Row="13" Col="78" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="13" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP932" Type="Fld"  Row="14" Col="1" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field id="MAAP933" Type="Fld"  Row="14" Col="3" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP934" Type="Fld"  Row="14" Col="7" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP935" Type="Fld"  Row="14" Col="11" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP936" Type="Fld"  Row="14" Col="18" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP936A" Type="Fld"  Row="14" Col="29" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP937" Type="Fld"  Row="14" Col="41" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP938" Type="Fld"  Row="14" Col="53" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP938A" Type="Fld"  Row="14" Col="64" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="14" Col="66" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP939" Type="Fld"  Row="14" Col="67" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP940" Type="Fld"  Row="14" Col="74" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="14" Col="76" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP941" Type="Fld"  Row="14" Col="78" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field  Row="14" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP942" Type="Fld"  Row="15" Col="1" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field id="MAAP943" Type="Fld"  Row="15" Col="3" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP944" Type="Fld"  Row="15" Col="7" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP945" Type="Fld"  Row="15" Col="11" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP946" Type="Fld"  Row="15" Col="18" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP946A" Type="Fld"  Row="15" Col="29" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP947" Type="Fld"  Row="15" Col="41" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP948" Type="Fld"  Row="15" Col="53" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP948A" Type="Fld"  Row="15" Col="64" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="15" Col="66" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP949" Type="Fld"  Row="15" Col="67" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP950" Type="Fld"  Row="15" Col="74" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="15" Col="76" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP951" Type="Fld"  Row="15" Col="78" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="15" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP952" Type="Fld"  Row="16" Col="1" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field id="MAAP953" Type="Fld"  Row="16" Col="3" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP954" Type="Fld"  Row="16" Col="7" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP955" Type="Fld"  Row="16" Col="11" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP956" Type="Fld"  Row="16" Col="18" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP956A" Type="Fld"  Row="16" Col="29" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP957" Type="Fld"  Row="16" Col="41" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP958" Type="Fld"  Row="16" Col="53" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP958A" Type="Fld"  Row="16" Col="64" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="16" Col="66" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP959" Type="Fld"  Row="16" Col="67" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP960" Type="Fld"  Row="16" Col="74" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field  Row="16" Col="76" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP961" Type="Fld"  Row="16" Col="78" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="16" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP962" Type="Fld"  Row="17" Col="1" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field id="MAAP963" Type="Fld"  Row="17" Col="3" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP964" Type="Fld"  Row="17" Col="7" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP965" Type="Fld"  Row="17" Col="11" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP966" Type="Fld"  Row="17" Col="18" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP966A" Type="Fld"  Row="17" Col="29" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP967" Type="Fld"  Row="17" Col="41" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP968" Type="Fld"  Row="17" Col="53" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP968A" Type="Fld"  Row="17" Col="64" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="17" Col="66" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP969" Type="Fld"  Row="17" Col="67" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP970" Type="Fld"  Row="17" Col="74" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="17" Col="76" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP971" Type="Fld"  Row="17" Col="78" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="17" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP972" Type="Fld"  Row="18" Col="1" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field id="MAAP973" Type="Fld"  Row="18" Col="3" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP974" Type="Fld"  Row="18" Col="7" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP975" Type="Fld"  Row="18" Col="11" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP976" Type="Fld"  Row="18" Col="18" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP976A" Type="Fld"  Row="18" Col="29" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP977" Type="Fld"  Row="18" Col="41" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP978" Type="Fld"  Row="18" Col="53" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP978A" Type="Fld"  Row="18" Col="64" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="18" Col="66" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP979" Type="Fld"  Row="18" Col="67" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP980" Type="Fld"  Row="18" Col="74" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="18" Col="76" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP981" Type="Fld"  Row="18" Col="78" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="18" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP982" Type="Fld"  Row="19" Col="1" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field id="MAAP983" Type="Fld"  Row="19" Col="3" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP984" Type="Fld"  Row="19" Col="7" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP985" Type="Fld"  Row="19" Col="11" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP986" Type="Fld"  Row="19" Col="18" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP986A" Type="Fld"  Row="19" Col="29" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP987" Type="Fld"  Row="19" Col="41" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP988" Type="Fld"  Row="19" Col="53" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP988A" Type="Fld"  Row="19" Col="64" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="19" Col="66" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP989" Type="Fld"  Row="19" Col="67" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP990" Type="Fld"  Row="19" Col="74" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field  Row="19" Col="76" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP991" Type="Fld"  Row="19" Col="78" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="19" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP992" Type="Fld"  Row="20" Col="1" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field id="MAAP993" Type="Fld"  Row="20" Col="3" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP994" Type="Fld"  Row="20" Col="7" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP995" Type="Fld"  Row="20" Col="11" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP996" Type="Fld"  Row="20" Col="18" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP996A" Type="Fld"  Row="20" Col="29" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP997" Type="Fld"  Row="20" Col="41" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP998" Type="Fld"  Row="20" Col="53" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP998A" Type="Fld"  Row="20" Col="64" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="20" Col="66" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP999" Type="Fld"  Row="20" Col="67" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP1000" Type="Fld"  Row="20" Col="74" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field  Row="20" Col="76" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP1001" Type="Fld"  Row="20" Col="78" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="20" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP1002" Type="Fld"  Row="21" Col="1" LENGTH="1" ATTRB="(UNPROT,NORM)" />
+<Field id="MAAP1003" Type="Fld"  Row="21" Col="3" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP1004" Type="Fld"  Row="21" Col="7" LENGTH="3" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP1005" Type="Fld"  Row="21" Col="11" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP1006" Type="Fld"  Row="21" Col="18" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP1006A" Type="Fld"  Row="21" Col="29" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP1007" Type="Fld"  Row="21" Col="41" LENGTH="11" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP1008" Type="Fld"  Row="21" Col="53" LENGTH="10" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP1008A" Type="Fld"  Row="21" Col="64" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field  Row="21" Col="66" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP1009" Type="Fld"  Row="21" Col="67" LENGTH="6" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP1010" Type="Fld"  Row="21" Col="74" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="21" Col="76" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field id="MAAP1011" Type="Fld"  Row="21" Col="78" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="21" Col="80" LENGTH="0" ATTRB="(ASKIP,NORM)" />
+<Field   Row="22" Col="1" LENGTH="78" INITIAL="VALID KEYS: PF1(HELP), PA1, CLEAR, PA2, ENTER,PF7, PF8, PF9, PF10, PF11, PF12" ATTRB="(ASKIP,BRT)" />
+<Field id="T_PRGMSG" Type="Fld"  Row="23" Col="1" LENGTH="79" ATTRB="(ASKIP,BRT)" />
+<Field id="T_SYSMSG" Type="Fld"  Row="24" Col="1" LENGTH="79" ATTRB="(ASKIP,BRT)" />
+</Map>
+</MapSet>

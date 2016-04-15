@@ -223,6 +223,8 @@ public class RecordDB  extends AbsDB<RecordRec> {
 					  "Delete from  TBL_RF1_RECORDFIELDS where RECORDID = " + val.getRecordId(),
 					  "Delete from  TBL_RS2_SUBRECORDS where RECORDID = " + val.getRecordId(),
 		};
+		
+		val.setKeys();
 
 		try {
 			ResultSet resultset = connect.getUpdateConnection().createStatement().executeQuery(sSql);

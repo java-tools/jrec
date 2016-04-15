@@ -1,0 +1,14 @@
+/*
+ * Create a view of all records that match the criteria:
+ */
+#parse( "setDataSource.pvm" )
+#set ($action = "list.add(line);")
+if ( ${ds} != null ) {
+    var list = RecordEditorData.getNewLineList()  /* Get empty list of lines */
+    for (i = 0; i < ${ds}.getRowCount(); i++) {
+#parse( "process1Line.pvm" )
+    }
+    var displayType = RecordEditorData.displayConstants.ST_LIST_SCREEN;
+    print(displayType + " " + list.size() + " " + list.getClass().getName());
+    var screen = RecordEditorData.displayList(displayType, "Script-Filter", list); /* create new display from the list that has been createrd.*/
+}

@@ -1,0 +1,48 @@
+/*
+ * Update all records that match criteria:
+ */
+#parse( "setDataSource.pvm" )
+if ( ${ds} != null ) {
+    for (i = ${ds}.getRowCount()-1; i >= 0; i--) {
+        line = ${ds}.getLine(i);
+##
+#if (${scriptSchema.records.size()} == 1) 
+#* *##foreach( $rec in ${scriptSchema.getRecords()} )
+#*      *##set ($sep = "if (")
+#*      *##set ($sepChange = "||  ")
+#*      *##parse( "fieldSelect.pvm" )
+#*      *##if ($sep == "||  ")
+        ) {
+#*          *##parse( "updateLine.pvm" )
+        }
+#*      *##else
+ #*          *##parse( "updateLine.pvm" )
+#*      *##end	
+#* *##end
+#else
+	     var recordType = line.getPreferredLayoutIdx();
+#*  *##set ($sep1 = "if (")
+#*  *##foreach( $rec in ${scriptSchema.getRecords()} )
+#*        *##if (${rec.isIncluded()})
+	     ${sep1} recordType == ${rec.recordNumber}
+#*             *##set ($sep1 = "} else if (")
+#*             *##set ($sep = "&& (")
+#*             *##set ($sepChange = "  ||  ")
+#*             *##parse( "fieldSelect.pvm" )
+#*             *##if ($sep == "  ||  ")
+        )) {
+#*             *##else
+        ) {
+#*             *##end
+#*          *##parse( "updateLine.pvm" )
+#*        *##end	
+## #end
+#* *##end
+        }
+#end
+    } 
+    RecordEditorData.fireScreenChanged(true); /* when you update the screen data,
+                                                 you need to notify the RecordEditor 
+                                                 that the data has changed.*/
+}
+

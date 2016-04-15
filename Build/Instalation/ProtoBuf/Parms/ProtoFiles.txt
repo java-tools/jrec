@@ -1,28 +1,52 @@
-ProtoTest_Address1.bin		<reproperties>/CopyBook/addressbook.protocomp,,1,,0,,0,,1,,AddressBook		<reproperties>/SampleFiles
-ProtoTest_Address3.bin		<reproperties>/CopyBook/addressbook.protocomp,,1,,1,,0,,0,,Person		<reproperties>/SampleFiles
-protoSales.bin		<reproperties>/CopyBook/sales.protocomp,,1,,1,,0,,0,,sale		<reproperties>/SampleFiles
-protoSales11.bin		<reproperties>/CopyBook/Sales11.protocomp,,1,,1,,0,,0,,sale		<reproperties>/SampleFiles
-protoStoreSales3.bin		<reproperties>/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		<reproperties>/SampleFiles
-protoStoreSales3a.bin		<reproperties>/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		<reproperties>/SampleFiles
-protoStoreSales3b.bin		<reproperties>/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		<reproperties>/SampleFiles
-protoStoreSales3c.bin		<reproperties>/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		<reproperties>/SampleFiles
-protoStoreSales3a.bin$		<reproperties>/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		<reproperties>/SampleFiles
-protoStoreSales5.bin		<reproperties>/CopyBook/StoreSales5.protocomp,,1,,1,,0,,4,,Store		<reproperties>/SampleFiles
-protoStoreSales6.bin		<reproperties>/CopyBook/StoreSales6.protocomp,,1,,1,,0,,4,,Store		<reproperties>/SampleFiles
-protoStoreSales7.bin		<reproperties>/CopyBook/StoreSales7.protocomp,,1,,1,,0,,4,,Store		<reproperties>/SampleFiles
-protoFieldTest.bin		<reproperties>/CopyBook/FieldTest.protocomp,,1,,1,,0,,4,,Store		<reproperties>/SampleFiles
-protoFieldTest2.bin		<reproperties>/CopyBook/FieldTest2.protocomp,,1,,1,,0,,4,,Store		<reproperties>/SampleFiles
-Ams_LocDownload_20041228.bin		<reproperties>/CopyBook/Ams_Location.protocomp,,1,,1,,0,,0,,Locations		<reproperties>/SampleFiles
-protoStoreSales3SD.bin		<reproperties>/CopyBook/StoreSales3.protocomp,,1,,3,,0,,4,,Store		<reproperties>/SampleFiles
-protoStoreSales5im.bin		<reproperties>/CopyBook/StoreSales5SD.protocomp,,1,,1,,4,,0,,Store		<reproperties>/SampleFiles
-protoStoreSales5SD.bin		<reproperties>/CopyBook/StoreSales5SD.protocomp,,1,,3,,0,,0,,Store		<reproperties>/SampleFiles
-protoStoreSales3SDim.bin		<reproperties>/CopyBook/StoreSales3im.proto,,0,,3,,0,,4,,Store		<reproperties>/SampleFiles
-protoStoreSales3im.bin		<reproperties>/CopyBook/StoreSales3im.proto,,0,,1,,3,,0,,Store		<reproperties>/SampleFiles
-Ams_LocDownload_20041228.bin		<reproperties>/CopyBook/Ams_Location.protocomp,,1,,1,,0,,0,,Locations		<reproperties>/SampleFiles
-protoStoreSales7.bin		<reproperties>/CopyBook/StoreSales7.protocomp,,1,,1,,0,,4,,Store		<reproperties>/SampleFiles
+ProtoTest_Address1.bin		<reproperties>/CopyBook/addressbook.protocomp,,1,,0,,0,,1,,AddressBook		<reproperties>\SampleFiles
+ProtoTest_Address3.bin		<reproperties>/CopyBook/addressbook.protocomp,,1,,1,,0,,0,,Person		<reproperties>\SampleFiles
+protoSales11.bin		<reproperties>/CopyBook/Sales11.protocomp,,1,,1,,0,,0,,sale		<reproperties>\SampleFiles
+protoStoreSales3c.bin		<reproperties>/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		<reproperties>\SampleFiles
+protoStoreSales3a.bin$		<reproperties>/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		<reproperties>\SampleFiles
+protoStoreSales5.bin		<reproperties>/CopyBook/StoreSales5.protocomp,,1,,1,,0,,4,,Store		<reproperties>\SampleFiles
+protoFieldTest.bin		<reproperties>/CopyBook/FieldTest.protocomp,,1,,1,,0,,4,,Store		<reproperties>\SampleFiles
+protoFieldTest2.bin		<reproperties>/CopyBook/FieldTest2.protocomp,,1,,1,,0,,4,,Store		<reproperties>\SampleFiles
+protoFieldTest.bin		<reproperties>/CopyBook/FieldTest.protocomp,,1,,1,,0,,0,,TestFields		<reproperties>\SampleFiles
+protoFieldTest2.bin		<reproperties>/CopyBook/FieldTest2.protocomp,,1,,1,,0,,0,,TestFields2		<reproperties>\SampleFiles
+Ams_LocDownload_20041228_Extract.bin		<reproperties>/CopyBook/Ams_Location.protocomp,,1,,1,,0,,0,,Locations		<reproperties>\SampleFiles
+Ams_LocDownload_20041228_Extract2.bin		<reproperties>/CopyBook/Ams_Location.protocomp,,1,,1,,0,,0,,Locations		<reproperties>\SampleFiles
+protoStoreSales5im.bin		<reproperties>/CopyBook/StoreSales5SD.protocomp,,1,,1,,4,,0,,Store		<reproperties>\SampleFiles
+protoStoreSales5SD.bin		<reproperties>/CopyBook/StoreSales5SD.protocomp,,1,,3,,0,,0,,Store		<reproperties>\SampleFiles
+protoStoreSales3_Compare.bin		<reproperties>/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		<reproperties>\SampleFiles
+protoStoreSales3a.bin		<reproperties>/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		<reproperties>\SampleFiles
+zzCreateSales3.bin		<reproperties>/CopyBook/StoreSales3.protocomp,,1,,0,,0,,4,,Store		<reproperties>\SampleFiles
+zXzCreateSales3.bin		<reproperties>/CopyBook/StoreSales3.proto,,0,,0,,0,,4,,Store		<reproperties>\SampleFiles
+zzCreateSales3xx.bin		<reproperties>/CopyBook/StoreSales3.protocomp,,1,,0,,0,,4,,Store		<reproperties>\SampleFiles
+zXcStore.bin		<reproperties>/CopyBook/sales.protocomp,,1,,1,,0,,0,,sale		<reproperties>\SampleFiles
+zcStore.bin		<reproperties>/CopyBook/Sales.proto,,0,,1,,0,,0,,sale		<reproperties>\SampleFiles
+zCcStore.bin		<reproperties>/CopyBook/Sales.proto,,0,,1,,0,,0,,sale		<reproperties>\SampleFiles
+protoStoreSales6.bin		<reproperties>/CopyBook/StoreSales6.protocomp,,1,,1,,0,,4,,Store		<reproperties>\SampleFiles
+protoStoreSales3xxx_Compare.bin		<reproperties>/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		<reproperties>\SampleFiles
+protoStoreSales3im.bin		<reproperties>/CopyBook/StoreSales3im.proto,,0,,1,,3,,0,,Store		<reproperties>\SampleFiles
+protoSales11.bin		<reproperties>/CopyBook/Sales11.protocomp,,1,,1,,0,,0,,sale11		<reproperties>\SampleFiles
+protoStoreSales3SDim.bin		<reproperties>/CopyBook/StoreSales3im.proto,,0,,3,,0,,4,,Store		<reproperties>\SampleFiles
+protoStoreSales3b.bin		<reproperties>/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		<reproperties>\SampleFiles
+protoStoreSales3SD.bin		<reproperties>/CopyBook/StoreSales3.protocomp,,1,,3,,0,,4,,Store		<reproperties>\SampleFiles
+ProtoTest_Address1_SD.bin		<reproperties>/CopyBook/addressbookSD.protocomp,,1,,2,,0,,1,,AddressBook		<reproperties>\SampleFiles
+Ams_LocDownload_20041228.bin		<reproperties>/CopyBook/Ams_Location.protocomp,,1,,1,,0,,0,,Locations		<reproperties>\SampleFiles
+testExt01.bin		<reproperties>/CopyBook/Extension01.proto,,0,,1,,0,,0,,Message		<reproperties>\SampleFiles
+xTestExt01b.bin		<reproperties>/CopyBook/Extension01.proto,,0,,0,,0,,0,,Message		<reproperties>\SampleFiles
+testExt02.bin		<reproperties>/CopyBook/Extension03.proto,,0,,1,,0,,0,,Message		<reproperties>\SampleFiles
+xTestExt03b.bin		<reproperties>/CopyBook/Extension03.proto,,0,,0,,0,,0,,Message		<reproperties>\SampleFiles
+FieldTestOptional.bin		<reproperties>/CopyBook/FieldTestOptional.proto,,0,,1,,0,,0,,TestFields		<reproperties>\SampleFiles
+protoStoreSales3.bin		<reproperties>/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		<reproperties>\SampleFiles
+protoStoreSales3_zzz.bin		<reproperties>/CopyBook/StoreSales3.protocomp,,1,,1,,0,,4,,Store		<reproperties>\SampleFiles
+oneOfTest.bin		<reproperties>/CopyBook/oneOfTest.protocomp,,1,,0,,0,,1,,TestOneOf		<reproperties>\SampleFiles
+oneOfTestA.bin		<reproperties>/CopyBook/oneOfTestA.proto,,0,,1,,0,,3,,TestOneOf		<reproperties>\CopyBook
+protoStoreSales7.bin		<reproperties>/CopyBook/StoreSales7.protocomp,,1,,1,,0,,4,,Store		<reproperties>\SampleFiles
+DTAR020_tst1.bin		<reproperties>/CopyBook/DTAR020.proto,,0,,1,,0,,0,,sale		<reproperties>\SampleFiles
+protoSales.bin		<reproperties>/CopyBook/sales.protocomp,,1,,1,,0,,0,,sale		<reproperties>\SampleFiles
+<directories>		
+<reproperties>\SampleFiles
+<reproperties>\CopyBook
 <extensions>		<velocity>
-toCsv_Tab		.csv
-toCsv_Comma.vm		.csv
+tocsv_tab		.csv
+tocsv_comma.vm		.csv
 zxmlstylesheet2.vm		.csv
 zxmlstylesheet1.vm		.csv
 <extensions>		<xslt>

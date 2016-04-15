@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EditorTask type="RecordTree">
+  <RecordTree>
+    <RecordParent recordName="ams PO Download: Detail" parentName="ams PO Download: Header"/>
+    <RecordParent recordName="ams PO Download: Allocation" parentName="ams PO Download: Detail"/>
+  </RecordTree>
+</EditorTask>

@@ -108,7 +108,7 @@
         <pack name="Params" required="yes">
             <description>Record Editor Parameters</description>
             <file src="../Instalation/hsqldb_izpack/HSQLDB" targetdir="$USER_HOME/.RecordEditor"/> 
-	    <parsable targetfile="$USER_HOME/.RecordEditor/HSQLDB/CobolFiles.txt"/>
+	    <!--parsable targetfile="$USER_HOME/.RecordEditor/HSQLDB/CobolFiles.txt"/-->
         </pack>
         <pack name="User" required="yes">
             <description>Record Editor Parameters</description>

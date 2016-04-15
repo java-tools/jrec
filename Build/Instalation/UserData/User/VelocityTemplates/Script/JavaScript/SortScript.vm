@@ -1,0 +1,21 @@
+/*
+ * Basic sort script to sort the selected file/view
+ */
+#parse( "setDataSource.pvm" )
+if ( ${ds} != null ) {
+#*  *##foreach( $rec in ${scriptSchema.getRecords()} )
+#*        *##if (${rec.isIncluded()})
+     ${ds}.sort(
+                RecordEditorData.getLineCompare(${ds}.getLayout(), ${rec.recordNumber}
+#*              *##foreach( $fld in ${rec.getFields()} )
+#*                   *##if (${fld.isUpdate()} )
+	                                        , '${fld.lookupName}',  RecordEditorData.descending
+#*                   *##elseif (${fld.isSelectOn()} )
+	                                        , '${fld.lookupName}' 
+#*                   *##end
+#*             *##end  
+                )   	
+	     );
+#*        *##end
+#* *##end
+}

@@ -1,0 +1,9 @@
+Record	0	2	<Tab>	0		N	RecordEditor Header
+1	0	Type	Record Type: Record	0	0	0	
+2	0	File_Structure	Type Of file (normally 0)	5	0	0	
+3	0	Record_Type	Record Type (0: Binary, 1: Fixed Length, 2: CSV 3: CSV & Quotes) 	5	0	0	
+4	0	Delimiter	Field Delimiter (<TAB> for Tab otherwise the Character	0	0	0	
+5	0	Record_Style		5	0	0	
+6	0	Quote	Quote Character (CSV Files)	0	0	0	
+7	0	List_Char	Wether to list in editor (Y/N)	0	0	0	
+8	0	Description	File Description	0	0	0	

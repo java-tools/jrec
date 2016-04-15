@@ -155,8 +155,8 @@ public class TstReplace extends TestCase {
             s = new String(poFileRep.getLine(i).getData());
             if (! result1[i].equals(s)) {
                 System.out.println();
-                System.out.println(i + " " + s + "<<");
-                System.out.println(i + " " + result1[i] + "<<");
+                System.out.println(i + " >>" + s + "<<");
+                System.out.println(i + " >>" + result1[i] + "<<");
                 ok = false;
             }
         }

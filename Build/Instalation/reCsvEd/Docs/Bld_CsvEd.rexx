@@ -17,9 +17,9 @@
 	    say 'Windows ...'
 	    regina = '"C:\Regina\regina.exe"'
 	    regina = "regina"
-	    instalation = 'C:\Users\mum\Bruce\Work\RecordEditor\Build\Instalation\' /*'E:\Work\RecordEdit\Instalation\'*/
+	    instalation = 'F:\Work\RecordEditor\Build\Instalation\' /*'E:\Work\RecordEdit\Instalation\'*/
 	    jeRecord='C:\Users\mum\Bruce\Work\JRecord\Docs\'
-	    b2h = 'C:\Users\mum\Bruce\Work\Rexx\B2H\B2H.REXX' /* home */
+	    b2h = 'F:\Work\Rexx\B2H\B2H.REXX' /* home */
 
 	    sep ='\'
 	    copy='Copy'

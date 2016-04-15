@@ -238,6 +238,11 @@ public class ComboLikeObject extends JPanel implements ActionListener {
 		valueTxt.setText(t);
 		fireValueChangeListner(null);
 	}
+	
+	public void setTextSilently(String t) {
+		valueTxt.setText(t);
+	}
+
 
 	/**
 	 * @return

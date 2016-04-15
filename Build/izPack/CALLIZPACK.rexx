@@ -12,14 +12,15 @@
 	
 		'/home/bm/Work/IzPack/bin/compile' IzPackSource ' -b . -o' of " -k standard"
 	end; else do
-		of='C:\Users\mum\Bruce\Work\RecordEditor\Build\izPack\'OutPutFile
+		dir = 'F:\Work\RecordEditor\Build\izPack\'
+		of=dir''OutPutFile
 			
-		call cd 'C:\Users\mum\Bruce\Work\RecordEditor\Build\izPack\izPack'
+		call cd dir'izPack'
 		
 		say IzPackSource
 		say of
 	
-		'"C:\Program Files (x86)\IzPack\bin\compile.bat"' IzPackSource ' -b . -o' of " -k standard"
+		'"F:\Programs\izpack\bin\compile.bat"' IzPackSource ' -b . -o' of " -k standard"
 	end
 
 	return

@@ -14,7 +14,7 @@
      startMenu="no"
      startup="no"
      initialState="noShow"
-     iconFile="$USER_HOME/.RecordEditor/HSQLDB/User/Icons/RecordEdit.ico"
+     iconFile="$INSTALL_PATH\lib\RecordEdit.ico"
      target="$JAVA_HOME/bin/javaw"
      commandLine="-jar &quot;$INSTALL_PATH\lib\runFullEditor.jar&quot;"
      description="Record Editor">
@@ -29,7 +29,7 @@
      startMenu="no"
      startup="no"
      initialState="noShow"
-     iconFile="$USER_HOME/.RecordEditor/HSQLDB/User/Icons/LayoutEdit.ico"
+     iconFile="$INSTALL_PATH\lib\LayoutEdit.ico"
      target="$JAVA_HOME/bin/javaw"
      commandLine="-jar &quot;$INSTALL_PATH\lib\runLayouteditor.jar&quot;"
      description="Layout Editor">
@@ -45,7 +45,7 @@
      startMenu="no"
      startup="no"
      initialState="noShow"
-     iconFile="$USER_HOME/.RecordEditor/HSQLDB/User/Icons/Cobol.ico"
+     iconFile="$INSTALL_PATH\lib\Cobol.ico"
      target="$JAVA_HOME/bin/javaw"
      commandLine="-jar &quot;$INSTALL_PATH\lib\run.jar&quot; net.sf.RecordEditor.editFileLayout.Edit"
      description="Cobol Editor">
@@ -61,9 +61,8 @@
      startMenu="no"
      startup="yes"
      workingDirectory="$USER_HOME/.RecordEditor/HSQLDB/Database"
-     target="$JAVA_HOME/bin/javaw"
-     commandLine="-cp &quot;$INSTALL_PATH\lib\hsqldbmain.jar&quot; org.hsqldb.Server"
-     description="Start Database Server - HSQLDB">
+     target="$INSTALL_PATH/lib/StartServer.bat"
+      description="Start Database Server - HSQLDB">
      <createForPack name="Base"/>
    </shortcut>   
 
@@ -78,7 +77,7 @@
      startMenu="no"
      startup="no"
      initialState="noShow"
-     iconFile="$USER_HOME/.RecordEditor/HSQLDB/User/Icons/Utility.ico"
+     iconFile="$INSTALL_PATH\lib\Utility.ico"
      target="$JAVA_HOME/bin/javaw"
      commandLine="-jar &quot;$INSTALL_PATH\lib\run.jar&quot; net.sf.RecordEditor.edit.util.RunVelocityGui"
      description="Run Velocity on a File">
@@ -109,7 +108,7 @@
      startMenu="no"
      startup="no"
      initialState="noShow"
-     iconFile="$USER_HOME/.RecordEditor/HSQLDB/User/Icons/Utility.ico"
+     iconFile="$INSTALL_PATH\lib\Utility.ico"
      target="$JAVA_HOME/bin/javaw"
      commandLine="-jar &quot;$INSTALL_PATH\lib\run.jar&quot; net.sf.RecordEditor.editProperties.EditOptions"
      description="Edit Startup Poperties">
@@ -125,7 +124,7 @@
      startMenu="no"
      startup="no"
      initialState="noShow"
-     iconFile="$USER_HOME/.RecordEditor/HSQLDB/User/Icons/Utility.Ico"
+     iconFile="$INSTALL_PATH\lib\Utility.Ico"
      target="$JAVA_HOME/bin/javaw"
      commandLine="-jar &quot;$INSTALL_PATH/lib/run.jar&quot; net.sf.RecordEditor.layoutWizard.WizardFileMenu"
      description="Layout Wizard">
@@ -141,7 +140,7 @@
      startMenu="no"
      startup="no"
      initialState="noShow"
-     iconFile="$USER_HOME/.RecordEditor/HSQLDB/User/Icons/Utility.Ico"
+     iconFile="$INSTALL_PATH\lib\Utility.Ico"
      target="$JAVA_HOME/bin/javaw"
      commandLine="-jar &quot;$INSTALL_PATH/lib/run.jar&quot; net.sf.RecordEditor.copy.CopyDBLayout"
      description="Copy Menu">
@@ -157,7 +156,7 @@
      startMenu="no"
      startup="no"
      initialState="noShow"
-     iconFile="$USER_HOME/.RecordEditor/HSQLDB/User/Icons/Utility.Ico"
+     iconFile="$INSTALL_PATH\lib\Utility.Ico"
      target="$JAVA_HOME/bin/javaw"
      commandLine="-jar &quot;$INSTALL_PATH/lib/run.jar&quot; net.sf.RecordEditor.diff.CompareDBLayout"
      description="Diff - File Compare">
@@ -190,7 +189,7 @@
      startMenu="no"
      startup="no"
      initialState="noShow"
-     iconFile="$USER_HOME/.RecordEditor/HSQLDB/User/Icons/RecordEdit.ico"
+     iconFile="$INSTALL_PATH\lib\RecordEdit.ico"
      target="$INSTALL_PATH/lib/RecordEditorBigFile.bat"
      commandLine=""
      description="Record Editor - Big file">

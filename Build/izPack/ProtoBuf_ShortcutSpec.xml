@@ -14,9 +14,9 @@
      startMenu="no"
      startup="no"
      initialState="noShow"
-     iconFile="$INSTALL_PATH\lib\RecordEdit.ico"
+     iconFile="$INSTALL_PATH/lib/RecordEdit.ico"
      target="$JAVA_HOME/bin/javaw"
-     commandLine="-jar &quot;$INSTALL_PATH\lib\RunProtoBufEditor.jar&quot;"
+     commandLine="-jar &quot;$INSTALL_PATH/lib/RunProtoBufEditor.jar&quot;"
      description="Protocol Buffers Editor">
      <createForPack name="Base" />
    </shortcut>   
@@ -46,9 +46,9 @@
      startMenu="no"
      startup="no"
      initialState="noShow"
-     iconFile="$INSTALL_PATH\lib\CsvEd.ico"
+     iconFile="$INSTALL_PATH/lib/CsvEd.ico"
      target="$JAVA_HOME/bin/javaw"
-     commandLine="-jar &quot;$INSTALL_PATH\lib\runCsvEditor.jar&quot;"
+     commandLine="-jar &quot;$INSTALL_PATH/lib/runCsvEditor.jar&quot;"
      description="Csv Editor (built on on RecordEditor)">
      <createForPack name="Base" />
    </shortcut>   

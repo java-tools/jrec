@@ -1,0 +1,116 @@
+<MapSet id="MAM0042"  TYPE="MAP" LANG="COBOL" MODE="INOUT" STORAGE="AUTO" SUFFIX="">
+<Map id="MAM0042"  SIZE="(24,80)" CTRL="(HONEOM,FREEKB,FRSET)" COLUMN="1" LINE="1" DATA="FIELD" TIOAPFX="YES" JUSTIFY="(LEFT)" OBFMT="NO   ">
+<Field   Row="1" Col="1" LENGTH="7" INITIAL="MAC0042" ATTRB="(PROT,NORM)" />
+<Field   Row="1" Col="21" LENGTH="29" INITIAL="PURCHASE ORDER HEADER ENQUIRY" ATTRB="(PROT,NORM)" />
+<Field   Row="1" Col="73" LENGTH="7" INITIAL="MAM0042" ATTRB="(PROT,NORM)" />
+<Field   Row="3" Col="1" LENGTH="10" INITIAL="PO NUMBER:" ATTRB="(PROT,NORM)" />
+<Field id="SPONUMB" Type="Fld"  Row="3" Col="12" LENGTH="12" ATTRB="(PROT,NORM)" PICIN="X(12)" PICOUT="X(12)" />
+<Field  Row="3" Col="25" LENGTH="13" INITIAL="   PO STATUS:" ATTRB="(PROT,NORM)" />
+<Field id="SPOSTAT" Type="Fld"  Row="3" Col="39" LENGTH="13" ATTRB="(PROT,NORM)" PICIN="X(13)'" />
+<Field   Row="3" Col="53" LENGTH="11" INITIAL="   PO ACTV:" ATTRB="(PROT,NORM)" />
+<Field id="SACTV" Type="Fld"  Row="3" Col="65" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="3" Col="67" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="4" Col="1" LENGTH="10" INITIAL="DEPT NO  :" ATTRB="(PROT,NORM)" />
+<Field id="SMDEPT" Type="Fld"  Row="4" Col="12" LENGTH="4" ATTRB="(PROT,NORM)" PICIN="X(4)" PICOUT="9(4)" />
+<Field   Row="4" Col="17" LENGTH="9" INITIAL="    NAME:" ATTRB="(PROT,NORM)" />
+<Field id="SNDEPT" Type="Fld"  Row="4" Col="27" LENGTH="35" ATTRB="(PROT,NORM)" PICIN="X(35)'" />
+<Field   Row="4" Col="63" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="5" Col="1" LENGTH="10" INITIAL="SUPPLIER :" ATTRB="(PROT,NORM)" />
+<Field id="SMSUP" Type="Fld"  Row="5" Col="12" LENGTH="8" ATTRB="(PROT,NORM)" PICIN="X(8)" PICOUT="9(8)" />
+<Field   Row="5" Col="21" LENGTH="5" INITIAL="NAME:" ATTRB="(ASKIP,NORM)" />
+<Field id="SNSUP" Type="Fld"  Row="5" Col="27" LENGTH="30" ATTRB="(ASKIP,NORM)" PICIN="X(30)" PICOUT="X(30)" />
+<Field   Row="5" Col="58" LENGTH="14" INITIAL="FREIGHT TERMS:" ATTRB="(ASKIP,NORM)" />
+<Field id="SCFRT" Type="Fld"  Row="5" Col="73" LENGTH="5" ATTRB="(ASKIP,NORM)" PICIN="X(05)" PICOUT="X(05)" />
+<Field   Row="5" Col="79" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="6" Col="1" LENGTH="14" INITIAL="TRADING TERMS:" ATTRB="(PROT,NORM)" />
+<Field id="SCTERMDESC" Type="Fld"  Row="6" Col="17" LENGTH="30" ATTRB="(PROT,NORM)" PICIN="X(30)" PICOUT="X(30)" />
+<Field   Row="6" Col="48" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="7" Col="1" LENGTH="9" INITIAL="ESTIMATED" ATTRB="(PROT,NORM)" />
+<Field   Row="7" Col="24" LENGTH="8" INITIAL="SUPPLIER" ATTRB="(PROT,NORM)" />
+<Field   Row="7" Col="41" LENGTH="8" INITIAL="ORD QTY:" ATTRB="(PROT,NORM)" />
+<Field id="SQUNITORD" Type="Fld"  Row="7" Col="50" LENGTH="7" ATTRB="(PROT,NORM)" PICIN="X(07)" PICOUT="Z(07)" />
+<Field   Row="7" Col="58" LENGTH="9" INITIAL=" REC QTY:" ATTRB="(PROT,NORM)" />
+<Field id="SUNITDEL" Type="Fld"  Row="7" Col="68" LENGTH="7" ATTRB="(PROT,NORM)" PICIN="X(07)" PICOUT="Z(07)" />
+<Field   Row="7" Col="76" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="8" Col="1" LENGTH="10" INITIAL="SUPP COST:" ATTRB="(PROT,NORM)" />
+<Field id="SAEST" Type="Fld"  Row="8" Col="12" LENGTH="10" ATTRB="(PROT,NORM)" PICIN="X(10)" PICOUT="Z(6)9.99" />
+<Field   Row="8" Col="23" LENGTH="6" INITIAL=" COST:" ATTRB="(PROT,NORM)" />
+<Field id="SACOSTNET" Type="Fld"  Row="8" Col="30" LENGTH="10" ATTRB="(PROT,NORM)" PICIN="X(10)" PICOUT="Z(6)9.99" />
+<Field   Row="8" Col="41" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field   Row="9" Col="1" LENGTH="8" INITIAL="OTB TYPE" ATTRB="(ASKIP,NORM)" />
+<Field   Row="9" Col="18" LENGTH="8" INITIAL="(L/O/R):" ATTRB="(ASKIP,NORM)" />
+<Field id="SCOTB" Type="Fld"  Row="9" Col="27" LENGTH="1" ATTRB="(ASKIP,NORM)" PICIN="X" PICOUT="X" />
+<Field   Row="9" Col="29" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="10" Col="1" LENGTH="25" INITIAL="DELIVERY DATE NOT BEFORE:" ATTRB="(PROT,NORM)" />
+<Field id="SDDLVYNOTBEF" Type="Fld"  Row="10" Col="27" LENGTH="6" ATTRB="(PROT,NORM)" PICIN="X(6)" PICOUT="Z(6)" />
+<Field   Row="10" Col="34" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="11" Col="1" LENGTH="25" INITIAL="DELIVERY DATE NOT AFTER :" ATTRB="(PROT,NORM)" />
+<Field id="SDDLVYNOTAFTR" Type="Fld"  Row="11" Col="27" LENGTH="6" ATTRB="(PROT,NORM)" PICIN="X(6)" PICOUT="Z(6)" />
+<Field   Row="11" Col="34" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="12" Col="1" LENGTH="25" INITIAL="ORD TYPE (B/C/P/S/I/O/H):" ATTRB="(PROT,NORM)" />
+<Field id="SCTYPE" Type="Fld"  Row="12" Col="27" LENGTH="1" ATTRB="(PROT,NORM)" PICIN="X" PICOUT="X" />
+<Field   Row="12" Col="29" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="12" Col="39" LENGTH="22" INITIAL="REPROCESS INDICATOR  :" ATTRB="(PROT,NORM)" />
+<Field id="N_REPROC_IND" Type="Fld"  Row="12" Col="62" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="12" Col="64" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="13" Col="1" LENGTH="6" INITIAL="SEASON" ATTRB="(PROT,NORM)" />
+<Field   Row="13" Col="25" LENGTH="1" INITIAL=":" ATTRB="(PROT,NORM)" />
+<Field id="SCSEASON" Type="Fld"  Row="13" Col="27" LENGTH="3" ATTRB="(PROT,NORM)" PICIN="X(3)" PICOUT="X(3)" />
+<Field   Row="13" Col="31" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="13" Col="39" LENGTH="15" INITIAL="ALLOCATION FLAG" ATTRB="(PROT,NORM)" />
+<Field   Row="13" Col="60" LENGTH="1" INITIAL=":" ATTRB="(PROT,NORM)" />
+<Field id="SAPPORT" Type="Fld"  Row="13" Col="62" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="13" Col="64" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="14" Col="1" LENGTH="15" INITIAL="CONTRACT NUMBER" ATTRB="(PROT,NORM)" />
+<Field   Row="14" Col="25" LENGTH="1" INITIAL=":" ATTRB="(PROT,NORM)" />
+<Field id="SMCONT" Type="Fld"  Row="14" Col="27" LENGTH="8" ATTRB="(PROT,NORM)" PICIN="X(8)" PICOUT="X(8)" />
+<Field   Row="14" Col="36" LENGTH="12" INITIAL="   REPL TYPE" ATTRB="(PROT,NORM)" />
+<Field   Row="14" Col="60" LENGTH="1" INITIAL=":" ATTRB="(PROT,NORM)" />
+<Field id="SREPLTYPE" Type="Fld"  Row="14" Col="62" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="14" Col="64" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="15" Col="1" LENGTH="25" INITIAL="REORDER INDICATOR  (Y/N):" ATTRB="(PROT,NORM)" />
+<Field id="SCRORD" Type="Fld"  Row="15" Col="27" LENGTH="1" ATTRB="(PROT,NORM)" PICIN="X" PICOUT="X" />
+<Field   Row="15" Col="29" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="15" Col="39" LENGTH="10" INITIAL="EDI STATUS" ATTRB="(PROT,NORM)" />
+<Field   Row="15" Col="60" LENGTH="1" INITIAL=":" ATTRB="(PROT,NORM)" />
+<Field id="SEDISTATUS" Type="Fld"  Row="15" Col="62" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="15" Col="64" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="16" Col="1" LENGTH="25" INITIAL="DATE REQUIRED ON FLOOR  :" ATTRB="(PROT,NORM)" />
+<Field id="SDONFLRREQ" Type="Fld"  Row="16" Col="27" LENGTH="6" ATTRB="(PROT,NORM)" PICIN="X(6)" PICOUT="Z(6)" />
+<Field   Row="16" Col="34" LENGTH="20" INITIAL="     EDI TRANSMITTED" ATTRB="(PROT,NORM)" />
+<Field   Row="16" Col="60" LENGTH="1" INITIAL=":" ATTRB="(PROT,NORM)" />
+<Field id="SEDIXMIT" Type="Fld"  Row="16" Col="62" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="16" Col="64" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="17" Col="1" LENGTH="15" INITIAL="DATE ADVERTISED" ATTRB="(PROT,NORM)" />
+<Field   Row="17" Col="25" LENGTH="1" INITIAL=":" ATTRB="(PROT,NORM)" />
+<Field id="SDADV" Type="Fld"  Row="17" Col="27" LENGTH="6" ATTRB="(PROT,NORM)" PICIN="X(6)" PICOUT="Z(6)" />
+<Field   Row="17" Col="34" LENGTH="27" INITIAL="     ADVERTISING INDICATOR:" ATTRB="(PROT,NORM)" />
+<Field id="SCINDADV" Type="Fld"  Row="17" Col="62" LENGTH="1" ATTRB="(PROT,NORM)" PICIN="X" PICOUT="X" />
+<Field   Row="17" Col="64" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="18" Col="1" LENGTH="12" INITIAL="DATE WRITTEN" ATTRB="(PROT,NORM)" />
+<Field   Row="18" Col="25" LENGTH="1" INITIAL=":" ATTRB="(PROT,NORM)" />
+<Field id="SDPOENTRY" Type="Fld"  Row="18" Col="27" LENGTH="6" ATTRB="(PROT,NORM)" PICIN="X(6)" PICOUT="Z(6)" />
+<Field   Row="18" Col="34" LENGTH="27" INITIAL="     PRE MARKED CODE/SELL :" ATTRB="(PROT,NORM)" />
+<Field id="SPRICEMARKED" Type="Fld"  Row="18" Col="62" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="18" Col="64" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="19" Col="1" LENGTH="10" INITIAL="DELIVER TO" ATTRB="(PROT,NORM)" />
+<Field   Row="19" Col="25" LENGTH="1" INITIAL=":" ATTRB="(PROT,NORM)" />
+<Field id="SMDCDLVY" Type="Fld"  Row="19" Col="27" LENGTH="3" ATTRB="(PROT,NORM)" PICIN="XXX" PICOUT="999" />
+<Field   Row="19" Col="31" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="19" Col="39" LENGTH="22" INITIAL="DELIVERY ADDRESS CODE:" ATTRB="(PROT,NORM)" />
+<Field id="SDLVYADDR" Type="Fld"  Row="19" Col="62" LENGTH="3" ATTRB="(PROT,NORM)" />
+<Field   Row="19" Col="66" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="20" Col="1" LENGTH="13" INITIAL="INVOICE TERMS" ATTRB="(PROT,NORM)" />
+<Field   Row="20" Col="25" LENGTH="1" INITIAL=":" ATTRB="(PROT,NORM)" />
+<Field id="STINVTERM" Type="Fld"  Row="20" Col="27" LENGTH="40" ATTRB="(PROT,NORM)" PICIN="X(40)" PICOUT="X(40)" />
+<Field   Row="20" Col="68" LENGTH="1" ATTRB="(PROT,NORM)" />
+<Field   Row="21" Col="1" LENGTH="5" INITIAL="PACK:" ATTRB="(PROT,BRT)" />
+<Field id="SELPACK" Type="Fld"  Row="21" Col="7" LENGTH="2" ATTRB="(UNPROT,NORM,IC)" />
+<Field  Row="21" Col="10" LENGTH="13" INITIAL=" OR  KEYCODE:" ATTRB="(ASKIP,BRT)" />
+<Field id="SELSKU" Type="Fld"  Row="21" Col="24" LENGTH="8" ATTRB="(UNPROT,NORM)" />
+<Field  Row="21" Col="33" LENGTH="1" ATTRB="(ASKIP,NORM)" />
+<Field  Row="22" Col="1" LENGTH="65" INITIAL="VALID KEYS - ENTER, PF4, PF5, PF11, PF12, PA1,PA2, CLEAR (HELP)." ATTRB="(ASKIP,BRT)" />
+<Field id="TMSGAPP" Type="Fld"  Row="23" Col="1" LENGTH="79" ATTRB="(ASKIP,BRT)" />
+<Field   Row="24" Col="1" LENGTH="1" ATTRB="(PROT,NORM)" />
+</Map>
+</MapSet>

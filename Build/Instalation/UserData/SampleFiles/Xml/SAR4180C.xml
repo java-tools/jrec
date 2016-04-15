@@ -1,0 +1,26 @@
+<copybook filename="SAR4180C.txt">
+	<!--*****************************************************************-->
+	<!--* SAR4180C EXTRACTED SALES & STAOCK INFO FOR EDI RECORD LAYOUT  *-->
+	<!--* MEMBER IN COPYBOOK LIBRARY PT99.BASE0.COP     NOTE: ID = DTL  *-->
+	<!--* CREATED 20/12/94  S GHARIOS.                                  *-->
+	<!--*                                                               *-->
+	<!--* TOTAL RECORD LENGTH 15                                        *-->
+	<!--*****************************************************************-->
+	<!--* CHANGE CONTROL.-->
+	<!--*=========+========+==================================+==========+-->
+	<!--* VERSION | DATE   | DESCRIPTION                      |   AUTHOR |-->
+	<!--*=========+========+==================================+==========+-->
+	<!--* V02     |19/04/00|EDI CHANGES TO ALLOW NEGATIVE     | S.RAJU   |-->
+	<!--*         |        |VALUES                            |          |-->
+	<!--*=========+========+==================================+==========+-->
+	<!--* V03     |22/06/00|SMS-PROJECT: RECORD LENGTH CHANGED| VIJAY    |-->
+	<!--*         |        |FROM 32 TO 15.THE FILLER WAS      | SHANBHAG |-->
+	<!--*         |        | COMMENTED AND LOCATION-NUMBER    |          |-->
+	<!--*         |        | WAS INSCREASED FROM X(3) TO X(4).|          |-->
+	<!--*================================================================|-->
+	<item level="03" name="R4180C-LOCATION-DETAIL-RECORD" position="1" display-length="15">
+		<item level="05" name="R4180C-LOCATION-DETAIL-ID" picture="X(3)" display-length="3" position="1"/>
+		<item level="05" name="R4180C-LOCATION-NUMBER" picture="X(4)" display-length="4" position="4"/>
+		<item level="05" name="R4180C-QUANTITY" picture="-9(7)" display-length="8" numeric="true" position="8"/>
+	</item>
+</copybook>

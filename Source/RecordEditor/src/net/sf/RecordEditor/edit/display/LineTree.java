@@ -29,7 +29,7 @@ public class LineTree extends BaseLineTree<LineNode> {
 
 	protected LineTree(FileView viewOfFile, AbstractLineNodeTreeParser treeParser,
 			boolean mainView, final int columnsToSkip) {
-		super(viewOfFile, mainView, false, columnsToSkip, NO_OPTION_PANEL);
+		super(viewOfFile, mainView, true, columnsToSkip, NO_OPTION_PANEL);
 
 		parser = treeParser;
 		root = parser.parse(view);

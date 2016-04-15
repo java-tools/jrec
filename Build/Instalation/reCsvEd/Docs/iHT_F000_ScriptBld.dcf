@@ -1,0 +1,19 @@
+:h1.Building Scripts (Macro's)
+.**im iRE_TagDefs.dcf
+:p.To make writing Script's (Macro's) easier, the :hp2.RecordEditor:ehp2. has a script build
+function that will build basic scripts. To use script buileder:
+
+.pict ScriptBldMenu.png
+
+:p.The next screen allows you to:
+:ul compact.
+ :li.Set selection fields (i.e. used in the if statement).
+ :li.Fields to be updated
+:eul.
+
+.pict ScriptBldScreen.png
+
+:p.When you hit the build button, the program will build a sample Script (Macro)
+
+.pict ScriptEdit.png
+

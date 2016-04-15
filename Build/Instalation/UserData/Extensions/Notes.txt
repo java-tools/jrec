@@ -1,0 +1,1 @@
+Any jars in this directory will be picked up by the RecordEditor when it starts

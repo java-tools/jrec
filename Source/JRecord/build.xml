@@ -1,6 +1,6 @@
-<!-- 
+<!--
 /*************************************************************
- * This file is part of RecordEditor.  
+ * This file is part of RecordEditor.
  * See the file "LICENSE" for copyright information and the
  * terms and conditions for copying, distribution and
  * modification of RecordEditor.
@@ -8,7 +8,7 @@
  */
 -->
 
-<project name="JRecord" default="build">
+<project name="JRecord_097" default="build">
 
 	<property name="src.dir" location="src" />
 	<property name="build.dir" location="build" />
@@ -24,7 +24,7 @@
 		<ant dir="../JRecord_Common" antfile="build.xml" output="buildout.txt" inheritall="false" />
 	</target>
 
-	
+
 	<target name="compile" description="compile code" depends="JRecord_Common">
 	<!--echo file="${inputLib.dir}/SmallEditorFiles.txt"/-->
 
@@ -48,7 +48,7 @@
 			<fileset dir="${JRecordCommon.dir}"/>
 			<zipfileset src="${cb2xmlLib.dir}/cb2xml_definitions.jar" />
 		</jar>
-	</target>	
+	</target>
 
 	<target name="javadoc" description="javadoc">
 		<mkdir dir="${javadoc.dir}" />

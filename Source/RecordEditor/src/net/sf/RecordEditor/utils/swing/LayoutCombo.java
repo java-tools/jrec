@@ -109,7 +109,8 @@ public class LayoutCombo extends JComboBox {
 
 		//System.out.print(" Preffered.");
 		if (prefered) {
-			preferedIndex = this.getItemCount();
+//			preferedIndex = this.getItemCount();
+			preferedIndex = recordLayout.getRecordCount();
 			this.addItem(PREFERED_LAYOUT);
 		} else {
 			preferedIndex = 0;
@@ -141,6 +142,8 @@ public class LayoutCombo extends JComboBox {
 
 		if (ret < layoutListReMap.length) {
 			ret = layoutListReMap[ret];
+		} else if (ret == layoutListReMap.length) {
+			ret = preferedIndex;
 		}
 
 		return ret;

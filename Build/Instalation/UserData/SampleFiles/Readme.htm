@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>Starting the Record Editor</TITLE>
+<!-- Begin Header Records  ========================================== -->
+<!-- G:\RecordEdit_Prj\Docs\reSampleFiles.dcf converted by B2H R4.7   -->
+<!-- (390) (WINNT) on 14 Jun 2005 at 20:54:55                         -->
+<META HTTP-EQUIV="updated" CONTENT="Wed, 18 May 2005 13:52:20">
+<META HTTP-EQUIV="review" CONTENT="Thu, 18 May 2006 13:52:20">
+<META HTTP-EQUIV="expires" CONTENT="Fri, 18 May 2007 13:52:20">
+</HEAD><BODY>
+<!-- End Header Records  ============================================ -->
+<A NAME="Top_Of_Page"></A>
+<P>
+<P>
+<a name="Toc"/>
+<A NAME="ToC_1" HREF="#Header_1" >Starting the Record Editor</A><BR>
+<A NAME="ToC_2" HREF="#Header_2" >Supplied Sample Files</A><BR>
+<P>
+<HR><H2><A NAME="Header_1" HREF="#ToC_1" >Starting the Record Editor</A></H2>
+<P>The Record Editor can either be started from
+<UL COMPACT>
+<LI>The start Menu
+<LI>From Windows Explorer, you can use the right click button -
+<P>
+<table><tr><td><img SRC="..\Docs\Diagram\RightClick.gif"></td></tr></table>
+<P>
+<LI>From the command line. It accepts the following parameters
+<OL COMPACT TYPE=1>
+<LI>File Name
+<LI>Line Number (preceded by -l).
+</OL>
+<P>To edit a file Filename and move to the 100 record you would enter
+<P>java.jar -jar .../RecordEdit.jar Filename -l 100
+</UL>
+<P>
+<P>When the Record Editor start it displays the record Layout Selection Screen
+<P>
+<img SRC="..\Docs\Diagram\RecordEdit_Main.png">
+<PRE>
+</PRE><P>Fields on this screen are
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><P><B>Field</B>
+</TD><TD><P><B>Description</B>
+</TD></TR><TR VALIGN="TOP"><TD><P><B>File
+</B></TD><TD><P>File Name, you can select a file by using the <B><I>Find File</I></B> to the
+right.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Database
+</B></TD><TD><P>The system stores it record definition in a database. The system can also
+connect to multiple Databases. This allows you have different Test / Production
+Layout DB's. This Combo is used to choose which DB to use.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>System
+</B></TD><TD><P>The Record Layouts can be grouped into different systems. This Combo Box is
+used to select a specific System.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Record Layout
+</B></TD><TD><P>The Record Layout used to display the file. Only layouts belonging to the
+selected system (above) are displayed.
+</TD></TR></TABLE>
+<P>
+<P>Buttons on the Screen
+<TABLE CELLPADDING="3">
+<TR VALIGN="TOP"><TD><P><B>Button</B>
+</TD><TD><P><B>Description</B>
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Find File
+</B></TD><TD><P>Used to select the file
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Reload
+</B></TD><TD><P>Reload System Details from the DB.
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Edit
+</B></TD><TD><P>Edit the file
+</TD></TR><TR VALIGN="TOP"><TD><P><B>Browse
+</B></TD><TD><P>View the file, but no changes are possible
+</TD></TR></TABLE>
+<P>
+<HR><H2><A NAME="Header_2" HREF="#ToC_2" >Supplied Sample Files</A></H2>
+<P>In the $IntallDirectory/SampleFiles there are a number of example file for
+you try out the record Editor.
+<P>
+<BR>
+<TABLE   BORDER="1">
+<TR>
+<TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">File
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">System
+</TH><TH ALIGN="LEFT" VALIGN="TOP" BGCOLOR="#DADADA">Record Layout
+</TH></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Ams_Receipt.txt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >AMS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >ams Receipt
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Ams_PODownload_20050101.txt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >AMS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >ams PO Download
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Ams_PODownload_20041231.txt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >AMS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >ams PO Download
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Ams_LocDownload_20041228.txt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >AMS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >ams Store
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Ams_Shipping_04DEC03190126.txt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >AMS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >ams Shipping Upload
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Ams_Shipping_04DEC02190132.txt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >AMS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >ams Shipping Upload
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Ams_Shipping_04DEC01190125.txt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >AMS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >ams Shipping Upload
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Ams_VendorDownload_20041229.txt
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >AMS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >ams Vendor Download
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Pos_Spl_1.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >POS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >SPL
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Pos_Spl_2.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >POS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >SPL
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Pos_Price_2.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >POS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Price
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Pos_Price_1.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >POS
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Price
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">DTAR119_keyode.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Mainframe
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >DTAR119
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">DTAR020.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Mainframe
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >DTAR020
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">DTAR107.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Mainframe
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >DTAR107
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">DTAR192.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Mainframe
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >DTAR192
+</TD></TR><TR>
+<TD ALIGN="LEFT" VALIGN="TOP">sampleEbcidicNew.bin
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Mainframe
+</TD><TD ALIGN="LEFT" VALIGN="TOP" >Mainframe FB80
+</TD></TR></TABLE>
+<P>
+<P>
+<P>
+<A NAME="Bot_Of_Page"></A>
+</BODY></HTML>

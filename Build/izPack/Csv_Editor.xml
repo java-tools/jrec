@@ -17,7 +17,7 @@
     -->
     <info>
         <appname>RecordEdit/reCsvEd</appname>
-        <appversion>0.90</appversion>
+        <appversion>0.97g</appversion>
         <authors>
             <author name="Bruce Martin" email="bruce_a_martin@sourceforge.net" />
             <!--author name="Hidden Man" email="hidden@hisdomain.com"/-->
@@ -91,27 +91,39 @@
             <description>Record Editor Docs</description>
             <file src="../Instalation/reCsvEd/Docs" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
             <fileset dir="../Instalation/GeneralDB/Docs/JSTREE/" targetdir="$INSTALL_PATH/Docs/JSTREE"/>
-        </pack>
+            <fileset dir="../Instalation/GeneralDB/Docs/" includes="HlpRe*.htm" targetdir="$INSTALL_PATH/Docs"/>
+       </pack>
         <!--pack name="Diagrams" required="yes" override="true">
             <description>Record Editor Diagrams</description>
             <fileset dir="../Instalation/reCsvEd/Docs/Diagram/" targetdir="$INSTALL_PATH/Docs/Diagram">
             </fileset>
         </pack-->
-        <pack name="SampleFiles" required="yes">
+        <!--pack name="SampleFiles" required="yes">
             <description>Sample Files</description>
-            <file src="../Instalation/reCsvEd/SampleFiles" targetdir="$USER_HOME/.RecordEditor/reCsvEd"/> <!-- Reccursive adding -->
+            <file src="../Instalation/reCsvEd/SampleFiles" targetdir="$USER_HOME/.RecordEditor/reCsvEd"/> 
         </pack>
         <pack name="Params" required="yes" >
             <description>Record Editor Parameters</description>
             <fileset dir="../Instalation/reCsvEd/Parms/" targetdir="$USER_HOME/.RecordEditor/reCsvEd"/> 
-	    <!--parsable targetfile="$USER_HOME/.RecordEditor/reCsvEd/reCsvEdFiles.txt"/!-->
         </pack>
         <pack name="User" required="yes">
             <description>Record Editor Parameters</description>
             <file src="../Instalation/GeneralDB/User" targetdir="$USER_HOME/.RecordEditor/reCsvEd"/> 
             <fileset dir="../Instalation/hsqldb_izpack/lib/Extensions" includes="*.txt" targetdir="$USER_HOME/.RecordEditor/reCsvEd/Extensions"/>
+        </pack!-->
+        
+        <!-- Add UserJars so the Delete all in the unistall will delete the user data -->
+        <pack name="Params" required="yes" >
+            <description>User Jars File</description>
+            <singlefile  src="../Instalation/reCsvEd/Parms/UserJars.txt" target="$USER_HOME/.RecordEditor/reCsvEd/UserJars.txt"/> 
         </pack>
-        <pack name="lib" required="yes" override="true">
+
+       <pack name="UserData" required="yes" override="true">
+            <description>User Data DB</description>
+            <fileset dir="../Instalation/UserData/" includes="UserData1.zip" targetdir="$INSTALL_PATH/UserData"/>
+            <fileset dir="../Instalation/reCsvEd/UserData/" includes="*.zip" targetdir="$INSTALL_PATH/UserData"/>
+        </pack>
+       <pack name="lib" required="yes" override="true">
             <description>Record Editor Jars</description>
             <file src="../Instalation/reCsvEd/lib" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
             <fileset dir="../Instalation/hsqldb_izpack/lib/Extensions" includes="*.txt" targetdir="$INSTALL_PATH/lib/Extensions"/>
@@ -121,12 +133,18 @@
             	<include name="JRecord.pack"/>
             	<include name="RecordEdit.pack"/>
             	<include name="ZCalendar.pack"/>
-          	<include name="icon*.zip"/>
+          	<!--include name="icon*.zip"/-->
           	<include name="chardet.pack"/>
           	<include name="rsyntaxtextarea.pack"/>
+         	<include name="v*.pack"/>
+         	<include name="zip4j_1.3.2.pack"/>
+         	<include name="swingx-subset-1.6.4.pack"/>
           	<include name="pict.zip"/>
             </fileset>
-	    <parsable targetfile="$INSTALL_PATH/lib/CsvEditorBigFile.Bat"   type="shell"/>
+            <fileset dir="../Instalation/GeneralDb/lib/" targetdir="$INSTALL_PATH/lib">
+            	<include name="JRecord.proper*"/>
+            </fileset>
+ 	    <parsable targetfile="$INSTALL_PATH/lib/CsvEditorBigFile.Bat"   type="shell"/>
 	    <parsable targetfile="$INSTALL_PATH/lib/runCsvEditor.sh"   type="shell"/>
 	    <executable targetfile="$INSTALL_PATH/lib/runCsvEditor.sh" stage="never"/>
 	    <parsable targetfile="$INSTALL_PATH/lib/runCsvEditorBigFile.sh"   type="shell"/>
@@ -139,18 +157,18 @@
             <file src="../Instalation/GeneralDB/lang"    targetdir="$INSTALL_PATH"/>
         </pack>
 
-	<pack name="CopyBook" required="yes">
+	<!--pack name="CopyBook" required="yes">
 		<description>CopyBooks</description>
 		<fileset dir="../Instalation/reCsvEd/CopyBook" includes="**" targetdir="$USER_HOME/.RecordEditor/reCsvEd/CopyBook"/>
-	</pack>
+	</pack!-->
 	<!--pack name="MarathonTests" required="no">
 		<description>MarathonTests</description>
 		<fileset dir="../Instalation/reCsvEd/MarathonTests" includes="**" targetdir="$INSTALL_PATH/MarathonTests"/>
 	</pack-->
-	<pack name="Velocity" required="yes">
+	<!--pack name="Velocity" required="yes">
             <description>Sample Velocity Templates</description>
             <fileset dir="../Instalation/GeneralDB/SampleVelocityTemplates" includes="*/*.vm" targetdir="$USER_HOME/.RecordEditor/reCsvEd/SampleVelocityTemplates"/> 
-        </pack>
+        </pack!-->
         <pack name="bin" os="unix" required="no" override="true">
             <description>Linux/Unix bin direcory</description>
             <fileset dir="../Instalation/reCsvEd/lib" includes="*.sh" targetdir="$INSTALL_PATH/bin"/> <!-- Reccursive adding -->
@@ -175,6 +193,7 @@
     
 
     <native type="izpack" name="ShellLink.dll"/> 
+    <native type="izpack" name="ShellLink_x64.dll"/>
 
    
 </installation>

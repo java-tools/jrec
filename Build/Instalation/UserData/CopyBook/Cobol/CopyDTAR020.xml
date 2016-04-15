@@ -1,0 +1,11 @@
+
+<copybook filename="DTAR020.cbl"><!--*   DTAR020 IS THE OUTPUT FROM DTAB020 FROM THE IML--><!--*   CENTRAL REPORTING SYSTEM--><!--*   CREATED BY BRUCE ARTHUR  19/12/90--><!--*   RECORD LENGTH IS 27.-->
+	<item level="03" name="DTAR020-KCODE-STORE-KEY" position="1" display-length="10" storage-length="10">
+		<item level="05" name="DTAR020-KEYCODE-NO" picture="X(08)" display-length="8" storage-length="8" position="1"/>
+		<item level="05" name="DTAR020-STORE-NO" picture="S9(03)" signed="true" display-length="3" storage-length="2" numeric="true" usage="computational-3" position="9"/>
+	</item>
+	<item level="03" name="DTAR020-DATE" picture="S9(07)" signed="true" display-length="7" storage-length="4" numeric="true" usage="computational-3" position="11"/>
+	<item level="03" name="DTAR020-DEPT-NO" picture="S9(03)" signed="true" display-length="3" storage-length="2" numeric="true" usage="computational-3" position="15"/>
+	<item level="03" name="DTAR020-QTY-SOLD" picture="S9(9)" signed="true" display-length="9" storage-length="5" numeric="true" usage="computational-3" position="17"/>
+	<item level="03" name="DTAR020-SALE-PRICE" picture="S9(9)V99" signed="true" display-length="11" storage-length="6" scale="2" numeric="true" usage="computational-3" position="22"/>
+</copybook>

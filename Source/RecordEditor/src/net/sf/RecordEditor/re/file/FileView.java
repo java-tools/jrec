@@ -2192,6 +2192,25 @@ public class FileView	extends 			AbstractTableModel
 			//boolean normalSearch
 			int operator) throws RecordException {
 
+		int num = replaceAllImplementation(
+						searchFor, replaceWith, pos,
+						ignoreCase, operator);
+	    
+	    JOptionPane.showMessageDialog(frame, UtMessages.REPLACE_ALL.get(num, searchFor));
+	}
+
+	/**
+	 * @param searchFor
+	 * @param replaceWith
+	 * @param pos
+	 * @param ignoreCase
+	 * @param operator
+	 * @return
+	 * @throws RecordException
+	 */
+	public int replaceAllImplementation(String searchFor, String replaceWith,
+			FilePosition pos, boolean ignoreCase, int operator)
+			throws RecordException {
 		int num = 0;
 	    pos.col = 0;
 	    pos.row = 0;
@@ -2201,8 +2220,7 @@ public class FileView	extends 			AbstractTableModel
 //	        System.out.print(" > " + pos.row + " " + pos.col);
 	    	num += 1;
 	    }
-	    
-	    JOptionPane.showMessageDialog(frame, UtMessages.REPLACE_ALL.get(num, searchFor));
+		return num;
 	}
 
 	/**

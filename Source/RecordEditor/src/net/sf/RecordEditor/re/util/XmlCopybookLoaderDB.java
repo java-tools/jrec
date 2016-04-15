@@ -95,33 +95,37 @@ public class XmlCopybookLoaderDB extends XmlCopybookLoader {
         RecordRec oldRec;
 
 
-        recordDB.resetSearch();
-        recordDB.setSearchArg("COPYBOOK", AbsDB.opEquals, "'" + copyBook + "'");
-        //System.out.println("Searching >" + copyBook + "<");
-        recordDB.open();
-
-        if ((oldRec =  recordDB.fetch()) != null) {
-            ExternalRecord oldValues = oldRec.getValue();
-            rec.setRecordId(oldValues.getRecordId());
-            rec.setNew(false);
-            //System.out.println("Found old record ...");
-            //fieldsDB.setParams(rec.getRecordId());
-
-            if (updateRequired) {
-                rec.setUpdateStatus(AbsRecord.UPDATED);
-            } else {
-                String oldFont = oldValues.getFontName();
-
-                if (oldFont == null) {
-                    oldFont = "";
-                }
-
-                if (! getFontName().toUpperCase().equals(oldFont.toUpperCase())) {
-                    oldValues.setFontName(getFontName());
-                    rec = oldValues;
-                    rec.setUpdateStatus(AbsRecord.UPDATED);
-                }
-            }
+        if (copyBook != null && copyBook.length() > 0) {
+	        recordDB.resetSearch();
+	        recordDB.setSearchArg("COPYBOOK", AbsDB.opEquals, "'" + copyBook + "'");
+	        System.out.println("Searching >" + copyBook + "<");
+	        recordDB.open();
+	
+	        if ((oldRec =  recordDB.fetch()) != null) {
+	            ExternalRecord oldValues = oldRec.getValue();
+	            rec.setRecordId(oldValues.getRecordId());
+	            rec.setNew(false);
+	            //System.out.println("Found old record ...");
+	            //fieldsDB.setParams(rec.getRecordId());
+	
+	            if (updateRequired) {
+	                rec.setUpdateStatus(AbsRecord.UPDATED);
+	            } else {
+	                String oldFont = oldValues.getFontName();
+	
+	                if (oldFont == null) {
+	                    oldFont = "";
+	                }
+	
+	                if (! getFontName().toUpperCase().equals(oldFont.toUpperCase())) {
+	                    oldValues.setFontName(getFontName());
+	                    rec = oldValues;
+	                    rec.setUpdateStatus(AbsRecord.UPDATED);
+	                }
+	            }
+	        } else {
+	            super.updateRecord(copyBook, rec, updateRequired);
+	        }
         } else {
             super.updateRecord(copyBook, rec, updateRequired);
         }

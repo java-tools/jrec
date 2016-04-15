@@ -1,18 +1,42 @@
- Protocol Buffers Editor 0.92
-*============================*
+ Protocol Buffers Editor 0.97l
+*=============================*
 
 This program is for editing Binary Files in 
-Googles Protocol Buffers format (2.5.0 and hopefully latter).
-It is built on top of the RecordEditor (0.92) Project 
+Googles Protocol Buffers format (2.6.1 and hopefully latter).
+It is built on top of the RecordEditor (0.97k) Project 
 (http://record-editor.sourceforge.net).
 
-The editor requires Protocol buffers 2.5.0 (or later ???, tested with 2.41)
-to be installed. The Protocol Buffer programs need to be 
-on the Program Path, The packages uses the protoc command to compile .proto files.
+The editor requires Protocol buffers 3.0beta (or later ???)
+to be installed. The Protocol Buffer program protoc needs to be 
+on the Program Path, The packages uses the protoc command to "compile" .proto files.
 
 
+Changes 0.97l
+    * Add check for duplicate map keys
+    
+    
+Changes 0.97k
+    * Use RecordEditor 0.97k
+    * Added Combo's to 'Prefered' Layout
+    * Make 'Prefered' the default layout 
 
-RecordEditor Changes Release 0.92
+
+Changes 0.96j
+    * Fix for problem with entering "" in optional numeric fields
+    * Enhanced mainscreen of Csv editor.
+    
+Changes 0.96i
+    * New Recent-directories pane on file-chooser screens
+    * New Character-set option on Csv & Fixed-Width exports
+    * Substantial updates to Csv editor.
+    * Fixed Java 8 && Open-Jdk issues 
+    * More Example-Macro's and Macro Build functions.
+      Note: Macro functions are only applicable to Single Message delimited files
+    
+Changes 0.95c
+    * Support for Protocol Buffers extensions 
+
+Changes Release 0.92
     * Related screens are now displayed as tabs on the one screen (default).
       There is still the option to display each view in its own screen.
     * Different views can be docked / undocked with each other

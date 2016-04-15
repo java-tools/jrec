@@ -1,0 +1,25 @@
+/*
+ * Basic sort script to sort the selected file/view
+ */
+#parse( "setDataSource.pvm" )
+if ( ${ds} != null ) {
+#*  *##foreach( $rec in ${scriptSchema.getRecords()} )
+#*        *##if (${rec.isIncluded()})
+     var v = ${ds}.getView();
+     v.sort(
+                RecordEditorData.getLineCompare(${ds}.getLayout(), ${rec.recordNumber}
+#*              *##foreach( $fld in ${rec.getFields()} )
+#*                   *##if (${fld.isUpdate()} )
+	                                        , '${fld.lookupName}',  RecordEditorData.descending
+#*                   *##elseif (${fld.isSelectOn()} )
+	                                        , '${fld.lookupName}' 
+#*                   *##end
+#*             *##end  
+                )   	
+	     );
+    var displayType = RecordEditorData.displayConstants.ST_LIST_SCREEN;
+    var screen = RecordEditorData.displayView(displayType, "Sorted-View", v); /* create new display from the list that has been createrd.*/
+
+#*        *##end
+#* *##end
+}

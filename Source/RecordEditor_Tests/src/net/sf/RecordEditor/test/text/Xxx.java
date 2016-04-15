@@ -1,5 +1,5 @@
 package net.sf.RecordEditor.test.text;
-
+ 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -8,6 +8,7 @@ import javax.swing.text.Element;
 import javax.swing.text.ElementIterator;
 
 import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.re.file.textDocument.FileDocument3;
 import net.sf.RecordEditor.test.TstConstants;
 
 public class Xxx {
@@ -32,7 +33,7 @@ public class Xxx {
 
 
 		Document document1 = ta.getDocument();
-		Document document2 = v.asDocument();
+		Document document2 = new FileDocument3( v.asDocumentContent(), false);
 		ElementIterator iterator1 = new ElementIterator(document1);
 		ElementIterator iterator2 = new ElementIterator(document2);
 

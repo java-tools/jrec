@@ -781,7 +781,8 @@ extends BasicLayout<RecordDetail> {
 	    if (ret > 0 && getFileStructure() == Constants.IO_XML_BUILD_LAYOUT) {
 	        int len = getRecord(recordIndex).getFieldCount();
 
-            if (ret > len - 3) {
+	        if (ret >= len) {
+	        } else if (ret > len - 3) {
                 ret -= len - 3;
             } else {
                 ret += 2;

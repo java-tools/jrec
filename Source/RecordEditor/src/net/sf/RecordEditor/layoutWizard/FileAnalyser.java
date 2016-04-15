@@ -406,7 +406,7 @@ public class FileAnalyser {
        		} catch (Exception e) {
 				ret = false;
 			}
-       		return ret;
+       		return ret && linesRead > 1;
        	}
 
     	public int getFileStructure() {

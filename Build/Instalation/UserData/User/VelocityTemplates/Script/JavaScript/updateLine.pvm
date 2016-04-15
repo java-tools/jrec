@@ -1,0 +1,17 @@
+##
+## Update one line
+##
+#*      *##foreach( $fld in ${rec.getFields()} )
+#*           *##if (${fld.isUpdate()})
+            line.getFieldValue("${fld.lookupName}")
+#*                 *##if (${fld.isNumeric()})
+#*                       *##if (${fld.isDecimal()})
+                .set(line.getFieldValue("${fld.lookupName}").asBigDecimal());
+#*                       *##else
+                .set(line.getFieldValue("${fld.lookupName}").asBigInteger());
+#*                       *##end
+#*                 *##else
+                .set(line.getFieldValue("${fld.lookupName}").asString()); 
+#*                 *##end
+#*           *##end
+#*      *##end

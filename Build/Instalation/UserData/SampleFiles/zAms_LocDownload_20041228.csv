@@ -1,0 +1,175 @@
+Brand_Id,Loc_Nbr,Loc_Type,Loc_Name,Loc_Addr_Ln1,Loc_Addr_Ln2,Loc_Addr_Ln3,Loc_Postcode,Loc_State,Loc_Actv_Ind
+TAR,5839,DC,DC - Taras Ave,,30-68 Taras Ave,Altona North,3025,VIC,A
+TAR,5850,DC,VIC West Ad Support,,Lot 2 Little Boundary Rd,Laverton,3028,VIC,A
+TAR,5853,DC,NSW North Sydney Ad Support,,,,,,A
+TAR,5866,DC,WA Ad Support,,,,,,A
+TAR,5015,ST,Bankstown,Bankstown,Unit 2, 39-41 Allingham Street,Condell Park,2200,NSW,A
+TAR,5019,ST,Penrith,Penrith,58 Leland Street,Penrith,2750,NSW,A
+TAR,5033,ST,Blacktown,Marayong,Dock 2, 11 Melissa Place,Marayong,2148,NSW,A
+TAR,5035,ST,Rockdale,Building B,  Portside DC,2-8 Mc Pherson Street,Botany,2019,NSW,A
+TAR,5037,ST,Miranda,Westfield Shoppingtown,Cnr. Urunga Pde & The Kingsway,Miranda,2228,NSW,A
+TAR,5052,ST,Eastwood,Marayong Offsite Reserve,11 Melissa Place,Marayong,2148,NSW,A
+TAR,5055,ST,Leichhardt,Marketown,Marion Street,Leichhardt,2040,NSW,A
+TAR,5060,ST,St Marys,St. Mary's,Charles Hackett Drive,St Mary's,2760,NSW,A
+TAR,5070,ST,Bass Hill,Bass Hill Plaza,753 Hume Highway,Bass Hill,2197,NSW,A
+TAR,5074,ST,Campbelltown,Campbelltown Mall,303 Queen Street,Campbelltown,2560,NSW,A
+TAR,5078,ST,Warringah Mall,Frenchs Forest,Units 2-3, 14 Aquatic Drive,Frenchs Forest,2086,NSW,A
+TAR,5081,ST,Ashfield,Ashfield Mall,Knox Street,Ashfield,2131,NSW,A
+TAR,5085,ST,Roselands,Condell park,Unit 2, 39-41 Allingham Street,Condell Park,2200,NSW,A
+TAR,5090,ST,Carlingford Court,,Dock 1, 11 Melissa Place,Marayong,2148,NSW,A
+TAR,5091,ST,Chatswood,Frenchs Forest,Unit 2-3, 14 Aquatic Drive,Frenchs Forest,2086,NSW,A
+TAR,5093,ST,Liverpool,Westfield Phoenix Plaza,Northumberland Street,Liverpool,2170,NSW,A
+TAR,5095,ST,Eastgarden,Westfield Shoppingtown Eastgardens,152 Bunnerong Road,Eastgardens,2036,NSW,A
+TAR,5129,ST,Macquarie,Maquarie Centre,Dock 2, Talavera Road, North Ryde,2113,NSW,A
+TAR,5144,ST,Parramatta,Parramatta,Dock J, Aird Street,Parramatta,2150,NSW,A
+TAR,5157,ST,Chirnside Park,Kilsyth South,Lot 3 & 4 Southfork Drive,Kilsyth Park,3137,VIC,A
+TAR,5165,ST,Hurstville,Condell Park,Unit 2, 39-41 Allignham Street,Condell Park,2200,NSW,A
+TAR,5303,ST,Macarthur Square,Macarthur Square,Gilchrist Drive,Campbelltown,2560,NSW,A
+TAR,5169,ST,Hornsby,Westfield Shopping Centre,George Street,Hornsby,2077,NSW,A
+TAR,5170,ST,Bondi,Building B, Portside Distribution Centre,2-8 McPherson Street,Botany,2019,NSW,A
+TAR,5171,ST,Burwood,Building B, Portside Distribution Centre,2-8 McPherson Street,Botany,2019,NSW,A
+TAR,5177,ST,Castle Hill,Castle Towers Shopping Centre,Cnr Eric Felton & Pennant Sts,Castlehill,2154,NSW,A
+TAR,5178,ST,Blacktown - Not Yet Open,West Point Shopping Ctr,Balmoral Street,Blacktown,2134,NSW,A
+TAR,5016,ST,Glendale,Glendale Power Centre,Cnr. West Wallsend & Lake Roads,Newcastle,2300,NSW,A
+TAR,5089,ST,Erina,Erina Fair,Cnr. Karalta Road & Terrigal Drive,Erina,2250,NSW,A
+TAR,5136,ST,Charlestown,Charleston Square,Pearson Street,Charlestown,2290,NSW,A
+TAR,5011,ST,Cessnock,Cessnock City Centre,Cnr. North Avenue & Darwin Street,Cessnock,2325,NSW,A
+TAR,5302,ST,Newcastle (Closed),Stockland Super Centre,Lake Road,Glendale,2285,NSW,A
+TAR,5046,ST,Dubbo,Dubbo City Centre,Cnr. Bultje & Macquarie Streets,Dubbo,2830,NSW,A
+TAR,5145,ST,Port Macquarie,Town Centre,Murray Street,Port Macquarie,2444,NSW,A
+TAR,5096,ST,Canberra Civic,Target Canberra,Canberra City Centre, Akuna Ave,Canberra,2601,ACT,A
+TAR,5154,ST,Shellharbour,Shellharbour Shp Square,Cnr. Benson Ave & East Road,Shellharbour,2529,NSW,A
+TAR,5162,ST,Tuggeranong,Hyperdome Shopping Centre,Pitman Street,Tuggernong,2900,NSW,A
+TAR,5163,ST,Queanbeyan,Riverside Plaza Shopping Centre,Cnr Monaro St & Fallick Lane,Queanbeyan,2620,NSW,A
+TAR,5164,ST,Tuggerah,Target Tuggerah,3 Craftsman Avenue,Chittaway Point,2261,NSW,A
+TAR,5012,ST,Ringwood,Ringwood,Seymour Street,Ringwood,3134,VIC,A
+TAR,5030,ST,Epping,Epping Plaza Shopping Centre,Cnr. High & Cooper Streets,Epping,3076,VIC,A
+TAR,5032,ST,Camberwell,Camberwell,Station Street,Camberwell,3124,VIC,A
+TAR,5042,ST,Reservoir,Target,850 Plenty Road, East Preston,3072,VIC,A
+TAR,5054,ST,Highpoint City,Laverton,Lot 2, Cnr Lt Boundry & Old Geelong Road,Laverton,3028,VIC,A
+TAR,5058,ST,Knox City,Kilsyth South,Lots 3 & 4 Southfork Road,Kilsyth South,3137,VIC,A
+TAR,5061,ST,Waverley Gardens, Mulgrave,Cnr. Police & Jacksons Roads,Mulgrave,3170,VIC,A
+TAR,5064,ST,Hoppers Crossing,Laverton,Lot 2, Cnr Lt. Boundary & Old Geelong Rd,Laverton,3028,VIC,A
+TAR,5082,ST,Box Hill,Box Hill,Cnr. Thurston Street & Carrington Road,Box Hill,3128,VIC,A
+TAR,5086,ST,Southland,Hampton Park, 2B Waterview Close, 2B Waterview Close,Hampton Park,3976,VIC,A
+TAR,5087,ST,Chadstone,Chadstone Shopping Centre,Dandenong Road,Chadstone,3148,VIC,A
+TAR,5088,ST,Templestowe,Pines Shopping Centre,Cnr. Blackburn & Reynolds Roads,East Doncaster,3109,VIC,A
+TAR,5092,ST,Malvern,Malvern,110 Wattletree & Glenferrie Roads,Malvern,3144,VIC,A
+TAR,5097,ST,Fountain Gate,Hampton Park,2B Waterview Close,Hampton Park,3976,VIC,A
+TAR,5098,ST,Frankston,Hampton Park,2B Waterview Close,Hampton Park,3976,VIC,A
+TAR,5099,ST,Glen Waverley,The Glen Shopping Centre,Springvale Road,Glen Waverly,3150,VIC,A
+TAR,5131,ST,Melbourne City,Laverton,Lot 2, Cnr. Lt Boundry & Old Geelong Rds,Laverton,3028,VIC,A
+TAR,5137,ST,Dandenong,Kilsyth South,Lot  3 & 4 Southfork Drive,Kilsyth,3137,VIC,A
+TAR,5149,ST,Broadmeadows,Broadmeadows Town Centre,Pascoe Vale Rd,Broadmeadows,3047,VIC,A
+TAR,5158,ST,Brimbank Central,Brimbank Central Shopping Centre,Cnr. Neale & Station Roads- Deer Park,Brimbank,3023,VIC,A
+TAR,5160,ST,Watergardens,Taylors Lakes,Cnr. Kings Road & Keilor -Melton Higway,Taylors Lakes,3038,VIC,A
+TAR,5168,ST,Airport West,Westfield Shoppingtown,Matthews Avenue,Airport West,3042,VIC,A
+TAR,5179,ST,Greensborough,Laverton Offsite Reserve,Lot 2 Cnr Lt Boundary & Old Geelong Road,Laverton,3028,VIC,A
+TAR,5301,ST,Narre Warren,Hampton Park,Lot 2B Waterview Close,Hampton Park,3976,VIC,A
+TAR,5300,ST,Wyndham Closed,Werribee Plaza,Heaths Road,Werribee,3030,VIC,A
+TAR,5304,ST,Northland Baby Target,Northland Shopping Centre,2-50 Murray Road,East  Preston,3072,VIC,A
+TAR,5152,ST,Mornington,Mornington,Cnr Franklin & Gordon Streets,Momington,3931,VIC,A
+TAR,5028,ST,Launceston,Launceston,71-99 Galvin Street,Launceston,7250,TAS,A
+TAR,5132,ST,Glenorchy,Derwent Park,Lot 12-13 Riverside Industrial Estate,Derwent park,7009,TAS,A
+TAR,5161,ST,Hobart,Derwent Park,Lot 12-13 Riverside Industrial Estate,Derwent Park,7000,TAS,A
+TAR,5067,ST,Morwell Mid Valley,Mid Valley Shopping Centre,Princes Highway,Morwell,3840,VIC,A
+TAR,5075,ST,Sale,Gippsland Centre,Cunningham Street,Sale,3850,VIC,A
+TAR,5153,ST,Pakenham,Pakenham Place Shopping Centre,59-67  Main Street,Pakenham,3810,VIC,A
+TAR,5001,ST,Geelong,Bay City Plaza Shopping Centre,Cnr. Brougham & Moorabool Streets,Geelong,3220,VIC,A
+TAR,5004,ST,Ballarat,Ballarat,Doveton Street,Ballarat,3350,VIC,A
+TAR,5023,ST,Warnambool,Warrnambool,17 Strong Street,Warnambool,3280,VIC,A
+TAR,5039,ST,Colac,Colac,145 Murray Street,Colac,3250,VIC,A
+TAR,5040,ST,Tweed Heads,South Tweed Heads,Unit 1, 46-52 Greenway Drive,South Tweed Heads,2486,NSW,A
+TAR,5100,ST,Waurn Ponds,Town & World Shopping World,Princes Highway,Warn Ponds,3216,VIC,A
+TAR,5005,ST,Albury,Albury,Kiewa Street,Albury,2640,NSW,A
+TAR,5006,ST,Wodonga,Wodonga,Cnr. Elgin & Watson Streets,Wodonga,3690,VIC,A
+TAR,5007,ST,Shepparton,Shepparton,High Street,Shepparton,3630,VIC,A
+TAR,5008,ST,Bendigo,Bendigo,97 Garsed Street,Bendigo,3550,VIC,A
+TAR,5020,ST,Indooroopilly,Indooroopilly Shopping Centre,Stamford Road,Indooroopilly,4068,QLD,A
+TAR,5059,ST,Buranda,Target Buranda,Cnr Cornwall St and Ipwich Rd,Buranda,4102,QLD,A
+TAR,5068,ST,Mt Gravatt,Mt Gravatt,Cnr. Logan & Creek Roads,Mt Gravitt,4122,QLD,A
+TAR,5083,ST,Springwood,Springwood,Cnr. Arndale Stt & Fitzgerald Avenue,Springwood,4127,QLD,A
+TAR,5084,ST,Brookside,Brookside Shopping Centre,Osborne Road,Mitchelton,4053,QLD,A
+TAR,5133,ST,Browns Plains,Browns Plains Shopping Centre,Cnr. Mt Lindsay Hwy & Browns Plains Rd,Browns Plains,4118,QLD,A
+TAR,5135,ST,Capalaba,Capalaba Park,Cnr. Redland Bay & Mount Cotton Road,Capalaba,4157,QLD,A
+TAR,5155,ST,Redbank,Redbank Shopping Centre,1 Collingwood Park Drive,Redbank,4301,QLD,A
+TAR,5156,ST,Morayfield,Morayfield Shopping Centre,Morayfield,Morayfield,4506,QLD,A
+TAR,5166,ST,Chermside,Cnr: Orsova and Greg Streets,,Pinkenba,4008,QLD,A
+TAR,5167,ST,Northlakes,Cnr Anzac Ave & Northlakes Drive,,Mango Hill,4509,QLD,A
+TAR,5172,ST,Strathpine - Not Yet Open,Chermside Shopping Centre, G ie Rd,,Strathpine,4032,QLD,A
+TAR,5048,ST,Bundaberg,Bundaberg,Bourbong Street,Bundaberg,4670,QLD,A
+TAR,5049,ST,Rockhampton,Rockhampton,Cnr. Fitzroy & Alma Streets,Rockhampton,4700,QLD,A
+TAR,5139,ST,Toowoomba,Grand Central Shopping Centre,Clifford Street,Toowoomba,4650,QLD,A
+TAR,5143,ST,Hervey Bay,Bay Central Shopping Centre,Boat Harbour Drive,Hervey Bay,4655,OLD,A
+TAR,5003,ST,Mackay,Caneland Shoppingtown,Cnr. Victoria Street & Mangrove Road,Mackay,4740,QLD,A
+TAR,5010,ST,Earlville,Earlville Shopping Centre,Mulgrave Road,Cairns,4870,QLD,A
+TAR,5062,ST,Castletown,Townsville,Cnr. Woolcock St. & Kings Road,Townsville,4810,QLD,A
+TAR,5138,ST,Cairns Central,Cairns,Cnr. McLeod & Aplin Streets,Cairns,4870,QLD,A
+TAR,5141,ST,The Willows,Thuringowa Central,Cnr Thuringowa Drive &  Range Rd,Thuringowa Central,4817,QLD,A
+TAR,5146,ST,Palmerston,Palmerston Shopping Centre,Temple Terrace,Palmerston,0830,NT,A
+TAR,5002,ST,Coffs Harbour,Coffs Harbour,Cnr. Park Beach Road & Pacific Hwy,Coffs Harbour,2450,NSW,A
+TAR,5027,ST,Runaway Bay,Runaway Bay Shopping Village,Bayview Street,Runaway Bay,4216,QLD,A
+TAR,5038,ST,Maroochydore,Sunshine Plaza,Plaza Parade,Maroochydore,4588,QLD,A
+TAR,5073,ST,Southport,Southport,Cnr. Meyers Ferry & Benowa Roads,Southport,4215,QLD,A
+TAR,5126,ST,Robina,Robina Town Centre,Robina Parkway,Robina,4226,QLD,A
+TAR,5140,ST,Pacific Fair,Pacific Shopping Centre,Hooker Boulevard,Broadbeach,4218,QLD,A
+TAR,5009,ST,Centrepoint,Adelaide Airport,Frank Collopy Court,Adelaide,5950,SA,A
+TAR,5021,ST,Tea Tree Plaza,Myer Tea Tree Plaza,976 North East Road,Modbury,5092,SA,A
+TAR,5024,ST,Newton,Newton,Gorge Road,Newtown,5074,SA,A
+TAR,5025,ST,Fulham Gardens,Fulham Gardens,Tapileys Hill Road,Fulham Gardens,5024,SA,A
+TAR,5026,ST,Edwardstown,Offsite Reserve,Frank Callopy Court,Adelaide Airport,5950,SA,A
+TAR,5047,ST,Sefton Park,Adelaide Airport,Frank Collopy Court,Adelaide Airport,5950,SA,A
+TAR,5077,ST,Elizabeth,Elizabeth Civic Centre,Philip Highway,Elizabeth,5112,SA,A
+TAR,5080,ST,Sunshine,Sunshine,Cnr. Hampshire Road & Service Street,Sunshine,3020,VIC,A
+TAR,5127,ST,Marion,Adelaide Airport,Frank Collopy Court,Adelaide Airport,5950,SA,A
+TAR,5134,ST,Reynella,Adelaide Airport,Frank Collopy Court,Adelaide Airport,5950,SA,A
+TAR,5142,ST,Hollywood Plaza,Hollywood Plaza Shopping Centre,Winzor Road,Salisbury Downs,5108,SA,A
+TAR,5044,ST,Mt Gambier,Ferrers Street,,Mt Gambier,5290,SA,A
+TAR,5071,ST,Mildura,Mildura,Cnr. Deakin Avenue & Fifteenth Street,Mildura,3500,VIC,A
+TAR,5159,ST,Whyalla,Westlands Shopping Centre,McDougall- Stewart Avenue,Whayalla Norrie,5608,SA,A
+TAR,5036,ST,Fremantle,Fremantle,Cnr. Queen & Adelaide Streets,Fremantle,6160,WA,A
+TAR,5043,ST,Morley,Westfield Galleria Shopping Centre,Collier Road,Morley,6062,WA,A
+TAR,5045,ST,Carousel,Target Carousel,1382 Albany Highway,Cannington,6107,WA,A
+TAR,5057,ST,Victoria Park,The Park Centre,Albany Highway, East Victoria Park,6101,WA,A
+TAR,5065,ST,Innaloo,Westfield Innaloo City Centre,Oswald Street,Innaloo,6018,WA,A
+TAR,5069,ST,Midland,Midland Gate Shopping Centre,Brockman Road,Midland,6056,WA,A
+TAR,5076,ST,Bull Creek,Bullcreek Shopping Centre,Cnr. Benningfield Road & South Street,Bull Creek,6155,WA,A
+TAR,5079,ST,Stirling,Stirling Central Shopping Centre,Wanneroo Road,Westminister,6061,WA,A
+TAR,5094,ST,Whitford City,Whitford City Shopping Centre,Cnr. Whitfords & Marmion Avenues,Hillarys,6065,WA,A
+TAR,5128,ST,Rockingham,Rockingham Shopping Centre.,Cnr. Read Street & Council Avenue,Rockingham,6168,WA,A
+TAR,5151,ST,Perth,Perth,Murray Street Mall,Perth,6000,WA,A
+TAR,5180,ST,Joondalup,Lakeside Shopping Centre,420 Joondalup Drive,Joondalup,6027,WA,A
+TAR,5072,ST,Geraldton,Geraldton,Cnr. Chapman Road & View Street,Geraldton,6530,WA,A
+TAR,5173,ST,Bunbury,Centrepoint Shopping Centre,Blair Streets,Bunbury,6230,WA,A
+TAR,5700,DC,Head Office,,,,,,A
+TAR,5174,ST,Carindale,Carindale Shopping Centre,Creek Rd,Carindale,4152,QLD,A
+TAR,5887,DC,QLD Ad Support,,,,,,A
+TAR,5888,DC,SA Ad Support,,,,,,A
+TAR,5109,DC,National Ad Support,,,,,,A
+TAR,5895,DC,VIC East Ad Support,,,,,,A
+TAR,5897,DC,Sydney Gate DC,No 2 Sydney Gate,830 Bourke Street,Waterloo,2017,NSW,A
+TAR,5184,ST,Brisbane CBD,Myer Centre,Queen Street,Brisbane,4000,QLD,A
+TAR,5305,ST,Golden Grove,The Golden Way,Cnr Grove Way & Golden Grove,Golden Grove,5125,SOU,A
+TAR,5183,ST,Swan Hill,Target Swan Hill,151-165 Beveridge Street,Swan Hill,3585,VIC,A
+TAR,5949,DC,Central Returns Centre,,214-228 Blackshaws Rd,Altona North,,VIC,A
+TAR,5951,DC,NSW West Sydney Ad Support,,,,,,A
+TAR,5952,DC,TAS Ad Support,,,,,,A
+TAR,5192,ST,Wetherill Park,,,,,,A
+TAR,5150,ST,Cowra,74 Kendal Street,,Cowra,2794,NSW,A
+TAR,5953,DC,North Geelong Warehouse,Target Head Office,12 Thompson Road,North Geelong,3215,VIC,A
+TAR,5175,ST,Tamworth,369 Peel Street,,Tamworth,2340,NSW,A
+TAR,5954,DC,State  Warehouse NSW,Target State Warehouse NSW (Westgate),Warehouse D Murtha Street,Arndell Park,2148,NSW,A
+TAR,5955,DC,State Warehouse VIC,Target State Warehouse VIC (Patricks),180 Fitzgerald Road,Laverton,3028,VIC,A
+TAR,5957,DC,State Warehouse SA,Target State Warehouse  (Patricks),180 Fitzgerald Road,Laverton,3028,VIC,A
+TAR,5958,DC,State Warehouse  WA,Target State Warehouse (WA) FCL,56 Dowd Street,Welshpool,6106,WA,A
+TAR,5956,DC,State Warehouse QLD,Target State Warehouse QLD (RMS),243 Bradman Street,Acacia Ridge,4110,QLD,A
+TAR,5959,DC,NSW  South Sydney Ad Support,South Sydney Ad Support,753 Hume Highway,Bass Hill,,NSW,A
+TAR,5960,DC,NSW East Sydney Ad Support, Building B, Portside Distribution Ce,2 - 8 Mc Pherson Street,,Botany,2019,NSW,A
+TAR,5963,DC,QLD South Ad Support,,,,,,A
+TAR,5964,DC,QLD North Ad Support,,,,,,A
+TAR,5965,DC,Canning Vale DC,Canning Vale DC,Cnr Nicholson & Bannister Rd's,Canning Vale,6155,WA,A
+TAR,5966,DC,Huntingwood DC,Huntingwood DC,35 Huntingwood Drive,Huntingwood,2148,NSW,A
+TAR,5967,DC,Hendra DC,Hendra DC,Cnr Headly Ave & Nudgee Road,Hendra,4011,QLD,A
+TAR,5968,DC,Beverly DC,Beverly DC,117 Main Street,Beverly,5009,SA,A
+TAR,5969,DC,Woodlands DC (DO NOT USE),Woodlands DC,Lot 9 Mills Road,Braeside,3195,VIC,A
+TAR,5193,ST,Kalgoorlie (not yet open),Shopping Centre,Cnr Cassidy and Egan Streets,Kalgoorlie,6430,WA,A

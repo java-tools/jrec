@@ -9,7 +9,7 @@ package net.sf.RecordEditor.test;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.Random;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.RecordException;
@@ -21,7 +21,11 @@ import net.sf.JRecord.External.RecordEditorXmlLoader;
 import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.utils.fileStorage.DataStoreLarge;
+import net.sf.RecordEditor.utils.fileStorage.DataStoreLargeView;
 import net.sf.RecordEditor.utils.fileStorage.DataStoreStd;
+import net.sf.RecordEditor.utils.fileStorage.FileDetails;
+import net.sf.RecordEditor.utils.fileStorage.IDataStore;
 
 /**
  * Constants for testing
@@ -32,7 +36,18 @@ import net.sf.RecordEditor.utils.fileStorage.DataStoreStd;
 public final class TstConstants {
 
  //   public static final String TEMP_DIRECTORY = "/home/bm/Programs/RecordEdit/Test/";
-    public static final String TEMP_DIRECTORY = "C:\\Temp\\RecordEditorTest\\";
+	public static final int DS_NORMAL = 1;
+	public static final int DS_FIXED  = 2;
+	public static final int DS_VB     = 3;
+	public static final int DS_CHAR   = 4;
+	public static final int DS_LARGE_VIEW_NORMAL = 5;
+	public static final int DS_LARGE_VIEW_CHAR   = 6;
+	public static final int DS_LARGE_VIEW_VB     = 7;
+	
+	public static final int SIZE_SMALL   = 6;
+	public static final int SIZE_LARGE   = 7;
+	
+    public static final String TEMP_DIRECTORY = "G:\\Temp\\RecordEditorTest\\";
     public static final int    DB_INDEX       = 0;
 
     public static final String TAB_CSV_LAYOUT =
@@ -222,22 +237,69 @@ public final class TstConstants {
 
     public static FileView readFileView(AbstractLayoutDetails layout, String[] fileLines, int readerId)
     throws IOException, RecordException {
+    	return readFileView(layout, fileLines, readerId, DS_NORMAL);
+	};
+
+
+
+    public static FileView readFileView(AbstractLayoutDetails layout, String[] fileLines, int readerId, int dsType)
+    throws IOException, RecordException {
 
 		AbstractLineReader r = LineIOProvider.getInstance().getLineReader(readerId);
-		ArrayList<AbstractLine> lines = new ArrayList<AbstractLine>();
+//		ArrayList<AbstractLine> lines = new ArrayList<AbstractLine>();
 		AbstractLine l;
 
 		r.open(getFile(fileLines), layout);
-
-		while ((l = r.read()) != null) {
-			lines.add(l);
+		l = r.read();
+				
+		layout = r.getLayout();
+		LayoutDetail schema = (LayoutDetail) layout;
+		IDataStore<AbstractLine> ds, dsb;
+		FileView fvb;
+		switch (dsType) {
+		case DS_FIXED:	
+			ds = load(r, l, new DataStoreLarge(schema, FileDetails.FIXED_LENGTH, layout.getMaximumRecordLength()));
+			break;
+		case DS_VB:		
+			ds = load(r, l, new DataStoreLarge(schema, FileDetails.VARIABLE_LENGTH, layout.getMaximumRecordLength()));	
+			break;
+		case DS_CHAR:	
+			ds = load(r, l, new DataStoreLarge(schema, FileDetails.CHAR_LINE, layout.getMaximumRecordLength()));		
+			break;
+		case DS_LARGE_VIEW_NORMAL:	
+			dsb = load(r, l, DataStoreStd.newStore(layout));
+			fvb = new FileView("", dsb, layout);
+			
+			return new FileView((new DataStoreLargeView(dsb)).addRange(0, dsb.size() - 1), fvb, null);
+		case DS_LARGE_VIEW_CHAR:	
+			dsb = load(r, l, new DataStoreLarge(schema, FileDetails.CHAR_LINE, layout.getMaximumRecordLength()));
+			fvb = new FileView("", dsb, layout);
+			
+			return new FileView((new DataStoreLargeView(dsb)).addRange(0, dsb.size() - 1), fvb, null);
+		case DS_LARGE_VIEW_VB:	
+			dsb = load(r, l, new DataStoreLarge(schema, FileDetails.VARIABLE_LENGTH, layout.getMaximumRecordLength()));
+			fvb = new FileView("", dsb, layout);
+			
+			return new FileView((new DataStoreLargeView(dsb)).addRange(0, dsb.size() - 1), fvb, null);
+		case DS_NORMAL:	
+		default:
+			ds = load(r, l, DataStoreStd.newStore(layout));
 		}
 
-		layout = r.getLayout();
-		DataStoreStd<AbstractLine> ds = DataStoreStd.newStore(layout, lines);
 		return new FileView("", ds, layout);
     }
 
+    
+    private static IDataStore<AbstractLine> load(AbstractLineReader r, AbstractLine l, IDataStore<AbstractLine> ds) throws IOException {
+		if (l != null) {
+			ds.add(l);
+			while ((l = r.read()) != null) {
+				ds.add(l);
+			}
+		}
+   	
+    	return ds;
+    }
 
 
 	public static InputStream getFile(String[] lines) {
@@ -249,9 +311,48 @@ public final class TstConstants {
 
 		return new ByteArrayInputStream(b.toString().getBytes());
 	}
+	
+	public static int[] getRandomIncreasingArray(int arraySize, int minLength, int maxLength) {
+		int[] ret = new int[arraySize];
+		Random r = new Random(21);
+		int last = 0;
+		int maxJump = maxLength - minLength;
+		
+		ret[0] = 0;
+		for (int i = 1; i < arraySize; i++) {
+			last += minLength + (r.nextInt(last + 1)) % maxJump;
+			ret[i] = last;
+		}
+		
+		return ret;
+	}
+	
+	public static String[] getLargeCsvLines() {
+		String[] ret = new String[CSV_SALES_LINES.length * 20];
+		int p = 0;
+		for (int i = 0; i < 20; i++) {
+			for (int j = 0; j < CSV_SALES_LINES.length;j++) {
+				ret[p++] = CSV_SALES_LINES[j];
+			}
+		}
+		return ret;
+	}
+
+	public static FileView getSalesCsvFile(int dsType) throws Exception {
+		return getSalesCsvFile(dsType, SIZE_SMALL);
+	}
+
+	public static FileView getSalesCsvFile(int dsType, int sizeId) throws Exception {
+		String[] d = TstConstants.CSV_SALES_LINES;
+		if (sizeId == SIZE_LARGE) {
+			d = getLargeCsvLines();
+		}
+		
+		return readFileView(getTabCsvLayout(), d, Constants.IO_NAME_1ST_LINE, dsType);
+	}
 
 	public static FileView getSalesCsvFile() throws Exception {
-		return readFileView(getTabCsvLayout(), TstConstants.CSV_SALES_LINES, Constants.IO_NAME_1ST_LINE);
+		return readFileView(getTabCsvLayout(), TstConstants.CSV_SALES_LINES, Constants.IO_NAME_1ST_LINE, DS_NORMAL);
 	}
 
 	public static LayoutDetail getTabCsvLayout() throws Exception {
@@ -263,11 +364,6 @@ public final class TstConstants {
 		return RecordEditorXmlLoader.getExternalRecord(strLayout, "Csv Layout");
 	}
 
-    /**
-     * tst constants
-     */
-    public TstConstants() {
-        super();
-    }
-
+  
+	
 }

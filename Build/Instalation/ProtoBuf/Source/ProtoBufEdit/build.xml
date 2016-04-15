@@ -20,10 +20,12 @@
 	<!--property name="workspace.dir" location="/home/bm/workspace" /!-->
 	<property name="work.dir" location="/home/bm/Work/" />
 	<property name="reProtoBufEditor" location="${work.dir}RecordEditor/Instalation/hsqldb_izpack/ProtoBufEditor" />
-	<property name="inputLib.dir" location="G:\Program Files\RecordEdit\ProtoBuf\lib" />
+	<!--property name="inputLib.dir" location="G:\Program Files\RecordEdit\ProtoBuf\lib" /!-->
+	<property name="inputLib.dir" location="F:\Work\RecordEditor\Build\Instalation\hsqldb_izpack" />
 
 	<target name="clean" description="clean">
 		<delete file="${ProtoBufEditor.jar}" />
+		<delete file="${ProtoBufSummary.jar}" />
 		<delete dir="${build.dir}" />
 		<delete dir="${lib.dir}" />
 		<delete dir="${javadoc.dir}" />

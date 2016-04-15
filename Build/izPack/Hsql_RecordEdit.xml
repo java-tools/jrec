@@ -17,7 +17,7 @@
     -->
     <info>
         <appname>RecordEdit/HSQLDB</appname>
-        <appversion>0.94.4</appversion>
+        <appversion>0.97m</appversion>
         <authors>
             <author name="Bruce Martin" email="bruce_a_martin@sourceforge.net" />
             <!--author name="Hidden Man" email="hidden@hisdomain.com"/-->
@@ -52,9 +52,9 @@
         <res id="LicencePanel.licence"  src="../General/LICENSE.txt"/>
         <res id="InfoPanel.info"        src="Readme.txt"/>
         <res id="HTMLInfoPanel.info"    src="readme.html"/>
-	<res id="shortcutSpec.xml"      src="Hsql_ShortcutSpec.xml"/>
-	<res id="Unix_shortcutSpec.xml" src="Hsql_Unix_shortcutSpec.xml"/>
-	<res id="ProcessPanel.Spec.xml" src="ProcessPanel.Spec.xml"/>
+		<res id="shortcutSpec.xml"      src="Hsql_ShortcutSpec.xml"/>
+		<res id="Unix_shortcutSpec.xml" src="Hsql_Unix_shortcutSpec.xml"/>
+		<res id="ProcessPanel.Spec.xml" src="HSQL_ProcessPanel.Spec.xml"/>
     </resources>
     
     <!-- 
@@ -93,52 +93,60 @@
             <description>Record Editor Diagrams</description>
             <fileset dir="../Instalation/GeneralDB/Docs/Diagram/" targetdir="$INSTALL_PATH/Docs/Diagram"/>
         </pack>
-        <pack name="DatabaseWindows" os="Windows" required="yes" override="false">
-            <description>Record Editor Database</description>
-            <file src="../Instalation/hsqldb/Database" targetdir="$USER_HOME/.RecordEditor/HSQLDB"/> <!-- Reccursive adding -->
+        <pack name="UserData" required="yes" override="true">
+            <description>User Data DB</description>
+            <fileset dir="../Instalation/UserData/" includes="*.zip" targetdir="$INSTALL_PATH/UserData"/>
+            <fileset dir="../Instalation/hsqldb/UserData/" includes="*.zip" targetdir="$INSTALL_PATH/UserData"/>
         </pack>
-        <pack name="Database" os="unix" required="yes" override="false">
+        <!--pack name="DatabaseWindows" os="Windows" required="yes" override="false">
+            <description>Record Editor Database</description>
+            <file src="../Instalation/hsqldb/Database" targetdir="$USER_HOME/.RecordEditor/HSQLDB"/> 
+        </pack-->
+        <!--pack name="Database" os="unix" required="yes" override="false">
             <description>Record Editor Database</description>
             <file src="../Instalation/hsqldb/Database" targetdir="$INSTALL_PATH"/> 
-        </pack>
-        <pack name="SampleFiles" required="yes">
+        </pack-->
+        <!--pack name="SampleFiles" required="yes">
             <description>Sample Files</description>
-            <file src="../SampleFiles" targetdir="$USER_HOME/.RecordEditor/HSQLDB"/> <!-- Reccursive adding -->
-        </pack>
-        <pack name="Params" required="yes" >
+            <file src="../SampleFiles" targetdir="$USER_HOME/.RecordEditor/HSQLDB"/>
+        </pack!-->
+        <!--pack name="Params" required="yes">
             <description>Record Editor Parameters</description>
             <file src="../Instalation/hsqldb_izpack/HSQLDB" targetdir="$USER_HOME/.RecordEditor"/> 
             <fileset dir="../Instalation/hsqldb_izpack/lib/Extensions" includes="*.txt" targetdir="$USER_HOME/.RecordEditor/HSQLDB/Extensions"/>
- 	    <!--parsable targetfile="$USER_HOME/.RecordEditor/HSQLDB/CobolFiles.txt"/-->
-        </pack>
-        <pack name="User" required="yes">
+        </pack!-->
+        <!--pack name="User" required="yes">
             <description>Record Editor Parameters</description>
             <file src="../Instalation/GeneralDB/User" targetdir="$USER_HOME/.RecordEditor/HSQLDB"/> 
-        </pack>
+        </pack!-->
         <pack name="lib" required="yes" override="true">
             <description>Record Editor Jars</description>
             <file src="../Instalation/hsqldb_izpack/lib" targetdir="$INSTALL_PATH"/> <!-- Reccursive adding -->
-            <fileset dir="../Instalation/GeneralDB/lib" includes="run*.jar" targetdir="$INSTALL_PATH/lib"/>
-            <parsable targetfile="$INSTALL_PATH/lib/StopServer.bat"/> <!-- The file will be parsed -->
-            <parsable targetfile="$INSTALL_PATH/lib/StartServer.bat"/> <!-- The file will be parsed -->
-            <parsable targetfile="$INSTALL_PATH/lib/StopServer.sh" type="shell"/> <!-- The file will be parsed -->
-            <parsable targetfile="$INSTALL_PATH/lib/StartServer.sh" type="shell"/> <!-- The file will be parsed -->
-            <parsable targetfile="$INSTALL_PATH/lib/runLayoutEdit.sh" type="shell"/> <!-- The file will be parsed -->
-	    <parsable targetfile="$INSTALL_PATH/lib/runFullEditor.sh" type="shell"/> 
-	    <parsable targetfile="$INSTALL_PATH/lib/runEditorBigFile.sh"  type="shell"/>
+            <fileset dir="../Instalation/GeneralDB/lib"  targetdir="$INSTALL_PATH/lib">
+               <include name="run*.jar"/> 
+               <include name="Run*.jar"/> 
+            </fileset>
+            <parsable targetfile="$INSTALL_PATH/lib/StopServer.bat"    type="shell"/> <!-- The file will be parsed -->
+            <parsable targetfile="$INSTALL_PATH/lib/StopServerB.bat"    type="shell"/> <!-- The file will be parsed -->
+            <parsable targetfile="$INSTALL_PATH/lib/StartServer.bat"   type="shell"/> <!-- The file will be parsed -->
+	    <parsable targetfile="$INSTALL_PATH/lib/runDiff.Bat"       type="shell"/>
+	    <parsable targetfile="$INSTALL_PATH/lib/runCopy.bat"       type="shell"/>
 	    <parsable targetfile="$INSTALL_PATH/lib/RecordEditorBigFile.Bat"  type="shell"/>
-	    <parsable targetfile="$INSTALL_PATH/lib/runDiff.sh"   type="shell"/>
-	    <parsable targetfile="$INSTALL_PATH/lib/runDiff.Bat"  type="shell"/>
-	    <parsable targetfile="$INSTALL_PATH/lib/runCopy.bat"    type="shell"/>
-	    <parsable targetfile="$INSTALL_PATH/lib/runCopy.sh"     type="shell"/>
 	    <parsable targetfile="$INSTALL_PATH/lib/runBatchCopy.bat"  type="shell"/>
+            <parsable targetfile="$INSTALL_PATH/lib/StopServer.sh"     type="shell"/> <!-- The file will be parsed -->
+            <parsable targetfile="$INSTALL_PATH/lib/StartServer.sh"    type="shell"/> <!-- The file will be parsed -->
+            <parsable targetfile="$INSTALL_PATH/lib/runLayoutEdit.sh"  type="shell"/> <!-- The file will be parsed -->
+	    <parsable targetfile="$INSTALL_PATH/lib/runFullEditor.sh"  type="shell"/> 
+	    <parsable targetfile="$INSTALL_PATH/lib/runEditorBigFile.sh"      type="shell"/>
+	    <parsable targetfile="$INSTALL_PATH/lib/runDiff.sh"        type="shell"/>
+	    <parsable targetfile="$INSTALL_PATH/lib/runCopy.sh"        type="shell"/>
 	    <parsable targetfile="$INSTALL_PATH/lib/runBatchCopy.sh"   type="shell"/>
 	    <parsable targetfile="$INSTALL_PATH/lib/runEditorFileCopybook.sh" type="shell"/>
 	    <parsable targetfile="$INSTALL_PATH/lib/runVelocityGUI.sh"        type="shell"/>
 	    <parsable targetfile="$INSTALL_PATH/lib/runPropertiesEditor.sh"   type="shell"/>
-	    <parsable targetfile="$INSTALL_PATH/lib/Uninstall.sh"   type="shell"/>
-	    <executable targetfile="$INSTALL_PATH/lib/Uninstall.sh" stage="never"/>
-	    <executable targetfile="$INSTALL_PATH/lib/StopServer.sh" stage="never"/>
+	    <parsable targetfile="$INSTALL_PATH/lib/Uninstall.sh"             type="shell"/>
+	    <executable targetfile="$INSTALL_PATH/lib/Uninstall.sh"     stage="never"/>
+	    <executable targetfile="$INSTALL_PATH/lib/StopServer.sh"    stage="never"/>
 	    <executable targetfile="$INSTALL_PATH/lib/runLayoutEdit.sh" stage="never"/>
 	    <executable targetfile="$INSTALL_PATH/lib/runFullEditor.sh" stage="never"/>
 	    <executable targetfile="$INSTALL_PATH/lib/runRecordEdit.sh" stage="never"/>
@@ -155,24 +163,24 @@
             <description>Foreign Language</description>
             <file src="../Instalation/GeneralDB/lang"    targetdir="$INSTALL_PATH"/>
         </pack>
-	<pack name="CopyBook" required="yes">
+	<!--pack name="CopyBook" required="yes">
 		<description>CopyBooks</description>
 		<fileset dir="../Instalation/GeneralDB/CopyBook" includes="Cobol/*.cbl" targetdir="$USER_HOME/.RecordEditor/HSQLDB/CopyBook"/>
 		<fileset dir="../Instalation/GeneralDB/CopyBook" includes="*/*.Txt" targetdir="$USER_HOME/.RecordEditor/HSQLDB/CopyBook"/>
 		<fileset dir="../Instalation/GeneralDB/CopyBook" includes="*/*.Xml" targetdir="$USER_HOME/.RecordEditor/HSQLDB/CopyBook"/>
 		<fileset dir="../Instalation/GeneralDB/CopyBook" includes="*/*.xml" targetdir="$USER_HOME/.RecordEditor/HSQLDB/CopyBook"/>
-	</pack>
-	<pack name="Velocity" required="yes">
+	</pack!-->
+	<!--pack name="Velocity" required="yes">
             <description>Sample Velocity Templates</description>
             <fileset dir="../Instalation/GeneralDB/SampleVelocityTemplates" includes="*/*.vm" targetdir="$USER_HOME/.RecordEditor/HSQLDB/SampleVelocityTemplates"/> 
-        </pack>
+        </pack-->
         <pack name="bin" os="unix" required="no" override="true">
             <description>Linux/Unix bin direcory</description>
             <fileset dir="../Instalation/hsqldb_izpack/lib" includes="*.sh" targetdir="$INSTALL_PATH/bin"/> <!-- Reccursive adding -->
-            <parsable targetfile="$INSTALL_PATH/bin/StopServer.sh"    type="shell"/> <!-- The file will be parsed -->
-            <parsable targetfile="$INSTALL_PATH/bin/StartServer.sh"   type="shell"/> <!-- The file will be parsed -->
-            <parsable targetfile="$INSTALL_PATH/bin/runLayoutEdit.sh" type="shell"/> <!-- The file will be parsed -->
-            <parsable targetfile="$INSTALL_PATH/bin/runRecordEdit.sh" type="shell"/> <!-- The file will be parsed -->
+            <parsable targetfile="$INSTALL_PATH/bin/StopServer.sh"    type="shell"/>
+            <parsable targetfile="$INSTALL_PATH/bin/StartServer.sh"   type="shell"/> 
+            <parsable targetfile="$INSTALL_PATH/bin/runLayoutEdit.sh" type="shell"/> 
+            <parsable targetfile="$INSTALL_PATH/bin/runRecordEdit.sh" type="shell"/> 
 	    <parsable targetfile="$INSTALL_PATH/bin/runFullEditor.sh" type="shell"/>
 	    <parsable targetfile="$INSTALL_PATH/bin/runEditorBigFile.sh" type="shell"/>
 	    <parsable targetfile="$INSTALL_PATH/bin/runCopy.sh"          type="shell"/>
@@ -227,6 +235,7 @@
     
 
     <native type="izpack" name="ShellLink.dll"/> 
+    <native type="izpack" name="ShellLink_x64.dll"/>
 
    
 </installation>

@@ -246,6 +246,12 @@ public class TreeCombo extends ComboLikeObject {// implements IGetSetObj {
 			super.setText(selectedItem.getEditString());
 		}
 	}
+	public void setOnlySelectedItem(TreeComboItem selectedItem) {
+		super.hidePopup();
+		if (selectedItem != null) {
+			this.selectedItem = selectedItem;
+		}
+	}
 
 	public void setSelectedKey(int key) {
 		TreeComboItem item = itemMap.get(key);

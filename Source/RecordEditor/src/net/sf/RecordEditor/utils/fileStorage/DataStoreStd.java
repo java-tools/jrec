@@ -103,8 +103,10 @@ implements IDataStore<L>, TableModelListener {
 			int[] linesToExtract, IProgressDisplay progressDisplay) {
 		try {
 			for (int i = 0; i < linesToExtract.length; i++) {
-				extractedLines.add(getTempLineRE(linesToExtract[i]).getNewDataLine());
-				if (! progressDisplay.updateProgress(i, 0)) return;
+				if (linesToExtract[i] >=0 && linesToExtract[i] < super.size()) {
+					extractedLines.add(getTempLineRE(linesToExtract[i]).getNewDataLine());
+					if (! progressDisplay.updateProgress(i, 0)) return;
+				}
 			}
 		} finally {
 			progressDisplay.done();

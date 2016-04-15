@@ -12,7 +12,6 @@ import java.io.InputStream;
 import net.sf.JRecord.Common.CommonBits;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.RecordException;
-import net.sf.JRecord.External.Def.Cb2Xml;
 import net.sf.JRecord.Log.AbsSSLogger;
 
 import org.w3c.dom.Document;
@@ -65,14 +64,14 @@ public class CobolCopybookLoader implements CopybookLoader {
      * @throws RecordException General Error
      */
     public final ExternalRecord loadCopyBook(String copyBookFile, //Document copyBookXml,
-            						  		int splitCopybook,
+            						  		int splitCopybookOption,
             						  		int dbIdx,
-                  						  final String font,
-                						  final int binFormat,
-                						  final int systemId,
-                						  final AbsSSLogger log)
+                  						   String font,
+                						   int binFormat,
+                						   int systemId,
+                						   AbsSSLogger log)
     				throws RecordException {
-    	return loadCopyBook(copyBookFile, splitCopybook, dbIdx, font, 5 /* Cb2xmlConstants.USE_PROPERTIES_FILE*/, binFormat, systemId, log);
+    	return loadCopyBook(copyBookFile, splitCopybookOption, dbIdx, font, 5 /* Cb2xmlConstants.USE_PROPERTIES_FILE*/, binFormat, systemId, log);
     }
     
     /**
@@ -95,8 +94,8 @@ public class CobolCopybookLoader implements CopybookLoader {
                   						  final int copybookFormat,
                 						  final int binFormat,
                 						  final int systemId,
-                						  final AbsSSLogger log) {
-
+                						        AbsSSLogger log)
+    				{
         ExternalRecord ret = null;
         //System.out.println("load Copybook (Cobol)");
         try {
@@ -149,10 +148,8 @@ public class CobolCopybookLoader implements CopybookLoader {
     				{
         ExternalRecord ret = null;
         //System.out.println("load Copybook (Cobol)");
-//        Convert conv = ConversionManager.getInstance().getConverter4code(binaryFormat) ;
         try {
         	synchronized (PROBLEM_LOADING_COPYBOOK) {		
-//	        	CopyBookAnalyzer.setNumericDetails((NumericDefinition) conv.getNumericDefinition());
 	            Document xml = net.sf.JRecord.External.Def.Cb2Xml.convertToXMLDOM(inputStream, copyBookName,  binaryFormat, false, CommonBits.getDefaultCobolTextFormat());
 
 //	            Document xml = net.sf.cb2xml.Cb2Xml2.convertToXMLDOM(inputStream, copyBookName, false);
@@ -201,4 +198,21 @@ public class CobolCopybookLoader implements CopybookLoader {
         }
         return available;
     }
+
+	/**
+	 * @param dropCopybookFromFieldNames
+	 * @see net.sf.JRecord.External.XmlCopybookLoader#setDropCopybookFromFieldNames(boolean)
+	 */
+	public final void setDropCopybookFromFieldNames(
+			boolean dropCopybookFromFieldNames) {
+		xmlLoader.setDropCopybookFromFieldNames(dropCopybookFromFieldNames);
+	}
+
+	/**
+	 * @param useJRecordNaming
+	 * @see net.sf.JRecord.External.XmlCopybookLoader#setUseJRecordNaming(boolean)
+	 */
+	public final void setUseJRecordNaming(boolean useJRecordNaming) {
+		xmlLoader.setUseJRecordNaming(useJRecordNaming);
+	}
 }

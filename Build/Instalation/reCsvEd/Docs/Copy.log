@@ -1,12 +1,12 @@
 Command: B2H reCsvEd.dcf  (HTMPEXT=htm HTMLEXT=htm LOG=Copy.log QUIET NOMAINTOC  TOCRET=NO FRAMETOCOPT='jsTree style=Win level_ident=16 width=240 img_size= expand=YES ' FrameTocSize='21%'  FrameTocHdColor=#FF0080 FrameTocCss=jsBlueBg FrameTocBody='bgcolor=#001F66'  )
 |MsgNum Type---| |----- B2H R4.7 (390) ------------------------------|
-|B2H105 Info:    Conversion started: 2012-08-21 23:38:05
-|B2H160 Info:    Loading system symbol table "C:\Users\mum\Bruce\Work\Rexx\B2H\B2H.SYM" ...
-|B2H160 Info:    Loading system profile "C:\Users\mum\Bruce\Work\Rexx\B2H\B2H.PRO" ...
-|B2H100 Info:    CurrSys=WINNT, DestSys=WINNT, Input=C:\Users\mum\Bruce\Work\RecordEditor\Build\Instalation\reCsvEd\Docs\reCsvEd.dcf
+|B2H105 Info:    Conversion started: 2015-01-02 12:10:37
+|B2H160 Info:    Loading system symbol table "F:\Work\Rexx\B2H\B2H.SYM" ...
+|B2H160 Info:    Loading system profile "F:\Work\Rexx\B2H\B2H.PRO" ...
+|B2H100 Info:    CurrSys=WINNT, DestSys=WINNT, Input=F:\Work\RecordEditor\Build\Instalation\reCsvEd\Docs\reCsvEd.dcf
 |B2H101 Info:    PhysicalOut=reCsvEd.htm, LogicalOut=reCsvEd.htm
 |B2H104 Info:    Beginning pass 1 of 2 (processing markup) ...
-|B2H302 Info:    Reading file "C:\Users\mum\Bruce\Work\RecordEditor\Build\Instalation\reCsvEd\Docs\reCsvEd.dcf" ...
+|B2H302 Info:    Reading file "F:\Work\RecordEditor\Build\Instalation\reCsvEd\Docs\reCsvEd.dcf" ...
 |B2H303 Info:    ..Imbedding 'iRE_TagDefs.dcf' ...
 |B2H109 Info:    Setting symbol table entry using
 |B2H109 Info:      .*B2H SYMBOL :tag. example IT=N VAT=N ATT=N SE=N V='<a href=xmple.htm>RecordEditor Examples</a>'
@@ -72,48 +72,69 @@ Command: B2H reCsvEd.dcf  (HTMPEXT=htm HTMLEXT=htm LOG=Copy.log QUIET NOMAINTOC 
 |B2H109 Info:      .*B2H SYMBOL :tag. reCsvEditor IT=N VAT=N ATT=N SE=N V='<b>reCsvEditor</b>'
 |B2H109 Info:      (in line 27 of iRE_TagDefs.dcf)
 |B2H109 Info:    Setting symbol table entry using
-|B2H109 Info:      .*B2H SYMBOL :tag. AvroEditor IT=N VAT=N ATT=N SE=N V='<a href="http://avroeditor.sourceforge.net//" TARGET="_top">Avro Editor</a>'
+|B2H109 Info:      .*B2H SYMBOL :tag. reCsvEditorLink IT=N VAT=N ATT=N SE=N V='<a href="https://sourceforge.net/projects/recsveditor/files/" TARGET="_top">reCsvEditor</a>'
 |B2H109 Info:      (in line 28 of iRE_TagDefs.dcf)
 |B2H109 Info:    Setting symbol table entry using
-|B2H109 Info:      .*B2H SYMBOL :tag. ProtoEditor IT=N VAT=N ATT=N SE=N V='<a href="http://code.google.com/p/protobufeditor/" TARGET="_top">Protocol Buffers Editor</a>'
+|B2H109 Info:      .*B2H SYMBOL :tag. packageLink IT=N VAT=N ATT=N SE=N V='<a href="https://sourceforge.net/projects/recsveditor/files/" TARGET="_top">reCsvEditor</a>'
 |B2H109 Info:      (in line 29 of iRE_TagDefs.dcf)
 |B2H109 Info:    Setting symbol table entry using
-|B2H109 Info:      .*B2H SYMBOL :tag. downloadPage IT=N VAT=N ATT=N SE=N V='<a href="https://sourceforge.net/projects/recsveditor/files/reCsvEditor/" >reCsvEditor Download page</a>'
+|B2H109 Info:      .*B2H SYMBOL :tag. packageDownloadLink IT=N VAT=N ATT=N SE=N V='<a href="https://sourceforge.net/projects/recsveditor/files/reCsvEditor/">reCsvEditor Download</a>'
 |B2H109 Info:      (in line 30 of iRE_TagDefs.dcf)
 |B2H109 Info:    Setting symbol table entry using
-|B2H109 Info:      .*B2H SYMBOL :tag. forum IT=N VAT=N ATT=N SE=N V='<a href="https://sourceforge.net/p/recsveditor/discussion/" >reCsvEditor Forums</a>'
-|B2H109 Info:      (in line 31 of iRE_TagDefs.dcf)
-|B2H109 Info:    Setting symbol table entry using
-|B2H109 Info:      .*B2H SYMBOL :tag. bug IT=N VAT=N ATT=N SE=N V='<a href="https://sourceforge.net/p/recsveditor/tickets/" >reCsvEditor Tickets</a>'
+|B2H109 Info:      .*B2H SYMBOL :tag. AvroEditor IT=N VAT=N ATT=N SE=N V='<a href="http://avroeditor.sourceforge.net//" TARGET="_top">Avro Editor</a>'
 |B2H109 Info:      (in line 32 of iRE_TagDefs.dcf)
 |B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :tag. ProtoEditor IT=N VAT=N ATT=N SE=N V='<a href="http://code.google.com/p/protobufeditor/" TARGET="_top">Protocol Buffers Editor</a>'
+|B2H109 Info:      (in line 33 of iRE_TagDefs.dcf)
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :tag. downloadPage IT=N VAT=N ATT=N SE=N V='<a href="https://sourceforge.net/projects/recsveditor/files/reCsvEditor/" >reCsvEditor Download page</a>'
+|B2H109 Info:      (in line 34 of iRE_TagDefs.dcf)
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :tag. forum IT=N VAT=N ATT=N SE=N V='<a href="https://sourceforge.net/p/recsveditor/discussion/" >reCsvEditor Forums</a>'
+|B2H109 Info:      (in line 35 of iRE_TagDefs.dcf)
+|B2H109 Info:    Setting symbol table entry using
+|B2H109 Info:      .*B2H SYMBOL :tag. bug IT=N VAT=N ATT=N SE=N V='<a href="https://sourceforge.net/p/recsveditor/tickets/" >reCsvEditor Tickets</a>'
+|B2H109 Info:      (in line 36 of iRE_TagDefs.dcf)
+|B2H109 Info:    Setting symbol table entry using
 |B2H109 Info:      .*B2H SYMBOL :tag. rlink IT=N VAT=N ATT=N SE=N V='.relink'
-|B2H109 Info:      (in line 42 of iRE_TagDefs.dcf)
-|B2H403 WARNING: ":GFORUM" not a valid BookMaster/GML tag
-|B2H403 WARNING:   :gforum. or 
-|B2H403 WARNING:   (in line 36 of C:\Users\mum\Bruce\Work\RecordEditor\Build\Instalation\reCsvEd\Docs\reCsvEd.dcf)
+|B2H109 Info:      (in line 46 of iRE_TagDefs.dcf)
 |B2H303 Info:    ..Imbedding 'reCsvEd01.dcf' ...
-|B2H300 ERROR:   Imbedded file "iRe_re010_RecordTableOption.dcf" not found!
-|B2H300 ERROR:     .im iRe_re010_RecordTableOption.dcf
-|B2H300 ERROR:     (in line 68 of C:\Users\mum\Bruce\Work\RecordEditor\Build\Instalation\reCsvEd\Docs\reCsvEd.dcf)
+|B2H303 Info:    ..Imbedding 'iRe_re010_RecordTableOption.dcf' ...
+|B2H310 Info:    Reading line 100 from F:\Work\RecordEditor\Build\Instalation\reCsvEd\Docs\reCsvEd.dcf ...
 |B2H455 WARNING: No tag-ending period found
-|B2H455 WARNING:   :ol compact  :li.Via the :hp2.right click &gt;&gt;&gt; Csv Options:ehp2. menu you can do basic column actions (copy, move, add and delete).
-|B2H455 WARNING:   (in line 78 of C:\Users\mum\Bruce\Work\RecordEditor\Build\Instalation\reCsvEd\Docs\reCsvEd.dcf)
-|B2H310 Info:    Reading line 100 from C:\Users\mum\Bruce\Work\RecordEditor\Build\Instalation\reCsvEd\Docs\reCsvEd.dcf ...
+|B2H455 WARNING:   :eul   :h2 id=FixedW.Fixed Width Files
+|B2H455 WARNING:   (in line 117 of F:\Work\RecordEditor\Build\Instalation\reCsvEd\Docs\reCsvEd.dcf)
+|B2H310 Info:    Reading line 200 from F:\Work\RecordEditor\Build\Instalation\reCsvEd\Docs\reCsvEd.dcf ...
 |B2H303 Info:    ..Imbedding 'iHT_B000_BigFiles.dcf' ...
 |B2H310 Info:    ..Reading line 100 from iHT_B000_BigFiles.dcf ...
-|B2H310 Info:    Reading line 200 from C:\Users\mum\Bruce\Work\RecordEditor\Build\Instalation\reCsvEd\Docs\reCsvEd.dcf ...
-|B2H304 Info:    241 lines read from C:\Users\mum\Bruce\Work\RecordEditor\Build\Instalation\reCsvEd\Docs\reCsvEd.dcf
-|B2H306 Info:    496 lines written to B0087085.$18 
+|B2H310 Info:    Reading line 300 from F:\Work\RecordEditor\Build\Instalation\reCsvEd\Docs\reCsvEd.dcf ...
+|B2H304 Info:    356 lines read from F:\Work\RecordEditor\Build\Instalation\reCsvEd\Docs\reCsvEd.dcf
+|B2H306 Info:    673 lines written to B0045837.$30 
 |B2H104 Info:    Beginning pass 2 of 2 (resolving cross-references) ...
-|B2H310 Info:    Reading line 100 from B0087085.$18 ...
-|B2H310 Info:    Reading line 200 from B0087085.$18 ...
+|B2H310 Info:    Reading line 100 from B0045837.$30 ...
+|B2H440 ERROR:   Reference not found, following ignored:
+|B2H440 ERROR:     :hdref refid=Find., 
+|B2H440 ERROR:   Reference not found, following ignored:
+|B2H440 ERROR:     :hdref refid=Filter. and 
+|B2H440 ERROR:   Reference not found, following ignored:
+|B2H440 ERROR:     :hdref refid=SaveAs. for more details.
+|B2H440 ERROR:   Reference not found, following ignored:
+|B2H440 ERROR:     :hdref refid=Find., 
+|B2H440 ERROR:   Reference not found, following ignored:
+|B2H440 ERROR:     :hdref refid=Filter. and 
+|B2H440 ERROR:   Reference not found, following ignored:
+|B2H440 ERROR:     :hdref refid=SaveAs. for more details.
+|B2H440 ERROR:   Reference not found, following ignored:
+|B2H440 ERROR:     :hdref refid=txtrec.) is
+|B2H310 Info:    Reading line 200 from B0045837.$30 ...
 |B2H440 ERROR:   Reference not found, following ignored:
 |B2H440 ERROR:     :hdref refid=wizStartup. for more details
-|B2H310 Info:    Reading line 300 from B0087085.$18 ...
-|B2H310 Info:    Reading line 400 from B0087085.$18 ...
-|B2H306 Info:    440 lines written to reCsvEd.htm (reCsvEd.htm) 
-|B2H304 Info:    496 lines read from B0087085.$18
-|B2H106 Info:    Conversion completed in 0.27 seconds
-|B2H306 Info:    119 lines written to Copy.log 
+|B2H310 Info:    Reading line 300 from B0045837.$30 ...
+|B2H310 Info:    Reading line 400 from B0045837.$30 ...
+|B2H310 Info:    Reading line 500 from B0045837.$30 ...
+|B2H310 Info:    Reading line 600 from B0045837.$30 ...
+|B2H306 Info:    599 lines written to reCsvEd.htm (reCsvEd.htm) 
+|B2H304 Info:    673 lines read from B0045837.$30
+|B2H106 Info:    Conversion completed in 0.22 seconds
+|B2H306 Info:    140 lines written to Copy.log 
 |B2H107 Info:    Highest RC=8

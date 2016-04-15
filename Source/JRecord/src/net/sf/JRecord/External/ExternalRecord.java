@@ -90,6 +90,8 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 
   private ArrayList<ExternalRecord> subRecords = new ArrayList<ExternalRecord>();
   private ArrayList<ExternalField> fields = new ArrayList<ExternalField>();
+  
+  private ArrayList<Cb2xmlDocument> cb2xmlDocuments = new ArrayList<Cb2xmlDocument>();
 
 
   /**
@@ -457,8 +459,8 @@ public class ExternalRecord extends AbstractUpdatableRecord {
   }
 
   /**
-   * This method gets the vaule of RecSepList
-   * @return record Seperator list value
+   * This method gets the value of RecSepList
+   * @return record Separator list value
    */
   public String getRecSepList() {
       return recSepList;
@@ -701,9 +703,7 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	 * @return Fields array
 	 */
 	public ExternalField[] getRecordFields() {
-	    ExternalField[] r = new ExternalField[fields.size()];
-	    fields.toArray(r);
-	    return r;
+	    return fields.toArray(new ExternalField[fields.size()]);
 	}
 
 	/**
@@ -762,13 +762,17 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	 * @param value Value to compare field to
 	 */
 	public void addTstField(String tstField, String value) {
+		addTstField(tstField, ExternalFieldSelection.EQUALS_OPERATOR, value);
+	}
+
+	public void addTstField(String tstField, String op, String value) {
 
 		if (recSelect == null) {
 			recSelect = new ExternalGroupSelection<ExternalSelection>(1);
 		}
 		if (recSelect instanceof ExternalGroupSelection) {
 			ExternalGroupSelection g = (ExternalGroupSelection) recSelect;
-			g.add(new ExternalFieldSelection(tstField, value));
+			g.add(new ExternalFieldSelection(tstField, value, op));
 			return;
 		}
 		//System.out.println();
@@ -1042,5 +1046,13 @@ public class ExternalRecord extends AbstractUpdatableRecord {
 	 */
 	public final void setInitToSpaces(boolean initToSpaces) {
 		this.initToSpaces = initToSpaces;
+	}
+
+	/**
+	 * @param e cb2xml document details
+	 * @see java.util.ArrayList#add(java.lang.Object)
+	 */
+	public void addCb2xmlDocument(Cb2xmlDocument e) {
+		cb2xmlDocuments.add(e);
 	}
 }

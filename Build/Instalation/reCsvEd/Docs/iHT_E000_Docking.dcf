@@ -1,0 +1,37 @@
+:H1.Combing / splitting Screens.
+:p.By default the record editor will show child views as separate tags on the
+main screen&gml.
+:p.
+.pict RecordEdit_MultiTab.png
+
+:p.It is possible to have each view be created in a separate Screen (as it 
+was prior to version 0.90) by selecting the :hp2.Create separate screens option:ehp2.
+below (note to reach this screen select :hp2.Edit >>> Edit Options:ehp2.)
+:p.
+.pict EditProps_SeperateScreens.png
+
+:p.You can dock / undock screens using the :hp2.windows:ehp2. or :hp2.right click:ehp2. menu's.
+:p.
+.pict RecordEdit_WindowDocking.png
+
+:p.and
+:p.
+.pict RecordEdit_Docking_Menu.png
+
+:p.The options are
+:dl.
+ :dt.Undock Tab          :dd.Move tab to a separate screen
+ :dt.Undock all tabs     :dd.Move all tabs into separate screens
+ :dt.Dock Tab/screen     :dd.Add the current screen as a tab onto the main screen
+ :dt.Dock related screens:dd.Combine all the screens for the current file as tabs on the one screen.
+ :dt.Show Child Record   :dd.Create a "child record screen" that will display the currently selected record
+this is usefull in multi-record files and files with a large number of fields.
+See :hdref refid=ChildScreen.
+ :dt.Remove Child Record:dd.Remove the child record from the list screen.
+:edl.
+
+:h2 id=ChildScreen.Child Record Screen
+:p.Record List Screens can now have a "Child Record Screen" which displays the 
+record selected in the List screen
+
+.pict RecordEdit_ChildScreen.png

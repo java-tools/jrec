@@ -1,0 +1,8 @@
+Script	Use	SelectOn	Update	SelectOneRecord	OnlyOneRecord	SelectName	UpdateName	Description
+UpdateScript	Y	Y	Y	N	N			Build a basic update script that loops through all the records and updates selective scripts
+FilterScript	Y	Y	N	N	N			Build a script that will loop through the file selecting record for display in a new View
+DeleteScript	Y	Y	N	N	N			Create a Delete Script that will delete specific records from the File
+SortScript	Y	Y	Y	Y	N	Sort	Descending	Create a script to sort the file
+SortedViewScript	Y	Y	Y	Y	N	Sort	Descending	Create a sorted view script
+DeleteDuplicatesScript	Y	Y	N	Y	Y	Match On		Create a Script duplicates (matching on specified fields)
+ShowDuplicatesScript	Y	Y	N	Y	Y	Match On		Create a Duplicate Records View

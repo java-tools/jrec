@@ -54,6 +54,8 @@ public interface Type {
 	public static final int ftAssumedDecimal     = 8;
 	public static final int ftSignSeparateLead   = 9;
 	public static final int ftSignSeparateTrail  = 10;
+	public static final int ftSignSepLeadActualDecimal   = 44;
+	public static final int ftSignSepTrailActualDecimal  = 45;
 	public static final int ftDecimal            = 11;
 	public static final int ftBinaryInt          = 15;
 	public static final int ftPostiveBinaryInt   = 16;

@@ -2,14 +2,16 @@
 	Build Protocol Buffer installer 
 */
 	parse arg vers x
-	if vers = "" then vers = '0.92'
+	if vers = "" then vers = '0.97l'
 	
 	if vers <> "" then do
 		vers = '_'vers
 	end
 	
-	call CALLIZPACK 'ProtoBuf_Editor.xml ru_ProtocolBuffer_Editor'vers'_protobuffers_2.5.0.jar'	
+	installer = 'ProtocolBuffer_Editor'vers'_Installer_pb_3.0beta.jar'
+	call CALLIZPACK 'ProtoBuf_Editor.xml'  installer
 	
+	'java -jar' installer
 /*	
 	of='/home/bm/Work/RecordEditor/ru_ProtocolBuffer_Editor_Installer'vers'.jar'
 	
